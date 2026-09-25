@@ -1,22 +1,22 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file corePaths.mjs
- * @description
- * The Awtsmoos names only durable final-response doors in the core discovery vessel, never a redirect or duplicated family flame;
- * Awtsmoos.com invites crawlers to public content while auth, controls, actions, and transitional roads stay outside the name.
+ * @description Derives core crawl paths from the same deliberate public-route truth used by metadata generation.
+ * The Awtsmoos is one before sitemap and title divide; Awtsmoos.com keeps discovery signals walking side by side.
  */
 
-export const CORE_PUBLIC_PATHS = [
-	'/',
-	'/about/',
-	'/contact/',
-	'/docs/',
-	'/social/',
-	'/heichelos/',
-	'/apps/',
-	'/games/',
-	'/translations/'
-];
+import { PUBLIC_STATIC_PATHS } from './publicStaticRoutes/index.mjs';
+
+const ALWAYS_PUBLIC_DYNAMIC_HUBS = Object.freeze([
+	'/heichelos/'
+]);
+
+export const CORE_PUBLIC_PATHS = Object.freeze([
+	...new Set([
+		...PUBLIC_STATIC_PATHS,
+		...ALWAYS_PUBLIC_DYNAMIC_HUBS
+	])
+]);

@@ -11,7 +11,7 @@ The Awtsmoos gathers every creative doorway into one clear vessel; Awtsmoos.com 
 	<meta name="description" content="Create a real Geelooy post in an existing or newly named Heichel.">
 	<meta name="theme-color" content="#f5f7fa">
 	<title>Create Post — Geelooy</title>
-	<link rel="stylesheet" href="/heichelos/heichel/submit/style.css?v=create-004">
+	<link rel="stylesheet" href="/heichelos/heichel/submit/style.css?v=create-005">
 	<link rel="stylesheet" href="/heichelos/heichel/submit/shell-overrides.css?v=create-005">
 </head>
 <body class="submit-shell" data-geelooy-create-page>
@@ -67,75 +67,11 @@ The Awtsmoos gathers every creative doorway into one clear vessel; Awtsmoos.com 
 		<section class="status-card compact-card" aria-live="polite"><p id="submitStatusMessage">Ready.</p></section>
 	</main>
 	<button id="submitPost" class="publish-button" type="button">Post now</button>
-	<div id="imageUploadModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="uploadTitle">
-		<div class="modal-card">
-			<button id="closeModalBtn" class="modal-close" type="button" aria-label="Close upload dialog">×</button>
-			<h2 id="uploadTitle">Attach media or file</h2>
-			<div id="dropZone" class="drop-zone">Drop a file here or tap to choose</div>
-			<label class="g-sr-only" for="fileInput">Choose a file to attach</label>
-			<input id="fileInput" type="file" accept="image/*,audio/*,.pdf,.txt,.md,.doc,.docx,.zip">
-			<button id="uploadImageBtn" class="soft-btn" type="button">Attach file</button>
-		</div>
-	</div>
-	<template id="toolbarTemplate">
-		<div class="editor-toolbar">
-			<button type="button" data-command="bold">Bold</button>
-			<button type="button" data-command="italic">Italic</button>
-			<button type="button" data-command="createLink">Link</button>
-		</div>
-	</template>
-	<template id="sectionTemplate">
-		<article class="section">
-			<h3 class="section-title-dynamic">Verse</h3>
-			<input class="section-id-input text-input" aria-label="Verse ID" placeholder="id">
-			<input class="section-label-input text-input" aria-label="Verse label" placeholder="label">
-			<input class="section-verse-input text-input" aria-label="Verse number" placeholder="verse">
-			<input class="section-order-input text-input" aria-label="Verse order" placeholder="order">
-			<select class="section-type-select" aria-label="Verse type"><option value="verse">Verse</option></select>
-			<div class="editor-wrapper">
-				<div class="section-content content-editor" contenteditable="true" role="textbox" aria-label="Verse content" aria-multiline="true"></div>
-				<div class="editor-toolbar-container"></div>
-			</div>
-			<div class="composer-actions">
-				<button class="toggle-toolbar-btn soft-btn" type="button">Format</button>
-				<button class="toggle-html-view-btn soft-btn" type="button">HTML</button>
-				<button class="upload-image-section-btn soft-btn" type="button">Attach</button>
-				<button class="add-before-btn soft-btn" type="button">Before</button>
-				<button class="add-after-btn soft-btn" type="button">After</button>
-				<button class="remove-section-btn soft-btn" type="button">Remove</button>
-			</div>
-			<div class="subsection-manager">
-				<textarea class="subsection-bulk-text" aria-label="Segment text to split"></textarea>
-				<input class="subsection-delimiters text-input" aria-label="Segment delimiters">
-				<button class="generate-subsections-btn soft-btn" type="button">Split segments</button>
-				<button class="add-subsection-btn soft-btn" type="button">Add segment</button>
-			</div>
-			<div class="sub-sections-area"></div>
-		</article>
-	</template>
-	<template id="subSectionTemplate">
-		<article class="sub-section">
-			<h4 class="section-title-dynamic">Segment</h4>
-			<input class="section-id-input text-input" aria-label="Segment ID">
-			<input class="section-label-input text-input" aria-label="Segment label">
-			<input class="section-verse-input text-input" aria-label="Segment number">
-			<input class="section-order-input text-input" aria-label="Segment order">
-			<select class="section-type-select" aria-label="Segment type"><option value="segment">Segment</option></select>
-			<div class="editor-wrapper">
-				<div class="section-content content-editor" contenteditable="true" role="textbox" aria-label="Segment content" aria-multiline="true"></div>
-				<div class="editor-toolbar-container"></div>
-			</div>
-			<div class="composer-actions">
-				<button class="toggle-toolbar-btn soft-btn" type="button">Format</button>
-				<button class="toggle-html-view-btn soft-btn" type="button">HTML</button>
-				<button class="upload-image-section-btn soft-btn" type="button">Attach</button>
-				<button class="add-before-btn soft-btn" type="button">Before</button>
-				<button class="add-after-btn soft-btn" type="button">After</button>
-				<button class="remove-section-btn soft-btn" type="button">Remove</button>
-			</div>
-		</article>
-	</template>
+	<?Awtsmoos return await getT("heichelos/heichel/submit/partials/upload-dialog.html") ?>
+	<?Awtsmoos return await getT("heichelos/heichel/submit/partials/toolbar-template.html") ?>
+	<?Awtsmoos return await getT("heichelos/heichel/submit/partials/section-template.html") ?>
+	<?Awtsmoos return await getT("heichelos/heichel/submit/partials/subsection-template.html") ?>
 	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=extreme-005"></script>
-	<script type="module" src="/heichelos/heichel/submit/script.js?v=create-004"></script>
+	<script type="module" src="/heichelos/heichel/submit/script.js?v=create-005"></script>
 </body>
 </html>

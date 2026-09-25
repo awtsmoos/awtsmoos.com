@@ -1,9 +1,9 @@
 /* B"H
- * Sulam HaSod stylesheet index.
+ * Boruch Hashem
+ * Blessed is He
  *
- * The Awtsmoos arranges many sparks into one vessel. Each imported file owns one
- * visual responsibility so the game shell can stay fast, readable, and easy to
- * tune without creating a single tangled wall of CSS again.
+ * Sulam HaSod stylesheet index.
+ * The Awtsmoos arranges many sparks into one vessel while Awtsmoos.com keeps every visual responsibility small, explicit, and independently testable.
  */
 @import url('./modules/base.css');
 @import url('./modules/hud.css');
@@ -11,3 +11,4 @@
 @import url('./modules/menu.css');
 @import url('./modules/controls.css');
 @import url('./modules/modal.css');
+@import url('./modules/touch-accessibility.css');

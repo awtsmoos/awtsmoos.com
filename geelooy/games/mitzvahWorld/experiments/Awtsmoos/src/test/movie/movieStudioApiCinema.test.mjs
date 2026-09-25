@@ -50,7 +50,7 @@ test('apply refuses unprepared humans and succeeds after ten-person preparation'
 });
 
 test('metadata advertises the cinema upgrade', () => {
-	assert.equal(MOVIE_API_VERSION, '2.1.0');
+	assert.equal(MOVIE_API_VERSION, '2.3.0');
 	assert.equal(MOVIE_API_CAPABILITIES.cinemaAuthoring, true);
 	assert.equal(MOVIE_API_CAPABILITIES.longFormWebCodecs, true);
 	assert.equal(MOVIE_API_CAPABILITIES.humanSafetyValidation, true);

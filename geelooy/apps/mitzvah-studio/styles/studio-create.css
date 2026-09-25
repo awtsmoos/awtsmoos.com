@@ -1,0 +1,176 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file studio-create.css
+ * @description Styles the Studio Create tabs (Library | Generate | Movie) and the
+ * AI Generate panel. Movie Studio panel ships its own inline styles.
+ * The Awtsmoos gives every new vessel a fitting garment; Awtsmoos.com keeps the
+ * measure of the old garments, so nothing invented fights what was given.
+ */
+
+@layer studio-create {
+	#mitzvah-studio .studio-create-tabs {
+		display: flex;
+		gap: .35rem;
+		padding: .55rem .7rem;
+		border-bottom: 1px solid var(--studio-line);
+		background: linear-gradient(90deg, rgba(244, 215, 123, .05), transparent 55%);
+	}
+
+	#mitzvah-studio .studio-create-tab {
+		flex: 1;
+		padding: .5rem .4rem;
+		border: 1px solid transparent;
+		border-radius: var(--studio-radius-sm);
+		background: transparent;
+		color: var(--studio-muted);
+		font-size: .78rem;
+		font-weight: 600;
+		letter-spacing: .03em;
+		cursor: pointer;
+		transition: background var(--studio-fast) var(--studio-ease), color var(--studio-fast) var(--studio-ease), border-color var(--studio-fast) var(--studio-ease);
+	}
+
+	#mitzvah-studio .studio-create-tab:hover {
+		color: var(--studio-text);
+		background: var(--studio-surface-soft);
+	}
+
+	#mitzvah-studio .studio-create-tab[aria-selected="true"] {
+		color: var(--studio-gold-strong);
+		background: var(--studio-cyan-soft);
+		border-color: var(--studio-line-strong);
+		box-shadow: var(--studio-glow-cyan);
+	}
+
+	#mitzvah-studio .studio-create-panel {
+		display: flex;
+		flex-direction: column;
+		min-height: 0;
+		overflow: auto;
+	}
+
+	#mitzvah-studio .studio-create-panel[hidden] {
+		display: none;
+	}
+
+	#mitzvah-studio .studio-generate-panel {
+		display: flex;
+		flex-direction: column;
+		min-height: 0;
+	}
+
+	#mitzvah-studio .studio-generate-controls {
+		display: grid;
+		gap: .55rem;
+		padding: .7rem;
+		border-bottom: 1px solid var(--studio-line);
+	}
+
+	#mitzvah-studio .studio-generate-prompt-label {
+		display: grid;
+		gap: .35rem;
+		color: var(--studio-muted);
+		font-size: .76rem;
+	}
+
+	#mitzvah-studio .studio-generate-row {
+		display: flex;
+		align-items: end;
+		gap: .55rem;
+		flex-wrap: wrap;
+	}
+
+	#mitzvah-studio .studio-generate-row label {
+		display: grid;
+		gap: .3rem;
+		color: var(--studio-muted);
+		font-size: .72rem;
+	}
+
+	#mitzvah-studio .studio-generate-row input[type="number"] {
+		width: 5.5rem;
+	}
+
+	#mitzvah-studio .studio-generate-categories {
+		display: flex;
+		gap: .4rem;
+		flex-wrap: wrap;
+	}
+
+	#mitzvah-studio .studio-generate-categories button {
+		padding: .42rem .6rem;
+		font-size: .74rem;
+	}
+
+	#mitzvah-studio .studio-generate-status {
+		padding: .55rem .7rem;
+		color: var(--studio-muted);
+		font-size: .78rem;
+		min-height: 1.4em;
+	}
+
+	#mitzvah-studio .studio-generate-results {
+		display: grid;
+		gap: .6rem;
+		padding: 0 .7rem .8rem;
+		overflow: auto;
+	}
+
+	#mitzvah-studio .studio-generate-note {
+		margin: 0;
+		padding: .55rem .65rem;
+		border: 1px dashed var(--studio-line-strong);
+		border-radius: var(--studio-radius-sm);
+		color: var(--studio-gold-strong);
+		font-size: .76rem;
+		background: rgba(244, 215, 123, .06);
+	}
+
+	#mitzvah-studio .studio-generate-add-all {
+		justify-self: start;
+		border-color: var(--studio-line-strong);
+		color: var(--studio-gold-strong);
+	}
+
+	#mitzvah-studio .studio-generate-card {
+		border: 1px solid var(--studio-line);
+		border-radius: var(--studio-radius-md);
+		background: var(--studio-surface-soft);
+		overflow: hidden;
+	}
+
+	#mitzvah-studio .studio-generate-card canvas {
+		display: block;
+		width: 100%;
+		height: auto;
+		background: radial-gradient(120% 90% at 50% 10%, rgba(102, 226, 255, .07), transparent 60%), var(--studio-bg-deep);
+		border-bottom: 1px solid var(--studio-line);
+	}
+
+	#mitzvah-studio .studio-generate-card-body {
+		display: grid;
+		gap: .3rem;
+		padding: .65rem .75rem .8rem;
+	}
+
+	#mitzvah-studio .studio-generate-card-body strong {
+		font-size: .86rem;
+	}
+
+	#mitzvah-studio .studio-generate-card-body small {
+		color: var(--studio-muted);
+		font-size: .72rem;
+	}
+
+	#mitzvah-studio .studio-generate-parts {
+		color: var(--studio-muted);
+	}
+
+	#mitzvah-studio .studio-generate-card-body button {
+		justify-self: start;
+		margin-top: .25rem;
+	}
+}

@@ -42,6 +42,7 @@ export function normalizeMovieWorldSpec(source = {}, defaults = {}) {
 		label: String(value.label || fallback.label || regionId),
 		packageId,
 		population: normalizePopulation(value.population || fallback.population),
+		prompt: String(value.prompt || fallback.prompt || ''),
 		quest: normalizeQuest(value.quest ?? fallback.quest),
 		regionId,
 		seed,

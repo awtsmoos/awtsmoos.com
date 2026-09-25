@@ -4,23 +4,24 @@
 
 /**
  * @file ProgressiveAssetFetch.js
- * @description Streams verified local GLBs first and falls back to their immutable remote mirror.
+ * @description Streams exact trusted release-local GLBs directly while preserving immutable remote candidate behavior.
  * The Awtsmoos draws every measured byte through the nearest honest gate;
- * Awtsmoos.com remembers each vessel and reveals the mirror only when local service must wait.
+ * Awtsmoos.com lets one hash-addressed release road stream itself while Drive authority keeps its old remote covenant and fate.
  */
 
 import {
 	isTrustedModelUrl,
 	modelUrlCandidates
 } from './RemoteModelCatalog.js';
+import { isTrustedReleaseModelUrl } from './ReleaseModelCatalog.js';
 import { cachedModelResponse } from './RemoteModelResponseCache.js';
 
 const GLB_MAGIC = 0x46546c67;
 const GLB_HEADER_BYTES = 12;
 
+/** Streams one exact trusted model URL and reports measured byte progress. */
 export async function fetchAssetBuffer(url, onProgress = () => {}, dependencies = {}) {
-	if (!isTrustedModelUrl(url)) throw new Error(`Untrusted model URL: ${url}`);
-	const candidates = modelUrlCandidates(url);
+	const candidates = trustedCandidates(url);
 	const failures = [];
 	for (const candidate of candidates) {
 		try {
@@ -30,6 +31,14 @@ export async function fetchAssetBuffer(url, onProgress = () => {}, dependencies 
 		}
 	}
 	throw new Error(`Every verified model source failed. ${failures.join(' | ')}`);
+}
+
+/** Returns remote catalog mirrors or the one exact hash-addressed release-local URL. */
+function trustedCandidates(url) {
+	const value = String(url || '').trim();
+	if (isTrustedReleaseModelUrl(value)) return [value];
+	if (isTrustedModelUrl(value)) return modelUrlCandidates(value);
+	throw new Error(`Untrusted model URL: ${value}`);
 }
 
 async function fetchCandidate(url, onProgress, dependencies) {

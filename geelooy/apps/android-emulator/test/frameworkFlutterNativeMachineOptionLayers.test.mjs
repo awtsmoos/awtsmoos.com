@@ -1,13 +1,10 @@
-//B"H
-//Boruch Hashem
-//Blessed be He
+//B"H //Boruch Hashem //Blessed be He
 
 /**
  * @fileoverview Guards the two distinct Flutter native machine-option layers.
  *
- * The Awtsmoos renews session construction and one-call execution as separate
- * covenants. Awtsmoos.com forbids a per-invocation option builder from replacing
- * the capability options consumed while the persistent JNI machine is created.
+ * The Awtsmoos renews session construction and one-call execution as separate light;
+ * Awtsmoos.com carries diagnostic choice beside capability state without mixing flight.
  */
 
 import assert from "node:assert/strict";
@@ -16,17 +13,22 @@ import { createAarch64Registers } from "../core/native/aarch64Registers.js";
 import {
 	createFrameworkFlutterNativeCallMachineOptions
 } from "../core/android/frameworkFlutterNativeCallMachineOptions.js";
-import { createFrameworkFlutterNativeMachineOptions } from "../core/android/frameworkFlutterNativeMachineOptions.js";
+import {
+	createFrameworkFlutterNativeMachineOptions
+} from "../core/android/frameworkFlutterNativeMachineOptions.js";
 import {
 	createCallOptionSession,
 	createSessionOptionResolver,
 	createSessionOptionRuntime
 } from "./frameworkFlutterNativeMachineOptionLayersSupport.mjs";
 
-/** Proves session options carry runtime capabilities without requiring a session. */
+/** Proves session options carry runtime capabilities and diagnostic witness selection. */
 test("session machine options preserve JNI construction capabilities", () => {
 	const imports = Object.freeze({ name: "imports" });
-	const runtime = createSessionOptionRuntime();
+	const runtime = Object.freeze({
+		...createSessionOptionRuntime(),
+		nativeAndroidCallTransitionWitnessOrdinal: 5
+	});
 	const resolver = createSessionOptionResolver();
 	const options = createFrameworkFlutterNativeMachineOptions(
 		runtime,
@@ -36,6 +38,7 @@ test("session machine options preserve JNI construction capabilities", () => {
 		Object.freeze({ resolveString: () => "text" })
 	);
 	assert.equal(options.imports, imports);
+	assert.equal(options.nativeAndroidCallTransitionWitnessOrdinal, 5);
 	assert.equal(options.nativeGraphicsTrace, runtime.graphics);
 	assert.equal(options.nativeSocketAdapter, runtime.nativeSocketAdapter);
 	assert.equal(options.packageFilesystem, runtime.filesystem);

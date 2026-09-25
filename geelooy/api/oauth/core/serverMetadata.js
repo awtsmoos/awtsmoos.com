@@ -5,11 +5,12 @@
 /**
  * @file OAuth Authorization Server Metadata for Awtsmoos.com.
  * @description
- * The Awtsmoos reveals one authorization covenant to visible and headless
- * clients alike; Awtsmoos.com publishes callback, device, token, scope, and PKCE
- * capabilities from the living server so an unknown AI can discover, not guess.
+ * The Awtsmoos reveals one authorization covenant through many safe gates;
+ * Awtsmoos.com publishes callback, device, Agent Link, token, scope, and PKCE
+ * capabilities so an unknown AI can discover the living contract instead of guessing.
  */
 
+const { AGENT_LINK_GRANT_TYPE } = require("./agentLinkPolicy.js");
 const { listClients } = require("./clients.js");
 const { DEVICE_GRANT_TYPE } = require("./devicePolicy.js");
 const { currentOrigin } = require("../tools/urls.js");
@@ -24,11 +25,7 @@ function supportedScopes() {
 	return [...scopes].sort();
 }
 
-/**
- * Builds authorization-server metadata from the current request origin.
- * @param {object} $i Awtsmoos route context carrying host/protocol information.
- * @returns {object} Provider-neutral OAuth discovery document.
- */
+/** Builds authorization-server metadata from the current request origin. */
 function serverMetadata($i) {
 	const origin = currentOrigin($i);
 	return {
@@ -41,7 +38,8 @@ function serverMetadata($i) {
 		grant_types_supported: [
 			"authorization_code",
 			"refresh_token",
-			DEVICE_GRANT_TYPE
+			DEVICE_GRANT_TYPE,
+			AGENT_LINK_GRANT_TYPE
 		],
 		token_endpoint_auth_methods_supported: [
 			"none",
@@ -52,6 +50,8 @@ function serverMetadata($i) {
 		scopes_supported: supportedScopes(),
 		service_documentation: `${origin}/api/tunnel/control/docs`,
 		awtsmoos_agent_manifest: `${origin}/api/tunnel/control/agent-manifest`,
+		awtsmoos_agent_links_endpoint: `${origin}/api/oauth/agent-links`,
+		awtsmoos_agent_link_grant_type: AGENT_LINK_GRANT_TYPE,
 		awtsmoos_device_verification_uri: `${origin}/api/oauth/device`,
 		awtsmoos_recommended_client_id: "external-agent"
 	};

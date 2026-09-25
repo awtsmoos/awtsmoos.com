@@ -1,27 +1,114 @@
 // B"H
-import { Bone, BufferGeometry, Group, Mesh } from './tiny-runtime.js';
-import { mat4FromArray } from './tiny-math.js';
-import { accessorSummary, normalizeWeightsAttribute, readAccessor } from './tiny-gltf-accessors.js';
-import { parseTinyAnimations, summarizeAnimations } from './tiny-animation.js';
-import { bindTinySkeletons } from './tiny-skin-system.js';
-import { createTinyMaterials, defaultTinyMaterial } from './tiny-gltf-materials.js';
+// Boruch Hashem
+// Blessed is He
 
-/** Loader: GLB geometry, skins, animations, and glTF material color breath. */
-const GLB_MAGIC = 0x46546c67, JSON_CHUNK = 0x4e4f534a, BIN_CHUNK = 0x004e4942;
-const ATTR = { POSITION: 'position', NORMAL: 'normal', TEXCOORD_0: 'uv', COLOR_0: 'color', JOINTS_0: 'joints', WEIGHTS_0: 'weights' };
-async function fetchBuffer(url) { const r = await fetch(url, { mode: 'cors' }); if (!r.ok) throw new Error(`HTTP ${r.status} for ${url}`); return await r.arrayBuffer(); }
-function dataUri(uri) { const raw = atob(uri.split(',')[1] || ''), out = new Uint8Array(raw.length); for (let i = 0; i < raw.length; i++) out[i] = raw.charCodeAt(i); return out.buffer; }
-async function loadBuffers(doc, baseUrl, bin) { return await Promise.all((doc.buffers || []).map(b => b.uri ? (b.uri.startsWith('data:') ? dataUri(b.uri) : fetchBuffer(new URL(b.uri, baseUrl).href)) : bin)); }
-function parseGlb(buffer) { const view = new DataView(buffer); if (view.getUint32(0, true) !== GLB_MAGIC) throw new Error('Not a GLB container'); let json = null, bin = null, chunks = []; for (let off = 12; off + 8 <= buffer.byteLength;) { const len = view.getUint32(off, true), type = view.getUint32(off + 4, true), bytes = buffer.slice(off + 8, off + 8 + len); chunks.push({ type, byteOffset: off + 8, byteLength: len }); if (type === JSON_CHUNK) json = JSON.parse(new TextDecoder().decode(bytes)); if (type === BIN_CHUNK) bin = bytes; off += 8 + len; } if (!json) throw new Error('GLB missing JSON chunk'); return { json, bin, chunks }; }
-function markBones(doc) { const bones = new Set(); for (const s of doc.skins || []) for (const j of s.joints || []) bones.add(j); return bones; }
-function makeAccessorGetter(doc, buffers, cache) { return i => cache[i] || (cache[i] = readAccessor(doc, buffers, i)); }
-function warmAnimationAccessors(doc, getAccessor) { for (const a of doc.animations || []) for (const s of a.samplers || []) { if (s.input !== undefined) getAccessor(s.input); if (s.output !== undefined) getAccessor(s.output); } }
-function primitiveMesh(materials, getAccessor, primitive, meshDef, nodeDef, primitiveIndex) { const geometry = new BufferGeometry(); geometry.mode = primitive.mode ?? 4; geometry.userData = { primitive, primitiveIndex }; for (const [semantic, accessorIndex] of Object.entries(primitive.attributes || {})) { const key = ATTR[semantic]; if (!key) continue; let attribute = getAccessor(accessorIndex); if (key === 'weights') attribute = normalizeWeightsAttribute(attribute); geometry.setAttribute(key, attribute); } if (primitive.indices !== undefined) geometry.setIndex(getAccessor(primitive.indices)); const mesh = new Mesh(geometry, primitive.material !== undefined ? materials[primitive.material] : defaultTinyMaterial()); mesh.name = meshDef.name || nodeDef.name || `mesh_${nodeDef.mesh}_${primitiveIndex}`; mesh.skinIndex = nodeDef.skin ?? null; mesh.primitiveMode = geometry.mode; mesh.userData = { meshDef, primitive, primitiveIndex }; return mesh; }
-function applyNodeTransform(obj, nodeDef, index) { obj.userData.nodeIndex = index; obj.userData.gltfNode = nodeDef; if (nodeDef.name) { obj.name = nodeDef.name; obj.userData.name = nodeDef.name; } if (nodeDef.matrix) obj.matrix = mat4FromArray(nodeDef.matrix); else { if (nodeDef.translation) obj.position.fromArray(nodeDef.translation); if (nodeDef.rotation) obj.quaternion.fromArray(nodeDef.rotation); if (nodeDef.scale) obj.scale.fromArray(nodeDef.scale); } obj.setBaseTransform(); }
-function buildNodes(doc, materials, getAccessor, bones, stats) { const nodeMap = new Map(), nodes = []; for (let i = 0; i < (doc.nodes || []).length; i++) { const def = doc.nodes[i] || {}, node = bones.has(i) ? new Bone() : new Group(); applyNodeTransform(node, def, i); nodes[i] = node; nodeMap.set(i, node); stats.nodes++; if (def.skin !== undefined) stats.skinnedNodes++; } for (let i = 0; i < nodes.length; i++) { const def = doc.nodes[i] || {}, node = nodes[i], meshDef = doc.meshes?.[def.mesh]; if (!meshDef) continue; for (let p = 0; p < (meshDef.primitives || []).length; p++) { const mesh = primitiveMesh(materials, getAccessor, meshDef.primitives[p], meshDef, def, p); mesh.nodeIndex = i; mesh.setBaseTransform(); node.add(mesh); stats.meshes++; stats.primitives++; if (mesh.skinIndex !== null && mesh.geometry.attributes.joints && mesh.geometry.attributes.weights) stats.skinnedPrimitives++; } } for (let i = 0; i < nodes.length; i++) for (const childIndex of doc.nodes[i]?.children || []) nodes[i].add(nodes[childIndex]); return { nodes, nodeMap }; }
-function skinDetails(doc) { return (doc.skins || []).map((s, index) => ({ index, name: s.name || null, joints: (s.joints || []).length, skeleton: s.skeleton ?? null, hasInverseBind: s.inverseBindMatrices !== undefined, inverseBindAccessor: s.inverseBindMatrices })); }
-function accessorDetails(doc) { const out = []; for (const m of doc.meshes || []) for (const p of m.primitives || []) for (const [sem, i] of Object.entries(p.attributes || {})) if (sem === 'JOINTS_0' || sem === 'WEIGHTS_0') out.push(`${sem}: ${accessorSummary(doc, i)}`); return [...new Set(out)].slice(0, 24); }
-export async function loadTinyGltf(url) { const started = performance.now(), buffer = await fetchBuffer(url), glb = parseGlb(buffer), doc = glb.json, buffers = await loadBuffers(doc, url, glb.bin), accessors = [], getAccessor = makeAccessorGetter(doc, buffers, accessors), root = new Group(), bones = markBones(doc), materialPack = await createTinyMaterials(doc, buffers, url); root.name = 'AwtsmoosTinyGltfRoot'; const stats = { nodes: 0, meshes: 0, primitives: 0, materials: (doc.materials || []).length, images: (doc.images || []).length, textures: (doc.textures || []).length, animations: (doc.animations || []).length, skins: (doc.skins || []).length, skinnedNodes: 0, skinnedPrimitives: 0, bytes: buffer.byteLength, chunks: glb.chunks, skinDetails: skinDetails(doc), animationDetails: summarizeAnimations(doc), accessorDetails: accessorDetails(doc), materialDetails: materialPack.diagnostics };
-  for (let i = 0; i < (doc.accessors || []).length; i++) if (doc.accessors[i].type === 'MAT4' || doc.accessors[i].type === 'SCALAR') getAccessor(i); warmAnimationAccessors(doc, getAccessor); const built = buildNodes(doc, materialPack.materials, getAccessor, bones, stats), scene = doc.scenes?.[doc.scene || 0] || doc.scenes?.[0] || { nodes: built.nodes.map((_, i) => i) }; for (const nodeIndex of scene.nodes || []) root.add(built.nodes[nodeIndex]); Object.assign(root.userData, { gltf: doc, nodeMap: built.nodeMap, allNodes: built.nodes, skins: doc.skins || [], accessors, sourceUrl: url, materials: materialPack.materials, materialDetails: materialPack.diagnostics }); const clips = parseTinyAnimations(doc, accessors, built.nodeMap); Object.assign(stats, bindTinySkeletons(root, doc, accessors)); stats.joints = (doc.skins || []).reduce((n, s) => n + (s.joints?.length || 0), 0); stats.skeletonName = doc.skins?.[0]?.name || null; stats.hasInverseBind = !!doc.skins?.[0]?.inverseBindMatrices; stats.clips = clips.map(c => ({ index: c.index, name: c.name, duration: c.duration, channels: c.channels.length })); stats.ms = Math.round(performance.now() - started); root.userData.animations = clips; return { scene: root, json: doc, stats, animations: clips, experimental: true }; }
+/**
+ * @file tiny-gltf-loader.js
+ * @description Orchestrates tiny GLTF parsing from URL or trusted ArrayBuffer while exposing stage timings.
+ * The Awtsmoos gives one authored body many measured chambers; Awtsmoos.com lets already-fetched bytes enter directly,
+ * so the canonical Chossid avoids a Blob URL and second fetch before geometry, skeleton, and motion are revealed.
+ */
+
+import { readAccessor } from './tiny-gltf-accessors.js';
+import {
+	loadTinyGltfBuffers,
+	parseTinyGlbContainer
+} from './tiny-gltf-container.js';
+import { finalizeTinyGltf } from './tiny-gltf-finalize.js';
+import {
+	createTinyGltfStats,
+	warmTinyGltfEssentialAccessors
+} from './tiny-gltf-loader-stats.js';
+import { createTinyMaterials } from './tiny-gltf-materials.js';
+import { buildTinyGltfScene } from './tiny-gltf-scene-builder.js';
+
+/** Loads a GLB from a URL for compatibility with existing integration callers. */
+export async function loadTinyGltf(url, options = {}) {
+	const startedAt = now();
+	stage(options, 'fetch-start', startedAt);
+	const response = await fetch(url, { mode: 'cors' });
+	if (!response.ok) throw new Error(`HTTP ${response.status} for ${url}`);
+	const buffer = await response.arrayBuffer();
+	stage(options, 'fetch-complete', now(), { bytes: buffer.byteLength });
+	return loadTinyGltfBuffer(buffer, url, {
+		...options,
+		startedAtMilliseconds: startedAt
+	});
+}
+
+/** Parses already-fetched GLB bytes without a Blob/object-URL/refetch round trip. */
+export async function loadTinyGltfBuffer(buffer, sourceUrl, options = {}) {
+	const startedAt = options.startedAtMilliseconds ?? now();
+	const timings = {};
+	const container = measureSync(timings, 'container', () => parseTinyGlbContainer(buffer));
+	stage(options, 'container-parsed', now(), { bytes: buffer.byteLength });
+	const buffers = await measureAsync(timings, 'buffers', () => {
+		return loadTinyGltfBuffers(container.document, sourceUrl, container.binaryChunk);
+	});
+	const accessors = [];
+	const getAccessor = index => accessors[index]
+		|| (accessors[index] = readAccessor(container.document, buffers, index));
+	warmTinyGltfEssentialAccessors(container.document, getAccessor);
+	const materials = await measureAsync(timings, 'materials', () => {
+		return createTinyMaterials(container.document, buffers, sourceUrl);
+	});
+	stage(options, 'materials-ready', now(), {
+		images: materials.images.filter(Boolean).length
+	});
+	const stats = createTinyGltfStats(
+		container.document,
+		container.chunks,
+		buffer.byteLength,
+		materials
+	);
+	const built = measureSync(timings, 'scene', () => {
+		return buildTinyGltfScene(container.document, materials.materials, getAccessor, stats);
+	});
+	const result = measureSync(timings, 'animation-skeleton', () => {
+		return finalizeTinyGltf(container.document, accessors, built, stats, sourceUrl, materials);
+	});
+	result.stats.ms = Math.round(now() - startedAt);
+	result.stats.timings = Object.freeze({
+		...timings,
+		total: result.stats.ms
+	});
+	stage(options, 'parse-complete', now(), { timings: result.stats.timings });
+	return result;
+}
+
+function measureSync(timings, name, operation) {
+	const started = now();
+	const result = operation();
+	timings[name] = rounded(now() - started);
+	return result;
+}
+
+async function measureAsync(timings, name, operation) {
+	const started = now();
+	const result = await operation();
+	timings[name] = rounded(now() - started);
+	return result;
+}
+
+function stage(options, name, atMilliseconds, details = {}) {
+	options.onStage?.(Object.freeze({
+		name,
+		atMilliseconds,
+		...details
+	}));
+}
+
+function rounded(value) {
+	return Math.round(value * 100) / 100;
+}
+
+function now() {
+	return globalThis.performance?.now?.() ?? Date.now();
+}
+
 export const loadTinyGlb = loadTinyGltf;
-export default { loadTinyGltf, loadTinyGlb };
+export default {
+	loadTinyGltf,
+	loadTinyGlb,
+	loadTinyGltfBuffer
+};

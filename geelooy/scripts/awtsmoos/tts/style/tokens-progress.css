@@ -1,0 +1,83 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos reveals token measures and progress rails in one bounded diagnostic vessel.
+ * Awtsmoos.com preserves the measured cascade order so refactoring reveals ownership without changing the Forge’s face.
+ */
+/* --- Token Matrix --- */
+.token-matrix {
+	min-height: 80px;
+	max-height: 150px;
+	overflow-y: auto;
+	border-color: var(--neon-cyan-dim);
+}
+
+.token-matrix h3 {
+	font-size: 0.7rem;
+	color: var(--neon-cyan);
+	letter-spacing: 0.3em;
+	margin: 0 0 10px 0;
+	text-transform: uppercase;
+	position: sticky; top: 0;
+	background: var(--void-black);
+	padding-bottom: 5px;
+	z-index: 5;
+}
+
+#token-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+}
+
+.token-chip {
+	background: var(--neon-cyan-dim);
+	color: var(--neon-cyan);
+	font-family: var(--font-code);
+	font-size: 0.7rem;
+	padding: 2px 6px;
+	border-radius: 2px;
+	border: 1px solid var(--neon-cyan-dim);
+}
+
+/* --- Progress Bars --- */
+.progress-container {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.progress-item label {
+	display: flex;
+	justify-content: space-between;
+	font-size: 0.7rem;
+	font-weight: 700;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+	margin-bottom: 8px;
+	color: var(--neon-cyan);
+}
+
+.progress-item.purple label { color: var(--neon-purple); }
+.progress-item.white label { color: white; }
+
+.track {
+	height: 12px;
+	background: rgba(0,0,0,0.5);
+	border: 1px solid rgba(255,255,255,0.1);
+	border-radius: 2px;
+	overflow: hidden;
+}
+
+.fill {
+	height: 100%;
+	width: 0%;
+	transition: width 0.3s ease-out;
+	position: relative;
+}
+
+.fill.cyan { background: var(--neon-cyan); box-shadow: 0 0 15px var(--neon-cyan); }
+.fill.purple { background: var(--neon-purple); box-shadow: 0 0 15px var(--neon-purple); }
+.fill.white { background: white; box-shadow: 0 0 15px white; }
+

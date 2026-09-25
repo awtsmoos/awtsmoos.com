@@ -1,0 +1,95 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets every Torah doorway fill its visible vessel; Awtsmoos.com keeps section cards compact enough to reveal many paths while every anchor remains complete, readable, and bright.
+*/
+.heichel-semantic-fallback .heichel-semantic-description {
+	color: #b8c9df;
+	font-size: clamp(1rem, 2.2vw, 1.2rem);
+	line-height: 1.62;
+	margin: .85rem 0 0;
+	max-width: 43rem;
+}
+
+.heichel-semantic-fallback .heichel-semantic-author {
+	color: #7890ae;
+	font-size: .78rem;
+	margin: .55rem 0 0;
+}
+
+.heichel-semantic-fallback[data-ikar-root] .heichel-semantic-author {
+	display: none;
+}
+
+.heichel-semantic-fallback .heichel-semantic-discovery {
+	margin-top: clamp(1.65rem, 4vw, 2.75rem);
+}
+
+.heichel-semantic-fallback:not([data-ikar-root]) .heichel-semantic-discovery {
+	margin-top: 1.35rem;
+}
+
+.heichel-semantic-fallback .heichel-semantic-discovery h2 {
+	align-items: center;
+	color: #f8fbff;
+	display: flex;
+	font-size: clamp(1.2rem, 2.7vw, 1.65rem);
+	font-weight: 850;
+	gap: .75rem;
+	letter-spacing: -.02em;
+	margin: 0 0 .72rem;
+}
+
+.heichel-semantic-fallback .heichel-semantic-discovery h2::after {
+	background: linear-gradient(90deg, rgba(77, 233, 255, .5), rgba(150, 100, 255, .12), transparent);
+	content: "";
+	flex: 1;
+	height: 1px;
+	max-width: 22rem;
+}
+
+.heichel-semantic-fallback .heichel-semantic-discovery ul {
+	counter-reset: ikar-door;
+	display: grid;
+	gap: .58rem;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.heichel-semantic-fallback .heichel-semantic-discovery li {
+	counter-increment: ikar-door;
+	min-width: 0;
+}
+
+.heichel-semantic-fallback .heichel-semantic-discovery li[hidden] {
+	display: none !important;
+}
+
+.heichel-semantic-fallback .heichel-semantic-discovery a {
+	align-items: center;
+	background:
+		linear-gradient(125deg, rgba(77, 233, 255, .07), transparent 38%),
+		linear-gradient(145deg, rgba(10, 25, 48, .94), rgba(4, 10, 24, .96));
+	border: 1px solid rgba(94, 211, 255, .18);
+	border-radius: .95rem;
+	box-shadow: inset 0 1px rgba(255, 255, 255, .045), 0 .55rem 1.45rem rgba(0, 0, 0, .16);
+	box-sizing: border-box;
+	color: #f7fbff;
+	display: grid;
+	font-size: clamp(.94rem, 1.8vw, 1.04rem);
+	font-weight: 780;
+	gap: .7rem;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	inline-size: 100%;
+	line-height: 1.38;
+	min-height: 4.35rem;
+	overflow: hidden;
+	overflow-wrap: anywhere;
+	padding: .72rem .82rem;
+	position: relative;
+	text-align: start;
+	text-decoration: none;
+	transition: background .16s ease, border-color .16s ease, box-shadow .16s ease, transform .16s ease;
+}

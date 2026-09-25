@@ -1,10 +1,11 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 /**
  * @class PublicDiscoveryView
- * @description The Awtsmoos lets public discovery stay open while profile lookup waits behind one chosen touch;
- * Awtsmoos.com keeps every existing feed hook intact and makes secondary navigation retractable instead of permanently loud.
+ * @description
+ * The Awtsmoos lets public discovery stay open while profile lookup waits behind one chosen touch;
+ * Awtsmoos.com keeps every feed hook intact and tells the user plainly that a known public alias can open a profile.
  */
 import { createPublicDiscoveryHeader } from './PublicDiscoveryHeader.js';
 
@@ -38,7 +39,7 @@ export class PublicDiscoveryView {
 		const disclosure = this.root.createElement('details');
 		disclosure.className = 'publicDiscovery__lookupDisclosure';
 		const summary = this.root.createElement('summary');
-		summary.textContent = 'Open profile';
+		summary.textContent = 'Open a public profile by alias';
 		const form = this.root.createElement('form');
 		form.className = 'publicDiscovery__lookup';
 		const input = this.root.createElement('input');
@@ -96,7 +97,11 @@ export class PublicDiscoveryView {
 		const empty = this.root.createElement('div');
 		empty.className = 'publicDiscoveryEmpty';
 		const title = this.root.createElement('h3');
-		title.textContent = mode === 'questions' ? 'No public questions yet.' : mode === 'answers' ? 'No public answers yet.' : 'The public feed is quiet right now.';
+		title.textContent = mode === 'questions'
+			? 'No public questions yet.'
+			: mode === 'answers'
+				? 'No public answers yet.'
+				: 'The public feed is quiet right now.';
 		const copy = this.root.createElement('p');
 		copy.textContent = 'Switch modes, open a known alias, or publish when ready.';
 		empty.append(title, copy);

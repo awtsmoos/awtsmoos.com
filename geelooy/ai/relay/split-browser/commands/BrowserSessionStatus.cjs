@@ -12,7 +12,7 @@ const { createCdpClient } = require("../debugChromeWebSocket.cjs");
  */
 async function browserSessionStatus(config = {}) {
 	const target = await findPageTarget({
-		...discoveryOptions(config),
+		...(await discoveryOptions(config)),
 		pagePredicate: isChatGptPage
 	});
 	if (!target.ok) return { ok: false, status: "debug_chrome_unavailable" };

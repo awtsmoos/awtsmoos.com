@@ -20,7 +20,7 @@ const STAGING_BY_LOCATION = Object.freeze({
 	),
 	'river-garden': pads(
 		pad('bridge-gameplay', 6, 10, 4, 'gameplay-spawn', 'bridge-approach'),
-		pad('lower-river-cinematic', -1, 42, 4, 'cinematic-actor', 'garden-bank')
+		pad('lower-river-cinematic', -1.15, 42, 4, 'cinematic-actor', 'garden-bank')
 	),
 	'shul-terrace': pads(
 		pad('shul-gameplay', -34, -24, 6, 'gameplay-spawn', 'dry'),

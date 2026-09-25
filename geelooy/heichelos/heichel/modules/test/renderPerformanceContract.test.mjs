@@ -1,29 +1,46 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed is He
+
 /**
- * Chapter 292: Render performance covenant.
- * The main Heichel render path should avoid string-clearing churn and gather
- * child nodes in fragments before attaching them to living vessels.
+ * @file renderPerformanceContract.test.mjs
+ * @description The Awtsmoos manifests living UI without string-clearing churn;
+ * Awtsmoos.com keeps fragment assembly, direct replacement, and path rendering
+ * efficient even after breadcrumb responsibility moves into its own vessel.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import test from 'node:test';
 
-const files = [
-    'geelooy/heichelos/heichel/modules/engine/scribe-of-manifestation.js',
-    'geelooy/heichelos/heichel/modules/ui/render.js',
-    'geelooy/heichelos/heichel/modules/ui/render/header.js',
-    'geelooy/heichelos/heichel/modules/ui/render/controls.js'
-];
+const files = {
+	scribe: 'geelooy/heichelos/heichel/modules/engine/scribe-of-manifestation.js',
+	render: 'geelooy/heichelos/heichel/modules/ui/render.js',
+	header: 'geelooy/heichelos/heichel/modules/ui/render/header.js',
+	controls: 'geelooy/heichelos/heichel/modules/ui/render/controls.js',
+	pathRenderer: 'geelooy/heichelos/heichel/modules/ui/render/living-path/path-renderer.js'
+};
+const source = Object.fromEntries(
+	Object.entries(files).map(([name, file]) => [name, readFileSync(file, 'utf8')])
+);
 
-const source = Object.fromEntries(files.map(file => [file, readFileSync(file, 'utf8')]));
+/** Critical render owners must never regress to innerHTML clearing. */
+test('render owners avoid innerHTML churn', () => {
+	for (const [name, text] of Object.entries(source)) {
+		assert.doesNotMatch(text, /\.innerHTML\s*=/, `${name} must not clear by innerHTML`);
+	}
+});
 
-for (const [file, text] of Object.entries(source)) {
-    assert.doesNotMatch(text, /\.innerHTML\s*=\s*['"]{0,1}/, `${file} must not clear by innerHTML`);
-}
+/** Manifestation still batches child creation and replaces whole world vessels directly. */
+test('manifestation batches children and uses direct replacement', () => {
+	assert.match(source.scribe, /createDocumentFragment\(\)/);
+	assert.match(source.scribe, /speakChildren/);
+	assert.match(source.render, /target\.replaceChildren\(rootVessel\)/);
+	assert.match(source.controls, /replaceChildren\(\)/);
+});
 
-assert.match(source[files[0]], /createDocumentFragment\(\)/, 'scribe must gather children in a fragment');
-assert.match(source[files[0]], /speakChildren/, 'scribe must isolate child manifestation');
-assert.match(source[files[1]], /target\.replaceChildren\(rootVessel\)/, 'world render must replace children directly');
-assert.match(source[files[2]], /DOMElements\.breadcrumb\.replaceChildren\(fragment\)/, 'breadcrumb must swap a fragment');
-assert.match(source[files[3]], /replaceChildren\(\)/, 'owner controls must clear with replaceChildren');
-
-console.log('B"H renderPerformanceContract.test passed');
+/** Header delegation must terminate in the current path renderer's replaceChildren path. */
+test('breadcrumb replacement lives in the modular path renderer', () => {
+	assert.match(source.header, /renderPathSurfaces\(navigator, appState\)/);
+	assert.match(source.pathRenderer, /DOMElements\.breadcrumb\.replaceChildren\(/);
+	assert.match(source.pathRenderer, /manifestPathBlueprints\(plans\)/);
+});

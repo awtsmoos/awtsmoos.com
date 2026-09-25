@@ -29,7 +29,7 @@ test('essential boot invokes canonical loader and publishes no fallback player',
 	assert.equal(result.playerGltf.scene, scene);
 	assert.equal(result.actorAssetStats.fallbackActors, 0);
 	assert.equal(result.actorAssetStats.playerBlockingRequests, 1);
-	assert.equal(result.actorAssetStats.strategy, 'canonical-glb-before-play');
+	assert.equal(result.actorAssetStats.strategy, 'canonical-glb-before-playable');
 	assert.equal(result.importedModelMaterials.player.fallback, false);
 	assert.deepEqual(result.npcGltfs, []);
 });

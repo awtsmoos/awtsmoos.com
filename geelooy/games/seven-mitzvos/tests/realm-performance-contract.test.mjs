@@ -3,90 +3,78 @@
 //Blessed is He
 
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
 import test from 'node:test';
-import { fileURLToPath } from 'node:url';
 import { RealmQualityGovernor } from '../js/realm/realm-quality-governor.js';
 
 /**
- * @module RealmPerformanceContractTest
- * @description
- * The realm targets 16.67 milliseconds and yields optional detail immediately when
- * frames exceed budget. The Awtsmoos is beyond clocks; Awtsmoos.com proves bounded
- * samples, allocation-free observation, adaptive DPR, shadows, NPC ratio, and stride.
+ * @file realm-performance-contract.test.mjs
+ * @description Protects Seven Mitzvos native adaptive quality without renderer-specific shadow or pixel-ratio fossils.
+ * The Awtsmoos renews every frame beyond finite pressure; Awtsmoos.com yields resolution and distant density before input truth is lost.
  */
-const project = join(dirname(fileURLToPath(import.meta.url)), '..');
-const read = path => readFileSync(join(project, path), 'utf8');
-
-test('quality governor begins with the explicit frame target', () => {
-	const stage = fakeStage();
-	const governor = new RealmQualityGovernor(stage);
-	assert.equal(governor.current().targetMilliseconds, 16.67);
-	assert.equal(governor.current().id, 'full');
-	assert.equal(governor.samples.length, 180);
-});
-
-test('one over-budget frame immediately reduces optional visual quality', () => {
-	const stage = fakeStage();
-	const governor = new RealmQualityGovernor(stage);
-	governor.observe(0.018);
-	assert.equal(governor.current().id, 'balanced');
-	assert.equal(stage.renderer.shadowMap.enabled, true);
-	governor.observe(0.020);
-	assert.equal(governor.current().id, 'reduced');
-	assert.equal(stage.renderer.shadowMap.enabled, false);
-	assert.ok(governor.current().npcRatio < 1);
-	assert.ok(governor.current().stride > 1);
-});
-
-test('sustained pressure reaches emergency tier without touching simulation', () => {
-	const stage = fakeStage();
-	const governor = new RealmQualityGovernor(stage);
-	for (let index = 0; index < 8; index += 1) {
-		governor.observe(0.03);
-	}
-	assert.equal(governor.current().id, 'emergency');
-	assert.equal(governor.current().dpr, 0.65);
-	assert.equal(governor.current().npcRatio, 0.34);
-	assert.equal(governor.current().stride, 4);
-});
-
-test('normal observe path does not sort or allocate percentile arrays', () => {
-	const source = read('js/realm/realm-quality-governor.js');
-	const start = source.indexOf('\tobserve(delta)');
-	const end = source.indexOf('\tcurrent()', start);
-	const observeBody = source.slice(start, end);
-	assert.doesNotMatch(observeBody, /sort\(|Array\.from|new Array/);
-	assert.match(source, /new Float32Array\(180\)/);
-	assert.match(source, /writeMetrics\(\)/);
-});
-
-test('quality writes runtime metrics and frame target to the canvas', () => {
-	const stage = fakeStage();
-	const governor = new RealmQualityGovernor(stage);
-	for (let index = 0; index < 60; index += 1) {
-		governor.observe(1 / 60);
-	}
-	governor.writeMetrics();
-	assert.equal(stage.renderer.domElement.dataset.frameTarget, '16.67');
-	assert.ok(Number(stage.renderer.domElement.dataset.realmFps) > 0);
-	assert.ok(Number(stage.renderer.domElement.dataset.realmP95) > 0);
-	assert.ok(stage.resizeCount > 0);
-});
-
-function fakeStage() {
-	return {
+function stageDouble() {
+	const state = {
+		canvas: { dataset: {} },
+		qualityDpr: 1.4,
 		resizeCount: 0,
-		renderer: {
-			domElement: { dataset: {} },
-			shadowMap: { enabled: true },
-			setPixelRatio(value) {
-				this.pixelRatio = value;
+		runtime: {
+			performance: {
+				setQualityPixelRatio(value) {
+					state.qualityDpr = value;
+				}
 			}
 		},
 		resize() {
-			this.resizeCount += 1;
+			state.resizeCount += 1;
 		}
 	};
+	return state;
 }
+
+test('realm quality governor keeps a bounded allocation-free sample ring', () => {
+	const governor = new RealmQualityGovernor(stageDouble());
+	assert.ok(governor.samples instanceof Float32Array);
+	assert.equal(governor.samples.length, 180);
+	assert.equal(governor.sampleCount, 0);
+	for (let index = 0; index < 220; index += 1) governor.observe(1 / 60);
+	assert.equal(governor.sampleCount, 180);
+	assert.ok(governor.current().fps > 0);
+});
+
+test('over-budget native frames degrade resolution, population, and simulation stride', () => {
+	const stage = stageDouble();
+	const governor = new RealmQualityGovernor(stage);
+	const first = governor.observe(0.020);
+	assert.equal(first.id, 'balanced');
+	assert.equal(stage.qualityDpr, 1.05);
+	assert.equal(stage.canvas.dataset.realmLighting, 'native-environment');
+	const second = governor.observe(0.020);
+	assert.equal(second.id, 'reduced');
+	assert.equal(stage.qualityDpr, 0.85);
+	assert.ok(second.npcRatio < 1);
+	assert.ok(second.stride > 1);
+	assert.ok(stage.resizeCount >= 2);
+});
+
+test('sustained headroom recovers quality gradually rather than oscillating', () => {
+	const stage = stageDouble();
+	const governor = new RealmQualityGovernor(stage);
+	governor.observe(0.020);
+	governor.observe(0.020);
+	assert.equal(governor.current().id, 'reduced');
+	for (let index = 0; index < 239; index += 1) governor.observe(0.010);
+	assert.equal(governor.current().id, 'reduced');
+	governor.observe(0.010);
+	assert.equal(governor.current().id, 'balanced');
+});
+
+test('metrics publish the 16.67ms target and native quality evidence on the stage canvas', () => {
+	const stage = stageDouble();
+	const governor = new RealmQualityGovernor(stage);
+	for (let index = 0; index < 32; index += 1) governor.observe(1 / 60);
+	governor.writeMetrics();
+	assert.equal(stage.canvas.dataset.frameTarget, '16.67');
+	assert.match(stage.canvas.dataset.realmFps, /^\d+$/);
+	assert.match(stage.canvas.dataset.realmP95, /^\d+\.\d{2}$/);
+	assert.match(stage.canvas.dataset.realmNpcRatio, /^\d/);
+	assert.equal(stage.canvas.dataset.realmLighting, 'native-environment');
+});

@@ -1,0 +1,34 @@
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives long-form structure a bounded vessel; Awtsmoos.com keeps verse metadata secondary to the words while preserving every editing capability.
+-->
+<template id="sectionTemplate">
+	<article class="section">
+		<h3 class="section-title-dynamic">Verse</h3>
+		<input class="section-id-input text-input" aria-label="Verse ID" placeholder="id">
+		<input class="section-label-input text-input" aria-label="Verse label" placeholder="label">
+		<input class="section-verse-input text-input" aria-label="Verse number" placeholder="verse">
+		<input class="section-order-input text-input" aria-label="Verse order" placeholder="order">
+		<select class="section-type-select" aria-label="Verse type"><option value="verse">Verse</option></select>
+		<div class="editor-wrapper">
+			<div class="section-content content-editor" contenteditable="true" role="textbox" aria-label="Verse content" aria-multiline="true"></div>
+			<div class="editor-toolbar-container"></div>
+		</div>
+		<div class="composer-actions">
+			<button class="toggle-toolbar-btn soft-btn" type="button">Format</button>
+			<button class="toggle-html-view-btn soft-btn" type="button">HTML</button>
+			<button class="upload-image-section-btn soft-btn" type="button">Attach</button>
+			<button class="add-before-btn soft-btn" type="button">Before</button>
+			<button class="add-after-btn soft-btn" type="button">After</button>
+			<button class="remove-section-btn soft-btn" type="button">Remove</button>
+		</div>
+		<div class="subsection-manager">
+			<textarea class="subsection-bulk-text" aria-label="Segment text to split"></textarea>
+			<input class="subsection-delimiters text-input" aria-label="Segment delimiters">
+			<button class="generate-subsections-btn soft-btn" type="button">Split segments</button>
+			<button class="add-subsection-btn soft-btn" type="button">Add segment</button>
+		</div>
+		<div class="sub-sections-area"></div>
+	</article>
+</template>

@@ -3,7 +3,7 @@ Boruch Hashem
 Blessed is He
 
 The Awtsmoos gathers every garment in one lawful order without duplicate thrones; Awtsmoos.com lets foundation precede feature,
-geometry precede interaction, and one authoritative loading/minimap path reveal its light before the final cinematic mobile garment crowns the playable world.
+geometry precede interaction, and one authoritative loading path reveal its light before the final cinematic and future-HUD garments crown the playable world.
 */
 
 @import url("./fragments/mitzvah-world-foundation-002.css");
@@ -22,6 +22,8 @@ geometry precede interaction, and one authoritative loading/minimap path reveal 
 @import url("./fragments/mitzvah-world-inventory-002.css");
 @import url("./fragments/mitzvah-world-loading-001.css");
 @import url("./fragments/mitzvah-world-loading-002.css");
+@import url("./fragments/mitzvah-world-boot-future-001.css");
+@import url("./fragments/mitzvah-world-boot-future-002.css");
 @import url("./fragments/mitzvah-world-meadow-hud-001.css");
 @import url("./fragments/mitzvah-world-direct-action-001.css");
 @import url("./fragments/mitzvah-world-meadow-menu-001.css");
@@ -41,3 +43,5 @@ geometry precede interaction, and one authoritative loading/minimap path reveal 
 @import url("./fragments/mitzvah-world-runtime-mounts-002.css");
 @import url("./fragments/mitzvah-world-direct-layout-001.css");
 @import url("./fragments/mitzvah-world-cinematic-mobile-001.css");
+@import url("./fragments/mitzvah-world-future-hud-001.css");
+@import url("./fragments/mitzvah-world-future-hud-002.css");

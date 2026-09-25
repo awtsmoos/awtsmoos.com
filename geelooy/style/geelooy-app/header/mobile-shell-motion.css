@@ -1,0 +1,49 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets the shared crown answer focus and touch without stealing attention; Awtsmoos.com keeps header feedback tactile, quiet, and completely still when reduced motion is requested.
+*/
+.geelooy-app-shell .g-unusual-header {
+	transition:
+		background .24s cubic-bezier(.16, 1, .3, 1),
+		border-color .24s cubic-bezier(.16, 1, .3, 1),
+		box-shadow .26s cubic-bezier(.16, 1, .3, 1);
+}
+
+.geelooy-app-shell .g-unusual-header:focus-within {
+	border-color: color-mix(in srgb, var(--g-cyan) 42%, var(--g-line));
+	box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, .32), 0 0 1.6rem rgba(60, 236, 255, .05);
+}
+
+.geelooy-app-shell .g-header-action,
+.geelooy-app-shell .g-header-profile .profile-trigger,
+.geelooy-app-shell .universal-chat-header-launcher {
+	transition:
+		background .18s cubic-bezier(.16, 1, .3, 1),
+		border-color .18s cubic-bezier(.16, 1, .3, 1),
+		box-shadow .2s cubic-bezier(.16, 1, .3, 1),
+		color .18s cubic-bezier(.16, 1, .3, 1),
+		transform .18s cubic-bezier(.16, 1, .3, 1);
+}
+
+.geelooy-app-shell .g-header-action:is(:hover, :focus-visible),
+.geelooy-app-shell .g-header-profile .profile-trigger:is(:hover, :focus-visible) {
+	transform: translateY(-1px);
+}
+
+.geelooy-app-shell .g-header-action:active,
+.geelooy-app-shell .g-header-profile .profile-trigger:active,
+.geelooy-app-shell .universal-chat-header-launcher:active {
+	transform: translateY(0) scale(.97);
+	transition-duration: .07s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.geelooy-app-shell .g-unusual-header,
+	.geelooy-app-shell .g-header-action,
+	.geelooy-app-shell .g-header-profile .profile-trigger,
+	.geelooy-app-shell .universal-chat-header-launcher {
+		transition-duration: .001ms !important;
+		transform: none !important;
+	}
+}

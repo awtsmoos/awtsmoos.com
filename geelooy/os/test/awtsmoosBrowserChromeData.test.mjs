@@ -1,14 +1,11 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
- * @file Browser Chrome Data Tests
- * @description
- * The Awtsmoos lets trusted chrome be tested as an API rather than admired as markup.
- * Awtsmoos.com proves declarative Keter becomes the expected grouped contract, truthful
- * disabled capability remains disabled, execution testimony begins in `Ready`, and the
- * migration's temporary flat aliases still point to the same host-owned Malchus nodes.
+ * @file Browser chrome data contracts.
+ * @description The Awtsmoos lets trusted chrome be tested as an API; Awtsmoos.com
+ * proves real tab creation, grouped navigation handles, and accessible host testimony.
  */
 
 import assert from "node:assert/strict";
@@ -16,83 +13,42 @@ import test from "node:test";
 import { createBrowserChrome } from "../programs/awtsmoos-browser/browserChrome.js";
 import { keterCreateHostDomTestDocument } from "./hostDomFixture.mjs";
 
-test("manifests grouped chrome API and compatibility aliases", tiferesManifestsGroupedChromeContract);
-test("keeps unwired tab capability disabled and truthful", gevurahKeepsFutureTabsDisabled);
-test("starts execution testimony in Ready rather than falsely Local", hodStartsWithReadyMode);
-test("manifests accessible omnibox and Advanced gate testimony", yesodManifestsTrustedNavigationFields);
+test("manifests grouped chrome API and stable navigation aliases", () => {
+	const chrome = createChromeFixture();
+	assert.equal(chrome.toolbar.tagName, "HEADER");
+	assert.equal(chrome.keterChrome.keterToolbar, chrome.toolbar);
+	assert.equal(chrome.address, chrome.keterChrome.yesodAddress);
+	assert.equal(chrome.tabList, chrome.keterChrome.yesodTabList);
+	assert.equal(chrome.newTabButton, chrome.keterChrome.netzachNewTab);
+	assert.equal(chrome.navigationActions, chrome.keterChrome.yesodNavigationActions);
+	assert.equal(Object.isFrozen(chrome.keterChrome), true);
+});
 
-/**
- * Proves new grouped API handles and migration aliases reference identical host nodes.
- *
- * @returns {void}
- * @sideEffects Allocates one detached deterministic chrome tree through the test fixture.
- */
-function tiferesManifestsGroupedChromeContract() {
-	const keterChromeManifestation = createChromeFixture();
-	assert.equal(keterChromeManifestation.toolbar.tagName, "HEADER");
-	assert.equal(keterChromeManifestation.keterChrome.keterToolbar, keterChromeManifestation.toolbar);
-	assert.equal(keterChromeManifestation.address, keterChromeManifestation.keterChrome.yesodAddress);
-	assert.equal(keterChromeManifestation.tabTitle, keterChromeManifestation.keterChrome.hodTabTitle);
-	assert.equal(
-		keterChromeManifestation.navigationActions,
-		keterChromeManifestation.keterChrome.yesodNavigationActions
-	);
-	assert.equal(Object.isFrozen(keterChromeManifestation.keterChrome), true);
-}
+test("exposes real accessible tab creation instead of a disabled stub", () => {
+	const chrome = createChromeFixture();
+	assert.equal(chrome.tabList.attributes.role, "tablist");
+	assert.equal(chrome.tabList.attributes["aria-label"], "Browser tabs");
+	assert.notEqual(chrome.newTabButton.disabled, true);
+	assert.equal(chrome.newTabButton.attributes["aria-label"], "New tab");
+	assert.match(chrome.newTabButton.attributes.title, /Ctrl\/Cmd\+T/);
+	assert.equal(chrome.newTabButton.dataset.action, "new-tab");
+});
 
-/**
- * Proves the visual new-tab affordance cannot be invoked before real tab state exists.
- *
- * @returns {void}
- * @sideEffects Allocates one detached deterministic chrome tree.
- */
-function gevurahKeepsFutureTabsDisabled() {
-	const keterChromeManifestation = createChromeFixture();
-	assert.equal(keterChromeManifestation.newTabButton.disabled, true);
-	assert.equal(keterChromeManifestation.newTabButton.attributes["aria-disabled"], "true");
-	assert.equal(keterChromeManifestation.newTabButton.dataset.action, "new-tab");
-}
+test("starts execution testimony in Ready rather than falsely Local", () => {
+	const chrome = createChromeFixture();
+	assert.equal(chrome.modeBadge.textContent, "Ready");
+	assert.equal(chrome.modeBadge.dataset.mode, "ready");
+	assert.equal(chrome.progress.dataset.state, "idle");
+});
 
-/**
- * Proves host execution testimony does not claim a renderer mode before selection.
- *
- * @returns {void}
- * @sideEffects Allocates one detached deterministic chrome tree.
- */
-function hodStartsWithReadyMode() {
-	const keterChromeManifestation = createChromeFixture();
-	assert.equal(keterChromeManifestation.modeBadge.textContent, "Ready");
-	assert.equal(keterChromeManifestation.modeBadge.dataset.mode, "ready");
-	assert.equal(keterChromeManifestation.progress.dataset.state, "idle");
-}
+test("manifests accessible omnibox and Advanced gate testimony", () => {
+	const chrome = createChromeFixture();
+	assert.equal(chrome.address.value, "awtsmoos://new-tab");
+	assert.equal(chrome.address.attributes["aria-label"], "Search or enter address");
+	assert.equal(chrome.advancedToggle.attributes["aria-expanded"], "false");
+	assert.equal(chrome.advancedToggle.dataset.action, "advanced-toggle");
+});
 
-/**
- * Proves the address and Advanced controls expose stable accessibility testimony.
- *
- * @returns {void}
- * @sideEffects Allocates one detached deterministic chrome tree.
- */
-function yesodManifestsTrustedNavigationFields() {
-	const keterChromeManifestation = createChromeFixture();
-	assert.equal(keterChromeManifestation.address.value, "awtsmoos://new-tab");
-	assert.equal(
-		keterChromeManifestation.address.attributes["aria-label"],
-		"Search or enter address"
-	);
-	assert.equal(
-		keterChromeManifestation.advancedToggle.attributes["aria-expanded"],
-		"false"
-	);
-	assert.equal(keterChromeManifestation.advancedToggle.dataset.action, "advanced-toggle");
-}
-
-/**
- * Creates one detached browser chrome manifestation for focused API assertions.
- *
- * @returns {Object} Chrome API returned by `createBrowserChrome` over the fake host document.
- * @sideEffects Allocates fresh deterministic fixture nodes only.
- */
 function createChromeFixture() {
-	const keterHostDocument = keterCreateHostDomTestDocument();
-	return createBrowserChrome(keterHostDocument);
+	return createBrowserChrome(keterCreateHostDomTestDocument());
 }

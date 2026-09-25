@@ -7,6 +7,7 @@ import { nekudahFingerprint } from "../config/nekudahConfig.js";
 import { ENERGY_CONFIG } from "../config/realismConfig.js";
 import { OlamAffinity } from "../game/OlamAffinity.js";
 import { tikkunObjectiveFingerprint } from "../game/TikkunObjectiveCatalog.js";
+import { REPLAY_SCHEMA_VERSION } from "./RuntimeApiManifest.js";
 
 /**
  * ReplayJournal remembers authoritative player intent together with every balance law that gives those inputs meaning.
@@ -21,7 +22,7 @@ export class ReplayJournal {
 	constructor(limit = 4096) {
 		this.limit = Math.max(1, Math.floor(limit));
 		this.entries = [];
-		this.schemaVersion = "1.1.0";
+		this.schemaVersion = REPLAY_SCHEMA_VERSION;
 		this.configFingerprint = ReplayJournal.configFingerprint();
 	}
 
@@ -44,18 +45,12 @@ export class ReplayJournal {
 		return { ...entry };
 	}
 
-	/**
-	 * Clears retained input memory without changing schema or strategic compatibility identity.
-	 * @returns {void}
-	 */
+	/** Clears retained input memory without changing schema or strategic compatibility identity. */
 	reset() {
 		this.entries.length = 0;
 	}
 
-	/**
-	 * Projects a JSON-safe replay document that cannot mutate internal frozen entries.
-	 * @returns {object} Serializable replay schema, balance fingerprint, count, and copied entries.
-	 */
+	/** @returns {object} JSON-safe replay document with detached entries. */
 	export() {
 		return {
 			schemaVersion: this.schemaVersion,
@@ -66,8 +61,8 @@ export class ReplayJournal {
 	}
 
 	/**
-	 * Fingerprints every current deterministic balance law that materially changes interpretation of recorded intent.
-	 * The Awtsmoos renews old and new worlds distinctly; Awtsmoos.com refuses to call changed strategic law compatible by accident.
+	 * Fingerprints every deterministic balance law that materially changes recorded intent.
+	 * The Awtsmoos renews old and new worlds distinctly; Awtsmoos.com refuses false compatibility by accident.
 	 * @returns {string} Stable replay-compatibility fingerprint.
 	 */
 	static configFingerprint() {

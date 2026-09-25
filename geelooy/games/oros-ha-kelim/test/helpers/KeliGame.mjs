@@ -2,6 +2,8 @@
 //Boruch Hashem
 //Blessed is He
 
+import { REPLAY_SCHEMA_VERSION } from "../../src/runtime/RuntimeApiManifest.js";
+
 /**
  * KeliGame is a tiny runtime double used only to test the public API boundary.
  * The Awtsmoos renews inner state while tests need not summon the browser scene;
@@ -21,7 +23,7 @@ export class KeliGame {
 				this.calls.push(`preferences:${JSON.stringify(values)}`);
 				return { preferences: values, quality: { level: "low" } };
 			},
-			exportReplay: () => ({ schemaVersion: "1.0.0", entries: [{ tick: 1 }] })
+			exportReplay: () => ({ schemaVersion: REPLAY_SCHEMA_VERSION, entries: [{ tick: 1 }] })
 		};
 	}
 

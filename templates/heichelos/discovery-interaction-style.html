@@ -1,0 +1,114 @@
+<!-- B"H
+Boruch Hashem
+Blessed is He
+
+This style vessel makes navigation discoverable without adding another behavioral layer.
+The Awtsmoos renews form and purpose together; Awtsmoos.com lets focus, touch, and meaning rhyme.
+-->
+<style>
+	.heichelos-discovery-page .spaces-purpose-section {
+		display: grid;
+		gap: .9rem;
+		margin-block: 1rem 1.45rem;
+	}
+
+	.heichelos-discovery-page .spaces-section-heading {
+		display: grid;
+		gap: .35rem;
+		padding-inline: .15rem;
+	}
+
+	.heichelos-discovery-page .spaces-section-heading h2 {
+		margin: 0;
+		font-size: clamp(1.55rem, 5vw, 2.25rem);
+		letter-spacing: -.025em;
+	}
+
+	.heichelos-discovery-page .spaces-section-heading p {
+		max-inline-size: 62ch;
+		margin: 0;
+		color: var(--g-muted, #9aa8ba);
+		line-height: 1.55;
+	}
+
+	.heichelos-discovery-page .torah-library-grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.heichelos-discovery-page .space-card-link {
+		display: block;
+		border-radius: inherit;
+		color: inherit;
+		text-decoration: none;
+		transition: transform 150ms ease, background 150ms ease, box-shadow 150ms ease;
+	}
+
+	.heichelos-discovery-page .space-card-link .space-body {
+		position: relative;
+		padding-inline-end: 3.6rem;
+	}
+
+	.heichelos-discovery-page .space-card-arrow {
+		position: absolute;
+		inset-inline-end: 1.15rem;
+		top: 50%;
+		font-size: 1.35rem;
+		font-weight: 800;
+		transform: translateY(-50%);
+		transition: transform 150ms ease;
+	}
+
+	.heichelos-discovery-page .space-card-link:hover,
+	.heichelos-discovery-page .space-card-link:focus-visible {
+		background: color-mix(in srgb, currentColor 6%, transparent);
+		box-shadow: inset 0 0 0 2px var(--g-accent, #5dd8e8);
+	}
+
+	.heichelos-discovery-page .space-card-link:hover .space-card-arrow,
+	.heichelos-discovery-page .space-card-link:focus-visible .space-card-arrow {
+		transform: translate(.2rem, -50%);
+	}
+
+	.heichelos-discovery-page .space-card-link:active {
+		transform: scale(.992);
+	}
+
+	.heichelos-discovery-page .space-secondary-actions {
+		display: flex;
+		gap: .55rem;
+		justify-content: flex-end;
+		padding: .75rem 1rem 1rem;
+	}
+
+	.heichelos-discovery-page .space-secondary-action {
+		min-block-size: 2.65rem;
+		padding-inline: .95rem;
+	}
+
+	.heichelos-discovery-page .space-card-compact .space-copy p {
+		display: none;
+	}
+
+	@media (max-width: 42rem) {
+		.heichelos-discovery-page .spaces-purpose-section {
+			margin-block: .8rem 1.15rem;
+		}
+
+		.heichelos-discovery-page .spaces-section-heading {
+			padding-inline: .3rem;
+		}
+
+		.heichelos-discovery-page .space-secondary-actions {
+			justify-content: flex-start;
+			padding-block-start: .5rem;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.heichelos-discovery-page .space-card-link,
+		.heichelos-discovery-page .space-card-arrow {
+			transition: none;
+		}
+	}
+</style>

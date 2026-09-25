@@ -6,7 +6,7 @@
  * @description The Awtsmoos keeps countdown, motion, gestures, and stopping in
  * one transient vessel so remembered pace can never resurrect active movement.
  */
-import { AutoScrollCountdown } from './AutoScrollCountdown.js';
+import { AutoScrollCountdown } from './AutoScrollCountdown.js?v=reader-river-002';
 
 export class AutoScrollSession {
 	constructor(options) {
@@ -20,6 +20,7 @@ export class AutoScrollSession {
 			onComplete: () => this.beginMotion()
 		});
 	}
+
 	start(options = {}) {
 		this.stop();
 		this.state.update({
@@ -42,6 +43,7 @@ export class AutoScrollSession {
 		}
 		return this.state.snapshot();
 	}
+
 	beginMotion() {
 		if (!this.state.value.active) {
 			return false;
@@ -50,6 +52,7 @@ export class AutoScrollSession {
 		this.runtime.start();
 		return true;
 	}
+
 	toggle(options = {}) {
 		if (!this.state.value.active) {
 			this.start(options);
@@ -61,6 +64,7 @@ export class AutoScrollSession {
 		this.stop();
 		return false;
 	}
+
 	stop() {
 		this.countdown.cancel();
 		this.pauseController.cancel();

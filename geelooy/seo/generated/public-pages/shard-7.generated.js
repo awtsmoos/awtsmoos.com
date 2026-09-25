@@ -9,73 +9,73 @@
 
 module.exports = [
 	{
-		canonicalPath: "/games/ohr-hagnuz/",
-		description: "A hidden-light RPG journey with campaign systems, shared travel, portals, and glowing mystery.",
-		filePath: "games/ohr-hagnuz/index.html",
-		kind: "game",
-		title: "Ohr HaGnuz"
+		canonicalPath: "/games/",
+		description: "Browse playable Awtsmoos games, from native original campaigns and procedural runners to quick classics and Party Challenge.",
+		filePath: "games/index.html",
+		kind: "public-information",
+		title: "Awtsmoos Games — Playable Worlds"
 	},
 	{
-		canonicalPath: "/games/ohrbound/",
-		description: "Run, rise, customize, and create across procedural gates of Asiyah.",
-		filePath: "games/ohrbound/index.html",
+		canonicalPath: "/games/kabbalah-shooter/",
+		description: "Arcade shooting transformed through vessels, mystical imagery, and challenge-driven action.",
+		filePath: "games/kabbalah-shooter/index.html",
 		kind: "game",
-		title: "Ohrbound"
+		title: "Kabbalah Shooter"
 	},
 	{
-		canonicalPath: "/games/ohrfront/",
-		description: "Secure three light beacons across a living procedural warfront while hostile squads adapt, flank, and return fire.",
-		filePath: "games/ohrfront/index.html",
+		canonicalPath: "/games/KAVANAH/",
+		description: "A luminous world of focus, intention, atmosphere, and deliberate play.",
+		filePath: "games/KAVANAH/index.html",
 		kind: "game",
-		title: "Ohrfront: Aleph Vanguard"
+		title: "KAVANAH"
 	},
 	{
-		canonicalPath: "/games/oros-ha-kelim/",
-		description: "Ride a native 3D light vessel across three Olamot, close lethal Ohr trails into territory, and outthink energy-powered Sefirah bots.",
-		filePath: "games/oros-ha-kelim/index.html",
+		canonicalPath: "/games/Merkava/",
+		description: "Choose lanes, build an army, gather Prutahs, and cross five worlds in campaign or endless war.",
+		filePath: "games/Merkava/index.html",
 		kind: "game",
-		title: "Oros HaKelim"
+		title: "Merkava — War of the Sparks"
 	},
 	{
-		canonicalPath: "/games/pong/",
-		description: "The eternal duel of paddle and ball, kept fast and direct.",
-		filePath: "games/pong/index.html",
+		canonicalPath: "/games/migdol/",
+		description: "Build, climb, earn Perutas, and confront the pressure of the tower.",
+		filePath: "games/migdol/index.html",
 		kind: "game",
-		title: "Pong"
+		title: "Migdol"
 	},
 	{
-		canonicalPath: "/games/rebbe-runner/",
-		description: "Run forward with joy, speed, timing, and a distinctly Awtsmoos arcade spirit.",
-		filePath: "games/rebbe-runner/index.html",
+		canonicalPath: "/games/mitzvahWorld/",
+		description: "A wandering 3D mitzvah world with local RPG systems, community foundations, and an expanding simulation engine.",
+		filePath: "games/mitzvahWorld/index.html",
 		kind: "game",
-		title: "The Rebbe's Runner"
+		title: "Mitzvah World"
 	},
 	{
-		canonicalPath: "/games/scribe-journey/",
-		description: "Letters, ink, combat, quests, saves, and a campaign road shaped around the life of a scribe.",
-		filePath: "games/scribe-journey/index.html",
-		kind: "game",
-		title: "The Scribe's Journey"
+		canonicalPath: "/games/mitzvahWorld/subwaySurfer/",
+		description: "Peruta Run now enters the native Awtsmoos runner experience.",
+		filePath: "games/mitzvahWorld/subwaySurfer/index.html",
+		kind: "public-information",
+		title: "Peruta Run — Native Awtsmoos Runner"
 	},
 	{
-		canonicalPath: "/games/sefira-clash/",
-		description: "Mystical arena combat, expeditions, huge maps, bots, power-ups, and multiplayer systems.",
-		filePath: "games/sefira-clash/index.html",
+		canonicalPath: "/games/mitzvahWorld/templeRunner/",
+		description: "Sprint a native 3D Jerusalem road as the Chossid through procedural districts, hazards, turns, missions, and textured world detail.",
+		filePath: "games/mitzvahWorld/templeRunner/index.html",
 		kind: "game",
-		title: "Sefira Clash"
+		title: "Temple Runner"
 	},
 	{
-		canonicalPath: "/games/seven-mitzvos/",
-		description: "Seven distinct games plus a preserved scenario world and Covenant City builder.",
-		filePath: "games/seven-mitzvos/index.html",
+		canonicalPath: "/games/Nachash/",
+		description: "The familiar snake loop reborn as Nachash with an Awtsmoos visual identity.",
+		filePath: "games/Nachash/index.html",
 		kind: "game",
-		title: "Seven Mitzvos"
+		title: "Nachash"
 	},
 	{
-		canonicalPath: "/games/shema-strike/",
-		description: "Fight through gates with sacred sound, a forge, equipment progression, and earned Prutah loops.",
-		filePath: "games/shema-strike/index.html",
+		canonicalPath: "/games/neshama-quest/",
+		description: "Move through soul-world challenges in an original quest-driven adventure.",
+		filePath: "games/neshama-quest/index.html",
 		kind: "game",
-		title: "Shema Strike"
+		title: "Neshama Quest"
 	}
 ];

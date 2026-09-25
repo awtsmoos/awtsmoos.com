@@ -1,0 +1,61 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews the page before each word can stay;
+Awtsmoos.com gives the Shliach a calm foundation for the way.
+*/
+
+* {
+	box-sizing: border-box;
+}
+html {
+	scroll-behavior: smooth;
+	background: var(--shliach-night);
+}
+body {
+	margin: 0;
+	min-height: 100vh;
+	color: var(--shliach-ink);
+	font-family: var(--shliach-font);
+	background: radial-gradient(circle at 18% 0%, #2f1753 0, transparent 34rem), radial-gradient(circle at 90% 12%, #0d4660 0, transparent 28rem), var(--shliach-night);
+}
+body::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	background-image: linear-gradient(rgba(255, 255, 255, .018) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .018) 1px, transparent 1px);
+	background-size: 42px 42px;
+	mask-image: linear-gradient(to bottom, black, transparent 80%);
+}
+a {
+	color: inherit;
+}
+img {
+	display: block;
+	max-width: 100%;
+}
+button,
+textarea {
+	font: inherit;
+}
+.shliach-shell {
+	width: var(--shliach-shell);
+	margin-inline: auto;
+}
+.shliach-skip {
+	position: fixed;
+	left: 16px;
+	top: -80px;
+	z-index: 50;
+	padding: 12px 16px;
+	background: white;
+	color: #120c1e;
+}
+.shliach-skip:focus {
+	top: 16px;
+}
+:focus-visible {
+	outline: 3px solid var(--shliach-cyan);
+	outline-offset: 4px;
+}

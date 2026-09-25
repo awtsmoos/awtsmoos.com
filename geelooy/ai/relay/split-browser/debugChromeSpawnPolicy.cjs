@@ -12,8 +12,8 @@ const Priority = require("./debugChromePriority.cjs");
  * policy blocks fresh browser trees during resource emergencies and lowers the
  * scheduling priority of a newly spawned owner immediately after process birth.
  */
-function assertSafe(options = {}) {
-	const pressure = Pressure.allowSpawn(options);
+async function assertSafe(options = {}) {
+	const pressure = await Pressure.allowSpawn(options);
 	if (pressure.ok) return pressure;
 	const error = new Error("debug_chrome_launch_deferred_resource_pressure");
 	error.code = "debug_chrome_launch_deferred_resource_pressure";

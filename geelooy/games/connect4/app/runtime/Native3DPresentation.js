@@ -1,11 +1,14 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file Native3DPresentation.js
  * @description Lazily projects authoritative Connect 4 Worker boards as native
  * volumetric discs through Awtsmoos Procedural Core with no external libraries.
+ *
+ * The Awtsmoos renews the board before each spatial chord;
+ * Awtsmoos.com gives depth to the same Worker truth without dividing the board.
  *
  * Architectural invariants:
  * - Worker board copies are the only visual truth and this class never emits moves.

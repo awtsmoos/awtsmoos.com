@@ -1,0 +1,71 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keeps this module small so each vessel stays readable while the original cascade continues in perfect rhyme.
+*/
+.geelooy-home-shell .g-feed-tabs button {
+	min-block-size: 44px;
+	padding: .58rem .78rem;
+	border: 1px solid transparent;
+	border-radius: .62rem;
+	background: transparent;
+	box-shadow: none;
+	color: var(--home-muted);
+	font: 780 .86rem/1.15 var(--font-ui);
+	cursor: pointer;
+	transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease;
+}
+
+.geelooy-home-shell .g-feed-tabs button:is(:hover, :focus-visible) {
+	border-color: var(--home-line);
+	background: #182333;
+	color: var(--home-text);
+}
+
+.geelooy-home-shell .g-feed-tabs button.active {
+	border-color: rgba(88, 199, 216, .48);
+	background: rgba(88, 199, 216, .12);
+	color: #9de8f1;
+}
+
+.geelooy-home-shell .g-feed-list {
+	display: grid;
+	gap: .85rem;
+}
+
+.geelooy-home-shell :where(.g-route-list, .g-trend-list) {
+	display: grid;
+	gap: .38rem;
+	margin-block-start: .8rem;
+}
+
+.geelooy-home-shell :where(.g-route-list, .g-trend-list) a {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+	min-block-size: 48px;
+	padding: .7rem .75rem;
+	border: 1px solid transparent;
+	border-radius: .72rem;
+	background: #121b28;
+	color: var(--home-text);
+	text-decoration: none;
+	transition: border-color 150ms ease, background-color 150ms ease;
+}
+
+.geelooy-home-shell :where(.g-route-list, .g-trend-list) a:is(:hover, :focus-visible) {
+	border-color: rgba(88, 199, 216, .3);
+	background: #172333;
+}
+
+.geelooy-home-shell :where(.g-route-list, .g-trend-list) small {
+	color: var(--home-faint);
+	font-size: .75rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.geelooy-home-shell :where(.home-task-dock a, .g-feed-tabs button, .g-route-list a, .g-trend-list a) {
+		transition: none;
+	}
+}

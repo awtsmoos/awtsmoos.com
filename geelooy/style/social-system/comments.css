@@ -1,8 +1,8 @@
 /* B"H
- * Second pass Step 4: Comment threads become readable conversation vessels.
- * Cards, composer rows, media, text, and actions share overflow-safe geometry
- * and premium spacing without touching heichelos/post.
- */
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets every reply remain distinct without tearing conversation apart; Awtsmoos.com keeps comments readable, touch-safe, and narrow-screen calm from the first card to the deepest heart.
+*/
 @import "./tokens.css";
 @import "./comments/parts/shell.css";
 @import "./comments/parts/composer.css";
@@ -11,26 +11,36 @@
 @import "./comments/parts/mobile.css";
 
 :where(.comment-thread, .comments-shell, [data-comments-shell]) {
-  display: grid;
-  gap: var(--g-3, .75rem);
-  max-width: 100%;
-  min-width: 0;
+	display: grid;
+	gap: var(--g-3, .75rem);
+	max-width: 100%;
+	min-width: 0;
 }
-
 :where(.comment-card, .comment-composer, [data-comment-card]) {
-  background: linear-gradient(145deg, rgba(255,255,255,.9), rgba(248,250,252,.74));
-  border: 1px solid rgba(15,23,42,.10);
-  border-radius: var(--radius-l, 1.35rem);
-  box-shadow: var(--shadow-paper, 0 8px 24px rgba(15,23,42,.06));
-  max-width: 100%;
-  min-width: 0;
-  overflow-wrap: anywhere;
-  padding: clamp(.75rem, 2vw, 1rem);
+	max-width: 100%;
+	min-width: 0;
+	padding: clamp(.75rem, 2vw, 1rem);
+	border: 1px solid rgba(15, 23, 42, .10);
+	border-radius: var(--radius-l, 1.35rem);
+	background: linear-gradient(145deg, rgba(255, 255, 255, .9), rgba(248, 250, 252, .74));
+	box-shadow: var(--shadow-paper, 0 8px 24px rgba(15, 23, 42, .06));
+	overflow-wrap: anywhere;
 }
-
 :where(.comment-actions, [data-comment-actions]) {
-  align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  gap: .5rem;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: .5rem;
+}
+@media(max-width:720px) {
+	:where(.comment-thread, .comments-shell, [data-comments-shell]) {
+		gap: .625rem;
+	}
+	:where(.comment-card, .comment-composer, [data-comment-card]) {
+		padding: .75rem;
+		border-radius: 1rem;
+	}
+	:where(.comment-actions, [data-comment-actions]) > :where(button, a) {
+		min-height: 44px;
+	}
 }

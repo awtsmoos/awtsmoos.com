@@ -1,0 +1,93 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos is not constrained by narrow glass or a landscape turned on its side;
+Awtsmoos.com keeps every real door usable when the smallest vessel must carry the tide.
+*/
+@media (max-width: 360px) {
+	body[data-geelooy-route="home"] main.home .hero,
+	body[data-geelooy-route="home"] main.home .action-panel {
+		width: min(100% - 12px, 1280px);
+	}
+
+	body[data-geelooy-route="home"] main.home .banner-copy {
+		padding-inline: 1rem;
+	}
+
+	body[data-geelooy-route="home"] main.home #hero-title {
+		font-size: clamp(2.35rem, 13vw, 3.35rem);
+	}
+
+	body[data-geelooy-route="home"] main.home .creation-field,
+	body[data-geelooy-route="home"] main.home .search {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	body[data-geelooy-route="home"] main.home .creation-field button,
+	body[data-geelooy-route="home"] main.home .search button {
+		width: 100%;
+	}
+
+	body[data-geelooy-route="home"] main.home .portal-shortcuts {
+		grid-template-columns: 1fr;
+	}
+
+	body[data-geelooy-route="home"] main.home .portal-shortcuts a {
+		min-width: 0;
+		min-height: 4.5rem;
+	}
+
+	body[data-geelooy-route="home"] main.home .featured-worlds {
+		width: min(100% - 12px, 1280px);
+	}
+
+	body[data-geelooy-route="home"] main.home .featured-card {
+		min-width: 0;
+		padding: 1rem;
+	}
+}
+
+@media (max-height: 540px) and (orientation: landscape) and (min-width: 600px) and (max-width: 1000px) {
+	body[data-geelooy-route="home"] main.home .hero {
+		padding-block: .8rem;
+	}
+
+	body[data-geelooy-route="home"] main.home .dance-frame {
+		grid-template-columns: minmax(15rem, .82fr) minmax(0, 1.18fr);
+		min-height: 350px;
+		border-radius: 1.4rem;
+	}
+
+	body[data-geelooy-route="home"] main.home .hero-media {
+		min-height: 350px;
+		aspect-ratio: auto;
+	}
+
+	body[data-geelooy-route="home"] main.home .hero-image {
+		max-block-size: 390px;
+		transform: scale(1.02);
+	}
+
+	body[data-geelooy-route="home"] main.home .banner-copy {
+		padding: 1.05rem 1.35rem;
+	}
+
+	body[data-geelooy-route="home"] main.home #hero-title {
+		max-width: 11ch;
+		font-size: clamp(2.2rem, 5vw, 3.45rem);
+	}
+
+	body[data-geelooy-route="home"] main.home .hero-summary {
+		font-size: .9rem;
+		line-height: 1.48;
+	}
+
+	body[data-geelooy-route="home"] main.home .creation-form {
+		margin-top: .7rem;
+		padding: .65rem;
+	}
+
+	body[data-geelooy-route="home"] main.home .featured-worlds {
+		margin-top: 1.4rem;
+	}
+}

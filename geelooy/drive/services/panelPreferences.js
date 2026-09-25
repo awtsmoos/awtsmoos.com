@@ -3,12 +3,14 @@
 // Blessed is He
 
 /**
- * @file Harmless disclosure preferences separated by workspace and layout.
- * @description The Awtsmoos remembers a phone and desk without letting desktop expansion or yesterday's engineering drawers overwhelm mobile Build on Awtsmoos.com.
+ * @file Harmless Drive screen preferences separated by workspace and layout.
+ * @description
+ * The Awtsmoos remembers the creator's current vessel without reviving yesterday's clutter;
+ * Awtsmoos Drive persists one mobile journey screen while advanced drawers reopen only by deliberate action.
  */
 
-const STORAGE_PREFIX = "geelooy.drive.panels.v5";
-const MOBILE_ADVANCED = new Set(["platform", "devices", "access", "runtime"]);
+const STORAGE_PREFIX = "geelooy.drive.panels.v6";
+const MOBILE_ADVANCED = new Set(["editor", "domain", "devices", "access", "runtime"]);
 
 export class PanelPreferences {
 	constructor(mode = "standalone", storage = safeLocalStorage(), layout = "desktop") {

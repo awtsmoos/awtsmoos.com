@@ -18,7 +18,7 @@ import {
 
 test('stable facade exposes versions, cinema capabilities, and serializable root state', () => {
 	const { api } = createMovieStudioApiHarness();
-	assert.equal(api.apiVersion, '2.1.0');
+	assert.equal(api.apiVersion, '2.3.0');
 	assert.equal(api.projectSchemaVersion, 2);
 	assert.equal(api.agentManifestVersion, 1);
 	assert.equal(api.capabilities.agentCompilation, true);
@@ -27,7 +27,7 @@ test('stable facade exposes versions, cinema capabilities, and serializable root
 	assert.equal(Object.isFrozen(api.cinema), true);
 	assert.equal(api.cinema.contract().flagship.expectedFrames, 1440);
 	const serialized = JSON.parse(JSON.stringify(api));
-	assert.equal(serialized.apiVersion, '2.1.0');
+	assert.equal(serialized.apiVersion, '2.3.0');
 	assert.equal(serialized.project.title, 'API Harness Movie');
 	assert.equal(serialized.revision, 1);
 });

@@ -32,8 +32,8 @@ export async function inspectDrive(client) {
 			entries: document.querySelectorAll('[data-entry-path]').length,
 			folders: document.querySelectorAll('[data-entry-type="folder"]').length,
 			files: document.querySelectorAll('[data-entry-type="file"]').length,
-			homeFolders: document.querySelectorAll('.drive-home-folders [data-entry-type="folder"]').length,
-			recentRows: document.querySelectorAll('.drive-home-recent .drive-entry-row').length,
+			homeFolders: document.querySelectorAll('.drive-folder-rail [data-entry-type="folder"]').length,
+			homeFiles: document.querySelectorAll('.drive-home-files [data-entry-type="file"]').length,
 			upload: visible('#choose-files'),
 			newFolder: visible('#new-folder'),
 			search: visible('#search'),
@@ -51,7 +51,7 @@ export function assertDriveState(state, compact) {
 	assert.equal(state.alias, 'teacher', JSON.stringify(state));
 	assert(state.entries >= 10, JSON.stringify(state));
 	assert(state.folders >= 5 && state.files >= 6, JSON.stringify(state));
-	assert(state.homeFolders >= 5 && state.recentRows >= 4, JSON.stringify(state));
+	assert(state.homeFolders >= 5 && state.homeFiles >= 4, JSON.stringify(state));
 	assert(state.upload && state.newFolder && state.search, JSON.stringify(state));
 	assert.equal(state.overflow, 0, JSON.stringify(state));
 	assert.equal(state.legacy, false, JSON.stringify(state));

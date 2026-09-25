@@ -29,7 +29,7 @@ test("capacity law permits one root and one temporary agent tab", () => {
 	});
 });
 
-test("root guard ignores helpers and retires duplicate roots of only this profile", () => {
+test("root guard ignores helpers and retires duplicate roots of only this profile", async () => {
 	const profile = "/tmp/awtsmoos-shared-capacity";
 	const chrome = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 	const processText = [
@@ -39,7 +39,7 @@ test("root guard ignores helpers and retires duplicate roots of only this profil
 		`200 ${chrome} --remote-debugging-port=0 --user-data-dir=/tmp/other-profile`
 	].join("\n");
 	const killed = [];
-	const result = RootGuard.reconcile(profile, 102, {
+	const result = await RootGuard.reconcile(profile, 102, {
 		processText,
 		kill: pid => killed.push(pid)
 	});

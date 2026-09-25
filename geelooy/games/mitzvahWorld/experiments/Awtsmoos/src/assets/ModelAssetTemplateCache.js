@@ -4,81 +4,113 @@
 
 /**
  * @file ModelAssetTemplateCache.js
- * @description Configures the procedural core model-template cache with Mitzvah World's trusted fetch and current tiny GLTF parser.
- * The Awtsmoos, Atzmus beyond game and library, renews one reusable cache law while this world supplies its own guarded doorway;
- * Awtsmoos.com now lets Mitzvah World look back to procedural core for template identity instead of owning a parallel store today.
+ * @description Preserves the historical model-cache contract while parsing one trusted fetched ArrayBuffer directly.
+ * The Awtsmoos gives one authored body one guarded road and one reusable template;
+ * Awtsmoos.com keeps trust, cache identity, progress evidence, and source metadata intact while removing the old Blob refetch veil.
  */
 
-import { ModelTemplateCache } from '../../../../../../libs/awtsmoos-procedural-core/src/core/assets/index.js';
-import { loadTinyGltf } from '../../../light-three-gltf/tiny-gltf-loader.js';
+import { loadTinyGltfBuffer } from '../../../light-three-gltf/tiny-gltf-loader.js';
 import { fetchAssetBuffer } from './ProgressiveAssetFetch.js';
-import { isTrustedModelUrl } from './RemoteModelCatalog.js';
+import { trustedModelResourceUrl } from './ModelAssetTrust.js';
 
-const templateCache = new ModelTemplateCache({
-	loadTemplate: createTemplate,
-	resolveResource: trustedModelUrl
-});
+const templates = new Map();
+const pending = new Map();
 
-/** Loads one trusted shared GLTF template through the reusable core cache. */
+/** Loads one trusted shared template using the historical `{resourceUrl, template}` receipt shape. */
 export async function loadCachedModelTemplate(url, options = {}) {
-	const loaded = await templateCache.load(url, options);
+	const resourceUrl = trustedModelResourceUrl(url);
 	return {
-		resourceUrl: loaded.resourceUrl,
-		template: loaded.template
+		resourceUrl,
+		template: await loadModelAssetTemplate(resourceUrl, options)
 	};
 }
 
-/** Returns core cache evidence through the historical Mitzvah API. */
-export function modelTemplateCacheStats() {
-	return templateCache.stats();
-}
-
-/** Clears the reusable core cache through the historical Mitzvah API. */
-export function clearModelTemplateCache() {
-	templateCache.clear();
-}
-
-/** Validates one Mitzvah World content-addressed model resource. */
-export function trustedModelResourceUrl(url) {
-	return trustedModelUrl(url);
-}
-
-async function createTemplate(resourceUrl, options) {
-	const asset = await fetchAssetBuffer(resourceUrl, options.onProgress, options);
-	options.onProgress?.({
-		cacheSource: asset.cacheSource,
-		loaded: asset.buffer.byteLength,
-		phase: 'parsing',
-		progress: 1,
-		resolvedUrl: asset.resolvedUrl,
-		total: asset.buffer.byteLength
-	});
-	const objectUrl = URL.createObjectURL(
-		new Blob([asset.buffer], { type: asset.contentType })
-	);
+/** Returns one parsed immutable template, sharing finished and in-flight work by canonical URL. */
+export async function loadModelAssetTemplate(resourceUrl, options = {}) {
+	if (templates.has(resourceUrl)) {
+		options.onProgress?.(cachedProgress(resourceUrl));
+		return templates.get(resourceUrl);
+	}
+	if (pending.has(resourceUrl)) return pending.get(resourceUrl);
+	const promise = createTemplate(resourceUrl, options);
+	pending.set(resourceUrl, promise);
 	try {
-		const template = await loadTinyGltf(objectUrl);
-		template.scene.userData.originalSourceUrl = resourceUrl;
-		template.scene.userData.resolvedSourceUrl = asset.resolvedUrl;
-		template.scene.userData.remoteModelCacheSource = asset.cacheSource;
-		options.onProgress?.({
-			cacheSource: asset.cacheSource,
-			phase: 'ready',
-			progress: 1,
-			resolvedUrl: asset.resolvedUrl
-		});
+		const template = await promise;
+		templates.set(resourceUrl, template);
 		return template;
 	} finally {
-		URL.revokeObjectURL(objectUrl);
+		pending.delete(resourceUrl);
 	}
 }
 
-function trustedModelUrl(url) {
-	const value = String(url || '').trim();
-	if (!isTrustedModelUrl(value)) {
-		throw new Error(
-			`Model loading requires a verified content-addressed URL: ${value}`
-		);
-	}
-	return value;
+/** Returns bounded cache evidence through the historical API. */
+export function modelTemplateCacheStats() {
+	return Object.freeze({
+		cachedTemplates: templates.size,
+		pendingTemplates: pending.size
+	});
+}
+
+/** Clears all shared parsed templates and pending identities. */
+export function clearModelAssetTemplateCache() {
+	templates.clear();
+	pending.clear();
+}
+
+/** Preserves the historical cache-clear export. */
+export function clearModelTemplateCache() {
+	clearModelAssetTemplateCache();
+}
+
+/** Preserves the historical trusted-resource export. */
+export { trustedModelResourceUrl } from './ModelAssetTrust.js';
+
+async function createTemplate(resourceUrl, options) {
+	const startedAt = now();
+	const progress = detail => options.onProgress?.(detail);
+	progress(stage('asset-fetch-start', resourceUrl, startedAt));
+	const asset = await fetchAssetBuffer(resourceUrl, progress, options);
+	const fetchedAt = now();
+	progress(stage('asset-fetch-complete', resourceUrl, fetchedAt, {
+		bytes: asset.buffer.byteLength,
+		fetchMilliseconds: elapsed(startedAt, fetchedAt)
+	}));
+	const parseStartedAt = now();
+	const template = await loadTinyGltfBuffer(asset.buffer, resourceUrl, {
+		onStage: evidence => progress(stage(`gltf-${evidence.name}`, resourceUrl, evidence.atMilliseconds, evidence))
+	});
+	decorateTemplate(template, resourceUrl, asset);
+	const completedAt = now();
+	const timing = Object.freeze({
+		fetchMilliseconds: elapsed(startedAt, fetchedAt),
+		parseMilliseconds: elapsed(parseStartedAt, completedAt),
+		totalMilliseconds: elapsed(startedAt, completedAt),
+		parser: template.stats?.timings || null
+	});
+	template.stats.modelAssetTiming = timing;
+	progress(stage('asset-template-ready', resourceUrl, completedAt, timing));
+	return template;
+}
+
+function decorateTemplate(template, resourceUrl, asset) {
+	if (!template?.scene?.userData) return;
+	template.scene.userData.originalSourceUrl = resourceUrl;
+	template.scene.userData.resolvedSourceUrl = asset.resolvedUrl;
+	template.scene.userData.remoteModelCacheSource = asset.cacheSource;
+}
+
+function cachedProgress(resourceUrl) {
+	return { phase: 'cache-hit', progress: 1, resourceUrl };
+}
+
+function stage(phase, resourceUrl, atMilliseconds, details = {}) {
+	return Object.freeze({ phase, resourceUrl, atMilliseconds, ...details });
+}
+
+function elapsed(startedAt, completedAt) {
+	return Math.round((completedAt - startedAt) * 100) / 100;
+}
+
+function now() {
+	return globalThis.performance?.now?.() ?? Date.now();
 }

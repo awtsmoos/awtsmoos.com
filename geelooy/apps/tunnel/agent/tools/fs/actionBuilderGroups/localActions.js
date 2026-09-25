@@ -1,16 +1,14 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const os = require("node:os");
+const SchemaView = require("../actionSchemaIntrospection.js");
 const { livenessTimeline } = require("./livenessTimeline.js");
 
 /**
  * @file Builds local identity and diagnostics without duplicating foundation actions.
- * @description
- * The Awtsmoos lets one action name have one canonical vessel. Awtsmoos.com keeps
- * fake SSH lifecycle inside the foundation family, while local identity, schema
- * traces, version witness, and liveness remain focused here in rhyme.
+ * @description The Awtsmoos lets one action name have one canonical vessel. Awtsmoos.com exposes
+ * actionable schema contracts rather than mere action-name confirmation, while identity, version,
+ * and liveness witnesses remain focused and small.
  */
 function buildLocalActions({ config, payload, version }) {
 	return {
@@ -18,31 +16,52 @@ function buildLocalActions({ config, payload, version }) {
 		actionSchemaTrace: async () => actionSchemaTrace(payload),
 		awtsmoosMyDevice: async () => awtsmoosMyDevice(config, version),
 		agentSelfTest: async () => selfTest(version),
-		agentVersionSkewCheck: async () => versionSkew(version),
 		tunnelLivenessTimeline: async () => livenessTimeline(config)
 	};
 }
 
 function payloadEcho(payload) {
-	return {
-		BH: "B\"H",
-		ok: true,
-		action: "payloadEcho",
-		payload
-	};
+	return { BH: "B\"H", ok: true, action: "payloadEcho", payload };
 }
 
 function actionSchemaTrace(payload) {
+	const requestedAction = targetAction(payload);
+	const adapterAction = payload.adapterAction || requestedAction;
+	const contract = SchemaView.describe(payload.kind, adapterAction);
 	return {
 		BH: "B\"H",
-		ok: true,
+		ok: contract.found,
 		action: "actionSchemaTrace",
-		requestedAction: payload.action,
-		adapterAction: payload.adapterAction || null,
+		requestedAction,
+		adapterAction,
 		actionRecoveredFromCarrier: Boolean(payload.actionRecoveredFromCarrier),
-		kind: payload.kind,
-		keys: Object.keys(payload).sort()
+		kind: payload.kind || "",
+		keys: Object.keys(payload).sort(),
+		family: contract.family,
+		canonicalInputFields: contract.canonicalInputFields,
+		required: contract.required,
+		requiredOneOf: contract.requiredOneOf,
+		optional: contract.optional,
+		properties: contract.properties,
+		deprecatedFields: contract.deprecatedFields,
+		legacyAliases: contract.legacyAliases,
+		acceptedCarriers: contract.acceptedCarriers,
+		example: contract.example,
+		canonicalOutput: contract.canonicalOutput,
+		mutation: contract.mutation,
+		requestKey: contract.requestKey,
+		retrySemantics: contract.retrySemantics,
+		execution: contract.execution,
+		authority: contract.authority,
+		schema: contract.schema,
+		error: contract.found ? null : "action_schema_not_found"
 	};
+}
+
+function targetAction(payload = {}) {
+	return String(
+		payload.targetAction || payload.requestedAction || payload.name || payload.schemaAction || payload.adapterAction || ""
+	).trim();
 }
 
 function awtsmoosMyDevice(config, version) {
@@ -66,22 +85,13 @@ function selfTest(version) {
 		ok: true,
 		action: "agentSelfTest",
 		agentVersion: version,
-		checks: ["action_registry", "identity_recovery_helper"],
+		checks: ["action_registry", "identity_recovery_helper", "schema_introspection"],
 		generatedAt: new Date().toISOString()
 	};
 }
 
 function versionSkew(version) {
-	return {
-		ok: true,
-		action: "agentVersionSkewCheck",
-		agentVersion: version,
-		installedVersion: version,
-		skew: false
-	};
+	return { ok: true, action: "agentVersionSkewCheck", agentVersion: version, installedVersion: version, skew: false };
 }
 
-module.exports = {
-	buildLocalActions,
-	livenessTimeline
-};
+module.exports = { actionSchemaTrace, buildLocalActions, livenessTimeline, targetAction };

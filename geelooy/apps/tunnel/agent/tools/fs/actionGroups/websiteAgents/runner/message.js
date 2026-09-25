@@ -1,9 +1,11 @@
-//B"H
-//Boruch Hashem
-//Blessed be He
+// B"H
+// Boruch Hashem
+// Blessed be He
 
 const Context = require("./context.js");
 const Signal = require("./messageSignal.js");
+const CompletionReceipts = require("../../websiteCompletionReceipts.js");
+const CompletionReceiptStore = require("./completionReceiptStore.js");
 const { M, Store, active } = Context.shared;
 const schedule = Context.reference("schedule");
 const finalize = Context.reference("finalize");
@@ -15,7 +17,16 @@ const emitRoom = Context.reference("emitRoom");
  * @description
  * The Awtsmoos keeps one word as one durable record rather than echoing it into parallel rivers;
  * Awtsmoos.com routes, interrupts, wakes, and acknowledges the same message every agent can inspect.
+ * Completion signals additionally pass through a durable receipt coordinator: one stable request
+ * key per completion, one persisted receipt per milestone, so a retried or crash-recovered
+ * completion never double-writes the room, the website record, or the mission terminal events.
  */
+
+const completionCoordinator = CompletionReceipts.createCompletionCoordinator({
+	loadReceipt: key => CompletionReceiptStore.load(key),
+	saveReceipt: (key, receipt) => CompletionReceiptStore.save(key, receipt)
+});
+
 async function message(config, input = {}) {
 	const id = input.websiteMissionId || input.taskId || input.id;
 	const record = Store.read(id);
@@ -39,15 +50,95 @@ async function message(config, input = {}) {
 	const agentSignal = Boolean(agentId);
 	const terminal = agentSignal && kind === "completion" && Signal.verified(input, body);
 	const routed = { ...input, agentId: agentId || "user", fromAgent, body, message: body };
-	const roomMessage = agentSignal ? M.roomMessage(mission, routed) : M.roomUserMessage(mission, routed);
-	await M.save(config, mission);
+
+	if (!terminal) {
+		const roomMessage = agentSignal ? M.roomMessage(mission, routed) : M.roomUserMessage(mission, routed);
+		await M.save(config, mission);
+		const updated = Store.update(id, current => Signal.apply(current, {
+			agentId, agentSignal, body, input: routed, kind, terminal, reportId
+		}));
+		emitRoom(config, updated, roomMessage);
+		if (!active.has(id)) schedule(config, id);
+		return Signal.response(updated, roomMessage, terminal, reportId);
+	}
+
+	return completeTerminal(config, id, record, {
+		agentId, fromAgent, reportId, kind, body, agentSignal, mission, routed, input
+	});
+}
+
+/**
+ * Runs the completion path exactly once per request key. persistEvent saves the room
+ * message (skipped when the receipt already shows eventPersisted, so crash-recovery never
+ * double-writes the room); transitionCompletion applies the website-record update and
+ * finalize() terminal events; acknowledgeDelivery builds the { dashboard, websiteAgents }
+ * delivery. The coordinator's result is returned with legacy response fields layered on.
+ */
+async function completeTerminal(config, id, record, parts) {
+	const completionInput = { ...parts.input, websiteMissionId: id, kind: parts.kind, terminal: true };
+	const requestKey = CompletionReceipts.deriveRequestKey(completionInput);
+	if (!requestKey) {
+		return legacyCompletion(config, id, parts);
+	}
+	const outcome = await completionCoordinator.complete(completionInput, {
+		persistEvent: async () => {
+			const roomMessage = parts.agentSignal
+				? M.roomMessage(parts.mission, parts.routed)
+				: M.roomUserMessage(parts.mission, parts.routed);
+			await M.save(config, parts.mission);
+			return { messageId: roomMessage?.message?.id ?? null };
+		},
+		transitionCompletion: async (_completionInput, receipt) => {
+			const updated = Store.update(id, current => Signal.apply(current, {
+				agentId: parts.agentId,
+				agentSignal: parts.agentSignal,
+				body: parts.body,
+				input: parts.routed,
+				kind: parts.kind,
+				terminal: true,
+				reportId: parts.reportId
+			}));
+			emitRoom(config, updated, { message: { id: receipt?.eventRef?.messageId ?? null } });
+			const finalRecord = await finalize(config, id);
+			if (!active.has(id)) schedule(config, id);
+			return { roomRevision: updated?.roomRevision ?? null, status: finalRecord?.status ?? null };
+		},
+		acknowledgeDelivery: async () => ({
+			dashboard: "committed",
+			websiteAgents: "lifecycle_committed"
+		})
+	});
+	return {
+		action: "websiteAgentMissionMessage",
+		websiteMissionId: id,
+		missionId: record.missionId,
+		reportId: parts.reportId || null,
+		...outcome
+	};
+}
+
+/**
+ * Fallback for completions with no derivable request key: the pre-receipt behavior.
+ * In practice unreachable — the completion path always carries a websiteMissionId.
+ */
+async function legacyCompletion(config, id, parts) {
+	const roomMessage = parts.agentSignal
+		? M.roomMessage(parts.mission, parts.routed)
+		: M.roomUserMessage(parts.mission, parts.routed);
+	await M.save(config, parts.mission);
 	const updated = Store.update(id, current => Signal.apply(current, {
-		agentId, agentSignal, body, input: routed, kind, terminal, reportId
+		agentId: parts.agentId,
+		agentSignal: parts.agentSignal,
+		body: parts.body,
+		input: parts.routed,
+		kind: parts.kind,
+		terminal: true,
+		reportId: parts.reportId
 	}));
 	emitRoom(config, updated, roomMessage);
-	const finalRecord = terminal ? await finalize(config, id) : updated;
-	if (!terminal && !active.has(id)) schedule(config, id);
-	return Signal.response(finalRecord, roomMessage, terminal, reportId);
+	const finalRecord = await finalize(config, id);
+	if (!active.has(id)) schedule(config, id);
+	return Signal.response(finalRecord, roomMessage, true, parts.reportId);
 }
 
 Context.register("message", message);

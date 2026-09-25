@@ -1,76 +1,98 @@
-//B"H
-//Boruch Hashem
-//Blessed be He
+//B"H //Boruch Hashem //Blessed be He
 
-const APP_START = 0x100000000n;
-const APP_END = 0x200000000n;
-const CROSSING_LIMIT = 64;
+import {
+	createNativeAndroidTransitionRing,
+	pushNativeAndroidTransitionRing
+} from "./nativeAndroidCallTransitionRing.js";
+import {
+	captureNativeAndroidAbiRegisters,
+	createNativeAndroidRegisterTargetSet,
+	isNativeAndroidRegisterTarget
+} from "./nativeAndroidCallTransitionRegisters.js";
+import {
+	capitalizeNativeAndroidRegion,
+	createNativeAndroidTransitionCounts,
+	isNativeAndroidVmBoundary,
+	nativeAndroidBroadKey,
+	nativeAndroidBroadSpace,
+	nativeAndroidCodeRegion
+} from "./nativeAndroidCallTransitionRegions.js";
+import { createNativeAndroidTransitionSnapshot } from "./nativeAndroidCallTransitionSnapshot.js";
+
+const RECORD_LIMIT = 64;
 const TAIL_LIMIT = 32;
 
 /**
- * Collects bounded architectural BL/BLR testimony across Flutter engine and app AOT.
- * The Awtsmoos renews every linked road while finite evidence remembers only truth;
- * Awtsmoos.com distinguishes engine, Dart AOT, and synthetic shores without sleuth.
+ * Records bounded native call transitions and optional targeted engine registers.
+ * The Awtsmoos renews every crossing; Awtsmoos.com keeps old testimony unchanged
+ * unless a caller explicitly asks one engine doorway to reveal its live ABI state.
+ * @param {object} options Optional diagnostic register-target addresses.
+ * @returns {object} Frozen observer/snapshot capability.
  */
-export function createNativeAndroidCallTransitionWitness() {
-	const counts = { appToApp: 0, appToEngine: 0, engineToApp: 0, engineToEngine: 0, other: 0 };
-	const crossings = [];
-	const tail = [];
+export function createNativeAndroidCallTransitionWitness(options = {}) {
+	const counts = createNativeAndroidTransitionCounts();
+	const regionCounts = {};
+	const rings = createRings();
+	const targets = createNativeAndroidRegisterTargetSet(options.registerTargets);
+	const includeTargets = targets.size > 0;
 	let total = 0;
-	function observe(event) {
-		const record = normalizeTransition(event);
+	function observe(event, registers) {
+		const raw = createRawRecord(event, registers, targets);
 		total += 1;
-		const key = transitionKey(record.sourceSpace, record.targetSpace);
-		counts[key] += 1;
-		pushBounded(tail, record, TAIL_LIMIT);
-		if (record.sourceSpace !== record.targetSpace) pushBounded(crossings, record, CROSSING_LIMIT);
+		counts[nativeAndroidBroadKey(raw.sourceSpace, raw.targetSpace)] += 1;
+		const regionKey = `${raw.sourceRegion}To${capitalizeNativeAndroidRegion(raw.targetRegion)}`;
+		regionCounts[regionKey] = (regionCounts[regionKey] || 0) + 1;
+		pushNativeAndroidTransitionRing(rings.tail, raw);
+		if (raw.isolateRelated) pushNativeAndroidTransitionRing(rings.isolates, raw);
+		if (raw.vmBoundary) pushNativeAndroidTransitionRing(rings.vmBoundaries, raw);
+		if (raw.targeted) pushNativeAndroidTransitionRing(rings.targets, raw);
+		if (raw.sourceSpace !== raw.targetSpace) {
+			pushNativeAndroidTransitionRing(rings.crossings, raw);
+		}
 	}
 	return Object.freeze({
 		observe,
-		snapshot() {
-			return Object.freeze({
-				counts: Object.freeze({ ...counts }),
-				crossings: Object.freeze([...crossings]),
-				tail: Object.freeze([...tail]),
-				total
-			});
-		}
+		snapshot: () => createNativeAndroidTransitionSnapshot(
+			counts,
+			regionCounts,
+			rings,
+			total,
+			includeTargets
+		)
 	});
 }
 
-/** Converts one machine event into immutable classified testimony. */
-function normalizeTransition(event) {
+/** Creates one private transition record before bounded ring insertion. */
+function createRawRecord(event, registers, targets) {
 	const source = BigInt(event.source);
 	const target = BigInt(event.target);
-	return Object.freeze({
-		mnemonic: String(event.mnemonic),
-		returnAddress: String(event.returnAddress),
-		source: source.toString(),
-		sourceSpace: addressSpace(source),
-		step: Number(event.step ?? 0),
-		target: target.toString(),
-		targetSpace: addressSpace(target)
-	});
+	const sourceRegion = nativeAndroidCodeRegion(source);
+	const targetRegion = nativeAndroidCodeRegion(target);
+	const isolateRelated = sourceRegion === "isolate" || targetRegion === "isolate";
+	const vmBoundary = isNativeAndroidVmBoundary(sourceRegion, targetRegion);
+	const targeted = isNativeAndroidRegisterTarget(targets, source, target);
+	return {
+		event,
+		isolateRelated,
+		registers: isolateRelated || vmBoundary || targeted
+			? captureNativeAndroidAbiRegisters(registers)
+			: null,
+		sourceRegion,
+		sourceSpace: nativeAndroidBroadSpace(source),
+		targetRegion,
+		targetSpace: nativeAndroidBroadSpace(target),
+		targeted,
+		vmBoundary
+	};
 }
 
-/** Classifies only the measured fixed engine and app-AOT address windows. */
-function addressSpace(address) {
-	if (address >= APP_START && address < APP_END) return "app";
-	if (address >= 0n && address < APP_START) return "engine";
-	return "other";
-}
-
-/** Maps two spaces into the five bounded counter categories. */
-function transitionKey(source, target) {
-	if (source === "engine" && target === "engine") return "engineToEngine";
-	if (source === "engine" && target === "app") return "engineToApp";
-	if (source === "app" && target === "engine") return "appToEngine";
-	if (source === "app" && target === "app") return "appToApp";
-	return "other";
-}
-
-/** Keeps only the newest bounded records. */
-function pushBounded(records, record, limit) {
-	records.push(record);
-	if (records.length > limit) records.splice(0, records.length - limit);
+/** Creates private fixed-capacity rings for each bounded transition class. */
+function createRings() {
+	return {
+		crossings: createNativeAndroidTransitionRing(RECORD_LIMIT),
+		isolates: createNativeAndroidTransitionRing(RECORD_LIMIT),
+		tail: createNativeAndroidTransitionRing(TAIL_LIMIT),
+		targets: createNativeAndroidTransitionRing(RECORD_LIMIT),
+		vmBoundaries: createNativeAndroidTransitionRing(RECORD_LIMIT)
+	};
 }

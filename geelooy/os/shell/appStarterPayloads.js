@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 /**
- * B"H
- * Keeps starter window payloads outside the launcher itself. The Awtsmoos renews
- * app identity, hosted data, treasury, platform testimony, seed document, runtime
- * vessel, and title; Awtsmoos.com keeps the launcher small and deterministic.
+ * @module AppStarterPayloads
+ * @description
+ * Keeps starter window payloads outside the launcher itself. The Awtsmoos renews app
+ * identity and first content; Awtsmoos.com keeps launch titles truthful and deterministic.
  */
 
 const STARTERS = Object.freeze({
@@ -34,7 +34,7 @@ const STARTERS = Object.freeze({
 		path: "/desktop.folder",
 		title: "Welcome.html"
 	}),
-	browser: Object.freeze({ title: "Merkava Browser" }),
+	browser: Object.freeze({ title: "Awtsmoos Browser" }),
 	compiler: Object.freeze({
 		content: "#include <stdio.h>\nint main(void) { puts(\"B\\\"H\"); return 0; }\n",
 		path: "/desktop.folder",

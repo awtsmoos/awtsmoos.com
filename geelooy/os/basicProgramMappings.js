@@ -34,7 +34,7 @@ export const programsByExtension = Object.freeze({
 	".mjs": ["advancedCodeEditor", "awtsmoosTextEdit"],
 	".css": ["advancedCodeEditor", "awtsmoosTextEdit"],
 	".json": ["advancedCodeEditor", "awtsmoosTextEdit"],
-	".md": ["advancedCodeEditor", "awtsmoosTextEdit"],
+	".md": ["markdownEditor", "advancedCodeEditor", "awtsmoosTextEdit"],
 	".txt": ["awtsmoosTextEdit", "advancedCodeEditor"]
 });
 
@@ -66,7 +66,7 @@ export const initialDefaultPrograms = Object.freeze({
 	".mjs": "advancedCodeEditor",
 	".css": "advancedCodeEditor",
 	".json": "advancedCodeEditor",
-	".md": "advancedCodeEditor",
+	".md": "markdownEditor",
 	".txt": "awtsmoosTextEdit"
 });
 
@@ -85,6 +85,7 @@ export function programIcon(name) {
 		awtsmoosSheets: "▦",
 		awtsmoosTaskManager: "📊",
 		awtsmoosTextEdit: "📝",
+		markdownEditor: "📄",
 		connectedNodeServer: "🖥️",
 		driveWorkspace: "🌐",
 		openWithSelector: "🚪",

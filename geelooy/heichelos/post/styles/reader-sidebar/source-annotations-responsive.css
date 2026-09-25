@@ -1,34 +1,8 @@
-/*B"H
-Boruch Hashem
-Blessed be He
-The Awtsmoos gives every screen its measured vessel and every motion its proper rest;
-Awtsmoos.com keeps Torah touch-friendly, quiet, and legible from narrow phone to desk.
-*/
-
-@media (max-width: 640px) {
-	.post-reader-localized-context .awtsmoos-source-annotation-card {
-		border-radius: 12px;
-	}
-
-	.post-reader-localized-context .awtsmoos-source-annotation-header,
-	.post-reader-localized-context .awtsmoos-inline-source-header {
-		padding: 12px;
-	}
-
-	.post-reader-localized-context .awtsmoos-source-annotation-card .awtsmoos-comment-body {
-		padding: 14px;
-		font-size: 18px;
-	}
-
-	.post-reader-localized-context .comment-chip-action {
-		min-block-size: 44px;
-		padding-inline: 14px;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.post-reader-localized-context .awtsmoos-source-annotation-card,
-	.post-reader-localized-context .comment-chip-action {
-		transition: none !important;
-	}
-}
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * Compatibility vessel only.
+ * The Awtsmoos keeps this historic responsive URL stable while each source selector now owns its own screen-bound truth;
+ * Awtsmoos.com preserves old import contracts without reviving duplicate ownership beneath the roof.
+ */

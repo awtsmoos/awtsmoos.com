@@ -15,7 +15,7 @@ import {
  * Reading this facade never starts new network work: the stage material runtime alone decides when frame budget permits source hydration.
  */
 export function materialTexture(role) {
-	return SEVEN_PHYSICAL_MATERIALS.material(role).map || null;
+	return SEVEN_PHYSICAL_MATERIALS.material(role).mapImage || null;
 }
 
 /** @param {string} role Semantic material role. @returns {object} Compatibility texture evidence. */
@@ -33,20 +33,14 @@ export function materialTextureEntry(role) {
 	return {
 		error: sourceError(record.remoteUrl),
 		status: compatibilityStatus(material.userData.materialState, sourceStatus),
-		texture: material.map || null
+		texture: material.mapImage || null
 	};
 }
 
 function compatibilityStatus(materialState, sourceState) {
-	if (materialState === 'ready') {
-		return 'remote-ready';
-	}
-	if (materialState === 'failed' || sourceState === 'failed') {
-		return 'remote-failed';
-	}
-	if (sourceState === 'loading') {
-		return 'loading-remote';
-	}
+	if (['ready', 'map-ready'].includes(materialState)) return 'remote-ready';
+	if (materialState === 'failed' || sourceState === 'failed') return 'remote-failed';
+	if (sourceState === 'loading') return 'loading-remote';
 	return 'remote-pending';
 }
 

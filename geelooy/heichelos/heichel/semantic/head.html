@@ -1,23 +1,61 @@
-<!-- B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos lets the chamber name itself before scripts awaken; Awtsmoos.com receives one canonical semantic vessel where title, description, and public path rhyme with the same truth.
+<!--B"H-->
+<!--Boruch Hashem-->
+<!--Blessed is He-->
+
+<!--
+	The Awtsmoos is beyond every title and graph, yet Awtsmoos.com lets each Heichel
+	reveal a truthful public name, canonical road, and CollectionPage vessel for discovery.
 -->
 <?<script>
-	var semanticModel = typeof semantic === "object" && semantic ? semantic : {};
-	var title = semanticModel.pageTitle || "Geelooy Heichel | Awtsmoos";
-	var description = semanticModel.description || "Explore a living Heichel on Awtsmoos.com.";
-	var canonicalPath = semanticModel.canonicalPath || "/heichelos";
-	var canonicalUrl = "https://awtsmoos.com" + canonicalPath;
+	var model = typeof semantic === "object" && semantic ? semantic : null;
+	if (!model) {
+		return "";
+	}
+	function decodeEntities(value) {
+		return String(value || "")
+			.replace(/&quot;/gi, '"')
+			.replace(/&(?:apos|#39);/gi, "'")
+			.replace(/&lt;/gi, "<")
+			.replace(/&gt;/gi, ">")
+			.replace(/&amp;/gi, "&");
+	}
+	function safeJson(value) {
+		return JSON.stringify(value)
+			.replace(/&/g, "\\u0026")
+			.replace(/</g, "\\u003c")
+			.replace(/>/g, "\\u003e");
+	}
+	var title = model.pageTitle;
+	var description = model.description;
+	var canonical = "https://awtsmoos.com" + model.canonicalPath;
+	var schema = {
+		"@context": "https://schema.org",
+		"@id": canonical + "#webpage",
+		"@type": "CollectionPage",
+		"description": decodeEntities(description),
+		"isPartOf": {
+			"@id": "https://awtsmoos.com/#website",
+			"@type": "WebSite",
+			"name": "Awtsmoos.com",
+			"url": "https://awtsmoos.com/"
+		},
+		"name": decodeEntities(model.heading || title),
+		"url": canonical
+	};
+	var jsonLd = "<scr" + "ipt type=\"application/ld+json\" data-awtsmoos-heichel-jsonld>"
+		+ safeJson(schema)
+		+ "</scr" + "ipt>";
 	return "<title>" + title + "</title>"
 		+ "<meta name=\"description\" content=\"" + description + "\">"
-		+ "<meta name=\"robots\" content=\"index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1\">"
-		+ "<link rel=\"canonical\" href=\"" + canonicalUrl + "\">"
+		+ "<meta name=\"robots\" content=\"index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1\">"
+		+ "<link rel=\"canonical\" href=\"" + canonical + "\">"
 		+ "<meta property=\"og:type\" content=\"website\">"
 		+ "<meta property=\"og:title\" content=\"" + title + "\">"
 		+ "<meta property=\"og:description\" content=\"" + description + "\">"
-		+ "<meta property=\"og:url\" content=\"" + canonicalUrl + "\">"
+		+ "<meta property=\"og:url\" content=\"" + canonical + "\">"
+		+ "<meta property=\"og:site_name\" content=\"Awtsmoos\">"
 		+ "<meta name=\"twitter:card\" content=\"summary\">"
 		+ "<meta name=\"twitter:title\" content=\"" + title + "\">"
-		+ "<meta name=\"twitter:description\" content=\"" + description + "\">";
+		+ "<meta name=\"twitter:description\" content=\"" + description + "\">"
+		+ jsonLd;
 </script>?>

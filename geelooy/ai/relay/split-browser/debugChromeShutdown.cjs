@@ -15,7 +15,7 @@ const { createCdpClient } = require("./debugChromeWebSocket.cjs");
  * unrelated ports remain outside this bounded shutdown vessel.
  */
 async function closeDebugChrome(config = {}) {
-	const port = debugPort(config);
+	const port = await debugPort(config);
 	const target = await findBrowserTarget({
 		preferredPort: port,
 		onlyPreferred: true

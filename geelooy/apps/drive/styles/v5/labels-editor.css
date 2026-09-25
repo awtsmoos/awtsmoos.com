@@ -1,0 +1,29 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** Details-pane label editor: labels and the human file name beside the file. */
+.drive-labels-editor h3 {
+	font-size: 12px;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	opacity: 0.7;
+	margin: 14px 0 6px;
+}
+.drive-labels-editor .drive-label-chips.is-static {
+	margin-bottom: 8px;
+}
+.drive-labels-empty {
+	font-size: 12px;
+	opacity: 0.6;
+}
+.drive-labels-add,
+.drive-labels-name {
+	display: flex;
+	gap: 6px;
+	margin-bottom: 6px;
+}
+.drive-labels-add input,
+.drive-labels-name input {
+	flex: 1;
+	min-width: 0;
+}

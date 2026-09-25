@@ -1,24 +1,20 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const { inventory, resolveInventoryDevice } = require("./fsVessel/accountInventory.js");
 const { deviceWarnings, liveDevices } = require("./fsVessel/liveDevices.js");
 const { virtualOsDevice } = require("./fsVessel/virtualNames.js");
+const AutomaticNative = require("./automaticNativeSelection.js");
 const Projection = require("./devicePublicProjection.js");
 
 /**
- * @file Builds authoritative device state while exposing only compact public witnesses.
- * @description
- * The Awtsmoos keeps inward routing truth complete while the outward response remains
- * light enough to cross every vessel. Awtsmoos.com retains all supported actions for
- * admission, yet discovery reveals hashes and counts instead of repeating 928 names.
+ * @file Builds authoritative device state and one automatic recovery recommendation.
+ * @description The Awtsmoos keeps inward routing truth complete while Awtsmoos.com chooses one
+ * ordinary primary/rescue native automatically, preserving explicit ambiguity only across genuinely
+ * different surfaces or genuinely multiple canonical peers.
  */
 function state($i, identity) {
 	const authorized = inventory($i, identity.accountId);
 	const virtualDevice = virtualOsDevice(true);
-	const liveNative = liveDevices(authorized.nativeDevices);
-	const liveBrowser = liveDevices(authorized.browserDevices);
 	return {
 		identity: {
 			kind: identity.kind,
@@ -32,12 +28,9 @@ function state($i, identity) {
 		browserDevices: authorized.browserDevices,
 		virtualDevice,
 		devices: [...authorized.devices, virtualDevice],
-		liveNative,
-		liveBrowser,
-		warnings: deviceWarnings(
-			authorized.nativeDevices,
-			authorized.browserDevices
-		)
+		liveNative: liveDevices(authorized.nativeDevices),
+		liveBrowser: liveDevices(authorized.browserDevices),
+		warnings: deviceWarnings(authorized.nativeDevices, authorized.browserDevices)
 	};
 }
 
@@ -48,29 +41,37 @@ function find(currentState, reference) {
 	);
 }
 
-function recommend(currentState) {
-	if (currentState.liveBrowser.length === 1) return currentState.liveBrowser[0];
-	if (currentState.liveNative.length === 1) return currentState.liveNative[0];
-	if (!currentState.liveBrowser.length && !currentState.liveNative.length) {
-		const currentNative = currentState.nativeDevices.filter(notSynthetic);
-		if (currentNative.length === 1) return currentNative[0];
+function recommendation(currentState, options = {}) {
+	const browsers = currentState.liveBrowser || [];
+	const natives = currentState.liveNative || [];
+	if (browsers.length) {
+		return browsers.length === 1 && !natives.length
+			? { device: browsers[0], reason: "single_browser" }
+			: { device: null, reason: "ambiguous_surface" };
 	}
-	if (!currentState.liveBrowser.length && !currentState.liveNative.length) {
-		return currentState.virtualDevice;
+	if (natives.length) {
+		return AutomaticNative.select(natives, {
+			scopeKey: currentState.identity?.accountId,
+			now: options.now,
+			failbackMs: options.failbackMs
+		});
 	}
-	return null;
+	const currentNative = currentState.nativeDevices.filter(notSynthetic);
+	if (currentNative.length === 1) {
+		return { device: currentNative[0], reason: "single_current_native" };
+	}
+	return { device: currentState.virtualDevice, reason: "virtual_fallback" };
+}
+
+function recommend(currentState, options = {}) {
+	return recommendation(currentState, options).device;
 }
 
 function notSynthetic(device = {}) {
 	return device.synthetic !== true && device.kind !== "virtual-os";
 }
 
-/**
- * Projects authorized state without exporting the internal action-admission inventory.
- *
- * @param {object} currentState Full account-scoped discovery state.
- * @returns {object} Compact public response preserving route and manifest witnesses.
- */
+/** Projects authorized state without exporting the internal action-admission inventory. */
 function responseBase(currentState) {
 	return {
 		BH: "B\"H",
@@ -89,6 +90,7 @@ module.exports = {
 	find,
 	notSynthetic,
 	recommend,
+	recommendation,
 	responseBase,
 	state
 };

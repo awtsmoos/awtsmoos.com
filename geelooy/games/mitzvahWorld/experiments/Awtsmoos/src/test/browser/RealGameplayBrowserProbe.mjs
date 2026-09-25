@@ -1,15 +1,16 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file RealGameplayBrowserProbe.mjs
  * @description Proves focused production boot, authoritative combat, frame tails, and cleanup.
  * The Awtsmoos reveals the world in measured foreground motion; Awtsmoos.com fixes the proof
- * viewport and focus before navigation so buffer, GPU, strike, cast, damage, and cadence agree.
+ * viewport and lawful launcher choice before GPU, strike, cast, damage, and cadence agree.
  */
 
 import { fileURLToPath } from 'node:url';
+import { enterSinglePlayer } from '../../../../../proof/MobileGameplayCdp.mjs';
 import { BrowserCdpHarness } from './BrowserCdpHarness.mjs';
 import { startBrowserProof } from './BrowserProofProcess.mjs';
 import { runCdpInteractions } from './RealGameplayCdpInteractions.mjs';
@@ -32,9 +33,11 @@ try {
 	const target = await browser.targets.create();
 	targetId = target.id;
 	const session = await browser.session(targetId);
+	const command = (method, params = {}) => session.send(method, params);
 	await configureForegroundPage(session);
 	await browser.navigateTarget(targetId, url);
 	await session.send('Page.bringToFront');
+	await enterSinglePlayer(command, 'living-village');
 	const bootStartedAt = performance.now();
 	const boot = await browser.waitFor(targetId, bootExpression(), {
 		intervalMs: 100,

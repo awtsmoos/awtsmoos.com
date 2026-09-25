@@ -1,0 +1,106 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos joins identity to action without confusing the two;
+Awtsmoos.com shows the living route so a first-time traveler knows what to do.
+*/
+
+.shliach-connect-shell {
+	padding: 34px;
+	border: 1px solid rgba(242, 196, 94, 0.22);
+	border-radius: 30px;
+	background: radial-gradient(circle at 75% 0%, rgba(127, 90, 240, 0.18), transparent 40%), rgba(10, 12, 30, 0.82);
+	box-shadow: 0 30px 100px rgba(0, 0, 0, 0.28);
+}
+
+.shliach-live-state {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 20px;
+	margin: 24px 0;
+	padding: 16px 18px;
+	border-radius: 18px;
+	background: rgba(255, 255, 255, 0.045);
+}
+
+.shliach-live-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 12px;
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	border-radius: 999px;
+	font-size: 0.78rem;
+	font-weight: 800;
+	white-space: nowrap;
+}
+
+.shliach-live-pill::before {
+	content: "";
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: #f2c45e;
+	box-shadow: 0 0 18px rgba(242, 196, 94, 0.75);
+}
+
+.shliach-live-pill[data-state="ready"]::before {
+	background: #62e6ad;
+	box-shadow: 0 0 18px rgba(98, 230, 173, 0.78);
+}
+
+.shliach-live-copy {
+	max-width: 680px;
+	margin: 0;
+	color: rgba(245, 244, 255, 0.7);
+	line-height: 1.55;
+}
+
+.shliach-mode-tabs {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+	margin: 24px 0 16px;
+}
+
+.shliach-mode-tab {
+	padding: 10px 14px;
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.04);
+	color: rgba(255, 255, 255, 0.72);
+	font: inherit;
+	font-weight: 760;
+	cursor: pointer;
+}
+
+.shliach-mode-tab[data-active] {
+	border-color: rgba(242, 196, 94, 0.6);
+	background: rgba(242, 196, 94, 0.13);
+	color: #fff0c4;
+}
+
+.shliach-connection-console {
+	display: grid;
+	grid-template-columns: minmax(0, 1.6fr) minmax(230px, 0.7fr);
+	gap: 18px;
+}
+
+.shliach-external-prompt {
+	width: 100%;
+	min-height: 360px;
+	padding: 18px;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 18px;
+	background: rgba(3, 6, 18, 0.88);
+	color: #e9e7ff;
+	font: 500 0.84rem/1.55 ui-monospace, SFMono-Regular, Menlo, monospace;
+	resize: vertical;
+}
+
+.shliach-connect-actions {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}

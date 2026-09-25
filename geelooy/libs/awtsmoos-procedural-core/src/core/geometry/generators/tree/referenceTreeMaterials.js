@@ -9,7 +9,7 @@
  * tree profile explicit while closely related species share truthful high-resolution source art.
  */
 
-const ORIGIN = 'https://awtsmoos-docs-base.web.app';
+const ORIGIN = 'https://awtsmoos.com/sites/firebase_drive_migration';
 const CHAI = `${ORIGIN}/awtsmoos-nature/chai-forest`;
 const BARK = `${CHAI}/textures/bark/Bark001_1K-JPG/Bark001_1K-JPG_Color.jpg`;
 const LEAVES = `${CHAI}/textures/leaves`;

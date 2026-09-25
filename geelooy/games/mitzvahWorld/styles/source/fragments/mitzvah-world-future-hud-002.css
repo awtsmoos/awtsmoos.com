@@ -1,0 +1,81 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+@file mitzvah-world-future-hud-002.css
+@description Adds compositor-friendly ready-state entrances and touch feedback without introducing a JavaScript animation loop.
+The Awtsmoos reveals motion as a passing garment while the world itself remains the enduring stage; Awtsmoos.com lets HUD keilim arrive from the edges, settle quickly, and then become still.
+*/
+
+#mitzvah-world-root.Awtsmoos-future-shell[data-awtsmoos-cinematic="ready"] .Awtsmoos-player-hud-shell {
+	animation: Awtsmoos-future-hud-left 320ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+#mitzvah-world-root.Awtsmoos-future-shell[data-awtsmoos-cinematic="ready"] .Awtsmoos-game-rail-host,
+#mitzvah-world-root.Awtsmoos-future-shell[data-awtsmoos-cinematic="ready"] #gameRail {
+	animation: Awtsmoos-future-hud-right 360ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+#mitzvah-world-root.Awtsmoos-future-shell[data-awtsmoos-cinematic="ready"] #actions {
+	animation: Awtsmoos-future-hud-up 360ms 70ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+#mitzvah-world-root.Awtsmoos-future-shell[data-awtsmoos-cinematic="ready"] :is(
+	.Awtsmoos-sheet,
+	.Awtsmoos-quest-tracker,
+	.Awtsmoos-region-banner,
+	.Awtsmoos-threat-indicator
+) {
+	animation: Awtsmoos-future-surface-in 220ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+#mitzvah-world-root.Awtsmoos-future-shell[data-awtsmoos-cinematic="ready"] :is(
+	button,
+	[role="button"],
+	a[href],
+	summary
+) {
+	-webkit-tap-highlight-color: transparent;
+}
+
+#mitzvah-world-root.Awtsmoos-future-shell[data-awtsmoos-cinematic="ready"] :is(
+	button,
+	[role="button"]
+):active {
+	transition-duration: 80ms;
+}
+
+@keyframes Awtsmoos-future-hud-left {
+	from { opacity: 0; transform: translate3d(-14px, 0, 0); }
+	to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes Awtsmoos-future-hud-right {
+	from { opacity: 0; transform: translate3d(14px, 0, 0); }
+	to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes Awtsmoos-future-hud-up {
+	from { opacity: 0; transform: translate3d(0, 12px, 0); }
+	to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes Awtsmoos-future-surface-in {
+	from { opacity: 0; transform: translate3d(0, 8px, 0) scale(.985); }
+	to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#mitzvah-world-root.Awtsmoos-future-shell[data-awtsmoos-cinematic="ready"] :is(
+		.Awtsmoos-player-hud-shell,
+		.Awtsmoos-game-rail-host,
+		#gameRail,
+		#actions,
+		.Awtsmoos-sheet,
+		.Awtsmoos-quest-tracker,
+		.Awtsmoos-region-banner,
+		.Awtsmoos-threat-indicator
+	) {
+		animation: none;
+	}
+}

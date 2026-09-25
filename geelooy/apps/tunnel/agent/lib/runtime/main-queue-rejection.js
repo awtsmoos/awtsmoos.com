@@ -51,6 +51,24 @@ function createQueueRejection(dependencies) {
 		});
 	}
 
+	function dropped(item, lane, reason) {
+		const payload = dependencies.requestPayload(item.data);
+		return finish(item.ws, item.data, payload, {
+			ok: false,
+			status: 503,
+			error: "agent_dispatch_socket_unusable",
+			reason: reason || "dispatch_socket_unusable",
+			lane,
+			queuedMs: Math.max(0, Date.now() - Number(item.enqueuedAt || Date.now())),
+			consumerStarted: false,
+			queueWaitExpired: false,
+			dispatchDrop: true,
+			acceptanceState: "ACCEPTED",
+			safeToRetry: true,
+			reconciliationRequired: false
+		});
+	}
+
 	function expired(item, lane, queuedMs) {
 		const payload = dependencies.requestPayload(item.data);
 		return finish(item.ws, item.data, payload, {
@@ -79,7 +97,7 @@ function createQueueRejection(dependencies) {
 		return sendResponse(dependencies, ws, envelope);
 	}
 
-	return { circuit, expired, full, identity };
+	return { circuit, dropped, expired, full, identity };
 }
 
 function sendResponse(dependencies, ws, envelope) {

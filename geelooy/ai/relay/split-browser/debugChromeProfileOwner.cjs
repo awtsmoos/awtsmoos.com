@@ -2,19 +2,25 @@
 //Boruch Hashem
 //Blessed be He
 
-const { spawnSync } = require("node:child_process");
+const { execFile } = require("node:child_process");
 const ActivePort = require("./debugChromeActivePort.cjs");
+
+const PROCESS_CACHE_TTL_MS = 1500;
+
+let cachedAt = 0;
+let cachedText = "";
+let cachedExecutor = null;
 
 /**
  * @file Discovers the main Chrome process owning one selected AI-browser profile.
- * @description
  * Renderer and utility children repeat user-data/debug flags, so they are never
  * accepted as browser authority. PID, port, profile, and process birth time are
- * derived only from the top-level Chrome process for the selected profile.
+ * derived only from the top-level Chrome process. Process reads are asynchronous
+ * with a short-lived cache so hot sweeps never block the event loop on `ps`.
  */
-function ownedProfileOwner(profile, options = {}) {
+async function ownedProfileOwner(profile, options = {}) {
 	if (!profile) return null;
-	const processText = options.processText ?? readProcesses();
+	const processText = options.processText ?? await readProcesses(options.executor, options.processCacheTtlMs);
 	for (const line of String(processText || "").split(/\r?\n/)) {
 		if (!isMainBrowserLine(line, profile)) continue;
 		const portMatch = line.match(/--remote-debugging-port(?:=|\s+)(\d+)/);
@@ -24,15 +30,11 @@ function ownedProfileOwner(profile, options = {}) {
 		const pid = Number(pidMatch[1]);
 		if (port === 0) port = ActivePort.read(profile);
 		if (!validPort(port) || !Number.isInteger(pid) || pid <= 0) continue;
-		return {
-			pid,
-			port,
-			profile,
-			startedAt: options.startedAt ?? processStartedAt(pid)
-		};
+		return { pid, port, profile, startedAt: options.startedAt ?? await processStartedAt(pid) };
 	}
 	return null;
 }
+
 /** Returns true only for the main browser process of the selected profile. */
 function isMainBrowserLine(line, profile) {
 	return Boolean(line) &&
@@ -42,8 +44,8 @@ function isMainBrowserLine(line, profile) {
 }
 
 /** Compatibility helper for callers that only need the current owner port. */
-function ownedProfilePort(profile, options = {}) {
-	return ownedProfileOwner(profile, options)?.port || null;
+async function ownedProfilePort(profile, options = {}) {
+	return (await ownedProfileOwner(profile, options))?.port || null;
 }
 
 function validPort(port) {
@@ -51,29 +53,50 @@ function validPort(port) {
 }
 
 /** Reads only local process arguments; no browser or account content is inspected. */
-function readProcesses() {
-	if (process.platform === "win32") return "";
-	const result = spawnSync("ps", ["ax", "-o", "pid=,command="], {
-		encoding: "utf8",
-		timeout: 3000
-	});
-	return result.status === 0 ? result.stdout : "";
+async function readProcesses(executor, ttlMs = PROCESS_CACHE_TTL_MS) {
+	const run = executor || defaultReadProcesses;
+	const ttl = Number.isFinite(Number(ttlMs)) && Number(ttlMs) > 0 ? Number(ttlMs) : PROCESS_CACHE_TTL_MS;
+	const now = Date.now();
+	if (run === cachedExecutor && now - cachedAt < ttl) return cachedText;
+	const text = await run();
+	cachedAt = now;
+	cachedText = String(text || "");
+	cachedExecutor = run;
+	return cachedText;
 }
-/** Returns one stable process-birth timestamp when the platform exposes it. */
-function processStartedAt(pid) {
-	if (process.platform === "win32") return 0;
-	const result = spawnSync("ps", ["-p", String(pid), "-o", "lstart="], {
-		encoding: "utf8",
-		timeout: 1500
+
+function defaultReadProcesses() {
+	if (process.platform === "win32") return Promise.resolve("");
+	return new Promise(resolve => {
+		execFile("ps", ["ax", "-o", "pid=,command="], { encoding: "utf8", timeout: 3000 },
+			(error, stdout) => resolve(error ? "" : stdout));
 	});
-	if (result.status !== 0) return 0;
-	const parsed = Date.parse(String(result.stdout || "").trim());
+}
+
+/** Returns one stable process-birth timestamp when the platform exposes it. */
+async function processStartedAt(pid) {
+	if (process.platform === "win32") return 0;
+	const text = await new Promise(resolve => {
+		execFile("ps", ["-p", String(pid), "-o", "lstart="], { encoding: "utf8", timeout: 1500 },
+			(error, stdout) => resolve(error ? "" : stdout));
+	});
+	const parsed = Date.parse(String(text || "").trim());
 	return Number.isFinite(parsed) ? parsed : 0;
 }
 
+/** Clears the short-lived process cache (used by isolated tests). */
+function clearProcessCache() {
+	cachedAt = 0;
+	cachedText = "";
+	cachedExecutor = null;
+}
+
 module.exports = {
+	PROCESS_CACHE_TTL_MS,
+	clearProcessCache,
 	isMainBrowserLine,
 	ownedProfileOwner,
 	ownedProfilePort,
-	processStartedAt
+	processStartedAt,
+	readProcesses
 };

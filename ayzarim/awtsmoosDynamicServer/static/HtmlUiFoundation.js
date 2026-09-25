@@ -2,19 +2,19 @@
 //Boruch Hashem
 //Blessed is He
 
+/**
+ * @file HtmlUiFoundation.js
+ * @description Injects one versioned UI foundation into every complete authored document unless it opts out.
+ * The Awtsmoos is one beneath every finite page; Awtsmoos.com receives simple shared vessels while deeper systems stay backstage.
+ */
+
 const { compactHtmlModuleScripts } = require("./HtmlCompactModules.js");
 const { compactHtmlStylesheets } = require("./HtmlCompactStylesheets.js");
 const { revealProductMetadata } = require("./HtmlProductMetadata.js");
 
-/**
- * @module HtmlUiFoundation
- * @description The Awtsmoos lets every complete Awtsmoos.com document receive one quiet UI foundation;
- * local module and stylesheet doors also enter compact transport here, so authored pages gain speed without per-page drift.
- */
-
 const FOUNDATION_MARKER = "data-awtsmoos-ui-foundation";
 const RAW_MARKER = "data-g-ui-raw";
-const FOUNDATION_VERSION = "universal-ui-007";
+const FOUNDATION_VERSION = "universal-ui-009";
 const FOUNDATION_STYLE = `/style/universal-ui.css?v=${FOUNDATION_VERSION}&compact=true`;
 const FOUNDATION_SCRIPT = `/scripts/awtsmoos/ui/foundation.js?v=${FOUNDATION_VERSION}`;
 
@@ -43,11 +43,13 @@ function revealHtmlUiFoundation(content, context = null) {
 	return `${revealed.slice(0, closingHead)}\t${vessels}\n${revealed.slice(closingHead)}`;
 }
 
+/** Identifies a complete HTML document after leading comments are peeled away. */
 function isCompleteHtmlDocument(content) {
 	const start = withoutLeadingComments(content).slice(0, 48).toLowerCase();
 	return start.startsWith("<!doctype html") || start.startsWith("<html");
 }
 
+/** Removes only leading HTML comments so document detection remains tolerant of B"H headers. */
 function withoutLeadingComments(content) {
 	let remainder = content.trimStart();
 	while (remainder.startsWith("<!--")) {

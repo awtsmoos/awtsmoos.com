@@ -1,0 +1,87 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives motion without inventing progress and geometry without blocking the native path;
+Awtsmoos.com lets Torah light turn and breathe only while real navigation carries the learner onward.
+*/
+.torah-departure::before,
+.torah-departure::after {
+	position: absolute;
+	inset: 50% auto auto 50%;
+	border: 1px solid rgba(255, 214, 129, .24);
+	border-radius: 50%;
+	content: "";
+	pointer-events: none;
+	transform: translate(-50%, -50%);
+}
+
+.torah-departure::before {
+	width: min(78vw, 58rem);
+	aspect-ratio: 1;
+	background: conic-gradient(from 0deg, transparent, rgba(255, 205, 97, .14), transparent 24%, rgba(126, 79, 255, .17), transparent 55%, rgba(52, 216, 255, .1), transparent);
+	box-shadow: 0 0 90px rgba(255, 191, 66, .1), inset 0 0 80px rgba(128, 74, 255, .1);
+	animation: torah-departure-turn 10s linear infinite;
+}
+
+.torah-departure::after {
+	width: min(56vw, 38rem);
+	aspect-ratio: 1;
+	border-color: rgba(255, 225, 161, .34);
+	box-shadow: 0 0 80px rgba(255, 200, 88, .18), inset 0 0 70px rgba(255, 199, 86, .08);
+}
+
+.torah-departure__portal {
+	animation: torah-departure-breathe 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes torah-departure-turn {
+	to {
+		transform: translate(-50%, -50%) rotate(360deg);
+	}
+}
+
+@keyframes torah-departure-breathe {
+	to {
+		transform: scale(1.045);
+	}
+}
+
+@media (max-width: 360px) {
+	.torah-departure {
+		padding: .75rem;
+	}
+
+	.torah-departure::before {
+		width: 112vw;
+	}
+
+	.torah-departure::after {
+		width: 84vw;
+	}
+}
+
+@media (max-height: 480px) and (orientation: landscape) {
+	.torah-departure {
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: 1.5rem;
+	}
+
+	.torah-departure__copy {
+		margin-top: 0;
+		text-align: left;
+	}
+
+	.torah-departure__portal {
+		width: min(32vh, 8rem);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.torah-departure,
+	body[data-torah-departing="true"] main.home,
+	.torah-departure::before,
+	.torah-departure__portal {
+		animation: none;
+		transition-duration: .01ms;
+	}
+}

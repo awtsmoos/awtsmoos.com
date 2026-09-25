@@ -9,73 +9,73 @@
 
 module.exports = [
 	{
-		canonicalPath: "/games/",
-		description: "Browse playable Awtsmoos games, from native original campaigns and procedural runners to quick classics and Party Challenge.",
-		filePath: "games/index.html",
-		kind: "public-information",
-		title: "Awtsmoos Games — Playable Worlds"
+		canonicalPath: "/games/adventure/",
+		description: "Collect coins and a key through a compact field built for keyboard and touch movement.",
+		filePath: "games/adventure/index.html",
+		kind: "game",
+		title: "Adventure"
 	},
 	{
-		canonicalPath: "/games/kabbalah-shooter/",
-		description: "Arcade shooting transformed through vessels, mystical imagery, and challenge-driven action.",
-		filePath: "games/kabbalah-shooter/index.html",
+		canonicalPath: "/games/awtsmoos-bounce/",
+		description: "Bend six escalating physics sectors through gravity wells, tactical portal powers, mastery contracts, medals, and persistent unlocks.",
+		filePath: "games/awtsmoos-bounce/index.html",
 		kind: "game",
-		title: "Kabbalah Shooter"
+		title: "Awtsmoos Bounce: Orbit Run"
 	},
 	{
-		canonicalPath: "/games/KAVANAH/",
-		description: "A luminous world of focus, intention, atmosphere, and deliberate play.",
-		filePath: "games/KAVANAH/index.html",
+		canonicalPath: "/games/brick-blast/",
+		description: "Fast brick-breaking action with earned Perutas, upgrades, and a compact shop loop.",
+		filePath: "games/brick-blast/index.html",
 		kind: "game",
-		title: "KAVANAH"
+		title: "Brick Blast"
 	},
 	{
-		canonicalPath: "/games/Merkava/",
-		description: "Choose lanes, build an army, gather Prutahs, and cross five worlds in campaign or endless war.",
-		filePath: "games/Merkava/index.html",
+		canonicalPath: "/games/cards/",
+		description: "A simple card table for low-friction play and future social modes.",
+		filePath: "games/cards/index.html",
 		kind: "game",
-		title: "Merkava — War of the Sparks"
+		title: "Cards"
 	},
 	{
-		canonicalPath: "/games/migdol/",
-		description: "Build, climb, earn Perutas, and confront the pressure of the tower.",
-		filePath: "games/migdol/index.html",
+		canonicalPath: "/games/chess/",
+		description: "Classic strategy combat for a focused match between larger Awtsmoos journeys.",
+		filePath: "games/chess/index.html",
 		kind: "game",
-		title: "Migdol"
+		title: "Chess"
 	},
 	{
-		canonicalPath: "/games/mitzvahWorld/",
-		description: "A wandering 3D mitzvah world with local RPG systems, community foundations, and an expanding simulation engine.",
-		filePath: "games/mitzvahWorld/index.html",
+		canonicalPath: "/games/city-of-light/",
+		description: "A 24-chapter pilgrimage with missions, abilities, saves, weather, wildlife, and generated terrain.",
+		filePath: "games/city-of-light/index.html",
 		kind: "game",
-		title: "Mitzvah World"
+		title: "City of Light"
 	},
 	{
-		canonicalPath: "/games/mitzvahWorld/templeRunner/",
-		description: "Sprint a native 3D Jerusalem road as the Chossid through procedural districts, hazards, turns, missions, and textured world detail.",
-		filePath: "games/mitzvahWorld/templeRunner/index.html",
+		canonicalPath: "/games/cobyk/",
+		description: "Recover six original 3D platform chambers with coins, spikes, elevators, disappearing supports, force tiles, and finish gates.",
+		filePath: "games/cobyk/index.html",
 		kind: "game",
-		title: "Temple Runner"
+		title: "CobyK"
 	},
 	{
-		canonicalPath: "/games/Nachash/",
-		description: "The familiar snake loop reborn as Nachash with an Awtsmoos visual identity.",
-		filePath: "games/Nachash/index.html",
+		canonicalPath: "/games/connect4/",
+		description: "Drop pieces, read the board, and connect four in a compact strategy duel.",
+		filePath: "games/connect4/index.html",
 		kind: "game",
-		title: "Nachash"
+		title: "Connect 4"
 	},
 	{
-		canonicalPath: "/games/neshama-quest/",
-		description: "Move through soul-world challenges in an original quest-driven adventure.",
-		filePath: "games/neshama-quest/index.html",
+		canonicalPath: "/games/dove/",
+		description: "Leap with the dove through a flood of motion in a compact platform journey.",
+		filePath: "games/dove/index.html",
 		kind: "game",
-		title: "Neshama Quest"
+		title: "Noah's Dove Jump"
 	},
 	{
-		canonicalPath: "/games/nitzotz-io/",
-		description: "Reveal hidden sparks, grow the vessel, and move through a raw WebGL social arena.",
-		filePath: "games/nitzotz-io/index.html",
+		canonicalPath: "/games/emojis/",
+		description: "A colorful emoji playground built for playful, lightweight sessions.",
+		filePath: "games/emojis/index.html",
 		kind: "game",
-		title: "Nitzotz.io"
+		title: "Emojis"
 	}
 ];

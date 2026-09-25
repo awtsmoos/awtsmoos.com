@@ -3,12 +3,27 @@
 // Blessed is He
 /**
  * @module DriveEntryMenu
- * @description Owns one action vocabulary that becomes popover or bottom sheet.
+ * @description Owns one readable action vocabulary that becomes desktop popover or phone sheet.
  * The Awtsmoos hides power until desire gives it a purposeful door;
- * Awtsmoos.com keeps the file surface calm, then reveals precisely more.
+ * Awtsmoos.com keeps More quiet, then reveals selection and filesystem verbs worth reading.
  */
 import { createDriveEntryGlyph } from './DriveEntryGlyph.js';
 import { usesDirectOpen } from './DriveInteractionMode.js';
+
+const LABELS = {
+	open: '↗ Open',
+	'toggle-select': '✓ Select item',
+	details: 'ⓘ File details',
+	download: '⤓ Download',
+	link: '🔗 Copy public link',
+	public: '🌐 Make public',
+	rename: '✎ Rename',
+	move: '📁 Move',
+	copy: '⧉ Make a copy',
+	trash: '🗑 Move to trash',
+	restore: '↶ Restore',
+	purge: '🗑 Delete forever'
+};
 
 export class DriveEntryMenu {
 	constructor(onAction) {
@@ -29,7 +44,7 @@ export class DriveEntryMenu {
 		trigger.setAttribute('aria-label', `More actions for ${name}`);
 		const popover = document.createElement('div');
 		popover.className = 'drive-entry-menu-popover';
-		popover.append(this.summary(presentation), this.closeButton(details));
+		popover.append(this.header(presentation, details));
 		for (const action of this.actions(entry)) {
 			popover.append(this.actionButton(action, entry, details));
 		}
@@ -37,21 +52,21 @@ export class DriveEntryMenu {
 		return details;
 	}
 
-	/** Gives the mobile sheet enough context without inflating every base row. */
-	summary(presentation) {
+	/** Gives the mobile sheet a stable glyph, file testimony, and Close affordance. */
+	header(presentation, details) {
 		const wrap = document.createElement('div');
 		wrap.className = 'drive-entry-menu-summary';
 		const text = document.createElement('span');
+		text.className = 'drive-entry-menu-testimony';
 		const name = document.createElement('strong');
 		name.textContent = presentation.name;
 		const meta = document.createElement('small');
 		meta.textContent = presentation.meta;
 		text.append(name, meta);
-		wrap.append(createDriveEntryGlyph(presentation, 'row'), text);
+		wrap.append(createDriveEntryGlyph(presentation, 'row'), text, this.closeButton(details));
 		return wrap;
 	}
 
-	/** Adds a phone-sheet close affordance without changing desktop menu semantics. */
 	closeButton(details) {
 		const button = document.createElement('button');
 		button.type = 'button';
@@ -64,9 +79,11 @@ export class DriveEntryMenu {
 	}
 
 	actions(entry) {
-		if (entry.trashedAt) return ['restore', 'purge'];
-		const actions = ['open', 'details'];
-		if (entry.type === 'file') actions.push(entry.visibility === 'public' ? 'link' : 'public');
+		if (entry.trashedAt) return ['toggle-select', 'restore', 'purge'];
+		const actions = ['open', 'toggle-select', 'details'];
+		if (entry.type === 'file') {
+			actions.push('download', entry.visibility === 'public' ? 'link' : 'public');
+		}
 		actions.push('rename', 'move', 'copy', 'trash');
 		return actions;
 	}
@@ -76,16 +93,12 @@ export class DriveEntryMenu {
 		button.type = 'button';
 		button.dataset.entryAction = action;
 		button.className = ['trash', 'purge'].includes(action) ? 'is-danger' : '';
-		button.textContent = this.label(action);
+		button.textContent = LABELS[action] || action;
 		button.addEventListener('click', event => {
 			event.stopPropagation();
 			details.open = false;
 			this.onAction(action, entry);
 		});
 		return button;
-	}
-
-	label(action) {
-		return ({ open: 'Open', details: 'File details', link: 'Copy public link', public: 'Make public', rename: 'Rename', move: 'Move', copy: 'Make a copy', trash: 'Move to trash', restore: 'Restore', purge: 'Delete forever' })[action] || action;
 	}
 }

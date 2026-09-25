@@ -1,0 +1,86 @@
+<!doctype html>
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals the production-shaped Torah list inside an isolated visual witness; Awtsmoos.com measures the real twelve Chassidus doorways directly at each mobile viewport.
+-->
+<html lang="en" data-heichel-experience="torah-first">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Ikar Chassidus UX Preview</title>
+	<link rel="stylesheet" href="../geelooy/style/heichelos/heichel/premium/ikar-first.css">
+	<style>
+		:root { color-scheme: dark; }
+		html, body { margin: 0; min-height: 100%; background: #030817; }
+		body { font-family: Arial, sans-serif; }
+		#metrics { display: none; }
+	</style>
+</head>
+<body data-heichel-id="ikar" data-heichel-ready="true">
+	<section class="heichel-shell-boot heichel-semantic-fallback ikar-first" data-heichel-semantic-fallback data-ikar-first="ready" aria-labelledby="heichel-boot-title">
+		<p class="civilization-kicker">Torah · Living Library</p>
+		<h1 id="heichel-boot-title">חסידות · Chassidus</h1>
+		<p class="heichel-semantic-description">Choose a section and enter directly. Search by Hebrew or English title without leaving the Torah path.</p>
+		<label class="ikar-first-search" data-ikar-stable-search>
+			<span>Search this section</span>
+			<input type="search" autocomplete="off" placeholder="Type a title in Hebrew or English">
+			<small aria-live="polite"></small>
+		</label>
+		<nav class="heichel-semantic-discovery" aria-label="Torah library">
+			<h2>Choose a section</h2>
+			<ul>
+				<li><a href="#derech">דרך מצותיך · Derech Mitzvosecha</a></li>
+				<li><a href="#sichos">לקוטי שיחות · Likkutei Sichos</a></li>
+				<li><a href="#torah">לקוטי תורה · Likkutei Torah</a></li>
+				<li><a href="#mittler">מאמרי אדמו״ר האמצעי · Maamarim of the Mitteler Rebbe</a></li>
+				<li><a href="#meluket">ספר המאמרים מלוקט · Sefer HaMaamarim Meluket</a></li>
+				<li><a href="#sefer-hasichos">ספר השיחות · Sefer HaSichos</a></li>
+				<li><a href="#tanya">ספר התניא · Tanya</a></li>
+				<li><a href="#5672">ספר המאמרים תער״ב · Sefer HaMaamarim 5672</a></li>
+				<li><a href="#ohr">תורה אור · Torah Or</a></li>
+				<li><a href="#chaim">תורת חיים · Toras Chaim</a></li>
+				<li><a href="#shmuel">תורת שמואל · Toras Shmuel</a></li>
+				<li><a href="#kodesh">שיחות קודש · Sichos Kodesh</a></li>
+			</ul>
+		</nav>
+		<p role="status">12 Torah pathways ready.</p>
+		<nav class="ikar-first-actions" data-ikar-stable-navigation aria-label="Torah navigation">
+			<a href="#home">Home</a><a href="#library">Torah Library</a>
+		</nav>
+	</section>
+	<pre id="metrics">waiting</pre>
+	<script>
+		// B"H — Awtsmoos.com measures this exact rendered Torah vessel after its CSS is complete.
+		function rectangle(element) {
+			const box = element?.getBoundingClientRect();
+			return box ? { top: Math.round(box.top), bottom: Math.round(box.bottom), height: Math.round(box.height), width: Math.round(box.width) } : null;
+		}
+
+		function publishMetrics() {
+			const cards = [...document.querySelectorAll('.heichel-semantic-discovery a')];
+			const longest = cards.reduce((best, card) => card.textContent.length > (best?.textContent.length || 0) ? card : best, null);
+			const data = {
+				viewportWidth: innerWidth,
+				viewportHeight: innerHeight,
+				documentWidth: document.documentElement.scrollWidth,
+				clientWidth: document.documentElement.clientWidth,
+				horizontalOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
+				title: rectangle(document.querySelector('#heichel-boot-title')),
+				search: rectangle(document.querySelector('.ikar-first-search')),
+				firstCard: rectangle(cards[0]),
+				cardHeights: [...new Set(cards.map(card => Math.round(card.getBoundingClientRect().height)))],
+				visibleCardsAt800: cards.filter(card => card.getBoundingClientRect().top < 800 && card.getBoundingClientRect().bottom > 0).length,
+				totalCards: cards.length,
+				longestTitle: longest?.textContent.trim() || '',
+				longestTitleRect: rectangle(longest)
+			};
+			document.querySelector('#metrics').textContent = JSON.stringify(data);
+			document.body.dataset.measurementReady = 'true';
+		}
+
+		if (document.readyState === 'complete') publishMetrics();
+		else window.addEventListener('load', () => requestAnimationFrame(publishMetrics), { once: true });
+	</script>
+</body>
+</html>

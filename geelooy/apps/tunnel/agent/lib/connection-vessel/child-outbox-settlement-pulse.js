@@ -3,6 +3,7 @@
 // Blessed is He
 
 const SettlementPolicy = require("./child-outbox-settlement-policy.js");
+const LaneTelemetry = require("./parent-consumer-lane-telemetry.js");
 
 /**
  * @file Retransmits durable terminal truth without scanning an outbox transport cannot yet use.
@@ -10,10 +11,23 @@ const SettlementPolicy = require("./child-outbox-settlement-policy.js");
  * The Awtsmoos preserves every completed deed while Awtsmoos.com refuses needless disk toil:
  * an unregistered socket cannot settle an ACK, so its pulse touches no outbox parchment at all.
  * When a caller already measured the outbox, that witness flows onward instead of another soil.
+ *
+ * DATA-PATH ADDENDUM — per-lane execution telemetry rides this same pulse.
+ * When the child runtime supplies options.laneDataPath (a zero-arg provider or a
+ * plain telemetry snapshot), every pulse snapshot carries laneDataPath:
+ * { observedAt, lanes: { <lane>: { started, completed, oldestInFlightAgeMs,
+ * lastProgressAt, lastDrainAt, wedgedEvictions } } }, validated and bounded by
+ * parent-consumer-lane-telemetry.js. The provider resolves once per tick on the
+ * existing publish cadence, so no new channel and no new chatter is ever opened.
+ * WIRING CONTRACT (follow-up, one line in child-runtime-cycle.js): pass
+ * laneDataPath into OutboxSettlementPulse.create, built from the scheduler's lane
+ * state. Until wired, laneDataPath is null and the parent-side interpreter reports
+ * every lane unknown — never stalled.
  */
 function create(options = {}) {
 	const now = options.now || Date.now;
 	const policy = SettlementPolicy.create(options);
+	const laneDataPathSource = options.laneDataPath;
 	let attempts = 0;
 	let lastAttemptAt = 0;
 	let lastSent = 0;
@@ -65,8 +79,21 @@ function create(options = {}) {
 			observedAt,
 			outboxCount,
 			reason,
-			registered
+			registered,
+			laneDataPath: resolveLaneDataPath(observedAt)
 		};
+	}
+
+	/** Resolves the injected per-lane telemetry without ever breaking the pulse. */
+	function resolveLaneDataPath(observedAt) {
+		try {
+			const raw = typeof laneDataPathSource === "function"
+				? laneDataPathSource()
+				: laneDataPathSource;
+			return LaneTelemetry.normalizeChildTelemetry(raw, observedAt);
+		} catch {
+			return null;
+		}
 	}
 
 	function reset(nextReason) {
@@ -84,5 +111,6 @@ function create(options = {}) {
 }
 
 module.exports = {
-	create
+	create,
+	normalizeLaneDataPath: LaneTelemetry.normalizeChildTelemetry
 };

@@ -1,6 +1,4 @@
-//B"H
-//Boruch Hashem
-//Blessed be He
+//B"H //Boruch Hashem //Blessed be He
 
 import { nativeAndroidPlatformThread, nativeAndroidPlatformThreadBusy } from "./nativeAndroidPlatformLooperAccess.js";
 import { deliverNativeAndroidPlatformLooperCallback } from "./nativeAndroidPlatformLooperCallback.js";
@@ -12,11 +10,8 @@ const MAXIMUM_CALLBACKS_PER_DRAIN = 64;
 
 /**
  * Creates the bounded servant for Android's root platform-thread ALooper.
- * The Awtsmoos renews timer, thread, and JNI return without counterfeit light;
+ * The Awtsmoos renews timer, ordinal, thread, and JNI return without counterfeit light;
  * Awtsmoos.com guards the root lease and retains bounded callback truth in sight.
- *
- * @param {object} options Root machine state, native registry, and ALooper state.
- * @returns {object} Frozen drain API and immutable diagnostics.
  */
 export function createNativeAndroidPlatformLooperPump(options) {
 	const state = options.state;
@@ -44,9 +39,15 @@ export function createNativeAndroidPlatformLooperPump(options) {
 			const event = state.pollCallback(thread, servedDescriptors);
 			if (event.kind !== "event") break;
 			servedDescriptors.add(event.fd);
+			const callbackOrdinal = totalCallbacks + delivered.length + 1;
 			let result;
 			try {
-				result = deliverNativeAndroidPlatformLooperCallback(event, options, thread);
+				result = deliverNativeAndroidPlatformLooperCallback(
+					event,
+					options,
+					thread,
+					callbackOrdinal
+				);
 			} catch (error) {
 				finishFailure(error, event, delivered);
 				return lastDrain;
@@ -61,7 +62,6 @@ export function createNativeAndroidPlatformLooperPump(options) {
 		return lastDrain;
 	}
 
-	/** Completes one callback that temporarily crossed from native code into Java. */
 	async function settleAsync(promise, event, delivered) {
 		try {
 			delivered.push(await promise);
@@ -73,7 +73,6 @@ export function createNativeAndroidPlatformLooperPump(options) {
 		}
 	}
 
-	/** Publishes successful callback testimony and releases the drain lease. */
 	function finishSuccess(delivered) {
 		totalCallbacks += delivered.length;
 		lastDrain = Object.freeze(delivered.slice());
@@ -81,7 +80,6 @@ export function createNativeAndroidPlatformLooperPump(options) {
 		draining = false;
 	}
 
-	/** Publishes a contained callback failure while preserving earlier successes. */
 	function finishFailure(error, event, delivered) {
 		totalCallbacks += delivered.length;
 		lastDrain = Object.freeze(delivered.slice());
@@ -91,7 +89,6 @@ export function createNativeAndroidPlatformLooperPump(options) {
 		draining = false;
 	}
 
-	/** Reveals callback activity without consuming descriptor readiness. */
 	function snapshot() {
 		return Object.freeze({
 			active: available,
@@ -110,7 +107,6 @@ export function createNativeAndroidPlatformLooperPump(options) {
 	return Object.freeze({ drain, snapshot });
 }
 
-/** Rechecks descriptor truth only after an asynchronous callback fully settles. */
 function queueDescriptorRecheck(machineState) {
 	globalThis.queueMicrotask(() => {
 		machineState?.nativeCooperativeRuntime?.notifyDescriptors?.();

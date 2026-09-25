@@ -3,10 +3,11 @@
 // Blessed is He
 
 /**
- * The Awtsmoos gives every tunnel vessel one language of presence. Apps Code,
- * Geelooy OS, and Awtsmoos.com may differ in shape without differing in truth.
+ * @file Canonical tunnel presence language shared by Awtsmoos.com surfaces.
+ * @description
+ * The Awtsmoos renews explicit lifecycle truth before stale transport memory can speak;
+ * Awtsmoos.com therefore lets reconnecting, failed, degraded, and offline phases outrank an old socket readyState.
  */
-
 export const TUNNEL_PRESENCE_STATES = Object.freeze({
 	DISABLED: "disabled",
 	CONNECTING: "connecting",
@@ -29,20 +30,9 @@ const PRESENTATIONS = Object.freeze({
 	unknown: ["Unknown", "muted", "Tunnel state has not been reported."]
 });
 
-/**
- * Normalizes one surface-specific tunnel state.
- *
- * @param {object} input Raw presence facts.
- * @returns {object} Canonical state, label, tone, and detail.
- */
 export function normalizeTunnelPresence(input = {}) {
-	const rawState = String(input.state || input.phase || "")
-		.trim()
-		.toLowerCase();
-	const state = resolvePresenceState({
-		...input,
-		rawState
-	});
+	const rawState = String(input.state || input.phase || "").trim().toLowerCase();
+	const state = resolvePresenceState({ ...input, rawState });
 	const [label, tone, defaultDetail] = PRESENTATIONS[state];
 	return Object.freeze({
 		state,
@@ -61,19 +51,25 @@ function resolvePresenceState(input) {
 	if (input.error || isOneOf(input.rawState, "error", "failed", "failure")) {
 		return TUNNEL_PRESENCE_STATES.FAILED;
 	}
-	if (input.connected === true || input.readyState === 1 || isOneOf(input.rawState, "connected", "online", "open")) {
-		return TUNNEL_PRESENCE_STATES.ONLINE;
+	if (isOneOf(input.rawState, "reconnecting", "retrying") || finiteAttempt(input.reconnectAttempt) > 0) {
+		return TUNNEL_PRESENCE_STATES.RECONNECTING;
 	}
 	if (isOneOf(input.rawState, "degraded", "limited")) {
 		return TUNNEL_PRESENCE_STATES.DEGRADED;
 	}
-	if (isOneOf(input.rawState, "reconnecting", "retrying") || finiteAttempt(input.reconnectAttempt) > 0) {
-		return TUNNEL_PRESENCE_STATES.RECONNECTING;
+	if (isOneOf(input.rawState, "disconnected", "offline", "closed", "stopped")) {
+		return TUNNEL_PRESENCE_STATES.OFFLINE;
 	}
-	if (input.readyState === 0 || isOneOf(input.rawState, "connecting", "starting", "registering")) {
+	if (isOneOf(input.rawState, "connecting", "starting", "registering")) {
 		return TUNNEL_PRESENCE_STATES.CONNECTING;
 	}
-	if (input.readyState === 2 || input.readyState === 3 || isOneOf(input.rawState, "disconnected", "offline", "closed", "stopped")) {
+	if (input.connected === true || input.readyState === 1 || isOneOf(input.rawState, "connected", "online", "open")) {
+		return TUNNEL_PRESENCE_STATES.ONLINE;
+	}
+	if (input.readyState === 0) {
+		return TUNNEL_PRESENCE_STATES.CONNECTING;
+	}
+	if (input.readyState === 2 || input.readyState === 3) {
 		return TUNNEL_PRESENCE_STATES.OFFLINE;
 	}
 	return TUNNEL_PRESENCE_STATES.UNKNOWN;

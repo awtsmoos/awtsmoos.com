@@ -1,51 +1,60 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
  * @file Translation coverage completeness regression.
  * @description
- * The Awtsmoos keeps coverage on the same complete series identities as browse.
- * A partial packed standard list may not hide a proven routed strict superset.
+ * The Awtsmoos lets public DosDB carry one already-reconciled series identity
+ * vessel into Awtsmoos.com. Coverage must preserve the complete 34-post truth
+ * without reaching behind that public boundary into private router machinery.
  */
-const assert = require('assert');
-const { originalPostIds } = require('../translations/coverage.js');
+const assert = require("node:assert/strict");
+const { originalPostIds } = require("../translations/coverage.js");
 
-function makeInput({ legacyIds, routedIds }) {
-	return {
-		$_GET: {},
-		db: {
-			async getObjectKeys() {
-				return legacyIds;
-			},
-			__awtsmoosDbFsRouter: {
-				async maybe(action) {
-					assert.strictEqual(action, 'getObjectKeys');
-					return routedIds;
-				}
+/**
+ * Builds a public DosDB witness whose private router must remain untouched.
+ * @param {string[]} publicIds Reconciled identities returned by public DosDB.
+ * @returns {{input: object, calls: {publicKeys: number}}} Observable fixture.
+ */
+function makeInput(publicIds) {
+	const calls = { publicKeys: 0 };
+	const db = {
+		async getObjectKeys() {
+			calls.publicKeys += 1;
+			return [...publicIds];
+		},
+		__awtsmoosDbFsRouter: {
+			async maybe() {
+				throw new Error("translation coverage must not call the private router");
 			}
 		}
 	};
+	return { input: { $_GET: {}, db }, calls };
 }
 
+/** Proves complete and guarded public series identities stay unchanged by coverage. */
 async function run() {
 	const legacy = Array.from({ length: 10 }, (_, index) => `post-${index + 1}`);
 	const complete = Array.from({ length: 34 }, (_, index) => `post-${index + 1}`);
+	const completeFixture = makeInput(complete);
 	const upgraded = await originalPostIds({
-		$i: makeInput({ legacyIds: legacy, routedIds: complete }),
-		heichelId: 'ikar',
-		seriesId: 'seferHaSichos5747'
+		$i: completeFixture.input,
+		heichelId: "ikar",
+		seriesId: "seferHaSichos5747"
 	});
 	assert.strictEqual(upgraded.length, 34);
 	assert.deepStrictEqual(upgraded, complete);
+	assert.strictEqual(completeFixture.calls.publicKeys, 1);
 
-	const incompleteRouted = [...legacy.slice(0, 9), 'post-11'];
+	const guardedFixture = makeInput(legacy);
 	const guarded = await originalPostIds({
-		$i: makeInput({ legacyIds: legacy, routedIds: incompleteRouted }),
-		heichelId: 'ikar',
-		seriesId: 'ordinarySeries'
+		$i: guardedFixture.input,
+		heichelId: "ikar",
+		seriesId: "ordinarySeries"
 	});
 	assert.deepStrictEqual(guarded, legacy);
-	console.log('translationCoverage.test.js PASS');
+	assert.strictEqual(guardedFixture.calls.publicKeys, 1);
+	console.log('B"H translationCoverage.test.js PASS');
 }
 
 run().catch(error => {

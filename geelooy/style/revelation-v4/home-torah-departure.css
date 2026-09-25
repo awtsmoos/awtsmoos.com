@@ -1,0 +1,87 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos turns honest waiting into a doorway while the browser keeps moving toward Torah;
+Awtsmoos.com lets the Beis Midrash appear in the interval without inventing progress, delay, or aura.
+*/
+.torah-departure {
+	position: fixed;
+	inset: 0;
+	z-index: 1000;
+	display: grid;
+	place-items: center;
+	padding: clamp(1rem, 4vw, 3rem);
+	overflow: hidden;
+	background:
+		radial-gradient(circle at 50% 48%, rgba(255, 212, 120, .2), transparent 18rem),
+		radial-gradient(circle at 22% 72%, rgba(126, 77, 255, .18), transparent 24rem),
+		radial-gradient(circle at 82% 28%, rgba(52, 218, 255, .12), transparent 22rem),
+		rgba(2, 3, 10, .9);
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	backdrop-filter: blur(22px) saturate(1.25);
+	transition: opacity 240ms ease, visibility 240ms ease;
+}
+
+body[data-torah-departing="true"] .torah-departure {
+	opacity: 1;
+	visibility: visible;
+}
+
+body[data-torah-departing="true"] main.home {
+	filter: blur(2px) saturate(.78) brightness(.56);
+	transform: scale(.982);
+	transition: filter 260ms ease, transform 320ms ease;
+}
+
+.torah-departure__portal,
+.torah-departure__copy {
+	position: relative;
+	z-index: 2;
+}
+
+.torah-departure__portal {
+	display: grid;
+	place-items: center;
+	width: clamp(7rem, 18vw, 11rem);
+	aspect-ratio: 1;
+	margin-inline: auto;
+	border: 1px solid rgba(255, 222, 151, .5);
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(255, 222, 157, .22), rgba(126, 78, 255, .12) 48%, rgba(3, 4, 14, .75) 72%);
+	box-shadow: 0 0 54px rgba(255, 196, 77, .24), 0 0 120px rgba(125, 75, 255, .2), inset 0 0 34px rgba(255, 230, 175, .14);
+	color: #ffe6a9;
+	font-size: clamp(3.4rem, 9vw, 6.2rem);
+	text-shadow: 0 0 28px rgba(255, 204, 98, .45);
+}
+
+.torah-departure__copy {
+	margin-top: 1.5rem;
+	text-align: center;
+	text-wrap: balance;
+}
+
+.torah-departure__copy strong,
+.torah-departure__copy small {
+	display: block;
+}
+
+.torah-departure__copy strong {
+	background: linear-gradient(110deg, #fff, #ffe3a4 58%, #bba2ff);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	font-size: clamp(1.8rem, 4.7vw, 4.4rem);
+	font-weight: 800;
+	letter-spacing: -.045em;
+	line-height: 1;
+}
+
+.torah-departure__copy small {
+	margin-top: .7rem;
+	color: #cbd3e5;
+	font-size: clamp(.8rem, 1.5vw, 1rem);
+	letter-spacing: .13em;
+	text-transform: uppercase;
+}

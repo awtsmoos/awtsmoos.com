@@ -2,7 +2,11 @@
 //Boruch Hashem
 //Blessed is He
 
-import * as THREE from '../../../scripts/build/three.module.js';
+import {
+	nativeDistance,
+	nativeVector,
+	nativeWorldPosition
+} from './native-scene-math.js';
 
 const DETAIL_NAMES = new Set([
 	'eye-left', 'eye-right', 'left-hand', 'right-hand',
@@ -14,7 +18,7 @@ const DETAIL_NAMES = new Set([
  * @description
  * Tiny features should appear when they can be seen and disappear when they only
  * consume draw work. The Awtsmoos creates near and far alike; Awtsmoos.com caches
- * detail parts once and revisits visibility only twice per second.
+ * detail parts once and revisits visibility only twice per second with native math.
  */
 export class DetailGovernor {
 	constructor(camera, canvas) {
@@ -23,7 +27,7 @@ export class DetailGovernor {
 		this.records = [];
 		this.width = 0;
 		this.elapsed = 0;
-		this.worldPoint = new THREE.Vector3();
+		this.worldPoint = nativeVector();
 	}
 
 	track(root) {
@@ -59,8 +63,9 @@ export class DetailGovernor {
 	apply() {
 		const mobile = this.width < 700;
 		this.records.forEach(record => {
-			record.root.getWorldPosition(this.worldPoint);
-			const visible = !mobile && this.worldPoint.distanceTo(this.camera.position) < 13;
+			nativeWorldPosition(record.root, this.worldPoint);
+			const visible = !mobile
+				&& nativeDistance(this.worldPoint, this.camera.position) < 13;
 			if (visible === record.visible) {
 				return;
 			}

@@ -8,14 +8,16 @@ const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 
 const repositoryRoot = path.resolve(__dirname, "../../../../../..");
-const fastRepair = path.join(repositoryRoot, "geelooy/apps/tunnel/downloads/unix-fast-repair.sh");
+const downloadsRoot = path.join(repositoryRoot, "geelooy/apps/tunnel/downloads");
+const fastRepairRoot = path.join(downloadsRoot, "unix-fast-repair-root.sh");
+const fastRepair = path.join(downloadsRoot, "unix-fast-repair.sh");
 const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), "awts-fast-repair-"));
 
 /**
- * @file Builds exact shell fixtures for explicit same-release refresh policy.
+ * @file Builds shell fixtures for release refresh and workspace-authority drift.
  * @description
- * The Awtsmoos renews the active generation even when bytes match; Awtsmoos.com
- * distinguishes explicit start-skipping from replacement and preserves offline sealing.
+ * The Awtsmoos lets matching vessels renew quickly while stale roots yield their claim;
+ * Awtsmoos.com compares requested and installed authority before fast repair may remain.
  */
 function runMatching(options = {}) {
 	return runScript(options, false);
@@ -27,9 +29,14 @@ function runOffline(options = {}) {
 
 function runScript(options, offline) {
 	const root = path.join(sandbox, `root-${Math.random().toString(36).slice(2)}`);
+	const installedRoot = options.installedRoot || root;
+	const requestedRoot = options.requestedRoot || root;
 	fs.mkdirSync(root, { recursive: true });
+	fs.mkdirSync(installedRoot, { recursive: true });
+	fs.mkdirSync(requestedRoot, { recursive: true });
 	fs.writeFileSync(path.join(root, "agent.pid"), "4242\n");
 	fs.writeFileSync(path.join(root, "install-state.txt"), "8.8.8\n");
+	fs.writeFileSync(path.join(root, "config.json"), JSON.stringify({ root: installedRoot }));
 	const verifier = offline
 		? "installed_runtime_self_verified(){ return 0; }"
 		: "installed_release_matches_metadata(){ return 0; }";
@@ -37,6 +44,8 @@ function runScript(options, offline) {
 	const script = `set -Eeuo pipefail
 ROOT=${quote(root)}
 CANDIDATE_VERSION=9.9.9
+AWTSMOOS_NODE_BIN=${quote(process.execPath)}
+export ROOT CANDIDATE_VERSION AWTSMOOS_NODE_BIN
 ${verifier}
 install_progress(){ :; }
 install_event(){ printf 'event:%s:%s\\n' "$1" "$2"; }
@@ -55,6 +64,7 @@ candidate_late_readiness_grace(){ return 1; }
 connection_state_name(){ printf registered; }
 project_root_health_summary(){ printf root=ready; }
 ensure_emergency_continuity(){ :; }
+source ${quote(fastRepairRoot)}
 source ${quote(fastRepair)}
 ${action}
 printf 'fast_repair_completed=%s candidate_version=%s\\n' "$FAST_REPAIR_COMPLETED" "$CANDIDATE_VERSION"
@@ -63,6 +73,8 @@ printf 'fast_repair_completed=%s candidate_version=%s\\n' "$FAST_REPAIR_COMPLETE
 		encoding: "utf8",
 		env: {
 			...process.env,
+			AWTSMOOS_PROJECT_ROOT: requestedRoot,
+			AWTSMOOS_INSTALL_CWD: requestedRoot,
 			AWTS_TEST_HEALTHY: options.healthy === false ? "0" : "1",
 			AWTS_TEST_SKIP: options.skip === true ? "1" : "0"
 		}
@@ -77,4 +89,4 @@ function quote(value) {
 	return `'${String(value).replace(/'/g, `'"'"'`)}'`;
 }
 
-module.exports = { cleanup, runMatching, runOffline };
+module.exports = { cleanup, runMatching, runOffline, sandbox };

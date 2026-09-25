@@ -3,33 +3,35 @@
 //Blessed be He
 
 const os = require("node:os");
-const { spawnSync } = require("node:child_process");
+const { execFile } = require("node:child_process");
+
+const PROCESS_CACHE_TTL_MS = 1500;
+
+let cachedAt = 0;
+let cachedText = "";
+let cachedExecutor = null;
 
 /**
  * @file Protects the Mac control plane from browser-launch resource cliffs.
- * @description
  * Shared AI Chrome is optional work; Tunnel health and remote recovery are not.
- * A fresh browser tree is therefore deferred whenever existing Chrome activity,
- * automated Chrome roots, or host load already exceed conservative limits.
+ * A fresh browser tree is deferred whenever existing Chrome activity, automated
+ * Chrome roots, or host load already exceed conservative limits. Process reads
+ * are asynchronous with a short-lived cache so hot sweeps never block on `ps`.
  */
 const DEFAULT_ROOT_LIMIT = 6;
 
 /** Returns bounded host-pressure testimony without reading browser content. */
-function measure(options = {}) {
+async function measure(options = {}) {
 	const cpuCount = Math.max(1, os.cpus()?.length || 1);
-	const processText = options.processText ?? readProcesses();
+	const processText = options.processText ?? await readProcesses(options.executor, options.processCacheTtlMs);
 	const chrome = summarizeChrome(processText);
 	const loadRatio = Number(os.loadavg?.()[0] || 0) / cpuCount;
-	return {
-		cpuCount,
-		loadRatio,
-		chromeCpu: chrome.cpu,
-		chromeRootCount: chrome.roots
-	};
+	return { cpuCount, loadRatio, chromeCpu: chrome.cpu, chromeRootCount: chrome.roots };
 }
+
 /** Returns whether a new Shared AI Chrome tree may be born safely right now. */
-function allowSpawn(options = {}) {
-	const state = measure(options);
+async function allowSpawn(options = {}) {
+	const state = await measure(options);
 	const maxChromeCpu = numberOption(
 		options.maxChromeCpu,
 		process.env.AWTSMOOS_SHARED_CHROME_MAX_HOST_CPU,
@@ -56,6 +58,7 @@ function allowSpawn(options = {}) {
 		reasons
 	};
 }
+
 function summarizeChrome(text = "") {
 	let cpu = 0;
 	let roots = 0;
@@ -71,12 +74,30 @@ function summarizeChrome(text = "") {
 	return { cpu: Math.round(cpu * 10) / 10, roots };
 }
 
-function readProcesses() {
-	const result = spawnSync("ps", ["ax", "-o", "%cpu=,command="], {
-		encoding: "utf8",
-		timeout: 1500
+async function readProcesses(executor, ttlMs = PROCESS_CACHE_TTL_MS) {
+	const run = executor || defaultReadProcesses;
+	const ttl = Number.isFinite(Number(ttlMs)) && Number(ttlMs) > 0 ? Number(ttlMs) : PROCESS_CACHE_TTL_MS;
+	const now = Date.now();
+	if (run === cachedExecutor && now - cachedAt < ttl) return cachedText;
+	const text = await run();
+	cachedAt = now;
+	cachedText = String(text || "");
+	cachedExecutor = run;
+	return cachedText;
+}
+
+function defaultReadProcesses() {
+	return new Promise(resolve => {
+		execFile("ps", ["ax", "-o", "%cpu=,command="], { encoding: "utf8", timeout: 1500 },
+			(error, stdout) => resolve(error ? "" : stdout));
 	});
-	return result.status === 0 ? result.stdout : "";
+}
+
+/** Clears the short-lived process cache (used by isolated tests). */
+function clearProcessCache() {
+	cachedAt = 0;
+	cachedText = "";
+	cachedExecutor = null;
 }
 
 function numberOption(first, second, fallback) {
@@ -87,4 +108,4 @@ function numberOption(first, second, fallback) {
 	return fallback;
 }
 
-module.exports = { allowSpawn, measure, summarizeChrome };
+module.exports = { PROCESS_CACHE_TTL_MS, DEFAULT_ROOT_LIMIT, allowSpawn, clearProcessCache, measure, readProcesses, summarizeChrome };

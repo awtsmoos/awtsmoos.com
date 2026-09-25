@@ -1,0 +1,103 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos opens many real doors from one simple source of light;
+Awtsmoos.com lets Torah, creation, play, and ownership each reveal their hue in sight.
+*/
+body[data-geelooy-route="home"] .action-panel {
+	margin-top: .4rem;
+	padding: .18rem;
+	border-radius: 1.5rem;
+	background: linear-gradient(135deg, rgba(71, 139, 255, .035), rgba(132, 75, 255, .035));
+}
+
+body[data-geelooy-route="home"] .search-shell {
+	border-radius: 1.35rem;
+	box-shadow: 0 22px 64px rgba(0, 0, 0, .34), 0 0 54px rgba(70, 161, 255, .1);
+}
+
+body[data-geelooy-route="home"] .search {
+	border: 1px solid rgba(121, 204, 255, .26);
+	background:
+		radial-gradient(circle at 10% 50%, rgba(45, 192, 255, .09), transparent 16rem),
+		linear-gradient(135deg, rgba(6, 14, 32, .94), rgba(17, 8, 34, .92));
+	box-shadow: inset 0 1px rgba(255, 255, 255, .04);
+	backdrop-filter: blur(20px) saturate(1.15);
+}
+
+body[data-geelooy-route="home"] .portal-shortcuts {
+	gap: .78rem;
+	margin-top: 1rem;
+}
+
+body[data-geelooy-route="home"] .portal-shortcuts a {
+	--portal-accent: 122, 108, 255;
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	min-height: 5.7rem;
+	border-color: rgba(var(--portal-accent), .3);
+	background:
+		radial-gradient(circle at 14% 18%, rgba(var(--portal-accent), .17), transparent 8rem),
+		linear-gradient(145deg, rgba(14, 18, 39, .97), rgba(7, 7, 23, .98));
+	box-shadow: 0 20px 48px rgba(0, 0, 0, .28), 0 0 32px rgba(var(--portal-accent), .06), inset 0 1px rgba(255, 255, 255, .045);
+}
+
+body[data-geelooy-route="home"] .portal-shortcuts a[href="/heichelos/ikar"] {
+	--portal-accent: 255, 196, 82;
+}
+
+body[data-geelooy-route="home"] .portal-shortcuts a[href="/games/"] {
+	--portal-accent: 255, 102, 176;
+}
+
+body[data-geelooy-route="home"] .portal-shortcuts a[href="/apps/"] {
+	--portal-accent: 80, 224, 190;
+}
+
+body[data-geelooy-route="home"] .portal-shortcuts a[href="/apps/wallet/"] {
+	--portal-accent: 157, 111, 255;
+}
+
+body[data-geelooy-route="home"] .portal-shortcuts a::after {
+	position: absolute;
+	inset: auto -20% -88% 8%;
+	z-index: -1;
+	height: 145%;
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(var(--portal-accent), .29), transparent 67%);
+	content: "";
+	pointer-events: none;
+	transform: scale(.92);
+	transition: transform var(--g4-normal) var(--g4-ease), opacity var(--g4-normal) var(--g4-ease);
+}
+
+body[data-geelooy-route="home"] .portal-shortcuts a > span {
+	border-color: rgba(var(--portal-accent), .46);
+	background: linear-gradient(145deg, rgba(var(--portal-accent), .2), rgba(255, 255, 255, .025));
+	box-shadow: 0 0 28px rgba(var(--portal-accent), .15), inset 0 1px rgba(255, 255, 255, .08);
+	color: rgb(var(--portal-accent));
+}
+
+body[data-geelooy-route="home"] .portal-shortcuts strong {
+	color: #f9f7ff;
+	font-size: .92rem;
+	letter-spacing: -.015em;
+}
+
+body[data-geelooy-route="home"] .portal-shortcuts small {
+	color: #99a8bd;
+	font-size: .65rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	body[data-geelooy-route="home"] .portal-shortcuts a:hover {
+		border-color: rgba(var(--portal-accent), .62);
+		box-shadow: 0 30px 72px rgba(0, 0, 0, .42), 0 0 48px rgba(var(--portal-accent), .15);
+		transform: translateY(-6px) scale(1.008);
+	}
+
+	body[data-geelooy-route="home"] .portal-shortcuts a:hover::after {
+		transform: scale(1.18);
+	}
+}

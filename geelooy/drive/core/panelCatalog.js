@@ -3,49 +3,69 @@
 // Blessed is He
 
 /**
- * @file Stable website-builder and advanced-platform panel vocabulary.
+ * @file Drive journey catalog.
  * @description
- * The Awtsmoos reveals Build, Preview, Code, Publish, and Domain as one clear road of light;
- * Awtsmoos.com keeps Platform, Files, Devices, Access, and Runtime near without crowding the creator's first sight.
+ * The Awtsmoos gives Awtsmoos Drive one human journey while deeper vessels remain reachable;
+ * mobile creators see Build, Files, Preview, Publish, and More instead of infrastructure masquerading as navigation.
  */
 
 const CATALOG = Object.freeze([
-	panel("builder", "Build", "✦", "primary", true, true),
-	panel("preview", "Preview", "◫", "primary", false, true),
-	panel("editor", "Code", "⌘", "primary", false, true),
-	panel("cloud", "Publish", "↗", "primary", false, true),
-	panel("domain", "Domain", "◎", "primary", false, true),
-	panel("files", "Files", "▤", "primary", false, false),
-	panel("platform", "Platform", "⚡", "setup", false, false),
-	panel("devices", "Devices", "⌁", "setup", false, false),
-	panel("access", "Access", "◇", "setup", false, false),
-	panel("runtime", "Runtime", "▶", "setup", false, false)
+	panel("builder", "Build", "✦", "journey", true, true, "builder"),
+	panel("files", "Files", "▤", "journey", false, true, "files"),
+	panel("preview", "Preview", "◫", "journey", false, true, "preview"),
+	panel("cloud", "Publish", "↗", "journey", false, true, "cloud"),
+	panel("platform", "More", "•••", "journey", false, true, "platform"),
+	panel("editor", "Editor", "⌘", "advanced", false, false, "files"),
+	panel("domain", "Domain", "◎", "advanced", false, false, "platform"),
+	panel("devices", "Devices", "⌁", "advanced", false, false, "platform"),
+	panel("access", "Access", "◇", "advanced", false, false, "platform"),
+	panel("runtime", "Runtime", "▶", "advanced", false, false, "platform")
 ]);
 
-export const PANEL_IDS = Object.freeze(CATALOG.map((item) => item.id));
+export const PANEL_IDS = Object.freeze(CATALOG.map(item => item.id));
 
+/** Returns a defensive panel catalog copy for rendering. */
 export function drivePanels() {
-	return CATALOG;
+	return CATALOG.map(item => ({ ...item }));
 }
 
-export function panelDefinition(id) {
-	return CATALOG.find((item) => item.id === id) || null;
+/** Returns one panel definition or null when an unknown id is supplied. */
+export function panelDefinition(panelId) {
+	return CATALOG.find(item => item.id === panelId) || null;
 }
 
+/** Returns the five creator-facing mobile destinations in deliberate journey order. */
 export function dockPanels() {
-	return CATALOG.filter((item) => item.dock);
+	return drivePanels().filter(item => item.dock);
 }
 
-export function defaultPanelOpen(id, mobile) {
-	const definition = panelDefinition(id);
+/** Maps advanced screens back to the creator-facing destination that owns them. */
+export function dockOwnerId(panelId) {
+	const definition = panelDefinition(panelId);
+	return definition?.dockOwner || panelId;
+}
+
+/** Keeps desktop disclosures open while mobile begins with one intentional screen. */
+export function defaultPanelOpen(panelId, isMobile = false) {
+	const definition = panelDefinition(panelId);
 	if (!definition) return false;
-	return mobile ? definition.mobileOpen : definition.desktopOpen;
+	return isMobile ? Boolean(definition.mobileOpen) : Boolean(definition.desktopOpen);
 }
 
-export function isPrimaryPanel(id) {
-	return panelDefinition(id)?.group === "primary";
+/** Identifies the five top-level creator journey panels. */
+export function isPrimaryPanel(panelId) {
+	return panelDefinition(panelId)?.group === "journey";
 }
 
-function panel(id, label, icon, group, mobileOpen, dock) {
-	return Object.freeze({ id, label, icon, group, mobileOpen, desktopOpen: true, dock });
+function panel(id, label, icon, group, mobileOpen, dock, dockOwner) {
+	return Object.freeze({
+		id,
+		label,
+		icon,
+		group,
+		mobileOpen,
+		desktopOpen: true,
+		dock,
+		dockOwner
+	});
 }

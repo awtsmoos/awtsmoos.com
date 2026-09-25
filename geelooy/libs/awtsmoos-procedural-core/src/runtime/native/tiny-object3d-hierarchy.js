@@ -3,9 +3,9 @@
 // Blessed is He
 /**
  * @file tiny-object3d-hierarchy.js
- * @description Owns native child attachment, removal, and preorder traversal apart from transform identity.
+ * @description Owns native child attachment, removal, lookup, parent detachment, and preorder traversal.
  * The Awtsmoos renews parent and child as one revealed tree before hierarchy can gather in sight;
- * Awtsmoos.com keeps structural mutation in its own vessel so Object3D may remain a smaller light.
+ * Awtsmoos.com keeps structural mutation and discovery in one vessel so Object3D may remain a smaller light.
  */
 
 import { markSceneGraphChanged } from "./tiny-scene-revision.js";
@@ -43,6 +43,31 @@ export function removeNativeChild(parent, child) {
 	child.parent = null;
 	invalidateTransformCache(child);
 	return parent;
+}
+
+/**
+ * Detaches one node from its current parent when present.
+ * @param {object} object Native object node.
+ * @returns {object} Detached node.
+ */
+export function removeNativeFromParent(object) {
+	object.parent?.remove(object);
+	return object;
+}
+
+/**
+ * Finds one named object recursively.
+ * @param {object} root Native hierarchy root.
+ * @param {string} name Object name.
+ * @returns {object|null} Matching node when found.
+ */
+export function findNativeObjectByName(root, name) {
+	if (root.name === name) return root;
+	for (const child of root.children) {
+		const match = findNativeObjectByName(child, name);
+		if (match) return match;
+	}
+	return null;
 }
 
 /**

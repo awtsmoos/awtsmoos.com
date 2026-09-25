@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @module SearchCapabilitiesView
  * @description
  * The Awtsmoos turns hidden engine state into calm promises a reader can understand at a glance;
- * Awtsmoos.com distinguishes indexed meaning from merely stored vectors, so capability never wears a false mask.
+ * Awtsmoos.com keeps capability chrome optional, so an absent panel can never silence the search itself.
  */
 
 const COMMON_EXACT_SERIES = [
@@ -28,15 +28,22 @@ function laneCountCopy(count, singular, plural = `${singular}s`) {
 	return `${count} ${count === 1 ? singular : plural}`;
 }
 
+function setText(node, text) {
+	if (!node) return false;
+	node.textContent = text;
+	return true;
+}
+
 function addOption(list, value, label) {
-	if (!value) return;
+	if (!list || !value) return false;
 	const duplicate = Array.from(list.options)
 		.some(option => option.value === value);
-	if (duplicate) return;
+	if (duplicate) return false;
 	const option = document.createElement('option');
 	option.value = value;
 	option.label = label;
 	list.append(option);
+	return true;
 }
 
 function semanticCopy(semantic = {}) {
@@ -64,34 +71,45 @@ export function renderSearchCapabilities({
 	exactStatus,
 	libraryStatus,
 	exactCorpusList
-}) {
+} = {}) {
 	const lanes = Array.isArray(capabilities?.lanes)
 		? capabilities.lanes
 		: [];
 	const exact = capabilities?.modes?.exact || {};
-	libraryStatus.textContent = laneCountCopy(lanes.length, 'published lane');
-	semanticStatus.textContent = semanticCopy(capabilities?.semantic || {});
+	const corpora = Array.isArray(exact.prebuiltCorpora)
+		? exact.prebuiltCorpora
+		: [];
 	const excluded = Array.isArray(exact.excludedSeriesFamilies)
 		? exact.excludedSeriesFamilies
 		: [];
-	exactStatus.textContent = exact.genericIkarSeries
+
+	setText(libraryStatus, laneCountCopy(lanes.length, 'published lane'));
+	setText(semanticStatus, semanticCopy(capabilities?.semantic || {}));
+	setText(exactStatus, exact.genericIkarSeries
 		? `Canonical Ikar exact search · ${excluded.length} typo-prone families excluded`
-		: laneCountCopy((exact.prebuiltCorpora || []).length, 'exact corpus', 'exact corpora');
-	exactCorpusList.replaceChildren();
-	for (const corpus of exact.prebuiltCorpora || []) {
-		addOption(exactCorpusList, corpus, corpus);
-	}
-	if (exact.genericIkarSeries) {
-		for (const [id, label] of COMMON_EXACT_SERIES) {
-			addOption(exactCorpusList, id, label);
+		: laneCountCopy(corpora.length, 'exact corpus', 'exact corpora'));
+
+	if (exactCorpusList) {
+		exactCorpusList.replaceChildren();
+		for (const corpus of corpora) addOption(exactCorpusList, corpus, corpus);
+		if (exact.genericIkarSeries) {
+			for (const [id, label] of COMMON_EXACT_SERIES) {
+				addOption(exactCorpusList, id, label);
+			}
 		}
 	}
-	panel.dataset.semanticState = capabilities?.semantic?.worker?.state || 'idle';
+
+	if (panel?.dataset) {
+		panel.dataset.semanticState = capabilities?.semantic?.worker?.state || 'idle';
+	}
+	return Boolean(panel || semanticStatus || exactStatus || libraryStatus || exactCorpusList);
 }
 
 export function renderCapabilitiesUnavailable(panel) {
-	panel.dataset.semanticState = 'unknown';
+	if (!panel) return false;
+	if (panel.dataset) panel.dataset.semanticState = 'unknown';
 	panel.querySelectorAll('[data-capability-value]').forEach(node => {
 		node.textContent = 'Checking live API…';
 	});
+	return true;
 }

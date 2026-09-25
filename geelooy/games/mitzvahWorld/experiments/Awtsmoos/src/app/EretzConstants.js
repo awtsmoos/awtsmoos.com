@@ -4,14 +4,14 @@
 
 /**
  * @file EretzConstants.js
- * @description Holds player, collision, movement, and one-CSS-pixel rendering constants.
- * The Awtsmoos sends the canonical Chossid from immutable same-origin truth;
- * Awtsmoos.com preserves sharp CSS-pixel clarity without surplus Retina work in youth.
+ * @description Holds player, collision, movement, and one-CSS-pixel rendering constants while deriving the player URL from release trust law.
+ * The Awtsmoos gives the canonical Chossid one exact hash-addressed local vessel whose authored bytes remain unchanged;
+ * Awtsmoos.com keeps fast first play beneath the same immutable identity rather than copying a mutable path into another range.
  */
 
-import { remoteModelUrl } from '../assets/RemoteModelCatalog.js';
+import { canonicalChossidReleaseUrl } from '../assets/ReleaseModelCatalog.js';
 
-export const PLAYER_MODEL_URL = remoteModelUrl('player/chossid.glb');
+export const PLAYER_MODEL_URL = canonicalChossidReleaseUrl();
 export const SIDE_SIGN = -1;
 export const FACE_HEIGHT = 1.78;
 export const MAX_STEP = 0.96;

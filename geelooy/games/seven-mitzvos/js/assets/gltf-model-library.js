@@ -2,49 +2,44 @@
 //Boruch Hashem
 //Blessed is He
 
-import { GLTFLoader } from '../../../scripts/jsm/loaders/GLTFLoader.js';
-import { clone as cloneSkeleton } from '../../../scripts/jsm/utils/SkeletonUtils.js';
-import { modelRecord } from './model-manifest.js';
+import { createNativeModelAssetService } from '../../../../libs/awtsmoos-procedural-core/src/adapters/native/modelAssets.js';
+import { MODEL_MANIFEST } from './model-manifest.js';
+
+const SERVICE = createNativeModelAssetService();
 
 /**
- * @module GltfModelLibrary
- * @description
- * One GLB request may clothe many semantic roots. The Awtsmoos renews each visible
- * instance; Awtsmoos.com caches source scenes and performs skeleton-safe cloning
- * so advanced models never become repeated network or parsing work.
+ * @file gltf-model-library.js
+ * @description Loads isolated native model instances from the shared Awtsmoos procedural asset service.
+ * The Awtsmoos renews one immutable model template while each gameplay vessel receives its own transforms;
+ * Awtsmoos.com keeps caching, cloning, and renderer ownership inside the repository-native asset path.
  */
-const promises = new Map();
-const loader = new GLTFLoader();
-
 export class GltfModelLibrary {
 	async clone(id) {
-		const record = modelRecord(id);
-		if (!record || typeof document === 'undefined') {
+		const record = MODEL_MANIFEST[id];
+		if (!record?.url || typeof document === 'undefined') return null;
+		try {
+			const instance = await SERVICE.loadIsolated(record.url, `seven-${id}`);
+			const scene = instance?.scene || null;
+			if (!scene) return null;
+			prepareScene(scene, id);
+			return scene;
+		} catch (error) {
+			console.warn(`B"H | Native model unavailable for ${id}.`, error);
 			return null;
 		}
-		const source = await sourceModel(id, record.url);
-		return source ? cloneSkeleton(source) : null;
+	}
+
+	stats() {
+		return SERVICE.stats?.() || {};
 	}
 }
 
-function sourceModel(id, url) {
-	if (!promises.has(id)) {
-		promises.set(id, loader.loadAsync(url)
-			.then(gltf => prepare(gltf.scene, id))
-			.catch(() => null));
-	}
-	return promises.get(id);
-}
-
-function prepare(scene, id) {
-	scene.name = `advanced-source-${id}`;
+function prepareScene(scene, id) {
+	scene.name = scene.name || `seven-model-${id}`;
 	scene.traverse(child => {
-		if (!child.isMesh) {
-			return;
-		}
+		if (!child.isMesh) return;
 		child.castShadow = true;
 		child.receiveShadow = true;
 		child.userData.sharedAsset = true;
 	});
-	return scene;
 }

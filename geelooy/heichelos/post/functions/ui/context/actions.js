@@ -5,28 +5,34 @@
 /**
  * @module ReaderContextActions
  * @description
- * The Awtsmoos lets the learner's immediate next deed appear first while utility actions wait behind a quieter second layer;
- * Awtsmoos.com makes Hebrew word definition, Tanach search, and related Torah direct instead of burying study beneath generic reader controls.
+ * The Awtsmoos lets every selected Torah word enter one coherent study vessel;
+ * Awtsmoos.com sends Translate, Tanach, and Related through the shared Study Sheet while utility actions stay secondary.
  */
 
 import { startWordSelection } from '../selection/selectionMode.js';
 import { preservedReaderActions } from './preservedActions.js';
 import { selectedHebrew } from './hebrewToken.js';
 import { fullLibrarySearchUrl } from './relatedDestinations.js';
-import { showRelatedSearch } from './relatedSearchPanel.js';
 import { selectedReaderText } from './selectedText.js';
-import { showTanachResults } from './tanachPanel.js';
+import { openStudySheet } from './studySheetController.js';
 
 const primary = action => ({ ...action, importance: 'primary' });
 const secondary = action => ({ ...action, importance: 'secondary' });
 
-function tokenSubject(event, token) {
-	if (!token?.text) return null;
-	const anchor = event?.target?.closest?.(
+/** Finds the nearest reader element that gave a word or phrase its context. */
+function contextAnchor(event) {
+	return event?.target?.closest?.(
 		'[data-awtsmoos-idx], .comment-content, .inline-comment, p, li, blockquote'
 	) || event?.target || null;
+}
+
+/** Builds one normalized Hebrew study subject from a visible reader fragment. */
+function hebrewSubject(event, text) {
+	const anchor = contextAnchor(event);
+	const normalized = String(text || '').trim();
+	if (!normalized) return null;
 	return {
-		text: token.text,
+		text: normalized,
 		language: 'hebrew',
 		origin: anchor?.closest?.('.comment-content, .inline-comment')
 			? 'comment-selection'
@@ -35,38 +41,70 @@ function tokenSubject(event, token) {
 	};
 }
 
-function openLanguageTools(text) {
-	const url = new URL('/heichelos/ikar/series/torah-language-tools', window.location.origin);
-	url.searchParams.set('lookup', text);
-	window.open(`${url.pathname}${url.search}`, '_blank', 'noopener,noreferrer')?.focus?.();
+/** Prefers the richer selected-text object and falls back to explicit text. */
+function studySubject(event, selected, text) {
+	if (selected?.text) return selected;
+	return hebrewSubject(event, text);
 }
 
+/** Opens full global library search as a secondary continuation path. */
 function openFullSearch(text) {
-	window.open(fullLibrarySearchUrl(text), '_blank', 'noopener,noreferrer')?.focus?.();
+	window.open(
+		fullLibrarySearchUrl(text),
+		'_blank',
+		'noopener,noreferrer'
+	)?.focus?.();
 }
 
+/** Builds the current reader action menu around one shared Study Sheet. */
 export function actionBlueprints(event, token) {
 	const actions = preservedReaderActions(event);
 	const phrase = selectedHebrew();
 	const selected = selectedReaderText();
-	const subject = selected || tokenSubject(event, token);
+	const subject = studySubject(event, selected, token?.text || phrase?.text);
 
-	if (token) {
+	if (token?.text) {
+		const word = hebrewSubject(event, token.text);
 		actions.unshift(
-			primary({ label: 'Define this word', icon: 'ס', action: () => openLanguageTools(token.text) }),
-			primary({ label: 'Search this word in Tanach', icon: 'ת', action: () => showTanachResults(token.text) })
+			primary({
+				label: 'Translate & define',
+				icon: 'ס',
+				action: () => openStudySheet(word, 'translate')
+			}),
+			primary({
+				label: 'Search word in Tanach',
+				icon: 'ת',
+				action: () => openStudySheet(word, 'tanach')
+			})
 		);
-		actions.push(secondary({ label: 'Select more words', icon: 'א', action: () => startWordSelection(token) }));
-	}
-	if (phrase?.text.includes(' ')) {
-		actions.unshift(primary({
-			label: 'Search selected phrase in Tanach', icon: '״', action: () => showTanachResults(phrase.text)
+		actions.push(secondary({
+			label: 'Select more words',
+			icon: 'א',
+			action: () => startWordSelection(token)
 		}));
 	}
+
+	if (phrase?.text.includes(' ')) {
+		const phraseSubject = studySubject(event, selected, phrase.text);
+		actions.unshift(primary({
+			label: 'Search phrase in Tanach',
+			icon: '״',
+			action: () => openStudySheet(phraseSubject, 'tanach')
+		}));
+	}
+
 	if (subject) {
 		actions.push(
-			primary({ label: 'Find related sources', icon: '⌕', action: () => showRelatedSearch(subject) }),
-			secondary({ label: 'Open full library search', icon: '↗', action: () => openFullSearch(subject.text) })
+			primary({
+				label: 'Find related Torah',
+				icon: '⌕',
+				action: () => openStudySheet(subject, 'related')
+			}),
+			secondary({
+				label: 'Open full library search',
+				icon: '↗',
+				action: () => openFullSearch(subject.text)
+			})
 		);
 	}
 	return actions;

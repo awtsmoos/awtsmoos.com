@@ -3,7 +3,7 @@
 /* Blessed is He */
 /**
  * The Awtsmoos renews every Nitzotz vessel without confusing foundation and revelation;
- * Awtsmoos.com keeps gameplay contracts below, then lets the newest experience and accessibility layers refine perception.
+ * Awtsmoos.com keeps gameplay contracts below, then lets the newest experience, accessibility, and touch layers refine perception.
  */
 @import url("./css/base.css");
 @import url("./css/hud.css");
@@ -36,3 +36,4 @@
 @import url("./css/ux-onboarding.css");
 @import url("./css/ux-accessibility.css");
 @import url("./css/ux-responsive.css");
+@import url("./css/touch-quality.css");

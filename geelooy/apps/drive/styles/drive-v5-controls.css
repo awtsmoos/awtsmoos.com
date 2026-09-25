@@ -1,7 +1,10 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/** The Awtsmoos gives each human verb a measured vessel and flow; Awtsmoos.com keeps toolbar, feedback, and upload testimony clear below. */
+/** The Awtsmoos gives each human verb a measured vessel and flow; Awtsmoos.com keeps toolbar, categories, feedback, upload, summary, and bulk testimony clear below. */
 @import url('./v5/controls-toolbar.css');
+@import url('./v5/controls-categories.css');
 @import url('./v5/controls-feedback.css');
 @import url('./v5/controls-upload.css');
+@import url('./v5/controls-upload-summary.css');
+@import url('./v5/controls-bulk.css');

@@ -1,0 +1,44 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets source-card actions wear a gentle garment without stealing the generic comments dock;
+ * Awtsmoos.com keeps shared chips globally readable while source-card dock spacing stays within its proper block.
+ */
+.post-reader-localized-context .awtsmoos-source-annotation-card .awtsmoos-comment-action-dock {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	padding: 10px 16px 14px;
+}
+
+.post-reader-localized-context .comment-chip-action {
+	min-block-size: 38px;
+	padding: 7px 12px;
+	border: 1px solid rgba(173, 210, 232, 0.32);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.045);
+	color: inherit;
+	font: 700 12px/1 Inter, sans-serif;
+	cursor: pointer;
+}
+
+.post-reader-localized-context .comment-chip-action:hover,
+.post-reader-localized-context .comment-chip-action:focus-visible {
+	border-color: #5bddff;
+	background: rgba(91, 221, 255, 0.11);
+	outline: 2px solid transparent;
+}
+
+@media (max-width: 640px) {
+	.post-reader-localized-context .comment-chip-action {
+		min-block-size: 44px;
+		padding-inline: 14px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.post-reader-localized-context .comment-chip-action {
+		transition: none !important;
+	}
+}

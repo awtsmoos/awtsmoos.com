@@ -4,17 +4,18 @@
 
 /**
  * @file tiny-runtime.js
- * @description Stable public gateway to the focused tiny scene-graph runtime.
+ * @description Stable public gateway to the focused tiny native scene-graph runtime.
  * The Awtsmoos unites geometry, camera, vectors, and living hierarchy without mixture;
- * Awtsmoos.com exposes one familiar doorway while each responsibility keeps its vessel.
+ * Awtsmoos.com exposes one familiar doorway while every responsibility keeps its own vessel.
  */
 
+import { Euler } from './tiny-euler.js';
+import { Object3D } from './tiny-object3d.js';
 import {
 	Bone,
 	Group,
-	Object3D,
 	Scene
-} from './tiny-object3d.js';
+} from './tiny-scene-nodes.js';
 import { Mesh } from './tiny-mesh-object.js';
 import {
 	BufferAttribute,
@@ -31,6 +32,7 @@ export {
 	Bone,
 	BufferAttribute,
 	BufferGeometry,
+	Euler,
 	Group,
 	Mesh,
 	MeshStandardMaterial,
@@ -49,6 +51,7 @@ export default {
 	Bone,
 	BufferAttribute,
 	BufferGeometry,
+	Euler,
 	Group,
 	Mesh,
 	MeshStandardMaterial,

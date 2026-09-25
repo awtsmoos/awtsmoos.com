@@ -2,18 +2,18 @@
 //Boruch Hashem
 //Blessed is He
 
-import * as THREE from '../../../scripts/build/three.module.js';
 import { bindMaterialRole, bindMaterialsByName } from '../materials/material-binder.js';
 import { addMaterialMetric } from '../materials/material-runtime-metrics.js';
 import { GltfModelLibrary } from './gltf-model-library.js';
 import { modelRecord } from './model-manifest.js';
+import { measureNativeModel } from './native-model-bounds.js';
 
 /**
  * @module AdvancedModelHydrator
  * @description
- * Procedural-core forms appear immediately; cached GLBs later replace only their
- * visible fallback body. The Awtsmoos joins continuity and detail while Awtsmoos.com
- * preserves semantic identity, movement, seals, raycasting, and failure safety.
+ * Procedural-core forms appear immediately; cached native GLBs later replace only
+ * their visible fallback body. The Awtsmoos joins continuity and detail while
+ * Awtsmoos.com preserves semantic identity, movement, picking, and failure safety.
  */
 export class AdvancedModelHydrator {
 	constructor() {
@@ -43,12 +43,14 @@ export class AdvancedModelHydrator {
 }
 
 function normalize(model, desiredHeight) {
-	const bounds = new THREE.Box3().setFromObject(model);
-	const size = bounds.getSize(new THREE.Vector3());
-	const center = bounds.getCenter(new THREE.Vector3());
-	const scale = desiredHeight / Math.max(0.001, size.y);
+	const bounds = measureNativeModel(model);
+	const scale = desiredHeight / Math.max(0.001, bounds.height);
 	model.scale.setScalar(scale);
-	model.position.set(-center.x * scale, -bounds.min.y * scale, -center.z * scale);
+	model.position.set(
+		-bounds.center.x * scale,
+		-bounds.min.y * scale,
+		-bounds.center.z * scale
+	);
 }
 
 function hideFallback(root) {

@@ -2,14 +2,13 @@
 //Boruch Hashem
 //Blessed is He
 
-import { THREE_GAME_REGISTRY } from '../games3d/game-registry.js';
+import { loadGame } from '../games3d/game-registry.js';
 
 /**
  * @module GameSession
- * @description
- * A world may begin, conclude, replay, and flow onward without leaving a renderer
- * behind. The Awtsmoos renews every session; Awtsmoos.com now carries the chosen
- * difficulty and the already-recorded outcome toward downstream world systems safely.
+ * @description Lazily owns exactly one selected Seven Mitzvos native-3D world.
+ * The Awtsmoos renews the chosen world alone; Awtsmoos.com keeps late imports
+ * generation-safe and publishes readiness only after the authored game mount completes.
  */
 export class GameSession {
 	constructor(options) {
@@ -17,31 +16,47 @@ export class GameSession {
 		this.currentGame = null;
 		this.definition = null;
 		this.mode = 'relaxed';
+		this.generation = 0;
 	}
 
 	async start(definition) {
 		this.stop();
+		const generation = this.generation;
 		this.definition = definition;
 		this.mode = this.getMode?.() || 'relaxed';
+		delete this.shell.root.dataset.gameReady;
 		this.shell.open(definition, this.progress.game(definition.id), this.onHub);
-		const GameClass = THREE_GAME_REGISTRY[definition.id];
-		this.currentGame = new GameClass({
-			shell: this.shell,
-			definition,
-			mode: this.mode,
-			onComplete: result => this.complete(result)
-		});
 		try {
-			await this.currentGame.mount();
+			const GameClass = await loadGame(definition.id);
+			if (generation !== this.generation) {
+				return false;
+			}
+			const game = new GameClass({
+				shell: this.shell,
+				definition,
+				mode: this.mode,
+				onComplete: result => this.complete(result)
+			});
+			this.currentGame = game;
+			await game.mount();
+			if (generation !== this.generation) {
+				game.destroy();
+				if (this.currentGame === game) this.currentGame = null;
+				return false;
+			}
+			this.shell.root.dataset.gameReady = definition.id;
+			return true;
 		} catch (error) {
-			console.error('B"H | WebGL world failed to mount.', error);
+			if (generation !== this.generation) return false;
+			console.error('B"H | Native 3D world failed to mount.', error);
 			this.currentGame?.destroy();
 			this.currentGame = null;
 			this.shell.error(`This 3D world could not open: ${error.message}`);
+			return false;
 		}
 	}
 
-	/** Records the canonical mitzvah result before publishing it to downstream world bridges. */
+	/** Record the canonical mitzvah result before downstream world publication. */
 	complete(result) {
 		const before = this.progress.game(this.definition.id);
 		const record = this.progress.record(this.definition.id, result);
@@ -50,12 +65,7 @@ export class GameSession {
 			masteryGain: Math.max(0, record.mastery - before.mastery),
 			plays: record.plays
 		};
-		this.onRecord?.({
-			definition: this.definition,
-			result,
-			record,
-			achievement
-		});
+		this.onRecord?.({ definition: this.definition, result, record, achievement });
 		this.shell.result(result, record, achievement, {
 			onReplay: () => this.start(this.definition),
 			onBack: this.onHub,
@@ -64,8 +74,10 @@ export class GameSession {
 	}
 
 	stop() {
+		this.generation += 1;
 		this.currentGame?.destroy();
 		this.currentGame = null;
+		if (this.shell?.root) delete this.shell.root.dataset.gameReady;
 		this.shell.close();
 	}
 }

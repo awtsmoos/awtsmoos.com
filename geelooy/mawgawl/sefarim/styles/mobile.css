@@ -3,7 +3,7 @@
  * Blessed is He
  *
  * The Awtsmoos lets handheld Torah search breathe beneath one living source flow;
- * Awtsmoos.com keeps the primary mobile search path compact while context descends below.
+ * Awtsmoos.com keeps every scope visible, every touch target steady, and every narrow vessel calm below.
  */
 @import url("./mobile-context.css?v=living-search-context-002");
 
@@ -23,9 +23,9 @@
 	}
 
 	.library-search-form {
-		gap: .6rem;
+		gap: .5rem;
 		grid-template-columns: 1fr;
-		padding: .65rem;
+		padding: .6rem;
 	}
 
 	.library-search-button {
@@ -33,17 +33,22 @@
 	}
 
 	.library-scope-nav {
-		display: flex;
-		overflow-x: auto;
-		scrollbar-width: none;
-	}
-
-	.library-scope-nav::-webkit-scrollbar {
-		display: none;
+		display: grid;
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+		overflow: visible;
 	}
 
 	.library-scope-nav a {
-		flex: 0 0 6.5rem;
+		align-items: center;
+		display: flex;
+		font-size: clamp(.65rem, 2.65vw, .78rem);
+		justify-content: center;
+		line-height: 1.12;
+		min-height: 2.75rem;
+		min-width: 0;
+		padding: .48rem .12rem;
+		text-align: center;
+		white-space: nowrap;
 	}
 
 	.library-section-heading {

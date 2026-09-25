@@ -1,0 +1,59 @@
+<!-- B"H
+Boruch Hashem
+Blessed is He
+
+This focused template renders one community Heichel as a real navigation card.
+The Awtsmoos renews the destination and the hand that reaches it in one instant;
+Awtsmoos.com therefore makes the whole card the doorway while secondary actions remain distinct.
+-->
+<?<script>
+	var heichel = this.heichel && typeof this.heichel === 'object' ? this.heichel : {};
+	var alias = String(this.alias || '').trim();
+	var doesOwn = Boolean(this.doesOwn);
+	var compact = Boolean(this.compact);
+	var index = Number(this.index) || 0;
+
+	/**
+	 * Escapes metadata before it enters the visible card.
+	 *
+	 * @param {*} value Raw API metadata.
+	 * @returns {string} HTML-safe visible text.
+	 */
+	function escapeHtml(value) {
+		return String(value || '')
+			.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/"/g, '&quot;')
+			.replace(/'/g, '&#39;');
+	}
+
+	var rawId = String(heichel.id || heichel.heichelId || heichel.inputId || '').trim();
+	var safeId = encodeURIComponent(rawId);
+	var name = String(heichel.name || heichel.title || '').trim() || 'Unnamed community';
+	var description = String(heichel.description || '').trim() || 'A community space on Awtsmoos.com.';
+	var rawAuthor = String(heichel.author || heichel.aliasId || alias || '').trim();
+	var author = rawAuthor ? '@' + escapeHtml(rawAuthor) : 'Creator not provided';
+	var badge = alias && doesOwn ? 'Owner' : 'Community';
+	var seal = String(index + 1).padStart(2, '0');
+	var manage = '';
+
+	if (doesOwn) {
+		manage = '<a class="p-button space-secondary-action" href="/heichelos/'
+			+ safeId + '/?editingAlias=' + encodeURIComponent(alias) + '">Manage</a>';
+	}
+
+	var descriptionHtml = compact ? '' : '<p>' + escapeHtml(description) + '</p>';
+	var cardClass = compact ? 'social-space-card space-card-compact' : 'social-space-card';
+
+	return '<article class="' + cardClass + '" data-heichel-id="' + escapeHtml(rawId) + '" data-enter>'
+		+ '<a class="space-card-link" href="/heichelos/' + safeId + '/" aria-label="Open ' + escapeHtml(name) + '">'
+		+ '<div class="space-body"><div class="space-seal" aria-hidden="true">' + seal + '</div>'
+		+ '<div class="space-copy"><div class="space-title-row"><h2>' + escapeHtml(name) + '</h2>'
+		+ '<span class="p-badge">' + badge + '</span></div>' + descriptionHtml
+		+ '<div class="space-meta-line"><span>' + author + '</span><span>Community · feed · series</span></div>'
+		+ '</div><span class="space-card-arrow" aria-hidden="true">↗</span></div></a>'
+		+ '<div class="space-secondary-actions">'
+		+ '<a class="p-button space-secondary-action" href="/heichelos/' + safeId + '/submit">Contribute</a>'
+		+ manage + '</div></article>';
+</script>?>

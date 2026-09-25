@@ -25,14 +25,14 @@ const BOOTSTRAP_URL = "data:text/html,%3Ctitle%3EAwtsmoos%20Debug%20Browser%3C%2
  */
 async function launchDebugChrome(config = {}) {
 	const profile = profilePath(config);
-	RootGuard.reconcile(profile, Registry.read()?.pid);
-	const existing = Registry.observe({ profile });
+	await RootGuard.reconcile(profile, Registry.read()?.pid);
+	const existing = await Registry.observe({ profile });
 	if (existing.ok) return reusedOwner(existing);
 	return LaunchGate.converge(async () => {
-		const owner = Registry.observe({ profile });
+		const owner = await Registry.observe({ profile });
 		if (owner.ok) return reusedOwner(owner);
-		RootGuard.reconcile(profile, Registry.read()?.pid);
-		const root = RootGuard.owner(profile);
+		await RootGuard.reconcile(profile, Registry.read()?.pid);
+		const root = await RootGuard.owner(profile);
 		if (root) return RootGuard.blocked(root, profile);
 		return spawnOwner(profile, config);
 	});
@@ -40,7 +40,7 @@ async function launchDebugChrome(config = {}) {
 
 /** Creates one browser owner only after the profile is proven ownerless. */
 async function spawnOwner(profile, config = {}) {
-	const pressure = SpawnPolicy.assertSafe(config.pressureOptions || {});
+	const pressure = await SpawnPolicy.assertSafe(config.pressureOptions || {});
 	fs.mkdirSync(profile, { recursive: true, mode: 0o700 });
 	try { fs.chmodSync(profile, 0o700); } catch {}
 	const requested = requestedPort(config);
@@ -61,7 +61,7 @@ async function spawnOwner(profile, config = {}) {
 		pid: child.pid,
 		port,
 		profile,
-		startedAt: Owner.processStartedAt(child.pid)
+		startedAt: await Owner.processStartedAt(child.pid)
 	});
 	child.unref();
 	return { ok: true, reused: false, ...authority, pressure, priority };
@@ -87,17 +87,17 @@ function spawned(child, timeoutMs) {
 	});
 }
 
-function browserAuthority(config = {}) {
+async function browserAuthority(config = {}) {
 	return Registry.observe({ profile: profilePath(config) });
 }
 
-function debugPort(config = {}) {
-	const authority = browserAuthority(config);
+async function debugPort(config = {}) {
+	const authority = await browserAuthority(config);
 	return authority.ok ? authority.port : requestedPort(config);
 }
 
-function discoveryOptions(config = {}) {
-	const authority = browserAuthority(config);
+async function discoveryOptions(config = {}) {
+	const authority = await browserAuthority(config);
 	return {
 		host: Registry.LOOPBACK_HOST,
 		preferredPort: authority.ok ? authority.port : requestedPort(config),

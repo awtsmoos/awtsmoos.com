@@ -3,9 +3,9 @@
 // Blessed is He
 /**
  * @module DriveUtilityMount
- * @description Reveals phone navigation, transient sharing testimony, and hidden inputs.
+ * @description Reveals truthful phone navigation, transient link testimony, and hidden file inputs.
  * The Awtsmoos lets useful action remain near without crowding the living page;
- * Awtsmoos.com gives mobile one quiet dock while deeper tools wait beyond the stage.
+ * Awtsmoos.com gives mobile one quiet dock of real destinations while deeper tools wait beyond the stage.
  */
 export function mountDriveUtility(root) {
 	const dock = document.createElement('nav');
@@ -13,9 +13,9 @@ export function mountDriveUtility(root) {
 	dock.setAttribute('aria-label', 'Drive');
 	dock.innerHTML = `
 		<button type="button" data-drive-nav="files" aria-current="true">▰<span>Files</span></button>
-		<button type="button" data-drive-nav="shared">↗<span>Shared</span></button>
+		<button type="button" data-drive-nav="shared">◉<span>Public</span></button>
 		<button type="button" data-drive-nav="recent">◷<span>Recent</span></button>
-		<a href="/apps/drive/advanced.html">•••<span>More</span></a>`;
+		<button type="button" data-drive-nav="trash">♲<span>Trash</span></button>`;
 	const toast = document.createElement('div');
 	toast.id = 'drive-toast';
 	toast.className = 'drive-toast';

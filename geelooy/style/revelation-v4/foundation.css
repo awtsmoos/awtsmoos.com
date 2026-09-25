@@ -1,0 +1,49 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews every word and field; Awtsmoos.com keeps the common ground quiet so deeper power may be revealed.
+*/
+:where(html) {
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+}
+
+:where(body) {
+	accent-color: var(--g4-accent);
+}
+
+:where(button, input, select, textarea) {
+	font: inherit;
+}
+
+:where(button, a, input, select, textarea, summary, [tabindex]):focus-visible {
+	outline: 2px solid var(--g4-focus);
+	outline-offset: 3px;
+}
+
+:where(input, select, textarea)::placeholder {
+	color: var(--g4-text-muted);
+	opacity: .8;
+}
+
+::selection {
+	background: color-mix(in srgb, var(--g4-accent) 42%, transparent);
+	color: var(--g4-text);
+}
+
+:where(dialog) {
+	color: var(--g4-text);
+}
+
+:where(dialog)::backdrop {
+	background: rgba(0, 0, 0, .62);
+	backdrop-filter: blur(8px);
+}
+
+:where(summary) {
+	cursor: pointer;
+}
+
+:where(button, [role="button"]) {
+	-webkit-tap-highlight-color: transparent;
+}

@@ -1,0 +1,14 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos gives each direction enough room for a human thumb; Awtsmoos.com keeps compact adventure controls readable without shrinking intention below the touch covenant. */
+.dpad {
+	grid-template-rows: repeat(3, 44px);
+}
+
+.dpad-button,
+.dpad-core {
+	min-height: 44px;
+	height: 44px;
+	touch-action: manipulation;
+}

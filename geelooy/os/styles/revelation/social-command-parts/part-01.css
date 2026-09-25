@@ -1,0 +1,83 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keeps this module small while the original cascade remains whole.
+*/
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews every signal while the interface keeps each layer clear;
+ * Awtsmoos.com turns the social command chamber into a focused, retractable sphere.
+ */
+.geelooy-os-social-panel {
+	--social-panel-line: rgba(255, 255, 255, .13);
+	--social-panel-soft: rgba(255, 255, 255, .055);
+	--social-panel-accent: #79e8ff;
+	--social-panel-violet: #bca9ff;
+	box-sizing: border-box;
+	display: grid;
+	gap: 1rem;
+	inline-size: min(64rem, 100%);
+	padding: clamp(.8rem, 2vw, 1.2rem);
+	color: #f7fbff;
+}
+
+.geelooy-os-social-panel *,
+.geelooy-os-social-panel *::before,
+.geelooy-os-social-panel *::after {
+	box-sizing: border-box;
+}
+
+.geelooy-os-social-panel__hero,
+.geelooy-os-social-panel__surface,
+.geelooy-os-social-panel__card {
+	border: 1px solid var(--social-panel-line);
+	border-radius: 1.1rem;
+	background: linear-gradient(145deg, rgba(13, 25, 48, .95), rgba(5, 11, 24, .97));
+	box-shadow: 0 1rem 2.8rem rgba(0, 0, 0, .22);
+}
+
+.geelooy-os-social-panel__hero,
+.geelooy-os-social-panel__surface {
+	padding: 1rem;
+}
+
+.geelooy-os-social-panel__hero {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 1rem;
+	align-items: end;
+}
+
+.geelooy-os-social-panel__eyebrow {
+	color: var(--social-panel-accent);
+	font-size: .72rem;
+	font-weight: 900;
+	letter-spacing: .13em;
+}
+
+.geelooy-os-social-panel h2,
+.geelooy-os-social-panel h3,
+.geelooy-os-social-panel p {
+	margin: 0;
+}
+
+.geelooy-os-social-panel__hero p,
+.geelooy-os-social-panel__card p,
+.g-social-status {
+	color: rgba(232, 240, 255, .7);
+	line-height: 1.5;
+}
+
+.geelooy-os-social-panel__links,
+.geelooy-os-social-panel__grid,
+.geelooy-os-social-panel__preview-list,
+.geelooy-os-social-panel__actions {
+	display: grid;
+	gap: .65rem;
+}
+
+.geelooy-os-social-panel__links,
+.geelooy-os-social-panel__grid {
+	grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+}

@@ -1,14 +1,12 @@
-import { readFileSync, existsSync } from 'node:fs';
-import { join } from 'node:path';
-const root = process.cwd();
-const read = p => readFileSync(join(root, p), 'utf8');
-const index = read('geelooy/index.html');
-const css = read('geelooy/style/social/home/index.css');
-const js = read('geelooy/scripts/awtsmoos/social/home/dashboard/boot.js');
-for (const token of ['home-app-header','home-bell-button','home-orb-brand','home-brand-copy','data-home-sidebar','Home</a>','Mail</a>','Profile</a>']) {
-  if (!index.includes(token)) throw new Error(`missing image header/sidebar token: ${token}`);
-}
-if (!css.includes('./top-shell/index.css')) throw new Error('top-shell CSS not imported');
-if (!existsSync(join(root, 'geelooy/scripts/awtsmoos/social/home/dashboard/sidebar.js'))) throw new Error('sidebar JS missing');
-if (!js.includes('bindSidebar')) throw new Error('boot does not bind sidebar');
-console.log('homeHeaderSidebarContract: ok');
+//B"H
+// Boruch Hashem
+// Blessed is He
+/** The Awtsmoos gives Home one clear header instead of a permanent sidebar; Awtsmoos.com proves Worlds, profile, system state, and mobile navigation are reachable without shrinking content. */
+import assert from 'node:assert/strict';
+import { HOME_HTML, assertCurrentHomeInteraction } from './helpers/currentHomeContract.mjs';
+assertCurrentHomeInteraction();
+assert.match(HOME_HTML, /class="system-signal"/);
+assert.match(HOME_HTML, /class="profile-mount"/);
+assert.match(HOME_HTML, /data-menu-root/);
+assert.doesNotMatch(HOME_HTML, /home-app-sidebar|desktop-sidebar/);
+console.log('B"H homeHeaderSidebarContract.test passed');

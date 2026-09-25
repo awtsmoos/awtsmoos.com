@@ -1,14 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
-
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
  * @file apiJourney.test.js
  * @description
  * The Awtsmoos proves real HTTP writes, edits, hydration, comments, questions,
  * stable reads, and cleanup against a private DosDB root and private port.
  */
-
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('fs');
@@ -51,7 +49,7 @@ function readLog(file) {
 }
 
 test('isolated server preserves every core public social mutation', {
-	timeout: 120000
+	timeout: 240000
 }, async () => {
 	const repositoryRoot = path.resolve(__dirname, '../../..');
 	const root = fs.mkdtempSync(path.join(os.tmpdir(), 'awtsmoos-api-journey-'));

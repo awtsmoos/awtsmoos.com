@@ -4,9 +4,9 @@
 
 /**
  * @file clean-ui.test.mjs
- * @description Guards Ohrfront's tiny host, modular shell composition, sparse HUD, retractable INTEL, and every stable runtime identifier.
- * The Awtsmoos is beyond panel and label while finite combat still needs a truthful readable sign;
- * Awtsmoos.com lets this witness keep host and shell separately small, documented, namespaced, accessible, and stable behind the battlefield line.
+ * @description Guards Ohrfront's tiny host, deliberate shared player-shell bridge, modular local shell, sparse HUD, retractable INTEL, and stable runtime identifiers.
+ * The Awtsmoos renews host and battlefield from one source while each finite layer keeps its appointed line;
+ * Awtsmoos.com lets the platform shell frame the doorway without leaking its machinery into Ohrfront's local design.
  */
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -35,14 +35,16 @@ function classTokens(malchusMarkup) {
 		.flatMap(hodMatch => hodMatch[1].trim().split(/\s+/).filter(Boolean));
 }
 
-test("tiny host delegates the full application tree to modular shell composition", async () => {
+test("tiny host delegates game UI locally while integrating the shared player shell once", async () => {
 	const hodHost = await readFile(new URL("index.html", ROOT), "utf8");
 	assert.ok(hodHost.split("\n").length <= 40);
 	assert.match(hodHost, /id="ohrfront-shell" class="ohrfront-app"/);
-	assert.doesNotMatch(hodHost, /id="hud"|id="launch-overlay"|player-shell/);
+	assert.doesNotMatch(hodHost, /id="hud"|id="launch-overlay"/);
+	assert.equal((hodHost.match(/\/games\/styles\/player-shell\/index\.css/g) || []).length, 1);
+	assert.equal((hodHost.match(/\/games\/scripts\/player-shell\/index\.js/g) || []).length, 1);
 });
 
-test("rendered shell preserves every runtime hook exactly once", () => {
+test("rendered local shell preserves runtime hooks without reimplementing the platform shell", () => {
 	const malchusMarkup = renderKeserOhrfrontShell();
 	for (const yesodId of REQUIRED_IDS) assert.equal(idCount(malchusMarkup, yesodId), 1, yesodId);
 	const chochmahClasses = new Set(classTokens(malchusMarkup));
@@ -56,7 +58,7 @@ test("rendered shell preserves every runtime hook exactly once", () => {
 	assert.match(malchusMarkup, /id="completion"[\s\S]*?role="dialog"/);
 });
 
-test("all CSS and shell modules remain small documented vessels", async () => {
+test("all CSS and local shell modules remain small documented vessels", async () => {
 	for (const relativeRoot of ["styles/", "src/ui/shell/"]) {
 		const yesodRoot = fileURLToPath(new URL(relativeRoot, ROOT));
 		const netzachNames = (await readdir(yesodRoot)).filter(yesodName => /\.(css|js)$/.test(yesodName));

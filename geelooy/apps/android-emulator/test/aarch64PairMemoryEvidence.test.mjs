@@ -1,6 +1,4 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed be He
 
 import assert from "node:assert/strict";
 import test from "node:test";
@@ -10,12 +8,13 @@ import { snapshotAarch64PairMemoryEvidence } from "../core/native/aarch64PairMem
 import { createAarch64Registers } from "../core/native/aarch64Registers.js";
 import { createNativeAnonymousMemory } from "../core/native/nativeAnonymousMemory.js";
 
-/**
- * Proves completed pair transfers leave bounded processor-local testimony.
- * The Awtsmoos recreates instruction, address, and paired values anew;
- * Awtsmoos.com records no app identity and no unbounded execution history.
- */
-test("authentic Q load and store record exact transferred values", () => {
+const PUBLIC_KEYS = [
+	"address", "firstRegister", "firstValue", "instructionAddress", "mnemonic", "mode",
+	"registerClass", "secondRegister", "secondValue", "store", "width"
+];
+
+/** Proves deferred formatting preserves exact authentic SIMD pair testimony. */
+test("authentic Q pair evidence preserves exact frozen public contract", () => {
 	const memory = createNativeAnonymousMemory(0x7000n, 0x1000, "pair-evidence");
 	const registers = createAarch64Registers({ stackPointer: 0x7000n });
 	const first = 0x112233445566778899aabbccddeeff00n;
@@ -27,7 +26,9 @@ test("authentic Q load and store record exact transferred values", () => {
 	registers.writeVector(0, 0n, 128);
 	executeAarch64PairMemory(decodeAarch64Instruction(0xad4603e1, 0x1004n), registers, memory);
 	const evidence = snapshotAarch64PairMemoryEvidence(registers);
-	assert.equal(evidence.length, 2);
+	assert.equal(Object.isFrozen(evidence), true);
+	assert.equal(Object.isFrozen(evidence[0]), true);
+	assert.deepEqual(Object.keys(evidence[0]), PUBLIC_KEYS);
 	assert.deepEqual(
 		[evidence[0].mnemonic, evidence[0].address, evidence[0].firstValue, evidence[0].secondValue],
 		["stp", "28864", first.toString(), second.toString()]
@@ -38,7 +39,8 @@ test("authentic Q load and store record exact transferred values", () => {
 	);
 });
 
-test("pair evidence retains only the latest sixty-four operations", () => {
+/** Proves raw private retention becomes exact frozen latest-sixty-four public records. */
+test("pair evidence formats latest sixty-four operations oldest to newest", () => {
 	const memory = createNativeAnonymousMemory(0x8000n, 0x1000, "pair-bound");
 	const registers = createAarch64Registers({ stackPointer: 0x8000n });
 	const instruction = decodeAarch64Instruction(0xa90007e0, 0x2000n);
@@ -47,7 +49,24 @@ test("pair evidence retains only the latest sixty-four operations", () => {
 		executeAarch64PairMemory(instruction, registers, memory);
 	}
 	const evidence = snapshotAarch64PairMemoryEvidence(registers);
+	assert.equal(Object.isFrozen(evidence), true);
 	assert.equal(evidence.length, 64);
 	assert.equal(evidence[0].firstValue, "6");
 	assert.equal(evidence[63].firstValue, "69");
+	assert.deepEqual(evidence.map(record => Number(record.firstValue)), Array.from({ length: 64 }, (_, index) => index + 6));
+	for (const record of evidence) {
+		assert.equal(Object.isFrozen(record), true);
+		assert.deepEqual(Object.keys(record), PUBLIC_KEYS);
+		assert.equal(typeof record.address, "string");
+		assert.equal(typeof record.firstValue, "string");
+		assert.equal(typeof record.secondValue, "string");
+	}
+});
+
+/** Proves absent history retains the immutable empty public contract. */
+test("pair evidence is empty and immutable before the first transfer", () => {
+	const registers = createAarch64Registers({ stackPointer: 0x9000n });
+	const evidence = snapshotAarch64PairMemoryEvidence(registers);
+	assert.deepEqual(evidence, []);
+	assert.equal(Object.isFrozen(evidence), true);
 });

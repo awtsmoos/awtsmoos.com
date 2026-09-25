@@ -74,5 +74,5 @@ try {
 	console.log('B"H canonical Drive browser proof passed', required);
 } finally {
 	await harness.client.send('Page.removeScriptToEvaluateOnNewDocument', { identifier: fixture }).catch(() => null);
-	harness.close();
+	await harness.close();
 }

@@ -1,0 +1,77 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keeps this module small while the original cascade remains whole.
+*/
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets public source-grounded Torah and private consent-based rooms share one mobile workspace without confusing their covenants.
+*/
+.socialChatPanel,
+.hubMessagesPanel,
+.hubMessagesRegion {
+	display: grid;
+	gap: .85rem;
+}
+
+.socialChatHeading,
+.hubMessagesHeading {
+	display: grid;
+	gap: .35rem;
+}
+
+.socialChatHeading :is(h2, p),
+.hubMessagesHeading :is(h2, p),
+.hubMessagesRegion h3,
+.hubMessagesStatus {
+	margin: 0;
+}
+
+.socialChatHeading p,
+.hubMessagesHeading p,
+.hubMessagesStatus,
+.hubMessageCard small,
+.hubRequestCard small {
+	color: var(--muted);
+}
+
+.socialChatMount {
+	min-height: min(68dvh, 50rem);
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	overflow: hidden;
+	background: var(--surface);
+}
+
+.socialChatMount > * {
+	max-width: none;
+}
+
+#hubMessagesSummary {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.hubMessagesMetric {
+	display: grid;
+	gap: .1rem;
+	padding: .75rem;
+	border: 1px solid var(--line-hot);
+	border-radius: .85rem;
+	background: var(--surface-strong);
+}
+
+.hubMessagesMetric strong {
+	font-size: 1.3rem;
+}
+
+.hubPrivateRequestComposer {
+	display: grid;
+	grid-template-columns: minmax(8rem, 1fr) minmax(6rem, .45fr) auto;
+	gap: .55rem;
+}
+
+.hubPrivateRequestComposer :is(input, select, button) {
+	min-height: 2.9rem;
+	font: inherit;
+}

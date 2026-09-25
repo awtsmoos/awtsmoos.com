@@ -2,59 +2,59 @@
 //Boruch Hashem
 //Blessed is He
 
-import { ThreeSceneMaterialHydrator } from '../../../../libs/awtsmoos-procedural-core/src/adapters/three/index.js';
 import { writeMaterialMetrics } from './material-runtime-metrics.js';
 import {
 	bindSevenMaterialRenderer,
-	SEVEN_MATERIAL_SOURCES,
-	SEVEN_PHYSICAL_MATERIALS
+	sevenMaterialRuntimeView
 } from './seven-material-runtime.js';
 
 const HYDRATION_CADENCE_SECONDS = 0.35;
 
 /**
  * @file stage-material-runtime.js
- * @description
- * The Awtsmoos renews hidden photographic sources while Awtsmoos.com lets one Seven Mitzvos stage reveal them gradually, never allowing remote decoding to seize the frame from gameplay.
- * This Yesod-like runtime owns cadence and scene-reference hydration only; physical material identity, renderer quality, and canonical gameplay remain outside its boundary.
+ * @description Publishes native Seven Mitzvos material hydration truth at a bounded cadence.
+ * The Awtsmoos renews remote image and procedural garment while Awtsmoos.com lets decoding
+ * remain outside gameplay timing and reports only the native store's literal readiness below.
  */
 export class StageMaterialRuntime {
-	constructor(scene, renderer, canvas) {
-		this.scene = scene;
+	constructor(_scene, renderer, canvas) {
 		this.canvas = canvas;
 		this.timer = HYDRATION_CADENCE_SECONDS;
 		bindSevenMaterialRenderer(renderer);
-		this.hydrator = new ThreeSceneMaterialHydrator({
-			sources: SEVEN_MATERIAL_SOURCES,
-			materials: SEVEN_PHYSICAL_MATERIALS,
-			maxRequestsPerTick: 2,
-			maxBindingsPerTick: 4
-		});
 	}
 
-	/** @param {number} delta Frame delta seconds. @param {string} pressure Previous measured frame pressure. */
-	update(delta, pressure = 'stable') {
+	/** @param {number} delta Frame delta seconds. */
+	update(delta) {
 		this.timer += delta;
-		if (this.timer < HYDRATION_CADENCE_SECONDS) {
-			return;
-		}
+		if (this.timer < HYDRATION_CADENCE_SECONDS) return;
 		this.timer = 0;
-		const view = this.hydrator.tick(this.scene, pressure);
 		writeMaterialMetrics(this.canvas);
-		this.publish(view);
+		this.publish(this.view());
 	}
 
 	view() {
-		return this.hydrator.view();
+		const raw = sevenMaterialRuntimeView();
+		return {
+			referenced: raw.referenced || 0,
+			ready: raw.materials?.ready || 0,
+			pending: raw.materials?.pending || 0,
+			failed: raw.materials?.failed || 0,
+			missing: raw.materials?.missing || 0,
+			requested: raw.sources?.total || 0,
+			bound: raw.bound || 0,
+			rendererBound: Boolean(raw.rendererBound)
+		};
 	}
 
 	publish(view) {
-		this.canvas.dataset.materialReferenced = String(view.referenced);
-		this.canvas.dataset.materialReady = String(view.ready);
-		this.canvas.dataset.materialPending = String(view.pending);
-		this.canvas.dataset.materialFailed = String(view.failed);
-		this.canvas.dataset.materialMissing = String(view.missing);
-		this.canvas.dataset.materialRequests = String(view.requested);
-		this.canvas.dataset.materialBound = String(view.bound);
+		const data = this.canvas.dataset;
+		data.materialReferenced = String(view.referenced);
+		data.materialReady = String(view.ready);
+		data.materialPending = String(view.pending);
+		data.materialFailed = String(view.failed);
+		data.materialMissing = String(view.missing);
+		data.materialRequests = String(view.requested);
+		data.materialBound = String(view.bound);
+		data.materialRendererBound = String(view.rendererBound);
 	}
 }

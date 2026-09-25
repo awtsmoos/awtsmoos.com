@@ -30,6 +30,7 @@ const drainRuntime = Drain.createDrainRuntime({
 	release: (lane, requesterKey, requestKey) => {
 		components.queue.release(lane, requesterKey, requestKey);
 	},
+	rejectDrop: (item, reason) => components.queue.rejectDispatchDrop(item, reason),
 	log: (level, message) => components.log(level, message)
 });
 

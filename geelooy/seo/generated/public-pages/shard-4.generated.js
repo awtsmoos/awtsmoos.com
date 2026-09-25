@@ -9,6 +9,27 @@
 
 module.exports = [
 	{
+		canonicalPath: "/apps/rebbe/",
+		description: "Search, hear, clip, and work with the Rebbe audio archive without turning Torah access into a paywall.",
+		filePath: "apps/rebbe/index.html",
+		kind: "app",
+		title: "Rebbe Audio"
+	},
+	{
+		canonicalPath: "/apps/sheets/",
+		description: "Build collaborative workbooks with formulas, rich formatting, automations, structural editing, and linked Forms.",
+		filePath: "apps/sheets/index.html",
+		kind: "app",
+		title: "Awtsmoos Sheets"
+	},
+	{
+		canonicalPath: "/apps/slides/",
+		description: "Create responsive presentations, collaborate live, present anywhere, and export a deck as portable HTML.",
+		filePath: "apps/slides/index.html",
+		kind: "app",
+		title: "Awtsmoos Slides"
+	},
+	{
 		canonicalPath: "/apps/transcribe/",
 		description: "Turn recorded speech into editable text; future metered service begins only when Awtsmoos owns verified server fulfillment.",
 		filePath: "apps/transcribe/index.html",
@@ -37,6 +58,13 @@ module.exports = [
 		title: "Messages & Torah Chat"
 	},
 	{
+		canonicalPath: "/apps/universal-procedural/",
+		description: "Explore semantic procedural generation through one reusable doorway into many possible worlds.",
+		filePath: "apps/universal-procedural/index.html",
+		kind: "app",
+		title: "Universal Procedural"
+	},
+	{
 		canonicalPath: "/apps/video-editor/",
 		description: "Assemble visual media locally with a responsive preview, timeline, captions, and touch-ready controls.",
 		filePath: "apps/video-editor/index.html",
@@ -49,33 +77,5 @@ module.exports = [
 		filePath: "apps/virtual-os-stress-light-counter/index.html",
 		kind: "app",
 		title: "Light Counter"
-	},
-	{
-		canonicalPath: "/apps/wallet/",
-		description: "Inspect Perutahs, promotional refill, verified top-ups, ledger movement, and durable ownership.",
-		filePath: "apps/wallet/index.html",
-		kind: "app",
-		title: "Wallet"
-	},
-	{
-		canonicalPath: "/apps/watermark-remover/",
-		description: "Inspect and process image alpha masks in the existing browser utility.",
-		filePath: "apps/watermark-remover/index.html",
-		kind: "app",
-		title: "Watermark Remover"
-	},
-	{
-		canonicalPath: "/contact/",
-		description: "Contact Awtsmoos privately to report an issue, ask about an account, or share an improvement idea.",
-		filePath: "contact/index.html",
-		kind: "public-information",
-		title: "Contact — Awtsmoos"
-	},
-	{
-		canonicalPath: "/docs/",
-		description: "B'H — Learn, search, explore every API, project boundary, and Data/Security/Realtime system in Awtsmoos.com.",
-		filePath: "docs/index.html",
-		kind: "public-information",
-		title: "Awtsmoos Documentation"
 	}
 ];

@@ -1,22 +1,29 @@
-/* B"H */
+/*B"H*/
 /* Boruch Hashem */
 /* Blessed is He */
-/** The Awtsmoos renews every press before the next beat arrives; Awtsmoos.com gives touch feedback a visible pulse without moving layout or obscuring the game. */
+/**
+ * The Awtsmoos renews each press before the next beat appears;
+ * Awtsmoos.com lets hover, focus, held, and active states speak clearly without moving the surrounding world.
+ */
 .shema-strike .touch-controls button {
 	-webkit-tap-highlight-color: transparent;
 	transition: transform 100ms ease, background 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
 }
 
-.shema-strike .touch-controls button:is(:active, .held, [aria-pressed="true"]) {
+.shema-strike .touch-controls button:focus-visible {
+	outline: 2px solid var(--shema-focus);
+	outline-offset: 3px;
+	box-shadow: 0 0 0 5px rgba(99, 244, 255, 0.16);
+}
+
+.shema-strike .touch-controls button:active,
+.shema-strike .touch-controls button.active,
+.shema-strike .touch-controls button.held,
+.shema-strike .touch-controls button[aria-pressed="true"] {
 	transform: scale(0.94);
 	border-color: var(--shema-gold);
 	background: rgba(50, 44, 28, 0.92);
 	box-shadow: 0 0 24px rgba(255, 215, 106, 0.25);
-}
-
-.shema-strike .touch-controls button:focus-visible {
-	outline: 2px solid var(--shema-focus);
-	outline-offset: 3px;
 }
 
 .shema-strike .touch-controls button:disabled {
@@ -25,7 +32,7 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-	.shema-strike .touch-controls button:not(:disabled):hover {
+	.shema-strike .touch-controls button:hover {
 		border-color: rgba(99, 244, 255, 0.72);
 		background: rgba(18, 31, 61, 0.92);
 	}

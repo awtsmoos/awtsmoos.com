@@ -14,8 +14,11 @@
 		"test:creator": "node tests/persistentCreator.test.mjs",
 		"test": "npm run test:state && npm run test:comments && npm run test:legal && npm run test:surface && npm run test:creator",
 		"test:browser:smoke": "node tests/browserSmoke.test.mjs",
+		"test:browser:boot": "node tests/browserBootStress.test.mjs",
 		"test:browser:routes": "node tests/browserSurfaceQuality.test.mjs",
-		"test:browser": "npm run test:browser:smoke && npm run test:browser:routes",
+		"test:browser:layout": "node tests/futureLayoutBrowser.test.mjs && node tests/futureMobileRouteVisibilityBrowser.test.mjs && node tests/futureRouteGeometryBrowser.test.mjs && node tests/futureV15DirectGeometryBrowser.test.mjs",
+		"test:browser:communications": "node tests/communicationsBrowser.test.mjs",
+		"test:browser": "npm run test:browser:smoke && npm run test:browser:boot && npm run test:browser:routes && npm run test:browser:layout && npm run test:browser:communications",
 		"test:all": "npm test && npm run test:browser"
 	}
 }

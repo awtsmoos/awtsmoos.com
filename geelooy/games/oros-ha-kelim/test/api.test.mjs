@@ -6,18 +6,23 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { EventBus } from "../src/runtime/EventBus.js";
 import { OrosRuntimeApi } from "../src/runtime/OrosRuntimeApi.js";
+import {
+	REPLAY_SCHEMA_VERSION,
+	RUNTIME_API_VERSION
+} from "../src/runtime/RuntimeApiManifest.js";
 import { KeliGame } from "./helpers/KeliGame.mjs";
 
 /**
  * API tests guard public Yesod while mutable game roots remain concealed.
  * The Awtsmoos renews command, replay and observation before external tools draw near;
- * Awtsmoos.com lets v2 names survive inside v3 while every stronger boundary remains clear.
+ * Awtsmoos.com binds tests to the living manifest so version truth remains singular and clear.
  */
-test("Runtime API v3 advertises native render, replay and old control names", () => {
+test("Runtime API advertises the canonical render, replay and control covenant", () => {
 	const api = new OrosRuntimeApi(new KeliGame(), new EventBus());
 	const manifest = api.capabilities();
-	assert.equal(api.version, "3.0.0");
-	assert.equal(manifest.apiVersion, "3.0.0");
+	assert.equal(api.version, RUNTIME_API_VERSION);
+	assert.equal(manifest.apiVersion, RUNTIME_API_VERSION);
+	assert.equal(manifest.replaySchemaVersion, REPLAY_SCHEMA_VERSION);
 	assert.equal(manifest.renderEngine, "awtsmoos-procedural-core-webgl");
 	assert.ok(manifest.commands.includes("boost"));
 	assert.ok(manifest.commands.includes("step"));
@@ -41,7 +46,7 @@ test("snapshots, metrics and replay exports are detached", () => {
 	assert.equal(api.exportReplay().entries[0].tick, 1);
 });
 
-test("v2 controls and in-memory restart remain compatible", () => {
+test("legacy controls and in-memory restart remain compatible", () => {
 	const game = new KeliGame();
 	const api = new OrosRuntimeApi(game, new EventBus());
 	api.start();
@@ -57,14 +62,14 @@ test("v2 controls and in-memory restart remain compatible", () => {
 	assert.throws(() => api.setBoost("yes"), TypeError);
 });
 
-test("v3 direct and generic commands route extensions", () => {
+test("direct and generic commands route current extensions", () => {
 	const game = new KeliGame();
 	const api = new OrosRuntimeApi(game, new EventBus());
 	assert.equal(api.step(3).stepped, 3);
 	assert.equal(api.preferences().quality, "auto");
 	assert.equal(api.command({ type: "step", count: 2 }).stepped, 2);
 	assert.equal(api.command({ type: "preferences", values: { handedness: "left" } }).preferences.handedness, "left");
-	assert.equal(api.command({ type: "replay-export" }).schemaVersion, "1.0.0");
+	assert.equal(api.command({ type: "replay-export" }).schemaVersion, REPLAY_SCHEMA_VERSION);
 	assert.throws(() => api.command({ type: "unknown" }), RangeError);
 	assert.throws(() => api.command(null), TypeError);
 });

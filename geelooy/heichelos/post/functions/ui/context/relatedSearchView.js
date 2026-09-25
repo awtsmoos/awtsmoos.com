@@ -5,85 +5,72 @@
 /**
  * @module RelatedSearchView
  * @description
- * The Awtsmoos lets related sources appear beside the words that awakened the search;
- * Awtsmoos.com keeps embedded lanes simple while two explicit doors continue either literal text or semantic meaning in the full search page.
+ * The Awtsmoos reveals related Torah sources inside one shared Study Sheet;
+ * Awtsmoos.com keeps result lanes distinct without giving each lane another outer shell.
  */
 
 import { fullLibrarySearchUrl } from './relatedDestinations.js';
 import { createRelatedResultCard } from './relatedResultCard.js';
 
-function el(tag, className, text = '') {
+function element(tag, className, text = '') {
 	const node = document.createElement(tag);
 	if (className) node.className = className;
 	if (text) node.textContent = text;
 	return node;
 }
 
-function externalLink(label, href) {
-	const link = el('a', '', label);
+function fullSearchLink(label, href) {
+	const link = element('a', 'awtsmoos-study-sheet-secondary', label);
 	link.href = href;
 	link.target = '_blank';
 	link.rel = 'noopener noreferrer';
 	return link;
 }
 
-function fullSearchActions(query) {
-	const actions = el('div', 'awtsmoos-related-actions awtsmoos-related-full-actions');
-	actions.append(
-		externalLink('Full text search ↗', fullLibrarySearchUrl(query, 'text')),
-		externalLink('Full semantic search ↗', fullLibrarySearchUrl(query, 'vector'))
-	);
-	return actions;
-}
-
 function sectionMap() {
 	return {
-		quick: el('div', 'awtsmoos-related-section'),
-		semantic: el('div', 'awtsmoos-related-section'),
-		tanach: el('div', 'awtsmoos-related-section'),
-		exact: el('div', 'awtsmoos-related-section')
+		quick: element('section', 'awtsmoos-related-section'),
+		semantic: element('section', 'awtsmoos-related-section'),
+		tanach: element('section', 'awtsmoos-related-section'),
+		exact: element('section', 'awtsmoos-related-section')
 	};
 }
 
-export function createRelatedSearchView({ query, onClose }) {
-	const panel = el('section', 'awtsmoos-related-search-inline');
-	panel.setAttribute('aria-label', 'Related source search');
-	const close = el('button', 'awtsmoos-related-close', '×');
-	close.type = 'button';
-	close.setAttribute('aria-label', 'Close related sources');
-	close.addEventListener('click', onClose);
-	const summary = el(
+/** Creates Related-mode content without owning another modal or inline panel. */
+export function createRelatedSearchView(query) {
+	const root = element('div', 'awtsmoos-study-related');
+	const summary = element(
 		'p',
 		'awtsmoos-related-summary',
 		'Searching the indexed library…'
 	);
-	const sections = sectionMap();
-	panel.append(
-		close,
-		el('p', 'awtsmoos-related-kicker', 'Related to selected text'),
-		el('blockquote', 'awtsmoos-related-quote', query),
-		summary,
-		fullSearchActions(query),
-		...Object.values(sections)
+	const actions = element('div', 'awtsmoos-study-sheet-link-row');
+	actions.append(
+		fullSearchLink('Full text search ↗', fullLibrarySearchUrl(query, 'text')),
+		fullSearchLink('Full semantic search ↗', fullLibrarySearchUrl(query, 'vector'))
 	);
-	return { panel, summary, sections };
+	const sections = sectionMap();
+	root.append(summary, actions, ...Object.values(sections));
+	return { root, sections, summary };
 }
 
+/** Renders one loading lane inside the Related mode. */
 export function renderRelatedPending(container, title, message) {
 	container.replaceChildren(
-		el('h3', '', title),
-		el('p', 'awtsmoos-related-pending', message)
+		element('h3', '', title),
+		element('p', 'awtsmoos-related-pending', message)
 	);
 }
 
+/** Renders successful hits and returns the visible hit count. */
 export function renderRelatedSection(container, title, search, query = '') {
 	const hits = Array.isArray(search?.hits)
 		? search.hits
 		: Array.isArray(search?.results) ? search.results : [];
-	container.replaceChildren(el('h3', '', title));
+	container.replaceChildren(element('h3', '', title));
 	if (!hits.length) {
 		container.append(
-			el('p', 'awtsmoos-related-empty', 'No matching sources in this lane.')
+			element('p', 'awtsmoos-related-empty', 'No matching sources in this lane.')
 		);
 		return 0;
 	}
@@ -91,9 +78,10 @@ export function renderRelatedSection(container, title, search, query = '') {
 	return hits.length;
 }
 
+/** Renders a lane-local failure without hiding successful sibling lanes. */
 export function renderRelatedError(container, title, message) {
 	container.replaceChildren(
-		el('h3', '', title),
-		el('p', 'awtsmoos-related-empty', message)
+		element('h3', '', title),
+		element('p', 'awtsmoos-related-empty', message || 'This search lane is unavailable.')
 	);
 }

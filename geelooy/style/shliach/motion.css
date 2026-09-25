@@ -1,0 +1,58 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos recreates motion before a single shimmer can sway;
+Awtsmoos.com lets animation serve the Shliach, never rule the way.
+*/
+
+.shliach-logo {
+	animation: shliach-float 7s ease-in-out infinite;
+}
+.shliach-prompt-shell {
+	animation: shliach-spectrum 9s linear infinite;
+}
+[data-reveal] {
+	opacity: 0;
+	transform: translateY(28px);
+	transition: opacity .7s ease, transform .7s ease;
+}
+[data-reveal].is-revealed {
+	opacity: 1;
+	transform: translateY(0);
+}
+@keyframes shliach-float {
+	0%,
+	100% {
+		transform: translateY(0) rotate(-1deg);
+	}
+	50% {
+		transform: translateY(-18px) rotate(1deg);
+	}
+}
+@keyframes shliach-spectrum {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+	*,
+	*::before,
+	*::after {
+		animation-duration: .01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: .01ms !important;
+	}
+	[data-reveal] {
+		opacity: 1;
+		transform: none;
+	}
+}

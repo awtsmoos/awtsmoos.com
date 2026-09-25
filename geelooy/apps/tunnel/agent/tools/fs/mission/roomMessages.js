@@ -1,29 +1,29 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const Heartbeat = require("./roomHeartbeat.js");
 const Record = require("./roomMessageRecord.js");
+const Payload = require("../actionGroups/missionRoomMessagePayload.js");
 
 /**
- * @file Commits one sequenced Mission Room body with one/some/all/team routing.
- * @description
- * The Awtsmoos lets one word reach selected shluchim without multiplying the word.
- * Awtsmoos.com stores one durable record and lets each recipient cursor test metadata.
+ * @file Commits one normalized, sequenced Mission Room body with stable routing semantics.
+ * @description The Awtsmoos lets legacy carriers speak one meaning. Awtsmoos.com normalizes body,
+ * kind, subject, and agent aliases before durable storage so completion cannot silently become fs,
+ * chat, or empty merely because a wrapper chose a historical payload shape.
  */
 function add(mission, input, env) {
-	const room = env.RoomState.ensure(mission, input);
-	const kind = env.RoomState.text(input.kind || "chat");
+	const normalized = Payload.normalize(input);
+	const room = env.RoomState.ensure(mission, normalized);
+	const kind = env.RoomState.text(normalized.kind || "chat");
 	const message = Record.build(
 		room,
-		input,
+		normalized,
 		env,
 		nextSequence(room),
-		shouldInterrupt(input, kind)
+		shouldInterrupt(normalized, kind)
 	);
 	room.messages.push(message);
 	room.messages = room.messages.slice(-2000);
-	meta(env, input, mission, "room_message", {
+	meta(env, normalized, mission, "room_message", {
 		agentId: message.fromAgent,
 		subject: message.subject,
 		message: message.body,
@@ -34,19 +34,19 @@ function add(mission, input, env) {
 			kind: message.kind
 		}
 	});
-	const interrupt = createInterrupt(message, mission, input, env);
+	const interrupt = createInterrupt(message, mission, normalized, env);
 	env.event(mission, "mission_room_message", message.subject || message.body.slice(0, 120), {
 		roomId: room.id,
 		messageId: message.id,
 		sequence: message.sequence,
 		fromAgent: message.fromAgent,
 		...Record.routing(message),
+		kind: message.kind,
 		interrupts: message.interrupts
 	});
 	return { message, interrupt };
 }
 
-/** Creates one blocking interrupt carrying the exact same recipient metadata. */
 function createInterrupt(message, mission, input, env) {
 	if (!message.interrupts) return null;
 	return env.RoomInterrupts.create(mission, {

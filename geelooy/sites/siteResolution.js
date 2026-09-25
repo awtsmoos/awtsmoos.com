@@ -5,22 +5,18 @@
 /**
  * @module PublicSiteResolution
  * @description
- * The Awtsmoos lets one public request enter one explicit garden without
- * stealing a sibling road. Awtsmoos.com distinguishes bound custom-domain
- * identity, named canonical prefixes, primary alias roads, and blocked gardens
- * so later layers reveal only the identity the route itself already proves.
+ * The Awtsmoos lets one public request enter one explicit or implicit garden without stealing a sibling road;
+ * Awtsmoos.com gives every normalized Site the same named doorway, so synthesized home worlds and stored mappings obey one routing truth.
  */
 
 const path = require('path');
 const { normalizeDrivePath } = require('../api/social/helper/drive/pathPolicy.js');
-const {
-	normalizeSiteRegistry,
-	normalizeSiteId
-} = require('../api/social/helper/drive/siteMappingPolicy.js');
+const { normalizeSiteId } = require('../api/social/helper/drive/siteMappingPolicy.js');
 const {
 	primarySiteFromState,
 	siteMappingsFromState
 } = require('../api/social/helper/drive/siteMappingService.js');
+const { canClaimNamedSitePrefix } = require('./siteNamedPrefixPolicy.js');
 
 function resolveSiteRequest(options = {}) {
 	const requestPath = normalizeDrivePath(options.requestPath || '', { allowRoot: true });
@@ -28,7 +24,7 @@ function resolveSiteRequest(options = {}) {
 	if (options.siteId) {
 		return boundResolution(mappings, options.siteId, requestPath);
 	}
-	return canonicalResolution(options.state, requestPath);
+	return canonicalResolution(options.state, mappings, requestPath);
 }
 
 function boundResolution(mappings, siteIdValue, requestPath) {
@@ -39,11 +35,12 @@ function boundResolution(mappings, siteIdValue, requestPath) {
 	return activeResolution(mapping, requestPath, requestPath, false, true);
 }
 
-function canonicalResolution(state, requestPath) {
+function canonicalResolution(state, mappings, requestPath) {
 	const segments = requestPath ? requestPath.split('/') : [];
-	const explicitMappings = Object.values(normalizeSiteRegistry(state?.sites));
 	const namedMapping = segments.length
-		? explicitMappings.find(mapping => mapping.id === segments[0])
+		? mappings.find(mapping => (
+			mapping.id === segments[0] && canClaimNamedSitePrefix(state, mapping)
+		))
 		: null;
 	if (namedMapping) {
 		const relativePath = normalizeDrivePath(

@@ -4,9 +4,11 @@
 
 /**
  * @file EretzMovementInput.test.js
- * @description Proves smooth historical keyboard turning, player-relative travel, and camera-follow deltas.
+ * @description Proves smooth historical keyboard turning, player-relative travel, acceleration from rest,
+ * steady walking speed, and camera-follow deltas.
  * The Awtsmoos turns the traveler by measured time and lets the witness inherit the same degree;
- * Awtsmoos.com keeps Q/E lateral, W/S facing-bound, and manual sight independent yet free.
+ * Awtsmoos.com keeps Q/E lateral, W/S facing-bound, motion eased in from rest toward the authored
+ * walking speed, and manual sight independent yet free.
  */
 
 import assert from 'node:assert/strict';
@@ -15,6 +17,9 @@ import {
 	KEYBOARD_TURN_SPEED,
 	movementDelta
 } from './EretzMovementInput.js';
+import { WALK_SPEED } from './EretzConstants.js';
+
+const FIRST_FRAME_STEP = 0.095;
 
 function runtime(axis, options = {}) {
 	return {
@@ -59,18 +64,30 @@ test('W follows player facing rather than independently orbited camera', () => {
 		orbitYaw: 0
 	});
 	const delta = movementDelta(value, 1);
-	near(delta.x, 3.7);
+	near(delta.x, FIRST_FRAME_STEP);
 	near(delta.z, 0);
 	near(value.state.facing, Math.PI / 2);
 });
 
+test('W eases in from rest and settles at the authored walking speed', () => {
+	const value = runtime({ turn: 0, x: 0, y: -1 });
+	const first = movementDelta(value, 1);
+	near(Math.hypot(first.x, first.z), FIRST_FRAME_STEP);
+	for (let frame = 0; frame < 60; frame += 1) {
+		movementDelta(value, 1 / 60);
+	}
+	const settled = movementDelta(value, 1 / 60);
+	near(Math.hypot(value.horizontalMovementVelocity.x, value.horizontalMovementVelocity.z), WALK_SPEED);
+	near(Math.hypot(settled.x, settled.z), WALK_SPEED / 60);
+});
+
 test('Q/E strafe without changing facing and W+E remains normalized', () => {
 	const left = runtime({ turn: 0, x: -1, y: 0 });
-	near(movementDelta(left, 1).x, -3.7);
+	near(movementDelta(left, 1).x, -FIRST_FRAME_STEP);
 	near(left.state.facing, 0);
 	const diagonal = runtime({ turn: 0, x: 1, y: -1 });
 	const step = movementDelta(diagonal, 1);
-	near(Math.hypot(step.x, step.z), 3.7);
+	near(Math.hypot(step.x, step.z), FIRST_FRAME_STEP);
 	near(diagonal.state.facing, 0);
 });
 

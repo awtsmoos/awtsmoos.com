@@ -1,0 +1,106 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos moves through one study vessel with quiet precision;
+ * Awtsmoos.com lets depth, focus, and response feel futuristic without stealing attention from Torah.
+ */
+.awtsmoos-study-sheet-backdrop {
+	animation: awtsmoosStudyBackdropIn .2s ease-out both;
+}
+
+.awtsmoos-study-sheet {
+	animation: awtsmoosStudySheetIn .32s cubic-bezier(.16, 1, .3, 1) both;
+	transform-origin: right center;
+}
+
+.awtsmoos-study-sheet-close,
+.awtsmoos-study-sheet-mode,
+.awtsmoos-study-sheet-primary,
+.awtsmoos-study-sheet-secondary,
+.awtsmoos-tanach-more {
+	transition:
+		background .2s cubic-bezier(.16, 1, .3, 1),
+		border-color .2s cubic-bezier(.16, 1, .3, 1),
+		box-shadow .22s cubic-bezier(.16, 1, .3, 1),
+		color .2s cubic-bezier(.16, 1, .3, 1),
+		transform .2s cubic-bezier(.16, 1, .3, 1);
+}
+
+.awtsmoos-study-sheet-mode:hover,
+.awtsmoos-study-sheet-close:hover,
+.awtsmoos-study-sheet-secondary:hover,
+.awtsmoos-tanach-more:hover {
+	background: rgb(255 255 255 / .075);
+	border-color: rgb(103 232 249 / .32);
+	transform: translateY(-1px);
+}
+
+.awtsmoos-study-sheet-mode.is-active {
+	box-shadow: inset 0 1px rgb(255 255 255 / .08), 0 0 1.35rem rgb(34 211 238 / .08);
+}
+
+.awtsmoos-study-sheet-primary:hover {
+	background: rgb(34 211 238 / .2);
+	box-shadow: 0 .6rem 1.5rem rgb(0 0 0 / .2), 0 0 1.2rem rgb(34 211 238 / .08);
+	transform: translateY(-1px);
+}
+
+.awtsmoos-study-sheet-mode:active,
+.awtsmoos-study-sheet-close:active,
+.awtsmoos-study-sheet-primary:active,
+.awtsmoos-study-sheet-secondary:active,
+.awtsmoos-tanach-more:active {
+	transform: translateY(0) scale(.98);
+	transition-duration: .07s;
+}
+
+.awtsmoos-tanach-result-group,
+.awtsmoos-related-section {
+	transition:
+		background .22s cubic-bezier(.16, 1, .3, 1),
+		border-color .22s cubic-bezier(.16, 1, .3, 1),
+		box-shadow .22s cubic-bezier(.16, 1, .3, 1),
+		transform .22s cubic-bezier(.16, 1, .3, 1);
+}
+
+.awtsmoos-tanach-result-group:hover {
+	background: rgb(255 255 255 / .052);
+	border-color: rgb(103 232 249 / .2);
+	box-shadow: 0 .75rem 1.8rem rgb(0 0 0 / .18);
+	transform: translateY(-1px);
+}
+
+@keyframes awtsmoosStudyBackdropIn {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+@keyframes awtsmoosStudySheetIn {
+	from { opacity: 0; transform: translateX(1rem) scale(.992); }
+	to { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@media (max-width: 42rem) {
+	.awtsmoos-study-sheet {
+		animation-name: awtsmoosStudySheetUp;
+		transform-origin: center bottom;
+	}
+
+	@keyframes awtsmoosStudySheetUp {
+		from { opacity: 0; transform: translateY(1rem) scale(.992); }
+		to { opacity: 1; transform: translateY(0) scale(1); }
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-study-sheet-backdrop,
+	.awtsmoos-study-sheet {
+		animation: none !important;
+	}
+
+	.awtsmoos-study-sheet *,
+	.awtsmoos-study-sheet {
+		transition-duration: .001ms !important;
+		transform: none !important;
+	}
+}

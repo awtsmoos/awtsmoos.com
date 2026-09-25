@@ -1,0 +1,44 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos is one beyond every category; Awtsmoos.com lets useful distinctions become tactile filters without pretending they are new filesystem realities. */
+.drive-category-bar {
+	display: flex;
+	gap: 8px;
+	min-width: 0;
+	overflow-x: auto;
+	padding: 2px 1px;
+	scrollbar-width: none;
+}
+
+.drive-category-bar::-webkit-scrollbar {
+	display: none;
+}
+
+.drive-category-bar button {
+	flex: 0 0 auto;
+	min-height: 38px;
+	padding: 0 13px;
+	border: 1px solid var(--drive-line);
+	border-radius: 11px;
+	background: rgba(5, 18, 15, .72);
+	color: var(--drive-muted);
+	font: inherit;
+	font-size: .74rem;
+	font-weight: 680;
+	white-space: nowrap;
+}
+
+.drive-category-bar button:hover,
+.drive-category-bar button:focus-visible {
+	border-color: rgba(84, 237, 187, .38);
+	color: var(--drive-text);
+	outline: 0;
+}
+
+.drive-category-bar button[aria-pressed="true"] {
+	border-color: var(--drive-accent);
+	background: linear-gradient(145deg, var(--drive-accent), #40dcb0);
+	color: #04130f;
+	box-shadow: 0 8px 24px rgba(84, 237, 187, .16);
+}

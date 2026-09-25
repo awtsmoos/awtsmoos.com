@@ -1,15 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-const { validateToken } = require('./sodos.js');
-
 /**
- * @file Resolves the canonical Awtsmoos session cookie for HTTP and WebSocket gates.
- * @description The Awtsmoos renews one signed token through two transports without
- * multiplying authentication laws. Awtsmoos.com is remembered here as both HTTP
- * middleware and socket upgrades receive the same verified user interpretation.
+ * B"H
+ * Boruch Hashem. Blessed is He.
+ *
+ * One signed session law serves HTTP and WebSocket gates. The Awtsmoos grants
+ * a long road without letting a copied bearer token impersonate eternity.
  */
+const { validateToken } = require('./sodos.js');
+const { validateSessionInfo } = require('./sessionPolicy.js');
 
 function decodeCookieToken(token) {
 	try {
@@ -20,26 +17,24 @@ function decodeCookieToken(token) {
 }
 
 function decodeTokenPayload(valid) {
-	let payload = valid;
 	try {
-		payload = JSON.parse(Buffer.from(valid, 'base64').toString());
+		const payload = JSON.parse(Buffer.from(valid, 'base64').toString('utf8'));
+		if (payload?.entry && !payload.userId) payload.userId = payload.entry;
+		return payload;
 	} catch {
-		// Some historical token validators may already return a decoded object.
+		return null;
 	}
-	if (payload?.entry && !payload.userId) {
-		payload.userId = payload.entry;
-	}
-	return payload;
 }
 
 class AwtsmoosAuth {
-	constructor(secret) {
+	constructor(secret, options = {}) {
 		this.secret = secret || '';
+		this.sessionOptions = options.session || {};
 	}
 
 	authenticateCookies(cookies = {}) {
 		const token = cookies.awtsmoosKey;
-		if (!token) return null;
+		if (!token || !this.secret) return null;
 		let valid;
 		try {
 			valid = validateToken(decodeCookieToken(token), this.secret);
@@ -48,8 +43,9 @@ class AwtsmoosAuth {
 		}
 		if (!valid) return null;
 		const info = decodeTokenPayload(valid);
-		return info?.userId
-			? { authorized: true, info }
+		const session = validateSessionInfo(info, this.sessionOptions);
+		return session.valid && info?.userId
+			? { authorized: true, info: { ...info, session: session.metadata } }
 			: null;
 	}
 

@@ -1,0 +1,93 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets a universe begin with one word; Awtsmoos.com keeps writing near while publishing machinery waits until heard.
+*/
+body {
+	background: radial-gradient(circle at 52% -10%, rgba(124, 156, 255, .14), transparent 32%), var(--g4-bg) !important;
+	color: var(--g4-text);
+}
+.composer-civilization-header {
+	border-bottom: 1px solid var(--g4-line) !important;
+	background: rgba(7, 9, 16, .8) !important;
+	backdrop-filter: blur(24px) saturate(1.2);
+}
+.composerLayout {
+	inline-size: min(calc(100% - 28px), 1360px) !important;
+	margin-inline: auto !important;
+	grid-template-columns: minmax(0, 1fr) minmax(280px, 360px) !important;
+	gap: 18px !important;
+}
+.composerColumn {
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 12px !important;
+}
+.majorPanel,
+.previewSticky {
+	border: 1px solid var(--g4-line) !important;
+	border-radius: var(--g4-radius-lg) !important;
+	background: var(--g4-surface) !important;
+	box-shadow: none !important;
+	backdrop-filter: blur(var(--g4-blur));
+}
+.contentPanel {
+	order: 1;
+	border-color: color-mix(in srgb, var(--g4-accent) 28%, var(--g4-line)) !important;
+	box-shadow: var(--g4-shadow-1) !important;
+}
+.identityPanel { order: 2; }
+.destinationPanel { order: 3; }
+.publicationPanel { order: 4; }
+.identityPanel,
+.destinationPanel,
+.publicationPanel {
+	background: rgba(255, 255, 255, .032) !important;
+}
+.majorPanel > summary {
+	min-block-size: 54px;
+	padding-inline: 18px !important;
+	color: var(--g4-text-secondary);
+}
+.majorPanel[open] > summary { color: var(--g4-text); }
+.majorPanelBody { padding: 16px 18px 20px !important; }
+#summary,
+#rootBlocks,
+textarea,
+input,
+select { border-radius: var(--g4-radius-sm) !important; }
+#rootBlocks {
+	min-block-size: 260px;
+	background: rgba(0, 0, 0, .12);
+}
+.previewSticky { top: 16px !important; }
+.actionBar {
+	position: sticky !important;
+	bottom: 10px;
+	z-index: 20;
+	padding: 8px !important;
+	border: 1px solid var(--g4-line-strong) !important;
+	border-radius: 18px !important;
+	background: rgba(11, 14, 23, .9) !important;
+	box-shadow: var(--g4-shadow-2) !important;
+	backdrop-filter: blur(24px);
+}
+.publishButton {
+	background: linear-gradient(135deg, var(--g4-accent), #776cff) !important;
+	color: #060711 !important;
+	font-weight: 820 !important;
+}
+@media (max-width: 860px) {
+	.composerLayout {
+		inline-size: min(calc(100% - 20px), 760px) !important;
+		grid-template-columns: 1fr !important;
+	}
+	.composer-civilization-header { padding-top: var(--g4-safe-top) !important; }
+	.previewColumn { order: 10; }
+	.actionBar {
+		bottom: max(8px, var(--g4-safe-bottom));
+		display: grid !important;
+		grid-template-columns: 1fr 1fr !important;
+	}
+	.publishButton { grid-column: 1 / -1; }
+}

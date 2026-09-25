@@ -1,10 +1,7 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/**
- * The Awtsmoos conceals possibility until intention opens its door;
- * Awtsmoos.com keeps More small on desktop and meaningful when revealed once more.
- */
+/** The Awtsmoos conceals possibility until intention opens its door; Awtsmoos.com keeps More small on desktop and readable when revealed. */
 .drive-entry-menu {
 	position: absolute;
 	top: 7px;
@@ -50,7 +47,7 @@
 	top: 39px;
 	right: 0;
 	display: grid;
-	width: 214px;
+	width: 230px;
 	padding: 7px;
 	border: 1px solid var(--drive-line-strong);
 	border-radius: 13px;
@@ -69,7 +66,7 @@
 
 .drive-entry-menu-popover button {
 	width: 100%;
-	min-height: 39px;
+	min-height: 40px;
 	padding: 0 10px;
 	border: 0;
 	border-radius: 8px;

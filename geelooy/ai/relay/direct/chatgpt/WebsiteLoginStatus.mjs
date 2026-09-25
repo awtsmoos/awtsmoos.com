@@ -10,7 +10,7 @@
  * only through its exact device-owned port and never through fallback port guessing.
  */
 export async function readWebsiteLoginStatus(context) {
-	const authority = context.registry.observe();
+	const authority = await context.registry.observe();
 	if (!authority.ok) {
 		return {
 			ok: true,

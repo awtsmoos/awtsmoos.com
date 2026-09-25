@@ -27,7 +27,7 @@ assert.equal(Reconnect.defaultMaximumForFailure({ category: "network" }), 5000);
 assert.equal(Reconnect.defaultMaximumForFailure({ category: "proxy" }), 30000);
 
 Reconnect.markRegistered(state);
-assert.equal(state.reconnectAttempt, 2);
+assert.equal(state.reconnectAttempt, 0);
 assert.equal(state.lastRegisteredAt > 0, true);
 Reconnect.markAccepted(state);
 assert.equal(state.reconnectAttempt, 0);
@@ -35,7 +35,7 @@ assert.equal(state.reconnectAttempt, 0);
 console.log(JSON.stringify({
 	ok: true,
 	suite: "reconnect-policy",
-	registrationPreservesPressure: true,
+	registrationResetsPressure: true,
 	acceptanceResetsPressure: true,
 	proxyMaximumDelayMs: Reconnect.DEFAULT_MAXIMUM_DELAY_MS,
 	networkMaximumDelayMs: Reconnect.DEFAULT_NETWORK_MAXIMUM_DELAY_MS

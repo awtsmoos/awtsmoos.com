@@ -2,20 +2,21 @@
 // Boruch Hashem
 // Blessed is He
 
-import { dockPanels } from "../core/panelCatalog.js";
+import { dockOwnerId, dockPanels } from "../core/panelCatalog.js";
 import { createElement } from "./dom.js";
 import { panelSummary } from "./panelSummaries.js";
 
 /**
- * @file One-thumb Build, Preview, Code, Publish, and Domain navigation.
- * @description The Awtsmoos holds the complete workspace while Awtsmoos.com places the creator's five-step journey beneath one thumb without duplicating desktop DOM.
+ * @file One-thumb Drive journey navigation.
+ * @description
+ * The Awtsmoos holds every advanced vessel behind a human path;
+ * Awtsmoos Drive keeps Build, Files, Preview, Publish, and More beneath one thumb while deeper screens illuminate their true owner.
  */
-
 export function createMobileDockView(coordinator) {
 	const buttons = new Map();
 	const element = createElement("nav", {
 		className: "mobile-dock",
-		attributes: { "aria-label": "Website builder sections" },
+		attributes: { "aria-label": "Awtsmoos Drive sections" },
 		children: dockPanels().map(definition => dockButton(definition, coordinator, buttons))
 	});
 	let lastState = {};
@@ -40,8 +41,12 @@ function dockButton(definition, coordinator, buttons) {
 	const badge = createElement("span", { className: "dock-badge" });
 	const button = createElement("button", {
 		className: "dock-button",
-		attributes: { type: "button", "aria-controls": `drive-panel-content-${definition.id}`, "aria-label": definition.label },
-		events: { click: () => coordinator.open(definition.id, { scroll: true, focus: true }) },
+		attributes: {
+			type: "button",
+			"aria-controls": `drive-panel-content-${definition.id}`,
+			"aria-label": definition.label
+		},
+		events: { click: () => coordinator.open(definition.id, { scroll: true, focus: false }) },
 		children: [
 			createElement("span", { className: "dock-icon", text: definition.icon, attributes: { "aria-hidden": "true" } }),
 			createElement("span", { className: "dock-label", text: definition.label }),
@@ -53,8 +58,10 @@ function dockButton(definition, coordinator, buttons) {
 }
 
 function renderButtons(state, buttons, activeId) {
+	const ownerId = dockOwnerId(activeId);
+	document.documentElement.dataset.driveScreen = ownerId;
 	for (const [panelId, parts] of buttons) {
-		const active = panelId === activeId;
+		const active = panelId === ownerId;
 		parts.button.classList.toggle("active", active);
 		if (active) parts.button.setAttribute("aria-current", "page");
 		else parts.button.removeAttribute("aria-current");

@@ -1,0 +1,101 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos contracts a vast file world into the palm without crowding the hand; Awtsmoos.com lets the premium Drive breathe at 320px while every real action remains reachable. */
+@media (max-width: 760px) {
+	.drive-main {
+		padding-inline: 14px;
+	}
+	.drive-header {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 12px;
+		padding-top: 14px;
+	}
+	.drive-mobile-brand {
+		display: flex !important;
+		min-width: 0;
+	}
+	#drive-account-slot {
+		grid-column: 2;
+		grid-row: 1;
+	}
+	.drive-search {
+		grid-column: 1 / -1;
+	}
+	.drive-toolbar {
+		display: grid;
+		gap: 12px;
+	}
+	.drive-primary-actions {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		gap: 9px;
+	}
+	.drive-primary-actions > button {
+		min-height: 48px;
+		border-radius: 13px;
+	}
+	.drive-category-bar {
+		margin-inline: -2px;
+	}
+	.drive-toolbar-tools {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr) auto;
+		gap: 8px;
+	}
+	.drive-location-bar {
+		padding-block: 9px 12px;
+	}
+	.drive-home-files,
+	.drive-entry-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 9px;
+	}
+	.drive-media-card {
+		min-height: 196px;
+	}
+	.drive-media-open {
+		grid-template-rows: 118px auto;
+		min-height: 194px;
+	}
+	.drive-card-visual {
+		min-height: 118px;
+	}
+	.drive-folder-rail {
+		grid-auto-columns: minmax(140px, 46vw);
+		margin-right: -14px;
+		padding-right: 14px;
+	}
+	.drive-mobile-dock {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+	.drive-bulk-dialog {
+		max-height: min(760px, calc(100dvh - 20px));
+		margin-bottom: 10px;
+	}
+	.drive-bulk-dialog .drive-dialog-actions {
+		position: sticky;
+		bottom: 0;
+		padding-top: 9px;
+		background: linear-gradient(180deg, transparent, rgba(3, 12, 10, .98) 25%);
+	}
+}
+@media (max-width: 350px) {
+	.drive-main {
+		padding-inline: 10px;
+	}
+	.drive-home-files,
+	.drive-entry-grid {
+		gap: 7px;
+	}
+	.drive-folder-rail {
+		grid-auto-columns: minmax(136px, 48vw);
+	}
+	.drive-brand-copy small {
+		font-size: .57rem;
+	}
+	.drive-category-bar button {
+		padding-inline: 11px;
+	}
+}

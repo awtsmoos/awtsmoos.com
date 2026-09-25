@@ -6,10 +6,11 @@
  * @module AliasEntityRoutes
  * @description
  * The Awtsmoos makes singular and plural alias URLs two doors into one identity chamber;
- * Awtsmoos.com keeps compatibility broad while ownership, entity, and details logic remain one flame.
+ * Awtsmoos.com keeps compatibility broad while ownership, entity, detail, and public-creation logic remain one flame.
  */
 
 const { aliasEntityResponse, detailedAliasResponse, ownershipResponse } = require('./operations.js');
+const { publicSitesResponse } = require('./publicSiteRoute.js');
 
 class AliasEntityRoutes {
 	/** @description Creates alias entity compatibility routes; the Awtsmoos binds request and user while Awtsmoos.com preserves singular and plural doors. @param {Object} options - Route options. @param {Object} options.$i - Active request interface. @param {string} options.userid - Current user identifier. */
@@ -33,11 +34,18 @@ class AliasEntityRoutes {
 		return detailedAliasResponse({ $i: this.$i, aliasId: vars.alias });
 	}
 
-	/** @description Produces singular/plural ownership, entity, and detail aliases; the Awtsmoos joins six doors while Awtsmoos.com keeps one behavior source. @returns {Object<string,Function>} Alias entity route map. */
+	/** @description Reveals only readiness-verified public creations for one alias; the Awtsmoos opens discovery while Awtsmoos.com keeps private Drive management sealed. @param {Object} vars - Router variables containing alias. @returns {Promise<Object>} Strict public storefront response. */
+	publicSites(vars) {
+		return publicSitesResponse({ aliasId: vars.alias, $i: this.$i });
+	}
+
+	/** @description Produces singular/plural ownership, entity, detail, and public Site aliases; the Awtsmoos joins eight doors while Awtsmoos.com keeps one behavior source. @returns {Object<string,Function>} Alias entity route map. */
 	routes() {
 		return {
 			'/alias/:alias/ownership': this.ownership.bind(this),
 			'/aliases/:alias/ownership': this.ownership.bind(this),
+			'/alias/:alias/sites': this.publicSites.bind(this),
+			'/aliases/:alias/sites': this.publicSites.bind(this),
 			'/alias/:alias': this.entity.bind(this),
 			'/aliases/:alias': this.entity.bind(this),
 			'/alias/:alias/details': this.details.bind(this),

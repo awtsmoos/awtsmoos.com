@@ -5,8 +5,8 @@
 /**
  * @module TanachPanelView
  * @description
- * The Awtsmoos lets every matched verse remain inside Awtsmoos, where Hebrew and its installed English may meet;
- * Awtsmoos.com opens one internal reader path and never sends Torah study toward a forbidden outside street.
+ * The Awtsmoos lets exact Tanach verses appear as compact, readable study rows;
+ * Awtsmoos.com keeps every result inside the shared Study Sheet instead of another modal.
  */
 
 function bilingualReaderUrl(result) {
@@ -15,53 +15,46 @@ function bilingualReaderUrl(result) {
 	return `${url.pathname}${url.search}`;
 }
 
+/** Builds one compact exact-verse result row. */
 export function resultRow(result) {
 	const group = document.createElement('article');
 	group.className = 'awtsmoos-tanach-result-group';
-	const row = document.createElement('a');
-	row.className = 'awtsmoos-tanach-result';
-	row.href = result.readerUrl;
+
+	const heading = document.createElement('div');
+	heading.className = 'awtsmoos-tanach-result-heading';
 	const title = document.createElement('strong');
 	title.textContent = `${result.bookTitle} ${result.chapter}:${result.verse}`;
 	const count = document.createElement('small');
-	const occurrences = Number(
-		result.occurrenceCount || result.matchOffsets?.length || 0
-	);
+	const occurrences = Number(result.occurrenceCount || result.matchOffsets?.length || 0);
 	count.textContent = `${occurrences} occurrence${occurrences === 1 ? '' : 's'}`;
-	const text = document.createElement('span');
+	heading.append(title, count);
+
+	const text = document.createElement('p');
+	text.className = 'awtsmoos-tanach-result-text';
 	text.dir = 'rtl';
 	text.lang = 'he';
 	text.textContent = result.text;
-	const readerHint = document.createElement('b');
-	readerHint.textContent = 'Open verse in Awtsmoos →';
-	row.append(title, count, text, readerHint);
+
+	const actions = document.createElement('div');
+	actions.className = 'awtsmoos-tanach-result-actions';
+	const open = document.createElement('a');
+	open.className = 'awtsmoos-study-sheet-primary';
+	open.href = result.readerUrl;
+	open.textContent = 'Open verse →';
 	const bilingual = document.createElement('a');
-	bilingual.className = 'awtsmoos-tanach-commentary-link';
+	bilingual.className = 'awtsmoos-study-sheet-secondary';
 	bilingual.href = bilingualReaderUrl(result);
-	bilingual.textContent = 'Open Hebrew + English in Awtsmoos →';
-	group.append(row, bilingual);
+	bilingual.textContent = 'Hebrew + English';
+	actions.append(open, bilingual);
+
+	group.append(heading, text, actions);
 	return group;
 }
 
-export function createPanel(query) {
-	const backdrop = document.createElement('div');
-	backdrop.id = 'awtsmoos-tanach-panel';
-	backdrop.className = 'awtsmoos-tanach-backdrop';
-	const dialog = document.createElement('section');
-	dialog.className = 'awtsmoos-tanach-panel';
-	dialog.setAttribute('role', 'dialog');
-	dialog.setAttribute('aria-modal', 'true');
-	dialog.setAttribute('aria-labelledby', 'awtsmoos-tanach-title');
-	const header = document.createElement('header');
-	const title = document.createElement('h2');
-	title.id = 'awtsmoos-tanach-title';
-	title.textContent = `Tanach search: “${query}”`;
-	const close = document.createElement('button');
-	close.type = 'button';
-	close.className = 'awtsmoos-tanach-close';
-	close.setAttribute('aria-label', 'Close Tanach results');
-	close.textContent = '×';
-	header.append(title, close);
+/** Creates Tanach-mode content without owning backdrop or dialog geometry. */
+export function createTanachStudyView() {
+	const root = document.createElement('div');
+	root.className = 'awtsmoos-study-tanach';
 	const status = document.createElement('p');
 	status.className = 'awtsmoos-tanach-status';
 	status.setAttribute('role', 'status');
@@ -74,11 +67,11 @@ export function createPanel(query) {
 	more.className = 'awtsmoos-tanach-more';
 	more.textContent = 'Load more verses';
 	more.hidden = true;
-	dialog.append(header, status, results, more);
-	backdrop.append(dialog);
-	return { backdrop, close, dialog, more, results, status, title };
+	root.append(status, results, more);
+	return { more, results, root, status };
 }
 
+/** Describes total exact occurrences across matching verses. */
 export function summaryText(search) {
 	const verses = Number(search.verseTotal ?? search.total ?? 0);
 	const occurrences = Number(search.occurrenceTotal ?? verses);

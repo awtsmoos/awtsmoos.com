@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 import { createRequire } from "node:module";
 import { TimedSingleFlightCache } from "../core/TimedSingleFlightCache.mjs";
@@ -11,10 +11,9 @@ const Chrome = require("../../split-browser/cdpChrome.cjs");
 
 /**
  * @file Resolves the live DevTools endpoint only through device browser authority.
- * @description
- * The Awtsmoos refuses numeric-port coincidence as browser identity. Production
- * validates the registered profile owner on explicit IPv4 loopback, and if that
- * incarnation died it asks the shared browser guardian to restore the same profile.
+ * A streak of failed launches engages a launch circuit breaker: launches stop
+ * for a cooldown window and the resolver fails cheap (observation plus a fast
+ * probe only), so hot sweeps never turn a dead browser into a launch storm.
  */
 export class DeviceBrowserPortResolver {
 	constructor(options = {}) {
@@ -24,6 +23,11 @@ export class DeviceBrowserPortResolver {
 		this.probeTimeoutMs = Math.max(250, Number(options.probeTimeoutMs || 2500));
 		this.cache = options.cache || new TimedSingleFlightCache({ ttlMs: 5000 });
 		this.authority = null;
+		this.now = options.now || (() => Date.now());
+		this.launchFailureThreshold = Math.max(1, Number(options.launchFailureThreshold || 3));
+		this.launchCooldownMs = Math.max(1000, Number(options.launchCooldownMs || 60000));
+		this.launchFailures = 0;
+		this.launchSuppressedUntil = 0;
 	}
 
 	/** Returns the current verified endpoint, restoring Chrome only when necessary. */
@@ -34,17 +38,34 @@ export class DeviceBrowserPortResolver {
 
 	/** Validates registry testimony, then performs one bounded same-profile recovery. */
 	async findPort() {
-		let authority = this.registry.observe();
+		let authority = await this.registry.observe();
 		if (authority.ok && await this.probe(authority)) {
+			this.noteLaunchSuccess();
 			this.authority = authority;
 			return authority.port;
 		}
-		const started = await this.browserStarter({});
-		if (!started?.ok) throw this.notFound(started);
-		authority = this.registry.observe();
+		const now = this.now();
+		if (now < this.launchSuppressedUntil) {
+			throw this.notFound({ status: "device_browser_launch_suppressed",
+				launchFailures: this.launchFailures, suppressedUntil: this.launchSuppressedUntil });
+		}
+		let started;
+		try {
+			started = await this.browserStarter({});
+		} catch (error) {
+			this.noteLaunchFailure(now);
+			throw this.notFound({ launchError: String(error?.code || error?.message || error) });
+		}
+		if (!started?.ok) {
+			this.noteLaunchFailure(now);
+			throw this.notFound(started);
+		}
+		authority = await this.registry.observe();
 		if (!authority.ok || !await this.probe(authority)) {
+			this.noteLaunchFailure(now);
 			throw this.notFound({ started, authority });
 		}
+		this.noteLaunchSuccess();
 		this.authority = authority;
 		return authority.port;
 	}
@@ -54,10 +75,8 @@ export class DeviceBrowserPortResolver {
 		const controller = new AbortController();
 		const timeout = setTimeout(() => controller.abort(), this.probeTimeoutMs);
 		try {
-			const response = await this.fetcher(
-				`http://${authority.host}:${authority.port}/json/version`,
-				{ signal: controller.signal }
-			);
+			const response = await this.fetcher(`http://${authority.host}:${authority.port}/json/version`,
+				{ signal: controller.signal });
 			if (!response.ok) return false;
 			const version = await response.json();
 			return typeof version.webSocketDebuggerUrl === "string";
@@ -66,6 +85,27 @@ export class DeviceBrowserPortResolver {
 		} finally {
 			clearTimeout(timeout);
 		}
+	}
+
+	/** Stops launch attempts until the given timestamp (watchdog circuit breaker). */
+	suppressLaunches(untilMs) {
+		this.launchSuppressedUntil = Math.max(this.launchSuppressedUntil, Number(untilMs) || 0);
+	}
+
+	/** Re-enables launch attempts immediately and clears the failure streak. */
+	clearLaunchSuppression() {
+		this.launchSuppressedUntil = 0;
+		this.launchFailures = 0;
+	}
+
+	noteLaunchFailure(now) {
+		this.launchFailures += 1;
+		if (this.launchFailures >= this.launchFailureThreshold) this.launchSuppressedUntil = now + this.launchCooldownMs;
+	}
+
+	noteLaunchSuccess() {
+		this.launchFailures = 0;
+		this.launchSuppressedUntil = 0;
 	}
 
 	/** Clears only the short verification cache; durable device identity remains intact. */
@@ -81,6 +121,8 @@ export class DeviceBrowserPortResolver {
 			incarnationId: this.authority?.incarnationId || null,
 			generation: this.authority?.generation || null,
 			probeTimeoutMs: this.probeTimeoutMs,
+			launchFailures: this.launchFailures,
+			launchSuppressedUntil: this.launchSuppressedUntil || null,
 			...this.cache.status()
 		};
 	}

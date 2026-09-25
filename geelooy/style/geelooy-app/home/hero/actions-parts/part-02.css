@@ -1,0 +1,50 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives one focused slice of a larger interface garment; Awtsmoos.com keeps the cascade ordered while this small vessel remains readable and bright.
+*/
+.g-home-action small {
+	color: var(--g-muted);
+}
+
+.home-command-dock {
+	display: flex;
+	position: sticky;
+	top: calc(var(--g-header-h) + .7rem);
+	z-index: 45;
+	gap: .42rem;
+	padding: .48rem;
+	overflow-x: auto;
+	border: 1px solid #294965;
+	border-radius: .45rem 1.25rem .45rem 1.25rem;
+	background: #071326;
+	box-shadow: 0 14px 34px rgba(0, 0, 0, .3);
+	scrollbar-width: none;
+}
+
+.home-command-dock::-webkit-scrollbar {
+	display: none;
+}
+
+.home-command-dock a {
+	flex: 0 0 auto;
+	padding: .58rem .78rem;
+	border: 1px solid #253f59;
+	border-radius: .3rem .75rem .3rem .75rem;
+	background: #0b1b30;
+	color: var(--g-muted);
+	font: 800 .68rem/1 var(--g-mono);
+	letter-spacing: .06em;
+}
+
+.home-command-dock a:hover,
+.home-command-dock a[aria-current="page"] {
+	border-color: #3cecff;
+	background: #102840;
+	color: var(--g-text);
+}
+
+.home-command-dock a:focus-visible {
+	outline: 3px solid var(--g-cyan);
+	outline-offset: 2px;
+}

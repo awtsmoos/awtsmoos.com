@@ -4,23 +4,19 @@
 
 /**
  * @file productionBuild.test.cjs
- * @description Proves authored-meadow entry identity, tiny first control, deterministic chunks, compression, and deferred cinema reachability.
- * The Awtsmoos gives Awtsmoos.com one cache family from first threshold through the proper Chossid renderer and textured meadow,
- * while the playable valley remains measured, generated only by builders, and free of deferred rich-world systems before control.
+ * @description Proves authored-meadow identity, tiny first control, deterministic essential/player chunks, compression, and deferred cinema reachability.
+ * The Awtsmoos gives Awtsmoos.com one cache family from first threshold through the real Chossid and textured meadow,
+ * while renderer, player, core, and later worlds remain measured generated vessels with no accidental source-graph tax before control.
  */
 
 const assert = require('node:assert/strict');
 const test = require('node:test');
-const {
-	cinemaSources,
-	json,
-	text,
-	verifyRepresentations
-} = require('./ProductionBuildProof.cjs');
+const { cinemaSources, json, text, verifyRepresentations } = require('./ProductionBuildProof.cjs');
 
 const RELEASE_VERSION = '20260915-authored-meadow-03';
 const chunks = Object.freeze([
 	['foundation', 'createEretzWorldFoundation'],
+	['player', 'loadEretzEssentialAssets'],
 	['core', 'assembleBootstrapCoreRuntime'],
 	['presentation', 'installMinimalMeadowPresentationBundle'],
 	['world', 'installMinimalMeadowWorldSystems'],
@@ -37,7 +33,7 @@ const firstControlForbidden = Object.freeze([
 	'WorldSpatialRealismApi'
 ]);
 
-test('production page selects the fresh compact game beside shared shell infrastructure', () => {
+test('production page selects fresh compact game and preloads essential generated chunks', () => {
 	const html = text('index.html');
 	const stylesheets = [...html.matchAll(/<link[^>]+rel="stylesheet"[^>]+href="([^"]+)"/g)]
 		.map(match => match[1]);
@@ -51,8 +47,9 @@ test('production page selects the fresh compact game beside shared shell infrast
 		`./experiments/Awtsmoos/src/mitzvah-world.compact.js?v=${RELEASE_VERSION}`,
 		'../scripts/player-shell/index.js?compact=true'
 	]);
-	assert.match(html, new RegExp(`mitzvah-world-foundation\\.compact\\.js\\?v=${RELEASE_VERSION}`));
-	assert.match(html, new RegExp(`mitzvah-world-core\\.compact\\.js\\?v=${RELEASE_VERSION}`));
+	for (const name of ['foundation', 'player', 'core']) {
+		assert.match(html, new RegExp(`mitzvah-world-${name}\\.compact\\.js\\?v=${RELEASE_VERSION}`));
+	}
 });
 
 test('production CSS is complete and every representation is verified', () => {
@@ -101,7 +98,5 @@ test('deferred creative mode preserves the complete served cinema graph', () => 
 		'assets/models/player/chossid.glb',
 		'MOVIE_CINEMA_VIDEO_PROGRESS_WEIGHT',
 		'UNSAFE_CINEMA_HUMAN'
-	]) {
-		assert.match(cinema, new RegExp(marker), marker);
-	}
+	]) assert.match(cinema, new RegExp(marker), marker);
 });

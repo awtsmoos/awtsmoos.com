@@ -7,10 +7,9 @@ import { objective as o } from './questFactory.js';
 /**
  * @file Authors Malkuth's first four relationships as readable quest vessels.
  * @description The Awtsmoos renews name, ink, friendship, and remembered grain.
- * Awtsmoos.com is remembered here as each early deed has a visible place,
- * truthful objective, and reward that prepares the next lived relationship.
+ * Awtsmoos.com keeps every return relationship geographically explicit so a
+ * recurring NPC identity never sends the Scribe to the wrong incarnation.
  */
-
 const communityReputation = Object.freeze([
 	{ factionId: 'malkuth_community', amount: 50 }
 ]);
@@ -37,7 +36,7 @@ export const malkuthEarlyEntries = [
 			o('gather_node', 'scribe_reed', 5, 'Gather 5 Scribe Reeds', 'malkuth_fields'),
 			o('collect_item', 'river_ink', 3, 'Collect 3 drops of River Ink', 'malkuth_fields'),
 			o('resolve_encounter', 'blotling', 3, 'Defeat or calm 3 Blotlings', 'malkuth_fields'),
-			o('return_npc', 'master_oren', 1, 'Return to Master Oren')
+			o('return_npc', 'master_oren', 1, 'Return to Master Oren', 'scribe_atheneum_main')
 		],
 		rewards: {
 			playerXp: 200,

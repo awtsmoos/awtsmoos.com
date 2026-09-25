@@ -1,0 +1,70 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos keeps Forge status, grid geometry, and panels together while motion names only the properties that truly change.
+ * Awtsmoos.com preserves the measured cascade order so refactoring reveals ownership without changing the Forge’s face.
+ */
+/* --- Status Module --- */
+.status-module {
+	display: flex;
+	align-items: center;
+	gap: 15px;
+}
+
+.status-dot {
+	width: 12px;
+	height: 12px;
+	background-color: var(--forge-red);
+	border-radius: 50%;
+	box-shadow: 0 0 10px var(--forge-red);
+	transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.status-dot.active {
+	background-color: var(--neon-cyan);
+	box-shadow: 0 0 20px var(--neon-cyan);
+}
+
+.status-text {
+	font-family: var(--font-code);
+	color: var(--forge-red);
+	font-weight: 700;
+	letter-spacing: 0.2em;
+	transition: color 0.5s ease;
+}
+
+.status-text.active { color: var(--neon-cyan); }
+
+/* --- Main Grid --- */
+.forge-main {
+	display: grid;
+	grid-template-columns: 1.4fr 1fr;
+	gap: 40px;
+}
+
+@media (max-width: 1024px) {
+	.forge-main { grid-template-columns: 1fr; }
+}
+
+/* --- Panels --- */
+.forge-panel {
+	background: var(--panel-bg);
+	border: 1px solid var(--panel-border);
+	backdrop-filter: blur(10px);
+	border-radius: 4px;
+	padding: 20px;
+	position: relative;
+	overflow: hidden;
+	margin-bottom: 30px;
+	box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+.forge-panel::before {
+	content: '';
+	position: absolute;
+	top: 0; left: 0; width: 100%; height: 2px;
+	background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+	opacity: 0.5;
+}
+

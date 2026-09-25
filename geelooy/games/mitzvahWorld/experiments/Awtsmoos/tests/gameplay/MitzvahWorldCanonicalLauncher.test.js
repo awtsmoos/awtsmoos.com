@@ -44,7 +44,19 @@ test('B"H single-player forwards canonical page progress into only the selected 
 	assert.equal(modeCalls[0].mode, 'singleplayer');
 	assert.equal(modeCalls[0].options.onProgress, onProgress);
 	modeCalls[0].options.onProgress({ message: 'Terrain ready', progress: 0.72 });
-	assert.deepEqual(events, [{ message: 'Terrain ready', progress: 0.72 }]);
+	assert.equal(events.length, 3);
+	assert.deepEqual(events[0], {
+		message: 'Opening the selected world route…',
+		progress: 0.02,
+		stage: 'deferred-runtime',
+		url: ''
+	});
+	assert.equal(events[1].message, 'Loading the selected gameplay capability…');
+	assert.equal(events[1].progress, 0.04);
+	assert.equal(events[1].stage, 'deferred-runtime-module');
+	assert.equal(events[1].blocking, true);
+	assert.ok(String(events[1].url).includes('MitzvahWorldDeferredLaunchRuntime.js'));
+	assert.deepEqual(events[2], { message: 'Terrain ready', progress: 0.72 });
 });
 
 test('multiplayer receives the same page progress callback without changing its route identity', async () => {

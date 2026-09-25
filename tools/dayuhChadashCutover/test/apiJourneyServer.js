@@ -1,16 +1,19 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-/** @file apiJourneyServer.js @description Starts an isolated real Awtsmoos server. */
-
+//B"H
+//Boruch Hashem
+//Blessed is He
+/**
+ * @file apiJourneyServer.js
+ * @description
+ * The Awtsmoos starts one isolated real release-journey server and owns its process from seed through shutdown;
+ * Awtsmoos.com keeps readiness observation separate so cold composition is measured without weakening the HTTP proof.
+ */
 const fs = require('fs');
 const net = require('net');
 const path = require('path');
 const { spawn } = require('child_process');
 const DosDB = require('../../../ayzarim/DosDB/index.js');
 const { createApiKey } = require('../../../geelooy/api/social/helper/apiKeys.js');
-const { request } = require('./apiJourneyHttp.js');
+const { waitForServer } = require('./apiJourneyReadiness.js');
 
 function freePort() {
 	return new Promise((resolve, reject) => {
@@ -40,9 +43,11 @@ async function seedApiKey(dbRoot, userId) {
 
 function startServer(repositoryRoot, dbRoot, port, logRoot) {
 	fs.mkdirSync(logRoot, { recursive: true });
-	const stdout = fs.openSync(path.join(logRoot, 'server.out'), 'w');
-	const stderr = fs.openSync(path.join(logRoot, 'server.err'), 'w');
+	const stdoutPath = path.join(logRoot, 'server.out');
+	const stderrPath = path.join(logRoot, 'server.err');
 	const receipt = path.join(logRoot, 'db-roots.jsonl');
+	const stdout = fs.openSync(stdoutPath, 'w');
+	const stderr = fs.openSync(stderrPath, 'w');
 	const guard = path.join(__dirname, 'apiJourneyChildGuard.js');
 	const server = spawn(process.execPath, ['-r', guard, 'index.js'], {
 		cwd: repositoryRoot,
@@ -53,29 +58,14 @@ function startServer(repositoryRoot, dbRoot, port, logRoot) {
 			AWTSMOOS_DB_ROOT: dbRoot,
 			AWTS_DB_ROOT: '',
 			AWTSMOOS_TEST_DB_RECEIPT: receipt,
-			AWTSMOOS_DISABLE_MAIL: 'true'
+			AWTSMOOS_DISABLE_MAIL: 'true',
+			AWTSMOOS_DISABLE_TASK_RUNNER: 'true'
 		}
 	});
 	fs.closeSync(stdout);
 	fs.closeSync(stderr);
+	server.awtsmoosFixture = { logRoot, receipt, stdout: stdoutPath, stderr: stderrPath };
 	return server;
-}
-
-async function waitForServer(server, origin, apiKey) {
-	for (let attempt = 0; attempt < 80; attempt++) {
-		if (server.exitCode !== null) {
-			throw new Error(`B"H fixture server exited: ${server.exitCode}`);
-		}
-		try {
-			const response = await request(
-				origin,
-				`/api/social/keys/verify?apiKey=${encodeURIComponent(apiKey)}`
-			);
-			if (response.status === 200 && !response.json?.error) return response;
-		} catch {}
-		await new Promise(resolve => setTimeout(resolve, 250));
-	}
-	throw new Error('B"H fixture server readiness timed out');
 }
 
 async function stopServer(server) {

@@ -1,94 +1,93 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @module LivingLibraryView
- * @description The Awtsmoos turns search state into concise source windows while Awtsmoos.com names the search lane that actually answered.
+ * @description
+ * The Awtsmoos lets successful search light enter one clear vessel, source after source in sight;
+ * Awtsmoos.com keeps failure in its own Gevurah boundary so result rendering stays truthful and bright.
  */
+
 import { mergeCommentHits } from './commentMerge.js';
 import { rangeCard } from './rangeResults.js';
 import { searchStatusMessage } from './searchExecutionLabel.js';
 import { renderSearchPresentation } from './searchGroupingView.js';
+import { renderResultWindow } from './searchResultWindow.js';
 
-const initialResultCount = 6;
-const resultIncrement = 6;
+export { addLane } from './searchLaneView.js';
 
-/** Adds one unique Library lane option with a truthful indexed-segment count. */
-export function addLane(select, lane) {
-	const value = String(lane?.id || '');
-	if (!value || Array.from(select.options).some(option => option.value === value)) return;
-	const label = String(lane?.title || lane?.label || value);
-	select.add(new Option(`${label} · ${Number(lane?.count || 0).toLocaleString()} segments`, value));
-}
+const INITIAL_RESULT_COUNT = 6;
 
-/** Renders merged source/comment hits and publishes an honest executed-search status. */
+/**
+ * Renders merged source/comment hits and publishes the executed-search status.
+ *
+ * @param {Object} input Search response, destination nodes, and active query.
+ * @returns {void}
+ */
 export function renderSearch({ search, results, status, query }) {
-	const hits = mergeCommentHits(
-		Array.isArray(search.hits) ? search.hits : [],
-		Array.isArray(search.commentHits) ? search.commentHits : []
-	);
+	const sourceHits = Array.isArray(search.hits) ? search.hits : [];
+	const commentHits = Array.isArray(search.commentHits) ? search.commentHits : [];
+	const hits = mergeCommentHits(sourceHits, commentHits);
+
 	updateQueryContext(query, hits.length);
 	renderSearchPresentation({
 		container: results,
 		search,
 		hits,
-		renderRelevance: surface => renderResultWindow(surface, hits, initialResultCount),
+		renderRelevance: (surface) => {
+			return renderResultWindow(surface, hits, INITIAL_RESULT_COUNT);
+		},
 		cardFactory: rangeCard,
-		emptyCard: () => emptyCard(query, search.message)
+		emptyCard: () => {
+			return emptyCard(query, search.message);
+		}
 	});
-	status.textContent = searchStatusMessage(search, hits, query);
+
+	if (status) {
+		status.textContent = searchStatusMessage(search, hits, query);
+	}
 }
 
-/** Replaces prior result content with one accessible bounded failure vessel. */
-export function renderFailure({ message, results, status }) {
-	status.textContent = 'Search could not complete.';
-	const card = document.createElement('article');
-	card.className = 'library-error';
-	card.innerHTML = '<span aria-hidden="true">!</span><div><strong>Search could not complete.</strong><p></p></div>';
-	card.querySelector('p').textContent = message;
-	results.replaceChildren(card);
-}
-
-/** Synchronizes submit availability, busy semantics, and visible search state. */
+/**
+ * Synchronizes submit availability, busy semantics, and visible search state.
+ *
+ * @param {HTMLFormElement} form Search form whose controls reflect activity.
+ * @param {boolean} searching Whether a search request is currently active.
+ * @returns {void}
+ */
 export function setSearching(form, searching) {
+	if (!form) {
+		return;
+	}
+
 	form.classList.toggle('searching', searching);
 	form.setAttribute('aria-busy', String(searching));
-	const button = form.querySelector('button[type="submit"]');
-	button.disabled = searching;
-	button.querySelector('.library-search-label').textContent = searching ? 'Searching…' : 'Search sources';
-}
 
-/** Renders a finite result window and progressively reveals the remaining hits. */
-function renderResultWindow(results, hits, visibleCount) {
-	const visibleHits = hits.slice(0, visibleCount);
-	const firstCommentIndex = visibleHits.findIndex(hasComments);
-	const cards = visibleHits.map((hit, index) => rangeCard(hit, index, index === firstCommentIndex));
-	results.replaceChildren(...cards);
-	if (visibleCount >= hits.length) return;
-	const button = document.createElement('button');
-	button.type = 'button';
-	button.className = 'library-load-more';
-	button.innerHTML = `<span>Show more sources</span><small>${hits.length - visibleCount} remaining</small>`;
-	button.addEventListener('click', () => {
-		renderResultWindow(results, hits, visibleCount + resultIncrement);
-		results.querySelector(`.result:nth-of-type(${visibleCount + 1})`)?.focus({ preventScroll: true });
-	});
-	results.append(button);
+	const button = form.querySelector('button[type="submit"]');
+	if (!button) {
+		return;
+	}
+
+	button.disabled = searching;
+	const label = button.querySelector('.library-search-label');
+	if (label) {
+		label.textContent = searching ? 'Searching…' : 'Search sources';
+	}
 }
 
 /** Keeps document title and result metadata synchronized with the active query. */
 function updateQueryContext(query, count) {
 	const title = document.getElementById('results-title');
-	if (title) title.textContent = query ? `Results for “${query}”` : 'Sources worth opening';
+	if (title) {
+		title.textContent = query ? `Results for “${query}”` : 'Sources worth opening';
+	}
+
 	document.title = query ? `${query} — Living Library` : 'Search the Living Library — Geelooy';
 	const page = document.querySelector('.library-page');
-	if (page) page.dataset.resultCount = String(count);
-}
-
-/** Returns whether one merged result contains at least one linked comment. */
-function hasComments(hit) {
-	return Array.isArray(hit?.comments) && hit.comments.length > 0;
+	if (page) {
+		page.dataset.resultCount = String(count);
+	}
 }
 
 /** Builds a calm empty-state card without injecting untrusted query text as HTML. */
@@ -96,6 +95,7 @@ function emptyCard(query, message) {
 	const card = document.createElement('article');
 	card.className = 'library-empty';
 	card.innerHTML = '<span aria-hidden="true">∅</span><div><strong>No stored source matched.</strong><p></p></div>';
-	card.querySelector('p').textContent = message || `No indexed source segment matched “${query}”. Try another phrase or lane.`;
+	const copy = message || `No indexed source segment matched “${query}”. Try another phrase or lane.`;
+	card.querySelector('p').textContent = copy;
 	return card;
 }

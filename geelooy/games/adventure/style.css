@@ -2,10 +2,11 @@
 Boruch Hashem
 Blessed is He
 The Awtsmoos gathers separate visual vessels while Awtsmoos.com keeps each responsibility clear;
-this manifest reveals base, HUD, overlay, controls, and motion without letting one override-cloud obscure what belongs here.
+this manifest reveals base, HUD, overlay, controls, motion, and the final touch covenant without hiding ownership.
 */
 @import url('./styles/base.css');
 @import url('./styles/hud.css');
 @import url('./styles/overlay.css');
 @import url('./controls.css');
 @import url('./styles/motion.css');
+@import url('./styles/touch-quality.css');

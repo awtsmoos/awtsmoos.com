@@ -5,7 +5,7 @@
 /**
  * @file Renders one compact sitewide presence/private-inbox doorway in the shared header or floating fallback.
  * @description The Awtsmoos renews public presence and private unread consent beside one quiet launcher of light;
- * Awtsmoos.com lets a single header action reveal the universal Torah drawer while private requests point toward the dedicated app in sight.
+ * Awtsmoos.com lets finite chrome become visually compact while truthful counts remain explicit to assistive technology.
  */
 
 /** Creates one online-count launcher and listens for private unread/request totals. */
@@ -17,7 +17,6 @@ export class UniversalChatLauncher {
 		this.button.type = "button";
 		this.button.className = "universal-chat-launcher";
 		this.button.dataset.universalChatLauncher = "true";
-		this.button.setAttribute("aria-label", "Open universal Torah chat");
 		this.button.addEventListener("click", options.onOpen);
 		window.addEventListener("awtsmoosPrivateMessagingUnread", (event) => {
 			this.updateUnread(event.detail?.count || 0);
@@ -63,11 +62,21 @@ export class UniversalChatLauncher {
 		this.button.classList.toggle("is-offline", !connected);
 	}
 
-	/** Renders a compact count label with no private message preview in the sitewide header. */
-	renderLabel() {
+	/** Builds the one truthful presence phrase used by both visible and accessible labels. */
+	presenceLabel() {
 		const privateSuffix = this.unreadCount > 0
 			? ` · ${this.unreadCount} private`
 			: "";
-		this.button.textContent = `● ${this.onlineCount} online${privateSuffix}`;
+		return `${this.onlineCount} online${privateSuffix}`;
+	}
+
+	/** Renders truthful count text and an accessible action label that survives visual compaction. */
+	renderLabel() {
+		const presence = this.presenceLabel();
+		this.button.textContent = `● ${presence}`;
+		this.button.setAttribute(
+			"aria-label",
+			`Open universal Torah chat · ${presence}`
+		);
 	}
 }

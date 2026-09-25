@@ -24,6 +24,8 @@
 		"styles/source/fragments/mitzvah-world-inventory-002.css",
 		"styles/source/fragments/mitzvah-world-loading-001.css",
 		"styles/source/fragments/mitzvah-world-loading-002.css",
+		"styles/source/fragments/mitzvah-world-boot-future-001.css",
+		"styles/source/fragments/mitzvah-world-boot-future-002.css",
 		"styles/source/fragments/mitzvah-world-meadow-hud-001.css",
 		"styles/source/fragments/mitzvah-world-direct-action-001.css",
 		"styles/source/fragments/mitzvah-world-meadow-menu-001.css",
@@ -43,6 +45,8 @@
 		"styles/source/fragments/mitzvah-world-runtime-mounts-002.css",
 		"styles/source/fragments/mitzvah-world-direct-layout-001.css",
 		"styles/source/fragments/mitzvah-world-cinematic-mobile-001.css",
+		"styles/source/fragments/mitzvah-world-future-hud-001.css",
+		"styles/source/fragments/mitzvah-world-future-hud-002.css",
 		"styles/source/imports-001.css",
 		"styles/creative-dock/mitzvah-world-creative-dock-layout.css",
 		"styles/creative-dock/mitzvah-world-creative-dock-core.css",
@@ -63,8 +67,8 @@
 		"styles/mitzvah-world-creative-dock.css",
 		"styles/source/mitzvah-world.css"
 	],
-	"inputBytes": 109906,
-	"outputBytes": 84920,
+	"inputBytes": 124558,
+	"outputBytes": 97433,
 	"sourcePolicy": {
 		"errors": [],
 		"files": [
@@ -147,6 +151,16 @@
 				"bytes": 3056,
 				"lines": 115,
 				"path": "styles/source/fragments/mitzvah-world-loading-002.css"
+			},
+			{
+				"bytes": 3462,
+				"lines": 104,
+				"path": "styles/source/fragments/mitzvah-world-boot-future-001.css"
+			},
+			{
+				"bytes": 5384,
+				"lines": 94,
+				"path": "styles/source/fragments/mitzvah-world-boot-future-002.css"
 			},
 			{
 				"bytes": 2565,
@@ -244,8 +258,18 @@
 				"path": "styles/source/fragments/mitzvah-world-cinematic-mobile-001.css"
 			},
 			{
-				"bytes": 2484,
-				"lines": 44,
+				"bytes": 3223,
+				"lines": 82,
+				"path": "styles/source/fragments/mitzvah-world-future-hud-001.css"
+			},
+			{
+				"bytes": 2575,
+				"lines": 82,
+				"path": "styles/source/fragments/mitzvah-world-future-hud-002.css"
+			},
+			{
+				"bytes": 2730,
+				"lines": 48,
 				"path": "styles/source/imports-001.css"
 			},
 			{
@@ -346,19 +370,19 @@
 	},
 	"representations": {
 		"brotli": {
-			"bytes": 12058,
+			"bytes": 13678,
 			"encoding": "br",
-			"sha256": "783d351b47c73c729220b8ca2eab0a8c1b95ca0c15441f09636a0bf723a5d599"
+			"sha256": "023258890974c7aff7aca0266393b7647b390dd95efc87d51d75b420f4a1c128"
 		},
 		"gzip": {
-			"bytes": 14257,
+			"bytes": 16341,
 			"encoding": "gzip",
-			"sha256": "6547302b42640677e2cb8e1b06ccf338a3e1d24708bfed959d02354157efa685"
+			"sha256": "1fc01cb6088f818cbe69722a01668ddeb1bb93385735f99ee328bc045d16ce00"
 		},
 		"identity": {
-			"bytes": 84921,
+			"bytes": 97434,
 			"encoding": "identity",
-			"sha256": "22395409e6c7d0fbf131e8f5cba9c58c6e91f74626d686683af8438ef7201a40"
+			"sha256": "3c536ec87a3dc5763659338c34e0e038c1ae72f747db3b815d55c6f301819d2c"
 		}
 	}
 }

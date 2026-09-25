@@ -1,0 +1,345 @@
+/Users/awtsmoos/work/awtsmoos.com
+util      757
+events     3836
+entities     2921
+graph     3716
+work SKIPPED-need-hash
+rooms     3713
+provenance     1807
+capsule     7731
+store     1747
+MANIFEST-DONE
+ls-rc=0 lines=       0
+workhash=
+work        0
+to-tmp-lines=       0
+.dayuh-sync.remote.json
+.github
+.gitignore
+.rebbetest-cdp.mjs
+.rebbetest-smoke.mjs
+.tunnel-review-20260724-unique.txt
+root-ls-done
+pwd=/Users/awtsmoos/work/awtsmoos.com
+rev=bbc331f7887abd617c95512da91d92f22908ad4a
+stat:
+bbc331f78 WorkOS v0.1: event-fabric work-graph vertical slice (22 files, core 17/17 + UI 14/14 + integration 12/12 green)
+top-tree:
+appended
+=== commit obj ===
+tree 9564d82226cb939630bdb38d299563b8e7a866ce
+parent b03a305a3093b2683634229ea6aaf875124822cf
+author Coby <cobykaufer@gmail.com> 1789883016 -0700
+committer Coby <cobykaufer@gmail.com> 1789883016 -0700
+
+WorkOS v0.1: event-fabric work-graph vertical slice (22 files, core 17/17 + UI 14/14 + integration 12/12 green)
+=== root tree of commit ===
+100644 blob 683f4431ee546d8a74552c08cdca659bb1b48c8e	.dayuh-sync.remote.json
+040000 tree ff137a0d8639fd7f27c8cf4c531f89898a8ee511	.github
+100644 blob a6e34fa7749fb677a2b7c36d45ac7c45adbd9485	.gitignore
+100644 blob 53af4dd523fda3d85e7027938ecac68ad57e9939	.rebbetest-cdp.mjs
+100644 blob 800589fde008b055a13ac8de41c4e752d7c21855	.rebbetest-smoke.mjs
+100644 blob 11837932aedc004b67f313b315d95ea9b46e09e8	.tunnel-review-20260724-unique.txt
+100644 blob 6b898c649557a5b92f470acd6f15fa01396b28f4	748a_boundary_copy.txt
+100644 blob 6dde31fb4a5d07c982e4a578926b1caa4ee444e4	AGENTS.md
+100644 blob 35e6f84594b62cd9a2815888a3fa02ed846418aa	LICENSE
+100644 blob 76553aa69e0e32e1cbe4f5a36a339e01e18c37db	NOTICE
+040000 tree 8aaa6209ab8583b942109b60f543b36dfa997dca	ai thoughts
+040000 tree 683a20ad34fb226a9f554e270d447b183f1da542	ai_runtime_audits
+040000 tree b297fb3ca2c18171af7452708c0ed9576437e37a	ai_thoughts_local
+100644 blob 076070db77c2cba9fe14520dfe02958d91ff6d31	ask_model.sh
+100644 blob 836911b2b849c4f338ddf34d010e81876bc6f602	audit-final-chrome-version.json
+040000 tree ce45dcaa357c440b8304c134fb038fb147037fa5	awtsmoos.com
+100644 blob a03c04b5a391a0fc5702ed4cd404f8d2fd6b563d	awtsmoosdb_public_wrapper.txt
+040000 tree f28d6d013bb096b96722855700c25cbc33f79dce	ayzarim
+100644 blob 6999829275acd487cba4b17e63c77f9a224c9f0b	browser-evidence-line.txt
+100644 blob e5181570f9f3bde9146a9ae3566cf8e3bed66d73	browser-evidence.html
+100644 blob 070a0d00fb066f14898ab6ec03dc3da5085b043c	chrome-targets.json
+100644 blob c0b75dab12d6eaa7d7a27c8fed53c71579397a6a	chrome-version.json
+100644 blob feb3b175d916e59e12972ef6a66603f86969948f	created_by_asm.txt
+040000 tree 0ccd6a8291bb3a245b2d5e48fe95e8b1d9f47e72	dayuh
+040000 tree fe214510e6c7fe66fd545445ea06e23e48afade6	dayuhChadash
+=== log ===
+bbc331f78 WorkOS v0.1: event-fabric work-graph vertical slice (22 files, core 17/17 + UI 14/14 + integration 12/12 green)
+b03a305a3 BH games cinematic polish pass
+3e9279f4e BH cinematic asset wave 1: dark backgrounds + office scenes
+f03bff9c0 BH pages cinematic polish pass
+=== worktrees ===
+/Users/awtsmoos/work/awtsmoos.com                                                      eb2fc34c4 [geelooy-repair-waves]
+/private/tmp/awtsmoos-drive-release-20260917-1934                                      78ac29921 [drive-release-20260917-1934] prunable
+/private/tmp/awtsmoos-ikar-ayin-beis-release                                           6369891da [repair/ikar-ayin-beis-20260918] prunable
+/private/tmp/awtsmoos-ikar-release-20260918-1815                                       3d9fabe32 [release/ikar-ayinbeis-20260918-1815] prunable
+/private/tmp/awtsmoos-manifest-commit-1.0.621                                          ecd30226b (detached HEAD) prunable
+/private/tmp/awtsmoos-mobile-visual-release                                            7cddcdc46 (detached HEAD) prunable
+/private/tmp/awtsmoos-recovery-owned-1789672363                                        c9df8d15e (detached HEAD) prunable
+/private/tmp/awtsmoos-release-d714593d7                                                f49b2c05a [main] prunable
+/private/tmp/awtsmoos-release-worktree-29aefe6dc3                                      f49b2c05a [main] prunable
+/private/tmp/awtsmoos-total-completion-f49b2c05-20260918                               f49b2c05a (detached HEAD) prunable
+/private/tmp/awtsmoos-tunnel-release-cf4145e30-20260917024302                          cf4145e30 (detached HEAD) prunable
+/Users/awtsmoos/work/.ai-preserve/release-verify-aada5c-1                              4c4117f94 [ai/release-verify-4c4117f-20260918]
+/Users/awtsmoos/work/.ai-preserve/torah-cert-pinned-0e7b3532eb93-20260917T190930-0700  0e7b3532e (detached HEAD)
+/Users/awtsmoos/work/.ai-preserve/torah-cert-pinned-78ac29921ddc-20260917T124643-0700  78ac29921 (detached HEAD)
+/Users/awtsmoos/work/.ai-preserve/tunnel-flap-repair-                                  9ea082209 (detached HEAD)
+/Users/awtsmoos/work/.awtsmoos-agent-worktrees/release-activate-ca59d199               ca59d1993 (detached HEAD)
+/Users/awtsmoos/work/.awtsmoos-agent-worktrees/tunnel-project-world-20260916-2248      fcada65fd [ai/tunnel-project-world-acceptance/agent-asdf/20260916-2248]
+/Users/awtsmoos/work/awtsmoos-shliach-release-20260920-0144                            9ea082209 (detached HEAD)
+/Users/awtsmoos/work/awtsmoos-shliach-release-20260920-0147                            c3819ea6d [shliach-release-20260920-0228]
+ok2
+=== work/ ===
+00-plan-phase-1-source-and-architecture.md
+01-plan-phase-2-file-map-and-gates.md
+02-plan-phase-3-final-execution.md
+Awtsmoos.com-artifacts
+LIGHTNING_SPEED_INSTRUCTIONS.md
+REMAINING_WORK.json
+ai-thoughts
+ai_thoughts
+arachin9-boundary-map-2026-08-03-0038.txt
+archive org creds.html
+archive-ias3.json
+awtsmoos-mitzvah-final-clone
+awtsmoos-mitzvah-release-20260903-0017
+awtsmoos-rebbe-search-release-20260831-1451
+awtsmoos-rebbe-search-release-sparse-20260831-1451
+awtsmoos-release-1.0.613
+awtsmoos-release-1.0.613-da388
+awtsmoos-release-1.0.614-274df899
+awtsmoos-release-1.0.615-42d6
+awtsmoos-release-1.0.616-5d387
+awtsmoos-release-1.0.617-349ea
+awtsmoos-release-1.0.618-042e10c
+awtsmoos-release-1.0.618-ca59d199
+awtsmoos-release-activation-main-20260828
+awtsmoos-release-candidate-20260911
+awtsmoos-release-scope-20260911
+awtsmoos-release-sparse-20260911
+awtsmoos-release-temple-20260828
+awtsmoos-shliach-release-20260920-0144
+awtsmoos-shliach-release-20260920-0147
+awtsmoos-temple-hotfix-release-20260831T1149
+awtsmoos-temple-hotfix-release.path
+awtsmoos.com
+b.txt
+c.txt
+client_secret_940313948223-r33oeor4k2p1kkldh9ieilavild0f67u.apps.googleusercontent.com.json
+dayuhChadash
+debugging
+deploy-backups
+downloads
+ez-tree
+fyg
+geelooy
+gpt-from-scratch-workspace-2026-08-02
+ikar-dictionary-ux-20260908-0710
+mw_out.txt
+ohr-hagnuz-release-20260901-0450
+ohrfront-core-baseline-20260902-0407
+ohrfront-postrelease-improve-20260902-1000
+ohrfront-production-clone-20260902-0317
+ohrfront-quality-wave-20260902-1035
+ohrfront-release-20260901
+ohrfront-release-20260902-0910
+ohrfront-release-snapshot-20260901
+one_tab_probe.mjs
+plans
+publisher-docs-backup-20260821-1444
+release_staging
+shliach-sequential
+sitewide-generation7-20260904-0442
+smollm3-chat-workspace-2026-08-03-0038
+temple-prod-mobile-proof-20260831.mjs
+torah-novel-workspace
+work
+=== work/awtsmoos.com/ ===
+748a_boundary_copy.txt
+AGENTS.md
+LICENSE
+NOTICE
+ai agent work
+ai thoughts
+ai-thoughts
+ai_runtime_audits
+ai_thoughts
+ai_thoughts_local
+asdf
+ask_model.sh
+audit-final-chrome-version.json
+awtsmoos.com
+awtsmoosdb_public_wrapper.txt
+ayzarim
+browser-evidence-line.txt
+browser-evidence.html
+chrome-targets.json
+chrome-version.json
+created_by_asm.txt
+dayuh
+dayuhChadash
+docs
+extra
+final-isolated.stderr
+final-isolated.stdout
+games
+geelooy
+index.js
+=== outer/geelooy? ===
+awtsmoos.com/geelooy
+=== inner geelooy? ===
+awtsmoos.com/awtsmoos.com/geelooy
+ok3
+=== inner .git? ===
+ls: /Users/awtsmoos/work/awtsmoos.com/awtsmoos.com/.git: No such file or directory
+=== inner branches ===
+  workos-v0.1
+=== inner ls-tree workos ===
+ok4
+=== work as repo? ===
+fatal: not a git repository (or any of the parent directories): .git
+=== work branches ===
+=== work ls-tree ===
+=== outer rev-parse workos-v0.1 ===
+bbc331f7887abd617c95512da91d92f22908ad4a
+ok5
+GIT_DIR=
+GIT_WORK_TREE=
+git-dir=/Users/awtsmoos/work/awtsmoos.com/.git
+toplevel=/Users/awtsmoos/work/awtsmoos.com
+pwd-before-cd-check:
+/Users/awtsmoos/work/awtsmoos.com/geelooy
+ok6
+=== reflog workos-v0.1 ===
+bbc331f78 workos-v0.1@{0}: commit: WorkOS v0.1: event-fabric work-graph vertical slice (22 files, core 17/17 + UI 14/14 + integration 12/12 green)
+b03a305a3 workos-v0.1@{1}: branch: Created from HEAD
+=== log --all for work.js path ===
+=== cat-file commit ===
+tree 9564d82226cb939630bdb38d299563b8e7a866ce
+parent b03a305a3093b2683634229ea6aaf875124822cf
+author Coby <cobykaufer@gmail.com> 1789883016 -0700
+committer Coby <cobykaufer@gmail.com> 1789883016 -0700
+
+WorkOS v0.1: event-fabric work-graph vertical slice (22 files, core 17/17 + UI 14/14 + integration 12/12 green)
+ok7
+=== fsck dangling ===
+dangling commit 7b02c0086c8331367964a655058311164923d39b
+dangling blob 1c0618b1b29468d6bb5183bce3903d589d76b471
+dangling blob de122070de54a0e15a2a89a604417a31b3a917d6
+dangling blob 971540963b7b4f930b8a1ceae21d8323a5c757e4
+dangling commit 5c1778f783c7ae5cf2f2eab0bd11206c4a4ea5fa
+dangling tree 951968b5ea740a745e913255e707cd566d73c3cb
+dangling blob 2c1ec89d7e4bac757db9cb85f7b0c3ad1162beeb
+dangling blob 8f1e68f1bf1d63284dbc888a5d971832c2790227
+dangling blob 721fc0a2e4af9cf8a9c850c1d5dec8766e8d1971
+dangling tree c329d0dfd9c7d58b886c06bafe8cc5817c3e36db
+dangling commit cc2df88aec204ba2a31c121b1727ce52fb1ea670
+dangling commit df31f0a92f82d3b2d28ab8c92a6148a38e2097f8
+dangling blob 223ac0304c5015cdd7cf01af1deb08338f1084fd
+dangling blob b63ce0e7b8caedac84836b29dadadc34fe8090c9
+dangling blob 5845a05ebd522b6a3e1ef266aca22575431cc132
+dangling tree 024908cbcc281e2750eb1bf6a7cdf8dedd1bab23
+dangling tree 024c4067e7fb6c0627a3c3daee8cebc6cf7ebf61
+dangling blob 524ff85e9908eceaa14096b6be3575e3d1719acc
+dangling commit b856587a3bf507172507bf7dab7e42a67eae8ce1
+dangling commit c556206d4055f5fa17c29457d45047422927c955
+dangling commit 7068b8d3da18bd17da48f89600426b7c265c7a9e
+dangling tree cd6910ac2d565271c9031364f64dfb2282831d1b
+dangling blob 6c6a38daba1d4a532db67900de28479518016acd
+dangling blob d273a0d9a53a89e6e87249ed26cd69583bd74375
+dangling tree c779d8f97e276116dd7c3109eb33a6ea8eb1635b
+ok8
+== 7b02c0086c8331367964a655058311164923d39b
+B"H improve Mitzvah World gameplay and loading | 2026-08-30
+== 5c1778f783c7ae5cf2f2eab0bd11206c4a4ea5fa
+B"H JNI Java re-entry and pthread root wait ownership | 2026-09-09
+== cc2df88aec204ba2a31c121b1727ce52fb1ea670
+B H unify Mission room agent roster and responses | 2026-09-17
+== df31f0a92f82d3b2d28ab8c92a6148a38e2097f8
+B"H JNI pthread root-stack serialization candidate | 2026-09-09
+== b856587a3bf507172507bf7dab7e42a67eae8ce1
+B"H refresh tunnel release manifest for Torah runtime fixes | 2026-09-18
+== c556206d4055f5fa17c29457d45047422927c955
+B"H Finalize non-disruptive 1.0.356 tunnel installation | 2026-07-20
+== 7068b8d3da18bd17da48f89600426b7c265c7a9e
+B"H bridge authentic Flutter JNI native-to-Java calls | 2026-09-09
+ok9
+=== all refs with workos ===
+bbc331f7887abd617c95512da91d92f22908ad4a commit	refs/heads/workos-v0.1
+bbc331f7887abd617c95512da91d92f22908ad4a commit	refs/remotes/origin/workos-v0.1
+=== packed-refs workos ===
+=== FETCH_HEAD ===
+=== count objects ===
+count: 1387
+size: 24052
+in-pack: 202383
+packs: 20
+size-pack: 1173683
+prune-packable: 0
+garbage: 0
+size-garbage: 0
+ok10
+trees=   74899
+ok11
+dangling_blobs=     194
+ok12
+candidates: []
+ok13
+=== full recursive tree grep workos ===
+100644 blob 786f9cdad97102e8da2ad9025e2ff9fcfdaac975	geelooy/apps/workos/ARCHITECTURE.md
+100644 blob e04bbe697323c2e8d2ee0495be53c50f9fc48900	geelooy/apps/workos/BUILD_LOG.md
+100644 blob 5d09a86d28f9103c07b2ab4de50c2ccb77fd0c55	geelooy/apps/workos/CONTRACT.md
+100644 blob ff31685a2be3300402beac5a0610b07675aa17e8	geelooy/apps/workos/core/capsule.js
+100644 blob 9c436d56b0c9fa9a6227b8b77b3dad8af37929ca	geelooy/apps/workos/core/core.test.mjs
+100644 blob 3af8fe357cf37d2bdfcd62d59d57bcfdb5356248	geelooy/apps/workos/core/entities.js
+100644 blob 3d978759411d179c9929fb4c46f4cec741ed6d7b	geelooy/apps/workos/core/events.js
+100644 blob 4c59156c5bb59ee6b131ec96534762b4cc89cc01	geelooy/apps/workos/core/graph.js
+100644 blob c6075a5f3afd8f30d136fa10187408d075bfd413	geelooy/apps/workos/core/provenance.js
+100644 blob 9e627a8c1fabaf88b63472a9fe135369500dcd3e	geelooy/apps/workos/core/rooms.js
+100644 blob 69eb4a9a66816c5e4200cf461e87c91e0c5e446a	geelooy/apps/workos/core/seed.js
+100644 blob adf4c815d6fa6de05d2ad239426cdc08a90f50ac	geelooy/apps/workos/core/store.js
+100644 blob b9e066312949822d3279cd3e33ce0ba928a18ab2	geelooy/apps/workos/core/util.js
+100644 blob f0a7d2a14c2ffb42d3d88033af8565a1239397f7	geelooy/apps/workos/core/work.js
+100644 blob 400f3bc194e8cff6dc69b0d8575a5b39957110e5	geelooy/apps/workos/index.html
+100644 blob 06c5250728b3cf17f9f9735711a0f996817dbebc	geelooy/apps/workos/ui/app.js
+100644 blob 50ead0ea0f490ed5c4a52f17244a555823ade8bc	geelooy/apps/workos/ui/components.js
+100644 blob 67d069fcd56393b071af36d38010302606633163	geelooy/apps/workos/ui/stub.workos.js
+100644 blob 0edf71818a55324666cbc0381e6e94411f64ecb9	geelooy/apps/workos/ui/styles.css
+100644 blob 7b77130b48f9287f3aeecf5560d7c6dc318762d4	geelooy/apps/workos/ui/ui.test.mjs
+100644 blob 1be3fc1bba3a90bbbe76fe132ed47c32bd437a24	geelooy/apps/workos/ui/views/home.js
+100644 blob fb5f365868bb6550009d63c3146ca6023c76de73	geelooy/apps/workos/ui/views/mission.js
+=== count ===
+   51468
+=== known hashes in dblobs? ===
+b9e066312949822d3279cd3e33ce0ba928a18ab2 not-dangling
+3d978759411d179c9929fb4c46f4cec741ed6d7b not-dangling
+3af8fe357cf37d2bdfcd62d59d57bcfdb5356248 not-dangling
+4c59156c5bb59ee6b131ec96534762b4cc89cc01 not-dangling
+9e627a8c1fabaf88b63472a9fe135369500dcd3e not-dangling
+c6075a5f3afd8f30d136fa10187408d075bfd413 not-dangling
+ff31685a2be3300402beac5a0610b07675aa17e8 not-dangling
+adf4c815d6fa6de05d2ad239426cdc08a90f50ac not-dangling
+ok14
+=== core tree ===
+100644 blob ff31685a2be3300402beac5a0610b07675aa17e8	geelooy/apps/workos/core/capsule.js
+100644 blob 9c436d56b0c9fa9a6227b8b77b3dad8af37929ca	geelooy/apps/workos/core/core.test.mjs
+100644 blob 3af8fe357cf37d2bdfcd62d59d57bcfdb5356248	geelooy/apps/workos/core/entities.js
+100644 blob 3d978759411d179c9929fb4c46f4cec741ed6d7b	geelooy/apps/workos/core/events.js
+100644 blob 4c59156c5bb59ee6b131ec96534762b4cc89cc01	geelooy/apps/workos/core/graph.js
+100644 blob c6075a5f3afd8f30d136fa10187408d075bfd413	geelooy/apps/workos/core/provenance.js
+100644 blob 9e627a8c1fabaf88b63472a9fe135369500dcd3e	geelooy/apps/workos/core/rooms.js
+100644 blob 69eb4a9a66816c5e4200cf461e87c91e0c5e446a	geelooy/apps/workos/core/seed.js
+100644 blob adf4c815d6fa6de05d2ad239426cdc08a90f50ac	geelooy/apps/workos/core/store.js
+100644 blob b9e066312949822d3279cd3e33ce0ba928a18ab2	geelooy/apps/workos/core/util.js
+100644 blob f0a7d2a14c2ffb42d3d88033af8565a1239397f7	geelooy/apps/workos/core/work.js
+=== verify 8 hashes ===
+ff31685a2be3300402beac5a0610b07675aa17e8 geelooy/apps/workos/core/capsule.js
+9c436d56b0c9fa9a6227b8b77b3dad8af37929ca geelooy/apps/workos/core/core.test.mjs
+3af8fe357cf37d2bdfcd62d59d57bcfdb5356248 geelooy/apps/workos/core/entities.js
+3d978759411d179c9929fb4c46f4cec741ed6d7b geelooy/apps/workos/core/events.js
+4c59156c5bb59ee6b131ec96534762b4cc89cc01 geelooy/apps/workos/core/graph.js
+c6075a5f3afd8f30d136fa10187408d075bfd413 geelooy/apps/workos/core/provenance.js
+9e627a8c1fabaf88b63472a9fe135369500dcd3e geelooy/apps/workos/core/rooms.js
+69eb4a9a66816c5e4200cf461e87c91e0c5e446a geelooy/apps/workos/core/seed.js
+adf4c815d6fa6de05d2ad239426cdc08a90f50ac geelooy/apps/workos/core/store.js
+b9e066312949822d3279cd3e33ce0ba928a18ab2 geelooy/apps/workos/core/util.js
+f0a7d2a14c2ffb42d3d88033af8565a1239397f7 geelooy/apps/workos/core/work.js
+ok15
+work     7566
+ok16

@@ -1,0 +1,51 @@
+<!-- B"H
+Boruch Hashem
+Blessed is He
+
+This template reveals Ikar as the single Torah Library portal and makes the whole card the doorway.
+The Awtsmoos renews Torah, learner, and path in one instant of truth;
+Awtsmoos.com therefore removes needless button hunting and lets the card itself carry the route.
+-->
+<?<script>
+	var ikar = this.ikar && typeof this.ikar === 'object' ? this.ikar : {};
+
+	/**
+	 * Escapes API-provided text before it enters the Ikar portal.
+	 *
+	 * @param {*} value Raw API metadata.
+	 * @returns {string} HTML-safe visible text.
+	 */
+	function escapeHtml(value) {
+		return String(value || '')
+			.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/"/g, '&quot;')
+			.replace(/'/g, '&#39;');
+	}
+
+	/**
+	 * Reveals creator metadata without inventing an identity.
+	 *
+	 * @returns {string} Creator label or stable library-purpose label.
+	 */
+	function creatorLabel() {
+		var rawCreator = String(ikar.author || ikar.aliasId || '').trim();
+		return rawCreator ? '@' + escapeHtml(rawCreator) : 'Canonical Torah library';
+	}
+
+	var apiDescription = String(ikar.description || '').trim();
+	var description = apiDescription
+		|| 'Torah posts, series, translations, and sefarim gathered in one clear library.';
+
+	return '<article class="social-space-card torah-library-card" data-heichel-id="ikar" data-torah="true" data-torah-library data-enter>'
+		+ '<a class="space-card-link torah-library-link" href="/heichelos/ikar/" aria-label="Open Ikar Torah Library">'
+		+ '<div class="space-body"><div class="space-seal" aria-hidden="true">ת</div>'
+		+ '<div class="space-copy"><div class="space-title-row"><h2>Ikar</h2>'
+		+ '<span class="p-badge">Torah Library</span></div>'
+		+ '<p>' + escapeHtml(description) + '</p>'
+		+ '<div class="space-meta-line"><span>' + creatorLabel() + '</span>'
+		+ '<span>Torah · translations · series · sefarim</span></div></div>'
+		+ '<span class="space-card-arrow" aria-hidden="true">↗</span></div></a>'
+		+ '</article>';
+</script>?>

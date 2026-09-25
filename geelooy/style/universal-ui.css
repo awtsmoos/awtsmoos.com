@@ -1,10 +1,14 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- *
- * The Awtsmoos threads one quiet covenant through every Awtsmoos.com page without demanding one visual costume;
- * forgotten semantics receive dignity, mobile safety, and focus, while authored components remain sovereign in their own room.
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * @file universal-ui.css
+ * @description
+ * One quiet stylesheet doorway for Awtsmoos.com: authored products keep their identity while shared semantics gain dignity.
+ * The Awtsmoos is one beneath every visual room; simple vessels stay calm while deeper systems quietly bloom.
  */
+
 @import "./universal-ui/tokens.css?v=universal-ui-003";
 @import "./universal-ui/raw-prose.css?v=universal-ui-003";
 @import "./universal-ui/raw-structure.css?v=universal-ui-003";
@@ -18,3 +22,4 @@
 @import "./universal-ui/runtime-recovery.css?v=universal-ui-004";
 @import "./universal-ui/responsive.css?v=universal-ui-003";
 @import "./universal-ui/motion.css?v=universal-ui-003";
+@import "./universal-ui/accessibility.css?v=universal-ui-009";

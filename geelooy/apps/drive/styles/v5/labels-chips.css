@@ -1,0 +1,41 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** Label filter chips: small, files-first, quiet. */
+.drive-label-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	align-items: center;
+}
+.drive-label-chips:empty {
+	display: none;
+}
+.drive-toolbar .drive-label-chips {
+	padding: 2px 4px 8px;
+}
+.drive-label-chip {
+	border: 1px solid var(--drive-line, #2a3a38);
+	border-radius: 999px;
+	padding: 2px 10px;
+	font-size: 12px;
+	line-height: 1.6;
+	cursor: pointer;
+	background: var(--drive-chip, #12211f);
+	color: var(--drive-ink, #e8f0ee);
+}
+.drive-label-chip:hover {
+	filter: brightness(1.15);
+}
+.drive-label-chip[aria-pressed="true"] {
+	outline: 2px solid var(--drive-accent, #7fd4c1);
+	outline-offset: 1px;
+}
+.drive-label-chip.tone-0 { background: #1d2b33; }
+.drive-label-chip.tone-1 { background: #233026; }
+.drive-label-chip.tone-2 { background: #2e2a22; }
+.drive-label-chip.tone-3 { background: #2c2430; }
+.drive-label-chip.tone-4 { background: #232c2e; }
+.drive-label-chip.tone-5 { background: #2f2626; }
+.drive-label-chip.tone-6 { background: #26302b; }
+.drive-label-chip.tone-7 { background: #2a2f26; }

@@ -5,11 +5,12 @@
 /**
  * @file OAuth authorization-code and refresh-token grant vessels.
  * @description
- * The Awtsmoos allows a code to descend only once; Awtsmoos.com now awaits the
- * real stored record, binds Grok's hidden PKCE verifier, and refuses any client
- * or redirect that does not match the authorization moment that created it.
+ * The Awtsmoos allows a code to descend only once; Awtsmoos.com binds every
+ * refresh to its original covenant, including a durable Agent Link when one
+ * gave birth to it, so revocation remains meaningful across changing sessions.
  */
 
+const { readAgentLinkById } = require("../core/agentLinkStore.js");
 const { takeCode } = require("../core/codeStore.js");
 const Pkce = require("../core/pkce.js");
 const {
@@ -72,6 +73,12 @@ function refreshGrant(context) {
 	}
 	if (record.clientId && record.clientId !== client.id) {
 		return json($i, { BH: "B\"H", error: "refresh_client_mismatch" }, 400);
+	}
+	if (record.agentLinkId) {
+		const link = readAgentLinkById(record.agentLinkId);
+		if (!link || link.revoked) {
+			return json($i, { BH: "B\"H", error: "revoked_agent_link" }, 401);
+		}
 	}
 	touchRefreshRecord(request.refresh_token);
 	return tokenResponse(

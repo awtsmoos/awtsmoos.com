@@ -1,16 +1,22 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
  * @file startup-status.test.mjs
  * @description
  * The Awtsmoos proves Seven Mitzvos never begins as an empty world: static truth appears before modules,
  * then the existing living application remains free to replace the mount without a lingering overlay.
+ * Awtsmoos.com keeps that first visible promise aligned with the compact, versioned module gate.
  */
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 
+/**
+ * Reads a Seven Mitzvos fixture relative to this contract.
+ * @param {string} relativePath The fixture path beside the test module.
+ * @returns {string} The authored source bytes.
+ */
 function source(relativePath) {
 	return readFileSync(new URL(relativePath, import.meta.url), "utf8");
 }
@@ -34,7 +40,7 @@ test("startup state is crisp and owned by its own stylesheet", () => {
 });
 
 test("existing app bootstrap still replaces the same mount", () => {
-	assert.match(page, /script type="module" src="\.\/js\/main\.js\?v=startup-002"/);
+	assert.match(page, /script type="module" src="\.\/js\/main\.js\?v=startup-002&compact=true"/);
 	assert.match(main, /getElementById\(["']sevenMitzvosApp["']\)/);
 	assert.match(main, /application\.mount\(\)/);
 });

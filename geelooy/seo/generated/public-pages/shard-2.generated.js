@@ -9,6 +9,20 @@
 
 module.exports = [
 	{
+		canonicalPath: "/apps/byteViewer/",
+		description: "Inspect raw bytes and hexadecimal structure in the browser.",
+		filePath: "apps/byteViewer/index.html",
+		kind: "app",
+		title: "Byte Viewer"
+	},
+	{
+		canonicalPath: "/apps/captions/",
+		description: "Design cinematic caption graphics and animated visual treatments from one advanced local canvas engine.",
+		filePath: "apps/captions/index.html",
+		kind: "app",
+		title: "Ein Sof Caption Engine"
+	},
+	{
 		canonicalPath: "/apps/captions/video/",
 		description: "Create timed captions locally, then optionally use future transcription, translation, and render services.",
 		filePath: "apps/captions/video/index.html",
@@ -63,19 +77,5 @@ module.exports = [
 		filePath: "apps/exe-emulator/index.html",
 		kind: "app",
 		title: "Awtsmoos EXE Emulator"
-	},
-	{
-		canonicalPath: "/apps/forms/",
-		description: "Create Sheets-linked public forms with structured questions, secure response collection, and optional private email notifications.",
-		filePath: "apps/forms/index.html",
-		kind: "app",
-		title: "Awtsmoos Forms"
-	},
-	{
-		canonicalPath: "/apps/gpt-api-pulse-garden/",
-		description: "Explore an interactive pulse garden and its responsive visual system.",
-		filePath: "apps/gpt-api-pulse-garden/index.html",
-		kind: "app",
-		title: "Awtsmoos Pulse Garden"
 	}
 ];

@@ -1,0 +1,47 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keeps this module small so each vessel stays readable while the original cascade continues in perfect rhyme.
+*/
+.cosmic-action::after,
+.cosmic-utility-button::after {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background: linear-gradient(105deg, transparent 15%, rgba(255, 255, 255, 0.12), transparent 75%);
+	content: "";
+	opacity: 0;
+	transform: translateX(-110%);
+}
+
+.cosmic-action[aria-pressed="true"]::after,
+.cosmic-action[aria-busy="true"]::after,
+.cosmic-utility-button[aria-busy="true"]::after {
+	animation: cosmic-action-current 1.35s ease-in-out infinite;
+	opacity: 1;
+}
+
+@keyframes cosmic-card-pulse {
+	0% { transform: translateY(0) scale(1); }
+	42% { transform: translateY(-3px) scale(1.002); }
+	100% { transform: translateY(-1px) scale(1); }
+}
+
+@keyframes cosmic-energy-sweep {
+	0% { opacity: 0.2; transform: scaleX(0.1); }
+	45% { opacity: 1; transform: scaleX(1); }
+	100% { opacity: 0.45; transform: scaleX(0.72); }
+}
+
+@keyframes cosmic-sigil-orbit {
+	to { transform: rotate(360deg); }
+}
+
+@keyframes cosmic-lineage-pulse {
+	to { box-shadow: 0 0 1.05rem var(--source-accent); opacity: 0.72; }
+}
+
+@keyframes cosmic-action-current {
+	0% { transform: translateX(-110%); }
+	58%, 100% { transform: translateX(110%); }
+}

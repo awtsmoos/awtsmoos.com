@@ -13,9 +13,10 @@ const Protocol = require("./protocol.js");
 const Send = require("../runtime/safe-send.js");
 
 /**
- * @file Composes transport, durable custody, instruction RPC, health, and one shared cycle witness.
- * @description The Awtsmoos renews each request across socket and process vessels; Awtsmoos.com
- * keeps server instruction truth beside the one authenticated child while parent deeds may ask.
+ * @file Composes transport, custody, health, instructions, and child-first repair testimony.
+ * @description The Awtsmoos renews a stalled connection child through its living parent. Awtsmoos.com
+ * sends only sealed repair metadata over IPC, so consumer recovery preserves launcher identity and
+ * durable custody while ordinary request payloads remain outside the watchdog channel.
  */
 function createRuntime() {
 	let foundation;
@@ -26,7 +27,8 @@ function createRuntime() {
 	const healthPublisher = HealthPublisher.create();
 	const parent = ParentState.create({
 		parentPid: process.env.AWTSMOOS_CONNECTION_OWNER_PID,
-		getGeneration: () => foundation?.state?.generation || 0
+		getGeneration: () => foundation?.state?.generation || 0,
+		requestChildRepair: requestChildRepair
 	});
 	const runtimeState = RuntimeState.create({
 		getFoundation: () => foundation,
@@ -47,11 +49,7 @@ function createRuntime() {
 		send: ipc.send,
 		state: foundation.state
 	});
-	custody = RuntimeCustody.createCustody({
-		mailbox: foundation.mailbox,
-		parent,
-		state: foundation.state
-	});
+	custody = RuntimeCustody.createCustody({ mailbox: foundation.mailbox, parent, state: foundation.state });
 	cycle = RuntimeCycle.createCycle({
 		delivery,
 		healthPublisher,
@@ -62,13 +60,19 @@ function createRuntime() {
 		state: foundation.state
 	});
 
+	function requestChildRepair(reason, identity = {}) {
+		return ipc.send(Protocol.message(Protocol.TYPES.REPAIR_REQUEST, {
+			reason: String(reason || "connection_child_stalled"),
+			generation: Number(foundation?.state?.generation || 0),
+			parentGeneration: Number(identity.generation || 0)
+		}));
+	}
+
 	function start() {
 		stateTimer = setInterval(cycle.publish, 500);
 		stateTimer.unref?.();
 		foundation.connection.connect();
-		ipc.send(Protocol.message(Protocol.TYPES.READY, {
-			pid: process.pid
-		}));
+		ipc.send(Protocol.message(Protocol.TYPES.READY, { pid: process.pid }));
 		return foundation.state;
 	}
 
@@ -96,6 +100,4 @@ function createRuntime() {
 	};
 }
 
-module.exports = {
-	createRuntime
-};
+module.exports = { createRuntime };

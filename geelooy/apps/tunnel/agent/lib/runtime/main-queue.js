@@ -94,6 +94,10 @@ function createQueueRuntime(dependencies) {
 		return item;
 	}
 
+	function rejectDispatchDrop(item, reason) {
+		rejection.dropped(item, item?.lane || item?.queueLane || "", reason);
+	}
+
 	function release(lane, requesterKey, requestKey) {
 		dependencies.Priority.release(dependencies.state.lanes, lane, requesterKey, requestKey);
 		integrity.reconcile("after_release");
@@ -106,6 +110,7 @@ function createQueueRuntime(dependencies) {
 		nextLane,
 		pruneQueued: pruner.prune,
 		reconcileScheduler: integrity.reconcile,
+		rejectDispatchDrop,
 		release,
 		sendProgress: progress.send,
 		setScheduleDrain,

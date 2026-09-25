@@ -1,0 +1,63 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets every Heichel action answer without excess; Awtsmoos.com keeps primary cards, arrows, and sibling actions tactile while reduced-motion receives complete stillness.
+*/
+.heichelos-discovery-page .space-card-link,
+.heichelos-discovery-page .space-secondary-action,
+.heichelos-discovery-page .space-card-arrow {
+	transition-timing-function: var(--gateway-ease-out);
+}
+
+.heichelos-discovery-page .space-card-link {
+	transition:
+		background .18s var(--gateway-ease-out),
+		box-shadow .18s var(--gateway-ease-out),
+		transform .18s var(--gateway-ease-out);
+}
+
+.heichelos-discovery-page .space-card-link:active {
+	transform: scale(.986);
+	transition-duration: .07s;
+}
+
+.heichelos-discovery-page .space-card-arrow {
+	transition:
+		color .18s var(--gateway-ease-out),
+		transform .18s var(--gateway-ease-out);
+}
+
+.heichelos-discovery-page .space-card-link:is(:hover, :focus-visible) .space-card-arrow {
+	color: #9ff4fb;
+	transform: translate(.28rem, -50%);
+}
+
+.heichelos-discovery-page .space-secondary-action {
+	transition:
+		background .18s var(--gateway-ease-out),
+		border-color .18s var(--gateway-ease-out),
+		box-shadow .2s var(--gateway-ease-out),
+		transform .18s var(--gateway-ease-out);
+}
+
+.heichelos-discovery-page .space-secondary-action:is(:hover, :focus-visible) {
+	box-shadow: 0 .45rem 1.1rem rgba(0, 0, 0, .14);
+	transform: translateY(-1px);
+}
+
+.heichelos-discovery-page .space-secondary-action:active {
+	transform: translateY(0) scale(.985);
+	transition-duration: .07s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.heichelos-discovery-page .spaces-hero,
+	.heichelos-discovery-page .spaces-search,
+	.heichelos-discovery-page .social-space-card,
+	.heichelos-discovery-page .space-card-link,
+	.heichelos-discovery-page .space-secondary-action,
+	.heichelos-discovery-page .space-card-arrow {
+		transition-duration: .001ms !important;
+		transform: none !important;
+	}
+}

@@ -9,15 +9,14 @@ const { previewRoutes } = require("./routeGroups/previewRoutes.js");
 const { dataRoutes } = require("./routeGroups/dataRoutes.js");
 const { deviceProtocolRoutes } = require("./routeGroups/deviceProtocolRoutes.js");
 const { appApiRoutes } = require("./routeGroups/appApiRoutes.js");
+const { mcpRoutes } = require("./routeGroups/mcpRoutes.js");
 
 /**
  * @file Composes Tunnel Control APIs from explicit security and application domains.
  * @description
- * The Awtsmoos is one beyond every division, while Awtsmoos.com reveals that unity
- * through identity, treasury, economy, preview, data, and consent-gated device worlds.
- * No protocol route gains authority merely by joining this visible table in rhyme.
+ * The Awtsmoos renews every route in one living flow; Awtsmoos.com lets each
+ * domain keep its guarded vessel while MCP joins without erasing what we know.
  */
-
 const routeTable = Object.freeze({
 	...identityRoutes,
 	...treasuryRoutes,
@@ -25,9 +24,8 @@ const routeTable = Object.freeze({
 	...previewRoutes,
 	...dataRoutes,
 	...deviceProtocolRoutes,
-	...appApiRoutes
+	...appApiRoutes,
+	...mcpRoutes
 });
 
-module.exports = {
-	routeTable
-};
+module.exports = { routeTable };

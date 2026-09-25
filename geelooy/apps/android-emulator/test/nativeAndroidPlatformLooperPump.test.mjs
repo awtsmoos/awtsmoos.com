@@ -1,26 +1,18 @@
-//B"H
-//Boruch Hashem
-//Blessed be He
+//B"H //Boruch Hashem //Blessed be He
 
 import assert from "node:assert/strict";
 import test from "node:test";
-import {
-	createPlatformTimerPumpFixture,
-	PLATFORM_THREAD
-} from "./nativeAndroidPlatformLooperPumpFixture.mjs";
+import { createPlatformTimerPumpFixture, PLATFORM_THREAD } from "./nativeAndroidPlatformLooperPumpFixture.mjs";
 
-/**
- * Proves an expired timerfd enters authentic guest AArch64 and is consumed by read().
- * The callback itself performs the production native `read` import; JavaScript only
- * advances deterministic guest time and inspects resulting guest/runtime testimony.
- */
-test("platform timerfd callback executes guest read and consumes expirations", () => {
+/** Proves an expired timerfd executes guest read and receives the first callback ordinal. */
+test("platform timerfd callback executes guest read and records ordinal", () => {
 	const fixture = createPlatformTimerPumpFixture();
 	fixture.arm(5n, 10n);
 	fixture.setNow(1020n);
-	assert.equal(fixture.timers.events(fixture.descriptor), 1);
 	const delivered = fixture.pump.drain();
 	assert.equal(delivered.length, 1);
+	assert.equal(delivered[0].callbackOrdinal, 1);
+	assert.equal(delivered[0].callTransitions, null);
 	assert.equal(delivered[0].kept, true);
 	assert.equal(delivered[0].thread, PLATFORM_THREAD.toString());
 	assert.equal(fixture.readExpirationCount(), 3n);
@@ -29,25 +21,21 @@ test("platform timerfd callback executes guest read and consumes expirations", (
 	assert.deepEqual(fixture.pump.drain(), []);
 });
 
-/** Proves the Android callback zero-return contract removes the fd registration. */
+/** Proves zero-return lifetime semantics remain unchanged beside ordinal testimony. */
 test("zero callback return unregisters the platform looper descriptor", () => {
 	const fixture = createPlatformTimerPumpFixture({ callbackReturn: 0 });
 	fixture.arm(0n, 10n);
 	fixture.setNow(1010n);
 	const delivered = fixture.pump.drain();
 	assert.equal(delivered.length, 1);
+	assert.equal(delivered[0].callbackOrdinal, 1);
 	assert.equal(delivered[0].kept, false);
 	assert.equal(fixture.readExpirationCount(), 1n);
 	const looper = fixture.loopers.snapshot()[0];
-	assert.equal(looper.descriptors.some(record => {
-		return record.fd === fixture.descriptor;
-	}), false);
+	assert.equal(looper.descriptors.some(record => record.fd === fixture.descriptor), false);
 });
 
-/**
- * Proves host platform service cannot steal wake or identifier-only poll results.
- * Those events remain queued until the guest explicitly performs ordinary polling.
- */
+/** Proves host service never steals wake or callback-free events from guest polling. */
 test("platform pump preserves wake and callback-free events for guest polling", () => {
 	const fixture = createPlatformTimerPumpFixture();
 	assert.equal(fixture.loopers.addFd(fixture.handle, {

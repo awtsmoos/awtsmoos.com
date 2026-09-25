@@ -1,20 +1,22 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
+
 const Envelope = require("./actionReplayEnvelope.js");
+const ResultView = require("./actionResultView.js");
+
 /**
  * @file Interprets durable canonical state without authorizing another deed.
- * @description The Awtsmoos distinguishes completion, reservation, conflict,
- * failure, and absence. Awtsmoos.com replays truth without duplicate mutation.
+ * @description The Awtsmoos distinguishes reservation, execution, and terminal fruit. Every replay
+ * response carries one normalized execution proof, so Awtsmoos.com reveals whether a Shliach should
+ * observe the existing request, trust a terminal result, or safely redispatch without duplicate work.
  */
 function fromRecord(record, identity) {
-	if (!sameOperation(record, identity)) return conflict(identity, record);
+	if (!sameOperation(record, identity)) return withProof(conflict(identity, record));
 	if (record.state === "completed" && !record.resultOmitted) {
-		return annotate(record.result, "durable", identity);
+		return withProof(annotate(record.result, "durable", identity));
 	}
-	if (record.state === "completed") return omitted(record, identity);
-	if (record.state === "failed") return previousFailure(record, identity);
-	return pending(identity, record);
+	if (record.state === "completed") return withProof(omitted(record, identity));
+	if (record.state === "failed") return withProof(previousFailure(record, identity));
+	return withProof(pending(identity, record));
 }
 
 function sameOperation(record, identity) {
@@ -25,36 +27,29 @@ function sameOperation(record, identity) {
 }
 
 function annotate(result, source, identity = {}) {
-	const output = result && typeof result === "object"
-		? { ...result }
-		: { ok: true, result };
+	const output = result && typeof result === "object" ? { ...result } : { ok: true, result };
 	return {
 		...Envelope.identityEnvelope(identity, output),
 		...output,
 		replayed: true,
-		replaySource: source
+		replaySource: source,
+		executionCompleted: true,
+		terminal: true
 	};
 }
 
 function omitted(record, identity) {
-	return {
-		...Envelope.identityEnvelope(identity),
-		ok: false,
+	return terminalError(identity, "action_result_omitted", {
 		status: 409,
-		error: "action_result_omitted",
-		executionCompleted: true,
 		resultSha256: record.resultSha256 || null
-	};
+	});
 }
 
 function previousFailure(record, identity) {
-	return {
-		...Envelope.identityEnvelope(identity),
-		ok: false,
+	return terminalError(identity, "previous_action_failed", {
 		status: 409,
-		error: "previous_action_failed",
 		previousError: record.error || null
-	};
+	});
 }
 
 function pending(identity, record = {}) {
@@ -63,58 +58,62 @@ function pending(identity, record = {}) {
 		ok: false,
 		status: 202,
 		pending: true,
-		timeout: false,
+		terminal: false,
+		consumerStarted: Boolean(record.consumerStarted || record.workerId || record.pid),
 		error: "canonical_request_pending",
 		resumeToken: identity.key,
 		retryPayload: Envelope.retryPayload(identity),
 		reservedAt: record.startedAt || null,
-		message: "The canonical deed is reserved and will not execute again."
+		message: "The canonical deed is reserved. Observe this request; do not execute it again."
 	};
 }
 
 function unknown(identity) {
-	return {
-		...Envelope.identityEnvelope(identity, { action: "retryAction" }),
-		ok: false,
+	return withProof(terminalError(identity, "unknown_control_request_id", {
+		action: "retryAction",
 		status: 404,
-		pending: false,
-		error: "unknown_control_request_id",
+		freshRedispatchSafe: true,
 		resumeToken: identity.key
-	};
+	}));
 }
 
 function conflict(identity, record = {}) {
-	return {
-		...Envelope.identityEnvelope(identity),
-		ok: false,
+	return terminalError(identity, "control_request_id_conflict", {
 		status: 409,
-		error: "control_request_id_conflict",
-		expectedAction: record?.action || null,
-		expectedFingerprint: record?.fingerprint || null,
+		expectedAction: record.action || null,
+		expectedFingerprint: record.fingerprint || null,
 		actualFingerprint: identity.fingerprint
-	};
+	});
 }
 
 function persistenceFailure(identity, result, error) {
-	return {
-		...Envelope.identityEnvelope(identity, result),
-		ok: false,
+	return withProof(terminalError(identity, "action_result_persistence_failed", {
+		...result,
 		status: 500,
-		error: "action_result_persistence_failed",
-		executionCompleted: true,
 		message: String(error?.message || error)
+	}));
+}
+
+function terminalError(identity, error, extras = {}) {
+	return {
+		...Envelope.identityEnvelope(identity, extras),
+		...extras,
+		ok: false,
+		terminal: true,
+		executionCompleted: error !== "unknown_control_request_id",
+		error
 	};
 }
 
+function withProof(result) {
+	return { ...result, executionProof: ResultView.executionProof(result) };
+}
+
 module.exports = {
-	annotate,
-	conflict,
-	fromRecord,
+	annotate, conflict, fromRecord,
 	identityEnvelope: Envelope.identityEnvelope,
-	pending,
-	persistenceFailure,
+	pending, persistenceFailure,
 	retryPayload: Envelope.retryPayload,
-	sameOperation,
-	uncertain: pending,
-	unknown
+	sameOperation, uncertain: pending,
+	unknown, withProof
 };

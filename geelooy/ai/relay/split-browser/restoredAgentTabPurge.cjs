@@ -17,7 +17,7 @@ const Registry = require("./targetProtectionRegistry.cjs");
  */
 async function purgeRestoredAgentTabs(options = {}) {
 	const catalog = options.catalog || createRestoredAgentTabCatalog(options);
-	const ports = candidatePorts(options);
+	const ports = await candidatePorts(options);
 	const sleep = options.sleep || delay;
 	const attempts = Math.max(3, Number(options.attempts || 12));
 	let before = 0;
@@ -68,11 +68,11 @@ async function guardRestoredAgentTabs(options = {}) {
 	return { ok: last?.ok !== false, scans, closed, last };
 }
 
-function candidatePorts(options = {}) {
+async function candidatePorts(options = {}) {
 	const explicit = [...(options.ports || []), Number(options.port)]
 		.filter(port => Number.isInteger(port) && port > 0);
 	if (explicit.length) return [...new Set(explicit)];
-	const authority = BrowserRegistry.observe();
+	const authority = await BrowserRegistry.observe();
 	return authority.ok ? [authority.port] : [];
 }
 

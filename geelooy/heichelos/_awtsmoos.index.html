@@ -1,16 +1,16 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gathers hidden identities into ordered truth before a single card may glow;
-Awtsmoos.com lets the Heichelos landing page become a truthful CollectionPage where crawler and reader both may know.
+
+The Awtsmoos gathers many Heichel identities while Ikar remains the singular Torah door;
+Awtsmoos.com keeps discovery simple while focused templates carry the hidden depth.
 -->
 <?<script>
 	var alias = String($_GET['alias'] || '').trim();
 	var queryText = String($_GET['q'] || '').trim();
 	var query = queryText.toLowerCase();
 	var safeAlias = encodeURIComponent(alias);
-	var invalidHeichelIds = ['undefined', 'null', '__missing__'];
-	var featuredLimit = 12;
+	var invalidIds = ['undefined', 'null', '__missing__'];
 	var doesOwn = false;
 
 	if (alias) {
@@ -18,102 +18,101 @@ Awtsmoos.com lets the Heichelos landing page become a truthful CollectionPage wh
 		doesOwn = Boolean(ownership && ownership.yes);
 	}
 
-	/** Escapes one visible value before it crosses into a rendered template. */
+	/** Escapes visible values before they enter markup. */
 	function escapeHtml(value) {
-		return String(value || '').replace(/&/g, '&amp;').replace(/</g, '&lt;')
-			.replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+		return String(value || '')
+			.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/"/g, '&quot;')
+			.replace(/'/g, '&#39;');
 	}
 
-	/** Returns a usable canonical identity or an empty value for dishonest sentinels. */
-	function normalizeHeichelId(value) {
+	/** Resolves one trustworthy Heichel route identity. */
+	function heichelId(heichel) {
+		var value = heichel && (heichel.id || heichel.heichelId || heichel.inputId);
 		var id = String(value || '').trim();
-		if (!id) return '';
-		return invalidHeichelIds.includes(id.toLowerCase()) ? '' : id;
+		return !id || invalidIds.includes(id.toLowerCase()) ? '' : id;
 	}
 
-	/** Resolves the canonical route identity from supported API response shapes. */
-	function rawHeichelId(heichel) {
-		return normalizeHeichelId(heichel && (heichel.id || heichel.heichelId || heichel.inputId));
-	}
-
-	/** Normalizes API collections, rejects broken identities, and applies local search. */
-	function normalizedList(result) {
-		var list = Array.isArray(result) ? result : Array.isArray(result && result.success) ? result.success :
-			Array.isArray(result && result.data) ? result.data : Array.isArray(result && result.items) ? result.items : [];
+	/** Unwraps supported API collection shapes without inventing records. */
+	function unwrapCollection(result) {
+		var list = [];
+		if (Array.isArray(result)) list = result;
+		else if (Array.isArray(result && result.success)) list = result.success;
+		else if (Array.isArray(result && result.data)) list = result.data;
+		else if (Array.isArray(result && result.items)) list = result.items;
 		return list.filter(function(heichel) {
-			var id = rawHeichelId(heichel);
-			if (!id) return false;
-			if (!query) return true;
-			var searchable = [id, heichel.name, heichel.title, heichel.description, heichel.author, heichel.aliasId]
-				.join(' ').toLowerCase();
-			return searchable.includes(query);
+			return Boolean(heichelId(heichel));
 		});
 	}
 
-	/** Fetches the correct public or alias-owned Heichel collection. */
-	async function getHeichelos() {
-		var route = alias ? '/api/social/heichelos/searchByAliasOwner/' + safeAlias : '/api/social/heichelos/discover?limit=100';
-		return normalizedList(await fetchAwtsmoos(route));
+	/** Recognizes Ikar only by its canonical route identity. */
+	function isIkar(heichel) {
+		return heichelId(heichel).toLowerCase() === 'ikar';
 	}
 
-	/** Ranks Torah first, then rewards only metadata that actually exists. */
-	function qualityScore(heichel) {
-		var id = rawHeichelId(heichel).toLowerCase();
+	/** Applies the search term only to community Heichelos. */
+	function matchesQuery(heichel) {
+		if (!query) return true;
+		return [heichelId(heichel), heichel.name, heichel.title, heichel.description, heichel.author, heichel.aliasId]
+			.join(' ').toLowerCase().includes(query);
+	}
+
+	/** Rewards existing useful metadata when ordering community cards. */
+	function score(heichel) {
 		var name = String(heichel.name || heichel.title || '').trim();
 		var description = String(heichel.description || '').trim();
 		var author = String(heichel.author || heichel.aliasId || '').trim();
-		return (id === 'ikar' ? 100 : 0) + (name ? 4 : 0) + (description ? 3 : 0) + (author ? 2 : 0);
+		return (name ? 4 : 0) + (description ? 3 : 0) + (author ? 2 : 0);
 	}
 
-	/** Builds the search-facing Malchus head for the public Heichelos collection. */
-	function semanticHead() {
-		var canonical = 'https://awtsmoos.com/heichelos/';
-		var title = 'Heichelos | Awtsmoos';
-		var description = 'Discover public Heichelos on Awtsmoos.com, including Torah teachings, series, authors, and living community worlds.';
-		var structured = JSON.stringify({
-			'@context': 'https://schema.org',
-			'@type': 'CollectionPage',
-			name: 'Heichelos',
-			description,
-			url: canonical,
-			isPartOf: { '@type': 'WebSite', name: 'Awtsmoos', url: 'https://awtsmoos.com/' }
-		}).replace(/</g, '\\u003c');
-		return '<title>' + title + '</title>'
-			+ '<meta name="description" content="' + description + '">'
-			+ '<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">'
-			+ '<link rel="canonical" href="' + canonical + '">'
-			+ '<meta property="og:type" content="website"><meta property="og:title" content="' + title + '">'
-			+ '<meta property="og:description" content="' + description + '"><meta property="og:url" content="' + canonical + '">'
-			+ '<meta property="og:site_name" content="Awtsmoos"><meta name="twitter:card" content="summary">'
-			+ '<meta name="twitter:title" content="' + title + '"><meta name="twitter:description" content="' + description + '">'
-			+ '<script type="application/ld+json" data-awtsmoos-heichelos-jsonld>' + structured + '<' + '/script>';
+	/** Fetches the public or alias-owned discovery collection. */
+	async function getHeichelos() {
+		var route = alias
+			? '/api/social/heichelos/searchByAliasOwner/' + safeAlias
+			: '/api/social/heichelos/discover?limit=100';
+		return unwrapCollection(await fetchAwtsmoos(route));
 	}
 
-	/** Replaces the generic shell title and manifests one canonical semantic head. */
-	function manifestSemanticHead(documentHtml) {
-		var withoutGenericTitle = String(documentHtml || '').replace(/<title\b[^>]*>[\s\S]*?<\/title>/i, '');
-		return withoutGenericTitle.replace('</head>', semanticHead() + '</head>');
-	}
-
-	var heichelos = await getHeichelos();
-	heichelos.sort(function(first, second) {
-		return qualityScore(second) - qualityScore(first);
+	var allHeichelos = await getHeichelos();
+	var ikar = allHeichelos.find(isIkar) || null;
+	var communityHeichelos = allHeichelos.filter(function(heichel) {
+		return !isIkar(heichel) && matchesQuery(heichel);
+	}).sort(function(first, second) {
+		return score(second) - score(first);
 	});
+	var isAliasView = Boolean(alias);
+	var pageTitle = isAliasView ? '@' + escapeHtml(alias) + ' Heichelos' : 'Heichelos';
+	var primaryAction = doesOwn
+		? '<a class="p-button p-button-primary" href="/heichelos/manage-alias-heichelos?alias=' + safeAlias + '">Create Heichel</a>'
+		: '<a class="p-button" href="/profile">My alias</a>';
+	var aliasField = isAliasView
+		? '<input type="hidden" name="alias" value="' + escapeHtml(alias) + '">'
+		: '';
+	var ikarLibraryHtml = '';
 
-	var pageTitle = alias ? '@' + escapeHtml(alias) + ' Heichelos' : 'Heichelos';
-	var primaryAction = doesOwn ? '<a class="p-button p-button-primary" href="/heichelos/manage-alias-heichelos?alias=' + safeAlias + '">Create Heichel</a>' : '<a class="p-button p-button-primary" href="/heichelos/ikar/">Enter Torah Heichel</a><a class="p-button" href="/profile">My alias</a>';
-	var aliasField = alias ? '<input type="hidden" name="alias" value="' + escapeHtml(alias) + '">' : '';
-	var countLabel = heichelos.length + (heichelos.length === 1 ? ' Heichel' : ' Heichelos');
-	var resultsHtml = $a('heichelos/discovery-results.html', { heichelos, queryText, alias, doesOwn, featuredLimit });
-	var discoveryShell = $a('heichelos/discovery-shell.html', {
-		pageTitle,
-		primaryAction,
-		aliasField,
-		queryText: escapeHtml(queryText),
-		countLabel,
-		resultsHtml
+	if (!isAliasView) {
+		ikarLibraryHtml = '<section class="spaces-purpose-section" aria-labelledby="torah-library-title">'
+			+ '<header class="spaces-section-heading"><p class="field-label">The Torah Library</p>'
+			+ '<h2 id="torah-library-title">Ikar Heichel</h2>'
+			+ '<p>All Torah-library browsing begins here. Ikar is the single canonical Torah Library on Awtsmoos.com.</p></header>'
+			+ '<div class="torah-library-grid">' + $a('heichelos/ikar-library.html', { ikar: ikar }) + '</div></section>';
+	}
+
+	var resultsHtml = $a('heichelos/discovery-results.html', {
+		heichelos: communityHeichelos, queryText: queryText, alias: alias, doesOwn: doesOwn, featuredLimit: 12
 	});
-	var pageDocument = $a('nav/page.html', { centered: false, tochen: discoveryShell });
-
-	return manifestSemanticHead(pageDocument);
+	var shell = $a('heichelos/discovery-shell.html', {
+		pageTitle: pageTitle,
+		heroEyebrow: isAliasView ? 'Alias community spaces' : 'One Torah library · many community spaces',
+		heroTitle: isAliasView ? pageTitle : 'Ikar is the Torah Library.',
+		heroDescription: isAliasView ? 'Browse community Heichelos connected with this alias.' : 'Learn Torah in Ikar. Discover every other Heichel as a distinct community space.',
+		primaryAction: primaryAction, aliasField: aliasField, queryText: escapeHtml(queryText),
+		countLabel: communityHeichelos.length + (communityHeichelos.length === 1 ? ' community Heichel' : ' community Heichelos'),
+		ikarLibraryHtml: ikarLibraryHtml, resultsHtml: resultsHtml
+	});
+	var documentHtml = $a('nav/page.html', { centered: false, tochen: shell });
+	var withoutGenericTitle = String(documentHtml || '').replace(/<title\b[^>]*>[\s\S]*?<\/title>/i, '');
+	return withoutGenericTitle.replace('</head>', $a('heichelos/discovery-head.html') + '</head>');
 </script>?>

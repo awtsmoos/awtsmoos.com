@@ -18,15 +18,15 @@ import {
 
 test('ranks cottage maps ahead of roads and optional terrain layers', () => {
 	const rows = rankedSceneUrls(scene([
-		object('decorative-lantern', material('https://example.test/gold.png')),
-		object('cottage-wall', material('https://example.test/stone.png')),
-		object('road-cobble', material('https://example.test/road.png')),
+		object('decorative-lantern', material('https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/materials/gold.png')),
+		object('cottage-wall', material('https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/materials/stone.png')),
+		object('road-cobble', material('https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/materials/road.png')),
 		object('terrain-ground', layered([
-			'https://example.test/grass-a.png',
-			'https://example.test/grass-b.png'
+			'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/materials/grass-a.png',
+			'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/materials/grass-b.png'
 		]))
 	]));
-	assert.equal(rows[0].url, 'https://example.test/stone.png');
+	assert.equal(rows[0].url, 'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/materials/stone.png');
 	assert.ok(indexOf(rows, 'road.png') < indexOf(rows, 'grass-a.png'));
 	assert.ok(indexOf(rows, 'grass-a.png') < indexOf(rows, 'gold.png'));
 });
@@ -44,14 +44,14 @@ test('starts only three unique URLs and performs a bind-only hydration pass', as
 		loadUrl: url => new Promise(resolve => deferred.push({ resolve, url }))
 	});
 	const root = scene([
-		object('cottage-wall', material('https://example.test/stone.png')),
-		object('cottage-roof', material('https://example.test/slate.png')),
+		object('cottage-wall', material('https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/materials/stone.png')),
+		object('cottage-roof', material('https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/materials/slate.png')),
 		object('terrain-ground', layered([
-			'https://example.test/grass-a.png',
-			'https://example.test/grass-b.png',
-			'https://example.test/grass-c.png'
+			'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/materials/grass-a.png',
+			'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/materials/grass-b.png',
+			'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/materials/grass-c.png'
 		])),
-		object('another-cottage', material('https://example.test/stone.png'))
+		object('another-cottage', material('https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/materials/stone.png'))
 	]);
 	const first = residency.update(root);
 	assert.equal(first.started, 3);
@@ -59,7 +59,7 @@ test('starts only three unique URLs and performs a bind-only hydration pass', as
 	assert.equal(deferred.length, 3);
 	assert.equal(new Set(deferred.map(item => item.url)).size, 3);
 	assert.equal(hydrationOptions[0].requestLimit, 0);
-	assert.equal(first.topCandidates[0].url, 'https://example.test/stone.png');
+	assert.equal(first.topCandidates[0].url, 'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/materials/stone.png');
 	for (const item of deferred.splice(0)) item.resolve({ ok: true });
 	await Promise.all([...residency.active.values()]);
 	const second = residency.update(root);

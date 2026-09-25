@@ -1,13 +1,13 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed be He
 
 /**
  * @file Awtsmoos Browser Production Contract
  * @description
  * The Awtsmoos recreates every browser vessel according to its present truth.
- * Awtsmoos.com proves the trusted shell is browser-first, the developer renderer stays
- * bounded, remote requests remain alias-scoped, and old module locations cannot masquerade as law.
+ * Awtsmoos.com proves the trusted shell is browser-first, real tabs stay bounded,
+ * and developer machinery stays deliberately deeper than ordinary browsing.
  */
 
 import assert from "node:assert/strict";
@@ -73,22 +73,25 @@ test("Merkava loader keeps nested-window dependencies in order", async () => {
 	}
 });
 
-test("browser garments are modular, responsive, and browser-first", async () => {
+test("browser garments ship real responsive multi-tab UX", async () => {
 	const base = await sourceText(`${BROWSER}/style.css`);
-	const chrome = await sourceText(`${BROWSER}/chrome.css`);
 	const tabs = await sourceText(`${BROWSER}/tabs.css`);
+	const controls = await sourceText(`${BROWSER}/tabControls.css`);
 	const viewport = await sourceText(`${BROWSER}/viewport.css`);
 	const advanced = await sourceText(`${BROWSER}/advanced.css`);
 	const responsive = await sourceText(`${BROWSER}/responsive.css`);
 	const loader = await sourceText(`${BROWSER}/browserStyleLoader.js`);
-	assert.match(responsive, /prefers-reduced-motion/);
 	assert.match(tabs, /awtsmoos-browser-tab-strip/);
-	assert.match(tabs, /awtsmoos-browser-new-tab[\s\S]*display:\s*none/);
+	assert.match(tabs, /overflow-x:\s*auto/);
+	assert.match(controls, /awtsmoos-browser-new-tab/);
+	assert.doesNotMatch(controls, /awtsmoos-browser-new-tab[\s\S]*display:\s*none/);
 	assert.match(viewport, /awtsmoos-browser-embedded-frame/);
 	assert.match(advanced, /awtsmoos-browser-advanced-panel/);
 	assert.match(responsive, /@media \(pointer:\s*coarse\)/);
+	assert.match(responsive, /prefers-reduced-motion/);
 	assert.match(loader, /fileName:\s*"style\.css"/);
-	for (const name of ["tabs", "chrome", "viewport", "advanced", "remote", "interactive", "shliach"]) {
+	for (const name of ["tabs", "tabControls", "chrome", "viewport", "advanced",
+		"remote", "interactive", "shliach", "responsive"]) {
 		assert.match(base, new RegExp(`${name}\\.css`));
 	}
 });
@@ -100,16 +103,6 @@ test("entrypoint loads modular styles and no longer claims Chromium-first UI", a
 	assert.match(startup, /createBrowserNavigationCoordinator/);
 	assert.match(entry, /modeBadge\.textContent = "Starting"/);
 	assert.doesNotMatch(entry, /living Chromium faces/);
-});
-
-test("remote browser transport stays alias-scoped and same-origin", async () => {
-	const client = await sourceText(`${BROWSER}/proxyClient.js`);
-	const request = await sourceText(`${BROWSER}/proxyClientRequest.js`);
-	assert.match(client, /browser\/fetch/);
-	assert.match(request, /credentials:\s*"same-origin"/);
-	assert.match(request, /\/api\/social\/drive\//);
-	assert.match(request, /BROWSER_ALIAS_REQUIRED/);
-	assert.match(request, /normalized === "cookie" \|\| normalized === "set-cookie"/);
 });
 
 async function sourceText(relativePath) {

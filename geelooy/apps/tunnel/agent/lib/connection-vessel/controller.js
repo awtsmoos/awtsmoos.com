@@ -11,19 +11,16 @@ const State = require("./controller-state.js");
 const StatsPublisher = require("./controller-stats-publisher.js");
 
 /**
- * @file Composes durable custody, instruction RPC, and independently supervised connection life.
- * @description The Awtsmoos keeps one socket child and one parent execution vessel in harmony;
- * Awtsmoos.com carries server law across fenced IPC without duplicating connection authority.
+ * @file Composes durable custody with a launcher that survives connection-child repair.
+ * @description The Awtsmoos keeps tunnel identity in the living parent while stalled children are
+ * renewed beneath it. Awtsmoos.com also requires every replacement child to prove registration
+ * before a bounded deadline instead of treating process birth as recovery success.
  */
 function createController(options = {}) {
 	const mailbox = ControllerMailbox.create(options);
 	let router = null;
 	const instructionBridge = InstructionBridge.create({ notify });
-	const proxy = Proxy.createProxy({
-		instructionRequest: instructionBridge.request,
-		mailbox,
-		notify
-	});
+	const proxy = Proxy.createProxy({ instructionRequest: instructionBridge.request, mailbox, notify });
 	const supervisor = ProcessSupervisor.createProcessSupervisor({
 		agentVersion: options.agentVersion,
 		childPath: options.childPath,
@@ -31,6 +28,7 @@ function createController(options = {}) {
 		handleMessage: message => router?.handle(message),
 		log,
 		maximumRestartDelayMs: options.maximumRestartDelayMs,
+		registrationDeadlineMs: options.registrationDeadlineMs,
 		mirror,
 		childLivenessOptions: options.childLivenessOptions,
 		childRepairOptions: options.childRepairOptions
@@ -39,11 +37,13 @@ function createController(options = {}) {
 	const statsPublisher = StatsPublisher.create({ notify, stats: options.stats });
 
 	router = MessageRouter.createMessageRouter({
+		currentIncarnation: supervisor.childIncarnationId,
 		enqueueRequest: options.enqueueRequest,
 		generation: () => options.state.generation,
 		log,
 		mirror,
 		notify,
+		onChildRepairRequest: supervisor.requestChildRepair,
 		onInstructionResult: instructionBridge.settle,
 		onRecoveryRequired: supervisor.requestRepair,
 		onRegistered: supervisor.markRegistered,
@@ -66,9 +66,7 @@ function createController(options = {}) {
 		const previous = proxy.snapshot().childIncarnationId;
 		const mirrored = State.mirror(options, proxy, next);
 		const current = proxy.snapshot().childIncarnationId;
-		if (next.running === false || (previous && current && previous !== current)) {
-			instructionBridge.rejectAll();
-		}
+		if (next.running === false || (previous && current && previous !== current)) instructionBridge.rejectAll();
 		return mirrored;
 	}
 
@@ -100,17 +98,7 @@ function createController(options = {}) {
 		return true;
 	}
 
-	return {
-		connect,
-		progressCustody: custodyProgress.progress,
-		publishStats: statsPublisher.publish,
-		proxy,
-		status,
-		stop
-	};
+	return { connect, progressCustody: custodyProgress.progress, publishStats: statsPublisher.publish, proxy, status, stop };
 }
 
-module.exports = {
-	boundedRestartDelay: ProcessSupervisor.boundedRestartDelay,
-	createController
-};
+module.exports = { boundedRestartDelay: ProcessSupervisor.boundedRestartDelay, createController };

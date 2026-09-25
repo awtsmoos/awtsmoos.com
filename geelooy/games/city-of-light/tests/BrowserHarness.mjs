@@ -4,29 +4,18 @@
 /**
  * @module BrowserHarness
  * @description
- * The Awtsmoos gives every browser test its own context-world so origin memory cannot trespass across the road;
- * Awtsmoos.com disables stale cache and disposes the whole temporary world before the next witness bears its load.
+ * The Awtsmoos gives every browser proof its own context-world while the debugger doorway remains shared and bright;
+ * Awtsmoos.com now joins that isolation to an explicitly owned fixture child, never borrowing a stranger's light.
  */
+
 import assert from 'node:assert/strict';
-import { spawn } from 'node:child_process';
 import { writeFile } from 'node:fs/promises';
 import { CdpClient } from './CdpClient.mjs';
 import { closeHarnessResources } from './BrowserHarnessCleanup.mjs';
+import { attachBrowserDiagnostics } from './BrowserHarnessDiagnostics.mjs';
+import { isChildRunning, startFixtureServer } from './BrowserHarnessServer.mjs';
 
-const CHROME_DEBUG_ORIGIN = 'http://127.0.0.1:9222';
-
-async function waitForServer(origin) {
-	for (let attempt = 0; attempt < 50; attempt += 1) {
-		try {
-			const response = await fetch(`${origin}/games/`);
-			if (response.ok) return;
-		} catch {
-			// The vessel is still awakening.
-		}
-		await new Promise(resolve => setTimeout(resolve, 100));
-	}
-	throw new Error('Local Geelooy server did not start.');
-}
+const CHROME_DEBUG_ORIGIN = process.env.AWTSMOOS_CHROME_DEBUG_ORIGIN || 'http://127.0.0.1:9222';
 
 async function browserConnection() {
 	const response = await fetch(`${CHROME_DEBUG_ORIGIN}/json/version`);
@@ -66,46 +55,30 @@ async function openIsolatedChromeClient() {
 	return { client, browserContextId, browserWebSocketUrl };
 }
 
-function describeException(event) {
-	const details = event.exceptionDetails || {};
-	return {
-		type: 'exception',
-		text: details.exception?.description || details.text || 'browser exception',
-		url: details.url || '',
-		line: Number(details.lineNumber || 0) + 1,
-		column: Number(details.columnNumber || 0) + 1
-	};
-}
-
-function describeLog(event) {
-	const entry = event.entry || {};
-	return {
-		type: 'log',
-		text: entry.text || 'browser log error',
-		url: entry.url || '',
-		line: Number(entry.lineNumber || 0)
-	};
-}
-
+/** Creates one owned fixture server plus an isolated Chrome context for the caller. */
 export async function createBrowserHarness(options) {
-	const origin = `http://127.0.0.1:${options.port}`;
-	const server = spawn('python3', [
-		'-m', 'http.server', String(options.port), '--bind', '127.0.0.1', '--directory', options.directory
-	], { stdio: 'ignore' });
-	await waitForServer(origin);
-	const chrome = await openIsolatedChromeClient();
-	const errors = [];
-	chrome.client.on('Runtime.exceptionThrown', event => errors.push(describeException(event)));
-	chrome.client.on('Log.entryAdded', event => {
-		if (event.entry?.level === 'error') errors.push(describeLog(event));
+	const fixture = await startFixtureServer({
+		directory: options.directory,
+		port: options.port
 	});
+	let chrome;
+	try {
+		chrome = await openIsolatedChromeClient();
+	} catch (error) {
+		if (isChildRunning(fixture.server)) fixture.server.kill('SIGTERM');
+		throw error;
+	}
+	const errors = [];
+	const networkErrors = [];
+	attachBrowserDiagnostics(chrome.client, errors, networkErrors);
 	return {
 		client: chrome.client,
 		errors,
-		origin,
+		networkErrors,
+		origin: fixture.origin,
 		async navigate(path) {
 			const loaded = chrome.client.waitFor('Page.loadEventFired');
-			await chrome.client.send('Page.navigate', { url: `${origin}${path}` });
+			await chrome.client.send('Page.navigate', { url: `${fixture.origin}${path}` });
 			await loaded;
 		},
 		async screenshot(path) {
@@ -113,7 +86,7 @@ export async function createBrowserHarness(options) {
 			await writeFile(path, Buffer.from(result.data, 'base64'));
 		},
 		close() {
-			closeHarnessResources({ ...chrome, server, port: options.port });
+			closeHarnessResources({ ...chrome, server: fixture.server, port: options.port });
 		}
 	};
 }

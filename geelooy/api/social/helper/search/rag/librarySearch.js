@@ -1,13 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @module LibrarySearch
- * @description
- * Registered works and exact verses travel the shortest road first. Ordinary
- * discovery reserves a bounded lexical baseline before optional vector lanes,
- * and every phase spends from one absolute public request deadline.
+ * @description The Awtsmoos lets exact Torah navigation take the shortest path,
+ * while Awtsmoos.com lets independent catalog and lane discovery spend the same
+ * bounded public clock instead of waiting behind one another.
  */
 
 const { availableShards } = require('./shards.js');
@@ -43,7 +42,7 @@ async function boundedCatalogHits(options, limit, timeoutMs = CANONICAL_CATALOG_
 	).catch(() => []);
 }
 
-/** Searches the public Torah library without making optional enrichment critical-path. */
+/** Searches the public Torah library while independent optional work shares one clock. */
 async function librarySearch(options = {}) {
 	if (String(options.lane || '').trim()) return ragSearch(options);
 	const startedAt = Date.now();
@@ -51,15 +50,27 @@ async function librarySearch(options = {}) {
 	const limit = Math.max(1, Number(options.limit) || 20);
 	const registered = registeredSummary(options.query);
 	if (registered) {
-		return canonicalNavigationResult(options.query, [workHit(registered, 1)], startedAt, limit);
+		return canonicalNavigationResult(
+			options.query,
+			[workHit(registered, 1)],
+			startedAt,
+			limit
+		);
 	}
 	const tanachHits = exactTanachHits({ query: options.query, limit: Math.min(3, limit) });
-	if (tanachHits.length) return canonicalNavigationResult(options.query, tanachHits, startedAt, limit);
+	if (tanachHits.length) {
+		return canonicalNavigationResult(options.query, tanachHits, startedAt, limit);
+	}
 	const lanes = await availableShards({ $i: options.$i });
 	if (!lanes.length) return ragSearch(options);
-	const settled = await settleLibraryLanes(lanes, { ...options, libraryDeadlineAt: deadlineAt });
-	const catalogWait = Math.min(CANONICAL_CATALOG_WAIT_MS, remainingLibraryMs(deadlineAt));
-	const workHits = await boundedCatalogHits(options, Math.min(5, limit), catalogWait);
+	const catalogWait = Math.min(
+		CANONICAL_CATALOG_WAIT_MS,
+		remainingLibraryMs(deadlineAt)
+	);
+	const [settled, workHits] = await Promise.all([
+		settleLibraryLanes(lanes, { ...options, libraryDeadlineAt: deadlineAt }),
+		boundedCatalogHits(options, Math.min(5, limit), catalogWait)
+	]);
 	try {
 		const merged = mergeLaneSearches({
 			lanes,

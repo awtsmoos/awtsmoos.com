@@ -1,20 +1,12 @@
-// B"H
-import { readFileSync } from 'node:fs';
+//B"H
+// Boruch Hashem
+// Blessed is He
+/** The Awtsmoos lets one clean Home replace layered historical shells; Awtsmoos.com proves the living entry uses only its simple manifests and shared Revelation foundation. */
 import assert from 'node:assert/strict';
-const html=readFileSync('geelooy/index.html','utf8');
-assert(html.includes('clean-home'));
-assert(html.includes('data-home-menu'));
-assert(html.includes('<details class="clean-expander"'));
-assert(html.includes('id="home-heichelos-menu"'));
-assert(html.includes('class="home-command-dock home-task-dock"'));
-const menu=readFileSync('geelooy/scripts/awtsmoos/social/home/menu/index.js','utf8');
-assert(menu.includes('document.querySelectorAll'));
-assert(menu.includes('pointerdown'));
-assert(menu.includes('aria-expanded'));
-const css=readFileSync('geelooy/style/social/home/polish/clean-mobile.css','utf8');
-assert(css.includes('.home-heichelos-menu{position:fixed'));
-assert(css.includes('.home-command-dock{position:sticky'));
-const mail=readFileSync('geelooy/email/css/social-shell-parts/mobile.css','utf8');
-assert(mail.includes('padding-bottom:max(5.8rem'));
-assert(mail.includes('.mail-bottom-nav{position:fixed'));
+import { HOME_HTML, HOME_BASE, assertCurrentHomeFoundation } from './helpers/currentHomeContract.mjs';
+assertCurrentHomeFoundation();
+assert.match(HOME_BASE, /home-tokens\.css/);
+assert.match(HOME_BASE, /home-foundation\.css/);
+assert.match(HOME_BASE, /home-shell\.css/);
+assert.doesNotMatch(HOME_HTML, /cosmic|dashboard|legend|profile-lux|profile-fit/i);
 console.log('B"H cleanHomeContract.test passed');

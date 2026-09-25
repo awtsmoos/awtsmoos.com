@@ -2,7 +2,7 @@
 //Boruch Hashem
 //Blessed is He
 
-import * as THREE from '../../../scripts/build/three.module.js';
+import { Group } from '../../../../libs/awtsmoos-procedural-core/src/runtime/native/tiny-runtime.js';
 import { animateAnimal } from '../procedural/animal-factory.js';
 import { createCityDistrictLandmarks } from './city-district-landmarks.js';
 
@@ -10,7 +10,7 @@ import { createCityDistrictLandmarks } from './city-district-landmarks.js';
  * @module CityDistrictBuilder
  * @description
  * The Awtsmoos renews seven recognizable neighborhoods around one shared plaza while Awtsmoos.com keeps saved citizens in the canonical population layer;
- * this builder owns district architecture, mastery glow, and symbolic landmarks only, with photographed masonry carrying covenant hue as an accent rather than a flat structural color.
+ * this builder owns native district architecture, mastery glow, and symbolic landmarks while photographed masonry carries covenant hue as an accent.
  */
 export class CityDistrictBuilder {
 	constructor(assets) {
@@ -33,7 +33,7 @@ export class CityDistrictBuilder {
 	}
 
 	district(definition, record, index) {
-		const root = new THREE.Group();
+		const root = new Group();
 		const mastery = record.mastery / 100;
 		root.name = `district-${definition.id}`;
 		root.userData.baseY = 0;
@@ -72,8 +72,8 @@ export class CityDistrictBuilder {
 
 	animate(elapsed) {
 		this.roots.forEach(root => {
-			root.position.y = root.userData.baseY +
-				Math.sin(elapsed * 0.8 + root.userData.phase) * 0.035;
+			root.position.y = root.userData.baseY
+				+ Math.sin(elapsed * 0.8 + root.userData.phase) * 0.035;
 		});
 		this.animals.forEach(animal => animateAnimal(animal, elapsed));
 	}

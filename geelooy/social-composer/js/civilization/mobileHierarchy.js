@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -6,7 +6,7 @@
  * @module ComposerMobileHierarchy
  * @description
  * The Awtsmoos keeps the writing surface quiet: one common media deed stays near the hand,
- * while Awtsmoos.com gathers rarer creative branches behind a truthful Tools disclosure.
+ * while Awtsmoos.com gathers rarer creative branches behind truthful labels that never promise privacy the public publication covenant cannot enforce.
  */
 import { installMobileIdentity } from './mobileIdentity.js';
 
@@ -15,7 +15,7 @@ export const MOBILE_TOOLS = Object.freeze([
 	['reel', '▶', 'Reel'],
 	['section', '§', 'Section'],
 	['destination', '◇', 'Destination'],
-	['audience', '◎', 'Audience']
+	['audience', '◎', 'Public']
 ]);
 
 /** Installs a writing-first tool surface without changing publication contracts. */

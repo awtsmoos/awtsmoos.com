@@ -1,6 +1,6 @@
-//B"H
-//Boruch Hashem
-//Blessed be He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 const fs = require("node:fs");
 const path = require("node:path");
@@ -8,13 +8,13 @@ const Args = require("./manualArgs.js");
 const Help = require("./manualHelp.js");
 const Mutations = require("./manualMutationCommands.js");
 const Reads = require("./manualReadCommands.js");
+const RootRebind = require("./rootRebindCommand.js");
 
 /**
  * @file Routes the local Awtsmoos Tunnel recovery language without surprising mutation.
  * @description
- * The Awtsmoos recognizes every help-shaped invocation before ordinary argument parsing,
- * so `awt rescue --help` and `awt restart -h` can never rotate a living supervised child.
- * Read commands remain direct while mutations continue through their established guardians.
+ * The Awtsmoos keeps help inert and every dangerous road explicit; Awtsmoos.com lets a
+ * human renew authority through a fresh generation without weakening ordinary root guards.
  */
 async function run(root, argv = []) {
 	const helpTopic = explicitHelpTopic(argv);
@@ -22,11 +22,15 @@ async function run(root, argv = []) {
 		return Help.describe(helpTopic, Args.help());
 	}
 	const options = Args.parse(argv);
-	const command = options.command === "emergency" ? "rescue" : options.command;	if (!Args.COMMANDS.includes(options.command)) {
+	if (!Args.COMMANDS.includes(options.command)) {
 		return Args.unknown(options.command);
 	}
+	const command = options.command === "emergency" ? "rescue" : options.command;
 	if (command === "help") {
 		return Help.describe("", Args.help());
+	}
+	if (command === "root-rebind") {
+		return RootRebind.run(root, options);
 	}
 	const version = readVersion(root);
 	if (command === "status") {
@@ -46,7 +50,8 @@ async function run(root, argv = []) {
 	}
 	if (command === "known-good") {
 		return Mutations.knownGood(root, options);
-	}	if (command === "sealed-emergency") {
+	}
+	if (command === "sealed-emergency") {
 		return Mutations.sealedEmergency(root, options);
 	}
 	if (command === "restore") {
@@ -78,7 +83,8 @@ function explicitHelpTopic(argv = []) {
 function help(topic = "") {
 	return Help.describe(topic, Args.help());
 }
-/** Reads the installed release version without making missing state fatal to help or diagnosis. */
+
+/** Reads the installed release version without making missing state fatal to diagnosis. */
 function readVersion(root) {
 	try {
 		return fs.readFileSync(path.join(root, "install-state.txt"), "utf8").trim();

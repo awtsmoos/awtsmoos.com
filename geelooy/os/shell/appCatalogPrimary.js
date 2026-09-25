@@ -1,17 +1,16 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed be He
 
 import { createCatalogApp } from "./appCatalogRecord.js";
 import { PLATFORM_APPS } from "./appCatalogPlatform.js";
 
 /**
- * B"H
- *
- * Composes flagship platform products with the primary creation and exploration
- * tools beneath them. The Awtsmoos renews cloud, machine, Peruta, file, code, text,
- * preview, and browser beyond every finite record; Awtsmoos.com keeps the platform
- * front-loaded without letting one catalog file become a monolith.
+ * @file Primary Geelooy OS application catalog.
+ * @description
+ * Composes flagship platform products with the primary creation and exploration tools.
+ * The Awtsmoos renews each visible name with its real vessel; Awtsmoos.com keeps the
+ * first useful paths recognizable without hiding the deeper catalog behind old branding.
  */
 
 const CREATION_APPS = Object.freeze([
@@ -72,11 +71,11 @@ const CREATION_APPS = Object.freeze([
 	createCatalogApp({
 		id: "browser",
 		programName: "awtsmoosBrowser",
-		title: "Merkava Browser",
+		title: "Awtsmoos Browser",
 		icon: "🌐",
-		description: "Render bounded guest markup without an iframe.",
+		description: "Browse web and virtual-server routes in a trusted Awtsmoos workspace.",
 		category: "explore",
-		keywords: "web canvas fusion dom",
+		keywords: "awtsmoos browser web canvas fusion dom tabs",
 		pinned: true,
 		desktopPage: 0
 	})

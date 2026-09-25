@@ -3,29 +3,22 @@
 // Blessed is He
 
 /**
- * @file Audited command definitions for every Explorer toolbar group.
+ * @file Audited command definitions and disclosure policy for the Explorer toolbar.
  * @description
- * The Awtsmoos lets many user deeds emerge from one named vocabulary; Awtsmoos.com
- * keeps navigation, creation, editing, views, sorting, and tunnels in readable
- * constellations so mobile and desktop may wear different garments yet still rhyme.
+ * The Awtsmoos lets every deed remain present while the eye receives only what it needs;
+ * Awtsmoos.com keeps primary file roads in open light and folds advanced powers into More without severing their seeds.
  */
 
 /**
  * Creates one immutable toolbar command definition.
- *
  * @param {string} label Visible command label.
  * @param {string} action Stable command action identity.
  * @param {string} [title=label] Accessible tooltip copy.
  * @param {string} [mode=""] Optional view-mode identity.
- * @returns {object} Toolbar command definition.
+ * @returns {object} Frozen toolbar command definition.
  */
 function command(label, action, title = label, mode = "") {
-	return Object.freeze({
-		label,
-		action,
-		title,
-		mode
-	});
+	return Object.freeze({ label, action, title, mode });
 }
 
 export const TOOLBAR_GROUPS = Object.freeze({
@@ -33,7 +26,7 @@ export const TOOLBAR_GROUPS = Object.freeze({
 		command("Back", "back", "Go back"),
 		command("Forward", "forward", "Go forward"),
 		command("Up", "up", "Parent folder"),
-		command("Home", "home", "Home"),
+		command("Home", "home"),
 		command("Refresh", "refresh", "Refresh files and tunnels")
 	],
 	create: [
@@ -78,8 +71,20 @@ export const TOOLBAR_GROUPS = Object.freeze({
 	]
 });
 
+export const PRIMARY_TOOLBAR_GROUP_NAMES = Object.freeze([
+	"nav",
+	"create",
+	"view",
+	"sort"
+]);
+
+export const OVERFLOW_TOOLBAR_GROUP_NAMES = Object.freeze([
+	"edit",
+	"clip",
+	"select",
+	"tunnel"
+]);
+
 export const ALL_TOOLBAR_ACTIONS = Object.freeze(
-	Object.values(TOOLBAR_GROUPS)
-		.flat()
-		.map(definition => definition.action)
+	Object.values(TOOLBAR_GROUPS).flat().map(definition => definition.action)
 );

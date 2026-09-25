@@ -24,6 +24,7 @@ const PROGRAM_ICONS = Object.freeze({
 	awtsmoosSheets: "📈",
 	awtsmoosTaskManager: "📊",
 	awtsmoosTextEdit: "📝",
+	markdownEditor: "📄",
 	awtsmoosWebProduct: "✦",
 	connectedNodeServer: "🟢",
 	driveWorkspace: "☁️",

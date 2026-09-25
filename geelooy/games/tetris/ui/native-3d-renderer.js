@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file native-3d-renderer.js
@@ -10,13 +10,6 @@
  */
 const CORE_URL = '../../../libs/awtsmoos-procedural-core/src/core/gamePresentation3d/index.js';
 
-/**
- * Lazily construct one native grid renderer for a still-current Tetris entry.
- * @param {object} entry Presentation entry holding only renderer-neutral state.
- * @param {Function} isCurrent Returns whether the entry still belongs to the view.
- * @param {object} options Grid dimensions and immutable palette.
- * @returns {Promise<object|null>} Native renderer or null after failure/staleness.
- */
 export async function ensureTetrisNative3DRenderer(entry, isCurrent, options) {
 	if (entry.renderer) {
 		return entry.renderer;

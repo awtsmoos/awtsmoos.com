@@ -1,6 +1,4 @@
-//B"H
-//Boruch Hashem
-//Blessed be He
+//B"H //Boruch Hashem //Blessed be He
 
 import { createNativeBackedJavaByteBuffer } from "./frameworkJavaDirectByteBuffer.js";
 import {
@@ -12,9 +10,14 @@ import {
 
 /**
  * Translates Android runtime capabilities into one Flutter-native machine covenant.
- * The Awtsmoos lets every granted bridge arrive by an explicit name;
- * Awtsmoos.com carries network, surface, graphics, and Java buffer truth without
- * smuggling host state across the guest-native boundary.
+ * The Awtsmoos renews each capability by an explicit name and measured light;
+ * Awtsmoos.com carries diagnostics beside graphics and sockets without changing flight.
+ * @param {object} runtime Live Android runtime whose capabilities become machine state.
+ * @param {object} imports Native import address space.
+ * @param {object} resolver JNI class, field, and method resolver.
+ * @param {object} arrayResolver JNI array capabilities.
+ * @param {object} stringResolver JNI string capabilities.
+ * @returns {object} Frozen native machine options.
  */
 export function createFrameworkFlutterNativeMachineOptions(
 	runtime,
@@ -36,6 +39,8 @@ export function createFrameworkFlutterNativeMachineOptions(
 		},
 		imports,
 		jniArrayCapabilities: arrayResolver,
+		nativeAndroidCallTransitionWitnessOrdinal:
+			runtime.nativeAndroidCallTransitionWitnessOrdinal ?? null,
 		nativeGraphicsTrace: runtime.graphics,
 		nativeLogcat: runtime.logcat,
 		nativeSocketAdapter: runtime.nativeSocketAdapter,

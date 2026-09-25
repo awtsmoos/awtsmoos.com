@@ -16,6 +16,13 @@ module.exports = [
 		title: "About — Geelooy"
 	},
 	{
+		canonicalPath: "/ai/animation/",
+		description: "Explore the Awtsmoos.com AI animation experience for creating and working with visual motion through a focused web interface.",
+		filePath: "ai/animation/index.html",
+		kind: "public-information",
+		title: "Expressive Stick Figure Animator"
+	},
+	{
 		canonicalPath: "/ai/",
 		description: "Use multi-provider AI chats, attachments, local GGUF models, and automation tools from one Awtsmoos interface.",
 		filePath: "ai/index.html",
@@ -51,6 +58,13 @@ module.exports = [
 		title: "GGUF Chat & Metadata"
 	},
 	{
+		canonicalPath: "/apps/awtsmoos-studio/",
+		description: "Direct cinematic and interactive projects in the flagship Awtsmoos creative workspace.",
+		filePath: "apps/awtsmoos-studio/index.html",
+		kind: "app",
+		title: "Awtsmoos Studio"
+	},
+	{
 		canonicalPath: "/apps/bookCoverMaker/",
 		description: "Compose book-cover artwork and typography in a focused visual workspace.",
 		filePath: "apps/bookCoverMaker/index.html",
@@ -63,19 +77,5 @@ module.exports = [
 		filePath: "apps/broadcaster/index.html",
 		kind: "app",
 		title: "Broadcaster"
-	},
-	{
-		canonicalPath: "/apps/byteViewer/",
-		description: "Inspect raw bytes and hexadecimal structure in the browser.",
-		filePath: "apps/byteViewer/index.html",
-		kind: "app",
-		title: "Byte Viewer"
-	},
-	{
-		canonicalPath: "/apps/captions/",
-		description: "Design cinematic caption graphics and animated visual treatments from one advanced local canvas engine.",
-		filePath: "apps/captions/index.html",
-		kind: "app",
-		title: "Ein Sof Caption Engine"
 	}
 ];

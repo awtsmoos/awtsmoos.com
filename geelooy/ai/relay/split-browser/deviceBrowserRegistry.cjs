@@ -19,9 +19,9 @@ const LOOPBACK_HOST = "127.0.0.1";
  * Every service reads this atomic record instead of guessing ports, localhost
  * families, or per-agent profiles. No cookie, page text, or credential is stored.
  */
-function observe(options = {}) {
+async function observe(options = {}) {
 	const profile = selectedProfile(options);
-	const owner = Owner.ownedProfileOwner(profile, options);
+	const owner = await Owner.ownedProfileOwner(profile, options);
 	if (!owner) return unavailable(profile, read());
 	return adopt({ ...owner, host: LOOPBACK_HOST, profile });
 }

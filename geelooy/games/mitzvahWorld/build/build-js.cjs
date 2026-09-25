@@ -4,22 +4,17 @@
 
 /**
  * @file build-js.cjs
- * @description Builds deterministic first-control, bounded playable foundation/core, and later quality runtime artifacts while preserving chosen deferred seams.
- * The Awtsmoos gathers each needed phase into a vessel no larger than its present deed;
- * Awtsmoos.com lets first control stay tiny, playable ground cross two swift compressed gates, and distant beauty remain deferred at speed.
+ * @description Builds deterministic runtime artifacts and regenerates release-owned essential assets in one canonical operation.
+ * The Awtsmoos gathers code and essential earth into measured vessels before the release may speak its name;
+ * Awtsmoos.com keeps first control tiny while foundation, player, core, world, and later garments arrive as bounded generated light.
  */
 
 const fs = require('node:fs');
 const path = require('node:path');
-const {
-	compilerFunction
-} = require('./js/CompactJsAdapter.cjs');
-const {
-	writeCompactJsBuild
-} = require('./js/CompactJsBuildWriter.cjs');
-const {
-	buildRuntimeChunk
-} = require('./js/RuntimeChunkBuild.cjs');
+const { buildEssentialReleaseAssets } = require('./EssentialReleaseAssetBuilder.cjs');
+const { compilerFunction } = require('./js/CompactJsAdapter.cjs');
+const { writeCompactJsBuild } = require('./js/CompactJsBuildWriter.cjs');
+const { buildRuntimeChunk } = require('./js/RuntimeChunkBuild.cjs');
 
 const gameRoot = path.resolve(__dirname, '..');
 const repositoryRoot = path.resolve(gameRoot, '../../..');
@@ -37,8 +32,9 @@ main().catch(error => {
 	process.exitCode = 1;
 });
 
-/** Builds the first-control artifact followed by deterministic playable and later runtime chunks. */
+/** Regenerates essential release assets, then builds first-control and deterministic runtime chunks. */
 async function main() {
+	const essentialAssets = await buildEssentialReleaseAssets(gameRoot);
 	const entryFile = path.join(sourceRoot, 'MinimalMeadowCompactBootstrap.js');
 	const outputFile = path.join(sourceRoot, 'mitzvah-world.compact.js');
 	const firstValue = await compileMain(entryFile);
@@ -59,24 +55,17 @@ async function main() {
 			gameRoot
 		}));
 	}
-	console.log(JSON.stringify({ chunks, main: mainManifest }));
+	console.log(JSON.stringify({ chunks, essentialAssets, main: mainManifest }));
 }
 
-/** Compiles the tiny first-control entry while preserving every later dynamic boundary. */
 function compileMain(entryFile) {
 	return compileSource(entryFile, true, true);
 }
 
-/** Compiles one runtime chunk with its explicitly chosen dynamic-import policy. */
 function compileChunk(entryFile, options = {}) {
-	return compileSource(
-		entryFile,
-		options.preserveDynamicImports === true,
-		false
-	);
+	return compileSource(entryFile, options.preserveDynamicImports === true, false);
 }
 
-/** Invokes the canonical compiler with one explicit source-map and dynamic-import covenant. */
 function compileSource(entryFile, preserveDynamicImports, sourceMaps) {
 	return compile({
 		entryFile,
@@ -87,10 +76,11 @@ function compileSource(entryFile, preserveDynamicImports, sourceMaps) {
 	});
 }
 
-/** Defines bounded artifacts from playable foundation through later quality systems. */
+/** Defines bounded artifacts from first visible foundation through later quality systems. */
 function chunkConfigurations() {
 	return [
 		chunk('foundation', 'EretzWorldFoundation.js'),
+		chunk('player', 'EretzEssentialAssetLoader.js'),
 		chunk('core', 'BootstrapCoreRuntimeAssembly.js'),
 		chunk('presentation', 'MinimalMeadowPresentationBundle.js'),
 		chunk('world', 'MinimalMeadowWorldBundle.js', { preserveDynamicImports: true }),
@@ -98,7 +88,6 @@ function chunkConfigurations() {
 	];
 }
 
-/** Creates one deterministic build descriptor consumed by RuntimeChunkBuild. */
 function chunk(name, entryName, options = {}) {
 	return {
 		entryFile: path.join(sourceRoot, 'app', entryName),

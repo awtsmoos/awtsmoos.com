@@ -10,6 +10,7 @@ const Control = require("./parent-watchdog-control.js");
 const RepairContext = require("./parent-watchdog-repair-context.js");
 const Snapshot = require("./parent-watchdog-snapshot.js");
 const Values = require("./parent-watchdog-values.js");
+const Monotonic = require("../runtime/monotonic.js");
 
 const DEFAULT_PARENT_STALE_MS = 30000;
 const DEFAULT_BACKLOG_STALE_MS = 10000;
@@ -24,7 +25,9 @@ const DEFAULT_KILL_GRACE_MS = 5000;
  * No manual sword escapes the covenant; every automatic force begins with durable revels.
  */
 function create(options = {}) {
-	const now = options.now || Date.now;
+	// B12: staleness math runs on the monotonic clock so a wall-clock jump can
+	// neither trigger a false parent repair nor mask a stalled parent.
+	const now = options.now || Monotonic.monotonicMs;
 	const parentStaleMs = RepairContext.bounded(options.parentStaleMs, DEFAULT_PARENT_STALE_MS);
 	const backlogStaleMs = RepairContext.bounded(options.backlogStaleMs, DEFAULT_BACKLOG_STALE_MS);
 	const consumerStaleMs = RepairContext.bounded(
@@ -39,6 +42,7 @@ function create(options = {}) {
 	});
 	const repairContext = RepairContext.create({
 		...options,
+		onRepairSettled: options.onRepairSettled || ((claimId, executed) => consumerRecovery.settleRepairClaim(claimId, executed)),
 		killGraceMs: options.killGraceMs ?? DEFAULT_KILL_GRACE_MS
 	});
 	const identity = repairContext.identity;

@@ -1,100 +1,69 @@
-B"H
-Boruch Hashem
-Blessed is He
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
 
-# Oros HaKelim Runtime API v2
+# Oros HaKelim Runtime API v4
 
-> The Awtsmoos renews command, event and observation before any interface can stay;
-> Awtsmoos.com gives Yesod a guarded contract so outside tools may join the play.
+The Awtsmoos renews command and observation before any finite API can call itself the source;
+Awtsmoos.com keeps this document beside the living manifest so code, replay, and docs travel one truthful course.
 
-## Entry point
+## Canonical versions
 
-The browser exposes one `OrosRuntimeApi` instance:
+- Runtime API: `4.0.0`
+- Envelope schema: `1.0.0`
+- Replay schema: `1.1.0`
+- Motion model: `deterministic-grid-with-interpolated-waypoints`
+- Renderer: `awtsmoos-procedural-core-webgl`
 
-```js
-const api = window.__OROS_HAKELIM__;
-```
+The executable source of truth is `src/runtime/RuntimeApiManifest.js`. Tests import those exported version constants instead of duplicating literals.
 
-`api.version` is `2.0.0`. `api.capabilities()` advertises commands, event types and the motion model.
+## Public boundary
 
-## Observations
+`OrosRuntimeApi` exposes detached snapshots, bounded event history, commands, queries, preferences, replay export, and subscriptions. It does not expose the mutable game root or event bus.
 
-```js
-const state = api.snapshot();
-const metrics = api.metrics();
-const recent = api.recentEvents(20);
-```
+### Commands
 
-Snapshots and metrics are JSON-detached copies. The API keeps its game and EventBus references in private class fields, so external callers cannot reach mutable `MatchState` through the public object.
+| Type | Meaning |
+| --- | --- |
+| `start` | Begin or unpause the current Tikkun round. |
+| `pause` | Pause authoritative pulse consumption. |
+| `resume` | Resume a paused round. |
+| `restart` | Replace the current match vessel in memory. |
+| `turn-left` | Queue one deterministic left turn. |
+| `turn-right` | Queue one deterministic right turn. |
+| `boost` | Set Ohr-boost intention from a boolean active field. |
+| `step` | Advance a paused runtime by a bounded pulse count. |
+| `preferences` | Apply persistent experience preferences. |
+| `replay-export` | Export the deterministic input journal. |
 
-Published EventBus payloads are detached and recursively frozen before listeners receive them. `recentEvents()` returns new detached copies.
+### Queries
 
-## Lifecycle
-
-```js
-api.start();
-api.pause();
-api.resume();
-api.restart();
-```
-
-Pause stops authoritative simulation pulses while rendering continues. Resume resets the frame-clock baseline so a paused interval cannot become catch-up debt.
-
-## Direct controls
-
-```js
-api.turnLeft();
-api.turnRight();
-api.setBoost(true);
-api.setBoost(false);
-```
-
-`setBoost()` requires a boolean and throws `TypeError` for invalid values.
-
-## Generic commands
-
-Tooling can use data envelopes instead of direct methods:
-
-```js
-api.command({ type: "start" });
-api.command({ type: "turn-left" });
-api.command({ type: "turn-right" });
-api.command({ type: "boost", active: true });
-api.command({ type: "pause" });
-api.command({ type: "resume" });
-```
-
-Unknown command types throw `RangeError`. Invalid command envelopes throw `TypeError`.
+| Type | Meaning |
+| --- | --- |
+| `snapshot` | Clone authoritative match/runtime state. |
+| `metrics` | Clone performance, renderer, and service metrics. |
+| `capabilities` | Return the runtime API manifest. |
+| `events` | Return a bounded tail of authoritative events. |
+| `preferences` | Read current persisted preferences. |
+| `replay` | Clone the replay export payload. |
+| `objectives` | Read current Tikkun objective progress when available. |
+| `landmarks` | Read strategic Nekudot Ohr records when available. |
 
 ## Events
 
-Runtime API v2 publishes:
+The manifest currently advertises `move`, `energy`, `claim`, `gate`, `shatter`, `respawn`, `round-end`, `runtime-start`, `runtime-pause`, `runtime-resume`, `runtime-reset`, `nekudah`, and `objective`.
 
-- `move`
-- `energy`
-- `claim`
-- `gate`
-- `shatter`
-- `respawn`
-- `round-end`
-- `runtime-start`
-- `runtime-pause`
-- `runtime-resume`
+## Replay covenant
 
-Every simulation event carries the authoritative tick for the event. Runtime lifecycle events carry the current match tick.
+`ReplayJournal` records normalized authoritative player intent with a bounded history. Every export contains:
 
-Subscribe to one type or all types:
+- `schemaVersion` from `REPLAY_SCHEMA_VERSION`
+- `configFingerprint` covering grid, tick, round, energy, Olam affinity, Nekudot, and objectives
+- `entryCount`
+- detached `entries`
 
-```js
-const stopClaims = api.on("claim", (event) => console.log(event));
-const stopAll = api.on("*", (event) => console.log(event.type));
+A replay whose schema or balance fingerprint differs from the current runtime must be treated as incompatible rather than silently interpreted under new laws.
 
-stopClaims();
-stopAll();
-```
+## Compatibility policy
 
-Listener exceptions are isolated from the game loop and retained in bounded runtime metrics.
-
-## Runtime errors
-
-`api.runtimeErrors` remains available for compatibility with browser diagnostics. It records window errors and unhandled promise rejections. It is deliberately separate from authoritative match state.
+Legacy direct controls such as `turnLeft()`, `turnRight()`, `setBoost()`, pause/resume, and in-memory restart remain supported while generic `command(...)` and query surfaces provide the current extensible boundary. Version changes belong in the manifest first; code, tests, and docs then consume that truth.

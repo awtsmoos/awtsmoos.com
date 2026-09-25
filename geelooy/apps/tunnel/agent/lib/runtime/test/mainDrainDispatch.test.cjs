@@ -6,21 +6,23 @@ const assert = require("node:assert/strict");
 const { createDrainRuntime } = require("../main-drain.js");
 
 /**
- * @file Proves invalid sockets release exact ownership and rejected runners cannot poison sibling dispatch.
+ * @file Proves invalid sockets are rejected explicitly and rejected runners cannot poison sibling dispatch.
  * @description
  * The Awtsmoos lets one broken vessel fall without swallowing its neighbor's light;
- * Awtsmoos.com releases exact lane custody and carries the remaining deeds onward through the night.
+ * Awtsmoos.com names the fallen deed aloud to its caller, releases exact lane custody,
+ * and carries the remaining deeds onward through the night.
  */
 async function main() {
-	proveInvalidSocketRelease();
+	proveInvalidSocketRejectsExplicitly();
 	await proveRejectedRunnerIsolation();
-	console.log("BHY drain dispatch isolates dead sockets and rejected runners");
+	console.log("BHY drain dispatch rejects dead sockets explicitly and isolates rejected runners");
 }
 
-function proveInvalidSocketRelease() {
+function proveInvalidSocketRejectsExplicitly() {
 	const harness = createHarness([item("dead", false)]);
 	harness.runtime.scheduleDrain();
 	harness.scheduled.shift()();
+	assert.deepEqual(harness.rejected, [["dead", "dispatch_socket_unusable"]]);
 	assert.deepEqual(harness.released, [["lane-dead", "owner-dead", "dead"]]);
 	assert.deepEqual(harness.started, []);
 }
@@ -38,6 +40,7 @@ async function proveRejectedRunnerIsolation() {
 	await Promise.resolve();
 	await Promise.resolve();
 	assert.deepEqual(harness.started, ["k1", "k2"]);
+	assert.deepEqual(harness.rejected, []);
 	assert.equal(harness.logs.some(message => message.includes("first runner failed")), true);
 }
 
@@ -46,6 +49,7 @@ function createHarness(items, customRunRequest) {
 	const scheduled = [];
 	const started = [];
 	const released = [];
+	const rejected = [];
 	const logs = [];
 	const runtime = createDrainRuntime({
 		state,
@@ -53,10 +57,11 @@ function createHarness(items, customRunRequest) {
 		clearQueueKeepalive: () => {},
 		runRequest: customRunRequest || (() => Promise.resolve()),
 		release: (lane, owner, requestKey) => released.push([lane, owner, requestKey]),
+		rejectDrop: (item, reason) => rejected.push([item.requestKey, reason]),
 		log: (level, message) => logs.push(`${level}:${message}`),
 		scheduleImmediate: callback => scheduled.push(callback)
 	});
-	return { runtime, scheduled, started, released, logs };
+	return { runtime, scheduled, started, released, rejected, logs };
 }
 
 function item(requestKey, opened = true) {

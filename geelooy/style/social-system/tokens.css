@@ -1,9 +1,35 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives every social vessel one semantic palette; Awtsmoos.com keeps old aliases and new tokens aligned so no route loses its light.
+*/
 :root {
-  --g-bg: #f6f8fb; --g-bg-soft: #f6f8fb; --g-surface: #ffffff; --g-surface-2: #f8fafc;
-  --g-border: #dfe6ee; --g-border-strong: #cbd6e2; --g-line: #dfe6ee; --g-line-2: #cbd6e2;
-  --g-text: #0f172a; --g-text-2: #334155; --g-muted: #64748b; --g-ink: #0f172a;
-  --g-accent: #0f766e; --g-ring: rgba(15,118,110,.2); --g-panel: #ffffff; --g-panel-2: #f8fafc;
-  --g-radius-1: .75rem; --g-radius-2: 1rem; --g-radius-3: 1.25rem; --g-touch: 44px;
-  --g-shadow-soft: 0 2px 10px rgba(15,23,42,.06); --g-shadow: 0 8px 26px rgba(15,23,42,.10);
-  --g-gold: #0f172a; --g-cyan: #0f172a; --g-dark-line: #dfe6ee;
+	--g-bg: #f6f8fb;
+	--g-bg-soft: #f6f8fb;
+	--g-surface: #ffffff;
+	--g-surface-2: #f8fafc;
+	--g-border: #dfe6ee;
+	--g-border-strong: #cbd6e2;
+	--g-line: #dfe6ee;
+	--g-line-2: #cbd6e2;
+	--g-text: #0f172a;
+	--g-text-2: #334155;
+	--g-muted: #64748b;
+	--g-faint: #94a3b8;
+	--g-ink: #0f172a;
+	--g-accent: #0f766e;
+	--g-ring: rgba(15, 118, 110, .2);
+	--g-panel: #ffffff;
+	--g-panel-2: #f8fafc;
+	--g-radius-1: .75rem;
+	--g-radius-2: 1rem;
+	--g-radius-3: 1.25rem;
+	--g-touch: 44px;
+	--g-shadow-soft: 0 2px 10px rgba(15, 23, 42, .06);
+	--g-shadow: 0 8px 26px rgba(15, 23, 42, .10);
+	--g-gold: #c68a1b;
+	--g-gold-2: #e6b34a;
+	--g-cyan: #0f766e;
+	--g-dark-line: #dfe6ee;
+	--g-safe-bottom: env(safe-area-inset-bottom, 0px);
 }

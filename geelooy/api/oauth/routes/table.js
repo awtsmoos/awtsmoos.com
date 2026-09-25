@@ -3,31 +3,37 @@
 // Blessed is He
 
 /**
- * @file OAuth route table for Awtsmoos.com.
+ * @file Maps the Awtsmoos OAuth surface to focused route vessels.
  * @description
- * The Awtsmoos is one before every path; callback authorization, device
- * authorization, human verification, metadata, and token exchange remain named
- * vessels so no unknown route can impersonate a security gate.
+ * The Awtsmoos is one while the gates are many; Awtsmoos.com keeps every
+ * route named and narrow so old consent paths remain beside the new Agent Link.
  */
 
 const { agentCallback } = require("./agentCallback.js");
-const { authorize } = require("./authorize.js");
-const { deviceAuthorization } = require("./deviceAuthorization.js");
-const { deviceVerification } = require("./deviceVerification.js");
+const { agentLinks } = require("./agentLinks.js");
+const { authorize } = require("./authorize");
+const {
+	deviceApprovalEndpoint,
+	deviceAuthorizationEndpoint
+} = require("./deviceAuthorization.js");
 const { metadata } = require("./metadata.js");
-const { start } = require("./start.js");
-const { token } = require("./token.js");
+const { showStartPage } = require("./start");
+const { token } = require("./token");
 
-const routeTable = Object.freeze({
-	authorize,
-	"agent-callback": agentCallback,
-	"device-authorization": deviceAuthorization,
-	device: deviceVerification,
-	metadata,
-	start,
-	token
-});
+/** Returns the complete stable route table without hiding older OAuth paths. */
+function getRouteTable() {
+	return {
+		"agent-callback": agentCallback,
+		"agent-links": agentLinks,
+		authorize,
+		"device-authorization": deviceAuthorizationEndpoint,
+		device: deviceApprovalEndpoint,
+		metadata,
+		start: showStartPage,
+		token
+	};
+}
 
 module.exports = {
-	routeTable
+	getRouteTable
 };

@@ -22,11 +22,14 @@ export function tunnelAdapter(os) {
 		async list(path) {
 			return (await RemoteFs.list(os, path)).map(item => nodeFor(path, item));
 		},
-		async read(path) {
+		async read(path, options = {}) {
 			if (isCommandRequest(path)) {
 				return commandRequestHelp(path);
 			}
-			return RemoteFs.read(path, os);
+			// WS-6 additive: optional read windows for chunked transfers.
+			// { offsetChars, maxChars } thread through to RemoteFs.read; when
+			// omitted, behavior is exactly as before (full read, 200k cap).
+			return RemoteFs.read(path, os, options);
 		},
 		async stat(path) {
 			return {

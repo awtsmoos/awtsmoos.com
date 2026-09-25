@@ -34,7 +34,7 @@ async function openDebugChrome(config = {}, overrides = {}) {
 	if (first.ok) {
 		return ReadyState.prepare(firstConfig, { ...first, launch: firstLaunch }, runtime);
 	}
-	const port = firstLaunch.debugPort || runtime.debugPort(config);
+	const port = firstLaunch.debugPort || await runtime.debugPort(config);
 	return OpenRecovery.recover({
 		config: firstConfig,
 		first,
@@ -46,9 +46,9 @@ async function openDebugChrome(config = {}, overrides = {}) {
 }
 
 async function statusDebugChrome(config = {}) {
-	const authority = browserAuthority(config);
+	const authority = await browserAuthority(config);
 	if (!authority.ok) return authority;
-	const target = await findBrowserTarget(discoveryOptions(config));
+	const target = await findBrowserTarget(await discoveryOptions(config));
 	if (!target.ok) return target;
 	return {
 		ok: true,
@@ -64,7 +64,7 @@ async function statusDebugChrome(config = {}) {
 }
 
 async function saveDebugCookies(config = {}) {
-	const target = await findPageTarget(discoveryOptions(config));
+	const target = await findPageTarget(await discoveryOptions(config));
 	return target.ok ? summarizeDebugCookies(target, [], "") : target;
 }
 

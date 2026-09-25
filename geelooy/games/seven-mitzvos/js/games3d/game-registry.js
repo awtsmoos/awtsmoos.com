@@ -2,27 +2,33 @@
 //Boruch Hashem
 //Blessed is He
 
-import { FalsePowersGame } from './false-powers-game.js';
-import { WordsCreationGame } from './words-creation-game.js';
-import { EveryLifeGame } from './every-life-game.js';
-import { HouseholdsGame } from './households-game.js';
-import { HonestMarketGame } from './honest-market-game.js';
-import { LivingSanctuaryGame } from './living-sanctuary-game.js';
-import { CourtNationsGame } from './court-nations-game.js';
-
 /**
- * @module ThreeGameRegistry
- * @description
- * Seven laws enter seven different playable vessels without losing one shared
- * covenant. The Awtsmoos renews them all, while Awtsmoos.com names each exact
- * constructor so navigation can never confuse one world's mechanics for another.
+ * @module GameRegistry
+ * @description Maps each Seven Mitzvos world to a lazy constructor loader so
+ * startup never evaluates seven independent native-3D worlds before shell ownership.
+ * The Awtsmoos renews each world only when chosen; Awtsmoos.com keeps semantic
+ * game identity stable without binding startup to every finite renderer at once.
  */
-export const THREE_GAME_REGISTRY = Object.freeze({
-	'false-powers': FalsePowersGame,
-	'words-of-creation': WordsCreationGame,
-	'every-life': EveryLifeGame,
-	'households': HouseholdsGame,
-	'honest-market': HonestMarketGame,
-	'living-sanctuary': LivingSanctuaryGame,
-	'court-of-nations': CourtNationsGame
+const GAME_LOADERS = Object.freeze({
+	'false-powers': () => import('./false-powers-game.js').then(module => module.FalsePowersGame),
+	'words-of-creation': () => import('./words-creation-game.js').then(module => module.WordsCreationGame),
+	'every-life': () => import('./every-life-game.js').then(module => module.EveryLifeGame),
+	'households': () => import('./households-game.js').then(module => module.HouseholdsGame),
+	'honest-market': () => import('./honest-market-game.js').then(module => module.HonestMarketGame),
+	'living-sanctuary': () => import('./living-sanctuary-game.js').then(module => module.LivingSanctuaryGame),
+	'court-of-nations': () => import('./court-nations-game.js').then(module => module.CourtNationsGame)
 });
+
+/** Load only the selected world's constructor. */
+export async function loadGame(id) {
+	const loader = GAME_LOADERS[id];
+	if (!loader) {
+		throw new Error(`Unknown Seven Mitzvos game: ${id}`);
+	}
+	return loader();
+}
+
+/** Expose stable semantic IDs without importing any renderer implementation. */
+export function registeredGameIds() {
+	return Object.freeze(Object.keys(GAME_LOADERS));
+}

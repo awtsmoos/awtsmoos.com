@@ -1,0 +1,84 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets related Torah sources keep clear boundaries inside one study vessel;
+ * Awtsmoos.com keeps shared actions and truthful states readable without another layer of chrome.
+ */
+.awtsmoos-study-sheet a {
+	color: #7debf3;
+}
+
+.awtsmoos-study-sheet-primary,
+.awtsmoos-study-sheet-secondary {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-block-size: 2.75rem;
+	padding: .65rem .9rem;
+	border-radius: .75rem;
+	font-weight: 800;
+	text-decoration: none;
+}
+
+.awtsmoos-study-sheet-primary {
+	border: 1px solid rgb(103 232 249 / .64);
+	background: rgb(34 211 238 / .14);
+	color: #ecfeff;
+}
+
+.awtsmoos-study-sheet-secondary {
+	border: 1px solid rgb(148 163 184 / .22);
+	background: rgb(255 255 255 / .04);
+	color: #cbd5e1;
+}
+
+.awtsmoos-study-sheet-status,
+.awtsmoos-study-sheet-note,
+.awtsmoos-study-sheet-error {
+	margin: 0;
+	padding: 1rem;
+	border-radius: .9rem;
+	background: rgb(255 255 255 / .05);
+	color: #cbd5e1;
+	line-height: 1.55;
+}
+
+.awtsmoos-study-sheet-error {
+	border: 1px solid rgb(248 113 113 / .34);
+	color: #fecaca;
+}
+
+.awtsmoos-study-sheet-link-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .55rem;
+	margin-block: .75rem;
+}
+
+.awtsmoos-study-sheet .awtsmoos-related-summary {
+	margin: 0 0 .8rem;
+	padding: .75rem .85rem;
+	border-radius: .8rem;
+	background: rgb(255 255 255 / .045);
+	color: #b9c7da;
+	line-height: 1.45;
+}
+
+.awtsmoos-study-sheet .awtsmoos-related-section {
+	display: grid;
+	gap: .6rem;
+	margin-block: 1rem;
+}
+
+.awtsmoos-study-sheet .awtsmoos-related-section h3 {
+	margin: 0;
+	color: #f8fafc;
+	font-size: 1rem;
+}
+
+.awtsmoos-study-sheet .awtsmoos-related-pending,
+.awtsmoos-study-sheet .awtsmoos-related-empty {
+	margin: 0;
+	color: #94a3b8;
+	line-height: 1.5;
+}

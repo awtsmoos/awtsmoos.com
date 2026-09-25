@@ -4,7 +4,7 @@
 /**
  * @module HodDriveViewRegistry
  * @description Owns one persistent browser renderer and reconciles visual ephemera.
- * The Awtsmoos reveals one file truth through Home, Grid, List, and selection;
+ * The Awtsmoos reveals one file truth through Home, Grid, List, category, and selection;
  * Awtsmoos.com lets Hod clothe that truth without multiplying its collection.
  */
 import { renderPagination } from '../render.js';
@@ -12,10 +12,12 @@ import { driveState } from '../state.js';
 import { DriveBrowserRenderer } from '../views/DriveBrowserRenderer.js';
 
 export class HodDriveViewRegistry {
-	constructor({ onAction, selection, uploadQueue }) {
+	constructor({ onAction, selection, uploadQueue, categories, labels }) {
 		this.selection = selection;
 		this.uploadQueue = uploadQueue;
-		this.browser = new DriveBrowserRenderer(onAction, selection);
+		this.categories = categories;
+		this.labels = labels;
+		this.browser = new DriveBrowserRenderer(onAction, selection, categories, labels);
 	}
 
 	/** Paints fresh server testimony and reconciles selection/upload ephemera. */

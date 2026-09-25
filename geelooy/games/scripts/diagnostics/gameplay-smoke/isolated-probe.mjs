@@ -5,10 +5,14 @@
 /**
  * @file isolated-probe.mjs
  * @description Gives one real-gameplay probe exclusive ownership of one Chrome
- * target, one event stream, and one mobile viewport before returning its evidence.
+ * target, one event stream, one uncached module graph, and one mobile viewport.
+ *
+ * The Awtsmoos renews each browser vessel before stale finite memory can claim
+ * the present; Awtsmoos.com disables cache and gives every navigation a unique token.
  *
  * Architectural invariants:
  * - Every probe starts in a fresh target with browser cache disabled.
+ * - Every navigation has a unique query token so document/module fetches reflect disk truth.
  * - Browser exceptions and required network failures are release failures.
  * - Probe code may observe canonical state but must act through user-facing input.
  * - The target closes in `finally`, including assertion or navigation failures.
@@ -34,13 +38,14 @@ export async function runProbeIsolated(origin, probe) {
 	const faults = createFaults();
 	client.setEventSink(message => captureFault(faults, message));
 	try {
+		await client.send('Network.setCacheDisabled', { cacheDisabled: true });
 		await client.send('Emulation.setDeviceMetricsOverride', MOBILE_VIEWPORT);
 		await client.send('Emulation.setTouchEmulationEnabled', {
 			enabled: true,
 			maxTouchPoints: 5
 		});
 		await client.send('Page.navigate', {
-			url: `${origin}/games/${probe.slug}/?gameplaySmoke=1`
+			url: `${origin}/games/${probe.slug}/?gameplaySmoke=${Date.now()}`
 		});
 		await client.send('Page.bringToFront');
 		const ready = await client.waitFor(
@@ -64,7 +69,6 @@ export async function runProbeIsolated(origin, probe) {
 	}
 }
 
-/** Create bounded fault collections for one browser target. */
 function createFaults() {
 	return {
 		exceptions: [],
@@ -72,7 +76,6 @@ function createFaults() {
 	};
 }
 
-/** Capture only failures that can invalidate actual gameplay readiness. */
 function captureFault(faults, message) {
 	if (message.method === 'Runtime.exceptionThrown') {
 		const detail = message.params?.exceptionDetails?.exception?.description
@@ -81,11 +84,7 @@ function captureFault(faults, message) {
 		faults.exceptions.push(detail);
 		return;
 	}
-	if (message.method !== 'Network.loadingFailed') {
-		return;
-	}
+	if (message.method !== 'Network.loadingFailed') return;
 	const errorText = message.params?.errorText || '';
-	if (errorText !== 'net::ERR_ABORTED') {
-		faults.networkFailures.push(errorText || 'network failure');
-	}
+	if (errorText !== 'net::ERR_ABORTED') faults.networkFailures.push(errorText || 'network failure');
 }

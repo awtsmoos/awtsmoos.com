@@ -1,0 +1,79 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keeps this module small so each vessel stays readable while the original cascade continues in perfect rhyme.
+*/
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos carries each social current through a calm, useful vessel. The
+ * Awtsmoos.com feed, task dock, tabs, and side routes own every state explicitly
+ * and preserve dense information without looking like unstyled text navigation.
+ */
+
+.geelooy-home-shell .home-task-dock {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: .35rem;
+	padding: .42rem;
+	border: 1px solid var(--home-line-strong);
+	border-radius: 1rem;
+	background: #0f1722;
+	box-shadow: 0 .65rem 1.6rem rgba(0, 0, 0, .2);
+}
+
+.geelooy-home-shell .home-task-dock a {
+	display: grid;
+	min-inline-size: 0;
+	min-block-size: 46px;
+	place-items: center;
+	padding: .58rem .42rem;
+	border: 1px solid transparent;
+	border-radius: .72rem;
+	background: transparent;
+	color: var(--home-muted);
+	font-size: .8rem;
+	font-weight: 780;
+	text-align: center;
+	text-decoration: none;
+	transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease;
+}
+
+.geelooy-home-shell .home-task-dock a:is(:hover, :focus-visible) {
+	border-color: rgba(88, 199, 216, .34);
+	background: #172333;
+	color: #a7e8f1;
+}
+
+.geelooy-home-shell :where(.home-feed-panel, .g-side-card) {
+	padding: clamp(1rem, 2.5vw, 1.45rem);
+	border-radius: 1rem;
+}
+
+.geelooy-home-shell .g-feed-head {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.geelooy-home-shell .g-feed-head h2,
+.geelooy-home-shell .g-side-card h2 {
+	margin: .35rem 0 0;
+	color: var(--home-text);
+	font-size: clamp(1.2rem, 2vw, 1.55rem);
+	line-height: 1.12;
+	letter-spacing: -.03em;
+}
+
+.geelooy-home-shell .g-feed-tabs {
+	display: inline-grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: .25rem;
+	margin: 1rem 0;
+	padding: .25rem;
+	border: 1px solid var(--home-line);
+	border-radius: .8rem;
+	background: #131d2a;
+}

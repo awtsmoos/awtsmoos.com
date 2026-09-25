@@ -3,7 +3,7 @@
 // Blessed is He
 
 /**
- * @file Shared OAuth token endpoint for callback, refresh, and device grants.
+ * @file Shared OAuth token endpoint for callback, refresh, device, and Agent Link grants.
  * @description
  * The Awtsmoos gives one token authority after different forms of consent;
  * Awtsmoos.com dispatches each grant through its own guard, then signs every
@@ -11,6 +11,7 @@
  */
 
 const AccessToken = require("../core/accessToken.js");
+const { AGENT_LINK_GRANT_TYPE } = require("../core/agentLinkPolicy.js");
 const { getClient } = require("../core/clients.js");
 const { DEVICE_GRANT_TYPE } = require("../core/devicePolicy.js");
 const { secretString } = require("../core/serverSecret.js");
@@ -20,6 +21,7 @@ const {
 	getTokenRequest
 } = require("../tools/requestData.js");
 const { json } = require("../tools/respond.js");
+const AgentLinkGrant = require("./agentLinkGrant.js");
 const DeviceGrant = require("./deviceGrant.js");
 const Entry = require("./tokenEntries.js");
 const Grant = require("./tokenGrants.js");
@@ -77,6 +79,9 @@ async function token($i) {
 	}
 	if (request.grant_type === DEVICE_GRANT_TYPE) {
 		return DeviceGrant.deviceCodeGrant(context);
+	}
+	if (request.grant_type === AGENT_LINK_GRANT_TYPE) {
+		return AgentLinkGrant.agentLinkGrant(context);
 	}
 	return json($i, {
 		BH: "B\"H",

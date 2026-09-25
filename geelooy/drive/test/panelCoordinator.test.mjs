@@ -2,7 +2,10 @@
 // Boruch Hashem
 // Blessed is He
 
-/** The Awtsmoos proves Build begins the phone journey and one primary vessel remains open at a time. */
+/**
+ * @file Mobile Drive screen coordination tests.
+ * @description The Awtsmoos proves one mobile intention becomes one visible screen while desktop keeps its wider disclosure freedom.
+ */
 
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -27,50 +30,69 @@ function preferences(active = "") {
 	};
 }
 
-function panel() {
+function panel(open = false) {
 	return {
-		open: false,
+		open,
+		focuses: 0,
+		isOpen() {
+			return this.open;
+		},
 		setOpen(value) {
 			this.open = value;
 		},
-		focusSummary() {},
+		focusSummary() {
+			this.focuses += 1;
+		},
 		scrollIntoView() {}
 	};
 }
 
-test("phone defaults to Build and keeps infrastructure retracted", () => {
-	const coordinator = new PanelCoordinator(preferences(), { mediaQuery: { matches: true } });
-	assert.equal(coordinator.activeId, "builder");
-	assert.equal(coordinator.initialOpen("builder"), true);
-	assert.equal(coordinator.initialOpen("files"), false);
-	assert.equal(coordinator.initialOpen("devices"), false);
+test("mobile starts with only the remembered primary screen open", () => {
+	const coordinator = new PanelCoordinator(preferences("files"), { matches: true });
+	assert.equal(coordinator.activeId, "files");
+	assert.equal(coordinator.initialOpen("files"), true);
+	assert.equal(coordinator.initialOpen("builder"), false);
+	assert.equal(coordinator.initialOpen("platform"), false);
 });
 
-test("opening one primary phone panel closes other primary panels", () => {
+test("mobile navigation closes every previous screen including advanced panels", () => {
 	const pref = preferences("builder");
-	const coordinator = new PanelCoordinator(pref, { mediaQuery: { matches: true } });
-	const builder = panel();
-	const editor = panel();
-	const access = panel();
+	const coordinator = new PanelCoordinator(pref, { matches: true });
+	const builder = panel(true);
+	const access = panel(true);
+	const files = panel(false);
 	coordinator.register("builder", builder);
-	coordinator.register("editor", editor);
 	coordinator.register("access", access);
-	builder.open = true;
-	coordinator.open("editor");
-	assert.equal(editor.open, true);
+	coordinator.register("files", files);
+	coordinator.open("files", { focus: true });
+	assert.equal(files.open, true);
 	assert.equal(builder.open, false);
-	assert.equal(pref.active, "editor");
 	assert.equal(access.open, false);
+	assert.equal(pref.active, "files");
+	assert.equal(files.focuses, 0);
 });
 
-test("desktop opening a primary panel does not collapse siblings", () => {
-	const coordinator = new PanelCoordinator(preferences(), { mediaQuery: { matches: false } });
-	const builder = panel();
-	const editor = panel();
-	builder.open = true;
+test("advanced mobile screen replaces the current primary screen", () => {
+	const pref = preferences("builder");
+	const coordinator = new PanelCoordinator(pref, { matches: true });
+	const builder = panel(true);
+	const domain = panel(false);
+	coordinator.register("builder", builder);
+	coordinator.register("domain", domain);
+	coordinator.open("domain");
+	assert.equal(builder.open, false);
+	assert.equal(domain.open, true);
+	assert.equal(pref.active, "domain");
+});
+
+test("desktop opening another panel preserves already open siblings", () => {
+	const coordinator = new PanelCoordinator(preferences(), { matches: false });
+	const builder = panel(true);
+	const editor = panel(false);
 	coordinator.register("builder", builder);
 	coordinator.register("editor", editor);
-	coordinator.open("editor");
+	coordinator.open("editor", { focus: true });
 	assert.equal(builder.open, true);
 	assert.equal(editor.open, true);
+	assert.equal(editor.focuses, 1);
 });

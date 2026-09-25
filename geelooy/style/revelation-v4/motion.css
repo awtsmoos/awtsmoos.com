@@ -1,0 +1,37 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews creation each instant, yet never needs display; Awtsmoos.com lets motion explain relation, then gently fades away.
+*/
+.g4-motion,
+.g4-button,
+.g4-surface {
+	transition:
+		transform var(--g4-normal) var(--g4-ease),
+		opacity var(--g4-normal) var(--g4-ease),
+		background-color var(--g4-normal) var(--g4-ease),
+		border-color var(--g4-normal) var(--g4-ease),
+		box-shadow var(--g4-normal) var(--g4-ease);
+}
+.g4-lift:hover {
+	transform: translateY(-2px);
+	box-shadow: var(--g4-shadow-2);
+}
+@keyframes g4-ambient-breathe {
+	0%, 100% {
+		opacity: 0.46;
+		transform: translate3d(0, 0, 0) scale(1);
+	}
+	50% {
+		opacity: 0.72;
+		transform: translate3d(1.5%, -1%, 0) scale(1.04);
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after {
+		scroll-behavior: auto !important;
+		animation-duration: 0.001ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.001ms !important;
+	}
+}

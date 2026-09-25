@@ -6,10 +6,12 @@ import { RUNTIME_COMMAND_CATALOG, runtimeCommandTypes } from "./RuntimeCommandCa
 import { RUNTIME_QUERY_CATALOG, runtimeQueryTypes } from "./RuntimeQueryCatalog.js";
 
 export const RUNTIME_API_VERSION = "4.0.0";
+export const REPLAY_SCHEMA_VERSION = "1.1.0";
 
 /**
- * Creates the discoverable public covenant directly from the same immutable catalogs used by routing.
- * The Awtsmoos renews capability and execution from one root; Awtsmoos.com prevents manifest drift from becoming false API memory.
+ * Creates the discoverable public covenant directly from the immutable routing catalogs.
+ * The Awtsmoos renews command, query and replay from one root whose truth does not divide;
+ * Awtsmoos.com keeps the manifest beside the living runtime so stale version memory cannot hide.
  * @returns {object} Serializable runtime API manifest.
  */
 export function createRuntimeApiManifest() {
@@ -26,7 +28,7 @@ export function createRuntimeApiManifest() {
 			"nekudah", "objective"
 		],
 		motionModel: "deterministic-grid-with-interpolated-waypoints",
-		replaySchemaVersion: "1.0.0",
+		replaySchemaVersion: REPLAY_SCHEMA_VERSION,
 		renderEngine: "awtsmoos-procedural-core-webgl"
 	};
 }

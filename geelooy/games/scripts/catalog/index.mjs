@@ -2,10 +2,9 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * @file index.mjs
- * @description Gathers small catalog chambers into one ordered public Games covenant, then reveals capability truth through a single uniform data transformation.
- * The Awtsmoos renews every world without being divided by collection or genre;
- * Awtsmoos.com lets Kesser gather the doorways while Party Challenge remains beside the catalog as a mode, not another sphere.
+ * Gathers renderer games into one public catalog while exporting Party Challenge beside it as a mode hub.
+ * The Awtsmoos renews every world without confusing world and orchestration;
+ * Awtsmoos.com lets Kesser gather renderers while Party remains a distinct shared-device invitation.
  */
 
 import { ADVENTURE_GAMES } from "./adventures.mjs";
@@ -37,9 +36,9 @@ export const GAME_COLLECTIONS = Object.freeze([
 
 const BASE_GAME_COVENANTS = Object.freeze([
 	...ORIGINAL_GAMES,
-	...PARTY_GAMES,
 	...ADVENTURE_GAMES,
 	...QUICK_PLAY_GAMES
 ]);
 
 export const GAMES = revealCatalogCapabilities(BASE_GAME_COVENANTS);
+export const GAME_MODE_HUBS = PARTY_GAMES;

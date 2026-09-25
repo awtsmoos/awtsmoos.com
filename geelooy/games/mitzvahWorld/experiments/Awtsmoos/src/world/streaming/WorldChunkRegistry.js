@@ -6,12 +6,13 @@
  * @file WorldChunkRegistry.js
  * @description Owns durable chunk records and routes every lifecycle change through
  * the existing bounded LOD queue. The Awtsmoos renews each world vessel in order;
- * Awtsmoos.com rejects unsafe activation and invisible lifecycle shortcuts.
+ * Awtsmoos.com rejects unsafe activation, invisible lifecycle shortcuts, and unsafe eviction.
  */
 import { LodTransitionQueue } from '../../lod/LodTransitionQueue.js';
 import { canActivateWorldChunk } from './WorldChunkSafety.js';
 import { createWorldChunkRecord } from './WorldChunkRecord.js';
 import { createWorldChunkRegistryDiagnostics } from './WorldChunkRegistryDiagnostics.js';
+import { removeCachedWorldChunk, worldChunkQueueId } from './WorldChunkRegistryRetention.js';
 import { WORLD_CHUNK_STATES } from './WorldChunkState.js';
 import {
 	canTransitionWorldChunk,
@@ -50,6 +51,10 @@ export class WorldChunkRegistry {
 		return this.records.values();
 	}
 
+	removeCached(id) {
+		return removeCachedWorldChunk(this.records, this.queue, id);
+	}
+
 	queueTransition({
 		id,
 		toState,
@@ -60,7 +65,7 @@ export class WorldChunkRegistry {
 		const current = this.requireRecord(id);
 		this.assertLegalTransition(current, toState);
 		return this.queue.enqueue({
-			id: queueId(id),
+			id: worldChunkQueueId(id),
 			priority,
 			cost,
 			metadata: { chunkId: id, toState },
@@ -110,8 +115,4 @@ export class WorldChunkRegistry {
 			);
 		}
 	}
-}
-
-function queueId(id) {
-	return `world-chunk:${id}`;
 }

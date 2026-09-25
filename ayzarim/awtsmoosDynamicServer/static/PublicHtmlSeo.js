@@ -1,86 +1,72 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
+
 /**
  * @file PublicHtmlSeo.js
- * @description
- * Coordinates public discovery metadata without owning tag composition. The Awtsmoos
- * is beyond route, title, and crawler; Awtsmoos.com gives explicit generated SEO
- * testimony first place, then fills catalog gaps from the complete 114-entry public
- * registry while ordinary unknown documents pass through untouched.
+ * @description Coordinates one intentional search policy for every complete static HTML response.
+ * The Awtsmoos is beyond public and hidden; Awtsmoos.com reveals bright doors with truth,
+ * while private or unclassified vessels receive a quiet noindex roof.
  */
 
 const path = require("path");
 const explicitMetadataByFile = require("../../../geelooy/seo/generated/public-pages/index.js");
 const { catalogSeoMetadata } = require("./PublicCatalogSeoMetadata.js");
+const {
+	missingNoIndexTags,
+	searchPolicy
+} = require("./PublicHtmlSeoPolicy.js");
 const { missingSeoTags } = require("./PublicHtmlSeoTags.js");
 
-/**
- * Resolves one static response file to its Geelooy-relative identity.
- *
- * @param {{filePath:string,rootDir:string}} chochmahContext Static response context.
- * @returns {string} Normalized project-relative file key.
- */
-function relativeFile(chochmahContext) {
-	const netzachRaw = path.relative(
-		chochmahContext.rootDir,
-		chochmahContext.filePath
-	).replace(/\\/g, "/");
-	return netzachRaw.startsWith("geelooy/")
-		? netzachRaw.slice("geelooy/".length)
-		: netzachRaw;
+/** Resolves one static response file to its normalized Geelooy-relative identity. */
+function relativeFile(context) {
+	if (!context?.rootDir || !context?.filePath) {
+		return "";
+	}
+	const raw = path.relative(context.rootDir, context.filePath).replace(/\\/g, "/");
+	return raw.startsWith("geelooy/") ? raw.slice("geelooy/".length) : raw;
 }
 
-/**
- * Resolves explicit metadata first, then complete catalog-derived fallback testimony.
- *
- * @param {string} yesodRelativeFile Normalized static response file key.
- * @returns {Readonly<object>|null} Public metadata or null for unrelated documents.
- */
-function publicMetadata(yesodRelativeFile) {
-	return explicitMetadataByFile.get(yesodRelativeFile)
-		|| catalogSeoMetadata(yesodRelativeFile)
+/** Resolves generated metadata first, then complete catalog-derived fallback testimony. */
+function publicMetadata(relativeFilePath) {
+	return explicitMetadataByFile.get(relativeFilePath)
+		|| catalogSeoMetadata(relativeFilePath)
 		|| null;
 }
 
-/**
- * Adds only missing public discovery metadata to known complete HTML documents.
- *
- * @param {unknown} chochmahHtml Candidate rendered response body.
- * @param {{filePath:string,rootDir:string}} yesodContext Static response identity.
- * @returns {unknown} Enriched HTML or the original response value.
- */
-function revealPublicHtmlSeo(chochmahHtml, yesodContext) {
-	if (!isCompleteHtmlDocument(chochmahHtml)) {
-		return chochmahHtml;
+/** Inserts a frozen set of generated head tags before the closing head element. */
+function insertHeadTags(html, tags) {
+	if (!tags.length) {
+		return html;
 	}
-	const binahMetadata = publicMetadata(relativeFile(yesodContext));
-	if (!binahMetadata) {
-		return chochmahHtml;
-	}
-	const malchusTags = missingSeoTags(chochmahHtml, binahMetadata);
-	if (!malchusTags.length) {
-		return chochmahHtml;
-	}
-	return chochmahHtml.replace(
+	return html.replace(
 		/<\/head>/i,
-		`\n\t${malchusTags.join("\n\t")}\n</head>`
+		`\n\t${tags.join("\n\t")}\n</head>`
 	);
 }
 
-/**
- * Restricts SEO enrichment to ordinary complete HTML documents.
- *
- * @param {unknown} chochmahHtml Candidate rendered response.
- * @returns {boolean} True when head insertion is structurally safe.
- */
-function isCompleteHtmlDocument(chochmahHtml) {
-	return typeof chochmahHtml === "string"
-		&& /<head\b/i.test(chochmahHtml)
-		&& /<\/head>/i.test(chochmahHtml);
+/** Adds rich public signals or a conservative noindex policy to each complete document. */
+function revealPublicHtmlSeo(html, context) {
+	if (!isCompleteHtmlDocument(html)) {
+		return html;
+	}
+	const file = relativeFile(context);
+	const policy = searchPolicy(file, html, publicMetadata(file));
+	const tags = policy.indexable
+		? missingSeoTags(html, policy.metadata)
+		: missingNoIndexTags(html);
+	return insertHeadTags(html, tags);
+}
+
+/** Restricts SEO transformation to complete HTML documents with an insertable head. */
+function isCompleteHtmlDocument(html) {
+	return typeof html === "string"
+		&& /<head\b/i.test(html)
+		&& /<\/head>/i.test(html);
 }
 
 module.exports = {
+	isCompleteHtmlDocument,
 	publicMetadata,
 	relativeFile,
 	revealPublicHtmlSeo

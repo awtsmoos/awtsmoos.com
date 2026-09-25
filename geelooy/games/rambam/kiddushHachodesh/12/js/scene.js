@@ -1,71 +1,96 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
+
 /**
- * The Awtsmoos grants finite light, earth, and viewpoint their ordered place inside the scene;
- * Awtsmoos.com preserves the original celestial vessel while making its renderer mobile-wise and clean.
+ * @file scene.js
+ * @description Builds the Rambam celestial lesson through Awtsmoos Procedural Core's native WebGL runtime.
+ * The Awtsmoos renews earth, sun, observer, and light beyond every finite engine; Awtsmoos.com
+ * keeps this authored study native, interactive, renderer-neutral, and free of forbidden dependencies.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
-import { OrbitControls } from "/games/scripts/jsm/controls/OrbitControls.js";
+import { createNativeRenderer } from "/libs/awtsmoos-procedural-core/src/adapters/native/renderer.js";
+import {
+	Mesh,
+	MeshStandardMaterial,
+	PerspectiveCamera,
+	Scene
+} from "/libs/awtsmoos-procedural-core/src/runtime/native/tiny-runtime.js";
 import {
 	CAMERA_FAR,
 	CAMERA_FOV,
 	CAMERA_NEAR,
-	CAMERA_POSITION,
 	EARTH_RADIUS,
 	GROUND_SIZE,
 	MAX_DEVICE_PIXEL_RATIO,
 	SUN_RADIUS
 } from "./constants.js";
+import { createNativeGeometry } from "./native-geometry.js";
+import { NativeOrbitControls } from "./native-orbit-controls.js";
 
+const COLORS = Object.freeze({
+	earth: [0.08, 0.34, 0.82, 1],
+	ground: [0.06, 0.28, 0.12, 1],
+	sun: [1, 0.78, 0.08, 1]
+});
+
+/**
+ * Create the complete interactive celestial scene in one supplied host.
+ * @param {HTMLElement} container Full-screen scene host.
+ * @returns {{scene:Scene,camera:PerspectiveCamera,renderer:object,controls:NativeOrbitControls,sun:Mesh}}
+ */
 export function createSunScene(container) {
-	const scene = new THREE.Scene();
-	const camera = new THREE.PerspectiveCamera(
-		CAMERA_FOV,
-		window.innerWidth / window.innerHeight,
-		CAMERA_NEAR,
-		CAMERA_FAR
-	);
-	camera.position.set(CAMERA_POSITION.x, CAMERA_POSITION.y, CAMERA_POSITION.z);
-	camera.lookAt(0, 0, 0);
-
-	const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, transparent: true });
-	renderer.setPixelRatio(Math.min(globalThis.devicePixelRatio || 1, MAX_DEVICE_PIXEL_RATIO));
-	renderer.setSize(window.innerWidth, window.innerHeight);
-	container.appendChild(renderer.domElement);
-
-	const controls = new OrbitControls(camera, renderer.domElement);
-	const plane = new THREE.Mesh(
-		new THREE.PlaneGeometry(GROUND_SIZE, GROUND_SIZE),
-		new THREE.MeshLambertMaterial({ color: 0x228B22 })
-	);
-	plane.rotation.x = -Math.PI / 2;
-	scene.add(plane);
-
-	const earth = new THREE.Mesh(
-		new THREE.SphereGeometry(EARTH_RADIUS, 32, 32),
-		new THREE.MeshStandardMaterial({ color: 0x0000ff, roughness: 0.7, metalness: 0.1 })
-	);
+	const canvas = document.createElement("canvas");
+	canvas.setAttribute("aria-label", "Interactive native 3D sun orbit visualization");
+	container.append(canvas);
+	const renderer = createNativeRenderer(canvas, { alpha: false, antialias: true });
+	renderer.setClearColor(0.008, 0.02, 0.04, 1);
+	renderer.setEnvironment({
+		ambient: [0.34, 0.36, 0.42],
+		sunDirection: [0.58, 0.58, 0.58],
+		sunColor: [1, 0.94, 0.78],
+		exposure: 1.15
+	});
+	const scene = new Scene();
+	const camera = new PerspectiveCamera(CAMERA_FOV, 1, CAMERA_NEAR, CAMERA_FAR);
+	camera.position.set(0, 50, 100);
+	camera.target = [0, 0, 0];
+	const ground = createGround();
+	const earth = createSphere(EARTH_RADIUS, COLORS.earth);
 	earth.position.set(0, 2, 0);
-	scene.add(earth);
-
-	const sun = new THREE.Mesh(
-		new THREE.SphereGeometry(SUN_RADIUS, 32, 32),
-		new THREE.MeshStandardMaterial({ color: 0xffff00, emissive: 0xffff00, emissiveIntensity: 0.5 })
-	);
-	scene.add(sun);
-
-	const pointLight = new THREE.PointLight(0xffffff);
-	pointLight.position.set(50, 50, 50);
-	pointLight.intensity = 12;
-	scene.add(pointLight);
-	scene.add(new THREE.AmbientLight(0x404040));
-
+	const sun = createSphere(SUN_RADIUS, COLORS.sun);
+	scene.add(ground, earth, sun);
+	const controls = new NativeOrbitControls(camera, canvas);
+	resizeSunScene(camera, renderer);
 	return { scene, camera, renderer, controls, sun };
 }
 
+/** Create the authored square ground as a thin procedural cube. */
+function createGround() {
+	const geometry = createNativeGeometry("cube", { size: 1 });
+	const material = new MeshStandardMaterial({ color: COLORS.ground });
+	const ground = new Mesh(geometry, material);
+	ground.scale.set(GROUND_SIZE, 0.08, GROUND_SIZE);
+	ground.position.set(0, -0.04, 0);
+	return ground;
+}
+
+/** Create one smooth procedural sphere with a native material. */
+function createSphere(radius, color) {
+	const geometry = createNativeGeometry("sphere", {
+		radius,
+		widthSegments: 32,
+		heightSegments: 32,
+		smooth: true
+	});
+	return new Mesh(geometry, new MeshStandardMaterial({ color }));
+}
+
+/** Preserve authored CSS size while capping intrinsic pixels for mobile GPU safety. */
 export function resizeSunScene(camera, renderer) {
-	camera.aspect = window.innerWidth / window.innerHeight;
-	camera.updateProjectionMatrix();
-	renderer.setSize(window.innerWidth, window.innerHeight);
+	const canvas = renderer.canvas;
+	const width = Math.max(1, canvas.clientWidth || globalThis.innerWidth || 1);
+	const height = Math.max(1, canvas.clientHeight || globalThis.innerHeight || 1);
+	const pixelRatio = Math.min(globalThis.devicePixelRatio || 1, MAX_DEVICE_PIXEL_RATIO);
+	camera.aspect = width / height;
+	renderer.setSize(width * pixelRatio, height * pixelRatio);
 }

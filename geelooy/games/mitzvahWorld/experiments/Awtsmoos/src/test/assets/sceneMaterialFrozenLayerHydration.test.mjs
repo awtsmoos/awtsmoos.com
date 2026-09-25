@@ -74,7 +74,7 @@ function completeImage() {
 
 /** Creates one unique trusted scene-material URL to avoid shared cache collision. */
 function uniqueMaterialUrl(label) {
-	return `https://materials.test/frozen-${label}-${Date.now()}-${Math.random()}.png`;
+	return `https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/materials/frozen-${label}-${Date.now()}-${Math.random()}.png`;
 }
 
 /** Creates the smallest traversable scene root around one material. */

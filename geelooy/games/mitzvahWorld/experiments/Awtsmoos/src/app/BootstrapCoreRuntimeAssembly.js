@@ -1,15 +1,16 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file BootstrapCoreRuntimeAssembly.js
  * @description Assembles only the first-control systems authorized by the selected world.
- * Blank Meadow can therefore remain a true bare reliability vessel while richer worlds retain combat and map affordances.
- * Every optional constructor is injectable so tests can prove a disabled feature is never instantiated.
+ * The Awtsmoos grants every world its measured vessel; Awtsmoos.com keeps Blank Meadow bare,
+ * adding continuity without awakening combat or map systems that its policy does not share.
  */
 
 import { installBootstrapControlsHud } from './BootstrapControlsHud.js';
+import { installBootstrapCoreStateSystems } from './BootstrapCoreStateSystems.js';
 import { MinimalMeadowBootstrapCombat } from './MinimalMeadowBootstrapCombat.js';
 import { createMinimalMeadowBootstrapMinimap } from './MinimalMeadowBootstrapMinimap.js';
 import { createBootstrapPlayerRuntime } from './BootstrapPlayerRuntime.js?v=20260723-visible-02';
@@ -19,6 +20,8 @@ import {
 	attachEretzWorldExperience,
 	eretzWorldFeatureEnabled
 } from './EretzWorldFeaturePolicy.js';
+
+const BLANK_MEADOW_ID = 'blank-meadow';
 
 /**
  * Builds immediate player control while respecting the selected world's immutable feature contract.
@@ -40,6 +43,7 @@ export function assembleBootstrapCoreRuntime(
 	const createPlayer = dependencies.createPlayerRuntime || createBootstrapPlayerRuntime;
 	const createDiagnostics = dependencies.createDiagnostics || createBootstrapRuntimeDiagnostics;
 	const installControls = dependencies.installControlsHud || installBootstrapControlsHud;
+	const installStateSystems = dependencies.installStateSystems || installBootstrapCoreStateSystems;
 	const startLoop = dependencies.startRuntimeLoop || startBootstrapRuntimeLoop;
 	const createMinimap = dependencies.createMinimap || createMinimalMeadowBootstrapMinimap;
 	const Combat = dependencies.Combat || MinimalMeadowBootstrapCombat;
@@ -47,6 +51,9 @@ export function assembleBootstrapCoreRuntime(
 	boot.begin('bootstrap-player-state');
 	const runtime = createPlayer(foundation);
 	attachEretzWorldExperience(runtime, options);
+	if (runtime.worldExperience?.id === BLANK_MEADOW_ID) {
+		installStateSystems(runtime, environment);
+	}
 
 	if (eretzWorldFeatureEnabled(options, 'bootstrapCombat')) {
 		boot.begin('bootstrap-combat');
@@ -69,12 +76,7 @@ export function assembleBootstrapCoreRuntime(
 		runtime.bootstrapMinimap = null;
 	}
 
-	const diagnostics = createDiagnostics(
-		runtime,
-		movement,
-		qualityProfile,
-		boot
-	);
+	const diagnostics = createDiagnostics(runtime, movement, qualityProfile, boot);
 	diagnostics.worldExperience = runtime.worldExperience;
 	return { diagnostics, movement, runtime };
 }

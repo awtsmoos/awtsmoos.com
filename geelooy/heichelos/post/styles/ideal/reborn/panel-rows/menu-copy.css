@@ -1,0 +1,71 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives icon and words one semantic chamber while every responsive state remains beside its source;
+ * Awtsmoos.com preserves the old menu copy exactly, so one owner guides every viewport course.
+ */
+.post-reader-localized-context .menu-icon-vessel {
+	width: 44px !important;
+	height: 44px !important;
+	min-width: 44px !important;
+	min-height: 44px !important;
+	display: grid !important;
+	place-items: center !important;
+	border-radius: 999px !important;
+	background: radial-gradient(circle at 35% 25%, var(--awt-cyan), #5b5bdc 72%) !important;
+	color: #07111f !important;
+	font: 900 1rem/1 var(--font-ui) !important;
+}
+
+.post-reader-localized-context .menu-text-vessel {
+	display: grid !important;
+	min-width: 0 !important;
+	max-width: 100% !important;
+	gap: 3px !important;
+}
+
+.post-reader-localized-context .menu-portal-title {
+	overflow-wrap: anywhere !important;
+	color: var(--awt-text) !important;
+	font: 900 .95rem/1.15 var(--font-ui) !important;
+	text-decoration: none !important;
+}
+
+.post-reader-localized-context .menu-portal-desc {
+	color: var(--awt-muted) !important;
+	font: 650 .78rem/1.25 var(--font-ui) !important;
+	overflow-wrap: anywhere !important;
+}
+
+@media (max-width: 900px) {
+	.post-reader-localized-context .menu-icon-vessel {
+		align-items: center !important;
+		background: linear-gradient(135deg, rgba(139,220,255,.16), rgba(139,92,246,.2)) !important;
+		border: 1px solid rgba(139,220,255,.32) !important;
+		border-radius: 12px !important;
+		display: inline-flex !important;
+		flex: 0 0 44px !important;
+		font-size: 1.1rem !important;
+		height: 44px !important;
+		justify-content: center !important;
+		width: 44px !important;
+	}
+
+	.post-reader-localized-context .menu-portal-title {
+		color: #f8fafc !important;
+		font: 800 1rem/1.12 var(--font-ui, system-ui) !important;
+		min-width: 0 !important;
+	}
+
+	.post-reader-localized-context .menu-portal-desc {
+		color: #c4ccdc !important;
+		font: 600 .76rem/1.2 var(--font-ui, system-ui) !important;
+	}
+}
+
+@media (max-width: 520px) {
+	.post-reader-localized-context .menu-portal-desc {
+		display: none !important;
+	}
+}

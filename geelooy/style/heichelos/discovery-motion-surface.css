@@ -1,0 +1,66 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives every Heichel surface quiet depth before the hand arrives; Awtsmoos.com lets Torah primacy and community dignity share one professional atmosphere without visual noise.
+*/
+.heichelos-discovery-page {
+	--gateway-ease-out: cubic-bezier(.16, 1, .3, 1);
+}
+
+.heichelos-discovery-page .spaces-hero,
+.heichelos-discovery-page .spaces-search,
+.heichelos-discovery-page .social-space-card {
+	transition-timing-function: var(--gateway-ease-out);
+}
+
+.heichelos-discovery-page .spaces-hero {
+	transition:
+		border-color .3s var(--gateway-ease-out),
+		box-shadow .3s var(--gateway-ease-out),
+		transform .3s var(--gateway-ease-out);
+}
+
+.heichelos-discovery-page .spaces-hero:hover {
+	border-color: rgba(91, 221, 255, .38);
+	box-shadow: 0 1.45rem 3.5rem rgba(0, 0, 0, .28), 0 0 2rem rgba(91, 221, 255, .04);
+}
+
+.heichelos-discovery-page .spaces-search {
+	transition:
+		background .24s var(--gateway-ease-out),
+		border-color .24s var(--gateway-ease-out),
+		box-shadow .26s var(--gateway-ease-out),
+		transform .24s var(--gateway-ease-out);
+}
+
+.heichelos-discovery-page .spaces-search:focus-within {
+	border-color: rgba(91, 221, 255, .42);
+	box-shadow: 0 .85rem 2.2rem rgba(0, 0, 0, .18), 0 0 0 1px rgba(91, 221, 255, .08);
+	transform: translateY(-1px);
+}
+
+.heichelos-discovery-page .social-space-card {
+	background-position: 0 0;
+	transform-origin: center;
+	transition:
+		background-position .45s var(--gateway-ease-out),
+		border-color .22s var(--gateway-ease-out),
+		box-shadow .26s var(--gateway-ease-out),
+		transform .22s var(--gateway-ease-out);
+}
+
+.heichelos-discovery-page .social-space-card:is(:hover, :focus-within) {
+	box-shadow: 0 .9rem 2.2rem rgba(0, 0, 0, .22), 0 0 0 1px rgba(91, 221, 255, .05);
+	transform: translateY(-2px);
+}
+
+.heichelos-discovery-page .social-space-card[data-torah="true"] {
+	background-position: 0 0, 0 0;
+	background-size: 155% 155%, 100% 100%;
+}
+
+.heichelos-discovery-page .social-space-card[data-torah="true"]:is(:hover, :focus-within) {
+	background-position: 38% 24%, 0 0;
+	border-color: rgba(91, 221, 255, .72);
+	box-shadow: 0 1rem 2.6rem rgba(0, 0, 0, .28), 0 0 2rem rgba(91, 221, 255, .09);
+}

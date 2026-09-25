@@ -6,7 +6,7 @@
 FAST_REPAIR_COMPLETED=0
 
 # The Awtsmoos lets renewal fail without erasing every road back to the machine;
-# Awtsmoos.com carries Tier-Zero continuity while primary custody seeks its name.
+# Awtsmoos.com repairs a generation only when its sealed bytes and requested root remain the same domain.
 complete_fast_repair() {
 	local journal_state="$1"
 	local success_message="$2"
@@ -58,9 +58,10 @@ restart_verified_release() {
 
 repair_matching_release() {
 	installed_release_matches_metadata || return 1
+	fast_repair_root_gate || return 1
 	install_progress 35 "Current release verified; replacing active generation"
 	install_event "fast-repair" "started" \
-		"Current release bytes match metadata; explicit refresh will rebuild runtime custody." \
+		"Current release bytes and authority match; explicit refresh will rebuild runtime custody." \
 		"version=$CANDIDATE_VERSION root=$ROOT"
 	if skip_start_requested; then
 		FAST_REPAIR_COMPLETED=1
@@ -74,6 +75,7 @@ repair_matching_release() {
 
 repair_self_verified_installed_release() {
 	installed_runtime_self_verified || return 1
+	fast_repair_root_gate || return 1
 	CANDIDATE_VERSION="$(cat "$ROOT/install-state.txt" 2>/dev/null || true)"
 	export CANDIDATE_VERSION
 	install_event "release-metadata" "warning" \

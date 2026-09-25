@@ -1,0 +1,1486 @@
+MM ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/manifestCodec.js
+D  ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/manifestIndexes.js
+D  ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/manifestShape.js
+MM ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/store.js
+D  ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/storeChildren.js
+D  ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/storeInodes.js
+D  ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/storeState.js
+ M ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/search/boundedQuery.js
+D  ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/fs3_children_index_normalization_test.js
+MM ayzarim/DosDB/methods/obj.js
+D  ayzarim/DosDB/methods/objectKeySource.js
+D  ayzarim/DosDB/objectKeysDirectory.test.cjs
+MM ayzarim/awtsmoosDynamicServer/server/richCommentWarmup.js
+MM ayzarim/awtsmoosDynamicServer/server/richCommentWarmup.test.cjs
+ M ayzarim/awtsmoosDynamicServer/server/staticServerLifecycle.js
+ M ayzarim/awtsmoosDynamicServer/static/HtmlUiFoundation.js
+ M ayzarim/awtsmoosDynamicServer/static/PublicHtmlSeo.js
+ M ayzarim/awtsmoosDynamicServer/static/PublicHtmlSeo.test.js
+ M ayzarim/awtsmoosDynamicServer/static/PublicHtmlSeoDocument.js
+ M ayzarim/awtsmoosDynamicServer/static/PublicHtmlSeoTags.js
+ M ayzarim/awtsmoosDynamicServer/static/PublicHtmlStructuredData.js
+ M ayzarim/tools/auth.js
+ M ayzarim/tools/sodos.js
+ D dayuhChadash/torah-sources/lexicon-sources/bdb.awtsdb.lock
+ M dayuhChadash/torah-sources/lexicon-sources/bdb.awtsdb.wal
+ M dayuhChadash/torah-sources/lexicon-sources/jastrow.awtsdb.wal
+ M dayuhChadash/torah-sources/lexicon-sources/yiddish-wiktionary.awtsdb.wal
+ M geelooy/@/_awtsmoos.alias.html
+ M geelooy/@/seo/aliasPage.js
+ M geelooy/api/oauth/core/refreshStore.js
+ M geelooy/api/oauth/core/serverMetadata.js
+ M geelooy/api/oauth/routes/table.js
+ M geelooy/api/oauth/routes/token.js
+ M geelooy/api/oauth/routes/tokenGrants.js
+ M geelooy/api/oauth/tools/requestData.js
+ M geelooy/api/social/helper/comments/test/translationCoverage.test.js
+MM geelooy/api/social/helper/post/seriesReadCompatibility.js
+ M geelooy/api/social/helper/post/test/seriesReadCompatibility.test.js
+D  geelooy/api/social/helper/post/test/seriesReadSingleEnumeration.test.cjs
+ M geelooy/api/social/helper/routes/alias/entityRoutes.js
+ M geelooy/api/social/helper/routes/series/readRoutes.js
+ M geelooy/api/social/helper/routes/series/subSeriesSummaries.js
+ M geelooy/api/social/helper/search/rag/librarySearch.js
+ M geelooy/api/social/helper/search/rag/librarySearchMerge.js
+ M geelooy/api/social/helper/search/rag/librarySearchPlanner.js
+ M geelooy/api/social/helper/search/rag/shardCatalog.js
+ M geelooy/api/social/helper/search/rag/storagePolicy.js
+ M geelooy/api/social/helper/series/directSeriesPrateem.js
+ M geelooy/api/tunnel/control/docs/actionCatalogSource.cjs
+ M geelooy/api/tunnel/control/routes/deviceDiscovery.js
+ M geelooy/api/tunnel/control/routes/fsVessel/authorizedAutoSelection.js
+ M geelooy/apps/android-emulator/core/android/frameworkFlutterNativeJniTransition.js
+ M geelooy/apps/android-emulator/core/android/frameworkFlutterNativeJniWitness.js
+ M geelooy/apps/android-emulator/core/android/frameworkFlutterNativeMachineOptions.js
+ M geelooy/apps/android-emulator/core/android/frameworkFlutterPlatformMessages.js
+ M geelooy/apps/android-emulator/core/native/aarch64ExclusiveMonitor.js
+ M geelooy/apps/android-emulator/core/native/aarch64ExecuteExclusiveMemory.js
+ M geelooy/apps/android-emulator/core/native/aarch64Machine.js
+ M geelooy/apps/android-emulator/core/native/aarch64PairMemoryEvidence.js
+ M geelooy/apps/android-emulator/core/native/flutterJniMachineHostState.js
+ M geelooy/apps/android-emulator/core/native/nativeAndroidCallTransitionWitness.js
+ M geelooy/apps/android-emulator/core/native/nativeAndroidChoreographerDrain.js
+ M geelooy/apps/android-emulator/core/native/nativeAndroidPlatformLooperCallback.js
+ M geelooy/apps/android-emulator/core/native/nativeAndroidPlatformLooperPump.js
+ M geelooy/apps/android-emulator/core/native/nativeCompositeMemory.js
+ M geelooy/apps/android-emulator/test/aarch64CallTransitionHook.test.mjs
+ M geelooy/apps/android-emulator/test/aarch64PairMemoryEvidence.test.mjs
+ M geelooy/apps/android-emulator/test/frameworkFlutterNativeMachineOptionLayers.test.mjs
+ M geelooy/apps/android-emulator/test/frameworkFlutterPlatformMessagePrecedence.test.mjs
+ M geelooy/apps/android-emulator/test/nativeAndroidCallTransitionWitness.test.mjs
+ M geelooy/apps/android-emulator/test/nativeAndroidPlatformLooperPump.test.mjs
+ M geelooy/apps/awtsmoos-gguf/index.html
+ M geelooy/apps/catalog.html
+ M geelooy/apps/csv/index.html
+ M geelooy/apps/drive/js/api.js
+ M geelooy/apps/drive/js/api/BeriahEntriesResource.js
+ M geelooy/apps/drive/js/orchestration/HodDriveViewRegistry.js
+ M geelooy/apps/drive/js/orchestration/MalchusDriveApplication.js
+ M geelooy/apps/drive/js/orchestration/YesodEntryActionRouter.js
+ M geelooy/apps/drive/js/renderRows.js
+ M geelooy/apps/drive/js/views/DriveBrowserRenderer.js
+ M geelooy/apps/drive/js/views/DriveChromeMount.js
+ M geelooy/apps/drive/js/views/DriveEntryCard.js
+ M geelooy/apps/drive/js/views/DriveEntryGlyph.js
+ M geelooy/apps/drive/js/views/DriveEntryListRow.js
+ M geelooy/apps/drive/js/views/DriveEntryMenu.js
+ M geelooy/apps/drive/js/views/DriveEntryPresenter.js
+ M geelooy/apps/drive/js/views/DriveSelectionController.js
+ M geelooy/apps/drive/js/views/DriveUploadQueue.js
+ M geelooy/apps/drive/js/views/DriveUtilityMount.js
+ M geelooy/apps/drive/styles/drive-v5-browser.css
+ M geelooy/apps/drive/styles/drive-v5-controls.css
+ M geelooy/apps/drive/styles/drive-v5-glyphs.css
+ M geelooy/apps/drive/styles/drive-v5-mobile.css
+ M geelooy/apps/drive/styles/drive-v5-overlays.css
+ M geelooy/apps/drive/styles/drive-v5-shell.css
+ M geelooy/apps/drive/styles/v5/browser-selection.css
+ M geelooy/apps/drive/styles/v5/mobile-sheet.css
+ M geelooy/apps/drive/styles/v5/overlay-menu.css
+ M geelooy/apps/drive/test/DriveBrowserHarness.mjs
+ M geelooy/apps/drive/test/driveV5BrowserAssertions.mjs
+ M geelooy/apps/drive/test/driveV5VisualMobile.test.mjs
+ M geelooy/apps/drive/test/jobControlBrowser.test.mjs
+ M geelooy/apps/drive/test/simpleDriveBrowser.test.mjs
+ M geelooy/apps/drive/test/simpleDriveContract.test.mjs
+ M geelooy/apps/index.html
+ M geelooy/apps/pdf-to-img/index.html
+ M geelooy/apps/sitemap.xml
+ M geelooy/apps/style.css
+ M geelooy/apps/styles/base.css
+ M geelooy/apps/styles/responsive.css
+ M geelooy/apps/tunnel/agent/lib/connection-vessel/child-runtime-parent.js
+ M geelooy/apps/tunnel/agent/lib/connection-vessel/child-runtime.js
+ M geelooy/apps/tunnel/agent/lib/connection-vessel/controller-message-router.js
+ M geelooy/apps/tunnel/agent/lib/connection-vessel/controller-process.js
+ M geelooy/apps/tunnel/agent/lib/connection-vessel/controller.js
+ M geelooy/apps/tunnel/agent/lib/connection-vessel/parent-consumer-health.js
+MM geelooy/apps/tunnel/agent/lib/connection-vessel/parent-consumer-ingress.js
+MM geelooy/apps/tunnel/agent/lib/connection-vessel/parent-consumer-recovery-policy.js
+MM geelooy/apps/tunnel/agent/lib/connection-vessel/parent-execution-health.js
+MM geelooy/apps/tunnel/agent/lib/connection-vessel/parent-watchdog-policy.js
+MM geelooy/apps/tunnel/agent/lib/connection-vessel/parent-watchdog-pressure.js
+ M geelooy/apps/tunnel/agent/lib/connection-vessel/parent-watchdog-repair-context.js
+ M geelooy/apps/tunnel/agent/lib/connection-vessel/parent-watchdog-repair.js
+MM geelooy/apps/tunnel/agent/lib/connection-vessel/parentAutomaticRepairRecovery.test.cjs
+ M geelooy/apps/tunnel/agent/lib/connection-vessel/protocol.js
+ M geelooy/apps/tunnel/agent/lib/instructions/catalog.js
+ M geelooy/apps/tunnel/agent/lib/runtime/boot-resume-loop.js
+ M geelooy/apps/tunnel/agent/lib/runtime/main-dispatch.js
+D  geelooy/apps/tunnel/agent/lib/runtime/main-queue-emergency-dispatch.js
+MM geelooy/apps/tunnel/agent/lib/runtime/main-queue.js
+ M geelooy/apps/tunnel/agent/lib/runtime/main-reconnect-policy.js
+MM geelooy/apps/tunnel/agent/lib/runtime/priority/emergencyRegistry.js
+ M geelooy/apps/tunnel/agent/lib/runtime/request-retry-shapes.js
+ M geelooy/apps/tunnel/agent/lib/tool-schema/fs.js
+ M geelooy/apps/tunnel/agent/lib/tool-schema/guidance.js
+ M geelooy/apps/tunnel/agent/lib/ws/transportFailure.js
+M  geelooy/apps/tunnel/agent/manifest.txt
+MM geelooy/apps/tunnel/agent/rebuild-manifest.cjs
+ M geelooy/apps/tunnel/agent/recovery/manualArgs.js
+ M geelooy/apps/tunnel/agent/recovery/manualCli.js
+ M geelooy/apps/tunnel/agent/recovery/manualHelp.js
+D  geelooy/apps/tunnel/agent/release/releaseSourceGuard.js
+ M geelooy/apps/tunnel/agent/scripts/awt.cjs
+MM geelooy/apps/tunnel/agent/scripts/verify-manifest.cjs
+MM geelooy/apps/tunnel/agent/testing/connectionParentWatchdog.test.cjs
+ M geelooy/apps/tunnel/agent/testing/exactCustodyHealth.test.cjs
+ M geelooy/apps/tunnel/agent/testing/helpers/installerFastRepairHarness.cjs
+D  geelooy/apps/tunnel/agent/testing/manifestReleaseSourceGuard.test.cjs
+D  geelooy/apps/tunnel/agent/testing/missionCanonicalRoomRoster.test.cjs
+ M geelooy/apps/tunnel/agent/testing/missionContinuationPool.test.cjs
+D  geelooy/apps/tunnel/agent/testing/missionFinalInterceptorExplicitMission.test.cjs
+MM geelooy/apps/tunnel/agent/testing/parentWatchdogRepresentativePressure.test.cjs
+D  geelooy/apps/tunnel/agent/testing/schedulerEmergencyParentDispatch.test.cjs
+ M geelooy/apps/tunnel/agent/testing/transportFailureClassification.test.cjs
+D  geelooy/apps/tunnel/agent/testing/tunnelDisconnectRecoveryInvariant.test.cjs
+D  geelooy/apps/tunnel/agent/testing/websiteSpawnAutoDiscovery.test.cjs
+ M geelooy/apps/tunnel/agent/tools/fs/actionBatch/context.js
+ M geelooy/apps/tunnel/agent/tools/fs/actionBuilderGroups/foundationActions.js
+ M geelooy/apps/tunnel/agent/tools/fs/actionBuilderGroups/localActions.js
+ M geelooy/apps/tunnel/agent/tools/fs/actionBuilderGroups/missionActions.js
+ M geelooy/apps/tunnel/agent/tools/fs/actionGroups/asyncTaskDurability.js
+ M geelooy/apps/tunnel/agent/tools/fs/actionGroups/asyncTaskResponses.js
+ M geelooy/apps/tunnel/agent/tools/fs/actionGroups/missionSessionSpawner.js
+MM geelooy/apps/tunnel/agent/tools/fs/actionGroups/websiteAgents/planner.js
+MM geelooy/apps/tunnel/agent/tools/fs/actionGroups/websiteAgents/runner/spawn.js
+D  geelooy/apps/tunnel/agent/tools/fs/actionGroups/websiteAgents/runner/spawnDiscovery.js
+ M geelooy/apps/tunnel/agent/tools/fs/actionReplayResponses.js
+ M geelooy/apps/tunnel/agent/tools/fs/commandJob/context.js
+ M geelooy/apps/tunnel/agent/tools/fs/findFiles.js
+ M geelooy/apps/tunnel/agent/tools/fs/findFilesResponse.js
+ M geelooy/apps/tunnel/agent/tools/fs/mission/agentSessionLaunch.js
+ M geelooy/apps/tunnel/agent/tools/fs/mission/agentSessionRegistry.js
+MM geelooy/apps/tunnel/agent/tools/fs/mission/collaboration.js
+D  geelooy/apps/tunnel/agent/tools/fs/mission/collaboration/agents.js
+D  geelooy/apps/tunnel/agent/tools/fs/mission/collaboration/messages.js
+D  geelooy/apps/tunnel/agent/tools/fs/mission/collaboration/presentation.js
+D  geelooy/apps/tunnel/agent/tools/fs/mission/collaboration/state.js
+D  geelooy/apps/tunnel/agent/tools/fs/mission/collaboration/values.js
+D  geelooy/apps/tunnel/agent/tools/fs/mission/collaboration/work.js
+MM geelooy/apps/tunnel/agent/tools/fs/mission/finalInterceptor/index.js
+D  geelooy/apps/tunnel/agent/tools/fs/mission/roomActionResponse.js
+ M geelooy/apps/tunnel/agent/tools/fs/mission/roomMessages.js
+ M geelooy/apps/tunnel/downloads/unix-bootstrap-components.sh
+ M geelooy/apps/tunnel/downloads/unix-fast-repair.sh
+ M geelooy/apps/tunnel/downloads/unix-install-sources.sh
+ M geelooy/apps/universal-chat/index.html
+ M geelooy/css/geelooy-surface/motion.css
+ M geelooy/css/style.css
+ M geelooy/drive/core/panelCatalog.js
+ M geelooy/drive/services/panelCoordinator.js
+ M geelooy/drive/services/panelPreferences.js
+ M geelooy/drive/styles/mobile-dock.css
+ M geelooy/drive/test/panelCoordinator.test.mjs
+ M geelooy/drive/test/panelPreferences.test.mjs
+ M geelooy/drive/ui/builderBriefFields.js
+ M geelooy/drive/ui/mobileDock.js
+ M geelooy/drive/ui/topBar.js
+ M geelooy/email/css/system/core-layout.css
+ M geelooy/email/index.html
+ M geelooy/games/adventure/style.css
+ M geelooy/games/brick-blast/js/main.js
+ M geelooy/games/brick-blast/js/styles/injector.js
+ M geelooy/games/brick-blast/js/ui/level-select.js
+ M geelooy/games/brick-blast/ui/editor-game.js
+ M geelooy/games/catalog.html
+ M geelooy/games/city-of-light/tests/BrowserHarness.mjs
+ M geelooy/games/city-of-light/tests/BrowserHarnessCleanup.mjs
+ M geelooy/games/city-of-light/tests/browserHarnessLifecycle.test.mjs
+ M geelooy/games/cobyk/src/render/assets/CobyKMaterialRoleCatalog.js
+ M geelooy/games/cobyk/styles/cobyk.css
+ M geelooy/games/cobyk/tests/renderAssets.test.mjs
+ M geelooy/games/connect4/accessibility/column-controls.js
+ M geelooy/games/connect4/app/runtime/Native3DPresentation.js
+ M geelooy/games/connect4/app/runtime/Native3DRendererLoader.js
+ M geelooy/games/connect4/app/runtime/WorkerSession.js
+ M geelooy/games/connect4/game.worker.js
+ M geelooy/games/connect4/main.js
+ M geelooy/games/connect4/worker/engine.js
+ M geelooy/games/connect4/worker/loop.js
+ M geelooy/games/index.html
+ M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-core.json
+MM geelooy/games/mitzvahWorld/build/generated/mitzvah-world-foundation.json
+ M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-optional.json
+ M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-presentation.json
+ M geelooy/games/mitzvahWorld/build/generated/mitzvah-world-world.json
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapCanonicalPlayerHydration.test.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapCoreRuntimeAssembly.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapPlayerRuntime.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapVisibleWorld.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialPlayerGlb.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzFoundationRenderer.js
+M  geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzVisualPromotionSequence.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBootstrapFeatures.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWorldSystems.js
+M  geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/createEretzRuntime.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MitzvahWorldDirectExperience.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-core.compact.js
+MM geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-foundation.compact.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-optional.compact.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-optional.compact.js.br
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-presentation.compact.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-presentation.compact.js.br
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-world.compact.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world-world.compact.js.br
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/movie/MoviePerformanceActorMovement.js
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/blankMeadowBootstrapFeatures.test.mjs
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/bootstrapCanonicalPlayerHydrationUrl.test.mjs
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/bootstrapCoreRuntime.test.mjs
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/eretzEssentialPlayerGlb.test.mjs
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/eretzFoundationSky.test.mjs
+M  geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/eretzVisualPromotionSequence.test.mjs
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/browser/RealGameplayBrowserProbe.mjs
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/launcher/minimalSharedMeadowMovieRoute.test.mjs
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/launcher/mitzvahWorldModeLoaderPostPlayBoundary.test.mjs
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/launcher/movieModePresentationBypass.test.mjs
+ M geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/MinimalMeadowCoordinatedUi.js
+ M geelooy/games/mitzvahWorld/index.html
+ M geelooy/games/mitzvahWorld/proof/AuthoredMeadowVisualProof.mjs
+ M geelooy/games/mitzvahWorld/proof/CdpProofEvidence.mjs
+ M geelooy/games/mitzvahWorld/proof/RealGameplayTraversalProof.mjs
+ M geelooy/games/mitzvahWorld/subwaySurfer/index.html
+ M geelooy/games/nitzotz-io/style.css
+ M geelooy/games/ohr-hagnuz/src/design/revelation/vessels/atmosphere.css
+ M geelooy/games/ohrfront/test/clean-ui.test.mjs
+ M geelooy/games/ohrfront/test/ui-style-isolation.test.mjs
+ M geelooy/games/oros-ha-kelim/docs/RUNTIME_API.md
+ M geelooy/games/oros-ha-kelim/src/runtime/ReplayJournal.js
+ M geelooy/games/oros-ha-kelim/src/runtime/RuntimeApiManifest.js
+ M geelooy/games/oros-ha-kelim/test/api.test.mjs
+ M geelooy/games/oros-ha-kelim/test/helpers/KeliGame.mjs
+ M geelooy/games/oros-ha-kelim/test/replay.test.mjs
+ M geelooy/games/party/style.css
+ M geelooy/games/pong/index.html
+ M geelooy/games/pong/js/main.js
+ M geelooy/games/rambam/kiddushHachodesh/12/js/degree-ring.js
+ M geelooy/games/rambam/kiddushHachodesh/12/js/scene.js
+ M geelooy/games/rambam/kiddushHachodesh/12/rambamSunContract.test.mjs
+ M geelooy/games/rambam/kiddushHachodesh/12/styles/foundation.css
+ M geelooy/games/rebbe-runner/style.css
+ M geelooy/games/scribe-journey/js/data/quests/campaign/malkuthEarly.js
+ M geelooy/games/scribe-journey/js/multiplayer/onlinePanel.js
+ M geelooy/games/scribe-journey/style.css
+ M geelooy/games/scribe-journey/tests/insight/cssManifestSimulation.mjs
+ M geelooy/games/scribe-journey/tests/insight/menuActionSimulation.mjs
+ M geelooy/games/scripts/catalog/commerce-plan.mjs
+ M geelooy/games/scripts/catalog/game.mjs
+ M geelooy/games/scripts/catalog/index.mjs
+ M geelooy/games/scripts/catalog/party.mjs
+ M geelooy/games/scripts/diagnostics/gameplay-smoke/isolated-probe.mjs
+ M geelooy/games/scripts/diagnostics/gameplay-smoke/probes/index.mjs
+ M geelooy/games/scripts/diagnostics/gameplay-smoke/probes/rebbe-runner.mjs
+ M geelooy/games/scripts/diagnostics/gameplay-smoke/probes/seven-mitzvos.mjs
+ M geelooy/games/scripts/diagnostics/ui-crawl/audit-game.mjs
+ M geelooy/games/scripts/diagnostics/ui-crawl/config.mjs
+ M geelooy/games/scripts/diagnostics/ui-crawl/metrics.mjs
+ M geelooy/games/scripts/diagnostics/ui-crawl/surface-contract.mjs
+ M geelooy/games/scripts/diagnostics/ui-crawl/surface-metrics.mjs
+ M geelooy/games/scripts/runtime/native-3d/Native3DModeController.js
+ M geelooy/games/scripts/runtime/native-3d/backdrop-activation.js
+ M geelooy/games/scripts/runtime/native-3d/catalog.js
+ M geelooy/games/scripts/runtime/native-3d/index.js
+ M geelooy/games/scripts/runtime/native-3d/presentation-support.js
+ M geelooy/games/seven-mitzvos/js/app/game-session.js
+ M geelooy/games/seven-mitzvos/js/app/seven-mitzvos-app.js
+ M geelooy/games/seven-mitzvos/js/assets/advanced-model-hydrator.js
+ M geelooy/games/seven-mitzvos/js/assets/gltf-model-library.js
+ M geelooy/games/seven-mitzvos/js/city/city-district-builder.js
+ M geelooy/games/seven-mitzvos/js/games3d/game-registry.js
+ M geelooy/games/seven-mitzvos/js/games3d/world-label.js
+ M geelooy/games/seven-mitzvos/js/materials/material-binder.js
+ M geelooy/games/seven-mitzvos/js/materials/progressive-texture-cache.js
+ M geelooy/games/seven-mitzvos/js/materials/seven-material-runtime.js
+ M geelooy/games/seven-mitzvos/js/materials/stage-material-runtime.js
+ M geelooy/games/seven-mitzvos/js/procedural/core-part-color.js
+ M geelooy/games/seven-mitzvos/js/procedural/core-part-factory.js
+ M geelooy/games/seven-mitzvos/js/procedural/core-part-material-effects.js
+ M geelooy/games/seven-mitzvos/js/realm/realm-quality-governor.js
+ M geelooy/games/seven-mitzvos/js/webgl/camera-director.js
+ M geelooy/games/seven-mitzvos/js/webgl/detail-governor.js
+ M geelooy/games/seven-mitzvos/js/webgl/scene-kit.js
+ M geelooy/games/seven-mitzvos/js/webgl/semantic-picker.js
+ M geelooy/games/seven-mitzvos/js/webgl/stage-performance-controller.js
+ M geelooy/games/seven-mitzvos/js/webgl/stage-resources.js
+ M geelooy/games/seven-mitzvos/js/webgl/stage-root-visibility-record.js
+ M geelooy/games/seven-mitzvos/js/webgl/stage-root-visibility-runtime.js
+ M geelooy/games/seven-mitzvos/js/webgl/stage-semantic-instance-policy.js
+ M geelooy/games/seven-mitzvos/js/webgl/stage-semantic-instance-runtime.js
+ M geelooy/games/seven-mitzvos/js/webgl/stage-shadow-runtime.js
+ M geelooy/games/seven-mitzvos/js/webgl/stage-static-consolidation-policy.js
+ M geelooy/games/seven-mitzvos/js/webgl/webgl-stage.js
+ M geelooy/games/seven-mitzvos/test/startup-status.test.mjs
+ M geelooy/games/seven-mitzvos/tests/content.test.mjs
+ M geelooy/games/seven-mitzvos/tests/firebase-material-realism.test.mjs
+ M geelooy/games/seven-mitzvos/tests/public-library-dependency.test.mjs
+ M geelooy/games/seven-mitzvos/tests/realm-performance-contract.test.mjs
+ M geelooy/games/seven-mitzvos/tests/webgl-viewport-contract.test.mjs
+ M geelooy/games/shema-strike/css/base/controls.css
+ M geelooy/games/shema-strike/css/touch/interaction.css
+ M geelooy/games/shema-strike/css/touch/layout.css
+ M geelooy/games/shema-strike/css/touch/responsive.css
+ M geelooy/games/shema-strike/js/multiplayer/MultiplayerView.js
+ M geelooy/games/sitemap.xml
+ M geelooy/games/style.css
+ M geelooy/games/sulam-ha-sod/css/game.css
+ M geelooy/games/sulam-ha-sod/index.html
+ M geelooy/games/sulam-ha-sod/js/data/levels/level06-tiferes.js
+ M geelooy/games/sulam-ha-sod/js/data/levels/level09-chochmah.js
+ M geelooy/games/sulam-ha-sod/js/data/levels/level17-bait-vault.js
+ M geelooy/games/tests/connect4-production-contract.test.mjs
+ M geelooy/games/tests/gameplay-smoke-harness.test.mjs
+ M geelooy/games/tests/mobile/staticContract.mjs
+ M geelooy/games/tests/native-3d-presentation-contract.test.mjs
+ M geelooy/games/tests/player-shell-boot-contract.test.mjs
+ M geelooy/games/tests/player-shell.test.mjs
+ M geelooy/games/tests/pong-production-contract.test.mjs
+ M geelooy/games/tests/public-game-exposure.test.mjs
+ M geelooy/games/tests/tetris-source-law-contract.test.mjs
+ M geelooy/games/tetris/game/visual-grid.js
+ M geelooy/games/tetris/ui/native-3d-renderer.js
+ M geelooy/heichelos/_awtsmoos.index.html
+ M geelooy/heichelos/_awtsmoos.submitToHeichel.html
+ M geelooy/heichelos/heichel/_awtsmoos.heichel.html
+ M geelooy/heichelos/heichel/app.js
+ M geelooy/heichelos/heichel/critical-boot.js
+ M geelooy/heichelos/heichel/ikar-first.js
+ M geelooy/heichelos/heichel/modules/test/browserApiSurfaceStatic.test.mjs
+ M geelooy/heichelos/heichel/modules/test/cardMenuContract.test.mjs
+ M geelooy/heichelos/heichel/modules/test/criticalFirstLightContract.test.mjs
+ M geelooy/heichelos/heichel/modules/test/entryPerformanceContract.test.mjs
+ M geelooy/heichelos/heichel/modules/test/heichelRouteCompatibility.test.mjs
+ M geelooy/heichelos/heichel/modules/test/heichelSemanticFallbackContract.test.mjs
+ M geelooy/heichelos/heichel/modules/test/platformCoverageStatic.test.mjs
+ M geelooy/heichelos/heichel/modules/test/renderPerformanceContract.test.mjs
+ M geelooy/heichelos/heichel/modules/ui/translation-hub-renderer.js
+ M geelooy/heichelos/heichel/modules/ui/translation-hub-search.js
+ M geelooy/heichelos/heichel/semantic/fallback.html
+ M geelooy/heichelos/heichel/semantic/head.html
+ M geelooy/heichelos/heichel/submit/_awtsmoos.post.html
+ M geelooy/heichelos/post/functions/ui/context/actions.js
+ M geelooy/heichelos/post/functions/ui/context/readerActionHierarchy.test.mjs
+ M geelooy/heichelos/post/functions/ui/context/relatedSearchPanel.js
+ M geelooy/heichelos/post/functions/ui/context/relatedSearchView.js
+ M geelooy/heichelos/post/functions/ui/context/tanachPanel.js
+ M geelooy/heichelos/post/functions/ui/context/tanachPanelView.js
+ M geelooy/heichelos/post/styles/ideal/floating-rail.css
+ M geelooy/heichelos/post/styles/ideal/mobile-desktop-viewport.css
+ M geelooy/heichelos/post/styles/ideal/mobile-main-menu-polish.css
+ M geelooy/heichelos/post/styles/ideal/reborn/panel-rows.css
+ M geelooy/heichelos/post/styles/ideal/reborn/shell.css
+ M geelooy/heichelos/post/styles/main.css
+ M geelooy/heichelos/post/styles/reader-sidebar/source-annotations-responsive.css
+ M geelooy/heichelos/post/styles/reader-sidebar/source-annotations.css
+ M geelooy/heichelos/post/test/tanachPanel.test.mjs
+ M geelooy/heichelos/post/test/tanachWordActions.test.mjs
+ M geelooy/heichelos/routes/heichel/comments/commentPage.js
+ M geelooy/heichelos/routes/heichel/shell.js
+ M geelooy/heichelos/routes/heichel/translations/page.js
+ M geelooy/libs/awtsmoos-procedural-core/src/runtime/native/tiny-object3d-hierarchy.js
+ M geelooy/libs/awtsmoos-procedural-core/src/runtime/native/tiny-object3d.js
+ M geelooy/libs/awtsmoos-procedural-core/src/runtime/native/tiny-runtime.js
+ M geelooy/libs/awtsmoos-procedural-core/src/runtime/native/tiny-vector.js
+ M geelooy/login/index.html
+ M geelooy/logout/index.html
+ M geelooy/mawgawl/index.html
+ M geelooy/mawgawl/sefarim/SearchDiscoveryController.js
+ M geelooy/mawgawl/sefarim/searchCapabilitiesView.js
+ M geelooy/mawgawl/sefarim/searchErrorView.js
+ M geelooy/mawgawl/sefarim/styles/form-disclosure.css
+ M geelooy/mawgawl/sefarim/styles/mobile.css
+ M geelooy/os/basicProgramModules.js
+ M geelooy/os/index.html
+ M geelooy/os/programs/awtsmoos-browser/browserChrome.js
+ M geelooy/os/programs/awtsmoos-browser/browserChromeSpec.js
+ M geelooy/os/programs/awtsmoos-browser/browserChromeTabSpec.js
+ M geelooy/os/programs/awtsmoos-browser/browserNavigationCoordinator.js
+ M geelooy/os/programs/awtsmoos-browser/interactiveController.js
+ M geelooy/os/programs/awtsmoos-browser/responsive.css
+ M geelooy/os/programs/awtsmoos-browser/style.css
+ M geelooy/os/programs/awtsmoos-browser/surface.js
+ M geelooy/os/programs/awtsmoos-browser/tabs.css
+ M geelooy/os/programs/awtsmoos-file-explorer/components/itemContextMenu.js
+ M geelooy/os/programs/awtsmoos-file-explorer/components/toolbar.js
+ M geelooy/os/programs/awtsmoos-file-explorer/components/toolbar/definitions.js
+ M geelooy/os/programs/awtsmoos-file-explorer/components/toolbar/keyboard.js
+ M geelooy/os/programs/awtsmoos-file-explorer/styles/index.js
+ M geelooy/os/programs/awtsmoos-file-explorer/utils/dragDrop.js
+ M geelooy/os/programs/drive-workspace/index.js
+ M geelooy/os/providers/capabilities.js
+ M geelooy/os/providers/mountTree.js
+ M geelooy/os/runtime/osLifecycle.js
+ M geelooy/os/shell/appCatalogExplore.js
+ M geelooy/os/shell/appCatalogPrimary.js
+ M geelooy/os/shell/appStarterPayloads.js
+ M geelooy/os/styles/revelation/social-command.css
+ M geelooy/os/styles/revelation/social-workspace.css
+ M geelooy/os/test/awtsmoosBrowserChromeData.test.mjs
+ M geelooy/os/test/awtsmoosBrowserSurface.test.mjs
+ M geelooy/os/test/merkavaBrowserContract.test.mjs
+ M geelooy/os/vfs/mounts.js
+ M geelooy/parsers/whatsapp/index.html
+ M geelooy/reeyuh/index.html
+ M geelooy/scripts/awtsmoos/social/feed/commentApi.js
+ M geelooy/scripts/awtsmoos/social/shell/appShell.js
+ M geelooy/scripts/awtsmoos/social/shell/headerSearchSuggestions.js
+ M geelooy/scripts/awtsmoos/social/shell/revelation/ShellRevelation.js
+ M geelooy/scripts/awtsmoos/tts/index.css
+ M geelooy/scripts/awtsmoos/tts/index.html
+ M geelooy/scripts/awtsmoos/tts/ui.js
+ M geelooy/scripts/awtsmoos/ui/foundation.js
+ M geelooy/scripts/awtsmoos/ui/productMemoryCodec.js
+ M geelooy/scripts/home-simple/HomeTiferesRuntime.js
+ M geelooy/scripts/home-simple/ShliachSpotlight.js
+ M geelooy/scripts/home-simple/ShliachSpotlightContent.js
+ M geelooy/scripts/home-simple/index.js
+ M geelooy/scripts/seo/corePaths.mjs
+ M geelooy/scripts/seo/publicStaticPageMetadata.mjs
+ M geelooy/seo/generated/public-pages/index.js
+ M geelooy/seo/generated/public-pages/shard-1.generated.js
+ M geelooy/seo/generated/public-pages/shard-2.generated.js
+ M geelooy/seo/generated/public-pages/shard-3.generated.js
+ M geelooy/seo/generated/public-pages/shard-4.generated.js
+ M geelooy/seo/generated/public-pages/shard-5.generated.js
+ M geelooy/seo/generated/public-pages/shard-6.generated.js
+ M geelooy/seo/generated/public-pages/shard-7.generated.js
+ M geelooy/seo/generated/public-pages/shard-8.generated.js
+ M geelooy/seo/generated/public-pages/shard-9.generated.js
+ M geelooy/seo/tests/publicHtmlSeo.test.js
+ M geelooy/seo/tests/publicStaticMetadata.test.mjs
+ M geelooy/shared/tunnel/presenceStates.js
+ M geelooy/sitemap.xml
+ M geelooy/sitemaps/core.xml
+ M geelooy/sites/siteGatewaySource.js
+ M geelooy/sites/siteResolution.js
+ M geelooy/social-composer/js/civilization/mobileHierarchy.js
+ M geelooy/social-composer/style.css
+ M geelooy/social-hub/js/navigation/MobileNavigationPolicy.js
+ M geelooy/social-hub/js/navigation/RouteModel.js
+ M geelooy/social-hub/js/ui/PublicDiscoveryView.js
+ M geelooy/social-hub/package.json
+ M geelooy/social-hub/style.css
+ M geelooy/social-hub/styles/chat-messages.css
+ M geelooy/social-hub/styles/messages-room.css
+ M geelooy/social-hub/styles/messages-route.css
+ M geelooy/social-hub/tests/BrowserWait.mjs
+ M geelooy/social-hub/tests/browserSmoke.test.mjs
+ M geelooy/social-hub/tests/futureMobileRouteVisibilityBrowser.test.mjs
+ M geelooy/social-hub/tests/futureV15DirectGeometryBrowser.test.mjs
+ M geelooy/social-hub/tests/routeVisibility.test.mjs
+ M geelooy/social-hub/tests/stateRoute.test.mjs
+ M geelooy/style/foundation/effects/glass.css
+ M geelooy/style/geelooy-app/home/feed/cards.css
+ M geelooy/style/geelooy-app/home/hero/actions.css
+ M geelooy/style/geelooy-app/index.css
+ M geelooy/style/geelooy-app/pages/profile-spaces.css
+ M geelooy/style/geelooy-system/search.css
+ M geelooy/style/heichelos/discovery-layout.css
+ M geelooy/style/heichelos/heichel/premium/ikar-first.css
+ M geelooy/style/heichelos/heichel/premium/language-tools.css
+ M geelooy/style/home-simple/base.css
+ M geelooy/style/home-simple/components.css
+ M geelooy/style/home-simple/hero-copy.css
+ M geelooy/style/home-simple/main-brand-mobile.css
+ M geelooy/style/home-simple/shliach-spotlight.css
+ M geelooy/style/social-system/buttons.css
+ M geelooy/style/social-system/cards.css
+ M geelooy/style/social-system/comments.css
+ M geelooy/style/social-system/comments/parts/mobile.css
+ M geelooy/style/social-system/editor.css
+ M geelooy/style/social-system/editor/parts/cards.css
+ M geelooy/style/social-system/navigation.css
+ M geelooy/style/social-system/product/chips.css
+ M geelooy/style/social-system/states.css
+ M geelooy/style/social-system/tokens.css
+ M geelooy/style/social/home/civilization/feed.css
+ M geelooy/style/social/home/feed/resonance.css
+ M geelooy/style/test/beautyImportGraph.test.mjs
+ M geelooy/style/test/beautyTemplateContract.test.mjs
+ M geelooy/style/test/cleanHomeContract.test.mjs
+ M geelooy/style/test/cosmicFeedStyleContract.test.mjs
+ M geelooy/style/test/cssImportGraph.test.mjs
+ M geelooy/style/test/facebookHomeLayoutContract.test.mjs
+ M geelooy/style/test/geelooyAppQuality.test.mjs
+ M geelooy/style/test/homeCosmicFeedContract.test.mjs
+ M geelooy/style/test/homeDashboardContract.test.mjs
+ M geelooy/style/test/homeFuturePerformance.test.mjs
+ M geelooy/style/test/homeHeaderSidebarContract.test.mjs
+ M geelooy/style/test/homeNoHardLiveFeedImport.test.mjs
+ M geelooy/style/test/homeProfileFitContract.test.mjs
+ M geelooy/style/test/homeProfileLuxContract.test.mjs
+ M geelooy/style/test/legendTemplateContract.test.mjs
+ M geelooy/style/test/noBeautyGlobalTrap.test.mjs
+ M geelooy/style/test/templateVersionContract.test.mjs
+ M geelooy/style/universal-ui.css
+ M geelooy/test/mobile-audit/RouteAuditEvidencePolicy.mjs
+ M geelooy/test/mobile-audit/RouteAuditMetricHelpers.mjs
+ M geelooy/test/mobile-audit/RouteAuditMetrics.mjs
+ M geelooy/test/mobile-audit/RouteAuditMetricsContract.test.mjs
+ M geelooy/tests/heichelosDiscoveryContract.test.mjs
+ M scripts/quality/checkBuilderLoad.mjs
+ M scripts/quality/checkSourcePolicy.mjs
+ M scripts/repository-hygiene/policyData.cjs
+ M scripts/repository-hygiene/testing/policy.test.cjs
+ M templates/heichelos/discovery-results.html
+ M templates/heichelos/discovery-shell.html
+ M templates/session/login.js
+ M templates/session/register.js
+ M tools/dayuhChadashCutover/test/apiJourney.test.js
+ M tools/dayuhChadashCutover/test/apiJourneyServer.js
+?? .ai-release-dry-run.tmp
+?? .dayuh-sync/
+?? "ai agent work/"
+?? "ai thoughts/2026-09-17-2109-heichelos-ikar-revelation/"
+?? "ai thoughts/2026-09-17-2159-ikar-ui-ux-total-repair-plan/"
+?? "ai thoughts/2026-09-17T0524-awtsmoos-forge-live-takeover/"
+?? "ai thoughts/2026-09-17T1247-security-activation-takeover/"
+?? "ai thoughts/2026-09-17T1457-tunnel-recovery-complete/"
+?? "ai thoughts/2026-09-17T1530-browser-continuation-auto-handoff/"
+?? "ai thoughts/2026-09-17T1948-preacceptance-and-recovery-materialization/"
+?? "ai thoughts/2026-09-17T2132-autonomous-vessel-routing-full-completion/"
+?? "ai thoughts/2026-09-18T0150-mission-room-native-agents/"
+?? "ai thoughts/2026-09-18T1520-0400-total-completion-directive/"
+?? "ai thoughts/2026-09-18T1603-main-sync-finalization/"
+?? awtsmoos.com/.ai-content-staging/
+?? awtsmoos.com/awtsmoos_gitstat.txt
+?? ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/manifestIndexes.js
+?? ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/manifestShape.js
+?? ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/storeChildren.js
+?? ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/storeInodes.js
+?? ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/storeState.js
+?? ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/fs3_children_index_normalization_test.js
+?? ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/search_readonly_bounded.test.js
+?? ayzarim/DosDB/methods/objectKeySource.js
+?? ayzarim/DosDB/objectKeysDirectory.test.cjs
+?? ayzarim/awtsmoosDynamicServer/server/searchStartupWarmup.js
+?? ayzarim/awtsmoosDynamicServer/server/staticServerLifecycleSupport.js
+?? ayzarim/awtsmoosDynamicServer/server/test/searchStartupWarmup.test.js
+?? ayzarim/awtsmoosDynamicServer/static/PublicHtmlSeoPolicy.js
+?? ayzarim/awtsmoosDynamicServer/static/PublicHtmlStructuredDataGraph.js
+?? ayzarim/tools/sessionPolicy.js
+?? ayzarim/tools/test/
+?? dayuhChadash/torah-sources/lexicon-sources/bdb.awtsdb.lock.stale-20260915T103619-0700
+?? dayuhChadash/torah-sources/lexicon-sources/jastrow.awtsdb.lock
+?? dayuhChadash/torah-sources/lexicon-sources/yiddish-wiktionary.awtsdb.lock
+?? dayuhChadash/torah-sources/lexicon-sources/yiddish-wiktionary.awtsdb.lock.stale-20260915T152333-0700
+?? docs/geelooy/
+?? geelooy/@/seo/aliasSites.js
+?? geelooy/Shliach/
+?? geelooy/api/oauth/core/agentLinkFile.js
+?? geelooy/api/oauth/core/agentLinkPolicy.js
+?? geelooy/api/oauth/core/agentLinkStore.js
+?? geelooy/api/oauth/core/test/agentLinkStore.test.cjs
+?? geelooy/api/oauth/routes/agentLinkGrant.js
+?? geelooy/api/oauth/routes/agentLinks.js
+?? geelooy/api/oauth/routes/test/agentLinkGrant.test.cjs
+?? geelooy/api/social/helper/imports/
+?? geelooy/api/social/helper/post/test/seriesReadSingleEnumeration.test.cjs
+?? geelooy/api/social/helper/profile/publicSites.js
+?? geelooy/api/social/helper/profile/test/PublicSites.test.js
+?? geelooy/api/social/helper/routes/alias/publicSiteRoute.js
+?? geelooy/api/social/helper/routes/alias/test/
+?? geelooy/api/social/helper/routes/series/test/
+?? geelooy/api/social/helper/search/rag/librarySearchEmptyResult.js
+?? geelooy/api/social/helper/search/rag/searchCacheWarmup.js
+?? geelooy/api/social/helper/search/rag/searchCatalogWarmWorker.js
+?? geelooy/api/social/helper/search/rag/searchCatalogWorkerClient.js
+?? geelooy/api/social/helper/search/rag/test/librarySearchBoundedFailureMerge.test.js
+?? geelooy/api/social/helper/search/rag/test/librarySearchConcurrencyPolicy.test.js
+?? geelooy/api/social/helper/search/rag/test/publicationCatalogStoragePolicy.test.js
+?? geelooy/api/social/helper/search/rag/test/searchCacheWarmup.test.js
+?? geelooy/api/social/helper/search/rag/test/searchCatalogWorkerClient.test.js
+?? geelooy/api/social/helper/search/rag/test/shardCatalogFingerprintCache.test.js
+?? geelooy/api/social/helper/series/directSeriesStore.js
+?? geelooy/api/social/helper/series/seriesPrateemRecovery.js
+?? geelooy/api/social/helper/series/test/
+?? geelooy/api/tunnel/control/routes/automaticNativeSelection.js
+?? geelooy/api/tunnel/control/routes/test/automaticNativeSelection.test.cjs
+?? geelooy/apps/android-emulator/core/android/browserInputCoordinates.js
+?? geelooy/apps/android-emulator/core/android/frameworkFlutterNativePlatformMessageJniWitness.js
+?? geelooy/apps/android-emulator/core/native/aarch64MachineFastLoop.js
+?? geelooy/apps/android-emulator/core/native/aarch64MachineObservedLoop.js
+?? geelooy/apps/android-emulator/core/native/nativeAndroidCallTransitionRegions.js
+?? geelooy/apps/android-emulator/core/native/nativeAndroidCallTransitionRegisters.js
+?? geelooy/apps/android-emulator/core/native/nativeAndroidCallTransitionRing.js
+?? geelooy/apps/android-emulator/core/native/nativeAndroidCallTransitionSnapshot.js
+?? geelooy/apps/android-emulator/test/aarch64ExclusiveInvalidation.test.mjs
+?? geelooy/apps/android-emulator/test/aarch64MachineObserverRouting.test.mjs
+?? geelooy/apps/android-emulator/test/flutterJniMachineHostStateWitnessOrdinal.test.mjs
+?? geelooy/apps/android-emulator/test/frameworkFlutterNativeJniWitnessSink.test.mjs
+?? geelooy/apps/android-emulator/test/frameworkFlutterNativePlatformMessageDirectCapacity.test.mjs
+?? geelooy/apps/android-emulator/test/frameworkFlutterNativePlatformMessageJniWitness.test.mjs
+?? geelooy/apps/android-emulator/test/frameworkFlutterNativePlatformMessageJniWitnessSupport.mjs
+?? geelooy/apps/android-emulator/test/nativeAndroidCallTransitionTargetRegisters.test.mjs
+?? geelooy/apps/android-emulator/test/nativeAndroidPlatformLooperCallbackOrdinal.test.mjs
+?? geelooy/apps/drive/js/bulkActions.js
+?? geelooy/apps/drive/js/bulkCapabilities.js
+?? geelooy/apps/drive/js/orchestration/YesodBulkActionRouter.js
+?? geelooy/apps/drive/js/views/DriveBulkActionBar.js
+?? geelooy/apps/drive/js/views/DriveBulkConfirmDialog.js
+?? geelooy/apps/drive/js/views/DriveBulkDialog.js
+?? geelooy/apps/drive/js/views/DriveCategoryController.js
+?? geelooy/apps/drive/js/views/DriveEntryGestureController.js
+?? geelooy/apps/drive/js/views/DriveFolderCard.js
+?? geelooy/apps/drive/js/views/DriveFolderChooser.js
+?? geelooy/apps/drive/js/views/DriveFolderChooserList.js
+?? geelooy/apps/drive/js/views/DriveHomeRenderer.js
+?? geelooy/apps/drive/js/views/DriveUploadQueueRow.js
+?? geelooy/apps/drive/js/views/DriveUploadSummary.js
+?? geelooy/apps/drive/js/views/DriveVisibilityBadge.js
+?? geelooy/apps/drive/styles/v5/browser-folder-cards.css
+?? geelooy/apps/drive/styles/v5/browser-media-cards.css
+?? geelooy/apps/drive/styles/v5/browser-sections.css
+?? geelooy/apps/drive/styles/v5/browser-visibility.css
+?? geelooy/apps/drive/styles/v5/controls-bulk.css
+?? geelooy/apps/drive/styles/v5/controls-categories.css
+?? geelooy/apps/drive/styles/v5/controls-upload-summary.css
+?? geelooy/apps/drive/styles/v5/mobile-bulk.css
+?? geelooy/apps/drive/styles/v5/mobile-dream.css
+?? geelooy/apps/drive/styles/v5/overlay-bulk-dialog.css
+?? geelooy/apps/drive/styles/v5/overlay-folder-chooser.css
+?? geelooy/apps/drive/styles/v5/overlay-transfer-premium.css
+?? geelooy/apps/drive/styles/v5/shell-hero.css
+?? geelooy/apps/drive/test/DriveBrowserCleanup.mjs
+?? geelooy/apps/drive/test/driveBrowserHarnessCleanup.test.mjs
+?? geelooy/apps/drive/test/driveDreamBrowser.test.mjs
+?? geelooy/apps/drive/test/driveDreamContract.test.mjs
+?? geelooy/apps/drive/test/driveSelectionBrowser.test.mjs
+?? geelooy/apps/drive/test/driveSelectionBrowserActions.mjs
+?? geelooy/apps/drive/test/driveSelectionContract.test.mjs
+?? geelooy/apps/pdf-to-img/styles.css
+?? geelooy/apps/styles/integrity.css
+?? geelooy/apps/tunnel/agent/lib/connection-vessel/controller-registration-deadline.js
+?? geelooy/apps/tunnel/agent/lib/connection-vessel/parent-consumer-custody-progress.js
+?? geelooy/apps/tunnel/agent/lib/instructions/catalogExternalAi.js
+?? geelooy/apps/tunnel/agent/lib/runtime/actionExecutionTestimony.js
+?? geelooy/apps/tunnel/agent/lib/runtime/agent-root-registry.js
+?? geelooy/apps/tunnel/agent/lib/runtime/main-queue-emergency-dispatch.js
+?? geelooy/apps/tunnel/agent/lib/runtime/root-authority.js
+?? geelooy/apps/tunnel/agent/lib/runtime/transport-identity.js
+?? geelooy/apps/tunnel/agent/lib/tool-schema/agent-operating-guidance.js
+?? geelooy/apps/tunnel/agent/recovery/rootRebindCommand.js
+?? geelooy/apps/tunnel/agent/release/releaseSourceGuard.js
+?? geelooy/apps/tunnel/agent/testing/actionExecutionTestimony.test.cjs
+?? geelooy/apps/tunnel/agent/testing/actionSchemaIntrospection.test.cjs
+?? geelooy/apps/tunnel/agent/testing/asyncTaskLifecycle.test.cjs
+?? geelooy/apps/tunnel/agent/testing/consumerStallChildRepair.test.cjs
+?? geelooy/apps/tunnel/agent/testing/controlPlaneErgonomics.test.cjs
+?? geelooy/apps/tunnel/agent/testing/controllerRegistrationDeadline.test.cjs
+?? geelooy/apps/tunnel/agent/testing/exactCustodyOrphanHealth.test.cjs
+?? geelooy/apps/tunnel/agent/testing/findFilesSemantics.test.cjs
+?? geelooy/apps/tunnel/agent/testing/installerFastRepairRootDrift.test.cjs
+?? geelooy/apps/tunnel/agent/testing/manifestReleaseSourceGuard.test.cjs
+?? geelooy/apps/tunnel/agent/testing/missionBootResumeSharedShliach.test.cjs
+?? geelooy/apps/tunnel/agent/testing/missionCanonicalRoomRoster.test.cjs
+?? geelooy/apps/tunnel/agent/testing/missionFinalInterceptorExplicitMission.test.cjs
+?? geelooy/apps/tunnel/agent/testing/missionIdentityResolver.test.cjs
+?? geelooy/apps/tunnel/agent/testing/missionRoomMessage.test.cjs
+?? geelooy/apps/tunnel/agent/testing/missionVisibility.test.cjs
+?? geelooy/apps/tunnel/agent/testing/reconnectPolicyRegistration.test.cjs
+?? geelooy/apps/tunnel/agent/testing/requestRetryShapes.test.cjs
+?? geelooy/apps/tunnel/agent/testing/rootRebindCommand.test.cjs
+?? geelooy/apps/tunnel/agent/testing/schedulerEmergencyParentDispatch.test.cjs
+?? geelooy/apps/tunnel/agent/testing/tunnelDisconnectRecoveryInvariant.test.cjs
+?? geelooy/apps/tunnel/agent/testing/websiteCompletionReceipts.test.cjs
+?? geelooy/apps/tunnel/agent/testing/websiteSpawnAutoDiscovery.test.cjs
+?? geelooy/apps/tunnel/agent/tools/fs/actionGroups/agentWorkspaceActions.js
+?? geelooy/apps/tunnel/agent/tools/fs/actionGroups/asyncTaskLifecycle.js
+?? geelooy/apps/tunnel/agent/tools/fs/actionGroups/asyncTaskReconcile.js
+?? geelooy/apps/tunnel/agent/tools/fs/actionGroups/asyncTaskTerminal.js
+?? geelooy/apps/tunnel/agent/tools/fs/actionGroups/missionIdentityResolver.js
+?? geelooy/apps/tunnel/agent/tools/fs/actionGroups/missionRegistryBridge.js
+?? geelooy/apps/tunnel/agent/tools/fs/actionGroups/missionRoomActionRuntime.js
+?? geelooy/apps/tunnel/agent/tools/fs/actionGroups/missionRoomDelegationActions.js
+?? geelooy/apps/tunnel/agent/tools/fs/actionGroups/missionRoomLifecycleActions.js
+?? geelooy/apps/tunnel/agent/tools/fs/actionGroups/missionRoomMessagePayload.js
+?? geelooy/apps/tunnel/agent/tools/fs/actionGroups/missionVisibility/
+?? geelooy/apps/tunnel/agent/tools/fs/actionGroups/missionVisibilityActions.js
+?? geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionRoomFirstClassActions.test.mjs
+?? geelooy/apps/tunnel/agent/tools/fs/actionGroups/websiteAgents/runner/spawnDiscovery.js
+?? geelooy/apps/tunnel/agent/tools/fs/actionGroups/websiteCompletionReceipts.js
+?? geelooy/apps/tunnel/agent/tools/fs/actionResultView.js
+?? geelooy/apps/tunnel/agent/tools/fs/actionSchemaContractTables.js
+?? geelooy/apps/tunnel/agent/tools/fs/actionSchemaIntrospection.js
+?? geelooy/apps/tunnel/agent/tools/fs/agentWorkspaceStore.js
+?? geelooy/apps/tunnel/agent/tools/fs/mission/collaboration/
+?? geelooy/apps/tunnel/agent/tools/fs/mission/roomActionResponse.js
+?? geelooy/apps/tunnel/downloads/unix-fast-repair-root.sh
+?? geelooy/apps/tunnel/missions.html
+?? geelooy/apps/tunnel/test/externalAiInstructions.test.cjs
+?? geelooy/drive/test/panelCatalog.test.mjs
+?? geelooy/email/css/revelation-v4.css
+?? geelooy/games/adventure/styles/touch-quality.css
+?? geelooy/games/brick-blast/js/modules/dom-elements.js
+?? geelooy/games/brick-blast/js/modules/startup-hydration.js
+?? geelooy/games/brick-blast/js/styles/quality.js
+?? geelooy/games/city-of-light/tests/BrowserHarnessDiagnostics.mjs
+?? geelooy/games/city-of-light/tests/BrowserHarnessServer.mjs
+?? geelooy/games/city-of-light/tests/BrowserHarnessServer.test.mjs
+?? geelooy/games/cobyk/styles/touch-quality.css
+?? geelooy/games/connect4/app/runtime/WorkerResultBridge.js
+?? geelooy/games/connect4/app/runtime/WorkerTransport.js
+?? geelooy/games/connect4/worker/fall-physics.js
+?? geelooy/games/kabbalah-shooter/js/runtime/KabbalahNative3DRenderer.js
+?? geelooy/games/kabbalah-shooter/js/runtime/kabbalah-native-3d-meshes.js
+?? geelooy/games/kabbalah-shooter/js/runtime/kabbalah-native-3d-pool.js
+?? geelooy/games/kabbalah-shooter/js/runtime/kabbalah-native-3d-projector.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapCoreStateSystems.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapGameplayContinuity.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapStateAuthorityHandoff.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapVerticalSliceContinuity.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowControlMath.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MitzvahWorldDirectInventoryProjection.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MitzvahWorldDirectPlayPresentation.js
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/BootstrapStateTestSupport.mjs
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/bootstrapContinuityPreservation.test.mjs
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/bootstrapCoreStateSystems.test.mjs
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/bootstrapGameplayContinuity.test.mjs
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/bootstrapStateAuthorityHandoff.test.mjs
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/bootstrapVerticalSliceContinuity.test.mjs
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/launcher/mitzvahWorldDirectInventoryProjection.test.mjs
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/launcher/mitzvahWorldDirectPlayPresentation.test.mjs
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/ui/minimalMeadowCinematicPresentation.test.mjs
+?? geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/cinematic/
+?? geelooy/games/mitzvahWorld/proof/AuthoredMeadowViewportState.mjs
+?? geelooy/games/mitzvahWorld/proof/BlankMeadowDesktopEntry.mjs
+?? geelooy/games/mitzvahWorld/proof/BlankMeadowDesktopInteractionProof.mjs
+?? geelooy/games/mitzvahWorld/proof/BlankMeadowDesktopMeasurement.mjs
+?? geelooy/games/mitzvahWorld/proof/BlankMeadowRailInteractionProof.mjs
+?? geelooy/games/mitzvahWorld/proof/CompoundMobileInputCdp.mjs
+?? geelooy/games/mitzvahWorld/proof/CompoundMobileInputProof.mjs
+?? geelooy/games/mitzvahWorld/proof/CompoundMobileInputState.mjs
+?? geelooy/games/mitzvahWorld/proof/DesktopGameplayControlCdp.mjs
+?? geelooy/games/mitzvahWorld/proof/DesktopGameplayControlProof.mjs
+?? geelooy/games/mitzvahWorld/proof/DesktopGameplayInteractionCdp.mjs
+?? geelooy/games/mitzvahWorld/proof/FailureInjectionObservation.mjs
+?? geelooy/games/mitzvahWorld/proof/FailureInjectionProof.mjs
+?? geelooy/games/mitzvahWorld/proof/FailureInjectionScenarioCatalog.mjs
+?? geelooy/games/mitzvahWorld/proof/FailureInjectionState.mjs
+?? geelooy/games/mitzvahWorld/proof/RealNpcInteractionProof.mjs
+?? geelooy/games/mitzvahWorld/proof/RealNpcInteractionProofSupport.mjs
+?? geelooy/games/mitzvahWorld/proof/RealNpcRuntimeAuthorityExpressions.mjs
+?? geelooy/games/mitzvahWorld/proof/RealNpcTailorProjectionExpression.mjs
+?? geelooy/games/mitzvahWorld/proof/StatePersistenceRecoveryCdp.mjs
+?? geelooy/games/mitzvahWorld/proof/StatePersistenceRecoveryProof.mjs
+?? geelooy/games/mitzvahWorld/proof/StatePersistenceRecoveryState.mjs
+?? geelooy/games/nitzotz-io/css/touch-quality.css
+?? geelooy/games/party/styles/touch-quality.css
+?? geelooy/games/rambam/index.html
+?? geelooy/games/rambam/kiddushHachodesh/12/js/native-geometry.js
+?? geelooy/games/rambam/kiddushHachodesh/12/js/native-orbit-controls.js
+?? geelooy/games/rambam/kiddushHachodesh/12/rambamSunNativeContract.test.mjs
+?? geelooy/games/rambam/rambamRouteContract.test.mjs
+?? geelooy/games/rebbe-runner/styles/touch-quality.css
+?? geelooy/games/scribe-journey/css/touch-quality.css
+?? geelooy/games/scripts/diagnostics/gameplay-smoke/probes/brick-blast.mjs
+?? geelooy/games/scripts/diagnostics/gameplay-smoke/probes/connect4.mjs
+?? geelooy/games/scripts/diagnostics/gameplay-smoke/probes/pong.mjs
+?? geelooy/games/scripts/diagnostics/gameplay-smoke/probes/tetris.mjs
+?? geelooy/games/scripts/diagnostics/rambam-native-smoke-support.mjs
+?? geelooy/games/scripts/diagnostics/rambam-native-smoke.mjs
+?? geelooy/games/scripts/diagnostics/ui-crawl/route-policy.mjs
+?? geelooy/games/scripts/diagnostics/ui-crawl/viewport-contract.mjs
+?? geelooy/games/scripts/diagnostics/ui-crawl/viewport-suite.mjs
+?? geelooy/games/scripts/runtime/native-3d/CanvasStateProjector.js
+?? geelooy/games/scripts/runtime/native-3d/DomStateProjector.js
+?? geelooy/games/scripts/runtime/native-3d/SemanticMeshPool.js
+?? geelooy/games/scripts/runtime/native-3d/SemanticNative3DStage.js
+?? geelooy/games/scripts/runtime/native-3d/StateSparks.js
+?? geelooy/games/scripts/runtime/native-3d/live-source.js
+?? geelooy/games/scripts/runtime/native-3d/semantic-box-factory.js
+?? geelooy/games/seven-mitzvos/js/app/app-route-services.js
+?? geelooy/games/seven-mitzvos/js/app/app-world-route-services.js
+?? geelooy/games/seven-mitzvos/js/app/deferred-route-task.js
+?? geelooy/games/seven-mitzvos/js/app/route-service-factories.js
+?? geelooy/games/seven-mitzvos/js/assets/native-model-bounds.js
+?? geelooy/games/seven-mitzvos/js/materials/native-material-tools.js
+?? geelooy/games/seven-mitzvos/js/materials/native-seven-material-builders.js
+?? geelooy/games/seven-mitzvos/js/materials/native-seven-material-entries.js
+?? geelooy/games/seven-mitzvos/js/materials/native-seven-material-store.js
+?? geelooy/games/seven-mitzvos/js/webgl/native-pick-ray.js
+?? geelooy/games/seven-mitzvos/js/webgl/native-scene-math.js
+?? geelooy/games/seven-mitzvos/js/webgl/native-stage-clock.js
+?? geelooy/games/seven-mitzvos/js/webgl/native-star-field.js
+?? geelooy/games/seven-mitzvos/js/webgl/stage-performance-publisher.js
+?? geelooy/games/seven-mitzvos/tests/lazy-startup-contract.test.mjs
+?? geelooy/games/shema-strike/js/multiplayer/MultiplayerSurfaceMount.js
+?? geelooy/games/styles/integrity.css
+?? geelooy/games/sulam-ha-sod/css/modules/touch-accessibility.css
+?? geelooy/games/sulam-ha-sod/js/ui/menuDisclosure.js
+?? geelooy/games/tests/connect4-worker-physics-contract.test.mjs
+?? geelooy/games/tests/connect4-worker-readiness-contract.test.mjs
+?? geelooy/games/tests/no-three-active-entrypoints.test.mjs
+?? geelooy/heichelos/heichel/ikar-accessibility.js
+?? geelooy/heichelos/heichel/ikar-search.js
+?? geelooy/heichelos/heichel/ikar-stable.js
+?? geelooy/heichelos/heichel/modules/app/boot-lifecycle.js
+?? geelooy/heichelos/heichel/modules/test/discoveryMobileCommandContract.test.mjs
+?? geelooy/heichelos/heichel/modules/test/discoveryMobileOverflowContract.test.mjs
+?? geelooy/heichelos/heichel/modules/test/discoveryTemplateAsyncContract.test.mjs
+?? geelooy/heichelos/heichel/modules/test/heichelosDiscoveryOverflowContract.test.mjs
+?? geelooy/heichelos/heichel/modules/test/ikarFirstLayoutStabilityContract.test.mjs
+?? geelooy/heichelos/heichel/modules/test/ikarStableGeometryContract.test.mjs
+?? geelooy/heichelos/heichel/modules/test/lightweightFoundationContract.test.mjs
+?? geelooy/heichelos/heichel/submit/partials/
+?? geelooy/heichelos/post/functions/ui/context/studySheetController.js
+?? geelooy/heichelos/post/functions/ui/context/studySheetFocus.js
+?? geelooy/heichelos/post/functions/ui/context/studySheetModes.js
+?? geelooy/heichelos/post/functions/ui/context/studySheetRelated.js
+?? geelooy/heichelos/post/functions/ui/context/studySheetState.js
+?? geelooy/heichelos/post/functions/ui/context/studySheetTanach.js
+?? geelooy/heichelos/post/functions/ui/context/studySheetView.js
+?? geelooy/heichelos/post/styles/ideal/reborn/panel-rows/
+?? geelooy/heichelos/post/styles/ideal/reborn/study-sheet-responsive.css
+?? geelooy/heichelos/post/styles/ideal/reborn/study-sheet-results.css
+?? geelooy/heichelos/post/styles/ideal/reborn/study-sheet-tanach.css
+?? geelooy/heichelos/post/styles/ideal/reborn/study-sheet.css
+?? geelooy/heichelos/post/styles/reader-sidebar/source-annotations/
+?? geelooy/heichelos/post/test/studySheetContract.test.mjs
+?? geelooy/heichelos/routes/heichel/publicDocumentSeo.js
+?? geelooy/heichelos/routes/heichel/shellTrace.test.cjs
+?? geelooy/heichelos/test/heichelosGateway.test.mjs
+?? geelooy/libs/awtsmoos-procedural-core/src/runtime/native/tiny-euler.js
+?? geelooy/libs/awtsmoos-procedural-core/src/runtime/native/tiny-scene-nodes.js
+?? geelooy/login/styles/
+?? geelooy/login/test/
+?? geelooy/mawgawl/sefarim/test/SearchDiscoveryController.test.mjs
+?? geelooy/mawgawl/sefarim/test/mobileSearchUxContract.test.mjs
+?? geelooy/os/drive/
+?? geelooy/os/programs/awtsmoos-browser/browserNavigationBindings.js
+?? geelooy/os/programs/awtsmoos-browser/browserTabAttachment.js
+?? geelooy/os/programs/awtsmoos-browser/browserTabController.js
+?? geelooy/os/programs/awtsmoos-browser/browserTabCookies.js
+?? geelooy/os/programs/awtsmoos-browser/browserTabFallback.js
+?? geelooy/os/programs/awtsmoos-browser/browserTabKeyboard.js
+?? geelooy/os/programs/awtsmoos-browser/browserTabNavigationSupport.js
+?? geelooy/os/programs/awtsmoos-browser/browserTabSession.js
+?? geelooy/os/programs/awtsmoos-browser/browserTabState.js
+?? geelooy/os/programs/awtsmoos-browser/browserTabView.js
+?? geelooy/os/programs/awtsmoos-browser/interactiveTargetLifecycle.js
+?? geelooy/os/programs/awtsmoos-browser/tabControls.css
+?? geelooy/os/programs/awtsmoos-file-explorer/components/itemContextMenu/
+?? geelooy/os/programs/awtsmoos-file-explorer/components/toolbar/overflow.js
+?? geelooy/os/programs/awtsmoos-file-explorer/components/toolbar/test/disclosurePolicy.test.mjs
+?? geelooy/os/programs/awtsmoos-file-explorer/styles/revelationV4.js
+?? geelooy/os/programs/awtsmoos-file-explorer/styles/toolbarDisclosure.js
+?? geelooy/os/programs/awtsmoos-file-explorer/utils/test/
+?? geelooy/os/styles/revelation-v4.css
+?? geelooy/os/styles/revelation/social-command-parts/
+?? geelooy/os/styles/revelation/social-workspace-parts/
+?? geelooy/os/test/awtsmoosBrowserDiscoverability.test.mjs
+?? geelooy/os/test/awtsmoosBrowserTabController.test.mjs
+?? geelooy/os/test/awtsmoosBrowserTabUx.test.mjs
+?? geelooy/os/test/awtsmoosBrowserTabs.test.mjs
+?? geelooy/os/test/driveVfsAdapter.test.mjs
+?? geelooy/os/test/driveVfsPath.test.mjs
+?? geelooy/os/test/merkavaBrowserTransportContract.test.mjs
+?? geelooy/os/vfs/defaultMountDefinitions.js
+?? geelooy/os/vfs/driveAdapter.js
+?? geelooy/parsers/whatsapp/modules/
+?? geelooy/parsers/whatsapp/styles/
+?? geelooy/scripts/awtsmoos/social/profile/publicSites.js
+?? geelooy/scripts/awtsmoos/social/shell/headerSearchPowerSuggestions.js
+?? geelooy/scripts/awtsmoos/social/shell/routeMemory.js
+?? geelooy/scripts/awtsmoos/social/shell/shellPowerActions.js
+?? geelooy/scripts/awtsmoos/social/shell/test/shellPowerContract.test.mjs
+?? geelooy/scripts/awtsmoos/tts/style/
+?? geelooy/scripts/awtsmoos/tts/test/
+?? geelooy/scripts/awtsmoos/tts/ui/
+?? geelooy/scripts/awtsmoos/ui/accessibilityFoundation.js
+?? geelooy/scripts/awtsmoos/ui/foundationMounts.js
+?? geelooy/scripts/home-simple/HomeTorahDepartureRuntime.js
+?? geelooy/scripts/home-simple/HomeTorahDepartureRuntimeContract.test.mjs
+?? geelooy/scripts/home-simple/ShliachSpotlightElements.js
+?? geelooy/scripts/home-simple/TorahDeparturePolicy.js
+?? geelooy/scripts/home-simple/TorahDeparturePolicy.test.mjs
+?? geelooy/scripts/seo/publicStaticRoutes/
+?? geelooy/scripts/shliach/
+?? geelooy/seo/generated/public-pages/shard-10.generated.js
+?? geelooy/seo/generated/public-pages/shard-11.generated.js
+?? geelooy/sites/siteNamedPrefixPolicy.js
+?? geelooy/sites/test/siteGatewaySource.test.js
+?? geelooy/sites/test/siteResolutionImplicit.test.js
+?? geelooy/social-composer/styles/revelation-v4.css
+?? geelooy/social-hub/styles/chat-messages-parts/
+?? geelooy/social-hub/styles/messages-room-parts/
+?? geelooy/social-hub/styles/messages-route-parts/
+?? geelooy/social-hub/styles/revelation-v4.css
+?? geelooy/social-hub/tests/browserBootStress.test.mjs
+?? geelooy/social-hub/tests/browserDesktopSmoke.test.mjs
+?? geelooy/social-hub/tests/browserMobileSmoke.test.mjs
+?? geelooy/style/geelooy-app/home/feed/cards-parts/
+?? geelooy/style/geelooy-app/home/hero/actions-parts/
+?? geelooy/style/geelooy-app/pages/profile-spaces-parts/
+?? geelooy/style/heichelos/heichel/premium/ikar-first-parts/
+?? geelooy/style/home-simple/shliach-spotlight-copy.css
+?? geelooy/style/home-simple/shliach-spotlight-media.css
+?? geelooy/style/revelation-v4/
+?? geelooy/style/shliach/
+?? geelooy/style/social-system/editor/parts/asset-strip.css
+?? geelooy/style/social/home/civilization/feed-parts/
+?? geelooy/style/social/home/feed/resonance-parts/
+?? geelooy/style/social/profile/public-sites.css
+?? geelooy/style/test/heichelDestructivePolicy.test.mjs
+?? geelooy/style/test/heichelEditorArchitecture.test.mjs
+?? geelooy/style/test/heichelServerTemplateContract.test.mjs
+?? geelooy/style/test/helpers/
+?? geelooy/style/test/mobileScreenshotRepairContract.test.mjs
+?? geelooy/style/test/mobileScreenshotVisualBrowser.test.mjs
+?? geelooy/style/test/mobileScreenshotVisualProbe.mjs
+?? geelooy/style/test/mobileScreenshotWidthMatrix.test.mjs
+?? geelooy/style/test/remainingAccessibility.test.mjs
+?? geelooy/style/test/remainingRouteOwnership.test.mjs
+?? geelooy/style/universal-ui/accessibility.css
+?? geelooy/test/mobile-audit/RouteAuditEvidencePolicy.test.mjs
+?? geelooy/test/mobile-audit/RouteAuditOverlayPolicy.mjs
+?? geelooy/tools/
+?? scripts/import-ayin-beis-authorized.js
+?? scripts/quality/SourcePolicyScope.mjs
+?? scripts/quality/SourcePolicyScope.test.mjs
+?? templates/heichelos/community-card.html
+?? templates/heichelos/discovery-head.html
+?? templates/heichelos/discovery-interaction-style.html
+?? templates/heichelos/ikar-library.html
+?? tools/dayuhChadashCutover/test/apiJourneyReadiness.js
+ .../awtsmoosDB/api/fs/v3/manifestCodec.js          |   129 +-
+ .../awtsmoosBinary/awtsmoosDB/api/fs/v3/store.js   |   135 +-
+ .../awtsmoosDB/api/search/boundedQuery.js          |    24 +-
+ ayzarim/DosDB/methods/obj.js                       |   211 +-
+ .../server/richCommentWarmup.js                    |    94 +-
+ .../server/richCommentWarmup.test.cjs              |    11 +-
+ .../server/staticServerLifecycle.js                |    81 +-
+ .../static/HtmlUiFoundation.js                     |    16 +-
+ .../awtsmoosDynamicServer/static/PublicHtmlSeo.js  |   104 +-
+ .../static/PublicHtmlSeo.test.js                   |   125 +-
+ .../static/PublicHtmlSeoDocument.js                |   116 +-
+ .../static/PublicHtmlSeoTags.js                    |    85 +-
+ .../static/PublicHtmlStructuredData.js             |    91 +-
+ ayzarim/tools/auth.js                              |    38 +-
+ ayzarim/tools/sodos.js                             |   202 +-
+ .../torah-sources/lexicon-sources/bdb.awtsdb.lock  |     1 -
+ .../torah-sources/lexicon-sources/bdb.awtsdb.wal   |   Bin 5097 -> 0 bytes
+ .../lexicon-sources/jastrow.awtsdb.wal             |   Bin 0 -> 751 bytes
+ .../lexicon-sources/yiddish-wiktionary.awtsdb.wal  |   Bin 0 -> 11677 bytes
+ geelooy/@/_awtsmoos.alias.html                     |     5 +
+ geelooy/@/seo/aliasPage.js                         |    95 +-
+ geelooy/api/oauth/core/refreshStore.js             |   130 +-
+ geelooy/api/oauth/core/serverMetadata.js           |    18 +-
+ geelooy/api/oauth/routes/table.js                  |    44 +-
+ geelooy/api/oauth/routes/token.js                  |     7 +-
+ geelooy/api/oauth/routes/tokenGrants.js            |    13 +-
+ geelooy/api/oauth/tools/requestData.js             |     5 +-
+ .../comments/test/translationCoverage.test.js      |    63 +-
+ .../social/helper/post/seriesReadCompatibility.js  |    40 +-
+ .../post/test/seriesReadCompatibility.test.js      |    86 +-
+ .../api/social/helper/routes/alias/entityRoutes.js |    12 +-
+ .../api/social/helper/routes/series/readRoutes.js  |    68 +-
+ .../helper/routes/series/subSeriesSummaries.js     |    44 +-
+ .../api/social/helper/search/rag/librarySearch.js  |    37 +-
+ .../social/helper/search/rag/librarySearchMerge.js |    27 +-
+ .../helper/search/rag/librarySearchPlanner.js      |    56 +-
+ .../api/social/helper/search/rag/shardCatalog.js   |    97 +-
+ .../api/social/helper/search/rag/storagePolicy.js  |    26 +-
+ .../social/helper/series/directSeriesPrateem.js    |   143 +-
+ .../tunnel/control/docs/actionCatalogSource.cjs    |    17 +-
+ .../api/tunnel/control/routes/deviceDiscovery.js   |    64 +-
+ .../routes/fsVessel/authorizedAutoSelection.js     |   117 +-
+ .../android/frameworkFlutterNativeJniTransition.js |    24 +-
+ .../android/frameworkFlutterNativeJniWitness.js    |    39 +-
+ .../frameworkFlutterNativeMachineOptions.js        |    17 +-
+ .../android/frameworkFlutterPlatformMessages.js    |    50 +-
+ .../core/native/aarch64ExclusiveMonitor.js         |    48 +-
+ .../core/native/aarch64ExecuteExclusiveMemory.js   |    23 +-
+ .../android-emulator/core/native/aarch64Machine.js |    82 +-
+ .../core/native/aarch64PairMemoryEvidence.js       |    77 +-
+ .../core/native/flutterJniMachineHostState.js      |    13 +-
+ .../native/nativeAndroidCallTransitionWitness.js   |   138 +-
+ .../core/native/nativeAndroidChoreographerDrain.js |    36 +-
+ .../native/nativeAndroidPlatformLooperCallback.js  |    73 +-
+ .../core/native/nativeAndroidPlatformLooperPump.js |    22 +-
+ .../core/native/nativeCompositeMemory.js           |     9 +-
+ .../test/aarch64CallTransitionHook.test.mjs        |    83 +-
+ .../test/aarch64PairMemoryEvidence.test.mjs        |    41 +-
+ ...meworkFlutterNativeMachineOptionLayers.test.mjs |    21 +-
+ ...meworkFlutterPlatformMessagePrecedence.test.mjs |    65 +-
+ .../nativeAndroidCallTransitionWitness.test.mjs    |    89 +-
+ .../test/nativeAndroidPlatformLooperPump.test.mjs  |    32 +-
+ geelooy/apps/awtsmoos-gguf/index.html              |     2 +-
+ geelooy/apps/catalog.html                          |     5 +-
+ geelooy/apps/csv/index.html                        |     2 +-
+ geelooy/apps/drive/js/api.js                       |    19 +-
+ geelooy/apps/drive/js/api/BeriahEntriesResource.js |    56 +-
+ .../drive/js/orchestration/HodDriveViewRegistry.js |     7 +-
+ .../js/orchestration/MalchusDriveApplication.js    |    41 +-
+ .../js/orchestration/YesodEntryActionRouter.js     |    77 +-
+ geelooy/apps/drive/js/renderRows.js                |    74 +-
+ .../apps/drive/js/views/DriveBrowserRenderer.js    |    79 +-
+ geelooy/apps/drive/js/views/DriveChromeMount.js    |    21 +-
+ geelooy/apps/drive/js/views/DriveEntryCard.js      |    42 +-
+ geelooy/apps/drive/js/views/DriveEntryGlyph.js     |    26 +-
+ geelooy/apps/drive/js/views/DriveEntryListRow.js   |    30 +-
+ geelooy/apps/drive/js/views/DriveEntryMenu.js      |    42 +-
+ geelooy/apps/drive/js/views/DriveEntryPresenter.js |    34 +-
+ .../drive/js/views/DriveSelectionController.js     |   122 +-
+ geelooy/apps/drive/js/views/DriveUploadQueue.js    |    53 +-
+ geelooy/apps/drive/js/views/DriveUtilityMount.js   |     8 +-
+ geelooy/apps/drive/styles/drive-v5-browser.css     |     6 +-
+ geelooy/apps/drive/styles/drive-v5-controls.css    |     5 +-
+ geelooy/apps/drive/styles/drive-v5-glyphs.css      |    80 +-
+ geelooy/apps/drive/styles/drive-v5-mobile.css      |     4 +-
+ geelooy/apps/drive/styles/drive-v5-overlays.css    |     5 +-
+ geelooy/apps/drive/styles/drive-v5-shell.css       |     3 +-
+ geelooy/apps/drive/styles/v5/browser-selection.css |    65 +-
+ geelooy/apps/drive/styles/v5/mobile-sheet.css      |    20 +-
+ geelooy/apps/drive/styles/v5/overlay-menu.css      |     9 +-
+ geelooy/apps/drive/test/DriveBrowserHarness.mjs    |    26 +-
+ .../apps/drive/test/driveV5BrowserAssertions.mjs   |     6 +-
+ .../apps/drive/test/driveV5VisualMobile.test.mjs   |    24 +-
+ geelooy/apps/drive/test/jobControlBrowser.test.mjs |     2 +-
+ .../apps/drive/test/simpleDriveBrowser.test.mjs    |     2 +-
+ .../apps/drive/test/simpleDriveContract.test.mjs   |    52 +-
+ geelooy/apps/index.html                            |    13 +-
+ geelooy/apps/pdf-to-img/index.html                 |   230 +-
+ geelooy/apps/sitemap.xml                           |     3 +
+ geelooy/apps/style.css                             |    24 +-
+ geelooy/apps/styles/base.css                       |    28 +-
+ geelooy/apps/styles/responsive.css                 |     6 -
+ .../lib/connection-vessel/child-runtime-parent.js  |    20 +-
+ .../agent/lib/connection-vessel/child-runtime.js   |    32 +-
+ .../connection-vessel/controller-message-router.js |    39 +-
+ .../lib/connection-vessel/controller-process.js    |    75 +-
+ .../agent/lib/connection-vessel/controller.js      |    34 +-
+ .../connection-vessel/parent-consumer-health.js    |    23 +-
+ .../connection-vessel/parent-consumer-ingress.js   |    29 +-
+ .../parent-consumer-recovery-policy.js             |    22 +-
+ .../connection-vessel/parent-execution-health.js   |    15 +-
+ .../connection-vessel/parent-watchdog-policy.js    |    17 +-
+ .../connection-vessel/parent-watchdog-pressure.js  |    48 +-
+ .../parent-watchdog-repair-context.js              |    14 +-
+ .../connection-vessel/parent-watchdog-repair.js    |   124 +-
+ .../parentAutomaticRepairRecovery.test.cjs         |    52 +-
+ .../tunnel/agent/lib/connection-vessel/protocol.js |    17 +-
+ .../apps/tunnel/agent/lib/instructions/catalog.js  |     8 +-
+ .../tunnel/agent/lib/runtime/boot-resume-loop.js   |    47 +-
+ .../apps/tunnel/agent/lib/runtime/main-dispatch.js |    21 +-
+ .../apps/tunnel/agent/lib/runtime/main-queue.js    |    15 +-
+ .../agent/lib/runtime/main-reconnect-policy.js     |   146 +-
+ .../lib/runtime/priority/emergencyRegistry.js      |    25 +-
+ .../agent/lib/runtime/request-retry-shapes.js      |   106 +-
+ geelooy/apps/tunnel/agent/lib/tool-schema/fs.js    |    46 +-
+ .../apps/tunnel/agent/lib/tool-schema/guidance.js  |    30 +-
+ .../apps/tunnel/agent/lib/ws/transportFailure.js   |   158 +-
+ geelooy/apps/tunnel/agent/rebuild-manifest.cjs     |    44 +-
+ geelooy/apps/tunnel/agent/recovery/manualArgs.js   |    10 +-
+ geelooy/apps/tunnel/agent/recovery/manualCli.js    |    24 +-
+ geelooy/apps/tunnel/agent/recovery/manualHelp.js   |    29 +-
+ geelooy/apps/tunnel/agent/scripts/awt.cjs          |    46 +-
+ .../apps/tunnel/agent/scripts/verify-manifest.cjs  |   105 +-
+ .../testing/connectionParentWatchdog.test.cjs      |    12 +-
+ .../agent/testing/exactCustodyHealth.test.cjs      |   112 +-
+ .../testing/helpers/installerFastRepairHarness.cjs |    22 +-
+ .../agent/testing/missionContinuationPool.test.cjs |    83 +-
+ .../parentWatchdogRepresentativePressure.test.cjs  |    71 +-
+ .../transportFailureClassification.test.cjs        |    96 +-
+ .../tunnel/agent/tools/fs/actionBatch/context.js   |    72 +-
+ .../fs/actionBuilderGroups/foundationActions.js    |     8 +-
+ .../tools/fs/actionBuilderGroups/localActions.js   |    72 +-
+ .../tools/fs/actionBuilderGroups/missionActions.js |    78 +-
+ .../tools/fs/actionGroups/asyncTaskDurability.js   |    28 +-
+ .../tools/fs/actionGroups/asyncTaskResponses.js    |   101 +-
+ .../tools/fs/actionGroups/missionSessionSpawner.js |    38 +-
+ .../tools/fs/actionGroups/websiteAgents/planner.js |    57 +-
+ .../fs/actionGroups/websiteAgents/runner/spawn.js  |    83 +-
+ .../tunnel/agent/tools/fs/actionReplayResponses.js |   105 +-
+ .../tunnel/agent/tools/fs/commandJob/context.js    |    16 +-
+ geelooy/apps/tunnel/agent/tools/fs/findFiles.js    |    73 +-
+ .../tunnel/agent/tools/fs/findFilesResponse.js     |    41 +-
+ .../agent/tools/fs/mission/agentSessionLaunch.js   |    20 +-
+ .../agent/tools/fs/mission/agentSessionRegistry.js |    27 +-
+ .../tunnel/agent/tools/fs/mission/collaboration.js |   455 +-
+ .../tools/fs/mission/finalInterceptor/index.js     |    66 +-
+ .../tunnel/agent/tools/fs/mission/roomMessages.js  |    28 +-
+ .../tunnel/downloads/unix-bootstrap-components.sh  |     2 +-
+ geelooy/apps/tunnel/downloads/unix-fast-repair.sh  |     6 +-
+ .../apps/tunnel/downloads/unix-install-sources.sh  |     3 +-
+ geelooy/apps/universal-chat/index.html             |    12 +
+ geelooy/css/geelooy-surface/motion.css             |     4 +-
+ geelooy/css/style.css                              |     8 +-
+ geelooy/drive/core/panelCatalog.js                 |    70 +-
+ geelooy/drive/services/panelCoordinator.js         |    62 +-
+ geelooy/drive/services/panelPreferences.js         |    10 +-
+ geelooy/drive/styles/mobile-dock.css               |   141 +-
+ geelooy/drive/test/panelCoordinator.test.mjs       |    74 +-
+ geelooy/drive/test/panelPreferences.test.mjs       |    41 +-
+ geelooy/drive/ui/builderBriefFields.js             |    36 +-
+ geelooy/drive/ui/mobileDock.js                     |    23 +-
+ geelooy/drive/ui/topBar.js                         |    37 +-
+ geelooy/email/css/system/core-layout.css           |    12 +-
+ geelooy/email/index.html                           |    17 +-
+ geelooy/games/adventure/style.css                  |     3 +-
+ geelooy/games/brick-blast/js/main.js               |   150 +-
+ geelooy/games/brick-blast/js/styles/injector.js    |    75 +-
+ geelooy/games/brick-blast/js/ui/level-select.js    |   123 +-
+ geelooy/games/brick-blast/ui/editor-game.js        |    10 +-
+ geelooy/games/catalog.html                         |     1 +
+ .../games/city-of-light/tests/BrowserHarness.mjs   |    75 +-
+ .../city-of-light/tests/BrowserHarnessCleanup.mjs  |    74 +-
+ .../tests/browserHarnessLifecycle.test.mjs         |    51 +-
+ .../src/render/assets/CobyKMaterialRoleCatalog.js  |     8 +-
+ geelooy/games/cobyk/styles/cobyk.css               |     1 +
+ geelooy/games/cobyk/tests/renderAssets.test.mjs    |     2 +-
+ .../connect4/accessibility/column-controls.js      |    25 +-
+ .../connect4/app/runtime/Native3DPresentation.js   |     5 +-
+ .../connect4/app/runtime/Native3DRendererLoader.js |     5 +-
+ .../games/connect4/app/runtime/WorkerSession.js    |   109 +-
+ geelooy/games/connect4/game.worker.js              |    11 +-
+ geelooy/games/connect4/main.js                     |    53 +-
+ geelooy/games/connect4/worker/engine.js            |    16 +-
+ geelooy/games/connect4/worker/loop.js              |    25 +-
+ geelooy/games/index.html                           |    32 +-
+ .../build/generated/mitzvah-world-core.json        |    16 +-
+ .../build/generated/mitzvah-world-foundation.json  |    16 +-
+ .../build/generated/mitzvah-world-optional.json    |    16 +-
+ .../generated/mitzvah-world-presentation.json      |    16 +-
+ .../build/generated/mitzvah-world-world.json       |    16 +-
+ .../app/BootstrapCanonicalPlayerHydration.test.js  |    29 +-
+ .../src/app/BootstrapCoreRuntimeAssembly.js        |    20 +-
+ .../Awtsmoos/src/app/BootstrapPlayerRuntime.js     |     2 +-
+ .../Awtsmoos/src/app/BootstrapVisibleWorld.js      |    36 +-
+ .../Awtsmoos/src/app/EretzEssentialPlayerGlb.js    |     6 +-
+ .../Awtsmoos/src/app/EretzFoundationRenderer.js    |    64 +-
+ .../src/app/MinimalMeadowBootstrapFeatures.js      |    32 +-
+ .../Awtsmoos/src/app/MinimalMeadowWorldSystems.js  |    13 +-
+ .../src/launcher/MitzvahWorldDirectExperience.js   |    22 +-
+ .../Awtsmoos/src/mitzvah-world-core.compact.js     |  1919 +-
+ .../src/mitzvah-world-foundation.compact.js        |  2425 +-
+ .../Awtsmoos/src/mitzvah-world-optional.compact.js |  3193 +--
+ .../src/mitzvah-world-optional.compact.js.br       |   Bin 249821 -> 250311 bytes
+ .../src/mitzvah-world-presentation.compact.js      |  4699 ++--
+ .../src/mitzvah-world-presentation.compact.js.br   |   Bin 297976 -> 300994 bytes
+ .../Awtsmoos/src/mitzvah-world-world.compact.js    | 25641 ++++++++++---------
+ .../Awtsmoos/src/mitzvah-world-world.compact.js.br |   Bin 1316906 -> 1317641 bytes
+ .../src/movie/MoviePerformanceActorMovement.js     |     2 +-
+ .../test/app/blankMeadowBootstrapFeatures.test.mjs |    31 +-
+ .../bootstrapCanonicalPlayerHydrationUrl.test.mjs  |    24 +-
+ .../src/test/app/bootstrapCoreRuntime.test.mjs     |    20 +-
+ .../src/test/app/eretzEssentialPlayerGlb.test.mjs  |     6 +-
+ .../src/test/app/eretzFoundationSky.test.mjs       |    32 +-
+ .../src/test/browser/RealGameplayBrowserProbe.mjs  |    11 +-
+ .../minimalSharedMeadowMovieRoute.test.mjs         |    96 +-
+ ...mitzvahWorldModeLoaderPostPlayBoundary.test.mjs |    58 +-
+ .../launcher/movieModePresentationBypass.test.mjs  |    32 +-
+ .../Awtsmoos/src/ui/MinimalMeadowCoordinatedUi.js  |    18 +-
+ geelooy/games/mitzvahWorld/index.html              |    10 +-
+ .../proof/AuthoredMeadowVisualProof.mjs            |    50 +-
+ .../games/mitzvahWorld/proof/CdpProofEvidence.mjs  |    69 +-
+ .../proof/RealGameplayTraversalProof.mjs           |   163 +-
+ geelooy/games/mitzvahWorld/subwaySurfer/index.html |   154 +-
+ geelooy/games/nitzotz-io/style.css                 |     3 +-
+ .../src/design/revelation/vessels/atmosphere.css   |     5 +
+ geelooy/games/ohrfront/test/clean-ui.test.mjs      |    16 +-
+ .../ohrfront/test/ui-style-isolation.test.mjs      |    15 +-
+ geelooy/games/oros-ha-kelim/docs/RUNTIME_API.md    |   129 +-
+ .../oros-ha-kelim/src/runtime/ReplayJournal.js     |    17 +-
+ .../src/runtime/RuntimeApiManifest.js              |     8 +-
+ geelooy/games/oros-ha-kelim/test/api.test.mjs      |    19 +-
+ .../games/oros-ha-kelim/test/helpers/KeliGame.mjs  |     4 +-
+ geelooy/games/oros-ha-kelim/test/replay.test.mjs   |     5 +-
+ geelooy/games/party/style.css                      |     5 +-
+ geelooy/games/pong/index.html                      |    35 +-
+ geelooy/games/pong/js/main.js                      |     4 +-
+ .../rambam/kiddushHachodesh/12/js/degree-ring.js   |    58 +-
+ .../games/rambam/kiddushHachodesh/12/js/scene.js   |   127 +-
+ .../kiddushHachodesh/12/rambamSunContract.test.mjs |    60 +-
+ .../kiddushHachodesh/12/styles/foundation.css      |     2 +-
+ geelooy/games/rebbe-runner/style.css               |     1 +
+ .../js/data/quests/campaign/malkuthEarly.js        |     7 +-
+ .../scribe-journey/js/multiplayer/onlinePanel.js   |    15 +-
+ geelooy/games/scribe-journey/style.css             |     9 +-
+ .../tests/insight/cssManifestSimulation.mjs        |    78 +-
+ .../tests/insight/menuActionSimulation.mjs         |   166 +-
+ geelooy/games/scripts/catalog/commerce-plan.mjs    |    32 +-
+ geelooy/games/scripts/catalog/game.mjs             |    44 +-
+ geelooy/games/scripts/catalog/index.mjs            |     9 +-
+ geelooy/games/scripts/catalog/party.mjs            |    15 +-
+ .../diagnostics/gameplay-smoke/isolated-probe.mjs  |    19 +-
+ .../diagnostics/gameplay-smoke/probes/index.mjs    |    20 +-
+ .../gameplay-smoke/probes/rebbe-runner.mjs         |    39 +-
+ .../gameplay-smoke/probes/seven-mitzvos.mjs        |    28 +-
+ .../scripts/diagnostics/ui-crawl/audit-game.mjs    |    28 +-
+ .../games/scripts/diagnostics/ui-crawl/config.mjs  |    19 +-
+ .../games/scripts/diagnostics/ui-crawl/metrics.mjs |    41 +-
+ .../diagnostics/ui-crawl/surface-contract.mjs      |    28 +-
+ .../diagnostics/ui-crawl/surface-metrics.mjs       |    74 +-
+ .../runtime/native-3d/Native3DModeController.js    |   127 +-
+ .../runtime/native-3d/backdrop-activation.js       |     2 +-
+ geelooy/games/scripts/runtime/native-3d/catalog.js |    30 +-
+ geelooy/games/scripts/runtime/native-3d/index.js   |     2 +-
+ .../runtime/native-3d/presentation-support.js      |     2 +-
+ geelooy/games/seven-mitzvos/js/app/game-session.js |    54 +-
+ .../seven-mitzvos/js/app/seven-mitzvos-app.js      |    83 +-
+ .../js/assets/advanced-model-hydrator.js           |    20 +-
+ .../seven-mitzvos/js/assets/gltf-model-library.js  |    51 +-
+ .../seven-mitzvos/js/city/city-district-builder.js |    10 +-
+ .../seven-mitzvos/js/games3d/game-registry.js      |    48 +-
+ .../games/seven-mitzvos/js/games3d/world-label.js  |    93 +-
+ .../seven-mitzvos/js/materials/material-binder.js  |    24 +-
+ .../js/materials/progressive-texture-cache.js      |    16 +-
+ .../js/materials/seven-material-runtime.js         |    51 +-
+ .../js/materials/stage-material-runtime.js         |    58 +-
+ .../seven-mitzvos/js/procedural/core-part-color.js |    45 +-
+ .../js/procedural/core-part-factory.js             |    64 +-
+ .../js/procedural/core-part-material-effects.js    |    44 +-
+ .../js/realm/realm-quality-governor.js             |    30 +-
+ .../seven-mitzvos/js/webgl/camera-director.js      |    36 +-
+ .../seven-mitzvos/js/webgl/detail-governor.js      |    15 +-
+ geelooy/games/seven-mitzvos/js/webgl/scene-kit.js  |    28 +-
+ .../seven-mitzvos/js/webgl/semantic-picker.js      |    87 +-
+ .../js/webgl/stage-performance-controller.js       |    81 +-
+ .../seven-mitzvos/js/webgl/stage-resources.js      |    49 +-
+ .../js/webgl/stage-root-visibility-record.js       |    33 +-
+ .../js/webgl/stage-root-visibility-runtime.js      |    41 +-
+ .../js/webgl/stage-semantic-instance-policy.js     |    50 +-
+ .../js/webgl/stage-semantic-instance-runtime.js    |   121 +-
+ .../seven-mitzvos/js/webgl/stage-shadow-runtime.js |    74 +-
+ .../js/webgl/stage-static-consolidation-policy.js  |    62 +-
+ .../games/seven-mitzvos/js/webgl/webgl-stage.js    |    48 +-
+ .../seven-mitzvos/test/startup-status.test.mjs     |    16 +-
+ geelooy/games/seven-mitzvos/tests/content.test.mjs |     6 +-
+ .../tests/firebase-material-realism.test.mjs       |    70 +-
+ .../tests/public-library-dependency.test.mjs       |    83 +-
+ .../tests/realm-performance-contract.test.mjs      |   126 +-
+ .../tests/webgl-viewport-contract.test.mjs         |    34 +-
+ geelooy/games/shema-strike/css/base/controls.css   |    21 +-
+ .../games/shema-strike/css/touch/interaction.css   |    25 +-
+ geelooy/games/shema-strike/css/touch/layout.css    |    24 +-
+ .../games/shema-strike/css/touch/responsive.css    |    50 +-
+ .../shema-strike/js/multiplayer/MultiplayerView.js |    37 +-
+ geelooy/games/sitemap.xml                          |     1 +
+ geelooy/games/style.css                            |     7 +-
+ geelooy/games/sulam-ha-sod/css/game.css            |     9 +-
+ geelooy/games/sulam-ha-sod/index.html              |    23 +-
+ .../sulam-ha-sod/js/data/levels/level06-tiferes.js |    66 +-
+ .../js/data/levels/level09-chochmah.js             |    79 +-
+ .../js/data/levels/level17-bait-vault.js           |   102 +-
+ .../tests/connect4-production-contract.test.mjs    |    58 +-
+ .../games/tests/gameplay-smoke-harness.test.mjs    |    56 +-
+ geelooy/games/tests/mobile/staticContract.mjs      |    27 +-
+ .../tests/native-3d-presentation-contract.test.mjs |   117 +-
+ .../tests/player-shell-boot-contract.test.mjs      |    56 +-
+ geelooy/games/tests/player-shell.test.mjs          |    10 +-
+ .../games/tests/pong-production-contract.test.mjs  |    48 +-
+ geelooy/games/tests/public-game-exposure.test.mjs  |    82 +-
+ .../tests/tetris-source-law-contract.test.mjs      |    32 +-
+ geelooy/games/tetris/game/visual-grid.js           |     4 +-
+ geelooy/games/tetris/ui/native-3d-renderer.js      |     9 +-
+ geelooy/heichelos/_awtsmoos.index.html             |   157 +-
+ geelooy/heichelos/_awtsmoos.submitToHeichel.html   |    76 +-
+ geelooy/heichelos/heichel/_awtsmoos.heichel.html   |     6 +-
+ geelooy/heichelos/heichel/app.js                   |    61 +-
+ geelooy/heichelos/heichel/critical-boot.js         |     2 +-
+ geelooy/heichelos/heichel/ikar-first.js            |    76 +-
+ .../modules/test/browserApiSurfaceStatic.test.mjs  |    91 +-
+ .../heichel/modules/test/cardMenuContract.test.mjs |    65 +-
+ .../test/criticalFirstLightContract.test.mjs       |    71 +-
+ .../modules/test/entryPerformanceContract.test.mjs |    79 +-
+ .../test/heichelRouteCompatibility.test.mjs        |    49 +-
+ .../test/heichelSemanticFallbackContract.test.mjs  |    13 +-
+ .../modules/test/platformCoverageStatic.test.mjs   |    75 +-
+ .../test/renderPerformanceContract.test.mjs        |    59 +-
+ .../heichel/modules/ui/translation-hub-renderer.js |    35 +-
+ .../heichel/modules/ui/translation-hub-search.js   |   106 +-
+ geelooy/heichelos/heichel/semantic/fallback.html   |    23 +-
+ geelooy/heichelos/heichel/semantic/head.html       |    64 +-
+ .../heichelos/heichel/submit/_awtsmoos.post.html   |   115 +-
+ .../heichelos/post/functions/ui/context/actions.js |    80 +-
+ .../ui/context/readerActionHierarchy.test.mjs      |    26 +-
+ .../functions/ui/context/relatedSearchPanel.js     |   107 +-
+ .../post/functions/ui/context/relatedSearchView.js |    70 +-
+ .../post/functions/ui/context/tanachPanel.js       |    88 +-
+ .../post/functions/ui/context/tanachPanelView.js   |    67 +-
+ .../heichelos/post/styles/ideal/floating-rail.css  |    66 +-
+ .../post/styles/ideal/mobile-desktop-viewport.css  |   156 +-
+ .../post/styles/ideal/mobile-main-menu-polish.css  |    96 +-
+ .../post/styles/ideal/reborn/panel-rows.css        |   123 +-
+ .../heichelos/post/styles/ideal/reborn/shell.css   |    21 +-
+ geelooy/heichelos/post/styles/main.css             |     4 +
+ .../source-annotations-responsive.css              |    42 +-
+ .../styles/reader-sidebar/source-annotations.css   |   116 +-
+ geelooy/heichelos/post/test/tanachPanel.test.mjs   |    72 +-
+ .../heichelos/post/test/tanachWordActions.test.mjs |    10 +-
+ .../routes/heichel/comments/commentPage.js         |    57 +-
+ geelooy/heichelos/routes/heichel/shell.js          |   107 +-
+ .../heichelos/routes/heichel/translations/page.js  |    75 +-
+ .../src/runtime/native/tiny-object3d-hierarchy.js  |    29 +-
+ .../src/runtime/native/tiny-object3d.js            |    55 +-
+ .../src/runtime/native/tiny-runtime.js             |    11 +-
+ .../src/runtime/native/tiny-vector.js              |    10 +-
+ geelooy/login/index.html                           |   274 +-
+ geelooy/logout/index.html                          |    50 +-
+ geelooy/mawgawl/index.html                         |   102 +-
+ .../mawgawl/sefarim/SearchDiscoveryController.js   |    87 +-
+ geelooy/mawgawl/sefarim/searchCapabilitiesView.js  |    58 +-
+ geelooy/mawgawl/sefarim/searchErrorView.js         |    15 +-
+ geelooy/mawgawl/sefarim/styles/form-disclosure.css |    40 +-
+ geelooy/mawgawl/sefarim/styles/mobile.css          |    27 +-
+ geelooy/os/basicProgramModules.js                  |     6 +-
+ geelooy/os/index.html                              |     4 +-
+ .../os/programs/awtsmoos-browser/browserChrome.js  |    18 +-
+ .../programs/awtsmoos-browser/browserChromeSpec.js |    33 +-
+ .../awtsmoos-browser/browserChromeTabSpec.js       |   105 +-
+ .../browserNavigationCoordinator.js                |   153 +-
+ .../awtsmoos-browser/interactiveController.js      |    97 +-
+ .../os/programs/awtsmoos-browser/responsive.css    |    64 +-
+ geelooy/os/programs/awtsmoos-browser/style.css     |     2 +
+ geelooy/os/programs/awtsmoos-browser/surface.js    |    22 +-
+ geelooy/os/programs/awtsmoos-browser/tabs.css      |   140 +-
+ .../components/itemContextMenu.js                  |   121 +-
+ .../awtsmoos-file-explorer/components/toolbar.js   |    61 +-
+ .../components/toolbar/definitions.js              |    37 +-
+ .../components/toolbar/keyboard.js                 |    62 +-
+ .../awtsmoos-file-explorer/styles/index.js         |    25 +-
+ .../awtsmoos-file-explorer/utils/dragDrop.js       |   139 +-
+ geelooy/os/programs/drive-workspace/index.js       |    12 +-
+ geelooy/os/providers/capabilities.js               |    55 +-
+ geelooy/os/providers/mountTree.js                  |    36 +-
+ geelooy/os/runtime/osLifecycle.js                  |    24 +-
+ geelooy/os/shell/appCatalogExplore.js              |    12 +-
+ geelooy/os/shell/appCatalogPrimary.js              |    23 +-
+ geelooy/os/shell/appStarterPayloads.js             |    16 +-
+ geelooy/os/styles/revelation/social-command.css    |   152 +-
+ geelooy/os/styles/revelation/social-workspace.css  |   153 +-
+ geelooy/os/test/awtsmoosBrowserChromeData.test.mjs |   126 +-
+ geelooy/os/test/awtsmoosBrowserSurface.test.mjs    |    39 +-
+ geelooy/os/test/merkavaBrowserContract.test.mjs    |    31 +-
+ geelooy/os/vfs/mounts.js                           |    90 +-
+ geelooy/parsers/whatsapp/index.html                |   249 +-
+ geelooy/reeyuh/index.html                          |     7 -
+ geelooy/scripts/awtsmoos/social/feed/commentApi.js |    49 +-
+ geelooy/scripts/awtsmoos/social/shell/appShell.js  |    80 +-
+ .../social/shell/headerSearchSuggestions.js        |    44 +-
+ .../social/shell/revelation/ShellRevelation.js     |    48 +-
+ geelooy/scripts/awtsmoos/tts/index.css             |   563 +-
+ geelooy/scripts/awtsmoos/tts/index.html            |    47 +-
+ geelooy/scripts/awtsmoos/tts/ui.js                 |   555 +-
+ geelooy/scripts/awtsmoos/ui/foundation.js          |   112 +-
+ geelooy/scripts/awtsmoos/ui/productMemoryCodec.js  |    17 +-
+ geelooy/scripts/home-simple/HomeTiferesRuntime.js  |    38 +-
+ geelooy/scripts/home-simple/ShliachSpotlight.js    |    53 +-
+ .../scripts/home-simple/ShliachSpotlightContent.js |   147 +-
+ geelooy/scripts/home-simple/index.js               |     8 +-
+ geelooy/scripts/seo/corePaths.mjs                  |    34 +-
+ geelooy/scripts/seo/publicStaticPageMetadata.mjs   |    89 +-
+ geelooy/seo/generated/public-pages/index.js        |     4 +-
+ .../generated/public-pages/shard-1.generated.js    |    28 +-
+ .../generated/public-pages/shard-2.generated.js    |    28 +-
+ .../generated/public-pages/shard-3.generated.js    |    42 +-
+ .../generated/public-pages/shard-4.generated.js    |    56 +-
+ .../generated/public-pages/shard-5.generated.js    |    98 +-
+ .../generated/public-pages/shard-6.generated.js    |    82 +-
+ .../generated/public-pages/shard-7.generated.js    |    84 +-
+ .../generated/public-pages/shard-8.generated.js    |    94 +-
+ .../generated/public-pages/shard-9.generated.js    |    80 +-
+ geelooy/seo/tests/publicHtmlSeo.test.js            |    66 +-
+ geelooy/seo/tests/publicStaticMetadata.test.mjs    |     4 +-
+ geelooy/shared/tunnel/presenceStates.js            |    40 +-
+ geelooy/sitemap.xml                                |   115 +-
+ geelooy/sitemaps/core.xml                          |    25 +-
+ geelooy/sites/siteGatewaySource.js                 |    50 +-
+ geelooy/sites/siteResolution.js                    |    21 +-
+ .../js/civilization/mobileHierarchy.js             |     6 +-
+ geelooy/social-composer/style.css                  |    14 +-
+ .../js/navigation/MobileNavigationPolicy.js        |    16 +-
+ geelooy/social-hub/js/navigation/RouteModel.js     |    25 +-
+ geelooy/social-hub/js/ui/PublicDiscoveryView.js    |    17 +-
+ geelooy/social-hub/package.json                    |     5 +-
+ geelooy/social-hub/style.css                       |   168 +-
+ geelooy/social-hub/styles/chat-messages.css        |   165 +-
+ geelooy/social-hub/styles/messages-room.css        |   134 +-
+ geelooy/social-hub/styles/messages-route.css       |   142 +-
+ geelooy/social-hub/tests/BrowserWait.mjs           |    45 +-
+ geelooy/social-hub/tests/browserSmoke.test.mjs     |    93 +-
+ .../futureMobileRouteVisibilityBrowser.test.mjs    |    58 +-
+ .../tests/futureV15DirectGeometryBrowser.test.mjs  |    87 +-
+ geelooy/social-hub/tests/routeVisibility.test.mjs  |    36 +-
+ geelooy/social-hub/tests/stateRoute.test.mjs       |    27 +-
+ geelooy/style/foundation/effects/glass.css         |    14 +-
+ geelooy/style/geelooy-app/home/feed/cards.css      |   135 +-
+ geelooy/style/geelooy-app/home/hero/actions.css    |   131 +-
+ geelooy/style/geelooy-app/index.css                |     5 +-
+ geelooy/style/geelooy-app/pages/profile-spaces.css |   148 +-
+ geelooy/style/geelooy-system/search.css            |    18 +-
+ geelooy/style/heichelos/discovery-layout.css       |    12 +-
+ .../style/heichelos/heichel/premium/ikar-first.css |   413 +-
+ .../heichelos/heichel/premium/language-tools.css   |    89 +-
+ geelooy/style/home-simple/base.css                 |    11 +-
+ geelooy/style/home-simple/components.css           |     4 +-
+ geelooy/style/home-simple/hero-copy.css            |    69 +-
+ geelooy/style/home-simple/main-brand-mobile.css    |    39 +-
+ geelooy/style/home-simple/shliach-spotlight.css    |    80 +-
+ geelooy/style/social-system/buttons.css            |    36 +-
+ geelooy/style/social-system/cards.css              |    17 +-
+ geelooy/style/social-system/comments.css           |    54 +-
+ .../style/social-system/comments/parts/mobile.css  |    24 +-
+ geelooy/style/social-system/editor.css             |    38 +-
+ geelooy/style/social-system/editor/parts/cards.css |    12 +-
+ geelooy/style/social-system/navigation.css         |    22 +-
+ geelooy/style/social-system/product/chips.css      |    10 +-
+ geelooy/style/social-system/states.css             |    18 +-
+ geelooy/style/social-system/tokens.css             |    40 +-
+ geelooy/style/social/home/civilization/feed.css    |   146 +-
+ geelooy/style/social/home/feed/resonance.css       |   129 +-
+ geelooy/style/test/beautyImportGraph.test.mjs      |    42 +-
+ geelooy/style/test/beautyTemplateContract.test.mjs |    41 +-
+ geelooy/style/test/cleanHomeContract.test.mjs      |    28 +-
+ .../style/test/cosmicFeedStyleContract.test.mjs    |    92 +-
+ geelooy/style/test/cssImportGraph.test.mjs         |    43 +-
+ .../style/test/facebookHomeLayoutContract.test.mjs |    22 +-
+ geelooy/style/test/geelooyAppQuality.test.mjs      |    79 +-
+ geelooy/style/test/homeCosmicFeedContract.test.mjs |    54 +-
+ geelooy/style/test/homeDashboardContract.test.mjs  |    34 +-
+ geelooy/style/test/homeFuturePerformance.test.mjs  |    55 +-
+ .../style/test/homeHeaderSidebarContract.test.mjs  |    26 +-
+ .../style/test/homeNoHardLiveFeedImport.test.mjs   |    22 +-
+ geelooy/style/test/homeProfileFitContract.test.mjs |    31 +-
+ geelooy/style/test/homeProfileLuxContract.test.mjs |    32 +-
+ geelooy/style/test/legendTemplateContract.test.mjs |    29 +-
+ geelooy/style/test/noBeautyGlobalTrap.test.mjs     |    47 +-
+ .../style/test/templateVersionContract.test.mjs    |    55 +-
+ geelooy/style/universal-ui.css                     |    17 +-
+ .../test/mobile-audit/RouteAuditEvidencePolicy.mjs |    80 +-
+ .../test/mobile-audit/RouteAuditMetricHelpers.mjs  |    25 +-
+ geelooy/test/mobile-audit/RouteAuditMetrics.mjs    |    72 +-
+ .../RouteAuditMetricsContract.test.mjs             |    39 +-
+ geelooy/tests/heichelosDiscoveryContract.test.mjs  |    83 +-
+ scripts/quality/checkBuilderLoad.mjs               |    92 +-
+ scripts/quality/checkSourcePolicy.mjs              |     9 +-
+ scripts/repository-hygiene/policyData.cjs          |     2 +
+ scripts/repository-hygiene/testing/policy.test.cjs |     2 +
+ templates/heichelos/discovery-results.html         |   109 +-
+ templates/heichelos/discovery-shell.html           |    41 +-
+ templates/session/login.js                         |   376 +-
+ templates/session/register.js                      |   189 +-
+ tools/dayuhChadashCutover/test/apiJourney.test.js  |    10 +-
+ tools/dayuhChadashCutover/test/apiJourneyServer.js |    44 +-
+ 520 files changed, 32011 insertions(+), 33549 deletions(-)
+DONE

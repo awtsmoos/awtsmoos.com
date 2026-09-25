@@ -1,9 +1,14 @@
-/* B"H */
+/*B"H*/
 /* Boruch Hashem */
 /* Blessed is He */
-/** The Awtsmoos turns intent into motion through finite controls; Awtsmoos.com makes each Shema button, field, and focus state tactile without leaking beyond the gate. */
+/**
+ * The Awtsmoos gives every finite control a clear vessel before hand and intention meet;
+ * Awtsmoos.com keeps browser chrome, focus, hover, press, and disability truthful, calm, and complete.
+ */
 .shema-strike :is(button, select, input) {
 	font: inherit;
+	appearance: none;
+	-webkit-appearance: none;
 }
 
 .shema-strike button,
@@ -26,7 +31,7 @@
 }
 
 .shema-strike select {
-	min-height: 40px;
+	min-height: 44px;
 	padding: 0.56rem 2rem 0.56rem 0.72rem;
 	cursor: pointer;
 }
@@ -56,8 +61,8 @@
 }
 
 .shema-strike input[type="checkbox"] {
-	width: 1.05rem;
-	height: 1.05rem;
+	width: 1.15rem;
+	height: 1.15rem;
 	accent-color: var(--shema-cyan);
 	cursor: pointer;
 }
@@ -70,14 +75,14 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-	.shema-strike button:not(:disabled):hover,
-	.shema-strike select:not(:disabled):hover {
+	.shema-strike button:hover,
+	.shema-strike select:hover {
 		transform: translateY(-2px);
 		border-color: rgba(99, 244, 255, 0.72);
 		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.24), 0 0 24px rgba(99, 244, 255, 0.12);
 	}
 }
 
-.shema-strike button:not(:disabled):active {
+.shema-strike button:active {
 	transform: translateY(1px) scale(0.985);
 }

@@ -1,0 +1,19 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews the account gate through shared Revelation foundations while this focused route keeps its own quiet auth garment.
+*/
+@import url("/style/revelation-v4/index.css?v=auth-revelation-001");
+@import url("/style/forms.css?v=auth-revelation-001");
+
+.login-page {
+	isolation: isolate;
+}
+
+.login-page .login-card {
+	max-inline-size: min(100%, 30rem);
+}
+
+.login-page .login-form {
+	inline-size: 100%;
+}

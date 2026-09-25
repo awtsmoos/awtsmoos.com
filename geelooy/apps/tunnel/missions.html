@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Awtsmoos Tunnel &mdash; Active Missions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./css/tunnel.css">
+  <style>
+    .mission-card { margin-bottom: 1.25rem; }
+    .mission-card h3 { margin: 0 0 .25rem; }
+    .mission-meta { opacity: .75; font-size: .85rem; margin-bottom: .5rem; }
+    .mission-desc { white-space: pre-wrap; line-height: 1.55; }
+    .mission-lists { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: .75rem; }
+    .mission-lists h4 { margin: 0 0 .25rem; font-size: .9rem; opacity: .8; }
+    .mission-lists ul { margin: 0; padding-left: 1.1rem; font-size: .9rem; }
+    .status-pill { display: inline-block; padding: .1rem .6rem; border-radius: 999px; border: 1px solid currentColor; font-size: .8rem; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="hero-glow"></div>
+      <p class="eyebrow">B"H &bull; Awtsmoos Unified Tunnel</p>
+      <h1>Active missions.</h1>
+      <p class="lead">One glance: every mission the tunnel knows about, with the full story of what we're doing and why. Agents register here instead of scattering .ai-thoughts folders.</p>
+      <div class="copy-row">
+        <code id="tunnelLabel">tunnel: ?</code>
+        <input id="tunnelInput" placeholder="tunnel name" style="max-width:220px">
+        <button class="button small" id="loadBtn">Load</button>
+      </div>
+    </section>
+    <section class="panel">
+      <div class="panel-head"><div><p class="eyebrow">Registry</p><h2 id="countTitle">Loading&hellip;</h2></div>
+      <button class="button small" id="refreshBtn">Refresh</button></div>
+      <div id="missions"></div>
+    </section>
+  </main>
+<script>
+(function () {
+  "use strict";
+  var params = new URL(location.href).searchParams;
+  var input = document.getElementById("tunnelInput");
+  var label = document.getElementById("tunnelLabel");
+  var box = document.getElementById("missions");
+  var countTitle = document.getElementById("countTitle");
+  input.value = params.get("tunnelName") || localStorage.getItem("awtsmoos.tunnelName") || "";
+  function tunnelName() { return (input.value || "").trim(); }
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function listHtml(items, title) {
+    if (!items || !items.length) return "";
+    return "<div><h4>" + esc(title) + "</h4><ul>" +
+      items.map(function (i) { return "<li>" + esc(typeof i === "string" ? i : JSON.stringify(i)) + "</li>"; }).join("") +
+      "</ul></div>";
+  }
+  function card(m) {
+    var agents = (m.agents || []).map(function (a) { return typeof a === "string" ? a : (a.id || a.name || JSON.stringify(a)); });
+    return '<article class="panel mission-card"><span class="status-pill">' + esc(m.status || "active") + "</span> " +
+      "<h3>" + esc(m.title || m.id) + "</h3>" +
+      '<div class="mission-meta">' + esc(m.id || "") +
+      (m.updatedAt ? " &bull; updated " + esc(m.updatedAt) : "") +
+      (agents.length ? " &bull; agents: " + esc(agents.join(", ")) : "") + "</div>" +
+      '<div class="mission-desc">' + esc(m.description || "") + "</div>" +
+      (m.progress ? '<div class="mission-meta" style="margin-top:.5rem">Progress: ' + esc(m.progress) + "</div>" : "") +
+      '<div class="mission-lists">' +
+      listHtml(m.goals, "Goals") + listHtml(m.tasks, "Tasks") +
+      listHtml(m.decisions, "Key decisions") + listHtml(m.openQuestions, "Open questions") +
+      listHtml(m.relatedPaths, "Related paths") +
+      "</div></article>";
+  }
+  async function load() {
+    var name = tunnelName();
+    label.textContent = "tunnel: " + (name || "?");
+    if (name) localStorage.setItem("awtsmoos.tunnelName", name);
+    if (!name) { box.innerHTML = "<p>Enter a tunnel name above, then Load.</p>"; return; }
+    countTitle.textContent = "Loading\u2026";
+    try {
+      var res = await fetch("/api/tunnel/control/fs/" + encodeURIComponent(name), {
+        method: "POST", credentials: "include",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ action: "missionVisibilityList" })
+      });
+      var data = await res.json();
+      if (!res.ok || data.ok === false) throw new Error(data.error || ("http_" + res.status));
+      var missions = data.missions || [];
+      countTitle.textContent = missions.length + (missions.length === 1 ? " active mission" : " active missions");
+      box.innerHTML = missions.length ? missions.map(card).join("") :
+        "<p>No active missions registered yet. Agents: call <code>missionVisibilityRegister</code> to add one.</p>";
+    } catch (err) {
+      countTitle.textContent = "Could not load";
+      box.innerHTML = "<p>Failed to load missions: " + esc(err.message) + ". Check the tunnel name and that you are signed in.</p>";
+    }
+  }
+  document.getElementById("loadBtn").addEventListener("click", load);
+  document.getElementById("refreshBtn").addEventListener("click", load);
+  load();
+})();
+</script>
+</body>
+</html>

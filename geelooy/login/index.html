@@ -1,190 +1,100 @@
-<!--B"H-->
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews every guarded entrance; Awtsmoos.com keeps this focused login vessel simple while preserving the exact session contract beneath it.
+-->
 <?Awtsmoos
-  /**
-   * B"H
-   * Sends fresh-page headers before the visible gate is poured into HTML.
-   *
-   * The Awtsmoos has no body and no form, yet this route is served through a
-   * very physical river of bytes. A login page should never be a stale shard
-   * from yesterday's cache; it must be renewed like creation itself, every
-   * instant, clean and awake.
-   *
-   * @returns {string} Empty text so the document starts as valid HTML.
-   */
-  function setLoginFreshnessHeaders() {
-    setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0");
-    setHeader("Pragma", "no-cache");
-    setHeader("Expires", "0");
-    return "";
-  }
-
-  return setLoginFreshnessHeaders();
+	/** Sends freshness headers before the account gate is rendered. */
+	function setLoginFreshnessHeaders() {
+		setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0");
+		setHeader("Pragma", "no-cache");
+		setHeader("Expires", "0");
+		return "";
+	}
+	return setLoginFreshnessHeaders();
 ?>
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0b1020">
-  <meta http-equiv="Cache-Control" content="no-store, max-age=0">
-  <meta http-equiv="Pragma" content="no-cache">
-  <title>Login with Awtsmoos</title>
-  <link href="/style/bh.css" type="text/css" rel="stylesheet">
-  <link rel="stylesheet" href="/style/forms.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="theme-color" content="#0b1020">
+	<meta http-equiv="Cache-Control" content="no-store, max-age=0">
+	<meta http-equiv="Pragma" content="no-cache">
+	<title>Login with Awtsmoos</title>
+	<link href="/style/bh.css" type="text/css" rel="stylesheet">
+	<link rel="stylesheet" href="/login/styles/index.css?v=auth-revelation-001">
 </head>
-<body class="login-page">
-  <div id="BH" aria-label="Boruch Hashem">B"H</div>
-  <main class="login-shell" aria-labelledby="loginTitle">
-    <section class="login-card">
-      <div class="login-card__glow" aria-hidden="true"></div>
-      <p class="login-kicker">B"H · Awtsmoos gate</p>
-      <h1 id="loginTitle">Login</h1>
-      <p class="login-subtitle">
-        Enter with clarity. Every request is renewed from nothing, and every field is guarded.
-      </p>
-
-      <a class="secondary-link" href="/register">Create Account</a>
-
-      <form class="login-form" action="/login/" method="POST" novalidate>
-        <input type="hidden" name="next" value="<?Awtsmoos
-          function esc(value) {
-            return String(value ?? "")
-              .replace(/&/g, "&amp;")
-              .replace(/</g, "&lt;")
-              .replace(/>/g, "&gt;")
-              .replace(/"/g, "&quot;")
-              .replace(/'/g, "&#39;");
-          }
-
-          function safeNext(value) {
-            var raw = String(value || "/").trim();
-            try {
-              var url = new URL(raw, "https://awtsmoos.com");
-              if (url.hostname !== "awtsmoos.com") return "/";
-              return url.pathname + url.search + url.hash;
-            } catch (error) {
-              return raw.startsWith("/") && !raw.startsWith("//") ? raw : "/";
-            }
-          }
-
-          return esc(safeNext(($_GET && $_GET.next) || ($_POST && $_POST.next) || "/"));
-        ?>">
-
-        <div class="field-stack">
-          <label for="username">Username</label>
-          <input type="text" id="username" name="username" required autocomplete="username" autocapitalize="none" spellcheck="false" inputmode="text" placeholder="Your username">
-        </div>
-
-        <div class="field-stack">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="Your password">
-        </div>
-
-        <button type="submit">Log in</button>
-      </form>
-
-      <div id="serverMessage" class="server-message" aria-live="polite">
-        <?Awtsmoos
-          /**
-           * B"H
-           * Escapes text before it enters the visible vessel.
-           *
-           * The Awtsmoos has no body and no form; HTML does have edges, teeth,
-           * brackets, and mouths. This small guardian keeps user-provided sparks
-           * from becoming markup storms.
-           *
-           * @param {unknown} value Any value destined for HTML.
-           * @returns {string} Safe HTML text.
-           */
-          function esc(value) {
-            return String(value ?? "")
-              .replace(/&/g, "&amp;")
-              .replace(/</g, "&lt;")
-              .replace(/>/g, "&gt;")
-              .replace(/"/g, "&quot;")
-              .replace(/'/g, "&#39;");
-          }
-
-          /**
-           * B"H
-           * Keeps redirects inside this site.
-           *
-           * The next path is a doorway, not a wild river. It may move forward,
-           * but it may not drag the soul to another domain.
-           *
-           * @param {unknown} value Candidate path.
-           * @returns {string} A same-site path.
-           */
-          function safeNext(value) {
-            var raw = String(value || "/").trim();
-            try {
-              var url = new URL(raw, "https://awtsmoos.com");
-              if (url.hostname !== "awtsmoos.com") return "/";
-              return url.pathname + url.search + url.hash;
-            } catch (error) {
-              return raw.startsWith("/") && !raw.startsWith("//") ? raw : "/";
-            }
-          }
-
-          function redirectPage(title, body, nextPath) {
-            return `<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta http-equiv="refresh" content="0; url=${esc(nextPath)}">
-  <title>${esc(title)}</title>
-  <link rel="stylesheet" href="/style/forms.css">
-</head>
-<body class="login-page">
-  <main class="login-shell">
-    <section class="login-card">
-      <p class="login-kicker">B&quot;H · Awtsmoos gate</p>
-      <h1>${esc(title)}</h1>
-      <p class="login-subtitle">${esc(body)}</p>
-      <a class="secondary-link" href="${esc(nextPath)}">Continue</a>
-    </section>
-  </main>
-</body>
-</html>`;
-          }
-
-          var nextPath = safeNext(($_GET && $_GET.next) || ($_POST && $_POST.next) || "/");
-
-          if (request.user) {
-            olam.replace = redirectPage("Already logged in", "You are already logged in.", nextPath);
-            return;
-          }
-
-          var registrar = await getT("session/login.js");
-          if (!registrar || typeof registrar.handleLogin !== "function") {
-            return "Login is warming up. Please refresh in a moment.";
-          }
-
-          var result = await registrar.handleLogin(this.request, $_POST, server.secret);
-
-          if (result && result.token) {
-            setHeader(
-              "set-cookie",
-              `awtsmoosKey=${encodeURIComponent(result.token)}; HttpOnly; max-age=${60 * 60 * 24 * 365}; Path=/; SameSite=Lax; Secure`
-            );
-            result.token = undefined;
-          }
-
-          if (!result || result.status !== "success") {
-            return esc(result && result.message ? result.message : "Please fill out the form to login.");
-          }
-
-          olam.replace = redirectPage(
-            "Logged in",
-            "You have successfully logged in to the account " + String($_POST.username || "") + ".",
-            nextPath
-          );
-          return;
-        ?>
-      </div>
-    </section>
-  </main>
-  <script src="/scripts/awtsmoos/bh.js"></script>
+<body class="login-page" data-geelooy-route="login">
+	<div id="BH" aria-label="Boruch Hashem">B"H</div>
+	<main class="login-shell" aria-labelledby="loginTitle">
+		<section class="login-card" aria-describedby="loginIntro">
+			<div class="login-card__glow" aria-hidden="true"></div>
+			<p class="login-kicker">B"H · Awtsmoos gate</p>
+			<h1 id="loginTitle">Login</h1>
+			<p class="login-subtitle" id="loginIntro">Enter your account. The visible gate stays simple while the session contract remains guarded underneath.</p>
+			<a class="secondary-link" href="/register">Create Account</a>
+			<form class="login-form" action="/login/" method="POST" aria-describedby="serverMessage">
+				<input type="hidden" name="next" value="<?Awtsmoos
+					var rawNext = String(($_GET && $_GET.next) || ($_POST && $_POST.next) || "/").trim();
+					var nextValue = "/";
+					try {
+						var nextUrl = new URL(rawNext, "https://awtsmoos.com");
+						if (nextUrl.hostname === "awtsmoos.com") nextValue = nextUrl.pathname + nextUrl.search + nextUrl.hash;
+					} catch (error) {
+						if (rawNext.startsWith("/") && !rawNext.startsWith("//")) nextValue = rawNext;
+					}
+					return nextValue.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+				?>">
+				<div class="field-stack">
+					<label for="username">Username</label>
+					<input type="text" id="username" name="username" required autocomplete="username" autocapitalize="none" spellcheck="false" inputmode="text" placeholder="Your username">
+				</div>
+				<div class="field-stack">
+					<label for="password">Password</label>
+					<input type="password" id="password" name="password" required autocomplete="current-password" placeholder="Your password">
+				</div>
+				<button type="submit">Log in</button>
+			</form>
+			<div id="serverMessage" class="server-message" role="status" aria-live="polite"><?Awtsmoos
+				/** Escapes text before it enters a visible HTML vessel. */
+				function esc(value) {
+					return String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+				}
+				/** Keeps all post-login navigation on Awtsmoos.com. */
+				function safeNext(value) {
+					var raw = String(value || "/").trim();
+					try {
+						var url = new URL(raw, "https://awtsmoos.com");
+						return url.hostname === "awtsmoos.com" ? url.pathname + url.search + url.hash : "/";
+					} catch (error) {
+						return raw.startsWith("/") && !raw.startsWith("//") ? raw : "/";
+					}
+				}
+				/** Builds the tiny same-site continuation document after session state changes. */
+				function redirectPage(title, body, nextPath) {
+					return `<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="refresh" content="0; url=${esc(nextPath)}"><title>${esc(title)}</title><link rel="stylesheet" href="/login/styles/index.css?v=auth-revelation-001"></head>
+<body class="login-page"><main class="login-shell"><section class="login-card"><p class="login-kicker">B&quot;H · Awtsmoos gate</p><h1>${esc(title)}</h1><p class="login-subtitle">${esc(body)}</p><a class="secondary-link" href="${esc(nextPath)}">Continue</a></section></main></body></html>`;
+				}
+				var nextPath = safeNext(($_GET && $_GET.next) || ($_POST && $_POST.next) || "/");
+				if (request.user) {
+					olam.replace = redirectPage("Already logged in", "You are already logged in.", nextPath);
+					return;
+				}
+				var registrar = await getT("session/login.js");
+				if (!registrar || typeof registrar.handleLogin !== "function") return "Login is warming up. Please refresh in a moment.";
+				var result = await registrar.handleLogin(this.request, $_POST, server.secret);
+				if (result && result.token) {
+					setHeader("set-cookie", `awtsmoosKey=${encodeURIComponent(result.token)}; HttpOnly; max-age=${60 * 60 * 24 * 365}; Path=/; SameSite=Lax; Secure`);
+					result.token = undefined;
+				}
+				if (!result || result.status !== "success") return esc(result && result.message ? result.message : "Please fill out the form to login.");
+				olam.replace = redirectPage("Logged in", "You have successfully logged in to the account " + String($_POST.username || "") + ".", nextPath);
+				return;
+			?></div>
+		</section>
+	</main>
+	<script src="/scripts/awtsmoos/bh.js"></script>
 </body>
 </html>

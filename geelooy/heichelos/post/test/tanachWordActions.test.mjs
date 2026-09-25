@@ -6,7 +6,7 @@
  * @file tanachWordActions.test.mjs
  * @description
  * The Awtsmoos keeps word actions inside Awtsmoos Torah and language tools while touch intent remains scroll-safe;
- * Awtsmoos.com proves no forbidden provider door survives and bilingual Tanach opens through the native reader gate.
+ * Awtsmoos.com proves Tanach study stays internal and bilingual reading remains one secondary native path.
  */
 
 import assert from 'node:assert/strict';
@@ -41,10 +41,12 @@ test('selection menu keeps Torah search and internal dictionary tools', () => {
 	assert.equal(selection.toLowerCase().includes(forbiddenProvider), false);
 });
 
-test('Tanach result offers internal reader and bilingual reader only', () => {
+test('Tanach result keeps one primary verse route and one bilingual native route', () => {
 	const view = source('../functions/ui/context/tanachPanelView.js');
-	assert.match(view, /Open verse in Awtsmoos/);
-	assert.match(view, /Open Hebrew \+ English in Awtsmoos/);
+	assert.match(view, /Open verse →/);
+	assert.match(view, /Hebrew \+ English/);
 	assert.match(view, /tanachLanguage/);
+	assert.match(view, /result\.readerUrl/);
+	assert.doesNotMatch(view, /target = '_blank'/);
 	assert.equal(view.toLowerCase().includes(forbiddenProvider), false);
 });

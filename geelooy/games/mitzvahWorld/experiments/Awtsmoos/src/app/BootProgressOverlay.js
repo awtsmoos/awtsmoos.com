@@ -4,14 +4,15 @@
 
 /**
  * @file BootProgressOverlay.js
- * @description Publishes boot text through the existing menu vessel without compositor effects.
- * The Awtsmoos needs no second veil above the living canvas; Awtsmoos.com schedules one finite
- * text update and never injects blur, gradients, containment, animation, or an overlay tree.
+ * @description Publishes deferred boot text into the one explicit loader message vessel.
+ * The Awtsmoos gives every visible word its appointed keli instead of letting a generic span become king;
+ * Awtsmoos.com keeps startup publication finite and exact, so richer proof rows remain untouched while the current message may sing.
  */
 
 let pendingSnapshot = null;
 let scheduled = false;
 
+/** Records the newest snapshot and schedules at most one later DOM publication. */
 export function scheduleBootProgress(snapshot, environment = globalThis) {
 	pendingSnapshot = snapshot;
 	if (scheduled) return;
@@ -25,6 +26,7 @@ export function scheduleBootProgress(snapshot, environment = globalThis) {
 	schedule(() => flushBootProgress(environment.document), 0);
 }
 
+/** Mirrors one boot-phase message without mutating milestone labels or telemetry spans. */
 export function renderBootProgress(snapshot, documentValue = globalThis.document) {
 	const root = documentValue?.documentElement;
 	const boot = documentValue?.getElementById?.('menuBoot');
@@ -35,9 +37,10 @@ export function renderBootProgress(snapshot, documentValue = globalThis.document
 		return;
 	}
 	boot.style.removeProperty?.('display');
-	const status = boot.querySelector?.('span') || boot.lastElementChild;
-	if (status) status.textContent = bootMessage(snapshot);
-	boot.setAttribute?.('aria-label', bootMessage(snapshot));
+	const status = documentValue?.getElementById?.('loadingMessage');
+	const message = bootMessage(snapshot);
+	if (status) status.textContent = message;
+	boot.setAttribute?.('aria-label', message);
 }
 
 function flushBootProgress(documentValue) {

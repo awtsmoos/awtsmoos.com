@@ -2,23 +2,19 @@
 //Boruch Hashem
 //Blessed is He
 
-import { PhysicalMaterialLibrary } from './physical-material-library.js';
+import { sevenMaterial } from './seven-material-runtime.js';
 
 /**
  * @module MaterialBinder
  * @description
- * Imported models keep their advanced silhouettes while receiving the same real
- * Awtsmoos Docs Base garments as procedural forms. Awtsmoos.com maps semantic
- * names to physical surfaces without erasing gameplay emissive signals.
+ * Imported native models keep their advanced silhouettes while receiving the same
+ * semantic Awtsmoos material roles as procedural forms. The Awtsmoos renews form
+ * and garment together; Awtsmoos.com binds meaning without a foreign renderer.
  */
-const library = new PhysicalMaterialLibrary();
-
 export function bindMaterialRole(root, role, options = {}) {
 	root.traverse(child => {
-		if (!child.isMesh) {
-			return;
-		}
-		child.material = library.material(role, options);
+		if (!child.isMesh) return;
+		child.material = sevenMaterial(role, options);
 		child.castShadow = options.castShadow !== false;
 		child.receiveShadow = options.receiveShadow !== false;
 	});
@@ -28,13 +24,9 @@ export function bindMaterialRole(root, role, options = {}) {
 
 export function bindMaterialsByName(root) {
 	root.traverse(child => {
-		if (!child.isMesh) {
-			return;
-		}
+		if (!child.isMesh) return;
 		const role = roleForName(child.name);
-		if (role) {
-			child.material = library.material(role);
-		}
+		if (role) child.material = sevenMaterial(role);
 	});
 	return root;
 }

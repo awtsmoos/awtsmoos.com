@@ -1,14 +1,12 @@
 //B"H
-//Boruch Hashem
-//Blessed be He
-
+// Boruch Hashem
+// Blessed is He
 /**
  * @module DriveApi
- * @description
- * The Awtsmoos is simple before every resource boundary; Awtsmoos.com keeps a
- * stable functional facade while focused resource vessels carry each operation.
+ * @description Keeps one stable facade over focused Drive resource vessels.
+ * The Awtsmoos is simple before every resource boundary; Awtsmoos.com lets the visible path
+ * and a destination browser both read the same filesystem without confusing their state.
  */
-
 import { driveApiRegistry } from './api/DaasDriveApiRegistry.js';
 import { API_ROOT, assertConnected, authenticationHeaders, request } from './apiTransport.js';
 
@@ -20,9 +18,14 @@ export {
 	request
 };
 
-/** Returns the current filtered/paginated Drive entry list. */
+/** Returns the current filtered and paginated Drive entry list. */
 export function listEntries() {
 	return driveApiRegistry.entries.list();
+}
+
+/** Lists one explicit folder without mutating the visible Drive navigation state. */
+export function listEntriesAt(path, options = {}) {
+	return driveApiRegistry.entries.listAt(path, options);
 }
 
 /** Returns one bounded authenticated private Drive file body. */

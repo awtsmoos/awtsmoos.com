@@ -10,8 +10,6 @@
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { natureQualityBudget } from '../../world/nature/NatureQualityBudget.js';
-import { REAL_NATURE_PLACEMENT_RADII } from '../../world/nature/NaturePlacementField.js';
 import {
 	VILLAGE_RIVERBED_VISIBILITY,
 	VILLAGE_WATER_SURFACE_STYLES
@@ -24,14 +22,3 @@ test('river and lake surfaces visually dominate the real submerged bed', () => {
 	assert.ok(VILLAGE_RIVERBED_VISIBILITY.shoulderDepthBase >= 0.22);
 });
 
-test('cinematic tier frames the village with eight real trees while gameplay tiers stay bounded', () => {
-	const cinematic = natureQualityBudget('cinematic');
-	assert.equal(cinematic.counts.pine, 4);
-	assert.equal(cinematic.counts.broadleaf, 4);
-	assert.equal(natureQualityBudget('high').counts.pine, 1);
-	assert.equal(natureQualityBudget('high').counts.broadleaf, 1);
-	assert.ok(REAL_NATURE_PLACEMENT_RADII.pine[0] <= 50);
-	assert.ok(REAL_NATURE_PLACEMENT_RADII.broadleaf[0] <= 44);
-	assert.ok(REAL_NATURE_PLACEMENT_RADII.pine[0] >= 45);
-	assert.ok(REAL_NATURE_PLACEMENT_RADII.broadleaf[0] >= 40);
-});

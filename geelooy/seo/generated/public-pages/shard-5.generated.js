@@ -9,73 +9,73 @@
 
 module.exports = [
 	{
+		canonicalPath: "/apps/wallet/",
+		description: "Inspect Perutahs, promotional refill, verified top-ups, ledger movement, and durable ownership.",
+		filePath: "apps/wallet/index.html",
+		kind: "app",
+		title: "Wallet"
+	},
+	{
+		canonicalPath: "/apps/watermark-remover/",
+		description: "Inspect and process image alpha masks in the existing browser utility.",
+		filePath: "apps/watermark-remover/index.html",
+		kind: "app",
+		title: "Watermark Remover"
+	},
+	{
+		canonicalPath: "/awtai-db/",
+		description: "Explore the Awtsmoos.com AwtAI database interface and its public data tools.",
+		filePath: "awtai-db/index.html",
+		kind: "public-information",
+		title: "AWTAI-DB Model Foundry"
+	},
+	{
+		canonicalPath: "/ayin/",
+		description: "Explore Ayin on Awtsmoos.com through a focused public visual experience.",
+		filePath: "ayin/index.html",
+		kind: "public-information",
+		title: "Real Awtsmoos Recorder"
+	},
+	{
+		canonicalPath: "/cloud/agency/",
+		description: "Fund organizations with Perutas, allocate client budgets, manage teams, price execution, and trade reusable Awtsmoos systems.",
+		filePath: "cloud/agency/index.html",
+		kind: "public-information",
+		title: "Awtsmoos Agency Control Center"
+	},
+	{
+		canonicalPath: "/cloud/",
+		description: "Build with the ChatGPT access you already have, run work through Tunnel, and use Awtsmoos Cloud only for real infrastructure.",
+		filePath: "cloud/index.html",
+		kind: "public-information",
+		title: "Awtsmoos Cloud · Build with Shliach"
+	},
+	{
+		canonicalPath: "/contact/",
+		description: "Contact Awtsmoos privately to report an issue, ask about an account, or share an improvement idea.",
+		filePath: "contact/index.html",
+		kind: "public-information",
+		title: "Contact — Awtsmoos"
+	},
+	{
+		canonicalPath: "/docs/",
+		description: "B'H — Learn, search, explore every API, project boundary, and Data/Security/Realtime system in Awtsmoos.com.",
+		filePath: "docs/index.html",
+		kind: "public-information",
+		title: "Awtsmoos Documentation"
+	},
+	{
+		canonicalPath: "/drive/",
+		description: "Awtsmoos Drive — browse real files, upload, organize, share, and open the Builder when creation needs a deeper workspace.",
+		filePath: "drive/index.html",
+		kind: "public-information",
+		title: "Awtsmoos Drive"
+	},
+	{
 		canonicalPath: "/email/",
 		description: "Read, compose, and manage correspondence through the advanced Awtsmoos mail interface.",
 		filePath: "email/index.html",
 		kind: "app",
 		title: "Awtsmoos Quantum Mail"
-	},
-	{
-		canonicalPath: "/games/adventure/",
-		description: "Collect coins and a key through a compact field built for keyboard and touch movement.",
-		filePath: "games/adventure/index.html",
-		kind: "game",
-		title: "Adventure"
-	},
-	{
-		canonicalPath: "/games/awtsmoos-bounce/",
-		description: "Bend six escalating physics sectors through gravity wells, tactical portal powers, mastery contracts, medals, and persistent unlocks.",
-		filePath: "games/awtsmoos-bounce/index.html",
-		kind: "game",
-		title: "Awtsmoos Bounce: Orbit Run"
-	},
-	{
-		canonicalPath: "/games/brick-blast/",
-		description: "Fast brick-breaking action with earned Perutas, upgrades, and a compact shop loop.",
-		filePath: "games/brick-blast/index.html",
-		kind: "game",
-		title: "Brick Blast"
-	},
-	{
-		canonicalPath: "/games/cards/",
-		description: "A simple card table for low-friction play and future social modes.",
-		filePath: "games/cards/index.html",
-		kind: "game",
-		title: "Cards"
-	},
-	{
-		canonicalPath: "/games/chess/",
-		description: "Classic strategy combat for a focused match between larger Awtsmoos journeys.",
-		filePath: "games/chess/index.html",
-		kind: "game",
-		title: "Chess"
-	},
-	{
-		canonicalPath: "/games/city-of-light/",
-		description: "A 24-chapter pilgrimage with missions, abilities, saves, weather, wildlife, and generated terrain.",
-		filePath: "games/city-of-light/index.html",
-		kind: "game",
-		title: "City of Light"
-	},
-	{
-		canonicalPath: "/games/connect4/",
-		description: "Drop pieces, read the board, and connect four in a compact strategy duel.",
-		filePath: "games/connect4/index.html",
-		kind: "game",
-		title: "Connect 4"
-	},
-	{
-		canonicalPath: "/games/dove/",
-		description: "Leap with the dove through a flood of motion in a compact platform journey.",
-		filePath: "games/dove/index.html",
-		kind: "game",
-		title: "Noah's Dove Jump"
-	},
-	{
-		canonicalPath: "/games/emojis/",
-		description: "A colorful emoji playground built for playful, lightweight sessions.",
-		filePath: "games/emojis/index.html",
-		kind: "game",
-		title: "Emojis"
 	}
 ];

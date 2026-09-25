@@ -9,6 +9,10 @@ const SocketFactory = require("./socketFactory.js");
 const Liveness = require("./transportLiveness.js");
 const Support = require("./clientSupport.js");
 const Lifecycle = require("./clientLifecycle.js");
+const Monotonic = require("../runtime/monotonic.js");
+
+// G3: bounds for the ping round-trip measurement.
+const MAX_PONG_RTT_MS = 3600000;
 
 /**
  * @file Owns one self-healing WebSocket generation.
@@ -31,6 +35,9 @@ class TinyWebSocket extends EventEmitter {
 		this.handshakeKey = "";
 		this.handshakeTimer = null;
 		this.frames = Support.createFrames(this, this.limits);
+		// G3: ping round-trip testimony for the TUNNEL_HEALTH digest (B10b).
+		this.lastPingSentAtMono = 0;
+		this.pongRttMs = 0;
 		this.liveness = Liveness.createTransportLiveness({
 			...options.liveness,
 			onPing: () => this.ping(),
@@ -105,7 +112,25 @@ class TinyWebSocket extends EventEmitter {
 	sendFrame(data, opcode = 0x1) { return Lifecycle.sendFrame(this, data, opcode); }
 	send(text) { return this.sendFrame(String(text), 0x1); }
 	sendJson(value) { return this.send(JSON.stringify(value)); }
-	ping(value = `awtsmoos:${Date.now()}`) { return this.sendFrame(value, 0x9); }
+	ping(value = `awtsmoos:${Date.now()}`) {
+		this.lastPingSentAtMono = Monotonic.monotonicMs();
+		return this.sendFrame(value, 0x9);
+	}
+	/**
+	 * G3: records the round trip of the most recent ping. Unsolicited pongs
+	 * (no ping outstanding) are ignored rather than invented into testimony.
+	 * Measured on the monotonic clock so wall jumps cannot warp the RTT.
+	 */
+	notePong(payload) {
+		const sentAt = this.lastPingSentAtMono;
+		this.lastPingSentAtMono = 0;
+		if (sentAt > 0) {
+			const rtt = Monotonic.monotonicMs() - sentAt;
+			this.pongRttMs = Math.max(0, Math.min(MAX_PONG_RTT_MS, Math.round(rtt)));
+		}
+		this.emit("pong", payload);
+		return this.pongRttMs;
+	}
 	fail(error) { return Lifecycle.fail(this, error); }
 	close(force = false) { return Lifecycle.close(this, force); }
 	finishClose() { return Lifecycle.finishClose(this); }

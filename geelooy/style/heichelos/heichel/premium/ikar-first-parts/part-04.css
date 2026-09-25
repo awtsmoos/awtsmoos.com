@@ -1,0 +1,98 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives every Torah doorway one compact sign and one unmistakable focus; Awtsmoos.com keeps ornament subordinate to the learner's path while search remains immediate and luminous.
+*/
+.heichel-semantic-fallback .heichel-semantic-discovery a::before {
+	align-items: center;
+	background: linear-gradient(145deg, rgba(77, 233, 255, .13), rgba(150, 100, 255, .11));
+	border: 1px solid rgba(100, 218, 255, .2);
+	border-radius: .62rem;
+	color: #7eeeff;
+	content: counter(ikar-door, decimal-leading-zero);
+	display: inline-flex;
+	font-size: .64rem;
+	font-weight: 900;
+	height: 1.9rem;
+	justify-content: center;
+	letter-spacing: .07em;
+	width: 1.9rem;
+}
+
+.heichel-semantic-fallback .heichel-semantic-discovery a::after {
+	color: #7892af;
+	content: "↗";
+	font-size: .95rem;
+	font-weight: 800;
+	transition: color .16s ease, transform .16s ease;
+}
+
+.heichel-semantic-fallback .heichel-semantic-discovery a:hover {
+	background:
+		linear-gradient(125deg, rgba(77, 233, 255, .1), transparent 42%),
+		linear-gradient(145deg, rgba(11, 29, 54, .96), rgba(5, 12, 28, .98));
+	border-color: rgba(77, 233, 255, .5);
+	box-shadow: 0 .65rem 1.7rem rgba(0, 0, 0, .22), 0 0 1.1rem rgba(77, 233, 255, .06);
+	transform: translateY(-1px);
+}
+
+.heichel-semantic-fallback .heichel-semantic-discovery a:focus-visible {
+	border-color: #67e8f9;
+	box-shadow: 0 0 0 .2rem rgba(103, 232, 249, .15), 0 .65rem 1.7rem rgba(0, 0, 0, .22);
+	outline: 2px solid #67e8f9;
+	outline-offset: 2px;
+}
+
+.heichel-semantic-fallback .heichel-semantic-discovery a:hover::after,
+.heichel-semantic-fallback .heichel-semantic-discovery a:focus-visible::after {
+	color: #8ef2fa;
+	transform: translate(.08rem, -.08rem);
+}
+
+.heichel-semantic-fallback .heichel-semantic-discovery a:active {
+	transform: translateY(0) scale(.995);
+}
+
+.ikar-first-search {
+	backdrop-filter: blur(16px);
+	background: rgba(6, 16, 35, .72);
+	border: 1px solid rgba(91, 211, 255, .16);
+	border-radius: .95rem;
+	display: grid;
+	gap: .45rem;
+	margin: 1.15rem 0 .7rem;
+	padding: .72rem;
+}
+
+.ikar-first-search + .heichel-semantic-discovery {
+	margin-top: .82rem;
+}
+
+.ikar-first-search span {
+	color: #c5d8ed;
+	font-size: .74rem;
+	font-weight: 850;
+	letter-spacing: .035em;
+	padding-inline: .12rem;
+}
+
+.ikar-first-search input {
+	background: rgba(1, 6, 17, .8);
+	border: 1px solid rgba(100, 218, 255, .22);
+	border-radius: .78rem;
+	color: #f8fcff;
+	font: inherit;
+	min-height: 3rem;
+	padding: .68rem .84rem;
+	width: 100%;
+}
+
+.ikar-first-search input::placeholder {
+	color: #7186a0;
+}
+
+.ikar-first-search input:focus-visible {
+	border-color: #5be7ff;
+	box-shadow: 0 0 0 .22rem rgba(77, 233, 255, .1), 0 0 1.2rem rgba(77, 233, 255, .08);
+	outline: none;
+}

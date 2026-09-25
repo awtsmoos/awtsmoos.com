@@ -49,6 +49,8 @@ const APPROVED_MEDIA_PREFIXES = [
 const MITZVAH_COMPACT_ROOT = "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/";
 const APPROVED_FILES = new Set([
 	`${MITZVAH_COMPACT_ROOT}mitzvah-world.compact.js`,
+	`${MITZVAH_COMPACT_ROOT}mitzvah-world-foundation.compact.js`,
+	`${MITZVAH_COMPACT_ROOT}mitzvah-world-core.compact.js`,
 	`${MITZVAH_COMPACT_ROOT}mitzvah-world-presentation.compact.js`,
 	`${MITZVAH_COMPACT_ROOT}mitzvah-world-world.compact.js`,
 	`${MITZVAH_COMPACT_ROOT}mitzvah-world-optional.compact.js`

@@ -1,0 +1,21 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives source text one readable chamber whose measure changes without changing its owner;
+ * Awtsmoos.com keeps body padding and mobile type together so the learning stays clear from phone to monitor.
+ */
+.post-reader-localized-context .awtsmoos-source-annotation-card .awtsmoos-comment-body {
+	padding: 16px 18px;
+	color: rgba(250, 252, 255, 0.96);
+	font-family: "Frank Ruhl Libre", "Source Serif 4", serif;
+	font-size: clamp(17px, 1.6vw, 20px);
+	line-height: 1.72;
+}
+
+@media (max-width: 640px) {
+	.post-reader-localized-context .awtsmoos-source-annotation-card .awtsmoos-comment-body {
+		padding: 14px;
+		font-size: 18px;
+	}
+}

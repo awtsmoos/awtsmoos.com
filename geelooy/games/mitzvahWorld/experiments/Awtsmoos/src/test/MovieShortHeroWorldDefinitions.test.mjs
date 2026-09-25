@@ -26,7 +26,7 @@ test('river-garden uses lower-river focus, shared cinematic staging, and distant
 	const cinematicPad = definition.staging.find(value => value.role === 'cinematic-actor');
 	assert.deepEqual(MOVIE_SHORT_RIVER_FOCUS, { x: 14, y: 3.8, z: 42 });
 	assert.deepEqual(definition.actor, cinematicPad.position);
-	assert.deepEqual(definition.actor, { x: -1, z: 42 });
+	assert.deepEqual(definition.actor, { x: -1.15, z: 42 });
 	assert.deepEqual(definition.camera.position, { x: -20, y: 8, z: 48 });
 	assert.equal(definition.camera.fieldOfView, 50);
 	assert.deepEqual(definition.requiredSystems, ['authored-terrain', 'real-nature']);

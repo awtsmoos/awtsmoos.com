@@ -1,0 +1,103 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos carries every message without noise; Awtsmoos.com makes conversation the chamber and effects the quiet voice.
+*/
+.geelooy-mail-document {
+	background:
+		radial-gradient(circle at 8% 0%, rgba(255, 194, 78, 0.1), transparent 28%),
+		radial-gradient(circle at 96% 18%, rgba(76, 212, 255, 0.08), transparent 24%),
+		var(--g4-bg) !important;
+	color: var(--g4-text);
+}
+.mail-civilization-shell,
+.mail-workspace-frame,
+.mail-quantum-frame {
+	background: transparent !important;
+}
+.mail-sidebar,
+.sidebar {
+	border-right: 1px solid var(--g4-line) !important;
+	background: rgba(10, 12, 20, 0.72) !important;
+	box-shadow: none !important;
+	backdrop-filter: blur(22px) saturate(1.15);
+}
+.mail-sidebar-header,
+.sidebar-header,
+.chat-header,
+.composer-topbar {
+	border-color: var(--g4-line) !important;
+	background: rgba(255, 255, 255, 0.018) !important;
+}
+.thread-item {
+	margin: 3px 7px !important;
+	border: 1px solid transparent !important;
+	border-radius: 15px !important;
+	background: transparent !important;
+}
+.thread-item:hover {
+	background: var(--g4-surface-hover) !important;
+	border-color: var(--g4-line) !important;
+	transform: none !important;
+}
+.thread-item.active,
+.thread-item[aria-current="true"] {
+	background: rgba(124, 156, 255, 0.1) !important;
+	border-color: rgba(124, 156, 255, 0.2) !important;
+}
+.chat-area,
+.mail-chat,
+.mail-chat-panel,
+.chat-panel {
+	background: transparent !important;
+}
+.messages-scroll {
+	padding-inline: clamp(14px, 4vw, 52px) !important;
+}
+.mail-command-panel,
+.mail-search-panel,
+.mail-settings-drawer,
+.compose-modal-card,
+.composer-box {
+	border: 1px solid var(--g4-line-strong) !important;
+	border-radius: var(--g4-radius-lg) !important;
+	background: rgba(15, 18, 29, 0.94) !important;
+	box-shadow: var(--g4-shadow-float) !important;
+	backdrop-filter: blur(30px) saturate(1.2);
+}
+.fab-compose,
+.mail-primary-command,
+.compose-action-send {
+	border-color: transparent !important;
+	background: linear-gradient(135deg, var(--g4-gold), #ff9d4d) !important;
+	color: #100b03 !important;
+	box-shadow: 0 10px 30px rgba(255, 190, 79, 0.14) !important;
+}
+.mail-search-input,
+.message-input,
+.composer-content,
+.mail-field-control {
+	border-radius: var(--g4-radius-sm) !important;
+	background: rgba(255, 255, 255, 0.05) !important;
+}
+.mail-mobile-dock {
+	border: 1px solid var(--g4-line-strong) !important;
+	background: rgba(11, 14, 23, 0.9) !important;
+	box-shadow: var(--g4-shadow-float) !important;
+	backdrop-filter: blur(28px);
+}
+@media (max-width: 850px) {
+	.mail-sidebar,
+	.sidebar {
+		padding-top: var(--g4-safe-top);
+	}
+	.mail-chat,
+	.chat-area {
+		padding-bottom: calc(70px + var(--g4-safe-bottom));
+	}
+	.mail-mobile-dock {
+		inset-inline: 10px !important;
+		bottom: max(8px, var(--g4-safe-bottom)) !important;
+		border-radius: 22px !important;
+	}
+}

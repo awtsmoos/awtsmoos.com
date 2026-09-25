@@ -1,0 +1,63 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives source identity one ordered header from seal to coordinate, calm in every size;
+ * Awtsmoos.com keeps base and mobile header truth together so no second owner can arise.
+ */
+.post-reader-localized-context .awtsmoos-source-annotation-header,
+.post-reader-localized-context .awtsmoos-inline-source-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 14px 16px 10px;
+	border-bottom: 1px solid var(--source-line);
+}
+
+.post-reader-localized-context .awtsmoos-source-seal {
+	display: grid;
+	place-items: center;
+	inline-size: 38px;
+	block-size: 38px;
+	flex: 0 0 38px;
+	border: 1px solid rgba(215, 182, 109, 0.58);
+	border-radius: 50%;
+	color: var(--source-gold);
+	font: 700 20px/1 "Frank Ruhl Libre", serif;
+	background: rgba(215, 182, 109, 0.08);
+}
+
+.post-reader-localized-context .awtsmoos-source-heading,
+.post-reader-localized-context .awtsmoos-inline-source-identity {
+	display: flex;
+	flex: 1;
+	min-inline-size: 0;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.post-reader-localized-context .awtsmoos-source-name {
+	color: #f7e7ba;
+	font: 700 18px/1.25 "Frank Ruhl Libre", "Source Serif 4", serif;
+	letter-spacing: 0.01em;
+}
+
+.post-reader-localized-context .awtsmoos-source-descriptor {
+	color: rgba(224, 238, 249, 0.76);
+	font: 700 11px/1.4 Inter, sans-serif;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.post-reader-localized-context .awtsmoos-comment-coordinate {
+	color: rgba(224, 238, 249, 0.6);
+	font: 600 12px/1.45 Inter, sans-serif;
+}
+
+@media (max-width: 640px) {
+	.post-reader-localized-context .awtsmoos-source-annotation-header,
+	.post-reader-localized-context .awtsmoos-inline-source-header {
+		padding: 12px;
+	}
+}

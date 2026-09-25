@@ -5,9 +5,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 
-export const FFMPEG = '/usr/local/bin/ffmpeg';
-export const FFPROBE = '/usr/local/bin/ffprobe';
-const SAY = '/usr/bin/say';
+export const FFMPEG = process.env.MITZWAH_FFMPEG || '/usr/local/bin/ffmpeg';
+export const FFPROBE = process.env.MITZWAH_FFPROBE || '/usr/local/bin/ffprobe';
+const SAY = process.env.MITZWAH_SAY || '/usr/bin/say';
 
 export function run(command, args, capture = false) {
 	const result = spawnSync(command, args, {

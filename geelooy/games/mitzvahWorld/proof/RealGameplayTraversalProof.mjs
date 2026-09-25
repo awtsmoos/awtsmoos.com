@@ -1,104 +1,111 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file RealGameplayTraversalProof.mjs
- * @description Drives real walking, sprinting, turning, reversals, and frame sampling through one finite Chrome gameplay session.
- * The Awtsmoos carries the traveler across changing ground while every frame is born anew;
- * Awtsmoos.com watches motion, streaming, and cadence together, so the measured Valley speaks what the living browser actually knew.
+ * @description Proves physical departure, reversal, deterministic revisit, and bounded Blank Meadow resources.
+ * The Awtsmoos renews every footfall while Awtsmoos.com measures the path;
+ * no imagined stream is claimed where the bounded meadow exposes no streaming aftermath.
  */
 
+import { fileURLToPath } from 'node:url';
+import { startBrowserProof } from '../experiments/Awtsmoos/src/test/browser/BrowserProofProcess.mjs';
 import { createCdpProofSession } from './CdpProofSession.mjs';
+import { enterSinglePlayer, delay } from './MobileGameplayCdp.mjs';
+import { prepareProofCache } from './ProofCachePolicy.mjs';
+import { waitForPersistentRuntime } from './StatePersistenceRecoveryCdp.mjs';
 
-const CDP_PORT = Number(process.env.MITZVAH_WORLD_CDP_PORT || 9444);
-const BASE_URL = process.env.MITZVAH_WORLD_PROOF_BASE || 'http://127.0.0.1:8904';
-const session = await createCdpProofSession(CDP_PORT);
-
+const root = fileURLToPath(new URL('../../../../', import.meta.url));
+const owner = await startBrowserProof(root);
+let proof = null;
+let failure = null;
 try {
-	const command = session.command;
-	await preparePage(command);
-	await waitForLauncher(command);
-	await evaluate(command, `([...document.querySelectorAll('[data-world-id]')].find(button => button.textContent.trim() === 'Study this world')).click()`);
-	await waitForReady(command);
-	const before = await readRuntime(command);
-	await hold(command, [['w', 'KeyW', 87]], 1800);
-	await hold(command, [['Shift', 'ShiftLeft', 16], ['w', 'KeyW', 87]], 2600);
-	await hold(command, [['a', 'KeyA', 65], ['w', 'KeyW', 87]], 1200);
-	await hold(command, [['d', 'KeyD', 68], ['w', 'KeyW', 87]], 1200);
-	for (let index = 0; index < 6; index += 1) {
-		await hold(command, [[index % 2 ? 's' : 'w', index % 2 ? 'KeyS' : 'KeyW', index % 2 ? 83 : 87]], 220);
-	}
-	const after = await readRuntime(command);
-	const frame = await sampleFrames(command, 180);
-	const displacement = Math.hypot(after.state.x - before.state.x, after.state.z - before.state.z);
-	const result = {
-		displacement,
-		before: before.state,
-		after: after.state,
-		lastFrameError: after.lastFrameError,
-		chunk: after.chunk,
-		transitionStats: after.transitionStats,
-		frame,
-		networkErrors: session.networkErrors
-	};
-	console.log(JSON.stringify(result, null, 2));
-	if (!(displacement > 5) || after.lastFrameError || session.networkErrors.length) process.exitCode = 1;
+	proof = await createCdpProofSession(owner.cdpPort);
+	const { command } = proof;
+	for (const domain of ['Page', 'Runtime', 'Network', 'Log']) await command(`${domain}.enable`);
+	await prepareProofCache(command);
+	await command('Emulation.setFocusEmulationEnabled', { enabled: true });
+	await command('Emulation.setDeviceMetricsOverride', { deviceScaleFactor: 1, height: 720, mobile: false, width: 1280 });
+	await command('Page.navigate', { url: `${owner.baseUrl}/geelooy/games/mitzvahWorld/index.html?traversalProof=${Date.now()}` });
+	await command('Page.bringToFront');
+	await enterSinglePlayer(command, 'blank-meadow');
+	await waitForPersistentRuntime(command);
+	await delay(1800);
+	const baseline = await checkpoint(command);
+	await hold(command, 'w', 'KeyW', 6000);
+	const far = await checkpoint(command);
+	const firstRevisit = await revisit(command, baseline, 34);
+	await hold(command, 'w', 'KeyW', 2800);
+	const secondFar = await checkpoint(command);
+	const secondRevisit = await revisit(command, baseline, 22);
+	const receipt = assess({ baseline, far, firstRevisit, secondFar, secondRevisit, evidence: proof.evidence });
+	console.log(`REAL_TRAVERSAL_RECEIPT ${JSON.stringify(receipt)}`);
+	if (!receipt.accepted) throw new Error(`REAL_TRAVERSAL_REJECTED ${JSON.stringify(receipt)}`);
+} catch (error) {
+	failure = error;
+	console.error(error?.stack || error);
 } finally {
-	await session.close();
+	await proof?.close().catch(() => {});
+	await owner.stop().catch(() => {});
 }
+if (failure) process.exitCode = 1;
 
-/** Prepares one cache-cold real page through the production-style overlay. */
-async function preparePage(command) {
-	await command('Page.enable');
-	await command('Runtime.enable');
-	await command('Network.enable');
-	await command('Network.setCacheDisabled', { cacheDisabled: true });
-	await command('Network.clearBrowserCache');
-	await command('Page.navigate', { url: `${BASE_URL}/games/mitzvahWorld/index.html` });
-}
-
-/** Waits for the real single-player launcher button without guessing a route. */
-async function waitForLauncher(command) {
-	for (let attempt = 0; attempt < 800; attempt += 1) {
-		if (await evaluate(command, `Boolean([...document.querySelectorAll('[data-world-id]')].find(button => button.textContent.trim() === 'Study this world'))`)) return;
-		await delay(10);
+async function revisit(command, baseline, pulses) {
+	let nearest = await checkpoint(command);
+	for (let index = 0; index < pulses; index += 1) {
+		await hold(command, 's', 'KeyS', 240);
+		const current = await checkpoint(command);
+		if (distance(current, baseline) < distance(nearest, baseline)) nearest = current;
+		if (distance(nearest, baseline) < 1.25) break;
 	}
-	throw new Error('Launcher did not become ready.');
+	return nearest;
 }
 
-/** Waits until the real production milestones prove visible terrain and control. */
-async function waitForReady(command) {
-	for (let attempt = 0; attempt < 800; attempt += 1) {
-		const state = await readRuntime(command);
-		if (state.ready && state.state) return;
-		await delay(10);
-	}
-	throw new Error('Gameplay did not become ready.');
+async function checkpoint(command) {
+	return evaluate(command, `(() => { const r=window.AwtsmoosMitzvahWorld?.runtime,info=r?.renderer?.info||{},stats=r?.renderer?.stats||info.render||{}; return {
+		world:r?.worldExperience?.id||r?.worldExperience||null,x:r?.state?.x,y:r?.state?.y,z:r?.state?.z,facing:r?.state?.facing,
+		frameError:r?.lastFrameError||null,runtimeError:r?.runtimeError||null,stream:r?.chunkRuntime?.diagnostics?.()||null,
+		render:{draws:stats.draws??stats.calls??null,meshes:stats.meshes??null,triangles:stats.triangles??null,geometries:info.memory?.geometries??null,textures:info.memory?.textures??null},
+		heap:performance.memory?.usedJSHeapSize??null
+	}; })()`);
 }
 
-/** Reads only movement, streaming, and failure evidence from the active runtime. */
-async function readRuntime(command) {
-	return evaluate(command, `(() => { let runtime = null; for (const key of Object.keys(window)) { try { const value = window[key]; if (value && typeof value === 'object' && value.state && value.bus && value.input) { runtime = value; break; } } catch {} } const milestones = window.AwtsmoosMitzvahWorldStartup?.milestones || {}; return { ready: Boolean(milestones.firstTerrainVisible && milestones.playerControllable), state: runtime?.state ? { x: runtime.state.x, y: runtime.state.y, z: runtime.state.z, facing: runtime.state.facing } : null, lastFrameError: runtime?.lastFrameError || null, chunk: runtime?.chunkRuntime?.diagnostics?.() || null, transitionStats: runtime?.chunkRuntime?.registry?.transitionQueue?.stats || null }; })()`);
-}
-
-/** Sends a real simultaneous key chord for one measured traversal interval. */
-async function hold(command, keys, milliseconds) {
-	for (const [key, code, keyCode] of keys) await command('Input.dispatchKeyEvent', { type: 'keyDown', key, code, windowsVirtualKeyCode: keyCode, nativeVirtualKeyCode: keyCode });
+async function hold(command, key, code, milliseconds) {
+	await command('Input.dispatchKeyEvent', { type: 'keyDown', key, code });
 	await delay(milliseconds);
-	for (const [key, code, keyCode] of [...keys].reverse()) await command('Input.dispatchKeyEvent', { type: 'keyUp', key, code, windowsVirtualKeyCode: keyCode, nativeVirtualKeyCode: keyCode });
+	await command('Input.dispatchKeyEvent', { type: 'keyUp', key, code });
 }
 
-/** Samples display cadence without introducing another animation loop into gameplay. */
-async function sampleFrames(command, count) {
-	return evaluate(command, `new Promise(resolve => { const rows = []; let previous = null; const step = time => { if (previous !== null) rows.push(time - previous); previous = time; if (rows.length >= ${count}) { const sorted = [...rows].sort((a,b) => a-b); resolve({ average: rows.reduce((a,b) => a+b,0)/rows.length, p95: sorted[Math.floor(sorted.length*0.95)], max: sorted[sorted.length-1], under16_7: rows.filter(value => value <= 16.7).length/rows.length }); return; } requestAnimationFrame(step); }; requestAnimationFrame(step); })`);
+function assess(values) {
+	const points = [values.baseline, values.far, values.firstRevisit, values.secondFar, values.secondRevisit];
+	const away = distance(values.far, values.baseline);
+	const awayTwo = distance(values.secondFar, values.baseline);
+	const revisitOne = distance(values.firstRevisit, values.baseline);
+	const revisitTwo = distance(values.secondRevisit, values.baseline);
+	const saneGround = points.every(point => Number.isFinite(point.x) && Number.isFinite(point.y) && Number.isFinite(point.z) && point.y > -8 && point.y < 20);
+	const cleanRuntime = points.every(point => !point.frameError && !point.runtimeError && point.world === 'blank-meadow');
+	const resourcesBounded = boundedResources(values.baseline, values.secondRevisit);
+	const streamingPolicy = points.some(point => point.stream) ? 'runtime-exposed' : 'bounded-no-streaming-runtime';
+	const evidenceClean = ['consoleErrors', 'loadingFailures', 'networkErrors', 'runtimeExceptions'].every(key => values.evidence[key].length === 0);
+	const accepted = away > 5 && awayTwo > 2 && revisitOne < away * 0.45 && revisitTwo < awayTwo * 0.55 && saneGround && cleanRuntime && resourcesBounded && evidenceClean;
+	return { ...values, away, awayTwo, revisitOne, revisitTwo, saneGround, cleanRuntime, resourcesBounded, streamingPolicy, evidenceClean, accepted };
+}
+
+function boundedResources(first, last) {
+	for (const key of ['draws', 'meshes', 'triangles', 'geometries', 'textures']) {
+		const a = first.render[key], b = last.render[key];
+		if (Number.isFinite(a) && Number.isFinite(b) && b > Math.max(a * 2.25, a + (key === 'triangles' ? 500000 : 128))) return false;
+	}
+	if (Number.isFinite(first.heap) && Number.isFinite(last.heap) && last.heap > first.heap * 2.5 + 64 * 1024 * 1024) return false;
+	return true;
+}
+
+function distance(a, b) {
+	return Math.hypot(a.x - b.x, a.z - b.z);
 }
 
 async function evaluate(command, expression) {
-	const result = await command('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true });
+	const result = await command('Runtime.evaluate', { awaitPromise: true, expression, returnByValue: true });
 	return result.result.value;
-}
-
-function delay(milliseconds) {
-	return new Promise(resolve => setTimeout(resolve, milliseconds));
 }

@@ -1,20 +1,18 @@
-//B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const ParentWatchdog = require("./parent-watchdog.js");
 
 /**
- * @file Owns execution-parent testimony, exact generation, and custody handoff witness.
- * @description
- * The Awtsmoos renews each connection generation while parent health keeps measured light;
- * Awtsmoos.com threads that generation into the watchdog so old process claims lose right.
- * Aggregate stats remain here; payloads and credentials stay outside this guarded sight.
+ * @file Owns execution-parent testimony, generation, custody, and narrow child-repair requests.
+ * @description The Awtsmoos renews a stalled child through its living parent instead of destroying
+ * the launcher that carries tunnel identity. Awtsmoos.com threads one sealed repair callback into
+ * the watchdog while keeping payloads and credentials outside this guarded testimony.
  */
 function create(options = {}) {
 	const watchdog = ParentWatchdog.create({
 		parentPid: options.parentPid,
-		getGeneration: options.getGeneration
+		getGeneration: options.getGeneration,
+		requestChildRepair: options.requestChildRepair
 	});
 	let stats = {};
 	let health = watchdog.snapshot();
@@ -23,14 +21,12 @@ function create(options = {}) {
 		lastReceiptId: ""
 	};
 
-	/** Publishes fresh execution telemetry into the independent parent watchdog. */
 	function updateStats(next = {}) {
 		stats = next && typeof next === "object" ? next : {};
 		health = watchdog.pulse(stats);
 		return snapshot();
 	}
 
-	/** Records only the latest accepted transport receipt as aggregate custody testimony. */
 	function noteCustody(receiptId) {
 		custody = {
 			lastAcceptedAt: Date.now(),
@@ -39,13 +35,11 @@ function create(options = {}) {
 		return { ...custody };
 	}
 
-	/** Runs one bounded inspection using live registration and durable mailbox facts. */
 	function inspect(registered, mailbox = {}) {
 		health = watchdog.inspect({ registered: registered === true }, mailbox);
 		return health;
 	}
 
-	/** Returns aggregate parent state without copying request payloads into diagnostics. */
 	function snapshot() {
 		return {
 			custody: { ...custody },

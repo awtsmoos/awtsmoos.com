@@ -16,8 +16,8 @@ import {
 
 /**
  * Routes guest-native accesses across recursively named memory vessels.
- * The Awtsmoos recreates owner, byte crossing, and causal testimony anew;
- * Awtsmoos.com keeps the hot route lean while cold reports reveal who knew.
+ * The Awtsmoos recreates owner, bytes, generation, and testimony anew;
+ * Awtsmoos.com lets exclusive promises know when the guest memory-world grew.
  */
 export function createNativeCompositeMemory(
 	primary,
@@ -27,6 +27,7 @@ export function createNativeCompositeMemory(
 	const anonymous = Object.freeze([...regions]);
 	const provenance = createAarch64MemoryProvenance();
 	const memoryLabel = String(label);
+	let writeGeneration = 0;
 	validateCompositeRegions(anonymous);
 	const route = (address, size) => {
 		return resolveCompositeTarget(primary, anonymous, address, size);
@@ -38,10 +39,14 @@ export function createNativeCompositeMemory(
 	};
 	const write = (address, bytes) => {
 		route(address, bytes.byteLength).write(address, bytes);
+		writeGeneration += 1;
 		provenance.recordWrite(address, bytes);
 	};
 	return Object.freeze({
 		aarch64ProvenanceSnapshot: provenance.snapshot,
+		aarch64WriteGeneration() {
+			return writeGeneration;
+		},
 		beginAarch64Instruction: provenance.begin,
 		contains(address, size = 1) {
 			return compositeContains(primary, anonymous, address, size);

@@ -1,19 +1,43 @@
-//B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const Policy = require("./boot-resume-policy.js");
+
+const DEFAULT_CONTINUATION_TRANSPORT = "shared_shliach";
 
 /**
  * @file Runs one periodic Mission heartbeat for recovery, reserve coverage, and boot resume.
  * @description The Awtsmoos needs no competing daemons; one bounded pulse asks existing
  * authorities to continue unfinished work, maintain Shliach reserve slots, and resume Mission state.
  */
+
+/**
+ * Resolve the transport used by unattended Mission continuation.
+ * @param {object} options Runtime boot-loop options.
+ * @param {object} env Runtime environment variables.
+ * @returns {string} Explicit normalized continuation transport.
+ */
+function continuationTransport(options = {}, env = {}) {
+	const selected = options.transport
+		|| env.AWTSMOOS_CONTINUATION_TRANSPORT
+		|| DEFAULT_CONTINUATION_TRANSPORT;
+	return String(selected || DEFAULT_CONTINUATION_TRANSPORT).trim().toLowerCase();
+}
+
+/**
+ * Run one recovery, reserve-pool, and boot-resume pulse.
+ * @param {object} deps Injected Mission/runtime dependencies.
+ * @param {object} scoped Canonical project-scoped runtime configuration.
+ * @param {object} env Runtime environment variables.
+ * @param {object|null} binding Canonical project binding testimony.
+ * @param {object} options Pulse options.
+ * @returns {Promise<object>} Continuation, reserve-pool, and boot-resume results.
+ */
 async function cycle(deps, scoped, env, binding, options = {}) {
 	const continuationOptions = {
 		env,
 		enabled: options.autoContinue !== false,
-		binding
+		binding,
+		transport: continuationTransport(options, env)
 	};
 	const continuation = await deps.autoContinuation.run(scoped, continuationOptions);
 	const pool = options.pool === false
@@ -37,6 +61,13 @@ async function cycle(deps, scoped, env, binding, options = {}) {
 	return { continuation, pool, resume };
 }
 
+/**
+ * Start the periodic Mission recovery heartbeat.
+ * @param {Function} log Optional runtime logger.
+ * @param {object} config Runtime configuration with canonical project root.
+ * @param {object} options Runtime boot-loop options and dependency overrides.
+ * @returns {object|null} Tick/timer controls, or null when disabled.
+ */
 function start(log, config, options = {}) {
 	const env = options.env || process.env;
 	if (!Policy.enabled(env)) {
@@ -74,4 +105,10 @@ function start(log, config, options = {}) {
 	return { tick, timer };
 }
 
-module.exports = { ...Policy, cycle, start };
+module.exports = {
+	...Policy,
+	DEFAULT_CONTINUATION_TRANSPORT,
+	continuationTransport,
+	cycle,
+	start
+};

@@ -1,20 +1,18 @@
 /* B"H
- * Boruch Hashem
- * Blessed is He
- *
- * Every social action arrives in its final readable state without transparent
- * frames, jumping hover motion, undefined tokens, or browser-gray controls.
- */
-
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives every action a complete vessel; Awtsmoos.com keeps physical and logical touch truth together so keyboard, mouse, and thumb all meet one deed.
+*/
 :where(a, button, input[type="button"], input[type="submit"], input[type="reset"]) {
 	font: inherit;
 }
-
 :where(.g-button, .p-button, .btn, .button, .premium-button, .profile-primary-action, .spaces-create, .space-actions a, .home-empty-actions a, .profile-command-rail a, .profile-inline-actions button, .profile-inline-actions a) {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	gap: .5rem;
+	min-width: 44px;
+	min-height: 44px;
 	min-inline-size: 44px;
 	min-block-size: 46px;
 	padding: .68rem .92rem;
@@ -30,9 +28,8 @@
 	text-shadow: none;
 	user-select: none;
 	cursor: pointer;
-	transition: none;
+	transition: transform var(--motion-fast) var(--ease-snap), background-color var(--motion-fast) var(--ease-soft), border-color var(--motion-fast) var(--ease-soft), color var(--motion-fast) var(--ease-soft), box-shadow var(--motion-fast) var(--ease-soft);
 }
-
 :where(.button-icon, [data-button-icon], [data-icon])::before {
 	display: grid;
 	inline-size: 1.4rem;
@@ -44,7 +41,6 @@
 	font-size: .9em;
 	flex: 0 0 auto;
 }
-
 :where(.g-button-primary, .p-button-primary, .is-primary, .button-primary, [data-variant="primary"], .premium-button.is-primary, .profile-primary-action, .spaces-create) {
 	border-color: #58c7d8;
 	background-color: #58c7d8;
@@ -52,45 +48,33 @@
 	color: #061018;
 	font-weight: 880;
 }
-
 :where(.is-danger, .button-danger, [data-variant="danger"]) {
 	border-color: rgba(255, 120, 148, .48);
 	background-color: rgba(255, 120, 148, .12);
 	color: #ffb6c4;
 }
-
 @media (hover: hover) {
 	:where(.g-button, .p-button, .btn, .button, .premium-button):hover:not(:disabled) {
 		border-color: rgba(88, 199, 216, .62);
 		background-color: #1d2c3e;
 		color: #b9f0f6;
-	}
-
-	:where(.g-button-primary, .p-button-primary, .is-primary, .button-primary):hover:not(:disabled) {
-		background-color: #73d4e1;
-		color: #061018;
+		transform: translateY(var(--motion-hover-lift));
 	}
 }
-
 :where(.g-button, .p-button, .btn, .button, .premium-button):focus-visible {
 	border-color: #7ed7e5;
 	box-shadow: 0 0 0 3px rgba(126, 215, 229, .18);
 	outline: 3px solid #7ed7e5;
 	outline-offset: 3px;
 }
-
 :where(.g-button, .p-button, .btn, .button, .premium-button):disabled,
 :where(.g-button, .p-button, .btn, .button, .premium-button)[aria-disabled="true"] {
 	cursor: not-allowed;
 	opacity: .55;
 	box-shadow: none;
 }
-
-@media (forced-colors: active) {
+@media (prefers-reduced-motion: reduce) {
 	:where(.g-button, .p-button, .btn, .button, .premium-button) {
-		background: ButtonFace;
-		border: 1px solid ButtonText;
-		box-shadow: none;
-		color: ButtonText;
+		transition: none;
 	}
 }

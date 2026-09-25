@@ -3,21 +3,9 @@
 <!-- Blessed is He -->
 <!--
 @file index.html
-@description
-The canonical Mitzvah World browser shell reveals one versioned generated game
-entry, one independent universal player shell, and the exact first-control
-resources early enough for network and module work to overlap the chooser.
-
-RESPONSIBILITY:
-Provide stable DOM hosts, import map, production styles, self-contained favicon,
-version-matched meadow preloads, and the direct generated entrypoint.
-
-NON-RESPONSIBILITY:
-This document does not bootstrap world logic or hand-edit generated bundles.
-
-The Awtsmoos recreates threshold, traveler, and frame from nothing each instant;
-Awtsmoos.com gives the authored Chossid renderer and post-play meadow textures
-one release key so older flat-color or textureless modules cannot mix with them.
+@description Canonical Mitzvah World browser shell with versioned foundation, essential-player, and core preloads plus the futuristic five-proof boot vessel.
+The Awtsmoos recreates threshold, traveler, frame, and meadow from nothing each instant;
+Awtsmoos.com preloads the bounded generated garments and hash-addressed Chossid so renderer, terrain, player, and movement may prove one release without source-graph delay.
 -->
 <!doctype html>
 <html lang="en">
@@ -26,67 +14,49 @@ one release key so older flat-color or textureless modules cannot mix with them.
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 	<meta name="theme-color" content="#06130f">
 	<title>Mitzvah World · Awtsmoos</title>
-	<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Ctitle%3EMitzvah%20World%3C/title%3E%3Crect%20width=%2264%22%20height=%2264%22%20rx=%2212%22%20fill=%22%2306130f%22/%3E%3Ctext%20x=%2232%22%20y=%2243%22%20text-anchor=%22middle%22%20font-size=%2234%22%20fill=%22%23f7d774%22%3EM%3C/text%3E%3C/svg%3E">
+	<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20rx=%2212%22%20fill=%22%2306130f%22/%3E%3Ctext%20x=%2232%22%20y=%2243%22%20text-anchor=%22middle%22%20font-size=%2234%22%20fill=%22%23f7d774%22%3EM%3C/text%3E%3C/svg%3E">
 	<link rel="stylesheet" href="./styles/generated/mitzvah-world.production.css">
 	<link rel="stylesheet" href="../styles/player-shell/index.css?compact=true">
-	<script type="importmap">
-	{
-		"imports": {
-			"three": "/games/scripts/build/three.module.js",
-			"three/addons/": "/games/scripts/jsm/"
-		}
-	}
-	</script>
 	<link rel="modulepreload" href="./experiments/Awtsmoos/src/mitzvah-world-foundation.compact.js?v=20260915-authored-meadow-03">
+	<link rel="modulepreload" href="./experiments/Awtsmoos/src/mitzvah-world-player.compact.js?v=20260915-authored-meadow-03">
 	<link rel="modulepreload" href="./experiments/Awtsmoos/src/mitzvah-world-core.compact.js?v=20260915-authored-meadow-03">
-	<link
-		rel="preload"
-		as="fetch"
-		crossorigin="anonymous"
-		fetchpriority="high"
-		href="https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/models/player/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb"
-	>
+	<link rel="preload" as="fetch" href="./build/generated/assets/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb">
 </head>
 <body>
-	<main
-		id="mitzvah-world-root" data-awt-player-shell-host
-		data-awtsmoos-runtime="starting" data-awtsmoos-entry="waiting"
-		data-awtsmoos-boot-stage="starting" aria-busy="true"
-	>
-		<section id="menuBoot" class="Awtsmoos-menu-boot" aria-label="Mitzvah World loading">
+	<main id="mitzvah-world-root" class="Awtsmoos-future-shell" data-awt-player-shell-host data-awtsmoos-runtime="starting" data-awtsmoos-entry="waiting" data-awtsmoos-boot-stage="starting" aria-busy="true">
+		<section id="menuBoot" class="Awtsmoos-menu-boot Awtsmoos-future-boot" aria-label="Mitzvah World essential boot" data-essential-state="verifying">
+			<div class="Awtsmoos-boot-atmosphere" aria-hidden="true"><i></i><i></i><i></i></div>
 			<div class="Awtsmoos-loading-card">
-				<p class="Awtsmoos-loading-kicker">B"H · Mitzvah World</p>
-				<h1>Entering the meadow</h1>
-				<p id="loadingMessage">Preparing essential world capability…</p>
-				<div class="Awtsmoos-progress-group">
-					<div class="Awtsmoos-progress-heading"><span>World</span><output id="worldProgressValue">0%</output></div>
-					<progress id="worldProgress" max="100" value="0"></progress>
+				<header class="Awtsmoos-boot-header">
+					<div><p class="Awtsmoos-loading-kicker">B"H · Mitzvah World</p><h1>Enter a living world</h1></div>
+					<div class="Awtsmoos-boot-chip"><span aria-hidden="true"></span><output id="bootGateState">0 / 5 proved</output></div>
+				</header>
+				<section class="Awtsmoos-boot-stage" aria-live="polite">
+					<p class="Awtsmoos-boot-eyebrow">Current essential proof</p>
+					<h2 id="bootStageLabel">Preparing essential capability</h2>
+					<p id="loadingMessage">Preparing essential world capability…</p>
+					<small id="bootStageMeta">Five essential proofs · five-second gate</small>
+				</section>
+				<ol id="bootMilestones" class="Awtsmoos-boot-milestones" aria-label="Essential boot milestones">
+					<li data-essential-milestone="entryModuleExecuted" data-status="active"><b>01</b><span>Entry module</span><em data-milestone-status>Verifying</em></li>
+					<li data-essential-milestone="rendererFirstFrame" data-status="queued"><b>02</b><span>First frame</span><em data-milestone-status>Queued</em></li>
+					<li data-essential-milestone="spawnTerrainExists" data-status="queued"><b>03</b><span>Spawn terrain</span><em data-milestone-status>Queued</em></li>
+					<li data-essential-milestone="canonicalChossidDecoded" data-status="queued"><b>04</b><span>Canonical Chossid</span><em data-milestone-status>Queued</em></li>
+					<li data-essential-milestone="playerMovementEnabled" data-status="queued"><b>05</b><span>Movement</span><em data-milestone-status>Queued</em></li>
+				</ol>
+				<div class="Awtsmoos-boot-telemetry">
+					<div class="Awtsmoos-progress-group"><div class="Awtsmoos-progress-heading"><span>World resources</span><output id="worldProgressValue">0%</output></div><progress id="worldProgress" max="100" value="0"></progress></div>
+					<div class="Awtsmoos-progress-group"><div class="Awtsmoos-progress-heading"><span>chossid.glb</span><output id="modelProgressValue">0%</output></div><progress id="modelProgress" max="100" value="0"></progress><small id="modelProgressDetail">Waiting for essential boot milestones…</small></div>
 				</div>
-				<div class="Awtsmoos-progress-group">
-					<div class="Awtsmoos-progress-heading"><span>Character model</span><output id="modelProgressValue">0%</output></div>
-					<progress id="modelProgress" max="100" value="0"></progress>
-					<small id="modelProgressDetail">Waiting for essential boot milestones…</small>
-				</div>
+				<aside id="bootEvidence" class="Awtsmoos-boot-evidence" hidden><strong>Actionable boot evidence</strong><pre id="bootEvidenceText"></pre></aside>
 			</div>
 		</section>
 		<canvas id="AwtsmoosCanvas" tabindex="0" aria-label="Mitzvah World 3D scene"></canvas>
 		<div id="hud"></div>
-		<section id="playerHudShell" class="Awtsmoos-player-hud-shell" data-collapsed="false">
-			<button type="button" data-retract-toggle aria-label="Collapse player HUD" aria-expanded="true">−</button>
-			<div id="npcTarget"></div>
-		</section>
-		<div id="combatTarget" data-visible="false"></div>
-		<div id="npcDialogue"></div>
-		<div id="mobileControls" class="Awtsmoos-mobile-shell" data-mobile-combat-controls data-collapsed="false">
-			<button type="button" data-retract-toggle aria-label="Collapse mobile controls" aria-expanded="true">−</button>
-			<div id="joy"></div>
-			<div id="jump"></div>
-		</div>
-		<div id="actions"></div>
-		<div id="gameRail" data-hud-rail></div>
-		<div id="combatFx" hidden></div>
-		<div id="inventory"></div>
-		<div id="meadowMenu"></div>
+		<section id="playerHudShell" class="Awtsmoos-player-hud-shell" data-collapsed="false"><button type="button" data-retract-toggle aria-label="Collapse player HUD" aria-expanded="true">−</button><div id="npcTarget"></div></section>
+		<div id="combatTarget" data-visible="false"></div><div id="npcDialogue"></div>
+		<div id="mobileControls" class="Awtsmoos-mobile-shell" data-mobile-combat-controls data-collapsed="false"><button type="button" data-retract-toggle aria-label="Collapse mobile controls" aria-expanded="true">−</button><div id="joy"></div><div id="jump"></div></div>
+		<div id="actions"></div><div id="gameRail" data-hud-rail></div><div id="combatFx" hidden></div><div id="inventory"></div><div id="meadowMenu"></div>
 	</main>
 	<script type="module" src="./experiments/Awtsmoos/src/mitzvah-world.compact.js?v=20260915-authored-meadow-03"></script>
 	<script type="module" async src="../scripts/player-shell/index.js?compact=true"></script>

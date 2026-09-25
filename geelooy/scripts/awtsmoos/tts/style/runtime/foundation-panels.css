@@ -1,0 +1,94 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives the former late runtime foundation, header, layout, and panels an explicit external owner;
+ * Awtsmoos.com keeps this layer after the base cascade so historical precedence remains visible and deterministic.
+ */
+:root {
+    --bg-dark: #050505;
+    --panel-bg: rgba(20, 20, 25, 0.6);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --primary-cyan: #00f0ff;
+    --primary-purple: #bd00ff;
+    --alert-red: #ff2a2a;
+    --text-main: #eeeeee;
+    --text-dim: #888888;
+    --font-head: 'Orbitron', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+}
+
+body {
+    background: var(--bg-dark);
+    color: var(--text-main);
+    font-family: var(--font-mono);
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image: 
+        radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.03) 0%, transparent 50%),
+        linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(10,10,15,1) 100%);
+}
+
+/* --- Header --- */
+.forge-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    border-bottom: 1px solid var(--border-color);
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+}
+.brand { display: flex; align-items: center; gap: 15px; }
+.logo-mark {
+    font-family: var(--font-head);
+    font-weight: 900;
+    color: var(--bg-dark);
+    background: var(--primary-cyan);
+    padding: 5px 10px;
+    font-size: 1.2rem;
+    box-shadow: 0 0 15px var(--primary-cyan);
+}
+.brand h1 { margin: 0; font-family: var(--font-head); font-size: 1.5rem; letter-spacing: 2px; }
+.brand p { margin: 0; font-size: 0.7rem; color: var(--text-dim); letter-spacing: 1px; }
+
+.status-module { display: flex; align-items: center; gap: 10px; font-size: 0.8rem; letter-spacing: 1px; }
+.status-dot { width: 8px; height: 8px; background: #333; border-radius: 50%; box-shadow: 0 0 5px #333; }
+.status-dot.active { background: var(--primary-cyan); box-shadow: 0 0 10px var(--primary-cyan); }
+.status-text.active { color: var(--primary-cyan); text-shadow: 0 0 10px rgba(0, 240, 255, 0.5); }
+
+/* --- Layout --- */
+.forge-main {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 30px;
+}
+@media(max-width: 1000px) { .forge-main { grid-template-columns: 1fr; } }
+
+/* --- Panels --- */
+.forge-panel {
+    background: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+}
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid var(--border-color);
+}
+.panel-title {
+    font-family: var(--font-head);
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    color: var(--primary-cyan);
+}

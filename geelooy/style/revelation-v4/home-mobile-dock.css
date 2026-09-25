@@ -1,0 +1,98 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gathers five real worlds into one small vessel of glass and light;
+Awtsmoos.com makes the mobile dock a living threshold without hiding the links from sight.
+*/
+@media (max-width: 680px) {
+	body[data-geelooy-route="home"] nav.mobile-dock {
+		left: max(10px, env(safe-area-inset-left));
+		right: max(10px, env(safe-area-inset-right));
+		bottom: max(9px, env(safe-area-inset-bottom));
+		z-index: 120;
+		display: grid;
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+		gap: .32rem;
+		padding: .46rem;
+		border: 1px solid rgba(255, 220, 154, .24);
+		border-radius: 1.45rem;
+		background:
+			radial-gradient(circle at 50% 0%, rgba(255, 207, 105, .12), transparent 65%),
+			linear-gradient(145deg, rgba(5, 7, 19, .94), rgba(12, 8, 27, .94));
+		box-shadow: 0 22px 58px rgba(0, 0, 0, .58), 0 0 40px rgba(113, 72, 255, .13), inset 0 1px rgba(255, 255, 255, .07);
+		backdrop-filter: blur(24px) saturate(1.35);
+	}
+
+	body[data-geelooy-route="home"] nav.mobile-dock a {
+		--dock-accent: 147, 128, 255;
+		position: relative;
+		isolation: isolate;
+		display: grid;
+		place-items: center;
+		min-width: 0;
+		min-height: 3.85rem;
+		padding: .42rem .24rem;
+		overflow: hidden;
+		border: 1px solid rgba(var(--dock-accent), .16);
+		border-radius: 1rem;
+		background: linear-gradient(160deg, rgba(var(--dock-accent), .08), rgba(255, 255, 255, .018));
+		color: #c8d1e3;
+		text-decoration: none;
+	}
+
+	body[data-geelooy-route="home"] nav.mobile-dock a[href="/"] {
+		--dock-accent: 255, 208, 113;
+	}
+
+	body[data-geelooy-route="home"] nav.mobile-dock a[href="/heichelos/ikar"] {
+		--dock-accent: 255, 193, 71;
+	}
+
+	body[data-geelooy-route="home"] nav.mobile-dock a[href="/games/"] {
+		--dock-accent: 255, 101, 177;
+	}
+
+	body[data-geelooy-route="home"] nav.mobile-dock a[href="/apps/"] {
+		--dock-accent: 75, 222, 192;
+	}
+
+	body[data-geelooy-route="home"] nav.mobile-dock a[href="/profile"] {
+		--dock-accent: 126, 153, 255;
+	}
+
+	body[data-geelooy-route="home"] nav.mobile-dock a::before {
+		position: absolute;
+		inset: 42% -28% -72%;
+		z-index: -1;
+		border-radius: 50%;
+		background: radial-gradient(circle, rgba(var(--dock-accent), .38), transparent 68%);
+		content: "";
+		pointer-events: none;
+	}
+
+	body[data-geelooy-route="home"] nav.mobile-dock a[aria-current="page"],
+	body[data-geelooy-route="home"] nav.mobile-dock a:focus-visible {
+		border-color: rgba(var(--dock-accent), .62);
+		background: linear-gradient(160deg, rgba(var(--dock-accent), .2), rgba(255, 255, 255, .04));
+		box-shadow: 0 0 26px rgba(var(--dock-accent), .2), inset 0 1px rgba(255, 255, 255, .09);
+		color: #fff8e8;
+	}
+
+	body[data-geelooy-route="home"] nav.mobile-dock a > :first-child {
+		filter: drop-shadow(0 0 10px rgba(var(--dock-accent), .38));
+	}
+}
+
+@media (max-width: 350px) {
+	body[data-geelooy-route="home"] nav.mobile-dock {
+		left: 6px;
+		right: 6px;
+		gap: .2rem;
+		padding: .34rem;
+	}
+
+	body[data-geelooy-route="home"] nav.mobile-dock a {
+		min-height: 3.6rem;
+		padding-inline: .14rem;
+	}
+}

@@ -60,7 +60,7 @@ function cameraBeat(beat, rig, anchor, location) {
 	}
 	if (!location.camera) return { anchor, duration: beat.duration, rig, targetActor: 'player', type: 'camera' };
 	return {
-		anchor: location.camera.target,
+		anchor: location.anchor,
 		duration: beat.duration,
 		fieldOfView: location.camera.fieldOfView,
 		from: endpoint(location.camera.position, location.camera.target),

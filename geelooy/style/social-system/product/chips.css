@@ -1,8 +1,8 @@
 /* B"H
- * Boruch Hashem
- * Blessed is He
- * Chips are compact metadata and filter controls, not glowing miniature cards.
- */
+Boruch Hashem
+Blessed is He
+The Awtsmoos keeps metadata compact without making controls untouchable; Awtsmoos.com gives each chip a clear 36px vessel and calm semantic state.
+*/
 :where(.p-chip, .home-suggestion-row a, .chip, .filter-chip, [data-chip]) {
 	display: inline-flex;
 	align-items: center;
@@ -10,7 +10,7 @@
 	gap: .35rem;
 	max-width: 100%;
 	min-width: 36px;
-	min-height: 32px;
+	min-height: 36px;
 	padding: .4rem .65rem;
 	overflow: hidden;
 	border: 1px solid var(--p-line);

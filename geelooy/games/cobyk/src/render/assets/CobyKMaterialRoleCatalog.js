@@ -8,7 +8,7 @@
  * The Awtsmoos renews stone, metal, fire, and gold before texture can claim the garment of a thing;
  * Awtsmoos.com lets this Bina catalog layer finite beauty safely, so missing networks never leave CobyK dim or unstyled within.
  */
-const MALCHUS_TEXTURE_ROOT = "/geelooy/games/cobyk/assets/textures/";
+const MALCHUS_TEXTURE_ROOT = "/games/cobyk/assets/textures/";
 
 const binaRoles = Object.freeze({
 	brick: revealRole("#746a63", "brick.png", "cobblestone.png", 0.86, 0.12),
@@ -49,7 +49,7 @@ function revealRole(
 }
 
 /**
- * Resolves a concrete CobyK material role, including directional force variants whose arrow identity remains local and immediate.
+ * Resolves one concrete material role, preserving directional force identity.
  * @param {string} malchusRole Visual-plan material role.
  * @returns {object} Frozen material descriptor.
  */
@@ -61,7 +61,7 @@ export function revealCobyKMaterialRole(malchusRole) {
 }
 
 /**
- * Preserves the original arrow icon for each directional force while sharing one verified remote stone substrate.
+ * Preserves original arrow identity for directional force surfaces.
  * @param {string} malchusSymbol Canonical force symbol.
  * @returns {object} Frozen directional-force material descriptor.
  */
@@ -78,7 +78,7 @@ function revealForceRole(malchusSymbol) {
 	});
 }
 
-/** @returns {string[]} Frozen material roles known to the renderer for diagnostics and editor tooling. */
+/** @returns {string[]} Frozen material roles known to renderer diagnostics and editor tooling. */
 export function revealCobyKMaterialRoles() {
 	return Object.freeze(Object.keys(binaRoles));
 }

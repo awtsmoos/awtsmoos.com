@@ -3,14 +3,14 @@
 // Blessed is He
 /**
  * The Awtsmoos lets one world be examined without burdening its neighbors;
- * Awtsmoos.com lets later measured truth overrule an expired poll while preserving every runtime and mobile-surface witness.
+ * Awtsmoos.com tests each finite route against the surface covenant it actually promises.
  */
 import {
 	desktopViewport,
 	mobileViewport,
 	readinessTimeoutMs,
 	settleDesktopMs,
-	settleMobileMs
+	settlePrimaryMobileMs
 } from './config.mjs';
 import {
 	classifyAudit,
@@ -18,24 +18,29 @@ import {
 	desktopExpression,
 	mobileExpression
 } from './metrics.mjs';
+import { routePolicyFor } from './route-policy.mjs';
 import { mobileSurfaceExpression } from './surface-metrics.mjs';
+import { auditSupplementalViewports } from './viewport-suite.mjs';
 
 export async function auditGame(client, origin, slug) {
-	const record = createRecord(slug);
+	const policy = routePolicyFor(slug);
+	const record = createRecord(slug, policy);
 	client.setEventSink(message => captureEvent(record, message));
 	await prepareDesktop(client);
 	await client.send('Page.navigate', { url: `${origin}/games/${encodeURIComponent(slug)}/?uiCrawl=1` });
-	record.ready = await client.waitFor(
-		`document.querySelectorAll('[data-awt-game-shell]').length === 1`,
-		readinessTimeoutMs
-	);
+	record.ready = await client.waitFor(policy.readyExpression, readinessTimeoutMs);
 	await sleep(settleDesktopMs);
 	record.desktop = await client.evaluate(desktopExpression);
-	record.ready = record.ready || record.desktop.shellCount === 1;
+	if (policy.shellRequired) {
+		record.ready = record.ready || record.desktop.shellCount === 1;
+	} else {
+		record.ready = record.ready || record.desktop.readyState === 'complete';
+	}
 	await prepareMobile(client);
-	await sleep(settleMobileMs);
+	await sleep(settlePrimaryMobileMs);
 	record.mobile = decorateMobileMetrics(await client.evaluate(mobileExpression));
 	record.mobile.surface = await client.evaluate(mobileSurfaceExpression);
+	record.viewports = await auditSupplementalViewports(client);
 	finalizeRecord(record);
 	client.setEventSink(null);
 	return record;
@@ -51,12 +56,15 @@ async function prepareMobile(client) {
 	await client.send('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 5 });
 }
 
-function createRecord(slug) {
+function createRecord(slug, policy) {
 	return {
 		slug,
+		routeRole: policy.role,
+		shellRequired: policy.shellRequired,
 		ready: false,
 		desktop: {},
 		mobile: {},
+		viewports: {},
 		exceptions: [],
 		networkFailures: [],
 		badResponses: [],

@@ -1,23 +1,18 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file catalog.js
- * @description Names Games routes whose ordinary presentation includes a 2D
- * canvas/DOM surface and therefore receives the shared optional native 3D mode.
- *
- * Invariants:
- * - Membership affects presentation only, never gameplay availability or rules.
- * - Hybrid titles may remain listed because their 2D surface still deserves the option.
- * - Infrastructure, docs, tests, Party hub, and Mitzvah World are intentionally excluded.
+ * @description Names gameplay routes that require the shared live-state native 3D option.
+ * The Awtsmoos renews every finite presentation while authored gameplay remains its source of truth;
+ * Awtsmoos.com excludes only primary/dedicated 3D titles and intentional non-renderer hubs from this shared projection vessel.
  */
-const TWO_D_SLUGS = new Set([
+const SHARED_SEMANTIC_3D_SLUGS = new Set([
 	'kavanah', 'nachash', 'adventure', 'awtsmoos-bounce', 'brick-blast',
-	'cards', 'chess', 'city-of-light', 'cobyk', 'connect4', 'dove', 'emojis',
-	'kabbalah-shooter', 'migdol', 'neshama-quest', 'nitzotz-io', 'ohrfront',
-	'pong', 'rebbe-runner', 'scribe-journey', 'sefira-clash', 'seven-mitzvos',
-	'shema-strike', 'soul-jump', 'sulam-ha-sod', 'tetris'
+	'cards', 'city-of-light', 'dove', 'emojis', 'migdol', 'neshama-quest',
+	'ohr-hagnuz', 'ohrbound', 'pong', 'rebbe-runner', 'scribe-journey',
+	'sefira-clash', 'shema-strike', 'soul-jump', 'sulam-ha-sod'
 ]);
 
 /** Return the normalized current Games slug. */
@@ -26,7 +21,12 @@ export function currentGameSlug(locationObject = globalThis.location) {
 	return match?.[1]?.toLowerCase() || '';
 }
 
-/** Return whether the current title should expose the optional native 3D mode. */
+/** Return whether this route needs the shared live-state semantic 3D projector. */
 export function supportsOptionalNative3D(locationObject = globalThis.location) {
-	return TWO_D_SLUGS.has(currentGameSlug(locationObject));
+	return SHARED_SEMANTIC_3D_SLUGS.has(currentGameSlug(locationObject));
+}
+
+/** Expose a frozen route list for contracts and final dimensional evidence. */
+export function sharedSemantic3DRoutes() {
+	return Object.freeze([...SHARED_SEMANTIC_3D_SLUGS].sort());
 }

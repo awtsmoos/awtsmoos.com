@@ -1,12 +1,11 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 /**
  * @module RouteAuditMetricHelpers
  * @description
- * Supplies browser-only geometry helpers as one serializable factory. Keeping these
- * rules outside the collector makes the audit modular while preserving CDP execution
- * without bundlers, global state, or duplicated product-specific exceptions.
+ * The Awtsmoos gives browser geometry a truthful language without confusing hidden vessels with broken paths;
+ * Awtsmoos.com measures what a keyboard can really reach, so visible light and concealed structure are judged by facts.
  */
 
 /**
@@ -39,16 +38,21 @@ export function browserMetricHelpers() {
 			const style = getComputedStyle(current);
 			if (current.hidden || current.inert) return true;
 			if (style.display === "none" || style.visibility === "hidden") return true;
+			if (current.matches?.('details:not([open])')) {
+				const summary = current.querySelector(':scope > summary');
+				if (!summary?.contains(element)) return true;
+			}
 		}
 		return false;
 	}
 
 	function isOverlay(element) {
 		const style = getComputedStyle(element);
-		if (style.position === "fixed") return true;
-		if (!/^(absolute|sticky)$/.test(style.position)) return false;
-		const name = `${element.id} ${element.className}`;
-		return /menu|sheet|drawer|dialog|popover|dropdown|toast|overlay/i.test(name);
+		if (style.position === "fixed" || style.position === "sticky") return true;
+		if (style.position !== "absolute") return false;
+		return element.matches(
+			'dialog[open],[popover],[role="dialog"],[aria-modal="true"],[role="menu"],[role="listbox"]'
+		);
 	}
 
 	function isIntentionallyClosedSurface(element, viewportWidth) {
@@ -64,9 +68,7 @@ export function browserMetricHelpers() {
 
 	function isInsideIntentionallyClosedSurface(element, viewportWidth) {
 		for (let current = element; current; current = current.parentElement) {
-			if (isIntentionallyClosedSurface(current, viewportWidth)) {
-				return true;
-			}
+			if (isIntentionallyClosedSurface(current, viewportWidth)) return true;
 		}
 		return false;
 	}
@@ -99,7 +101,6 @@ export function browserMetricHelpers() {
 		isCssRemovedFromTabOrder,
 		isFocusRevealLink,
 		isInsideIntentionallyClosedSurface,
-		isIntentionallyClosedSurface,
 		isInteractive,
 		isOverlay,
 		isVisible,

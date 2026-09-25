@@ -31,8 +31,8 @@ export const programsByExtension = Object.freeze({
 	".mjs": ["advancedCodeEditor", "awtsmoosTextEdit"],
 	".css": ["advancedCodeEditor", "awtsmoosTextEdit"],
 	".json": ["advancedCodeEditor", "awtsmoosTextEdit"],
-	".md": ["advancedCodeEditor", "awtsmoosDocs", "awtsmoosTextEdit"],
-	".markdown": ["advancedCodeEditor", "awtsmoosDocs", "awtsmoosTextEdit"],
+	".md": ["markdownEditor", "advancedCodeEditor", "awtsmoosDocs", "awtsmoosTextEdit"],
+	".markdown": ["markdownEditor", "advancedCodeEditor", "awtsmoosDocs", "awtsmoosTextEdit"],
 	".txt": ["awtsmoosTextEdit", "awtsmoosDocs", "advancedCodeEditor"]
 });
 
@@ -58,7 +58,7 @@ export const initialDefaultPrograms = Object.freeze({
 	".mjs": "advancedCodeEditor",
 	".css": "advancedCodeEditor",
 	".json": "advancedCodeEditor",
-	".md": "advancedCodeEditor",
-	".markdown": "advancedCodeEditor",
+	".md": "markdownEditor",
+	".markdown": "markdownEditor",
 	".txt": "awtsmoosTextEdit"
 });

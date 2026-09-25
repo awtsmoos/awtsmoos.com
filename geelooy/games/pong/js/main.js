@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file main.js
@@ -9,6 +9,7 @@
  *
  * Invariants:
  * - The match starts only after deliberate player action.
+ * - Browser readiness is published only after listeners, lifecycle, controls, and court ownership are live.
  * - One lifecycle scheduler owns every animation frame.
  * - Resize preserves live actor positions through the court module.
  * - Terminal result publication happens exactly once per match generation.
@@ -51,6 +52,7 @@ window.addEventListener('resize', court.resize, { passive: true });
 window.visualViewport?.addEventListener('resize', court.resize, { passive: true });
 court.resize();
 court.draw(0);
+document.body.dataset.pongReady = 'true';
 
 /** Reset scores, actors, timing, and presentation for one fresh match. */
 function resetMatch() {

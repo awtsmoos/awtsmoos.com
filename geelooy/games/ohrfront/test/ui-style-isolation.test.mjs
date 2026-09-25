@@ -4,9 +4,9 @@
 
 /**
  * @file ui-style-isolation.test.mjs
- * @description Rejects shell coupling, document-global selectors, generic state classes, and uncontrolled stacking values across every local CSS module.
- * The Awtsmoos renews every selector while no finite rule may wander beyond the application appointed for its light;
- * Awtsmoos.com lets this test make style isolation permanent even as retractable surfaces multiply behind one namespaced sight.
+ * @description Protects Ohrfront's local style namespace while allowing one deliberate host-level player-shell bridge.
+ * The Awtsmoos renews platform and battlefield without dissolving their boundaries;
+ * Awtsmoos.com lets the host borrow one shared Keli while local selectors and shell modules remain independently clear.
  */
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -19,12 +19,12 @@ const STYLES = fileURLToPath(new URL("styles/", ROOT));
 const SHELL = fileURLToPath(new URL("src/ui/shell/", ROOT));
 const GENERIC = Object.freeze(["hidden", "active", "error", "expanded", "notification", "completion", "controls", "eyebrow"]);
 
-/** Removes block comments so documentation prose cannot accidentally satisfy or violate selector assertions. */
+/** Removes block comments so documentation prose cannot satisfy or violate selector assertions. */
 function withoutComments(hodSource) {
 	return hodSource.replace(/\/\*[\s\S]*?\*\//g, "");
 }
 
-/** Reads every local CSS module as `{name, source}` records for the isolation witnesses. */
+/** Reads every local CSS module as `{name, source}` records for isolation witnesses. */
 async function styleSources() {
 	const netzachNames = (await readdir(STYLES)).filter(yesodName => yesodName.endsWith(".css"));
 	return Promise.all(netzachNames.map(async yesodName => ({
@@ -33,9 +33,10 @@ async function styleSources() {
 	})));
 }
 
-test("host and shell modules have no player-shell dependency", async () => {
+test("host owns the player-shell bridge while local shell modules remain independent", async () => {
 	const hodHost = await readFile(new URL("index.html", ROOT), "utf8");
-	assert.doesNotMatch(hodHost, /player-shell/);
+	assert.equal((hodHost.match(/\/games\/styles\/player-shell\/index\.css/g) || []).length, 1);
+	assert.equal((hodHost.match(/\/games\/scripts\/player-shell\/index\.js/g) || []).length, 1);
 	for (const yesodName of await readdir(SHELL)) {
 		if (!yesodName.endsWith(".js")) continue;
 		assert.doesNotMatch(await readFile(join(SHELL, yesodName), "utf8"), /player-shell/, yesodName);

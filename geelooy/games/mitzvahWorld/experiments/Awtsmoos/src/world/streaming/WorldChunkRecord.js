@@ -4,9 +4,10 @@
 
 /**
  * @file WorldChunkRecord.js
- * @description Creates immutable durable chunk records, safe serialization, and
- * lifecycle diagnostics. The Awtsmoos renews geometry beyond any saved buffer;
- * Awtsmoos.com preserves identity and evidence rather than raw vertices.
+ * @description Creates immutable durable chunk records, safe serialization, compact
+ * gameplay mutations, and lifecycle diagnostics. The Awtsmoos renews geometry beyond
+ * any saved buffer; Awtsmoos.com preserves identity, evidence, and one compact layer
+ * of world state rather than raw vertices.
  */
 import {
 	childWorldChunkIds,
@@ -19,6 +20,7 @@ import {
 	clampChunkUnit,
 	freezeChunkBounds,
 	freezeChunkMemory,
+	freezeChunkMutations,
 	freezeChunkReadiness,
 	freezeChunkStrings,
 	freezeCollisionHandoff,
@@ -55,6 +57,7 @@ export function createWorldChunkRecord(definition = {}) {
 		collisionRequired: definition.collisionRequired !== false,
 		collisionHandoff: freezeCollisionHandoff(definition.collisionHandoff),
 		streamingUrgency: clampChunkUnit(definition.streamingUrgency),
+		durableMutations: freezeChunkMutations(definition.durableMutations),
 		lastAccessTime: nonnegativeChunkNumber(
 			'lastAccessTime',
 			definition.lastAccessTime
@@ -62,6 +65,29 @@ export function createWorldChunkRecord(definition = {}) {
 		lastTransition: definition.lastTransition ?? null,
 		runtime: definition.runtime ?? null
 	});
+}
+
+/**
+ * Returns a new record carrying one compact gameplay mutation (door opened, item
+ * collected) without mutating the frozen original. Mutations stay JSON-safe so
+ * serializeWorldChunkRecord can carry them across unload and reload.
+ */
+export function applyWorldChunkMutation(record, key, value) {
+	if (!record || typeof record.id !== 'string') {
+		throw new TypeError('A world chunk record is required.');
+	}
+	if (typeof key !== 'string' || key.length === 0) {
+		throw new TypeError('Mutation key must be a nonempty string.');
+	}
+	return createWorldChunkRecord({
+		...record,
+		durableMutations: { ...record.durableMutations, [key]: value }
+	});
+}
+
+/** Reads one durable gameplay mutation from a chunk record. */
+export function worldChunkMutation(record, key) {
+	return record?.durableMutations?.[key] ?? null;
 }
 
 /** Serializes only reconstructable durable chunk metadata. */

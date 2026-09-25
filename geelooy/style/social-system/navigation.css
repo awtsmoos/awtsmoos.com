@@ -1,8 +1,8 @@
 /* B"H
- * Boruch Hashem
- * Blessed is He
- * Navigation uses opaque fast surfaces, visible active geometry, and safe-area space.
- */
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets navigation hover near without becoming noise; Awtsmoos.com gives the dock named depth, safe bounds, touch truth, and restrained glass choice.
+*/
 :where(.home-command-dock, .profile-bottom-nav, .spaces-bottom-nav, .mobile-bottom-nav, .geelooy-bottom-nav) {
 	display: flex;
 	align-items: center;
@@ -13,8 +13,10 @@
 	padding: .4rem;
 	border: 1px solid var(--g-border-strong);
 	border-radius: var(--radius-dock);
-	background: var(--awt-surface);
+	background: color-mix(in srgb, var(--awt-surface) 88%, transparent);
 	box-shadow: var(--shadow-dock);
+	backdrop-filter: blur(14px) saturate(1.12);
+	-webkit-backdrop-filter: blur(14px) saturate(1.12);
 	color: var(--g-text);
 }
 :where(.profile-bottom-nav, .spaces-bottom-nav, .mobile-bottom-nav, .geelooy-bottom-nav) {
@@ -74,6 +76,11 @@
 	font-size: var(--type-caption);
 	font-weight: 600;
 }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+	:where(.home-command-dock, .profile-bottom-nav, .spaces-bottom-nav, .mobile-bottom-nav, .geelooy-bottom-nav) {
+		background: var(--awt-surface);
+	}
+}
 @media (max-width: 34rem) {
 	:where(.profile-bottom-nav, .spaces-bottom-nav, .mobile-bottom-nav, .geelooy-bottom-nav) {
 		justify-content: space-around;
@@ -84,10 +91,5 @@
 	}
 	:where(.nav-copy small, .dock-copy small) {
 		display: none;
-	}
-}
-@media (pointer: coarse) {
-	:where(.home-command-dock, .profile-bottom-nav, .spaces-bottom-nav, .mobile-bottom-nav, .geelooy-bottom-nav) :where(a, button):hover {
-		transform: none;
 	}
 }

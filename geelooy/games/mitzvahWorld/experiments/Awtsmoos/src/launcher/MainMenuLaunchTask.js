@@ -9,14 +9,31 @@
  * for the bounded gate either opens in time or reveals the stage and road where the waiting became pain.
  */
 
+import { restartMitzvahWorldEssentialBoot } from '../app/MitzvahWorldEssentialBoot.js';
+
 const DEFAULT_WORLD_ENTRY_TIMEOUT_MS = 15000;
 
 export function runMainMenuLaunch(handler, selection, options = {}) {
+	restartWorldEntryEssentialGate(options.environment || globalThis);
 	const evidence = createLaunchEvidence();
 	const observedSelection = observeSelectionProgress(selection, evidence);
 	const bounded = () => runBoundedHandler(handler, observedSelection, options, evidence);
 	const paintTask = createLaunchPaintTask(options);
 	return paintTask ? paintTask.then(bounded) : bounded();
+}
+
+/**
+ * Re-arms the bounded essential gate at world launch.
+ * The world click opens a fresh five-second gate that certifies independently of page load,
+ * so an honest menu-idle timeout can never poison first play. Evidence-only: a restart
+ * failure must never break world entry itself.
+ */
+function restartWorldEntryEssentialGate(environment) {
+	try {
+		restartMitzvahWorldEssentialBoot(environment);
+	} catch (error) {
+		environment?.console?.warn?.('B"H MitzvahWorld essential-gate restart failed; continuing world entry.', error);
+	}
 }
 
 export function createLaunchPaintTask(options = {}) {

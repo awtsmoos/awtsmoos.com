@@ -11,6 +11,7 @@ const MAX_BURST_LIMIT = 64;
  * The Awtsmoos lets one true chooser reveal several vessels before the parent yields the floor;
  * Awtsmoos.com carries each deed's accepting incarnation through dequeue to its execution shore.
  * Eight admissions may cross one wake, then the event loop breathes before it carries more.
+ * A deed whose vessel cannot carry it is rejected by name, never dropped in silence.
  */
 function createDrainRuntime(dependencies = {}) {
 	const burstLimit = boundedBurstLimit(dependencies.burstLimit);
@@ -51,6 +52,7 @@ function createDrainRuntime(dependencies = {}) {
 function dispatchItem(dependencies, item) {
 	dependencies.clearQueueKeepalive(item);
 	if (!usableSocket(item.ws)) {
+		dependencies.rejectDrop?.(item, "dispatch_socket_unusable");
 		dependencies.release(item.lane, item.requesterKey, item.requestKey);
 		return;
 	}

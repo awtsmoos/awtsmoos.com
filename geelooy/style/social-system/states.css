@@ -1,8 +1,8 @@
 /* B"H
- * Boruch Hashem
- * Blessed is He
- * Empty, loading, error, and success states share one calm recovery language.
- */
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews every waiting state without panic; Awtsmoos.com lets loading breathe and spin softly while error, success, and emptiness keep one calm recovery language.
+*/
 :where(.g-social-empty, .g-social-loading, .g-social-error, .g-social-success, .empty-state, .loading-state, .error-state, .success-state, [data-empty-state], [data-error-state]) {
 	display: grid;
 	justify-items: start;
@@ -43,7 +43,7 @@
 	border-right-color: transparent;
 	border-radius: 50%;
 	content: "";
-	animation: awt-state-spin .75s linear infinite;
+	animation: awt-state-spin .75s linear infinite, awt-state-breathe 1.8s ease-in-out infinite;
 }
 :where(.g-social-empty, .g-social-loading, .g-social-error, .g-social-success, .empty-state, .loading-state, .error-state, .success-state, [data-empty-state], [data-error-state]) > :where(h2, h3, strong) {
 	max-width: 52ch;
@@ -63,9 +63,11 @@
 	background: color-mix(in srgb, var(--awt-success) 6%, var(--awt-surface));
 }
 @keyframes awt-state-spin {
-	to {
-		transform: rotate(1turn);
-	}
+	to { transform: rotate(1turn); }
+}
+@keyframes awt-state-breathe {
+	0%, 100% { opacity: .66; }
+	50% { opacity: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
 	:where(.g-social-loading, .loading-state)::before {

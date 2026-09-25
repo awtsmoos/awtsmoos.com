@@ -1,0 +1,74 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives depth without division and distance without severing the whole;
+Awtsmoos.com lets every chamber feel vast while one truthful structure holds the soul.
+*/
+body[data-geelooy-route="home"] .dance-shell {
+	perspective: 1500px;
+	perspective-origin: 50% 42%;
+}
+
+body[data-geelooy-route="home"] .hero,
+body[data-geelooy-route="home"] .action-panel,
+body[data-geelooy-route="home"] .featured-worlds {
+	position: relative;
+	isolation: isolate;
+}
+
+body[data-geelooy-route="home"] .action-panel::before {
+	position: absolute;
+	inset: -1.4rem 7% auto;
+	z-index: -1;
+	height: 13rem;
+	border-radius: 50%;
+	background:
+		radial-gradient(ellipse, rgba(56, 179, 255, .13), rgba(123, 76, 255, .08) 46%, transparent 74%);
+	content: "";
+	filter: blur(34px);
+	pointer-events: none;
+}
+
+body[data-geelooy-route="home"] .featured-worlds {
+	width: min(1280px, calc(100% - 32px));
+	margin: 3.2rem auto 5.4rem;
+	padding-top: 2rem;
+}
+
+body[data-geelooy-route="home"] .featured-worlds::before {
+	position: absolute;
+	inset: -2.4rem 7% auto;
+	z-index: -1;
+	height: 25rem;
+	border-radius: 50%;
+	background:
+		radial-gradient(ellipse at 50% 18%, rgba(255, 193, 73, .13), rgba(119, 68, 255, .09) 46%, transparent 76%);
+	content: "";
+	filter: blur(40px);
+	pointer-events: none;
+}
+
+body[data-geelooy-route="home"] .featured-heading h2 {
+	max-width: 16ch;
+	background: linear-gradient(110deg, #fff 0%, #ffe9b8 48%, #bca5ff 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	font-size: clamp(2.2rem, 4.4vw, 4.5rem);
+	line-height: .95;
+	letter-spacing: -.055em;
+	text-wrap: balance;
+}
+
+body[data-geelooy-route="home"] .featured-grid {
+	gap: 1.05rem;
+	perspective: 1200px;
+}
+
+body[data-geelooy-route="home"] .featured-card {
+	transform-style: preserve-3d;
+	box-shadow:
+		0 24px 62px rgba(0, 0, 0, .32),
+		0 0 0 1px rgba(255, 255, 255, .025),
+		inset 0 1px rgba(255, 255, 255, .045);
+}

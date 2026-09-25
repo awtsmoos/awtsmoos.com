@@ -9,73 +9,73 @@
 
 module.exports = [
 	{
-		canonicalPath: "/games/soul-jump/",
-		description: "A fiery vertical ascent built around momentum, timing, and the climb of the soul.",
-		filePath: "games/soul-jump/index.html",
+		canonicalPath: "/games/nitzotz-io/",
+		description: "Reveal hidden sparks, grow the vessel, and move through a raw WebGL social arena.",
+		filePath: "games/nitzotz-io/index.html",
 		kind: "game",
-		title: "Soul Jump"
+		title: "Nitzotz.io"
 	},
 	{
-		canonicalPath: "/games/sulam-ha-sod/",
-		description: "Climb chambers of the secret ladder through demanding platform routes and a layered Shefa economy.",
-		filePath: "games/sulam-ha-sod/index.html",
+		canonicalPath: "/games/ohr-hagnuz/",
+		description: "A hidden-light RPG journey with campaign systems, shared travel, portals, and glowing mystery.",
+		filePath: "games/ohr-hagnuz/index.html",
 		kind: "game",
-		title: "Sulam HaSod"
+		title: "Ohr HaGnuz"
 	},
 	{
-		canonicalPath: "/games/tetris/",
-		description: "Falling blocks, clean lines, escalating pressure, and immediate replayability.",
-		filePath: "games/tetris/index.html",
+		canonicalPath: "/games/ohrbound/",
+		description: "Run, rise, customize, and create across procedural gates of Asiyah.",
+		filePath: "games/ohrbound/index.html",
 		kind: "game",
-		title: "Tetris"
+		title: "Ohrbound"
 	},
 	{
-		canonicalPath: "/",
-		description: "Learn Torah in the living Heichel, create with Awtsmoos apps, play original games, send Perutas, and build through Awtsmoos OS.",
-		filePath: "index.html",
+		canonicalPath: "/games/ohrfront/",
+		description: "Secure three light beacons across a living procedural warfront while hostile squads adapt, flank, and return fire.",
+		filePath: "games/ohrfront/index.html",
+		kind: "game",
+		title: "Ohrfront: Aleph Vanguard"
+	},
+	{
+		canonicalPath: "/games/oros-ha-kelim/",
+		description: "Ride a native 3D light vessel across three Olamot, close lethal Ohr trails into territory, and outthink energy-powered Sefirah bots.",
+		filePath: "games/oros-ha-kelim/index.html",
+		kind: "game",
+		title: "Oros HaKelim"
+	},
+	{
+		canonicalPath: "/games/party/",
+		description: "Party Challenge turns any public Awtsmoos visual game into a 2–4 player local pass-and-play tournament while Solo remains the default game mode.",
+		filePath: "games/party/index.html",
 		kind: "public-information",
-		title: "Awtsmoos — Torah, Creation & Living Worlds"
+		title: "Party Challenge — Awtsmoos Games"
 	},
 	{
-		canonicalPath: "/ocr/",
-		description: "Reveal multilingual text from images with Tesseract controls, diagnostics, and TSV, hOCR, or searchable PDF export.",
-		filePath: "ocr/index.html",
-		kind: "app",
-		title: "OCR Studio"
+		canonicalPath: "/games/pong/",
+		description: "The eternal duel of paddle and ball, kept fast and direct.",
+		filePath: "games/pong/index.html",
+		kind: "game",
+		title: "Pong"
 	},
 	{
-		canonicalPath: "/record/",
-		description: "Open a focused private local camera preview with camera switching and stop controls.",
-		filePath: "record/index.html",
-		kind: "app",
-		title: "Camera Preview"
-	},
-	{
-		canonicalPath: "/recorder/",
-		description: "Record camera, microphone, or desktop locally in the browser and download the result without uploading it.",
-		filePath: "recorder/index.html",
-		kind: "app",
-		title: "Local Recorder"
-	},
-	{
-		canonicalPath: "/social-composer/",
-		description: "Author structured posts and questions with media, destinations, drafts, preview, scheduling, and publishing.",
-		filePath: "social-composer/index.html",
-		kind: "app",
-		title: "Social Composer"
-	},
-	{
-		canonicalPath: "/social-hub/",
-		description: "Create, comment, reference, inspect activity, manage profiles, and control social privacy.",
-		filePath: "social-hub/index.html",
-		kind: "app",
-		title: "Social Hub"
-	},
-	{
-		canonicalPath: "/social/",
-		description: "Explore Geelooy social state safely, inspect feeds, profiles, graph, presence, governance, and choose mutations deliberately.",
-		filePath: "social/index.html",
+		canonicalPath: "/games/rambam/",
+		description: "Explore interactive Rambam learning experiences and games on Awtsmoos.com.",
+		filePath: "games/rambam/index.html",
 		kind: "public-information",
-		title: "Awtsmoos Social Observatory"
+		title: "Rambam · Kiddush HaChodesh"
+	},
+	{
+		canonicalPath: "/games/rambam/kiddushHachodesh/12/",
+		description: "Explore an interactive Awtsmoos.com learning experience for chapter 12 of Rambam Hilchos Kiddush HaChodesh.",
+		filePath: "games/rambam/kiddushHachodesh/12/index.html",
+		kind: "public-information",
+		title: "Kiddush HaChodesh · Movement of the Sun"
+	},
+	{
+		canonicalPath: "/games/rebbe-runner/",
+		description: "Run forward with joy, speed, timing, and a distinctly Awtsmoos arcade spirit.",
+		filePath: "games/rebbe-runner/index.html",
+		kind: "game",
+		title: "The Rebbe's Runner"
 	}
 ];

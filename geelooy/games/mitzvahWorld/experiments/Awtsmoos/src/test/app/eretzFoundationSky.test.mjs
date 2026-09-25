@@ -1,25 +1,33 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file eretzFoundationSky.test.mjs
- * @description Proves golden-hour sky clear is a distinct authored color rather than the same gray distance fog that previously filled the horizon.
- * The Awtsmoos stretches a cool heaven above warm haze while sun and earth remain joined below;
- * Awtsmoos.com guards that distinction numerically so the missing-sky regression cannot silently grow.
+ * @description Proves Blank Meadow consumes the authored cinematic sky, warm fog, sun, ambient, and exposure contract.
+ * The Awtsmoos joins cool heaven to golden distance without collapsing them into one gray veil;
+ * Awtsmoos.com guards those finite numbers so the valley keeps depth when the real renderer takes the trail.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { REFERENCE_GOLDEN_HOUR } from '../../world/lighting/ReferenceGoldenHourPreset.js';
 import { referenceEnvironment } from '../../app/EretzFoundationRenderer.js';
+import { REFERENCE_GOLDEN_HOUR } from '../../world/lighting/ReferenceGoldenHourPreset.js';
 
-test('reference environment exposes finite distinct sky and fog colors', () => {
-	const environment = referenceEnvironment(REFERENCE_GOLDEN_HOUR);
-	assert.equal(environment.skyColor.length, 3);
-	assert.equal(environment.fogColor.length, 3);
+test('foundation environment consumes the authored cinematic golden-hour palette', () => {
+	const reference = REFERENCE_GOLDEN_HOUR;
+	const environment = referenceEnvironment(reference);
+	const expectedExposure = (
+		reference.cinematic.exposureMobile + reference.cinematic.exposureDesktop
+	) * 0.5;
+	assert.deepEqual(environment.ambient, reference.cinematic.ambient);
+	assert.deepEqual(environment.fogColor, reference.cinematic.fogColor);
+	assert.deepEqual(environment.skyColor, reference.cinematic.skyColor);
+	assert.deepEqual(environment.sunColor, reference.cinematic.sunColor);
+	assert.equal(environment.exposure, expectedExposure);
 	assert.ok(environment.skyColor.every(Number.isFinite));
 	assert.ok(environment.fogColor.every(Number.isFinite));
-	assert.notDeepEqual(environment.skyColor, environment.fogColor);
 	assert.ok(environment.skyColor[2] > environment.skyColor[0]);
+	assert.ok(environment.fogColor[0] > environment.fogColor[2]);
+	assert.notDeepEqual(environment.skyColor, environment.fogColor);
 });

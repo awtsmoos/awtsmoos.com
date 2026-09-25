@@ -8,6 +8,7 @@
  * Awtsmoos.com makes rename, move, share, and trash descend through one flame.
  */
 import { createEntry, performAction, publicUrl, updateEntry } from './api.js';
+import { downloadEntry as performFileDownload } from './downloads.js';
 import { joinDrivePath, normalizeDrivePath, parentPath } from './path.js';
 import { openConfirmDialog, openPathDialog, openRenameDialog } from './dialogs.js';
 
@@ -24,6 +25,11 @@ export function createFolder(parent, name) {
 /** Promotes one entry to public visibility through the existing metadata API. */
 export function makePublic(path) {
 	return updateEntry(path, { visibility: 'public' });
+}
+
+/** Downloads one file through the visibility-correct channel. */
+export function downloadEntry(entry) {
+	return performFileDownload(entry);
 }
 
 /** Preserves the advanced metadata mutation contract for deeper Drive surfaces. */

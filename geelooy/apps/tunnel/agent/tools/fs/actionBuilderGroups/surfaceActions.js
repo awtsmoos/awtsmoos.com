@@ -12,6 +12,7 @@ const { buildCommandTreeActions } = require("../actionGroups/commandTreeActions.
 const { buildCommandPresetActions } = require("../actionGroups/commandPresetActions.js");
 const { buildAiTemplateActions } = require("../actionGroups/aiTemplateActions.js");
 const { buildEphemeralActions } = require("../actionGroups/ephemeralActions.js");
+const { buildTransferActions } = require("../actionGroups/transferActions.js");
 const { buildRenderLabActions } = require("../actionGroups/renderLabActions.js");
 const { buildAiAgentActions } = require("../actionGroups/aiAgentActions.js");
 
@@ -26,7 +27,8 @@ function buildSurfaceActions(context) {
 		...buildChromeActions(context),
 		...buildChatGptActions(context),
 		...buildWebsiteAgentActions(context),
-		...buildRemoteDesktopActions(context)
+		...buildRemoteDesktopActions(context),
+		...buildTransferActions(context)
 	};
 }
 

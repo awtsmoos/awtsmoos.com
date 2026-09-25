@@ -1,0 +1,86 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos needs no desktop yet grants a playful garment; Awtsmoos.com keeps the shell serene while deeper tools wait behind each apartment.
+*/
+html,
+body {
+	background: var(--g4-bg-deep);
+	color: var(--g4-text);
+}
+body::before {
+	content: "";
+	position: fixed;
+	inset: -20%;
+	pointer-events: none;
+	background:
+		radial-gradient(circle at 18% 20%, rgba(92, 119, 255, 0.2), transparent 30%),
+		radial-gradient(circle at 80% 22%, rgba(76, 221, 255, 0.12), transparent 26%),
+		radial-gradient(circle at 56% 82%, rgba(177, 91, 255, 0.11), transparent 34%);
+	filter: blur(12px);
+	animation: g4-ambient-breathe 16s ease-in-out infinite;
+}
+#awtsmoos-shell-topbar {
+	margin: max(10px, var(--g4-safe-top)) 12px 0;
+	border: 1px solid var(--g4-line);
+	border-radius: var(--g4-radius-pill);
+	background: rgba(8, 11, 19, 0.62);
+	box-shadow: var(--g4-shadow-1);
+	backdrop-filter: blur(24px) saturate(1.25);
+}
+.shell-chip,
+.shell-icon-button {
+	border-color: transparent !important;
+	background: transparent !important;
+	color: var(--g4-text-secondary) !important;
+}
+.shell-chip:hover,
+.shell-icon-button:hover {
+	background: var(--g4-surface-hover) !important;
+	color: var(--g4-text) !important;
+}
+#desktop.desktop {
+	padding: 86px 18px 92px;
+}
+#start-bar {
+	inset-inline: 50% auto;
+	translate: -50% 0;
+	inline-size: min(94vw, max-content);
+	margin-bottom: max(10px, var(--g4-safe-bottom));
+	padding: 7px;
+	border: 1px solid var(--g4-line-strong);
+	border-radius: 24px;
+	background: rgba(11, 14, 24, 0.76);
+	box-shadow: var(--g4-shadow-float);
+	backdrop-filter: blur(30px) saturate(1.35);
+}
+#start-button,
+#start-bar button {
+	border-radius: 15px !important;
+}
+#start-menu,
+.shell-panel,
+.shell-command-card {
+	border: 1px solid var(--g4-line-strong) !important;
+	border-radius: var(--g4-radius-lg) !important;
+	background: rgba(12, 15, 25, 0.94) !important;
+	box-shadow: var(--g4-shadow-float) !important;
+	backdrop-filter: blur(32px) saturate(1.2);
+}
+@media (max-width: 700px) {
+	.shell-brand-copy,
+	#shell-status,
+	#shell-command-button {
+		display: none !important;
+	}
+	#awtsmoos-shell-topbar {
+		margin-inline: 10px;
+	}
+	#desktop.desktop {
+		padding: calc(68px + var(--g4-safe-top)) 12px calc(82px + var(--g4-safe-bottom));
+	}
+	#start-bar {
+		inline-size: calc(100vw - 20px);
+		justify-content: space-around;
+	}
+}

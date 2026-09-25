@@ -1,24 +1,25 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
 import { hubIcon } from '../ui/IconCatalog.js';
 
 /**
  * @module RouteModel
  * @description
- * The Awtsmoos lets many social chambers remain one reachable current, while Awtsmoos.com gives each destination a concise symbol, short visible name, and complete accessible title;
- * primary roads stay immediately visible, rarer studios become quieter secondary vessels, and browser history remains the truthful spine beneath the light.
+ * The Awtsmoos lets many social chambers remain one reachable current, while Awtsmoos.com
+ * gives five human roads first place and keeps every specialist chamber reachable beneath them.
+ * Route ids remain stable so history, deep links, controllers, and stored state never lose truth.
  */
 const ROUTES = Object.freeze([
-	{ id: 'home', label: 'Pulse', icon: hubIcon('home'), title: 'Social pulse', tier: 'primary' },
-	{ id: 'inbox', label: 'Inbox', icon: hubIcon('inbox'), title: 'Communications Inbox', tier: 'primary' },
-	{ id: 'messages', label: 'DMs', icon: hubIcon('messages'), title: 'Private Messages', tier: 'primary' },
-	{ id: 'spaces', label: 'Spaces', icon: hubIcon('spaces'), title: 'Communities and channels', tier: 'primary' },
-	{ id: 'people', label: 'People', icon: hubIcon('people'), title: 'Discover people', tier: 'primary' },
-	{ id: 'profile', label: 'Me', icon: hubIcon('profile'), title: 'Public profile', tier: 'primary' },
-	{ id: 'chat', label: 'Chat', icon: hubIcon('chat'), title: 'Live Torah Chat', tier: 'secondary' },
-	{ id: 'interact', label: 'Create', icon: hubIcon('interact'), title: 'Interaction studio', tier: 'secondary' },
+	{ id: 'home', label: 'Home', icon: hubIcon('home'), title: 'Home', tier: 'primary' },
+	{ id: 'people', label: 'Discover', icon: hubIcon('people'), title: 'Discover people and public activity', tier: 'primary' },
+	{ id: 'spaces', label: 'Heichelos', icon: hubIcon('spaces'), title: 'Heichelos and communities', tier: 'primary' },
+	{ id: 'messages', label: 'Messages', icon: hubIcon('messages'), title: 'Private Messages', tier: 'primary' },
+	{ id: 'profile', label: 'Profile', icon: hubIcon('profile'), title: 'Your public profile', tier: 'primary' },
+	{ id: 'inbox', label: 'Inbox', icon: hubIcon('inbox'), title: 'Communications Inbox', tier: 'secondary' },
+	{ id: 'interact', label: 'Create', icon: hubIcon('interact'), title: 'Create and interact', tier: 'secondary' },
+	{ id: 'chat', label: 'Live Chat', icon: hubIcon('chat'), title: 'Live Torah Chat', tier: 'secondary' },
 	{ id: 'activity', label: 'Activity', icon: hubIcon('activity'), title: 'Activity ledger', tier: 'secondary' },
 	{ id: 'network', label: 'Network', icon: hubIcon('network'), title: 'Public network', tier: 'secondary' },
 	{ id: 'references', label: 'Links', icon: hubIcon('references'), title: 'Reference graph', tier: 'secondary' },

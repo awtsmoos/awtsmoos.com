@@ -6,7 +6,7 @@
  * @file WorldChunkRecordValues.js
  * @description Validates and freezes the durable value objects carried by a chunk
  * record. The Awtsmoos renews every vessel; Awtsmoos.com keeps malformed bounds,
- * memory, and relationship data from entering the streaming graph unnoticed.
+ * memory, relationship, and mutation data from entering the streaming graph unnoticed.
  */
 export function freezeChunkBounds(bounds = {}) {
 	const minimum = freezeVector(bounds.min);
@@ -49,6 +49,18 @@ export function freezeCollisionHandoff(value = {}) {
 	});
 }
 
+/** Freezes one JSON-safe gameplay mutation map so unload/reload can carry world state. */
+export function freezeChunkMutations(value = {}) {
+	if (!value || typeof value !== 'object' || Array.isArray(value)) {
+		throw new TypeError('Chunk durable mutations must be a plain object.');
+	}
+	const frozen = {};
+	for (const [key, entry] of Object.entries(value)) {
+		frozen[key] = freezeMutationValue(`mutations.${key}`, entry);
+	}
+	return Object.freeze(frozen);
+}
+
 export function nonnegativeChunkInteger(name, value, minimum = 0) {
 	if (!Number.isSafeInteger(value) || value < minimum) {
 		throw new TypeError(`${name} must be an integer >= ${minimum}.`);
@@ -66,6 +78,30 @@ export function nonnegativeChunkNumber(name, value = 0) {
 
 export function clampChunkUnit(value = 0) {
 	return Math.min(1, Math.max(0, Number(value) || 0));
+}
+
+/** Freezes one JSON-safe mutation value, rejecting anything serialization cannot carry. */
+function freezeMutationValue(name, entry) {
+	if (entry === null) return null;
+	const type = typeof entry;
+	if (type === 'string' || type === 'boolean') return entry;
+	if (type === 'number') {
+		if (!Number.isFinite(entry)) {
+			throw new TypeError(`${name} must be finite.`);
+		}
+		return entry;
+	}
+	if (Array.isArray(entry)) {
+		return Object.freeze(entry.map((item, index) => freezeMutationValue(`${name}[${index}]`, item)));
+	}
+	if (type === 'object') {
+		const frozen = {};
+		for (const [key, nested] of Object.entries(entry)) {
+			frozen[key] = freezeMutationValue(`${name}.${key}`, nested);
+		}
+		return Object.freeze(frozen);
+	}
+	throw new TypeError(`${name} must be JSON-safe (no functions, undefined, or symbols).`);
 }
 
 function freezeVector(value = {}) {

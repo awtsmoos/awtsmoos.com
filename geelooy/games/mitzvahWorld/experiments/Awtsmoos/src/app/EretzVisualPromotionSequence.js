@@ -4,11 +4,12 @@
 
 /**
  * @file EretzVisualPromotionSequence.js
- * @description Serializes authored meadow texture and renderer promotion when a simple world enables both.
- * The Awtsmoos lets Awtsmoos.com clothe earth before changing the lamp that reveals it: terrain hydration settles,
- * one browser frame returns to movement, and only then may the prepared rich renderer replace bootstrap color.
+ * @description Starts required authored meadow visuals directly after control, independent of broad optional post-play enrichment.
+ * The Awtsmoos lets Awtsmoos.com clothe earth and traveler without making either await distant systems: terrain hydration begins,
+ * one browser frame returns to movement, and the rich renderer then awakens while remote meadow textures may continue streaming.
  */
 
+import { startEretzBootstrapTerrainBridge } from './EretzBootstrapTerrainBridge.js';
 import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
 
 const RENDERER_POLICY_URL = resolveDeferredAppModuleUrl(
@@ -17,19 +18,18 @@ const RENDERER_POLICY_URL = resolveDeferredAppModuleUrl(
 	'EretzVisualPromotionSequence.js'
 );
 
-/** Starts renderer policy after any required terrain-first visual prerequisite has settled. */
+/** Starts required simple-world terrain work before renderer promotion without awaiting broad post-play coordination. */
 export async function startEretzVisualPromotionSequence(
 	diagnostics,
 	environment,
 	boot,
 	options,
-	postPlayablePromise,
+	foundation,
 	dependencies = {}
 ) {
 	if (shouldSerializeEretzVisualPromotion(options)) {
-		diagnostics.rendererPolicyStage = 'waiting-for-terrain';
-		const receipt = await Promise.resolve(postPlayablePromise);
-		await Promise.resolve(receipt?.terrainHydration);
+		diagnostics.rendererPolicyStage = 'starting-terrain';
+		startVisualTerrainHydration(foundation, diagnostics, dependencies);
 		if (diagnostics?.runtime?.destroyed) return null;
 		await nextBrowserFrame(environment, dependencies);
 	}
@@ -44,12 +44,23 @@ export async function startEretzVisualPromotionSequence(
 	);
 }
 
-/** Returns true only for lightweight worlds that intentionally promote both earth and renderer after control. */
+/** Returns true only for lightweight worlds that promote authored earth and renderer after control. */
 export function shouldSerializeEretzVisualPromotion(options = {}) {
 	const world = options.worldExperience || {};
 	return world.postPlayTerrainHydration === true
 		&& world.richRenderer !== false
 		&& world.canonicalPromotion === false;
+}
+
+function startVisualTerrainHydration(foundation, diagnostics, dependencies) {
+	const startTerrain = dependencies.startTerrainHydration
+		|| startEretzBootstrapTerrainBridge;
+	try {
+		return startTerrain(foundation, diagnostics);
+	} catch (error) {
+		diagnostics.visualTerrainHydrationError = error;
+		return null;
+	}
 }
 
 function nextBrowserFrame(environment, dependencies) {

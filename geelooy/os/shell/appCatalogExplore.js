@@ -1,12 +1,12 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * @file Exploration-focused Geelooy OS application definitions.
  * @description
- * The Awtsmoos gives every path a name and every byte a vessel;
- * Awtsmoos.com makes local and remote reality legible through focused explorers.
+ * The Awtsmoos gives every path a name and every byte a vessel; Awtsmoos.com keeps
+ * local and remote reality legible through focused explorers with one truthful name.
  */
 
 export const EXPLORE_APPS = Object.freeze([
@@ -24,10 +24,10 @@ export const EXPLORE_APPS = Object.freeze([
 	app({
 		id: "browser",
 		programName: "awtsmoosBrowser",
-		title: "Merkava Browser",
+		title: "Awtsmoos Browser",
 		icon: "\u{1F310}",
-		description: "Render bounded guest markup and virtual-server routes.",
-		keywords: "web canvas fusion dom browser",
+		description: "Browse web and virtual-server routes in a trusted Awtsmoos workspace.",
+		keywords: "awtsmoos browser web canvas fusion dom tabs",
 		capabilityIds: ["preview"],
 		pinned: true,
 		desktopPage: 0

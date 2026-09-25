@@ -1,0 +1,60 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets the menu frame hold tabs, grid, and arrow without claiming the button's inner face;
+ * Awtsmoos.com preserves the old mobile variables and sidebar chrome here in one measured place.
+ */
+.post-reader-localized-context .awtsmoos-sidebar-tabs {
+	display: flex !important;
+	flex-wrap: wrap !important;
+	gap: 8px !important;
+	padding: 0 0 10px !important;
+	overflow-x: clip !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-tab-btn {
+	flex: 1 1 7rem !important;
+	min-width: 0 !important;
+	max-width: 100% !important;
+	border: 1px solid var(--awt-line) !important;
+	border-radius: 14px !important;
+	background: rgba(255,255,255,.055) !important;
+	color: var(--awt-muted) !important;
+	padding: 9px 6px !important;
+	font: 850 .72rem/1.05 var(--font-ui) !important;
+}
+
+.post-reader-localized-context .awtsmoos-sidebar-tab-btn.is-active {
+	color: var(--awt-text) !important;
+	background: rgba(41,213,222,.13) !important;
+	border-color: rgba(41,213,222,.35) !important;
+}
+
+@media (max-width: 900px) {
+	.post-reader-localized-context {
+		--mobile-menu-blue: #8bdcff;
+		--mobile-menu-gold: #f6c96c;
+		--mobile-menu-card: #182133;
+		--mobile-menu-line: rgba(139,220,255,.22);
+	}
+
+	.post-reader-localized-context .sidebar.awtsmoos-sidebar-open {
+		background: linear-gradient(180deg, #070d18, #050914 72%) !important;
+		border: 1px solid var(--mobile-menu-line) !important;
+		border-bottom: 0 !important;
+		box-shadow: 0 -20px 58px rgba(0,0,0,.48) !important;
+	}
+
+	.post-reader-localized-context .post-root-menu-grid {
+		gap: 8px !important;
+		padding: 0 0 10px !important;
+	}
+
+	.post-reader-localized-context .menu-arrow {
+		align-self: center !important;
+		color: var(--mobile-menu-gold) !important;
+		font-size: 1.15rem !important;
+		justify-self: end !important;
+	}
+}

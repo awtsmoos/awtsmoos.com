@@ -3,7 +3,7 @@
 //Blessed is He
 /**
  * The Awtsmoos renews seven teachings while the walkable city becomes their living gate;
- * Awtsmoos.com proves content, routes, catalog truth, builder vessels, and public discovery remain whole as ownership changes state.
+ * Awtsmoos.com proves content, routes, lazy game identity, builder vessels, and public discovery remain whole as ownership changes state.
  */
 
 import assert from "node:assert/strict";
@@ -32,7 +32,7 @@ assert.equal(FOUNDATIONS.length, 7);
 assert.equal(UNIVERSE_GAMES.length, 7);
 assert.equal(Object.keys(GAME_REGISTRY).length, 7);
 assert.equal(
-	(gameRegistry.match(/:\s*[A-Z][A-Za-z]+Game/g) || []).length,
+	(gameRegistry.match(/:\s*\(\) => import\(/g) || []).length,
 	7
 );
 assert.ok(SCENARIOS.length >= 21);
@@ -90,4 +90,4 @@ assert.match(gamesCatalog, /title: "Seven Mitzvos"/);
 assert.match(gamesCatalog, /href: "\.\/seven-mitzvos\/"/);
 assert.match(gamesCatalog, /Seven distinct games plus a preserved scenario world and Covenant City builder/);
 assert.match(gamesCatalog, /badge: "Seven Worlds"/);
-console.log('B"H · Seven living-city content, catalog truth, and preserved systems verified.');
+console.log('B"H · Seven living-city content, lazy game identity, catalog truth, and preserved systems verified.');

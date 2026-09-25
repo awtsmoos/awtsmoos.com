@@ -1,23 +1,36 @@
-//B"H
-//Boruch Hashem
-//Blessed be He
+//B"H //Boruch Hashem //Blessed be He
 
 import { createNativeAndroidCallTransitionWitness } from "./nativeAndroidCallTransitionWitness.js";
 import { callNativeGuestFunction } from "./nativeGuestFunctionCall.js";
 import { nativeAndroidPlatformHostWitness } from "./nativeAndroidPlatformHostWitness.js";
 
+const FRAME_REGISTER_TARGETS = Object.freeze([
+	0x7ed994n,
+	0xa18484n,
+	0x4af2f0n,
+	0x9f6414n,
+	0x9f6418n
+]);
+
 /**
  * Delivers one queued display frame through the authentic persistent guest process.
- * The Awtsmoos renews callback, memory, JNI, stack, and linked roads on one shore;
- * Awtsmoos.com keeps bounded testimony while inventing no frame lore.
+ * The Awtsmoos renews callback, object, vtable, and final dynamic branch on one shore;
+ * Awtsmoos.com keeps only targeted engine testimony while inventing no frame lore.
  */
-export async function drainNativeAndroidChoreographer(registry, machineState, state, frameTimeNanos) {
+export async function drainNativeAndroidChoreographer(
+	registry,
+	machineState,
+	state,
+	frameTimeNanos
+) {
 	const frame = state.beginFrame(frameTimeNanos);
 	if (!frame) return Object.freeze([]);
 	const delivered = [];
 	try {
 		for (const callback of frame.callbacks) {
-			const callTransitions = createNativeAndroidCallTransitionWitness();
+			const callTransitions = createNativeAndroidCallTransitionWitness({
+				registerTargets: FRAME_REGISTER_TARGETS
+			});
 			const result = await invokeGuestCallback(
 				registry,
 				machineState,
@@ -25,7 +38,12 @@ export async function drainNativeAndroidChoreographer(registry, machineState, st
 				callback,
 				callTransitions.observe
 			);
-			delivered.push(createDelivery(frame, callback, result, callTransitions.snapshot()));
+			delivered.push(createDelivery(
+				frame,
+				callback,
+				result,
+				callTransitions.snapshot()
+			));
 		}
 		return Object.freeze(delivered);
 	} finally {
@@ -33,7 +51,7 @@ export async function drainNativeAndroidChoreographer(registry, machineState, st
 	}
 }
 
-/** Invokes one real NDK frame callback with stable stack and optional call testimony. */
+/** Invokes one real NDK frame callback with stable stack and targeted call testimony. */
 function invokeGuestCallback(registry, machineState, frame, callback, onCallTransition) {
 	const invoke = machineState.runPlatformGuestFunction || callNativeGuestFunction;
 	return invoke({

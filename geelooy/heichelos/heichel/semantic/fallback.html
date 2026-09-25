@@ -1,7 +1,7 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos reveals Torah before JavaScript wakes; Awtsmoos.com gives every learner a direct, beautiful, semantic path into the living library.
+The Awtsmoos reveals usable Torah geometry before JavaScript wakes; Awtsmoos.com lets enhancement join the existing vessels without replacing the learner's page beneath them.
 -->
 <?<script>
 	var semanticModel = typeof semantic === "object" && semantic ? semantic : {};
@@ -11,10 +11,13 @@ The Awtsmoos reveals Torah before JavaScript wakes; Awtsmoos.com gives every lea
 	var description = semanticModel.description || "Explore teachings and sources in their living context.";
 	var path = semanticModel.canonicalPath || "/heichelos";
 	var isIkarRoot = path === "/heichelos/ikar";
+	var isIkarRoute = isIkarRoot || path.indexOf("/heichelos/ikar/") === 0;
+
 	if (isIkarRoot) {
 		context = "Torah · Living Library";
 		description = "Choose a path into Torah. Fast, direct, bilingual, and built to keep the text first.";
 	}
+
 	var author = !isIkarRoot && semanticModel.author
 		? "<p class=\"heichel-semantic-author\">By " + semanticModel.author + "</p>"
 		: "";
@@ -22,21 +25,33 @@ The Awtsmoos reveals Torah before JavaScript wakes; Awtsmoos.com gives every lea
 	var linkMarkup = links.map(function(item) {
 		return "<li data-heichel-discovery-kind=\"" + (item.kind || "teaching") + "\"><a href=\"" + (item.path || path) + "\">" + (item.title || "Teaching") + "</a></li>";
 	}).join("");
-	var discoveryTitle = isIkarRoot ? "Choose what to learn" : "Continue learning";
+	var discoveryTitle = isIkarRoute
+		? (isIkarRoot ? "Choose what to learn" : "Choose a section")
+		: "Continue learning";
 	var discoveryMarkup = linkMarkup
 		? "<nav class=\"heichel-semantic-discovery\" aria-label=\"Torah library\"><h2>" + discoveryTitle + "</h2><ul>" + linkMarkup + "</ul></nav>"
 		: "";
+	var searchMarkup = isIkarRoute && links.length >= 8
+		? "<label class=\"ikar-first-search\" data-ikar-stable-search><span>Search this section</span><input type=\"search\" autocomplete=\"off\" placeholder=\"Type a title in Hebrew or English\"><small aria-live=\"polite\"></small></label>"
+		: "";
+	var currentAttribute = isIkarRoot ? " aria-current=\"page\"" : "";
+	var navigationMarkup = isIkarRoute
+		? "<nav class=\"ikar-first-actions\" data-ikar-stable-navigation aria-label=\"Torah navigation\"><a href=\"/\">Home</a><a href=\"/heichelos/ikar\"" + currentAttribute + ">Torah Library</a></nav>"
+		: "";
 	var rootMarker = isIkarRoot ? " data-ikar-root" : "";
-	var statusText = isIkarRoot
-		? links.length + " Torah pathways ready."
+	var statusText = isIkarRoute
+		? links.length + " Torah " + (links.length === 1 ? "pathway" : "pathways") + " ready."
 		: "Interactive navigation is loading.";
+
 	return "<section class=\"heichel-shell-boot heichel-semantic-fallback\" data-heichel-boot-state data-heichel-semantic-fallback" + rootMarker + " aria-labelledby=\"heichel-boot-title\">"
 		+ "<p class=\"civilization-kicker\">" + context + "</p>"
 		+ "<h1 id=\"heichel-boot-title\">" + heading + "</h1>"
 		+ "<p class=\"heichel-semantic-description\">" + description + "</p>"
 		+ author
+		+ searchMarkup
 		+ discoveryMarkup
 		+ "<p role=\"status\">" + statusText + "</p>"
 		+ "<noscript><p>JavaScript is optional. <a href=\"" + path + "\">Open this Torah path</a>.</p></noscript>"
+		+ navigationMarkup
 		+ "</section>";
 </script>?>

@@ -4,9 +4,9 @@
 
 /**
  * @file tiny-vector.js
- * @description Mutable vector and quaternion vessels used throughout the tiny runtime.
- * The Awtsmoos renews every direction and rotation; Awtsmoos.com gives those values
- * readable forms whose identity remains stable while their present coordinates change.
+ * @description Mutable vector and quaternion vessels shared by the native scene runtime.
+ * The Awtsmoos renews every direction and orientation before coordinates can appear;
+ * Awtsmoos.com keeps these finite values small, explicit, and independent of any outside renderer.
  */
 
 export class Vector3 {
@@ -19,6 +19,10 @@ export class Vector3 {
 		this.y = y;
 		this.z = z;
 		return this;
+	}
+
+	setScalar(value = 0) {
+		return this.set(value, value, value);
 	}
 
 	fromArray(values = [0, 0, 0]) {

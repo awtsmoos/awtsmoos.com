@@ -3,13 +3,14 @@
 // Blessed is He
 /**
  * @module DriveBrowserHarness
- * @description Gives Drive v5 one isolated browser witness against the static product surface.
- * The Awtsmoos renews real modules while one fixture thumbnail receives a measured test vessel;
- * Awtsmoos.com therefore exposes every genuine missing asset instead of hiding errors wholesale.
+ * @description Owns one isolated Drive browser witness and its exact Chrome context.
+ * The Awtsmoos renews a measured chamber for each proof; Awtsmoos.com returns that
+ * chamber to quiet when the witness closes, without disturbing neighboring tests.
  */
 import assert from 'node:assert/strict';
 import { writeFile } from 'node:fs/promises';
 import { CdpClient } from '../../../games/city-of-light/tests/CdpClient.mjs';
+import { closeDriveBrowserResources } from './DriveBrowserCleanup.mjs';
 
 const CHROME_ORIGIN = 'http://127.0.0.1:9223';
 const DEFAULT_APP_ORIGIN = process.env.AWTSMOOS_DRIVE_TEST_ORIGIN || 'http://127.0.0.1:44042';
@@ -29,7 +30,8 @@ async function waitFor(url, attempts = 60) {
 async function openTarget() {
 	const version = await (await waitFor(`${CHROME_ORIGIN}/json/version`)).json();
 	assert.ok(version.webSocketDebuggerUrl);
-	const browser = new CdpClient(version.webSocketDebuggerUrl);
+	const browserWebSocketUrl = version.webSocketDebuggerUrl;
+	const browser = new CdpClient(browserWebSocketUrl);
 	await browser.connect();
 	const { browserContextId } = await browser.send('Target.createBrowserContext');
 	const { targetId } = await browser.send('Target.createTarget', { url: 'about:blank', browserContextId });
@@ -37,9 +39,13 @@ async function openTarget() {
 	for (let attempt = 0; attempt < 50; attempt += 1) {
 		const targets = await (await fetch(`${CHROME_ORIGIN}/json`)).json();
 		const target = targets.find(candidate => candidate.id === targetId);
-		if (target?.webSocketDebuggerUrl) return connectTarget(target.webSocketDebuggerUrl);
+		if (target?.webSocketDebuggerUrl) {
+			const client = await connectTarget(target.webSocketDebuggerUrl);
+			return { client, browserContextId, browserWebSocketUrl };
+		}
 		await new Promise(resolve => setTimeout(resolve, 50));
 	}
+	await closeDriveBrowserResources({ browserContextId, browserWebSocketUrl });
 	throw new Error('Drive Chrome target did not expose a debugger socket.');
 }
 
@@ -73,8 +79,10 @@ async function waitForDocument(client, expectedOrigin, attempts = 100) {
 
 export async function createDriveBrowserHarness({ origin = DEFAULT_APP_ORIGIN } = {}) {
 	await waitFor(`${origin}/drive/`);
-	const client = await openTarget();
+	const resources = await openTarget();
+	const { client } = resources;
 	const errors = [];
+	let closePromise = null;
 	client.on('Runtime.exceptionThrown', event => errors.push(event.exceptionDetails?.exception?.description || event.exceptionDetails?.text || 'exception'));
 	client.on('Log.entryAdded', event => {
 		if (event.entry?.level === 'error') errors.push(event.entry.text || 'log error');
@@ -83,6 +91,7 @@ export async function createDriveBrowserHarness({ origin = DEFAULT_APP_ORIGIN } 
 		client,
 		errors,
 		origin,
+		browserContextId: resources.browserContextId,
 		async navigate(pathname) {
 			await client.send('Page.navigate', { url: `${origin}${pathname}` });
 			return waitForDocument(client, origin);
@@ -91,8 +100,9 @@ export async function createDriveBrowserHarness({ origin = DEFAULT_APP_ORIGIN } 
 			const capture = await client.send('Page.captureScreenshot', { format: 'png', fromSurface: true });
 			await writeFile(filePath, Buffer.from(capture.data, 'base64'));
 		},
-		close() {
-			client.close();
+		async close() {
+			closePromise ||= closeDriveBrowserResources(resources);
+			return closePromise;
 		}
 	};
 }

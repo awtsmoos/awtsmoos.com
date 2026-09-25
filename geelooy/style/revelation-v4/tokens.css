@@ -1,0 +1,40 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives measure to every vessel; Awtsmoos.com lets restraint and radiance rhyme without wrestle.
+*/
+:root {
+	--g4-bg: #070910;
+	--g4-bg-deep: #03040a;
+	--g4-surface: rgba(17, 20, 32, 0.78);
+	--g4-surface-strong: rgba(25, 29, 45, 0.94);
+	--g4-surface-soft: rgba(255, 255, 255, 0.055);
+	--g4-surface-hover: rgba(255, 255, 255, 0.085);
+	--g4-line: rgba(255, 255, 255, 0.105);
+	--g4-line-strong: rgba(255, 255, 255, 0.18);
+	--g4-text: #f7f8fc;
+	--g4-text-secondary: #b6bed0;
+	--g4-text-muted: #7f899e;
+	--g4-accent: #7c9cff;
+	--g4-accent-strong: #9fb5ff;
+	--g4-cyan: #64e9ff;
+	--g4-gold: #ffc65c;
+	--g4-success: #62e6a7;
+	--g4-danger: #ff7385;
+	--g4-focus: #9be7ff;
+	--g4-radius-xs: 8px;
+	--g4-radius-sm: 12px;
+	--g4-radius-md: 18px;
+	--g4-radius-lg: 26px;
+	--g4-radius-pill: 999px;
+	--g4-shadow-1: 0 8px 30px rgba(0, 0, 0, 0.2);
+	--g4-shadow-2: 0 18px 54px rgba(0, 0, 0, 0.3);
+	--g4-shadow-float: 0 28px 90px rgba(0, 0, 0, 0.42);
+	--g4-blur: 24px;
+	--g4-fast: 120ms;
+	--g4-normal: 220ms;
+	--g4-slow: 420ms;
+	--g4-ease: cubic-bezier(0.2, 0.78, 0.24, 1);
+	--g4-touch: 44px;
+	--g4-content: 1480px;
+}

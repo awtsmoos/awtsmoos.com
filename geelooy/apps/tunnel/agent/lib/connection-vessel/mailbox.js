@@ -2,11 +2,13 @@
 // Boruch Hashem
 // Blessed is He
 
+const fs = require("node:fs");
 const Custody = require("./mailbox-custody.js");
 const Evidence = require("./mailbox-evidence.js");
 const Incarnation = require("./connection-incarnation.js");
 const ObsoleteQuarantine = require("./mailbox-obsolete-quarantine.js");
 const QuarantineGuard = require("./mailbox-quarantine-guard.js");
+const PoisonQuarantine = require("./mailbox-quarantine.js");
 const Store = require("./mailbox-store.js");
 const Writer = require("./mailbox-writer.js");
 
@@ -69,6 +71,57 @@ function createMailbox(config = {}, options = {}) {
 		return quarantine.quarantineExact(id, reason);
 	}
 
+	/**
+	 * C20 poison-message quarantine: moves a deterministically-failing inbox
+	 * record aside to semantic quarantine with reason + evidence. Unlike
+	 * quarantineExact (whose guard intentionally refuses live records), this is
+	 * an explicit, audited path: custody is settled first so the record stops
+	 * tripping stall detectors as unsettled, then the durable bytes are moved
+	 * byte-identical (restorable) with an audit note carrying the poison
+	 * evidence. Only fencing-deliverable records may arrive here; callers must
+	 * enforce that before invoking.
+	 */
+	function quarantinePoisonInbox(id, evidence = {}) {
+		const key = String(id || "").trim();
+		if (!key) {
+			return { moved: false, id: key, reason: "mailbox_id_required" };
+		}
+		custody.settle(key);
+		let moved;
+		try {
+			moved = PoisonQuarantine.move(
+				config,
+				"inbox",
+				key,
+				"poison_delivery_attempts_exhausted"
+			);
+		} catch (error) {
+			return { moved: false, id: key, reason: String(error?.message || error) };
+		}
+		if (moved && moved.moved === true) {
+			appendPoisonEvidence(moved.destination, evidence);
+		}
+		return { ...moved, id: key, evidence: { ...evidence } };
+	}
+
+	/**
+	 * Appends the poison evidence to the quarantine audit note written by
+	 * mailbox-quarantine.js#move, so forensics can join the quarantine to the
+	 * delivery failures that caused it. Best-effort: never throws.
+	 */
+	function appendPoisonEvidence(destination, evidence) {
+		try {
+			const auditPath = `${destination}.audit.json`;
+			const existing = JSON.parse(fs.readFileSync(auditPath, "utf8"));
+			existing.poisonEvidence = { ...evidence };
+			fs.writeFileSync(auditPath, `${JSON.stringify(existing, null, 2)}
+`, {
+				encoding: "utf8",
+				mode: 0o600
+			});
+		} catch {}
+	}
+
 	function inbox() {
 		return store.list("inbox").map(entry => entry.value);
 	}
@@ -101,6 +154,7 @@ function createMailbox(config = {}, options = {}) {
 		putOutbox: writer.putOutbox,
 		quarantineExact,
 		quarantineInvalid,
+		quarantinePoisonInbox,
 		retireRejectedInbox,
 		setCurrentIncarnation,
 		settleCustody,

@@ -12,17 +12,18 @@ import {
 } from "./aarch64ExclusiveMonitor.js";
 
 /**
- * Executes single-register exclusive memory instructions with one local monitor.
- *
- * The Awtsmoos recreates loaded value, reservation, store verdict, and status anew;
- * Awtsmoos.com changes guest bytes only when the exact promise remains present.
+ * Executes one-register exclusive memory operations against a generation-bound local monitor.
+ * The Awtsmoos recreates load, promise, verdict, and status anew in the same memory-world;
+ * Awtsmoos.com rejects a stale exclusive promise before any guest byte can be unfurled.
  */
 export function executeAarch64ExclusiveMemory(
 	instruction,
 	registers,
 	memory
 ) {
-	if (instruction.family !== "load-store-exclusive") return false;
+	if (instruction.family !== "load-store-exclusive") {
+		return false;
+	}
 	const address = registers.read(instruction.base, 64, "sp");
 	if (instruction.store) {
 		executeExclusiveStore(instruction, registers, memory, address);
@@ -44,16 +45,24 @@ function executeExclusiveLoad(instruction, registers, memory, address) {
 		instruction.resultWidth,
 		"zero"
 	);
-	establishAarch64ExclusiveReservation(registers, address, instruction.width);
+	establishAarch64ExclusiveReservation(
+		registers,
+		memory,
+		address,
+		instruction.width
+	);
 }
 
 function executeExclusiveStore(instruction, registers, memory, address) {
 	const succeeded = consumeAarch64ExclusiveReservation(
 		registers,
+		memory,
 		address,
 		instruction.width
 	);
-	if (succeeded) writeExclusiveValue(instruction, registers, memory, address);
+	if (succeeded) {
+		writeExclusiveValue(instruction, registers, memory, address);
+	}
 	registers.write(
 		instruction.statusRegister,
 		succeeded ? 0n : 1n,

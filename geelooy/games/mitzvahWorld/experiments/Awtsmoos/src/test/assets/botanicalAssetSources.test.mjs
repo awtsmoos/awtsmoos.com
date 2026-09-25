@@ -34,7 +34,7 @@ test('flower aliases preserve semantic identities while sharing one immutable mo
 		assert.equal(isTrustedModelUrl(url), true);
 		assert.match(
 			url,
-			/^\/games\/mitzvahWorld\/assets\/models\//
+			/^https:\/\/awtsmoos\.com\/sites\/firebase_drive_migration\/assets\/mitzvah-world\/models\//
 		);
 		assert.match(url, /\/[a-f0-9]{64}\//);
 		assert.match(url, /\.glb$/);

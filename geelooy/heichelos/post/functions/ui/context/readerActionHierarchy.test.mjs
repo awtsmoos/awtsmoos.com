@@ -1,24 +1,36 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @file readerActionHierarchy.test.mjs
- * @description Guards the split reader-action hierarchy so study deeds lead
- * while global utilities remain secondary and selection actions stay conditional.
+ * @description
+ * The Awtsmoos lets selected Torah enter one coherent Study Sheet while utilities stay secondary;
+ * Awtsmoos.com proves translation, Tanach, and related study share one action language without flattening their engines.
  */
+
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 const read = name => readFileSync(new URL(name, import.meta.url), 'utf8');
 
-test('word study actions lead while utility actions are explicitly secondary', () => {
+test('word study actions lead through the shared Study Sheet', () => {
 	const actions = read('./actions.js');
-	assert.match(actions, /Define this word/);
-	assert.match(actions, /Search this word in Tanach/);
-	assert.match(actions, /Find related sources/);
+	assert.match(actions, /Translate & define/);
+	assert.match(actions, /Search word in Tanach/);
+	assert.match(actions, /Find related Torah/);
+	assert.match(actions, /openStudySheet\(word, 'translate'\)/);
+	assert.match(actions, /openStudySheet\(word, 'tanach'\)/);
+	assert.match(actions, /openStudySheet\(subject, 'related'\)/);
 	assert.match(actions, /importance: 'secondary'/);
-	assert.match(actions, /torah-language-tools/);
+});
+
+test('translation remains an internal Awtsmoos destination', () => {
+	const modes = read('./studySheetModes.js');
+	assert.match(modes, /\/heichelos\/ikar\/series\/torah-language-tools/);
+	assert.match(modes, /Open Translation & Dictionary/);
+	assert.doesNotMatch(modes.toLowerCase(), /sefaria/);
 });
 
 test('selection utility remains conditional after modular split', () => {

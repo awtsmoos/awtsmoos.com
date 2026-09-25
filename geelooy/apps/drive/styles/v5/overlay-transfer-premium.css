@@ -1,0 +1,63 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos contains every destination while the person chooses one finite place; Awtsmoos.com turns Move and Copy into a clear folder journey with one luminous final commitment. */
+.drive-bulk-dialog {
+	border-color: rgba(84, 237, 187, .24);
+	background: linear-gradient(160deg, rgba(8, 25, 21, .99), rgba(3, 12, 10, .99));
+	box-shadow: 0 30px 90px rgba(0, 0, 0, .55), var(--drive-glow);
+}
+
+.drive-bulk-dialog h2 {
+	margin: 0;
+	font-size: 1.2rem;
+	font-weight: 820;
+	letter-spacing: -.025em;
+}
+
+.drive-bulk-dialog form > p {
+	margin: 0;
+	color: var(--drive-muted);
+	font-size: .76rem;
+}
+
+.drive-folder-chooser-location {
+	min-height: 64px;
+	padding: 11px 12px;
+	border-color: rgba(84, 237, 187, .18);
+	background: rgba(84, 237, 187, .05);
+}
+
+.drive-folder-chooser-location strong {
+	font-size: .82rem;
+}
+
+.drive-folder-chooser-location [data-folder-up] {
+	border-color: rgba(84, 237, 187, .22);
+	color: var(--drive-accent);
+}
+
+.drive-folder-choice {
+	min-height: 52px;
+}
+
+.drive-bulk-dialog [data-folder-create] {
+	min-height: 44px;
+	border-color: rgba(84, 237, 187, .28);
+	background: rgba(84, 237, 187, .045);
+	font-weight: 730;
+}
+
+.drive-bulk-dialog [data-folder-submit] {
+	min-height: 48px;
+	border-color: var(--drive-accent);
+	background: linear-gradient(145deg, var(--drive-accent), #3cd9ad);
+	color: #04130f;
+	font-weight: 820;
+	box-shadow: 0 14px 30px rgba(84, 237, 187, .16);
+}
+
+.drive-bulk-dialog [data-cancel] {
+	min-height: 44px;
+	background: transparent;
+}

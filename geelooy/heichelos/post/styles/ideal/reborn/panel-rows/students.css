@@ -1,0 +1,71 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives each student row a distinct vessel where identity may shine without borrowing menu law;
+ * Awtsmoos.com keeps student card, avatar, copy, and opening geometry together so one exact owner is what we saw.
+ */
+.post-reader-localized-context .awtsmoos-student-row {
+	width: 100% !important;
+	max-width: 100% !important;
+	min-width: 0 !important;
+	border: 1px solid var(--awt-line) !important;
+	border-radius: var(--awt-radius) !important;
+	background: linear-gradient(180deg, var(--awt-panel-2), rgba(11,18,32,.94)) !important;
+	color: var(--awt-text) !important;
+	box-shadow: inset 0 1px 0 rgba(255,255,255,.04) !important;
+	display: grid !important;
+	grid-template-columns: minmax(0, 1fr) !important;
+	align-items: stretch !important;
+	gap: 10px !important;
+	padding: 10px !important;
+	min-height: 74px !important;
+}
+
+.post-reader-localized-context .keeper-portal-trigger,
+.post-reader-localized-context .awtsmoos-student-open {
+	display: grid !important;
+	grid-template-columns: 44px minmax(0, 1fr) !important;
+	align-items: center !important;
+	gap: 10px !important;
+	min-width: 0 !important;
+	max-width: 100% !important;
+	border: 0 !important;
+	background: transparent !important;
+	color: inherit !important;
+	padding: 0 !important;
+	text-align: start !important;
+}
+
+.post-reader-localized-context .awtsmoos-student-avatar {
+	width: 44px !important;
+	height: 44px !important;
+	min-width: 44px !important;
+	min-height: 44px !important;
+	display: grid !important;
+	place-items: center !important;
+	border-radius: 999px !important;
+	background: radial-gradient(circle at 35% 25%, var(--awt-cyan), #5b5bdc 72%) !important;
+	color: #07111f !important;
+	font: 900 1rem/1 var(--font-ui) !important;
+}
+
+.post-reader-localized-context .awtsmoos-student-copy {
+	display: grid !important;
+	min-width: 0 !important;
+	max-width: 100% !important;
+	gap: 3px !important;
+}
+
+.post-reader-localized-context .awtsmoos-student-name {
+	overflow-wrap: anywhere !important;
+	color: var(--awt-text) !important;
+	font: 900 .95rem/1.15 var(--font-ui) !important;
+	text-decoration: none !important;
+}
+
+.post-reader-localized-context .awtsmoos-student-location {
+	color: var(--awt-muted) !important;
+	font: 650 .78rem/1.25 var(--font-ui) !important;
+	overflow-wrap: anywhere !important;
+}

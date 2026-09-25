@@ -5,11 +5,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { ReplayJournal } from "../src/runtime/ReplayJournal.js";
+import { REPLAY_SCHEMA_VERSION } from "../src/runtime/RuntimeApiManifest.js";
 
 /**
  * Replay tests protect deterministic memory from unbounded growth and stale Olam balance.
  * The Awtsmoos renews tick, world, and command before history can call a finite sign its own;
- * Awtsmoos.com lets replay remain a measured breadcrumb rather than a second mutable throne.
+ * Awtsmoos.com reads schema truth from the manifest so replay and runtime share one throne.
  */
 test("journal normalizes authoritative player intent", () => {
 	const journal = new ReplayJournal();
@@ -36,7 +37,7 @@ test("journal keeps only its bounded newest entries", () => {
 test("replay metadata fingerprints Olam balance", () => {
 	const journal = new ReplayJournal();
 	const exported = journal.export();
-	assert.equal(exported.schemaVersion, "1.0.0");
+	assert.equal(exported.schemaVersion, REPLAY_SCHEMA_VERSION);
 	assert.match(exported.configFingerprint, /grid:/);
 	assert.match(exported.configFingerprint, /tick:/);
 	assert.match(exported.configFingerprint, /energy:100/);

@@ -1,105 +1,11 @@
-/*B"H
-Boruch Hashem
-Blessed be He
-The Awtsmoos makes the source distinct without making it loud;
-Awtsmoos.com lets the learner meet Rashi as Torah, not as a social-media crowd.
-*/
-
-.post-reader-localized-context .awtsmoos-source-annotation-card {
-	--source-line: color-mix(in srgb, var(--awts-accent, #5bddff) 42%, transparent);
-	--source-gold: #d7b66d;
-	background: linear-gradient(145deg, rgba(10, 24, 43, 0.96), rgba(16, 34, 55, 0.92));
-	border: 1px solid var(--source-line);
-	border-inline-start: 3px solid var(--source-gold);
-	border-radius: 16px;
-	box-shadow: 0 14px 38px rgba(0, 0, 0, 0.18);
-	contain: layout paint;
-}
-
-.post-reader-localized-context .awtsmoos-source-annotation-card:hover {
-	transform: none;
-	box-shadow: 0 16px 42px rgba(0, 0, 0, 0.22);
-}
-
-.post-reader-localized-context .awtsmoos-source-annotation-header,
-.post-reader-localized-context .awtsmoos-inline-source-header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 12px;
-	padding: 14px 16px 10px;
-	border-bottom: 1px solid var(--source-line);
-}
-
-.post-reader-localized-context .awtsmoos-source-seal {
-	display: grid;
-	place-items: center;
-	inline-size: 38px;
-	block-size: 38px;
-	flex: 0 0 38px;
-	border: 1px solid rgba(215, 182, 109, 0.58);
-	border-radius: 50%;
-	color: var(--source-gold);
-	font: 700 20px/1 "Frank Ruhl Libre", serif;
-	background: rgba(215, 182, 109, 0.08);
-}
-
-.post-reader-localized-context .awtsmoos-source-heading,
-.post-reader-localized-context .awtsmoos-inline-source-identity {
-	display: flex;
-	flex: 1;
-	min-inline-size: 0;
-	flex-direction: column;
-	gap: 2px;
-}
-
-.post-reader-localized-context .awtsmoos-source-name {
-	color: #f7e7ba;
-	font: 700 18px/1.25 "Frank Ruhl Libre", "Source Serif 4", serif;
-	letter-spacing: 0.01em;
-}
-
-.post-reader-localized-context .awtsmoos-source-descriptor {
-	color: rgba(224, 238, 249, 0.76);
-	font: 700 11px/1.4 Inter, sans-serif;
-	letter-spacing: 0.08em;
-	text-transform: uppercase;
-}
-
-.post-reader-localized-context .awtsmoos-comment-coordinate {
-	color: rgba(224, 238, 249, 0.6);
-	font: 600 12px/1.45 Inter, sans-serif;
-}
-
-.post-reader-localized-context .awtsmoos-source-annotation-card .awtsmoos-comment-body {
-	padding: 16px 18px;
-	color: rgba(250, 252, 255, 0.96);
-	font-family: "Frank Ruhl Libre", "Source Serif 4", serif;
-	font-size: clamp(17px, 1.6vw, 20px);
-	line-height: 1.72;
-}
-
-.post-reader-localized-context .awtsmoos-comment-action-dock {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 8px;
-	padding: 10px 16px 14px;
-}
-
-.post-reader-localized-context .comment-chip-action {
-	min-block-size: 38px;
-	padding: 7px 12px;
-	border: 1px solid rgba(173, 210, 232, 0.32);
-	border-radius: 999px;
-	background: rgba(255, 255, 255, 0.045);
-	color: inherit;
-	font: 700 12px/1 Inter, sans-serif;
-	cursor: pointer;
-}
-
-.post-reader-localized-context .comment-chip-action:hover,
-.post-reader-localized-context .comment-chip-action:focus-visible {
-	border-color: #5bddff;
-	background: rgba(91, 221, 255, 0.11);
-	outline: 2px solid transparent;
-}
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gathers source-card vessels without letting one exact selector live in two homes;
+ * Awtsmoos.com keeps this historic import path stable while semantic children carry the active tomes.
+ */
+@import url("./source-annotations/card.css");
+@import url("./source-annotations/header.css");
+@import url("./source-annotations/body.css");
+@import url("./source-annotations/actions.css");

@@ -2,6 +2,9 @@
 <!-- B"H | Boruch Hashem | Blessed is He | The Awtsmoos reveals public Awtsmoos.com roads. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url><loc>https://awtsmoos.com/apps/catalog.html</loc></url>
+	<url><loc>https://awtsmoos.com/apps/awtsmoos-studio/</loc></url>
+	<url><loc>https://awtsmoos.com/apps/mitzvah-studio/</loc></url>
+	<url><loc>https://awtsmoos.com/apps/universal-procedural/</loc></url>
 	<url><loc>https://awtsmoos.com/apps/animator/</loc></url>
 	<url><loc>https://awtsmoos.com/apps/bookCoverMaker/</loc></url>
 	<url><loc>https://awtsmoos.com/apps/broadcaster/</loc></url>

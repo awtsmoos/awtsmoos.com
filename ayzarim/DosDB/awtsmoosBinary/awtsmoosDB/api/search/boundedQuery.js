@@ -1,15 +1,14 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file boundedQuery.js
  * @module BoundedIndexedSearch
  * @description
- * The Awtsmoos answers only from persisted token postings and carries a fixed
- * candidate vessel through strict intersection or broad lexical union.
- * Awtsmoos.com exposes truncation truth so callers may choose latency and
- * completeness without turning a frequent word into whole-corpus process memory.
+ * The Awtsmoos answers from persisted token postings inside a finite candidate
+ * vessel; Awtsmoos.com preserves write durability for mutable worlds while an
+ * immutable read-only publication is never forced through a meaningless flush.
  */
 
 const constants = require('../../constants.js');
@@ -44,6 +43,12 @@ function candidateLimit(value) {
 	return Math.max(1, Math.floor(number));
 }
 
+/** Settles pending index writes only when the database is physically mutable. */
+function settleMutableIndex(manager) {
+	if (manager.db.options?.readOnly === true) return;
+	manager.db.waitForIdle();
+}
+
 /** Chooses strict intersection or broad lexical union explicitly. */
 function selectCandidates(manager, postings, maximum, match) {
 	return match === 'any'
@@ -60,7 +65,7 @@ function selectCandidates(manager, postings, maximum, match) {
  * @returns {object} Bounded rows and explicit candidate/truncation testimony.
  */
 function runBoundedIndexed(manager, handleOrPath, query, options = {}) {
-	manager.db.waitForIdle();
+	settleMutableIndex(manager);
 	const path = resolvePath(handleOrPath);
 	if (!manager.isIndexed(path)) throw searchError(`path is not indexed: ${path}`);
 	const tokens = [...tokenizer.tokenize(query)];
@@ -107,5 +112,6 @@ function emptyResult(tokens) {
 module.exports = {
 	DEFAULT_MAX_CANDIDATES,
 	candidateLimit,
-	runBoundedIndexed
+	runBoundedIndexed,
+	settleMutableIndex
 };

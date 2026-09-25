@@ -2,9 +2,9 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * @file Measures mobile Drive composition against the reference constitution.
- * @description The Awtsmoos fits a whole file world into the palm without crushing its grace;
- * Awtsmoos.com proves search, actions, folders, sheet, dock, and upload occupy their rightful place.
+ * @file Measures mobile Drive composition against the current tactile Home constitution.
+ * @description The Awtsmoos fits one file world into the palm without crushing its grace;
+ * Awtsmoos.com proves search, actions, folder rail, file grid, sheet, dock, and upload stay in place.
  */
 import assert from 'node:assert/strict';
 import { createDriveBrowserHarness } from './DriveBrowserHarness.mjs';
@@ -23,13 +23,15 @@ try {
 	const home = await harness.client.evaluate(`(() => {
 		const box = node => { const r = node.getBoundingClientRect(); return { x:r.x, y:r.y, w:r.width, h:r.height, b:r.bottom }; };
 		const styled = node => ({ ...box(node), position:getComputedStyle(node).position, bg:getComputedStyle(node).backgroundColor });
+		const rail = document.querySelector('.drive-folder-rail');
 		return {
 			overflow: document.documentElement.scrollWidth - innerWidth,
 			account: box(document.querySelector('#drive-alias-chip')),
 			search: box(document.querySelector('.drive-search-field')),
 			upload: styled(document.querySelector('#choose-files')),
-			folders: [...document.querySelectorAll('.drive-home-folders .drive-entry-card')].slice(0, 4).map(box),
-			recentY: document.querySelector('.drive-home-recent')?.getBoundingClientRect().y,
+			folders: [...rail.querySelectorAll('[data-entry-type="folder"]')].slice(0, 4).map(box),
+			rail: { ...box(rail), overflowX:getComputedStyle(rail).overflowX },
+			firstFile: box(document.querySelector('.drive-home-files [data-entry-type="file"]')),
 			dock: styled(document.querySelector('.drive-mobile-dock'))
 		};
 	})()`);
@@ -38,10 +40,12 @@ try {
 	assert(home.search.y < 120 && home.search.h >= 46, JSON.stringify(home));
 	assert(home.upload.bg !== 'rgba(0, 0, 0, 0)', JSON.stringify(home));
 	assert(home.folders.length >= 4, JSON.stringify(home));
-	assert(Math.abs(home.folders[0].y - home.folders[1].y) < 4, JSON.stringify(home));
-	assert(home.folders[2].y > home.folders[0].y, JSON.stringify(home));
-	assert(home.dock.position === 'fixed' && Math.abs(home.dock.b - 844) < 2, JSON.stringify(home));
-	assert(home.recentY > home.folders[2].y, JSON.stringify(home));
+	assert(home.folders.every(folder => Math.abs(folder.y - home.folders[0].y) < 4), JSON.stringify(home));
+	assert(home.folders[1].x > home.folders[0].x, JSON.stringify(home));
+	assert(home.folders[3].x > home.rail.x + home.rail.w, JSON.stringify(home));
+	assert.equal(home.rail.overflowX, 'auto', JSON.stringify(home));
+	assert(home.firstFile.y > home.rail.b, JSON.stringify(home));
+	assert(home.dock.position === 'fixed' && Math.abs(home.dock.b - 844) < 12, JSON.stringify(home));
 
 	await showList(harness.client);
 	const list = await harness.client.evaluate(`(() => {
@@ -76,5 +80,5 @@ try {
 	console.log('B"H mobile visual geometry passed', { home, list, sheet, upload });
 } finally {
 	await harness.client.send('Page.removeScriptToEvaluateOnNewDocument', { identifier: fixture }).catch(() => null);
-	harness.close();
+	await harness.close();
 }

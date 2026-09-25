@@ -1,8 +1,8 @@
 /* B"H
- * Boruch Hashem
- * Blessed is He
- * Shared cards use one border, one surface, one optional shadow, and no 3D tilt.
- */
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives depth without disorientation; Awtsmoos.com lets cards rise and tilt through shared motion tokens, then returns touch and reduced-motion vessels to perfect stillness.
+*/
 :where(.home-command-card, .home-feed-phone, .profile-hero-card, .profile-command-panel, .social-space-card, .social-empty-card, .home-route-card, .profile-about-grid article, .profile-stat-grid article, .home-post-card, .spaces-hero, .geelooy-card, .post-card, .card-wrapper) {
 	position: relative;
 	min-width: 0;
@@ -13,6 +13,7 @@
 	box-shadow: var(--shadow-paper);
 	color: var(--g-text);
 	contain: layout paint style;
+	transform-style: preserve-3d;
 	transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast) var(--ease-soft), box-shadow var(--motion-fast) var(--ease-soft), background-color var(--motion-fast) var(--ease-soft);
 }
 :where(.home-command-card, .profile-hero-card, .profile-command-panel, .home-feed-phone, .spaces-hero) {
@@ -27,8 +28,8 @@
 }
 :where(.home-command-card, .social-space-card, .home-route-card, .home-post-card, .profile-hero-card, .spaces-hero, .geelooy-card, .post-card, .card-wrapper):is(:hover, :focus-within) {
 	border-color: var(--g-border-strong);
-	box-shadow: var(--shadow-card);
-	transform: translateY(var(--motion-hover-lift));
+	box-shadow: var(--motion-shadow-lift);
+	transform: translateY(var(--motion-hover-lift)) rotateX(var(--motion-tilt-x)) rotateY(var(--motion-tilt-y));
 }
 :where(.card-header, .card-title-row, .space-title-row, .panel-header) {
 	display: flex;
@@ -52,8 +53,8 @@
 	font-family: var(--font-mono);
 	font-size: var(--type-caption);
 }
-@media (pointer: coarse) {
-	:where(.home-command-card, .social-space-card, .home-route-card, .home-post-card, .profile-hero-card, .spaces-hero, .geelooy-card, .post-card, .card-wrapper):hover {
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+	:where(.home-command-card, .social-space-card, .home-route-card, .home-post-card, .profile-hero-card, .spaces-hero, .geelooy-card, .post-card, .card-wrapper):is(:hover, :focus-within) {
 		box-shadow: var(--shadow-paper);
 		transform: none;
 	}

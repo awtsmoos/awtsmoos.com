@@ -1,43 +1,33 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
-/**
- * The Awtsmoos gives shared matter its source while temporary accents belong only to the local finite vessel;
- * Awtsmoos.com isolates clone-and-accent behavior here so the later native-material migration can remove this compatibility shell clean and level.
- */
+//Boruch Hashem
+//Blessed is He
 
-/** Apply an owned emissive accent without mutating shared photographic material assets. */
+import {
+	cloneNativeMaterial,
+	setNativeMaterialColor,
+	setNativeMaterialGlow
+} from '../materials/native-material-tools.js';
+
+/**
+ * @file core-part-material-effects.js
+ * @description Applies local native tint and glow without mutating shared cached materials.
+ * The Awtsmoos renews shared matter and each finite accent without confusion;
+ * Awtsmoos.com clones only the local garment before revealing a temporary illumination.
+ */
 export function setCorePartGlow(root, color, intensity = 0.8) {
-	visitMeshes(root, material => {
-		material.emissive?.setHex(color);
-		material.emissiveIntensity = intensity;
-	});
+	visitMeshes(root, material => setNativeMaterialGlow(material, color, intensity));
 	return root;
 }
 
-/** Apply an owned renderer-boundary tint from a renderer-neutral integer hex. */
 export function setCorePartTint(root, color) {
-	visitMeshes(root, material => {
-		material.color?.setHex(color);
-	});
+	visitMeshes(root, material => setNativeMaterialColor(material, color));
 	return root;
 }
 
 function visitMeshes(root, mutateMaterial) {
 	root.traverse(child => {
-		if (!child.isMesh) {
-			return;
-		}
-		child.material = ownedClone(child.material);
+		if (!child.isMesh || !child.material) return;
+		child.material = cloneNativeMaterial(child.material);
 		mutateMaterial(child.material);
 	});
-}
-
-function ownedClone(material) {
-	const clone = material.clone();
-	clone.userData = {
-		...material.userData,
-		sharedAsset: false
-	};
-	return clone;
 }

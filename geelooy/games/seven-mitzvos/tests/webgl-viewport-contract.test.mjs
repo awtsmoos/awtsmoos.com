@@ -1,9 +1,9 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed is He
 /**
  * The Awtsmoos holds hub, realm, teaching, and rendering beneath every finite viewport and implementation name;
- * Awtsmoos.com proves bounded layers, fixed foundations, touch-safe movement, and portable procedural geometry for the native road.
+ * Awtsmoos.com proves bounded layers, lazy route ownership, touch-safe movement, and portable procedural geometry for the native road.
  */
 
 import assert from "node:assert/strict";
@@ -37,13 +37,17 @@ test("router exposes hub, detail, game, and realm routes", () => {
 	}
 });
 
-test("application owns three persistent layers and one disposable realm session", () => {
-	const source = readSevenSource("js/app/seven-mitzvos-app.js");
-	assert.match(source, /new RealmSession/);
-	assert.match(source, /this\.realm\.start/);
-	assert.match(source, /this\.realm\.stop/);
-	assert.match(source, /\['hub', 'game', 'realm'\]/);
-	assert.match(source, /this\.world\.route\(route\)/);
+test("application owns three persistent layers and lazy disposable route sessions", () => {
+	const app = readSevenSource("js/app/seven-mitzvos-app.js");
+	const routes = readSevenSource("js/app/app-route-services.js");
+	const factories = readSevenSource("js/app/route-service-factories.js");
+	assert.match(app, /\['hub', 'game', 'realm'\]/);
+	assert.match(app, /this\.services\.startRealm\(isCurrent\)/);
+	assert.match(app, /this\.services\.deferWorld\(route, isCurrent\)/);
+	assert.match(routes, /createRealmService/);
+	assert.match(routes, /this\.realm\?\.stop\(\)/);
+	assert.match(factories, /import\('\.\.\/realm\/realm-session\.js'\)/);
+	assert.doesNotMatch(app, /new RealmSession|from ['"]\.\.\/realm\/realm-session\.js['"]/);
 });
 
 test("viewport foundation, realm, and account drawer confine scrolling", () => {
@@ -66,15 +70,13 @@ test("mobile world controls provide stable forty-eight-pixel touch geometry", ()
 	assert.match(mobile, /#worldInteract[\s\S]*min-height:\s*48px/);
 });
 
-test("registry retains seven separate teaching controllers", () => {
+test("registry retains seven separate teaching controllers as lazy loaders", () => {
 	const source = readSevenSource("js/games3d/game-registry.js");
 	for (const id of GAME_IDS) {
-		assert.match(source, new RegExp(`'${id}'\\s*:`));
+		assert.match(source, new RegExp(`'${id}'\\s*:\\s*\\(\\) => import\\(`));
 	}
-	assert.equal(
-		(source.match(/:\s*[A-Z][A-Za-z]+Game/g) || []).length,
-		7
-	);
+	assert.equal((source.match(/:\s*\(\) => import\(/g) || []).length, 7);
+	assert.doesNotMatch(source, /^import\s/m);
 });
 
 test("renderer, picker, and procedural core expose real bounded contracts", () => {

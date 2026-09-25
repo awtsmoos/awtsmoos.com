@@ -1,52 +1,51 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
+
 /**
- * @module HeichelosDiscoveryContractTest
- * @description
- * The Awtsmoos keeps the Heichelos renderer and its visual vessels speaking one
- * language, so Awtsmoos.com may reveal many worlds without returning to giant
- * fixed heights or orphaned class names.
+ * @file heichelosDiscoveryContract.test.mjs
+ * @description Guards Torah-first discovery across controller, real head, body shell, and responsive vessels.
+ * The Awtsmoos is one while each layer keeps its task; Awtsmoos.com tests present ownership instead of fossilized markup.
  */
+
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { resolve } from 'node:path';
 
-const testRoot = dirname(fileURLToPath(import.meta.url));
-const geelooyRoot = resolve(testRoot, '..');
-const read = path => readFileSync(resolve(geelooyRoot, path), 'utf8');
-const template = read('heichelos/_awtsmoos.index.html');
-const layout = read('style/heichelos/discovery-layout.css');
-const cards = read('style/heichelos/discovery-cards.css');
-const responsive = read('style/heichelos/discovery-responsive.css');
+const root = process.cwd();
+const controller = readFileSync(resolve(root, 'geelooy/heichelos/_awtsmoos.index.html'), 'utf8');
+const shell = readFileSync(resolve(root, 'templates/heichelos/discovery-shell.html'), 'utf8');
+const head = readFileSync(resolve(root, 'templates/heichelos/discovery-head.html'), 'utf8');
+const layoutCss = readFileSync(resolve(root, 'geelooy/style/heichelos/discovery-layout.css'), 'utf8');
+const cardCss = readFileSync(resolve(root, 'geelooy/style/heichelos/discovery-cards.css'), 'utf8');
+const responsiveCss = readFileSync(resolve(root, 'geelooy/style/heichelos/discovery-responsive.css'), 'utf8');
 
-const renderedClasses = [
-	'space-body',
-	'space-seal',
-	'space-copy',
-	'space-title-row',
-	'space-meta-line',
-	'space-actions'
-];
+assert.match(controller, /B(?:oruch)? Hashem/i);
+assert.match(controller, /\/api\/social\/heichelos\/discover\?limit=100/);
+assert.match(controller, /\$a\('heichelos\/discovery-shell\.html'/);
+assert.match(controller, /\$a\('heichelos\/discovery-results\.html'/);
+assert.match(controller, /\$a\('heichelos\/discovery-head\.html'/);
+assert.doesNotMatch(controller, /viewer-box/);
 
-assert.match(template, /\/style\/heichelos\/discovery\.css/);
-assert.match(template, /heichelos\/discover\?limit=100/);
+assert.match(shell, /<h1\b[^>]*>/i);
+assert.match(shell, /role="search"/);
+assert.doesNotMatch(shell, /rel="stylesheet"/);
+assert.match(head, /\/style\/geelooy-app\/index\.css/);
+assert.match(head, /\/style\/social-system\/index\.css/);
+assert.match(head, /\/style\/heichelos\/discovery\.css/);
+assert.match(head, /name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1"/);
+assert.match(head, /rel="canonical" href="https:\/\/awtsmoos\.com\/heichelos\/"/);
+assert.match(head, /name="twitter:card" content="summary"/);
+assert.match(head, /data-awtsmoos-heichelos-jsonld/);
+assert.match(head, /"@type":"CollectionPage"/);
 
-for (const className of renderedClasses) {
-	assert.match(template, new RegExp(`class="[^"]*${className}`));
-	assert.match(cards, new RegExp(`\\.${className}\\b`));
-}
-
-assert.match(layout, /position:\s*sticky;/);
-assert.match(cards, /min-block-size:\s*44px;/);
-assert.match(responsive, /prefers-reduced-motion:\s*reduce/);
-assert.doesNotMatch(layout, /min-height:\s*clamp\(17rem,\s*36vw,\s*28rem\)/);
-assert.doesNotMatch(cards, /min-block-size:\s*15rem/);
-assert.doesNotMatch(responsive, /min-height:\s*20rem/);
-
-for (const source of [layout, cards, responsive]) {
-	assert.ok(source.split('\n').length <= 120, 'discovery module exceeds 120 lines');
-}
+assert.match(layoutCss, /\.social-spaces-shell/);
+assert.match(layoutCss, /\.spaces-search/);
+assert.match(layoutCss, /max-height:\s*min\(66dvh,\s*54rem\)/);
+assert.match(layoutCss, /overflow:\s*auto/);
+assert.match(cardCss, /\.social-space-card/);
+assert.match(cardCss, /\.space-actions/);
+assert.match(responsiveCss, /max-width:\s*47\.5rem/);
+assert.match(responsiveCss, /max-width:\s*30rem/);
 
 console.log('B"H Heichelos discovery contract passed.');

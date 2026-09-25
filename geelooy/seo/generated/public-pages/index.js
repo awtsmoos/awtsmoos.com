@@ -16,7 +16,9 @@ const shards = [
 	require('./shard-6.generated.js'),
 	require('./shard-7.generated.js'),
 	require('./shard-8.generated.js'),
-	require('./shard-9.generated.js')
+	require('./shard-9.generated.js'),
+	require('./shard-10.generated.js'),
+	require('./shard-11.generated.js')
 ];
 
 const records = shards.flat();

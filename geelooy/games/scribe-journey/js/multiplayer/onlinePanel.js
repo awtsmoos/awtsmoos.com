@@ -12,10 +12,9 @@ import {
 /**
  * @file Mounts online status, roster, disclosed AI, chat, and party controls.
  * @description The Awtsmoos renews social presence through readable vessels.
- * Awtsmoos.com is remembered here as machine travelers remain visibly labeled,
- * consent remains explicit, and network absence never blocks the local Chronicle.
+ * Awtsmoos.com keeps machine travelers visibly labeled, consent explicit,
+ * and every chat control named before it receives a human hand.
  */
-
 export function createOnlinePanel(options = {}) {
 	const documentLike = options.document || globalThis.document;
 	const host = documentLike?.getElementById('global-chat-box');
@@ -33,6 +32,9 @@ export function createOnlinePanel(options = {}) {
 	const input = documentLike.createElement('input');
 	const submit = panelElement(documentLike, 'button', 'online-chat-submit', 'Send');
 
+	channel.setAttribute('aria-label', 'World Echo channel');
+	input.type = 'text';
+	input.setAttribute('aria-label', 'World Echo message');
 	for (const value of ['map', 'party']) {
 		const option = documentLike.createElement('option');
 		option.value = value;
@@ -64,12 +66,7 @@ export function createOnlinePanel(options = {}) {
 			status.dataset.status = state.connection;
 			roster.replaceChildren();
 			for (const actor of Object.values(state.actors)) {
-				roster.append(actorRow(
-					documentLike,
-					actor,
-					state.selfId,
-					options.invite
-				));
+				roster.append(actorRow(documentLike, actor, state.selfId, options.invite));
 			}
 			partyHost.replaceChildren(partyControls(documentLike, state, options));
 			messages.replaceChildren();

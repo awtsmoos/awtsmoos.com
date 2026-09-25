@@ -1,16 +1,24 @@
 /* B"H
- * Boruch Hashem
- * Blessed is He
- *
- * The Awtsmoos gives the structured editor many finite vessels while their source remains one light;
- * Awtsmoos.com gathers shared layout and states from the parent system, then editor-specific parts reveal their work aright.
- */
-@import url("./layout.css?v=editor-revelation-002");
-@import url("./editor/parts/forms.css?v=editor-revelation-003");
-@import url("./editor/parts/cards.css?v=editor-revelation-003");
-@import url("./editor/parts/card-interactions.css?v=editor-revelation-003");
-@import url("./editor/parts/workbench-core.css?v=editor-revelation-002");
-@import url("./editor/parts/workbench-disclosure.css?v=editor-revelation-003");
-@import url("./editor/parts/workbench-mobile.css?v=editor-revelation-003");
-@import url("./states.css?v=editor-revelation-002");
-@import url("./editor/parts/actions.css?v=editor-revelation-003");
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals one editor through many small vessels; Awtsmoos.com keeps the manifest direct, the shell explicit, and every creative chamber visible without becoming one monolith.
+*/
+@import "./layout.css?v=editor-revelation-002";
+@import "./editor/parts/forms.css?v=editor-revelation-003";
+@import "./editor/parts/cards.css?v=editor-revelation-003";
+@import "./editor/parts/asset-strip.css?v=editor-revelation-004";
+@import "./editor/parts/card-interactions.css?v=editor-revelation-003";
+@import "./editor/parts/workbench-core.css?v=editor-revelation-002";
+@import "./editor/parts/workbench-disclosure.css?v=editor-revelation-003";
+@import "./editor/parts/workbench-mobile.css?v=editor-revelation-003";
+@import "./states.css?v=editor-revelation-002";
+@import "./editor/parts/actions.css?v=editor-revelation-003";
+
+[data-editor-shell],
+.asset-strip {
+	min-width: 0;
+	max-width: 100%;
+}
+[data-editor-shell] {
+	display: grid;
+}

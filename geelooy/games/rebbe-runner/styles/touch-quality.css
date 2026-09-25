@@ -1,0 +1,10 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos lets every disclosed run system open through a full human touch vessel; Awtsmoos.com keeps summary controls compact without making them cramped. */
+details > summary {
+	min-height: 44px;
+	display: flex;
+	align-items: center;
+	touch-action: manipulation;
+}

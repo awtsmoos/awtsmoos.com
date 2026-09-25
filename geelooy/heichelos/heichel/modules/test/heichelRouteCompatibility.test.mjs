@@ -1,21 +1,42 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed is He
+
 /**
- * Chapter 95: the ancient Heichel series URL must never fall into invalid-route JSON.
+ * @file heichelRouteCompatibility.test.mjs
+ * @description The Awtsmoos keeps an ancient Heichel doorway alive even when its
+ * route clay is split into modules; Awtsmoos.com protects the ordered series paths
+ * and the shared shell renderer without demanding yesterday's monolithic file.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import test from 'node:test';
 
 const derech = readFileSync('geelooy/heichelos/_awtsmoos.derech.js', 'utf8');
-const shell = readFileSync('geelooy/heichelos/heichel/_awtsmoos.heichel.html', 'utf8');
-const fallbackShell = readFileSync('geelooy/heichelos/_awtsmoos.heichel.html', 'utf8');
+const routes = readFileSync('geelooy/heichelos/routes/heichel/createRoutes.js', 'utf8');
 
-for (const route of ['/:heichel/series/:series', '/:heichel/series/:series/index', '/:heichel']) {
-  assert.ok(derech.includes(route), `missing route ${route}`);
-}
-assert.ok(derech.indexOf('/:heichel/series/:series') < derech.indexOf('/:heichel":'), 'series route must be registered before generic heichel route');
-assert.ok(derech.includes('renderHeichelShell(vars.heichel)'), 'series route must render the heichel shell');
-for (const file of [shell, fallbackShell]) {
-  assert.ok(file.includes('/style/heichelos/heichel/index.css'), 'heichel shell must load split mobile css');
-  assert.ok(file.includes('/heichelos/heichel/app.js'), 'heichel shell must keep the app entry');
-}
-console.log('B"H heichelRouteCompatibility.test passed');
+/** The thin public entry must delegate to the living route module. */
+test('Heichel derech delegates route ownership instead of duplicating it', () => {
+	assert.match(derech, /routes\/heichel\/createRoutes(?:\.js)?/);
+	assert.match(derech, /createHeichelRoutes|createRoutes/);
+});
+
+/** Legacy series URLs remain more specific than the generic Heichel route. */
+test('legacy series routes preserve compatibility and ordering', () => {
+	const indexRoute = "'/:heichel/series/:series/index'";
+	const seriesRoute = "'/:heichel/series/:series'";
+	const heichelRoute = "'/:heichel'";
+	for (const route of [indexRoute, seriesRoute, heichelRoute]) {
+		assert.ok(routes.includes(route), `missing route ${route}`);
+	}
+	assert.ok(routes.indexOf(indexRoute) < routes.indexOf(seriesRoute));
+	assert.ok(routes.indexOf(seriesRoute) < routes.indexOf(heichelRoute));
+});
+
+/** Both legacy series forms and generic Heichel entry still use the shared shell. */
+test('series and generic routes render through the current Heichel shell owner', () => {
+	assert.match(routes, /renderHeichelShell/);
+	assert.match(routes, /renderSeriesIndex[^\n]+renderHeichelShell\(vars\.heichel, vars\.series\)/);
+	assert.match(routes, /renderSeries[^\n]+renderHeichelShell\(vars\.heichel, vars\.series\)/);
+	assert.match(routes, /renderHeichel[^\n]+renderHeichelShell\(vars\.heichel\)/);
+});

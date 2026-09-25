@@ -50,7 +50,7 @@ const __awtsmoosModule_16 = Object.create(null);
 
 const __awtsmoosModule_15 = Object.create(null);
 
-const __awtsmoosModule_22 = Object.create(null);
+const __awtsmoosModule_20 = Object.create(null);
 
 const __awtsmoosModule_23 = Object.create(null);
 
@@ -58,123 +58,123 @@ const __awtsmoosModule_24 = Object.create(null);
 
 const __awtsmoosModule_25 = Object.create(null);
 
-const __awtsmoosModule_21 = Object.create(null);
+const __awtsmoosModule_26 = Object.create(null);
 
-const __awtsmoosModule_28 = Object.create(null);
+const __awtsmoosModule_22 = Object.create(null);
 
 const __awtsmoosModule_29 = Object.create(null);
 
-const __awtsmoosModule_27 = Object.create(null);
-
-const __awtsmoosModule_26 = Object.create(null);
-
-const __awtsmoosModule_31 = Object.create(null);
-
 const __awtsmoosModule_30 = Object.create(null);
+
+const __awtsmoosModule_28 = Object.create(null);
+
+const __awtsmoosModule_27 = Object.create(null);
 
 const __awtsmoosModule_32 = Object.create(null);
 
-const __awtsmoosModule_20 = Object.create(null);
+const __awtsmoosModule_31 = Object.create(null);
 
 const __awtsmoosModule_33 = Object.create(null);
+
+const __awtsmoosModule_21 = Object.create(null);
 
 const __awtsmoosModule_34 = Object.create(null);
 
 const __awtsmoosModule_35 = Object.create(null);
 
-const __awtsmoosModule_19 = Object.create(null);
-
-const __awtsmoosModule_18 = Object.create(null);
-
 const __awtsmoosModule_36 = Object.create(null);
 
 const __awtsmoosModule_37 = Object.create(null);
 
-const __awtsmoosModule_17 = Object.create(null);
+const __awtsmoosModule_19 = Object.create(null);
+
+const __awtsmoosModule_18 = Object.create(null);
 
 const __awtsmoosModule_38 = Object.create(null);
 
-const __awtsmoosModule_43 = Object.create(null);
+const __awtsmoosModule_39 = Object.create(null);
 
-const __awtsmoosModule_42 = Object.create(null);
+const __awtsmoosModule_17 = Object.create(null);
 
-const __awtsmoosModule_46 = Object.create(null);
+const __awtsmoosModule_40 = Object.create(null);
 
-const __awtsmoosModule_47 = Object.create(null);
+const __awtsmoosModule_45 = Object.create(null);
+
+const __awtsmoosModule_44 = Object.create(null);
 
 const __awtsmoosModule_48 = Object.create(null);
 
 const __awtsmoosModule_49 = Object.create(null);
 
-const __awtsmoosModule_45 = Object.create(null);
-
 const __awtsmoosModule_50 = Object.create(null);
-
-const __awtsmoosModule_44 = Object.create(null);
 
 const __awtsmoosModule_51 = Object.create(null);
 
-const __awtsmoosModule_53 = Object.create(null);
+const __awtsmoosModule_47 = Object.create(null);
 
 const __awtsmoosModule_52 = Object.create(null);
 
-const __awtsmoosModule_54 = Object.create(null);
+const __awtsmoosModule_46 = Object.create(null);
+
+const __awtsmoosModule_53 = Object.create(null);
 
 const __awtsmoosModule_55 = Object.create(null);
 
-const __awtsmoosModule_41 = Object.create(null);
+const __awtsmoosModule_54 = Object.create(null);
 
-const __awtsmoosModule_60 = Object.create(null);
+const __awtsmoosModule_56 = Object.create(null);
 
-const __awtsmoosModule_61 = Object.create(null);
+const __awtsmoosModule_57 = Object.create(null);
 
-const __awtsmoosModule_59 = Object.create(null);
-
-const __awtsmoosModule_58 = Object.create(null);
+const __awtsmoosModule_43 = Object.create(null);
 
 const __awtsmoosModule_62 = Object.create(null);
 
 const __awtsmoosModule_63 = Object.create(null);
 
-const __awtsmoosModule_57 = Object.create(null);
+const __awtsmoosModule_61 = Object.create(null);
 
-const __awtsmoosModule_56 = Object.create(null);
+const __awtsmoosModule_60 = Object.create(null);
 
 const __awtsmoosModule_64 = Object.create(null);
 
-const __awtsmoosModule_40 = Object.create(null);
+const __awtsmoosModule_65 = Object.create(null);
+
+const __awtsmoosModule_59 = Object.create(null);
+
+const __awtsmoosModule_58 = Object.create(null);
 
 const __awtsmoosModule_66 = Object.create(null);
 
-const __awtsmoosModule_65 = Object.create(null);
+const __awtsmoosModule_42 = Object.create(null);
 
-const __awtsmoosModule_39 = Object.create(null);
+const __awtsmoosModule_68 = Object.create(null);
 
 const __awtsmoosModule_67 = Object.create(null);
+
+const __awtsmoosModule_41 = Object.create(null);
 
 const __awtsmoosModule_69 = Object.create(null);
 
 const __awtsmoosModule_71 = Object.create(null);
 
-const __awtsmoosModule_70 = Object.create(null);
-
-const __awtsmoosModule_68 = Object.create(null);
-
 const __awtsmoosModule_73 = Object.create(null);
 
 const __awtsmoosModule_72 = Object.create(null);
 
-const __awtsmoosModule_80 = Object.create(null);
+const __awtsmoosModule_70 = Object.create(null);
 
-const __awtsmoosModule_79 = Object.create(null);
+const __awtsmoosModule_75 = Object.create(null);
 
-const __awtsmoosModule_78 = Object.create(null);
+const __awtsmoosModule_74 = Object.create(null);
 
-const __awtsmoosModule_77 = Object.create(null);
+const __awtsmoosModule_82 = Object.create(null);
 
 const __awtsmoosModule_81 = Object.create(null);
 
-const __awtsmoosModule_82 = Object.create(null);
+const __awtsmoosModule_80 = Object.create(null);
+
+const __awtsmoosModule_79 = Object.create(null);
 
 const __awtsmoosModule_83 = Object.create(null);
 
@@ -184,31 +184,35 @@ const __awtsmoosModule_85 = Object.create(null);
 
 const __awtsmoosModule_86 = Object.create(null);
 
-const __awtsmoosModule_88 = Object.create(null);
-
 const __awtsmoosModule_87 = Object.create(null);
 
-const __awtsmoosModule_89 = Object.create(null);
+const __awtsmoosModule_88 = Object.create(null);
 
 const __awtsmoosModule_90 = Object.create(null);
 
-const __awtsmoosModule_76 = Object.create(null);
-
-const __awtsmoosModule_75 = Object.create(null);
-
-const __awtsmoosModule_74 = Object.create(null);
+const __awtsmoosModule_89 = Object.create(null);
 
 const __awtsmoosModule_91 = Object.create(null);
 
 const __awtsmoosModule_92 = Object.create(null);
 
-const __awtsmoosModule_93 = Object.create(null);
+const __awtsmoosModule_78 = Object.create(null);
 
-const __awtsmoosModule_14 = Object.create(null);
+const __awtsmoosModule_77 = Object.create(null);
+
+const __awtsmoosModule_76 = Object.create(null);
+
+const __awtsmoosModule_93 = Object.create(null);
 
 const __awtsmoosModule_94 = Object.create(null);
 
 const __awtsmoosModule_95 = Object.create(null);
+
+const __awtsmoosModule_14 = Object.create(null);
+
+const __awtsmoosModule_96 = Object.create(null);
+
+const __awtsmoosModule_97 = Object.create(null);
 
 const __awtsmoosModule_13 = Object.create(null);
 
@@ -216,13 +220,25 @@ const __awtsmoosModule_6 = Object.create(null);
 
 const __awtsmoosModule_1 = Object.create(null);
 
-const __awtsmoosModule_97 = Object.create(null);
+const __awtsmoosModule_99 = Object.create(null);
 
-const __awtsmoosModule_101 = Object.create(null);
+const __awtsmoosModule_98 = Object.create(null);
+
+const __awtsmoosModule_104 = Object.create(null);
+
+const __awtsmoosModule_105 = Object.create(null);
+
+const __awtsmoosModule_106 = Object.create(null);
+
+const __awtsmoosModule_107 = Object.create(null);
+
+const __awtsmoosModule_103 = Object.create(null);
+
+const __awtsmoosModule_108 = Object.create(null);
+
+const __awtsmoosModule_109 = Object.create(null);
 
 const __awtsmoosModule_102 = Object.create(null);
-
-const __awtsmoosModule_100 = Object.create(null);
 
 const __awtsmoosModule_110 = Object.create(null);
 
@@ -230,99 +246,85 @@ const __awtsmoosModule_111 = Object.create(null);
 
 const __awtsmoosModule_112 = Object.create(null);
 
-const __awtsmoosModule_113 = Object.create(null);
-
-const __awtsmoosModule_109 = Object.create(null);
-
-const __awtsmoosModule_114 = Object.create(null);
-
-const __awtsmoosModule_115 = Object.create(null);
-
-const __awtsmoosModule_108 = Object.create(null);
-
-const __awtsmoosModule_116 = Object.create(null);
+const __awtsmoosModule_101 = Object.create(null);
 
 const __awtsmoosModule_117 = Object.create(null);
 
-const __awtsmoosModule_118 = Object.create(null);
+const __awtsmoosModule_116 = Object.create(null);
 
-const __awtsmoosModule_107 = Object.create(null);
+const __awtsmoosModule_115 = Object.create(null);
 
-const __awtsmoosModule_106 = Object.create(null);
-
-const __awtsmoosModule_105 = Object.create(null);
-
-const __awtsmoosModule_120 = Object.create(null);
-
-const __awtsmoosModule_122 = Object.create(null);
-
-const __awtsmoosModule_121 = Object.create(null);
+const __awtsmoosModule_114 = Object.create(null);
 
 const __awtsmoosModule_119 = Object.create(null);
 
-const __awtsmoosModule_104 = Object.create(null);
+const __awtsmoosModule_118 = Object.create(null);
+
+const __awtsmoosModule_121 = Object.create(null);
+
+const __awtsmoosModule_122 = Object.create(null);
 
 const __awtsmoosModule_124 = Object.create(null);
 
-const __awtsmoosModule_125 = Object.create(null);
-
 const __awtsmoosModule_126 = Object.create(null);
-
-const __awtsmoosModule_128 = Object.create(null);
 
 const __awtsmoosModule_127 = Object.create(null);
 
+const __awtsmoosModule_125 = Object.create(null);
+
 const __awtsmoosModule_123 = Object.create(null);
 
-const __awtsmoosModule_103 = Object.create(null);
+const __awtsmoosModule_120 = Object.create(null);
 
-const __awtsmoosModule_131 = Object.create(null);
-
-const __awtsmoosModule_130 = Object.create(null);
-
-const __awtsmoosModule_134 = Object.create(null);
-
-const __awtsmoosModule_133 = Object.create(null);
-
-const __awtsmoosModule_136 = Object.create(null);
-
-const __awtsmoosModule_135 = Object.create(null);
-
-const __awtsmoosModule_132 = Object.create(null);
+const __awtsmoosModule_128 = Object.create(null);
 
 const __awtsmoosModule_129 = Object.create(null);
 
-const __awtsmoosModule_99 = Object.create(null);
+const __awtsmoosModule_113 = Object.create(null);
 
-const __awtsmoosModule_137 = Object.create(null);
+const __awtsmoosModule_130 = Object.create(null);
 
-const __awtsmoosModule_98 = Object.create(null);
+const __awtsmoosModule_132 = Object.create(null);
 
-const __awtsmoosModule_139 = Object.create(null);
+const __awtsmoosModule_134 = Object.create(null);
 
-const __awtsmoosModule_141 = Object.create(null);
+const __awtsmoosModule_135 = Object.create(null);
 
-const __awtsmoosModule_140 = Object.create(null);
+const __awtsmoosModule_133 = Object.create(null);
+
+const __awtsmoosModule_131 = Object.create(null);
 
 const __awtsmoosModule_138 = Object.create(null);
 
-const __awtsmoosModule_96 = Object.create(null);
+const __awtsmoosModule_139 = Object.create(null);
+
+const __awtsmoosModule_137 = Object.create(null);
+
+const __awtsmoosModule_140 = Object.create(null);
+
+const __awtsmoosModule_141 = Object.create(null);
+
+const __awtsmoosModule_136 = Object.create(null);
+
+const __awtsmoosModule_143 = Object.create(null);
+
+const __awtsmoosModule_144 = Object.create(null);
+
+const __awtsmoosModule_145 = Object.create(null);
 
 const __awtsmoosModule_142 = Object.create(null);
 
 const __awtsmoosModule_148 = Object.create(null);
 
-const __awtsmoosModule_147 = Object.create(null);
-
-const __awtsmoosModule_146 = Object.create(null);
-
-const __awtsmoosModule_145 = Object.create(null);
-
 const __awtsmoosModule_150 = Object.create(null);
 
 const __awtsmoosModule_149 = Object.create(null);
 
+const __awtsmoosModule_151 = Object.create(null);
+
 const __awtsmoosModule_152 = Object.create(null);
+
+const __awtsmoosModule_154 = Object.create(null);
 
 const __awtsmoosModule_153 = Object.create(null);
 
@@ -334,39 +336,33 @@ const __awtsmoosModule_158 = Object.create(null);
 
 const __awtsmoosModule_156 = Object.create(null);
 
-const __awtsmoosModule_154 = Object.create(null);
-
-const __awtsmoosModule_151 = Object.create(null);
-
-const __awtsmoosModule_159 = Object.create(null);
+const __awtsmoosModule_147 = Object.create(null);
 
 const __awtsmoosModule_160 = Object.create(null);
 
-const __awtsmoosModule_144 = Object.create(null);
-
 const __awtsmoosModule_161 = Object.create(null);
 
-const __awtsmoosModule_163 = Object.create(null);
-
-const __awtsmoosModule_165 = Object.create(null);
-
-const __awtsmoosModule_166 = Object.create(null);
-
-const __awtsmoosModule_164 = Object.create(null);
+const __awtsmoosModule_159 = Object.create(null);
 
 const __awtsmoosModule_162 = Object.create(null);
 
-const __awtsmoosModule_169 = Object.create(null);
+const __awtsmoosModule_146 = Object.create(null);
+
+const __awtsmoosModule_163 = Object.create(null);
+
+const __awtsmoosModule_164 = Object.create(null);
+
+const __awtsmoosModule_166 = Object.create(null);
 
 const __awtsmoosModule_170 = Object.create(null);
 
-const __awtsmoosModule_168 = Object.create(null);
+const __awtsmoosModule_172 = Object.create(null);
 
 const __awtsmoosModule_171 = Object.create(null);
 
-const __awtsmoosModule_172 = Object.create(null);
+const __awtsmoosModule_173 = Object.create(null);
 
-const __awtsmoosModule_167 = Object.create(null);
+const __awtsmoosModule_169 = Object.create(null);
 
 const __awtsmoosModule_174 = Object.create(null);
 
@@ -374,75 +370,75 @@ const __awtsmoosModule_175 = Object.create(null);
 
 const __awtsmoosModule_176 = Object.create(null);
 
-const __awtsmoosModule_173 = Object.create(null);
+const __awtsmoosModule_180 = Object.create(null);
 
 const __awtsmoosModule_179 = Object.create(null);
 
-const __awtsmoosModule_181 = Object.create(null);
-
-const __awtsmoosModule_180 = Object.create(null);
-
 const __awtsmoosModule_182 = Object.create(null);
-
-const __awtsmoosModule_183 = Object.create(null);
-
-const __awtsmoosModule_185 = Object.create(null);
 
 const __awtsmoosModule_184 = Object.create(null);
 
-const __awtsmoosModule_186 = Object.create(null);
+const __awtsmoosModule_185 = Object.create(null);
 
-const __awtsmoosModule_188 = Object.create(null);
-
-const __awtsmoosModule_189 = Object.create(null);
+const __awtsmoosModule_183 = Object.create(null);
 
 const __awtsmoosModule_187 = Object.create(null);
 
-const __awtsmoosModule_178 = Object.create(null);
+const __awtsmoosModule_188 = Object.create(null);
+
+const __awtsmoosModule_186 = Object.create(null);
+
+const __awtsmoosModule_181 = Object.create(null);
 
 const __awtsmoosModule_191 = Object.create(null);
 
-const __awtsmoosModule_192 = Object.create(null);
-
-const __awtsmoosModule_190 = Object.create(null);
-
 const __awtsmoosModule_193 = Object.create(null);
-
-const __awtsmoosModule_177 = Object.create(null);
 
 const __awtsmoosModule_194 = Object.create(null);
 
-const __awtsmoosModule_195 = Object.create(null);
-
 const __awtsmoosModule_197 = Object.create(null);
 
-const __awtsmoosModule_201 = Object.create(null);
+const __awtsmoosModule_196 = Object.create(null);
 
-const __awtsmoosModule_203 = Object.create(null);
+const __awtsmoosModule_195 = Object.create(null);
 
-const __awtsmoosModule_202 = Object.create(null);
-
-const __awtsmoosModule_204 = Object.create(null);
+const __awtsmoosModule_192 = Object.create(null);
 
 const __awtsmoosModule_200 = Object.create(null);
 
+const __awtsmoosModule_201 = Object.create(null);
+
 const __awtsmoosModule_205 = Object.create(null);
+
+const __awtsmoosModule_204 = Object.create(null);
 
 const __awtsmoosModule_206 = Object.create(null);
 
+const __awtsmoosModule_203 = Object.create(null);
+
+const __awtsmoosModule_208 = Object.create(null);
+
+const __awtsmoosModule_209 = Object.create(null);
+
+const __awtsmoosModule_210 = Object.create(null);
+
 const __awtsmoosModule_207 = Object.create(null);
+
+const __awtsmoosModule_202 = Object.create(null);
+
+const __awtsmoosModule_199 = Object.create(null);
+
+const __awtsmoosModule_198 = Object.create(null);
+
+const __awtsmoosModule_190 = Object.create(null);
 
 const __awtsmoosModule_211 = Object.create(null);
 
-const __awtsmoosModule_210 = Object.create(null);
+const __awtsmoosModule_214 = Object.create(null);
 
 const __awtsmoosModule_213 = Object.create(null);
 
 const __awtsmoosModule_215 = Object.create(null);
-
-const __awtsmoosModule_216 = Object.create(null);
-
-const __awtsmoosModule_214 = Object.create(null);
 
 const __awtsmoosModule_218 = Object.create(null);
 
@@ -450,71 +446,79 @@ const __awtsmoosModule_219 = Object.create(null);
 
 const __awtsmoosModule_217 = Object.create(null);
 
+const __awtsmoosModule_216 = Object.create(null);
+
 const __awtsmoosModule_212 = Object.create(null);
 
 const __awtsmoosModule_222 = Object.create(null);
 
+const __awtsmoosModule_223 = Object.create(null);
+
 const __awtsmoosModule_224 = Object.create(null);
-
-const __awtsmoosModule_225 = Object.create(null);
-
-const __awtsmoosModule_228 = Object.create(null);
-
-const __awtsmoosModule_227 = Object.create(null);
 
 const __awtsmoosModule_226 = Object.create(null);
 
-const __awtsmoosModule_223 = Object.create(null);
+const __awtsmoosModule_225 = Object.create(null);
 
-const __awtsmoosModule_231 = Object.create(null);
+const __awtsmoosModule_221 = Object.create(null);
+
+const __awtsmoosModule_220 = Object.create(null);
+
+const __awtsmoosModule_189 = Object.create(null);
+
+const __awtsmoosModule_227 = Object.create(null);
+
+const __awtsmoosModule_229 = Object.create(null);
+
+const __awtsmoosModule_233 = Object.create(null);
 
 const __awtsmoosModule_232 = Object.create(null);
 
-const __awtsmoosModule_236 = Object.create(null);
+const __awtsmoosModule_234 = Object.create(null);
 
 const __awtsmoosModule_235 = Object.create(null);
 
+const __awtsmoosModule_236 = Object.create(null);
+
+const __awtsmoosModule_238 = Object.create(null);
+
 const __awtsmoosModule_237 = Object.create(null);
-
-const __awtsmoosModule_234 = Object.create(null);
-
-const __awtsmoosModule_239 = Object.create(null);
 
 const __awtsmoosModule_240 = Object.create(null);
 
 const __awtsmoosModule_241 = Object.create(null);
 
-const __awtsmoosModule_238 = Object.create(null);
+const __awtsmoosModule_239 = Object.create(null);
 
-const __awtsmoosModule_233 = Object.create(null);
-
-const __awtsmoosModule_230 = Object.create(null);
-
-const __awtsmoosModule_229 = Object.create(null);
-
-const __awtsmoosModule_221 = Object.create(null);
+const __awtsmoosModule_231 = Object.create(null);
 
 const __awtsmoosModule_242 = Object.create(null);
 
-const __awtsmoosModule_244 = Object.create(null);
-
-const __awtsmoosModule_246 = Object.create(null);
-
-const __awtsmoosModule_247 = Object.create(null);
+const __awtsmoosModule_243 = Object.create(null);
 
 const __awtsmoosModule_245 = Object.create(null);
 
-const __awtsmoosModule_243 = Object.create(null);
+const __awtsmoosModule_244 = Object.create(null);
+
+const __awtsmoosModule_230 = Object.create(null);
+
+const __awtsmoosModule_228 = Object.create(null);
 
 const __awtsmoosModule_248 = Object.create(null);
 
-const __awtsmoosModule_220 = Object.create(null);
+const __awtsmoosModule_247 = Object.create(null);
 
 const __awtsmoosModule_249 = Object.create(null);
 
-const __awtsmoosModule_251 = Object.create(null);
+const __awtsmoosModule_250 = Object.create(null);
 
-const __awtsmoosModule_255 = Object.create(null);
+const __awtsmoosModule_246 = Object.create(null);
+
+const __awtsmoosModule_178 = Object.create(null);
+
+const __awtsmoosModule_252 = Object.create(null);
+
+const __awtsmoosModule_253 = Object.create(null);
 
 const __awtsmoosModule_254 = Object.create(null);
 
@@ -522,77 +526,57 @@ const __awtsmoosModule_256 = Object.create(null);
 
 const __awtsmoosModule_257 = Object.create(null);
 
+const __awtsmoosModule_255 = Object.create(null);
+
+const __awtsmoosModule_251 = Object.create(null);
+
+const __awtsmoosModule_177 = Object.create(null);
+
+const __awtsmoosModule_168 = Object.create(null);
+
+const __awtsmoosModule_167 = Object.create(null);
+
+const __awtsmoosModule_165 = Object.create(null);
+
 const __awtsmoosModule_258 = Object.create(null);
+
+const __awtsmoosModule_100 = Object.create(null);
 
 const __awtsmoosModule_260 = Object.create(null);
 
-const __awtsmoosModule_259 = Object.create(null);
-
-const __awtsmoosModule_262 = Object.create(null);
-
-const __awtsmoosModule_263 = Object.create(null);
-
 const __awtsmoosModule_261 = Object.create(null);
 
-const __awtsmoosModule_253 = Object.create(null);
-
-const __awtsmoosModule_264 = Object.create(null);
-
-const __awtsmoosModule_265 = Object.create(null);
-
-const __awtsmoosModule_267 = Object.create(null);
+const __awtsmoosModule_259 = Object.create(null);
 
 const __awtsmoosModule_266 = Object.create(null);
 
-const __awtsmoosModule_252 = Object.create(null);
+const __awtsmoosModule_265 = Object.create(null);
 
-const __awtsmoosModule_250 = Object.create(null);
+const __awtsmoosModule_264 = Object.create(null);
+
+const __awtsmoosModule_263 = Object.create(null);
+
+const __awtsmoosModule_262 = Object.create(null);
 
 const __awtsmoosModule_270 = Object.create(null);
 
 const __awtsmoosModule_269 = Object.create(null);
 
-const __awtsmoosModule_271 = Object.create(null);
+const __awtsmoosModule_273 = Object.create(null);
 
 const __awtsmoosModule_272 = Object.create(null);
 
-const __awtsmoosModule_268 = Object.create(null);
-
-const __awtsmoosModule_209 = Object.create(null);
+const __awtsmoosModule_271 = Object.create(null);
 
 const __awtsmoosModule_274 = Object.create(null);
 
 const __awtsmoosModule_275 = Object.create(null);
 
+const __awtsmoosModule_268 = Object.create(null);
+
+const __awtsmoosModule_267 = Object.create(null);
+
 const __awtsmoosModule_276 = Object.create(null);
-
-const __awtsmoosModule_278 = Object.create(null);
-
-const __awtsmoosModule_279 = Object.create(null);
-
-const __awtsmoosModule_277 = Object.create(null);
-
-const __awtsmoosModule_273 = Object.create(null);
-
-const __awtsmoosModule_208 = Object.create(null);
-
-const __awtsmoosModule_199 = Object.create(null);
-
-const __awtsmoosModule_198 = Object.create(null);
-
-const __awtsmoosModule_196 = Object.create(null);
-
-const __awtsmoosModule_280 = Object.create(null);
-
-const __awtsmoosModule_143 = Object.create(null);
-
-const __awtsmoosModule_282 = Object.create(null);
-
-const __awtsmoosModule_281 = Object.create(null);
-
-const __awtsmoosModule_283 = Object.create(null);
-
-const __awtsmoosModule_284 = Object.create(null);
 
 const __awtsmoosModule_0 = Object.create(null);
 
@@ -1517,9 +1501,90 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
+// ---- libs/awtsmoos-procedural-core/src/runtime/native/tiny-euler.js ----
+{
+	const __exports = __awtsmoosModule_20;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file tiny-euler.js
+	 * @description Keeps Euler-angle intent synchronized with the native runtime's quaternion transform truth.
+	 * The Awtsmoos renews every apparent angle before rotation takes form;
+	 * Awtsmoos.com lets familiar XYZ intent reveal itself without borrowing another engine's scene graph.
+	 */
+	class Euler {
+		constructor(quaternion, x = 0, y = 0, z = 0) {
+			this.quaternion = quaternion;
+			this.set(x, y, z);
+		}
+
+		get x() {
+			return this._x;
+		}
+
+		set x(value) {
+			this._x = value;
+			this.syncQuaternion();
+		}
+
+		get y() {
+			return this._y;
+		}
+
+		set y(value) {
+			this._y = value;
+			this.syncQuaternion();
+		}
+
+		get z() {
+			return this._z;
+		}
+
+		set z(value) {
+			this._z = value;
+			this.syncQuaternion();
+		}
+
+		set(x = 0, y = 0, z = 0) {
+			this._x = x;
+			this._y = y;
+			this._z = z;
+			this.syncQuaternion();
+			return this;
+		}
+
+		toArray() {
+			return [this._x, this._y, this._z];
+		}
+
+		syncQuaternion() {
+			const halfX = this._x / 2;
+			const halfY = this._y / 2;
+			const halfZ = this._z / 2;
+			const cosineX = Math.cos(halfX);
+			const cosineY = Math.cos(halfY);
+			const cosineZ = Math.cos(halfZ);
+			const sineX = Math.sin(halfX);
+			const sineY = Math.sin(halfY);
+			const sineZ = Math.sin(halfZ);
+			this.quaternion.set(
+				sineX * cosineY * cosineZ + cosineX * sineY * sineZ,
+				cosineX * sineY * cosineZ - sineX * cosineY * sineZ,
+				cosineX * cosineY * sineZ + sineX * sineY * cosineZ,
+				cosineX * cosineY * cosineZ - sineX * sineY * sineZ
+			);
+		}
+	}
+
+	__exports.Euler = Euler;
+
+}
+
 // ---- libs/awtsmoos-procedural-core/src/runtime/native/tiny-matrix-core.js ----
 {
-	const __exports = __awtsmoosModule_22;
+	const __exports = __awtsmoosModule_23;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -1640,7 +1705,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/runtime/native/tiny-transform-math.js ----
 {
-	const __exports = __awtsmoosModule_23;
+	const __exports = __awtsmoosModule_24;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -1652,7 +1717,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * complete local vessel in one pass so no temporary translation or scale matrix is born.
 	 */
 
-	const identity = __awtsmoosModule_22.identity;
+	const identity = __awtsmoosModule_23.identity;
 
 	function quatNormalize(quaternion) {
 		const x = quaternion?.[0] || 0;
@@ -1724,7 +1789,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/runtime/native/tiny-camera-math.js ----
 {
-	const __exports = __awtsmoosModule_24;
+	const __exports = __awtsmoosModule_25;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -1736,7 +1801,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * vessel directly so each ridge, flower, and Chossid reaches the screen without waste.
 	 */
 
-	const identity = __awtsmoosModule_22.identity;
+	const identity = __awtsmoosModule_23.identity;
 
 	function perspective(fovDegrees, aspect, near, far) {
 		const factor = 1 / Math.tan(fovDegrees * Math.PI / 360);
@@ -1809,7 +1874,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/runtime/native/tiny-interpolation-math.js ----
 {
-	const __exports = __awtsmoosModule_25;
+	const __exports = __awtsmoosModule_26;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -1821,7 +1886,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * visible traveler a measured path between samples without changing either endpoint.
 	 */
 
-	const quatNormalize = __awtsmoosModule_23.quatNormalize;
+	const quatNormalize = __awtsmoosModule_24.quatNormalize;
 
 	function quatSlerp(left, right, amount) {
 		const [ax, ay, az, aw] = left;
@@ -1866,7 +1931,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/runtime/native/tiny-math.js ----
 {
-	const __exports = __awtsmoosModule_21;
+	const __exports = __awtsmoosModule_22;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -1878,28 +1943,28 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * matrix, transform, camera, and interpolation responsibilities in their proper rooms.
 	 */
 
-	__exports.copyMat4 = __awtsmoosModule_22.copyMat4;
-	__exports.EPSILON = __awtsmoosModule_22.EPSILON;
-	__exports.identity = __awtsmoosModule_22.identity;
-	__exports.inverse = __awtsmoosModule_22.inverse;
-	__exports.mat4FromArray = __awtsmoosModule_22.mat4FromArray;
-	__exports.multiply = __awtsmoosModule_22.multiply;
-	__exports.scale = __awtsmoosModule_22.scale;
-	__exports.translate = __awtsmoosModule_22.translate;
-	__exports.composeTRS = __awtsmoosModule_23.composeTRS;
-	__exports.quatMatrix = __awtsmoosModule_23.quatMatrix;
-	__exports.quatNormalize = __awtsmoosModule_23.quatNormalize;
-	__exports.lookAt = __awtsmoosModule_24.lookAt;
-	__exports.perspective = __awtsmoosModule_24.perspective;
-	__exports.transformPoint = __awtsmoosModule_24.transformPoint;
-	__exports.lerpArray = __awtsmoosModule_25.lerpArray;
-	__exports.quatSlerp = __awtsmoosModule_25.quatSlerp;
+	__exports.copyMat4 = __awtsmoosModule_23.copyMat4;
+	__exports.EPSILON = __awtsmoosModule_23.EPSILON;
+	__exports.identity = __awtsmoosModule_23.identity;
+	__exports.inverse = __awtsmoosModule_23.inverse;
+	__exports.mat4FromArray = __awtsmoosModule_23.mat4FromArray;
+	__exports.multiply = __awtsmoosModule_23.multiply;
+	__exports.scale = __awtsmoosModule_23.scale;
+	__exports.translate = __awtsmoosModule_23.translate;
+	__exports.composeTRS = __awtsmoosModule_24.composeTRS;
+	__exports.quatMatrix = __awtsmoosModule_24.quatMatrix;
+	__exports.quatNormalize = __awtsmoosModule_24.quatNormalize;
+	__exports.lookAt = __awtsmoosModule_25.lookAt;
+	__exports.perspective = __awtsmoosModule_25.perspective;
+	__exports.transformPoint = __awtsmoosModule_25.transformPoint;
+	__exports.lerpArray = __awtsmoosModule_26.lerpArray;
+	__exports.quatSlerp = __awtsmoosModule_26.quatSlerp;
 
 }
 
 // ---- libs/awtsmoos-procedural-core/src/runtime/native/tiny-transform-matrix.js ----
 {
-	const __exports = __awtsmoosModule_28;
+	const __exports = __awtsmoosModule_29;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -2011,7 +2076,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/runtime/native/tiny-transform-snapshot.js ----
 {
-	const __exports = __awtsmoosModule_29;
+	const __exports = __awtsmoosModule_30;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -2105,7 +2170,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/runtime/native/tiny-transform-cache.js ----
 {
-	const __exports = __awtsmoosModule_27;
+	const __exports = __awtsmoosModule_28;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -2116,13 +2181,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets hierarchy move without needless recomposition, preserving clear revision generations.
 	 */
 
-	const identity = __awtsmoosModule_21.identity;
-	const copyMatrixInto = __awtsmoosModule_28.copyMatrixInto;
-	const composeTrsInto = __awtsmoosModule_28.composeTrsInto;
-	const multiplyTransformMatrices = __awtsmoosModule_28.multiplyTransformMatrices;
-	const validTransformMatrix = __awtsmoosModule_28.validTransformMatrix;
-	const captureLocalTransform = __awtsmoosModule_29.captureLocalTransform;
-	const localTransformChanged = __awtsmoosModule_29.localTransformChanged;
+	const identity = __awtsmoosModule_22.identity;
+	const copyMatrixInto = __awtsmoosModule_29.copyMatrixInto;
+	const composeTrsInto = __awtsmoosModule_29.composeTrsInto;
+	const multiplyTransformMatrices = __awtsmoosModule_29.multiplyTransformMatrices;
+	const validTransformMatrix = __awtsmoosModule_29.validTransformMatrix;
+	const captureLocalTransform = __awtsmoosModule_30.captureLocalTransform;
+	const localTransformChanged = __awtsmoosModule_30.localTransformChanged;
 
 	const ROOT_WORLD_MATRIX = identity();
 
@@ -2208,7 +2273,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/runtime/native/tiny-object3d-base-transform.js ----
 {
-	const __exports = __awtsmoosModule_26;
+	const __exports = __awtsmoosModule_27;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -2219,8 +2284,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets animation return to its source without burdening hierarchy law with another sphere.
 	 */
 
-	const copyMat4 = __awtsmoosModule_21.copyMat4;
-	const invalidateTransformCache = __awtsmoosModule_27.invalidateTransformCache;
+	const copyMat4 = __awtsmoosModule_22.copyMat4;
+	const invalidateTransformCache = __awtsmoosModule_28.invalidateTransformCache;
 
 	/** @param {object} object Native scene object. @returns {object} The same object after capture. */
 	function captureBaseTransform(object) {
@@ -2255,7 +2320,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/runtime/native/tiny-scene-revision.js ----
 {
-	const __exports = __awtsmoosModule_31;
+	const __exports = __awtsmoosModule_32;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -2284,19 +2349,19 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/runtime/native/tiny-object3d-hierarchy.js ----
 {
-	const __exports = __awtsmoosModule_30;
+	const __exports = __awtsmoosModule_31;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 	/**
 	 * @file tiny-object3d-hierarchy.js
-	 * @description Owns native child attachment, removal, and preorder traversal apart from transform identity.
+	 * @description Owns native child attachment, removal, lookup, parent detachment, and preorder traversal.
 	 * The Awtsmoos renews parent and child as one revealed tree before hierarchy can gather in sight;
-	 * Awtsmoos.com keeps structural mutation in its own vessel so Object3D may remain a smaller light.
+	 * Awtsmoos.com keeps structural mutation and discovery in one vessel so Object3D may remain a smaller light.
 	 */
 
-	const markSceneGraphChanged = __awtsmoosModule_31.markSceneGraphChanged;
-	const invalidateTransformCache = __awtsmoosModule_27.invalidateTransformCache;
+	const markSceneGraphChanged = __awtsmoosModule_32.markSceneGraphChanged;
+	const invalidateTransformCache = __awtsmoosModule_28.invalidateTransformCache;
 
 	/**
 	 * Attaches one child beneath a native parent.
@@ -2337,6 +2402,35 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	__exports.removeNativeChild = removeNativeChild;
 	/**
+	 * Detaches one node from its current parent when present.
+	 * @param {object} object Native object node.
+	 * @returns {object} Detached node.
+	 */
+	function removeNativeFromParent(object) {
+		object.parent?.remove(object);
+		return object;
+	}
+
+
+	__exports.removeNativeFromParent = removeNativeFromParent;
+	/**
+	 * Finds one named object recursively.
+	 * @param {object} root Native hierarchy root.
+	 * @param {string} name Object name.
+	 * @returns {object|null} Matching node when found.
+	 */
+	function findNativeObjectByName(root, name) {
+		if (root.name === name) return root;
+		for (const child of root.children) {
+			const match = findNativeObjectByName(child, name);
+			if (match) return match;
+		}
+		return null;
+	}
+
+
+	__exports.findNativeObjectByName = findNativeObjectByName;
+	/**
 	 * Visits one native hierarchy in preorder.
 	 * @param {object} root Native root node.
 	 * @param {Function} visitor Visitor callback.
@@ -2354,16 +2448,16 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/runtime/native/tiny-vector.js ----
 {
-	const __exports = __awtsmoosModule_32;
+	const __exports = __awtsmoosModule_33;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
 	 * @file tiny-vector.js
-	 * @description Mutable vector and quaternion vessels used throughout the tiny runtime.
-	 * The Awtsmoos renews every direction and rotation; Awtsmoos.com gives those values
-	 * readable forms whose identity remains stable while their present coordinates change.
+	 * @description Mutable vector and quaternion vessels shared by the native scene runtime.
+	 * The Awtsmoos renews every direction and orientation before coordinates can appear;
+	 * Awtsmoos.com keeps these finite values small, explicit, and independent of any outside renderer.
 	 */
 
 	class Vector3 {
@@ -2376,6 +2470,10 @@ const __awtsmoosModule_0 = Object.create(null);
 			this.y = y;
 			this.z = z;
 			return this;
+		}
+
+		setScalar(value = 0) {
+			return this.set(value, value, value);
 		}
 
 		fromArray(values = [0, 0, 0]) {
@@ -2438,7 +2536,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/runtime/native/tiny-object3d.js ----
 {
-	const __exports = __awtsmoosModule_20;
+	const __exports = __awtsmoosModule_21;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -2446,29 +2544,32 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * @file tiny-object3d.js
 	 * @description Defines native scene-object identity while hierarchy, revision, pose, and matrix laws live in smaller vessels.
 	 * The Awtsmoos renews each object before parent, child, pose, and world transform can join in light;
-	 * Awtsmoos.com keeps this base class narrow so deeper structural helpers may guard every separate right.
+	 * Awtsmoos.com keeps this base class narrow while native scene ergonomics remain independent of any outside engine.
 	 */
 
-	const identity = __awtsmoosModule_21.identity;
-	const captureBaseTransform = __awtsmoosModule_26.captureBaseTransform;
-	const restoreBaseTransform = __awtsmoosModule_26.restoreBaseTransform;
-	const attachNativeChild = __awtsmoosModule_30.attachNativeChild;
-	const removeNativeChild = __awtsmoosModule_30.removeNativeChild;
-	const traverseNativeHierarchy = __awtsmoosModule_30.traverseNativeHierarchy;
-	const markSceneGraphChanged = __awtsmoosModule_31.markSceneGraphChanged;
-	const cachedLocalMatrix = __awtsmoosModule_27.cachedLocalMatrix;
-	const ROOT_WORLD_MATRIX = __awtsmoosModule_27.ROOT_WORLD_MATRIX;
-	const updateCachedWorldMatrix = __awtsmoosModule_27.updateCachedWorldMatrix;
-	const Quaternion = __awtsmoosModule_32.Quaternion;
-	const Vector3 = __awtsmoosModule_32.Vector3;
+	const Euler = __awtsmoosModule_20.Euler;
+	const identity = __awtsmoosModule_22.identity;
+	const captureBaseTransform = __awtsmoosModule_27.captureBaseTransform;
+	const restoreBaseTransform = __awtsmoosModule_27.restoreBaseTransform;
+	const attachNativeChild = __awtsmoosModule_31.attachNativeChild;
+	const findNativeObjectByName = __awtsmoosModule_31.findNativeObjectByName;
+	const removeNativeChild = __awtsmoosModule_31.removeNativeChild;
+	const removeNativeFromParent = __awtsmoosModule_31.removeNativeFromParent;
+	const traverseNativeHierarchy = __awtsmoosModule_31.traverseNativeHierarchy;
+	const markSceneGraphChanged = __awtsmoosModule_32.markSceneGraphChanged;
+	const cachedLocalMatrix = __awtsmoosModule_28.cachedLocalMatrix;
+	const ROOT_WORLD_MATRIX = __awtsmoosModule_28.ROOT_WORLD_MATRIX;
+	const updateCachedWorldMatrix = __awtsmoosModule_28.updateCachedWorldMatrix;
+	const Quaternion = __awtsmoosModule_33.Quaternion;
+	const Vector3 = __awtsmoosModule_33.Vector3;
 
 	class Object3D {
-		/** Creates one native hierarchy node with transform, visibility, and metadata vessels. */
 		constructor() {
 			this.children = [];
 			this.parent = null;
 			this.position = new Vector3();
 			this.quaternion = new Quaternion();
+			this.rotation = new Euler(this.quaternion);
 			this.scale = new Vector3(1, 1, 1);
 			this.matrix = null;
 			this.matrixWorld = identity();
@@ -2479,12 +2580,10 @@ const __awtsmoosModule_0 = Object.create(null);
 			this.isBone = false;
 		}
 
-		/** @returns {boolean} Whether this node participates in visible traversal. */
 		get visible() {
 			return this._visible;
 		}
 
-		/** @param {boolean} value New visibility truth. */
 		set visible(value) {
 			const next = value !== false;
 			if (this._visible === next) return;
@@ -2492,37 +2591,40 @@ const __awtsmoosModule_0 = Object.create(null);
 			markSceneGraphChanged(this);
 		}
 
-		/** @param {Object3D} object Child node. @returns {Object3D} This parent. */
-		add(object) {
-			return attachNativeChild(this, object);
+		add(...objects) {
+			for (const object of objects) attachNativeChild(this, object);
+			return this;
 		}
 
-		/** @param {Object3D} object Child node. @returns {Object3D} This parent. */
-		remove(object) {
-			return removeNativeChild(this, object);
+		remove(...objects) {
+			for (const object of objects) removeNativeChild(this, object);
+			return this;
 		}
 
-		/** @param {Function} visitor Preorder visitor. */
+		removeFromParent() {
+			return removeNativeFromParent(this);
+		}
+
 		traverse(visitor) {
 			traverseNativeHierarchy(this, visitor);
 		}
 
-		/** @returns {Object3D} This node after capturing its authored base transform. */
+		getObjectByName(name) {
+			return findNativeObjectByName(this, name);
+		}
+
 		setBaseTransform() {
 			return captureBaseTransform(this);
 		}
 
-		/** Restores the captured authored base transform when available. */
 		resetToBase() {
 			restoreBaseTransform(this);
 		}
 
-		/** @returns {Float32Array} Cached local transform matrix. */
 		localMatrix() {
 			return cachedLocalMatrix(this);
 		}
 
-		/** @param {Float32Array} parentWorld Parent world matrix. @returns {Float32Array} Updated world matrix. */
 		updateWorldMatrix(parentWorld = ROOT_WORLD_MATRIX) {
 			updateCachedWorldMatrix(this, parentWorld);
 			for (const child of this.children) {
@@ -2532,8 +2634,26 @@ const __awtsmoosModule_0 = Object.create(null);
 		}
 	}
 
-
 	__exports.Object3D = Object3D;
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/runtime/native/tiny-scene-nodes.js ----
+{
+	const __exports = __awtsmoosModule_34;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file tiny-scene-nodes.js
+	 * @description Defines concrete native hierarchy node kinds above the focused Object3D base vessel.
+	 * The Awtsmoos renews root, group, and bone before finite scene roles may differ;
+	 * Awtsmoos.com keeps those roles together so transform identity remains small and clear.
+	 */
+
+	const Object3D = __awtsmoosModule_21.Object3D;
+
 	class Group extends Object3D {
 		constructor() {
 			super();
@@ -2565,7 +2685,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/runtime/native/tiny-mesh-object.js ----
 {
-	const __exports = __awtsmoosModule_33;
+	const __exports = __awtsmoosModule_35;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -2577,7 +2697,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * contract focused so rigid stone and animated Chossid may share one clear doorway.
 	 */
 
-	const Object3D = __awtsmoosModule_20.Object3D;
+	const Object3D = __awtsmoosModule_21.Object3D;
 
 	class Mesh extends Object3D {
 		constructor(geometry = null, material = null) {
@@ -2599,7 +2719,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/runtime/native/tiny-geometry.js ----
 {
-	const __exports = __awtsmoosModule_34;
+	const __exports = __awtsmoosModule_36;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -2666,7 +2786,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/runtime/native/tiny-camera.js ----
 {
-	const __exports = __awtsmoosModule_35;
+	const __exports = __awtsmoosModule_37;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -2678,7 +2798,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * rooted in the same cached scene graph as every visible flower and traveler.
 	 */
 
-	const Object3D = __awtsmoosModule_20.Object3D;
+	const Object3D = __awtsmoosModule_21.Object3D;
 
 	class PerspectiveCamera extends Object3D {
 		constructor(fov = 45, aspect = 1, near = 0.1, far = 1000) {
@@ -2703,26 +2823,28 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file tiny-runtime.js
-	 * @description Stable public gateway to the focused tiny scene-graph runtime.
+	 * @description Stable public gateway to the focused tiny native scene-graph runtime.
 	 * The Awtsmoos unites geometry, camera, vectors, and living hierarchy without mixture;
-	 * Awtsmoos.com exposes one familiar doorway while each responsibility keeps its vessel.
+	 * Awtsmoos.com exposes one familiar doorway while every responsibility keeps its own vessel.
 	 */
 
-	const Bone = __awtsmoosModule_20.Bone;
-	const Group = __awtsmoosModule_20.Group;
-	const Object3D = __awtsmoosModule_20.Object3D;
-	const Scene = __awtsmoosModule_20.Scene;
-	const Mesh = __awtsmoosModule_33.Mesh;
-	const BufferAttribute = __awtsmoosModule_34.BufferAttribute;
-	const BufferGeometry = __awtsmoosModule_34.BufferGeometry;
-	const MeshStandardMaterial = __awtsmoosModule_34.MeshStandardMaterial;
-	const PerspectiveCamera = __awtsmoosModule_35.PerspectiveCamera;
-	const Quaternion = __awtsmoosModule_32.Quaternion;
-	const Vector3 = __awtsmoosModule_32.Vector3;
+	const Euler = __awtsmoosModule_20.Euler;
+	const Object3D = __awtsmoosModule_21.Object3D;
+	const Bone = __awtsmoosModule_34.Bone;
+	const Group = __awtsmoosModule_34.Group;
+	const Scene = __awtsmoosModule_34.Scene;
+	const Mesh = __awtsmoosModule_35.Mesh;
+	const BufferAttribute = __awtsmoosModule_36.BufferAttribute;
+	const BufferGeometry = __awtsmoosModule_36.BufferGeometry;
+	const MeshStandardMaterial = __awtsmoosModule_36.MeshStandardMaterial;
+	const PerspectiveCamera = __awtsmoosModule_37.PerspectiveCamera;
+	const Quaternion = __awtsmoosModule_33.Quaternion;
+	const Vector3 = __awtsmoosModule_33.Vector3;
 
 	__exports.Bone = Bone;
 	__exports.BufferAttribute = BufferAttribute;
 	__exports.BufferGeometry = BufferGeometry;
+	__exports.Euler = Euler;
 	__exports.Group = Group;
 	__exports.Mesh = Mesh;
 	__exports.MeshStandardMaterial = MeshStandardMaterial;
@@ -2742,6 +2864,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
+		Euler,
 		Group,
 		Mesh,
 		MeshStandardMaterial,
@@ -2784,7 +2907,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/worldBuilding/CinematicSkyGeometry.js ----
 {
-	const __exports = __awtsmoosModule_36;
+	const __exports = __awtsmoosModule_38;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -2839,7 +2962,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/worldBuilding/NativeGeometryMesh.js ----
 {
-	const __exports = __awtsmoosModule_37;
+	const __exports = __awtsmoosModule_39;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -2959,8 +3082,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * but Core alone owns the sphere geometry, renderer material, shader-selection metadata, and safe subdivision bounds.
 	 */
 	const MeshStandardMaterial = __awtsmoosModule_18.MeshStandardMaterial;
-	const createCinematicSkyGeometry = __awtsmoosModule_36.createCinematicSkyGeometry;
-	const createNativeGeometryMesh = __awtsmoosModule_37.createNativeGeometryMesh;
+	const createCinematicSkyGeometry = __awtsmoosModule_38.createCinematicSkyGeometry;
+	const createNativeGeometryMesh = __awtsmoosModule_39.createNativeGeometryMesh;
 
 	/**
 	 * Create one Core-owned inward cinematic atmosphere mesh.
@@ -3007,7 +3130,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/worldBuilding/CinematicTerrainEcology.js ----
 {
-	const __exports = __awtsmoosModule_38;
+	const __exports = __awtsmoosModule_40;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -3067,7 +3190,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/assets/textures/AwtsmoosDriveTextureTransport.js ----
 {
-	const __exports = __awtsmoosModule_43;
+	const __exports = __awtsmoosModule_45;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3147,7 +3270,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/assets/textures/AwtsmoosDriveCatalogLoader.js ----
 {
-	const __exports = __awtsmoosModule_42;
+	const __exports = __awtsmoosModule_44;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3158,7 +3281,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews every finite image and every remembered path; Awtsmoos.com reads both catalogs together so aliases, variants, and bytes can share one truthful remote well.
 	 */
 
-	const awtsmoosDriveTexturePathUrl = __awtsmoosModule_43.awtsmoosDriveTexturePathUrl;
+	const awtsmoosDriveTexturePathUrl = __awtsmoosModule_45.awtsmoosDriveTexturePathUrl;
 
 	const AWTSMOOS_DRIVE_MATERIAL_CATALOG_URL = awtsmoosDriveTexturePathUrl('catalog/materials.json');
 
@@ -3199,7 +3322,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/assets/textures/AwtsmoosDriveTextureSemanticRulesMade.js ----
 {
-	const __exports = __awtsmoosModule_46;
+	const __exports = __awtsmoosModule_48;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3259,7 +3382,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/assets/textures/AwtsmoosDriveTextureSemanticMatching.js ----
 {
-	const __exports = __awtsmoosModule_47;
+	const __exports = __awtsmoosModule_49;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3310,7 +3433,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/assets/textures/AwtsmoosDriveTextureSemanticRulesNatural.js ----
 {
-	const __exports = __awtsmoosModule_48;
+	const __exports = __awtsmoosModule_50;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3377,7 +3500,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/assets/textures/AwtsmoosDriveTextureSemanticTraits.js ----
 {
-	const __exports = __awtsmoosModule_49;
+	const __exports = __awtsmoosModule_51;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3437,7 +3560,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/assets/textures/AwtsmoosDriveTextureSemantics.js ----
 {
-	const __exports = __awtsmoosModule_45;
+	const __exports = __awtsmoosModule_47;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3449,11 +3572,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * ecology, and rendering together inside Awtsmoos.com without accidental substring classifications.
 	 */
 
-	const AWTSMOOS_MADE_TEXTURE_RULES = __awtsmoosModule_46.AWTSMOOS_MADE_TEXTURE_RULES;
-	const semanticTextureRuleMatches = __awtsmoosModule_47.semanticTextureRuleMatches;
-	const normalizeSemanticPhrase = __awtsmoosModule_47.normalizeSemanticPhrase;
-	const AWTSMOOS_NATURAL_TEXTURE_RULES = __awtsmoosModule_48.AWTSMOOS_NATURAL_TEXTURE_RULES;
-	const awtsmoosDriveTextureTraits = __awtsmoosModule_49.awtsmoosDriveTextureTraits;
+	const AWTSMOOS_MADE_TEXTURE_RULES = __awtsmoosModule_48.AWTSMOOS_MADE_TEXTURE_RULES;
+	const semanticTextureRuleMatches = __awtsmoosModule_49.semanticTextureRuleMatches;
+	const normalizeSemanticPhrase = __awtsmoosModule_49.normalizeSemanticPhrase;
+	const AWTSMOOS_NATURAL_TEXTURE_RULES = __awtsmoosModule_50.AWTSMOOS_NATURAL_TEXTURE_RULES;
+	const awtsmoosDriveTextureTraits = __awtsmoosModule_51.awtsmoosDriveTextureTraits;
 
 	const RULES = Object.freeze([
 		...AWTSMOOS_NATURAL_TEXTURE_RULES,
@@ -3543,7 +3666,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/assets/textures/AwtsmoosDriveTextureTaxonomyLabels.js ----
 {
-	const __exports = __awtsmoosModule_50;
+	const __exports = __awtsmoosModule_52;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3632,7 +3755,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/assets/textures/AwtsmoosDriveTextureCategories.js ----
 {
-	const __exports = __awtsmoosModule_44;
+	const __exports = __awtsmoosModule_46;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3643,10 +3766,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com preserves legacy navigation aliases while every new rule automatically becomes inspectable by category and subcategory.
 	 */
 
-	const classifyAwtsmoosDriveTextureSemantics = __awtsmoosModule_45.classifyAwtsmoosDriveTextureSemantics;
-	const AWTSMOOS_MADE_TEXTURE_RULES = __awtsmoosModule_46.AWTSMOOS_MADE_TEXTURE_RULES;
-	const AWTSMOOS_NATURAL_TEXTURE_RULES = __awtsmoosModule_48.AWTSMOOS_NATURAL_TEXTURE_RULES;
-	const AWTSMOOS_TEXTURE_SUBCATEGORY_DESCRIPTIONS = __awtsmoosModule_50.AWTSMOOS_TEXTURE_SUBCATEGORY_DESCRIPTIONS;
+	const classifyAwtsmoosDriveTextureSemantics = __awtsmoosModule_47.classifyAwtsmoosDriveTextureSemantics;
+	const AWTSMOOS_MADE_TEXTURE_RULES = __awtsmoosModule_48.AWTSMOOS_MADE_TEXTURE_RULES;
+	const AWTSMOOS_NATURAL_TEXTURE_RULES = __awtsmoosModule_50.AWTSMOOS_NATURAL_TEXTURE_RULES;
+	const AWTSMOOS_TEXTURE_SUBCATEGORY_DESCRIPTIONS = __awtsmoosModule_52.AWTSMOOS_TEXTURE_SUBCATEGORY_DESCRIPTIONS;
 
 	const RULES = Object.freeze([
 		...AWTSMOOS_NATURAL_TEXTURE_RULES,
@@ -3713,7 +3836,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/assets/textures/AwtsmoosDriveTextureDiscovery.js ----
 {
-	const __exports = __awtsmoosModule_51;
+	const __exports = __awtsmoosModule_53;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3790,7 +3913,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/assets/textures/AwtsmoosDriveTextureChannels.js ----
 {
-	const __exports = __awtsmoosModule_53;
+	const __exports = __awtsmoosModule_55;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3856,7 +3979,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/assets/textures/AwtsmoosDriveTextureLibrary.js ----
 {
-	const __exports = __awtsmoosModule_52;
+	const __exports = __awtsmoosModule_54;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -3867,10 +3990,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos is One while finite paths multiply; Awtsmoos.com gives AI one truthful searchable identity beneath every alias and resolution.
 	 */
 
-	const awtsmoosDriveTexturePathUrl = __awtsmoosModule_43.awtsmoosDriveTexturePathUrl;
-	const classifyAwtsmoosDriveTextureSemantics = __awtsmoosModule_45.classifyAwtsmoosDriveTextureSemantics;
-	const awtsmoosDrivePbrFamilyKey = __awtsmoosModule_53.awtsmoosDrivePbrFamilyKey;
-	const awtsmoosDriveTextureChannel = __awtsmoosModule_53.awtsmoosDriveTextureChannel;
+	const awtsmoosDriveTexturePathUrl = __awtsmoosModule_45.awtsmoosDriveTexturePathUrl;
+	const classifyAwtsmoosDriveTextureSemantics = __awtsmoosModule_47.classifyAwtsmoosDriveTextureSemantics;
+	const awtsmoosDrivePbrFamilyKey = __awtsmoosModule_55.awtsmoosDrivePbrFamilyKey;
+	const awtsmoosDriveTextureChannel = __awtsmoosModule_55.awtsmoosDriveTextureChannel;
 
 	/** Compiles all image records into one no-repeat semantic texture library. */
 	function compileAwtsmoosDriveTextureLibrary(materialCatalog, assetInventory) {
@@ -3978,7 +4101,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/assets/textures/AwtsmoosDrivePbrFamilies.js ----
 {
-	const __exports = __awtsmoosModule_54;
+	const __exports = __awtsmoosModule_56;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4057,7 +4180,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/assets/textures/AwtsmoosDriveTextureMixPlan.js ----
 {
-	const __exports = __awtsmoosModule_55;
+	const __exports = __awtsmoosModule_57;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4068,7 +4191,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos reveals variety without confusing normal or roughness maps for visible color; Awtsmoos.com lets each bounded device receive only the remote layers its frame can carry.
 	 */
 
-	const searchAwtsmoosDriveTextureLibrary = __awtsmoosModule_52.searchAwtsmoosDriveTextureLibrary;
+	const searchAwtsmoosDriveTextureLibrary = __awtsmoosModule_54.searchAwtsmoosDriveTextureLibrary;
 
 	const QUALITY_ORDER = Object.freeze({
 		low: ['quarter', 'half', 'source', 'full'],
@@ -4131,7 +4254,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/assets/textures/AwtsmoosDriveTextureService.js ----
 {
-	const __exports = __awtsmoosModule_41;
+	const __exports = __awtsmoosModule_43;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4142,14 +4265,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews every finite remote garment; Awtsmoos.com lets games, studios, agents, and renderers ask one reusable service instead of rebuilding catalog law.
 	 */
 
-	const loadAwtsmoosDriveCatalog = __awtsmoosModule_42.loadAwtsmoosDriveCatalog;
-	const awtsmoosDriveTextureCategoryTree = __awtsmoosModule_44.awtsmoosDriveTextureCategoryTree;
-	const discoverAwtsmoosDriveTextures = __awtsmoosModule_51.discoverAwtsmoosDriveTextures;
-	const compileAwtsmoosDriveTextureLibrary = __awtsmoosModule_52.compileAwtsmoosDriveTextureLibrary;
-	const searchAwtsmoosDriveTextureLibrary = __awtsmoosModule_52.searchAwtsmoosDriveTextureLibrary;
-	const compileAwtsmoosDrivePbrFamilies = __awtsmoosModule_54.compileAwtsmoosDrivePbrFamilies;
-	const searchAwtsmoosDrivePbrFamilies = __awtsmoosModule_54.searchAwtsmoosDrivePbrFamilies;
-	const createAwtsmoosDriveTextureMixPlan = __awtsmoosModule_55.createAwtsmoosDriveTextureMixPlan;
+	const loadAwtsmoosDriveCatalog = __awtsmoosModule_44.loadAwtsmoosDriveCatalog;
+	const awtsmoosDriveTextureCategoryTree = __awtsmoosModule_46.awtsmoosDriveTextureCategoryTree;
+	const discoverAwtsmoosDriveTextures = __awtsmoosModule_53.discoverAwtsmoosDriveTextures;
+	const compileAwtsmoosDriveTextureLibrary = __awtsmoosModule_54.compileAwtsmoosDriveTextureLibrary;
+	const searchAwtsmoosDriveTextureLibrary = __awtsmoosModule_54.searchAwtsmoosDriveTextureLibrary;
+	const compileAwtsmoosDrivePbrFamilies = __awtsmoosModule_56.compileAwtsmoosDrivePbrFamilies;
+	const searchAwtsmoosDrivePbrFamilies = __awtsmoosModule_56.searchAwtsmoosDrivePbrFamilies;
+	const createAwtsmoosDriveTextureMixPlan = __awtsmoosModule_57.createAwtsmoosDriveTextureMixPlan;
 
 	class AwtsmoosDriveTextureService {
 		constructor(options = {}) {
@@ -4218,7 +4341,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/materials/remote/RemoteTextureMetadata.js ----
 {
-	const __exports = __awtsmoosModule_60;
+	const __exports = __awtsmoosModule_62;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -4290,7 +4413,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/materials/remote/RemoteTextureTransform.js ----
 {
-	const __exports = __awtsmoosModule_61;
+	const __exports = __awtsmoosModule_63;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -4361,7 +4484,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/materials/remote/RemoteTexturePolicy.js ----
 {
-	const __exports = __awtsmoosModule_59;
+	const __exports = __awtsmoosModule_61;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -4371,11 +4494,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews every near and distant pixel before transport may carry its finite sign;
 	 * Awtsmoos.com preserves old cache identity while richer channel, version, transform, and integrity truth may shine.
 	 */
-	const normalizeRemoteTextureChannel = __awtsmoosModule_60.normalizeRemoteTextureChannel;
-	const normalizeRemoteTextureColorSpace = __awtsmoosModule_60.normalizeRemoteTextureColorSpace;
-	const normalizeRemoteTextureContentVersion = __awtsmoosModule_60.normalizeRemoteTextureContentVersion;
-	const normalizeRemoteTextureIntegrity = __awtsmoosModule_60.normalizeRemoteTextureIntegrity;
-	const createRemoteTextureTransform = __awtsmoosModule_61.createRemoteTextureTransform;
+	const normalizeRemoteTextureChannel = __awtsmoosModule_62.normalizeRemoteTextureChannel;
+	const normalizeRemoteTextureColorSpace = __awtsmoosModule_62.normalizeRemoteTextureColorSpace;
+	const normalizeRemoteTextureContentVersion = __awtsmoosModule_62.normalizeRemoteTextureContentVersion;
+	const normalizeRemoteTextureIntegrity = __awtsmoosModule_62.normalizeRemoteTextureIntegrity;
+	const createRemoteTextureTransform = __awtsmoosModule_63.createRemoteTextureTransform;
 
 	const REMOTE_TEXTURE_POLICY_VERSION = 1;
 
@@ -4497,7 +4620,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/materials/remote/RemoteTextureLoadRecord.js ----
 {
-	const __exports = __awtsmoosModule_58;
+	const __exports = __awtsmoosModule_60;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4509,7 +4632,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com records that journey without letting mutable browser objects leak into the policy layer that describes it.
 	 */
 
-	const createRemoteTextureProvenance = __awtsmoosModule_59.createRemoteTextureProvenance;
+	const createRemoteTextureProvenance = __awtsmoosModule_61.createRemoteTextureProvenance;
 
 	/**
 	 * Creates one successful remote texture load record.
@@ -4598,7 +4721,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/materials/remote/RemoteTextureCallerWait.js ----
 {
-	const __exports = __awtsmoosModule_62;
+	const __exports = __awtsmoosModule_64;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4610,7 +4733,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets one caller depart without tearing down the common vessel another caller may still need at the gate.
 	 */
 
-	const createRemoteTextureFailure = __awtsmoosModule_58.createRemoteTextureFailure;
+	const createRemoteTextureFailure = __awtsmoosModule_60.createRemoteTextureFailure;
 
 	/**
 	 * Waits for shared remote work while treating AbortSignal as caller-local policy rather than cache ownership.
@@ -4669,7 +4792,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/materials/remote/RemoteTextureImageLoader.js ----
 {
-	const __exports = __awtsmoosModule_63;
+	const __exports = __awtsmoosModule_65;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4681,8 +4804,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps this Yesod vessel narrow so transport timing may change without rewriting material identity or geometry truth.
 	 */
 
-	const createRemoteTextureFailure = __awtsmoosModule_58.createRemoteTextureFailure;
-	const createRemoteTextureSuccess = __awtsmoosModule_58.createRemoteTextureSuccess;
+	const createRemoteTextureFailure = __awtsmoosModule_60.createRemoteTextureFailure;
+	const createRemoteTextureSuccess = __awtsmoosModule_60.createRemoteTextureSuccess;
 
 	/**
 	 * Loads one browser image according to an already validated remote texture policy.
@@ -4762,7 +4885,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/materials/remote/RemoteTextureImageCacheStore.js ----
 {
-	const __exports = __awtsmoosModule_57;
+	const __exports = __awtsmoosModule_59;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4774,11 +4897,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com gives Netzach explicit ownership here so reuse is durable, inspectable, and never mistaken for hidden global means.
 	 */
 
-	const createRemoteTextureFailure = __awtsmoosModule_58.createRemoteTextureFailure;
-	const createRemoteTextureSuccess = __awtsmoosModule_58.createRemoteTextureSuccess;
-	const waitForRemoteTextureCaller = __awtsmoosModule_62.waitForRemoteTextureCaller;
-	const loadRemoteTextureImageElement = __awtsmoosModule_63.loadRemoteTextureImageElement;
-	const createRemoteTexturePolicy = __awtsmoosModule_59.createRemoteTexturePolicy;
+	const createRemoteTextureFailure = __awtsmoosModule_60.createRemoteTextureFailure;
+	const createRemoteTextureSuccess = __awtsmoosModule_60.createRemoteTextureSuccess;
+	const waitForRemoteTextureCaller = __awtsmoosModule_64.waitForRemoteTextureCaller;
+	const loadRemoteTextureImageElement = __awtsmoosModule_65.loadRemoteTextureImageElement;
+	const createRemoteTexturePolicy = __awtsmoosModule_61.createRemoteTexturePolicy;
 
 	/**
 	 * Owns reusable browser images and in-flight promises while delegating actual image loading to a Yesod adapter.
@@ -4875,7 +4998,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/materials/RemoteTextureImageCache.js ----
 {
-	const __exports = __awtsmoosModule_56;
+	const __exports = __awtsmoosModule_58;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4887,7 +5010,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps legacy callers stable here while advanced callers may receive their own isolated cache without tangled breaches.
 	 */
 
-	const RemoteTextureImageCache = __awtsmoosModule_57.RemoteTextureImageCache;
+	const RemoteTextureImageCache = __awtsmoosModule_59.RemoteTextureImageCache;
 
 	__exports.RemoteTextureImageCache = RemoteTextureImageCache;
 
@@ -4930,7 +5053,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/worldBuilding/CinematicTerrainLayerSpecs.js ----
 {
-	const __exports = __awtsmoosModule_64;
+	const __exports = __awtsmoosModule_66;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -5013,7 +5136,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/worldBuilding/CinematicTerrainTextureLayers.js ----
 {
-	const __exports = __awtsmoosModule_40;
+	const __exports = __awtsmoosModule_42;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -5023,10 +5146,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews all earth beyond photograph; Awtsmoos.com nevertheless prefers actual
 	 * remote material captures and never manufactures a substitute texture unless an API explicitly allows it.
 	 */
-	const createAwtsmoosDriveTextureService = __awtsmoosModule_41.createAwtsmoosDriveTextureService;
-	const awtsmoosDriveTexturePathUrl = __awtsmoosModule_43.awtsmoosDriveTexturePathUrl;
-	const loadRemoteTextureImage = __awtsmoosModule_56.loadRemoteTextureImage;
-	const CINEMATIC_TERRAIN_LAYER_SPECS = __awtsmoosModule_64.CINEMATIC_TERRAIN_LAYER_SPECS;
+	const createAwtsmoosDriveTextureService = __awtsmoosModule_43.createAwtsmoosDriveTextureService;
+	const awtsmoosDriveTexturePathUrl = __awtsmoosModule_45.awtsmoosDriveTexturePathUrl;
+	const loadRemoteTextureImage = __awtsmoosModule_58.loadRemoteTextureImage;
+	const CINEMATIC_TERRAIN_LAYER_SPECS = __awtsmoosModule_66.CINEMATIC_TERRAIN_LAYER_SPECS;
 
 	/** Creates layer vessels plus a promise that settles even when the network is unavailable. */
 	function createCinematicTerrainTextureLayers(options = {}) {
@@ -5084,7 +5207,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/worldBuilding/NativeWorldMaterial.js ----
 {
-	const __exports = __awtsmoosModule_66;
+	const __exports = __awtsmoosModule_68;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -5194,7 +5317,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/worldBuilding/LayeredTerrainMaterial.js ----
 {
-	const __exports = __awtsmoosModule_65;
+	const __exports = __awtsmoosModule_67;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -5205,7 +5328,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Products may describe ecological layers, trusted remote images, and semantic mixing vectors, but this Core vessel
 	 * creates the native material and keeps terrain shader metadata consistent without manufacturing replacement imagery.
 	 */
-	const createNativeWorldMaterial = __awtsmoosModule_66.createNativeWorldMaterial;
+	const createNativeWorldMaterial = __awtsmoosModule_68.createNativeWorldMaterial;
 
 	/**
 	 * Create one Core-owned layered terrain material from renderer-neutral ecological evidence.
@@ -5256,7 +5379,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/worldBuilding/CinematicTerrainMaterial.js ----
 {
-	const __exports = __awtsmoosModule_39;
+	const __exports = __awtsmoosModule_41;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -5267,8 +5390,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The cinematic preset chooses remote semantic garments and readiness, while native material construction and terrain-vector
 	 * ownership remain centralized so Studio, MitzvahWorld, and future products cannot grow contradictory terrain renderers.
 	 */
-	const createCinematicTerrainTextureLayers = __awtsmoosModule_40.createCinematicTerrainTextureLayers;
-	const createLayeredTerrainMaterial = __awtsmoosModule_65.createLayeredTerrainMaterial;
+	const createCinematicTerrainTextureLayers = __awtsmoosModule_42.createCinematicTerrainTextureLayers;
+	const createLayeredTerrainMaterial = __awtsmoosModule_67.createLayeredTerrainMaterial;
 
 	/**
 	 * Create the cinematic six-layer terrain material and its asynchronous remote-image readiness promise.
@@ -5304,7 +5427,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/worldBuilding/CinematicTerrainMesh.js ----
 {
-	const __exports = __awtsmoosModule_67;
+	const __exports = __awtsmoosModule_69;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -5314,9 +5437,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos raises every valley before game or studio can divide ownership; Awtsmoos.com lets callers
 	 * contribute semantic zone evidence while all reusable GPU matter and texture readiness remain inside Procedural Core.
 	 */
-	const createTerrainEcologyWeights = __awtsmoosModule_38.createTerrainEcologyWeights;
-	const createCinematicTerrainMaterial = __awtsmoosModule_39.createCinematicTerrainMaterial;
-	const createNativeGeometryMesh = __awtsmoosModule_37.createNativeGeometryMesh;
+	const createTerrainEcologyWeights = __awtsmoosModule_40.createTerrainEcologyWeights;
+	const createCinematicTerrainMaterial = __awtsmoosModule_41.createCinematicTerrainMaterial;
+	const createNativeGeometryMesh = __awtsmoosModule_39.createNativeGeometryMesh;
 
 	/** Materializes a TerrainApi plan as a Core cinematic mesh. */
 	function createCinematicTerrainMesh(terrainPlan = {}, options = {}) {
@@ -5373,7 +5496,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/worldBuilding/CinematicWaterGeometry.js ----
 {
-	const __exports = __awtsmoosModule_69;
+	const __exports = __awtsmoosModule_71;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -5416,7 +5539,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/worldBuilding/CinematicWaterProfileValues.js ----
 {
-	const __exports = __awtsmoosModule_71;
+	const __exports = __awtsmoosModule_73;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -5500,7 +5623,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/worldBuilding/CinematicWaterProfile.js ----
 {
-	const __exports = __awtsmoosModule_70;
+	const __exports = __awtsmoosModule_72;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -5510,7 +5633,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos is one current through lake, stream, and cascade; Awtsmoos.com centralizes immutable
 	 * depth, foam, reflection, refraction, ripple, and flow truth so clients never duplicate water physics.
 	 */
-	const CINEMATIC_WATER_PROFILE_VALUES = __awtsmoosModule_71.CINEMATIC_WATER_PROFILE_VALUES;
+	const CINEMATIC_WATER_PROFILE_VALUES = __awtsmoosModule_73.CINEMATIC_WATER_PROFILE_VALUES;
 
 	/** Returns the immutable physical profile for one water intent. */
 	function cinematicWaterProfile(kind = 'lake') {
@@ -5555,7 +5678,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/worldBuilding/CinematicWaterMesh.js ----
 {
-	const __exports = __awtsmoosModule_68;
+	const __exports = __awtsmoosModule_70;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -5566,11 +5689,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * its base garment while shader mathematics supplies motion, depth, reflection, foam, and refraction.
 	 */
 	const MeshStandardMaterial = __awtsmoosModule_18.MeshStandardMaterial;
-	const awtsmoosDriveTexturePathUrl = __awtsmoosModule_43.awtsmoosDriveTexturePathUrl;
-	const loadRemoteTextureImage = __awtsmoosModule_56.loadRemoteTextureImage;
-	const createNativeGeometryMesh = __awtsmoosModule_37.createNativeGeometryMesh;
-	const createCinematicWaterGeometry = __awtsmoosModule_69.createCinematicWaterGeometry;
-	const cinematicWaterProfile = __awtsmoosModule_70.cinematicWaterProfile;
+	const awtsmoosDriveTexturePathUrl = __awtsmoosModule_45.awtsmoosDriveTexturePathUrl;
+	const loadRemoteTextureImage = __awtsmoosModule_58.loadRemoteTextureImage;
+	const createNativeGeometryMesh = __awtsmoosModule_39.createNativeGeometryMesh;
+	const createCinematicWaterGeometry = __awtsmoosModule_71.createCinematicWaterGeometry;
+	const cinematicWaterProfile = __awtsmoosModule_72.cinematicWaterProfile;
 
 	const WATER_PATH = Object.freeze({
 		lake: 'full-resolution/lake-water.png',
@@ -5644,7 +5767,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/worldBuilding/LegacyWaterFragmentShader.js ----
 {
-	const __exports = __awtsmoosModule_73;
+	const __exports = __awtsmoosModule_75;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -5696,7 +5819,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/worldBuilding/WaterShaderRecipe.js ----
 {
-	const __exports = __awtsmoosModule_72;
+	const __exports = __awtsmoosModule_74;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -5706,8 +5829,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews moving water beyond every game-specific vessel; Awtsmoos.com centralizes bounded
 	 * reflection, refraction, foam, procedural normals, and remote albedo semantics for every consumer.
 	 */
-	const cinematicWaterProfile = __awtsmoosModule_70.cinematicWaterProfile;
-	const LEGACY_WATER_FRAGMENT_SHADER = __awtsmoosModule_73.LEGACY_WATER_FRAGMENT_SHADER;
+	const cinematicWaterProfile = __awtsmoosModule_72.cinematicWaterProfile;
+	const LEGACY_WATER_FRAGMENT_SHADER = __awtsmoosModule_75.LEGACY_WATER_FRAGMENT_SHADER;
 
 	/** Creates one immutable physical-water recipe with bounded caller overrides. */
 	function waterShaderRecipe(kind = 'lake', options = {}) {
@@ -5774,7 +5897,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/reality/RealitySeed.js ----
 {
-	const __exports = __awtsmoosModule_80;
+	const __exports = __awtsmoosModule_82;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5846,7 +5969,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/terrain/TerrainNoiseField.js ----
 {
-	const __exports = __awtsmoosModule_79;
+	const __exports = __awtsmoosModule_81;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5858,7 +5981,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * so adjacent terrain chunks meet without seams while octaves weave continental form from a bounded mathematical joint.
 	 */
 
-	const normalizeRealitySeed = __awtsmoosModule_80.normalizeRealitySeed;
+	const normalizeRealitySeed = __awtsmoosModule_82.normalizeRealitySeed;
 
 	/** Deterministic two-dimensional world-space terrain noise sampler. */
 	class TerrainNoiseField {
@@ -5955,7 +6078,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/terrain/TerrainDomainWarp.js ----
 {
-	const __exports = __awtsmoosModule_78;
+	const __exports = __awtsmoosModule_80;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5967,7 +6090,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * so mountains gather into sweeping ranges and valleys meander with broad geological rhythm instead of repeating like tiled arithmetic.
 	 */
 
-	const TerrainNoiseField = __awtsmoosModule_79.TerrainNoiseField;
+	const TerrainNoiseField = __awtsmoosModule_81.TerrainNoiseField;
 
 	/** Deterministic two-axis domain-warp sampler composed from independent low-frequency terrain fields. */
 	class TerrainDomainWarp {
@@ -6026,7 +6149,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/terrain/TerrainBaseField.js ----
 {
-	const __exports = __awtsmoosModule_77;
+	const __exports = __awtsmoosModule_79;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6038,8 +6161,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * so the first landscape already carries geological intention instead of asking erosion to rescue an undifferentiated noise-filled place.
 	 */
 
-	const TerrainDomainWarp = __awtsmoosModule_78.TerrainDomainWarp;
-	const TerrainNoiseField = __awtsmoosModule_79.TerrainNoiseField;
+	const TerrainDomainWarp = __awtsmoosModule_80.TerrainDomainWarp;
+	const TerrainNoiseField = __awtsmoosModule_81.TerrainNoiseField;
 
 	/** Renderer-neutral deterministic base-height authority for world-space terrain sampling. */
 	class TerrainBaseField {
@@ -6134,7 +6257,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/terrain/TerrainEcologyEvidence.js ----
 {
-	const __exports = __awtsmoosModule_81;
+	const __exports = __awtsmoosModule_83;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6281,7 +6404,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/terrain/TerrainFlowField.js ----
 {
-	const __exports = __awtsmoosModule_82;
+	const __exports = __awtsmoosModule_84;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6377,7 +6500,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/terrain/TerrainGeometryPlan.js ----
 {
-	const __exports = __awtsmoosModule_83;
+	const __exports = __awtsmoosModule_85;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6503,7 +6626,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/terrain/TerrainHeightGrid.js ----
 {
-	const __exports = __awtsmoosModule_84;
+	const __exports = __awtsmoosModule_86;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6609,7 +6732,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/terrain/TerrainHydraulicErosion.js ----
 {
-	const __exports = __awtsmoosModule_85;
+	const __exports = __awtsmoosModule_87;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6621,7 +6744,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * so valleys remember water through measured transport while the finite grid remains stable, optional, and safe beneath the crown.
 	 */
 
-	const createTerrainFlowField = __awtsmoosModule_82.createTerrainFlowField;
+	const createTerrainFlowField = __awtsmoosModule_84.createTerrainFlowField;
 
 	/**
 	 * Mutates one working terrain grid through bounded flow-directed hydraulic erosion.
@@ -6708,7 +6831,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/terrain/TerrainQualityProfile.js ----
 {
-	const __exports = __awtsmoosModule_86;
+	const __exports = __awtsmoosModule_88;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6772,7 +6895,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/terrain/TerrainSurfaceDerivatives.js ----
 {
-	const __exports = __awtsmoosModule_88;
+	const __exports = __awtsmoosModule_90;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6873,7 +6996,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/terrain/TerrainSurfaceEvidence.js ----
 {
-	const __exports = __awtsmoosModule_87;
+	const __exports = __awtsmoosModule_89;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -6885,9 +7008,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * so slope, moisture, elevation, exposure, curvature, and normals become shared world truth instead of disconnected guesses roaming alone.
 	 */
 
-	const normalizeTerrainHeight = __awtsmoosModule_88.normalizeTerrainHeight;
-	const sampleTerrainDerivatives = __awtsmoosModule_88.sampleTerrainDerivatives;
-	const terrainHeightRange = __awtsmoosModule_88.terrainHeightRange;
+	const normalizeTerrainHeight = __awtsmoosModule_90.normalizeTerrainHeight;
+	const sampleTerrainDerivatives = __awtsmoosModule_90.sampleTerrainDerivatives;
+	const terrainHeightRange = __awtsmoosModule_90.terrainHeightRange;
 
 	/**
 	 * Builds visible surface evidence from one padded terrain grid and aligned flow field.
@@ -6964,7 +7087,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/terrain/TerrainThermalErosion.js ----
 {
-	const __exports = __awtsmoosModule_89;
+	const __exports = __awtsmoosModule_91;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -7070,7 +7193,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/terrain/TerrainWaterHints.js ----
 {
-	const __exports = __awtsmoosModule_90;
+	const __exports = __awtsmoosModule_92;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -7239,7 +7362,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/terrain/TerrainPlan.js ----
 {
-	const __exports = __awtsmoosModule_76;
+	const __exports = __awtsmoosModule_78;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -7251,16 +7374,16 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * so a beginner may request a landscape in one call while experts may still enter each hidden authority independently.
 	 */
 
-	const TerrainBaseField = __awtsmoosModule_77.TerrainBaseField;
-	const createTerrainEcologyEvidence = __awtsmoosModule_81.createTerrainEcologyEvidence;
-	const createTerrainFlowField = __awtsmoosModule_82.createTerrainFlowField;
-	const createTerrainGeometryPlan = __awtsmoosModule_83.createTerrainGeometryPlan;
-	const TerrainHeightGrid = __awtsmoosModule_84.TerrainHeightGrid;
-	const applyTerrainHydraulicErosion = __awtsmoosModule_85.applyTerrainHydraulicErosion;
-	const createTerrainQualityProfile = __awtsmoosModule_86.createTerrainQualityProfile;
-	const createTerrainSurfaceEvidence = __awtsmoosModule_87.createTerrainSurfaceEvidence;
-	const applyTerrainThermalErosion = __awtsmoosModule_89.applyTerrainThermalErosion;
-	const createTerrainWaterHints = __awtsmoosModule_90.createTerrainWaterHints;
+	const TerrainBaseField = __awtsmoosModule_79.TerrainBaseField;
+	const createTerrainEcologyEvidence = __awtsmoosModule_83.createTerrainEcologyEvidence;
+	const createTerrainFlowField = __awtsmoosModule_84.createTerrainFlowField;
+	const createTerrainGeometryPlan = __awtsmoosModule_85.createTerrainGeometryPlan;
+	const TerrainHeightGrid = __awtsmoosModule_86.TerrainHeightGrid;
+	const applyTerrainHydraulicErosion = __awtsmoosModule_87.applyTerrainHydraulicErosion;
+	const createTerrainQualityProfile = __awtsmoosModule_88.createTerrainQualityProfile;
+	const createTerrainSurfaceEvidence = __awtsmoosModule_89.createTerrainSurfaceEvidence;
+	const applyTerrainThermalErosion = __awtsmoosModule_91.applyTerrainThermalErosion;
+	const createTerrainWaterHints = __awtsmoosModule_92.createTerrainWaterHints;
 
 	/** Canonical renderer-neutral terrain planner with simple defaults and specialist option branches. */
 	class TerrainPlanner {
@@ -7350,7 +7473,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/terrain/TerrainApi.js ----
 {
-	const __exports = __awtsmoosModule_75;
+	const __exports = __awtsmoosModule_77;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -7362,8 +7485,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * so ordinary games receive beautiful earth immediately while expert tools may descend through every documented layer without cluttering sight.
 	 */
 
-	const TerrainPlanner = __awtsmoosModule_76.TerrainPlanner;
-	const listTerrainQualityProfiles = __awtsmoosModule_86.listTerrainQualityProfiles;
+	const TerrainPlanner = __awtsmoosModule_78.TerrainPlanner;
+	const listTerrainQualityProfiles = __awtsmoosModule_88.listTerrainQualityProfiles;
 
 	/** Progressive-disclosure terrain API with one-call generation above explicit specialist planning. */
 	class TerrainApi {
@@ -7469,7 +7592,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/worldBuilding/CinematicWorldBuildingApi.js ----
 {
-	const __exports = __awtsmoosModule_74;
+	const __exports = __awtsmoosModule_76;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -7479,12 +7602,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos renews one reality before terrain, water, sky, and material divide; this API accepts
 	 * declarative intent while reusable geometry, remote imagery, shaders, and native materialization stay in Core.
 	 */
-	const createTerrainApi = __awtsmoosModule_75.createTerrainApi;
+	const createTerrainApi = __awtsmoosModule_77.createTerrainApi;
 	const createCinematicEnvironment = __awtsmoosModule_15.createCinematicEnvironment;
 	const createCinematicSkyMesh = __awtsmoosModule_17.createCinematicSkyMesh;
-	const createCinematicTerrainMesh = __awtsmoosModule_67.createCinematicTerrainMesh;
-	const createCinematicTerrainMeshFromGeometry = __awtsmoosModule_67.createCinematicTerrainMeshFromGeometry;
-	const createCinematicWaterMesh = __awtsmoosModule_68.createCinematicWaterMesh;
+	const createCinematicTerrainMesh = __awtsmoosModule_69.createCinematicTerrainMesh;
+	const createCinematicTerrainMeshFromGeometry = __awtsmoosModule_69.createCinematicTerrainMeshFromGeometry;
+	const createCinematicWaterMesh = __awtsmoosModule_70.createCinematicWaterMesh;
 
 	class CinematicWorldBuildingApi {
 		constructor(defaults = {}) {
@@ -7572,7 +7695,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/worldBuilding/NativeGeometryAttribute.js ----
 {
-	const __exports = __awtsmoosModule_91;
+	const __exports = __awtsmoosModule_93;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -7622,7 +7745,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/worldBuilding/NativeStaticBatchMaterial.js ----
 {
-	const __exports = __awtsmoosModule_92;
+	const __exports = __awtsmoosModule_94;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -7635,7 +7758,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * PERFORMANCE: one neutral batch material lets many compatible colored parts share a single renderer draw call without losing source metadata.
 	 */
 
-	const createNativeWorldMaterial = __awtsmoosModule_66.createNativeWorldMaterial;
+	const createNativeWorldMaterial = __awtsmoosModule_68.createNativeWorldMaterial;
 
 	/**
 	 * Create one independent static-batch material from an existing native physical material.
@@ -7671,7 +7794,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/worldBuilding/NativeWorldMaterialClone.js ----
 {
-	const __exports = __awtsmoosModule_93;
+	const __exports = __awtsmoosModule_95;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -7751,33 +7874,33 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	__exports.createCinematicEnvironment = __awtsmoosModule_15.createCinematicEnvironment;
 	__exports.createCinematicSkyMesh = __awtsmoosModule_17.createCinematicSkyMesh;
-	__exports.createTerrainEcologyWeights = __awtsmoosModule_38.createTerrainEcologyWeights;
-	__exports.createCinematicTerrainMaterial = __awtsmoosModule_39.createCinematicTerrainMaterial;
-	__exports.createCinematicTerrainMesh = __awtsmoosModule_67.createCinematicTerrainMesh;
-	__exports.createCinematicTerrainMeshFromGeometry = __awtsmoosModule_67.createCinematicTerrainMeshFromGeometry;
-	__exports.createCinematicTerrainTextureLayers = __awtsmoosModule_40.createCinematicTerrainTextureLayers;
-	__exports.createLayeredTerrainMaterial = __awtsmoosModule_65.createLayeredTerrainMaterial;
-	__exports.createCinematicWaterMesh = __awtsmoosModule_68.createCinematicWaterMesh;
-	__exports.cinematicWaterProfile = __awtsmoosModule_70.cinematicWaterProfile;
-	__exports.createWaterShaderRecipe = __awtsmoosModule_72.createWaterShaderRecipe;
-	__exports.waterShaderRecipe = __awtsmoosModule_72.waterShaderRecipe;
-	__exports.CinematicWorldBuildingApi = __awtsmoosModule_74.CinematicWorldBuildingApi;
-	__exports.createCinematicWorldBuildingApi = __awtsmoosModule_74.createCinematicWorldBuildingApi;
-	__exports.replaceNativeGeometryAttribute = __awtsmoosModule_91.replaceNativeGeometryAttribute;
-	__exports.createNativeGeometry = __awtsmoosModule_37.createNativeGeometry;
-	__exports.createNativeGeometryMesh = __awtsmoosModule_37.createNativeGeometryMesh;
-	__exports.createNativeIndexedGeometry = __awtsmoosModule_37.createNativeIndexedGeometry;
-	__exports.createNativeMeshFromGeometry = __awtsmoosModule_37.createNativeMeshFromGeometry;
-	__exports.createNativeWorldGroup = __awtsmoosModule_37.createNativeWorldGroup;
-	__exports.createNativeStaticBatchMaterial = __awtsmoosModule_92.createNativeStaticBatchMaterial;
-	__exports.cloneNativeWorldMaterial = __awtsmoosModule_93.cloneNativeWorldMaterial;
-	__exports.createNativeWorldMaterial = __awtsmoosModule_66.createNativeWorldMaterial;
+	__exports.createTerrainEcologyWeights = __awtsmoosModule_40.createTerrainEcologyWeights;
+	__exports.createCinematicTerrainMaterial = __awtsmoosModule_41.createCinematicTerrainMaterial;
+	__exports.createCinematicTerrainMesh = __awtsmoosModule_69.createCinematicTerrainMesh;
+	__exports.createCinematicTerrainMeshFromGeometry = __awtsmoosModule_69.createCinematicTerrainMeshFromGeometry;
+	__exports.createCinematicTerrainTextureLayers = __awtsmoosModule_42.createCinematicTerrainTextureLayers;
+	__exports.createLayeredTerrainMaterial = __awtsmoosModule_67.createLayeredTerrainMaterial;
+	__exports.createCinematicWaterMesh = __awtsmoosModule_70.createCinematicWaterMesh;
+	__exports.cinematicWaterProfile = __awtsmoosModule_72.cinematicWaterProfile;
+	__exports.createWaterShaderRecipe = __awtsmoosModule_74.createWaterShaderRecipe;
+	__exports.waterShaderRecipe = __awtsmoosModule_74.waterShaderRecipe;
+	__exports.CinematicWorldBuildingApi = __awtsmoosModule_76.CinematicWorldBuildingApi;
+	__exports.createCinematicWorldBuildingApi = __awtsmoosModule_76.createCinematicWorldBuildingApi;
+	__exports.replaceNativeGeometryAttribute = __awtsmoosModule_93.replaceNativeGeometryAttribute;
+	__exports.createNativeGeometry = __awtsmoosModule_39.createNativeGeometry;
+	__exports.createNativeGeometryMesh = __awtsmoosModule_39.createNativeGeometryMesh;
+	__exports.createNativeIndexedGeometry = __awtsmoosModule_39.createNativeIndexedGeometry;
+	__exports.createNativeMeshFromGeometry = __awtsmoosModule_39.createNativeMeshFromGeometry;
+	__exports.createNativeWorldGroup = __awtsmoosModule_39.createNativeWorldGroup;
+	__exports.createNativeStaticBatchMaterial = __awtsmoosModule_94.createNativeStaticBatchMaterial;
+	__exports.cloneNativeWorldMaterial = __awtsmoosModule_95.cloneNativeWorldMaterial;
+	__exports.createNativeWorldMaterial = __awtsmoosModule_68.createNativeWorldMaterial;
 
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapCubeGeometry.js ----
 {
-	const __exports = __awtsmoosModule_94;
+	const __exports = __awtsmoosModule_96;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -7862,7 +7985,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapImmediateMaterial.js ----
 {
-	const __exports = __awtsmoosModule_95;
+	const __exports = __awtsmoosModule_97;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -7930,39 +8053,38 @@ const __awtsmoosModule_0 = Object.create(null);
 	const __exports = __awtsmoosModule_13;
 	//B"H
 	//Boruch Hashem
-	//Blessed be He
+	//Blessed is He
 
 	/**
 	 * @file BootstrapVisibleWorld.js
-	 * @description Builds the immediate meadow fallback while Procedural Core owns native hierarchy and meshes.
-	 * MitzvahWorld retains only first-play semantic placement, scale, fallback visibility, and material roles;
-	 * the same shared cube can later hydrate with real remote imagery without replacing gameplay state or
-	 * duplicating reusable renderer construction inside this product-specific bootstrap layer.
+	 * @description Builds the immediate bounded meadow as a deeper asymmetric valley using the same shared geometry family.
+	 * The Awtsmoos renews one field and six hills into layered distance without multiplying their substance;
+	 * Awtsmoos.com keeps every silhouette ready for lawful remote material hydration and truthful first-play presence.
 	 */
 
 	const createNativeMeshFromGeometry = __awtsmoosModule_14.createNativeMeshFromGeometry;
 	const createNativeWorldGroup = __awtsmoosModule_14.createNativeWorldGroup;
-	const bootstrapCubeGeometry = __awtsmoosModule_94.bootstrapCubeGeometry;
-	const createBootstrapImmediateMaterial = __awtsmoosModule_95.createBootstrapImmediateMaterial;
+	const bootstrapCubeGeometry = __awtsmoosModule_96.bootstrapCubeGeometry;
+	const createBootstrapImmediateMaterial = __awtsmoosModule_97.createBootstrapImmediateMaterial;
 
 	const COLORS = Object.freeze({
-		farHill: [0.19, 0.42, 0.18, 1],
-		grass: [0.18, 0.48, 0.2, 1],
-		hill: [0.22, 0.55, 0.23, 1]
+		farHill: [0.21, 0.32, 0.18, 1],
+		grass: [0.14, 0.44, 0.18, 1],
+		hill: [0.18, 0.50, 0.20, 1]
 	});
 
 	const HILLS = Object.freeze([
-		[-50, 2.5, 30, 26, 5, 28],
-		[48, 3.5, 42, 30, 7, 34],
-		[-62, 6, 82, 42, 12, 36],
-		[64, 7, 92, 46, 14, 40],
-		[-15, 4, 120, 34, 8, 28],
-		[24, 5.5, 132, 38, 11, 32]
+		[-56, 3.5, 30, 38, 7, 34],
+		[54, 4.5, 44, 42, 9, 40],
+		[-72, 7.2, 82, 56, 14, 46],
+		[70, 8.4, 94, 60, 17, 50],
+		[-34, 9.4, 138, 68, 18, 48],
+		[38, 11.2, 154, 76, 22, 56]
 	]);
 
 	/**
 	 * Creates the bounded first-play valley while preserving later remote-material identity.
-	 * @returns {object} Core-owned group containing the bootstrap field and hill silhouettes.
+	 * @returns {object} Core-owned group containing one field and twelve hill tiers.
 	 */
 	function createBootstrapVisibleWorld() {
 		const group = createNativeWorldGroup({
@@ -7975,17 +8097,14 @@ const __awtsmoosModule_0 = Object.create(null);
 		group.userData = {
 			bootstrapTerrain: true,
 			meshCount: group.children.length,
-			visualMode: 'colored-bootstrap-remote-upgrade'
+			visualMode: 'cinematic-bootstrap-remote-upgrade'
 		};
 		return group;
 	}
 
 
 	__exports.createBootstrapVisibleWorld = createBootstrapVisibleWorld;
-	/**
-	 * Adds one two-tier hill using semantic material roles that the shared hydrator understands.
-	 * @returns {void}
-	 */
+	/** Adds one two-tier hill without changing mesh topology or semantic hydration roles. */
 	function addHill(group, index, [x, y, z, width, height, depth]) {
 		const color = index > 3 ? COLORS.farHill : COLORS.hill;
 		const role = index > 3 ? 'stone.general' : 'terrain.grass';
@@ -8194,289 +8313,80 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialAssetRecord.js ----
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/GeneratedRuntimeChunkUrl.js ----
 {
-	const __exports = __awtsmoosModule_97;
+	const __exports = __awtsmoosModule_99;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
-	 * @file EretzEssentialAssetRecord.js
-	 * @description Creates legacy asset keys with null-safe startup values while declaring a strict authored-human policy.
-	 * The Awtsmoos lets texture vessels begin empty without inventing a person; Awtsmoos.com preserves the legacy record shape,
-	 * yet every human diagnostic now says GLB truth only, while authored visual hydration fills the remaining landscape.
+	 * @file GeneratedRuntimeChunkUrl.js
+	 * @description Resolves generated runtime chunks from readable app modules or folded root artifacts.
+	 * The Awtsmoos gives each complete garment one canonical compressed doorway;
+	 * Awtsmoos.com keeps readable development and generated publication paths identical in meaning.
 	 */
 
-	const IMAGE_KEYS = Object.freeze([
-		'whiteBrickImage',
-		'redBrickImage',
-		'redBrick1Image',
-		'redBrick2Image',
-		'yellowBrickImage',
-		'goldImage',
-		'stoneImage',
-		'woodImage',
-		'dirt1Image',
-		'dirt2Image',
-		'dirtGrass1Image',
-		'dirtGrass2Image',
-		'terrainMixImage'
-	]);
-
-	function createEssentialAssetRecord() {
-		const assets = Object.fromEntries(IMAGE_KEYS.map(key => [key, null]));
-		assets.brickImage = null;
-		assets.lavaImage = null;
-		assets.terrainDirtImages = [null, null, null, null, null];
-		assets.actorAssets = Object.freeze({
-			fallbackActors: 0,
-			playerBlockingRequests: 1,
-			strategy: 'canonical-glb-before-play'
-		});
-		assets.importedModelMaterials = Object.freeze({
-			npcs: [],
-			player: Object.freeze({ fallback: false, source: 'canonical-player-glb' })
-		});
-		assets.houseMaterialDegradation = Object.freeze([]);
-		assets.publicMaterialCache = Object.freeze({ entries: 0, ready: 0 });
-		assets.publicMaterialPolicy = Object.freeze({
-			blockingTextureRequests: 1,
-			fallbackFirst: false,
-			strategy: 'authored-terrain-before-gameplay-presentation'
-		});
-		assets.publicUrls = Object.freeze({});
-		return assets;
+	function resolveGeneratedRuntimeChunkUrl(
+		fileName,
+		sourceUrl,
+		readableFileName
+	) {
+		const source = new URL(sourceUrl);
+		const readableSuffix = `/app/${readableFileName}`;
+		const base = source.pathname.endsWith(readableSuffix)
+			? new URL('../', source)
+			: new URL('./', source);
+		return new URL(fileName, base).href;
 	}
 
-
-	__exports.createEssentialAssetRecord = createEssentialAssetRecord;
-	function essentialAssetImageKeys() {
-		return IMAGE_KEYS.slice();
-	}
-
-	__exports.essentialAssetImageKeys = essentialAssetImageKeys;
+	__exports.resolveGeneratedRuntimeChunkUrl = resolveGeneratedRuntimeChunkUrl;
 
 }
 
-// ---- libs/awtsmoos-procedural-core/src/core/assets/ModelTemplateCache.js ----
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzDeferredEssentialAssets.js ----
 {
-	const __exports = __awtsmoosModule_101;
+	const __exports = __awtsmoosModule_98;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
-	 * @file ModelTemplateCache.js
-	 * @description Owns reusable asynchronous model-template identity, promise sharing, retry eviction, and cache evidence.
-	 * The Awtsmoos, Atzmus beyond every duplicated garment, renews one hidden source while many visible instances receive its light;
-	 * Awtsmoos.com lets one canonical resource promise serve many worlds without confusing renderer parsing, URL policy, or game delight.
+	 * @file EretzDeferredEssentialAssets.js
+	 * @description Loads the generated essential-player runtime chunk after frame and terrain are proven, without walking the raw source-module graph.
+	 * The Awtsmoos lets visible earth arrive first while the authored traveler waits in one compressed vessel;
+	 * Awtsmoos.com preserves the real Chossid as essential yet removes dozens of source-module requests from the five-second road.
 	 */
 
-	/** Renderer-neutral cache for parsed model templates. */
-	class ModelTemplateCache {
-		/**
-		 * @param {object} options Cache dependencies.
-		 * @param {Function} options.loadTemplate Loads one canonical resource into a reusable parsed template.
-		 * @param {Function} [options.resolveResource] Validates and canonicalizes caller resource identities.
-		 */
-		constructor(options = {}) {
-			if (typeof options.loadTemplate !== 'function') {
-				throw new TypeError('B"H | ModelTemplateCache requires loadTemplate.');
-			}
-			this.loadTemplate = options.loadTemplate;
-			this.resolveResource = options.resolveResource || defaultResourceResolver;
-			this.promises = new Map();
-			this.cacheHits = 0;
-			this.cacheMisses = 0;
-			this.failures = 0;
-			this.templateLoads = 0;
-		}
+	const resolveGeneratedRuntimeChunkUrl = __awtsmoosModule_99.resolveGeneratedRuntimeChunkUrl;
 
-		/** Loads or reuses one parsed template promise. */
-		async load(resource, options = {}) {
-			const resourceUrl = this.resolveResource(resource);
-			const cached = this.promises.has(resourceUrl);
-			if (cached) {
-				this.cacheHits += 1;
-				options.onProgress?.({ cached: true, phase: 'ready', progress: 1 });
-			} else {
-				this.cacheMisses += 1;
-				this.templateLoads += 1;
-				const promise = Promise.resolve(
-					this.loadTemplate(resourceUrl, options)
-				).catch(error => {
-					this.failures += 1;
-					this.promises.delete(resourceUrl);
-					throw wrapModelTemplateError(resourceUrl, error);
-				});
-				this.promises.set(resourceUrl, promise);
-			}
-			return Object.freeze({
-				cached,
-				resourceUrl,
-				template: await this.promises.get(resourceUrl)
-			});
-		}
+	const READABLE_SOURCE = 'EretzDeferredEssentialAssets.js';
+	const PLAYER_CHUNK_URL = resolveGeneratedRuntimeChunkUrl(
+		'mitzvah-world-player.compact.js',
+		(( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzDeferredEssentialAssets.js"),
+		READABLE_SOURCE
+	);
 
-		/** Clears all shared promises and diagnostics. */
-		clear() {
-			this.promises.clear();
-			this.cacheHits = 0;
-			this.cacheMisses = 0;
-			this.failures = 0;
-			this.templateLoads = 0;
-		}
-
-		/** Returns immutable cache evidence. */
-		stats() {
-			return Object.freeze({
-				cacheHits: this.cacheHits,
-				cacheMisses: this.cacheMisses,
-				failures: this.failures,
-				templateLoads: this.templateLoads,
-				templatesCached: this.promises.size
-			});
-		}
+	/** Loads the generated canonical-player chunk and delegates essential asset creation. */
+	async function loadDeferredEretzEssentialAssets(options = {}) {
+		const module = await import(PLAYER_CHUNK_URL);
+		return module.loadEretzEssentialAssets(options);
 	}
 
 
-	__exports.ModelTemplateCache = ModelTemplateCache;
-	function wrapModelTemplateError(resourceUrl, error) {
-		const wrapped = new Error(
-			`Unable to load model template ${resourceUrl}: ${error?.message || error}`
-		);
-		wrapped.cause = error;
-		return wrapped;
+	__exports.loadDeferredEretzEssentialAssets = loadDeferredEretzEssentialAssets;
+	/** Exposes the generated player-chunk URL for diagnostics and release proofs. */
+	function eretzEssentialAssetModuleUrl() {
+		return PLAYER_CHUNK_URL;
 	}
 
-	function defaultResourceResolver(resource) {
-		const value = String(resource || '').trim();
-		if (!value) throw new Error('B"H | Model resource identity is required.');
-		return value;
-	}
-
-}
-
-// ---- libs/awtsmoos-procedural-core/src/core/assets/ModelAssetService.js ----
-{
-	const __exports = __awtsmoosModule_102;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file ModelAssetService.js
-	 * @description Separates shared parsed templates from isolated mutable model instances and explicit graceful fallbacks.
-	 * The Awtsmoos, Atzmus beyond template and actor, renews one source and every distinct manifestation without division;
-	 * Awtsmoos.com lets render adapters instantiate their own vessels while reusable lifecycle, evidence, and failure law stay one decision.
-	 */
-
-	/** Renderer-neutral service coordinating shared templates and isolated model instances. */
-	class ModelAssetService {
-		/**
-		 * @param {object} options Service dependencies.
-		 * @param {*} options.templateCache Cache exposing load(), clear(), and stats().
-		 * @param {Function} options.instantiateTemplate Creates one isolated instance from a shared template.
-		 * @param {Function} [options.decorateInstance] Applies adapter-specific receipt metadata.
-		 * @param {Function} [options.decorateFallback] Applies adapter-specific fallback metadata.
-		 */
-		constructor(options = {}) {
-			if (!options.templateCache?.load || typeof options.instantiateTemplate !== 'function') {
-				throw new TypeError('B"H | ModelAssetService requires cache and instantiator.');
-			}
-			this.templateCache = options.templateCache;
-			this.instantiateTemplate = options.instantiateTemplate;
-			this.decorateInstance = options.decorateInstance || identityValue;
-			this.decorateFallback = options.decorateFallback || identityValue;
-			this.instancesCreated = 0;
-			this.fallbacksCreated = 0;
-		}
-
-		/** Returns the shared parsed template for expert or adapter reuse. */
-		async loadShared(resource, options = {}) {
-			const result = await this.templateCache.load(resource, options);
-			return result.template;
-		}
-
-		/** Creates one isolated mutable model instance from a shared parsed template. */
-		async loadIsolated(resource, label = 'instance', options = {}) {
-			try {
-				const loaded = await this.templateCache.load(resource, options);
-				const context = Object.freeze({
-					label,
-					options,
-					resourceUrl: loaded.resourceUrl,
-					template: loaded.template
-				});
-				const instance = await this.instantiateTemplate(loaded.template, context);
-				this.instancesCreated += 1;
-				return this.decorateInstance(instance, context) ?? instance;
-			} catch (error) {
-				options.onFailure?.({ error, label, resourceUrl: resource });
-				if (typeof options.fallbackFactory !== 'function') throw error;
-				const fallback = await options.fallbackFactory({ error, label, url: resource });
-				this.fallbacksCreated += 1;
-				const context = Object.freeze({ error, label, resourceUrl: resource });
-				return this.decorateFallback(fallback, context) ?? fallback;
-			}
-		}
-
-		/** Clears shared templates and instance counters. */
-		clear() {
-			this.templateCache.clear?.();
-			this.instancesCreated = 0;
-			this.fallbacksCreated = 0;
-		}
-
-		/** Returns immutable service and cache diagnostics. */
-		stats() {
-			return Object.freeze({
-				fallbacksCreated: this.fallbacksCreated,
-				instancesCreated: this.instancesCreated,
-				...(this.templateCache.stats?.() || {})
-			});
-		}
-	}
-
-
-	__exports.ModelAssetService = ModelAssetService;
-	/** Convenience factory for dependency-injected model services. */
-	function createModelAssetService(options = {}) {
-		return new ModelAssetService(options);
-	}
-
-
-	__exports.createModelAssetService = createModelAssetService;
-	function identityValue(value) {
-		return value;
-	}
-
-}
-
-// ---- libs/awtsmoos-procedural-core/src/core/assets/index.js ----
-{
-	const __exports = __awtsmoosModule_100;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file index.js
-	 * @description Public reusable model-asset lifecycle for renderer adapters, vegetation libraries, worlds, and games.
-	 * The Awtsmoos, Atzmus beyond file and scene, renews every model source before a renderer gives it visible form;
-	 * Awtsmoos.com exposes shared-template and isolated-instance law without binding the procedural core to one parser or platform.
-	 */
-
-	__exports.ModelTemplateCache = __awtsmoosModule_101.ModelTemplateCache;
-	__exports.ModelAssetService = __awtsmoosModule_102.ModelAssetService;
-	__exports.createModelAssetService = __awtsmoosModule_102.createModelAssetService;
+	__exports.eretzEssentialAssetModuleUrl = eretzEssentialAssetModuleUrl;
 
 }
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-matrix-core.js ----
 {
-	const __exports = __awtsmoosModule_110;
+	const __exports = __awtsmoosModule_104;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -8597,7 +8507,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-transform-math.js ----
 {
-	const __exports = __awtsmoosModule_111;
+	const __exports = __awtsmoosModule_105;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -8609,7 +8519,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * complete local vessel in one pass so no temporary translation or scale matrix is born.
 	 */
 
-	const identity = __awtsmoosModule_110.identity;
+	const identity = __awtsmoosModule_104.identity;
 
 	function quatNormalize(quaternion) {
 		const x = quaternion?.[0] || 0;
@@ -8681,7 +8591,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-camera-math.js ----
 {
-	const __exports = __awtsmoosModule_112;
+	const __exports = __awtsmoosModule_106;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -8693,7 +8603,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * vessel directly so each ridge, flower, and Chossid reaches the screen without waste.
 	 */
 
-	const identity = __awtsmoosModule_110.identity;
+	const identity = __awtsmoosModule_104.identity;
 
 	function perspective(fovDegrees, aspect, near, far) {
 		const factor = 1 / Math.tan(fovDegrees * Math.PI / 360);
@@ -8766,7 +8676,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-interpolation-math.js ----
 {
-	const __exports = __awtsmoosModule_113;
+	const __exports = __awtsmoosModule_107;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -8778,7 +8688,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * visible traveler a measured path between samples without changing either endpoint.
 	 */
 
-	const quatNormalize = __awtsmoosModule_111.quatNormalize;
+	const quatNormalize = __awtsmoosModule_105.quatNormalize;
 
 	function quatSlerp(left, right, amount) {
 		const [ax, ay, az, aw] = left;
@@ -8823,7 +8733,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-math.js ----
 {
-	const __exports = __awtsmoosModule_109;
+	const __exports = __awtsmoosModule_103;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -8835,28 +8745,28 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * matrix, transform, camera, and interpolation responsibilities in their proper rooms.
 	 */
 
-	__exports.copyMat4 = __awtsmoosModule_110.copyMat4;
-	__exports.EPSILON = __awtsmoosModule_110.EPSILON;
-	__exports.identity = __awtsmoosModule_110.identity;
-	__exports.inverse = __awtsmoosModule_110.inverse;
-	__exports.mat4FromArray = __awtsmoosModule_110.mat4FromArray;
-	__exports.multiply = __awtsmoosModule_110.multiply;
-	__exports.scale = __awtsmoosModule_110.scale;
-	__exports.translate = __awtsmoosModule_110.translate;
-	__exports.composeTRS = __awtsmoosModule_111.composeTRS;
-	__exports.quatMatrix = __awtsmoosModule_111.quatMatrix;
-	__exports.quatNormalize = __awtsmoosModule_111.quatNormalize;
-	__exports.lookAt = __awtsmoosModule_112.lookAt;
-	__exports.perspective = __awtsmoosModule_112.perspective;
-	__exports.transformPoint = __awtsmoosModule_112.transformPoint;
-	__exports.lerpArray = __awtsmoosModule_113.lerpArray;
-	__exports.quatSlerp = __awtsmoosModule_113.quatSlerp;
+	__exports.copyMat4 = __awtsmoosModule_104.copyMat4;
+	__exports.EPSILON = __awtsmoosModule_104.EPSILON;
+	__exports.identity = __awtsmoosModule_104.identity;
+	__exports.inverse = __awtsmoosModule_104.inverse;
+	__exports.mat4FromArray = __awtsmoosModule_104.mat4FromArray;
+	__exports.multiply = __awtsmoosModule_104.multiply;
+	__exports.scale = __awtsmoosModule_104.scale;
+	__exports.translate = __awtsmoosModule_104.translate;
+	__exports.composeTRS = __awtsmoosModule_105.composeTRS;
+	__exports.quatMatrix = __awtsmoosModule_105.quatMatrix;
+	__exports.quatNormalize = __awtsmoosModule_105.quatNormalize;
+	__exports.lookAt = __awtsmoosModule_106.lookAt;
+	__exports.perspective = __awtsmoosModule_106.perspective;
+	__exports.transformPoint = __awtsmoosModule_106.transformPoint;
+	__exports.lerpArray = __awtsmoosModule_107.lerpArray;
+	__exports.quatSlerp = __awtsmoosModule_107.quatSlerp;
 
 }
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-transform-cache.js ----
 {
-	const __exports = __awtsmoosModule_114;
+	const __exports = __awtsmoosModule_108;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -8868,7 +8778,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * vessels for moving hierarchy nodes while mesh matrix identity still invalidates batches.
 	 */
 
-	const identity = __awtsmoosModule_109.identity;
+	const identity = __awtsmoosModule_103.identity;
 
 	const MATRIX_SNAPSHOT = 1;
 	const TRS_SNAPSHOT = 2;
@@ -9054,7 +8964,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-vector.js ----
 {
-	const __exports = __awtsmoosModule_115;
+	const __exports = __awtsmoosModule_109;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -9138,7 +9048,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-object3d.js ----
 {
-	const __exports = __awtsmoosModule_108;
+	const __exports = __awtsmoosModule_102;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -9150,14 +9060,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * changes so settled material and renderer systems stop rediscovering an unchanged village tree.
 	 */
 
-	const copyMat4 = __awtsmoosModule_109.copyMat4;
-	const identity = __awtsmoosModule_109.identity;
-	const cachedLocalMatrix = __awtsmoosModule_114.cachedLocalMatrix;
-	const invalidateTransformCache = __awtsmoosModule_114.invalidateTransformCache;
-	const ROOT_WORLD_MATRIX = __awtsmoosModule_114.ROOT_WORLD_MATRIX;
-	const updateCachedWorldMatrix = __awtsmoosModule_114.updateCachedWorldMatrix;
-	const Quaternion = __awtsmoosModule_115.Quaternion;
-	const Vector3 = __awtsmoosModule_115.Vector3;
+	const copyMat4 = __awtsmoosModule_103.copyMat4;
+	const identity = __awtsmoosModule_103.identity;
+	const cachedLocalMatrix = __awtsmoosModule_108.cachedLocalMatrix;
+	const invalidateTransformCache = __awtsmoosModule_108.invalidateTransformCache;
+	const ROOT_WORLD_MATRIX = __awtsmoosModule_108.ROOT_WORLD_MATRIX;
+	const updateCachedWorldMatrix = __awtsmoosModule_108.updateCachedWorldMatrix;
+	const Quaternion = __awtsmoosModule_109.Quaternion;
+	const Vector3 = __awtsmoosModule_109.Vector3;
 
 	class Object3D {
 		constructor() {
@@ -9280,7 +9190,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-mesh-object.js ----
 {
-	const __exports = __awtsmoosModule_116;
+	const __exports = __awtsmoosModule_110;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -9292,7 +9202,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * contract focused so rigid stone and animated Chossid may share one clear doorway.
 	 */
 
-	const Object3D = __awtsmoosModule_108.Object3D;
+	const Object3D = __awtsmoosModule_102.Object3D;
 
 	class Mesh extends Object3D {
 		constructor(geometry = null, material = null) {
@@ -9314,7 +9224,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-geometry.js ----
 {
-	const __exports = __awtsmoosModule_117;
+	const __exports = __awtsmoosModule_111;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -9381,7 +9291,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-camera.js ----
 {
-	const __exports = __awtsmoosModule_118;
+	const __exports = __awtsmoosModule_112;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -9393,7 +9303,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * rooted in the same cached scene graph as every visible flower and traveler.
 	 */
 
-	const Object3D = __awtsmoosModule_108.Object3D;
+	const Object3D = __awtsmoosModule_102.Object3D;
 
 	class PerspectiveCamera extends Object3D {
 		constructor(fov = 45, aspect = 1, near = 0.1, far = 1000) {
@@ -9411,7 +9321,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js ----
 {
-	const __exports = __awtsmoosModule_107;
+	const __exports = __awtsmoosModule_101;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -9423,17 +9333,17 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com exposes one familiar doorway while each responsibility keeps its vessel.
 	 */
 
-	const Bone = __awtsmoosModule_108.Bone;
-	const Group = __awtsmoosModule_108.Group;
-	const Object3D = __awtsmoosModule_108.Object3D;
-	const Scene = __awtsmoosModule_108.Scene;
-	const Mesh = __awtsmoosModule_116.Mesh;
-	const BufferAttribute = __awtsmoosModule_117.BufferAttribute;
-	const BufferGeometry = __awtsmoosModule_117.BufferGeometry;
-	const MeshStandardMaterial = __awtsmoosModule_117.MeshStandardMaterial;
-	const PerspectiveCamera = __awtsmoosModule_118.PerspectiveCamera;
-	const Quaternion = __awtsmoosModule_115.Quaternion;
-	const Vector3 = __awtsmoosModule_115.Vector3;
+	const Bone = __awtsmoosModule_102.Bone;
+	const Group = __awtsmoosModule_102.Group;
+	const Object3D = __awtsmoosModule_102.Object3D;
+	const Scene = __awtsmoosModule_102.Scene;
+	const Mesh = __awtsmoosModule_110.Mesh;
+	const BufferAttribute = __awtsmoosModule_111.BufferAttribute;
+	const BufferGeometry = __awtsmoosModule_111.BufferGeometry;
+	const MeshStandardMaterial = __awtsmoosModule_111.MeshStandardMaterial;
+	const PerspectiveCamera = __awtsmoosModule_112.PerspectiveCamera;
+	const Quaternion = __awtsmoosModule_109.Quaternion;
+	const Vector3 = __awtsmoosModule_109.Vector3;
 
 	__exports.Bone = Bone;
 	__exports.BufferAttribute = BufferAttribute;
@@ -9469,2481 +9379,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.default = __awtsmoosDefault_1w2urep;
 }
 
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-accessors.js ----
-{
-	const __exports = __awtsmoosModule_106;
-	// B"H
-	const BufferAttribute = __awtsmoosModule_107.BufferAttribute;
-
-	/** Accessors: the hidden letters of GLTF made exact before the body moves. */
-	const COMPONENTS={5120:Int8Array,5121:Uint8Array,5122:Int16Array,5123:Uint16Array,5125:Uint32Array,5126:Float32Array};
-
-	__exports.COMPONENTS = COMPONENTS;
-	const TYPE_SIZES={SCALAR:1,VEC2:2,VEC3:3,VEC4:4,MAT2:4,MAT3:9,MAT4:16};
-
-	__exports.TYPE_SIZES = TYPE_SIZES;
-	function componentName(t){return ({5120:'BYTE',5121:'UNSIGNED_BYTE',5122:'SHORT',5123:'UNSIGNED_SHORT',5125:'UNSIGNED_INT',5126:'FLOAT'})[t]||String(t);}
-
-	__exports.componentName = componentName;
-	function normalizedScale(Ctor){if(Ctor===Int8Array)return 1/127;if(Ctor===Uint8Array)return 1/255;if(Ctor===Int16Array)return 1/32767;if(Ctor===Uint16Array)return 1/65535;return 1;}
-
-
-	__exports.normalizedScale = normalizedScale;
-	function scalar(view,off,Ctor){if(Ctor===Float32Array)return view.getFloat32(off,true);if(Ctor===Uint32Array)return view.getUint32(off,true);if(Ctor===Uint16Array)return view.getUint16(off,true);if(Ctor===Uint8Array)return view.getUint8(off);if(Ctor===Int16Array)return view.getInt16(off,true);return view.getInt8(off);}
-	function writeTuple(target,index,values,itemSize){for(let k=0;k<itemSize;k++)target[index*itemSize+k]=values[k]??0;}
-
-	function readAccessor(doc,buffers,index){
-	  const a=doc.accessors[index],Ctor=COMPONENTS[a?.componentType],itemSize=TYPE_SIZES[a?.type]||1;if(!a||!Ctor)throw new Error(`Unsupported accessor ${index}`);
-	  const normalized=a.normalized===true;let array;
-	  if(a.bufferView===undefined){array=new Ctor(a.count*itemSize);}else{
-	    const bv=doc.bufferViews[a.bufferView],buffer=buffers[bv.buffer],base=(bv.byteOffset||0)+(a.byteOffset||0),stride=bv.byteStride||Ctor.BYTES_PER_ELEMENT*itemSize;
-	    if(stride===Ctor.BYTES_PER_ELEMENT*itemSize){array=new Ctor(buffer,base,a.count*itemSize);}else{array=new Ctor(a.count*itemSize);const view=new DataView(buffer);for(let i=0;i<a.count;i++)for(let k=0;k<itemSize;k++)array[i*itemSize+k]=scalar(view,base+i*stride+k*Ctor.BYTES_PER_ELEMENT,Ctor);}
-	  }
-	  if(a.sparse){array=new Ctor(array);applySparse(doc,buffers,a,array,itemSize,Ctor);}
-	  const attr=new BufferAttribute(array,itemSize,normalized,a.componentType);attr.accessorIndex=index;attr.min=a.min;attr.max=a.max;return attr;
-	}
-
-
-	__exports.readAccessor = readAccessor;
-	function applySparse(doc,buffers,a,array,itemSize,Ctor){
-	  const s=a.sparse,iv=doc.bufferViews[s.indices.bufferView],vv=doc.bufferViews[s.values.bufferView],ICtor=COMPONENTS[s.indices.componentType];
-	  const ib=buffers[iv.buffer],vb=buffers[vv.buffer],iBase=(iv.byteOffset||0)+(s.indices.byteOffset||0),vBase=(vv.byteOffset||0)+(s.values.byteOffset||0);
-	  const iView=new DataView(ib),vView=new DataView(vb);for(let n=0;n<s.count;n++){const idx=scalar(iView,iBase+n*ICtor.BYTES_PER_ELEMENT,ICtor),vals=[];for(let k=0;k<itemSize;k++)vals[k]=scalar(vView,vBase+(n*itemSize+k)*Ctor.BYTES_PER_ELEMENT,Ctor);writeTuple(array,idx,vals,itemSize);}
-	}
-
-	function accessorFloatArray(attr){
-	  const src=attr.array;if(src instanceof Float32Array&&!attr.normalized)return src;const out=new Float32Array(src.length),scale=attr.normalized?normalizedScale(src.constructor):1;
-	  for(let i=0;i<src.length;i++){let v=src[i]*scale;if(attr.normalized&&(src instanceof Int8Array||src instanceof Int16Array))v=Math.max(-1,v);out[i]=v;}return out;
-	}
-
-
-	__exports.accessorFloatArray = accessorFloatArray;
-	function normalizeWeightsAttribute(attr){
-	  const src=accessorFloatArray(attr),out=new Float32Array(src.length),size=attr.itemSize;for(let i=0;i<attr.count;i++){let sum=0;for(let k=0;k<size;k++)sum+=Math.abs(src[i*size+k]||0);if(sum>0){for(let k=0;k<size;k++)out[i*size+k]=(src[i*size+k]||0)/sum;}else out[i*size]=1;}return new BufferAttribute(out,size,false,5126);
-	}
-
-
-	__exports.normalizeWeightsAttribute = normalizeWeightsAttribute;
-	function accessorSummary(doc,index){const a=doc.accessors[index];return `${index} ${a.type} ${componentName(a.componentType)} norm=${!!a.normalized} count=${a.count}`;}
-
-	__exports.accessorSummary = accessorSummary;
-
-}
-
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-parser.js ----
-{
-	const __exports = __awtsmoosModule_105;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file tiny-animation-parser.js
-	 * @description Decodes GLTF animation channels into stable scalar sampling vessels.
-	 * The Awtsmoos speaks every motion through measured times and values; Awtsmoos.com
-	 * preserves each source channel exactly while separating parsing from living playback.
-	 */
-
-	const accessorFloatArray = __awtsmoosModule_106.accessorFloatArray;
-
-	const TARGET_SIZE = {
-		rotation: 4,
-		scale: 3,
-		translation: 3,
-		weights: 1
-	};
-
-	function summarizeAnimations(document) {
-		return (document.animations || []).map((animation, index) => ({
-			channels: (animation.channels || []).length,
-			index,
-			name: animation.name || `animation_${index}`,
-			paths: [...new Set(
-				(animation.channels || [])
-					.map(channel => channel.target?.path)
-					.filter(Boolean)
-			)],
-			samplers: (animation.samplers || []).length
-		}));
-	}
-
-
-	__exports.summarizeAnimations = summarizeAnimations;
-	function parseTinyAnimations(document, accessors, nodeMap) {
-		return (document.animations || []).map((animation, index) => (
-			parseAnimation(animation, index, accessors, nodeMap)
-		));
-	}
-
-
-	__exports.parseTinyAnimations = parseTinyAnimations;
-	function parseAnimation(animation, index, accessors, nodeMap) {
-		const channels = [];
-		let duration = 0;
-		for (const sourceChannel of animation.channels || []) {
-			const channel = parseChannel(
-				sourceChannel,
-				animation.samplers || [],
-				accessors,
-				nodeMap
-			);
-			if (!channel) {
-				continue;
-			}
-			channels.push(channel);
-			duration = Math.max(duration, channel.input[channel.input.length - 1] || 0);
-		}
-		return {
-			channels,
-			duration,
-			index,
-			name: animation.name || `animation_${index}`
-		};
-	}
-
-	function parseChannel(sourceChannel, samplers, accessors, nodeMap) {
-		const sampler = samplers[sourceChannel.sampler];
-		const target = sourceChannel.target || {};
-		const node = nodeMap.get(target.node);
-		const size = TARGET_SIZE[target.path];
-		if (!sampler || !node || !size) {
-			return null;
-		}
-		return {
-			input: accessorFloatArray(accessors[sampler.input]),
-			interpolation: sampler.interpolation || 'LINEAR',
-			node,
-			nodeIndex: target.node,
-			output: accessorFloatArray(accessors[sampler.output]),
-			path: target.path,
-			size
-		};
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-bindings.js ----
-{
-	const __exports = __awtsmoosModule_120;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file tiny-animation-bindings.js
-	 * @description Remembers only properties truly governed by imported animation channels.
-	 * The Awtsmoos renews the whole tree, yet Awtsmoos.com restores only the animated vessels,
-	 * preserving exact bind values without traversing unrelated cottages, garments, or helpers.
-	 */
-
-	function createAnimationBindings(clips) {
-		const bindingByNode = new Map();
-		const bindings = [];
-		for (const clip of clips) {
-			for (const channel of clip.channels || []) {
-				let paths = bindingByNode.get(channel.node);
-				if (!paths) {
-					paths = new Map();
-					bindingByNode.set(channel.node, paths);
-				}
-				if (paths.has(channel.path)) {
-					continue;
-				}
-				const binding = {
-					base: readBaseValue(channel.node, channel.path),
-					node: channel.node,
-					path: channel.path
-				};
-				paths.set(channel.path, binding);
-				bindings.push(binding);
-			}
-		}
-		return bindings;
-	}
-
-
-	__exports.createAnimationBindings = createAnimationBindings;
-	function captureClipPose(clip) {
-		const pose = new Map();
-		for (const channel of clip?.channels || []) {
-			pose.set(channel, readNodeValue(channel.node, channel.path));
-		}
-		return pose;
-	}
-
-
-	__exports.captureClipPose = captureClipPose;
-	function resetAnimationBindings(bindings) {
-		for (const binding of bindings) {
-			writeNodeValue(binding.node, binding.path, binding.base);
-		}
-	}
-
-
-	__exports.resetAnimationBindings = resetAnimationBindings;
-	function writeNodeValue(node, path, values) {
-		if (path === 'translation') {
-			node.position.set(values[0], values[1], values[2]);
-			return;
-		}
-		if (path === 'rotation') {
-			node.quaternion.set(values[0], values[1], values[2], values[3]);
-			return;
-		}
-		if (path === 'scale') {
-			node.scale.set(values[0], values[1], values[2]);
-		}
-	}
-
-
-	__exports.writeNodeValue = writeNodeValue;
-	function readBaseValue(node, path) {
-		const base = node._base;
-		if (path === 'translation') {
-			const value = base?.position || node.position;
-			return [value.x, value.y, value.z];
-		}
-		if (path === 'rotation') {
-			const value = base?.quaternion || node.quaternion;
-			return [value.x, value.y, value.z, value.w];
-		}
-		if (path === 'scale') {
-			const value = base?.scale || node.scale;
-			return [value.x, value.y, value.z];
-		}
-		return [0];
-	}
-
-	function readNodeValue(node, path) {
-		if (path === 'translation') {
-			return [node.position.x, node.position.y, node.position.z];
-		}
-		if (path === 'rotation') {
-			return [node.quaternion.x, node.quaternion.y, node.quaternion.z, node.quaternion.w];
-		}
-		if (path === 'scale') {
-			return [node.scale.x, node.scale.y, node.scale.z];
-		}
-		return [0];
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-quaternion.js ----
-{
-	const __exports = __awtsmoosModule_122;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file tiny-animation-quaternion.js
-	 * @description Writes one normalized quaternion interpolation into a reusable vessel.
-	 * The Awtsmoos turns without division; Awtsmoos.com reveals that rotation through a
-	 * stable destination whose identity survives every sampled instant.
-	 */
-
-	function slerpQuaternionInto(
-		output,
-		ax,
-		ay,
-		az,
-		aw,
-		bx,
-		by,
-		bz,
-		bw,
-		amount
-	) {
-		let cosine = ax * bx + ay * by + az * bz + aw * bw;
-		if (cosine < 0) {
-			bx = -bx;
-			by = -by;
-			bz = -bz;
-			bw = -bw;
-			cosine = -cosine;
-		}
-		if (cosine > 0.9995) {
-			return normalizeInto(
-				output,
-				ax + (bx - ax) * amount,
-				ay + (by - ay) * amount,
-				az + (bz - az) * amount,
-				aw + (bw - aw) * amount
-			);
-		}
-		const angle = Math.acos(Math.min(1, Math.max(-1, cosine)));
-		const sine = Math.sin(angle);
-		const leftWeight = Math.sin((1 - amount) * angle) / sine;
-		const rightWeight = Math.sin(amount * angle) / sine;
-		return normalizeInto(
-			output,
-			ax * leftWeight + bx * rightWeight,
-			ay * leftWeight + by * rightWeight,
-			az * leftWeight + bz * rightWeight,
-			aw * leftWeight + bw * rightWeight
-		);
-	}
-
-
-	__exports.slerpQuaternionInto = slerpQuaternionInto;
-	function normalizeInto(output, x, y, z, w) {
-		const scale = 1 / Math.max(1e-12, Math.hypot(x, y, z, w));
-		output[0] = x * scale;
-		output[1] = y * scale;
-		output[2] = z * scale;
-		output[3] = w * scale;
-		return output;
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-sampler.js ----
-{
-	const __exports = __awtsmoosModule_121;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file tiny-animation-sampler.js
-	 * @description Samples scalar animation channels without transient per-frame arrays.
-	 * The Awtsmoos joins keyframes without waste; Awtsmoos.com lets each bone receive the
-	 * same measured pose while temporary numbers pass through stable, reusable vessels.
-	 */
-
-	const slerpQuaternionInto = __awtsmoosModule_122.slerpQuaternionInto;
-
-	function applyChannelSample(channel, time, fadeFrom, fadeAmount = 1) {
-		const span = resolveSpan(channel, time);
-		if (channel.path === 'rotation') {
-			applyRotation(channel, span, fadeFrom, fadeAmount);
-			return;
-		}
-		if (channel.path === 'translation' || channel.path === 'scale') {
-			applyVector(channel, span, fadeFrom, fadeAmount);
-		}
-	}
-
-
-	__exports.applyChannelSample = applyChannelSample;
-	function applyVector(channel, span, fadeFrom, fadeAmount) {
-		const values = channel._sampleScratch || (channel._sampleScratch = new Float64Array(3));
-		for (let index = 0; index < 3; index += 1) {
-			const sampled = sampleComponent(channel, span, index);
-			values[index] = fadeFrom
-				? fadeFrom[index] + (sampled - fadeFrom[index]) * fadeAmount
-				: sampled;
-		}
-		const target = channel.path === 'translation'
-			? channel.node.position
-			: channel.node.scale;
-		target.set(values[0], values[1], values[2]);
-	}
-
-	function applyRotation(channel, span, fadeFrom, fadeAmount) {
-		const output = channel._sampleScratch || (channel._sampleScratch = new Float64Array(4));
-		const left = span.left * channel.size;
-		const right = span.right * channel.size;
-		const source = channel.output;
-		if (span.step) {
-			for (let index = 0; index < 4; index += 1) {
-				output[index] = source[left + index] ?? (index === 3 ? 1 : 0);
-			}
-		} else {
-			slerpQuaternionInto(output,
-				source[left] || 0, source[left + 1] || 0,
-				source[left + 2] || 0, source[left + 3] ?? 1,
-				source[right] || 0, source[right + 1] || 0,
-				source[right + 2] || 0, source[right + 3] ?? 1,
-				span.amount);
-		}
-		if (fadeFrom) {
-			slerpQuaternionInto(output, ...fadeFrom, ...output, fadeAmount);
-		}
-		channel.node.quaternion.set(output[0], output[1], output[2], output[3]);
-	}
-
-	function sampleComponent(channel, span, componentIndex) {
-		const left = span.left * channel.size + componentIndex;
-		const valueA = channel.output[left] ?? 0;
-		if (span.step) return valueA;
-		const right = span.right * channel.size + componentIndex;
-		const valueB = channel.output[right] ?? valueA;
-		return valueA + (valueB - valueA) * span.amount;
-	}
-
-	function resolveSpan(channel, time) {
-		const times = channel.input;
-		const span = channel._sampleSpan || (channel._sampleSpan = {});
-		const last = times.length - 1;
-		if (last <= 0 || time <= times[0]) return assignSpan(span, 0, 0, 0, true);
-		if (time >= times[last]) return assignSpan(span, last, last, 0, true);
-		let low = 0;
-		let high = last;
-		while (high - low > 1) {
-			const middle = (low + high) >> 1;
-			if (times[middle] <= time) low = middle;
-			else high = middle;
-		}
-		const amount = (time - times[low]) / Math.max(1e-8, times[high] - times[low]);
-		return assignSpan(span, low, high, amount, channel.interpolation === 'STEP');
-	}
-
-	function assignSpan(span, left, right, amount, step) {
-		span.left = left;
-		span.right = right;
-		span.amount = amount;
-		span.step = step || left === right;
-		return span;
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation-player.js ----
-{
-	const __exports = __awtsmoosModule_119;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file tiny-animation-player.js
-	 * @description Advances imported clips through exact first-play, looping, and crossfade laws.
-	 * The Awtsmoos renews a living pose from the first instant; Awtsmoos.com never blends the first
-	 * idle from bind pose with zero weight, yet preserves gentle transitions after motion is alive.
-	 */
-
-	const captureClipPose = __awtsmoosModule_120.captureClipPose;
-	const createAnimationBindings = __awtsmoosModule_120.createAnimationBindings;
-	const resetAnimationBindings = __awtsmoosModule_120.resetAnimationBindings;
-	const applyChannelSample = __awtsmoosModule_121.applyChannelSample;
-
-	class TinyAnimationPlayer {
-		constructor(root, clips = []) {
-			this.root = root;
-			this.clips = clips;
-			this.bindings = createAnimationBindings(clips);
-			this.currentIndex = clips.length ? 0 : -1;
-			this.time = 0;
-			this.playing = true;
-			this.bindPose = false;
-			this.lastApplied = null;
-			this.fadeDuration = 0.18;
-			this.fadeTime = 0;
-			this.fadePose = null;
-		}
-
-		get current() {
-			return this.clips[this.currentIndex] || null;
-		}
-
-		get names() {
-			return this.clips.map(clip => clip.name);
-		}
-
-		play(indexOrName) {
-			const index = resolveClipIndex(this.clips, indexOrName);
-			if (index < 0) return this.current;
-			const target = this.clips[index];
-			const alreadyApplied = this.lastApplied === target?.name;
-			if (index === this.currentIndex && !this.bindPose && alreadyApplied) {
-				this.playing = true;
-				return this.current;
-			}
-			const hasAppliedPose = this.lastApplied !== null && this.lastApplied !== 'bind';
-			this.fadePose = hasAppliedPose ? captureClipPose(target) : null;
-			this.fadeTime = hasAppliedPose ? 0 : this.fadeDuration;
-			this.currentIndex = index;
-			this.time = 0;
-			this.bindPose = false;
-			this.playing = true;
-			this.apply(0);
-			return this.current;
-		}
-
-		next() {
-			return this.play((this.currentIndex + 1) % Math.max(1, this.clips.length));
-		}
-
-		setBindPose(enabled) {
-			this.bindPose = Boolean(enabled);
-			this.time = 0;
-			this.fadePose = null;
-			resetAnimationBindings(this.bindings);
-			this.lastApplied = this.bindPose ? 'bind' : null;
-		}
-
-		update(deltaTime) {
-			if (this.bindPose || !this.current) return;
-			const delta = Math.max(0, Number(deltaTime) || 0);
-			if (this.playing) this.time += delta;
-			if (this.fadePose) this.fadeTime += delta;
-			const duration = this.current.duration || 1;
-			this.apply(duration ? this.time % duration : 0);
-		}
-
-		apply(time) {
-			const clip = this.current;
-			if (!clip) return;
-			resetAnimationBindings(this.bindings);
-			const fadeAmount = this.fadePose
-				? smooth(Math.min(1, this.fadeTime / Math.max(0.001, this.fadeDuration)))
-				: 1;
-			for (const channel of clip.channels) {
-				applyChannelSample(channel, time, this.fadePose?.get(channel), fadeAmount);
-			}
-			if (this.fadePose && this.fadeTime >= this.fadeDuration) this.fadePose = null;
-			this.lastApplied = clip.name;
-		}
-
-		diagnostics() {
-			const clip = this.current;
-			return {
-				bindPose: this.bindPose,
-				channels: clip?.channels.length || 0,
-				clipCount: this.clips.length,
-				currentAnimation: clip?.name || null,
-				currentIndex: this.currentIndex,
-				duration: Number((clip?.duration || 0).toFixed(3)),
-				fade: this.fadePose
-					? Number((1 - this.fadeTime / this.fadeDuration).toFixed(3))
-					: 0,
-				playing: this.playing,
-				time: Number(this.time.toFixed(3))
-			};
-		}
-	}
-
-
-	__exports.TinyAnimationPlayer = TinyAnimationPlayer;
-	function resolveClipIndex(clips, indexOrName) {
-		return typeof indexOrName === 'number'
-			? indexOrName
-			: clips.findIndex(clip => clip.name === indexOrName);
-	}
-
-	function smooth(amount) {
-		return amount * amount * (3 - 2 * amount);
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-animation.js ----
-{
-	const __exports = __awtsmoosModule_104;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file tiny-animation.js
-	 * @description Stable public doorway to parsed clips and allocation-free playback.
-	 * The Awtsmoos unites source time with visible motion; Awtsmoos.com keeps parsing,
-	 * sampling, bindings, and playback in small vessels behind one familiar import.
-	 */
-
-	__exports.parseTinyAnimations = __awtsmoosModule_105.parseTinyAnimations;
-	__exports.summarizeAnimations = __awtsmoosModule_105.summarizeAnimations;
-	__exports.TinyAnimationPlayer = __awtsmoosModule_119.TinyAnimationPlayer;
-
-}
-
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-cache.js ----
-{
-	const __exports = __awtsmoosModule_124;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file tiny-skin-cache.js
-	 * @description Guards a computed joint palette by renderer frame and exact mesh
-	 * transform. Reuse is permitted only when the vessel is truly unchanged before Awtsmoos.
-	 */
-	class SkinPaletteCache {
-		constructor() {
-			this.frameToken = null;
-			this.meshWorld = new Float32Array(16);
-			this.valid = false;
-			this.revision = 0;
-		}
-
-		/** Returns true only when a fresh palette computation is required. */
-		needsUpdate(frameToken, meshWorld) {
-			if (!validFrameToken(frameToken) || !this.valid) {
-				return true;
-			}
-			if (this.frameToken !== frameToken) {
-				return true;
-			}
-			return !matrixEquals(this.meshWorld, meshWorld);
-		}
-
-		/** Records the exact transform and increments the palette revision. */
-		markUpdated(frameToken, meshWorld) {
-			this.frameToken = frameToken;
-			copyMatrix(this.meshWorld, meshWorld);
-			this.valid = validFrameToken(frameToken);
-			this.revision += 1;
-			return this.revision;
-		}
-
-		invalidate() {
-			this.valid = false;
-			this.frameToken = null;
-		}
-	}
-
-
-	__exports.SkinPaletteCache = SkinPaletteCache;
-	function matrixEquals(left, right) {
-		if (!left || !right || left.length !== 16 || right.length !== 16) {
-			return false;
-		}
-		for (let index = 0; index < 16; index += 1) {
-			if (left[index] !== right[index]) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-
-	__exports.matrixEquals = matrixEquals;
-	function copyMatrix(target, source) {
-		if (!source || source.length !== 16) {
-			target.fill(Number.NaN);
-			return;
-		}
-		for (let index = 0; index < 16; index += 1) {
-			target[index] = source[index];
-		}
-	}
-
-	function validFrameToken(frameToken) {
-		return Number.isInteger(frameToken) && frameToken >= 0;
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-lines.js ----
-{
-	const __exports = __awtsmoosModule_125;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file tiny-skin-lines.js
-	 * @description Extracts diagnostic bone segments without entering palette or
-	 * renderer ownership. Each line is a small revealed relationship before the
-	 * Awtsmoos, drawn by Awtsmoos.com only from current parent-child transforms.
-	 */
-
-	/** Returns parent-to-child line positions for all skeletons bound below a root. */
-	function skeletonLinePositions(root) {
-		const positions = [];
-		root.traverse((node) => {
-			const skeletons = node.userData?.skeletons;
-			if (!(skeletons instanceof Map)) {
-				return;
-			}
-			for (const skeleton of skeletons.values()) {
-				appendSkeletonLines(skeleton, positions);
-			}
-		});
-		return new Float32Array(positions);
-	}
-
-
-	__exports.skeletonLinePositions = skeletonLinePositions;
-	function appendSkeletonLines(skeleton, positions) {
-		const jointSet = new Set(skeleton.joints.filter(Boolean));
-		for (const joint of jointSet) {
-			const parent = joint.parent;
-			if (!parent || !jointSet.has(parent)) {
-				continue;
-			}
-			positions.push(
-				parent.matrixWorld[12],
-				parent.matrixWorld[13],
-				parent.matrixWorld[14],
-				joint.matrixWorld[12],
-				joint.matrixWorld[13],
-				joint.matrixWorld[14]
-			);
-		}
-	}
-}
-
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-matrix.js ----
-{
-	const __exports = __awtsmoosModule_126;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file tiny-skin-matrix.js
-	 * @description Decodes inverse-bind matrices from imported accessors with explicit
-	 * identity fallback. The Awtsmoos renews every matrix entry, while Awtsmoos.com
-	 * keeps absence visible instead of disguising missing data as remembered geometry.
-	 */
-	const identity = __awtsmoosModule_109.identity;
-
-	/** Returns one 4x4 matrix from a BufferAttribute-like accessor. */
-	function readSkinMatrix(accessor, index) {
-		const source = accessor?.array || accessor;
-		if (!source) {
-			return identity();
-		}
-		const matrix = new Float32Array(16);
-		for (let component = 0; component < 16; component += 1) {
-			matrix[component] = source[index * 16 + component] ?? (
-				component % 5 === 0 ? 1 : 0
-			);
-		}
-		return matrix;
-	}
-	__exports.readSkinMatrix = readSkinMatrix;
-
-}
-
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-binding.js ----
-{
-	const __exports = __awtsmoosModule_128;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file tiny-skin-binding.js
-	 * @description Connects imported skin definitions to their visible mesh vessels.
-	 * The Awtsmoos joins bone and garment in one living form; Awtsmoos.com records that
-	 * relationship once so animation may unfold without rediscovering its own structure.
-	 */
-
-	function bindSceneSkeletons(root, doc, accessors, createSkeleton) {
-		const nodeMap = root.userData?.nodeMap || new Map();
-		const skeletons = new Map();
-		let maxJoints = 0;
-		let missingJoints = 0;
-		for (let skinIndex = 0; skinIndex < (doc.skins || []).length; skinIndex += 1) {
-			const skinDefinition = doc.skins[skinIndex] || {};
-			const inverseBindAccessor = skinDefinition.inverseBindMatrices === undefined
-				? null
-				: accessors[skinDefinition.inverseBindMatrices];
-			const skeleton = createSkeleton({
-				inverseBindAccessor,
-				nodeMap,
-				skinDef: skinDefinition,
-				skinIndex
-			});
-			skeletons.set(skinIndex, skeleton);
-			maxJoints = Math.max(maxJoints, skeleton.jointCount);
-			missingJoints += skeleton.joints.filter(joint => !joint).length;
-		}
-		const meshStats = bindMeshes(root, skeletons);
-		root.userData.skeletons = skeletons;
-		return {
-			maxJoints,
-			missingJoints,
-			skeletonCount: skeletons.size,
-			...meshStats
-		};
-	}
-
-
-	__exports.bindSceneSkeletons = bindSceneSkeletons;
-	function bindMeshes(root, skeletons) {
-		let rigidMeshes = 0;
-		let skinnedMeshes = 0;
-		root.traverse(node => {
-			if (!node.isMesh) return;
-			const hasSkinAttributes = Boolean(
-				node.geometry?.attributes?.joints
-				&& node.geometry?.attributes?.weights
-			);
-			node.skeleton = skeletons.get(node.skinIndex) || null;
-			node.isSkinnedMesh = Boolean(node.skeleton && hasSkinAttributes);
-			if (node.isSkinnedMesh) skinnedMeshes += 1;
-			else rigidMeshes += 1;
-		});
-		return {
-			rigidMeshes,
-			skinnedMeshes
-		};
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-scene.js ----
-{
-	const __exports = __awtsmoosModule_127;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file tiny-skin-scene.js
-	 * @description Updates visible world matrices in a reusable frame-local node map.
-	 * The Awtsmoos renews every hidden bone and visible garment; Awtsmoos.com recomputes
-	 * only changed transforms and keeps the map and metric vessels stable across frames.
-	 */
-
-	const bindSceneSkeletons = __awtsmoosModule_128.bindSceneSkeletons;
-	const ROOT_WORLD_MATRIX = __awtsmoosModule_114.ROOT_WORLD_MATRIX;
-	const updateCachedWorldMatrix = __awtsmoosModule_114.updateCachedWorldMatrix;
-
-	__exports.bindSceneSkeletons = bindSceneSkeletons;
-
-	function collectWorldMatrices(root, reusableWorldByNode = null) {
-		const worldByNode = reusableWorldByNode instanceof Map
-			? reusableWorldByNode
-			: new Map();
-		worldByNode.clear();
-		const stats = reusableStats(worldByNode.stats);
-		updateVisibleBranch(
-			root,
-			ROOT_WORLD_MATRIX,
-			0,
-			worldByNode,
-			stats,
-			true
-		);
-		worldByNode.stats = stats;
-		return worldByNode;
-	}
-
-
-	__exports.collectWorldMatrices = collectWorldMatrices;
-	function updateTinySkeletons(root) {
-		root._tinySkeletonWorldByNode = collectWorldMatrices(
-			root,
-			root._tinySkeletonWorldByNode
-		);
-		const worldByNode = root._tinySkeletonWorldByNode;
-		let jointsUploaded = 0;
-		let skinnedMeshes = 0;
-		root.traverse(node => {
-			if (!node.isSkinnedMesh || !node.skeleton || !worldByNode.has(node)) return;
-			skinnedMeshes += 1;
-			jointsUploaded += node.skeleton.update(node.matrixWorld || ROOT_WORLD_MATRIX);
-		});
-		return {
-			jointsUploaded,
-			skinnedMeshes
-		};
-	}
-
-
-	__exports.updateTinySkeletons = updateTinySkeletons;
-	function setMeshKindVisibility(
-		root,
-		{ skinned = true, rigid = true } = {}
-	) {
-		root.traverse(node => {
-			if (!node.isMesh) return;
-			node.visible = node.isSkinnedMesh ? skinned : rigid;
-		});
-	}
-
-
-	__exports.setMeshKindVisibility = setMeshKindVisibility;
-	function updateVisibleBranch(
-		node,
-		parentWorld,
-		parentRevision,
-		worldByNode,
-		stats,
-		parentVisible
-	) {
-		const visible = parentVisible && node.visible !== false;
-		if (!visible) {
-			stats.skippedSubtrees += 1;
-			return;
-		}
-		const changed = updateCachedWorldMatrix(
-			node,
-			parentWorld,
-			parentRevision
-		);
-		if (changed) stats.updatedNodes += 1;
-		else stats.reusedNodes += 1;
-		node.userData ||= {};
-		node.userData.worldMatrix = node.matrixWorld;
-		worldByNode.set(node, node.matrixWorld);
-		for (const child of node.children || []) {
-			updateVisibleBranch(
-				child,
-				node.matrixWorld,
-				node._worldRevision || 0,
-				worldByNode,
-				stats,
-				visible
-			);
-		}
-	}
-
-	function reusableStats(stats) {
-		const result = stats || {
-			reusedNodes: 0,
-			skippedSubtrees: 0,
-			updatedNodes: 0
-		};
-		result.reusedNodes = 0;
-		result.skippedSubtrees = 0;
-		result.updatedNodes = 0;
-		return result;
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-system.js ----
-{
-	const __exports = __awtsmoosModule_123;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file tiny-skin-system.js
-	 * @description Owns imported skin palettes and measured frame-local reuse. Every
-	 * matrix is a finite keli renewed by the Awtsmoos, and Awtsmoos.com reuses it only
-	 * when frame identity and mesh transform agree exactly.
-	 */
-	const identity = __awtsmoosModule_109.identity;
-	const inverse = __awtsmoosModule_109.inverse;
-	const multiply = __awtsmoosModule_109.multiply;
-	const SkinPaletteCache = __awtsmoosModule_124.SkinPaletteCache;
-	const skeletonLinePositions = __awtsmoosModule_125.skeletonLinePositions;
-	const readSkinMatrix = __awtsmoosModule_126.readSkinMatrix;
-	const bindSceneSkeletons = __awtsmoosModule_127.bindSceneSkeletons;
-	const collectWorldMatrices = __awtsmoosModule_127.collectWorldMatrices;
-	const setMeshKindVisibility = __awtsmoosModule_127.setMeshKindVisibility;
-	const updateTinySkeletons = __awtsmoosModule_127.updateTinySkeletons;
-
-	const MAX_TINY_JOINTS = 96;
-
-
-	__exports.MAX_TINY_JOINTS = MAX_TINY_JOINTS;
-	__exports.collectWorldMatrices = collectWorldMatrices;
-	__exports.setMeshKindVisibility = setMeshKindVisibility;
-	__exports.skeletonLinePositions = skeletonLinePositions;
-	__exports.updateTinySkeletons = updateTinySkeletons;
-
-	/** Stores one GLTF skin and computes its mesh-relative joint palette. */
-	class TinySkeleton {
-		constructor({
-			skinIndex = 0,
-			skinDef = {},
-			nodeMap = new Map(),
-			inverseBindAccessor = null
-		} = {}) {
-			this.skinIndex = skinIndex;
-			this.name = skinDef.name || `Skin_${skinIndex}`;
-			this.joints = (skinDef.joints || []).map((index) => nodeMap.get(index));
-			this.inverseBindMatrices = this.joints.map((_, index) => (
-				readSkinMatrix(inverseBindAccessor, index)
-			));
-			this.jointCount = this.joints.length;
-			this.jointMatrices = new Float32Array(Math.max(1, this.jointCount) * 16);
-			this.paletteCache = new SkinPaletteCache();
-			this.paletteRevision = 0;
-			this.lastPaletteRecomputed = false;
-			this.resetPalette();
-		}
-
-		resetPalette() {
-			for (let index = 0; index < Math.max(1, this.jointCount); index += 1) {
-				this.jointMatrices.set(identity(), index * 16);
-			}
-		}
-
-		update(meshWorld = identity()) {
-			this.computePalette(meshWorld);
-			this.paletteRevision += 1;
-			this.paletteCache.invalidate();
-			this.lastPaletteRecomputed = true;
-			return Math.min(this.jointCount, MAX_TINY_JOINTS);
-		}
-
-		updateCached(meshWorld = identity(), frameToken) {
-			if (!this.paletteCache.needsUpdate(frameToken, meshWorld)) {
-				this.lastPaletteRecomputed = false;
-				return Math.min(this.jointCount, MAX_TINY_JOINTS);
-			}
-			this.computePalette(meshWorld);
-			this.paletteCache.markUpdated(frameToken, meshWorld);
-			this.paletteRevision += 1;
-			this.lastPaletteRecomputed = true;
-			return Math.min(this.jointCount, MAX_TINY_JOINTS);
-		}
-
-		invalidatePaletteCache() {
-			this.paletteCache.invalidate();
-		}
-
-		computePalette(meshWorld) {
-			const inverseMesh = inverse(meshWorld);
-			const count = Math.min(this.jointCount, MAX_TINY_JOINTS);
-			for (let index = 0; index < count; index += 1) {
-				const joint = this.joints[index];
-				const jointWorld = joint?.userData?.worldMatrix
-					|| joint?.matrixWorld
-					|| identity();
-				const skinMatrix = multiply(
-					inverseMesh,
-					multiply(jointWorld, this.inverseBindMatrices[index])
-				);
-				this.jointMatrices.set(skinMatrix, index * 16);
-			}
-		}
-	}
-
-
-	__exports.TinySkeleton = TinySkeleton;
-	/** Builds and binds every GLTF skin using the canonical TinySkeleton class. */
-	function bindTinySkeletons(root, doc, accessors) {
-		return bindSceneSkeletons(
-			root,
-			doc,
-			accessors,
-			(configuration) => new TinySkeleton(configuration)
-		);
-	}
-	__exports.bindTinySkeletons = bindTinySkeletons;
-
-}
-
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-instance.js ----
-{
-	const __exports = __awtsmoosModule_103;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-	/**
-	 * @file tiny-gltf-instance.js
-	 * @description Clones transforms and skeletons while sharing immutable GLTF resources.
-	 * The Awtsmoos renews every actor as a distinct motion vessel; Awtsmoos.com shares
-	 * geometry, accessors, textures, and palette materials without sharing mutable bones.
-	 */
-
-	const parseTinyAnimations = __awtsmoosModule_104.parseTinyAnimations;
-	const copyMat4 = __awtsmoosModule_109.copyMat4;
-	const Bone = __awtsmoosModule_107.Bone;
-	const Group = __awtsmoosModule_107.Group;
-	const Mesh = __awtsmoosModule_107.Mesh;
-	const bindTinySkeletons = __awtsmoosModule_123.bindTinySkeletons;
-
-	function instantiateTinyGltf(template, options = {}) {
-		if (!template?.scene) throw new Error('A parsed GLTF template is required.');
-		const nodeMap = new Map();
-		const resources = {
-			geometries: new Set(),
-			materials: new Set()
-		};
-		const scene = cloneNode(
-			template.scene,
-			nodeMap,
-			resources,
-			options.materialResolver
-		);
-		const sourceData = template.scene.userData || {};
-		const document = template.json || sourceData.gltf || {};
-		const accessors = sourceData.accessors || [];
-		const sourceNodes = sourceData.allNodes || [];
-		const allNodes = sourceNodes.map((_, index) => nodeMap.get(index) || null);
-		Object.assign(scene.userData, {
-			accessors,
-			allNodes,
-			gltf: document,
-			instanceLabel: options.label || 'instance',
-			materials: sourceData.materials || [],
-			nodeMap,
-			sharedSourceUrl: sourceData.sourceUrl || null,
-			skins: document.skins || []
-		});
-		const skinStats = bindTinySkeletons(scene, document, accessors);
-		const animations = parseTinyAnimations(document, accessors, nodeMap);
-		scene.userData.animations = animations;
-		scene.name = `${options.label || 'instance'}_shared_gltf_scene`;
-		return {
-			animations,
-			experimental: true,
-			json: document,
-			scene,
-			stats: {
-				...(template.stats || {}),
-				...skinStats,
-				instanceLabel: options.label || 'instance',
-				sharedGeometries: resources.geometries.size,
-				sharedMaterials: resources.materials.size,
-				sharedTemplate: true
-			}
-		};
-	}
-
-
-	__exports.instantiateTinyGltf = instantiateTinyGltf;
-	function cloneNode(source, nodeMap, resources, materialResolver) {
-		const target = createNode(source, resources, materialResolver);
-		copyNodeState(source, target);
-		const nodeIndex = source.userData?.nodeIndex;
-		if (Number.isInteger(nodeIndex)) nodeMap.set(nodeIndex, target);
-		for (const child of source.children || []) {
-			target.add(cloneNode(child, nodeMap, resources, materialResolver));
-		}
-		target.setBaseTransform();
-		return target;
-	}
-
-	function createNode(source, resources, materialResolver) {
-		if (source.isBone) return new Bone();
-		if (!source.isMesh) return new Group();
-		resources.geometries.add(source.geometry);
-		collectMaterials(resources.materials, source.material);
-		const material = resolveMaterial(
-			source.material,
-			source,
-			materialResolver
-		);
-		const mesh = new Mesh(source.geometry, material);
-		mesh.skinIndex = source.skinIndex;
-		mesh.primitiveMode = source.primitiveMode;
-		mesh.nodeIndex = source.nodeIndex;
-		return mesh;
-	}
-
-	function copyNodeState(source, target) {
-		target.name = source.name;
-		target.visible = source.visible !== false;
-		target.position.copy(source.position);
-		target.quaternion.copy(source.quaternion);
-		target.scale.copy(source.scale);
-		target.matrix = source.matrix ? copyMat4(source.matrix) : null;
-		target.userData = { ...(source.userData || {}) };
-	}
-
-	function resolveMaterial(material, node, resolver) {
-		if (Array.isArray(material)) {
-			return material.map(item => resolver?.(item, node) || item);
-		}
-		return resolver?.(material, node) || material;
-	}
-
-	function collectMaterials(target, material) {
-		for (const item of Array.isArray(material) ? material : [material]) {
-			if (item) target.add(item);
-		}
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-materials.js ----
-{
-	const __exports = __awtsmoosModule_131;
-	// B"H
-	const MeshStandardMaterial = __awtsmoosModule_107.MeshStandardMaterial;
-
-	/** GLTF material vessels: no more brown default; linear colors receive display breath. */
-	const DEFAULT_COLOR = [1, 1, 1, 1];
-
-	async function createTinyMaterials(doc, buffers, baseUrl) {
-	  const images = await loadImages(doc, buffers, baseUrl);
-	  const materials = (doc.materials || []).map((def, index) => materialFromDef(doc, def, index, images));
-	  return { materials, images, diagnostics: materialDiagnostics(doc, materials, images) };
-	}
-
-
-	__exports.createTinyMaterials = createTinyMaterials;
-	function materialFromDef(doc, def = {}, index = 0, images = []) {
-	  const pbr = def.pbrMetallicRoughness || {}, factor = pbr.baseColorFactor || DEFAULT_COLOR;
-	  const tex = textureImage(doc, pbr.baseColorTexture, images);
-	  const color = tex ? factor : displayColor(factor);
-	  const mat = new MeshStandardMaterial({ name: def.name || `material_${index}`, color, opacity: factor[3] ?? 1, alphaMode: def.alphaMode || 'OPAQUE', alphaCutoff: def.alphaCutoff ?? 0.5, transparent: (def.alphaMode || 'OPAQUE') === 'BLEND' || (factor[3] ?? 1) < 1, doubleSided: def.doubleSided === true });
-	  Object.assign(mat, { metallicFactor: pbr.metallicFactor ?? 1, roughnessFactor: pbr.roughnessFactor ?? 1, baseColorFactor: factor, sourceColorSpace: tex ? 'texture+sRGB-factor' : 'gltf-factor-linear-to-display', mapImage: tex?.image || null, textureUrl: tex?.url || null, mapRepeat: tex?.repeat || [1, 1], anisotropy: true });
-	  return mat;
-	}
-
-	function defaultTinyMaterial() {
-	  const mat = new MeshStandardMaterial({ name: 'material_default', color: DEFAULT_COLOR, opacity: 1, alphaMode: 'OPAQUE' });
-	  Object.assign(mat, { sourceColorSpace: 'neutral-default', mapRepeat: [1, 1], anisotropy: true });
-	  return mat;
-	}
-
-
-	__exports.defaultTinyMaterial = defaultTinyMaterial;
-	function textureImage(doc, info, images) {
-	  if (!info) return null; const tex = doc.textures?.[info.index]; if (!tex) return null;
-	  const image = images[tex.source]; if (!image) return null; const sampler = doc.samplers?.[tex.sampler] || {};
-	  return { image, url: image.dataset?.url || image.src || `image_${tex.source}`, repeat: sampler.wrapS === 33071 || sampler.wrapT === 33071 ? [1, 1] : [1, 1] };
-	}
-
-	async function loadImages(doc, buffers, baseUrl) {
-	  return await Promise.all((doc.images || []).map((image, index) => loadOneImage(doc, buffers, baseUrl, image, index)));
-	}
-
-	async function loadOneImage(doc, buffers, baseUrl, image, index) {
-	  if (image.uri) return await loadUriImage(new URL(image.uri, baseUrl).href, index);
-	  if (image.bufferView !== undefined) {
-	    const bv = doc.bufferViews[image.bufferView], buffer = buffers[bv.buffer];
-	    const bytes = buffer.slice(bv.byteOffset || 0, (bv.byteOffset || 0) + bv.byteLength);
-	    const blob = new Blob([bytes], { type: image.mimeType || 'image/png' });
-	    const url = URL.createObjectURL(blob);
-	    try { return await loadUriImage(url, index, `glb-bufferView:${image.bufferView}`); }
-	    finally { setTimeout(() => URL.revokeObjectURL(url), 2000); }
-	  }
-	  return null;
-	}
-
-	function loadUriImage(src, index, label = src) {
-	  return new Promise(resolve => { const img = new Image(); let done = false; const finish = value => { if (!done) { done = true; resolve(value); } }; img.crossOrigin = src.startsWith('blob:') ? null : 'anonymous'; img.onload = () => { img.dataset.url = label; img.dataset.index = String(index); finish(img); }; img.onerror = () => finish(null); img.src = src; });
-	}
-
-	function displayColor(color) { return [toSrgb(color[0] ?? 1), toSrgb(color[1] ?? 1), toSrgb(color[2] ?? 1), color[3] ?? 1]; }
-	function toSrgb(v) { v = Math.max(0, Math.min(1, v)); return v <= 0.0031308 ? v * 12.92 : 1.055 * Math.pow(v, 1 / 2.4) - 0.055; }
-
-	function materialDiagnostics(doc, materials, images) {
-	  return { count: materials.length, images: images.filter(Boolean).length, textures: (doc.textures || []).length, defaultColor: DEFAULT_COLOR, colorsConverted: true, entries: materials.map((m, i) => ({ i, name: m.name, color: m.color, raw: m.baseColorFactor, hasMap: !!m.mapImage, textureSize: m.mapImage ? `${m.mapImage.naturalWidth}x${m.mapImage.naturalHeight}` : null, sourceColorSpace: m.sourceColorSpace })).slice(0, 64) };
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gltf-loader.js ----
-{
-	const __exports = __awtsmoosModule_130;
-	// B"H
-	const Bone = __awtsmoosModule_107.Bone;
-	const BufferGeometry = __awtsmoosModule_107.BufferGeometry;
-	const Group = __awtsmoosModule_107.Group;
-	const Mesh = __awtsmoosModule_107.Mesh;
-	const mat4FromArray = __awtsmoosModule_109.mat4FromArray;
-	const accessorSummary = __awtsmoosModule_106.accessorSummary;
-	const normalizeWeightsAttribute = __awtsmoosModule_106.normalizeWeightsAttribute;
-	const readAccessor = __awtsmoosModule_106.readAccessor;
-	const parseTinyAnimations = __awtsmoosModule_104.parseTinyAnimations;
-	const summarizeAnimations = __awtsmoosModule_104.summarizeAnimations;
-	const bindTinySkeletons = __awtsmoosModule_123.bindTinySkeletons;
-	const createTinyMaterials = __awtsmoosModule_131.createTinyMaterials;
-	const defaultTinyMaterial = __awtsmoosModule_131.defaultTinyMaterial;
-
-	/** Loader: GLB geometry, skins, animations, and glTF material color breath. */
-	const GLB_MAGIC = 0x46546c67, JSON_CHUNK = 0x4e4f534a, BIN_CHUNK = 0x004e4942;
-	const ATTR = { POSITION: 'position', NORMAL: 'normal', TEXCOORD_0: 'uv', COLOR_0: 'color', JOINTS_0: 'joints', WEIGHTS_0: 'weights' };
-	async function fetchBuffer(url) { const r = await fetch(url, { mode: 'cors' }); if (!r.ok) throw new Error(`HTTP ${r.status} for ${url}`); return await r.arrayBuffer(); }
-	function dataUri(uri) { const raw = atob(uri.split(',')[1] || ''), out = new Uint8Array(raw.length); for (let i = 0; i < raw.length; i++) out[i] = raw.charCodeAt(i); return out.buffer; }
-	async function loadBuffers(doc, baseUrl, bin) { return await Promise.all((doc.buffers || []).map(b => b.uri ? (b.uri.startsWith('data:') ? dataUri(b.uri) : fetchBuffer(new URL(b.uri, baseUrl).href)) : bin)); }
-	function parseGlb(buffer) { const view = new DataView(buffer); if (view.getUint32(0, true) !== GLB_MAGIC) throw new Error('Not a GLB container'); let json = null, bin = null, chunks = []; for (let off = 12; off + 8 <= buffer.byteLength;) { const len = view.getUint32(off, true), type = view.getUint32(off + 4, true), bytes = buffer.slice(off + 8, off + 8 + len); chunks.push({ type, byteOffset: off + 8, byteLength: len }); if (type === JSON_CHUNK) json = JSON.parse(new TextDecoder().decode(bytes)); if (type === BIN_CHUNK) bin = bytes; off += 8 + len; } if (!json) throw new Error('GLB missing JSON chunk'); return { json, bin, chunks }; }
-	function markBones(doc) { const bones = new Set(); for (const s of doc.skins || []) for (const j of s.joints || []) bones.add(j); return bones; }
-	function makeAccessorGetter(doc, buffers, cache) { return i => cache[i] || (cache[i] = readAccessor(doc, buffers, i)); }
-	function warmAnimationAccessors(doc, getAccessor) { for (const a of doc.animations || []) for (const s of a.samplers || []) { if (s.input !== undefined) getAccessor(s.input); if (s.output !== undefined) getAccessor(s.output); } }
-	function primitiveMesh(materials, getAccessor, primitive, meshDef, nodeDef, primitiveIndex) { const geometry = new BufferGeometry(); geometry.mode = primitive.mode ?? 4; geometry.userData = { primitive, primitiveIndex }; for (const [semantic, accessorIndex] of Object.entries(primitive.attributes || {})) { const key = ATTR[semantic]; if (!key) continue; let attribute = getAccessor(accessorIndex); if (key === 'weights') attribute = normalizeWeightsAttribute(attribute); geometry.setAttribute(key, attribute); } if (primitive.indices !== undefined) geometry.setIndex(getAccessor(primitive.indices)); const mesh = new Mesh(geometry, primitive.material !== undefined ? materials[primitive.material] : defaultTinyMaterial()); mesh.name = meshDef.name || nodeDef.name || `mesh_${nodeDef.mesh}_${primitiveIndex}`; mesh.skinIndex = nodeDef.skin ?? null; mesh.primitiveMode = geometry.mode; mesh.userData = { meshDef, primitive, primitiveIndex }; return mesh; }
-	function applyNodeTransform(obj, nodeDef, index) { obj.userData.nodeIndex = index; obj.userData.gltfNode = nodeDef; if (nodeDef.name) { obj.name = nodeDef.name; obj.userData.name = nodeDef.name; } if (nodeDef.matrix) obj.matrix = mat4FromArray(nodeDef.matrix); else { if (nodeDef.translation) obj.position.fromArray(nodeDef.translation); if (nodeDef.rotation) obj.quaternion.fromArray(nodeDef.rotation); if (nodeDef.scale) obj.scale.fromArray(nodeDef.scale); } obj.setBaseTransform(); }
-	function buildNodes(doc, materials, getAccessor, bones, stats) { const nodeMap = new Map(), nodes = []; for (let i = 0; i < (doc.nodes || []).length; i++) { const def = doc.nodes[i] || {}, node = bones.has(i) ? new Bone() : new Group(); applyNodeTransform(node, def, i); nodes[i] = node; nodeMap.set(i, node); stats.nodes++; if (def.skin !== undefined) stats.skinnedNodes++; } for (let i = 0; i < nodes.length; i++) { const def = doc.nodes[i] || {}, node = nodes[i], meshDef = doc.meshes?.[def.mesh]; if (!meshDef) continue; for (let p = 0; p < (meshDef.primitives || []).length; p++) { const mesh = primitiveMesh(materials, getAccessor, meshDef.primitives[p], meshDef, def, p); mesh.nodeIndex = i; mesh.setBaseTransform(); node.add(mesh); stats.meshes++; stats.primitives++; if (mesh.skinIndex !== null && mesh.geometry.attributes.joints && mesh.geometry.attributes.weights) stats.skinnedPrimitives++; } } for (let i = 0; i < nodes.length; i++) for (const childIndex of doc.nodes[i]?.children || []) nodes[i].add(nodes[childIndex]); return { nodes, nodeMap }; }
-	function skinDetails(doc) { return (doc.skins || []).map((s, index) => ({ index, name: s.name || null, joints: (s.joints || []).length, skeleton: s.skeleton ?? null, hasInverseBind: s.inverseBindMatrices !== undefined, inverseBindAccessor: s.inverseBindMatrices })); }
-	function accessorDetails(doc) { const out = []; for (const m of doc.meshes || []) for (const p of m.primitives || []) for (const [sem, i] of Object.entries(p.attributes || {})) if (sem === 'JOINTS_0' || sem === 'WEIGHTS_0') out.push(`${sem}: ${accessorSummary(doc, i)}`); return [...new Set(out)].slice(0, 24); }
-	async function loadTinyGltf(url) { const started = performance.now(), buffer = await fetchBuffer(url), glb = parseGlb(buffer), doc = glb.json, buffers = await loadBuffers(doc, url, glb.bin), accessors = [], getAccessor = makeAccessorGetter(doc, buffers, accessors), root = new Group(), bones = markBones(doc), materialPack = await createTinyMaterials(doc, buffers, url); root.name = 'AwtsmoosTinyGltfRoot'; const stats = { nodes: 0, meshes: 0, primitives: 0, materials: (doc.materials || []).length, images: (doc.images || []).length, textures: (doc.textures || []).length, animations: (doc.animations || []).length, skins: (doc.skins || []).length, skinnedNodes: 0, skinnedPrimitives: 0, bytes: buffer.byteLength, chunks: glb.chunks, skinDetails: skinDetails(doc), animationDetails: summarizeAnimations(doc), accessorDetails: accessorDetails(doc), materialDetails: materialPack.diagnostics };
-	  for (let i = 0; i < (doc.accessors || []).length; i++) if (doc.accessors[i].type === 'MAT4' || doc.accessors[i].type === 'SCALAR') getAccessor(i); warmAnimationAccessors(doc, getAccessor); const built = buildNodes(doc, materialPack.materials, getAccessor, bones, stats), scene = doc.scenes?.[doc.scene || 0] || doc.scenes?.[0] || { nodes: built.nodes.map((_, i) => i) }; for (const nodeIndex of scene.nodes || []) root.add(built.nodes[nodeIndex]); Object.assign(root.userData, { gltf: doc, nodeMap: built.nodeMap, allNodes: built.nodes, skins: doc.skins || [], accessors, sourceUrl: url, materials: materialPack.materials, materialDetails: materialPack.diagnostics }); const clips = parseTinyAnimations(doc, accessors, built.nodeMap); Object.assign(stats, bindTinySkeletons(root, doc, accessors)); stats.joints = (doc.skins || []).reduce((n, s) => n + (s.joints?.length || 0), 0); stats.skeletonName = doc.skins?.[0]?.name || null; stats.hasInverseBind = !!doc.skins?.[0]?.inverseBindMatrices; stats.clips = clips.map(c => ({ index: c.index, name: c.name, duration: c.duration, channels: c.channels.length })); stats.ms = Math.round(performance.now() - started); root.userData.animations = clips; return { scene: root, json: doc, stats, animations: clips, experimental: true }; }
-
-	__exports.loadTinyGltf = loadTinyGltf;
-	const loadTinyGlb = loadTinyGltf;
-
-	__exports.loadTinyGlb = loadTinyGlb;
-	const __awtsmoosDefault_1ep8c8g = { loadTinyGltf, loadTinyGlb };
-	__exports.default = __awtsmoosDefault_1ep8c8g;
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelRecords.js ----
-{
-	const __exports = __awtsmoosModule_134;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file RemoteModelRecords.js
-	 * @description Records byte counts and SHA-256 identities for every active canonical Mitzvah World GLB.
-	 * The Awtsmoos gives each finite imported form one immutable name; Awtsmoos.com keeps structural trees
-	 * outside this table because every live tree now grows exclusively through the deeper procedural core in `geelooy/libs`.
-	 */
-
-	const REMOTE_MODEL_RECORDS = Object.freeze({
-		'player/chossid.glb': record(2027368, 'd86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48'),
-		'reference-world/Axe_Small.glb': record(48868, 'ea26a8cdf24937ba2cd24148b3c684c59abc5208bef6c96ddca8fb00ed30ddd6'),
-		'reference-world/Book.glb': record(11684, '3f6d8148030077aa95b035ca4d7f5ad589483806416fbd9b75546f49b5cce4c1'),
-		'reference-world/Bush_Large_Flowers.glb': record(26788, 'cdb6c9e558a3c9b3a42eafbc2f3580767cea8b79be625bfdd41369080b468bf6'),
-		'reference-world/Chest_Closed.glb': record(85120, '2ac5715af9015d885338e8c6d4b7fbea47131a253c24944e11f331b907b4d160'),
-		'reference-world/Cow.glb': record(370816, '1d513ef5e3cba976405b68621905aa1954b7c7b673f0566bb3ac0135c330af6f'),
-		'reference-world/Flower_4_Clump.glb': record(4868, 'ec4c5186b8b33b8095b5e8a4f733cfed1b21e876cf40f0ea9ea14537066592b9'),
-		'reference-world/Rat.glb': record(593268, '163afe5bfb722229a814af69dd61e8809e0679e5782c312ad840ac7a599a58a7'),
-		'reference-world/Rock_2.glb': record(11144, '10783ce0a1956b1c2c6879f7dba303b39fbe8f92256fe910b270f2f3b5d4e3ac'),
-		'reference-world/Scroll.glb': record(52704, '5e8581b1041eeae144e12b12b295eda498a8f9b52218065a7b76307cb1bd4ec9'),
-		'reference-world/Sheep.glb': record(293680, '5da91ccae57ada6213ec6818760c37d47f2ce071fad6a5bb7426283439c71319'),
-		'reference-world/Shield.glb': record(24056, '1f40b4233612d8a00f1ec4c49d45c3f339af1b000adc10eff5bf36fbd8563f67'),
-		'reference-world/Snake.glb': record(240884, 'edb074cc77ddac859245231cf17d5d76d5ec82e888af76a44a4e1b36d713b927'),
-		'reference-world/Snake_Angry.glb': record(249908, 'c8f3a3bf3f1510596fd41d2be61aec55b7bd95ec35c4988b6eaf546795aaa128'),
-		'reference-world/Spider.glb': record(505420, '541bd562b079790137b23c47304aa6904dbe1969a293cc271e056b25d4eb404a'),
-		'reference-world/Sword.glb': record(42640, '034c89782e21e22cfcb4de6e710026647df747e0e54c5a47c2c945f512eaecc2'),
-		'reference-world/WoodenStaff.glb': record(12652, '3bfba08a3426be1c873f49a85aef21c3fc670514218b606941d232ab5f2aad16')
-	});
-
-
-	__exports.REMOTE_MODEL_RECORDS = REMOTE_MODEL_RECORDS;
-	function record(bytes, sha256) {
-		return Object.freeze({ bytes, sha256 });
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelCatalog.js ----
-{
-	const __exports = __awtsmoosModule_133;
-	//B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file RemoteModelCatalog.js
-	 * @description Resolves immutable model identities exclusively to content-addressed Awtsmoos Drive URLs.
-	 * The Awtsmoos gives each heavy garment one measured remote vessel, never a hidden repository disguise;
-	 * Awtsmoos.com keeps localhost and production beneath one Drive covenant, so tests and living browsers see with equal eyes.
-	 */
-
-	const REMOTE_MODEL_RECORDS = __awtsmoosModule_134.REMOTE_MODEL_RECORDS;
-
-	const REMOTE_MODEL_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/models/';
-
-
-	__exports.REMOTE_MODEL_ROOT = REMOTE_MODEL_ROOT;
-	/**
-	 * @description Resolves one semantic model identity into its immutable remote Drive record.
-	 * @param {string} relativePath Semantic identity such as `player/chossid.glb`.
-	 * @param {object|null} [_locationLike=globalThis.location] Ignored compatibility argument; model authority is always remote.
-	 * @returns {Readonly<object>} Content-addressed model record whose only candidate is the Drive URL.
-	 */
-	function remoteModelRecord(relativePath, _locationLike = globalThis.location) {
-		const modelPath = normalizeModelPath(relativePath);
-		const record = REMOTE_MODEL_RECORDS[modelPath];
-		if (!record) throw new Error(`Unknown model identity: ${relativePath}`);
-		const segments = modelPath.split('/');
-		const filename = segments.at(-1);
-		const folder = segments.slice(0, -1).join('/');
-		const hashedPath = [folder, record.sha256, filename].filter(Boolean).join('/');
-		const remoteUrl = `${REMOTE_MODEL_ROOT}${encodePath(hashedPath)}`;
-		return Object.freeze({
-			...record,
-			candidates: Object.freeze([remoteUrl]),
-			drivePath: `assets/mitzvah-world/models/${hashedPath}`,
-			filename,
-			path: modelPath,
-			remoteUrl,
-			source: 'remote',
-			url: remoteUrl
-		});
-	}
-
-
-	__exports.remoteModelRecord = remoteModelRecord;
-	/** @returns {string} Immutable Drive URL for one semantic model identity. */
-	function remoteModelUrl(relativePath, _locationLike = globalThis.location) {
-		return remoteModelRecord(relativePath, _locationLike).remoteUrl;
-	}
-
-
-	__exports.remoteModelUrl = remoteModelUrl;
-	/** @returns {string[]} The sole trusted remote candidate for a known identity or URL. */
-	function modelUrlCandidates(value, _locationLike = globalThis.location) {
-		const candidate = String(value || '').trim();
-		const identity = REMOTE_MODEL_RECORDS[candidate]
-			? candidate
-			: Object.keys(REMOTE_MODEL_RECORDS).find(path => remoteModelRecord(path).remoteUrl === candidate);
-		return identity ? [remoteModelRecord(identity).remoteUrl] : [];
-	}
-
-
-	__exports.modelUrlCandidates = modelUrlCandidates;
-	/** @returns {'remote'} Model authority is Drive on every host, including localhost. */
-	function modelSourceMode() {
-		return 'remote';
-	}
-
-
-	__exports.modelSourceMode = modelSourceMode;
-	/** @returns {boolean} True only for an exact immutable URL recorded in the Drive catalog. */
-	function isTrustedModelUrl(value) {
-		const candidate = String(value || '').trim();
-		if (!candidate || candidate.includes('?') || candidate.includes('#')) return false;
-		return catalogRecords().some(record => record.remoteUrl === candidate);
-	}
-
-
-	__exports.isTrustedModelUrl = isTrustedModelUrl;
-	const isTrustedRemoteModelUrl = isTrustedModelUrl;
-
-
-	__exports.isTrustedRemoteModelUrl = isTrustedRemoteModelUrl;
-	/** @returns {Readonly<object>} Auditable catalog totals and remote-only policy evidence. */
-	function remoteModelCatalogEvidence() {
-		const records = Object.values(REMOTE_MODEL_RECORDS);
-		return Object.freeze({
-			bytes: records.reduce((sum, record) => sum + record.bytes, 0),
-			models: records.length,
-			policy: 'drive-authoritative-remote-only',
-			remoteRoot: REMOTE_MODEL_ROOT,
-			root: REMOTE_MODEL_ROOT
-		});
-	}
-
-
-	__exports.remoteModelCatalogEvidence = remoteModelCatalogEvidence;
-	function catalogRecords() {
-		return Object.keys(REMOTE_MODEL_RECORDS).map(path => remoteModelRecord(path));
-	}
-
-	function normalizeModelPath(value) {
-		return String(value || '').replace(/^\/+/, '').replace(/\\/g, '/');
-	}
-
-	function encodePath(value) {
-		return value.split('/').map(segment => encodeURIComponent(segment)).join('/');
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelCachePersistence.js ----
-{
-	const __exports = __awtsmoosModule_136;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file RemoteModelCachePersistence.js
-	 * @description Contains fallible Cache Storage operations so browser persistence remains optional around verified model bytes.
-	 * The Awtsmoos gives memory its place without making memory the source; Awtsmoos.com lets a model live from honest network bytes
-	 * even when private browsing, quota pressure, or an implementation-specific cache fault refuses to remember them for tomorrow.
-	 */
-
-	async function openModelResponseCache(cacheStorage, cacheName) {
-		if (!cacheStorage || typeof cacheStorage.open !== 'function') return null;
-		try {
-			return await cacheStorage.open(cacheName);
-		} catch {
-			return null;
-		}
-	}
-
-
-	__exports.openModelResponseCache = openModelResponseCache;
-	async function readModelResponseCache(cache, url, onError = () => {}) {
-		if (!cache?.match) return null;
-		try {
-			return await cache.match(url);
-		} catch (error) {
-			onError({ error, operation: 'read', url });
-			return null;
-		}
-	}
-
-
-	__exports.readModelResponseCache = readModelResponseCache;
-	async function persistModelResponse(cache, url, response, onError = () => {}) {
-		if (!cache?.put) return false;
-		try {
-			await cache.put(url, response.clone());
-			return true;
-		} catch (error) {
-			onError({ error, operation: 'write', url });
-			return false;
-		}
-	}
-
-	__exports.persistModelResponse = persistModelResponse;
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelResponseCache.js ----
-{
-	const __exports = __awtsmoosModule_135;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file RemoteModelResponseCache.js
-	 * @description Fetches verified GLBs with bounded retry while delegating optional browser persistence to a non-authoritative cache vessel.
-	 * The Awtsmoos gives the living form before its remembered vessel; Awtsmoos.com lets cache serve the download rather than judge it,
-	 * so privacy mode, quota pressure, or rejected Cache.put calls can never erase a successfully fetched Chossid.
-	 */
-
-	const openModelResponseCache = __awtsmoosModule_136.openModelResponseCache;
-	const persistModelResponse = __awtsmoosModule_136.persistModelResponse;
-	const readModelResponseCache = __awtsmoosModule_136.readModelResponseCache;
-
-	const REMOTE_MODEL_CACHE_NAME = 'awtsmoos-mitzvah-world-remote-models-v1';
-
-	__exports.REMOTE_MODEL_CACHE_NAME = REMOTE_MODEL_CACHE_NAME;
-	const RETRYABLE_STATUS = new Set([429, 502, 503, 504]);
-
-	async function cachedModelResponse(url, options = {}) {
-		const fetchFunction = options.fetchFunction || globalThis.fetch;
-		if (typeof fetchFunction !== 'function') {
-			throw new Error('Remote model fetch is unavailable.');
-		}
-		const cacheStorage = Object.hasOwn(options, 'cacheStorage')
-			? options.cacheStorage
-			: globalThis.caches;
-		const cache = await openModelResponseCache(
-			cacheStorage,
-			options.cacheName || REMOTE_MODEL_CACHE_NAME
-		);
-		const reportCacheError = receipt => options.onCacheError?.(receipt);
-		const cached = await readModelResponseCache(cache, url, reportCacheError);
-		if (cached) return { response: cached, source: 'cache-storage' };
-		const response = await fetchWithRetry(url, fetchFunction, options);
-		if (response?.ok && isGlbResponse(response)) {
-			await persistModelResponse(cache, url, response, reportCacheError);
-		}
-		return { response, source: 'network' };
-	}
-
-
-	__exports.cachedModelResponse = cachedModelResponse;
-	function isGlbResponse(response) {
-		const type = response?.headers?.get?.('content-type')?.toLowerCase() || '';
-		return type === 'model/gltf-binary' || type === 'application/octet-stream';
-	}
-
-
-	__exports.isGlbResponse = isGlbResponse;
-	async function fetchWithRetry(url, fetchFunction, options) {
-		const retries = nonnegative(options.transientRetries, 2);
-		for (let attempt = 0; attempt <= retries; attempt += 1) {
-			assertNotAborted(options.signal);
-			const response = await fetchFunction(url, fetchOptions(options.signal));
-			if (!RETRYABLE_STATUS.has(response?.status) || attempt === retries) {
-				return response;
-			}
-			const delayMs = retryDelay(response, options, attempt);
-			options.onRetry?.({
-				attempt: attempt + 1,
-				delayMs,
-				status: response.status,
-				url
-			});
-			await waitForRetry(delayMs, options);
-		}
-		throw new Error('Remote model retry loop ended unexpectedly.');
-	}
-
-	function fetchOptions(signal) {
-		return {
-			cache: 'force-cache',
-			credentials: 'omit',
-			mode: 'cors',
-			signal
-		};
-	}
-
-	function retryDelay(response, options, attempt) {
-		const retryAfter = String(response?.headers?.get?.('retry-after') || '').trim();
-		const seconds = Number(retryAfter);
-		const requested = Number.isFinite(seconds) && seconds >= 0
-			? seconds * 1000
-			: Math.min(30000, 1000 * (2 ** attempt));
-		return Math.min(
-			positive(options.maximumRetryAfterMs, 65000),
-			Math.max(0, Math.round(requested))
-		);
-	}
-
-	function waitForRetry(milliseconds, options) {
-		const waitFunction = options.waitFunction || defaultWait;
-		return waitFunction(milliseconds, options.signal);
-	}
-
-	function defaultWait(milliseconds, signal) {
-		return new Promise((resolve, reject) => {
-			const timer = setTimeout(resolve, milliseconds);
-			signal?.addEventListener?.('abort', () => {
-				clearTimeout(timer);
-				reject(signal.reason || new DOMException('Aborted', 'AbortError'));
-			}, { once: true });
-		});
-	}
-
-	function assertNotAborted(signal) {
-		if (signal?.aborted) {
-			throw signal.reason || new DOMException('Aborted', 'AbortError');
-		}
-	}
-
-	function nonnegative(value, fallback) {
-		const number = Number(value);
-		return Number.isFinite(number) && number >= 0 ? Math.floor(number) : fallback;
-	}
-
-	function positive(value, fallback) {
-		const number = Number(value);
-		return Number.isFinite(number) && number > 0 ? number : fallback;
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProgressiveAssetFetch.js ----
-{
-	const __exports = __awtsmoosModule_132;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file ProgressiveAssetFetch.js
-	 * @description Streams verified local GLBs first and falls back to their immutable remote mirror.
-	 * The Awtsmoos draws every measured byte through the nearest honest gate;
-	 * Awtsmoos.com remembers each vessel and reveals the mirror only when local service must wait.
-	 */
-
-	const isTrustedModelUrl = __awtsmoosModule_133.isTrustedModelUrl;
-	const modelUrlCandidates = __awtsmoosModule_133.modelUrlCandidates;
-	const cachedModelResponse = __awtsmoosModule_135.cachedModelResponse;
-
-	const GLB_MAGIC = 0x46546c67;
-	const GLB_HEADER_BYTES = 12;
-
-	async function fetchAssetBuffer(url, onProgress = () => {}, dependencies = {}) {
-		if (!isTrustedModelUrl(url)) throw new Error(`Untrusted model URL: ${url}`);
-		const candidates = modelUrlCandidates(url);
-		const failures = [];
-		for (const candidate of candidates) {
-			try {
-				return await fetchCandidate(candidate, onProgress, dependencies);
-			} catch (error) {
-				failures.push(`${candidate}: ${error.message}`);
-			}
-		}
-		throw new Error(`Every verified model source failed. ${failures.join(' | ')}`);
-	}
-
-
-	__exports.fetchAssetBuffer = fetchAssetBuffer;
-	async function fetchCandidate(url, onProgress, dependencies) {
-		const cached = await cachedModelResponse(url, dependencies);
-		const response = cached.response;
-		if (!response.ok) throw new Error(`HTTP ${response.status}`);
-		let total = Number(response.headers.get('content-length')) || 0;
-		const reader = response.body?.getReader?.();
-		if (!reader) {
-			const buffer = await response.arrayBuffer();
-			total = total || glbLength(new Uint8Array(buffer)) || buffer.byteLength;
-			report(onProgress, buffer.byteLength, total, cached.source, url);
-			return receipt(response, buffer, cached.source, url);
-		}
-		const chunks = [];
-		let loaded = 0;
-		report(onProgress, loaded, total, cached.source, url);
-		while (true) {
-			const { done, value } = await reader.read();
-			if (done) break;
-			chunks.push(value);
-			loaded += value.byteLength;
-			if (!total && loaded >= GLB_HEADER_BYTES) total = glbLength(firstBytes(chunks, GLB_HEADER_BYTES));
-			report(onProgress, loaded, total, cached.source, url);
-		}
-		const bytes = mergeChunks(chunks, loaded);
-		total ||= bytes.byteLength;
-		report(onProgress, loaded, total, cached.source, url);
-		return receipt(response, bytes.buffer, cached.source, url);
-	}
-
-	function glbLength(bytes) {
-		if (bytes.byteLength < GLB_HEADER_BYTES) return 0;
-		const view = new DataView(bytes.buffer, bytes.byteOffset, GLB_HEADER_BYTES);
-		return view.getUint32(0, true) === GLB_MAGIC ? view.getUint32(8, true) : 0;
-	}
-
-	function firstBytes(chunks, count) {
-		const bytes = new Uint8Array(count);
-		let offset = 0;
-		for (const chunk of chunks) {
-			const amount = Math.min(chunk.byteLength, count - offset);
-			bytes.set(chunk.subarray(0, amount), offset);
-			offset += amount;
-			if (offset === count) break;
-		}
-		return bytes;
-	}
-
-	function mergeChunks(chunks, loaded) {
-		const bytes = new Uint8Array(loaded);
-		let offset = 0;
-		for (const chunk of chunks) {
-			bytes.set(chunk, offset);
-			offset += chunk.byteLength;
-		}
-		return bytes;
-	}
-
-	function receipt(response, buffer, cacheSource, resolvedUrl) {
-		return {
-			buffer,
-			cacheSource,
-			contentType: response.headers.get('content-type') || 'model/gltf-binary',
-			resolvedUrl
-		};
-	}
-
-	function report(onProgress, loaded, total, cacheSource, resolvedUrl) {
-		onProgress({ cacheSource, lengthComputable: total > 0, loaded, phase: 'download', progress: total > 0 ? loaded / total : null, resolvedUrl, total });
-	}
-
-	__exports.default = fetchAssetBuffer;
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/ModelAssetTemplateCache.js ----
-{
-	const __exports = __awtsmoosModule_129;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file ModelAssetTemplateCache.js
-	 * @description Configures the procedural core model-template cache with Mitzvah World's trusted fetch and current tiny GLTF parser.
-	 * The Awtsmoos, Atzmus beyond game and library, renews one reusable cache law while this world supplies its own guarded doorway;
-	 * Awtsmoos.com now lets Mitzvah World look back to procedural core for template identity instead of owning a parallel store today.
-	 */
-
-	const ModelTemplateCache = __awtsmoosModule_100.ModelTemplateCache;
-	const loadTinyGltf = __awtsmoosModule_130.loadTinyGltf;
-	const fetchAssetBuffer = __awtsmoosModule_132.fetchAssetBuffer;
-	const isTrustedModelUrl = __awtsmoosModule_133.isTrustedModelUrl;
-
-	const templateCache = new ModelTemplateCache({
-		loadTemplate: createTemplate,
-		resolveResource: trustedModelUrl
-	});
-
-	/** Loads one trusted shared GLTF template through the reusable core cache. */
-	async function loadCachedModelTemplate(url, options = {}) {
-		const loaded = await templateCache.load(url, options);
-		return {
-			resourceUrl: loaded.resourceUrl,
-			template: loaded.template
-		};
-	}
-
-
-	__exports.loadCachedModelTemplate = loadCachedModelTemplate;
-	/** Returns core cache evidence through the historical Mitzvah API. */
-	function modelTemplateCacheStats() {
-		return templateCache.stats();
-	}
-
-
-	__exports.modelTemplateCacheStats = modelTemplateCacheStats;
-	/** Clears the reusable core cache through the historical Mitzvah API. */
-	function clearModelTemplateCache() {
-		templateCache.clear();
-	}
-
-
-	__exports.clearModelTemplateCache = clearModelTemplateCache;
-	/** Validates one Mitzvah World content-addressed model resource. */
-	function trustedModelResourceUrl(url) {
-		return trustedModelUrl(url);
-	}
-
-
-	__exports.trustedModelResourceUrl = trustedModelResourceUrl;
-	async function createTemplate(resourceUrl, options) {
-		const asset = await fetchAssetBuffer(resourceUrl, options.onProgress, options);
-		options.onProgress?.({
-			cacheSource: asset.cacheSource,
-			loaded: asset.buffer.byteLength,
-			phase: 'parsing',
-			progress: 1,
-			resolvedUrl: asset.resolvedUrl,
-			total: asset.buffer.byteLength
-		});
-		const objectUrl = URL.createObjectURL(
-			new Blob([asset.buffer], { type: asset.contentType })
-		);
-		try {
-			const template = await loadTinyGltf(objectUrl);
-			template.scene.userData.originalSourceUrl = resourceUrl;
-			template.scene.userData.resolvedSourceUrl = asset.resolvedUrl;
-			template.scene.userData.remoteModelCacheSource = asset.cacheSource;
-			options.onProgress?.({
-				cacheSource: asset.cacheSource,
-				phase: 'ready',
-				progress: 1,
-				resolvedUrl: asset.resolvedUrl
-			});
-			return template;
-		} finally {
-			URL.revokeObjectURL(objectUrl);
-		}
-	}
-
-	function trustedModelUrl(url) {
-		const value = String(url || '').trim();
-		if (!isTrustedModelUrl(value)) {
-			throw new Error(
-				`Model loading requires a verified content-addressed URL: ${value}`
-			);
-		}
-		return value;
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/ModelAssetLoader.js ----
-{
-	const __exports = __awtsmoosModule_99;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file ModelAssetLoader.js
-	 * @description Configures procedural core model lifecycle with Mitzvah World's current tiny-GLTF instance adapter and scene receipts.
-	 * The Awtsmoos, Atzmus beyond shared template and isolated actor, renews library law and game clothing without making two authorities;
-	 * Awtsmoos.com lets this world keep its tiny renderer bridge while cache, instance lifecycle, fallback accounting, and reuse live in core realities.
-	 */
-
-	const ModelAssetService = __awtsmoosModule_100.ModelAssetService;
-	const instantiateTinyGltf = __awtsmoosModule_103.instantiateTinyGltf;
-	const clearModelTemplateCache = __awtsmoosModule_129.clearModelTemplateCache;
-	const loadCachedModelTemplate = __awtsmoosModule_129.loadCachedModelTemplate;
-	const modelTemplateCacheStats = __awtsmoosModule_129.modelTemplateCacheStats;
-	const trustedModelResourceUrl = __awtsmoosModule_129.trustedModelResourceUrl;
-
-	const modelService = new ModelAssetService({
-		decorateFallback,
-		decorateInstance,
-		instantiateTemplate,
-		templateCache: {
-			clear: clearModelTemplateCache,
-			load: loadCachedModelTemplate,
-			stats: modelTemplateCacheStats
-		}
-	});
-
-	/** Returns one shared parsed GLTF template. */
-	function loadSharedGltfTemplate(url, options = {}) {
-		return modelService.loadShared(url, options);
-	}
-
-
-	__exports.loadSharedGltfTemplate = loadSharedGltfTemplate;
-	/** Creates one isolated mutable GLTF instance or explicit fallback. */
-	function loadIsolatedGltf(url, label, options = {}) {
-		const resourceUrl = trustedModelResourceUrl(url);
-		return modelService.loadIsolated(resourceUrl, label, {
-			...options,
-			onFailure: failure => {
-				options.onFailure?.(failure);
-				reportFailure(options, failure.resourceUrl, failure.error);
-			}
-		});
-	}
-
-
-	__exports.loadIsolatedGltf = loadIsolatedGltf;
-	/** Returns shared cache plus isolated-instance evidence. */
-	function sharedGltfAssetStats() {
-		return modelService.stats();
-	}
-
-
-	__exports.sharedGltfAssetStats = sharedGltfAssetStats;
-	/** Clears all shared template and instance diagnostics. */
-	function clearSharedGltfAssetCache() {
-		modelService.clear();
-	}
-
-
-	__exports.clearSharedGltfAssetCache = clearSharedGltfAssetCache;
-	function instantiateTemplate(template, context) {
-		return instantiateTinyGltf(template, {
-			label: context.label,
-			materialResolver: context.options.materialResolver
-		});
-	}
-
-	function decorateInstance(gltf, context) {
-		gltf.scene.userData.isolatedModelLoad = {
-			instanceLabel: context.label,
-			originalUrl: context.resourceUrl,
-			resolvedUrl: context.template.scene.userData.resolvedSourceUrl,
-			sharedNetworkResource: context.resourceUrl,
-			sharedTemplate: true
-		};
-		return gltf;
-	}
-
-	function decorateFallback(fallback, context) {
-		fallback.scene.userData.modelAssetFallback = {
-			error: context.error.message,
-			label: context.label,
-			originalUrl: context.resourceUrl
-		};
-		return fallback;
-	}
-
-	function reportFailure(options, resourceUrl, error) {
-		options.onProgress?.({
-			error: error.message,
-			phase: 'failed',
-			progress: 1,
-			resolvedUrl: resourceUrl
-		});
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzConstants.js ----
-{
-	const __exports = __awtsmoosModule_137;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file EretzConstants.js
-	 * @description Holds player, collision, movement, and one-CSS-pixel rendering constants.
-	 * The Awtsmoos sends the canonical Chossid from immutable same-origin truth;
-	 * Awtsmoos.com preserves sharp CSS-pixel clarity without surplus Retina work in youth.
-	 */
-
-	const remoteModelUrl = __awtsmoosModule_133.remoteModelUrl;
-
-	const PLAYER_MODEL_URL = remoteModelUrl('player/chossid.glb');
-
-	__exports.PLAYER_MODEL_URL = PLAYER_MODEL_URL;
-	const SIDE_SIGN = -1;
-
-	__exports.SIDE_SIGN = SIDE_SIGN;
-	const FACE_HEIGHT = 1.78;
-
-	__exports.FACE_HEIGHT = FACE_HEIGHT;
-	const MAX_STEP = 0.96;
-
-	__exports.MAX_STEP = MAX_STEP;
-	const STEP_DOWN = 0.72;
-
-	__exports.STEP_DOWN = STEP_DOWN;
-	const MAX_SLOPE_NORMAL = 0.72;
-
-	__exports.MAX_SLOPE_NORMAL = MAX_SLOPE_NORMAL;
-	const WALK_SPEED = 3.7;
-
-	__exports.WALK_SPEED = WALK_SPEED;
-	const RUN_SPEED = 8.85;
-
-	__exports.RUN_SPEED = RUN_SPEED;
-	const MAX_RENDER_DPR = 1;
-
-	__exports.MAX_RENDER_DPR = MAX_RENDER_DPR;
-	const PLAYER_RADIUS = 0.38;
-
-	__exports.PLAYER_RADIUS = PLAYER_RADIUS;
-	const PLAYER_HEIGHT = 1.72;
-
-	__exports.PLAYER_HEIGHT = PLAYER_HEIGHT;
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialPlayerGlb.js ----
-{
-	const __exports = __awtsmoosModule_98;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file EretzEssentialPlayerGlb.js
-	 * @description Loads and validates the immutable authored Chossid before gameplay may reveal a human form.
-	 * The Awtsmoos gives the traveler one truthful garment whose bones and meshes descend from the authored source;
-	 * Awtsmoos.com refuses a procedural substitute, so loading may wait but humanity never becomes a counterfeit course.
-	 */
-
-	const loadIsolatedGltf = __awtsmoosModule_99.loadIsolatedGltf;
-	const PLAYER_MODEL_URL = __awtsmoosModule_137.PLAYER_MODEL_URL;
-
-	/** Loads the canonical player GLB with no fallback factory and validates visible animation-bearing identity. */
-	async function loadEretzEssentialPlayerGlb(options = {}) {
-		const boot = options.boot || globalThis.AwtsmoosBootTracker;
-		const loadGltf = options.playerLoader || loadIsolatedGltf;
-		boot?.begin?.('essential-player-glb');
-		boot?.progress?.('essential-player-glb', 0, 1, 'Loading the authored Chossid…', 'loading');
-		const gltf = await loadGltf(PLAYER_MODEL_URL, 'eretz-essential-player-canonical', {
-			onProgress: detail => reportProgress(boot, detail)
-		});
-		const evidence = validateCanonicalPlayerGltf(gltf);
-		boot?.progress?.('essential-player-glb', 1, 1, 'Authored Chossid ready.', 'ready');
-		return Object.freeze({ evidence, gltf });
-	}
-
-
-	__exports.loadEretzEssentialPlayerGlb = loadEretzEssentialPlayerGlb;
-	/** Rejects every fallback identity and requires renderable meshes plus authored animation. */
-	function validateCanonicalPlayerGltf(gltf) {
-		if (!gltf?.scene) throw new Error('Canonical Chossid GLB did not provide a scene.');
-		if (isFallbackIdentity(gltf)) {
-			throw new Error('Canonical Chossid request resolved to a forbidden fallback model.');
-		}
-		let meshes = 0;
-		gltf.scene.traverse?.(object => {
-			if (object.isMesh || object.isSkinnedMesh) meshes += 1;
-		});
-		const animations = gltf.animations?.length || 0;
-		if (meshes < 1) throw new Error('Canonical Chossid GLB contained no renderable meshes.');
-		if (animations < 1) throw new Error('Canonical Chossid GLB contained no authored animations.');
-		return Object.freeze({ animations, meshes, source: PLAYER_MODEL_URL });
-	}
-
-
-	__exports.validateCanonicalPlayerGltf = validateCanonicalPlayerGltf;
-	/** Returns true when any known asset-service fallback mark contaminates the player identity. */
-	function isFallbackIdentity(gltf) {
-		return Boolean(
-			gltf?.userData?.fallback
-			|| gltf?.scene?.userData?.fallback
-			|| gltf?.scene?.userData?.modelAssetFallback
-			|| gltf?.scene?.userData?.isolatedModelLoad?.fallback
-		);
-	}
-
-
-	__exports.isFallbackIdentity = isFallbackIdentity;
-	function reportProgress(boot, detail = {}) {
-		const loaded = Number(detail.loaded || detail.loadedBytes || 0);
-		const total = Number(detail.total || detail.totalBytes || 0);
-		if (!(total > 0)) return;
-		boot?.progress?.('essential-player-glb', loaded, total, 'Loading the authored Chossid…', 'loading');
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzDeferredHydrationState.js ----
-{
-	const __exports = __awtsmoosModule_139;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file EretzDeferredHydrationState.js
-	 * @description Owns one tiny idempotent deferred-state vessel so rich hydration can remain asleep until gameplay explicitly wakes it.
-	 * The Awtsmoos keeps promise and fulfillment distinct yet one; Awtsmoos.com stores no distant palace inside the first-play sun,
-	 * and when the traveler is ready the same vessel opens, receives its value, or degrades without blocking the run.
-	 */
-
-	/** Creates one lazy state whose task executes at most once after an explicit start. */
-	function createDeferredHydrationState(initialStatus, enabled, task) {
-		let promise = null;
-		const state = {
-			enabled,
-			error: null,
-			get promise() {
-				return promise;
-			},
-			startedAt: null,
-			status: initialStatus,
-			value: null,
-			start() {
-				if (!enabled) {
-					return Promise.resolve(null);
-				}
-				if (promise) {
-					return promise;
-				}
-				state.startedAt = globalThis.performance?.now?.() ?? Date.now();
-				state.status = 'loading';
-				promise = Promise.resolve()
-					.then(task)
-					.then(value => completeHydrationState(state, value))
-					.catch(error => degradeHydrationState(state, error));
-				return promise;
-			}
-		};
-		return state;
-	}
-
-
-	__exports.createDeferredHydrationState = createDeferredHydrationState;
-	/** Commits one successfully hydrated value and marks the vessel ready. */
-	function completeHydrationState(state, value) {
-		state.value = value;
-		state.status = 'ready';
-		return value;
-	}
-
-	/** Records optional hydration failure without throwing back into playable runtime. */
-	function degradeHydrationState(state, error) {
-		state.error = error?.message || String(error);
-		state.status = 'degraded';
-		return null;
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/DeferredAppModuleUrl.js ----
-{
-	const __exports = __awtsmoosModule_141;
-	//B"H
-	//Boruch Hashem
-	//Blessed is He
-
-	/**
-	 * @file DeferredAppModuleUrl.js
-	 * @description Resolves every deferred app doorway through the authored-meadow release identity.
-	 * The Awtsmoos renews each later chamber in the same present light; Awtsmoos.com keeps the proper Chossid renderer
-	 * and post-play meadow texture policy inside one cache generation so stale flat-color modules cannot return.
-	 */
-
-	const ACTIVE_APP_RELEASE_ID = '20260915-authored-meadow-03';
-
-	/** Resolves one app-relative deferred module with compact processing and the active release identity. */
-	function resolveDeferredAppModuleUrl(
-		moduleSpecifier,
-		executingModuleUrl,
-		readableSourceFileName
-	) {
-		const sourceUrl = new URL(executingModuleUrl);
-		const readableSourceSuffix = `/app/${readableSourceFileName}`;
-		const appBaseUrl = sourceUrl.pathname.endsWith(readableSourceSuffix)
-			? new URL('./', sourceUrl)
-			: new URL('./app/', sourceUrl);
-		const moduleUrl = new URL(moduleSpecifier, appBaseUrl);
-		moduleUrl.search = '';
-		moduleUrl.searchParams.set('compact', 'true');
-		moduleUrl.searchParams.set('v', ACTIVE_APP_RELEASE_ID);
-		return moduleUrl.href;
-	}
-
-	__exports.resolveDeferredAppModuleUrl = resolveDeferredAppModuleUrl;
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialHydrationUrls.js ----
-{
-	const __exports = __awtsmoosModule_140;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file EretzEssentialHydrationUrls.js
-	 * @description Keeps rich actor, profile, and material modules beyond first control by resolving computed CompactJS-aware URLs only when hydration begins.
-	 * The Awtsmoos lets the traveler walk before distant garments unfold; Awtsmoos.com keeps each rich doorway named yet unbundled,
-	 * so playable earth arrives with speed while later beauty crosses the same truthful path when its appointed light is kindled.
-	 */
-
-	const resolveDeferredAppModuleUrl = __awtsmoosModule_141.resolveDeferredAppModuleUrl;
-
-	const SOURCE_FILE_NAME = 'EretzEssentialHydrationUrls.js';
-	const MATERIAL_SPECIFIER = 'EretzAssetLoader.js?v=20260722-rich-assets-01';
-	const PROFILE_SPECIFIER = '../world/npc/FriendlyNpcProfiles.js?v=20260820-deferred-profiles-01';
-	const ACTOR_SPECIFIER = 'EretzActorAssetLoader.js?v=20260820-profile-preserve-01';
-
-	/** Resolves the rich-material loader without folding it into first-play compilation. */
-	function essentialMaterialHydrationUrl(executingModuleUrl = (( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialHydrationUrls.js")) {
-		return resolveEssentialHydrationUrl(MATERIAL_SPECIFIER, executingModuleUrl);
-	}
-
-
-	__exports.essentialMaterialHydrationUrl = essentialMaterialHydrationUrl;
-	/** Resolves friendly NPC profiles only when canonical actor hydration actually begins. */
-	function essentialActorProfilesUrl(executingModuleUrl = (( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialHydrationUrls.js")) {
-		return resolveEssentialHydrationUrl(PROFILE_SPECIFIER, executingModuleUrl);
-	}
-
-
-	__exports.essentialActorProfilesUrl = essentialActorProfilesUrl;
-	/** Resolves the canonical actor loader after playability instead of during first-play compilation. */
-	function essentialActorLoaderUrl(executingModuleUrl = (( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialHydrationUrls.js")) {
-		return resolveEssentialHydrationUrl(ACTOR_SPECIFIER, executingModuleUrl);
-	}
-
-
-	__exports.essentialActorLoaderUrl = essentialActorLoaderUrl;
-	/** Preserves one app-relative source identity across readable and compact runtime vessels. */
-	function resolveEssentialHydrationUrl(moduleSpecifier, executingModuleUrl) {
-		return resolveDeferredAppModuleUrl(
-			moduleSpecifier,
-			executingModuleUrl,
-			SOURCE_FILE_NAME
-		);
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialHydrationState.js ----
-{
-	const __exports = __awtsmoosModule_138;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file EretzEssentialHydrationState.js
-	 * @description Coordinates deferred actor and material enrichment after a canonical GLB player has already become truthful and visible.
-	 * The Awtsmoos lets distant neighbors and richer pigments descend in later measures without inventing a human substitute;
-	 * Awtsmoos.com names the idle state canonical-stable, so diagnostics agree with the GLB-only covenant in every route.
-	 */
-
-	const createDeferredHydrationState = __awtsmoosModule_139.createDeferredHydrationState;
-	const essentialActorLoaderUrl = __awtsmoosModule_140.essentialActorLoaderUrl;
-	const essentialActorProfilesUrl = __awtsmoosModule_140.essentialActorProfilesUrl;
-	const essentialMaterialHydrationUrl = __awtsmoosModule_140.essentialMaterialHydrationUrl;
-
-	function createEssentialActorHydration(options = {}, dependencies = {}) {
-		const enabled = options.streamCanonicalActors === true;
-		const loadProfiles = dependencies.loadProfiles || loadFriendlyNpcProfiles;
-		const loadActors = dependencies.loadActors || loadRemoteActors;
-		return createDeferredHydrationState(
-			enabled ? 'waiting-for-playable' : 'canonical-stable',
-			enabled,
-			async () => {
-				const profiles = await loadProfiles(options);
-				return loadActors(options, profiles);
-			}
-		);
-	}
-
-
-	__exports.createEssentialActorHydration = createEssentialActorHydration;
-	function createEssentialMaterialHydration(assets, options = {}, boot = null) {
-		return createDeferredHydrationState(
-			'waiting-for-gameplay',
-			true,
-			async () => hydrateRichMaterials(assets, options, boot)
-		);
-	}
-
-
-	__exports.createEssentialMaterialHydration = createEssentialMaterialHydration;
-	async function hydrateRichMaterials(assets, options, boot) {
-		const moduleUrl = essentialMaterialHydrationUrl();
-		const module = await import(moduleUrl);
-		const rich = await module.loadEretzAssets(options);
-		copyRichAssetValues(assets, rich.assets);
-		await rich.assets.publicMaterialStreaming?.start?.();
-		boot?.progress?.(
-			'rich-materials',
-			1,
-			1,
-			'Authored materials streamed after playability.',
-			'ready'
-		);
-		return rich.assets;
-	}
-
-	async function loadFriendlyNpcProfiles(options) {
-		const moduleUrl = essentialActorProfilesUrl();
-		const module = await import(moduleUrl);
-		const quality = options.quality || options.qualityProfile?.quality || 'medium';
-		return module.friendlyNpcProfiles(quality);
-	}
-
-	async function loadRemoteActors(options, profiles) {
-		const moduleUrl = essentialActorLoaderUrl();
-		const module = await import(moduleUrl);
-		return module.loadRemoteEretzActorAssets(options, profiles);
-	}
-
-	function copyRichAssetValues(target, source = {}) {
-		for (const [key, value] of Object.entries(source)) {
-			if (key === 'publicMaterialStreaming' || key === 'publicMaterialHydration') continue;
-			target[key] = value;
-		}
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialAssetLoader.js ----
-{
-	const __exports = __awtsmoosModule_96;
-	//B"H
-	//Boruch Hashem
-	//Blessed be He
-
-	/**
-	 * @file EretzEssentialAssetLoader.js
-	 * @description Makes the authored Chossid a non-negotiable boot asset while keeping NPC and extra material streams deferred.
-	 * No generated human is ever created: gameplay waits for the verified immutable GLB or fails visibly and honestly.
-	 */
-
-	const createEssentialAssetRecord = __awtsmoosModule_97.createEssentialAssetRecord;
-	const loadEretzEssentialPlayerGlb = __awtsmoosModule_98.loadEretzEssentialPlayerGlb;
-	const createEssentialActorHydration = __awtsmoosModule_138.createEssentialActorHydration;
-	const createEssentialMaterialHydration = __awtsmoosModule_138.createEssentialMaterialHydration;
-
-	/**
-	 * Loads the canonical player before first gameplay while preserving later NPC/material enrichment.
-	 * @param {object} [options={}] Launch options and dependency-injected player loader.
-	 * @returns {Promise<object>} Essential asset state containing the real canonical Chossid.
-	 */
-	async function loadEretzEssentialAssets(options = {}) {
-		const boot = options.boot || globalThis.AwtsmoosBootTracker;
-		const assets = createEssentialAssetRecord();
-		const player = await loadEretzEssentialPlayerGlb(options);
-		assets.actorAssets = canonicalActorEvidence(player.evidence);
-		assets.importedModelMaterials = Object.freeze({
-			npcs: [],
-			player: Object.freeze({
-				fallback: false,
-				source: player.evidence.source
-			})
-		});
-		const actorHydration = createEssentialActorHydration(options);
-		const materialHydration = createEssentialMaterialHydration(assets, options, boot);
-		assets.publicMaterialStreaming = materialHydration;
-		assets.publicMaterialHydration = materialHydration;
-		return {
-			actorAssetStats: assets.actorAssets,
-			actorHydration,
-			assets,
-			grassImage: null,
-			importedModelMaterials: assets.importedModelMaterials,
-			npcGltf: null,
-			npcGltfs: [],
-			npcProfiles: [],
-			playerGltf: player.gltf,
-			playerGlbEvidence: player.evidence,
-			playerHydrationDependencies: Object.freeze({})
-		};
-	}
-
-
-	__exports.loadEretzEssentialAssets = loadEretzEssentialAssets;
-	/** Returns immutable evidence that the only boot human came from the authored GLB. */
-	function canonicalActorEvidence(evidence) {
-		return Object.freeze({
-			animations: evidence.animations,
-			fallbackActors: 0,
-			meshes: evidence.meshes,
-			playerBlockingRequests: 1,
-			source: evidence.source,
-			strategy: 'canonical-glb-before-playable'
-		});
-	}
-
-}
-
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialVisualGate.js ----
-{
-	const __exports = __awtsmoosModule_142;
-	//B"H
-	//Boruch Hashem
-	//Blessed is He
-
-	/**
-	 * @file EretzEssentialVisualGate.js
-	 * @description Keeps genuine WebGL essential while letting only Blank Meadow defer rich renderer hydration and remote terrain textures until after first control.
-	 * The Awtsmoos gives the meadow a true luminous vessel before every later garment descends; Awtsmoos.com lets the traveler move through real WebGL now,
-	 * while richer shader families and authored texture detail arrive through the already-existing post-play covenant without falsifying readiness.
-	 */
-
-	const RELIABILITY_WORLD_ID = 'blank-meadow';
-
-	/** Hydrates only the visual work that the selected world must complete before first control. */
-	async function prepareEretzEssentialVisuals(options = {}) {
-		const { boot, renderer, signal, terrain, worldExperience } = options;
-		throwIfAborted(signal);
-		boot?.begin?.('essential-visuals');
-		if (isReliabilityBaseline(worldExperience)) {
-			return prepareReliabilityVisuals(renderer, boot, signal);
-		}
-		boot?.progress?.('essential-visuals', 0, 2, 'Preparing authored sky and WebGL detail…', 'loading');
-		const delegate = await hydrateRichRenderer(renderer);
-		throwIfAborted(signal);
-		boot?.progress?.('essential-visuals', 1, 2, 'Binding authored meadow textures…', 'loading');
-		const terrainReceipt = await hydrateTerrain(terrain);
-		throwIfAborted(signal);
-		boot?.progress?.('essential-visuals', 2, 2, 'Authored world ready.', 'ready');
-		return visualReceipt(delegate, renderer, terrainReceipt.loaded, terrainReceipt.phase, 'rich-ready');
-	}
-
-
-	__exports.prepareEretzEssentialVisuals = prepareEretzEssentialVisuals;
-	function prepareReliabilityVisuals(renderer, boot, signal) {
-		const bootstrapRenderer = requireBootstrapWebGl(renderer);
-		throwIfAborted(signal);
-		boot?.progress?.(
-			'essential-visuals',
-			2,
-			2,
-			'Bootstrap WebGL ready; rich renderer and authored terrain textures deferred.',
-			'ready'
-		);
-		return visualReceipt(
-			bootstrapRenderer,
-			renderer,
-			0,
-			'deferred-by-world-profile',
-			'bootstrap-webgl-ready'
-		);
-	}
-
-	function isReliabilityBaseline(worldExperience) {
-		return worldExperience?.id === RELIABILITY_WORLD_ID;
-	}
-
-	function requireBootstrapWebGl(renderer) {
-		if (!renderer) throw new Error('Essential visual gate requires a renderer.');
-		if (renderer.backend !== 'webgl' || !renderer.gl) {
-			throw new Error('Blank Meadow requires a genuine bootstrap WebGL renderer before control.');
-		}
-		return renderer;
-	}
-
-	async function hydrateRichRenderer(renderer) {
-		if (!renderer) throw new Error('Essential visual gate requires a renderer.');
-		const delegate = typeof renderer.hydrate === 'function'
-			? await renderer.hydrate()
-			: renderer;
-		if (renderer.hydrate && !renderer.delegate && renderer.hydrationState !== 'ready') {
-			throw new Error('Rich WebGL renderer was not ready before gameplay presentation.');
-		}
-		return renderer.delegate || delegate || renderer;
-	}
-
-	async function hydrateTerrain(terrain) {
-		if (typeof terrain?.startTextureHydration !== 'function') {
-			throw new Error('Essential visual gate requires authored terrain hydration.');
-		}
-		const receipt = await terrain.startTextureHydration();
-		if (!receipt || Number(receipt.loaded || 0) < 1) {
-			throw new Error('Authored meadow textures were unavailable before gameplay presentation.');
-		}
-		return receipt;
-	}
-
-	function visualReceipt(delegate, renderer, terrainLoaded, terrainPhase, rendererPhase) {
-		return Object.freeze({
-			renderer: delegate?.backend || renderer?.backend || 'webgl',
-			rendererPhase,
-			terrainLoaded,
-			terrainPhase
-		});
-	}
-
-	function throwIfAborted(signal) {
-		if (!signal?.aborted) return;
-		throw signal.reason || new Error('Mitzvah World visual preparation was aborted.');
-	}
-
-}
-
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/math/Vec3.js ----
 {
-	const __exports = __awtsmoosModule_148;
+	const __exports = __awtsmoosModule_117;
 	// B"H // Boruch Hashem // Blessed is He
 
 	/**
@@ -12031,7 +9469,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/math/Ray.js ----
 {
-	const __exports = __awtsmoosModule_147;
+	const __exports = __awtsmoosModule_116;
 	// B"H // Boruch Hashem // Blessed is He
 
 	/**
@@ -12040,7 +9478,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos sends a line from origin toward revelation; Awtsmoos.com lets
 	 * distance become a clear point without borrowing an outside geometry engine.
 	 */
-	const Vec3 = __awtsmoosModule_148.Vec3;
+	const Vec3 = __awtsmoosModule_117.Vec3;
 
 	class Ray {
 		constructor(
@@ -12065,9 +9503,9 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraClipSystem.js ----
 {
-	const __exports = __awtsmoosModule_146;
+	const __exports = __awtsmoosModule_115;
 	// B"H
-	const Ray = __awtsmoosModule_147.Ray;
+	const Ray = __awtsmoosModule_116.Ray;
 
 	function desiredCameraEye(target, yaw, pitch, distanceValue) {
 		const cosine = Math.cos(pitch);
@@ -12128,7 +9566,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraClipCache.js ----
 {
-	const __exports = __awtsmoosModule_145;
+	const __exports = __awtsmoosModule_114;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -12140,7 +9578,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * responsive camera movement while expensive collision truth is refreshed on a bounded cadence.
 	 */
 
-	const clipCameraEye = __awtsmoosModule_146.clipCameraEye;
+	const clipCameraEye = __awtsmoosModule_115.clipCameraEye;
 
 	const DEFAULT_REUSE_FRAMES = 2;
 	const TARGET_REFRESH_DISTANCE = 0.72;
@@ -12254,7 +9692,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/FirstPersonCameraPose.js ----
 {
-	const __exports = __awtsmoosModule_150;
+	const __exports = __awtsmoosModule_119;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -12346,7 +9784,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraFirstPersonRuntime.js ----
 {
-	const __exports = __awtsmoosModule_149;
+	const __exports = __awtsmoosModule_118;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -12358,7 +9796,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * finite camera enter the Chossid's mission while preserving a truthful diagnostic name.
 	 */
 
-	const firstPersonCameraPose = __awtsmoosModule_150.firstPersonCameraPose;
+	const firstPersonCameraPose = __awtsmoosModule_119.firstPersonCameraPose;
 
 	/** Applies a first-person pose without owning input or persistent controller state. */
 	function applyFirstPersonCamera(options) {
@@ -12393,7 +9831,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraGestureMath.js ----
 {
-	const __exports = __awtsmoosModule_152;
+	const __exports = __awtsmoosModule_121;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -12467,7 +9905,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraMouseChordState.js ----
 {
-	const __exports = __awtsmoosModule_153;
+	const __exports = __awtsmoosModule_122;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -12543,7 +9981,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraLegacyZoom.js ----
 {
-	const __exports = __awtsmoosModule_155;
+	const __exports = __awtsmoosModule_124;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -12559,8 +9997,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * available while first-person gameplay retains a stable embodied field of view.
 	 */
 
-	const boundedCameraDistance = __awtsmoosModule_152.boundedCameraDistance;
-	const cameraPointerDistance = __awtsmoosModule_152.cameraPointerDistance;
+	const boundedCameraDistance = __awtsmoosModule_121.boundedCameraDistance;
+	const cameraPointerDistance = __awtsmoosModule_121.cameraPointerDistance;
 
 	function applyLegacyWheelZoom(orbit, event) {
 		event.preventDefault();
@@ -12604,7 +10042,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraPointerCapture.js ----
 {
-	const __exports = __awtsmoosModule_157;
+	const __exports = __awtsmoosModule_126;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -12640,7 +10078,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraGestureSurface.js ----
 {
-	const __exports = __awtsmoosModule_158;
+	const __exports = __awtsmoosModule_127;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -12708,7 +10146,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraGestureLifecycle.js ----
 {
-	const __exports = __awtsmoosModule_156;
+	const __exports = __awtsmoosModule_125;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -12720,12 +10158,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets wide-world camera motion live while protected mitzvah controls remain separate instead.
 	 */
 
-	const cameraPointerPoint = __awtsmoosModule_152.cameraPointerPoint;
-	const beginLegacyPinch = __awtsmoosModule_155.beginLegacyPinch;
-	const updateLegacyPinch = __awtsmoosModule_155.updateLegacyPinch;
-	const captureCameraPointer = __awtsmoosModule_157.captureCameraPointer;
-	const releaseCameraPointer = __awtsmoosModule_157.releaseCameraPointer;
-	const canBeginCameraGesture = __awtsmoosModule_158.canBeginCameraGesture;
+	const cameraPointerPoint = __awtsmoosModule_121.cameraPointerPoint;
+	const beginLegacyPinch = __awtsmoosModule_124.beginLegacyPinch;
+	const updateLegacyPinch = __awtsmoosModule_124.updateLegacyPinch;
+	const captureCameraPointer = __awtsmoosModule_126.captureCameraPointer;
+	const releaseCameraPointer = __awtsmoosModule_126.releaseCameraPointer;
+	const canBeginCameraGesture = __awtsmoosModule_127.canBeginCameraGesture;
 
 	/** Begins only on the world-facing surface, preserving every intentional control target. */
 	function beginCameraGesture(owner, event) {
@@ -12810,7 +10248,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraGestureRuntime.js ----
 {
-	const __exports = __awtsmoosModule_154;
+	const __exports = __awtsmoosModule_123;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -12822,12 +10260,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * so the camera turns once per movement, the joystick keeps its own vessel, and cancellation restores the world without a jump.
 	 */
 
-	const applyLegacyWheelZoom = __awtsmoosModule_155.applyLegacyWheelZoom;
-	const beginCameraGesture = __awtsmoosModule_156.beginCameraGesture;
-	const endCameraGesture = __awtsmoosModule_156.endCameraGesture;
-	const moveCameraGesture = __awtsmoosModule_156.moveCameraGesture;
-	const resetPointerCameraGesture = __awtsmoosModule_156.resetCameraGesture;
-	const canBeginCameraGesture = __awtsmoosModule_158.canBeginCameraGesture;
+	const applyLegacyWheelZoom = __awtsmoosModule_124.applyLegacyWheelZoom;
+	const beginCameraGesture = __awtsmoosModule_125.beginCameraGesture;
+	const endCameraGesture = __awtsmoosModule_125.endCameraGesture;
+	const moveCameraGesture = __awtsmoosModule_125.moveCameraGesture;
+	const resetPointerCameraGesture = __awtsmoosModule_125.resetCameraGesture;
+	const canBeginCameraGesture = __awtsmoosModule_127.canBeginCameraGesture;
 
 	const CAPTURE_PHASE = true;
 	const POINTER_CAPTURE_OPTIONS = Object.freeze({
@@ -12904,7 +10342,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraGestureController.js ----
 {
-	const __exports = __awtsmoosModule_151;
+	const __exports = __awtsmoosModule_120;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -12916,12 +10354,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * so a new finger never replays an ancient origin and every accepted movement becomes the fresh origin of what follows.
 	 */
 
-	const cameraLookAngles = __awtsmoosModule_152.cameraLookAngles;
-	const clampCameraPitch = __awtsmoosModule_152.clampCameraPitch;
-	const CameraMouseChordState = __awtsmoosModule_153.CameraMouseChordState;
-	const destroyCameraGestureRuntime = __awtsmoosModule_154.destroyCameraGestureRuntime;
-	const installCameraGestureRuntime = __awtsmoosModule_154.installCameraGestureRuntime;
-	const resetCameraGesture = __awtsmoosModule_154.resetCameraGesture;
+	const cameraLookAngles = __awtsmoosModule_121.cameraLookAngles;
+	const clampCameraPitch = __awtsmoosModule_121.clampCameraPitch;
+	const CameraMouseChordState = __awtsmoosModule_122.CameraMouseChordState;
+	const destroyCameraGestureRuntime = __awtsmoosModule_123.destroyCameraGestureRuntime;
+	const installCameraGestureRuntime = __awtsmoosModule_123.installCameraGestureRuntime;
+	const resetCameraGesture = __awtsmoosModule_123.resetCameraGesture;
 
 	class CameraGestureController {
 		constructor(canvas, orbit) {
@@ -12996,7 +10434,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/LegacyOrbitCameraPose.js ----
 {
-	const __exports = __awtsmoosModule_159;
+	const __exports = __awtsmoosModule_128;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -13008,9 +10446,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * movement while recent obstruction distance avoids an identical expensive octree revelation.
 	 */
 
-	const buildCameraStats = __awtsmoosModule_146.buildCameraStats;
-	const clipCameraEye = __awtsmoosModule_146.clipCameraEye;
-	const desiredCameraEye = __awtsmoosModule_146.desiredCameraEye;
+	const buildCameraStats = __awtsmoosModule_115.buildCameraStats;
+	const clipCameraEye = __awtsmoosModule_115.clipCameraEye;
+	const desiredCameraEye = __awtsmoosModule_115.desiredCameraEye;
 
 	function applyLegacyOrbitCamera(options) {
 		const blend = Math.min(1, options.deltaTime * 7);
@@ -13082,7 +10520,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraProfileSystem.js ----
 {
-	const __exports = __awtsmoosModule_160;
+	const __exports = __awtsmoosModule_129;
 	// B"H
 	const CAMERA_PROFILES = Object.freeze({
 		outdoor: Object.freeze({ maxDistance: 220, targetLift: 0, pitchBias: 0, minSafe: 0.75 }),
@@ -13154,7 +10592,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/CameraOrbitController.js ----
 {
-	const __exports = __awtsmoosModule_144;
+	const __exports = __awtsmoosModule_113;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -13166,11 +10604,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * while cached collision truth and complete listener release keep the finite vessel clean.
 	 */
 
-	const CameraClipCache = __awtsmoosModule_145.CameraClipCache;
-	const applyFirstPersonCamera = __awtsmoosModule_149.applyFirstPersonCamera;
-	const CameraGestureController = __awtsmoosModule_151.CameraGestureController;
-	const applyLegacyOrbitCamera = __awtsmoosModule_159.applyLegacyOrbitCamera;
-	const resolveCameraContext = __awtsmoosModule_160.resolveCameraContext;
+	const CameraClipCache = __awtsmoosModule_114.CameraClipCache;
+	const applyFirstPersonCamera = __awtsmoosModule_118.applyFirstPersonCamera;
+	const CameraGestureController = __awtsmoosModule_120.CameraGestureController;
+	const applyLegacyOrbitCamera = __awtsmoosModule_128.applyLegacyOrbitCamera;
+	const resolveCameraContext = __awtsmoosModule_129.resolveCameraContext;
 
 	class CameraOrbitController {
 		constructor(canvas, options = {}) {
@@ -13277,7 +10715,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/camera/MinimalMeadowViewportCameraPolicy.js ----
 {
-	const __exports = __awtsmoosModule_161;
+	const __exports = __awtsmoosModule_130;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -13333,7 +10771,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/JumpButtonElements.js ----
 {
-	const __exports = __awtsmoosModule_163;
+	const __exports = __awtsmoosModule_132;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -13397,7 +10835,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/InputPresentationPolicy.js ----
 {
-	const __exports = __awtsmoosModule_165;
+	const __exports = __awtsmoosModule_134;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -13427,7 +10865,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/InputTargetPolicy.js ----
 {
-	const __exports = __awtsmoosModule_166;
+	const __exports = __awtsmoosModule_135;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -13491,7 +10929,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/JumpButtonKeyboard.js ----
 {
-	const __exports = __awtsmoosModule_164;
+	const __exports = __awtsmoosModule_133;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -13503,8 +10941,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * keyboard law remains its own small vessel, so the Jump controller may stay focused on touch, queueing, release, and cleanup in kind.
 	 */
 
-	const isGameplayInputSuppressed = __awtsmoosModule_165.isGameplayInputSuppressed;
-	const isEditableTarget = __awtsmoosModule_166.isEditableTarget;
+	const isGameplayInputSuppressed = __awtsmoosModule_134.isGameplayInputSuppressed;
+	const isEditableTarget = __awtsmoosModule_135.isEditableTarget;
 
 	/** Owns only Space keydown/keyup registration and routing. */
 	class JumpButtonKeyboard {
@@ -13556,7 +10994,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/JumpButton.js ----
 {
-	const __exports = __awtsmoosModule_162;
+	const __exports = __awtsmoosModule_131;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -13568,10 +11006,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * every real DOM Jump host receives one measured shore, while portable test vessels remain valid without pretending browser-only dataset APIs are always in sight.
 	 */
 
-	const createJumpButtonElement = __awtsmoosModule_163.createJumpButtonElement;
-	const createJumpHostElement = __awtsmoosModule_163.createJumpHostElement;
-	const setJumpButtonPressed = __awtsmoosModule_163.setJumpButtonPressed;
-	const JumpButtonKeyboard = __awtsmoosModule_164.JumpButtonKeyboard;
+	const createJumpButtonElement = __awtsmoosModule_132.createJumpButtonElement;
+	const createJumpHostElement = __awtsmoosModule_132.createJumpHostElement;
+	const setJumpButtonPressed = __awtsmoosModule_132.setJumpButtonPressed;
+	const JumpButtonKeyboard = __awtsmoosModule_133.JumpButtonKeyboard;
 
 	/** Owns touch jump intent while keyboard and layout concerns remain delegated. */
 	class JumpButton {
@@ -13671,7 +11109,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/input/joystick/JoystickDirectionLabel.js ----
 {
-	const __exports = __awtsmoosModule_169;
+	const __exports = __awtsmoosModule_138;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -13756,7 +11194,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/input/joystick/JoystickResponseLaw.js ----
 {
-	const __exports = __awtsmoosModule_170;
+	const __exports = __awtsmoosModule_139;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -13858,7 +11296,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- libs/awtsmoos-procedural-core/src/core/input/joystick/JoystickVector.js ----
 {
-	const __exports = __awtsmoosModule_168;
+	const __exports = __awtsmoosModule_137;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -13870,11 +11308,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * the Awtsmoos renews motion without stealing its pace, and Awtsmoos.com carries that law from world to world with grace.
 	 */
 
-	const joystickDirectionLabel = __awtsmoosModule_169.joystickDirectionLabel;
-	const finiteJoystickNumber = __awtsmoosModule_170.finiteJoystickNumber;
-	const joystickUnitDirection = __awtsmoosModule_170.joystickUnitDirection;
-	const normalizeJoystickResponseConfig = __awtsmoosModule_170.normalizeJoystickResponseConfig;
-	const shapedJoystickMagnitude = __awtsmoosModule_170.shapedJoystickMagnitude;
+	const joystickDirectionLabel = __awtsmoosModule_138.joystickDirectionLabel;
+	const finiteJoystickNumber = __awtsmoosModule_139.finiteJoystickNumber;
+	const joystickUnitDirection = __awtsmoosModule_139.joystickUnitDirection;
+	const normalizeJoystickResponseConfig = __awtsmoosModule_139.normalizeJoystickResponseConfig;
+	const shapedJoystickMagnitude = __awtsmoosModule_139.shapedJoystickMagnitude;
 
 	__exports.joystickDirectionLabel = joystickDirectionLabel;
 
@@ -13956,7 +11394,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/MobileJoystickKeyboard.js ----
 {
-	const __exports = __awtsmoosModule_171;
+	const __exports = __awtsmoosModule_140;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -13968,7 +11406,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com reaches only for the tiny Yesod joystick vessel, so the whole procedural palace need not awaken here.
 	 */
 
-	const zeroJoystickVector = __awtsmoosModule_168.zeroJoystickVector;
+	const zeroJoystickVector = __awtsmoosModule_137.zeroJoystickVector;
 
 	const ARROW_DIRECTIONS = Object.freeze({
 		ArrowDown: { x: 0, y: 1 },
@@ -14049,7 +11487,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/MobileJoystickPointerSurface.js ----
 {
-	const __exports = __awtsmoosModule_172;
+	const __exports = __awtsmoosModule_141;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -14061,8 +11499,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * so one thumb moves the traveler and another may turn the camera without the controls chasing either hand across the screen.
 	 */
 
-	const joystickVectorFromOffset = __awtsmoosModule_168.joystickVectorFromOffset;
-	const zeroJoystickVector = __awtsmoosModule_168.zeroJoystickVector;
+	const joystickVectorFromOffset = __awtsmoosModule_137.joystickVectorFromOffset;
+	const zeroJoystickVector = __awtsmoosModule_137.zeroJoystickVector;
 
 	const RADIUS = 52;
 	const POINTER_OPTIONS = Object.freeze({ passive: false });
@@ -14166,7 +11604,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/MobileJoystick.js ----
 {
-	const __exports = __awtsmoosModule_167;
+	const __exports = __awtsmoosModule_136;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -14178,10 +11616,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com joins the same semantic vector to touch and keys, so swift first play never hides the keli through which motion is shown.
 	 */
 
-	const joystickDirectionLabel = __awtsmoosModule_168.joystickDirectionLabel;
-	const zeroJoystickVector = __awtsmoosModule_168.zeroJoystickVector;
-	const MobileJoystickKeyboard = __awtsmoosModule_171.MobileJoystickKeyboard;
-	const MobileJoystickPointerSurface = __awtsmoosModule_172.MobileJoystickPointerSurface;
+	const joystickDirectionLabel = __awtsmoosModule_137.joystickDirectionLabel;
+	const zeroJoystickVector = __awtsmoosModule_137.zeroJoystickVector;
+	const MobileJoystickKeyboard = __awtsmoosModule_140.MobileJoystickKeyboard;
+	const MobileJoystickPointerSurface = __awtsmoosModule_141.MobileJoystickPointerSurface;
 
 	class MobileJoystick {
 		constructor(host) {
@@ -14277,7 +11715,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/InputAxisState.js ----
 {
-	const __exports = __awtsmoosModule_174;
+	const __exports = __awtsmoosModule_143;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -14325,7 +11763,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/InputPointerState.js ----
 {
-	const __exports = __awtsmoosModule_175;
+	const __exports = __awtsmoosModule_144;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -14395,7 +11833,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/UiEventBindings.js ----
 {
-	const __exports = __awtsmoosModule_176;
+	const __exports = __awtsmoosModule_145;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -14448,7 +11886,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/input/UiEventSystem.js ----
 {
-	const __exports = __awtsmoosModule_173;
+	const __exports = __awtsmoosModule_142;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -14460,13 +11898,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps every listener removable so motion remains alive without letting one input surface overreach its shield.
 	 */
 
-	const createInputAxes = __awtsmoosModule_174.createInputAxes;
-	const createInputState = __awtsmoosModule_174.createInputState;
-	const createInputPointer = __awtsmoosModule_175.createInputPointer;
-	const emptyInputPointer = __awtsmoosModule_175.emptyInputPointer;
-	const isEditableTarget = __awtsmoosModule_166.isEditableTarget;
-	const isGameplayUiTarget = __awtsmoosModule_166.isGameplayUiTarget;
-	const installUiEventBindings = __awtsmoosModule_176.installUiEventBindings;
+	const createInputAxes = __awtsmoosModule_143.createInputAxes;
+	const createInputState = __awtsmoosModule_143.createInputState;
+	const createInputPointer = __awtsmoosModule_144.createInputPointer;
+	const emptyInputPointer = __awtsmoosModule_144.emptyInputPointer;
+	const isEditableTarget = __awtsmoosModule_135.isEditableTarget;
+	const isGameplayUiTarget = __awtsmoosModule_135.isGameplayUiTarget;
+	const installUiEventBindings = __awtsmoosModule_145.installUiEventBindings;
 
 	class UiEventSystem {
 		constructor(pointerTarget = globalThis.window, keyboardTarget = null) {
@@ -14570,7 +12008,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/performance/QualityTier.js ----
 {
-	const __exports = __awtsmoosModule_179;
+	const __exports = __awtsmoosModule_148;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -14658,7 +12096,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodPolicy.js ----
 {
-	const __exports = __awtsmoosModule_181;
+	const __exports = __awtsmoosModule_150;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -14670,7 +12108,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com gives each renderer name its proper vessel before any object may disappear.
 	 */
 
-	const qualityTier = __awtsmoosModule_179.qualityTier;
+	const qualityTier = __awtsmoosModule_148.qualityTier;
 
 	const CLASS_ALIASES = Object.freeze({
 		architecture: 'building',
@@ -14791,7 +12229,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodAuthoredRange.js ----
 {
-	const __exports = __awtsmoosModule_180;
+	const __exports = __awtsmoosModule_149;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -14803,7 +12241,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * authored proportion remains truthful while adaptive distance bends without making blades abruptly disappear.
 	 */
 
-	const lodMaximumDistance = __awtsmoosModule_181.lodMaximumDistance;
+	const lodMaximumDistance = __awtsmoosModule_150.lodMaximumDistance;
 
 	/** Reads a finite authored fade interval from scene metadata. */
 	function readLodAuthoredRange(metadata = {}) {
@@ -14851,7 +12289,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodControllerMath.js ----
 {
-	const __exports = __awtsmoosModule_182;
+	const __exports = __awtsmoosModule_151;
 	// B"H
 
 	/** Returns visible state with asymmetric hysteresis around one distance limit. */
@@ -14913,7 +12351,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodControllerEntry.js ----
 {
-	const __exports = __awtsmoosModule_183;
+	const __exports = __awtsmoosModule_152;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -14925,12 +12363,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * generic scenery keeps hysteresis, while authored grass crosses visibility only where its fade has already become night.
 	 */
 
-	const desiredLodVisibility = __awtsmoosModule_182.desiredLodVisibility;
-	const finiteLodNumber = __awtsmoosModule_182.finiteLodNumber;
-	const lodSphereDistance = __awtsmoosModule_182.lodSphereDistance;
-	const lodTransitionPriority = __awtsmoosModule_182.lodTransitionPriority;
-	const resolveLodAuthoredRange = __awtsmoosModule_180.resolveLodAuthoredRange;
-	const lodMaximumDistance = __awtsmoosModule_181.lodMaximumDistance;
+	const desiredLodVisibility = __awtsmoosModule_151.desiredLodVisibility;
+	const finiteLodNumber = __awtsmoosModule_151.finiteLodNumber;
+	const lodSphereDistance = __awtsmoosModule_151.lodSphereDistance;
+	const lodTransitionPriority = __awtsmoosModule_151.lodTransitionPriority;
+	const resolveLodAuthoredRange = __awtsmoosModule_149.resolveLodAuthoredRange;
+	const lodMaximumDistance = __awtsmoosModule_150.lodMaximumDistance;
 
 	/** Creates one stable controller entry from a scene registration. */
 	function createLodControllerEntry({
@@ -14992,7 +12430,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodSpatialKey.js ----
 {
-	const __exports = __awtsmoosModule_185;
+	const __exports = __awtsmoosModule_154;
 	// B"H
 
 	const TAU = Math.PI * 2;
@@ -15063,7 +12501,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodControllerEvent.js ----
 {
-	const __exports = __awtsmoosModule_184;
+	const __exports = __awtsmoosModule_153;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -15075,8 +12513,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * only a changed cell, camera sector, or quality vessel wakes generic scenery to reconsider its visible line.
 	 */
 
-	const lodSpatialKey = __awtsmoosModule_185.lodSpatialKey;
-	const lodSpatialKeyString = __awtsmoosModule_185.lodSpatialKeyString;
+	const lodSpatialKey = __awtsmoosModule_154.lodSpatialKey;
+	const lodSpatialKeyString = __awtsmoosModule_154.lodSpatialKeyString;
 
 	/** Returns the stable event key for one observer state. */
 	function lodControllerEventKey({
@@ -15101,7 +12539,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodMaterialFade.js ----
 {
-	const __exports = __awtsmoosModule_186;
+	const __exports = __awtsmoosModule_155;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -15203,7 +12641,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodFrameBudget.js ----
 {
-	const __exports = __awtsmoosModule_188;
+	const __exports = __awtsmoosModule_157;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -15259,7 +12697,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodTransitionProcessor.js ----
 {
-	const __exports = __awtsmoosModule_189;
+	const __exports = __awtsmoosModule_158;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -15271,9 +12709,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * when time is spent, the next garment waits, and any single long task leaves a receipt instead of becoming hidden strain.
 	 */
 
-	const elapsedLodMilliseconds = __awtsmoosModule_188.elapsedLodMilliseconds;
-	const normalizeLodMilliseconds = __awtsmoosModule_188.normalizeLodMilliseconds;
-	const shouldSuspendLodFrame = __awtsmoosModule_188.shouldSuspendLodFrame;
+	const elapsedLodMilliseconds = __awtsmoosModule_157.elapsedLodMilliseconds;
+	const normalizeLodMilliseconds = __awtsmoosModule_157.normalizeLodMilliseconds;
+	const shouldSuspendLodFrame = __awtsmoosModule_157.shouldSuspendLodFrame;
 
 	/** Processes ordered transition entries without owning queue identity or replacement semantics. */
 	function processLodTransitions(
@@ -15364,7 +12802,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodTransitionQueue.js ----
 {
-	const __exports = __awtsmoosModule_187;
+	const __exports = __awtsmoosModule_156;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -15376,8 +12814,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * keeping the queue small, the ownership clear, and each applied transition honest about its fate.
 	 */
 
-	const createLodFrameClock = __awtsmoosModule_188.createLodFrameClock;
-	const processLodTransitions = __awtsmoosModule_189.processLodTransitions;
+	const createLodFrameClock = __awtsmoosModule_157.createLodFrameClock;
+	const processLodTransitions = __awtsmoosModule_158.processLodTransitions;
 
 	class LodTransitionQueue {
 		constructor({ clock = createLodFrameClock() } = {}) {
@@ -15456,7 +12894,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodController.js ----
 {
-	const __exports = __awtsmoosModule_178;
+	const __exports = __awtsmoosModule_147;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -15468,14 +12906,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * while buildings and ordinary detail retain the older measured gate so smoothness does not turn into needless work between.
 	 */
 
-	const qualityTier = __awtsmoosModule_179.qualityTier;
-	const lodAuthoredOpacity = __awtsmoosModule_180.lodAuthoredOpacity;
-	const createInitialLodStats = __awtsmoosModule_182.createInitialLodStats;
-	const createLodControllerEntry = __awtsmoosModule_183.createLodControllerEntry;
-	const evaluateLodControllerEntry = __awtsmoosModule_183.evaluateLodControllerEntry;
-	const lodControllerEventKey = __awtsmoosModule_184.lodControllerEventKey;
-	const LodMaterialFade = __awtsmoosModule_186.LodMaterialFade;
-	const LodTransitionQueue = __awtsmoosModule_187.LodTransitionQueue;
+	const qualityTier = __awtsmoosModule_148.qualityTier;
+	const lodAuthoredOpacity = __awtsmoosModule_149.lodAuthoredOpacity;
+	const createInitialLodStats = __awtsmoosModule_151.createInitialLodStats;
+	const createLodControllerEntry = __awtsmoosModule_152.createLodControllerEntry;
+	const evaluateLodControllerEntry = __awtsmoosModule_152.evaluateLodControllerEntry;
+	const lodControllerEventKey = __awtsmoosModule_153.lodControllerEventKey;
+	const LodMaterialFade = __awtsmoosModule_155.LodMaterialFade;
+	const LodTransitionQueue = __awtsmoosModule_156.LodTransitionQueue;
 
 	class LodController {
 		constructor({ cellSize = 12, sectorCount = 16, hysteresis = 0.12 } = {}) {
@@ -15582,7 +13020,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodGeometryBounds.js ----
 {
-	const __exports = __awtsmoosModule_191;
+	const __exports = __awtsmoosModule_160;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -15687,7 +13125,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodWorldBounds.js ----
 {
-	const __exports = __awtsmoosModule_192;
+	const __exports = __awtsmoosModule_161;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -15699,7 +13137,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * finite renderer measure distance without recomputing the geometry from which it arose.
 	 */
 
-	const transformPoint = __awtsmoosModule_109.transformPoint;
+	const transformPoint = __awtsmoosModule_103.transformPoint;
 
 	const IDENTITY_MATRIX = new Float32Array([
 		1, 0, 0, 0,
@@ -15748,7 +13186,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/LodSceneCandidate.js ----
 {
-	const __exports = __awtsmoosModule_190;
+	const __exports = __awtsmoosModule_159;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -15760,11 +13198,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * from world definition into renderer policy, so a measured fade is not lost when finite scenery crosses the view.
 	 */
 
-	const readLodAuthoredRange = __awtsmoosModule_180.readLodAuthoredRange;
-	const geometryLodBounds = __awtsmoosModule_191.geometryLodBounds;
-	const inferLodClass = __awtsmoosModule_181.inferLodClass;
-	const lodClassPolicy = __awtsmoosModule_181.lodClassPolicy;
-	const worldLodBounds = __awtsmoosModule_192.worldLodBounds;
+	const readLodAuthoredRange = __awtsmoosModule_149.readLodAuthoredRange;
+	const geometryLodBounds = __awtsmoosModule_160.geometryLodBounds;
+	const inferLodClass = __awtsmoosModule_150.inferLodClass;
+	const lodClassPolicy = __awtsmoosModule_150.lodClassPolicy;
+	const worldLodBounds = __awtsmoosModule_161.worldLodBounds;
 
 	const OWNED_CLASSES = new Set(['detail', 'edge', 'grass', 'vegetation']);
 
@@ -15819,7 +13257,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/SceneLodDiagnostics.js ----
 {
-	const __exports = __awtsmoosModule_193;
+	const __exports = __awtsmoosModule_162;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -15883,7 +13321,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/lod/SceneLodRuntime.js ----
 {
-	const __exports = __awtsmoosModule_177;
+	const __exports = __awtsmoosModule_146;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -15894,9 +13332,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * The Awtsmoos creates the forest continuously without rescanning it blindly; Awtsmoos.com
 	 * refreshes this finite registry only when world construction or streaming reveals new vessels.
 	 */
-	const LodController = __awtsmoosModule_178.LodController;
-	const createLodSceneCandidate = __awtsmoosModule_190.createLodSceneCandidate;
-	const sceneLodDiagnostics = __awtsmoosModule_193.sceneLodDiagnostics;
+	const LodController = __awtsmoosModule_147.LodController;
+	const createLodSceneCandidate = __awtsmoosModule_159.createLodSceneCandidate;
+	const sceneLodDiagnostics = __awtsmoosModule_162.sceneLodDiagnostics;
 
 	class SceneLodRuntime {
 		constructor({ scene, controllerOptions = {} }) {
@@ -15959,7 +13397,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/ui/AwtsmoosEventBus.js ----
 {
-	const __exports = __awtsmoosModule_194;
+	const __exports = __awtsmoosModule_163;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -16026,7 +13464,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/village/VillageArrivalSpatialContract.js ----
 {
-	const __exports = __awtsmoosModule_195;
+	const __exports = __awtsmoosModule_164;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -16104,7 +13542,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/lighting/ReferenceGoldenHourPreset.js ----
 {
-	const __exports = __awtsmoosModule_197;
+	const __exports = __awtsmoosModule_166;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -16163,7 +13601,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapColorBinding.js ----
 {
-	const __exports = __awtsmoosModule_201;
+	const __exports = __awtsmoosModule_170;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -16221,7 +13659,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapColorShader.js ----
 {
-	const __exports = __awtsmoosModule_203;
+	const __exports = __awtsmoosModule_172;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -16277,7 +13715,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapColorProgram.js ----
 {
-	const __exports = __awtsmoosModule_202;
+	const __exports = __awtsmoosModule_171;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -16289,8 +13727,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * plainly while the first playable path remains free of texture and shader permutations.
 	 */
 
-	const BOOTSTRAP_FRAGMENT_SHADER = __awtsmoosModule_203.BOOTSTRAP_FRAGMENT_SHADER;
-	const BOOTSTRAP_VERTEX_SHADER = __awtsmoosModule_203.BOOTSTRAP_VERTEX_SHADER;
+	const BOOTSTRAP_FRAGMENT_SHADER = __awtsmoosModule_172.BOOTSTRAP_FRAGMENT_SHADER;
+	const BOOTSTRAP_VERTEX_SHADER = __awtsmoosModule_172.BOOTSTRAP_VERTEX_SHADER;
 
 	function createBootstrapColorProgram(gl) {
 		const vertex = compileShader(gl, gl.VERTEX_SHADER, BOOTSTRAP_VERTEX_SHADER, 'vertex');
@@ -16332,7 +13770,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapMeshBufferCache.js ----
 {
-	const __exports = __awtsmoosModule_204;
+	const __exports = __awtsmoosModule_173;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -16424,7 +13862,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapColorRenderer.js ----
 {
-	const __exports = __awtsmoosModule_200;
+	const __exports = __awtsmoosModule_169;
 	//B"H
 	//Boruch Hashem
 	//Blessed be He
@@ -16436,13 +13874,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * while refusing to filter the canonical Chossid out merely because he is authored reality rather than bootstrap scenery.
 	 */
 
-	const lookAt = __awtsmoosModule_112.lookAt;
-	const perspective = __awtsmoosModule_112.perspective;
-	const multiply = __awtsmoosModule_110.multiply;
-	const bindBootstrapMeshColor = __awtsmoosModule_201.bindBootstrapMeshColor;
-	const writeBootstrapMaterialColor = __awtsmoosModule_201.writeBootstrapMaterialColor;
-	const createBootstrapColorProgram = __awtsmoosModule_202.createBootstrapColorProgram;
-	const BootstrapMeshBufferCache = __awtsmoosModule_204.BootstrapMeshBufferCache;
+	const lookAt = __awtsmoosModule_106.lookAt;
+	const perspective = __awtsmoosModule_106.perspective;
+	const multiply = __awtsmoosModule_104.multiply;
+	const bindBootstrapMeshColor = __awtsmoosModule_170.bindBootstrapMeshColor;
+	const writeBootstrapMaterialColor = __awtsmoosModule_170.writeBootstrapMaterialColor;
+	const createBootstrapColorProgram = __awtsmoosModule_171.createBootstrapColorProgram;
+	const BootstrapMeshBufferCache = __awtsmoosModule_173.BootstrapMeshBufferCache;
 
 	class BootstrapColorRenderer {
 		constructor(gl, stats) {
@@ -16541,7 +13979,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/ProgressiveWebGLDefaults.js ----
 {
-	const __exports = __awtsmoosModule_205;
+	const __exports = __awtsmoosModule_174;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -16584,7 +14022,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/ProgressiveWebGLState.js ----
 {
-	const __exports = __awtsmoosModule_206;
+	const __exports = __awtsmoosModule_175;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -16665,7 +14103,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/WebGlRequiredError.js ----
 {
-	const __exports = __awtsmoosModule_207;
+	const __exports = __awtsmoosModule_176;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -16726,7 +14164,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gl-state-model.js ----
 {
-	const __exports = __awtsmoosModule_211;
+	const __exports = __awtsmoosModule_180;
 	// B"H
 
 	const CACHED_GL_METHODS = [
@@ -16844,7 +14282,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gl-state-cache.js ----
 {
-	const __exports = __awtsmoosModule_210;
+	const __exports = __awtsmoosModule_179;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -16856,9 +14294,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * vertex-array changes erase precisely the hidden bindings they can alter and nothing more.
 	 */
 
-	const CACHED_GL_METHODS = __awtsmoosModule_211.CACHED_GL_METHODS;
-	const createGlStateModel = __awtsmoosModule_211.createGlStateModel;
-	const decideGlStateCall = __awtsmoosModule_211.decideGlStateCall;
+	const CACHED_GL_METHODS = __awtsmoosModule_180.CACHED_GL_METHODS;
+	const createGlStateModel = __awtsmoosModule_180.createGlStateModel;
+	const decideGlStateCall = __awtsmoosModule_180.decideGlStateCall;
 
 	const CACHE_SYMBOL = Symbol.for('Awtsmoos.tinyGlStateCache');
 
@@ -16946,7 +14384,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-buffer-resources.js ----
 {
-	const __exports = __awtsmoosModule_213;
+	const __exports = __awtsmoosModule_182;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -17036,7 +14474,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-attribute-fallbacks.js ----
 {
-	const __exports = __awtsmoosModule_215;
+	const __exports = __awtsmoosModule_184;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -17064,7 +14502,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-webgl-utils.js ----
 {
-	const __exports = __awtsmoosModule_216;
+	const __exports = __awtsmoosModule_185;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -17216,7 +14654,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-manual-attributes.js ----
 {
-	const __exports = __awtsmoosModule_214;
+	const __exports = __awtsmoosModule_183;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -17228,8 +14666,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * meaning where declared while historic meshes and locations remain complete without it.
 	 */
 
-	const ATTRIBUTE_FALLBACKS = __awtsmoosModule_215.ATTRIBUTE_FALLBACKS;
-	const attributeType = __awtsmoosModule_216.attributeType;
+	const ATTRIBUTE_FALLBACKS = __awtsmoosModule_184.ATTRIBUTE_FALLBACKS;
+	const attributeType = __awtsmoosModule_185.attributeType;
 
 	const ATTRIBUTE_NAMES = ['position', 'normal', 'color', 'uv', 'zone'];
 
@@ -17335,7 +14773,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-vertex-array-builder.js ----
 {
-	const __exports = __awtsmoosModule_218;
+	const __exports = __awtsmoosModule_187;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -17347,8 +14785,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * doorway and invalidates only the global ARRAY_BUFFER fact altered while the VAO was constructed.
 	 */
 
-	const ATTRIBUTE_FALLBACKS = __awtsmoosModule_215.ATTRIBUTE_FALLBACKS;
-	const attributeType = __awtsmoosModule_216.attributeType;
+	const ATTRIBUTE_FALLBACKS = __awtsmoosModule_184.ATTRIBUTE_FALLBACKS;
+	const attributeType = __awtsmoosModule_185.attributeType;
 
 	const ATTRIBUTE_NAMES = [
 		'position', 'normal', 'color', 'uv', 'zone', 'joints', 'weights'
@@ -17414,7 +14852,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-vertex-array-fallbacks.js ----
 {
-	const __exports = __awtsmoosModule_219;
+	const __exports = __awtsmoosModule_188;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -17451,7 +14889,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-vertex-arrays.js ----
 {
-	const __exports = __awtsmoosModule_217;
+	const __exports = __awtsmoosModule_186;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -17463,8 +14901,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * clears cached vertex claims before recording each VAO and again after returning to default.
 	 */
 
-	const createVertexArrayEntry = __awtsmoosModule_218.createVertexArrayEntry;
-	const bindVertexArrayFallbacks = __awtsmoosModule_219.bindVertexArrayFallbacks;
+	const createVertexArrayEntry = __awtsmoosModule_187.createVertexArrayEntry;
+	const bindVertexArrayFallbacks = __awtsmoosModule_188.bindVertexArrayFallbacks;
 
 	class RenderVertexArrays {
 		constructor(gl, glStateCache = null) {
@@ -17582,7 +15020,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-buffers.js ----
 {
-	const __exports = __awtsmoosModule_212;
+	const __exports = __awtsmoosModule_181;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -17594,9 +15032,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * while choosing the smallest proven doorway by which that unchanged place reaches the GPU.
 	 */
 
-	const RenderBufferResources = __awtsmoosModule_213.RenderBufferResources;
-	const RenderManualAttributes = __awtsmoosModule_214.RenderManualAttributes;
-	const RenderVertexArrays = __awtsmoosModule_217.RenderVertexArrays;
+	const RenderBufferResources = __awtsmoosModule_182.RenderBufferResources;
+	const RenderManualAttributes = __awtsmoosModule_183.RenderManualAttributes;
+	const RenderVertexArrays = __awtsmoosModule_186.RenderVertexArrays;
 
 	class RenderBufferCache {
 		constructor(gl, glStateCache = null) {
@@ -17651,7 +15089,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-bounds.js ----
 {
-	const __exports = __awtsmoosModule_222;
+	const __exports = __awtsmoosModule_191;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -17771,7 +15209,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-policy.js ----
 {
-	const __exports = __awtsmoosModule_224;
+	const __exports = __awtsmoosModule_193;
 	// B"H
 	/**
 	 * Render policy: GLTFLoader separates Mesh, Line, and Points objects.
@@ -17855,7 +15293,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-surface-policy.js ----
 {
-	const __exports = __awtsmoosModule_225;
+	const __exports = __awtsmoosModule_194;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -17867,7 +15305,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com keeps each surface in the pass whose depth and blending laws preserve it.
 	 */
 
-	const isSurfaceMode = __awtsmoosModule_224.isSurfaceMode;
+	const isSurfaceMode = __awtsmoosModule_193.isSurfaceMode;
 
 	function isAlphaMask(mesh) {
 		return mesh?.material?.alphaMode === 'MASK';
@@ -17927,7 +15365,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-culling-metadata.js ----
 {
-	const __exports = __awtsmoosModule_228;
+	const __exports = __awtsmoosModule_197;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -18025,7 +15463,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-culling.js ----
 {
-	const __exports = __awtsmoosModule_227;
+	const __exports = __awtsmoosModule_196;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -18037,12 +15475,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * honors explicit culling opt-outs before applying finite camera and distance boundaries.
 	 */
 
-	const worldBoundingSphere = __awtsmoosModule_222.worldBoundingSphere;
-	const ALWAYS_VISIBLE_RENDER_FAMILIES = __awtsmoosModule_228.ALWAYS_VISIBLE_RENDER_FAMILIES;
-	const inheritedRenderDistance = __awtsmoosModule_228.inheritedRenderDistance;
-	const inheritedRenderMetadata = __awtsmoosModule_228.inheritedRenderMetadata;
+	const worldBoundingSphere = __awtsmoosModule_191.worldBoundingSphere;
+	const ALWAYS_VISIBLE_RENDER_FAMILIES = __awtsmoosModule_197.ALWAYS_VISIBLE_RENDER_FAMILIES;
+	const inheritedRenderDistance = __awtsmoosModule_197.inheritedRenderDistance;
+	const inheritedRenderMetadata = __awtsmoosModule_197.inheritedRenderMetadata;
 
-	__exports.inheritedRenderMetadata = __awtsmoosModule_228.inheritedRenderMetadata;
+	__exports.inheritedRenderMetadata = __awtsmoosModule_197.inheritedRenderMetadata;
 
 	function meshCullingReason(mesh, camera, options = {}, context = null) {
 		if (!camera || options.culling === false) {
@@ -18147,7 +15585,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-static-batch-policy.js ----
 {
-	const __exports = __awtsmoosModule_226;
+	const __exports = __awtsmoosModule_195;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -18159,8 +15597,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * while doors, players, grass reactions, creatures, water, and uncertain vessels stay apart.
 	 */
 
-	const inheritedRenderMetadata = __awtsmoosModule_227.inheritedRenderMetadata;
-	const materialModeCode = __awtsmoosModule_216.materialModeCode;
+	const inheritedRenderMetadata = __awtsmoosModule_196.inheritedRenderMetadata;
+	const materialModeCode = __awtsmoosModule_185.materialModeCode;
 
 	const STATIC_FAMILIES = new Set([
 		'functional-house',
@@ -18235,7 +15673,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-collection.js ----
 {
-	const __exports = __awtsmoosModule_223;
+	const __exports = __awtsmoosModule_192;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -18247,10 +15685,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * surfaces while preserving transparent order and leaving uncertain forms untouched.
 	 */
 
-	const helperKind = __awtsmoosModule_224.helperKind;
-	const shouldRenderMode = __awtsmoosModule_224.shouldRenderMode;
-	const isTransparent = __awtsmoosModule_225.isTransparent;
-	const staticBatchMetadata = __awtsmoosModule_226.staticBatchMetadata;
+	const helperKind = __awtsmoosModule_193.helperKind;
+	const shouldRenderMode = __awtsmoosModule_193.shouldRenderMode;
+	const isTransparent = __awtsmoosModule_194.isTransparent;
+	const staticBatchMetadata = __awtsmoosModule_195.staticBatchMetadata;
 
 	function collectSceneMeshes(root, options = {}) {
 		const result = {
@@ -18304,7 +15742,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-material-signature-state.js ----
 {
-	const __exports = __awtsmoosModule_231;
+	const __exports = __awtsmoosModule_200;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -18316,7 +15754,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com compares these finite values directly so stable signatures need no rebuilt arrays.
 	 */
 
-	const materialModeCode = __awtsmoosModule_216.materialModeCode;
+	const materialModeCode = __awtsmoosModule_185.materialModeCode;
 
 	function captureMaterialSignatureState(mesh, textureState) {
 		const material = mesh.material || {};
@@ -18375,7 +15813,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-material-texture-signature.js ----
 {
-	const __exports = __awtsmoosModule_232;
+	const __exports = __awtsmoosModule_201;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -18430,7 +15868,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-texture-source.js ----
 {
-	const __exports = __awtsmoosModule_236;
+	const __exports = __awtsmoosModule_205;
 	// B"H
 	function sourceReady(source) {
 		return !!(
@@ -18495,7 +15933,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-native-texture-density.js ----
 {
-	const __exports = __awtsmoosModule_235;
+	const __exports = __awtsmoosModule_204;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -18507,8 +15945,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * every source untouched while measured UV repetition reveals constant physical texel scale.
 	 */
 
-	const sourceHeight = __awtsmoosModule_236.sourceHeight;
-	const sourceWidth = __awtsmoosModule_236.sourceWidth;
+	const sourceHeight = __awtsmoosModule_205.sourceHeight;
+	const sourceWidth = __awtsmoosModule_205.sourceWidth;
 
 	const DEFAULT_NATIVE_TEXELS_PER_WORLD = 96;
 
@@ -18615,7 +16053,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-terrain-layer-policy.js ----
 {
-	const __exports = __awtsmoosModule_237;
+	const __exports = __awtsmoosModule_206;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -18670,7 +16108,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-layered-texture-state.js ----
 {
-	const __exports = __awtsmoosModule_234;
+	const __exports = __awtsmoosModule_203;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -18682,11 +16120,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * original dimensions while exact shader-visible state enables lawful renderer reuse.
 	 */
 
-	const nativeTexturePolicySignature = __awtsmoosModule_235.nativeTexturePolicySignature;
-	const resolveNativeTextureRepeat = __awtsmoosModule_235.resolveNativeTextureRepeat;
-	const TERRAIN_LAYER_TARGET = __awtsmoosModule_237.TERRAIN_LAYER_TARGET;
-	const terrainLayerUnits = __awtsmoosModule_237.terrainLayerUnits;
-	const sourceReady = __awtsmoosModule_236.sourceReady;
+	const nativeTexturePolicySignature = __awtsmoosModule_204.nativeTexturePolicySignature;
+	const resolveNativeTextureRepeat = __awtsmoosModule_204.resolveNativeTextureRepeat;
+	const TERRAIN_LAYER_TARGET = __awtsmoosModule_206.TERRAIN_LAYER_TARGET;
+	const terrainLayerUnits = __awtsmoosModule_206.terrainLayerUnits;
+	const sourceReady = __awtsmoosModule_205.sourceReady;
 
 	const TERRAIN_LAYER_COUNT = TERRAIN_LAYER_TARGET;
 
@@ -18779,7 +16217,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-texture-state-fingerprint-core.js ----
 {
-	const __exports = __awtsmoosModule_239;
+	const __exports = __awtsmoosModule_208;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -18791,7 +16229,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * readiness while source dimensions are resolved only when an actual texture state is rebuilt.
 	 */
 
-	const sourceReady = __awtsmoosModule_236.sourceReady;
+	const sourceReady = __awtsmoosModule_205.sourceReady;
 
 	function captureSourceFingerprint(source) {
 		return {
@@ -18874,7 +16312,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-texture-layer-fingerprint.js ----
 {
-	const __exports = __awtsmoosModule_240;
+	const __exports = __awtsmoosModule_209;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -18886,14 +16324,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com avoids rebuilding their state while image, repeat, mask, and policy remain unchanged.
 	 */
 
-	const capturePair = __awtsmoosModule_239.capturePair;
-	const capturePolicy = __awtsmoosModule_239.capturePolicy;
-	const captureSourceFingerprint = __awtsmoosModule_239.captureSourceFingerprint;
-	const captureVector = __awtsmoosModule_239.captureVector;
-	const samePair = __awtsmoosModule_239.samePair;
-	const samePolicy = __awtsmoosModule_239.samePolicy;
-	const sameSourceFingerprint = __awtsmoosModule_239.sameSourceFingerprint;
-	const sameVector = __awtsmoosModule_239.sameVector;
+	const capturePair = __awtsmoosModule_208.capturePair;
+	const capturePolicy = __awtsmoosModule_208.capturePolicy;
+	const captureSourceFingerprint = __awtsmoosModule_208.captureSourceFingerprint;
+	const captureVector = __awtsmoosModule_208.captureVector;
+	const samePair = __awtsmoosModule_208.samePair;
+	const samePolicy = __awtsmoosModule_208.samePolicy;
+	const sameSourceFingerprint = __awtsmoosModule_208.sameSourceFingerprint;
+	const sameVector = __awtsmoosModule_208.sameVector;
 
 	const EMPTY_LAYERS = Object.freeze([]);
 	const HEIGHT_DEFAULT = [-10000, 10000];
@@ -18960,7 +16398,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-terrain-mixing-state.js ----
 {
-	const __exports = __awtsmoosModule_241;
+	const __exports = __awtsmoosModule_210;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -19021,7 +16459,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-texture-state-fingerprint.js ----
 {
-	const __exports = __awtsmoosModule_238;
+	const __exports = __awtsmoosModule_207;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -19033,17 +16471,17 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com detects one changed vector without rebuilding every texture twice.
 	 */
 
-	const capturePair = __awtsmoosModule_239.capturePair;
-	const capturePolicy = __awtsmoosModule_239.capturePolicy;
-	const captureSourceFingerprint = __awtsmoosModule_239.captureSourceFingerprint;
-	const captureVector = __awtsmoosModule_239.captureVector;
-	const samePair = __awtsmoosModule_239.samePair;
-	const samePolicy = __awtsmoosModule_239.samePolicy;
-	const sameSourceFingerprint = __awtsmoosModule_239.sameSourceFingerprint;
-	const sameVector = __awtsmoosModule_239.sameVector;
-	const captureLayerFingerprints = __awtsmoosModule_240.captureLayerFingerprints;
-	const sameLayerFingerprints = __awtsmoosModule_240.sameLayerFingerprints;
-	const terrainMixingDefaults = __awtsmoosModule_241.terrainMixingDefaults;
+	const capturePair = __awtsmoosModule_208.capturePair;
+	const capturePolicy = __awtsmoosModule_208.capturePolicy;
+	const captureSourceFingerprint = __awtsmoosModule_208.captureSourceFingerprint;
+	const captureVector = __awtsmoosModule_208.captureVector;
+	const samePair = __awtsmoosModule_208.samePair;
+	const samePolicy = __awtsmoosModule_208.samePolicy;
+	const sameSourceFingerprint = __awtsmoosModule_208.sameSourceFingerprint;
+	const sameVector = __awtsmoosModule_208.sameVector;
+	const captureLayerFingerprints = __awtsmoosModule_209.captureLayerFingerprints;
+	const sameLayerFingerprints = __awtsmoosModule_209.sameLayerFingerprints;
+	const terrainMixingDefaults = __awtsmoosModule_210.terrainMixingDefaults;
 
 	function captureTextureFingerprint(material = {}) {
 		const defaults = terrainMixingDefaults();
@@ -19095,7 +16533,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-texture-state.js ----
 {
-	const __exports = __awtsmoosModule_233;
+	const __exports = __awtsmoosModule_202;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -19107,15 +16545,15 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * lets hydration and authored terrain law invalidate only the vessel that changed in place.
 	 */
 
-	const layeredTextureState = __awtsmoosModule_234.layeredTextureState;
-	const sameLayeredTextureState = __awtsmoosModule_234.sameLayeredTextureState;
-	const nativeTexturePolicySignature = __awtsmoosModule_235.nativeTexturePolicySignature;
-	const resolveNativeTextureRepeat = __awtsmoosModule_235.resolveNativeTextureRepeat;
-	const sourceReady = __awtsmoosModule_236.sourceReady;
-	const captureTextureFingerprint = __awtsmoosModule_238.captureTextureFingerprint;
-	const sameTextureFingerprint = __awtsmoosModule_238.sameTextureFingerprint;
-	const sameTerrainMixingState = __awtsmoosModule_241.sameTerrainMixingState;
-	const terrainMixingState = __awtsmoosModule_241.terrainMixingState;
+	const layeredTextureState = __awtsmoosModule_203.layeredTextureState;
+	const sameLayeredTextureState = __awtsmoosModule_203.sameLayeredTextureState;
+	const nativeTexturePolicySignature = __awtsmoosModule_204.nativeTexturePolicySignature;
+	const resolveNativeTextureRepeat = __awtsmoosModule_204.resolveNativeTextureRepeat;
+	const sourceReady = __awtsmoosModule_205.sourceReady;
+	const captureTextureFingerprint = __awtsmoosModule_207.captureTextureFingerprint;
+	const sameTextureFingerprint = __awtsmoosModule_207.sameTextureFingerprint;
+	const sameTerrainMixingState = __awtsmoosModule_210.sameTerrainMixingState;
+	const terrainMixingState = __awtsmoosModule_210.terrainMixingState;
 
 	const cache = new WeakMap();
 	const diagnostics = { hits: 0, invalidations: 0, misses: 0 };
@@ -19207,7 +16645,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-material-signature.js ----
 {
-	const __exports = __awtsmoosModule_230;
+	const __exports = __awtsmoosModule_199;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -19219,10 +16657,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * color, culling, native texture density, ecology, wind, and primitive truth with bounded CPU work.
 	 */
 
-	const captureMaterialSignatureState = __awtsmoosModule_231.captureMaterialSignatureState;
-	const sameMaterialSignatureState = __awtsmoosModule_231.sameMaterialSignatureState;
-	const appendTextureSignature = __awtsmoosModule_232.appendTextureSignature;
-	const textureState = __awtsmoosModule_233.textureState;
+	const captureMaterialSignatureState = __awtsmoosModule_200.captureMaterialSignatureState;
+	const sameMaterialSignatureState = __awtsmoosModule_200.sameMaterialSignatureState;
+	const appendTextureSignature = __awtsmoosModule_201.appendTextureSignature;
+	const textureState = __awtsmoosModule_202.textureState;
 
 	const cache = new WeakMap();
 	const objectIds = new WeakMap();
@@ -19309,7 +16747,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-order.js ----
 {
-	const __exports = __awtsmoosModule_229;
+	const __exports = __awtsmoosModule_198;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -19321,8 +16759,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * GPU vessels beside one another so redundant declarations may rest without changing pixels.
 	 */
 
-	const materialSignature = __awtsmoosModule_230.materialSignature;
-	const objectIdentity = __awtsmoosModule_230.objectIdentity;
+	const materialSignature = __awtsmoosModule_199.materialSignature;
+	const objectIdentity = __awtsmoosModule_199.objectIdentity;
 
 	function orderOpaqueMeshes(meshes) {
 		const stateKeys = new WeakMap();
@@ -19386,7 +16824,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-draw-list.js ----
 {
-	const __exports = __awtsmoosModule_221;
+	const __exports = __awtsmoosModule_190;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -19398,18 +16836,18 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * gathers solid vessels by state and translucent vessels from farthest to nearest.
 	 */
 
-	const worldBoundingSphere = __awtsmoosModule_222.worldBoundingSphere;
-	const collectSceneMeshes = __awtsmoosModule_223.collectSceneMeshes;
-	const cameraCullContext = __awtsmoosModule_227.cameraCullContext;
-	const meshCullingReason = __awtsmoosModule_227.meshCullingReason;
-	const orderOpaqueMeshes = __awtsmoosModule_229.orderOpaqueMeshes;
-	const isAlphaBlend = __awtsmoosModule_225.isAlphaBlend;
-	const isAlphaMask = __awtsmoosModule_225.isAlphaMask;
-	const isLitMode = __awtsmoosModule_225.isLitMode;
-	const isTransparent = __awtsmoosModule_225.isTransparent;
-	const pointSizeForMode = __awtsmoosModule_225.pointSizeForMode;
-	const shouldCullBackfaces = __awtsmoosModule_225.shouldCullBackfaces;
-	const triangleCountForMode = __awtsmoosModule_225.triangleCountForMode;
+	const worldBoundingSphere = __awtsmoosModule_191.worldBoundingSphere;
+	const collectSceneMeshes = __awtsmoosModule_192.collectSceneMeshes;
+	const cameraCullContext = __awtsmoosModule_196.cameraCullContext;
+	const meshCullingReason = __awtsmoosModule_196.meshCullingReason;
+	const orderOpaqueMeshes = __awtsmoosModule_198.orderOpaqueMeshes;
+	const isAlphaBlend = __awtsmoosModule_194.isAlphaBlend;
+	const isAlphaMask = __awtsmoosModule_194.isAlphaMask;
+	const isLitMode = __awtsmoosModule_194.isLitMode;
+	const isTransparent = __awtsmoosModule_194.isTransparent;
+	const pointSizeForMode = __awtsmoosModule_194.pointSizeForMode;
+	const shouldCullBackfaces = __awtsmoosModule_194.shouldCullBackfaces;
+	const triangleCountForMode = __awtsmoosModule_194.triangleCountForMode;
 
 	function collectMeshes(root, camera = null, options = {}) {
 		const collected = collectSceneMeshes(root, options);
@@ -19497,7 +16935,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-gl-state-stats.js ----
 {
-	const __exports = __awtsmoosModule_242;
+	const __exports = __awtsmoosModule_211;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -19575,31 +17013,92 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
+// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-skin-binding.js ----
+{
+	const __exports = __awtsmoosModule_214;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file tiny-render-skin-binding.js
+	 * @description Remembers which joint palette currently occupies the skin
+	 * program. Uniform uploads repeat only when the vessel truly changes in Awtsmoos.
+	 */
+	class SkinUniformBindingCache {
+		constructor() {
+			this.frameToken = null;
+			this.program = null;
+			this.skeleton = null;
+			this.revision = null;
+			this.valid = false;
+		}
+
+		/** Returns true and records the binding whenever a uniform upload is needed. */
+		shouldUpload({ frameToken, program, skeleton, revision }) {
+			const sameBinding = this.valid
+				&& this.frameToken === frameToken
+				&& this.program === program
+				&& this.skeleton === skeleton
+				&& this.revision === revision;
+			if (sameBinding) {
+				return false;
+			}
+			this.frameToken = frameToken;
+			this.program = program;
+			this.skeleton = skeleton;
+			this.revision = revision;
+			this.valid = true;
+			return true;
+		}
+
+		invalidate() {
+			this.frameToken = null;
+			this.program = null;
+			this.skeleton = null;
+			this.revision = null;
+			this.valid = false;
+		}
+	}
+
+	__exports.SkinUniformBindingCache = SkinUniformBindingCache;
+
+}
+
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-skin.js ----
 {
-	const __exports = __awtsmoosModule_244;
+	const __exports = __awtsmoosModule_213;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
 	 * @file tiny-render-skin.js
-	 * @description Uploads one exact joint palette after vertex state is already resident.
-	 * The Awtsmoos moves every limb from one living whole; Awtsmoos.com keeps the palette
-	 * contract explicit while immutable joint and weight attributes rest inside their VAO.
+	 * @description Uploads a joint palette only when the live GPU binding no longer matches its skeleton revision.
+	 * The Awtsmoos moves many visible primitives through one living skeleton; Awtsmoos.com therefore refuses to
+	 * resend the same palette sixty times merely because one authored Chossid is divided into many mesh garments.
 	 */
 
+	const SkinUniformBindingCache = __awtsmoosModule_214.SkinUniformBindingCache;
+
+	/** Binds one exact skin while reusing an already-resident palette whenever truthfully possible. */
 	function bindSkin(renderer, locations, mesh) {
 		const skeleton = mesh.skeleton;
-		const uploadedJoints = skeleton.updateCached(
+		skeleton.updateCached(
 			mesh.matrixWorld || renderer.identityMatrix,
 			renderer.frameToken
 		);
 		recordPaletteWork(renderer, skeleton);
 		renderer.stats.skinnedMeshes += 1;
-		renderer.stats.jointsUploaded += uploadedJoints;
-		renderer.stats.skinGpuUploads += 1;
-		uploadJoints(renderer, skeleton, locations);
+		const uploaded = renderer.jointMode === 'texture'
+			? bindJointTexture(renderer, skeleton, locations)
+			: bindJointUniforms(renderer, skeleton, locations);
+		if (uploaded) {
+			renderer.stats.skinGpuUploads += 1;
+			renderer.stats.jointsUploaded += skeleton.jointCount;
+		} else {
+			renderer.stats.skinGpuUploadReuses += 1;
+		}
 	}
 
 
@@ -19611,64 +17110,155 @@ const __awtsmoosModule_0 = Object.create(null);
 		renderer.stats[metric] += 1;
 	}
 
-	function uploadJoints(renderer, skeleton, locations) {
-		if (renderer.jointMode === 'texture') {
-			uploadJointTexture(renderer, skeleton, locations);
-			return;
-		}
-		uploadJointUniforms(renderer, skeleton, locations);
-	}
-
-	function uploadJointTexture(renderer, skeleton, locations) {
+	function bindJointTexture(renderer, skeleton, locations) {
 		const gl = renderer.gl;
-		const count = Math.max(1, skeleton.jointCount);
+		const revision = skeleton.paletteRevision;
+		const binding = renderer._skinTextureBinding;
+		const samePalette = binding?.skeleton === skeleton
+			&& binding.revision === revision;
 		gl.activeTexture(gl.TEXTURE0);
 		gl.bindTexture(gl.TEXTURE_2D, renderer.skinTexture);
+		configureSkinTexture(renderer);
+		if (!samePalette) uploadJointTexturePixels(renderer, skeleton);
+		gl.uniform1i(locations.jointTexture, 0);
+		gl.uniform1f(locations.jointTextureHeight, Math.max(1, skeleton.jointCount));
+		if (samePalette) return false;
+		renderer._skinTextureBinding = { revision, skeleton };
+		renderer.stats.skinTextureUploads += 1;
+		return true;
+	}
+
+	function configureSkinTexture(renderer) {
+		if (renderer._skinTextureConfigured) return;
+		const gl = renderer.gl;
 		gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+		renderer._skinTextureConfigured = true;
+	}
+
+	function uploadJointTexturePixels(renderer, skeleton) {
+		const gl = renderer.gl;
 		gl.texImage2D(
 			gl.TEXTURE_2D,
 			0,
 			gl.RGBA,
 			4,
-			count,
+			Math.max(1, skeleton.jointCount),
 			0,
 			gl.RGBA,
 			gl.FLOAT,
 			skeleton.jointMatrices
 		);
-		gl.uniform1i(locations.jointTexture, 0);
-		gl.uniform1f(locations.jointTextureHeight, count);
-		renderer.stats.skinTextureUploads += 1;
 	}
 
-	function uploadJointUniforms(renderer, skeleton, locations) {
-		const gl = renderer.gl;
-		const count = Math.min(
-			skeleton.jointCount,
-			renderer.maxUniformJoints
-		);
+	function bindJointUniforms(renderer, skeleton, locations) {
+		renderer._skinUniformBinding ||= new SkinUniformBindingCache();
+		const shouldUpload = renderer._skinUniformBinding.shouldUpload({
+			frameToken: renderer.frameToken,
+			program: renderer.activeProgram,
+			revision: skeleton.paletteRevision,
+			skeleton
+		});
+		if (!shouldUpload) return false;
+		const count = Math.min(skeleton.jointCount, renderer.maxUniformJoints);
 		if (skeleton.jointCount > renderer.maxUniformJoints) {
-			renderer.errors.push(
-				`Joint uniform overflow: ${skeleton.jointCount} > ${renderer.maxUniformJoints}`
-			);
+			renderer.errors.push(`Joint uniform overflow: ${skeleton.jointCount} > ${renderer.maxUniformJoints}`);
 		}
-		gl.uniformMatrix4fv(
+		renderer.gl.uniformMatrix4fv(
 			locations.jointMatrices,
 			false,
 			skeleton.jointMatrices.subarray(0, count * 16)
 		);
 		renderer.stats.skinUniformUploads += 1;
+		return true;
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-mesh-helpers.js ----
+{
+	const __exports = __awtsmoosModule_215;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	const shouldCullBackfaces = __awtsmoosModule_190.shouldCullBackfaces;
+	const triangleCountForMode = __awtsmoosModule_190.triangleCountForMode;
+	const drawMode = __awtsmoosModule_185.drawMode;
+
+	/**
+	 * @file tiny-render-mesh-helpers.js
+	 * @description Holds transform, culling, draw issuance, and accounting for one tiny-render mesh.
+	 * The Awtsmoos separates the geometry of the vessel from the authority of its shader program;
+	 * Awtsmoos.com keeps these mechanical acts small so program ownership remains visible and undeniable.
+	 */
+
+	function applyCull(renderer, mesh, transparent) {
+		if (shouldCullBackfaces(mesh, transparent)) {
+			renderer.gl.enable(renderer.gl.CULL_FACE);
+			renderer.gl.cullFace(renderer.gl.BACK);
+			renderer.stats.culledBackfaceMeshes += 1;
+			return;
+		}
+		renderer.gl.disable(renderer.gl.CULL_FACE);
+	}
+
+
+	__exports.applyCull = applyCull;
+	function writeMvp(renderer, projectionView, model) {
+		renderer._objectMvpMatrix ||= new Float32Array(16);
+		multiplyInto(renderer._objectMvpMatrix, projectionView, model);
+		return renderer._objectMvpMatrix;
+	}
+
+
+	__exports.writeMvp = writeMvp;
+	function issueDraw(renderer, resource) {
+		const gl = renderer.gl;
+		const mode = drawMode(gl, resource.mode);
+		if (resource.index) {
+			gl.drawElements(mode, resource.count, resource.indexType, 0);
+			return;
+		}
+		gl.drawArrays(mode, 0, resource.count);
+	}
+
+
+	__exports.issueDraw = issueDraw;
+	function recordDraw(renderer, mesh, resource, skinned, transparent) {
+		renderer.stats.draws += 1;
+		renderer.stats.triangles += triangleCountForMode(resource.mode, resource.count);
+		if (!skinned) renderer.stats.rigidMeshes += 1;
+		if (transparent) renderer.stats.transparentMeshes += 1;
+		if (mesh.userData?.AwtsmoosYardGrass?.reactsToPlayer) {
+			renderer.stats.reactiveGrassMeshes += 1;
+		}
+	}
+
+
+	__exports.recordDraw = recordDraw;
+	function multiplyInto(target, left, right) {
+		for (let column = 0; column < 4; column += 1) {
+			const offset = column * 4;
+			const right0 = right[offset];
+			const right1 = right[offset + 1];
+			const right2 = right[offset + 2];
+			const right3 = right[offset + 3];
+			target[offset] = left[0] * right0 + left[4] * right1 + left[8] * right2 + left[12] * right3;
+			target[offset + 1] = left[1] * right0 + left[5] * right1 + left[9] * right2 + left[13] * right3;
+			target[offset + 2] = left[2] * right0 + left[6] * right1 + left[10] * right2 + left[14] * right3;
+			target[offset + 3] = left[3] * right0 + left[7] * right1 + left[11] * right2 + left[15] * right3;
+		}
 	}
 
 }
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-water-physical-uniforms.js ----
 {
-	const __exports = __awtsmoosModule_246;
+	const __exports = __awtsmoosModule_218;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -19771,7 +17361,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-water-material-mode.js ----
 {
-	const __exports = __awtsmoosModule_247;
+	const __exports = __awtsmoosModule_219;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -19837,7 +17427,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-uniforms.js ----
 {
-	const __exports = __awtsmoosModule_245;
+	const __exports = __awtsmoosModule_217;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -19849,13 +17439,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com sends each finite truth only where the existing bounded GPU program can reveal it.
 	 */
 
-	const alphaModeCode = __awtsmoosModule_216.alphaModeCode;
-	const materialColor = __awtsmoosModule_216.materialColor;
-	const materialModeCode = __awtsmoosModule_216.materialModeCode;
-	const uploadWaterPhysicalUniforms = __awtsmoosModule_246.uploadWaterPhysicalUniforms;
-	const waterModeCode = __awtsmoosModule_247.waterModeCode;
-	const isLitMode = __awtsmoosModule_221.isLitMode;
-	const pointSizeForMode = __awtsmoosModule_221.pointSizeForMode;
+	const alphaModeCode = __awtsmoosModule_185.alphaModeCode;
+	const materialColor = __awtsmoosModule_185.materialColor;
+	const materialModeCode = __awtsmoosModule_185.materialModeCode;
+	const uploadWaterPhysicalUniforms = __awtsmoosModule_218.uploadWaterPhysicalUniforms;
+	const waterModeCode = __awtsmoosModule_219.waterModeCode;
+	const isLitMode = __awtsmoosModule_190.isLitMode;
+	const pointSizeForMode = __awtsmoosModule_190.pointSizeForMode;
 
 	function uploadFrameUniforms(renderer, locations) {
 		const gl = renderer.gl;
@@ -19935,51 +17525,99 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
+// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-program-state.js ----
+{
+	const __exports = __awtsmoosModule_216;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	const uploadFrameUniforms = __awtsmoosModule_217.uploadFrameUniforms;
+
+	/**
+	 * @file tiny-render-program-state.js
+	 * @description Reclaims the renderer's WebGL program before any program-owned uniforms are touched.
+	 * The Awtsmoos renews the vessel at every boundary; Awtsmoos.com therefore never mistakes remembered intent
+	 * for the living state of a shared WebGL context after particles, debug passes, or another renderer have touched it.
+	 */
+
+	/** Reasserts the intended program even when renderer-local intent still names the same program. */
+	function reclaimRenderProgram(renderer, kind) {
+		const program = renderer.programs[kind];
+		const locations = renderer.loc[kind];
+		const logicalSwitch = renderer.activeProgram !== program;
+
+		// Correctness is unconditional. An optional GL state cache may suppress the native call
+		// only when it has witnessed that this exact program is still current.
+		renderer.gl.useProgram(program);
+
+		if (logicalSwitch) {
+			renderer.activeProgram = program;
+			renderer.materialState.previous = null;
+			renderer.textures.invalidate();
+			renderer.stats.programSwitches += 1;
+		}
+		return { locations, program };
+	}
+
+
+	__exports.reclaimRenderProgram = reclaimRenderProgram;
+	/** Uploads frame uniforms once per frame/program after program ownership has been reclaimed. */
+	function ensureFrameUniforms(renderer, program, locations) {
+		renderer._frameUniformTokens ||= new Map();
+		if (renderer._frameUniformTokens.get(program) === renderer.frameToken) return false;
+		uploadFrameUniforms(renderer, locations);
+		renderer._frameUniformTokens.set(program, renderer.frameToken);
+		renderer.frameUniformToken = renderer.frameToken;
+		renderer.stats.frameUniformUploads += 1;
+		return true;
+	}
+
+	__exports.ensureFrameUniforms = ensureFrameUniforms;
+
+}
+
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-mesh.js ----
 {
-	const __exports = __awtsmoosModule_243;
+	const __exports = __awtsmoosModule_212;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
 	 * @file tiny-render-mesh.js
-	 * @description Draws one mesh with reusable MVP storage and exact per-program state.
-	 * The Awtsmoos recreates each object without repeating an unchanged decree; Awtsmoos.com
-	 * keeps every transform, texture, cutout, water ripple, and Chossid alive without draw garbage.
+	 * @description Draws one mesh only after reclaiming the shader program that owns every uploaded uniform.
+	 * The Awtsmoos recreates each object and every state boundary; Awtsmoos.com refuses to trust yesterday's
+	 * remembered program when particles or another pass may have touched the shared WebGL context this instant.
 	 */
 
-	const shouldCullBackfaces = __awtsmoosModule_221.shouldCullBackfaces;
-	const triangleCountForMode = __awtsmoosModule_221.triangleCountForMode;
-	const bindSkin = __awtsmoosModule_244.bindSkin;
-	const uploadFrameUniforms = __awtsmoosModule_245.uploadFrameUniforms;
-	const uploadMaterialUniforms = __awtsmoosModule_245.uploadMaterialUniforms;
-	const uploadObjectUniforms = __awtsmoosModule_245.uploadObjectUniforms;
-	const drawMode = __awtsmoosModule_216.drawMode;
+	const bindSkin = __awtsmoosModule_213.bindSkin;
+	const applyCull = __awtsmoosModule_215.applyCull;
+	const issueDraw = __awtsmoosModule_215.issueDraw;
+	const recordDraw = __awtsmoosModule_215.recordDraw;
+	const writeMvp = __awtsmoosModule_215.writeMvp;
+	const ensureFrameUniforms = __awtsmoosModule_216.ensureFrameUniforms;
+	const reclaimRenderProgram = __awtsmoosModule_216.reclaimRenderProgram;
+	const uploadMaterialUniforms = __awtsmoosModule_217.uploadMaterialUniforms;
+	const uploadObjectUniforms = __awtsmoosModule_217.uploadObjectUniforms;
 
 	function drawRenderMesh(renderer, mesh, projectionView, transparent) {
 		const resource = renderer.buffers.forMesh(mesh);
 		if (!resource) return;
-		const skinned = Boolean(
-			mesh.isSkinnedMesh
-			&& mesh.skeleton
-			&& resource.attributes.joints
-			&& resource.attributes.weights
-		);
+		const skinned = isSkinned(mesh, resource);
 		const kind = skinned ? 'skin' : 'rigid';
-		const locations = renderer.loc[kind];
 		const model = mesh.matrixWorld || renderer.identityMatrix;
+
 		applyCull(renderer, mesh, transparent);
-		activateProgram(renderer, kind, locations);
+		const { locations, program } = reclaimRenderProgram(renderer, kind);
+		ensureFrameUniforms(renderer, program, locations);
 		renderer.buffers.bindMesh(resource, locations, skinned);
 		bindSkinBranch(renderer, locations, mesh, skinned);
-		renderer._objectMvpMatrix ||= new Float32Array(16);
-		multiplyInto(renderer._objectMvpMatrix, projectionView, model);
 		uploadObjectUniforms(
 			renderer,
 			locations,
 			model,
-			renderer._objectMvpMatrix
+			writeMvp(renderer, projectionView, model)
 		);
 		if (renderer.materialState.needsUpload(mesh, resource)) {
 			uploadMaterialUniforms(renderer, locations, mesh, resource);
@@ -19991,21 +17629,13 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.drawRenderMesh = drawRenderMesh;
-	function activateProgram(renderer, kind, locations) {
-		const program = renderer.programs[kind];
-		if (renderer.activeProgram !== program) {
-			renderer.gl.useProgram(program);
-			renderer.activeProgram = program;
-			renderer.materialState.previous = null;
-			renderer.textures.invalidate();
-			renderer.stats.programSwitches += 1;
-		}
-		renderer._frameUniformTokens ||= new Map();
-		if (renderer._frameUniformTokens.get(program) === renderer.frameToken) return;
-		uploadFrameUniforms(renderer, locations);
-		renderer._frameUniformTokens.set(program, renderer.frameToken);
-		renderer.frameUniformToken = renderer.frameToken;
-		renderer.stats.frameUniformUploads += 1;
+	function isSkinned(mesh, resource) {
+		return Boolean(
+			mesh.isSkinnedMesh
+			&& mesh.skeleton
+			&& resource.attributes.joints
+			&& resource.attributes.weights
+		);
 	}
 
 	function bindSkinBranch(renderer, locations, mesh, skinned) {
@@ -20018,60 +17648,481 @@ const __awtsmoosModule_0 = Object.create(null);
 		if (skinned) bindSkin(renderer, locations, mesh);
 	}
 
-	function applyCull(renderer, mesh, transparent) {
-		if (shouldCullBackfaces(mesh, transparent)) {
-			renderer.gl.enable(renderer.gl.CULL_FACE);
-			renderer.gl.cullFace(renderer.gl.BACK);
-			renderer.stats.culledBackfaceMeshes += 1;
+}
+
+// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-cache.js ----
+{
+	const __exports = __awtsmoosModule_222;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file tiny-skin-cache.js
+	 * @description Guards a computed joint palette by renderer frame and exact mesh
+	 * transform. Reuse is permitted only when the vessel is truly unchanged before Awtsmoos.
+	 */
+	class SkinPaletteCache {
+		constructor() {
+			this.frameToken = null;
+			this.meshWorld = new Float32Array(16);
+			this.valid = false;
+			this.revision = 0;
+		}
+
+		/** Returns true only when a fresh palette computation is required. */
+		needsUpdate(frameToken, meshWorld) {
+			if (!validFrameToken(frameToken) || !this.valid) {
+				return true;
+			}
+			if (this.frameToken !== frameToken) {
+				return true;
+			}
+			return !matrixEquals(this.meshWorld, meshWorld);
+		}
+
+		/** Records the exact transform and increments the palette revision. */
+		markUpdated(frameToken, meshWorld) {
+			this.frameToken = frameToken;
+			copyMatrix(this.meshWorld, meshWorld);
+			this.valid = validFrameToken(frameToken);
+			this.revision += 1;
+			return this.revision;
+		}
+
+		invalidate() {
+			this.valid = false;
+			this.frameToken = null;
+		}
+	}
+
+
+	__exports.SkinPaletteCache = SkinPaletteCache;
+	function matrixEquals(left, right) {
+		if (!left || !right || left.length !== 16 || right.length !== 16) {
+			return false;
+		}
+		for (let index = 0; index < 16; index += 1) {
+			if (left[index] !== right[index]) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+
+	__exports.matrixEquals = matrixEquals;
+	function copyMatrix(target, source) {
+		if (!source || source.length !== 16) {
+			target.fill(Number.NaN);
 			return;
 		}
-		renderer.gl.disable(renderer.gl.CULL_FACE);
-	}
-
-	function multiplyInto(target, left, right) {
-		for (let column = 0; column < 4; column += 1) {
-			const offset = column * 4;
-			const right0 = right[offset];
-			const right1 = right[offset + 1];
-			const right2 = right[offset + 2];
-			const right3 = right[offset + 3];
-			target[offset] = left[0] * right0 + left[4] * right1 + left[8] * right2 + left[12] * right3;
-			target[offset + 1] = left[1] * right0 + left[5] * right1 + left[9] * right2 + left[13] * right3;
-			target[offset + 2] = left[2] * right0 + left[6] * right1 + left[10] * right2 + left[14] * right3;
-			target[offset + 3] = left[3] * right0 + left[7] * right1 + left[11] * right2 + left[15] * right3;
+		for (let index = 0; index < 16; index += 1) {
+			target[index] = source[index];
 		}
 	}
 
-	function issueDraw(renderer, resource) {
-		const gl = renderer.gl;
-		const mode = drawMode(gl, resource.mode);
-		if (resource.index) {
-			gl.drawElements(mode, resource.count, resource.indexType, 0);
-			return;
-		}
-		gl.drawArrays(mode, 0, resource.count);
+	function validFrameToken(frameToken) {
+		return Number.isInteger(frameToken) && frameToken >= 0;
 	}
 
-	function recordDraw(renderer, mesh, resource, skinned, transparent) {
-		renderer.stats.draws += 1;
-		renderer.stats.triangles += triangleCountForMode(
-			resource.mode,
-			resource.count
+}
+
+// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-lines.js ----
+{
+	const __exports = __awtsmoosModule_223;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file tiny-skin-lines.js
+	 * @description Extracts diagnostic bone segments without entering palette or
+	 * renderer ownership. Each line is a small revealed relationship before the
+	 * Awtsmoos, drawn by Awtsmoos.com only from current parent-child transforms.
+	 */
+
+	/** Returns parent-to-child line positions for all skeletons bound below a root. */
+	function skeletonLinePositions(root) {
+		const positions = [];
+		root.traverse((node) => {
+			const skeletons = node.userData?.skeletons;
+			if (!(skeletons instanceof Map)) {
+				return;
+			}
+			for (const skeleton of skeletons.values()) {
+				appendSkeletonLines(skeleton, positions);
+			}
+		});
+		return new Float32Array(positions);
+	}
+
+
+	__exports.skeletonLinePositions = skeletonLinePositions;
+	function appendSkeletonLines(skeleton, positions) {
+		const jointSet = new Set(skeleton.joints.filter(Boolean));
+		for (const joint of jointSet) {
+			const parent = joint.parent;
+			if (!parent || !jointSet.has(parent)) {
+				continue;
+			}
+			positions.push(
+				parent.matrixWorld[12],
+				parent.matrixWorld[13],
+				parent.matrixWorld[14],
+				joint.matrixWorld[12],
+				joint.matrixWorld[13],
+				joint.matrixWorld[14]
+			);
+		}
+	}
+}
+
+// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-matrix.js ----
+{
+	const __exports = __awtsmoosModule_224;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file tiny-skin-matrix.js
+	 * @description Decodes inverse-bind matrices from imported accessors with explicit
+	 * identity fallback. The Awtsmoos renews every matrix entry, while Awtsmoos.com
+	 * keeps absence visible instead of disguising missing data as remembered geometry.
+	 */
+	const identity = __awtsmoosModule_103.identity;
+
+	/** Returns one 4x4 matrix from a BufferAttribute-like accessor. */
+	function readSkinMatrix(accessor, index) {
+		const source = accessor?.array || accessor;
+		if (!source) {
+			return identity();
+		}
+		const matrix = new Float32Array(16);
+		for (let component = 0; component < 16; component += 1) {
+			matrix[component] = source[index * 16 + component] ?? (
+				component % 5 === 0 ? 1 : 0
+			);
+		}
+		return matrix;
+	}
+	__exports.readSkinMatrix = readSkinMatrix;
+
+}
+
+// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-binding.js ----
+{
+	const __exports = __awtsmoosModule_226;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file tiny-skin-binding.js
+	 * @description Connects imported skin definitions to their visible mesh vessels.
+	 * The Awtsmoos joins bone and garment in one living form; Awtsmoos.com records that
+	 * relationship once so animation may unfold without rediscovering its own structure.
+	 */
+
+	function bindSceneSkeletons(root, doc, accessors, createSkeleton) {
+		const nodeMap = root.userData?.nodeMap || new Map();
+		const skeletons = new Map();
+		let maxJoints = 0;
+		let missingJoints = 0;
+		for (let skinIndex = 0; skinIndex < (doc.skins || []).length; skinIndex += 1) {
+			const skinDefinition = doc.skins[skinIndex] || {};
+			const inverseBindAccessor = skinDefinition.inverseBindMatrices === undefined
+				? null
+				: accessors[skinDefinition.inverseBindMatrices];
+			const skeleton = createSkeleton({
+				inverseBindAccessor,
+				nodeMap,
+				skinDef: skinDefinition,
+				skinIndex
+			});
+			skeletons.set(skinIndex, skeleton);
+			maxJoints = Math.max(maxJoints, skeleton.jointCount);
+			missingJoints += skeleton.joints.filter(joint => !joint).length;
+		}
+		const meshStats = bindMeshes(root, skeletons);
+		root.userData.skeletons = skeletons;
+		return {
+			maxJoints,
+			missingJoints,
+			skeletonCount: skeletons.size,
+			...meshStats
+		};
+	}
+
+
+	__exports.bindSceneSkeletons = bindSceneSkeletons;
+	function bindMeshes(root, skeletons) {
+		let rigidMeshes = 0;
+		let skinnedMeshes = 0;
+		root.traverse(node => {
+			if (!node.isMesh) return;
+			const hasSkinAttributes = Boolean(
+				node.geometry?.attributes?.joints
+				&& node.geometry?.attributes?.weights
+			);
+			node.skeleton = skeletons.get(node.skinIndex) || null;
+			node.isSkinnedMesh = Boolean(node.skeleton && hasSkinAttributes);
+			if (node.isSkinnedMesh) skinnedMeshes += 1;
+			else rigidMeshes += 1;
+		});
+		return {
+			rigidMeshes,
+			skinnedMeshes
+		};
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-scene.js ----
+{
+	const __exports = __awtsmoosModule_225;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file tiny-skin-scene.js
+	 * @description Updates visible world matrices in a reusable frame-local node map.
+	 * The Awtsmoos renews every hidden bone and visible garment; Awtsmoos.com recomputes
+	 * only changed transforms and keeps the map and metric vessels stable across frames.
+	 */
+
+	const bindSceneSkeletons = __awtsmoosModule_226.bindSceneSkeletons;
+	const ROOT_WORLD_MATRIX = __awtsmoosModule_108.ROOT_WORLD_MATRIX;
+	const updateCachedWorldMatrix = __awtsmoosModule_108.updateCachedWorldMatrix;
+
+	__exports.bindSceneSkeletons = bindSceneSkeletons;
+
+	function collectWorldMatrices(root, reusableWorldByNode = null) {
+		const worldByNode = reusableWorldByNode instanceof Map
+			? reusableWorldByNode
+			: new Map();
+		worldByNode.clear();
+		const stats = reusableStats(worldByNode.stats);
+		updateVisibleBranch(
+			root,
+			ROOT_WORLD_MATRIX,
+			0,
+			worldByNode,
+			stats,
+			true
 		);
-		if (!skinned) renderer.stats.rigidMeshes += 1;
-		if (transparent) renderer.stats.transparentMeshes += 1;
-		if (mesh.userData?.AwtsmoosYardGrass?.reactsToPlayer) {
-			renderer.stats.reactiveGrassMeshes += 1;
+		worldByNode.stats = stats;
+		return worldByNode;
+	}
+
+
+	__exports.collectWorldMatrices = collectWorldMatrices;
+	function updateTinySkeletons(root) {
+		root._tinySkeletonWorldByNode = collectWorldMatrices(
+			root,
+			root._tinySkeletonWorldByNode
+		);
+		const worldByNode = root._tinySkeletonWorldByNode;
+		let jointsUploaded = 0;
+		let skinnedMeshes = 0;
+		root.traverse(node => {
+			if (!node.isSkinnedMesh || !node.skeleton || !worldByNode.has(node)) return;
+			skinnedMeshes += 1;
+			jointsUploaded += node.skeleton.update(node.matrixWorld || ROOT_WORLD_MATRIX);
+		});
+		return {
+			jointsUploaded,
+			skinnedMeshes
+		};
+	}
+
+
+	__exports.updateTinySkeletons = updateTinySkeletons;
+	function setMeshKindVisibility(
+		root,
+		{ skinned = true, rigid = true } = {}
+	) {
+		root.traverse(node => {
+			if (!node.isMesh) return;
+			node.visible = node.isSkinnedMesh ? skinned : rigid;
+		});
+	}
+
+
+	__exports.setMeshKindVisibility = setMeshKindVisibility;
+	function updateVisibleBranch(
+		node,
+		parentWorld,
+		parentRevision,
+		worldByNode,
+		stats,
+		parentVisible
+	) {
+		const visible = parentVisible && node.visible !== false;
+		if (!visible) {
+			stats.skippedSubtrees += 1;
+			return;
+		}
+		const changed = updateCachedWorldMatrix(
+			node,
+			parentWorld,
+			parentRevision
+		);
+		if (changed) stats.updatedNodes += 1;
+		else stats.reusedNodes += 1;
+		node.userData ||= {};
+		node.userData.worldMatrix = node.matrixWorld;
+		worldByNode.set(node, node.matrixWorld);
+		for (const child of node.children || []) {
+			updateVisibleBranch(
+				child,
+				node.matrixWorld,
+				node._worldRevision || 0,
+				worldByNode,
+				stats,
+				visible
+			);
 		}
 	}
+
+	function reusableStats(stats) {
+		const result = stats || {
+			reusedNodes: 0,
+			skippedSubtrees: 0,
+			updatedNodes: 0
+		};
+		result.reusedNodes = 0;
+		result.skippedSubtrees = 0;
+		result.updatedNodes = 0;
+		return result;
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-system.js ----
+{
+	const __exports = __awtsmoosModule_221;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file tiny-skin-system.js
+	 * @description Owns imported skin palettes and measured frame-local reuse. Every
+	 * matrix is a finite keli renewed by the Awtsmoos, and Awtsmoos.com reuses it only
+	 * when frame identity and mesh transform agree exactly.
+	 */
+	const identity = __awtsmoosModule_103.identity;
+	const inverse = __awtsmoosModule_103.inverse;
+	const multiply = __awtsmoosModule_103.multiply;
+	const SkinPaletteCache = __awtsmoosModule_222.SkinPaletteCache;
+	const skeletonLinePositions = __awtsmoosModule_223.skeletonLinePositions;
+	const readSkinMatrix = __awtsmoosModule_224.readSkinMatrix;
+	const bindSceneSkeletons = __awtsmoosModule_225.bindSceneSkeletons;
+	const collectWorldMatrices = __awtsmoosModule_225.collectWorldMatrices;
+	const setMeshKindVisibility = __awtsmoosModule_225.setMeshKindVisibility;
+	const updateTinySkeletons = __awtsmoosModule_225.updateTinySkeletons;
+
+	const MAX_TINY_JOINTS = 96;
+
+
+	__exports.MAX_TINY_JOINTS = MAX_TINY_JOINTS;
+	__exports.collectWorldMatrices = collectWorldMatrices;
+	__exports.setMeshKindVisibility = setMeshKindVisibility;
+	__exports.skeletonLinePositions = skeletonLinePositions;
+	__exports.updateTinySkeletons = updateTinySkeletons;
+
+	/** Stores one GLTF skin and computes its mesh-relative joint palette. */
+	class TinySkeleton {
+		constructor({
+			skinIndex = 0,
+			skinDef = {},
+			nodeMap = new Map(),
+			inverseBindAccessor = null
+		} = {}) {
+			this.skinIndex = skinIndex;
+			this.name = skinDef.name || `Skin_${skinIndex}`;
+			this.joints = (skinDef.joints || []).map((index) => nodeMap.get(index));
+			this.inverseBindMatrices = this.joints.map((_, index) => (
+				readSkinMatrix(inverseBindAccessor, index)
+			));
+			this.jointCount = this.joints.length;
+			this.jointMatrices = new Float32Array(Math.max(1, this.jointCount) * 16);
+			this.paletteCache = new SkinPaletteCache();
+			this.paletteRevision = 0;
+			this.lastPaletteRecomputed = false;
+			this.resetPalette();
+		}
+
+		resetPalette() {
+			for (let index = 0; index < Math.max(1, this.jointCount); index += 1) {
+				this.jointMatrices.set(identity(), index * 16);
+			}
+		}
+
+		update(meshWorld = identity()) {
+			this.computePalette(meshWorld);
+			this.paletteRevision += 1;
+			this.paletteCache.invalidate();
+			this.lastPaletteRecomputed = true;
+			return Math.min(this.jointCount, MAX_TINY_JOINTS);
+		}
+
+		updateCached(meshWorld = identity(), frameToken) {
+			if (!this.paletteCache.needsUpdate(frameToken, meshWorld)) {
+				this.lastPaletteRecomputed = false;
+				return Math.min(this.jointCount, MAX_TINY_JOINTS);
+			}
+			this.computePalette(meshWorld);
+			this.paletteCache.markUpdated(frameToken, meshWorld);
+			this.paletteRevision += 1;
+			this.lastPaletteRecomputed = true;
+			return Math.min(this.jointCount, MAX_TINY_JOINTS);
+		}
+
+		invalidatePaletteCache() {
+			this.paletteCache.invalidate();
+		}
+
+		computePalette(meshWorld) {
+			const inverseMesh = inverse(meshWorld);
+			const count = Math.min(this.jointCount, MAX_TINY_JOINTS);
+			for (let index = 0; index < count; index += 1) {
+				const joint = this.joints[index];
+				const jointWorld = joint?.userData?.worldMatrix
+					|| joint?.matrixWorld
+					|| identity();
+				const skinMatrix = multiply(
+					inverseMesh,
+					multiply(jointWorld, this.inverseBindMatrices[index])
+				);
+				this.jointMatrices.set(skinMatrix, index * 16);
+			}
+		}
+	}
+
+
+	__exports.TinySkeleton = TinySkeleton;
+	/** Builds and binds every GLTF skin using the canonical TinySkeleton class. */
+	function bindTinySkeletons(root, doc, accessors) {
+		return bindSceneSkeletons(
+			root,
+			doc,
+			accessors,
+			(configuration) => new TinySkeleton(configuration)
+		);
+	}
+	__exports.bindTinySkeletons = bindTinySkeletons;
 
 }
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-skeleton.js ----
 {
-	const __exports = __awtsmoosModule_248;
+	const __exports = __awtsmoosModule_220;
 	// B"H
-	const skeletonLinePositions = __awtsmoosModule_123.skeletonLinePositions;
+	const skeletonLinePositions = __awtsmoosModule_221.skeletonLinePositions;
 
 	/** Draws optional skeleton guides without contaminating normal mesh paths. */
 	function drawSkeleton(renderer, scene, projectionView) {
@@ -20107,7 +18158,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-frame.js ----
 {
-	const __exports = __awtsmoosModule_220;
+	const __exports = __awtsmoosModule_189;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -20119,11 +18170,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * view, world-map, and camera-position storage steady while every visible value renews.
 	 */
 
-	const collectMeshes = __awtsmoosModule_221.collectMeshes;
-	const recordGlStateCacheStats = __awtsmoosModule_242.recordGlStateCacheStats;
-	const drawRenderMesh = __awtsmoosModule_243.drawRenderMesh;
-	const drawSkeleton = __awtsmoosModule_248.drawSkeleton;
-	const collectWorldMatrices = __awtsmoosModule_123.collectWorldMatrices;
+	const collectMeshes = __awtsmoosModule_190.collectMeshes;
+	const recordGlStateCacheStats = __awtsmoosModule_211.recordGlStateCacheStats;
+	const drawRenderMesh = __awtsmoosModule_212.drawRenderMesh;
+	const drawSkeleton = __awtsmoosModule_220.drawSkeleton;
+	const collectWorldMatrices = __awtsmoosModule_221.collectWorldMatrices;
 
 	function renderFrame(renderer, scene, camera) {
 		const gl = renderer.gl;
@@ -20334,7 +18385,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-material-state.js ----
 {
-	const __exports = __awtsmoosModule_249;
+	const __exports = __awtsmoosModule_227;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -20346,12 +18397,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * all visible per-draw truths so grass receives fresh motion while stable walls avoid redundant GPU uploads.
 	 */
 
-	const alphaModeCode = __awtsmoosModule_216.alphaModeCode;
-	const materialModeCode = __awtsmoosModule_216.materialModeCode;
-	const shouldCullBackfaces = __awtsmoosModule_225.shouldCullBackfaces;
-	const waterModeCode = __awtsmoosModule_247.waterModeCode;
-	const isLitMode = __awtsmoosModule_221.isLitMode;
-	const pointSizeForMode = __awtsmoosModule_221.pointSizeForMode;
+	const alphaModeCode = __awtsmoosModule_185.alphaModeCode;
+	const materialModeCode = __awtsmoosModule_185.materialModeCode;
+	const shouldCullBackfaces = __awtsmoosModule_194.shouldCullBackfaces;
+	const waterModeCode = __awtsmoosModule_219.waterModeCode;
+	const isLitMode = __awtsmoosModule_190.isLitMode;
+	const pointSizeForMode = __awtsmoosModule_190.pointSizeForMode;
 
 	class RenderMaterialState {
 		constructor() {
@@ -20431,7 +18482,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-locations.js ----
 {
-	const __exports = __awtsmoosModule_251;
+	const __exports = __awtsmoosModule_229;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -20443,7 +18494,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * water currents, atmosphere, wind, and measured terrain quality inside one lawful uniform space.
 	 */
 
-	const TERRAIN_LAYER_TARGET = __awtsmoosModule_237.TERRAIN_LAYER_TARGET;
+	const TERRAIN_LAYER_TARGET = __awtsmoosModule_206.TERRAIN_LAYER_TARGET;
 
 	function rendererLocations(gl, program, layerCount = TERRAIN_LAYER_TARGET) {
 		const attribute = name => gl.getAttribLocation(program, name);
@@ -20507,7 +18558,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-fragment-water-lighting-functions.js ----
 {
-	const __exports = __awtsmoosModule_255;
+	const __exports = __awtsmoosModule_233;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -20597,7 +18648,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-fragment-lighting-functions.js ----
 {
-	const __exports = __awtsmoosModule_254;
+	const __exports = __awtsmoosModule_232;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -20609,7 +18660,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * light compact while water's deeper laws live in their own focused module instead of crowding one hundred-line vessel.
 	 */
 
-	const fragmentWaterLightingFunctions = __awtsmoosModule_255.fragmentWaterLightingFunctions;
+	const fragmentWaterLightingFunctions = __awtsmoosModule_233.fragmentWaterLightingFunctions;
 
 	const fragmentLightingFunctions = `
 	vec3 litSurface(vec3 albedo,vec3 normal){
@@ -20646,7 +18697,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-fragment-main-function.js ----
 {
-	const __exports = __awtsmoosModule_256;
+	const __exports = __awtsmoosModule_234;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -20703,7 +18754,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-fragment-sampling-functions.js ----
 {
-	const __exports = __awtsmoosModule_257;
+	const __exports = __awtsmoosModule_235;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -20782,7 +18833,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-sky-fragment-functions.js ----
 {
-	const __exports = __awtsmoosModule_258;
+	const __exports = __awtsmoosModule_236;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -20853,7 +18904,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-terrain-fragment-declarations.js ----
 {
-	const __exports = __awtsmoosModule_260;
+	const __exports = __awtsmoosModule_238;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -20865,7 +18916,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * declares only six diverse ecological garments and leaves redundant logical sources off-frame.
 	 */
 
-	const TERRAIN_LAYER_TARGET = __awtsmoosModule_237.TERRAIN_LAYER_TARGET;
+	const TERRAIN_LAYER_TARGET = __awtsmoosModule_206.TERRAIN_LAYER_TARGET;
 
 	const terrainFragmentDeclarations = terrainDeclarationsForLayerCount(
 		TERRAIN_LAYER_TARGET
@@ -20902,7 +18953,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-fragment-standard-declarations.js ----
 {
-	const __exports = __awtsmoosModule_259;
+	const __exports = __awtsmoosModule_237;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -20914,8 +18965,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * domain warp, four-flow water, and measured light without exceeding sampler boundaries.
 	 */
 
-	const terrainDeclarationsForLayerCount = __awtsmoosModule_260.terrainDeclarationsForLayerCount;
-	const terrainFragmentDeclarations = __awtsmoosModule_260.terrainFragmentDeclarations;
+	const terrainDeclarationsForLayerCount = __awtsmoosModule_238.terrainDeclarationsForLayerCount;
+	const terrainFragmentDeclarations = __awtsmoosModule_238.terrainFragmentDeclarations;
 
 	const standardFragmentDeclarations = standardDeclarations(
 		terrainFragmentDeclarations
@@ -20981,7 +19032,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-terrain-fragment-ecology-functions.js ----
 {
-	const __exports = __awtsmoosModule_262;
+	const __exports = __awtsmoosModule_240;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -21048,7 +19099,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-terrain-fragment-projection-functions.js ----
 {
-	const __exports = __awtsmoosModule_263;
+	const __exports = __awtsmoosModule_241;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -21130,7 +19181,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-terrain-fragment-functions.js ----
 {
-	const __exports = __awtsmoosModule_261;
+	const __exports = __awtsmoosModule_239;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -21142,9 +19193,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets soil recognize the road through its own zone weight while every quality tier remains free and right.
 	 */
 
-	const terrainEcologyFunctions = __awtsmoosModule_262.terrainEcologyFunctions;
-	const TERRAIN_LAYER_TARGET = __awtsmoosModule_237.TERRAIN_LAYER_TARGET;
-	const terrainProjectionFunctions = __awtsmoosModule_263.terrainProjectionFunctions;
+	const terrainEcologyFunctions = __awtsmoosModule_240.terrainEcologyFunctions;
+	const TERRAIN_LAYER_TARGET = __awtsmoosModule_206.TERRAIN_LAYER_TARGET;
+	const terrainProjectionFunctions = __awtsmoosModule_241.terrainProjectionFunctions;
 
 	const terrainFragmentFunctions = terrainFunctionsForLayerCount(
 		TERRAIN_LAYER_TARGET
@@ -21240,7 +19291,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-fragment-shader.js ----
 {
-	const __exports = __awtsmoosModule_253;
+	const __exports = __awtsmoosModule_231;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -21252,13 +19303,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com composes bounded samplers with a procedural sky that needs no image.
 	 */
 
-	const fragmentLightingFunctions = __awtsmoosModule_254.fragmentLightingFunctions;
-	const fragmentMainFunction = __awtsmoosModule_256.fragmentMainFunction;
-	const fragmentSamplingFunctions = __awtsmoosModule_257.fragmentSamplingFunctions;
-	const skyFragmentFunctions = __awtsmoosModule_258.skyFragmentFunctions;
-	const standardDeclarationsForLayerCount = __awtsmoosModule_259.standardDeclarationsForLayerCount;
-	const terrainFunctionsForLayerCount = __awtsmoosModule_261.terrainFunctionsForLayerCount;
-	const TERRAIN_LAYER_TARGET = __awtsmoosModule_237.TERRAIN_LAYER_TARGET;
+	const fragmentLightingFunctions = __awtsmoosModule_232.fragmentLightingFunctions;
+	const fragmentMainFunction = __awtsmoosModule_234.fragmentMainFunction;
+	const fragmentSamplingFunctions = __awtsmoosModule_235.fragmentSamplingFunctions;
+	const skyFragmentFunctions = __awtsmoosModule_236.skyFragmentFunctions;
+	const standardDeclarationsForLayerCount = __awtsmoosModule_237.standardDeclarationsForLayerCount;
+	const terrainFunctionsForLayerCount = __awtsmoosModule_239.terrainFunctionsForLayerCount;
+	const TERRAIN_LAYER_TARGET = __awtsmoosModule_206.TERRAIN_LAYER_TARGET;
 
 	const fragmentShader = fragmentShaderForLayerCount(TERRAIN_LAYER_TARGET);
 
@@ -21281,7 +19332,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-rigid-shader.js ----
 {
-	const __exports = __awtsmoosModule_264;
+	const __exports = __awtsmoosModule_242;
 	// B"H
 	const rigidVertexShader = `
 	attribute vec3 aPosition;
@@ -21334,7 +19385,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-skin-shaders.js ----
 {
-	const __exports = __awtsmoosModule_265;
+	const __exports = __awtsmoosModule_243;
 	// B"H
 	const skinTextureVertexShader = `
 	precision highp float;
@@ -21421,7 +19472,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-vegetation-vertex-deformation.js ----
 {
-	const __exports = __awtsmoosModule_267;
+	const __exports = __awtsmoosModule_245;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -21496,7 +19547,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-unified-shaders.js ----
 {
-	const __exports = __awtsmoosModule_266;
+	const __exports = __awtsmoosModule_244;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -21508,8 +19559,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Chassidim, cottages, living grass, and many-layer earth inside one linked shader vessel without duplicate programs.
 	 */
 
-	const vegetationVertexDeclarations = __awtsmoosModule_267.vegetationVertexDeclarations;
-	const vegetationVertexFunctions = __awtsmoosModule_267.vegetationVertexFunctions;
+	const vegetationVertexDeclarations = __awtsmoosModule_245.vegetationVertexDeclarations;
+	const vegetationVertexFunctions = __awtsmoosModule_245.vegetationVertexFunctions;
 
 	const declarations = `
 	attribute vec3 aPosition;
@@ -21594,7 +19645,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-shaders.js ----
 {
-	const __exports = __awtsmoosModule_252;
+	const __exports = __awtsmoosModule_230;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -21606,19 +19657,19 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * preserves historic exports while allowing the renderer to compile its lawful layer count.
 	 */
 
-	__exports.fragmentShader = __awtsmoosModule_253.fragmentShader;
-	__exports.fragmentShaderForLayerCount = __awtsmoosModule_253.fragmentShaderForLayerCount;
-	__exports.rigidVertexShader = __awtsmoosModule_264.rigidVertexShader;
-	__exports.skinTextureVertexShader = __awtsmoosModule_265.skinTextureVertexShader;
-	__exports.uniformSkinVertexShader = __awtsmoosModule_265.uniformSkinVertexShader;
-	__exports.unifiedTextureVertexShader = __awtsmoosModule_266.unifiedTextureVertexShader;
-	__exports.unifiedUniformVertexShader = __awtsmoosModule_266.unifiedUniformVertexShader;
+	__exports.fragmentShader = __awtsmoosModule_231.fragmentShader;
+	__exports.fragmentShaderForLayerCount = __awtsmoosModule_231.fragmentShaderForLayerCount;
+	__exports.rigidVertexShader = __awtsmoosModule_242.rigidVertexShader;
+	__exports.skinTextureVertexShader = __awtsmoosModule_243.skinTextureVertexShader;
+	__exports.uniformSkinVertexShader = __awtsmoosModule_243.uniformSkinVertexShader;
+	__exports.unifiedTextureVertexShader = __awtsmoosModule_244.unifiedTextureVertexShader;
+	__exports.unifiedUniformVertexShader = __awtsmoosModule_244.unifiedUniformVertexShader;
 
 }
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-programs.js ----
 {
-	const __exports = __awtsmoosModule_250;
+	const __exports = __awtsmoosModule_228;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -21630,12 +19681,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * measures sampler capacity before shader creation so richer earth never causes link failure.
 	 */
 
-	const rendererLocations = __awtsmoosModule_251.rendererLocations;
-	const fragmentShaderForLayerCount = __awtsmoosModule_252.fragmentShaderForLayerCount;
-	const unifiedTextureVertexShader = __awtsmoosModule_252.unifiedTextureVertexShader;
-	const unifiedUniformVertexShader = __awtsmoosModule_252.unifiedUniformVertexShader;
-	const terrainLayerCapacity = __awtsmoosModule_237.terrainLayerCapacity;
-	const createProgram = __awtsmoosModule_216.createProgram;
+	const rendererLocations = __awtsmoosModule_229.rendererLocations;
+	const fragmentShaderForLayerCount = __awtsmoosModule_230.fragmentShaderForLayerCount;
+	const unifiedTextureVertexShader = __awtsmoosModule_230.unifiedTextureVertexShader;
+	const unifiedUniformVertexShader = __awtsmoosModule_230.unifiedUniformVertexShader;
+	const terrainLayerCapacity = __awtsmoosModule_206.terrainLayerCapacity;
+	const createProgram = __awtsmoosModule_185.createProgram;
 
 	function initializeRendererPrograms(renderer) {
 		const gl = renderer.gl;
@@ -21681,7 +19732,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gpu-texture-diagnostics.js ----
 {
-	const __exports = __awtsmoosModule_270;
+	const __exports = __awtsmoosModule_248;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -21737,7 +19788,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-gpu-texture-cache.js ----
 {
-	const __exports = __awtsmoosModule_269;
+	const __exports = __awtsmoosModule_247;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -21749,14 +19800,14 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * only when that unit truly needs a different texture, avoiding empty WebGL state oscillation.
 	 */
 
-	const createGpuTextureStats = __awtsmoosModule_270.createGpuTextureStats;
-	const gpuTextureDiagnostics = __awtsmoosModule_270.gpuTextureDiagnostics;
-	const recordGpuTextureUpload = __awtsmoosModule_270.recordGpuTextureUpload;
-	const createDefaultTexture = __awtsmoosModule_236.createDefaultTexture;
-	const isPowerOfTwo = __awtsmoosModule_236.isPowerOfTwo;
-	const setTextureParameters = __awtsmoosModule_236.setTextureParameters;
-	const sourceHeight = __awtsmoosModule_236.sourceHeight;
-	const sourceWidth = __awtsmoosModule_236.sourceWidth;
+	const createGpuTextureStats = __awtsmoosModule_248.createGpuTextureStats;
+	const gpuTextureDiagnostics = __awtsmoosModule_248.gpuTextureDiagnostics;
+	const recordGpuTextureUpload = __awtsmoosModule_248.recordGpuTextureUpload;
+	const createDefaultTexture = __awtsmoosModule_205.createDefaultTexture;
+	const isPowerOfTwo = __awtsmoosModule_205.isPowerOfTwo;
+	const setTextureParameters = __awtsmoosModule_205.setTextureParameters;
+	const sourceHeight = __awtsmoosModule_205.sourceHeight;
+	const sourceWidth = __awtsmoosModule_205.sourceWidth;
 
 	class GpuTextureCache {
 		constructor(gl) {
@@ -21858,7 +19909,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-layered-texture-binder.js ----
 {
-	const __exports = __awtsmoosModule_271;
+	const __exports = __awtsmoosModule_249;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -21870,8 +19921,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com reports real sampler capacity while untouched source images keep exact scale.
 	 */
 
-	const terrainLayerCapacity = __awtsmoosModule_237.terrainLayerCapacity;
-	const terrainLayerUnits = __awtsmoosModule_237.terrainLayerUnits;
+	const terrainLayerCapacity = __awtsmoosModule_206.terrainLayerCapacity;
+	const terrainLayerUnits = __awtsmoosModule_206.terrainLayerUnits;
 
 	class LayeredTextureBinder {
 		constructor(textureCache) {
@@ -21926,10 +19977,10 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-texture-stats.js ----
 {
-	const __exports = __awtsmoosModule_272;
+	const __exports = __awtsmoosModule_250;
 	// B"H
-	const sourceHeight = __awtsmoosModule_236.sourceHeight;
-	const sourceWidth = __awtsmoosModule_236.sourceWidth;
+	const sourceHeight = __awtsmoosModule_205.sourceHeight;
+	const sourceWidth = __awtsmoosModule_205.sourceWidth;
 
 	function addMapStats(material, stats) {
 		stats.texturedMeshes = (stats.texturedMeshes || 0) + 1;
@@ -21968,7 +20019,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-render-textures.js ----
 {
-	const __exports = __awtsmoosModule_268;
+	const __exports = __awtsmoosModule_246;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -21980,12 +20031,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * wetness, chroma, and six source images to the GPU without repeated uploads or hidden silence.
 	 */
 
-	const GpuTextureCache = __awtsmoosModule_269.GpuTextureCache;
-	const LayeredTextureBinder = __awtsmoosModule_271.LayeredTextureBinder;
-	const addMapStats = __awtsmoosModule_272.addMapStats;
-	const addMixStats = __awtsmoosModule_272.addMixStats;
-	const sameTextureState = __awtsmoosModule_233.sameTextureState;
-	const textureState = __awtsmoosModule_233.textureState;
+	const GpuTextureCache = __awtsmoosModule_247.GpuTextureCache;
+	const LayeredTextureBinder = __awtsmoosModule_249.LayeredTextureBinder;
+	const addMapStats = __awtsmoosModule_250.addMapStats;
+	const addMixStats = __awtsmoosModule_250.addMixStats;
+	const sameTextureState = __awtsmoosModule_202.sameTextureState;
+	const textureState = __awtsmoosModule_202.textureState;
 
 	class MaterialTextureBinder {
 		constructor(gl) {
@@ -22066,7 +20117,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-webgl-renderer.js ----
 {
-	const __exports = __awtsmoosModule_209;
+	const __exports = __awtsmoosModule_178;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -22078,15 +20129,15 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * context immediately, but compiles renderer programs only on the first actual render frame.
 	 */
 
-	const identity = __awtsmoosModule_109.identity;
-	const installGlStateCache = __awtsmoosModule_210.installGlStateCache;
-	const RenderBufferCache = __awtsmoosModule_212.RenderBufferCache;
-	const renderFrame = __awtsmoosModule_220.renderFrame;
-	const createInitialRendererStats = __awtsmoosModule_242.createInitialRendererStats;
-	const RenderMaterialState = __awtsmoosModule_249.RenderMaterialState;
-	const defaultRenderOptions = __awtsmoosModule_224.defaultRenderOptions;
-	const initializeRendererPrograms = __awtsmoosModule_250.initializeRendererPrograms;
-	const MaterialTextureBinder = __awtsmoosModule_268.MaterialTextureBinder;
+	const identity = __awtsmoosModule_103.identity;
+	const installGlStateCache = __awtsmoosModule_179.installGlStateCache;
+	const RenderBufferCache = __awtsmoosModule_181.RenderBufferCache;
+	const renderFrame = __awtsmoosModule_189.renderFrame;
+	const createInitialRendererStats = __awtsmoosModule_211.createInitialRendererStats;
+	const RenderMaterialState = __awtsmoosModule_227.RenderMaterialState;
+	const defaultRenderOptions = __awtsmoosModule_193.defaultRenderOptions;
+	const initializeRendererPrograms = __awtsmoosModule_228.initializeRendererPrograms;
+	const MaterialTextureBinder = __awtsmoosModule_246.MaterialTextureBinder;
 
 	class TinyWebGLRenderer {
 		constructor({ alpha = true, antialias = true, cacheGlState = false, canvas } = {}) {
@@ -22196,7 +20247,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-static-batch-key.js ----
 {
-	const __exports = __awtsmoosModule_274;
+	const __exports = __awtsmoosModule_252;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -22208,10 +20259,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * a static village batch whenever real texture, tint, repeat, or shader-visible state arrives.
 	 */
 
-	const materialSignature = __awtsmoosModule_230.materialSignature;
-	const objectIdentity = __awtsmoosModule_230.objectIdentity;
-	const staticBatchMaterialSignature = __awtsmoosModule_230.staticBatchMaterialSignature;
-	const worldBoundingSphere = __awtsmoosModule_222.worldBoundingSphere;
+	const materialSignature = __awtsmoosModule_199.materialSignature;
+	const objectIdentity = __awtsmoosModule_199.objectIdentity;
+	const staticBatchMaterialSignature = __awtsmoosModule_199.staticBatchMaterialSignature;
+	const worldBoundingSphere = __awtsmoosModule_191.worldBoundingSphere;
 
 	const STATIC_CELL_SIZE = 384;
 	const DISTANCE_BUCKET_SIZE = 64;
@@ -22260,7 +20311,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-static-batch-sequence.js ----
 {
-	const __exports = __awtsmoosModule_275;
+	const __exports = __awtsmoosModule_253;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -22272,7 +20323,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * geometry, distance, and cached material truth before reusing the exact previous batch result.
 	 */
 
-	const materialSignature = __awtsmoosModule_230.materialSignature;
+	const materialSignature = __awtsmoosModule_199.materialSignature;
 
 	class StaticBatchSequence {
 		constructor() {
@@ -22339,7 +20390,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-static-batch-stats.js ----
 {
-	const __exports = __awtsmoosModule_276;
+	const __exports = __awtsmoosModule_254;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -22409,7 +20460,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-static-batch-material.js ----
 {
-	const __exports = __awtsmoosModule_278;
+	const __exports = __awtsmoosModule_256;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -22421,7 +20472,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com changes only the color vessel from per-draw uniform to per-vertex multiplication.
 	 */
 
-	const MeshStandardMaterial = __awtsmoosModule_117.MeshStandardMaterial;
+	const MeshStandardMaterial = __awtsmoosModule_111.MeshStandardMaterial;
 
 	function createStaticBatchMaterial(source = {}) {
 		const material = new MeshStandardMaterial({
@@ -22452,7 +20503,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-static-geometry-source.js ----
 {
-	const __exports = __awtsmoosModule_279;
+	const __exports = __awtsmoosModule_257;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -22555,7 +20606,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-static-geometry-merge.js ----
 {
-	const __exports = __awtsmoosModule_277;
+	const __exports = __awtsmoosModule_255;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -22567,12 +20618,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * preserves `uColor * vColor * texel` while reducing only draw and material-state submission.
 	 */
 
-	const BufferAttribute = __awtsmoosModule_117.BufferAttribute;
-	const BufferGeometry = __awtsmoosModule_117.BufferGeometry;
-	const identity = __awtsmoosModule_109.identity;
-	const Mesh = __awtsmoosModule_116.Mesh;
-	const createStaticBatchMaterial = __awtsmoosModule_278.createStaticBatchMaterial;
-	const appendWorldGeometry = __awtsmoosModule_279.appendWorldGeometry;
+	const BufferAttribute = __awtsmoosModule_111.BufferAttribute;
+	const BufferGeometry = __awtsmoosModule_111.BufferGeometry;
+	const identity = __awtsmoosModule_103.identity;
+	const Mesh = __awtsmoosModule_110.Mesh;
+	const createStaticBatchMaterial = __awtsmoosModule_256.createStaticBatchMaterial;
+	const appendWorldGeometry = __awtsmoosModule_257.appendWorldGeometry;
 
 	function mergeStaticMeshes(meshes, metadata) {
 		if (!meshes?.length) return null;
@@ -22623,7 +20674,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/light-three-gltf/tiny-static-opaque-batcher.js ----
 {
-	const __exports = __awtsmoosModule_273;
+	const __exports = __awtsmoosModule_251;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -22635,13 +20686,13 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * compact observed identity before grouping, bounds, membership, or geometry merging repeats.
 	 */
 
-	const staticBatchGroupKey = __awtsmoosModule_274.staticBatchGroupKey;
-	const staticBatchMembershipToken = __awtsmoosModule_274.staticBatchMembershipToken;
-	const StaticBatchSequence = __awtsmoosModule_275.StaticBatchSequence;
-	const createStaticBatchStats = __awtsmoosModule_276.createStaticBatchStats;
-	const recordStaticBatchGroup = __awtsmoosModule_276.recordStaticBatchGroup;
-	const recordStaticBatchSuccess = __awtsmoosModule_276.recordStaticBatchSuccess;
-	const mergeStaticMeshes = __awtsmoosModule_277.mergeStaticMeshes;
+	const staticBatchGroupKey = __awtsmoosModule_252.staticBatchGroupKey;
+	const staticBatchMembershipToken = __awtsmoosModule_252.staticBatchMembershipToken;
+	const StaticBatchSequence = __awtsmoosModule_253.StaticBatchSequence;
+	const createStaticBatchStats = __awtsmoosModule_254.createStaticBatchStats;
+	const recordStaticBatchGroup = __awtsmoosModule_254.recordStaticBatchGroup;
+	const recordStaticBatchSuccess = __awtsmoosModule_254.recordStaticBatchSuccess;
+	const mergeStaticMeshes = __awtsmoosModule_255.mergeStaticMeshes;
 
 	class StaticOpaqueBatcher {
 		constructor() {
@@ -22727,26 +20778,28 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/ProgressiveWebGLRendererHydration.js ----
 {
-	const __exports = __awtsmoosModule_208;
+	const __exports = __awtsmoosModule_177;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
 	 * @file ProgressiveWebGLRendererHydration.js
-	 * @description Transfers a live bootstrap context into the existing rich WebGL renderer.
-	 * The Awtsmoos clothes the already-living framebuffer after movement is revealed;
-	 * Awtsmoos.com copies every finite setting while shader and batching families enter lazily.
+	 * @description Prepares rich WebGL completely before handing the live frame loop from bootstrap color to authored rendering.
+	 * The Awtsmoos lets one garment be woven before the former garment is removed; Awtsmoos.com therefore compiles shaders,
+	 * installs witnessed GL-state memory, yields one browser frame, and only then reveals the textured and skinned delegate.
 	 */
 
+	/** Hydrates rich WebGL without making its first visible frame carry initialization work. */
 	async function hydrateProgressiveWebGLRenderer(renderer, options = {}) {
 		try {
 			const [rendererModule, batcherModule] = await Promise.all([
-				Promise.resolve(__awtsmoosModule_209),
-				Promise.resolve(__awtsmoosModule_273)
+				Promise.resolve(__awtsmoosModule_178),
+				Promise.resolve(__awtsmoosModule_251)
 			]);
 			const delegate = new rendererModule.TinyWebGLRenderer({
 				antialias: options.antialias !== false,
+				cacheGlState: true,
 				canvas: renderer.canvas
 			});
 			delegate.backend = 'webgl';
@@ -22757,6 +20810,9 @@ const __awtsmoosModule_0 = Object.create(null);
 			delegate.setEnvironment(renderer.environment);
 			delegate.setSize(renderer.canvas.width, renderer.canvas.height);
 			delegate.setInteractor(renderer.interactor, renderer.timeSeconds);
+			renderer.hydrationState = 'preparing';
+			delegate.ensureInitialized();
+			await nextBrowserFrame(options.environment || globalThis);
 			renderer.delegate = delegate;
 			renderer.hydrationState = 'ready';
 			renderer.hydrationError = null;
@@ -22769,47 +20825,60 @@ const __awtsmoosModule_0 = Object.create(null);
 		}
 	}
 
+
 	__exports.hydrateProgressiveWebGLRenderer = hydrateProgressiveWebGLRenderer;
+	/** Yields one frame so shader preparation and the first authored draw never share one main-thread turn. */
+	function nextBrowserFrame(environment) {
+		return new Promise(resolve => {
+			if (typeof environment?.requestAnimationFrame === 'function') {
+				environment.requestAnimationFrame(() => resolve());
+				return;
+			}
+			if (typeof environment?.setTimeout === 'function') {
+				environment.setTimeout(resolve, 0);
+				return;
+			}
+			resolve();
+		});
+	}
 
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/ProgressiveWebGLRenderer.js ----
 {
-	const __exports = __awtsmoosModule_199;
+	const __exports = __awtsmoosModule_168;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
 	/**
 	 * @file ProgressiveWebGLRenderer.js
-	 * @description Draws immediate WebGL bootstrap color and later hydrates the rich WebGL renderer, never crossing into Canvas gameplay.
+	 * @description Draws immediate WebGL bootstrap color and later hydrates the prepared rich WebGL renderer, never crossing into Canvas gameplay.
 	 * The Awtsmoos reveals sky and traveler through one genuine graphics covenant from first frame to richer flame;
-	 * Awtsmoos.com refuses a counterfeit context while shaders, textures, and batching later deepen the same name.
+	 * Awtsmoos.com keeps the bootstrap frame alive until the authored renderer is initialized and ready to receive the same world.
 	 */
-	const BootstrapColorRenderer = __awtsmoosModule_200.BootstrapColorRenderer;
-	const createProgressiveEnvironment = __awtsmoosModule_205.createProgressiveEnvironment;
-	const createProgressiveStats = __awtsmoosModule_205.createProgressiveStats;
-	const setProgressiveRendererEnvironment = __awtsmoosModule_206.setProgressiveRendererEnvironment;
-	const setProgressiveRendererInteractor = __awtsmoosModule_206.setProgressiveRendererInteractor;
-	const setProgressiveRendererSize = __awtsmoosModule_206.setProgressiveRendererSize;
-	const createWebGlRequiredError = __awtsmoosModule_207.createWebGlRequiredError;
+	const BootstrapColorRenderer = __awtsmoosModule_169.BootstrapColorRenderer;
+	const createProgressiveEnvironment = __awtsmoosModule_174.createProgressiveEnvironment;
+	const createProgressiveStats = __awtsmoosModule_174.createProgressiveStats;
+	const setProgressiveRendererEnvironment = __awtsmoosModule_175.setProgressiveRendererEnvironment;
+	const setProgressiveRendererInteractor = __awtsmoosModule_175.setProgressiveRendererInteractor;
+	const setProgressiveRendererSize = __awtsmoosModule_175.setProgressiveRendererSize;
+	const createWebGlRequiredError = __awtsmoosModule_176.createWebGlRequiredError;
+
 	class ProgressiveWebGLRenderer {
 		constructor({ alpha = true, antialias = false, canvas } = {}) {
 			if (!canvas) {
 				throw new Error('ProgressiveWebGLRenderer requires a canvas.');
 			}
-
 			this.canvas = canvas;
 			this.gl = canvas.getContext('webgl', {
 				alpha,
 				antialias,
 				premultipliedAlpha: true
 			});
-
 			if (!this.gl) {
 				throw createWebGlRequiredError(['webgl']);
 			}
-
 			this.backend = 'webgl';
 			this.contextName = 'webgl';
 			this.clearColor = [0.36, 0.56, 0.72, 1];
@@ -22866,7 +20935,6 @@ const __awtsmoosModule_0 = Object.create(null);
 			if (this.delegate) {
 				return this.delegate.render(scene, camera);
 			}
-
 			return this.bootstrapRenderer.render(scene, camera, this.clearColor);
 		}
 
@@ -22874,9 +20942,8 @@ const __awtsmoosModule_0 = Object.create(null);
 			if (this.hydrationPromise) {
 				return this.hydrationPromise;
 			}
-
 			this.hydrationState = 'loading';
-			this.hydrationPromise = Promise.resolve(__awtsmoosModule_208).then(module => {
+			this.hydrationPromise = Promise.resolve(__awtsmoosModule_177).then(module => {
 				return module.hydrateProgressiveWebGLRenderer(this, options);
 			});
 			return this.hydrationPromise;
@@ -22895,7 +20962,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowRenderer.js ----
 {
-	const __exports = __awtsmoosModule_198;
+	const __exports = __awtsmoosModule_167;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -22907,7 +20974,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com lets missing WebGL fail before gameplay rather than naming a flat imitation right.
 	 */
 
-	const ProgressiveWebGLRenderer = __awtsmoosModule_199.ProgressiveWebGLRenderer;
+	const ProgressiveWebGLRenderer = __awtsmoosModule_168.ProgressiveWebGLRenderer;
 
 	/**
 	 * Creates the required WebGL renderer and deliberately lets capability errors propagate.
@@ -22925,72 +20992,68 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzFoundationRenderer.js ----
 {
-	const __exports = __awtsmoosModule_196;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
+	const __exports = __awtsmoosModule_165;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
 
 	/**
 	 * @file EretzFoundationRenderer.js
-	 * @description Builds required WebGL with a deliberate authored sky clear distinct from the distance-fog color.
-	 * The Awtsmoos stretches cool heaven above warm earth while one sun joins both in living light;
-	 * Awtsmoos.com keeps sky present from the first framebuffer through rich-renderer handoff, so no gray void crowns the sight.
+	 * @description Builds required WebGL with a deep authored sky, warm haze, and real shader-ready golden-hour environment.
+	 * The Awtsmoos renews cool heaven, amber distance, black garment, and living grass in one ray;
+	 * Awtsmoos.com carries that truthful atmosphere from first control into the hydrated renderer without a painted display.
 	 */
 
-	const REFERENCE_GOLDEN_HOUR = __awtsmoosModule_197.REFERENCE_GOLDEN_HOUR;
-	const createMinimalMeadowRenderer = __awtsmoosModule_198.createMinimalMeadowRenderer;
+	const REFERENCE_GOLDEN_HOUR = __awtsmoosModule_166.REFERENCE_GOLDEN_HOUR;
+	const createMinimalMeadowRenderer = __awtsmoosModule_167.createMinimalMeadowRenderer;
 
 	const GOLDEN_HOUR_ENVIRONMENT = referenceEnvironment(REFERENCE_GOLDEN_HOUR);
 
 	function createEretzFoundationRenderer(canvas, qualityProfile) {
 		const renderer = createMinimalMeadowRenderer(canvas);
+		const renderDistance = qualityProfile.renderDistance;
 		renderer.options ||= {};
 		renderer.options.culling = true;
-		renderer.options.defaultRenderDistance = qualityProfile.renderDistance;
+		renderer.options.defaultRenderDistance = renderDistance;
 		renderer.setClearColor(...GOLDEN_HOUR_ENVIRONMENT.skyColor, 1);
 		renderer.setEnvironment({
 			...GOLDEN_HOUR_ENVIRONMENT,
-			fogFar: qualityProfile.renderDistance * 1.08,
-			fogNear: qualityProfile.renderDistance * 0.38
+			fogFar: renderDistance,
+			fogNear: renderDistance * 0.30
 		});
 		return renderer;
 	}
 
 
 	__exports.createEretzFoundationRenderer = createEretzFoundationRenderer;
-	/** Freezes one blue-golden sky and distance-fog environment from the shared authored lighting preset. */
+	/**
+	 * Freezes the authored cinematic palette consumed by both bootstrap and hydrated rendering.
+	 * @param {object} reference Shared golden-hour source of truth.
+	 * @returns {Readonly<object>} Renderer environment with immutable color vectors.
+	 */
 	function referenceEnvironment(reference) {
-		const cool = reference.coolShadow;
-		const horizon = reference.horizonColor;
-		const sun = reference.sunCore;
+		const cinematic = reference.cinematic;
+		const exposure = (
+			cinematic.exposureMobile + cinematic.exposureDesktop
+		) * 0.5;
 		return Object.freeze({
-			ambient: Object.freeze([
-				cool[0] * 0.78 + 0.145,
-				cool[1] * 0.76 + 0.11,
-				cool[2] * 0.72 + 0.09
-			]),
-			exposure: 1.30,
-			fogColor: Object.freeze([
-				cool[0] * 0.66 + horizon[0] * 0.34,
-				cool[1] * 0.68 + horizon[1] * 0.32,
-				cool[2] * 0.74 + horizon[2] * 0.26
-			]),
-			skyColor: Object.freeze([
-				cool[0] * 0.58 + 0.18,
-				cool[1] * 0.62 + 0.24,
-				cool[2] * 0.70 + 0.27
-			]),
-			sunColor: Object.freeze([
-				sun[0] * 1.22,
-				sun[1] * 1.06,
-				sun[2] * 0.86
-			]),
+			ambient: frozenColor(cinematic.ambient),
+			exposure,
+			fogColor: frozenColor(cinematic.fogColor),
+			skyColor: frozenColor(cinematic.skyColor),
+			sunColor: frozenColor(cinematic.sunColor),
 			sunDirection: Object.freeze(normalized(reference.sunPosition))
 		});
 	}
 
 
 	__exports.referenceEnvironment = referenceEnvironment;
+	/** Copies one authored RGB vector so renderer state cannot mutate the shared preset. */
+	function frozenColor(color) {
+		return Object.freeze([color[0], color[1], color[2]]);
+	}
+
+	/** Returns a unit direction while preserving a safe zero-vector fallback. */
 	function normalized(vector) {
 		const length = Math.hypot(vector[0], vector[1], vector[2]) || 1;
 		return [vector[0] / length, vector[1] / length, vector[2] / length];
@@ -23001,7 +21064,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzGameplayInputBridge.js ----
 {
-	const __exports = __awtsmoosModule_280;
+	const __exports = __awtsmoosModule_258;
 	//B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -23063,7 +21126,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzFoundationServices.js ----
 {
-	const __exports = __awtsmoosModule_143;
+	const __exports = __awtsmoosModule_100;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -23075,18 +21138,18 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * whether it stands in a narrow mobile window, so the traveler fills the frame before any richer camera garment arrives.
 	 */
 
-	const PerspectiveCamera = __awtsmoosModule_107.PerspectiveCamera;
-	const Scene = __awtsmoosModule_107.Scene;
-	const CameraOrbitController = __awtsmoosModule_144.CameraOrbitController;
-	const minimalMeadowViewportCameraPolicy = __awtsmoosModule_161.minimalMeadowViewportCameraPolicy;
-	const JumpButton = __awtsmoosModule_162.JumpButton;
-	const MobileJoystick = __awtsmoosModule_167.MobileJoystick;
-	const UiEventSystem = __awtsmoosModule_173.UiEventSystem;
-	const SceneLodRuntime = __awtsmoosModule_177.SceneLodRuntime;
-	const AwtsmoosEventBus = __awtsmoosModule_194.AwtsmoosEventBus;
-	const VILLAGE_ARRIVAL_CAMERA = __awtsmoosModule_195.VILLAGE_ARRIVAL_CAMERA;
-	const createEretzFoundationRenderer = __awtsmoosModule_196.createEretzFoundationRenderer;
-	const installEretzGameplayInputBridge = __awtsmoosModule_280.installEretzGameplayInputBridge;
+	const PerspectiveCamera = __awtsmoosModule_101.PerspectiveCamera;
+	const Scene = __awtsmoosModule_101.Scene;
+	const CameraOrbitController = __awtsmoosModule_113.CameraOrbitController;
+	const minimalMeadowViewportCameraPolicy = __awtsmoosModule_130.minimalMeadowViewportCameraPolicy;
+	const JumpButton = __awtsmoosModule_131.JumpButton;
+	const MobileJoystick = __awtsmoosModule_136.MobileJoystick;
+	const UiEventSystem = __awtsmoosModule_142.UiEventSystem;
+	const SceneLodRuntime = __awtsmoosModule_146.SceneLodRuntime;
+	const AwtsmoosEventBus = __awtsmoosModule_163.AwtsmoosEventBus;
+	const VILLAGE_ARRIVAL_CAMERA = __awtsmoosModule_164.VILLAGE_ARRIVAL_CAMERA;
+	const createEretzFoundationRenderer = __awtsmoosModule_165.createEretzFoundationRenderer;
+	const installEretzGameplayInputBridge = __awtsmoosModule_258.installEretzGameplayInputBridge;
 
 	/** Creates camera, input, controls, renderer, scene, and LOD services required before first movement. */
 	function createEretzFoundationServices(
@@ -23142,174 +21205,114 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.default = createEretzFoundationServices;
 }
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzViewport.js ----
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialVisualGate.js ----
 {
-	const __exports = __awtsmoosModule_282;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
+	const __exports = __awtsmoosModule_260;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
 
 	/**
-	 * @file EretzViewport.js
-	 * @description Keeps the framebuffer sharp while allowing only density-safe adaptation.
-	 * The Awtsmoos recreates every mountain edge and letter each instant; Awtsmoos.com refuses to
-	 * stretch a smaller blurry picture across the screen and never falls below one rendered pixel
-	 * for each CSS pixel, while dense displays remain capped so motion still has a finite vessel.
+	 * @file EretzEssentialVisualGate.js
+	 * @description Keeps genuine WebGL essential while letting only Blank Meadow defer rich renderer hydration and remote terrain textures until after first control.
+	 * The Awtsmoos gives the meadow a true luminous vessel before every later garment descends; Awtsmoos.com lets the traveler move through real WebGL now,
+	 * while richer shader families and authored texture detail arrive through the already-existing post-play covenant without falsifying readiness.
 	 */
 
-	const MAX_RENDER_DPR = __awtsmoosModule_137.MAX_RENDER_DPR;
+	const RELIABILITY_WORLD_ID = 'blank-meadow';
 
-	const DEFAULT_RENDER_SCALE = 1;
-	const MAXIMUM_RENDER_SCALE = 1;
-	const MINIMUM_EFFECTIVE_DPR = 1;
-
-	function installViewport(runtime, environment = globalThis) {
-		if (!Number.isFinite(runtime.adaptiveRenderScale)) {
-			runtime.adaptiveRenderScale = DEFAULT_RENDER_SCALE;
+	/** Hydrates only the visual work that the selected world must complete before first control. */
+	async function prepareEretzEssentialVisuals(options = {}) {
+		const { boot, renderer, signal, terrain, worldExperience } = options;
+		throwIfAborted(signal);
+		boot?.begin?.('essential-visuals');
+		if (isReliabilityBaseline(worldExperience)) {
+			return prepareReliabilityVisuals(renderer, boot, signal);
 		}
-		const resize = () => {
-			const width = Math.max(1, Number(environment.innerWidth) || 1);
-			const height = Math.max(1, Number(environment.innerHeight) || 1);
-			const maximumDpr = runtime.qualityProfile?.maxDpr ?? MAX_RENDER_DPR;
-			const density = resolveViewportDensity(
-				environment.devicePixelRatio,
-				maximumDpr,
-				runtime.adaptiveRenderScale
-			);
-			runtime.minimumRenderScale = density.minimumScale;
-			runtime.adaptiveRenderScale = density.scale;
-			runtime.camera.aspect = width / height;
-			runtime.renderer.setSize(
-				Math.max(1, Math.round(width * density.effectiveDpr)),
-				Math.max(1, Math.round(height * density.effectiveDpr))
-			);
-			publishViewportStats(runtime, density);
-		};
-		runtime.resizeViewport = resize;
-		environment.addEventListener?.('resize', resize, { passive: true });
-		resize();
-		return resize;
+		boot?.progress?.('essential-visuals', 0, 2, 'Preparing authored sky and WebGL detail…', 'loading');
+		const delegate = await hydrateRichRenderer(renderer);
+		throwIfAborted(signal);
+		boot?.progress?.('essential-visuals', 1, 2, 'Binding authored meadow textures…', 'loading');
+		const terrainReceipt = await hydrateTerrain(terrain);
+		throwIfAborted(signal);
+		boot?.progress?.('essential-visuals', 2, 2, 'Authored world ready.', 'ready');
+		return visualReceipt(delegate, renderer, terrainReceipt.loaded, terrainReceipt.phase, 'rich-ready');
 	}
 
 
-	__exports.installViewport = installViewport;
-	/**
-	 * Resolves a density contract whose adaptive floor can reduce expensive Retina work but can
-	 * never undersample ordinary CSS pixels.
-	 */
-	function resolveViewportDensity(deviceDpr, profileMaximumDpr, requestedScale) {
-		const availableDpr = Math.max(1, Number(deviceDpr) || 1);
-		const maximumDpr = Math.max(1, Number(profileMaximumDpr) || 1);
-		const cappedDpr = Math.min(availableDpr, maximumDpr);
-		const minimumScale = Math.min(
-			MAXIMUM_RENDER_SCALE,
-			MINIMUM_EFFECTIVE_DPR / cappedDpr
+	__exports.prepareEretzEssentialVisuals = prepareEretzEssentialVisuals;
+	function prepareReliabilityVisuals(renderer, boot, signal) {
+		const bootstrapRenderer = requireBootstrapWebGl(renderer);
+		throwIfAborted(signal);
+		boot?.progress?.(
+			'essential-visuals',
+			2,
+			2,
+			'Bootstrap WebGL ready; rich renderer and authored terrain textures deferred.',
+			'ready'
 		);
-		const scale = clamp(
-			Number(requestedScale) || DEFAULT_RENDER_SCALE,
-			minimumScale,
-			MAXIMUM_RENDER_SCALE
+		return visualReceipt(
+			bootstrapRenderer,
+			renderer,
+			0,
+			'deferred-by-world-profile',
+			'bootstrap-webgl-ready'
 		);
-		return {
-			cappedDpr,
-			effectiveDpr: cappedDpr * scale,
-			minimumScale,
-			scale
-		};
 	}
 
-
-	__exports.resolveViewportDensity = resolveViewportDensity;
-	function publishViewportStats(runtime, density) {
-		const stats = runtime.terrain.stats;
-		stats.renderDpr = density.effectiveDpr;
-		stats.renderScale = density.scale;
-		stats.renderScaleFloor = density.minimumScale;
-		stats.renderPixels = [
-			runtime.renderer.canvas.width,
-			runtime.renderer.canvas.height
-		];
+	function isReliabilityBaseline(worldExperience) {
+		return worldExperience?.id === RELIABILITY_WORLD_ID;
 	}
 
-	function clamp(value, minimum, maximum) {
-		return Math.max(minimum, Math.min(maximum, value));
+	function requireBootstrapWebGl(renderer) {
+		if (!renderer) throw new Error('Essential visual gate requires a renderer.');
+		if (renderer.backend !== 'webgl' || !renderer.gl) {
+			throw new Error('Blank Meadow requires a genuine bootstrap WebGL renderer before control.');
+		}
+		return renderer;
 	}
 
-}
+	async function hydrateRichRenderer(renderer) {
+		if (!renderer) throw new Error('Essential visual gate requires a renderer.');
+		const delegate = typeof renderer.hydrate === 'function'
+			? await renderer.hydrate()
+			: renderer;
+		if (renderer.hydrate && !renderer.delegate && renderer.hydrationState !== 'ready') {
+			throw new Error('Rich WebGL renderer was not ready before gameplay presentation.');
+		}
+		return renderer.delegate || delegate || renderer;
+	}
 
-// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzWebGlBootFrame.js ----
-{
-	const __exports = __awtsmoosModule_281;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
-
-	/**
-	 * @file EretzWebGlBootFrame.js
-	 * @description Paints the first verified renderer frame through WebGL or Canvas2D fallback.
-	 * The Awtsmoos first reveals clear light upon whichever finite vessel exists; Awtsmoos.com
-	 * sizes the canvas, records backend evidence, and never lets missing GPU erase movement.
-	 */
-
-	const resolveViewportDensity = __awtsmoosModule_282.resolveViewportDensity;
-
-	function paintEretzWebGlBootFrame(
-		services,
-		qualityProfile,
-		environment = globalThis
-	) {
-		const renderer = services?.renderer;
-		if (!renderer) throw new Error('Renderer foundation is unavailable.');
-		const width = Math.max(
-			1,
-			Number(environment.innerWidth) || renderer.canvas.clientWidth || 1
-		);
-		const height = Math.max(
-			1,
-			Number(environment.innerHeight) || renderer.canvas.clientHeight || 1
-		);
-		const density = resolveViewportDensity(
-			environment.devicePixelRatio,
-			qualityProfile.maxDpr,
-			1
-		);
-		const pixelWidth = Math.max(1, Math.round(width * density.effectiveDpr));
-		const pixelHeight = Math.max(1, Math.round(height * density.effectiveDpr));
-		services.camera.aspect = width / height;
-		renderer.setSize(pixelWidth, pixelHeight);
-		if (renderer.gl) paintWebGl(renderer);
-		else renderer.render(services.scene, services.camera);
-		const receipt = Object.freeze({
-			backend: renderer.backend || (renderer.gl ? 'webgl' : 'unknown'),
-			contextName: renderer.contextName || (renderer.gl ? 'webgl' : null),
-			effectiveDpr: density.effectiveDpr,
-			fallbackEvidence: renderer.fallbackEvidence || null,
-			pixels: Object.freeze([pixelWidth, pixelHeight])
-		});
-		renderer.bootFrame = receipt;
+	async function hydrateTerrain(terrain) {
+		if (typeof terrain?.startTextureHydration !== 'function') {
+			throw new Error('Essential visual gate requires authored terrain hydration.');
+		}
+		const receipt = await terrain.startTextureHydration();
+		if (!receipt || Number(receipt.loaded || 0) < 1) {
+			throw new Error('Authored meadow textures were unavailable before gameplay presentation.');
+		}
 		return receipt;
 	}
 
+	function visualReceipt(delegate, renderer, terrainLoaded, terrainPhase, rendererPhase) {
+		return Object.freeze({
+			renderer: delegate?.backend || renderer?.backend || 'webgl',
+			rendererPhase,
+			terrainLoaded,
+			terrainPhase
+		});
+	}
 
-	__exports.paintEretzWebGlBootFrame = paintEretzWebGlBootFrame;
-	function paintWebGl(renderer) {
-		const gl = renderer.gl;
-		if (gl.isContextLost?.()) {
-			throw new Error('WebGL context was lost before world startup.');
-		}
-		const color = renderer.clearColor || [0, 0, 0, 1];
-		gl.clearColor(color[0], color[1], color[2], color[3]);
-		gl.clearDepth?.(1);
-		gl.enable?.(gl.DEPTH_TEST);
-		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-		gl.flush?.();
+	function throwIfAborted(signal) {
+		if (!signal?.aborted) return;
+		throw signal.reason || new Error('Mitzvah World visual preparation was aborted.');
 	}
 
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldStartupMilestones.js ----
 {
-	const __exports = __awtsmoosModule_283;
+	const __exports = __awtsmoosModule_261;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -23433,9 +21436,1083 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzFoundationVisualHydration.js ----
+{
+	const __exports = __awtsmoosModule_259;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file EretzFoundationVisualHydration.js
+	 * @description Attaches post-play renderer and terrain enrichment without letting decorative hydration enter essential readiness.
+	 * The Awtsmoos gives first control a truthful simple garment before richer color descends;
+	 * Awtsmoos.com lets authored visual abundance arrive later while frame, terrain, Chossid, and movement keep their narrow covenant.
+	 */
+
+	const prepareEretzEssentialVisuals = __awtsmoosModule_260.prepareEretzEssentialVisuals;
+	const markMitzvahWorldStartupMilestone = __awtsmoosModule_261.markMitzvahWorldStartupMilestone;
+
+	/** Installs deferred visual hydration on an already essential-ready foundation object. */
+	function attachEretzFoundationVisualHydration(foundation, options, environment) {
+		foundation.essentialVisualEvidence = deferredVisualReceipt();
+		foundation.visualHydrationPromise = prepareEretzEssentialVisuals({
+			boot: options.boot,
+			renderer: foundation.renderer,
+			signal: options.signal,
+			terrain: foundation.terrain,
+			worldExperience: options.worldExperience
+		}).then(
+			visualEvidence => {
+				foundation.essentialVisualEvidence = visualEvidence;
+				markVisibleWorldReady(options, visualEvidence);
+				return visualEvidence;
+			},
+			error => {
+				markVisualHydrationDegraded(options, environment, error);
+				return null;
+			}
+		);
+		markVisibleWorldReady(options, foundation.essentialVisualEvidence);
+		return foundation;
+	}
+
+
+	__exports.attachEretzFoundationVisualHydration = attachEretzFoundationVisualHydration;
+	function deferredVisualReceipt() {
+		return Object.freeze({
+			renderer: 'webgl',
+			rendererPhase: 'bootstrap-deferred-to-post-play',
+			terrainLoaded: 0,
+			terrainPhase: 'deferred-to-post-play'
+		});
+	}
+
+	function markVisibleWorldReady(options, visualEvidence) {
+		const deferredTerrain = visualEvidence?.terrainPhase === 'deferred-by-world-profile'
+			|| visualEvidence?.terrainPhase === 'deferred-to-post-play';
+		options.boot?.progress?.(
+			'bootstrap-visible-world',
+			1,
+			1,
+			deferredTerrain
+				? 'Canonical Chossid, WebGL, and bootstrap terrain are ready; authored textures are deferred.'
+				: 'Canonical Chossid, rich WebGL, and authored terrain are ready.',
+			'ready'
+		);
+	}
+
+	function markVisualHydrationDegraded(options, environment, error) {
+		try {
+			options.boot?.progress?.(
+				'bootstrap-visible-world',
+				1,
+				1,
+				'Authored visuals deferred; bootstrap WebGL carries first play.',
+				'degraded'
+			);
+		} catch {}
+		try {
+			environment.console?.warn?.(
+				'[MitzvahWorld] Visual hydration degraded:',
+				error?.message || error
+			);
+		} catch {}
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteModelRecords.js ----
+{
+	const __exports = __awtsmoosModule_266;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file RemoteModelRecords.js
+	 * @description Records byte counts and SHA-256 identities for every active canonical Mitzvah World GLB.
+	 * The Awtsmoos gives each finite imported form one immutable name; Awtsmoos.com keeps structural trees
+	 * outside this table because every live tree now grows exclusively through the deeper procedural core in `geelooy/libs`.
+	 */
+
+	const REMOTE_MODEL_RECORDS = Object.freeze({
+		'player/chossid.glb': record(2027368, 'd86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48'),
+		'reference-world/Axe_Small.glb': record(48868, 'ea26a8cdf24937ba2cd24148b3c684c59abc5208bef6c96ddca8fb00ed30ddd6'),
+		'reference-world/Book.glb': record(11684, '3f6d8148030077aa95b035ca4d7f5ad589483806416fbd9b75546f49b5cce4c1'),
+		'reference-world/Bush_Large_Flowers.glb': record(26788, 'cdb6c9e558a3c9b3a42eafbc2f3580767cea8b79be625bfdd41369080b468bf6'),
+		'reference-world/Chest_Closed.glb': record(85120, '2ac5715af9015d885338e8c6d4b7fbea47131a253c24944e11f331b907b4d160'),
+		'reference-world/Cow.glb': record(370816, '1d513ef5e3cba976405b68621905aa1954b7c7b673f0566bb3ac0135c330af6f'),
+		'reference-world/Flower_4_Clump.glb': record(4868, 'ec4c5186b8b33b8095b5e8a4f733cfed1b21e876cf40f0ea9ea14537066592b9'),
+		'reference-world/Rat.glb': record(593268, '163afe5bfb722229a814af69dd61e8809e0679e5782c312ad840ac7a599a58a7'),
+		'reference-world/Rock_2.glb': record(11144, '10783ce0a1956b1c2c6879f7dba303b39fbe8f92256fe910b270f2f3b5d4e3ac'),
+		'reference-world/Scroll.glb': record(52704, '5e8581b1041eeae144e12b12b295eda498a8f9b52218065a7b76307cb1bd4ec9'),
+		'reference-world/Sheep.glb': record(293680, '5da91ccae57ada6213ec6818760c37d47f2ce071fad6a5bb7426283439c71319'),
+		'reference-world/Shield.glb': record(24056, '1f40b4233612d8a00f1ec4c49d45c3f339af1b000adc10eff5bf36fbd8563f67'),
+		'reference-world/Snake.glb': record(240884, 'edb074cc77ddac859245231cf17d5d76d5ec82e888af76a44a4e1b36d713b927'),
+		'reference-world/Snake_Angry.glb': record(249908, 'c8f3a3bf3f1510596fd41d2be61aec55b7bd95ec35c4988b6eaf546795aaa128'),
+		'reference-world/Spider.glb': record(505420, '541bd562b079790137b23c47304aa6904dbe1969a293cc271e056b25d4eb404a'),
+		'reference-world/Sword.glb': record(42640, '034c89782e21e22cfcb4de6e710026647df747e0e54c5a47c2c945f512eaecc2'),
+		'reference-world/WoodenStaff.glb': record(12652, '3bfba08a3426be1c873f49a85aef21c3fc670514218b606941d232ab5f2aad16')
+	});
+
+
+	__exports.REMOTE_MODEL_RECORDS = REMOTE_MODEL_RECORDS;
+	function record(bytes, sha256) {
+		return Object.freeze({ bytes, sha256 });
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/ReleaseModelCatalog.js ----
+{
+	const __exports = __awtsmoosModule_265;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file ReleaseModelCatalog.js
+	 * @description Defines exact content-addressed same-release model URLs without weakening the remote Drive authority catalog.
+	 * The Awtsmoos gives one authored form two guarded roads whose identity is one immutable hash;
+	 * Awtsmoos.com lets the release-owned road run locally only when semantic model, SHA-256 folder, and filename all perfectly match.
+	 */
+
+	const REMOTE_MODEL_RECORDS = __awtsmoosModule_266.REMOTE_MODEL_RECORDS;
+
+	const RELEASE_MODEL_ROOT = '/games/mitzvahWorld/build/generated/assets/';
+	const PLAYER_IDENTITY = 'player/chossid.glb';
+
+	/** Returns the exact hash-addressed packaged URL for the canonical Chossid. */
+	function canonicalChossidReleaseUrl() {
+		const record = REMOTE_MODEL_RECORDS[PLAYER_IDENTITY];
+		return `${RELEASE_MODEL_ROOT}${record.sha256}/chossid.glb`;
+	}
+
+
+	__exports.canonicalChossidReleaseUrl = canonicalChossidReleaseUrl;
+	/** Accepts only a catalog-derived release-owned content-addressed model URL. */
+	function isTrustedReleaseModelUrl(value) {
+		const candidate = String(value || '').trim();
+		if (!candidate || candidate.includes('?') || candidate.includes('#')) return false;
+		return candidate === canonicalChossidReleaseUrl();
+	}
+
+
+	__exports.isTrustedReleaseModelUrl = isTrustedReleaseModelUrl;
+	/** Returns auditable release-model identity without replacing remote authority. */
+	function releaseModelEvidence() {
+		const record = REMOTE_MODEL_RECORDS[PLAYER_IDENTITY];
+		return Object.freeze({
+			bytes: record.bytes,
+			identity: PLAYER_IDENTITY,
+			policy: 'release-local-content-addressed-exact-only',
+			sha256: record.sha256,
+			url: canonicalChossidReleaseUrl()
+		});
+	}
+
+	__exports.releaseModelEvidence = releaseModelEvidence;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzConstants.js ----
+{
+	const __exports = __awtsmoosModule_264;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file EretzConstants.js
+	 * @description Holds player, collision, movement, and one-CSS-pixel rendering constants while deriving the player URL from release trust law.
+	 * The Awtsmoos gives the canonical Chossid one exact hash-addressed local vessel whose authored bytes remain unchanged;
+	 * Awtsmoos.com keeps fast first play beneath the same immutable identity rather than copying a mutable path into another range.
+	 */
+
+	const canonicalChossidReleaseUrl = __awtsmoosModule_265.canonicalChossidReleaseUrl;
+
+	const PLAYER_MODEL_URL = canonicalChossidReleaseUrl();
+
+	__exports.PLAYER_MODEL_URL = PLAYER_MODEL_URL;
+	const SIDE_SIGN = -1;
+
+	__exports.SIDE_SIGN = SIDE_SIGN;
+	const FACE_HEIGHT = 1.78;
+
+	__exports.FACE_HEIGHT = FACE_HEIGHT;
+	const MAX_STEP = 0.96;
+
+	__exports.MAX_STEP = MAX_STEP;
+	const STEP_DOWN = 0.72;
+
+	__exports.STEP_DOWN = STEP_DOWN;
+	const MAX_SLOPE_NORMAL = 0.72;
+
+	__exports.MAX_SLOPE_NORMAL = MAX_SLOPE_NORMAL;
+	const WALK_SPEED = 3.7;
+
+	__exports.WALK_SPEED = WALK_SPEED;
+	const RUN_SPEED = 8.85;
+
+	__exports.RUN_SPEED = RUN_SPEED;
+	const MAX_RENDER_DPR = 1;
+
+	__exports.MAX_RENDER_DPR = MAX_RENDER_DPR;
+	const PLAYER_RADIUS = 0.38;
+
+	__exports.PLAYER_RADIUS = PLAYER_RADIUS;
+	const PLAYER_HEIGHT = 1.72;
+
+	__exports.PLAYER_HEIGHT = PLAYER_HEIGHT;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzViewport.js ----
+{
+	const __exports = __awtsmoosModule_263;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file EretzViewport.js
+	 * @description Keeps the framebuffer sharp while allowing only density-safe adaptation.
+	 * The Awtsmoos recreates every mountain edge and letter each instant; Awtsmoos.com refuses to
+	 * stretch a smaller blurry picture across the screen and never falls below one rendered pixel
+	 * for each CSS pixel, while dense displays remain capped so motion still has a finite vessel.
+	 */
+
+	const MAX_RENDER_DPR = __awtsmoosModule_264.MAX_RENDER_DPR;
+
+	const DEFAULT_RENDER_SCALE = 1;
+	const MAXIMUM_RENDER_SCALE = 1;
+	const MINIMUM_EFFECTIVE_DPR = 1;
+
+	function installViewport(runtime, environment = globalThis) {
+		if (!Number.isFinite(runtime.adaptiveRenderScale)) {
+			runtime.adaptiveRenderScale = DEFAULT_RENDER_SCALE;
+		}
+		const resize = () => {
+			const width = Math.max(1, Number(environment.innerWidth) || 1);
+			const height = Math.max(1, Number(environment.innerHeight) || 1);
+			const maximumDpr = runtime.qualityProfile?.maxDpr ?? MAX_RENDER_DPR;
+			const density = resolveViewportDensity(
+				environment.devicePixelRatio,
+				maximumDpr,
+				runtime.adaptiveRenderScale
+			);
+			runtime.minimumRenderScale = density.minimumScale;
+			runtime.adaptiveRenderScale = density.scale;
+			runtime.camera.aspect = width / height;
+			runtime.renderer.setSize(
+				Math.max(1, Math.round(width * density.effectiveDpr)),
+				Math.max(1, Math.round(height * density.effectiveDpr))
+			);
+			publishViewportStats(runtime, density);
+		};
+		runtime.resizeViewport = resize;
+		environment.addEventListener?.('resize', resize, { passive: true });
+		resize();
+		return resize;
+	}
+
+
+	__exports.installViewport = installViewport;
+	/**
+	 * Resolves a density contract whose adaptive floor can reduce expensive Retina work but can
+	 * never undersample ordinary CSS pixels.
+	 */
+	function resolveViewportDensity(deviceDpr, profileMaximumDpr, requestedScale) {
+		const availableDpr = Math.max(1, Number(deviceDpr) || 1);
+		const maximumDpr = Math.max(1, Number(profileMaximumDpr) || 1);
+		const cappedDpr = Math.min(availableDpr, maximumDpr);
+		const minimumScale = Math.min(
+			MAXIMUM_RENDER_SCALE,
+			MINIMUM_EFFECTIVE_DPR / cappedDpr
+		);
+		const scale = clamp(
+			Number(requestedScale) || DEFAULT_RENDER_SCALE,
+			minimumScale,
+			MAXIMUM_RENDER_SCALE
+		);
+		return {
+			cappedDpr,
+			effectiveDpr: cappedDpr * scale,
+			minimumScale,
+			scale
+		};
+	}
+
+
+	__exports.resolveViewportDensity = resolveViewportDensity;
+	function publishViewportStats(runtime, density) {
+		const stats = runtime.terrain.stats;
+		stats.renderDpr = density.effectiveDpr;
+		stats.renderScale = density.scale;
+		stats.renderScaleFloor = density.minimumScale;
+		stats.renderPixels = [
+			runtime.renderer.canvas.width,
+			runtime.renderer.canvas.height
+		];
+	}
+
+	function clamp(value, minimum, maximum) {
+		return Math.max(minimum, Math.min(maximum, value));
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzWebGlBootFrame.js ----
+{
+	const __exports = __awtsmoosModule_262;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file EretzWebGlBootFrame.js
+	 * @description Paints the first verified renderer frame through WebGL or Canvas2D fallback.
+	 * The Awtsmoos first reveals clear light upon whichever finite vessel exists; Awtsmoos.com
+	 * sizes the canvas, records backend evidence, and never lets missing GPU erase movement.
+	 */
+
+	const resolveViewportDensity = __awtsmoosModule_263.resolveViewportDensity;
+
+	function paintEretzWebGlBootFrame(
+		services,
+		qualityProfile,
+		environment = globalThis
+	) {
+		const renderer = services?.renderer;
+		if (!renderer) throw new Error('Renderer foundation is unavailable.');
+		const width = Math.max(
+			1,
+			Number(environment.innerWidth) || renderer.canvas.clientWidth || 1
+		);
+		const height = Math.max(
+			1,
+			Number(environment.innerHeight) || renderer.canvas.clientHeight || 1
+		);
+		const density = resolveViewportDensity(
+			environment.devicePixelRatio,
+			qualityProfile.maxDpr,
+			1
+		);
+		const pixelWidth = Math.max(1, Math.round(width * density.effectiveDpr));
+		const pixelHeight = Math.max(1, Math.round(height * density.effectiveDpr));
+		services.camera.aspect = width / height;
+		renderer.setSize(pixelWidth, pixelHeight);
+		if (renderer.gl) paintWebGl(renderer);
+		else renderer.render(services.scene, services.camera);
+		const receipt = Object.freeze({
+			backend: renderer.backend || (renderer.gl ? 'webgl' : 'unknown'),
+			contextName: renderer.contextName || (renderer.gl ? 'webgl' : null),
+			effectiveDpr: density.effectiveDpr,
+			fallbackEvidence: renderer.fallbackEvidence || null,
+			pixels: Object.freeze([pixelWidth, pixelHeight])
+		});
+		renderer.bootFrame = receipt;
+		return receipt;
+	}
+
+
+	__exports.paintEretzWebGlBootFrame = paintEretzWebGlBootFrame;
+	function paintWebGl(renderer) {
+		const gl = renderer.gl;
+		if (gl.isContextLost?.()) {
+			throw new Error('WebGL context was lost before world startup.');
+		}
+		const color = renderer.clearColor || [0, 0, 0, 1];
+		gl.clearColor(color[0], color[1], color[2], color[3]);
+		gl.clearDepth?.(1);
+		gl.enable?.(gl.DEPTH_TEST);
+		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+		gl.flush?.();
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialMilestoneCatalog.js ----
+{
+	const __exports = __awtsmoosModule_270;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MitzvahWorldEssentialMilestoneCatalog.js
+	 * @description Declares the five facts that alone may open first play.
+	 * The Awtsmoos renews each fact from nothing, while Awtsmoos.com keeps the
+	 * gate narrow and bright: no optional ornament may masquerade as essential light.
+	 */
+
+	const ESSENTIAL_BOOT_TIMEOUT_MS = 5000;
+
+
+	__exports.ESSENTIAL_BOOT_TIMEOUT_MS = ESSENTIAL_BOOT_TIMEOUT_MS;
+	const ESSENTIAL_MILESTONES = Object.freeze({
+		ENTRY_MODULE_EXECUTED: 'entryModuleExecuted',
+		RENDERER_FIRST_FRAME: 'rendererFirstFrame',
+		SPAWN_TERRAIN_EXISTS: 'spawnTerrainExists',
+		CANONICAL_CHOSSID_DECODED: 'canonicalChossidDecoded',
+		PLAYER_MOVEMENT_ENABLED: 'playerMovementEnabled'
+	});
+
+
+	__exports.ESSENTIAL_MILESTONES = ESSENTIAL_MILESTONES;
+	const ESSENTIAL_MILESTONE_CATALOG = Object.freeze([
+		definition(ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED, 'Entry module executed', []),
+		definition(ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME, 'Renderer produced first frame', [ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED]),
+		definition(ESSENTIAL_MILESTONES.SPAWN_TERRAIN_EXISTS, 'Spawn terrain exists', [ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED]),
+		definition(ESSENTIAL_MILESTONES.CANONICAL_CHOSSID_DECODED, 'Canonical chossid.glb decoded', [ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED]),
+		definition(
+			ESSENTIAL_MILESTONES.PLAYER_MOVEMENT_ENABLED,
+			'Player movement enabled',
+			[
+				ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME,
+				ESSENTIAL_MILESTONES.SPAWN_TERRAIN_EXISTS,
+				ESSENTIAL_MILESTONES.CANONICAL_CHOSSID_DECODED
+			]
+		)
+	]);
+
+
+	__exports.ESSENTIAL_MILESTONE_CATALOG = ESSENTIAL_MILESTONE_CATALOG;
+	/** Creates one immutable milestone covenant. */
+	function definition(name, label, dependencies) {
+		return Object.freeze({
+			dependencies: Object.freeze([...dependencies]),
+			label,
+			name,
+			timeoutFailureCode: `ESSENTIAL_${toFailureToken(name)}_TIMEOUT`,
+			timeoutMilliseconds: ESSENTIAL_BOOT_TIMEOUT_MS
+		});
+	}
+
+	/** Converts camelCase milestone names into stable diagnostic tokens. */
+	function toFailureToken(name) {
+		return name.replace(/([a-z])([A-Z])/g, '$1_$2').toUpperCase();
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialClock.js ----
+{
+	const __exports = __awtsmoosModule_269;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MitzvahWorldEssentialClock.js
+	 * @description Keeps essential-boot time and watchdog mechanics outside the fact ledger.
+	 * The Awtsmoos renews each measure while no measure contains His light;
+	 * Awtsmoos.com borrows the clock only to reveal when waiting has crossed the bounded night.
+	 */
+
+	const ESSENTIAL_BOOT_TIMEOUT_MS = __awtsmoosModule_270.ESSENTIAL_BOOT_TIMEOUT_MS;
+
+	/** Arms the single five-second watchdog for first-play readiness. */
+	function scheduleMitzvahWorldEssentialTimeout(environment, callback) {
+		const timer = (environment?.setTimeout?.bind(environment) || setTimeout)(
+			callback,
+			ESSENTIAL_BOOT_TIMEOUT_MS
+		);
+		timer?.unref?.();
+		return timer;
+	}
+
+
+	__exports.scheduleMitzvahWorldEssentialTimeout = scheduleMitzvahWorldEssentialTimeout;
+	/** Cancels a previously armed essential watchdog. */
+	function cancelMitzvahWorldEssentialTimeout(environment, timer) {
+		(environment?.clearTimeout?.bind(environment) || clearTimeout)(timer);
+	}
+
+
+	__exports.cancelMitzvahWorldEssentialTimeout = cancelMitzvahWorldEssentialTimeout;
+	/** Reads monotonic browser time when possible, with Date as the universal vessel. */
+	function readMitzvahWorldEssentialTime(environment) {
+		return environment?.performance?.now?.() ?? Date.now();
+	}
+
+	__exports.readMitzvahWorldEssentialTime = readMitzvahWorldEssentialTime;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialRecord.js ----
+{
+	const __exports = __awtsmoosModule_273;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MitzvahWorldEssentialRecord.js
+	 * @description Builds and reads one essential boot fact without owning browser side effects or inventing an early start time.
+	 * The Awtsmoos renews each fact only when its vessel is ready to receive the next light;
+	 * Awtsmoos.com keeps queued milestones timeless until dependency truth opens their measured night.
+	 */
+
+	/** Creates one mutable internal record from an immutable definition. */
+	function createEssentialRecord(definition) {
+		return {
+			...definition,
+			completedAtMilliseconds: null,
+			elapsedMilliseconds: 0,
+			failedAtMilliseconds: null,
+			failureCode: null,
+			failureMessage: null,
+			importerStage: null,
+			resourceStatus: null,
+			resourceUrl: null,
+			startedAtMilliseconds: null,
+			status: 'pending'
+		};
+	}
+
+
+	__exports.createEssentialRecord = createEssentialRecord;
+	/** Applies only serializable resource/importer evidence. */
+	function applyEssentialDetails(record, details = {}) {
+		if ('importerStage' in details) {
+			record.importerStage = details.importerStage ?? null;
+		}
+		if ('resourceStatus' in details) {
+			record.resourceStatus = details.resourceStatus ?? null;
+		}
+		if ('resourceUrl' in details) {
+			record.resourceUrl = details.resourceUrl ?? null;
+		}
+	}
+
+
+	__exports.applyEssentialDetails = applyEssentialDetails;
+	/** Returns whether a milestone can no longer transition. */
+	function isEssentialTerminal(status) {
+		return status === 'complete' || status === 'failed' || status === 'timed-out';
+	}
+
+
+	__exports.isEssentialTerminal = isEssentialTerminal;
+	/** Returns whether all declared dependencies have completed. */
+	function essentialDependenciesComplete(records, record) {
+		return record.dependencies.every(name => records.get(name)?.status === 'complete');
+	}
+
+	__exports.essentialDependenciesComplete = essentialDependenciesComplete;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialTiming.js ----
+{
+	const __exports = __awtsmoosModule_272;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MitzvahWorldEssentialTiming.js
+	 * @description Owns milestone activation and deadline arithmetic without owning failure presentation or browser timers.
+	 * The Awtsmoos renews every dependency only when its vessel can truly receive the next light;
+	 * Awtsmoos.com therefore starts each milestone clock at activation, while the whole first-play covenant still ends after one bounded night.
+	 */
+
+	const essentialDependenciesComplete = __awtsmoosModule_273.essentialDependenciesComplete;
+
+	/** Activates every newly dependency-ready pending record exactly once. */
+	function activateReadyEssentialRecords(records, currentTime) {
+		const activated = [];
+		for (const record of records.values()) {
+			if (record.status !== 'pending' || record.startedAtMilliseconds !== null) continue;
+			if (!essentialDependenciesComplete(records, record)) continue;
+			record.startedAtMilliseconds = currentTime;
+			activated.push(record.name);
+		}
+		return activated;
+	}
+
+
+	__exports.activateReadyEssentialRecords = activateReadyEssentialRecords;
+	/** Returns true when one active record has exceeded its own declared timeout. */
+	function essentialRecordTimedOut(record, currentTime) {
+		if (record.startedAtMilliseconds === null) return false;
+		return currentTime - record.startedAtMilliseconds >= record.timeoutMilliseconds;
+	}
+
+
+	__exports.essentialRecordTimedOut = essentialRecordTimedOut;
+	/** Returns the first active pending record whose own deadline has elapsed. */
+	function firstTimedOutEssentialRecord(records, currentTime) {
+		return [...records.values()].find(record => {
+			return record.status === 'pending' && essentialRecordTimedOut(record, currentTime);
+		}) || null;
+	}
+
+
+	__exports.firstTimedOutEssentialRecord = firstTimedOutEssentialRecord;
+	/** Returns the first currently active pending fact for presentation. */
+	function firstActiveEssentialRecord(records) {
+		return [...records.values()].find(record => {
+			return record.status === 'pending' && record.startedAtMilliseconds !== null;
+		}) || null;
+	}
+
+
+	__exports.firstActiveEssentialRecord = firstActiveEssentialRecord;
+	/** Calculates elapsed time without making queued milestones appear to have been running. */
+	function essentialElapsedMilliseconds(record, currentTime) {
+		if (record.status !== 'pending') return record.elapsedMilliseconds;
+		if (record.startedAtMilliseconds === null) return 0;
+		return Math.max(0, currentTime - record.startedAtMilliseconds);
+	}
+
+	__exports.essentialElapsedMilliseconds = essentialElapsedMilliseconds;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialDeadlinePolicy.js ----
+{
+	const __exports = __awtsmoosModule_271;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MitzvahWorldEssentialDeadlinePolicy.js
+	 * @description Names dependency and timeout failures without owning milestone mutation or browser timers.
+	 * The Awtsmoos gives every bounded delay its truthful name while no later vessel inherits an expired clock;
+	 * Awtsmoos.com keeps per-milestone timeout codes distinct from the whole first-play covenant that guards the world around the block.
+	 */
+
+	const ESSENTIAL_BOOT_TIMEOUT_MS = __awtsmoosModule_270.ESSENTIAL_BOOT_TIMEOUT_MS;
+	const essentialRecordTimedOut = __awtsmoosModule_272.essentialRecordTimedOut;
+
+	/** Returns dependency failure evidence for an attempted premature completion. */
+	function essentialDependencyFailure(details, missing) {
+		return {
+			...details,
+			failureCode: 'ESSENTIAL_DEPENDENCY_INCOMPLETE',
+			failureMessage: `Dependency ${missing} was not complete.`
+		};
+	}
+
+
+	__exports.essentialDependencyFailure = essentialDependencyFailure;
+	/** Returns timeout evidence only when the record or whole first-play covenant is actually overdue. */
+	function essentialDeadlineFailure(record, currentTime, bootStartedAt, details = {}) {
+		if (essentialRecordTimedOut(record, currentTime)) {
+			return timeoutDetails(record, details, record.timeoutFailureCode);
+		}
+		if (currentTime - bootStartedAt >= ESSENTIAL_BOOT_TIMEOUT_MS) {
+			return timeoutDetails(record, details, 'ESSENTIAL_FIRST_PLAY_DEADLINE_EXCEEDED');
+		}
+		return null;
+	}
+
+
+	__exports.essentialDeadlineFailure = essentialDeadlineFailure;
+	/** Produces one terminal timed-out detail object while preserving resource/importer evidence. */
+	function timeoutDetails(record, details, failureCode) {
+		return {
+			...details,
+			failureCode,
+			failureMessage: `${record.label} missed the bounded first-play deadline.`,
+			status: 'timed-out'
+		};
+	}
+
+	__exports.timeoutDetails = timeoutDetails;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialFailurePresenter.js ----
+{
+	const __exports = __awtsmoosModule_274;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MitzvahWorldEssentialFailurePresenter.js
+	 * @description Makes a stalled essential milestone visible without involving optional world hydration.
+	 * The Awtsmoos turns hidden failure into useful speech; Awtsmoos.com lets Gevurah name the blocked gate clearly so the next repair can begin brightly.
+	 */
+
+	const FAILURE_ID = 'mitzvah-world-essential-failure';
+
+	/**
+	 * Presents one actionable essential-boot failure when a document is available.
+	 * @param {object} environment Browser-like runtime vessel.
+	 * @param {object} milestone Frozen failed milestone receipt.
+	 */
+	function presentMitzvahWorldEssentialFailure(environment, milestone) {
+		const document = environment?.document;
+		if (!document?.body || !milestone) {
+			return;
+		}
+		const panel = document.getElementById(FAILURE_ID) || createPanel(document);
+		panel.textContent = failureMessage(milestone);
+	}
+
+
+	__exports.presentMitzvahWorldEssentialFailure = presentMitzvahWorldEssentialFailure;
+	/** Creates the small failure vessel only when proof actually fails. */
+	function createPanel(document) {
+		const panel = document.createElement('div');
+		panel.id = FAILURE_ID;
+		panel.setAttribute('role', 'alert');
+		panel.style.cssText = [
+			'position:fixed',
+			'left:12px',
+			'right:12px',
+			'top:12px',
+			'z-index:2147483647',
+			'padding:12px 14px',
+			'background:#180b0b',
+			'color:#fff',
+			'font:600 13px/1.4 system-ui,sans-serif',
+			'border:1px solid #ffb4a8',
+			'border-radius:10px'
+		].join(';');
+		document.body.appendChild(panel);
+		return panel;
+	}
+
+	/** Formats the exact stalled fact and its strongest available resource evidence. */
+	function failureMessage(milestone) {
+		const url = milestone.resourceUrl || 'no resource URL';
+		const stage = milestone.importerStage || 'runtime';
+		const status = milestone.resourceStatus ?? 'unknown status';
+		return `Essential boot failed: ${milestone.label}. ${milestone.failureCode}; ${Math.round(milestone.elapsedMilliseconds)} ms; ${url}; ${status}; ${stage}.`;
+	}
+
+	/**
+	 * Dismisses a previously presented essential-boot failure, e.g. when a world-launch
+	 * restart opens a fresh gate after an honest menu-idle timeout.
+	 * @param {object} environment Browser-like runtime vessel.
+	 */
+	function dismissMitzvahWorldEssentialFailure(environment) {
+		const panel = environment?.document?.getElementById?.(FAILURE_ID);
+		if (panel?.remove) {
+			panel.remove();
+		}
+	}
+
+	__exports.dismissMitzvahWorldEssentialFailure = dismissMitzvahWorldEssentialFailure;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialSnapshot.js ----
+{
+	const __exports = __awtsmoosModule_275;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MitzvahWorldEssentialSnapshot.js
+	 * @description Freezes essential boot truth while preserving the difference between queued time and active measured time.
+	 * The Awtsmoos renews each hidden dependency before its clock may honestly begin;
+	 * Awtsmoos.com shows queued facts at zero, active facts aging, and terminal facts sealed where their evidence has been.
+	 */
+
+	const essentialElapsedMilliseconds = __awtsmoosModule_272.essentialElapsedMilliseconds;
+	const firstActiveEssentialRecord = __awtsmoosModule_272.firstActiveEssentialRecord;
+
+	/** Builds one immutable public receipt from the internal milestone map. */
+	function createMitzvahWorldEssentialSnapshot(records, startedAtMilliseconds, environment) {
+		const currentTime = now(environment);
+		const milestones = freezeMilestones(records, currentTime);
+		const active = firstActiveEssentialRecord(records);
+		return Object.freeze({
+			activeMilestone: active ? milestones[active.name] : null,
+			certified: Object.values(milestones).every(record => record.status === 'complete'),
+			milestones,
+			startedAtMilliseconds,
+			stalledMilestone: findStalledMilestone(milestones)
+		});
+	}
+
+
+	__exports.createMitzvahWorldEssentialSnapshot = createMitzvahWorldEssentialSnapshot;
+	/** Copies records into a frozen public map with truthful live elapsed evidence. */
+	function freezeMilestones(records, currentTime) {
+		return Object.freeze(Object.fromEntries(
+			[...records].map(([name, record]) => [
+				name,
+				Object.freeze({
+					...record,
+					elapsedMilliseconds: essentialElapsedMilliseconds(record, currentTime)
+				})
+			])
+		));
+	}
+
+	/** Reserves stalled milestone for a witnessed failure or deadline timeout. */
+	function findStalledMilestone(milestones) {
+		return Object.values(milestones).find(record => {
+			return record.status === 'failed' || record.status === 'timed-out';
+		}) || null;
+	}
+
+	/** Uses the browser monotonic clock when available. */
+	function now(environment) {
+		return environment?.performance?.now?.() ?? Date.now();
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialLedger.js ----
+{
+	const __exports = __awtsmoosModule_268;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MitzvahWorldEssentialLedger.js
+	 * @description Owns lifecycle transitions for five essential facts while deadline policy and timing remain separate vessels.
+	 * The Awtsmoos joins dependency to dependency without lending tomorrow's clock to today's light;
+	 * Awtsmoos.com lets each fact begin when ready, while one bounded first-play covenant still guards the night.
+	 */
+
+	const cancelMitzvahWorldEssentialTimeout = __awtsmoosModule_269.cancelMitzvahWorldEssentialTimeout;
+	const readMitzvahWorldEssentialTime = __awtsmoosModule_269.readMitzvahWorldEssentialTime;
+	const scheduleMitzvahWorldEssentialTimeout = __awtsmoosModule_269.scheduleMitzvahWorldEssentialTimeout;
+	const essentialDeadlineFailure = __awtsmoosModule_271.essentialDeadlineFailure;
+	const essentialDependencyFailure = __awtsmoosModule_271.essentialDependencyFailure;
+	const timeoutDetails = __awtsmoosModule_271.timeoutDetails;
+	const ESSENTIAL_MILESTONE_CATALOG = __awtsmoosModule_270.ESSENTIAL_MILESTONE_CATALOG;
+	const presentMitzvahWorldEssentialFailure = __awtsmoosModule_274.presentMitzvahWorldEssentialFailure;
+	const applyEssentialDetails = __awtsmoosModule_273.applyEssentialDetails;
+	const createEssentialRecord = __awtsmoosModule_273.createEssentialRecord;
+	const isEssentialTerminal = __awtsmoosModule_273.isEssentialTerminal;
+	const createMitzvahWorldEssentialSnapshot = __awtsmoosModule_275.createMitzvahWorldEssentialSnapshot;
+	const activateReadyEssentialRecords = __awtsmoosModule_272.activateReadyEssentialRecords;
+	const firstActiveEssentialRecord = __awtsmoosModule_272.firstActiveEssentialRecord;
+	const firstTimedOutEssentialRecord = __awtsmoosModule_272.firstTimedOutEssentialRecord;
+
+	class MitzvahWorldEssentialLedger {
+		constructor(environment) {
+			this.environment = environment;
+			this.startedAtMilliseconds = readMitzvahWorldEssentialTime(environment);
+			this.records = new Map(ESSENTIAL_MILESTONE_CATALOG.map(definition => [definition.name, createEssentialRecord(definition)]));
+			activateReadyEssentialRecords(this.records, this.startedAtMilliseconds);
+			this.timer = scheduleMitzvahWorldEssentialTimeout(environment, () => this.timeout());
+			this.publish();
+		}
+
+		update(name, details = {}) {
+			const record = this.requireRecord(name);
+			if (!isEssentialTerminal(record.status)) applyEssentialDetails(record, details);
+			return this.publish();
+		}
+
+		complete(name, details = {}) {
+			const record = this.requireRecord(name);
+			if (isEssentialTerminal(record.status)) return this.snapshot();
+			const missing = record.dependencies.find(dependency => this.records.get(dependency)?.status !== 'complete');
+			if (missing) return this.fail(name, essentialDependencyFailure(details, missing));
+			const currentTime = readMitzvahWorldEssentialTime(this.environment);
+			activateReadyEssentialRecords(this.records, currentTime);
+			const deadlineFailure = essentialDeadlineFailure(record, currentTime, this.startedAtMilliseconds, details);
+			if (deadlineFailure) return this.fail(name, deadlineFailure);
+			applyEssentialDetails(record, details);
+			record.status = 'complete';
+			record.completedAtMilliseconds = currentTime;
+			record.elapsedMilliseconds = currentTime - record.startedAtMilliseconds;
+			activateReadyEssentialRecords(this.records, currentTime);
+			this.clearTimerIfFinished();
+			return this.publish();
+		}
+
+		fail(name, details = {}) {
+			const record = this.requireRecord(name);
+			if (isEssentialTerminal(record.status)) return this.snapshot();
+			const currentTime = readMitzvahWorldEssentialTime(this.environment);
+			applyEssentialDetails(record, details);
+			record.status = details.status || 'failed';
+			record.failureCode = details.failureCode || 'ESSENTIAL_BOOT_FAILURE';
+			record.failureMessage = details.failureMessage || null;
+			record.failedAtMilliseconds = currentTime;
+			record.elapsedMilliseconds = currentTime - (record.startedAtMilliseconds ?? this.startedAtMilliseconds);
+			cancelMitzvahWorldEssentialTimeout(this.environment, this.timer);
+			const snapshot = this.publish();
+			presentMitzvahWorldEssentialFailure(this.environment, snapshot.stalledMilestone);
+			return snapshot;
+		}
+
+		timeout() {
+			const currentTime = readMitzvahWorldEssentialTime(this.environment);
+			const overdue = firstTimedOutEssentialRecord(this.records, currentTime);
+			const record = overdue || firstActiveEssentialRecord(this.records);
+			if (!record) return this.publish();
+			const code = overdue ? record.timeoutFailureCode : 'ESSENTIAL_FIRST_PLAY_DEADLINE_EXCEEDED';
+			return this.fail(record.name, timeoutDetails(record, {}, code));
+		}
+
+		publish() {
+			const snapshot = this.snapshot();
+			this.environment.AwtsmoosMitzvahWorldEssentialBoot = snapshot;
+			return snapshot;
+		}
+
+		snapshot() {
+			return createMitzvahWorldEssentialSnapshot(this.records, this.startedAtMilliseconds, this.environment);
+		}
+
+		requireRecord(name) {
+			const record = this.records.get(name);
+			if (!record) throw new Error(`Unknown essential Mitzvah World milestone: ${name}`);
+			return record;
+		}
+
+		clearTimerIfFinished() {
+			if ([...this.records.values()].every(record => isEssentialTerminal(record.status))) {
+				cancelMitzvahWorldEssentialTimeout(this.environment, this.timer);
+			}
+		}
+	}
+
+	__exports.MitzvahWorldEssentialLedger = MitzvahWorldEssentialLedger;
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialBoot.js ----
+{
+	const __exports = __awtsmoosModule_267;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MitzvahWorldEssentialBoot.js
+	 * @description Publishes one environment-owned essential boot ledger across source modules and independently compiled runtime chunks.
+	 * The Awtsmoos is one while many vessels reveal His light; Awtsmoos.com therefore lets entry, foundation, Chossid, and movement
+	 * testify into one shared Malchus rather than four isolated module memories that could each mistake another chamber for darkness.
+	 */
+
+	const MitzvahWorldEssentialLedger = __awtsmoosModule_268.MitzvahWorldEssentialLedger;
+	const cancelMitzvahWorldEssentialTimeout = __awtsmoosModule_269.cancelMitzvahWorldEssentialTimeout;
+	const dismissMitzvahWorldEssentialFailure = __awtsmoosModule_274.dismissMitzvahWorldEssentialFailure;
+	const CATALOG_MILESTONES = __awtsmoosModule_270.ESSENTIAL_MILESTONES;
+	__exports.ESSENTIAL_MILESTONES = __awtsmoosModule_270.ESSENTIAL_MILESTONES;
+
+	const LEDGER_KEY = 'AwtsmoosMitzvahWorldEssentialLedgerInternal';
+	const RESTART_ENTRY_STAGE = 'world-launch-restart';
+
+	/** Returns the one essential ledger owned by the browser-like environment, even across compiled chunk copies. */
+	function initializeMitzvahWorldEssentialBoot(environment = globalThis) {
+		if (!environment[LEDGER_KEY]) {
+			installLedger(environment, new MitzvahWorldEssentialLedger(environment));
+		}
+		return environment[LEDGER_KEY];
+	}
+
+
+	__exports.initializeMitzvahWorldEssentialBoot = initializeMitzvahWorldEssentialBoot;
+	/**
+	 * Restarts the bounded essential gate at world launch.
+	 * A menu-idle timeout is honest evidence that the menu stalled, but it must never poison first play:
+	 * the world click opens a fresh five-second gate that certifies independently of page load.
+	 * Truthful entry-module evidence (URL, importer stage, resource status) is carried onto the fresh ledger,
+	 * the stale watchdog is disarmed, and any presented menu-idle failure is dismissed.
+	 */
+	function restartMitzvahWorldEssentialBoot(environment = globalThis) {
+		const previous = environment[LEDGER_KEY] || null;
+		const entryEvidence = readEntryEvidence(previous) || { importerStage: RESTART_ENTRY_STAGE };
+		disarmPreviousWatchdog(environment, previous);
+		dismissMitzvahWorldEssentialFailure(environment);
+		installLedger(environment, new MitzvahWorldEssentialLedger(environment));
+		return completeMitzvahWorldEssentialMilestone(
+			environment,
+			CATALOG_MILESTONES.ENTRY_MODULE_EXECUTED,
+			entryEvidence
+		);
+	}
+
+
+	__exports.restartMitzvahWorldEssentialBoot = restartMitzvahWorldEssentialBoot;
+	/** Installs one environment-owned ledger, replacing any stale world-entry gate. */
+	function installLedger(environment, ledger) {
+		Object.defineProperty(environment, LEDGER_KEY, {
+			configurable: true,
+			enumerable: false,
+			value: ledger,
+			writable: false
+		});
+	}
+
+	/** Carries truthful entry-module evidence from the page-load gate onto the fresh world-launch gate. */
+	function readEntryEvidence(previous) {
+		const record = previous?.records?.get?.(CATALOG_MILESTONES.ENTRY_MODULE_EXECUTED);
+		if (!record || record.status !== 'complete') {
+			return null;
+		}
+		const evidence = {};
+		if (record.importerStage != null) {
+			evidence.importerStage = record.importerStage;
+		}
+		if (record.resourceUrl != null) {
+			evidence.resourceUrl = record.resourceUrl;
+		}
+		if (record.resourceStatus != null) {
+			evidence.resourceStatus = record.resourceStatus;
+		}
+		if (Object.keys(evidence).length === 0) {
+			evidence.importerStage = RESTART_ENTRY_STAGE;
+		}
+		return evidence;
+	}
+
+	/** Cancels the stale watchdog so a menu-idle timeout can never overwrite the fresh gate. */
+	function disarmPreviousWatchdog(environment, previous) {
+		const timer = previous?.timer;
+		if (timer === undefined || timer === null) {
+			return;
+		}
+		try {
+			cancelMitzvahWorldEssentialTimeout(environment, timer);
+		} catch (error) {
+			// A stale watchdog must never block world entry; the fresh ledger arms its own.
+		}
+	}
+
+	/** Adds nonterminal importer or resource evidence. */
+	function updateMitzvahWorldEssentialMilestone(environment, name, details = {}) {
+		return initializeMitzvahWorldEssentialBoot(environment).update(name, details);
+	}
+
+
+	__exports.updateMitzvahWorldEssentialMilestone = updateMitzvahWorldEssentialMilestone;
+	/** Completes one witnessed essential fact. */
+	function completeMitzvahWorldEssentialMilestone(environment, name, details = {}) {
+		return initializeMitzvahWorldEssentialBoot(environment).complete(name, details);
+	}
+
+
+	__exports.completeMitzvahWorldEssentialMilestone = completeMitzvahWorldEssentialMilestone;
+	/** Fails one essential fact with actionable evidence. */
+	function failMitzvahWorldEssentialMilestone(environment, name, details = {}) {
+		return initializeMitzvahWorldEssentialBoot(environment).fail(name, details);
+	}
+
+
+	__exports.failMitzvahWorldEssentialMilestone = failMitzvahWorldEssentialMilestone;
+	/** Returns an immutable globally equivalent boot snapshot. */
+	function getMitzvahWorldEssentialBootSnapshot(environment = globalThis) {
+		return initializeMitzvahWorldEssentialBoot(environment).snapshot();
+	}
+
+	__exports.getMitzvahWorldEssentialBootSnapshot = getMitzvahWorldEssentialBootSnapshot;
+
+}
+
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/RuntimeLaunchProgress.js ----
 {
-	const __exports = __awtsmoosModule_284;
+	const __exports = __awtsmoosModule_276;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -23533,31 +22610,30 @@ const __awtsmoosModule_0 = Object.create(null);
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzWorldFoundation.js ----
 {
 	const __exports = __awtsmoosModule_0;
-	//B"H
-	//Boruch Hashem
-	//Blessed is He
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
 
 	/**
 	 * @file EretzWorldFoundation.js
-	 * @description Builds first play from canonical humanity, WebGL, and bootstrap terrain while allowing only Blank Meadow to defer remote terrain texture richness.
-	 * The Awtsmoos gives the true traveler and visible earth before distant garments crowd the threshold;
-	 * Awtsmoos.com keeps rich worlds strict, yet lets the reliability meadow become honestly controllable before decorative texture streams consume the road.
+	 * @description Proves WebGL frame and spawn terrain from a lean foundation chunk, then crosses the generated essential-player boundary for the canonical Chossid.
+	 * The Awtsmoos gives visible earth and first light their own swift vessels before the authored traveler enters his bounded generated garment;
+	 * Awtsmoos.com keeps renderer and terrain independent of Chossid while the real Chossid remains mandatory before movement may awake.
 	 */
 
 	const createBootstrapWorldFoundation = __awtsmoosModule_1.createBootstrapWorldFoundation;
-	const loadEretzEssentialAssets = __awtsmoosModule_96.loadEretzEssentialAssets;
-	const prepareEretzEssentialVisuals = __awtsmoosModule_142.prepareEretzEssentialVisuals;
-	const createEretzFoundationServices = __awtsmoosModule_143.createEretzFoundationServices;
-	const paintEretzWebGlBootFrame = __awtsmoosModule_281.paintEretzWebGlBootFrame;
-	const markMitzvahWorldStartupMilestone = __awtsmoosModule_283.markMitzvahWorldStartupMilestone;
-	const nextLaunchFrame = __awtsmoosModule_284.nextLaunchFrame;
-	const reportLaunchProgress = __awtsmoosModule_284.reportLaunchProgress;
-	const throwIfLaunchAborted = __awtsmoosModule_284.throwIfLaunchAborted;
+	const loadDeferredEretzEssentialAssets = __awtsmoosModule_98.loadDeferredEretzEssentialAssets;
+	const createEretzFoundationServices = __awtsmoosModule_100.createEretzFoundationServices;
+	const attachEretzFoundationVisualHydration = __awtsmoosModule_259.attachEretzFoundationVisualHydration;
+	const paintEretzWebGlBootFrame = __awtsmoosModule_262.paintEretzWebGlBootFrame;
+	const completeMitzvahWorldEssentialMilestone = __awtsmoosModule_267.completeMitzvahWorldEssentialMilestone;
+	const ESSENTIAL_MILESTONES = __awtsmoosModule_267.ESSENTIAL_MILESTONES;
+	const markMitzvahWorldStartupMilestone = __awtsmoosModule_261.markMitzvahWorldStartupMilestone;
+	const nextLaunchFrame = __awtsmoosModule_276.nextLaunchFrame;
+	const reportLaunchProgress = __awtsmoosModule_276.reportLaunchProgress;
+	const throwIfLaunchAborted = __awtsmoosModule_276.throwIfLaunchAborted;
 
-	/**
-	 * Creates foundation geometry immediately, then loads the real Chossid and policy-approved essential visuals concurrently.
-	 * @returns {Promise<object>} Foundation honest enough for first control under the selected immutable world policy.
-	 */
+	/** Builds first frame and terrain before loading the generated canonical-player runtime chunk. */
 	async function createEretzWorldFoundation(hosts, options = {}) {
 		const qualityProfile = options.qualityProfile;
 		if (!qualityProfile) throw new Error('Eretz foundation requires a quality profile.');
@@ -23567,40 +22643,44 @@ const __awtsmoosModule_0 = Object.create(null);
 		const services = createEretzFoundationServices(hosts, qualityProfile, environment);
 		const webGlBootFrame = paintEretzWebGlBootFrame(services, qualityProfile, environment);
 		await nextLaunchFrame(environment);
+		completeMitzvahWorldEssentialMilestone(
+			environment,
+			ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME,
+			{ importerStage: 'webgl-boot-frame' }
+		);
 		markMitzvahWorldStartupMilestone(environment, 'rendererReady');
 		throwIfLaunchAborted(options.signal);
 
 		options.boot?.begin('bootstrap-visible-world');
 		const world = createBootstrapWorldFoundation(services);
-		reportFoundationStage(options, 'Loading authored player and essential visuals…', 0.42, 'essential-authored-assets');
-		const [loaded, visualEvidence] = await Promise.all([
-			loadEretzEssentialAssets({
-				...options,
-				boot: options.boot,
-				environment,
-				quality: qualityProfile.quality
-			}),
-			prepareEretzEssentialVisuals({
-				boot: options.boot,
-				renderer: services.renderer,
-				signal: options.signal,
-				terrain: world.terrain,
-				worldExperience: options.worldExperience
-			})
-		]);
+		completeMitzvahWorldEssentialMilestone(
+			environment,
+			ESSENTIAL_MILESTONES.SPAWN_TERRAIN_EXISTS,
+			{ importerStage: 'bootstrap-world-foundation' }
+		);
+		markMitzvahWorldStartupMilestone(environment, 'firstTerrainVisible');
 		throwIfLaunchAborted(options.signal);
-		markVisibleWorldReady(options, visualEvidence);
-		return {
+
+		reportFoundationStage(options, 'Loading authored player…', 0.42, 'generated-essential-player');
+		const loaded = await loadDeferredEretzEssentialAssets({
+			...options,
+			boot: options.boot,
+			environment,
+			quality: qualityProfile.quality
+		});
+		throwIfLaunchAborted(options.signal);
+
+		const foundation = {
 			hosts,
 			...hosts,
 			...loaded,
 			...services,
 			...world,
 			environment,
-			essentialVisualEvidence: visualEvidence,
 			qualityProfile,
 			webGlBootFrame
 		};
+		return attachEretzFoundationVisualHydration(foundation, options, environment);
 	}
 
 
@@ -23611,19 +22691,6 @@ const __awtsmoosModule_0 = Object.create(null);
 			stage,
 			url: (( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzWorldFoundation.js")
 		});
-	}
-
-	function markVisibleWorldReady(options, visualEvidence) {
-		const deferredTerrain = visualEvidence?.terrainPhase === 'deferred-by-world-profile';
-		options.boot?.progress?.(
-			'bootstrap-visible-world',
-			1,
-			1,
-			deferredTerrain
-				? 'Canonical Chossid, WebGL, and bootstrap terrain are ready; authored textures are deferred.'
-				: 'Canonical Chossid, rich WebGL, and authored terrain are ready.',
-			'ready'
-		);
 	}
 
 }

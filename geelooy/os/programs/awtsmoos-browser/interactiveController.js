@@ -4,20 +4,21 @@
 
 /**
  * @module InteractiveBrowserController
- * @description The Awtsmoos joins session, gesture, and popup into one guarded flow;
- * Awtsmoos.com keeps Chromium remote while Geelooy feels like a browser users know.
+ * @description
+ * The Awtsmoos lets one Chromium target endure while its visible vessel may rest;
+ * Awtsmoos.com pauses hidden tabs without killing their history, cookies, or identity.
  */
 
-import {
-	clearInteractiveCookies,
-	closeInteractiveTarget,
-	createInteractiveSession,
-	historyInteractiveTarget,
-	navigateInteractiveTarget
-} from "./interactiveClient.js";
 import { createInteractiveBrowserSurface } from "./interactiveSurface.js";
 import { activateInteractiveController } from "./interactiveControllerActivation.js";
-import { normalizedInteractiveState } from "./interactiveState.js";
+import {
+	clearInteractiveStateCookies,
+	closeInteractiveState,
+	createInteractiveState,
+	existingInteractiveState,
+	historyInteractiveState,
+	navigateInteractiveState
+} from "./interactiveTargetLifecycle.js";
 import { createInteractiveViewSync } from "./interactiveViewSync.js";
 
 export function createInteractiveBrowserController(options) {
@@ -25,6 +26,7 @@ export function createInteractiveBrowserController(options) {
 	let state = null;
 	let inputDispose = null;
 	let popupBridge = null;
+	let running = false;
 	const viewSync = createInteractiveViewSync({
 		documentObject: globalThis.document,
 		getPopupBridge: () => popupBridge,
@@ -33,19 +35,21 @@ export function createInteractiveBrowserController(options) {
 		setStatus: options.setStatus,
 		surface
 	});
-
 	return {
 		active: () => Boolean(state),
 		attachExisting,
 		clearCookies,
 		destroy,
 		history,
-		navigate
+		isRunning: () => running,
+		navigate,
+		pause,
+		resume
 	};
 
 	async function attachExisting(input) {
-		state = normalizedInteractiveState(input);
-		activate();
+		state = existingInteractiveState(input);
+		resume();
 		await viewSync.pollTargets();
 		return state;
 	}
@@ -53,48 +57,29 @@ export function createInteractiveBrowserController(options) {
 	async function navigate(url, behavior = {}) {
 		const requestedMode = behavior.engineMode || options.engineMode?.() || "headless";
 		if (state?.engineMode === requestedMode) {
-			return navigateInteractiveTarget({ ...state, url });
+			resume();
+			return navigateInteractiveState(state, url);
 		}
-		if (state) {
-			await detachCurrentTarget();
-		}
-		const created = await createInteractiveSession({
-			aliasId: options.aliasId(),
-			engineMode: requestedMode,
-			jarId: options.jarId(),
-			url
-		});
-		state = normalizedInteractiveState({
-			aliasId: options.aliasId(),
-			engineMode: created.engineMode || requestedMode,
-			jarId: created.jarId || options.jarId(),
-			sessionId: created.sessionId,
-			targetId: created.targetId || created.rootTargetId
-		});
-		activate();
-		return created;
+		if (state) await detachCurrentTarget();
+		const created = await createInteractiveState(options, url, requestedMode);
+		state = created.state;
+		resume();
+		return created.created;
 	}
 
 	async function history(direction) {
 		if (!state) return null;
-		return historyInteractiveTarget({ ...state, direction });
+		resume();
+		return historyInteractiveState(state, direction);
 	}
 
 	async function clearCookies() {
 		if (!state) return { cleared: false };
-		return clearInteractiveCookies(state);
+		return clearInteractiveStateCookies(state);
 	}
 
-	async function detachCurrentTarget() {
-		viewSync.stop();
-		inputDispose?.();
-		inputDispose = null;
-		await closeInteractiveTarget(state).catch(() => {});
-		state = null;
-		popupBridge = null;
-	}
-
-	function activate() {
+	function resume() {
+		if (!state || running) return Boolean(state);
 		const activated = activateInteractiveController({
 			inputDispose,
 			options,
@@ -104,13 +89,31 @@ export function createInteractiveBrowserController(options) {
 		});
 		inputDispose = activated.inputDispose;
 		popupBridge = activated.popupBridge;
+		running = true;
+		return true;
+	}
+
+	function pause() {
+		viewSync.stop();
+		inputDispose?.();
+		inputDispose = null;
+		popupBridge = null;
+		surface.setVisible(false);
+		running = false;
+	}
+
+	async function detachCurrentTarget() {
+		const closingState = state;
+		pause();
+		state = null;
+		await closeInteractiveState(closingState);
 	}
 
 	function destroy() {
-		viewSync.stop();
-		inputDispose?.();
-		if (state) closeInteractiveTarget(state).catch(() => {});
+		const closingState = state;
+		pause();
 		state = null;
+		closeInteractiveState(closingState);
 		surface.destroy();
 	}
 }

@@ -1,6 +1,6 @@
 //B"H
-//Boruch Hashem
-//Blessed be He
+// Boruch Hashem
+// Blessed is He
 
 import { lazyProgram } from "./lazyProgramLauncher.js";
 
@@ -27,9 +27,10 @@ export const programs = Object.freeze({
 	awtsmoosTaskManager: program("Task Manager", "./programs/awtsmoos-task-manager/index.js"),
 	awtsmoosTextEdit: program("Text Editor", "./programs/awtsmoos-text/index.js"),
 	mediaLibrary: program("Media Library", "./programs/media-library/index.js"),
+	markdownEditor: program("Markdown Editor", "./programs/markdown-editor/index.js"),
 	awtsmoosWebProduct: program("Awtsmoos Product", "./programs/awtsmoos-web-product/index.js"),
 	connectedNodeServer: program("Connected Node Server", "./programs/connected-node-server/index.js"),
-	driveWorkspace: program("Drive & Sites", "./programs/drive-workspace/index.js"),
+	driveWorkspace: program("Awtsmoos Drive", "./programs/drive-workspace/index.js"),
 	openWithSelector: program("Open With…", "./programs/open-with-selector/index.js"),
 	perutaUsage: program("Peruta Usage", "./programs/peruta-usage/index.js"),
 	projectCommandCenter: program("Project Command Center", "./programs/project-command-center/index.js"),

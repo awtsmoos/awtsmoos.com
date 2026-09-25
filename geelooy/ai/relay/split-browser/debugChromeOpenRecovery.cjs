@@ -20,7 +20,7 @@ async function recover(options = {}) {
 		runtime,
 		prepareReady
 	} = options;
-	const pressure = Pressure.allowSpawn(config?.pressureOptions || {});
+	const pressure = await Pressure.allowSpawn(config?.pressureOptions || {});
 	if (!pressure.ok) {
 		return deferred(first, firstLaunch, port, pressure);
 	}

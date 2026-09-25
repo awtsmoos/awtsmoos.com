@@ -1,0 +1,62 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets one study vessel fit every screen without losing its inner order;
+ * Awtsmoos.com brings the sheet gently to the hand while the reader behind it rests in place.
+ */
+body[data-study-sheet-open="true"] {
+	overflow: hidden;
+}
+
+@media (max-width: 42rem) {
+	body[data-study-sheet-open="true"] .awtsmoos-study-sheet-backdrop {
+		align-items: flex-end;
+	}
+
+	body[data-study-sheet-open="true"] .awtsmoos-study-sheet {
+		inline-size: 100%;
+		block-size: min(84dvh, 52rem);
+		border-inline-start: 0;
+		border-block-start: 1px solid rgb(93 216 232 / .34);
+		border-radius: 1.35rem 1.35rem 0 0;
+		box-shadow: 0 -18px 60px rgb(0 0 0 / .48);
+	}
+
+	.awtsmoos-study-sheet .awtsmoos-study-sheet-header {
+		padding-block-start: 1rem;
+	}
+
+	.awtsmoos-study-sheet .awtsmoos-study-sheet-modes {
+		position: sticky;
+		top: 0;
+		z-index: 1;
+		background: #081426;
+	}
+}
+
+@media (max-width: 24rem) {
+	.awtsmoos-study-sheet .awtsmoos-study-sheet-header {
+		padding-inline: .85rem;
+	}
+
+	.awtsmoos-study-sheet .awtsmoos-study-sheet-modes {
+		gap: .3rem;
+		padding-inline: .75rem;
+	}
+
+	.awtsmoos-study-sheet .awtsmoos-study-sheet-mode {
+		font-size: .86rem;
+	}
+
+	.awtsmoos-study-sheet .awtsmoos-study-sheet-primary,
+	.awtsmoos-study-sheet .awtsmoos-study-sheet-secondary {
+		inline-size: 100%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-study-sheet-open="true"] .awtsmoos-study-sheet,
+	.awtsmoos-study-sheet * {
+		scroll-behavior: auto;
+	}
+}

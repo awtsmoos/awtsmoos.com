@@ -1,32 +1,37 @@
-// B"H
+//B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file Current cache-generation witness for Home, Heichel, and Reader templates.
+ * @description
+ * The Awtsmoos renews each route according to its real vessel; Awtsmoos.com verifies current cache tokens at the exact source paths instead of forcing unrelated products to share one historical version name.
+ */
 import fs from 'node:fs';
-
-const files = [
-  'geelooy/index.html',
-  'geelooy/heichelos/_awtsmoos.heichel.html',
-  'geelooy/heichelos/heichel/_awtsmoos.heichel.html',
-  'geelooy/heichelos/post/_awtsmoos.post.html',
-  'geelooy/heichelos/_awtsmoos.post.html'
-];
-
-const stale = [];
-for (const file of files) {
-  const text = fs.readFileSync(file, 'utf8');
-  if (/visual-303|modal-scroll-299|eager-verses-299|beauty-001|legend-002/.test(text)) stale.push(file);
-}
-if (stale.length) throw new Error('stale template cache versions: ' + stale.join(', '));
+import assert from 'node:assert/strict';
 
 const home = fs.readFileSync('geelooy/index.html', 'utf8');
-if (!home.includes('/style/social/home/index.css?v=legend-001')) throw new Error('home does not use legend home entry');
-if (!home.includes('/scripts/awtsmoos/social/home/legend/index.js?v=legend-001')) throw new Error('home legend script missing');
+assert.match(home, /\/style\/home-simple\/base\.css\?v=main-brand-001/);
+assert.match(home, /\/style\/home-simple\/components\.css\?v=main-brand-002/);
+assert.match(home, /\/scripts\/home-simple\/index\.js\?v=main-brand-002/);
 
-for (const file of ['geelooy/heichelos/post/_awtsmoos.post.html', 'geelooy/heichelos/_awtsmoos.post.html']) {
-  const post = fs.readFileSync(file, 'utf8');
-  if (!post.includes('/style/awtsmoos-scroll-sovereignty.css?v=native-scroll-004')) throw new Error(file + ' sovereignty css not native-scroll-004');
-  if (!post.includes('/heichelos/post/styles/main.css?v=native-scroll-004')) throw new Error(file + ' post css not native-scroll-004');
-  if (!post.includes('/heichelos/post/styles/reader-controls/live-template.css?v=native-scroll-004')) throw new Error(file + ' live template css missing');
-  if (!post.includes('awtsmoos-reader-critical-css')) throw new Error(file + ' critical reader css missing');
-  if (!post.includes('/heichelos/post/postLogic.js?v=native-scroll-004')) throw new Error(file + ' postLogic not native-scroll-004');
+const directory = fs.readFileSync('geelooy/heichelos/_awtsmoos.heichel.html', 'utf8');
+assert.match(directory, /cosmic-profile-002/);
+
+const heichel = fs.readFileSync('geelooy/heichelos/heichel/_awtsmoos.heichel.html', 'utf8');
+for (const generation of ['critical-path-002', 'ikar-first-002', 'ikar-vision-001', 'heichel-mobile-010', 'ikar-authority-005']) {
+	assert.match(heichel, new RegExp(generation));
 }
 
-console.log('B"H templateVersionContract.test passed');
+const reader = fs.readFileSync('geelooy/heichelos/post/_awtsmoos.post.html', 'utf8');
+for (const generation of ['reader-calm-002', 'reader-chitas-007', 'reader-mobile-005', 'reader-final-005', 'reader-recovery-004', 'reader-runtime-009']) {
+	assert.match(reader, new RegExp(generation));
+}
+
+const fallbackReader = fs.readFileSync('geelooy/heichelos/_awtsmoos.post.html', 'utf8');
+assert.match(fallbackReader, /reader-calm-001/);
+
+for (const source of [home, directory, heichel, reader, fallbackReader]) {
+	assert.doesNotMatch(source, /visual-303|modal-scroll-299|eager-verses-299|beauty-001|legend-00[12]/);
+}
+console.log('B"H templateVersionContract.test passed for current route-specific cache generations.');

@@ -17,7 +17,7 @@ async function findPageTarget(options = {}) {
 	const checks = [];
 	const acceptsPage = typeof options.pagePredicate === "function"
 		? options.pagePredicate : () => true;
-	for (const port of candidatePorts(options)) {
+	for (const port of await candidatePorts(options)) {
 		const endpoint = EndpointOwner.verify({ host: "127.0.0.1", port, pid: options.expectedPid });
 		if (endpoint.known && !endpoint.ok) {
 			checks.push(`${port}:owner:${endpoint.reason}`);
@@ -50,7 +50,7 @@ async function findPageTarget(options = {}) {
 
 async function findBrowserTarget(options = {}) {
 	const checks = [];
-	for (const port of candidatePorts(options)) {
+	for (const port of await candidatePorts(options)) {
 		const endpoint = EndpointOwner.verify({ host: "127.0.0.1", port, pid: options.expectedPid });
 		if (endpoint.known && !endpoint.ok) {
 			checks.push(`${port}:owner:${endpoint.reason}`);
@@ -76,10 +76,10 @@ async function findBrowserTarget(options = {}) {
 	return unavailable(checks);
 }
 
-function candidatePorts({ preferredPort = null } = {}) {
+async function candidatePorts({ preferredPort = null } = {}) {
 	const preferred = Number(preferredPort);
 	if (Number.isInteger(preferred) && preferred > 0) return [preferred];
-	const authority = Registry.observe();
+	const authority = await Registry.observe();
 	return authority.ok ? [authority.port] : [];
 }
 

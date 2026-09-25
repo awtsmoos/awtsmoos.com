@@ -1,24 +1,26 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module GlobalHeaderGamesContractTest
  * @description
- * The Awtsmoos rejects parallel navigation kingdoms. One definition covenant
- * and one renderer must feed header, dock, drawer, profile dishes, and Games.
+ * The Awtsmoos rejects parallel navigation kingdoms while allowing focused route-link owners;
+ * Awtsmoos.com keeps one definition catalog and one renderer feeding header, shell dock, drawer, profile dishes, and Games.
  */
+
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-function read(path) {
-	return readFileSync(path, 'utf8');
-}
+const read = path => readFileSync(path, 'utf8');
+const lineCount = content => content.split('\n').length;
 
 const routes = read('geelooy/scripts/awtsmoos/social/shell/appRoutes.js');
 const definitions = read('geelooy/scripts/awtsmoos/social/shell/appRouteDefinitions.js');
 const renderer = read('geelooy/scripts/awtsmoos/social/shell/routeLink.js');
 const header = read('geelooy/scripts/awtsmoos/social/shell/unusualHeader.js');
 const shell = read('geelooy/scripts/awtsmoos/social/shell/appShell.js');
+const shellRoutes = read('geelooy/scripts/awtsmoos/social/shell/AppShellRouteLinks.js');
 const dock = read('geelooy/scripts/awtsmoos/social/shell/dock.js');
 const drawer = read('geelooy/scripts/awtsmoos/social/shell/drawer.js');
 const dishes = read('geelooy/scripts/awtsmoos/social/profileDropdown/routeDishes.js');
@@ -31,11 +33,13 @@ const routeDishCss = read('geelooy/style/social/profile-dropdown/route-dishes.cs
 assert.equal(definitions.match(/href: '\/games'/g)?.length, 1);
 assert.match(definitions, /profileDish: true/);
 assert.match(routes, /profileDishRoutes/);
-for (const source of [header, shell, dock, drawer, dishes]) {
+for (const source of [header, shellRoutes, dock, drawer, dishes]) {
 	assert.match(source, /createMalchusRouteLink/);
 }
+assert.match(shell, /createAppShellDock/);
+assert.match(shell, /markAppShellCurrentLinks/);
+assert.doesNotMatch(shell, /createMalchusRouteLink|function createDockLink/);
 assert.doesNotMatch(header, /function routeCard/);
-assert.doesNotMatch(shell, /function createDockLink/);
 assert.doesNotMatch(dock, /innerHTML|map\(route =>/);
 assert.doesNotMatch(drawer, /innerHTML|map\(route =>/);
 assert.match(renderer, /constellation/);
@@ -50,12 +54,9 @@ assert.doesNotMatch(games, /nav\/header\.html/);
 assert.match(headerManifest, /profile-crown\.css/);
 assert.match(profileManifest, /route-dishes\.css/);
 assert.match(routeDishCss, /href="\/games"/);
-const bounded = { routes, definitions, renderer, header, shell, dock, drawer, dishes, template };
-for (const [name, source] of Object.entries(bounded)) {
+
+for (const [name, source] of Object.entries({ routes, definitions, renderer, header, shell, shellRoutes, dock, drawer, dishes, template })) {
 	assert.ok(lineCount(source) <= 120, `${name} exceeds 120 lines`);
 }
-console.log('B"H global header and Games unification contract passed.');
 
-function lineCount(content) {
-	return content.split(String.fromCharCode(10)).length;
-}
+console.log('B"H global header and Games unification contract passed.');

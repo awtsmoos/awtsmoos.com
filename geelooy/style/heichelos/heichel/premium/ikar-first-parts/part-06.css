@@ -1,0 +1,96 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets the same Torah doorway fit the smallest hand without shrinking its meaning; Awtsmoos.com gives nested sections denser mobile rhythm while the root library keeps its wider crown.
+*/
+@media (max-width: 42rem) {
+	.heichel-semantic-fallback {
+		padding: max(.9rem, env(safe-area-inset-top)) .9rem max(1.5rem, env(safe-area-inset-bottom));
+	}
+
+	.heichel-semantic-fallback::before {
+		font-size: 8.25rem;
+		right: -1.35rem;
+		top: 5.8rem;
+	}
+
+	.ikar-first-actions {
+		margin-bottom: 1.15rem;
+	}
+
+	.heichel-semantic-fallback[data-ikar-root] #heichel-boot-title {
+		font-size: clamp(3rem, 15vw, 4.25rem);
+	}
+
+	.heichel-semantic-fallback:not([data-ikar-root]) #heichel-boot-title {
+		font-size: clamp(2.25rem, 10vw, 3rem);
+		letter-spacing: -.04em;
+		line-height: 1.02;
+	}
+
+	.heichel-semantic-fallback .heichel-semantic-description {
+		font-size: .96rem;
+		line-height: 1.5;
+		max-width: 31rem;
+	}
+
+	.heichel-semantic-fallback:not([data-ikar-root]) .heichel-semantic-description {
+		margin-top: .58rem;
+	}
+
+	.heichel-semantic-fallback .heichel-semantic-discovery {
+		margin-top: 1.65rem;
+	}
+
+	.heichel-semantic-fallback:not([data-ikar-root]) .heichel-semantic-discovery {
+		margin-top: 1.15rem;
+	}
+
+	.ikar-first-search + .heichel-semantic-discovery {
+		margin-top: .68rem;
+	}
+
+	.heichel-semantic-fallback .heichel-semantic-discovery ul {
+		gap: .5rem;
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.heichel-semantic-fallback .heichel-semantic-discovery a {
+		gap: .62rem;
+		min-height: 4rem;
+		padding: .64rem .72rem;
+	}
+
+	.heichel-semantic-fallback .heichel-semantic-discovery a::before {
+		border-radius: .55rem;
+		font-size: .61rem;
+		height: 1.78rem;
+		width: 1.78rem;
+	}
+}
+
+@media (max-width: 24rem) {
+	.heichel-semantic-fallback {
+		padding-inline: .72rem;
+	}
+
+	.heichel-semantic-fallback .heichel-semantic-discovery h2 {
+		font-size: 1.12rem;
+	}
+
+	.heichel-semantic-fallback .heichel-semantic-discovery a {
+		font-size: .92rem;
+		gap: .52rem;
+		padding-inline: .64rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.heichel-semantic-fallback *,
+	.heichel-semantic-fallback *::before,
+	.heichel-semantic-fallback *::after {
+		animation: none !important;
+		scroll-behavior: auto !important;
+		transition-duration: .001ms !important;
+	}
+}

@@ -10,7 +10,7 @@ const { discoveryOptions } = require("./debugChromeLauncher.cjs");
  * private 0700 profile; no cookie name, value, token, or credential crosses into Node.
  */
 async function readDebugCookies(config = {}) {
-	const target = await findPageTarget(discoveryOptions(config));
+	const target = await findPageTarget(await discoveryOptions(config));
 	if (!target.ok) throw new Error(target.error);
 	return { cookies: [], profileOwned: true };
 }

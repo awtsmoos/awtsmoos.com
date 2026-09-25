@@ -1,0 +1,83 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keeps this module small while the original cascade remains whole.
+*/
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets one accepted private room become a full mobile chamber while bounded history, sequence truth, Back, and text-send remain deliberate and touchable.
+*/
+.hubMessagesRoomMount {
+	min-height: min(72dvh, 54rem);
+}
+
+.hubConversationSurface {
+	display: grid;
+	grid-template-rows: auto auto minmax(12rem, 1fr) auto;
+	gap: .65rem;
+	min-height: min(72dvh, 54rem);
+}
+
+.hubConversationHeader {
+	position: sticky;
+	top: 0;
+	z-index: 3;
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: center;
+	gap: .75rem;
+	padding: .7rem 0;
+	background: var(--surface);
+}
+
+.hubConversationHeader h3,
+.hubConversationHeader p,
+.hubConversationStatus,
+.hubConversationMessage p,
+.hubConversationMessage small {
+	margin: 0;
+}
+
+.hubConversationMeta,
+.hubConversationStatus,
+.hubConversationMessage small {
+	color: var(--muted);
+}
+
+.hubConversationBack,
+.hubConversationControls button,
+.hubConversationComposer button {
+	min-height: 2.8rem;
+	border: 1px solid var(--line-hot);
+	border-radius: .75rem;
+	background: var(--surface-strong);
+	color: var(--ink);
+	font: inherit;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.hubConversationBack {
+	padding: .6rem .75rem;
+}
+
+.hubConversationControls {
+	display: flex;
+	justify-content: center;
+}
+
+.hubConversationControls button {
+	padding: .55rem .85rem;
+}
+
+.hubConversationMessages {
+	display: grid;
+	align-content: start;
+	gap: .65rem;
+	min-height: 0;
+	max-height: min(56dvh, 42rem);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	padding: .15rem .1rem .8rem;
+}

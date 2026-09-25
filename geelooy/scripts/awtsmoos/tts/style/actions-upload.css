@@ -1,0 +1,87 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos keeps ignition and upload actions together while each transition follows only the properties its state can move.
+ * Awtsmoos.com preserves the measured cascade order so refactoring reveals ownership without changing the Forge’s face.
+ */
+/* --- Main Button --- */
+.ignite-btn {
+	width: 100%;
+	padding: 30px;
+	background: black;
+	border: 2px solid var(--neon-cyan);
+	color: var(--neon-cyan);
+	font-family: var(--font-display);
+	font-size: 1.5rem;
+	letter-spacing: 0.4em;
+	text-transform: uppercase;
+	cursor: pointer;
+	transition:
+		background-color 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+		color 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+		box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+		transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+		border-color 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+	position: relative;
+	overflow: hidden;
+}
+
+.ignite-btn:hover:not(:disabled) {
+	background: var(--neon-cyan);
+	color: black;
+	box-shadow: 0 0 50px var(--neon-cyan);
+	transform: scale(1.02);
+}
+
+.ignite-btn:disabled {
+	border-color: #333;
+	color: #333;
+	cursor: not-allowed;
+}
+
+.spinner {
+	width: 30px; height: 30px;
+	border: 4px solid rgba(0, 243, 255, 0.3);
+	border-top-color: var(--neon-cyan);
+	border-radius: 50%;
+	animation: spin 1s infinite linear;
+	margin: 0 auto;
+}
+
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+/* --- Upload Modules --- */
+.upload-module {
+	text-align: center;
+	border: 2px dashed var(--panel-border);
+	padding: 40px;
+	transition: border-color 0.3s, background-color 0.3s;
+	position: relative;
+}
+
+.upload-module:hover {
+	border-color: var(--active-color);
+	background: rgba(255,255,255,0.02);
+}
+
+.upload-module.cyan { --active-color: var(--neon-cyan); }
+.upload-module.purple { --active-color: var(--neon-purple); }
+
+.module-title {
+	font-size: 0.8rem;
+	letter-spacing: 0.3em;
+	text-transform: uppercase;
+	margin-bottom: 20px;
+	color: var(--active-color);
+	font-weight: 700;
+	display: block;
+}
+
+.file-input {
+	position: absolute;
+	inset: 0;
+	opacity: 0;
+	cursor: pointer;
+	width: 100%; height: 100%;
+}

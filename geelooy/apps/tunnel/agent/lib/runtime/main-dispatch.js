@@ -64,12 +64,29 @@ function markLocal(observer, phase) {
 	});
 }
 
+const TRANSPORT_KINDS = new Set([
+	"fs", "command", "chrome", "relay", "streaming",
+	"tunnel.read", "tunnel.write", "local_http_proxy"
+]);
+
 function payloadWithKind(payload, kind) {
-	return { ...payload, kind };
+	return { ...payload, ...preservedSemanticKind(payload, kind), kind };
+}
+
+/**
+ * Keeps an explicit semantic event kind (for example a Mission Room "completion")
+ * as eventKind/messageKind before the transport vessel kind overwrites payload.kind.
+ * Transport routing still uses the normalized kind; the semantic kind is never lost.
+ */
+function preservedSemanticKind(payload, kind) {
+	const semantic = String(payload.eventKind || payload.messageKind || payload.kind || "").trim();
+	if (!semantic || semantic === kind || TRANSPORT_KINDS.has(semantic)) return {};
+	return { eventKind: semantic, messageKind: semantic };
 }
 
 module.exports = {
 	createDispatch,
 	markLocal,
-	payloadWithKind
+	payloadWithKind,
+	preservedSemanticKind
 };

@@ -1,0 +1,63 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives logs, playback, and download controls one concise output vessel with narrowly named motion.
+ * Awtsmoos.com preserves the measured cascade order so refactoring reveals ownership without changing the Forge’s face.
+ */
+/* --- Logs --- */
+.log-panel {
+	height: 150px;
+	overflow-y: auto;
+	font-family: var(--font-code);
+	font-size: 0.7rem;
+	padding: 10px;
+	background: rgba(0,0,0,0.8);
+	border: 1px solid #333;
+}
+
+.log-entry {
+	margin-bottom: 4px;
+	padding-left: 8px;
+	border-left: 2px solid #333;
+}
+
+.log-entry.info { color: var(--neon-cyan); border-color: var(--neon-cyan); }
+.log-entry.success { color: #4ade80; border-color: #4ade80; }
+.log-entry.warning { color: #facc15; border-color: #facc15; }
+.log-entry.error { color: var(--forge-red); border-color: var(--forge-red); }
+
+.timestamp { opacity: 0.4; margin-right: 8px; }
+
+/* --- Audio Player --- */
+.audio-controls {
+	display: flex;
+	gap: 15px;
+	margin-top: 20px;
+}
+
+audio {
+	flex-grow: 1;
+	height: 40px;
+	filter: invert(1) hue-rotate(180deg) brightness(1.5);
+}
+
+.download-btn {
+	background: var(--neon-cyan);
+	color: black;
+	border: none;
+	padding: 0 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	text-decoration: none;
+	font-weight: 700;
+	transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.download-btn:hover {
+	background: white;
+	box-shadow: 0 0 20px white;
+}
+

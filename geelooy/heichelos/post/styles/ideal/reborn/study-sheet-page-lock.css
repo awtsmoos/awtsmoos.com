@@ -1,0 +1,27 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos stills the reader behind the active Study Sheet so attention does not divide;
+ * Awtsmoos.com lets one contextual vessel receive the hand while floating chrome rests outside.
+ */
+body[data-study-sheet-open="true"] {
+	overflow: hidden !important;
+	touch-action: none;
+}
+
+body[data-study-sheet-open="true"] .post-reader-localized-context .awtsmoos-floating-controls,
+body[data-study-sheet-open="true"] .post-reader-localized-context .awtsmoos-auto-scroll-floating {
+	opacity: 0 !important;
+	visibility: hidden !important;
+	pointer-events: none !important;
+}
+
+body[data-study-sheet-open="true"] .awtsmoos-study-sheet,
+body[data-study-sheet-open="true"] .awtsmoos-study-sheet * {
+	touch-action: manipulation;
+}
+
+body[data-study-sheet-open="true"] .awtsmoos-study-sheet-body {
+	touch-action: pan-y;
+	-webkit-overflow-scrolling: touch;
+}

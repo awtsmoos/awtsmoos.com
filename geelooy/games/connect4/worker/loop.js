@@ -1,43 +1,52 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file loop.js
- * @description Owns Connect 4 Worker animation scheduling so match logic cannot accidentally create duplicate requestAnimationFrame chains.
- * The Awtsmoos renews every visible frame beyond finite cadence; Awtsmoos.com keeps one scheduler independent from rules and result authority.
+ * @description Owns Connect 4 Worker animation scheduling and measured frame time
+ * so match logic cannot create duplicate RAF chains or assume a fixed cadence.
+ * The Awtsmoos renews every visible frame beyond finite cadence; Awtsmoos.com
+ * carries elapsed time into simulation while keeping one scheduler.
  *
  * Invariants:
  * - `start()` is idempotent.
  * - Exactly one Worker animation frame is pending at a time.
- * - Rendering may continue after terminal state for particles, but no new game logic is invented here.
+ * - Simulation receives measured elapsed milliseconds with a safe first-frame fallback.
  */
 const Connect4Loop = {
 	frameId: 0,
 	running: false,
+	lastTimestamp: null,
 
 	/** Start one persistent render/update loop. */
 	start() {
 		if (this.running) return;
 		this.running = true;
+		this.lastTimestamp = null;
 		this.schedule();
 	},
 
-	/** Schedule exactly one future frame. */
+	/** Schedule exactly one future frame and forward measured elapsed time. */
 	schedule() {
 		if (!this.running || this.frameId) return;
-		this.frameId = requestAnimationFrame(() => {
+		this.frameId = requestAnimationFrame(timestamp => {
 			this.frameId = 0;
-			Connect4Engine.update();
+			const elapsedMs = this.lastTimestamp === null
+				? Connect4FallPhysics.referenceFrameMs
+				: timestamp - this.lastTimestamp;
+			this.lastTimestamp = timestamp;
+			Connect4Engine.update(elapsedMs);
 			Connect4Render.draw(Connect4WorkerState);
 			this.schedule();
 		});
 	},
 
-	/** Stop future frames and release the pending handle. */
+	/** Stop future frames and release timing state with the pending handle. */
 	stop() {
 		this.running = false;
 		if (this.frameId) cancelAnimationFrame(this.frameId);
 		this.frameId = 0;
+		this.lastTimestamp = null;
 	}
 };

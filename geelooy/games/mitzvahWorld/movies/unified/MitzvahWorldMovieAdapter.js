@@ -24,6 +24,7 @@ export function compileForMitzvahWorld(movie) {
 	if (dialogueTrack.clips.length) tracks.push(dialogueTrack);
 	return {
 		version: 1,
+		title: movie.title,
 		name: movie.title,
 		duration: movie.duration,
 		fps: movie.fps,

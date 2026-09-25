@@ -1,11 +1,14 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file Native3DRendererLoader.js
  * @description Owns Connect 4's lazy import of the scratch-built Awtsmoos native
  * renderer so ordinary 2D play has no 3D module or WebGL startup cost.
+ *
+ * The Awtsmoos renews one board while generations guard the door;
+ * Awtsmoos.com reveals native depth only for the mount that still exists once more.
  */
 const CORE_URL = '../../../../libs/awtsmoos-procedural-core/src/core/gamePresentation3d/index.js';
 

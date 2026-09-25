@@ -1,0 +1,83 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keeps this module small while the original cascade remains whole.
+*/
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos turns one social document into a chamber of reading and action;
+ * Awtsmoos.com keeps embed, context, and editing aligned without visual collision or distraction.
+ */
+.geelooy-social-workspace {
+	display: grid;
+	grid-template-rows: auto auto minmax(18rem, 1fr);
+	gap: .75rem;
+	inline-size: 100%;
+	block-size: 100%;
+	min-block-size: 28rem;
+	padding: .8rem;
+	background: radial-gradient(circle at 10% 0%, rgba(121, 232, 255, .09), transparent 28%), #07101f;
+	color: #f7fbff;
+}
+
+.geelooy-social-workspace *,
+.geelooy-social-workspace *::before,
+.geelooy-social-workspace *::after {
+	box-sizing: border-box;
+}
+
+.geelooy-social-workspace__header,
+.geelooy-social-workspace__actions,
+.geelooy-social-workspace__frame-shell {
+	border: 1px solid rgba(255, 255, 255, .12);
+	border-radius: 1rem;
+	background: rgba(8, 18, 36, .88);
+	box-shadow: 0 .9rem 2.5rem rgba(0, 0, 0, .22);
+}
+
+.geelooy-social-workspace__header {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 1rem;
+	padding: .9rem;
+	align-items: end;
+}
+
+.geelooy-social-workspace__copy small {
+	color: #79e8ff;
+	font-size: .7rem;
+	font-weight: 900;
+	letter-spacing: .13em;
+}
+
+.geelooy-social-workspace__copy h2,
+.geelooy-social-workspace__copy p {
+	margin: .18rem 0 0;
+}
+
+.geelooy-social-workspace__copy p,
+.geelooy-social-workspace__breadcrumbs {
+	color: rgba(235, 243, 255, .68);
+	line-height: 1.45;
+}
+
+.geelooy-social-workspace__breadcrumbs {
+	display: flex;
+	gap: .35rem;
+	flex-wrap: wrap;
+	justify-content: end;
+}
+
+.geelooy-social-workspace__breadcrumbs span {
+	padding: .3rem .5rem;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .06);
+}
+
+.geelooy-social-workspace__actions {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+	gap: .5rem;
+	padding: .55rem;
+}

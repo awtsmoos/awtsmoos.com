@@ -1,0 +1,91 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives movement without losing the still point where truth is known;
+Awtsmoos.com lets keyboard, motion, and touch reveal one interface as their own.
+*/
+html body[data-geelooy-route="home"] :where(
+	.primary-nav a,
+	.profile-link,
+	.creation-field input,
+	.creation-field button,
+	.search input,
+	.search button,
+	.portal-shortcuts a,
+	.featured-card,
+	nav.mobile-dock a
+):focus-visible {
+	outline: 3px solid #ffdc8d;
+	outline-offset: 4px;
+	box-shadow: 0 0 0 6px rgba(255, 205, 109, .16), 0 0 38px rgba(255, 193, 72, .25);
+}
+
+html body[data-geelooy-route="home"] main.home .creation-field button,
+html body[data-geelooy-route="home"] main.home .search button,
+html body[data-geelooy-route="home"] main.home .featured-card,
+html body[data-geelooy-route="home"] main.home .portal-shortcuts a,
+html body[data-geelooy-route="home"] nav.mobile-dock a {
+	transition:
+		transform var(--g4-normal) var(--g4-ease),
+		border-color var(--g4-normal) var(--g4-ease),
+		box-shadow var(--g4-normal) var(--g4-ease),
+		background-color var(--g4-normal) var(--g4-ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	html body[data-geelooy-route="home"] main.home .creation-field button:hover,
+	html body[data-geelooy-route="home"] main.home .search button:hover {
+		transform: translateY(-2px);
+	}
+
+	html body[data-geelooy-route="home"] main.home .featured-card:hover {
+		border-color: rgba(var(--featured-accent, 150, 166, 255), .52);
+		box-shadow: 0 38px 92px rgba(0, 0, 0, .46), 0 0 52px rgba(var(--featured-accent, 150, 166, 255), .15);
+		transform: translateY(-8px) rotateX(.8deg);
+	}
+
+	html body[data-geelooy-route="home"] main.home .featured-card:hover .featured-open {
+		transform: translateX(5px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	html body[data-geelooy-route="home"] .particle-sky {
+		opacity: .42;
+	}
+
+	html body[data-geelooy-route="home"] :where(
+		.hero-image,
+		.creation-field button,
+		.search button,
+		.portal-shortcuts a,
+		.featured-card,
+		nav.mobile-dock a
+	) {
+		animation-duration: .01ms;
+		animation-iteration-count: 1;
+		transition-duration: .01ms;
+		transition-delay: 0ms;
+	}
+}
+
+@media (prefers-contrast: more) {
+	html body[data-geelooy-route="home"] :where(a, button, input):focus-visible {
+		outline-width: 4px;
+		outline-color: #fff2c2;
+	}
+
+	html body[data-geelooy-route="home"] :where(
+		.portal-shortcuts a,
+		.featured-card,
+		.creation-form,
+		.search,
+		nav.mobile-dock
+	) {
+		border-color: rgba(255, 255, 255, .46);
+	}
+}

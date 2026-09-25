@@ -2,36 +2,53 @@
 //Boruch Hashem
 //Blessed is He
 
-import * as THREE from '../../../scripts/build/three.module.js';
-
 /**
  * @module StageResources
  * @description
- * Light enters one finite scene and scene-owned vessels are released. The Awtsmoos
- * remains beyond creation; Awtsmoos.com preserves globally cached photographic
- * textures and GLB sources while disposing every local geometry and material.
+ * Light enters Seven Mitzvos through the native procedural renderer rather than
+ * through foreign scene objects. The Awtsmoos renews color and illumination;
+ * Awtsmoos.com keeps environment ownership explicit and local resources disposable.
  */
-export function addStageLights(scene) {
-	const ambient = new THREE.HemisphereLight(0xc8e2ff, 0x17130f, 1.45);
-	const key = new THREE.DirectionalLight(0xffe2b8, 3.4);
-	const fill = new THREE.DirectionalLight(0x8dc7ff, 0.8);
-	key.position.set(5, 11, 7);
-	fill.position.set(-7, 4, -5);
-	key.castShadow = true;
-	key.shadow.mapSize.set(1024, 1024);
-	scene.add(ambient, key, fill);
+export function configureStageEnvironment(renderer, background = 0x040914) {
+	const clear = revealRgb(background);
+	renderer.setClearColor(clear[0], clear[1], clear[2], 1);
+	renderer.setEnvironment({
+		ambient: [0.3, 0.38, 0.5],
+		sunDirection: [-0.42, -0.78, -0.46],
+		sunColor: [1, 0.89, 0.72],
+		fogColor: clear,
+		fogNear: 28,
+		fogFar: 95,
+		exposure: 1.08
+	});
 }
 
+/** Releases scene-owned geometry and material vessels while preserving shared assets. */
 export function disposeScene(scene) {
 	scene.traverse(object => {
-		if (!object.userData.sharedAsset) {
+		if (!object.userData?.sharedAsset) {
 			object.geometry?.dispose?.();
 		}
-		const materials = Array.isArray(object.material) ? object.material : [object.material];
+		const materials = Array.isArray(object.material)
+			? object.material
+			: [object.material];
 		materials.filter(Boolean).forEach(material => {
 			if (!material.userData?.sharedAsset) {
 				material.dispose?.();
 			}
 		});
 	});
+}
+
+/** Converts numeric or CSS-style hexadecimal color into normalized native RGB. */
+function revealRgb(value) {
+	const normalized = typeof value === 'string'
+		? Number.parseInt(value.replace(/^#/, ''), 16)
+		: Number(value);
+	const color = Number.isFinite(normalized) ? normalized : 0x040914;
+	return [
+		((color >> 16) & 255) / 255,
+		((color >> 8) & 255) / 255,
+		(color & 255) / 255
+	];
 }

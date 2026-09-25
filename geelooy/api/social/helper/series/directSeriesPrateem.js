@@ -1,71 +1,45 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @module DirectSeriesPrateem
  * @description
- * Reads hot series metadata through strict shared read-only handles. The Awtsmoos
- * fingerprints each file so an atomic maintenance swap closes the old descriptor
- * before the next request, without ever opening a writer merely to read metadata.
+ * The Awtsmoos lets Awtsmoos.com read hot series metadata through one guarded vessel;
+ * storage stays below, meaning stays above, and transfer damage gains no invented light.
  */
 
-const fs = require('fs');
-const path = require('path');
-const AwtsmoosDB = require('../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js');
 const awtsmoosJSON = require('../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/index.js');
 const { er } = require('../general.js');
+const {
+	closeAll,
+	readPrateemBuffer
+} = require('./directSeriesStore.js');
+const { recoverSeriesPrateem } = require('./seriesPrateemRecovery.js');
 
-const cache = new Map();
-
+/**
+ * Parses an optional projection map without allowing malformed JSON to escape.
+ * @param {*} value Projection request from the query string.
+ * @returns {object|null} Parsed map or null.
+ */
 function parseMap(value) {
 	if (!value) return null;
 	if (typeof value === 'object') return { ...value };
-	try { return JSON.parse(value); } catch { return null; }
+	try {
+		return JSON.parse(value);
+	} catch (_error) {
+		return null;
+	}
 }
 
-function propertyMapFromQuery($i) {
-	return parseMap($i.$_GET?.propertyMap || $i.$_GET?.properties);
-}
-
-function rootDirectory($i) {
-	return process.awtsmoosDbPath
-		|| process.env.AWTSMOOS_DB_PATH
-		|| $i?.db?.directory
-		|| path.resolve(process.cwd(), '../../dayuhChadash');
-}
-
-function seriesDbFile($i, heichelId) {
-	return path.join(
-		rootDirectory($i),
-		'socialPacked',
-		`social.heichel.${heichelId}.series.fs.awtsdb`
-	);
-}
-
-function fingerprint(file) {
-	const status = fs.statSync(file);
-	return `${status.dev}:${status.ino}:${status.size}:${status.mtimeMs}`;
-}
-
-function sharedSeriesDb(file) {
-	const mark = fingerprint(file);
-	const current = cache.get(file);
-	if (current?.mark === mark) return current.db;
-	try { current?.db?.close(); } catch {}
-	const db = new AwtsmoosDB(file, {
-		readOnly: true,
-		wal: false,
-		processLockMode: 'shared',
-		lockMode: 'shared'
-	});
-	db.open();
-	cache.set(file, { db, mark });
-	return db;
-}
-
+/**
+ * Keeps only explicitly requested metadata properties.
+ * @param {object} value Healthy or recovered metadata.
+ * @param {object|null} map Projection map.
+ * @returns {object} Projected metadata.
+ */
 function project(value, map) {
-	if (!map || !value || typeof value !== 'object') return value;
+	if (!map || !value) return value;
 	const output = {};
 	for (const [key, rule] of Object.entries(map)) {
 		if (rule && Object.prototype.hasOwnProperty.call(value, key)) {
@@ -75,33 +49,50 @@ function project(value, map) {
 	return output;
 }
 
-async function readPrateemBuffer($i, heichelId, seriesId) {
-	const db = sharedSeriesDb(seriesDbFile($i, heichelId));
-	const filePath = `/social/heichelos/${heichelId}/series/${seriesId}/prateem.awtsmoosJSON`;
+/**
+ * Decodes healthy metadata or recognizes the observed raw transfer placeholder.
+ * @param {Buffer} buffer Raw packed metadata bytes.
+ * @param {string} seriesId Proven series identity from the route.
+ * @returns {object|null} Safe metadata or null.
+ */
+function decodePrateem(buffer, seriesId) {
+	let decoded = null;
 	try {
-		const buffer = db.fs.cat(filePath);
-		return Buffer.isBuffer(buffer) ? buffer : null;
-	} catch {
-		return null;
-	}
+		decoded = awtsmoosJSON.deserializeBinary(buffer);
+	} catch (_error) {}
+	return recoverSeriesPrateem(decoded, seriesId)
+		|| recoverSeriesPrateem(buffer, seriesId);
 }
 
+/**
+ * Returns the fast read-only series metadata contract used by the public route.
+ * @param {object} context Request, Heichel identity, and series identity.
+ * @returns {Promise<object>} Metadata envelope or bounded not-found error.
+ */
 async function getDirectSeriesPrateem({ $i, heichelId, seriesId }) {
-	const buffer = await readPrateemBuffer($i, heichelId, seriesId);
-	if (!buffer) return er({ code: 'SERIES_NOT_FOUND', details: { heichelId, seriesId } });
-	let prateem = awtsmoosJSON.deserializeBinary(buffer);
-	prateem = project(prateem, propertyMapFromQuery($i));
-	if (!prateem || typeof prateem !== 'object') {
-		return er({ code: 'SERIES_NOT_FOUND', details: { heichelId, seriesId } });
+	const buffer = readPrateemBuffer($i, heichelId, seriesId);
+	const prateem = buffer ? decodePrateem(buffer, seriesId) : null;
+	if (!prateem) {
+		return er({
+			code: 'SERIES_NOT_FOUND',
+			details: { heichelId, seriesId }
+		});
 	}
-	return { prateem: { ...prateem, id: prateem.id || seriesId }, id: seriesId };
+	const map = parseMap($i.$_GET?.propertyMap || $i.$_GET?.properties);
+	const selected = project(prateem, map);
+	return {
+		prateem: {
+			...selected,
+			id: selected.id || seriesId
+		},
+		id: seriesId
+	};
 }
 
-function closeAll() {
-	for (const entry of cache.values()) try { entry.db.close(); } catch {}
-	cache.clear();
-}
-
-process.once('exit', closeAll);
-
-module.exports = { closeAll, getDirectSeriesPrateem };
+module.exports = {
+	closeAll,
+	decodePrateem,
+	getDirectSeriesPrateem,
+	parseMap,
+	project
+};

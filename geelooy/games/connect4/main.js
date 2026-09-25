@@ -1,11 +1,13 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file main.js
- * @description Connect 4 browser entrypoint that wires menus, semantic controls, responsive canvas geometry, and one authoritative Worker session.
- * The Awtsmoos renews every finite choice beyond browser surface; Awtsmoos.com leaves rules, rendering, results, and geometry in focused modules.
+ * @description Connect 4 browser entrypoint that wires menus, semantic controls,
+ * responsive canvas geometry, native 3D, and one prewarmed authoritative Worker.
+ * The Awtsmoos prepares transport before finite choice; Awtsmoos.com publishes
+ * browser readiness only when the Worker has loaded every gameplay dependency.
  */
 import { BoardCanvas } from './app/runtime/BoardCanvas.js';
 import { Connect4Ui } from './app/runtime/Connect4Ui.js';
@@ -18,7 +20,7 @@ const native3d = new Connect4Native3DPresentation();
 const workerSession = new WorkerSession({
 	onResult: message => ui.showResult(message),
 	onState: message => native3d.update(message.board),
-	onError: () => returnToMenu()
+	onError: () => handleWorkerError()
 });
 const board = new BoardCanvas(ui.screens.game, resignButton, {
 	onResize: size => workerSession.resize(size),
@@ -28,30 +30,47 @@ const board = new BoardCanvas(ui.screens.game, resignButton, {
 });
 let pendingMode = 'pvc';
 
-/** Start one fresh browser/Worker match generation. */
+/** Publish menu readiness only after the Worker confirms dependency-loaded boot. */
+function prepareMenuWorker() {
+	document.body.dataset.connect4Ready = 'false';
+	return workerSession.prewarm()
+		.then(() => {
+			document.body.dataset.connect4Ready = 'true';
+		})
+		.catch(() => {
+			document.body.dataset.connect4Ready = 'error';
+		});
+}
+
+/** Start one fresh match on the already-prewarmed Worker generation. */
 function startGame(mode, playerGoesFirst = true) {
 	pendingMode = mode;
-	workerSession.stop();
 	ui.hideResult();
 	ui.show(ui.screens.game);
 	const size = board.mount();
 	native3d.mount(board.canvas);
 	const offscreen = board.transfer();
-	workerSession.start({
-		mode,
-		playerGoesFirst,
-		canvas: offscreen,
-		size
-	});
+	workerSession.start({ mode, playerGoesFirst, canvas: offscreen, size });
 }
 
-/** Stop active rendering/Worker state and return to the main mode menu. */
+/** Stop active ownership, show the mode menu, and prewarm its next Worker. */
 function returnToMenu() {
 	workerSession.stop();
 	native3d.unmount();
 	board.unmount();
 	ui.hideResult();
 	ui.show(ui.screens.main);
+	prepareMenuWorker();
+}
+
+/** Surface Worker failure without recursively spawning another failed Worker. */
+function handleWorkerError() {
+	workerSession.stop();
+	native3d.unmount();
+	board.unmount();
+	ui.hideResult();
+	ui.show(ui.screens.main);
+	document.body.dataset.connect4Ready = 'error';
 }
 
 document.getElementById('p-vs-p').addEventListener('click', () => startGame('pvp'));
@@ -68,14 +87,16 @@ document.getElementById('connect4-rematch').addEventListener('click', () => {
 	workerSession.rematch();
 });
 document.getElementById('connect4-main-menu').addEventListener('click', returnToMenu);
-
 window.addEventListener('awtsmoos:connect4-column-request', event => {
 	const { column, kind } = event.detail || {};
 	if (kind === 'hover') workerSession.hover(column);
 	else if (kind === 'leave') workerSession.leave();
 	else workerSession.drop(column);
 });
-
-globalThis.addEventListener('pagehide', () => native3d.dispose(), { once: true });
+globalThis.addEventListener('pagehide', () => {
+	workerSession.stop();
+	native3d.dispose();
+}, { once: true });
 
 ui.show(ui.screens.main);
+prepareMenuWorker();

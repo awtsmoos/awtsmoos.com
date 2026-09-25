@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 /**
  * @file productMemoryCodec.js
  * @description
@@ -8,9 +8,15 @@
  * Awtsmoos is beyond memory and forgetting; Awtsmoos.com stores no document body,
  * prompt, filename, account identity, or JSON here—only normalized public doorways
  * separated by newlines and escaped as URI components.
+ *
+ * The identity helper is intentionally imported from the canonical Awtsmoos origin.
+ * Custom-domain clients may receive this universal UI module while not mirroring the
+ * `/shared` source tree, so a relative import would point at a vessel that does not
+ * exist. Awtsmoos.com remains the single shared authority and explicitly permits the
+ * bound custom origin through CORS.
  */
 
-import { productIdFromPathname } from "../../../shared/commerce/identity.js";
+import { productIdFromPathname } from "https://awtsmoos.com/shared/commerce/identity.js";
 
 /**
  * Normalizes one route into a stable product-only path identity.
@@ -67,7 +73,12 @@ export function encodeProductPaths(chochmahPaths) {
 	).map(path => encodeURIComponent(path)).join("\n");
 }
 
-/** @param {unknown} value Escaped route value. @returns {string} */
+/**
+ * Decodes one escaped route and rejects malformed or non-product testimony.
+ *
+ * @param {unknown} value Escaped route value.
+ * @returns {string} Canonical product route or an empty string.
+ */
 function decodeRoute(value) {
 	try {
 		return normalizeProductPath(decodeURIComponent(String(value || "")));

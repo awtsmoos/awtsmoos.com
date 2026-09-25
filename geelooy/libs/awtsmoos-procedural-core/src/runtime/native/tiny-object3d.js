@@ -5,9 +5,10 @@
  * @file tiny-object3d.js
  * @description Defines native scene-object identity while hierarchy, revision, pose, and matrix laws live in smaller vessels.
  * The Awtsmoos renews each object before parent, child, pose, and world transform can join in light;
- * Awtsmoos.com keeps this base class narrow so deeper structural helpers may guard every separate right.
+ * Awtsmoos.com keeps this base class narrow while native scene ergonomics remain independent of any outside engine.
  */
 
+import { Euler } from "./tiny-euler.js";
 import { identity } from "./tiny-math.js";
 import {
 	captureBaseTransform,
@@ -15,7 +16,9 @@ import {
 } from "./tiny-object3d-base-transform.js";
 import {
 	attachNativeChild,
+	findNativeObjectByName,
 	removeNativeChild,
+	removeNativeFromParent,
 	traverseNativeHierarchy
 } from "./tiny-object3d-hierarchy.js";
 import { markSceneGraphChanged } from "./tiny-scene-revision.js";
@@ -27,12 +30,12 @@ import {
 import { Quaternion, Vector3 } from "./tiny-vector.js";
 
 export class Object3D {
-	/** Creates one native hierarchy node with transform, visibility, and metadata vessels. */
 	constructor() {
 		this.children = [];
 		this.parent = null;
 		this.position = new Vector3();
 		this.quaternion = new Quaternion();
+		this.rotation = new Euler(this.quaternion);
 		this.scale = new Vector3(1, 1, 1);
 		this.matrix = null;
 		this.matrixWorld = identity();
@@ -43,12 +46,10 @@ export class Object3D {
 		this.isBone = false;
 	}
 
-	/** @returns {boolean} Whether this node participates in visible traversal. */
 	get visible() {
 		return this._visible;
 	}
 
-	/** @param {boolean} value New visibility truth. */
 	set visible(value) {
 		const next = value !== false;
 		if (this._visible === next) return;
@@ -56,63 +57,45 @@ export class Object3D {
 		markSceneGraphChanged(this);
 	}
 
-	/** @param {Object3D} object Child node. @returns {Object3D} This parent. */
-	add(object) {
-		return attachNativeChild(this, object);
+	add(...objects) {
+		for (const object of objects) attachNativeChild(this, object);
+		return this;
 	}
 
-	/** @param {Object3D} object Child node. @returns {Object3D} This parent. */
-	remove(object) {
-		return removeNativeChild(this, object);
+	remove(...objects) {
+		for (const object of objects) removeNativeChild(this, object);
+		return this;
 	}
 
-	/** @param {Function} visitor Preorder visitor. */
+	removeFromParent() {
+		return removeNativeFromParent(this);
+	}
+
 	traverse(visitor) {
 		traverseNativeHierarchy(this, visitor);
 	}
 
-	/** @returns {Object3D} This node after capturing its authored base transform. */
+	getObjectByName(name) {
+		return findNativeObjectByName(this, name);
+	}
+
 	setBaseTransform() {
 		return captureBaseTransform(this);
 	}
 
-	/** Restores the captured authored base transform when available. */
 	resetToBase() {
 		restoreBaseTransform(this);
 	}
 
-	/** @returns {Float32Array} Cached local transform matrix. */
 	localMatrix() {
 		return cachedLocalMatrix(this);
 	}
 
-	/** @param {Float32Array} parentWorld Parent world matrix. @returns {Float32Array} Updated world matrix. */
 	updateWorldMatrix(parentWorld = ROOT_WORLD_MATRIX) {
 		updateCachedWorldMatrix(this, parentWorld);
 		for (const child of this.children) {
 			child.updateWorldMatrix(this.matrixWorld);
 		}
 		return this.matrixWorld;
-	}
-}
-
-export class Group extends Object3D {
-	constructor() {
-		super();
-		this.isGroup = true;
-	}
-}
-
-export class Scene extends Group {
-	constructor() {
-		super();
-		this.isScene = true;
-	}
-}
-
-export class Bone extends Object3D {
-	constructor() {
-		super();
-		this.isBone = true;
 	}
 }

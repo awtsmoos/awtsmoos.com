@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @module RagStoragePolicy
  * @description
- * The Awtsmoos names every reviewed immutable database allowed in the search firmament and no accidental shard may imitate that light;
- * Awtsmoos.com admits sealed corpora and the one canonical exact-Tanach vessel while unknown files and partial choirs remain outside by right.
+ * The Awtsmoos names each reviewed immutable database allowed in the search firmament;
+ * Awtsmoos.com welcomes the living publication catalog by exact name while unknown shards remain outside the covenant.
  */
 
 const path = require('path');
@@ -16,6 +16,7 @@ const {
 } = require('./canonicalShards.js');
 
 const CANONICAL_EXACT_TANACH_NAME = 'tanach.hebrew.search.fs.awtsdb';
+const CANONICAL_PUBLICATION_CATALOG_NAME = 'publication-catalog.awtsdb';
 const CANONICAL_NAMES = [...CANONICAL_SHARD_FILES].sort();
 const SICHOS_NAMES = [...PUBLISHED_SICHOS_KODESH_FILES].sort();
 const WRITE_SIDECAR_PATTERN = /\.awtsdb\.(?:journal|lock|tmp|wal)$/i;
@@ -48,12 +49,19 @@ function configuredExactName(root) {
 	return name;
 }
 
-/** Recognizes the canonical exact index by reviewed fixed name when it already inhabits the canonical root. */
+/** Recognizes the canonical exact index by reviewed fixed name when it inhabits the canonical root. */
 function exactDatabaseName(root, databases = []) {
 	const configured = configuredExactName(root);
 	if (configured) return configured;
 	return databases.includes(CANONICAL_EXACT_TANACH_NAME)
 		? CANONICAL_EXACT_TANACH_NAME
+		: null;
+}
+
+/** Recognizes the reviewed publication catalog without admitting arbitrary sibling databases. */
+function publicationCatalogName(databases = []) {
+	return databases.includes(CANONICAL_PUBLICATION_CATALOG_NAME)
+		? CANONICAL_PUBLICATION_CATALOG_NAME
 		: null;
 }
 
@@ -65,16 +73,19 @@ function hasAnySichos(databases) {
 /** Builds the exact allowed database set while keeping multipart publication all-or-nothing. */
 function expectedDatabaseNames(root, databases = []) {
 	const exactName = exactDatabaseName(root, databases);
+	const catalogName = publicationCatalogName(databases);
 	const names = [
 		...CANONICAL_NAMES,
 		...(hasAnySichos(databases) ? SICHOS_NAMES : []),
-		...(exactName ? [exactName] : [])
+		...(exactName ? [exactName] : []),
+		...(catalogName ? [catalogName] : [])
 	];
 	return [...new Set(names)].sort();
 }
 
 module.exports = {
 	CANONICAL_EXACT_TANACH_NAME,
+	CANONICAL_PUBLICATION_CATALOG_NAME,
 	CANONICAL_NAMES,
 	SICHOS_NAMES,
 	WRITE_SIDECAR_PATTERN,
@@ -82,5 +93,6 @@ module.exports = {
 	exactDatabaseName,
 	expectedDatabaseNames,
 	hasAnySichos,
+	publicationCatalogName,
 	storageError
 };

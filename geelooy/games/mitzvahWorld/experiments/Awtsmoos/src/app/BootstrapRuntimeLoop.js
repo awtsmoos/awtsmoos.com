@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapRuntimeLoop.js
- * @description Owns the first playable heartbeat and feeds the existing heavy diagnostics monitor only when an opt-in session has installed one.
+ * @description Owns the first playable heartbeat and feeds heavy diagnostics only when an opt-in session installed them.
  * Keter crowns one visible pulse while Yesod carries simulation below; the Awtsmoos recreates every frame before the browser may request it,
- * and Awtsmoos.com records cadence without burdening ordinary play, for the measuring vessel remains absent unless the traveler explicitly calls it near.
+ * and Awtsmoos.com records live control only after movement and rendering have truly crossed the gate.
  */
 
 import {
@@ -22,6 +22,10 @@ import {
 } from './BootstrapFrameExecution.js';
 import { createBootstrapFrameScheduler } from './BootstrapFrameScheduler.js';
 import { BootstrapMovementController } from './BootstrapMovementController.js';
+import {
+	completeMitzvahWorldEssentialMilestone,
+	ESSENTIAL_MILESTONES
+} from './MitzvahWorldEssentialBoot.js';
 import { markMitzvahWorldStartupMilestone } from './MitzvahWorldStartupMilestones.js';
 
 const MAX_FRAME_DELTA_SECONDS = 0.05;
@@ -36,7 +40,9 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 	let lastUiAt = -Infinity;
 
 	const frame = (currentTime, source = 'unknown') => {
-		if (!active) return;
+		if (!active) {
+			return;
+		}
 		const gap = Math.max(1, currentTime - lastTime);
 		const deltaSeconds = frameDelta(gap);
 		lastTime = currentTime;
@@ -62,7 +68,7 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 
 	publishLoopState(runtime, frameWindow, scheduler);
 	primeBootstrapGameplay(runtime, movement, lastTime);
-	publishFirstPlayableMilestones(environment);
+	publishMovementReady(environment);
 	scheduler.schedule(frame);
 	movement.stop = (options = {}) => {
 		active = false;
@@ -78,9 +84,13 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 	return movement;
 }
 
-/** Publishes the production first visible terrain and live-control boundaries once. */
-function publishFirstPlayableMilestones(environment) {
-	markMitzvahWorldStartupMilestone(environment, 'firstTerrainVisible');
+/** Publishes live-control evidence only after the prime movement/render path succeeds. */
+function publishMovementReady(environment) {
+	completeMitzvahWorldEssentialMilestone(
+		environment,
+		ESSENTIAL_MILESTONES.PLAYER_MOVEMENT_ENABLED,
+		{ importerStage: 'bootstrap-runtime-prime' }
+	);
 	markMitzvahWorldStartupMilestone(environment, 'playerControllable');
 }
 

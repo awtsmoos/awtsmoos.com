@@ -5,24 +5,16 @@
 /**
  * @module BrowserSurface
  * @description
- * The Awtsmoos joins trusted chrome, living viewport, and hidden instruments into one
- * browser vessel. Awtsmoos.com keeps the guest world beneath host-owned navigation,
- * while Tiferes harmonizes old Merkava tools with a new local-browser manifestation:
- * the page receives the center, the controls receive their place, and neither trades truth.
+ * The Awtsmoos joins trusted chrome, one living tabpanel, and hidden instruments into
+ * a browser vessel. Awtsmoos.com keeps guest worlds below host navigation while advanced
+ * developer tools remain a separate depth that ordinary browsing never has to expose.
  */
 
 import { createBrowserAdvancedPanel } from "./browserAdvancedPanel.js?compact=true";
 import { createBrowserChrome } from "./browserChrome.js?compact=true";
 import { createBrowserViewport } from "./browserViewport.js?compact=true";
 
-/**
- * Composes the complete Awtsmoos Browser application surface.
- *
- * @param {Document} documentObject
- * 	The trusted host document used to create all application chrome and containers.
- * @returns {Object}
- * 	Legacy runtime handles plus new browser chrome, viewport, and advanced-drawer handles.
- */
+/** Composes the complete Awtsmoos Browser application surface. */
 export function createBrowserSurface(documentObject = document) {
 	const root = createElement(documentObject, "section", "awtsmoos-browser-host");
 	const chrome = createBrowserChrome(documentObject);
@@ -31,6 +23,8 @@ export function createBrowserSurface(documentObject = document) {
 	const body = createElement(documentObject, "div", "awtsmoos-browser-body");
 	const boundary = createBoundary(documentObject);
 
+	viewport.viewport.id = "awtsmoos-browser-page-panel";
+	viewport.viewport.setAttribute("role", "tabpanel");
 	advanced.advancedPanel.append(boundary);
 	body.append(viewport.viewport, advanced.advancedPanel);
 	root.append(chrome.toolbar, body);
@@ -66,8 +60,6 @@ function createBoundary(documentObject) {
 function createElement(documentObject, tagName, className, text = "") {
 	const element = documentObject.createElement(tagName);
 	element.className = className;
-	if (text) {
-		element.textContent = text;
-	}
+	if (text) element.textContent = text;
 	return element;
 }

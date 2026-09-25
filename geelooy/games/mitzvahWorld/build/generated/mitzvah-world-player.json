@@ -1,0 +1,27 @@
+{
+	"deterministic": true,
+	"entry": "experiments/Awtsmoos/src/app/EretzEssentialAssetLoader.js",
+	"moduleCount": 1,
+	"modules": [],
+	"name": "player",
+	"outputBytes": 176764,
+	"outputHash": "3c0c8ee78f1aa8def413f1de9a5fd423284f7f10b9b58731dffabc9eaa00f0c4",
+	"preserveDynamicImports": false,
+	"representations": {
+		"brotli": {
+			"bytes": 36174,
+			"encoding": "br",
+			"sha256": "992f5e9c264463244532656ee72d543c8580e7673d9658442f18a4dc8a373def"
+		},
+		"gzip": {
+			"bytes": 42735,
+			"encoding": "gzip",
+			"sha256": "8c97e9882bc1b6aa052f5c15d4d15c4211b79efac06afa64fd5f3fb0d78eeb33"
+		},
+		"identity": {
+			"bytes": 176764,
+			"encoding": "identity",
+			"sha256": "3c0c8ee78f1aa8def413f1de9a5fd423284f7f10b9b58731dffabc9eaa00f0c4"
+		}
+	}
+}

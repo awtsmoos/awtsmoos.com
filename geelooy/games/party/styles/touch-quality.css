@@ -1,0 +1,39 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets every shared-device turn fit the actual device instead of widening it;
+ * Awtsmoos.com releases native select min-content pressure while preserving readable local multiplayer controls.
+ */
+html,
+body {
+	min-width: 0;
+	width: 100%;
+	max-width: 100%;
+}
+
+.partyShell,
+.partyPanel,
+.partyHero,
+.partySetup,
+.partyArena,
+.partyGameStage,
+.turnControls,
+.partyScoreboard,
+#partySetupForm,
+.setupGrid,
+.playerNames,
+.partyField,
+.turnScoreField {
+	min-width: 0;
+	max-width: 100%;
+}
+
+.partyField input,
+.partyField select,
+.turnScoreField input {
+	box-sizing: border-box;
+	width: 100%;
+	min-width: 0;
+	max-width: 100%;
+}

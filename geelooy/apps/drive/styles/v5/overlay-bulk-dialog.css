@@ -1,0 +1,64 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos gives every bulk decision one bounded vessel; Awtsmoos.com keeps confirmation and destination chrome clear while folder browsing lives in its own owner. */
+.drive-bulk-dialog {
+	width: min(520px, calc(100vw - 24px));
+}
+
+.drive-bulk-dialog form {
+	gap: 12px;
+}
+
+.drive-folder-chooser-location {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 8px;
+	padding: 9px 10px;
+	border: 1px solid var(--drive-line);
+	border-radius: 10px;
+	background: rgba(84, 237, 187, .04);
+}
+
+.drive-folder-chooser-location strong {
+	min-width: 0;
+	color: var(--drive-accent);
+	font-size: .78rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.drive-folder-chooser-location button,
+.drive-bulk-dialog [data-folder-create] {
+	min-height: 39px;
+	padding: 0 11px;
+	border: 1px solid var(--drive-line);
+	border-radius: 9px;
+	background: var(--drive-surface);
+	color: var(--drive-text);
+}
+
+.drive-folder-chooser-location button:disabled,
+.drive-bulk-dialog button:disabled {
+	opacity: .42;
+}
+
+.drive-bulk-dialog [data-folder-create] {
+	border-color: rgba(84, 237, 187, .24);
+	color: var(--drive-accent);
+	text-align: left;
+}
+
+.drive-bulk-dialog-error {
+	min-height: 18px;
+	color: var(--drive-danger) !important;
+	font-size: .72rem !important;
+}
+
+.drive-bulk-dialog .drive-dialog-actions .is-danger {
+	border-color: rgba(245, 99, 107, .25);
+	background: rgba(245, 99, 107, .1);
+	color: var(--drive-danger);
+}

@@ -2,27 +2,33 @@
 //Boruch Hashem
 //Blessed is He
 
-import * as THREE from '../../../scripts/build/three.module.js';
 import { dampFactor } from '../motion/smooth-motion.js';
+import {
+	aimNativeCamera,
+	lerpNativeVector,
+	nativeVector,
+	nativeWorldPosition
+} from './native-scene-math.js';
 
 /**
  * @module CameraDirector
  * @description
  * The camera may acknowledge a discovery without seizing control. The Awtsmoos
  * renews seer and seen; Awtsmoos.com applies a small damped focus, honors reduced
- * motion, and restores the authored scene composition automatically.
+ * motion, and restores authored composition through native scene math alone.
  */
 export class CameraDirector {
 	constructor(camera) {
 		this.camera = camera;
-		this.homePosition = new THREE.Vector3();
-		this.homeTarget = new THREE.Vector3();
-		this.desiredPosition = new THREE.Vector3();
-		this.desiredTarget = new THREE.Vector3();
-		this.currentTarget = new THREE.Vector3();
-		this.focusPoint = new THREE.Vector3();
+		this.homePosition = nativeVector();
+		this.homeTarget = nativeVector();
+		this.desiredPosition = nativeVector();
+		this.desiredTarget = nativeVector();
+		this.currentTarget = nativeVector();
+		this.focusPoint = nativeVector();
 		this.focusUntil = 0;
-		this.reducedMotion = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+		this.reducedMotion = typeof matchMedia === 'function'
+			&& matchMedia('(prefers-reduced-motion: reduce)').matches;
 	}
 
 	setHome(position, target = [0, 0, 0]) {
@@ -32,14 +38,14 @@ export class CameraDirector {
 		this.desiredTarget.copy(this.homeTarget);
 		this.currentTarget.copy(this.homeTarget);
 		this.camera.position.copy(this.homePosition);
-		this.camera.lookAt(this.currentTarget);
+		aimNativeCamera(this.camera, this.currentTarget);
 	}
 
 	focus(root, duration = 1400) {
-		if (this.reducedMotion || !root?.getWorldPosition) {
+		if (this.reducedMotion || !root) {
 			return;
 		}
-		root.getWorldPosition(this.focusPoint);
+		nativeWorldPosition(root, this.focusPoint);
 		this.desiredTarget.copy(this.focusPoint);
 		this.desiredTarget.y += 0.55;
 		this.desiredPosition.copy(this.homePosition);
@@ -54,9 +60,9 @@ export class CameraDirector {
 			this.restore();
 		}
 		const factor = dampFactor(5.5, delta);
-		this.camera.position.lerp(this.desiredPosition, factor);
-		this.currentTarget.lerp(this.desiredTarget, factor);
-		this.camera.lookAt(this.currentTarget);
+		lerpNativeVector(this.camera.position, this.desiredPosition, factor);
+		lerpNativeVector(this.currentTarget, this.desiredTarget, factor);
+		aimNativeCamera(this.camera, this.currentTarget);
 	}
 
 	restore() {

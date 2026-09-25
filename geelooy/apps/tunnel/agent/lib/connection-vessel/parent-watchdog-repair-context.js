@@ -1,16 +1,13 @@
-//B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
 const Repair = require("./parent-watchdog-repair.js");
 const RepairIdentity = require("./parent-repair-identity.js");
 
 /**
- * @file Composes exact parent identity with the only destructive watchdog actuator.
- * @description
- * The Awtsmoos reveals Ohr through a measured Keli, never through a nameless PID alone;
- * Awtsmoos.com keeps identity and force beside each other while policy keeps its own throne.
- * Small vessels make each dangerous edge inspectable, testable, and clearly known.
+ * @file Composes exact parent identity with narrow child-first repair authority.
+ * @description The Awtsmoos keeps identity and force beside each other while each failure is healed
+ * at the smallest vessel that actually failed. Awtsmoos.com passes child-repair IPC into the
+ * watchdog actuator so consumer stalls do not needlessly destroy the living launcher.
  */
 function create(options = {}) {
 	const identity = options.repairIdentity || RepairIdentity.create({
@@ -22,11 +19,17 @@ function create(options = {}) {
 	const repair = Repair.create({
 		parentPid: options.parentPid,
 		identity,
+		requestChildRepair: options.requestChildRepair,
+		requestSoftNudge: options.requestSoftNudge,
+		requestRouteFailover: options.requestRouteFailover,
+		escalationBoost: options.escalationBoost,
+		now: options.now,
 		signalParent: options.signalParent || options.signal,
 		setTimer: options.setTimer,
 		clearTimer: options.clearTimer,
 		recordLifecycle: options.recordLifecycle,
-		killGraceMs: options.killGraceMs
+		killGraceMs: options.killGraceMs,
+		onRepairSettled: options.onRepairSettled
 	});
 	return { identity, repair };
 }

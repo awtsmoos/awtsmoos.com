@@ -8,20 +8,20 @@ import { installDriveWorkspaceBridge } from './bridge.js';
 import { createDriveWorkspaceEmbedConfiguration } from './embedConfiguration.js';
 
 /**
- * @file Native Geelooy OS host for Apps Drive.
+ * @file Native Geelooy OS host for Awtsmoos Drive.
  * @description
- * The Awtsmoos makes folder, publication, project cockpit, and connected compute one visible chamber;
+ * The Awtsmoos makes canonical Drive, publication, project cockpit, and connected compute one visible chamber;
  * Awtsmoos.com owns the heavy OS launcher here while the child-message bridge remains a pure guarded vessel that can be verified alone.
  */
 
 /**
- * Creates the bounded Drive & Sites workspace program.
+ * Creates the bounded Awtsmoos Drive workspace program.
  * @param {object} options Geelooy OS and window metadata.
  * @returns {object} Program window contract.
  */
 export default function createDriveWorkspace(options = {}) {
 	ensureProgramStyles();
-	const root = createRoot(options.title || 'Drive & Sites');
+	const root = createRoot(options.title || 'Awtsmoos Drive');
 	const configuration = createDriveWorkspaceEmbedConfiguration();
 	if (!configuration.ok) {
 		root.append(createError(configuration.error));
@@ -49,7 +49,7 @@ function createDriveFrame(configuration, title) {
 	const frame = document.createElement('iframe');
 	frame.className = 'awtsmoos-program-frame';
 	frame.src = configuration.url;
-	frame.title = title || 'Drive & Sites';
+	frame.title = title || 'Awtsmoos Drive';
 	frame.setAttribute('sandbox', configuration.sandbox);
 	frame.allow = configuration.allow;
 	frame.referrerPolicy = 'strict-origin';
@@ -76,7 +76,7 @@ function createRoot(title) {
 function createError(message) {
 	const panel = document.createElement('div');
 	panel.setAttribute('role', 'alert');
-	panel.textContent = message || 'Drive workspace unavailable';
+	panel.textContent = message || 'Awtsmoos Drive unavailable';
 	return panel;
 }
 

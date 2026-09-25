@@ -35,6 +35,10 @@ export function renderBootstrapGameplay(runtime, currentTime) {
 		runtime.scene,
 		runtime.camera
 	);
+	// B"H Track C: optional per-frame vessels (particles, NPC dialogue). Each
+	// guarded line keeps a missing or failing vessel from ever breaking the frame.
+	try { runtime.mitzvahParticleLayer?.update?.(runtime); } catch {}
+	try { runtime.mitzvahNpcDialogue?.update?.(); } catch {}
 }
 
 /** Refreshes HUD/minimap at a presentation cadence rather than every display frame. */
@@ -77,3 +81,4 @@ export function primeBootstrapGameplay(runtime, movement, currentTime) {
 	}
 	renderBootstrapGameplay(runtime, currentTime);
 }
+

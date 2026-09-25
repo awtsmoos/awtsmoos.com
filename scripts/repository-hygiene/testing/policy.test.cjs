@@ -9,6 +9,8 @@ const Policy = require("../policy.cjs");
 const MITZVAH_COMPACT_ROOT = "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/";
 const MITZVAH_PRODUCTION_VESSELS = Object.freeze([
 	"mitzvah-world.compact.js",
+	"mitzvah-world-foundation.compact.js",
+	"mitzvah-world-core.compact.js",
 	"mitzvah-world-presentation.compact.js",
 	"mitzvah-world-world.compact.js",
 	"mitzvah-world-optional.compact.js"

@@ -1,0 +1,18 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives editor and play controls a complete touch vessel;
+ * Awtsmoos.com lets this final scoped layer outrank earlier compact geometry without disturbing CobyK gameplay.
+ */
+.cobyk-app .cobyk-select,
+.cobyk-app .cobyk-button,
+.cobyk-app .cobyk-level-button {
+	min-block-size: 44px;
+	height: auto;
+	touch-action: manipulation;
+}
+
+.cobyk-app .cobyk-level-button {
+	min-inline-size: 44px;
+}

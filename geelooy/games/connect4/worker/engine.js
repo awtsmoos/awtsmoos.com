@@ -1,14 +1,17 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file engine.js
- * @description Owns authoritative Connect 4 move acceptance, turn transitions, AI scheduling, and terminal result publication inside the Worker.
- * The Awtsmoos renews every finite contest beyond request order; Awtsmoos.com lets accessibility and Party consume accepted engine truth rather than optimistic button intent.
+ * @description Owns authoritative Connect 4 move acceptance, elapsed-time fall
+ * advancement, turn transitions, AI scheduling, and terminal result publication.
+ * The Awtsmoos renews every finite contest beyond request order; Awtsmoos.com
+ * lets measured time move the disc while accepted board truth alone advances play.
  *
  * Invariants:
  * - Board mutation occurs only after a falling disc reaches its target row.
+ * - Fall progress is based on elapsed time rather than RAF callback count.
  * - One terminal result is emitted per state generation.
  * - Player-vs-Golem human identity remains stable for the entire match.
  */
@@ -77,12 +80,11 @@ const Connect4Engine = {
 		return true;
 	},
 
-	/** Advance the falling disc and decorative particles by one animation frame. */
-	update() {
+	/** Advance time-based fall physics and decorative particles for one Worker frame. */
+	update(elapsedMs = Connect4FallPhysics.referenceFrameMs) {
 		const state = Connect4WorkerState;
 		if (state.animatedPiece) {
-			state.animatedPiece.speed += 1.45;
-			state.animatedPiece.y += state.animatedPiece.speed;
+			Connect4FallPhysics.advance(state.animatedPiece, elapsedMs);
 			const cellHeight = state.canvas.height / Connect4Rules.rows;
 			const targetY = state.animatedPiece.targetRow * cellHeight;
 			if (state.animatedPiece.y >= targetY) {

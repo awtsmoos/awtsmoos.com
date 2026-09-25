@@ -1,8 +1,7 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos holds every pane without collision; Awtsmoos.com keeps the Mail
-world bounded, scroll-owned, and calm while every narrower vessel retains its mission.
+The Awtsmoos holds every pane without collision; Awtsmoos.com keeps the Mail world bounded, scroll-owned, and calm while every narrower vessel retains its mission.
 */
 body[data-mail-page] {
 	min-block-size: 100dvh;
@@ -12,21 +11,21 @@ body[data-mail-page] {
 	overflow: hidden;
 	overscroll-behavior: none;
 }
-
 body[data-mail-page] > #root {
 	inline-size: 100%;
 	min-inline-size: 0;
+	min-width: 0;
 	block-size: 100dvh;
 	min-block-size: 0;
 	overflow: hidden;
 }
-
 body[data-mail-page] .mail-civilization-shell {
 	position: relative;
 	display: grid;
 	grid-template-rows: auto minmax(0, 1fr);
 	inline-size: 100%;
 	min-inline-size: 0;
+	min-width: 0;
 	block-size: 100dvh;
 	min-block-size: 0;
 	background:
@@ -35,23 +34,22 @@ body[data-mail-page] .mail-civilization-shell {
 	isolation: isolate;
 	overflow: hidden;
 }
-
 body[data-mail-page] .app-container {
 	position: relative;
 	display: grid;
 	grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
 	min-inline-size: 0;
+	min-width: 0;
 	min-block-size: 0;
 	overflow: hidden;
 	isolation: isolate;
 }
-
 body[data-mail-page] :is(.mail-sidebar, .mail-chat, .sidebar, .chat-area) {
 	min-inline-size: 0;
+	min-width: 0;
 	min-block-size: 0;
 	max-inline-size: 100%;
 }
-
 body[data-mail-page][data-mail-connectivity="offline"] .mail-civilization-shell {
 	--mail-border-focus: rgb(232 199 141 / 68%);
 }

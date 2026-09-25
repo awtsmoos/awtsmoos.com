@@ -1,11 +1,12 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
+
 /**
- * @file stateRoute.test.mjs
+ * @file Canonical Social route and deep-link witnesses.
  * @description
- * The Awtsmoos names every chamber in one coherent light and measured height;
- * Awtsmoos.com verifies capabilities by identity and preserves the intentional route order in sight.
+ * The Awtsmoos keeps every stable route identity within one social world while Awtsmoos.com gives the human roads
+ * Home, Discover, Heichelos, Messages, and Profile first place without breaking deep links, profile context, or secondary chambers.
  */
 import assert from 'node:assert/strict';
 import {
@@ -24,13 +25,13 @@ import {
 
 const expectedRouteIds = [
 	'home',
-	'inbox',
-	'messages',
-	'spaces',
 	'people',
+	'spaces',
+	'messages',
 	'profile',
-	'chat',
+	'inbox',
 	'interact',
+	'chat',
 	'activity',
 	'network',
 	'references',
@@ -62,7 +63,11 @@ assert.equal(value.profileAliasId, 'student');
 assert.equal(TABS.includes('people'), true);
 assert.equal(TABS.includes('network'), true);
 assert.deepEqual(ROUTES.map(route => route.id), expectedRouteIds);
-assert.equal(routeById('people').title, 'Discover people');
+assert.equal(routeById('people').label, 'Discover');
+assert.equal(routeById('people').title, 'Discover people and public activity');
+assert.equal(routeById('spaces').label, 'Heichelos');
+assert.equal(routeById('messages').title, 'Private Messages');
+assert.equal(routeById('inbox').title, 'Communications Inbox');
 assert.equal(routeById('network').title, 'Public network');
 assert.equal(routeFromLocation({ hash: '#people' }).id, 'people');
 assert.equal(profileAliasFromLocation(location), 'student');
@@ -75,4 +80,4 @@ assert.equal(
 	}),
 	'/social-hub/?alias=teacher&profile=rebbe#profile'
 );
-console.log('social-hub stateRoute.test passed');
+console.log('B"H social-hub stateRoute.test passed with the renewed canonical route order.');

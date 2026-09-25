@@ -1,30 +1,37 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gives discovered names a spacious mobile-first chamber in which to appear;
-Awtsmoos.com keeps Torah, search, actions, and results close to the thumb and visually clear.
+
+The Awtsmoos is one beyond division while useful vessels still receive distinct names;
+Awtsmoos.com keeps this shell body-only: Ikar carries Torah clearly and community spaces carry their own living aims.
 -->
-<title><?<script> return this.pageTitle; </script>?> — Awtsmoos</title>
-<link rel="stylesheet" href="/style/geelooy-app/index.css?v=unified-ui-001">
-<link rel="stylesheet" href="/style/social-system/index.css?v=unified-ui-001">
-<link rel="stylesheet" href="/style/heichelos/discovery.css?v=torah-first-007">
 <script>document.body.classList.add('heichelos-discovery-page');</script>
 <main class="social-spaces-shell geelooy-content-region" data-heichelos-index>
 	<section class="spaces-hero" data-enter>
 		<div>
-			<p class="field-label">Living Torah · living communities</p>
-			<h1 id="spaces-title"><?<script> return this.pageTitle; </script>?></h1>
-			<p>Begin with Torah, then discover communities, libraries, series, submissions, and post streams by the names people actually know.</p>
+			<p class="field-label"><?<script> return this.heroEyebrow; </script>?></p>
+			<h1 id="spaces-title"><?<script> return this.heroTitle; </script>?></h1>
+			<p><?<script> return this.heroDescription; </script>?></p>
 		</div>
 		<div class="spaces-command-row"><?<script> return this.primaryAction; </script>?></div>
 	</section>
-	<form class="spaces-search" role="search" action="/heichelos" method="get">
-		<?<script> return this.aliasField; </script>?>
-		<label class="field-label" for="heichelos-search">Search Heichelos</label>
-		<input id="heichelos-search" name="q" type="search" value="<?<script> return this.queryText; </script>?>" placeholder="Name, creator, or teaching">
-		<button class="p-button p-button-primary" type="submit">Search</button>
-	</form>
-	<div class="spaces-result-summary" aria-live="polite"><?<script> return this.countLabel; </script>?></div>
-	<section class="spaces-grid" aria-label="Heichelos list"><?<script> return this.resultsHtml; </script>?></section>
+	<?<script> return this.ikarLibraryHtml; </script>?>
+	<section class="spaces-purpose-section" aria-labelledby="community-heichelos-title">
+		<header class="spaces-section-heading">
+			<p class="field-label">Community spaces</p>
+			<h2 id="community-heichelos-title">Community Heichelos</h2>
+			<p>Discover people, feeds, series, conversation, and contribution spaces. Torah library browsing belongs in Ikar.</p>
+		</header>
+		<form class="spaces-search" role="search" action="/heichelos" method="get">
+			<?<script> return this.aliasField; </script>?>
+			<label class="field-label" for="heichelos-search">Find a community Heichel</label>
+			<input id="heichelos-search" name="q" type="search" value="<?<script> return this.queryText; </script>?>" placeholder="Community name or creator">
+			<button class="p-button p-button-primary" type="submit">Search spaces</button>
+		</form>
+		<div class="spaces-result-summary" aria-live="polite"><?<script> return this.countLabel; </script>?></div>
+		<section class="spaces-grid" aria-label="Community Heichelos">
+			<?<script> return this.resultsHtml; </script>?>
+		</section>
+	</section>
 </main>
 <script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=unified-ui-001"></script>

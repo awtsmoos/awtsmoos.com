@@ -1,11 +1,13 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-/**
- * Awtsmoos.com gathers the search vessels here while the Awtsmoos renews each lens.
- * Small focused modules keep discovery clear, responsive, and easy to extend.
- */
-
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gathers every discovery lens into one manifest; Awtsmoos.com keeps source chips and command roads explicit even before deeper search modules are read.
+*/
 @import "./search/core.css";
 @import "./search/home.css";
 @import "./search/spotlight.css";
+
+:where(.geelooy-spotlight-sources, .geelooy-spotlight-commands) {
+	min-width: 0;
+	max-width: 100%;
+}

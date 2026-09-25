@@ -3,18 +3,20 @@
 // Blessed is He
 /**
  * @module DriveUploadQueue
- * @description Renders optimistic uploads beside the files they will become.
+ * @description Owns optimistic upload state while focused renderers reveal measured progress.
  * The Awtsmoos creates becoming and completion in one continuous light;
- * Awtsmoos.com lets each upload testify locally without obscuring the user's sight.
+ * Awtsmoos.com keeps transport testimony local while authoritative files remain the final sight.
  */
 import { joinDrivePath } from '../path.js';
+import { createDriveUploadQueueRow } from './DriveUploadQueueRow.js';
+import { createDriveUploadSummary } from './DriveUploadSummary.js';
 
 export class DriveUploadQueue {
 	constructor() {
 		this.items = new Map();
 	}
 
-	/** Creates optimistic rows before the first network byte leaves the browser. */
+	/** Creates optimistic testimony before the first network byte leaves the browser. */
 	begin(files, basePath = '') {
 		for (const file of Array.from(files || [])) {
 			const relativePath = String(file.webkitRelativePath || file.name || '').replace(/^\/+/, '');
@@ -30,7 +32,7 @@ export class DriveUploadQueue {
 		this.render();
 	}
 
-	/** Updates only the file identified by measured upload progress. */
+	/** Updates only the file identified by measured XHR upload progress. */
 	progress(event = {}) {
 		const item = this.items.get(event.path);
 		if (!item) return;
@@ -52,48 +54,25 @@ export class DriveUploadQueue {
 		this.render();
 	}
 
-	/** Removes successful optimistic rows once the server snapshot contains them. */
+	/** Removes completed optimistic rows only after the server snapshot contains them. */
 	reconcile(entries = []) {
 		const paths = new Set(entries.map(entry => entry.path));
 		for (const [path, item] of this.items) {
-			if (item.status === 'complete' && paths.has(path)) {
-				this.items.delete(path);
-			}
+			if (item.status === 'complete' && paths.has(path)) this.items.delete(path);
 		}
 		this.render();
 	}
 
+	/** Repaints aggregate and per-file measured testimony without mutating Drive entries. */
 	render() {
 		const host = document.querySelector('#drive-upload-queue');
 		if (!host) return;
-		host.replaceChildren(...Array.from(this.items.values()).map(item => this.row(item)));
-		host.hidden = this.items.size === 0;
-	}
-
-	row(item) {
-		const row = document.createElement('article');
-		row.className = 'drive-upload-row';
-		row.dataset.uploadStatus = item.status;
-		const percent = item.size ? Math.min(100, Math.round((item.loaded / item.size) * 100)) : 0;
-		const glyph = document.createElement('span');
-		glyph.className = 'drive-row-glyph';
-		glyph.dataset.kind = 'document';
-		const body = document.createElement('div');
-		const name = document.createElement('strong');
-		name.textContent = item.name;
-		const status = document.createElement('small');
-		status.textContent = this.status(item, percent);
-		const progress = document.createElement('progress');
-		progress.max = 100;
-		progress.value = item.status === 'complete' ? 100 : percent;
-		body.append(name, status, progress);
-		row.append(glyph, body);
-		return row;
-	}
-
-	status(item, percent) {
-		if (item.status === 'failed') return 'Upload failed';
-		if (item.status === 'complete') return 'Finishing…';
-		return `Uploading… ${percent}%`;
+		const items = Array.from(this.items.values());
+		host.replaceChildren();
+		if (items.length) {
+			host.append(createDriveUploadSummary(items));
+			host.append(...items.map(item => createDriveUploadQueueRow(item)));
+		}
+		host.hidden = items.length === 0;
 	}
 }

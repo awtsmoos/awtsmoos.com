@@ -1,0 +1,41 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos hides depth without losing truth; Awtsmoos.com gives progressive disclosure a door, a handle, and proof.
+*/
+.g4-sr-only {
+	position: absolute !important;
+	inline-size: 1px !important;
+	block-size: 1px !important;
+	padding: 0 !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	clip: rect(0 0 0 0) !important;
+	white-space: nowrap !important;
+	border: 0 !important;
+}
+.g4-truncate {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.g4-scroll {
+	overflow: auto;
+	overscroll-behavior: contain;
+}
+.g4-quiet {
+	color: var(--g4-text-secondary);
+}
+.g4-muted {
+	color: var(--g4-text-muted);
+}
+.g4-stack {
+	display: grid;
+	gap: 16px;
+}
+.g4-cluster {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+}

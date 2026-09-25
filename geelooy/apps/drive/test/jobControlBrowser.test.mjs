@@ -27,7 +27,7 @@ test('Mission Control is readable, private, and responsive in real Chrome', asyn
 		for (const viewport of viewports) await verifyViewport(harness, viewport);
 		assert.deepEqual(harness.errors, []);
 	} finally {
-		harness.close();
+		await harness.close();
 	}
 });
 

@@ -1,0 +1,76 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets exact Tanach verses descend as compact readable rows;
+ * Awtsmoos.com keeps Hebrew text spacious while actions stay simple beneath what the learner knows.
+ */
+.awtsmoos-study-sheet .awtsmoos-tanach-status {
+	margin: 0 0 .8rem;
+	padding: .75rem .85rem;
+	border-radius: .8rem;
+	background: rgb(255 255 255 / .045);
+	color: #b9c7da;
+	line-height: 1.45;
+}
+
+.awtsmoos-study-sheet .awtsmoos-tanach-results {
+	display: grid;
+	gap: .75rem;
+}
+
+.awtsmoos-tanach-result-group {
+	display: grid;
+	gap: .65rem;
+	padding: .9rem;
+	border: 1px solid rgb(148 163 184 / .16);
+	border-radius: .95rem;
+	background: rgb(255 255 255 / .035);
+}
+
+.awtsmoos-tanach-result-heading {
+	display: flex;
+	gap: .75rem;
+	align-items: baseline;
+	justify-content: space-between;
+}
+
+.awtsmoos-tanach-result-heading strong {
+	color: #f8fafc;
+}
+
+.awtsmoos-tanach-result-heading small {
+	color: #94a3b8;
+}
+
+.awtsmoos-tanach-result-text {
+	margin: 0;
+	color: #f1f5f9;
+	font-family: var(--awtsmoos-reader-text-font, serif);
+	font-size: clamp(1.25rem, 4.4vw, 1.6rem);
+	line-height: 1.8;
+	text-align: start;
+}
+
+.awtsmoos-tanach-result-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .55rem;
+	margin-block: .25rem 0;
+}
+
+.awtsmoos-study-sheet .awtsmoos-tanach-more {
+	inline-size: 100%;
+	min-block-size: 2.75rem;
+	margin-block-start: .85rem;
+	border: 1px solid rgb(148 163 184 / .22);
+	border-radius: .75rem;
+	background: rgb(255 255 255 / .04);
+	color: #cbd5e1;
+	font: inherit;
+	font-weight: 800;
+	cursor: pointer;
+}
+
+.awtsmoos-study-sheet .awtsmoos-tanach-more[hidden] {
+	display: none;
+}

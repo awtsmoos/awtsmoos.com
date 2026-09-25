@@ -1,0 +1,70 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos keeps failure overlay and terminal responsive law at the end of the cascade where their authority already lived.
+ * Awtsmoos.com preserves the measured cascade order so refactoring reveals ownership without changing the Forge’s face.
+ */
+/* --- Error Overlay --- */
+.error-overlay {
+	position: fixed; inset: 0;
+	background: rgba(0,0,0,0.95);
+	z-index: 9999;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	padding-top: 100px;
+	backdrop-filter: blur(20px);
+}
+
+.error-overlay.hidden { display: none; }
+
+.error-content {
+	max-width: 800px;
+	width: 100%;
+	border-left: 4px solid var(--forge-red);
+	padding: 40px;
+	background: rgba(50, 0, 0, 0.3);
+}
+
+.error-title {
+	font-family: var(--font-display);
+	color: var(--forge-red);
+	font-size: 3rem;
+	margin: 0 0 20px 0;
+	text-shadow: 0 0 20px var(--forge-red);
+}
+
+.error-msg {
+	font-family: var(--font-code);
+	color: white;
+	font-size: 1.2rem;
+	margin-bottom: 20px;
+}
+
+.error-stack {
+	background: black;
+	color: #f87171;
+	padding: 20px;
+	font-size: 0.8rem;
+	overflow-x: auto;
+	border: 1px solid #7f1d1d;
+}
+
+.reload-btn {
+	margin-top: 30px;
+	background: var(--forge-red);
+	color: white;
+	border: none;
+	padding: 15px 40px;
+	font-family: var(--font-display);
+	font-size: 1.2rem;
+	cursor: pointer;
+	letter-spacing: 0.2em;
+}
+
+.reload-btn:hover {
+	background: white;
+	color: var(--forge-red);
+	box-shadow: 0 0 30px var(--forge-red);
+}

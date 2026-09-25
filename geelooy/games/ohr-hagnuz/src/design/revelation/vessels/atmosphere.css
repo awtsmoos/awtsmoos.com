@@ -60,6 +60,11 @@
 	color: var(--ohr-gold-bright);
 }
 
+.revelation-loading-mark button {
+	min-height: 44px;
+	padding: 8px 16px;
+}
+
 .revelation-loading-mark span {
 	font: 700 72px/1 Georgia, serif;
 	text-shadow: 0 0 36px rgba(244, 201, 107, 0.48);

@@ -48,14 +48,21 @@ export async function list(os, path) {
 	return [];
 }
 
-export async function read(path, os = null) {
+export async function read(path, os = null, options = {}) {
 	const parsed = parseAwtsmoosPath(path);
 	if (parsed.kind === "tunnels") {
-		return runTunnelAction(os, parsed.id, {
+		// WS-6 additive: optional read windows for chunked transfers.
+		// Defaults preserve the previous behavior exactly (maxChars 200000,
+		// no offset). The tunnel read action echoes offsetChars/returnedChars/
+		// totalChars/nextOffsetChars so callers can page through large files.
+		const payload = {
 			action: "read",
 			path: parsed.innerPath || ".",
-			maxChars: 200000
-		});
+			maxChars: readMaxChars(options)
+		};
+		const offsetChars = readOffsetChars(options);
+		if (offsetChars > 0) payload.offsetChars = offsetChars;
+		return runTunnelAction(os, parsed.id, payload);
 	}
 	if (parsed.kind === "previews") {
 		return {
@@ -76,4 +83,16 @@ export async function write(path, content = "", os = null) {
 		path: parsed.innerPath || ".",
 		content
 	});
+}
+
+function readMaxChars(options = {}) {
+	const value = Number(options.maxChars);
+	if (Number.isFinite(value) && value > 0) return Math.min(Math.floor(value), 200000);
+	return 200000;
+}
+
+function readOffsetChars(options = {}) {
+	const value = Number(options.offsetChars ?? options.offset);
+	if (Number.isFinite(value) && value > 0) return Math.floor(value);
+	return 0;
 }

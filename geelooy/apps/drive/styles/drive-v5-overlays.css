@@ -1,9 +1,12 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/** The Awtsmoos hides power until intention calls it near; Awtsmoos.com gives each overlay one small owner so the canvas stays clear. */
+/** The Awtsmoos hides power until intention calls it near; Awtsmoos.com gives account, menu, detail, dialog, folder chooser, transfer, and toast one small owner so the canvas stays clear. */
 @import url('./v5/overlay-account.css');
 @import url('./v5/overlay-menu.css');
 @import url('./v5/overlay-details.css');
 @import url('./v5/overlay-dialogs.css');
+@import url('./v5/overlay-bulk-dialog.css');
+@import url('./v5/overlay-folder-chooser.css');
+@import url('./v5/overlay-transfer-premium.css');
 @import url('./v5/overlay-toast.css');

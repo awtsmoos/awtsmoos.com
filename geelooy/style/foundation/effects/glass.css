@@ -1,8 +1,8 @@
 /* B"H
- * Boruch Hashem
- * Blessed is He
- * Glass becomes a solid translucent surface first; blur is an explicit luxury mode.
- */
+Boruch Hashem
+Blessed is He
+The Awtsmoos is not glass, yet every translucent vessel can reveal depth without hiding truth; Awtsmoos.com keeps a solid fallback before blur becomes luxury proof.
+*/
 .awt-glass,
 :where(.glass-surface, .modal-content, .dropdown-menu, .card-menu-panel, .sidebarMitzvah) {
 	background: color-mix(in srgb, var(--awt-surface) 94%, transparent);
@@ -13,6 +13,12 @@ html[data-g-effects="full"] .awt-glass,
 html[data-g-effects="full"] :where(.glass-surface, .modal-content, .dropdown-menu, .card-menu-panel, .sidebarMitzvah) {
 	backdrop-filter: blur(8px);
 	-webkit-backdrop-filter: blur(8px);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+	.awt-glass,
+	:where(.glass-surface, .modal-content, .dropdown-menu, .card-menu-panel, .sidebarMitzvah) {
+		background: var(--awt-surface);
+	}
 }
 @media (pointer: coarse), (max-width: 54rem), (prefers-reduced-motion: reduce) {
 	.awt-glass,

@@ -1,0 +1,78 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keeps this module small so each vessel stays readable while the original cascade continues in perfect rhyme.
+*/
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @file Ikar first-light Torah universe.
+ * @description
+ * Native CSS gives server-rendered Torah a luminous, futuristic vessel before
+ * JavaScript wakes. The page stays fast, readable, accessible, and dependency-free.
+ */
+.heichel-os-document {
+	background:
+		radial-gradient(circle at 12% 8%, rgba(77, 233, 255, .13), transparent 28rem),
+		radial-gradient(circle at 88% 14%, rgba(150, 100, 255, .13), transparent 30rem),
+		radial-gradient(circle at 52% 88%, rgba(76, 141, 255, .08), transparent 34rem),
+		linear-gradient(165deg, #01030a 0%, #020713 48%, #030818 100%);
+	background-attachment: fixed;
+	min-height: 100%;
+}
+
+.heichel-os-document body {
+	background: transparent;
+	min-height: 100svh;
+	position: relative;
+}
+
+.heichel-os-document body::before {
+	background-image:
+		linear-gradient(rgba(92, 213, 255, .032) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(92, 213, 255, .032) 1px, transparent 1px);
+	background-size: 46px 46px;
+	content: "";
+	inset: 0;
+	mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .7), transparent 78%);
+	pointer-events: none;
+	position: fixed;
+	z-index: 0;
+}
+
+.heichel-os-page,
+.heichel-os-page > .main {
+	min-height: 100svh;
+	position: relative;
+	z-index: 1;
+}
+
+.heichel-semantic-fallback {
+	box-sizing: border-box;
+	isolation: isolate;
+	margin-inline: auto;
+	max-width: 78rem;
+	min-height: 100svh;
+	overflow: hidden;
+	padding: clamp(1rem, 3vw, 2.75rem);
+	position: relative;
+	width: 100%;
+}
+
+.heichel-semantic-fallback::before {
+	background: var(--civil-gradient);
+	background-clip: text;
+	color: transparent;
+	content: "א";
+	font-size: clamp(9rem, 22vw, 18rem);
+	font-weight: 900;
+	line-height: .8;
+	opacity: .075;
+	pointer-events: none;
+	position: absolute;
+	right: clamp(-1.5rem, 1vw, 1rem);
+	top: clamp(4.4rem, 10vw, 7rem);
+	transform: rotate(-5deg);
+	z-index: -1;
+}

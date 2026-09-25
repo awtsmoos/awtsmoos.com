@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -6,8 +6,8 @@
  * @file Normalizes OAuth request data for Awtsmoos.com.
  * @description
  * The Awtsmoos gathers query, form, JSON, and Basic-auth vessels into one
- * truthful request shape; callback verifiers and headless device codes enter
- * through distinct fields while explicit client identity remains observable.
+ * truthful shape; Awtsmoos.com keeps Agent Link secrets in POST bodies and now
+ * carries the public resource indicator without ever confusing it for a secret.
  */
 
 const BodyParser = require("./bodyParser.js");
@@ -46,20 +46,14 @@ async function getBody($i) {
 
 function getBasicClientAuth($i) {
 	const headers = headersOf($i);
-	const auth = headers.authorization
-		|| headers.Authorization
-		|| "";
+	const auth = headers.authorization || headers.Authorization || "";
 	if (!/^Basic\s+/i.test(auth)) {
 		return {};
 	}
 	try {
-		const raw = Buffer
-			.from(auth.replace(/^Basic\s+/i, ""), "base64")
-			.toString("utf8");
+		const raw = Buffer.from(auth.replace(/^Basic\s+/i, ""), "base64").toString("utf8");
 		const separator = raw.indexOf(":");
-		if (separator < 0) {
-			return {};
-		}
+		if (separator < 0) return {};
 		return {
 			client_id: raw.slice(0, separator),
 			client_secret: raw.slice(separator + 1)
@@ -73,20 +67,19 @@ async function getTokenRequest($i) {
 	const query = getQuery($i);
 	const body = await getBody($i);
 	const basic = getBasicClientAuth($i);
-	const suppliedClientId = body.client_id
-		|| query.client_id
-		|| basic.client_id
-		|| "";
+	const suppliedClientId = body.client_id || query.client_id || basic.client_id || "";
 	return {
 		grant_type: body.grant_type || query.grant_type || "authorization_code",
 		client_id: suppliedClientId || "chatgpt",
 		client_id_provided: Boolean(suppliedClientId),
 		client_secret: body.client_secret || query.client_secret || basic.client_secret || "",
+		agent_link_secret: body.agent_link_secret || "",
 		code: body.code || query.code || "",
 		code_verifier: body.code_verifier || query.code_verifier || "",
 		device_code: body.device_code || query.device_code || "",
 		refresh_token: body.refresh_token || query.refresh_token || "",
 		redirect_uri: body.redirect_uri || query.redirect_uri || "",
+		resource: body.resource || query.resource || "",
 		scope: body.scope || query.scope || ""
 	};
 }
@@ -96,9 +89,7 @@ function debugRequestShape($i, body) {
 		method: $i.request?.method || "",
 		content_type: BodyParser.contentTypeOf(headersOf($i)),
 		query_keys: Object.keys(getQuery($i)),
-		body_keys: Object
-			.keys(body || {})
-			.filter(key => key !== "__raw_body__"),
+		body_keys: Object.keys(body || {}).filter(key => key !== "__raw_body__"),
 		has_raw_body: Boolean(BodyParser.rawBodyOf(body || {}))
 	};
 }

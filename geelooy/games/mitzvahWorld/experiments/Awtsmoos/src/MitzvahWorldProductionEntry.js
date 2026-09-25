@@ -4,14 +4,15 @@
 
 /**
  * @file MitzvahWorldProductionEntry.js
- * @description Boots the deterministic compact publication by default and keeps readable source diagnostic-only.
- * The Awtsmoos gives the living world one swift public doorway while every readable chamber remains near;
- * Awtsmoos.com records exact entry truth, optional parity proof, failure state, and explicit diagnostic choice.
+ * @description Boots the compact publication and optionally starts parity or fail-closed release certification.
+ * The Awtsmoos gives the living world one swift public doorway while every measured chamber remains near;
+ * Awtsmoos.com keeps normal play light, yet `releaseGate=1` summons the examiner so no unproved build may disappear.
  */
 
 const parameters = new URLSearchParams(globalThis.location?.search || '');
 const useReadableSource = parameters.get('readable') === '1';
 const verifyParity = parameters.get('verifyParity') === '1';
+const runReleaseGate = parameters.get('releaseGate') === '1';
 const entry = useReadableSource
 	? './MinimalMeadowCompactBootstrap.js'
 	: './mitzvah-world.compact.js';
@@ -23,17 +24,27 @@ publishState('loading', null);
 try {
 	await import(entry);
 	publishState('loaded', null);
-	if (verifyParity) {
-		const { verifyPublishedMovieStudioParity } = await import(
-			'./movie/MovieStudioRuntimeParityVerification.js'
-		);
-		verifyPublishedMovieStudioParity(globalThis).catch(error => {
-			publishVerificationFailure(error);
-		});
-	}
+	if (verifyParity) startParityVerification();
+	if (runReleaseGate) startReleaseGateSession();
 } catch (error) {
 	publishState('failed', error);
 	throw error;
+}
+
+async function startParityVerification() {
+	const { verifyPublishedMovieStudioParity } = await import(
+		'./movie/MovieStudioRuntimeParityVerification.js'
+	);
+	verifyPublishedMovieStudioParity(globalThis).catch(publishVerificationFailure);
+}
+
+async function startReleaseGateSession() {
+	const { startMitzvahWorldReleaseGateSession } = await import(
+		'./app/MitzvahWorldReleaseGateSession.js'
+	);
+	startMitzvahWorldReleaseGateSession(globalThis).catch(error => {
+		console.error('[MitzvahWorld release gate]', error);
+	});
 }
 
 function publishState(state, error) {
@@ -44,6 +55,7 @@ function publishState(state, error) {
 			name: error?.name || 'Error',
 			stack: error?.stack || null
 		} : null,
+		runReleaseGate,
 		state,
 		useReadableSource,
 		verifyParity

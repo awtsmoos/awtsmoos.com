@@ -32,6 +32,12 @@ export class NetzachUploadStreamController extends OhrApplicationVessel {
 			this.uploadQueue?.progress(progress);
 		});
 		this.uploadQueue?.finish(result);
+		// Integrator: record completed uploads in the WS-5 provenance recorder.
+		// Best-effort — the upload already finished; never fail it here.
+		try {
+			const emit = globalThis.DriveProvenance?.installProvenanceHooks?.().emitUpload;
+			for (const path of result.uploaded || []) emit?.({ entry: path });
+		} catch {}
 		if (result.failed.length) {
 			this.gevurahError?.(new Error(`${result.failed.length} upload${result.failed.length === 1 ? '' : 's'} failed.`));
 		}

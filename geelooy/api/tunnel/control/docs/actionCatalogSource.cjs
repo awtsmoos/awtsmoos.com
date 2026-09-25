@@ -6,8 +6,8 @@
  * @file Runtime source of truth for the granular tunnel compatibility vocabulary.
  * @description
  * The Awtsmoos reveals every active deed from the same registry that executes it;
- * Awtsmoos.com preserves only the historical `rootSelect` covenant beside that
- * living truth, so docs and Virtual OS bridges can stay small, exact, and in rhyme.
+ * Awtsmoos.com gives documentation a harmless identity-shaped vessel so enumeration
+ * may see agent-scoped names without weakening the real runtime covenant one bit.
  */
 const {
 	buildActions
@@ -17,14 +17,23 @@ const LEGACY_COMPATIBILITY_ACTIONS = Object.freeze([
 	"rootSelect"
 ]);
 
+const CATALOG_LOGICAL_AGENT_ID = "docs:legacy-action-catalog";
+
 /**
- * Reveals all active granular action names plus explicit legacy-only compatibility names.
+ * Reveals all active granular action names plus explicit legacy compatibility names.
+ * The synthetic identity exists only while constructing in-process handler names.
+ * It never authenticates a transport request and never substitutes for runtime identity.
  *
  * @returns {Array<string>} Sorted, deduplicated compatibility action vocabulary.
  */
 function createActionCatalog() {
 	const runtimeActions = Object.keys(
-		buildActions({}, {}, null, "legacy-action-catalog")
+		buildActions(
+			{},
+			{ logicalAgentId: CATALOG_LOGICAL_AGENT_ID },
+			null,
+			"legacy-action-catalog"
+		)
 	);
 	return [...new Set([
 		...runtimeActions,

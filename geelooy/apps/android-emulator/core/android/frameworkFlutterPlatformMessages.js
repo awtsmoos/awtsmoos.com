@@ -1,6 +1,4 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+//B"H //Boruch Hashem //Blessed be He
 
 import { readGuestText } from "./guestText.js";
 import { resolveFlutterPlatformMessageLayout } from "./frameworkFlutterPlatformMessageArguments.js";
@@ -8,20 +6,22 @@ import {
 	FLUTTER_JNI,
 	isFlutterPlatformMessageMethod
 } from "./frameworkFlutterPlatformMessageCatalog.js";
+import { isFlutterRegisteredNativeRecord } from "./frameworkFlutterNativeMethodMetadata.js";
 import {
 	clearFlutterPlatformMessageCorrelation,
 	traceFlutterPlatformMessage
 } from "./frameworkFlutterPlatformMessageTrace.js";
 
 /**
- * Crosses FlutterJNI platform-message boundaries. The Awtsmoos recreates shell,
- * channel, bytes, reply, and cleanup each instant; Awtsmoos.com traces their
- * generic register order without fabricating Dart responses or app behavior.
+ * Crosses Java-side FlutterJNI platform-message boundaries. The Awtsmoos recreates
+ * channel, bytes, reply, and cleanup each instant; Awtsmoos.com refuses to let this
+ * diagnostic shore swallow authentic registered ARM64 methods owned by FlutterJNI.
  */
 export function createFrameworkFlutterPlatformMessageMethods(runtime) {
 	return Object.freeze({
 		canHandle(record) {
 			return record.method.classType === FLUTTER_JNI
+				&& !isFlutterRegisteredNativeRecord(record)
 				&& isFlutterPlatformMessageMethod(record.method.name);
 		},
 		invoke(record, args) {
@@ -42,10 +42,7 @@ export function createFrameworkFlutterPlatformMessageMethods(runtime) {
 			if (name === "nativeCleanupMessageData") {
 				return cleanupMessageData(runtime, args);
 			}
-			throw platformMessageError(
-				"ANDROID_FLUTTER_PLATFORM_MESSAGE_UNSUPPORTED",
-				record.signature
-			);
+			throw platformMessageError("ANDROID_FLUTTER_PLATFORM_MESSAGE_UNSUPPORTED", record.signature);
 		}
 	});
 }
@@ -54,12 +51,9 @@ function traceBufferedDispatch(runtime, record, args) {
 	const layout = resolveFlutterPlatformMessageLayout(record, args);
 	const offset = layout.parameterOffset;
 	traceFlutterPlatformMessage(runtime, {
-		buffer: args[offset + 1],
-		byteCount: args[offset + 2],
-		channel: readGuestText(runtime, args[offset]),
-		direction: "guest-to-dart",
-		replyId: args[offset + 3],
-		shellId: layout.shellId
+		buffer: args[offset + 1], byteCount: args[offset + 2],
+		channel: readGuestText(runtime, args[offset]), direction: "guest-to-dart",
+		replyId: args[offset + 3], shellId: layout.shellId
 	});
 }
 
@@ -67,12 +61,8 @@ function traceEmptyDispatch(runtime, record, args) {
 	const layout = resolveFlutterPlatformMessageLayout(record, args);
 	const offset = layout.parameterOffset;
 	traceFlutterPlatformMessage(runtime, {
-		buffer: null,
-		byteCount: 0,
-		channel: readGuestText(runtime, args[offset]),
-		direction: "guest-to-dart",
-		replyId: args[offset + 1],
-		shellId: layout.shellId
+		buffer: null, byteCount: 0, channel: readGuestText(runtime, args[offset]),
+		direction: "guest-to-dart", replyId: args[offset + 1], shellId: layout.shellId
 	});
 }
 
@@ -80,24 +70,16 @@ function traceBufferedResponse(runtime, record, args) {
 	const layout = resolveFlutterPlatformMessageLayout(record, args);
 	const offset = layout.parameterOffset;
 	traceFlutterPlatformMessage(runtime, {
-		buffer: args[offset + 1],
-		byteCount: args[offset + 2],
-		channel: "",
-		direction: "dart-to-guest-response",
-		replyId: args[offset],
-		shellId: layout.shellId
+		buffer: args[offset + 1], byteCount: args[offset + 2], channel: "",
+		direction: "dart-to-guest-response", replyId: args[offset], shellId: layout.shellId
 	});
 }
 
 function traceEmptyResponse(runtime, record, args) {
 	const layout = resolveFlutterPlatformMessageLayout(record, args);
 	traceFlutterPlatformMessage(runtime, {
-		buffer: null,
-		byteCount: 0,
-		channel: "",
-		direction: "dart-to-guest-response",
-		replyId: args[layout.parameterOffset],
-		shellId: layout.shellId
+		buffer: null, byteCount: 0, channel: "", direction: "dart-to-guest-response",
+		replyId: args[layout.parameterOffset], shellId: layout.shellId
 	});
 }
 

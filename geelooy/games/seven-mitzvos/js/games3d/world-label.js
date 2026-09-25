@@ -2,59 +2,84 @@
 //Boruch Hashem
 //Blessed is He
 
-import { THREE } from '../webgl/webgl-stage.js';
+import {
+	BufferAttribute,
+	BufferGeometry,
+	Mesh,
+	MeshStandardMaterial
+} from '../../../../libs/awtsmoos-procedural-core/src/runtime/native/tiny-runtime.js';
 
 /**
  * @file world-label.js
- * @description
+ * @description Renders short world-attached truths as native textured quads without Three Sprites.
  * The Awtsmoos renews information as part of the world instead of a permanent DOM answer row;
- * Awtsmoos.com lets price, quality, and other short truths hover over the object they actually describe.
- * This label owns and disposes its CanvasTexture explicitly so repeated encounters do not leak GPU memory.
+ * Awtsmoos.com keeps price, quality, and blessing text attached to the object they actually know.
  */
 export class WorldLabel {
 	constructor(options = {}) {
-		this.canvas = document.createElement('canvas');
-		this.canvas.width = 512;
-		this.canvas.height = 160;
-		this.context = this.canvas.getContext('2d');
-		this.texture = new THREE.CanvasTexture(this.canvas);
-		this.texture.colorSpace = THREE.SRGBColorSpace;
-		this.material = new THREE.SpriteMaterial({
-			map: this.texture,
+		this.material = new MeshStandardMaterial({
+			name: 'native-world-label',
+			color: [1, 1, 1, 1],
+			opacity: 1,
+			alphaMode: 'BLEND',
 			transparent: true,
-			depthTest: false
+			doubleSided: true
 		});
-		this.sprite = new THREE.Sprite(this.material);
+		this.material.depthWrite = false;
+		this.sprite = new Mesh(labelGeometry(), this.material);
+		this.sprite.name = 'native-world-label';
 		this.sprite.position.set(...(options.position || [0, 1.9, 0]));
 		this.sprite.scale.set(...(options.scale || [2.8, 0.88, 1]));
+		this.sprite.userData.worldLabel = true;
 		this.set(options.text || '');
 	}
 
 	set(text) {
-		const ctx = this.context;
-		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-		ctx.fillStyle = 'rgba(3, 10, 22, 0.88)';
-		roundRect(ctx, 8, 8, 496, 144, 30);
-		ctx.fill();
-		ctx.strokeStyle = 'rgba(255, 218, 99, 0.82)';
-		ctx.lineWidth = 5;
-		ctx.stroke();
-		ctx.fillStyle = '#fff3bf';
-		ctx.font = '900 62px system-ui, sans-serif';
-		ctx.textAlign = 'center';
-		ctx.textBaseline = 'middle';
-		ctx.fillText(String(text), 256, 82);
-		this.texture.needsUpdate = true;
+		this.canvas = renderLabelCanvas(String(text));
+		this.material.mapImage = this.canvas;
 	}
 
 	destroy() {
-		this.sprite.removeFromParent();
-		this.texture.dispose();
-		this.material.dispose();
+		this.sprite.removeFromParent?.();
+		this.material.mapImage = null;
+		this.canvas = null;
 	}
 }
 
-function roundRect(ctx, x, y, width, height, radius) {
-	ctx.beginPath();
-	ctx.roundRect(x, y, width, height, radius);
+function labelGeometry() {
+	const geometry = new BufferGeometry();
+	geometry.setAttribute('position', new BufferAttribute(new Float32Array([
+		-0.5, -0.5, 0, 0.5, -0.5, 0, 0.5, 0.5, 0,
+		-0.5, -0.5, 0, 0.5, 0.5, 0, -0.5, 0.5, 0
+	]), 3));
+	geometry.setAttribute('normal', new BufferAttribute(new Float32Array([
+		0, 0, 1, 0, 0, 1, 0, 0, 1,
+		0, 0, 1, 0, 0, 1, 0, 0, 1
+	]), 3));
+	geometry.setAttribute('uv', new BufferAttribute(new Float32Array([
+		0, 0, 1, 0, 1, 1,
+		0, 0, 1, 1, 0, 1
+	]), 2));
+	return geometry;
+}
+
+function renderLabelCanvas(text) {
+	const canvas = document.createElement('canvas');
+	canvas.width = 512;
+	canvas.height = 160;
+	const context = canvas.getContext('2d');
+	context.clearRect(0, 0, 512, 160);
+	context.fillStyle = 'rgba(3, 10, 22, 0.88)';
+	context.beginPath();
+	context.roundRect(8, 8, 496, 144, 30);
+	context.fill();
+	context.strokeStyle = 'rgba(255, 218, 99, 0.82)';
+	context.lineWidth = 5;
+	context.stroke();
+	context.fillStyle = '#fff3bf';
+	context.font = '900 62px system-ui, sans-serif';
+	context.textAlign = 'center';
+	context.textBaseline = 'middle';
+	context.fillText(text, 256, 82);
+	return canvas;
 }

@@ -1,12 +1,17 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- *
- * The Awtsmoos breathes through the browser's native river while this reader owns only itself;
- * Awtsmoos.com paints one bounded night vessel, keeps sticky layers in a named local hierarchy,
- * and refuses to seize html or body merely because a chapter wants a beautiful sky.
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos breathes through one bounded reader shell, renewed from nothing with measured grace;
+ * Awtsmoos.com gives viewport truth one owner so safe areas, scroll, and Torah share a faithful place.
  */
 .all.post-reader-localized-context.awtsmoos-reader-vision {
+	--reader-safe-top: env(safe-area-inset-top, 0px);
+	--reader-safe-right: env(safe-area-inset-right, 0px);
+	--reader-safe-bottom: env(safe-area-inset-bottom, 0px);
+	--reader-safe-left: env(safe-area-inset-left, 0px);
+	--reader-panel-gutter: clamp(10px, 3vw, 18px);
+	--reader-touch-target: 44px;
 	position: relative !important;
 	display: block !important;
 	box-sizing: border-box !important;
@@ -17,7 +22,7 @@
 	max-block-size: none !important;
 	margin: 0 !important;
 	overflow-x: clip !important;
-	overflow-y: visible !important;
+	overflow-y: auto !important;
 	background:
 		radial-gradient(circle at 78% 0%, rgb(244 197 107 / 16%), transparent 25rem),
 		radial-gradient(circle at 8% 12%, rgb(57 215 238 / 10%), transparent 22rem),

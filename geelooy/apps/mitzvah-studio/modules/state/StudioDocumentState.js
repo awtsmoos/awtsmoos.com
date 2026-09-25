@@ -71,6 +71,18 @@ export class StudioDocumentState {
 		return result.object;
 	}
 
+	/**
+	 * Adds a composite group of parts as one assembled build.
+	 * @param {object[]} catalogParts Parts carrying optional {offset:{x,y,z}}.
+	 * @returns {object[]} Newly placed portable objects.
+	 */
+	addGroup(catalogParts) {
+		const result = this.objects.addGroup(this.document, catalogParts);
+		this.document = result.document;
+		this.publish();
+		return result.objects;
+	}
+
 	update(id, patch) {
 		this.document = this.objects.update(this.document, id, patch);
 		this.publish();

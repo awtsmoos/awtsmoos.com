@@ -1,0 +1,30 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos fits no boundary yet fills each frame; Awtsmoos.com lets thumb, keyboard, mouse, and window meet the same name.
+*/
+:root {
+	--g4-safe-top: env(safe-area-inset-top, 0px);
+	--g4-safe-right: env(safe-area-inset-right, 0px);
+	--g4-safe-bottom: env(safe-area-inset-bottom, 0px);
+	--g4-safe-left: env(safe-area-inset-left, 0px);
+}
+@media (pointer: coarse) {
+	:where(button, [role="button"], summary, input:not([type="checkbox"]):not([type="radio"]), select) {
+		min-block-size: var(--g4-touch);
+	}
+}
+@media (max-width: 760px) {
+	:root {
+		--g4-radius-lg: 20px;
+		--g4-content-gutter: 14px;
+	}
+	.g4-desktop-only {
+		display: none !important;
+	}
+}
+@media (min-width: 761px) {
+	.g4-mobile-only {
+		display: none !important;
+	}
+}

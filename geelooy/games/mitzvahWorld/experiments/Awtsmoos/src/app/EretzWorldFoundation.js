@@ -1,19 +1,23 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file EretzWorldFoundation.js
- * @description Builds first play from canonical humanity, WebGL, and bootstrap terrain while allowing only Blank Meadow to defer remote terrain texture richness.
- * The Awtsmoos gives the true traveler and visible earth before distant garments crowd the threshold;
- * Awtsmoos.com keeps rich worlds strict, yet lets the reliability meadow become honestly controllable before decorative texture streams consume the road.
+ * @description Proves WebGL frame and spawn terrain from a lean foundation chunk, then crosses the generated essential-player boundary for the canonical Chossid.
+ * The Awtsmoos gives visible earth and first light their own swift vessels before the authored traveler enters his bounded generated garment;
+ * Awtsmoos.com keeps renderer and terrain independent of Chossid while the real Chossid remains mandatory before movement may awake.
  */
 
 import { createBootstrapWorldFoundation } from './BootstrapWorldFoundation.js';
-import { loadEretzEssentialAssets } from './EretzEssentialAssetLoader.js';
-import { prepareEretzEssentialVisuals } from './EretzEssentialVisualGate.js';
+import { loadDeferredEretzEssentialAssets } from './EretzDeferredEssentialAssets.js';
 import { createEretzFoundationServices } from './EretzFoundationServices.js';
+import { attachEretzFoundationVisualHydration } from './EretzFoundationVisualHydration.js';
 import { paintEretzWebGlBootFrame } from './EretzWebGlBootFrame.js';
+import {
+	completeMitzvahWorldEssentialMilestone,
+	ESSENTIAL_MILESTONES
+} from './MitzvahWorldEssentialBoot.js';
 import { markMitzvahWorldStartupMilestone } from './MitzvahWorldStartupMilestones.js';
 import {
 	nextLaunchFrame,
@@ -21,10 +25,7 @@ import {
 	throwIfLaunchAborted
 } from './RuntimeLaunchProgress.js';
 
-/**
- * Creates foundation geometry immediately, then loads the real Chossid and policy-approved essential visuals concurrently.
- * @returns {Promise<object>} Foundation honest enough for first control under the selected immutable world policy.
- */
+/** Builds first frame and terrain before loading the generated canonical-player runtime chunk. */
 export async function createEretzWorldFoundation(hosts, options = {}) {
 	const qualityProfile = options.qualityProfile;
 	if (!qualityProfile) throw new Error('Eretz foundation requires a quality profile.');
@@ -34,40 +35,44 @@ export async function createEretzWorldFoundation(hosts, options = {}) {
 	const services = createEretzFoundationServices(hosts, qualityProfile, environment);
 	const webGlBootFrame = paintEretzWebGlBootFrame(services, qualityProfile, environment);
 	await nextLaunchFrame(environment);
+	completeMitzvahWorldEssentialMilestone(
+		environment,
+		ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME,
+		{ importerStage: 'webgl-boot-frame' }
+	);
 	markMitzvahWorldStartupMilestone(environment, 'rendererReady');
 	throwIfLaunchAborted(options.signal);
 
 	options.boot?.begin('bootstrap-visible-world');
 	const world = createBootstrapWorldFoundation(services);
-	reportFoundationStage(options, 'Loading authored player and essential visuals…', 0.42, 'essential-authored-assets');
-	const [loaded, visualEvidence] = await Promise.all([
-		loadEretzEssentialAssets({
-			...options,
-			boot: options.boot,
-			environment,
-			quality: qualityProfile.quality
-		}),
-		prepareEretzEssentialVisuals({
-			boot: options.boot,
-			renderer: services.renderer,
-			signal: options.signal,
-			terrain: world.terrain,
-			worldExperience: options.worldExperience
-		})
-	]);
+	completeMitzvahWorldEssentialMilestone(
+		environment,
+		ESSENTIAL_MILESTONES.SPAWN_TERRAIN_EXISTS,
+		{ importerStage: 'bootstrap-world-foundation' }
+	);
+	markMitzvahWorldStartupMilestone(environment, 'firstTerrainVisible');
 	throwIfLaunchAborted(options.signal);
-	markVisibleWorldReady(options, visualEvidence);
-	return {
+
+	reportFoundationStage(options, 'Loading authored player…', 0.42, 'generated-essential-player');
+	const loaded = await loadDeferredEretzEssentialAssets({
+		...options,
+		boot: options.boot,
+		environment,
+		quality: qualityProfile.quality
+	});
+	throwIfLaunchAborted(options.signal);
+
+	const foundation = {
 		hosts,
 		...hosts,
 		...loaded,
 		...services,
 		...world,
 		environment,
-		essentialVisualEvidence: visualEvidence,
 		qualityProfile,
 		webGlBootFrame
 	};
+	return attachEretzFoundationVisualHydration(foundation, options, environment);
 }
 
 /** Reports one exact foundation stage for launch diagnostics. */
@@ -76,17 +81,4 @@ function reportFoundationStage(options, message, progress, stage) {
 		stage,
 		url: import.meta.url
 	});
-}
-
-function markVisibleWorldReady(options, visualEvidence) {
-	const deferredTerrain = visualEvidence?.terrainPhase === 'deferred-by-world-profile';
-	options.boot?.progress?.(
-		'bootstrap-visible-world',
-		1,
-		1,
-		deferredTerrain
-			? 'Canonical Chossid, WebGL, and bootstrap terrain are ready; authored textures are deferred.'
-			: 'Canonical Chossid, rich WebGL, and authored terrain are ready.',
-		'ready'
-	);
 }

@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -6,8 +6,8 @@
  * @file OAuth approval view and durable authorization URL builder.
  * @description
  * The Awtsmoos carries state through every doorway; Awtsmoos.com therefore
- * preserves Grok's PKCE challenge through login and consent without revealing
- * the verifier that belongs only to the external agent.
+ * preserves PKCE and the protected resource through login and consent, while
+ * the verifier remains hidden with the external agent that owns its appointment.
  */
 
 const { fullUrlFor, localUrlFor } = require("../tools/urls.js");
@@ -22,17 +22,8 @@ function escapeHtml(value) {
 }
 
 function isApproved(value) {
-	const normalized = String(value ?? "")
-		.trim()
-		.toLowerCase();
-	return [
-		"1",
-		"true",
-		"yes",
-		"y",
-		"approve",
-		"approved"
-	].includes(normalized);
+	const normalized = String(value ?? "").trim().toLowerCase();
+	return ["1", "true", "yes", "y", "approve", "approved"].includes(normalized);
 }
 
 function buildAuthorizeUrl(options) {
@@ -42,6 +33,7 @@ function buildAuthorizeUrl(options) {
 		redirect_uri: options.redirectUri,
 		scope: options.scope,
 		state: options.state || "",
+		resource: options.resource || "",
 		code_challenge: options.codeChallenge || "",
 		code_challenge_method: options.codeChallengeMethod || "",
 		approve: options.approve || ""
@@ -49,9 +41,7 @@ function buildAuthorizeUrl(options) {
 }
 
 function loginUrl($i, nextPath) {
-	return fullUrlFor($i, "/login/", {
-		next: fullUrlFor($i, nextPath)
-	});
+	return fullUrlFor($i, "/login/", { next: fullUrlFor($i, nextPath) });
 }
 
 function approvalHtml(options) {

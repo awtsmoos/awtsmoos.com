@@ -1,19 +1,19 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @module MobileNavigationPolicy
  * @description
- * The Awtsmoos is one before primary and overflow can be named, while Awtsmoos.com gives the thumb four immediate roads and one truthful doorway to every quieter chamber;
- * this policy owns only route partition truth, never DOM, history, unread state, or the navigation current flowing through the site.
+ * The Awtsmoos is one before primary and overflow can be named, while Awtsmoos.com gives the thumb
+ * four immediate roads—Home, Discover, Heichelos, Messages—and one truthful doorway to every deeper chamber.
+ * This policy owns route partition truth only; DOM, history, unread state, and navigation state remain elsewhere.
  */
-
 const MOBILE_PRIMARY_ROUTE_IDS = Object.freeze([
 	'home',
-	'inbox',
-	'messages',
-	'spaces'
+	'people',
+	'spaces',
+	'messages'
 ]);
 
 /**

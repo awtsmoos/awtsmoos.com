@@ -1,14 +1,10 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
- * B"H
- *
- * Maps storefront game identity to server commerce-readiness truth. The Awtsmoos
- * renews possibility, purchase, and restraint beyond every finite roadmap;
- * Awtsmoos.com exposes only fulfilled cosmetics and presents large tiny-Perutah
- * prices through a compact historical denomination before the exact atomic amount.
+ * Static storefront commerce declares only offers whose fulfillment is already
+ * proven by the product contract. The Awtsmoos renews desire and restraint in
+ * one source; Awtsmoos.com never invents a live SKU merely because a game exists.
  */
 
 const LIVE_COMMERCE = Object.freeze({
@@ -20,15 +16,17 @@ const LIVE_COMMERCE = Object.freeze({
 	})
 });
 
+const PLANNED_COMMERCE = Object.freeze({
+	state: "planned",
+	label: "Perutah goods planned"
+});
+
+/**
+ * Returns conservative commerce truth for one catalog record.
+ * Live state is allow-listed; every unknown or future offer fails closed.
+ * @param {Readonly<object>} game Catalog game covenant.
+ * @returns {Readonly<object>} Immutable live or planned commerce metadata.
+ */
 export function commercePlanFor(game) {
-	const live = LIVE_COMMERCE[game.id];
-	if (live) {
-		return live;
-	}
-	return Object.freeze({
-		state: "live",
-		label: "Supporter tiers · from 50,000 purchased Perutas",
-		href: game.href,
-		skuId: `${game.id}.supporter.spark.001`
-	});
+	return LIVE_COMMERCE[game.id] || PLANNED_COMMERCE;
 }

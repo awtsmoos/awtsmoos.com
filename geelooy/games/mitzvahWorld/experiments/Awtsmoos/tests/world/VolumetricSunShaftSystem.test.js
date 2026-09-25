@@ -78,12 +78,12 @@ test('camera rotation cannot reveal a full shaft surface', () => {
 });
 
 test('sun, atmospheric glow, clouds, and haze remain independently retained', () => {
-	assert.match(SKY_DOME_SOURCE, /atmospheric-scattering-cloud-sun/);
+	assert.match(SKY_DOME_SOURCE, /createCinematicWorldBuildingApi/);
+	assert.match(SKY_DOME_SOURCE, /Awtsmoos_procedural_daylight_atmosphere_sphere/);
 	assert.match(SKY_FACTORY_SOURCE, /export function createSkyDisc/);
 	assert.match(CLOUD_SOURCE, /export function createReferenceSkyClouds/);
 	assert.match(CLOUD_SOURCE, /export function createReferenceHazeLayers/);
-	assert.match(CLOUD_SOURCE, /proceduralCloudTexture/);
-	assert.match(CLOUD_SOURCE, /proceduralHazeTexture/);
+	assert.ok(CLOUD_SOURCE.includes('no legitimate remote source exists'));
 });
 
 function isUniformOpaqueRectangle(mesh) {

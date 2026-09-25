@@ -1,0 +1,71 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keeps this module small while the original cascade remains whole.
+*/
+.hubMessageOpen {
+	display: grid;
+	gap: .28rem;
+	width: 100%;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: var(--ink);
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+}
+
+.hubMessageOpen span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.hubRequestActions {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .5rem;
+}
+
+.hubRequestActions button {
+	min-height: 2.75rem;
+}
+
+#hubMessagesRelationships {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+#hubMessagesRelationships h3 {
+	flex-basis: 100%;
+}
+
+.hubRelationshipChip {
+	padding: .35rem .6rem;
+	border: 1px solid var(--line-hot);
+	border-radius: 999px;
+	font-size: .8rem;
+}
+
+.hubRelationshipChip.is-blocked {
+	opacity: .68;
+}
+
+@media (max-width: 42rem) {
+	.hubMessagesPanel {
+		gap: .7rem;
+	}
+
+	#hubMessagesSummary,
+	.hubPrivateRequestComposer {
+		grid-template-columns: 1fr;
+	}
+
+	.hubPrivateRequestComposer button,
+	.hubMessageOpen,
+	.hubRequestActions button {
+		min-height: 3rem;
+	}
+}

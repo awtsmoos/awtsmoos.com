@@ -9,6 +9,20 @@
 
 module.exports = [
 	{
+		canonicalPath: "/apps/forms/",
+		description: "Create Sheets-linked public forms with structured questions, secure response collection, and optional private email notifications.",
+		filePath: "apps/forms/index.html",
+		kind: "app",
+		title: "Awtsmoos Forms"
+	},
+	{
+		canonicalPath: "/apps/gpt-api-pulse-garden/",
+		description: "Explore an interactive pulse garden and its responsive visual system.",
+		filePath: "apps/gpt-api-pulse-garden/index.html",
+		kind: "app",
+		title: "Awtsmoos Pulse Garden"
+	},
+	{
 		canonicalPath: "/apps/",
 		description: "Browse every available Awtsmoos.com browser application and playable game, from documents and media tools to developer utilities, communication, system tools, studios, and worlds.",
 		filePath: "apps/index.html",
@@ -28,6 +42,13 @@ module.exports = [
 		filePath: "apps/mitzvah-pushkuh/index.html",
 		kind: "app",
 		title: "Mitzvah Pushkuh"
+	},
+	{
+		canonicalPath: "/apps/mitzvah-studio/",
+		description: "Create mitzvah-centered interactive media through a focused browser studio.",
+		filePath: "apps/mitzvah-studio/index.html",
+		kind: "app",
+		title: "Mitzvah Studio"
 	},
 	{
 		canonicalPath: "/apps/nesher-studio/",
@@ -56,26 +77,5 @@ module.exports = [
 		filePath: "apps/piano/index.html",
 		kind: "app",
 		title: "Piano & Synth"
-	},
-	{
-		canonicalPath: "/apps/rebbe/",
-		description: "Search, hear, clip, and work with the Rebbe audio archive without turning Torah access into a paywall.",
-		filePath: "apps/rebbe/index.html",
-		kind: "app",
-		title: "Rebbe Audio"
-	},
-	{
-		canonicalPath: "/apps/sheets/",
-		description: "Build collaborative workbooks with formulas, rich formatting, automations, structural editing, and linked Forms.",
-		filePath: "apps/sheets/index.html",
-		kind: "app",
-		title: "Awtsmoos Sheets"
-	},
-	{
-		canonicalPath: "/apps/slides/",
-		description: "Create responsive presentations, collaborate live, present anywhere, and export a deck as portable HTML.",
-		filePath: "apps/slides/index.html",
-		kind: "app",
-		title: "Awtsmoos Slides"
 	}
 ];

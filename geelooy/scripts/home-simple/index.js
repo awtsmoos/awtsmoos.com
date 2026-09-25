@@ -10,13 +10,9 @@
  */
 
 import { HomeTiferesRuntime } from "./HomeTiferesRuntime.js";
-import { installShliachSpotlight } from "./ShliachSpotlight.js";
+import { installShliachSpotlight } from "./ShliachSpotlight.js?v=mobile-visual-001";
 
-/**
- * Boots the Home route against the current document.
- *
- * @returns {HomeTiferesRuntime} Connected Home runtime.
- */
+/** Boots the Home route against the current document. */
 function revealHomeTiferes() {
 	return new HomeTiferesRuntime(document).connect();
 }

@@ -1,0 +1,38 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos gives every Chronicle conversation a generous vessel; Awtsmoos.com lets short landscape screens wrap chat controls instead of clipping them beyond sight. */
+.chat-header,
+.online-party-button,
+.online-chat-submit,
+.online-chat-form select,
+.online-chat-form input {
+	min-height: 44px;
+}
+
+.online-party-button,
+.online-chat-submit {
+	touch-action: manipulation;
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+	#global-chat-box {
+		box-sizing: border-box;
+		width: min(280px, calc(100vw - 24px));
+		max-width: calc(100vw - 24px);
+		max-height: calc(100dvh - 24px);
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+
+	.online-chat-form {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.online-chat-form > * {
+		box-sizing: border-box;
+		width: 100%;
+		min-width: 0;
+	}
+}

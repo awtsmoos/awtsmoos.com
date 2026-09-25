@@ -8,6 +8,9 @@
  * The Awtsmoos preserves a deed without granting permission to repeat it.
  * Awtsmoos.com names when a renewed parent found non-replayable pending work,
  * so interruption becomes durable evidence instead of a silent duplicate side effect.
+ * Every shape carries an explicit testimony block in one canonical vocabulary:
+ * accepted_not_executed, interrupted_ambiguous, fingerprint_conflict, unknown_request,
+ * or replayed_terminal — so retry callers never infer execution state from ad-hoc flags.
  */
 function pending(record) {
 	const jobId = findJobId(record.progress);
@@ -18,6 +21,8 @@ function pending(record) {
 	};
 	const reconciliationRequired = record.hydratedAfterRestart === true &&
 		record.durable?.replaySafe !== true;
+	const mutation = mutationOf(record);
+	const testimonyState = reconciliationRequired ? "interrupted_ambiguous" : "accepted_not_executed";
 	return {
 		ok: false,
 		status: 202,
@@ -30,6 +35,24 @@ function pending(record) {
 		recoveryState: reconciliationRequired
 			? "interrupted_reconciliation_required"
 			: "pending",
+		testimony: {
+			state: testimonyState,
+			testimonyState,
+			accepted: true,
+			executed: false,
+			terminal: false,
+			observeOnly: true,
+			mutationPossible: mutation.possible,
+			mutationAmbiguous: mutation.ambiguous,
+			safeToReplay: false,
+			safeToRedispatch: false,
+			sideEffects: sideEffectsOf(record),
+			retry: {
+				requestKey: stringOf(record.requestKey),
+				dedupeKey: stringOf(record.controlRequestId),
+				attempt: null
+			}
+		},
 		controlRequestId: record.controlRequestId,
 		requestedAction: record.requestedAction,
 		durableReceiptRef: record.durable?.receiptRef || null,
@@ -67,7 +90,25 @@ function conflict(record, requestedAction) {
 		error: "retry_action_conflict",
 		controlRequestId: record.controlRequestId,
 		expectedAction: record.requestedAction,
-		requestedAction
+		requestedAction,
+		testimony: {
+			state: "fingerprint_conflict",
+			testimonyState: "fingerprint_conflict",
+			accepted: true,
+			executed: false,
+			terminal: true,
+			observeOnly: true,
+			mutationPossible: mutationOf(record).possible,
+			mutationAmbiguous: false,
+			safeToReplay: false,
+			safeToRedispatch: false,
+			sideEffects: sideEffectsOf(record),
+			retry: {
+				requestKey: stringOf(record.requestKey),
+				dedupeKey: stringOf(record.controlRequestId),
+				attempt: null
+			}
+		}
 	};
 }
 
@@ -78,7 +119,25 @@ function missing(controlRequestId, requestedAction) {
 		action: "retryAction",
 		error: "retry_request_not_found",
 		controlRequestId,
-		requestedAction
+		requestedAction,
+		testimony: {
+			state: "unknown_request",
+			testimonyState: "unknown_request",
+			accepted: false,
+			executed: false,
+			terminal: true,
+			observeOnly: false,
+			mutationPossible: false,
+			mutationAmbiguous: false,
+			safeToReplay: false,
+			safeToRedispatch: false,
+			sideEffects: [],
+			retry: {
+				requestKey: "",
+				dedupeKey: stringOf(controlRequestId),
+				attempt: null
+			}
+		}
 	};
 }
 
@@ -88,8 +147,48 @@ function completed(record) {
 		controlRequestId: record.controlRequestId,
 		retryOf: record.controlRequestId,
 		originalControlRequestId: record.controlRequestId,
-		requestedAction: record.requestedAction
+		requestedAction: record.requestedAction,
+		testimony: {
+			state: "replayed_terminal",
+			testimonyState: "replayed_terminal",
+			accepted: true,
+			executed: true,
+			terminal: true,
+			observeOnly: false,
+			mutationPossible: mutationOf(record).possible,
+			mutationAmbiguous: false,
+			safeToReplay: true,
+			safeToRedispatch: false,
+			sideEffects: sideEffectsOf(record.result),
+			retry: {
+				requestKey: stringOf(record.requestKey),
+				dedupeKey: stringOf(record.controlRequestId),
+				attempt: null
+			}
+		}
 	};
+}
+
+function mutationOf(record = {}) {
+	const intent = record.mutationIntent && typeof record.mutationIntent === "object" ? record.mutationIntent : {};
+	const possible = intent.mutation === true || record.mutation === true || record.mutates === true;
+	return {
+		possible,
+		ambiguous: possible && record.durable?.replaySafe !== true
+	};
+}
+
+function sideEffectsOf(record) {
+	if (!record || typeof record !== "object") return [];
+	if (Array.isArray(record.sideEffects)) return record.sideEffects.filter(item => item && typeof item === "object");
+	if (record.sideEffect && typeof record.sideEffect === "object") return [record.sideEffect];
+	return [];
+}
+
+function stringOf(value) {
+	if (typeof value === "string") return value;
+	if (value === undefined || value === null) return "";
+	return String(value);
 }
 
 function clone(value) {
@@ -102,6 +201,7 @@ module.exports = {
 	conflict,
 	findJobId,
 	missing,
+	mutationOf,
 	pending,
 	resumePlan
 };

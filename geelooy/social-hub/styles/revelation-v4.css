@@ -1,0 +1,97 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gathers many voices without noise; Awtsmoos.com makes people and meaning primary while deep social machinery remains a choice.
+*/
+.socialHubShell,
+.hubShell,
+.workspace {
+	background:
+		radial-gradient(circle at 50% -12%, rgba(92, 118, 255, 0.15), transparent 34%),
+		var(--g4-bg) !important;
+	color: var(--g4-text);
+}
+.hubHeader {
+	border-bottom: 1px solid var(--g4-line) !important;
+	background: rgba(7, 9, 16, 0.76) !important;
+	backdrop-filter: blur(24px) saturate(1.2);
+}
+.routeNavigation {
+	gap: 5px !important;
+	padding: 5px !important;
+	border: 1px solid var(--g4-line) !important;
+	border-radius: var(--g4-radius-pill) !important;
+	background: rgba(255, 255, 255, 0.035) !important;
+}
+.routeButton {
+	min-block-size: 40px;
+	border-radius: var(--g4-radius-pill) !important;
+	color: var(--g4-text-secondary) !important;
+}
+.routeButton[aria-current="page"],
+.routeButton.is-active,
+.routeButton:hover {
+	background: var(--g4-surface-hover) !important;
+	color: var(--g4-text) !important;
+}
+.workspacePanel {
+	inline-size: min(100%, 1160px);
+	margin-inline: auto;
+}
+.homeCreationCard,
+.awtsmoosFeedCard,
+.publicFeedCard,
+.feedCard,
+.peopleCard,
+.profileCard,
+.activityCard,
+.sharedActivityCard,
+.futureCapabilityCard,
+.hubMessageCard {
+	border: 1px solid var(--g4-line) !important;
+	border-radius: var(--g4-radius-lg) !important;
+	background: var(--g4-surface) !important;
+	box-shadow: none !important;
+}
+.homeCreationCard {
+	border-color: color-mix(in srgb, var(--g4-accent) 32%, var(--g4-line)) !important;
+	background: linear-gradient(145deg, rgba(124, 156, 255, 0.1), var(--g4-surface)) !important;
+}
+.socialPrimaryComposer,
+.hubComposerField__input,
+.hubConversationComposer {
+	border-radius: var(--g4-radius-md) !important;
+	background: rgba(255, 255, 255, 0.055) !important;
+}
+.awtsmoosFeedCard:hover,
+.publicFeedCard:hover,
+.peopleCard:hover {
+	transform: translateY(-2px);
+	border-color: var(--g4-line-strong) !important;
+	box-shadow: var(--g4-shadow-1) !important;
+}
+.publicDiscovery__controls,
+.publicDiscovery__viewOptions,
+.futureCapabilityCenter__search {
+	border-radius: var(--g4-radius-md) !important;
+}
+.mobileDock {
+	border: 1px solid var(--g4-line-strong) !important;
+	background: rgba(10, 13, 22, 0.88) !important;
+	box-shadow: var(--g4-shadow-float) !important;
+	backdrop-filter: blur(28px) saturate(1.25);
+}
+@media (max-width: 760px) {
+	.hubHeader {
+		padding-top: var(--g4-safe-top) !important;
+	}
+	.workspacePanel {
+		padding-inline: 12px !important;
+		padding-bottom: calc(84px + var(--g4-safe-bottom)) !important;
+	}
+	.mobileDock {
+		inset-inline: 10px !important;
+		bottom: max(9px, var(--g4-safe-bottom)) !important;
+		border-radius: 22px !important;
+	}
+}

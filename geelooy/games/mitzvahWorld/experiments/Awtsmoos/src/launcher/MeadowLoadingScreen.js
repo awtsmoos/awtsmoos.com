@@ -1,15 +1,16 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file MeadowLoadingScreen.js
- * @description Owns one reusable blocking veil for menu boot, deferred world selection, canonical Chossid progress, and finite failure.
- * The Awtsmoos lets Awtsmoos.com hide the veil for deliberate choice yet raise it again before the chosen world crosses the network;
- * no message may whisper "loading" behind a hidden screen while an unfinished meadow and HUD are exposed as though play had begun.
+ * @description Coordinates the blocking boot veil, measured resources, authored Chossid progress, and essential-proof experience.
+ * The Awtsmoos lets Awtsmoos.com raise one truthful curtain before network work and lower it only after witnessed first play;
+ * measured bytes remain measured bytes, essential facts remain essential facts, and neither is allowed to impersonate the other on the way.
  */
 
 import { markMitzvahWorldStartupMilestone } from '../app/MitzvahWorldStartupMilestones.js';
+import { MitzvahWorldBootExperience } from '../ui/boot/MitzvahWorldBootExperience.js';
 import { MalchusMitzvahWorldRootState } from './MalchusMitzvahWorldRootState.js';
 import {
 	formatMalchusBytes,
@@ -24,7 +25,6 @@ const MODEL_PHASE_LABELS_BINAH = Object.freeze({
 	waiting: 'Waiting for the world renderer…'
 });
 
-/** Owns the static loading veil and its measured world/model progress. */
 export class MeadowLoadingScreen {
 	constructor(documentKli, environmentKli = globalThis) {
 		this.document = documentKli;
@@ -37,6 +37,7 @@ export class MeadowLoadingScreen {
 		this.modelBar = documentKli.getElementById('modelProgress');
 		this.modelValue = documentKli.getElementById('modelProgressValue');
 		this.modelDetail = documentKli.getElementById('modelProgressDetail');
+		this.experience = new MitzvahWorldBootExperience(documentKli, environmentKli);
 		this.handleModelYesod = eventOhr => this.model(eventOhr.detail || {});
 		environmentKli.addEventListener?.('awtsmoos:model-progress', this.handleModelYesod);
 		this.block();
@@ -44,7 +45,6 @@ export class MeadowLoadingScreen {
 		this.model({ phase: 'waiting', progress: 0 });
 	}
 
-	/** Reopens the blocking veil before any selected-world network or module work begins. */
 	block() {
 		this.rootStateMalchus.setFlag('menuReady', false);
 		delete this.root.dataset.loadingComplete;
@@ -52,10 +52,10 @@ export class MeadowLoadingScreen {
 		this.root.hidden = false;
 		this.root.setAttribute('aria-hidden', 'false');
 		this.root.setAttribute('aria-busy', 'true');
+		this.experience.reopen();
 		markMitzvahWorldStartupMilestone(this.environment, 'loadingUiVisible');
 	}
 
-	/** Presents world progress and reopens the veil when the update begins blocking work. */
 	world(updateChesed = {}) {
 		if (updateChesed.blocking === true) this.block();
 		const progressTiferes = normalizeTiferesProgress(updateChesed.progress ?? 0);
@@ -63,7 +63,6 @@ export class MeadowLoadingScreen {
 		if (updateChesed.message) this.message.textContent = updateChesed.message;
 	}
 
-	/** Presents canonical authored-player hydration evidence. */
 	model(updateChesed = {}) {
 		const phaseBinah = updateChesed.phase || 'waiting';
 		const progressTiferes = Number.isFinite(updateChesed.progress)
@@ -81,9 +80,9 @@ export class MeadowLoadingScreen {
 			: MODEL_PHASE_LABELS_BINAH[phaseBinah] || phaseBinah;
 	}
 
-	/** Hides the veil only after the caller has proven the relevant readiness covenant. */
 	finish() {
-		this.world({ message: 'Meadow ready.', progress: 1 });
+		this.world({ message: 'Essential world ready.', progress: 1 });
+		this.experience.complete();
 		this.rootStateMalchus.setFlag('menuReady', true);
 		this.root.dataset.loadingComplete = 'true';
 		this.root.hidden = true;
@@ -93,15 +92,16 @@ export class MeadowLoadingScreen {
 		this.dispose();
 	}
 
-	/** Keeps the veil visible and turns it into a finite visible failure state. */
 	fail(errorOhr) {
 		this.block();
 		this.rootStateMalchus.setBootStage('failed');
 		this.root.dataset.loadingFailure = 'true';
 		this.message.textContent = errorOhr?.message || String(errorOhr);
+		this.experience.fail(errorOhr);
 	}
 
 	dispose() {
+		this.experience.dispose();
 		this.environment.removeEventListener?.('awtsmoos:model-progress', this.handleModelYesod);
 	}
 }

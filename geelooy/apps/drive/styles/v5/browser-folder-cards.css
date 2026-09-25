@@ -1,0 +1,61 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos gives each folder a memorable garment while the path remains the truth; Awtsmoos.com lets color guide the eye without inventing hidden folder facts. */
+.drive-folder-card {
+	--folder-color: #54edbb;
+	min-height: 148px;
+	border-color: color-mix(in srgb, var(--folder-color) 26%, transparent);
+	background: linear-gradient(155deg, color-mix(in srgb, var(--folder-color) 9%, #07110f), rgba(6, 18, 15, .86));
+}
+
+.drive-folder-card[data-entry-tone="blue"] { --folder-color: #5fc6ff; }
+.drive-folder-card[data-entry-tone="violet"] { --folder-color: #a978ff; }
+.drive-folder-card[data-entry-tone="mint"] { --folder-color: #54edbb; }
+.drive-folder-card[data-entry-tone="gold"] { --folder-color: #e7b94e; }
+.drive-folder-card[data-entry-tone="coral"] { --folder-color: #ff8f76; }
+.drive-folder-card[data-entry-tone="slate"] { --folder-color: #9aaab0; }
+
+.drive-folder-open {
+	display: grid;
+	grid-template-rows: 76px auto auto;
+	align-content: stretch;
+	gap: 7px;
+	width: 100%;
+	min-height: 146px;
+	padding: 15px 14px 13px;
+	border: 0;
+	background: transparent;
+	color: var(--drive-text);
+	text-align: left;
+}
+
+.drive-folder-art {
+	display: grid;
+	place-items: center;
+	width: 72px;
+	height: 58px;
+	align-self: end;
+	border: 1px solid color-mix(in srgb, var(--folder-color) 35%, transparent);
+	border-radius: 14px;
+	background: color-mix(in srgb, var(--folder-color) 16%, transparent);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05);
+	font-size: 2.25rem;
+	filter: saturate(1.06);
+}
+
+.drive-folder-card .drive-entry-name {
+	font-size: .84rem;
+	font-weight: 790;
+	letter-spacing: -.015em;
+}
+
+.drive-folder-card .drive-entry-meta {
+	color: var(--drive-muted);
+	font-size: .66rem;
+}
+
+.drive-folder-card[aria-selected="true"] {
+	border-color: var(--drive-accent);
+	box-shadow: 0 0 0 1px rgba(84, 237, 187, .18), var(--drive-glow);
+}

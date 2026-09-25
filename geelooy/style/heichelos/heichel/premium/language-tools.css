@@ -2,8 +2,8 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gives every word a doorway deeper than translation while truth still governs what sources actually exist;
- * Awtsmoos.com turns the language chamber into a focused instrument, luminous when available and honest when the lexicon sleeps.
+ * The Awtsmoos lets language study begin with the word itself instead of a towering poster;
+ * Awtsmoos.com keeps the workspace compact, bilingual, responsive, and honest about every lexical state.
  */
 .custom-tool-page-active {
 	background:
@@ -11,12 +11,56 @@
 		linear-gradient(145deg, rgba(10, 22, 36, 0.95), rgba(4, 10, 17, 0.96));
 }
 
+.translation-hub-workspace {
+	display: grid;
+	gap: clamp(1rem, 2.5vw, 1.6rem);
+	inline-size: min(100%, 72rem);
+	margin-inline: auto;
+}
+
+.translation-hub-intro {
+	display: grid;
+	gap: 0.3rem;
+	max-inline-size: 46rem;
+	padding-block: 0.2rem;
+}
+
+.translation-hub-kicker {
+	margin: 0;
+	color: var(--ikar-gold, #f3d995);
+	font-size: 0.76rem;
+	font-weight: 850;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.translation-hub-title {
+	margin: 0;
+	font-size: clamp(1.65rem, 5vw, 2.7rem) !important;
+	line-height: 1.04;
+	letter-spacing: -0.035em;
+}
+
+.translation-hub-hebrew-title {
+	margin: 0.1rem 0 0;
+	color: var(--ikar-ink-soft, #cbd5e1);
+	font-size: clamp(1.05rem, 3.5vw, 1.35rem);
+	font-weight: 750;
+}
+
+.translation-hub-intro-copy {
+	margin: 0.35rem 0 0;
+	max-inline-size: 58ch;
+	color: var(--ikar-ink-muted, #94a3b8);
+	line-height: 1.55;
+}
+
 .translation-hub-form {
 	display: grid;
-	grid-template-columns: minmax(0, 1fr) minmax(11rem, 0.32fr) auto;
-	gap: 0.7rem;
+	grid-template-columns: minmax(0, 1fr) minmax(11rem, 0.3fr) auto;
+	gap: 0.65rem;
 	align-items: stretch;
-	padding: clamp(0.85rem, 2vw, 1.25rem);
+	padding: clamp(0.75rem, 2vw, 1.05rem);
 	border: 1px solid var(--ikar-line-bright);
 	border-radius: var(--ikar-radius-lg);
 	background: rgba(5, 13, 22, 0.76);
@@ -25,12 +69,13 @@
 
 .translation-hub-input,
 .translation-hub-source {
-	min-block-size: 3.25rem;
+	min-block-size: 3.15rem;
 	border: 1px solid var(--ikar-line);
 	border-radius: var(--ikar-radius-sm);
 	background: rgba(16, 31, 48, 0.86);
 	color: var(--ikar-ink);
 	padding-inline: 1rem;
+	font: inherit;
 }
 
 .translation-hub-input::placeholder {
@@ -38,30 +83,52 @@
 }
 
 .translation-hub-submit {
-	min-block-size: 3.25rem;
-	padding-inline: 1.4rem;
+	min-block-size: 3.15rem;
+	padding-inline: 1.25rem;
 	border: 1px solid rgba(255, 230, 169, 0.58);
 	border-radius: var(--ikar-radius-sm, 0.9rem);
 	background: linear-gradient(135deg, #f3d995, #bd8e38);
 	box-shadow: 0 8px 28px rgba(198, 151, 61, 0.18);
 	color: #171006;
-	font-weight: 800;
+	font: inherit;
+	font-weight: 850;
+	cursor: pointer;
+}
+
+.translation-hub-form[data-busy="true"] .translation-hub-submit {
+	filter: saturate(0.82);
 }
 
 .translation-hub-results {
 	display: grid;
 	gap: 0.8rem;
-	margin-block-start: 1rem;
+	margin-block-start: 0.8rem;
 }
 
 .translation-hub-results > * {
 	border: 1px solid var(--ikar-line);
 	border-radius: var(--ikar-radius-md);
 	background: rgba(8, 19, 31, 0.84);
-	padding: clamp(0.9rem, 2vw, 1.35rem);
+	padding: clamp(0.85rem, 2vw, 1.2rem);
 }
 
 .custom-tool-page-active :where(.translation-hub-input, .translation-hub-source):focus {
 	border-color: var(--ikar-gold);
 	box-shadow: 0 0 0 3px var(--ikar-gold-soft);
+	outline: none;
+}
+
+@media (max-width: 46rem) {
+	.translation-hub-workspace {
+		gap: 1rem;
+	}
+
+	.translation-hub-form {
+		grid-template-columns: 1fr;
+	}
+
+	.translation-hub-submit,
+	.translation-hub-source {
+		inline-size: 100%;
+	}
 }

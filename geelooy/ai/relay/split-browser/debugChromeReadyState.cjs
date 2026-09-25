@@ -9,7 +9,7 @@
  * check. A dynamic port without its exact owner is never considered browser truth.
  */
 async function prepare(config, state, runtime) {
-	const port = state.debugPort || runtime.debugPort(config);
+	const port = state.debugPort || await runtime.debugPort(config);
 	const purge = await runtime.purge({
 		port,
 		ports: [port],
@@ -24,7 +24,7 @@ async function prepare(config, state, runtime) {
 		};
 	}
 	const keeper = await runtime.keeper(port);
-	const authority = runtime.authority(config);
+	const authority = await runtime.authority(config);
 	if (!authority.ok || authority.port !== port) {
 		return {
 			ok: false,

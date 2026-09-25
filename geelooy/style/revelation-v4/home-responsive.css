@@ -1,0 +1,99 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos is beyond measure, yet each vessel receives the light it can hold;
+Awtsmoos.com keeps the revelation immense on a phone without making the learner fight the gold.
+*/
+@media (max-width: 1000px) {
+	body[data-geelooy-route="home"] main.home .dance-frame {
+		grid-template-columns: minmax(0, 1fr) minmax(19rem, .88fr);
+		min-height: 450px;
+	}
+
+	body[data-geelooy-route="home"] main.home #hero-title {
+		font-size: clamp(2.45rem, 6vw, 4.35rem);
+	}
+
+	body[data-geelooy-route="home"] main.home .featured-worlds {
+		width: min(100% - 24px, 1280px);
+	}
+}
+
+@media (max-width: 760px) {
+	html body[data-geelooy-route="home"] {
+		background-attachment: scroll;
+	}
+
+	body[data-geelooy-route="home"] main.home::after {
+		width: 94vw;
+		opacity: .58;
+	}
+
+	body[data-geelooy-route="home"] main.home .dance-frame {
+		grid-template-columns: 1fr;
+		min-height: 0;
+		border-radius: 1.45rem;
+	}
+
+	body[data-geelooy-route="home"] main.home .hero-media {
+		aspect-ratio: 1 / 1;
+		min-height: 0;
+	}
+
+	body[data-geelooy-route="home"] main.home .hero-media::after {
+		background: linear-gradient(180deg, transparent 62%, rgba(4, 4, 14, .9));
+	}
+
+	body[data-geelooy-route="home"] main.home .hero-image {
+		max-block-size: none;
+		transform: scale(1.03);
+	}
+
+	body[data-geelooy-route="home"] main.home .banner-copy {
+		padding: 1.55rem 1.25rem 1.75rem;
+		background:
+			radial-gradient(circle at 88% 8%, rgba(134, 80, 255, .2), transparent 13rem),
+			linear-gradient(180deg, rgba(8, 7, 21, .99), rgba(7, 13, 30, .99));
+	}
+
+	body[data-geelooy-route="home"] main.home #hero-title {
+		max-width: 10ch;
+		font-size: clamp(2.55rem, 12vw, 4.4rem);
+	}
+
+	body[data-geelooy-route="home"] main.home .hero-summary {
+		font-size: .98rem;
+		line-height: 1.62;
+	}
+
+	body[data-geelooy-route="home"] main.home .featured-worlds {
+		width: min(100% - 18px, 1280px);
+		margin-top: 2rem;
+	}
+}
+
+@media (max-width: 540px) {
+	body[data-geelooy-route="home"] main.home .portal-shortcuts {
+		grid-template-columns: 1fr 1fr;
+		gap: .58rem;
+	}
+
+	body[data-geelooy-route="home"] main.home .portal-shortcuts a {
+		grid-template-columns: auto minmax(0, 1fr);
+		min-height: 4.8rem;
+		padding: .62rem;
+	}
+
+	body[data-geelooy-route="home"] main.home .portal-shortcuts small {
+		display: none;
+	}
+
+	body[data-geelooy-route="home"] main.home .featured-grid {
+		grid-template-columns: 1fr;
+	}
+
+	body[data-geelooy-route="home"] main.home .featured-card--torah,
+	body[data-geelooy-route="home"] main.home .featured-card--os {
+		grid-column: auto;
+	}
+}

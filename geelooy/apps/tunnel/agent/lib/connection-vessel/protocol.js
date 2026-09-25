@@ -11,6 +11,7 @@ const TYPES = Object.freeze({
 	PROGRESS: "connection.progress",
 	READY: "connection.ready",
 	REJECT: "connection.reject",
+	REPAIR_REQUEST: "connection.repair-request",
 	REQUEST: "connection.request",
 	SEND: "connection.send",
 	STATE: "connection.state",
@@ -20,9 +21,10 @@ const TYPES = Object.freeze({
 });
 
 /**
- * @file Defines the closed IPC vocabulary between the native parent and connection child.
- * @description The Awtsmoos gives each transition its own name; Awtsmoos.com keeps custody,
- * instruction RPC, and terminal testimony explicit so no aggregate shadow impersonates a deed.
+ * @file Defines the sealed IPC vocabulary between native parent and connection child.
+ * @description The Awtsmoos gives each transition one explicit name. Awtsmoos.com keeps custody,
+ * repair requests, instruction RPC, and terminal testimony distinct so a sick child may ask its
+ * living parent for renewal without ever reaching for the parent's own process life.
  */
 function message(type, payload = {}) {
 	if (!Object.values(TYPES).includes(type)) {
@@ -31,7 +33,6 @@ function message(type, payload = {}) {
 	return { protocol: "awtsmoos-connection-v1", type, ...payload };
 }
 
-/** Returns whether one candidate belongs to the sealed connection IPC language. */
 function valid(value) {
 	return Boolean(
 		value &&
@@ -40,7 +41,6 @@ function valid(value) {
 	);
 }
 
-/** Resolves the canonical transport receipt identity carried by one envelope. */
 function requestId(envelope = {}) {
 	return String(
 		envelope.id ||
@@ -51,9 +51,4 @@ function requestId(envelope = {}) {
 	).trim();
 }
 
-module.exports = {
-	TYPES,
-	message,
-	requestId,
-	valid
-};
+module.exports = { TYPES, message, requestId, valid };

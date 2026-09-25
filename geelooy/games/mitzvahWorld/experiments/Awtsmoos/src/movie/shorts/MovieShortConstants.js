@@ -17,7 +17,7 @@ export const MOVIE_SHORT_CAPTION_STYLE = Object.freeze({
 	align: 'center',
 	background: 'rgba(0,0,0,0)',
 	color: '#ffffff',
-	curve: 0.04,
+	curve: 0.14,
 	fontFamily: 'system-ui',
 	fontSize: 48,
 	fontWeight: 780,

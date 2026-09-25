@@ -1,12 +1,17 @@
-/* B"H */
+/*B"H*/
 /* Boruch Hashem */
 /* Blessed is He */
-/** The Awtsmoos joins hand and motion through a bounded Yesod; Awtsmoos.com keeps touch controls reachable, safe-area aware, and below every deliberate overlay. */
+/**
+ * The Awtsmoos joins hand and motion through a bounded Yesod while no gesture owns the whole world;
+ * Awtsmoos.com keeps a two-cluster dock reachable, safe-area aware, and measured by one shared touch unit.
+ */
 .shema-strike .touch-controls {
+	--touch-unit: 58px;
 	position: absolute;
 	inset: auto max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
 	z-index: var(--shema-layer-controls);
 	display: none;
+	grid-template-columns: max-content max-content;
 	align-items: end;
 	justify-content: space-between;
 	gap: 14px;
@@ -15,20 +20,25 @@
 
 .shema-strike .touch-cluster {
 	display: grid;
-	grid-template-columns: repeat(2, minmax(58px, 74px));
+	grid-template-columns: max-content max-content;
 	gap: 10px;
 	pointer-events: auto;
 }
 
 .shema-strike .action-cluster {
-	grid-template-columns: repeat(2, minmax(54px, 68px));
+	grid-template-columns: repeat(2, var(--touch-unit));
 }
 
 .shema-strike .touch-controls button {
-	min-width: 58px;
-	min-height: 58px;
-	padding: 0.5rem;
+	inline-size: var(--touch-unit);
+	min-inline-size: var(--touch-unit);
+	block-size: var(--touch-unit);
+	min-block-size: var(--touch-unit);
+	padding: 0.45rem;
 	border-radius: 18px;
+	appearance: none;
+	-webkit-appearance: none;
+	touch-action: manipulation;
 	font-size: 1.05rem;
 	background: rgba(8, 16, 36, 0.82);
 	backdrop-filter: blur(9px);

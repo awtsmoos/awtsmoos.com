@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file visual-grid.js
@@ -20,7 +20,6 @@ import {
 } from '../constants.js';
 import { ghostY } from './board.js';
 
-/** Return one transport-safe 20×10 renderer matrix. */
 export function createTetrisVisualGrid(game) {
 	const grid = Array.from(
 		{ length: VISIBLE_ROWS },
@@ -37,7 +36,6 @@ export function createTetrisVisualGrid(game) {
 	return grid;
 }
 
-/** Project one active/ghost piece into a visible renderer matrix. */
 function projectPiece(grid, piece, originY, value, emptyOnly) {
 	for (let localY = 0; localY < piece.matrix.length; localY += 1) {
 		for (let localX = 0; localX < piece.matrix[localY].length; localX += 1) {

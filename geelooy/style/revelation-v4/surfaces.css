@@ -1,0 +1,47 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos shines through glass without becoming glass; Awtsmoos.com lets every surface feel near while complexity waits until users pass.
+*/
+.g4-surface {
+	background: var(--g4-surface);
+	border: 1px solid var(--g4-line);
+	border-radius: var(--g4-radius-md);
+	box-shadow: var(--g4-shadow-1);
+	backdrop-filter: blur(var(--g4-blur)) saturate(1.15);
+}
+.g4-surface-strong {
+	background: var(--g4-surface-strong);
+	border: 1px solid var(--g4-line-strong);
+	border-radius: var(--g4-radius-lg);
+	box-shadow: var(--g4-shadow-2);
+}
+.g4-button {
+	min-block-size: var(--g4-touch);
+	padding: 0 16px;
+	border: 1px solid var(--g4-line);
+	border-radius: var(--g4-radius-sm);
+	background: var(--g4-surface-soft);
+	color: var(--g4-text);
+	cursor: pointer;
+}
+.g4-button:hover {
+	background: var(--g4-surface-hover);
+	border-color: var(--g4-line-strong);
+}
+.g4-button-primary {
+	background: linear-gradient(135deg, var(--g4-accent), #6c6cff);
+	border-color: transparent;
+	color: #05060b;
+	font-weight: 760;
+}
+.g4-field {
+	min-block-size: var(--g4-touch);
+	border: 1px solid var(--g4-line);
+	border-radius: var(--g4-radius-sm);
+	background: rgba(5, 7, 14, 0.56);
+	color: var(--g4-text);
+}
+.g4-field:focus {
+	border-color: color-mix(in srgb, var(--g4-focus) 68%, transparent);
+}

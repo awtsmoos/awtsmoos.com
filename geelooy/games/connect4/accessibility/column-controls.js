@@ -1,16 +1,16 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file column-controls.js
- * @description Adds seven semantic Connect 4 column controls and announces only Worker-confirmed turn/result truth.
- * The Awtsmoos renews choice before coordinates; Awtsmoos.com lets touch and keyboard request one column while the authoritative Worker decides what actually happened.
+ * @description Adds seven semantic Connect 4 column controls and announces only Worker-confirmed move and turn truth.
+ * The Awtsmoos renews choice before coordinates; Awtsmoos.com lets touch and keyboard request one column while the authoritative Worker reveals when the disc is accepted and when the next turn is born.
  *
  * Invariants:
  * - Button activation emits semantic column intent, never synthetic canvas clicks.
- * - Status text follows authoritative `awtsmoos:connect4-state` messages.
- * - Controls disable whenever the Worker says the human may not act.
+ * - Controls begin inert and enable only when the Worker confirms a human turn.
+ * - An accepted falling disc immediately disables repeat input until turn advancement.
  */
 const gameContainer = document.getElementById('game-container');
 const controls = document.createElement('div');
@@ -40,6 +40,7 @@ function createColumnButton(column) {
 	button.className = 'columnButton';
 	button.dataset.column = String(column);
 	button.textContent = String(column + 1);
+	button.disabled = true;
 	button.setAttribute('aria-label', `Drop disc in column ${column + 1}`);
 	button.addEventListener('click', () => requestColumn(column, 'drop'));
 	button.addEventListener('focus', () => {
@@ -56,28 +57,32 @@ function requestColumn(column, kind) {
 	}));
 }
 
-/** Enable/disable all columns according to authoritative Worker turn state. */
+/** Enable or disable all semantic columns as one authoritative input surface. */
 function setEnabled(enabled) {
 	for (const button of controls.querySelectorAll('button')) {
 		button.disabled = !enabled;
 	}
 }
 
-/** Translate authoritative Worker state into concise assistive status. */
+/** Translate authoritative Worker state into concise assistive status and input readiness. */
 window.addEventListener('awtsmoos:connect4-state', event => {
 	const state = event.detail || {};
 	controls.hidden = false;
-	setEnabled(Boolean(state.isPlayerTurn) && !state.gameOver);
+	setEnabled(Boolean(state.isPlayerTurn) && !state.gameOver && state.reason !== 'move-started');
 	if (state.reason === 'terminal') {
 		status.textContent = state.draw
 			? 'The game is a draw.'
 			: `${state.humanOutcome === 'win' ? 'You win.' : state.humanOutcome === 'loss' ? 'Golem wins.' : `Player ${state.winner} wins.`}`;
 		return;
 	}
+	if (state.reason === 'move-started') {
+		status.textContent = 'Move accepted. Disc falling.';
+		return;
+	}
 	if (state.reason === 'turn-advanced') {
 		status.textContent = state.isPlayerTurn
-			? `Move accepted. Player ${state.currentPlayer} to move.`
-			: 'Move accepted. Golem is thinking.';
+			? `Move complete. Player ${state.currentPlayer} to move.`
+			: 'Move complete. Golem is thinking.';
 		return;
 	}
 	status.textContent = state.isPlayerTurn

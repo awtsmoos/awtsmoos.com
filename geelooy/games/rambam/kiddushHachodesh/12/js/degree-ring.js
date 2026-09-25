@@ -1,50 +1,66 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
+
 /**
- * The Awtsmoos reveals one complete circle through 360 finite signs, each degree a quiet witness around the sun;
- * Awtsmoos.com preserves the original Rambam ring exactly while sharing one geometry so needless duplication is undone.
+ * @file degree-ring.js
+ * @description Reveals the authored 360-degree celestial ring through native procedural meshes.
+ * The Awtsmoos reveals one complete circle through 360 finite signs, each degree a witness;
+ * Awtsmoos.com preserves the original ring while one shared geometry keeps the vessel light.
  */
-import * as THREE from "/games/scripts/build/three.module.js";
+import {
+	Mesh,
+	MeshStandardMaterial
+} from "/libs/awtsmoos-procedural-core/src/runtime/native/tiny-runtime.js";
 import { NUM_SLICES, ORBIT_RADIUS } from "./constants.js";
+import { createNativeGeometry } from "./native-geometry.js";
+
+const HALF_RIGHT_ANGLE = Math.SQRT1_2;
 
 export class MaagalDegreeRing {
+	/** @param {object} scene Native scene receiving every degree witness. */
 	constructor(scene) {
 		this.scene = scene;
 		this.slices = [];
 		this.currentIndex = null;
-		this.normalMaterial = new THREE.MeshStandardMaterial({
-			color: 0xff0000,
-			roughness: 0.5,
-			metalness: 0.5
+		this.normalMaterial = new MeshStandardMaterial({ color: [1, 0, 0, 1] });
+		this.highlightMaterial = new MeshStandardMaterial({ color: [0, 1, 0, 1] });
+		this.geometry = createNativeGeometry("cylinder", {
+			radiusTop: 0.1,
+			radiusBottom: 0.1,
+			height: ORBIT_RADIUS,
+			radialSegments: 32
 		});
-		this.highlightMaterial = new THREE.MeshStandardMaterial({
-			color: 0x00ff00,
-			roughness: 0.5,
-			metalness: 0.5
-		});
-		this.geometry = new THREE.CylinderGeometry(0.1, 0.1, ORBIT_RADIUS, 32);
 		this.revealSlices();
 	}
 
-	/** Build the original 360 positions and rotations from one shared immutable geometry. */
+	/** Build the original 360 radial positions from one shared procedural geometry. */
 	revealSlices() {
 		for (let index = 0; index < NUM_SLICES; index += 1) {
 			const radians = index * Math.PI / 180;
-			const slice = new THREE.Mesh(this.geometry, this.normalMaterial);
-			slice.rotation.z = Math.PI / 2;
-			slice.rotation.y = radians;
+			const slice = new Mesh(this.geometry, this.normalMaterial);
 			slice.position.set(
 				ORBIT_RADIUS * Math.cos(radians),
 				0,
 				ORBIT_RADIUS * Math.sin(radians)
 			);
+			this.orientRadially(slice, radians);
 			this.scene.add(slice);
 			this.slices.push(slice);
 		}
 	}
 
-	/** Highlight one current degree without rewriting the material of all 360 meshes each frame. */
+	/** Rotate a native Y-axis cylinder ninety degrees into the authored radial direction. */
+	orientRadially(slice, radians) {
+		slice.quaternion.set(
+			Math.sin(radians) * HALF_RIGHT_ANGLE,
+			0,
+			-Math.cos(radians) * HALF_RIGHT_ANGLE,
+			HALF_RIGHT_ANGLE
+		);
+	}
+
+	/** Highlight one current degree without rewriting all 360 materials each frame. */
 	highlight(index) {
 		const normalized = ((index % NUM_SLICES) + NUM_SLICES) % NUM_SLICES;
 		if (this.currentIndex === normalized) return;

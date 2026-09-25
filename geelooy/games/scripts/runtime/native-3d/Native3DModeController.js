@@ -1,18 +1,7 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
-/**
- * @file Native3DModeController.js
- * @description Owns one opt-in native 3D presentation lifecycle for a 2D game.
- * Awtsmoos Procedural Core owns particles; game simulation remains untouched.
- *
- * Invariants:
- * - 2D is the low-cost default unless URL/preference requests 3D.
- * - WebGL failure degrades to CSS depth and never blocks gameplay.
- * - One controller owns one canvas, toggle, resize listener, and renderer disposal.
- */
-import { activateNative3DBackdrop } from './backdrop-activation.js';
 import {
 	createNative3DToggle,
 	initialNative3DMode,
@@ -20,92 +9,72 @@ import {
 	storeNative3DMode
 } from './presentation-support.js';
 
+/**
+ * @file Native3DModeController.js
+ * @description Owns one reversible live-state native 3D presentation while authored 2D gameplay remains authoritative.
+ * The Awtsmoos renews both garments from one gameplay truth; Awtsmoos.com lets the player switch dimensions without forking state.
+ */
 export class Native3DModeController {
 	constructor(documentObject = document) {
 		this.document = documentObject;
-		this.canvas = null;
-		this.button = null;
-		this.backdrop = null;
-		this.backdropPromise = null;
-		this.active = false;
-		this.disposed = false;
-		this.resizeHandler = () => this.backdrop?.resize();
-		this.disposeHandler = () => this.dispose();
+		this.active = initialNative3DMode();
+		this.stage = null;
+		this.loading = null;
 	}
 
-	/** Mount presentation controls after the game document body exists. */
 	mount() {
-		if (!this.document.body || this.button) {
-			return this;
-		}
 		installNative3DStylesheet(this.document);
-		this.canvas = this.document.createElement('canvas');
-		this.canvas.className = 'awtsmoosNative3DBackdrop';
-		this.canvas.setAttribute('aria-hidden', 'true');
-		this.button = createNative3DToggle(this.document, () => {
-			this.setActive(!this.active);
-		});
-		this.document.body.prepend(this.canvas);
-		this.document.body.append(this.button);
-		this.setActive(initialNative3DMode());
-		globalThis.addEventListener('resize', this.resizeHandler, { passive: true });
-		globalThis.addEventListener('pagehide', this.disposeHandler, { once: true });
+		this.toggle = createNative3DToggle(this.document, () => this.setActive(!this.active));
+		this.document.body.append(this.toggle);
+		this.publish();
+		if (this.active) this.ensureStage();
 		return this;
 	}
 
-	/** Lazily create the native backdrop only after 3D is actually requested. */
-	async ensureBackdrop() {
-		if (this.backdrop || this.backdropPromise) {
-			return this.backdropPromise;
+	async ensureStage() {
+		if (this.stage) {
+			this.stage.setActive(this.active);
+			return this.stage;
 		}
-		this.backdropPromise = this.loadBackdrop();
-		return this.backdropPromise;
+		if (!this.loading) {
+			this.loading = import('./SemanticNative3DStage.js')
+				.then(({ SemanticNative3DStage }) => {
+					this.stage = new SemanticNative3DStage(this.document);
+					this.stage.mount();
+					this.stage.setActive(this.active);
+					return this.stage;
+				})
+				.catch(error => {
+					console.warn('B"H | Native semantic 3D unavailable.', error);
+					this.active = false;
+					this.publish();
+					return null;
+				});
+		}
+		return this.loading;
 	}
 
-	/** Load Procedural Core on demand while keeping WebGL failure nonfatal. */
-	async loadBackdrop() {
-		try {
-			const module = await import('../../../../libs/awtsmoos-procedural-core/src/core/gamePresentation3d/index.js');
-			if (this.disposed || !this.canvas?.isConnected) {
-				return null;
-			}
-			this.backdrop = new module.NativeGameParticleBackdrop(this.canvas);
-		} catch {
-			this.backdrop = null;
-			this.document.body.dataset.native3dDegraded = 'true';
-		}
-		return this.backdrop;
-	}
-
-	/** Apply presentation mode and persist only visual preference. */
 	setActive(active) {
 		this.active = Boolean(active);
-		this.document.body.classList.toggle('awtsmoosNative3D', this.active);
-		this.canvas.hidden = !this.active;
-		this.button.setAttribute('aria-pressed', String(this.active));
-		this.button.textContent = this.active ? '3D: On' : '3D: Off';
-		if (this.active) {
-			this.document.body.dataset.native3dState = 'loading';
-			this.ensureBackdrop().then(backdrop => activateNative3DBackdrop(this, backdrop));
-		} else {
-			this.document.body.dataset.native3dState = 'off';
-			this.backdrop?.setActive(false);
-		}
-		globalThis.dispatchEvent(new CustomEvent('awtsmoos:native-3d-change', {
+		storeNative3DMode(this.active);
+		this.publish();
+		if (this.active) this.ensureStage();
+		else this.stage?.setActive(false);
+		globalThis.dispatchEvent?.(new CustomEvent('awtsmoos:native-3d-change', {
 			detail: { active: this.active }
 		}));
-		storeNative3DMode(this.active);
 	}
 
-	/** Release presentation resources without touching game-owned resources. */
-	dispose() {
-		this.disposed = true;
-		this.backdrop?.dispose();
-		globalThis.removeEventListener('resize', this.resizeHandler);
-		this.button?.remove();
-		this.canvas?.remove();
-		this.button = null;
-		this.canvas = null;
-		this.backdrop = null;
+	publish() {
+		this.document.body.dataset.awtsmoosNative3d = String(this.active);
+		this.document.body.classList.toggle('awtsmoosNative3DActive', this.active);
+		if (!this.toggle) return;
+		this.toggle.textContent = this.active ? '2D View' : '3D View';
+		this.toggle.setAttribute('aria-pressed', String(this.active));
+	}
+
+	destroy() {
+		this.stage?.destroy();
+		this.toggle?.remove();
 	}
 }

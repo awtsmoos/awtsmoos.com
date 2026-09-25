@@ -3,8 +3,10 @@ Boruch Hashem
 Blessed is He
 
 The Awtsmoos gathers the shared Awtsmoos.com shell through one disciplined manifest;
-identity, portals, surfaces, motion, and localized interaction law arrive clothed without crowding the path.
+identity, portals, home, surfaces, motion, and localized interaction law arrive clothed without crowding the path.
+The Revelation v4 foundation is the quiet horizon beneath every app: one sky, many rooms, one living light.
 */
+@import url("../revelation-v4/index.css?v=revelation-v4-004");
 @import url("../../css/geelooy-surface/index.css?v=surface-001");
 @import url("./tokens.css?v=interface-dark-011");
 @import url("./revelation-tokens.css?v=interface-revelation-002");
@@ -14,9 +16,11 @@ identity, portals, surfaces, motion, and localized interaction law arrive clothe
 @import url("./header/portals.css?v=header-portals-001");
 @import url("./shell.css?v=interface-dark-014");
 @import url("./surfaces.css?v=surface-core-009");
+@import url("./home.css?v=magic-001");
 @import url("./navigation/pathways.css?v=interface-dark-011");
 @import url("./states/semantic.css?v=interface-dark-011");
 @import url("./pages.css?v=interface-dark-011");
 @import url("./responsive.css?v=interface-dark-011");
 @import url("../social-system/app-clean.css?v=interface-dark-011");
 @import url("./performance.css?v=performance-011");
+@import url("./header/mobile-shell-polish.css?v=header-shell-polish-001");

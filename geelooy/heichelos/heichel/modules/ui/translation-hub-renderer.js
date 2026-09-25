@@ -5,47 +5,40 @@
 /**
  * @module TranslationHubRenderer
  * @description
- * The Awtsmoos gives Language Tools one dedicated study identity before search
- * and browse. Awtsmoos.com keeps that identity separate from generic series
- * headings so dictionary work feels intentional rather than like an empty feed.
+ * The Awtsmoos gives language study a compact doorway where lookup begins before decoration;
+ * Awtsmoos.com keeps Hebrew identity visible without turning the first mobile viewport into a poster.
  */
 
 import { createDictionaryBrowseSurface } from './translation-hub-browse.js';
 import { createDictionarySearchSurface } from './translation-hub-search.js';
 import { element } from './translation-hub-shared.js';
 
-/**
- * Creates concise bilingual context for the dedicated language workspace.
- * @returns {HTMLElement} Introductory workspace header.
- */
+/** Creates compact bilingual context above the immediately useful lookup form. */
 function createWorkspaceIntro() {
 	const header = element('header', 'translation-hub-intro');
 	const kicker = element('p', 'translation-hub-kicker', 'Language Tools');
-	const title = element(
-		'h2',
-		'translation-hub-title',
-		'תרגומים ומילון · Translations & Dictionary'
-	);
+	const title = element('h2', 'translation-hub-title', 'Translations & Dictionary');
+	const hebrewTitle = element('p', 'translation-hub-hebrew-title', 'תרגומים ומילון');
 	const copy = element(
 		'p',
 		'translation-hub-intro-copy',
-		'Look up Hebrew, Aramaic, or Yiddish words and browse installed dictionaries.'
+		'Look up Hebrew, Aramaic, or Yiddish now, or browse the installed dictionaries below.'
 	);
-	title.dir = 'auto';
+
+	hebrewTitle.lang = 'he';
+	hebrewTitle.dir = 'rtl';
 	copy.dir = 'ltr';
-	header.append(kicker, title, copy);
+	header.append(kicker, title, hebrewTitle, copy);
 	return header;
 }
 
-/**
- * Replaces the series description vessel with a focused language workspace.
- * @param {HTMLElement} area Series description vessel owned by the current route.
- * @returns {void}
- */
+/** Replaces the route description vessel with one search-first language workspace. */
 export function renderTranslationHub(area) {
-	area.replaceChildren(
+	const workspace = element('section', 'translation-hub-workspace');
+	workspace.append(
 		createWorkspaceIntro(),
 		createDictionarySearchSurface(),
 		createDictionaryBrowseSurface()
 	);
+	area.replaceChildren(workspace);
 }

@@ -11,7 +11,8 @@ const Failure = require("../lib/ws/transportFailure.js");
  * @description
  * The Awtsmoos gives each kind of concealment its measure: upstream proxy pressure
  * keeps the long bounded rhythm, while physical network absence revisits one gate
- * quickly, never multiplying sockets and never confusing registration with recovery.
+ * quickly, never multiplying sockets, and registration clears backoff once the
+ * relay accepts the registration rather than carrying stale pressure forward.
  */
 (() => {
 	const state = { reconnectAttempt: 0, lastRegisteredAt: 0 };
@@ -35,7 +36,7 @@ const Failure = require("../lib/ws/transportFailure.js");
 	assert.equal(Reconnect.delayForAttempt(9, deterministic(dns)), 5000);
 
 	Reconnect.markRegistered(state);
-	assert.equal(state.reconnectAttempt, 8);
+	assert.equal(state.reconnectAttempt, 0);
 	Reconnect.markAccepted(state);
 	assert.equal(state.reconnectAttempt, 0);
 	console.log(JSON.stringify({ ok: true, suite: "proxy-storm-reconnect-gate", delays, networkReturnCapMs: 5000 }));

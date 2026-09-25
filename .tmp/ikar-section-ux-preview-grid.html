@@ -1,0 +1,65 @@
+<!doctype html>
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets exact mobile widths bear one synchronous witness; Awtsmoos.com measures each loaded Torah iframe immediately after its real CSS finishes loading.
+-->
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Ikar Section Exact-Width Witness</title>
+	<style>
+		:root { color-scheme: dark; }
+		body { background: #020611; color: #eaf6ff; font-family: Arial, sans-serif; margin: 0; padding: 1rem; }
+		.witnesses { display: flex; flex-wrap: wrap; gap: 1rem; }
+		figure { margin: 0; }
+		figcaption { color: #8fddea; font-size: .8rem; font-weight: 800; margin-bottom: .4rem; }
+		iframe { background: #030817; border: 1px solid #23546a; display: block; height: 800px; }
+		#metrics { white-space: pre-wrap; }
+	</style>
+	<script>
+		// B"H — Awtsmoos.com records geometry synchronously when each exact-width child completes loading.
+		const measurements = [];
+
+		function rectangle(element) {
+			const box = element?.getBoundingClientRect();
+			return box ? { top: Math.round(box.top), bottom: Math.round(box.bottom), height: Math.round(box.height), width: Math.round(box.width) } : null;
+		}
+
+		function recordFrame(frame) {
+			const documentInside = frame.contentDocument;
+			const cards = [...documentInside.querySelectorAll('.heichel-semantic-discovery a')];
+			const longest = cards.reduce((best, card) => card.textContent.length > (best?.textContent.length || 0) ? card : best, null);
+			measurements.push({
+				frameWidth: frame.clientWidth,
+				documentWidth: documentInside.documentElement.scrollWidth,
+				clientWidth: documentInside.documentElement.clientWidth,
+				horizontalOverflow: documentInside.documentElement.scrollWidth > documentInside.documentElement.clientWidth,
+				firstCard: rectangle(cards[0]),
+				cardHeights: [...new Set(cards.map(card => Math.round(card.getBoundingClientRect().height)))],
+				visibleCardsAt800: cards.filter(card => card.getBoundingClientRect().top < 800 && card.getBoundingClientRect().bottom > 0).length,
+				totalCards: cards.length,
+				longestTitle: longest?.textContent.trim() || '',
+				longestTitleRect: rectangle(longest),
+				search: rectangle(documentInside.querySelector('.ikar-first-search')),
+				title: rectangle(documentInside.querySelector('#heichel-boot-title'))
+			});
+
+			if (measurements.length === 3) {
+				measurements.sort((left, right) => left.frameWidth - right.frameWidth);
+				document.querySelector('#metrics').textContent = JSON.stringify(measurements);
+				document.body.dataset.measurementReady = 'true';
+			}
+		}
+	</script>
+</head>
+<body>
+	<h1>Ikar Chassidus exact mobile-width witness</h1>
+	<div class="witnesses">
+		<figure><figcaption>320 × 800</figcaption><iframe src="ikar-section-ux-preview.html" width="320" onload="recordFrame(this)" title="320 pixel witness"></iframe></figure>
+		<figure><figcaption>360 × 800</figcaption><iframe src="ikar-section-ux-preview.html" width="360" onload="recordFrame(this)" title="360 pixel witness"></iframe></figure>
+		<figure><figcaption>412 × 800</figcaption><iframe src="ikar-section-ux-preview.html" width="412" onload="recordFrame(this)" title="412 pixel witness"></iframe></figure>
+	</div>
+	<pre id="metrics">waiting</pre>
+</body>
+</html>

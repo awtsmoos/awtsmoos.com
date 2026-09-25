@@ -1,81 +1,58 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H // Boruch Hashem // Blessed is He
 
-const Authorization = require("../../core/tunnelSecurity/authorization.js");
-const Factory = require("./vesselFactory.js");
 const Live = require("./liveDevices.js");
-const Errors = require("./vesselErrors.js");
-const { VESSEL_TYPES } = require("./vesselTypes.js");
+const AutomaticNative = require("../automaticNativeSelection.js");
 
 /**
- * @file Resolves automatic vessel choice after health and authorization filtering.
- * @description
- * The Awtsmoos may reveal browser, native, or virtual vessels; Awtsmoos.com chooses
- * only when one lawful route remains. Ambiguity stays explicit rather than letting
- * a stale or execution-degraded tunnel win merely because its socket still exists.
+ * @file Resolves auto-routed authorized vessels while preserving explicit surface ambiguity.
+ * @description The Awtsmoos lets one canonical native lead and one rescue inherit work when needed;
+ * Awtsmoos.com no longer asks a human to arbitrate ordinary primary/rescue recovery, while browser
+ * versus native intent and genuinely multiple canonical peers remain explicit decisions.
  */
-function resolveAuto(options = {}, resolvers = {}) {
-	const browsers = options.inventory.browserDevices.filter(device => device.isAlive);
-	const natives = options.inventory.nativeDevices.filter(device => {
-		return Live.canRouteDevice(device, options.payload) &&
-			Authorization.authorize(
-				options.accountId,
-				device.tunnelId,
-				options.permission
-			).ok;
-	});
-	if (options.target === VESSEL_TYPES.BROWSER && browsers.length === 1) {
-		return resolvers.resolveBrowser(
-			options.$i,
-			options.accountId,
-			browsers[0],
-			options.payload,
-			options.timeoutMs,
-			options.inventory
-		);
-	}
-	if (options.target === VESSEL_TYPES.NATIVE && natives.length === 1) {
-		return resolvers.resolveNative(
-			options.$i,
-			options.accountId,
-			natives[0],
-			options.payload,
-			options.permission,
-			options.timeoutMs,
-			options.inventory
-		);
-	}
-	if (!options.target && browsers.length + natives.length === 1) {
-		const device = browsers[0] || natives[0];
-		return device.vesselType === VESSEL_TYPES.BROWSER
-			? resolvers.resolveBrowser(
-				options.$i,
-				options.accountId,
-				device,
-				options.payload,
-				options.timeoutMs,
-				options.inventory
-			)
-			: resolvers.resolveNative(
-				options.$i,
-				options.accountId,
-				device,
-				options.payload,
-				options.permission,
-				options.timeoutMs,
-				options.inventory
-			);
-	}
-	if (!browsers.length && !natives.length) {
-		return Factory.virtualVessel(
-			options.$i,
-			options.userId,
-			options.payload,
-			"auto_virtual_os"
-		);
-	}
-	return Errors.missing("auto", "authorized_vessel_ambiguous");
+function effectiveTarget(options = {}) {
+	return String(options.targetVessel || options.vessel || "").trim().toLowerCase();
 }
 
-module.exports = { resolveAuto };
+function authorizedNativeCandidates(liveCandidates = [], identity) {
+	const seen = new Set();
+	return liveCandidates.filter(candidate => {
+		const name = String(candidate?.tunnelName || "").trim();
+		if (!name || seen.has(name) || !identity.canUseNative(candidate)) return false;
+		seen.add(name);
+		return true;
+	});
+}
+
+function uniqueAuthorizedNativeNames(liveCandidates = [], identity) {
+	return authorizedNativeCandidates(liveCandidates, identity)
+		.map(candidate => String(candidate.tunnelName || "").trim());
+}
+
+function resolveAuto(options = {}, resolvers = {}) {
+	const nativeCandidates = Live.liveNativeCandidates(options);
+	const browserCandidates = Live.liveBrowserCandidates(options);
+	const authorized = authorizedNativeCandidates(nativeCandidates, resolvers.identity);
+	const target = effectiveTarget(options);
+	const selection = AutomaticNative.select(authorized, {
+		scopeKey: options.accountId,
+		now: options.now,
+		failbackMs: options.failbackMs
+	});
+
+	if (target === "native") {
+		return selection.device ? resolvers.resolveNative(selection.device.tunnelName) : null;
+	}
+	if (target === "browser" && browserCandidates.length === 1) {
+		return resolvers.resolveBrowser(browserCandidates[0].tunnelName);
+	}
+	if (target === "browser") return null;
+	if (browserCandidates.length > 0) return null;
+	return selection.device ? resolvers.resolveNative(selection.device.tunnelName) : null;
+}
+
+module.exports = {
+	authorizedNativeCandidates,
+	effectiveTarget,
+	resolveAuto,
+	uniqueAuthorizedNativeNames
+};

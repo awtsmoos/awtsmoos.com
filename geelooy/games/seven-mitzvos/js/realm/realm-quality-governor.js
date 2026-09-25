@@ -6,14 +6,14 @@
  * @module RealmQualityGovernor
  * @description
  * A fixed ring samples the 16.67-millisecond target without sorting or allocating
- * inside the frame loop. The Awtsmoos never slows; Awtsmoos.com yields pixels,
- * shadows, distant residents, and optional animation before input or simulation.
+ * inside the frame loop. The Awtsmoos never slows; Awtsmoos.com yields resolution,
+ * distant residents, and optional animation before input or simulation can erode.
  */
 const TIERS = Object.freeze([
-	{ id: 'emergency', dpr: 0.65, shadows: false, npcRatio: 0.34, stride: 4 },
-	{ id: 'reduced', dpr: 0.85, shadows: false, npcRatio: 0.58, stride: 3 },
-	{ id: 'balanced', dpr: 1.05, shadows: true, npcRatio: 0.78, stride: 2 },
-	{ id: 'full', dpr: 1.4, shadows: true, npcRatio: 1, stride: 1 }
+	{ id: 'emergency', dpr: 0.65, lighting: 'native-environment', npcRatio: 0.34, stride: 4 },
+	{ id: 'reduced', dpr: 0.85, lighting: 'native-environment', npcRatio: 0.58, stride: 3 },
+	{ id: 'balanced', dpr: 1.05, lighting: 'native-environment', npcRatio: 0.78, stride: 2 },
+	{ id: 'full', dpr: 1.4, lighting: 'native-environment', npcRatio: 1, stride: 1 }
 ]);
 
 export class RealmQualityGovernor {
@@ -86,21 +86,19 @@ export class RealmQualityGovernor {
 		const tier = TIERS[this.tierIndex];
 		if (tier.id === this.lastApplied) return;
 		this.lastApplied = tier.id;
-		const renderer = this.stage.renderer;
-		const deviceScale = globalThis.devicePixelRatio || 1;
-		renderer.setPixelRatio(Math.min(deviceScale, tier.dpr));
-		renderer.shadowMap.enabled = tier.shadows;
+		this.stage.runtime.performance.setQualityPixelRatio(tier.dpr);
 		this.stage.resize();
-		renderer.domElement.dataset.realmQuality = tier.id;
-		renderer.domElement.dataset.frameTarget = '16.67';
+		this.stage.canvas.dataset.realmQuality = tier.id;
+		this.stage.canvas.dataset.realmLighting = tier.lighting;
+		this.stage.canvas.dataset.frameTarget = '16.67';
 	}
 
 	writeMetrics() {
 		this.refreshMetrics(true);
-		const canvas = this.stage.renderer.domElement;
-		canvas.dataset.realmFps = String(this.metrics.fps);
-		canvas.dataset.realmP95 = this.metrics.p95.toFixed(2);
-		canvas.dataset.realmNpcRatio = String(this.metrics.npcRatio);
+		const data = this.stage.canvas.dataset;
+		data.realmFps = String(this.metrics.fps);
+		data.realmP95 = this.metrics.p95.toFixed(2);
+		data.realmNpcRatio = String(this.metrics.npcRatio);
 	}
 }
 

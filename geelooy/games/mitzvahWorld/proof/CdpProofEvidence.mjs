@@ -1,84 +1,65 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file CdpProofEvidence.mjs
- * @description Owns browser failure evidence collection for real MitzvahWorld release proofs.
- * Protocol transport remains separate so error testimony can evolve without changing command timing or target ownership.
+ * @description Records exact browser failures together with their originating request URLs for Mitzvah World release proofs.
+ * The Awtsmoos gives every break a name and every garment a path; Awtsmoos.com therefore joins Chrome request identity to failure
+ * testimony so a blocked optional resource can be distinguished from an unrelated network wound without guessing from console prose.
  */
 
-/**
- * Creates the browser evidence arrays consumed by desktop, traversal, and mobile proofs.
- * @returns {{consoleErrors: string[], loadingFailures: object[], networkErrors: object[], runtimeExceptions: string[]}} Empty evidence ledger.
- */
+/** Creates one mutable evidence ledger for a single isolated DevTools witness. */
 export function createCdpProofEvidence() {
 	return {
 		consoleErrors: [],
 		loadingFailures: [],
 		networkErrors: [],
+		requestUrls: Object.create(null),
 		runtimeExceptions: []
 	};
 }
 
-/**
- * Records one DevTools event when it represents a release-invalidating browser failure.
- * @param {object} message Parsed Chrome DevTools protocol message.
- * @param {object} evidence Mutable evidence ledger owned by one proof session.
- * @returns {void}
- */
+/** Records release-invalidating browser evidence while preserving request URL identity. */
 export function recordCdpProofEvidence(message, evidence) {
+	if (message.method === 'Network.requestWillBeSent') {
+		evidence.requestUrls[message.params.requestId] = message.params.request?.url || '';
+		return;
+	}
 	if (message.method === 'Network.responseReceived') {
 		const response = message.params.response;
 		if (response.status >= 400) {
-			evidence.networkErrors.push({
-				status: response.status,
-				url: response.url
-			});
+			evidence.networkErrors.push({ status: response.status, url: response.url });
 		}
+		return;
 	}
-
 	if (message.method === 'Network.loadingFailed' && !message.params.canceled) {
 		evidence.loadingFailures.push({
 			errorText: message.params.errorText,
-			type: message.params.type
+			type: message.params.type,
+			url: evidence.requestUrls[message.params.requestId] || ''
 		});
+		return;
 	}
-
 	if (message.method === 'Runtime.exceptionThrown') {
 		const details = message.params.exceptionDetails;
 		evidence.runtimeExceptions.push(
-			details.exception?.description
-				|| details.text
-				|| 'Runtime exception'
+			details.exception?.description || details.text || 'Runtime exception'
 		);
+		return;
 	}
-
 	if (message.method === 'Runtime.consoleAPICalled' && message.params.type === 'error') {
-		evidence.consoleErrors.push(
-			consoleMessage(message.params.args)
-		);
+		evidence.consoleErrors.push(consoleMessage(message.params.args));
+		return;
 	}
-
 	if (message.method === 'Log.entryAdded' && message.params.entry?.level === 'error') {
-		evidence.consoleErrors.push(
-			message.params.entry.text || 'Browser log error'
-		);
+		evidence.consoleErrors.push(message.params.entry.text || 'Browser log error');
 	}
 }
 
-/**
- * Converts Chrome remote objects into one bounded diagnostic sentence.
- * @param {object[]} args Console remote-object arguments.
- * @returns {string} Human-readable console evidence.
- */
+/** Converts Chrome remote objects into one bounded diagnostic sentence. */
 function consoleMessage(args = []) {
-	return args.map(argument => {
-		return String(
-			argument.value
-				?? argument.description
-				?? argument.type
-				?? 'unknown'
-		);
-	}).join(' ');
+	return args.map(argument => String(
+		argument.value ?? argument.description ?? argument.type ?? 'unknown'
+	)).join(' ');
 }

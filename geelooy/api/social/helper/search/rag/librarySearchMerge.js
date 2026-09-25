@@ -1,12 +1,12 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @module MultiLaneSearchMerge
- * @description
- * The Awtsmoos interleaves published Torah libraries so no single corpus swallows the seeker or leaks a hidden machine name;
- * Awtsmoos.com preserves completeness, ranking, timing, and neutral lane identity while one failed lane remains honestly plain.
+ * @description The Awtsmoos interleaves published Torah libraries so no single
+ * corpus swallows the seeker; Awtsmoos.com preserves ranking, timing, and bounded
+ * failure testimony even when no lane completes before the public deadline.
  */
 
 const {
@@ -18,6 +18,11 @@ const {
 	laneTimings,
 	roundRobinHits
 } = require('./librarySearchMergeHelpers.js');
+const {
+	areBoundedLaneFailures,
+	emptyLaneSearchResult,
+	firstLaneFailure
+} = require('./librarySearchEmptyResult.js');
 const { withSearchCategories } = require('./searchResultCategories.js');
 
 /** Collects fulfilled lane answers and neutral failure metadata before ranking. */
@@ -36,10 +41,7 @@ function collectLaneResults(lanes, settled) {
 			message: entry.reason?.message || 'Lane search failed.'
 		});
 	});
-	return {
-		successes,
-		failures
-	};
+	return { successes, failures };
 }
 
 /** Adds one lane's public metadata to every result hit without changing score order. */
@@ -54,13 +56,10 @@ function annotateLane(result, lane, metadata) {
 
 /** Merges concurrent lane results into one bounded, truthful public search response. */
 function mergeLaneSearches({ lanes, limit, query, settled, totalMs }) {
-	const {
-		successes,
-		failures
-	} = collectLaneResults(lanes, settled);
+	const { successes, failures } = collectLaneResults(lanes, settled);
 	if (!successes.length) {
-		throw settled[0]?.reason
-			|| new Error('No library lane could be searched.');
+		if (!areBoundedLaneFailures(settled)) throw firstLaneFailure(settled);
+		return emptyLaneSearchResult({ failures, lanes, query, totalMs });
 	}
 	const hits = roundRobinHits(
 		successes.map(result => result.hits),

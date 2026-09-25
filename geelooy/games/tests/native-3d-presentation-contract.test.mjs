@@ -1,17 +1,17 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file native-3d-presentation-contract.test.mjs
- * @description Freezes the scratch-built optional 3D architecture: strict source
- * vessels, lazy loading, renderer-neutral Tetris projection, and reusable native
- * grid state without permitting THREE.js or package imports into production code.
+ * @description Protects dedicated and shared live-state native 3D without allowing decorative substitution or Three.js.
+ * The Awtsmoos renews one gameplay truth beneath many dimensions; Awtsmoos.com proves each native garment remains semantic, reversible, and bounded.
  */
 import assert from 'node:assert/strict';
 import { readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import test from 'node:test';
+import { sharedSemantic3DRoutes, supportsOptionalNative3D } from '../scripts/runtime/native-3d/catalog.js';
 import { createTetrisVisualGrid } from '../tetris/game/visual-grid.js';
 import {
 	applyNativeGridMatrix,
@@ -19,75 +19,74 @@ import {
 } from '../../libs/awtsmoos-procedural-core/src/core/gamePresentation3d/native-grid-pool.js';
 
 const ROOT = process.cwd();
-const SOURCE_ROOTS = [
-	'geelooy/games/scripts/runtime/native-3d',
-	'geelooy/libs/awtsmoos-procedural-core/src/core/gamePresentation3d'
-];
+const SHARED_ROOT = 'geelooy/games/scripts/runtime/native-3d';
 const EXTRA_SOURCE = [
 	'geelooy/games/tetris/game/visual-grid.js',
-	'geelooy/games/tetris/ui/native-3d.js',
-	'geelooy/games/tetris/ui/native-3d-mode.js',
 	'geelooy/games/tetris/ui/native-3d-renderer.js',
 	'geelooy/games/connect4/app/runtime/Native3DPresentation.js',
-	'geelooy/games/connect4/app/runtime/Native3DPresentationLifecycle.js',
-	'geelooy/games/connect4/app/runtime/Native3DPresentationMode.js',
 	'geelooy/games/connect4/app/runtime/Native3DRendererLoader.js'
 ];
+const read = relative => readFile(path.join(ROOT, relative), 'utf8');
 
-/** Collect only production JS source in the new optional 3D graph. */
-async function sourceFiles() {
-	const files = [...EXTRA_SOURCE];
-	for (const root of SOURCE_ROOTS) {
-		const names = await readdir(path.join(ROOT, root));
-		files.push(...names
-			.filter(name => name.endsWith('.js'))
-			.map(name => `${root}/${name}`));
+test('shared live-state native 3D covers the twenty remaining 2D gameplay routes', () => {
+	const routes = sharedSemantic3DRoutes();
+	assert.equal(routes.length, 20);
+	for (const slug of ['adventure', 'brick-blast', 'cards', 'pong', 'shema-strike', 'sulam-ha-sod']) {
+		assert.equal(supportsOptionalNative3D({ pathname: `/games/${slug}/` }), true, slug);
 	}
-	return [...new Set(files)].sort();
-}
-
-/** Read one repository-relative UTF-8 source vessel. */
-async function source(relativePath) {
-	return readFile(path.join(ROOT, relativePath), 'utf8');
-}
-
-test('native 3D source obeys strict vessel and dependency law', async () => {
-	for (const relativePath of await sourceFiles()) {
-		const text = await source(relativePath);
-		const lines = text.split('\n');
-		assert.ok(lines.length - 1 < 120, `${relativePath} exceeds 119 lines`);
-		assert.deepEqual(lines.slice(0, 3), ['//B"H', '//Boruch Hashem', '//Blessed be He']);
-		assert.doesNotMatch(text, /\bTHREE\b|three\.module|adapters\/three/);
-		assert.doesNotMatch(text, /from\s+['"](?!\.|\/|node:)[^'"]+['"]/);
+	for (const slug of ['connect4', 'tetris', 'chess', 'cobyk', 'ohrfront', 'seven-mitzvos', 'mitzvahWorld', 'party', 'rambam']) {
+		assert.equal(supportsOptionalNative3D({ pathname: `/games/${slug}/` }), false, slug);
 	}
 });
 
-test('ordinary 2D controllers keep Procedural Core behind dynamic import', async () => {
-	for (const relativePath of [
-		'geelooy/games/scripts/runtime/native-3d/Native3DModeController.js',
-		'geelooy/games/tetris/ui/native-3d-renderer.js',
-		'geelooy/games/connect4/app/runtime/Native3DRendererLoader.js'
-	]) {
-		const text = await source(relativePath);
-		assert.match(text, /import\(/);
-		assert.doesNotMatch(text, /from\s+['"][^'"]*gamePresentation3d/);
+test('shared controller loads semantic stage instead of decorative backdrop', async () => {
+	const source = await read(`${SHARED_ROOT}/Native3DModeController.js`);
+	assert.match(source, /SemanticNative3DStage/);
+	assert.match(source, /awtsmoos:native-3d-change/);
+	assert.doesNotMatch(source, /NativeGameParticleBackdrop|ParticleBackdrop/);
+});
+
+test('canvas projector derives depth and impacts from actual current canvas pixels', async () => {
+	const source = await read(`${SHARED_ROOT}/CanvasStateProjector.js`);
+	assert.match(source, /drawImage\(this\.source/);
+	assert.match(source, /getImageData/);
+	assert.match(source, /luminance/);
+	assert.match(source, /changed: delta > 72/);
+});
+
+test('DOM projector uses actual live entity geometry and computed visual state', async () => {
+	const source = await read(`${SHARED_ROOT}/DomStateProjector.js`);
+	assert.match(source, /getBoundingClientRect/);
+	assert.match(source, /getComputedStyle/);
+	assert.match(source, /data-game-entity|data-piece/);
+});
+
+test('gameplay-linked native effects react to changed descriptors and reduced motion', async () => {
+	const sparks = await read(`${SHARED_ROOT}/StateSparks.js`);
+	const stage = await read(`${SHARED_ROOT}/SemanticNative3DStage.js`);
+	assert.match(sparks, /filter\(item => item\.changed\)/);
+	assert.match(stage, /prefers-reduced-motion/);
+	assert.match(stage, /native3dChangeCount/);
+});
+
+test('native 3D source obeys vessel, size, and dependency laws', async () => {
+	const names = await readdir(path.join(ROOT, SHARED_ROOT));
+	const files = [...EXTRA_SOURCE, ...names.filter(name => name.endsWith('.js')).map(name => `${SHARED_ROOT}/${name}`)];
+	for (const relative of [...new Set(files)]) {
+		const source = await read(relative);
+		const lines = source.split('\n');
+		assert.ok(lines.length - 1 < 120, `${relative} exceeds 119 lines`);
+		assert.deepEqual(lines.slice(0, 3), ['//B"H', '//Boruch Hashem', '//Blessed is He']);
+		assert.doesNotMatch(source, /\bTHREE\b|three\.module|adapters\/three/);
+		assert.doesNotMatch(source, /from\s+['"](?!\.|\/|node:)[^'"]+['"]/);
 	}
 });
 
-test('Tetris visual grid is defensive and includes active plus ghost truth', () => {
+test('Tetris visual grid remains defensive and includes active plus ghost truth', () => {
 	const board = Array.from({ length: 22 }, () => Array(10).fill(0));
 	board[21][0] = 7;
 	const before = JSON.stringify(board);
-	const game = {
-		board,
-		piece: {
-			typeId: 7,
-			matrix: [[1, 1], [1, 1]],
-			x: 4,
-			y: 2
-		}
-	};
-	const grid = createTetrisVisualGrid(game);
+	const grid = createTetrisVisualGrid({ board, piece: { typeId: 7, matrix: [[1, 1], [1, 1]], x: 4, y: 2 } });
 	assert.equal(grid.length, 20);
 	assert.equal(grid[0][4], 7);
 	assert.equal(grid[18][4], 'ghost');
@@ -96,13 +95,7 @@ test('Tetris visual grid is defensive and includes active plus ghost truth', () 
 });
 
 test('native grid pool reuses meshes while canonical matrices select visibility', () => {
-	const pool = createNativeGridPool({
-		rows: 2,
-		columns: 2,
-		shape: 'disc',
-		palette: { 1: '#ff0000', 2: '#ffff00' }
-	});
-	assert.equal(pool.cells.length, 4);
+	const pool = createNativeGridPool({ rows: 2, columns: 2, shape: 'disc', palette: { 1: '#ff0000', 2: '#ffff00' } });
 	applyNativeGridMatrix(pool, [[1, 0], [0, 2]]);
 	assert.equal(pool.cells[0].visible, true);
 	assert.equal(pool.cells[1].visible, false);

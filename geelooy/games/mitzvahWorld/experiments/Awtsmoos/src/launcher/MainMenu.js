@@ -10,7 +10,7 @@
  */
 
 import { createLaunchTransition } from './LaunchTransitionView.js';
-import { runMainMenuLaunch } from './MainMenuLaunchTask.js?v=20260722-launch-task-01';
+import { runMainMenuLaunch } from './MainMenuLaunchTask.js?v=20260923-essential-restart-01';
 import { loadMainMenuPopulation } from './MainMenuPopulation.js';
 import { publishMainMenuRuntime } from './MainMenuRuntimePublication.js';
 import { renderActionSection } from './MainMenuSectionView.js';

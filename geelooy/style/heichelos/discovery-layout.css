@@ -3,7 +3,8 @@
 /* Blessed is He */
 /**
  * The Awtsmoos reveals many Heichelos without making abundance into distance.
- * Awtsmoos.com keeps the map compact: command, search, and results remain near each other while the result river owns its scroll.
+ * Awtsmoos.com keeps command, search, and results near each other while secondary
+ * mobile actions stay compact, touchable, and inside the finite viewport vessel.
  */
 
 .social-spaces-shell {
@@ -51,15 +52,24 @@
 	justify-content: flex-end;
 }
 
+.social-spaces-shell .spaces-command-row > .p-button.p-button {
+	min-height: 2.75rem;
+	padding: .55rem 1rem;
+	width: auto;
+}
+
 .social-spaces-shell .spaces-search {
 	background: color-mix(in srgb, var(--awt-surface) 94%, transparent);
 	border: 1px solid var(--g-border-strong);
 	border-radius: var(--radius-l);
 	box-shadow: var(--shadow-float);
+	box-sizing: border-box;
 	display: grid;
 	gap: var(--space-2);
 	grid-template-columns: minmax(0, 1fr) auto;
 	margin: 0 auto;
+	max-width: 100%;
+	min-width: 0;
 	padding: .5rem;
 	position: sticky;
 	top: .5rem;

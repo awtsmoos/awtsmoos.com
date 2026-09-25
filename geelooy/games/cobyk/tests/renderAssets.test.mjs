@@ -45,7 +45,7 @@ test("every semantic material has immediate color and original local texture fal
 		assert.match(binaMaterial.color, /^#[0-9a-f]{6}$/i);
 		assert.match(
 			binaMaterial.localTextureUrl,
-			/^\/geelooy\/games\/cobyk\/assets\/textures\//
+			/^\/games\/cobyk\/assets\/textures\//
 		);
 		assert.ok(binaMaterial.roughness >= 0 && binaMaterial.roughness <= 1);
 		assert.ok(binaMaterial.metalness >= 0 && binaMaterial.metalness <= 1);

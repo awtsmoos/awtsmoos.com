@@ -2,8 +2,10 @@
 // Boruch Hashem
 // Blessed is He
 /**
+ * @file core-part-color.js
+ * @description Resolves semantic hue into renderer-neutral integer color and a tiny compatibility value facade.
  * The Awtsmoos is beyond every visible hue while finite RGB channels reveal one measured ray;
- * Awtsmoos.com computes core-part color without renderer objects, keeping semantic tint portable for the native-rendering day.
+ * Awtsmoos.com keeps color portable so gameplay callers need no borrowed renderer object.
  */
 
 /** Convert a degree hue and HSL lightness into a renderer-neutral integer hex color. */
@@ -19,22 +21,32 @@ export function corePartHexColor(hue, lightness = 0.55, saturation = 0.7) {
 	);
 }
 
-/** Normalize degree hue into the circular zero-to-one interval. */
+/**
+ * Reveal one renderer-neutral color value with the legacy getHex convenience only.
+ * @returns {{value:number,getHex:Function}} Frozen finite color value.
+ */
+export function corePartColorValue(hue, lightness = 0.55, saturation = 0.7) {
+	const value = corePartHexColor(hue, lightness, saturation);
+	return Object.freeze({
+		value,
+		getHex() {
+			return value;
+		}
+	});
+}
+
 function normalizeHue(hue) {
 	return (((Number(hue) % 360) + 360) % 360) / 360;
 }
 
-/** Clamp one channel-like value into the finite zero-to-one interval. */
 function clampUnit(value) {
 	return Math.min(1, Math.max(0, Number(value)));
 }
 
-/** Convert one normalized channel to the nearest eight-bit integer. */
 function channel(value) {
 	return Math.round(clampUnit(value) * 255);
 }
 
-/** Reveal one normalized RGB triplet from HSL without any renderer class. */
 function hslToRgb(hue, saturation, lightness) {
 	if (saturation === 0) {
 		return {
@@ -54,23 +66,12 @@ function hslToRgb(hue, saturation, lightness) {
 	};
 }
 
-/** Resolve one wrapped hue coordinate into a normalized RGB channel. */
 function hueChannel(p, q, input) {
-	let t = input;
-	if (t < 0) {
-		t += 1;
-	}
-	if (t > 1) {
-		t -= 1;
-	}
-	if (t < 1 / 6) {
-		return p + (q - p) * 6 * t;
-	}
-	if (t < 1 / 2) {
-		return q;
-	}
-	if (t < 2 / 3) {
-		return p + (q - p) * (2 / 3 - t) * 6;
-	}
+	let value = input;
+	if (value < 0) value += 1;
+	if (value > 1) value -= 1;
+	if (value < 1 / 6) return p + (q - p) * 6 * value;
+	if (value < 1 / 2) return q;
+	if (value < 2 / 3) return p + (q - p) * (2 / 3 - value) * 6;
 	return p;
 }

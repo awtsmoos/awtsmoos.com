@@ -8,8 +8,8 @@
 export const gevurahEditorGameMarkup = `
 <div id="level-editor-screen" class="screen">
 	<div class="header">
-		<button id="editor-back-button" class="btn-back">&lt;</button>
-		<input type="text" id="level-name-input" placeholder="Enter Level Name">
+		<button id="editor-back-button" class="btn-back" aria-label="Back to creator menu">&lt;</button>
+		<input type="text" id="level-name-input" aria-label="Level name" placeholder="Enter Level Name">
 	</div>
 	<div class="editor-grid-container"><div id="editor-grid"></div></div>
 	<div class="editor-tools">
@@ -20,7 +20,7 @@ export const gevurahEditorGameMarkup = `
 	<div class="editor-actions">
 		<div class="ai-controls">
 			<div class="select-wrapper">
-				<select id="ai-provider-select">
+				<select id="ai-provider-select" aria-label="AI level provider">
 					<option value="gemini">Gemini</option>
 					<option value="openai">OpenAI</option>
 					<option value="claude">Claude</option>
@@ -33,7 +33,7 @@ export const gevurahEditorGameMarkup = `
 </div>
 <div id="game-screen" class="screen">
 	<header id="game-header">
-		<button id="game-back-button" class="btn-back">🏠</button>
+		<button id="game-back-button" class="btn-back" aria-label="Return to main menu">🏠</button>
 		<div class="stats">
 			<div class="main-stats">
 				<div class="stat">Turns: <span id="turn-tracker">1 / ?</span></div>
@@ -48,7 +48,7 @@ export const gevurahEditorGameMarkup = `
 		<div class="game-header-right">
 			<div id="peruta-doubler-icon">💰</div>
 			<div class="peruta-display">0 ¤</div>
-			<button id="inventory-button">🎒</button>
+			<button id="inventory-button" aria-label="Open inventory">🎒</button>
 		</div>
 	</header>
 	<div id="canvas-wrapper"><canvas id="game-canvas"></canvas></div>

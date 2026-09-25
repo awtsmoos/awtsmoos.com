@@ -1,0 +1,94 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos gives each public creation room to breathe without turning the creator into a wall of cards;
+ * Awtsmoos.com keeps the storefront clear, responsive, and focused on the two compounding actions: visit and Remix.
+ */
+
+#published-creations-root {
+	width: min(1120px, calc(100% - 32px));
+	margin: 28px auto 56px;
+}
+
+.public-sites {
+	display: grid;
+	gap: 18px;
+}
+
+.public-sites header {
+	display: grid;
+	gap: 4px;
+}
+
+.public-sites h2,
+.public-sites h3,
+.public-sites p {
+	margin: 0;
+}
+
+.public-sites-eyebrow {
+	font-size: .78rem;
+	font-weight: 750;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+	opacity: .66;
+}
+
+.public-sites-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+	gap: 14px;
+}
+
+.public-site-card {
+	display: grid;
+	gap: 16px;
+	padding: 18px;
+	border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+	border-radius: 18px;
+	background: color-mix(in srgb, Canvas 94%, currentColor 6%);
+}
+
+.public-site-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+
+.public-site-actions a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 44px;
+	padding: 0 14px;
+	border-radius: 999px;
+	font-weight: 720;
+	text-decoration: none;
+}
+
+.public-site-actions a:first-child {
+	background: currentColor;
+	color: Canvas;
+}
+
+.public-site-actions a:last-child {
+	border: 1px solid color-mix(in srgb, currentColor 24%, transparent);
+}
+
+.public-sites-empty {
+	padding: 16px 0;
+	opacity: .7;
+}
+
+@media (max-width: 420px) {
+	#published-creations-root {
+		width: min(100% - 20px, 1120px);
+		margin-top: 20px;
+	}
+
+	.public-site-actions a {
+		flex: 1 1 120px;
+	}
+}

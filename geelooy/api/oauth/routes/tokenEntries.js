@@ -1,13 +1,13 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file Evolves every OAuth grant record into current Awtsmoos token authority.
  * @description
- * The Awtsmoos gives one living scope covenant after callback, device, or refresh
- * consent; Awtsmoos.com therefore evolves legacy scopes before signing tokens so
- * yesterday's credential can inherit required mission and room authority safely.
+ * The Awtsmoos gives one living scope covenant after callback, device, or refresh;
+ * Awtsmoos.com signs the protected resource into the same entry so audience joins
+ * user, client, and scope as immutable evidence at every guarded threshold.
  */
 
 const ScopeEvolution = require("../core/scopeEvolution.js");
@@ -21,10 +21,11 @@ function evolvedEntry(client, details) {
 	});
 }
 
-function authorizationCodeEntry(record, client) {
+function authorizationCodeEntry(record, client, resource = record.resource || "") {
 	return evolvedEntry(client, {
 		userId: record.userId,
-		scope: record.scope || client.defaultScope
+		scope: record.scope || client.defaultScope,
+		...(resource ? { resource } : {})
 	});
 }
 
@@ -32,15 +33,17 @@ function deviceCodeEntry(record, client) {
 	return evolvedEntry(client, {
 		userId: record.userId,
 		scope: record.scope || client.defaultScope,
+		...(record.resource ? { resource: record.resource } : {}),
 		authorizedFrom: "device_code"
 	});
 }
 
-function refreshTokenEntry(record, client) {
+function refreshTokenEntry(record, client, resource = record.resource || "") {
 	return evolvedEntry(client, {
 		userId: record.userId,
 		clientId: record.clientId || client.id,
 		scope: record.scope || client.defaultScope,
+		...(resource ? { resource } : {}),
 		refreshedFrom: "refresh_token"
 	});
 }

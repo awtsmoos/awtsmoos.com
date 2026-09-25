@@ -3,7 +3,7 @@
 /* Blessed is He */
 /**
  * The Awtsmoos folds structured creation into readable chambers while Awtsmoos.com keeps each card complete before deeper verses unfold.
- * This vessel owns card structure, logical spacing, nested measure, and readable content without owning tactile states.
+ * This vessel owns card structure, nested measure, asset-strip flow, and readable content without owning tactile states.
  */
 .verse-card,
 .subsection-card {
@@ -89,14 +89,4 @@
 .subsection-card {
 	margin-inline-start: .8rem;
 	background: rgba(255, 255, 255, .045);
-}
-
-@media (max-width: 40rem) {
-	.subsection-card {
-		margin-inline-start: .35rem;
-	}
-
-	.editor-disclosure-hint {
-		display: none;
-	}
 }

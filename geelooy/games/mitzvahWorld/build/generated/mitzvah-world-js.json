@@ -1,27 +1,27 @@
 {
 	"deterministic": true,
 	"entry": "experiments/Awtsmoos/src/MinimalMeadowCompactBootstrap.js",
-	"inputBytes": 3177,
+	"inputBytes": 2570,
 	"moduleCount": 1,
 	"modules": [],
 	"optionalModulesBundled": [],
-	"outputBytes": 8055,
-	"outputHash": "437925d4ccd94da004fd02e8aa51e1e75f5e3d41331bcaa7f372f01fc2c0c677",
+	"outputBytes": 7809,
+	"outputHash": "f8c6d585f89c662bf186bbd3555d24c47025682c33a75869f7329196c2648d14",
 	"representations": {
 		"brotli": {
-			"bytes": 2314,
+			"bytes": 2140,
 			"encoding": "br",
-			"sha256": "f4d85bce24f60361831128b5711d38a72780c8b2b1616f803c20f570ab47d9f1"
+			"sha256": "74db807a77428f2ab04b0d7dd1615bc9b46d805529a8cfa2a965ccac58c5ee4e"
 		},
 		"gzip": {
-			"bytes": 2753,
+			"bytes": 2548,
 			"encoding": "gzip",
-			"sha256": "398709bfcb707fe23874b6c76e694bb6bf995f3677fac66dfe1248234d544cfd"
+			"sha256": "e122047b98f6f39cf3ffda3ba9eb01dad7f79dcc2fa08a2f7c4a859fab6005f9"
 		},
 		"identity": {
-			"bytes": 8055,
+			"bytes": 7809,
 			"encoding": "identity",
-			"sha256": "437925d4ccd94da004fd02e8aa51e1e75f5e3d41331bcaa7f372f01fc2c0c677"
+			"sha256": "f8c6d585f89c662bf186bbd3555d24c47025682c33a75869f7329196c2648d14"
 		}
 	},
 	"sourceMap": false

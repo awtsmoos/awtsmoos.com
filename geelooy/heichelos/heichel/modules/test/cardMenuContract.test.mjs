@@ -1,24 +1,51 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed is He
+
 /**
- * Chapter 270 test: the card menu opens from the dot, not from chaos.
- *
- * The active Heichel page renders cards from modules/ui/render/grids.js. This
- * static contract protects the mobile menu fix: only the trigger toggles, menu
- * clicks are stopped, outside pointer/Escape closers exist, and ARIA state is
- * maintained.
+ * @file cardMenuContract.test.mjs
+ * @description The Awtsmoos lets the grid remain a coordinator while the living
+ * card menu owns command revelation; Awtsmoos.com protects trigger intent, ARIA,
+ * outside closing, Escape closing, focus, and viewport-safe portal placement.
  */
-import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import test from 'node:test';
 
-const source = readFileSync("geelooy/heichelos/heichel/modules/ui/render/grids.js", "utf8");
+const facade = readFileSync('geelooy/heichelos/heichel/modules/ui/render/grids.js', 'utf8');
+const menu = readFileSync('geelooy/heichelos/heichel/modules/ui/render/living-path/card-menu.js', 'utf8');
+const lifecycle = readFileSync('geelooy/heichelos/heichel/modules/ui/render/living-path/card-menu-lifecycle.js', 'utf8');
+const portal = readFileSync('geelooy/heichelos/heichel/modules/ui/render/living-path/card-menu-portal.js', 'utf8');
 
-assert.match(source, /function\s+toggleCardMenu\s*\(/, "trigger toggle function must exist");
-assert.match(source, /events:\s*\{\s*click:\s*toggleCardMenu\s*\}/, "trigger click should toggle menu");
-assert.match(source, /events:\s*\{\s*click:\s*stopMenuLeak\s*\}/, "menu wrapper should stop bubbling");
-assert.match(source, /document\.addEventListener\("pointerdown"/, "outside pointer closer must exist");
-assert.match(source, /event\.key\s*===\s*"Escape"/, "Escape closer must exist");
-assert.match(source, /aria-expanded/, "menu trigger should maintain aria-expanded");
-assert.match(source, /closeAllMenus\(menu\)/, "opening one menu should close siblings");
-assert.doesNotMatch(source, /card-menu-spark[\s\S]{0,180}classList\.toggle\("open"\)/, "spark wrapper must not broadly toggle on all child clicks");
+/** The grid remains orchestration-only instead of absorbing menu behavior again. */
+test('grid coordinator stays split from card-menu ownership', () => {
+	assert.match(facade, /renderTimeline/);
+	assert.match(facade, /renderTree/);
+	assert.match(facade, /renderGroupings/);
+	assert.doesNotMatch(facade, /function\s+toggleMenu|function\s+toggleCardMenu/);
+});
 
-console.log('B"H cardMenuContract.test passed');
+/** The current menu owner preserves trigger-only opening and ARIA state. */
+test('card menu opens only through its trigger and closes siblings', () => {
+	assert.match(menu, /events:\s*\{\s*click:\s*toggleMenu\s*\}/);
+	assert.match(menu, /events:\s*\{\s*click:\s*stop\s*\}/);
+	assert.match(menu, /aria-expanded/);
+	assert.match(menu, /closeCardMenus\(menu\)/);
+	assert.match(menu, /menu\.classList\.toggle\('open', shouldOpen\)/);
+});
+
+/** Shared lifecycle closes stale menus for pointer, Escape, resize, and scroll. */
+test('card menu lifecycle closes outside and environmental interactions', () => {
+	assert.match(lifecycle, /document\.addEventListener\('pointerdown'/);
+	assert.match(lifecycle, /event\.key === 'Escape'/);
+	assert.match(lifecycle, /window\.addEventListener\('resize'/);
+	assert.match(lifecycle, /document\.addEventListener\('scroll'/);
+});
+
+/** Portaled menus focus an action and clamp desktop geometry to the viewport. */
+test('card menu portal preserves focus and viewport-safe placement', () => {
+	assert.match(portal, /querySelector\('button, a, \[tabindex\]'\)\?\.focus/);
+	assert.match(portal, /maxLeft/);
+	assert.match(portal, /maxTop/);
+	assert.match(portal, /matchMedia\('\(max-width: 42rem\)'\)/);
+});

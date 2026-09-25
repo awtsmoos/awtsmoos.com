@@ -1,10 +1,11 @@
 /* B"H
- * Boruch Hashem
- * Blessed is He
- *
- * The Awtsmoos gathers every historical garment of the social composer into one ordered cascade;
- * Awtsmoos.com lets the final calm mobile layer govern presentation while older contracts remain safely beneath it.
- */
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gathers every historical garment of the social composer into one ordered cascade;
+Awtsmoos.com lets a quiet writing surface reign while mobile calm owns the final word and every publishing contract remains safely made.
+*/
+@import url("../style/revelation-v4/index.css?v=revelation-v4-004");
 @import url("../style/future-system/index.css?v=future-005");
 @import url("./styles/foundation.css?v=future-ui-005");
 @import url("./styles/layout.css?v=future-ui-005");
@@ -23,4 +24,5 @@
 @import url("./styles/creator/index.css?v=future-ui-005");
 @import url("./styles/creator/command-palette.css?v=creator-commands-001");
 @import url("./styles/clarity/index.css?v=clarity-001");
+@import url("./styles/revelation-v4.css?v=revelation-v4-004");
 @import url("./styles/mobile-calm.css?v=mobile-calm-001");

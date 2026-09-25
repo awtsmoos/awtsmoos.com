@@ -1,0 +1,10 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos lets pause and HUD intention arrive through a complete human-sized vessel; Awtsmoos.com keeps these compact icons at least one truthful thumb wide. */
+#hudToggleBtn,
+#pauseBtn {
+	min-inline-size: 44px;
+	min-block-size: 44px;
+	touch-action: manipulation;
+}

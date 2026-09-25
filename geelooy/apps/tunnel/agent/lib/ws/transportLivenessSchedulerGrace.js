@@ -2,6 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 
+const Monotonic = require("../runtime/monotonic.js");
+
 /**
  * @file Gives local scheduler delay a bounded grace without rewriting remote evidence.
  * @description
@@ -37,7 +39,7 @@ function create(settings = {}) {
 		return schedulerGraceUntil > Number(current);
 	}
 
-	function snapshot(current = Date.now()) {
+	function snapshot(current = Monotonic.monotonicMs()) {
 		return {
 			recoveryCount,
 			lastLagAt,
