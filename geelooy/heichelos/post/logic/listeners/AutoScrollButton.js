@@ -5,7 +5,7 @@
  * @module AutoScrollButton
  * @description
  * The Awtsmoos gives the floating river control no private truth and no raw HTML gate;
- * at Awtsmoos.com explicit DOM vessels render synchronized semantic state.
+ * Awtsmoos.com marks each visible fragment so semantic state can clothe icon, label, pace, and action together.
  */
 import {
 	initializeAutoScrollDownState,
@@ -16,20 +16,23 @@ import {
 	renderAutoScrollControls
 } from './AutoScrollControlView.js';
 
-function span(className, text = '') {
+function span(className, text = '', dataName = '') {
 	const element = document.createElement('span');
 	element.className = className;
 	element.textContent = text;
+	if (dataName) {
+		element.setAttribute(dataName, '');
+	}
 	return element;
 }
 
 function populateButton(button) {
-	const icon = span('awtsmoos-auto-scroll-icon', '↓');
+	const icon = span('awtsmoos-auto-scroll-icon', '↓', 'data-auto-scroll-icon');
 	icon.setAttribute('aria-hidden', 'true');
 	button.append(
 		icon,
-		span('awtsmoos-auto-scroll-label', 'Start'),
-		span('awtsmoos-auto-scroll-speed')
+		span('awtsmoos-auto-scroll-label', 'Start', 'data-auto-scroll-label'),
+		span('awtsmoos-auto-scroll-speed', '', 'data-auto-scroll-pace')
 	);
 }
 

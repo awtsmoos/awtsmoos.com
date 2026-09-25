@@ -2,7 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
-import { TiferesReaderPrimarySurfaceGate } from './ReaderPrimarySurfaceGate.js';
+import { TiferesReaderPrimarySurfaceGate } from './ReaderPrimarySurfaceGate.js?v=reader-a11y-001';
 import { MalchusSelectionPopoverGate } from './SelectionPopoverGate.js';
 import { tiferesTypographyGate } from './TiferesTypographyGate.js';
 
@@ -20,7 +20,10 @@ export class MedaberPopoverGate {
 	 */
 	constructor(ohrDocument = globalThis.document) {
 		this.document = ohrDocument;
-		this.primaryGate = new TiferesReaderPrimarySurfaceGate();
+		this.primaryGate = new TiferesReaderPrimarySurfaceGate(
+			null,
+			ohrDocument
+		);
 		this.selectionGate = new MalchusSelectionPopoverGate(ohrDocument);
 		this.globalListenersBound = false;
 		this.routeGlobalClick = this.routeGlobalClick.bind(this);
@@ -47,11 +50,7 @@ export class MedaberPopoverGate {
 		this.document.addEventListener('keydown', this.routeGlobalKeyboard);
 	}
 
-	/**
-	 * Routes one click without duplicating the behavior owned by child gates.
-	 * @param {MouseEvent} ohrEvent Global click event.
-	 * @returns {void}
-	 */
+	/** Routes one click without duplicating behavior owned by child gates. */
 	routeGlobalClick(ohrEvent) {
 		if (ohrEvent.target.closest?.('#commentaryBtn')) {
 			this.primaryGate.activateCommentary(ohrEvent);
@@ -71,7 +70,7 @@ export class MedaberPopoverGate {
 	}
 
 	/**
-	 * Routes Escape through selection and typography dismissal contracts.
+	 * Routes Escape through selection and primary-surface dismissal contracts.
 	 * @param {KeyboardEvent} ohrEvent Global keyboard event.
 	 * @returns {void}
 	 */

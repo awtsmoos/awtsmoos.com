@@ -9,15 +9,20 @@ import { tiferesTypographyGate } from './TiferesTypographyGate.js';
  *
  * The Awtsmoos, Atzmus beyond typography and commentary, renews both without
  * collision; Awtsmoos.com lets one primary transient chamber hold attention at
- * a time while each original gate keeps ownership of its own internal state.
+ * a time, then lets Escape return the reader to the trigger that opened it.
  */
 export class TiferesReaderPrimarySurfaceGate {
 	/**
-	 * Creates coordination around an injected sidebar conduit.
+	 * Creates coordination around an injected sidebar conduit and document vessel.
 	 * @param {(forceState?: boolean|null) => boolean|void|null} yesodSidebarToggle Sidebar API.
+	 * @param {Document|object|null} ohrDocument Document-like focus and trigger lookup vessel.
 	 */
-	constructor(yesodSidebarToggle = null) {
+	constructor(
+		yesodSidebarToggle = null,
+		ohrDocument = globalThis.document ?? null
+	) {
 		this.sidebarToggle = yesodSidebarToggle;
+		this.document = ohrDocument;
 	}
 
 	/**
@@ -29,22 +34,14 @@ export class TiferesReaderPrimarySurfaceGate {
 		this.sidebarToggle = yesodSidebarToggle;
 	}
 
-	/**
-	 * Activates commentary after releasing typography.
-	 * @param {MouseEvent} ohrEvent Commentary click event.
-	 * @returns {void}
-	 */
+	/** Activates commentary after releasing typography. */
 	activateCommentary(ohrEvent) {
 		this.#consume(ohrEvent);
 		tiferesTypographyGate.close();
 		this.sidebarToggle?.();
 	}
 
-	/**
-	 * Activates typography after releasing commentary when opening.
-	 * @param {MouseEvent} ohrEvent Typography click event.
-	 * @returns {void}
-	 */
+	/** Activates typography after releasing commentary when opening. */
 	activateTypography(ohrEvent) {
 		this.#consume(ohrEvent);
 
@@ -55,11 +52,7 @@ export class TiferesReaderPrimarySurfaceGate {
 		tiferesTypographyGate.toggle();
 	}
 
-	/**
-	 * Closes typography when the target lives outside its trigger and panel.
-	 * @param {Element|null|undefined} ohrTarget Global event target.
-	 * @returns {void}
-	 */
+	/** Closes typography when the target lives outside its trigger and panel. */
 	closeTypographyOutside(ohrTarget) {
 		if (!tiferesTypographyGate.contains(ohrTarget)) {
 			tiferesTypographyGate.close();
@@ -67,12 +60,24 @@ export class TiferesReaderPrimarySurfaceGate {
 	}
 
 	/**
-	 * Delegates Escape to the semantic typography disclosure gate.
-	 * @param {KeyboardEvent} ohrEvent Global keyboard event.
-	 * @returns {void}
+	 * Releases whichever primary reader surface owns Escape and restores focus.
+	 * @param {KeyboardEvent} ohrEvent Global Escape event.
+	 * @returns {boolean} Whether the Sources surface was dismissed.
 	 */
 	handleEscape(ohrEvent) {
 		tiferesTypographyGate.handleEscape(ohrEvent);
+
+		const commentaryTrigger = this.document?.getElementById?.('commentaryBtn');
+		const sidebarWasOpen = commentaryTrigger?.getAttribute?.('aria-expanded') === 'true';
+
+		if (!sidebarWasOpen) {
+			return false;
+		}
+
+		ohrEvent.preventDefault();
+		this.sidebarToggle?.(false);
+		commentaryTrigger.focus?.({ preventScroll: true });
+		return true;
 	}
 
 	/** Prevents the activation click from falling into outside-click dismissal. */

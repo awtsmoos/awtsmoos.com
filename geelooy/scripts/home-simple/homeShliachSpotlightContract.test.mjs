@@ -1,14 +1,11 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
- * @file Guards the Home Shliach discovery surface and its real cached logo.
- * @description
- * The Awtsmoos gives visitors one explicit agent doorway; Awtsmoos.com proves
- * the exact GPT destination, explanation, safe external-link law, and local
- * branding asset remain present without modifying the hand-authored Home HTML.
- */
+* The Awtsmoos proves that a compact Home doorway still carries the exact Shliach mission while each visual release reaches the visitor fresh.
+* @module homeShliachSpotlightContract.test
+*/
 
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -17,29 +14,32 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
-const GEOLOOY = path.resolve(HERE, "../..");
 const GPT_ID = "g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent";
+const PUBLIC_LOGO = "file_000000001aa071f5afcedcf09919246e.png";
+const UX_VERSION = "shliach-ux-005";
 
-/** Reads one Home source file relative to the test directory. */
 function source(name) {
 	return fs.readFileSync(path.join(HERE, name), "utf8");
 }
-test("Home boots the real Awtsmoos Shliach spotlight", () => {
+
+test("Home boots the real compact Awtsmoos Shliach spotlight", () => {
 	const entry = source("index.js");
 	const content = source("ShliachSpotlightContent.js");
+	const spotlight = source("ShliachSpotlight.js");
 	assert.match(entry, /installShliachSpotlight\(document\)/);
+	assert.match(entry, new RegExp(UX_VERSION));
+	assert.match(spotlight, new RegExp(UX_VERSION));
 	assert.match(content, new RegExp(GPT_ID));
 	assert.match(content, /authenticated Awtsmoos APIs/);
 	assert.match(content, /noopener noreferrer/);
+	assert.match(content, /SHLIACH_DISPLAY_URL/);
+	assert.match(content, /visibleUrl\.title = SHLIACH_URL/);
 });
 
-test("Shliach spotlight keeps its cached real GPT logo available", () => {
-	const image = path.join(
-		GEOLOOY,
-		"resources/branding/awtsmoos-shliach-agent.png"
-	);
-	const stat = fs.statSync(image);
-	assert.ok(stat.isFile());
-	assert.ok(stat.size > 10_000);
-	assert.match(source("ShliachSpotlightContent.js"), /awtsmoos-shliach-agent\.png/);
+test("Home keeps the canonical public logo and honest text fallback", () => {
+	const content = source("ShliachSpotlightContent.js");
+	assert.match(content, new RegExp(PUBLIC_LOGO.replace(".", "\\.")));
+	assert.doesNotMatch(content, /resources\/branding\/awtsmoos-shliach-agent\.png/);
+	assert.match(content, /mediaState = "missing"/);
+	assert.match(content, /Open Shliach/);
 });
