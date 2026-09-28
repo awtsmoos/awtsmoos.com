@@ -4,17 +4,21 @@
 
 /**
  * @file MinimalSharedMeadowReadinessFlow.js
- * @description Keeps the loading veil until first-play reality has painted and passed visible readiness.
- * The Awtsmoos opens the near road only when the authored traveler and earth are truly seen; Awtsmoos.com keeps
- * optional richness asynchronous without ever revealing an empty HUD shell beneath a prematurely dismissed loader.
+ * @description Reveals the meadow only after essential runtime truth is proven, then verifies the veil is truly gone before publishing playable state.
+ * The Awtsmoos opens earth, eye, motion, and interface in one honest ray; Awtsmoos.com refuses the word `playable`
+ * until the visible traveler stands grounded beneath a dismissed veil and every essential witness has had its say.
  */
 
+import { markRuntimePlayable } from '../app/RuntimeStateMarker.js';
 import {
 	scheduleMinimalMeadowTerrainHydration
 } from '../app/MinimalMeadowTerrainHydrationSchedule.js';
 import {
 	beginMinimalMeadowFullReadiness
 } from './MinimalMeadowFullReadiness.js';
+import {
+	inspectMinimalMeadowOverlayDismissal
+} from './MinimalMeadowPlayableEvidence.js';
 import {
 	awaitMinimalMeadowReadiness
 } from './MinimalMeadowReadiness.js';
@@ -23,7 +27,7 @@ import {
 	settleMinimalMeadowFeatures
 } from './MinimalMeadowReadinessSettlement.js';
 
-/** Releases the loading veil only after painted, visibly playable essential reality is proven. */
+/** Publishes playable only after pre-reveal proof, synchronous veil dismissal, and post-reveal verification. */
 export async function runMinimalSharedMeadowReadiness(options) {
 	const {
 		diagnostics,
@@ -45,6 +49,18 @@ export async function runMinimalSharedMeadowReadiness(options) {
 		featureSettlement
 	);
 	loading.finish();
+	const overlayReceipt = inspectMinimalMeadowOverlayDismissal(documentValue);
+	if (!overlayReceipt.ready) {
+		throw new Error(`MINIMAL_MEADOW_NOT_PLAYABLE:${overlayReceipt.missing.join(',')}`);
+	}
+	const playableReceipt = Object.freeze({
+		essential: essentialReceipt,
+		missing: Object.freeze([]),
+		overlay: overlayReceipt,
+		ready: true
+	});
+	diagnostics.readinessReceipt = playableReceipt;
+	markRuntimePlayable(diagnostics, documentValue);
 	const terrainSchedule = scheduleMinimalMeadowTerrainHydration(
 		diagnostics.runtime,
 		environment
@@ -63,6 +79,7 @@ export async function runMinimalSharedMeadowReadiness(options) {
 	return Object.freeze({
 		essential: essentialReceipt,
 		fullPromise,
+		playable: playableReceipt,
 		terrainScheduled: Boolean(terrainSchedule)
 	});
 }

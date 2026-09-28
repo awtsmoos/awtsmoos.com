@@ -4,16 +4,16 @@
 
 /**
  * @file EretzVisualPromotionSequence.js
- * @description Starts required authored meadow visuals directly after control, independent of broad optional post-play enrichment.
+ * @description Starts required authored meadow visuals directly after control while release versioning remains owned by the deferred resolver.
  * The Awtsmoos lets Awtsmoos.com clothe earth and traveler without making either await distant systems: terrain hydration begins,
- * one browser frame returns to movement, and the rich renderer then awakens while remote meadow textures may continue streaming.
+ * one browser frame returns to movement, and the rich renderer then awakens beneath the same playable-meadow cache covenant.
  */
 
 import { startEretzBootstrapTerrainBridge } from './EretzBootstrapTerrainBridge.js';
 import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
 
 const RENDERER_POLICY_URL = resolveDeferredAppModuleUrl(
-	'EretzRendererWorldPolicy.js?v=20260915-authored-meadow-03',
+	'EretzRendererWorldPolicy.js',
 	import.meta.url,
 	'EretzVisualPromotionSequence.js'
 );

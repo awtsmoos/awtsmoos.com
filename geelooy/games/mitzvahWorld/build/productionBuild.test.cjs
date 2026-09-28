@@ -4,9 +4,9 @@
 
 /**
  * @file productionBuild.test.cjs
- * @description Proves authored-meadow identity, tiny first control, deterministic chunks, release-owned essential assets, compression, and deferred cinema reachability.
- * The Awtsmoos gives Awtsmoos.com one cache family from first threshold through the real Chossid and textured meadow;
- * every first-play garment must exist in the deployable Git vessel, not merely in one builder's local filesystem.
+ * @description Proves playable-meadow identity, tiny first control, deterministic chunks, release-owned essential assets, compression, and deferred cinema reachability.
+ * The Awtsmoos gives Awtsmoos.com one cache family from first threshold through the grounded Chossid and textured meadow;
+ * every first-play garment must exist in the deployable Git vessel, never merely in one builder's local filesystem shadow.
  */
 
 const assert = require('node:assert/strict');
@@ -16,7 +16,7 @@ const path = require('node:path');
 const test = require('node:test');
 const { cinemaSources, json, text, verifyRepresentations } = require('./ProductionBuildProof.cjs');
 
-const RELEASE_VERSION = '20260915-authored-meadow-03';
+const RELEASE_VERSION = '20260928-playable-meadow-01';
 const GAME_ROOT = path.resolve(__dirname, '..');
 const REPO_ROOT = path.resolve(GAME_ROOT, '../../..');
 const ESSENTIAL_ASSETS = Object.freeze([
@@ -43,7 +43,9 @@ test('production page selects fresh compact game and preloads essential generate
 	const modules = [...html.matchAll(/<script[\s\S]*?type="module"[\s\S]*?src="([^"]+)"[\s\S]*?<\/script>/g)].map(match => match[1]);
 	assert.deepEqual(stylesheets, ['./styles/generated/mitzvah-world.production.css', '../styles/player-shell/index.css?compact=true']);
 	assert.deepEqual(modules, [`./experiments/Awtsmoos/src/mitzvah-world.compact.js?v=${RELEASE_VERSION}`, '../scripts/player-shell/index.js?compact=true']);
-	for (const name of ['foundation', 'player', 'core']) assert.match(html, new RegExp(`mitzvah-world-${name}\\.compact\\.js\\?v=${RELEASE_VERSION}`));
+	for (const name of ['foundation', 'player', 'core']) {
+		assert.match(html, new RegExp(`mitzvah-world-${name}\\.compact\\.js\\?v=${RELEASE_VERSION}`));
+	}
 });
 
 test('production CSS is complete and every representation is verified', () => {
@@ -59,7 +61,10 @@ test('release-owned first-play assets exist and are Git tracked', () => {
 		const absolute = path.join(GAME_ROOT, relative);
 		assert.ok(fs.statSync(absolute).size > 0, `${relative} must exist`);
 		const repoRelative = path.relative(REPO_ROOT, absolute).replaceAll('\\', '/');
-		assert.doesNotThrow(() => childProcess.execFileSync('git', ['-C', REPO_ROOT, 'ls-files', '--error-unmatch', repoRelative], { stdio: 'ignore' }), `${relative} must travel in Git releases`);
+		assert.doesNotThrow(
+			() => childProcess.execFileSync('git', ['-C', REPO_ROOT, 'ls-files', '--error-unmatch', repoRelative], { stdio: 'ignore' }),
+			`${relative} must travel in Git releases`
+		);
 	}
 });
 
@@ -69,8 +74,12 @@ test('first-control stays under eight kilobytes and contains no deferred world s
 	assert.equal(manifest.deterministic, true);
 	assert.deepEqual(manifest.optionalModulesBundled, []);
 	assert.ok(manifest.outputBytes >= 1000 && manifest.outputBytes <= 8192);
-	for (const marker of ['PAGE_BOOT_URL', 'MinimalSharedMeadowRuntimePage.js', 'bootMinimalSharedMeadowPage']) assert.match(compact, new RegExp(marker));
-	for (const forbidden of firstControlForbidden) assert.doesNotMatch(compact, new RegExp(forbidden), forbidden);
+	for (const marker of ['PAGE_BOOT_URL', 'MinimalSharedMeadowRuntimePage.js', 'bootMinimalSharedMeadowPage']) {
+		assert.match(compact, new RegExp(marker));
+	}
+	for (const forbidden of firstControlForbidden) {
+		assert.doesNotMatch(compact, new RegExp(forbidden), forbidden);
+	}
 	verifyRepresentations('experiments/Awtsmoos/src/mitzvah-world.compact.js', manifest.representations);
 });
 

@@ -2862,7 +2862,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_nrjvmr = {
+	const __awtsmoosDefault_1cyhq6u = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -2876,7 +2876,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_nrjvmr;
+	__exports.default = __awtsmoosDefault_1cyhq6u;
 }
 
 // ---- libs/awtsmoos-procedural-core/src/adapters/native/runtime.js ----
@@ -9365,7 +9365,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_1w2urep = {
+	const __awtsmoosDefault_krvffy = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -9378,7 +9378,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_1w2urep;
+	__exports.default = __awtsmoosDefault_krvffy;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/math/Vec3.js ----
@@ -20849,15 +20849,15 @@ const __awtsmoosModule_0 = Object.create(null);
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/ProgressiveWebGLRenderer.js ----
 {
 	const __exports = __awtsmoosModule_168;
-	// B"H
-	// Boruch Hashem
-	// Blessed is He
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
 
 	/**
 	 * @file ProgressiveWebGLRenderer.js
-	 * @description Draws immediate WebGL bootstrap color and later hydrates the prepared rich WebGL renderer, never crossing into Canvas gameplay.
+	 * @description Draws immediate WebGL bootstrap color and later hydrates the prepared rich WebGL renderer through the active playable-meadow release.
 	 * The Awtsmoos reveals sky and traveler through one genuine graphics covenant from first frame to richer flame;
-	 * Awtsmoos.com keeps the bootstrap frame alive until the authored renderer is initialized and ready to receive the same world.
+	 * Awtsmoos.com keeps the bootstrap frame alive until the matching authored renderer is initialized and ready to receive the same world.
 	 */
 	const BootstrapColorRenderer = __awtsmoosModule_169.BootstrapColorRenderer;
 	const createProgressiveEnvironment = __awtsmoosModule_174.createProgressiveEnvironment;

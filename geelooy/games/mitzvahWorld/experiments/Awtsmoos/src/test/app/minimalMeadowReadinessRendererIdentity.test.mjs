@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file minimalMeadowReadinessRendererIdentity.test.mjs
- * @description Proves playable readiness is impossible without WebGL and publishes only verified WebGL identity when every essential vessel is ready.
- * The Awtsmoos refuses a false doorway before the playable word can shine;
- * Awtsmoos.com leaves optional hydration detached while the required renderer guards the line.
+ * @description Proves WebGL and every pre-reveal meadow witness are required while public playable identity remains unpublished until veil dismissal.
+ * The Awtsmoos guards the doorway with measured light before the final word may shine;
+ * Awtsmoos.com proves renderer, ground, collision, camera, and control without crossing the reveal line.
  */
 
 import assert from 'node:assert/strict';
@@ -21,24 +21,16 @@ import {
 
 test('B"H non-WebGL renderer fails closed before gameplay publication', async () => {
 	const documentValue = fakeDocument();
-	const diagnostics = diagnosticsWith({
-		backend: 'other',
-		contextName: 'none',
-		render() {}
-	});
+	const diagnostics = diagnosticsWith({ backend: 'other', contextName: 'none', render() {} });
 	await assert.rejects(
-		awaitMinimalMeadowReadiness(
-			diagnostics,
-			loadingPresenter(),
-			documentValue
-		),
+		awaitMinimalMeadowReadiness(diagnostics, loadingPresenter(), documentValue),
 		/MINIMAL_MEADOW_NOT_PLAYABLE:webgl-renderer/
 	);
 	assert.notEqual(documentValue.documentElement.dataset.awtsmoosGameplay, 'true');
 	assert.notEqual(documentValue.documentElement.dataset.awtsmoosRuntimeState, 'playable');
 });
 
-test('B"H WebGL readiness publishes playable identity without invoking optional hydration', async () => {
+test('B"H WebGL pre-reveal readiness proves essentials without publishing playable', async () => {
 	let hydrations = 0;
 	const documentValue = fakeDocument();
 	const diagnostics = diagnosticsWith(webGlRenderer(async () => {
@@ -52,11 +44,9 @@ test('B"H WebGL readiness publishes playable identity without invoking optional 
 	);
 	const dataset = documentValue.documentElement.dataset;
 	assert.equal(receipt.ready, true);
-	assert.equal(dataset.awtsmoosRuntimeState, 'playable');
-	assert.equal(dataset.awtsmoosGameplay, 'true');
-	assert.equal(dataset.awtsmoosRenderer, 'webgl');
-	assert.equal(dataset.awtsmoosRendererHydration, 'idle');
-	assert.equal(dataset.awtsmoosRendererContextAttempts, 'webgl');
+	assert.equal(receipt.playableRuntime.ready, true);
+	assert.notEqual(dataset.awtsmoosRuntimeState, 'playable');
+	assert.notEqual(dataset.awtsmoosGameplay, 'true');
 	assert.equal(hydrations, 0);
 });
 

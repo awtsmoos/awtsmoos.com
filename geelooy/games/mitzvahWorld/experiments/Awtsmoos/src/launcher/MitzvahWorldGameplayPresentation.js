@@ -6,7 +6,7 @@
  * @file MitzvahWorldGameplayPresentation.js
  * @description Opens full gameplay presentation or the retractable creative capsule through compact local ESM doors after selection.
  * The Awtsmoos clothes each chosen doorway according to its need; Awtsmoos.com keeps direct worlds light while deeper controls fold away;
- * full gameplay may receive richer panels, yet optional instruments cross compact gates only when their appointed presentation comes into play.
+ * presentation may reveal already-certified hosts, but it never declares gameplay truth—the readiness publisher alone bears that crown.
  */
 
 const STYLE_ATTRIBUTE = 'data-awtsmoos-gameplay-style';
@@ -27,7 +27,7 @@ let creativeDockPromise = null;
 let hudControllerPromise = null;
 let stylesheetReadiness = null;
 
-/** Prepares the full gameplay presentation for explicitly advanced routes. */
+/** Prepares the full gameplay presentation for an already selected route. */
 export function prepareGameplayPresentation(
 	hosts,
 	documentValue = globalThis.document,
@@ -36,7 +36,7 @@ export function prepareGameplayPresentation(
 	if (!documentValue) {
 		return emptyPresentation(GAMEPLAY_STYLESHEETS);
 	}
-	markGameplay(documentValue, hosts);
+	revealHosts(hosts);
 	stylesheetReadiness ||= Promise.allSettled(
 		GAMEPLAY_STYLESHEETS.map((href, index) => loadStylesheet(documentValue, href, index))
 	);
@@ -52,7 +52,7 @@ export function prepareGameplayPresentation(
 	};
 }
 
-/** Prepares only the retractable optional-control capsule for direct worlds. */
+/** Prepares only the retractable optional-control capsule after readiness authority has spoken. */
 export function prepareCreativeDockPresentation(
 	documentValue = globalThis.document,
 	environment = globalThis
@@ -60,7 +60,6 @@ export function prepareCreativeDockPresentation(
 	if (!documentValue) {
 		return emptyPresentation([CREATIVE_DOCK_STYLESHEET]);
 	}
-	markGameplay(documentValue);
 	creativeDockPromise ||= loadStylesheet(
 		documentValue,
 		CREATIVE_DOCK_STYLESHEET,
@@ -97,8 +96,7 @@ function loadStylesheet(documentValue, href, id) {
 	});
 }
 
-function markGameplay(documentValue, hosts = null) {
-	documentValue.documentElement.dataset.awtsmoosGameplay = 'true';
+function revealHosts(hosts = null) {
 	for (const host of Object.values(hosts || {})) {
 		host?.style?.removeProperty('visibility');
 	}

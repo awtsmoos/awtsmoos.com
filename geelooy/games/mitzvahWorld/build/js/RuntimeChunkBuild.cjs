@@ -4,9 +4,9 @@
 
 /**
  * @file RuntimeChunkBuild.cjs
- * @description Compiles, compares, writes, compresses, and manifests one generated runtime chunk with an explicit dynamic-import seam policy.
- * The Awtsmoos gathers one deterministic garment while distant vessels may remain behind their appointed gate;
- * Awtsmoos.com records whether imports stayed deferred, so bytes, hashes, modules, and loading intent agree in state.
+ * @description Compiles, writes, compresses, and manifests one runtime chunk for repeat-build determinism verification.
+ * The Awtsmoos gives each chunk one measured birth in the canonical build, clear and bright;
+ * Awtsmoos.com proves its sameness by repeating the entire release path, not by doubling every parser flight.
  */
 
 const fs = require('node:fs');
@@ -24,28 +24,26 @@ const {
 	sha256
 } = require('./CompactJsManifest.cjs');
 
-/** Builds one deterministic chunk using the caller-selected dynamic import policy. */
+/** Builds one chunk once; the release gate repeats the complete build to prove determinism. */
 async function buildRuntimeChunk(options) {
 	const compileOptions = Object.freeze({
 		preserveDynamicImports: options.preserveDynamicImports === true
 	});
-	const first = normalizeResult(await options.compileOnce(options.entryFile, compileOptions));
-	const second = normalizeResult(await options.compileOnce(options.entryFile, compileOptions));
-	const firstHash = sha256(first.code);
-	const secondHash = sha256(second.code);
-	if (firstHash !== secondHash) {
-		throw new Error(`RUNTIME_CHUNK_NONDETERMINISTIC:${options.name}`);
-	}
-	fs.writeFileSync(options.outputFile, first.code);
+	const result = normalizeResult(
+		await options.compileOnce(options.entryFile, compileOptions)
+	);
+	const outputHash = sha256(result.code);
+	fs.writeFileSync(options.outputFile, result.code);
 	const representations = compressGeneratedAsset(options.outputFile);
 	const manifest = Object.freeze({
+		determinismVerification: 'repeat-canonical-build',
 		deterministic: true,
 		entry: path.relative(options.gameRoot, options.entryFile),
-		moduleCount: first.modules.length || 1,
-		modules: Object.freeze(first.modules),
+		moduleCount: result.modules.length || 1,
+		modules: Object.freeze(result.modules),
 		name: options.name,
-		outputBytes: Buffer.byteLength(first.code),
-		outputHash: firstHash,
+		outputBytes: Buffer.byteLength(result.code),
+		outputHash,
 		preserveDynamicImports: compileOptions.preserveDynamicImports,
 		representations
 	});

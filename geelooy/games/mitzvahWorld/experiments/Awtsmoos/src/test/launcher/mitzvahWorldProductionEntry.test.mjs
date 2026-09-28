@@ -4,9 +4,9 @@
 
 /**
  * @file mitzvahWorldProductionEntry.test.mjs
- * @description Proves production publishes exactly one authored-meadow compact game gate while the universal player shell remains independent.
- * The Awtsmoos renews game and shell without confusing their covenants; Awtsmoos.com gives the true Chossid renderer and meadow
- * texture promotion one fresh public door, while no older flat-color release may reclaim the visible moment on a cached phone.
+ * @description Proves production publishes exactly one playable-meadow compact game gate while the universal player shell remains independent.
+ * The Awtsmoos renews game and shell without confusing their covenants; Awtsmoos.com gives the grounded Chossid, visible meadow,
+ * collision, camera, and control one fresh public door, while no older cached release may reclaim the visible moment on a phone.
  */
 
 import assert from 'node:assert/strict';
@@ -16,7 +16,7 @@ import { fileURLToPath } from 'node:url';
 
 const SOURCE_ROOT = fileURLToPath(new URL('../../', import.meta.url));
 const GAME_ROOT = fileURLToPath(new URL('../../../../../', import.meta.url));
-const RELEASE_ID = '20260915-authored-meadow-03';
+const RELEASE_ID = '20260928-playable-meadow-01';
 const COMPACT_ENTRY = `./experiments/Awtsmoos/src/mitzvah-world.compact.js?v=${RELEASE_ID}`;
 
 test('production page publishes one fresh compact game gate beside shared shell infrastructure', async () => {

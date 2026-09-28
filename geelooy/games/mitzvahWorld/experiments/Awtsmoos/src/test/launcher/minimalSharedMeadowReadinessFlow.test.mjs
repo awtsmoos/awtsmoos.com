@@ -4,22 +4,24 @@
 
 /**
  * @file minimalSharedMeadowReadinessFlow.test.mjs
- * @description Proves the loading veil survives until painted visible play is true while optional richness remains asynchronous.
- * The Awtsmoos keeps Awtsmoos.com veiled through the paint threshold; only attached Chossid, terrain, movement,
- * WebGL, and successful frame evidence may let the loader depart while distant beauty continues afterward.
+ * @description Proves the loader-owned blocking veil is dismissed and verified before the runtime may publish playable state.
+ * The Awtsmoos lets Awtsmoos.com open one truthful gate: painted world, grounded traveler, live collision,
+ * camera and control first; then the veil departs; only afterward may the public playable word unfold.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { runMinimalSharedMeadowReadiness } from '../../launcher/MinimalSharedMeadowReadinessFlow.js';
 import {
+	fakeDocument,
 	readyFeatureReceipt,
 	readyRuntime,
 	webGlRenderer
 } from '../app/RendererReadinessTestHarness.mjs';
 
-test('loader finishes only after two paint opportunities and visible readiness', async () => {
+test('loader dismissal is verified before playable publication', async () => {
 	const order = [];
+	const documentValue = fakeDocument();
 	const optionalPromise = new Promise(() => {});
 	const rendererPromise = new Promise(() => {});
 	const runtime = readyRuntime(webGlRenderer());
@@ -31,26 +33,26 @@ test('loader finishes only after two paint opportunities and visible readiness',
 		rendererHydrationPromise: rendererPromise,
 		runtime
 	};
-	const root = { dataset: {}, setAttribute() {} };
 	const receipt = await runMinimalSharedMeadowReadiness({
 		diagnostics,
-		documentValue: { documentElement: root },
+		documentValue,
 		environment: immediatePaintEnvironment(order),
-		loading: loadingLedger(order)
+		loading: loadingLedger(order, documentValue)
 	});
 	assert.deepEqual(order.slice(0, 4), [
 		'features-ready', 'paint', 'paint', 'loading-finished'
 	]);
 	assert.equal(receipt.essential.ready, true);
-	assert.equal(receipt.essential.visible.ready, true);
-	assert.equal(receipt.essential.optionalPending, false);
+	assert.equal(receipt.playable.overlay.ready, true);
+	assert.equal(documentValue.overlay.hidden, true);
+	assert.equal(documentValue.overlay.dataset.loadingComplete, 'true');
+	assert.equal(documentValue.documentElement.dataset.awtsmoosRuntimeState, 'playable');
 	assert.ok(receipt.fullPromise instanceof Promise);
-	assert.equal(diagnostics.fullReadinessPromise, receipt.fullPromise);
-	assert.equal(root.dataset.awtsmoosRuntimeState, 'playable');
 });
 
 test('structural failure never dismisses the loader', async () => {
 	const order = [];
+	const documentValue = fakeDocument();
 	const runtime = readyRuntime(webGlRenderer());
 	runtime.model = null;
 	const diagnostics = {
@@ -61,13 +63,14 @@ test('structural failure never dismisses the loader', async () => {
 	await assert.rejects(
 		runMinimalSharedMeadowReadiness({
 			diagnostics,
-			documentValue: { documentElement: { dataset: {}, setAttribute() {} } },
+			documentValue,
 			environment: immediatePaintEnvironment(order),
-			loading: loadingLedger(order)
+			loading: loadingLedger(order, documentValue)
 		}),
 		/MINIMAL_MEADOW_NOT_PLAYABLE:bootstrap-player/
 	);
 	assert.equal(order.includes('loading-finished'), false);
+	assert.notEqual(documentValue.documentElement.dataset.awtsmoosRuntimeState, 'playable');
 });
 
 function immediatePaintEnvironment(order) {
@@ -83,9 +86,14 @@ function immediatePaintEnvironment(order) {
 	};
 }
 
-function loadingLedger(order) {
+function loadingLedger(order, documentValue) {
 	return {
-		finish() { order.push('loading-finished'); },
+		finish() {
+			order.push('loading-finished');
+			documentValue.overlay.hidden = true;
+			documentValue.overlay.setAttribute('aria-hidden', 'true');
+			documentValue.overlay.dataset.loadingComplete = 'true';
+		},
 		stage() {},
 		world() {}
 	};

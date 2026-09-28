@@ -4,20 +4,20 @@
 
 /**
  * @file MinimalMeadowReadiness.js
- * @description Publishes gameplay only after essential systems and visibly rendered first-play reality are all true.
- * The Awtsmoos refuses to call allocated objects a world; Awtsmoos.com waits for WebGL, the authored Chossid,
- * attached terrain, movement, and one successful gameplay frame before changing the public runtime state to playable.
+ * @description Proves essential meadow reality before reveal without prematurely publishing the runtime as playable.
+ * The Awtsmoos renews every proof before the veil may fall; Awtsmoos.com waits for earth, Chossid, collision,
+ * camera, control, and painted WebGL truth, then hands one finite receipt onward without naming readiness too soon.
  */
 
 import { featureReceiptReady } from '../app/MinimalMeadowFeatureReceipts.js';
-import { markRuntimePlayable } from '../app/RuntimeStateMarker.js';
 import { webGlRuntimeReady } from '../app/WebGlRuntimeRequirement.js';
+import { inspectMinimalMeadowPlayableRuntime } from './MinimalMeadowPlayableEvidence.js';
 import {
 	awaitMinimalMeadowVisibleReadiness,
 	inspectMinimalMeadowVisibleReadiness
 } from './MinimalMeadowVisibleReadiness.js';
 
-/** Verifies essential services, then waits boundedly for visible rendered readiness. */
+/** Verifies essential services and waits boundedly for visible and physically playable pre-reveal truth. */
 export async function awaitMinimalMeadowReadiness(
 	diagnostics,
 	loading,
@@ -50,13 +50,12 @@ export async function awaitMinimalMeadowReadiness(
 	if (!receipt.ready) {
 		throw new Error(`MINIMAL_MEADOW_NOT_PLAYABLE:${receipt.missing.join(',')}`);
 	}
-	markRuntimePlayable(diagnostics, documentValue);
-	loading?.stage?.('ready', 'Authored Chossid, terrain, movement, and WebGL are visibly ready.');
-	diagnostics.readinessReceipt = receipt;
+	loading?.stage?.('ready-to-reveal', 'Grounded Chossid, collision, camera, controls, terrain, and WebGL are ready.');
+	diagnostics.preRevealReadinessReceipt = receipt;
 	return receipt;
 }
 
-/** Returns one immutable receipt spanning essential services and visible rendered truth. */
+/** Returns one immutable pre-reveal receipt spanning services, visible reality, and live gameplay witnesses. */
 export function inspectEssentialReadiness(
 	diagnostics,
 	featureReceipt,
@@ -69,13 +68,14 @@ export function inspectEssentialReadiness(
 		featureSettlementReady
 	);
 	const visible = visibleReceipt || inspectMinimalMeadowVisibleReadiness(diagnostics.runtime);
-	for (const name of visible.missing) {
-		if (!missing.includes(name)) missing.push(name);
-	}
+	appendMissing(missing, visible.missing);
+	const playableRuntime = inspectMinimalMeadowPlayableRuntime(diagnostics.runtime);
+	appendMissing(missing, playableRuntime.missing);
 	return Object.freeze({
 		degradedFeatures: !featureSettlementReady,
 		missing: Object.freeze(missing),
 		optionalPending: Boolean(diagnostics.runtime?.optionalFeaturePromise),
+		playableRuntime,
 		ready: missing.length === 0,
 		visible
 	});
@@ -101,4 +101,10 @@ function essentialRuntimeValues(runtime) {
 		['quest', runtime?.questStore || runtime?.quest], ['recovery', runtime?.recovery],
 		['streaming', runtime?.expansion?.streaming]
 	];
+}
+
+function appendMissing(target, source = []) {
+	for (const name of source) {
+		if (!target.includes(name)) target.push(name);
+	}
 }

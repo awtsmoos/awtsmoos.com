@@ -4,21 +4,21 @@
 
 /**
  * @file MitzvahWorldProductionPrewarm.test.mjs
- * @description Locks production to the smallest version-matched first-control preload set and one immutable authored Chossid.
- * The Awtsmoos lets Awtsmoos.com prewarm foundation, core, and the real traveler under one authored-meadow cache covenant,
- * while proper renderer promotion and meadow texture hydration remain post-play work instead of blocking the first journey.
+ * @description Locks production to version-matched first-control modules and the release-owned immutable Chossid for the playable meadow.
+ * The Awtsmoos lets Awtsmoos.com prewarm foundation, core, and the real traveler beneath one present release decree,
+ * while renderer promotion and decorative hydration remain after first play so the grounded meadow may arrive swiftly and truthfully.
  */
 
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-const RELEASE_ID = '20260915-authored-meadow-03';
+const RELEASE_ID = '20260928-playable-meadow-01';
 const INDEX_URL = new URL('../index.html', import.meta.url);
 const FOUNDATION_URL = `./experiments/Awtsmoos/src/mitzvah-world-foundation.compact.js?v=${RELEASE_ID}`;
 const CORE_URL = `./experiments/Awtsmoos/src/mitzvah-world-core.compact.js?v=${RELEASE_ID}`;
 const ENTRY_URL = `./experiments/Awtsmoos/src/mitzvah-world.compact.js?v=${RELEASE_ID}`;
-const CHOSSID_URL = 'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/models/player/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb';
+const CHOSSID_URL = './build/generated/assets/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb';
 const FORBIDDEN_PRELOADS = [
 	'mitzvah-world-optional.compact.js',
 	'mitzvah-world-presentation.compact.js',
@@ -29,7 +29,7 @@ async function productionShell() {
 	return readFile(INDEX_URL, 'utf8');
 }
 
-test('production shell prewarms only the version-matched first-control modules', async () => {
+test('production shell prewarms only version-matched first-control modules', async () => {
 	const html = await productionShell();
 	assert.match(html, modulePreloadPattern(FOUNDATION_URL));
 	assert.match(html, modulePreloadPattern(CORE_URL));
@@ -38,18 +38,18 @@ test('production shell prewarms only the version-matched first-control modules',
 	}
 });
 
-test('production shell preloads the exact immutable authored Chossid', async () => {
+test('production shell preloads the exact release-owned authored Chossid', async () => {
 	const html = await productionShell();
 	assert.match(html, chossidPreloadPattern());
 	assert.equal((html.match(new RegExp(escapeRegExp(CHOSSID_URL), 'g')) || []).length, 1);
 });
 
-test('entry, foundation, and core share the active authored-meadow release identity', async () => {
+test('entry, foundation, and core share the active playable-meadow release identity', async () => {
 	const html = await productionShell();
 	for (const url of [ENTRY_URL, FOUNDATION_URL, CORE_URL]) {
 		assert.ok(html.includes(url), url);
 	}
-	assert.doesNotMatch(html, /20260915-chossid-visible-02/);
+	assert.doesNotMatch(html, /20260915-authored-meadow-03/);
 });
 
 function modulePreloadPattern(url) {
@@ -63,7 +63,7 @@ function modulePreloadPatternContaining(fileName) {
 function chossidPreloadPattern() {
 	return new RegExp(
 		`<link[\\s\\S]{0,220}rel=["']preload["'][\\s\\S]{0,220}as=["']fetch["'][\\s\\S]{0,220}`
-		+ `crossorigin=["']anonymous["'][\\s\\S]{0,220}${escapeRegExp(CHOSSID_URL)}[\\s\\S]{0,80}>`
+		+ `${escapeRegExp(CHOSSID_URL)}[\\s\\S]{0,80}>`
 	);
 }
 

@@ -1,27 +1,28 @@
 {
+	"determinismVerification": "repeat-canonical-build",
 	"deterministic": true,
 	"entry": "experiments/Awtsmoos/src/app/EretzWorldFoundation.js",
 	"moduleCount": 1,
 	"modules": [],
 	"name": "foundation",
-	"outputBytes": 768046,
-	"outputHash": "7ee2ff50b7c590395d492feb817fdf2e80d9ddbcfa9700a9ef9436a1c8dfbc98",
+	"outputBytes": 768058,
+	"outputHash": "b1e8e368c1582b2c7c17e01dddadfbb8668977700447825a46fe5059a66c976f",
 	"preserveDynamicImports": false,
 	"representations": {
 		"brotli": {
-			"bytes": 141342,
+			"bytes": 141381,
 			"encoding": "br",
-			"sha256": "4cc994d4cb30fbf83dc0e7faf6462322b8fb2377aab4ed9af9fe6f64936e0c00"
+			"sha256": "17783f0213d2cce7155797edc6d26862ad1a6dc1690fe8ae80c985f7faaa9e47"
 		},
 		"gzip": {
-			"bytes": 178967,
+			"bytes": 178974,
 			"encoding": "gzip",
-			"sha256": "d85db56f750b718db1b25c030c823f51a750b3c18c9c9b81df5ff279b7ac1ae0"
+			"sha256": "16ada686a0af4001adf523cf76ba26b1d6c086b6e40980cc048fc70bfbe9b4c1"
 		},
 		"identity": {
-			"bytes": 768046,
+			"bytes": 768058,
 			"encoding": "identity",
-			"sha256": "7ee2ff50b7c590395d492feb817fdf2e80d9ddbcfa9700a9ef9436a1c8dfbc98"
+			"sha256": "b1e8e368c1582b2c7c17e01dddadfbb8668977700447825a46fe5059a66c976f"
 		}
 	}
 }

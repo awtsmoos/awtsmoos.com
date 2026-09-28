@@ -4,22 +4,21 @@
 
 /**
  * @file createEretzRuntime.js
- * @description Publishes first control, gives required authored visuals priority, then releases broad optional enrichment.
- * The Awtsmoos lets Awtsmoos.com reveal movement before adornment while true visual garments outrun distant systems.
+ * @description Assembles the staged Eretz runtime without granting itself authority to publish playable.
+ * The Awtsmoos lets earth, traveler, collision, camera, and control become real before any victory is proclaimed;
+ * Awtsmoos.com returns the living diagnostics to the page-owned gate, where the blocking veil must leave before success is named.
  */
 import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
+import { installEretzPostPlayableActivation } from './EretzPostPlayableActivation.js';
 import {
 	markRuntimeFailed,
-	markRuntimePlayable,
 	markRuntimeStarting
 } from './RuntimeStateMarker.js';
 
-const TRACKER_URL = deferred('BootPhaseTracker.js?v=20260722-boot-text-01');
-const STAGED_RUNTIME_URL = deferred('EretzStagedRuntime.js?v=20260908-current-hot-path-03');
-const POST_PLAYABLE_URL = deferred('EretzPostPlayablePriority.js?v=20260908-current-hot-path-03');
-const VISUAL_SEQUENCE_URL = deferred('EretzVisualPromotionSequence.js?v=20260915-authored-meadow-03');
+const TRACKER_URL = deferred('BootPhaseTracker.js');
+const STAGED_RUNTIME_URL = deferred('EretzStagedRuntime.js');
 
-/** Creates first play, prioritizes authored visuals, then permits optional post-play work. */
+/** Creates first-play runtime evidence and returns it to the page authority without publishing playable. */
 export async function createEretzRuntime(hosts, options = {}) {
 	const environment = options.environment || globalThis;
 	markRuntimeStarting(environment.document);
@@ -30,73 +29,21 @@ export async function createEretzRuntime(hosts, options = {}) {
 		boot.begin('staged-webgl-runtime');
 		const { createStagedEretzRuntime } = await import(STAGED_RUNTIME_URL);
 		const core = await createStagedEretzRuntime(hosts, options, boot);
-		boot.complete();
-		publishRuntime(core.diagnostics, environment);
-		const visuals = startVisualPromotionAfterPlay(
-			core.diagnostics,
-			environment,
-			boot,
-			options,
-			core.foundation
-		);
-		startPostPlayableAfterRequiredVisuals(core, options, boot, environment, visuals);
+		installEretzPostPlayableActivation(core, options, boot, environment);
+		environment.AwtsmoosDiagnostics = core.diagnostics;
 		return core.diagnostics;
 	} catch (error) {
 		boot.fail(error);
 		exposeBootFailure(error, hosts, environment);
 		throw error;
 	} finally {
-		if (globalThis.AwtsmoosBootTracker === boot) globalThis.AwtsmoosBootTracker = null;
+		if (globalThis.AwtsmoosBootTracker === boot) {
+			globalThis.AwtsmoosBootTracker = null;
+		}
 	}
 }
 
-function startVisualPromotionAfterPlay(diagnostics, environment, boot, options, foundation) {
-	diagnostics.rendererPolicyStage = 'loading-sequence';
-	const promise = import(VISUAL_SEQUENCE_URL)
-		.then(module => module.startEretzVisualPromotionSequence(
-			diagnostics, environment, boot, options, foundation
-		))
-		.then(result => {
-			diagnostics.rendererPolicyStage = 'ready';
-			return result;
-		})
-		.catch(error => {
-			diagnostics.rendererPolicyStage = 'degraded';
-			diagnostics.rendererPolicyError = error;
-			return null;
-		});
-	diagnostics.rendererPolicyPromise = promise;
-	return promise;
-}
-
-function startPostPlayableAfterRequiredVisuals(core, options, boot, environment, visualPromise) {
-	const diagnostics = core.diagnostics;
-	diagnostics.postPlayablePriorityStage = 'waiting-for-required-visuals';
-	const coordinator = Promise.resolve(visualPromise)
-		.then(() => {
-			diagnostics.postPlayablePriorityStage = 'loading-module';
-			return import(POST_PLAYABLE_URL);
-		})
-		.then(module => module.startEretzPostPlayablePriority({ boot, core, environment, options }))
-		.catch(error => degradedPostPlayablePriority(diagnostics, error));
-	diagnostics.postPlayablePriorityPromise = coordinator;
-	diagnostics.enrichmentPromise = coordinator.then(receipt => receipt?.districts ?? null);
-	diagnostics.deferredEnrichmentPromise = coordinator.then(receipt => receipt?.enrichment ?? null);
-}
-
-function degradedPostPlayablePriority(diagnostics, error) {
-	diagnostics.postPlayablePriorityError = error;
-	diagnostics.postPlayablePriorityStage = 'degraded';
-	console.warn('[MitzvahWorld] Post-play priority coordinator degraded.', error);
-	return null;
-}
-
-function publishRuntime(diagnostics, environment) {
-	environment.AwtsmoosBootError = null;
-	environment.AwtsmoosDiagnostics = diagnostics;
-	markRuntimePlayable(diagnostics, environment.document);
-}
-
+/** Preserves the original staged error and keeps failed worlds visibly non-playable. */
 function exposeBootFailure(error, hosts, environment) {
 	const failure = {
 		at: new Date().toISOString(),
@@ -116,4 +63,5 @@ function exposeBootFailure(error, hosts, environment) {
 function deferred(specifier) {
 	return resolveDeferredAppModuleUrl(specifier, import.meta.url, 'createEretzRuntime.js');
 }
+
 export default createEretzRuntime;

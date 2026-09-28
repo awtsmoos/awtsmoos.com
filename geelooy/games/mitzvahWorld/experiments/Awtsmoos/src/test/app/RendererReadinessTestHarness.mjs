@@ -4,14 +4,14 @@
 
 /**
  * @file RendererReadinessTestHarness.mjs
- * @description Builds complete visibly playable fixtures for the essential readiness contract.
- * The Awtsmoos gives each test vessel attached Chossid, terrain, movement, frame evidence, and WebGL;
- * Awtsmoos.com can then remove one organ at a time without confusing object allocation for visible gameplay.
+ * @description Builds complete grounded, colliding, camera-updated, visibly rendered fixtures for the strict meadow release gate.
+ * The Awtsmoos binds earth to foot and sight to motion in one renewed ray;
+ * Awtsmoos.com lets each test remove one witness without mistaking allocated shells for play.
  */
 
 import { createMinimalMeadowFeatureReceipt } from '../../app/MinimalMeadowFeatureReceipts.js';
 
-/** Creates diagnostics whose runtime satisfies the complete visible-playability covenant. */
+/** Creates diagnostics whose runtime satisfies every pre-reveal witness. */
 export function diagnosticsWith(renderer, featureReceipt = readyFeatureReceipt()) {
 	return {
 		featuresPromise: Promise.resolve(featureReceipt),
@@ -22,7 +22,7 @@ export function diagnosticsWith(renderer, featureReceipt = readyFeatureReceipt()
 /** Returns a complete mutable runtime fixture so negative tests may remove one truth at a time. */
 export function readyRuntime(renderer = webGlRenderer()) {
 	const scene = node('scene');
-	const model = node('canonical-player', { canonical: true });
+	const model = node('canonical-player', { canonical: true, y: 2 });
 	model.add(mesh('chossid-mesh'));
 	const terrainGroup = node('terrain');
 	terrainGroup.add(mesh('ground-mesh'));
@@ -31,7 +31,9 @@ export function readyRuntime(renderer = webGlRenderer()) {
 	return {
 		bootstrapFrames: 1,
 		camera: {},
+		cameraRig: { update() {} },
 		canonicalPlayer: { fallback: false, status: 'ready' },
+		collisionMover: { move() {} },
 		combat: {},
 		equipment: {},
 		expansion: { streaming: {} },
@@ -41,13 +43,14 @@ export function readyRuntime(renderer = webGlRenderer()) {
 		lastFrameAt: 16.7,
 		lastFrameError: null,
 		model,
-		movement: {},
+		movement: { frames: 1, lastIntent: { cameraMode: 'bootstrap-rig' } },
 		optionalFeaturePromise: null,
 		questStore: {},
 		recovery: {},
 		renderer,
 		scene,
-		terrain: { group: terrainGroup },
+		state: { grounded: true, renderY: 2, x: 0, z: 0 },
+		terrain: { group: terrainGroup, heightAt: () => 2 },
 		visiblePlayer: model
 	};
 }
@@ -74,20 +77,25 @@ export function webGlRenderer(hydrateDelegate = async () => ({ ready: true })) {
 	};
 }
 
+/** Builds a document whose loader-owned overlay records its own completion receipt. */
 export function fakeDocument() {
 	const attributes = {};
+	const overlayAttributes = { 'aria-hidden': 'false' };
+	const overlay = {
+		dataset: {},
+		hidden: false,
+		getAttribute: name => overlayAttributes[name],
+		setAttribute: (name, value) => { overlayAttributes[name] = String(value); }
+	};
 	return {
 		documentElement: {
 			attributes,
 			dataset: {},
 			setAttribute: (name, value) => { attributes[name] = String(value); }
-		}
+		},
+		getElementById: id => id === 'menuBoot' ? overlay : null,
+		overlay
 	};
-}
-
-export function fakeEnvironment() {
-	const warnings = [];
-	return { console: { warn: (...values) => warnings.push(values) }, warnings };
 }
 
 export function loadingPresenter() {
@@ -99,6 +107,7 @@ function node(name, options = {}) {
 	const value = {
 		children: [],
 		name,
+		position: { y: options.y || 0 },
 		userData: options.canonical ? { AwtsmoosCanonicalPlayer: { canonical: true } } : {},
 		visible: true,
 		add(child) { child.parent = value; value.children.push(child); }

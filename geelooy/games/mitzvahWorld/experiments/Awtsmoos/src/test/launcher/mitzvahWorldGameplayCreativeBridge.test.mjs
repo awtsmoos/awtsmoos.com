@@ -6,7 +6,7 @@
  * @file mitzvahWorldGameplayCreativeBridge.test.mjs
  * @description Proves playable world loading stays separate from retractable post-play creative and audio presentation through the current modular API.
  * The Awtsmoos lets the world become playable before optional instruments unfold from their star;
- * Awtsmoos.com verifies the route stays narrow while aftercare gathers status, sound, and Studio controls only beyond readiness.
+ * Awtsmoos.com verifies presentation can decorate certified play but can never crown itself playable.
  */
 
 import assert from 'node:assert/strict';
@@ -29,13 +29,20 @@ test('gameplay presentation preserves base styles and defers creative dock styli
 	assert.match(source, /AwtsmoosCreativeDock/);
 });
 
-test('mode route reaches playable runtime first and delegates optional controls to aftercare', async () => {
+test('presentation has no authority to publish gameplay readiness', async () => {
+	const source = await sourceOf('launcher/MitzvahWorldGameplayPresentation.js');
+	assert.doesNotMatch(source, /dataset\.awtsmoosGameplay/);
+	assert.doesNotMatch(source, /markRuntimePlayable/);
+});
+
+test('mode route reaches playable runtime first and release-resolves optional aftercare', async () => {
 	const mode = await sourceOf('launcher/MitzvahWorldModeLoaders.js');
 	const aftercare = await sourceOf('launcher/MitzvahWorldModeAftercare.js');
 	const diagnostics = mode.indexOf('const diagnostics = await runtimeModule.createEretzRuntime');
 	const aftercareStart = mode.indexOf("startModeAftercare('singlePlayer'");
 	assert.match(mode, /createEretzRuntime/);
-	assert.match(mode, /MitzvahWorldModeAftercare\.js\?compact=true/);
+	assert.match(mode, /MODE_AFTERCARE_URL = releaseUrl\('\.\/MitzvahWorldModeAftercare\.js'\)/);
+	assert.match(mode, /import\(MODE_AFTERCARE_URL\)/);
 	assert.ok(diagnostics >= 0 && aftercareStart > diagnostics);
 	assert.match(aftercare, /launchMitzvahWorldPostPlayExperience/);
 	assert.match(aftercare, /launchMitzvahWorldPostPlayByPolicy/);

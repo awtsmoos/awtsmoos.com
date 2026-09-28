@@ -1,27 +1,28 @@
 {
+	"determinismVerification": "repeat-canonical-build",
 	"deterministic": true,
 	"entry": "experiments/Awtsmoos/src/app/EretzEssentialAssetLoader.js",
 	"moduleCount": 1,
 	"modules": [],
 	"name": "player",
-	"outputBytes": 177683,
-	"outputHash": "3a32f6ac8df870d4563d0ce777d877a79675a5d776104cf060ce7d0ec3ad89e1",
+	"outputBytes": 177679,
+	"outputHash": "31cef5842d5dea6e0394907519c7c2a55ccaf37ff786aa63927a45eda6898cee",
 	"preserveDynamicImports": false,
 	"representations": {
 		"brotli": {
-			"bytes": 36094,
+			"bytes": 36105,
 			"encoding": "br",
-			"sha256": "6179d11dd6be8bec4b96df4495b6743450fe0bc0a585b77a377f41a51bdf1cc2"
+			"sha256": "0a2d79ae688c0ccd51b99e3df10f7a33da05a208f1550bcea0b12d2b89cc1c4d"
 		},
 		"gzip": {
-			"bytes": 42636,
+			"bytes": 42630,
 			"encoding": "gzip",
-			"sha256": "eff1c73c06b34a2b34f67bfeeaf88aa1b8edbd52634551494120165681371a67"
+			"sha256": "cf87968599e3f291c3fac9e49bb39c22b14e50b6f3240d4c6e4ef628b84e9459"
 		},
 		"identity": {
-			"bytes": 177683,
+			"bytes": 177679,
 			"encoding": "identity",
-			"sha256": "3a32f6ac8df870d4563d0ce777d877a79675a5d776104cf060ce7d0ec3ad89e1"
+			"sha256": "31cef5842d5dea6e0394907519c7c2a55ccaf37ff786aa63927a45eda6898cee"
 		}
 	}
 }

@@ -1,15 +1,19 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MitzvahWorldBootExperience.js
- * @description Observes essential readiness at a calm cadence and turns it into one cinematic, truthful boot story.
+ * @description Observes essential readiness and turns both success and structured failure into one truthful cinematic boot story.
  * The Awtsmoos gives every waiting instant a fresh beginning while Awtsmoos.com refuses to decorate uncertainty as success;
- * this view listens, reflects, and then disappears, leaving the meadow itself to become the final luminous interface.
+ * when a vessel breaks, condition, URL, source, bundle, and release remain visible evidence instead of vanishing into excess.
  */
 
 import { getMitzvahWorldEssentialBootSnapshot } from '../../app/MitzvahWorldEssentialBoot.js';
+import {
+	createMitzvahWorldFailureReceipt,
+	formatMitzvahWorldFailureReceipt
+} from '../../launcher/MitzvahWorldFailureReceipt.js';
 import {
 	countCompletedMitzvahWorldMilestones,
 	formatMitzvahWorldBootEvidence,
@@ -50,13 +54,18 @@ export class MitzvahWorldBootExperience {
 	}
 
 	fail(errorOhr) {
+		const receipt = createMitzvahWorldFailureReceipt(errorOhr);
 		this.render();
-		if (this.root) this.root.dataset.essentialState = 'failed';
-		if (this.evidence && this.evidenceText && !this.evidenceText.textContent) {
+		if (this.root) {
+			this.root.dataset.essentialState = 'failed';
+			this.root.dataset.failureReceipt = JSON.stringify(receipt);
+		}
+		if (this.evidence && this.evidenceText) {
 			this.evidence.hidden = false;
-			this.evidenceText.textContent = `Failure: ${errorOhr?.message || String(errorOhr)}`;
+			this.evidenceText.textContent = formatMitzvahWorldFailureReceipt(receipt);
 		}
 		this.stop();
+		return receipt;
 	}
 
 	render() {

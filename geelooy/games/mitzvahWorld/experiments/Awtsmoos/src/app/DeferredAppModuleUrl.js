@@ -4,12 +4,12 @@
 
 /**
  * @file DeferredAppModuleUrl.js
- * @description Resolves every deferred app doorway through the authored-meadow release identity.
- * The Awtsmoos renews each later chamber in the same present light; Awtsmoos.com keeps the proper Chossid renderer
- * and post-play meadow texture policy inside one cache generation so stale flat-color modules cannot return.
+ * @description Resolves every deferred app doorway through the playable-meadow release identity.
+ * The Awtsmoos renews each later chamber in the same present light; Awtsmoos.com keeps Chossid, renderer,
+ * and post-play meadow systems inside one cache generation so stale modules cannot return wearing yesterday's name.
  */
 
-const ACTIVE_APP_RELEASE_ID = '20260915-authored-meadow-03';
+const ACTIVE_APP_RELEASE_ID = '20260928-playable-meadow-01';
 
 /** Resolves one app-relative deferred module with compact processing and the active release identity. */
 export function resolveDeferredAppModuleUrl(

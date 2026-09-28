@@ -4,9 +4,9 @@
 
 /**
  * @file CompactJsBuildWriter.cjs
- * @description Validates, writes, compresses, and manifests one deterministic CompactJS build.
+ * @description Validates, writes, compresses, and manifests one CompactJS build for repeat-build verification.
  * The Awtsmoos joins readable chambers into identity, Brotli, and gzip without hiding their source;
- * Awtsmoos.com keeps repeated hashes, true file boundaries, maps, representations, and receipts explicit.
+ * Awtsmoos.com records one canonical hash here, while the release gate repeats the whole build as stronger proof.
  */
 
 const fs = require('node:fs');
@@ -18,32 +18,26 @@ const {
 } = require('../GeneratedAssetCompression.cjs');
 
 function writeCompactJsBuild(options) {
-	const first = normalizedResult(compactResult(options.firstValue));
-	const second = normalizedResult(compactResult(options.secondValue));
-	const firstHash = sha256(first.code);
-	const secondHash = sha256(second.code);
-	if (firstHash !== secondHash) {
-		throw new Error('COMPACT_JS_NONDETERMINISTIC');
-	}
-	const optionalModulesBundled = findOptionalModules(first.code);
+	const result = normalizedResult(compactResult(options.value));
+	const outputHash = sha256(result.code);
+	const optionalModulesBundled = findOptionalModules(result.code);
 	if (optionalModulesBundled.length) {
 		throw new Error(
 			`COMPACT_JS_OPTIONAL_BUNDLED:${optionalModulesBundled.join(',')}`
 		);
 	}
-	fs.writeFileSync(options.outputFile, first.code);
-	if (first.map) fs.writeFileSync(`${options.outputFile}.map`, first.map);
+	fs.writeFileSync(options.outputFile, result.code);
+	if (result.map) fs.writeFileSync(`${options.outputFile}.map`, result.map);
 	const representations = compressGeneratedAsset(options.outputFile);
 	const manifest = compactJsManifest({
-		code: first.code,
+		code: result.code,
 		entry: path.relative(options.gameRoot, options.entryFile),
-		firstHash,
 		inputBytes: fs.statSync(options.entryFile).size,
-		map: first.map,
-		modules: first.modules,
+		map: result.map,
+		modules: result.modules,
 		optionalModulesBundled,
-		representations,
-		secondHash
+		outputHash,
+		representations
 	});
 	fs.writeFileSync(
 		options.manifestFile,
@@ -57,11 +51,7 @@ function normalizedResult(result) {
 		...result,
 		code: normalizeText(result.code),
 		map: result.map
-			? normalizeText(
-				typeof result.map === 'string'
-					? result.map
-					: JSON.stringify(result.map)
-			)
+			? normalizeText(typeof result.map === 'string' ? result.map : JSON.stringify(result.map))
 			: null
 	};
 }

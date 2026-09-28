@@ -1,27 +1,28 @@
 {
+	"determinismVerification": "repeat-canonical-build",
 	"deterministic": true,
 	"entry": "experiments/Awtsmoos/src/app/BootstrapCoreRuntimeAssembly.js",
 	"moduleCount": 1,
 	"modules": [],
 	"name": "core",
-	"outputBytes": 316590,
-	"outputHash": "d5114b1eeab736120ba41ae586051cf07b6cc36aff4e94aed77ac98b05ff1c72",
+	"outputBytes": 316588,
+	"outputHash": "710db5e7229717ece313ee76035a612c86109daf648bb292f1e023b8d3b4479a",
 	"preserveDynamicImports": false,
 	"representations": {
 		"brotli": {
-			"bytes": 63543,
+			"bytes": 63604,
 			"encoding": "br",
-			"sha256": "84fe6994462b6184ebdb88061ba21a1cecf5c1fd4b0e40d0813e16a6f8ef2a62"
+			"sha256": "c24851a9f21972739c7dfdf6444f2449613b24166fae242168fc1df0004bf18c"
 		},
 		"gzip": {
 			"bytes": 76326,
 			"encoding": "gzip",
-			"sha256": "9e02e380a5520f63176bae7e66a797a3f759a2f9a29c1b3476b96326211d6c9e"
+			"sha256": "649d58f8541230b83974e8887da9e7cc1f0ef2e9e873adfa78aab12c5fd3aeda"
 		},
 		"identity": {
-			"bytes": 316590,
+			"bytes": 316588,
 			"encoding": "identity",
-			"sha256": "d5114b1eeab736120ba41ae586051cf07b6cc36aff4e94aed77ac98b05ff1c72"
+			"sha256": "710db5e7229717ece313ee76035a612c86109daf648bb292f1e023b8d3b4479a"
 		}
 	}
 }

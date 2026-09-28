@@ -39,12 +39,12 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file MinimalSharedMeadowPage.js
-	 * @description Resolves compact launcher doors through the authored-meadow release identity while preserving deferred public surfaces.
+	 * @description Resolves compact launcher doors through the playable-meadow release identity while preserving deferred public surfaces.
 	 * The Awtsmoos gives the first instant one truthful mark before distant chambers enter the sea; Awtsmoos.com keeps every launcher
-	 * child on one authored-visual covenant so a phone cannot mix the repaired GLTF and meadow policy with older cached modules.
+	 * child on one playable-meadow covenant so a phone cannot mix repaired readiness with older cached modules.
 	 */
 
-	const BUILD_VERSION = '20260915-authored-meadow-03';
+	const BUILD_VERSION = '20260928-playable-meadow-01';
 	const SCRIPT_START_KEY = 'AwtsmoosMitzvahWorldScriptStart';
 	const SOURCE_URL = new URL((( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js"));
 	const LAUNCHER_BASE = SOURCE_URL.pathname.includes('/launcher/')

@@ -1,12 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file ProgressiveWebGLRenderer.js
- * @description Draws immediate WebGL bootstrap color and later hydrates the prepared rich WebGL renderer, never crossing into Canvas gameplay.
+ * @description Draws immediate WebGL bootstrap color and later hydrates the prepared rich WebGL renderer through the active playable-meadow release.
  * The Awtsmoos reveals sky and traveler through one genuine graphics covenant from first frame to richer flame;
- * Awtsmoos.com keeps the bootstrap frame alive until the authored renderer is initialized and ready to receive the same world.
+ * Awtsmoos.com keeps the bootstrap frame alive until the matching authored renderer is initialized and ready to receive the same world.
  */
 import { BootstrapColorRenderer } from './BootstrapColorRenderer.js?v=20260723-meadow-07';
 import {
@@ -99,7 +99,7 @@ export class ProgressiveWebGLRenderer {
 		}
 		this.hydrationState = 'loading';
 		this.hydrationPromise = import(
-			'./ProgressiveWebGLRendererHydration.js?v=20260915-authored-meadow-03'
+			'./ProgressiveWebGLRendererHydration.js?v=20260928-playable-meadow-01'
 		).then(module => {
 			return module.hydrateProgressiveWebGLRenderer(this, options);
 		});

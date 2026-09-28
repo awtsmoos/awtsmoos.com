@@ -4,9 +4,9 @@
 
 /**
  * @file build-js.cjs
- * @description Builds deterministic runtime artifacts and regenerates release-owned essential assets in one canonical operation.
+ * @description Builds each runtime artifact once; release verification repeats this complete canonical operation for determinism.
  * The Awtsmoos gathers code and essential earth into measured vessels before the release may speak its name;
- * Awtsmoos.com keeps first control tiny while foundation, player, core, world, and later garments arrive as bounded generated light.
+ * Awtsmoos.com now shows each long stage aloud, so honest compiler labor can never masquerade as a frozen frame.
  */
 
 const fs = require('node:fs');
@@ -32,23 +32,23 @@ main().catch(error => {
 	process.exitCode = 1;
 });
 
-/** Regenerates essential release assets, then builds first-control and deterministic runtime chunks. */
+/** Regenerates essential assets, first control, then every deferred runtime chunk once. */
 async function main() {
+	console.error('[Mitzvah World build] essential assets');
 	const essentialAssets = await buildEssentialReleaseAssets(gameRoot);
 	const entryFile = path.join(sourceRoot, 'MinimalMeadowCompactBootstrap.js');
-	const outputFile = path.join(sourceRoot, 'mitzvah-world.compact.js');
-	const firstValue = await compileMain(entryFile);
-	const secondValue = await compileMain(entryFile);
+	console.error('[Mitzvah World build] main');
+	const value = await compileMain(entryFile);
 	const mainManifest = writeCompactJsBuild({
 		entryFile,
-		firstValue,
 		gameRoot,
 		manifestFile: path.join(generatedRoot, 'mitzvah-world-js.json'),
-		outputFile,
-		secondValue
+		outputFile: path.join(sourceRoot, 'mitzvah-world.compact.js'),
+		value
 	});
 	const chunks = [];
 	for (const configuration of chunkConfigurations()) {
+		console.error(`[Mitzvah World build] chunk:${configuration.name}`);
 		chunks.push(await buildRuntimeChunk({
 			...configuration,
 			compileOnce: compileChunk,
@@ -76,7 +76,6 @@ function compileSource(entryFile, preserveDynamicImports, sourceMaps) {
 	});
 }
 
-/** Defines bounded artifacts from first visible foundation through later quality systems. */
 function chunkConfigurations() {
 	return [
 		chunk('foundation', 'EretzWorldFoundation.js'),

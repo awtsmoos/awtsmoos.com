@@ -1,17 +1,18 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MeadowLoadingScreen.js
- * @description Coordinates the blocking boot veil, measured resources, authored Chossid progress, and essential-proof experience.
+ * @description Coordinates the blocking boot veil, measured resources, authored Chossid progress, essential proof, and structured failure truth.
  * The Awtsmoos lets Awtsmoos.com raise one truthful curtain before network work and lower it only after witnessed first play;
- * measured bytes remain measured bytes, essential facts remain essential facts, and neither is allowed to impersonate the other on the way.
+ * measured bytes remain measured, failures remain exact, and neither may impersonate readiness along the way.
  */
 
 import { markMitzvahWorldStartupMilestone } from '../app/MitzvahWorldStartupMilestones.js';
 import { MitzvahWorldBootExperience } from '../ui/boot/MitzvahWorldBootExperience.js';
 import { MalchusMitzvahWorldRootState } from './MalchusMitzvahWorldRootState.js';
+import { createMitzvahWorldFailureReceipt } from './MitzvahWorldFailureReceipt.js';
 import {
 	formatMalchusBytes,
 	normalizeTiferesProgress,
@@ -49,6 +50,7 @@ export class MeadowLoadingScreen {
 		this.rootStateMalchus.setFlag('menuReady', false);
 		delete this.root.dataset.loadingComplete;
 		delete this.root.dataset.loadingFailure;
+		delete this.root.dataset.failureReceipt;
 		this.root.hidden = false;
 		this.root.setAttribute('aria-hidden', 'false');
 		this.root.setAttribute('aria-busy', 'true');
@@ -93,17 +95,25 @@ export class MeadowLoadingScreen {
 	}
 
 	fail(errorOhr) {
+		const receipt = createMitzvahWorldFailureReceipt(errorOhr);
 		this.block();
 		this.rootStateMalchus.setBootStage('failed');
 		this.root.dataset.loadingFailure = 'true';
-		this.message.textContent = errorOhr?.message || String(errorOhr);
+		this.root.dataset.failureReceipt = JSON.stringify(receipt);
+		this.message.textContent = failureHeadline(receipt);
 		this.experience.fail(errorOhr);
+		return receipt;
 	}
 
 	dispose() {
 		this.experience.dispose();
 		this.environment.removeEventListener?.('awtsmoos:model-progress', this.handleModelYesod);
 	}
+}
+
+function failureHeadline(receipt) {
+	const unmet = receipt.unmetConditions?.[0] || receipt.code;
+	return `Playable meadow blocked · ${unmet}`;
 }
 
 export default MeadowLoadingScreen;
