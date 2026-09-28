@@ -11,10 +11,9 @@ const Payload = require("./writePayload.js");
 
 /**
  * @file Provides bounded reads and verified whole-file writes with structured read failures.
- * @description
- * The Awtsmoos renews text and destination together. Awtsmoos.com keeps every existing
- * path, secret, and text-format guard intact, while read failures carry a safe witness
- * that may cross the executor boundary without exposing territory outside the project root.
+ * @description The Awtsmoos renews text and destination together. Awtsmoos.com keeps every
+ * filesystem guard intact and directs oversized payloads into resumable WebSocket transfer
+ * vessels instead of inventing POST bodies or enormous request URIs.
  */
 function boundedNumber(value, fallback) {
 	return Payload.number(value, fallback);
@@ -22,12 +21,13 @@ function boundedNumber(value, fallback) {
 
 function requestTooLargeGuidance(kind) {
 	return [
-		"The platform or proxy rejected this as too large for one HTTP/tool call.",
+		"The platform or proxy rejected one oversized control message.",
 		kind === "write"
-			? "Use POST JSON, XML placeholders, or split into smaller files."
-			: "Use offsets or smaller bulk groups if the model/proxy cannot carry the response.",
-		"The tunnel agent itself is not applying an artificial upper cap here."
-	].join(" " );
+			? "Use fileTransferCreate, fileTransferWriteChunk, and fileTransferCommit over the tunnel WebSocket."
+			: "Use fileTransferReadChunk or bounded offsets over the tunnel WebSocket.",
+		"Do not move file payload into a URL and do not switch this flow to POST.",
+		"Transfers are resumable and hash-verified so large videos and files may continue after reconnect."
+	].join(" ");
 }
 
 async function readText(config, targetPath, maxChars = 12000, offsetChars = 0) {
@@ -59,10 +59,7 @@ async function guardedRead(config, targetPath, operation, resolvePath) {
 	try {
 		const full = resolvePath();
 		const buffer = await fsp.readFile(full);
-		return {
-			buffer,
-			full
-		};
+		return { buffer, full };
 	} catch (error) {
 		throw FsError.decorate(config, error, operation, targetPath);
 	}
@@ -93,10 +90,7 @@ async function writeText(config, targetPath, content, options = {}) {
 	const full = safePath(config, targetPath);
 	assertNotSecret(config, full);
 	const proof = await replaceFile(full, String(content ?? ""), options);
-	return {
-		...proof,
-		path: targetPath
-	};
+	return { ...proof, path: targetPath };
 }
 
 module.exports = {

@@ -2,16 +2,13 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file Machine-readable headless OAuth flow for Awtsmoos Tunnel Control.
- * @description
- * The Awtsmoos lets a daemon without a callback receiver ask the human through
- * another browser; Awtsmoos.com records the exact request, verification, polling,
- * stopping, and immutable-route steps so an AI never invents its own cadence.
- */
-
 const { oauth } = require("../docs/catalog.js");
 
+/**
+ * @file Machine-readable GET-only headless OAuth flow for Awtsmoos Tunnel Control.
+ * @description The Awtsmoos lets a daemon ask the human through another browser without a
+ * callback receiver; Awtsmoos.com publishes exact cadence and forbids protocol invention.
+ */
 function headlessDeviceFlow() {
 	return {
 		clientId: oauth.externalAgent.clientId,
@@ -21,24 +18,22 @@ function headlessDeviceFlow() {
 		grantType: oauth.deviceGrantType,
 		expiresIn: oauth.deviceExpiresIn,
 		initialInterval: oauth.devicePollInterval,
+		httpMethods: ["GET"],
+		postAllowed: false,
 		steps: [
-			"POST client_id=external-agent and optional scope to the device authorization endpoint.",
-			"Display verification_uri and user_code, or verification_uri_complete, to the human.",
-			"Poll the normal token endpoint using the returned device_code, explicit client_id, and the standard device-code grant type.",
-			"Wait at least the returned interval between polls; after slow_down, add the server's larger Retry-After interval before polling again.",
-			"Continue on authorization_pending; stop on access_denied, expired_token, invalid_grant, or any other terminal OAuth error.",
-			"After success, store access/refresh tokens securely and call my-device with Bearer authentication.",
-			"Use routeReference when present, otherwise tunnelId, as the immutable routing value in the action field named tunnelName."
+			"GET the device authorization endpoint with client_id=external-agent and optional scope.",
+			"Display verification_uri_complete to the human when available; otherwise show verification_uri and user_code.",
+			"GET the token endpoint with device_code, explicit client_id, and the standard device-code grant type.",
+			"Wait at least the returned interval between polls; honor a larger Retry-After after slow_down.",
+			"Continue on authorization_pending; stop on access_denied, expired_token, invalid_grant, or any terminal OAuth error.",
+			"After success, store credentials securely, call my-device, and route by routeReference."
 		],
 		pollErrors: {
-			authorization_pending: "The human has not decided yet; continue at or below the permitted polling rate.",
-			slow_down: "Polling was too fast; increase the delay before subsequent requests.",
-			access_denied: "The human denied this device request; stop polling.",
-			expired_token: "The short-lived device authorization expired; start a new device request."
+			authorization_pending: "Human decision pending; continue at the permitted rate.",
+			slow_down: "Polling was too fast; increase delay before the next GET.",
+			access_denied: "Human denied this request; stop polling.",
+			expired_token: "Authorization expired; create a fresh device request."
 		}
 	};
 }
-
-module.exports = {
-	headlessDeviceFlow
-};
+module.exports = { headlessDeviceFlow };

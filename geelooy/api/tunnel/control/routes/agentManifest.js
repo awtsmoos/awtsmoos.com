@@ -2,13 +2,6 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file Machine-readable Awtsmoos Agent Manifest for interactive and headless AI.
- * @description
- * The Awtsmoos lets OAuth, immutable routing, compact discovery, and finite source limits meet without folklore;
- * Awtsmoos.com gives external agents one small public surface whose inward deeds and publication bounds stay knowable.
- */
-
 const { agentLinks, oauth } = require("../docs/catalog.js");
 const { json } = require("../core/respond.js");
 const { publicationSourceLimits } = require("../../../../sites/hostedFolderManifestLimits.js");
@@ -16,44 +9,45 @@ const { externalAgentFlow } = require("./agentFlow.js");
 const { headlessDeviceFlow } = require("./deviceFlow.js");
 const Operations = require("./agentOperationCatalog.js");
 
+/**
+ * @file Machine-readable external-agent covenant for OAuth, routing, and huge-file transfer.
+ * @description The Awtsmoos gives every agent a usable road even without WebSockets;
+ * Awtsmoos.com prefers the wide socket river yet keeps a complete resumable HTTPS-GET path.
+ */
 const REQUIRED_BASE_CAPABILITIES = Object.freeze([
-	"HTTPS token exchange",
+	"HTTPS GET requests",
 	"secure credential storage",
-	"Bearer HTTP authentication",
+	"Bearer authentication",
 	"JSON parsing"
 ]);
-
+const RECOMMENDED_CAPABILITIES = Object.freeze(["WebSocket tunnel actions"]);
 const REQUIRED_CALLBACK_CAPABILITIES = Object.freeze([
 	"PKCE S256",
 	"browser-assisted authorization",
+	"automatic handoff polling",
 	...REQUIRED_BASE_CAPABILITIES
 ]);
 
 function authorizationModes() {
 	return {
-		callbackPkce: {
-			recommendedWhen: "The AI can retain PKCE/state and relay a browser callback code.",
-			flow: externalAgentFlow()
-		},
-		headlessDevice: {
-			recommendedWhen: "The AI cannot receive or relay an OAuth callback code directly.",
-			flow: headlessDeviceFlow()
-		}
+		callbackPkce: { recommendedWhen: "The AI can retain PKCE/state and poll automatic callback handoff.", flow: externalAgentFlow() },
+		headlessDevice: { recommendedWhen: "The AI cannot use callback handoff and needs human verification.", flow: headlessDeviceFlow() }
 	};
 }
-
 function manifestBody() {
 	return {
-		BH: "B\"H",
-		ok: true,
+		BH: "B\"H", ok: true,
 		name: "Awtsmoos External AI Agent Manifest",
-		version: "1.3.0",
+		version: "1.5.0",
 		protocol: "awtsmoos-external-agent-v1",
 		recommendedClientId: oauth.recommendedClientId,
 		requiredClientCapabilities: REQUIRED_CALLBACK_CAPABILITIES,
 		requiredBaseCapabilities: REQUIRED_BASE_CAPABILITIES,
+		recommendedCapabilities: RECOMMENDED_CAPABILITIES,
 		authorizationModes: authorizationModes(),
 		oauth: oauthBody(),
+		transportLaw: transportLaw(),
+		largeFileTransfer: transferBody(),
 		credentials: credentialBody(),
 		tunnelDiscovery: tunnelDiscovery(),
 		compactProtocol: {
@@ -64,53 +58,50 @@ function manifestBody() {
 		},
 		firstActions: Operations.compactExamples(),
 		links: agentLinks,
-		compatibilityClients: {
-			grok: oauth.grok,
-			chatgpt: oauth.chatgpt
-		}
+		compatibilityClients: { grok: oauth.grok, chatgpt: oauth.chatgpt }
 	};
 }
-
 function oauthBody() {
 	return {
-		metadata: agentLinks.oauthMetadata,
-		discovery: oauth.discoveryEndpoint,
-		authorization: oauth.authorizationEndpoint,
-		deviceAuthorization: oauth.deviceAuthorizationEndpoint,
-		deviceVerification: oauth.deviceVerificationUri,
-		token: oauth.tokenEndpoint,
-		callback: oauth.agentCallback,
-		grantTypes: oauth.grantTypes,
-		codeChallengeMethods: oauth.codeChallengeMethods,
-		client: oauth.externalAgent,
-		flow: externalAgentFlow(),
-		deviceFlow: headlessDeviceFlow()
+		metadata: agentLinks.oauthMetadata, discovery: oauth.discoveryEndpoint,
+		handoff: oauth.handoffEndpoint, authorization: oauth.authorizationEndpoint,
+		deviceAuthorization: oauth.deviceAuthorizationEndpoint, deviceVerification: oauth.deviceVerificationUri,
+		token: oauth.tokenEndpoint, callback: oauth.agentCallback,
+		httpMethods: oauth.httpMethods, postAllowed: false, limits: oauth.limits,
+		client: oauth.externalAgent, flow: externalAgentFlow(), deviceFlow: headlessDeviceFlow()
 	};
 }
-
+function transportLaw() {
+	return {
+		httpMethods: ["GET"], dataTransports: oauth.dataTransports,
+		preferredDataTransport: oauth.preferredDataTransport,
+		fallbackDataTransport: oauth.fallbackDataTransport, postAllowed: false
+	};
+}
+function transferBody() {
+	return {
+		preferred: { transport: "websocket", operations: transferOperations() },
+		getFallback: {
+			endpointTemplate: oauth.getTransferEndpointTemplate,
+			transport: "https-get",
+			maxRawUploadBytesPerRequest: oauth.limits.getFallbackUploadBytes,
+			defaultReadBytesPerRequest: oauth.limits.getFallbackReadBytes
+		},
+		deviceBridge: oauth.deviceTransferEndpoint,
+		sharedReceipt: "GET and WebSocket share the same transferId and destination manifest; clients may switch transport mid-transfer.",
+		postAllowed: false,
+		limits: oauth.limits,
+		resumeRule: "After uncertain mutation delivery, query status and resume from nextOffset before any replay."
+	};
+}
+function transferOperations() {
+	return ["fileTransferSourceInfo", "fileTransferSourceProof", "fileTransferReadChunk", "fileTransferCreate", "fileTransferStatus", "fileTransferWriteChunk", "fileTransferCommit", "fileTransferCancel"];
+}
 function credentialBody() {
-	return {
-		bearerHeader: "Authorization: Bearer <access_token>",
-		refreshGrant: "grant_type=refresh_token&client_id=external-agent&refresh_token=<refresh_token>",
-		callbackStoresTokens: false,
-		deviceVerificationStoresTokens: false
-	};
+	return { bearerHeader: "Authorization: Bearer <access_token>", refreshGrant: "grant_type=refresh_token&client_id=external-agent&refresh_token=<refresh_token>", callbackStoresTokens: false, deviceVerificationStoresTokens: false };
 }
-
 function tunnelDiscovery() {
-	return {
-		url: agentLinks.myDevice,
-		selection: "Use routeReference when present; otherwise use tunnelId.",
-		actionField: "Pass that immutable ID in the action schema field named tunnelName."
-	};
+	return { url: agentLinks.myDevice, selection: "Use routeReference when present; otherwise use tunnelId.", actionField: "Pass that immutable ID in the action schema field named tunnelName." };
 }
-
-async function agentManifest($i) {
-	return json($i, manifestBody());
-}
-
-module.exports = {
-	agentManifest,
-	authorizationModes,
-	manifestBody
-};
+async function agentManifest($i) { return json($i, manifestBody()); }
+module.exports = { agentManifest, authorizationModes, manifestBody };

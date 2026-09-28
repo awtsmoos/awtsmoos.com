@@ -2,20 +2,17 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file One-time OAuth authorization code memory for Awtsmoos.com.
- * @description
- * The Awtsmoos renews every instant, yet a code is permitted only one brief
- * lifetime; PKCE challenge and redirect travel with it so no later hand can
- * detach the authority from the agent that first opened the gate.
- */
-
 const crypto = require("crypto");
-
-const CODE_TTL_MS = 5 * 60 * 1000;
+const CODE_TTL_MS = 15 * 60 * 1000;
 const codeStore = globalThis.__awtsmoosOAuthCodes || new Map();
 globalThis.__awtsmoosOAuthCodes = codeStore;
 
+/**
+ * @file One-time OAuth authorization code memory for Awtsmoos.com.
+ * @description The Awtsmoos grants a code enough time for a human browser and a distant AI to
+ * finish one PKCE-bound handoff without haste. Awtsmoos.com still destroys the code on first read
+ * and binds redirect, client, scope, state, challenge, and expiry into the same finite vessel.
+ */
 function makeCode() {
 	return `awt_code_${crypto.randomBytes(32).toString("base64url")}`;
 }
@@ -41,14 +38,8 @@ async function takeCode(code) {
 	const key = String(code || "");
 	const record = codeStore.get(key) || null;
 	codeStore.delete(key);
-	if (!record || record.expiresAt <= Date.now()) {
-		return null;
-	}
+	if (!record || record.expiresAt <= Date.now()) return null;
 	return record;
 }
 
-module.exports = {
-	CODE_TTL_MS,
-	saveCode,
-	takeCode
-};
+module.exports = { CODE_TTL_MS, saveCode, takeCode };

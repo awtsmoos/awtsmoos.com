@@ -3,18 +3,18 @@
 // Blessed is He
 
 /**
- * @file Data, filesystem, blob, bootstrap, manifest, OpenAPI, and docs routes.
- * @description
- * The Awtsmoos renews every byte and doorway. Awtsmoos.com keeps stored data,
- * agent discovery, and account-authorized filesystem access in explicit vessels
- * so new universal onboarding never erases an older route or hidden dependency.
+ * @file Data, filesystem, transfer, blob, bootstrap, manifest, OpenAPI, and docs routes.
+ * @description The Awtsmoos renews every byte and doorway. Awtsmoos.com keeps stored data,
+ * external-agent discovery, authorized filesystem access, GET fallback, and cross-device streaming
+ * in explicit vessels so agents may transfer huge media without POST.
  */
-
 const { agentManifest } = require("../agentManifest.js");
 const { blob } = require("../blob.js");
 const { blobManifest } = require("../blobManifest.js");
 const { blobView } = require("../blobView.js");
 const { bootstrap } = require("../bootstrap.js");
+const { deviceFileTransfer } = require("../deviceFileTransfer.js");
+const { fileTransferGet } = require("../fileTransferGet.js");
 const { docsHtml } = require("../docsHtml.js");
 const { docsJson } = require("../docsJson.js");
 const {
@@ -33,6 +33,8 @@ const { protectedFs } = require("../protectedFs.js");
 const dataRoutes = Object.freeze({
 	bootstrap,
 	"agent-manifest": agentManifest,
+	"transfer/device": deviceFileTransfer,
+	"transfer/get/:tunnelName": fileTransferGet,
 	"ephemeral/list": ephemeralList,
 	"ephemeral/:resultId/page": ephemeralPage,
 	"ephemeral/:resultId/search": ephemeralSearch,
@@ -50,6 +52,4 @@ const dataRoutes = Object.freeze({
 	"docs.json": docsJson
 });
 
-module.exports = {
-	dataRoutes
-};
+module.exports = { dataRoutes };

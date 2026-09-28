@@ -1,4 +1,6 @@
-//B"H // Boruch Hashem // Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 const { buildActionHistoryActions } = require("../actionGroups/actionHistoryActions.js");
 const { buildActionStreamActions } = require("../actionGroups/actionStreamActions.js");
@@ -14,6 +16,7 @@ const { buildContinuationActions } = require("../actionGroups/continuationAction
 const { buildContinuationControlActions } = require("../actionGroups/continuationControlActions.js");
 const { buildFakeSshActions } = require("../actionGroups/fakeSshActions.js");
 const { buildFileOpsActions } = require("../actionGroups/fileOpsActions.js");
+const { buildFileTransferActions } = require("../actionGroups/fileTransferActions.js");
 const { buildHttpActions } = require("../actionGroups/httpActionsGroup.js");
 const { buildInstructionActions } = require("../actionGroups/instructionActions.js");
 const { buildIsolatedActions } = require("../actionGroups/isolatedActions.js");
@@ -48,9 +51,9 @@ const { buildWorkflowActions } = require("../actionGroups/workflowActions.js");
 const { buildWriteActions } = require("../actionGroups/writeActions.js");
 
 /**
- * @file Composes raw files, graph truth, live plans, continuation, governance and collaboration.
- * @description The Awtsmoos leaves ordinary files direct while Awtsmoos.com adds one durable plan,
- * Mission, agent-scoped workspace, context, health and collaboration truth beside every surface.
+ * @file Composes raw files, transfer streams, graph truth, plans, governance and collaboration.
+ * @description The Awtsmoos leaves ordinary files direct while Awtsmoos.com adds resumable
+ * WebSocket transfer vessels beside every other filesystem and project truth surface.
  */
 function buildFoundationActions(context, buildActions) {
 	return {
@@ -63,6 +66,7 @@ function buildFoundationActions(context, buildActions) {
 		...buildConfigActions(context),
 		...buildAgentWorkspaceActions(context),
 		...buildReadActions(context),
+		...buildFileTransferActions(context),
 		...buildPlanActions(context),
 		...buildWorkGraphHistoryActions(context),
 		...buildKnowledgeActions(context),

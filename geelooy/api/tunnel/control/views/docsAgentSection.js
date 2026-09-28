@@ -3,37 +3,39 @@
 // Blessed is He
 
 /**
- * @file Human OAuth section for universal external AI clients.
- * @description
- * The Awtsmoos is not fenced by a model brand; Awtsmoos.com teaches one
- * capability-based PKCE path whose fixed callback guards every future client,
- * while Grok and ChatGPT remain examples rather than architectural dependencies.
+ * @file Human OAuth and transfer section for universal external AI clients.
+ * @description The Awtsmoos is not fenced by a model brand or socket capability;
+ * Awtsmoos.com teaches automatic browser handoff plus both wide WebSocket and narrow GET roads.
  */
-
 function docsAgentSection(catalog) {
 	const oauth = catalog.oauth;
 	const client = oauth.externalAgent;
 	return `<section class="card" id="external-agent">
-	<h2>2. Any external AI client: OAuth + PKCE</h2>
-	<div class="callout"><strong>Recommended public client:</strong> <code>${client.clientId}</code> — no client secret. PKCE ${client.pkceMethod} is required.</div>
-	<p>Any AI client can use this path if it can generate PKCE S256 + state, open a browser authorization URL, exchange an HTTPS authorization code, store credentials securely, and send Bearer requests.</p>
+	<h2>2. Any external AI client: automatic OAuth + PKCE</h2>
+	<div class="callout"><strong>Protocol law:</strong> OAuth/control uses <code>GET</code>. Never switch this connector to POST.</div>
+	<p>Recommended client: <code>${client.clientId}</code>. No client secret. PKCE ${client.pkceMethod} is required. A waiting handoff normally receives the returned code automatically, so the human does not copy it.</p>
 	<ol>
-		<li>Read <a href="${catalog.agentLinks.oauthMetadata}">OAuth Metadata</a> or the <a href="${catalog.agentLinks.agentManifest}">Agent Manifest</a>.</li>
-		<li>Generate a 43–128 character PKCE verifier, its SHA-256 base64url challenge, and a high-entropy state value.</li>
-		<li>Open <code>${oauth.authorizationEndpoint}</code> with <code>client_id=${client.clientId}</code>, <code>response_type=code</code>, callback, scope, state, challenge, and <code>code_challenge_method=S256</code>.</li>
-		<li>The browser returns to <code>${client.redirectUri}</code>. Carry the short-lived code and state back to the AI client.</li>
-		<li>Verify returned state exactly matches the retained state, then exchange the code at <code>${oauth.tokenEndpoint}</code> with the original <code>code_verifier</code>.</li>
-		<li>Store access/refresh tokens only in the AI client's credential store, then call <code>my-device</code>.</li>
+		<li>Generate a 43–128 character PKCE verifier and its S256 challenge.</li>
+		<li>GET <code>${oauth.handoffEndpoint}?action=start&amp;code_challenge=...</code> and retain the private handoff proof and verifier.</li>
+		<li>Open the returned authorization URL. The callback deposits the result into the matching handoff.</li>
+		<li>Poll the returned status URL every ${oauth.handoffPollInterval}s. If delivery succeeded, never ask the human to copy code/state.</li>
+		<li>GET <code>${oauth.tokenEndpoint}</code> with the code and original verifier.</li>
+		<li>Acknowledge the handoff, store tokens securely, call <code>my-device</code>, and route by immutable <code>routeReference</code>.</li>
 	</ol>
-	<pre>client_id=${client.clientId}
-redirect_uri=${client.redirectUri}
+	<pre>handoff TTL=${oauth.handoffExpiresIn}s
 code TTL=${oauth.authorizationCodeSeconds}s
-access token TTL=${oauth.accessTokenSeconds}s
-refresh token TTL=${oauth.refreshTokenSeconds}s</pre>
-	<p><strong>Compatibility clients:</strong> Grok may continue using <code>${oauth.grok.clientId}</code>. Existing ChatGPT Actions may continue using <code>${oauth.chatgpt.clientId}</code> and their registered callbacks.</p>
+max scope=${oauth.limits.maxScopeChars} chars
+max query value=${oauth.limits.maxQueryValueChars} chars
+WebSocket chunk default=${oauth.limits.defaultTransferChunkBytes} bytes
+WebSocket chunk max=${oauth.limits.maxTransferChunkBytes} bytes
+GET upload max=${oauth.limits.getFallbackUploadBytes} raw bytes
+GET read default=${oauth.limits.getFallbackReadBytes} bytes</pre>
+	<h3>Huge files and videos</h3>
+	<p>Prefer WebSocket transfer actions when the client supports them. They are faster and use 1–2 MiB chunks.</p>
+	<p>If the client cannot open WebSockets, use GET <code>${oauth.getTransferEndpointTemplate}</code>. Actions are <code>source-info</code>, <code>source-proof</code>, <code>read</code>, <code>create</code>, <code>status</code>, <code>write</code>, <code>commit</code>, and <code>cancel</code>.</p>
+	<p>GET upload fragments carry at most ${oauth.limits.getFallbackUploadBytes} decoded bytes in <code>content64</code>. The same transfer ID and manifest work on both transports, so a client may switch from GET to WebSocket or back without restarting.</p>
+	<p>After uncertain write delivery, call <code>status</code> and resume from <code>nextOffset</code> before replaying anything.</p>
+	<p><strong>Fallback:</strong> only when no waiting OAuth handoff exists, the callback page shows escaped one-time code/state for manual relay.</p>
 </section>`;
 }
-
-module.exports = {
-	docsAgentSection
-};
+module.exports = { docsAgentSection };

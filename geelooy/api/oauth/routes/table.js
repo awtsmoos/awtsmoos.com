@@ -4,14 +4,13 @@
 
 /**
  * @file Lazy OAuth route registry.
- * @description
- * The Awtsmoos gives every OAuth doorway its own finite vessel instead of binding
- * every route to one eager import. Awtsmoos.com may therefore keep discovery alive
- * even if a distant optional chamber breaks, while every loaded handler is verified.
+ * @description The Awtsmoos gives every OAuth doorway its own finite vessel instead of binding
+ * every route to one eager import. Awtsmoos.com keeps automatic agent handoff beside the ordinary
+ * callback so weak and strong external clients may share consent without sharing failure modes.
  */
-
 const ROUTES = Object.freeze({
 	"agent-callback": ["./agentCallback.js", "agentCallback"],
+	"agent-handoff": ["./agentHandoff.js", "agentHandoff"],
 	"agent-links": ["./agentLinks.js", "agentLinks"],
 	authorize: ["./authorize.js", "authorize"],
 	"device-authorization": ["./deviceAuthorization.js", "deviceAuthorization"],
@@ -21,12 +20,10 @@ const ROUTES = Object.freeze({
 	token: ["./token.js", "token"]
 });
 
-/** Returns the stable public OAuth route names without evaluating route modules. */
 function listRouteNames() {
 	return Object.keys(ROUTES);
 }
 
-/** Loads and validates only the requested OAuth route handler. */
 function getRouteHandler(name) {
 	const descriptor = ROUTES[name];
 	if (!descriptor) return null;
@@ -43,14 +40,10 @@ function getRouteHandler(name) {
 	}
 }
 
-/** Preserves compatibility for tools that intentionally inspect every route at once. */
 function getRouteTable() {
-	return Object.fromEntries(
-		listRouteNames().map(name => [name, getRouteHandler(name)])
-	);
+	return Object.fromEntries(listRouteNames().map(name => [name, getRouteHandler(name)]));
 }
 
-/** Adds safe internal route identity without leaking request or credential material. */
 function decorateRouteLoadError(error, routeName, modulePath, exportName) {
 	const wrapped = error instanceof Error ? error : new Error(String(error));
 	wrapped.code = wrapped.code || "OAUTH_ROUTE_LOAD_FAILED";
@@ -60,8 +53,4 @@ function decorateRouteLoadError(error, routeName, modulePath, exportName) {
 	return wrapped;
 }
 
-module.exports = {
-	getRouteHandler,
-	getRouteTable,
-	listRouteNames
-};
+module.exports = { getRouteHandler, getRouteTable, listRouteNames };
