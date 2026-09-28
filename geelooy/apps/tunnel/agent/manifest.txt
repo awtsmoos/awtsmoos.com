@@ -1,5 +1,5 @@
 B"H
-1.0.633
+1.0.634
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1467,6 +1467,7 @@ lib/tool-schema/agent.js
 lib/tool-schema/batch.js
 lib/tool-schema/chatgpt.js
 lib/tool-schema/descriptions.js
+lib/tool-schema/file-transfer.js
 lib/tool-schema/fs.js
 lib/tool-schema/guidance.js
 lib/tool-schema/nonfs.js
@@ -1831,6 +1832,7 @@ tools/fs/actionGroups/fakeSsh/sessionActions.js
 tools/fs/actionGroups/fakeSsh/sftpActions.js
 tools/fs/actionGroups/fakeSshActions.js
 tools/fs/actionGroups/fileOpsActions.js
+tools/fs/actionGroups/fileTransferActions.js
 tools/fs/actionGroups/httpActionsGroup.js
 tools/fs/actionGroups/imageActions.js
 tools/fs/actionGroups/instructionActions.js
@@ -2201,6 +2203,13 @@ tools/fs/fileOpsPathResults.js
 tools/fs/fileOpsPaths.js
 tools/fs/filesystemDiagnostics.js
 tools/fs/filesystemError.js
+tools/fs/fileTransferChunkWrite.js
+tools/fs/fileTransferCommit.js
+tools/fs/fileTransferHash.js
+tools/fs/fileTransferPolicy.js
+tools/fs/fileTransferRead.js
+tools/fs/fileTransferStatus.js
+tools/fs/fileTransferStore.js
 tools/fs/findFiles.js
 tools/fs/findFilesOptions.js
 tools/fs/findFilesResponse.js
