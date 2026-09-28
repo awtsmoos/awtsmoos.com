@@ -1,5 +1,4 @@
 B"H
-
 # Awtsmoos Tunnel — AI Agent Instructions
 
 These instructions govern agents operating through the Awtsmoos Tunnel tree. Inspect live reality first; never infer a tunnel, mission, lock, job, receipt, browser, repository, or server state from stale memory.
@@ -19,6 +18,15 @@ The default operating goal is **maximum safe throughput**.
 - Speed never authorizes bypassing correctness, security, user stop/cancel, replay ownership, capability checks, mission policy, hash guards, transaction gates, or live verification.
 - The installed action `tunnelVelocityGuidance` returns the canonical machine-readable lightning covenant. Successor Shliach prompts inherit it automatically.
 
+## Three-pass mission visibility
+
+- Before substantial work, call `missionVisibilityList` and inspect active mission plans so you do not duplicate another agent's work.
+- Register the work with `missionVisibilityRegister`; include the canonical `missionId` whenever a live mission room exists.
+- After each required planning phase, immediately call `missionVisibilityPlanningPass` with `pass: 1`, then `2`, then `3`, containing the bounded operational plan artifact for that phase.
+- A repeated pass replaces that slot. Do not publish hidden reasoning; publish only deliberate operational planning artifacts useful to collaborators.
+- Local `ai_thoughts` or `.ai-thoughts` files are optional archival mirrors. They are not the shared coordination source of truth.
+- Keep status/progress current with `missionVisibilityUpdate`. Tunnel Control shows the active registry; linked live rooms expose their agents and the canonical direct-message UI.
+
 ## Connection flow
 
 1. Authenticate with Awtsmoos.com when required.
@@ -34,7 +42,6 @@ References: <https://awtsmoos.com/api/tunnel/control/docs>, <https://awtsmoos.co
 Prefer the packaged `awt` command over manual PID commands when it exists.
 
 ### macOS/Linux
-
 ```bash
 ~/.awtsmoos-tunnel/awt status
 ~/.awtsmoos-tunnel/awt check
@@ -44,7 +51,6 @@ Prefer the packaged `awt` command over manual PID commands when it exists.
 ```
 
 ### Windows
-
 ```powershell
 %USERPROFILE%\.awtsmoos-tunnel\awt.cmd status
 %USERPROFILE%\.awtsmoos-tunnel\awt.cmd rescue
@@ -53,11 +59,9 @@ Prefer the packaged `awt` command over manual PID commands when it exists.
 `rescue` verifies supervisor-child ownership, sets Level 0, restarts only the verified supervised child, and waits for replacement. `normal` returns to Level 5 with the same guarded child restart. Unknown/typo commands make no mutation and should suggest the nearest valid command.
 
 Offline restore is stronger and requires explicit confirmation:
-
 ```bash
 ~/.awtsmoos-tunnel/awt restore 0 --confirm
 ```
-
 Never jump to reinstall/restore because a GPT OAuth/control session failed. A browser-tab tunnel in Awtsmoos Code is a separate fallback vessel.
 
 ## Failure-layer discipline
@@ -70,15 +74,12 @@ Never jump to reinstall/restore because a GPT OAuth/control session failed. A br
 - Recovery level left at 0 after debugging: use `awt normal` and verify Level 5.
 
 ## Install or refresh
-
 ```bash
 curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash
 ```
-
 ```powershell
 irm https://awtsmoos.com/api/tunnel/install/windows | iex
 ```
-
 The installer preserves an existing runtime configuration and tunnel identity. Do not delete `config.json` to force a restart.
 
 ## Required operating discipline

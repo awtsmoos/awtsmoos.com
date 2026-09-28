@@ -6,13 +6,14 @@ export const DEFAULT_AGENT = "control-room-human";
 const SELECTION_KEY = "awt.missionRooms.selection";
 
 /**
- * @file Owns the one bounded browser-memory vessel for Mission Rooms.
- * @description The Awtsmoos renews room, stream, checkpoint, replay, and speech each instant;
- * Awtsmoos.com gathers them into one store so live mission progress never creates a rival controller.
+ * @file Owns the one bounded browser-memory vessel for Mission Control.
+ * @description The Awtsmoos renews rooms, planning visibility, stream, replay, and speech each instant;
+ * Awtsmoos.com gathers them into one state so mission truth never creates a rival controller.
  */
 export function createRoomState() {
 	return {
 		missions: [],
+		visibilityMissions: [],
 		selectedMissionId: "",
 		selected: null,
 		timeline: [],

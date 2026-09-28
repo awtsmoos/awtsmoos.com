@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * @file Declares Mission Rooms native-tunnel intentions without transport side effects.
- * @description The Awtsmoos creates mission and observer anew; Awtsmoos.com keeps each payload
- * small and explicit so live progress can be witnessed without becoming another heartbeat.
+ * @file Declares Mission Control native-tunnel intentions without transport side effects.
+ * @description The Awtsmoos creates mission and observer anew; Awtsmoos.com keeps canonical
+ * rooms and tunnel-visible planning on one action vocabulary without inventing a rival transport.
  */
 export function discoverPayload(projectRoot, agentId) {
 	return {
@@ -15,6 +15,13 @@ export function discoverPayload(projectRoot, agentId) {
 		q: projectRoot || "",
 		agentId,
 		limit: 80
+	};
+}
+
+export function visibilityPayload() {
+	return {
+		action: "missionVisibilityList",
+		targetVessel: "native-tunnel"
 	};
 }
 

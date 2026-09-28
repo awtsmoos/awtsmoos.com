@@ -1,51 +1,78 @@
-// B"H // Boruch Hashem // Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 const { createStore } = require("./missionVisibility/store.js");
 
 /**
- * @file Tunnel actions for the mission visibility registry.
- * @description Agents register their work here instead of scattering
- * .ai-thoughts folders. missionVisibilityList returns ALL active missions
- * with full detailed descriptions: one call, instant situational awareness.
+ * @file Tunnel actions for durable mission visibility and three-pass operational planning.
+ * @description The Awtsmoos gathers scattered coordination into one visible mission board.
+ * Awtsmoos.com accepts finite planning artifacts here while canonical mission rooms remain the
+ * authority for live agents, heartbeats, claims, and human-to-agent messages.
  */
 function buildMissionVisibilityActions(context) {
 	const payload = { ...(context.payload || {}) };
-	const store = createStore();
-	const id = () => String(payload.id || payload.missionId || payload.missionVisibilityId || "").trim();
+	const store = createStore({ projectRoot: context.config?.root || context.root });
+	const visibilityId = () => String(payload.id || payload.missionVisibilityId || "").trim();
+	const record = () => {
+		const id = visibilityId();
+		if (id) return store.get(id);
+		return payload.missionId ? store.findByMissionId(payload.missionId) : null;
+	};
+
 	return {
 		async missionVisibilityRegister() {
 			const title = String(payload.title || "").trim();
 			const description = String(payload.description || "").trim();
-			if (!title) return { ok: false, action: "missionVisibilityRegister", error: "title_required" };
-			if (!description) return { ok: false, action: "missionVisibilityRegister", error: "description_required" };
+			if (!title) return fail("missionVisibilityRegister", "title_required");
+			if (!description) return fail("missionVisibilityRegister", "description_required");
 			try {
 				const mission = store.register(payload);
-				return { ok: true, action: "missionVisibilityRegister", id: mission.id, mission };
+				return success("missionVisibilityRegister", mission);
 			} catch (error) {
-				return { ok: false, action: "missionVisibilityRegister", error: error.code || "register_failed" };
+				return fail("missionVisibilityRegister", error.code || "register_failed");
 			}
 		},
 		async missionVisibilityUpdate() {
-			const mission = store.update(id(), payload);
-			if (!mission) return { ok: false, action: "missionVisibilityUpdate", error: "mission_not_found", id: id() };
-			return { ok: true, action: "missionVisibilityUpdate", id: mission.id, mission };
+			const current = record();
+			if (!current) return fail("missionVisibilityUpdate", "mission_not_found");
+			const mission = store.update(current.id, payload);
+			return success("missionVisibilityUpdate", mission);
+		},
+		async missionVisibilityPlanningPass() {
+			const current = record();
+			if (!current) return fail("missionVisibilityPlanningPass", "mission_not_found");
+			try {
+				const mission = store.submitPlanningPass(current.id, payload);
+				return { ...success("missionVisibilityPlanningPass", mission), planningProgress: mission.planningProgress };
+			} catch (error) {
+				return fail("missionVisibilityPlanningPass", error.code || "planning_pass_failed", current.id);
+			}
 		},
 		async missionVisibilityList() {
 			const missions = store.listActive();
-			return { ok: true, action: "missionVisibilityList", count: missions.length, missions,
-				guidance: "Each mission carries its full detailed description. Register new work with missionVisibilityRegister; update progress with missionVisibilityUpdate." };
+			return {
+				ok: true, action: "missionVisibilityList", count: missions.length, missions,
+				guidance: "Publish operational planning passes 1, 2, and 3 with missionVisibilityPlanningPass; canonical mission rooms own live messaging."
+			};
 		},
 		async missionVisibilityGet() {
-			const mission = store.get(id());
-			if (!mission) return { ok: false, action: "missionVisibilityGet", error: "mission_not_found", id: id() };
-			return { ok: true, action: "missionVisibilityGet", id: mission.id, mission };
+			const mission = record();
+			return mission ? success("missionVisibilityGet", mission) : fail("missionVisibilityGet", "mission_not_found");
 		},
 		async missionVisibilityArchive() {
-			const mission = store.archive(id());
-			if (!mission) return { ok: false, action: "missionVisibilityArchive", error: "mission_not_found", id: id() };
-			return { ok: true, action: "missionVisibilityArchive", id: mission.id, mission };
+			const current = record();
+			if (!current) return fail("missionVisibilityArchive", "mission_not_found");
+			return success("missionVisibilityArchive", store.archive(current.id));
 		}
 	};
+}
+
+function success(action, mission) {
+	return { ok: true, action, id: mission.id, mission };
+}
+function fail(action, error, id = "") {
+	return { ok: false, action, error, ...(id ? { id } : {}) };
 }
 
 module.exports = { buildMissionVisibilityActions };

@@ -1,35 +1,39 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 import { $ } from "../../ui/dom.js";
-import { discoverPayload, startPayload } from "./api.js";
+import { discoverPayload, startPayload, visibilityPayload } from "./api.js";
 import { setStatus } from "./render.js";
 import { agentId, projectRoot } from "./state.js";
 import { templateGoal } from "./templates.js";
+import { renderVisibilityBoard } from "./visibilityBoard.js";
 
 /**
- * The Awtsmoos renews browsing and creation through one lobby and one view.
- * Awtsmoos.com lets discovery update the canonical store, then Malchut show true,
- * so no direct renderer or parallel room-list path may secretly accrue.
+ * @file Discovers canonical live rooms and tunnel-visible planning through one lobby.
+ * @description The Awtsmoos reveals both execution and intent. Awtsmoos.com preserves canonical
+ * room authority while showing every active planning record and linking it to live agents when known.
  */
 export function createRoomLobby(context, callbacks = {}) {
 	const { state, store, api, view } = context;
 
 	async function discover(reason = "refresh") {
 		try {
-			const chochmahResult = await api(discoverPayload(
-				projectRoot(),
-				agentId()
-			));
-			state.lastResult = chochmahResult;
-			store.setMissions(chochmahResult.missions || []);
-			setStatus(
-				`Showing ${state.missions.length} available rooms (${reason}).`
-			);
+			const [rooms, visibility] = await Promise.allSettled([
+				api(discoverPayload(projectRoot(), agentId())),
+				api(visibilityPayload())
+			]);
+			const roomResult = rooms.status === "fulfilled" ? rooms.value : { missions: [] };
+			const visibilityResult = visibility.status === "fulfilled" ? visibility.value : { missions: [] };
+			if (rooms.status === "rejected" && visibility.status === "rejected") throw rooms.reason;
+			state.lastResult = { rooms: roomResult, visibility: visibilityResult };
+			store.setMissions(roomResult.missions || []);
+			state.visibilityMissions = visibilityResult.missions || [];
+			setStatus(`Showing ${state.missions.length} live rooms and ${state.visibilityMissions.length} active mission plans (${reason}).`);
 			view.list({ join: callbacks.join });
-			view.output(chochmahResult);
-			return chochmahResult;
+			renderVisibilityBoard(state, { join: callbacks.join });
+			view.output(state.lastResult);
+			return state.lastResult;
 		} catch (error) {
 			callbacks.onError?.(error);
 			throw error;
@@ -40,21 +44,15 @@ export function createRoomLobby(context, callbacks = {}) {
 		if (state.creatingRoom) return;
 		state.creatingRoom = true;
 		try {
-			const malchutGoal = $("newRoomGoal")?.value
+			const goal = $("newRoomGoal")?.value
 				|| templateGoal(state.selectedTemplate)
 				|| "New mission room";
-			const hodResult = await api(startPayload(
-				malchutGoal,
-				projectRoot(),
-				agentId()
-			));
-			const yesodMissionId = hodResult.missionId
-				|| hodResult.mission?.id
-				|| "";
-			setStatus(`Created room ${yesodMissionId}.`);
+			const result = await api(startPayload(goal, projectRoot(), agentId()));
+			const missionId = result.missionId || result.mission?.id || "";
+			setStatus(`Created room ${missionId}.`);
 			await discover("after-create");
-			if (yesodMissionId) await callbacks.join?.(yesodMissionId);
-			return hodResult;
+			if (missionId) await callbacks.join?.(missionId);
+			return result;
 		} catch (error) {
 			callbacks.onError?.(error);
 			return null;
@@ -63,8 +61,5 @@ export function createRoomLobby(context, callbacks = {}) {
 		}
 	}
 
-	return {
-		createRoom,
-		discover
-	};
+	return { createRoom, discover };
 }
