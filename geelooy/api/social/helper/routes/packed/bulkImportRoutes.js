@@ -350,7 +350,7 @@ class PackedBulkImportRoutes {
 		if (bad) return bad;
 		const auth = this.checkAuth();
 		if (auth) return auth;
-		const body = this.$i?.body || {};
+		const body = { ...(this.$i?.$_POST || {}), ...(this.$i?.body || {}) };
 		for (const k of ['kind', 'seriesId', 'postId', 'aliasId']) {
 			if (body[k] === undefined || body[k] === null || body[k] === '') {
 				const v = requestValue(this.$i, k);
