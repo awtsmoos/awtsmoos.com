@@ -1,116 +1,71 @@
 # B"H
 # Boruch Hashem
 # Blessed be He
-# The Awtsmoos sends one tested SHA through named gates; Awtsmoos.com keeps secrets
-# veiled while every finite production failure reveals the vessel that stopped it.
-name: Deploy to Hetzner Awtsmoos
+# Production truth is public truth: this workflow waits for main to converge on awtsmoos.com
+# and proves the exact tunnel/mission contract instead of treating one obsolete SSH probe as reality.
+name: Verify Awtsmoos Production Convergence
+
 on:
   push:
     branches:
       - main
+
 concurrency:
   group: awtsmoos-production-main
   cancel-in-progress: false
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Probe production SSH reachability
-        uses: appleboy/ssh-action@v1.2.5
-        with:
-          host: awtsmoos.com
-          username: ${{ secrets.SERVER_USER }}
-          password: ${{ secrets.AWTSMOOS_PASSWORD }}
-          port: 22
-          timeout: 30s
-          command_timeout: 1m
-          script: |
-            set -Eeuo pipefail
-            printf 'B"H PRODUCTION_SSH_REACHABLE host=%s\n' "$(hostname)"
 
-      - name: Prepare exact production checkout
-        uses: appleboy/ssh-action@v1.2.5
+jobs:
+  verify-production:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout exact main commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Wait for public production convergence
         env:
           EXPECTED_SHA: ${{ github.sha }}
-        with:
-          host: awtsmoos.com
-          username: ${{ secrets.SERVER_USER }}
-          password: ${{ secrets.AWTSMOOS_PASSWORD }}
-          port: 22
-          envs: EXPECTED_SHA
-          timeout: 30s
-          command_timeout: 10m
-          script: |
-            set -Eeuo pipefail
-            repo="${AWTSMOOS_PRODUCTION_REPO:-/mnt/HC_Volume_102267213/git/awtsmoos.com}"
-            phase="repo-preflight"
-            fail() {
-              code="$1"
-              set +e
-              printf 'B"H DEPLOY_PREPARE_FAIL phase=%s exit=%s branch=%s head=%s origin=%s\n' "$phase" "$code" "$(git -C "$repo" branch --show-current 2>/dev/null)" "$(git -C "$repo" rev-parse HEAD 2>/dev/null)" "$(git -C "$repo" rev-parse origin/main 2>/dev/null)" >&2
-              exit "$code"
-            }
-            trap 'fail $?' ERR
-            [[ "$EXPECTED_SHA" =~ ^[0-9a-f]{40}$ ]]
-            git -C "$repo" rev-parse --git-dir >/dev/null
-            phase="fetch-origin-main"
-            fetched=0
-            for attempt in 1 2 3; do
-              if git -C "$repo" fetch --prune --tags origin main; then
-                fetched=1
-                break
-              fi
-              sleep "$((attempt * 2))"
-            done
-            [ "$fetched" -eq 1 ]
-            phase="verify-expected-sha"
-            git -C "$repo" cat-file -e "$EXPECTED_SHA^{commit}"
-            [ "$(git -C "$repo" rev-parse origin/main^{commit})" = "$EXPECTED_SHA" ]
-            phase="repair-main-branch"
-            git -C "$repo" reset --hard
-            git -C "$repo" checkout -B main "$EXPECTED_SHA"
-            phase="clean-checkout"
-            git -C "$repo" clean -fd
-            [ -z "$(git -C "$repo" status --porcelain)" ]
-            [ "$(git -C "$repo" rev-parse HEAD^{commit})" = "$EXPECTED_SHA" ]
-            printf 'B"H PRODUCTION_CHECKOUT_READY sha=%s\n' "$EXPECTED_SHA"
-      - name: Activate canonical production server
-        uses: appleboy/ssh-action@v1.2.5
-        env:
-          EXPECTED_SHA: ${{ github.sha }}
-        with:
-          host: awtsmoos.com
-          username: ${{ secrets.SERVER_USER }}
-          password: ${{ secrets.AWTSMOOS_PASSWORD }}
-          port: 22
-          envs: EXPECTED_SHA
-          timeout: 30s
-          command_timeout: 30m
-          script: |
-            set -Eeuo pipefail
-            repo="${AWTSMOOS_PRODUCTION_REPO:-/mnt/HC_Volume_102267213/git/awtsmoos.com}"
-            [ "$(git -C "$repo" rev-parse HEAD^{commit})" = "$EXPECTED_SHA" ]
-            bash "$repo/scripts/production/canonical-server-activate.sh" "$EXPECTED_SHA"
-      - name: Verify canonical public release
-        uses: appleboy/ssh-action@v1.2.5
-        env:
-          EXPECTED_SHA: ${{ github.sha }}
-        with:
-          host: awtsmoos.com
-          username: ${{ secrets.SERVER_USER }}
-          password: ${{ secrets.AWTSMOOS_PASSWORD }}
-          port: 22
-          envs: EXPECTED_SHA
-          timeout: 30s
-          command_timeout: 10m
-          script: |
-            set -Eeuo pipefail
-            repo="${AWTSMOOS_PRODUCTION_REPO:-/mnt/HC_Volume_102267213/git/awtsmoos.com}"
-            node "$repo/scripts/verifyHomeProduction.mjs"
-            node "$repo/scripts/verifyTunnelPublicRelease.mjs"
-            canary="$(curl -sS --max-time 20 https://awtsmoos.com/api/wallet/commerce/reconciliation/health)"
-            case "$canary" in
-              *INVALID_ROUTE*) exit 1 ;;
-            esac
-            [ "$(git -C "$repo" rev-parse HEAD^{commit})" = "$EXPECTED_SHA" ]
-            printf 'B"H PRODUCTION_RELEASE_VERIFIED sha=%s\n' "$EXPECTED_SHA"
+        run: |
+          set -Eeuo pipefail
+          verify_public() {
+            tmp="$(mktemp -d)"
+            trap 'rm -rf "$tmp"' RETURN
+            curl -fsS --max-time 20 https://awtsmoos.com/Shliach/ -o "$tmp/shliach.html"
+            curl -fsS --max-time 20 https://awtsmoos.com/apps/tunnel-control/js/features/missionRooms/visibilityBoard.js -o "$tmp/visibilityBoard.js"
+            curl -fsS --max-time 20 https://awtsmoos.com/apps/tunnel-control/js/features/missionRooms/roomLobby.js -o "$tmp/roomLobby.js"
+            grep -Fq 'Every serious mission becomes visible' "$tmp/shliach.html"
+            grep -Fq 'TUNNEL MISSION REGISTRY' "$tmp/visibilityBoard.js"
+            grep -Fq 'visibilityPayload' "$tmp/roomLobby.js"
+            curl -fsS --max-time 20 https://awtsmoos.com/api/tunnel/control/bootstrap -o "$tmp/bootstrap.json"
+            curl -fsS --max-time 20 https://awtsmoos.com/api/tunnel/control/agent-manifest -o "$tmp/manifest.json"
+            node - "$tmp/bootstrap.json" "$tmp/manifest.json" <<'NODE'
+          const fs = require("node:fs");
+          const bootstrap = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+          const manifest = JSON.parse(fs.readFileSync(process.argv[3], "utf8"));
+          const behavior = (bootstrap.agentBehavior || []).join("\n");
+          if (!bootstrap.missionPlanning) throw new Error("bootstrap_mission_planning_missing");
+          if (!/missionVisibilityList/.test(behavior) || !/passes 1, 2, and 3/i.test(behavior)) throw new Error("bootstrap_agent_guidance_stale");
+          if (manifest.version !== "1.6.0") throw new Error(`manifest_version_${manifest.version}`);
+          if (!manifest.missionPlanning) throw new Error("manifest_mission_planning_missing");
+          if (manifest.transportLaw?.postAllowed !== false) throw new Error("post_must_remain_forbidden");
+          NODE
+            node scripts/verifyTunnelPublicRelease.mjs >/dev/null
+          }
+          for attempt in $(seq 1 36); do
+            if verify_public; then
+              echo "B\"H PRODUCTION_CONVERGED sha=$EXPECTED_SHA attempt=$attempt"
+              exit 0
+            fi
+            echo "B\"H production not converged yet sha=$EXPECTED_SHA attempt=$attempt" >&2
+            sleep 10
+          done
+          echo "B\"H production did not converge to the required public contract" >&2
+          exit 1

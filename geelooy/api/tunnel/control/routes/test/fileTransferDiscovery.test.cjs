@@ -8,18 +8,21 @@ const { manifestBody } = require("../agentManifest.js");
 const { agentBehavior } = require("../bootstrap.js");
 
 /**
- * @file Proves external agents without WebSockets remain first-class transfer clients.
- * @description The Awtsmoos gives the wide and narrow road one destination; Awtsmoos.com
- * must never make WebSocket support mandatory when resumable HTTPS GET remains available.
+ * @file Proves external agents remain first-class with or without WebSockets and see mission law.
+ * @description The Awtsmoos gives wide and narrow transfer roads one destination while
+ * Awtsmoos.com makes visible three-pass coordination part of the same machine contract.
  */
-test("manifest makes WebSocket recommended rather than required", () => {
+test("manifest keeps WebSocket optional and publishes mission planning", () => {
 	const manifest = manifestBody();
-	assert.equal(manifest.version, "1.5.0");
+	assert.equal(manifest.version, "1.6.0");
 	assert.equal(manifest.requiredBaseCapabilities.includes("WebSocket tunnel actions"), false);
 	assert.equal(manifest.recommendedCapabilities.includes("WebSocket tunnel actions"), true);
 	assert.deepEqual(manifest.transportLaw.dataTransports, ["websocket", "https-get"]);
 	assert.equal(manifest.transportLaw.fallbackDataTransport, "https-get");
 	assert.equal(manifest.transportLaw.postAllowed, false);
+	assert.deepEqual(manifest.missionPlanning.passes, [1, 2, 3]);
+	assert.equal(manifest.missionPlanning.listAction, "missionVisibilityList");
+	assert.equal(manifest.missionPlanning.directMessageAction, "missionAgentMessage");
 });
 
 test("manifest publishes exact GET transfer endpoint and conservative limits", () => {
@@ -31,10 +34,13 @@ test("manifest publishes exact GET transfer endpoint and conservative limits", (
 	assert.equal(transfer.postAllowed, false);
 });
 
-test("bootstrap tells no-WebSocket agents to use GET and never POST", () => {
+test("bootstrap teaches GET fallback and visible three-pass work", () => {
 	const text = agentBehavior().join("\n");
 	assert.match(text, /Without WebSockets use GET/);
 	assert.match(text, /4096 raw bytes/);
 	assert.match(text, /share transferId\/manifests/);
+	assert.match(text, /missionVisibilityList/);
+	assert.match(text, /planning passes 1, 2, and 3/);
+	assert.match(text, /missionAgentMessage/);
 	assert.match(text, /Never use POST/);
 });

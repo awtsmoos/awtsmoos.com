@@ -7,12 +7,13 @@ const { json } = require("../core/respond.js");
 const { publicationSourceLimits } = require("../../../../sites/hostedFolderManifestLimits.js");
 const { externalAgentFlow } = require("./agentFlow.js");
 const { headlessDeviceFlow } = require("./deviceFlow.js");
+const { missionPlanningBody } = require("./agentMissionPlanning.js");
 const Operations = require("./agentOperationCatalog.js");
 
 /**
- * @file Machine-readable external-agent covenant for OAuth, routing, and huge-file transfer.
+ * @file Machine-readable external-agent covenant for OAuth, routing, mission planning, and transfer.
  * @description The Awtsmoos gives every agent a usable road even without WebSockets;
- * Awtsmoos.com prefers the wide socket river yet keeps a complete resumable HTTPS-GET path.
+ * Awtsmoos.com publishes visible coordination law so fresh agents do not work in private silos.
  */
 const REQUIRED_BASE_CAPABILITIES = Object.freeze([
 	"HTTPS GET requests",
@@ -38,7 +39,7 @@ function manifestBody() {
 	return {
 		BH: "B\"H", ok: true,
 		name: "Awtsmoos External AI Agent Manifest",
-		version: "1.5.0",
+		version: "1.6.0",
 		protocol: "awtsmoos-external-agent-v1",
 		recommendedClientId: oauth.recommendedClientId,
 		requiredClientCapabilities: REQUIRED_CALLBACK_CAPABILITIES,
@@ -47,6 +48,7 @@ function manifestBody() {
 		authorizationModes: authorizationModes(),
 		oauth: oauthBody(),
 		transportLaw: transportLaw(),
+		missionPlanning: missionPlanningBody(),
 		largeFileTransfer: transferBody(),
 		credentials: credentialBody(),
 		tunnelDiscovery: tunnelDiscovery(),
@@ -104,4 +106,4 @@ function tunnelDiscovery() {
 	return { url: agentLinks.myDevice, selection: "Use routeReference when present; otherwise use tunnelId.", actionField: "Pass that immutable ID in the action schema field named tunnelName." };
 }
 async function agentManifest($i) { return json($i, manifestBody()); }
-module.exports = { agentManifest, authorizationModes, manifestBody };
+module.exports = { agentManifest, authorizationModes, manifestBody, missionPlanningBody };
