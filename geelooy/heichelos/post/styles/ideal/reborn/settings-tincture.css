@@ -1,45 +1,50 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- * The Awtsmoos lets color enter a hidden chamber without spilling into the simple reader floor;
- * Awtsmoos.com gives tincture layout and its mobile contraction one owner and no more.
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets color enter the reader as a measured tincture, not a cascade flood;
+ * Awtsmoos.com keeps every ink vessel here, responsive through shared variables and free of forced rule-blood.
  */
 .post-reader-localized-context .reader-advanced-content {
 	display: grid;
-	gap: 12px;
-	padding: 0 14px 14px;
-	border-top: 1px solid rgba(255, 255, 255, .08);
+	gap: .75rem;
+	padding: 0 .9rem .9rem;
+	border-top: 1px solid rgb(255 255 255 / 8%);
 }
 
 .post-reader-localized-context .reader-advanced-content > .control-label {
-	padding-top: 14px;
+	padding-top: .9rem;
 }
 
 .post-reader-localized-context .color-picker-grid {
-	display: grid !important;
-	grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-	gap: 10px !important;
+	display: grid;
+	grid-template-columns: var(--scribe-color-columns, repeat(2, minmax(0, 1fr)));
+	gap: .65rem;
 }
 
 .post-reader-localized-context .color-control {
-	display: grid !important;
-	gap: 6px !important;
+	display: grid;
+	gap: .4rem;
 	min-inline-size: 0;
 }
 
 .post-reader-localized-context .color-control label {
-	color: var(--inline-text-blue, #cbd5e1) !important;
-	font: 800 .82rem/1 var(--font-ui) !important;
+	color: var(--inline-text-blue, #cbd5e1);
+	font: 800 .82rem/1 var(--font-ui, system-ui);
 }
 
 .post-reader-localized-context input[type="color"].ink-pot {
-	padding: 4px !important;
-	overflow: hidden !important;
+	inline-size: 100%;
+	min-block-size: 44px;
+	padding: .3rem;
+	overflow: hidden;
+	border: 1px solid rgb(127 232 255 / 20%);
+	border-radius: .85rem;
+	background: rgb(7 18 33 / 72%);
 	cursor: pointer;
 }
 
-@media (max-width: 520px) {
-	.post-reader-localized-context .color-picker-grid {
-		grid-template-columns: 1fr !important;
-	}
+.post-reader-localized-context input[type="color"].ink-pot:focus-visible {
+	outline: 3px solid rgb(127 232 255 / 80%);
+	outline-offset: 2px;
 }

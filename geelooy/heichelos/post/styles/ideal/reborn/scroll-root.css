@@ -1,69 +1,53 @@
-/* B"H
- * Chapter 300 refined: natural page scroll, unique selector ownership.
- * The repaired class scopes this covenant so main.css may import it without
- * fighting shell/mobile modules. The browser remains the primary river.
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets the reader river choose one measurable vessel and one geometry true;
+ * Awtsmoos.com keeps width, padding, containment, and scroll behavior here so no second owner breaks through.
  */
-
-html.awtsmoos-reader-scroll-repaired,
-body.awtsmoos-reader-scroll-repaired {
-    width: 100% !important;
-    min-height: 100% !important;
-    height: auto !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-    overscroll-behavior-y: auto !important;
-    touch-action: pan-y !important;
+.post-reader-localized-context {
+	min-block-size: 100dvh;
+	overflow-x: clip;
 }
 
-html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-reader-vision {
-    position: relative !important;
-    inset: auto !important;
-    width: 100% !important;
-    min-height: 100dvh !important;
-    height: auto !important;
-    max-height: none !important;
-    display: block !important;
-    overflow-x: clip !important;
-    overflow-y: visible !important;
-    isolation: isolate !important;
-    touch-action: pan-y !important;
+.post-reader-localized-context .main {
+	position: relative;
+	inline-size: 100%;
+	min-inline-size: 0;
 }
 
-html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-reader-vision > .main {
-    position: static !important;
-    display: block !important;
-    width: 100% !important;
-    min-height: calc(100dvh - var(--awt-header-space, 0px)) !important;
-    height: auto !important;
-    max-height: none !important;
-    overflow-x: clip !important;
-    overflow-y: visible !important;
-    touch-action: pan-y !important;
+.post-reader-localized-context .scroll-view-wrapper {
+	position: relative;
+	z-index: var(--z-reader);
+	inline-size: 100%;
+	min-inline-size: 0;
+	min-block-size: 100dvh;
+	height: auto;
+	max-block-size: none;
+	padding: 1rem clamp(.75rem, 4vw, 1.5rem) calc(var(--awt-reader-bottom-space) + 2rem);
+	overflow-x: clip;
+	overflow-y: visible;
+	overscroll-behavior-y: auto;
+	-webkit-overflow-scrolling: touch;
+	scroll-behavior: auto;
+	touch-action: pan-y;
+	transform: translateZ(0);
 }
 
-html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper {
-    position: relative !important;
-    width: 100% !important;
-    min-height: calc(100dvh - var(--awt-header-space, 0px)) !important;
-    height: auto !important;
-    max-height: none !important;
-    overflow-x: clip !important;
-    overflow-y: visible !important;
-    overscroll-behavior-y: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    scroll-behavior: auto !important;
-    touch-action: pan-y !important;
+.post-reader-localized-context .content {
+	position: relative;
+	inline-size: min(100%, 72rem);
+	min-inline-size: 0;
+	margin-inline: auto;
 }
 
-html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-reader-vision #realPost.content,
-html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-reader-vision #virtual-scroll-container {
-    min-height: 0 !important;
-    height: auto !important;
-    max-height: none !important;
-    overflow: visible !important;
-    touch-action: pan-y !important;
+.post-reader-localized-context #realPost {
+	min-inline-size: 0;
+	contain: layout style;
 }
 
-html.awtsmoos-reader-scroll-repaired .post-reader-localized-context.awtsmoos-reader-vision .sidebar:not(.fullscreen-mode) {
-    max-height: calc(100dvh - 1rem) !important;
+@media (min-width: 56.3125rem) {
+	.post-reader-localized-context .scroll-view-wrapper {
+		padding-inline: clamp(2rem, 7vw, 8rem);
+	}
 }

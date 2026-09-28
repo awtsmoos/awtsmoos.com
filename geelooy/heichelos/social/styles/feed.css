@@ -1,47 +1,48 @@
 /* B"H */
-/** The Awtsmoos lets each feed revelation stand luminous without escaping the local social root. */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets each social revelation hover like light in a finite card;
+ * Awtsmoos.com makes focus, touch, and motion intense yet legible, never loud without regard.
+ */
 .awtsmoos-social-root :where(.awt-feed, .awt-feed-list) {
 	display: grid;
-	gap: .75rem;
+	gap: 1rem;
 	min-inline-size: 0;
 }
 
 .awtsmoos-social-root :where(.awt-card, .awt-post-card) {
 	position: relative;
+	isolation: isolate;
 	min-inline-size: 0;
 	max-inline-size: 100%;
 	padding: 1rem;
 	overflow: clip;
 	border: 1px solid var(--awt-border);
 	border-radius: var(--awt-radius-lg);
-	background: linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.025));
+	background: var(--awt-glass);
 	box-shadow: var(--awt-shadow-brutal);
+	backdrop-filter: blur(24px) saturate(145%);
 	transform-style: preserve-3d;
-	transition:
-		transform 160ms cubic-bezier(.2,.8,.2,1),
-		border-color 180ms ease,
-		box-shadow 180ms ease;
+	transition: transform var(--awt-motion-fast), border-color var(--awt-motion), box-shadow var(--awt-motion), background var(--awt-motion);
 }
 
 .awtsmoos-social-root :where(.awt-card, .awt-post-card)::before {
 	position: absolute;
+	z-index: -1;
 	inset: 0;
 	pointer-events: none;
 	content: "";
-	background: linear-gradient(90deg, rgba(69,183,176,.12), transparent 38%, rgba(215,179,90,.1));
-	opacity: .42;
+	background:
+		radial-gradient(circle at 10% 0%, rgb(114 232 255 / 12%), transparent 30%),
+		linear-gradient(110deg, rgb(157 140 255 / 8%), transparent 44%, rgb(247 201 111 / 7%));
+	opacity: .66;
+	transition: opacity var(--awt-motion), transform var(--awt-motion);
 }
 
-@media (hover: hover) and (pointer: fine) {
-	.awtsmoos-social-root :where(.awt-card, .awt-post-card):hover {
-		border-color: rgba(69,183,176,.38);
-		box-shadow: 0 1rem 2.5rem rgba(0,0,0,.24);
-		transform: translateY(-2px);
-	}
-}
-
-.awtsmoos-social-root :where(.awt-card, .awt-post-card):active {
-	transform: scale(.995);
+.awtsmoos-social-root :where(.awt-card, .awt-post-card):focus-within {
+	border-color: var(--awt-border-hot);
+	box-shadow: var(--awt-shadow-hot);
 }
 
 .awtsmoos-social-root :where(.awt-card-head, .awt-card-actions) {
@@ -59,13 +60,16 @@
 	background: var(--awt-gradient-brutal);
 	-webkit-background-clip: text;
 	color: transparent;
-	font-size: clamp(1.2rem, 5vw, 2rem);
+	font-size: clamp(1.25rem, 5vw, 2rem);
+	line-height: 1.08;
+	text-wrap: balance;
 }
 
-.awtsmoos-social-root .awt-post-summary {
-	overflow-wrap: anywhere;
+.awtsmoos-social-root .awt-post-summary,
+.awtsmoos-social-root .awt-card p,
+.awtsmoos-social-root .awt-empty-state {
 	color: var(--awt-muted);
-	line-height: 1.65;
+	line-height: 1.62;
 }
 
 .awtsmoos-social-root .awt-stat-row {
@@ -84,14 +88,28 @@
 .awtsmoos-social-root .awt-card p {
 	margin: 0 0 .75rem;
 	overflow-wrap: anywhere;
-	color: var(--awt-muted);
-	line-height: 1.55;
 }
 
-.awtsmoos-social-root .awt-empty-state {
-	color: var(--awt-muted);
+@media (hover: hover) and (pointer: fine) {
+	.awtsmoos-social-root :where(.awt-card, .awt-post-card):hover {
+		border-color: var(--awt-border-hot);
+		box-shadow: var(--awt-shadow-hot);
+		transform: translateY(-4px) perspective(900px) rotateX(.35deg);
+	}
+
+	.awtsmoos-social-root :where(.awt-card, .awt-post-card):hover::before {
+		opacity: 1;
+		transform: translate3d(.3rem, -.2rem, 0) scale(1.03);
+	}
+}
+
+.awtsmoos-social-root :where(.awt-card, .awt-post-card):active {
+	transform: translateY(1px) scale(.992);
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.awtsmoos-social-root :where(.awt-card, .awt-post-card) { transition: none; }
+	.awtsmoos-social-root :where(.awt-card, .awt-post-card),
+	.awtsmoos-social-root :where(.awt-card, .awt-post-card)::before {
+		transition-duration: .01ms;
+	}
 }

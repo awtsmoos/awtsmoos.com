@@ -1,0 +1,83 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lends each reader control one luminous body and one honest response to hand and key;
+ * Awtsmoos.com keeps the orb's own geometry here while the rail merely tells the group where to be.
+ */
+.post-reader-localized-context .awtsmoos-floating-controls button,
+.post-reader-localized-context .awtsmoos-auto-scroll-floating {
+	border: 1px solid rgb(127 232 255 / 24%);
+	background: linear-gradient(155deg, rgb(14 31 53 / 92%), rgb(5 13 27 / 94%));
+	color: var(--reader-text, #f8fbff);
+	box-shadow: 0 1rem 2.7rem rgb(0 0 0 / 34%), inset 0 1px 0 rgb(255 255 255 / 10%);
+	backdrop-filter: blur(22px) saturate(150%);
+	font-family: var(--font-ui, system-ui);
+	font-weight: 900;
+	line-height: 1;
+	touch-action: manipulation;
+	cursor: pointer;
+	transition: transform var(--reader-motion, 180ms ease), border-color var(--reader-motion, 180ms ease), box-shadow var(--reader-motion, 180ms ease), background var(--reader-motion, 180ms ease), opacity var(--reader-motion, 180ms ease);
+}
+
+.post-reader-localized-context .awtsmoos-floating-controls button {
+	display: inline-grid;
+	place-items: center;
+	inline-size: 3.25rem;
+	block-size: 3.25rem;
+	padding: 0;
+	border-radius: 1rem;
+	font-size: 1.2rem;
+	pointer-events: auto;
+}
+
+.post-reader-localized-context .awtsmoos-auto-scroll-floating {
+	position: fixed;
+	inset-inline-end: var(--reader-safe-right, 12px);
+	inset-block-end: calc(var(--reader-safe-bottom, 12px) + .2rem);
+	z-index: var(--reader-layer-controls, 3010);
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: .16rem;
+	inline-size: 4.75rem;
+	min-block-size: 4.75rem;
+	padding: .55rem;
+	border-radius: 999px;
+	background:
+		radial-gradient(circle at 32% 18%, rgb(129 255 226 / 84%), transparent 22%),
+		linear-gradient(145deg, #17b994, #075f6f 75%);
+	color: white;
+	text-align: center;
+}
+
+.post-reader-localized-context .awtsmoos-auto-scroll-floating .awtsmoos-auto-scroll-icon {
+	font-size: 1.15rem;
+}
+
+.post-reader-localized-context .awtsmoos-auto-scroll-floating .awtsmoos-auto-scroll-label,
+.post-reader-localized-context .awtsmoos-auto-scroll-floating .awtsmoos-auto-scroll-speed {
+	display: block;
+	font-size: .66rem;
+	line-height: 1.05;
+	font-variant-numeric: tabular-nums;
+}
+
+.post-reader-localized-context :where(.awtsmoos-floating-controls button, .awtsmoos-auto-scroll-floating):focus-visible {
+	outline: 3px solid rgb(127 232 255 / 82%);
+	outline-offset: 3px;
+	box-shadow: 0 0 0 6px rgb(127 232 255 / 14%), 0 1rem 2.7rem rgb(0 0 0 / 34%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.post-reader-localized-context :where(.awtsmoos-floating-controls button, .awtsmoos-auto-scroll-floating):hover {
+		transform: translateY(-2px) scale(1.025);
+		border-color: var(--reader-line-hot, rgb(127 232 255 / 58%));
+		box-shadow: 0 1.25rem 3rem rgb(0 0 0 / 38%), 0 0 1.8rem rgb(127 232 255 / 10%);
+	}
+}
+
+.post-reader-localized-context :where(.awtsmoos-floating-controls button, .awtsmoos-auto-scroll-floating):active {
+	transform: translateY(1px) scale(.97);
+}

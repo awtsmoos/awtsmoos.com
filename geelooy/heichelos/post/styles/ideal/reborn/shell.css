@@ -2,8 +2,8 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos breathes through one bounded reader shell, renewed from nothing with measured grace;
- * Awtsmoos.com gives viewport truth one owner so safe areas, scroll, and Torah share a faithful place.
+ * The Awtsmoos renews one reader shell while every inner vessel keeps its own shore;
+ * Awtsmoos.com holds safe areas, header, and page frame here so scroll geometry wars no more.
  */
 .all.post-reader-localized-context.awtsmoos-reader-vision {
 	--reader-safe-top: env(safe-area-inset-top, 0px);
@@ -12,81 +12,53 @@
 	--reader-safe-left: env(safe-area-inset-left, 0px);
 	--reader-panel-gutter: clamp(10px, 3vw, 18px);
 	--reader-touch-target: 44px;
-	position: relative !important;
-	display: block !important;
-	box-sizing: border-box !important;
-	inline-size: 100% !important;
-	max-inline-size: 100% !important;
-	min-block-size: 100dvh !important;
-	block-size: auto !important;
-	max-block-size: none !important;
-	margin: 0 !important;
-	overflow-x: clip !important;
-	overflow-y: auto !important;
+	position: relative;
+	display: block;
+	box-sizing: border-box;
+	inline-size: 100%;
+	max-inline-size: 100%;
+	min-block-size: 100dvh;
+	block-size: auto;
+	max-block-size: none;
+	margin: 0;
+	overflow-x: clip;
+	overflow-y: auto;
 	background:
 		radial-gradient(circle at 78% 0%, rgb(244 197 107 / 16%), transparent 25rem),
 		radial-gradient(circle at 8% 12%, rgb(57 215 238 / 10%), transparent 22rem),
-		linear-gradient(180deg, #060a12, #0b1020 38%, #050810) !important;
-	color: var(--awt-text) !important;
-	font-family: var(--font-ui) !important;
-	-webkit-font-smoothing: antialiased !important;
-	isolation: isolate !important;
-	touch-action: pan-y !important;
+		linear-gradient(180deg, #060a12, #0b1020 38%, #050810);
+	color: var(--awt-text);
+	font-family: var(--font-ui);
+	-webkit-font-smoothing: antialiased;
+	isolation: isolate;
+	touch-action: pan-y;
 }
 
 .post-reader-localized-context > .awtsmoos-integrated-header {
-	position: sticky !important;
-	z-index: var(--z-header) !important;
-	top: 0 !important;
-	min-block-size: var(--awt-header-space) !important;
-	overflow: clip !important;
-	backdrop-filter: blur(14px) saturate(125%) !important;
-}
-
-.post-reader-localized-context > .main,
-.post-reader-localized-context .scroll-view-wrapper {
-	inline-size: 100% !important;
-	max-inline-size: 100% !important;
-	min-block-size: calc(100dvh - var(--awt-header-space)) !important;
-	block-size: auto !important;
-	max-block-size: none !important;
-	overflow-x: clip !important;
-	overflow-y: visible !important;
-	touch-action: pan-y !important;
+	position: sticky;
+	z-index: var(--z-header);
+	top: 0;
+	min-block-size: var(--awt-header-space);
+	overflow: clip;
+	backdrop-filter: blur(14px) saturate(125%);
 }
 
 .post-reader-localized-context > .main {
-	position: static !important;
-	display: block !important;
-	padding-block-end: calc(var(--awt-reader-bottom-space) + var(--awt-safe-bottom)) !important;
-}
-
-.post-reader-localized-context .scroll-view-wrapper {
-	position: relative !important;
-	z-index: var(--z-reader) !important;
-	padding: 1rem clamp(.75rem, 4vw, 1.5rem) calc(var(--awt-reader-bottom-space) + 2rem) !important;
-	transform: translateZ(0) !important;
-}
-
-.post-reader-localized-context #realPost.content {
-	display: block !important;
-	inline-size: 100% !important;
-	max-inline-size: 920px !important;
-	min-block-size: 125dvh !important;
-	block-size: auto !important;
-	margin-inline: auto !important;
-	overflow-x: clip !important;
-	overflow-y: visible !important;
-}
-
-@media (min-width: 56.3125rem) {
-	.post-reader-localized-context .scroll-view-wrapper {
-		padding-inline: clamp(2rem, 7vw, 8rem) !important;
-	}
+	position: static;
+	display: block;
+	inline-size: 100%;
+	max-inline-size: 100%;
+	min-block-size: calc(100dvh - var(--awt-header-space));
+	block-size: auto;
+	max-block-size: none;
+	padding-block-end: calc(var(--awt-reader-bottom-space) + var(--awt-safe-bottom));
+	overflow-x: clip;
+	overflow-y: visible;
+	touch-action: pan-y;
 }
 
 @media (prefers-reduced-motion: reduce) {
 	.post-reader-localized-context {
-		scroll-behavior: auto !important;
+		scroll-behavior: auto;
 	}
 }

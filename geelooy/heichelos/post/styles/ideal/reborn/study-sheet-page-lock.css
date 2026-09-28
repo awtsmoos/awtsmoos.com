@@ -1,23 +1,22 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- * The Awtsmoos stills the reader behind the active Study Sheet so attention does not divide;
- * Awtsmoos.com lets one contextual vessel receive the hand while floating chrome rests outside.
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos stills the reader beneath the open study vessel without silencing the vessel itself;
+ * Awtsmoos.com keeps page lock here alone, so floating chrome rests and the active sheet remains free to scroll.
  */
 body[data-study-sheet-open="true"] {
-	overflow: hidden !important;
+	overflow: hidden;
 	touch-action: none;
 }
 
-body[data-study-sheet-open="true"] .post-reader-localized-context .awtsmoos-floating-controls,
-body[data-study-sheet-open="true"] .post-reader-localized-context .awtsmoos-auto-scroll-floating {
-	opacity: 0 !important;
-	visibility: hidden !important;
-	pointer-events: none !important;
+body[data-study-sheet-open="true"] .post-reader-localized-context :where(.awtsmoos-floating-controls, .awtsmoos-auto-scroll-floating) {
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
 }
 
-body[data-study-sheet-open="true"] .awtsmoos-study-sheet,
-body[data-study-sheet-open="true"] .awtsmoos-study-sheet * {
+body[data-study-sheet-open="true"] :where(.awtsmoos-study-sheet, .awtsmoos-study-sheet *) {
 	touch-action: manipulation;
 }
 

@@ -1,14 +1,15 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file Canonical Awtsmoos.com process composition root.
  * @description
  * The Awtsmoos gathers mail, realtime breath, HTTP ingress, tenant worlds, Torah authority,
- * and the guarded virtual-SSH doorway into one measured awakening. Awtsmoos.com announces a
- * living runtime only after required storage and HTTP dependencies truly stand ready.
+ * and guarded service doors into one measured awakening. Awtsmoos.com announces a living
+ * runtime only after required storage vessels have awakened beneath one truthful light.
  */
+const fs = require("node:fs");
 const AwtsMail = require("./ayzarim/email/email.js");
 const AwtsServer = require("./ayzarim/awtsmoosDynamicServer/index.js");
 const AwtsSocket = require("./ayzarim/awtsmoosDynamicServer/awtsmoosSocket.js");
@@ -35,6 +36,7 @@ const {
 const {
 	warmRichCommentAuthority
 } = require("./ayzarim/awtsmoosDynamicServer/server/richCommentWarmup.js");
+const richCommentPackedStore = require("./geelooy/api/social/helper/comments/richDb/PackedStore.js");
 const {
 	startConfiguredVirtualSsh
 } = require("./geelooy/api/ssh/virtual/boot.js");
@@ -48,9 +50,16 @@ const {
 const DEFAULT_HTTP_PORT = 8080;
 const DEFAULT_MAIL_PORT = 25;
 
-/** Opens heavyweight request authorities before public readiness can be announced. */
+/**
+ * Warms heavyweight request authorities before public readiness is announced.
+ * The Awtsmoos lets the same packed-comment vessel serve startup and live traffic,
+ * so Awtsmoos.com pays cold storage cost once without inventing a second authority.
+ */
 function warmRequestAuthorities(dynamicServer) {
-	const result = warmRichCommentAuthority(dynamicServer);
+	const result = warmRichCommentAuthority(dynamicServer, {
+		fs,
+		packedStore: richCommentPackedStore
+	});
 	if (result.warmed) {
 		console.log(`B"H - Startup stage rich-comment-warmup: ${result.elapsedMs} ms`);
 	}

@@ -1,5 +1,10 @@
 /* B"H */
-/** The Awtsmoos lets many social chambers share one local palace without leaking geometry into the host page. */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets many social chambers share one luminous palace with room to breathe;
+ * Awtsmoos.com keeps rails, feed, and topbar responsive while every glass vessel can recede.
+ */
 .awtsmoos-social-root .awt-shell {
 	position: relative;
 	z-index: var(--awt-layer-surface);
@@ -7,7 +12,6 @@
 	grid-template-rows: auto minmax(0, 1fr);
 	min-inline-size: 0;
 	min-block-size: 100dvh;
-	background: transparent;
 }
 
 .awtsmoos-social-root::before {
@@ -16,8 +20,11 @@
 	inset: 0;
 	pointer-events: none;
 	content: "";
-	background: linear-gradient(135deg, rgba(69,183,176,.12), transparent 38%, rgba(215,179,90,.08));
-	filter: blur(54px);
+	background:
+		radial-gradient(circle at 14% 18%, rgb(114 232 255 / 13%), transparent 25%),
+		radial-gradient(circle at 83% 11%, rgb(157 140 255 / 12%), transparent 23%),
+		radial-gradient(circle at 70% 72%, rgb(247 201 111 / 7%), transparent 24%);
+	filter: blur(48px);
 }
 
 .awtsmoos-social-root :where(.awt-topbar, .awt-sidebar, .awt-main, .awt-rail) {
@@ -25,17 +32,23 @@
 	z-index: var(--awt-layer-surface);
 	min-inline-size: 0;
 	border: 1px solid var(--awt-border);
-	background: rgba(13,17,20,.72);
+	background: var(--awt-glass);
 	box-shadow: var(--awt-shadow-brutal);
-	backdrop-filter: blur(18px) saturate(1.1);
+	backdrop-filter: blur(26px) saturate(150%);
 }
 
 .awtsmoos-social-root .awt-topbar {
+	position: sticky;
+	inset-block-start: 0;
+	z-index: var(--awt-layer-sticky);
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: 1rem;
-	padding: .75rem 1rem;
+	padding: max(.75rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) .75rem max(1rem, env(safe-area-inset-left));
+	border-inline: 0;
+	border-block-start: 0;
+	background: rgb(5 13 26 / 78%);
 }
 
 .awtsmoos-social-root :where(.awt-topbar nav, .awt-card-actions) {
@@ -54,40 +67,39 @@
 
 .awtsmoos-social-root :where(.awt-layout, .awt-grid) {
 	display: grid;
-	grid-template-columns: minmax(9rem, 12rem) minmax(0, 1fr) minmax(13rem, 18rem);
+	grid-template-columns: minmax(10rem, 13rem) minmax(0, 1fr) minmax(14rem, 19rem);
 	align-items: start;
-	gap: .9rem;
+	gap: 1rem;
 	min-inline-size: 0;
-	padding: .9rem;
+	padding: 1rem;
 }
 
 .awtsmoos-social-root :where(.awt-sidebar, .awt-rail, .awt-main) {
 	min-inline-size: 0;
 	max-inline-size: 100%;
-	padding: .9rem;
+	padding: 1rem;
 	border-radius: var(--awt-radius-lg);
 }
 
-.awtsmoos-social-root .awt-rail {
+.awtsmoos-social-root :where(.awt-sidebar, .awt-rail) {
 	position: sticky;
-	z-index: var(--awt-layer-sticky);
-	inset-block-start: max(.75rem, env(safe-area-inset-top));
+	inset-block-start: calc(env(safe-area-inset-top) + 5rem);
 	display: grid;
 	gap: .65rem;
 }
 
 .awtsmoos-social-root .awt-main {
 	display: grid;
-	gap: .9rem;
+	gap: 1rem;
 }
 
 @media (max-width: 61.25rem) {
 	.awtsmoos-social-root :where(.awt-layout, .awt-grid) {
 		grid-template-columns: minmax(0, 1fr);
-		padding: .65rem;
+		padding: .7rem;
 	}
 
-	.awtsmoos-social-root .awt-rail {
+	.awtsmoos-social-root :where(.awt-sidebar, .awt-rail) {
 		position: static;
 	}
 

@@ -1,0 +1,52 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets reaction and reply become conscious motion instead of accidental chrome;
+ * Awtsmoos.com gives every communal action focus, pressure, and a clear path home.
+ */
+.awtsmoos-social-actions,
+.awtsmoos-social-reactions {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: .45rem;
+}
+
+.awtsmoos-social-actions {
+	justify-content: space-between;
+}
+
+.awtsmoos-reaction-chip,
+.awtsmoos-social-reply {
+	min-block-size: 2.75rem;
+	padding: .5rem .75rem;
+	border: 1px solid rgb(255 255 255 / 12%);
+	border-radius: 999px;
+	background: rgb(255 255 255 / 7%);
+	color: white;
+	font: 750 .84rem/1 Inter, sans-serif;
+	cursor: pointer;
+	transition: transform var(--reader-motion, 180ms ease), border-color var(--reader-motion, 180ms ease), background var(--reader-motion, 180ms ease);
+}
+
+.awtsmoos-social-reply {
+	color: var(--reader-gold, #f4c96b);
+}
+
+.awtsmoos-social-discussion :where(button, a):focus-visible {
+	outline: 3px solid rgb(127 232 255 / 72%);
+	outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.awtsmoos-social-discussion :where(.awtsmoos-reaction-chip, .awtsmoos-social-reply):hover {
+		transform: translateY(-1px);
+		border-color: rgb(127 232 255 / 42%);
+		background: rgb(127 232 255 / 10%);
+	}
+}
+
+.awtsmoos-social-discussion :where(.awtsmoos-reaction-chip, .awtsmoos-social-reply):active {
+	transform: translateY(1px) scale(.98);
+}

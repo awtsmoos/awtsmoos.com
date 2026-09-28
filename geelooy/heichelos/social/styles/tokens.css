@@ -1,22 +1,35 @@
 /* B"H */
-/** The Awtsmoos gives this social root a private visual vocabulary so token values cannot leak into neighboring pages. */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives this social universe one private vocabulary of depth and flame;
+ * Awtsmoos.com lets every chamber borrow the same glass, glow, rhythm, and name.
+ */
 .awtsmoos-social-root {
-	--awt-bg: #0b0d10;
-	--awt-surface: rgba(19, 23, 28, .88);
-	--awt-surface-strong: rgba(29, 35, 42, .96);
-	--awt-border: rgba(231, 237, 242, .14);
-	--awt-text: #f7faf8;
-	--awt-muted: #abb8b4;
-	--awt-fire: #d84f68;
-	--awt-sun: #d7b35a;
-	--awt-cyan: #45b7b0;
-	--awt-violet: #7a8cff;
-	--awt-green: #62c584;
+	--awt-bg: #030812;
+	--awt-bg-raised: #081323;
+	--awt-surface: rgb(9 21 38 / 76%);
+	--awt-surface-strong: rgb(8 17 33 / 94%);
+	--awt-surface-soft: rgb(255 255 255 / 5%);
+	--awt-border: rgb(135 223 255 / 17%);
+	--awt-border-hot: rgb(135 223 255 / 48%);
+	--awt-text: #f8fbff;
+	--awt-muted: #9eb0c7;
+	--awt-fire: #ff5f82;
+	--awt-sun: #f7c96f;
+	--awt-cyan: #72e8ff;
+	--awt-violet: #9d8cff;
+	--awt-green: #75f1bd;
 	--awt-accent: var(--awt-cyan);
-	--awt-radius-sm: .35rem;
-	--awt-radius-md: .6rem;
-	--awt-radius-lg: 1rem;
-	--awt-gradient-brutal: linear-gradient(135deg, var(--awt-cyan), var(--awt-sun) 48%, var(--awt-fire));
-	--awt-rift: linear-gradient(135deg, #0b0d10, #12171b 48%, #111611);
-	--awt-shadow-brutal: 0 1px 0 rgba(255,255,255,.08), 0 18px 50px rgba(0,0,0,.32);
+	--awt-radius-sm: .65rem;
+	--awt-radius-md: .95rem;
+	--awt-radius-lg: 1.45rem;
+	--awt-radius-xl: 1.9rem;
+	--awt-motion-fast: 150ms cubic-bezier(.2,.8,.2,1);
+	--awt-motion: 210ms cubic-bezier(.2,.8,.2,1);
+	--awt-gradient-brutal: linear-gradient(115deg, var(--awt-cyan), var(--awt-violet) 48%, var(--awt-sun));
+	--awt-rift: radial-gradient(circle at 15% -10%, #143955 0, transparent 34%), radial-gradient(circle at 88% 6%, #2b235f 0, transparent 27%), linear-gradient(155deg, #030812, #07101d 52%, #02060d);
+	--awt-glass: linear-gradient(145deg, rgb(255 255 255 / 7%), rgb(114 232 255 / 2%)), var(--awt-surface);
+	--awt-shadow-brutal: 0 1px 0 rgb(255 255 255 / 8%), 0 1.5rem 4.5rem rgb(0 0 0 / 38%);
+	--awt-shadow-hot: 0 1.8rem 5rem rgb(0 0 0 / 46%), 0 0 2rem rgb(114 232 255 / 10%);
 }

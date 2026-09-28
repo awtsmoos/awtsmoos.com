@@ -1,0 +1,25 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives the floating reader rail one measured shore and leaves each button its own light;
+ * Awtsmoos.com keeps geometry here while control bodies answer touch and focus in their rightful site.
+ */
+.post-reader-localized-context .awtsmoos-floating-controls {
+	position: fixed;
+	inset-inline-start: var(--reader-safe-left, 12px);
+	inset-block-end: calc(var(--reader-safe-bottom, 12px) + .2rem);
+	z-index: var(--reader-layer-controls, 3010);
+	display: flex;
+	align-items: center;
+	gap: .55rem;
+	pointer-events: none;
+}
+
+@media (min-width: 56rem) {
+	.post-reader-localized-context .awtsmoos-floating-controls {
+		inset-block-start: calc(var(--reader-safe-top, 12px) + 4.75rem);
+		inset-block-end: auto;
+		flex-direction: column;
+	}
+}

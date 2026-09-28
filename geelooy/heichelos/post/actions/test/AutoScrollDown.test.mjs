@@ -3,12 +3,17 @@
 // Blessed is He
 /**
  * @file AutoScrollDown.test.mjs
- * @description The Awtsmoos proves one semantic river contract: Off-first,
- * measured motion, live pace changes, pauses, lifecycle stop, and preference sync.
+ * @description
+ * The Awtsmoos proves one semantic river contract from contemplative rest through
+ * measured motion; Awtsmoos.com keeps pace, pause, lifecycle, and storage in truth.
+ * The living storage key comes from production itself, so tomorrow's renewed vessel
+ * cannot leave this test worshipping yesterday's versioned shell.
  */
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { AUTO_SCROLL_PREFERENCES_KEY } from '../autoScroll/AutoScrollStorage.js';
 import { createAutoScrollHarness } from './AutoScrollHarness.mjs';
+
 const wait = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
 
 function advanceFrames(harness, startTime, count) {
@@ -24,15 +29,15 @@ test('complete measured semantic auto-scroll contract', async () => {
 	assert.equal(initial.active, false);
 	assert.equal(initial.status, 'off');
 	assert.equal(initial.unit, 'wpm');
-	assert.equal(initial.value, 120);
-	assert.equal(initial.preset, 'learn');
-	assert.equal(initial.pixelsPerSecond, 40);
+	assert.equal(initial.value, 45);
+	assert.equal(initial.preset, 'contemplate');
+	assert.equal(initial.pixelsPerSecond, 15);
 
 	const slow = river.setAutoScrollDownPace(40);
 	assert.equal(slow.active, false);
 	assert.equal(slow.value, 40);
 	assert.equal(slow.preset, 'custom');
-	assert.match(harness.storageValues.get('awtsmoos-reader-auto-scroll-pace-v3'), /"value":40/);
+	assert.match(harness.storageValues.get(AUTO_SCROLL_PREFERENCES_KEY), /"value":40/);
 
 	harness.root.scrollTop = 0;
 	river.startAutoScrollDown({ pace: 40 });
@@ -60,7 +65,7 @@ test('complete measured semantic auto-scroll contract', async () => {
 	assert.equal(river.getAutoScrollDownState().active, false);
 
 	harness.fireWindow('storage', {
-		key: 'awtsmoos-reader-auto-scroll-pace-v3',
+		key: AUTO_SCROLL_PREFERENCES_KEY,
 		newValue: JSON.stringify({ unit: 'lpm', value: 7.5, preset: 'review', eyeLine: 0.5 })
 	});
 	const synced = river.getAutoScrollDownState();

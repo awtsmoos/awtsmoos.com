@@ -1,82 +1,75 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- * The Awtsmoos gives each teaching quiet measure and breathable treasure;
- * Awtsmoos.com supplies a responsive default without chaining the reader against its chosen measure.
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives the post its luminous social garment while scroll remains on its rightful shore;
+ * Awtsmoos.com owns presentation here, never topology, so the cascade needs no battle anymore.
  */
-
 .post-reader-localized-context {
-	--post-text-size: clamp(18px, 4.6vw, 23px);
-	--social-panel: rgba(15, 27, 45, .9);
-	--social-line: rgba(255, 255, 255, .12);
-	background: radial-gradient(circle at 50% -10%, #173b5d 0, #091625 35%, #050a13 74%) !important;
+	--post-text-size: clamp(1.125rem, 4.6vw, 1.44rem);
+	--social-panel: rgb(15 27 45 / 84%);
+	--social-line: rgb(255 255 255 / 12%);
+	background:
+		radial-gradient(circle at 12% -8%, rgb(37 112 154 / 28%), transparent 34%),
+		radial-gradient(circle at 88% 4%, rgb(106 76 188 / 18%), transparent 30%),
+		linear-gradient(180deg, #07111f, #030812 72%);
 }
 
-.post-reader-localized-context .main {
-	width: 100% !important;
-	max-width: 1120px !important;
-	margin: 0 auto !important;
-}
-
-.post-reader-localized-context :where(.scroll-view-wrapper) {
-	width: 100% !important;
-	padding: 0 !important;
-}
-
-.post-reader-localized-context #realPost {
-	width: min(100%, 820px) !important;
-	margin: 0 auto !important;
-	padding: 5.25rem 1rem 6rem !important;
+.post-reader-localized-context #realPost.content {
+	padding-block: 5.25rem 6rem;
 }
 
 .post-reader-localized-context .awtsmoos-post-title {
-	margin: 0 0 1.15rem !important;
-	color: #fff !important;
-	font: 900 clamp(2rem, 8vw, 4.1rem)/1.04 Inter, sans-serif !important;
-	letter-spacing: -.045em !important;
-	text-wrap: balance !important;
+	margin: 0 0 1.15rem;
+	color: var(--reader-text, #fff);
+	font: 900 clamp(2rem, 8vw, 4.1rem)/1.04 Inter, sans-serif;
+	letter-spacing: -.045em;
+	text-wrap: balance;
 }
 
 .post-reader-localized-context .awtsmoos-post-video-asset {
-	margin: 0 auto 1.35rem !important;
-	padding: .48rem !important;
-	border: 1px solid var(--social-line) !important;
-	border-radius: 24px !important;
-	background: #f7f3ea !important;
-	box-shadow: 0 28px 76px rgba(0, 0, 0, .38) !important;
+	margin: 0 auto 1.35rem;
+	padding: .48rem;
+	border: 1px solid var(--social-line);
+	border-radius: 1.5rem;
+	background: linear-gradient(145deg, rgb(255 255 255 / 92%), rgb(229 235 246 / 88%));
+	box-shadow: 0 1.75rem 4.75rem rgb(0 0 0 / 38%);
 }
 
 .post-reader-localized-context .awtsmoos-post-video {
-	display: block !important;
-	width: 100% !important;
-	max-height: 78dvh !important;
-	aspect-ratio: 9 / 16 !important;
-	object-fit: contain !important;
-	border-radius: 18px !important;
-	background: #000 !important;
+	display: block;
+	inline-size: 100%;
+	max-block-size: 78dvh;
+	aspect-ratio: 9 / 16;
+	object-fit: contain;
+	border-radius: 1.1rem;
+	background: #000;
 }
 
 .post-reader-localized-context .awtsmoos-plain-post-content {
-	padding: clamp(1.1rem, 4vw, 2rem) !important;
-	border: 1px solid var(--social-line) !important;
-	border-radius: 24px !important;
-	background: var(--social-panel) !important;
-	box-shadow: 0 18px 56px rgba(0, 0, 0, .28) !important;
+	padding: clamp(1.1rem, 4vw, 2rem);
+	border: 1px solid var(--social-line);
+	border-radius: 1.5rem;
+	background:
+		linear-gradient(145deg, rgb(255 255 255 / 6%), transparent 58%),
+		var(--social-panel);
+	box-shadow: 0 1.2rem 3.5rem rgb(0 0 0 / 28%), inset 0 1px 0 rgb(255 255 255 / 5%);
+	backdrop-filter: blur(22px) saturate(135%);
 }
 
 .post-reader-localized-context .awtsmoos-plain-post-content,
 .post-reader-localized-context .awtsmoos-plain-post-content * {
-	font-size: var(--post-text-size) !important;
-	line-height: 1.64 !important;
+	font-size: var(--post-text-size);
+	line-height: 1.64;
 }
 
-@media (max-width: 560px) {
-	.post-reader-localized-context #realPost {
-		padding-inline: .7rem !important;
+@media (max-width: 35rem) {
+	.post-reader-localized-context #realPost.content {
+		padding-inline: .7rem;
 	}
 
 	.post-reader-localized-context .awtsmoos-post-video-asset {
-		padding: .34rem !important;
-		border-radius: 18px !important;
+		padding: .34rem;
+		border-radius: 1.1rem;
 	}
 }

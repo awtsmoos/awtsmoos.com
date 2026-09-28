@@ -1,7 +1,9 @@
 /* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
 /**
- * The Awtsmoos is beyond every page boundary while Awtsmoos.com keeps this social world strictly local.
- * Nothing in this garment styles document-global html, body, links, buttons, or focus outside `.awtsmoos-social-root`.
+ * The Awtsmoos is beyond every boundary while Awtsmoos.com keeps this social world contained;
+ * light moves, glass breathes, focus remains visible, and no host-page selector is ever chained.
  */
 .awtsmoos-social-root {
 	--awt-layer-ambient: 0;
@@ -22,86 +24,89 @@
 .awtsmoos-social-root::after {
 	position: fixed;
 	z-index: var(--awt-layer-ambient);
-	inset: 0;
+	inset: -10%;
 	pointer-events: none;
 	content: "";
 	background-image:
-		linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
-		linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
-	background-size: 36px 36px;
+		linear-gradient(rgb(255 255 255 / 3%) 1px, transparent 1px),
+		linear-gradient(90deg, rgb(255 255 255 / 3%) 1px, transparent 1px),
+		radial-gradient(circle at 22% 24%, rgb(114 232 255 / 10%), transparent 23%),
+		radial-gradient(circle at 78% 34%, rgb(157 140 255 / 9%), transparent 24%);
+	background-size: 42px 42px, 42px 42px, auto, auto;
 	mix-blend-mode: screen;
-	animation: awt-social-scan 22s linear infinite;
+	opacity: .8;
+	animation: awt-social-drift 28s linear infinite;
 }
 
 .awtsmoos-social-root ::selection {
-	background: var(--awt-fire);
-	color: #08020f;
+	background: var(--awt-violet);
+	color: #06030f;
 }
 
 .awtsmoos-social-root :where(button, a, [role="button"]) {
 	color: inherit;
-	transition:
-		transform 160ms cubic-bezier(.2,.8,.2,1),
-		box-shadow 180ms ease,
-		border-color 180ms ease,
-		background-color 180ms ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-	.awtsmoos-social-root :where(button, a, [role="button"]):hover {
-		transform: translateY(-1px);
-	}
-}
-
-.awtsmoos-social-root :where(button, a, [role="button"]):active {
-	transform: scale(.975);
+	transition: transform var(--awt-motion-fast), box-shadow var(--awt-motion), border-color var(--awt-motion), background var(--awt-motion);
 }
 
 .awtsmoos-social-root :where(button, a, input, select, textarea, summary, [role="button"]):focus-visible {
-	outline: 2px solid var(--awt-cyan);
+	outline: 3px solid var(--awt-cyan);
 	outline-offset: 3px;
-	box-shadow: 0 0 0 6px rgba(0,229,255,.14);
+	box-shadow: 0 0 0 6px rgb(114 232 255 / 14%);
 }
 
-.awtsmoos-social-root :where(button, input, select, textarea):disabled {
+.awtsmoos-social-root :where(button, input, select, textarea):disabled,
+.awtsmoos-social-root [aria-disabled="true"] {
 	cursor: not-allowed;
-	opacity: .48;
-	transform: none;
+	opacity: .46;
+	filter: saturate(.4);
+}
+
+.awtsmoos-social-root :where(.awt-panel, .awt-btn, .awt-link-button, .awt-chip, .awt-brutal-chip) {
+	border: 1px solid var(--awt-border);
+	background: var(--awt-glass);
+	box-shadow: var(--awt-shadow-brutal);
+	backdrop-filter: blur(24px) saturate(145%);
 }
 
 .awtsmoos-social-root .awt-panel {
-	border: 1px solid var(--awt-border);
 	border-radius: var(--awt-radius-lg);
-	background: linear-gradient(135deg, rgba(255,255,255,.055), rgba(255,255,255,.02)), var(--awt-surface);
-	box-shadow: var(--awt-shadow-brutal);
-	backdrop-filter: blur(18px) saturate(1.12);
 }
 
 .awtsmoos-social-root :where(.awt-chip, .awt-brutal-chip) {
-	padding: .45rem .65rem;
-	border: 1px solid rgba(255,255,255,.16);
+	padding: .48rem .7rem;
 	border-radius: var(--awt-radius-md);
-	background: rgba(255,255,255,.07);
 	text-decoration: none;
 }
 
-.awtsmoos-social-root .awt-btn,
-.awtsmoos-social-root .awt-link-button {
+.awtsmoos-social-root :where(.awt-btn, .awt-link-button) {
 	min-block-size: 44px;
-	padding: .55rem .75rem;
-	border: 1px solid var(--awt-border);
+	padding: .6rem .85rem;
 	border-radius: var(--awt-radius-md);
-	background: rgba(255,255,255,.07);
 	color: var(--awt-text);
 	cursor: pointer;
 	font: inherit;
 }
 
-@keyframes awt-social-scan {
-	to { background-position: 36px 36px; }
+@media (hover: hover) and (pointer: fine) {
+	.awtsmoos-social-root :where(button, a, [role="button"]):hover {
+		transform: translateY(-2px);
+	}
+
+	.awtsmoos-social-root :where(.awt-btn, .awt-link-button, .awt-chip, .awt-brutal-chip):hover {
+		border-color: var(--awt-border-hot);
+		box-shadow: var(--awt-shadow-hot);
+	}
+}
+
+.awtsmoos-social-root :where(button, a, [role="button"]):active {
+	transform: translateY(1px) scale(.975);
+}
+
+@keyframes awt-social-drift {
+	to { background-position: 84px 84px, 84px 84px, 4rem 2rem, -3rem 4rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
 	.awtsmoos-social-root::after { animation: none; }
-	.awtsmoos-social-root :where(button, a, [role="button"]) { transition: none; }
+	.awtsmoos-social-root :where(button, a, [role="button"]) { transition-duration: .01ms; }
 }

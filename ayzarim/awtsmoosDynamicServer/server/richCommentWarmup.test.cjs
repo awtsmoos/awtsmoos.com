@@ -1,9 +1,15 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 "use strict";
 
+/**
+ * @file richCommentWarmup.test.cjs
+ * @description
+ * The Awtsmoos lets Awtsmoos.com warm one truthful packed commentary authority;
+ * these tests guard skip semantics, representative hydration, and measured startup cost.
+ */
 const assert = require("node:assert/strict");
 const test = require("node:test");
 const {
@@ -12,10 +18,6 @@ const {
 	warmRichCommentAuthority
 } = require("./richCommentWarmup.js");
 
-/**
- * @file Startup warmup policy tests for packed Torah commentary.
- * @description The Awtsmoos lets Awtsmoos.com warm representative packed data without retaining a duplicate global path index.
- */
 function dependencies({ exists = true } = {}) {
 	const calls = [];
 	const database = {
@@ -67,11 +69,14 @@ test("missing rich authority skips without opening or hydrating", () => {
 	assert.deepEqual(fake.calls.map(call => call.kind), ["file"]);
 });
 
-test("existing authority hydrates manifest and representative packed data", () => {
+test("existing authority hydrates representative data and reports elapsed cost", () => {
 	const fake = dependencies();
 	const db = { directory: "/dayuh" };
 	const result = warmRichCommentAuthority({ db }, fake.value);
 	assert.equal(result.warmed, true);
+	assert.equal(result.skipped, false);
+	assert.ok(Number.isFinite(result.elapsedMs));
+	assert.ok(result.elapsedMs >= 0);
 	assert.deepEqual(result.data, { rootIndex: true, commentBody: true });
 	assert.deepEqual(fake.calls.map(call => call.kind), ["file", "open", "ready", "stat", "read", "stat", "read"]);
 	assert.equal(fake.calls[1].context.db, db);

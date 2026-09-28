@@ -2,66 +2,32 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos is beyond floating and fixed, yet Awtsmoos.com gives the reader
- * controls one bounded geometry law: safe from the notch, beneath settings,
- * above the Torah canvas, and never wider than the living inline viewport.
- *
- * On phones the two small tools rise above the Torah river instead of damming
- * its lower bank; the Awtsmoos gives the words their room, and the controls their rank.
- *
- * This file is intentionally a critical cascade boundary. A small set of
- * `!important` declarations remains only where older reader garments must be
- * overruled during first paint; visual styling belongs to later local modules.
+ * The Awtsmoos gives first paint a quiet covenant instead of a selector war;
+ * Awtsmoos.com exposes shared reader tokens here, while later owners shape each door.
  */
 .all.post-reader-localized-context.awtsmoos-reader-vision {
-	--reader-control-safe-inline-start: max(14px, env(safe-area-inset-left, 0px));
-	--reader-control-safe-inline-end: max(14px, env(safe-area-inset-right, 0px));
-	--reader-control-safe-bottom: max(14px, env(safe-area-inset-bottom, 0px));
-	--reader-control-safe-top: max(14px, env(safe-area-inset-top, 0px));
-	--reader-layer-floating-controls: calc(var(--z-sidebar, 3000) + 10);
+	--reader-safe-left: max(12px, env(safe-area-inset-left, 0px));
+	--reader-safe-right: max(12px, env(safe-area-inset-right, 0px));
+	--reader-safe-top: max(12px, env(safe-area-inset-top, 0px));
+	--reader-safe-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+	--reader-layer-controls: calc(var(--z-sidebar, 3000) + 10);
+	--reader-layer-settings: calc(var(--z-sidebar, 3000) + 20);
+	--reader-glass: rgb(5 12 25 / 82%);
+	--reader-glass-strong: rgb(4 10 22 / 95%);
+	--reader-line: rgb(128 227 255 / 22%);
+	--reader-line-hot: rgb(128 227 255 / 58%);
+	--reader-cyan: #7fe8ff;
+	--reader-violet: #9e8cff;
+	--reader-gold: #f6cc72;
+	--reader-text: #f8fbff;
+	--reader-muted: #9fb3ca;
+	--reader-motion: 180ms cubic-bezier(.2, .8, .2, 1);
 }
 
 .all.post-reader-localized-context.awtsmoos-reader-vision .hidden-details {
-	display: none !important;
+	display: none;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision .typography-details:not(.hidden-details) {
-	display: flex !important;
-}
-
-.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-floating-controls {
-	position: fixed !important;
-	z-index: var(--reader-layer-floating-controls) !important;
-	inset-block-start: calc(72px + var(--reader-control-safe-top)) !important;
-	inset-inline-start: var(--reader-control-safe-inline-start) !important;
-	display: flex !important;
-	flex-direction: column !important;
-	gap: 10px !important;
-	max-inline-size: calc(
-		100dvi
-		- var(--reader-control-safe-inline-start)
-		- var(--reader-control-safe-inline-end)
-	) !important;
-	pointer-events: none !important;
-	transform: none !important;
-}
-
-.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-floating-controls > * {
-	pointer-events: auto !important;
-}
-
-@media (max-width: 700px) {
-	.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-floating-controls {
-		inset-block-start: calc(64px + env(safe-area-inset-top, 0px)) !important;
-		inset-block-end: auto !important;
-		inset-inline-start: max(8px, env(safe-area-inset-left, 0px)) !important;
-		flex-direction: row !important;
-		gap: 6px !important;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-floating-controls {
-		scroll-behavior: auto !important;
-	}
+.all.post-reader-localized-context.awtsmoos-reader-vision :where(button, input, select) {
+	-webkit-tap-highlight-color: transparent;
 }

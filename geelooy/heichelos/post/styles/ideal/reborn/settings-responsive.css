@@ -1,9 +1,40 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- * The Awtsmoos teaches that responsive behavior belongs beside the selector whose body it transforms;
- * Awtsmoos.com keeps this compatibility file selector-free so media policy never becomes a second owner storm.
- *
- * Narrow-screen and reduced-motion rules now live inside their owning shell, group, control, flow,
- * disclosure, tincture, and danger modules. This file remains imported only as a durable ownership note.
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos changes the measure of the vessel without changing who owns the light;
+ * Awtsmoos.com makes responsive Lens behavior through variables, not duplicated component might.
  */
+@media (max-width: 40rem) {
+	.post-reader-localized-context {
+		--scribe-inset-inline: .55rem;
+		--scribe-bottom: max(.55rem, env(safe-area-inset-bottom, 0px));
+		--scribe-inline-size: auto;
+		--scribe-max-block-size: calc(100dvh - max(1.1rem, env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px)));
+		--scribe-radius: 1.25rem;
+		--scribe-content-gap: .72rem;
+		--scribe-content-padding: .78rem;
+		--scribe-settings-padding: .78rem;
+		--scribe-text-columns: 3.25rem minmax(0, 1fr) 3.25rem;
+		--scribe-speed-direction: column;
+		--scribe-speed-align: stretch;
+		--scribe-speed-gap: .3rem;
+		--scribe-speed-text-align: start;
+		--scribe-color-columns: 1fr;
+	}
+}
+
+@media (min-width: 48.01rem) {
+	.post-reader-localized-context {
+		--scribe-inset-inline: auto 1.5rem;
+		--scribe-bottom: 1.5rem;
+		--scribe-inline-size: min(34rem, calc(100vw - 3rem));
+		--scribe-max-block-size: min(86dvh, 52rem);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.post-reader-localized-context {
+		--reader-settings-motion: .01ms linear;
+	}
+}

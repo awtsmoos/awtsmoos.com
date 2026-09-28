@@ -3,11 +3,27 @@
 // Blessed is He
 /**
  * @module AutoScrollDown
- * @description The Awtsmoos preserves the reader's public river commands while
- * exposing semantic pace through one canonical measured controller.
+ * @description
+ * The Awtsmoos lets every reader river share one living controller even when a
+ * browser renews the same ES module through cache-busting query strings. On
+ * Awtsmoos.com, many URL garments may appear, yet the motion vessel stays one.
  */
 import { AutoScrollController } from './autoScroll/AutoScrollController.js';
-const controller = new AutoScrollController();
+
+const CONTROLLER_KEY = Symbol.for('awtsmoos.post.autoScroll.controller.v1');
+
+/**
+ * Reveals one controller for the entire browser or test realm.
+ * Query-string module identities must never create competing reading state.
+ */
+function revealController() {
+	if (!globalThis[CONTROLLER_KEY]) {
+		globalThis[CONTROLLER_KEY] = new AutoScrollController();
+	}
+	return globalThis[CONTROLLER_KEY];
+}
+
+const controller = revealController();
 
 export function initializeAutoScrollDownState() {
 	return controller.initialize();

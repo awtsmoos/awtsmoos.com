@@ -1,72 +1,70 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- * The Awtsmoos turns motion into a measured river instead of a runaway current;
- * Awtsmoos.com keeps speed, narrow-screen reading, and flow presentation under one sovereign.
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos turns reader pace from a number into a truthful river of intention and rest;
+ * Awtsmoos.com keeps auto-scroll flow here alone, so its controls can move without cascade contest.
  */
-.post-reader-localized-context .speed-control-row {
-	display: grid !important;
-	grid-template-columns: auto minmax(0, 1fr) auto !important;
-	gap: 10px !important;
-	align-items: center !important;
-	min-inline-size: 0;
+.post-reader-localized-context .auto-scroll-settings-toggle {
+	display: inline-grid;
+	place-items: center;
+	min-block-size: 44px;
+	padding: .68rem .95rem;
+	border: 1px solid rgb(101 255 211 / 24%);
+	border-radius: .9rem;
+	background: linear-gradient(145deg, rgb(29 189 143 / 17%), rgb(6 22 34 / 86%));
+	color: var(--reader-text, #f8fbff);
+	box-shadow: inset 0 1px 0 rgb(255 255 255 / 6%);
+	font: 900 .9rem/1 var(--font-ui, system-ui);
+	cursor: pointer;
+	transition: transform var(--reader-settings-motion, 180ms ease), border-color var(--reader-settings-motion, 180ms ease), background var(--reader-settings-motion, 180ms ease), box-shadow var(--reader-settings-motion, 180ms ease);
 }
 
-.post-reader-localized-context .speed-word,
-.post-reader-localized-context .speed-readout-row span,
-.post-reader-localized-context .auto-scroll-help {
-	color: var(--inline-text-blue, #cbd5e1) !important;
-	font: 850 .86rem/1.35 var(--font-ui) !important;
+.post-reader-localized-context .auto-scroll-settings-toggle[aria-pressed="true"] {
+	border-color: rgb(101 255 211 / 64%);
+	background: linear-gradient(145deg, rgb(37 211 161 / 38%), rgb(9 68 66 / 88%));
+	box-shadow: 0 0 0 1px rgb(101 255 211 / 14%), 0 .8rem 2rem rgb(9 95 83 / 20%);
+}
+
+.post-reader-localized-context .auto-scroll-settings-toggle:focus-visible {
+	outline: 3px solid rgb(101 255 211 / 76%);
+	outline-offset: 2px;
+}
+
+.post-reader-localized-context .auto-scroll-settings-toggle:active {
+	transform: translateY(1px) scale(.98);
 }
 
 .post-reader-localized-context .speed-readout-row {
-	display: grid !important;
-	grid-template-columns: minmax(0, 1fr) auto !important;
-	gap: 10px !important;
-	align-items: center !important;
-	min-block-size: 52px !important;
-	padding-inline: 14px !important;
-	border: 1px solid rgba(255, 255, 255, .14) !important;
-	border-radius: 16px !important;
-	background: rgba(255, 255, 255, .06) !important;
+	display: flex;
+	flex-direction: var(--scribe-speed-direction, row);
+	align-items: var(--scribe-speed-align, center);
+	justify-content: space-between;
+	gap: var(--scribe-speed-gap, .75rem);
 }
 
 .post-reader-localized-context #autoScrollSpeedDisplay {
-	max-inline-size: 100%;
-	color: var(--inline-edge-gold, #f6c96c);
+	min-inline-size: 5.5rem;
+	color: var(--reader-cyan, #7fe8ff);
 	font-weight: 900;
 	font-variant-numeric: tabular-nums;
-	text-align: end;
+	text-align: var(--scribe-speed-text-align, end);
 }
 
-.post-reader-localized-context #autoScrollSpeedRange {
-	inline-size: 100% !important;
-	min-block-size: 44px;
-	accent-color: #22d3ee !important;
-	cursor: pointer;
+.post-reader-localized-context .auto-scroll-speed-range {
+	inline-size: 100%;
+	accent-color: var(--reader-cyan, #7fe8ff);
 }
 
-@media (hover: hover) {
-	.post-reader-localized-context #autoScrollSpeedRange:hover {
-		filter: brightness(1.18) saturate(1.08);
-	}
+.post-reader-localized-context .auto-scroll-presets {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
+	gap: .5rem;
 }
 
-.post-reader-localized-context #autoScrollSpeedRange:active {
-	filter: brightness(1.28) saturate(1.16);
-}
-
-.post-reader-localized-context .auto-scroll-help {
-	margin: 0 !important;
-	opacity: .82;
-}
-
-@media (max-width: 520px) {
-	.post-reader-localized-context .speed-readout-row {
-		grid-template-columns: 1fr !important;
-	}
-
-	.post-reader-localized-context #autoScrollSpeedDisplay {
-		text-align: start;
+@media (hover: hover) and (pointer: fine) {
+	.post-reader-localized-context .auto-scroll-settings-toggle:hover {
+		border-color: rgb(101 255 211 / 52%);
+		background: linear-gradient(145deg, rgb(37 211 161 / 24%), rgb(7 39 47 / 90%));
 	}
 }

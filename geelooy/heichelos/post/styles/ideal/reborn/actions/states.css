@@ -1,0 +1,49 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets state become visible without adding another sovereign sheet;
+ * Awtsmoos.com makes running, pausing, opening, and quieting one consistent beat.
+ */
+.post-reader-localized-context .awtsmoos-auto-scroll-floating.awtsmoos-auto-scroll-on {
+	border-color: rgb(255 130 148 / 52%);
+	background:
+		radial-gradient(circle at 32% 18%, rgb(255 205 213 / 58%), transparent 22%),
+		linear-gradient(145deg, #cb3f5d, #661e4a 78%);
+	box-shadow: 0 1rem 2.8rem rgb(0 0 0 / 34%), 0 0 2rem rgb(255 91 132 / 18%);
+}
+
+.post-reader-localized-context .awtsmoos-auto-scroll-floating.awtsmoos-auto-scroll-is-paused {
+	border-color: rgb(246 204 114 / 56%);
+	background:
+		radial-gradient(circle at 32% 18%, rgb(255 240 190 / 58%), transparent 22%),
+		linear-gradient(145deg, #b57627, #5d3917 78%);
+}
+
+.post-reader-localized-context :where(.awtsmoos-floating-controls, .awtsmoos-auto-scroll-floating) {
+	opacity: 1;
+	visibility: visible;
+	transition: opacity var(--reader-motion, 180ms ease), transform var(--reader-motion, 180ms ease), visibility var(--reader-motion, 180ms ease);
+}
+
+.post-reader-localized-context:has(.sidebar.awtsmoos-sidebar-open) .awtsmoos-auto-scroll-floating,
+.post-reader-localized-context:has(.typography-details:not(.hidden-details)) .awtsmoos-floating-controls,
+.post-reader-localized-context:has(.typography-details:not(.hidden-details)) .awtsmoos-auto-scroll-floating {
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	transform: translateY(.75rem) scale(.94);
+}
+
+.post-reader-localized-context .awtsmoos-floating-controls button[aria-pressed="true"] {
+	border-color: rgb(158 140 255 / 66%);
+	background: linear-gradient(145deg, rgb(75 60 152 / 92%), rgb(24 21 65 / 96%));
+	box-shadow: 0 0 1.7rem rgb(158 140 255 / 18%), inset 0 1px 0 rgb(255 255 255 / 12%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.post-reader-localized-context :where(.awtsmoos-floating-controls, .awtsmoos-floating-controls button, .awtsmoos-auto-scroll-floating) {
+		transition-duration: .01ms;
+		animation-duration: .01ms;
+	}
+}

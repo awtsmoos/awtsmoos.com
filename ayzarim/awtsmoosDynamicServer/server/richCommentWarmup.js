@@ -1,14 +1,14 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
  * @file richCommentWarmup.js
  * @chapter The Commentary Wakes Before The Door Opens
  * @description
  * The Awtsmoos lets Awtsmoos.com hydrate packed commentary before readiness.
- * Representative files are discovered from live inode metadata, so startup does
- * not require a duplicate full-path index to remain resident in memory.
+ * Representative files are discovered from live inode metadata, so startup warms
+ * the real authority without keeping a duplicate path index or a second vessel.
  */
 
 function liveInodes(database) {
@@ -17,7 +17,7 @@ function liveInodes(database) {
 
 function firstPath(database, matcher) {
 	for (const inode of Object.values(liveInodes(database))) {
-		if (!inode || inode.deleted || typeof inode.path !== 'string') continue;
+		if (!inode || inode.deleted || typeof inode.path !== "string") continue;
 		if (matcher(inode.path, inode)) return inode.path;
 	}
 	return null;
@@ -27,10 +27,10 @@ function representativePaths(database) {
 	let rootIndex = null;
 	let commentBody = null;
 	for (const inode of Object.values(liveInodes(database))) {
-		if (!inode || inode.deleted || typeof inode.path !== 'string') continue;
+		if (!inode || inode.deleted || typeof inode.path !== "string") continue;
 		const path = inode.path;
-		if (!rootIndex && path.endsWith('/commentTree/roots')) rootIndex = path;
-		if (!commentBody && path.endsWith('/data')) commentBody = path;
+		if (!rootIndex && path.endsWith("/commentTree/roots")) rootIndex = path;
+		if (!commentBody && path.endsWith("/data")) commentBody = path;
 		if (rootIndex && commentBody) break;
 	}
 	return { rootIndex, commentBody };
@@ -39,7 +39,7 @@ function representativePaths(database) {
 function warmFile(database, path) {
 	if (!path) return false;
 	const stat = database.fs.stat(path);
-	if (!stat?.exists || stat.type !== 'file') return false;
+	if (!stat?.exists || stat.type !== "file") return false;
 	const length = Math.min(Number(stat.size || 0), 4096);
 	if (length > 0) database.fs.readRange(path, 0, length);
 	return true;
@@ -53,7 +53,13 @@ function warmRepresentativeData(database) {
 	};
 }
 
+/**
+ * Hydrates the canonical packed-comment authority and reports its measured cost.
+ * Dependency injection keeps this server utility reusable while the Awtsmoos.com
+ * composition root chooses the one production store that live requests also use.
+ */
 function warmRichCommentAuthority(context = {}, dependencies = {}) {
+	const startedAt = Date.now();
 	const databaseRoot = context?.db?.directory;
 	if (!databaseRoot) return { warmed: false, skipped: true };
 	const packedStore = dependencies.packedStore;
@@ -66,6 +72,7 @@ function warmRichCommentAuthority(context = {}, dependencies = {}) {
 	return {
 		warmed: true,
 		skipped: false,
+		elapsedMs: Date.now() - startedAt,
 		data: warmRepresentativeData(database)
 	};
 }

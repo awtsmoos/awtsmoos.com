@@ -1,25 +1,22 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- * The Awtsmoos lets one study vessel fit every screen without losing its inner order;
- * Awtsmoos.com brings the sheet gently to the hand while the reader behind it rests in place.
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets one study vessel contract toward the hand without stealing the lock that belongs elsewhere;
+ * Awtsmoos.com owns viewport geometry here while page-lock owns the resting reader beneath the glassy air.
  */
-body[data-study-sheet-open="true"] {
-	overflow: hidden;
-}
-
 @media (max-width: 42rem) {
 	body[data-study-sheet-open="true"] .awtsmoos-study-sheet-backdrop {
 		align-items: flex-end;
 	}
 
-	body[data-study-sheet-open="true"] .awtsmoos-study-sheet {
+	body[data-study-sheet-open="true"] > .awtsmoos-study-sheet-backdrop > .awtsmoos-study-sheet {
 		inline-size: 100%;
 		block-size: min(84dvh, 52rem);
 		border-inline-start: 0;
-		border-block-start: 1px solid rgb(93 216 232 / .34);
+		border-block-start: 1px solid rgb(93 216 232 / 34%);
 		border-radius: 1.35rem 1.35rem 0 0;
-		box-shadow: 0 -18px 60px rgb(0 0 0 / .48);
+		box-shadow: 0 -18px 60px rgb(0 0 0 / 48%);
 	}
 
 	.awtsmoos-study-sheet .awtsmoos-study-sheet-header {
@@ -48,15 +45,13 @@ body[data-study-sheet-open="true"] {
 		font-size: .86rem;
 	}
 
-	.awtsmoos-study-sheet .awtsmoos-study-sheet-primary,
-	.awtsmoos-study-sheet .awtsmoos-study-sheet-secondary {
+	.awtsmoos-study-sheet :where(.awtsmoos-study-sheet-primary, .awtsmoos-study-sheet-secondary) {
 		inline-size: 100%;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	body[data-study-sheet-open="true"] .awtsmoos-study-sheet,
-	.awtsmoos-study-sheet * {
+	.awtsmoos-study-sheet :where(.awtsmoos-study-sheet-body, *) {
 		scroll-behavior: auto;
 	}
 }

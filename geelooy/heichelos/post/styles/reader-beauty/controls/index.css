@@ -1,4 +1,8 @@
-/* B"H index. */
-@import "./orbs.css";
-@import "./magnetic-hover.css";
-@import "./labels.css";
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos leaves visual sovereignty with the reborn action controls;
+ * Awtsmoos.com keeps only semantic label positioning here, ending duplicate orb and hover patrols.
+ */
+@import url("./labels.css");

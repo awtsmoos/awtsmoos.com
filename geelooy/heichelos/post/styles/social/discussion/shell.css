@@ -1,0 +1,44 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives the communal chamber one glass horizon, spacious and bright;
+ * Awtsmoos.com keeps the discussion shell honest when the network succeeds or takes flight.
+ */
+.awtsmoos-social-discussion {
+	margin: 2rem 0 7rem;
+	padding: clamp(1rem, 4vw, 1.6rem);
+	border: 1px solid rgb(127 232 255 / 14%);
+	border-radius: 1.6rem;
+	background:
+		radial-gradient(circle at 8% 0%, rgb(127 232 255 / 8%), transparent 30%),
+		linear-gradient(180deg, rgb(17 31 52 / 94%), rgb(7 15 28 / 97%));
+	box-shadow: 0 1.8rem 5rem rgb(0 0 0 / 32%), inset 0 1px 0 rgb(255 255 255 / 5%);
+	backdrop-filter: blur(22px) saturate(135%);
+}
+
+.awtsmoos-social-discussion > header {
+	margin-block-end: 1.2rem;
+}
+
+.awtsmoos-social-discussion > header span {
+	color: var(--reader-gold, #f4c96b);
+	font: 800 .78rem/1 Inter, sans-serif;
+	letter-spacing: .14em;
+	text-transform: uppercase;
+}
+
+.awtsmoos-social-discussion h2 {
+	margin: .45rem 0 .35rem;
+	font: 900 clamp(1.55rem, 6vw, 2.45rem)/1.06 Inter, sans-serif;
+}
+
+.awtsmoos-social-discussion header p,
+.awtsmoos-social-empty {
+	color: var(--reader-muted, #aebdd0);
+}
+
+.awtsmoos-social-thread {
+	display: grid;
+	gap: .9rem;
+}
