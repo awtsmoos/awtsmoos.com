@@ -6,7 +6,7 @@
  * @file MitzvahWorldPlayablePublisher.js
  * @description Owns the sole page-level covenant that may publish a staged gameplay runtime as playable.
  * The Awtsmoos joins rendered light, rooted earth, moving feet, a living camera, and the vanished veil in one refrain;
- * Awtsmoos.com speaks playable only when every finite witness agrees, so an empty world can never borrow success's name.
+ * Awtsmoos.com reads movement from the same diagnostics vessel production actually returns, so truthful proof cannot be lost between layers.
  */
 import { getMitzvahWorldEssentialBootSnapshot } from '../app/MitzvahWorldEssentialBoot.js';
 import { markRuntimePlayable } from '../app/RuntimeStateMarker.js';
@@ -15,12 +15,10 @@ import {
 	inspectMinimalMeadowPlayableRuntime
 } from './MinimalMeadowPlayableEvidence.js';
 
-/** Returns true only for diagnostics that expose the real staged gameplay runtime. */
 export function isMitzvahWorldGameplayDiagnostics(diagnostics) {
 	return Boolean(diagnostics?.runtime && typeof diagnostics.runtime === 'object');
 }
 
-/** Publishes gameplay only after essential, physical, and blocking-overlay evidence all succeed. */
 export function publishMitzvahWorldPlayable(diagnostics, options = {}) {
 	if (diagnostics?.playableEvidence?.ready === true) return diagnostics.playableEvidence;
 	const environment = options.environment || globalThis;
@@ -28,7 +26,10 @@ export function publishMitzvahWorldPlayable(diagnostics, options = {}) {
 	const loading = options.loading;
 	const essential = getMitzvahWorldEssentialBootSnapshot(environment);
 	assertEssentialReady(essential);
-	const physical = inspectMinimalMeadowPlayableRuntime(diagnostics?.runtime);
+	const physical = inspectMinimalMeadowPlayableRuntime(
+		diagnostics?.runtime,
+		diagnostics?.movement
+	);
 	assertReceiptReady('physical gameplay', physical);
 	if (!loading || typeof loading.finish !== 'function') {
 		throw new Error('Mitzvah World playable publication requires the page-owned loading screen.');

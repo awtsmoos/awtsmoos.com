@@ -4125,7 +4125,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_krvffy = {
+	const __awtsmoosDefault_13izwqq = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -4138,7 +4138,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_krvffy;
+	__exports.default = __awtsmoosDefault_13izwqq;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzDeferredActorPlaceholders.js ----

@@ -2862,7 +2862,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_1cyhq6u = {
+	const __awtsmoosDefault_1q2g6o2 = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -2876,7 +2876,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_1cyhq6u;
+	__exports.default = __awtsmoosDefault_1q2g6o2;
 }
 
 // ---- libs/awtsmoos-procedural-core/src/adapters/native/runtime.js ----
@@ -9365,7 +9365,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_krvffy = {
+	const __awtsmoosDefault_13izwqq = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -9378,7 +9378,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_krvffy;
+	__exports.default = __awtsmoosDefault_13izwqq;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/math/Vec3.js ----

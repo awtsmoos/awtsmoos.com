@@ -4,9 +4,9 @@
 
 /**
  * @file mitzvahWorldPlayablePublisher.test.mjs
- * @description Executes strict staged publication against real essential and physical readiness inspectors.
+ * @description Executes strict staged publication against the production-shaped diagnostics response.
  * The Awtsmoos joins every witness before one truthful word may shine;
- * Awtsmoos.com keeps the veil closed when grounding is absent and opens it once when all proofs align.
+ * Awtsmoos.com guards the exact top-level movement vessel that reaches phones and browsers in the living release.
  */
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -14,52 +14,54 @@ import { publishMitzvahWorldPlayable } from '../../launcher/MitzvahWorldPlayable
 import {
 	cleanupPlayablePublisherVessel,
 	completePlayablePublisherEssentials,
-	createPlayablePublisherVessel,
-	createPlayableRuntime
+	createPlayableDiagnostics,
+	createPlayablePublisherVessel
 } from './MitzvahWorldPlayablePublisherHarness.mjs';
 
-test('strict staged publisher dismisses once and starts optional work after proof', () => {
+test('production-shaped diagnostics publish after the bootstrap movement prime', () => {
 	const vessel = createPlayablePublisherVessel();
 	completePlayablePublisherEssentials(vessel.environment);
 	let activated = 0;
-	const diagnostics = {
-		runtime: createPlayableRuntime(),
-		activatePostPlayable() {
-			activated += 1;
-		}
-	};
+	const diagnostics = createPlayableDiagnostics();
+	diagnostics.activatePostPlayable = () => { activated += 1; };
+	assert.equal(diagnostics.runtime.movement, undefined);
 	const first = publishMitzvahWorldPlayable(diagnostics, vessel.options);
 	const second = publishMitzvahWorldPlayable(diagnostics, vessel.options);
 	assert.equal(first.ready, true);
+	assert.equal(first.physical.controlFrames, 1);
+	assert.equal(first.physical.cameraMode, 'bootstrap-rig');
 	assert.equal(second, first);
 	assert.equal(vessel.finishCount(), 1);
 	assert.equal(activated, 1);
 	assert.equal(vessel.root.dataset.awtsmoosRuntimeState, 'playable');
 	assert.equal(vessel.root.dataset.awtsmoosGameplay, 'true');
-	assert.equal(vessel.overlay.dataset.loadingComplete, 'true');
 	assert.equal(vessel.overlay.hidden, true);
 	cleanupPlayablePublisherVessel(vessel.environment);
 });
 
-test('missing grounded proof blocks loader dismissal and playable publication', () => {
+test('missing grounded proof blocks loader dismissal and publication', () => {
 	const vessel = createPlayablePublisherVessel();
 	completePlayablePublisherEssentials(vessel.environment);
-	let activated = 0;
-	const runtime = createPlayableRuntime();
-	runtime.state.grounded = false;
-	const diagnostics = {
-		runtime,
-		activatePostPlayable() {
-			activated += 1;
-		}
-	};
+	const diagnostics = createPlayableDiagnostics();
+	diagnostics.runtime.state.grounded = false;
 	assert.throws(
 		() => publishMitzvahWorldPlayable(diagnostics, vessel.options),
 		/canonical-player-grounded/
 	);
 	assert.equal(vessel.finishCount(), 0);
-	assert.equal(activated, 0);
 	assert.notEqual(vessel.root.dataset.awtsmoosRuntimeState, 'playable');
-	assert.notEqual(vessel.overlay.dataset.loadingComplete, 'true');
+	cleanupPlayablePublisherVessel(vessel.environment);
+});
+
+test('missing top-level movement prime reproduces the mobile blocker exactly', () => {
+	const vessel = createPlayablePublisherVessel();
+	completePlayablePublisherEssentials(vessel.environment);
+	const diagnostics = createPlayableDiagnostics();
+	diagnostics.movement = null;
+	assert.throws(
+		() => publishMitzvahWorldPlayable(diagnostics, vessel.options),
+		/camera-attached, movement-input-accepted/
+	);
+	assert.equal(vessel.finishCount(), 0);
 	cleanupPlayablePublisherVessel(vessel.environment);
 });

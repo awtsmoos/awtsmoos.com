@@ -4,9 +4,9 @@
 
 /**
  * @file MitzvahWorldPlayablePublisherHarness.mjs
- * @description Builds the smallest truthful DOM and runtime vessels needed by strict playable publication tests.
- * The Awtsmoos gives each test a finite mirror while Awtsmoos.com keeps the mirror faithful to the living gate;
- * terrain, traveler, camera, collision, loader, and essential ledger stand together so false success cannot imitate.
+ * @description Builds production-shaped DOM, runtime, and diagnostics vessels for strict playable publication tests.
+ * The Awtsmoos gives each test a finite mirror while Awtsmoos.com keeps that mirror shaped like the living bootstrap response;
+ * movement stands beside runtime, exactly where production places it, so a convenient fiction can never hide another gate failure.
  */
 import {
 	completeMitzvahWorldEssentialMilestone,
@@ -14,15 +14,12 @@ import {
 	initializeMitzvahWorldEssentialBoot
 } from '../../app/MitzvahWorldEssentialBoot.js';
 
-/** Creates the page-owned loader, DOM witnesses, and isolated essential-ledger environment. */
 export function createPlayablePublisherVessel() {
 	const root = createElement();
 	const overlay = createElement();
 	const document = {
 		documentElement: root,
-		getElementById(id) {
-			return id === 'menuBoot' ? overlay : null;
-		}
+		getElementById: id => id === 'menuBoot' ? overlay : null
 	};
 	const environment = {
 		clearTimeout: globalThis.clearTimeout,
@@ -49,41 +46,38 @@ export function createPlayablePublisherVessel() {
 	};
 }
 
-/** Completes every essential milestone in dependency order. */
 export function completePlayablePublisherEssentials(environment) {
 	initializeMitzvahWorldEssentialBoot(environment);
-	const order = [
+	for (const milestone of [
 		ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED,
 		ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME,
 		ESSENTIAL_MILESTONES.SPAWN_TERRAIN_EXISTS,
 		ESSENTIAL_MILESTONES.CANONICAL_CHOSSID_DECODED,
 		ESSENTIAL_MILESTONES.PLAYER_MOVEMENT_ENABLED
-	];
-	for (const milestone of order) {
+	]) {
 		completeMitzvahWorldEssentialMilestone(environment, milestone, {});
 	}
 }
 
-/** Returns a runtime satisfying the same physical inspector used by production. */
+export function createPlayableDiagnostics() {
+	return {
+		movement: { frames: 1, lastIntent: { cameraMode: 'bootstrap-rig' } },
+		runtime: createPlayableRuntime()
+	};
+}
+
 export function createPlayableRuntime() {
 	return {
 		camera: {},
 		cameraRig: { update() {} },
 		collisionMover: { move() {} },
 		model: { position: { y: 2 } },
-		movement: { frames: 1, lastIntent: { cameraMode: 'follow' } },
-		renderer: {
-			backend: 'webgl',
-			contextName: 'webgl',
-			hydrationState: 'ready',
-			render() {}
-		},
+		renderer: { backend: 'webgl', contextName: 'webgl', hydrationState: 'ready', render() {} },
 		state: { grounded: true, renderY: 2, x: 0, z: 0 },
 		terrain: { heightAt() { return 2; } }
 	};
 }
 
-/** Cancels the isolated essential-ledger watchdog so the test process can end naturally. */
 export function cleanupPlayablePublisherVessel(environment) {
 	environment.AwtsmoosMitzvahWorldEssentialLedgerInternal?.cancelWatchdog?.();
 }
@@ -94,11 +88,7 @@ function createElement() {
 		attributes,
 		dataset: {},
 		hidden: false,
-		getAttribute(name) {
-			return attributes.get(name) ?? null;
-		},
-		setAttribute(name, value) {
-			attributes.set(name, String(value));
-		}
+		getAttribute: name => attributes.get(name) ?? null,
+		setAttribute(name, value) { attributes.set(name, String(value)); }
 	};
 }

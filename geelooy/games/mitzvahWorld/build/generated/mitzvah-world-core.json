@@ -5,24 +5,24 @@
 	"moduleCount": 1,
 	"modules": [],
 	"name": "core",
-	"outputBytes": 316588,
-	"outputHash": "710db5e7229717ece313ee76035a612c86109daf648bb292f1e023b8d3b4479a",
+	"outputBytes": 316590,
+	"outputHash": "a7a1dd0ffbf26de1e95722d6fa9698af7ce3646e98b33096eae358ba108c07e9",
 	"preserveDynamicImports": false,
 	"representations": {
 		"brotli": {
-			"bytes": 63604,
+			"bytes": 63596,
 			"encoding": "br",
-			"sha256": "c24851a9f21972739c7dfdf6444f2449613b24166fae242168fc1df0004bf18c"
+			"sha256": "db7c0e961e8eee7119c4f9d6297b3cfa03bae86085c97c6a13e1c9aa9d102294"
 		},
 		"gzip": {
-			"bytes": 76326,
+			"bytes": 76328,
 			"encoding": "gzip",
-			"sha256": "649d58f8541230b83974e8887da9e7cc1f0ef2e9e873adfa78aab12c5fd3aeda"
+			"sha256": "b58a6b15c22cff9df7635451ed40b88ad52ad8e59604238d063cc812b0ed8223"
 		},
 		"identity": {
-			"bytes": 316588,
+			"bytes": 316590,
 			"encoding": "identity",
-			"sha256": "710db5e7229717ece313ee76035a612c86109daf648bb292f1e023b8d3b4479a"
+			"sha256": "a7a1dd0ffbf26de1e95722d6fa9698af7ce3646e98b33096eae358ba108c07e9"
 		}
 	}
 }

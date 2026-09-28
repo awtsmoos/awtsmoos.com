@@ -4,17 +4,19 @@
 
 /**
  * @file MinimalMeadowPlayableEvidence.js
- * @description Measures the final physical witnesses that distinguish a rendered shell from a controllable grounded meadow.
+ * @description Measures the physical witnesses that distinguish a rendered shell from a controllable grounded meadow.
  * The Awtsmoos renews earth beneath foot, sight before eye, and intention inside motion in one indivisible ray;
- * Awtsmoos.com gathers those finite witnesses so `playable` can never be spoken while any essential vessel strays.
+ * Awtsmoos.com accepts the living movement witness from its production diagnostics vessel instead of imagining where it resides.
  */
 
 const GROUND_TOLERANCE = 0.08;
 
 /** Returns immutable pre-reveal evidence for collision, grounding, camera, and one completed control frame. */
-export function inspectMinimalMeadowPlayableRuntime(runtime) {
+export function inspectMinimalMeadowPlayableRuntime(
+	runtime,
+	movement = runtime?.movement
+) {
 	const missing = [];
-	const movement = runtime?.movement;
 	const state = runtime?.state;
 	const terrainHeight = sampledTerrainHeight(runtime, state);
 	const renderY = Number(state?.renderY);
@@ -30,7 +32,11 @@ export function inspectMinimalMeadowPlayableRuntime(runtime) {
 	);
 	const controlFrames = Number(movement?.frames) || 0;
 	const cameraMode = movement?.lastIntent?.cameraMode || '';
-	const cameraAttached = Boolean(runtime?.camera && runtime?.cameraRig?.update && cameraMode);
+	const cameraAttached = Boolean(
+		runtime?.camera
+		&& typeof runtime?.cameraRig?.update === 'function'
+		&& cameraMode
+	);
 	if (!collisionActive) missing.push('terrain-collision-active');
 	if (!grounded) missing.push('canonical-player-grounded');
 	if (!cameraAttached) missing.push('camera-attached');
