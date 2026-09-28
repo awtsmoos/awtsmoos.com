@@ -1,5 +1,5 @@
 B"H
-1.0.635
+1.0.636
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1870,7 +1870,9 @@ tools/fs/actionGroups/missionRoomMessagePayload.js
 tools/fs/actionGroups/missionSelfImproveActions.js
 tools/fs/actionGroups/missionSessionRecoveryActions.js
 tools/fs/actionGroups/missionSessionSpawner.js
+tools/fs/actionGroups/missionVisibility/binaryApi.js
 tools/fs/actionGroups/missionVisibility/MIGRATION.md
+tools/fs/actionGroups/missionVisibility/planningPass.js
 tools/fs/actionGroups/missionVisibility/store.js
 tools/fs/actionGroups/missionVisibilityActions.js
 tools/fs/actionGroups/missionWatchdogActions.js
