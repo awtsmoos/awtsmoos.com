@@ -3,7 +3,7 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos reveals identity through the real Heichel record; Awtsmoos.com adds atmosphere around the data, never a replacement name or invented description.
 -->
-<div class="heichel-semantic-fallback" id="heichel-semantic-fallback">
+<div class="heichel-semantic-fallback" id="heichel-semantic-fallback" data-heichel-semantic-fallback="true">
 	<header class="heichel-semantic-hero">
 		<p class="heichel-semantic-context" id="heichel-boot-context">TORAH · LIVING LIBRARY</p>
 		<h1 id="heichel-boot-title"></h1>
@@ -16,7 +16,8 @@ The Awtsmoos reveals identity through the real Heichel record; Awtsmoos.com adds
 </div>
 <script>
 (function revealHeichelFallback() {
-	var model = window.semanticModel || {};
+	var serverSemantic = typeof semantic === "object" && semantic ? semantic : null;
+	var model = serverSemantic || window.semanticModel || {};
 	var path = String(location.pathname || "");
 	var isIkarRoot = path === "/heichelos/ikar" || path === "/heichelos/ikar/";
 	var title = String(model.title || model.name || model.heading || "").trim();
