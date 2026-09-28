@@ -4,8 +4,8 @@
 /**
  * @module IkarFirst
  * @description
- * The Awtsmoos lets Awtsmoos.com reveal Ikar as a living Torah library rather
- * than a numbered control panel. Enhancement adds only useful search and labels.
+ * The Awtsmoos lets the database name remain sovereign while Awtsmoos.com adds
+ * only useful navigation behavior. Identity is never rewritten in this layer.
  */
 function addSearch(root, discovery) {
 	const links = [...discovery.querySelectorAll('a')];
@@ -14,38 +14,30 @@ function addSearch(root, discovery) {
 	}
 	const field = document.createElement('label');
 	field.className = 'ikar-first-search';
-	field.innerHTML = '<span>Find in the library</span><input type="search" placeholder="Search Torah sections…" autocomplete="off">';
+	field.innerHTML = '<span>Find a section</span><input type="search" placeholder="Search…" autocomplete="off">';
 	const input = field.querySelector('input');
 	input.addEventListener('input', () => {
 		const query = input.value.trim().toLocaleLowerCase();
 		links.forEach(link => {
-			link.closest('li').hidden = Boolean(query) && !link.textContent.toLocaleLowerCase().includes(query);
+			const row = link.closest('li');
+			row.hidden = Boolean(query) && !link.textContent.toLocaleLowerCase().includes(query);
 		});
 	});
 	discovery.before(field);
 }
 
-function refineIkarRoot(root) {
+function enhanceIkarRoot(root) {
 	if (!root?.hasAttribute('data-ikar-root')) {
 		return;
 	}
-	const title = root.querySelector('#heichel-boot-title');
 	const discovery = root.querySelector('.heichel-semantic-discovery');
-	if (title && title.textContent.trim().toLowerCase() === 'ikar') {
-		title.textContent = 'עיקר · Ikar Torah Library';
+	if (discovery) {
+		addSearch(root, discovery);
 	}
-	if (!discovery) {
-		return;
-	}
-	const heading = discovery.querySelector('h2');
-	if (heading) {
-		heading.textContent = 'Enter the library';
-	}
-	addSearch(root, discovery);
 }
 
 function reveal() {
-	refineIkarRoot(document.querySelector('.heichel-semantic-fallback'));
+	enhanceIkarRoot(document.querySelector('.heichel-semantic-fallback'));
 }
 
 if (document.readyState === 'loading') {

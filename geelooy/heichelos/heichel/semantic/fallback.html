@@ -1,16 +1,16 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lets every Heichel reveal its public face before richer JavaScript arrives; Awtsmoos.com keeps Torah identity human, clear, and never reduced to an internal id.
+The Awtsmoos reveals identity through the real Heichel record; Awtsmoos.com adds atmosphere around the data, never a replacement name or invented description.
 -->
 <div class="heichel-semantic-fallback" id="heichel-semantic-fallback">
 	<header class="heichel-semantic-hero">
-		<p class="heichel-semantic-context" id="heichel-boot-context"></p>
+		<p class="heichel-semantic-context" id="heichel-boot-context">TORAH · LIVING LIBRARY</p>
 		<h1 id="heichel-boot-title"></h1>
 		<p class="heichel-semantic-description" id="heichel-boot-description"></p>
 	</header>
 	<nav class="heichel-semantic-discovery" aria-labelledby="heichel-discovery-title">
-		<h2 id="heichel-discovery-title"></h2>
+		<h2 id="heichel-discovery-title">Explore</h2>
 		<ul id="heichel-discovery-list"></ul>
 	</nav>
 </div>
@@ -19,19 +19,16 @@ The Awtsmoos lets every Heichel reveal its public face before richer JavaScript 
 	var model = window.semanticModel || {};
 	var path = String(location.pathname || "");
 	var isIkarRoot = path === "/heichelos/ikar" || path === "/heichelos/ikar/";
-	var title = String(model.heading || model.name || "").trim();
+	var title = String(model.title || model.name || model.heading || "").trim();
 	var description = String(model.description || "").trim();
-	var context = "Torah Library";
+	var root = document.getElementById("heichel-semantic-fallback");
 	if (isIkarRoot) {
-		title = title && title.toLowerCase() !== "ikar" ? title : "עיקר · Ikar Torah Library";
-		description = description || "Written Torah, Oral Torah, and Chassidus — together in one living library.";
-		context = "עיקר · TORAH LIBRARY";
-		document.getElementById("heichel-semantic-fallback")?.setAttribute("data-ikar-root", "true");
+		root?.setAttribute("data-ikar-root", "true");
 	}
-	if (!title) title = "Torah Library";
-	document.getElementById("heichel-boot-context").textContent = context;
 	document.getElementById("heichel-boot-title").textContent = title;
-	document.getElementById("heichel-boot-description").textContent = description;
+	var descriptionNode = document.getElementById("heichel-boot-description");
+	descriptionNode.textContent = description;
+	descriptionNode.hidden = !description;
 	document.getElementById("heichel-discovery-title").textContent = isIkarRoot ? "Enter the library" : "Explore";
 	var list = document.getElementById("heichel-discovery-list");
 	var links = Array.isArray(model.links) ? model.links : [];
