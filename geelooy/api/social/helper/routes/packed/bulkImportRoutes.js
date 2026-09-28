@@ -397,7 +397,8 @@ class PackedBulkImportRoutes {
 		};
 		setJob(job);
 		// Fire and forget — the job updates its own record; poll via status.
-		this.runJob(this.$i, job).catch(() => {});
+		// Guard against synchronous throw from async fn before first await.
+		try { this.runJob(this.$i, job).catch(() => {}); } catch (e) { job.status = "failed"; job.errors.push({ message: String(e && e.message || e) }); setJob(job); }
 		return { success: { jobId: job.id, status: job.status, kind, dryRun, totalItems: items.length } };
 	}
 
