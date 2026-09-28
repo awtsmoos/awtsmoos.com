@@ -90,7 +90,10 @@ function proveWiringReachesQueueRejection() {
 	assert(main.includes("rejectDrop: (item, reason) => components.queue.rejectDispatchDrop(item, reason)"));
 	assert(queue.includes("rejectDispatchDrop"));
 	assert(queue.includes("rejection.dropped(item"));
-	assert(drain.includes('dependencies.rejectDrop?.(item, "dispatch_socket_unusable")'));
+	assert(drain.includes('return rejectUnusableDispatch(dependencies, item);'));
+	assert(drain.includes('const reason = "dispatch_socket_unusable";'));
+	assert(drain.includes('dependencies.rejectDrop?.(item, reason);'));
+	assert(drain.includes('return Promise.reject(error);'));
 }
 
 function createHarness(items) {
