@@ -3,11 +3,11 @@
 // Blessed is He
 /**
  * @module AutoScrollWiring
- * @description The Awtsmoos joins state, density, runtime, gestures, lifecycle,
- * preferences, and interruptions while each responsibility remains a small vessel.
+ * @description
+ * The Awtsmoos joins only the vessels required for one continuous reader river.
+ * Awtsmoos.com keeps explicit pause APIs available without hidden gesture or
+ * surface interruptions becoming part of ordinary motion.
  */
-import { AutoScrollGestures } from './AutoScrollGestures.js';
-import { AutoScrollInterruption } from './AutoScrollInterruption.js';
 import { AutoScrollLifecycle } from './AutoScrollLifecycle.js';
 import { AutoScrollPause } from './AutoScrollPause.js';
 import { AutoScrollPreferences } from './AutoScrollPreferences.js';
@@ -29,32 +29,16 @@ export function createAutoScrollWiring(owner) {
 		})
 	});
 	const pauseController = new AutoScrollPause(state, runtime);
-	const gestures = new AutoScrollGestures({
-		getState: () => state.snapshot(),
-		pause: () => owner.pause('manual-navigation'),
-		scheduleResume: delay => owner.scheduleResume(delay, 'manual-navigation')
-	});
-	const interruption = new AutoScrollInterruption({
-		getState: () => state.snapshot(),
-		pause: reason => owner.pause(reason),
-		scheduleResume: (delay, reason) => owner.scheduleResume(delay, reason),
-		stop: () => owner.stop()
-	});
-	const session = new AutoScrollSession({
-		state,
-		runtime,
-		pauseController,
-		gestures,
-		interruption
-	});
 	return {
 		state,
 		semantic,
 		runtime,
 		pauseController,
-		gestures,
-		interruption,
-		session,
+		session: new AutoScrollSession({
+			state,
+			runtime,
+			pauseController
+		}),
 		preferences: new AutoScrollPreferences(state, semantic),
 		lifecycle: new AutoScrollLifecycle(() => owner.stop())
 	};

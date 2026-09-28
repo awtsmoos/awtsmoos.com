@@ -3,66 +3,29 @@
 // Blessed is He
 /**
  * @module AutoScrollControlCopy
- * @description The Awtsmoos gives every state one visible word and one precise accessible intention;
- * Awtsmoos.com lets the river speak what a focused control will do, without summoning a second competing announcer.
+ * @description
+ * The Awtsmoos gives the moving river two human words: Start and Stop.
+ * Awtsmoos.com keeps every visible and assistive label equally simple.
  */
-function pauseLabel(reason) {
-	return reason === 'study-surface' ? 'Studying' : 'Paused';
+function paceText(state) {
+	const value = Math.round(Number(state?.value || state?.preferences?.value || 0));
+	const unit = String(state?.unit || state?.preferences?.unit || 'wpm').toUpperCase();
+	return value ? `${value} ${unit}` : '';
 }
 
-/**
- * Builds the single copy model shared by visible and assistive reader controls.
- *
- * @param {object} state Current semantic Auto Scroll state.
- * @returns {{icon:string,label:string,status:string,title:string,ariaLabel:string}} Unified control copy.
- */
-export function autoScrollControlCopy(state) {
-	if (!state.active) {
-		return {
-			icon: '↓',
-			label: 'Start',
-			status: 'Off',
-			title: `Start semantic auto-scroll · ${state.paceText}`,
-			ariaLabel: `Start semantic auto-scroll at ${state.paceText}`
-		};
-	}
-
-	if (state.countdown > 0) {
-		return {
-			icon: String(state.countdown),
-			label: 'Cancel',
-			status: `Starting in ${state.countdown}`,
-			title: 'Cancel semantic auto-scroll countdown',
-			ariaLabel: `Cancel auto-scroll countdown, ${state.countdown} seconds remaining`
-		};
-	}
-
-	if (state.paused) {
-		const status = pauseLabel(state.pauseReason);
-		return {
-			icon: '▶',
-			label: 'Resume',
-			status,
-			title: `${status} · resume ${state.paceText}`,
-			ariaLabel: `${status}. Resume semantic auto-scroll at ${state.paceText}`
-		};
-	}
-
-	if (state.boundaryReason) {
-		return {
-			icon: '◌',
-			label: 'Stop',
-			status: `Resting · ${state.boundaryReason}`,
-			title: `Stop during ${state.boundaryReason} rest`,
-			ariaLabel: `Stop semantic auto-scroll during ${state.boundaryReason} rest`
-		};
-	}
-
+export function autoScrollControlCopy(state = {}) {
+	const running = Boolean(state.active);
+	const pace = paceText(state);
+	const label = running ? 'Stop' : 'Start';
+	const ariaLabel = pace ? `${label} auto scroll, ${pace}` : `${label} auto scroll`;
 	return {
-		icon: '■',
-		label: 'Stop',
-		status: 'Scrolling',
-		title: `Stop semantic auto-scroll · ${state.paceText}`,
-		ariaLabel: `Stop semantic auto-scroll at ${state.paceText}`
+		label,
+		icon: running ? '■' : '↓',
+		pace,
+		status: running ? 'Scrolling' : 'Off',
+		pressed: running,
+		state: running ? 'scrolling' : 'off',
+		title: ariaLabel,
+		ariaLabel
 	};
 }

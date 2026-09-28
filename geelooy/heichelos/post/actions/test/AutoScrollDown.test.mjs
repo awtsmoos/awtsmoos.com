@@ -4,17 +4,14 @@
 /**
  * @file AutoScrollDown.test.mjs
  * @description
- * The Awtsmoos proves one semantic river contract from contemplative rest through
- * measured motion; Awtsmoos.com keeps pace, pause, lifecycle, and storage in truth.
- * The living storage key comes from production itself, so tomorrow's renewed vessel
- * cannot leave this test worshipping yesterday's versioned shell.
+ * The Awtsmoos proves the simple Awtsmoos.com reader covenant: Start moves at
+ * once, movement continues until Stop, and explicit pause/resume stays available
+ * without changing the visible Start/Stop meaning.
  */
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { AUTO_SCROLL_PREFERENCES_KEY } from '../autoScroll/AutoScrollStorage.js';
 import { createAutoScrollHarness } from './AutoScrollHarness.mjs';
-
-const wait = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
 
 function advanceFrames(harness, startTime, count) {
 	for (let index = 0; index < count; index += 1) {
@@ -22,7 +19,7 @@ function advanceFrames(harness, startTime, count) {
 	}
 }
 
-test('complete measured semantic auto-scroll contract', async () => {
+test('auto scroll starts immediately and stays continuous until stop', async () => {
 	const harness = createAutoScrollHarness();
 	const river = await harness.loadRiver();
 	const initial = river.initializeAutoScrollDownState();
@@ -36,33 +33,30 @@ test('complete measured semantic auto-scroll contract', async () => {
 	const slow = river.setAutoScrollDownPace(40);
 	assert.equal(slow.active, false);
 	assert.equal(slow.value, 40);
-	assert.equal(slow.preset, 'custom');
 	assert.match(harness.storageValues.get(AUTO_SCROLL_PREFERENCES_KEY), /"value":40/);
 
 	harness.root.scrollTop = 0;
-	river.startAutoScrollDown({ pace: 40 });
+	const started = river.startAutoScrollDown({ pace: 40, countdown: true });
+	assert.equal(started.active, true);
+	assert.equal(started.status, 'scrolling');
+	assert.equal(started.countdown, 0);
 	advanceFrames(harness, 1000, 50);
-	const slowDistance = harness.root.scrollTop;
-	river.stopAutoScrollDown();
-	assert.ok(slowDistance >= 5 && slowDistance <= 15, `slow distance ${slowDistance}`);
+	const firstDistance = harness.root.scrollTop;
+	assert.ok(firstDistance > 0, `first distance ${firstDistance}`);
+	advanceFrames(harness, 1800, 50);
+	const secondDistance = harness.root.scrollTop;
+	assert.ok(secondDistance > firstDistance, `continuous distance ${secondDistance}`);
 
-	harness.root.scrollTop = 0;
-	river.startAutoScrollDown({ preset: 'review' });
-	advanceFrames(harness, 3000, 50);
-	const reviewDistance = harness.root.scrollTop;
-	assert.ok(reviewDistance > slowDistance * 3);
-	assert.equal(harness.classes.has('awtsmoos-auto-scroll-active'), true);
-	assert.equal(river.pauseAutoScrollDown(), true);
+	assert.equal(river.pauseAutoScrollDown('manual'), true);
 	assert.equal(river.getAutoScrollDownState().status, 'paused');
-	assert.equal(river.toggleAutoScrollDown(), true);
+	assert.equal(river.resumeAutoScrollDown('manual'), true);
 	assert.equal(river.getAutoScrollDownState().status, 'scrolling');
 
-	river.pauseAutoScrollDown('manual-navigation');
-	river.scheduleAutoScrollResume(1, 'manual-navigation');
-	await wait(8);
-	assert.equal(river.getAutoScrollDownState().status, 'scrolling');
-	harness.fireWindow('pagehide');
-	assert.equal(river.getAutoScrollDownState().active, false);
+	assert.equal(river.toggleAutoScrollDown(), false);
+	const stopped = river.getAutoScrollDownState();
+	assert.equal(stopped.active, false);
+	assert.equal(stopped.status, 'off');
+	assert.equal(harness.classes.has('awtsmoos-auto-scroll-active'), false);
 
 	harness.fireWindow('storage', {
 		key: AUTO_SCROLL_PREFERENCES_KEY,
@@ -73,5 +67,4 @@ test('complete measured semantic auto-scroll contract', async () => {
 	assert.equal(synced.value, 7.5);
 	assert.equal(synced.active, false);
 	assert.ok(harness.emittedStates.every(state => 'estimateText' in state && 'paceText' in state));
-	river.stopAutoScrollDown();
 });

@@ -4,8 +4,8 @@
 /**
  * @module AutoScrollButton
  * @description
- * The Awtsmoos gives the floating river control no private truth and no raw HTML gate;
- * Awtsmoos.com marks each visible fragment so semantic state can clothe icon, label, pace, and action together.
+ * The Awtsmoos lets one touch release one continuous river. Awtsmoos.com keeps
+ * both reader buttons inside the same state renderer: Start moves now; Stop rests.
  */
 import {
 	initializeAutoScrollDownState,
@@ -16,55 +16,43 @@ import {
 	renderAutoScrollControls
 } from './AutoScrollControlView.js';
 
-function span(className, text = '', dataName = '') {
-	const element = document.createElement('span');
-	element.className = className;
-	element.textContent = text;
-	if (dataName) {
-		element.setAttribute(dataName, '');
-	}
-	return element;
-}
+const BUTTON_ID = 'awtsmoosAutoScrollBtn';
 
-function populateButton(button) {
-	const icon = span('awtsmoos-auto-scroll-icon', '↓', 'data-auto-scroll-icon');
-	icon.setAttribute('aria-hidden', 'true');
-	button.append(
-		icon,
-		span('awtsmoos-auto-scroll-label', 'Start', 'data-auto-scroll-label'),
-		span('awtsmoos-auto-scroll-speed', '', 'data-auto-scroll-pace')
-	);
-}
-
-function bindButton(button) {
-	if (button.dataset.awtsmoosAutoScrollBound === 'true') {
-		return;
+function bind(button) {
+	if (!button || button.dataset.autoScrollBound === 'true') {
+		return button;
 	}
-	button.dataset.awtsmoosAutoScrollBound = 'true';
-	button.addEventListener('click', event => {
-		event.preventDefault();
-		event.stopPropagation();
-		toggleAutoScrollDown({ countdown: true });
+	button.dataset.autoScrollBound = 'true';
+	button.dataset.autoScrollControl = 'true';
+	button.dataset.autoScrollToggle = 'true';
+	button.addEventListener('click', () => {
+		toggleAutoScrollDown();
+		renderAutoScrollControls();
 	});
+	return button;
 }
 
 export function ensureAutoScrollButton() {
 	initializeAutoScrollDownState();
 	connectAutoScrollControlView();
-	let button = document.getElementById('awtsmoosAutoScrollBtn');
-	if (!button) {
-		button = document.createElement('button');
-		button.id = 'awtsmoosAutoScrollBtn';
-		button.type = 'button';
-		button.className = 'awtsmoos-auto-scroll-floating awtsmoos-mobile-river awtsmoos-desktop-river';
-		button.dataset.autoScrollToggle = 'true';
-		button.dataset.autoScrollControl = 'true';
-		button.setAttribute('aria-pressed', 'false');
-		populateButton(button);
-		const host = document.querySelector('.post-reader-localized-context') || document.body;
-		host.append(button);
+	const existing = document.getElementById(BUTTON_ID);
+	if (existing) {
+		bind(existing);
+		renderAutoScrollControls();
+		return existing;
 	}
-	bindButton(button);
+	const button = document.createElement('button');
+	button.id = BUTTON_ID;
+	button.type = 'button';
+	button.className = 'awtsmoos-auto-scroll-floating';
+	button.setAttribute('aria-live', 'polite');
+	button.innerHTML = [
+		'<span class="awtsmoos-auto-scroll-icon" data-auto-scroll-icon aria-hidden="true">↓</span>',
+		'<span class="awtsmoos-auto-scroll-label" data-auto-scroll-label>Start</span>',
+		'<span class="awtsmoos-auto-scroll-speed" data-auto-scroll-pace></span>'
+	].join('');
+	document.body.append(button);
+	bind(button);
 	renderAutoScrollControls();
 	return button;
 }
