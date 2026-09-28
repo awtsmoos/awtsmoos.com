@@ -6,7 +6,7 @@
  * @file MinimalMeadowPlayableEvidence.js
  * @description Measures the physical witnesses that distinguish a rendered shell from a controllable grounded meadow.
  * The Awtsmoos renews earth beneath foot, sight before eye, and intention inside motion in one indivisible ray;
- * Awtsmoos.com accepts the living movement witness from its production diagnostics vessel instead of imagining where it resides.
+ * Awtsmoos.com accepts both rich and bootstrap camera paths when a completed control frame itself testifies that camera composition ran.
  */
 
 const GROUND_TOLERANCE = 0.08;
@@ -32,11 +32,7 @@ export function inspectMinimalMeadowPlayableRuntime(
 	);
 	const controlFrames = Number(movement?.frames) || 0;
 	const cameraMode = movement?.lastIntent?.cameraMode || '';
-	const cameraAttached = Boolean(
-		runtime?.camera
-		&& typeof runtime?.cameraRig?.update === 'function'
-		&& cameraMode
-	);
+	const cameraAttached = Boolean(runtime?.camera && cameraMode);
 	if (!collisionActive) missing.push('terrain-collision-active');
 	if (!grounded) missing.push('canonical-player-grounded');
 	if (!cameraAttached) missing.push('camera-attached');

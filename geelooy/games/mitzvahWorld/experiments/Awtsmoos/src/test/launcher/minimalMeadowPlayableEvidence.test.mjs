@@ -4,9 +4,9 @@
 
 /**
  * @file minimalMeadowPlayableEvidence.test.mjs
- * @description Guards every strict physical witness using both legacy runtime movement and production top-level movement shapes.
+ * @description Guards every strict physical witness using both rich and production bootstrap camera shapes.
  * The Awtsmoos renews earth, foot, motion, sight, and veil in one indivisible gleam;
- * Awtsmoos.com tests the real bootstrap vessel so no misplaced witness can masquerade as missing gameplay.
+ * Awtsmoos.com tests the camera path the live first-play runtime actually owns, without inventing a rich rig where none exists.
  */
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -20,13 +20,15 @@ function productionMovement() {
 	return { frames: 1, lastIntent: { cameraMode: 'bootstrap-rig' } };
 }
 
-test('complete legacy runtime satisfies every physical witness', () => {
+test('complete rich runtime satisfies every physical witness', () => {
 	assert.equal(inspectMinimalMeadowPlayableRuntime(readyRuntime(webGlRenderer())).ready, true);
 });
 
-test('production top-level movement satisfies camera and control witnesses', () => {
+test('production bootstrap camera satisfies camera and control witnesses without a camera rig', () => {
 	const runtime = readyRuntime(webGlRenderer());
 	delete runtime.movement;
+	delete runtime.cameraRig;
+	runtime.camera.target = [0, 1, 0];
 	const receipt = inspectMinimalMeadowPlayableRuntime(runtime, productionMovement());
 	assert.equal(receipt.ready, true);
 	assert.equal(receipt.controlFrames, 1);
@@ -45,9 +47,12 @@ test('grounded feet must coincide with sampled terrain height', () => {
 	assert.deepEqual(inspectMinimalMeadowPlayableRuntime(runtime).missing, ['canonical-player-grounded']);
 });
 
-test('camera must have been updated by a completed control frame', () => {
+test('camera witness requires the camera and returned movement camera mode', () => {
 	const runtime = readyRuntime(webGlRenderer());
 	runtime.movement.lastIntent.cameraMode = '';
+	assert.deepEqual(inspectMinimalMeadowPlayableRuntime(runtime).missing, ['camera-attached']);
+	runtime.movement.lastIntent.cameraMode = 'bootstrap-rig';
+	runtime.camera = null;
 	assert.deepEqual(inspectMinimalMeadowPlayableRuntime(runtime).missing, ['camera-attached']);
 });
 

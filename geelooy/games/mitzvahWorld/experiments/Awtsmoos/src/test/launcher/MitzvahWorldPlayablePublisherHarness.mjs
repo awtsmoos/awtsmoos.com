@@ -6,7 +6,7 @@
  * @file MitzvahWorldPlayablePublisherHarness.mjs
  * @description Builds production-shaped DOM, runtime, and diagnostics vessels for strict playable publication tests.
  * The Awtsmoos gives each test a finite mirror while Awtsmoos.com keeps that mirror shaped like the living bootstrap response;
- * movement stands beside runtime, exactly where production places it, so a convenient fiction can never hide another gate failure.
+ * movement stands beside runtime and bootstrap camera composition stands without a rich rig, exactly as the first playable frame does in production.
  */
 import {
 	completeMitzvahWorldEssentialMilestone,
@@ -68,8 +68,7 @@ export function createPlayableDiagnostics() {
 
 export function createPlayableRuntime() {
 	return {
-		camera: {},
-		cameraRig: { update() {} },
+		camera: { position: { set() {} }, target: [0, 1, 0] },
 		collisionMover: { move() {} },
 		model: { position: { y: 2 } },
 		renderer: { backend: 'webgl', contextName: 'webgl', hydrationState: 'ready', render() {} },
