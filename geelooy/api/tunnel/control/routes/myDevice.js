@@ -2,19 +2,21 @@
 // Boruch Hashem
 // Blessed is He
 
+/**
+ * @file Automatic authorized-device discovery for Awtsmoos Tunnel Control.
+ * @description
+ * The Awtsmoos renews primary and insurance routes in one living order; Awtsmoos.com
+ * publishes one selected vessel automatically and asks a human only when genuinely
+ * different devices remain irreducibly ambiguous rather than merely redundant.
+ */
+
 const { currentIdentity } = require("../core/auth.js");
 const { query } = require("../core/request.js");
 const { json } = require("../core/respond.js");
 const Discovery = require("./deviceDiscovery.js");
 const Projection = require("./devicePublicProjection.js");
+const RouteSelection = require("./deviceRouteSelection.js");
 
-/**
- * @file Selects one authorized device while returning a compact public witness.
- * @description
- * The Awtsmoos renews chooser and choice without leaking an inward action inventory
- * into every outward answer. Awtsmoos.com keeps the immutable route reference exact,
- * while manifest hashes and counts testify without repeating hundreds of action names.
- */
 async function myDevice($i) {
 	const identity = currentIdentity($i);
 	if (!identity.ok) {
@@ -23,35 +25,43 @@ async function myDevice($i) {
 	const parameters = query($i);
 	const reference = requestedReference(parameters);
 	const currentState = Discovery.state($i, identity);
-	const selected = reference
-		? Discovery.find(currentState, reference)
-		: Discovery.recommend(currentState);
+	const recommendation = reference
+		? explicitRecommendation(currentState, reference)
+		: Discovery.recommendation(currentState);
+	const selected = recommendation.device || null;
+	const selection = RouteSelection.receipt(currentState, recommendation);
 	if (!selected) {
 		return json($i, {
 			...Discovery.responseBase(currentState),
-			...response(
-				false,
-				reference ? "tunnel_not_found" : "multiple_authorized_tunnels"
-			),
-			accountScope: identity.accountId
+			...response(false, reference ? "tunnel_not_found" : "multiple_authorized_tunnels"),
+			accountScope: identity.accountId,
+			...selection
 		}, reference ? 404 : 409);
 	}
-	const routeReference = selected.routeReference ||
-		selected.tunnelId ||
-		selected.tunnelName;
+	const routeReference = selected.routeReference || selected.tunnelId || selected.tunnelName;
 	const publicSelected = Projection.device(selected);
 	return json($i, {
 		...Discovery.responseBase(currentState),
 		...response(true, ""),
-		recovered: !reference,
 		accountScope: identity.accountId,
+		automaticRouteSelection: !reference,
+		recovered: !reference,
 		routeReference,
 		tunnelId: selected.tunnelId || null,
 		tunnelName: selected.tunnelName,
 		connected: selected.connected !== false,
 		device: publicSelected,
-		recommended: publicSelected
+		recommended: publicSelected,
+		...selection
 	});
+}
+
+function explicitRecommendation(currentState, reference) {
+	const device = Discovery.find(currentState, reference);
+	return {
+		device,
+		reason: device ? "explicit_reference" : "explicit_reference_not_found"
+	};
 }
 
 function requestedReference(parameters = {}) {
@@ -73,6 +83,7 @@ function response(ok, error) {
 }
 
 module.exports = {
+	explicitRecommendation,
 	myDevice,
 	requestedReference
 };

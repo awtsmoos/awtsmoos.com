@@ -5,19 +5,23 @@
 /**
  * @file Dynamic OAuth route vessel for Awtsmoos.com.
  * @description
- * The Awtsmoos is one beyond every URL, while each explicit route carries one
- * appointed service. The root remains a discovery doorway for compatibility,
- * but an unknown named path returns 404 instead of impersonating a valid gate.
+ * The Awtsmoos is one beyond every URL, while each explicit route receives only
+ * its appointed handler. Awtsmoos.com keeps discovery and protocol doors isolated,
+ * so one broken chamber cannot darken the entire OAuth house in a single tide.
  */
 
-const { routeTable } = require("./routes/table.js");
+const {
+	getRouteHandler,
+	listRouteNames
+} = require("./routes/table.js");
 
 function cleanRouteName(name) {
 	return String(name || "")
 		.split("?")[0]
 		.split("#")[0]
 		.replace(/^\/+/, "")
-		.replace(/\/+$/, "");
+		.replace(/\/+$/, "")
+		.toLowerCase();
 }
 
 function missingRoute(clean) {
@@ -29,21 +33,36 @@ function missingRoute(clean) {
 			ok: false,
 			error: "oauth_route_not_found",
 			route: clean,
-			available: Object.keys(routeTable)
+			available: listRouteNames()
 		}, null, 2)
 	};
 }
 
 async function callRoute($i, name, vars) {
 	const clean = cleanRouteName(name);
-	if (!clean) {
-		return routeTable.start($i, vars || {});
+	const routeName = clean || "start";
+	let handler;
+	try {
+		handler = getRouteHandler(routeName);
+	} catch (error) {
+		logRouteLoadFailure(routeName, error);
+		throw error;
 	}
-	const handler = routeTable[clean];
 	if (!handler) {
 		return missingRoute(clean);
 	}
 	return handler($i, vars || {});
+}
+
+function logRouteLoadFailure(routeName, error) {
+	console.error("[Awtsmoos OAuth] Route handler failed to load.", {
+		code: error?.code || "OAUTH_ROUTE_LOAD_FAILED",
+		exportName: error?.oauthExport || "unknown",
+		message: error?.message || String(error),
+		modulePath: error?.oauthModule || "unknown",
+		route: error?.oauthRoute || routeName,
+		stack: error?.stack || ""
+	});
 }
 
 function applyOAuthHeaders($i) {

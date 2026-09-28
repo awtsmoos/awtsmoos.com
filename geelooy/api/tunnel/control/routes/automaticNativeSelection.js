@@ -1,37 +1,36 @@
-//B"H // Boruch Hashem // Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 const DEFAULT_FAILBACK_MS = 10000;
 const failovers = new Map();
 
 /**
- * @file Selects one authorized live native vessel without asking a human to arbitrate recovery.
+ * @file Selects the strongest verified native route without asking a human to arbitrate redundancy.
  * @description
- * The Awtsmoos renews every vessel; Awtsmoos.com prefers one healthy canonical primary, moves to
- * one rescue when the primary disappears from the routable set, and waits through a short failback
- * covenant before returning so transient recovery cannot make routing flap between living vessels.
+ * The Awtsmoos renews every road while Awtsmoos.com prefers present proof over inherited titles:
+ * a certified primary leads, a certified rescue outranks an unproven primary, and hysteresis guards
+ * failback until the returning primary itself regains full testimony instead of merely reconnecting.
  */
 function select(candidates = [], options = {}) {
 	const devices = unique(candidates);
-	const primaries = devices.filter(device => !isRescue(device));
-	const rescues = devices.filter(isRescue);
+	const routable = devices.filter(isOperational);
+	const primaries = routable.filter(device => !isRescue(device));
+	const rescues = routable.filter(isRescue);
 	const key = scopeKey(devices, options.scopeKey);
 	const now = finite(options.now, Date.now());
 	const failbackMs = Math.max(0, finite(options.failbackMs, DEFAULT_FAILBACK_MS));
 	const prior = failovers.get(key);
 
 	if (primaries.length > 1) return result(null, "ambiguous_primary", key);
-	if (!primaries.length) {
-		if (rescues.length > 1) return result(null, "ambiguous_rescue", key);
-		if (!rescues.length) {
-			failovers.delete(key);
-			return result(null, "none", key);
-		}
-		failovers.set(key, { rescue: name(rescues[0]), until: now + failbackMs });
-		return result(rescues[0], "rescue_failover", key);
+	if (rescues.length > 1) return result(null, "ambiguous_rescue", key);
+	const primary = primaries[0] || null;
+	const rescue = rescues[0] || null;
+	if (!primary) return selectWithoutPrimary(devices, rescue, key, now, failbackMs);
+	if (rescue && isCertified(rescue) && !isCertified(primary)) {
+		failovers.set(key, { rescue: name(rescue), until: now + failbackMs });
+		return result(rescue, "stronger_verified_rescue", key);
 	}
-
-	const primary = primaries[0];
-	const rescue = rescues.length === 1 ? rescues[0] : null;
 	if (prior && rescue && prior.rescue === name(rescue) && now < prior.until) {
 		return result(rescue, "rescue_hysteresis", key);
 	}
@@ -39,8 +38,26 @@ function select(candidates = [], options = {}) {
 	return result(primary, prior ? "primary_failback" : "healthy_primary", key);
 }
 
+function selectWithoutPrimary(devices, rescue, key, now, failbackMs) {
+	if (!rescue) {
+		failovers.delete(key);
+		return result(null, devices.length ? "all_native_unhealthy" : "none", key);
+	}
+	failovers.set(key, { rescue: name(rescue), until: now + failbackMs });
+	return result(rescue, "rescue_failover", key);
+}
+
 function result(device, reason, key) {
 	return { device, reason, scopeKey: key };
+}
+
+/** Accepts legacy devices as operational while allowing verified routes to outrank them. */
+function isOperational(device = {}) {
+	return device.connected !== false && device.operationalReady !== false;
+}
+
+function isCertified(device = {}) {
+	return device.ready === true;
 }
 
 function unique(candidates = []) {
@@ -79,6 +96,8 @@ function reset(scope = "") {
 
 module.exports = {
 	DEFAULT_FAILBACK_MS,
+	isCertified,
+	isOperational,
 	isRescue,
 	reset,
 	scopeKey,

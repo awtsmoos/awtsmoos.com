@@ -7,7 +7,7 @@
  * @description
  * The Awtsmoos is beyond every provider name. Awtsmoos.com therefore keeps one
  * universal public-agent covenant beneath compatibility garments for Grok and
- * ChatGPT, so future AI clients need capability rather than a new registry edit.
+ * ChatGPT, while old scope aliases remain truthful reflections of the same law.
  */
 
 const {
@@ -18,6 +18,9 @@ const {
 	makePublicAgentClient
 } = require("./publicAgentPolicy.js");
 const { scopeString } = require("../../tunnel/shared/scopeCatalog.js");
+
+const CHATGPT_DEFAULT_SCOPES = AGENT_DEFAULT_SCOPES;
+const CHATGPT_REQUIRED_SCOPES = AGENT_REQUIRED_SCOPES;
 
 const chatgpt = {
 	id: "chatgpt",
@@ -56,5 +59,7 @@ module.exports = {
 	AGENT_ALLOWED_SCOPES,
 	AGENT_DEFAULT_SCOPES,
 	AGENT_REQUIRED_SCOPES,
+	CHATGPT_DEFAULT_SCOPES,
+	CHATGPT_REQUIRED_SCOPES,
 	oauthClients
 };

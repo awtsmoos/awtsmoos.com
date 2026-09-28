@@ -232,7 +232,8 @@ components:
             tunnel.read: Read tunnel state.
             tunnel.write: Modify authorized files.
             tunnel.command: Execute command diagnostics.
-            tunnel.browser: Browser automation.
-            tunnel.mission: Coordinate mission lifecycle.
-            tunnel.room: Read and publish shared-room messages.
-            tunnel.admin: Administrative tunnel operations.
+            tunnel.browser: Control authorized browser sessions.
+            tunnel.mission: Coordinate delegated mission agents.
+            tunnel.room: Create and mutate shared mission rooms.
+            tunnel.admin: Perform administrative tunnel operations.
+            awtsmoos.api: Call Awtsmoos application APIs (social, heichelos, series, posts) through the tunnel gateway.

@@ -14,20 +14,20 @@ const Store = require("../tools/fs/commandJobStore.js");
 const Scheduler = require("../tools/fs/commandJob/scheduler.js");
 
 const JOB_COUNT = 1000;
-const AGENT_COUNT = 128;
+const AGENT_COUNT = 384;
 
 /**
- * B"H
- * A thousand deeds arrive together through 128 agents, yet no receipt loses
- * its name. The Awtsmoos lets Awtsmoos.com admit an unbounded logical burst
- * while eight measured process vessels preserve order, fairness, and health.
+ * @file Stresses one thousand command jobs spread across hundreds of independent agents.
+ * @description
+ * The Awtsmoos renews every receipt while Awtsmoos.com lets 384 shluchim enter one bounded queue:
+ * eight measured process vessels preserve identity, fairness, and completion without allowing one agent
+ * to absorb the whole river or forcing concurrency upward merely because logical participation grows.
  */
 (async () => {
 	const root = fs.mkdtempSync(path.join(os.tmpdir(), "awts-thousand-"));
 	const config = Helpers.commandConfig(root);
 	const peaks = { active: 0, queued: 0 };
 	let sampler;
-
 	try {
 		const starts = Array.from({ length: JOB_COUNT }, (_, index) =>
 			Store.startCommandJob(config, {
@@ -48,10 +48,7 @@ const AGENT_COUNT = 128;
 		clearInterval(sampler);
 		sampler = null;
 		const completed = await Promise.all(jobs.map(job =>
-			Store.commandWait(config, {
-				jobId: job.jobId,
-				waitTimeoutMs: 60000
-			})
+			Store.commandWait(config, { jobId: job.jobId, waitTimeoutMs: 60000 })
 		));
 		assert.ok(completed.every(job => job.status === "completed"));
 		assert.equal(peaks.active, 8);
@@ -82,10 +79,7 @@ function verifyIdentity(jobs) {
 	assert.equal(Helpers.unique(jobs, job => job.jobId), JOB_COUNT);
 	assert.equal(Helpers.unique(jobs, job => job.workerId), JOB_COUNT);
 	assert.equal(Helpers.unique(jobs, job => job.receiptId), JOB_COUNT);
-	assert.equal(
-		Helpers.unique(jobs, job => job.queue?.ownerId),
-		AGENT_COUNT
-	);
+	assert.equal(Helpers.unique(jobs, job => job.queue?.ownerId), AGENT_COUNT);
 }
 
 function observe(peaks) {

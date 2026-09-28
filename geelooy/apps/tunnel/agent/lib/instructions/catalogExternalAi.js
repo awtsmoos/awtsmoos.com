@@ -7,57 +7,43 @@ const { instructionPack } = require("./pack.js");
 /**
  * @file Reveals the persistent external-AI handoff only when intent calls for it.
  * @description
- * The Awtsmoos lets a small phrase open exactly one needed gate;
- * Awtsmoos.com prefers a durable Agent Link, yet keeps device OAuth as a faithful fallback state.
+ * The Awtsmoos lets one small request open a durable gate while Awtsmoos.com keeps
+ * authorization, automatic routing, insurance, custody, collaboration, and healing distinct and true.
  */
 const externalAiInstructions = Object.freeze([
 	instructionPack({
 		id: "integration.external-ai-connection",
-		version: 2,
-		summary: "Give a copy-ready persistent Awtsmoos external-AI workflow with Agent Link preference, OAuth fallback, live tunnel discovery, and collaboration.",
-		tags: [
-			"external-ai",
-			"external-agent",
-			"agent-link",
-			"oauth",
-			"device-authorization",
-			"pkce",
-			"tunnel-connection"
-		],
+		version: 4,
+		summary: "Give a copy-ready external-AI workflow with persistent auth, automatic route selection, insurance failover, collaboration, and honest fault classification.",
+		tags: ["external-ai", "agent-link", "oauth", "pkce", "device-authorization", "tunnel-connection", "recovery", "multi-agent"],
 		requiredBeforeWrite: false,
 		applies: {
 			taskHints: [
-				"connect me to an external ai",
-				"connect external ai",
-				"connect another ai",
-				"external ai",
-				"external agent",
-				"another ai to my tunnel",
-				"ai to my tunnel",
-				"connect musa",
-				"connect muse",
-				"connect claude",
-				"connect gemini"
+				"connect me to an external ai", "connect external ai", "connect another ai",
+				"external ai", "external agent", "another ai to my tunnel", "ai to my tunnel",
+				"connect musa", "connect muse", "connect claude", "connect gemini"
 			]
 		},
 		instructions: [
-			"When this pack matches, default to one complete copy-ready prompt for the external AI unless the user asks for another format.",
-			"Tell the external AI to read current OAuth metadata plus tunnel docs, docs.json, and agent-manifest before assuming any auth or action schema.",
-			"Use client_id=external-agent. If OAuth metadata advertises awtsmoos_agent_links_endpoint and awtsmoos_agent_link_grant_type, prefer a persistent Agent Link over re-running human authorization every session.",
-			"An Agent Link is account-owned and tunnel-independent. Never bind it to a friendly tunnel name, tunnel ID, or one chat session.",
-			"Create an Agent Link only through the authenticated management endpoint. Treat agent_link_secret as a durable machine credential: receive it once, store it in the external connector's secure vault outside chat, and never echo it to the conversation.",
-			"For later sessions, POST agent_link_secret to https://awtsmoos.com/api/oauth/token with client_id=external-agent and the advertised Agent Link grant type. Never put Agent Link secrets in query strings or URLs.",
-			"Use the returned ordinary short-lived access/refresh tokens for API calls. If the Agent Link is revoked, stop using its refresh lineage and require a newly approved link.",
-			"If Agent Link persistence is unavailable or the external platform cannot securely retain connector credentials, keep using the existing OAuth authorization-code + PKCE flow or headless device-authorization fallback.",
-			"For device authorization, use https://awtsmoos.com/api/oauth/device-authorization, show verification_uri_complete when available or verification URL plus user_code, and require only human approval.",
-			"Poll https://awtsmoos.com/api/oauth/token with grant_type=urn:ietf:params:oauth:grant-type:device_code, client_id=external-agent, and device_code; respect interval, authorization_pending, slow_down, expiry, and denial.",
-			"Never expose Agent Link secrets, access tokens, refresh tokens, authorization headers, API keys, cookies, credentials, or other secrets in chat.",
-			"After every fresh authentication or recovered session, call https://awtsmoos.com/api/tunnel/control/my-device and discover the currently live tunnel rather than remembering a prior route.",
-			"Route with routeReference when present, otherwise the current documented immutable tunnel identifier. Friendly tunnel names are display labels only.",
-			"Inspect live capabilities and discover the project root before forming paths. Read agents.md and local instructions before writing.",
-			"Discover and use missions, rooms, agents, claims, file claims, heartbeats, messages, and handoffs so multiple AIs coordinate rather than overwrite each other.",
-			"If the tunnel disappears, preserve authentication, retry my-device, and rediscover the route. Tunnel availability and authorization are separate states.",
-			"Preferred sequence: current metadata/docs -> persistent Agent Link when supported -> token exchange -> my-device -> live route -> capabilities/root -> collaboration. Fallback sequence remains PKCE/device OAuth -> my-device -> live route."
+			"Default to one complete copy-ready prompt unless the user asks for another format.",
+			"Read current OAuth metadata, tunnel docs, docs.json, bootstrap, and agent-manifest before assuming auth, routing, or action schemas.",
+			"Classify OAuth health separately from native tunnel health. Broken OAuth does not imply the local tunnel agent should be reinstalled.",
+			"Repeated identical 5xx ROUTE_ERROR responses across /api/oauth/* indicate an OAuth server/router defect unless fresh evidence proves otherwise; do not casually call a deterministic failure transient.",
+			"Never promise background monitoring. Report verified current state and perform the exact next foreground probe instead.",
+			"Use client_id=external-agent. Prefer persistent Agent Links when metadata advertises them; otherwise use authorization-code + PKCE or device authorization for headless clients.",
+			"Treat agent_link_secret as a durable machine credential stored only in a secure connector vault. Never echo it, access tokens, refresh tokens, authorization headers, cookies, API keys, or PKCE verifiers into chat.",
+			"For Agent Link sessions, exchange the secret at /api/oauth/token using the advertised grant type, then use ordinary short-lived access/refresh tokens. Stop using refresh lineage after link revocation.",
+			"For device authorization, POST /api/oauth/device-authorization, show verification_uri_complete or verification URI plus user_code, then poll /api/oauth/token while respecting interval, authorization_pending, slow_down, expiry, and denial.",
+			"After authentication and after every route failure, call /api/tunnel/control/my-device. Consume selectedRoute automatically and retain insuranceRoutes as ordered warm recovery.",
+			"Never ask the user 'primary or recovery?' when my-device says humanChoiceRequired=false. Ask only when humanChoiceRequired=true because genuinely different devices or surfaces remain ambiguous.",
+			"Route with selectedRoute.routeReference when present, falling back only to the documented immutable tunnel identifier. Friendly tunnel names are display labels, not routing identity.",
+			"If the selected route fails, rediscover with my-device and follow the new selectedRoute. Do not remember or force an older primary merely because it was previously selected.",
+			"Before carrying cwd or relative paths onto an insurance route, rediscover that route's project root and capabilities. Different insurance agents may expose different authorized roots; never concatenate a previous route's absolute root.",
+			"A stale recentSuccess timestamp on an otherwise connected, execution-healthy, mailbox-healthy idle insurance route is inactivity, not proof of failure. Prefer current liveness evidence over historical idleness.",
+			"If a mutation was accepted or has a durable receipt/job ID, observe that exact receipt/job first. Never duplicate it on another route unless the receipt explicitly proves safeToReplay=true.",
+			"Use multi-agent collaboration: missions, rooms, task claims, file claims, heartbeats, messages, and handoffs when hundreds of agents share one workspace so they coordinate instead of overwriting each other.",
+			"Discover capabilities and project root before filesystem work, read agents.md/local instructions, and preserve route-relative path intent across failover.",
+			"Preferred sequence: metadata/docs -> durable auth -> my-device -> selectedRoute + insuranceRoutes -> capabilities/root -> multi-agent collaboration -> work -> receipt observation -> automatic rediscovery on route failure."
 		]
 	})
 ]);

@@ -16,11 +16,11 @@ const { nativeCapabilities } = require("./capabilities.js");
 const { VESSEL_TYPES } = require("./vesselTypes.js");
 
 /**
- * @file Projects route, execution, acceptance, and independent recovery testimony.
+ * @file Projects strict certification and operational insurance health for one native tunnel.
  * @description
- * The Awtsmoos lets transport breathe, execution labor, acceptance receive, and medicine
- * remain reachable. Awtsmoos.com exposes only the authenticated recovery boolean needed
- * to choose that separate wire while keeping private registration detail bounded.
+ * The Awtsmoos lets transport breathe, execution labor, acceptance receive, and medicine remain reachable.
+ * Awtsmoos.com keeps `ready` strict while `operationalReady` names a living route that has no fresh inner failure,
+ * allowing idle rescue to remain honest insurance without pretending stale acceptance testimony is freshly certified.
  */
 function publicNativeTunnel(client = {}, now = Date.now()) {
 	const transport = Live.livenessSnapshot(client, now);
@@ -68,6 +68,8 @@ function publicNativeTunnel(client = {}, now = Date.now()) {
 		lastAcceptedReceiptId: acceptance.lastReceiptId,
 		ready: readiness.ready,
 		readinessState: readiness.state,
+		operationalReady: readiness.operationalReady,
+		operationalState: readiness.operationalState,
 		kind: VESSEL_TYPES.NATIVE,
 		vesselType: VESSEL_TYPES.NATIVE,
 		ownershipVerified: true
