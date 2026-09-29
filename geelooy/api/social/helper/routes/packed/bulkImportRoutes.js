@@ -27,8 +27,10 @@
  *
  * Safety: operator-key authorization (fail-closed), dry-run mode, bounded
  * batch size + per-job time budget (pause/resume), idempotent comment-ID skip,
- * exactly one running job, strict payload validation, alias-index updates so
- * every imported comment appears on its alias profile.
+ * exactly one running job, strict payload validation. Lean mode (default): the
+ * alias profile index and pending semantic vectors are skipped inside the job
+ * — both OOM-kill the 1.9GB production host (see OOM SAFETY above); rebuild
+ * them afterward with a dedicated pass.
  */
 
 const crypto = require('crypto');
@@ -41,6 +43,25 @@ const { indexAliasComment } = require('../../comments/aliasCommentIndex.js');
 const { noteImportedComments } = require('../../search/rag/pendingCommentVectors.js');
 const { requireMethod, requestValue } = require('./requestValues.js');
 const awts = require('../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/index.js');
+
+// ---------------------------------------------------------------------------
+// OOM SAFETY (1.9GB Hetzner host — 2026-09-28 root cause).
+// The bulk job runs INSIDE the web server process. Two auxiliary writes can
+// get it SIGKILLed by the Linux OOM killer — uncatchable, so the job dies with
+// no terminal event and all unflushed richComments writes are lost:
+//   1. indexAliasComment() opens social.aliasCommentIndex.fs.awtsdb (481MB);
+//      the Synchronous RAM pager loads the WHOLE file into the Node heap, so
+//      on a cold module cache this alone can OOM the box.
+//   2. noteImportedComments() warms the multilingual embedding worker
+//      (sentence-transformers intfloat/multilingual-e5-small, ~1GB).
+// Both are auxiliary: the public comments endpoint reads ONLY the
+// richComments packed store, so publishing stays correct without them.
+// Skip both by default; rebuild afterward with a dedicated pass.
+// Opt back in (bigger box only): BULK_IMPORT_SKIP_ALIAS_INDEX=0 and/or
+// BULK_IMPORT_SKIP_VECTORS=0 in the service environment.
+// ---------------------------------------------------------------------------
+const SKIP_ALIAS_INDEX = process.env.BULK_IMPORT_SKIP_ALIAS_INDEX !== '0';
+const SKIP_VECTORS = process.env.BULK_IMPORT_SKIP_VECTORS !== '0';
 
 // ---------------------------------------------------------------------------
 // Job registry (in-process; survives as long as the server process lives).
@@ -242,10 +263,11 @@ class PackedBulkImportRoutes {
 			// comments; idempotent by comment key, never blocks the import.
 			noteImportedComments({ $i, rows, aliasId }).catch(() => {});
 		};
+		let outcome = 'ok';
 		for (let n = 0; n < items.length; n++) {
-			if (job.cancelRequested) return 'cancelled';
-			if (job.wrote + job.skipped >= job.maxComments) return 'paused-budget';
-			if (Date.now() - job.startedAt > job.timeBudgetMs) return 'paused-budget';
+			if (job.cancelRequested) { outcome = 'cancelled'; break; }
+			if (job.wrote + job.skipped >= job.maxComments) { outcome = 'paused-budget'; break; }
+			if (Date.now() - job.startedAt > job.timeBudgetMs) { outcome = 'paused-budget'; break; }
 			const item = items[n];
 			const commentId = String(commentIdFor(item, ctx));
 			const verseSection = String(item.dayuh.verseSection);
@@ -253,7 +275,18 @@ class PackedBulkImportRoutes {
 			const cPath = paths.commentPath({ heichelId, postId, verseSection, subsectionId, commentId });
 			let existing = null;
 			try { existing = this.readExisting(db, cPath); } catch (_) { existing = null; }
-			if (existing && existing.id) { job.skipped++; continue; }
+			if (existing && existing.id) {
+				job.skipped++;
+				// Re-merge on resume: a paused job may have written the body
+				// without merging indexes (pre-fix). Re-adding is idempotent
+				// (mergeIndex dedups), so normal resumes are unaffected.
+				rootsAdd.add(commentId);
+				if (!verseAdd.has(verseSection)) verseAdd.set(verseSection, new Set());
+				verseAdd.get(verseSection).add(commentId);
+				if (!subAdd.has(subsectionId)) subAdd.set(subsectionId, new Set());
+				subAdd.get(subsectionId).add(commentId);
+				continue;
+			}
 			if (job.dryRun) { job.wrote++; continue; }
 			const comment = {
 				id: commentId, heichelId, postId, entityId: postId, seriesId,
@@ -270,16 +303,23 @@ class PackedBulkImportRoutes {
 			verseAdd.get(verseSection).add(commentId);
 			if (!subAdd.has(subsectionId)) subAdd.set(subsectionId, new Set());
 			subAdd.get(subsectionId).add(commentId);
-			// Alias profile index: every imported comment must be discoverable
-			// on its alias profile, organized by series → post.
-			try { await indexAliasComment({ $i, comment }); } catch (e) {
-				job.errors.push({ commentId, message: 'alias-index: ' + e.message });
+			// Alias profile index: SKIPPED by default (OOM safety — see top of
+			// file). Rebuild afterward with a dedicated alias-index pass; the
+			// public comments endpoint does not read this index.
+			if (!SKIP_ALIAS_INDEX) {
+				try { await indexAliasComment({ $i, comment }); } catch (e) {
+					job.errors.push({ commentId, message: 'alias-index: ' + e.message });
+				}
 			}
 			// Pending semantic-search vectors (batched, fire-and-forget).
-			vectorRows.push({
-				commentId, aliasId, seriesId, postId,
-				verseSection, subsectionId, content: item.content,
-			});
+			// SKIPPED by default (OOM safety — warming the embedder worker
+			// would SIGKILL this 1.9GB host). Absorbed by a later RAG rebuild.
+			if (!SKIP_VECTORS) {
+				vectorRows.push({
+					commentId, aliasId, seriesId, postId,
+					verseSection, subsectionId, content: item.content,
+				});
+			}
 			if (vectorRows.length >= 200) flushVectorRows();
 			job.wrote++;
 			if (++flushCounter % 50 === 0 && db.fs.flush) db.fs.flush();
@@ -287,13 +327,16 @@ class PackedBulkImportRoutes {
 		}
 		flushVectorRows();
 		if (!job.dryRun) {
+			// Merge + flush on EVERY outcome: a paused or cancelled job must
+			// not leave written bodies unindexed or unflushed — otherwise the
+			// comments stay invisible and a resume cannot repair them.
 			const base = { heichelId, postId };
 			this.mergeIndex(db, paths.rootChildrenPath(base), rootsAdd);
 			for (const [v, s] of verseAdd) this.mergeIndex(db, paths.verseIndexPath({ ...base, verseSection: v }), s);
 			for (const [s, set] of subAdd) this.mergeIndex(db, paths.subsectionIndexPath({ ...base, subsectionId: s }), set);
 			if (db.fs.flush) db.fs.flush();
 		}
-		return 'ok';
+		return outcome;
 	}
 
 	async importOcrFixes($i, job, items, ctx) {
@@ -337,6 +380,7 @@ class PackedBulkImportRoutes {
 			jobId: job.id, event: job.status,
 			wrote: job.wrote, skipped: job.skipped,
 			errors: job.errors.length, durationMs: job.durationMs,
+			aliasIndexSkipped: SKIP_ALIAS_INDEX, vectorsSkipped: SKIP_VECTORS,
 		});
 	}
 
