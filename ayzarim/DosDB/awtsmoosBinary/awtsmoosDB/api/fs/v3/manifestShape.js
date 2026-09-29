@@ -57,6 +57,7 @@ function ensureRoot(value) {
 		value.inodes[ROOT_INODE] = rootInodeRecord();
 		repairs++;
 	}
+	if (!value.paths) value.paths = {};
 	if (value.paths[ROOT_PATH] !== ROOT_INODE) {
 		value.paths[ROOT_PATH] = ROOT_INODE;
 		repairs++;
