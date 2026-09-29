@@ -37,16 +37,49 @@ async function expandReplies({ $i, comment, includeDeleted, depth, maxDepth, rep
 	return { ...comment, replies };
 }
 
+
+// === Chassidus per-post translation fallback (2026-09-29) ===
+const CHASSIDUS_BASE = '/ikar/social/chassidus_translations';
+const CHASSIDUS_ALIASES = ['theRebbe_translation_en', 'theAlterRebbe_translation_en', 'theRebbeRashab_translation_en', 'tzemachTzedek_translation_en'];
+
+function perPostIdsFor({ $i, heichelId, postId, verseSection, subsectionId }) {
+	if (heichelId !== 'ikar' || !postId) return [];
+	const ids = [];
+	for (const alias of CHASSIDUS_ALIASES) {
+		let postData = null;
+		try {
+			postData = access.read($i, CHASSIDUS_BASE + '/' + alias + '/' + postId + '.json', null);
+		} catch { continue; }
+		if (!postData || !Array.isArray(postData.comments)) continue;
+		for (const c of postData.comments) {
+			if (!c || !c.id || c.parentId) continue;
+			if (present(verseSection) && !same(c.verseSection, verseSection)) continue;
+			if (present(subsectionId) && !same(c.subsectionId, subsectionId)) continue;
+			ids.push(c.id);
+		}
+	}
+	return ids;
+}
+// === End Chassidus fallback ===
+
 function indexedIds({ $i, heichelId, postId, verseSection, subsectionId }) {
+	let result;
 	if (present(subsectionId)) {
 		const target = paths.subsectionIndexPath(context(heichelId, postId, { subsectionId }));
-		return { index: 'subsection', ids: array(access.read($i, target, [])) };
-	}
-	if (present(verseSection)) {
+		result = { index: 'subsection', ids: array(access.read($i, target, [])) };
+	} else if (present(verseSection)) {
 		const target = paths.verseIndexPath(context(heichelId, postId, { verseSection }));
-		return { index: 'verse', ids: array(access.read($i, target, [])) };
+		result = { index: 'verse', ids: array(access.read($i, target, [])) };
+	} else {
+		result = { index: 'roots', ids: array(access.read($i, paths.rootChildrenPath(context(heichelId, postId)), [])) };
 	}
-	return { index: 'roots', ids: array(access.read($i, paths.rootChildrenPath(context(heichelId, postId)), [])) };
+	if (result.ids.length === 0) {
+		const perPostIds = perPostIdsFor({ $i, heichelId, postId, verseSection, subsectionId });
+		if (perPostIds.length > 0) {
+			return { index: result.index + '+chassidus', ids: perPostIds };
+		}
+	}
+	return result;
 }
 
 function matches(comment, verseSection, subsectionId) {
