@@ -59,9 +59,6 @@ function createDelivery(options = {}) {
 	const SEEN_IDEMPOTENCY_LIMIT = 1000;
 	const UNRESOLVED_WRITES_LIMIT = 256;
 	const FENCED_CANDIDATE_CAP = 64;
-	// Bound the synchronous quarantine sweep: cap files examined, not just hits,
-	// so a restart-amplified quarantine dir cannot block the event loop.
-	const FENCED_SCAN_CAP = FENCED_CANDIDATE_CAP * 4;
 	const seenIdempotencyKeys = new Map();
 	const unresolvedWrites = [];
 	const fencedCounts = {
@@ -340,11 +337,8 @@ function createDelivery(options = {}) {
 			return [];
 		}
 		const records = [];
-		let examined = 0;
 		for (const name of names) {
 			if (records.length >= FENCED_CANDIDATE_CAP) break;
-			if (examined >= FENCED_SCAN_CAP) break;
-			examined += 1;
 			if (!name.endsWith(".json") || name.endsWith(".audit.json")) continue;
 			const recordPath = path.join(directory, name);
 			if (!obsoleteQuarantineAudit(recordPath)) continue;
