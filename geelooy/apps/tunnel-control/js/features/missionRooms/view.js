@@ -5,9 +5,9 @@
 import { h, out } from "../../ui/dom.js";
 
 /**
- * @file Mission Control's lobby and room shell, including the tunnel-native planning board.
- * @description The Awtsmoos lets intent and execution appear together: visible planning sits above
- * canonical rooms, while live agents, messages, browser motion, and tools remain owned by the room.
+ * @file Mission Control's lobby and room shell, including the merged unfinished-work board.
+ * @description The Awtsmoos lets intent, history, and execution appear together without confusion:
+ * unfinished work is visible above canonical rooms, while live agents and messages remain room-owned.
  */
 export function createMissionRoomsView() {
 	return h("section", {
@@ -17,7 +17,7 @@ export function createMissionRoomsView() {
 		h("section", { id: "roomLobby", className: "awt-room-lobby" }, [
 			head(),
 			lobbyTools(),
-			h("div", { id: "roomStatus", className: "notice", text: "Loading available rooms and mission plans." }),
+			h("div", { id: "roomStatus", className: "notice", text: "Loading live rooms and active mission plans." }),
 			h("section", { id: "missionVisibilityBoard", className: "awt-room-visibility-board" }),
 			h("div", { id: "roomList", className: "awt-room-list awt-room-card-grid" })
 		]),
@@ -34,7 +34,7 @@ function head() {
 	return h("div", { className: "page-head awt-room-head" }, [
 		h("p", { className: "eyebrow", text: "ROOMS" }),
 		h("h2", { text: "Mission Control" }),
-		h("p", { text: "Tunnel-visible plans show every registered mission. Open a linked live room to see agents and send direct messages at any time." })
+		h("p", { text: "All unfinished work is merged from live rooms, three-pass plans, and older mission history. Open a linked live room to see agents and send direct messages at any time." })
 	]);
 }
 

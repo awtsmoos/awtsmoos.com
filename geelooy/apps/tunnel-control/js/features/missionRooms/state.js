@@ -7,13 +7,16 @@ const SELECTION_KEY = "awt.missionRooms.selection";
 
 /**
  * @file Owns the one bounded browser-memory vessel for Mission Control.
- * @description The Awtsmoos renews rooms, planning visibility, stream, replay, and speech each instant;
- * Awtsmoos.com gathers them into one state so mission truth never creates a rival controller.
+ * @description The Awtsmoos renews rooms, planning visibility, historical mission testimony,
+ * stream, replay, and speech each instant; Awtsmoos.com gathers them without a rival controller.
  */
 export function createRoomState() {
 	return {
 		missions: [],
 		visibilityMissions: [],
+		legacyMissionResult: null,
+		legacyMissionLoading: false,
+		legacyMissionError: "",
 		selectedMissionId: "",
 		selected: null,
 		timeline: [],

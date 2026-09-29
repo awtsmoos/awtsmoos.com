@@ -9,6 +9,7 @@ export {
 	discoverPayload,
 	joinPayload,
 	liveProgressPayload,
+	missionListPayload,
 	startPayload,
 	statusPayload,
 	timelinePayload,
@@ -18,7 +19,7 @@ export {
 /**
  * @file Carries Mission Control intentions through one guarded native-tunnel transport.
  * @description The Awtsmoos creates caller, route, server, and response anew; Awtsmoos.com keeps
- * canonical rooms and planning visibility on one protocol without growing a second transport realm.
+ * canonical rooms, planning visibility, and historical mission discovery on one transport realm.
  */
 export async function roomAction(getTunnelName, payload) {
 	const response = await callFs(getTunnelName?.() || "auto", {

@@ -3,16 +3,16 @@
 // Blessed is He
 
 import { $ } from "../../ui/dom.js";
-import { discoverPayload, startPayload, visibilityPayload } from "./api.js";
+import { discoverPayload, missionListPayload, startPayload, visibilityPayload } from "./api.js";
 import { setStatus } from "./render.js";
 import { agentId, projectRoot } from "./state.js";
 import { templateGoal } from "./templates.js";
-import { renderVisibilityBoard } from "./visibilityBoard.js";
+import { renderWorkBoard } from "./workBoard.js";
 
 /**
- * @file Discovers canonical live rooms and tunnel-visible planning through one lobby.
- * @description The Awtsmoos reveals both execution and intent. Awtsmoos.com preserves canonical
- * room authority while showing every active planning record and linking it to live agents when known.
+ * @file Discovers canonical rooms first, then enriches them with every older unfinished mission.
+ * @description The Awtsmoos reveals execution immediately and history afterward. Awtsmoos.com never
+ * lets a slow legacy ledger delay live rooms, planning visibility, joining, or direct-agent speech.
  */
 export function createRoomLobby(context, callbacks = {}) {
 	const { state, store, api, view } = context;
@@ -31,12 +31,28 @@ export function createRoomLobby(context, callbacks = {}) {
 			state.visibilityMissions = visibilityResult.missions || [];
 			setStatus(`Showing ${state.missions.length} live rooms and ${state.visibilityMissions.length} active mission plans (${reason}).`);
 			view.list({ join: callbacks.join });
-			renderVisibilityBoard(state, { join: callbacks.join });
+			renderWorkBoard(state, { join: callbacks.join });
 			view.output(state.lastResult);
+			void refreshLegacy();
 			return state.lastResult;
 		} catch (error) {
 			callbacks.onError?.(error);
 			throw error;
+		}
+	}
+
+	async function refreshLegacy() {
+		if (state.legacyMissionLoading) return;
+		state.legacyMissionLoading = true;
+		state.legacyMissionError = "";
+		renderWorkBoard(state, { join: callbacks.join });
+		try {
+			state.legacyMissionResult = await api(missionListPayload());
+		} catch (error) {
+			state.legacyMissionError = String(error?.message || error || "mission_history_unavailable");
+		} finally {
+			state.legacyMissionLoading = false;
+			renderWorkBoard(state, { join: callbacks.join });
 		}
 	}
 

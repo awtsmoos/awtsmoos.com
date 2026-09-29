@@ -5,7 +5,7 @@
 /**
  * @file Declares Mission Control native-tunnel intentions without transport side effects.
  * @description The Awtsmoos creates mission and observer anew; Awtsmoos.com keeps canonical
- * rooms and tunnel-visible planning on one action vocabulary without inventing a rival transport.
+ * rooms, planning visibility, and older mission discovery on one action vocabulary.
  */
 export function discoverPayload(projectRoot, agentId) {
 	return {
@@ -22,6 +22,14 @@ export function visibilityPayload() {
 	return {
 		action: "missionVisibilityList",
 		targetVessel: "native-tunnel"
+	};
+}
+
+export function missionListPayload() {
+	return {
+		action: "missionList",
+		targetVessel: "native-tunnel",
+		limit: 200
 	};
 }
 
