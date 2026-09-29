@@ -53,10 +53,12 @@ function persistedPaths(inodes) {
 }
 
 function persistenceView(manifest) {
-	return {
-		...manifest,
-		paths: persistedPaths(manifest.inodes)
-	};
+	// OMIT paths from persistence: storeState deletes manifest.paths on load,
+	// and the in-memory FS never reads it. Persisting 768k+ path entries
+	// exceeds V8's max string length on JSON.stringify. ensureRoot re-adds
+	// the root path on decode if missing.
+	const { paths, ...rest } = manifest;
+	return rest;
 }
 
 function createBlob(db, bytes, encoded) {
