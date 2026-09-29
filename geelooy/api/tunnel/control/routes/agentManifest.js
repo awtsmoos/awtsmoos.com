@@ -8,12 +8,13 @@ const { publicationSourceLimits } = require("../../../../sites/hostedFolderManif
 const { externalAgentFlow } = require("./agentFlow.js");
 const { headlessDeviceFlow } = require("./deviceFlow.js");
 const { missionPlanningBody } = require("./agentMissionPlanning.js");
+const { routeRecoveryBody } = require("./agentRouteRecovery.js");
 const Operations = require("./agentOperationCatalog.js");
 
 /**
- * @file Machine-readable external-agent covenant for OAuth, routing, mission planning, and transfer.
- * @description The Awtsmoos gives every agent a usable road even without WebSockets;
- * Awtsmoos.com publishes visible coordination law so fresh agents do not work in private silos.
+ * @file Machine-readable external-agent covenant for OAuth, routing, recovery, planning, and transfer.
+ * @description The Awtsmoos keeps a wounded native route visible instead of teaching fresh agents
+ * to confuse one transient socket sample with death, reinstall, or mission abandonment.
  */
 const REQUIRED_BASE_CAPABILITIES = Object.freeze([
 	"HTTPS GET requests",
@@ -48,6 +49,7 @@ function manifestBody() {
 		authorizationModes: authorizationModes(),
 		oauth: oauthBody(),
 		transportLaw: transportLaw(),
+		routeRecovery: routeRecoveryBody(),
 		missionPlanning: missionPlanningBody(),
 		largeFileTransfer: transferBody(),
 		credentials: credentialBody(),
@@ -106,4 +108,4 @@ function tunnelDiscovery() {
 	return { url: agentLinks.myDevice, selection: "Use routeReference when present; otherwise use tunnelId.", actionField: "Pass that immutable ID in the action schema field named tunnelName." };
 }
 async function agentManifest($i) { return json($i, manifestBody()); }
-module.exports = { agentManifest, authorizationModes, manifestBody, missionPlanningBody };
+module.exports = { agentManifest, authorizationModes, manifestBody, missionPlanningBody, routeRecoveryBody };

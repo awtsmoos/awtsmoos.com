@@ -14,14 +14,24 @@ const PREFETCHED = Object.freeze(["unix-node-runtime.sh"]);
 let cached = null;
 
 /**
- * @file Publishes installer components only when archive plus explicit prefetch cover runtime sources.
- * @description
- * The Awtsmoos binds declaration to execution: Awtsmoos.com may publish helper bytes
- * only when every sourced runtime dependency has a proven delivery path before it is needed.
+ * @file Builds installer components while preserving the last verified bundle across transient source wounds.
+ * @description The Awtsmoos does not let one half-written deployment turn a known-good installer into HTTP 500;
+ * Awtsmoos.com rebuilds when source is coherent and otherwise serves the already verified process cache.
  */
 const COMPONENTS = Object.freeze(componentNames());
 
 function buildInstallerComponents() {
+	try {
+		return buildFreshOrCached();
+	} catch (error) {
+		if (cached?.buffer && cached?.sha256) {
+			return Object.freeze({ ...cached, staleSourceFallback: true, sourceBuildError: safeError(error) });
+		}
+		throw error;
+	}
+}
+
+function buildFreshOrCached() {
 	const sources = componentSources();
 	const sourceSha256 = Tar.hash(Buffer.concat(sources.flatMap(source => [
 		Buffer.from(`${source.name}\0`),
@@ -38,7 +48,8 @@ function buildInstallerComponents() {
 		sha256: Tar.hash(buffer),
 		sourceSha256,
 		files: sources.length,
-		names: COMPONENTS
+		names: COMPONENTS,
+		staleSourceFallback: false
 	});
 	return cached;
 }
@@ -67,9 +78,7 @@ function runtimeSourceNames(source = null) {
 function validateRuntimeGraph(components = COMPONENTS, runtimeNames = runtimeSourceNames()) {
 	const available = new Set([...components, ...PREFETCHED]);
 	const missing = runtimeNames.filter(name => !available.has(name));
-	if (missing.length) {
-		throw new Error(`installer_component_graph_missing:${missing.join(",")}`);
-	}
+	if (missing.length) throw new Error(`installer_component_graph_missing:${missing.join(",")}`);
 	return true;
 }
 
@@ -86,27 +95,19 @@ function componentSources() {
 function componentManifestPath() {
 	return path.join(downloadsRoot(), BOOTSTRAP_FILE);
 }
-
 function runtimeSourcesPath() {
 	return path.join(downloadsRoot(), RUNTIME_SOURCES_FILE);
 }
-
 function downloadsRoot() {
 	return path.join(geelooyRoot(), "apps", "tunnel", "downloads");
 }
+function safeError(error) {
+	return String(error?.code || error?.message || "installer_component_rebuild_failed").slice(0, 240);
+}
 
 module.exports = {
-	BOOTSTRAP_FILE,
-	COMPONENTS,
-	PREFETCHED,
-	RUNTIME_SOURCES_FILE,
-	buildInstallerComponents,
-	buildTar: Tar.buildTar,
-	componentManifestPath,
-	componentNames,
-	componentSources,
-	runtimeSourceNames,
-	runtimeSourcesPath,
-	tarHeader: Tar.tarHeader,
-	validateRuntimeGraph
+	BOOTSTRAP_FILE, COMPONENTS, PREFETCHED, RUNTIME_SOURCES_FILE,
+	buildInstallerComponents, buildTar: Tar.buildTar, componentManifestPath,
+	componentNames, componentSources, runtimeSourceNames, runtimeSourcesPath,
+	tarHeader: Tar.tarHeader, validateRuntimeGraph
 };

@@ -3,8 +3,8 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos preserves one checksum-bound installer archive between repairs.
-# Awtsmoos.com re-hashes cached bytes before use and falls back to parallel helpers.
+# The Awtsmoos preserves one checksum-bound installer archive between repairs;
+# Awtsmoos.com circuit-breaks public 5xx failure before fallback can become a request storm.
 component_archive_cache() {
 	local expected="${AWTSMOOS_INSTALLER_COMPONENTS_SHA256:-}"
 	local recovery="${AWTSMOOS_RECOVERY_ROOT:-${install_root}-recovery}"
@@ -19,8 +19,7 @@ process.stdout.write(crypto.createHash("sha256").update(fs.readFileSync(process.
 }
 
 extract_component_archive() {
-	local archive="$1"
-	local helper=""
+	local archive="$1" helper=""
 	tar -xzf "$archive" -C "$runtime_root" || return 1
 	for helper in "${helpers[@]}"; do
 		[ -f "$runtime_root/$helper" ] || return 1
@@ -29,9 +28,7 @@ extract_component_archive() {
 }
 
 cache_component_archive() {
-	local archive="$1"
-	local cache="$2"
-	local temporary="${cache}.${$}.tmp"
+	local archive="$1" cache="$2" temporary="${cache}.${$}.tmp"
 	mkdir -p "$(dirname "$cache")"
 	cp -p "$archive" "$temporary"
 	mv -f "$temporary" "$cache"
@@ -48,27 +45,30 @@ archive_components() {
 		cp -p "$cache" "$archive"
 	else
 		bootstrap_progress 7 'Downloading verified installer component bundle'
-		curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 \
-			--speed-time 30 --speed-limit 1024 \
-			"${AWTSMOOS_INSTALL_COMPONENTS_URL:-$origin/api/tunnel/install/installer-components.tar.gz}" \
-			-o "$archive" || return 1
+		bootstrap_fetch "${AWTSMOOS_INSTALL_COMPONENTS_URL:-$origin/api/tunnel/install/installer-components.tar.gz}" \
+			"$archive" "installer component archive" || return 1
 		[ "$(file_sha256 "$archive")" = "$expected" ] || return 1
 		cache_component_archive "$archive" "$cache"
 	fi
 	[ "$(file_sha256 "$archive")" = "$expected" ] || return 1
 	extract_component_archive "$archive" || return 1
-	bootstrap_progress 18 \
-		"Verified reinstall components ready (${#helpers[@]} files, one archive)"
+	bootstrap_progress 18 "Verified reinstall components ready (${#helpers[@]} files, one archive)"
+}
+
+fallback_origin_ready() {
+	local probe="$runtime_root/.fallback-origin-probe"
+	bootstrap_fetch_once "$origin/apps/tunnel/downloads/unix-install-core.sh" "$probe" || {
+		printf '[Awtsmoos][download][circuit-open] Static installer source unavailable; fallback fan-out suppressed.\n' >&2
+		return 1
+	}
+	rm -f "$probe"
 }
 
 wait_for_component_batch() {
-	local failed=0
-	local position=0
-	local pid=""
+	local failed=0 position=0 pid=""
 	for pid in "${batch_pids[@]}"; do
 		if ! wait "$pid"; then
-			printf '[Awtsmoos][download][failed] Could not fetch %s.\n' \
-				"${batch_helpers[$position]}" >&2
+			printf '[Awtsmoos][download][failed] Could not fetch %s.\n' "${batch_helpers[$position]}" >&2
 			failed=1
 		fi
 		position=$((position + 1))
@@ -79,24 +79,22 @@ wait_for_component_batch() {
 }
 
 fallback_components() {
-	local total="${#helpers[@]}"
-	local index=0
-	local helper=""
-	local parallel="${AWTSMOOS_INSTALL_PARALLEL_DOWNLOADS:-16}"
-	local percent=0
-	case "$parallel" in ''|*[!0-9]*) parallel=16 ;; esac
+	local total="${#helpers[@]}" index=0 helper="" percent=0
+	local parallel="${AWTSMOOS_INSTALL_PARALLEL_DOWNLOADS:-4}"
+	case "$parallel" in ''|*[!0-9]*) parallel=4 ;; esac
 	[ "$parallel" -ge 1 ] 2>/dev/null || parallel=1
-	[ "$parallel" -le 16 ] 2>/dev/null || parallel=16
+	[ "$parallel" -le 4 ] 2>/dev/null || parallel=4
+	fallback_origin_ready || return 1
 	batch_pids=()
 	batch_helpers=()
-	bootstrap_progress 7 'Using compatible component download fallback'
+	bootstrap_progress 7 'Using compatible component download fallback (bounded)'
 	for helper in "${helpers[@]}"; do
 		index=$((index + 1))
 		download_component "$helper" &
 		batch_pids+=("$!")
 		batch_helpers+=("$helper")
 		if [ "${#batch_pids[@]}" -ge "$parallel" ] || [ "$index" -eq "$total" ]; then
-			wait_for_component_batch
+			wait_for_component_batch || return 1
 			percent=$((7 + index * 11 / total))
 			bootstrap_progress "$percent" "Downloaded reinstall components ($index/$total)"
 		fi
@@ -104,11 +102,11 @@ fallback_components() {
 }
 
 download_component() {
-	local helper="$1"
-	local temporary="$runtime_root/.$helper.part"
-	curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 \
-		--speed-time 30 --speed-limit 1024 "$origin/apps/tunnel/downloads/$helper" \
-		-o "$temporary"
+	local helper="$1" temporary="$runtime_root/.$helper.part"
+	if ! bootstrap_fetch_once "$origin/apps/tunnel/downloads/$helper" "$temporary"; then
+		sleep 2
+		bootstrap_fetch_once "$origin/apps/tunnel/downloads/$helper" "$temporary" || return 1
+	fi
 	chmod +x "$temporary"
 	mv -f "$temporary" "$runtime_root/$helper"
 }

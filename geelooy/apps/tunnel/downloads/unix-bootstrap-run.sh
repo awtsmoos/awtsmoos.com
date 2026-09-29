@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 
 # The Awtsmoos draws verified helpers into the primary vessel after root truth is known;
-# Awtsmoos.com lets Node, checksums, custody, and cleanup flow without borrowing a broken home.
+# Awtsmoos.com keeps every bootstrap fetch on one bounded, quiet recovery law.
 origin="${AWTSMOOS_INSTALL_ORIGIN:?Installer origin is required.}"
 install_root="${AWTSMOOS_INSTALL_ROOT:?Install root is required.}"
 runtime_root="${AWTSMOOS_INSTALL_RUNTIME:?Installer runtime is required.}"
@@ -14,23 +14,18 @@ progress_file="$runtime_root/install-progress.state"
 install_cwd="${AWTSMOOS_INSTALL_CWD:-$PWD}"
 project_root="${AWTSMOOS_PROJECT_ROOT:-$install_cwd}"
 custody_delegated=0
+source "$runtime_root/unix-bootstrap-fetch.sh"
 
 validate_absolute_path() {
 	local selected="$1"
 	case "$selected" in
-		/*)
-			return 0
-			;;
-		*)
-			printf '[Awtsmoos][bootstrap][failed] Project paths must be absolute.\n' >&2
-			return 1
-			;;
+		/*) return 0 ;;
+		*) printf '[Awtsmoos][bootstrap][failed] Project paths must be absolute.\n' >&2; return 1 ;;
 	esac
 }
 
 bootstrap_progress() {
-	local percent="$1"
-	local message="$2"
+	local percent="$1" message="$2"
 	printf '%s\n' "$percent" > "$progress_file"
 	if [ -t 1 ] && [ "${AWTSMOOS_PROGRESS_MODE:-tty}" != "plain" ]; then
 		printf '\r\033[2K[%3d%%] %s' "$percent" "$message"
@@ -42,22 +37,16 @@ bootstrap_progress() {
 cleanup_bootstrap() {
 	local exit_code=$?
 	if [ "$exit_code" -ne 0 ]; then
-		if [ -t 1 ] && [ "${AWTSMOOS_PROGRESS_MODE:-tty}" != "plain" ]; then
-			printf '\n'
-		fi
-		printf '[FAILED] Awtsmoos Tunnel bootstrap stopped before completion.\n' >&2
+		[ ! -t 1 ] || [ "${AWTSMOOS_PROGRESS_MODE:-tty}" = "plain" ] || printf '\n'
+		printf '[FAILED] Awtsmoos Tunnel bootstrap stopped before completion; existing verified runtime was not replaced.\n' >&2
 	fi
-	if [ "$custody_delegated" != "1" ]; then
-		rm -rf "$runtime_root"
-	fi
+	[ "$custody_delegated" = "1" ] || rm -rf "$runtime_root"
 	exit "$exit_code"
 }
 
 fetch_bootstrap_file() {
 	local name="$1"
-	curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 \
-		--speed-time 30 --speed-limit 1024 \
-		"$origin/apps/tunnel/downloads/$name" -o "$runtime_root/$name"
+	bootstrap_fetch "$origin/apps/tunnel/downloads/$name" "$runtime_root/$name" "$name"
 	chmod +x "$runtime_root/$name"
 }
 

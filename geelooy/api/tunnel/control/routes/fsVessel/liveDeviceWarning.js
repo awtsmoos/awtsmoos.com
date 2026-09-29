@@ -3,58 +3,56 @@
 // Blessed is He
 
 const Authority = require("./deviceHealthAuthority.js");
+const Identity = require("./liveDeviceIdentity.js");
+const Recovery = require("./transientRoutePolicy.js");
 
 /**
- * @file Describes why a tunnel is not ordinarily routable while preserving the living recovery road.
- * @description
- * The Awtsmoos names the wounded vessel precisely; Awtsmoos.com does not call a breathing route dead.
- * Acceptance, execution, and transport each receive their own warning so operators repair the right thread.
+ * @file Emits disclosure-safe warnings that distinguish dead testimony from temporary degradation.
+ * @description The Awtsmoos lets one road flicker without erasing its identity. Awtsmoos.com
+ * publishes transport, execution, acceptance, and bounded recovery as separate witnesses.
  */
 function warningFor(device = {}, recovering = false) {
-	const transportLive = device.isAlive === true && device.connected !== false;
-	const reason = transportLive ? Authority.blockedReason(device) : "";
+	const transportLive = Identity.isTransportLive(device);
+	const reason = transportLive ? Authority.blockedReason(device) : "transport_unavailable";
+	const recovery = Recovery.metadata(device);
 	return {
-		code: warningCode(reason, recovering),
-		tunnelName: device.tunnelName || "",
-		kind: device.kind || device.vesselType || "unknown",
-		isAlive: device.isAlive === false ? false : device.isAlive,
-		executionHealthy: device.executionHealthy ?? null,
+		code: warningCode(reason, recovering, recovery.recoveryState),
+		tunnelName: device.tunnelName || null,
+		routeReference: device.routeReference || device.tunnelId || null,
+		kind: device.kind || device.vesselType || null,
+		isAlive: device.isAlive === true,
+		transportLive,
+		executionHealthy: valueOrNull(device.executionHealthy),
 		executionHealthState: device.executionHealthState || null,
-		executionHealthAgeMs: device.executionHealthAgeMs ?? null,
-		acceptanceHealthy: device.acceptanceHealthy ?? null,
+		executionHealthAgeMs: valueOrNull(device.executionHealthAgeMs),
+		acceptanceHealthy: valueOrNull(device.acceptanceHealthy),
 		acceptanceHealthState: device.acceptanceHealthState || null,
-		acceptanceHealthAgeMs: device.acceptanceHealthAgeMs ?? null,
+		acceptanceHealthAgeMs: valueOrNull(device.acceptanceHealthAgeMs),
 		acceptanceHealthSource: device.acceptanceHealthSource || null,
 		lastAcceptedAt: device.lastAcceptedAt || null,
 		lastSeenAt: device.lastSeenAt || null,
 		heartbeatAt: device.heartbeatAt || null,
-		missedHeartbeats: device.missedHeartbeats || 0,
-		guidance: guidance(reason, recovering)
+		missedHeartbeats: Number(device.missedHeartbeats || 0),
+		transient: recovery.transient,
+		retryable: recovery.retryable,
+		recoveryState: recovery.recoveryState,
+		retryAfterMs: recovery.retryAfterMs,
+		retryScheduleMs: recovery.retryScheduleMs,
+		recoveryEvidenceAgeMs: recovery.recoveryEvidenceAgeMs,
+		preserveRouteIdentity: recovery.preserveRouteIdentity,
+		reinstallOnSingleFailure: recovery.reinstallOnSingleFailure,
+		guidance: recovery.guidance
 	};
 }
 
-/** Chooses a stable warning code for the strongest known failure layer. */
-function warningCode(reason, recovering) {
+function warningCode(reason, recovering, recoveryState) {
 	if (reason === "acceptance_unavailable") return "acceptance_consumer_unavailable";
 	if (reason === "execution_unhealthy") return "execution_consumer_unhealthy";
-	return recovering ? "degraded_or_recovering" : "stale_tunnel_not_routable";
+	if (recoveryState === "transport_recovering" || recovering) return "degraded_or_recovering";
+	return "stale_tunnel_not_routable";
+}
+function valueOrNull(value) {
+	return value === undefined || value === null ? null : value;
 }
 
-/** Gives recovery advice without reflexively recommending reinstall. */
-function guidance(reason, recovering) {
-	if (reason === "acceptance_unavailable") {
-		return "Transport is live but fresh acceptance evidence is unhealthy. Keep protected control recovery routable; do not replay unresolved mutations.";
-	}
-	if (reason === "execution_unhealthy") {
-		return "Transport is live but execution is freshly unhealthy. Repair the owned generation before ordinary work.";
-	}
-	if (recovering) {
-		return "Recent native evidence exists but transport is not presently proven live. Preserve identity and use bounded recovery.";
-	}
-	return "No live transport is proven. Inspect independent history and recovery before considering reinstall.";
-}
-
-module.exports = {
-	guidance,
-	warningFor
-};
+module.exports = { warningFor };
