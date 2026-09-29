@@ -35,7 +35,7 @@ function createDrainRuntime(dependencies = {}) {
 			const item = dependencies.takeNext();
 			if (!item) break;
 			admitted += 1;
-			dispatchItem(dependencies, item).catch(error => logFailure(dependencies, error));
+			dispatchItem(dependencies, item);
 		}
 		if (admitted === burstLimit) scheduleDrain();
 		return admitted;
@@ -48,19 +48,16 @@ function createDrainRuntime(dependencies = {}) {
 	};
 }
 
-/**
- * Dispatches one exact scheduler-owned item without awaiting its asynchronous execution.
- * @returns {Promise<void>} Resolves once the item reaches the runner; rejects with a
- * dispatch_socket_unusable error when the item's socket cannot carry the reply, so the
- * caller receives an explicit rejection instead of a silent drop.
- */
+/** Dispatches one exact scheduler-owned item without awaiting its asynchronous execution. */
 function dispatchItem(dependencies, item) {
 	dependencies.clearQueueKeepalive(item);
 	if (!usableSocket(item.ws)) {
-		return rejectUnusableDispatch(dependencies, item);
+		dependencies.rejectDrop?.(item, "dispatch_socket_unusable");
+		dependencies.release(item.lane, item.requesterKey, item.requestKey);
+		return;
 	}
 	try {
-		return Promise.resolve(dependencies.runRequest(
+		Promise.resolve(dependencies.runRequest(
 			item.lane,
 			item.ws,
 			item.data,
@@ -68,29 +65,10 @@ function dispatchItem(dependencies, item) {
 			item.requesterKey,
 			item.requestKey,
 			item.childIncarnationId
-		)).catch(error => {
-			logFailure(dependencies, error);
-		});
+		)).catch(error => logFailure(dependencies, error));
 	} catch (error) {
 		logFailure(dependencies, error);
-		return Promise.resolve();
 	}
-}
-
-/**
- * Rejects one dispatch whose socket died before dequeue, naming the refusal explicitly.
- * The queued rejection testimony is still recorded for custody and the lane slot is
- * released; the returned promise rejects so the caller hears the refusal by name even
- * though the dead socket cannot carry a reply envelope.
- */
-function rejectUnusableDispatch(dependencies, item) {
-	const reason = "dispatch_socket_unusable";
-	dependencies.rejectDrop?.(item, reason);
-	dependencies.release(item.lane, item.requesterKey, item.requestKey);
-	dependencies.log?.("warn", `dispatchItem: socket unusable, rejecting request ${item?.data?.id || "unknown"} (${reason})`);
-	const error = new Error(reason);
-	error.code = reason;
-	return Promise.reject(error);
 }
 
 /** Returns whether one websocket can still carry the exact request result. */
