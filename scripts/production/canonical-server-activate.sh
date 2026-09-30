@@ -3,7 +3,7 @@
 # Boruch Hashem
 # Blessed is He
 # The Awtsmoos reveals one canonical server beneath changing process garments;
-# Awtsmoos.com proves source, runtime, warm compact assets, and living SSH protocol before release light may rhyme.
+# Awtsmoos.com proves source, tunnel vessel, runtime, warm assets, and living SSH before release light may rhyme.
 set -Eeuo pipefail
 
 expected="${1:-}"
@@ -15,6 +15,7 @@ health_url="${AWTSMOOS_PRODUCTION_HEALTH_URL:-http://127.0.0.1:8080/}"
 extension_builder="$repo/geelooy/ai/scripts/buildServerExtensionZip.cjs"
 extension_artifact="$repo/geelooy/ai/relay/install/awtsmoos-server-extension.zip"
 script_directory="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+tunnel_preflight="$script_directory/tunnel-bundle-preflight.cjs"
 watchdog_installer="$script_directory/install-health-watchdog.sh"
 virtual_ssh_probe="$script_directory/virtual-ssh-listener-probe.sh"
 compact_prewarmer="$script_directory/compact-prewarm.mjs"
@@ -52,8 +53,7 @@ require_environment() {
 trap rollback EXIT
 [[ "$expected" =~ ^[0-9a-f]{40}$ ]] || fail invalid_expected_sha
 [[ "$virtual_ssh_port" =~ ^[0-9]+$ ]] || fail invalid_virtual_ssh_port
-[ "$virtual_ssh_port" -ge 1 ] || fail invalid_virtual_ssh_port
-[ "$virtual_ssh_port" -le 65535 ] || fail invalid_virtual_ssh_port
+[ "$virtual_ssh_port" -ge 1 ] && [ "$virtual_ssh_port" -le 65535 ] || fail invalid_virtual_ssh_port
 [ -d "$repo/.git" ] || fail canonical_repo_missing
 [ "$(git -C "$repo" branch --show-current)" = "main" ] || fail canonical_repo_not_main
 [ -z "$(git -C "$repo" status --porcelain)" ] || fail canonical_repo_dirty
@@ -64,17 +64,16 @@ trap rollback EXIT
 [ -d "$repo/users" ] || fail canonical_users_missing
 [ -d "$repo/geelooy/.data" ] || fail canonical_data_missing
 [ -f "$extension_builder" ] || fail extension_builder_missing
+[ -f "$tunnel_preflight" ] || fail tunnel_bundle_preflight_missing
 [ -f "$watchdog_installer" ] || fail watchdog_installer_missing
 [ -f "$virtual_ssh_probe" ] || fail virtual_ssh_protocol_probe_missing
 [ -f "$compact_prewarmer" ] || fail compact_prewarmer_missing
 
+node "$tunnel_preflight" "$repo" >/dev/null || fail tunnel_bundle_preflight_failed
 node "$extension_builder"
 [ -s "$extension_artifact" ] || fail extension_artifact_missing
 [ -z "$(git -C "$repo" status --porcelain)" ] || fail extension_build_dirtied_repo
-if [ -f "$override" ]; then
-	cp "$override" "$backup"
-	had_override=1
-fi
+if [ -f "$override" ]; then cp "$override" "$backup"; had_override=1; fi
 armed=1
 install -D -m 0644 "$source_override" "$override"
 printf '\nEnvironment=AWTSMOOS_RELEASE_SHA=%s\n' "$expected" >> "$override"
@@ -83,10 +82,7 @@ systemctl restart "$service"
 
 healthy=0
 for _attempt in $(seq 1 60); do
-	if systemctl is-active --quiet "$service" && curl -fsS "$health_url" >/dev/null; then
-		healthy=1
-		break
-	fi
+	if systemctl is-active --quiet "$service" && curl -fsS "$health_url" >/dev/null; then healthy=1; break; fi
 	sleep 1
 done
 [ "$healthy" -eq 1 ] || fail service_health_timeout
@@ -95,10 +91,7 @@ working_directory="$(systemctl show "$service" -p WorkingDirectory --value)"
 exec_start="$(systemctl show "$service" -p ExecStart --value)"
 service_environment="$(systemctl show "$service" -p Environment --value)"
 [ "$working_directory" = "$repo" ] || fail service_working_directory_mismatch
-case "$exec_start" in
-	*"$repo/index.js"*) ;;
-	*) fail service_exec_start_mismatch ;;
-esac
+case "$exec_start" in *"$repo/index.js"*) ;; *) fail service_exec_start_mismatch ;; esac
 require_environment "VIRTUAL_SSH_HOST=0.0.0.0"
 require_environment "VIRTUAL_SSH_PUBLIC_HOST=awtsmoos.com"
 require_environment "VIRTUAL_SSH_PORT=$virtual_ssh_port"
@@ -110,12 +103,9 @@ require_environment "AWTSMOOS_RELEASE_SHA=$expected"
 bash "$virtual_ssh_probe" "$virtual_ssh_port" >/dev/null || fail virtual_ssh_protocol_probe_failed
 [ "$(git -C "$repo" rev-parse HEAD)" = "$expected" ] || fail post_restart_head_mismatch
 [ -z "$(git -C "$repo" status --porcelain)" ] || fail post_restart_repo_dirty
-if ! AWTSMOOS_PRODUCTION_HEALTH_URL="$health_url" node "$compact_prewarmer"; then
-	fail compact_prewarm_failed
-fi
+AWTSMOOS_PRODUCTION_HEALTH_URL="$health_url" node "$compact_prewarmer" || fail compact_prewarm_failed
 [ -z "$(git -C "$repo" status --porcelain)" ] || fail post_prewarm_repo_dirty
-
 committed=1
 rm -f "$backup"
 trap - EXIT
-printf 'B"H CANONICAL_SERVER_ACTIVE sha=%s repo=%s service=%s extension=%s virtualSsh=protocol-verified compact=prewarmed\n' "$expected" "$repo" "$service" "$extension_artifact"
+printf 'B"H CANONICAL_SERVER_ACTIVE sha=%s repo=%s service=%s extension=%s virtualSsh=protocol-verified compact=prewarmed tunnelBundle=preflight-passed\n' "$expected" "$repo" "$service" "$extension_artifact"

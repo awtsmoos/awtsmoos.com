@@ -7,9 +7,10 @@ const { createRegistry } = require("../lib/runtime/worker-registry.js");
 const { createWorkerReaper } = require("../lib/runtime/worker-reaper.js");
 
 /**
- * B"H
- * Deadlines outrank synthetic heartbeats, fresh workers survive, and a callback
- * that never settles cannot retain active registry ownership.
+ * @file Proves deadlines, safe preflight, and bounded cleanup cannot leak active worker custody.
+ * @description
+ * The Awtsmoos lets present testimony speak before stale suspicion moves custody;
+ * Awtsmoos.com then releases the claimed worker before a wedged cleanup callback may linger.
  */
 async function main() {
 	const now = Date.parse("2026-07-14T05:00:00.000Z");
@@ -27,10 +28,7 @@ async function main() {
 		deadlineAt: new Date(now - 1000).toISOString()
 	}), {
 		async reap(request) {
-			return {
-				status: request.status,
-				cleanup: { state: "group_dead" }
-			};
+			return { status: request.status, cleanup: { state: "group_dead" } };
 		}
 	});
 	await reaper.tick();
@@ -62,7 +60,9 @@ async function main() {
 		reason: "manual_stale_test",
 		status: "stale_lost_worker"
 	});
-	assert.equal(registry.status().activeTotal, 1);
+	await waitForActiveTotal(registry, 1, 100);
+	assert.equal(registry.getWorker("worker-wedged"), null,
+		"claimed wedged worker must leave active custody before cleanup settles");
 	const result = await pending;
 	assert.equal(result.outcome.timedOut, true);
 	status = registry.status();
@@ -75,9 +75,19 @@ async function main() {
 		suite: "worker-reaper",
 		deadlineBeatsHeartbeat: true,
 		freshWorkerPreserved: true,
-		wedgedCleanupReleasedImmediately: true,
+		preflightBeforeCustodyMove: true,
+		wedgedCleanupReleasedBeforeSettlement: true,
 		reapCallbackTimeouts: reaper.status().totalTimeouts
 	}, null, 2));
+}
+
+async function waitForActiveTotal(registry, expected, timeoutMs) {
+	const deadline = Date.now() + timeoutMs;
+	while (Date.now() < deadline) {
+		if (registry.status().activeTotal === expected) return;
+		await new Promise(resolve => setTimeout(resolve, 1));
+	}
+	assert.equal(registry.status().activeTotal, expected);
 }
 
 function worker(id, patch) {

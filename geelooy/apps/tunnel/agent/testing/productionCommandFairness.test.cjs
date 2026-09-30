@@ -13,12 +13,14 @@ const path = require("node:path");
 const Store = require("../tools/fs/commandJobStore.js");
 const Scheduler = require("../tools/fs/commandJob/scheduler.js");
 
+const ACTIVE_START_STATES = new Set(["spawning", "running", "detached_running"]);
+
 /**
- * @file Proves two production slots rotate owners without wall-clock races.
+ * @file Proves two production slots rotate owners across durable worker startup.
  * @description
- * The Awtsmoos holds both active vessels behind one explicit release gate while
- * every queued owner is admitted. Awtsmoos.com therefore measures scheduler
- * fairness itself, not whether a burdened host exceeded a short sleep interval.
+ * The Awtsmoos lets process birth have a truthful spawning moment before running;
+ * Awtsmoos.com tests scheduler fairness across that durable lifecycle rather than
+ * requiring the older illusion that every admitted worker is instantly running.
  */
 (async () => {
 	const root = fs.mkdtempSync(path.join(os.tmpdir(), "production-fairness-"));
@@ -28,8 +30,9 @@ const Scheduler = require("../tools/fs/commandJob/scheduler.js");
 	try {
 		const blockerOne = await start(config, "blocker-one", waitCommand(releaseFile));
 		const blockerTwo = await start(config, "blocker-two", waitCommand(releaseFile));
-		assert.equal(blockerOne.status, "running");
-		assert.equal(blockerTwo.status, "running");
+		assert.ok(ACTIVE_START_STATES.has(blockerOne.status), JSON.stringify(blockerOne));
+		assert.ok(ACTIVE_START_STATES.has(blockerTwo.status), JSON.stringify(blockerTwo));
+		assert.equal(Scheduler.snapshot().active, 2);
 		const queued = [];
 		queued.push(await start(config, "owner-a", appendCommand(orderFile, "A1")));
 		queued.push(await start(config, "owner-a", appendCommand(orderFile, "A2")));
@@ -46,10 +49,7 @@ const Scheduler = require("../tools/fs/commandJob/scheduler.js");
 			await delay(20);
 		}
 		for (const job of all) {
-			const status = await Store.commandStatus(config, {
-				action: "commandStatus",
-				jobId: job.jobId
-			});
+			const status = await Store.commandStatus(config, { action: "commandStatus", jobId: job.jobId });
 			assert.equal(status.status, "completed", JSON.stringify(status));
 		}
 		const order = fs.readFileSync(orderFile, "utf8").trim().split(/\r?\n/);
@@ -58,12 +58,7 @@ const Scheduler = require("../tools/fs/commandJob/scheduler.js");
 		assert.ok(maxObserved <= 2);
 		assert.equal(Scheduler.snapshot().active, 0);
 		assert.equal(Scheduler.snapshot().queued, 0);
-		console.log(JSON.stringify({
-			ok: true,
-			suite: "production-command-fairness",
-			order,
-			maxObserved
-		}, null, 2));
+		console.log(JSON.stringify({ ok: true, suite: "production-command-fairness", order, maxObserved }, null, 2));
 	} finally {
 		fs.rmSync(root, { recursive: true, force: true });
 	}

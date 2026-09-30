@@ -6,7 +6,7 @@
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-supervisor-files.sh"
 
 # The Awtsmoos renews each guardian helper as one covenant of light;
-# Awtsmoos.com proves the guardian is born before calling startup right.
+# Awtsmoos.com proves independent recovery is awake before primary startup may ignite.
 assert_supervisor_runtime_files() {
 	local destination="$1"
 	local pair=""
@@ -17,12 +17,13 @@ assert_supervisor_runtime_files() {
 		fi
 		target_name="${pair##*:}"
 		if [ ! -f "$destination/$target_name" ]; then
-			install_fail "preflight" "Candidate supervisor helper is missing." \
+			install_fail "preflight" \
+				"Candidate supervisor helper is missing." \
 				"root=$destination helper=$target_name"
 		fi
-	done <<EOF
+	done <<PAIRS
 $(supervisor_runtime_pairs)
-EOF
+PAIRS
 }
 
 write_supervisor_to() {
@@ -39,9 +40,9 @@ write_supervisor_to() {
 		target_name="${pair##*:}"
 		cp -p "$AWTSMOOS_INSTALL_RUNTIME/$source_name" "$destination/$target_name"
 		chmod +x "$destination/$target_name"
-	done <<EOF
+	done <<PAIRS
 $(supervisor_runtime_pairs)
-EOF
+PAIRS
 	assert_supervisor_runtime_files "$destination"
 }
 
@@ -50,15 +51,27 @@ write_supervisor() {
 	persist_node_runtime "$ROOT"
 }
 
+prepare_independent_recovery() {
+	if ! install_recovery_lane_services; then
+		install_fail "service" \
+			"Independent recovery lanes could not be activated before supervisor startup." \
+			"root=$ROOT recoveryRoot=$RECOVERY_ROOT"
+	fi
+}
+
 start_supervisor_process() {
-	local recorded="$(cat "$ROOT/supervisor.pid" 2>/dev/null || true)"
+	local recorded
+	recorded="$(cat "$ROOT/supervisor.pid" 2>/dev/null || true)"
 	rm -f "$ROOT/stop-supervisor"
 	if command_contains "$recorded" "$ROOT/awtsmoos-supervisor.sh"; then
+		prepare_independent_recovery
 		return 0
 	fi
 	clear_connection_receipt
 	clear_project_root_receipt 2>/dev/null || true
-	export AWTSMOOS_RUNTIME_VERSION="$(cat "$ROOT/install-state.txt" 2>/dev/null || printf unknown)"
+	export AWTSMOOS_RUNTIME_VERSION
+	AWTSMOOS_RUNTIME_VERSION="$(cat "$ROOT/install-state.txt" 2>/dev/null || printf unknown)"
+	prepare_independent_recovery
 	start_guardian_with_fallback
 }
 

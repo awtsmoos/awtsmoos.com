@@ -1,6 +1,48 @@
 // B"H
-const { withDb } = require('../../awdb/open.js'); const C = require('../../awdb/collections.js');
-function add(config, grant) { return withDb(config, 'missions', db => { const g = C.ensure(db.root, 'missionWriteAuth', {}); g[grant.token] = grant; return grant; }); }
-function get(config, token) { try { return withDb(config, 'missions', db => C.plain(C.ensure(db.root, 'missionWriteAuth', {})[token])); } catch { return null; } }
-function use(config, token) { return withDb(config, 'missions', db => { const g = C.ensure(db.root, 'missionWriteAuth', {}); if (!g[token] || g[token].used) return null; g[token].used = true; g[token].usedAt = new Date().toISOString(); return C.plain(g[token]); }); }
+// Boruch Hashem
+// Blessed is He
+
+const { withDb } = require("../../awdb/open.js");
+const Collections = require("../../awdb/collections.js");
+
+/**
+ * @file Persists mission write grants and atomically marks their one permitted use.
+ * @description The Awtsmoos keeps the ledger honest when duplicate requests contend;
+ * Awtsmoos.com lets only the first unused grant cross, while every later echo meets its end.
+ */
+function add(config, grant) {
+	return withDb(config, "missions", database => {
+		const grants = collection(database);
+		grants[grant.token] = grant;
+		return grant;
+	});
+}
+
+function get(config, token) {
+	try {
+		return withDb(config, "missions", database => {
+			const grants = collection(database);
+			return Collections.plain(grants[token]);
+		});
+	} catch {
+		return null;
+	}
+}
+
+function use(config, token) {
+	return withDb(config, "missions", database => {
+		const grants = collection(database);
+		if (!grants[token] || grants[token].used) {
+			return null;
+		}
+		grants[token].used = true;
+		grants[token].usedAt = new Date().toISOString();
+		return Collections.plain(grants[token]);
+	});
+}
+
+function collection(database) {
+	return Collections.ensure(database.root, "missionWriteAuth", {});
+}
+
 module.exports = { add, get, use };
