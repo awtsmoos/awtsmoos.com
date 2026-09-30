@@ -1,3 +1,4 @@
+const binaryJson = require('../../utils/binaryJson.js');
 // B"H
 
 /**
@@ -88,7 +89,7 @@ class IndexManager {
 module.exports = IndexManager;
 
 function keyOf(value) {
-  return `$${Buffer.from(JSON.stringify(value)).toString('base64')}`;
+  return `$${binaryJson.encodeText(value)}`;
 }
 
 function parentPath(path) {

@@ -7,6 +7,7 @@
  */
 
 const crypto = require('crypto');
+const binaryJson = require('../binaryJson.js');
 
 const ALG = 'aes-256-gcm';
 const KDF = 'sha256';
@@ -29,7 +30,7 @@ class PasswordBox {
     const iv = crypto.randomBytes(12);
     const key = crypto.pbkdf2Sync(String(password), salt, ITERS, 32, KDF);
     const cipher = crypto.createCipheriv(ALG, key, iv);
-    const plain = Buffer.from(JSON.stringify(value), 'utf8');
+    const plain = binaryJson.encode(value);
     const body = Buffer.concat([cipher.update(plain), cipher.final()]);
 
     return {
@@ -61,7 +62,10 @@ class PasswordBox {
     decipher.setAuthTag(Buffer.from(envelope.tag, 'base64'));
 
     const plain = Buffer.concat([decipher.update(body), decipher.final()]);
-    return JSON.parse(plain.toString('utf8'));
+    // Legacy envelopes stored JSON text; current envelopes store AwtsmoosBinaryJSON.
+    // JSON.parse throws on binary input, so it can only succeed on legacy text.
+    try { return JSON.parse(plain.toString('utf8')); } catch (_legacyErr) { /* not legacy text */ }
+    return binaryJson.decode(plain);
   }
 }
 

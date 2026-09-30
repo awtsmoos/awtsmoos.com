@@ -1,3 +1,4 @@
+const binaryJson = require('../../utils/binaryJson.js');
 // B"H
 // Boruch Hashem
 // Blessed is He
@@ -49,7 +50,7 @@ class PathWriteBatch {
 		const groups = new Map();
 		for (const item of batch) {
 			const parentParts = item.parts.slice(0, -1);
-			const identity = JSON.stringify(parentParts);
+			const identity = binaryJson.encodeText(parentParts);
 			if (!groups.has(identity)) groups.set(identity, { parentParts, items: [] });
 			groups.get(identity).items.push(item);
 		}

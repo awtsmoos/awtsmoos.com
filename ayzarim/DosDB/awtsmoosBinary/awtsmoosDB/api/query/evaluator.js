@@ -5,6 +5,7 @@
  */
 const operators = require('./operators.js');
 const constants = require('../../constants.js');
+const { isDeepStrictEqual } = require('util');
 
 class FilterEvaluator {
     constructor(db) {
@@ -89,7 +90,7 @@ class FilterEvaluator {
             } else if (op.startsWith('$')) {
                 return false;
             } else {
-                if (JSON.stringify(value) !== JSON.stringify(condition)) return false;
+                if (!isDeepStrictEqual(value, condition)) return false;
             }
         }
         return true;
