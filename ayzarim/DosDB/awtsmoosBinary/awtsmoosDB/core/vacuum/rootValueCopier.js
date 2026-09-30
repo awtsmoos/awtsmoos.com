@@ -14,6 +14,7 @@
 
 const constants = require('../../constants.js');
 const cloneValue = require('./valueCloner.js');
+const cloneVirtualFsManifest = require('./virtualFsManifest.js');
 
 function copyRootValue(key, sourceValue, context, options = {}) {
 	const internals = sourceValue && sourceValue[constants.SYMBOLS.INTERNALS];
@@ -23,7 +24,11 @@ function copyRootValue(key, sourceValue, context, options = {}) {
 	if (isSequenceType(internals && internals.type)) {
 		return copySequence(key, sourceValue, context, options);
 	}
-	context.destination.root[key] = cloneValue(sourceValue, context);
+	const result = cloneValue(sourceValue, context);
+	if (result === cloneVirtualFsManifest.SKIP_ROOT_WRITE) {
+		return { strategy: 'virtual-fs-manifest-records', records: null };
+	}
+	context.destination.root[key] = result;
 	context.destination.waitForIdle();
 	return { strategy: 'single-logical-value', records: null };
 }

@@ -107,5 +107,6 @@ function normalizeManifest(manifest) {
 module.exports = {
 	blankManifest,
 	normalizeManifest,
-	normalizeManifestWithMeta
+	normalizeManifestWithMeta,
+	rootInodeRecord
 };

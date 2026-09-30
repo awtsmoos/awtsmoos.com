@@ -7,7 +7,11 @@
  * Write-behind overlay for high fan-in sync-looking workloads. Ordinary set
  * traps may record intent in RAM, reads see it immediately, and idle/close
  * flushes through the proven writer as the fallback persistence path.
+ *
+ * All sidecar persistence uses AwtsmoosBinaryJSON.
  */
+
+const binaryJson = require('../../utils/binaryJson.js');
 
 /**
  * @class TurboWriteBehind
@@ -174,7 +178,7 @@ class TurboWriteBehind {
     if (!fs.existsSync(file)) return;
 
     try {
-      const list = JSON.parse(fs.readFileSync(file, 'utf8'));
+      const list = decodeSidecarList(fs.readFileSync(file));
       this.durable.clear();
       if (Array.isArray(list)) {
         for (const item of list) {
@@ -338,8 +342,7 @@ class TurboWriteBehind {
   _writeSidecar() {
     const fs = require('fs');
     const file = this._sidecarPath();
-    const data = JSON.stringify(Array.from(this.durable.values()));
-    fs.writeFileSync(file, data);
+    fs.writeFileSync(file, binaryJson.encode(Array.from(this.durable.values())));
   }
 
   /**
@@ -352,7 +355,7 @@ class TurboWriteBehind {
     if (!fs.existsSync(file)) return;
 
     try {
-      const list = JSON.parse(fs.readFileSync(file, 'utf8'));
+      const list = decodeSidecarList(fs.readFileSync(file));
       this.compacted.clear();
       if (Array.isArray(list)) {
         for (const item of list) {
@@ -373,7 +376,7 @@ class TurboWriteBehind {
     const fs = require('fs');
     const file = this._treePath();
     const tmp = `${file}.tmp`;
-    fs.writeFileSync(tmp, JSON.stringify(Array.from(next.values())));
+    fs.writeFileSync(tmp, binaryJson.encode(Array.from(next.values())));
     fs.renameSync(tmp, file);
   }
 
@@ -385,7 +388,7 @@ class TurboWriteBehind {
   _appendLog(items) {
     if (!items.length) return;
     const fs = require('fs');
-    const lines = items.map(item => JSON.stringify({
+    const lines = items.map(item => binaryJson.encodeText({
       at: Date.now(),
       kind: item.kind,
       path: item.path
@@ -439,6 +442,19 @@ class TurboWriteBehind {
       try { this.flush(); } finally { process.exit(130); }
     });
   }
+}
+
+/**
+ * Decodes a turbo sidecar file. Current files are AwtsmoosBinaryJSON;
+ * legacy JSON-text sidecars fall back to JSON.parse.
+ */
+function decodeSidecarList(buffer) {
+  // binaryJson.decode warns and returns null (not throw) on non-binary input.
+  try {
+    const decoded = binaryJson.decode(buffer);
+    if (decoded !== null && decoded !== undefined) return decoded;
+  } catch (_err) {}
+  return JSON.parse(buffer.toString('utf8'));
 }
 
 module.exports = TurboWriteBehind;

@@ -13,14 +13,32 @@ const constants = require('../../constants.js');
 const HashWriter = require('./hashWriter.js');
 const special = require('./semanticSpecial.js');
 const derivedIndexes = require('./derivedIndexes.js');
+const { recordKeys, isFs3RecordKey, LEGACY_MANIFEST_KEY } = require('../../api/fs/v3/storeState.js');
+
+function isFs3PhysicalKey(key) {
+	const text = String(key);
+	return text === LEGACY_MANIFEST_KEY || isFs3RecordKey(text);
+}
 
 function semanticDigest(db) {
 	const hash = crypto.createHash('sha256');
 	const context = { db, writer: new HashWriter(hash), seen: new WeakMap(), nextId: 1 };
 	context.writer.tag('awtsmoosdb-semantic-v2');
 	const keys = db.keys(db.root).filter(key => !derivedIndexes.DERIVED_ROOT_KEYS.has(String(key)));
-	context.writer.tag(`root:${keys.length}`);
-	for (const key of keys) { visit(key, context); visit(db.root[key], context); }
+	const meta = db.root[recordKeys.META_KEY];
+	const hasRecordStore = meta && meta.__fs3Meta === true;
+	const legacyTokenKey = hasRecordStore ? null : keys.find(key => String(key) === LEGACY_MANIFEST_KEY) || null;
+	// Both physical layouts collapse to exactly one logical virtual-filesystem
+	// entry: the per-inode records and the legacy blob token never appear as
+	// root keys in the digest, so a layout migration compares equal.
+	const walkKeys = keys.filter(key => !isFs3PhysicalKey(key));
+	context.writer.tag(`root:${walkKeys.length + (hasRecordStore || legacyTokenKey ? 1 : 0)}`);
+	for (const key of walkKeys) { visit(key, context); visit(db.root[key], context); }
+	if (hasRecordStore) {
+		special.visitVirtualFsRecords(db, context, visit);
+	} else if (legacyTokenKey) {
+		visit(db.root[legacyTokenKey], context);
+	}
 	context.writer.tag('derived-index-configuration');
 	visit(derivedIndexes.capture(db), context);
 	return hash.digest('hex');

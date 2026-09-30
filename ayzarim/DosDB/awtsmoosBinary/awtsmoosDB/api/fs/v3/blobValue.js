@@ -10,6 +10,7 @@
  */
 
 const zlib = require('zlib');
+const binaryJson = require('../../../utils/binaryJson.js');
 
 const CODEC = 'deflate-raw-v1';
 const MINIMUM_BYTES = 256;
@@ -23,7 +24,9 @@ function toBuffer(value) {
 	if (value instanceof Uint8Array) return Buffer.from(value);
 	if (value === undefined || value === null) return Buffer.alloc(0);
 	if (typeof value === 'string') return Buffer.from(value, 'utf8');
-	return Buffer.from(JSON.stringify(value), 'utf8');
+	// Any other value is sealed with AwtsmoosBinaryJSON. JSON.stringify must
+	// never appear in the database system (Yaakov's hard rule).
+	return binaryJson.encode(value);
 }
 
 function plain(value) {

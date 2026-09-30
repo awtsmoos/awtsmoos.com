@@ -7,8 +7,12 @@
  * @chapter The Road Index Sleeps Until The Scroll Is Sealed
  * @description
  * The Awtsmoos lets Awtsmoos.com retain the compact living FS3 graph while
- * preserving the historical v3 disk contract. Full path indexes are rebuilt
- * only when a manifest is encoded for an explicit flush or database close.
+ * preserving the historical v3 disk contract for reads. Manifests are stored
+ * as per-inode native records (see storeState.js); this codec only decodes
+ * legacy __fs3_manifest__ blob tokens for one-time migration, verification,
+ * and vacuum. Nothing here serializes a manifest: the whole-manifest
+ * stringify is gone from FS3 (see the ongoing stringify sweep for the
+ * remaining whole-collection serializers elsewhere in the system).
  */
 
 const compression = require('./manifestCompression.js');
@@ -25,6 +29,9 @@ function tokenBlob(token) {
 	return blob && blob.__awtsmoosBlob === true ? blob : null;
 }
 
+// Decodes a legacy manifest blob. The bytes were historically written as JSON;
+// JSON.parse is used here only to READ that legacy encoding. No manifest is
+// ever serialized with JSON on any write path.
 function decodeManifest(db, token) {
 	const value = plain(token);
 	const blob = tokenBlob(value);
@@ -52,46 +59,10 @@ function persistedPaths(inodes) {
 	return paths;
 }
 
-function persistenceView(manifest) {
-	// OMIT paths from persistence: storeState deletes manifest.paths on load,
-	// and the in-memory FS never reads it. Persisting 768k+ path entries
-	// exceeds V8's max string length on JSON.stringify. ensureRoot re-adds
-	// the root path on decode if missing.
-	const { paths, ...rest } = manifest;
-	return rest;
-}
-
-function createBlob(db, bytes, encoded) {
-	return db.blob.create(encoded.stored, {
-		kind: 'fs3-manifest',
-		bytes: bytes.length,
-		storedBytes: encoded.stored.length,
-		codec: encoded.codec || 'identity'
-	});
-}
-
-function encodeManifest(db, manifest) {
-	const previous = plain(db.root && db.root.__fs3_manifest__);
-	const previousBlob = tokenBlob(previous);
-	const bytes = Buffer.from(JSON.stringify(persistenceView(manifest)), 'utf8');
-	const encoded = compression.encodeManifestBytes(db, bytes);
-	const blob = createBlob(db, bytes, encoded);
-	if (previousBlob) db.blob.delete(previousBlob);
-	return {
-		__fs3ManifestBlob: true,
-		version: 3,
-		bytes: bytes.length,
-		storedBytes: encoded.stored.length,
-		...(encoded.codec ? { codec: encoded.codec } : {}),
-		blob
-	};
-}
-
 module.exports = {
 	CODEC: compression.CODEC,
 	blankManifest: shape.blankManifest,
 	decodeManifest,
-	encodeManifest,
 	normalizeManifest: shape.normalizeManifest,
 	normalizeManifestWithMeta: shape.normalizeManifestWithMeta,
 	persistedPaths,
