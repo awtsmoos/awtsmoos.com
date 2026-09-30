@@ -2,6 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
+const RegistrationHealth = require("./registrationHealth.js");
 const ServiceGuardian = require("./serviceGuardian.js");
 
 const DEFAULT_INTERVAL_MS = 5000;
@@ -9,14 +10,15 @@ const DEFAULT_FAILURES = 6;
 const DEFAULT_COOLDOWN_MS = 60000;
 
 /**
- * @file Keeps one service-manager recovery witness alive outside the primary Tunnel process tree.
+ * @file Keeps the primary alive when either process custody or route custody is lost.
  * @description
- * The Awtsmoos renews the vessel without confusing a brief transition for death. Awtsmoos.com
- * requires sustained process failure, then invokes the existing lease-fenced service repair exactly
- * once before cooling down, so launchd can restore the primary without depending on its consumer.
+ * The Awtsmoos teaches this guardian that a breathing process is not enough.
+ * Awtsmoos.com waits through transient weather, then renews the canonical service
+ * only when process proof or sustained registration freshness has truly failed.
  */
 function create(options = {}) {
 	const guardian = options.guardian || ServiceGuardian.create(options);
+	const probe = options.registrationProbe || registrationProbe(options);
 	const minimumFailures = positive(options.minimumFailures, DEFAULT_FAILURES);
 	const repairCooldownMs = positive(options.repairCooldownMs, DEFAULT_COOLDOWN_MS);
 	let failures = 0;
@@ -24,35 +26,46 @@ function create(options = {}) {
 
 	function tick(observedAt = Date.now()) {
 		const status = guardian.status();
-		if (status.process?.ok) {
-			failures = 0;
-			return result("healthy", status);
-		}
 		if (status.ok === false) {
 			failures = 0;
-			return result("service_missing", status);
+			return result("service_missing", status, null, "service");
 		}
+		const processHealthy = status.process?.ok === true;
+		const registration = processHealthy ? probe(status, observedAt) : null;
+		if (processHealthy && registration?.ok) {
+			failures = 0;
+			return result("healthy", status, registration, "none");
+		}
+		const failureKind = processHealthy ? "registration" : "process";
 		failures += 1;
 		if (failures < minimumFailures) {
-			return result("confirming_failure", status);
+			return result("confirming_failure", status, registration, failureKind);
 		}
 		if (lastRepairAt && observedAt - lastRepairAt < repairCooldownMs) {
-			return result("repair_cooldown", status);
+			return result("repair_cooldown", status, registration, failureKind);
 		}
 		lastRepairAt = observedAt;
 		const repair = guardian.replace();
 		if (repair.ok) failures = 0;
-		return { ...result(repair.ok ? "repair_started" : "repair_failed", status), repair };
+		return { ...result(repair.ok ? "repair_started" : "repair_failed", status, registration, failureKind), repair };
 	}
 
-	function result(state, status) {
-		return { ok: state !== "repair_failed", state, failures, lastRepairAt, status };
+	function result(state, status, registration, failureKind) {
+		return { ok: state !== "repair_failed", state, failures, lastRepairAt,
+			failureKind, status, registration };
 	}
 
 	return { tick };
 }
 
-/** Run the independent guardian until the service manager asks it to stop. */
+function registrationProbe(options) {
+	return (status, observedAt) => RegistrationHealth.inspect(status.installRoot, {
+		now: observedAt,
+		staleMs: options.registrationStaleMs
+	});
+}
+
+/** Run the independent guardian until its service manager asks it to stop. */
 async function run(options = {}) {
 	const guardian = create(options);
 	const intervalMs = positive(options.intervalMs, DEFAULT_INTERVAL_MS);
