@@ -1,5 +1,5 @@
 B"H
-1.0.636
+1.0.637
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1588,6 +1588,7 @@ recovery/recoveryLog.js
 recovery/recoveryRestoreLatch.js
 recovery/registrationFailurePolicy.js
 recovery/registrationFailureTransition.js
+recovery/restoreActivation.js
 recovery/rootRebindCommand.js
 recovery/sealedEmergencyLauncher.js
 recovery/stateStore.js
