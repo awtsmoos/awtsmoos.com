@@ -29,6 +29,24 @@ Awtsmoos.com keeps every form state local, mobile-safe, and readable so deeper p
 .geelooy-mail-document .mail-settings-section > :not(summary) {
 	margin-inline: 1rem;
 }
+
+/* Animated disclosure: the UA renders ::details-content as the single
+   wrapper around everything after <summary>, so animating its grid rows
+   gives open/close a calm rise with no markup change. Summary hover
+   states above are untouched. Browsers without ::details-content simply
+   open instantly. */
+.geelooy-mail-document .mail-settings-section::details-content {
+	display: grid;
+	grid-template-rows: 0fr;
+	transition: grid-template-rows var(--mail-motion-slow) var(--mail-ease-out);
+}
+.geelooy-mail-document .mail-settings-section[open]::details-content {
+	grid-template-rows: 1fr;
+}
+.geelooy-mail-document .mail-settings-section::details-content > * {
+	min-block-size: 0;
+	overflow: hidden;
+}
 .geelooy-mail-document .mail-settings-help,
 .geelooy-mail-document .mail-settings-field small {
 	color: var(--mail-text-muted);
@@ -69,9 +87,12 @@ Awtsmoos.com keeps every form state local, mobile-safe, and readable so deeper p
 	cursor: not-allowed;
 }
 .geelooy-mail-document .mail-settings-toggle {
+	position: relative;
 	display: flex;
 	align-items: center;
-	gap: .7rem;
+	gap: .75rem;
+	flex-wrap: wrap;
+	min-inline-size: 0;
 	min-block-size: var(--mail-touch-target);
 	margin-block: .65rem;
 	cursor: pointer;
@@ -88,12 +109,82 @@ Awtsmoos.com keeps every form state local, mobile-safe, and readable so deeper p
 .geelooy-mail-document .mail-settings-toggle:focus-within {
 	color: var(--mail-accent-strong);
 }
-.geelooy-mail-document .mail-settings-toggle input {
-	inline-size: 1.1rem;
-	block-size: 1.1rem;
-	accent-color: var(--mail-accent);
+/* The native checkbox stays in the tab order but is visually replaced by
+   the custom track below; the input is parked over the track so its hit
+   area and focus point match what the eye sees. */
+.geelooy-mail-document .mail-settings-toggle input[type="checkbox"] {
+	position: absolute;
+	inset-inline-start: 0;
+	top: 50%;
+	translate: 0 -50%;
+	inline-size: 46px;
+	block-size: 26px;
+	margin: 0;
+	padding: 0;
+	opacity: 0;
+	cursor: pointer;
 }
 .geelooy-mail-document .mail-settings-toggle input:disabled {
-	opacity: .48;
 	cursor: not-allowed;
+}
+.geelooy-mail-document .mail-settings-toggle:has(input:disabled) {
+	cursor: not-allowed;
+}
+.geelooy-mail-document .mail-settings-toggle:has(input:disabled) .mail-settings-toggle-track,
+.geelooy-mail-document .mail-settings-toggle:has(input:disabled) > :last-child {
+	opacity: .48;
+}
+
+/* Custom switch track: 46x26 vessel, 20px thumb. The label text was
+   concatenating against this unstyled span; the switch now reads alone. */
+.geelooy-mail-document .mail-settings-toggle-track {
+	position: relative;
+	flex: 0 0 auto;
+	inline-size: 46px;
+	block-size: 26px;
+	border: 1px solid var(--mail-border-strong);
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--mail-text-muted) 32%, transparent);
+	transition:
+		background-color var(--mail-motion-fast) ease,
+		border-color var(--mail-motion-fast) ease;
+}
+.geelooy-mail-document .mail-settings-toggle-track::after {
+	content: "";
+	position: absolute;
+	top: 2px;
+	inset-inline-start: 2px;
+	inline-size: 20px;
+	block-size: 20px;
+	border-radius: 50%;
+	background: var(--mail-text);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, .35);
+	transition:
+		translate var(--mail-motion-standard) var(--mail-ease-out),
+		background-color var(--mail-motion-fast) ease;
+}
+/* On state: honor both the JS-toggled .is-on wrapper class and the
+   native :checked sibling, so the switch works whichever side leads. */
+.geelooy-mail-document .mail-settings-toggle.is-on .mail-settings-toggle-track,
+.geelooy-mail-document .mail-settings-toggle input:checked + .mail-settings-toggle-track {
+	border-color: transparent;
+	background: var(--mail-accent);
+}
+.geelooy-mail-document .mail-settings-toggle.is-on .mail-settings-toggle-track::after,
+.geelooy-mail-document .mail-settings-toggle input:checked + .mail-settings-toggle-track::after {
+	translate: 20px 0;
+	background: var(--mail-bg-elevated);
+}
+[dir="rtl"] .geelooy-mail-document .mail-settings-toggle.is-on .mail-settings-toggle-track::after,
+[dir="rtl"] .geelooy-mail-document .mail-settings-toggle input:checked + .mail-settings-toggle-track::after {
+	translate: -20px 0;
+}
+/* Focus lands on the hidden input; the ring shows on the track. */
+.geelooy-mail-document .mail-settings-toggle input:focus-visible + .mail-settings-toggle-track {
+	outline: 3px solid color-mix(in srgb, var(--mail-accent) 80%, white);
+	outline-offset: 3px;
+}
+/* The label text may wrap on narrow vessels without shoving the track. */
+.geelooy-mail-document .mail-settings-toggle > :last-child {
+	min-inline-size: 0;
 }

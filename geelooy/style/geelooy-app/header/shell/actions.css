@@ -99,6 +99,73 @@
 	display: none;
 }
 
+/* Loading skeleton — the shell carries data-state="loading" from ensureAppShell
+   until the motion layer marks .is-ready (or a safety timeout clears it).
+   While loading, every action renders as a fixed 44px shimmer slot, so portal
+   text arriving before its CSS can never widen a track or cramp the brand. */
+.g-shell[data-state="loading"] .g-header-actions > * {
+	position: relative;
+	flex: 0 0 44px;
+	inline-size: 44px;
+	min-inline-size: 44px;
+	max-inline-size: 44px;
+	block-size: 44px;
+	min-block-size: 44px;
+	overflow: hidden;
+}
+
+.g-shell[data-state="loading"] .g-header-actions > * > * {
+	visibility: hidden;
+}
+
+.g-shell[data-state="loading"] .g-header-actions > *::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	background: linear-gradient(100deg, rgba(148, 190, 233, .05) 30%, rgba(148, 190, 233, .16) 50%, rgba(148, 190, 233, .05) 70%);
+	background-size: 200% 100%;
+	animation: g-shell-shimmer 1.2s linear infinite;
+	pointer-events: none;
+}
+
+/* Universal chat launcher — compact by default: a 44px presence dot.
+   At >=42rem it expands to the truthful "N online" text (inverted from the
+   old prepend-then-compact timing, so the first paint is already compact). */
+.universal-chat-header-launcher {
+	overflow: hidden;
+	font-size: 0;
+	line-height: 0;
+}
+
+.universal-chat-header-launcher::before {
+	content: "●";
+	color: #8cf5b8;
+	font-size: .8rem;
+	line-height: 1;
+	text-shadow: 0 0 .7rem rgba(116, 255, 176, .42);
+}
+
+.universal-chat-header-launcher.is-offline::before {
+	color: #8693a7;
+	text-shadow: none;
+}
+
+@media (min-width: 42rem) {
+	.universal-chat-header-launcher {
+		inline-size: auto;
+		min-inline-size: 44px;
+		max-inline-size: none;
+		padding-inline: .8rem;
+		font-size: .82rem;
+		line-height: 1.2;
+	}
+
+	.universal-chat-header-launcher::before {
+		content: none;
+	}
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.g-header-action,
 	.g-header-profile .profile-trigger {

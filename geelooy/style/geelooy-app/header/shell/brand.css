@@ -6,11 +6,12 @@
  */
 .g-header-brand {
 	display: flex;
-	min-inline-size: 44px;
+	min-inline-size: 0;
 	min-block-size: 44px;
 	align-items: center;
 	gap: 0.62rem;
 	padding-right: 0.35rem;
+	overflow: hidden;
 }
 
 .g-bh-jewel {
@@ -40,7 +41,15 @@
 
 .g-header-brand-copy {
 	display: grid;
+	min-inline-size: 0;
 	line-height: 1.05;
+}
+
+.g-header-brand-copy > * {
+	min-inline-size: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .g-header-brand-copy strong {

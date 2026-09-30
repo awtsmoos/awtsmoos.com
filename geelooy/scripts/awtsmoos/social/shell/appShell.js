@@ -35,6 +35,7 @@ export function ensureAppShell(root = document) {
 	malchusShell.className = 'g-shell';
 	malchusShell.dataset.gShell = 'true';
 	malchusShell.dataset.awtsmoosSurface = 'social-shell';
+	malchusShell.dataset.state = 'loading';
 	malchusShell.append(
 		createUnusualHeader(root),
 		createContextRibbon(root),
@@ -63,6 +64,14 @@ export function markCurrentLinks(root = document) {
 function harmonizeExistingShell(malchusShell, root) {
 	malchusShell.dataset.awtsmoosSurface = 'social-shell';
 	malchusShell.dataset.gPerformance = root.documentElement.dataset.gPerformance || 'full';
+	if (!malchusShell.classList.contains('is-ready')) {
+		malchusShell.dataset.state = 'loading';
+		/* Safety: never trap chrome behind the loading shimmer if the motion
+		   layer fails to mark the shell ready. */
+		window.setTimeout(() => {
+			malchusShell.removeAttribute('data-state');
+		}, 6000);
+	}
 	mountChatInShell(malchusShell);
 	markAppShellCurrentLinks(root);
 	bindAmbientField(malchusShell);

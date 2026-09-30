@@ -252,7 +252,14 @@ export async function handleSend(ui) {
     }
 }
 
+/** Magnetic drift only suits a precise pointer with full motion allowed. */
+function magneticMotionAllowed() {
+    return window.matchMedia?.('(pointer:fine)')?.matches === true
+        && window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches === false;
+}
+
 export function handleMagneticMove(e) {
+    if (!magneticMotionAllowed()) return;
     const btn = e.target;
     const rect = btn.getBoundingClientRect();
     const x = e.clientX - (rect.left + rect.width / 2);
@@ -261,5 +268,6 @@ export function handleMagneticMove(e) {
 }
 
 export function handleMagneticLeave(e) {
+    if (!magneticMotionAllowed()) return;
     e.target.style.transform = 'translate(0,0)';
 }

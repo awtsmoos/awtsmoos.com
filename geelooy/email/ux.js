@@ -7,6 +7,54 @@
  */
 import { MailRootVessel } from './ui/foundations/MailRootVessel.js';
 
+/** Selector matching natively keyboard-focusable controls. */
+export const FOCUSABLE_SELECTOR =
+	'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+/**
+ * Returns the visible focusable descendants of a container in DOM order.
+ * The container itself leads the list when it carries a tabindex (as modal
+ * shells do), so Shift+Tab from a shell wraps instead of escaping.
+ * @param {Element} container Boundary element for the trap.
+ * @returns {Element[]} Visible focusable elements.
+ */
+export function visibleFocusables(container) {
+	if (!container?.querySelectorAll) {
+		return [];
+	}
+	const list = [...container.querySelectorAll(FOCUSABLE_SELECTOR)];
+	if (container.hasAttribute?.('tabindex')) {
+		list.unshift(container);
+	}
+	return list.filter(element => !element.disabled && element.getClientRects().length > 0);
+}
+
+/**
+ * Wraps Tab / Shift+Tab at the ends of a container's focusable sequence so
+ * keyboard focus cannot slip behind an open overlay. No-op when the
+ * container holds no visible focusable elements.
+ * @param {Element} container Boundary element for the trap.
+ * @param {KeyboardEvent} event The keydown event to guard.
+ */
+export function trapTabIn(container, event) {
+	if (!event || event.key !== 'Tab' || !container) {
+		return;
+	}
+	const focusables = visibleFocusables(container);
+	if (!focusables.length) {
+		return;
+	}
+	const first = focusables[0];
+	const last = focusables[focusables.length - 1];
+	if (event.shiftKey && document.activeElement === first) {
+		event.preventDefault();
+		last.focus();
+	} else if (!event.shiftKey && document.activeElement === last) {
+		event.preventDefault();
+		first.focus();
+	}
+}
+
 export class MailWorkspaceUx extends MailRootVessel {
 	/**
 	 * Creates the Mail-wide UX conductor around an optional transient-panel controller.
@@ -89,7 +137,9 @@ export class MailWorkspaceUx extends MailRootVessel {
 		const malchusStatus = this.findInMalchus('[data-mail-connection]');
 		if (!malchusStatus) return;
 		malchusStatus.dataset.state = tiferesState;
-		malchusStatus.textContent = chesedOnline ? 'Online' : 'Offline';
+		// The status text lives in its own node so the mobile dot-fold keeps a real accessible label.
+		const malchusText = malchusStatus.querySelector('.mail-connection-text') || malchusStatus;
+		malchusText.textContent = chesedOnline ? 'Online' : 'Offline';
 		malchusStatus.setAttribute('aria-label', `Mail is ${tiferesState}`);
 	}
 }

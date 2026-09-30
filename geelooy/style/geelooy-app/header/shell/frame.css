@@ -23,7 +23,10 @@
 	background: color-mix(in srgb, var(--g-bg-2) 94%, transparent);
 	box-shadow: var(--g-shadow-float), inset 0 0 0 1px rgba(139, 92, 255, .16);
 	transform: translateX(-50%);
-	isolation: isolate;
+	/* isolation:isolate removed — the bar keeps its z-index:80 stacking context
+	   (position:fixed + z-index), so the constellation menu (z 3190), search
+	   suggestions (z 3200), and profile dropdown (z 3110) are no longer
+	   wrapped in a redundant isolated group. */
 }
 
 .g-unusual-header::before {

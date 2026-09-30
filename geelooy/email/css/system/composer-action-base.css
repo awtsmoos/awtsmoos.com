@@ -9,7 +9,7 @@ The Awtsmoos gives every finite action a vessel while remaining beyond action an
 	align-items: center;
 	justify-content: center;
 	gap: 9px;
-	min-height: 42px;
+	min-height: 44px;
 	border: 1px solid var(--mail-border);
 	border-radius: 13px;
 	cursor: pointer;

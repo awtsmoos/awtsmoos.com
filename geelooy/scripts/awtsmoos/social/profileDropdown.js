@@ -23,6 +23,8 @@ let mountSequence = 0;
 export default function createProfileDropdown(parentElement) {
 	if (!(parentElement instanceof HTMLElement)) return null;
 	parentElement.awtsmoosProfileCleanup?.();
+	/* Skeleton slot until identity hydration settles (see .is-loading). */
+	parentElement.classList.add('is-loading');
 	ensureProfileDropdownStyles(parentElement.ownerDocument);
 	const container = parentElement.ownerDocument.createElement('div');
 	const prefix = `awtsmoos-profile-${++mountSequence}`;
@@ -36,6 +38,8 @@ export default function createProfileDropdown(parentElement) {
 	hydrateProfileIdentity(elements).catch(error => {
 		console.error('B"H profile identity hydration failed', error);
 		elements.notLoggedIn.hidden = false;
+	}).finally(() => {
+		parentElement.classList.remove('is-loading');
 	});
 	parentElement.awtsmoosProfileCleanup = () => {
 		menuController.destroy();

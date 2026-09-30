@@ -25,8 +25,8 @@ export function openMailContextMenu(x, y, message, row) {
 	menu.className = 'context-menu';
 	menu.setAttribute('role', 'menu');
 	menu.setAttribute('aria-label', 'Message actions');
-	menu.style.left = `${Math.min(x, window.innerWidth - 230)}px`;
-	menu.style.top = `${Math.min(y, window.innerHeight - 190)}px`;
+	menu.style.left = `${Math.max(8, Math.min(x, window.innerWidth - 230))}px`;
+	menu.style.top = `${Math.max(8, Math.min(y, window.innerHeight - 190))}px`;
 	menu.append(
 		contextAction('Copy text', () => copyMessage(message)),
 		contextAction('Reply', () => replyToMessage(message)),

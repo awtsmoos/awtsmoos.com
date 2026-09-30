@@ -10,9 +10,15 @@
 	pointer-events: none;
 }
 
+/* Layering note (mail layer scale, core-tokens.css, 0–70):
+   - .holo-hud is a non-interactive debug readout: it belongs at the top
+     of the mail scale (--mail-layer-toast, 70), still below the
+     app-wide compose overlay (--g-z-dialog, 160).
+   - .drop-portal is a drag-target highlight inside its drop vessel:
+     --mail-layer-dialog (60), above content but below toasts/HUD. */
 .holo-hud {
 	position: fixed;
-	z-index: 3100;
+	z-index: var(--mail-layer-toast);
 	top: 6rem;
 	right: 1rem;
 	padding: 0.55rem;
@@ -47,7 +53,7 @@
 
 .drop-portal {
 	position: absolute;
-	z-index: 999;
+	z-index: var(--mail-layer-dialog);
 	inset: 0;
 	display: none;
 	align-items: center;

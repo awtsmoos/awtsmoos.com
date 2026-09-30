@@ -3,6 +3,12 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos gives secondary actions a quiet and predictable chamber.
 */
+
+/* The menu positions itself against this vessel. */
+.chat-tools {
+	position: relative;
+}
+
 .context-menu {
 	position: absolute;
 	z-index: 10;
@@ -12,19 +18,58 @@ The Awtsmoos gives secondary actions a quiet and predictable chamber.
 	border: 1px solid var(--mail-border);
 	border-radius: 13px;
 	background: var(--mail-panel);
+	transform-origin: top right;
+	/* Appear as a keyed entrance: it replays whenever the menu stops
+	   being [hidden], with no JS changes required. */
+	animation: mail-ctx-appear .16s ease-out both;
+}
+
+@keyframes mail-ctx-appear {
+	from {
+		opacity: 0;
+		transform: scale(.96);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
 }
 
 .ctx-item {
-	display: block;
+	display: flex;
+	align-items: center;
 	width: 100%;
+	min-block-size: 44px;
 	padding: 9px 11px;
 	border: 0;
 	border-radius: 9px;
 	background: transparent;
 	color: var(--mail-text-secondary);
+	font: inherit;
 	text-align: left;
+	cursor: pointer;
 }
 
 .ctx-item:hover {
 	background: var(--mail-panel-hover);
+}
+
+.ctx-item:focus-visible {
+	outline: 2px solid var(--mail-border-focus);
+	outline-offset: 2px;
+}
+
+.ctx-separator {
+	block-size: 1px;
+	margin: 5px 4px;
+	background: var(--mail-border);
+}
+
+.ctx-danger {
+	color: var(--mail-danger);
+}
+
+.ctx-danger:hover {
+	background: color-mix(in srgb, var(--mail-danger) 12%, transparent);
+	color: var(--mail-danger);
 }

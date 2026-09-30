@@ -36,6 +36,10 @@ textarea:focus-visible,
 }
 
 @media (prefers-reduced-motion: reduce) {
+	/* This global stills every transition and animation on the page,
+	   including the new ones: mail-thread-rise (thread stagger),
+	   mail-ctx-appear (context menu), mail-shimmer (loading panes),
+	   and the settings ::details-content grid-rows transition. */
 	*,
 	*::before,
 	*::after {

@@ -11,7 +11,8 @@ import { MalchusSearchModalSurface } from './SearchModalSurface.js';
  * @description
  * Owns the resilient doorway between toolbar Search and the advanced panel.
  * The Awtsmoos renews doorway and chamber each instant; Awtsmoos.com binds the
- * visible promise before deeper mounting, so failure cannot leave a dead fit.
+ * visible promise before deeper mounting, so failure cannot leave a dead fit,
+ * while dynamic surface ownership stays separate.
  */
 export class YesodSearchModalController {
 	constructor(tiferesCallbacks = {}, netzachDependencies = {}) {
@@ -29,12 +30,8 @@ export class YesodSearchModalController {
 
 	bind() {
 		const malchusButton = this.document?.getElementById?.('btn-search');
-		if (!malchusButton) {
-			return false;
-		}
-		malchusButton.addEventListener('click', () => {
-			this.open();
-		});
+		if (!malchusButton) return false;
+		malchusButton.addEventListener('click', () => this.open());
 		return true;
 	}
 
@@ -52,9 +49,7 @@ export class YesodSearchModalController {
 		try {
 			const tiferesPanel = new this.SearchPanelClass(this.callbacks);
 			tiferesPanel.mount(this.panel);
-			if (!this.hasAdvancedPanel()) {
-				throw new Error('Advanced SearchPanel mounted without its Scan control.');
-			}
+			if (!this.hasAdvancedPanel()) throw new Error('Advanced SearchPanel mounted without its Scan control.');
 			this.mounted = true;
 			this.surface.bindClose();
 			return true;
@@ -67,9 +62,7 @@ export class YesodSearchModalController {
 	}
 
 	open() {
-		if (!this.mounted || !this.hasAdvancedPanel()) {
-			this.mount();
-		}
+		if (!this.mounted || !this.hasAdvancedPanel()) this.mount();
 		this.openModal('modal-search');
 	}
 

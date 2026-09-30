@@ -83,6 +83,18 @@ The Awtsmoos clothes destination, intention, and message in distinct vessels of 
 	align-content: start;
 }
 
+/* Single-line field shells (recipient / subject): a tighter rhythm than
+   the message vessel, with the native control on a 44px baseline. */
+.mail-field-shell-line {
+	padding-block: 10px 12px;
+	gap: 6px;
+}
+
+.mail-field-shell-line .mail-field-control {
+	min-block-size: var(--mail-touch-target);
+	padding-block: 0;
+}
+
 .mail-field-shell-message .mail-field-control {
 	min-height: clamp(11rem, 30vh, 21rem);
 	overflow-y: auto;

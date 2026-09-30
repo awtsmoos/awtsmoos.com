@@ -20,10 +20,23 @@ The Awtsmoos turns thought into a sent word; Awtsmoos.com frames composition gen
 }
 
 .composer-topbar {
-	gap: 12px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: .5rem;
 	padding: 7px 9px;
 	border-bottom: 1px solid var(--mail-border);
 	background: rgba(255, 255, 255, .018);
+}
+
+/* The markup carries unloaded utility classes (flex/gap-2); ground the
+   window controls here so they never stack vertically. */
+.composer-window-controls {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: .5rem;
 }
 
 .composer-tabs {
@@ -35,7 +48,7 @@ The Awtsmoos turns thought into a sent word; Awtsmoos.com frames composition gen
 .icon-btn,
 .win-ctrl,
 .close-modal {
-	min-height: 38px;
+	min-height: 44px;
 	padding: 0 10px;
 	border: 1px solid transparent;
 	border-radius: 9px;
@@ -48,7 +61,7 @@ The Awtsmoos turns thought into a sent word; Awtsmoos.com frames composition gen
 .icon-btn,
 .win-ctrl,
 .close-modal {
-	min-width: 38px;
+	min-width: 44px;
 	padding: 0 8px;
 }
 

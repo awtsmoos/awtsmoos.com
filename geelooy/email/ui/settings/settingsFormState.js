@@ -5,6 +5,7 @@
  * @module MailSettingsFormState
  * @description The Awtsmoos lets values move between hidden data and visible controls without tangling either vessel; Awtsmoos.com keeps forwarding, privacy, and capability state in one pure form translator.
  */
+import { syncSwitchState } from './settingsView.js';
 export class MailSettingsFormState {
 	/**
 	 * Captures registered form controls once so the lifecycle controller stays focused on opening, closing, and transport.
@@ -24,14 +25,23 @@ export class MailSettingsFormState {
 	 */
 	apply(tiferesSettings, malchusForwardingLive) {
 		const yesodForwarding = tiferesSettings.forwarding || {};
-		if (this.forwardEnabled) this.forwardEnabled.checked = yesodForwarding.enabled === true;
-		if (this.forwardKeepCopy) this.forwardKeepCopy.checked = yesodForwarding.keepCopy !== false;
+		if (this.forwardEnabled) {
+			this.forwardEnabled.checked = yesodForwarding.enabled === true;
+			syncSwitchState(this.forwardEnabled);
+		}
+		if (this.forwardKeepCopy) {
+			this.forwardKeepCopy.checked = yesodForwarding.keepCopy !== false;
+			syncSwitchState(this.forwardKeepCopy);
+		}
 		if (this.forwardTargets) {
 			this.forwardTargets.value = Array.isArray(yesodForwarding.targets)
 				? yesodForwarding.targets.join('\n')
 				: '';
 		}
-		if (this.gatekeeper) this.gatekeeper.checked = tiferesSettings.gatekeeperMode === true;
+		if (this.gatekeeper) {
+			this.gatekeeper.checked = tiferesSettings.gatekeeperMode === true;
+			syncSwitchState(this.gatekeeper);
+		}
 		this.setForwardingAvailability(malchusForwardingLive);
 	}
 

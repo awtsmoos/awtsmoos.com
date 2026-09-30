@@ -64,10 +64,7 @@
 		display: none;
 	}
 
-	.geelooy-app-shell .g-header-profile {
-		min-inline-size: var(--g-mobile-profile-min);
-		max-inline-size: 11rem;
-	}
+	/* .g-header-profile width consolidated into mobile-shell-compact.css (single 44px law @ <=42rem). */
 
 	.geelooy-app-shell .g-content-region {
 		inline-size: 100%;
@@ -99,14 +96,12 @@
 	}
 
 	.geelooy-app-shell .g-bh-jewel {
-		inline-size: 2.5rem;
-		block-size: 2.5rem;
-		flex-basis: 2.5rem;
+		inline-size: 44px;
+		block-size: 44px;
+		flex-basis: 44px;
 	}
 
-	.geelooy-app-shell .g-header-profile {
-		max-inline-size: 9.5rem;
-	}
+	/* .g-header-profile width consolidated into mobile-shell-compact.css (single 44px law @ <=42rem). */
 
 	.geelooy-app-shell .g-header-actions {
 		gap: .25rem;

@@ -8,6 +8,8 @@
  * Awtsmoos.com keeps this Yesod lifecycle separate so transport and form data may change while focus and accessibility remain a stable covenant.
  */
 
+import { trapTabIn } from '../../ux.js';
+
 /** Reusable lifecycle base for Mail settings controllers. */
 export class MailSettingsLifecycle {
 	/**
@@ -17,6 +19,7 @@ export class MailSettingsLifecycle {
 	constructor(ui) {
 		this.trigger = ui.getHtml('mailSettingsToggle');
 		this.layer = ui.getHtml('mailSettingsLayer');
+		this.drawer = ui.getHtml('mailSettingsDrawer');
 		this.closeButton = ui.getHtml('mailSettingsClose');
 		this.backdrop = ui.getHtml('mailSettingsBackdrop');
 		this.form = ui.getHtml('mailSettingsForm');
@@ -25,6 +28,7 @@ export class MailSettingsLifecycle {
 		this.boundClose = () => this.close();
 		this.boundSubmit = event => this.save(event);
 		this.boundKey = event => this.onKey(event);
+		this.boundTrap = event => this.trapTab(event);
 	}
 
 	/** Connects every local listener exactly once and returns the active controller. */
@@ -34,6 +38,7 @@ export class MailSettingsLifecycle {
 		this.closeButton?.addEventListener('click', this.boundClose);
 		this.backdrop?.addEventListener('click', this.boundClose);
 		this.form.addEventListener('submit', this.boundSubmit);
+		this.drawer?.addEventListener('keydown', this.boundTrap);
 		document.addEventListener('keydown', this.boundKey);
 		return this;
 	}
@@ -44,6 +49,7 @@ export class MailSettingsLifecycle {
 		this.closeButton?.removeEventListener('click', this.boundClose);
 		this.backdrop?.removeEventListener('click', this.boundClose);
 		this.form?.removeEventListener('submit', this.boundSubmit);
+		this.drawer?.removeEventListener('keydown', this.boundTrap);
 		document.removeEventListener('keydown', this.boundKey);
 	}
 
@@ -73,6 +79,14 @@ export class MailSettingsLifecycle {
 	/** Closes the active sheet on Escape without consuming unrelated key presses. */
 	onKey(event) {
 		if (event.key === 'Escape' && this.close()) event.preventDefault();
+	}
+
+	/** Cycles Tab and Shift+Tab inside the open drawer so focus never slips behind it. */
+	trapTab(event) {
+		if (event.key !== 'Tab' || this.layer?.dataset.state !== 'open' || !this.drawer) {
+			return;
+		}
+		trapTabIn(this.drawer, event);
 	}
 
 	/** Updates the local aria-live vessel with semantic state for styling and assistive technology. */

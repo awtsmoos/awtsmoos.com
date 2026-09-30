@@ -127,11 +127,31 @@ function toggleDescriptor(shaym, label) {
 		tag: 'label',
 		classList: ['mail-settings-toggle'],
 		children: [
-			{ tag: 'input', shaym, attributes: { type: 'checkbox' } },
+			{
+				tag: 'input',
+				shaym,
+				attributes: { type: 'checkbox', role: 'switch', 'aria-checked': 'false' },
+				events: { change: event => syncSwitchState(event.target) }
+			},
 			{ tag: 'span', classList: ['mail-settings-toggle-track'], attributes: { 'aria-hidden': 'true' } },
 			{ tag: 'span', textContent: label }
 		]
 	};
+}
+
+/**
+ * Mirrors the native checkbox onto its custom-switch wrapper so the CSS
+ * :checked-sibling hook and the .is-on hook always agree. The native input
+ * stays in the tab order and keeps keyboard behavior; it is never display:none.
+ * @param {HTMLInputElement} input The switch checkbox whose state changed.
+ */
+export function syncSwitchState(input) {
+	if (!input) {
+		return;
+	}
+	const on = input.checked === true;
+	input.closest?.('.mail-settings-toggle')?.classList.toggle('is-on', on);
+	input.setAttribute('aria-checked', String(on));
 }
 
 /** Returns the sticky save action descriptor. */

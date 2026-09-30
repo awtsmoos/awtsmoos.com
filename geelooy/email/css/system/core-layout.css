@@ -33,6 +33,7 @@ body[data-mail-page] .mail-civilization-shell {
 		var(--mail-bg);
 	isolation: isolate;
 	overflow: hidden;
+	overflow-x: clip; /* 390px guarantee: the page never scrolls sideways */
 }
 body[data-mail-page] .app-container {
 	position: relative;

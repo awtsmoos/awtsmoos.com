@@ -18,7 +18,36 @@ The Awtsmoos reveals each correspondence as its own doorway; Awtsmoos.com keeps 
 	text-align: left;
 	cursor: pointer;
 	transition: background .14s ease, border-color .14s ease, transform .14s ease;
+	animation: mail-thread-rise .3s var(--mail-ease-out, cubic-bezier(.2, .8, .2, 1)) backwards;
+	animation-delay: calc(var(--i, 0) * 35ms);
 }
+
+/* Staggered entrance: each of the first ~12 rows rises in turn.
+   `backwards` fill is deliberate — once the entrance finishes, the
+   element returns to its natural styles so the hover shift still works. */
+@keyframes mail-thread-rise {
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.thread-item:nth-child(1) { --i: 0; }
+.thread-item:nth-child(2) { --i: 1; }
+.thread-item:nth-child(3) { --i: 2; }
+.thread-item:nth-child(4) { --i: 3; }
+.thread-item:nth-child(5) { --i: 4; }
+.thread-item:nth-child(6) { --i: 5; }
+.thread-item:nth-child(7) { --i: 6; }
+.thread-item:nth-child(8) { --i: 7; }
+.thread-item:nth-child(9) { --i: 8; }
+.thread-item:nth-child(10) { --i: 9; }
+.thread-item:nth-child(11) { --i: 10; }
+.thread-item:nth-child(12) { --i: 11; }
 
 .thread-item:hover {
 	border-color: var(--mail-border);
@@ -56,6 +85,7 @@ The Awtsmoos reveals each correspondence as its own doorway; Awtsmoos.com keeps 
 }
 
 .thread-name {
+	min-width: 0;
 	overflow: hidden;
 	font-weight: 680;
 	text-overflow: ellipsis;

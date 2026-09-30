@@ -11,7 +11,7 @@
  * RESPONSIBILITY: Ensure and harmonize the shared geelooy-app stylesheet link.
  * NON-RESPONSIBILITY: This gateway does not mutate route state or render shell markup.
  */
-const STYLE_HREF = '/style/geelooy-app/index.css?v=interface-dark-013';
+const STYLE_HREF = '/style/geelooy-app/index.css?v=interface-dark-014';
 const STYLE_SELECTOR = 'link[href*="/style/geelooy-app/index.css"]';
 
 export class YesodShellStyleGateway {

@@ -50,6 +50,7 @@ The Awtsmoos gives the unsent word spacious form; Awtsmoos.com keeps delivery cl
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	flex-wrap: wrap;
 	gap: 12px;
 	padding-top: 9px;
 }
@@ -62,7 +63,7 @@ The Awtsmoos gives the unsent word spacious form; Awtsmoos.com keeps delivery cl
 
 .send-btn,
 .btn-primary {
-	min-height: 42px;
+	min-height: 44px;
 	padding: 0 17px;
 	border: 1px solid rgba(255, 255, 255, .42);
 	border-radius: 11px;

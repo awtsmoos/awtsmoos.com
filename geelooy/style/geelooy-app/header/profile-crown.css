@@ -10,7 +10,7 @@
 
 .geelooy-app-shell .g-header-profile::before {
 	position: absolute;
-	inset: -.18rem;
+	inset: 0;
 	z-index: -1;
 	border: 1px solid rgba(80, 215, 255, .3);
 	border-radius: 999px 1.4rem 999px 1.4rem;
@@ -53,4 +53,30 @@ body[data-geelooy-route="games"] .g-bh-jewel {
 	.geelooy-app-shell .g-header-profile::before {
 		transition: none;
 	}
+}
+
+/* Identity hydration skeleton — #awtsmoosDrop carries .is-loading from
+   createProfileDropdown until hydrateProfileIdentity settles, so the profile
+   doorway always renders a 44px shimmer slot instead of a natural-width gap. */
+.geelooy-app-shell .g-header-profile.is-loading {
+	flex: 0 0 44px;
+	inline-size: 44px;
+	min-inline-size: 44px;
+	max-inline-size: 44px;
+	block-size: 44px;
+}
+
+.geelooy-app-shell .g-header-profile.is-loading > * {
+	visibility: hidden;
+}
+
+.geelooy-app-shell .g-header-profile.is-loading::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	background: linear-gradient(100deg, rgba(148, 190, 233, .05) 30%, rgba(148, 190, 233, .16) 50%, rgba(148, 190, 233, .05) 70%);
+	background-size: 200% 100%;
+	animation: g-shell-shimmer 1.2s linear infinite;
+	pointer-events: none;
 }

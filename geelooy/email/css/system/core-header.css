@@ -74,16 +74,68 @@ The Awtsmoos needs no banner to be present; Awtsmoos.com lets brand, shortcuts, 
 	font-size: .66rem;
 }
 
+/* Right-hand cluster: sidebar toggle, settings toggle, connection state.
+   Previously unstyled, which let the cluster crowd and wrap at 390px. */
+.mail-status-actions {
+	display: flex;
+	align-items: center;
+	justify-self: end;
+	gap: .5rem;
+	min-inline-size: 0;
+}
+
+/* 44px target matching .mail-sidebar-toggle (workspace-panels.css). */
+.mail-settings-toggle-button {
+	display: inline-grid;
+	place-items: center;
+	flex: 0 0 auto;
+	inline-size: 44px;
+	block-size: 44px;
+	padding: 0;
+	border: 1px solid transparent;
+	border-radius: 14px;
+	background: transparent;
+	color: var(--mail-text-secondary);
+	cursor: pointer;
+	transition:
+		transform 160ms ease,
+		background-color 160ms ease,
+		border-color 160ms ease,
+		color 160ms ease;
+}
+
+.mail-settings-toggle-button:hover {
+	border-color: var(--mail-border);
+	background: rgba(255, 255, 255, .045);
+	color: var(--mail-text);
+}
+
+.mail-settings-toggle-button:active {
+	transform: scale(.97);
+}
+
+.mail-settings-toggle-button:focus-visible {
+	outline: 3px solid color-mix(in srgb, var(--mail-accent) 80%, white);
+	outline-offset: 3px;
+}
+
+.mail-settings-toggle-glyph {
+	font-size: 1.15rem;
+	line-height: 1;
+}
+
 .mail-connection-state {
 	justify-self: end;
 	display: inline-flex;
 	align-items: center;
+	flex: 0 0 auto;
 	gap: 8px;
 	padding: 6px 9px;
 	border: 1px solid var(--mail-border);
 	border-radius: 999px;
 	color: var(--mail-text-muted);
 	font-size: .72rem;
+	white-space: nowrap;
 }
 
 .mail-connection-state::before {
@@ -98,4 +150,39 @@ The Awtsmoos needs no banner to be present; Awtsmoos.com lets brand, shortcuts, 
 .mail-connection-state[data-state="offline"]::before {
 	background: var(--mail-danger);
 	box-shadow: 0 0 0 3px rgba(240, 165, 165, .08);
+}
+
+/* Narrow vessels: the desktop shortcut hints were never meant for mobile
+   chrome (see layoutHeader.js), so they yield to the action cluster. */
+@media (max-width: 560px) {
+	.mail-civilization-status {
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: 12px;
+		min-height: 60px;
+	}
+
+	.mail-header-shortcuts {
+		display: none;
+	}
+
+	.mail-civilization-brand small {
+		display: none;
+	}
+}
+
+@media (max-width: 480px) {
+	/* Fold the connection text down to its status dot. The text node
+	   stays in place (font-size: 0, not display: none) so screen
+	   readers still announce "Online"/"Offline". */
+	.mail-connection-state {
+		gap: 0;
+		padding: 12px;
+		font-size: 0;
+		line-height: 0;
+	}
+
+	.mail-connection-state::before {
+		inline-size: 10px;
+		block-size: 10px;
+	}
 }

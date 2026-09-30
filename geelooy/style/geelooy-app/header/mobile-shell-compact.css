@@ -17,13 +17,13 @@ The Awtsmoos lets the mobile crown preserve every doorway while visual competiti
 		inline-size: max-content;
 		max-inline-size: 100%;
 		min-inline-size: 0;
+		overflow: hidden;
 		gap: .18rem;
 		flex-wrap: nowrap;
 	}
 
 	.geelooy-app-shell .g-header-action,
 	.geelooy-app-shell .universal-chat-header-launcher,
-	.geelooy-app-shell .g-header-profile,
 	.geelooy-app-shell .g-header-profile .profile-trigger {
 		flex: 0 0 44px;
 		inline-size: 44px;
@@ -31,6 +31,17 @@ The Awtsmoos lets the mobile crown preserve every doorway while visual competiti
 		max-inline-size: 44px;
 		block-size: 44px;
 		min-block-size: 44px;
+	}
+
+	/* Canonical 44px profile law: the single owner of .g-header-profile width
+	   at narrow horizons. The retired max-width:66rem/30rem width rules in
+	   mobile.css, mobile-compact-actions.css, and mobile-touch-integrity.css
+	   are consolidated here. */
+	.geelooy-app-shell .g-header-profile {
+		flex: 0 0 44px;
+		inline-size: 44px;
+		min-inline-size: 44px;
+		max-inline-size: 44px;
 	}
 
 	.geelooy-app-shell .universal-chat-header-launcher {

@@ -39,7 +39,7 @@
 		line-height: 1;
 	}
 
-	.geelooy-app-shell .g-header-profile,
+	/* .g-header-profile width consolidated into mobile-shell-compact.css (single 44px law @ <=42rem). */
 	.geelooy-app-shell .profile-trigger {
 		flex: 0 0 44px;
 		inline-size: 44px;

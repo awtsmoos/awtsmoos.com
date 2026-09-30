@@ -110,8 +110,16 @@ function connectionDescriptor() {
 		attributes: {
 			role: 'status',
 			'aria-live': 'polite',
-			'data-mail-connection': ''
+			'aria-label': `Mail is ${navigator.onLine ? 'online' : 'offline'}`,
+			// data-mail-connection is the JS hook read by MailWorkspaceUx;
+			// data-state mirrors it for the stylesheet's offline-dot selectors.
+			'data-mail-connection': '',
+			'data-state': navigator.onLine ? 'online' : 'offline'
 		},
-		textContent: navigator.onLine ? 'Online' : 'Offline'
+		// The status text keeps its own node so the mobile dot-fold never
+		// removes the accessible label; MailWorkspaceUx updates this node.
+		children: [
+			{ tag: 'span', classList: ['mail-connection-text'], textContent: navigator.onLine ? 'Online' : 'Offline' }
+		]
 	};
 }

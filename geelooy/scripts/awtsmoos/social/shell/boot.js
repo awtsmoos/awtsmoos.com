@@ -53,4 +53,51 @@ if (
 	&& isShellEligible(document.location?.pathname)
 ) {
 	scheduleShellBoot();
+	/**
+	 * Vivid motion layer (topnavMotion.js): additive, universal, non-blocking.
+	 * It watches briefly for .g-shell and enhances it with entrance, ink, and
+	 * dim APIs. Gated on the same eligibility as the shell itself; the
+	 * try/catch keeps a motion-load failure from ever touching the shell boot.
+	 * Reduced-motion users skip the module — the shell is marked ready
+	 * directly so the loading shimmer lifts with no entrance or ink motion.
+	 */
+	try {
+		const prefersReducedMotion = typeof window.matchMedia === 'function'
+			&& window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		if (prefersReducedMotion) {
+			markShellReadyWithoutMotion();
+		} else {
+			import('./topnavMotion.js').catch(() => {});
+		}
+	} catch (err) {
+		/* Motion is decorative; the shell boots without it. */
+	}
+}
+
+/**
+ * Marks .g-shell ready when the motion layer is skipped for reduced motion.
+ * Mirrors topnavMotion's ready hook (minus ink and dim) so
+ * data-state="loading" never traps the header behind a shimmer gate.
+ * @returns {void}
+ */
+function markShellReadyWithoutMotion() {
+	const markReady = () => {
+		const shell = document.querySelector('.g-shell');
+		if (shell) {
+			shell.classList.add('is-ready');
+			shell.removeAttribute('data-state');
+			return true;
+		}
+		return false;
+	};
+	if (markReady()) {
+		return;
+	}
+	let attempts = 0;
+	const timer = setInterval(() => {
+		attempts++;
+		if (markReady() || attempts >= 40) {
+			clearInterval(timer);
+		}
+	}, 250);
 }

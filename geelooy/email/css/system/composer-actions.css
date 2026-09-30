@@ -24,6 +24,17 @@ The Awtsmoos turns intention into action without confusion or haste; Awtsmoos.co
 	-webkit-mask-image: url("../../assets/icons/compose/cancel.svg");
 }
 
+/* Secondary action (cancel): a quiet vessel beside the primary send,
+   sharing the .compose-action mechanics above. */
+.btn-secondary {
+	background: color-mix(in srgb, var(--mail-panel-strong) 78%, transparent);
+	color: var(--mail-text-secondary);
+}
+
+.btn-secondary:hover {
+	color: var(--mail-text);
+}
+
 .compose-action-send::before {
 	mask-image: url("../../assets/icons/compose/send.svg");
 	-webkit-mask-image: url("../../assets/icons/compose/send.svg");
