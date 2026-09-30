@@ -73,11 +73,15 @@ function indexedIds({ $i, heichelId, postId, verseSection, subsectionId }) {
 	} else {
 		result = { index: 'roots', ids: array(access.read($i, paths.rootChildrenPath(context(heichelId, postId)), [])) };
 	}
-	if (result.ids.length === 0) {
-		const perPostIds = perPostIdsFor({ $i, heichelId, postId, verseSection, subsectionId });
-		if (perPostIds.length > 0) {
-			return { index: result.index + '+chassidus', ids: perPostIds };
+	// Union per-post translation IDs with standard IDs (deduped), so posts that
+	// have both native comments and imported translations serve both.
+	const perPostIds = perPostIdsFor({ $i, heichelId, postId, verseSection, subsectionId });
+	if (perPostIds.length > 0) {
+		const seen = new Set(result.ids);
+		for (const id of perPostIds) {
+			if (!seen.has(id)) { seen.add(id); result.ids.push(id); }
 		}
+		return { index: result.index + '+chassidus', ids: result.ids };
 	}
 	return result;
 }
