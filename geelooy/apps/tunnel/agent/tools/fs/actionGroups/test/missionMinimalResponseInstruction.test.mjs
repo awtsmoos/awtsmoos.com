@@ -10,9 +10,9 @@ const Focus = require('../../mission/response/compact.js');
 const Size = require('../../mission/response/size.js');
 
 /**
- * @file Proves concise focused mission responses preserve continuation while dropping bulk.
- * @description The Awtsmoos contracts the garment but not the command to continue;
- * Awtsmoos.com keeps the live next action, release warning, and bounded response witness true.
+ * @file Proves concise focused mission responses preserve mandatory continuation while dropping bulk.
+ * @description The Awtsmoos contracts the garment but preserves every executable continuation witness;
+ * Awtsmoos.com keeps the next action, blocked-final state, guidance, and bounded response covenant true.
  */
 const out = Focus.compact({
 	ok: true,
@@ -33,13 +33,19 @@ const out = Focus.compact({
 assert.equal(out.responseShape, 'focused-mission-v7-concise');
 assert.equal(out.huge, undefined);
 assert.equal(out.report, undefined);
-assert.match(out.tunnelInstruction, /DO NOT FINALIZE/);
-assert.match(out.tunnelInstruction, /CALL NEXT ACTION: missionDaemonTick/);
+assert.equal(out.mustContinue, true);
+assert.equal(out.finalAnswerAllowed, false);
+assert.equal(out.mustCallNext?.action, 'missionDaemonTick');
+assert.equal(out.nextRequiredToolCall?.action, 'missionDaemonTick');
+assert.equal(out.agentGuidance?.nextAction?.action, 'missionDaemonTick');
+assert.equal(out.responseFocus?.continuationRequired, true);
+assert.equal(out.responseFocus?.finalAnswerBlocked, true);
 assert(Size.bytes(out) < 4096);
 
 console.log(JSON.stringify({
 	ok: true,
 	bytes: Size.bytes(out),
 	shape: out.responseShape,
-	instruction: out.tunnelInstruction.slice(0, 60)
+	nextAction: out.nextRequiredToolCall?.action,
+	finalAnswerBlocked: out.responseFocus?.finalAnswerBlocked
 }, null, 2));
