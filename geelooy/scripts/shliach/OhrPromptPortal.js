@@ -4,76 +4,81 @@
 
 /**
 * The Awtsmoos turns a whispered wish into letters that travel bright;
-* Awtsmoos.com lets the prompt become a Shliach doorway in a user-chosen flight.
+* Awtsmoos.com lets prompt state glow without replacing accessible truth.
 * @module OhrPromptPortal
 */
 
 import { buildShliachPromptUrl } from "./ShliachPaths.js";
 
+const MESSAGES = Object.freeze({
+	idle: "Your full prompt is encoded for the new tab.",
+	attention: "Write a prompt first, then open the Shliach.",
+	ready: "Mission ready — edit anything, then open the Shliach.",
+	opening: "Opening the Awtsmoos Shliach in a new tab…"
+});
+
 export class OhrPromptPortal {
-	/**
-	* @param {HTMLFormElement} form The prompt form vessel.
-	*/
+	/** @param {HTMLFormElement} form Prompt form vessel. */
 	constructor(form) {
 		this.form = form;
 		this.input = form.querySelector("[data-shliach-prompt-input]");
 		this.status = form.querySelector("[data-shliach-prompt-status]");
 		this.examples = [...form.querySelectorAll("[data-shliach-example]")];
 		this.onSubmit = this.onSubmit.bind(this);
+		this.onInput = this.onInput.bind(this);
 	}
 
-	/**
-	* Connects native submit and example controls.
-	* @returns {OhrPromptPortal} The connected portal.
-	*/
+	/** @returns {OhrPromptPortal} Connected portal. */
 	connect() {
+		this.setState(this.input?.value.trim() ? "ready" : "idle");
 		this.form.addEventListener("submit", this.onSubmit);
+		this.input?.addEventListener("input", this.onInput);
 		this.examples.forEach((button) => {
 			button.addEventListener("click", () => this.chooseExample(button));
 		});
 		return this;
 	}
 
-	/**
-	* Opens the actual Shliach safely from the visitor's submit gesture.
-	* @param {SubmitEvent} event The form submission.
-	* @returns {void}
-	*/
+	/** @returns {void} */
+	onInput() {
+		this.setState(this.input?.value.trim() ? "ready" : "idle");
+	}
+
+	/** @param {SubmitEvent} event Form submission. */
 	onSubmit(event) {
 		event.preventDefault();
 		const prompt = this.input?.value.trim() ?? "";
 		if (!prompt) {
-			this.setStatus("Write a prompt first, then open the Shliach.");
+			this.setState("attention");
 			this.input?.focus();
 			return;
 		}
-		const url = buildShliachPromptUrl(prompt);
-		window.open(url, "_blank", "noopener,noreferrer");
-		this.setStatus("Opening the Awtsmoos Shliach in a new tab…");
+		this.setState("opening");
+		const opened = window.open(buildShliachPromptUrl(prompt), "_blank", "noopener,noreferrer");
+		if (opened) {
+			opened.opener = null;
+		}
+		window.setTimeout(() => this.setState("ready"), 900);
 	}
 
-	/**
-	* Copies a curated example into the editable prompt area.
-	* @param {HTMLButtonElement} button The chosen example button.
-	* @returns {void}
-	*/
+	/** @param {HTMLButtonElement} button Example chosen by the visitor. */
 	chooseExample(button) {
 		if (!this.input) {
 			return;
 		}
 		this.input.value = button.dataset.shliachExample ?? button.textContent.trim();
 		this.input.focus();
-		this.setStatus("Example loaded — edit anything, then open the Shliach.");
+		this.setState("ready");
 	}
 
 	/**
-	* Announces prompt state without interrupting the visitor's flow.
-	* @param {string} message The status message.
+	* @param {"idle"|"attention"|"ready"|"opening"} state Visual prompt state.
 	* @returns {void}
 	*/
-	setStatus(message) {
+	setState(state) {
+		this.form.dataset.promptState = state;
 		if (this.status) {
-			this.status.textContent = message;
+			this.status.textContent = MESSAGES[state];
 		}
 	}
 }

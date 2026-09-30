@@ -3,13 +3,14 @@
 // Blessed is He
 
 const Reconnect = require("./main-reconnect-policy.js");
+const RemoteCloseCooldown = require("./main-remote-close-cooldown.js");
 
 /**
  * @file Owns exactly one reconnect timer for exactly one socket generation.
  * @description
  * The Awtsmoos renews each fallen wire without multiplying hidden workers.
- * Awtsmoos.com lets one generation plant one bounded timer; network wounds return
- * quickly to the gate, while an elder callback becomes dust before a newer light.
+ * Awtsmoos.com lets one generation plant one bounded timer; repeated bare relay
+ * closes receive a patient floor while every elder callback becomes dust.
  */
 function createReconnectScheduler(dependencies, connect) {
 	const state = dependencies.state;
@@ -20,46 +21,41 @@ function createReconnectScheduler(dependencies, connect) {
 		const timer = state.reconnectTimer;
 		state.reconnectTimer = null;
 		state.reconnectGeneration = null;
-		if (!timer) {
-			return false;
-		}
+		if (!timer) return false;
 		clearTimer(timer);
 		return true;
 	}
 
 	function schedule(reason = "socket_closed", generation = state.generation) {
-		if (state.replacementRequested) {
-			return null;
-		}
-		if (state.reconnectTimer) {
-			return state.reconnectTimer;
-		}
+		if (state.replacementRequested) return null;
+		if (state.reconnectTimer) return state.reconnectTimer;
 		const attempt = Reconnect.nextAttempt(state);
-		const delay = Reconnect.delayForAttempt(attempt, {
+		const ordinaryDelay = Reconnect.delayForAttempt(attempt, {
 			env: dependencies.env,
 			failure: state.lastFailure,
 			random: dependencies.random
 		});
-		writeReceipt(reason, generation, attempt, delay);
+		const minimumDelay = RemoteCloseCooldown.minimumDelayForState(
+			state,
+			state.lastFailure,
+			{ env: dependencies.env }
+		);
+		const delay = Math.max(ordinaryDelay, minimumDelay);
+		writeReceipt(reason, generation, attempt, delay, minimumDelay);
 		state.reconnectGeneration = generation;
 		let timer = null;
 		timer = setTimer(() => {
-			if (state.reconnectTimer !== timer ||
-				state.reconnectGeneration !== generation) {
-				return;
-			}
+			if (state.reconnectTimer !== timer || state.reconnectGeneration !== generation) return;
 			state.reconnectTimer = null;
 			state.reconnectGeneration = null;
-			if (state.generation !== generation || state.replacementRequested) {
-				return;
-			}
+			if (state.generation !== generation || state.replacementRequested) return;
 			connect();
 		}, delay);
 		state.reconnectTimer = timer;
 		return timer;
 	}
 
-	function writeReceipt(reason, generation, attempt, delay) {
+	function writeReceipt(reason, generation, attempt, delay, minimumDelay) {
 		dependencies.Receipt?.write("reconnecting", {
 			tunnelId: state.tunnelId || "",
 			tunnelName: state.tunnelName || "",
@@ -68,16 +64,15 @@ function createReconnectScheduler(dependencies, connect) {
 			lastFailure: state.lastFailure || null,
 			recentFailures: state.recentFailures || [],
 			reconnectAttempt: attempt + 1,
-			reconnectDelayMs: delay
+			reconnectDelayMs: delay,
+			reconnectMinimumDelayMs: minimumDelay,
+			remoteClose1000Streak: state.remoteClose1000Streak || 0,
+			remoteClose1000LastAt: state.remoteClose1000LastAt || 0,
+			lastRegisteredDurationMs: state.lastRegisteredDurationMs || 0
 		});
 	}
 
-	return {
-		clear,
-		schedule
-	};
+	return { clear, schedule };
 }
 
-module.exports = {
-	createReconnectScheduler
-};
+module.exports = { createReconnectScheduler };

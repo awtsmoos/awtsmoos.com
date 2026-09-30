@@ -3,8 +3,8 @@
 // Blessed is He
 /**
  * @file AutoScrollUI.test.mjs
- * @description The Awtsmoos lets tests follow the living settings vessel instead of an older shell;
- * Awtsmoos.com keeps Off-first truth, semantic controls, renderer hooks, and remembered pace in one choir.
+ * @description The Awtsmoos lets tests follow the living reader vessel instead of an older cockpit shell;
+ * Awtsmoos.com keeps Off-first truth, one visible speed control, renderer hooks, and remembered pace well.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -42,17 +42,13 @@ test('both Auto Scroll surfaces expose renderer hooks for visible state', () => 
 	}
 });
 
-test('semantic controls expose native units, presets, ranges, and estimates', () => {
-	assert.match(semanticControls, /Words \/ min/);
-	assert.match(semanticControls, /Lines \/ min/);
-	for (const preset of ['Contemplate', 'Learn', 'Review', 'Scan']) {
-		assert.match(semanticControls, new RegExp(preset));
-	}
+test('the visible semantic surface is one accessible speed vessel', () => {
+	assert.match(semanticControls, /heading\.textContent = 'Speed'/);
 	assert.match(semanticControls, /autoScrollPaceRange/);
-	assert.match(semanticControls, /autoScrollEyeLineRange/);
-	assert.match(semanticControls, /autoScrollEstimateDisplay/);
+	assert.match(semanticControls, /aria-label', 'Auto scroll speed'/);
+	assert.doesNotMatch(semanticControls, /Words \/ min|Lines \/ min|Contemplate|Review|Scan/);
 	assert.match(paceView, /aria-valuetext/);
-	assert.match(paceView, /aria-pressed/);
+	assert.match(paceView, /PACE_RANGES/);
 });
 
 test('all visible controls share one event and countdown action', () => {

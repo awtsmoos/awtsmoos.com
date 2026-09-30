@@ -1,0 +1,108 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets light orbit the mission without moving the vessel that carries it.
+*/
+
+@keyframes shliach-aurora-drift {
+	0%, 100% { transform: translate3d(-2%, -1%, 0) scale(1); }
+	50% { transform: translate3d(3%, 2%, 0) scale(1.06); }
+}
+
+@keyframes shliach-orbit-turn {
+	to { transform: rotate(360deg); }
+}
+
+@keyframes shliach-scan-drift {
+	0%, 100% { opacity: .15; transform: translateY(-18%); }
+	50% { opacity: .34; transform: translateY(18%); }
+}
+
+.shliach-hero {
+	isolation: isolate;
+	overflow: clip;
+	position: relative;
+}
+
+.shliach-hero::before {
+	animation: shliach-aurora-drift 18s ease-in-out infinite;
+	background: radial-gradient(circle at 24% 32%, rgba(98, 216, 255, .18), transparent 30%), radial-gradient(circle at 77% 30%, rgba(143, 98, 255, .2), transparent 32%), radial-gradient(circle at 64% 82%, rgba(245, 200, 107, .1), transparent 28%);
+	content: "";
+	inset: -18%;
+	pointer-events: none;
+	position: absolute;
+	z-index: -1;
+}
+
+.shliach-hero::after {
+	animation: shliach-scan-drift 10s ease-in-out infinite;
+	background: linear-gradient(180deg, transparent 40%, rgba(118, 224, 255, .08), transparent 60%);
+	content: "";
+	inset: 0;
+	pointer-events: none;
+	position: absolute;
+	z-index: 0;
+}
+
+.shliach-hero > .shliach-shell {
+	position: relative;
+	z-index: 1;
+}
+
+.shliach-logo-stage::after {
+	animation: shliach-orbit-turn 24s linear infinite;
+	background: conic-gradient(from 90deg, transparent 0 20%, rgba(98, 216, 255, .34), transparent 34% 58%, rgba(245, 200, 107, .28), transparent 72%);
+	border-radius: 50%;
+	content: "";
+	inset: 7%;
+	mask: radial-gradient(circle, transparent 63%, #000 65% 67%, transparent 69%);
+	pointer-events: none;
+	position: absolute;
+}
+
+.shliach-nav::before,
+.shliach-cta-band::before {
+	background: linear-gradient(110deg, transparent 18%, rgba(98, 216, 255, .17), transparent 43%, rgba(245, 200, 107, .13), transparent 72%);
+	border-radius: inherit;
+	content: "";
+	inset: 0;
+	pointer-events: none;
+	position: absolute;
+}
+
+.shliach-scene::after {
+	background: linear-gradient(90deg, transparent, rgba(98, 216, 255, .48), rgba(245, 200, 107, .5), transparent);
+	content: "";
+	height: 1px;
+	left: 8%;
+	position: absolute;
+	top: 0;
+	width: 84%;
+}
+
+.shliach-signal-strip {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 7px;
+	margin-top: 16px;
+}
+
+.shliach-signal-strip span {
+	background: rgba(255, 255, 255, .035);
+	border: 1px solid rgba(153, 198, 255, .15);
+	border-radius: 999px;
+	color: #d9e7ff;
+	font-size: .7rem;
+	font-weight: 850;
+	letter-spacing: .08em;
+	padding: .42rem .62rem;
+	text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.shliach-hero::before,
+	.shliach-hero::after,
+	.shliach-logo-stage::after {
+		animation: none !important;
+	}
+}

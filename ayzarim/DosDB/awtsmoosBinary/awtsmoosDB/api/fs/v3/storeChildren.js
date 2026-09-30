@@ -2,67 +2,65 @@
 //Boruch Hashem
 //Blessed be He
 
+const compatibility = require('./storeReadCompatibility.js');
+
 /**
- * @file storeChildren.js
- * @chapter A Door Knows Only The Children At Its Threshold
- * @description
- * The Awtsmoos lets Awtsmoos.com read one FS3 directory without recounting the
- * whole inode world. Missing authoritative links are healed at load; stale local
- * aliases are removed lazily only when their own directory is actually read.
+ * @file Reads one directory child map without enumerating the inode universe.
+ * The Awtsmoos keeps each alias bound to a living inode whose parent and name still agree;
+ * Awtsmoos.com heals only the touched directory, so stale or deleted roads quietly cease to be.
  */
-
-const state = require('./storeState.js');
-
 function getChildren(db, directoryId) {
-	const value = state.manifest(db);
-	const indexed = value.children[directoryId] || {};
+	const indexed = compatibility.readChildren(db, directoryId) || {};
 	const children = {};
 	const staleNames = [];
-
 	for (const [name, inodeId] of Object.entries(indexed)) {
-		const inode = value.inodes[inodeId];
-		if (inode && !inode.deleted) {
+		const inode = compatibility.readInode(db, inodeId);
+		if (validChild(inode, directoryId, name)) {
 			children[name] = inodeId;
 		} else {
 			staleNames.push(name);
 		}
 	}
-
 	if (staleNames.length && !db.options?.readOnly) {
-		for (const name of staleNames) {
-			delete indexed[name];
-		}
-		state.save(db, value);
+		const next = { ...indexed };
+		for (const name of staleNames) delete next[name];
+		compatibility.writeChildren(db, directoryId, next);
 	}
-
 	return children;
 }
 
+function validChild(inode, directoryId, name) {
+	return Boolean(
+		inode &&
+		!inode.deleted &&
+		inode.parent === directoryId &&
+		inode.name === name
+	);
+}
+
 function setChild(db, directoryId, name, childId) {
-	const value = state.manifest(db);
-	value.children[directoryId] ||= {};
-	value.children[directoryId][name] = childId;
-	state.save(db, value);
+	const current = compatibility.readChildren(db, directoryId) || {};
+	compatibility.writeChildren(db, directoryId, { ...current, [name]: childId });
 	return childId;
 }
 
 function removeChild(db, directoryId, name) {
-	const value = state.manifest(db);
-	value.children[directoryId] ||= {};
-	delete value.children[directoryId][name];
-	state.save(db, value);
+	const current = compatibility.readChildren(db, directoryId);
+	if (!current || !(name in current)) return true;
+	const next = { ...current };
+	delete next[name];
+	compatibility.writeChildren(db, directoryId, next);
 	return true;
 }
 
 function deleteChildrenMap(db, directoryId) {
-	const value = state.manifest(db);
-	delete value.children[directoryId];
-	state.save(db, value);
+	return compatibility.removeChildren(db, directoryId);
 }
 
 module.exports = {
 	deleteChildrenMap,
 	getChildren,
 	removeChild,
-	setChild
+	setChild,
+	validChild
 };

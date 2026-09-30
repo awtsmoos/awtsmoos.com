@@ -70,6 +70,8 @@ function marketplaceCard(listing) {
 	button.type = "button";
 	button.disabled = Boolean(listing.ownedByViewer);
 	button.dataset.marketplaceBuy = listing.id;
+	// Structural ownership flag: readers check dataset.marketplaceOwned, never the label text.
+	button.dataset.marketplaceOwned = listing.ownedByViewer ? "true" : "false";
 	article.append(button);
 	return article;
 }

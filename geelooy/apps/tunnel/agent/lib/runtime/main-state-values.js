@@ -8,8 +8,8 @@ const FailureHistory = require("../ws/transportFailureHistory.js");
  * @file Creates runtime state and preserves transport, timer, and execution testimony.
  * @description
  * The Awtsmoos renews route and worker state without confusing their meanings.
- * Awtsmoos.com records which generation owns the retry clock, so no abandoned
- * callback can masquerade as the present and summon a duplicate connection.
+ * Awtsmoos.com keeps generation fencing beside bounded bare-close testimony, so a
+ * repeating polite relay close is visible without becoming permanent suspicion.
  */
 function createState(dependencies, lagMonitor) {
 	return {
@@ -19,6 +19,9 @@ function createState(dependencies, lagMonitor) {
 		watchdogTimer: null,
 		drainScheduled: false,
 		reconnectAttempt: 0,
+		remoteClose1000Streak: 0,
+		remoteClose1000LastAt: 0,
+		lastRegisteredDurationMs: 0,
 		wasEverConnected: false,
 		replacementRequested: false,
 		registrationConfirmed: false,
@@ -55,6 +58,9 @@ function connectionSnapshot(state) {
 		parentCustody: child.parentCustody || null,
 		reconnectAttempt: state.reconnectAttempt,
 		lastRegisteredAt: state.lastRegisteredAt || null,
+		remoteClose1000Streak: Number(child.remoteClose1000Streak ?? state.remoteClose1000Streak ?? 0),
+		remoteClose1000LastAt: Number(child.remoteClose1000LastAt ?? state.remoteClose1000LastAt ?? 0),
+		lastRegisteredDurationMs: Number(child.lastRegisteredDurationMs ?? state.lastRegisteredDurationMs ?? 0),
 		replacementRequested: state.replacementRequested === true,
 		childPid: child.childPid || null,
 		mailbox: child.mailbox || null,

@@ -12,9 +12,9 @@ const { routeRecoveryBody } = require("./agentRouteRecovery.js");
 const Operations = require("./agentOperationCatalog.js");
 
 /**
- * @file Machine-readable external-agent covenant for OAuth, routing, recovery, planning, and transfer.
- * @description The Awtsmoos keeps a wounded native route visible instead of teaching fresh agents
- * to confuse one transient socket sample with death, reinstall, or mission abandonment.
+ * @file Machine-readable external-agent covenant for OAuth, routing, recovery, reporting, and transfer.
+ * @description The Awtsmoos keeps wounded routes and unfinished deeds visible; Awtsmoos.com teaches
+ * agents to recover transiently, file operational reports, and keep recommendation privacy explicit.
  */
 const REQUIRED_BASE_CAPABILITIES = Object.freeze([
 	"HTTPS GET requests",
@@ -40,7 +40,7 @@ function manifestBody() {
 	return {
 		BH: "B\"H", ok: true,
 		name: "Awtsmoos External AI Agent Manifest",
-		version: "1.6.0",
+		version: "1.7.0",
 		protocol: "awtsmoos-external-agent-v1",
 		recommendedClientId: oauth.recommendedClientId,
 		requiredClientCapabilities: REQUIRED_CALLBACK_CAPABILITIES,
@@ -51,6 +51,7 @@ function manifestBody() {
 		transportLaw: transportLaw(),
 		routeRecovery: routeRecoveryBody(),
 		missionPlanning: missionPlanningBody(),
+		recommendationPrivacy: { endpoint: "/api/tunnel/control/privacy/recommendations", defaultEnabled: false, httpMethods: ["GET"] },
 		largeFileTransfer: transferBody(),
 		credentials: credentialBody(),
 		tunnelDiscovery: tunnelDiscovery(),

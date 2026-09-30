@@ -4,8 +4,8 @@
 
 /**
  * @file Normalizes the three independent mission witnesses consumed by the all-work board.
- * @description The Awtsmoos reveals one deed through room, plan, and history. Awtsmoos.com keeps
- * each witness recognizable while projecting a shared display identity for safe deduplication.
+ * @description The Awtsmoos reveals one deed through room, plan, history, and filed reports;
+ * Awtsmoos.com keeps each witness recognizable while projecting one safe display identity.
  */
 export function roomItem(row = {}) {
 	const mission = row.mission || row;
@@ -33,6 +33,7 @@ export function visibilityItem(record = {}) {
 		agents: list(record.agents),
 		updatedAt: stamp(record),
 		planning: record.planningProgress || null,
+		reportSummary: record.reportSummary || null,
 		sources: ["three-pass plan"]
 	});
 }
@@ -48,6 +49,7 @@ export function legacyItem(record = {}) {
 		status: mission.status || record.status || "in-progress",
 		agents: list(record.agents || mission.agents),
 		updatedAt: stamp(mission, record),
+		reportSummary: mission.reportSummary || record.reportSummary || null,
 		sources: ["mission history"]
 	});
 }
@@ -70,6 +72,7 @@ function base(identity, patch) {
 		agents: [],
 		updatedAt: "",
 		planning: null,
+		reportSummary: null,
 		hasRoom: false,
 		sources: [],
 		...patch

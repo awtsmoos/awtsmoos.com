@@ -2,10 +2,10 @@
 /* Boruch Hashem */
 /* Blessed be He */
 
-@import url("./tokens.css");
-@import url("./layout.css");
-@import url("./components.css");
-@import url("./offers.css");
-@import url("./responsive.css");
-@import url("./polish.css");
-@import url("./mobile-polish.css");
+@import url("./tokens.css?v=cloud-002");
+@import url("./layout.css?v=cloud-002");
+@import url("./components.css?v=cloud-002");
+@import url("./offers.css?v=cloud-002");
+@import url("./responsive.css?v=cloud-002");
+@import url("./polish.css?v=cloud-002");
+@import url("./mobile-polish.css?v=cloud-002");

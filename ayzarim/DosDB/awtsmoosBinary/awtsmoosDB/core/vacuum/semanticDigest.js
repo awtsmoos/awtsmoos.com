@@ -1,29 +1,58 @@
-// B"H
-
-/**
- * @file core/vacuum/semanticDigest.js
- * @chapter Coordinates Fall Away And Meaning Alone Is Weighed
- * @description
- * Digests logical values, hidden bodies, and canonical index configuration while
- * excluding pointer-bearing derived search and HNSW storage.
- */
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 const crypto = require('crypto');
 const constants = require('../../constants.js');
 const HashWriter = require('./hashWriter.js');
 const special = require('./semanticSpecial.js');
 const derivedIndexes = require('./derivedIndexes.js');
+const { recordKeys, isFs3RecordKey } = require('../../api/fs/v3/storeState.js');
 
+/**
+ * @file Weighs database meaning after physical coordinates and FS3 layout fall away.
+ * The Awtsmoos reveals one logical file-world through legacy blob or native records alike;
+ * Awtsmoos.com excludes both physical vessels from root framing, then weighs one canonical light.
+ */
 function semanticDigest(db) {
 	const hash = crypto.createHash('sha256');
 	const context = { db, writer: new HashWriter(hash), seen: new WeakMap(), nextId: 1 };
 	context.writer.tag('awtsmoosdb-semantic-v2');
-	const keys = db.keys(db.root).filter(key => !derivedIndexes.DERIVED_ROOT_KEYS.has(String(key)));
+	const layout = fs3Layout(db);
+	const keys = ordinaryRootKeys(db, layout);
 	context.writer.tag(`root:${keys.length}`);
-	for (const key of keys) { visit(key, context); visit(db.root[key], context); }
+	for (const key of keys) {
+		visit(key, context);
+		visit(db.root[key], context);
+	}
+	visitFs3(layout, context);
 	context.writer.tag('derived-index-configuration');
 	visit(derivedIndexes.capture(db), context);
 	return hash.digest('hex');
+}
+
+function fs3Layout(db) {
+	const rawMeta = db.root[recordKeys.META_KEY];
+	const meta = rawMeta?.__resolve__ ? rawMeta.__resolve__() : rawMeta;
+	if (meta?.__fs3Meta === true) return { type: 'records' };
+	const legacy = db.root.__fs3_manifest__;
+	if (legacy) return { type: 'legacy', token: legacy };
+	return { type: 'none' };
+}
+
+function ordinaryRootKeys(db, layout) {
+	return db.keys(db.root).filter(key => {
+		const text = String(key);
+		if (derivedIndexes.DERIVED_ROOT_KEYS.has(text)) return false;
+		if (layout.type === 'records' && isFs3RecordKey(text)) return false;
+		if (layout.type === 'legacy' && text === '__fs3_manifest__') return false;
+		return true;
+	});
+}
+
+function visitFs3(layout, context) {
+	if (layout.type === 'records') special.visitVirtualFsRecords(context.db, context, visit);
+	if (layout.type === 'legacy') special.visitVirtualFs(layout.token, context, visit);
 }
 
 function visit(value, context) {
@@ -38,7 +67,6 @@ function visit(value, context) {
 	if (type === 'function' && !value[constants.SYMBOLS.INTERNALS]) return context.writer.tag(`function:${value.toString()}`);
 	const soul = value && value[constants.SYMBOLS.INTERNALS];
 	if (soul && value.__resolve__) return visit(value.__resolve__(), context);
-	if (value.__fs3ManifestBlob === true) return special.visitVirtualFs(value, context, visit);
 	if (value.__awtsmoosBlob === true) return special.visitBlob(value, context, visit);
 	if (value.__awtsmoosText === true) return special.visitText(value, context, visit);
 	if (Buffer.isBuffer(value)) { context.writer.tag('buffer'); return context.writer.bytes(value); }
@@ -59,11 +87,7 @@ function visit(value, context) {
 
 function visitArray(value, context) {
 	context.writer.tag(`array:${value.length}`);
-	for (const key of Reflect.ownKeys(value)) {
-		if (key === 'length') continue;
-		visit(key, context);
-		visit(value[key], context);
-	}
+	for (const key of Reflect.ownKeys(value)) if (key !== 'length') { visit(key, context); visit(value[key], context); }
 }
 
 function visitMap(value, context) {

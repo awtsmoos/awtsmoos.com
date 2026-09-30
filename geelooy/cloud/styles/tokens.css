@@ -26,7 +26,13 @@
 
 html {
 	background: var(--cloud-bg);
-	scroll-behavior: smooth;
+}
+
+/* Smooth scrolling is motion: only enable it when the user has not asked for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+	html {
+		scroll-behavior: smooth;
+	}
 }
 
 body {

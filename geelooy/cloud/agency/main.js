@@ -56,10 +56,13 @@ function applyAuthority() {
 			control.disabled = !authenticated;
 		}
 	}
+	// Ownership is tracked structurally on the button (data-marketplace-owned),
+	// never by reading the button's visible label text.
 	for (const button of dom.marketplaceMount.querySelectorAll("[data-marketplace-buy]")) {
-		if (!button.textContent.includes("Owned")) {
-			button.disabled = !authenticated;
+		if (button.dataset.marketplaceOwned === "true") {
+			continue;
 		}
+		button.disabled = !authenticated;
 	}
 }
 
@@ -74,4 +77,23 @@ refresh().catch(error => {
 		`Control Center could not load: ${error.message}`,
 		"error"
 	);
+	// applyAuthority() never runs on a hard boot failure, so freeze the
+	// treasury mutation forms explicitly: nothing submittable without live data.
+	disableTreasuryForms();
 });
+
+/** Freezes the treasury/marketplace mutation forms when live data never loaded. */
+function disableTreasuryForms() {
+	for (const form of [
+		dom.createForm,
+		dom.fundForm,
+		dom.allocateForm,
+		dom.memberForm,
+		dom.marketCreateForm
+	]) {
+		for (const control of form.elements) {
+			control.disabled = true;
+		}
+	}
+	// quoteForm stays enabled: quotes are public and the server validates them.
+}

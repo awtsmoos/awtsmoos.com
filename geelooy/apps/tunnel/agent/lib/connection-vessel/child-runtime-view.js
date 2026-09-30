@@ -26,6 +26,7 @@ function snapshot(options = {}) {
 		fullHealth: health,
 		generation: state.generation,
 		lastRegisteredAt: state.lastRegisteredAt,
+		lastRegisteredDurationMs: state.lastRegisteredDurationMs || 0,
 		mailbox,
 		parent: parentHealth,
 		parentCustody: {
@@ -34,6 +35,8 @@ function snapshot(options = {}) {
 		lastFailure: state.lastFailure || null,
 		recentFailures: state.recentFailures || [],
 		reconnectAttempt: state.reconnectAttempt,
+		remoteClose1000LastAt: state.remoteClose1000LastAt || 0,
+		remoteClose1000Streak: state.remoteClose1000Streak || 0,
 		registered: state.registrationConfirmed === true,
 		running: options.terminal !== true,
 		terminal: options.terminal === true,

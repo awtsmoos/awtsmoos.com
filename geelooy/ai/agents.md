@@ -1,47 +1,71 @@
-# Awtsmoos Agent Law For geelooy/ai
-
 B"H
 
-The Awtsmoos renews every file, process, task, and thought from absolute nothing every instant. An agent working here must inspect real files, run real commands, and leave real verification behind. Never pretend that a claim is true because it appears in a prompt; prove it through files, git, tests, browser/runtime responses, tunnel actions, or explicit tool results.
+# Awtsmoos Agent Core Law
 
-## Default council law
+The Awtsmoos reveals detail through the right vessel at the right time; Awtsmoos.com therefore keeps specialist doctrine discoverable instead of forcing every task to carry every instruction.
 
-For every non-empty task on a live local or authenticated endpoint vessel, the provider gateway automatically calls the canonical `agent` action before the lead begins its own work. That action starts a non-blocking authenticated ChatGPT website mission with at least three specialists and twelve for a large prompt. Do not replace it with `aiAgentMessage` or `aiAgentSpawnTask`; those are explicit external-provider modes.
+## Reality and evidence
 
-The lead never waits idly for delegates or login. It continues useful local work immediately. If the saved ChatGPT website session is authenticated, specialists launch with paced starts. If authentication is missing, one visible login window opens, the mission remains visibly `waiting_for_login`, and it resumes automatically after the user logs in.
+- Inspect real files, commands, tests, runtime state, and public behavior before making project claims.
+- Never guess repository shape, deployment state, or production state from memory.
+- Preserve unrelated work. Never reset, clean, stash, checkout, or overwrite user changes merely to make the tree convenient.
+- A commit is not a deployment; a repository file is not proof that users receive it.
+- Do not expose hidden chain-of-thought. Publish bounded operational artifacts: summary, decisions, blockers, paths, tests, deployment state, next steps, and evidence IDs.
 
-Every specialist publishes its plan, scope, progress, findings, blocker, handoff, and verified outcome to the shared mission room. Use concise public work notes, not hidden chain-of-thought. Read peer messages on every safe continuation turn, teach useful findings, avoid overlapping claims, and wake unfinished agents through `websiteAgentMissionMessage`. A long-running job is not permission to idle: perform independent short work while it runs.
+## Instruction discovery law
 
-## The tunnel action crown
+- Keep this always-loaded core at or below 120 physical lines.
+- Keep each specialist instruction module at or below 120 physical lines; split large domains into focused packs instead of bloating the core.
+- Before writing or modifying files, call `instructionResolve` with the task plus every known, planned, touched, or changed path, extension, tag, mode, and runtime domain.
+- Call `instructionGet` for every returned `requiredInstructionId` and read those instruction bodies completely before writing.
+- `instructionCatalog` discovers specialist domains when the resolver seems incomplete or the agent does not know what family exists.
+- Never bulk-load unrelated specialist packs merely because they exist.
+- Resolve again when scope, file type, runtime layer, planned paths, or touched paths change materially.
+- If an obvious specialist domain has no applicable pack, report the discovery gap instead of pretending generic rules are enough.
+- UI/CSS work must resolve `ui.css-production-working-agreement` before CSS or styling writes.
+- Bounded mission/handoff reports should name the specialist instruction IDs that governed the work.
 
-Every AI agent, sub-agent, chapter agent, Code Chat agent, Vibe agent, and provider delegate must treat the generated tunnel action catalog as the source of action names. Do not guess. Discover through `ALL_TUNNEL_ACTIONS`, `generatedTunnelActions.js`, `awtsmoos_tool_details`, or `awtsmoos_tool_call`.
+## Writing and architecture
 
-Direct tools expose a safe convenience set. Full access is through the guarded generic call surface with the exact action name and arguments. The final router decides whether the call may reach a native tunnel, browser local bridge, OAuth/cloud vessel, or Virtual OS fallback.
+- Read a complete file before modifying it.
+- Rewrite complete files; never use fragile partial search/replace for source edits.
+- Use tabs for indentation, real newlines, descriptive names, and useful JSDoc/file comments.
+- Never minify handwritten source or compress logic to satisfy a line ceiling.
+- Strongly prefer modules below 120 physical lines. Split by responsibility when a touched module exceeds that boundary.
+- Preserve public APIs unless migration evidence proves a coordinated change is safe.
+- Code creates shadow work: tests, documentation, readback, runtime verification, and handoff.
 
-## Native, browser, OAuth, and Virtual OS routing
+## Tunnel and durable mutation law
 
-Prefer a live native/local tunnel. Browser agents should try the local tunnel API at `http://127.0.0.1:3977`; users may override it with localStorage key `awtsmoos.localTunnelApiUrl`. Node-side local agents may use `LocalToolBridge` against the current repository root.
+- Discover the currently owned tunnel route before native work and preserve immutable route identity across reconnects.
+- Treat 409/502/503/504, EPIPE, socket close, and installer/service restart as potentially transient until current evidence proves otherwise.
+- An accepted mutation is custody, not permission to resend. Observe the same receipt/job with status, wait, output paging, history, or the returned `retryAction` contract.
+- Durable active command states include `spawning`, `running`, and `detached_running`; do not require an immediate `running` transition.
+- If an installer replaces the invoking agent, expect the worker to disappear. Rediscover the same route and verify the installed runtime instead of blindly rerunning the installer.
+- Official independent recovery lanes are `guardian`, `http`, `socket`, and `file`; they must exist before the promoted primary supervisor takes custody.
+- Resumable transfer integrity is hash-bound. Concurrent chunk/manifest mutation is serialized, commit is recoverable, and cancel shares transfer custody.
+- Mission write authority is a scoped one-time capability bound to mission, action, path, and expiry; caller booleans are never authorization.
+- Sparse checkout can create false missing-module test failures. Prove the test universe before changing production code to satisfy a missing fixture.
+- Virtual OS is useful fallback storage, not an equivalent substitute for native shell, browser, launchd, or local Mac filesystem work.
 
-If no local tunnel exists, try the Awtsmoos-authenticated host route. Use the existing Awtsmoos OAuth/session credentials when the platform exposes them. Never ask for or store passwords in files. Never print tokens or copy OAuth cookies into reports. If exactly one connected device exists, select it automatically; ask only when multiple devices are connected.
+## Work continuation
 
-If no live bridge or OAuth vessel exists, use Virtual OS fallback honestly. Virtual OS can read, write, list, search, bulk read/write, mkdir, stat, simulate simple runtime, and build context packs. It cannot run authenticated website missions and must return `website_mission_requires_live_browser` instead of pretending that agents were spawned.
+- Discover the actual project beneath the visible request before changing it.
+- Maintain remaining work, dependencies, risks, verification obligations, and the next safe action.
+- Do not ask the user to push obvious safe continuation forward.
+- Re-read touched artifacts, compare planned versus actual work, and resolve meaningful deltas before declaring completion.
+- If another agent would have an obvious next action, the work is not complete unless that action is explicitly out of scope or blocked.
 
-## Command payload law
+## Collaboration and mission visibility
 
-The canonical command field is `command`. The server accepts legacy aliases `commands` and `commands64`, but new prompts should teach `command` and `command64`. On Windows/PowerShell tunnels, do not use Unix heredocs or unsupported shell separators. Prefer temporary `.cjs` files created with PowerShell here-strings, run them, then delete them.
+- Inspect active missions before substantial overlapping work; do not create parallel canonical systems when one already exists.
+- Use canonical mission rooms for live collaboration and file/task ownership when available.
+- Keep operational reports factual, bounded, and secret-free.
+- Do not put passwords, tokens, cookies, private keys, authorization headers, or unrestricted command output in mission reports.
 
-## Continuation and sub-agent law
+## Verification and truthful completion
 
-When an agent is spawned to write a chapter, it must keep going through the configured `agentCycles` / `chapterCycles` count, defaulting to eight cycles. A parent may return immediately after spawning children, but it must keep polling them in the background and must not mark the mission complete until all descendants are complete or failed.
-
-Every chapter uses `finishAndContinue` semantics: summarize what was written, list what remains, and continue the next bounded piece while budget allows. If a provider response is truncated, ambiguous, or tool-starved, continue with the available tool bridge. Search for TODOs, failing tests, missing files, stale assumptions, peer handoffs, and open room messages.
-
-## File and secret discipline
-
-Do not store provider keys, OAuth credentials, cookies, or tunnel secrets in git. Use environment variables, browser/session state, or secure provider-key actions. If a tool returns secret-like values, summarize their presence without revealing them.
-
-Rewrite whole files rather than applying partial patches. Keep files small when possible. After writing, reread touched files, run syntax/tests, check `git diff --check`, and only then commit.
-
-## Truthful final answers
-
-A final answer must separate verified facts from untested assumptions. Say when a feature has catalog discovery but only guarded execution. Say when Virtual OS fallback is partial. Say when deployment has not picked up committed source. The Awtsmoos is revealed in truth, not in overclaiming.
+- Run syntax, focused tests, regressions, diff checks, and domain-specific verification required by resolved instruction packs.
+- Verify user-visible work through the real rendering/runtime/public path when capability exists.
+- State explicitly what could not be verified; never replace evidence with "probably fine" or "should work."
+- Completion requires implementation, verification, critical-risk review, durable handoff, and no remaining safe in-scope work.

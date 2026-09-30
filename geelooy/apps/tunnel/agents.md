@@ -1,120 +1,88 @@
 B"H
-# Awtsmoos Tunnel — AI Agent Instructions
 
-These instructions govern agents operating through the Awtsmoos Tunnel tree. Inspect live reality first; never infer a tunnel, mission, lock, job, receipt, browser, repository, or server state from stale memory.
+# Awtsmoos Tunnel Agent Operating Law
 
-## Lightning execution discipline
+The Awtsmoos recreates reality every instant; Awtsmoos.com tunnel work therefore proves the current vessel from current evidence instead of trusting stale assumptions.
 
-The default operating goal is **maximum safe throughput**.
+## Start with reality
 
-- Parallelize every independent read, test, research task, and non-overlapping file/workstream that can safely proceed together.
-- Never wait idly while another independent safe task can advance.
-- Use bounded jobs, short critical paths, batched compatible reads, and parallel verification lanes.
-- An accepted durable request is already owned: observe its receipt/job instead of redispatching because a wait expired.
-- Freeze shared mutable gates before concurrency touches them: the same source file, Git index, release manifest, package artifact, deployment transaction, or browser target.
-- Under resource pressure preserve executor work first, checkpoint/scout work second, optional auditing third.
-- Publish Work, Failure, Decision, Obligation, evidence, and handoff facts so parallel/successor agents do not repeat completed work.
-- Search for hidden work after the visible checklist empties: tests, docs, failures, risks, stale assumptions, future-user confusion, and recovery gaps.
-- Speed never authorizes bypassing correctness, security, user stop/cancel, replay ownership, capability checks, mission policy, hash guards, transaction gates, or live verification.
-- The installed action `tunnelVelocityGuidance` returns the canonical machine-readable lightning covenant. Successor Shliach prompts inherit it automatically.
+- Discover the current owned route before substantial work and preserve immutable route identity across reconnects.
+- Inspect project root, Git state, active missions, runtime health, and relevant source before changing anything.
+- Never treat one transient 409/502/503/504, EPIPE, socket close, or restart window as proof reinstall is required.
+- Never reset, clean, stash, checkout, or overwrite unrelated user work to simplify a task.
+- Local HEAD, origin, production repository, running service, installed agent, and public assets are separate evidence surfaces.
 
-## Three-pass mission visibility
+## Specialist instruction discovery
 
-- Before substantial work, call `missionVisibilityList` and inspect active mission plans so you do not duplicate another agent's work.
-- Register the work with `missionVisibilityRegister`; include the canonical `missionId` whenever a live mission room exists.
-- After each required planning phase, immediately call `missionVisibilityPlanningPass` with `pass: 1`, then `2`, then `3`, containing the bounded operational plan artifact for that phase.
-- A repeated pass replaces that slot. Do not publish hidden reasoning; publish only deliberate operational planning artifacts useful to collaborators.
-- Local `ai_thoughts` or `.ai-thoughts` files are optional archival mirrors. They are not the shared coordination source of truth.
-- Keep status/progress current with `missionVisibilityUpdate`. Tunnel Control shows the active registry; linked live rooms expose their agents and the canonical direct-message UI.
+- Keep this core and each specialist pack at or below 120 physical lines; split larger domains structurally.
+- Before file writes, call `instructionResolve` with the task plus known/planned/touched paths, extensions, tags, mode, and runtime domain.
+- Fetch every returned `requiredInstructionId` with `instructionGet`; use `instructionCatalog` when the domain or resolver coverage is unclear.
+- Do not bulk-load unrelated packs. Resolve again when scope or runtime layers change materially.
+- CSS/UI work must load `ui.css-production-working-agreement`; backend-only work must not inherit CSS doctrine accidentally.
+- Mission and handoff reports should name the specialist instruction IDs that governed the work.
 
-## Connection flow
+## Mission visibility
 
-1. Authenticate with Awtsmoos.com when required.
-2. Discover the active device/tunnel automatically.
-3. Use the returned tunnel identity; never invent one.
-4. Distinguish public server health, authenticated control-session health, native parent/child health, and mission-controller health before choosing recovery.
-5. If several tunnels are connected, ask which returned identity to use.
+1. Inspect canonical live rooms and `missionVisibilityList` where supported.
+2. Avoid duplicating another active agent's work.
+3. Register or link the canonical mission ID when one exists.
+4. Publish required planning passes and bounded factual reports for implementation, verification, deployment, and handoff.
+5. Never publish hidden reasoning, unrestricted command output, or secrets.
 
-References: <https://awtsmoos.com/api/tunnel/control/docs>, <https://awtsmoos.com/apps/tunnel-control/>, <https://awtsmoos.com/apps/code>.
+## Connection, custody, and recovery law
 
-## Short recovery ladder
+- Rediscover the same route after transient loss; bounded retry is preferred over reinstall.
+- An accepted mutation is durable custody. Observe the same receipt/job/history; never blindly redispatch it.
+- Follow returned `retryAction`, `commandJobStatus`, `commandWait`, and output-page contracts exactly.
+- Valid active command states include `spawning`, `running`, and `detached_running`.
+- Distinguish transport, acceptance, execution, mailbox, registration, and public-service health.
+- A live transport with a stalled execution consumer is not a healthy executor.
+- An installer may replace the worker that launched it. After route recovery, verify the installed runtime from a fresh read-only command instead of replaying the installer.
+- Official independent recovery lanes are `guardian`, `http`, `socket`, and `file`; they must be installed before the promoted primary supervisor starts.
+- Retired `independent-*` jobs are not official recovery and may be removed only after all four official lanes are proven alive.
 
-Prefer the packaged `awt` command over manual PID commands when it exists.
+Installer/refresh entry points, only when evidence calls for refresh:
+- macOS/Linux: `curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash`
+- Windows: `irm https://awtsmoos.com/api/tunnel/install/windows | iex`
 
-### macOS/Linux
-```bash
-~/.awtsmoos-tunnel/awt status
-~/.awtsmoos-tunnel/awt check
-~/.awtsmoos-tunnel/awt rescue --dry-run
-~/.awtsmoos-tunnel/awt rescue
-~/.awtsmoos-tunnel/awt normal
-```
+## File transfer and permission law
 
-### Windows
-```powershell
-%USERPROFILE%\.awtsmoos-tunnel\awt.cmd status
-%USERPROFILE%\.awtsmoos-tunnel\awt.cmd rescue
-```
+- Read complete files before edits and use whole-file rewrites.
+- Resumable transfer chunks are hash-verified; manifest mutation is serialized across workers.
+- Commit enters durable `committing` state before rename and must recover safely after interruption; cancel shares transfer custody.
+- Preserve path/secret guards, size limits, final-file hash proof, and overwrite policy.
+- Mission write permission is a one-time capability bound to mission, action, path, and expiry. `missionStepAuthorized` or any caller boolean is never authority.
+- Token replay, wrong scope, and expiry must fail closed.
+- Keep secret access disabled unless explicitly authorized by the user and genuinely required.
 
-`rescue` verifies supervisor-child ownership, sets Level 0, restarts only the verified supervised child, and waits for replacement. `normal` returns to Level 5 with the same guarded child restart. Unknown/typo commands make no mutation and should suggest the nearest valid command.
+## Command and test discipline
 
-Offline restore is stronger and requires explicit confirmation:
-```bash
-~/.awtsmoos-tunnel/awt restore 0 --confirm
-```
-Never jump to reinstall/restore because a GPT OAuth/control session failed. A browser-tab tunnel in Awtsmoos Code is a separate fallback vessel.
+- Prefer filesystem actions for ordinary reads/writes and durable command jobs for shell/build/test work.
+- Sparse checkout can create false missing-module failures. Prove the test universe before changing production code for a missing fixture.
+- Preserve APIs and safety gates unless coordinated migration evidence proves change is correct.
+- Use tabs, real newlines, descriptive names, useful JSDoc/file comments, and non-minified handwritten code.
+- Strongly prefer modules below 120 physical lines; split responsibility instead of shrinking comments.
 
-## Failure-layer discipline
+## Planning and continuation
 
-- OAuth/client failure: reauthorize/rediscover; do not restart a healthy native child merely for authentication failure.
-- Native child wedged, supervisor verified: use `awt rescue`.
-- Supervisor absent/unverified: inspect/refresh the signed install; do not signal an unverified PID.
-- Server/API down: repair/deploy the server independently.
-- Mission controller blocks writes: inspect mission/lock/question/authorization evidence. Do not bypass with shell redirection.
-- Recovery level left at 0 after debugging: use `awt normal` and verify Level 5.
+- Maintain remaining work, dependencies, risks, evidence, verification gates, and the next safe action.
+- Re-read touched files and compare planned versus actual work after implementation passes.
+- Discover shadow work: tests, docs, deployment implications, runtime/public verification, rollback, and handoff.
+- Do not stop while obvious safe in-scope work remains.
 
-## Install or refresh
-```bash
-curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash
-```
-```powershell
-irm https://awtsmoos.com/api/tunnel/install/windows | iex
-```
-The installer preserves an existing runtime configuration and tunnel identity. Do not delete `config.json` to force a restart.
+## Deployment truth
 
-## Required operating discipline
+- Inspect local HEAD, origin, production, installed runtime, and public release independently.
+- Fetch before push; preserve production/user hotfixes; fast-forward only and never force-push.
+- Bundle preflight must succeed before real deployment service mutation/restart.
+- A pushed commit is not deployed; an activated repository is not public proof.
+- Verify service state, exact release SHA/version, public manifest/ZIP/installer, same immutable route, and official recovery lanes.
+- Brief 1012/502/504 during a known restart window is restart turbulence, not automatic redeploy permission.
 
-- Read actual files and runtime state before claims; prefer read-only evidence first.
-- Never read secrets without authorization.
-- Preserve executable/production backups and rollback evidence.
-- Rewrite complete files; never use fragile partial replacements.
-- Keep modules small, descriptive, testable, and normally under 120 physical lines.
-- Test syntax, focused behavior, integration behavior, packaging, and live behavior.
-- Preserve the user's tunnel identity and project root.
-- If mission write policy requires authorization, use the documented mission step/token path; never defeat the firewall with shell writes.
-- Refrigerated/terminal missions are durable history, not active filesystem authority.
+## Watchdog, restore, and completion
 
-## Durable command protocol
-
-`commandStart` and promoted heavy actions may be asynchronous. Preserve returned `jobId`, worker/receipt IDs, command, and cwd. Follow with status/wait/output actions. A relay timeout does not prove command failure; inspect durable action/job history and never duplicate work merely because an HTTP wait ended. Treat response correlation mismatches as quarantined evidence, not permission to weaken validation.
-
-## Recovery levels
-
-| Level | Mode | Physical workers |
-|---|---|---:|
-| 0 | Emergency | 1 |
-| 1 | Single | 1 |
-| 2 | Dual | 2 |
-| 3 | Four | 4 |
-| 4 | Eight | 8 |
-| 5 | Production | Adaptive |
-
-Logical admission and physical worker count are separate. After emergency verification, restore Level 5.
-
-## Mission/watchdog recovery discipline
-
-A multiple-choice watchdog reference must resolve to its original durable prompt/choices. Never invent A–E choices for a missing payload. If recovery reports `question_payload_missing`, preserve mission evidence and use the suggested mission inspection/manual recovery path; unrelated filesystem authority should not remain permanently locked. If a refrigerated/terminal mission appears to own an exclusive project-root lock, reconcile mission lifecycle and lock authority rather than deleting mission history.
-
-## Offline restore protocol
-
-Use offline restore only after integrity evidence justifies it and the selected recovery archive exists. Preserve `config.json`, recovery archives, checksums, and tunnel identity. Verify status/check, selected level, one read action, and one command action after restoration. Never edit immutable recovery archives in place.
+- Never invent missing watchdog choices or erase lifecycle history to silence a watchdog.
+- Offline restore requires integrity evidence and a real archive; preserve configuration, recovery metadata, checksums, and identity.
+- Never edit immutable recovery archives in place.
+- After restore/repair, verify status, selected recovery level, a read action, and a command action.
+- Completion requires implementation, verification, discovered-work closure, critical-risk review, deployment/public proof when applicable, and durable handoff. State anything unverified explicitly.

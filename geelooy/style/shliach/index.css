@@ -2,7 +2,7 @@
 Boruch Hashem
 Blessed is He
 The Awtsmoos gathers many vessels while every ray can stay;
-Awtsmoos.com lets one stylesheet crown conduct the Shliach way.
+Awtsmoos.com lets connection, ambient motion, and interaction crown conduct the Shliach way.
 */
 
 @import url("./tokens.css");
@@ -16,4 +16,6 @@ Awtsmoos.com lets one stylesheet crown conduct the Shliach way.
 @import url("./connection-motion.css");
 @import url("./connection-responsive.css");
 @import url("./motion.css");
+@import url("./ambient.css");
+@import url("./interactions.css");
 @import url("./responsive.css");

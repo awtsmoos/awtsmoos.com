@@ -10,12 +10,28 @@
 
 const semanticDigest = require('./semanticDigest.js');
 const derivedIndexes = require('./derivedIndexes.js');
+const { isFs3RecordKey } = require('../../api/fs/v3/storeState.js');
+
+// FS3's per-inode record keys sort before ordinary keys so a vacuumed record
+// store compares in a stable canonical order regardless of insertion history.
+// A legacy source carries one __fs3_manifest__ blob token where the vacuumed
+// destination carries many record keys; FS3 keys are excluded from the order
+// check on both sides so the layout migration itself never fails the compare.
+const LEGACY_MANIFEST_KEY = '__fs3_manifest__';
+
+function isFs3LayoutKey(key) {
+	return key === LEGACY_MANIFEST_KEY || isFs3RecordKey(key);
+}
+
+function canonicalKeyOrder(keys) {
+	return keys.filter(key => !isFs3LayoutKey(key));
+}
 
 function compareDatabases(source, destination) {
 	const sourceVerification = source.verify();
 	const destinationVerification = destination.verify();
-	const sourceKeys = source.keys(source.root).map(String);
-	const destinationKeys = destination.keys(destination.root).map(String);
+	const sourceKeys = canonicalKeyOrder(source.keys(source.root).map(String));
+	const destinationKeys = canonicalKeyOrder(destination.keys(destination.root).map(String));
 	const sourceDigest = sourceVerification.ok ? semanticDigest(source) : null;
 	const destinationDigest = destinationVerification.ok ? semanticDigest(destination) : null;
 	const keyOrderEqual = JSON.stringify(sourceKeys) === JSON.stringify(destinationKeys);

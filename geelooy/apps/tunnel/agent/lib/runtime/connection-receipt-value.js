@@ -5,9 +5,11 @@
 const SCHEMA_VERSION = 5;
 
 /**
-	* @file Normalizes parent ownership, child liveness, and transport failure evidence.
-	* @description The Awtsmoos keeps supervision, network breath, and ending causes distinct.
-	*/
+ * @file Normalizes ownership, child liveness, transport failure, and reconnect-cooldown evidence.
+ * @description
+ * The Awtsmoos keeps supervision, network breath, and ending causes distinct.
+ * Awtsmoos.com carries additive cooldown testimony without breaking older receipts.
+ */
 function normalize(value = {}) {
 	const ownerPid = Number(value.ownerPid || value.pid || 0);
 	return {
@@ -24,18 +26,18 @@ function normalize(value = {}) {
 		generation: Number(value.generation || 0),
 		reconnectAttempt: Number(value.reconnectAttempt || 0),
 		reconnectDelayMs: Number(value.reconnectDelayMs || 0),
+		reconnectMinimumDelayMs: Number(value.reconnectMinimumDelayMs || 0),
+		remoteClose1000Streak: Number(value.remoteClose1000Streak || 0),
+		remoteClose1000LastAt: Number(value.remoteClose1000LastAt || 0),
+		lastRegisteredDurationMs: Number(value.lastRegisteredDurationMs || 0),
 		updatedAt: value.updatedAt || null,
 		registeredAt: value.registeredAt || null,
 		lastRegisteredAt: value.lastRegisteredAt || null,
 		lastServerMessageAt: value.lastServerMessageAt || null,
 		serverTime: value.serverTime || null,
 		reason: String(value.reason || ""),
-		lastFailure: value.lastFailure && typeof value.lastFailure === "object"
-			? value.lastFailure
-			: null,
-		recentFailures: Array.isArray(value.recentFailures)
-			? value.recentFailures.slice(-20)
-			: []
+		lastFailure: value.lastFailure && typeof value.lastFailure === "object" ? value.lastFailure : null,
+		recentFailures: Array.isArray(value.recentFailures) ? value.recentFailures.slice(-20) : []
 	};
 }
 

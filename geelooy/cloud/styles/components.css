@@ -110,5 +110,47 @@
 }
 
 .cloud-status[data-state="error"] {
-	color: #ffb2bb;
+	color: var(--cloud-error);
+}
+
+.cloud-status[data-state="busy"] {
+	color: var(--cloud-accent-strong);
+}
+
+/* A small pulse dot marks the "busy" state so loading reads as activity,
+   not a stuck sentence. The pulse is decoration only: the status text itself
+   (role=status) is the source of truth for assistive tech. */
+.cloud-status[data-state="busy"]::after {
+	content: "";
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	margin-left: 10px;
+	border-radius: 50%;
+	background: var(--cloud-accent-strong);
+	animation: cloud-status-pulse 1.4s ease-in-out infinite;
+}
+
+.cloud-status[data-state="neutral"] {
+	color: var(--cloud-muted);
+}
+
+@keyframes cloud-status-pulse {
+	0%,
+	100% {
+		opacity: 0.35;
+		transform: scale(0.85);
+	}
+	50% {
+		opacity: 1;
+		transform: scale(1.1);
+	}
+}
+
+/* No motion for users who asked for reduced motion: keep the dot, drop the pulse. */
+@media (prefers-reduced-motion: reduce) {
+	.cloud-status[data-state="busy"]::after {
+		animation: none;
+		opacity: 0.9;
+	}
 }
