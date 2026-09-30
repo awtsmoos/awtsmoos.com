@@ -1572,6 +1572,7 @@ recovery/lanes/httpServer.js
 recovery/lanes/localAuth.js
 recovery/lanes/localRequest.js
 recovery/lanes/primaryGuardian.js
+recovery/lanes/registrationHealth.js
 recovery/lanes/sealedTier0.js
 recovery/lanes/secondaryDirectTunnel.js
 recovery/lanes/serviceGuardian.js
@@ -1588,6 +1589,7 @@ recovery/recoveryLog.js
 recovery/recoveryRestoreLatch.js
 recovery/registrationFailurePolicy.js
 recovery/registrationFailureTransition.js
+recovery/restoreActivation.js
 recovery/rootRebindCommand.js
 recovery/sealedEmergencyLauncher.js
 recovery/stateStore.js
