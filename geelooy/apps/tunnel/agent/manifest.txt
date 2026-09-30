@@ -2796,3 +2796,16 @@ tools/fs/actionGroups/missionVisibility/recordShape.js
 tools/fs/actionGroups/missionVisibility/report.js
 tools/fs/fileTransferDestination.js
 tools/fs/fileTransferLock.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/compat/mongo/aggregate.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/compat/mongo/client.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/compat/mongo/collection.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/compat/mongo/db.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/compat/mongo/filter.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/compat/mongo/index.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/compat/mongo/objectid.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/compat/mongo/README.md
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/compat/mongo/store.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/compat/mongo/update.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/compat/redis/client.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/compat/redis/index.js
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/compat/redis/README.md
