@@ -16,6 +16,7 @@ const coalesceFreeRanges = require('./freeRangeCoalescing.js');
 const cursorState = require('./cursorState.js');
 const allocationLeases = require('./allocationLeases.js');
 const { markTrusted } = require('./verifiedReuseGate.js');
+const HandleRegistry = require('../registry/handle.js');
 
 function refreshVerifiedComplement(allocator) {
 	if (!shouldRefresh(allocator)) return { refreshed: false, skipped: true };
@@ -45,6 +46,22 @@ function refreshVerifiedComplement(allocator) {
 	};
 }
 
+// B'H: never rebuild the free list from a stale root. The verified walk
+// starts at db.rootPtrRaw; if the live root handle has already moved past
+// it, the walk would misclassify live pages as garbage and hand them out
+// for reuse. Fail safe: skip the rebuild and keep the incremental list.
+function rootSealIsFresh(database) {
+	try {
+		if (!database || !database.root || !database.rootPtrRaw) return true;
+		const soul = HandleRegistry.getSoul(database.root);
+		if (!soul || !soul.ptr) return true;
+		return Buffer.compare(soul.ptr, database.rootPtrRaw) === 0;
+	} catch {
+		return true;
+	}
+}
+
+
 function shouldRefresh(allocator) {
 	const database = allocator.db;
 	return database.options?.reuseFreedSpace === 'verified'
@@ -53,7 +70,8 @@ function shouldRefresh(allocator) {
 		&& !allocator._savingFreeList
 		&& database._insideWaitForIdle === true
 		&& database.pager?.isBatching !== true
-		&& allocator._needsComplementRefresh === true;
+		&& allocator._needsComplementRefresh === true
+		&& rootSealIsFresh(database);
 }
 
 function rejectVerification(allocator, report) {
