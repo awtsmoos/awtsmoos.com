@@ -372,6 +372,7 @@ const recordKeys = {
 };
 
 module.exports = {
+	LEGACY_MANIFEST_KEY: MANIFEST_KEY,
 	allocateInode,
 	flush,
 	inodeIdFromKey,

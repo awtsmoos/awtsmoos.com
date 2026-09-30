@@ -22,6 +22,8 @@ const VectorManager = require('./api/vector/index.js');
 const AIManager = require('./api/ai/index.js');
 const QueryExecutor = require('./api/query/index.js');
 const waitForIdleCore = require('./core/idle/index.js');
+const drainIndexOps = require('./core/idle/drainIndexOps.js');
+const flushSearch = require('./core/idle/flushSearch.js');
 const MetricsTracker = require('./core/metrics/tracker.js');
 const PasswordBox = require('./utils/crypto/passwordBox.js');
 const Pointer = require('./utils/pointer/crown.js');
@@ -73,6 +75,9 @@ class AwtsmoosDB {
       this.options.wal = false;
       this.options.reuseFreedSpace = false;
     }
+
+    this._closed = false;
+    this._idleCheckpointScheduled = false;
 
     this.pager = new Pager(filePath);
     this.pager.db = this;
@@ -154,6 +159,8 @@ class AwtsmoosDB {
    * @returns {void}
    */
   open() {
+    this._closed = false;
+    this._idleCheckpointScheduled = false;
     this.processLock.acquire(this.options);
     this.pager.init();
     this.allocator.init();
@@ -356,6 +363,8 @@ class AwtsmoosDB {
    * @returns {void}
    */
   close() {
+    this._closed = true;
+    this._idleCheckpointScheduled = false;
     if (!this.options.readOnly) {
       this.waitForIdle({ closing: true });
       if (this.sparseArrays) this.sparseArrays.flush();
@@ -399,6 +408,12 @@ class AwtsmoosDB {
    * @method batch
    * @param {Function} fn - Work callback.
    * @returns {*} Callback result.
+   *
+   * B"H: an outermost batch exit no longer runs the full durability boundary.
+   * Every write is already streamed to the synchronous WAL by the pager, so a
+   * process crash loses nothing; the heavy boundary (verified free-list walk
+   * plus fsync) runs once the event loop is genuinely idle, on flush(), or on
+   * close(). Call flush() when the bytes must be in the main file right now.
    */
   batch(fn) {
     if (this.options.readOnly) return fn();
@@ -409,8 +424,60 @@ class AwtsmoosDB {
       return fn();
     } finally {
       this.pager.isBatching = prevStatus;
-      if (!prevStatus) this.waitForIdle();
+      if (!prevStatus) this._settleBatch();
     }
+  }
+
+  /**
+   * @method _settleBatch
+   * @description Completes one outermost batch: finishes pending derived
+   * writes, refreshes the superblock commit marker (WAL-streamed, so a crash
+   * replays to exactly this batch), and schedules the heavy durability
+   * boundary for the next idle moment instead of paying it per write.
+   * @returns {void}
+   */
+  _settleBatch() {
+    if (this.options.readOnly || this._closed) return;
+    if (this.turbo && typeof this.turbo.flush === 'function') this.turbo.flush();
+    drainIndexOps(this);
+    flushSearch(this);
+    this._flushSuperblock();
+    // B"H: bound WAL growth inside one giant synchronous loop that never
+    // yields to the idle checkpoint.
+    const walBytes = this.pager && typeof this.pager.walBytes === 'function'
+      ? this.pager.walBytes()
+      : 0;
+    if (walBytes > 64 * 1024 * 1024) {
+      this.waitForIdle();
+      return;
+    }
+    this._scheduleIdleCheckpoint();
+  }
+
+  /**
+   * @method _scheduleIdleCheckpoint
+   * @description Runs one full durability boundary on the next idle tick.
+   * @returns {void}
+   */
+  _scheduleIdleCheckpoint() {
+    if (this._idleCheckpointScheduled || this._insideWaitForIdle || this._closed) return;
+    this._idleCheckpointScheduled = true;
+    setImmediate(() => {
+      this._idleCheckpointScheduled = false;
+      if (this._closed || this.options.readOnly) return;
+      if (!this.pager || !this.pager.dirty) return;
+      try { this.waitForIdle(); } catch (_e) {}
+    });
+  }
+
+  /**
+   * @method flush
+   * @description Runs the full durability boundary right now.
+   * @returns {void}
+   */
+  flush() {
+    if (this.options.readOnly) return;
+    this.waitForIdle();
   }
 
   /**

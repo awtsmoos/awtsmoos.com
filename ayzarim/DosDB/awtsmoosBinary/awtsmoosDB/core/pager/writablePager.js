@@ -233,10 +233,22 @@ class PagerFirmament {
     const fd = fs.openSync(this.walPath, 'w+');
     try {
       fs.ftruncateSync(fd, 0);
-      fs.fsyncSync(fd);
+      // B"H: no fsync here. If we crash before the truncate hits the disk,
+      // the next open replays the WAL records, but they rewrite byte-identical
+      // data (idempotent), and recovery truncates the WAL itself.
     } finally {
       fs.closeSync(fd);
     }
+  }
+
+  /**
+   * @method walBytes
+   * @description Returns WAL bytes written since the last checkpoint, so the
+   * database can bound WAL growth inside one giant synchronous loop.
+   * @returns {number} WAL byte count.
+   */
+  walBytes() {
+    return this.walActive ? this.walPosition : 0;
   }
 
   /**

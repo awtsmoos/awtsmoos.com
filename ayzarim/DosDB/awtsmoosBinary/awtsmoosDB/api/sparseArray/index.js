@@ -11,6 +11,7 @@
 
 const fs = require('fs');
 const SmartPointer = require('../../utils/smartPointer/index.js');
+const binaryJson = require('../../utils/binaryJson.js');
 
 const DEFAULT_CHUNK = 256;
 
@@ -29,8 +30,8 @@ class SparseArrayManager {
     const file = this.file();
     if (!fs.existsSync(file)) return;
     try {
-      const json = JSON.parse(fs.readFileSync(file, 'utf8'));
-      this.arrays = new Map(Object.entries(json.arrays || {}));
+      const payload = decodeSparsePayload(fs.readFileSync(file));
+      this.arrays = new Map(Object.entries(payload.arrays || {}));
     } catch (_err) {
       this.arrays = new Map();
     }
@@ -38,7 +39,7 @@ class SparseArrayManager {
 
   flush() {
     if (!this.dirty) return;
-    fs.writeFileSync(this.file(), JSON.stringify({ arrays: Object.fromEntries(this.arrays) }));
+    fs.writeFileSync(this.file(), binaryJson.encode({ arrays: Object.fromEntries(this.arrays) }));
     this.dirty = false;
   }
 
@@ -162,6 +163,19 @@ function normalizeIndex(index) {
   const idx = Number(index);
   if (!Number.isSafeInteger(idx) || idx < 0) throw new Error(`B"H: invalid sparse array index ${index}`);
   return idx;
+}
+
+/**
+ * Decodes a sparse-array payload. Current files are AwtsmoosBinaryJSON;
+ * legacy JSON-text files fall back to JSON.parse.
+ */
+function decodeSparsePayload(buffer) {
+  // binaryJson.decode warns and returns null (not throw) on non-binary input.
+  try {
+    const decoded = binaryJson.decode(buffer);
+    if (decoded !== null && decoded !== undefined) return decoded;
+  } catch (_err) {}
+  return JSON.parse(buffer.toString('utf8'));
 }
 
 module.exports = SparseArrayManager;

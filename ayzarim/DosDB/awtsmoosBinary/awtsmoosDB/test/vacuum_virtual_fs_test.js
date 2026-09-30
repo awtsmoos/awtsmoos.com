@@ -6,6 +6,9 @@
  * @description
  * Rewrites a VirtualFs hierarchy out of place, then compares recursive paths,
  * metadata, contents, nested blob relocation, semantic digest, and verification.
+ * The source uses the per-inode record layout, so the vacuum copies records as
+ * ordinary values and the destination keeps the record layout with relocated
+ * blob bodies.
  */
 
 const crypto = require('crypto');
@@ -60,12 +63,15 @@ try {
 	const manifest = AwtsmoosDB.vacuumFile(sourcePath, destinationPath, { compression: false, cleanupOnFailure: true });
 	assert(manifest.sourceUnchanged, 'source changed during VirtualFs vacuum');
 	assert(manifest.comparison.ok, 'VirtualFs semantic comparison failed');
-	assert(manifest.copyStats.virtualFsManifests === 1, 'FS3 manifest was not relocated');
 
 	source = new AwtsmoosDB(sourcePath, { readOnly: true });
 	destination = new AwtsmoosDB(destinationPath, { readOnly: true });
 	source.open();
 	destination.open();
+	const destKeys = destination.keys(destination.root).map(String);
+	assert(!destKeys.includes('__fs3_manifest__'), 'legacy manifest token appeared');
+	assert(destKeys.includes('__fs3_manifest_meta__'), 'FS3 record layout was not preserved');
+	assert(destKeys.some(k => k.startsWith('__fs3_inode__')), 'FS3 inode records were not copied');
 	assert(JSON.stringify(inventory(source)) === JSON.stringify(inventory(destination)), 'VirtualFs inventories differ');
 	assert(source.semanticDigest() === destination.semanticDigest(), 'VirtualFs semantic digest differs');
 	assert(source.verify().ok && destination.verify().ok, 'VirtualFs allocation verification failed');

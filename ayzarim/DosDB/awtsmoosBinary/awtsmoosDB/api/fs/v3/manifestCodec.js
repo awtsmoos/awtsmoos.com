@@ -10,8 +10,9 @@
  * preserving the historical v3 disk contract for reads. Manifests are stored
  * as per-inode native records (see storeState.js); this codec only decodes
  * legacy __fs3_manifest__ blob tokens for one-time migration, verification,
- * and vacuum. Nothing here serializes a manifest: whole-manifest stringify
- * no longer exists anywhere in the database system.
+ * and vacuum. Nothing here serializes a manifest: the whole-manifest
+ * stringify is gone from FS3 (see the ongoing stringify sweep for the
+ * remaining whole-collection serializers elsewhere in the system).
  */
 
 const compression = require('./manifestCompression.js');
