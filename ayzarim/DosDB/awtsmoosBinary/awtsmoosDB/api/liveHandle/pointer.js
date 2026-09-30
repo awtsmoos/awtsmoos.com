@@ -35,20 +35,6 @@ function updateAnchoredPointer(state, newPointer) {
 	HandleRegistry.invalidatePath(state);
 }
 
-// B"H: the soul behind the db.root proxy, or null when this handle is not
-// the root. The persisted root seal must track every committed root write
-// because the superblock, the verifier, and the verified free-list all read
-// db.rootPtrRaw.
-function getRootSoul(state) {
-	try {
-		if (!state || !state.db || !state.db.root) return null;
-		const soul = HandleRegistry.getSoul(state.db.root);
-		return soul && state === soul ? soul : null;
-	} catch {
-		return null;
-	}
-}
-
 function publishDirectPointer(state, newPointer) {
 	HandleRegistry.refreshPath(state);
 	if (state.ptr && Buffer.compare(state.ptr, newPointer) === 0) return;
@@ -56,16 +42,8 @@ function publishDirectPointer(state, newPointer) {
 	if (!decoded) return;
 	const previousPointer = state.ptr;
 	const previousType = state.type;
-	const previousRootSeal = state.db ? state.db.rootPtrRaw : null;
 	state.ptr = newPointer;
 	state.type = decoded.type;
-
-	// B"H THE ROOT TIKKUN: the root soul has no parent to bubble its new seal
-	// to, so the persisted root seal advances here on every committed write.
-	// Without this the superblock, verifier, and verified free-list all walk
-	// a stale tree -- live pages get misclassified as garbage and reused.
-	const rootSoul = getRootSoul(state);
-	if (rootSoul) state.db.rootPtrRaw = Buffer.from(newPointer);
 
 	if (state.isUpdatingPointer) return;
 	state.isUpdatingPointer = true;
@@ -80,7 +58,6 @@ function publishDirectPointer(state, newPointer) {
 	} catch (error) {
 		state.ptr = previousPointer;
 		state.type = previousType;
-		if (rootSoul && state.db) state.db.rootPtrRaw = previousRootSeal;
 		throw error;
 	} finally {
 		state.isUpdatingPointer = false;
