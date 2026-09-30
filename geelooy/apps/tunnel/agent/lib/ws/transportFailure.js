@@ -13,11 +13,8 @@ const Monotonic = require("../runtime/monotonic.js");
  * @description
 
  * The Awtsmoos distinguishes DNS, TCP, TLS, proxy, protocol, reset, timeout, and
-
  * remote socket silence so Awtsmoos.com heals the correct layer. A bare close is
-
  * retryable transport testimony, never invented proof that auth or runtime failed.
-
  */
 
 function classify(input, phase = "unknown") {
@@ -119,7 +116,6 @@ function phaseFor(category, fallback) {
   if (category === "liveness") return "liveness";
 
 return fallback;
-
 }
 
 function codeFor(category, value = "") {

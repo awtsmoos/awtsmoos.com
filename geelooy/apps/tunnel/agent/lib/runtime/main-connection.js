@@ -126,7 +126,6 @@ function createConnectionRuntime(dependencies) {
 			wsUrl: elected.wsUrl || base.wsUrl
 		};
 	}
-
 	reconnect = Scheduler.createReconnectScheduler(dependencies, connect);
 	return {
 		clearReconnectTimer,
