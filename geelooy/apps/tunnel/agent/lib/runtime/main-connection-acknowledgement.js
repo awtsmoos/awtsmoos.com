@@ -6,11 +6,11 @@ const Reconnect = require("./main-reconnect-policy.js");
 const Recovery = require("./main-registration-recovery.js");
 
 /**
- * @file Validates relay acknowledgement and replaces poisoned identity state.
+ * @file Separates owning registration from non-owning candidate testimony.
  * @description
- * The Awtsmoos marks healthy registration immediately. A rejected device credential
- * is quarantined, receipted, and followed by one supervised child-process restart;
- * ordinary transport rejection still closes only the current socket.
+ * The Awtsmoos lets a candidate touch the gate without inheriting the throne.
+ * A non-owning probe may prove identity and leave a durable receipt, while only
+ * the incumbent registration may erase reconnect pressure or clear its timer.
  */
 function handleAcknowledgement(dependencies, data, ws) {
 	const acknowledgedName = String(data.tunnelName || data.name || "");
@@ -21,7 +21,7 @@ function handleAcknowledgement(dependencies, data, ws) {
 	dependencies.state.registrationRejected = !accepted;
 	dependencies.state.registrationFailureReason = reason;
 	const recovery = accepted
-		? markHealthy(dependencies, data)
+		? markRegistered(dependencies, data)
 		: Recovery.recover(dependencies, reason);
 	writeReceipt(dependencies, data, expectedName, reason, accepted);
 	dependencies.log(
@@ -30,21 +30,31 @@ function handleAcknowledgement(dependencies, data, ws) {
 			? `B"H tunnel registered: ${acknowledgedName} (${data.tunnelId || "legacy-id"})`
 			: `Tunnel registration rejected: ${reason}`
 	);
-	if (!accepted) {
-		try { ws.close(true); } catch {}
-		if (recovery?.restartRequired) {
-			dependencies.setTimer?.(() => dependencies.exitProcess?.(75), 25)?.unref?.();
-		}
-	}
+	if (!accepted) handleRejected(dependencies, recovery, ws);
 	return true;
 }
 
-function markHealthy(dependencies, data) {
+function markRegistered(dependencies, data) {
 	if (data.tunnelId) dependencies.state.tunnelId = String(data.tunnelId);
 	Recovery.healthy(dependencies.state);
+	if (isNonOwningProbe(data)) {
+		dependencies.state.lastRegisteredAt = Date.now();
+		return { handled: true, healthy: false, nonOwning: true };
+	}
 	Reconnect.markRegistered(dependencies.state);
 	dependencies.clearReconnect?.();
-	return { handled: true, healthy: true, restartRequired: false };
+	return { handled: true, healthy: true, nonOwning: false };
+}
+
+function isNonOwningProbe(data) {
+	return data.registrationProbe === true && data.nonOwning === true;
+}
+
+function handleRejected(dependencies, recovery, ws) {
+	try { ws.close(true); } catch {}
+	if (recovery?.restartRequired) {
+		dependencies.setTimer?.(() => dependencies.exitProcess?.(75), 25)?.unref?.();
+	}
 }
 
 function writeReceipt(dependencies, data, tunnelName, reason, accepted) {
@@ -66,4 +76,8 @@ function rejectionReason(data, accepted) {
 	return String(data.error || "registration_rejected");
 }
 
-module.exports = { handleAcknowledgement, rejectionReason };
+module.exports = {
+	handleAcknowledgement,
+	isNonOwningProbe,
+	rejectionReason
+};
