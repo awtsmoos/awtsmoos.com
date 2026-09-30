@@ -13,6 +13,7 @@
 const fs = require('fs');
 const path = require('path');
 const constants = require('../../constants.js');
+const binaryJson = require('../../utils/binaryJson.js');
 
 const DEFAULT_ROOT = '__dosdb__';
 
@@ -440,7 +441,7 @@ function normalizePath(filePath) {
 
 function clonePlain(value) {
   if (value == null || typeof value !== 'object') return value;
-  return JSON.parse(JSON.stringify(value));
+  return binaryJson.decode(binaryJson.encode(value));
 }
 
 function parseJsonOrBlob(db, raw, meta) {

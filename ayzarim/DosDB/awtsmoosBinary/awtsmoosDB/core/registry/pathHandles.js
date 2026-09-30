@@ -1,3 +1,4 @@
+const binaryJson = require('../../utils/binaryJson.js');
 // B"H
 // Boruch Hashem
 // Blessed is He
@@ -92,7 +93,7 @@ class PathHandleBook {
 			if (!parent) return null;
 			current = parent;
 		}
-		return JSON.stringify(parts);
+		return binaryJson.encodeText(parts);
 	}
 
 	static isLineageContext(context) {

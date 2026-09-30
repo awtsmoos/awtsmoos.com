@@ -28,6 +28,7 @@ const Dictionary = require('../../structure/dictionary/index.js');
 const SearchIndexer = require('./indexer.js');
 const Reader = require('../liveHandle/reader/index.js');
 const PackedArray = require('../packed/liveArray.js');
+const binaryJson = require('../../utils/binaryJson.js');
 
 class SearchManager {
     /**
@@ -321,7 +322,7 @@ class SearchManager {
         const values = this.db.values(handleOrPath);
         const out = [];
         for (const value of values) {
-            const text = JSON.stringify(value);
+            const text = searchableText(value);
             if (!text) continue;
             const tokens = tokenizer.tokenize(text);
             let ok = true;
@@ -335,6 +336,28 @@ class SearchManager {
         }
         return out;
     }
+}
+
+
+/**
+ * Extracts searchable text from any value: object keys plus every
+ * string/number/boolean/bigint leaf, space-joined. The tokenizer
+ * splits on non-letter/number boundaries, so this yields the same token set
+ * the old JSON-text scan produced (JSON punctuation was never searchable).
+ */
+function searchableText(value) {
+  const parts = [];
+  const walk = (v) => {
+    if (v === null || v === undefined) return;
+    const t = typeof v;
+    if (t === 'string') { parts.push(v); return; }
+    if (t === 'number' || t === 'boolean' || t === 'bigint') { parts.push(String(v)); return; }
+    if (t !== 'object') return;
+    if (Array.isArray(v)) { for (const item of v) walk(item); return; }
+    for (const k of Object.keys(v)) { parts.push(k); walk(v[k]); }
+  };
+  walk(value);
+  return parts.join(' ');
 }
 
 module.exports = SearchManager;

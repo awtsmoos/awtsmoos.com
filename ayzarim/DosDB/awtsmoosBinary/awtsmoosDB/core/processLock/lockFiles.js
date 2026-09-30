@@ -4,6 +4,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
+const binaryJson = require("../../utils/binaryJson.js");
 
 /**
  * @file Owns filesystem testimony for database writer and shared-reader locks.
@@ -21,8 +22,22 @@ class LockFiles {
 
 	/** Reads lock metadata without throwing when a stale or partial file is encountered. */
 	readMetadata(lockPath) {
+		let raw;
 		try {
-			return JSON.parse(fs.readFileSync(lockPath, "utf8"));
+			raw = fs.readFileSync(lockPath);
+		} catch {
+			return {};
+		}
+		// Binary-first: the writer stores AwtsmoosBinaryJSON. decode() warns
+		// and returns null (not throw) for non-binary input, so the result
+		// must be checked explicitly before use.
+		try {
+			const decoded = binaryJson.decode(raw);
+			if (decoded !== null && decoded !== undefined) return decoded;
+		} catch {}
+		// Legacy fallback: pre-sweep lock files were plain JSON text.
+		try {
+			return JSON.parse(raw.toString("utf8"));
 		} catch {
 			return {};
 		}
