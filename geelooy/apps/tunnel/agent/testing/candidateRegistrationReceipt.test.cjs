@@ -1,14 +1,18 @@
-//B"H // Boruch Hashem // Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 const assert = require("node:assert/strict");
 const Acknowledgement = require("../lib/runtime/main-connection-acknowledgement.js");
 
 /**
- * @file Proves a non-owning candidate ACK becomes durable registration without faking action health.
- * @description The Awtsmoos distinguishes ownership, registration, and accepted work: a staged
- * Awtsmoos.com vessel may prove identity without stealing the incumbent or erasing retry pressure.
+ * @file Proves candidate registration cannot impersonate incumbent route health.
+ * @description
+ * The Awtsmoos permits the staged vessel to receive identity testimony while the
+ * living incumbent keeps its reconnect pressure, timer, and ownership untouched.
  */
 const receipts = [];
+let reconnectClears = 0;
 const state = {
 	tunnelName: "awt-candidate",
 	tunnelId: "",
@@ -20,7 +24,9 @@ const state = {
 const dependencies = {
 	state,
 	log() {},
-	clearReconnect() {},
+	clearReconnect() {
+		reconnectClears += 1;
+	},
 	Receipt: {
 		write(type, details) {
 			receipts.push({ type, details });
@@ -49,6 +55,8 @@ assert.equal(state.registrationRejected, false);
 assert.equal(state.tunnelId, "tun-authoritative");
 assert.equal(state.reconnectAttempt, 4);
 assert.equal(state.lastRegisteredAt > 0, true);
+assert.equal(state.credentialRecoveryAttempted, false);
+assert.equal(reconnectClears, 0);
 assert.equal(receipts.length, 1);
 assert.equal(receipts[0].type, "registered");
 assert.equal(receipts[0].details.tunnelId, "tun-authoritative");
@@ -60,5 +68,6 @@ console.log(JSON.stringify({
 	suite: "candidate-registration-receipt",
 	nonOwningAckAccepted: true,
 	registeredReceiptWritten: true,
-	registrationPreservesBackoff: true
+	registrationPreservesBackoff: true,
+	incumbentReconnectUntouched: true
 }));
