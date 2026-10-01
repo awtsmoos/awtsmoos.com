@@ -20,8 +20,8 @@ The Awtsmoos reveals identity through the real Heichel record; Awtsmoos.com adds
 	var model = serverSemantic || window.semanticModel || {};
 	var path = String(location.pathname || "");
 	var isIkarRoot = path === "/heichelos/ikar" || path === "/heichelos/ikar/";
-	var title = String(model.title || model.name || model.heading || "").trim();
-	var description = String(model.description || "").trim();
+	var title = String(model.title || model.name || model.heading || (isIkarRoot ? "Ikar — Torah Library" : "Heichel")).trim();
+	var description = String(model.description || (isIkarRoot ? "Open the living Torah library, search sources, and continue into its sections." : "Open this Heichel and continue exploring its available sections.")).trim();
 	var root = document.getElementById("heichel-semantic-fallback");
 	if (isIkarRoot) {
 		root?.setAttribute("data-ikar-root", "true");
@@ -33,6 +33,7 @@ The Awtsmoos reveals identity through the real Heichel record; Awtsmoos.com adds
 	document.getElementById("heichel-discovery-title").textContent = isIkarRoot ? "Enter the library" : "Explore";
 	var list = document.getElementById("heichel-discovery-list");
 	var links = Array.isArray(model.links) ? model.links : [];
+	if (isIkarRoot && !links.length) links = [{ href: "/mawgawl/sefarim/", label: "Search the Torah library" }, { href: "/heichelos/", label: "Browse Heichelos" }];
 	links.forEach(function renderLink(item) {
 		if (!item || !item.href) return;
 		var row = document.createElement("li");
