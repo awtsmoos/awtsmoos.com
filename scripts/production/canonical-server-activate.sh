@@ -78,6 +78,16 @@ armed=1
 install -D -m 0644 "$source_override" "$override"
 printf '\nEnvironment=AWTSMOOS_RELEASE_SHA=%s\n' "$expected" >> "$override"
 bash "$watchdog_installer"
+
+# Browsers reject ES module graphs when nginx labels .mjs as octet-stream.
+if ! grep -Eq 'application/javascript[[:space:]]+[^;]*mjs' /etc/nginx/mime.types; then
+	cp /etc/nginx/mime.types /etc/nginx/mime.types.awtsmoos-before-mjs
+	sed -i -E 's#(application/javascript[[:space:]]+[^;]*js)([[:space:]]*;)#\1 mjs\2#' /etc/nginx/mime.types
+	grep -Eq 'application/javascript[[:space:]]+[^;]*mjs' /etc/nginx/mime.types || fail nginx_mjs_mime_install_failed
+	nginx -t
+	systemctl reload nginx
+fi
+
 systemctl stop "$service" || true
 for _stop_attempt in $(seq 1 15); do
 	if ! systemctl is-active --quiet "$service"; then break; fi

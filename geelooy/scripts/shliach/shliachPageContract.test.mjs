@@ -64,7 +64,7 @@ test("campaign uses all supplied artwork with deliberate page roles", () => {
 test("Home uses canonical public logo, cached fallback, campaign route, and safe GPT link", () => {
 	const home = source("scripts/home-simple/ShliachSpotlightContent.js");
 	assert.match(home, new RegExp(LOGO.replaceAll("/", "\\/")));
-	assert.match(home, /\/resources\/branding\/awtsmoos-shliach-agent\.png/);
+	assert.match(home, /\/drive\/assets\/awtsmoos-shliach-logo\.png/);
 	assert.match(home, /SHLIACH_PAGE = "\/Shliach\/"/);
 	assert.match(home, /authenticated Awtsmoos APIs/);
 	assert.match(home, /noopener noreferrer/);

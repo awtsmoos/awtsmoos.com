@@ -19,6 +19,11 @@ import { renderExternalAiPanel } from "./ExternalAiPanel.js";
  * @returns {void}
  */
 function revealShliachWorld(documentRoot = document) {
+	const incomingPrompt = new URLSearchParams(globalThis.location?.search || "").get("prompt");
+	const incomingField = documentRoot.querySelector("[data-shliach-prompt-input]");
+	if (incomingPrompt && incomingField && !incomingField.value) {
+		incomingField.value = incomingPrompt;
+	}
 	const forms = [...documentRoot.querySelectorAll("[data-shliach-prompt-form]")];
 	forms.forEach((form) => {
 		new OhrPromptPortal(form).connect();

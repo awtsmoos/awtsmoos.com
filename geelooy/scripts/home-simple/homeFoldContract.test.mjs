@@ -13,7 +13,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
-const HERO_URL = 'https://awtsmoos.com/api/social/aliases/abarbanel/fileSystem/readFile?path=awtsmoosImages%2Fhomepage%2Fawtsmoos-home-hero.jpg';
+const HERO_URL = 'https://awtsmoos.com/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png';
 
 function readHomeSource(relativePath) {
 	return readFileSync(new URL(relativePath, import.meta.url), 'utf8');
@@ -25,7 +25,7 @@ const copyCss = readHomeSource('../../style/home-simple/hero-copy.css');
 const creationCss = readHomeSource('../../style/home-simple/creation-form.css');
 const components = readHomeSource('../../style/home-simple/components.css');
 
-test('original hero picture is restored and eagerly discoverable', () => {
+test('Shliach hero picture is eagerly discoverable', () => {
 	assert.equal(html.split(HERO_URL).length - 1, 2);
 	assert.match(html, /rel="preload" as="image"/);
 	assert.match(html, /class="hero-image"[^>]*width="1024"[^>]*height="1024"/);
@@ -47,8 +47,9 @@ test('phone stacks the complete square artwork above copy', () => {
 });
 
 test('current primary actions remain real and reachable', () => {
-	assert.match(html, /class="creation-form" action="\/drive\/"/);
-	assert.match(html, /Start building free/);
+	assert.match(html, /class="creation-form" action="\/Shliach\/"/);
+	assert.match(html, /Open Shliach/);
+	assert.match(html, /href="\/drive\/" class="launcher-button"/);
 	assert.match(creationCss, /\.creation-field button\s*\{[^}]*min-height:\s*3\.35rem/s);
 	assert.match(html, /href="\/heichelos\/ikar"[^>]*>[\s\S]*?Torah/);
 	assert.match(html, /data-world-id="apps" href="\/apps\/"/);
