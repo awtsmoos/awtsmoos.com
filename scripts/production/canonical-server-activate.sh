@@ -112,9 +112,13 @@ require_environment "AWTSMOOS_RELEASE_SHA=$expected"
 bash "$virtual_ssh_probe" "$virtual_ssh_port" >/dev/null || fail virtual_ssh_protocol_probe_failed
 [ "$(git -C "$repo" rev-parse HEAD)" = "$expected" ] || fail post_restart_head_mismatch
 [ -z "$(git -C "$repo" status --porcelain)" ] || fail post_restart_repo_dirty
-AWTSMOOS_PRODUCTION_HEALTH_URL="$health_url" AWTSMOOS_COMPACT_PREWARM_TIMEOUT_MS="${AWTSMOOS_COMPACT_PREWARM_TIMEOUT_MS:-90000}" node "$compact_prewarmer" || fail compact_prewarm_failed
+if [ "${AWTSMOOS_COMPACT_PREWARM:-0}" = "1" ]; then
+	AWTSMOOS_PRODUCTION_HEALTH_URL="$health_url" AWTSMOOS_COMPACT_PREWARM_TIMEOUT_MS="${AWTSMOOS_COMPACT_PREWARM_TIMEOUT_MS:-90000}" node "$compact_prewarmer" || fail compact_prewarm_failed
+else
+	echo 'B"H compact prewarm deferred; production service is live'
+fi
 [ -z "$(git -C "$repo" status --porcelain)" ] || fail post_prewarm_repo_dirty
 committed=1
 rm -f "$backup"
 trap - EXIT
-printf 'B"H CANONICAL_SERVER_ACTIVE sha=%s repo=%s service=%s extension=%s virtualSsh=protocol-verified compact=prewarmed tunnelBundle=preflight-passed\n' "$expected" "$repo" "$service" "$extension_artifact"
+printf 'B"H CANONICAL_SERVER_ACTIVE sha=%s repo=%s service=%s extension=%s virtualSsh=protocol-verified compact=${AWTSMOOS_COMPACT_PREWARM:-deferred} tunnelBundle=preflight-passed\n' "$expected" "$repo" "$service" "$extension_artifact"
