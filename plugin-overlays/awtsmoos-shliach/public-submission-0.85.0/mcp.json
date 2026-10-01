@@ -1,0 +1,9 @@
+{
+	"$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+	"mcpServers": {
+		"awtsmoos-api": {
+			"type": "streamable-http",
+			"url": "https://awtsmoos.com/api/tunnel/control/mcp"
+		}
+	}
+}
