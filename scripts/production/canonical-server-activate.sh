@@ -78,7 +78,16 @@ armed=1
 install -D -m 0644 "$source_override" "$override"
 printf '\nEnvironment=AWTSMOOS_RELEASE_SHA=%s\n' "$expected" >> "$override"
 bash "$watchdog_installer"
-systemctl restart "$service"
+systemctl stop "$service" || true
+for _stop_attempt in $(seq 1 15); do
+	if ! systemctl is-active --quiet "$service"; then break; fi
+	sleep 1
+done
+if systemctl is-active --quiet "$service"; then
+	systemctl kill --kill-whom=main -s SIGKILL "$service" || true
+	sleep 1
+fi
+systemctl start "$service"
 
 healthy=0
 for _attempt in $(seq 1 60); do
