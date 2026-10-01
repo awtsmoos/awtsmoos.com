@@ -14,6 +14,22 @@ const awts = require('../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBin
 
 const FILE = 'social.richComments.v1.fs.awtsdb';
 const cache = new Map();
+const META_KEY = '__fs3_manifest_meta__';
+const LEGACY_MANIFEST_KEY = '__fs3_manifest__';
+
+function legacyMigrationAllowed() {
+	return process.env.AWTSMOOS_ALLOW_LEGACY_RICH_MIGRATION === 'true';
+}
+
+function refuseImplicitLegacyMigration(db, file) {
+	if (legacyMigrationAllowed()) return;
+	const meta = db.root && db.root[META_KEY];
+	const legacy = db.root && db.root[LEGACY_MANIFEST_KEY];
+	if (meta || !legacy) return;
+	const error = new Error('B"H rich-comment store requires explicit offline FS3 migration: ' + file);
+	error.code = 'RICH_COMMENTS_LEGACY_MIGRATION_REQUIRED';
+	throw error;
+}
 
 function dbRoot($i) {
 	return $i?.db?.directory || $i?.db?.root || process.cwd();
@@ -47,6 +63,12 @@ function open($i) {
 		lockMode: 'exclusive'
 	});
 	db.open();
+	try {
+		refuseImplicitLegacyMigration(db, file);
+	} catch (error) {
+		try { db.close(); } catch {}
+		throw error;
+	}
 	cache.set(file, { db, mark: fingerprint(file) });
 	return db;
 }
@@ -84,4 +106,4 @@ function closeAll() {
 
 process.once('exit', closeAll);
 
-module.exports = { FILE, closeAll, dbFile, open, read, remove, write };
+module.exports = { FILE, closeAll, dbFile, legacyMigrationAllowed, open, read, refuseImplicitLegacyMigration, remove, write };
