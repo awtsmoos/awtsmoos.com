@@ -1,76 +1,92 @@
-
 // B"H
-const SmartPointer = require('../../../utils/smartPointer.js');
+'use strict';
+
 const utils = require('./utils.js');
 
+const MAX_ITEMS = 200;
+
+/**
+ * @file append.js
+ * @description
+ * The right edge of the sequence grows without swallowing its sibling. When a
+ * full internal vessel receives a child split, the new child is carried into a
+ * new sibling instead of disappearing. Thus the Awtsmoos preserves every item.
+ */
 class AppendOps {
-    constructor(sequence) {
-        this.seq = sequence;
-        this.nodeIO = sequence.nodeIO;
-        this.db = sequence.db;
-    }
+	constructor(sequence) {
+		this.seq = sequence;
+		this.nodeIO = sequence.nodeIO;
+	}
 
-    append(itemPtr) {
-        let root = this.nodeIO.load(this.seq.ptr);
-        if (!root) {
-            root = this.nodeIO.create(true);
-            this.seq.ptr = this.nodeIO.save(root);
-        }
-        
-        const res = this._appendRecursive(root, itemPtr);
-        
-        if (res.splitNode) {
-            utils.handleRootSplit(this.nodeIO, this.seq, root, [res.splitNode]);
-            return { newPtr: this.seq.ptr };
-        }
-        return { newPtr: res.newPtr || this.seq.ptr };
-    }
+	append(itemPointer) {
+		let root = this.nodeIO.load(this.seq.ptr);
+		if (!root) {
+			root = this.nodeIO.create(true);
+			this.seq.ptr = this.nodeIO.save(root);
+		}
+		const result = this._appendRecursive(root, itemPointer);
+		if (result.splitNode) {
+			utils.handleRootSplit(this.nodeIO, this.seq, root, [result.splitNode]);
+			return { newPtr: this.seq.ptr };
+		}
+		return { newPtr: result.newPtr || this.seq.ptr };
+	}
 
-    _appendRecursive(node, itemPtr) {
-        const itemSize = utils.getPtrSize(itemPtr);
-        const MAX_ITEMS = 200;
-        
-        if (node.isLeaf) {
-            if (node.items.length < MAX_ITEMS) {
-                node.items.push({ ptr: itemPtr, count: 1 });
-                node.totalCount++;
-                node.totalBytes = (node.totalBytes || 0) + itemSize;
-                const newPtr = this.nodeIO.save(node);
-                return { deltaCount: 1, deltaBytes: itemSize, splitNode: null, newPtr };
-            } else {
-                const newNode = this.nodeIO.create(true, node.isWeak);
-                newNode.items.push({ ptr: itemPtr, count: 1 });
-                newNode.totalCount = 1; 
-                newNode.totalBytes = itemSize;
-                this.nodeIO.save(newNode);
-                return { deltaCount: 1, deltaBytes: itemSize, splitNode: newNode };
-            }
-        } else {
-            const lastIdx = node.items.length - 1;
-            const childRef = node.items[lastIdx];
-            
-            const childPtr = utils.decodePtr(childRef.ptr);
-            const childNode = this.nodeIO.load(childPtr);
-            const res = this._appendRecursive(childNode, itemPtr);
-            
-            if (res.newPtr) {
-                childRef.ptr = utils.encodePtr(res.newPtr);
-            }
-            childRef.count = childNode.totalCount;
-            
-            if (res.splitNode) {
-                if (node.items.length < MAX_ITEMS) {
-                    node.items.push({ ptr: utils.encodePtr(res.splitNode.ptr), count: res.splitNode.totalCount });
-                }
-            }
-            
-            node.totalCount += 1;
-            node.totalBytes = (node.totalBytes || 0) + itemSize;
-            const myNewPtr = this.nodeIO.save(node);
-            
-            return { deltaCount: 1, deltaBytes: itemSize, splitNode: (node.items.length > MAX_ITEMS ? res.splitNode : null), newPtr: myNewPtr };
-        }
-    }
+	_recount(node) {
+		node.totalCount = 0;
+		node.totalBytes = 0;
+		for (const item of node.items) {
+			node.totalCount += item.count;
+			node.totalBytes += utils.getPtrSize(item.ptr);
+		}
+	}
+
+	_newLeaf(itemPointer, itemSize, weak) {
+		const sibling = this.nodeIO.create(true, weak);
+		sibling.items.push({ ptr: itemPointer, count: 1 });
+		sibling.totalCount = 1;
+		sibling.totalBytes = itemSize;
+		this.nodeIO.save(sibling);
+		return sibling;
+	}
+
+	_splitInternal(node, pendingSibling) {
+		const sibling = this.nodeIO.create(false, node.isWeak);
+		const half = Math.ceil(node.items.length / 2);
+		sibling.items = node.items.splice(half);
+		sibling.items.push({
+			ptr: utils.encodePtr(pendingSibling.ptr),
+			count: pendingSibling.totalCount
+		});
+		this._recount(sibling);
+		this.nodeIO.save(sibling);
+		this._recount(node);
+		const pointer = this.nodeIO.save(node);
+		return { splitNode: sibling, newPtr: pointer };
+	}
+
+	_appendRecursive(node, itemPointer) {
+		const itemSize = utils.getPtrSize(itemPointer);
+		if (node.isLeaf) {
+			if (node.items.length >= MAX_ITEMS) {
+				return { splitNode: this._newLeaf(itemPointer, itemSize, node.isWeak) };
+			}
+			node.items.push({ ptr: itemPointer, count: 1 });
+			this._recount(node);
+			return { splitNode: null, newPtr: this.nodeIO.save(node) };
+		}
+		const childRef = node.items[node.items.length - 1];
+		const childNode = this.nodeIO.load(utils.decodePtr(childRef.ptr));
+		const result = this._appendRecursive(childNode, itemPointer);
+		if (result.newPtr) childRef.ptr = utils.encodePtr(result.newPtr);
+		childRef.count = childNode.totalCount;
+		if (result.splitNode) {
+			if (node.items.length >= MAX_ITEMS) return this._splitInternal(node, result.splitNode);
+			node.items.push({ ptr: utils.encodePtr(result.splitNode.ptr), count: result.splitNode.totalCount });
+		}
+		this._recount(node);
+		return { splitNode: null, newPtr: this.nodeIO.save(node) };
+	}
 }
 
 module.exports = AppendOps;
