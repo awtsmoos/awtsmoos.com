@@ -13,7 +13,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
-const HERO_URL = 'https://awtsmoos.com/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png';
+const HERO_URL = 'https://awtsmoos.com/api/social/aliases/abarbanel/fileSystem/readFile?path=awtsmoosImages%2Fhomepage%2Fawtsmoos-home-hero.jpg';
 
 function readHomeSource(relativePath) {
 	return readFileSync(new URL(relativePath, import.meta.url), 'utf8');
@@ -25,7 +25,7 @@ const copyCss = readHomeSource('../../style/home-simple/hero-copy.css');
 const creationCss = readHomeSource('../../style/home-simple/creation-form.css');
 const components = readHomeSource('../../style/home-simple/components.css');
 
-test('Shliach hero picture is eagerly discoverable', () => {
+test('original hero picture is eagerly discoverable', () => {
 	assert.equal(html.split(HERO_URL).length - 1, 2);
 	assert.match(html, /rel="preload" as="image"/);
 	assert.match(html, /class="hero-image"[^>]*width="1024"[^>]*height="1024"/);

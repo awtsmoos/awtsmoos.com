@@ -22,7 +22,7 @@ export async function revealAppsFilterTiferes() {
 	const malchusFailureView = new AppsFilterBootMalchusView(document);
 
 	try {
-		const { AppsFilterTiferesRuntime } = await import("./filter/AppsFilterTiferesRuntime.js");
+		const { AppsFilterTiferesRuntime } = await import("./filter/AppsFilterTiferesRuntime.v2.js");
 		return new AppsFilterTiferesRuntime(document).connect();
 	} catch (gevurahFailure) {
 		console.error("Awtsmoos Apps catalog boot failed", gevurahFailure);

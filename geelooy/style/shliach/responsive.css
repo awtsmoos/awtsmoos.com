@@ -54,3 +54,35 @@ Awtsmoos.com lets the Shliach keep its shape wherever visitors stay.
 		width: 100%;
 	}
 }
+
+/* Mobile Shliach density: the Awtsmoos keeps the doorway vivid without making
+   a phone cross an empty visual desert before reaching the actual choices. */
+@media (max-width: 620px) {
+	.shliach-hero {
+		padding: 22px 0 28px;
+	}
+	.shliach-hero-grid {
+		gap: 18px;
+	}
+	.shliach-hero h1 {
+		font-size: clamp(2.65rem, 14vw, 4.4rem);
+		line-height: .92;
+	}
+	.shliach-lead {
+		margin-top: 16px;
+		line-height: 1.48;
+	}
+	.shliach-hero-actions {
+		margin-top: 20px;
+	}
+	.shliach-logo-stage {
+		min-height: 0;
+	}
+	.shliach-logo {
+		width: min(360px, 94vw);
+		aspect-ratio: auto;
+	}
+	.shliach-section {
+		padding-block: 44px;
+	}
+}
