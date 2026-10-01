@@ -19,6 +19,7 @@ const EXPECTED_ROUTES = Object.freeze([
 	"device-authorization",
 	"device",
 	"metadata",
+	"register",
 	"start",
 	"token"
 ]);

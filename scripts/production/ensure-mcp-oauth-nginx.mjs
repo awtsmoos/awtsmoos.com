@@ -12,7 +12,8 @@ const file = fs.realpathSync(process.argv[2] || "/etc/nginx/sites-enabled/awtsmo
 const before = fs.readFileSync(file, "utf8");
 const paths = [
 	"/.well-known/oauth-protected-resource",
-	"/.well-known/oauth-authorization-server"
+	"/.well-known/oauth-authorization-server",
+	"/api/tunnel/control/mcp"
 ];
 let after = before;
 for (const route of paths) {
@@ -26,7 +27,7 @@ for (const route of paths) {
 		"\t\tproxy_set_header X-Forwarded-Host $host;",
 		"\t\tproxy_set_header X-Forwarded-Proto $scheme;",
 		"\t\tproxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;",
-		"\t\tproxy_pass http://127.0.0.1:8080;",
+		"\t\tproxy_pass http://127.0.0.1:8080" + (route === "/api/tunnel/control/mcp" ? "/api/tunnel/control/mcp/" : "") + ";",
 		"\t}", ""
 	].join("\n");
 	after = after.replace(anchor, vessel + "\n" + anchor);

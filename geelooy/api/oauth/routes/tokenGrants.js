@@ -19,6 +19,7 @@ const {
 	touchRefreshRecord
 } = require("../core/refreshStore.js");
 const Entry = require("./tokenEntries.js");
+const Resource = require("../core/resourceIndicator.js");
 
 async function authorizationCodeGrant(context) {
 	const { $i, request, client, json, missingCode, tokenResponse } = context;
@@ -36,7 +37,7 @@ async function authorizationCodeGrant(context) {
 	if (record.clientId && record.clientId !== client.id) {
 		return json($i, { BH: "B\"H", error: "code_client_mismatch" }, 400);
 	}
-	if (record.redirectUri && request.redirect_uri && record.redirectUri !== request.redirect_uri) {
+	if (record.redirectUri && ((client.dynamicRegistration && !request.redirect_uri) || (request.redirect_uri && record.redirectUri !== request.redirect_uri))) {
 		return json($i, {
 			BH: "B\"H",
 			error: "redirect_uri_mismatch",
@@ -48,13 +49,16 @@ async function authorizationCodeGrant(context) {
 	if (!pkce.ok) {
 		return json($i, { BH: "B\"H", error: pkce.error }, 400);
 	}
-	const entry = Entry.authorizationCodeEntry(record, client);
+	const resource = Resource.codeExchange(record.resource, request.resource);
+	if (!resource.ok) return json($i, { error: resource.error }, 400);
+	const entry = Entry.authorizationCodeEntry(record, client, resource.resource);
 	const refreshToken = client.refreshTokens === false
 		? null
 		: createRefreshRecord({
 			userId: entry.userId,
 			clientId: client.id,
-			scope: entry.scope
+			scope: entry.scope,
+			resource: entry.resource || ""
 		});
 	return tokenResponse($i, client, entry, refreshToken);
 }
@@ -80,11 +84,13 @@ function refreshGrant(context) {
 			return json($i, { BH: "B\"H", error: "revoked_agent_link" }, 401);
 		}
 	}
+	const resource = Resource.refreshExchange(record.resource, request.resource);
+	if (!resource.ok) return json($i, { error: resource.error }, 400);
 	touchRefreshRecord(request.refresh_token);
 	return tokenResponse(
 		$i,
 		client,
-		Entry.refreshTokenEntry(record, client),
+		Entry.refreshTokenEntry(record, client, resource.resource),
 		request.refresh_token
 	);
 }

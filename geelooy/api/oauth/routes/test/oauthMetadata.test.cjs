@@ -33,6 +33,7 @@ function localContext() {
 test("metadata follows current origin for callback device and token paths", () => {
 	const document = serverMetadata(localContext());
 	assert.equal(document.issuer, "http://127.0.0.1:18082");
+	assert.equal(document.registration_endpoint, "http://127.0.0.1:18082/api/oauth/register");
 	assert.equal(
 		document.authorization_endpoint,
 		"http://127.0.0.1:18082/api/oauth/authorize"

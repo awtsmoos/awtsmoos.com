@@ -15,6 +15,7 @@ const ROUTES = Object.freeze({
 	authorize: ["./authorize.js", "authorize"],
 	"device-authorization": ["./deviceAuthorization.js", "deviceAuthorization"],
 	device: ["./deviceVerification.js", "deviceVerification"],
+	register: ["./register.js", "register"],
 	metadata: ["./metadata.js", "metadata"],
 	start: ["./start.js", "start"],
 	token: ["./token.js", "token"]

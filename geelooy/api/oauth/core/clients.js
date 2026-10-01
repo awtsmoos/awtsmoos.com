@@ -11,6 +11,7 @@
  */
 
 const { oauthClients } = require("../data/clients.js");
+const { getDynamicClient } = require("./dynamicClientStore.js");
 
 function escapeRegex(text) {
 	return String(text).replace(/[.+?^${}()|[\]\\]/g, "\\$&");
@@ -52,7 +53,7 @@ function ruleAllows(uri, rule) {
 }
 
 function getClient(id) {
-	const client = oauthClients[id || "chatgpt"] || null;
+	const client = oauthClients[id || "chatgpt"] || getDynamicClient(id) || null;
 	if (!client) {
 		return null;
 	}
@@ -61,6 +62,7 @@ function getClient(id) {
 		clientSecret: client.clientSecret || client.secret || "",
 		secret: client.secret || client.clientSecret || "",
 		redirectAllowed(uri) {
+			if (client.dynamicRegistration) return client.redirectUris.includes(uri);
 			const rules = client.redirectUris
 				|| client.redirectURIs
 				|| client.allowedRedirectUris

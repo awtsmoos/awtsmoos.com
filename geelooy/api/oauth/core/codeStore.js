@@ -25,6 +25,7 @@ async function saveCode(details) {
 		clientId: details.clientId,
 		redirectUri: details.redirectUri,
 		scope: details.scope,
+		resource: details.resource || "",
 		state: details.state || "",
 		codeChallenge: details.codeChallenge || "",
 		codeChallengeMethod: details.codeChallengeMethod || "",

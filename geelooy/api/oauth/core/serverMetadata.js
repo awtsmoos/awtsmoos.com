@@ -32,6 +32,7 @@ function serverMetadata($i) {
 		issuer: origin,
 		authorization_endpoint: `${origin}/api/oauth/authorize`,
 		device_authorization_endpoint: `${origin}/api/oauth/device-authorization`,
+		registration_endpoint: `${origin}/api/oauth/register`,
 		token_endpoint: `${origin}/api/oauth/token`,
 		response_types_supported: ["code"],
 		response_modes_supported: ["query"],
