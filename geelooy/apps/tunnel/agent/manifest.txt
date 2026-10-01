@@ -1204,6 +1204,7 @@ lib/instructions/catalogFrontendSystem.js
 lib/instructions/catalogFrontendVerification.js
 lib/instructions/catalogMissionContinuity.js
 lib/instructions/catalogMissionDiscovery.js
+lib/instructions/catalogShliach.js
 lib/instructions/catalogUiCssProduction.js
 lib/instructions/catalogUiInteraction.js
 lib/instructions/catalogUiLayout.js

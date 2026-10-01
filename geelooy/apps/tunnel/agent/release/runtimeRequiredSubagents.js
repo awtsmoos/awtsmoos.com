@@ -15,6 +15,7 @@ module.exports = Object.freeze([
 	"tools/fs/actionMissionRuntime.js",
 	"tools/fs/actionProcessOwnership.js",
 	"lib/instructions/catalog.js",
+	"lib/instructions/catalogShliach.js",
 	"lib/instructions/catalogContinuationOverride.js",
 	"lib/instructions/catalogExecutionDoctrine.js",
 	"lib/instructions/catalogExecutionMomentum.js",
