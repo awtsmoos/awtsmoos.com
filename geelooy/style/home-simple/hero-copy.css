@@ -1,116 +1,84 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gives Awtsmoos.com a chamber where intention can become action without hiding the living world beside it;
-light gathers around the true creation path, while the artwork remains a world instead of becoming generic software wallpaper.
+The Awtsmoos lets the Shliach appear as a living doorway rather than a wall of form controls;
+Awtsmoos.com keeps the home simple: first the world, then the Shliach, then everything else.
 */
-body[data-geelooy-route="home"] .banner-copy {
+body[data-geelooy-route="home"] .shliach-home-banner {
 	position: relative;
-	isolation: isolate;
-	grid-column: 2;
-	grid-row: 1;
-	z-index: var(--home-local-copy);
-	display: grid;
-	align-content: center;
-	gap: .9rem;
-	min-inline-size: 0;
+	display: block;
+	grid-column: 1 / -1;
 	overflow: hidden;
-	padding: clamp(1.7rem, 3.6vw, 3.7rem);
-	background:
-		radial-gradient(circle at 88% 12%, rgba(70, 169, 255, .18), transparent 34%),
-		linear-gradient(145deg, rgba(7, 17, 31, .99), rgba(3, 9, 18, .97));
-	box-shadow: inset 1px 0 rgba(125, 210, 255, .08);
+	min-height: 0;
+	border-top: 1px solid rgba(255, 210, 104, .22);
+	background: #050914;
+	color: #fff;
+	text-decoration: none;
 }
 
-body[data-geelooy-route="home"] .banner-copy::before {
+body[data-geelooy-route="home"] .shliach-home-banner-image {
+	display: block;
+	width: 100%;
+	aspect-ratio: 16 / 6;
+	object-fit: cover;
+	object-position: center 69%;
+	transition: transform .35s ease, filter .35s ease;
+}
+
+body[data-geelooy-route="home"] .shliach-home-banner::after {
 	position: absolute;
-	inset: -35% -28% auto 42%;
-	z-index: -1;
-	aspect-ratio: 1;
-	border-radius: 50%;
-	background: rgba(77, 171, 255, .08);
-	filter: blur(24px);
+	inset: auto 0 0;
+	height: 52%;
+	background: linear-gradient(to top, rgba(3, 5, 15, .94), transparent);
 	content: "";
 	pointer-events: none;
 }
 
-body[data-geelooy-route="home"] .eyebrow {
+body[data-geelooy-route="home"] .shliach-home-banner-copy {
+	position: absolute;
+	z-index: 2;
+	right: clamp(1rem, 3vw, 2.2rem);
+	bottom: clamp(.85rem, 2vw, 1.55rem);
+	left: clamp(1rem, 3vw, 2.2rem);
 	display: flex;
-	align-items: center;
-	gap: .65rem;
-	margin: 0;
-	color: #b9ddf8;
-	font-size: .68rem;
-	font-weight: 860;
-	letter-spacing: .15em;
-	text-transform: uppercase;
+	align-items: end;
+	justify-content: space-between;
+	gap: 1rem;
+	text-shadow: 0 3px 18px #000;
 }
 
-body[data-geelooy-route="home"] .eyebrow span {
-	inline-size: 2.4rem;
-	block-size: 1px;
-	background: linear-gradient(90deg, #74d5ff, transparent);
-	box-shadow: 0 0 16px rgba(113, 212, 255, .34);
+body[data-geelooy-route="home"] .shliach-home-banner-copy strong {
+	font-size: clamp(1.65rem, 4vw, 3rem);
+	line-height: .95;
+	letter-spacing: -.045em;
 }
 
-body[data-geelooy-route="home"] .banner-copy h1 {
-	max-inline-size: 10ch;
-	margin: 0;
-	color: #fff;
-	font-size: clamp(3rem, 4.8vw, 5.8rem);
-	font-weight: 840;
-	letter-spacing: -.067em;
-	line-height: .9;
-	text-wrap: balance;
-	text-shadow: 0 18px 44px rgba(0, 0, 0, .4);
+body[data-geelooy-route="home"] .shliach-home-banner-copy span {
+	font-size: clamp(.86rem, 1.5vw, 1.05rem);
+	font-weight: 800;
+	white-space: nowrap;
 }
 
-body[data-geelooy-route="home"] .hero-summary {
-	max-inline-size: 50ch;
-	margin: 0;
-	color: #c6d3e3;
-	font-size: clamp(.94rem, 1.2vw, 1.08rem);
-	font-weight: 520;
-	line-height: 1.56;
-}
-
-@media (max-width: 960px) {
-	body[data-geelooy-route="home"] .dance-frame {
-		grid-template-columns: minmax(0, 1fr) minmax(18rem, .9fr);
-	}
-
-	body[data-geelooy-route="home"] .banner-copy {
-		padding: 1.5rem;
-	}
+body[data-geelooy-route="home"] .shliach-home-banner:hover .shliach-home-banner-image,
+body[data-geelooy-route="home"] .shliach-home-banner:focus-visible .shliach-home-banner-image {
+	filter: brightness(1.08) saturate(1.08);
+	transform: scale(1.012);
 }
 
 @media (max-width: 760px) {
-	body[data-geelooy-route="home"] .dance-frame {
-		grid-template-columns: minmax(0, 1fr);
+	body[data-geelooy-route="home"] .shliach-home-banner-image {
+		aspect-ratio: 16 / 7.5;
+		object-position: center 72%;
 	}
-
-	body[data-geelooy-route="home"] .banner-copy {
-		grid-column: 1;
-		grid-row: 2;
-		gap: .72rem;
-		padding: 1.25rem 1rem 1.3rem;
-		border-top: 1px solid rgba(113, 191, 238, .18);
-		box-shadow: inset 0 1px rgba(255, 255, 255, .02);
+	body[data-geelooy-route="home"] .shliach-home-banner-copy {
+		align-items: flex-start;
+		flex-direction: column;
+		gap: .2rem;
 	}
+}
 
-	body[data-geelooy-route="home"] .banner-copy h1 {
-		max-inline-size: 12ch;
-		font-size: clamp(2.45rem, 11.8vw, 3.55rem);
-		line-height: .94;
-	}
-
-	body[data-geelooy-route="home"] .eyebrow {
-		font-size: .62rem;
-		letter-spacing: .11em;
-	}
-
-	body[data-geelooy-route="home"] .hero-summary {
-		font-size: .96rem;
-		line-height: 1.5;
+@media (prefers-reduced-motion: reduce) {
+	body[data-geelooy-route="home"] .shliach-home-banner-image {
+		transition: none;
 	}
 }

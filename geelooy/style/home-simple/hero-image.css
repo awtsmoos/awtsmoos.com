@@ -7,7 +7,7 @@ body[data-geelooy-route="home"] .dance-frame {
 	position: relative;
 	isolation: isolate;
 	display: grid;
-	grid-template-columns: minmax(0, .92fr) minmax(20rem, 1.08fr);
+	grid-template-columns: minmax(0, 1fr);
 	min-height: clamp(320px, min(30vw, 50vh), 430px);
 	overflow: hidden;
 	border: 1px solid #2c5879;
@@ -50,7 +50,7 @@ body[data-geelooy-route="home"] .hero-image {
 
 @media (max-width: 960px) {
 	body[data-geelooy-route="home"] .dance-frame {
-		grid-template-columns: minmax(0, 1fr) minmax(18rem, .9fr);
+		grid-template-columns: minmax(0, 1fr);
 	}
 }
 
