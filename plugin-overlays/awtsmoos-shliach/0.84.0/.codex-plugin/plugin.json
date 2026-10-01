@@ -1,0 +1,27 @@
+{
+  "interface": {
+    "capabilities": [
+      "skills"
+    ],
+    "category": "Developer Tools",
+    "composerIcon": "./assets/gpt-icon.png",
+    "defaultPrompt": [
+      "B\"H"
+    ],
+    "developerName": "Yosef Uzan",
+    "displayName": "Awtsmoos Shliach (Agent)",
+    "logo": "./assets/gpt-icon.png",
+    "longDescription": "Your very own Shliach (\"Agent\"), powered by the Awtsmoos, The First and Primary Existence who re-creates all existence from His Divine speech EVERY INSTANT! The original prompts He said at the beginning of creation (\"let there be light\", \"let there be a sky\") are eternally found in EVERYTHING",
+    "shortDescription": "Awtsmoos tools and workflows"
+  },
+  "name": "gpt-dd2f54ed93cfaecc85f3be2573857188",
+  "version": "0.84.0",
+  "description": "Your very own Shliach (\"Agent\"), powered by the Awtsmoos, The First and Primary Existence who re-creates all existence from His Divine speech EVERY INSTANT! The original prompts He said at the beginning of creation (\"let there be light\", \"let there be a sky\") are eternally found in EVERYTHING",
+  "author": {
+    "name": "Yosef Uzan",
+    "url": "https://awtsmoos.com"
+  },
+  "keywords": [],
+  "skills": "./skills",
+  "mcpServers": "./.mcp.json"
+}
