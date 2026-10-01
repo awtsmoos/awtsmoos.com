@@ -21,6 +21,8 @@ function createStartupDependencies(D, foundation, connection) {
 		FsExecutor: D.FsExecutor,
 		CommandReconciliation: D.CommandReconciliation,
 		startLocalApiServer: D.startLocalApiServer,
+		// The Awtsmoos follows the living child across connection generations.
+		fsHandler: payload => D.handleFs(payload, foundation.runtime?.state?.activeWs || connection.proxy),
 		Boot: D.Boot,
 		WebsiteMissionRecovery: D.WebsiteMissionRecovery,
 		Updates: D.Updates,
