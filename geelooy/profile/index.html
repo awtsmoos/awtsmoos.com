@@ -1,0 +1,44 @@
+<!-- B"H -->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<title>Profile — Awtsmoos</title>
+	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=profile-static-001">
+	<link rel="stylesheet" href="/css/awp-polish.css?v=awp-001">
+	<link rel="stylesheet" href="/style/civilization/core-tokens.css?v=profile-static-001">
+	<link rel="stylesheet" href="/style/civilization/core-base.css?v=profile-static-001">
+	<link rel="stylesheet" href="/style/civilization/core-components.css?v=profile-static-001">
+	<link rel="stylesheet" href="/style/civilization/profile-identity.css?v=profile-static-001">
+	<link rel="stylesheet" href="/style/civilization/profile-content.css?v=profile-static-001">
+</head>
+<body data-geelooy-route="profile">
+	<main class="geelooy-profile-shell geelooy-content-region" data-profile>
+		<section class="profile-hero-card awp-panel awp-entrance" aria-labelledby="profile-title">
+			<div class="profile-identity-row"><div class="profile-avatar-orb geelooy-avatar awp-avatar-ring" aria-hidden="true">א</div>
+				<div class="profile-identity-copy"><p class="profile-kicker g-kicker awp-eyebrow">Personal chamber</p><h1 id="profile-title" class="awp-title-glow">Your profile</h1><p class="g-muted">Aliases, Heichelos, identity and recent account activity.</p></div>
+				<a class="profile-primary-action awp-btn" href="./alias-manage/">Create alias</a>
+			</div>
+			<section class="profile-inline-actions" aria-label="Profile actions">
+				<button type="button" class="awp-btn-ghost" data-profile-action="alias">Alias <small>Create or switch</small></button>
+				<button type="button" class="awp-btn-ghost" data-profile-action="notifications">Signals <small>Preview activity</small></button>
+				<button type="button" class="awp-btn-ghost" data-profile-action="heichel">Heichel <small>Create a space</small></button>
+			</section>
+			<div class="profile-stat-grid" aria-label="Profile stats"><article><strong data-profile-stat="aliases">—</strong><span>Aliases</span></article><article><strong data-profile-stat="heichelos">—</strong><span>Heichelos</span></article><article><strong data-profile-stat="defaultAlias">—</strong><span>Default</span></article></div>
+			<p class="profile-status" data-profile-status="loading" aria-live="polite">Loading profile…</p>
+		</section>
+		<section class="profile-command-panel awp-panel" aria-label="Profile sections">
+			<nav class="profile-tabs" role="tablist"><button id="profile-tab-aliases" class="active" type="button" role="tab" aria-selected="true" data-profile-tab="aliases">Aliases</button><button id="profile-tab-heichelos" type="button" role="tab" aria-selected="false" data-profile-tab="heichelos">Heichelos</button><button id="profile-tab-about" type="button" role="tab" aria-selected="false" data-profile-tab="about">About</button></nav>
+			<div class="profile-panel-body">
+				<section id="profile-panel-aliases" class="profile-tab-panel" role="tabpanel" data-profile-panel="aliases"><div class="panel-title-row"><h2>Aliases</h2><a class="g-button" href="./alias-manage/">Add alias</a></div><div class="alias-list social-card-list"><div class="g-state">Loading aliases…</div></div></section>
+				<section id="profile-panel-heichelos" class="profile-tab-panel hidden" role="tabpanel" data-profile-panel="heichelos" hidden><div class="panel-title-row"><h2>Heichelos</h2><a class="g-button" href="/heichelos/manage-alias-heichelos/">Manage</a></div><div class="heichel-list social-card-list"></div></section>
+				<section id="profile-panel-about" class="profile-tab-panel hidden" role="tabpanel" data-profile-panel="about" hidden><div class="g-grid"><article class="g-card"><h3>Identity</h3><p>Your public aliases and communities live here.</p></article></div></section>
+			</div>
+		</section>
+		<section class="profile-action-drawer" data-profile-action-drawer hidden aria-live="polite"></section>
+	</main>
+	<script type="module" src="./script.js?v=profile-static-001"></script>
+	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=shared-shell-003"></script>
+</body>
+</html>
