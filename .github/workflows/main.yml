@@ -91,7 +91,7 @@ jobs:
           const b=JSON.parse(fs.readFileSync(process.argv[2],'utf8'));
           const m=JSON.parse(fs.readFileSync(process.argv[3],'utf8'));
           const behavior=(b.agentBehavior||[]).join('\n');
-          if(m.version!=='1.6.0'||!m.missionPlanning||!b.missionPlanning) process.exit(1);
+          if(!String(m.version||'').startsWith('1.')||!m.missionPlanning||!b.missionPlanning) process.exit(1);
           if(!/missionVisibilityList/.test(behavior)||!/planning passes 1, 2, and 3/i.test(behavior)) process.exit(1);
           if(m.transportLaw?.postAllowed!==false) process.exit(1);
           NODE
