@@ -16,9 +16,20 @@ const FILE = 'social.richComments.v1.fs.awtsdb';
 const cache = new Map();
 const META_KEY = '__fs3_manifest_meta__';
 const LEGACY_MANIFEST_KEY = '__fs3_manifest__';
+const MAX_IMPLICIT_STORE_BYTES = 1024 * 1024 * 1024;
 
 function legacyMigrationAllowed() {
 	return process.env.AWTSMOOS_ALLOW_LEGACY_RICH_MIGRATION === 'true';
+}
+
+function refuseOversizedImplicitStore(file) {
+	if (legacyMigrationAllowed() || !fs.existsSync(file)) return;
+	const bytes = fs.statSync(file).size;
+	if (bytes <= MAX_IMPLICIT_STORE_BYTES) return;
+	const error = new Error('B"H oversized rich-comment store requires explicit migration/readiness approval: ' + file);
+	error.code = 'RICH_COMMENTS_LEGACY_MIGRATION_REQUIRED';
+	error.bytes = bytes;
+	throw error;
 }
 
 function refuseImplicitLegacyMigration(db, file) {
@@ -48,6 +59,7 @@ function fingerprint(file) {
 function open($i) {
 	const file = dbFile($i);
 	fs.mkdirSync(path.dirname(file), { recursive: true });
+	refuseOversizedImplicitStore(file);
 	const mark = fingerprint(file);
 	const current = cache.get(file);
 	if (current?.mark === mark) return current.db;
@@ -106,4 +118,4 @@ function closeAll() {
 
 process.once('exit', closeAll);
 
-module.exports = { FILE, closeAll, dbFile, legacyMigrationAllowed, open, read, refuseImplicitLegacyMigration, remove, write };
+module.exports = { FILE, MAX_IMPLICIT_STORE_BYTES, closeAll, dbFile, legacyMigrationAllowed, open, read, refuseImplicitLegacyMigration, refuseOversizedImplicitStore, remove, write };
