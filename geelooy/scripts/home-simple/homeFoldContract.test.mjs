@@ -24,21 +24,19 @@ test('original Awtsmoos hero remains first and eagerly discoverable', () => {
 	assert.doesNotMatch(components, /hero-art\.css/);
 });
 
-test('Shliach is a compact visual banner directly beneath the original hero', () => {
+test('Shliach is a separate compact card after the main hero', () => {
 	assert.ok(html.indexOf(HERO_URL) < html.indexOf(SHLIACH_URL.replace(' ', '')));
-	assert.match(html, /class="shliach-home-banner" href="\/Shliach\/"/);
-	assert.match(html, /aria-label="Open Awtsmoos Shliach/);
-	assert.doesNotMatch(html, /shliach-home-banner-copy/);
-	assert.doesNotMatch(html, /class="creation-form"/);
-	assert.doesNotMatch(html, /What do you want to make\?/);
+	assert.match(html, /<section class="shliach-home-section"[\s\S]*?class="shliach-home-shell" href="\/Shliach\/"/);
+	assert.match(html, /<small>Build with Awtsmoos<\/small>/);
+	assert.match(html, /class="shliach-home-banner-image"[\s\S]*?loading="lazy"/);
 });
 
-test('mobile hero and Shliach remain compact and clipped', () => {
+test('mobile hero stays compact while Shliach preserves its full artwork', () => {
 	assert.match(imageCss, /aspect-ratio:\s*16 \/ 7/);
 	assert.match(imageCss, /@media \(max-width:\s*760px\)/);
-	assert.match(copyCss, /aspect-ratio:\s*16 \/ 7\.2/);
-	assert.match(copyCss, /overflow:\s*hidden/);
-	assert.doesNotMatch(copyCss, /shliach-home-banner-copy/);
+	assert.match(copyCss, /object-fit:\s*contain/);
+	assert.match(copyCss, /shliach-home-section/);
+	assert.match(copyCss, /max-height:\s*10\.5rem/);
 });
 
 test('home stops after discovery instead of repeating a second marketing catalog', () => {

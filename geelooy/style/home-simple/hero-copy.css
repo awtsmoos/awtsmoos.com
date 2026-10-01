@@ -23,3 +23,5 @@ body[data-geelooy-route="home"] .shliach-home-shell:focus-visible .shliach-home-
  body[data-geelooy-route="home"] .shliach-home-caption { padding:.8rem; }
 }
 @media (prefers-reduced-motion:reduce) { body[data-geelooy-route="home"] .shliach-home-banner-image { transition:none; } }
+
+body[data-geelooy-route="home"] .shliach-home-section { width:min(100%,48rem); margin:clamp(.8rem,2.5vw,1.4rem) auto 0; padding:0 clamp(.35rem,1.5vw,.8rem); }
