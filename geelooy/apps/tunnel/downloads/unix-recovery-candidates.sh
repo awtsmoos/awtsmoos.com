@@ -42,8 +42,6 @@ select_candidate() {
 	local expected_sha=""
 	local archive=""
 	local actual_sha=""
-	local healthy_index=0
-	local offset="${TIER:-0}"
 	while IFS="$tab" read -r directory version expected_sha; do
 		if [ -z "$directory" ]; then
 			continue
@@ -56,10 +54,6 @@ select_candidate() {
 		fi
 		if ! archive_is_safe "$archive"; then
 			log_recovery "rejected" "Recovery archive is unsafe or unreadable." "$directory"
-			continue
-		fi
-		if [ "$healthy_index" -lt "$offset" ]; then
-			healthy_index=$(( healthy_index + 1 ))
 			continue
 		fi
 		rm -rf "$STAGE"

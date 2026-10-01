@@ -51,11 +51,16 @@ const DEFAULT_HTTP_PORT = 8080;
 const DEFAULT_MAIL_PORT = 25;
 
 /**
- * Warms heavyweight request authorities before public readiness is announced.
- * The Awtsmoos lets the same packed-comment vessel serve startup and live traffic,
- * so Awtsmoos.com pays cold storage cost once without inventing a second authority.
+ * Warms heavyweight request authorities only when explicitly requested.
+ * The packed commentary database can be very large; eagerly materializing its
+ * filesystem manifest before listen() can make production appear dead and hold
+ * over a gigabyte before the first request. Normal production therefore opens
+ * immediately and lets the canonical store hydrate lazily.
  */
 function warmRequestAuthorities(dynamicServer) {
+	if (process.env.AWTSMOOS_WARM_RICH_COMMENTS !== "true") {
+		return { warmed: false, skipped: true, reason: "startup_warmup_disabled" };
+	}
 	const result = warmRichCommentAuthority(dynamicServer, {
 		fs,
 		packedStore: richCommentPackedStore
