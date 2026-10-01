@@ -14,6 +14,13 @@
 
 const helpers = require('./helpers.js');
 
+const CAPACITY_KEY = '__awtsmoosBlobCapacity';
+function capacityOf(value) {
+	const meta = (value && value.meta) || {};
+	const capacity = Number(meta[CAPACITY_KEY] || value.length || 0);
+	return Number.isFinite(capacity) && capacity >= value.length ? capacity : value.length;
+}
+
 class BlobBody {
 	constructor(database) {
 		this.db = database;
@@ -24,15 +31,22 @@ class BlobBody {
 			? Buffer.from(input)
 			: null;
 		const size = initial ? initial.length : Math.max(0, Number(input || 0));
-		const location = this.db.allocator.allocate(size);
-		this.db.allocator.leaseRange(location.offset, size, 'blob-body');
+		let allocSize = size;
+		let meta = metadata;
+		if (metadata.awtsmoosBlobGrowth === true && size >= 1024 * 1024) {
+			const growth = Math.min(16 * 1024 * 1024, Math.max(2 * 1024 * 1024, Math.ceil(size * 0.25)));
+			allocSize = size + growth;
+			meta = Object.assign({}, metadata, { [CAPACITY_KEY]: allocSize });
+		}
+		const location = this.db.allocator.allocate(allocSize);
+		this.db.allocator.leaseRange(location.offset, allocSize, 'blob-body');
 		try {
 			if (initial && initial.length) this.db.pager.writeExact(location.offset, initial);
-			if (!initial && size > 0) helpers.zero(this.db, location.offset, size);
-			return helpers.createToken(location, size, metadata);
+			if (!initial && allocSize > 0) helpers.zero(this.db, location.offset, allocSize);
+			return helpers.createToken(location, size, meta);
 		} catch (error) {
-			this.db.allocator.releaseLease(location.offset, size);
-			this.db.allocator.free(location.offset, size);
+			this.db.allocator.releaseLease(location.offset, allocSize);
+			this.db.allocator.free(location.offset, allocSize);
 			throw error;
 		}
 	}
@@ -56,9 +70,9 @@ class BlobBody {
 		const source = Buffer.from(data || []);
 		const start = Math.max(0, Number(offset || 0));
 		const end = start + source.length;
-		if (end <= value.length) {
+		if (end <= capacityOf(value)) {
 			if (source.length) this.db.pager.writeExact(value.offset + start, source);
-			return value;
+			return { ...value, length: Math.max(value.length, end) };
 		}
 		const next = this.create(end, value.meta || {});
 		helpers.copy(this.db, value.offset, next.offset, value.length);
@@ -79,8 +93,8 @@ class BlobBody {
 
 	delete(blob) {
 		const value = this._value(blob);
-		this.db.allocator.releaseLease(value.offset, value.length);
-		this.db.allocator.free(value.offset, value.length);
+		this.db.allocator.releaseLease(value.offset, capacityOf(value));
+		this.db.allocator.free(value.offset, capacityOf(value));
 		return true;
 	}
 
