@@ -22,6 +22,11 @@ const ICON_PATHS = Object.freeze({
 		'M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9',
 		'M9.75 20.25h4.5'
 	],
+	apps: [
+		'M5 5h1v1H5Z M11.5 5h1v1h-1Z M18 5h1v1h-1Z',
+		'M5 11.5h1v1H5Z M11.5 11.5h1v1h-1Z M18 11.5h1v1h-1Z',
+		'M5 18h1v1H5Z M11.5 18h1v1h-1Z M18 18h1v1h-1Z'
+	],
 	compass: [
 		'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z',
 		'm15.5 8.5-2 5-5 2 2-5 5-2Z'
@@ -31,7 +36,7 @@ const ICON_PATHS = Object.freeze({
 /**
  * Creates one decorative SVG while its owning action carries the accessible name.
  * @param {Document} root Document that owns the icon.
- * @param {'search'|'mail'|'bell'|'compass'} name Icon name.
+ * @param {'search'|'mail'|'bell'|'apps'|'compass'} name Icon name.
  * @returns {SVGElement} Stable line icon.
  */
 export function createHeaderIcon(root, name) {

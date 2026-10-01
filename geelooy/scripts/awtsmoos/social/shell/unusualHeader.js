@@ -52,9 +52,10 @@ function createHeaderActions(root, menu) {
 }
 
 function createMenuButton(root, menu) {
-	const button = createAction(root, 'button', 'compass', 'Open route constellation');
+	const button = createAction(root, 'button', 'apps', 'Open Awtsmoos apps launcher');
 	button.type = 'button';
-	button.classList.add('menuBtn', 'g-menu-button');
+	button.classList.add('menuBtn', 'g-menu-button', 'g-apps-launcher-button');
+	button.dataset.appsLauncher = 'true';
 	button.setAttribute('aria-expanded', 'false');
 	button.setAttribute('aria-controls', menu.id);
 	bindConstellationMenu(button, menu, root);
@@ -78,7 +79,8 @@ function createConstellation(root) {
 	const menu = createHeaderElement(root, 'nav', 'g-constellation-menu sidebarMitzvah');
 	menu.id = 'shared-sidebar';
 	menu.hidden = true;
-	menu.setAttribute('aria-label', 'Geelooy route constellation');
+	menu.setAttribute('aria-label', 'Awtsmoos apps launcher');
+	menu.dataset.appsLauncherMenu = 'true';
 	const grid = createHeaderElement(root, 'div', 'g-constellation-grid');
 	const account = createHeaderElement(root, 'div', 'g-constellation-account');
 	for (const route of appRoutes) {
@@ -94,10 +96,10 @@ function createConstellationHeading(root) {
 	const heading = createHeaderElement(root, 'header', 'g-constellation-heading');
 	const copy = createHeaderElement(root, 'div');
 	copy.append(
-		createHeaderElement(root, 'strong', '', 'Route constellation'),
-		createHeaderElement(root, 'small', '', 'Every chamber, one jump away')
+		createHeaderElement(root, 'strong', '', 'Awtsmoos apps'),
+		createHeaderElement(root, 'small', '', 'Apps, worlds, Torah and account doorways')
 	);
-	heading.append(createHeaderIcon(root, 'compass'), copy);
+	heading.append(createHeaderIcon(root, 'apps'), copy);
 	return heading;
 }
 
