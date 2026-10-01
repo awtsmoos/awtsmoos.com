@@ -101,7 +101,7 @@ systemctl start "$service"
 
 healthy=0
 for _attempt in $(seq 1 60); do
-	if systemctl is-active --quiet "$service" && curl -fsS "$health_url" >/dev/null; then healthy=1; break; fi
+	if systemctl is-active --quiet "$service" && curl -fsS "$health_url" >/dev/null 2>&1; then healthy=1; break; fi
 	sleep 1
 done
 [ "$healthy" -eq 1 ] || fail service_health_timeout
