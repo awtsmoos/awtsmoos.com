@@ -36,10 +36,14 @@ test('Shliach is a compact visual banner directly beneath the original hero', ()
 test('mobile hero and Shliach remain compact and clipped', () => {
 	assert.match(imageCss, /aspect-ratio:\s*16 \/ 7/);
 	assert.match(imageCss, /@media \(max-width:\s*760px\)/);
-	assert.match(copyCss, /aspect-ratio:\s*16 \/ 5/);
+	assert.match(copyCss, /aspect-ratio:\s*16 \/ 6\.2/);
 	assert.match(copyCss, /overflow:\s*hidden/);
 	assert.match(copyCss, /text-overflow:\s*ellipsis/);
 	assert.match(copyCss, /white-space:\s*nowrap/);
+});
+
+test('home stops after discovery instead of repeating a second marketing catalog', () => {
+	assert.doesNotMatch(html, /class="featured-worlds"/);
 });
 
 test('primary discovery remains reachable after the simplified hero', () => {
