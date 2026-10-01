@@ -81,12 +81,14 @@ try {
 	buildLegacySource();
 	const sourceSize = fs.statSync(sourcePath).size;
 
-	// Legacy reads through the new code (read-only: no migration, served from
-	// the decoded manifest).
+	// Online access never decodes a monolithic legacy manifest into RAM.
+	// Vacuum is the explicit migration bridge into per-record FS3 metadata.
 	database = new AwtsmoosDB(sourcePath, { readOnly: true });
 	database.open();
-	assert(sha256(database.fs.cat('/content/post.json')) === sha256(content), 'legacy bytes changed');
-	assert(database.fs.stat('/content/post.json').size === content.length, 'legacy size changed');
+	let migrationRequired = false;
+	try { database.fs.stat('/content/post.json'); }
+	catch (error) { migrationRequired = error?.code === 'AWTSMOOS_FS3_LEGACY_MIGRATION_REQUIRED'; }
+	assert(migrationRequired, 'legacy online access did not require explicit migration');
 	database.close();
 	database = null;
 

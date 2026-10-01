@@ -31,8 +31,8 @@ const MANIFEST_KEY = '__fs3_manifest__'; // legacy blob token: read + migrate on
 const META_KEY = '__fs3_manifest_meta__';
 const INODE_PREFIX = '__fs3_inode__';
 const CHILD_PREFIX = '__fs3_child__';
-const CACHE_LIMIT = 50000;
-const MIGRATION_CHUNK = 5000;
+const DEFAULT_CACHE_BYTES = 8 * 1024 * 1024;
+const MAX_CACHE_BYTES = 20 * 1024 * 1024;
 
 function plain(value) {
 	return value && value.__resolve__ ? value.__resolve__() : value;
@@ -106,6 +106,7 @@ function session(db) {
 			meta: null,
 			metaDirty: false,
 			cache: new Map(),
+			cacheBytes: 0,
 			dirty: new Set(),
 			tombstones: new Set()
 		};
@@ -127,9 +128,9 @@ function loadMeta(db, s) {
 	}
 	const legacy = plain(db.root[MANIFEST_KEY]);
 	if (legacy && (legacy.__fs3ManifestBlob === true || (legacy.version === 3 && legacy.inodes))) {
-		if (db.options?.readOnly) loadLegacyIntoCache(db, s, legacy);
-		else migrateLegacy(db, s, legacy);
-		return;
+		const error = new Error('B"H FS3 legacy manifest requires explicit vacuum migration before online access');
+		error.code = 'AWTSMOOS_FS3_LEGACY_MIGRATION_REQUIRED';
+		throw error;
 	}
 	s.meta = { version: 3, nextInode: 1, tx: { active: null, lastCommitted: 0 } };
 	if (db.options?.readOnly) return;
@@ -138,102 +139,78 @@ function loadMeta(db, s) {
 	writeRecord(db, s, childKey(ROOT_INODE), {});
 }
 
-// Read-only databases never migrate: the legacy manifest is decoded once into
-// the record cache (same RAM profile as before) and served from there.
-function loadLegacyIntoCache(db, s, token) {
-	const manifest = codec.normalizeManifest(codec.decodeManifest(db, token));
-	s.meta = {
-		version: 3,
-		nextInode: manifest.nextInode,
-		tx: materializeTx(manifest.tx)
-	};
-	for (const id of Object.keys(manifest.inodes)) {
-		const inode = manifest.inodes[id];
-		if (inode && !inode.deleted) s.cache.set(inodeKey(id), { ...inode });
+function cacheBudget(db) {
+	const requested = Number(db.options?.virtualFsCacheBytes);
+	if (!Number.isFinite(requested) || requested <= 0) return DEFAULT_CACHE_BYTES;
+	return Math.min(Math.floor(requested), MAX_CACHE_BYTES);
+}
+
+function approximateBytes(key, value) {
+	let bytes = Buffer.byteLength(String(key), 'utf8') + 64;
+	if (!value || typeof value !== 'object') return bytes + 16;
+	for (const [k, v] of Object.entries(value)) {
+		bytes += Buffer.byteLength(String(k), 'utf8') + 16;
+		if (typeof v === 'string') bytes += Buffer.byteLength(v, 'utf8');
+		else if (Buffer.isBuffer(v)) bytes += v.length;
+		else if (typeof v === 'number' || typeof v === 'boolean') bytes += 8;
+		else bytes += 64; // opaque blob tokens / shallow metadata only
 	}
-	for (const dirId of Object.keys(manifest.children || {})) {
-		s.cache.set(childKey(dirId), { ...manifest.children[dirId] });
+	return bytes;
+}
+
+function cacheDelete(s, key) {
+	const entry = s.cache.get(key);
+	if (!entry) return;
+	s.cache.delete(key);
+	s.cacheBytes = Math.max(0, s.cacheBytes - entry.bytes);
+}
+
+function cacheSet(db, s, key, value) {
+	cacheDelete(s, key);
+	const bytes = approximateBytes(key, value);
+	s.cache.set(key, { value, bytes });
+	s.cacheBytes += bytes;
+	const budget = cacheBudget(db);
+	for (const [candidate] of s.cache) {
+		if (s.cacheBytes <= budget) break;
+		if (!s.dirty.has(candidate)) cacheDelete(s, candidate);
 	}
 }
 
-// One-time migration: legacy blob -> per-inode records, written directly in
-// chunks (not via the dirty set) so migration RAM stays bounded by the chunk.
-function migrateLegacy(db, s, token) {
-	const manifest = codec.normalizeManifest(codec.decodeManifest(db, token));
-	const blob = codec.tokenBlob(token);
-	s.meta = {
-		version: 3,
-		nextInode: manifest.nextInode,
-		tx: materializeTx(manifest.tx)
-	};
-	const ids = Object.keys(manifest.inodes);
-	for (let i = 0; i < ids.length; i += MIGRATION_CHUNK) {
-		db.batch(() => {
-			for (const id of ids.slice(i, i + MIGRATION_CHUNK)) {
-				const inode = manifest.inodes[id];
-				if (!inode || inode.deleted) continue;
-				db.root[inodeKey(id)] = { ...inode };
-			}
-		});
-	}
-	const dirIds = Object.keys(manifest.children || {});
-	for (let i = 0; i < dirIds.length; i += MIGRATION_CHUNK) {
-		db.batch(() => {
-			for (const dirId of dirIds.slice(i, i + MIGRATION_CHUNK)) {
-				db.root[childKey(dirId)] = { ...manifest.children[dirId] };
-			}
-		});
-	}
-	db.batch(() => {
-		db.root[META_KEY] = {
-			__fs3Meta: true,
-			version: 3,
-			nextInode: s.meta.nextInode,
-			tx: s.meta.tx
-		};
-		delete db.root[MANIFEST_KEY];
-	});
-	if (blob) {
-		try {
-			db.blob.delete(blob);
-		} catch (_) {
-			// The old manifest body is unreachable now; best effort only.
-		}
-	}
-	s.metaDirty = false;
-}
-
-function evictCache(s) {
-	if (s.cache.size <= CACHE_LIMIT) return;
-	for (const key of s.cache.keys()) {
-		if (s.cache.size <= CACHE_LIMIT) break;
-		if (!s.dirty.has(key)) s.cache.delete(key);
-	}
+function cacheGet(s, key) {
+	const entry = s.cache.get(key);
+	if (!entry) return undefined;
+	// LRU: recently read records move to the tail.
+	s.cache.delete(key);
+	s.cache.set(key, entry);
+	return entry.value;
 }
 
 function readRecord(db, s, key) {
 	if (s.tombstones.has(key)) return null;
-	if (s.cache.has(key)) return s.cache.get(key);
+	if (s.cache.has(key)) return cacheGet(s, key);
 	const raw = db.root[key];
 	if (raw === undefined || raw === null) return null;
 	const value = materialize(raw);
 	if (value === null || typeof value !== 'object') return null;
-	s.cache.set(key, value);
-	evictCache(s);
+	cacheSet(db, s, key, value);
 	return value;
 }
 
 function writeRecord(db, s, key, value) {
 	assertWritable(db);
-	s.cache.set(key, value);
+	cacheSet(db, s, key, value);
 	s.tombstones.delete(key);
 	s.dirty.add(key);
-	evictCache(s);
+	// Bound long-lived writers too. Flush only between logical FS transactions;
+	// a transaction may temporarily exceed the cache budget but cannot leak it
+	// into the next operation.
+	if (!db.__fs3BatchDepth && s.cacheBytes > cacheBudget(db)) flush(db);
 }
 
 function deleteRecord(db, s, key) {
 	assertWritable(db);
-	s.cache.delete(key);
+	cacheDelete(s, key);
 	s.dirty.delete(key);
 	s.tombstones.add(key);
 }
@@ -288,7 +265,7 @@ function flush(db) {
 			s.metaDirty = false;
 		}
 		for (const key of s.dirty) {
-			const value = s.cache.get(key);
+			const value = cacheGet(s, key);
 			if (value !== undefined) db.root[key] = value;
 		}
 		s.dirty.clear();
@@ -346,7 +323,7 @@ function manifest(db) {
 	const children = {};
 	for (const key of keys) {
 		if (s.tombstones.has(key)) continue;
-		const value = s.cache.has(key) ? s.cache.get(key) : readRecord(db, s, key);
+		const value = s.cache.has(key) ? cacheGet(s, key) : readRecord(db, s, key);
 		if (!value) continue;
 		if (key.startsWith(INODE_PREFIX)) inodes[inodeIdFromKey(key)] = value;
 		else if (key.startsWith(CHILD_PREFIX)) {
