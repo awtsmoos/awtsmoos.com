@@ -1,5 +1,12 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed is He
 "use strict";
+
+/**
+ * @file The Awtsmoos opens one measured gate for every newly registered deed.
+ * @description Names may grow; authority stays clear, the guarded river carries each sphere.
+ */
 
 const DeviceTools = require("./deviceTools.js");
 const { invokeRoute } = require("./actionContext.js");
@@ -24,7 +31,7 @@ function tunnelPayload(args = {}) {
 	for (const name of Object.keys(params)) {
 		if (RESERVED.has(name)) throw new Error("Reserved tunnel parameter: " + name);
 	}
-	return { ...params, action: args.action, autoPreview: params.autoPreview ?? false };
+	return { ...params, params, action: args.action, autoPreview: params.autoPreview ?? false };
 }
 
 async function tunnelAction($i, identity, args = {}) {

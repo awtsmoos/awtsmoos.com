@@ -1,4 +1,6 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed is He
 "use strict";
 
 const OBJECT = { type: "object", additionalProperties: true };
@@ -8,6 +10,22 @@ const MUTATION = {
 
 /** Existing guarded API capabilities exposed as MCP tools, without new authority. */
 const tools = [
+	{
+		name: "awtsmoos_bootstrap",
+		description: "Read current server onboarding, live workflow guidance and mission-planning contract.",
+		annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
+		inputSchema: { type: "object", properties: {}, additionalProperties: false }
+	},
+	{
+		name: "awtsmoos_action_schema",
+		description: "Discover current device-side parameters and retry contract for any action before calling it.",
+		annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
+		inputSchema: {
+			type: "object", properties: {
+				routeReference: { type: "string" }, targetAction: { type: "string", minLength: 1 }
+			}, required: ["targetAction"], additionalProperties: false
+		}
+	},
 	{
 		name: "awtsmoos_tunnel_action",
 		description: "Run an existing protected tunnel action: read/write files, commands, browser, transfer, jobs, or previews. Existing scopes and device permissions apply. Discover a device first; never replay uncertain mutations.",

@@ -1,4 +1,6 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed is He
 import test from "node:test";
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
@@ -13,7 +15,7 @@ const { dispatch } = require("./protocol.js");
 
 test("MCP retains old tools and declares mutation conservatively", () => {
 	const names = tools.map(tool => tool.name);
-	assert.equal(new Set(names).size, 7);
+	assert.equal(new Set(names).size, 9);
 	for (const name of ["awtsmoos_read_file", "awtsmoos_list_directory",
 		"awtsmoos_tunnel_action", "awtsmoos_application_call"]) {
 		assert.ok(names.includes(name));

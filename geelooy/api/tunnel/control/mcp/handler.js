@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed is He
 
 "use strict";
 
@@ -16,6 +16,7 @@ const Auth = require("./auth.js");
 const Protocol = require("./protocol.js");
 const Request = require("../core/request.js");
 const Respond = require("../core/respond.js");
+const Transport = require("./transportResponse.js");
 
 function rpcError(id, code, message, data) {
 	return {
@@ -41,35 +42,34 @@ function requestMethod($i) {
 async function handleMcp($i) {
 	if (requestMethod($i) !== "POST") {
 		Respond.setHeader($i, "Allow", "POST");
-		return Respond.json($i, rpcError(null, -32600, "MCP requires POST."), 405);
+		return Transport.json($i, rpcError(null, -32600, "MCP requires POST."), 405);
 	}
 	let message;
 	try {
 		message = await Request.body($i);
 	} catch (error) {
-		return Respond.json($i, rpcError(null, -32700, "Invalid JSON."), 400);
+		return Transport.json($i, rpcError(null, -32700, "Invalid JSON."), 400);
 	}
 	if (!message || message.jsonrpc !== "2.0" || !message.method) {
-		return Respond.json($i, rpcError(message?.id, -32600, "Invalid JSON-RPC request."), 400);
+		return Transport.json($i, rpcError(message?.id, -32600, "Invalid JSON-RPC request."), 400);
 	}
 	const authorization = Auth.authorize($i);
 	if (!authorization.ok) {
-		return Respond.json(
+		return Transport.json(
 			$i,
 			rpcError(message.id, -32000, "OAuth bearer authorization required."),
 			authorization.status
 		);
 	}
 	if (message.id === undefined && message.method === "notifications/initialized") {
-		Respond.setStatus($i, 202);
-		return "";
+		return Transport.empty(202);
 	}
 	try {
 		const result = await Protocol.dispatch($i, authorization.identity, message);
-		return Respond.json($i, rpcResult(message.id, result), 200);
+		return Transport.json($i, rpcResult(message.id, result), 200);
 	} catch (error) {
 		const code = Number.isInteger(error.code) ? error.code : -32001;
-		return Respond.json(
+		return Transport.json(
 			$i,
 			rpcError(message.id, code, error.message || "MCP request failed.", error.data),
 			code === -32601 ? 404 : 200

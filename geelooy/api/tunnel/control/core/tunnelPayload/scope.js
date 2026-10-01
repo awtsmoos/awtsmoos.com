@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 const { TUNNEL_SCOPE } = require("../../../shared/scopeCatalog.js");
 const Mission = require("./missionScopeFamilies.js");
@@ -13,6 +13,7 @@ const { SITE_PUBLICATION_WRITE_ACTIONS } = require("../../routes/fsVessel/hosted
  * and reshaping remain distinct deeds. Awtsmoos.com makes every durable mutation confess
  * write authority while transfer reads and status remain safely observable.
  */
+const PLAN_READ_ACTIONS = new Set(["tunnelPlanGet", "tunnelPlanList", "tunnelPlanHtml"]);
 const COMMAND_ACTIONS = new Set(["command", "nodeScriptRun", "shellCommand"]);
 const FILESYSTEM_WRITE_ACTIONS = Object.freeze([
 	"applyPatch", "bulkWrite", "bulkWriteIfHashes", "configSet", "copyFile",
@@ -31,6 +32,9 @@ const WEBSITE_ROOM_ACTIONS = new Set(["websiteAgentMissionForget", "websiteAgent
 
 function requiredScope(action) {
 	const text = String(action || "");
+	if (text.startsWith("tunnelPlan")) {
+		return PLAN_READ_ACTIONS.has(text) ? TUNNEL_SCOPE.READ : TUNNEL_SCOPE.WRITE;
+	}
 	if (text.startsWith("command") || COMMAND_ACTIONS.has(text)) return TUNNEL_SCOPE.COMMAND;
 	if (text.startsWith("chrome") || WEBSITE_BROWSER_ACTIONS.has(text)) return TUNNEL_SCOPE.BROWSER;
 	if (WEBSITE_ROOM_ACTIONS.has(text)) return TUNNEL_SCOPE.ROOM;

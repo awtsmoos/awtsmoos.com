@@ -1,7 +1,8 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
+const { shliachInstructions } = require("./catalogShliach.js");
 const { coreInstructions } = require("./catalogCore.js");
 const { uiLayoutInstructions } = require("./catalogUiLayout.js");
 const { uiInteractionInstructions } = require("./catalogUiInteraction.js");
@@ -50,6 +51,7 @@ class InstructionKeter {
 function allRecords() {
 	return [
 		...coreInstructions,
+		...shliachInstructions,
 		...uiLayoutInstructions,
 		...uiInteractionInstructions,
 		...uiCssProductionInstructions,

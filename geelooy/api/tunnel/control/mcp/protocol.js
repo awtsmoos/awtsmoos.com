@@ -1,6 +1,6 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed is He
 
 "use strict";
 
@@ -15,6 +15,7 @@ const DeviceTools = require("./deviceTools.js");
 const FsTools = require("./fsTools.js");
 const ToolCatalog = require("./toolCatalog.js");
 const GenericTools = require("./genericTools.js");
+const DiscoveryTools = require("./discoveryTools.js");
 
 const MODERN_VERSION = "2026-07-28";
 const LEGACY_VERSION = "2025-11-25";
@@ -65,6 +66,8 @@ function initialize(message = {}) {
 async function callTool($i, identity, params = {}) {
 	const args = params.arguments || {};
 	const handlers = {
+		awtsmoos_bootstrap: DiscoveryTools.awtsmoosBootstrap,
+		awtsmoos_action_schema: DiscoveryTools.awtsmoosActionSchema,
 		awtsmoos_discover_device: DeviceTools.discover,
 		awtsmoos_tunnel_status: DeviceTools.status,
 		awtsmoos_read_file: FsTools.readFile,

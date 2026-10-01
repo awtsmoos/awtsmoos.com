@@ -1,8 +1,9 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
+//Boruch Hashem
+//Blessed is He
 
 const Action = require("./action.js");
+const Extensions = require("./extensions.js");
 const Booleans = require("./booleans.js");
 const Browser = require("./browser.js");
 const Carriers = require("./carriers.js");
@@ -33,6 +34,7 @@ function buildFsPayload(input = {}) {
 	}
 
 	return clean({
+		...Extensions.fields(carriers),
 		kind: Action.kind(selected.action),
 		action: selected.action,
 		adapterAction: selected.recovered
