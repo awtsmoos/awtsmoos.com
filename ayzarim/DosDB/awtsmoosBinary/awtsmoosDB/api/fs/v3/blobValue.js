@@ -15,8 +15,9 @@ const binaryJson = require('../../../utils/binaryJson.js');
 const CODEC = 'deflate-raw-v1';
 const MINIMUM_BYTES = 256;
 const MINIMUM_SAVINGS = 32;
-const DEFAULT_MAX_DECOMPRESSED_BYTES = 256 * 1024 * 1024;
-const DEFAULT_CACHE_BYTES = 256 * 1024 * 1024;
+const DEFAULT_MAX_DECOMPRESSED_BYTES = 20 * 1024 * 1024;
+const DEFAULT_CACHE_BYTES = 2 * 1024 * 1024;
+const DEFAULT_MAX_COMPRESSIBLE_BYTES = 2 * 1024 * 1024;
 const decodedCaches = new WeakMap();
 
 function toBuffer(value) {
@@ -100,7 +101,8 @@ function rememberDecodedBody(db, key, output, maxCacheBytes) {
 }
 
 function encodeBody(db, buffer) {
-	if (db.options?.virtualFsCompression === false || buffer.length < MINIMUM_BYTES) {
+	const maxCompressibleBytes = positiveLimit(db.options?.virtualFsMaxCompressibleBytes, DEFAULT_MAX_COMPRESSIBLE_BYTES);
+	if (db.options?.virtualFsCompression === false || buffer.length < MINIMUM_BYTES || buffer.length > maxCompressibleBytes) {
 		return { bytes: buffer, metadata: {} };
 	}
 	const compressed = zlib.deflateRawSync(buffer, { level: 6 });
@@ -120,7 +122,7 @@ function encodeBody(db, buffer) {
 function makeDataRecord(db, value, meta = {}) {
 	const buffer = toBuffer(value);
 	const encoded = encodeBody(db, buffer);
-	const data = db.blob.create(encoded.bytes, { ...meta, ...encoded.metadata });
+	const data = db.blob.create(encoded.bytes, { ...meta, ...encoded.metadata, awtsmoosBlobCompression: false, awtsmoosBlobGrowth: !encoded.metadata.fs3Codec });
 	return { kind: 'blob', data, size: buffer.length };
 }
 

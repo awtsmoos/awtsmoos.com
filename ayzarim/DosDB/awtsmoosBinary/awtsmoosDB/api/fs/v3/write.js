@@ -13,6 +13,22 @@ const paths = require("./path");
 const store = require("./store");
 const { assertParentDir } = require("./dir");
 const { toBuffer, makeDataRecord, readDataRecord, replaceDataRecord } = require("./blobValue");
+
+function plain(value) { return value && value.__resolve__ ? value.__resolve__() : value; }
+function diskNativeBlob(inode) {
+  if (!inode || inode.type !== "file" || inode.dataKind !== "blob") return null;
+  const blob = plain(inode.data);
+  const meta = plain(blob && blob.meta) || {};
+  return blob && blob.__awtsmoosBlob === true && !meta.fs3Codec ? blob : null;
+}
+function commitBlobMutation(fs, inode, blob) {
+  inode.data = blob;
+  inode.size = Number(blob.length || 0);
+  inode.mtime = Date.now();
+  inode.version = (inode.version || 0) + 1;
+  store.setInode(fs.db, inode);
+  return true;
+}
 const { withFsTx } = require("./transactions");
 
 function write(fs, p, value) {
@@ -42,8 +58,14 @@ function append(fs, p, value) {
   const fullPath = paths.normalize(fs.cwd, p);
   return withFsTx(fs.db, `append:${fullPath}`, () => {
     const inode = store.pathToInode(fs.db, fullPath);
+    const addition = toBuffer(value);
+    const blob = diskNativeBlob(inode);
+    if (blob) {
+      const next = fs.db.blob.write(blob, inode.size, addition);
+      return commitBlobMutation(fs, inode, next);
+    }
     const current = inode && inode.type === "file" ? readDataRecord(fs.db, inode) : Buffer.alloc(0);
-    return writeSync(fs, fullPath, Buffer.concat([current, toBuffer(value)]));
+    return writeSync(fs, fullPath, Buffer.concat([current, addition]));
   });
 }
 
@@ -52,8 +74,13 @@ function writeRange(fs, p, offset, value) {
   return withFsTx(fs.db, `writeRange:${fullPath}`, () => {
     const inode = store.pathToInode(fs.db, fullPath);
     const patch = toBuffer(value);
-    const current = inode && inode.type === "file" ? readDataRecord(fs.db, inode) : Buffer.alloc(0);
     const start = Math.max(0, offset || 0);
+    const blob = diskNativeBlob(inode);
+    if (blob) {
+      const next = fs.db.blob.write(blob, start, patch);
+      return commitBlobMutation(fs, inode, next);
+    }
+    const current = inode && inode.type === "file" ? readDataRecord(fs.db, inode) : Buffer.alloc(0);
     const size = Math.max(current.length, start + patch.length);
     const next = Buffer.alloc(size);
     current.copy(next, 0, 0, current.length);

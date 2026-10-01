@@ -68,6 +68,7 @@ class AwtsmoosDB {
       autoCompress: true,
       reuseFreedSpace: false,
       readOnly: false,
+      maxCachedPages: 128,
       ...options
     };
 
@@ -441,6 +442,9 @@ class AwtsmoosDB {
     if (this.turbo && typeof this.turbo.flush === 'function') this.turbo.flush();
     drainIndexOps(this);
     flushSearch(this);
+    if (this.allocator && typeof this.allocator.promoteRetiredRanges === 'function') {
+      this.allocator.promoteRetiredRanges({ trustedLocal: true });
+    }
     this._flushSuperblock();
     // B"H: bound WAL growth inside one giant synchronous loop that never
     // yields to the idle checkpoint.
