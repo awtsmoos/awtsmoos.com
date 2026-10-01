@@ -121,4 +121,6 @@ fi
 committed=1
 rm -f "$backup"
 trap - EXIT
-printf 'B"H CANONICAL_SERVER_ACTIVE sha=%s repo=%s service=%s extension=%s virtualSsh=protocol-verified compact=${AWTSMOOS_COMPACT_PREWARM:-deferred} tunnelBundle=preflight-passed\n' "$expected" "$repo" "$service" "$extension_artifact"
+compact_status=deferred
+[ "${AWTSMOOS_COMPACT_PREWARM:-0}" = "1" ] && compact_status=prewarmed
+printf 'B"H CANONICAL_SERVER_ACTIVE sha=%s repo=%s service=%s extension=%s virtualSsh=protocol-verified compact=%s tunnelBundle=preflight-passed\n' "$expected" "$repo" "$service" "$extension_artifact" "$compact_status"
