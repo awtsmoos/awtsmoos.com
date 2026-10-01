@@ -12,7 +12,6 @@ install_root="${AWTSMOOS_INSTALL_ROOT:?Install root is required.}"
 runtime_root="${AWTSMOOS_INSTALL_RUNTIME:?Installer runtime is required.}"
 progress_file="$runtime_root/install-progress.state"
 install_cwd="${AWTSMOOS_INSTALL_CWD:-$PWD}"
-project_root="${AWTSMOOS_PROJECT_ROOT:-$install_cwd}"
 custody_delegated=0
 source "$runtime_root/unix-bootstrap-fetch.sh"
 
@@ -22,6 +21,37 @@ validate_absolute_path() {
 		/*) return 0 ;;
 		*) printf '[Awtsmoos][bootstrap][failed] Project paths must be absolute.\n' >&2; return 1 ;;
 	esac
+}
+
+existing_project_root() {
+	local config_file="$install_root/config.json"
+	[ -f "$config_file" ] && [ ! -L "$config_file" ] || return 1
+	node - "$config_file" <<'NODE'
+const fs = require("node:fs");
+const path = require("node:path");
+try {
+	const value = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+	const root = String(value.root || "").trim();
+	if (!root || !path.isAbsolute(root)) process.exit(1);
+	process.stdout.write(root);
+} catch {
+	process.exit(1);
+}
+NODE
+}
+
+select_project_root() {
+	if [ -n "${AWTSMOOS_PROJECT_ROOT:-}" ]; then
+		printf '%s\n' "$AWTSMOOS_PROJECT_ROOT"
+		return 0
+	fi
+	local preserved=""
+	preserved="$(existing_project_root 2>/dev/null || true)"
+	if [ -n "$preserved" ]; then
+		printf '%s\n' "$preserved"
+		return 0
+	fi
+	printf '%s\n' "$install_cwd"
 }
 
 bootstrap_progress() {
@@ -50,6 +80,7 @@ fetch_bootstrap_file() {
 	chmod +x "$runtime_root/$name"
 }
 
+project_root="$(select_project_root)"
 validate_absolute_path "$install_cwd"
 validate_absolute_path "$project_root"
 export AWTSMOOS_INSTALL_PROGRESS_FILE="$progress_file"
