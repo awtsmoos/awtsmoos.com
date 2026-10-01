@@ -29,7 +29,10 @@ function metadata() {
 			"tunnel.read",
 			"tunnel.write",
 			"tunnel.command",
-			"tunnel.browser"
+			"tunnel.browser",
+			"tunnel.mission",
+			"tunnel.room",
+			"awtsmoos.api"
 		]
 	};
 }

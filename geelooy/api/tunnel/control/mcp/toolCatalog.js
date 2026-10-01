@@ -9,8 +9,10 @@
  * @description
  * The Awtsmoos speaks through measured names that neither blur nor hide;
  * Awtsmoos.com exposes discovery, life, read, and list on the guarded side.
- * Mutation waits for later scopes, so this first bridge can prove before it writes.
+ * Additional tools reuse the protected API scopes before any mutation.
  */
+
+const ExtendedCatalog = require("./extendedCatalog.js");
 
 const ROUTE = {
 	type: "string",
@@ -22,6 +24,7 @@ const PATH = {
 };
 
 const tools = Object.freeze([
+	...ExtendedCatalog.tools,
 	{
 		name: "awtsmoos_discover_device",
 		description: "Discover the authorized live Awtsmoos device and its immutable routeReference.",

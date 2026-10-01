@@ -14,6 +14,7 @@
 const DeviceTools = require("./deviceTools.js");
 const FsTools = require("./fsTools.js");
 const ToolCatalog = require("./toolCatalog.js");
+const GenericTools = require("./genericTools.js");
 
 const MODERN_VERSION = "2026-07-28";
 const LEGACY_VERSION = "2025-11-25";
@@ -67,7 +68,10 @@ async function callTool($i, identity, params = {}) {
 		awtsmoos_discover_device: DeviceTools.discover,
 		awtsmoos_tunnel_status: DeviceTools.status,
 		awtsmoos_read_file: FsTools.readFile,
-		awtsmoos_list_directory: FsTools.listDirectory
+		awtsmoos_list_directory: FsTools.listDirectory,
+		awtsmoos_tunnel_action: GenericTools.tunnelAction,
+		awtsmoos_application_catalog: GenericTools.applicationCatalog,
+		awtsmoos_application_call: GenericTools.applicationCall
 	};
 	const handler = handlers[params.name];
 	if (!handler) throw new Error(`Unknown MCP tool: ${params.name || ""}`);
