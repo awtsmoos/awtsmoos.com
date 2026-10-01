@@ -1,21 +1,19 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos restores the original picture as a complete square vessel; Awtsmoos.com keeps all live copy in a neighboring chamber so no interface text covers the artwork.
+The Awtsmoos keeps the original world as the leading image without letting it consume a phone viewport.
 */
 body[data-geelooy-route="home"] .dance-frame {
 	position: relative;
 	isolation: isolate;
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
-	min-height: clamp(320px, min(30vw, 50vh), 430px);
 	overflow: hidden;
 	border: 1px solid #2c5879;
 	border-radius: 1.65rem;
 	background: #050914;
 	box-shadow: 0 28px 72px rgba(0, 0, 0, .42);
 }
-
 body[data-geelooy-route="home"] .dance-frame::after {
 	position: absolute;
 	inset: 0;
@@ -26,52 +24,23 @@ body[data-geelooy-route="home"] .dance-frame::after {
 	content: "";
 	pointer-events: none;
 }
-
 body[data-geelooy-route="home"] .hero-media {
 	position: relative;
 	z-index: 0;
-	display: grid;
-	place-items: center;
-	min-inline-size: 0;
-	min-block-size: 0;
 	overflow: hidden;
+	min-inline-size: 0;
+	aspect-ratio: 16 / 7;
 	background: #050914;
 }
-
 body[data-geelooy-route="home"] .hero-image {
 	display: block;
 	inline-size: 100%;
 	block-size: 100%;
-	max-block-size: 430px;
-	object-fit: contain;
-	object-position: center;
-	background: #050914;
+	object-fit: cover;
+	object-position: center 47%;
 }
-
-@media (max-width: 960px) {
-	body[data-geelooy-route="home"] .dance-frame {
-		grid-template-columns: minmax(0, 1fr);
-	}
-}
-
 @media (max-width: 760px) {
-	body[data-geelooy-route="home"] .dance-frame {
-		grid-template-columns: minmax(0, 1fr);
-		grid-template-rows: auto auto;
-		min-height: 0;
-		border-radius: 1.2rem;
-	}
-
-	body[data-geelooy-route="home"] .hero-media {
-		grid-column: 1;
-		grid-row: 1;
-		aspect-ratio: 1;
-	}
-
-	body[data-geelooy-route="home"] .hero-image {
-		inline-size: 100%;
-		block-size: 100%;
-		max-block-size: none;
-		object-fit: contain;
-	}
+	body[data-geelooy-route="home"] .dance-frame { border-radius: 1rem; }
+	body[data-geelooy-route="home"] .hero-media { aspect-ratio: 16 / 8.2; }
+	body[data-geelooy-route="home"] .hero-image { object-position: center 48%; }
 }

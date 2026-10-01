@@ -33,11 +33,13 @@ test('Shliach is a compact visual banner directly beneath the original hero', ()
 	assert.doesNotMatch(html, /What do you want to make\?/);
 });
 
-test('home hero is a simple one-column visual stack', () => {
-	assert.match(imageCss, /grid-template-columns:\s*minmax\(0,\s*1fr\)/);
-	assert.match(copyCss, /grid-column:\s*1 \/ -1/);
-	assert.match(copyCss, /aspect-ratio:\s*16 \/ 6/);
-	assert.match(copyCss, /@media \(max-width:\s*760px\)/);
+test('mobile hero and Shliach remain compact and clipped', () => {
+	assert.match(imageCss, /aspect-ratio:\s*16 \/ 7/);
+	assert.match(imageCss, /@media \(max-width:\s*760px\)/);
+	assert.match(copyCss, /aspect-ratio:\s*16 \/ 5/);
+	assert.match(copyCss, /overflow:\s*hidden/);
+	assert.match(copyCss, /text-overflow:\s*ellipsis/);
+	assert.match(copyCss, /white-space:\s*nowrap/);
 });
 
 test('primary discovery remains reachable after the simplified hero', () => {
