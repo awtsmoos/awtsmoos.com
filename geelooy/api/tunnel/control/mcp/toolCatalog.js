@@ -27,6 +27,7 @@ const tools = Object.freeze([
 	...ExtendedCatalog.tools,
 	{
 		name: "awtsmoos_discover_device",
+		annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
 		description: "Discover the authorized live Awtsmoos device and its immutable routeReference.",
 		inputSchema: {
 			type: "object",
@@ -36,6 +37,7 @@ const tools = Object.freeze([
 	},
 	{
 		name: "awtsmoos_tunnel_status",
+		annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
 		description: "Prove that one immutable Awtsmoos route is authorized and report its live state.",
 		inputSchema: {
 			type: "object",
@@ -46,6 +48,7 @@ const tools = Object.freeze([
 	},
 	{
 		name: "awtsmoos_read_file",
+		annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
 		description: "Read one exact file directly through an immutable Awtsmoos route.",
 		inputSchema: {
 			type: "object",
@@ -60,6 +63,7 @@ const tools = Object.freeze([
 	},
 	{
 		name: "awtsmoos_list_directory",
+		annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
 		description: "List one exact directory directly through an immutable Awtsmoos route.",
 		inputSchema: {
 			type: "object",
