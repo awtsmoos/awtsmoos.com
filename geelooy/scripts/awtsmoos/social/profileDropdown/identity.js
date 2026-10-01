@@ -70,10 +70,21 @@ function showLoggedIn(elements, identity) {
 	const synced = identity.mode === 'synced';
 	elements.container.dataset.identityMode = synced ? 'synced' : 'local';
 	elements.usernameDisplay.textContent = identity.username || 'Local IndexedDB';
+	const email = String(identity.session?.info?.email || identity.session?.email || '').trim();
+	elements.accountEmail.textContent = email;
+	setVisible(elements.accountEmail, Boolean(email));
+	paintAccountAvatar(elements.accountAvatar, identity);
 	elements.modeBadge.textContent = synced ? 'Synced identity' : 'Local identity';
 	elements.modeBadge.dataset.mode = synced ? 'synced' : 'local';
 	setVisible(elements.localModeNote, !synced);
 	paintAlias(identity.alias);
+}
+
+function paintAccountAvatar(element, identity) {
+	if (!element) return;
+	const label = String(identity.alias || identity.username || 'A').trim();
+	element.textContent = (label[0] || 'A').toUpperCase();
+	element.setAttribute('aria-label', (label || 'Awtsmoos') + ' profile picture placeholder');
 }
 
 function setVisible(element, visible) {

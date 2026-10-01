@@ -114,3 +114,23 @@
 	font-weight: 820;
 	text-decoration: none;
 }
+
+.awtsmoosDrop .profile-account-avatar {
+	display: grid;
+	width: 2.75rem;
+	height: 2.75rem;
+	flex: 0 0 2.75rem;
+	place-items: center;
+	border: 1px solid rgba(113, 223, 245, .42);
+	border-radius: 50%;
+	background: radial-gradient(circle at 32% 25%, rgba(255,255,255,.25), rgba(86,91,214,.38) 42%, rgba(8,14,25,.92));
+	font-size: 1rem;
+	font-weight: 950;
+}
+.awtsmoosDrop .profile-account-email {
+	overflow: hidden;
+	color: #aebbd0;
+	font-size: .72rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}

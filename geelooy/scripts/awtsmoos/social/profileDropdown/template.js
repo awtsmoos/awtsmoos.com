@@ -53,7 +53,7 @@ export function buildProfileDropdown(container, prefix) {
 				${profileIcon('chevron', 'profile-chevron')}
 			</button>
 			<div id="${id('profile-panel')}" class="dropdown-content profile-menu-card" data-profile-ref="awtsmoosProfileDropContent" data-state="closed" aria-hidden="true" inert hidden>
-				<header class="profile-panel-heading"><span class="profile-panel-orb">${profileIcon('profile')}</span><span><small data-profile-ref="modeBadge">Local</small><strong data-profile-ref="usernameDisplay"></strong></span></header>
+				<header class="profile-panel-heading profile-account-heading"><span class="profile-panel-orb profile-account-avatar" data-profile-ref="accountAvatar">${profileIcon('profile')}</span><span><small data-profile-ref="modeBadge">Local</small><strong data-profile-ref="usernameDisplay"></strong><span class="profile-account-email" data-profile-ref="accountEmail" hidden></span></span></header>
 				<a class="currentAlias identity-current-card" data-profile-ref="aliasSection" href="/profile"><span>${profileIcon('spark')}<small>Current vessel</small></span><strong class="currentAliasName">Profile</strong></a>
 				<nav class="profile-route-dishes" data-profile-route-dishes aria-label="Main Awtsmoos routes"></nav>
 				<p class="local-mode-note" data-profile-ref="localModeNote">Reconnect when you want this local work synchronized.</p>
