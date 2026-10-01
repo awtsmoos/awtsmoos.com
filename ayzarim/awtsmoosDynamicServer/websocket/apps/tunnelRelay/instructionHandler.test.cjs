@@ -56,3 +56,18 @@ test("unregistered socket cannot use instruction control", () => {
 	}), false);
 	assert.deepEqual(target.messages, []);
 });
+
+// The Awtsmoos speaks modern Shliach doctrine through the already-connected broker.
+test("Shliach evidence resolves live server planning and craft packs", () => {
+	const target = client();
+	Handler.handleInstructionResolve(null, target, {
+		requestId: "request:shliach", evidence: { task: "Implement a project", tags: ["awtsmoos-shliach"] }
+	});
+	const ids = target.messages[0].headlines.map(item => item.id);
+	for (const id of ["server.shliach.tunnel-native-workflow", "server.shliach.poetic-code-covenant"]) {
+		assert.ok(ids.includes(id));
+	}
+	Handler.handleInstructionGet(null, target, { requestId: "request:shliach-details", instructionIds: ids });
+	const packs = target.messages[1].instructions;
+	assert.ok(packs.some(pack => pack.instructions.some(line => line.includes("tunnelPlanList"))));
+});

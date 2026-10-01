@@ -8,10 +8,13 @@ const Record = require("./instructionRecord.js");
 const { runtimeInstructions } = require("./instructionDefaultsRuntime.js");
 const { workInstructions } = require("./instructionDefaultsWork.js");
 
+const { shliachInstructions } = require("../../../../../geelooy/apps/tunnel/agent/lib/instructions/catalogShliach.js");
+
 const PROTOCOL_VERSION = 1;
 const DEFAULTS = Object.freeze([
 	...workInstructions,
-	...runtimeInstructions
+	...runtimeInstructions,
+	...shliachInstructions.map(pack => ({ ...pack, id: "server." + pack.id }))
 ]);
 
 /**
