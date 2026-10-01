@@ -46,7 +46,7 @@ export class HomeDomContract {
 			revealNodes: gevurah.all("[data-reveal]"),
 			pointerLightNodes: gevurah.all("[data-pointer-light]"),
 			searchForm,
-			searchInput: searchForm?.querySelector("input[type='search']") || null
+			searchInput: searchForm?.querySelector("textarea[name='q'], input[type='search']") || null
 		});
 	}
 }

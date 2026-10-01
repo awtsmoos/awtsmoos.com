@@ -1,59 +1,47 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos turns a question into chosen motion; Awtsmoos.com gives the submit vessel clear rest, hover, focus, press, disabled, and searching states without visual excess.
+The search action stays unmistakable as the composer grows.
 */
 body[data-geelooy-route="home"] .shortcut-key {
-	display: grid;
-	place-items: center;
-	width: 1.65rem;
-	height: 1.65rem;
+	align-self: center;
+	padding: .35rem .45rem;
 	border: 1px solid #27384c;
-	border-radius: .48rem;
+	border-radius: .55rem;
 	background: #0d1727;
 	color: #7f91a8;
-	font-size: .66rem;
+	font-size: .62rem;
 	font-weight: 800;
+	white-space: nowrap;
 }
-
 body[data-geelooy-route="home"] .search button {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	gap: .72rem;
-	min-width: 7rem;
-	height: 3rem;
-	padding: 0 1rem;
-	border: 1px solid #e7f3ff;
-	border-radius: .88rem;
-	background: linear-gradient(180deg, #fbfdff, #d9e6f6);
-	box-shadow: 0 10px 24px rgba(88, 143, 211, .2);
-	color: #081320;
+	align-self: end;
+	display: grid;
+	place-items: center;
+	width: 3.65rem;
+	height: 3.65rem;
+	margin: 0;
+	padding: 0;
+	border: 1px solid rgba(255,255,255,.9);
+	border-radius: 50%;
+	background: linear-gradient(180deg, #fff, #dceafa);
+	box-shadow: 0 10px 30px rgba(88, 143, 211, .26);
+	color: #071321;
 	cursor: pointer;
-	font-size: .72rem;
-	font-weight: 880;
-	letter-spacing: .01em;
-	transition: background .18s ease, transform .18s ease, box-shadow .18s ease;
+	transition: transform .16s ease, box-shadow .16s ease;
 }
-
+body[data-geelooy-route="home"] .search-button-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+body[data-geelooy-route="home"] .search-button-arrow { font-size: 1.45rem; font-weight: 900; line-height: 1; }
 body[data-geelooy-route="home"] .search button:hover,
 body[data-geelooy-route="home"] .search button:focus-visible {
-	background: #fff;
-	box-shadow: 0 13px 30px rgba(103, 171, 235, .26);
 	outline: 3px solid var(--focus-ring);
 	outline-offset: 3px;
-	transform: translateY(-1px);
+	box-shadow: 0 14px 34px rgba(103, 171, 235, .32);
+	transform: translateY(-1px) scale(1.025);
 }
-
-body[data-geelooy-route="home"] .search button:active {
-	transform: scale(.97);
-}
-
-body[data-geelooy-route="home"] .search button:disabled {
-	cursor: progress;
-	opacity: .7;
-}
-
-body[data-geelooy-route="home"] .search.is-searching .search-button-arrow {
-	animation: search-flight .75s ease-in-out infinite alternate;
+body[data-geelooy-route="home"] .search button:active { transform: scale(.96); }
+body[data-geelooy-route="home"] .search button:disabled { cursor: progress; opacity: .7; }
+body[data-geelooy-route="home"] .search.is-searching .search-button-arrow { animation: search-flight .75s ease-in-out infinite alternate; }
+@media (max-width: 680px) {
+	body[data-geelooy-route="home"] .search button { width: 3.45rem; height: 3.45rem; }
 }

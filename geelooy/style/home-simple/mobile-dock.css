@@ -13,6 +13,7 @@ body[data-geelooy-route="home"] .mobile-dock {
 		scroll-padding-bottom: calc(5.25rem + env(safe-area-inset-bottom));
 	}
 
+	body[data-geelooy-route="home"] .search textarea,
 	body[data-geelooy-route="home"] .search input,
 	body[data-geelooy-route="home"] .hero-actions a,
 	body[data-geelooy-route="home"] .featured-card {

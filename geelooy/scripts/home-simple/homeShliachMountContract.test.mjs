@@ -17,7 +17,7 @@ import { fileURLToPath } from "node:url";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const GEOLOOY = path.resolve(HERE, "../..");
-const UX_VERSION = "shliach-ux-005";
+const UX_VERSION = "unified-search-006";
 
 function source(relativePath) {
 	return fs.readFileSync(path.join(GEOLOOY, relativePath), "utf8");

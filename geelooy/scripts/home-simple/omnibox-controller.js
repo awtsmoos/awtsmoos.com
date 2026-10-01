@@ -12,7 +12,7 @@ export class OmniboxController {
 	constructor(rootElement, options) {
 		this.rootElement = rootElement;
 		this.formElement = rootElement.querySelector("form[role='search']");
-		this.inputElement = this.formElement.querySelector("input[type='search']");
+		this.inputElement = this.formElement.querySelector("textarea[name='q'], input[type='search']");
 		this.panelElement = rootElement.querySelector("[data-omnibox-panel]");
 		this.renderer = options.renderer;
 		this.history = options.history;
