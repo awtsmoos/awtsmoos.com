@@ -33,7 +33,7 @@ async function readJson(request) {
 
 function createLaneServer({ definition, state, policy }) {
 	const bornAt = Date.now();
-	return http.createServer(async (request, response) => {
+	const server = http.createServer(async (request, response) => {
 		try {
 			if (request.method === 'GET' && request.url === '/health') return send(response, 200, { ok: true, lane: definition.id, pid: process.pid, uptimeMs: Date.now() - bornAt });
 			if (request.method === 'GET' && request.url === '/capabilities') return send(response, 200, { lane: definition.id, capabilities: definition.capabilities });
@@ -48,6 +48,11 @@ function createLaneServer({ definition, state, policy }) {
 			return send(response, 400, { ok: false, error: String(error.message || error) });
 		}
 	});
+	server.maxConnections = 8192;
+	server.requestTimeout = 15000;
+	server.headersTimeout = 10000;
+	server.keepAliveTimeout = 5000;
+	return server;
 }
 
 module.exports = { createLaneServer };

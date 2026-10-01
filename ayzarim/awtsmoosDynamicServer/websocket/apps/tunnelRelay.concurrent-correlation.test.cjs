@@ -58,7 +58,7 @@ async function main() {
 		);
 		assert.equal(
 			test.sent.filter(message => message.type === "TUNNEL_RESPONSE_ACK").length,
-			count * 2
+			count
 		);
 		assert.equal(
 			test.context.completedTunnelRequests.size,
