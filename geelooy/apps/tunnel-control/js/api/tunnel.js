@@ -5,12 +5,13 @@
  * @file Sends guarded tunnel requests through stable route references.
  * @description
  * The Awtsmoos renews every request through the smallest truthful vessel;
- * Awtsmoos.com sends small GETs directly and promotes oversized writes into
- * resumable hashed GET transfers before any proxy can answer with a 414.
+ * Awtsmoos.com keeps small GETs direct while great writes and batches become
+ * resumable staged rivers before any proxy can answer with a 414.
  */
 
 import { getJson } from "./http.js";
 import { authHeaders, getActiveApiKey } from "./keySession.js";
+import { performLargeBatch, shouldPromoteLargeBatch } from "./largeBatchTransport.js";
 import { performLargeWrite, shouldPromoteLargeWrite } from "./largeWriteTransport.js";
 import { log } from "../logger.js";
 import { attachRequestGuard, validateResponseGuard } from "./requestGuard.js";
@@ -32,6 +33,14 @@ export async function callFs(tunnelNameOrOptions, maybeOptions) {
 		return missingCredentialResponse(action);
 	}
 	const headers = apiKey ? await authHeaders() : {};
+	if (shouldPromoteLargeBatch(url, options)) {
+		return performLargeBatch({
+			tunnelName: targetName,
+			options,
+			headers,
+			credentials: "include"
+		});
+	}
 	if (shouldPromoteLargeWrite(url, options)) {
 		return performLargeWrite({
 			tunnelName: targetName,
@@ -40,19 +49,18 @@ export async function callFs(tunnelNameOrOptions, maybeOptions) {
 			credentials: "include"
 		});
 	}
-	const response = await getJson(url, {
+	return validateResponseGuard(await getJson(url, {
 		headers,
 		credentials: "include"
-	});
-	return validateResponseGuard(response, options);
+	}), options);
 }
 
 export async function buildCurl(tunnelName, options = {}) {
 	const apiKey = await getActiveApiKey();
 	const targetName = resolveTargetTunnelName(tunnelName, options);
 	const url = buildFsUrl(targetName, options);
-	if (shouldPromoteLargeWrite(url, options)) {
-		return "# Large write: use Tunnel Control; GET transfer promotion is required.";
+	if (shouldPromoteLargeBatch(url, options) || shouldPromoteLargeWrite(url, options)) {
+		return "# Large payload: use Tunnel Control; resumable GET transfer promotion is required.";
 	}
 	const credential = apiKey || "PASTE_API_KEY_HERE";
 	return [

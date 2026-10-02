@@ -2,6 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
+const BatchTransfers = require("../writeBatchTransfers.js");
 const Commit = require("../fileTransferCommit.js");
 const Lock = require("../fileTransferLock.js");
 const Read = require("../fileTransferRead.js");
@@ -10,9 +11,10 @@ const Store = require("../fileTransferStore.js");
 const Write = require("../fileTransferChunkWrite.js");
 
 /**
- * @file Exposes resumable file transfer with serialized mutation through authenticated tunnel custody.
- * @description The Awtsmoos lets chunks arrive, resume, commit, or cease while one durable ledger remains true;
- * Awtsmoos.com makes cancel share the same transfer lock, so deletion cannot race a write halfway through.
+ * @file Exposes resumable file transfer and transactional staged batches through one custody family.
+ * @description
+ * The Awtsmoos lets chunks arrive, resume, commit, or gather into one batch covenant;
+ * Awtsmoos.com keeps cancel, commit, and batch publication under the same durable transfer locks.
  */
 function buildFileTransferActions({ config, payload }) {
 	return {
@@ -23,7 +25,8 @@ function buildFileTransferActions({ config, payload }) {
 		fileTransferStatus: async () => Status.status(config, payload),
 		fileTransferWriteChunk: async () => Write.writeChunk(config, payload),
 		fileTransferCommit: async () => Commit.commit(config, payload),
-		fileTransferCancel: async () => cancel(config, payload)
+		fileTransferCancel: async () => cancel(config, payload),
+		bulkWriteTransfers: async () => BatchTransfers.bulkWriteTransfers(config, payload)
 	};
 }
 

@@ -5,15 +5,16 @@
  * @module FileTransferGetClient
  * @description
  * The Awtsmoos lets Awtsmoos.com move great files through many tiny GET rivers;
- * every chunk is bounded, hashed, retryable, and the final rename only follows proof.
+ * packets stay beneath URI limits while the durable manifest keeps a wider truthful rhythm.
  */
 
 import { base64Bytes, sha256Hex, sliceBytes } from "./transferBytes.js";
 
-export const GET_RAW_CHUNK_BYTES = 3072;
+export const GET_PACKET_BYTES = 3072;
+export const GET_MANIFEST_CHUNK_BYTES = 64 * 1024;
 const RETRIES = 3;
 
-export async function uploadFileByGet({
+export async function stageFileByGet({
 	tunnelName,
 	path,
 	bytes,
@@ -26,13 +27,13 @@ export async function uploadFileByGet({
 		path,
 		total_bytes: bytes.length,
 		expected_sha256: expectedSha256,
-		chunk_bytes: GET_RAW_CHUNK_BYTES,
+		chunk_bytes: GET_MANIFEST_CHUNK_BYTES,
 		overwrite
 	}, headers, credentials);
 	assertOk(create, "transfer_create_failed");
 	const transferId = create.transferId;
 	for (let offset = Number(create.nextOffset || 0); offset < bytes.length;) {
-		const chunk = sliceBytes(bytes, offset, GET_RAW_CHUNK_BYTES);
+		const chunk = sliceBytes(bytes, offset, GET_PACKET_BYTES);
 		const result = await requestWithRetry(tunnelName, "write", {
 			transfer_id: transferId,
 			offset,
@@ -42,11 +43,32 @@ export async function uploadFileByGet({
 		assertOk(result, "transfer_chunk_failed");
 		offset = Number(result.nextOffset ?? offset + chunk.length);
 	}
-	const commit = await request(tunnelName, "commit", {
+	return { transferId, bytes: bytes.length, expectedSha256, path };
+}
+
+export async function commitTransferByGet({ tunnelName, transferId, headers = {}, credentials = "include" }) {
+	const result = await request(tunnelName, "commit", {
 		transfer_id: transferId
 	}, headers, credentials);
-	assertOk(commit, "transfer_commit_failed");
-	return { ...commit, externalTransport: "https-get", expectedSha256 };
+	assertOk(result, "transfer_commit_failed");
+	return { ...result, externalTransport: "https-get" };
+}
+
+export async function cancelTransferByGet({ tunnelName, transferId, headers = {}, credentials = "include" }) {
+	return request(tunnelName, "cancel", {
+		transfer_id: transferId
+	}, headers, credentials);
+}
+
+export async function uploadFileByGet(options) {
+	const staged = await stageFileByGet(options);
+	const committed = await commitTransferByGet({
+		tunnelName: options.tunnelName,
+		transferId: staged.transferId,
+		headers: options.headers,
+		credentials: options.credentials
+	});
+	return { ...committed, expectedSha256: staged.expectedSha256 };
 }
 
 async function requestWithRetry(tunnelName, action, params, headers, credentials) {
@@ -64,23 +86,17 @@ async function requestWithRetry(tunnelName, action, params, headers, credentials
 }
 
 async function request(tunnelName, action, params, headers, credentials) {
-	const url = transferUrl(tunnelName, action, params);
-	const response = await fetch(url, { headers, credentials });
+	const response = await fetch(transferUrl(tunnelName, action, params), { headers, credentials });
 	const data = await response.json();
 	if (!response.ok && data.ok !== false) data.ok = false;
 	return data;
 }
 
 export function transferUrl(tunnelName, action, params = {}) {
-	const url = new URL(
-		`/api/tunnel/control/transfer/get/${encodeURIComponent(tunnelName)}`,
-		location.origin
-	);
+	const url = new URL(`/api/tunnel/control/transfer/get/${encodeURIComponent(tunnelName)}`, location.origin);
 	url.searchParams.set("action", action);
 	for (const [key, value] of Object.entries(params)) {
-		if (value !== undefined && value !== null && value !== "") {
-			url.searchParams.set(key, String(value));
-		}
+		if (value !== undefined && value !== null && value !== "") url.searchParams.set(key, String(value));
 	}
 	return url.toString();
 }

@@ -5,14 +5,14 @@
  * @file Proves multi-megabyte GET-only writes never become one giant URI.
  * @description
  * The Awtsmoos lets Awtsmoos.com divide a vast text into faithful measured rivers;
- * every URL stays small, every byte rejoins, and one final hash proves what it delivers.
+ * manifest rhythm stays native-valid while every physical GET remains small and proven.
  */
 
 import test from "node:test";
 import assert from "node:assert/strict";
 import { webcrypto } from "node:crypto";
 import { Buffer } from "node:buffer";
-import { uploadFileByGet } from "../fileTransferGetClient.js";
+import { GET_MANIFEST_CHUNK_BYTES, uploadFileByGet } from "../fileTransferGetClient.js";
 import { SAFE_DIRECT_URL_CHARS, shouldPromoteLargeWrite } from "../largeWriteTransport.js";
 import { bytesFrom, sha256Hex } from "../transferBytes.js";
 
@@ -29,7 +29,7 @@ test("promotes oversized writes but leaves small writes direct", () => {
 	assert.equal(shouldPromoteLargeWrite("x".repeat(9000), { action: "read", content: "hi" }), false);
 });
 
-test("moves three MiB of Unicode through bounded GET chunks without byte loss", async () => {
+test("moves three MiB of Unicode through bounded GET packets without byte loss", async () => {
 	const text = "B\"H · Awtsmoos שלום ✨\n".repeat(150000);
 	const source = bytesFrom(text);
 	assert(source.length > 3 * 1024 * 1024);
@@ -41,7 +41,10 @@ test("moves three MiB of Unicode through bounded GET chunks without byte loss", 
 		const url = new URL(String(value));
 		urls.push(url.toString());
 		const action = url.searchParams.get("action");
-		if (action === "create") return response({ ok: true, transferId: "tx1", nextOffset: 0 });
+		if (action === "create") {
+			assert.equal(Number(url.searchParams.get("chunk_bytes")), GET_MANIFEST_CHUNK_BYTES);
+			return response({ ok: true, transferId: "tx1", nextOffset: 0 });
+		}
 		if (action === "write") {
 			const offset = Number(url.searchParams.get("offset"));
 			const chunk = Buffer.from(url.searchParams.get("content64"), "base64");

@@ -2,7 +2,12 @@
 // Boruch Hashem
 // Blessed is He
 
-/** Explicit non-AI URL carriers. AI and website-mission payloads are packed by tunnelAiPayload. */
+/**
+ * @file Declares explicit non-AI URL carriers for Awtsmoos Tunnel Control.
+ * @description
+ * The Awtsmoos gives Awtsmoos.com one truthful name for each scalar, number, boolean,
+ * text, and JSON vessel so transport builders never invent a hidden encoding branch.
+ */
 export const NUMBER_KEYS = [
 	"depth", "limit", "maxChars", "totalMaxChars", "maxFiles",
 	"offsetChars", "maxBytes", "offsetBytes", "timeoutMs", "port",
@@ -27,7 +32,7 @@ export const TEXT64_KEYS = [
 ];
 
 export const JSON64_KEYS = [
-	"paths", "files", "writes", "tools", "chrome", "commandConfig",
+	"paths", "files", "writes", "transfers", "tools", "chrome", "commandConfig",
 	"aiAgents", "messages", "input", "scopes", "directories"
 ];
 
