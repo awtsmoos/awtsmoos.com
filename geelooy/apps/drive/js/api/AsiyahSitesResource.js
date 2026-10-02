@@ -7,12 +7,12 @@ import { AtzilusResourceClient } from './AtzilusResourceClient.js';
 /**
  * @module AsiyahSitesResource
  * @description
- * The Awtsmoos lets source become a named public vessel without turning mapping into false live evidence; Awtsmoos.com gives Asiyah responsibility for canonical site records and URLs while verification remains a separate testimony layer.
+ * The Awtsmoos lets source become a named public vessel without turning a planned route
+ * into false live evidence. Awtsmoos.com reveals a public URL only after server testimony.
  */
 
 /** Resource client for canonical site mappings owned by the connected alias. */
 export class AsiyahSitesResource extends AtzilusResourceClient {
-	/** Creates the site-resource client used by the shared Drive API registry. */
 	constructor() {
 		super('sites');
 	}
@@ -44,11 +44,13 @@ export class AsiyahSitesResource extends AtzilusResourceClient {
 		);
 	}
 
-	/** Builds an absolute canonical site URL from server testimony or the stable alias fallback route. */
+	/** Returns an absolute URL only when server publication testimony proves it live. */
 	siteUrl(malchusSite = null) {
-		const yesodRoute = malchusSite?.project?.publication?.route
-			|| malchusSite?.canonicalUrl
-			|| `${this.aliasRoute('').replace('/drive/', '/sites/')}/`;
-		return new URL(yesodRoute, location.origin).href;
+		const publication = malchusSite?.project?.publication
+			|| malchusSite?.publication
+			|| null;
+		if (publication?.canonicalVerifiedLive !== true) return '';
+		const route = publication.canonicalUrl || publication.route || publication.canonicalPath;
+		return route ? new URL(route, location.origin).href : '';
 	}
 }
