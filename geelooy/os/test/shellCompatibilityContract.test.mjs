@@ -5,10 +5,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import {
-	sceneJSON,
-	sceneSnapshot
-} from "../helpers/serialize.js";
+import { sceneJSON, sceneSnapshot } from "../helpers/serialize.js";
 import {
 	copyVirtualOSLauncherSnippet,
 	installVirtualOSTunnelAgent,
@@ -55,7 +52,7 @@ test("social actions bind the actual local social-window export", async () => {
 });
 
 test("profile and inbox adapters bind existing shared systems", async () => {
-	const profile = await source("../profile/auth.js");
+	const profile = await source("shell/profileBridge.js");
 	const inbox = await source("social/inboxLauncher.js");
 	assert.match(profile, /profileDropdown\.js/);
 	assert.match(profile, /renderProfileDropdown/);
@@ -64,12 +61,18 @@ test("profile and inbox adapters bind existing shared systems", async () => {
 	assert.match(inbox, /initializeSocialInbox/);
 });
 
+test("OS callers never import the removed profile auth compatibility path", async () => {
+	for (const path of ["script.js", "shell/optionalBootstrap.js", "startMenu.js"]) {
+		assert.doesNotMatch(await source(path), /\/profile\/auth\.js/);
+	}
+});
+
 test("critical compatibility modules remain small", async () => {
 	for (const path of [
 		"helpers/serialize.js",
 		"tunnel/launcher.js",
 		"social/inboxLauncher.js",
-		"../profile/auth.js"
+		"shell/profileBridge.js"
 	]) {
 		const text = await source(path);
 		assert.ok(text.split(/\r?\n/).length <= 120, path);

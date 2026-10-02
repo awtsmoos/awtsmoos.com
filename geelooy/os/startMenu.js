@@ -3,8 +3,8 @@
 // Blessed is He
 
 import { sceneJSON } from "./helpers/serialize.js";
+import { refreshProfileDropdown } from "./shell/profileBridge.js";
 import { openSocialWindow } from "./social/socialPanel.js";
-import { refreshProfileDropdown } from "/profile/auth.js";
 import {
 	copyVirtualOSLauncherSnippet,
 	installVirtualOSTunnelAgent,
@@ -62,10 +62,7 @@ export const MENU_ACTION_METADATA = Object.freeze(Object.fromEntries(
 	DEFINITIONS.map(item => [item.label, Object.freeze({ ...item, run: undefined })])
 ));
 
-const menu = Object.freeze(Object.fromEntries(
-	DEFINITIONS.map(item => [item.label, item.run])
-));
-
+const menu = Object.freeze(Object.fromEntries(DEFINITIONS.map(item => [item.label, item.run])));
 export default menu;
 
 function action(label, category, icon, description, run) {

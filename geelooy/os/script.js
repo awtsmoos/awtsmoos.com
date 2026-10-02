@@ -15,9 +15,9 @@ import { bindDesktopSignals } from "./shell/desktopSignals.js";
 import { initializeShellEnhancements } from "./shell/enhancements.js";
 import { hydrateShellIcons } from "./shell/iconHydration.js";
 import { bindStartMenu } from "./shell/startMenuBindings.js";
+import { renderProfileDropdown } from "./shell/profileBridge.js";
 import { revealStartupFailure } from "./shell/startupRecovery.js";
 import { initializeSocialInbox } from "./social/inboxLauncher.js";
-import { renderProfileDropdown } from "/profile/auth.js";
 
 hydrateShellIcons();
 void revealOperatingSystem();
@@ -41,9 +41,7 @@ async function revealOperatingSystem() {
 	bindDesktopSignals(os);
 	await revealOptionalProfile();
 	const disposeInbox = await revealOptionalInbox(os);
-	if (disposeInbox) {
-		disposers.push(disposeInbox);
-	}
+	if (disposeInbox) disposers.push(disposeInbox);
 	bindAppsCodeShortcut();
 	revealLiveActionCount(records.length);
 	bindCleanup(disposers);
@@ -52,9 +50,7 @@ async function revealOperatingSystem() {
 /** Renders profile identity without allowing account UI to block the operating system. */
 async function revealOptionalProfile() {
 	const holder = document.getElementById("loginHolder");
-	if (!holder) {
-		return;
-	}
+	if (!holder) return;
 	try {
 		await renderProfileDropdown(holder);
 	} catch (error) {
@@ -81,16 +77,12 @@ function bindAppsCodeShortcut() {
 /** Adds the live action count to the status surface without replacing its visible state. */
 function revealLiveActionCount(count) {
 	const status = document.getElementById("shell-status");
-	if (status) {
-		status.title = `${count} live apps and actions`;
-	}
+	if (status) status.title = `${count} live apps and actions`;
 }
 
 /** Disposes shell bindings exactly once during navigation away. */
 function bindCleanup(disposers) {
 	window.addEventListener("beforeunload", () => {
-		for (const dispose of disposers) {
-			dispose?.();
-		}
+		for (const dispose of disposers) dispose?.();
 	}, { once: true });
 }
