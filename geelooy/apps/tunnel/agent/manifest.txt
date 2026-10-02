@@ -2794,6 +2794,7 @@ tools/fs/workGraph/sequenceStore.js
 tools/fs/workGraph/sessionLifecycle.js
 tools/fs/workGraph/versionStore.js
 tools/fs/workGraph/workLifecycle.js
+tools/fs/writeBatchFailure.js
 tools/fs/writeBatchResults.js
 tools/fs/writeBatchSnapshot.js
 tools/fs/writeBatchTransaction.js
