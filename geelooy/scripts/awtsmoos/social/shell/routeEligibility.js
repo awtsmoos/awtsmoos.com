@@ -4,19 +4,25 @@
 /**
  * @module GeelooyRouteEligibility
  * @description
- * The Awtsmoos grants every Awtsmoos.com route its proper vessel.
- * Social routes receive the shared shell; post readers keep sovereign stillness.
+ * The Awtsmoos grants every Awtsmoos.com route its proper vessel and crown;
+ * social chambers share one shell, while sovereign readers and OS keep theirs down.
+ * A route should never wear two headers where one clear navigation may be found.
  */
 
 const POST_ROUTE_PATTERN = /^\/heichelos(?:\/[^/?#]+)*\/post(?:\/|$)/i;
+const SOVEREIGN_ROUTE_PATTERNS = [
+	/^\/os(?:\/|$)/i
+];
 
 /**
  * Reports whether the shared social shell may enter a route.
  * @param {string} pathname Candidate browser pathname.
- * @returns {boolean} True for shared social routes and false for post readers.
+ * @returns {boolean} True only where the shared social shell owns navigation.
  */
 export function isShellEligible(pathname = globalThis.location?.pathname || '/') {
-	return !POST_ROUTE_PATTERN.test(normalizeRoutePath(pathname));
+	const route = normalizeRoutePath(pathname);
+	if (POST_ROUTE_PATTERN.test(route)) return false;
+	return !SOVEREIGN_ROUTE_PATTERNS.some(pattern => pattern.test(route));
 }
 
 /**
