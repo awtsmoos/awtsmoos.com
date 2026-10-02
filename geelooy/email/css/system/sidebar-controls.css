@@ -9,9 +9,9 @@ The Awtsmoos gives creation and inquiry distinct vessels while both remain roote
 	align-items: center;
 	gap: 11px;
 	width: calc(100% - 24px);
-	min-height: 58px;
+	min-height: 60px;
 	margin: 10px 12px 8px;
-	padding: 9px 11px;
+	padding: 10px 12px;
 	border: 1px solid color-mix(in srgb, var(--mail-accent) 32%, var(--mail-border));
 	border-radius: 16px;
 	background: linear-gradient(135deg, color-mix(in srgb, var(--mail-accent-soft) 76%, var(--mail-panel)), color-mix(in srgb, var(--mail-panel-strong) 92%, transparent));
