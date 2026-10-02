@@ -4,36 +4,41 @@ Blessed is He
 
 # Publish a Website from an Awtsmoos Tunnel
 
-The Awtsmoos lets your own machine remain the workshop while Awtsmoos.com provides a guarded publication doorway; the Tunnel carries explicit source intention without turning your whole device into public storage.
+The Awtsmoos lets an owned folder become public without confusing its private filesystem path with its public address. Awtsmoos.com publishes the source, verifies the release, and returns the URL that may actually be trusted.
 
-## Fastest folder publication
+## Fastest static-site flow
 
-Use the Tunnel action `sitePublishFolder`. Supply:
+1. Create ordinary website files in an owned Virtual OS folder such as `asdf/projects/my-site/`.
+2. Put `index.html` at the folder root and keep CSS/JS/image references inside that root.
+3. Call `publishWebsite` with the owned folder path.
+4. Read `publication.canonicalUrl` from the response.
+5. Require `publication.canonicalVerifiedLive === true` and complete dependency closure.
+6. Open that exact canonical URL in a real browser and verify the expected page and assets.
 
-- `path`: folder on the owned device or Virtual OS;
-- `siteId`: DNS-safe public site identity;
-- `mode`: `direct` or `snapshot`.
-
-Choose `direct` when the published site should follow the hosted folder. Choose `snapshot` when you want the publication to preserve a copied point-in-time source.
-
-Example intent:
+Minimal intent:
 
 ```text
-path: projects/friend-site
-siteId: friend-site
-mode: direct
+action: publishWebsite
+path: asdf/projects/my-site
+verify: true
 ```
 
-After publication, read `publication.canonicalUrl` from the result and open that exact URL. Also inspect `sourceAvailable`, `entryReady`, and `canonicalVerifiedLive` rather than treating a successful mutation alone as proof that the website renders.
+If a client does not expose `publishWebsite` directly, invoke it as one nested `actionBatch` action.
 
-## Publishing generated source
+## Never guess the website URL
 
-Agents may use `sitePublishBootstrap` when they already have an explicit bounded file manifest. This is useful when an agent creates HTML/CSS/JS/Markdown source and wants publication to be one guarded operation.
+A Virtual OS path is source, not a public URL. URLs suggested by ordinary file-write navigation such as `/geelooy/os/...`, `/apps/...`, or `/u/...` are navigation candidates and may legitimately 404 for static website source. Do not report them as published websites.
 
-## Unpublish without deleting source
+For ordinary static publication, trust only the `publication.canonicalUrl` returned by `publishWebsite`. The default namespace is `/web/<source-alias>/<website-slug>/`.
 
-`siteUnpublish` removes the canonical mapping while leaving the source bytes alone. This separation is intentional: publication is reversible and source ownership remains independent.
+## Large source trees
 
-## Node on the connected device
+Use `bulkWrite` for many small files. Tunnel Control automatically promotes oversized individual writes and oversized transactional batches into bounded resumable GET transfers, so multi-megabyte text and binary source should not be manually stuffed into one request URI.
 
-For dynamic Node development, save a `native-compute` project recipe with `cwd`, relative `entry`, `port`, and public arguments. In Geelooy OS, open Connected Node Server from the saved project. Choose a currently connected owned machine there; no Tunnel machine identity belongs in the portable project file.
+## Advanced Drive/Sites mapping
+
+`sitePublishFolder` remains available when you intentionally need the Drive/Sites mapping plane, a named `siteId`, and `direct` versus `snapshot` lifecycle semantics. It is not the preferred action for simply turning an owned static folder into a public website.
+
+## Unpublish and custom domains
+
+Publication and source ownership are separate. Use the appropriate unpublish action to remove a mapping without deleting source. Prove the canonical Awtsmoos URL first; custom-domain ownership, DNS routing, TLS, and external browser health are later independent gates.

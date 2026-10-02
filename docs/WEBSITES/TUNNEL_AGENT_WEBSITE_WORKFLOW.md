@@ -4,51 +4,53 @@ Blessed is He
 
 # Tunnel Agent Website Workflow
 
-The Awtsmoos renews creator, machine, source, and public request at every instant; Awtsmoos.com lets a trusted agent carry one owned folder through creation and publication while each success claim stays attached to the evidence that can actually support it.
+The Awtsmoos renews creator, source, publisher, and browser at every instant; Awtsmoos.com keeps each gate explicit so an agent never mistakes a filesystem path, mutation receipt, or guessed URL for a live website.
 
-## The shortest safe flow
+## Shortest safe flow
 
-1. Inspect the requested project folder before writing.
+1. Inspect the owned project folder before writing.
 2. Create or rewrite ordinary `index.html`, CSS, JavaScript, Markdown, images, and public assets.
-3. Confirm the intended public root contains `index.html` and relative asset paths resolve inside that root.
-4. Call `sitePublishFolder` with owned `path`, DNS-safe `siteId`, and `mode=direct|snapshot`.
-5. Use the returned `publication.canonicalUrl`; never derive a website URL from an OS or Drive path.
-6. Inspect `sourceAvailable` and `entryReady`.
-7. Inspect `canonicalVerifiedLive`. If delivery is uncertain or source changes later, call `sitePublicationStatus`.
-8. Open the canonical URL and verify expected HTTP, page content, assets, and relevant browser runtime behavior before reporting completion.
+3. Confirm `index.html` is at the intended public root and relative dependencies stay inside that root.
+4. Call `publishWebsite` with the owned folder path and verification enabled.
+5. Read `publication.canonicalUrl`; never derive a public website address from the Virtual OS path.
+6. Require `publication.canonicalVerifiedLive === true`, `verification.entryStatus === 200`, and complete dependency closure.
+7. Open that exact canonical URL in a real browser and inspect expected DOM/assets plus relevant console/network failures.
+8. Only then report the website as working.
 
-## Publication protocol v1
+Example:
 
-Tunnel Control catalog `3.7.0` exposes a publication protocol without changing historical runtime result objects. Mutation actions advertise `reconcile-before-replay`, `reconcileAction: sitePublicationStatus`, and `idempotency: not-provided`. Status reads advertise `safe-read`.
+```text
+action: publishWebsite
+path: asdf/projects/my-site
+verify: true
+```
 
-Use the pure publication evidence interpreter when an agent needs lifecycle meaning from an existing result. A mutation remains `acknowledged`; a status read is `observed`. `verified-live` is returned only when the real publication testimony explicitly carries `canonicalVerifiedLive: true`. `siteUnpublish` can prove server mapping removal as `verified-unmapped`, but that does not claim DNS caches or every external client have converged.
+If the caller's static enum does not expose `publishWebsite`, invoke it as one nested `actionBatch` item.
 
-## Direct versus snapshot
+## Source paths are not website URLs
 
-Use `direct` when publication should follow the owned hosted folder. Use `snapshot` when publication should point at copied point-in-time source. The modes have different source lifecycles and should never be treated as aliases.
+Virtual OS write receipts may include navigation candidates such as `/geelooy/os/...`, `/apps/...`, or `/u/...`. They help locate files but are not publication testimony. A normal static website published from `asdf/projects/my-site` receives a server-returned canonical address under `/web/asdf/<slug>/`.
 
-## Build from nothing
+A 404 on a guessed VOS navigation path does not prove publication failed. Conversely, a successful mutation does not prove the canonical website renders. Trust the publisher receipt, then browser-test its exact URL.
 
-If the owner provides only an idea, create a small ordinary source tree first. Keep it editable, prove the entry file, then publish the folder. Drive Website Maker offers blank, landing, portfolio, and docs starters using the same source model.
+## Large websites and batches
 
-## If automation is already inside Drive
+Use `bulkWrite` for batches. Oversized Tunnel Control writes and oversized transactional batches are promoted into resumable GET transfer staging, then committed atomically. Agents should not manually force multi-megabyte text or binary source into one query URI.
 
-Use `window.GeelooySiteBuilder` instead of routing an in-page agent back through Tunnel or scraping DOM controls. Its v1.2 envelope separates client correlation, action contract, server facts, external verification, and transport lifecycle. See `WEBSITE_MAKER_AGENT_API.md`.
+## Advanced Drive/Sites mapping
 
-## Dynamic Node on the owner's machine
+Use `sitePublishFolder` only when the project intentionally needs the Drive/Sites mapping plane with explicit `siteId` and `direct` versus `snapshot` lifecycle semantics. Reconcile uncertain mapping mutations with `sitePublicationStatus` before replaying them.
 
-Static publication and connected Node runtime are distinct powers. Save a `native-compute` recipe containing only `cwd`, a project-relative `entry`, `port`, and public scalar arguments. In Geelooy OS choose a live owned Tunnel machine, start the process, inspect logs, and prove the listening service before exposing it. A saved recipe is not a running process.
+## In-page Drive automation
 
-## Custom domains
+Software already running inside Website Maker should use `window.GeelooySiteBuilder` rather than scraping buttons. The in-page API and Tunnel publication are separate automation surfaces that converge on guarded hosting services.
 
-First prove the canonical Awtsmoos URL. Then claim the hostname, publish the ownership TXT record at the current DNS provider, verify ownership, and apply only server-attested routing records. Preserve MX, SPF, DKIM, DMARC, CAA, SRV, NS, vendor verification, and unrelated subdomains.
+## Dynamic Node and custom domains
 
-DNS verification, route activation, TLS issuance, and browser health are separate witnesses. An API response can carry real resolver evidence for ownership without proving every other DNS or TLS gate.
+Static publication is not a running native process. For connected Node development, save a `native-compute` recipe and choose a currently connected owned Tunnel device at launch time.
 
-## When a mutation result is uncertain
-
-Do not replay blindly. Reconcile first. A mutation receipt proves the mutation path completed; it is not a durable idempotency guarantee and does not automatically prove the public browser received the intended page.
+First prove the canonical Awtsmoos static URL. Custom-domain ownership, DNS routing, TLS issuance, and external browser health are separate later witnesses. Preserve mail and unrelated service records during DNS work.
 
 ## Completion testimony
 
-A Tunnel-created website is complete only when source exists, canonical mapping exists, entry readiness is proven, the authoritative URL is known, and live HTTP/browser evidence matches the intended website.
+A Tunnel-created static website is complete when owned source exists, publication returned a canonical URL, canonical verification is live, dependency closure is complete, and a real browser loaded the intended page and assets without a relevant runtime failure.

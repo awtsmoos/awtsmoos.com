@@ -4,70 +4,58 @@ Blessed is He
 
 # Website Maker Tutorial Index
 
-The Awtsmoos renews every question while Awtsmoos.com should let the owner begin from the thing they want to do, not from the internal name of a subsystem; choose the sentence that sounds like your goal and follow that path until evidence says the website is truly alive.
+The Awtsmoos renews every question while Awtsmoos.com should let the owner begin from the thing they want to do, not from an internal subsystem name.
 
 ## I want to make a website from nothing
 
-Start in **Drive → Website Maker → Build**. Choose blank, landing, portfolio or docs. Edit the ordinary HTML/CSS/JS in **Code**, inspect saved source in **Preview**, then use **Publish** to receive the canonical URL.
+Start in **Drive → Website Maker → Build**. Choose a starter or blank source, edit ordinary HTML/CSS/JS in **Code**, inspect saved source in **Preview**, then use **Publish**. Open only the canonical URL returned by the publisher.
 
 Read: `README.md` and `TROUBLESHOOTING.md`.
 
-## I want an Awtsmoos Tunnel agent to make and publish it
+## I want a Tunnel agent to make and publish it
 
-Let the agent inspect/create the source folder, call `sitePublishFolder`, inspect the returned publication evidence, reconcile uncertain delivery, and verify the canonical URL in a real browser.
+Let the agent create or inspect the owned source folder, call `publishWebsite`, require live canonical verification, then open the returned `publication.canonicalUrl` in a real browser. Never derive a website URL from a Virtual OS path or file-write navigation candidate.
 
 Read: `TUNNEL_AGENT_WEBSITE_WORKFLOW.md` and `PUBLISH_FROM_TUNNEL.md`.
 
+## I need advanced direct/snapshot site mapping
+
+Use `sitePublishFolder` only when you intentionally need the Drive/Sites mapping plane with a named `siteId` and direct-versus-snapshot lifecycle semantics. For an ordinary static owned folder, prefer `publishWebsite`.
+
 ## I want software inside Drive to control Website Maker
 
-Use the frozen `window.GeelooySiteBuilder` API instead of scraping DOM buttons. Source, preview, publication and domain actions return serializable result envelopes.
+Use the frozen `window.GeelooySiteBuilder` API instead of scraping DOM buttons. Source, preview, publication, and domain actions return serializable result envelopes.
 
 Read: `WEBSITE_MAKER_AGENT_API.md`.
 
 ## I want to connect my own domain
 
-First prove the canonical Awtsmoos URL. Then claim the hostname, publish the ownership TXT record at the existing DNS provider, verify ownership, apply the server-attested web route, activate when eligible, and verify TLS/browser health.
+First prove the canonical Awtsmoos URL. Then claim the hostname, publish the ownership TXT record at the existing DNS provider, verify ownership, apply the server-attested web route, and verify TLS/browser health.
 
 Read: `CUSTOM_DOMAINS.md`.
 
-## I want to move only the website and keep my existing email
+## I want to move only the website and keep email
 
-Keep the current authoritative nameservers. Change only the server-attested website A/AAAA/CNAME records. Preserve MX, SPF, DKIM, DMARC, SRV, vendor-verification and unrelated subdomains.
+Keep current authoritative nameservers. Change only server-attested website A/AAAA/CNAME records. Preserve MX, SPF, DKIM, DMARC, SRV, vendor-verification records, and unrelated subdomains.
 
 Read: `EMAIL_DNS.md`, `DNS_MIGRATION.md`, and `DNS_CUTOVER_CHECKLIST.md`.
 
 ## I want provider-specific DNS instructions
 
-The current playbooks cover Cloudflare, GoDaddy, Namecheap, Squarespace Domains and Amazon Route 53, with a separate sheet of official provider references.
+Read `DNS_PROVIDER_PLAYBOOKS.md` and `DNS_PROVIDER_REFERENCES.md` for Cloudflare, GoDaddy, Namecheap, Squarespace Domains, and Route 53 guidance.
 
-Read: `DNS_PROVIDER_PLAYBOOKS.md` and `DNS_PROVIDER_REFERENCES.md`.
+## I want to move the whole DNS provider
 
-## I want to change nameservers or move the whole DNS provider
-
-Inventory and rebuild the complete zone at the destination first. Treat nameserver delegation as a separate cutover from record editing. Preserve rollback capability, verify email/web/services, and check DNSSEC before retiring the old provider.
+Inventory and rebuild the complete zone first. Treat nameserver delegation separately from record editing, preserve rollback capability, and check DNSSEC before retiring the old provider.
 
 Read: `DNS_MIGRATION.md`, `DNS_CUTOVER_CHECKLIST.md`, and `DNSSEC_MIGRATION.md`.
 
-## I use DNSSEC
+## I want a Node website on my connected machine
 
-Do not assume copied records are sufficient. Check the registrar/parent DS record, destination signing plan and provider-specific trust-chain sequence.
-
-Read: `DNSSEC_MIGRATION.md`.
-
-## I want a Node website running on my connected machine
-
-Use a `native-compute` project recipe containing only `cwd`, project-relative `entry`, `port`, and public arguments. Open Connected Node Server in Geelooy OS, choose a live owned Tunnel device, start the process, inspect logs and prove the listening port.
-
-Read: `README.md` and `TUNNEL_AGENT_WEBSITE_WORKFLOW.md`.
+Use a `native-compute` recipe with `cwd`, project-relative `entry`, `port`, and public arguments. Choose a currently live owned Tunnel device at launch time and prove the listening service.
 
 ## Something does not load
 
-Debug in order: source → site mapping → canonical URL → assets → browser console/network → domain ownership → DNS routing → TLS → connected runtime. Do not debug all layers at once.
+Debug in order: source → publication receipt → returned canonical URL → assets → browser console/network → optional domain ownership → DNS → TLS → connected runtime. A 404 on `/geelooy/os/...`, `/apps/...`, or `/u/...` may simply mean a source-navigation candidate was mistaken for a published website.
 
 Read: `TROUBLESHOOTING.md`.
-
-## I am not sure whether it is finished
-
-Look for separate readiness testimony. A saved configuration is not a live service. Publication mapping is not browser verification. DNS preservation is not provider application. Ownership is not routing. Routing is not TLS. A native-compute recipe is not a running process.
-
-The Awtsmoos creates the question and the answer, yet Awtsmoos.com keeps each finite gate honest; choose the path by intention, verify the result by evidence, and let no hidden subsystem turn a simple creative act into confusion.
