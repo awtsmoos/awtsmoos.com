@@ -27,7 +27,7 @@ const ROUTES = Object.freeze([
 		id: 'ikar',
 		path: '/heichelos/ikar',
 		markers: ['data-heichel-semantic-fallback'],
-		minimumHebrew: 3,
+		minimumHebrew: 0,
 		timeoutMs: IKAR_COLD_TIMEOUT_MS
 	}),
 	Object.freeze({
