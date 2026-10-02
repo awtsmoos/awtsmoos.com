@@ -1,0 +1,69 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives each route a place, with depth that does not deceive;
+ * On Awtsmoos.com the active path glows softly, helping eyes perceive.
+ * The dock may lift, the ink may glide, yet structure never needs to leave;
+ * One measured layer serves the shell, so motion helps instead of grieve.
+ */
+
+.g-shell nav.g-dock {
+	perspective: 700px;
+}
+
+.g-shell nav.g-dock a {
+	transform-style: preserve-3d;
+	transition:
+		transform var(--gnav-duration-fast) var(--gnav-ease-out),
+		box-shadow var(--gnav-duration-fast) var(--gnav-ease-out),
+		background-color var(--gnav-duration-fast) var(--gnav-ease-out);
+	min-block-size: 44px;
+	min-inline-size: 44px;
+}
+
+.g-shell nav.g-dock a:hover {
+	transform: translateZ(26px) rotateX(-6deg);
+	box-shadow: 0 10px 28px var(--gnav-ink-glow);
+}
+
+.g-shell nav.g-dock a[aria-current="page"] {
+	transform: translateZ(18px);
+	box-shadow:
+		0 6px 22px var(--gnav-ink-glow),
+		inset 0 0 0 1px rgba(112, 213, 200, 0.5);
+}
+
+.g-shell > header a[href="/"]:hover {
+	filter: drop-shadow(0 0 10px var(--gnav-ink-glow));
+	transition: filter var(--gnav-duration-fast) var(--gnav-ease-out);
+}
+
+.g-shell nav.g-dock .gnav-ink {
+	position: absolute;
+	inset-block-end: 6px;
+	block-size: 3px;
+	border-start-start-radius: 3px;
+	border-start-end-radius: 3px;
+	border-end-start-radius: 3px;
+	border-end-end-radius: 3px;
+	background: linear-gradient(
+		to right,
+		var(--gnav-accent),
+		var(--gnav-accent-hot)
+	);
+	box-shadow: 0 0 12px var(--gnav-ink-glow);
+	pointer-events: none;
+	transition:
+		inset-inline-start var(--gnav-duration-med) var(--gnav-ease-spring),
+		width var(--gnav-duration-med) var(--gnav-ease-spring),
+		opacity var(--gnav-duration-fast) var(--gnav-ease-out);
+}
+
+[dir="rtl"] .g-shell nav.g-dock .gnav-ink {
+	background: linear-gradient(
+		to left,
+		var(--gnav-accent),
+		var(--gnav-accent-hot)
+	);
+}

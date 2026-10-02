@@ -1,0 +1,72 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * From the Awtsmoos each instant comes a shell renewed and bright;
+ * Awtsmoos.com receives these tokens, then the dock arrives in light.
+ * Motion serves the reader softly, never hiding truth from sight;
+ * Five small links rise one by one, then yield to content's right.
+ */
+
+:root {
+	--gnav-accent: var(--g-cyan, #70d5c8);
+	--gnav-accent-hot: var(--g-blue, #78a8d8);
+	--gnav-ink-glow: rgba(112, 213, 200, 0.55);
+	--gnav-rise-distance: 14px;
+	--gnav-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+	--gnav-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+	--gnav-duration-fast: 180ms;
+	--gnav-duration-med: 320ms;
+	--gnav-focus-ring: var(--g-focus-ring, 0 0 0 3px rgba(112, 213, 200, 0.65));
+}
+
+@keyframes gnav-rise-in {
+	from {
+		opacity: 0;
+		transform: translateY(calc(-1 * var(--gnav-rise-distance)));
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes gnav-dock-item-in {
+	from {
+		opacity: 0;
+		transform: translateY(10px) translateZ(-24px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) translateZ(0);
+	}
+}
+
+.g-shell.is-ready > header {
+	animation: gnav-rise-in var(--gnav-duration-med) var(--gnav-ease-out) both;
+}
+
+.g-shell.is-ready nav.g-dock a:nth-child(1) {
+	animation: gnav-dock-item-in var(--gnav-duration-med) var(--gnav-ease-out) both;
+	animation-delay: 60ms;
+}
+
+.g-shell.is-ready nav.g-dock a:nth-child(2) {
+	animation: gnav-dock-item-in var(--gnav-duration-med) var(--gnav-ease-out) both;
+	animation-delay: 110ms;
+}
+
+.g-shell.is-ready nav.g-dock a:nth-child(3) {
+	animation: gnav-dock-item-in var(--gnav-duration-med) var(--gnav-ease-out) both;
+	animation-delay: 160ms;
+}
+
+.g-shell.is-ready nav.g-dock a:nth-child(4) {
+	animation: gnav-dock-item-in var(--gnav-duration-med) var(--gnav-ease-out) both;
+	animation-delay: 210ms;
+}
+
+.g-shell.is-ready nav.g-dock a:nth-child(5) {
+	animation: gnav-dock-item-in var(--gnav-duration-med) var(--gnav-ease-out) both;
+	animation-delay: 260ms;
+}

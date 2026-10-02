@@ -1,0 +1,73 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos holds both motion and stillness in a single living flow;
+ * Awtsmoos.com keeps focus visible, so every keyboard traveler knows where to go.
+ * When a reader asks for quiet, depth and animation gently let go;
+ * Accessibility is not an afterthought—it is how the hidden light may show.
+ */
+
+.g-shell.is-dim > header {
+	opacity: 0.08;
+	pointer-events: none;
+	transition: opacity var(--gnav-duration-fast) var(--gnav-ease-out);
+}
+
+.g-shell.is-dim > header:hover,
+.g-shell.is-dim > header:focus-within {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.g-shell a:focus-visible,
+.g-shell button:focus-visible {
+	outline: none;
+	box-shadow: var(--gnav-focus-ring);
+	border-radius: 8px;
+}
+
+@media (min-width: 768px) {
+	:root {
+		--gnav-rise-distance: 18px;
+	}
+
+	.g-shell nav.g-dock {
+		perspective: 900px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.g-shell.is-ready > header,
+	.g-shell.is-ready nav.g-dock a:nth-child(1),
+	.g-shell.is-ready nav.g-dock a:nth-child(2),
+	.g-shell.is-ready nav.g-dock a:nth-child(3),
+	.g-shell.is-ready nav.g-dock a:nth-child(4),
+	.g-shell.is-ready nav.g-dock a:nth-child(5) {
+		animation: none;
+	}
+
+	.g-shell nav.g-dock a,
+	.g-shell nav.g-dock a:hover,
+	.g-shell nav.g-dock a[aria-current="page"],
+	.g-shell > header a[href="/"]:hover,
+	.g-shell nav.g-dock .gnav-ink,
+	.g-shell.is-dim > header {
+		transition: none;
+		transform: none;
+		box-shadow: none;
+	}
+
+	.g-shell nav.g-dock a[aria-current="page"] {
+		box-shadow: inset 0 0 0 2px var(--gnav-accent);
+	}
+
+	.g-shell.is-dim > header {
+		opacity: 0.08;
+	}
+
+	.g-shell.is-dim > header:hover,
+	.g-shell.is-dim > header:focus-within {
+		opacity: 1;
+	}
+}
