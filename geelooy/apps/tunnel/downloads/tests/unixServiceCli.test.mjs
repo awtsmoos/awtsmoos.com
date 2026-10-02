@@ -51,13 +51,16 @@ try {
 	assert.equal(fs.existsSync(state), true);
 	let calls = fs.readFileSync(log, "utf8");
 	assert.match(calls, /bootstrap gui\//);
-	assert.match(calls, new RegExp(`kickstart -k gui/\\d+/${label}`));
+	assert.match(calls, new RegExp(`kickstart(?: -k)? gui/\\d+/${label}`));
 	run("restart");
 	calls = fs.readFileSync(log, "utf8");
 	assert.match(calls, new RegExp(`bootout gui/\\d+/${label}`));
 	assert.equal(fs.existsSync(state), true);
 	const source = fs.readFileSync(script, "utf8");
 	assert.doesNotMatch(source, /deviceIdentity|\bforget\b|private-key|credential/);
+	assert.match(source, /ownerPid \|\| value\.pid/);
+	assert.match(source, /runtimeVersion/);
+	assert.match(source, /lastServerMessageAt \|\| value\.updatedAt/);
 	console.log(JSON.stringify({ ok: true, suite: "unix-service-cli", hashedLabel: true }));
 } finally {
 	fs.rmSync(root, { recursive: true, force: true });

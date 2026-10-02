@@ -79,7 +79,23 @@ agent_ready() {
 	local pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
 	[ -n "$pid" ] && kill -0 "$pid" 2>/dev/null || return 1
 	ps -p "$pid" -o command= 2>/dev/null | grep -Fq "$ROOT/awtsmoos-agent-launcher.cjs" || return 1
-	grep -Eq '"state"[[:space:]]*:[[:space:]]*"registered"' "$ROOT/connection-state.json" 2>/dev/null
+	local version="$(cat "$ROOT/install-state.txt" 2>/dev/null || true)"
+	local activation_id="$(plist_value "$PLIST" EnvironmentVariables.AWTSMOOS_ACTIVATION_ID)"
+	node - "$ROOT/connection-state.json" "$pid" "$version" "$activation_id" <<'NODE'
+const fs = require("fs");
+const [file, expectedPid, expectedVersion, expectedActivation] = process.argv.slice(2);
+let value;
+try { value = JSON.parse(fs.readFileSync(file, "utf8")); } catch { process.exit(1); }
+const timestamp = Date.parse(value.lastServerMessageAt || value.updatedAt || "");
+const fresh = Number.isFinite(timestamp) && Date.now() - timestamp >= 0 && Date.now() - timestamp <= 30000;
+const ok =
+  value.state === "registered" &&
+  Number(value.ownerPid || value.pid || 0) === Number(expectedPid) &&
+  String(value.runtimeVersion || "") === String(expectedVersion || "") &&
+  (!expectedActivation || String(value.activationId || "") === String(expectedActivation)) &&
+  fresh;
+process.exit(ok ? 0 : 1);
+NODE
 }
 
 repair_service() {
