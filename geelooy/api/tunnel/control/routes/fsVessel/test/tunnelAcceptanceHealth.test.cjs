@@ -6,10 +6,10 @@ const assert = require("node:assert/strict");
 const Health = require("../tunnelAcceptanceHealth.js");
 
 /**
- * @file Proves acceptance testimony is ordered by freshness rather than heartbeat optimism.
+ * @file Proves acceptance testimony survives harmless idle while newer failure always wins.
  * @description
- * The Awtsmoos gives every custody witness its time; Awtsmoos.com lets the newest true deed decide,
- * so old success cannot hide fresh refusal, and stale silence never becomes invented failure inside.
+ * The Awtsmoos gives every custody witness its time; Awtsmoos.com remembers a proven road
+ * long enough for normal idle, yet one newer refusal immediately removes the green crown.
  */
 const now = 1_000_000;
 
@@ -29,6 +29,13 @@ assert.equal(custody.healthy, true);
 assert.equal(custody.fresh, true);
 assert.equal(custody.source, "native_parent_custody");
 assert.equal(custody.lastReceiptId, "receipt-accepted");
+
+const idleButProven = Health.snapshot({
+	parentCustody: { lastAcceptedAt: now - 120_000 }
+}, now);
+assert.equal(idleButProven.fresh, true);
+assert.equal(idleButProven.healthy, true);
+assert.equal(idleButProven.state, "healthy");
 
 const rejected = Health.snapshot({
 	parentCustody: { lastAcceptedAt: now - 5000 },
@@ -56,4 +63,4 @@ assert.equal(stale.fresh, false);
 assert.equal(stale.healthy, null);
 assert.equal(stale.state, "acceptance_unproven");
 
-console.log("BHY acceptance health orders fresh custody and failure without inventing silence");
+console.log("BHY acceptance health preserves idle proof and newer failures still override");

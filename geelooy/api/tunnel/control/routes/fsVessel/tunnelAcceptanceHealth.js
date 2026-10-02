@@ -3,14 +3,15 @@
 // Blessed is He
 
 const ACCEPTANCE_HEALTH_STALE_MS = Number(
-	process.env.AWTSMOOS_ACCEPTANCE_HEALTH_STALE_MS || 30_000
+	process.env.AWTSMOOS_ACCEPTANCE_HEALTH_STALE_MS || 300_000
 );
 
 /**
  * @file Separates proof of native deed acceptance from transport and execution testimony.
  * @description
  * The Awtsmoos lets a heartbeat breathe while a deed still seeks its gate;
- * Awtsmoos.com remembers which witness is newest, so stale success cannot masquerade as current state.
+ * Awtsmoos.com remembers recent accepted work through harmless idle, while any newer
+ * refusal overrides that witness immediately instead of waiting for the idle window to fade.
  */
 function snapshot(client = {}, now = Date.now()) {
 	const custody = custodyOf(client);
@@ -38,7 +39,6 @@ function snapshot(client = {}, now = Date.now()) {
 	};
 }
 
-/** Returns whether any explicit or custody witness proves the acceptance protocol exists. */
 function hasAcceptanceEvidence(client, custodyAt, successAt, failureAt, explicitAt) {
 	return Boolean(
 		client.acceptanceHealthSupported === true ||
@@ -50,12 +50,10 @@ function hasAcceptanceEvidence(client, custodyAt, successAt, failureAt, explicit
 	);
 }
 
-/** Returns native parent custody whether carried directly or inside a connection view. */
 function custodyOf(client = {}) {
 	return client.parentCustody || client.connection?.parentCustody || {};
 }
 
-/** Returns explicit acceptance-failure time, including a negative health witness. */
 function failureStamp(client, explicitAt) {
 	return Math.max(
 		stamp(client.acceptanceFailureAt),
@@ -64,7 +62,6 @@ function failureStamp(client, explicitAt) {
 	);
 }
 
-/** Returns the newest positive acceptance witness. */
 function successStamp(client, custodyAt, explicitAt) {
 	return Math.max(
 		custodyAt,
@@ -73,7 +70,6 @@ function successStamp(client, custodyAt, explicitAt) {
 	);
 }
 
-/** Resolves tri-state acceptance health only while its evidence remains fresh. */
 function healthValue(client, fresh, successAt, failureAt) {
 	if (!fresh) return null;
 	if (failureAt > successAt) return false;
@@ -81,7 +77,6 @@ function healthValue(client, fresh, successAt, failureAt) {
 	return typeof client.acceptanceHealthy === "boolean" ? client.acceptanceHealthy : null;
 }
 
-/** Names unsupported, stale, healthy, or unavailable acceptance without inventing certainty. */
 function healthState(client, supported, fresh, healthy) {
 	if (!supported) return "unsupported";
 	if (!fresh) return "acceptance_unproven";
@@ -90,7 +85,6 @@ function healthState(client, supported, fresh, healthy) {
 	return "acceptance_unproven";
 }
 
-/** Names the strongest witness so operators can see why readiness changed. */
 function healthSource(client, custodyAt, successAt, failureAt) {
 	if (failureAt > successAt) return "server_acceptance_failure";
 	if (custodyAt > 0 && custodyAt === successAt) return "native_parent_custody";
@@ -98,13 +92,11 @@ function healthSource(client, custodyAt, successAt, failureAt) {
 	return "none";
 }
 
-/** Normalizes timestamps from epoch values or ISO strings. */
 function stamp(value) {
 	const parsed = typeof value === "number" ? value : Date.parse(value || "");
 	return Number.isFinite(parsed) ? parsed : 0;
 }
 
-/** Returns one safe nonnegative integer telemetry value. */
 function nonnegative(value) {
 	const parsed = Number(value || 0);
 	return Number.isFinite(parsed) ? Math.max(0, Math.floor(parsed)) : 0;

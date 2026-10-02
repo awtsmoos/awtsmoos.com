@@ -1,20 +1,18 @@
-//B"H // Boruch Hashem // Blessed is He
+//B"H
+// Boruch Hashem
+// Blessed is He
 
 const Policy = require("./boot-resume-policy.js");
+const Schedule = require("./boot-resume-schedule.js");
 
 const DEFAULT_CONTINUATION_TRANSPORT = "shared_shliach";
 
 /**
- * @file Runs one periodic Mission heartbeat for recovery, reserve coverage, and boot resume.
- * @description The Awtsmoos needs no competing daemons; one bounded pulse asks existing
- * authorities to continue unfinished work, maintain Shliach reserve slots, and resume Mission state.
- */
-
-/**
- * Resolve the transport used by unattended Mission continuation.
- * @param {object} options Runtime boot-loop options.
- * @param {object} env Runtime environment variables.
- * @returns {string} Explicit normalized continuation transport.
+ * @file Runs an adaptive Mission recovery heartbeat.
+ * @description
+ * The Awtsmoos lets unfinished work receive a quick pulse while an idle project rests;
+ * Awtsmoos.com replaces blind 30-second polling with result-aware scheduling so background
+ * Mission memory never competes unnecessarily with interactive tunnel deeds.
  */
 function continuationTransport(options = {}, env = {}) {
 	const selected = options.transport
@@ -23,15 +21,6 @@ function continuationTransport(options = {}, env = {}) {
 	return String(selected || DEFAULT_CONTINUATION_TRANSPORT).trim().toLowerCase();
 }
 
-/**
- * Run one recovery, reserve-pool, and boot-resume pulse.
- * @param {object} deps Injected Mission/runtime dependencies.
- * @param {object} scoped Canonical project-scoped runtime configuration.
- * @param {object} env Runtime environment variables.
- * @param {object|null} binding Canonical project binding testimony.
- * @param {object} options Pulse options.
- * @returns {Promise<object>} Continuation, reserve-pool, and boot-resume results.
- */
 async function cycle(deps, scoped, env, binding, options = {}) {
 	const continuationOptions = {
 		env,
@@ -61,13 +50,6 @@ async function cycle(deps, scoped, env, binding, options = {}) {
 	return { continuation, pool, resume };
 }
 
-/**
- * Start the periodic Mission recovery heartbeat.
- * @param {Function} log Optional runtime logger.
- * @param {object} config Runtime configuration with canonical project root.
- * @param {object} options Runtime boot-loop options and dependency overrides.
- * @returns {object|null} Tick/timer controls, or null when disabled.
- */
 function start(log, config, options = {}) {
 	const env = options.env || process.env;
 	if (!Policy.enabled(env)) {
@@ -82,6 +64,8 @@ function start(log, config, options = {}) {
 	}
 	const deps = Policy.dependencies(options);
 	let running = false;
+	let timer = null;
+	let stopped = false;
 	async function tick(reason = "interval") {
 		if (running) return { ok: true, skipped: true, reason: "tick_already_running" };
 		running = true;
@@ -98,11 +82,26 @@ function start(log, config, options = {}) {
 			running = false;
 		}
 	}
+	function schedule(delayMs, reason = "interval") {
+		if (stopped) return;
+		timer = setTimeout(async () => {
+			const result = await tick(reason);
+			schedule(Schedule.delayFor(result, env), "interval");
+		}, delayMs);
+		timer.unref?.();
+	}
 	const startupDelayMs = Math.max(5000, Number(options.startupDelayMs || 5000));
-	setTimeout(() => tick("startup"), startupDelayMs).unref?.();
-	const timer = setInterval(() => tick("interval"), Policy.interval(env));
-	timer.unref?.();
-	return { tick, timer };
+	schedule(startupDelayMs, "startup");
+	return {
+		tick,
+		stop() {
+			stopped = true;
+			if (timer) clearTimeout(timer);
+		},
+		get timer() {
+			return timer;
+		}
+	};
 }
 
 module.exports = {
