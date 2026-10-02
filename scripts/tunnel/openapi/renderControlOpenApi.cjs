@@ -5,13 +5,14 @@
 const Parameters = require("./controlParameters.cjs");
 const Guidance = require("./guidance.cjs");
 const Support = require("./renderControlSupport.cjs");
+const Transfer = require("./renderTransferGet.cjs");
 
 /**
- * @file Renders the fourteen-door Awtsmoos Tunnel OpenAPI document.
+ * @file Renders the compact Awtsmoos Tunnel OpenAPI document.
  * @description
- * The Awtsmoos lets a compact covenant stay readable while every inner operation
- * remains reachable by name. Awtsmoos.com renders one small enum and one free operation
- * field so public tooling stays light without sacrificing executable depth or devotion.
+ * The Awtsmoos keeps ordinary deeds small and gives great files their own river;
+ * Awtsmoos.com exposes bounded resumable GET transfer separately so giant bodies never
+ * have to become generic query strings merely to reach an owned tunnel.
  */
 function render(actions = []) {
 	return [
@@ -19,6 +20,7 @@ function render(actions = []) {
 		...bootstrapPath(),
 		...devicePath(),
 		...actionPath(actions),
+		...Transfer.render(),
 		...Support.previewPath(),
 		...Support.components(),
 		""
@@ -33,7 +35,7 @@ function header() {
 		"openapi: 3.1.0",
 		"info:",
 		"  title: Awtsmoos Tunnel Control GPT Actions",
-		"  version: 8.0.0-compact",
+		"  version: 8.1.0-compact-transfer",
 		`  description: ${JSON.stringify(Guidance.RESPONSE_RULE)}`,
 		"servers:",
 		"  - url: https://awtsmoos.com",
