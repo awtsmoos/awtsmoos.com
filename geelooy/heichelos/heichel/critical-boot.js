@@ -10,8 +10,7 @@
  * then hydrates richer navigation during idle time without blocking first light.
  */
 
-const APP_SOURCE = '/heichelos/heichel/app.js?v=ikar-authority-006&compact=true';
-const IKAR_SOURCE = '/heichelos/heichel/ikar-stable.js?v=ikar-stable-001&compact=true';
+const APP_SOURCE = '/heichelos/heichel/app.js?v=heichel-live-001';
 const POST_READY_SOURCE = './modules/app/post-ready-experience.js?v=critical-path-001';
 const IDLE_TIMEOUT_MS = 900;
 const HYDRATION_DELAY_MS = 500;
@@ -31,7 +30,7 @@ function hydrateHeichel() {
 				await module.boot();
 			}
 			document.body.dataset.heichelHydration = 'loaded';
-			if (!isIkarRoute()) schedulePostReady();
+			schedulePostReady();
 			return module;
 		})
 		.catch(error => {
@@ -49,9 +48,9 @@ function isIkarRoute() {
 		|| location.pathname.startsWith('/heichelos/ikar/');
 }
 
-/** Chooses the tiny Ikar enhancer instead of the generic Heichel application. */
+/** Uses one canonical application for Ikar and every other Heichel. */
 function applicationSource() {
-	return isIkarRoute() ? IKAR_SOURCE : APP_SOURCE;
+	return APP_SOURCE;
 }
 
 /** Schedules core enhancement only after first-light document completion. */
