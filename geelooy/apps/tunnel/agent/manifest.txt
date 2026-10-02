@@ -1,5 +1,5 @@
 B"H
-1.0.640
+1.0.641
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1277,6 +1277,7 @@ lib/runtime/async-task-process.js
 lib/runtime/background-update.js
 lib/runtime/boot-resume-loop.js
 lib/runtime/boot-resume-policy.js
+lib/runtime/boot-resume-schedule.js
 lib/runtime/circuit-breaker.js
 lib/runtime/circuit-liveness.js
 lib/runtime/circuit-policy.js
