@@ -54,3 +54,26 @@ body[data-mail-page] :is(.mail-sidebar, .mail-chat, .sidebar, .chat-area) {
 body[data-mail-page][data-mail-connectivity="offline"] .mail-civilization-shell {
 	--mail-border-focus: rgb(232 199 141 / 68%);
 }
+
+/* B"H -- narrow vessels carry one pane at a time: the conversation rail takes
+   the full width, and the chat chamber appears only while a thread is open. */
+@media (max-width: 720px) {
+	body[data-mail-page] .app-container {
+		grid-template-columns: minmax(0, 1fr);
+	}
+	body[data-mail-page] :is(.mail-sidebar, .sidebar) {
+		inline-size: 100%;
+		max-inline-size: 100%;
+	}
+	body[data-mail-page] :is(.mail-chat, .chat-area) {
+		inline-size: 100%;
+		max-inline-size: 100%;
+	}
+	/* Thread-open contract: switchThread.js toggles .view-chat on .app-container. */
+	body[data-mail-page] .app-container:not(.view-chat) :is(.mail-chat, .chat-area) {
+		display: none;
+	}
+	body[data-mail-page] .app-container.view-chat :is(.mail-sidebar, .sidebar) {
+		display: none;
+	}
+}
