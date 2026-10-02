@@ -10,32 +10,27 @@ const { SnapshotActions } = require("./snapshotActions.js");
 const { TrashActions } = require("./trashActions.js");
 const { isHostedBatchAction } = require("./hostedBatchActions.js");
 const { dispatchHostedBatch } = require("./hostedBatchDispatcher.js");
+const { isPreviewAction } = require("./previewActions.js");
+const { dispatchHostedPreview } = require("./previewDispatcher.js");
 const { isSitePublicationAction } = require("./sitePublicationActions.js");
 const { dispatchSitePublication } = require("./sitePublicationDispatcher.js");
 
 /**
  * @module HostedVirtualOsDispatcher
  * @description
- * The Awtsmoos keeps filesystem, recovery, publication, and batch vessels
- * distinct while one trusted identity flows through them. Awtsmoos.com lets
- * older clients batch newer deeds without losing arguments or authority.
+ * The Awtsmoos keeps filesystem, recovery, publication, preview, and batch vessels
+ * distinct while one trusted identity flows through them. Awtsmoos.com routes real
+ * preview deeds into the persistent gateway instead of returning diagnostic shadows.
  */
 
 const DEFAULT_DEPENDENCIES = Object.freeze({
 	dispatchHostedBatch,
+	dispatchHostedPreview,
 	dispatchOsFs,
 	dispatchSitePublication
 });
 
-/**
- * Route one hosted Virtual OS action through its bounded authority family.
- *
- * @param {object} $i Trusted Awtsmoos server context.
- * @param {string} userId Authenticated user identity.
- * @param {object} payload Hosted Virtual OS action payload.
- * @param {object} dependencies Trusted internal dependency seam for tests.
- * @returns {Promise<object>} Hosted action response.
- */
+/** Route one hosted Virtual OS action through its bounded authority family. */
 async function dispatchHostedVirtualOs(
 	$i,
 	userId,
@@ -44,20 +39,19 @@ async function dispatchHostedVirtualOs(
 ) {
 	const normalized = payload && typeof payload === "object" ? payload : {};
 	const action = String(normalized.action || "list");
-
 	if (ActionNames.isRecoveryAction(action)) {
-		return await dispatchRecovery($i, userId, normalized, dependencies.dispatchOsFs);
+		return dispatchRecovery($i, userId, normalized, dependencies.dispatchOsFs);
 	}
-
+	if (isPreviewAction(action)) {
+		return dependencies.dispatchHostedPreview($i, userId, normalized);
+	}
 	if (isSitePublicationAction(action)) {
-		return await dependencies.dispatchSitePublication($i, userId, normalized);
+		return dependencies.dispatchSitePublication($i, userId, normalized);
 	}
-
 	if (isHostedBatchAction(action)) {
-		return await runHostedBatch($i, userId, normalized, dependencies);
+		return runHostedBatch($i, userId, normalized, dependencies);
 	}
-
-	return await dependencies.dispatchOsFs($i, userId, normalized);
+	return dependencies.dispatchOsFs($i, userId, normalized);
 }
 
 /** Keep every nested batch action inside the authenticated hosted dispatcher. */
@@ -69,8 +63,7 @@ async function runHostedBatch($i, userId, payload, dependencies) {
 		nextPayload,
 		dependencies
 	);
-
-	return await batchDispatcher(payload, runHostedAction);
+	return batchDispatcher(payload, runHostedAction);
 }
 
 async function dispatchRecovery($i, userId, payload, osDispatch) {
@@ -89,7 +82,6 @@ async function dispatchRecovery($i, userId, payload, osDispatch) {
 		[ActionNames.RECOVERY_ACTIONS.TRASH_RESTORE]: () => trash.restore(payload),
 		[ActionNames.RECOVERY_ACTIONS.TRASH_PURGE]: () => trash.purge(payload)
 	};
-
 	try {
 		const fields = await handlers[action]();
 		return ActionResult.success(action, fields);
