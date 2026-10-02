@@ -5,8 +5,8 @@
 /**
  * @file Renders the compact tunnel control parameter covenant without action-name bloat.
  * @description
- * The Awtsmoos lets fourteen public doors carry many precise values in ordered vessels;
- * Awtsmoos.com keeps `operation` explicit while ordinary payload fields remain discoverable.
+ * The Awtsmoos lets public GET doors carry precise small values while great files travel
+ * through resumable transfer IDs; Awtsmoos.com keeps preview, publication, and recovery explicit.
  */
 const STRING_NAMES = `
 	operation p path cwd root content content64 find find64 replace replace64
@@ -22,6 +22,7 @@ const STRING_NAMES = `
 	agentName claimId delegationId requestKey spawnRequestKey provider providerId model
 	apiKey apiKey64 message message64 prompt prompt64 childPrompt system system64
 	profile role scope kind evidence reportId next findings references reason
+	previewTitle previewVisibility previewId transferId expectedSha256 sha256 name entryFile
 `.trim().split(/\s+/);
 
 const INTEGER_DEFAULTS = Object.freeze({
@@ -39,6 +40,10 @@ const INTEGER_DEFAULTS = Object.freeze({
 	waitTimeoutMs: 25000,
 	budgetPerutas: 0,
 	ttlSeconds: 3600,
+	previewTtlSeconds: 3600,
+	totalBytes: 0,
+	chunkBytes: 65536,
+	offset: 0,
 	page: 1,
 	pageSize: 50,
 	port: 9222,
@@ -60,6 +65,8 @@ const BOOLEAN_DEFAULTS = Object.freeze({
 	replaceAll: true,
 	dryRun: true,
 	confirm: false,
+	overwrite: true,
+	verify: true,
 	optional: false,
 	continueOnError: false,
 	asyncCommand: false,
@@ -84,9 +91,7 @@ function render() {
 
 function parameter(name, type, defaultValue, required = false) {
 	const requiredText = required ? ", required: true" : "";
-	const defaultText = defaultValue === undefined
-		? ""
-		: `, default: ${JSON.stringify(defaultValue)}`;
+	const defaultText = defaultValue === undefined ? "" : `, default: ${JSON.stringify(defaultValue)}`;
 	return `        - { name: ${name}, in: query${requiredText}, schema: { type: ${type}${defaultText} } }`;
 }
 

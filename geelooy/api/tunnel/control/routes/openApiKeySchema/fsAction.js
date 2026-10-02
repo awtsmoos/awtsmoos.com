@@ -5,15 +5,19 @@
 /**
  * @module OpenApiKeyFsAction
  * @description
- * The Awtsmoos names each available deed before parameters give it bounded form;
- * Awtsmoos.com keeps publishing and network discovery explicit instead of hidden in transport storm.
+ * The Awtsmoos names each deed before parameters give it bounded form;
+ * Awtsmoos.com keeps transfer, publication, preview, recovery, browser, and network doors explicit.
  */
-
 const CORE_ACTIONS = [
 	"list", "tree", "read", "md", "bulk", "write", "bulkWrite",
 	"commandRun", "commandStart", "commandStatus", "commandWait",
 	"commandJobOutputPage", "retryAction", "asyncTaskStatus", "asyncTaskWait",
 	"asyncTaskOutputPage", "asyncTaskCancel", "actionHistoryGet", "nodeScriptRun"
+];
+
+const TRANSFER_ACTIONS = [
+	"fileTransferCreate", "fileTransferStatus", "fileTransferWriteChunk",
+	"fileTransferCommit", "fileTransferCancel", "bulkWriteTransfers"
 ];
 
 const BROWSER_ACTIONS = [
@@ -24,6 +28,14 @@ const BROWSER_ACTIONS = [
 const PUBLICATION_ACTIONS = [
 	"publishWebsite", "publicRootPublishFolder",
 	"sitePublishBootstrap", "sitePublishFolder", "sitePublicationStatus", "siteUnpublish"
+];
+
+const PREVIEW_ACTIONS = [
+	"previewCreate", "previewFile", "previewFolder", "previewPage", "previewList", "previewRevoke"
+];
+
+const RECOVERY_ACTIONS = [
+	"nativeAgentRestart", "nativeGenerationStatus", "nativeGenerationReplace", "agentDoctor"
 ];
 
 const NETWORK_ACTIONS = [
@@ -48,8 +60,11 @@ const ADVANCED_ACTIONS = [
 
 const ACTIONS = Object.freeze([
 	...CORE_ACTIONS,
+	...TRANSFER_ACTIONS,
 	...BROWSER_ACTIONS,
 	...PUBLICATION_ACTIONS,
+	...PREVIEW_ACTIONS,
+	...RECOVERY_ACTIONS,
 	...NETWORK_ACTIONS,
 	...ADVANCED_ACTIONS
 ]);
@@ -65,14 +80,12 @@ function fsAction() {
         - name: tunnelName
           in: path
           required: true
-          schema:
-            type: string
+          schema: { type: string }
           description: User's tunnel name from the control panel.
         - name: apiKey
           in: query
           required: true
-          schema:
-            type: string
+          schema: { type: string }
           description: User's Awtsmoos API key beginning with ak_.
         - name: action
           in: query
@@ -87,6 +100,9 @@ ${actionItems}
 module.exports = {
 	ACTIONS,
 	NETWORK_ACTIONS,
+	PREVIEW_ACTIONS,
 	PUBLICATION_ACTIONS,
+	RECOVERY_ACTIONS,
+	TRANSFER_ACTIONS,
 	fsAction
 };
