@@ -2,17 +2,15 @@
 // Boruch Hashem
 // Blessed is He
 
-const Hash = require("./file-hash.js");
 const Payload = require("./writePayload.js");
 const Batch = require("./writeBatchTransaction.js");
 const Results = require("./writeBatchResults.js");
 
 /**
- * @file Preflights every hash before a multi-file replacement begins.
+ * @file Preflights every expected hash without reloading snapshot bytes into memory.
  * @description
- * The Awtsmoos renews all former worlds before one new batch descends. Awtsmoos.com
- * rejects missing or stale witnesses before mutation, then rechecks each hash during
- * commit so races trigger rollback instead of leaving a half-written JSON batch.
+ * The Awtsmoos lets Awtsmoos.com compare the streamed witness already revealed while
+ * the rollback snapshot was born. No second whole-file Buffer is needed to know the former world.
  */
 async function bulkWriteIfHashes(config, payload, writeIfHash) {
 	const specifications = Payload.normalizeWriteSpecifications(payload);
@@ -24,7 +22,7 @@ async function bulkWriteIfHashes(config, payload, writeIfHash) {
 	}
 	const preflight = verifyExpectedHashes(prepared);
 	if (!preflight.ok) return preflight;
-	const committed = await Batch.commitPrepared(prepared, async (target) => {
+	const committed = await Batch.commitPrepared(prepared, async target => {
 		return await writeIfHash(config, {
 			path: target.path,
 			expectedSha256: target.expectedSha256,
@@ -51,7 +49,7 @@ function verifyExpectedHashes(prepared) {
 		if (!target.existed) {
 			return preflightFailure(target, "hash_target_missing", results);
 		}
-		const actual = Hash.sha256(target.bytesBefore).toLowerCase();
+		const actual = String(target.beforeSha256 || "").toLowerCase();
 		results[target.path] = {
 			ok: actual === expected,
 			path: target.path,

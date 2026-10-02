@@ -4,16 +4,15 @@
 
 const { safePath, assertNotSecret } = require("./pathGuard.js");
 const Snapshot = require("./writeBatchSnapshot.js");
-const { sha256 } = require("./atomic-file-write.js");
 const Results = require("./writeBatchResults.js");
+const Failure = require("./writeBatchFailure.js");
 
 /**
-	* @file Preflights, commits, and rolls back multi-file write transactions.
-	* @description
-	* The Awtsmoos renews many files as one accountable covenant. Awtsmoos.com checks
-	* every destination before the first byte moves, snapshots all prior worlds, and
-	* restores even the currently failing target when verification breaks after mutation.
-	*/
+ * @file Preflights, commits, and rolls back multi-file write transactions.
+ * @description
+ * The Awtsmoos renews many files as one accountable covenant. Awtsmoos.com keeps
+ * rollback witnesses on disk, cleans every temporary vessel, and never hides a partial world.
+ */
 async function runBatchTransaction(config, writes, writer) {
 	try {
 		return await commitPrepared(await prepareBatch(config, writes), writer);
@@ -23,59 +22,54 @@ async function runBatchTransaction(config, writes, writer) {
 }
 
 async function prepareBatch(config, writes = []) {
-	if (!Array.isArray(writes) || !writes.length) {
-		throw Results.batchError("missing_writes");
-	}
+	if (!Array.isArray(writes) || !writes.length) throw Results.batchError("missing_writes");
 	const seen = new Set();
 	const prepared = [];
-	for (let index = 0; index < writes.length; index += 1) {
-		const write = writes[index];
-		const absolutePath = safePath(config, write.path);
-		assertNotSecret(config, absolutePath);
-		const key = Results.comparisonKey(absolutePath);
-		if (seen.has(key)) {
-			throw Results.batchError("duplicate_write_target", write.path, index);
+	try {
+		for (let index = 0; index < writes.length; index += 1) {
+			const write = writes[index];
+			const absolutePath = safePath(config, write.path);
+			assertNotSecret(config, absolutePath);
+			const key = Results.comparisonKey(absolutePath);
+			if (seen.has(key)) {
+				throw Results.batchError("duplicate_write_target", write.path, index);
+			}
+			seen.add(key);
+			prepared.push(await Snapshot.captureSnapshot({
+				...write,
+				index,
+				absolutePath
+			}));
 		}
-		seen.add(key);
-		prepared.push(await Snapshot.captureSnapshot({
-			...write,
-			index,
-			absolutePath
-		}));
+		return prepared;
+	} catch (error) {
+		await cleanupSnapshots(prepared);
+		throw error;
 	}
-	return prepared;
 }
 
 async function commitPrepared(prepared, writer) {
 	const attempted = [];
-	const order = prepared.map((target) => target.path);
+	const order = prepared.map(target => target.path);
 	const results = {};
 	try {
 		for (const target of prepared) {
 			attempted.push(target);
-			const result = await writer(target);
-			if (result?.ok === false) throw resultError(result, target);
+			let result;
+			try {
+				result = await writer(target);
+			} catch (error) {
+				throw Failure.rememberThrownWrite(error, target, results);
+			}
+			if (result?.ok === false) throw Failure.resultError(result, target);
 			results[target.path] = result;
 		}
+		await cleanupSnapshots(prepared);
 		return Results.success(prepared, order, results);
 	} catch (error) {
 		const rollbackErrors = await rollback(attempted, results);
-		const failedPath = error.path || prepared[error.index]?.path || "<batch>";
-		results[failedPath] = {
-			...results[failedPath],
-			ok: false,
-			error: error.code || error.message,
-			message: error.message,
-			index: error.index ?? null,
-			rolledBack: rollbackErrors.every((item) => item.path !== failedPath)
-		};
-		return {
-			...Results.failure(error, prepared.length),
-			order,
-			results,
-			rolledBack: rollbackErrors.length === 0,
-			rollbackErrors
-		};
+		await cleanupSnapshots(prepared);
+		return Failure.failedTransaction(error, prepared, order, results, rollbackErrors);
 	}
 }
 
@@ -83,34 +77,19 @@ async function rollback(attempted, results) {
 	const errors = [];
 	for (const target of [...attempted].reverse()) {
 		try {
-			const after = results[target.path]?.afterSha256 ||
-				sha256(Buffer.from(String(target.content ?? "")));
-			await Snapshot.restoreSnapshot(target, after);
-			results[target.path] = {
-				...results[target.path],
-				ok: false,
-				rolledBack: true
-			};
+			await Snapshot.restoreSnapshot(target, Failure.afterHash(target, results[target.path]));
+			results[target.path] = { ...results[target.path], ok: false, rolledBack: true };
 		} catch (error) {
 			const code = error.code || error.message;
 			errors.push({ path: target.path, error: code });
-			results[target.path] = {
-				...results[target.path],
-				ok: false,
-				error: code,
-				rolledBack: false
-			};
+			results[target.path] = { ...results[target.path], ok: false, error: code, rolledBack: false };
 		}
 	}
 	return errors;
 }
 
-function resultError(result, target) {
-	return Results.batchError(
-		result.error || "write_verification_failed",
-		target.path,
-		target.index
-	);
+async function cleanupSnapshots(prepared = []) {
+	await Promise.all(prepared.map(target => Snapshot.cleanupSnapshot(target)));
 }
 
 module.exports = {
