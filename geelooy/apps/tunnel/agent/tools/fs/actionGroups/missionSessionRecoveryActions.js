@@ -36,7 +36,7 @@ function buildMissionSessionRecoveryActions(context, buildActions) {
 }
 
 async function ensurePool(config, payload, ws, buildActions) {
-	const snapshot = await Status.snapshot(config, payload);
+	const snapshot = await Status.poolSnapshot(config, payload);
 	const desired = bounded(payload.desiredAgents, 1, 7, 3);
 	const demand = demandSlots(snapshot, desired);
 	const needed = Math.max(0, Math.min(desired - snapshot.sessions.active, demand.length));

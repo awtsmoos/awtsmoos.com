@@ -8,6 +8,7 @@ const Work = require("../workRegistry.js");
 const Briefing = require("./briefing.js");
 const Claims = require("./claims.js");
 const Paths = require("./paths.js");
+const Lock = require("../lock/index.js");
 
 /**
  * @file Projects global mission/session truth for realtime Tunnel Control views.
@@ -37,6 +38,30 @@ async function snapshot(config, input = {}) {
 		unassignedActiveSessions: sessionStatus.sessions.filter(session => {
 			return !session.activeMissionId && ["active", "working", "waiting"].includes(session.status);
 		})
+	};
+}
+
+/** B"H: bounded pool view for the 5-second autonomy heartbeat.
+ * Never enumerate historical mission documents here; only living lock/session references
+ * are eligible to consume autonomous Shliach capacity.
+ */
+async function poolSnapshot(config, input = {}) {
+	const sessionStatus = await Recovery.status(config, input);
+	const ids = new Set();
+	const lock = Lock.active(config);
+	if (lock?.missionId) ids.add(String(lock.missionId));
+	for (const session of sessionStatus.sessions || []) {
+		if (!["active", "working", "waiting", "reserved", "launching"].includes(String(session.status || ""))) continue;
+		if (session.activeMissionId) ids.add(String(session.activeMissionId));
+	}
+	const missions = (await Promise.all([...ids].map(id => Mission.load(config, id))))
+		.filter(Boolean);
+	const sessionByMission = groupSessions(sessionStatus.sessions);
+	const missionCards = missions.map(mission => card(config, mission, sessionByMission.get(mission.id) || []));
+	return {
+		ok: true, action: "missionAgentPoolSnapshot", updatedAt: new Date().toISOString(),
+		missionCount: missionCards.length, openMissionCount: missionCards.filter(item => item.remainingCount > 0).length,
+		sessions: sessionStatus, missions: missionCards, bounded: true
 	};
 }
 
@@ -71,4 +96,4 @@ function groupSessions(sessions = []) {
 	return grouped;
 }
 
-module.exports = { card, groupSessions, snapshot };
+module.exports = { card, groupSessions, poolSnapshot, snapshot };
