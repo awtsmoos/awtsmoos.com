@@ -100,6 +100,21 @@ record_child_exit() {
 	if [ "$(cat "$PID_FILE" 2>/dev/null || true)" = "$CHILD_PID" ]; then
 		rm -f "$PID_FILE"
 	fi
+	# A receipt owned by the exited child is historical evidence, not readiness.
+	# Remove it immediately so every observer sees the same truthful transition.
+	if [ -f "$ROOT/connection-state.json" ]; then
+		local receipt_owner="$(node - "$ROOT/connection-state.json" <<'NODE'
+const fs = require("fs");
+try {
+	const value = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+	process.stdout.write(String(Number(value.ownerPid || value.pid || 0) || ""));
+} catch {}
+NODE
+)"
+		if [ "$receipt_owner" = "$CHILD_PID" ]; then
+			rm -f "$ROOT/connection-state.json" "$ROOT/project-root-state.json"
+		fi
+	fi
 	node "$ROOT/scripts/recovery-control.cjs" after-exit \
 		"$ROOT" "$runtime_ms" "$exit_code" >> "$RECOVERY_LOG" 2>&1 || true
 	supervisor_log "agent_exited" \
