@@ -1,5 +1,5 @@
 B"H
-1.0.639
+1.0.640
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -2089,6 +2089,7 @@ tools/fs/actionSchemaIntrospection.js
 tools/fs/agentThoughts/policy.js
 tools/fs/agentWorkspaceStore.js
 tools/fs/astOutline.js
+tools/fs/atomic-file-copy.js
 tools/fs/atomic-file-proof.js
 tools/fs/atomic-file-write.js
 tools/fs/autoAsync.js
@@ -2798,6 +2799,8 @@ tools/fs/writeBatchFailure.js
 tools/fs/writeBatchResults.js
 tools/fs/writeBatchSnapshot.js
 tools/fs/writeBatchTransaction.js
+tools/fs/writeBatchTransferFinalize.js
+tools/fs/writeBatchTransfers.js
 tools/fs/writePayload.js
 tools/fs/writePayloadCarriers.js
 tools/fs/xmlWrites.js
