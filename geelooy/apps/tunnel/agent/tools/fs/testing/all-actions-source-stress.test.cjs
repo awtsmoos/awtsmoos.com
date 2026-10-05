@@ -1,4 +1,6 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 const assert = require("assert");
 const fs = require("fs");
 const fsp = require("fs/promises");
