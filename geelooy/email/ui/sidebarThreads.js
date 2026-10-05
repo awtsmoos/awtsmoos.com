@@ -8,6 +8,7 @@
  * Awtsmoos.com keeps orchestration here while card detail lives in a smaller vessel.
  */
 import { state } from '../store.js';
+import { refreshSnippets } from '../network.js';
 import { filterThreads, folderEmpty, groupThreadsBySender } from './mailFolders.js';
 import { renderSenderGroup } from './sidebarThreadCards.js';
 
@@ -24,6 +25,10 @@ export function renderThreadList(ui, onOpen) {
 	list.replaceChildren();
 	list.dataset.mailView = state.view || 'inbox';
 	list.dataset.senderCategory = state.senderCategory || 'all';
+	if (state.mailLoadError) {
+		renderLoadError(ui, list);
+		return;
+	}
 	const threads = filteredThreads();
 	renderResultSummary(ui, list, threads.length);
 	if (!threads.length) {
@@ -31,6 +36,26 @@ export function renderThreadList(ui, onOpen) {
 		return;
 	}
 	groupThreadsBySender(threads).forEach(group => renderSenderGroup(ui, list, group, onOpen));
+}
+
+function renderLoadError(ui, list) {
+	ui.html({
+		parent: list,
+		tag: 'div',
+		classList: ['thread-empty-state', 'thread-load-error'],
+		children: [
+			{ tag: 'span', classList: ['thread-empty-icon'], textContent: '⚠' },
+			{ tag: 'strong', textContent: "Couldn't load conversations" },
+			{ tag: 'span', textContent: String(state.mailLoadError || 'The inbox could not be reached. Try again.') },
+			{
+				tag: 'button',
+				classList: ['soft-btn'],
+				textContent: 'Retry',
+				attributes: { type: 'button' },
+				events: { click: () => refreshSnippets() }
+			}
+		]
+	});
 }
 
 function renderResultSummary(ui, list, count) {

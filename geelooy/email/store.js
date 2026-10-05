@@ -10,7 +10,7 @@ import { ensureDefaultAlias, isValidAlias, cleanAlias } from '/scripts/awtsmoos/
 export const state = {
   alias: null, threads: {}, snippets: [], activeThread: null, view: 'inbox', searchQuery: '', senderCategory: 'all', pagination: {},
   settings: { gatekeeperMode: false, approved: {}, rules: [] }, replyingTo: null,
-  isLoadingHistory: false, listeners: new Set()
+  isLoadingHistory: false, mailLoadError: null, listeners: new Set()
 };
 
 export function subscribe(fn) { state.listeners.add(fn); return () => state.listeners.delete(fn); }
