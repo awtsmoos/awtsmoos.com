@@ -15,13 +15,14 @@ the Ikar authority generation lets Torah first light arrive before optional univ
 		return typeof semanticHead === "string" ? semanticHead : "";
 	</script>?>
 	<?<script>
-		var isIkar = typeof semantic === "object"
-			&& semantic
-			&& String(semantic.canonicalPath || "").startsWith("/heichelos/ikar");
 		var core = [
 			'<link rel="stylesheet" href="/style/civilization/core-tokens.css?v=critical-path-002">',
 			'<link rel="stylesheet" href="/style/civilization/core-base.css?v=critical-path-002">'
 		];
+		var ikarParts = Array.from({ length: 7 }, function(_, index) {
+			var part = String(index + 1).padStart(2, "0");
+			return '<link rel="stylesheet" href="/style/heichelos/heichel/premium/ikar-first-parts/part-' + part + '.css?v=ikar-live-002">';
+		});
 		return [
 			'<link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=heichel-mobile-010">',
 			'<link rel="stylesheet" href="/style/heichelos/heichel/index.css?v=ikar-vision-001">',
@@ -33,12 +34,12 @@ the Ikar authority generation lets Torah first light arrive before optional univ
 			'<link rel="stylesheet" href="/style/civilization/heichel-content.css?v=heichel-mobile-010">',
 			'<link rel="stylesheet" href="/style/civilization/heichel-responsive.css?v=heichel-mobile-010">',
 			'<link rel="stylesheet" href="/style/heichelos/heichel/cosmic-profile/index.css?v=heichel-mobile-010">',
-			'<link rel="stylesheet" href="/style/heichelos/heichel/premium/authority.css?v=ikar-authority-006">',
-			'<link rel="stylesheet" href="/style/heichelos/heichel/premium/ikar-first.css?v=ikar-live-001">',
+			'<link rel="stylesheet" href="/style/heichelos/heichel/premium/authority.css?v=ikar-authority-006">'
+		]).concat(ikarParts, [
 			'<link rel="stylesheet" href="/style/universal-ui.css?v=universal-ui-010&compact=true" data-awtsmoos-ui-foundation="style">'
 		]).join("\n");
 	</script>?>
-	<script defer src="/heichelos/heichel/critical-boot.js?v=heichel-live-001"></script>
+	<script defer src="/heichelos/heichel/critical-boot.js?v=critical-path-002"></script>
 </head>
 <body class="heichel-os-document" data-heichel-page data-geelooy-route="heichel">
 	<div class="all awtsmoospage heichel-os-page geelooy-content-region">
