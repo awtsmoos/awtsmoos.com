@@ -3,7 +3,7 @@
 // Blessed is He
 const fs=require("node:fs"),os=require("node:os"),path=require("node:path"),http=require("node:http"),assert=require("node:assert/strict");
 const {execFileSync}=require("node:child_process");
-const {verify}=require("../../geelooy/apps/tunnel/agent/tools/chrome/frontendVerifier.js");
+const {verify}=require(process.env.AWTSMOOS_FRONTEND_PROBE_RUNTIME_ROOT?path.join(process.env.AWTSMOOS_FRONTEND_PROBE_RUNTIME_ROOT,"tools/chrome/frontendVerifier.js"):"../../geelooy/apps/tunnel/agent/tools/chrome/frontendVerifier.js");
 const root=fs.mkdtempSync(path.join(os.tmpdir(),"awtsmoos-browser-proof-")),state=fs.mkdtempSync(path.join(os.tmpdir(),"awtsmoos-browser-state-"));
 execFileSync("git",["init","-q",root]);execFileSync("git",["-C",root,"-c","user.name=Awtsmoos","-c","user.email=test@example.invalid","commit","--allow-empty","-qm","fixture"]);
 const css="body{margin:0;background:#112238;color:white;font:18px sans-serif}main{max-width:900px;padding:24px}button{min-height:48px;padding:12px}#result{padding:12px}";

@@ -54,3 +54,5 @@ test("begin and checkpoint use real Git identity and exact fetched instruction a
   await assert.rejects(buildWorkSessionActions({config:{...config,allowWrite:false},ws,payload:{task:"no"}}).tunnelWorkBegin(),/write_disabled/);
  }finally{fs.rmSync(root,{recursive:true,force:true});}
 });
+
+test("Awtsmoos durable work retains the authenticated parent instruction bridge",()=>{const own=require("../../tools/fs/actionProcessOwnership.js");for(const a of ["tunnelWorkBegin","tunnelWorkRefresh","tunnelWorkResume","tunnelWorkGate","tunnelWorkHealth"])assert.equal(own.isParentResidentAction(a),true);});

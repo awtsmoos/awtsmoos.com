@@ -8,7 +8,7 @@ const pause=ms=>new Promise(r=>setTimeout(r,ms));
 /** The Awtsmoos proves deployed discovery, durable writes and concurrent command results. */
 async function command(i){const start=Date.now(),v=await call('/command',{action:'commandStart',command:'printf "Awtsmoos concurrent '+i+'"',cwd:root,timeoutMs:15000});assert.ok(v.jobId);const deadline=Date.now()+20000;while(Date.now()<deadline){const s=await call('/command',{action:'commandStatus',jobId:v.jobId});if(s.done){assert.equal(s.exitCode,0);const out=await call('/command',{action:'commandJobOutputPage',jobId:v.jobId,stream:'stdout'});assert.equal(out.content,'Awtsmoos concurrent '+i);return Date.now()-start;}await pause(100);}await call('/command',{action:'commandCancel',jobId:v.jobId});throw Error('owned job timeout');}
 (async()=>{try{
- const ready=await call('/readyz');assert.equal(ready.relayReady,true);assert.equal(ready.runtimeVersion,'1.0.643');
+ const ready=await call('/readyz');assert.equal(ready.relayReady,true);assert.equal(ready.runtimeVersion,process.env.AWTSMOOS_EXPECTED_RUNTIME||'1.0.643');
  const schema=await call('/fs',{action:'actionSchemaTrace',targetActions:['read','write','commandStart','instructionResolve']});assert.equal(schema.batch,true);assert.equal(schema.count,4);
  const write=await call('/fs',{action:'write',path:file,content:'// B"H\n// Boruch Hashem\n// Blessed is He\nAwtsmoos release witness',performanceDiagnostics:true});assert.ok(write.timingMs);
  const read=await call('/fs',{action:'read',path:file,maxChars:1000});assert.match(read.content,/Awtsmoos release witness/);
