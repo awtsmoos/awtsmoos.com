@@ -177,7 +177,7 @@ module.exports = {
           }
         );
 
-        response.statusCode = validHttpStatus(result.status) || 200;
+        response.statusCode = validHttpStatus(result.status) ? Number(result.status) : 200;
 
         if (result.headers) {
           for (const [k, v] of Object.entries(result.headers)) {
