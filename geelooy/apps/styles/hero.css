@@ -12,14 +12,21 @@ body[data-geelooy-route="apps"] .apps-hero {
 	gap: clamp(20px, 4vw, 48px);
 	align-items: end;
 	min-inline-size: 0;
+	max-inline-size: 100%;
+	overflow: clip;
+}
+
+body[data-geelooy-route="apps"] .apps-hero > * {
+	min-inline-size: 0;
+	max-inline-size: 100%;
 }
 
 body[data-geelooy-route="apps"] .apps-hero h1 {
 	max-inline-size: 12ch;
 	margin-inline: 0;
-	font-size: clamp(2.8rem, 15vw, 6.5rem);
-	line-height: .9;
-	letter-spacing: -.055em;
+	font-size: clamp(2.65rem, 11vw, 6.5rem);
+	line-height: .92;
+	letter-spacing: -.05em;
 	text-wrap: balance;
 	overflow-wrap: anywhere;
 }
@@ -28,14 +35,19 @@ body[data-geelooy-route="apps"] .apps-hero-actions {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
 	gap: 10px;
-	margin-block-start: 22px;
+	margin-block-start: 18px;
+	min-inline-size: 0;
+	max-inline-size: 100%;
 }
 
 body[data-geelooy-route="apps"] .apps-hero-actions > a {
 	justify-content: center;
-	min-block-size: 48px;
+	min-block-size: 46px;
+	min-inline-size: 0;
 	max-inline-size: 100%;
+	padding-inline: 14px;
 	text-align: center;
+	white-space: normal;
 }
 
 body[data-geelooy-route="apps"] .apps-economy-note {
@@ -43,6 +55,7 @@ body[data-geelooy-route="apps"] .apps-economy-note {
 	isolation: isolate;
 	overflow: clip;
 	min-inline-size: 0;
+	max-inline-size: 100%;
 	padding: 20px;
 	border: 1px solid var(--g-border);
 	border-radius: var(--g-radius-lg);
@@ -68,7 +81,32 @@ body[data-geelooy-route="apps"] .apps-economy-note strong {
 body[data-geelooy-route="apps"] .apps-economy-note p {
 	margin: 8px 0 0;
 	color: var(--g-text-muted);
-	line-height: 1.55;
+	line-height: 1.5;
+}
+
+@media (max-width: 639px) {
+	body[data-geelooy-route="apps"] .apps-hero {
+		gap: 14px;
+		padding: 18px 16px;
+		border-radius: 18px;
+	}
+	body[data-geelooy-route="apps"] .apps-hero h1 {
+		max-inline-size: 9ch;
+		font-size: clamp(2.5rem, 12vw, 3.35rem);
+		line-height: .94;
+	}
+	body[data-geelooy-route="apps"] .apps-hero-copy > p:not(.g-kicker) {
+		margin-block: 10px 0;
+		font-size: .98rem;
+		line-height: 1.45;
+	}
+	body[data-geelooy-route="apps"] .apps-hero-actions {
+		gap: 8px;
+		margin-block-start: 14px;
+	}
+	body[data-geelooy-route="apps"] .apps-economy-note {
+		padding: 15px;
+	}
 }
 
 @media (min-width: 640px) {
