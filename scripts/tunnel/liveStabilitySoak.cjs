@@ -72,7 +72,7 @@ function snapshot(done=false) {
   return [k,{calls:g.calls,failed:g.failed,meanMs:Math.round(g.totalMs/g.calls),p50Ms:Math.round(s[Math.floor(s.length*.5)]||0),p95Ms:Math.round(s[Math.floor(s.length*.95)]||0)}]; }));
  const report={runId,startedAt:new Date(Date.now()-(performance.now()-started)).toISOString(),elapsedMs:Math.round(performance.now()-started),durationMs,done,scope:'Real Mac localhost actions and authenticated device instruction bridge; no user OAuth client invocation',metrics,failures};
  fs.writeFileSync(reportFile+'.tmp',JSON.stringify(report,null,2));fs.renameSync(reportFile+'.tmp',reportFile);
- console.log(JSON.stringify({runId,elapsedSec:Math.round(report.elapsedMs/1000),done,calls:Object.values(groups).reduce((n,g)=>n+g.calls,0),failures:failures.length,reportFile}));
+ console.log(JSON.stringify({runId,elapsedSec:Math.round(report.elapsedMs/1000),done,httpCalls:Object.entries(groups).filter(([name])=>!name.endsWith("_round")&&!name.startsWith("cleanup_")).reduce((n,[name,g])=>n+g.calls,0), operationRounds:Object.entries(groups).filter(([name])=>name.endsWith("_round")).reduce((n,[name,g])=>n+g.calls,0),failures:failures.length,reportFile}));
 }
 async function loop(interval, operation) { let round=0;while(active()){await operation(round++);await pause(interval);} }
 (async()=>{
