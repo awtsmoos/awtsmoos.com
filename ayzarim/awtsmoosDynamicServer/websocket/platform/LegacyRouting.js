@@ -21,7 +21,7 @@ async function routeLegacyMessage(registry, server, client, data) {
 	try {
 		await application.handleLegacy({ server, client }, data);
 	} catch (error) {
-		sendMalformed(client, error);
+		sendMalformed(client, error, data.type);
 	}
 }
 
@@ -35,8 +35,8 @@ function sendUnknown(client, messageType) {
 }
 
 /** Preserves the original malformed-message payload and logging behavior. */
-function sendMalformed(client, error) {
-	console.log("B\"H WS MESSAGE ERROR", error.message);
+function sendMalformed(client, error, messageType = "parse") {
+	console.log("B\"H WS MESSAGE ERROR", { messageType, name: error.name, stack: String(error.stack || error.message).split("\n").slice(0, 6).join("\n") });
 	try {
 		client.send({
 			code: "BAD_WS_MESSAGE",
