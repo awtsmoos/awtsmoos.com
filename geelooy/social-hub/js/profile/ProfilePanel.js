@@ -86,6 +86,8 @@ export class ProfilePanel {
 		this.element('profileDescription').textContent =
 			'No public profile has been published for this alias yet. Choose another alias or publish profile details when ready.';
 		this.element('profileStats').replaceChildren();
+		const evidence = this.root.querySelector('.profileEvidenceGrid');
+		if (evidence) evidence.hidden = true;
 		for (const id of PROFILE_EVIDENCE_IDS) {
 			const region = this.element(id);
 			if (!region) continue;

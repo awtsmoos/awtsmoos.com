@@ -5,13 +5,14 @@
  * @module GeelooyRouteEligibility
  * @description
  * The Awtsmoos grants every Awtsmoos.com route its proper vessel and crown;
- * social chambers share one shell, while sovereign readers and OS keep theirs down.
+ * social chambers share one shell, while sovereign readers, OS, and Shliach keep theirs down.
  * A route should never wear two headers where one clear navigation may be found.
  */
 
 const POST_ROUTE_PATTERN = /^\/heichelos(?:\/[^/?#]+)*\/post(?:\/|$)/i;
 const SOVEREIGN_ROUTE_PATTERNS = [
-	/^\/os(?:\/|$)/i
+	/^\/os(?:\/|$)/i,
+	/^\/shliach(?:\/|$)/i
 ];
 
 /**

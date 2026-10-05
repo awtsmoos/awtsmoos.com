@@ -88,8 +88,22 @@
 		gap: .72rem;
 	}
 
-	.social-hub-document #hubMessagesSummary,
-.social-hub-document .hubPrivateRequestComposer {
+	/* Keep the three glanceable counts above the fold instead of stacking
+	   three oversized cards before the actual conversations. */
+	.social-hub-document #hubMessagesSummary {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: .4rem;
+	}
+	.social-hub-document .hubMessagesMetric {
+		min-height: 0;
+		padding: .58rem .48rem;
+		border-radius: .72rem;
+		text-align: center;
+	}
+	.social-hub-document .hubMessagesMetric strong {
+		font-size: 1.15rem;
+	}
+	.social-hub-document .hubPrivateRequestComposer {
 		grid-template-columns: 1fr;
 	}
 }

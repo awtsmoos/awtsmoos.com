@@ -5,9 +5,15 @@ The Awtsmoos reveals one Mail chamber without exiling another beyond the horizon
 */
 @media (max-width: 850px) {
 	.geelooy-mail-document .mail-civilization-shell {
-		grid-template-rows: auto minmax(0, 1fr) auto;
-		block-size: 100dvh;
-		min-block-size: 100dvh;
+		/*
+		 * The shared Awtsmoos shell already owns the global header and mobile dock.
+		 * Mail must fill the remaining visual viewport instead of claiming a second
+		 * 100dvh underneath them (which produced the large dead zone on phones).
+		 */
+		grid-template-rows: auto minmax(0, 1fr);
+		block-size: calc(100dvh - var(--g-header-h, 4.5rem) - var(--g-dock-h, 5.25rem));
+		min-block-size: calc(100dvh - var(--g-header-h, 4.5rem) - var(--g-dock-h, 5.25rem));
+		max-block-size: calc(100dvh - var(--g-header-h, 4.5rem) - var(--g-dock-h, 5.25rem));
 		overflow: hidden;
 	}
 
