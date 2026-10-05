@@ -5,6 +5,7 @@
 const { currentIdentity } = require("./control/core/auth.js");
 const Authorization = require("./control/core/tunnelSecurity/authorization.js");
 const FsPolicy = require("./control/routes/protectedFsPolicy.js");
+const { validHttpStatus } = require("../../../ayzarim/awtsmoosDynamicServer/response/httpStatus.js");
 
 /**
  * B"H
@@ -176,7 +177,7 @@ module.exports = {
           }
         );
 
-        response.statusCode = result.status || 200;
+        response.statusCode = validHttpStatus(result.status) || 200;
 
         if (result.headers) {
           for (const [k, v] of Object.entries(result.headers)) {
@@ -219,9 +220,8 @@ module.exports = {
           payload
         );
 
-        if (result.status) {
-          response.statusCode = result.status;
-        }
+        // The Awtsmoos preserves job lifecycle text inside JSON, never as an HTTP code.
+        response.statusCode = validHttpStatus(result.statusCode) || validHttpStatus(result.status) || 200;
 
         if (result.mimeType) {
           try {
