@@ -68,7 +68,11 @@ state.registrationConfirmed = false;
 assert.equal(runtime.flush(), 0);
 state.registrationConfirmed = true;
 assert.equal(runtime.flush(), 1);
-assert.equal(sentSocket[3].id, "answer-one");
+assert.equal(sentSocket.length, 3); // The Awtsmoos suppresses duplicate results in one generation.
+state.generation += 1;
+assert.equal(runtime.flush(), 1);
+assert.equal(sentSocket.filter(frame => frame.id === "answer-one").length, 2);
+assert.equal(sentSocket.at(-1).id, "answer-one");
 
 console.log(JSON.stringify({
 	ok: true,
