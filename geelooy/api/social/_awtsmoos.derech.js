@@ -6,8 +6,8 @@
  * @module SocialApiDerech
  * @description
  * The Awtsmoos gathers every proven Social road without stealing ownership from its domain;
- * Awtsmoos.com mounts identity, discovery, content, reactions, comments, and community as
- * one public covenant while request support remains inside its own bounded vessel.
+ * Awtsmoos.com mounts identity, discovery, content, reactions, comments, community, and
+ * unified destinations as one public covenant while request support remains bounded.
  */
 const aliases = require('./_awtsmoos.alias.js');
 const assets = require('./_awtsmoos.assets.js');
@@ -18,6 +18,7 @@ const communications = require('./_awtsmoos.communications.js');
 const community = require('./_awtsmoos.community.js');
 const content = require('./_awtsmoos.content.js');
 const counters = require('./_awtsmoos.counter.js');
+const destinations = require('./_awtsmoos.destinations.js');
 const drive = require('./_awtsmoos.drive.js');
 const editor = require('./_awtsmoos.editor.js');
 const entities = require('./_awtsmoos.entities.js');
@@ -83,6 +84,7 @@ module.exports = async $i => {
 		...packed(vessel),
 		...platform(vessel),
 		...migrations(vessel),
+		...destinations(vessel),
 		...heichelos(vessel),
 		...posts(vessel),
 		...counters(vessel),
