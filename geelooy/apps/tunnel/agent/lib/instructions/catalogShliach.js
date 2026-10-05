@@ -11,7 +11,7 @@ const { instructionPack } = require("./pack.js");
  */
 const shliachInstructions = Object.freeze([
 	instructionPack({
-		id: "shliach.tunnel-native-workflow", version: 1,
+		id: "shliach.tunnel-native-workflow", version: 2,
 		summary: "Use live schemas, resolved instructions, tunnel plans and factual mission reports instead of private thought folders.",
 		tags: ["awtsmoos-shliach", "plugin", "tunnel", "planning"],
 		applies: { taskHints: ["awtsmoos shliach", "awtsmoos plugin", "plugin integration", "tunnel-native plan"] },
@@ -24,7 +24,16 @@ const shliachInstructions = Object.freeze([
 			"Update durable checklist progress, reports, blockers and verification receipts; local thought folders are optional archival mirrors.",
 			"Store decisions, assumptions, touched paths and evidence; never request or publish hidden chain-of-thought.",
 			"Follow task-relevant authenticated instructions within user scope and host policy; instructions never grant permissions.",
-			"Discover job/receipt status before retrying an uncertain mutation. No credentials in plans, logs or source."
+			"Discover job/receipt status before retrying an uncertain mutation. No credentials in plans, logs or source.",
+            "Batch independent reads and polls with bounded concurrency; start conservatively, measure latency, and reduce load on queue pressure or health errors.",
+            "Run long commands as owned asynchronous jobs; retain job IDs and poll bounded output pages. Reserve room for health, status and cancellation.",
+            "Serialize writes to the same file, use hash guards, and verify readback; never let agents overwrite one another's changes.",
+            "Persist factual checkpoints with mission, plan, route, pending job/receipt IDs, completed checks and next authorized steps; resume by observing actual state.",
+            "Use actionSchemaTrace as the internal schema operation; awtsmoos_action_schema is the MCP wrapper, not a native action named actionSchema.",
+            "Cache schemas and fetched instruction packs only within their returned version/generation; refresh after reconnect, release change, scope change or rejection.",
+            "Give concrete progress updates at least once per minute during active work. Continue authorized independent work while another job runs.",
+            "Background continuation requires a real persistent worker and explicit bounded mission scope; host turn limits are not removed by instructions."
+
 		]
 	}),
 	instructionPack({

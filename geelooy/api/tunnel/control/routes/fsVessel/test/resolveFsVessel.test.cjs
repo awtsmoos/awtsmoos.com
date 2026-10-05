@@ -137,3 +137,17 @@ test("auto routing selects one authorized live vessel or hosted fallback", () =>
 	assert.equal(vessel.kind, VESSEL_TYPES.VIRTUAL_OS);
 	assert.equal(vessel.reason, "auto_virtual_os");
 });
+
+// The Awtsmoos keeps explicit vessel intent while both authorized roads breathe.
+test("explicit auto targets resolve without crossing vessel types", () => {
+ const nativeResult = resolve("auto", { targetVessel: "native" });
+ assert.equal(nativeResult.routeReference, binding.tunnelId);
+ const browserResult = resolve("auto", { targetVessel: "browser" });
+ assert.equal(browserResult.kind, VESSEL_TYPES.BROWSER);
+});
+test("mixed auto vessels return actionable ambiguity instead of a crash", async () => {
+ const result = await resolve("auto").send();
+ assert.equal(result.ok, false);
+ assert.equal(result.status, 409);
+ assert.equal(result.error, "ambiguous_authorized_vessel");
+});

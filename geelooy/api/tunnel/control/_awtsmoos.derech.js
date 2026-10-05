@@ -1,5 +1,6 @@
-
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 const { routeTable } = require("./routes/table.js");
 
@@ -29,7 +30,14 @@ module.exports = {
     }
 
     for (const [path, handler] of Object.entries(routeTable)) {
-      await $i.use(path, async vars => handler($i, vars || {}));
+      await $i.use(path, async vars => {
+        const result = await handler($i, vars || {});
+        const response = $i.response;
+        if (typeof result === "string" && !response.headersSent && response.statusCode !== 200) {
+          return { statusCode: response.statusCode, response: result };
+        }
+        return result;
+      });
     }
   }
 };
