@@ -317,15 +317,21 @@ function authenticate({ tokenId, presentedToken, stateRoot }) {
 	if (!TOKEN_ID_RE.test(id)) return { ok: false, status: 404, error: "preview_link_not_found" };
 	const state = readState(stateRoot);
 	const nowMs = Date.now();
-	if (purgeExpired(state, nowMs)) writeState(stateRoot, state);
+	// The requested record's own lifecycle is decided BEFORE the general purge,
+	// so "expired" and "revoked" stay distinguishable from "never existed".
 	const record = state.links[id];
-	if (!record) return { ok: false, status: 404, error: "preview_link_not_found" };
+	if (!record) {
+		if (purgeExpired(state, nowMs)) writeState(stateRoot, state);
+		return { ok: false, status: 404, error: "preview_link_not_found" };
+	}
 	if (record.revokedAt) return { ok: false, status: 410, error: "preview_link_revoked" };
 	if (nowMs >= Date.parse(record.expiresAt)) {
 		delete state.links[id];
+		purgeExpired(state, nowMs);
 		writeState(stateRoot, state);
 		return { ok: false, status: 410, error: "preview_link_expired" };
 	}
+	if (purgeExpired(state, nowMs)) writeState(stateRoot, state);
 	const presented = String(presentedToken || "");
 	if (!presented || !digestsEqualHex(sha256Hex(presented), record.tokenSha256)) {
 		return { ok: false, status: 403, error: "preview_link_unauthorized" };
@@ -345,12 +351,16 @@ function previewLinkRevoke({ tokenId, stateRoot } = {}) {
 	const id = String(tokenId || "");
 	const state = readState(stateRoot);
 	purgeExpired(state);
-	const existed = Boolean(state.links[id]);
-	if (existed) {
-		delete state.links[id];
+	const record = state.links[id];
+	if (!record) return { ok: true, action: "previewLinkRevoke", tokenId: id, revoked: false };
+	if (!record.revokedAt) {
+		// Tombstone, not delete: a replayed bearer keeps getting an explicit
+		// "revoked" (410) instead of a misleading "not found". The tombstone is
+		// purged automatically when the link's TTL expires.
+		record.revokedAt = new Date().toISOString();
 		writeState(stateRoot, state);
 	}
-	return { ok: true, action: "previewLinkRevoke", tokenId: id, revoked: existed };
+	return { ok: true, action: "previewLinkRevoke", tokenId: id, revoked: true };
 }
 
 /**
