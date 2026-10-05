@@ -1,57 +1,82 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos reveals usable Torah geometry before JavaScript wakes; Awtsmoos.com lets enhancement join the existing vessels without replacing the learner's page beneath them.
+The Awtsmoos reveals identity through the real Heichel record; Awtsmoos.com adds atmosphere around the data, never a replacement name or invented description.
+Server-first: the Awtsmoos renders the semantic model and discovery links into this
+fallback before the browser wakes, so Torah text is present in the served document.
+The client script below only fills gaps the server could not know.
 -->
-<?<script>
-	var semanticModel = typeof semantic === "object" && semantic ? semantic : {};
-	var discoveryModel = typeof discovery === "object" && discovery ? discovery : {};
-	var heading = semanticModel.heading || "Geelooy Heichel";
-	var context = semanticModel.context || "Living Heichel";
-	var description = semanticModel.description || "Explore teachings and sources in their living context.";
-	var path = semanticModel.canonicalPath || "/heichelos";
-	var isIkarRoot = path === "/heichelos/ikar";
-	var isIkarRoute = isIkarRoot || path.indexOf("/heichelos/ikar/") === 0;
-
-	if (isIkarRoot) {
-		context = "Torah · Living Library";
-		description = "Choose a path into Torah. Fast, direct, bilingual, and built to keep the text first.";
-	}
-
-	var author = !isIkarRoot && semanticModel.author
-		? "<p class=\"heichel-semantic-author\">By " + semanticModel.author + "</p>"
-		: "";
-	var links = Array.isArray(discoveryModel.links) ? discoveryModel.links : [];
-	var linkMarkup = links.map(function(item) {
-		return "<li data-heichel-discovery-kind=\"" + (item.kind || "teaching") + "\"><a href=\"" + (item.path || path) + "\">" + (item.title || "Teaching") + "</a></li>";
+<div class="heichel-semantic-fallback" id="heichel-semantic-fallback" data-heichel-semantic-fallback="true">
+	<header class="heichel-semantic-hero">
+		<p class="heichel-semantic-context" id="heichel-boot-context">TORAH · LIVING LIBRARY</p>
+		<h1 id="heichel-boot-title"><?<script>
+	var model = typeof semantic === "object" && semantic ? semantic : null;
+	return model && model.heading ? model.heading : "";
+</script>?></h1>
+		<p class="heichel-semantic-description" id="heichel-boot-description"><?<script>
+	var model = typeof semantic === "object" && semantic ? semantic : null;
+	return model && model.description ? model.description : "";
+</script>?></p>
+	</header>
+	<nav class="heichel-semantic-discovery" aria-labelledby="heichel-discovery-title">
+		<h2 id="heichel-discovery-title"><?<script>
+	var model = typeof semantic === "object" && semantic ? semantic : null;
+	var isIkar = model && model.canonicalPath === "/heichelos/ikar";
+	return isIkar ? "Enter the library" : "Explore";
+</script>?></h2>
+		<ul id="heichel-discovery-list"><?<script>
+	var bag = typeof discovery === "object" && discovery ? discovery : null;
+	var links = bag && Array.isArray(bag.links) ? bag.links : [];
+	return links.map(function renderDiscoveryLink(item) {
+		if (!item || !item.path) return "";
+		var label = item.title || "Open";
+		return '<li><a href="' + item.path + '">' + label + "</a></li>";
 	}).join("");
-	var discoveryTitle = isIkarRoute
-		? (isIkarRoot ? "Choose what to learn" : "Choose a section")
-		: "Continue learning";
-	var discoveryMarkup = linkMarkup
-		? "<nav class=\"heichel-semantic-discovery\" aria-label=\"Torah library\"><h2>" + discoveryTitle + "</h2><ul>" + linkMarkup + "</ul></nav>"
-		: "";
-	var searchMarkup = isIkarRoute && links.length >= 8
-		? "<label class=\"ikar-first-search\" data-ikar-stable-search><span>Search this section</span><input type=\"search\" autocomplete=\"off\" placeholder=\"Type a title in Hebrew or English\"><small aria-live=\"polite\"></small></label>"
-		: "";
-	var currentAttribute = isIkarRoot ? " aria-current=\"page\"" : "";
-	var navigationMarkup = isIkarRoute
-		? "<nav class=\"ikar-first-actions\" data-ikar-stable-navigation aria-label=\"Torah navigation\"><a href=\"/\">Home</a><a href=\"/heichelos/ikar\"" + currentAttribute + ">Torah Library</a></nav>"
-		: "";
-	var rootMarker = isIkarRoot ? " data-ikar-root" : "";
-	var statusText = isIkarRoute
-		? links.length + " Torah " + (links.length === 1 ? "pathway" : "pathways") + " ready."
-		: "Interactive navigation is loading.";
-
-	return "<section class=\"heichel-shell-boot heichel-semantic-fallback\" data-heichel-boot-state data-heichel-semantic-fallback" + rootMarker + " aria-labelledby=\"heichel-boot-title\">"
-		+ "<p class=\"civilization-kicker\">" + context + "</p>"
-		+ "<h1 id=\"heichel-boot-title\">" + heading + "</h1>"
-		+ "<p class=\"heichel-semantic-description\">" + description + "</p>"
-		+ author
-		+ searchMarkup
-		+ discoveryMarkup
-		+ "<p role=\"status\">" + statusText + "</p>"
-		+ "<noscript><p>JavaScript is optional. <a href=\"" + path + "\">Open this Torah path</a>.</p></noscript>"
-		+ navigationMarkup
-		+ "</section>";
-</script>?>
+</script>?></ul>
+	</nav>
+</div>
+<script>
+(function revealHeichelFallback() {
+	var serverSemantic = typeof semantic === "object" && semantic ? semantic : null;
+	var model = serverSemantic || window.semanticModel || {};
+	var path = String(location.pathname || "");
+	var isIkarRoot = path === "/heichelos/ikar" || path === "/heichelos/ikar/";
+	var root = document.getElementById("heichel-semantic-fallback");
+	if (isIkarRoot) {
+		root?.setAttribute("data-ikar-root", "true");
+	}
+	// Server-first: the Awtsmoos already rendered semantic truth above; only fill gaps.
+	function fillIfEmpty(id, value) {
+		var node = document.getElementById(id);
+		if (node && !node.textContent.trim() && value) {
+			node.textContent = value;
+		}
+		return node;
+	}
+	var title = String(model.title || model.name || model.heading || (isIkarRoot ? "Ikar — Torah Library" : "Heichel")).trim();
+	var description = String(model.description || (isIkarRoot ? "Open the living Torah library, search sources, and continue into its sections." : "Open this Heichel and continue exploring its available sections.")).trim();
+	fillIfEmpty("heichel-boot-title", title);
+	var descriptionNode = fillIfEmpty("heichel-boot-description", description);
+	if (descriptionNode) {
+		descriptionNode.hidden = !descriptionNode.textContent.trim();
+	}
+	var discoveryTitle = document.getElementById("heichel-discovery-title");
+	if (discoveryTitle && !discoveryTitle.textContent.trim()) {
+		discoveryTitle.textContent = isIkarRoot ? "Enter the library" : "Explore";
+	}
+	var list = document.getElementById("heichel-discovery-list");
+	if (list && !list.children.length) {
+		var links = Array.isArray(model.links) ? model.links : [];
+		if (isIkarRoot && !links.length) links = [{ href: "/mawgawl/sefarim/", label: "Search the Torah library" }, { href: "/heichelos/", label: "Browse Heichelos" }];
+		links.forEach(function renderLink(item) {
+			if (!item || !item.href) return;
+			var row = document.createElement("li");
+			var anchor = document.createElement("a");
+			anchor.href = item.href;
+			anchor.textContent = item.label || item.title || item.name || "Open";
+			row.appendChild(anchor);
+			list.appendChild(row);
+		});
+	}
+})();
+</script>
