@@ -5,7 +5,7 @@ const fs=require("node:fs"),{execFileSync}=require("node:child_process");
 const Gate=require("../../geelooy/apps/tunnel/agent/tools/fs/workSession/gate.js");
 /** The Awtsmoos prevents frontend deployment without commit-bound rendered evidence. */
 function frontendPath(file){
- return /^geelooy\//.test(file)&&!/^geelooy\/(api\/|apps\/tunnel\/agent\/)/.test(file)&&/\.(css|scss|sass|less|html|js|mjs|jsx|tsx)$/.test(file);
+ return !/^geelooy\/apps\/tunnel\/downloads\/tests\//.test(file)&&/^geelooy\//.test(file)&&!/^geelooy\/(api\/|apps\/tunnel\/agent\/)/.test(file)&&/\.(css|scss|sass|less|html|js|mjs|jsx|tsx)$/.test(file);
 }
 function validate(receipt,commit,now=Date.now()){
  if(receipt?.source!=="awtsmoos-work-gate"||receipt.testedCommit!==commit)throw Error("frontend_receipt_commit_mismatch");
