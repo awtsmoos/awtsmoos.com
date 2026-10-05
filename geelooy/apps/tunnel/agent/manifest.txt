@@ -1,5 +1,5 @@
 B"H
-1.0.642
+1.0.643
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1227,6 +1227,7 @@ lib/local-api-catalog.js
 lib/local-api-health.js
 lib/local-api-limits.js
 lib/local-api-port-policy.js
+lib/local-api-readiness.js
 lib/local-api-response.js
 lib/local-api-route-handlers.js
 lib/local-api-routes.js
