@@ -1,47 +1,62 @@
 // B"H
-const Url = require('./url.js');
-const State = require('./state.js');
-const Queue = require('./queue.js');
-const Prompt = require('./prompt.js');
-const Tick = require('./tick.js');
-const Daemon = require('./daemon.js');
-const Status = require('./status.js');
-const Menu = require('./menu.js');
-const Custom = require('./customGpt.js');
-const Cycle = require('./cycle.js');
-const Promote = require('./promote.js');
+// Boruch Hashem
+// Blessed is He
 
-/** B"H — Chapter 1965: Public doors now remember the cycle. */
+const Url = require("./url.js");
+const State = require("./state.js");
+const Tick = require("./tick.js");
+const Daemon = require("./daemon.js");
+const Status = require("./status.js");
+const Menu = require("./menu.js");
+const Promote = require("./promote.js");
+const Policy = require("./workerPolicy.js");
+
+/** The Awtsmoos gives the existing doorway bounded background and resume options. */
 function build(payload = {}) {
-  return {
-    async chatgptHourLoopStart() { return start(payload); },
-    async chatgptHourLoopTick() { return Tick.run(payload); },
-    async chatgptHourLoopStatus() { return Status.get(payload); },
-    async chatgptHourLoopMenu() { return Menu.get(payload); },
-    async chatgptHourLoopStop() { return stop(payload); },
-    async chatgptHourLoopStress() { return stress(payload); },
-    async chatgptHourLoopPromote() { return promote(payload); }
-  };
+	return {
+		async chatgptHourLoopStart() { return start(payload); },
+		async chatgptHourLoopTick() { return Tick.run(payload); },
+		async chatgptHourLoopStatus() { return Status.get(payload); },
+		async chatgptHourLoopMenu() { return Menu.get(payload); },
+		async chatgptHourLoopStop() { return stop(payload); },
+		async chatgptHourLoopStress() { return stress(payload); },
+		async chatgptHourLoopPromote() { return promote(payload); }
+	};
 }
 function start(input = {}) {
-  const urlInfo = Url.normalize(input);
-  const custom = Custom.parse(input.url || input.conversationUrl || input.chatgptUrl || '');
-  const info = urlInfo || { conversationId: custom.conversationId, url: Custom.conversationUrl(custom), provider: 'chatgpt' };
-  if (!info.conversationId && !custom.gptId) return { ok: false, action: 'chatgptHourLoopStart', error: 'missing_chatgpt_url' };
-  const state = State.read(input.base || process.env.HOME);
-  const id = info.conversationId || `custom_${Date.now().toString(36)}`;
-  state.current = id;
-  state.sessions[id] = { ...info, ...custom, conversationId: id, status: 'active', goal: input.goal || input.objective || '', promptCount: 0, promotionEvery: Number(input.promotionEvery || 6), startedAt: new Date().toISOString() };
-  enqueueCycle(state, state.sessions[id], input);
-  State.write(input.base || process.env.HOME, state);
-  return { ok: true, action: 'chatgptHourLoopStart', session: state.sessions[id], nextAction: { action: 'chatgptHourLoopTick', conversationId: id } };
+	const base = input.base || process.env.HOME;
+	const info = Url.normalize(input);
+	const current = State.read(base);
+	const id = input.conversationId || info?.conversationId || (input.resume ? current.current : "");
+	const previous = input.resume ? current.sessions[id] : null;
+	const target = info?.url || previous?.url;
+	if (!id || !Policy.targetMatches(target, target)) return { ok: false, error: "exact_chatgpt_conversation_required" };
+	if (previous?.pendingIntent && ["uncertain", "intent"].includes(current.queue[previous.pendingIntent]?.state)) {
+		return { ok: false, error: "reconcile_submission_before_resume", turnId: previous.pendingIntent };
+	}
+	if (current.sessions[id] && !input.resume) return { ok: false, error: "existing_session_use_resume" };
+	const session = { ...Policy.definition(input, previous || {}), conversationId: id, url: target, provider: "chatgpt" };
+	if (!session.goal) return { ok: false, error: "missing_bounded_goal" };
+	const reason = Policy.stopped(session);
+	if (reason) return { ok: false, error: reason };
+	State.patch(base, state => {
+		state.current = id; state.sessions[id] = session;
+		if (!previous) enqueueCycle(state, session);
+	});
+	const background = input.background === true ? Daemon.start({ ...input, conversationId: id }) : null;
+	return { ok: true, action: "chatgptHourLoopStart", session, background,
+		nextAction: { action: "chatgptHourLoopTick", conversationId: id } };
 }
-function enqueueCycle(state, session, input = {}) {
-  const phase = Cycle.current(session.promptCount || 0);
-  const packet = { conversationId: session.conversationId, missionId: input.missionId, objective: session.goal || input.goal || input.objective, nextAction: { action: 'chatgptHourLoopTick', conversationId: session.conversationId }, emergencyExit: ['user_stop','not_authenticated','unexpected_navigation'], evidence: [`cycle:${phase}`] };
-  Queue.add(state, Queue.create({ conversationId: session.conversationId, prompt: Cycle.instruction(phase, packet) + '\n\n' + Prompt.build(packet) }));
+function enqueueCycle(state, session) { return Tick.enqueueNext(state, session); }
+function stop(input = {}) {
+	const base = input.base || process.env.HOME;
+	const id = input.conversationId || input.sessionId || State.read(base).current;
+	if (!id) return { ok: false, error: "missing_conversation_id" };
+	return { action: "chatgptHourLoopStop", ...Daemon.stop(id, base, input.pause === true) };
 }
-function stop(input = {}) { return Daemon.stop(input.conversationId || input.sessionId || 'default'); }
-function stress(input = {}) { return { ok: true, action: 'chatgptHourLoopStress', status: Status.get(input), note: 'Use repeated start/status/tick probes; no long gateway wait.' }; }
-function promote(input = {}) { return { ok: true, action: 'chatgptHourLoopPromote', promotion: Promote.prepare(input) }; }
+function stress(input = {}) {
+	return { ok: true, action: "chatgptHourLoopStress", status: Status.get(input),
+		note: "Use bounded fixture and read-only probes; do not prompt an unrelated conversation." };
+}
+function promote(input = {}) { return { ok: true, action: "chatgptHourLoopPromote", promotion: Promote.prepare(input) }; }
 module.exports = { build, start, stop, stress, promote, enqueueCycle };

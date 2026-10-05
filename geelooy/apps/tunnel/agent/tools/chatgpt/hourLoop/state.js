@@ -1,24 +1,23 @@
 // B"H
-const fs = require('fs');
-const path = require('path');
-const C = require('./constants.js');
+// Boruch Hashem
+// Blessed is He
 
-/** B"H — Chapter 1946: The loop survives by writing its name outside time. */
+const fs = require("node:fs");
+const path = require("node:path");
+const C = require("./constants.js");
+const Store = require("./stateStore.js");
+
+/** The Awtsmoos preserves each checkpoint; corrupted memory is never empty success. */
 function root(base = process.env.HOME || process.cwd()) {
-  return path.join(base, '.awtsmoos-tunnel', 'device-state', C.STATE_DIR);
+	return path.join(base, ".awtsmoos-tunnel", "device-state", C.STATE_DIR);
 }
-function file(base) { return path.join(root(base), 'state.json'); }
-function empty() { return { version: 1, current: '', sessions: {}, queue: {}, locks: {}, receipts: [] }; }
-function read(base) {
-  try { return { ...empty(), ...JSON.parse(fs.readFileSync(file(base), 'utf8')) }; }
-  catch { return empty(); }
+function file(base) { return path.join(root(base), "state.json"); }
+function empty() {
+	return { version: 2, revision: 0, current: "", sessions: {}, queue: {}, locks: {}, receipts: [], workers: {} };
 }
-function write(base, state) {
-  const dir = root(base);
-  fs.mkdirSync(dir, { recursive: true });
-  const next = { ...empty(), ...state, updatedAt: new Date().toISOString() };
-  fs.writeFileSync(file(base), JSON.stringify(next, null, 2));
-  return next;
+function read(base) { return Store.read(file(base), empty); }
+function write(base, state) { return Store.commit(file(base), state, empty); }
+function patch(base, fn) {
+	return Store.transaction(file(base), empty, state => fn(state) || state);
 }
-function patch(base, fn) { const state = read(base); return write(base, fn(state) || state); }
 module.exports = { root, file, empty, read, write, patch };

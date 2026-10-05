@@ -26,7 +26,7 @@ function script() {
     const stop = buttons.find(b => /^(stop|stop generating|interrupt)$/i.test(label(b)) || /^stop-button$/i.test(b.getAttribute('data-testid') || '')) || null;
     const streaming = [...document.querySelectorAll('[aria-busy="true"], [data-testid*="spinner"], [class*="result-streaming"]')].some(visible);
     const assistant = [...document.querySelectorAll('[data-message-author-role="assistant"], .markdown.prose, main article')].map(n => (n.innerText || n.textContent || '').trim()).filter(Boolean).pop() || '';
-    return { ok:true, idle:!!prompt && !stop && !streaming, busy:!!stop || streaming, busyReason:stop ? 'active_stop_button' : (streaming ? 'streaming_indicator' : ''), promptFound:!!prompt, stopLabel:stop ? label(stop) : '', href:location.href, title:document.title, text:assistant, domNodes:document.querySelectorAll('*').length };
+    return { ok:true, idle:!!prompt && !stop && !streaming, busy:!!stop || streaming, busyReason:stop ? 'active_stop_button' : (streaming ? 'streaming_indicator' : ''), promptFound:!!prompt, stopLabel:stop ? label(stop) : '', href:location.href, title:document.title, text:assistant, lastUserText:([...document.querySelectorAll('[data-message-author-role="user"]')].pop()?.innerText || '').slice(-3000), domNodes:document.querySelectorAll('*').length };
   })()`;
 }
 
@@ -35,7 +35,7 @@ function unwrap(got = {}) {
 }
 
 function compact(got = {}, port = 9222) {
-  return { ok: got.ok !== false, port, idle: got.idle === true, busy: got.busy === true, busyReason: got.busyReason || '', href: got.href || '', title: got.title || '', promptFound: got.promptFound === true, assistantTextPreview: short(got.text || '', 500), error: got.error || '' };
+  return { ok: got.ok !== false, port, idle: got.idle === true, busy: got.busy === true, busyReason: got.busyReason || '', href: got.href || '', title: got.title || '', promptFound: got.promptFound === true, assistantTextPreview: short(got.text || '', 500), lastUserText: String(got.lastUserText || '').slice(-3000), error: got.error || '' };
 }
 
 function deadline(promise, ms, label) {
