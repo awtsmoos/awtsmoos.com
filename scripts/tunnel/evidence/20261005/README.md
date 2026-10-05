@@ -17,3 +17,5 @@ The official transactional installer refreshed the Mac with source 1a40592, pres
 Shliach plugin 0.86.0 was saved and its changed skills read back. Public publication and a fresh user OAuth invocation remain separate checks. Virtual OS was covered by source contract tests; authenticated production Virtual OS operations were not available in this session.
 
 Do not commit live-fixtures, credentials or private instruction bodies. The two harnesses are repeatable local test scripts; run from the repository root. The soak deliberately writes only its own fixture.
+
+Final code deployment: 02385eaaddb6069729204062d2f6c6b75591651a. After transactional refresh, another 60-second live run completed 1,398 requests with zero failures (median 64 ms, p95 226 ms), including another verified transfer and four owned command jobs. Live server instructions remained available at workflow version 2 and the Mac remained registered.

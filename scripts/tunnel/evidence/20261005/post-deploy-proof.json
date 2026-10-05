@@ -1,0 +1,16 @@
+{
+  "checkedAt": "2026-10-05T08:54:03.157Z",
+  "deployedCommit": "02385eaaddb6069729204062d2f6c6b75591651a",
+  "health": {
+    "ok": true,
+    "local": true,
+    "agentVersion": "split-agent-2.0.0",
+    "tunnelName": "awt-awtsmoos-2184",
+    "root": "/Users/awtsmoos/work/awtsmoos.com"
+  },
+  "connectionState": "registered",
+  "instructionVersion": 2,
+  "serverInstructionAvailable": true,
+  "pluginVersion": "0.86.0",
+  "pluginDiscoverability": "PRIVATE"
+}

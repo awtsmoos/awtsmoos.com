@@ -28,5 +28,17 @@
     "No user-authenticated ChatGPT MCP invocation",
     "No live owner-authenticated production Virtual OS mutation",
     "No guarantee of unlimited host execution or permanent uptime"
-  ]
+  ],
+  "postRefreshMacSoak": {
+    "completedAt": "2026-10-05T08:54:09.895Z",
+    "root": "scripts/tunnel/evidence/20261005/live-fixtures/stability-1791190385252",
+    "requests": 1398,
+    "failures": 0,
+    "cycles": 43,
+    "durationMs": 60580,
+    "p50": 64,
+    "p95": 226,
+    "max": 973
+  },
+  "deployedCommit": "02385eaaddb6069729204062d2f6c6b75591651a"
 }
