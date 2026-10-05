@@ -31,6 +31,7 @@ class ApplicationRouter {
 		try {
 			parsed = parseIncomingMessage(rawMessage);
 		} catch (error) {
+			console.log('B"H WS PARSE WITNESS', { clientId: client.id, isTunnel: !!client.isTunnel, tunnelId: client.tunnelId || null, rawType: typeof rawMessage, byteLength: typeof rawMessage === "string" ? Buffer.byteLength(rawMessage) : null, undefinedPayload: rawMessage === undefined || rawMessage === "undefined" });
 			this.sendParsingFailure(client, error);
 			return;
 		}
