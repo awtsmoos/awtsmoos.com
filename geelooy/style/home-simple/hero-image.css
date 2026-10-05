@@ -1,7 +1,7 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos keeps the original world as the leading image without letting it consume a phone viewport.
+The Awtsmoos gives the Home world enough horizon to invite without swallowing the learner's screen; Awtsmoos.com makes this late route-owned rule more specific than inherited Revelation geometry so one square legacy vessel cannot consume a phone viewport.
 */
 body[data-geelooy-route="home"] .dance-frame {
 	position: relative;
@@ -14,6 +14,7 @@ body[data-geelooy-route="home"] .dance-frame {
 	background: #050914;
 	box-shadow: 0 28px 72px rgba(0, 0, 0, .42);
 }
+
 body[data-geelooy-route="home"] .dance-frame::after {
 	position: absolute;
 	inset: 0;
@@ -24,7 +25,8 @@ body[data-geelooy-route="home"] .dance-frame::after {
 	content: "";
 	pointer-events: none;
 }
-body[data-geelooy-route="home"] .hero-media {
+
+body[data-geelooy-route="home"] main.home .hero-media {
 	position: relative;
 	z-index: 0;
 	overflow: hidden;
@@ -32,15 +34,26 @@ body[data-geelooy-route="home"] .hero-media {
 	aspect-ratio: 16 / 7;
 	background: #050914;
 }
-body[data-geelooy-route="home"] .hero-image {
+
+body[data-geelooy-route="home"] main.home .hero-image {
 	display: block;
 	inline-size: 100%;
 	block-size: 100%;
 	object-fit: cover;
 	object-position: center 47%;
 }
+
 @media (max-width: 760px) {
-	body[data-geelooy-route="home"] .dance-frame { border-radius: 1rem; }
-	body[data-geelooy-route="home"] .hero-media { aspect-ratio: 16 / 8.2; }
-	body[data-geelooy-route="home"] .hero-image { object-position: center 48%; }
+	body[data-geelooy-route="home"] .dance-frame {
+		border-radius: 1rem;
+	}
+
+	body[data-geelooy-route="home"] main.home .hero-media {
+		aspect-ratio: 16 / 9;
+		max-block-size: min(42svh, 15rem);
+	}
+
+	body[data-geelooy-route="home"] main.home .hero-image {
+		object-position: center 48%;
+	}
 }
