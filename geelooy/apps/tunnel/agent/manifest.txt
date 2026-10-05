@@ -1,5 +1,5 @@
 B"H
-1.0.643
+1.0.644
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1209,6 +1209,7 @@ lib/instructions/catalogUiCssProduction.js
 lib/instructions/catalogUiInteraction.js
 lib/instructions/catalogUiLayout.js
 lib/instructions/catalogWorkModes.js
+lib/instructions/catalogWorkVerification.js
 lib/instructions/hybridService.js
 lib/instructions/pack.js
 lib/instructions/projectInstructionDiscovery.js
@@ -1503,6 +1504,7 @@ lib/tool-schema/batch.js
 lib/tool-schema/chatgpt.js
 lib/tool-schema/descriptions.js
 lib/tool-schema/file-transfer.js
+lib/tool-schema/frontend-verification.js
 lib/tool-schema/fs.js
 lib/tool-schema/guidance.js
 lib/tool-schema/nonfs.js
@@ -1766,6 +1768,10 @@ tools/chrome/cdp.js
 tools/chrome/compact.js
 tools/chrome/extras.js
 tools/chrome/finder.js
+tools/chrome/frontendBoundedFetch.js
+tools/chrome/frontendSnapshot.js
+tools/chrome/frontendSourceProof.js
+tools/chrome/frontendVerifier.js
 tools/chrome/index.js
 tools/chrome/launch-dependencies.js
 tools/chrome/launch-readiness.js
@@ -2797,6 +2803,11 @@ tools/fs/workGraph/sequenceStore.js
 tools/fs/workGraph/sessionLifecycle.js
 tools/fs/workGraph/versionStore.js
 tools/fs/workGraph/workLifecycle.js
+tools/fs/workSession/actions.js
+tools/fs/workSession/gate.js
+tools/fs/workSession/repository.js
+tools/fs/workSession/schema.js
+tools/fs/workSession/store.js
 tools/fs/writeBatchFailure.js
 tools/fs/writeBatchResults.js
 tools/fs/writeBatchSnapshot.js
