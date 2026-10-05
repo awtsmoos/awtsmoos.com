@@ -9,6 +9,8 @@
  * own fields may be named contentType, status, headers, or body.
  */
 
+const { validHttpStatus } = require("./httpStatus.js");
+
 function isPlainObject(value) {
 	return Boolean(value)
 		&& typeof value === 'object'
@@ -28,6 +30,9 @@ function hasTransportControl(value) {
 
 function isWrappedDynamicResponse(value) {
 	if (!isPlainObject(value)) return false;
+	// Job lifecycle records may contain response/body fields; they remain complete JSON.
+	if (owns(value, "status") && typeof value.status === "string" && !validHttpStatus(value.status) &&
+		!owns(value, "statusCode") && !owns(value, "redirect") && !owns(value, "mimeType")) return false;
 	if (owns(value, 'response')) return true;
 	if (hasTransportControl(value)) return true;
 	const hasBody = owns(value, 'body');
