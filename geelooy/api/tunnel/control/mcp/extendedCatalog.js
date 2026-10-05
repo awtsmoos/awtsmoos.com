@@ -18,12 +18,13 @@ const tools = [
 	},
 	{
 		name: "awtsmoos_action_schema",
-		description: "Discover current device-side parameters and retry contract for any action before calling it.",
+		description: "Discover current device-side parameters and retry contracts for one action or up to 16 actions in one request.",
 		annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
 		inputSchema: {
 			type: "object", properties: {
-				routeReference: { type: "string" }, targetAction: { type: "string", minLength: 1 }
-			}, required: ["targetAction"], additionalProperties: false
+				routeReference: { type: "string" }, targetAction: { type: "string", minLength: 1 },
+				targetActions: { type: "array", items: { type: "string", minLength: 1, maxLength: 128 }, minItems: 1, maxItems: 16 }
+			}, anyOf: [{ required: ["targetAction"] }, { required: ["targetActions"] }], additionalProperties: false
 		}
 	},
 	{

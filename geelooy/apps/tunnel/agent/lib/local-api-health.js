@@ -4,6 +4,7 @@
 
 const Cache = require("./local-api-catalog-cache.js");
 const Response = require("./local-api-response.js");
+const Readiness = require("./local-api-readiness.js");
 const { AGENT_VERSION } = require("../tools/fs/actions.js");
 
 /**
@@ -29,6 +30,11 @@ function health(response, deps, url) {
 
 function healthz(response, deps) {
 	return Response.endJson(response, 200, healthSummary(deps.configLoader()));
+}
+
+function readyz(response) {
+	const result = Readiness.current();
+	return Response.endJson(response, result.relayReady ? 200 : 503, result);
 }
 
 function healthSummary(config = {}) {
@@ -58,5 +64,6 @@ module.exports = {
 	health,
 	healthSummary,
 	healthz,
+	readyz,
 	summaryRequested
 };

@@ -21,8 +21,10 @@ async function invokeRoute($i, payload, handler, variables) {
 	const raw = await handler(child, variables);
 	const result = typeof raw === "string" ? JSON.parse(raw) : raw;
 	if (!result || child.response.statusCode >= 400 || result.ok === false || result.error) {
-		const error = new Error(result?.message || result?.details || "Awtsmoos API action failed.");
-		error.data = result;
+		const reason = result?.error || "action_failed";
+		const detail = typeof result?.message === "string" ? result.message : typeof result?.details === "string" ? result.details : "";
+		const error = new Error(("Awtsmoos " + (payload?.action || "API action") + " failed: " + reason + " (HTTP " + child.response.statusCode + ")" + (detail ? ": " + detail : "")).slice(0, 1000));
+		error.data = { ...result, httpStatus: child.response.statusCode, requestedAction: payload?.action || "" };
 		throw error;
 	}
 	return result;
