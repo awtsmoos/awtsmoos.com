@@ -12,6 +12,7 @@
  * keeps recursive dispatch narrow and visible, so hundreds of deeds pass one gate in rhyme.
  */
 const { actions: documentedActions } = require("../../docs/actions.js");
+const { buildInstructionActions } = require("./instructionActionFamily.js");
 const { buildAnalysisActions } = require("./analysisActionFamily.js");
 const { buildFileMutationActions } = require("./fileMutationActionFamily.js");
 const { buildFileReadActions } = require("./fileReadActionFamily.js");
@@ -62,6 +63,7 @@ async function dispatchOsFs($i, userId, payload = {}) {
  */
 function buildActionSurface($i, userId, payload, dispatch) {
 	return {
+		...buildInstructionActions(userId, payload),
 		...buildFileReadActions($i, userId, payload),
 		...buildFileMutationActions($i, userId, payload),
 		...buildFileSearchActions($i, userId, payload),

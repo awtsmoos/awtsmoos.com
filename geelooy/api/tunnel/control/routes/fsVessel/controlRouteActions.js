@@ -51,7 +51,11 @@ const CONTROL_ROUTE_ACTIONS = new Set([
 	"actionHistoryList",
 	"instructionCatalog",
 	"instructionResolve",
-	"instructionGet"
+	"instructionGet",
+	"instructionResourceCatalog",
+	"instructionResourceGet",
+	"tunnelConnectionDiagnostics",
+	"tunnelWorkHealth"
 ]);
 
 /** Returns whether one effective action belongs to the degraded-health control surface. */

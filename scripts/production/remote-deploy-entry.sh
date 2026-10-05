@@ -34,6 +34,10 @@ git -C "$repo" merge --ff-only "$remote_sha"
 [ "$(git -C "$repo" rev-parse HEAD)" = "$remote_sha" ] || fail canonical_fast_forward_mismatch
 [ -z "$(git -C "$repo" status --porcelain)" ] || fail canonical_repo_dirty_after_update
 
+if [ -f "$repo/scripts/tunnel/syncPluginInstructionMirror.cjs" ] && [ -d "$repo/plugins/awtsmoos-shliach" ]; then
+	node "$repo/scripts/tunnel/syncPluginInstructionMirror.cjs"
+fi
+
 bash "$route_guard"
 bash "$repo/scripts/production/canonical-server-activate.sh" "$remote_sha"
 printf 'B"H CANONICAL_DEPLOY_OK sha=%s repo=%s\n' "$remote_sha" "$repo"
