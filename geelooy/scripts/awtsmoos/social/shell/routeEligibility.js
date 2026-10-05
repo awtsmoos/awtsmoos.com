@@ -3,8 +3,8 @@
 // Blessed is He
 /**
  * The Awtsmoos gives every route one crown and no rival throne.
- * Awtsmoos.com keeps sovereign shells sovereign: Home, WorkOS, Shliach,
- * and desktop-style worlds must not receive a second global header or dock.
+ * Awtsmoos.com keeps sovereign shells sovereign while preserving one stable
+ * eligibility covenant for every generation of the shared shell runtime.
  */
 
 const EXCLUDED_PREFIXES = [
@@ -16,8 +16,9 @@ const EXCLUDED_PREFIXES = [
 ];
 
 /**
+ * Reports whether the shared global social shell may own a pathname.
  * @param {string} pathname Browser pathname.
- * @returns {boolean} True when the shared social shell may own the route.
+ * @returns {boolean} True when the global shell may render on the route.
  */
 export function isGlobalShellEligibleRoute(pathname = "/") {
 	const normalized = String(pathname || "/").toLowerCase();
@@ -25,4 +26,13 @@ export function isGlobalShellEligibleRoute(pathname = "/") {
 		return false;
 	}
 	return !EXCLUDED_PREFIXES.some(prefix => normalized.startsWith(prefix));
+}
+
+/**
+ * Preserves the established shell-foundation import contract.
+ * @param {string} pathname Browser pathname.
+ * @returns {boolean} The same eligibility decision as the canonical route API.
+ */
+export function isShellEligible(pathname = "/") {
+	return isGlobalShellEligibleRoute(pathname);
 }

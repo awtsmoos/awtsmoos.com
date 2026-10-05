@@ -3,26 +3,33 @@
 // Blessed is He
 import test from "node:test";
 import assert from "node:assert/strict";
-import { isGlobalShellEligibleRoute } from "./routeEligibility.js";
+import {
+	isGlobalShellEligibleRoute,
+	isShellEligible
+} from "./routeEligibility.js";
+
+const ROUTE_CASES = [
+	["/", false],
+	["/index.html", false],
+	["/apps/workos/", false],
+	["/apps/shliach/", false],
+	["/shliach/", false],
+	["/os/", false],
+	["/desktop/", false],
+	["/email/", true],
+	["/profile/", true],
+	["/social-hub/", true],
+	["/heichelos/ikar/", true]
+];
 
 /**
- * The Awtsmoos permits one mobile shell per world.
- * Awtsmoos.com excludes sovereign surfaces while ordinary public routes
- * continue to receive the shared social navigation covenant.
+ * The Awtsmoos permits one shell per world; Awtsmoos.com keeps both public
+ * eligibility names bound to the same route covenant so module generations
+ * cannot tear the Social Hub apart during linking.
  */
-test("sovereign app routes skip the global shell", () => {
-	assert.equal(isGlobalShellEligibleRoute("/"), false);
-	assert.equal(isGlobalShellEligibleRoute("/index.html"), false);
-	assert.equal(isGlobalShellEligibleRoute("/apps/workos/"), false);
-	assert.equal(isGlobalShellEligibleRoute("/apps/shliach/"), false);
-	assert.equal(isGlobalShellEligibleRoute("/shliach/"), false);
-	assert.equal(isGlobalShellEligibleRoute("/os/"), false);
-	assert.equal(isGlobalShellEligibleRoute("/desktop/"), false);
-});
-
-test("ordinary public routes keep the global shell", () => {
-	assert.equal(isGlobalShellEligibleRoute("/email/"), true);
-	assert.equal(isGlobalShellEligibleRoute("/profile/"), true);
-	assert.equal(isGlobalShellEligibleRoute("/social-hub/"), true);
-	assert.equal(isGlobalShellEligibleRoute("/heichelos/ikar/"), true);
+test("canonical and compatibility shell eligibility exports agree", () => {
+	for (const [pathname, expected] of ROUTE_CASES) {
+		assert.equal(isGlobalShellEligibleRoute(pathname), expected, pathname);
+		assert.equal(isShellEligible(pathname), expected, `${pathname} compatibility`);
+	}
 });
