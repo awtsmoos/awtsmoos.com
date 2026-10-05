@@ -28,7 +28,9 @@ function createChildMessageRouter(runtime, options = {}) {
 			return true;
 		}
 		if (message.type === Protocol.TYPES.SEND) {
-			runtime.transmit?.(message.payload);
+			const envelope = message.envelope ?? message.payload;
+			if (!envelope || typeof envelope !== "object" || Array.isArray(envelope)) return false;
+			runtime.transmit?.(envelope);
 			return true;
 		}
 		if (message.type === Protocol.TYPES.STATS) {
