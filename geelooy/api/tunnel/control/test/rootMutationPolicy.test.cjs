@@ -47,9 +47,10 @@ function proveOpenApiPolicy() {
 		"../../../../apps/tunnel-control/gpt/awtsmoos-action-openapi.generated-live.yaml"
 	);
 	const raw = fs.readFileSync(target, "utf8");
-	assert.equal(raw.includes("rootSelect"), true);
+	// Generated schemas now advertise compact capabilities; exercise sanitization with a legacy enum.
+	assert.equal(OpenApiPolicy.sanitizeYaml("      - rootSelect\n      - roots\n").includes("rootSelect"), false);
 	const served = OpenApiPolicy.sanitizeYaml(raw);
 	assert.equal(served.includes("rootSelect"), false);
-	assert.equal(served.includes("- roots"), true);
-	assert.equal(served.includes("- rootBrowse"), true);
+	assert.equal(served.includes("- files"), true);
+	assert.equal(ActionPolicy.isAllowed("rootBrowse"), true);
 }

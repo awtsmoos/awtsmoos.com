@@ -46,7 +46,7 @@ test("bootstrap teaches universal state PKCE and immutable routing", () => {
 	assert.equal(universal.pkce.method, "S256");
 	assert.equal(universal.state.required, true);
 	assert.match(universal.steps.join(" "), /code_verifier/);
-	assert.match(universal.steps.join(" "), /Verify returned state/);
+	assert.match(universal.state.verification, /state.*private proof.*callback/);
 	assert.equal(grok.clientId, "grok");
 	assert.match(routing, /routeReference/);
 	assert.match(routing, /tunnelId/);
@@ -59,7 +59,8 @@ test("agent manifest is sufficient for an unknown compatible AI", () => {
 	assert.ok(manifest.requiredClientCapabilities.includes("PKCE S256"));
 	assert.equal(manifest.oauth.client.clientId, "external-agent");
 	assert.match(manifest.tunnelDiscovery.url, /my-device$/);
-	assert.equal(manifest.firstActions[0].action, "list");
+	assert.equal(manifest.firstActions[0].action, "files");
+	assert.equal(manifest.firstActions[0].operation, "list");
 	assert.equal(manifest.compatibilityClients.grok.clientId, "grok");
 });
 

@@ -16,7 +16,7 @@ const { agentBehavior } = require("../bootstrap.js");
 
 test("agent manifest exposes compact operation catalog and source limits", () => {
 	const manifest = manifestBody();
-	assert.equal(manifest.version, "1.3.0");
+	assert.equal(manifest.version, "1.7.0");
 	assert.equal(
 		manifest.compactProtocol.shape,
 		"action=<capability>&operation=<exact-operation>"

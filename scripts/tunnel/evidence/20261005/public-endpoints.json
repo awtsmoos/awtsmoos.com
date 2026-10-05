@@ -1,0 +1,51 @@
+{
+  "checkedAt": "2026-10-05T08:50:04.600Z",
+  "rows": [
+    {
+      "path": "/.well-known/oauth-authorization-server",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "path": "/api/tunnel/control/agent-manifest",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "path": "/api/tunnel/control/bootstrap",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "path": "/api/tunnel/control/openapi",
+      "status": 200,
+      "type": "text/yaml; charset=utf-8"
+    },
+    {
+      "path": "/api/tunnel/control/me",
+      "status": 401,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "path": "/api/tunnel/control/my-device",
+      "status": 401,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "path": "/api/tunnel/control/fs/awtsmoos-os?action=list",
+      "status": 401,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "path": "/api/tunnel/control/mcp",
+      "status": 405,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "path": "/api/tunnel/control/mcp",
+      "method": "POST initialize",
+      "status": 401,
+      "authenticationChallenge": true
+    }
+  ]
+}

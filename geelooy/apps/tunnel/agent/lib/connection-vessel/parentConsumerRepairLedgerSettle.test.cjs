@@ -33,6 +33,7 @@ function makeLedger(overrides = {}) {
 		file,
 		now: () => now,
 		cooldownMs: 10000,
+	signatureCooldownMs: 10000, // Isolate budget settlement from the separately tested signature gate.
 		windowMs: 60000,
 		maxRepairs: 2,
 		...overrides
@@ -193,6 +194,7 @@ function readFileJson(file) {
 			file: t.file,
 			now: () => 90000,
 			cooldownMs: 10000,
+	signatureCooldownMs: 10000, // Isolate budget settlement from the separately tested signature gate.
 			windowMs: 60000,
 			maxRepairs: 1
 		});
@@ -225,6 +227,7 @@ function readFileJson(file) {
 			file: t.file,
 			now: () => 100000,
 			cooldownMs: 10000,
+	signatureCooldownMs: 10000, // Isolate budget settlement from the separately tested signature gate.
 			windowMs: 60000,
 			maxRepairs: 2
 		});

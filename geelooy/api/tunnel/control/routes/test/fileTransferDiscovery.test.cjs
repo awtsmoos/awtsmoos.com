@@ -14,7 +14,7 @@ const { agentBehavior } = require("../bootstrap.js");
  */
 test("manifest keeps WebSocket optional and publishes mission planning", () => {
 	const manifest = manifestBody();
-	assert.equal(manifest.version, "1.6.0");
+	assert.equal(manifest.version, "1.7.0");
 	assert.equal(manifest.requiredBaseCapabilities.includes("WebSocket tunnel actions"), false);
 	assert.equal(manifest.recommendedCapabilities.includes("WebSocket tunnel actions"), true);
 	assert.deepEqual(manifest.transportLaw.dataTransports, ["websocket", "https-get"]);

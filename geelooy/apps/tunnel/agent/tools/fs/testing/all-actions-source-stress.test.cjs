@@ -15,6 +15,7 @@ function findPublicRoot(start) {
 
 const repoRoot = findPublicRoot(__dirname);
 const fsRoot = path.join(__dirname, ".tmp-all-actions-source-stress");
+process.env.AWTSMOOS_INSTALL_ROOT = path.join(fsRoot, "isolated-agent-state");
 const { buildActions } = require(path.join(repoRoot, "apps/tunnel/agent/tools/fs/actions.js"));
 const { handleCommand, ACTIONS: COMMAND_ACTIONS } = require(path.join(repoRoot, "apps/tunnel/agent/tools/command/index.js"));
 
@@ -85,10 +86,10 @@ async function assertWorkflowRuntimeCommandFamily() {
   const batch = await runFs("commandTreeRun", { steps: [{ action: "read", payload: { path: "src/note.txt" }, saveAs: "note" }, { assert: { path: "named.note.ok", eq: true } }] });
   assert.equal(batch.ok, true);
   assert.equal((await runFs("commandTreeDryRun", { steps: [{ action: "list", payload: { path: "." } }] })).ok, true);
-  const sim = await runFs("simulateRuntime", { runtime: "browser", entry: "index.html" });
+  const sim = await runFs("simulateRuntime", { runtime: "browser", engine: "node-dom", entry: "index.html" });
   assert.equal(sim.ok, true);
   assert.equal(sim.score, 100);
-  const cmd = await handleCommand({ action: "command", command: "node -e \"process.stdout.write('BH-command-alias')\"", cwd: repoRoot, timeoutMs: 20000 });
+  const cmd = await handleCommand({ action: "command", logicalAgentId: "all-actions-fixture", noMission: true, sync: true, command: "node -e \"process.stdout.write('BH-command-alias')\"", cwd: repoRoot, timeoutMs: 20000 });
   assert.equal(cmd.ok, true);
   assert.ok(cmd.stdout?.includes("BH-command-alias") || cmd.status === "running" || !!cmd.waitPayload || !!cmd.outputRef);
 }
@@ -100,6 +101,7 @@ async function assertWorkflowRuntimeCommandFamily() {
   await assertSearchAndAstFamily();
   await assertWriteFamily();
   await assertWorkflowRuntimeCommandFamily();
+  require("../mission/metadataStore.js").closeAllDatabases();
   console.log(JSON.stringify({ ok: true, registeredActions: registered, families: 5, fixture: fsRoot }, null, 2));
 })().catch(error => {
   console.error(JSON.stringify({ ok: false, error: error.message, stack: error.stack }, null, 2));

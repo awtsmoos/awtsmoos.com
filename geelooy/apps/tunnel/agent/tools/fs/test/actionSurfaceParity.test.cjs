@@ -52,7 +52,7 @@ try {
 	}
 	for (const action of nativeFuture) {
 		assert.equal(nativeNames.has(action), true, `${action} missing from native registry`);
-		assert.equal(publicNames.has(action), false, `${action} advertised before capability rollout`);
+		assert.equal(publicNames.has(action), true, `${action} missing after recovery capability rollout`);
 	}
 	console.log(JSON.stringify({
 		ok: true,

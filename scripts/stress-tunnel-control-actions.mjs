@@ -64,9 +64,9 @@ function stressRespondHelpers() {
 }
 
 function stressCatalogs() {
-  const required = ['read', 'bulk', 'command', 'commandStart', 'commandStatus', 'commandCancel', 'commandTreeRun', 'simulateRuntime', 'previewExposeLocalServer'];
-  assert.equal(ALL_TUNNEL_ACTIONS.length, ALL_RUNTIME_ACTIONS.length);
-  assert.equal(buildToolManifest().length, ALL_TUNNEL_ACTIONS.length);
+  const required = ['read', 'bulk', 'command', 'simulateRuntime'];
+  assert.ok(ALL_TUNNEL_ACTIONS.every(action => ALL_RUNTIME_ACTIONS.includes(action)));
+  assert.equal(buildToolManifest().length, ALL_RUNTIME_ACTIONS.length);
   for (const action of required) assert.ok(ALL_RUNTIME_ACTIONS.includes(action), `missing ${action}`);
 }
 

@@ -36,7 +36,7 @@ async function invoke(name, payload = {}, overrides = {}) {
 async function main() {
 	try {
 		fs.mkdirSync(config.root, { recursive: true });
-		const mailbox = Mailbox.createMailbox(config);
+		const mailbox = Mailbox.createMailbox(config, { childIncarnationId: "mailbox-test-current" });
 		Emergency.register(mailbox, { intervalMs: 60000 });
 		mailbox.putInbox({ id: "valid-stalled", action: "read", secret: "hidden" });
 
@@ -71,7 +71,7 @@ async function main() {
 		assert.equal(exact.quarantined.moved, false);
 		assert.equal(exact.quarantined.preserved, true);
 		assert.equal(exact.quarantined.reason, "durable_retirement_proof_required");
-		assert.equal(Mailbox.createMailbox(config).inbox()[0].id, "valid-stalled");
+		assert.equal(Mailbox.createMailbox(config, { childIncarnationId: "mailbox-test-current" }).inbox()[0].id, "valid-stalled");
 
 		console.log(JSON.stringify({
 			ok: true,

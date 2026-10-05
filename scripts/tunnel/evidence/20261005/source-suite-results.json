@@ -1,0 +1,1965 @@
+[
+  {
+    "file": "geelooy/api/tunnel/control/billing/test/computeCoins.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 180,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/actionGuidanceInstructionProtocol.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 154,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/actionGuidancePassiveActions.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 169,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/asyncPayloadNormalizerNestedStream.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 154,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/ephemeralStore.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 166,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/protocolGatePassiveActions.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 168,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/protocolGateScopedKeys.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 160,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/requestBody.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 158,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/responsePrunerDurableFields.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 160,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/responsePrunerFocus.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 174,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/responsePrunerPreviewFields.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 176,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/tunnelAuthorizationIsolation.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 218,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/tunnelBindingProvenanceIsolation.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 215,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/tunnelBindingRetention.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 170,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/tunnelBindingSupersession.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 203,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/tunnelPairingOwnership.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 247,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/tunnelPayloadBrowserFields.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 175,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/tunnelPayloadCommandLifecycle.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 170,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/tunnelPayloadGuardedWrite.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 185,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/tunnelPayloadLimits.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 168,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/tunnelPayloadNetworkFields.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 176,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/tunnelPayloadRetryIdentity.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 168,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/tunnelPayloadTopLevelIdentity.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 169,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/tunnelPayloadWebsiteAgentFields.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 170,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/tunnelRouteReferenceIsolation.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 228,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/tunnelSocketRegistryIsolation.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 185,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/tunnelStorePathIsolation.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 171,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/usageStorePeruta.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 217,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/test/usageStoreStorageFailure.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 170,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/core/tunnelPayload/test/scope.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 216,
+    "tests": 6,
+    "pass": 6,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/docs/test/sitePublicationCatalog.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 171,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/docs/test/sitePublicationProtocol.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 200,
+    "tests": 5,
+    "pass": 5,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/mcp/extensionContracts.test.mjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 942,
+    "tests": 3,
+    "pass": 3,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/mcp/genericTools.test.mjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 914,
+    "tests": 5,
+    "pass": 5,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/mcp/transportResponse.test.mjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 741,
+    "tests": 2,
+    "pass": 2,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/missionRooms/missionAccess.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 203,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/missionRooms/missionSnapshotEnvelopeLiveProgress.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 184,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/missionRooms/missionSnapshotLiveProgress.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 188,
+    "tests": 2,
+    "pass": 2,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/missionRooms/test/ticketStore.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 165,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/missionRooms/ticketStore.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 181,
+    "tests": 2,
+    "pass": 2,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/preview/test/autoPreviewOptIn.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 154,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/preview/test/pollingPreviewSuppression.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 173,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/preview/test/previewGatewayStore.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 213,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/preview/test/previewRootViewRoute.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 1813,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/conversationsRealtime/conversationsRealtime.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 248,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/hostedVirtualOs/previewDispatcher.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 277,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/accountScopedRelayEndToEnd.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 1695,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/capabilityProjection.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 2110,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/hostedBatchInput.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 313,
+    "tests": 2,
+    "pass": 2,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/hostedPublicationBatch.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 1760,
+    "tests": 2,
+    "pass": 2,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/liveAliasPreference.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 297,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/liveDevices.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 198,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/liveDevicesRecoveringNative.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 190,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/liveDevicesRecoveryControl.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 220,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/nativeBrowserHintCompatibility.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 2051,
+    "tests": 3,
+    "pass": 3,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/nativeInventoryView.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 273,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/nativeRecoveryCapabilityProjection.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 222,
+    "tests": 2,
+    "pass": 2,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/nativeRecoveryRegistry.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 317,
+    "tests": 3,
+    "pass": 3,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/publicActionResolver.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 350,
+    "tests": 6,
+    "pass": 6,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/resolveFsVessel.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 2443,
+    "tests": 6,
+    "pass": 6,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/resolveFsVesselDeadTunnel.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 2651,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/retryResponseContract.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 633,
+    "tests": 5,
+    "pass": 5,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/retryResponseContractFallback.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 757,
+    "tests": 5,
+    "pass": 5,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/retryResponseContractRuntimeEnvelope.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 315,
+    "tests": 4,
+    "pass": 4,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/sitePublicationActionsV2.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 2514,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/sitePublicationDispatcher.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 1755,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/tunnelAcceptanceHealth.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 232,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/tunnelAcceptanceRouting.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 228,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/tunnelClientHeartbeatGrace.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 213,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/tunnelClientLivenessEvidence.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 242,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/tunnelExecutionHealth.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 220,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/tunnelReadiness.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 249,
+    "tests": 3,
+    "pass": 3,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/tunnelResponseAndDeviceDeterminism.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 210,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/virtualClientSend.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 1166,
+    "tests": 2,
+    "pass": 2,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/virtualOsAdversarial.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 1205,
+    "tests": 3,
+    "pass": 3,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/virtualOsRecovery.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 1159,
+    "tests": 2,
+    "pass": 2,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/fsVessel/test/virtualOsStore.basic.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 1053,
+    "tests": 2,
+    "pass": 2,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/liveCallsRealtime/activity.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 1457,
+    "tests": 3,
+    "pass": 3,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/liveCallsRealtime/liveCallsRealtime.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 235,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/osFs/test/candidateVerification.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 299,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/osFs/test/pathJail.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 246,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/osFs/test/publicUrls.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 335,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/osFs/test/siteDraftRoutes.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 200,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/osFs/test/virtualActionBridge.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 730,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/osFs/test/virtualAiAgents.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 773,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/osFs/test/virtualDirectoryValues.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 183,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/osFs/test/virtualWebsiteMissionRejection.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 973,
+    "tests": 2,
+    "pass": 2,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/osFs/test/writeIfHashPublicUrls.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 293,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/osFs/test/writeOpsPublicUrls.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 202,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/osFs/test/writeReceipts.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 175,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/previewGateway/previewGateway.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 234,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/previewProxy.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 373,
+    "tests": 2,
+    "pass": 2,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/agentManifestOperations.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 666,
+    "tests": 3,
+    "pass": 3,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/automaticNativeSelection.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 267,
+    "tests": 8,
+    "pass": 8,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/deviceDiscoveryOfflineNative.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 298,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/deviceFileTransferCore.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 226,
+    "tests": 2,
+    "pass": 2,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/devicePublicProjection.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 195,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/deviceRouteSelection.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 187,
+    "tests": 3,
+    "pass": 3,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/fileTransferDiscovery.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 700,
+    "tests": 3,
+    "pass": 3,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/fileTransferGet.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 737,
+    "tests": 4,
+    "pass": 4,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/missionRoomSocketTicket.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 219,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/nativeActionManifest.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 259,
+    "tests": 2,
+    "pass": 2,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/openApiAgentMetadata.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 230,
+    "tests": 2,
+    "pass": 2,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/openApiKeyContinuationParams.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 261,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/openApiKeyModular.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 231,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/protectedFsAuthorization.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 190,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/protectedFsCarrierActionRecovery.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 694,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/protectedFsCarrierNormalize.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 747,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/protectedFsPerutaGuard.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 194,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/protectedFsPreviewDefault.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 749,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/protectedFsSchedulerIdentity.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 202,
+    "tests": 2,
+    "pass": 2,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/protectedFsStickyRoute.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 1066,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/protectedFsTimeout.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 996,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/responseContractCommandActions.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 216,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/responseContractRetryAction.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 209,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/routeTableNoDuplicates.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 836,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/routes/test/transientRouteRecovery.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 213,
+    "tests": 6,
+    "pass": 6,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/test/appApiGateway.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 630,
+    "tests": 11,
+    "pass": 11,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/test/deviceDiscovery.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 670,
+    "tests": 6,
+    "pass": 6,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/test/executionHealthRouting.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 195,
+    "tests": 3,
+    "pass": 3,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/test/grokDiscovery.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 685,
+    "tests": 7,
+    "pass": 7,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/test/rootMutationPolicy.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 683,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/test/routeHttpStatus.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 768,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/test/treasury/aliasRoutes.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 836,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/test/treasury/crossSurfaceSync.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 157,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/test/treasury/graphRouteRender.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 778,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/test/treasury/integrationGuards.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 181,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/test/treasury/productRoutes.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 753,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/test/treasury/productServices.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 189,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/test/treasury/uiRender.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 214,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/test/treasuryHttp.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 240,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/test/treasuryRoutes.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 748,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/test/treasuryServices.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 182,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/tunnel/control/test/tunnelBindingRenewal.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 171,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/oauth/core/scopeCatalog.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 185,
+    "tests": 3,
+    "pass": 3,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/oauth/core/test/agentLinkStore.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 175,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/oauth/core/test/scopeEvolution.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 201,
+    "tests": 3,
+    "pass": 3,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/oauth/routes/test/agentCallbackSecurity.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 195,
+    "tests": 3,
+    "pass": 3,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/oauth/routes/test/agentHandoff.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 198,
+    "tests": 4,
+    "pass": 4,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/oauth/routes/test/agentLinkGrant.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 185,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/oauth/routes/test/deviceAuthorization.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 241,
+    "tests": 4,
+    "pass": 4,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/oauth/routes/test/devicePolling.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 204,
+    "tests": 4,
+    "pass": 4,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/oauth/routes/test/deviceVerificationSecurity.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 205,
+    "tests": 5,
+    "pass": 5,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/oauth/routes/test/dynamicRegistration.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 227,
+    "tests": 2,
+    "pass": 2,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/oauth/routes/test/grokPkce.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 204,
+    "tests": 5,
+    "pass": 5,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/oauth/routes/test/oauthMetadata.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 197,
+    "tests": 4,
+    "pass": 4,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/oauth/routes/test/routeRegistry.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 219,
+    "tests": 4,
+    "pass": 4,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/oauth/routes/test/tokenGetOnly.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 199,
+    "tests": 2,
+    "pass": 2,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/oauth/routes/test/tokenScopeEvolution.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 198,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/api/oauth/routes/test/universalAgent.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 204,
+    "tests": 4,
+    "pass": 4,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/childMailboxRecovery.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 170,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/childOutboxSettlementPulse.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 167,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/childRuntimeCycle.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 159,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/controllerChildLiveness.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 176,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/controllerChildRepair.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 166,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/controllerMailboxRecoveryBridge.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 181,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/controllerParentReadyFallback.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 180,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/controllerProcessGeneration.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 885,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/custodyProgressBridge.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 170,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/mailboxAcknowledgementDebt.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 171,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/mailboxCustodyIdentity.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 199,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/mailboxDurability.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 285,
+    "tests": 2,
+    "pass": 2,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/mailboxEvidenceMergeRegression.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 188,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/mailboxFencedRedelivery.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 199,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/mailboxIncarnation.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 173,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/mailboxObsoleteQuarantine.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 191,
+    "tests": 2,
+    "pass": 2,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/parentAutomaticRepairDecision.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 165,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/parentAutomaticRepairRecovery.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 181,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/parentConsumerLaneSchedulerWitness.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 162,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/parentConsumerLaneTelemetry.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 167,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/parentConsumerPreConsumerCorroboration.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 174,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/parentConsumerRecovery.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 170,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/parentConsumerRepairLedger.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 206,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/parentConsumerRepairLedgerSettle.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 817,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/parentWatchdogConsumerRepair.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 179,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/parentWatchdogRepairClaim.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 165,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/parentWatchdogRepairIdentity.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 167,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/rejectedIngressChild.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 176,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/connection-vessel/rejectedIngressController.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 165,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/instructions/catalogExternalAi.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 188,
+    "tests": 5,
+    "pass": 5,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/runtime/mainQueueRejection.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 162,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/runtime/test/mainDrainBurst.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 169,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/lib/runtime/test/mainDrainDispatch.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 165,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/actionSurfaceParity.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 684,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/asyncTaskControlPriority.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 165,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/asyncTaskPollingContract.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 246,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/batchRollbackConflict.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 217,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/commandAsyncJobs.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 942,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/commandLiveOutputPolling.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 299,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/commandOutputAccounting.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 539,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/commandOutputPagination.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 712,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/commandTreeBudgetVisualize.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 175,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/commandTreeCore.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 784,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/commandWaitBoundedTerminalOutput.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 997,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/connectionMailboxActions.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 239,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/ephemeralActions.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 180,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/gitIgnoreHygiene.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 175,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/hashWriteRace.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 236,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/millionScalePaging.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 199,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/previewActions.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 200,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/previewLocalServer.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 250,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/previewPublicProbe.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 213,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/previewRegistry.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 200,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/processActionsPortable.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 613,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/renderLabActions.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 606,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/structuredFilesystemErrors.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 815,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/test/writeActionsSmoke.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 763,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "scripts/tunnel/testing/bhReleaseSafety.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 169,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "scripts/tunnel/testing/legacyActionCatalog.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 695,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "scripts/tunnel/testing/manifestBaselines.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 508,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "scripts/tunnel/testing/manifestVersion.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 181,
+    "tests": 3,
+    "pass": 3,
+    "fail": 0
+  },
+  {
+    "file": "scripts/tunnel/testing/virtualSshBoot.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 192,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/testing/all-actions-source-stress.test.cjs",
+    "status": 7,
+    "signal": null,
+    "error": "ETIMEDOUT",
+    "durationMs": 45010,
+    "tests": 0,
+    "pass": 0,
+    "fail": 0
+  },
+  {
+    "file": "geelooy/apps/tunnel/agent/tools/fs/testing/action-registry-stress.test.cjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 311,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "scripts/stress-tunnel-control-actions.mjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 774,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "scripts/stress-virtual-os-parity.mjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 193,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "scripts/stress-command-router-actions.mjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 297,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  {
+    "file": "scripts/stress-command-no-504.mjs",
+    "status": 0,
+    "signal": null,
+    "durationMs": 483,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0
+  }
+]

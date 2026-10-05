@@ -12,7 +12,7 @@ const { buildCommandActions, shouldRunSync } = require('../geelooy/apps/tunnel/a
 const cfg = { root: process.cwd(), allowCommands: true, tools: {} };
 
 function actions(payload) {
-  return buildCommandActions({ config: cfg, payload });
+  return buildCommandActions({ config: cfg, payload: { logicalAgentId: "command-stress-fixture", ...payload } });
 }
 async function sleep(ms) { await new Promise(resolve => setTimeout(resolve, ms)); }
 

@@ -15,13 +15,13 @@ const TRANSFER_URL = "https://awtsmoos.com/api/tunnel/control/transfer/get/{rout
 
 const AGENT_PREFIX = [
 	"Any compatible external AI client may use this Tunnel Control schema.",
-	"Use operation=publishWebsite for ordinary Virtual OS static publication and trust only the returned publication.canonicalUrl.",
+	"Use action=web with operation=publishWebsite for ordinary Virtual OS static publication; source alias ownership controls the default namespace. Trust only the returned publication.canonicalUrl.",
 	"Use previewCreate, previewFolder, or previewPage for real persisted previews and open the returned viewUrl.",
 	"Use nativeAgentRestart, nativeGenerationStatus, and nativeGenerationReplace for explicit native recovery when available.",
 	`Large bodies are GET-only: never place multi-megabyte content in writes64, actions64, params64, or content64. Stage them through ${TRANSFER_URL} with create/write/commit, then use bulkWriteTransfers for transactional batches.`,
 	"Keep each raw GET transfer fragment at or below 4096 bytes and verify chunk plus final SHA-256.",
 	`Discover curated operation names and examples at ${OPERATION_CATALOG_URL}.`,
-	"The recommended public OAuth client is client_id=external-agent with no client secret.",
+	"Discover OAuth at https://awtsmoos.com/.well-known/oauth-authorization-server. The recommended public OAuth client is client_id=external-agent with no client secret.",
 	"Prefer authorization code + PKCE S256 when callback handoff is possible.",
 	"Headless clients may use OAuth Device Authorization at https://awtsmoos.com/api/oauth/device-authorization.",
 	"After OAuth, call /api/tunnel/control/my-device and route by immutable routeReference or tunnelId."

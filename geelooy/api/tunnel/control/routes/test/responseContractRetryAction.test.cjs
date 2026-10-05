@@ -26,6 +26,7 @@ const payload = {
 
 const recovered = {
 	ok: true,
+	transportReceiptId: "retry-control",
 	action: "write",
 	requestAction: "write",
 	controlRequestId: "retry-control",
@@ -67,7 +68,7 @@ assert.equal(verifyTunnelResponse({
 }, payload, "awt-proof").error, "tunnel_response_correlation_mismatch");
 assert.equal(verifyTunnelResponse({
 	...recovered,
-	controlRequestId: "wrong-control"
+	transportReceiptId: "wrong-control"
 }, payload, "awt-proof").error, "tunnel_response_correlation_mismatch");
 assert.equal(verifyTunnelResponse({
 	...recovered,
