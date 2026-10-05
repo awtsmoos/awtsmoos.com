@@ -2,6 +2,7 @@
 //Boruch Hashem
 //Blessed be He
 
+const Installation = require("./installation-authority.js");
 const crypto = require("node:crypto");
 const fs = require("node:fs");
 const path = require("node:path");
@@ -19,6 +20,7 @@ function create(options = {}) {
 	const lockDir = path.join(options.recoveryRoot, "state", "recovery-control.lock");
 
 	function claim(details = {}) {
+		if (Installation.active(options)) return {ok:false,error:"installation_activation_in_progress"};
 		fs.mkdirSync(path.dirname(lockDir), { recursive: true, mode: 0o700 });
 		const existing = readLease(lockDir);
 		if (existing && Number(existing.expiresAt || 0) > now()) {

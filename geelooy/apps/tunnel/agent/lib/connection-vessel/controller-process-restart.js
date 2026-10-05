@@ -20,7 +20,9 @@ function create(options = {}) {
 	function schedule() {
 		if (timer) return false;
 		count += 1;
-		const delay = Math.min(maximumDelayMs, 250 * 2 ** Math.min(count, 7));
+		const raw = Math.min(maximumDelayMs, 250 * 2 ** Math.min(count, 7));
+		const random = options.random || Math.random;
+		const delay = Math.max(250, Math.min(maximumDelayMs, Math.round(raw * (0.8 + random() * 0.4))));
 		timer = setTimeoutFn(() => {
 			timer = null;
 			options.start();

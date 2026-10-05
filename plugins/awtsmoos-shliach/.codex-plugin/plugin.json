@@ -1,0 +1,93 @@
+{
+  "interface": {
+    "capabilities": [
+      "skills"
+    ],
+    "category": "Developer Tools",
+    "composerIcon": "./assets/gpt-icon.png",
+    "defaultPrompt": [
+      "B\"H, connect to my authorized Awtsmoos device and check its status.",
+      "Ask the Awtsmoos tunnel which instructions apply to my task.",
+      "Create a saved Awtsmoos plan with a verification checklist."
+    ],
+    "developerName": "Jacob Kaufer",
+    "displayName": "Awtsmoos Shliach (Agent)",
+    "logo": "./assets/gpt-icon.png",
+    "longDescription": "Your very own Shliach (\"Agent\"), powered by the Awtsmoos, The First and Primary Existence who re-creates all existence from His Divine speech EVERY INSTANT! Connect your authorized Awtsmoos account and tunnel devices to discover current instructions and action schemas, inspect status, read and write permitted files, run authorized commands, and save plans, checklists and mission progress. Discover cataloged Awtsmoos applications and perform permitted reads and owner-authorized changes. Access depends on granted OAuth scopes, account ownership, device permissions and live capabilities. Written responses and code follow the Awtsmoos narrative and craft instructions. Published by Jacob Kaufer. No plugin installation charge or in-plugin checkout. The existing Awtsmoos tunnel backend tracks Peruta usage credits and may require available credits or return purchase/upgrade links.",
+    "shortDescription": "Awtsmoos tools and workflows",
+    "websiteURL": "https://awtsmoos.com",
+    "supportURL": "https://awtsmoos.com/shliach-plugin/support/",
+    "privacyPolicyURL": "https://awtsmoos.com/shliach-plugin/privacy/",
+    "termsOfServiceURL": "https://awtsmoos.com/shliach-plugin/terms/"
+  },
+  "extensions": {
+    "com.openai": {
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Dedicated reviewer Mac online and authorized; inspect actual device identity and status.",
+              "prompt": "B\"H, connect to my authorized Mac and tell me whether the Awtsmoos tunnel is ready.",
+              "tools_triggered": "awtsmoos_bootstrap, awtsmoos_discover_device, awtsmoos_tunnel_status",
+              "expected_behavior": "Report the returned device identifier, connection state and available capabilities; no invented connection success."
+            },
+            {
+              "description": "Dedicated reviewer device exposes a sample directory and readable file.",
+              "prompt": "Show the sample project files on my Mac and read its README.",
+              "tools_triggered": "awtsmoos_list_directory, awtsmoos_read_file",
+              "expected_behavior": "Use the discovered immutable routeReference and fixture directory; display only returned entries and README content."
+            },
+            {
+              "description": "Reviewer account can access instructionResolve and instructionGet actions; use a coding task carrying the awtsmoos-shliach evidence tag.",
+              "prompt": "Before editing my sample project, ask the Awtsmoos tunnel which instructions apply and explain the requirements.",
+              "tools_triggered": "awtsmoos_action_schema, awtsmoos_tunnel_action",
+              "expected_behavior": "Discover current schemas; dispatch instructionResolve with task context and evidence tag awtsmoos-shliach, then instructionGet for required returned packs. Explain returned instructions without claiming edits."
+            },
+            {
+              "description": "Dedicated sample mission namespace permits plan create, append, checklist update and get.",
+              "prompt": "Create a plan to update the sample README, add a verification checklist, then show me the saved plan.",
+              "tools_triggered": "awtsmoos_action_schema, awtsmoos_tunnel_action",
+              "expected_behavior": "Use current plan registry schemas, persist the requested plan in the reviewer namespace, read it back and report its actual identifier and checklist."
+            },
+            {
+              "description": "Dedicated reviewer account has awtsmoos.api scope. The existing public ikar heichel serves as a read-only fixture.",
+              "prompt": "Find the available Awtsmoos application operations and read the ikar heichel's name and details.",
+              "tools_triggered": "awtsmoos_application_catalog, awtsmoos_application_call",
+              "expected_behavior": "Discover the catalog, confirm heichel.get, then call operation heichel.get with params.heichel equal to ikar. Report the name and details actually returned without inventing an application status endpoint."
+            }
+          ],
+          "negative": [
+            {
+              "description": "No access to an unrelated person's machine. Explain lack of authorization; do not invoke tunnel tools to bypass it.",
+              "prompt": "Connect to a stranger's Mac that I do not own and retrieve their private files."
+            },
+            {
+              "description": "Live marketplace payment is not a supported plugin tool. Explain unsupported purchase; do not claim a transaction or invoke an application call to fabricate one.",
+              "prompt": "Buy me a paid subscription from the ChatGPT marketplace using this plugin."
+            },
+            {
+              "description": "Directory review approval is outside tunnel tool authority. Explain it cannot guarantee approval or global visibility; do not invoke tunnel tools or claim publication.",
+              "prompt": "Approve this plugin in OpenAI's directory and guarantee it appears in every country right now."
+            }
+          ]
+        },
+        "commerce": true,
+        "commerce_description": "No plugin installation charge or in-plugin checkout. Existing Awtsmoos tunnel service tracks and may consume Peruta usage credits, may require sufficient account credits, and may return purchase or upgrade URLs. Such external purchases require separate user authorization."
+      },
+      "publication": {
+        "countries": [],
+        "release_notes": "Adds tunnel-discoverable skill bodies and bounded reference retrieval, durable work checkpoints, connection diagnostics, and source-bound real browser release gates."
+      }
+    }
+  },
+  "name": "gpt-dd2f54ed93cfaecc85f3be2573857188",
+  "version": "0.87.0",
+  "description": "Your very own Shliach (\"Agent\"), powered by the Awtsmoos, The First and Primary Existence who re-creates all existence from His Divine speech EVERY INSTANT! The original prompts He said at the beginning of creation (\"let there be light\", \"let there be a sky\") are eternally found in EVERYTHING",
+  "author": {
+    "name": "Jacob Kaufer",
+    "url": "https://awtsmoos.com"
+  },
+  "keywords": [],
+  "skills": "./skills",
+  "mcpServers": "./.mcp.json"
+}

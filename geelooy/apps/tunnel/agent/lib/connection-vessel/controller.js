@@ -1,5 +1,6 @@
 //B"H // Boruch Hashem // Blessed is He
 
+const Flight = require("../runtime/connection-flight-recorder.js");
 const ControllerMailbox = require("./controller-mailbox.js");
 const CustodyProgress = require("./controller-custody-progress.js");
 const InstructionBridge = require("./instruction-parent-bridge.js");
@@ -47,6 +48,7 @@ function createController(options = {}) {
 		onInstructionResult: instructionBridge.settle,
 		onRecoveryRequired: supervisor.requestRepair,
 		onRegistered: supervisor.markRegistered,
+		onUnregistered: supervisor.markUnregistered,
 		onTerminal: terminal,
 		proxy,
 		publishStats: statsPublisher.publish
@@ -63,6 +65,7 @@ function createController(options = {}) {
 	}
 
 	function mirror(next = {}) {
+		Flight.current().observe(next);
 		const previous = proxy.snapshot().childIncarnationId;
 		const mirrored = State.mirror(options, proxy, next);
 		const current = proxy.snapshot().childIncarnationId;

@@ -56,3 +56,14 @@ test("begin and checkpoint use real Git identity and exact fetched instruction a
 });
 
 test("Awtsmoos durable work retains the authenticated parent instruction bridge",()=>{const own=require("../../tools/fs/actionProcessOwnership.js");for(const a of ["tunnelWorkBegin","tunnelWorkRefresh","tunnelWorkResume","tunnelWorkGate","tunnelWorkHealth"])assert.equal(own.isParentResidentAction(a),true);});
+
+test("Awtsmoos explicit failure budget persists and blocks automatic retry",async()=>{
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),"awts-budget-"));
+ try{const config={root,deviceStateRoot:path.join(root,"state"),allowWrite:true};
+  const ws={instructionRequest:async op=>op==="resolve"?{serverAvailable:true,requiredInstructionIds:["fixture"]}:{ok:true,serverAvailable:true,instructions:[{id:"fixture",instructions:["Awtsmoos"]}]}};
+  const A=require("../../tools/fs/workSession/actions.js").buildWorkSessionActions;
+  const begin=await A({config,ws,payload:{task:"owned retry fixture",retryBudget:1}}).tunnelWorkBegin();
+  const failed=await A({config,ws,payload:{workId:begin.session.id,revision:1,failureReason:"Owned fixture failed"}}).tunnelWorkFailure();
+  assert.equal(failed.retryBudgetExhausted,true);assert.equal(failed.automaticRetry,false);assert.equal(failed.session.status,"blocked");
+ }finally{fs.rmSync(root,{recursive:true,force:true});}
+});

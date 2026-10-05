@@ -1,0 +1,7 @@
+#B"H
+#Boruch Hashem
+#Blessed is He
+interface:
+  display_name: "Awtsmoos Poetic Code"
+  short_description: "Complete modular code with poetic documentation"
+  default_prompt: "Use $poetic-code to implement the current tunnel plan with complete documented modules."

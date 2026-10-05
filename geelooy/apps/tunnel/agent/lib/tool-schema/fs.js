@@ -17,6 +17,8 @@ const { chatgptSchema } = require("./chatgpt.js");
 const { aiAgentSchema } = require("./agent.js");
 
 function fsSchema(name) {
+	if(name==="tunnelConnectionDiagnostics") return P.objectSchema({limit:{type:"integer",minimum:1,maximum:256}});
+	if(name.startsWith("instructionResource")) return P.objectSchema({resourcePath:P.string("Exact path from instructionResourceCatalog."),offset:{type:"integer",minimum:0},limit:{type:"integer",minimum:1,maximum:64},maxChars:{type:"integer",minimum:256,maximum:16384},expectedHash:P.string("Source SHA256 from catalog."),query:P.string("Filter by path.")});
 	if (name.startsWith("tunnelWork")) return require("../../tools/fs/workSession/schema.js").schema(name);
 	if (name === "actionSchemaTrace") return P.objectSchema({ targetAction: P.string("One exact action name."), targetActions: { type: "array", items: P.string("Exact action name."), minItems: 1, maxItems: 16 }, kind: P.string("Optional tool family.") });
 	if (/^chatgpt/i.test(name)) return chatgptSchema(name);

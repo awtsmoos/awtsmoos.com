@@ -52,7 +52,7 @@ const PROCESS_OWNED_RECOVERY_ACTIONS = new Set([
  */
 function isParentResidentAction(action) {
 	const normalized = String(action || "");
-	return normalized.startsWith("tunnelWork") || SOCKET_ACTIONS.has(normalized) ||
+	return normalized.startsWith("instructionResource") || normalized==="tunnelConnectionDiagnostics" || normalized.startsWith("tunnelWork") || SOCKET_ACTIONS.has(normalized) ||
 		PROCESS_OWNED_ACTIONS.has(normalized) ||
 		PROCESS_OWNED_RECOVERY_ACTIONS.has(normalized) ||
 		GlobalMission.owns(normalized);

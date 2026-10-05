@@ -26,6 +26,7 @@ function writable(config){if(config.allowWrite!==true)throw Error("write_disable
 function buildWorkSessionActions({config,payload={},ws}){
  const id=payload.workId;
  const actions={
+  async tunnelConnectionDiagnostics(){return require("../../../lib/runtime/connection-flight-recorder.js").current().report(payload.limit);},
   async tunnelWorkBegin(){
    writable(config);const task=String(payload.task||"").slice(0,8000);if(!task)throw Error("work_task_required");
    const paths=scopedPaths(config,payload.paths||[]);
@@ -34,12 +35,16 @@ function buildWorkSessionActions({config,payload={},ws}){
    const session={id:"work_"+crypto.randomUUID(),revision:1,task,paths,urls,frontend:payload.frontend===true,
     commit:repo.commit,planId:String(payload.planId||"").slice(0,160),missionId:String(payload.missionId||"").slice(0,160),status:fetched.receipt.ready?"active":"blocked",instructions:fetched.receipt,
     completed:[],remainingWork:strings(payload.remainingWork||[]),nextAction:String(payload.nextAction||"").slice(0,4000),
-    failures:[],reportIds:[],reviews:{},createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};
+    failures:[],retryBudget:Math.max(1,Math.min(10,Math.floor(Number(payload.retryBudget)||3))),failedAttempts:0,reportIds:[],reviews:{},createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};
    await Store.create(config,session);return {ok:true,session,instructions:fetched.instructions,repository:repo};
+  },
+  async tunnelWorkFailure(){
+   writable(config);const reason=String(payload.failureReason||"").slice(0,1000);if(!reason)throw Error("work_failure_reason_required");
+   const session=await Store.update(config,id,payload.revision,s=>{s.failedAttempts=(s.failedAttempts||0)+1;s.failures=[...s.failures,reason].slice(-64);if(s.failedAttempts>=(s.retryBudget||3)){s.status="blocked";s.nextAction="inspect_failure_and_refresh_before_retry";}return s;});return {ok:true,session,retryBudgetExhausted:session.status==="blocked",automaticRetry:false};
   },
   async tunnelWorkHealth(){
    const relay=require("../../../lib/local-api-readiness.js").current(),repository=await Repo.snapshot(config.root);
-   return {ok:true,checkedAt:new Date().toISOString(),repository,checks:{process:{state:relay.parentAlive?"passed":"failed"},registeredRelay:{state:relay.relayReady?"passed":"failed",...relay},commandExecution:{state:"unverified"},fileIntegrity:{state:"unverified"},authenticatedClient:{state:"unverified"},renderedFrontend:{state:"unverified"}},guidance:"Run owned command/file probes and authenticated-client and real frontend checks separately; process liveness is not execution proof."};
+   return {ok:true,checkedAt:new Date().toISOString(),repository,checks:{process:{state:relay.parentAlive?"passed":"failed"},registeredRelay:{...relay,state:relay.relayReady?"passed":"failed"},commandExecution:{state:"unverified"},fileIntegrity:{state:"unverified"},authenticatedClient:{state:"unverified"},renderedFrontend:{state:"unverified"}},guidance:"Run owned command/file probes and authenticated-client and real frontend checks separately; process liveness is not execution proof."};
   },
   async tunnelWorkGet(){return {ok:true,session:await Store.get(config,id)};},
   async tunnelWorkCheckpoint(){

@@ -2,6 +2,7 @@
 //Boruch Hashem
 //Blessed is He
 
+const { pluginSkillInstructions } = require("./catalogPluginSkills.js");
 const { frontendSystemInstructions } = require("./catalogFrontendSystem.js");
 const { frontendResponsiveInstructions } = require("./catalogFrontendResponsive.js");
 const { frontendAccessibilityInstructions } = require("./catalogFrontendAccessibility.js");
@@ -64,6 +65,7 @@ function allRecords() {
 		...workVerificationInstructions,
 		...coreInstructions,
 		...shliachInstructions,
+		...pluginSkillInstructions,
 		...uiLayoutInstructions,
 		...uiInteractionInstructions,
 		...uiCssProductionInstructions,

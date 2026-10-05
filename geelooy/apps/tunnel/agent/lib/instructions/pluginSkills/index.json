@@ -1,0 +1,346 @@
+{
+  "pluginVersion": "0.87.0",
+  "sourcePluginId": "plugin_1e3aaae027408191ab6a75b861bd8ec4",
+  "resources": [
+    {
+      "path": "skills/instructions/SKILL.md",
+      "bytes": 8681,
+      "hash": "4d7c4484b0f9de1ab7b798efe38e5c3c07dd5780066c66aead82cf5776daf8a2"
+    },
+    {
+      "path": "skills/instructions/agents/openai.yaml",
+      "bytes": 258,
+      "hash": "17e98c4bc80dd2203b5c01da0b9e29eb6997294e63e7620a68a875eb973c91a9"
+    },
+    {
+      "path": "skills/instructions/lookup/knowledge-index.json",
+      "bytes": 2181,
+      "hash": "e787ce76710ae2d377c6dc654cdc3b7c2b3e939736e66fa65ef9590a5fdcfd7c"
+    },
+    {
+      "path": "skills/instructions/references/01_PROJECT_REVELATION_ENGINE.md",
+      "bytes": 109750,
+      "hash": "5badc4ff9e9b98830158a4ca1b58e6779cff4c1a78f54db3d9b95b639834b520"
+    },
+    {
+      "path": "skills/instructions/references/02_RECURSIVE_PLANNING_ENGINE.md",
+      "bytes": 109846,
+      "hash": "1d113f72ba8880592a15d6f5fcb14d31ca4eaf7ada653a0c9ce53f1220b8a077"
+    },
+    {
+      "path": "skills/instructions/references/03_UNFINISHED_WORK_DETECTOR.md",
+      "bytes": 109653,
+      "hash": "d737bc12d3e939a36783a920f6e63f9fd89b89a74addcc0645f73bd0ba860b11"
+    },
+    {
+      "path": "skills/instructions/references/07_FUTURE_EVOLUTION_ENGINE.md",
+      "bytes": 78350,
+      "hash": "bc628e8ef99ff6120c36e5210285e5c3703afe9ddce767fd1d03f68b3f0c613f"
+    },
+    {
+      "path": "skills/instructions/references/10_EXECUTION_CONTINUATION_ENGINE.md",
+      "bytes": 110714,
+      "hash": "93ec5ca749c8592dbcb85ce79adb0675c77b3c27b6de2ee7f2a416b328212d50"
+    },
+    {
+      "path": "skills/instructions/references/11_MEMORY_AND_BREADCRUMB_SYSTEM.md",
+      "bytes": 78978,
+      "hash": "2588697ebe89b58cfe59421e357ba19a3f3414641bf3ac6e456bf771d2b68e12"
+    },
+    {
+      "path": "skills/instructions/references/13_RUNTIME_TRACE_ENGINE.md",
+      "bytes": 78258,
+      "hash": "b5715ab676e9ef3f16bf9884cb87ec874e99bdda74620856bf43a9115d42ab64"
+    },
+    {
+      "path": "skills/instructions/references/14_DOCS_AND_HANDOFF_ENGINE.md",
+      "bytes": 78973,
+      "hash": "01c322aa3714a4a45098feed3b865fce83267fb320ee90157ccad259113c1061"
+    },
+    {
+      "path": "skills/instructions/references/15_COMPLETION_GATE_ENGINE.md",
+      "bytes": 78794,
+      "hash": "9f4a95c058ca28f0536e0bcab2e1b8ef5bdb0d6288d9491b142d11259042ff45"
+    },
+    {
+      "path": "skills/instructions/references/16_RESEARCH_DISCOVERY_ENGINE.md",
+      "bytes": 79954,
+      "hash": "8f949d01dfe797ff07ef86ae9dd042d2956733519e2e3cad5580deffba5d496b"
+    },
+    {
+      "path": "skills/instructions/references/17_TECHNICAL_DEBT_ENGINE.md",
+      "bytes": 79505,
+      "hash": "cb8275ebcc3e083f9e8a569f67e09895c0f04e5ace95e0301e3959650f68dc73"
+    },
+    {
+      "path": "skills/instructions/references/18_KNOWLEDGE_GRAPH_ENGINE.md",
+      "bytes": 79328,
+      "hash": "01696745ae030a1c33f91cc5205c72f51f27e4383177b3fb4e16d173b16cde98"
+    },
+    {
+      "path": "skills/instructions/references/ACTION_VERIFICATION.md",
+      "bytes": 3462,
+      "hash": "7fa1ff99eab62457a72e77e2db9637400bd121ee3106b0105a0178f8ddcfaa67"
+    },
+    {
+      "path": "skills/instructions/references/AlwaysGoOn.md",
+      "bytes": 3914,
+      "hash": "80325ef771bd4483bd0d1d92e6715fc02e383548310bb6598ff16c4d6237715a"
+    },
+    {
+      "path": "skills/instructions/references/CODE_AND_PROJECT_GATES.md",
+      "bytes": 3508,
+      "hash": "3b359ffc26c4099c0957a5c8fa6b812b685e9eb060303c5176e325ab5328b00b"
+    },
+    {
+      "path": "skills/instructions/references/CONNECTION_RUNBOOK.md",
+      "bytes": 6086,
+      "hash": "fc390b445c88bb1fa66fd8209ab6225d20cabac925567180be263031dadca679"
+    },
+    {
+      "path": "skills/instructions/references/CORE_OPERATING_CONTRACT.md",
+      "bytes": 3094,
+      "hash": "634180587d606c2d45d209d4b1cfa645877c190468482d069910a73c0f550e24"
+    },
+    {
+      "path": "skills/instructions/references/Continue.md",
+      "bytes": 4031,
+      "hash": "e10bd96e99d01f2011f34e872e11e4767c5f5f341609c8ca51fd0d48da0aa804"
+    },
+    {
+      "path": "skills/instructions/references/DIRECT_AWTSMOOS_ACCESS.md",
+      "bytes": 6334,
+      "hash": "8d93e7b43dea38cdcf6b60a33821690a60e3bc967817ebf8555b53965ac680ce"
+    },
+    {
+      "path": "skills/instructions/references/DURABLE_WORK_AND_CONNECTION_RECOVERY.md",
+      "bytes": 3819,
+      "hash": "478e324d13c24f84235555243262a94cbdcecfa495e8d3c0ed3f5e830ec0b86f"
+    },
+    {
+      "path": "skills/instructions/references/EXECUTION_PERSISTENCE_CONTRACT.md",
+      "bytes": 2557,
+      "hash": "5167051d01b5b17662c77ed3a0a4b97a3c3aa8dd630792d47c137ac8206635bf"
+    },
+    {
+      "path": "skills/instructions/references/EXISTING_API_CONNECTION.md",
+      "bytes": 3669,
+      "hash": "5371318c168ed78acd3a6257e7da6daf72f24b586d61f75f3e8f8983c124965e"
+    },
+    {
+      "path": "skills/instructions/references/FILE_EDITING_CONTRACT.md",
+      "bytes": 2731,
+      "hash": "b49db5a976db86575a9f3bfaf1c1b8e9aef76ce0337fe01c7c61ac0564ba2a42"
+    },
+    {
+      "path": "skills/instructions/references/HOW TO WRITE CODE. READ THIS IT IS VERY IMPORTANT.md.txt",
+      "bytes": 42399,
+      "hash": "62b4833cf92183cb8c29704be493fe185568dcc3edd8d67d1a4ffe4bf19e4d02"
+    },
+    {
+      "path": "skills/instructions/references/IDENTITY_AND_CHANGE_GATES.md",
+      "bytes": 3639,
+      "hash": "9d0dcf3c78b95b6a412f85fc5890505d11820be016671d661cd74d700ce27cea"
+    },
+    {
+      "path": "skills/instructions/references/LIVE_CONNECTION.md",
+      "bytes": 1881,
+      "hash": "32a62653c67d03d62ff1c6af6a8ff8796e46d176e1b58214c0611c2016905a87"
+    },
+    {
+      "path": "skills/instructions/references/LOGIN_AND_ACCESS_ROUTER.md",
+      "bytes": 2870,
+      "hash": "9fde1502ff896c4aa54de3f247e707c7e78f3199ecc225dd92f17c5e556a5c63"
+    },
+    {
+      "path": "skills/instructions/references/MISSION_PERSISTENCE.md",
+      "bytes": 4968,
+      "hash": "e920fe6d83312e5aa3064679e7a4895fa0e17d2c2c71366f5a1bfc2e6927d0cf"
+    },
+    {
+      "path": "skills/instructions/references/MODERN_TUNNEL_CONTRACT.md",
+      "bytes": 3669,
+      "hash": "5371318c168ed78acd3a6257e7da6daf72f24b586d61f75f3e8f8983c124965e"
+    },
+    {
+      "path": "skills/instructions/references/NARRATIVE_AND_CRAFT.md",
+      "bytes": 3044,
+      "hash": "2812e7bfc07e659ad214da4d7a6d74b65fbc0b5e6d0fbc67f618b294bec48cb6"
+    },
+    {
+      "path": "skills/instructions/references/OAUTH_SECURITY_AND_RECOVERY.md",
+      "bytes": 5804,
+      "hash": "ed4e04218be1387a395ce369c84b8bb88868d089a8eaed82af260a537b6e7bbf"
+    },
+    {
+      "path": "skills/instructions/references/PLUGIN_INTEGRATION_AND_DOCTOR.md",
+      "bytes": 4239,
+      "hash": "634b6d32b7bd057ef753057334b056e02e37462728d1f6ac65924b716e236cb8"
+    },
+    {
+      "path": "skills/instructions/references/PLUGIN_LOGIN_PLAYBOOK.md",
+      "bytes": 6217,
+      "hash": "72fd047320e7796f124e38227d1b4d2cbff2970a98526d6bed65c74cb01cdebc"
+    },
+    {
+      "path": "skills/instructions/references/QUALITY_SWEEP.md",
+      "bytes": 3549,
+      "hash": "37a8a0a40d7d651ff6eb2bc7d80fcc4f86d8c1f39bad949d3d8000962a7d5388"
+    },
+    {
+      "path": "skills/instructions/references/RELEASE_AND_INTEGRATION_GATES.md",
+      "bytes": 7548,
+      "hash": "120a66e3301993f6ed8bf3b9efb3ae126610f2fa8a15b9d5dfc6396cdb318be3"
+    },
+    {
+      "path": "skills/instructions/references/RESUMABLE_MISSION_LEDGER.md",
+      "bytes": 3128,
+      "hash": "cc3baa2be3b430d88727b902084a4da1c2957be7c1223c8d538ba5e0c34627b4"
+    },
+    {
+      "path": "skills/instructions/references/ReadThisNow.md",
+      "bytes": 20177,
+      "hash": "5055394701182ab7b51851d3082e79ae9545f5d644b9f8c3759cd6773ba00d12"
+    },
+    {
+      "path": "skills/instructions/references/SOURCE_AND_ROUTE_DISCOVERY.md",
+      "bytes": 3509,
+      "hash": "ba88cbb736f2d4d8ec975b13c3f14c4212c332dbbdaed1ec54099a89cbbdad0c"
+    },
+    {
+      "path": "skills/instructions/references/STABILITY_AND_MULTITASKING.md",
+      "bytes": 2925,
+      "hash": "94a82ec6f171ee8447ffa541f2dece448dd02e9c70dd51b6ecbc4d2c00a6226d"
+    },
+    {
+      "path": "skills/instructions/references/TUNNEL_NATIVE_PLANNING.md",
+      "bytes": 2970,
+      "hash": "7193ea365ffc70241529184eb979da0794f7d72e7f3c1a2700263e2b75799797"
+    },
+    {
+      "path": "skills/instructions/references/VERIFICATION_AND_RELEASE_CONTRACT.md",
+      "bytes": 2663,
+      "hash": "8e2c86b7500dfcf77ce17f1437827ee8c96bd9931b8e068f6fc287b0488aa227"
+    },
+    {
+      "path": "skills/instructions/references/agents.md",
+      "bytes": 26852,
+      "hash": "2bcca97f1906554440c5bf638930db474eac1a0aac8941432ea281fb6206aa65"
+    },
+    {
+      "path": "skills/instructions/references/constitutional.md",
+      "bytes": 4426,
+      "hash": "fb095e47b2f9adc644c3d347b81fe9956470996b836e52a8b031d9705b90c939"
+    },
+    {
+      "path": "skills/instructions/references/legacy/ARCHIVE_INVENTORY.md",
+      "bytes": 1859,
+      "hash": "e995b5a4ea2e87fe1e6a30d0794313ad6db3c09786b72158df91b48d0b3ad064"
+    },
+    {
+      "path": "skills/instructions/references/legacy/USER_INSTRUCTIONS.txt",
+      "bytes": 11149,
+      "hash": "8a25a4286d921127297e4b86eb36fca1ef88bf3e5dee514d4200b2bd442972c8"
+    },
+    {
+      "path": "skills/instructions/references/legacy/originals/01_PROJECT_REVELATION_ENGINE.md",
+      "bytes": 109008,
+      "hash": "25cd284895cc3bf91cfac233b30eaf7d24fa11efa73577e5161bdf82e90bebd6"
+    },
+    {
+      "path": "skills/instructions/references/legacy/originals/02_RECURSIVE_PLANNING_ENGINE.md",
+      "bytes": 109104,
+      "hash": "53f6cb75b631e0e437ef3d44f50c18155ec5975c911addcc3d2de6a71938ba83"
+    },
+    {
+      "path": "skills/instructions/references/legacy/originals/03_UNFINISHED_WORK_DETECTOR.md",
+      "bytes": 108911,
+      "hash": "70ebf1129c3ac8a03f917ba3f864f3695784e0ff7e86ec50a02e4a7fd4e34966"
+    },
+    {
+      "path": "skills/instructions/references/legacy/originals/10_EXECUTION_CONTINUATION_ENGINE(1).md",
+      "bytes": 109972,
+      "hash": "a81ffa8ea43c91003dc626cd770bbd348a3090bde7fbb8afd95f22312945e40d"
+    },
+    {
+      "path": "skills/instructions/references/legacy/originals/10_EXECUTION_CONTINUATION_ENGINE.md",
+      "bytes": 109972,
+      "hash": "a81ffa8ea43c91003dc626cd770bbd348a3090bde7fbb8afd95f22312945e40d"
+    },
+    {
+      "path": "skills/instructions/references/legacy/originals/15_COMPLETION_GATE_ENGINE.md",
+      "bytes": 78052,
+      "hash": "8e3856b501f301b77c89ccec3604133f837de4abd9fda740618ced1ece8b9cc3"
+    },
+    {
+      "path": "skills/instructions/references/legacy/originals/17_TECHNICAL_DEBT_ENGINE.md",
+      "bytes": 78763,
+      "hash": "984c25877fec3ca1df49dc02b3d857133ecd4ace35a1c936e92f158eb6c4a8c9"
+    },
+    {
+      "path": "skills/instructions/references/legacy/originals/18_KNOWLEDGE_GRAPH_ENGINE.md",
+      "bytes": 78586,
+      "hash": "d422e6ec2e7e7aa7b3791540c35a80aa78c8b83042a3f60e3bd405aaea917e65"
+    },
+    {
+      "path": "skills/instructions/references/legacy/originals/Continue.md",
+      "bytes": 3289,
+      "hash": "d696eb4f0ffe11551083078b2d17aead636dd3e0b5144de2fb701be20edca2f1"
+    },
+    {
+      "path": "skills/instructions/references/legacy/originals/agents(1).md",
+      "bytes": 28256,
+      "hash": "c2ec1c5cb7eaa0ddb709932f851b485bcb11d3996a0b74680aee14e9e4f4060f"
+    },
+    {
+      "path": "skills/instructions/references/legacy/originals/readme.md",
+      "bytes": 4881,
+      "hash": "c31374eb7509f3d7176bc3982415f549cdec6689b859433ad4c3c7e87cd46228"
+    },
+    {
+      "path": "skills/instructions/references/readme.md",
+      "bytes": 5623,
+      "hash": "6df7f97a4950a87ac7677ab1d78e80bfb261f1aef008604faa390b50c6a461b3"
+    },
+    {
+      "path": "skills/instructions/scripts/awtsmoos-get.mjs",
+      "bytes": 1966,
+      "hash": "a32d64b4c91ff6576af18fcd19165d9d7a77386d708ea16f18ef7bdd34f6fc57"
+    },
+    {
+      "path": "skills/instructions/scripts/connection-doctor.mjs",
+      "bytes": 3332,
+      "hash": "33e00c0e6779d9808f05c9c437d4932f8b3146156426ff90b6d78f61435ce33b"
+    },
+    {
+      "path": "skills/novel-voice/SKILL.md",
+      "bytes": 1081,
+      "hash": "202b0bac8121a361034fa14ff0006fb0004076aa635166156c8d9e4b1bd72658"
+    },
+    {
+      "path": "skills/novel-voice/agents/openai.yaml",
+      "bytes": 258,
+      "hash": "4cfed706ff096809721efbe59e5d3076e8b2661af4e351e318e593d461857480"
+    },
+    {
+      "path": "skills/poetic-code/SKILL.md",
+      "bytes": 1211,
+      "hash": "0a768e6ce4c073216682cf69289fc9b1307674e575b8e3123f1388e7689ee199"
+    },
+    {
+      "path": "skills/poetic-code/agents/openai.yaml",
+      "bytes": 264,
+      "hash": "fb004c1df6b2ef39ca4cf3596c9747f15e6ebf9725fdca6195d29c31f13650c7"
+    },
+    {
+      "path": "skills/tunnel-workflow/SKILL.md",
+      "bytes": 2369,
+      "hash": "851047d932ac172fffb6559d7dee7578981c69879fe2adbc51d3200849a5a085"
+    },
+    {
+      "path": "skills/tunnel-workflow/agents/openai.yaml",
+      "bytes": 271,
+      "hash": "b1d74b0f7ed86d01226c1070911c782c0160e9d6d28d504d3f4788f45c93f39d"
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+	"files": [
+		{
+			"name": "01_PROJECT_REVELATION_ENGINE.md",
+			"path": "references/01_PROJECT_REVELATION_ENGINE.md"
+		},
+		{
+			"name": "02_RECURSIVE_PLANNING_ENGINE.md",
+			"path": "references/02_RECURSIVE_PLANNING_ENGINE.md"
+		},
+		{
+			"name": "03_UNFINISHED_WORK_DETECTOR.md",
+			"path": "references/03_UNFINISHED_WORK_DETECTOR.md"
+		},
+		{
+			"name": "07_FUTURE_EVOLUTION_ENGINE.md",
+			"path": "references/07_FUTURE_EVOLUTION_ENGINE.md"
+		},
+		{
+			"name": "10_EXECUTION_CONTINUATION_ENGINE.md",
+			"path": "references/10_EXECUTION_CONTINUATION_ENGINE.md"
+		},
+		{
+			"name": "11_MEMORY_AND_BREADCRUMB_SYSTEM.md",
+			"path": "references/11_MEMORY_AND_BREADCRUMB_SYSTEM.md"
+		},
+		{
+			"name": "13_RUNTIME_TRACE_ENGINE.md",
+			"path": "references/13_RUNTIME_TRACE_ENGINE.md"
+		},
+		{
+			"name": "14_DOCS_AND_HANDOFF_ENGINE.md",
+			"path": "references/14_DOCS_AND_HANDOFF_ENGINE.md"
+		},
+		{
+			"name": "15_COMPLETION_GATE_ENGINE.md",
+			"path": "references/15_COMPLETION_GATE_ENGINE.md"
+		},
+		{
+			"name": "16_RESEARCH_DISCOVERY_ENGINE.md",
+			"path": "references/16_RESEARCH_DISCOVERY_ENGINE.md"
+		},
+		{
+			"name": "17_TECHNICAL_DEBT_ENGINE.md",
+			"path": "references/17_TECHNICAL_DEBT_ENGINE.md"
+		},
+		{
+			"name": "18_KNOWLEDGE_GRAPH_ENGINE.md",
+			"path": "references/18_KNOWLEDGE_GRAPH_ENGINE.md"
+		},
+		{
+			"name": "AlwaysGoOn.md",
+			"path": "references/AlwaysGoOn.md"
+		},
+		{
+			"name": "Continue.md",
+			"path": "references/Continue.md"
+		},
+		{
+			"name": "HOW TO WRITE CODE. READ THIS IT IS VERY IMPORTANT.md.txt",
+			"path": "references/HOW TO WRITE CODE. READ THIS IT IS VERY IMPORTANT.md.txt"
+		},
+		{
+			"name": "ReadThisNow.md",
+			"path": "references/ReadThisNow.md"
+		},
+		{
+			"name": "agents.md",
+			"path": "references/agents.md"
+		},
+		{
+			"name": "constitutional.md",
+			"path": "references/constitutional.md"
+		},
+		{
+			"name": "readme.md",
+			"path": "references/readme.md"
+		}
+	],
+	"currentContracts": [
+		"references/MODERN_TUNNEL_CONTRACT.md",
+		"references/TUNNEL_NATIVE_PLANNING.md",
+		"references/NARRATIVE_AND_CRAFT.md"
+	],
+	"legacyLoading": "Conditional historical background; live schemas and modern contracts take precedence."
+}
