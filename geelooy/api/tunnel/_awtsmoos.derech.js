@@ -221,7 +221,7 @@ module.exports = {
         );
 
         // The Awtsmoos preserves job lifecycle text inside JSON, never as an HTTP code.
-        response.statusCode = validHttpStatus(result.statusCode) || validHttpStatus(result.status) || 200;
+        response.statusCode = validHttpStatus(result.statusCode) ? Number(result.statusCode) : (validHttpStatus(result.status) ? Number(result.status) : 200);
 
         if (result.mimeType) {
           try {
