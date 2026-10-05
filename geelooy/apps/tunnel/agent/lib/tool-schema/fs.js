@@ -17,6 +17,7 @@ const { chatgptSchema } = require("./chatgpt.js");
 const { aiAgentSchema } = require("./agent.js");
 
 function fsSchema(name) {
+	if (name.startsWith("tunnelWork")) return require("../../tools/fs/workSession/schema.js").schema(name);
 	if (name === "actionSchemaTrace") return P.objectSchema({ targetAction: P.string("One exact action name."), targetActions: { type: "array", items: P.string("Exact action name."), minItems: 1, maxItems: 16 }, kind: P.string("Optional tool family.") });
 	if (/^chatgpt/i.test(name)) return chatgptSchema(name);
 	if (/^(agent|aiAgent)/i.test(name)) return aiAgentSchema(name);

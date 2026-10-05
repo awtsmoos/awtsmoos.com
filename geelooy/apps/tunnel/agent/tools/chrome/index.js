@@ -2,6 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
+const Frontend = require("./frontendVerifier.js");
 const chromeActions = require("./actions.js");
 const chromeExtras = require("./extras.js");
 const chromeSession = require("./session.js");
@@ -17,6 +18,7 @@ const READ_ONLY_ACTIONS = new Set([
 ]);
 
 const ACTIONS = Object.freeze({
+	chromeVerifyFrontend: Frontend.verify,
 	chromeFind: chromeActions.chromeFind,
 	chromeLaunch: chromeActions.chromeLaunch,
 	chromeStop: chromeActions.chromeStop,

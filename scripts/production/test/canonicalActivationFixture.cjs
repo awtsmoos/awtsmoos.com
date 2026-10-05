@@ -45,6 +45,7 @@ class CanonicalActivationFixture {
 		this.ssh.start();
 		this.repository.setup(this.ssh.port);
 		Support.writeCommandShims(this.bin);
+		fs.writeFileSync(path.join(this.temporary,"mime.types"),"types { application/javascript js mjs; }\n");
 	}
 
 	/**
@@ -66,6 +67,7 @@ class CanonicalActivationFixture {
 				TEST_REPO: this.repo,
 				TEST_SERVICE_ENVIRONMENT: serviceEnvironment.join(" "),
 				AWTSMOOS_PRODUCTION_REPO: this.repo,
+				AWTSMOOS_NGINX_MIME_TYPES: path.join(this.temporary,"mime.types"),
 				AWTSMOOS_SYSTEMD_OVERRIDE_PATH: this.override,
 				AWTSMOOS_SYSTEMD_DIRECTORY: this.systemd,
 				AWTSMOOS_LIBEXEC_DIRECTORY: this.libexec,

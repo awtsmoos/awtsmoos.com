@@ -2,6 +2,12 @@
 //Boruch Hashem
 //Blessed is He
 
+const { frontendSystemInstructions } = require("./catalogFrontendSystem.js");
+const { frontendResponsiveInstructions } = require("./catalogFrontendResponsive.js");
+const { frontendAccessibilityInstructions } = require("./catalogFrontendAccessibility.js");
+const { frontendPerformanceInstructions } = require("./catalogFrontendPerformance.js");
+const { frontendVerificationInstructions } = require("./catalogFrontendVerification.js");
+const { workVerificationInstructions } = require("./catalogWorkVerification.js");
 const { shliachInstructions } = require("./catalogShliach.js");
 const { coreInstructions } = require("./catalogCore.js");
 const { uiLayoutInstructions } = require("./catalogUiLayout.js");
@@ -50,6 +56,12 @@ class InstructionKeter {
 
 function allRecords() {
 	return [
+		...frontendSystemInstructions,
+		...frontendResponsiveInstructions,
+		...frontendAccessibilityInstructions,
+		...frontendPerformanceInstructions,
+		...frontendVerificationInstructions,
+		...workVerificationInstructions,
 		...coreInstructions,
 		...shliachInstructions,
 		...uiLayoutInstructions,
