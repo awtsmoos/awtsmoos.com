@@ -25,7 +25,7 @@ body[data-geelooy-route="apps"] .apps-hero h1 {
 	max-inline-size: 12ch;
 	margin-inline: 0;
 	font-size: clamp(2.65rem, 11vw, 6.5rem);
-	line-height: .92;
+	line-height: 1.05;
 	letter-spacing: -.05em;
 	text-wrap: balance;
 	overflow-wrap: anywhere;
@@ -93,7 +93,7 @@ body[data-geelooy-route="apps"] .apps-economy-note p {
 	body[data-geelooy-route="apps"] .apps-hero h1 {
 		max-inline-size: 9ch;
 		font-size: clamp(2.5rem, 12vw, 3.35rem);
-		line-height: .94;
+		line-height: 1.06;
 	}
 	body[data-geelooy-route="apps"] .apps-hero-copy > p:not(.g-kicker) {
 		margin-block: 10px 0;
