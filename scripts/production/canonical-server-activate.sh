@@ -2,7 +2,7 @@
 # B"H
 # Boruch Hashem
 # Blessed is He
-# Canonical production activation with a kernel-owned HTTP socket that survives Node replacement.
+# The Awtsmoos keeps the kernel-owned HTTP doorway alive while Awtsmoos.com replaces the Node vessel behind it without losing the gate.
 set -Eeuo pipefail
 
 expected="${1:-}"
@@ -20,6 +20,8 @@ tunnel_preflight="$script_directory/tunnel-bundle-preflight.cjs"
 watchdog_installer="$script_directory/install-health-watchdog.sh"
 virtual_ssh_probe="$script_directory/virtual-ssh-listener-probe.sh"
 compact_prewarmer="$script_directory/compact-prewarm.mjs"
+nginx_preparer="$script_directory/canonical-nginx-mime.sh"
+service_verifier="$script_directory/canonical-service-verify.sh"
 virtual_ssh_port="${AWTSMOOS_VIRTUAL_SSH_PORT:-2223}"
 backup="${TMPDIR:-/tmp}/awtsmoos-service-override.$$.bak"
 armed=0
@@ -49,14 +51,6 @@ rollback() {
 	systemctl restart "$service" || true
 }
 
-require_environment() {
-	local value="$1"
-	case " $service_environment " in
-		*" $value "*) ;;
-		*) fail "service_environment_missing_${value%%=*}" ;;
-	esac
-}
-
 trap rollback EXIT
 [[ "$expected" =~ ^[0-9a-f]{40}$ ]] || fail invalid_expected_sha
 [[ "$virtual_ssh_port" =~ ^[0-9]+$ ]] || fail invalid_virtual_ssh_port
@@ -66,16 +60,12 @@ trap rollback EXIT
 [ -z "$(git -C "$repo" status --porcelain)" ] || fail canonical_repo_dirty
 [ "$(git -C "$repo" rev-parse HEAD)" = "$expected" ] || fail canonical_head_mismatch
 [ "$(git -C "$repo" rev-parse origin/main)" = "$expected" ] || fail canonical_origin_mismatch
-[ -f "$source_override" ] || fail canonical_override_missing
-[ -f "$source_socket" ] || fail canonical_socket_unit_missing
+for required in "$source_override" "$source_socket" "$extension_builder" "$tunnel_preflight" "$watchdog_installer" "$virtual_ssh_probe" "$compact_prewarmer" "$nginx_preparer" "$service_verifier"; do
+	[ -f "$required" ] || fail "required_file_missing_$(basename "$required")"
+done
 [ -f "$repo/index.js" ] || fail canonical_entrypoint_missing
 [ -d "$repo/users" ] || fail canonical_users_missing
 [ -d "$repo/geelooy/.data" ] || fail canonical_data_missing
-[ -f "$extension_builder" ] || fail extension_builder_missing
-[ -f "$tunnel_preflight" ] || fail tunnel_bundle_preflight_missing
-[ -f "$watchdog_installer" ] || fail watchdog_installer_missing
-[ -f "$virtual_ssh_probe" ] || fail virtual_ssh_protocol_probe_missing
-[ -f "$compact_prewarmer" ] || fail compact_prewarmer_missing
 
 node "$tunnel_preflight" "$repo" >/dev/null || fail tunnel_bundle_preflight_failed
 node "$extension_builder"
@@ -88,18 +78,10 @@ install -D -m 0644 "$source_override" "$override"
 printf '\nEnvironment=AWTSMOOS_RELEASE_SHA=%s\n' "$expected" >> "$override"
 install -D -m 0644 "$source_socket" "/etc/systemd/system/$socket_unit"
 bash "$watchdog_installer"
-
-if ! grep -Eq 'application/javascript[[:space:]]+[^;]*mjs' /etc/nginx/mime.types; then
-	cp /etc/nginx/mime.types /etc/nginx/mime.types.awtsmoos-before-mjs
-	sed -i -E 's#(application/javascript[[:space:]]+[^;]*js)([[:space:]]*;)#\1 mjs\2#' /etc/nginx/mime.types
-	grep -Eq 'application/javascript[[:space:]]+[^;]*mjs' /etc/nginx/mime.types || fail nginx_mjs_mime_install_failed
-	nginx -t
-	systemctl reload nginx
-fi
+bash "$nginx_preparer"
 
 systemctl daemon-reload
 if [ "$socket_preexisting" -eq 0 ]; then
-	# One-time migration: release 8080 from the legacy process, then let systemd own it forever.
 	systemctl stop "$service" || true
 	systemctl enable --now "$socket_unit"
 	systemctl start "$service"
@@ -109,32 +91,15 @@ fi
 
 healthy=0
 for _attempt in $(seq 1 60); do
-	if systemctl is-active --quiet "$socket_unit" &&
-		systemctl is-active --quiet "$service" &&
-		curl -fsS "$health_url" >/dev/null 2>&1; then
+	if systemctl is-active --quiet "$socket_unit" && systemctl is-active --quiet "$service" && curl -fsS "$health_url" >/dev/null 2>&1; then
 		healthy=1
 		break
 	fi
 	sleep 1
 done
 [ "$healthy" -eq 1 ] || fail service_health_timeout
+bash "$service_verifier" "$service" "$repo" "$expected" "$virtual_ssh_port" "$virtual_ssh_probe"
 
-working_directory="$(systemctl show "$service" -p WorkingDirectory --value)"
-exec_start="$(systemctl show "$service" -p ExecStart --value)"
-service_environment="$(systemctl show "$service" -p Environment --value)"
-[ "$working_directory" = "$repo" ] || fail service_working_directory_mismatch
-case "$exec_start" in *"$repo/index.js"*) ;; *) fail service_exec_start_mismatch ;; esac
-require_environment "VIRTUAL_SSH_HOST=0.0.0.0"
-require_environment "VIRTUAL_SSH_PUBLIC_HOST=awtsmoos.com"
-require_environment "VIRTUAL_SSH_PORT=$virtual_ssh_port"
-require_environment "VIRTUAL_SSH_MAX_CONNECTIONS=64"
-require_environment "VIRTUAL_SSH_CONNECTIONS_PER_MINUTE=60"
-require_environment "VIRTUAL_SSH_IDLE_MS=1800000"
-require_environment "VIRTUAL_SSH_TOKEN_TTL_MS=900000"
-require_environment "AWTSMOOS_RELEASE_SHA=$expected"
-bash "$virtual_ssh_probe" "$virtual_ssh_port" >/dev/null || fail virtual_ssh_protocol_probe_failed
-[ "$(git -C "$repo" rev-parse HEAD)" = "$expected" ] || fail post_restart_head_mismatch
-[ -z "$(git -C "$repo" status --porcelain)" ] || fail post_restart_repo_dirty
 if [ "${AWTSMOOS_COMPACT_PREWARM:-0}" = "1" ]; then
 	AWTSMOOS_PRODUCTION_HEALTH_URL="$health_url" AWTSMOOS_COMPACT_PREWARM_TIMEOUT_MS="${AWTSMOOS_COMPACT_PREWARM_TIMEOUT_MS:-90000}" node "$compact_prewarmer" || fail compact_prewarm_failed
 else

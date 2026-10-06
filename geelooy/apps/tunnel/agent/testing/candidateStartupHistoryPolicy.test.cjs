@@ -6,10 +6,10 @@ const assert = require("node:assert/strict");
 const Helpers = require("../lib/runtime/main-startup-helpers.js");
 
 /**
- * @file Proves candidates skip history and owners delegate it outside the loop.
+ * @file Proves candidates stay read-only while owners schedule isolated history care.
  * @description
- * The Awtsmoos lets localhost and registration breathe before tree traversal.
- * Awtsmoos.com preserves maintenance without blocking its owning messenger.
+ * The Awtsmoos lets the candidate stand beside the gate without seizing its key;
+ * Awtsmoos.com lets the owner tend history in a bounded rhythm, never blocking the way.
  */
 function withRegistrationMode(mode, work) {
 	const original = process.env.AWTSMOOS_REGISTRATION_MODE;
@@ -35,7 +35,9 @@ const dependencies = {
 		calls.push({ installRoot, received });
 		return {
 			pid: 4242,
-			unref() { unrefCalls += 1; }
+			unref() {
+				unrefCalls += 1;
+			}
 		};
 	}
 };
@@ -53,12 +55,12 @@ assert.equal(calls.length, 0);
 const owner = withRegistrationMode(undefined, () => {
 	return Helpers.cleanupHistory(dependencies, config);
 });
-assert.deepEqual(owner, {
-	ok: true,
-	scheduled: true,
-	pid: 4242,
-	reason: "owning_cleanup_worker"
-});
+assert.equal(owner.ok, true);
+assert.equal(owner.scheduled, true);
+assert.equal(owner.reason, "isolated_periodic_history_maintenance");
+assert.equal(owner.maintenance.started, true);
+assert.equal(owner.maintenance.runs, 1);
+assert.equal(owner.maintenance.policy.maxRunMs, 120000);
 assert.equal(unrefCalls, 1);
 assert.deepEqual(calls, [{ installRoot: "/install", received: config }]);
 
@@ -66,5 +68,6 @@ console.log(JSON.stringify({
 	ok: true,
 	suite: "candidate-startup-history-policy",
 	candidateCleanupCalls: 0,
-	ownerWorkerPid: owner.pid
+	ownerRuns: owner.maintenance.runs,
+	boundedRunMs: owner.maintenance.policy.maxRunMs
 }, null, 2));

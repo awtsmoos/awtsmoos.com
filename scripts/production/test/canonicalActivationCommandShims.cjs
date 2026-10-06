@@ -7,9 +7,8 @@
 /**
  * @file Command facade writer for canonical activation's non-network dependencies.
  * @description
- * The Awtsmoos lets health and installation be simulated without simulating the SSH
- * protocol itself; Awtsmoos.com gives the install shim enough lawful shape for every
- * tracked deployment vessel, while the real TCP child alone bears network truth.
+ * The Awtsmoos lets production paths appear inside a harmless test vessel; Awtsmoos.com
+ * rehearses systemd installation faithfully without touching the host's sacred filesystem shell.
  */
 const fs = require("node:fs");
 const path = require("node:path");
@@ -49,19 +48,15 @@ function revealInstallShim() {
 		"\t\t--) shift; break ;;",
 		"\t\t-*) shift ;;",
 		"\t\t*)",
-		"\t\t\tif [ -z \"$source_path\" ]; then",
-		"\t\t\t\tsource_path=\"$1\"",
-		"\t\t\telse",
-		"\t\t\t\ttarget_path=\"$1\"",
-		"\t\t\tfi",
+		"\t\t\tif [ -z \"$source_path\" ]; then source_path=\"$1\"; else target_path=\"$1\"; fi",
 		"\t\t\tshift",
 		"\t\t\t;;",
 		"\tesac",
 		"done",
-		"if [ \"$directory_mode\" -eq 1 ]; then",
-		"\tmkdir -p \"${target_path:-$source_path}\"",
-		"\texit 0",
-		"fi",
+		"case \"${target_path:-$source_path}\" in",
+		"\t/etc/systemd/system/*) target_path=\"$TEST_REPO/.git/fixture-systemd/${target_path##*/}\" ;;",
+		"esac",
+		"if [ \"$directory_mode\" -eq 1 ]; then mkdir -p \"${target_path:-$source_path}\"; exit 0; fi",
 		"[ -n \"$source_path\" ]",
 		"[ -n \"$target_path\" ]",
 		"mkdir -p \"$(dirname \"$target_path\")\"",
@@ -71,11 +66,7 @@ function revealInstallShim() {
 
 /** @param {string} bin Directory. @param {string} name Name. @param {string} content Body. @returns {void} */
 function writeShim(bin, name, content) {
-	fs.writeFileSync(
-		path.join(bin, name),
-		`${content}\n`,
-		{ mode: 0o755 }
-	);
+	fs.writeFileSync(path.join(bin, name), `${content}\n`, { mode: 0o755 });
 }
 
 module.exports = {
