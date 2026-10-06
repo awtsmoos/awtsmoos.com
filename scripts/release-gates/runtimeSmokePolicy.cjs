@@ -41,7 +41,7 @@ const ROUTES = Object.freeze([
 		id: 'genesis-one',
 		path: GENESIS_ONE,
 		markers: ['data-awtsmoos-initial-post'],
-		minimumHebrew: 0,
+		minimumHebrew: 100,
 		timeoutMs: POST_COLD_TIMEOUT_MS
 	})
 ]);
