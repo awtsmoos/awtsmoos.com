@@ -14,6 +14,24 @@ import { renderTiferesSocialLaunchpad } from './modules/SocialLaunchpad.js';
 import { bindTabs } from './modules/tabs.js';
 
 /**
+ * Shows a visible boot failure instead of leaving the page stuck on "Loading…".
+ * The inline watchdog in index.html watches window.__profileBootState; 'failed'
+ * tells it the module ran but could not start, so it must not overwrite this message.
+ */
+function showBootFailure(message) {
+	try {
+		const status = document.querySelector('[data-profile-status]');
+		if (status) {
+			status.textContent = message;
+			status.dataset.profileStatus = 'error';
+		}
+	} catch (watchError) {
+		/* The error reporter itself must never throw. */
+	}
+	window.__profileBootState = 'failed';
+}
+
+/**
  * Boots the signed-in Profile experience after its server-rendered vessel exists.
  * @returns {Promise<ProfileDashboardController>} Started Profile controller.
  */
@@ -24,10 +42,15 @@ export async function bootProfileSocialOs() {
 	bindProfileInlineActions();
 	const controller = new ProfileDashboardController();
 	await controller.start();
+	window.__profileBootState = 'ready';
 	window.addEventListener('awtsmoosAliasChange', () => renderTiferesSocialLaunchpad());
 	return controller;
 }
 
+window.__profileBootState = 'booting';
 window.addEventListener('DOMContentLoaded', () => {
-	void bootProfileSocialOs();
+	bootProfileSocialOs().catch(error => {
+		console.error('B"H profile boot failed:', error);
+		showBootFailure('Profile could not start. Please reload the page to try again.');
+	});
 }, { once: true });
