@@ -380,7 +380,8 @@ class PackedBulkImportRoutes {
 		if (bad) return bad;
 		const auth = this.checkAuth();
 		if (auth) return auth;
-		const body = this.$i?.body || {};
+		// B"H 2026-10-05: $i.body is not populated by the framework; merge $_POST (which carries all fields incl. items array).
+		const body = { ...(this.$i?.$_POST || {}), ...(this.$i?.body || {}) };
 		for (const k of ['kind', 'seriesId', 'postId', 'aliasId']) {
 			if (body[k] === undefined || body[k] === null || body[k] === '') {
 				const v = requestValue(this.$i, k);
