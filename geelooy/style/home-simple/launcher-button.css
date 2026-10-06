@@ -65,10 +65,11 @@ body[data-geelooy-route="home"] .launcher-button:active {
 	body[data-geelooy-route="home"] .launcher-button {
 		width: 44px;
 		padding: 0;
+		overflow: hidden;
 	}
 
 	body[data-geelooy-route="home"] .launcher-button > span:last-child {
-		display: none;
+		display: none !important;
 	}
 }
 

@@ -53,7 +53,7 @@
 
 .awtsmoosDrop .profile-trigger-copy strong {
 	overflow: hidden;
-	max-width: 8rem;
+	max-width: none;
 	font-size: .82rem;
 	text-overflow: ellipsis;
 	white-space: nowrap;

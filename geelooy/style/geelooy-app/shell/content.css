@@ -23,3 +23,9 @@
 		padding: calc(var(--g-header-h) + 1.55rem) .85rem calc(5.5rem + env(safe-area-inset-bottom));
 	}
 }
+
+/* Fallback: shell-enabled pages whose main does not use .g-page/.geelooy-content-region
+   still clear the fixed global header. Prevents the stacked-overlap seen on /about. */
+body.geelooy-app-shell > main:not(.g-page):not(.geelooy-content-region) {
+	padding-top: calc(var(--g-header-h, 4.5rem) + 1.25rem);
+}
