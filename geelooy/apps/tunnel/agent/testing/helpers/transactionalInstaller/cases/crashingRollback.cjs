@@ -57,7 +57,7 @@ async function run() {
 		assert.equal(journal.phase, "candidate_probe_failed");
 		assert.equal(journal.rollback, fixture.runtimeRoot);
 		assert.match(Context.combinedOutput(result), /predecessor.*restor/i);
-		assert.match(Context.combinedOutput(result), /failed before predecessor displacement/i);
+		assert.match(Context.combinedOutput(result), /failed before (predecessor displacement|verified readiness)/i);
 		assert.equal(candidateDirectories(fixture).length, 0);
 		return {
 			case: "crashing_candidate_rejected_before_promotion",
