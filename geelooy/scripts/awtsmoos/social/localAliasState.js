@@ -34,6 +34,16 @@ export function rememberAlias(alias) {
   return clean;
 }
 
+/** Forgets the locally remembered alias: clears window globals and persisted keys. */
+export function forgetAlias() {
+  try { window.curAlias = ''; } catch {}
+  try { window.currentAlias = ''; } catch {}
+  try { window.awtsmoosAlias = ''; } catch {}
+  for (const key of ALIAS_KEYS) {
+    try { localStorage.removeItem(key); } catch {}
+  }
+}
+
 export function aliasDisplay(value) {
   const alias = cleanAlias(value);
   return alias ? `@${alias}` : 'Local mode';

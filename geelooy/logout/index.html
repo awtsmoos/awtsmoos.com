@@ -11,6 +11,25 @@ The Awtsmoos releases one finite session without letting an untrusted redirect s
 <meta name="theme-color" content="#050914">
 <title>Logged Out · Awtsmoos</title>
 <link rel="stylesheet" href="../css/awp-polish.css?v=awp-001">
+<script>
+/* B"H — Log out must be real: forget the locally remembered alias and clear
+   local identity/session stores before the refresh redirect carries onward.
+   Keys mirror ALIAS_KEYS in scripts/awtsmoos/social/localAliasState.js. */
+(function () {
+  try {
+    var keys = ['awtsmoosAlias', 'awtsmoos_social_inbox_alias', 'BH_PROFILE_VIEWER_ALIAS'];
+    for (var i = 0; i < keys.length; i++) { try { localStorage.removeItem(keys[i]); } catch (e) {} }
+    try { sessionStorage.clear(); } catch (e) {}
+    try {
+      if (window.indexedDB && indexedDB.databases) {
+        indexedDB.databases().then(function (dbs) {
+          (dbs || []).forEach(function (info) { try { indexedDB.deleteDatabase(info.name); } catch (e) {} });
+        }).catch(function () {});
+      }
+    } catch (e) {}
+  } catch (e) {}
+})();
+</script>
 </head>
 <body class="awp-page awp-center">
 <?Awtsmoos

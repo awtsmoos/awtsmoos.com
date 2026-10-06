@@ -4,6 +4,14 @@
  * @description Holds mail identity, current folder, sender category, search intent, and listeners.
  */
 import { connectSocket, refreshSnippets } from './network.js';
+
+/**
+ * Canonical alias identity: trims, decodes _at_ notation, strips display @, case-folds.
+ * One correspondent = one identity, everywhere thread identity is computed.
+ */
+export function normalizeAlias(value) {
+    return String(value || '').trim().replace(/_at_/g, '@').replace(/^@+/, '').toLowerCase();
+}
 import { switchChat } from './ui/chat.js';
 import { ensureDefaultAlias, isValidAlias, cleanAlias } from '/scripts/awtsmoos/social/aliasIdentity.js';
 
@@ -69,7 +77,7 @@ function openInitialTarget(ui) {
   } else if (toAlias) openComposeTo(ui, toAlias);
 }
 
-function normalizeThreadId(threadId) { return String(threadId || '').replace(/@/g, '_at_'); }
+function normalizeThreadId(threadId) { return normalizeAlias(threadId).replace(/@/g, '_at_'); }
 function openComposeTo(ui, toAlias) {
   const modal = ui.getHtml('composeModal');
   const to = ui.getHtml('newTo');

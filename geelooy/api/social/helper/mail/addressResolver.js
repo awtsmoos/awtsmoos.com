@@ -21,7 +21,9 @@ class MailAddressResolver {
 	async resolve({ toAliasId, toEmail }) {
 		const tiferesRaw = toAliasId || toEmail;
 		if (!tiferesRaw) return { ok: false, code: 'NO_RCPT', message: 'Must provide recipient' };
-		const malchusClean = String(tiferesRaw).trim().toLowerCase().replace(/[<>]/g, '');
+		let malchusClean = String(tiferesRaw).trim().toLowerCase().replace(/[<>]/g, '');
+		// A leading @ is display dressing ("@alias"), not an external mailbox: strip before routing.
+		malchusClean = malchusClean.replace(/^@+/, '');
 		if (!malchusClean) return { ok: false, code: 'NO_RCPT', message: 'Must provide recipient' };
 		const yesodAddress = this.displayAddress(malchusClean);
 		const chochmahLocalCandidate = yesodAddress.endsWith('@awtsmoos.com')

@@ -6,13 +6,13 @@
  * truthfully, every error gets a human name, and failed transmissions now throw
  * so the composer can preserve the draft instead of pretending the spark flew.
  */
-import { state, notify } from './store.js';
+import { state, notify, normalizeAlias } from './store.js';
 import { FX } from './ui/fx.js';
 
 const API_BASE = '/api/social/mail';
 let socket;
 
-function threadKey(id) { return String(id || '').replace(/@/g, '_at_'); }
+function threadKey(id) { return normalizeAlias(id).replace(/@/g, '_at_'); }
 
 function firstText(...values) {
     for (const value of values) {
@@ -63,13 +63,19 @@ function listFrom(data) {
     return [];
 }
 
+function isExternalEmail(value) {
+    return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value);
+}
+
 function mailRoute(recipient) {
-    const clean = String(recipient || '').trim();
+    const clean = normalizeAlias(recipient);
     if (!clean) throw new Error('Recipient is required.');
-    if (clean.includes('@')) {
-        return { to: 'external', query: `?toEmail=${encodeURIComponent(clean.replace('_at_', '@'))}` };
+    // Only real external mailboxes (local@domain.tld) take the SMTP path.
+    // A display-style "@alias" is an internal alias and must never route externally.
+    if (isExternalEmail(clean)) {
+        return { to: 'external', query: `?toEmail=${encodeURIComponent(clean)}` };
     }
-    return { to: encodeURIComponent(clean.replace(/^@/, '')), query: '' };
+    return { to: encodeURIComponent(clean), query: '' };
 }
 
 export async function refreshSnippets() {
@@ -161,7 +167,7 @@ function handleSocketMessage(raw) {
 function handleNewMail(message) {
     if (FX.playSound) FX.playSound('sent');
     if (FX.triggerSonar) FX.triggerSonar(window.innerWidth / 2, 50);
-    const tid = message.correspondent || message.from;
+    const tid = normalizeAlias(message.correspondent || message.from);
     if (!state.threads[tid]) state.threads[tid] = [];
     state.threads[tid].push(message);
     notify('threads', state.threads);

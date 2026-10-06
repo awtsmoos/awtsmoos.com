@@ -11,11 +11,12 @@ import { postAliasForm, requestAliasJson } from './aliasIdentityApi.js';
 import {
 	aliasDisplay,
 	cleanAlias,
+	forgetAlias,
 	isValidAlias,
 	readRememberedAlias,
 	rememberAlias
 } from './localAliasState.js';
-export { aliasDisplay, cleanAlias, isValidAlias };
+export { aliasDisplay, cleanAlias, forgetAlias, isValidAlias };
 /** Resolves the strongest available identity without lying about persistence. */
 export async function ensureDefaultAlias() {
 	const session = await getSession();
