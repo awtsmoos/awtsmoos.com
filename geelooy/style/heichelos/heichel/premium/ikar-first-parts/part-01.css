@@ -22,6 +22,12 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 	min-height: 100%;
 }
 
+/* B"H: Ikar is a dark vessel; anchor the shared bg token here so light-theme
+   systems (e.g. social) cannot bleach the Torah library through --civil-bg. */
+html.heichel-os-document {
+	--g-bg: #020713;
+}
+
 .heichel-os-document body {
 	background: transparent;
 	min-height: 100svh;

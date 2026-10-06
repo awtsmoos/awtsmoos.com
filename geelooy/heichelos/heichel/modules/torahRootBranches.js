@@ -28,11 +28,22 @@ export function rootTorahBranchCards(seriesId = '') {
 	if (String(seriesId) !== TORAH_ROOT_ID) {
 		return [];
 	}
-	return [{
+	const branches = [
+		{ id: 'theWrittenTorah', description: 'חומש, נביאים וכתובים · Chumash, Prophets, and Writings' },
+		{ id: 'theOralTorah', description: 'משנה, תלמוד ומדרשים · Mishnah, Talmud, and Midrashim' },
+		{ id: CHASSIDUS_ROOT_ID, description: 'תורת החסידות, שיחות ומאמרים · Chassidus, sichos, and maamarim', rootFeatured: true },
+		{ id: 'halacha', description: 'הלכה למעשה · Practical Halacha' },
+		{ id: 'midrash', description: 'מדרשי אגדה והלכה · Aggadic and Halachic Midrash' },
+		{ id: 'kabbalah', description: 'תורת הקבלה · The Kabbalah' },
+		{ id: 'mussar', description: 'ספרי מוסר · Mussar works' },
+		{ id: 'torah-language-tools', description: 'תרגומים, מילונים וכלים · Translations, dictionaries, and tools' },
+		{ id: 'daily-chitas', description: 'חת״ת יומי · Daily Chitas' }
+	];
+	return branches.map(({ id, description, rootFeatured }) => ({
 		type: 'series',
-		id: CHASSIDUS_ROOT_ID,
-		...torahTitleFields({ id: CHASSIDUS_ROOT_ID }),
-		description: 'תורת החסידות, שיחות ומאמרים · Chassidus, sichos, and maamarim',
-		rootFeatured: true
-	}];
+		id,
+		...torahTitleFields({ id }),
+		description,
+		...(rootFeatured ? { rootFeatured: true } : {})
+	}));
 }

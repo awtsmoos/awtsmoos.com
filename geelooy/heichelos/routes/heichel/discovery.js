@@ -37,11 +37,12 @@ function normalizeList(value, keys = []) {
 }
 
 /** Builds one escaped semantic link model. */
-function makeLink(kind, title, path) {
+function makeLink(kind, title, path, description) {
 	return {
 		kind,
 		title: escapeHtml(cleanText(title) || (kind === 'series' ? 'Series' : 'Teaching')),
-		path: escapeHtml(path)
+		path: escapeHtml(path),
+		description: escapeHtml(cleanText(description) || '')
 	};
 }
 
@@ -77,7 +78,8 @@ function createDiscovery($i) {
 		const seriesLinks = subSeries.map(item => makeLink(
 			'series',
 			item.title || item.name || item.id,
-			`/heichelos/${encodeSegment(heichelId)}/series/${encodeSegment(item.id)}`
+			`/heichelos/${encodeSegment(heichelId)}/series/${encodeSegment(item.id)}`,
+			item.description || ''
 		));
 		const postLinks = posts.map(item => {
 			const id = typeof item === 'string' ? item : item?.id || item?.postId;

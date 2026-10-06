@@ -30,7 +30,8 @@ The client script below only fills gaps the server could not know.
 	return links.map(function renderDiscoveryLink(item) {
 		if (!item || !item.path) return "";
 		var label = item.title || "Open";
-		return '<li><a href="' + item.path + '">' + label + "</a></li>";
+		var desc = item.description ? '<p class="heichel-discovery-description">' + item.description + "</p>" : "";
+		return '<li><a href="' + item.path + '">' + label + "</a>" + desc + "</li>";
 	}).join("");
 </script>?></ul>
 	</nav>

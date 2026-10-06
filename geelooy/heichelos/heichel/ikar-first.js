@@ -49,6 +49,7 @@ function installNavigation(root) {
 	navigation.setAttribute('aria-label', 'Torah navigation');
 	navigation.append(
 		createLink('/', 'Home'),
+		createSeparator(),
 		createLink(IKAR_ROOT, 'Torah Library', location.pathname === IKAR_ROOT)
 	);
 	root.append(navigation);
@@ -62,6 +63,15 @@ function createLink(href, label, isCurrent = false) {
 	link.textContent = label;
 	if (isCurrent) link.setAttribute('aria-current', 'page');
 	return link;
+}
+
+/** Builds the visible separator between Torah breadcrumb links. */
+function createSeparator() {
+	const separator = document.createElement('span');
+	separator.className = 'ikar-first-separator';
+	separator.setAttribute('aria-hidden', 'true');
+	separator.textContent = ' / ';
+	return separator;
 }
 
 /** Rewords discovery and attaches filtering to the already-painted search vessel. */
