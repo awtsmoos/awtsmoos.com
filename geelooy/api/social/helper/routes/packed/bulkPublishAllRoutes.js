@@ -282,9 +282,10 @@ class BulkPublishAllRoutes extends PackedBulkImportRoutes {
 			const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 			const files = Array.isArray(manifest.files) ? manifest.files : [];
 			if (!files.length) throw new Error('MANIFEST_EMPTY: no files listed.');
-			// Manifest cross-check: every extracted file must be listed, no extras.
+			// Manifest cross-check: every extracted payload file must be listed.
 			const listed = new Set(files.map(f => f.file));
 			for (const n of fs.readdirSync(path.join(dir, 'files'))) {
+				if (n === 'manifest.json') continue;
 				if (!listed.has(n)) throw new Error('MANIFEST_MISMATCH: extra file ' + n);
 			}
 			job.totalPosts = files.length;
