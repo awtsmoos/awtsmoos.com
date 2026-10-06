@@ -73,6 +73,65 @@ module.exports = {
 	REQUESTER_QUEUE_CAPABILITY,
 	SCHEDULER_RECOVERY_CAPABILITY,
 	createRegistrationRuntime,
+	promoteCandidateOwnership,
 	registrationLimits,
 	registrationMode
 };
+
+/**
+ * @file (continued) Candidate promotion with explicit handoff ownership.
+ * @description
+ * Promotion once treated a stale connection vessel as routine cleanup.
+ * promoteCandidateOwnership models the handoff as predecessor → candidate →
+ * promoted-owner: every transition is recorded in the recovery state, the
+ * promotion asserts the expected single owner, and a stale vessel observed at
+ * promotion time is recorded as an anomaly — never a routine cleanup step.
+ * The installer calls finalizePredecessorRetirement once the old owner is gone.
+ * @param {object} [recoveryState] Durable recovery state shared by the installer and the runtime.
+ * @param {{candidatePid?: number, predecessorPid?: number, observedOwnerPids?: number[], reason?: string}} [promotion] Promotion facts.
+ * @returns {{ok: boolean, ownerPid?: number, alreadyPromoted?: boolean, entry?: object, anomaly?: object, state?: object}} Promotion result.
+ */
+function promoteCandidateOwnership(recoveryState = {}, promotion = {}) {
+	const Policy = require("./boot-resume-policy.js");
+	const candidatePid = promotion.candidatePid == null ? null : Number(promotion.candidatePid);
+	const predecessorPid = promotion.predecessorPid == null ? null : Number(promotion.predecessorPid);
+	const reason = promotion.reason || "candidate_promotion";
+	const state = Policy.promotionOwnershipState(recoveryState);
+	if (state.current === "promoted-owner") {
+		if (state.currentOwnerPid === candidatePid) {
+			return { ok: true, ownerPid: candidatePid, alreadyPromoted: true, state };
+		}
+		return Policy.recordPromotionAnomaly(recoveryState, {
+			kind: "promotion_double_promotion",
+			message: "Promotion attempted while another owner holds the slot.",
+			expectedOwnerPid: state.currentOwnerPid,
+			observedOwnerPids: [candidatePid],
+			reason
+		});
+	}
+	if (state.journal.length === 0) {
+		const first = Policy.recordPromotionTransition(recoveryState, {
+			from: "predecessor",
+			to: "candidate",
+			pid: candidatePid,
+			replacedPid: predecessorPid,
+			reason: "candidate_registered"
+		});
+		if (!first.ok) return first;
+	}
+	const assertion = Policy.assertExpectedSingleOwner(recoveryState, {
+		ownerPids: promotion.observedOwnerPids || [],
+		expectedOwnerPid: candidatePid,
+		reason
+	});
+	if (!assertion.ok) return assertion;
+	const promoted = Policy.recordPromotionTransition(recoveryState, {
+		from: "candidate",
+		to: "promoted-owner",
+		pid: candidatePid,
+		replacedPid: predecessorPid,
+		reason
+	});
+	if (!promoted.ok) return promoted;
+	return { ok: true, ownerPid: candidatePid, entry: promoted.entry, state: promoted.state };
+}

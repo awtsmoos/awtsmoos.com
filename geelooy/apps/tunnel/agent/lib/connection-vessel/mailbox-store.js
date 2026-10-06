@@ -2,7 +2,6 @@
 // Boruch Hashem
 // Blessed is He
 
-const fs = require("node:fs");
 const Health = require("./mailbox-health.js");
 const IO = require("./mailbox-io.js");
 const Limits = require("./mailbox-store-limits.js");
@@ -17,6 +16,9 @@ const Usage = require("./mailbox-usage.js");
  * The Awtsmoos preserves every witness while active custody may change. Awtsmoos.com
  * keeps hot writes small, moves stale exact evidence instead of deleting it, and delegates
  * reading and limit policy to sibling vessels so emergency storage stays auditable.
+ *
+ * Write, verify, and remove are all race-safe: a handoff that settles the artifact
+ * between check and act yields a benign already-gone outcome, never an exception.
  */
 function createStore(config = {}, options = {}) {
 	Paths.migrateLegacy(config);
@@ -44,7 +46,14 @@ function createStore(config = {}, options = {}) {
 		if (current.bytes - existing + bytes > limits.maxBytes) {
 			throw Limits.fullError(lane, "bytes", current);
 		}
-		IO.atomicWrite(target, body);
+		const written = IO.atomicWrite(target, body);
+		if (written.vanished) {
+			// Handoff custody settled and removed the artifact mid-verification.
+			// Refresh accounting from disk instead of recording phantom bytes
+			// for a record that no longer exists, and report the benign outcome.
+			usage(lane, true);
+			return { id: identifier, lane, path: target, vanished: true };
+		}
 		usageState.recordPut(lane, target, existing, existed, bytes, updatedAt);
 		return { id: identifier, lane, path: target };
 	}
@@ -52,16 +61,11 @@ function createStore(config = {}, options = {}) {
 	function remove(lane, id) {
 		const target = Paths.file(config, lane, Limits.required(id));
 		const existing = IO.sizeOf(target);
-		try {
-			fs.unlinkSync(target);
+		const outcome = IO.remove(target);
+		if (outcome.removed) {
 			usageState.recordRemove(lane, target, existing);
-			return true;
-		} catch (error) {
-			if (error.code === "ENOENT") {
-				return false;
-			}
-			throw error;
 		}
+		return outcome.removed;
 	}
 
 	function quarantine(lane, id, reason) {

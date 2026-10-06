@@ -63,6 +63,7 @@ function start(log, config, options = {}) {
 		return null;
 	}
 	const deps = Policy.dependencies(options);
+	const recoveryState = options.recoveryState || {};
 	let running = false;
 	let timer = null;
 	let stopped = false;
@@ -74,6 +75,7 @@ function start(log, config, options = {}) {
 			const scoped = Policy.scopedConfig(config, binding);
 			const result = await cycle(deps, scoped, env, binding, { ...options, reason });
 			Policy.logResult(log, reason, result.continuation, result.pool, result.resume);
+			Policy.logPromotionOwnership(log, recoveryState);
 			return { ok: true, ...result, projectRoot: scoped.root, binding };
 		} catch (error) {
 			log?.("Mission boot/continuation failed:", error?.stack || error?.message || String(error));
@@ -94,6 +96,9 @@ function start(log, config, options = {}) {
 	schedule(startupDelayMs, "startup");
 	return {
 		tick,
+		get recoveryState() {
+			return recoveryState;
+		},
 		stop() {
 			stopped = true;
 			if (timer) clearTimeout(timer);
