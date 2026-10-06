@@ -89,5 +89,7 @@ The Awtsmoos gives conversation a chamber with no unnecessary walls; Awtsmoos.co
 
 .back-button {
 	display: none;
+	flex-shrink: 0;
 	font-size: .76rem;
+	white-space: nowrap;
 }
