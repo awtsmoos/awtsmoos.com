@@ -1872,6 +1872,7 @@ tools/fs/actionGroups/connectionMailboxActions.js
 tools/fs/actionGroups/contextCompilerActions.js
 tools/fs/actionGroups/continuationActions.js
 tools/fs/actionGroups/continuationControlActions.js
+tools/fs/actionGroups/cssHealthActions.js
 tools/fs/actionGroups/ephemeralActions.js
 tools/fs/actionGroups/fakeSsh/introspectionActions.js
 tools/fs/actionGroups/fakeSsh/serverActions.js

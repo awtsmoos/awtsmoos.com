@@ -71,18 +71,16 @@ return FAST_NETWORK_CATEGORIES.has(category)
 }
 
 /**
- * Records authenticated registration and resets reconnect pressure.
- * A relay-accepted registration proves the route is healthy, so the next
- * transport failure starts from a fresh backoff instead of inheriting
- * pressure from an earlier storm. Registration rejections never reach here,
- * so sick routes still accumulate backoff through nextAttempt.
+ * Records authenticated registration WITHOUT resetting reconnect pressure.
+ * A relay-accepted registration proves only credential acceptance, not a live
+ * action road (a registered lane can accept jobs it never executes). Pressure
+ * is preserved so a flap storm keeps its backoff; only markAccepted, after one
+ * real accepted deed, resets it. Registration rejections never reach here.
  */
 
 function markRegistered(state = {}) {
 
 state.lastRegisteredAt = Date.now();
-
-state.reconnectAttempt = 0;
 
 }
 
