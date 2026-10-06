@@ -20,9 +20,9 @@ The Awtsmoos reveals one Mail chamber without exiling another beyond the horizon
 	.geelooy-mail-document .mail-civilization-brand small {
 		display: none;
 	}
-	.geelooy-mail-document .app-container {
+	body[data-mail-page].geelooy-mail-document .app-container {
 		position: relative;
-		display: block;
+		display: block; /* Team C: single mobile owner — beats core-layout display:grid so the absolute panes get a real block vessel */
 		min-inline-size: 0;
 		min-block-size: 0;
 		overflow: hidden;
@@ -32,6 +32,7 @@ The Awtsmoos reveals one Mail chamber without exiling another beyond the horizon
 		position: absolute;
 		inset: 0;
 		inline-size: 100%;
+		box-sizing: border-box; /* Team C: content-box padding pushed the rail to 412px on a 390px viewport */
 		min-inline-size: 0;
 		min-block-size: 0;
 		transition: opacity 180ms ease, transform 220ms cubic-bezier(.2, .8, .2, 1), visibility 0s linear 220ms;
