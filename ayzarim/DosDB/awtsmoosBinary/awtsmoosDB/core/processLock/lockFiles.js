@@ -28,19 +28,18 @@ class LockFiles {
 		} catch {
 			return {};
 		}
-		// Binary-first: the writer stores AwtsmoosBinaryJSON. decode() warns
-		// and returns null (not throw) for non-binary input, so the result
-		// must be checked explicitly before use.
+		// Current process locks are written as plain JSON by WritableProcessLock.
+		// Parse that format first so valid lock testimony never enters the binary
+		// corruption diagnostic path merely because a lock is inspected.
+		try {
+			return JSON.parse(raw.toString("utf8"));
+		} catch {}
+		// Preserve compatibility with binary lock records from alternate/older writers.
 		try {
 			const decoded = binaryJson.decode(raw);
 			if (decoded !== null && decoded !== undefined) return decoded;
 		} catch {}
-		// Legacy fallback: pre-sweep lock files were plain JSON text.
-		try {
-			return JSON.parse(raw.toString("utf8"));
-		} catch {
-			return {};
-		}
+		return {};
 	}
 
 	/** Returns whether the operating system still recognizes one owning PID. */
