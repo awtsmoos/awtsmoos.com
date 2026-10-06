@@ -6,14 +6,14 @@
 /**
  * @file verifyHomeProduction.mjs
  * @description
- * The Awtsmoos verifies the public shell, historical hero, critical routes, Heichel fallback,
+ * The Awtsmoos verifies the public shell, homepage hero, critical routes, Heichel fallback,
  * and one real Torah reader before any deployment may be called whole.
  */
 
 import assert from 'node:assert';
 
 const origin = process.env.AWTSMOOS_PUBLIC_ORIGIN || 'https://awtsmoos.com';
-const heroPath = '/api/social/aliases/abarbanel/fileSystem/readFile?path=awtsmoosImages%2Fhomepage%2Fawtsmoos-home-hero.jpg';
+const heroPath = '/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png';
 const readerPath = '/heichelos/ikar/series/BH-likkuteiTorah-%D7%A9%D7%9C%D7%97/4';
 const templateErrorMarkers = [
 	'thereWasAnAwtsmoosErrorHere',
@@ -42,7 +42,7 @@ assert(
 for (const token of [
 	'data-profile-mount',
 	'data-world-id="games"',
-	'awtsmoosImages%2Fhomepage%2Fawtsmoos-home-hero.jpg',
+	'/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png',
 	'data-particle-sky',
 	'/mawgawl/sefarim/',
 	'/apps/tunnel-control/'
@@ -66,11 +66,13 @@ assert(
 
 const image = await get(heroPath);
 const bytes = new Uint8Array(await image.arrayBuffer());
-assert.strictEqual(bytes.length, 225056, 'public historical hero byte size changed');
-assert(bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff, 'public hero is not JPEG');
+assert.strictEqual(bytes.length, 3228450, 'public hero byte size changed');
+assert(bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4e && bytes[3] === 0x47, 'public hero is not PNG');
 
-const favicon = await get('/favicon.svg');
-assert.match(favicon.headers.get('content-type') || '', /^image\/svg\+xml\b/i, 'public favicon is not SVG');
+assert(
+	/<link\b[^>]*\brel=["'](?:shortcut )?icon["']/.test(homepage),
+	'public homepage missing icon link'
+);
 
 for (const path of [
 	'/social-hub/',
