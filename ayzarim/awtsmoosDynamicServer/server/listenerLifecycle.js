@@ -6,19 +6,18 @@
  * @module ListenerLifecycle
  * @description
  * The Awtsmoos gives every network listener a measured beginning. Awtsmoos.com
- * distinguishes optional listeners from required ones so a process can never
- * advertise successful startup while its canonical HTTP doorway failed to bind.
+ * distinguishes optional listeners from required ones and may inherit the canonical
+ * HTTP doorway from systemd so process replacement never tears down port 8080.
  */
+
+const SYSTEMD_FIRST_FD = 3;
 
 /**
  * Attempts one server bind and reports whether the listener became authoritative.
- *
- * @param {import('node:net').Server} server Server-like listener vessel.
- * @param {number} port Positive TCP port to bind.
- * @param {string} label Human-readable protocol label for bounded testimony.
- * @returns {Promise<boolean>} True only after the server emits its listen callback.
+ * Production may inherit fd 3 from systemd socket activation; ordinary runtimes
+ * continue to bind the requested TCP port directly.
  */
-function listenSafely(server, port, label) {
+function listenSafely(server, port, label, options = {}) {
 	return new Promise(resolve => {
 		let settled = false;
 		const finish = value => {
@@ -26,8 +25,8 @@ function listenSafely(server, port, label) {
 			settled = true;
 			resolve(value);
 		};
-		server.once('error', error => {
-			if (error.code === 'EADDRINUSE') {
+		server.once("error", error => {
+			if (error.code === "EADDRINUSE") {
 				console.error(`B"H - ${label} port ${port} is already owned by another process.`);
 				finish(false);
 				return;
@@ -35,28 +34,36 @@ function listenSafely(server, port, label) {
 			console.error(`B"H - ${label} listener failed on port ${port}:`, error);
 			finish(false);
 		});
-		server.listen(port, () => {
-			console.log(`B"H - ${label} listening on port ${port}.`);
-			if (label === 'HTTP') console.log(`Server running at http://127.0.0.1:${port}/`);
-			console.log('Time:', Date.now());
+		const inheritedFd = label === "HTTP"
+			? systemdSocketFd(options.environment || process.env, options.pid || process.pid)
+			: null;
+		const listenTarget = inheritedFd === null ? port : { fd: inheritedFd };
+		server.listen(listenTarget, () => {
+			const vessel = inheritedFd === null ? `port ${port}` : `systemd fd ${inheritedFd}`;
+			console.log(`B"H - ${label} listening on ${vessel}.`);
+			if (label === "HTTP") console.log(`Server running at http://127.0.0.1:${port}/`);
+			console.log("Time:", Date.now());
 			finish(true);
 		});
 	});
 }
 
-/**
- * Requires a listener to become authoritative or fails composition-root startup.
- *
- * @param {import('node:net').Server} server Server-like listener vessel.
- * @param {number} port Positive TCP port to bind.
- * @param {string} label Human-readable protocol label.
- * @returns {Promise<true>} Resolves only when this process owns the listener.
- */
-async function listenRequired(server, port, label) {
-	const listening = await listenSafely(server, port, label);
+/** Returns fd 3 only for a valid systemd activation addressed to this exact process. */
+function systemdSocketFd(environment = process.env, pid = process.pid) {
+	const listenPid = Number(environment.LISTEN_PID || 0);
+	const listenFds = Number(environment.LISTEN_FDS || 0);
+	if (listenPid !== Number(pid) || !Number.isInteger(listenFds) || listenFds < 1) {
+		return null;
+	}
+	return SYSTEMD_FIRST_FD;
+}
+
+/** Requires a listener to become authoritative or fails composition-root startup. */
+async function listenRequired(server, port, label, options = {}) {
+	const listening = await listenSafely(server, port, label, options);
 	if (listening) return true;
 	const error = new Error(`B"H required ${label} listener did not bind port ${port}.`);
-	error.code = 'AWTSMOOS_REQUIRED_LISTENER_UNAVAILABLE';
+	error.code = "AWTSMOOS_REQUIRED_LISTENER_UNAVAILABLE";
 	error.listenerLabel = label;
 	error.port = port;
 	throw error;
@@ -65,11 +72,11 @@ async function listenRequired(server, port, label) {
 /** Starts the optional SMTP vessel without making mail failure fatal to HTTP Torah. */
 async function startMailSafely(mail, options = {}) {
 	const environment = options.environment || process.env;
-	if (environment.AWTSMOOS_DISABLE_MAIL === 'true') {
+	if (environment.AWTSMOOS_DISABLE_MAIL === "true") {
 		console.log('B"H - Email server disabled by AWTSMOOS_DISABLE_MAIL=true.');
 		return false;
 	}
-	const port = getNumberEnv('AWTSMOOS_MAIL_PORT', options.defaultPort || 25, environment);
+	const port = getNumberEnv("AWTSMOOS_MAIL_PORT", options.defaultPort || 25, environment);
 	try {
 		await mail.shoymayuh({ port });
 		console.log(`B"H - Email server running on port ${port}.`);
@@ -90,5 +97,6 @@ module.exports = {
 	getNumberEnv,
 	listenRequired,
 	listenSafely,
-	startMailSafely
+	startMailSafely,
+	systemdSocketFd
 };
