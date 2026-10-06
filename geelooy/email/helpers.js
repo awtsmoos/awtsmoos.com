@@ -105,3 +105,30 @@ export function htmlToMarkdown(html) {
 export function formatTime(ts) {
     return new Date(ts).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 }
+
+//B"H — plain-text snippet for inbox previews: decodes entities, strips tags.
+const SNIPPET_NAMED_ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", '#39': "'", nbsp: ' ' };
+
+function decodeSnippetEntities(str) {
+    return String(str).replace(/&(#\d+|#x[0-9a-fA-F]+|[a-zA-Z][a-zA-Z0-9]+);/g, (match, body) => {
+        if (body[0] === '#') {
+            const code = (body[1] === 'x' || body[1] === 'X') ? parseInt(body.slice(2), 16) : parseInt(body.slice(1), 10);
+            return Number.isFinite(code) ? String.fromCodePoint(code) : match;
+        }
+        return Object.prototype.hasOwnProperty.call(SNIPPET_NAMED_ENTITIES, body) ? SNIPPET_NAMED_ENTITIES[body] : match;
+    });
+}
+
+/**
+ * Builds a safe plain-text inbox preview: decodes HTML entities, strips HTML
+ * tags, collapses whitespace, then truncates. Thread previews must never show
+ * raw markup like `&quot;` or `</div>`.
+ */
+export function plainTextSnippet(value, maxLen = 112) {
+    if (value == null) return '';
+    let text = decodeSnippetEntities(String(value));
+    text = text.replace(/<[^>]*>/g, '');
+    text = text.replace(/\s+/g, ' ').trim();
+    if (text.length > maxLen) text = text.slice(0, maxLen).trimEnd();
+    return text;
+}
