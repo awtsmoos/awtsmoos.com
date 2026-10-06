@@ -5,32 +5,46 @@
 /**
  * @module PackedBulkImportRoutes
  * @description
- * The Awtsmoos gives the Chassidus import a proper API: bulk translation,
- * summary, and OCR-fix imports run IN-PROCESS through the server's already-held
- * exclusive packed-store lock, so there is no lock contention, no BUSY errors,
- * and no need to stop the server.
+ * PATH2 per-post bulk import for the Chassidus corpus (2026-10-05 fix).
  *
- * This replaces the standalone import scripts, which cannot run while the
- * server holds the packed-store exclusive lock (AWTSMOOS_DB_LOCK_BUSY).
+ * WHY THIS EXISTS: the per-comment write path (one inode per comment) is
+ * PHYSICALLY NON-VIABLE at this scale — every flush() serializes the entire
+ * inode manifest as one JSON string, and ~1.5M+ new inodes blows past V8's
+ * ~512MB string limit mid-import, risking production DB corruption. The
+ * 17.5 GB social.richComments.v1.fs.awtsdb on production is the residue of
+ * exactly that failure (2026-09-29 v1 attempt).
  *
- * Content kinds (one endpoint shape, `kind` field):
- *   translation — phrase translations under the per-corpus translation aliases
- *   summary     — post summaries under DEDICATED summary aliases (never mixed
- *                 into translation aliases)
- *   ocrFix      — Hebrew source-text repairs applied to post records
+ * PATH2 writes ONE PACKED FILE PER POST:
+ *   /ikar/social/chassidus_translations/<aliasId>/<postId>.json
+ *   = {postId, seriesId, aliasId, heichelId, commentCount, comments[]}
+ * 1,494 files + 1 ID index ≈ 1,510 new inodes ≈ 600 KB of manifest.
+ * Trivially safe on any machine.
+ *
+ * Read side: additive fallback patches already deployed to
+ * richCommentReader.js (indexedIds unions per-post IDs) and
+ * richCommentAccess.js (getComment / getCommentByUnique fall back to
+ * per-post files). Standard lookups run first; fallbacks trigger on miss.
  *
  * Routes (mounted under /api/social by the packed composer):
- *   POST /packed/import/bulk/start   — start a bulk import job {kind, seriesId, postId, aliasId, items?|payloadFile?, dryRun?}
+ *   POST /packed/import/bulk/start   — start a bulk import job
  *   GET  /packed/import/bulk/status  — ?job=<id> poll one job
  *   GET  /packed/import/bulk/jobs   — list recent jobs
  *   POST /packed/import/bulk/cancel — {job} request cancellation
  *
+ * Job kinds:
+ *   perPost    — write one post's comments as a single packed file.
+ *                Body: {kind:'perPost', seriesId, postId, aliasId, heichelId?,
+ *                       dryRun?, items?|payloadFile?, maxComments?, timeBudgetMs?}
+ *   perPostIndex — (re)build /ikar/social/chassidus_translations/_index/
+ *                commentIdToPost.json from all per-post files. Run once after
+ *                all perPost jobs. Body: {kind:'perPostIndex', dryRun?}
+ *   translation|summary|ocrFix — legacy per-comment kinds, RETIRED for the
+ *                Chassidus corpus (kept for API compatibility; perPost is the
+ *                only viable path at this scale).
+ *
  * Safety: operator-key authorization (fail-closed), dry-run mode, bounded
- * batch size + per-job time budget (pause/resume), idempotent comment-ID skip,
- * exactly one running job, strict payload validation. Lean mode (default): the
- * alias profile index and pending semantic vectors are skipped inside the job
- * — both OOM-kill the 1.9GB production host (see OOM SAFETY above); rebuild
- * them afterward with a dedicated pass.
+ * batch size + per-job time budget (pause/resume), idempotent per-post file
+ * union by comment ID, exactly one running job, strict payload validation.
  */
 
 const crypto = require('crypto');
@@ -39,29 +53,19 @@ const path = require('path');
 
 const packed = require('../../comments/richDb/PackedStore.js');
 const paths = require('../../comments/richCommentPaths.js');
-const { indexAliasComment } = require('../../comments/aliasCommentIndex.js');
 const { noteImportedComments } = require('../../search/rag/pendingCommentVectors.js');
 const { requireMethod, requestValue } = require('./requestValues.js');
 const awts = require('../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosBinaryJSON/index.js');
 
 // ---------------------------------------------------------------------------
-// OOM SAFETY (1.9GB Hetzner host — 2026-09-28 root cause).
-// The bulk job runs INSIDE the web server process. Two auxiliary writes can
-// get it SIGKILLed by the Linux OOM killer — uncatchable, so the job dies with
-// no terminal event and all unflushed richComments writes are lost:
-//   1. indexAliasComment() opens social.aliasCommentIndex.fs.awtsdb (481MB);
-//      the Synchronous RAM pager loads the WHOLE file into the Node heap, so
-//      on a cold module cache this alone can OOM the box.
-//   2. noteImportedComments() warms the multilingual embedding worker
-//      (sentence-transformers intfloat/multilingual-e5-small, ~1GB).
-// Both are auxiliary: the public comments endpoint reads ONLY the
-// richComments packed store, so publishing stays correct without them.
-// Skip both by default; rebuild afterward with a dedicated pass.
-// Opt back in (bigger box only): BULK_IMPORT_SKIP_ALIAS_INDEX=0 and/or
-// BULK_IMPORT_SKIP_VECTORS=0 in the service environment.
+// Per-post packed layout
 // ---------------------------------------------------------------------------
-const SKIP_ALIAS_INDEX = process.env.BULK_IMPORT_SKIP_ALIAS_INDEX !== '0';
-const SKIP_VECTORS = process.env.BULK_IMPORT_SKIP_VECTORS !== '0';
+const CHASSIDUS_BASE = '/ikar/social/chassidus_translations';
+const CHASSIDUS_INDEX = CHASSIDUS_BASE + '/_index/commentIdToPost.json';
+
+function perPostPath(aliasId, postId) {
+	return CHASSIDUS_BASE + '/' + aliasId + '/' + postId + '.json';
+}
 
 // ---------------------------------------------------------------------------
 // Job registry (in-process; survives as long as the server process lives).
@@ -135,15 +139,6 @@ function validateCommentItem(item, idx) {
 	return null;
 }
 
-function validateOcrItem(item, idx) {
-	if (!item || typeof item !== 'object') return 'ocr item ' + idx + ': not an object';
-	for (const k of ['section', 'phrase', 'from', 'to']) {
-		if (item[k] === undefined || item[k] === null || item[k] === '') return 'ocr item ' + idx + ': missing ' + k;
-	}
-	if (typeof item.from !== 'string' || typeof item.to !== 'string') return 'ocr item ' + idx + ': from/to must be strings';
-	return null;
-}
-
 /**
  * Flattens the accepted payload shapes into a plain item array:
  *   { commentArray: [...] }            — prepared local payloads
@@ -162,6 +157,21 @@ function flattenPayload(parsed) {
 		if (Array.isArray(v)) for (const item of v) out.push(item);
 	}
 	return out;
+}
+
+function buildComment(item, ctx, now) {
+	const commentId = String(commentIdFor(item, ctx));
+	const verseSection = String(item.dayuh.verseSection);
+	const subsectionId = String(item.dayuh.subsectionId);
+	return {
+		id: commentId, heichelId: ctx.heichelId, postId: ctx.postId, entityId: ctx.postId,
+		seriesId: ctx.seriesId,
+		parentId: '', parentSectionId: '', parentType: 'entity',
+		aliasId: ctx.aliasId, author: ctx.aliasId, content: item.content,
+		verseSection, subsectionId,
+		dayuh: { ...item.dayuh, kind: 'translation' },
+		importedFrom: 'bulk-import-api-perpost', importedAt: now, createdAt: now, updatedAt: now, deleted: false,
+	};
 }
 
 class PackedBulkImportRoutes {
@@ -217,45 +227,23 @@ class PackedBulkImportRoutes {
 		return { items };
 	}
 
-	// -- import core ----------------------------------------------------------
-	readExisting(db, target) {
+	// -- per-post import core (PATH2) ------------------------------------------
+	readPerPostFile(db, aliasId, postId) {
 		try {
+			const target = perPostPath(aliasId, postId);
 			const status = db.fs.stat(target);
 			if (!status || !status.exists || status.type !== 'file') return null;
 			return awts.deserializeBinary(db.fs.readRange(target, 0, status.size));
 		} catch (_) { return null; }
 	}
 
-	mergeIndex(db, target, idSet) {
-		if (!idSet || idSet.size === 0) return 0;
-		let arr;
-		try {
-			const status = db.fs.stat(target);
-			if (status && status.exists && status.type === 'file') {
-				const v = awts.deserializeBinary(db.fs.readRange(target, 0, status.size));
-				arr = Array.isArray(v) ? v : [];
-			} else arr = [];
-		} catch (_) { arr = []; }
-		const have = new Set(arr);
-		let added = 0;
-		for (const id of idSet) {
-			if (!have.has(id)) { arr.push(id); have.add(id); added++; }
-		}
-		if (added > 0) db.fs.write(target, awts.serializeArray(arr));
-		return added;
-	}
-
-	async importComments($i, job, items, ctx) {
-		const { heichelId, seriesId, postId, aliasId, kind } = ctx;
+	async importPerPost($i, job, items, ctx) {
+		const { heichelId, seriesId, postId, aliasId } = ctx;
 		// The server already holds the exclusive lock; open() returns the cached
 		// in-process handle — never a second writable store.
 		const db = packed.open($i);
-		const rootsAdd = new Set();
-		const verseAdd = new Map();
-		const subAdd = new Map();
-		const vectorRows = [];
 		const now = Date.now();
-		let flushCounter = 0;
+		const vectorRows = [];
 		const flushVectorRows = () => {
 			if (vectorRows.length === 0) return;
 			const rows = vectorRows.splice(0, vectorRows.length);
@@ -263,92 +251,87 @@ class PackedBulkImportRoutes {
 			// comments; idempotent by comment key, never blocks the import.
 			noteImportedComments({ $i, rows, aliasId }).catch(() => {});
 		};
-		let outcome = 'ok';
-		for (let n = 0; n < items.length; n++) {
-			if (job.cancelRequested) { outcome = 'cancelled'; break; }
-			if (job.wrote + job.skipped >= job.maxComments) { outcome = 'paused-budget'; break; }
-			if (Date.now() - job.startedAt > job.timeBudgetMs) { outcome = 'paused-budget'; break; }
-			const item = items[n];
-			const commentId = String(commentIdFor(item, ctx));
-			const verseSection = String(item.dayuh.verseSection);
-			const subsectionId = String(item.dayuh.subsectionId);
-			const cPath = paths.commentPath({ heichelId, postId, verseSection, subsectionId, commentId });
-			let existing = null;
-			try { existing = this.readExisting(db, cPath); } catch (_) { existing = null; }
-			if (existing && existing.id) {
-				job.skipped++;
-				// Re-merge on resume: a paused job may have written the body
-				// without merging indexes (pre-fix). Re-adding is idempotent
-				// (mergeIndex dedups), so normal resumes are unaffected.
-				rootsAdd.add(commentId);
-				if (!verseAdd.has(verseSection)) verseAdd.set(verseSection, new Set());
-				verseAdd.get(verseSection).add(commentId);
-				if (!subAdd.has(subsectionId)) subAdd.set(subsectionId, new Set());
-				subAdd.get(subsectionId).add(commentId);
-				continue;
-			}
-			if (job.dryRun) { job.wrote++; continue; }
-			const comment = {
-				id: commentId, heichelId, postId, entityId: postId, seriesId,
-				parentId: '', parentSectionId: '', parentType: 'entity',
-				aliasId, author: aliasId, content: item.content,
-				verseSection, subsectionId,
-				dayuh: { ...item.dayuh, kind: kind || item.dayuh.kind || 'translation' },
-				importedFrom: 'bulk-import-api', importedAt: now, createdAt: now, updatedAt: now, deleted: false,
-			};
-			db.fs.write(cPath, awts.serializeJSON(comment));
-			db.fs.write(paths.uniquePath({ commentId }), awts.serializeJSON({ heichelId, postId, seriesId }));
-			rootsAdd.add(commentId);
-			if (!verseAdd.has(verseSection)) verseAdd.set(verseSection, new Set());
-			verseAdd.get(verseSection).add(commentId);
-			if (!subAdd.has(subsectionId)) subAdd.set(subsectionId, new Set());
-			subAdd.get(subsectionId).add(commentId);
-			// Alias profile index: SKIPPED by default (OOM safety — see top of
-			// file). Rebuild afterward with a dedicated alias-index pass; the
-			// public comments endpoint does not read this index.
-			if (!SKIP_ALIAS_INDEX) {
-				try { await indexAliasComment({ $i, comment }); } catch (e) {
-					job.errors.push({ commentId, message: 'alias-index: ' + e.message });
-				}
-			}
-			// Pending semantic-search vectors (batched, fire-and-forget).
-			// SKIPPED by default (OOM safety — warming the embedder worker
-			// would SIGKILL this 1.9GB host). Absorbed by a later RAG rebuild.
-			if (!SKIP_VECTORS) {
-				vectorRows.push({
-					commentId, aliasId, seriesId, postId,
-					verseSection, subsectionId, content: item.content,
-				});
-			}
-			if (vectorRows.length >= 200) flushVectorRows();
-			job.wrote++;
-			if (++flushCounter % 50 === 0 && db.fs.flush) db.fs.flush();
-			if (n % 200 === 199) { job.updatedAt = Date.now(); setJob(job); await yieldTick(); }
-		}
-		flushVectorRows();
-		if (!job.dryRun) {
-			// Merge + flush on EVERY outcome: a paused or cancelled job must
-			// not leave written bodies unindexed or unflushed — otherwise the
-			// comments stay invisible and a resume cannot repair them.
-			const base = { heichelId, postId };
-			this.mergeIndex(db, paths.rootChildrenPath(base), rootsAdd);
-			for (const [v, s] of verseAdd) this.mergeIndex(db, paths.verseIndexPath({ ...base, verseSection: v }), s);
-			for (const [s, set] of subAdd) this.mergeIndex(db, paths.subsectionIndexPath({ ...base, subsectionId: s }), set);
-			if (db.fs.flush) db.fs.flush();
-		}
-		return outcome;
-	}
-
-	async importOcrFixes($i, job, items, ctx) {
-		// OCR fixes patch Hebrew source text inside post records through the
-		// production post write path. Real (non-dry-run) execution requires the
-		// post patcher; dry-run validates the payload shape and counts.
+		// Build the full comment list for this post (validates + derives IDs).
+		const comments = [];
 		for (let n = 0; n < items.length; n++) {
 			if (job.cancelRequested) return 'cancelled';
 			if (Date.now() - job.startedAt > job.timeBudgetMs) return 'paused-budget';
-			if (job.dryRun) { job.wrote++; continue; }
-			return 'ocr-patcher-missing';
+			const comment = buildComment(items[n], ctx, now);
+			comments.push(comment);
+			if (!job.dryRun) {
+				vectorRows.push({
+					commentId: comment.id, aliasId, seriesId, postId,
+					verseSection: comment.verseSection, subsectionId: comment.subsectionId,
+					content: comment.content,
+				});
+			}
+			if (n % 200 === 199) { job.updatedAt = Date.now(); setJob(job); await yieldTick(); }
 		}
+		if (job.dryRun) {
+			job.wrote = comments.length;
+			flushVectorRows();
+			return 'ok';
+		}
+		// Idempotent union: merge with any existing per-post file by comment ID.
+		const existing = this.readPerPostFile(db, aliasId, postId);
+		const seen = new Set();
+		const merged = [];
+		if (existing && Array.isArray(existing.comments)) {
+			for (const c of existing.comments) {
+				if (c && c.id && !seen.has(c.id)) { seen.add(c.id); merged.push(c); }
+			}
+		}
+		let added = 0;
+		for (const c of comments) {
+			if (seen.has(c.id)) { job.skipped++; continue; }
+			seen.add(c.id); merged.push(c); added++;
+		}
+		const postData = {
+			postId, seriesId, aliasId, heichelId,
+			commentCount: merged.length,
+			comments: merged,
+		};
+		db.fs.write(perPostPath(aliasId, postId), awts.serializeJSON(postData));
+		if (db.fs.flush) db.fs.flush();
+		flushVectorRows();
+		job.wrote = added;
+		return 'ok';
+	}
+
+	async buildPerPostIndex($i, job) {
+		const db = packed.open($i);
+		const index = {};
+		let total = 0;
+		let aliases = [];
+		try {
+			aliases = db.fs.ls(CHASSIDUS_BASE) || [];
+		} catch (e) {
+			job.errors.push({ message: 'INDEX_LS_FAILED: ' + e.message });
+			return 'failed';
+		}
+		for (const alias of aliases) {
+			if (job.cancelRequested) return 'cancelled';
+			if (String(alias).startsWith('_')) continue;
+			let files = [];
+			try { files = db.fs.ls(CHASSIDUS_BASE + '/' + alias) || []; }
+			catch (_) { continue; }
+			for (const f of files) {
+				if (job.cancelRequested) return 'cancelled';
+				if (Date.now() - job.startedAt > job.timeBudgetMs) return 'paused-budget';
+				const data = this.readPerPostFile(db, alias, String(f).replace(/\.json$/, ''));
+				if (!data || !Array.isArray(data.comments)) continue;
+				for (const c of data.comments) {
+					if (c && c.id) { index[c.id] = data.postId || c.postId; total++; }
+				}
+				job.wrote++;
+				if (job.wrote % 100 === 0) { job.updatedAt = Date.now(); setJob(job); await yieldTick(); }
+			}
+		}
+		if (!job.dryRun) {
+			db.fs.write(CHASSIDUS_INDEX, awts.serializeJSON(index));
+			if (db.fs.flush) db.fs.flush();
+		}
+		job.skipped = total;
 		return 'ok';
 	}
 
@@ -360,14 +343,16 @@ class PackedBulkImportRoutes {
 		appendJobLog($i, { jobId: job.id, event: 'started', kind, seriesId, postId, aliasId, itemCount: items.length, dryRun: !!job.dryRun });
 		try {
 			const ctx = { heichelId, seriesId, postId, aliasId, kind };
-			const outcome = kind === 'ocrFix'
-				? await this.importOcrFixes($i, job, items, ctx)
-				: await this.importComments($i, job, items, ctx);
+			let outcome;
+			if (kind === 'perPost') outcome = await this.importPerPost($i, job, items, ctx);
+			else if (kind === 'perPostIndex') outcome = await this.buildPerPostIndex($i, job);
+			else outcome = 'retired-kind';
 			if (outcome === 'cancelled') job.status = 'cancelled';
 			else if (outcome === 'paused-budget') job.status = 'paused';
-			else if (outcome === 'ocr-patcher-missing') {
+			else if (outcome === 'failed') job.status = 'failed';
+			else if (outcome === 'retired-kind') {
 				job.status = 'failed';
-				job.errors.push({ message: 'OCR_PATCHER_MISSING: real ocrFix execution is not wired yet; dryRun only.' });
+				job.errors.push({ message: 'KIND_RETIRED: per-comment kinds (translation/summary/ocrFix) are retired for this corpus — use kind=perPost (PATH2). The per-comment write path is physically non-viable at this scale.' });
 			} else job.status = 'done';
 		} catch (e) {
 			job.status = 'failed';
@@ -380,53 +365,49 @@ class PackedBulkImportRoutes {
 			jobId: job.id, event: job.status,
 			wrote: job.wrote, skipped: job.skipped,
 			errors: job.errors.length, durationMs: job.durationMs,
-			aliasIndexSkipped: SKIP_ALIAS_INDEX, vectorsSkipped: SKIP_VECTORS,
 		});
 	}
 
 	// -- routes ----------------------------------------------------------------
 	/**
 	 * POST /packed/import/bulk/start
-	 * Body: { operatorKey, kind, seriesId, postId, aliasId, heichelId?, dryRun?, items?|payloadFile?, maxComments?, timeBudgetMs? }
+	 * Body: { operatorKey, kind, seriesId?, postId?, aliasId?, heichelId?, dryRun?, items?|payloadFile?, maxComments?, timeBudgetMs? }
+	 *   kind=perPost      — seriesId, postId, aliasId required
+	 *   kind=perPostIndex — no post params; rebuilds the commentId→postId index
 	 */
 	async start() {
 		const bad = requireMethod(this.$i, 'POST');
 		if (bad) return bad;
 		const auth = this.checkAuth();
 		if (auth) return auth;
-		const body = { ...(this.$i?.$_POST || {}), ...(this.$i?.body || {}) };
+		const body = this.$i?.body || {};
 		for (const k of ['kind', 'seriesId', 'postId', 'aliasId']) {
 			if (body[k] === undefined || body[k] === null || body[k] === '') {
 				const v = requestValue(this.$i, k);
 				if (v) body[k] = v;
 			}
 		}
-		const kind = body.kind || 'translation';
+		const kind = body.kind || 'perPost';
 		const seriesId = body.seriesId;
 		const postId = body.postId;
 		const aliasId = body.aliasId;
 		const heichelId = body.heichelId || requestValue(this.$i, 'heichelId') || 'ikar';
 		const dryRun = !!(body.dryRun ?? (requestValue(this.$i, 'dryRun') === 'true' || requestValue(this.$i, 'dryRun') === true));
-		if (!['translation', 'summary', 'ocrFix'].includes(kind)) {
-			return { success: false, error: 'BAD_KIND', message: 'kind must be translation|summary|ocrFix' };
+		if (!['perPost', 'perPostIndex', 'translation', 'summary', 'ocrFix'].includes(kind)) {
+			return { success: false, error: 'BAD_KIND', message: 'kind must be perPost|perPostIndex' };
 		}
-		if (!seriesId || !postId || !aliasId) {
-			return { success: false, error: 'MISSING_PARAMS', message: 'seriesId, postId and aliasId are required' };
-		}
-		// Never mix summaries into translation aliases (or vice versa).
-		const aliasLower = String(aliasId).toLowerCase();
-		if (kind === 'summary' && aliasLower.includes('translation')) {
-			return { success: false, error: 'ALIAS_KIND_MISMATCH', message: 'summaries must use a dedicated summary alias, not a translation alias' };
-		}
-		if (kind === 'translation' && aliasLower.includes('summar')) {
-			return { success: false, error: 'ALIAS_KIND_MISMATCH', message: 'translations must use a translation alias, not a summary alias' };
-		}
-		const loaded = this.loadItems(body);
-		if (loaded.error) return loaded.error;
-		const items = loaded.items;
-		for (let n = 0; n < items.length; n++) {
-			const err = kind === 'ocrFix' ? validateOcrItem(items[n], n) : validateCommentItem(items[n], n);
-			if (err) return { success: false, error: 'ITEM_INVALID', message: err };
+		let items = [];
+		if (kind === 'perPost') {
+			if (!seriesId || !postId || !aliasId) {
+				return { success: false, error: 'MISSING_PARAMS', message: 'seriesId, postId and aliasId are required for kind=perPost' };
+			}
+			const loaded = this.loadItems(body);
+			if (loaded.error) return loaded.error;
+			items = loaded.items;
+			for (let n = 0; n < items.length; n++) {
+				const err = validateCommentItem(items[n], n);
+				if (err) return { success: false, error: 'ITEM_INVALID', message: err };
+			}
 		}
 		const busy = runningJob();
 		if (busy) return { success: false, error: 'JOB_ALREADY_RUNNING', jobId: busy.id };
@@ -441,8 +422,7 @@ class PackedBulkImportRoutes {
 		};
 		setJob(job);
 		// Fire and forget — the job updates its own record; poll via status.
-		// Guard against synchronous throw from async fn before first await.
-		try { this.runJob(this.$i, job).catch(() => {}); } catch (e) { job.status = "failed"; job.errors.push({ message: String(e && e.message || e) }); setJob(job); }
+		this.runJob(this.$i, job).catch(() => {});
 		return { success: { jobId: job.id, status: job.status, kind, dryRun, totalItems: items.length } };
 	}
 
@@ -507,3 +487,13 @@ class PackedBulkImportRoutes {
 }
 
 module.exports = { PackedBulkImportRoutes };
+
+// ---------------------------------------------------------------------------
+// Additive extension point for the one-call bulk publisher (Yaakov directive).
+// Shares the job registry / auth plumbing with the BulkPublishAllRoutes
+// subclass in ./bulkPublishAllRoutes.js (loaded below). No behavior change:
+// existing kinds flow exactly as before when publishAll is not used.
+// ---------------------------------------------------------------------------
+const __bulkPlumbing = { newJobId, setJob, runningJob, appendJobLog, yieldTick, perPostPath };
+module.exports = { PackedBulkImportRoutes, __bulkPlumbing };
+try { require('./bulkPublishAllRoutes.js'); } catch (_) {}
