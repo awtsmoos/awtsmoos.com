@@ -137,7 +137,19 @@
 			positioned = false;
 		}
 		if (!positioned) {
-			dock.style.position = 'relative';
+			/* B"H: guard against a stylesheet race. dock.css positions
+			 * .g-dock fixed on narrow viewports; if this runs before that
+			 * rule applies, computed position reads 'static' and an inline
+			 * 'relative' would permanently override the fixed rule (inline
+			 * beats stylesheet), stranding the dock in-flow at the top of
+			 * the page. 'fixed' already contains absolutely-positioned
+			 * descendants, so only add a positioning context where the dock
+			 * is not meant to be fixed. */
+			var narrow = false;
+			try { narrow = window.matchMedia('(max-width: 54rem)').matches; } catch (err) { narrow = false; }
+			if (!narrow) {
+				dock.style.position = 'relative';
+			}
 		}
 
 		var ink = document.createElement('span');
