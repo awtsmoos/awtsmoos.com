@@ -23,7 +23,10 @@ body.geelooy-app-shell :where(p, li, dd) {
 	max-inline-size: 75ch;
 }
 
-body.geelooy-app-shell :where(a) {
+/* B"H: reset keeps zero-specificity on the scoping selectors so explicit
+ * page/component link colors (e.g. .about-page__primary) win over it.
+ * (Was body.geelooy-app-shell :where(a) at (0,1,2), which clobbered them.) */
+:where(body.geelooy-app-shell) :where(a) {
 	color: inherit;
 	text-underline-offset: .2em;
 }
