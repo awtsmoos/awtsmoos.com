@@ -152,6 +152,24 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 		await waitExit(owner);
 		console.log('B"H case (a) green: live owner -> newcomer exits 0, no EADDRINUSE');
 
+		// (a2) A responsive unknown owner without any lock becomes safe standby.
+		fs.rmSync(lockPath(root, port), { force: true });
+		const unknownOwner = http.createServer((request, response) => {
+			response.writeHead(204);
+			response.end();
+		});
+		await new Promise((resolve, reject) => {
+			unknownOwner.once("error", reject);
+			unknownOwner.listen(port, "127.0.0.1", resolve);
+		});
+		const unknownContender = spawnServer(root, port);
+		const unknownCode = await waitExit(unknownContender);
+		assert.equal(unknownCode, 0, "unknown responsive owner makes contender exit 0");
+		assert.doesNotMatch(unknownContender.output, /EADDRINUSE/, "unknown-owner race never emits EADDRINUSE");
+		assert.match(unknownContender.output, /standby/, "unknown-owner contender reports standby");
+		await new Promise(resolve => unknownOwner.close(resolve));
+		console.log('B"H case (a2) green: responsive owner without lock -> standby, no crash loop');
+
 		// (b) A stale lockfile is taken over cleanly and the lane serves.
 		fs.rmSync(lockPath(root, port), { force: true });
 		const staleAt = Date.now() - 60000;

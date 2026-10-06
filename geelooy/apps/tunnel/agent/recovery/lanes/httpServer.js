@@ -129,6 +129,12 @@ async function handleBindConflict({ host, port, lockPath }) {
 	if (existing && existing.pid !== process.pid && ownershipHealthy(existing)) {
 		return { standby: true, ownerPid: existing.pid };
 	}
+	if (await portResponds(host, port)) {
+		return {
+			standby: true,
+			ownerPid: existing && existing.pid !== process.pid ? existing.pid : null
+		};
+	}
 	return { standby: false };
 }
 
