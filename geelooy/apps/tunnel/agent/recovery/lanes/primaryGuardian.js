@@ -73,6 +73,8 @@ async function run(options = {}) {
 	const stop = () => { stopping = true; };
 	process.once("SIGTERM", stop);
 	process.once("SIGINT", stop);
+	installLogFailureGuard(process.stdout);
+	installLogFailureGuard(process.stderr);
 	while (!stopping) {
 		try {
 			const outcome = guardian.tick();
@@ -93,15 +95,36 @@ function sleep(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function log(value) {
-	process.stdout.write(`${JSON.stringify({ at: new Date().toISOString(), ...value })}\n`);
+let loggingAvailable = true;
+
+/**
+ * Prevents a full/failed log destination from killing the recovery guardian.
+ * Healing is more important than telemetry; once a stream fails, logging becomes
+ * best-effort silence until the guardian is restarted with a healthy destination.
+ */
+function installLogFailureGuard(stream) {
+	if (!stream || typeof stream.on !== "function") return;
+	stream.on("error", () => {
+		loggingAvailable = false;
+	});
+}
+
+function log(value, stream = process.stdout) {
+	if (!loggingAvailable || !stream || typeof stream.write !== "function") return false;
+	try {
+		stream.write(`${JSON.stringify({ at: new Date().toISOString(), ...value })}\n`);
+		return true;
+	} catch {
+		loggingAvailable = false;
+		return false;
+	}
 }
 
 if (require.main === module) {
 	run().catch(error => {
-		process.stderr.write(`${String(error?.stack || error)}\n`);
+		log({ ok: false, state: "guardian_fatal", error: String(error?.stack || error) }, process.stderr);
 		process.exitCode = 1;
 	});
 }
 
-module.exports = { create, run };
+module.exports = { create, run, log, installLogFailureGuard };
