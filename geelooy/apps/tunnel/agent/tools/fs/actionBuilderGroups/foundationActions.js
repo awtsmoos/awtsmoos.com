@@ -14,6 +14,7 @@ const { buildConnectionMailboxActions } = require("../actionGroups/connectionMai
 const { buildContextCompilerActions } = require("../actionGroups/contextCompilerActions.js");
 const { buildContinuationActions } = require("../actionGroups/continuationActions.js");
 const { buildContinuationControlActions } = require("../actionGroups/continuationControlActions.js");
+const { buildCssHealthActions } = require("../actionGroups/cssHealthActions.js");
 const { buildFakeSshActions } = require("../actionGroups/fakeSshActions.js");
 const { buildFileOpsActions } = require("../actionGroups/fileOpsActions.js");
 const { buildFileTransferActions } = require("../actionGroups/fileTransferActions.js");
@@ -73,6 +74,7 @@ function buildFoundationActions(context, buildActions) {
 		...buildContextCompilerActions(context),
 		...buildContinuationActions(context),
 		...buildContinuationControlActions(context),
+		...buildCssHealthActions(context),
 		...buildProjectNavigationActions(context),
 		...buildProjectCollaborationActions(context),
 		...buildProjectGovernanceActions(context),

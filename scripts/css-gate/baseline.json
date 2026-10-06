@@ -1,0 +1,15 @@
+{
+  "url": "https://awtsmoos.com/about",
+  "viewport": "390x844",
+  "timestamp": "2026-10-06T11:15:08.140Z",
+  "totalIssues": 4,
+  "conflicts": 80,
+  "overrides": 8942,
+  "unstyledInteractive": 0,
+  "byType": {
+    "text-clipped": 1,
+    "hidden-content": 1,
+    "overlap": 1,
+    "conflict": 1
+  }
+}
