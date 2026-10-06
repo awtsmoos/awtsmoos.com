@@ -103,3 +103,9 @@
 	font-size: .72rem;
 	line-height: 1.45;
 }
+
+.library-empty-state {
+	margin: .55rem 0 0;
+	color: #91a2b5;
+	font-size: .92rem;
+}

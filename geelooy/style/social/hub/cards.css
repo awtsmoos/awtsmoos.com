@@ -94,6 +94,16 @@
 	color: #a9edcd;
 }
 
+.hub-card[data-state="confirmed"] {
+	border-color: rgba(97, 203, 217, .35);
+}
+
+.hub-card[data-state="confirmed"] small {
+	border-color: rgba(97, 203, 217, .3);
+	background: rgba(97, 203, 217, .08);
+	color: #a8e2ee;
+}
+
 .hub-live-card {
 	grid-column: 1 / -1;
 }

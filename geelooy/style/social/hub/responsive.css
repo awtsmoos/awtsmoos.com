@@ -45,10 +45,13 @@
 		grid-template-columns: minmax(0, 1fr);
 	}
 	.hub-hero-actions {
-		justify-content: stretch;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		align-items: stretch;
 	}
 	.hub-hero-actions button {
-		flex: 1 1 10rem;
+		min-inline-size: 0;
+		overflow-wrap: break-word;
 	}
 	.hub-input-heading {
 		display: grid;

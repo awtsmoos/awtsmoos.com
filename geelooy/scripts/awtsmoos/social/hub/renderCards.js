@@ -13,7 +13,7 @@ import { escapeHtml } from "./htmlEscape.js";
 import { policyForKey } from "./operationPolicy.js";
 import { mutationCards, panelCards } from "./renderConfig.js";
 import { liveCardMarkup } from "./renderLiveCard.js";
-import { digestResult, rawResult } from "./resultDigest.js";
+import { digestResult, expectedStatusDigest, rawResult } from "./resultDigest.js";
 import { state } from "./state.js";
 
 export function cardsMarkup(active) {
@@ -29,8 +29,9 @@ export function cardsMarkup(active) {
 
 function readCardMarkup([title, key, hint]) {
 	const result = state.results[key];
-	const digest = digestResult(result, hint);
-	return `<article class="hub-card hub-read-card" data-state="${resultState(result)}">
+	const digest = digestResult(result, hint, key);
+	const cardState = expectedStatusDigest(key, result) ? "confirmed" : resultState(result);
+	return `<article class="hub-card hub-read-card" data-state="${cardState}">
 		<header><div><span class="hub-mode-badge" data-mode="read">Read only</span><h3>${escapeHtml(title)}</h3></div><small>${escapeHtml(digest.headline)}</small></header>
 		<div class="hub-result-digest"><strong>${escapeHtml(digest.headline)}</strong><p>${escapeHtml(digest.detail)}</p>${retryMarkup(result, key)}</div>
 		${rawDetailsMarkup(result)}
