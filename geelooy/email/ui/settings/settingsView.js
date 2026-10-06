@@ -6,7 +6,7 @@
  * @description Owns only the retractable settings shell while the modular form owns forwarding and privacy controls.
  * The Awtsmoos hides depth until the vessel asks for it; Awtsmoos.com keeps one drawer shell and one form authority so advanced Mail power cannot fork into contradictory interfaces.
  */
-import { settingsFormDescriptor } from './settingsFormView.js';
+import { settingsFormDescriptor } from './settingsFormView.js?v=mail-forwarding-001';
 
 /** Returns the complete local settings drawer descriptor consumed by the Mail UI renderer. */
 export function settingsDrawerDescriptor() {

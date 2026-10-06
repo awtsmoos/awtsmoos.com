@@ -10,7 +10,7 @@
 import { state } from '../../store.js';
 import { MailSettingsLifecycle } from './MailSettingsLifecycle.js';
 import { MailSettingsApi } from './mailSettingsApi.js';
-import { MailSettingsFormState } from './settingsFormState.js';
+import { MailSettingsFormState } from './settingsFormState.js?v=mail-forwarding-001';
 
 /** Advanced Mail settings controller with progressive capability-aware disclosure. */
 export class MailSettingsController extends MailSettingsLifecycle {
