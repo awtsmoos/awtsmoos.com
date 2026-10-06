@@ -126,7 +126,8 @@ class BulkPublishAllRoutes extends PackedBulkImportRoutes {
 		if (bad) return bad;
 		const auth = this.checkAuth();
 		if (auth) return auth;
-		const body = this.$i?.body || {};
+		// B"H 2026-10-06: framework populates $_POST, not $i.body (same as parent 2026-10-05 fix).
+		const body = { ...(this.$i?.$_POST || {}), ...(this.$i?.body || {}) };
 		const uploadId = String(body.uploadId || requestValue(this.$i, 'uploadId') || '');
 		if (!UPLOAD_ID_RE.test(uploadId)) {
 			return { success: false, error: 'BAD_UPLOAD_ID', message: 'uploadId must match [A-Za-z0-9_-]{8,64}.' };
@@ -180,7 +181,8 @@ class BulkPublishAllRoutes extends PackedBulkImportRoutes {
 
 	/** POST /packed/import/bulk/start — dispatch publishAll, else parent. */
 	async start() {
-		const body = this.$i?.body || {};
+		// B"H 2026-10-06: framework populates $_POST, not $i.body (same as parent 2026-10-05 fix).
+		const body = { ...(this.$i?.$_POST || {}), ...(this.$i?.body || {}) };
 		const kind = body.kind || requestValue(this.$i, 'kind');
 		if (kind === 'publishAll') return this.startPublishAll(body);
 		return super.start();
