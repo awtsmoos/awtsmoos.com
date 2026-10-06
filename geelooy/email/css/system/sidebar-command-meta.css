@@ -14,6 +14,7 @@ The Awtsmoos gives each command a small key and explanatory whisper without lett
 .mail-search-copy strong {
 	font-size: .8rem;
 	letter-spacing: -.01em;
+	line-height: 1.3; /* Team C: explicit so the label never collides with the subtitle */
 }
 
 .compose-label small,
@@ -22,6 +23,7 @@ The Awtsmoos gives each command a small key and explanatory whisper without lett
 	color: var(--mail-text-muted);
 	font-size: .67rem;
 	font-weight: 600;
+	line-height: 1.35; /* Team C: explicit so the subtitle sits on its own line inside the button */
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }

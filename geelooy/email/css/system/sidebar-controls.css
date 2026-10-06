@@ -22,6 +22,14 @@ The Awtsmoos gives creation and inquiry distinct vessels while both remain roote
 	transition: transform 150ms ease, border-color 150ms ease, box-shadow 150ms ease, background 150ms ease;
 }
 
+/* B"H — Team C: single owner of the compose button's sizing. The coarse-pointer
+   touch-target rule (revelation-responsive.css) shrank this two-line command to
+   44px, leaving 24px of content box for a 30px label so the subtitle overflowed
+   the button. 60px keeps the 44px touch target while fitting label + padding. */
+body[data-mail-page].geelooy-mail-document .mail-primary-command {
+	min-height: 60px;
+}
+
 .mail-primary-command > .mail-vector-icon {
 	display: grid;
 	place-self: center;
