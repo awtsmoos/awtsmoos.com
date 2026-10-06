@@ -2,7 +2,7 @@
 
 /** B"H — Small response projections preserve control while bounding public text. */
 function trimValue(value) {
-	if (typeof value === 'string' && value.length > 50000) return value.slice(0, 50000);
+	if (typeof value === 'string' && value.length > 10485760) return value.slice(0, 10485760); // 10MB: owner transfer SLA
 	if (Array.isArray(value)) return value.slice(0, 500);
 	return value;
 }
