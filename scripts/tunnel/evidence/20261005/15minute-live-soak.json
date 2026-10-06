@@ -1,0 +1,138 @@
+{
+  "runId": "awtsmoos-soak-1791230842010",
+  "startedAt": "2026-10-05T20:07:22.013Z",
+  "elapsedMs": 929433,
+  "durationMs": 900000,
+  "done": true,
+  "scope": "Real Mac localhost actions and authenticated device instruction bridge; no user OAuth client invocation",
+  "metrics": {
+    "/healthz": {
+      "calls": 4276,
+      "failed": 0,
+      "meanMs": 10,
+      "p50Ms": 4,
+      "p95Ms": 21
+    },
+    "health_round": {
+      "calls": 4276,
+      "failed": 0,
+      "meanMs": 10,
+      "p50Ms": 4,
+      "p95Ms": 21
+    },
+    "instructionResolve": {
+      "calls": 215,
+      "failed": 0,
+      "meanMs": 199,
+      "p50Ms": 139,
+      "p95Ms": 509
+    },
+    "instruction_round": {
+      "calls": 215,
+      "failed": 1,
+      "meanMs": 199,
+      "p50Ms": 139,
+      "p95Ms": 509
+    },
+    "write": {
+      "calls": 636,
+      "failed": 0,
+      "meanMs": 697,
+      "p50Ms": 638,
+      "p95Ms": 1005
+    },
+    "fileTransferCreate": {
+      "calls": 15,
+      "failed": 0,
+      "meanMs": 576,
+      "p50Ms": 308,
+      "p95Ms": 1742
+    },
+    "commandStart": {
+      "calls": 59,
+      "failed": 0,
+      "meanMs": 124,
+      "p50Ms": 57,
+      "p95Ms": 375
+    },
+    "read": {
+      "calls": 636,
+      "failed": 0,
+      "meanMs": 18,
+      "p50Ms": 12,
+      "p95Ms": 34
+    },
+    "text_round": {
+      "calls": 636,
+      "failed": 0,
+      "meanMs": 716,
+      "p50Ms": 651,
+      "p95Ms": 1074
+    },
+    "commandStatus": {
+      "calls": 128,
+      "failed": 0,
+      "meanMs": 22,
+      "p50Ms": 10,
+      "p95Ms": 36
+    },
+    "fileTransferWriteChunk": {
+      "calls": 75,
+      "failed": 0,
+      "meanMs": 188,
+      "p50Ms": 139,
+      "p95Ms": 419
+    },
+    "commandJobOutputPage": {
+      "calls": 45,
+      "failed": 0,
+      "meanMs": 10,
+      "p50Ms": 8,
+      "p95Ms": 20
+    },
+    "command_round": {
+      "calls": 59,
+      "failed": 0,
+      "meanMs": 340,
+      "p50Ms": 264,
+      "p95Ms": 745
+    },
+    "fileTransferCommit": {
+      "calls": 30,
+      "failed": 0,
+      "meanMs": 140,
+      "p50Ms": 132,
+      "p95Ms": 365
+    },
+    "fileTransferReadChunk": {
+      "calls": 15,
+      "failed": 0,
+      "meanMs": 136,
+      "p50Ms": 94,
+      "p95Ms": 398
+    },
+    "transfer_round": {
+      "calls": 15,
+      "failed": 0,
+      "meanMs": 1955,
+      "p50Ms": 1669,
+      "p95Ms": 3521
+    },
+    "commandCancel": {
+      "calls": 14,
+      "failed": 0,
+      "meanMs": 179,
+      "p50Ms": 163,
+      "p95Ms": 429
+    }
+  },
+  "failures": [
+    {
+      "name": "instruction_round",
+      "error": "server instruction bridge unavailable",
+      "elapsedMs": 331050
+    }
+  ],
+  "rawHttpCalls": 6144,
+  "failedHttpCalls": 0
+}

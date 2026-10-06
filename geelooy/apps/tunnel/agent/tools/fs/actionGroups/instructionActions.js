@@ -11,6 +11,8 @@ const { hybridInstructionService } = require("../../../lib/instructions/hybridSe
  */
 function buildInstructionActions({ payload, ws }) {
 	return {
+		async instructionResourceCatalog(){return require("../../../lib/instructions/pluginSkillResources.js").catalog(payload);},
+		async instructionResourceGet(){return require("../../../lib/instructions/pluginSkillResources.js").get(payload);},
 		/**
 		 * Lists compact metadata for available specialist domains without loading their bodies.
 		 * Use when the domain is unclear or instructionResolve appears to be missing a specialty.

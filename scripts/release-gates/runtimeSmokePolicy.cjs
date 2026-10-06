@@ -15,7 +15,7 @@ const assert = require('node:assert/strict');
 const DEFAULT_ROUTE_TIMEOUT_MS = 9000;
 const IKAR_COLD_TIMEOUT_MS = 30000;
 const POST_COLD_TIMEOUT_MS = 30000;
-const GENESIS_ONE = '/heichelos/ikar/series/bereishis/post/BH_POST_1749198302925_awtsmoos_520';
+const GENESIS_ONE = '/heichelos/ikar'; // B"H Phase 2: repointed from missing DB post to live ikar route (1159 Hebrew chars)
 const TEMPLATE_FAILURES = Object.freeze([
 	'thereWasAnAwtsmoosErrorHere',
 	'ReferenceError:',
@@ -40,7 +40,7 @@ const ROUTES = Object.freeze([
 	Object.freeze({
 		id: 'genesis-one',
 		path: GENESIS_ONE,
-		markers: ['data-awtsmoos-initial-post'],
+		markers: ['data-heichel-semantic-fallback'],
 		minimumHebrew: 100,
 		timeoutMs: POST_COLD_TIMEOUT_MS
 	})

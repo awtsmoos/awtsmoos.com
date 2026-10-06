@@ -36,20 +36,47 @@ export async function switchThread(ui, threadId, displayName, options = {}) {
 	ui.getHtml('appContainer')?.classList.add('view-chat');
 	document.dispatchEvent(new CustomEvent('chat:enter'));
 	messages.setAttribute('aria-busy', 'true');
-	messages.replaceChildren(loader());
+	const loadingVeil = loader();
+	messages.replaceChildren(loadingVeil);
 	await wait(190);
 	try {
-		await loadThreadHistory(threadId);
+		await loadThreadHistoryWithTimeout(threadId);
 		const threadMessages = state.threads[threadId] || [];
 		renderMessages(threadId, threadMessages);
 		publishSuggestions(threadMessages);
 	} catch (error) {
 		renderLoadError(messages, error, () => switchThread(ui, threadId, displayName, options));
 	} finally {
+		// The loading veil must never outlive the load attempt: remove this
+		// exact element whether history rendered or failed, so it can never
+		// stick around over the messages or the reply composer.
+		loadingVeil.remove();
 		messages.setAttribute('aria-busy', 'false');
 		endTransition(messages);
 	}
 }
+
+/** A thread history fetch may never hang the thread view forever. */
+const THREAD_HISTORY_TIMEOUT_MS = 12000;
+
+/**
+ * Loads one thread's history, rejecting visibly on timeout instead of
+ * leaving the loading veil stuck when the network never settles.
+ * @param {string} threadId - Canonical thread identifier.
+ * @returns {Promise<number>} Count of messages fetched.
+ */
+function loadThreadHistoryWithTimeout(threadId) {
+	let timer = null;
+	const timeout = new Promise((_, reject) => {
+		timer = setTimeout(() => {
+			reject(new Error('Thread history timed out before any message arrived.'));
+		}, THREAD_HISTORY_TIMEOUT_MS);
+	});
+	return Promise.race([loadThreadHistory(threadId), timeout]).finally(() => {
+		if (timer) clearTimeout(timer);
+	});
+}
+
 
 function beginTransition(messages) {
 	messages.classList.add('frequency-shifting');

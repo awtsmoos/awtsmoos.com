@@ -10,7 +10,7 @@
 import {
 	forwardingSection,
 	privacySection
-} from './settingsSections.js';
+} from './settingsSections.js?v=mail-forwarding-001';
 
 /**
  * Returns the advanced settings form with independently retractable capability families.

@@ -1,15 +1,15 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gives each narrow screen enough earth beneath its fixed dock so content is never sacrificed beneath navigation.
+The Awtsmoos gives the narrow Home page one measured earth beneath its fixed dock; Awtsmoos.com reserves that space once in the content vessel instead of stacking body and main padding into a false empty continent.
 */
 @media (max-width: 680px) {
 	body[data-geelooy-route="home"] {
-		padding-bottom: calc(9rem + env(safe-area-inset-bottom));
+		padding-bottom: 0;
 		overflow-x: clip;
 	}
 
-	body[data-geelooy-route="home"] :where(.home, .hero, .action-panel, .featured-worlds, .shliach-spotlight) {
+	body[data-geelooy-route="home"] :where(.home, .hero, .action-panel, .featured-worlds, .shliach-spotlight, .shliach-home-section) {
 		min-width: 0;
 	}
 
@@ -25,13 +25,30 @@ The Awtsmoos gives each narrow screen enough earth beneath its fixed dock so con
 		max-width: 31rem;
 	}
 
-	body[data-geelooy-route="home"] .portal-shortcuts { display: none; }
-	body[data-geelooy-route="home"] .featured-heading h2 { font-size: clamp(1.8rem, 8.5vw, 2.55rem); line-height: 1.02; }
-	body[data-geelooy-route="home"] .mobile-dock { bottom: max(.55rem, env(safe-area-inset-bottom)); }
-	body[data-geelooy-route="home"] :where(.hero-actions, .featured-worlds, .shliach-spotlight-card) { scroll-margin-bottom: 9rem; }
+	body[data-geelooy-route="home"] .portal-shortcuts {
+		display: none;
+	}
+
+	body[data-geelooy-route="home"] .featured-heading h2 {
+		font-size: clamp(1.8rem, 8.5vw, 2.55rem);
+		line-height: 1.02;
+	}
+
+	body[data-geelooy-route="home"] .mobile-dock {
+		bottom: max(.55rem, env(safe-area-inset-bottom));
+	}
+
+	body[data-geelooy-route="home"] :where(.hero-actions, .featured-worlds, .shliach-spotlight-card, .shliach-home-shell) {
+		scroll-margin-bottom: 6.5rem;
+	}
 }
 
 @media (max-width: 390px) {
-	body[data-geelooy-route="home"] .hero-actions { grid-template-columns: 1fr 1fr; }
-	body[data-geelooy-route="home"] .hero-actions a:last-child { grid-column: 1 / -1; }
+	body[data-geelooy-route="home"] .hero-actions {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	body[data-geelooy-route="home"] .hero-actions a:last-child {
+		grid-column: 1 / -1;
+	}
 }

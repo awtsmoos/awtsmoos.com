@@ -1,10 +1,14 @@
 
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 const {
   isPlainObject,
   isWrappedDynamicResponse
 } = require("./dynamicResponseShape.js");
+
+const { transportStatus } = require("./httpStatus.js");
 
 function normalizeHeaders(headers) {
   const out = {};
@@ -47,7 +51,7 @@ function normalizeDynamicReturn(dyn) {
     }
 
     return {
-      statusCode: dyn.statusCode || dyn.status || (headers.Location ? 302 : 200),
+      statusCode: transportStatus(dyn, headers.Location ? 302 : 200),
       headers,
       mimeType: dyn.mimeType || dyn.contentType || "",
       body: dyn.response !== undefined ? dyn.response : dyn.body

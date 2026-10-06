@@ -18,13 +18,13 @@ const state = fs.readFileSync(path.join(downloads, "unix-candidate-probe-readine
 assert.match(readiness, /AWTSMOOS_CANDIDATE_PROBE_TIMEOUT_SECONDS:-120/);
 assert.doesNotMatch(readiness, /AWTSMOOS_CANDIDATE_PROBE_TIMEOUT_SECONDS:-90/);
 assert.match(readiness, /candidate_stability_ready/);
-assert.match(state, /AWTSMOOS_CANDIDATE_PROBE_STABLE_SAMPLES:-3/);
-assert.match(state, /AWTSMOOS_CANDIDATE_PROBE_STABLE_MS:-800/);
+assert.match(state, /AWTSMOOS_CANDIDATE_PROBE_STABLE_SAMPLES:-8/);
+assert.match(state, /AWTSMOOS_CANDIDATE_PROBE_STABLE_MS:-15000/);
 
 console.log(JSON.stringify({
 	ok: true,
 	suite: "unix-candidate-default-probe-budget",
 	defaultTimeoutSeconds: 120,
-	stableSamples: 3,
-	stableMs: 800
+	stableSamples: 8,
+	stableMs: 15000
 }));

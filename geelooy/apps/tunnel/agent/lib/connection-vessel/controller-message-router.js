@@ -96,6 +96,7 @@ function createMessageRouter(options = {}) {
 		const testimony = RecoveryTestimony.fromState(next, incarnation);
 		const trustedState = { ...next, childIncarnationId: incarnation };
 		if (trustedState.registered === true) options.onRegistered();
+		else options.onUnregistered?.(trustedState);
 		options.mirror(trustedState);
 		if (testimony.required) options.onRecoveryRequired?.(testimony);
 		options.publishStats();

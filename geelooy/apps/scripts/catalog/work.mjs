@@ -21,6 +21,16 @@ export const WORK_APPS = Object.freeze([
 		commerceLabel: "Agent/compute services planned"
 	}),
 	defineApp({
+		id: "workos",
+		title: "WorkOS",
+		href: "./workos/",
+		description: "Persistent missions, work items, rooms, decisions, files, and provenance for accountable collaborative work.",
+		icon: "◫",
+		chip: "Work",
+		categories: ["productivity", "system"],
+		commerceLabel: "Local work graph included"
+	}),
+	defineApp({
 		id: "slides",
 		title: "Awtsmoos Slides",
 		href: "./slides/",

@@ -1,0 +1,18 @@
+# B"H
+# Boruch Hashem
+# Blessed is He
+# Kernel-owned HTTP doorway: survives Awtsmoos Node generation replacement.
+
+[Unit]
+Description=Awtsmoos persistent HTTP socket
+Before=awtsmoos.service
+
+[Socket]
+ListenStream=127.0.0.1:8080
+Accept=no
+Service=awtsmoos.service
+Backlog=4096
+NoDelay=true
+
+[Install]
+WantedBy=sockets.target

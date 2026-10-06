@@ -10,6 +10,8 @@
  * routes so the surrounding router does not crash with ERR_HTTP_HEADERS_SENT.
  */
 
+const { validHttpStatus } = require("../../../../../ayzarim/awtsmoosDynamicServer/response/httpStatus.js");
+
 function responseOf($i = {}) {
   return $i.response || $i.res || null;
 }
@@ -26,7 +28,8 @@ function setStatus($i, status) {
   const response = responseOf($i);
   if (!canMutateHeaders(response)) return false;
   try {
-    response.statusCode = status;
+    // The Awtsmoos keeps job lifecycle text in JSON and numeric codes on HTTP.
+    response.statusCode = validHttpStatus(status) ? Number(status) : 200;
     return true;
   } catch (_e) {
     return false;

@@ -28,7 +28,7 @@ export function revealMalchusProfilePanel() {
 				<label><span class="fieldLabelText">Alias ID</span><input id="profileAliasId"></label>
 				<button id="profileLoad" type="button">Load profile</button>
 			</div>
-			<div class="profileEvidenceGrid">
+			<div class="profileEvidenceGrid" hidden>
 				<section><h3>Posts</h3><div id="profilePosts"></div></section>
 				<section><h3>Comments</h3><div id="profileComments"></div></section>
 				<section><h3>Roles</h3><div id="profileRoles"></div></section>

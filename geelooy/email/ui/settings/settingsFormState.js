@@ -3,94 +3,95 @@
 //Blessed is He
 /**
  * @module MailSettingsFormState
- * @description The Awtsmoos lets values move between hidden data and visible controls without tangling either vessel; Awtsmoos.com keeps forwarding, privacy, and capability state in one pure form translator.
+ * @description Translates alias-specific and user-wide forwarding policies between server settings and the visible Mail settings form.
+ * The Awtsmoos lets one broad intention and one particular alias intention coexist without collision; Awtsmoos.com keeps both scopes visible, bounded, and independently editable.
  */
-import { syncSwitchState } from './settingsView.js';
+import { syncSwitchState } from './settingsView.js?v=mail-forwarding-001';
+
 export class MailSettingsFormState {
-	/**
-	 * Captures registered form controls once so the lifecycle controller stays focused on opening, closing, and transport.
-	 * @param {object} ui Awtsmoos UI registry.
-	 */
+	/** Captures every settings control once so lifecycle and transport remain separate. */
 	constructor(ui) {
-		this.forwardEnabled = ui.getHtml('mailForwardEnabled');
-		this.forwardTargets = ui.getHtml('mailForwardTargets');
-		this.forwardKeepCopy = ui.getHtml('mailForwardKeepCopy');
+		this.aliasForward = this.forwardingControls(ui, 'mailAliasForward');
+		this.globalForward = this.forwardingControls(ui, 'mailGlobalForward');
 		this.gatekeeper = ui.getHtml('mailGatekeeperEnabled');
 	}
 
-	/**
-	 * Writes normalized server settings into visible controls and applies capability availability.
-	 * @param {object} tiferesSettings Complete normalized Mail settings.
-	 * @param {boolean} malchusForwardingLive Whether forwarding is verified live.
-	 */
-	apply(tiferesSettings, malchusForwardingLive) {
-		const yesodForwarding = tiferesSettings.forwarding || {};
-		if (this.forwardEnabled) {
-			this.forwardEnabled.checked = yesodForwarding.enabled === true;
-			syncSwitchState(this.forwardEnabled);
-		}
-		if (this.forwardKeepCopy) {
-			this.forwardKeepCopy.checked = yesodForwarding.keepCopy !== false;
-			syncSwitchState(this.forwardKeepCopy);
-		}
-		if (this.forwardTargets) {
-			this.forwardTargets.value = Array.isArray(yesodForwarding.targets)
-				? yesodForwarding.targets.join('\n')
-				: '';
-		}
-		if (this.gatekeeper) {
-			this.gatekeeper.checked = tiferesSettings.gatekeeperMode === true;
-			syncSwitchState(this.gatekeeper);
-		}
-		this.setForwardingAvailability(malchusForwardingLive);
-	}
-
-	/**
-	 * Merges the current form values into the complete settings object without erasing unrelated advanced keys.
-	 * @param {object} tiferesSettings Existing normalized Mail settings.
-	 * @param {boolean} malchusForwardingLive Whether forwarding edits may be persisted.
-	 * @returns {object} Complete settings object ready for the API.
-	 */
-	revealSettings(tiferesSettings, malchusForwardingLive) {
-		const yesodForwarding = malchusForwardingLive
-			? {
-				enabled: this.forwardEnabled?.checked === true,
-				targets: this.targets(),
-				keepCopy: this.forwardKeepCopy?.checked !== false
-			}
-			: tiferesSettings.forwarding;
+	/** Returns one forwarding control family from a stable UI-registry prefix. */
+	forwardingControls(ui, prefix) {
 		return {
-			...tiferesSettings,
-			gatekeeperMode: this.gatekeeper?.checked === true,
-			forwarding: yesodForwarding
+			enabled: ui.getHtml(`${prefix}Enabled`),
+			targets: ui.getHtml(`${prefix}Targets`),
+			keepCopy: ui.getHtml(`${prefix}KeepCopy`)
 		};
 	}
 
-	/**
-	 * Returns unique, trimmed forwarding destinations from line- or comma-separated input.
-	 * @returns {string[]} Maximum ten target strings; server policy performs canonical validation.
-	 */
-	targets() {
-		const tiferesValue = String(this.forwardTargets?.value || '');
+	/** Writes normalized alias and all-alias policies into visible controls. */
+	apply(settings, forwardingLive) {
+		this.applyForwarding(this.aliasForward, settings.forwarding || {});
+		this.applyForwarding(this.globalForward, settings.globalForwarding || {});
+		if (this.gatekeeper) {
+			this.gatekeeper.checked = settings.gatekeeperMode === true;
+			syncSwitchState(this.gatekeeper);
+		}
+		this.setForwardingAvailability(forwardingLive);
+	}
+
+	/** Applies one normalized forwarding policy to one control family. */
+	applyForwarding(controls, forwarding) {
+		if (controls.enabled) {
+			controls.enabled.checked = forwarding.enabled === true;
+			syncSwitchState(controls.enabled);
+		}
+		if (controls.keepCopy) {
+			controls.keepCopy.checked = forwarding.keepCopy !== false;
+			syncSwitchState(controls.keepCopy);
+		}
+		if (controls.targets) {
+			controls.targets.value = Array.isArray(forwarding.targets)
+				? forwarding.targets.join('\n')
+				: '';
+		}
+	}
+
+	/** Merges both forwarding scopes into the complete settings object. */
+	revealSettings(settings, forwardingLive) {
+		return {
+			...settings,
+			gatekeeperMode: this.gatekeeper?.checked === true,
+			forwarding: forwardingLive
+				? this.revealForwarding(this.aliasForward)
+				: settings.forwarding,
+			globalForwarding: forwardingLive
+				? this.revealForwarding(this.globalForward)
+				: settings.globalForwarding
+		};
+	}
+
+	/** Returns one policy from one forwarding control family. */
+	revealForwarding(controls) {
+		return {
+			enabled: controls.enabled?.checked === true,
+			targets: this.targets(controls.targets),
+			keepCopy: controls.keepCopy?.checked !== false
+		};
+	}
+
+	/** Returns unique trimmed destinations from line- or comma-separated input. */
+	targets(control) {
 		return [...new Set(
-			tiferesValue
+			String(control?.value || '')
 				.split(/[\n,]+/)
-				.map(malchusTarget => malchusTarget.trim())
+				.map(target => target.trim())
 				.filter(Boolean)
 		)].slice(0, 10);
 	}
 
-	/**
-	 * Enables or disables every forwarding control together so capability truth cannot drift between fields.
-	 * @param {boolean} tiferesAvailable Whether forwarding is verified live.
-	 */
-	setForwardingAvailability(tiferesAvailable) {
-		for (const malchusControl of [
-			this.forwardEnabled,
-			this.forwardTargets,
-			this.forwardKeepCopy
-		]) {
-			if (malchusControl) malchusControl.disabled = !tiferesAvailable;
+	/** Enables or disables every forwarding control together from capability truth. */
+	setForwardingAvailability(available) {
+		for (const family of [this.aliasForward, this.globalForward]) {
+			for (const control of Object.values(family)) {
+				if (control) control.disabled = !available;
+			}
 		}
 	}
 }

@@ -58,7 +58,8 @@ const APPROVED_FILES = new Set([
 const RELEASE_OWNED_FILES = new Set([
 	"geelooy/games/mitzvahWorld/build/generated/assets/canonical-chossid.glb",
 	"geelooy/games/mitzvahWorld/build/generated/assets/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb",
-	"geelooy/games/mitzvahWorld/build/generated/assets/essential-grass.jpg"
+	"geelooy/games/mitzvahWorld/build/generated/assets/essential-grass.jpg",
+	"plugins/awtsmoos-shliach/assets/gpt-icon.png"
 ]);
 const SOURCE_PREFIXES = [
 	"geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/diagnostics/logs/"

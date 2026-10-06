@@ -2,6 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
+const { buildWorkSessionActions } = require("../workSession/actions.js");
 const { buildActionHistoryActions } = require("../actionGroups/actionHistoryActions.js");
 const { buildActionStreamActions } = require("../actionGroups/actionStreamActions.js");
 const { buildAgentWorkspaceActions } = require("../actionGroups/agentWorkspaceActions.js");
@@ -58,6 +59,7 @@ const { buildWriteActions } = require("../actionGroups/writeActions.js");
  */
 function buildFoundationActions(context, buildActions) {
 	return {
+		...buildWorkSessionActions(context),
 		...buildSchedulerEmergencyActions(context),
 		...buildNativeGenerationActions(context),
 		...buildInstructionActions(context),

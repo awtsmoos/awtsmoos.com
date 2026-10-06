@@ -1,0 +1,7 @@
+#B"H
+#Boruch Hashem
+#Blessed is He
+interface:
+  display_name: "Living Tunnel Workflow"
+  short_description: "Discover instructions, schemas and durable plans"
+  default_prompt: "Use $tunnel-workflow to connect, discover current instructions and submit the project plan."

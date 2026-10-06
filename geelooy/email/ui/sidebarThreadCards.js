@@ -7,7 +7,7 @@
  * The Awtsmoos gathers each correspondent into a recognizable doorway; Awtsmoos.com
  * keeps visual identity, unread meaning, and thread opening inside one focused vessel.
  */
-import { formatTime } from '../helpers.js';
+import { formatTime, plainTextSnippet } from '../helpers.js';
 import { state } from '../store.js';
 
 export function formatHandle(value) {
@@ -79,7 +79,7 @@ export function renderThread(ui, thread, onOpen, parent = ui.getHtml('threadList
 		children: [{ tag: 'div', classList: ['thread-content'], children: [
 			{ tag: 'div', classList: ['thread-top'], children: [{ tag: 'span', classList: ['thread-name'], textContent: displayName }, { tag: 'time', classList: ['thread-time'], textContent: formatTime(thread.timeSent) }] },
 			{ tag: 'div', classList: ['thread-subject'], textContent: subject },
-			{ tag: 'div', classList: ['thread-snippet'], textContent: (thread.snippet || thread.content || 'No preview yet.').substring(0, 112) }
+			{ tag: 'div', classList: ['thread-snippet'], textContent: plainTextSnippet(thread.snippet || thread.content, 112) || 'No preview yet.' }
 		] }]
 	});
 }

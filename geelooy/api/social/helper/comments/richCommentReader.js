@@ -40,7 +40,7 @@ async function expandReplies({ $i, comment, includeDeleted, depth, maxDepth, rep
 
 // === Chassidus per-post translation fallback (2026-09-29) ===
 const CHASSIDUS_BASE = '/ikar/social/chassidus_translations';
-const CHASSIDUS_ALIASES = ['theRebbe_translation_en', 'theAlterRebbe_translation_en', 'theRebbeRashab_translation_en', 'tzemachTzedek_translation_en'];
+const CHASSIDUS_ALIASES = ['likkutei_translation_en', 'likkuteitorah_translation_en', 'sefer_hasichos_translation_en', 'sichos_kodesh_translation_en', 'meluket_translation_en', 'derechmitzvosecha_translation_en', 'torahohr_translation_en', 'ayinbeis_translation_en'];
 
 function perPostIdsFor({ $i, heichelId, postId, verseSection, subsectionId }) {
 	if (heichelId !== 'ikar' || !postId) return [];

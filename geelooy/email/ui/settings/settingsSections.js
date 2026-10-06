@@ -3,10 +3,11 @@
 //Blessed is He
 /**
  * @module MailSettingsSections
- * @description The Awtsmoos lets advanced powers rest inside small revealed vessels; Awtsmoos.com keeps forwarding and privacy independently retractable so the inbox stays simple while deeper controls remain complete.
+ * @description Reveals forwarding as two explicit scopes—this alias and all owned aliases—while preserving compact multi-destination controls.
+ * The Awtsmoos is one beyond every distinction; Awtsmoos.com still names each scope clearly so finite settings never hide where a message will flow.
  */
 
-/** Returns the live forwarding section with bounded target entry and copy policy. */
+/** Returns forwarding controls for the active alias and the authenticated user's complete alias family. */
 export function forwardingSection() {
 	return {
 		tag: 'details',
@@ -14,10 +15,24 @@ export function forwardingSection() {
 		attributes: { open: '' },
 		children: [
 			{ tag: 'summary', textContent: 'Forwarding' },
-			{ tag: 'p', classList: ['mail-settings-help'], textContent: 'Send inbox mail onward after the original copy is safely stored.' },
-			toggleDescriptor('mailForwardEnabled', 'Enable forwarding'),
-			forwardingTargetsDescriptor(),
-			toggleDescriptor('mailForwardKeepCopy', 'Keep a copy in this inbox')
+			{ tag: 'p', classList: ['mail-settings-help'], textContent: 'Forward to multiple addresses from only this alias, every alias you own, or both.' },
+			forwardingScope('This alias', 'mailAliasForward', 'Only mail received by the active alias.'),
+			forwardingScope('All my aliases', 'mailGlobalForward', 'Applies automatically to every alias you own, including future aliases.')
+		]
+	};
+}
+
+/** Returns one visually grouped forwarding policy scope. */
+function forwardingScope(title, prefix, help) {
+	return {
+		tag: 'section',
+		classList: ['mail-settings-forward-scope'],
+		children: [
+			{ tag: 'h3', textContent: title },
+			{ tag: 'p', classList: ['mail-settings-help'], textContent: help },
+			toggleDescriptor(`${prefix}Enabled`, `Enable ${title.toLowerCase()} forwarding`),
+			forwardingTargetsDescriptor(`${prefix}Targets`),
+			toggleDescriptor(`${prefix}KeepCopy`, 'Keep a copy in the original inbox')
 		]
 	};
 }
@@ -35,8 +50,8 @@ export function privacySection() {
 	};
 }
 
-/** Returns the forwarding target textarea with compact explanatory copy. */
-function forwardingTargetsDescriptor() {
+/** Returns one multi-destination forwarding textarea. */
+function forwardingTargetsDescriptor(shaym) {
 	return {
 		tag: 'label',
 		classList: ['mail-settings-field'],
@@ -44,25 +59,20 @@ function forwardingTargetsDescriptor() {
 			{ tag: 'span', textContent: 'Forward to' },
 			{
 				tag: 'textarea',
-				shaym: 'mailForwardTargets',
+				shaym,
 				attributes: {
 					rows: '3',
-					placeholder: 'name@example.com\none@awtsmoos.com',
+					placeholder: 'name@example.com\nsecond@example.com',
 					autocomplete: 'off',
 					spellcheck: 'false'
 				}
 			},
-			{ tag: 'small', textContent: 'One per line or comma-separated. Maximum 10 destinations.' }
+			{ tag: 'small', textContent: 'One per line or comma-separated. Maximum 10 destinations per scope.' }
 		]
 	};
 }
 
-/**
- * Returns one accessible local switch row with a stable UI-registry identity.
- * @param {string} shaym Registry name for the checkbox.
- * @param {string} label Human-readable switch label.
- * @returns {object} Switch descriptor.
- */
+/** Returns one accessible local switch row with a stable UI-registry identity. */
 function toggleDescriptor(shaym, label) {
 	return {
 		tag: 'label',

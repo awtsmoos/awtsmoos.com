@@ -35,7 +35,11 @@ for (const action of [
 	"schedulerReconcile",
 	"connectionMailboxReconcile",
 	"serverRestart",
-	"instructionResolve"
+	"instructionResolve",
+	"instructionResourceCatalog",
+	"instructionResourceGet",
+	"tunnelConnectionDiagnostics",
+	"tunnelWorkHealth"
 ]) {
 	assert.equal(
 		Routes.canRouteDevice(degraded, { action }),

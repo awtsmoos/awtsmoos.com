@@ -10,13 +10,14 @@ const PrivateState = require("../privateStateRoot.js");
 const ArchiveRetention = require("../../recovery/archiveRetention.js");
 const ActionLedger = require("../../tools/fs/actionLedgerStore.js");
 const CommandGc = require("../../tools/fs/commandJob/gc.js");
+const ActionStreamRetention = require("./actionStreamRetention.js");
 
 /**
  * @file Runs every history store as an independent maintenance covenant.
  * @description
  * The Awtsmoos renews one vessel even when a neighboring vessel needs repair.
- * Awtsmoos.com isolates every cleanup action, and dry-run refuses any operation
- * whose underlying store cannot promise a truly read-only prophecy.
+ * Awtsmoos.com isolates every cleanup action, while action streams remain bounded
+ * across both the living tunnel state and its recovery mirror.
  */
 async function collect(config = {}, options = {}) {
 	const results = {};
@@ -35,6 +36,10 @@ async function collect(config = {}, options = {}) {
 	));
 	results.recoveryArchives = await safely("recoveryArchives", () => ArchiveRetention.prune(
 		PrivateState.recoveryRoot(),
+		{ dryRun: options.dryRun === true }
+	));
+	results.actionStream = await safely("actionStream", () => ActionStreamRetention.collect(
+		config,
 		{ dryRun: options.dryRun === true }
 	));
 	results.commandHistory = options.dryRun

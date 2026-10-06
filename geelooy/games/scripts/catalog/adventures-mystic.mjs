@@ -14,6 +14,17 @@ import { defineGame } from "./game.mjs";
 
 export const MYSTIC_ADVENTURE_GAMES = Object.freeze([
 	defineGame({
+		id: "rambam",
+		title: "Rambam · Kiddush HaChodesh",
+		href: "./rambam/",
+		description: "Explore a focused 360° visualization of the Rambam's solar movement calculations in Kiddush HaChodesh.",
+		collection: "adventures",
+		genre: "Torah Study Simulation",
+		tags: ["Rambam", "Torah", "Astronomy", "Simulation"],
+		hue: 198,
+		icon: "☀"
+	}),
+	defineGame({
 		id: "sulam-ha-sod",
 		title: "Sulam HaSod",
 		href: "./sulam-ha-sod/",

@@ -1,0 +1,72 @@
+{
+  "testedAt": "2026-10-05T21:12:19.327Z",
+  "runtimeVersion": "1.0.645",
+  "deployedSourceCommit": "575cfecf629662fc99f93311f03779e4dd26fb52",
+  "release": {
+    "ok": true,
+    "ready": {
+      "ok": true,
+      "local": true,
+      "relayReady": true,
+      "reason": "",
+      "state": "registered",
+      "runtimeVersion": "1.0.645",
+      "agentVersion": "split-agent-2.0.0",
+      "receiptAgeMs": 471,
+      "parentAlive": true,
+      "connectionAlive": true,
+      "commandExecution": "not_probed",
+      "evidence": "registered_connection_receipt"
+    },
+    "schemaCount": 4,
+    "writeTimingMs": {
+      "prepare": 194,
+      "execute": 37,
+      "provenance": 808,
+      "total": 1039
+    },
+    "concurrentCommands": 12,
+    "commandElapsedMs": [
+      845,
+      737,
+      716,
+      845,
+      766,
+      1042,
+      1056,
+      1306,
+      1113,
+      1080,
+      1120,
+      1124
+    ],
+    "concurrentInstructionLookups": 8
+  },
+  "work": {
+    "schemaCount": 5,
+    "revision": 2,
+    "instructionsReady": true,
+    "resumeRefreshRequired": false,
+    "releaseGate": [
+      "repository_dirty"
+    ]
+  },
+  "browser": {
+    "widths": [
+      390,
+      768,
+      1440
+    ],
+    "interactionVerified": true,
+    "badCssRejected": true,
+    "oldReleaseRejected": true,
+    "servedAssetHashVerified": true
+  },
+  "limits": [
+    "Browser proof uses an owned HTTP fixture, not every production page.",
+    "Authenticated ChatGPT user OAuth MCP flow was not available in this session.",
+    "Checkpoint continuation does not keep a ChatGPT turn alive indefinitely.",
+    "Startup promotion briefly lost readiness; final 1.0.645 installer and installed probes passed.",
+    "Working Mac repository is dirty; frontend release approval is intentionally blocked."
+  ]
+}

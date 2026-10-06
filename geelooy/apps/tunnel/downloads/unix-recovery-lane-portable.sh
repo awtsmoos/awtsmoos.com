@@ -3,8 +3,8 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos grants portable systems three detached recovery witnesses outside the supervisor.
-# Awtsmoos.com records exact entry paths before signaling, so a recycled PID cannot inherit a decree.
+# The Awtsmoos grants portable systems detached recovery witnesses beyond installer decay.
+# Awtsmoos.com launches them through recovery-owned helpers, so vanished temp roots cannot betray.
 
 portable_recovery_lane_pid_file() {
 	printf '%s/%s.pid\n' "$(recovery_lane_state_root)" "$1"
@@ -47,22 +47,24 @@ stop_portable_recovery_lanes() {
 		lane="${pair%%:*}"
 		relative="${pair#*:}"
 		stop_portable_recovery_lane "$lane" "$relative"
-	done <<EOF
+	done <<EOF_PAIRS
 $(recovery_lane_pairs)
-EOF
+EOF_PAIRS
 }
 
 start_portable_recovery_lane() {
 	local lane="$1"
 	local relative="$2"
 	local entry="$ROOT/$relative"
+	local helper="$(recovery_lane_helper_path unix-recovery-lane-detach.cjs)"
 	local pid_file="$(portable_recovery_lane_pid_file "$lane")"
 	local stdout="$RECOVERY_ROOT/logs/$lane.out.log"
 	local stderr="$RECOVERY_ROOT/logs/$lane.err.log"
 	local pid="" sample=0
 	[ -f "$entry" ] || return 1
+	[ -f "$helper" ] || return 1
 	stop_portable_recovery_lane "$lane" "$relative"
-	pid="$("$AWTSMOOS_NODE_BIN" "$AWTSMOOS_INSTALL_RUNTIME/unix-recovery-lane-detach.cjs" \
+	pid="$("$AWTSMOOS_NODE_BIN" "$helper" \
 		"$ROOT" "$RECOVERY_ROOT" "$entry" "$pid_file" "$stdout" "$stderr")" || return 1
 	while [ "$sample" -lt 20 ]; do
 		portable_recovery_lane_process_matches "$pid" "$entry" && return 0
@@ -80,9 +82,9 @@ install_portable_recovery_lanes() {
 		lane="${pair%%:*}"
 		relative="${pair#*:}"
 		start_portable_recovery_lane "$lane" "$relative" || failed=1
-	done <<EOF
+	done <<EOF_PAIRS
 $(recovery_lane_pairs)
-EOF
+EOF_PAIRS
 	if [ "$failed" -ne 0 ]; then
 		stop_portable_recovery_lanes
 		return 1

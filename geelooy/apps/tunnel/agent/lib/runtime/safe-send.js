@@ -24,7 +24,7 @@ function compact(object) {
 }
 
 function safeSend(ws, object) {
-	if (!ws || !ws.opened) {
+	if (!ws || !ws.opened || !object || typeof object !== "object" || Array.isArray(object)) {
 		return false;
 	}
 
