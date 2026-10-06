@@ -8,16 +8,13 @@
 import UI from '../scripts/awtsmoos/ui/index.js';
 import { initAuth } from './store.js';
 import { renderAppLayout } from './ui/layout.js';
-import { connectMailSettings } from './ui/settings/settingsController.js';
+import { connectMailSettings } from './ui/settings/settingsController.js?v=mail-forwarding-001';
 import { MailWorkspaceUx } from './ux.js';
 
 const malchusRoot = document.querySelector('#root');
 const yesodUi = new UI();
 
-/**
- * Boots Mail in dependency order: render, connect local controllers, then resolve authenticated identity/data.
- * @returns {Promise<void>} Resolves after startup succeeds or a visible retry vessel is rendered.
- */
+/** Boots Mail in dependency order and reveals a visible retry vessel on startup failure. */
 async function bootMail() {
 	try {
 		if (!malchusRoot) {
@@ -33,10 +30,7 @@ async function bootMail() {
 	}
 }
 
-/**
- * Reveals one accessible startup-failure vessel without depending on the rest of the Mail component graph.
- * @param {unknown} gevurahError Startup failure value.
- */
+/** Reveals one accessible startup-failure vessel without depending on the rest of the Mail component graph. */
 function renderBootFailure(gevurahError) {
 	if (!malchusRoot) return;
 	malchusRoot.replaceChildren();

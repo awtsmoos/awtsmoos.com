@@ -3,32 +3,32 @@
 //Blessed is He
 /**
  * @module MailSettingsFormState
- * @description Translates one alias-specific and one user-wide forwarding covenant between normalized settings and visible controls without duplicating form authority.
- * The Awtsmoos is one beyond scope; Awtsmoos.com lets a single alias and the whole family of aliases each reveal their own forwarding intention while one state translator keeps them distinct.
+ * @description Translates alias-specific and user-wide forwarding policies between server settings and the visible Mail settings form.
+ * The Awtsmoos lets one broad intention and one particular alias intention coexist without collision; Awtsmoos.com keeps both scopes visible, bounded, and independently editable.
  */
-import { syncSwitchState } from './settingsView.js';
+import { syncSwitchState } from './settingsView.js?v=mail-forwarding-001';
 
 export class MailSettingsFormState {
-	/** Captures the forwarding scopes and Gatekeeper control from the rendered registry. */
+	/** Captures every settings control once so lifecycle and transport remain separate. */
 	constructor(ui) {
-		this.aliasPolicy = this.capturePolicy(ui, 'Alias');
-		this.globalPolicy = this.capturePolicy(ui, 'Global');
+		this.aliasForward = this.forwardingControls(ui, 'mailAliasForward');
+		this.globalForward = this.forwardingControls(ui, 'mailGlobalForward');
 		this.gatekeeper = ui.getHtml('mailGatekeeperEnabled');
 	}
 
-	/** Returns one forwarding scope's three controls. */
-	capturePolicy(ui, scope) {
+	/** Returns one forwarding control family from a stable UI-registry prefix. */
+	forwardingControls(ui, prefix) {
 		return {
-			enabled: ui.getHtml(`mail${scope}ForwardEnabled`),
-			targets: ui.getHtml(`mail${scope}ForwardTargets`),
-			keepCopy: ui.getHtml(`mail${scope}ForwardKeepCopy`)
+			enabled: ui.getHtml(`${prefix}Enabled`),
+			targets: ui.getHtml(`${prefix}Targets`),
+			keepCopy: ui.getHtml(`${prefix}KeepCopy`)
 		};
 	}
 
-	/** Writes normalized alias and global settings into the visible controls. */
+	/** Writes normalized alias and all-alias policies into visible controls. */
 	apply(settings, forwardingLive) {
-		this.applyPolicy(this.aliasPolicy, settings.forwarding || {});
-		this.applyPolicy(this.globalPolicy, settings.globalForwarding || {});
+		this.applyForwarding(this.aliasForward, settings.forwarding || {});
+		this.applyForwarding(this.globalForward, settings.globalForwarding || {});
 		if (this.gatekeeper) {
 			this.gatekeeper.checked = settings.gatekeeperMode === true;
 			syncSwitchState(this.gatekeeper);
@@ -36,35 +36,39 @@ export class MailSettingsFormState {
 		this.setForwardingAvailability(forwardingLive);
 	}
 
-	/** Applies one normalized forwarding policy to one visible scope. */
-	applyPolicy(controls, policy) {
+	/** Applies one normalized forwarding policy to one control family. */
+	applyForwarding(controls, forwarding) {
 		if (controls.enabled) {
-			controls.enabled.checked = policy.enabled === true;
+			controls.enabled.checked = forwarding.enabled === true;
 			syncSwitchState(controls.enabled);
 		}
 		if (controls.keepCopy) {
-			controls.keepCopy.checked = policy.keepCopy !== false;
+			controls.keepCopy.checked = forwarding.keepCopy !== false;
 			syncSwitchState(controls.keepCopy);
 		}
 		if (controls.targets) {
-			controls.targets.value = Array.isArray(policy.targets) ? policy.targets.join('\n') : '';
+			controls.targets.value = Array.isArray(forwarding.targets)
+				? forwarding.targets.join('\n')
+				: '';
 		}
 	}
 
-	/** Merges visible forwarding scopes back into the complete settings object. */
+	/** Merges both forwarding scopes into the complete settings object. */
 	revealSettings(settings, forwardingLive) {
 		return {
 			...settings,
 			gatekeeperMode: this.gatekeeper?.checked === true,
-			forwarding: forwardingLive ? this.revealPolicy(this.aliasPolicy) : settings.forwarding,
+			forwarding: forwardingLive
+				? this.revealForwarding(this.aliasForward)
+				: settings.forwarding,
 			globalForwarding: forwardingLive
-				? this.revealPolicy(this.globalPolicy)
+				? this.revealForwarding(this.globalForward)
 				: settings.globalForwarding
 		};
 	}
 
-	/** Returns one scope's normalized client-side policy; server policy performs canonical validation. */
-	revealPolicy(controls) {
+	/** Returns one policy from one forwarding control family. */
+	revealForwarding(controls) {
 		return {
 			enabled: controls.enabled?.checked === true,
 			targets: this.targets(controls.targets),
@@ -72,7 +76,7 @@ export class MailSettingsFormState {
 		};
 	}
 
-	/** Returns unique, trimmed destinations from line- or comma-separated input. */
+	/** Returns unique trimmed destinations from line- or comma-separated input. */
 	targets(control) {
 		return [...new Set(
 			String(control?.value || '')
@@ -82,10 +86,10 @@ export class MailSettingsFormState {
 		)].slice(0, 10);
 	}
 
-	/** Enables or disables every forwarding control together from one capability truth. */
+	/** Enables or disables every forwarding control together from capability truth. */
 	setForwardingAvailability(available) {
-		for (const policy of [this.aliasPolicy, this.globalPolicy]) {
-			for (const control of Object.values(policy)) {
+		for (const family of [this.aliasForward, this.globalForward]) {
+			for (const control of Object.values(family)) {
 				if (control) control.disabled = !available;
 			}
 		}

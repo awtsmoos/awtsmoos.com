@@ -85,6 +85,7 @@ class ForwardingDelivery {
 		const replyTo = canonicalAddress(message.fromAddress);
 		const prepared = prepareForwardingBody(message);
 		const headers = {
+			'Content-Type': prepared.contentType,
 			'Reply-To': replyTo,
 			'X-Awtsmoos-Forwarded-By': forwardedBy,
 			'X-Awtsmoos-Forwarding-Trail': normalizeTrail(message.trail).join(', '),

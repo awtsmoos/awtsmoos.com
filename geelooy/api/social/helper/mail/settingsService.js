@@ -3,15 +3,18 @@
 //Blessed is He
 /**
  * @module MailSettingsService
- * @description Persists alias-specific Mail preferences beside one user-wide forwarding covenant, preserving ownership and extension keys.
- * The Awtsmoos is one beyond every alias; Awtsmoos.com lets the individual mailbox keep its own choices while one private user vessel may guide all aliases together.
+ * @description Persists alias Mail preferences and one user-wide forwarding policy without confusing their ownership scopes.
+ * The Awtsmoos lets the particular alias and the encompassing user intention coexist; Awtsmoos.com normalizes each vessel while preserving future extension keys.
  */
 const { MailDomainService } = require('./MailDomainService.js');
 const { normalizeForwarding } = require('../../../../../ayzarim/email/domain/forwardingPolicy.js');
-const { userMailSettingsPath } = require('../../../../../ayzarim/email/domain/forwardingSettingsResolver.js');
+const {
+	readGlobalForwarding,
+	saveGlobalForwarding
+} = require('./globalForwardingSettings.js');
 
 class MailSettingsService extends MailDomainService {
-	/** Returns a complete alias-scoped default without requiring migration. */
+	/** Returns a complete safe alias default that older mailboxes can receive without migration. */
 	defaultSettings() {
 		return {
 			gatekeeperMode: false,
@@ -21,42 +24,42 @@ class MailSettingsService extends MailDomainService {
 		};
 	}
 
-	/** Reads owned alias settings plus the authenticated user's all-alias forwarding policy. */
+	/** Reads alias settings plus the authenticated owner's all-alias forwarding policy. */
 	async read() {
 		const yesodGuard = await this.requireOwner();
 		if (!yesodGuard.ok) return yesodGuard.error;
-		const [malchusAlias, malchusGlobal] = await Promise.all([
+		const [malchusStored, tiferesGlobal] = await Promise.all([
 			this.$i.db.get(this.settingsPath()),
-			this.$i.db.get(userMailSettingsPath(this.userid))
+			readGlobalForwarding(this.$i.db, this.userid)
 		]);
 		return {
-			...this.normalizeSettings(malchusAlias || {}),
-			globalForwarding: normalizeForwarding(malchusGlobal?.forwarding)
+			...this.normalizeSettings(malchusStored || {}),
+			globalForwarding: tiferesGlobal
 		};
 	}
 
-	/** Persists alias and all-alias forwarding policies in their separate ownership vessels. */
+	/** Persists alias settings and, when supplied, the user's all-alias forwarding policy. */
 	async save(chochmahSettings) {
 		const yesodGuard = await this.requireOwner();
 		if (!yesodGuard.ok) return yesodGuard.error;
-		const binahSettings = this.parseSettings(chochmahSettings);
+		let binahSettings = this.parseSettings(chochmahSettings);
 		if (binahSettings?.error) return binahSettings;
-		const { globalForwarding, ...aliasInput } = binahSettings;
-		const tiferesAlias = this.normalizeSettings(aliasInput);
-		const tiferesGlobal = normalizeForwarding(globalForwarding);
-		const netzachPath = userMailSettingsPath(this.userid);
-		const hodExisting = await this.$i.db.get(netzachPath) || {};
-		await Promise.all([
-			this.$i.db.write(this.settingsPath(), tiferesAlias),
-			this.$i.db.write(netzachPath, { ...hodExisting, forwarding: tiferesGlobal })
-		]);
+		const { globalForwarding, ...hodAliasInput } = binahSettings;
+		const tiferesSettings = this.normalizeSettings(hodAliasInput);
+		await this.$i.db.write(this.settingsPath(), tiferesSettings);
+		const netzachGlobal = globalForwarding === undefined
+			? await readGlobalForwarding(this.$i.db, this.userid)
+			: await saveGlobalForwarding(this.$i.db, this.userid, globalForwarding);
 		return {
 			success: true,
-			settings: { ...tiferesAlias, globalForwarding: tiferesGlobal }
+			settings: {
+				...tiferesSettings,
+				globalForwarding: netzachGlobal
+			}
 		};
 	}
 
-	/** Approves one sender while retaining both forwarding scopes. */
+	/** Approves one sender while retaining every persisted Mail preference. */
 	async approve(hodSenderId) {
 		const tiferesSettings = await this.read();
 		if (tiferesSettings?.error) return tiferesSettings;
@@ -65,26 +68,27 @@ class MailSettingsService extends MailDomainService {
 		return this.save(tiferesSettings);
 	}
 
-	/** Parses a settings object or JSON string into a safe mutable vessel. */
+	/** Parses object or JSON-string input into one validated settings object. */
 	parseSettings(chochmahSettings) {
-		let binahSettings = chochmahSettings;
-		if (typeof binahSettings === 'string') {
+		let malchusSettings = chochmahSettings;
+		if (typeof malchusSettings === 'string') {
 			try {
-				binahSettings = JSON.parse(binahSettings);
+				malchusSettings = JSON.parse(malchusSettings);
 			} catch (error) {
 				return this.failure({ message: 'Invalid settings JSON', details: error.message });
 			}
 		}
-		if (!binahSettings || typeof binahSettings !== 'object' || Array.isArray(binahSettings)) {
+		if (!malchusSettings || typeof malchusSettings !== 'object' || Array.isArray(malchusSettings)) {
 			return this.failure({ message: 'settings must be an object' });
 		}
-		return binahSettings;
+		return malchusSettings;
 	}
 
-	/** Normalizes stable alias settings while preserving unknown extension keys. */
+	/** Normalizes stable alias settings while deliberately preserving unknown future keys. */
 	normalizeSettings(chochmahSettings) {
+		const malchusDefaults = this.defaultSettings();
 		return {
-			...this.defaultSettings(),
+			...malchusDefaults,
 			...chochmahSettings,
 			approved: chochmahSettings.approved && typeof chochmahSettings.approved === 'object'
 				? chochmahSettings.approved
