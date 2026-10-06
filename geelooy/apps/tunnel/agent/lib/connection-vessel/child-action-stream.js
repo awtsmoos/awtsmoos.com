@@ -2,46 +2,35 @@
 // Boruch Hashem
 // Blessed is He
 
-const fs = require("node:fs");
 const path = require("node:path");
 const Device = require("../../tools/fs/deviceStateRoot.js");
 const ActionStream = require("../runtime/action-stream.js");
+const Writer = require("../runtime/action-stream-writer.js");
 
 /**
- * @file Child-side action-stream emitter for the connection vessel.
+ * @file Child-side action testimony for connection-vessel truth.
  * @description
- * The connection child owns transport truth the parent never sees directly:
- * custody acceptance, acceptance replay, incarnation starts, delivery replay.
- * It records those as events in runtime/action-stream.child.jsonl using the
- * same row schema as the parent stream, so list() can merge both timelines
- * and a traceId flows end to end. The child never writes the parent's file.
+ * The Awtsmoos keeps child custody evidence separate from parent scheduling truth;
+ * Awtsmoos.com bounds both streams with the same writer without letting telemetry endanger transport.
  */
-
 let cachedConfig = null;
 let appendQueue = Promise.resolve();
 
-/** Binds the emitter to the child's runtime config; call once at boot. */
+/** @param {object} config Connection-vessel runtime config. @returns {void} */
 function init(config) {
 	cachedConfig = config || null;
 }
 
-/** Path of the child-owned stream file. */
+/** @param {object} config Runtime config. @returns {string} Child-owned stream path. */
 function streamPath(config) {
 	return path.join(Device.awtsmoosRoot(config || {}), "runtime", "action-stream.child.jsonl");
 }
 
-function appendRow(file, row) {
-	try {
-		fs.mkdirSync(path.dirname(file), { recursive: true });
-		fs.appendFileSync(file, `${JSON.stringify(row)}\n`, { mode: 0o600 });
-	} catch {
-		// A child that cannot persist telemetry stays silent rather than crashing transport.
-	}
-}
-
 /**
- * Emits one child lifecycle event. Returns the row, or null when uninitialized.
- * Failures are swallowed: telemetry must never break the connection child.
+ * Emits one child lifecycle event without allowing telemetry failure to break transport.
+ * @param {string} phase Lifecycle phase.
+ * @param {object} fields Additional normalized event fields.
+ * @returns {object|null} Scheduled row, or null before initialization.
  */
 function emit(phase, fields = {}) {
 	if (!cachedConfig) return null;
@@ -52,15 +41,22 @@ function emit(phase, fields = {}) {
 			phase
 		});
 		const file = streamPath(cachedConfig);
-		appendQueue = appendQueue.then(() => appendRow(file, row)).catch(() => {});
+		appendQueue = appendQueue.then(() => Writer.append(file, row)).catch(() => {});
 		return row;
 	} catch {
 		return null;
 	}
 }
 
+/** Waits for child telemetry queued before shutdown or verification. */
+async function flush() {
+	await appendQueue;
+	await Writer.flushCompression();
+}
+
 module.exports = {
 	emit,
+	flush,
 	init,
 	streamPath
 };
