@@ -1,0 +1,120 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos sets its Shliach as the doorway of the Home world; Awtsmoos.com keeps the living artwork whole behind one scrim while the search vessel rests inside the hero itself, so no void and no clipped crown can stand between the visitor and the door.
+*/
+body[data-geelooy-route="home"] .shliach-hero-card {
+	position: relative;
+	isolation: isolate;
+	display: grid;
+	min-height: clamp(22rem, 44vw, 32rem);
+	border: 1px solid #2c5879;
+	border-radius: 1.65rem;
+	background: #050914;
+	box-shadow: 0 28px 72px rgba(0, 0, 0, .42);
+}
+
+body[data-geelooy-route="home"] .shliach-hero-media {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	overflow: hidden;
+	border-radius: inherit;
+}
+
+body[data-geelooy-route="home"] .shliach-hero-image {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+}
+
+body[data-geelooy-route="home"] .shliach-hero-scrim {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(180deg, rgba(4, 8, 16, .16) 0%, rgba(4, 8, 16, .34) 42%, rgba(3, 6, 13, .84) 100%);
+}
+
+body[data-geelooy-route="home"] .shliach-hero-content {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	gap: .8rem;
+	align-content: end;
+	justify-items: start;
+	min-width: 0;
+	max-width: 46rem;
+	padding: clamp(1.25rem, 4vw, 3rem);
+}
+
+body[data-geelooy-route="home"] .shliach-hero-title {
+	min-width: 0;
+	max-width: 100%;
+	margin: 0;
+	color: #f2f8ff;
+	font-size: clamp(2.1rem, 6.4vw, 3.6rem);
+	font-weight: 850;
+	letter-spacing: -.01em;
+	line-height: 1.02;
+	overflow-wrap: anywhere;
+	text-wrap: balance;
+}
+
+body[data-geelooy-route="home"] .shliach-hero-sub {
+	min-width: 0;
+	max-width: 100%;
+	margin: 0;
+	color: #c9d8ec;
+	font-size: clamp(1rem, 2.6vw, 1.28rem);
+	font-weight: 650;
+	overflow-wrap: anywhere;
+}
+
+body[data-geelooy-route="home"] .shliach-hero-content .search-shell {
+	width: 100%;
+	min-width: 0;
+}
+
+body[data-geelooy-route="home"] .shliach-hero-cta {
+	display: inline-flex;
+	align-items: center;
+	gap: .5rem;
+	min-height: 44px;
+	padding: .7rem 1.15rem;
+	border: 1px solid rgba(255, 210, 104, .38);
+	border-radius: 999px;
+	background: rgba(22, 17, 7, .55);
+	color: #ffe2a1;
+	font-size: .86rem;
+	font-weight: 800;
+	text-decoration: none;
+	backdrop-filter: blur(8px);
+	transition: border-color .18s ease, background .18s ease, transform .18s ease;
+}
+
+body[data-geelooy-route="home"] .shliach-hero-cta:hover,
+body[data-geelooy-route="home"] .shliach-hero-cta:focus-visible {
+	border-color: rgba(255, 214, 120, .7);
+	background: rgba(38, 29, 11, .72);
+	outline: 3px solid var(--focus-ring);
+	outline-offset: 3px;
+	transform: translateY(-1px);
+}
+
+@media (max-width: 680px) {
+	body[data-geelooy-route="home"] .shliach-hero-card {
+		min-height: clamp(21rem, 118vw, 30rem);
+		border-radius: 1rem;
+	}
+
+	body[data-geelooy-route="home"] .shliach-hero-content {
+		padding: 1.1rem 1rem 1.25rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-geelooy-route="home"] .shliach-hero-cta {
+		transition: none;
+	}
+}

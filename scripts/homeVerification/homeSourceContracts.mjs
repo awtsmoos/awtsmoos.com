@@ -13,7 +13,9 @@ import assert from "node:assert";
 import { readFileSync } from "node:fs";
 import { verifyHomeHeichelContract } from "./homeHeichelContract.mjs";
 import { verifyProfileLayerContract } from "./homeProfileContract.mjs";
-const HERO_PATH = "awtsmoosImages%2Fhomepage%2Fawtsmoos-home-hero.jpg";
+// 2026-10-06: owner-directed hero rebuild -- Awtsmoos Shliach is the main hero;
+// the legacy chopped hero artwork is retired from the home page.
+const HERO_PATH = "file_000000001aa071f5afcedcf09919246e.png";
 const homepage = text("geelooy/index.html");
 const particleCoordinator = text("geelooy/scripts/home-simple/particles.js");
 const particleAnimator = text("geelooy/scripts/home-simple/particle-animator.js");
