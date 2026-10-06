@@ -12,7 +12,7 @@ const Replacement = require("../lib/runtime/replacement-policy.js");
  * @file Proves socket-open and registration ACK cannot impersonate action acceptance.
  * @description
  * The Awtsmoos separates transport, registration, and executable acceptance.
- * Awtsmoos.com resets dial backoff after registration while keeping executable
+ * Awtsmoos.com preserves dial backoff through registration (a registered lane can still be dead) while keeping executable
  * action acceptance as a separate proof.
  */
 class FakeSocket extends EventEmitter {
@@ -79,7 +79,7 @@ acceptedSocket.emit("message", JSON.stringify({
 }));
 assert.equal(state.registrationConfirmed, true);
 assert.equal(state.tunnelId, "tun_authoritative_test");
-assert.equal(state.reconnectAttempt, 0);
+assert.equal(state.reconnectAttempt, 5);
 assert.equal(state.lastRegisteredAt > 0, true);
 assert.equal(receiptEvents.at(-1).type, "registered");
 Reconnect.markAccepted(state);
@@ -106,6 +106,6 @@ console.log(JSON.stringify({
 	ok: true,
 	suite: "main-connection-acknowledgement",
 	authoritativeTunnelId: true,
-	registrationResetsDialBackoff: true,
+	registrationPreservesDialBackoff: true,
 	acceptanceResetsBackoff: true
 }, null, 2));
