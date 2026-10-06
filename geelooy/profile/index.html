@@ -38,6 +38,40 @@
 		</section>
 		<section class="profile-action-drawer" data-profile-action-drawer hidden aria-live="polite"></section>
 	</main>
+	<script>
+	/* B"H - profile boot watchdog (plain script, runs even if the module graph below fails).
+	 * The module sets window.__profileBootState to 'booting', then 'ready' or 'failed'.
+	 * If it is still 'pending' after 20s, the module never executed (import failure,
+	 * syntax error, blocked script): replace the stuck "Loading..." with a visible
+	 * error and a reload button so the page is never dead-silent. */
+	(function () {
+		window.__profileBootState = window.__profileBootState || 'pending';
+		setTimeout(function () {
+			try {
+				if (window.__profileBootState !== 'pending') return;
+				window.__profileBootState = 'failed';
+				var status = document.querySelector('[data-profile-status]');
+				if (status) {
+					status.textContent = 'Profile failed to load. Check your connection and reload the page.';
+					status.setAttribute('data-profile-status', 'error');
+					if (!document.getElementById('profile-retry-boot')) {
+						var btn = document.createElement('button');
+						btn.id = 'profile-retry-boot';
+						btn.type = 'button';
+						btn.className = 'awp-btn';
+						btn.textContent = 'Reload profile';
+						btn.addEventListener('click', function () { location.reload(); });
+						status.parentNode.insertBefore(btn, status.nextSibling);
+					}
+				}
+				var aliasState = document.querySelector('.alias-list .g-state');
+				if (aliasState && /loading/i.test(aliasState.textContent || '')) {
+					aliasState.textContent = 'Aliases could not load. Reload the page to try again.';
+				}
+			} catch (e) { /* the watchdog itself must never throw */ }
+		}, 20000);
+	})();
+	</script>
 	<script type="module" src="./script.js?v=profile-static-001"></script>
 	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=shared-shell-003"></script>
 </body>
