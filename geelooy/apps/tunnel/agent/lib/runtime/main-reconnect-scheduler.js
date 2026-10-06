@@ -29,6 +29,8 @@ function createReconnectScheduler(dependencies, connect) {
 	function schedule(reason = "socket_closed", generation = state.generation) {
 		if (state.replacementRequested) return null;
 		if (state.reconnectTimer) return state.reconnectTimer;
+		if (state.reconnectStableSince && Date.now() - state.reconnectStableSince >= 60000) state.reconnectAttempt = 0;
+		state.reconnectStableSince = 0;
 		const attempt = Reconnect.nextAttempt(state);
 		const ordinaryDelay = Reconnect.delayForAttempt(attempt, {
 			env: dependencies.env,

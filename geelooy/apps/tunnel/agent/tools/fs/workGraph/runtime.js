@@ -3,6 +3,7 @@
 // Blessed is He
 
 const ReplayIdentity = require("../actionReplayIdentity.js");
+const { performance } = require("node:perf_hooks");
 const Aliases = require("./mutationAliases.js");
 const Event = require("./mutationEvent.js");
 const Result = require("./mutationResult.js");
@@ -20,6 +21,7 @@ const Outbox = require("./outbox.js");
 async function run(config, payload, producer) {
 	const action = ReplayIdentity.canonicalAction(payload);
 	if (!Targets.isMutation(action)) return producer();
+	const timingStart = performance.now();
 	const context = await Context.build(config, payload);
 	const targets = Targets.forAction(context.action, payload);
 	const before = await Witness.captureAll(config, targets);
@@ -30,6 +32,7 @@ async function run(config, payload, producer) {
 		before
 	});
 	await Operations.transition(config, context.operationId, "started");
+	const preparedAt = performance.now();
 	let result;
 	try {
 		result = await producer();
@@ -39,6 +42,7 @@ async function run(config, payload, producer) {
 		});
 		throw error;
 	}
+	const executedAt = performance.now();
 	if (!Result.applied(context.action, result)) {
 		await Operations.transition(config, context.operationId, "finalized", { applied: false });
 		return result;
@@ -56,7 +60,10 @@ async function run(config, payload, producer) {
 		deliveryErrorCode: delivery.errorCode
 	});
 	await Operations.transition(config, context.operationId, "finalized", { applied: true });
-	return result;
+	if (payload.performanceDiagnostics !== true) return result;
+	return { ...result, timingMs: { prepare: Math.round(preparedAt - timingStart),
+		execute: Math.round(executedAt - preparedAt), provenance: Math.round(performance.now() - executedAt),
+		total: Math.round(performance.now() - timingStart) } };
 }
 
 module.exports = { run };

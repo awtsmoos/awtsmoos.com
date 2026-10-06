@@ -1,27 +1,25 @@
 /*B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos reveals one Mail chamber without exiling another beyond the horizon; Awtsmoos.com keeps inactive panes inside the vessel, unseen and untouchable, while gentle depth replaces off-screen illusion.
+The Awtsmoos reveals one Mail chamber without exiling another beyond the horizon; Awtsmoos.com keeps the inbox reachable, the filters compact, and each mobile pane inside one measured vessel.
 */
 @media (max-width: 850px) {
 	.geelooy-mail-document .mail-civilization-shell {
-		grid-template-rows: auto minmax(0, 1fr) auto;
-		block-size: 100dvh;
-		min-block-size: 100dvh;
+		grid-template-rows: auto minmax(0, 1fr);
+		block-size: calc(100dvh - var(--g-header-h, 4.5rem) - var(--g-dock-h, 5.25rem));
+		min-block-size: calc(100dvh - var(--g-header-h, 4.5rem) - var(--g-dock-h, 5.25rem));
+		max-block-size: calc(100dvh - var(--g-header-h, 4.5rem) - var(--g-dock-h, 5.25rem));
 		overflow: hidden;
 	}
-
 	.geelooy-mail-document .mail-civilization-status {
 		grid-template-columns: minmax(0, 1fr) auto;
 		min-block-size: 58px;
 		padding: max(8px, env(safe-area-inset-top)) 13px 8px;
 	}
-
 	.geelooy-mail-document .mail-header-shortcuts,
 	.geelooy-mail-document .mail-civilization-brand small {
 		display: none;
 	}
-
 	.geelooy-mail-document .app-container {
 		position: relative;
 		display: block;
@@ -30,27 +28,54 @@ The Awtsmoos reveals one Mail chamber without exiling another beyond the horizon
 		overflow: hidden;
 		isolation: isolate;
 	}
-
 	.geelooy-mail-document :is(.sidebar, .chat-area) {
 		position: absolute;
 		inset: 0;
 		inline-size: 100%;
 		min-inline-size: 0;
 		min-block-size: 0;
-		transition:
-			opacity 180ms ease,
-			transform 220ms cubic-bezier(.2, .8, .2, 1),
-			visibility 0s linear 220ms;
+		transition: opacity 180ms ease, transform 220ms cubic-bezier(.2, .8, .2, 1), visibility 0s linear 220ms;
 	}
-
 	.geelooy-mail-document .sidebar {
 		z-index: 1;
 		visibility: visible;
 		pointer-events: auto;
 		opacity: 1;
 		transform: translateX(0) scale(1);
+		overflow-y: auto !important;
+		overflow-x: hidden !important;
+		overscroll-behavior-y: contain;
+		scrollbar-width: thin;
 	}
-
+	.geelooy-mail-document .mail-sender-category-grid,
+	.geelooy-mail-document .mail-folder-list {
+		display: flex !important;
+		flex: 0 0 auto;
+		gap: 8px;
+		overflow-x: auto !important;
+		overflow-y: hidden;
+		padding: 0 0 9px !important;
+		scroll-snap-type: x proximity;
+		scrollbar-width: none;
+	}
+	.geelooy-mail-document :is(.mail-sender-category-grid, .mail-folder-list)::-webkit-scrollbar {
+		display: none;
+	}
+	.geelooy-mail-document .mail-sender-category,
+	.geelooy-mail-document .mail-folder-tab {
+		flex: 0 0 min(9rem, 42vw);
+		inline-size: auto !important;
+		min-block-size: 44px;
+		grid-template-columns: 30px minmax(0, 1fr) auto;
+		scroll-snap-align: start;
+	}
+	.geelooy-mail-document .thread-list {
+		flex: 1 0 min(260px, 42dvh);
+		min-block-size: min(260px, 42dvh) !important;
+		max-block-size: none;
+		overflow-y: auto !important;
+		padding-block-end: max(5.5rem, env(safe-area-inset-bottom));
+	}
 	.geelooy-mail-document .chat-area {
 		z-index: 2;
 		visibility: hidden;
@@ -59,14 +84,12 @@ The Awtsmoos reveals one Mail chamber without exiling another beyond the horizon
 		transform: translateX(2%) scale(.992);
 		box-shadow: -24px 0 70px rgba(0, 0, 0, .28);
 	}
-
 	.geelooy-mail-document .app-container.view-chat .sidebar {
 		visibility: hidden;
 		pointer-events: none;
 		opacity: 0;
 		transform: translateX(-2%) scale(.992);
 	}
-
 	.geelooy-mail-document .app-container.view-chat .chat-area {
 		visibility: visible;
 		pointer-events: auto;
@@ -74,12 +97,10 @@ The Awtsmoos reveals one Mail chamber without exiling another beyond the horizon
 		transform: translateX(0) scale(1);
 		transition-delay: 0s;
 	}
-
 	.geelooy-mail-document .back-button {
 		display: grid;
 	}
 }
-
 @media (prefers-reduced-motion: reduce) and (max-width: 850px) {
 	.geelooy-mail-document :is(.sidebar, .chat-area) {
 		transition-duration: 1ms;

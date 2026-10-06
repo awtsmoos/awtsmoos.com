@@ -69,11 +69,9 @@ body[data-mail-page][data-mail-connectivity="offline"] .mail-civilization-shell 
 		inline-size: 100%;
 		max-inline-size: 100%;
 	}
-	/* Thread-open contract: switchThread.js toggles .view-chat on .app-container. */
-	body[data-mail-page] .app-container:not(.view-chat) :is(.mail-chat, .chat-area) {
-		display: none;
-	}
-	body[data-mail-page] .app-container.view-chat :is(.mail-sidebar, .sidebar) {
-		display: none;
-	}
+	/* Thread-open contract: switchThread.js toggles .view-chat on .app-container.
+	   Pane visibility/positioning is owned SOLELY by css/system/mobile-shell.css
+	   (absolute panes + visibility cross-fade). No display:none rules here: a
+	   second owner would snap panes instead of fading and could double-paint
+	   the sidebar beneath the chat during fast toggles. */
 }

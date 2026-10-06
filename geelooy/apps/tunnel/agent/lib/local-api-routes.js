@@ -18,6 +18,7 @@ async function get(response, deps, url) {
 	const routes = {
 		"/health": Health.health,
 		"/healthz": Health.healthz,
+		"/readyz": Health.readyz,
 		"/actions": Health.catalog,
 		"/tools": Health.catalog,
 		"/schemas": Health.catalog,

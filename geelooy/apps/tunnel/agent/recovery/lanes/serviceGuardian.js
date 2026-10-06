@@ -23,7 +23,7 @@ function create(options = {}) {
 		options.recoveryRoot || process.env.AWTSMOOS_TARGET_RECOVERY_ROOT || process.env.AWTSMOOS_RECOVERY_ROOT || ""
 	));
 	const servicePath = path.join(installRoot, "awtsmoos-tunnel-service.sh");
-	const lease = options.lease || Lease.create({ recoveryRoot });
+	const lease = options.lease || Lease.create({ recoveryRoot, installRoot, leaseMs:30000 });
 
 	function status() {
 		return {
@@ -41,11 +41,14 @@ function create(options = {}) {
 		const result = spawnSync(servicePath, ["repair"], {
 			cwd: installRoot,
 			encoding: "utf8",
+			timeout:15000,
+			maxBuffer:128*1024,
 			env: { ...process.env, AWTSMOOS_INSTALL_ROOT: installRoot }
 		});
 		return {
 			ok: result.status === 0,
-			exitCode: Number(result.status || 0),
+			exitCode: result.status === null ? 1 : Number(result.status),
+			error: result.error ? String(result.error.code || "service_repair_failed") : "",
 			stdout: bounded(result.stdout),
 			stderr: bounded(result.stderr),
 			process: Process.inspect(installRoot)

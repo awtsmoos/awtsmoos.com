@@ -36,8 +36,8 @@ candidate_stable_duration_ms() {
 
 candidate_stability_ready() {
 	local now_ms="$1"
-	local required_samples="${AWTSMOOS_CANDIDATE_PROBE_STABLE_SAMPLES:-3}"
-	local required_ms="${AWTSMOOS_CANDIDATE_PROBE_STABLE_MS:-800}"
+	local required_samples="${AWTSMOOS_CANDIDATE_PROBE_STABLE_SAMPLES:-8}"
+	local required_ms="${AWTSMOOS_CANDIDATE_PROBE_STABLE_MS:-15000}"
 	local duration_ms="$(candidate_stable_duration_ms "$now_ms")"
 	[ "$CANDIDATE_STABLE_SAMPLES" -ge "$required_samples" ] && [ "$duration_ms" -ge "$required_ms" ]
 }

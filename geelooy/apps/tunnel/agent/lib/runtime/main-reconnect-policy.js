@@ -52,7 +52,7 @@ options.jitterRatio ?? env.AWTSMOOS_RECONNECT_JITTER,
 
   const jitter = raw * jitterRatio * ((random * 2) - 1);
 
-  return Math.max(baseMs, Math.round(raw + jitter));
+  return Math.max(baseMs, Math.min(maximumMs, Math.round(raw + jitter)));
 
 }
 
@@ -71,9 +71,9 @@ return FAST_NETWORK_CATEGORIES.has(category)
 }
 
 /**
- * Records authenticated registration and resets reconnect pressure.
- * A relay-accepted registration proves the route is healthy, so the next
- * transport failure starts from a fresh backoff instead of inheriting
+ * Records authenticated registration without erasing short-session reconnect pressure.
+ * A relay-accepted registration starts the stability window. The next
+ * transport failure retains backoff until sustained registration clears
  * pressure from an earlier storm. Registration rejections never reach here,
  * so sick routes still accumulate backoff through nextAttempt.
  */
@@ -82,7 +82,7 @@ function markRegistered(state = {}) {
 
 state.lastRegisteredAt = Date.now();
 
-state.reconnectAttempt = 0;
+state.reconnectStableSince = state.lastRegisteredAt;
 
 }
 

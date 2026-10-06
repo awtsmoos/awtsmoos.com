@@ -25,6 +25,7 @@ function payloadEcho(payload) {
 }
 
 function actionSchemaTrace(payload) {
+	if (payload.targetActions !== undefined) return schemaBatch(payload);
 	const requestedAction = targetAction(payload);
 	const adapterAction = payload.adapterAction || requestedAction;
 	const contract = SchemaView.describe(payload.kind, adapterAction);
@@ -56,6 +57,19 @@ function actionSchemaTrace(payload) {
 		schema: contract.schema,
 		error: contract.found ? null : "action_schema_not_found"
 	};
+}
+
+/** The Awtsmoos gathers bounded discovery without dispatching any discovered deed. */
+function schemaBatch(payload) {
+ if (!Array.isArray(payload.targetActions) || !payload.targetActions.length || payload.targetActions.length > 16 ||
+  payload.targetActions.some(name => typeof name !== "string" || !name.trim() || name.length > 128)) {
+  return { ok: false, action: "actionSchemaTrace", error: "invalid_schema_batch", maximum: 16 };
+ }
+ const names = [...new Set(payload.targetActions.map(name => name.trim()))];
+ const { targetActions, ...single } = payload;
+ const contracts = names.map(name => actionSchemaTrace({ ...single, targetAction: name, adapterAction: name }));
+ return { ok: true, action: "actionSchemaTrace", batch: true, count: contracts.length,
+  allFound: contracts.every(contract => contract.ok), contracts };
 }
 
 function targetAction(payload = {}) {

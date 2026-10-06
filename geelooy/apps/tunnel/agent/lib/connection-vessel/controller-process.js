@@ -19,6 +19,7 @@ const Watchdog = require("./controller-process-watchdog.js");
 function createProcessSupervisor(options = {}) {
 	let child = null;
 	let childIncarnationId = "";
+	let stableRegistrationAt = 0;
 	const liveness = options.liveness || ChildLiveness.create(options.childLivenessOptions);
 	const repair = options.repair || ChildRepair.create({
 		getChild: () => child,
@@ -85,10 +86,14 @@ function createProcessSupervisor(options = {}) {
 
 	function markRegistered() {
 		registration.registered();
-		restart.reset();
+		stableRegistrationAt ||= Date.now();
+		if (Date.now() - stableRegistrationAt >= 60000) restart.reset();
 	}
 
+	function markUnregistered(next) { stableRegistrationAt = 0; registration.progress(next); }
+
 	function clearChild() {
+		stableRegistrationAt = 0;
 		child = null;
 		childIncarnationId = "";
 	}
@@ -102,6 +107,7 @@ function createProcessSupervisor(options = {}) {
 		childIncarnationId: () => childIncarnationId,
 		livenessStatus: () => ({ ...liveness.status(), childIncarnationId, registration: registration.snapshot(), repair: repair.snapshot() }),
 		markRegistered,
+		markUnregistered,
 		notify,
 		preventRestart: lifecycle.preventRestart,
 		requestChildRepair: repair.request,

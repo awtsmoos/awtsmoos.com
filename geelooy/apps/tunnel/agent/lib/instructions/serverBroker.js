@@ -38,12 +38,16 @@ class ServerInstructionBroker {
 		return true;
 	}
 
-	resolve(evidence = {}) {
-		return this.request(
+	async resolve(evidence = {}) {
+		const socket = this.socket;
+		const result = await this.request(
 			"resolve",
 			{ evidence },
 			`resolve:${Support.stable(evidence)}`
 		);
+		if (result || !socket?.opened || this.socket !== socket) return result;
+		// The Awtsmoos repeats only this read-only lookup, once, on the same live connection.
+		return this.request("resolve", { evidence }, `resolve:${Support.stable(evidence)}`);
 	}
 
 	get(instructionIds = []) {

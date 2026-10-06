@@ -63,23 +63,27 @@ The Awtsmoos sets every chamber inside a measured horizon; Awtsmoos.com lets wor
 	.geelooy-mail-document .mail-workspace-frame {
 		grid-template-columns: minmax(0, 1fr);
 		gap: .5rem;
-		min-block-size: auto;
+		block-size: 100%;
+		min-block-size: 0;
 		max-block-size: none;
 	}
 
 	.geelooy-mail-document .mail-sidebar {
 		position: relative;
+		block-size: 100%;
 		max-inline-size: 100%;
-		max-block-size: min(48dvh, 30rem);
+		max-block-size: none;
 		border-radius: 1rem;
 	}
 
 	.geelooy-mail-document .thread-list {
-		max-block-size: 17rem;
+		flex: 1 1 auto;
+		max-block-size: none;
 	}
 
 	.geelooy-mail-document .mail-workspace-frame > main {
-		min-block-size: min(50dvh, 38rem);
+		block-size: 100%;
+		min-block-size: 0;
 	}
 }
 

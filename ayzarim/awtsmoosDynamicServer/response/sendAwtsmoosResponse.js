@@ -1,5 +1,9 @@
 
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+const { validHttpStatus } = require("./httpStatus.js");
 
 function bodyFromActualResponse(ar) {
   if (Buffer.isBuffer(ar)) return ar;
@@ -18,7 +22,7 @@ function stringifyBody(body) {
 
 function applyHeaders(response, res, ar) {
   if (res.statusCode) {
-    response.statusCode = res.statusCode;
+    response.statusCode = validHttpStatus(res.statusCode) ? Number(res.statusCode) : 500;
   }
 
   response.setHeader("Vary", "Cookie");

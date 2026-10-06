@@ -1,0 +1,7 @@
+#B"H
+#Boruch Hashem
+#Blessed is He
+interface:
+  display_name: "Awtsmoos Novel Voice"
+  short_description: "Vivid continuing chapters with truthful evidence"
+  default_prompt: "Use $novel-voice to tell the next Awtsmoos chapter with clear verified progress."

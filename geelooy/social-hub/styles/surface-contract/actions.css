@@ -56,7 +56,15 @@
 }
 
 @media (max-width: 700px) {
-	.social-hub-document :where(.hubHeader, .hubShell) :where(button, .quickActionGrid > a, .fileButton):not(.publicDiscovery *) {
+	/* Ordinary mobile actions may span the vessel, but component-owned controls
+	   keep their own geometry. Forcing every button to 100% turned segmented
+	   choices (Whisper / Chat / Friend / Mail) into four giant stacked rows. */
+	.social-hub-document :where(.hubHeader, .hubShell)
+		:where(button, .quickActionGrid > a, .fileButton)
+		:not(.publicDiscovery *)
+		:not(.hubSegmentedChoice__item)
+		:not(.hubIconButton)
+		:not(.routeButton) {
 		inline-size: 100%;
 	}
 }

@@ -8,11 +8,11 @@ fallback garment that keeps the doorway legible if a shared layer arrives late o
 only partly from cache. base.css and every design vessel follow it, so the designed
 layers win every order-dependent conflict by loading later.
 */
-@import url("./styles/integrity.css?v=apps-mobile-010");
-@import url("./styles/base.css?v=apps-mobile-010");
-@import url("./styles/hero.css?v=apps-mobile-010");
-@import url("./styles/filter.css?v=apps-mobile-010");
-@import url("./styles/interactions.css?v=apps-mobile-010");
-@import url("./styles/cards.css?v=apps-mobile-010");
-@import url("./styles/discovery.css?v=apps-mobile-010");
-@import url("./styles/responsive.css?v=apps-mobile-010");
+@import url("./styles/integrity.css?v=apps-mobile-011");
+@import url("./styles/base.css?v=apps-mobile-011");
+@import url("./styles/hero.css?v=apps-mobile-011");
+@import url("./styles/filter.css?v=apps-mobile-011");
+@import url("./styles/interactions.css?v=apps-mobile-011");
+@import url("./styles/cards.css?v=apps-mobile-011");
+@import url("./styles/discovery.css?v=apps-mobile-011");
+@import url("./styles/responsive.css?v=apps-mobile-011");

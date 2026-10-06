@@ -1,0 +1,7 @@
+#B"H
+#Boruch Hashem
+#Blessed is He
+interface:
+  display_name: "Awtsmoos Shliach"
+  short_description: "Living Awtsmoos covenant and verified tunnel work"
+  default_prompt: "Use $instructions to continue the Awtsmoos Shliach mission through the live tunnel."

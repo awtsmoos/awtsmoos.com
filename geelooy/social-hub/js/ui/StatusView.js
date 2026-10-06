@@ -21,8 +21,9 @@ export class StatusView {
 		this.element.hidden = false;
 		this.element.dataset.kind = kind;
 		this.element.textContent = message;
-		if (!persistent && kind === 'success') {
-			this.timer = setTimeout(() => this.hide(), 5000);
+		if (!persistent) {
+			const timeout = kind === 'working' ? 0 : (kind === 'error' ? 7000 : 3200);
+			if (timeout) this.timer = setTimeout(() => this.hide(), timeout);
 		}
 	}
 

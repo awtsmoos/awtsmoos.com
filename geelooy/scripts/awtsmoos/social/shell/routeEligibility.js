@@ -2,36 +2,37 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * @module GeelooyRouteEligibility
- * @description
- * The Awtsmoos grants every Awtsmoos.com route its proper vessel and crown;
- * social chambers share one shell, while sovereign readers and OS keep theirs down.
- * A route should never wear two headers where one clear navigation may be found.
+ * The Awtsmoos gives every route one crown and no rival throne.
+ * Awtsmoos.com keeps sovereign shells sovereign while preserving one stable
+ * eligibility covenant for every generation of the shared shell runtime.
  */
 
-const POST_ROUTE_PATTERN = /^\/heichelos(?:\/[^/?#]+)*\/post(?:\/|$)/i;
-const SOVEREIGN_ROUTE_PATTERNS = [
-	/^\/os(?:\/|$)/i
+const EXCLUDED_PREFIXES = [
+	"/apps/workos",
+	"/apps/shliach",
+	"/shliach",
+	"/os",
+	"/desktop"
 ];
 
 /**
- * Reports whether the shared social shell may enter a route.
- * @param {string} pathname Candidate browser pathname.
- * @returns {boolean} True only where the shared social shell owns navigation.
+ * Reports whether the shared global social shell may own a pathname.
+ * @param {string} pathname Browser pathname.
+ * @returns {boolean} True when the global shell may render on the route.
  */
-export function isShellEligible(pathname = globalThis.location?.pathname || '/') {
-	const route = normalizeRoutePath(pathname);
-	if (POST_ROUTE_PATTERN.test(route)) return false;
-	return !SOVEREIGN_ROUTE_PATTERNS.some(pattern => pattern.test(route));
+export function isGlobalShellEligibleRoute(pathname = "/") {
+	const normalized = String(pathname || "/").toLowerCase();
+	if (normalized === "/" || normalized === "/index.html") {
+		return false;
+	}
+	return !EXCLUDED_PREFIXES.some(prefix => normalized.startsWith(prefix));
 }
 
 /**
- * Converts a route-like value into a stable pathname for boundary tests.
- * @param {unknown} pathname Untrusted path input.
- * @returns {string} Canonical path without query, hash, duplicate, or trailing slashes.
+ * Preserves the established shell-foundation import contract.
+ * @param {string} pathname Browser pathname.
+ * @returns {boolean} The same eligibility decision as the canonical route API.
  */
-export function normalizeRoutePath(pathname) {
-	const pathOnly = String(pathname || '/').split(/[?#]/, 1)[0];
-	const normalized = pathOnly.replace(/\/{2,}/g, '/');
-	return normalized.length > 1 ? normalized.replace(/\/$/, '') : normalized;
+export function isShellEligible(pathname = "/") {
+	return isGlobalShellEligibleRoute(pathname);
 }

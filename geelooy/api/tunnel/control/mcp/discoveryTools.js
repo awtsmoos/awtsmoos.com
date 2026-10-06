@@ -22,11 +22,12 @@ async function awtsmoosBootstrap($i) {
  * @returns {Promise<object>} Current device-side action contract.
  */
 async function awtsmoosActionSchema($i, identity, args = {}) {
-	if (!args.targetAction) throw new Error("targetAction is required.");
+	if (!args.targetAction && !args.targetActions) throw new Error("targetAction or targetActions is required.");
+	if (args.targetActions !== undefined && (!Array.isArray(args.targetActions) || !args.targetActions.length || args.targetActions.length > 16 || args.targetActions.some(name => typeof name !== "string" || !name.trim() || name.length > 128))) throw new Error("targetActions must contain 1–16 exact action names.");
 	return tunnelAction($i, identity, {
 		routeReference: args.routeReference,
 		action: "actionSchemaTrace",
-		params: { targetAction: args.targetAction }
+		params: args.targetActions ? { targetActions: args.targetActions } : { targetAction: args.targetAction }
 	});
 }
 

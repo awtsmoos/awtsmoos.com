@@ -20,6 +20,7 @@ watchdog_installer="$script_directory/install-health-watchdog.sh"
 virtual_ssh_probe="$script_directory/virtual-ssh-listener-probe.sh"
 compact_prewarmer="$script_directory/compact-prewarm.mjs"
 virtual_ssh_port="${AWTSMOOS_VIRTUAL_SSH_PORT:-2223}"
+mime_types="${AWTSMOOS_NGINX_MIME_TYPES:-/etc/nginx/mime.types}"
 backup="${TMPDIR:-/tmp}/awtsmoos-service-override.$$.bak"
 armed=0
 committed=0
@@ -80,10 +81,10 @@ printf '\nEnvironment=AWTSMOOS_RELEASE_SHA=%s\n' "$expected" >> "$override"
 bash "$watchdog_installer"
 
 # Browsers reject ES module graphs when nginx labels .mjs as octet-stream.
-if ! grep -Eq 'application/javascript[[:space:]]+[^;]*mjs' /etc/nginx/mime.types; then
-	cp /etc/nginx/mime.types /etc/nginx/mime.types.awtsmoos-before-mjs
-	sed -i -E 's#(application/javascript[[:space:]]+[^;]*js)([[:space:]]*;)#\1 mjs\2#' /etc/nginx/mime.types
-	grep -Eq 'application/javascript[[:space:]]+[^;]*mjs' /etc/nginx/mime.types || fail nginx_mjs_mime_install_failed
+if ! grep -Eq 'application/javascript[[:space:]]+[^;]*mjs' "$mime_types"; then
+	cp "$mime_types" "$mime_types.awtsmoos-before-mjs"
+	sed -i -E 's#(application/javascript[[:space:]]+[^;]*js)([[:space:]]*;)#\1 mjs\2#' "$mime_types"
+	grep -Eq 'application/javascript[[:space:]]+[^;]*mjs' "$mime_types" || fail nginx_mjs_mime_install_failed
 	nginx -t
 	systemctl reload nginx
 fi

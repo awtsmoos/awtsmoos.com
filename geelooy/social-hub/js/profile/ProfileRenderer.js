@@ -23,6 +23,8 @@ export class ProfileRenderer {
 	}
 	render(profile, livingCard = null) {
 		if (!profile) return;
+		const evidence = this.root.querySelector('.profileEvidenceGrid');
+		if (evidence) evidence.hidden = false;
 		this.element('profileAliasId').value = profile.alias?.id
 			|| profile.alias?.aliasId
 			|| this.state.snapshot().profileAliasId;

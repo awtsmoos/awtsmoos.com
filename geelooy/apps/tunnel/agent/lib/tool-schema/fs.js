@@ -17,6 +17,10 @@ const { chatgptSchema } = require("./chatgpt.js");
 const { aiAgentSchema } = require("./agent.js");
 
 function fsSchema(name) {
+	if(name==="tunnelConnectionDiagnostics") return P.objectSchema({limit:{type:"integer",minimum:1,maximum:256}});
+	if(name.startsWith("instructionResource")) return P.objectSchema({resourcePath:P.string("Exact path from instructionResourceCatalog."),offset:{type:"integer",minimum:0},limit:{type:"integer",minimum:1,maximum:64},maxChars:{type:"integer",minimum:256,maximum:16384},expectedHash:P.string("Source SHA256 from catalog."),query:P.string("Filter by path.")});
+	if (name.startsWith("tunnelWork")) return require("../../tools/fs/workSession/schema.js").schema(name);
+	if (name === "actionSchemaTrace") return P.objectSchema({ targetAction: P.string("One exact action name."), targetActions: { type: "array", items: P.string("Exact action name."), minItems: 1, maxItems: 16 }, kind: P.string("Optional tool family.") });
 	if (/^chatgpt/i.test(name)) return chatgptSchema(name);
 	if (/^(agent|aiAgent)/i.test(name)) return aiAgentSchema(name);
 	if (isBatchAction(name)) return batchSchema(name);
@@ -52,7 +56,7 @@ function fakeSshSchema(name) {
 }
 
 function writeSchema() {
-	return P.objectSchema({ path: P.string("Repo-relative file path."), p: P.string("Path alias."), content: P.string("Complete full file content."), expectedHash: P.string("Optional hash guard."), timeoutMs: P.integer("Timeout in milliseconds.") }, ["content"]);
+	return P.objectSchema({ path: P.string("Repo-relative file path."), p: P.string("Path alias."), content: P.string("Complete full file content."), performanceDiagnostics: P.bool("Include bounded prepare, execute and provenance timings; durability stays enabled."), expectedHash: P.string("Optional hash guard."), timeoutMs: P.integer("Timeout in milliseconds.") }, ["content"]);
 }
 
 function bulkWriteSchema() {

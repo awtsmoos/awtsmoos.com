@@ -5,11 +5,19 @@
  * @class ProfilePanel
  * @description
  * The Awtsmoos keeps one selected public alias synchronized across browser history, profile evidence,
- * relationship enrichment, and guarded follow state while Awtsmoos.com rejects stale asynchronous arrivals.
+ * relationship enrichment, guarded follow state, and calm missing-profile presentation.
  */
 import { profileRouteUrl } from '../navigation/RouteModel.js';
 import { ProfileFollowController } from './ProfileFollowController.js';
 import { ProfileRenderer } from './ProfileRenderer.js';
+
+const PROFILE_EVIDENCE_IDS = Object.freeze([
+	'profilePosts',
+	'profileComments',
+	'profileRoles',
+	'profileActivity',
+	'profileReferences'
+]);
 
 export class ProfilePanel {
 	constructor({ root, api, state, status, navigation, onPromote }) {
@@ -57,8 +65,36 @@ export class ProfilePanel {
 			if (announce) this.status.show('Profile constellation loaded.', 'success');
 			return profile;
 		} catch (error) {
-			if (requestId === this.requestSequence) this.status.show(error.message, 'error');
+			if (requestId !== this.requestSequence) return null;
+			if (error?.code === 'PROFILE_NOT_FOUND') {
+				this.renderMissingProfile(aliasId);
+				if (announce) this.status.show('No public profile exists for that alias yet.', 'info');
+				return null;
+			}
+			this.status.show(error?.message || 'Profile could not be loaded.', 'error');
 			return null;
+		}
+	}
+
+	renderMissingProfile(aliasId) {
+		this.state.mutate('profile:missing', value => {
+			value.profileAliasId = aliasId;
+			value.profile = null;
+		});
+		this.element('profileAliasId').value = aliasId;
+		this.element('profileDisplayName').textContent = `@${aliasId}`;
+		this.element('profileDescription').textContent =
+			'No public profile has been published for this alias yet. Choose another alias or publish profile details when ready.';
+		this.element('profileStats').replaceChildren();
+		const evidence = this.root.querySelector('.profileEvidenceGrid');
+		if (evidence) evidence.hidden = true;
+		for (const id of PROFILE_EVIDENCE_IDS) {
+			const region = this.element(id);
+			if (!region) continue;
+			const empty = this.root.createElement('p');
+			empty.className = 'hubCompactState profileEmptyState';
+			empty.textContent = 'Nothing public here yet.';
+			region.replaceChildren(empty);
 		}
 	}
 

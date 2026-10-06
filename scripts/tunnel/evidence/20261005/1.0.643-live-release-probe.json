@@ -1,0 +1,40 @@
+{
+  "ok": true,
+  "ready": {
+    "ok": true,
+    "local": true,
+    "relayReady": true,
+    "reason": "",
+    "state": "registered",
+    "runtimeVersion": "1.0.643",
+    "agentVersion": "split-agent-2.0.0",
+    "receiptAgeMs": 12970,
+    "parentAlive": true,
+    "connectionAlive": true,
+    "commandExecution": "not_probed",
+    "evidence": "registered_connection_receipt"
+  },
+  "schemaCount": 4,
+  "writeTimingMs": {
+    "prepare": 282,
+    "execute": 39,
+    "provenance": 488,
+    "total": 809
+  },
+  "concurrentCommands": 12,
+  "commandElapsedMs": [
+    436,
+    333,
+    330,
+    331,
+    332,
+    329,
+    328,
+    330,
+    330,
+    330,
+    332,
+    332
+  ],
+  "concurrentInstructionLookups": 8
+}
