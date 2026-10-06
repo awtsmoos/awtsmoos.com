@@ -7,8 +7,8 @@ const Spill = require("./response-spill.js");
 const Values = require("./response-values.js");
 const TransportSeal = require("./runtime/response-transport-seal.js");
 
-const DEFAULT_INLINE_BYTES = 384 * 1024;
-const MAXIMUM_INLINE_BYTES = 1024 * 1024;
+const DEFAULT_INLINE_BYTES = 10 * 1024 * 1024; // 10MB: owner SLA, no spill for one image
+const MAXIMUM_INLINE_BYTES = 16 * 1024 * 1024; // 16MB hard ceiling
 
 /**
  * @file Keeps large response truth retrievable without severing relay settlement identity.

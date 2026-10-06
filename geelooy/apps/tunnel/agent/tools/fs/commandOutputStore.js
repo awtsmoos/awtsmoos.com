@@ -4,8 +4,8 @@ const path = require("path");
 const crypto = require("crypto");
 const Device = require("./deviceStateRoot.js");
 const DIR = "command-output";
-const DEFAULT_PAGE_CHARS = 12000;
-const MAX_PAGE_CHARS = 250000;
+const DEFAULT_PAGE_CHARS = 1048576; // 1MB: owner SLA
+const MAX_PAGE_CHARS = 10485760; // 10MB: owner SLA minimum chunk
 function storeDir(config = {}) { return path.join(Device.awtsmoosRoot(config), DIR); }
 function storeFile(config = {}, outputId = "") { return path.join(storeDir(config), `${cleanId(outputId)}.json`); }
 async function saveCommandOutput(config = {}, payload = {}, result = {}) {
