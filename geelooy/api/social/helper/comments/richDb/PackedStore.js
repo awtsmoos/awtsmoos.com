@@ -22,8 +22,12 @@ function legacyMigrationAllowed() {
 	return process.env.AWTSMOOS_ALLOW_LEGACY_RICH_MIGRATION === 'true';
 }
 
-function refuseOversizedImplicitStore(file) {
-	if (legacyMigrationAllowed() || !fs.existsSync(file)) return;
+function refuseOversizedImplicitStore(file, opts = {}) {
+	// Explicit per-operation approval (e.g. the publishAll bulk path passes
+	// {allowOversizedStore:true} with the operator's explicit body flag).
+	// This is stricter than the process-wide env bypass: the approval is
+	// scoped to the single open() call that carries it.
+	if (opts.allowOversizedStore || legacyMigrationAllowed() || !fs.existsSync(file)) return;
 	const bytes = fs.statSync(file).size;
 	if (bytes <= MAX_IMPLICIT_STORE_BYTES) return;
 	const error = new Error('B"H oversized rich-comment store requires explicit migration/readiness approval: ' + file);
@@ -56,10 +60,10 @@ function fingerprint(file) {
 	return `${status.dev}:${status.ino}`;
 }
 
-function open($i) {
+function open($i, opts = {}) {
 	const file = dbFile($i);
 	fs.mkdirSync(path.dirname(file), { recursive: true });
-	refuseOversizedImplicitStore(file);
+	refuseOversizedImplicitStore(file, opts);
 	const mark = fingerprint(file);
 	const current = cache.get(file);
 	if (current?.mark === mark) return current.db;

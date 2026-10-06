@@ -488,3 +488,13 @@ class PackedBulkImportRoutes {
 }
 
 module.exports = { PackedBulkImportRoutes };
+
+// ---------------------------------------------------------------------------
+// Additive extension point for the one-call bulk publisher (Yaakov directive).
+// Shares the job registry / auth plumbing with the BulkPublishAllRoutes
+// subclass in ./bulkPublishAllRoutes.js (loaded below). No behavior change:
+// existing kinds flow exactly as before when publishAll is not used.
+// ---------------------------------------------------------------------------
+const __bulkPlumbing = { newJobId, setJob, runningJob, appendJobLog, yieldTick, perPostPath };
+module.exports = { PackedBulkImportRoutes, __bulkPlumbing };
+try { require('./bulkPublishAllRoutes.js'); } catch (_) {}
