@@ -1,5 +1,5 @@
 B"H
-1.0.646
+1.0.647
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1161,6 +1161,7 @@ lib/deviceIdentity/secureStore.js
 lib/deviceIdentity/testStore.js
 lib/diagnostics/bundle.js
 lib/diagnostics/doctor-registry.js
+lib/diagnostics/doctor-runtime-evidence.js
 lib/diagnostics/doctor.js
 lib/diagnostics/forensics.js
 lib/diagnostics/latency-histograms.js
@@ -1184,6 +1185,7 @@ lib/fakeSsh/shell.js
 lib/fakeSsh/wireBackend.js
 lib/fakeSsh/wireServer.js
 lib/history/actionStreamRetention.js
+lib/history/actionStreamRoots.js
 lib/history/largeResponseRetention.js
 lib/history/mailboxHistoryRetention.js
 lib/history/maintenanceStores.js
@@ -1343,6 +1345,9 @@ lib/response-values.js
 lib/responseContracts/index.js
 lib/responseContracts/registry.js
 lib/runtime/action-identity.js
+lib/runtime/action-stream-query.js
+lib/runtime/action-stream-record.js
+lib/runtime/action-stream-writer.js
 lib/runtime/action-stream.js
 lib/runtime/actionExecutionTestimony.js
 lib/runtime/agent-root-registry.js

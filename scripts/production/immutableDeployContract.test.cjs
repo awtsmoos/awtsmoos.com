@@ -7,8 +7,8 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 /**
- * @file Guards the one canonical production deployment authority.
- * @description The Awtsmoos keeps one leased gate through which Awtsmoos.com advances; no hidden caller may summon a second restart wave.
+ * @file Guards the one canonical production deployment authority and living-release completion proof.
+ * @description The Awtsmoos keeps one leased gate through which Awtsmoos.com advances; checkout and living service must reveal the same release before rest is declared.
  */
 const root = path.resolve(__dirname, "../..");
 const read = relative => fs.readFileSync(path.join(root, relative), "utf8");
@@ -17,6 +17,7 @@ const activate = read("scripts/production/canonical-server-activate.sh");
 const remote = read("scripts/production/remote-deploy-entry.sh");
 const worker = read("scripts/production/remote-deploy-worker.sh");
 const coordinator = read("scripts/production/deploymentCoordinator.mjs");
+const releaseMatch = read("scripts/production/service-release-match.sh");
 const deployBuilder = read("scripts/lib/bhReleaseDeploy.mjs");
 
 assert.match(systemd, /git\/awtsmoos\.com/);
@@ -28,8 +29,12 @@ assert.match(remote, /remote-deploy-worker\.sh/);
 assert.doesNotMatch(remote, /canonical-server-activate\.sh/);
 assert.match(worker, /merge --ff-only/);
 assert.match(worker, /canonical-server-activate\.sh/);
+assert.match(worker, /service-release-match\.sh/);
 assert.match(worker, /CANONICAL_DEPLOY_NOOP/);
+assert.match(worker, /CANONICAL_DEPLOY_REACTIVATE/);
 assert.match(worker, /requested_sha_not_ancestor_of_origin_main/);
+assert.ok(worker.indexOf('bash "$release_match"') < worker.indexOf("CANONICAL_DEPLOY_NOOP"));
+assert.match(releaseMatch, /AWTSMOOS_RELEASE_SHA=/);
 assert.match(coordinator, /activation\.lock/);
 assert.match(coordinator, /AWTSMOOS_DEPLOY_COALESCE_MS/);
 assert.match(deployBuilder, /remote-deploy-entry\.sh/);
