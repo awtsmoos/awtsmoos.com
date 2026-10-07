@@ -52,8 +52,8 @@ h1 {
 }
 
 button {
-    background-color: #4CAF50;
-    border: 2px solid #45a049;
+    background-color: #2E7D32; /* GAMES-B: darkened from #4CAF50 for 4.5:1 contrast with white */
+    border: 2px solid #1B5E20;
     color: white;
     padding: 15px 32px;
     text-align: center;
@@ -70,6 +70,11 @@ button:hover {
 
 button:active {
     transform: scale(0.98);
+}
+/* GAMES-B: connect4 focus-visible. */
+button:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
 }
 
 #game-container {
