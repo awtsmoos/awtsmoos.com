@@ -1,0 +1,55 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @file translations.css
+ * @description Scoped styles for the public translation collection pages
+ * (one shared server template renders every
+ * /heichelos/<heichel>/series/<series>/post/<post>/translations URL).
+ * The shared universal-ui foundation sets no body background, so under a dark
+ * color-scheme its dark text variables render invisible on the default white
+ * canvas. These scoped rules give the template an explicit color-scheme-safe
+ * canvas without touching the shared foundation. They also supply the
+ * back-link :hover/:active states (universal-ui raw prose provides link color
+ * and :focus-visible only); the transition is guarded by
+ * prefers-reduced-motion.
+ */
+
+[data-awtsmoos-translation-page] {
+	color-scheme: light dark;
+	background-color: #ffffff;
+	color: #1f2328;
+}
+
+@media (prefers-color-scheme: dark) {
+	[data-awtsmoos-translation-page] {
+		background-color: #181a1d;
+		color: #f1f2f3;
+	}
+	[data-awtsmoos-translation-page] a:hover {
+		background-color: rgba(133, 175, 189, .14);
+	}
+	[data-awtsmoos-translation-page] a:active {
+		background-color: rgba(133, 175, 189, .24);
+	}
+}
+
+[data-awtsmoos-translation-page] a {
+	border-radius: .25rem;
+	padding: .1em .3em;
+}
+
+[data-awtsmoos-translation-page] a:hover {
+	background-color: rgba(49, 95, 114, .08);
+	text-decoration-thickness: .14em;
+}
+
+[data-awtsmoos-translation-page] a:active {
+	background-color: rgba(49, 95, 114, .16);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	[data-awtsmoos-translation-page] a {
+		transition: background-color 140ms ease-out, text-decoration-thickness 140ms ease-out;
+	}
+}

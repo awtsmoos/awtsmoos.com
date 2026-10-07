@@ -20,6 +20,14 @@ const {
 	structuredDataTag
 } = require('../publicDocumentSeo.js');
 
+/**
+ * Scoped stylesheet for the translation collection template (see
+ * geelooy/style/translations.css). Linked rather than inlined so the CSS
+ * health gate treats its :hover/:active rules like the rest of the site's
+ * linked stylesheets. The body hook below scopes every rule to this template.
+ */
+const TRANSLATION_PAGE_CSS = '<link rel="stylesheet" href="/style/translations.css?v=translations-001" data-awtsmoos-translation-page-style>';
+
 /** Returns a noindex 404 when a public translation collection cannot be proven. */
 function missingPage() {
 	return {
@@ -87,7 +95,8 @@ function createTranslationPage($i) {
 			'<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">',
 			`<title>${escapeHtml(title)}</title><meta name="description" content="${escapeHtml(description)}"><meta name="robots" content="${RICH_ROBOTS}"><link rel="canonical" href="${escapeHtml(canonical)}">`,
 			socialTags({ title, description, canonical }), schema,
-			`</head><body><main><p><a href="${escapeHtml(parent)}">Original teaching</a></p><h1>${escapeHtml(title.replace(/ \| Awtsmoos$/, ''))}</h1>`,
+			TRANSLATION_PAGE_CSS,
+			`</head><body data-awtsmoos-translation-page><main><p><a href="${escapeHtml(parent)}">Original teaching</a></p><h1>${escapeHtml(title.replace(/ \| Awtsmoos$/, ''))}</h1>`,
 			renderTranslationRows(rows), '</main></body></html>'
 		].join('');
 		return { mimeType: 'text/html; charset=utf-8', response };
