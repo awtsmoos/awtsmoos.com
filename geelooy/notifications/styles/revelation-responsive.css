@@ -29,6 +29,10 @@
 	.signal-category-tabs {
 		margin-inline: -.15rem;
 		padding-inline: .15rem;
+		/* Wrap instead of horizontal scroll on narrow screens so every
+		   category stays visible without swipe discovery. */
+		flex-wrap: wrap;
+		overflow-x: visible;
 	}
 
 	.signal-field {
