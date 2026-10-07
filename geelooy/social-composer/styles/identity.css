@@ -4,7 +4,7 @@
 
 .identityPanel {
 	position: relative;
-	overflow: hidden;
+	overflow: clip;
 }
 
 .identityPanel::after {
