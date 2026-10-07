@@ -33,6 +33,12 @@ function testBrowserReplacement() {
 	const key = previous.registrationKey;
 	assert.equal(server.tunnels.get(key), previous);
 
+	const duplicate = Fixture.socket("browser-duplicate", accountId);
+	assert.equal(handleTunnelRegister(server, duplicate, packet), false);
+	assert.equal(previous.closed, undefined);
+	assert.equal(server.tunnels.get(key), previous);
+	previous.isAlive = false;
+	previous.missedHeartbeats = 20;
 	const browser = Fixture.socket("browser-restart", accountId);
 	assert.equal(handleTunnelRegister(server, browser, packet), true);
 	assert.equal(previous.closed.code, 4001);
@@ -72,6 +78,15 @@ function testNativeFencing() {
 		"lower_authority_tunnel_owner_active"
 	);
 
+	const duplicate = Fixture.socket("modern-duplicate");
+	assert.equal(
+		handleTunnelRegister(server, duplicate, Context.nativePacket(record)),
+		false
+	);
+	assert.equal(modern.closed, undefined);
+	assert.equal(server.tunnels.get(key), modern);
+	modern.isAlive = false;
+	modern.missedHeartbeats = 20;
 	const restart = Fixture.socket("modern-restart");
 	assert.equal(
 		handleTunnelRegister(server, restart, Context.nativePacket(record)),

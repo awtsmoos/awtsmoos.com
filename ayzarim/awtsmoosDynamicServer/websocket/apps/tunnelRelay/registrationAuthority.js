@@ -69,12 +69,25 @@ function decide(previous, contender = {}, now = Date.now()) {
 	};
 	if (!previous) return decision("accept", "unowned", details);
 	if (previous === contender.client) return decision("accept", "same_socket", details);
-	if (incumbentHealthy && compare(incumbent, incoming) > 0) {
-		return decision("fence", "healthy_higher_authority_owner", details);
+	const authorityDelta = compare(incoming, incumbent);
+	const explicitRecoveryTakeover = recoveryTakeover(contender);
+	const recoveryOwnerReclaim = recoveryTakeover(previous || {}) && incoming.client >= incumbent.client;
+	if (incumbentHealthy && authorityDelta <= 0 && !explicitRecoveryTakeover && !recoveryOwnerReclaim) {
+		return decision(
+			"fence",
+			authorityDelta < 0
+				? "healthy_higher_authority_owner"
+				: "healthy_equal_authority_owner",
+			details
+		);
 	}
 	return decision(
 		"replace",
-		incumbentHealthy ? "equal_or_higher_authority_contender" : "incumbent_stale",
+		incumbentHealthy
+			? (explicitRecoveryTakeover
+				? "explicit_recovery_takeover"
+				: (recoveryOwnerReclaim ? "recovery_owner_reclaim" : "higher_authority_contender"))
+			: "incumbent_stale",
 		details
 	);
 }

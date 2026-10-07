@@ -28,25 +28,28 @@ try {
 		"replacement-stress-account",
 		record.binding.tunnelId
 	);
-	let previous = null;
+	const incumbent = Fixture.socket("incumbent");
+	assert.equal(handleTunnelRegister(server, incumbent, Context.nativePacket(record)), true);
 	for (let index = 0; index < count; index += 1) {
-		const next = Fixture.socket(`restart-${index}`);
-		assert.equal(
-			handleTunnelRegister(server, next, Context.nativePacket(record)),
-			true
-		);
-		if (previous) {
-			assert.equal(previous.closed.code, 4001);
-		}
-		assert.equal(server.tunnels.get(key), next);
-		previous = next;
+		const duplicate = Fixture.socket(`duplicate-${index}`);
+		assert.equal(handleTunnelRegister(server, duplicate, Context.nativePacket(record)), false);
+		assert.equal(duplicate.closed.code, 4003);
+		assert.equal(server.tunnels.get(key), incumbent);
+		assert.equal(incumbent.closed, undefined);
 	}
+	incumbent.isAlive = false;
+	incumbent.missedHeartbeats = 20;
+	const successor = Fixture.socket("stale-owner-successor");
+	assert.equal(handleTunnelRegister(server, successor, Context.nativePacket(record)), true);
+	assert.equal(incumbent.closed.code, 4001);
+	assert.equal(server.tunnels.get(key), successor);
 	assert.equal(server.tunnels.size, 1);
 	assert.equal(server.tunnelRegistrations.size, 1);
 	console.log(JSON.stringify({
 		ok: true,
 		suite: "registration-replacement-stress",
-		replacements: count,
+		duplicatesFenced: count,
+		staleTakeovers: 1,
 		liveRegistrations: server.tunnels.size
 	}));
 } finally {

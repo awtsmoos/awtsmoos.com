@@ -38,10 +38,12 @@ function main() {
 		assert.equal(acknowledgement.incumbentPresent, true);
 		assert.equal(acknowledgement.tunnelId, record.binding.tunnelId);
 
-		const replacement = Fixture.socket("ordinary-replacement");
-		assert.equal(handleTunnelRegister(server, replacement, Context.nativePacket(record)), true);
-		assert.equal(incumbent.closed.code, 4001);
-		assert.equal(server.tunnels.get(key), replacement);
+		const duplicate = Fixture.socket("ordinary-duplicate");
+		assert.equal(handleTunnelRegister(server, duplicate, Context.nativePacket(record)), false);
+		assert.equal(incumbent.closed, undefined);
+		assert.equal(server.tunnels.get(key), incumbent);
+		assert.equal(duplicate.closed.code, 4003);
+		assert.equal(Fixture.lastMessage(duplicate).reason, "healthy_equal_authority_owner");
 		console.log("B_H candidate registration probe preserves incumbent ownership");
 	} finally {
 		context.cleanup();
