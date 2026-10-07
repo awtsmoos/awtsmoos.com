@@ -90,12 +90,23 @@ async function sendNativeTunnel(
 	timeoutMs,
 	displayName = routeReference
 ) {
+	const startedAt = Date.now();
 	const result = await $i.ws.sendTunnelRequest(
 		accountId,
 		routeReference,
 		payload,
 		timeoutMs
 	);
+	const relayDurationMs = Date.now() - startedAt;
+	if (relayDurationMs >= 500 || process.env.AWTSMOOS_TUNNEL_TIMING === "1") {
+		console.log("B\"H TUNNEL_RELAY_TIMING", JSON.stringify({
+			action: String(payload?.action || ""),
+			relayDurationMs,
+			pending: result?.pending === true,
+			done: result?.done === true,
+			exitCode: Number.isInteger(result?.exitCode) ? result.exitCode : null
+		}));
+	}
 	return verifyTunnelResponse(result, payload, displayName);
 }
 
