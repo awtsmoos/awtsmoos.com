@@ -4,6 +4,7 @@
 
 const assert = require("node:assert/strict");
 const Watchdog = require("./parent-watchdog.js");
+assert.equal(Watchdog.DEFAULT_PARENT_STALE_MS, 120000, "temporary parent stalls receive a longer recovery window");
 
 /**
  * @file Proves consumer repair requires a durable exact-identity claim before signaling.

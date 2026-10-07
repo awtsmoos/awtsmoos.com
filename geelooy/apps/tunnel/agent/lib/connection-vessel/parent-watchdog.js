@@ -12,7 +12,7 @@ const Snapshot = require("./parent-watchdog-snapshot.js");
 const Values = require("./parent-watchdog-values.js");
 const Monotonic = require("../runtime/monotonic.js");
 
-const DEFAULT_PARENT_STALE_MS = 30000;
+const DEFAULT_PARENT_STALE_MS = 120000;
 const DEFAULT_BACKLOG_STALE_MS = 10000;
 const DEFAULT_CONTROL_STALL_MS = ConsumerHealth.DEFAULT_CONSUMER_STALE_MS;
 const DEFAULT_KILL_GRACE_MS = 5000;
