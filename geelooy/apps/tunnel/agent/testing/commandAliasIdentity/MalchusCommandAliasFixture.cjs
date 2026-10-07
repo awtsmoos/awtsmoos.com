@@ -89,7 +89,7 @@ class MalchusCommandAliasFixture {
 	 * @returns {object} Built command action registry.
 	 */
 	actions(payload) {
-		return buildActions(this.config, payload, null, "test");
+		return buildActions(this.config, {logicalAgentId:"awtsmoos-alias-fixture:"+this.config.root,...payload}, null, "test");
 	}
 
 	/**
