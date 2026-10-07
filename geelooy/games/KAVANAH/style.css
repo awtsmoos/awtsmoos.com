@@ -83,6 +83,27 @@ body {
 	min-height: 48px;
 	touch-action: manipulation;
 	width: min(100%, 320px);
+	/* GAMES-A: theme the Back button (was browser-default white). */
+	background: rgba(255, 225, 138, 0.12);
+	border: 1px solid #ffe18a;
+	border-radius: 12px;
+	color: #ffe18a;
+	cursor: pointer;
+	font-weight: 700;
+	transition: background 0.15s, transform 0.1s;
+}
+
+#back-button:hover:not(:disabled) {
+	background: rgba(255, 225, 138, 0.22);
+}
+
+#back-button:focus-visible {
+	outline: 2px solid #ffe18a;
+	outline-offset: 2px;
+}
+
+#back-button:active:not(:disabled) {
+	transform: scale(0.97);
 }
 
 .hidden {
