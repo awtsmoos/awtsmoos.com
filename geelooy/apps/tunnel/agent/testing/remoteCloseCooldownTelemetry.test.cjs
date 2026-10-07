@@ -53,7 +53,7 @@ test("registered bare 1000 is classified before registration is cleared", () => 
 	assert.equal(terminator.terminate("remote_close_1000", "closed", false), true);
 	assert.equal(state.registrationConfirmed, false);
 	assert.equal(state.remoteClose1000Streak, 1);
-	assert.equal(receipts[0].details.reconnectMinimumDelayMs, 2000);
+	assert.equal(receipts[0].details.reconnectMinimumDelayMs, 250);
 	assert.equal(receipts[0].details.lastFailure.code, "websocket_remote_close_1000");
 	assert.equal(scheduled, "remote_close_1000");
 });

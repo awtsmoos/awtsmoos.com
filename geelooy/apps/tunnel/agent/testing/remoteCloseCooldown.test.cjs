@@ -14,6 +14,7 @@ const Scheduler = require("../lib/runtime/main-reconnect-scheduler.js");
  * registered lives cool progressively, while stability or another failure dissolves it.
  */
 const bareClose = {
+	category: "socket",
 	code: "websocket_remote_close_1000",
 	message: "remote_close_1000"
 };
@@ -22,19 +23,19 @@ test("bare 1000 streak grows, caps, expires, and resets after stability", () => 
 	const state = registeredState(9000);
 	let result = Cooldown.observeTerminal(state, bareClose, { now: 10000 });
 	assert.equal(result.remoteClose1000Streak, 1);
-	assert.equal(result.minimumDelayMs, 2000);
+	assert.equal(result.minimumDelayMs, 250);
 
 	state.registrationConfirmed = true;
 	state.lastRegisteredAt = 11000;
 	result = Cooldown.observeTerminal(state, bareClose, { now: 12000 });
 	assert.equal(result.remoteClose1000Streak, 2);
-	assert.equal(result.minimumDelayMs, 4000);
+	assert.equal(result.minimumDelayMs, 500);
 
 	state.registrationConfirmed = true;
 	state.lastRegisteredAt = 13000;
 	state.remoteClose1000Streak = 8;
 	result = Cooldown.observeTerminal(state, bareClose, { now: 14000 });
-	assert.equal(result.minimumDelayMs, 30000);
+	assert.equal(result.minimumDelayMs, 750);
 
 	state.registrationConfirmed = true;
 	state.lastRegisteredAt = 200000;
@@ -86,8 +87,8 @@ test("reconnect scheduler honors bare-1000 minimum without changing generation f
 		Receipt: { write: (type, details) => receipts.push({ type, details }) }
 	}, () => {});
 	const timer = scheduler.schedule("remote_close_1000");
-	assert.equal(timer.delay, 16000);
-	assert.equal(receipts[0].details.reconnectMinimumDelayMs, 16000);
+	assert.equal(timer.delay, 1000);
+	assert.equal(receipts[0].details.reconnectMinimumDelayMs, 750);
 	assert.equal(receipts[0].details.remoteClose1000Streak, 4);
 });
 
