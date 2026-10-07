@@ -18,6 +18,7 @@ const STYLE_SHEETS = Object.freeze([
 	['awtsmoos-social-ux-foundation', `../../../../shared/social/styles/ux-foundation.css?v=${RELEASE}`],
 	['awtsmoos-social-disclosure', `../../../../shared/social/styles/progressive-disclosure.css?v=${RELEASE}`],
 	['awtsmoos-social-overflow', `../../../../shared/social/styles/action-overflow.css?v=${RELEASE}`],
+	['awtsmoos-social-overflow-mobile', `../../../../shared/social/styles/action-overflow-mobile.css?v=${RELEASE}`],
 	['awtsmoos-social-ambient-style', `../../../../shared/social/styles/ambient.css?v=${RELEASE}`]
 ]);
 
