@@ -11,11 +11,11 @@ function schema(name){
   remainingWork:strings,completed:strings,failures:strings,reportIds:strings,nextAction:P.string("Next safe bounded action."),
   status:{type:"string",enum:["active","blocked","complete"]},instructionHash:P.string("Hash of instruction bodies read."),
   reportId:P.string("Saved real browser report ID."),reviewNotes:P.string("Actual screenshot observations."),
-  reviewedScreenshotHashes:strings};
- const required=name==="tunnelWorkHealth"?[]:name==="tunnelWorkBegin"?["task"]:["workId"];
+  reviewVerdict:{type:"string",enum:["passed","failed","blocked"]},sampleIndex:{type:"integer",minimum:0,maximum:3},offsetBytes:{type:"integer",minimum:0},maxBytes:{type:"integer",minimum:1,maximum:262144},expectedHash:P.string("Exact saved screenshot SHA-256."),reviewedScreenshotHashes:strings};
+ const required=name==="tunnelWorkScreenshotGet"?["reportId"]:name==="tunnelWorkHealth"?[]:name==="tunnelWorkBegin"?["task"]:["workId"];
  if(["tunnelWorkCheckpoint","tunnelWorkRefresh","tunnelWorkReview","tunnelWorkFailure"].includes(name))required.push("revision");
  if(name==="tunnelWorkFailure")required.push("failureReason");
- if(name==="tunnelWorkReview")required.push("reportId","reviewNotes","reviewedScreenshotHashes");
+ if(name==="tunnelWorkReview")required.push("reportId","reviewNotes","reviewedScreenshotHashes","reviewVerdict");
  return P.objectSchema(fields,required);
 }
 module.exports={schema};

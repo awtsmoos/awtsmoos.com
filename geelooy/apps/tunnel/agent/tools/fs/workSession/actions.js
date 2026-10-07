@@ -46,6 +46,7 @@ function buildWorkSessionActions({config,payload={},ws}){
    const relay=require("../../../lib/local-api-readiness.js").current(),repository=await Repo.snapshot(config.root);
    return {ok:true,checkedAt:new Date().toISOString(),repository,checks:{process:{state:relay.parentAlive?"passed":"failed"},registeredRelay:{...relay,state:relay.relayReady?"passed":"failed"},commandExecution:{state:"unverified"},fileIntegrity:{state:"unverified"},authenticatedClient:{state:"unverified"},renderedFrontend:{state:"unverified"}},guidance:"Run owned command/file probes and authenticated-client and real frontend checks separately; process liveness is not execution proof."};
   },
+  async tunnelWorkScreenshotGet(){return require("./screenshot.js").getScreenshot(config,payload);},
   async tunnelWorkGet(){return {ok:true,session:await Store.get(config,id)};},
   async tunnelWorkCheckpoint(){
    writable(config);
@@ -72,10 +73,11 @@ function buildWorkSessionActions({config,payload={},ws}){
    const hashes=strings(payload.reviewedScreenshotHashes||[],4);
    const expected=report.samples.map(s=>s.screenshotSha256);
    if(!expected.length||hashes.length!==expected.length||hashes.some((h,i)=>h!==expected[i]))throw Error("screenshot_review_hash_mismatch");
+   if(!["passed","failed","blocked"].includes(payload.reviewVerdict))throw Error("screenshot_review_verdict_required");
    const notes=String(payload.reviewNotes||"").trim();if(notes.length<20||notes.length>8000)throw Error("screenshot_review_notes_required");
    const session=await Store.update(config,id,payload.revision,s=>{
     if(report.commit!==s.commit||!s.reportIds.includes(report.id))throw Error("review_report_not_bound");
-    s.reviews||={};s.reviews[report.id]={hashes,notes,source:"caller_visual_review_acknowledgement",reviewedAt:new Date().toISOString()};return s;
+    s.reviews||={};s.reviews[report.id]={hashes,notes,verdict:payload.reviewVerdict,source:"caller_visual_review_acknowledgement",reviewedAt:new Date().toISOString()};return s;
    });return {ok:true,session};
   },
   async tunnelWorkResume(){

@@ -22,7 +22,7 @@ const server=http.createServer((req,res)=>{
  const url="http://127.0.0.1:"+server.address().port,config={root,deviceStateRoot:state};
  try{
   const payload={url:url+"/good",widths:[390,768,1440],steps:[{type:"click",selector:"#open"},{type:"assertVisible",selector:"#result"}],settleMs:500,styleAssertions:[{selector:"button",property:"min-height",equals:"48px"}]};
-  const good=await verify(payload,config);assert.equal(good.ok,true,JSON.stringify(good));assert.equal(good.interactionVerified,true);
+  const good=await verify(payload,config);assert.equal(good.ok,true,JSON.stringify(good));assert.equal(good.interactionVerified,true);assert.ok(good.samples.every(s=>s.interactionVerified&&s.screenshotState==="after_requested_interactions"&&s.screenshotBytes>0));
   const bad=await verify({...payload,url:url+"/broken",widths:[390]},config);fs.writeFileSync("/tmp/awtsmoos-bad-css-result.json",JSON.stringify(bad,null,2));assert.equal(bad.ok,false);assert.ok(bad.samples.some(s=>s.styles.some(x=>!x.loaded)||s.errors.length||s.networkAndConsoleErrors.length));
   const stale=await verify({...payload,widths:[390],releaseUrl:url+"/stale-release/"},config);assert.equal(stale.ok,false);assert.equal(stale.commitVerified,false);
   const hashes=await verify({...payload,widths:[390],releaseUrl:url+"/stale-release/",assetContracts:[{url:url+"/style.css",path:"style.css"}]},config);assert.equal(hashes.ok,true,JSON.stringify(hashes));assert.equal(hashes.assetChecks[0].ok,true);

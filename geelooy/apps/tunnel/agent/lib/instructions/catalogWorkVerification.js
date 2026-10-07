@@ -4,7 +4,7 @@
 const {instructionPack}=require("./pack.js");
 /** The Awtsmoos keeps continuation, evidence and bounded recovery tied to real work. */
 const workVerificationInstructions=Object.freeze([instructionPack({
- id:"work.durable-verification",version:1,summary:"Use durable work sessions, real browser evidence and commit-bound release gates.",
+ id:"work.durable-verification",version:2,summary:"Use durable work sessions, real browser evidence and commit-bound release gates.",
  tags:["work","continuation","verification","stability","deploy"],
  applies:{taskHints:["continue","frontend","css","fix","deploy","release","stability"]},
  instructions:[
@@ -15,7 +15,8 @@ const workVerificationInstructions=Object.freeze([instructionPack({
   "For frontend use chromeVerifyFrontend with url, widths:[390,768,1440] and explicit interaction steps plus styleAssertions (selector, property, equals) for critical computed CSS values. It saves screenshots and a real Chrome report; node-dom and HTTP status are not rendered proof.",
   "Browser verification checks the running release at releaseUrl (default /api/release/) against the tested commit. For static previews, provide assetContracts mapping served URLs to committed CSS/JS/HTML paths. Old live assets are not evidence of new local source.",
   "Inspect saved screenshots for overlap and readability. Exercise the real affected feature. Automated geometry and asset checks do not prove visual polish or feature semantics.",
-  "Use tunnelWorkReview with reportId, actual screenshot observations in reviewNotes, and reviewedScreenshotHashes after looking at every screenshot. Automated checks alone cannot pass the visual-review gate.",
+  "Use tunnelWorkScreenshotGet with reportId/sampleIndex and bounded offsetBytes/maxBytes pages to transfer saved report images. Decode each base64 page separately; compare totalBytes and sha256, then open the host-local image with an actual image tool. Transfer is not inspection.",
+  "Use tunnelWorkReview with reportId, actual screenshot observations in reviewNotes, reviewedScreenshotHashes and explicit reviewVerdict passed, failed or blocked. Only passed may satisfy the gate; legacy missing verdicts fail closed. These are caller acknowledgements, not machine proof of image inspection.",
   "Attach returned reportId to the work session. Report IDs are loaded from durable storage by tunnelWorkGate; client assertions cannot manufacture browser reports.",
   "Finish work, commit the tested source and refresh instructions; then rerun browser verification against that commit. Dirty or changed commits invalidate release evidence.",
   "tunnelWorkGate requires acknowledged current instructions, no remaining work or next action, and recent real browser evidence at mobile and desktop widths with verified interactions for every frontend URL.",

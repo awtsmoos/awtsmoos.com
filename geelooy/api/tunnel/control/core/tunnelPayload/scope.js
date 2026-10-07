@@ -32,7 +32,7 @@ const WEBSITE_ROOM_ACTIONS = new Set(["websiteAgentMissionForget", "websiteAgent
 
 function requiredScope(action) {
 	const text = String(action || "");
-	if (text.startsWith("tunnelWork")) return ["tunnelWorkHealth","tunnelWorkGet","tunnelWorkResume","tunnelWorkGate","tunnelWorkReleaseReceipt"].includes(text) ? TUNNEL_SCOPE.READ : TUNNEL_SCOPE.WRITE;
+	if (text.startsWith("tunnelWork")) return ["tunnelWorkScreenshotGet","tunnelWorkHealth","tunnelWorkGet","tunnelWorkResume","tunnelWorkGate","tunnelWorkReleaseReceipt"].includes(text) ? TUNNEL_SCOPE.READ : TUNNEL_SCOPE.WRITE;
 	if (text.startsWith("tunnelPlan")) {
 		return PLAN_READ_ACTIONS.has(text) ? TUNNEL_SCOPE.READ : TUNNEL_SCOPE.WRITE;
 	}

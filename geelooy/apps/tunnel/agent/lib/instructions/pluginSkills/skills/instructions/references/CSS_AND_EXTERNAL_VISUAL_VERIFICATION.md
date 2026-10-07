@@ -46,3 +46,10 @@ Run appropriate real tests, review the diff and retain source evidence. Publish 
 
 Checkpoint completed evidence, outstanding failures and next authorized action. Continue useful independent work while waiting for another worker, never overwrite its files, and keep the user informed. These rules reduce errors; they cannot guarantee that no defect ever escapes review.
 
+## Saved report image transport and review verdicts
+
+Discover the live action schema first. When tunnelWorkScreenshotGet is available, request reportId and sampleIndex, then page offsetBytes/maxBytes (maximum 262144 bytes per page). Use expectedHash from the saved report. Decode each content64 page separately, join its bytes, and verify totalBytes and sha256 before opening the local image with the host image tool. This action retrieves only saved report artifacts; it grants no general access outside the project. Stop if the artifact hash changed or the action is unavailable. Do not bypass path restrictions.
+
+For chromeScreenshot responses containing frame64, decode that image directly into a private host-local file, verify the returned byte count, and open it. Do not treat an encoded image as inspected. For ordinary project screenshots read64 remains a scoped binary fallback; it cannot retrieve paths outside the authorized project.
+
+When the discovered tunnelWorkReview schema exposes reviewVerdict, submit passed only after inspecting every image and finding the candidate suitable for release. Submit failed for observed defects or blocked when review could not be completed, with factual reviewNotes. The gate must reject failed, blocked, and legacy reviews without an explicit passing verdict. These are caller acknowledgements, not automatic proof of image inspection. A saved review or transfer alone never establishes visual correctness. Older deployments may lack these fields/actions: report the deployment gap and preserve the work; never invent capability or approval.

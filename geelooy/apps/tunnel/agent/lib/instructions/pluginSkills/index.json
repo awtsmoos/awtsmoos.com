@@ -1,5 +1,5 @@
 {
-  "pluginVersion": "0.88.0",
+  "pluginVersion": "0.89.0",
   "sourcePluginId": "plugin_1e3aaae027408191ab6a75b861bd8ec4",
   "resources": [
     {
@@ -114,8 +114,8 @@
     },
     {
       "path": "skills/instructions/references/CSS_AND_EXTERNAL_VISUAL_VERIFICATION.md",
-      "bytes": 6678,
-      "hash": "256803aad6912f5e33e8be17da5a2731683c10c256d5c666a6d45085bd5f25c7"
+      "bytes": 8272,
+      "hash": "0e94ac8474e4ff85ff935842fd5f2ee691ca8a686b7ec6cfe28c03ede564b2a5"
     },
     {
       "path": "skills/instructions/references/DIRECT_AWTSMOOS_ACCESS.md",

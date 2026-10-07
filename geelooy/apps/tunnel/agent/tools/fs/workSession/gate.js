@@ -19,6 +19,7 @@ function evaluate(session, repo, reports = [], now = Date.now()) {
    const evidence=matches.find(r=>r.ok&&r.commitVerified&&r.interactionVerified&&r.styleAssertionsVerified&&r.samples?.some(s=>s.width<=390)&&r.samples?.some(s=>s.width>=1280)&&r.samples.every(s=>s.screenshotSha256));
    if(!evidence)reasons.push("frontend_evidence_missing:"+url);
    else if(!session.reviews?.[evidence.id]||session.reviews[evidence.id].hashes.join(",")!==evidence.samples.map(s=>s.screenshotSha256).join(","))reasons.push("visual_review_missing:"+url);
+   else if(session.reviews[evidence.id].verdict!=="passed")reasons.push("visual_review_not_passed:"+url);
    else if(!Number.isFinite(Date.parse(evidence.createdAt))||now<Date.parse(evidence.createdAt)-5000||now-Date.parse(evidence.createdAt)>3600000)reasons.push("frontend_evidence_stale:"+url);
   }
   if(!session.urls?.length)reasons.push("frontend_urls_missing");

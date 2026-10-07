@@ -47,7 +47,9 @@ async function verify(payload={},config=loadConfig()){
    const nav=await Cdp.navigateAndWait(url.href,Math.min(30000,Number(payload.timeoutMs)||20000),readiness.port,{chromeTargetId:page.id});
    if(nav.ok===false)throw Error("frontend_navigation_failed");
    await pause(Math.min(5000,Math.max(200,Number(payload.settleMs)||500)));
+   const interactionVerified=await steps(interactions);
    const sample=await value(Snapshot.expression);
+   sample.interactionVerified=interactionVerified;
    sample.requestedWidth=width;
    sample.styleAssertions=await value("("+function(items){return items.map(a=>{const element=document.querySelector(a.selector),actual=element?getComputedStyle(element).getPropertyValue(a.property).trim():null;return {...a,actual,ok:actual===a.equals};});}.toString()+")("+JSON.stringify(styleAssertions)+")");
    const logs=require("./logs.js").readChromeLogs({maxLogs:200}).logs.filter(e=>e.ts>=began&&Extras.isChromeError(e));
@@ -56,12 +58,12 @@ async function verify(payload={},config=loadConfig()){
    const bytes=Buffer.from(image.data||"","base64");if(!bytes.length)throw Error("frontend_screenshot_empty");
    const file=path.join(Device.root(config),"work-verification","screenshots",id+"-"+width+".png");
    await fs.mkdir(path.dirname(file),{recursive:true});await fs.writeFile(file,bytes,{mode:0o600});
-   sample.screenshotPath=file;sample.screenshotSha256=crypto.createHash("sha256").update(bytes).digest("hex");
+   sample.screenshotPath=file;sample.screenshotBytes=bytes.length;sample.screenshotCapturedAt=new Date().toISOString();sample.screenshotState="after_requested_interactions";sample.screenshotSha256=crypto.createHash("sha256").update(bytes).digest("hex");
    sample.ok=sample.styleAssertions.every(a=>a.ok)&&Math.abs(sample.width-width)<=2&&!sample.overflow&&!sample.errors.length&&!sample.networkAndConsoleErrors.length&&!sample.brokenImages.length&&!sample.duplicateIds.length&&sample.styles.every(s=>s.loaded);
    report.samples.push(sample);
   }
   Object.assign(report,await require("./frontendSourceProof.js").prove(config,payload,url,repo.commit,value));
-  report.interactionVerified=await steps(interactions);
+  report.interactionVerified=report.samples.length===widths.length&&report.samples.every(s=>s.interactionVerified);
   report.styleAssertionsVerified=styleAssertions.length>0&&report.samples.every(s=>s.styleAssertions.every(a=>a.ok));
   const final=await Repo.snapshot(config.root);
   report.ok=report.commitVerified&&report.samples.every(s=>s.ok)&&final.commit===repo.commit&&final.clean&&repo.clean;

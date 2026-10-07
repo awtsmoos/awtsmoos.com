@@ -23,7 +23,8 @@ test("release gate refuses dirty source, stale instructions, unfinished work, fa
  assert.equal(Gate.evaluate(s,repo).ok,false);
  const report={id:"r",source:"real-chrome",url:s.urls[0],commit:"a",createdAt:new Date(now).toISOString(),ok:true,commitVerified:true,interactionVerified:true,styleAssertionsVerified:true,samples:[{width:390,screenshotSha256:"x"},{width:1440,screenshotSha256:"y"}]};
  assert.ok(Gate.evaluate(s,repo,[report]).reasons.some(x=>x.startsWith("visual_review_missing")));
- s.reviews.r={hashes:["x","y"]};assert.equal(Gate.evaluate(s,repo,[report]).ok,true);
+ s.reviews.r={hashes:["x","y"],verdict:"passed"};assert.equal(Gate.evaluate(s,repo,[report]).ok,true);
+ s.reviews.r.verdict="failed";assert.equal(Gate.evaluate(s,repo,[report]).ok,false);s.reviews.r.verdict="passed";
  for(const change of [{clean:false},{commit:"b"}])assert.equal(Gate.evaluate(s,{...repo,...change},[report]).ok,false);
  assert.equal(Gate.evaluate({...s,remainingWork:["more"]},repo,[report]).ok,false);
  assert.equal(Gate.evaluate(s,repo,[{...report,source:"node-dom"}]).ok,false);

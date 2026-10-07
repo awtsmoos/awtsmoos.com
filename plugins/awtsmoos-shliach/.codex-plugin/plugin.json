@@ -76,12 +76,12 @@
       },
       "publication": {
         "countries": [],
-        "release_notes": "Requires CSS cascade ownership checks, source-bound real browser testing, screenshot transfer with checksum verification, and actual host-side image review before UI completion claims."
+        "release_notes": "Adds saved-report screenshot download guidance and explicit passed/failed/blocked visual review verdicts. Requires discovery of live schemas before use."
       }
     }
   },
   "name": "gpt-dd2f54ed93cfaecc85f3be2573857188",
-  "version": "0.88.0",
+  "version": "0.89.0",
   "description": "Your very own Shliach (\"Agent\"), powered by the Awtsmoos, The First and Primary Existence who re-creates all existence from His Divine speech EVERY INSTANT! The original prompts He said at the beginning of creation (\"let there be light\", \"let there be a sky\") are eternally found in EVERYTHING",
   "author": {
     "name": "Jacob Kaufer",
