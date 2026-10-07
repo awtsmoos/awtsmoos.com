@@ -19,7 +19,8 @@ function closeTestimony(client, origin, payload) {
 	console.warn('B"H WS CLOSE TESTIMONY', {
 		origin, code, reason, clientId: client?.id || "",
 		tunnelId: client?.tunnelId || "", tunnelName: client?.tunnelName || "",
-		registrationGeneration: client?.registrationGeneration || null
+		registrationGeneration: client?.registrationGeneration || null,
+		caller: client?.isTunnel && origin === "server-originated" ? String(new Error().stack || "").split("\n").slice(2, 7).join(" <- ") : ""
 	});
 }
 
