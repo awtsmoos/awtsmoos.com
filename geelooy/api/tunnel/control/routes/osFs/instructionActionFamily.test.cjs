@@ -9,7 +9,13 @@ test("Awtsmoos hosted instructions preserve identity checks and complete plugin 
  assert.equal(catalog.requiresNativeDevice,false);
  assert.equal(catalog.instructions.filter(x=>x.tags.includes("plugin-skills")).length,4);
  const page=buildInstructionActions("owned-test",{limit:64}).instructionResourceCatalog();
- assert.equal(page.total,68);
+ assert.ok(page.total>=69);
+ assert.equal(catalog.pluginSkillResources.pluginVersion,page.pluginVersion);
+ const css=buildInstructionActions("owned-test",{query:"CSS_AND_EXTERNAL_VISUAL_VERIFICATION"}).instructionResourceCatalog();
+ assert.equal(css.total,1);
+ const cssBody=buildInstructionActions("owned-test",{resourcePath:css.resources[0].path,maxChars:16384}).instructionResourceGet();
+ assert.match(cssBody.content,/Do not append another/);
+ assert.match(cssBody.content,/built-in image inspection tool/);
  const item=page.resources.find(x=>x.path.endsWith("SKILL.md"));
  let offset=0,body="";
  do {const r=buildInstructionActions("owned-test",{resourcePath:item.path,offset,maxChars:1024,expectedHash:item.hash}).instructionResourceGet();body+=r.content;offset=r.nextOffset;}while(offset!==null);

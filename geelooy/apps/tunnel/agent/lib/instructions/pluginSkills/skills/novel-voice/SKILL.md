@@ -12,3 +12,8 @@ Read ../instructions/references/NARRATIVE_AND_CRAFT.md and the two verbatim open
 ## Shared tunnel skill discovery and verified continuation
 
 Read ../instructions/references/DURABLE_WORK_AND_CONNECTION_RECOVERY.md for the current external-agent skill catalog, bounded reference retrieval, durable work actions, connection diagnostics and frontend release gates. Treat the live action schemas as authoritative.
+
+## CSS and actual screenshot review
+
+Read ../instructions/references/CSS_AND_EXTERNAL_VISUAL_VERIFICATION.md before frontend edits or UI completion claims. Fix the owning cascade rather than layering overrides; verify exact-source behavior in real Chrome, transfer screenshots into the external agent host with byte/hash checks, open the images with its image tools, and record unresolved defects before release.
+

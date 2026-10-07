@@ -31,7 +31,7 @@ class InstructionDaasService {
 			protocolSummary: PROTOCOL_SUMMARY,
 			instructionBudget: INSTRUCTION_BUDGET,
 			count: instructionKeter.records.length,
-			pluginSkillResources: {catalogAction:"instructionResourceCatalog",fetchAction:"instructionResourceGet",pluginVersion:"0.87.0"},
+			pluginSkillResources: {catalogAction:"instructionResourceCatalog",fetchAction:"instructionResourceGet",pluginVersion:require("./pluginSkills/index.json").pluginVersion},
 			instructions: instructionKeter.summaries()
 		};
 	}

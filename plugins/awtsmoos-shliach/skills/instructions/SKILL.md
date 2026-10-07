@@ -99,3 +99,8 @@ Read references/legacy/ARCHIVE_INVENTORY.md when exact original uploaded mission
 ## Shared tunnel skills and durable release evidence
 
 Read references/DURABLE_WORK_AND_CONNECTION_RECOVERY.md. All four plugin skills and retained references are discoverable through the authenticated tunnel instruction surface for external agents. Use the durable work actions and real browser release gate described there; preserve existing missions and plans.
+
+## CSS and actual screenshot review
+
+Read references/CSS_AND_EXTERNAL_VISUAL_VERIFICATION.md before frontend edits or UI completion claims. Fix the owning cascade rather than layering overrides; verify exact-source behavior in real Chrome, transfer screenshots into the external agent host with byte/hash checks, open the images with its image tools, and record unresolved defects before release.
+
