@@ -21,7 +21,7 @@ function request(context, id, record, tunnel, observedAt = Date.now()) {
 	if (priorRecoveryGeneration === currentGeneration) return false;
 
 	try {
-		tunnel.close(Values.CLOSE_CODE, Values.CLOSE_REASON);
+		tunnel.close(Values.RECOVERY_CLOSE_CODE, Values.RECOVERY_CLOSE_REASON);
 	} catch {
 		return false;
 	}

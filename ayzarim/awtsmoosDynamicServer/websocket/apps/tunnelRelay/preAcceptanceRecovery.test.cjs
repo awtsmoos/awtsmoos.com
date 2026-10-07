@@ -35,7 +35,9 @@ function harness(generation = 5) {
 test("exact unaccepted route generation is retired once", () => {
 	const state = harness();
 	assert.equal(PreAcceptance.request(state.context, "receipt-one", state.record, state.tunnel, 1000), true);
-	assert.deepEqual(state.closes, [{ code: Values.CLOSE_CODE, reason: Values.CLOSE_REASON }]);
+	assert.deepEqual(state.closes, [{ code: 4001, reason: "Acceptance recovery" }]);
+	assert.equal(Values.RECOVERY_CLOSE_CODE, 4001);
+	assert.equal(Values.RECOVERY_CLOSE_REASON, "Acceptance recovery");
 	assert.equal(state.record.preAcceptanceRecoveryAttempts, 1);
 	assert.equal(state.record.preAcceptanceRecoveryGeneration, 5);
 	assert.equal(PreAcceptance.request(state.context, "receipt-one", state.record, state.tunnel, 2000), false);
