@@ -2,107 +2,108 @@
    English Torah Translations catalog: a quiet, luminous reading vessel.
    Scoped to [data-awtsmoos-seo-catalog] so no other route inherits a rule. */
 [data-awtsmoos-seo-catalog] {
-\tcolor-scheme: dark;
+	color-scheme: dark;
 }
 [data-awtsmoos-seo-catalog] *,
 [data-awtsmoos-seo-catalog] *::before,
 [data-awtsmoos-seo-catalog] *::after {
-\tbox-sizing: border-box;
+	box-sizing: border-box;
 }
 body:has([data-awtsmoos-seo-catalog]) {
-\tmargin: 0;
-\tmin-height: 100dvh;
-\toverflow-x: hidden;
-\tbackground:
-\t\tradial-gradient(circle at 88% 4%, rgba(139, 220, 236, .10), transparent 32%),
-\t\tlinear-gradient(160deg, #070b12, #0a0f18 55%, #06080d);
-\tcolor: #eef2f8;
-\tfont-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+	margin: 0;
+	min-height: 100dvh;
+	overflow-x: hidden;
+	background:
+		radial-gradient(circle at 88% 4%, rgba(139, 220, 236, .10), transparent 32%),
+		linear-gradient(160deg, #070b12, #0a0f18 55%, #06080d);
+	color: #eef2f8;
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 [data-awtsmoos-seo-catalog] {
-\tdisplay: block;
-\twidth: min(100% - 2rem, 56rem);
-\tmargin-inline: auto;
-\tpadding: clamp(1.25rem, 5vw, 2.5rem) 0 clamp(2rem, 6vw, 3.5rem);
+	display: block;
+	width: min(100% - 2rem, 56rem);
+	margin-inline: auto;
+	padding: clamp(1.25rem, 5vw, 2.5rem) 0 clamp(2rem, 6vw, 3.5rem);
 }
 [data-awtsmoos-seo-catalog] > h1 {
-\tmargin: 0 0 .5rem;
-\tfont-size: clamp(1.9rem, 8vw, 3rem);
-\tline-height: 1.02;
-\tletter-spacing: -.03em;
-\ttext-wrap: balance;
+	margin: 0 0 .5rem;
+	color: #f5f7fb;
+	font-size: clamp(1.9rem, 8vw, 3rem);
+	line-height: 1.02;
+	letter-spacing: -.03em;
+	text-wrap: balance;
 }
 [data-awtsmoos-seo-catalog] > p {
-\tmargin: 0 0 1.4rem;
-\tmax-width: 62ch;
-\tcolor: #a7b1c0;
-\tline-height: 1.65;
+	margin: 0 0 1.4rem;
+	max-width: 62ch;
+	color: #a7b1c0;
+	line-height: 1.65;
 }
 [data-awtsmoos-seo-catalog] article {
-\tmargin: 0 0 .7rem;
-\tpadding: .95rem 1.05rem;
-\tborder: 1px solid rgba(199, 215, 239, .14);
-\tborder-radius: 1rem;
-\tbackground: rgba(14, 20, 31, .88);
-\tbox-shadow: 0 .8rem 2.2rem rgba(0, 0, 0, .28);
-\ttransition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
-\tanimation: trc-rise 420ms cubic-bezier(.2, .8, .2, 1) both;
+	margin: 0 0 .7rem;
+	padding: .95rem 1.05rem;
+	border: 1px solid rgba(199, 215, 239, .14);
+	border-radius: 1rem;
+	background: rgba(14, 20, 31, .88);
+	box-shadow: 0 .8rem 2.2rem rgba(0, 0, 0, .28);
+	transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+	animation: trc-rise 420ms cubic-bezier(.2, .8, .2, 1) both;
 }
 [data-awtsmoos-seo-catalog] article:nth-of-type(2) { animation-delay: 30ms; }
 [data-awtsmoos-seo-catalog] article:nth-of-type(3) { animation-delay: 60ms; }
 [data-awtsmoos-seo-catalog] article:nth-of-type(4) { animation-delay: 90ms; }
 [data-awtsmoos-seo-catalog] article:nth-of-type(n+5) { animation-delay: 120ms; }
 @keyframes trc-rise {
-\tfrom { opacity: 0; transform: translateY(.5rem); }
-\tto { opacity: 1; transform: translateY(0); }
+	from { opacity: 0; transform: translateY(.5rem); }
+	to { opacity: 1; transform: translateY(0); }
 }
 [data-awtsmoos-seo-catalog] article h2 {
-\tmargin: 0 0 .3rem;
-\tfont-size: 1.02rem;
-\tline-height: 1.35;
-\toverflow-wrap: anywhere;
+	margin: 0 0 .3rem;
+	font-size: 1.02rem;
+	line-height: 1.35;
+	overflow-wrap: anywhere;
 }
 [data-awtsmoos-seo-catalog] article h2 a {
-\tcolor: #8bdcec;
-\ttext-decoration: none;
-\ttext-underline-offset: .18em;
-\tborder-radius: .35rem;
-\ttransition: color 150ms ease, text-decoration-color 150ms ease;
+	color: #8bdcec;
+	text-decoration: none;
+	text-underline-offset: .18em;
+	border-radius: .35rem;
+	transition: color 150ms ease, text-decoration-color 150ms ease;
 }
 [data-awtsmoos-seo-catalog] article h2 a:hover,
 [data-awtsmoos-seo-catalog] article h2 a:focus-visible {
-\tcolor: #d8f7ff;
-\ttext-decoration: underline;
-\ttext-decoration-thickness: .1em;
-\toutline: none;
+	color: #d8f7ff;
+	text-decoration: underline;
+	text-decoration-thickness: .1em;
+	outline: none;
 }
 [data-awtsmoos-seo-catalog] article h2 a:focus-visible {
-\tbox-shadow: 0 0 0 .18rem rgba(139, 220, 236, .45);
+	box-shadow: 0 0 0 .18rem rgba(139, 220, 236, .45);
 }
 [data-awtsmoos-seo-catalog] article h2 a:active {
-\tcolor: #dfbd75;
+	color: #dfbd75;
 }
 [data-awtsmoos-seo-catalog] article > p {
-\tmargin: 0;
-\tcolor: #7f8a9a;
-\tfont-size: .86rem;
-\tline-height: 1.55;
-\toverflow-wrap: anywhere;
+	margin: 0;
+	color: #7f8a9a;
+	font-size: .86rem;
+	line-height: 1.55;
+	overflow-wrap: anywhere;
 }
 [data-awtsmoos-seo-catalog] article:hover {
-\tborder-color: rgba(138, 214, 234, .42);
-\ttransform: translateY(-1px);
-\tbox-shadow: 0 1rem 2.6rem rgba(0, 0, 0, .34);
+	border-color: rgba(138, 214, 234, .42);
+	transform: translateY(-1px);
+	box-shadow: 0 1rem 2.6rem rgba(0, 0, 0, .34);
 }
 @media (prefers-reduced-motion: reduce) {
-\tbody:has([data-awtsmoos-seo-catalog]) *,
-\tbody:has([data-awtsmoos-seo-catalog]) *::before,
-\tbody:has([data-awtsmoos-seo-catalog]) *::after {
-\t\tanimation: none !important;
-\t\ttransition: none !important;
-\t}
+	body:has([data-awtsmoos-seo-catalog]) *,
+	body:has([data-awtsmoos-seo-catalog]) *::before,
+	body:has([data-awtsmoos-seo-catalog]) *::after {
+		animation: none !important;
+		transition: none !important;
+	}
 }
 @media (forced-colors: active) {
-\t[data-awtsmoos-seo-catalog] article { border-color: CanvasText; }
-\t[data-awtsmoos-seo-catalog] article h2 a { color: LinkText; }
+	[data-awtsmoos-seo-catalog] article { border-color: CanvasText; }
+	[data-awtsmoos-seo-catalog] article h2 a { color: LinkText; }
 }
