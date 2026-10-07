@@ -12,6 +12,18 @@ const { makeHeader } = require('./frameWriter.js');
 
 const MAXIMUM_REASON_BYTES = 123;
 
+function closeTestimony(client, origin, payload) {
+	const body = Buffer.isBuffer(payload) ? payload : Buffer.alloc(0);
+	const code = body.length >= 2 ? body.readUInt16BE(0) : 1005;
+	const reason = body.length > 2 ? body.subarray(2).toString("utf8").slice(0, 123) : "";
+	console.warn('B"H WS CLOSE TESTIMONY', {
+		origin, code, reason, clientId: client?.id || "",
+		tunnelId: client?.tunnelId || "", tunnelName: client?.tunnelName || "",
+		registrationGeneration: client?.registrationGeneration || null
+	});
+}
+
+
 /** Replies once with the client's close payload, then destroys after bytes flush. */
 function completeCloseHandshake(client, payload = Buffer.alloc(0)) {
 	if (client.closeAcknowledged) {
@@ -19,6 +31,7 @@ function completeCloseHandshake(client, payload = Buffer.alloc(0)) {
 	}
 	client.closeAcknowledged = true;
 	const safePayload = Buffer.isBuffer(payload) ? payload.subarray(0, 125) : Buffer.alloc(0);
+	closeTestimony(client, "peer-originated", safePayload);
 	const frame = Buffer.concat([makeHeader(safePayload.length, 0x8), safePayload]);
 	try {
 		if (!client.socket.writable) {
@@ -44,6 +57,7 @@ function initiateCloseHandshake(client, code = 1000, reason = '') {
 	const payload = Buffer.alloc(2 + reasonBytes.length);
 	payload.writeUInt16BE(Number(code || 1000), 0);
 	reasonBytes.copy(payload, 2);
+	closeTestimony(client, "server-originated", payload);
 	const frame = Buffer.concat([makeHeader(payload.length, 0x8), payload]);
 	try {
 		if (!client.socket.writable) {
