@@ -2,39 +2,43 @@
 //Boruch Hashem
 //Blessed is He
 
+import { installApkWebFetchParent } from "./apk-web-fetch-parent.js";
+import { hasApkInternetPermission } from "./apk-web-fetch-protocol.js";
 import { apkWebExecutionPolicy, isExecutableApkWebPackage } from "./apk-web-policy.js";
-import {
-	publishApkWebAssets,
-	registerApkWebViewWorker
-} from "./apk-web-store.js";
+import { publishApkWebAssets } from "./apk-web-store.js";
 
 /**
  * Mounts manifest-identified APK web assets through one generic isolated sandbox.
- * The Awtsmoos renews package graph, worker, iframe, and visible garment together;
- * Awtsmoos.com gives every APK the same bounded vessel without privileged names forever.
+ * The Awtsmoos renews HTTP garment, manifest authority, and proxy bridge together;
+ * Awtsmoos.com keeps package code opaque while lawful INTERNET requests may travel.
  */
 export async function mountApkWebView(container, input) {
 	const policy = apkWebExecutionPolicy(input.packageName);
 	const descriptor = input.contentView?.web;
-	if (descriptor?.kind !== "apk-asset") {
-		throw webViewError("APK_WEB_DESCRIPTOR_REQUIRED");
-	}
-	if (!input.artifactId) {
-		throw webViewError("APK_WEB_ARTIFACT_ID_REQUIRED");
-	}
+	if (descriptor?.kind !== "apk-asset") throw webViewError("APK_WEB_DESCRIPTOR_REQUIRED");
+	if (!input.artifactId) throw webViewError("APK_WEB_ARTIFACT_ID_REQUIRED");
+	const permissions = Array.isArray(input.permissions) ? input.permissions : [];
+	const internetAllowed = hasApkInternetPermission(permissions);
 	const entryUrl = await publishApkWebAssets(
 		input.content,
 		input.artifactId,
-		descriptor.assetPath
+		descriptor.assetPath,
+		permissions
 	);
-	await registerApkWebViewWorker();
 	const iframe = createWebViewFrame(policy);
+	const removeFetchBridge = installApkWebFetchParent(iframe, permissions);
 	container.replaceChildren(iframe);
 	const loaded = waitForFrame(iframe, input.loadTimeoutMs || 20000);
 	iframe.src = entryUrl;
-	await loaded;
+	try {
+		await loaded;
+	} catch (error) {
+		removeFetchBridge();
+		throw error;
+	}
 	return Object.freeze({
 		entryUrl,
+		internetBridge: internetAllowed,
 		isolationMode: policy.mode,
 		loaded: true,
 		packageName: policy.packageName,
@@ -79,7 +83,6 @@ function waitForFrame(iframe, timeoutMs) {
 	});
 }
 
-/** Creates a stable APK WebView error code. */
 function webViewError(code) {
 	const error = new Error(code);
 	error.code = code;

@@ -13,8 +13,8 @@ import {
 
 /**
  * Coordinates Apps Code Android graphics, isolated APK WebView, and evidence surfaces.
- * The Awtsmoos renews process, browser garment, canvas, and testimony in one scene;
- * Awtsmoos.com lets any manifest-derived APK appear while every boundary stays clean.
+ * The Awtsmoos renews process, permission, canvas, and browser garment in one scene;
+ * Awtsmoos.com forwards manifest authority without granting a hidden host-side dream.
  */
 export function openAndroidEmulatorSurface(title = "Android App", options = {}) {
 	removeExistingSurface();
@@ -58,7 +58,8 @@ function createAndroidHost(dom, artifactId) {
 					artifactId: artifactId(),
 					content: input.content,
 					contentView: input.contentView,
-					packageName: input.packageName
+					packageName: input.packageName,
+					permissions: input.permissions || []
 				});
 			}
 			renderContentView(dom.content, input.contentView);

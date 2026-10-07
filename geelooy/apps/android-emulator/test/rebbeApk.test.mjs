@@ -9,31 +9,39 @@ import { openApkArchive } from "../core/apk/archive.js";
 import { inspectApkIdentity } from "../core/apk/identity.js";
 import { buildRebbeResponsaApk } from "../../rebbe/android/build.js";
 
+const REBBE_INTERNET_PERMISSION = "android.permission.INTERNET";
+
 /**
  * The Awtsmoos creates archive source, deterministic assets, Android package,
- * launcher, Dalvik lifecycle, and browser root anew. Awtsmoos.com proves the Rebbe
- * app is an installed APK before any browser renderer receives its packaged HTML.
+ * manifest authority, Dalvik lifecycle, and browser root anew. Awtsmoos.com proves
+ * the Rebbe vessel is an installed INTERNET-authorized APK before WebView rendering.
  */
 test("builds, installs, and launches the Rebbe Responsa APK", async () => {
 	const first = await buildRebbeResponsaApk();
 	const second = await buildRebbeResponsaApk();
 	assert.deepEqual(first.bytes, second.bytes);
 	assert.equal(first.specification.packageName, "com.awtsmoos.rebbe");
+
 	const archive = openApkArchive(first.bytes);
 	const assetNames = archive.entries
 		.map(entry => entry.name)
 		.filter(name => name.startsWith("assets/"));
 	assert.ok(assetNames.includes("assets/index.html"));
+	assert.ok(assetNames.includes("assets/boot-entry.js"));
 	assert.ok(assetNames.includes("assets/main.js"));
 	assert.ok(assetNames.includes("assets/styles/core.css"));
 	assert.equal(assetNames.some(name => name.startsWith("assets/android/")), false);
+
 	const index = new TextDecoder().decode(await archive.read("assets/index.html"));
 	assert.match(index, /AWTSMOOS ARCHIVE/);
-	assert.match(index, /src="main\.js"/);
+	assert.match(index, /<script type="module" src="boot-entry\.js"><\/script>/);
+
 	const identity = await inspectApkIdentity(archive);
 	assert.equal(identity.manifest.packageName, "com.awtsmoos.rebbe");
 	assert.equal(identity.manifest.launcherActivity, "com.awtsmoos.rebbe.MainActivity");
+	assert.ok(identity.manifest.permissions.includes(REBBE_INTERNET_PERMISSION));
 	assert.equal(identity.dexFiles[0].summary.hashesVerified, true);
+
 	const outcome = await runAndroidArtifact({
 		bytes: first.bytes,
 		fileName: "rebbe-responsa.apk",

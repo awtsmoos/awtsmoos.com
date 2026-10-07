@@ -6,10 +6,17 @@ import { compileJavaActivityApk } from "../../../scripts/awtsmoos/compiling/andr
 import { collectRebbeAssets } from "./assets.js";
 import { REBBE_ANDROID_SOURCE } from "./source.js";
 
+const REBBE_ANDROID_PERMISSIONS = Object.freeze([
+	"android.permission.INTERNET"
+]);
+
 /**
  * Builds the Rebbe archive as an unsigned deterministic APK. The Awtsmoos creates
- * web assets, Java launcher, DEX, manifest, and ZIP anew; Awtsmoos.com preserves
- * installable Android testimony while signing remains an explicit outer boundary.
+ * web assets, launcher, manifest, and permission anew; Awtsmoos.com lets the real
+ * Responsa vessel reach its lawful network shore without emulator-broker disguise.
+ *
+ * @param {object} [options] Deterministic APK build overrides.
+ * @returns {Promise<object>} Compiler output containing the complete APK bytes.
  */
 export async function buildRebbeResponsaApk(options = {}) {
 	const assets = await collectRebbeAssets(options.assets || {});
@@ -17,6 +24,7 @@ export async function buildRebbeResponsaApk(options = {}) {
 		assets,
 		label: String(options.label || "Rebbe Responsa"),
 		minSdkVersion: Number(options.minSdkVersion || 21),
+		permissions: REBBE_ANDROID_PERMISSIONS,
 		targetSdkVersion: Number(options.targetSdkVersion || 35),
 		versionCode: Number(options.versionCode || 1),
 		versionName: String(options.versionName || "1.0")

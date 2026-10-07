@@ -3,6 +3,11 @@
    Every selector enters through `.awtsmoos-reader-vision`: Hebrew cards glow,
    the drawer bows under the thumb, floating controls avoid the text, and the
    active verse shines like a gold seal inside obsidian glass.
+
+   LIGHT THEME: the night-scroll palette is inverted below under
+   [data-theme="light"] so text always follows the actual background.
+   The theme controller mirrors data-theme to document.documentElement;
+   see TiferesReaderThemeController.
 */
 
 .post-reader-localized-context.awtsmoos-reader-vision {
@@ -79,6 +84,26 @@
     inset-block-start: 10px !important;
     inset-inline-start: 12px !important;
     z-index: 2 !important;
+}
+
+/* --- DAYBREAK (LIGHT THEME): text follows the light background --- */
+.post-reader-localized-context.awtsmoos-reader-vision[data-theme="light"] .section {
+    border-color: rgba(20, 30, 50, .10) !important;
+    background:
+        linear-gradient(180deg, rgba(255,255,255,.98), rgba(250,247,240,.94)) !important;
+    box-shadow: 0 1rem 2.4rem rgba(20, 30, 50, .10) !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision[data-theme="light"] .section.heb .toichen,
+.post-reader-localized-context.awtsmoos-reader-vision[data-theme="light"] .sub-awtsmoos.heb {
+    color: #1b1b1b !important;
+    text-shadow: none !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision[data-theme="light"] .sub-awtsmoos {
+    border: 1px solid rgba(20, 30, 50, .10) !important;
+    background: rgba(20, 30, 50, .030) !important;
+    box-shadow: none !important;
 }
 
 @media (max-width: 900px) {

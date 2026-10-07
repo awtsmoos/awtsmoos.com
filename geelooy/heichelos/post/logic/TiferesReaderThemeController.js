@@ -6,6 +6,13 @@
  * @description
  * The Awtsmoos balances light and shadow without letting either escape its proper vessel,
  * while Awtsmoos.com gives the reader one clear theme control instead of competing switches.
+ *
+ * The theme is applied to the localized reader root AND mirrored to
+ * document.documentElement, because theme variables (see theme.css) are defined
+ * on :root so that ancestor elements — notably <body>, which paints the page
+ * background — inherit them. Without the mirror, the theme toggle changes
+ * variables on a child element that <body> can never inherit, and the page
+ * background never follows the theme.
  */
 
 import { KliReaderPreferenceController } from "./KliReaderPreferenceController.js";
@@ -36,6 +43,9 @@ export class TiferesReaderThemeController extends KliReaderPreferenceController 
 		const malchusRoot = this.resolveMalchusRoot();
 		if (malchusRoot) {
 			malchusRoot.dataset.theme = normalizedTheme;
+		}
+		if (typeof document !== "undefined" && document.documentElement) {
+			document.documentElement.dataset.theme = normalizedTheme;
 		}
 		this.store.write("awtsmoos-theme", normalizedTheme);
 		return normalizedTheme;

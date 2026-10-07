@@ -2,8 +2,14 @@
 /* B"H 
    THE COVENANT OF FORM (THEME ENGINE)
    "The world is created through ten attributes."
+
+   Theme variables are defined on :root (as well as the localized reader
+   context) so that ancestor elements — notably <body>, which paints the
+   page background — inherit them. The theme controller mirrors
+   data-theme to document.documentElement; see TiferesReaderThemeController.
 */
 
+:root,
 .post-reader-localized-context {
     /* --- THE TZIMTZUM (FOUNDATIONS) --- */
     --bg-surface: #ffffff;
@@ -36,6 +42,7 @@
 }
 
 /* --- THE NIGHT VIGIL (DARK THEME) --- */
+:root[data-theme="dark"],
 .post-reader-localized-context[data-theme="dark"] {
     --bg-surface: #0a0a0a;
     --bg-vellum: #050505;
