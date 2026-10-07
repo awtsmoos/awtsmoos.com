@@ -28,13 +28,21 @@ body {
     max-width: 1000px;
 }
 h1, h2 {
-    color: #2c3e50;
+    color: #ecf0f1;
     text-align: center;
     margin-top: 0;
     margin-bottom: 15px;
 }
 h1 { font-size: 1.8em; }
-h2 { font-size: 1.3em; color: #34495e;}
+h2 { font-size: 1.3em; color: #bdc3c7;}
+
+h1:hover, h2:hover { color: #ffffff; }
+h1:active, h2:active { color: #7dd3fc; }
+h1:focus-visible, h2:focus-visible { outline: 2px solid #7dd3fc; outline-offset: 3px; }
+
+@media (prefers-reduced-motion: no-preference) {
+    h1, h2 { transition: color 180ms ease; }
+}
 
 textarea#jsonInput {
     width: calc(100% - 22px);
