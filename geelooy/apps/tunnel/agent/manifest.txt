@@ -1,5 +1,5 @@
 B"H
-1.0.649
+1.0.650
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1272,6 +1272,7 @@ lib/instructions/pluginSkills/skills/instructions/references/QUALITY_SWEEP.md
 lib/instructions/pluginSkills/skills/instructions/references/readme.md
 lib/instructions/pluginSkills/skills/instructions/references/ReadThisNow.md
 lib/instructions/pluginSkills/skills/instructions/references/RELEASE_AND_INTEGRATION_GATES.md
+lib/instructions/pluginSkills/skills/instructions/references/RESUMABLE_CLIENT_AND_CHANNEL_EVIDENCE.md
 lib/instructions/pluginSkills/skills/instructions/references/RESUMABLE_MISSION_LEDGER.md
 lib/instructions/pluginSkills/skills/instructions/references/SOURCE_AND_ROUTE_DISCOVERY.md
 lib/instructions/pluginSkills/skills/instructions/references/STABILITY_AND_MULTITASKING.md
