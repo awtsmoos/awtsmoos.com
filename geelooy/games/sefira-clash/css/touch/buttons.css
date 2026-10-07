@@ -71,3 +71,34 @@
 	color: #100813;
 	transform: scale(0.96);
 }
+
+/* GAMES-A: every touch button answers hover, keyboard focus, and press. */
+@media (hover: hover) and (pointer: fine) {
+	.touchButtons button:hover:not(:disabled) {
+		border-color: #ffe082;
+		box-shadow: 0 0 14px #ffe08255, 0 2px 8px #0006;
+		transform: translateY(-1px);
+	}
+}
+
+.touchButtons button:focus-visible {
+	outline: 2px solid #ffe082;
+	outline-offset: 2px;
+	box-shadow: 0 0 16px #ffe08266;
+}
+
+.touchButtons button:active:not(:disabled) {
+	background: #ffe082;
+	color: #100813;
+	transform: scale(0.96);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.touchButtons button,
+	.touchButtons button:hover:not(:disabled),
+	.touchButtons button:active:not(:disabled),
+	.touchButtons button.held {
+		transition: none;
+		transform: none;
+	}
+}

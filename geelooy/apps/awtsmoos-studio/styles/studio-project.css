@@ -102,3 +102,11 @@
 		min-height: 390px;
 	}
 }
+/* FIX-2 apps-audit 2026-10-07: inspector overflow */
+/* Federation button bars are flex nowrap in the shared AwtsmoosUI lib; their
+   ~646px intrinsic width stretched the inspector's grid stack so every child
+   (AI prompt label, accent button, headings, layer lists) overflowed the 293px
+   panel body. Wrap the bars and let grid children shrink. */
+.studio-inspector-panel .aw-ui-bar { flex-wrap: wrap; row-gap: 8px; }
+.studio-inspector-panel .aw-ui-stack > * { min-width: 0; }
+.studio-inspector-panel .aw-ui-button { flex: 0 1 auto; min-width: 0; }
