@@ -9,3 +9,36 @@
 @import url('./drive-v5-controls.css');
 @import url('./drive-v5-overlays.css');
 @import url('./drive-v5-mobile.css');
+
+/* Skip link: visually hidden until focused (a11y) */
+.drive-skip-link {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.drive-skip-link:hover,
+.drive-skip-link:active,
+.drive-skip-link:focus-visible {
+    left: 12px;
+    top: 12px;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    z-index: 9999;
+    padding: 10px 16px;
+    background: #0f0;
+    color: #000;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .drive-skip-link {
+        transition: none;
+    }
+}
