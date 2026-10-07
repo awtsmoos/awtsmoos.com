@@ -38,6 +38,19 @@ function queryBoolean(value, fallback = false) {
 	return fallback;
 }
 
+/**
+ * Parses a bounded integer query parameter for pagination.
+ * Returns null when absent or invalid so callers keep their default.
+ */
+function queryInt(value, { min = 0, max = 1000 } = {}) {
+	if (value === undefined || value === null || value === '') return null;
+	const n = parseInt(value, 10);
+	if (!Number.isFinite(n)) return null;
+	if (n < min) return min;
+	if (n > max) return max;
+	return n;
+}
+
 function requestBody($i) {
 	if ($i.request.method === 'DELETE') return $i.$_DELETE || $i.$_POST || {};
 	if ($i.request.method === 'PUT') return $i.$_PUT || $i.$_POST || {};
@@ -49,5 +62,6 @@ module.exports = {
 	isMethod,
 	parseObject,
 	queryBoolean,
+	queryInt,
 	requestBody
 };

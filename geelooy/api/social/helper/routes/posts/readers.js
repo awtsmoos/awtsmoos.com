@@ -23,7 +23,8 @@ const {
 } = require('../../series/virtualSeries.js');
 const {
 	parseObject,
-	queryBoolean
+	queryBoolean,
+	queryInt
 } = require('../requestValues.js');
 
 function selectedProperties($i) {
@@ -34,6 +35,17 @@ function detailsRequested($i) {
 	return queryBoolean($i.$_GET?.details, false);
 }
 
+/**
+ * Parses pagination from the query string. Returns nulls when absent so the
+ * full collection behavior is preserved for callers that want everything.
+ */
+function paginationRequested($i) {
+	const limit = queryInt($i.$_GET?.limit, { min: 1, max: 500 });
+	const offset = queryInt($i.$_GET?.offset, { min: 0, max: 100000 });
+	if (limit === null && offset === null) return null;
+	return { limit, offset: offset ?? 0 };
+}
+
 async function readPostsRoute({
 	$i,
 	heichelId,
@@ -41,12 +53,14 @@ async function readPostsRoute({
 	withDetails = detailsRequested($i)
 }) {
 	const properties = selectedProperties($i);
+	const pagination = paginationRequested($i);
 	const virtual = await getVirtualPostsInSeries({
 		$i,
 		heichelId,
 		seriesId,
 		withDetails,
-		properties
+		properties,
+		pagination
 	});
 	if (virtual) return virtual;
 	return readPostsCompatible({
@@ -55,6 +69,7 @@ async function readPostsRoute({
 		seriesId,
 		withDetails,
 		properties,
+		pagination,
 		postReader: postId => getPostFromSeries({
 			$i,
 			heichelId,
@@ -66,7 +81,8 @@ async function readPostsRoute({
 			heichelId,
 			seriesId,
 			withDetails,
-			properties
+			properties,
+			pagination
 		})
 	});
 }
@@ -103,6 +119,7 @@ async function readPostRoute({
 
 module.exports = {
 	detailsRequested,
+	paginationRequested,
 	readPostRoute,
 	readPostsRoute,
 	selectedProperties

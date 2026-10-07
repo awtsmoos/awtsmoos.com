@@ -39,7 +39,12 @@ function coalesceFreeRanges(ranges, cursor) {
 			continue;
 		}
 		const previousEnd = previous.offset + previous.length;
-		if (range.offset < previousEnd) throw invalid('overlapping ownership claims', range);
+		// B"H PATCH 2026-10-06: merge overlapping free ranges instead of throwing
+		if (range.offset < previousEnd) {
+		  const newEnd = Math.max(previousEnd, range.offset + range.length);
+		  previous.length = newEnd - previous.offset;
+		  continue;
+		}
 		if (range.offset === previousEnd) {
 			previous.length += range.length;
 			continue;
