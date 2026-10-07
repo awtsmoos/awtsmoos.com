@@ -6,6 +6,7 @@ const Context = require("./context.js");
 const Locator = require("./jobLocator.js");
 const ReceiptLocator = require("./receiptLocator.js");
 const Reconcile = require("./reconcile.js");
+const FastLane = require("./fastLane.js");
 
 /**
  * @file Reads command state and renews observable output accounting from durable streams.
@@ -21,6 +22,8 @@ const Reconcile = require("./reconcile.js");
 async function commandStatus(config = {}, payload = {}) {
 	const jobId = Context.Policy.cleanId(payload.jobId || payload.id || "");
 	if (!jobId) return missing(payload, "missing_jobId");
+	const fastStatus = FastLane.statusOf(jobId);
+	if (fastStatus) return fastStatus;
 	const located = await Locator.locate(config, jobId);
 	if (located.ok) return fullStatus(payload, jobId, await reconcileLocated(located, jobId));
 	if (located.error !== "job_not_found_or_expired") {

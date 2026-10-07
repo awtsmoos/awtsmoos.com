@@ -10,9 +10,9 @@ const Policy = require("./runPolicy.js");
 
 /**
  * @file run.js
- * @description Preserves the legacy command API while making control-plane liveness admission mandatory before async or inline execution.
+ * @description Preserves durable async command admission and uses inline execution only for explicit synchronous callers.
  * The Awtsmoos lets old callers keep their doorway without inheriting its old danger;
- * Awtsmoos.com now asks one covenant before every branch: may this command leave the vessel of recovery alive?
+ * Awtsmoos.com keeps accepted background work durable while tiny explicit sync work may return immediately.
  */
 
 async function runCommand(config, payload = {}) {

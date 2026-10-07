@@ -16,7 +16,23 @@ async function prepare(config, payload = {}) {
 	return { active: boot?.lock || active, boot };
 }
 
-async function run(config, payload, worker) {
+function truthyFlag(value) {
+	return value === true || value === 1 ||
+		["true", "1", "yes"].includes(String(value).toLowerCase());
+}
+
+function missionOptIn(payload = {}) {
+	return truthyFlag(payload.mission) ||
+		truthyFlag(payload.verboseMission) ||
+		truthyFlag(payload.keepMission) ||
+		truthyFlag(payload.autoMission) ||
+		truthyFlag(payload.enableMission);
+}
+
+async function run(config, payload = {}, worker) {
+	if (truthyFlag(payload.lean) || !missionOptIn(payload)) {
+		return invoke(() => worker(config, payload));
+	}
 	const work = invoke(() => worker(config, payload));
 	const mission = observe(() => prepare(config, payload));
 	const result = await work;
@@ -106,6 +122,7 @@ module.exports = {
 	DEFAULT_ANNOTATION_WAIT_MS,
 	annotationWaitMs,
 	asyncAcceptance,
+	missionOptIn,
 	prepare,
 	run
 };

@@ -5,6 +5,7 @@
 const Acknowledgement = require("./main-connection-acknowledgement.js");
 const Authorization = require("./main-connection-authorization.js");
 const InstructionMessages = require("./main-instruction-messages.js");
+const ExecSync = require("./main-exec-sync.js");
 /**
  * @file Routes relay words into registration, recovery, settlement, liveness, and work.
  * @description
@@ -38,10 +39,17 @@ function createConnectionMessages(dependencies) {
 			return dependencies.RecoveryControl?.handle?.(data, webSocket) === true;
 		}
 		checkpoint(dependencies);
+		if (data.type === "TUNNEL_EXEC_SYNC") {
+			return ExecSync.handleExecSync(dependencies, data, webSocket);
+		}
 		if (data.type === "TUNNEL_PING") {
 			return handlePing(dependencies, data, webSocket);
 		}
 		if (data.type === "TUNNEL_REQUEST") {
+			const _p = data.payload || {};
+			if (_p.syncExec === true || _p.execSync === true || _p.async === false) {
+				return ExecSync.handleExecSync(dependencies, data, webSocket);
+			}
 			dependencies.enqueueRequest(webSocket, data);
 			return true;
 		}

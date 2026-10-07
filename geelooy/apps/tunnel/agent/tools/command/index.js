@@ -81,6 +81,17 @@ const ACTIONS = {
 	nodeInstantTests: instantTests
 };
 
+function truthyFlag(value) {
+	return value === true || value === 1 ||
+		["true", "1", "yes"].includes(String(value).toLowerCase());
+}
+
+function missionOptIn(payload = {}) {
+	return truthyFlag(payload.verboseMission) || truthyFlag(payload.keepMission) ||
+		truthyFlag(payload.autoMission) || truthyFlag(payload.enableMission) ||
+		truthyFlag(payload.mission);
+}
+
 async function handleCommand(payload = {}) {
 	const action = payload.action || "commandRun";
 	const worker = ACTIONS[action];
@@ -91,6 +102,9 @@ async function handleCommand(payload = {}) {
 	const next = { ...payload, action, requestAction: payload.requestAction || action };
 	if (READ_ONLY.has(action) || next.noMission === true || next.missionless === true) {
 		return worker(config, next);
+	}
+	if (action === "commandRun" && !missionOptIn(next)) {
+		next.lean = true;
 	}
 	return MissionWrap.run(config, next, worker);
 }

@@ -24,7 +24,8 @@ function fields(raw = {}) {
 		inlineOutput: Parse.boolValue(raw.inlineOutput),
 		async: Parse.boolValue(raw.async),
 		streamLogs: Parse.boolValue(raw.streamLogs),
-		autoPreview: Parse.boolValue(raw.autoPreview)
+		autoPreview: Parse.boolValue(raw.autoPreview),
+		syncExec: Parse.boolValue(raw.syncExec)
 	};
 }
 

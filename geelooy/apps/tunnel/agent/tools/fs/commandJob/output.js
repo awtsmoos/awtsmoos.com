@@ -8,6 +8,7 @@ const PollingGuidance = require("./pollingGuidance.js");
 const Receipt = require("./terminalReceipt.js");
 const ReceiptLocator = require("./receiptLocator.js");
 const WriteSnapshot = require("./writeSnapshot.js");
+const FastLane = require("./fastLane.js");
 
 /**
  * @file Reads full command output first, then one explicitly partial compact terminal tail.
@@ -17,6 +18,8 @@ const WriteSnapshot = require("./writeSnapshot.js");
 async function commandJobOutputPage(config = {}, payload = {}) {
 	const jobId = Context.Policy.cleanId(payload.jobId || payload.id || "");
 	if (!jobId) return missing(payload, "missing_jobId");
+	const fastPage = FastLane.outputOf(jobId, payload.stream, payload.maxChars);
+	if (fastPage) return fastPage;
 	const stream = selectedStream(payload.stream);
 	const located = await Locator.locate(config, jobId);
 	if (located.ok) return fullPage(payload, jobId, stream, located);
