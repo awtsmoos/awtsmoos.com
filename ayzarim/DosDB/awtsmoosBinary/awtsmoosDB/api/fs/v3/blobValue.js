@@ -100,7 +100,10 @@ function encodeBody(db, buffer) {
 	if (db.options?.virtualFsCompression === false || buffer.length < MINIMUM_BYTES) {
 		return { bytes: buffer, metadata: {} };
 	}
-	const compressed = zlib.deflateRawSync(buffer, { level: 6 });
+	// B"H adaptive compression: large bodies compress ~5-10x faster at level 1
+	// with minimal ratio loss; small bodies keep level 6 for best density.
+	const level = buffer.length > 1024 * 1024 ? 1 : 6;
+	const compressed = zlib.deflateRawSync(buffer, { level });
 	if (compressed.length + MINIMUM_SAVINGS >= buffer.length) {
 		return { bytes: buffer, metadata: {} };
 	}

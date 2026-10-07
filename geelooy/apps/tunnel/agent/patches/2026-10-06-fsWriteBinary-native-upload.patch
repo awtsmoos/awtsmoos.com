@@ -1,0 +1,349 @@
+================================================================================
+TUNNEL API FIX: native binary file-write action (`fsWriteBinary` / `writeBinary`)
+================================================================================
+Target repo : geelooy/apps/tunnel/agent   (Mac agent, split-agent-2.0.0)
+Patch files : 3  (all under <repo>/geelooy/apps/tunnel/agent/)
+Status      : WRITTEN ONLY — NOT DEPLOYED. User review required before deploy.
+Date        : 2026-10-06
+
+--------------------------------------------------------------------------------
+PROBLEM
+--------------------------------------------------------------------------------
+To upload a file through the tunnel today, clients must smuggle bytes through
+the `commandRun` action as `echo $B64 | base64 -d > /path`. This is:
+
+  1. Slow      — +33% base64 overhead AND 3 HTTPS round trips per chunk
+                 (commandRun submit -> commandWait poll loop -> commandJobOutputPage).
+  2. Size-capped — ~50 KB per call: the base64 blob is embedded in the shell
+                 command string, so ARG_MAX / command-line limits apply.
+  3. Wasteful   — a file write is forced through the durable async job system
+                 (job store, output paging, ledger) built for long commands.
+
+The agent ALREADY has atomic binary-safe write machinery
+(`tools/fs/atomic-file-write.js: replaceFile()` accepts a Buffer, does
+temp-file + fsync + atomic rename), but no public action exposes it for raw
+bytes. The existing `write` action only takes text (`String(content)`).
+
+--------------------------------------------------------------------------------
+FIX OVERVIEW
+--------------------------------------------------------------------------------
+Add a native `fsWriteBinary` action (plus `writeBinary` alias) that:
+
+  * accepts  { action:"fsWriteBinary", path:"/tmp/f", contentBase64:"..." }
+  * decodes base64 -> Buffer IN-PROCESS (no shell, no `base64 -d` subprocess)
+  * writes via the existing atomic `replaceFile()` path (temp + fsync + rename)
+  * reuses the exact same guards as text writes:
+      config.tools.fsWrite, config.allowWrite, safePath(), assertNotSecret()
+  * returns immediately { ok:true, bytesWritten:N } — no job, no polling.
+    (Action dispatch is a direct map lookup in actionRuntime.js; only the
+    `command*` family uses the async job system. Plain fs actions already
+    execute synchronously in the request.)
+
+Naming / public-family mapping (important):
+  * `writeBinary` matches the EXISTING family rule  /^write/i  -> "files",
+    so it is reachable via the public API with ZERO server-side change.
+  * `fsWriteBinary` (the name requested) needs one new agent-side rule
+    /^fsWrite/i -> "files" (included below). The server (awtsmoos.com)
+    mirrors family mapping (POLICY_VERSION 2); until its mirrored rule is
+    updated, `fsWriteBinary` may classify as "system" server-side. The
+    `writeBinary` alias works regardless — ship both, use `writeBinary`
+    first, cut over to `fsWriteBinary` after the server rule lands.
+
+Payload ceiling: agent local-api-limits.js sets BODY_LIMIT = 16 MB for JSON
+bodies, so one call can carry ~12 MB of raw bytes after base64 inflation.
+The 12 MB Meluket tarball fits in ONE request (vs 231 chunked commandRun
+calls today). The tunnel control plane may impose a smaller limit — the
+test plan below finds the real ceiling empirically.
+
+BONUS (no agent deploy needed): `commandRun` ALREADY has a synchronous
+path.  tools/fs/actionGroups/commandActionSync.js: `shouldRunSync(payload)`
+returns true when payload has sync/inline/blocking truthy, and `runSmart`
+then runs the command inline and returns stdout in the SAME response —
+one round trip, no commandWait loop, no output-page fetch. Clients can use
+{"action":"commandRun","sync":true,...} TODAY, provided the server passes
+the `sync` field through (verify in testing).
+
+--------------------------------------------------------------------------------
+DIFF 1/3 : tools/fs/readWrite.js  — add writeBytes()
+--------------------------------------------------------------------------------
+--- a/geelooy/apps/tunnel/agent/tools/fs/readWrite.js
++++ b/geelooy/apps/tunnel/agent/tools/fs/readWrite.js
+@@ async function writeText(config, targetPath, content, options = {}) {
+ 	if (!config.tools.fsWrite) throw new Error("fsWrite disabled.");
+ 	if (!config.allowWrite) throw new Error("Writes disabled.");
+ 	const full = safePath(config, targetPath);
+ 	assertNotSecret(config, full);
+ 	const proof = await replaceFile(full, String(content ?? ""), options);
+ 	return {
+ 		...proof,
+ 		path: targetPath
+ 	};
+ }
+ 
++/**
++ * Binary counterpart to writeText: writes a Buffer atomically with the
++ * identical guards (fsWrite tool gate, allowWrite, safePath, assertNotSecret).
++ * replaceFile() already accepts Buffers and does temp-file + fsync +
++ * atomic rename, so this is a thin, safe wrapper — no shell involved.
++ */
++async function writeBytes(config, targetPath, buffer, options = {}) {
++	if (!config.tools.fsWrite) throw new Error("fsWrite disabled.");
++	if (!config.allowWrite) throw new Error("Writes disabled.");
++	if (!Buffer.isBuffer(buffer)) throw new Error("writeBytes_requires_buffer");
++	const full = safePath(config, targetPath);
++	assertNotSecret(config, full);
++	const proof = await replaceFile(full, buffer, options);
++	return {
++		...proof,
++		path: targetPath,
++		bytesWritten: buffer.length
++	};
++}
++
+ module.exports = {
+ 	describeWritePayload: Payload.describeWritePayload,
+ 	normalizeWrite: Payload.normalizeWrite,
+ 	normalizeWriteSpecifications: Payload.normalizeWriteSpecifications,
+ 	normalizeWrites: Payload.normalizeWrites,
+ 	number: boundedNumber,
+ 	parseMaybeJson: Payload.parseMaybeJson,
+ 	readBytesBase64,
+ 	readText,
+ 	readTextFromBytes,
+ 	requestTooLargeGuidance,
++	writeBytes,
+ 	writeText
+ };
+
+--------------------------------------------------------------------------------
+DIFF 2/3 : tools/fs/actionGroups/writeActions.js — add fsWriteBinary action
+--------------------------------------------------------------------------------
+--- a/geelooy/apps/tunnel/agent/tools/fs/actionGroups/writeActions.js
++++ b/geelooy/apps/tunnel/agent/tools/fs/actionGroups/writeActions.js
+@@ const {
+ 	writeText,
+ 	normalizeWriteSpecifications,
+ 	describeWritePayload
+ } = require("../readWrite.js");
++const { writeBytes } = require("../readWrite.js");
+ const { replaceRange, applyPatch } = require("../searchEdit.js");
+ const { writeIfHash, bulkWriteIfHashes } = require("../hashWrite.js");
+ const { verifyJsFile, verifyJsRuntime } = require("../jsWriteVerifier.js");
+ const Batch = require("../writeBatchTransaction.js");
++
++/**
++ * Per-call raw-byte cap. Agent local-api-limits.js allows 16 MB JSON bodies;
++ * 12 MB raw keeps us under it after ~33% base64 inflation, with headroom.
++ * The tunnel control plane may enforce a smaller limit — clients should
++ * chunk (e.g. 4-8 MB) until the real ceiling is measured (see test plan).
++ */
++const MAX_BINARY_WRITE_BYTES = 12 * 1024 * 1024;
+ 
+ /**
+  * @file Routes single and multi-file writes through verified replacement vessels.
+@@ - handleBulkWrite(config, payload, action) {
+ 	}
+ }
+ 
++/**
++ * Native binary write: base64 -> Buffer -> atomic disk write, single request.
++ * Deliberately skips the JS verification pipeline (attachVerification) —
++ * that machinery is for text/JS writes; binary payloads are not JS.
++ * Security posture is IDENTICAL to the existing `write` action: same
++ * fsWrite/allowWrite gates, same safePath(), same assertNotSecret().
++ */
++async function handleWriteBinary(config, payload, action) {
++	if (!config.tools.fsWrite) throw new Error("fsWrite disabled.");
++	const targetPath = payload.path || payload.p;
++	if (!targetPath || typeof targetPath !== "string") {
++		throw new Error("writeBinary_missing_path");
++	}
++	const b64 = payload.contentBase64 ?? payload.content64 ?? payload.base64;
++	if (typeof b64 !== "string" || b64.length === 0) {
++		throw new Error("writeBinary_missing_contentBase64");
++	}
++	let buffer;
++	try {
++		buffer = Buffer.from(b64, "base64");
++	} catch {
++		throw new Error("writeBinary_invalid_base64");
++	}
++	if (buffer.length === 0) throw new Error("writeBinary_empty_content");
++	if (buffer.length > MAX_BINARY_WRITE_BYTES) {
++		throw new Error("writeBinary_too_large");
++	}
++	const wrote = await writeBytes(config, targetPath, buffer);
++	return {
++		ok: true,
++		action,
++		path: targetPath,
++		bytesWritten: wrote.bytesWritten,
++		root: config.root
++	};
++}
++
+ async function handleOneWrite(config, payload, action, targetPath) {
+ 	const content = payload.content !== undefined ? payload.content : payload.text;
+ 	const wrote = await writeText(config, targetPath, content ?? "");
+@@ function buildWriteActions({ config, payload }) {
+ 	const action = payload.action || "list";
+ 	const targetPath = payload.path || payload.p || ".";
+ 	return {
+ 		write: async () => consolidatedWrite(config, payload, action, targetPath),
+ 		bulkWrite: async () => handleBulkWrite(config, payload, action),
+ 		writeIfHash: async () => writeIfHash(config, payload),
+ 		bulkWriteIfHashes: async () => bulkWriteIfHashes(config, payload),
++		// Native binary write. `writeBinary` matches the existing /^write/i
++		// -> "files" family rule (reachable with zero server change);
++		// `fsWriteBinary` is the requested canonical name (needs the
++		// agent-side family rule in DIFF 3/3, plus the server mirror).
++		writeBinary: async () => handleWriteBinary(config, payload, "writeBinary"),
++		fsWriteBinary: async () => handleWriteBinary(config, payload, "fsWriteBinary"),
+ 		replaceRange: async () => ({ root: config.root, ...(await replaceRange(config, payload)) }),
+ 		applyPatch: async () => ({ root: config.root, ...(await applyPatch(config, payload)) })
+ 	};
+ }
+
+--------------------------------------------------------------------------------
+DIFF 3/3 : lib/public-action-families.js — map fsWrite* -> "files" family
+--------------------------------------------------------------------------------
+--- a/geelooy/apps/tunnel/agent/lib/public-action-families.js
++++ b/geelooy/apps/tunnel/agent/lib/public-action-families.js
+@@ const RULES = Object.freeze([
+ 	[/^(command|shell|nodeScript|process|port|npm|packageScript|serverStart|serverStop)/i, "command"],
++	// fsWriteBinary: keep binary writes in the "files" family (not "system").
++	// NOTE: awtsmoos.com mirrors this table (POLICY_VERSION 2) — apply the
++	// same one-line addition server-side, or use the `writeBinary` alias,
++	// which matches the existing /^write/i rule with no server change.
++	[/^fsWrite/i, "files"],
+ 	[/^(read|write|copy|move|delete|mkdir|makeFolder|tree|grep|find|stat|touch|ensureFile|file|bulkWrite|selectString|recentFiles|largeFiles|duplicateBasenames|textStats)/i, "files"],
+ 	[/^(runtime|simulate|env|config|dependency|workspace|repo|architecture|infer|detect|bundleTrace|routeAudit|moduleGraph|symbol|importResolver|absoluteImport|semantic|tool|provider|model|openApi|schema|policy|security|credential|lockfile|packageManager|installPlan)/i, "runtime"]
+ ]);
+
+Verification that the rule is collision-free: no existing action name in
+tools/fs/actionGroups/ starts with "fsWrite" (grep confirmed 2026-10-06),
+so the new rule only affects the newly added action.
+
+--------------------------------------------------------------------------------
+CLIENT USAGE (after deploy)
+--------------------------------------------------------------------------------
+Single HTTPS POST to https://awtsmoos.com/api/tunnel/control/fs/{routeRef}:
+
+  {
+    "action": "writeBinary",            // or "fsWriteBinary" after server sync
+    "path": "/tmp/meluket_production.tar.gz",
+    "contentBase64": "<base64 of up to ~12 MB raw>",
+    ...ids (controlRequestId, clientRequestId, agentSessionId, logicalAgentId, nonce),
+    "tunnelName": "<routeRef>"
+  }
+
+Response (same request, no polling):
+
+  { "ok": true, "action": "writeBinary", "path": "...", "bytesWritten": 123456 }
+
+Expected effect on the 12 MB Meluket tarball: 1 request instead of 231
+chunked commandRun calls (231 x ~3.8 s -> ~1 x ~5 s). For larger files,
+chunk at 8 MB raw per call.
+
+Immediate no-deploy alternative (verify when Mac is up):
+  { "action": "commandRun", "sync": true, "command": "..." }
+runs inline via commandActionSync.js — one round trip, stdout in-response.
+
+--------------------------------------------------------------------------------
+DEPLOYMENT (Mac)
+--------------------------------------------------------------------------------
+Prerequisite: Mac tunnel alive (Yackovs-Air / awt-awtsmoos-2184).
+
+Option A — push files via the existing tunnel (recommended, no repo dance):
+  1. Back up the 3 originals on the Mac:
+       cp readWrite.js /tmp/bak_readWrite.js ; cp writeActions.js /tmp/bak_writeActions.js ;
+       cp public-action-families.js /tmp/bak_public-action-families.js
+     (paths under /Users/awtsmoos/work/awtsmoos.com/geelooy/apps/tunnel/agent/)
+  2. Transfer the 3 patched files with the existing `write` action
+     (ironic, but it is the working channel) or instant_push.mjs.
+  3. Syntax-check on the Mac:
+       node --check tools/fs/readWrite.js &&
+       node --check tools/fs/actionGroups/writeActions.js &&
+       node --check lib/public-action-families.js
+  4. Restart the agent so the new action map loads. Use the tunnel's
+     `serverRestart` recovery operation, else restart the agent process
+     on the Mac manually. (Do NOT kill -9 mid-write; the agent holds no
+     write locks, but a restart mid-transfer aborts in-flight chunks.)
+  5. Confirm the new action is registered: the registration manifest's
+     fs inventory should now include writeBinary and fsWriteBinary
+     (actionManifestHash will change — expected).
+
+Option B — repo flow: commit the patch in mw-repo, Mac pulls/rebases,
+then restart the agent as in A4-A5.
+
+--------------------------------------------------------------------------------
+TEST PLAN
+--------------------------------------------------------------------------------
+T1  Syntax: node --check on all 3 files (Mac). Must pass.
+T2  Unit (Mac, node one-liner): require writeActions, build with a stub
+    config {tools:{fsWrite:true}, allowWrite:true, root:"/tmp"} and payload
+    {action:"writeBinary", path:"/tmp/_fswb_t.bin", contentBase64:"aGVsbG8="};
+    assert file contains "hello" and result.bytesWritten === 5.
+T3  Guard test: same but config.tools.fsWrite=false -> expect throw
+    "fsWrite disabled."; path outside root -> expect safePath rejection.
+T4  Integration via tunnel (small): POST {action:"writeBinary",
+    path:"/tmp/_fswb_t2.bin", contentBase64:"<1KB>"} -> expect
+    {ok:true, bytesWritten:<n>} in the SAME response (no commandWait).
+T5  Ceiling probe: binary-search payload size 1/4/8/12 MB to find the real
+    tunnel control-plane limit; document it and set client chunk size
+    to ~75% of the measured ceiling.
+T6  Alias check: repeat T4 with action:"fsWriteBinary". If the server
+    rejects it (family mismatch), the server-side one-line mirror is
+    still pending — `writeBinary` remains the working path.
+T7  End-to-end: push the 12 MB Meluket tarball in ONE writeBinary call,
+    verify md5 on the Mac matches source.
+T8  Sync-command check (no deploy needed): POST
+    {action:"commandRun", sync:true, command:"echo SYNC_OK"} and confirm
+    stdout arrives in the same response with mode:"sync_command".
+
+--------------------------------------------------------------------------------
+RISKS & ROLLBACK
+--------------------------------------------------------------------------------
+R1  Server family-rule mirror missing -> `fsWriteBinary` unreachable via
+    public API (may 409 or map to "system").
+    Mitigation: `writeBinary` alias works with zero server change.
+    Owner: whoever controls awtsmoos.com tunnel control plane.
+
+R2  Tunnel control-plane payload limit smaller than the agent's 16 MB
+    BODY_LIMIT (limit unknown — never measured for this route).
+    Mitigation: T5 measures it; client chunks conservatively (start 4 MB).
+
+R3  Replay/ledger wrappers (Replay.run, Ledger.record, Provenance) wrap
+    every fs action — including the new one — so retries are idempotent
+    (same path+content => same bytes). No new double-write hazard beyond
+    what `write` already has.
+
+R4  No JS verification on binary path — INTENTIONAL (binary is not JS).
+    The secret-path and root guards are unchanged (assertNotSecret,
+    safePath), so no new filesystem exposure vs the existing `write`.
+
+R5  Agent restart timing — restart while a transfer is in flight aborts
+    it. Mitigation: deploy when no transfer is running; transfers are
+    resumable (client re-sends).
+
+ROLLBACK (additive change — nothing existing is modified):
+  1. Re-push the 3 backup files from /tmp/bak_* to their original paths.
+  2. Restart the agent.
+  3. Confirm `writeBinary`/`fsWriteBinary` return unknown-action and the
+     manifest hash returns to its previous value.
+  The only behavioral delta being reverted is the new RULES entry, which
+  previously mapped nothing (no pre-existing `fsWrite*` actions exist).
+
+--------------------------------------------------------------------------------
+WHAT THIS DOES NOT FIX (out of agent scope)
+--------------------------------------------------------------------------------
+  * The server's 3-round-trip job architecture for `commandRun` (submit/
+    poll/fetch) — server-side change on awtsmoos.com required. The
+    `sync:true` path (already in-agent) is the interim answer.
+  * Mac tunnel flakiness (drops/reconnects) — agent reconnection logic,
+    separate workstream.
+  * The missing server-side /^fsWrite/i mirror rule (one line, R1).
+
+================================================================================
+END OF PATCH
+================================================================================

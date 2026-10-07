@@ -59,6 +59,9 @@ class MapEngine {
 		const result = this.insertOps.perform(root, keyBuffer, valuePointer, rootSeal);
 		const finalSeal = promoteRoot(this.nodeIO, result);
 		this.ptr = SmartPointer.decode(finalSeal);
+		if (this.db && this.db.allocator && typeof this.db.allocator.notifyRetired === 'function') {
+			this.db.allocator.notifyRetired();
+		}
 		return finalSeal;
 	}
 
@@ -75,6 +78,9 @@ class MapEngine {
 		const result = this.deleteOps.perform(root, Buffer.from(String(key), "utf8"));
 		if (!result.success) return false;
 		this.ptr = SmartPointer.decode(result.newSeal);
+		if (this.db && this.db.allocator && typeof this.db.allocator.notifyRetired === 'function') {
+			this.db.allocator.notifyRetired();
+		}
 		return true;
 	}
 

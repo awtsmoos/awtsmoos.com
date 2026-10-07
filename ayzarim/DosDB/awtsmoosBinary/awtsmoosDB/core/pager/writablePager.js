@@ -188,12 +188,18 @@ class PagerFirmament {
   /**
    * @method _recordWal
    * @description Streams one exact write record to WAL without retaining bytes in RAM.
+   * During batching (db.batch()), records are buffered in memory and flushed as a
+   * single write, avoiding two syscalls per record.
    * @param {number} offset - Write offset.
    * @param {Buffer} buf - Write bytes.
    * @returns {void}
    */
   _recordWal(offset, buf) {
     if (this.recovering || !this._useWal() || !buf || buf.length === 0) return;
+    if (this.isBatching) {
+      this.walRecords.push({ offset, buf });
+      return;
+    }
     this._ensureWalOpen();
 
     const h = Buffer.allocUnsafe(12);
@@ -206,12 +212,38 @@ class PagerFirmament {
   }
 
   /**
+   * @method _flushWalBuffer
+   * @description Writes all buffered WAL records in one syscall.
+   * @returns {void}
+   */
+  _flushWalBuffer() {
+    if (this.walRecords.length === 0) return;
+    this._ensureWalOpen();
+    const parts = [];
+    let total = 0;
+    for (const rec of this.walRecords) {
+      const h = Buffer.allocUnsafe(12);
+      h.writeBigUInt64BE(BigInt(rec.offset), 0);
+      h.writeUInt32BE(rec.buf.length, 8);
+      parts.push(h, rec.buf);
+      total += 12 + rec.buf.length;
+    }
+    const combined = Buffer.concat(parts, total);
+    fs.writeSync(this.walFd, combined, 0, combined.length, this.walPosition);
+    this.walPosition += combined.length;
+    this.walRecords = [];
+  }
+
+  /**
    * @method _flushWal
    * @description Fsyncs streamed WAL records before dirty data pages are written.
+   * Drains any buffered batch records first.
    * @returns {void}
    */
   _flushWal() {
-    if (!this._useWal() || !this.walActive || this.walFd === null) return;
+    if (!this._useWal()) return;
+    this._flushWalBuffer();
+    if (!this.walActive || this.walFd === null) return;
     fs.fsyncSync(this.walFd);
   }
 
