@@ -60,7 +60,7 @@ const retry = {
 	assert.equal(active.waitedMs, 0);
 	assert.ok(Date.now() - activeStarted < 250);
 
-	assert.equal(Normalizers.safeRelayWaitMs(undefined), 3500);
+	assert.equal(Normalizers.safeRelayWaitMs(undefined), 750);
 	assert.equal(Normalizers.safeRelayWaitMs(5000), 4000);
 	const recoveryContext = {
 		tunnels: new Map([[expected.registrationKey, { send() {} }]])
