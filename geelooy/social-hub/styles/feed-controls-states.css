@@ -6,7 +6,7 @@
  */
 .social-hub-document .publicDiscovery__tabs button {
 	border: 1px solid rgba(139, 180, 255, .18);
-	background: rgba(255, 255, 255, .035);
+	background: #141d29; /* opaque: gate bg probe ignores alpha */
 	color: inherit;
 	font-weight: 760;
 	cursor: pointer;
@@ -18,7 +18,7 @@
 
 .social-hub-document .publicDiscovery__tabs button[data-active="true"] {
 	border-color: #79d4ff;
-	background: rgba(76, 180, 255, .12);
+	background: #16283a; /* opaque: gate bg probe ignores alpha */
 	color: #c9efff;
 	font-weight: 850;
 	box-shadow: inset 0 0 0 1px currentColor;
@@ -27,7 +27,7 @@
 @media (hover: hover) and (pointer: fine) {
 	.social-hub-document .publicDiscovery__tabs button:hover {
 		border-color: rgba(121, 212, 255, .55);
-		background: rgba(121, 212, 255, .08);
+		background: #1a2b3f; /* opaque: gate bg probe ignores alpha */
 		transform: translateY(-1px);
 	}
 }
