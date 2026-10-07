@@ -15,7 +15,10 @@ const MINIMUM_SAVINGS = 64;
 
 function encodeManifestBytes(db, bytes) {
 	if (db.options?.virtualFsCompression === false) return { stored: bytes };
-	const compressed = zlib.deflateRawSync(bytes, { level: 6 });
+	// B"H adaptive compression: large manifests use level 1 for ~5x faster
+	// encoding with minimal ratio loss; small manifests keep level 6.
+	const level = bytes.length > 256 * 1024 ? 1 : 6;
+	const compressed = zlib.deflateRawSync(bytes, { level });
 	return compressed.length + MINIMUM_SAVINGS < bytes.length
 		? { stored: compressed, codec: CODEC }
 		: { stored: bytes };

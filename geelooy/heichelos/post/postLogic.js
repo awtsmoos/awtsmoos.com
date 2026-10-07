@@ -10,7 +10,7 @@
  */
 
 import { recordPostView } from '/shared/MeaningfulActivity.js';
-import { ignite } from './logic/initialization/bootstrap.js?v=reader-runtime-005';
+import { ignite } from './logic/initialization/bootstrap.js?v=reader-runtime-006';
 import { tiferesReaderBootState } from './logic/initialization/ReaderBootState.js?v=reader-runtime-004';
 import { tiferesReaderEnhancements } from './logic/initialization/ReaderEnhancementOrchestrator.js?v=reader-runtime-006';
 import { awakenReaderShellControls } from './logic/initialization/ReaderShellControlsBoot.js?v=reader-runtime-004';

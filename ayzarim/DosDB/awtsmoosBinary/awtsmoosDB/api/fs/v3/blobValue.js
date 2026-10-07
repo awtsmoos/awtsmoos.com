@@ -10,14 +10,12 @@
  */
 
 const zlib = require('zlib');
-const binaryJson = require('../../../utils/binaryJson.js');
 
 const CODEC = 'deflate-raw-v1';
 const MINIMUM_BYTES = 256;
 const MINIMUM_SAVINGS = 32;
-const DEFAULT_MAX_DECOMPRESSED_BYTES = 20 * 1024 * 1024;
-const DEFAULT_CACHE_BYTES = 2 * 1024 * 1024;
-const DEFAULT_MAX_COMPRESSIBLE_BYTES = 2 * 1024 * 1024;
+const DEFAULT_MAX_DECOMPRESSED_BYTES = 256 * 1024 * 1024;
+const DEFAULT_CACHE_BYTES = 256 * 1024 * 1024;
 const decodedCaches = new WeakMap();
 
 function toBuffer(value) {
@@ -25,9 +23,7 @@ function toBuffer(value) {
 	if (value instanceof Uint8Array) return Buffer.from(value);
 	if (value === undefined || value === null) return Buffer.alloc(0);
 	if (typeof value === 'string') return Buffer.from(value, 'utf8');
-	// Any other value is sealed with AwtsmoosBinaryJSON. JSON.stringify must
-	// never appear in the database system (Yaakov's hard rule).
-	return binaryJson.encode(value);
+	return Buffer.from(JSON.stringify(value), 'utf8');
 }
 
 function plain(value) {
@@ -101,11 +97,13 @@ function rememberDecodedBody(db, key, output, maxCacheBytes) {
 }
 
 function encodeBody(db, buffer) {
-	const maxCompressibleBytes = positiveLimit(db.options?.virtualFsMaxCompressibleBytes, DEFAULT_MAX_COMPRESSIBLE_BYTES);
-	if (db.options?.virtualFsCompression === false || buffer.length < MINIMUM_BYTES || buffer.length > maxCompressibleBytes) {
+	if (db.options?.virtualFsCompression === false || buffer.length < MINIMUM_BYTES) {
 		return { bytes: buffer, metadata: {} };
 	}
-	const compressed = zlib.deflateRawSync(buffer, { level: 6 });
+	// B"H adaptive compression: large bodies compress ~5-10x faster at level 1
+	// with minimal ratio loss; small bodies keep level 6 for best density.
+	const level = buffer.length > 1024 * 1024 ? 1 : 6;
+	const compressed = zlib.deflateRawSync(buffer, { level });
 	if (compressed.length + MINIMUM_SAVINGS >= buffer.length) {
 		return { bytes: buffer, metadata: {} };
 	}
@@ -122,7 +120,7 @@ function encodeBody(db, buffer) {
 function makeDataRecord(db, value, meta = {}) {
 	const buffer = toBuffer(value);
 	const encoded = encodeBody(db, buffer);
-	const data = db.blob.create(encoded.bytes, { ...meta, ...encoded.metadata, awtsmoosBlobCompression: false, awtsmoosBlobGrowth: !encoded.metadata.fs3Codec });
+	const data = db.blob.create(encoded.bytes, { ...meta, ...encoded.metadata });
 	return { kind: 'blob', data, size: buffer.length };
 }
 

@@ -46,6 +46,12 @@ class AllocatorChesed {
 	isReuseEnabled() { return freeSpaceOps.isReuseEnabled(this); }
 	canReuseFreeSpace() { return freeSpaceOps.canReuse(this); }
 	promoteRetiredRanges() { return retirementQueue.promote(this); }
+	notifyRetired() {
+		if (this.db && this.db.options && this.db.options.reuseFreedSpace === 'verified') {
+			this._needsComplementRefresh = true;
+		}
+		return true;
+	}
 	leaseRange(offset, length, reason) { return allocationLeases.lease(this, offset, length, reason); }
 	releaseLease(offset, length) { return allocationLeases.release(this, offset, length); }
 	persistFreeListSoon() { return persistence.schedule(this); }

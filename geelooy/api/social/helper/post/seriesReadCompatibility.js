@@ -1,71 +1,90 @@
 //B"H
 //Boruch Hashem
-//Blessed is He
+//Blessed be He
 
 /**
  * @module SeriesReadCompatibility
  * @description
- * The Awtsmoos reconciles old and routed post identities without guessing a single post;
- * on Awtsmoos.com a routed vessel may replace legacy keys only when it proves every old key
- * and adds further living records, so transfer-restored Torah can return in stable order.
+ * The Awtsmoos lets Awtsmoos.com read one reconciled series identity vessel once,
+ * then reveals bounded child records without repeating a cold routed collection scan.
  */
 
 const { idsForSeries, isMappedSeries } = require('./meluketSeriesMap.js');
-const { completeSeriesKeys } = require('./seriesKeyCompleteness.js');
 const {
 	postsPath,
 	readRecordsByIds,
 	readSeriesPost
 } = require('./seriesRecordReader.js');
+const { getCachedSeriesIds, setCachedSeriesIds } = require('./seriesReadCache.js');
 
-/** Reads one post from a mapped series through the shared record boundary. */
+/** Reads one mapped Meluket post through the narrow record pipeline. */
 async function readMappedPost(context) {
 	return readSeriesPost(context, context.postId);
 }
 
-/** Reads mapped identities or their bounded detail records. */
+/**
+ * Applies limit/offset pagination to an ordered id list.
+ * Returns the original list when no pagination was requested.
+ */
+function applyPagination(ids, pagination) {
+	if (!pagination) return ids;
+	const offset = pagination.offset || 0;
+	if (pagination.limit === null || pagination.limit === undefined) {
+		return offset > 0 ? ids.slice(offset) : ids;
+	}
+	return ids.slice(offset, offset + pagination.limit);
+}
+
+/** Resolves a sealed mapped series as ids or ordered details. */
 async function readMappedPosts(context) {
 	const postIds = idsForSeries(context.$i, context.seriesId);
 	if (!postIds.length) return null;
-	if (!context.withDetails) return postIds;
-	return readRecordsByIds(context, postIds);
+	const page = applyPagination(postIds, context.pagination);
+	if (!context.withDetails) return page;
+	return readRecordsByIds(context, page);
 }
 
-/** Reads the legacy collection keys once, preserving their canonical order. */
+/**
+ * Reads ordinary-series identities exactly once through public DosDB.
+ * The historical function name remains part of the module contract, while
+ * current DosDB already reconciles routed and legacy completeness internally.
+ */
 async function readLegacyIds(context) {
+	const cached = getCachedSeriesIds(context.heichelId, context.seriesId);
+	if (cached) return cached;
 	const result = await context.$i.db
 		.getObjectKeys(postsPath(context.heichelId, context.seriesId))
 		.catch(() => []);
-	return Array.isArray(result) ? result : [];
+	const ids = Array.isArray(result) ? result : [];
+	setCachedSeriesIds(context.heichelId, context.seriesId, ids);
+	return ids;
 }
 
-/** Reconciles transfer-era routed keys only when they strictly contain the legacy set. */
+/** Resolves ordinary series details through one identity enumeration and bounded child reads. */
 async function readUnmappedPosts(context) {
-	const legacyIds = await readLegacyIds(context);
-	const complete = await completeSeriesKeys({
-		...context,
-		legacyIds
-	});
-	const postIds = complete.ids;
-	if (!context.withDetails) return postIds;
-	return readRecordsByIds(context, postIds);
+	const postIds = await readLegacyIds(context);
+	const page = applyPagination(postIds, context.pagination);
+	if (!context.withDetails) return page;
+	return readRecordsByIds(context, page);
 }
 
-/** Selects mapped or ordinary compatibility logic without invoking a bulk legacy reader. */
+/** Chooses mapped or ordinary collection compatibility without exposing storage history. */
 async function readPostsCompatible(context) {
-	if (isMappedSeries(context.$i, context.seriesId)) {
-		return readMappedPosts(context);
-	}
+	if (isMappedSeries(context.$i, context.seriesId)) return readMappedPosts(context);
 	return readUnmappedPosts(context);
 }
 
-/** Reads one post canonically and falls back to the historical standard reader if needed. */
+/**
+ * Resolves one post narrow-first for every ordinary or mapped series.
+ * Virtual series remain outside this function and retain route-level precedence.
+ */
 async function readPostCompatible(context) {
 	const record = await readSeriesPost(context, context.postId);
 	return record || context.standardReader();
 }
 
 module.exports = {
+	applyPagination,
 	readLegacyIds,
 	readMappedPost,
 	readMappedPosts,

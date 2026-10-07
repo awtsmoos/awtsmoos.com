@@ -13,6 +13,8 @@
 
 const Pager = require('./core/pager/firmament.js');
 const Allocator = require('./core/allocator/chesed.js');
+const withDefaultVerifiedReuse = require('./core/allocator/defaultReuseOptions.js');
+const coalesceFreeRanges = require('./core/allocator/freeRangeCoalescing.js');
 const Builder = require('./structure/manifest/complex/builder.js');
 const Handle = require('./api/liveHandle/index.js');
 const constants = require('./constants.js');
@@ -22,8 +24,6 @@ const VectorManager = require('./api/vector/index.js');
 const AIManager = require('./api/ai/index.js');
 const QueryExecutor = require('./api/query/index.js');
 const waitForIdleCore = require('./core/idle/index.js');
-const drainIndexOps = require('./core/idle/drainIndexOps.js');
-const flushSearch = require('./core/idle/flushSearch.js');
 const MetricsTracker = require('./core/metrics/tracker.js');
 const PasswordBox = require('./utils/crypto/passwordBox.js');
 const Pointer = require('./utils/pointer/crown.js');
@@ -66,19 +66,14 @@ class AwtsmoosDB {
       debug: false,
       compression: true,
       autoCompress: true,
-      reuseFreedSpace: false,
       readOnly: false,
-      maxCachedPages: 128,
-      ...options
+      ...withDefaultVerifiedReuse(options)
     };
 
     if (this.options.readOnly) {
       this.options.wal = false;
       this.options.reuseFreedSpace = false;
     }
-
-    this._closed = false;
-    this._idleCheckpointScheduled = false;
 
     this.pager = new Pager(filePath);
     this.pager.db = this;
@@ -160,8 +155,6 @@ class AwtsmoosDB {
    * @returns {void}
    */
   open() {
-    this._closed = false;
-    this._idleCheckpointScheduled = false;
     this.processLock.acquire(this.options);
     this.pager.init();
     this.allocator.init();
@@ -286,10 +279,16 @@ class AwtsmoosDB {
 
     try {
       let raw = FreeListCodec.encode(ranges);
-      let loc = this._reusePreviousFreeListSeal(raw.length);
+      const prevSeal = this._decodePreviousFreeListSeal();
+      // When the previous seal pins the tail of the file, move the seal into
+      // reclaimed space so trailing gaps can be absorbed and truncated.
+      const prevAtTail = prevSeal
+        && (prevSeal.offset + prevSeal.length >= this.allocator.cursor);
+      let loc = null;
+      if (!prevAtTail) loc = this._reusePreviousFreeListSeal(raw.length);
 
       if (!loc) {
-        const chosen = this._chooseFreeListSealGap(ranges, raw.length);
+        const chosen = this._chooseFreeListSealGap(ranges, raw.length, prevAtTail);
         if (chosen) {
           loc = chosen.loc;
           ranges = chosen.ranges;
@@ -297,11 +296,26 @@ class AwtsmoosDB {
         }
       }
 
+      if (!loc) loc = this._reusePreviousFreeListSeal(raw.length);
       if (!loc) loc = this.allocator.allocate(raw.length);
 
       this.allocator.freeList = ranges;
       if (raw.length) this.pager.writeExact(loc.offset, raw);
       this.freeListPtrRaw = Pointer.encode(constants.VAL_TYPE.BUFFER, loc.offset, raw.length);
+      if (prevSeal && loc.offset !== prevSeal.offset) {
+        // The previous seal bytes are now unreachable: reclaim them in memory
+        // so a tail-pinning seal does not block truncation. The persisted seal
+        // omits them to avoid a self-referential encoding; the next verified
+        // refresh re-adopts them from the reachability complement.
+        this.allocator.freeList = coalesceFreeRanges(
+          [...this.allocator.freeList, { offset: prevSeal.offset, length: prevSeal.length }],
+          this.allocator.cursor
+        );
+        this.allocator._absorbTrailingGaps();
+        this.allocator.flushCursor();
+        this.allocator._freeListDirty = true;
+        this.allocator._needsComplementRefresh = true;
+      }
       this._flushSuperblock();
     } finally {
       this.options.reuseFreedSpace = previousMode;
@@ -315,11 +329,22 @@ class AwtsmoosDB {
    * @returns {object|null} Existing location or null.
    */
   _reusePreviousFreeListSeal(needed) {
+    const prev = this._decodePreviousFreeListSeal();
+    if (!prev || prev.length < needed) return null;
+    return { offset: prev.offset, length: needed };
+  }
+
+  /**
+   * @method _decodePreviousFreeListSeal
+   * @description Decodes the persisted free-list seal location, if any.
+   * @returns {object|null} Previous seal {offset, length} or null.
+   */
+  _decodePreviousFreeListSeal() {
     if (!this.freeListPtrRaw) return null;
     try {
       const prev = Pointer.decode(this.freeListPtrRaw);
-      if (!prev || prev.offset < 64 || prev.length < needed) return null;
-      return { offset: prev.offset, length: needed };
+      if (!prev || prev.offset < 64 || !(prev.length > 0)) return null;
+      return { offset: prev.offset, length: prev.length };
     } catch (_err) {
       return null;
     }
@@ -332,11 +357,13 @@ class AwtsmoosDB {
    * @param {number} needed - Required byte count.
    * @returns {object|null} Location and adjusted ranges.
    */
-  _chooseFreeListSealGap(ranges, needed) {
+  _chooseFreeListSealGap(ranges, needed, preferLow = false) {
     if (!needed) return { loc: { offset: 64, length: 0 }, ranges };
     const sorted = ranges
       .map(r => ({ offset: r.offset, length: r.length }))
-      .sort((a, b) => (a.length - b.length) || (a.offset - b.offset));
+      .sort((a, b) => preferLow
+        ? (a.offset - b.offset) || (a.length - b.length)
+        : (a.length - b.length) || (a.offset - b.offset));
 
     for (const gap of sorted) {
       if (gap.length < needed) continue;
@@ -364,8 +391,6 @@ class AwtsmoosDB {
    * @returns {void}
    */
   close() {
-    this._closed = true;
-    this._idleCheckpointScheduled = false;
     if (!this.options.readOnly) {
       this.waitForIdle({ closing: true });
       if (this.sparseArrays) this.sparseArrays.flush();
@@ -409,12 +434,6 @@ class AwtsmoosDB {
    * @method batch
    * @param {Function} fn - Work callback.
    * @returns {*} Callback result.
-   *
-   * B"H: an outermost batch exit no longer runs the full durability boundary.
-   * Every write is already streamed to the synchronous WAL by the pager, so a
-   * process crash loses nothing; the heavy boundary (verified free-list walk
-   * plus fsync) runs once the event loop is genuinely idle, on flush(), or on
-   * close(). Call flush() when the bytes must be in the main file right now.
    */
   batch(fn) {
     if (this.options.readOnly) return fn();
@@ -425,63 +444,8 @@ class AwtsmoosDB {
       return fn();
     } finally {
       this.pager.isBatching = prevStatus;
-      if (!prevStatus) this._settleBatch();
+      if (!prevStatus) this.waitForIdle();
     }
-  }
-
-  /**
-   * @method _settleBatch
-   * @description Completes one outermost batch: finishes pending derived
-   * writes, refreshes the superblock commit marker (WAL-streamed, so a crash
-   * replays to exactly this batch), and schedules the heavy durability
-   * boundary for the next idle moment instead of paying it per write.
-   * @returns {void}
-   */
-  _settleBatch() {
-    if (this.options.readOnly || this._closed) return;
-    if (this.turbo && typeof this.turbo.flush === 'function') this.turbo.flush();
-    drainIndexOps(this);
-    flushSearch(this);
-    if (this.allocator && typeof this.allocator.promoteRetiredRanges === 'function') {
-      this.allocator.promoteRetiredRanges({ trustedLocal: true });
-    }
-    this._flushSuperblock();
-    // B"H: bound WAL growth inside one giant synchronous loop that never
-    // yields to the idle checkpoint.
-    const walBytes = this.pager && typeof this.pager.walBytes === 'function'
-      ? this.pager.walBytes()
-      : 0;
-    if (walBytes > 64 * 1024 * 1024) {
-      this.waitForIdle();
-      return;
-    }
-    this._scheduleIdleCheckpoint();
-  }
-
-  /**
-   * @method _scheduleIdleCheckpoint
-   * @description Runs one full durability boundary on the next idle tick.
-   * @returns {void}
-   */
-  _scheduleIdleCheckpoint() {
-    if (this._idleCheckpointScheduled || this._insideWaitForIdle || this._closed) return;
-    this._idleCheckpointScheduled = true;
-    setImmediate(() => {
-      this._idleCheckpointScheduled = false;
-      if (this._closed || this.options.readOnly) return;
-      if (!this.pager || !this.pager.dirty) return;
-      try { this.waitForIdle(); } catch (_e) {}
-    });
-  }
-
-  /**
-   * @method flush
-   * @description Runs the full durability boundary right now.
-   * @returns {void}
-   */
-  flush() {
-    if (this.options.readOnly) return;
-    this.waitForIdle();
   }
 
   /**
@@ -896,6 +860,7 @@ class AwtsmoosDB {
       this.allocator._absorbTrailingGaps();
       this.allocator.flushCursor();
       this._saveFreeListSeal();
+      this.pager.fsync(true);
     }
 
     const freeBytes = (this.allocator.freeList || []).reduce((sum, gap) => sum + gap.length, 0);

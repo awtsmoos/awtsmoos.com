@@ -1,2 +1,12 @@
 /* B"H Reader chamber background. */
-.post-reader-localized-context.awtsmoos-reader-vision { background-image: var(--awt-ambient-wash), linear-gradient(180deg, #fffaf0, #f3e4cc); }
+.post-reader-localized-context.awtsmoos-reader-vision {
+    --color-ink: #1b1b1b;
+    background-color: #f3e4cc;
+    background-image: linear-gradient(180deg, #fffaf0, #f3e4cc);
+}
+:root[data-theme="dark"] .post-reader-localized-context.awtsmoos-reader-vision,
+.post-reader-localized-context.awtsmoos-reader-vision[data-theme="dark"] {
+    --color-ink: #fffdf5;
+    background-color: #0a1120 !important;
+    background-image: linear-gradient(180deg, #0d1526, #060a14) !important;
+}
