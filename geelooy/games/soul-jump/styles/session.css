@@ -87,6 +87,21 @@
 	outline-offset: 3px;
 }
 
+/* GAMES-B: soul button hover/press feedback. */
+@media (hover: hover) and (pointer: fine) {
+	.soul-session-button:hover:not(:disabled),
+	.soul-result button:hover:not(:disabled),
+	.soul-result a:hover {
+		filter: brightness(1.12);
+	}
+}
+
+.soul-session-button:active:not(:disabled),
+.soul-result button:active:not(:disabled),
+.soul-result a:active {
+	transform: scale(0.97);
+}
+
 @media (max-height: 520px) and (orientation: landscape) {
 	.soul-result {
 		width: min(72vw, 520px);
