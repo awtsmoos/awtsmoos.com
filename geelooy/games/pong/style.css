@@ -117,3 +117,12 @@ canvas:focus-visible {
 	outline: 3px solid #60e8ff;
 	outline-offset: 3px;
 }
+/* GAMES-B: pong button hover/press feedback. */
+@media (hover: hover) and (pointer: fine) {
+	button:hover:not(:disabled) {
+		filter: brightness(1.12);
+	}
+}
+button:active:not(:disabled) {
+	transform: scale(0.97);
+}
