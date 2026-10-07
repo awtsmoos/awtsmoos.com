@@ -7,7 +7,7 @@
 	grid-template-columns: 1fr auto 1fr;
 	align-items: center;
 	gap: 18px;
-	padding: 12px 18px;
+	padding: 12px calc(18px + 58px) 12px 18px; /* GAMES-A: clear the fixed 48px shell launcher */
 	background: linear-gradient(180deg, rgba(5,22,27,0.98), rgba(5,22,27,0.88));
 	border-bottom: 1px solid var(--border);
 	z-index: var(--layer-hud);
