@@ -1239,6 +1239,7 @@ lib/instructions/pluginSkills/skills/instructions/references/CONNECTION_RUNBOOK.
 lib/instructions/pluginSkills/skills/instructions/references/constitutional.md
 lib/instructions/pluginSkills/skills/instructions/references/Continue.md
 lib/instructions/pluginSkills/skills/instructions/references/CORE_OPERATING_CONTRACT.md
+lib/instructions/pluginSkills/skills/instructions/references/CSS_AND_EXTERNAL_VISUAL_VERIFICATION.md
 lib/instructions/pluginSkills/skills/instructions/references/DIRECT_AWTSMOOS_ACCESS.md
 lib/instructions/pluginSkills/skills/instructions/references/DURABLE_WORK_AND_CONNECTION_RECOVERY.md
 lib/instructions/pluginSkills/skills/instructions/references/EXECUTION_PERSISTENCE_CONTRACT.md
@@ -1365,6 +1366,7 @@ lib/runtime/connection-receipt-async.js
 lib/runtime/connection-receipt-runtime.js
 lib/runtime/connection-receipt-value.js
 lib/runtime/connection-receipt.js
+lib/runtime/continuation-host.js
 lib/runtime/continuation-identity.js
 lib/runtime/continuation-loop.js
 lib/runtime/continuation-policy.js
@@ -1411,6 +1413,7 @@ lib/runtime/main-dependencies.js
 lib/runtime/main-dispatch.js
 lib/runtime/main-drain.js
 lib/runtime/main-events.js
+lib/runtime/main-exec-sync.js
 lib/runtime/main-execution-stages.js
 lib/runtime/main-inbound-dispatch.js
 lib/runtime/main-instruction-messages.js
@@ -1811,13 +1814,19 @@ tools/chatgpt/hourLoop/promote.js
 tools/chatgpt/hourLoop/prompt.js
 tools/chatgpt/hourLoop/queue.js
 tools/chatgpt/hourLoop/receipts.js
+tools/chatgpt/hourLoop/reconcile.js
 tools/chatgpt/hourLoop/send.js
 tools/chatgpt/hourLoop/snapshot.js
 tools/chatgpt/hourLoop/state.js
+tools/chatgpt/hourLoop/stateGate.js
+tools/chatgpt/hourLoop/stateStore.js
 tools/chatgpt/hourLoop/status.js
 tools/chatgpt/hourLoop/stress.js
 tools/chatgpt/hourLoop/tick.js
+tools/chatgpt/hourLoop/tickState.js
 tools/chatgpt/hourLoop/url.js
+tools/chatgpt/hourLoop/workerLease.js
+tools/chatgpt/hourLoop/workerPolicy.js
 tools/chatgpt/index.js
 tools/chatgpt/legalBrowserRelay/relayController.js
 tools/chatgpt/legalBrowserRelay/responseReader.js
@@ -1844,6 +1853,8 @@ tools/chrome/actionQueue.js
 tools/chrome/actions.js
 tools/chrome/cdp.js
 tools/chrome/compact.js
+tools/chrome/cssForensics.js
+tools/chrome/cssImmediateIssues.js
 tools/chrome/extras.js
 tools/chrome/finder.js
 tools/chrome/frontendBoundedFetch.js
@@ -1859,9 +1870,13 @@ tools/chrome/leaseActions.js
 tools/chrome/logs.js
 tools/chrome/processes.js
 tools/chrome/profileState.js
+tools/chrome/proofBundle.js
 tools/chrome/scopePolicy.js
+tools/chrome/screenshotPipeline.js
+tools/chrome/screenshotTransfer.js
 tools/chrome/session.js
 tools/chrome/snapshot.js
+tools/chrome/visionDelivery.js
 tools/command/index.js
 tools/command/inlineExecution.js
 tools/command/inlineResponse.js
@@ -2018,6 +2033,7 @@ tools/fs/actionGroups/osSurfaceActions.js
 tools/fs/actionGroups/planActions.js
 tools/fs/actionGroups/portActions.js
 tools/fs/actionGroups/previewActions.js
+tools/fs/actionGroups/previewLinkActions.js
 tools/fs/actionGroups/previewReceiptActions.js
 tools/fs/actionGroups/processActions.js
 tools/fs/actionGroups/processAdapter.js
@@ -2042,6 +2058,7 @@ tools/fs/actionGroups/renderLabActions.js
 tools/fs/actionGroups/runtimeActions.js
 tools/fs/actionGroups/scanWorkerActions.js
 tools/fs/actionGroups/schedulerEmergencyActions.js
+tools/fs/actionGroups/screenshotActions.js
 tools/fs/actionGroups/shareActions.js
 tools/fs/actionGroups/staticServerActions.js
 tools/fs/actionGroups/systemHealthActions.js
@@ -2050,6 +2067,7 @@ tools/fs/actionGroups/transferActions.js
 tools/fs/actionGroups/velocityGuidanceActions.js
 tools/fs/actionGroups/virtualChromeActions.js
 tools/fs/actionGroups/virtualOsGraphActions.js
+tools/fs/actionGroups/visualGateActions.js
 tools/fs/actionGroups/websiteAgentActions.js
 tools/fs/actionGroups/websiteAgents/authentication.js
 tools/fs/actionGroups/websiteAgents/dispatch.js
@@ -2205,6 +2223,7 @@ tools/fs/commandJob/crossRootScanner.js
 tools/fs/commandJob/fairQueue.js
 tools/fs/commandJob/fairQueueRemove.js
 tools/fs/commandJob/fairQueueSnapshot.js
+tools/fs/commandJob/fastLane.js
 tools/fs/commandJob/finalization.js
 tools/fs/commandJob/finalizationLease.js
 tools/fs/commandJob/finalize.js
@@ -2897,6 +2916,7 @@ tools/fs/writeBatchTransfers.js
 tools/fs/writePayload.js
 tools/fs/writePayloadCarriers.js
 tools/fs/xmlWrites.js
+tools/preview/previewLinks.js
 tools/relay/browserApi.js
 tools/relay/browserCookieHeaders.js
 tools/relay/browserCookiePolicy.js
