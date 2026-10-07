@@ -27,6 +27,23 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 		}
 		return "<title>Torah Teaching | Awtsmoos</title><meta name=\"robots\" content=\"noindex,follow\">";
 	</script>?>
+	<style id="awtsmoos-reader-contrast-fix">
+		/* B"H — inline contrast fix: readable article text in both themes.
+		   Inline in the template to bypass @import chain / bundle caching issues. */
+		.post-reader-localized-context .sub-awtsmoos.heb,
+		.post-reader-localized-context .heb {
+			color: #1b1b1b !important;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .sub-awtsmoos.heb,
+		:root[data-theme="dark"] .post-reader-localized-context .heb {
+			color: #fffdf5 !important;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context,
+		:root[data-theme="dark"] .post-reader-localized-context .section {
+			background-color: #0a1120 !important;
+			background: #0a1120 !important;
+		}
+	</style>
 </head>
 <body>
 	<style id="awtsmoos-custom-styles"></style>
