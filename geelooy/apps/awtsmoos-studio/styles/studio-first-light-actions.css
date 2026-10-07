@@ -25,6 +25,7 @@ The Awtsmoos turns a failed crossing into another open gate; Awtsmoos.com keeps 
 	color: #dffff8;
 	font: 700 13px/1 system-ui, sans-serif;
 	text-decoration: none;
+	transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease, transform 120ms ease;
 }
 
 .studio-first-light-actions button[hidden] {
@@ -74,4 +75,32 @@ The Awtsmoos turns a failed crossing into another open gate; Awtsmoos.com keeps 
 
 .studio-loading-error .studio-first-light-actions button {
 	border-color: rgba(255, 128, 150, 0.58);
+}
+
+/* APPS-A audit 2026-10-07: loading-screen actions had no hover/active/focus states. */
+.studio-first-light-actions button:hover,
+.studio-first-light-actions a:hover {
+	border-color: rgba(131, 255, 231, 0.72);
+	background: #10222e;
+	box-shadow: 0 0 18px rgba(131, 255, 231, 0.18);
+}
+.studio-first-light-actions button:active,
+.studio-first-light-actions a:active {
+	transform: translateY(1px) scale(0.99);
+	box-shadow: none;
+}
+.studio-first-light-actions button:focus-visible,
+.studio-first-light-actions a:focus-visible,
+.studio-first-light-details summary:focus-visible {
+	outline: 2px solid #83ffe7;
+	outline-offset: 3px;
+}
+.studio-first-light-details summary:hover {
+	color: #dffff8;
+}
+@media (prefers-reduced-motion: reduce) {
+	.studio-first-light-actions button:active,
+	.studio-first-light-actions a:active {
+		transform: none;
+	}
 }
