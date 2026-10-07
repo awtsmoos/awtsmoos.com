@@ -10,6 +10,8 @@
 
 .social-hub-document .publicDiscovery__status {
 	position: absolute;
+	top: 0;
+	inset-inline-start: 0;
 	inline-size: 1px;
 	block-size: 1px;
 	margin: -1px;
