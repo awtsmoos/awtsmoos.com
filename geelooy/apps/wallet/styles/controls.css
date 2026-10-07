@@ -92,3 +92,36 @@ input:focus {
 	border-color: rgba(255, 157, 168, 0.42);
 	color: var(--wallet-error);
 }
+
+/* Wallet CTA contrast fix: .awp-cta inherits too-dark text on the
+ * wallet's deep-brown theme (2.96:1). Override with high-contrast gold. */
+.wallet-primary-nav .awp-cta,
+.wallet-more__links .awp-cta {
+    color: #ffd97a;
+}
+
+.wallet-primary-nav .awp-cta:hover,
+.wallet-more__links .awp-cta:hover {
+    color: #ffe9b8;
+    border-color: rgba(255, 217, 122, 0.65);
+}
+
+.wallet-primary-nav .awp-cta:active,
+.wallet-more__links .awp-cta:active {
+    color: #fff3d6;
+    transform: translateY(1px);
+}
+
+.wallet-primary-nav .awp-cta:focus-visible,
+.wallet-more__links .awp-cta:focus-visible {
+    outline: 2px solid #ffd97a;
+    outline-offset: 3px;
+    color: #ffe9b8;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .wallet-primary-nav .awp-cta,
+    .wallet-more__links .awp-cta {
+        transition: color 180ms ease, border-color 220ms ease, transform 120ms ease;
+    }
+}
