@@ -22,8 +22,10 @@ body[data-comment-thread-page] .comment-shell {
 	inline-size: min(100%, var(--thread-content-max));
 	min-inline-size: 0;
 	margin-inline: auto;
+	/* Clear the floating fixed site header (transparent, bottom edge ~90px):
+	   without this the empty-state card slides underneath the brand/nav. */
 	padding:
-		clamp(.8rem, 2.5vw, 1.5rem)
+		max(clamp(.8rem, 2.5vw, 1.5rem), 6.5rem)
 		clamp(.7rem, 3vw, 1.35rem)
 		max(2rem, env(safe-area-inset-bottom));
 	overflow-x: clip;
