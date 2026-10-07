@@ -1,18 +1,26 @@
 // B"H
-const Custom = require('./customGpt.js');
+// Boruch Hashem
+// Blessed is He
 
-/** B"H — Chapter 1962: Every sixth spark becomes a torch for another mind. */
+const Custom = require("./customGpt.js");
+
+/** The Awtsmoos hands forward evidence; no obsolete fallback path becomes authority. */
 function requestPrompt(input = {}) {
-  return [
-    'B"H Write a long practical handoff prompt for another AI agent.',
-    'Include absolute paths for every relevant file already known.',
-    'Do not include extreme ritual planning; make it realistic and directly actionable.',
-    'Include: goal, current state, tests passed, files touched, next exact steps, emergency exits.',
-    `Current goal: ${input.goal || input.objective || 'continue the Awtsmoos tunnel mission'}.`,
-    `Known root: ${input.root || '/Users/awtsmoos/Documents/Awtsmoos/git/Awtsmoos.com/geelooy/apps/tunnel/agent'}.`,
-    'End with a compact next action payload.'
-  ].join('\n');
+	const root = input.root || input.canonicalRoot || input.projectRoot || "";
+	return [
+		'B"H Write a practical handoff for the next authorized agent.',
+		"Include goal, saved mission/plan IDs, actual files touched, verified tests, pending receipts and next steps.",
+		"Do not include private reasoning, credentials, or unverified completion claims.",
+		"Current goal: " + (input.goal || input.objective || "continue the Awtsmoos tunnel mission") + ".",
+		root ? "Verified project root supplied by caller: " + root : "Discover the immutable project root; none was supplied.",
+		"Reconcile pending work before retrying a mutation; preserve the exact custom GPT target."
+	].join("\n");
 }
-function newChatTarget(sourceUrl = '') { return { url: Custom.newChatUrl(Custom.parse(sourceUrl)), source: Custom.parse(sourceUrl) }; }
-function prepare(input = {}) { return { shouldOpenNewChat: true, target: newChatTarget(input.sourceUrl || input.url || ''), prompt: input.handoffText || requestPrompt(input) }; }
+function newChatTarget(sourceUrl = "") {
+	return { url: Custom.newChatUrl(Custom.parse(sourceUrl)), source: Custom.parse(sourceUrl) };
+}
+function prepare(input = {}) {
+	return { shouldOpenNewChat: true, target: newChatTarget(input.sourceUrl || input.url || ""),
+		prompt: input.handoffText || requestPrompt(input) };
+}
 module.exports = { requestPrompt, newChatTarget, prepare };

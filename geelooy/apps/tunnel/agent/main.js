@@ -4,6 +4,7 @@
 // Blessed is He
 
 const Config = require("./lib/config.js");
+const Continuation = require("./lib/runtime/continuation-host.js");
 const Drain = require("./lib/runtime/main-drain.js");
 const Lifecycle = require("./lib/runtime/process-lifecycle-log.js");
 const MainProcess = require("./lib/runtime/main-process.js");
@@ -53,8 +54,13 @@ const processRuntime = MainProcess.createProcessRuntime({
 	lagMonitor: components.runtime.lagMonitor,
 	log: components.log,
 	snapshot: components.runtime.snapshot,
-	start: components.startup.main,
+	start: async () => {
+		const receipt = await components.startup.main();
+		Continuation.start(components.log);
+		return receipt;
+	},
 	stopWorkers: signal => {
+		Continuation.stop();
 		components.connection.stop();
 		components.workers.stopAll(signal);
 		D.FsExecutor.shutdown();
