@@ -1,0 +1,130 @@
+{
+  "runId": "awtsmoos-soak-1791352766593",
+  "startedAt": "2026-10-07T05:59:26.613Z",
+  "elapsedMs": 946732,
+  "durationMs": 900000,
+  "done": true,
+  "scope": "Real Mac localhost actions and authenticated device instruction bridge; no user OAuth client invocation",
+  "metrics": {
+    "/healthz": {
+      "calls": 4264,
+      "failed": 0,
+      "meanMs": 10,
+      "p50Ms": 3,
+      "p95Ms": 27
+    },
+    "health_round": {
+      "calls": 4264,
+      "failed": 0,
+      "meanMs": 10,
+      "p50Ms": 3,
+      "p95Ms": 27
+    },
+    "instructionResolve": {
+      "calls": 213,
+      "failed": 0,
+      "meanMs": 232,
+      "p50Ms": 157,
+      "p95Ms": 699
+    },
+    "instruction_round": {
+      "calls": 213,
+      "failed": 0,
+      "meanMs": 232,
+      "p50Ms": 157,
+      "p95Ms": 699
+    },
+    "fileTransferCreate": {
+      "calls": 15,
+      "failed": 0,
+      "meanMs": 904,
+      "p50Ms": 979,
+      "p95Ms": 2293
+    },
+    "write": {
+      "calls": 600,
+      "failed": 0,
+      "meanMs": 768,
+      "p50Ms": 725,
+      "p95Ms": 1025
+    },
+    "read": {
+      "calls": 600,
+      "failed": 0,
+      "meanMs": 32,
+      "p50Ms": 27,
+      "p95Ms": 70
+    },
+    "text_round": {
+      "calls": 600,
+      "failed": 0,
+      "meanMs": 800,
+      "p50Ms": 756,
+      "p95Ms": 1067
+    },
+    "commandStart": {
+      "calls": 59,
+      "failed": 0,
+      "meanMs": 139,
+      "p50Ms": 92,
+      "p95Ms": 303
+    },
+    "commandStatus": {
+      "calls": 122,
+      "failed": 0,
+      "meanMs": 29,
+      "p50Ms": 12,
+      "p95Ms": 118
+    },
+    "commandJobOutputPage": {
+      "calls": 45,
+      "failed": 0,
+      "meanMs": 11,
+      "p50Ms": 8,
+      "p95Ms": 27
+    },
+    "command_round": {
+      "calls": 59,
+      "failed": 0,
+      "meanMs": 391,
+      "p50Ms": 301,
+      "p95Ms": 991
+    },
+    "fileTransferWriteChunk": {
+      "calls": 75,
+      "failed": 0,
+      "meanMs": 327,
+      "p50Ms": 228,
+      "p95Ms": 1087
+    },
+    "fileTransferCommit": {
+      "calls": 30,
+      "failed": 0,
+      "meanMs": 205,
+      "p50Ms": 160,
+      "p95Ms": 398
+    },
+    "fileTransferReadChunk": {
+      "calls": 15,
+      "failed": 0,
+      "meanMs": 142,
+      "p50Ms": 128,
+      "p95Ms": 351
+    },
+    "transfer_round": {
+      "calls": 15,
+      "failed": 0,
+      "meanMs": 3110,
+      "p50Ms": 3078,
+      "p95Ms": 4425
+    },
+    "commandCancel": {
+      "calls": 14,
+      "failed": 0,
+      "meanMs": 328,
+      "p50Ms": 286,
+      "p95Ms": 635
+    }
+  },
+  "failures": []
+}

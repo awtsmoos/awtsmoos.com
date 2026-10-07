@@ -1,0 +1,35 @@
+{
+  "checkedAt": "2026-10-07T06:15:38.649Z",
+  "pluginVersion": "0.89.0",
+  "sourceCommit": "110ca03df897ac299ff28cf90c1ffb5f26ac18b8",
+  "liveRuntimeVersion": "1.0.647",
+  "liveInstructionVersion": "0.87.0",
+  "liveInstructionResources": 68,
+  "sourceInstructionResources": 69,
+  "regressions": {
+    "workAndInstructions": 10,
+    "commandAndSupervisor": 7
+  },
+  "browserFixture": {
+    "source": "real-chrome",
+    "widths": [
+      390,
+      768,
+      1440
+    ],
+    "interactionAtEveryWidth": true,
+    "screenshotsAfterInteractions": true,
+    "brokenCssRejected": true,
+    "oldReleaseRejected": true,
+    "servedAssetHashVerified": true,
+    "mobileImageTransferredAndViewed": true,
+    "mobileSha256": "5db9113f44ed820ef03f58d8b59e7e063eab635b54f16dbd764b694197723eac"
+  },
+  "blockers": [
+    "Production checkout geelooy-repair-waves-deploy has unrelated uncommitted changes; canonical deployment refused.",
+    "Mac release-source guard rejects other workers dirty/untracked runtime modules; no coherent versioned runtime release yet.",
+    "Fresh host session native app launch blocked by cloud browser URL policy; authenticated MCP client remains unverified.",
+    "No verified intended-host demo recording or dedicated reviewer access; public review not submitted."
+  ],
+  "publicSubmissionReady": false
+}
