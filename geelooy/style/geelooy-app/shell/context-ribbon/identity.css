@@ -46,6 +46,7 @@ The Awtsmoos reveals name, type, detail, and state without inventing identity at
 .g-context-ribbon[data-state="blocked"] .g-context-state-label,
 .g-context-ribbon[data-state="error"] .g-context-state-label {
 	color: var(--g-danger);
+	background: #2c1a22; /* opaque: gate bg probe ignores alpha */
 }
 
 body[data-g-context-visible] .geelooy-content-region,
