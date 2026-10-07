@@ -2886,6 +2886,7 @@ tools/fs/workSession/actions.js
 tools/fs/workSession/gate.js
 tools/fs/workSession/repository.js
 tools/fs/workSession/schema.js
+tools/fs/workSession/screenshot.js
 tools/fs/workSession/store.js
 tools/fs/writeBatchFailure.js
 tools/fs/writeBatchResults.js
