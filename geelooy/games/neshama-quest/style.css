@@ -32,7 +32,7 @@ body {
 	justify-content: space-between;
 	gap: 12px;
 	min-height: 58px;
-	padding: max(8px, env(safe-area-inset-top)) 14px 8px;
+	padding: max(8px, env(safe-area-inset-top)) calc(14px + 58px) 8px 14px; /* GAMES-A: clear the fixed 48px shell launcher */
 }
 
 .gameHeader h1 {
@@ -48,6 +48,20 @@ button {
 	font: inherit;
 	font-weight: 800;
 	cursor: pointer;
+}
+
+/* GAMES-A: button interactive states. */
+button:hover:not(:disabled) {
+	filter: brightness(1.1);
+}
+
+button:focus-visible {
+	outline: 2px solid #ffe18a;
+	outline-offset: 2px;
+}
+
+button:active:not(:disabled) {
+	transform: scale(0.97);
 }
 
 #game-container {
