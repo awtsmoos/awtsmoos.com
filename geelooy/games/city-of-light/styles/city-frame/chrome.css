@@ -11,7 +11,7 @@
 	align-items: flex-start;
 	display: flex;
 	gap: 8px;
-	inset: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) auto max(8px, env(safe-area-inset-left));
+	inset: max(8px, env(safe-area-inset-top)) calc(max(8px, env(safe-area-inset-right)) + 58px) auto max(8px, env(safe-area-inset-left)); /* GAMES-A: clear the fixed 48px shell launcher */
 	justify-content: space-between;
 	pointer-events: none;
 	position: absolute;
