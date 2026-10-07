@@ -3,8 +3,9 @@
 // Blessed is He
 
 const Recovery = require("./requestAcceptanceRecovery.js");
+const HealthFresh = require("./executionHealthFresh.js");
 
-const DEFAULT_HEALTH_STALE_MS = 20000;
+const DEFAULT_HEALTH_STALE_MS = HealthFresh.DEFAULT_HEALTH_STALE_MS;
 
 /**
  * @file Accepts bounded execution and acceptance-health testimony from an authenticated tunnel.
@@ -79,9 +80,7 @@ function normalize(value = {}) {
 }
 
 function isFresh(client = {}, now = Date.now(), staleMs = DEFAULT_HEALTH_STALE_MS) {
-	if (client.executionHealthSupported !== true) return true;
-	const observedAt = Number(client.executionHealthAt || 0);
-	return observedAt > 0 && now - observedAt >= 0 && now - observedAt <= staleMs;
+	return HealthFresh.isFresh(client, now, staleMs);
 }
 
 function nonnegative(value) {

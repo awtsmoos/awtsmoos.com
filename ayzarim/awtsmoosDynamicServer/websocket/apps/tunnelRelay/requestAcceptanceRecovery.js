@@ -7,7 +7,7 @@ const Lifecycle = require("./requestAcceptanceRecoveryLifecycle.js");
 const Success = require("./requestAcceptanceRecoverySuccess.js");
 const Timer = require("./requestAcceptanceRecoveryTimer.js");
 const Values = require("./requestAcceptanceRecoveryValues.js");
-const Health = require("./healthHandler.js");
+const Health = require("./executionHealthFresh.js");
 
 /**
  * @file Coordinates sustained acceptance failure recovery while delegating success invalidation.
