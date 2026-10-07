@@ -1,5 +1,5 @@
 {
-  "pluginVersion": "0.89.0",
+  "pluginVersion": "0.90.0",
   "sourcePluginId": "plugin_1e3aaae027408191ab6a75b861bd8ec4",
   "resources": [
     {
@@ -278,6 +278,11 @@
       "hash": "120a66e3301993f6ed8bf3b9efb3ae126610f2fa8a15b9d5dfc6396cdb318be3"
     },
     {
+      "path": "skills/instructions/references/RESUMABLE_CLIENT_AND_CHANNEL_EVIDENCE.md",
+      "bytes": 5502,
+      "hash": "caf110331c5033ca3a922f73620ef4f51f89c9d140a1943bb1484b7b22424fb8"
+    },
+    {
       "path": "skills/instructions/references/RESUMABLE_MISSION_LEDGER.md",
       "bytes": 3128,
       "hash": "cc3baa2be3b430d88727b902084a4da1c2957be7c1223c8d538ba5e0c34627b4"
@@ -344,8 +349,8 @@
     },
     {
       "path": "skills/tunnel-workflow/SKILL.md",
-      "bytes": 2784,
-      "hash": "5e77d50f2065518273a91dd62bb61023332e8dd4013322a515e5dfa56676ec2e"
+      "bytes": 3141,
+      "hash": "d81b59484f490905aa3c74caf592a402c2a8338c027e06b982e1ac669a7b9381"
     }
   ]
 }

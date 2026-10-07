@@ -25,3 +25,7 @@ Read ../instructions/references/DURABLE_WORK_AND_CONNECTION_RECOVERY.md for the 
 
 Read ../instructions/references/CSS_AND_EXTERNAL_VISUAL_VERIFICATION.md before frontend edits or UI completion claims. Fix the owning cascade rather than layering overrides; verify exact-source behavior in real Chrome, transfer screenshots into the external agent host with byte/hash checks, open the images with its image tools, and record unresolved defects before release.
 
+## Resumable clients and channel evidence
+
+Read ../instructions/references/RESUMABLE_CLIENT_AND_CHANNEL_EVIDENCE.md when diagnosing a flap, resuming interrupted commands, coordinating parallel work or upgrading the runtime. Preserve complete pending receipts and require terminal exit/output proof. Use the existing queues, checkpoints and frontend gates.
+

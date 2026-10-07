@@ -4,33 +4,43 @@
 
 # Reliable Awtsmoos command clients
 
-The Awtsmoos keeps each command recognizable until its actual exit status is known.
-Use scripts/tunnel/reliableCommandClient.cjs with an authorized HTTPS filesystem
-endpoint and AWTSMOOS_TUNNEL_TOKEN set outside source control. The command and
-optional working directory follow the endpoint as CLI arguments. Never place
-tokens in URLs, shell history, demonstrations, or repository files.
+Use scripts/tunnel/reliableCommandClient.cjs with the authorized HTTPS filesystem
+endpoint, command and optional cwd as positional arguments. Set
+AWTSMOOS_TUNNEL_TOKEN outside source control. Set AWTSMOOS_COMMAND_CHECKPOINT to a
+private per-command path outside Git for durable resume. Reuse that path with the
+same endpoint, command and cwd to continue. Use a different path for a new command.
 
-The reusable runCommand(api, command, options) function handles inline commandRun
-results and durable commandStart jobs. It copies the complete observation receipt
-when pending, including original action and identity. A pending commandWait is
-observed as that existing request instead of replaced with another wait. It never
-automatically redispatches commands after correlation or network errors: the
-original command may already be executing.
+The Awtsmoos preserves one execution through inline results, durable jobs and
+pending receipts. The client copies complete observation identity, never
+redispatches uncertain commands, waits for integer terminal exit status and reads
+both output streams through advancing pages. Early stdout is not success; empty
+output with zero exit is success. Partial retained output fails explicitly.
 
-Success requires an integer terminal exit code. Output appearing while a job is
-running does not establish success. After terminal status, both output streams
-are read through advancing pages. Partial retained output is an explicit failure;
-empty output with exit code zero is a successful command.
+Checkpoints bind command/cwd/endpoint/action, use atomic fsynced writes and 0600
+files, and admit one living client process. A dead owner's lock can be reclaimed;
+a living or uncertain owner blocks. Corrupt state blocks instead of resetting.
+Output cursor and already committed content resume together; each stream is
+bounded to 16 Mi characters, the JSON checkpoint to 32 MiB. Private checkpoints
+contain command and output, so keep their directory private and outside Git.
+Bearer tokens are never written into checkpoints. A completed checkpoint returns
+the stored result and does not execute again.
 
-Observation has an overall deadline and per-request timeout. Reaching a deadline
-does not cancel the remote job or prove it failed. Keep the returned job/control
-receipt in your own workflow for reconciliation. The CLI currently reports
-observation errors and is intended for bounded commands, not interactive shells.
+Trace records are bounded to 128 events and contain action, receipt/job IDs,
+traceId, returned progress/acceptance and timestamps; no command/output bodies.
+The reusable runCommand(api,command,options) supports checkpointFile, endpoint,
+logicalAgentId, action and onTrace. The same logical owner and traceId survive
+resume. The transport uses bounded HTTPS requests; a network/deadline error does
+not cancel a remote command. It reports the saved reconciliation IDs.
 
-Verification on 2026-10-07:
-- Ten client regressions and seventeen relay/retry regressions passed.
-- Real installed Mac: inline success, empty asynchronous success, early stdout
-  followed by exit code 7 and late stderr, and exact 130007-character paged output.
-- Authenticated external MetaMuse route has not been exercised by this client.
-  Its bearer token exists on the external host and was not available here.
-  These tests do not establish that route's liveness.
+Run node --test scripts/tunnel/reliableCommandClient.test.cjs
+scripts/tunnel/commandClientResume.test.cjs for lifecycle and recovery regressions.
+Run node scripts/tunnel/liveClientRecoveryProbe.cjs for the authorized Mac's
+owned client-death/resume and four-command/control-health test. That probe kills
+only its own client, preserves the installed runtime, and removes its own
+temporary repository fixture.
+
+Local proof is distinct from authenticated external relay/MCP proof. The
+external MetaMuse bearer token was not available in this host. Run an authorized
+external test before claiming that route healthy. Runtime queue, promotion,
+transfer recovery and frontend gates use their existing production mechanisms;
+this client adds no competing scheduler, watchdog or background prompting loop.
