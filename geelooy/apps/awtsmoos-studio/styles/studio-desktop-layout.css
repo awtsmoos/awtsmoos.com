@@ -61,4 +61,52 @@ The Awtsmoos gives desktop Studio six explicit measures so world, panels, templa
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
 	}
+/* FIX-1 apps-audit 2026-10-07: desktop scene-card grid */
+	.studio-scene-card {
+		box-sizing: border-box;
+		display: grid;
+		grid-template-columns: 40px minmax(0, 1fr) auto;
+		align-items: center;
+		gap: 4px 10px;
+		width: 100%;
+		text-align: left;
+		cursor: pointer;
+		transition: border-color 160ms ease, background 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+	}
+	.studio-scene-card-preview {
+		grid-row: 1 / 3;
+		display: grid;
+		place-items: center;
+		min-height: 44px;
+		border-radius: 9px;
+		background: linear-gradient(150deg, #233b55, #101a27);
+		color: #77b9ff;
+		font-size: 20px;
+	}
+	.studio-scene-card-copy { display: grid; min-width: 0; row-gap: 2px; align-content: center; }
+	.studio-scene-card-copy strong, .studio-scene-card-copy span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+	.studio-scene-card-copy strong { font-size: 12px; }
+	.studio-scene-card-copy span { color: #8fa7ba; font-size: 10px; }
+	.studio-scene-card-mode { color: #55a8ff; font-size: 10px; font-weight: 750; letter-spacing: 0.04em; }
+	.studio-scene-card:hover { border-color: #3f6ea3; background: #16283c; }
+	.studio-scene-card:active { transform: translateY(1px) scale(0.995); }
+	.studio-scene-card:focus-visible { outline: 2px solid #8eeaff; outline-offset: 2px; }
+	.studio-scene-card[aria-pressed="true"] { position: relative; overflow: hidden; }
+	.studio-scene-card[aria-pressed="true"]::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		background: linear-gradient(105deg, transparent 40%, rgba(142, 234, 255, 0.14) 50%, transparent 60%);
+		transform: translateX(-100%);
+		animation: studio-card-sheen 3.2s ease-in-out infinite;
+	}
+	@keyframes studio-card-sheen {
+		0% { transform: translateX(-100%); }
+		55%, 100% { transform: translateX(100%); }
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.studio-scene-card, .studio-scene-card[aria-pressed="true"]::after { animation: none; transition: none; }
+		.studio-scene-card[aria-pressed="true"]::after { display: none; }
+	}
 }
