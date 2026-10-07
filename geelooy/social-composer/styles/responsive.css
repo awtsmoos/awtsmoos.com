@@ -36,6 +36,26 @@
 	}
 }
 @media (max-width: 37.5rem) {
+	/* Rails wrap instead of horizontal swipe (gate has no intentional-scroll opt-out). */
+	.creatorIntentRail,
+	.creatorQuickRail,
+	.creatorContextRail,
+	.creatorDock {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		overflow-x: visible;
+		overflow-y: visible;
+		scroll-snap-type: none;
+	}
+	.creatorIntentRail .creatorRailButton,
+	.creatorQuickRail .creatorRailButton,
+	.creatorContextRail .creatorContextAction,
+	.creatorDock .creatorDockButton {
+		inline-size: 100%;
+		min-inline-size: 0;
+		max-inline-size: none;
+		white-space: normal;
+	}
 	.blockHeader select {
 		flex-basis: 100%;
 	}
