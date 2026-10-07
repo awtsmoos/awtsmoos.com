@@ -1,0 +1,50 @@
+{
+  "date": "2026-10-07",
+  "productionSha": "29f11211bc04ff572ad52a0a6299a4bfd800680c",
+  "runtime": "1.0.650",
+  "pluginVersion": "0.90.0",
+  "visibility": "private",
+  "catalogResources": 70,
+  "identityPreserved": [
+    "deviceId",
+    "tunnelId",
+    "keyFingerprint",
+    "credentialVersion"
+  ],
+  "instructionResource": {
+    "path": "skills/instructions/references/RESUMABLE_CLIENT_AND_CHANNEL_EVIDENCE.md",
+    "pages": 3,
+    "characters": 5502,
+    "sha256": "caf110331c5033ca3a922f73620ef4f51f89c9d140a1943bb1484b7b22424fb8"
+  },
+  "finalLiveProbe": {
+    "startedAt": "2026-10-07T12:58:44.647Z",
+    "finishedAt": "2026-10-07T12:59:06.766Z",
+    "passed": true,
+    "clientKilledAndResumedSameJob": true,
+    "singleExecution": true,
+    "concurrentCommands": 4,
+    "healthProbes": 10,
+    "healthP50Ms": 19,
+    "healthMaxMs": 54,
+    "fileMarkerExactReadback": true
+  },
+  "tests": {
+    "client": 16,
+    "transactionalInstaller": 4,
+    "isolatedLongevity": "passed",
+    "additionalReliabilityRegressions": 24
+  },
+  "limitations": [
+    "External MetaMuse authenticated client route unverified",
+    "No overnight uptime claim",
+    "Frontend rendering requires its own screenshot and interaction gate",
+    "Public submission not completed"
+  ],
+  "deploymentNotes": [
+    "Canonical exact-SHA coordinator passed",
+    "Candidate probe: 16 samples over 15812ms",
+    "Brief local API unavailability during promotion recovered",
+    "Compact prewarm deferred"
+  ]
+}
