@@ -13,6 +13,14 @@
 	padding: 46px 0 calc(60px + var(--menu-safe-bottom));
 }
 
+.Awtsmoos-menu .Awtsmoos-menu-content > h3 {
+	margin: 18px 0 10px;
+	color: var(--menu-text);
+	font-size: 16px;
+	font-weight: 700;
+	letter-spacing: 0.02em;
+}
+
 .Awtsmoos-menu .Awtsmoos-menu-hero {
 	max-width: 820px;
 	margin-bottom: 30px;
