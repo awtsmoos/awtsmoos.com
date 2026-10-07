@@ -76,6 +76,16 @@
 	background: #1c5630;
 	transform: translateY(-2px);
 }
+/* GAMES-B: emojis menu-button press/keyboard states. */
+.menu-button:active:not(:disabled),
+#imageUploadLabel:active {
+	transform: translateY(1px) scale(0.98);
+}
+.menu-button:focus-visible,
+#imageUploadLabel:focus-visible {
+	outline: 3px solid var(--emoji-green);
+	outline-offset: 3px;
+}
 
 .menu-button.secondary {
 	border-color: #3d4d68;
