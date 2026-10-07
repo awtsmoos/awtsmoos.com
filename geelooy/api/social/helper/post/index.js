@@ -10,6 +10,7 @@ const { sp } = require("../_awtsmoos.constants.js");
 const { loggedIn, er, myOpts, generateAwtsmoosId } = require("../general.js");
 const { verifyHeichelAuthority } = require("../heichel.js");
 const { deleteAllCommentsOfParent } = require("../comments/index.js");
+const { invalidateSeries } = require("./seriesReadCache.js");
 const {
     shouldSubmitPostForApproval,
     submitPostForApproval,
@@ -489,8 +490,9 @@ async function addPostToSeries({ $i, heichelId, seriesId, isApproval = false }) 
         if (writeResult?.error) {
             throw new Error(`DB Error: ${writeResult.error.message || writeResult.error}`);
         }
-       
-		
+
+        try { invalidateSeries(heichelId, seriesId); } catch (e) { /* ignore */ }
+
         return { success: { postId, seriesId, title } };
 
     } catch (e) {
@@ -566,6 +568,8 @@ async function editPostInSeries({ $i, heichelId, seriesId, postId }) {
             throw new Error(`DB Error: ${updateResult.error.message || updateResult.error}`);
         }
 
+        try { invalidateSeries(heichelId, seriesId); } catch (e) { /* ignore */ }
+
         return { success: { message: "Post updated", postId, wrote: { title: !!newTitle, content: !!newContent, dayuh: !!dayuh } } };
 
     } catch (e) {
@@ -602,6 +606,8 @@ async function deletePostFromSeries({ $i, heichelId, seriesId, postId, userid })
             tasks: tasks,
             requestedBy: aliasId
         });
+
+        try { invalidateSeries(heichelId, seriesId); } catch (e2) { /* ignore */ }
 
         return { 
             success: { 
@@ -791,15 +797,32 @@ async function getPostsByProperty({ $i, heichelId, seriesId, propertyKey, proper
     const seriesPostsPath = `${sp}/heichelos/${heichelId}/series/${seriesId}/posts`;
 
     try {
-        const postsObject = await $i.db.get(seriesPostsPath);
-
-        if (!postsObject || typeof postsObject !== 'object') {
-            return []; // No posts to filter
+        // B"H: use cached ID list + narrow reads instead of full object scan
+        const { getCachedSeriesIds, setCachedSeriesIds } = require("./seriesReadCache.js");
+        let postIds = getCachedSeriesIds(heichelId, seriesId);
+        if (!postIds) {
+            postIds = await $i.db.getObjectKeys(seriesPostsPath).catch(() => []);
+            if (!Array.isArray(postIds)) return [];
+            setCachedSeriesIds(heichelId, seriesId, postIds);
         }
+        if (!postIds.length) return [];
 
-        const filteredPostIds = Object.entries(postsObject)
-            .filter(([postId, postData]) => postData && postData[propertyKey] == propertyValue) // Use == for flexibility or === for strictness
-            .map(([postId, postData]) => postId); // Return IDs of matching posts
+        // Read posts via narrow child paths and filter
+        const filteredPostIds = [];
+        const BATCH = 20;
+        for (let i = 0; i < postIds.length; i += BATCH) {
+            const batch = postIds.slice(i, i + BATCH);
+            const reads = await Promise.all(
+                batch.map(pid =>
+                    $i.db.get(`${seriesPostsPath}/${pid}`, { max: true })
+                        .then(d => ({ pid, d }))
+                        .catch(() => ({ pid, d: null }))
+                )
+            );
+            for (const { pid, d } of reads) {
+                if (d && d[propertyKey] == propertyValue) filteredPostIds.push(pid);
+            }
+        }
 
         return filteredPostIds;
 

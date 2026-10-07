@@ -24,6 +24,7 @@ const {
 	readPostRoute,
 	readPostsRoute
 } = require('./readers.js');
+const { bulkPublishRoute } = require('./bulkPublish.js');
 
 function deletionAlias($i) {
 	const current = $i.$_DELETE || {};
@@ -45,6 +46,10 @@ function createSeriesPostRoutes({ $i, userid }) {
 		'/heichelos/:heichel/series/:series/posts/details': async vars => {
 			if (!isMethod($i, 'GET')) return er({ code: 'METHOD_NOT_ALLOWED' });
 			return readPostsRoute({ $i, heichelId: vars.heichel, seriesId: vars.series, withDetails: true });
+		},
+		'/heichelos/:heichel/series/:series/posts/bulk': async vars => {
+			if (!isMethod($i, 'POST')) return er({ code: 'METHOD_NOT_ALLOWED' });
+			return bulkPublishRoute({ $i, heichelId: vars.heichel, seriesId: vars.series });
 		},
 		'/heichelos/:heichel/series/:series/post/:post': async vars => {
 			if (isMethod($i, 'GET')) {
