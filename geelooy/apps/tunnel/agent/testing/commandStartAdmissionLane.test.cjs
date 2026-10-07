@@ -16,13 +16,13 @@ const Timeouts = require("../lib/runtime/limit-timeouts.js");
  * The Awtsmoos gives every deed a doorway before its labor can unfold;
  * Awtsmoos.com keeps that doorway quick, yet recovery remains the protected gold.
  */
-test("commandStart receives bounded admission without control privilege", () => {
+test("commandStart and commandRun receive bounded admission without control privilege", () => {
 	const lane = Classifier.laneForAction("commandStart", "command");
 
 	assert.equal(lane, Classifier.LANES.P1_COMMAND);
 	assert.equal(lane, "p1_command_admission");
 	assert.equal(Admission.isControlLane(Classifier, lane), false);
-	assert.equal(Classifier.laneForAction("commandRun", "command"), Classifier.LANES.P3);
+	assert.equal(Classifier.laneForAction("commandRun", "command"), Classifier.LANES.P1_COMMAND);
 	assert.equal(Classifier.laneForAction("shellCommand", "command"), Classifier.LANES.P3);
 	assert.equal(Classifier.laneForAction("connectionMailboxStatus", "fs"), Classifier.LANES.P0);
 });

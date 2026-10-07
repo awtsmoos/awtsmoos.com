@@ -5,7 +5,7 @@
 const Control = require("./controlSets.js");
 const Work = require("./workSets.js");
 
-const COMMAND_ADMISSION_ACTIONS = new Set(["commandStart"]);
+const COMMAND_ADMISSION_ACTIONS = new Set(["commandStart", "commandRun"]);
 const LANES = Object.freeze({
 	P0: "p0_control",
 	P0_WAIT: "p0_wait",
