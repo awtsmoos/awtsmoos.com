@@ -5,6 +5,7 @@
 const COMMANDS = Object.freeze([
 	"status",
 	"diagnose",
+	"doctor",
 	"check",
 	"rescue",
 	"emergency",
@@ -17,6 +18,10 @@ const COMMANDS = Object.freeze([
 	"restore",
 	"help"
 ]);
+
+const ALIASES = Object.freeze({
+	doctor: "diagnose"
+});
 
 /**
  * @file Parses the short recovery language and turns typos into inert suggestions.
@@ -46,8 +51,10 @@ function parse(argv = []) {
 		else if (arg === "--json") result.json = true;
 		else if (arg.startsWith("--timeout=")) result.timeoutMs = boundedTimeout(arg);
 		else if (arg.startsWith("--recovery-root=")) result.recoveryRoot = valueAfterEquals(arg);
-		else if (result.command === "help" && positionals.length === 0) result.command = String(arg).toLowerCase();
-		else positionals.push(arg);
+		else if (result.command === "help" && positionals.length === 0) {
+			const command = String(arg).toLowerCase();
+			result.command = ALIASES[command] || command;
+		} else positionals.push(arg);
 	}
 	return result;
 }
@@ -101,6 +108,7 @@ function help() {
 		command: "help",
 		commands: [...COMMANDS],
 		examples: [
+			"awt doctor --json",
 			"awt diagnose --json",
 			"awt emergency --json",
 			"awt identity --confirm --json",
@@ -111,4 +119,4 @@ function help() {
 	};
 }
 
-module.exports = { COMMANDS, closest, distance, help, parse, unknown };
+module.exports = { ALIASES, COMMANDS, closest, distance, help, parse, unknown };
