@@ -1,5 +1,5 @@
 B"H
-1.0.647
+1.0.648
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1762,6 +1762,11 @@ scripts/run-fs-action-child.cjs
 scripts/run-scan-worker.cjs
 scripts/verify-manifest.cjs
 STABILITY_COVENANT.md
+tools/agentRoom/agent-room.js
+tools/agentRoom/agentRoomActions.js
+tools/agentRoom/INTRO.txt
+tools/agentRoom/README.md
+tools/agentRoom/room.js
 tools/chatgpt/actions/continuation.js
 tools/chatgpt/actions/conversations.js
 tools/chatgpt/actions/ensureChrome.js
