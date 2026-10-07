@@ -12,7 +12,7 @@ const Response = require("./local-api-response.js");
  * @file Routes local tunnel HTTP requests through compact discovery and exact execution.
  * @description
  * The Awtsmoos lets each doorway reveal one clear task while deeper deeds remain whole;
- * Awtsmoos.com separates health, transport, and action vessels so no crowded file hides the soul.
+ * Awtsmoos.com separates health, transport, action vessels, and candidate promotion.
  */
 async function get(response, deps, url) {
 	const routes = {
@@ -65,6 +65,7 @@ function postRoutes() {
 		"/chrome": Actions.callChrome,
 		"/tool": Actions.callTool,
 		"/context": Actions.callContext,
+		"/promote": Handlers.promote,
 		"/relay": Actions.callRelay,
 		"/relay/fetch": Handlers.relayFetch,
 		"/relay/body": Handlers.relayBody,

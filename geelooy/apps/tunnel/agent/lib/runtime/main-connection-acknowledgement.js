@@ -58,6 +58,7 @@ function handleRejected(dependencies, recovery, ws) {
 }
 
 function writeReceipt(dependencies, data, tunnelName, reason, accepted) {
+	const nonOwning = accepted && isNonOwningProbe(data);
 	dependencies.Receipt?.write(accepted ? "registered" : "registration_rejected", {
 		tunnelId: String(data.tunnelId || dependencies.state.tunnelId || ""),
 		tunnelName,
@@ -66,7 +67,9 @@ function writeReceipt(dependencies, data, tunnelName, reason, accepted) {
 		lastServerMessageAt: new Date().toISOString(),
 		reason,
 		reconnectAttempt: dependencies.state.reconnectAttempt || 0,
-		lastRegisteredAt: dependencies.state.lastRegisteredAt || null
+		lastRegisteredAt: dependencies.state.lastRegisteredAt || null,
+		nonOwning,
+		owning: accepted && !nonOwning
 	});
 }
 
@@ -79,5 +82,6 @@ function rejectionReason(data, accepted) {
 module.exports = {
 	handleAcknowledgement,
 	isNonOwningProbe,
-	rejectionReason
+	rejectionReason,
+	writeReceipt
 };

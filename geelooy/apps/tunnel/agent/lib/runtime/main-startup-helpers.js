@@ -57,7 +57,8 @@ function startLocalApi(dependencies) {
 		return dependencies.startLocalApiServer({
 			log: dependencies.log,
 			configLoader: dependencies.loadConfig,
-			fsHandler: dependencies.fsHandler
+			fsHandler: dependencies.fsHandler,
+			promotionHandler: dependencies.promotionHandler
 		});
 	} catch (error) {
 		dependencies.log("warn", `Local API server error: ${error.message}`);

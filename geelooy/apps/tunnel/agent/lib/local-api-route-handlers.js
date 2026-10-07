@@ -3,12 +3,13 @@
 // Blessed is He
 
 const Actions = require("./local-api-actions.js");
+const Response = require("./local-api-response.js");
 
 /**
- * @file Holds the small route-specific wrappers that translate local HTTP paths into deeds.
+ * @file Holds small route-specific wrappers for relay, streaming, and candidate promotion.
  * @description
  * The Awtsmoos lets each doorway name one motion without crowding the central hall;
- * Awtsmoos.com keeps relay and streaming wrappers separate so routing stays readable for all.
+ * Awtsmoos.com keeps wrappers separate so routing stays readable for all.
  */
 function relayHealth(response, deps) {
 	return Actions.relayAction(response, deps, "relayHealth");
@@ -38,6 +39,23 @@ function jasonRelay(response, deps, body) {
 	return Actions.callJsonRelay(response, deps, body, "jasonRelay");
 }
 
+async function promote(response, deps) {
+	if (process.env.AWTSMOOS_REGISTRATION_MODE !== "candidate-probe") {
+		return Response.endJson(response, 403, {
+			ok: false,
+			error: "candidate_promotion_not_available"
+		});
+	}
+	if (typeof deps.promotionHandler !== "function") {
+		return Response.endJson(response, 503, {
+			ok: false,
+			error: "candidate_promotion_handler_unavailable"
+		});
+	}
+	const result = await Promise.resolve(deps.promotionHandler());
+	return Response.endJson(response, result?.ok === false ? 503 : 200, result);
+}
+
 function streamingStatus(response, deps) {
 	return Actions.streamingAction(response, deps, {}, "streamingSessionStatus");
 }
@@ -61,6 +79,7 @@ function streamingStatusPost(response, deps, body) {
 module.exports = {
 	jasonRelay,
 	jsonRelay,
+	promote,
 	relayBody,
 	relayCookies,
 	relayFetch,

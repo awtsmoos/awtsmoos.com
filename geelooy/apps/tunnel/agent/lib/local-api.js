@@ -82,7 +82,8 @@ function makeDeps(dependencies = {}) {
 		chromeHandler: dependencies.chromeHandler || (payload => handleChrome(payload)),
 		relayHandler: dependencies.relayHandler || ((payload, config) => handleRelay(payload, config)),
 		streamingHandler: dependencies.streamingHandler || (payload => handleStreaming(payload)),
-		jsonRelayHandler: dependencies.jsonRelayHandler || (payload => jsonRelay(payload))
+		jsonRelayHandler: dependencies.jsonRelayHandler || (payload => jsonRelay(payload)),
+		promotionHandler: dependencies.promotionHandler
 	};
 }
 

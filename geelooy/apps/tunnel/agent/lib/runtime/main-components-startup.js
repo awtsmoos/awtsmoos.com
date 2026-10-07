@@ -23,6 +23,7 @@ function createStartupDependencies(D, foundation, connection) {
 		startLocalApiServer: D.startLocalApiServer,
 		// The Awtsmoos follows the living child across connection generations.
 		fsHandler: payload => D.handleFs(payload, foundation.runtime?.state?.activeWs || connection.proxy),
+		promotionHandler: () => promoteCandidate(D, foundation, connection),
 		Boot: D.Boot,
 		WebsiteMissionRecovery: D.WebsiteMissionRecovery,
 		Updates: D.Updates,
@@ -31,6 +32,36 @@ function createStartupDependencies(D, foundation, connection) {
 		openHostedControl: D.openHostedControl,
 		shouldOpenControl: () => process.argv.includes("--open-control") &&
 			process.env.AWTSMOOS_SKIP_OPEN_CONTROL !== "1"
+	};
+}
+
+/** Re-registers the already-open candidate socket as owner after installer approval. */
+function promoteCandidate(D, foundation, connection) {
+	if (process.env.AWTSMOOS_REGISTRATION_MODE !== "candidate-probe") {
+		return { ok: false, error: "candidate_promotion_not_available" };
+	}
+	if (!connection.proxy?.opened) {
+		return { ok: false, error: "candidate_socket_not_open" };
+	}
+	const config = foundation.loadConfig();
+	const identity = D.DeviceIdentity.load(config);
+	if (identity.ok !== true) {
+		return { ok: false, error: identity.error || "candidate_identity_unavailable" };
+	}
+	const packet = D.nativeRegistrationPacket({
+		config,
+		agentVersion: D.AGENT_VERSION,
+		identity,
+		limits: {},
+		runtime: { promotion: true }
+	});
+	delete packet.registrationMode;
+	const sent = connection.proxy.sendJson(packet);
+	return {
+		ok: sent === true,
+		action: "candidatePromote",
+		sent: sent === true,
+		tunnelName: config.tunnelName
 	};
 }
 
@@ -56,5 +87,6 @@ function validateStartupDependencies(dependencies = {}) {
 
 module.exports = {
 	createStartupDependencies,
+	promoteCandidate,
 	validateStartupDependencies
 };

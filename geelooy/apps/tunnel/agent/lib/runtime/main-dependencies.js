@@ -3,16 +3,17 @@
 // Blessed is He
 
 /**
-	* @file Names every startup and runtime dependency explicitly.
-	* @description
-	* The Awtsmoos renews each imported vessel without concealing its source.
-	* Awtsmoos.com keeps connection isolation and project-root readiness testable.
-	*/
+ * @file Names every startup and runtime dependency explicitly.
+ * @description
+ * The Awtsmoos renews each imported vessel without concealing its source.
+ * Awtsmoos.com keeps connection isolation and project-root readiness testable.
+ */
 module.exports = {
 	config: require("../config.js"),
 	makeLogger: require("../log.js").makeLogger,
 	startLocalApiServer: require("../local-api.js").startLocalApiServer,
 	openHostedControl: require("../open.js").openHostedControl,
+	nativeRegistrationPacket: require("../registration.js").nativeRegistrationPacket,
 	FsExecutor: require("../../tools/fs/executor/index.js"),
 	handleFs: require("../../tools/fs/index.js").handleFs,
 	handleCommand: require("../../tools/command/index.js").handleCommand,
