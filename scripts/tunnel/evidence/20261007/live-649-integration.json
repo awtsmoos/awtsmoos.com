@@ -1,0 +1,39 @@
+{
+  "checkedAt": "2026-10-07T11:46:38.583Z",
+  "scope": "Local installed runtime and public release verification; not a fresh OAuth host session",
+  "runtimeVersion": "1.0.649",
+  "pluginVersion": "0.89.0",
+  "instructionResources": 69,
+  "command": {
+    "exitCode": 0,
+    "stdout": "Awtsmoos-live-command-proof",
+    "durationMs": 26,
+    "mode": "sync_command"
+  },
+  "production": {
+    "releaseSha": "766048edbe9dbdf7b6eeb10b1704939926cf4b96",
+    "evidence": "running_process_environment"
+  },
+  "workVerificationTests": {
+    "passed": 8,
+    "failed": 0
+  },
+  "screenshot": {
+    "reportId": "browser_76bf8368-93d0-4143-b47b-a4c9eb570004",
+    "url": "https://awtsmoos.com/shliach-plugin/support/",
+    "width": 390,
+    "bytes": 77548,
+    "sha256": "a485e378fb0b915e38cfb59bea3a811fc8a2a2d0422b05f42cef10630caf0230",
+    "downloadedThroughInstalledAction": true,
+    "transferredToAgentHost": true,
+    "viewed": true,
+    "fullReleaseApproval": false
+  },
+  "continuationWorkId": "work_cacb4418-675f-44c8-8816-7f8b95835280",
+  "remaining": [
+    "Fresh authenticated intended-host session",
+    "Recorded intended-host demo",
+    "Dedicated reviewer access",
+    "Developer declarations and public review"
+  ]
+}
