@@ -6,6 +6,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
+import { spawnSync } from "node:child_process";
 
 /**
  * @file Proves independent recovery is established before primary supervisor birth.
@@ -23,7 +24,7 @@ assert.match(source, /Independent recovery lanes could not be activated/);
 
 const recoveryFunction = functionBody(source, "prepare_independent_recovery");
 const installIndex = recoveryFunction.indexOf("install_recovery_lane_services");
-const failIndex = recoveryFunction.indexOf('install_fail "service"');
+const failIndex = recoveryFunction.indexOf('install_fail "service"', installIndex);
 assert.ok(installIndex >= 0 && failIndex > installIndex,
 	"independent recovery activation must fail closed when lane installation fails");
 assert.match(recoveryFunction, /if ! install_recovery_lane_services; then/);
@@ -53,4 +54,20 @@ function functionBody(script, name) {
 	const nextFunction = script.indexOf("\n}\n\n", start);
 	assert.notEqual(nextFunction, -1, `${name} must have a readable function boundary`);
 	return script.slice(start, nextFunction + 2);
+}
+
+// The Awtsmoos requires durable helper custody before service admission.
+assert.ok(recoveryFunction.indexOf("materialize_recovery_lane_helpers") < installIndex);
+for (const [helperStatus, serviceStatus, expected] of [[0,0,0],[1,0,75],[0,1,75]]) {
+ const script = [
+  "materialize_recovery_lane_helpers(){ echo helpers; return "+helperStatus+"; }",
+  "install_recovery_lane_services(){ echo services; return "+serviceStatus+"; }",
+  "install_fail(){ echo failed; exit 75; }",
+  recoveryFunction,
+  "ROOT=/tmp/owned RECOVERY_ROOT=/tmp/owned-recovery prepare_independent_recovery"
+ ].join("\n");
+ const run=spawnSync("bash",["-c",script],{encoding:"utf8"});
+ assert.equal(run.status,expected,run.stderr);
+ assert.equal(run.stdout.split("\n")[0],"helpers");
+ if(helperStatus)assert.ok(!run.stdout.includes("services"));
 }

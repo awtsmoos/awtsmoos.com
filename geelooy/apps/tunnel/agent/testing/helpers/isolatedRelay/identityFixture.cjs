@@ -22,6 +22,7 @@ function create(installRoot, options = {}) {
 	});
 	const metadata = {
 		schemaVersion: 1,
+		environment: "test",
 		deviceId,
 		tunnelId,
 		publicKey: pair.publicKey,

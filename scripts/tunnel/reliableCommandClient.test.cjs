@@ -18,7 +18,7 @@ test('Awtsmoos observes full receipt identity without redispatch',async()=>{
  const result=await runCommand(async p=>{calls.push(p);return calls.length===1?
   {pending:true,observeWith:receipt}:{ok:true,exitCode:0,stdout:'witness'};},'echo witness',opts);
  assert.equal(result.stdout,'witness');assert.equal(calls.length,2);
- assert.deepEqual(calls[1],{...receipt,action:'retryAction',logicalAgentId:opts.logicalAgentId,traceId:calls[0].traceId});
+ assert.deepEqual(calls[1],{generation:1,requestId:receipt.controlRequestId,...receipt,action:'retryAction',logicalAgentId:opts.logicalAgentId,traceId:calls[0].traceId});
 });
 test('running output never becomes premature success; terminal pages assemble',async()=>{
  const calls=[];let waits=0;

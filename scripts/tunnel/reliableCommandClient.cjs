@@ -15,6 +15,9 @@ async function runCommand(api,command,options={}){
  const save=()=>journal?.save();
  const owner=state.owner||options.logicalAgentId||'awtsmoos-client-'+randomUUID();
  state.owner=owner;state.traceId||=randomUUID();
+ state.agentSessionId||=options.agentSessionId||owner;state.generation||=options.generation||1;
+ const identity=p=>({agentSessionId:state.agentSessionId,generation:state.generation,
+  requestId:p.requestId||p.controlRequestId||randomUUID(),...p,logicalAgentId:owner,traceId:state.traceId});
  const event=(phase,value={})=>{
   // Never copy commands, paths, output bodies, bearer tokens or arbitrary errors into diagnostics.
   const item={at:new Date().toISOString(),phase,traceId:state.traceId,
@@ -25,10 +28,10 @@ async function runCommand(api,command,options={}){
  const check=()=>{if(Date.now()>=deadline)throw Error('command_observation_deadline; execution may still be running');};
  const observe=receipt=>{
   if(!receipt?.controlRequestId)throw Error('pending_receipt_missing_observation_identity');
-  return {...receipt,action:'retryAction',logicalAgentId:owner,traceId:state.traceId};
+  return identity({...receipt,action:'retryAction'});
  };
  const call=async payload=>{
-  check();state.inflight={...payload,logicalAgentId:owner,traceId:state.traceId};save();
+  check();state.inflight=identity(payload);save();
   event('request_sent',state.inflight);
   let result=await api(state.inflight,Math.max(1,deadline-Date.now()));
   while(result.pending===true||(result.action==='tunnelRequestPending'&&result.terminal!==true&&result.ok!==false)){

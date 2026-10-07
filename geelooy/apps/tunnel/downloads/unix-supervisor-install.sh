@@ -52,6 +52,11 @@ write_supervisor() {
 }
 
 prepare_independent_recovery() {
+	if ! materialize_recovery_lane_helpers; then
+		install_fail "service" \
+			"Independent recovery helpers could not be preserved before lane startup." \
+			"root=$ROOT recoveryRoot=$RECOVERY_ROOT"
+	fi
 	if ! install_recovery_lane_services; then
 		install_fail "service" \
 			"Independent recovery lanes could not be activated before supervisor startup." \

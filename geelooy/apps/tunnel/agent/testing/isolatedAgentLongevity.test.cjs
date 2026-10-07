@@ -48,7 +48,7 @@ const Support = require("./helpers/isolatedRelay/testSupport.cjs");
 			type: "TUNNEL_REQUEST",
 			id: "isolated-stat-1",
 			requesterKey: "isolated-test",
-			payload: { action: "stat", p: "." }
+			payload: { action: "stat", p: ".", logicalAgentId: "Awtsmoos-isolated-read", agentSessionId: "isolated-session", generation: 1, requestId: "isolated-stat-1" }
 		});
 		const response = await messageWhere(
 			relay,
@@ -61,7 +61,7 @@ const Support = require("./helpers/isolatedRelay/testSupport.cjs");
 		await registrationCount(relay, 3, 15000);
 		const thirdReceipt = await registeredReceipt(fixture, child.pid, 3);
 		assert.equal(thirdReceipt.tunnelId, fixture.tunnelId);
-		assert.equal(thirdReceipt.reconnectAttempt, 0);
+		assert.ok(thirdReceipt.reconnectAttempt >= 1 && thirdReceipt.reconnectAttempt <= 8, "brief reconnection must retain bounded pressure until the stable period");
 		assert.equal(Support.isAlive(child.pid), true);
 
 		const registrationsBeforeDuplicate = relay.registrations.length;
