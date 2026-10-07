@@ -38,6 +38,7 @@
 
 	.drawer-grip {
 		display: block;
+		margin-bottom: 13px;
 	}
 
 	.drawer-header {

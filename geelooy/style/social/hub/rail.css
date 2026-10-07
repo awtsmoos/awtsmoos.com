@@ -76,7 +76,7 @@
 	text-align: start;
 	text-decoration: none;
 	cursor: pointer;
-	transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease;
+	transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease, transform 120ms ease;
 }
 .hub-rail button::before {
 	inline-size: .42rem;
@@ -85,6 +85,10 @@
 	background: var(--hub-faint);
 	content: "";
 	flex: 0 0 auto;
+}
+.hub-rail button:active,
+.hub-mail-tag:active {
+	transform: translateY(1px) scale(.985);
 }
 .hub-rail button:is(:hover, :focus-visible),
 .hub-mail-tag:is(:hover, :focus-visible) {
@@ -95,7 +99,7 @@
 .hub-rail button.active,
 .hub-rail button[aria-pressed="true"] {
 	border-color: rgba(97, 203, 217, .5);
-	background: var(--hub-cyan-soft);
+	background: #1c2f3b; /* opaque: gate bg probe ignores alpha */
 	color: #a7edf4;
 }
 .hub-rail button.active::before,

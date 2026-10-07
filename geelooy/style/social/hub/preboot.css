@@ -62,6 +62,9 @@
 	text-decoration: none;
 }
 
+.hub-preboot-links a:active {
+	transform: scale(.97);
+}
 .hub-preboot-links a:hover,
 .hub-preboot-links a:focus-visible {
 	border-color: var(--hub-cyan);

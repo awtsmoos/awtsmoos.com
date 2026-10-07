@@ -6,6 +6,7 @@
  * distinguishes identity, status, and execution without oversized decoration.
  */
 .hub-hero {
+	position: relative;
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) auto;
 	align-items: center;
@@ -73,6 +74,25 @@
 .hub-status[data-tone="error"]::before {
 	background: var(--hub-danger);
 }
+.hub-hero::after {
+	content: ;
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(97, 203, 217, .08) 42deg, transparent 84deg, transparent 180deg, rgba(211, 110, 170, .06) 222deg, transparent 264deg);
+	animation: hub-aurora 16s linear infinite;
+	pointer-events: none;
+}
+@keyframes hub-aurora {
+	to { transform: rotate(360deg); }
+}
+.hub-status:not([data-tone=error])::before {
+	animation: hub-ping 2.6s ease-in-out infinite;
+}
+@keyframes hub-ping {
+	0%, 100% { box-shadow: 0 0 0 0 rgba(101, 214, 162, .32); }
+	50% { box-shadow: 0 0 0 7px rgba(101, 214, 162, 0); }
+}
 .hub-hero-actions {
 	display: flex;
 	align-items: center;
@@ -100,6 +120,10 @@
 	border-color: var(--hub-cyan);
 	background: var(--hub-cyan);
 	color: #061116;
+}
+.hub-hero button:active,
+.hub-live-actions button:active {
+	transform: translateY(0) scale(.97);
 }
 .hub-hero button:is(:hover, :focus-visible),
 .hub-live-actions button:is(:hover, :focus-visible) {

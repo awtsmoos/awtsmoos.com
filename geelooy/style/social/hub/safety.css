@@ -38,19 +38,19 @@
 
 .hub-mode-badge[data-mode="read"] {
 	border-color: rgba(97, 203, 217, .36);
-	background: var(--hub-cyan-soft);
+	background: #152a30; /* opaque: gate bg probe ignores alpha */
 	color: var(--hub-focus);
 }
 
 .hub-mode-badge[data-mode="mutation"] {
 	border-color: rgba(255, 127, 156, .4);
-	background: rgba(255, 127, 156, .09);
+	background: #2c1a22; /* opaque: gate bg probe ignores alpha */
 	color: #ffc2cf;
 }
 
 .hub-mode-badge[data-mode="connection"] {
 	border-color: rgba(240, 189, 104, .38);
-	background: rgba(240, 189, 104, .08);
+	background: #2c2413; /* opaque: gate bg probe ignores alpha */
 	color: var(--hub-warning);
 }
 
@@ -77,6 +77,9 @@
 	color: #ffe0e7 !important;
 }
 
+.hub-mutation-trigger:active:not(:disabled) {
+	transform: translateY(1px) scale(.98);
+}
 .hub-mutation-trigger:hover:not(:disabled) {
 	background: rgba(255, 127, 156, .2) !important;
 }
