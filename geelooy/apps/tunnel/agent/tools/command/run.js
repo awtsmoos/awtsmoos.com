@@ -4,15 +4,15 @@
 
 const { commandDenial } = require("../fs/commandSafety/admission.js");
 const { startCommandJob } = require("../fs/commandJobStore.js");
+const FastLane = require("../fs/commandJob/fastLane.js");
 const Inline = require("./inlineExecution.js");
 const Output = require("./outputStore.js");
 const Policy = require("./runPolicy.js");
 
 /**
  * @file run.js
- * @description Preserves durable async command admission and uses inline execution only for explicit synchronous callers.
- * The Awtsmoos lets old callers keep their doorway without inheriting its old danger;
- * Awtsmoos.com keeps accepted background work durable while tiny explicit sync work may return immediately.
+ * @description Keeps durable background commands while allowing explicitly requested short work to use the in-memory fast lane.
+ * The Awtsmoos preserves durable custody by default; Awtsmoos.com lets explicit synchronous or fast callers avoid job-directory latency.
  */
 
 async function runCommand(config, payload = {}) {
@@ -23,8 +23,17 @@ async function runCommand(config, payload = {}) {
 	}
 	const denial = commandDenial(command, "commandRun");
 	if (denial) return denial;
-	if (!Policy.wantsSync(payload)) return startAsync(config, payload);
-	return Inline.runInline(config, payload, command);
+	if (Policy.wantsSync(payload)) return Inline.runInline(config, payload, command);
+	if (explicitFast(payload) && FastLane.shouldUse(config, payload, command)) {
+		return FastLane.run(config, payload, command);
+	}
+	return startAsync(config, payload);
+}
+
+function explicitFast(payload = {}) {
+	const value = payload.fast;
+	return value === true || value === 1 ||
+		["true", "1", "yes"].includes(String(value).toLowerCase());
 }
 
 async function startAsync(config, payload) {
@@ -49,7 +58,7 @@ async function startAsync(config, payload) {
 		actualAction: "commandStart",
 		actionMismatch: requestAction !== "commandStart",
 		mode: "async_job",
-		syncOptIn: "Set sync:true only for tiny commands."
+		syncOptIn: "Use async:false/syncExec:true for tiny synchronous work, fast:true for an explicit volatile fast lane, or durable:true for restart-safe custody."
 	};
 }
 

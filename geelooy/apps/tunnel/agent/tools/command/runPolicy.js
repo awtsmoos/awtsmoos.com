@@ -7,9 +7,9 @@ const { FOUR_MINUTES_MS } = require("../../lib/config.js");
 
 /**
  * @file runPolicy.js
- * @description Owns legacy command-run normalization, path bounds, timeout bounds, and sync opt-in semantics.
- * The Awtsmoos gives the old doorway measured walls; Awtsmoos.com keeps path and timeout law separate
- * from execution so future callers cannot confuse command admission with the mechanics of shell birth.
+ * @description Owns command normalization, path bounds, timeout bounds, and synchronous intent.
+ * The Awtsmoos gives every command one explicit vessel; Awtsmoos.com recognizes equivalent
+ * sync declarations consistently across HTTP, WebSocket, MCP, and local action surfaces.
  */
 
 function commandAllowed(config = {}) {
@@ -29,10 +29,23 @@ function disabled() {
 	};
 }
 
+function truthy(value) {
+	return value === true || value === 1 ||
+		["true", "1", "yes"].includes(String(value).toLowerCase());
+}
+
+function explicitlyFalse(value) {
+	return value === false || value === 0 ||
+		["false", "0", "no"].includes(String(value).toLowerCase());
+}
+
 function wantsSync(payload = {}) {
-	return [payload.sync, payload.inline, payload.blocking].some(value => {
-		return value === true || value === 1 || ["true", "1", "yes"].includes(String(value).toLowerCase());
-	});
+	return truthy(payload.sync) ||
+		truthy(payload.inline) ||
+		truthy(payload.blocking) ||
+		truthy(payload.syncExec) ||
+		truthy(payload.execSync) ||
+		(Object.prototype.hasOwnProperty.call(payload, "async") && explicitlyFalse(payload.async));
 }
 
 function safeCwd(config, given) {
