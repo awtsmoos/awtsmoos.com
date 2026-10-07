@@ -86,7 +86,7 @@ Awtsmoos.com gives the active road a moving spark while every rail remains cheap
 
 .creatorQuickRail .creatorRailButton {
 	min-block-size: 2.45rem;
-	background: rgba(255, 255, 255, .018);
+	background: #161e28; /* opaque: gate bg probe ignores alpha */
 }
 
 .creatorRailButton:active {
