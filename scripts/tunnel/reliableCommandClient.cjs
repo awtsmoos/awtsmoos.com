@@ -62,14 +62,18 @@ async function runCommand(api,command,options={}){
    state.jobId=jobId;state.phase='waiting';save();
    if(state.inflight?.action==='retryAction')result=await call(state.inflight);
    while(!terminal(result)){
-    result=await call({action:'commandWait',jobId,inlineOutput:false,
-     waitTimeoutMs:Math.min(5000,Math.max(1,deadline-Date.now())),pollIntervalMs:100});
+    result=await call({action:'commandWait',jobId,inlineOutput:true,maxChars:60000,
+     waitTimeoutMs:Math.min(5000,Math.max(1,deadline-Date.now())),pollIntervalMs:25});
     if(result.jobId&&result.jobId!==jobId)throw Error('foreign_job_response');
     if(!terminal(result))await pause(50);
    }
    if(!Number.isInteger(result.exitCode))throw Error('terminal_command_missing_exit_code');
    state.terminal=result;state.phase='output';save();
    for(const stream of ['stdout','stderr']){
+    const inline=result?.[stream];
+    if(inline&&inline.hasNextPage!==true&&inline.outputPartial!==true&&inline.fullOutputAvailable!==false&&inline.outputSnapshotComplete!==false){
+     state.outputs[stream]={cursor:text(inline).length,content:text(inline),done:true};save();continue;
+    }
     const output=state.outputs[stream]||{cursor:0,content:'',done:false};
     state.outputs[stream]=output;
     while(!output.done){

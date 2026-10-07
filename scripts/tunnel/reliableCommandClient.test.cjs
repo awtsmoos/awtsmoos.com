@@ -63,3 +63,17 @@ test('expired pending-named receipt fails without observation loop',async()=>{
  await assert.rejects(runCommand(async()=>{count++;return {action:'tunnelRequestPending',pending:false,terminal:true,ok:false,error:'tunnel_request_expired'};},'command',opts),/expired/);
  assert.equal(count,1);
 });
+test('terminal inline output avoids redundant public output-page round trips',async()=>{
+ const calls=[];
+ const result=await runCommand(async p=>{calls.push(p);return p.action==='commandRun'
+  ? {jobId:'fast1',status:'running'}
+  : {jobId:'fast1',done:true,status:'completed',exitCode:0,
+     stdout:{content:'FAST_OK\n',hasNextPage:false,outputSnapshotComplete:true},
+     stderr:{content:'',hasNextPage:false,outputSnapshotComplete:true}};
+ },'printf FAST_OK',opts);
+ assert.equal(result.stdout,'FAST_OK\n');
+ assert.equal(result.stderr,'');
+ assert.deepEqual(calls.map(p=>p.action),['commandRun','commandWait']);
+ assert.equal(calls[1].inlineOutput,true);
+ assert.equal(calls[1].pollIntervalMs,25);
+});
