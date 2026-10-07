@@ -33,17 +33,24 @@ recovery_lane_helper_path() {
 }
 
 materialize_recovery_lane_helpers() {
-	local helper=""
+	local helper="" source="" target=""
 	local target_root="$(recovery_lane_helper_root)"
 	local temporary=""
 	mkdir -p "$target_root"
 	while IFS= read -r helper; do
 		[ -n "$helper" ] || continue
-		[ -f "$AWTSMOOS_INSTALL_RUNTIME/$helper" ] || return 1
-		temporary="$target_root/.${helper}.$$"
-		cp -p "$AWTSMOOS_INSTALL_RUNTIME/$helper" "$temporary" || return 1
-		chmod 700 "$temporary" || return 1
-		mv -f "$temporary" "$target_root/$helper" || return 1
+		source="$AWTSMOOS_INSTALL_RUNTIME/$helper"
+		target="$target_root/$helper"
+		if [ -f "$source" ]; then
+			temporary="$target_root/.${helper}.$$"
+			cp -p "$source" "$temporary" || return 1
+			chmod 700 "$temporary" || return 1
+			mv -f "$temporary" "$target" || return 1
+		elif [ -f "$target" ]; then
+			chmod 700 "$target" || return 1
+		else
+			return 1
+		fi
 	done <<EOF_HELPERS
 $(recovery_lane_helper_names)
 EOF_HELPERS
