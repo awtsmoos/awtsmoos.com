@@ -4,9 +4,7 @@
 
 /**
  * @file controlPlaneCommandAdmission.test.cjs
- * @description Proves every command execution doorway rejects the historical self-stranding intent before executable work exists.
- * The Awtsmoos turns one production wound into three sealed gates; Awtsmoos.com now refuses the same destructive shell
- * whether it approaches as a durable job, synchronous public alias, or old inline runner kept alive for compatibility tests.
+ * @description Proves command safety and the bounded synchronous fast-path policy.
  */
 
 const assert = require("node:assert/strict");
@@ -26,30 +24,30 @@ const LEGACY_CONFIG = Object.freeze({
 	command: { enabled: true, defaultShell: "bash", timeoutMs: 30000 }
 });
 
-test('async command start rejects before job identity exists', async () => {
+test("async command start rejects before job identity exists", async () => {
 	const result = await Start.startCommandJob(ASYNC_CONFIG, {
 		command: INCIDENT,
-		requestAction: 'commandRun'
+		requestAction: "commandRun"
 	});
 	assert.equal(result.ok, false);
 	assert.equal(result.code, CODE);
 	assert.equal(result.jobId, undefined);
-	assert.ok(result.rules.includes('main_service_shutdown'));
-	assert.ok(result.rules.includes('recovery_path_shutdown'));
+	assert.ok(result.rules.includes("main_service_shutdown"));
+	assert.ok(result.rules.includes("recovery_path_shutdown"));
 });
 
-test('synchronous public runner rejects before subprocess execution', async () => {
+test("synchronous public runner rejects before subprocess execution", async () => {
 	const result = await Sync.runCommand(ASYNC_CONFIG, {
 		command: INCIDENT,
 		sync: true
-	}, 'shellCommand');
+	}, "shellCommand");
 	assert.equal(result.ok, false);
 	assert.equal(result.code, CODE);
 	assert.equal(result.mode, undefined);
 	assert.equal(result.exitCode, undefined);
 });
 
-test('legacy inline runner rejects before shell execution', async () => {
+test("legacy inline runner rejects before shell execution", async () => {
 	const result = await Legacy.runCommand(LEGACY_CONFIG, {
 		command: INCIDENT,
 		sync: true
@@ -59,9 +57,28 @@ test('legacy inline runner rejects before shell execution', async () => {
 	assert.equal(result.exitCode, undefined);
 });
 
-test('safe atomic restart remains admitted by async validation', () => {
+test("safe atomic restart remains admitted by async validation", () => {
 	const result = Start.validate(ASYNC_CONFIG, {
-		requestAction: 'commandRun'
-	}, 'systemctl restart awtsmoos.service');
+		requestAction: "commandRun"
+	}, "systemctl restart awtsmoos.service");
 	assert.equal(result, null);
+});
+
+test("ordinary bounded command defaults to synchronous fast path", () => {
+	assert.equal(Sync.shouldRunSync({ command: "echo hello" }), true);
+});
+
+test("explicit async and durable commands stay on durable path", () => {
+	assert.equal(Sync.shouldRunSync({ command: "echo hello", async: true }), false);
+	assert.equal(Sync.shouldRunSync({ command: "echo hello", durable: true }), false);
+});
+
+test("async false and syncExec explicitly select synchronous path", () => {
+	assert.equal(Sync.shouldRunSync({ command: "echo hello", async: false }), true);
+	assert.equal(Sync.shouldRunSync({ command: "echo hello", syncExec: true }), true);
+});
+
+test("oversized and long-timeout commands stay on durable path", () => {
+	assert.equal(Sync.shouldRunSync({ command: "x".repeat(8001) }), false);
+	assert.equal(Sync.shouldRunSync({ command: "echo hello", timeoutMs: 30001 }), false);
 });
