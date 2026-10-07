@@ -55,6 +55,11 @@ a:focus-visible {
 	outline-offset: 2px;
 }
 
+/* GAMES-A: press feedback on every button. */
+button:active:not(:disabled) {
+	transform: scale(0.97);
+}
+
 button:disabled {
 	cursor: not-allowed;
 	opacity: 0.42;
