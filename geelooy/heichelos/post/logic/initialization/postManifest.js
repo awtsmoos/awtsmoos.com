@@ -6,6 +6,11 @@
  * @description
  * The Awtsmoos reveals title, native Chitas context, media, rich documents, Torah sections, and navigation as one stream;
  * Awtsmoos.com keeps every ordinary post intact while the sixth Chitas crown names its focused Torah day without phantom fields unseen.
+ *
+ * Meluket posts carry their Hebrew in `hebrew_text_raw` (not `content`) and their
+ * sections as nested HTML strings in `dayuh.sections`. When the structured
+ * renderer produces no visible text, the Hebrew fallback below guarantees the
+ * reader still sees the teaching instead of a blank page.
  */
 
 import { appendHTML, makeNavBars } from '/heichelos/post/postFunctions.js?v=canonical-post-links-001';
@@ -81,6 +86,49 @@ function appendPlainFallback(viewport, content) {
 	viewport.append(vessel);
 }
 
+/**
+ * Renders `hebrew_text_raw` as readable paragraphs when the structured
+ * renderer leaves the viewport empty. Converts `[cup]...[/cup]` markers to
+ * bold and splits the text at punctuation so it does not render as one
+ * unbroken blob. The source data is untouched; this is display-only.
+ * @param {HTMLElement} viewport Reader viewport receiving the Hebrew.
+ * @param {object} post Post API payload.
+ * @returns {boolean} True when Hebrew text was rendered.
+ */
+function appendHebrewTextFallback(viewport, post) {
+	const hebrew = post?.hebrew_text_raw;
+	if (typeof hebrew !== 'string' || !hebrew.trim()) {
+		return false;
+	}
+	let html = hebrew
+		.replace(/\[cup\]/g, '<b>')
+		.replace(/\[\/cup\]/g, '</b>');
+	const parts = html.split(/(?<=[.,:;])\s+/);
+	const vessel = document.createElement('div');
+	vessel.className = 'awtsmoos-hebrew-text-fallback';
+	vessel.dir = 'rtl';
+	vessel.lang = 'he';
+	for (const part of parts) {
+		if (!part.trim()) continue;
+		const p = document.createElement('p');
+		p.innerHTML = part;
+		vessel.append(p);
+	}
+	viewport.append(vessel);
+	return vessel.childElementCount > 0;
+}
+
+/**
+ * True when the viewport holds real readable text (not just chrome).
+ * @param {HTMLElement} viewport Reader viewport to inspect.
+ * @returns {boolean} True when meaningful text is present.
+ */
+function viewportHasVisibleText(viewport) {
+	if (!viewport) return false;
+	const text = (viewport.textContent || '').replace(/\s+/g, ' ').trim();
+	return text.length > 40;
+}
+
 function renderMode({ richRoot, structured }) {
 	if (richRoot && structured) {
 		return 'rich-root+structured-sections';
@@ -106,6 +154,9 @@ export async function manifestPost(viewport, post, series, postIndex) {
 		await interpretPostDayuh(structuredPost);
 	} else if (!richRoot && post?.content) {
 		appendPlainFallback(viewport, post.content);
+	}
+	if (!viewportHasVisibleText(viewport)) {
+		appendHebrewTextFallback(viewport, post);
 	}
 	viewport.append(makeNavBars(post, series, postIndex));
 	return renderMode({ richRoot, structured: Boolean(structuredPost) });
