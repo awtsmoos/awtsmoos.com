@@ -12,3 +12,8 @@
 @media (max-width:420px){.touch{left:6px;right:6px;bottom:calc(6px + var(--safe-bottom));gap:6px}.movePad{gap:6px;width:64vw}.moveBtn{height:50px;font-size:14px;border-radius:17px}.jump{width:35vw;height:54px;font-size:16px}.moveBtn:before{left:-24px;right:-24px;top:-230px}.jump:before{left:-36px;right:-36px;top:-245px}}
 @media (hover:none),(pointer:coarse){.touch{display:flex}}
 @media (prefers-reduced-motion:reduce){.moveBtn.held,.jump.held{transform:none}}
+
+/* GAMES-A: touch button interactive states. */
+@media (hover:hover) and (pointer:fine){.moveBtn:hover:not(:disabled),.jump:hover:not(:disabled){filter:brightness(1.08)}}
+.moveBtn:focus-visible,.jump:focus-visible{outline:3px solid #ffe18a;outline-offset:2px}
+.moveBtn:active:not(:disabled),.jump:active:not(:disabled){transform:translateY(2px) scale(.985)}
