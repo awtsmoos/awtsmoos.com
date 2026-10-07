@@ -73,3 +73,21 @@ test("recovery timer keeps terminal acceptance headroom", () => {
 	assert.equal(Watchdog.recoveryDelay(20000, 15000), 13000);
 	assert.equal(Watchdog.recoveryDelay(100, 15000), 500);
 });
+
+test("fresh healthy execution cannot be severed by one slow request", () => {
+	const state = harness();
+	state.tunnel.executionHealthSupported = true;
+	state.tunnel.executionHealthy = true;
+	state.tunnel.executionHealthAt = 1000;
+	assert.equal(PreAcceptance.request(state.context, "receipt-one", state.record, state.tunnel, 1500), false);
+	assert.equal(state.closes.length, 0);
+});
+
+test("stale execution health still permits stale-route recovery", () => {
+	const state = harness();
+	state.tunnel.executionHealthSupported = true;
+	state.tunnel.executionHealthy = true;
+	state.tunnel.executionHealthAt = 1000;
+	assert.equal(PreAcceptance.request(state.context, "receipt-one", state.record, state.tunnel, 25000), true);
+	assert.equal(state.closes.length, 1);
+});

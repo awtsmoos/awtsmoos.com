@@ -7,6 +7,7 @@ const Lifecycle = require("./requestAcceptanceRecoveryLifecycle.js");
 const Success = require("./requestAcceptanceRecoverySuccess.js");
 const Timer = require("./requestAcceptanceRecoveryTimer.js");
 const Values = require("./requestAcceptanceRecoveryValues.js");
+const Health = require("./healthHandler.js");
 
 /**
  * @file Coordinates sustained acceptance failure recovery while delegating success invalidation.
@@ -55,6 +56,7 @@ function requestRecovery(tunnel, options = {}, claim = null) {
 	if (!Claim.matches(tunnel, recoveryClaim)) return false;
 	if (!Timer.eligible(tunnel, options)) return false;
 	if (Values.remainingSustainMs(tunnel, options) > 0) return false;
+	if (tunnel.executionHealthSupported === true && tunnel.executionHealthy === true && Health.isFresh(tunnel, Values.currentTime(options))) return false;
 	if (Number(tunnel.acceptanceRecoveryRequestedAt || 0) > 0) return false;
 	Timer.clear(tunnel, options);
 	const now = Values.currentTime(options);

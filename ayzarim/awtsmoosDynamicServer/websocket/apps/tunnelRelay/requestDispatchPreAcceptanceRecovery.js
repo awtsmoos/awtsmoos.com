@@ -1,6 +1,7 @@
 //B"H // Boruch Hashem // Blessed is He
 
 const Values = require("./requestAcceptanceRecoveryValues.js");
+const Health = require("./healthHandler.js");
 
 const DEFAULT_MAX_RECOVERIES = 2;
 
@@ -12,6 +13,7 @@ const DEFAULT_MAX_RECOVERIES = 2;
  */
 function request(context, id, record, tunnel, observedAt = Date.now()) {
 	if (!eligible(context, id, record, tunnel)) return false;
+	if (transportIsProvenHealthy(tunnel, observedAt)) return false;
 	const attempts = count(record.preAcceptanceRecoveryAttempts);
 	if (attempts >= DEFAULT_MAX_RECOVERIES) return false;
 	const currentGeneration = generation(tunnel.registrationGeneration);
@@ -41,6 +43,12 @@ function eligible(context, id, record, tunnel) {
 	);
 }
 
+function transportIsProvenHealthy(tunnel, now = Date.now()) {
+	return tunnel?.executionHealthSupported === true &&
+		tunnel.executionHealthy === true &&
+		Health.isFresh(tunnel, now);
+}
+
 function generation(value) {
 	const number = Number(value);
 	return Number.isFinite(number) && number > 0 ? Math.floor(number) : 0;
@@ -56,5 +64,6 @@ module.exports = {
 	count,
 	eligible,
 	generation,
-	request
+	request,
+	transportIsProvenHealthy
 };
