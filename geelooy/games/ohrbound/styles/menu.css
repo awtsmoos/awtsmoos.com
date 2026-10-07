@@ -8,7 +8,7 @@
 }
 .ohrbound-app .topbar,
 .ohrbound-app .menu-content { width: min(100%, 1160px); margin-inline: auto; }
-.ohrbound-app .topbar { display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; min-width: 0; }
+.ohrbound-app .topbar { display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; min-width: 0; padding-right: 58px; /* GAMES-B: clear the fixed 48px shell launcher */ }
 .ohrbound-app .topbar-tools { display: flex; align-items: center; justify-content: end; gap: 0.45rem; min-width: 0; }
 .ohrbound-app .brand-mark {
 	display: inline-flex;
