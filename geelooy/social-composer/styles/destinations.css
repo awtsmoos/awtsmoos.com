@@ -67,6 +67,8 @@
 .publicationPlanView,
 .publicationPlanResult {
 	white-space: pre-wrap;
+	overflow-x: auto;
+	overflow-wrap: anywhere;
 }
 
 .placementComposer {

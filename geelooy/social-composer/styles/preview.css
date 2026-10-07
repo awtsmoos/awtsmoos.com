@@ -78,6 +78,14 @@
 .postPreview a {
 	color: #b9cdff;
 }
+
+#payloadInspector,
+#publishResult {
+	max-width: 100%;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
 .bulletLine::before {
 	content: '• ';
 	color: #ffd978;
