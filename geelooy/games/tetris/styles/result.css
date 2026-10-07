@@ -60,6 +60,15 @@
 	background: #2b2412;
 	color: var(--gold);
 }
+/* GAMES-B: tetris result button hover/press feedback. */
+@media (hover: hover) and (pointer: fine) {
+	.result-actions button:hover:not(:disabled) {
+		filter: brightness(1.15);
+	}
+}
+.result-actions button:active:not(:disabled) {
+	transform: scale(0.97);
+}
 @media (max-width: 390px) {
 	.result-actions {
 		grid-template-columns: 1fr;
