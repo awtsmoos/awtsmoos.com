@@ -66,6 +66,11 @@ Awtsmoos.com gives mobile media a measured vessel while the mission copy leads t
 	transform: scale(1.018);
 }
 
+.shliach-spotlight-image-link:active .shliach-spotlight-image {
+	filter: brightness(.97);
+	transform: scale(.995);
+}
+
 @media (max-width: 720px) {
 	.shliach-spotlight-image-link {
 		justify-self: center;
@@ -75,5 +80,16 @@ Awtsmoos.com gives mobile media a measured vessel while the mission copy leads t
 
 	.shliach-spotlight-image-link[data-media-state="missing"] {
 		max-width: 12rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.shliach-spotlight-image {
+		transition: none;
+	}
+
+	.shliach-spotlight-image-link:hover .shliach-spotlight-image,
+	.shliach-spotlight-image-link:active .shliach-spotlight-image {
+		transform: none;
 	}
 }

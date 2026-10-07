@@ -85,12 +85,3 @@ Awtsmoos.com uses native disclosure so mobile stays quiet while deeper paths rem
 	line-height: 1.7;
 	overflow-wrap: anywhere;
 }
-@media (min-width: 46rem) {
-	.about-page__hero {
-		grid-template-columns: minmax(0, 1fr) auto;
-		align-items: end;
-	}
-	.about-page__actions {
-		justify-content: flex-end;
-	}
-}

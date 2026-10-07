@@ -65,6 +65,12 @@ body[data-geelooy-route="home"] .world-tile:focus-visible {
 	transform: translateY(-2px);
 }
 
+body[data-geelooy-route="home"] .world-tile:active {
+	border-color: rgba(var(--world-accent), .6);
+	filter: brightness(.96);
+	transform: translateY(1px) scale(.98);
+}
+
 body[data-geelooy-route="home"] .world-tile[data-tone="gold"] { --world-accent: 245, 193, 99; }
 body[data-geelooy-route="home"] .world-tile[data-tone="blue"] { --world-accent: 99, 178, 255; }
 body[data-geelooy-route="home"] .world-tile[data-tone="violet"] { --world-accent: 178, 130, 255; }
@@ -97,5 +103,17 @@ body[data-geelooy-route="home"] .world-tile[data-tone="orange"] { --world-accent
 		width: 2.35rem;
 		height: 2.35rem;
 		border-radius: .72rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-geelooy-route="home"] .world-tile {
+		transition: none;
+	}
+
+	body[data-geelooy-route="home"] .world-tile:hover,
+	body[data-geelooy-route="home"] .world-tile:focus-visible,
+	body[data-geelooy-route="home"] .world-tile:active {
+		transform: none;
 	}
 }

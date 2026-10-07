@@ -3,12 +3,14 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos gathers the Apps route from small explicit vessels and seals it with a route-owned integrity layer.
 
-LOAD-ORDER COVENANT (do not reorder): integrity.css loads FIRST because it is the
-fallback garment that keeps the doorway legible if a shared layer arrives late or
-only partly from cache. base.css and every design vessel follow it, so the designed
-layers win every order-dependent conflict by loading later.
+LOAD-ORDER COVENANT (do not reorder): integrity.css loads FIRST via its own <link>
+in index.html because it is the fallback garment that keeps the doorway legible if
+a shared layer arrives late or only partly from cache. base.css and every design
+vessel follow it, so the designed layers win every order-dependent conflict by
+loading later. (2026-10-07: the @import of integrity.css that used to sit here was
+a byte-identical duplicate of that <link> — the browser fetched it once but parsed
+its rules twice. Removed; the link remains the single source. No visual change.)
 */
-@import url("./styles/integrity.css?v=apps-mobile-011");
 @import url("./styles/base.css?v=apps-mobile-011");
 @import url("./styles/hero.css?v=apps-mobile-011");
 @import url("./styles/filter.css?v=apps-mobile-011");

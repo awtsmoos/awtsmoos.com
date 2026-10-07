@@ -71,6 +71,11 @@ body[data-geelooy-route="home"] .hero-actions a:active {
 	transform: translateY(1px) scale(.985);
 }
 
+body[data-geelooy-route="home"] .hero-actions a:focus-visible {
+	outline: 3px solid var(--focus-ring);
+	outline-offset: 2px;
+}
+
 @media (max-width: 680px) {
 	body[data-geelooy-route="home"] .hero-actions {
 		display: grid;
@@ -89,7 +94,8 @@ body[data-geelooy-route="home"] .hero-actions a:active {
 	}
 
 	body[data-geelooy-route="home"] .hero-actions a:hover,
-	body[data-geelooy-route="home"] .hero-actions a:active {
+	body[data-geelooy-route="home"] .hero-actions a:active,
+	body[data-geelooy-route="home"] .hero-actions a:focus-visible {
 		transform: none;
 	}
 }

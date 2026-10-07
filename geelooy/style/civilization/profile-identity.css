@@ -167,3 +167,17 @@
 		grid-template-columns: 1fr;
 	}
 }
+
+.profile-primary-action:active,
+.profile-inline-actions :where(a, button):active,
+.geelooy-profile-shell .g-button:active {
+	transform: translateY(0) scale(.985);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.profile-primary-action:active,
+	.profile-inline-actions :where(a, button):active,
+	.geelooy-profile-shell .g-button:active {
+		transform: none;
+	}
+}

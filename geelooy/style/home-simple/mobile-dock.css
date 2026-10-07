@@ -76,6 +76,11 @@ body[data-geelooy-route="home"] .mobile-dock {
 		transform: translateY(1px) scale(.97);
 	}
 
+	body[data-geelooy-route="home"] .mobile-dock a:focus-visible {
+		outline: 3px solid var(--focus-ring);
+		outline-offset: 2px;
+	}
+
 	body[data-geelooy-route="home"] .mobile-dock span {
 		font-size: 1.16rem;
 		line-height: 1;
@@ -110,6 +115,10 @@ body[data-geelooy-route="home"][data-awtsmoos-profile-open="true"] .mobile-dock 
 
 	body[data-geelooy-route="home"] .mobile-dock a:hover,
 	body[data-geelooy-route="home"] .mobile-dock a:active {
+		transform: none;
+	}
+
+	body[data-geelooy-route="home"] .mobile-dock a:focus-visible {
 		transform: none;
 	}
 }

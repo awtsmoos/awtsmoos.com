@@ -113,9 +113,36 @@
     direction: rtl !important;
     text-align: center !important;
     font-family: var(--font-content) !important;
-    color: var(--color-ink, #fffdf5) !important;
+    color: #1b1b1b !important;
+    text-shadow: none !important;
+}
+
+/* B"H dark theme: light text on dark chamber */
+:root[data-theme="dark"] .post-reader-localized-context .section.heb .toichen,
+:root[data-theme="dark"] .post-reader-localized-context .sub-awtsmoos.heb,
+:root[data-theme="dark"] .post-reader-localized-context .heb,
+.post-reader-localized-context[data-theme="dark"] .section.heb .toichen,
+.post-reader-localized-context[data-theme="dark"] .sub-awtsmoos.heb,
+.post-reader-localized-context[data-theme="dark"] .heb {
+    color: #fffdf5 !important;
     text-shadow: 0 8px 26px rgba(0,0,0,.42) !important;
 }
+/* B"H dark theme: force dark chamber background (overrides transparent) */
+:root[data-theme="dark"] .post-reader-localized-context.awtsmoos-reader-vision,
+:root[data-theme="dark"] .post-reader-localized-context,
+.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision,
+.post-reader-localized-context[data-theme="dark"] {
+    background-color: #0a1120 !important;
+    background-image: linear-gradient(180deg, #0d1526, #060a14) !important;
+}
+:root[data-theme="dark"] .post-reader-localized-context .section,
+:root[data-theme="dark"] .post-reader-localized-context .section.heb,
+.post-reader-localized-context[data-theme="dark"] .section,
+.post-reader-localized-context[data-theme="dark"] .section.heb {
+    background-color: #0a1120 !important;
+    background: #0a1120 !important;
+}
+
 
 .post-reader-localized-context .section.heb > .toichen,
 .post-reader-localized-context .section.heb > .toichen > :not(.marginal-gloss-shelter):not(.awtsmoos-inline-shell),

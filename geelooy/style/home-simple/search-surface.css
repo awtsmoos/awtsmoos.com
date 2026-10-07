@@ -62,3 +62,7 @@ body[data-geelooy-route="home"] .search textarea::placeholder { color: #75869e; 
 	body[data-geelooy-route="home"] .search textarea { min-height: 3rem; padding-block: .78rem .55rem; font-size: 1rem; }
 	body[data-geelooy-route="home"] .shortcut-key { display: none; }
 }
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-geelooy-route="home"] .search.is-invalid { animation: none; }
+}

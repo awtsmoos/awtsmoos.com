@@ -55,6 +55,7 @@ body[data-geelooy-route="apps"] .g-app-icon {
 	background: var(--g-surface-2);
 	font-size: var(--g-font-size-xl);
 	font-weight: var(--g-font-weight-bold);
+	transition: transform 220ms ease;
 }
 
 body[data-geelooy-route="apps"] .g-app-card :where(h2, p) {
@@ -102,9 +103,19 @@ body[data-geelooy-route="apps"] .g-app-card:active {
 	transform: translate3d(0, -.04rem, 0) scale(.992);
 }
 
+/* Futuristic micro-interaction: the app sigil answers the hover with a soft
+   lift of its own — transform only, so it never triggers layout.
+   Gated on reduced-motion only (like the awp card lift), so touch taps get it too. */
+@media (prefers-reduced-motion: no-preference) {
+	body[data-geelooy-route="apps"] .g-app-card:hover .g-app-icon {
+		transform: scale(1.08);
+	}
+}
+
 @media (prefers-reduced-motion: reduce) {
 	body[data-geelooy-route="apps"] .g-app-card,
-	body[data-geelooy-route="apps"] .g-app-card::after {
+	body[data-geelooy-route="apps"] .g-app-card::after,
+	body[data-geelooy-route="apps"] .g-app-icon {
 		transform: none;
 		transition: none;
 	}

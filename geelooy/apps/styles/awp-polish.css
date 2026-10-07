@@ -179,7 +179,7 @@
 /* ---------------- storefront catalog cards (JS-rendered) ---------------- */
 
 .awp-app [data-app-card] {
-	transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+	transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease, filter 120ms ease;
 }
 
 @media (prefers-reduced-motion: no-preference) {

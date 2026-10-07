@@ -24,6 +24,18 @@ body[data-geelooy-route="home"] .omnibox-option.is-active {
 	transform: translateX(2px);
 }
 
+body[data-geelooy-route="home"] .omnibox-option:active {
+	border-color: rgba(117, 201, 255, .3);
+	background: linear-gradient(90deg, rgba(90, 169, 229, .2), rgba(122, 92, 217, .09));
+	transform: translateX(2px) scale(.99);
+}
+
+body[data-geelooy-route="home"] .omnibox-option:focus-visible {
+	border-color: rgba(117, 201, 255, .4);
+	outline: 3px solid var(--focus-ring);
+	outline-offset: 1px;
+}
+
 body[data-geelooy-route="home"] .omnibox-symbol {
 	display: grid;
 	place-items: center;
@@ -72,4 +84,16 @@ body[data-geelooy-route="home"] .omnibox-badge {
 body[data-geelooy-route="home"] .omnibox-arrow {
 	color: #7899b6;
 	font-size: .78rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-geelooy-route="home"] .omnibox-option {
+		transition: none;
+	}
+
+	body[data-geelooy-route="home"] .omnibox-option:hover,
+	body[data-geelooy-route="home"] .omnibox-option.is-active,
+	body[data-geelooy-route="home"] .omnibox-option:active {
+		transform: none;
+	}
 }

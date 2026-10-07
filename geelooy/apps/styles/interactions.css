@@ -14,6 +14,10 @@ body[data-geelooy-route="apps"] .g-app-filter :where(input, select) {
 		filter 120ms ease;
 }
 
+body[data-geelooy-route="apps"] .g-app-filter :where(input, select):hover {
+	filter: brightness(1.07);
+}
+
 body[data-geelooy-route="apps"] .g-app-filter :where(input, select):active {
 	filter: brightness(.97);
 }

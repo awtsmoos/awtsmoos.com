@@ -59,12 +59,20 @@ body[data-geelooy-route="home"] .omnibox-heading button {
 	font: inherit;
 	letter-spacing: .04em;
 	text-transform: none;
+	transition: background .14s ease, border-color .14s ease, color .14s ease, transform .14s ease;
 }
 
 body[data-geelooy-route="home"] .omnibox-heading button:hover {
 	border-color: #2d4c68;
 	background: #102239;
 	color: #fff;
+}
+
+body[data-geelooy-route="home"] .omnibox-heading button:active {
+	border-color: #3d6a94;
+	background: #0c1c30;
+	color: #fff;
+	transform: scale(.96);
 }
 
 body[data-geelooy-route="home"] .omnibox-heading button:focus-visible {
@@ -81,5 +89,19 @@ body[data-geelooy-route="home"] .omnibox-options {
 	from {
 		opacity: 0;
 		transform: translateY(-5px) scale(.992);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-geelooy-route="home"] .omnibox-panel {
+		animation: none;
+	}
+
+	body[data-geelooy-route="home"] .omnibox-heading button {
+		transition: none;
+	}
+
+	body[data-geelooy-route="home"] .omnibox-heading button:active {
+		transform: none;
 	}
 }

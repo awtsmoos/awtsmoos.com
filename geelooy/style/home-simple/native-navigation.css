@@ -17,6 +17,7 @@ The Awtsmoos entrusts Explore to native details and summary behavior, removing t
 	cursor: pointer;
 	list-style: none;
 	user-select: none;
+	transition: background .16s ease, color .16s ease, transform .14s ease;
 }
 
 .navigation-hub summary::-webkit-details-marker {
@@ -29,6 +30,11 @@ The Awtsmoos entrusts Explore to native details and summary behavior, removing t
 	background: rgba(126, 166, 226, .13);
 	color: #fff;
 	outline: none;
+}
+
+.navigation-hub summary:active {
+	background: rgba(126, 166, 226, .2);
+	transform: scale(.97);
 }
 
 .navigation-grid {
@@ -58,6 +64,7 @@ The Awtsmoos entrusts Explore to native details and summary behavior, removing t
 	border: 1px solid rgba(255, 255, 255, .06);
 	border-radius: .9rem;
 	background: rgba(255, 255, 255, .025);
+	transition: border-color .16s ease, background .16s ease, transform .16s ease;
 }
 
 .navigation-card > span {
@@ -88,6 +95,12 @@ The Awtsmoos entrusts Explore to native details and summary behavior, removing t
 	outline: none;
 }
 
+.navigation-card:active {
+	border-color: rgba(133, 210, 255, .5);
+	background: rgba(96, 143, 210, .18);
+	transform: scale(.98);
+}
+
 @media (max-width: 680px) {
 	.navigation-grid {
 		position: fixed;
@@ -103,5 +116,17 @@ The Awtsmoos entrusts Explore to native details and summary behavior, removing t
 @media (max-width: 390px) {
 	.navigation-grid {
 		grid-template-columns: 1fr;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.navigation-hub summary,
+	.navigation-card {
+		transition: none;
+	}
+
+	.navigation-hub summary:active,
+	.navigation-card:active {
+		transform: none;
 	}
 }

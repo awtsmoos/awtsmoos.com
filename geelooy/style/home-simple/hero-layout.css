@@ -75,6 +75,13 @@ body[data-geelooy-route="home"] .search-paths a:focus-visible {
 	transform: translateY(-1px);
 }
 
+body[data-geelooy-route="home"] .search-paths a:active {
+	border-color: rgba(130, 205, 255, .5);
+	background: rgba(83, 143, 201, .16);
+	color: #fff;
+	transform: translateY(1px) scale(.98);
+}
+
 @media (max-width: 800px) {
 	body[data-geelooy-route="home"] .action-panel {
 		grid-template-columns: 1fr;
@@ -88,7 +95,7 @@ body[data-geelooy-route="home"] .search-paths a:focus-visible {
 
 @media (max-width: 680px) {
 	body[data-geelooy-route="home"] .home {
-		padding: 8px 8px calc(82px + env(safe-area-inset-bottom));
+		padding: 8px 8px calc(6.5rem + env(safe-area-inset-bottom));
 	}
 
 	body[data-geelooy-route="home"] .hero {

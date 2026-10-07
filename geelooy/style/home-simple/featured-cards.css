@@ -102,13 +102,19 @@ body[data-geelooy-route="home"] .featured-card:active {
 	transform: translateY(1px) scale(.992);
 }
 
+body[data-geelooy-route="home"] .featured-card:focus-visible {
+	outline: 3px solid var(--focus-ring);
+	outline-offset: 3px;
+}
+
 @media (prefers-reduced-motion: reduce) {
 	body[data-geelooy-route="home"] .featured-card {
 		transition: none;
 	}
 
 	body[data-geelooy-route="home"] .featured-card:hover,
-	body[data-geelooy-route="home"] .featured-card:active {
+	body[data-geelooy-route="home"] .featured-card:active,
+	body[data-geelooy-route="home"] .featured-card:focus-visible {
 		transform: none;
 	}
 }

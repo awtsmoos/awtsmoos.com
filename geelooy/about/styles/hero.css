@@ -64,3 +64,25 @@ Awtsmoos.com keeps hero scale and action behavior in this vessel so the foundati
 		justify-content: flex-end;
 	}
 }
+
+/* Futuristic light sweep: a soft band of light crosses the primary door on
+   hover/focus — transform and opacity only. The reduced-motion law in
+   motion.css silences it for anyone who chooses still light. */
+.about-page__primary {
+	position: relative;
+	overflow: clip;
+}
+.about-page__primary::after {
+	content: "";
+	position: absolute;
+	inset: -20% -35%;
+	background: linear-gradient(105deg, transparent 42%, rgba(156, 221, 255, .6) 50%, transparent 58%);
+	transform: translateX(-60%) skewX(-8deg);
+	opacity: 0;
+	pointer-events: none;
+	transition: transform 700ms cubic-bezier(.2, .8, .2, 1), opacity 300ms ease-out;
+}
+.about-page__primary:is(:hover, :focus-visible)::after {
+	transform: translateX(60%) skewX(-8deg);
+	opacity: 1;
+}

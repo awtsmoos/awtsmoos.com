@@ -25,9 +25,6 @@ body[data-geelooy-route="apps"] {
 	--g-font-weight-bold: 700;
 	--g-font-weight-semibold: 600;
 	--apps-layer-filter: 30;
-}
-
-body[data-geelooy-route="apps"] {
 	background:
 		radial-gradient(circle at 14% 4%, rgb(86 68 255 / 16%), transparent 34rem),
 		radial-gradient(circle at 88% 12%, rgb(0 229 255 / 10%), transparent 30rem),

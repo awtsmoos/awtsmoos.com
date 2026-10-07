@@ -64,6 +64,22 @@
 	outline-offset: -2px;
 }
 
+@media (hover: hover) and (pointer: fine) {
+	.constellation-summary:hover {
+		background: rgba(103, 193, 255, .06);
+	}
+}
+
+.constellation-summary:active {
+	background: rgba(103, 193, 255, .1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.constellation-summary::after {
+		transition: none;
+	}
+}
+
 .constellation-identity {
 	display: flex;
 	align-items: center;

@@ -53,3 +53,32 @@
 	display: grid;
 	gap: .8rem;
 }
+
+.profile-tabs button {
+	transition: transform 140ms ease, border-color 160ms ease, background-color 160ms ease, color 160ms ease, box-shadow 200ms ease;
+}
+
+.profile-tabs button:not(.active):not([aria-selected="true"]):hover {
+	border-color: var(--civil-line-strong);
+	background: rgba(86, 207, 229, .07);
+	color: var(--civil-text);
+}
+
+.profile-tabs button:not(.active):not([aria-selected="true"]):active {
+	transform: translateY(1px);
+}
+
+.profile-tabs button:focus-visible {
+	outline: 2px solid var(--civil-cyan);
+	outline-offset: 2px;
+	box-shadow: var(--civil-focus);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.profile-tabs button {
+		transition: none;
+	}
+	.profile-tabs button:not(.active):not([aria-selected="true"]):active {
+		transform: none;
+	}
+}

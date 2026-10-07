@@ -66,6 +66,11 @@ body[data-geelooy-route="home"] .featured-heading > a:active {
 	transform: translateY(1px) scale(.985);
 }
 
+body[data-geelooy-route="home"] .featured-heading > a:focus-visible {
+	outline: 3px solid var(--focus-ring);
+	outline-offset: 2px;
+}
+
 body[data-geelooy-route="home"] .featured-grid {
 	display: grid;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -94,7 +99,8 @@ body[data-geelooy-route="home"] .featured-card--os {
 	}
 
 	body[data-geelooy-route="home"] .featured-heading > a:hover,
-	body[data-geelooy-route="home"] .featured-heading > a:active {
+	body[data-geelooy-route="home"] .featured-heading > a:active,
+	body[data-geelooy-route="home"] .featured-heading > a:focus-visible {
 		transform: none;
 	}
 }

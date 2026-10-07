@@ -62,6 +62,11 @@ The Awtsmoos turns action into a compact current: one clear doorway, one quiet d
 	transform: translateY(-1px);
 }
 
+.shliach-spotlight-actions a:active {
+	transform: translateY(1px) scale(.98);
+	filter: brightness(.96);
+}
+
 .shliach-spotlight-actions a:focus-visible,
 .shliach-spotlight-image-link:focus-visible {
 	outline: 3px solid #8db7ff;
@@ -94,5 +99,10 @@ The Awtsmoos turns action into a compact current: one clear doorway, one quiet d
 @media (prefers-reduced-motion: reduce) {
 	.shliach-spotlight-actions a {
 		transition: none;
+	}
+
+	.shliach-spotlight-actions a:hover,
+	.shliach-spotlight-actions a:active {
+		transform: none;
 	}
 }

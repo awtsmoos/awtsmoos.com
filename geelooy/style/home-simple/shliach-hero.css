@@ -102,6 +102,13 @@ body[data-geelooy-route="home"] .shliach-hero-cta:focus-visible {
 	transform: translateY(-1px);
 }
 
+body[data-geelooy-route="home"] .shliach-hero-cta:active {
+	border-color: rgba(255, 214, 120, .55);
+	background: rgba(28, 22, 9, .8);
+	filter: brightness(.96);
+	transform: translateY(1px) scale(.98);
+}
+
 @media (max-width: 680px) {
 	body[data-geelooy-route="home"] .shliach-hero-card {
 		min-height: clamp(21rem, 118vw, 30rem);
@@ -116,5 +123,11 @@ body[data-geelooy-route="home"] .shliach-hero-cta:focus-visible {
 @media (prefers-reduced-motion: reduce) {
 	body[data-geelooy-route="home"] .shliach-hero-cta {
 		transition: none;
+	}
+
+	body[data-geelooy-route="home"] .shliach-hero-cta:hover,
+	body[data-geelooy-route="home"] .shliach-hero-cta:focus-visible,
+	body[data-geelooy-route="home"] .shliach-hero-cta:active {
+		transform: none;
 	}
 }

@@ -49,6 +49,10 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 	transform: translateY(-1px);
 }
 
+.ikar-first-actions a:active {
+	transform: translateY(0) scale(.97);
+}
+
 .heichel-semantic-fallback > .civilization-kicker {
 	align-items: center;
 	color: #73ecff;
@@ -72,12 +76,20 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 
 .heichel-semantic-fallback #heichel-boot-title {
 	background: linear-gradient(100deg, #ffffff 8%, #c9f8ff 44%, #a2b9ff 72%, #d1b7ff 100%);
+	-webkit-background-clip: text;
 	background-clip: text;
-	color: transparent;
+	color: #f4f8ff;
 	font-size: clamp(2.8rem, 8vw, 5.8rem);
 	font-weight: 900;
 	letter-spacing: -.06em;
 	line-height: .94;
 	margin: 0;
 	max-width: 15ch;
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+	.heichel-semantic-fallback #heichel-boot-title {
+		color: transparent;
+		-webkit-text-fill-color: transparent;
+	}
 }

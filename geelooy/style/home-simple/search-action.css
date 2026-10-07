@@ -45,3 +45,9 @@ body[data-geelooy-route="home"] .search.is-searching .search-button-arrow { anim
 @media (max-width: 680px) {
 	body[data-geelooy-route="home"] .search button { width: 3.45rem; height: 3.45rem; }
 }
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-geelooy-route="home"] .search.is-searching .search-button-arrow {
+		animation: none;
+	}
+}

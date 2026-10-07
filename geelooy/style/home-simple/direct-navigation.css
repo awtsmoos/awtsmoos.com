@@ -72,6 +72,14 @@ body[data-geelooy-route="home"] .direct-navigation a:hover {
 	transform: translateY(-2px);
 }
 
+body[data-geelooy-route="home"] .direct-navigation a:active {
+	border-color: #4c9ccb;
+	background: #0c2033;
+	color: #fff;
+	filter: brightness(.96);
+	transform: translateY(1px) scale(.98);
+}
+
 body[data-geelooy-route="home"] .direct-navigation a:focus-visible {
 	outline: 3px solid var(--focus-ring);
 	outline-offset: 2px;
@@ -92,5 +100,10 @@ body[data-geelooy-route="home"] .direct-navigation a:focus-visible {
 @media (prefers-reduced-motion: reduce) {
 	body[data-geelooy-route="home"] .direct-navigation a {
 		transition: none;
+	}
+
+	body[data-geelooy-route="home"] .direct-navigation a:hover,
+	body[data-geelooy-route="home"] .direct-navigation a:active {
+		transform: none;
 	}
 }
