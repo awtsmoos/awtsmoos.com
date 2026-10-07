@@ -26,18 +26,19 @@
 	}
 	.hub-rail-tabs {
 		display: flex;
+		flex-wrap: wrap;
 		gap: .4rem;
-		overflow-x: auto;
+		overflow-x: visible;
 		padding-block-end: .25rem;
-		overscroll-behavior-inline: contain;
-		scrollbar-width: thin;
 	}
 	.hub-rail button {
 		inline-size: auto;
-		min-inline-size: max-content;
+		flex: 1 1 9rem;
+		min-inline-size: 0;
 	}
 	.hub-mail-tag {
-		inline-size: fit-content;
+		inline-size: auto;
+		flex: 1 1 100%;
 	}
 }
 @media (max-width: 42rem) {
