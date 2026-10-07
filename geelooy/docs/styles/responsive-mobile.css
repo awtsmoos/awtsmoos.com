@@ -57,6 +57,10 @@
 	body[data-geelooy-route="docs"] .brand small {
 		display: none;
 	}
+
+	body[data-geelooy-route="docs"] {
+		overflow-x: clip;
+	}
 }
 
 @media (max-width: 32.5rem) {

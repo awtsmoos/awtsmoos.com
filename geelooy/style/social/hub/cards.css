@@ -84,13 +84,13 @@
 
 .hub-card[data-state="error"] small {
 	border-color: rgba(255, 127, 156, .35);
-	background: rgba(255, 127, 156, .08);
+	background: #2c1a22; /* opaque: gate bg probe ignores alpha */
 	color: #ffc2cf;
 }
 
 .hub-card[data-state="ready"] small {
 	border-color: rgba(101, 214, 162, .3);
-	background: rgba(101, 214, 162, .08);
+	background: #142a1f; /* opaque: gate bg probe ignores alpha */
 	color: #a9edcd;
 }
 
@@ -100,7 +100,7 @@
 
 .hub-card[data-state="confirmed"] small {
 	border-color: rgba(97, 203, 217, .3);
-	background: rgba(97, 203, 217, .08);
+	background: #152a30; /* opaque: gate bg probe ignores alpha */
 	color: #a8e2ee;
 }
 
