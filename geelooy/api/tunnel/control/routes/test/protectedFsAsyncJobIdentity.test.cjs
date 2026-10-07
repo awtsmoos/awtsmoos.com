@@ -34,6 +34,20 @@ assert.equal(nested.action, "commandWait");
 assert.equal(nested.jobId, "cmdjob_nested_muse_lane_ok");
 assert.equal(nested.asyncPayloadError, undefined);
 
+const fastStart = Policy.buildPayload(request({
+	action: "commandRun",
+	command: "echo FAST"
+}), "tun_RC99m5Wz75O789hZ0pIsay5p");
+assert.equal(fastStart.relayWaitMs, 150);
+assert.equal(fastStart.timeoutMs, undefined);
+
+const explicitRelayWait = Policy.buildPayload(request({
+	action: "commandRun",
+	command: "echo WAIT",
+	relayWaitMs: 900
+}), "tun_RC99m5Wz75O789hZ0pIsay5p");
+assert.equal(explicitRelayWait.relayWaitMs, 900);
+
 console.log(JSON.stringify({
 	ok: true,
 	suite: "protected-fs-async-job-identity",

@@ -43,6 +43,10 @@ function buildPayload($i, tunnelName) {
 	const get = $i["$_GET"] || $i.paramKinds?.GET || {};
 	const timeoutWasExplicit = Object.prototype.hasOwnProperty.call(post, "timeoutMs") || Object.prototype.hasOwnProperty.call(get, "timeoutMs");
 	if (payload.action === "commandRun" && !timeoutWasExplicit) delete payload.timeoutMs;
+	const explicitRelayWait = post.relayWaitMs ?? get.relayWaitMs ?? post.httpSafeWaitMs ?? get.httpSafeWaitMs;
+	if (payload.action === "commandRun") {
+		payload.relayWaitMs = explicitRelayWait === undefined ? 150 : explicitRelayWait;
+	}
 	return payload;
 }
 
