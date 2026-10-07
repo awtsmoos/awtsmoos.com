@@ -45,3 +45,12 @@
 		grid-template-columns: 1fr;
 	}
 }
+
+/* GAMES-A: difficulty button name and description stack, never jam together. */
+.shema-strike .choice-grid button small {
+	display: block;
+	margin-top: 2px;
+	font-size: 0.78em;
+	font-weight: 400;
+	opacity: 0.75;
+}
