@@ -50,7 +50,7 @@
 #pause-btn {
 	position: absolute;
 	top: max(10px, env(safe-area-inset-top));
-	right: max(10px, env(safe-area-inset-right));
+	right: calc(max(10px, env(safe-area-inset-right)) + 58px); /* GAMES-A: clear the fixed 48px shell launcher */
 	z-index: 21;
 	width: 48px;
 	padding: 0;
