@@ -15,7 +15,7 @@
 	flex-direction: column;
 	align-items: stretch;
 	gap: 22px;
-	padding: 36px 30px;
+	padding: 36px 30px 80px; /* GAMES-B: bottom clearance for the fixed 3D View toggle */
 	overflow-y: auto;
 	border: 1px solid var(--cards-border);
 	border-radius: 18px;
@@ -75,6 +75,11 @@
 	background: var(--cards-gold);
 	color: #0b0804;
 	transform: translateY(-2px);
+}
+/* GAMES-B: cards button press feedback. */
+.game-button:active:not(:disabled),
+#start-game:active:not(:disabled) {
+	transform: scale(0.97);
 }
 
 .game-button:disabled {
