@@ -34,11 +34,16 @@ function buildPayload($i, tunnelName) {
 	const built = buildFsPayload($i);
 	const asyncNormalized = normalizeAsyncPayload(built);
 	const original = Compatibility.normalize(asyncNormalized);
-	return {
+	const payload = {
 		...original,
 		autoPreview: original.autoPreview === undefined ? false : original.autoPreview,
 		tunnelName: tunnelName || original.tunnelName || "auto"
 	};
+	const post = $i["$_POST"] || $i.paramKinds?.POST || $i.request?.body || {};
+	const get = $i["$_GET"] || $i.paramKinds?.GET || {};
+	const timeoutWasExplicit = Object.prototype.hasOwnProperty.call(post, "timeoutMs") || Object.prototype.hasOwnProperty.call(get, "timeoutMs");
+	if (payload.action === "commandRun" && !timeoutWasExplicit) delete payload.timeoutMs;
+	return payload;
 }
 
 function requiredPermission(action) {
