@@ -39,6 +39,16 @@
 	box-shadow: var(--shadow-card);
 }
 
+.queueCard:active {
+	transform: scale(.99);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.queueCard:active {
+		transform: none;
+	}
+}
+
 .queueCard[data-selected="true"] {
 	border-color: var(--accent);
 	box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 16%, transparent);
