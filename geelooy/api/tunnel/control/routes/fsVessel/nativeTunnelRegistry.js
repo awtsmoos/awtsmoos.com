@@ -104,7 +104,13 @@ async function sendNativeTunnel(
 			relayDurationMs,
 			pending: result?.pending === true,
 			done: result?.done === true,
-			exitCode: Number.isInteger(result?.exitCode) ? result.exitCode : null
+			exitCode: Number.isInteger(result?.exitCode) ? result.exitCode : null,
+			hasCommand: Boolean(payload?.command),
+			commandLength: String(payload?.command || "").length,
+			asyncRequested: payload?.async === true,
+			durableRequested: payload?.durable === true,
+			fastDisabled: payload?.fast === false,
+			syncRequested: payload?.sync === true || payload?.inline === true || payload?.syncExec === true
 		}));
 	}
 	return verifyTunnelResponse(result, payload, displayName);

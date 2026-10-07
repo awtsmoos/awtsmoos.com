@@ -3,6 +3,7 @@
 // Blessed is He
 
 const { actionRequiredScope, buildFsPayload } = require("../core/tunnelPayload.js");
+const { normalizeAsyncPayload } = require("../core/asyncPayloadNormalizer.js");
 const Compatibility = require("./protectedFsCompatibility.js");
 
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
@@ -22,13 +23,17 @@ const SESSION_SAFE_ACTIONS = new Set([
  * @description
  * The Awtsmoos lets an authenticated user observe Chrome, ChatGPT, history, and mission
  * status without granting mutation. Awtsmoos.com still requires scoped API keys for deeds.
+ * Async command observation is normalized once at this public boundary so commandWait/status
+ * always preserve the caller's existing job identity instead of becoming a fresh relay deed.
  */
 function sessionMayUse(action) {
 	return SESSION_SAFE_ACTIONS.has(String(action || ""));
 }
 
 function buildPayload($i, tunnelName) {
-	const original = Compatibility.normalize(buildFsPayload($i));
+	const built = buildFsPayload($i);
+	const asyncNormalized = normalizeAsyncPayload(built);
+	const original = Compatibility.normalize(asyncNormalized);
 	return {
 		...original,
 		autoPreview: original.autoPreview === undefined ? false : original.autoPreview,
