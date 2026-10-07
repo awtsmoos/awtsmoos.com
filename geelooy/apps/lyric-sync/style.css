@@ -319,6 +319,8 @@ input[type="file"] {
     grid-column: 1 / -1;
 }
 
+/* FIX apps-audit 2026-10-07: export-button contrast */
+/* White on #1DB954 measured 2.59:1; near-black text restores ~12:1. */
 .export-button {
     width: 100%;
     padding: 1rem;
@@ -326,15 +328,31 @@ input[type="file"] {
     background-color: var(--accent-color);
     border: none;
     border-radius: 8px;
-    color: white;
+    color: #06130b;
     font-size: 1.1rem;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.15s ease, box-shadow 0.3s;
 }
 
 .export-button:hover {
-    background-color: #1aa34a;
+    background-color: #1ed760;
+    box-shadow: 0 8px 24px rgba(29, 185, 84, 0.35);
+}
+
+.export-button:active {
+    transform: translateY(1px) scale(0.99);
+}
+
+.export-button:focus-visible {
+    outline: 3px solid #1DB954;
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .export-button {
+        transition: none;
+    }
 }
 
 .export-button i {
