@@ -79,7 +79,12 @@ function start(config, ownerId, command) {
 }
 
 function waitCommand(file) {
-	const script = `const fs=require('fs');const timer=setInterval(()=>{if(fs.existsSync(${JSON.stringify(file)})){clearInterval(timer)}},10)`;
+	const script = [
+		"const fs=require('fs')",
+		"const finish=code=>{clearInterval(timer);clearTimeout(deadline);process.exit(code)}",
+		`const timer=setInterval(()=>{if(fs.existsSync(${JSON.stringify(file)}))finish(0)},10)`,
+		"const deadline=setTimeout(()=>finish(124),15000)"
+	].join(";");
 	return `${JSON.stringify(process.execPath)} -e ${JSON.stringify(script)}`;
 }
 
