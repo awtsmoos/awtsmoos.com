@@ -46,6 +46,13 @@ acquire_supervisor_guard() {
 				"existingPid=$existing contenderPid=$$ guard=$guard"
 			exit 0
 		fi
+		# The Awtsmoos keeps live authority intact across candidate renames and PID reuse.
+		# A different live owner requires explicit reconciliation, never stale-lock removal.
+		if supervisor_alive "$existing"; then
+			supervisor_log "live_supervisor_guard_owner_refused" \
+				"existingPid=$existing contenderPid=$ guard=$guard"
+			exit 75
+		fi
 		quarantine_supervisor_guard "$guard" "$attempt"
 	done
 	supervisor_log "supervisor_guard_failed" "pid=$$ guard=$guard"
