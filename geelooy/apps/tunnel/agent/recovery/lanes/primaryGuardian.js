@@ -36,6 +36,10 @@ function create(options = {}) {
 			failures = 0;
 			return result("healthy", status, registration, "none");
 		}
+		if (processHealthy && registrationIsStarting(registration)) {
+			failures = 0;
+			return result("registration_starting", status, registration, "none");
+		}
 		const failureKind = processHealthy ? "registration" : "process";
 		failures += 1;
 		if (failures < minimumFailures) {
@@ -63,6 +67,13 @@ function registrationProbe(options) {
 		now: observedAt,
 		staleMs: options.registrationStaleMs
 	});
+}
+
+/** A live child gets time to create/advance its registration receipt without being replaced. */
+function registrationIsStarting(registration) {
+	if (!registration || registration.ok) return false;
+	if (registration.reason === "receipt_missing") return true;
+	return registration.reason === "not_registered" && registration.state === "registration_pending";
 }
 
 /** Run the independent guardian until its service manager asks it to stop. */

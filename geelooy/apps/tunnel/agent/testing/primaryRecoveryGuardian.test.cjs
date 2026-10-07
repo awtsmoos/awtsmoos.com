@@ -76,6 +76,23 @@ test("sustained stale registration repairs a living process", () => {
 	assert.equal(fake.repairs(), 1);
 });
 
+test("live child registration startup never accumulates failures or triggers repair", () => {
+	const fake = harness([processUp()]);
+	const states = [
+		{ ok: false, reason: "receipt_missing" },
+		{ ok: false, reason: "not_registered", state: "registration_pending" },
+		{ ok: false, reason: "receipt_missing" },
+		fresh()
+	];
+	let probes = 0;
+	const guardian = create(fake, () => states[Math.min(probes++, states.length - 1)]);
+	assert.equal(guardian.tick(1000).state, "registration_starting");
+	assert.equal(guardian.tick(2000).state, "registration_starting");
+	assert.equal(guardian.tick(3000).state, "registration_starting");
+	assert.equal(guardian.tick(4000).state, "healthy");
+	assert.equal(fake.repairs(), 0);
+});
+
 test("failed repairs obey cooldown", () => {
 	const fake = harness([processUp()], { ok: false, error: "repair_failed" });
 	const guardian = create(fake, stale, { minimumFailures: 1, repairCooldownMs: 10000 });
