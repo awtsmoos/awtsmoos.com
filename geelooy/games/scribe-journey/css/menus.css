@@ -30,6 +30,8 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
 	transition: border-color 130ms ease, background 130ms ease, transform 130ms ease;
 }
 .menu-button:hover:not(:disabled), .modal-action-button:hover:not(:disabled) { border-color: var(--cyan); background: rgba(105,233,239,0.12); transform: translateY(-1px); }
+/* GAMES-A: press feedback on menu buttons. */
+.menu-button:active:not(:disabled), .modal-action-button:active:not(:disabled) { transform: scale(0.97); }
 .primary-button, .modal-action-button { border-color: var(--gold); color: var(--gold); }
 .modal-action-button { width: 100%; margin-top: 18px; }
 .menu-grid, .grid-cards, .team-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
