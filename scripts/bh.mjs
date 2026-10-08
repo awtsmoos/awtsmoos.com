@@ -74,7 +74,12 @@ async function runCssGuaranteeHook() {
       for (const entry of entries) {
         const full = join(dir, entry.name);
         if (entry.isDirectory()) {
-          if (entry.name === "node_modules" || entry.name === ".git") continue;
+          // Skip: version control, dependencies, hidden dirs, and agent
+          // staging/transfer/backups (never served to production).
+          if (entry.name === "node_modules"
+            || entry.name === ".git"
+            || entry.name.startsWith(".")
+            || entry.name === "awtsmoos-agent-transfer") continue;
           walk(full);
         } else if (entry.isFile() && /\.css$/i.test(entry.name)) {
           totalFound++;
