@@ -373,3 +373,8 @@
 		text-align: right;
 	}
 }
+
+/* Hide old translation status banner when sefer reader is active */
+.meluket-sefer-active .awtsmoos-translation-status {
+	display: none !important;
+}

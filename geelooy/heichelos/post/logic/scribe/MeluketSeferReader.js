@@ -306,7 +306,8 @@ export function awakenMeluketSeferReader(post) {
 	sefer.appendChild(titleBlock);
 
 	// Post summary — the klal before the pratim.
-	const postSummary = summariesEn.post;
+	const postSummaryRaw = summariesEn.post;
+	const postSummary = typeof postSummaryRaw === 'string' ? postSummaryRaw : (postSummaryRaw?.detailed || postSummaryRaw?.short || '');
 	if (postSummary && String(postSummary).trim()) {
 		const summaryWrap = el('div', 'meluket-post-summary');
 		summaryWrap.setAttribute('dir', 'ltr');
