@@ -136,13 +136,17 @@ const ACTION_RULES = [
   },
 ];
 
-function fastPath(text) {
+function fastPath(text, rawText) {
   for (const cmd of COMMANDS) {
     const phrases = cmd.phrases || [];
     for (const phrase of phrases) {
       const p = norm(phrase);
-      if (p && (text === p || text.includes(p))) {
-        return { ...cmd.intent, raw: text };
+      if (!p) continue;
+      // Word-boundary match: phrase must match whole words, not a raw
+      // substring (else "hebrew only" false-matches "hebrew on").
+      const re = new RegExp('(?:^|\\s)' + p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?:\\s|$)');
+      if (text === p || re.test(text)) {
+        return { ...cmd.intent, raw: rawText };
       }
     }
   }
@@ -159,7 +163,7 @@ export function parseIntent(text) {
   const t = norm(raw);
 
   // 1) Fast path: known commands.
-  const fast = fastPath(t);
+  const fast = fastPath(t, raw);
   if (fast) return fast;
 
   // 2) NLP fallback: keyword parsing.
