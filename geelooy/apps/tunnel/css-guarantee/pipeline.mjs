@@ -57,6 +57,25 @@ function normalizeCssSources(cssSources) {
     .map((s, i) => ({ path: s.path || `source-${i}.css`, content: s.content }));
 }
 
+/** File-level escape hatch: a file whose content contains `@tunnel-grandfather`
+ * skips Layer 1 source-hygiene checks. The reason (if given after the marker)
+ * is recorded in the report. Layer 2 transforms still apply. */
+const GRANDFATHER_RE = /\/\*\s*@tunnel-grandfather\b([^*]*)\*\//;
+
+function partitionGrandfathered(sources) {
+  const active = [];
+  const grandfathered = [];
+  for (const s of sources) {
+    const m = GRANDFATHER_RE.exec(s.content || "");
+    if (m) {
+      grandfathered.push({ path: s.path, reason: (m[1] || "").trim().slice(0, 200) });
+    } else {
+      active.push(s);
+    }
+  }
+  return { active, grandfathered };
+}
+
 async function runLayer1(sources, mode) {
   // Dynamic imports so a missing layer module fails inside the per-layer
   // catch instead of at pipeline load time.
@@ -65,11 +84,12 @@ async function runLayer1(sources, mode) {
   const { auditOwnership } = await safeImport("./layer1/ownershipContracts.mjs");
   const { auditInteractiveStatesBlocking } = await safeImport("./layer1/interactiveStates.mjs");
 
-  const registry = buildSelectorRegistry(sources);
+  const { active, grandfathered } = partitionGrandfathered(sources);
+  const registry = buildSelectorRegistry(active);
   const registryFindings = (registry.conflicts || []).flatMap((c) => c.findings || []);
-  const specificityFindings = auditSpecificity(sources);
-  const ownershipFindings = auditOwnership(sources);
-  const interactive = auditInteractiveStatesBlocking(sources, { mode });
+  const specificityFindings = auditSpecificity(active);
+  const ownershipFindings = auditOwnership(active);
+  const interactive = auditInteractiveStatesBlocking(active, { mode });
 
   const allFindings = [
     ...registryFindings,
@@ -81,6 +101,8 @@ async function runLayer1(sources, mode) {
   const blocking = mode === "fail-closed" && (summary.blocking > 0 || interactive.blocking === true);
   return {
     blocking,
+    grandfatheredCount: grandfathered.length,
+    grandfathered,
     registryConflicts: (registry.conflicts || []).length,
     specificityFindings: specificityFindings.length,
     ownershipFindings: ownershipFindings.length,
