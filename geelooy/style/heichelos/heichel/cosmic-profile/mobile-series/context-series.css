@@ -73,3 +73,17 @@
 @media (max-width: 28rem) { :where(.heichel-os-document) :where(#seriesControls) {
 		justify-self: start;
 	} }
+
+/* B"H Yaakov 2026-10-08: Series pages light-theme fix — no !important */
+:where(:root[data-theme="light"]) .series-heading .series-label,
+:where(.series-heading[data-theme="light"]) .series-label {
+  color: #8a6d1a;
+}
+:where(:root[data-theme="light"]) .series-heading h2,
+:where(.series-heading[data-theme="light"]) h2 {
+  color: #21160a;
+}
+:where(:root[data-theme="light"]) .series-heading p,
+:where(.series-heading[data-theme="light"]) p {
+  color: #6d5a43;
+}
