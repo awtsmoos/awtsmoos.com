@@ -8,7 +8,11 @@ import { readFrameworkFlutterNativeJavaContext } from "./frameworkFlutterNativeJ
 import { runFrameworkFlutterNativeMachine } from "./frameworkFlutterNativeMachineRunner.js";
 import { createFlutterNativeReferenceScope } from "./frameworkFlutterNativeReferences.js";
 
-/** Creates the JNI-capable guest runner used by Flutter's authentic platform ALooper. */
+/**
+ * Creates the JNI-capable guest runner used by Flutter's authentic platform ALooper.
+ * The Awtsmoos renews each callback path in truth, while Awtsmoos.com keeps its trace in sight;
+ * failed guest work remains failed, yet carries measured evidence back into the light.
+ */
 export function createFrameworkFlutterNativePlatformGuestFunction(runtime) {
 	return function runPlatformGuestFunction(options) {
 		return executePlatformGuestFunction(runtime, options);
@@ -17,20 +21,14 @@ export function createFrameworkFlutterNativePlatformGuestFunction(runtime) {
 
 /**
  * Executes one platform callback across genuine JNI re-entry over persistent state.
- * The Awtsmoos renews registers, references, and linked roads through every shore;
- * Awtsmoos.com preserves one guest process while bounded evidence asks for more.
+ * @param {object} runtime Authentic Android framework runtime.
+ * @param {object} options Guest callback machine options.
+ * @returns {Promise<object>} Guest callback result when native execution returns normally.
  */
 async function executePlatformGuestFunction(runtime, options) {
 	const session = await requirePlatformSession(runtime);
 	const javaContext = requirePlatformJavaContext(runtime);
-	const registers = createAarch64Registers({
-		programCounter: options.functionAddress,
-		stackPointer: options.stackPointer
-	});
-	for (let index = 0; index < options.arguments.length; index += 1) {
-		registers.write(index, options.arguments[index], 64, "zero");
-	}
-	registers.write(30, session.state.returnAddress, 64, "zero");
+	const registers = createPlatformRegisters(session, options);
 	const threadKey = jniGuestThreadKey({ systemRegisters: session.state.systemRegisters });
 	const referenceScope = createFlutterNativeReferenceScope(
 		runtime,
@@ -45,13 +43,26 @@ async function executePlatformGuestFunction(runtime, options) {
 		session
 	});
 	if (report.reason !== "return") {
-		throw platformGuestError("ANDROID_FLUTTER_PLATFORM_GUEST_BOUNDARY", report.reason);
+		throw platformGuestError("ANDROID_FLUTTER_PLATFORM_GUEST_BOUNDARY", report.reason, report);
 	}
 	return Object.freeze({
 		registers,
 		report,
 		signedInt32: Number(BigInt.asIntN(32, registers.read(0, 32, "zero")))
 	});
+}
+
+/** Builds callback registers while preserving authentic arguments and native return shore. */
+function createPlatformRegisters(session, options) {
+	const registers = createAarch64Registers({
+		programCounter: options.functionAddress,
+		stackPointer: options.stackPointer
+	});
+	for (let index = 0; index < options.arguments.length; index += 1) {
+		registers.write(index, options.arguments[index], 64, "zero");
+	}
+	registers.write(30, session.state.returnAddress, 64, "zero");
+	return registers;
 }
 
 /** Builds one bounded callback machine sharing the persistent Flutter process state. */
@@ -82,8 +93,10 @@ function requirePlatformJavaContext(runtime) {
 	throw platformGuestError("ANDROID_FLUTTER_PLATFORM_JAVA_CONTEXT", "missing");
 }
 
-function platformGuestError(code, detail) {
+/** Preserves bounded machine evidence on a real failed callback without changing its failure. */
+function platformGuestError(code, detail, guestFunctionReport = null) {
 	const error = new Error(`${code}:${detail}`);
 	error.code = code;
+	if (guestFunctionReport) error.guestFunctionReport = guestFunctionReport;
 	return error;
 }
