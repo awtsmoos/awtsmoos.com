@@ -256,10 +256,15 @@ function applyLangMode(root, mode) {
 	root.querySelectorAll('.meluket-sefer-section').forEach(section => {
 		section.dataset.langMode = mode;
 	});
-	// Hide/show Hebrew title via JS
+	// Hide Hebrew titles via JS (both sefer title and old post title)
 	const titleHe = root.querySelector('.meluket-sefer-title-he');
 	if (titleHe) {
 		titleHe.style.display = (mode === 'english') ? 'none' : '';
+	}
+	// Also hide the old post-title element that we preserved
+	const postTitle = root.parentElement ? root.parentElement.querySelector('.post-title') : null;
+	if (postTitle) {
+		postTitle.style.display = (mode === 'english') ? 'none' : '';
 	}
 	try {
 		localStorage.setItem('meluket-lang-mode', mode);
@@ -483,6 +488,12 @@ export function awakenMeluketSeferReader(post) {
 		const titleHe = sefer.querySelector('.meluket-sefer-title-he');
 		if (titleHe) {
 			titleHe.style.display = (langMode === 'english') ? 'none' : '';
+		}
+		// Also hide the preserved old post-title
+		const realPost = sefer.parentElement;
+		const postTitle = realPost ? realPost.querySelector('.post-title') : null;
+		if (postTitle) {
+			postTitle.style.display = (langMode === 'english') ? 'none' : '';
 		}
 	};
 	applySeferTheme();
