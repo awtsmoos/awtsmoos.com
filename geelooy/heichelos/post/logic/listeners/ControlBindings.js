@@ -96,14 +96,12 @@ export function setupResetButton() {
 	}
 	button.dataset.awtsmoosResetBound = 'true';
 	button.addEventListener('click', () => {
-		const approved = confirm('B"H - Restore factory reader settings?');
-		if (!approved) {
-			return;
-		}
 		resetAutoScrollDownPreferences();
 		for (const key of APPEARANCE_KEYS) {
 			localStorage.removeItem(key);
 		}
+		// Clear any in-memory reader state that mirrors storage, then reload
+		// so every controller re-mounts from factory defaults.
 		window.location.reload();
 	});
 }
