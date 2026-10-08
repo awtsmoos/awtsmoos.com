@@ -66,11 +66,30 @@ function cssRules(content) {
 		.map((match) => ({
 			body: match[2],
 			offset: match.index,
-			selectors: match[1]
-				.split(",")
-				.map((selector) => selector.trim())
-				.filter(Boolean)
+			selectors: splitSelectors(match[1])
 		}));
+}
+
+/** Splits a selector list on top-level commas only — commas inside functional
+ * pseudo-classes like :is(button, a) must not split. A paren-blind split
+ * produces syntactically invalid fragments (e.g. ":is(button") that no valid
+ * CSS can ever satisfy, creating unfixable findings. */
+function splitSelectors(selectorText) {
+	const parts = [];
+	let depth = 0;
+	let current = "";
+	for (const ch of selectorText) {
+		if (ch === "(") depth++;
+		else if (ch === ")") depth = Math.max(0, depth - 1);
+		if (ch === "," && depth === 0) {
+			if (current.trim()) parts.push(current.trim());
+			current = "";
+		} else {
+			current += ch;
+		}
+	}
+	if (current.trim()) parts.push(current.trim());
+	return parts.filter(Boolean);
 }
 
 /** Recognizes deliberate button/link/role selectors and pointer declarations while excluding existing state selectors. */
