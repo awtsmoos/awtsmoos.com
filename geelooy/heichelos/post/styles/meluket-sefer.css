@@ -33,6 +33,19 @@
 	--sefer-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
 }
 
+/* Explicit light theme — ensure dark text on light paper */
+:root[data-theme="light"] .meluket-sefer-active .meluket-sefer,
+.meluket-sefer-active[data-theme="light"] .meluket-sefer,
+.meluket-sefer-active .meluket-sefer {
+	--sefer-paper: #faf5e9;
+	--sefer-paper-deep: #f3ecdc;
+	--sefer-ink: #2b2118;
+	--sefer-ink-soft: #5a4c3d;
+	--sefer-accent: #8a6d3b;
+	--sefer-rule: #d9c9a8;
+	--sefer-card: #fffdf6;
+}
+
 /* ---------- Title block ---------- */
 .meluket-sefer-active .meluket-sefer-title {
 	text-align: center;
@@ -196,15 +209,19 @@
 }
 
 /* ---------- Language modes ---------- */
-.meluket-sefer-active .meluket-sefer-section[data-lang-mode="hebrew"] .meluket-english {
-	display: none;
+.meluket-sefer-active .meluket-sefer-section[data-lang-mode="hebrew"] .meluket-english,
+.meluket-sefer-active .meluket-sefer[data-lang-mode="hebrew"] .meluket-english {
+	display: none !important;
 }
 
-.meluket-sefer-active .meluket-sefer-section[data-lang-mode="english"] .meluket-hebrew {
-	display: none;
+.meluket-sefer-active .meluket-sefer-section[data-lang-mode="english"] .meluket-hebrew,
+.meluket-sefer-active .meluket-sefer[data-lang-mode="english"] .meluket-hebrew {
+	display: none !important;
 }
 
-.meluket-sefer-active .meluket-sefer-section[data-lang-mode="english"] .meluket-english {
+.meluket-sefer-active .meluket-sefer-section[data-lang-mode="english"] .meluket-english,
+.meluket-sefer-active .meluket-sefer[data-lang-mode="english"] .meluket-english {
+	display: block !important;
 	border-top: none;
 	margin-top: 0;
 	padding-top: 0;
@@ -377,4 +394,11 @@
 /* Hide old translation status banner when sefer reader is active */
 .meluket-sefer-active .awtsmoos-translation-status {
 	display: none !important;
+}
+
+/* Footnote highlight when clicked from marker */
+.meluket-sefer-active .meluket-footnote-highlight {
+	background: #fff3cd !important;
+	border-radius: 4px;
+	transition: background 0.3s;
 }

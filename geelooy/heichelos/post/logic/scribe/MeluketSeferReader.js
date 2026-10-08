@@ -238,6 +238,7 @@ function buildLangToggle(currentMode, onChange) {
  * Applies the language mode to all sefer sections.
  */
 function applyLangMode(root, mode) {
+	root.dataset.langMode = mode;
 	root.querySelectorAll('.meluket-sefer-section').forEach(section => {
 		section.dataset.langMode = mode;
 	});
@@ -376,6 +377,7 @@ export function awakenMeluketSeferReader(post) {
 			const li = document.createElement('li');
 			li.className = 'meluket-footnote';
 			li.id = `meluket-fn-${idx + 1}`;
+			li.setAttribute('data-fn', String(idx + 1));
 			const num = document.createElement('span');
 			num.className = 'meluket-footnote-num';
 			num.textContent = String(idx + 1);
@@ -419,6 +421,19 @@ export function awakenMeluketSeferReader(post) {
 	// Mark the reader root so sefer styles apply.
 	const root = document.querySelector('.post-reader-localized-context');
 	if (root) root.classList.add('meluket-sefer-active');
+
+	// Footnote markers: click to scroll to footnote in shelf.
+	sefer.addEventListener('click', (e) => {
+		const marker = e.target.closest('[data-fn]');
+		if (!marker) return;
+		const fnNum = marker.getAttribute('data-fn');
+		const target = sefer.querySelector(`.meluket-footnote[data-fn="${fnNum}"]`);
+		if (target) {
+			target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+			target.classList.add('meluket-footnote-highlight');
+			setTimeout(() => target.classList.remove('meluket-footnote-highlight'), 2000);
+		}
+	});
 
 	return true;
 }
