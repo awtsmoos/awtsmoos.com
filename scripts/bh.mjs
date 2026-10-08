@@ -52,12 +52,14 @@ function valueArg(name) {
   return index >= 0 ? process.argv[index + 1] : "";
 }
 
-// B"H CSS Guarantee hook (opt-in via CSS_GUARANTEE_MODE) — additive, fail-open
+// B"H CSS Guarantee hook (opt-in via CSS_GUARANTEE_MODE)
 // Runs only when CSS_GUARANTEE_MODE is set in the environment; unset = skip
-// entirely with zero behavior change. Never blocks the deploy: every failure
-// is caught, logged, and the deploy continues.
+// entirely with zero behavior change.
+// - fail-open: findings reported, deploy always continues.
+// - fail-closed: blocking findings ABORT the deploy (exit 3) before SSH.
 async function runCssGuaranteeHook() {
-  if (!process.env.CSS_GUARANTEE_MODE) return;
+  const mode = process.env.CSS_GUARANTEE_MODE;
+  if (!mode) return;
   try {
     const scriptsDir = dirname(fileURLToPath(import.meta.url));
     const pipelineUrl = pathToFileURL(join(
@@ -91,7 +93,11 @@ async function runCssGuaranteeHook() {
     const result = await runPipeline({ cssSources, mode: process.env.CSS_GUARANTEE_MODE });
     console.log(formatPipelineReport(result));
     if (result.blocked) {
-      console.error('B"H CSS Guarantee: blocking findings detected, but this hook is fail-open — deploy continues.');
+      if (mode === "fail-closed") {
+        console.error('B"H CSS Guarantee: BLOCKED — fail-closed mode, aborting deploy before SSH. Fix the findings above or set CSS_GUARANTEE_MODE=fail-open.');
+        process.exit(3);
+      }
+      console.error('B"H CSS Guarantee: blocking findings detected, but fail-open mode — deploy continues.');
     }
   } catch (error) {
     console.error('B"H CSS Guarantee hook skipped (fail-open):', error && error.message ? error.message : error);
