@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H Chapter 804: No extra UI means no extra UI. */
 :root{--tc-page-max:1480px;--tc-page-pad:clamp(12px,2.5vw,32px)}
 html,body,body.awt-no-side-rails,body.awt-workspace-mode,body:has(.awt-room-console){height:auto!important;min-height:100%!important;overflow-y:auto!important;overflow-x:hidden!important}

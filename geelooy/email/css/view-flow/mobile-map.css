@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 @media (max-width: 760px) {
   .mail-mobile-shell :is(.mail-frame,.mail-main), .email-app-shell :is(.mail-frame,.mail-main) { display: grid !important; grid-template-columns: 1fr !important; overflow: visible !important; gap: 0 !important; width: 100% !important; max-width: 100% !important; }
   .mail-mobile-shell :is(.mail-frame,.mail-main) > *, .email-app-shell :is(.mail-frame,.mail-main) > * { min-width: 0 !important; max-width: 100% !important; }

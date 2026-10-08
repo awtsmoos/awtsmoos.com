@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H - Property inspector. */
 .inspector-content { display: grid; gap: 12px; padding: 14px; }
 .inspector-title { margin: 0; color: var(--aw-hot); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }

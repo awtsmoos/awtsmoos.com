@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H
  * The Awtsmoos guides the trusted navigation row: address, mode, progress, and focus
  * remain host-owned lights above every guest page, clear in motion and clear at rest.

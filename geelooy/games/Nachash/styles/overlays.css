@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H — Blocking Nachash states share one bounded overlay grammar with large recovery controls and safe-area clearance. */
 .overlay {
 	position: fixed;

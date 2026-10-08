@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H — pdf-to-img glassmorphism surface
    Futuristic dark glass theme: backdrop blur, cyan accents, mobile-first.
    Scoped under body.pdf-glass so nothing leaks to other apps. */

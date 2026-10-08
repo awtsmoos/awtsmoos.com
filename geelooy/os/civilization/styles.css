@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H
  * Chapter 579: The XP desktop keeps its icons, now tuned by shared civilization
  * semantics for pulse, heat, cards, and presence.

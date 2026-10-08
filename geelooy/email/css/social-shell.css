@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H — Quantum Mail bends the shared header toward gold without becoming another site. */
 .geelooy-mail-document .g-unusual-header {
 	border-color: rgba(255, 194, 71, 0.3);

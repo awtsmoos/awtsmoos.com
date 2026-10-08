@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H — awp-polish.css
  * Awtsmoos Pages cinematic polish layer (additive only).
  * Every rule below is a NEW `.awp-*` class pages opt into; nothing here

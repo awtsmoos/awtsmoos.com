@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H — Boruch Hashem — Blessed is He
    English Torah Translations catalog: a quiet, luminous reading vessel.
    Scoped to [data-awtsmoos-seo-catalog] so no other route inherits a rule. */

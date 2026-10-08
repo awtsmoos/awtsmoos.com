@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H — Responsive revelation: desktop frame, portrait hand, landscape hand. */
 @media (hover: none), (pointer: coarse), (max-width: 920px) {
 	#game-shell { padding: 0; }

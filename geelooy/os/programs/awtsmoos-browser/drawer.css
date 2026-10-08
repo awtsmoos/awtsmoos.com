@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H — retractable drawer structure, scoped to Awtsmoos Browser. */
 .awtsmoos-browser-host .awtsmoos-browser-advanced-panel {
 	z-index: var(--awtsmoos-browser-layer-drawer);

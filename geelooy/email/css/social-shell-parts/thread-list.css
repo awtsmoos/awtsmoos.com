@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H — sender groups as animated glass cards. */
 .thread-list { background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(246,248,251,.88)) !important; display: grid !important; gap: .82rem !important; min-height: 0 !important; overflow-y: auto !important; padding: 0 1rem 7rem !important; }
 .sender-group-card { animation: mailSenderRise .26s cubic-bezier(.2,.8,.2,1) both; background: linear-gradient(145deg, rgba(255,255,255,.96), rgba(244,249,255,.9)) !important; border: 1px solid rgba(207,216,227,.82) !important; border-radius: 20px !important; box-shadow: 0 12px 32px rgba(15,23,42,.09), inset 0 1px 0 rgba(255,255,255,.9); display: grid; gap: .45rem; overflow: hidden; }

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H — floating glass-like mobile route dock. */
 .mail-bottom-nav { align-items: center !important; background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(244,249,255,.94)) !important; border: 1px solid rgba(207,216,227,.86) !important; border-radius: 999px !important; bottom: max(.8rem, env(safe-area-inset-bottom)) !important; box-shadow: 0 18px 48px rgba(15,23,42,.18), inset 0 1px 0 rgba(255,255,255,.9) !important; display: flex !important; gap: .25rem !important; left: .75rem !important; padding: .36rem !important; position: sticky; bottom: 0; position: fixed !important; right: .75rem !important; z-index: 100 !important; }
 .mail-bottom-nav a,

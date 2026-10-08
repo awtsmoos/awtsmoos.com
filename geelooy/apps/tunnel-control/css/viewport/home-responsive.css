@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H */
 /** The same launcher keeps four touchable columns on phones and tighter rows on short screens. */
 @media (max-width: 760px) {

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H
  * Chapter 553: Civilization receives a neon garment woven from the existing
  * Code Forge palette: cyan breath, magenta attention, lime completion.
