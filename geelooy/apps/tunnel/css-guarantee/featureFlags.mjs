@@ -36,11 +36,11 @@ export function isFailClosed() {
  */
 export function getEnabledLayers() {
   const raw = String(process.env.CSS_GUARANTEE_LAYERS ?? "").trim();
-  if (!raw) return [1, 2, 3, 4];
+  if (!raw) return [1, 2, 3, 4, 15];
   const parsed = raw
     .split(",")
     .map((part) => Number(part.trim()))
-    .filter((n) => Number.isInteger(n) && n >= 1 && n <= 4);
+    .filter((n) => Number.isInteger(n) && n >= 1 && (n <= 4 || n === 15));
   const deduped = [];
   for (const n of parsed) {
     if (!deduped.includes(n)) deduped.push(n);

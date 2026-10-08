@@ -26,6 +26,7 @@ const LAYER_NAMES = {
   2: "Layer 2 — Auto-scope, hash filenames, auto-animate",
   3: "Layer 3 — Device matrix, interactive audit, touch targets, PDF verify, snapshots",
   4: "Layer 4/14 — Style firewall telemetry",
+  15: "Layer 15 — Theme and contrast completeness",
 };
 
 function isBlockingFinding(finding) {
@@ -135,6 +136,12 @@ async function runLayer2(sources) {
   return { blocking: false, transformedCount: transformed.length, transformed };
 }
 
+async function runLayer15(sources) {
+  const { auditCompleteness } = await safeImport("./layer15-completeness/completeness.mjs");
+  const result = auditCompleteness(sources, { mode: "fail-open" });
+  return { blocking: false, summary: summarizeFindings(result.findings), stats: result.stats };
+}
+
 async function runLayer4() {
   const { getStats, shouldRollback } = await safeImport("./layer4/telemetry.mjs");
   const stats = getStats();
@@ -197,6 +204,7 @@ export async function runPipeline(options = {}) {
     message: "Layer 3 requires live deploy; run post-deploy",
   }));
   await runLayer(4, () => runLayer4());
+  await runLayer(15, () => runLayer15(sources));
 
   const anyLayerFailed = layerResults.some((r) => r.ok === false && r.skipped !== true);
   const ok = !anyLayerFailed && !blocked;
