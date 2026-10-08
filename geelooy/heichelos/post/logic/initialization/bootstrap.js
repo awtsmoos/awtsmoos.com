@@ -72,6 +72,13 @@ export async function ignite() {
 		);
 		throw ohrError;
 	}
+	// B"H — Meluket sefer reader: bilingual warm sections for enriched posts.
+	try {
+		const { awakenMeluketSeferReader } = await import('../scribe/MeluketSeferReader.js');
+		awakenMeluketSeferReader(tiferesCanonical.post);
+	} catch (seferError) {
+		console.warn('B"H meluket sefer reader skipped', seferError);
+	}
 	beginTranslation(
 		malchusViewport,
 		tiferesCanonical.post,
