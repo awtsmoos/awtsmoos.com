@@ -57,3 +57,23 @@
 	opacity: 1;
 	pointer-events: auto;
 }
+
+/* B"H — LIGHT THEME: the Scribe's Lens follows the light.
+   When data-theme="light" (set by TiferesReaderThemeController on <html>
+   and .post-reader-localized-context), the panel renders light instead of
+   dark navy. Variables are overridden on the panel so every descendant
+   using var(--reader-*) picks up light values instead of dark fallbacks. */
+:where(:root[data-theme="light"]) .post-reader-localized-context .typography-details,
+:where(.post-reader-localized-context[data-theme="light"]) .typography-details {
+	--reader-text: #21160a;
+	--reader-muted: #6d5a43;
+	--reader-line: rgb(122 82 31 / 28%);
+	--reader-gold: #8a6d1a;
+	--reader-cyan: #0b6e8f;
+	border-color: rgb(122 82 31 / 30%);
+	background:
+		linear-gradient(145deg, rgb(255 255 255 / 75%), transparent 48%),
+		rgb(253 251 247 / 96%);
+	box-shadow: 0 2rem 7rem rgb(0 0 0 / 20%), inset 0 1px 0 rgb(255 255 255 / 70%);
+	color: #21160a;
+}

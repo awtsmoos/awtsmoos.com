@@ -80,3 +80,10 @@
 		transition-duration: 0.001ms !important;
 	}
 }
+
+/* B"H — LIGHT THEME: advanced disclosure follows the light.
+   Near-white summary text becomes dark ink when data-theme="light". */
+:where(:root[data-theme="light"]) :where(.post-reader-localized-context) .reader-advanced-settings > summary,
+.post-reader-localized-context[data-theme="light"] .reader-advanced-settings > summary {
+	color: #21160a;
+}

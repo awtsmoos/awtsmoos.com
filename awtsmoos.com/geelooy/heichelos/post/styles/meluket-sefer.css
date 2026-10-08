@@ -29,7 +29,6 @@
 	margin: 0 auto;
 	padding: clamp(1rem, 3vw, 2.5rem) clamp(0.75rem, 3vw, 2rem) 4rem;
 	background: var(--sefer-paper);
-	color: var(--sefer-ink); /* Layer 15 completeness: explicit text color */
 	border-radius: 6px;
 }
 
@@ -45,15 +44,6 @@
 	--sefer-card: #201a10;
 	--sefer-focus: #e8a34d;
 	--sefer-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
-}
-
-/* Layer 15 completeness: dark-theme accent is light gold — hardcoded cream
-   text on it is unreadable (2.15). Use dark text on the gold. */
-:where(:root[data-theme="dark"]) .meluket-sefer-active .meluket-footnote-num,
-:where(.meluket-sefer-active[data-theme="dark"]) .meluket-footnote-num,
-:where(:root[data-theme="dark"]) :where(.meluket-sefer-active) .meluket-lang-btn.is-active,
-:where(.meluket-sefer-active[data-theme="dark"]) .meluket-lang-btn.is-active {
-	color: #1a1409;
 }
 
 /* Explicit light theme — ensure dark text on light paper */
