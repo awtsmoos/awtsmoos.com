@@ -2,6 +2,9 @@
 // B"H
 import { createInterface } from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
+import { readdirSync, readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { execAwtsmoosSsh } from "./lib/awtsmoosSshClient.mjs";
 import { deletePassword, loadPassword, savePassword, secretDescriptor } from "./lib/safeSshPasswordStore.mjs";
 
@@ -35,6 +38,9 @@ async function main() {
     }
   }
 
+  // B"H CSS Guarantee hook (opt-in via CSS_GUARANTEE_MODE) — additive, fail-open
+  await runCssGuaranteeHook();
+
   const result = await execAwtsmoosSsh({ host, username, port, password }, remoteCommand);
   if (result.stdout) process.stdout.write(result.stdout);
   if (result.stderr) process.stderr.write(result.stderr);
@@ -44,6 +50,52 @@ async function main() {
 function valueArg(name) {
   const index = process.argv.indexOf(name);
   return index >= 0 ? process.argv[index + 1] : "";
+}
+
+// B"H CSS Guarantee hook (opt-in via CSS_GUARANTEE_MODE) — additive, fail-open
+// Runs only when CSS_GUARANTEE_MODE is set in the environment; unset = skip
+// entirely with zero behavior change. Never blocks the deploy: every failure
+// is caught, logged, and the deploy continues.
+async function runCssGuaranteeHook() {
+  if (!process.env.CSS_GUARANTEE_MODE) return;
+  try {
+    const scriptsDir = dirname(fileURLToPath(import.meta.url));
+    const pipelineUrl = pathToFileURL(join(
+      scriptsDir, "..", "geelooy", "apps", "tunnel", "css-guarantee", "pipeline.mjs"
+    )).href;
+    const { runPipeline, formatPipelineReport } = await import(pipelineUrl);
+    const collected = [];
+    let totalFound = 0;
+    const walk = (dir) => {
+      let entries;
+      try { entries = readdirSync(dir, { withFileTypes: true }); } catch { return; }
+      for (const entry of entries) {
+        const full = join(dir, entry.name);
+        if (entry.isDirectory()) {
+          if (entry.name === "node_modules" || entry.name === ".git") continue;
+          walk(full);
+        } else if (entry.isFile() && /\.css$/i.test(entry.name)) {
+          totalFound++;
+          if (collected.length < 50) collected.push(full);
+        }
+      }
+    };
+    walk(join(scriptsDir, "..", "geelooy"));
+    if (totalFound > collected.length) {
+      console.log(`B"H CSS Guarantee: found ${totalFound} css files under geelooy/; analyzing first ${collected.length} (perf cap).`);
+    }
+    const cssSources = collected.map((file) => {
+      try { return { path: file, content: readFileSync(file, "utf8") }; }
+      catch { return null; }
+    }).filter(Boolean);
+    const result = await runPipeline({ cssSources, mode: process.env.CSS_GUARANTEE_MODE });
+    console.log(formatPipelineReport(result));
+    if (result.blocked) {
+      console.error('B"H CSS Guarantee: blocking findings detected, but this hook is fail-open — deploy continues.');
+    }
+  } catch (error) {
+    console.error('B"H CSS Guarantee hook skipped (fail-open):', error && error.message ? error.message : error);
+  }
 }
 
 async function promptPassword(label) {
