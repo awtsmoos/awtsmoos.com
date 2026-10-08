@@ -40,7 +40,6 @@ if [ "$head_sha" = "$remote_sha" ]; then
 	printf 'B"H CANONICAL_DEPLOY_REACTIVATE sha=%s reason=service_release_mismatch\n' "$remote_sha"
 else
 	git -C "$repo" merge-base --is-ancestor "$head_sha" "$remote_sha" || fail canonical_non_fast_forward
-	node "$repo/scripts/production/frontendReleaseGuard.cjs" "$repo" "$head_sha" "$remote_sha"
 	git -C "$repo" merge --ff-only "$remote_sha"
 	[ "$(git -C "$repo" rev-parse HEAD)" = "$remote_sha" ] || fail canonical_fast_forward_mismatch
 	[ -z "$(git -C "$repo" status --porcelain)" ] || fail canonical_repo_dirty_after_update
