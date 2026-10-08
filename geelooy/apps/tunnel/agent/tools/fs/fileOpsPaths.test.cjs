@@ -39,7 +39,15 @@ async function run() {
 		assert.deepEqual(FileOps.normalizePaths({ params: '{"p":"from-params"}' }), [
 			"from-params"
 		]);
-		console.log("BHY mkdirp reports missing targets as failure and preserves direct p");
+		assert.deepEqual(FileOps.normalizePaths({ p: "direct", params: { p: "nested" } }), ["direct"]);
+		assert.deepEqual(FileOps.normalizePaths({ path: "direct", body: { path: "nested" } }), ["direct"]);
+		assert.deepEqual(FileOps.normalizePaths({ p: "direct", paths: "other" }), ["direct"]);
+		assert.deepEqual(FileOps.normalizePaths({ params: '{"p":"nested"}' }), ["nested"]);
+		const directWithCarrier = await FileOps.mkdirp(config, { p: "created/authority", params: { p: "created/redirected" } });
+		assert.equal(directWithCarrier.ok, true);
+		assert.equal(fs.existsSync(path.join(root, "created/authority")), true);
+		assert.equal(fs.existsSync(path.join(root, "created/redirected")), false);
+		console.log("BHY mkdirp rejects missing targets and preserves direct path authority");
 	} finally {
 		await fsp.rm(root, { recursive: true, force: true });
 	}

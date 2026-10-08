@@ -21,7 +21,8 @@ const CARRIERS = [
  */
 function normalizePaths(payload = {}) {
 	const fused = fusePayload(payload);
-	const raw = firstDefined(fused.paths, fused.files, fused.path, fused.p);
+	const direct = firstDefined(payload.path, payload.p, payload.paths, payload.files);
+	const raw = direct !== undefined ? direct : firstDefined(fused.paths, fused.files, fused.path, fused.p);
 	if (Array.isArray(raw)) {
 		return raw.map(pathFrom).filter(Boolean);
 	}
@@ -41,6 +42,13 @@ function fusePayload(payload = {}) {
 			fused.paths = parsed;
 		} else if (parsed && typeof parsed === "object") {
 			Object.assign(fused, parsed);
+		}
+	}
+	// Explicit action targets outrank auxiliary carriers. A nested params/body
+	// object must never silently redirect a direct filesystem mutation.
+	for (const key of ["path", "p", "paths", "files"]) {
+		if (payload[key] !== undefined && payload[key] !== null && payload[key] !== "") {
+			fused[key] = payload[key];
 		}
 	}
 	return fused;
