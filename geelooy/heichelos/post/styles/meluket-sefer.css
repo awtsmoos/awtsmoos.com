@@ -471,3 +471,12 @@ html[data-theme="dark"] body .meluket-sefer-active .meluket-sefer * {
 html[data-theme="dark"] body .meluket-sefer-active .meluket-sefer {
 	background: #171209 !important;
 }
+
+/* Force typography panel hidden when ARIA says hidden (fix visual desync) */
+.meluket-sefer-active #typographyDetails[aria-hidden="true"],
+.meluket-sefer-active .typography-details[aria-hidden="true"] {
+	display: none !important;
+	visibility: hidden !important;
+	opacity: 0 !important;
+	pointer-events: none !important;
+}
