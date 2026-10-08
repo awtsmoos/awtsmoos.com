@@ -32,6 +32,7 @@ const ACTIONS = Object.freeze({
 	chromeCloseTabs: chromeActions.chromeCloseTabs,
 	chromeNavigate: chromeActions.chromeNavigate,
 	chromeEval: chromeActions.chromeEval,
+	chromeEvalSlim: chromeActions.chromeEval,
 	chromeWaitForSelector: chromeActions.chromeWaitForSelector,
 	chromeClick: chromeActions.chromeClick,
 	chromeType: chromeActions.chromeType,
