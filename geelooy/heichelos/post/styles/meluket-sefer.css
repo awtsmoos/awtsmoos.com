@@ -548,3 +548,63 @@
 :where(.meluket-sefer-active) .meluket-fn-marker:focus {
 	outline: 2px solid var(--sefer-focus); outline-offset: 2px;
 }
+
+/* B"H — LIGHT THEME FOR THE SCRIBE'S LENS (settings panel).
+   The Theme Engine sets data-theme="light" on <html>. The settings panel
+   (.typography-details) had hardcoded dark styles in settings.css and
+   ideal/reborn/settings-*.css with NO theme awareness. These overrides use
+   :root[data-theme="light"] for specificity 0,4,0 — beating the dark 0,2,0
+   rules regardless of source order. Dark theme is untouched. */
+:root[data-theme="light"] .post-reader-localized-context .typography-details {
+	--reader-text: #21160a;
+	--reader-muted: #6d5a43;
+	--reader-line: rgb(122 82 31 / 28%);
+	--reader-gold: #8a6d1a;
+	--reader-cyan: #0b6e8f;
+	background: rgb(253 251 247 / 96%);
+	background-image: linear-gradient(145deg, rgb(255 255 255 / 75%), transparent 48%);
+	border: 1px solid rgb(122 82 31 / 30%);
+	border-radius: 1.65rem;
+	box-shadow: 0 2rem 7rem rgb(0 0 0 / 20%), inset 0 1px 0 rgb(255 255 255 / 70%);
+	color: #21160a;
+}
+:root[data-theme="light"] .post-reader-localized-context .typography-content {
+	scrollbar-color: #8a6d1a rgb(253 251 247);
+}
+:root[data-theme="light"] .post-reader-localized-context .settings-group {
+	background: transparent;
+}
+:root[data-theme="light"] .post-reader-localized-context .control-label,
+:root[data-theme="light"] .post-reader-localized-context .setting-name {
+	color: #21160a;
+}
+:root[data-theme="light"] .post-reader-localized-context .font-adjust-btn {
+	background: rgb(255 255 255);
+	border: 1px solid rgb(122 82 31 / 35%);
+	color: #21160a;
+}
+:root[data-theme="light"] .post-reader-localized-context .font-adjust-btn:hover,
+:root[data-theme="light"] .post-reader-localized-context .font-adjust-btn:active {
+	background: rgb(240 230 210);
+	color: #21160a;
+}
+:root[data-theme="light"] .post-reader-localized-context .font-size-display {
+	color: #21160a;
+}
+:root[data-theme="light"] .post-reader-localized-context .font-selector,
+:root[data-theme="light"] .post-reader-localized-context select {
+	background-color: rgb(255 255 255);
+	border: 1px solid rgb(122 82 31 / 35%);
+	color: #21160a;
+}
+:root[data-theme="light"] .post-reader-localized-context .auto-scroll-settings-toggle {
+	background: rgb(255 255 255);
+	border: 1px solid rgb(122 82 31 / 35%);
+	color: #21160a;
+}
+:root[data-theme="light"] .post-reader-localized-context .auto-scroll-help {
+	color: #6d5a43;
+}
+:root[data-theme="light"] .post-reader-localized-context output {
+	color: #21160a;
+}
