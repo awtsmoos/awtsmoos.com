@@ -8,7 +8,9 @@ let COMMANDS = [];
 try {
   // commands.mjs may not exist yet; fall through to NLP when absent.
   const mod = await import('./commands.mjs');
-  if (Array.isArray(mod.commands)) COMMANDS = mod.commands;
+  // commands.mjs exports COMMANDS (uppercase); accept lowercase/default too.
+  if (Array.isArray(mod.COMMANDS)) COMMANDS = mod.COMMANDS;
+  else if (Array.isArray(mod.commands)) COMMANDS = mod.commands;
   else if (Array.isArray(mod.default)) COMMANDS = mod.default;
 } catch {
   COMMANDS = [];

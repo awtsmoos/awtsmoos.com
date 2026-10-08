@@ -75,10 +75,12 @@ function buildDeclarations(intent) {
   }
 
   // --- spacing words ---
-  if (value === 'more space' || value === 'more-space' || value === 'morespace') {
+  // commands.mjs and the parser's NLP fallback both emit value 'more'/'less'
+  // for spacing intents (not only the long forms 'more space' etc.).
+  if (value === 'more' || value === 'more space' || value === 'more-space' || value === 'morespace') {
     return { decls: { 'margin': '1.5em 0', 'line-height': '2' }, pct: null };
   }
-  if (value === 'less space' || value === 'less-space' || value === 'lessspace') {
+  if (value === 'less' || value === 'less space' || value === 'less-space' || value === 'lessspace') {
     return { decls: { 'margin': '0.25em 0', 'line-height': '1.4' }, pct: null };
   }
 
@@ -91,8 +93,10 @@ function buildDeclarations(intent) {
   if (action === 'hide') {
     return { decls: { 'display': 'none !important' }, pct: null };
   }
+  // "show" must emit a real declaration that overrides a hide — a
+  // comment-only block (display: '') does nothing when applied.
   if (action === 'show') {
-    return { decls: { 'display': '' }, pct: null };
+    return { decls: { 'display': 'block' }, pct: null };
   }
 
   // --- language-only views (targeted hide of the other language) ---
