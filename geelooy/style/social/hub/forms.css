@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -6,7 +7,6 @@
  * surface. No Awtsmoos.com input may inherit native white, inset borders, or
  * twenty-one-pixel geometry from the browser.
  */
-
 .hub-input-section {
 	display: grid;
 	gap: .85rem;
@@ -16,38 +16,31 @@
 	border-radius: var(--hub-radius-l);
 	background: #0f1722;
 }
-
 .hub-input-heading {
 	display: flex;
 	align-items: flex-start;
 	justify-content: space-between;
 	gap: 1rem;
 }
-
-.hub-input-heading h3,
-.hub-input-heading p {
+.hub-input-heading h3, .hub-input-heading p {
 	margin: 0;
 }
-
 .hub-input-heading h3 {
 	color: var(--hub-text);
 	font-size: 1rem;
 }
-
 .hub-input-heading p {
 	max-inline-size: 48rem;
 	color: var(--hub-faint);
 	font-size: .8rem;
 	line-height: 1.45;
 }
-
 .hub-inputs {
 	display: grid;
 	grid-template-columns: repeat(5, minmax(0, 1fr));
 	gap: .7rem;
 	min-inline-size: 0;
 }
-
 .hub-field {
 	display: grid;
 	gap: .38rem;
@@ -57,24 +50,20 @@
 	font-weight: 800;
 	letter-spacing: .03em;
 }
-
 .hub-field span {
 	display: inline-flex;
 	align-items: center;
 	gap: .4rem;
 }
-
-.hub-field span::before {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.hub-field) :where(span)::before {
 	inline-size: .38rem;
 	block-size: .38rem;
 	border-radius: 50%;
 	background: var(--hub-cyan);
 	content: "";
 }
-
-.hub-field input,
-.hub-field textarea,
-.hub-field select {
+.hub-field input, .hub-field textarea, .hub-field select {
 	inline-size: 100%;
 	min-inline-size: 0;
 	min-block-size: 48px;
@@ -88,28 +77,23 @@
 	outline: 0;
 	transition: border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
 }
-
-.hub-field input::placeholder,
-.hub-field textarea::placeholder {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.hub-field) :where(input)::placeholder, :where(.hub-field) :where(textarea)::placeholder {
 	color: var(--hub-faint);
 	opacity: 1;
 }
-
 .hub-field :is(input, textarea, select):focus-visible {
 	border-color: var(--hub-cyan);
 	background: #1a293a;
 	box-shadow: 0 0 0 3px rgba(97, 203, 217, .16);
 }
-
 .hub-field :is(input, textarea, select):disabled {
 	cursor: not-allowed;
 	opacity: .55;
 }
-
 .hub-field :is(input, textarea, select):user-invalid {
 	border-color: var(--hub-danger);
 }
-
 .hub-field-wide {
 	grid-column: span 2;
 }

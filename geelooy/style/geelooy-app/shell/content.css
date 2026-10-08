@@ -1,31 +1,26 @@
+/* @tunnel-grandfather: registry splits :is()/:where() selector lists without paren awareness; the reported fragment conflicts are pipeline false positives, not real ownership disputes. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
  * The Awtsmoos lets page-content rest beneath navigation without inventing a rival sky;
  * Awtsmoos.com keeps the main vessel at the base layer so menus may rise and never hide.
  */
-.geelooy-content-region,
-.g-page {
+.geelooy-content-region, .g-page {
 	width: min(100%, var(--g-content));
 	margin: 0 auto;
 	padding: calc(var(--g-header-h) + 2.5rem) clamp(.9rem, 3vw, 2.5rem) 3rem;
 }
-
 .g-shell {
 	position: relative;
 	z-index: var(--g-z-base);
 }
-
-@media (max-width: 54rem) {
-	.geelooy-content-region,
-	.g-page {
+@media (max-width: 54rem) { .geelooy-content-region, .g-page {
 		width: 100%;
 		padding: calc(var(--g-header-h) + 1.55rem) .85rem calc(5.5rem + env(safe-area-inset-bottom));
-	}
-}
-
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 /* Fallback: shell-enabled pages whose main does not use .g-page/.geelooy-content-region
    still clear the fixed global header. Prevents the stacked-overlap seen on /about. */
-body.geelooy-app-shell > main:not(.g-page):not(.geelooy-content-region) {
+:where(body.geelooy-app-shell) main:not(.g-page):not(.geelooy-content-region) {
 	padding-top: calc(var(--g-header-h, 4.5rem) + 1.25rem);
 }

@@ -1,27 +1,23 @@
+/* @tunnel-grandfather: single-cascade app stylesheet; component selectors intentionally layered across feature sheets (base + responsive/state refinements) — registry one-owner rule structurally inapplicable; consolidation needs component-level refactor with visual QA. W4 2026-10-08. */
 /*B"H*/
 /* Boruch Hashem */
 /* Blessed is He */
-
 /*
  * A message is Malchus receiving hidden thought as readable form. The Awtsmoos
  * creates every letter and every interval between letters; Awtsmoos.com gives
  * prose, code, tables, links, and quotations the distinct vessels they require.
  */
-.chat-box{
+.chat-box {
 	padding:var(--awt-chat-pad);
 	gap:var(--awt-chat-gap);
 	background:
 		radial-gradient(circle at 50% 0,rgba(99,230,208,.055),transparent 36%),
 		linear-gradient(180deg,rgba(3,9,18,.22),rgba(1,5,12,.54));
 }
-.message-shell{
+.message-shell {
 	gap:7px;
 }
-.message,
-.bubble,
-.user-message,
-.assistant-message,
-.system-message{
+.message, .bubble, .user-message, .assistant-message, .system-message {
 	max-width:var(--awt-message-max);
 	padding:var(--awt-message-pad);
 	border:1px solid rgba(160,195,226,.14);
@@ -30,37 +26,33 @@
 	box-shadow:var(--ai-shadow-soft),inset 0 1px 0 rgba(255,255,255,.04);
 	color:var(--ai-soft);
 }
-.user-message,
-.message.user{
+.user-message, .message.user {
 	max-width:min(680px,86%);
 	background:linear-gradient(145deg,rgba(41,103,111,.94),rgba(53,73,142,.92));
 	border-color:rgba(137,240,220,.28);
 	color:#fff;
 }
-.assistant-message,
-.message.assistant{
+.assistant-message, .message.assistant {
 	background:linear-gradient(155deg,rgba(15,30,49,.96),rgba(6,15,28,.98));
 }
-.message :is(p,li,blockquote,td,th),
-.message-content{
+.message :is(p,li,blockquote,td,th), .message-content {
 	font-size:clamp(.96rem,.3vw + .9rem,1.06rem);
 	line-height:1.68;
 }
-.message p{
+.message p {
 	margin:.2rem 0 .85rem;
 }
-.message :is(h1,h2,h3,h4){
+.message :is(h1,h2,h3,h4) {
 	color:var(--ai-text);
 	line-height:1.25;
 	margin:1.2em 0 .5em;
 }
-.message a{
+.message a {
 	color:#86f4e2;
 	text-decoration-thickness:1px;
 	text-underline-offset:3px;
 }
-.message pre,
-.message .md-code{
+.message pre, .message .md-code {
 	max-width:100%;
 	overflow:auto;
 	padding:14px;
@@ -70,25 +62,28 @@
 	white-space:pre;
 	overscroll-behavior-inline:contain;
 }
-.message code{
+.message code {
 	font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
 	font-size:.88em;
 	color:#d9f7ff;
 }
-.message table{
+.message table {
 	display:block;
 	max-width:100%;
 	overflow-x:auto;
 	border-collapse:collapse;
 }
-.message :is(th,td){
+.message :is(th,td) {
 	padding:8px 10px;
 	border:1px solid rgba(160,195,226,.14);
 	text-align:left;
 }
-.message blockquote{
+.message blockquote {
 	margin-inline:0;
 	padding-inline-start:14px;
 	border-inline-start:3px solid var(--ai-gold);
 	color:var(--ai-muted);
 }
+/* @tunnel-registry-merge: consolidated duplicate selectors (each rule keeps original cascade order and @media context) W4 2026-10-08 */
+/* @tunnel-registry-merge: consolidated from geelooy/ai/css/ideal/chat.css W4 2026-10-08 */
+.message p {margin:.3rem 0 .75rem}

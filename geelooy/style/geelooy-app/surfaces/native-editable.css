@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -18,25 +19,22 @@
 	padding: 0.85rem 0.95rem;
 	transition: background-position var(--g-motion-medium) var(--g-ease), border-color var(--g-motion-fast) var(--g-ease), box-shadow var(--g-motion-medium) var(--g-ease), filter var(--g-motion-fast) var(--g-ease), transform var(--g-motion-fast) var(--g-ease-pressure);
 }
-
-@media (hover: hover) {
-	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) [contenteditable]:not([contenteditable="false"]):hover {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (hover: hover) { :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where([contenteditable]:not([contenteditable="false"]):hover) {
 		background-position: 70% 100%, 0 0;
 		border-color: rgba(60, 236, 255, 0.68);
 		box-shadow: var(--g-control-hover);
 		filter: saturate(1.12) brightness(1.05);
 		transform: translateY(-1px);
-	}
-}
-
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) [contenteditable]:not([contenteditable="false"]):focus {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where([contenteditable]:not([contenteditable="false"]):focus) {
 	background-position: 0 100%, 0 0;
 	border-color: var(--g-cyan);
 	box-shadow: 0 0 0 3px rgba(2, 5, 13, 0.96), 0 0 0 6px rgba(60, 236, 255, 0.72), var(--g-glow-hot);
 	filter: saturate(1.24) brightness(1.08);
 	transform: translateY(-2px) scale(1.004);
 }
-
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) [contenteditable][aria-disabled="true"] {
 	cursor: not-allowed;
 	filter: grayscale(0.45) saturate(0.35);
@@ -44,16 +42,10 @@
 	pointer-events: none;
 	transform: none;
 }
-
-@media (prefers-reduced-motion: reduce) {
-	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) [contenteditable] { transform: none !important; }
-}
-
-@media (forced-colors: active) {
-	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) [contenteditable] {
+@media (prefers-reduced-motion: reduce) { :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) [contenteditable] { transform: none !important; } }
+@media (forced-colors: active) { :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) [contenteditable] {
 		background: Canvas;
 		border: 1px solid ButtonText;
 		box-shadow: none;
 		color: CanvasText;
-	}
-}
+	} }

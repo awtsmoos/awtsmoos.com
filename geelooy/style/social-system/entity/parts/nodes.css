@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 .entity-node { position: relative; margin-top: .75rem; padding: .85rem; border-radius: 1rem; border: 1px solid #dfe6ee; background: #fff; }
 .entity-node:before { content: ""; position: absolute; left: .7rem; top: .9rem; width: .55rem; height: .55rem; border-radius: 999px; background: #0f766e; opacity: .25; }
 .entity-node h3 { padding-left: 1rem; }

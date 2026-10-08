@@ -5,12 +5,12 @@
   background: rgba(8,13,27,.96); box-shadow: .7rem 0 1.2rem rgba(0,0,0,.22); transform: translateX(-105%); transition: transform .16s ease;
 }
 .geelooy-mobile-drawer::before { content: "Navigation"; display: block; margin: .2rem .25rem .55rem; color: var(--heichel-gold); font-size: .72rem; font-weight: 950; letter-spacing: .16em; text-transform: uppercase; }
-.sidebar-open .geelooy-mobile-drawer,
-.heichel-mobile-navigation.sidebar-open .geelooy-mobile-drawer { transform: translateX(0); }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+.sidebar-open .geelooy-mobile-drawer, :where(.heichel-mobile-navigation.sidebar-open) .geelooy-mobile-drawer { transform: translateX(0); }
 .geelooy-mobile-drawer a {
   position: relative; display: flex; align-items: center; min-height: 3.05rem; padding: .75rem 1rem .75rem 2.1rem; border: 1px solid var(--heichel-line); border-radius: .95rem;
   background: rgba(255,255,255,.07); color: var(--heichel-ink); text-decoration: none; font-weight: 900; letter-spacing: .01em;
 }
-.geelooy-mobile-drawer a::before { content: ""; position: absolute; left: .9rem; width: .5rem; height: .5rem; border-radius: 999px; background: var(--heichel-cyan); }
-.geelooy-mobile-drawer a:hover,
-.geelooy-mobile-drawer a:focus-visible { background: rgba(102,231,255,.14); border-color: rgba(102,231,255,.32); }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.geelooy-mobile-drawer) :where(a)::before { content: ""; position: absolute; left: .9rem; width: .5rem; height: .5rem; border-radius: 999px; background: var(--heichel-cyan); }
+.geelooy-mobile-drawer a:hover, .geelooy-mobile-drawer a:focus-visible { background: rgba(102,231,255,.14); border-color: rgba(102,231,255,.32); }

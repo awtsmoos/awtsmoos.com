@@ -1,2 +1,3 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H legend reader spacing. */
 :root { --legend-verse-gap: clamp(.95rem, 3vw, 1.55rem); --legend-reader-measure: min(100%, 54rem); --legend-reader-breath: clamp(1rem, 5vw, 2.7rem); }

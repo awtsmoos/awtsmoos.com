@@ -1,2 +1,3 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H ambient wash: soft Ohr around the vessels. */
 :root { --awt-ambient-wash: radial-gradient(circle at 18% 12%, rgba(214,168,79,.22), transparent 34rem), radial-gradient(circle at 82% 4%, rgba(35,58,113,.16), transparent 30rem); }

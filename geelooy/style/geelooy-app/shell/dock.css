@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -7,9 +8,7 @@
 .g-dock {
 	display: none;
 }
-
-@media (max-width: 54rem) {
-	.g-dock {
+@media (max-width: 54rem) { .g-dock {
 		position: fixed;
 		inset: auto 0 0;
 		z-index: 90;
@@ -18,9 +17,8 @@
 		padding: 0.45rem max(0.45rem, env(safe-area-inset-right)) calc(0.45rem + env(safe-area-inset-bottom)) max(0.45rem, env(safe-area-inset-left));
 		border-top: 1px solid var(--g-line);
 		background: #050914;
-	}
-
-	.g-dock a {
+	} }
+@media (max-width: 54rem) { .g-dock a {
 		display: grid;
 		min-height: 3.45rem;
 		place-items: center;
@@ -29,25 +27,22 @@
 		color: var(--g-muted);
 		font-size: 0.7rem;
 		font-weight: 800;
-	}
-
-	.g-dock .g-route-icon {
+	} }
+@media (max-width: 54rem) { .g-dock .g-route-icon {
 		font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
 		font-size: 1.25rem;
 		line-height: 1;
-	}
-
-	.g-dock a[aria-current="page"] {
+	} }
+@media (max-width: 54rem) { .g-dock a[aria-current="page"] {
 		background: linear-gradient(135deg, #112b43, #2d205b);
 		color: var(--g-text);
-	}
-
-	.g-dock a[data-main-route="true"] {
+	} }
+@media (max-width: 54rem) { .g-dock a[data-main-route="true"] {
 		color: white;
 		transform: translateY(-0.28rem);
-	}
-
-	.g-dock a[data-main-route="true"] .g-route-icon {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (max-width: 54rem) { :where(.g-dock) a[data-main-route="true"] .g-route-icon {
 		display: grid;
 		width: 2.75rem;
 		height: 2.75rem;
@@ -57,5 +52,4 @@
 		background: linear-gradient(135deg, #20d5f4, #7350ff 52%, #ff3aa9);
 		font-size: 1.45rem;
 		box-shadow: 0 8px 18px rgba(99, 76, 255, 0.32);
-	}
-}
+	} }

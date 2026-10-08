@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H — future-simple is now simple. */
 .future-simple-layout { min-height: 100dvh; background: #f6f8fb; color: #0f172a; display: grid; gap: 1rem; padding: 1rem; }
 .future-simple-panel, .future-simple-card { background: #fff; border: 1px solid #dfe6ee; border-radius: 1rem; box-shadow: 0 2px 10px rgba(15,23,42,.06); color: #0f172a; padding: 1rem; }

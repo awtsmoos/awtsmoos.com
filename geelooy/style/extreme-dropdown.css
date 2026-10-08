@@ -4,7 +4,6 @@ EXTREME-DROPDOWN-CORE.css
 Infinitely vivid. Zero gradients. Zero shadows.
 A terminal of divine data—rendered through fire, code, and cosmic structure.
 */
-
 .extreme-dropdown-container {
   position: relative;
   display: inline-block;
@@ -15,7 +14,6 @@ A terminal of divine data—rendered through fire, code, and cosmic structure.
   font-family: monospace;
   user-select: none;
 }
-
 /* -- THE DROPDOWN ITSELF: A VESSEL OF POTENTIAL -- */
 .extreme-dropdown {
   position: fixed;
@@ -41,14 +39,12 @@ A terminal of divine data—rendered through fire, code, and cosmic structure.
   z-index: 9999;
   animation: bootPulse 1.4s ease-out;
 }
-
 .extreme-dropdown.is-visible {
   visibility: visible;
   opacity: 1;
   transform: translateY(0) scale(1);
   transition: transform 0.15s ease-out, opacity 0.15s ease-out;
 }
-
 /* -- ITEM OF PURE COSMIC FLASH -- */
 .extreme-dropdown__item {
   position: relative;
@@ -67,21 +63,17 @@ A terminal of divine data—rendered through fire, code, and cosmic structure.
   animation: textBeat 2.4s infinite ease-in-out, flashLines 3s steps(2) infinite;
   transition: all 0.15s ease-out;
 }
-
-.extreme-dropdown__item:hover,
-.extreme-dropdown__item:focus {
+.extreme-dropdown__item:hover, .extreme-dropdown__item:focus {
   color: #ffffff;
   background-color: rgba(255,255,255,0.04);
   transform: translateX(5px) scale(1.03);
   letter-spacing: 0.09em;
   animation-duration: 1.2s;
 }
-
 .extreme-dropdown__item:active {
   background-color: rgba(255, 255, 255, 0.09);
   transform: translateX(2px) scale(0.98);
 }
-
 /* -- LAYERED HEBREW OVERLAY -- */
 .extreme-dropdown__item::after {
   content: 'א∞';
@@ -98,7 +90,6 @@ A terminal of divine data—rendered through fire, code, and cosmic structure.
 .extreme-dropdown__item:hover::after {
   opacity: 1;
 }
-
 /* -- TERMINAL-GUARD ASCII PULSE -- */
 .extreme-dropdown__item::before {
   content: '[₪]';
@@ -110,7 +101,6 @@ A terminal of divine data—rendered through fire, code, and cosmic structure.
   color: rgba(255,255,255,0.07);
   animation: asciiGlow 2.2s infinite alternate;
 }
-
 /* -- TYPOGRAPHIC FLUX OF ENTRANCE -- */
 .extreme-dropdown__item span {
   display: inline-block;
@@ -118,7 +108,6 @@ A terminal of divine data—rendered through fire, code, and cosmic structure.
   opacity: 0;
   animation: letterRise 0.4s forwards ease-out;
 }
-
 /* -- HYPERLINKS WITH NO CHAFF -- */
 .extreme-dropdown__link {
   display: block;
@@ -132,7 +121,6 @@ A terminal of divine data—rendered through fire, code, and cosmic structure.
   font: inherit;
   cursor: inherit;
 }
-
 /* -- VERTICAL HEBREW CODE-RIVER -- */
 .extreme-dropdown::before {
   content: 'אבגדהוזחטיכלמנסעפצקרשת';
@@ -145,7 +133,6 @@ A terminal of divine data—rendered through fire, code, and cosmic structure.
   animation: hebrewDrip 12s linear infinite;
   pointer-events: none;
 }
-
 /* -- COSMIC DIVIDER -- */
 .extreme-dropdown__item.separator {
   height: 2px;
@@ -154,86 +141,66 @@ A terminal of divine data—rendered through fire, code, and cosmic structure.
   pointer-events: none;
   animation: flickerLine 1.6s linear infinite;
 }
-
 /* -- ANIMATIONS -- */
-
-@keyframes textBeat {
+@keyframes textBeat{
   0%, 100% { font-weight: 600; }
   50% { font-weight: 900; }
 }
-
-@keyframes flashLines {
+@keyframes flashLines{
   0%, 100% { color: #89caff; background-color: transparent; }
   50% { color: #ffffff; background-color: black; }
 }
-
-@keyframes asciiGlow {
+@keyframes asciiGlow{
   0% { opacity: 0.05; transform: scaleX(1); }
   100% { opacity: 0.4; transform: scaleX(1.2); }
 }
-
-@keyframes flickerLine {
+@keyframes flickerLine{
   0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
 }
-
-@keyframes hebrewDrip {
+@keyframes hebrewDrip{
   0% { transform: translateY(0); }
   100% { transform: translateY(-100%); }
 }
-
-@keyframes bootPulse {
+@keyframes bootPulse{
   0% { opacity: 0; transform: translateY(12px); }
   20% { opacity: 1; }
   40% { opacity: 0.5; }
   60% { transform: translateY(4px); opacity: 1; }
   100% { transform: translateY(0); }
 }
-
-@keyframes letterRise {
+@keyframes letterRise{
   to {
     transform: translateY(0);
     opacity: 1;
   }
 }
-
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 /* -- ACCESSIBILITY INTENSITY -- */
-.extreme-dropdown__item[tabindex="0"]:focus-visible {
+:where(.extreme-dropdown__item[tabindex="0"]:focus-visible) {
   outline: 2px solid #ffcc00;
   transform: translateX(5px) scale(1.03);
   background-color: rgba(255, 255, 255, 0.1);
 }
-
 /* -- CLIPPED POLYGONAL FUTURISM -- */
 .extreme-dropdown {
   /* clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%); */
 }
-
 /* -- RESPONSIVE: RETRO DEVICES AND TINY FIRECRACKERS -- */
-@media (max-width: 480px) {
-  .extreme-dropdown {
+@media (max-width: 480px) { .extreme-dropdown {
     min-width: 180px;
     border-radius: 0 0 3px 3px;
     margin-top: 4px;
-  }
-
-  .extreme-dropdown__item {
+  } }
+@media (max-width: 480px) { .extreme-dropdown__item {
     padding: 0.6em 1em;
     font-size: 0.9em;
-  }
-
-  .extreme-dropdown__item::after {
+  } }
+@media (max-width: 480px) { .extreme-dropdown__item::after {
     font-size: 1.6em;
-  }
-}
-
+  } }
 /* -- REDUCED MOTION: MERCY FOR THE FRAGILE CIRCUITS -- */
-@media (prefers-reduced-motion: reduce) {
-  .extreme-dropdown,
-  .extreme-dropdown__item,
-  .extreme-dropdown__item::before,
-  .extreme-dropdown__item::after {
+@media (prefers-reduced-motion: reduce) { .extreme-dropdown, .extreme-dropdown__item, .extreme-dropdown__item::before, .extreme-dropdown__item::after {
     animation: none !important;
     transition: none !important;
-  }
-}
+  } }

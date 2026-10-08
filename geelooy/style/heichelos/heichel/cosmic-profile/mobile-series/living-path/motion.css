@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -6,33 +7,17 @@
  * The Awtsmoos creates every change without animation; Awtsmoos.com uses brief
  * opacity and transform cues, then removes them for reduced-motion readers.
  */
-
-.living-path-sticky,
-.nav-card,
-.series-expand-toggle,
-.card-menu-panel,
-.filter-sheet-panel {
+.living-path-sticky, .nav-card, .series-expand-toggle, .card-menu-panel, .filter-sheet-panel {
 	transition: opacity 160ms ease, transform 160ms ease, border-color 160ms ease, background-color 160ms ease;
 }
-
-@media (prefers-reduced-motion: reduce) {
-	.living-path-sticky,
-	.nav-card,
-	.series-expand-toggle,
-	.card-menu-panel,
-	.filter-sheet-panel,
-	.skeleton-lines span {
+@media (prefers-reduced-motion: reduce) { .living-path-sticky, .nav-card, .series-expand-toggle, .card-menu-panel, .filter-sheet-panel, .skeleton-lines span {
 		animation: none;
 		transition: none;
-	}
-}
-
-@media (update: slow) {
-	.filter-sheet-backdrop {
+	} }
+@media (update: slow) { .filter-sheet-backdrop {
 		backdrop-filter: none;
-	}
-
-	.skeleton-lines span {
+	} }
+@media (update: slow) { .skeleton-lines span {
 		animation: none;
-	}
-}
+	} }
+/* @tunnel-registry-merge: consolidated duplicate selectors W4 2026-10-08 */

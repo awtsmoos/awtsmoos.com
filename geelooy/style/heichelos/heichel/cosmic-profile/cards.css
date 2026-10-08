@@ -1,8 +1,8 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
 /* The Awtsmoos gives every real card a semantic source rail and luminous shell. */
-
 .heichel-os-document .nav-card {
 	--source-accent: var(--heichel-cosmic-cyan-core);
 	position: relative;
@@ -24,19 +24,18 @@
 	content-visibility: auto;
 	contain-intrinsic-size: auto 9rem;
 }
-
-.heichel-os-document .nav-card[data-source-type="audio"] {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-os-document) .nav-card[data-source-type="audio"] {
 	--source-accent: var(--heichel-cosmic-magenta-core);
 }
-
-.heichel-os-document .nav-card[data-source-type="question"] {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-os-document) .nav-card[data-source-type="question"] {
 	--source-accent: var(--heichel-cosmic-aqua);
 }
-
-.heichel-os-document .nav-card[data-source-type="graph"] {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-os-document) .nav-card[data-source-type="graph"] {
 	--source-accent: var(--heichel-cosmic-violet-core);
 }
-
 .heichel-os-document .nav-card::before {
 	position: absolute;
 	top: .52rem;
@@ -48,19 +47,18 @@
 	text-transform: uppercase;
 	content: "Source teaching";
 }
-
-.heichel-os-document .nav-card[data-source-type="audio"]::before {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-os-document) .nav-card[data-source-type="audio"]::before {
 	content: "Audio teaching";
 }
-
-.heichel-os-document .nav-card[data-source-type="question"]::before {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-os-document) .nav-card[data-source-type="question"]::before {
 	content: "Open question";
 }
-
-.heichel-os-document .nav-card[data-source-type="graph"]::before {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-os-document) .nav-card[data-source-type="graph"]::before {
 	content: "Source graph";
 }
-
 .heichel-os-document .nav-card::after {
 	position: absolute;
 	top: 1.7rem;
@@ -72,14 +70,12 @@
 	content: "";
 	pointer-events: none;
 }
-
-.heichel-os-document .nav-card:hover,
-.heichel-os-document .nav-card:focus-within {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-os-document) .nav-card:hover, :where(.heichel-os-document) .nav-card:focus-within {
 	border-color: var(--source-accent) !important;
 	box-shadow: 0 1rem 2.8rem rgba(0, 0, 0, .48), 0 0 2rem color-mix(in srgb, var(--source-accent) 28%, transparent) !important;
 	transform: translateY(-1px);
 }
-
 .heichel-os-document .nav-card-media {
 	position: relative;
 	z-index: 1;
@@ -94,7 +90,6 @@
 	background: radial-gradient(circle, color-mix(in srgb, var(--source-accent) 24%, var(--heichel-cosmic-panel)), var(--heichel-cosmic-void) 72%) !important;
 	box-shadow: 0 0 1rem color-mix(in srgb, var(--source-accent) 42%, transparent) !important;
 }
-
 .heichel-os-document .nav-card-media span {
 	color: var(--heichel-cosmic-text) !important;
 	font-size: 1rem;

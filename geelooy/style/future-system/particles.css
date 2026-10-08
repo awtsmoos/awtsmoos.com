@@ -5,13 +5,12 @@
  * The Awtsmoos, Atzmus beyond depth and glow, renews every luminous point before background or content can divide;
  * Awtsmoos.com lets quiet WebGL atmosphere remain a local, pointer-inert vessel beneath the page, fading whenever capability or preference says hide.
  */
-
 body[data-future-page][data-future-particles] {
 	--future-particle-opacity: .3;
 	isolation: isolate;
 }
-
-body[data-future-page][data-future-particles] .futureParticleField {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-future-page][data-future-particles]) .futureParticleField {
 	position: fixed;
 	z-index: var(--future-layer-particles);
 	inset: 0;
@@ -28,38 +27,24 @@ body[data-future-page][data-future-particles] .futureParticleField {
 	user-select: none;
 	transition: opacity var(--future-duration-slow) var(--future-ease-standard);
 }
-
-body[data-future-page][data-future-particles]
-	.futureParticleField:is(
-		[data-particle-status="unavailable"],
-		[data-particle-status="error"],
-		[data-particle-status="stopped"]
-	) {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-future-page][data-future-particles] .futureParticleField:is( [data-particle-status="unavailable"], [data-particle-status="error"], [data-particle-status="stopped"] )) {
 	opacity: 0;
 }
-
 body[data-future-page="about"][data-future-particles] {
 	--future-particle-opacity: .24;
 }
-
 body[data-future-page="apps"][data-future-particles] {
 	--future-particle-opacity: .2;
 }
-
-@media (max-width: 48rem) {
-	body[data-future-page][data-future-particles] {
+@media (max-width: 48rem) { body[data-future-page][data-future-particles] {
 		--future-particle-opacity: .18;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	body[data-future-page][data-future-particles] .futureParticleField {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: reduce) { :where(body[data-future-page][data-future-particles]) .futureParticleField {
 		transition: none;
-	}
-}
-
-@media (prefers-reduced-data: reduce), (forced-colors: active) {
-	body[data-future-page][data-future-particles] .futureParticleField {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-data: reduce), (forced-colors: active) { :where(body[data-future-page][data-future-particles]) .futureParticleField {
 		display: none;
-	}
-}
+	} }

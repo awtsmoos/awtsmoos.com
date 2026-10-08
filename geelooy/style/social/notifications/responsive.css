@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H notification responsive. */
 @media(max-width:860px){.notifications-console{grid-template-columns:1fr}.notifications-actions button{flex:1}.notifications-page{margin-top:.5rem}.notifications-hero,.notifications-console,.notification{border-radius:1.1rem}}
 

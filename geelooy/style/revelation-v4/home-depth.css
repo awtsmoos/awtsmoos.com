@@ -8,15 +8,12 @@ body[data-geelooy-route="home"] .dance-shell {
 	perspective: 1500px;
 	perspective-origin: 50% 42%;
 }
-
-body[data-geelooy-route="home"] .hero,
-body[data-geelooy-route="home"] .action-panel,
-body[data-geelooy-route="home"] .featured-worlds {
+body[data-geelooy-route="home"] .hero, body[data-geelooy-route="home"] .action-panel, body[data-geelooy-route="home"] .featured-worlds {
 	position: relative;
 	isolation: isolate;
 }
-
-body[data-geelooy-route="home"] .action-panel::before {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .action-panel::before {
 	position: absolute;
 	inset: -1.4rem 7% auto;
 	z-index: -1;
@@ -28,14 +25,13 @@ body[data-geelooy-route="home"] .action-panel::before {
 	filter: blur(34px);
 	pointer-events: none;
 }
-
 body[data-geelooy-route="home"] .featured-worlds {
 	width: min(1280px, calc(100% - 32px));
 	margin: 3.2rem auto 5.4rem;
 	padding-top: 2rem;
 }
-
-body[data-geelooy-route="home"] .featured-worlds::before {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .featured-worlds::before {
 	position: absolute;
 	inset: -2.4rem 7% auto;
 	z-index: -1;
@@ -47,8 +43,8 @@ body[data-geelooy-route="home"] .featured-worlds::before {
 	filter: blur(40px);
 	pointer-events: none;
 }
-
-body[data-geelooy-route="home"] .featured-heading h2 {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .featured-heading h2 {
 	max-width: 16ch;
 	background: linear-gradient(110deg, #fff 0%, #ffe9b8 48%, #bca5ff 100%);
 	-webkit-background-clip: text;
@@ -59,12 +55,10 @@ body[data-geelooy-route="home"] .featured-heading h2 {
 	letter-spacing: -.055em;
 	text-wrap: balance;
 }
-
 body[data-geelooy-route="home"] .featured-grid {
 	gap: 1.05rem;
 	perspective: 1200px;
 }
-
 body[data-geelooy-route="home"] .featured-card {
 	transform-style: preserve-3d;
 	box-shadow:

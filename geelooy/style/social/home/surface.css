@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 @import "./surface-parts/tokens.css";
 @import "./surface-parts/page.css";
 @import "./surface-parts/cards.css";

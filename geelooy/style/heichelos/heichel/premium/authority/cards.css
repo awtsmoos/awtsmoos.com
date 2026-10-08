@@ -1,3 +1,5 @@
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -9,21 +11,19 @@
  * minimum heights while keeping real thumbnails, truthful counts, and controls.
  * Phone-specific density lives separately so this module owns only base cards.
  */
-body.heichel-os-document[data-heichel-id="ikar"] .nav-card {
+:where(body.heichel-os-document[data-heichel-id="ikar"]) .nav-card {
 	clip-path: none !important;
 	border-radius: .9rem !important;
 	box-shadow: 0 .4rem 1rem rgba(0, 0, 0, .2) !important;
 	transition: border-color 140ms ease, background 140ms ease, box-shadow 140ms ease;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] .nav-card::before,
-body.heichel-os-document[data-heichel-id="ikar"] .nav-card::after,
-body.heichel-os-document[data-heichel-id="ikar"] .nav-card-media::after {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) .nav-card::before, :where(body.heichel-os-document[data-heichel-id="ikar"]) .nav-card::after, :where(body.heichel-os-document[data-heichel-id="ikar"]) .nav-card-media::after {
 	display: none !important;
 	content: none !important;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] :is(.series-nav-card, .grouping-nav-card) {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) :is(.series-nav-card, .grouping-nav-card) {
 	display: grid !important;
 	grid-template-columns: minmax(0, 1fr) auto !important;
 	grid-template-areas: "body actions" "children children";
@@ -36,13 +36,13 @@ body.heichel-os-document[data-heichel-id="ikar"] :is(.series-nav-card, .grouping
 	background: rgba(7, 18, 31, .9) !important;
 	contain-intrinsic-size: auto 4.8rem;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] :is(.series-nav-card, .grouping-nav-card):has(> .nav-card-media.has-thumbnail) {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) :where(:is(.series-nav-card, .grouping-nav-card):has( > .nav-card-media.has-thumbnail)) {
 	grid-template-columns: 4.25rem minmax(0, 1fr) auto !important;
 	grid-template-areas: "media body actions" "children children children";
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] :is(.series-nav-card, .grouping-nav-card) > .nav-card-body {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) :is(.series-nav-card, .grouping-nav-card) .nav-card-body {
 	grid-area: body;
 	display: grid;
 	align-content: start !important;
@@ -50,13 +50,13 @@ body.heichel-os-document[data-heichel-id="ikar"] :is(.series-nav-card, .grouping
 	min-inline-size: 0;
 	padding: 0 !important;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] :is(.series-nav-card, .grouping-nav-card) > .nav-card-actions {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) :is(.series-nav-card, .grouping-nav-card) .nav-card-actions {
 	grid-area: actions;
 	align-self: start;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] :is(.series-nav-card, .grouping-nav-card) > .nav-card-media.has-thumbnail {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) :where(:is(.series-nav-card, .grouping-nav-card)) .nav-card-media.has-thumbnail {
 	grid-area: media;
 	inline-size: 4.25rem !important;
 	block-size: 3.8rem !important;
@@ -65,40 +65,40 @@ body.heichel-os-document[data-heichel-id="ikar"] :is(.series-nav-card, .grouping
 	border-radius: .65rem !important;
 	box-shadow: none !important;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] :is(.series-nav-card, .grouping-nav-card) > .series-children-well {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) :is(.series-nav-card, .grouping-nav-card) .series-children-well {
 	grid-area: children;
 	min-inline-size: 0;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] :is(.series-nav-card, .grouping-nav-card) h3 {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) :is(.series-nav-card, .grouping-nav-card) h3 {
 	margin: 0 !important;
 	font-size: 1rem !important;
 	line-height: 1.22 !important;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] :is(.series-nav-card, .grouping-nav-card) .nav-card-description {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) :is(.series-nav-card, .grouping-nav-card) .nav-card-description {
 	margin-block-start: .15rem !important;
 	font-size: .76rem !important;
 	line-height: 1.34 !important;
 	-webkit-line-clamp: 2;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] :is(.series-nav-card, .grouping-nav-card) .nav-card-meta {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) :is(.series-nav-card, .grouping-nav-card) .nav-card-meta {
 	gap: .25rem .55rem !important;
 	margin-block-start: .22rem !important;
 	font-size: .64rem !important;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] :is(.series-nav-card, .grouping-nav-card) .nav-card-meta span {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) :is(.series-nav-card, .grouping-nav-card) .nav-card-meta span {
 	min-height: 0 !important;
 	min-block-size: 0 !important;
 	padding: 0 !important;
 	border: 0 !important;
 	background: transparent !important;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] :is(.series-nav-card, .grouping-nav-card):is(:hover, :focus-within) {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) :is(.series-nav-card, .grouping-nav-card):is(:hover, :focus-within) {
 	transform: none !important;
 	border-color: rgba(91, 215, 255, .38) !important;
 	background: rgba(9, 24, 40, .94) !important;

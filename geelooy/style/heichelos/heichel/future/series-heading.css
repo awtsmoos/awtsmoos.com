@@ -1,7 +1,11 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 .series-heading { align-items:end; background:linear-gradient(180deg,#101827,#0a1220); border:1px solid rgba(246,201,108,.18); border-radius:1.25rem; display:grid; gap:.65rem 1rem; grid-template-columns:minmax(0,1fr) auto; margin:.15rem 0 .25rem; padding:clamp(.95rem,2vw,1.25rem); position:relative; }
 .series-heading::before { background:linear-gradient(var(--heichel-gold),rgba(102,231,255,.6)); border-radius:999px; bottom:1rem; content:""; left:1.05rem; position:absolute; top:1rem; width:3px; }
 .series-heading .series-label { color:var(--heichel-gold); font-size:.72rem; font-weight:950; letter-spacing:.14em; margin:0 0 .1rem; padding-inline-start:.75rem; text-transform:uppercase; }
 .series-heading h2 { color:#fff; font-size:clamp(1.5rem,3vw,2.25rem); letter-spacing:-.055em; line-height:1; margin:0; padding-inline-start:.75rem; }
 .series-heading p:not(.series-label) { color:#b9c6dc; grid-column:1/-1; line-height:1.65; margin:.15rem 0 0; max-width:68ch; overflow-wrap:anywhere; padding-inline-start:.75rem; white-space:pre-wrap; }
-#seriesControls { justify-self:end; }
-@media (max-width:640px){.series-heading{grid-template-columns:1fr}#seriesControls{justify-self:start}}
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(#seriesControls) { justify-self:end; }
+@media (max-width:640px) { .series-heading {grid-template-columns:1fr} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (max-width:640px) { :where(#seriesControls) {justify-self:start} }

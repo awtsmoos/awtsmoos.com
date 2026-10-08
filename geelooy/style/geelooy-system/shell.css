@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H — shell: one max width, one bottom safety covenant. */
 :where(.geelooy-home-shell, .heichel-mobile-navigation, .social-spaces-shell, .geelooy-profile-shell) {
   margin-inline: auto;

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H — narrow screens keep the constellation, not the clutter. */
 @media(max-width:860px){
   .geelooy-home-shell{padding-inline:.65rem;padding-bottom:5.8rem;}

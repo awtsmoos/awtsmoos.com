@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -6,14 +7,12 @@
  * Awtsmoos.com cards contain code, status, live actions, empty data, and errors
  * inside readable dark surfaces that never widen the page.
  */
-
 .hub-panel-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
 	gap: .85rem;
 	min-inline-size: 0;
 }
-
 .hub-card {
 	display: grid;
 	grid-template-rows: auto minmax(8rem, 1fr);
@@ -27,7 +26,6 @@
 	box-shadow: 0 .7rem 1.8rem rgba(0, 0, 0, .2);
 	color: var(--hub-text);
 }
-
 .hub-card header {
 	display: flex;
 	align-items: flex-start;
@@ -35,32 +33,14 @@
 	gap: .8rem;
 	min-inline-size: 0;
 }
-
-.hub-card h3,
-.hub-card small {
+.hub-card h3 {
 	margin: 0;
 }
-
 .hub-card h3 {
 	color: var(--hub-text);
 	font-size: 1rem;
 	line-height: 1.2;
 }
-
-.hub-card small {
-	max-inline-size: 48%;
-	padding: .3rem .5rem;
-	overflow: hidden;
-	border: 1px solid var(--hub-line);
-	border-radius: 999px;
-	background: #162130;
-	color: var(--hub-faint);
-	font-size: .72rem;
-	font-weight: 760;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
 .hub-card pre {
 	min-inline-size: 0;
 	max-inline-size: 100%;
@@ -77,47 +57,38 @@
 	white-space: pre-wrap;
 	word-break: break-word;
 }
-
 .hub-card[data-state="error"] {
 	border-color: rgba(255, 127, 156, .4);
 }
-
 .hub-card[data-state="error"] small {
 	border-color: rgba(255, 127, 156, .35);
 	background: #2c1a22; /* opaque: gate bg probe ignores alpha */
 	color: #ffc2cf;
 }
-
 .hub-card[data-state="ready"] small {
 	border-color: rgba(101, 214, 162, .3);
 	background: #142a1f; /* opaque: gate bg probe ignores alpha */
 	color: #a9edcd;
 }
-
 .hub-card[data-state="confirmed"] {
 	border-color: rgba(97, 203, 217, .35);
 }
-
 .hub-card[data-state="confirmed"] small {
 	border-color: rgba(97, 203, 217, .3);
 	background: #152a30; /* opaque: gate bg probe ignores alpha */
 	color: #a8e2ee;
 }
-
 .hub-live-card {
 	grid-column: 1 / -1;
 }
-
 .hub-live-actions {
 	display: flex;
 	flex-wrap: wrap;
 	gap: .55rem;
 }
-
 .hub-live-card pre {
 	min-block-size: 10rem;
 }
-
 .hub-empty-copy {
 	color: var(--hub-faint);
 	font-style: italic;

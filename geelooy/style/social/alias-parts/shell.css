@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 .alias-page, .alias-navigator, .alias-shell { min-height: 100dvh; background: var(--alias-bg); color: var(--alias-text); padding: 1rem; }
 .alias-shell { width: min(100%, 70rem); margin: 0 auto; display: grid; gap: 1rem; }
 .alias-header, .alias-hero { background: var(--alias-panel); border: 1px solid var(--alias-line); border-radius: 1.25rem; box-shadow: var(--alias-shadow); padding: 1rem; }

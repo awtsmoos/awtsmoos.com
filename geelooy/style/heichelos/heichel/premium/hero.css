@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -16,7 +17,6 @@
 		radial-gradient(circle at 82% 14%, rgba(93, 192, 236, 0.2), transparent 32%),
 		linear-gradient(140deg, rgba(13, 28, 45, 0.97), rgba(4, 8, 14, 0.91));
 }
-
 .geelooy-heichel-hero::before {
 	content: "";
 	position: absolute;
@@ -30,20 +30,8 @@
 	pointer-events: none;
 	z-index: -1;
 }
-
-.geelooy-heichel-hero::after {
-	content: "TORAH • LEARN • UNDERSTAND • GROW";
-	position: absolute;
-	inset-inline-end: clamp(1rem, 3vw, 2.6rem);
-	inset-block-end: 1rem;
-	color: var(--ikar-ink-muted);
-	font-size: 0.68rem;
-	letter-spacing: 0.19em;
-	pointer-events: none;
-}
-
-#heichel-main-title,
-.geelooy-heichel-hero h1 {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(#heichel-main-title), .geelooy-heichel-hero h1 {
 	max-inline-size: 16ch;
 	color: var(--ikar-ink);
 	font-family: Georgia, "Times New Roman", serif;
@@ -53,13 +41,11 @@
 	letter-spacing: -0.035em;
 	text-wrap: balance;
 }
-
 .geelooy-heichel-hero :where(.civilization-kicker, .profile-kicker, .living-path-kicker) {
 	color: var(--ikar-gold);
 	letter-spacing: 0.16em;
 	text-transform: uppercase;
 }
-
 .geelooy-heichel-hero :where(p, .hero-description) {
 	max-inline-size: 58ch;
 	color: var(--ikar-ink-soft);

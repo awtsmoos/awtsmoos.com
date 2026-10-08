@@ -1,2 +1,3 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .geelooy-home-shell * { filter: none !important; }
 .home-command-card::after, .profile-hero-card::after, .spaces-hero::after, .submit-hero::after { content: none !important; }

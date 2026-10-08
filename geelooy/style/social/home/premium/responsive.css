@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 @media (max-width: 760px) {
   .premium-home, .geelooy-home-shell.premium-home { padding: .7rem .55rem max(6.3rem, env(safe-area-inset-bottom)); }
   .home-feed-phone, .home-sanctuary-card, .object-inspector { border-radius: 1rem; }

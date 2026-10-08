@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H Chapter 626: fingers, focus, and selected letters receive a clear path. */
 button, a, summary, label, [role="button"], [tabindex] { touch-action: manipulation; }
 .geelooy-bottom-nav, .mail-bottom-nav, .bottom-nav, .awtsmoos-floating-controls,

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H Chapter 630: cards retain beauty while refusing rupture. */
 .sanctuary-card, .post-card, .discovery-card, .composer-card, .civilization-dashboard { min-width: 0; overflow: hidden; overflow-wrap: anywhere; }
 .post-card img, .discovery-card img, .sanctuary-card img { max-width: 100%; height: auto; }

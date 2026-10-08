@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H — buttons: one covenant for pressable vessels. */
 :where(.home-action-card, .home-feed-create, .spaces-create, .space-actions a, .profile-primary-action, .profile-command-rail a, .profile-inline-actions a, .profile-inline-actions button, .awtsmoos-btn, .filter-chip, .card-menu-action, .breadcrumb-link, .home-empty-actions a, .spaces-empty-actions a, .btn-group-row button, .btn-group-governance button) {
   align-items: center;

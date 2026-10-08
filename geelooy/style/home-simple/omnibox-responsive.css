@@ -5,8 +5,7 @@
  * The Awtsmoos reshapes the searching constellation for narrow horizons while Awtsmoos.com keeps touch, text, and dock clearance
  * inside the Home vessel; every result remains reachable without a fixed panel wandering beyond the living glass.
  */
-@media (max-width: 680px) {
-	body[data-geelooy-route="home"] .omnibox-panel {
+@media (max-width: 680px) { body[data-geelooy-route="home"] .omnibox-panel {
 		position: fixed;
 		top: auto;
 		right: .5rem;
@@ -14,46 +13,34 @@
 		left: .5rem;
 		max-height: min(58vh, 440px);
 		border-radius: 1.1rem;
-	}
-
-	body[data-geelooy-route="home"] .omnibox-option {
+	} }
+@media (max-width: 680px) { body[data-geelooy-route="home"] .omnibox-option {
 		grid-template-columns: auto minmax(0, 1fr) auto;
 		min-height: 56px;
 		padding: .48rem .55rem;
-	}
-
-	body[data-geelooy-route="home"] .omnibox-badge {
+	} }
+@media (max-width: 680px) { body[data-geelooy-route="home"] .omnibox-badge {
 		display: none;
-	}
-
-	body[data-geelooy-route="home"] .omnibox-arrow {
+	} }
+@media (max-width: 680px) { body[data-geelooy-route="home"] .omnibox-arrow {
 		font-size: .72rem;
-	}
-}
-
-@media (max-width: 430px) {
-	body[data-geelooy-route="home"] .omnibox-heading {
+	} }
+@media (max-width: 430px) { body[data-geelooy-route="home"] .omnibox-heading {
 		padding-inline: .4rem;
-	}
-
-	body[data-geelooy-route="home"] .omnibox-symbol {
+	} }
+@media (max-width: 430px) { body[data-geelooy-route="home"] .omnibox-symbol {
 		width: 2.15rem;
 		height: 2.15rem;
-	}
-
-	body[data-geelooy-route="home"] .omnibox-copy strong {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (max-width: 430px) { :where(body[data-geelooy-route="home"]) .omnibox-copy strong {
 		font-size: .72rem;
-	}
-
-	body[data-geelooy-route="home"] .omnibox-copy small {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (max-width: 430px) { :where(body[data-geelooy-route="home"]) .omnibox-copy small {
 		font-size: .6rem;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	body[data-geelooy-route="home"] .omnibox-panel,
-body[data-geelooy-route="home"] .omnibox-option {
+	} }
+@media (prefers-reduced-motion: reduce) { body[data-geelooy-route="home"] .omnibox-panel, body[data-geelooy-route="home"] .omnibox-option {
 		animation: none;
 		transition: none;
-	}
-}
+	} }

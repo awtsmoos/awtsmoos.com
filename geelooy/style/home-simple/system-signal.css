@@ -19,9 +19,8 @@ body[data-geelooy-route="home"] .system-signal {
 	letter-spacing: .06em;
 	text-transform: uppercase;
 }
-
-body[data-geelooy-route="home"] .system-signal i,
-body[data-geelooy-route="home"] .portal-status i {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .system-signal i, :where(body[data-geelooy-route="home"]) .portal-status i {
 	width: .42rem;
 	height: .42rem;
 	border-radius: 50%;
@@ -29,23 +28,16 @@ body[data-geelooy-route="home"] .portal-status i {
 	box-shadow: 0 0 .8rem rgba(98, 223, 170, .7);
 	animation: signal-pulse 2.4s ease-in-out infinite;
 }
-
-@keyframes signal-pulse {
+@keyframes signal-pulse{
 	50% {
 		opacity: .45;
 		transform: scale(.78);
 	}
 }
-
-@media (max-width: 760px) {
-	body[data-geelooy-route="home"] .system-signal {
+@media (max-width: 760px) { body[data-geelooy-route="home"] .system-signal {
 		display: none;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	body[data-geelooy-route="home"] .system-signal i,
-body[data-geelooy-route="home"] .portal-status i {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .system-signal i, :where(body[data-geelooy-route="home"]) .portal-status i {
 		animation: none;
-	}
-}
+	} }

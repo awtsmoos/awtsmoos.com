@@ -38,7 +38,7 @@
 				<button id="refresh-conversations" class="refresh-button" type="button">Refresh</button>
 				<div class="service-selector">
 					<label for="ai-service-select">AI Service</label>
-					<select id="ai-service-select" aria-label="AI service">
+					<select class="ai-service-select" id="ai-service-select" aria-label="AI service">
 						<option value="minimax">MiniMax</option>
 						<option value="openrouter">OpenRouter</option>
 						<option value="groq">Groq</option>
@@ -50,7 +50,7 @@
 				</div>
 				<div id="chatgpt-mode-wrap" class="service-selector chatgpt-mode-wrap">
 					<label for="chatgpt-mode-select">ChatGPT Vessel</label>
-					<select id="chatgpt-mode-select">
+					<select class="chatgpt-mode-select" id="chatgpt-mode-select">
 						<option value="regular">Regular ChatGPT</option>
 						<option value="awtsmoos-vibe-coder">Awtsmoos Vibe Coder GPT</option>
 					</select>
@@ -58,7 +58,7 @@
 				<ul id="conversation-items"></ul>
 			</div>
 		</aside>
-		<div id="left-resizer" class="resize-bar" aria-hidden="true"></div>
+		<div id="left-resizer" class="resize-bar left-resizer" aria-hidden="true"></div>
 		<main class="main">
 			<div id="transport-status" class="transport-status" aria-live="polite"></div>
 			<div id="chat-box" class="chat-box" aria-live="polite"></div>
@@ -68,12 +68,12 @@
 					<label class="attach-button" for="attachment-input">＋ Image</label>
 					<div id="attachment-tray" class="attachment-tray"></div>
 				</div>
-				<textarea id="message-input" placeholder="Type your message…" aria-label="Message prompt"></textarea>
-				<button id="send-button" type="button">Send</button>
+				<textarea class="message-input" id="message-input" placeholder="Type your message…" aria-label="Message prompt"></textarea>
+				<button class="send-button" id="send-button" type="button">Send</button>
 				<input id="attachment-input" type="file" accept="image/*" multiple hidden>
 			</div>
 		</main>
-		<div id="right-resizer" class="resize-bar" aria-hidden="true"></div>
+		<div id="right-resizer" class="resize-bar right-resizer" aria-hidden="true"></div>
 		<aside id="automation-panel" class="automation-panel" aria-label="Automation pipeline settings"></aside>
 	</div>
 	<script type="module" src="index.js?v=audio-ux-complete-2026-08-13-01"></script>

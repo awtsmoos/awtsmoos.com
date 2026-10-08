@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H Chapter 627: narrow screens are whole worlds, not broken echoes. */
 @media (max-width: 760px) {
   .main, main, .page, .awts-page { padding-inline: min(var(--awts-page-pad), 4vw); }

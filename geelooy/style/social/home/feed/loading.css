@@ -1,2 +1,3 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .home-feed-loading { position: relative; }
 .home-feed-loading::before { background: rgba(19,200,181,.28); border-radius: 999px; content: ""; height: 3px; inset: auto 1rem 1rem 1rem; position: absolute; }

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
 Boruch Hashem
 Blessed is He
@@ -21,20 +22,18 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 	background-attachment: fixed;
 	min-height: 100%;
 }
-
 /* B"H: Ikar is a dark vessel; anchor the shared bg token here so light-theme
    systems (e.g. social) cannot bleach the Torah library through --civil-bg. */
 html.heichel-os-document {
 	--g-bg: #020713;
 }
-
 .heichel-os-document body {
 	background: transparent;
 	min-height: 100svh;
 	position: relative;
 }
-
-.heichel-os-document body::before {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-os-document) :where(body)::before {
 	background-image:
 		linear-gradient(rgba(92, 213, 255, .032) 1px, transparent 1px),
 		linear-gradient(90deg, rgba(92, 213, 255, .032) 1px, transparent 1px);
@@ -46,14 +45,11 @@ html.heichel-os-document {
 	position: fixed;
 	z-index: 0;
 }
-
-.heichel-os-page,
-.heichel-os-page > .main {
+.heichel-os-page, .heichel-os-page > .main {
 	min-height: 100svh;
 	position: relative;
 	z-index: 1;
 }
-
 .heichel-semantic-fallback {
 	box-sizing: border-box;
 	isolation: isolate;
@@ -64,21 +60,4 @@ html.heichel-os-document {
 	padding: clamp(1rem, 3vw, 2.75rem);
 	position: relative;
 	width: 100%;
-}
-
-.heichel-semantic-fallback::before {
-	background: var(--civil-gradient);
-	background-clip: text;
-	color: transparent;
-	content: "א";
-	font-size: clamp(9rem, 22vw, 18rem);
-	font-weight: 900;
-	line-height: .8;
-	opacity: .075;
-	pointer-events: none;
-	position: absolute;
-	right: clamp(-1.5rem, 1vw, 1rem);
-	top: clamp(4.4rem, 10vw, 7rem);
-	transform: rotate(-5deg);
-	z-index: -1;
 }

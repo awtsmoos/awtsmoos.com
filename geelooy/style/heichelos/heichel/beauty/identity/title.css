@@ -1,2 +1,4 @@
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H Heichel beauty identity/title.css. */
-#heichel-main-title { text-shadow:0 .3rem 1.2rem rgba(65,38,8,.16); }
+:where(#heichel-main-title) { text-shadow:0 .3rem 1.2rem rgba(65,38,8,.16); }

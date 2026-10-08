@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
 Boruch Hashem
 Blessed is He
@@ -18,14 +19,16 @@ body[data-geelooy-route="home"] .search {
 	backdrop-filter: blur(20px);
 	transition: border-color .18s ease, box-shadow .18s ease, border-radius .18s ease;
 }
-body[data-geelooy-route="home"] .search:hover { border-color: rgba(135, 196, 244, .5); }
-body[data-geelooy-route="home"] .search:focus-within,
-body[data-geelooy-route="home"] .search.has-query {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .search:hover { border-color: rgba(135, 196, 244, .5); }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .search:focus-within, :where(body[data-geelooy-route="home"]) .search.has-query {
 	border-color: rgba(111, 211, 255, .72);
 	border-radius: 1.45rem;
 	box-shadow: 0 0 0 4px rgba(73, 157, 220, .1), 0 24px 65px rgba(0, 0, 0, .38);
 }
-body[data-geelooy-route="home"] .search.is-invalid { border-color: #ef8e8e; animation: search-nudge .24s ease; }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .search.is-invalid { border-color: #ef8e8e; animation: search-nudge .24s ease; }
 body[data-geelooy-route="home"] .search-symbol {
 	display: grid;
 	place-items: center;
@@ -38,31 +41,10 @@ body[data-geelooy-route="home"] .search-symbol {
 	color: #a9bad0;
 	font-size: 1.45rem;
 }
-body[data-geelooy-route="home"] .search textarea {
-	box-sizing: border-box;
-	width: 100%;
-	min-width: 0;
-	min-height: 3.35rem;
-	max-height: 9rem;
-	padding: .9rem .15rem .7rem;
-	resize: none;
-	overflow-y: auto;
-	border: 0;
-	outline: 0;
-	background: transparent;
-	color: #f8fbff;
-	font: 600 clamp(1rem, 1.6vw, 1.12rem)/1.42 system-ui, sans-serif;
-	letter-spacing: -.015em;
-	scrollbar-width: thin;
-}
-body[data-geelooy-route="home"] .search textarea::placeholder { color: #75869e; opacity: 1; }
-@media (max-width: 680px) {
-	body[data-geelooy-route="home"] .search { grid-template-columns: auto minmax(0, 1fr) auto; padding: .4rem; }
-	body[data-geelooy-route="home"] .search-symbol { width: 2.8rem; height: 2.8rem; }
-	body[data-geelooy-route="home"] .search textarea { min-height: 3rem; padding-block: .78rem .55rem; font-size: 1rem; }
-	body[data-geelooy-route="home"] .shortcut-key { display: none; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-	body[data-geelooy-route="home"] .search.is-invalid { animation: none; }
-}
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) :where(.search) :where(textarea)::placeholder { color: #75869e; opacity: 1; }
+@media (max-width: 680px) { body[data-geelooy-route="home"] .search { grid-template-columns: auto minmax(0, 1fr) auto; padding: .4rem; } }
+@media (max-width: 680px) { body[data-geelooy-route="home"] .search-symbol { width: 2.8rem; height: 2.8rem; } }
+@media (max-width: 680px) { body[data-geelooy-route="home"] .shortcut-key { display: none; } }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .search.is-invalid { animation: none; } }

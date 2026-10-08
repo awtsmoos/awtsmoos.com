@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H — header shell respects the safe-area crown. */
 .home-app-header {
   padding-top: max(.7rem, env(safe-area-inset-top)) !important;

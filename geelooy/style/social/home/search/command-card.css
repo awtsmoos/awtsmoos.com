@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .home-command-search { display: grid; gap: .5rem; }
 .home-search-row { display: grid; gap: .65rem; grid-template-columns: auto minmax(0, 1fr) 54px; align-items: center; }
 .home-search-label { color: #8d98af; font-size: 1.35rem; padding-left: .75rem; z-index: 2; }

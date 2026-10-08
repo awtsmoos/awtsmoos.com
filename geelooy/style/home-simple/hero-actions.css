@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
 Boruch Hashem
 Blessed is He
@@ -10,8 +11,8 @@ body[data-geelooy-route="home"] .hero-actions {
 	gap: .7rem;
 	margin-top: 1rem;
 }
-
-body[data-geelooy-route="home"] .hero-actions a {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .hero-actions a {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -32,70 +33,61 @@ body[data-geelooy-route="home"] .hero-actions a {
 		filter 120ms ease,
 		transform 180ms cubic-bezier(.2, .8, .2, 1);
 }
-
-body[data-geelooy-route="home"] .hero-actions a:first-child {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .hero-actions a:first-child {
 	border-color: #d4eaff;
 	background: #eef7ff;
 	color: #07101d;
 }
-
-body[data-geelooy-route="home"] .hero-actions a[data-world-id="wallet"] {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .hero-actions a[data-world-id="wallet"] {
 	border-color: #7a5d24;
 	background: #2d230c;
 	color: #ffe2a1;
 }
-
-@media (hover: hover) and (pointer: fine) {
-	body[data-geelooy-route="home"] .hero-actions a:hover {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (hover: hover) and (pointer: fine) { :where(body[data-geelooy-route="home"]) .hero-actions a:hover {
 		border-color: #64c5ef;
 		background: #17334f;
 		color: #fff;
 		transform: translateY(-2px);
-	}
-
-	body[data-geelooy-route="home"] .hero-actions a:first-child:hover {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (hover: hover) and (pointer: fine) { :where(body[data-geelooy-route="home"]) :where(.hero-actions) a:first-child:hover {
 		border-color: #fff;
 		background: #fff;
 		color: #040b14;
-	}
-
-	body[data-geelooy-route="home"] .hero-actions a[data-world-id="wallet"]:hover {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (hover: hover) and (pointer: fine) { :where(body[data-geelooy-route="home"]) :where(.hero-actions) a[data-world-id="wallet"]:hover {
 		border-color: #d5a73d;
 		background: #3b2c0c;
 		color: #fff0c9;
-	}
-}
-
-body[data-geelooy-route="home"] .hero-actions a:active {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .hero-actions a:active {
 	filter: brightness(.96);
 	transform: translateY(1px) scale(.985);
 }
-
-body[data-geelooy-route="home"] .hero-actions a:focus-visible {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .hero-actions a:focus-visible {
 	outline: 3px solid var(--focus-ring);
 	outline-offset: 2px;
 }
-
-@media (max-width: 680px) {
-	body[data-geelooy-route="home"] .hero-actions {
+@media (max-width: 680px) { body[data-geelooy-route="home"] .hero-actions {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-	}
-
-	body[data-geelooy-route="home"] .hero-actions a {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .hero-actions a {
 		min-width: 0;
 		padding-inline: .6rem;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	body[data-geelooy-route="home"] .hero-actions a {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .hero-actions a {
 		transition: none;
-	}
-
-	body[data-geelooy-route="home"] .hero-actions a:hover,
-	body[data-geelooy-route="home"] .hero-actions a:active,
-	body[data-geelooy-route="home"] .hero-actions a:focus-visible {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .hero-actions a:hover, :where(body[data-geelooy-route="home"]) .hero-actions a:active, :where(body[data-geelooy-route="home"]) .hero-actions a:focus-visible {
 		transform: none;
-	}
-}
+	} }

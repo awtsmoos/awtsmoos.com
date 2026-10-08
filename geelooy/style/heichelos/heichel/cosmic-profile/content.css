@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -5,7 +6,6 @@
  * The Awtsmoos turns browsing into a source corridor where controls, text, and cards know their own measured place;
  * Awtsmoos.com owns default narrow-flow content here, while the later visual-layout vessel may expand desktop density without force or race.
  */
-
 .heichel-os-document .heichel-nav-panel {
 	display: grid;
 	gap: 0.65rem;
@@ -17,7 +17,6 @@
 	box-shadow: var(--heichel-cosmic-shadow), inset 0 1px rgb(255 255 255 / 5%);
 	clip-path: polygon(0 0, calc(100% - 0.8rem) 0, 100% 0.8rem, 100% 100%, 0.65rem 100%, 0 calc(100% - 0.65rem));
 }
-
 .heichel-os-document .breadcrumb-river {
 	display: flex;
 	flex-wrap: wrap;
@@ -27,17 +26,14 @@
 	color: var(--heichel-cosmic-cyan-core);
 	font-size: 0.68rem;
 }
-
 .heichel-os-document .series-heading {
 	padding: 0.65rem;
 	border: 1px solid rgb(163 90 255 / 28%);
 	background: rgb(84 58 165 / 8%);
 }
-
 .heichel-os-document .series-heading :is(h2, p) {
 	color: var(--heichel-cosmic-text);
 }
-
 .heichel-os-document .series-search-row {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) auto;
@@ -45,30 +41,17 @@
 	margin: 0;
 	padding: 0;
 }
-
-.heichel-os-document .series-search-row input {
-	min-width: 0;
-	height: 2.75rem;
-	padding: 0 0.8rem;
-	border: 1px solid rgb(80 215 255 / 28%);
-	border-radius: 0.55rem;
-	background: rgb(12 20 36 / 84%);
-	color: var(--heichel-cosmic-text);
-	outline: 0;
-}
-
-.heichel-os-document .series-search-row input:focus-visible {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-os-document) .series-search-row input:focus-visible {
 	border-color: var(--heichel-cosmic-cyan-core);
 	box-shadow: 0 0 0 2px rgb(80 215 255 / 12%);
 }
-
 .heichel-os-document .filter-chip {
 	min-width: 5.25rem;
 	border: 1px solid rgb(80 215 255 / 30%);
 	background: rgb(12 20 36 / 84%);
 	color: var(--heichel-cosmic-text);
 }
-
 .heichel-os-document .tab-gates {
 	display: grid;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -78,8 +61,8 @@
 	border-radius: 0.65rem;
 	background: rgb(4 4 12 / 58%);
 }
-
-.heichel-os-document .tab-gates .tab {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-os-document) .tab-gates .tab {
 	min-height: 2.6rem;
 	border: 0;
 	border-radius: 0.45rem;
@@ -87,24 +70,21 @@
 	color: var(--heichel-cosmic-secondary);
 	font-weight: 780;
 }
-
-.heichel-os-document .tab-gates .tab.Active {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-os-document) :where(.tab-gates) .tab.Active {
 	background: linear-gradient(135deg, rgb(1 161 230 / 20%), rgb(84 58 165 / 20%));
 	color: var(--heichel-cosmic-text);
 	box-shadow: inset 0 -2px var(--heichel-cosmic-cyan-core);
 }
-
 .heichel-os-document :is(.grid-realms, .viewport, .dynamic-grid) {
 	min-width: 0;
 }
-
 .heichel-os-document .dynamic-grid {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
 	gap: 0.58rem;
 	padding: 0;
 }
-
 .heichel-os-document :is(.empty-glow-msg, .sacred-loading) {
 	border-color: rgb(80 215 255 / 20%);
 	background: rgb(4 12 28 / 72%);

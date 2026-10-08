@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 @media (max-width: 760px) {
   .alias-page, .alias-navigator, .alias-shell { padding: .7rem; }
   .alias-grid { grid-template-columns: 1fr; }

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
 Boruch Hashem
 Blessed is He
@@ -14,17 +15,17 @@ body[data-geelooy-route="home"] .site-footer {
 	color: #6f8099;
 	font-size: .66rem;
 }
-
-body[data-geelooy-route="home"] .site-footer p {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .site-footer p {
 	margin: 0;
 }
-
-body[data-geelooy-route="home"] .site-footer div {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .site-footer div {
 	display: flex;
 	gap: .3rem;
 }
-
-body[data-geelooy-route="home"] .site-footer a {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .site-footer a {
 	display: inline-flex;
 	align-items: center;
 	min-height: 44px;
@@ -33,26 +34,24 @@ body[data-geelooy-route="home"] .site-footer a {
 	color: #6f8099;
 	transition: background .18s ease, color .18s ease, transform .18s ease;
 }
-
-body[data-geelooy-route="home"] .site-footer a:hover {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .site-footer a:hover {
 	background: rgba(112, 170, 220, .08);
 	color: #e4f1ff;
 }
-
-body[data-geelooy-route="home"] .site-footer a:focus-visible {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .site-footer a:focus-visible {
 	background: rgba(112, 170, 220, .08);
 	color: #e4f1ff;
 	outline: 3px solid var(--focus-ring);
 	outline-offset: 2px;
 }
-
-body[data-geelooy-route="home"] .site-footer a:active {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .site-footer a:active {
 	background: rgba(112, 170, 220, .13);
 	transform: scale(.97);
 }
-
-@media (prefers-reduced-motion: reduce) {
-	body[data-geelooy-route="home"] .site-footer a {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .site-footer a {
 		transition: none;
-	}
-}
+	} }

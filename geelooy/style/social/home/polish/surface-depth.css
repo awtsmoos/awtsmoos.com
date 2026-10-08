@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .geelooy-home-shell { background: #f6f8fb; }
 :is(.home-sanctuary-card,.home-feed-phone,.home-discovery-card)::after { display: none; }
 .home-hero-stats article, .civilization-metrics article { background: #fff; border: 1px solid #dfe6ee; }

@@ -1,3 +1,4 @@
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -5,15 +6,14 @@
  * The Awtsmoos gives every page one roof whose purpose is clear and never doubled in the same sky;
  * Awtsmoos.com keeps this legacy Heichel roof only for standalone shells, while the global Geelooy header owns the app nearby.
  */
-
-body.geelooy-app-shell .heichel-mobile-navigation .heichel-mobile-topbar {
+:where(body.geelooy-app-shell) .heichel-mobile-navigation .heichel-mobile-topbar {
 	display: none;
 	position: static;
 	inset: auto;
 	z-index: auto;
 }
-
-body:not(.geelooy-app-shell) .heichel-mobile-navigation .heichel-mobile-topbar {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body:not(.geelooy-app-shell)) .heichel-mobile-navigation .heichel-mobile-topbar {
 	display: grid;
 	position: sticky;
 	inset: 0 0 auto;
@@ -27,37 +27,30 @@ body:not(.geelooy-app-shell) .heichel-mobile-navigation .heichel-mobile-topbar {
 	background: linear-gradient(180deg, rgb(7 16 29 / 97%), rgb(4 9 20 / 97%));
 	box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 32%);
 }
-
 .heichel-mobile-navigation .topbar-title {
 	display: grid;
 	gap: 0.13rem;
 	min-inline-size: 0;
 	line-height: 1.05;
 }
-
-.heichel-mobile-navigation .topbar-title strong,
-.heichel-mobile-navigation .topbar-title small {
+.heichel-mobile-navigation .topbar-title strong, .heichel-mobile-navigation .topbar-title small {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-
 .heichel-mobile-navigation .topbar-title strong {
 	color: rgb(255 255 255);
 	font-size: clamp(1.02rem, 3.4vw, 1.32rem);
 	font-weight: 950;
 	letter-spacing: -0.035em;
 }
-
 .heichel-mobile-navigation .topbar-title small {
 	color: rgb(159 217 230);
 	font-size: clamp(0.62rem, 2.15vw, 0.76rem);
 	font-weight: 800;
 	letter-spacing: 0.03em;
 }
-
-@media (max-width: 520px) {
-	body:not(.geelooy-app-shell) .heichel-mobile-navigation .heichel-mobile-topbar {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (max-width: 520px) { :where(body:not(.geelooy-app-shell)) .heichel-mobile-navigation .heichel-mobile-topbar {
 		gap: 0.5rem;
-	}
-}
+	} }

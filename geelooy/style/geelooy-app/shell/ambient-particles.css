@@ -7,8 +7,8 @@ Awtsmoos.com keeps particle behavior separate from particle placement, so animat
 */
 @import url("./ambient-particle-layout-a.css?v=ambient-nature-001");
 @import url("./ambient-particle-layout-b.css?v=ambient-nature-001");
-
-.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient-particle {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.g-shell[data-awtsmoos-surface="social-shell"]) .g-shell-ambient-particle {
 	position: absolute;
 	inline-size: var(--g-ambient-size, .28rem);
 	block-size: var(--g-ambient-size, .28rem);
@@ -26,16 +26,15 @@ Awtsmoos.com keeps particle behavior separate from particle placement, so animat
 		g-ambient-particle-drift var(--g-ambient-duration, 16s) ease-in-out var(--g-ambient-phase, 0s) infinite alternate,
 		g-ambient-particle-breathe 5.8s ease-in-out var(--g-ambient-phase, 0s) infinite;
 }
-
-.g-shell[data-awtsmoos-surface="social-shell"][data-g-ambient-paused="true"] .g-shell-ambient-particle {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.g-shell[data-awtsmoos-surface="social-shell"][data-g-ambient-paused="true"]) .g-shell-ambient-particle {
 	animation-play-state: paused;
 }
-
-.g-shell[data-awtsmoos-surface="social-shell"][data-g-performance="lean"] .g-shell-ambient-particle {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.g-shell[data-awtsmoos-surface="social-shell"][data-g-performance="lean"]) .g-shell-ambient-particle {
 	display: none;
 }
-
-@keyframes g-ambient-particle-drift {
+@keyframes g-ambient-particle-drift{
 	from {
 		transform: translate3d(-.4rem, -.8rem, 0) scale(.86);
 	}
@@ -43,8 +42,7 @@ Awtsmoos.com keeps particle behavior separate from particle placement, so animat
 		transform: translate3d(1.1rem, -3.4rem, 0) scale(1.12);
 	}
 }
-
-@keyframes g-ambient-particle-breathe {
+@keyframes g-ambient-particle-breathe{
 	0%,
 	100% {
 		opacity: calc(var(--g-ambient-opacity, .34) * .6);
@@ -53,9 +51,7 @@ Awtsmoos.com keeps particle behavior separate from particle placement, so animat
 		opacity: var(--g-ambient-opacity, .34);
 	}
 }
-
-@media (prefers-reduced-motion: reduce) {
-	.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient-particle {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: reduce) { :where(.g-shell[data-awtsmoos-surface="social-shell"]) .g-shell-ambient-particle {
 		display: none;
-	}
-}
+	} }

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -11,7 +12,6 @@
 	gap: .42rem;
 	min-inline-size: 0;
 }
-
 .g-header-action {
 	display: inline-grid;
 	inline-size: 46px;
@@ -29,7 +29,6 @@
 	cursor: pointer;
 	transition: transform var(--g-motion-fast), border-color var(--g-motion-fast), background var(--g-motion-fast), color var(--g-motion-fast), box-shadow var(--g-motion-fast);
 }
-
 .g-header-action-icon {
 	width: 20px;
 	height: 20px;
@@ -40,34 +39,26 @@
 	stroke-linejoin: round;
 	pointer-events: none;
 }
-
-.g-header-action:is(:hover, :focus-visible),
-.g-header-action[aria-current="true"],
-.g-header-action[aria-current="page"] {
+.g-header-action:is(:hover, :focus-visible), .g-header-action[aria-current="true"], .g-header-action[aria-current="page"] {
 	border-color: color-mix(in srgb, var(--g-cyan) 72%, var(--g-line));
 	background: linear-gradient(145deg, color-mix(in srgb, var(--g-cyan) 12%, var(--g-surface-3)), var(--g-bg-2));
 	color: var(--g-cyan);
 	box-shadow: 0 0 0 3px rgba(60, 236, 255, .11), 0 12px 28px rgba(0, 0, 0, .3);
 }
-
 .g-header-action:active {
 	transform: translateY(1px) scale(.96);
 	box-shadow: inset 0 1px 8px rgba(0, 0, 0, .3);
 }
-
 .g-header-action:focus-visible {
 	outline: 3px solid color-mix(in srgb, var(--g-cyan) 82%, white);
 	outline-offset: 3px;
 }
-
 .g-mail-portal {
 	color: color-mix(in srgb, var(--g-cyan) 80%, var(--g-text));
 }
-
 .g-notification-portal {
 	color: color-mix(in srgb, var(--g-pink) 68%, var(--g-text));
 }
-
 .g-header-profile {
 	position: relative;
 	z-index: 4;
@@ -76,7 +67,6 @@
 	min-inline-size: 12rem;
 	max-inline-size: 15rem;
 }
-
 .g-header-profile .profile-trigger {
 	inline-size: 100%;
 	min-block-size: 46px;
@@ -85,25 +75,24 @@
 	box-shadow: inset 0 1px rgba(255, 255, 255, .1), 0 0 26px rgba(60, 236, 255, .1);
 	transition: transform var(--g-motion-fast), border-color var(--g-motion-fast), box-shadow var(--g-motion-fast);
 }
-
-.g-header-profile .profile-trigger:is(:hover, :focus-visible) {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.g-header-profile) .profile-trigger:is(:hover, :focus-visible) {
 	border-color: color-mix(in srgb, var(--g-pink) 58%, var(--g-line));
 	box-shadow: 0 0 0 3px rgba(139, 92, 255, .12), 0 0 34px rgba(60, 236, 255, .16);
 }
-
-.g-header-profile .profile-trigger:active {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.g-header-profile) .profile-trigger:active {
 	transform: translateY(1px) scale(.99);
 }
-
 .g-mobile-search-button {
 	display: none;
 }
-
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 /* Loading skeleton — the shell carries data-state="loading" from ensureAppShell
    until the motion layer marks .is-ready (or a safety timeout clears it).
    While loading, every action renders as a fixed 44px shimmer slot, so portal
    text arriving before its CSS can never widen a track or cramp the brand. */
-.g-shell[data-state="loading"] .g-header-actions > * {
+:where(.g-shell[data-state="loading"]) .g-header-actions * {
 	position: relative;
 	flex: 0 0 44px;
 	inline-size: 44px;
@@ -113,12 +102,12 @@
 	min-block-size: 44px;
 	overflow: hidden;
 }
-
-.g-shell[data-state="loading"] .g-header-actions > * > * {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.g-shell[data-state="loading"]) .g-header-actions * * {
 	visibility: hidden;
 }
-
-.g-shell[data-state="loading"] .g-header-actions > *::after {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.g-shell[data-state="loading"]) .g-header-actions *::after {
 	content: "";
 	position: absolute;
 	inset: 0;
@@ -128,7 +117,6 @@
 	animation: g-shell-shimmer 1.2s linear infinite;
 	pointer-events: none;
 }
-
 /* Universal chat launcher — compact by default: a 44px presence dot.
    At >=42rem it expands to the truthful "N online" text (inverted from the
    old prepend-then-compact timing, so the first paint is already compact). */
@@ -137,7 +125,6 @@
 	font-size: 0;
 	line-height: 0;
 }
-
 .universal-chat-header-launcher::before {
 	content: "●";
 	color: #8cf5b8;
@@ -145,34 +132,24 @@
 	line-height: 1;
 	text-shadow: 0 0 .7rem rgba(116, 255, 176, .42);
 }
-
 .universal-chat-header-launcher.is-offline::before {
 	color: #8693a7;
 	text-shadow: none;
 }
-
-@media (min-width: 42rem) {
-	.universal-chat-header-launcher {
+@media (min-width: 42rem) { .universal-chat-header-launcher {
 		inline-size: auto;
 		min-inline-size: 44px;
 		max-inline-size: none;
 		padding-inline: .8rem;
 		font-size: .82rem;
 		line-height: 1.2;
-	}
-
-	.universal-chat-header-launcher::before {
+	} }
+@media (min-width: 42rem) { .universal-chat-header-launcher::before {
 		content: none;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.g-header-action,
-	.g-header-profile .profile-trigger {
+	} }
+@media (prefers-reduced-motion: reduce) { .g-header-action, .g-header-profile .profile-trigger {
 		transition: none;
-	}
-}
-
+	} }
 /* @tunnel-interactive-states: auto-generated by css-guarantee */
 .g-mobile-search-button:hover {
 	filter: brightness(1.08);

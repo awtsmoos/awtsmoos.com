@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 @media (max-width: 760px) {
   .profile-main-grid, .profile-grid { display: grid !important; grid-template-columns: 1fr !important; overflow: visible !important; width: 100% !important; max-width: 100% !important; }
   .profile-stack { min-width: 0; }

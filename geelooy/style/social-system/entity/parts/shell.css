@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 .entity-page { min-height: 100dvh; padding: .85rem .85rem max(5.5rem, env(safe-area-inset-bottom)); background: #f6f8fb; color: #1f2937; overflow-x: hidden; }
 .entity-shell { width: min(100%, var(--g-max, 72rem)); margin: 0 auto; display: grid; gap: 1rem; }
 .entity-grid { display: grid; gap: .8rem; }

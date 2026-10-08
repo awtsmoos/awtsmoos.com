@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -6,7 +7,6 @@
  * on Awtsmoos.com may borrow browser gray, accidental serif type, or invisible
  * placeholder contrast from an unrelated generation.
  */
-
 .home-compose-field {
 	display: grid;
 	gap: .35rem;
@@ -15,25 +15,20 @@
 	font: 750 .74rem/1.25 var(--font-ui);
 	letter-spacing: .04em;
 }
-
-.home-compose-field > span,
-.home-compose-editor-field > span {
+.home-compose-field > span, .home-compose-editor-field > span {
 	color: #c9d4e4;
 	font-size: .72rem;
 	font-weight: 820;
 	letter-spacing: .055em;
 	text-transform: uppercase;
 }
-
-.home-compose-field > small,
-.home-compose-editor-field > small {
+.home-compose-field > small, .home-compose-editor-field > small {
 	color: var(--home-faint);
 	font-size: .78rem;
 	font-weight: 600;
 	letter-spacing: 0;
 	text-transform: none;
 }
-
 .geelooy-home-composer :is(input, textarea) {
 	inline-size: 100%;
 	min-inline-size: 0;
@@ -48,33 +43,28 @@
 	outline: 0;
 	transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
 }
-
-.geelooy-home-composer :is(input, textarea)::placeholder {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.geelooy-home-composer) :where(:is(input, textarea))::placeholder {
 	color: #8998ad;
 	opacity: 1;
 }
-
 .geelooy-home-composer :is(input, textarea):is(:focus, :focus-visible) {
 	border-color: #58c7d8;
 	background: #162231;
 	box-shadow: 0 0 0 3px rgba(88, 199, 216, .16);
 }
-
 .home-compose-alias input {
 	color: #a6e8f1;
 	font-weight: 800;
 }
-
 .home-compose-title input {
 	font-size: 1.02rem;
 	font-weight: 760;
 }
-
 .home-compose-editor-field {
 	display: grid;
 	gap: .22rem;
 }
-
 .home-compose-editor {
 	min-block-size: 8.5rem;
 	padding: .9rem 1rem;
@@ -87,20 +77,18 @@
 	overflow-wrap: anywhere;
 	transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
 }
-
 .home-compose-editor:empty::before {
 	color: #8998ad;
 	content: attr(data-placeholder);
 	pointer-events: none;
 }
-
 .home-compose-editor:is(:focus, :focus-visible) {
 	border-color: #58c7d8;
 	background: #162231;
 	box-shadow: 0 0 0 3px rgba(88, 199, 216, .16);
 }
-
-.home-compose-form[aria-busy="true"] :is(input, textarea, .home-compose-editor) {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.home-compose-form[aria-busy="true"]) :is(input, textarea, .home-compose-editor) {
 	cursor: progress;
 	opacity: .68;
 	pointer-events: none;

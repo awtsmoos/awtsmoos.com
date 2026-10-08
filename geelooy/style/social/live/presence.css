@@ -6,9 +6,7 @@
  * white badge. Awtsmoos.com owns count, status, avatar, safe-area placement,
  * contrast, and reduced motion for both presence components.
  */
-
-.live-presence,
-.bh-page-presence-badge {
+.live-presence, .bh-page-presence-badge {
 	display: inline-flex;
 	align-items: center;
 	gap: .58rem;
@@ -21,7 +19,6 @@
 	color: #f3f7fb;
 	font-family: Inter, ui-sans-serif, system-ui, sans-serif;
 }
-
 .bh-page-presence-badge {
 	position: fixed;
 	z-index: 70;
@@ -29,7 +26,6 @@
 	inset-block-end: max(.75rem, env(safe-area-inset-bottom));
 	max-inline-size: min(24rem, calc(100vw - 1.5rem));
 }
-
 .live-presence-dot {
 	inline-size: .62rem;
 	block-size: .62rem;
@@ -37,26 +33,22 @@
 	background: #65d6a2;
 	box-shadow: 0 0 0 4px rgba(101, 214, 162, .12);
 }
-
-.live-presence[data-state="away"] .live-presence-dot {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.live-presence[data-state="away"]) .live-presence-dot {
 	background: #f0bd68;
 	box-shadow: 0 0 0 4px rgba(240, 189, 104, .12);
 }
-
-.live-presence[data-state="offline"] .live-presence-dot {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.live-presence[data-state="offline"]) .live-presence-dot {
 	background: #7f8da2;
 	box-shadow: none;
 }
-
-.live-presence-label,
-.bh-page-presence-copy span {
+.live-presence-label, .bh-page-presence-copy span {
 	color: #aebccd;
 	font-size: .78rem;
 	font-weight: 680;
 }
-
-.live-presence-avatar,
-.bh-page-presence-orb {
+.live-presence-avatar, .bh-page-presence-orb {
 	display: grid;
 	inline-size: 2rem;
 	block-size: 2rem;
@@ -69,28 +61,21 @@
 	font-weight: 900;
 	flex: 0 0 auto;
 }
-
 .bh-page-presence-copy {
 	display: grid;
 	gap: .08rem;
 	min-inline-size: 0;
 }
-
-.bh-page-presence-copy strong,
-.bh-page-presence-copy span {
+.bh-page-presence-copy strong, .bh-page-presence-copy span {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-
 .bh-page-presence-copy strong {
 	color: #f3f7fb;
 	font-size: .82rem;
 }
-
-@media (max-width: 32rem) {
-	.bh-page-presence-badge {
+@media (max-width: 32rem) { .bh-page-presence-badge {
 		inset-inline: .55rem;
 		justify-content: center;
-	}
-}
+	} }

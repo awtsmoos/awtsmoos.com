@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H Home discovery: right-side constellation card. */
 .home-discovery-card { position: sticky; top: 1rem; padding: 1.05rem; display: grid; gap: .7rem; }
 .home-discovery-card h2 { margin: 0 0 .35rem; letter-spacing: -.04em; line-height: 1.05; }

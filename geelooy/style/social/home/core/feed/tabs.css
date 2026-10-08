@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .home-feed-tabs { display: flex; flex-wrap: wrap; gap: .45rem; }
 .home-feed-tabs button { background: #fff; border: 1px solid #dfe6ee; border-radius: .85rem; color: #64748b; min-height: 40px; padding: .55rem .8rem; font-weight: 700; }
 .home-feed-tabs .active { background: #f1f5f9; color: #0f172a; box-shadow: none; }

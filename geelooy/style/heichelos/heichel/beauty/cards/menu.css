@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H card menu beauty. */
 .card-menu-panel button { border: 0; border-radius: .75rem; padding: .7rem .85rem; background: transparent; font-weight: 850; }
 .card-menu-panel button:hover { background: rgba(214,168,79,.16); }

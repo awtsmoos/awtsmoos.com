@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H — a single cyan-violet beam at the crown. */
 .profile-hero-card::before {
   background: linear-gradient(90deg, transparent, rgba(40,243,215,.42), rgba(154,77,255,.28), transparent);
@@ -6,8 +7,4 @@
   height: 1px;
   inset: 0 1.2rem auto;
   position: absolute;
-}
-
-.profile-hero-card::after {
-  display: none !important;
 }

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -6,84 +7,60 @@
  * The Awtsmoos lets ornament serve meaning rather than steal its room;
  * Awtsmoos.com keeps Hebrew titles, actions, and cards inside the viewport while desktop constellations still bloom.
  */
-
-@media (max-width: 55rem) {
-	.heichel-os-document,
-	.living-path-browser,
-	.living-path-browser .living-path-list,
-	.living-path-browser .nav-card {
+@media (max-width: 55rem) { .heichel-os-document, .living-path-browser, .living-path-browser .living-path-list, .living-path-browser .nav-card {
 		max-inline-size: 100%;
 		min-inline-size: 0;
-	}
-
-	.living-path-browser {
+	} }
+@media (max-width: 55rem) { .living-path-browser {
 		overflow-x: clip;
-	}
-
-	.living-path-browser .nav-card {
+	} }
+@media (max-width: 55rem) { .living-path-browser .nav-card {
 		box-sizing: border-box;
 		inline-size: 100%;
-	}
-
-	.living-path-browser .nav-card-body,
-	.living-path-browser .nav-card-main,
-	.living-path-browser .nav-card-copy,
-	.living-path-browser .nav-card-title-row {
+	} }
+@media (max-width: 55rem) { .living-path-browser .nav-card-body, .living-path-browser .nav-card-main, .living-path-browser .nav-card-copy, .living-path-browser .nav-card-title-row {
 		max-inline-size: 100%;
 		min-inline-size: 0;
-	}
-
-	.living-path-browser .nav-card :is(h2, h3, p, .nav-card-title) {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (max-width: 55rem) { :where(.living-path-browser) .nav-card :is(h2, h3, p, .nav-card-title) {
 		max-inline-size: 100%;
 		overflow-wrap: anywhere;
 		word-break: normal;
-	}
-
-	.heichel-os-document .nav-card[data-series-archetype]::before {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (max-width: 55rem) { :where(.heichel-os-document) .nav-card[data-series-archetype]::before {
 		display: none !important;
 		content: none !important;
-	}
-
-	.series-source-constellation {
+	} }
+@media (max-width: 55rem) { .series-source-constellation {
 		display: none !important;
-	}
-
-	.nav-card-actions {
+	} }
+@media (max-width: 55rem) { .nav-card-actions {
 		position: relative;
 		z-index: 2;
 		min-inline-size: max-content;
-	}
-}
-
-@media (max-width: 36rem) {
-	.living-path-browser .nav-card {
+	} }
+@media (max-width: 36rem) { .living-path-browser .nav-card {
 		grid-template-columns: 3rem minmax(0, 1fr);
 		gap: .62rem;
 		padding: .72rem;
-	}
-
-	.living-path-browser .nav-card-media {
+	} }
+@media (max-width: 36rem) { .living-path-browser .nav-card-media {
 		inline-size: 3rem;
 		block-size: 3rem;
-	}
-
-	.living-path-browser .nav-card-actions {
+	} }
+@media (max-width: 36rem) { .living-path-browser .nav-card-actions {
 		grid-column: 1 / -1;
 		inline-size: 100%;
 		min-inline-size: 0;
 		justify-content: flex-start;
 		flex-wrap: wrap;
 		padding-inline-start: 3.62rem;
-	}
-
-	.card-menu-trigger,
-	.series-expand-toggle {
+	} }
+@media (max-width: 36rem) { .card-menu-trigger, .series-expand-toggle {
 		flex: 0 0 44px;
-	}
-}
-
-@media (max-width: 24rem) {
-	.living-path-browser .nav-card-actions {
+	} }
+@media (max-width: 24rem) { .living-path-browser .nav-card-actions {
 		padding-inline-start: 0;
-	}
-}
+	} }

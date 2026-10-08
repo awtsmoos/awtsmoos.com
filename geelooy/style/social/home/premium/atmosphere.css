@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .geelooy-home-shell.premium-home, .premium-home { background: #f6f8fb; color: #0f172a; }
 .premium-home::before, .premium-home::after, .geelooy-home-shell.premium-home::before, .geelooy-home-shell.premium-home::after { display: none; }
 .premium-surface { background: #fff; border: 1px solid #dfe6ee; border-radius: 1rem; box-shadow: 0 2px 10px rgba(15,23,42,.06); }

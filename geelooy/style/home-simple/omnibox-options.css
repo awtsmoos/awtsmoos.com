@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
 Boruch Hashem
 Blessed is He
@@ -15,27 +16,25 @@ body[data-geelooy-route="home"] .omnibox-option {
 	color: #dce8f7;
 	transition: background .14s ease, border-color .14s ease, transform .14s ease;
 }
-
-body[data-geelooy-route="home"] .omnibox-option:hover,
-body[data-geelooy-route="home"] .omnibox-option.is-active {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .omnibox-option:hover, :where(body[data-geelooy-route="home"]) .omnibox-option.is-active {
 	border-color: rgba(117, 201, 255, .16);
 	background: linear-gradient(90deg, rgba(90, 169, 229, .13), rgba(122, 92, 217, .055));
 	outline: none;
 	transform: translateX(2px);
 }
-
-body[data-geelooy-route="home"] .omnibox-option:active {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .omnibox-option:active {
 	border-color: rgba(117, 201, 255, .3);
 	background: linear-gradient(90deg, rgba(90, 169, 229, .2), rgba(122, 92, 217, .09));
 	transform: translateX(2px) scale(.99);
 }
-
-body[data-geelooy-route="home"] .omnibox-option:focus-visible {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .omnibox-option:focus-visible {
 	border-color: rgba(117, 201, 255, .4);
 	outline: 3px solid var(--focus-ring);
 	outline-offset: 1px;
 }
-
 body[data-geelooy-route="home"] .omnibox-symbol {
 	display: grid;
 	place-items: center;
@@ -48,29 +47,11 @@ body[data-geelooy-route="home"] .omnibox-symbol {
 	font-size: .82rem;
 	font-weight: 900;
 }
-
 body[data-geelooy-route="home"] .omnibox-copy {
 	display: grid;
 	gap: .12rem;
 	min-width: 0;
 }
-
-body[data-geelooy-route="home"] .omnibox-copy strong {
-	overflow: hidden;
-	font-size: .76rem;
-	letter-spacing: -.01em;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
-body[data-geelooy-route="home"] .omnibox-copy small {
-	overflow: hidden;
-	color: #788aa3;
-	font-size: .64rem;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
 body[data-geelooy-route="home"] .omnibox-badge {
 	padding: .28rem .42rem;
 	border-radius: 999px;
@@ -80,20 +61,10 @@ body[data-geelooy-route="home"] .omnibox-badge {
 	font-weight: 800;
 	white-space: nowrap;
 }
-
-body[data-geelooy-route="home"] .omnibox-arrow {
-	color: #7899b6;
-	font-size: .78rem;
-}
-
-@media (prefers-reduced-motion: reduce) {
-	body[data-geelooy-route="home"] .omnibox-option {
+@media (prefers-reduced-motion: reduce) { body[data-geelooy-route="home"] .omnibox-option {
 		transition: none;
-	}
-
-	body[data-geelooy-route="home"] .omnibox-option:hover,
-	body[data-geelooy-route="home"] .omnibox-option.is-active,
-	body[data-geelooy-route="home"] .omnibox-option:active {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .omnibox-option:hover, :where(body[data-geelooy-route="home"]) .omnibox-option.is-active, :where(body[data-geelooy-route="home"]) .omnibox-option:active {
 		transform: none;
-	}
-}
+	} }

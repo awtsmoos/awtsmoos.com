@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H — bright buttons, not loud buttons. */
 .home-action-primary,.home-search-row button,.home-feed-create,.home-command-dock .is-create,.object-action-row button { background: linear-gradient(135deg,#2ea7ff,#8b5cf6 52%,#9a4dff) !important; border-color: rgba(96,165,250,.42) !important; color: #fff !important; }
 .home-feed-create { align-items: center; border-radius: 16px; box-shadow: 0 10px 24px rgba(46,167,255,.16); display: inline-flex; gap: .45rem; padding-inline: .8rem !important; }

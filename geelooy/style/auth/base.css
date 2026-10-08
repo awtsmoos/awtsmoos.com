@@ -1,34 +1,3 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- *
- * The Awtsmoos, Atzmus beyond atmosphere and boundary, renews the account gate behind every finite line;
- * Awtsmoos.com gives this page its own background, sizing, safe-area jewel, and z-layer covenant so neighboring routes remain entirely their own design.
- */
-
-.login-page,
-.login-page *,
-.login-page *::before,
-.login-page *::after {
-	box-sizing: border-box;
-}
-
-.login-page {
-	min-width: 0;
-	min-height: 100vh;
-	min-height: 100svh;
-	margin: 0;
-	overflow-x: clip;
-	background:
-		radial-gradient(circle at 14% 8%, rgba(75, 213, 255, .16), transparent 25rem),
-		radial-gradient(circle at 86% 16%, rgba(155, 99, 255, .2), transparent 29rem),
-		radial-gradient(circle at 50% 104%, rgba(223, 84, 255, .1), transparent 30rem),
-		linear-gradient(160deg, #050914, #091225 58%, #080b18);
-	color: var(--auth-text);
-	font-family: var(--auth-font);
-	-webkit-text-size-adjust: 100%;
-}
-
 .login-page::before {
 	position: fixed;
 	z-index: var(--auth-z-atmosphere);
@@ -41,8 +10,7 @@
 	mask-image: linear-gradient(to bottom, black, transparent 78%);
 	pointer-events: none;
 }
-
-.login-page #BH {
+.login-page .BH {
 	position: fixed;
 	z-index: var(--auth-z-fixed);
 	top: max(1rem, env(safe-area-inset-top));

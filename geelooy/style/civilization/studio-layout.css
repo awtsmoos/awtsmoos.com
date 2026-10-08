@@ -15,7 +15,7 @@
 	min-height: 36rem;
 	overflow: hidden;
 }
-.caption-studio-document #controls-wrapper {
+.caption-studio-document .controls-wrapper {
 	background: var(--civil-bg-raised) !important;
 	border-inline-end: 1px solid var(--civil-line) !important;
 	display: grid !important;
@@ -64,19 +64,19 @@
 	padding: .8rem !important;
 	scrollbar-gutter: stable;
 }
-.caption-studio-document #preview-wrapper {
+.caption-studio-document .preview-wrapper {
 	background: radial-gradient(circle at 50% 45%, rgba(41, 118, 160, .15), transparent 25rem), #03060c !important;
 	display: grid !important;
 	grid-template-rows: auto minmax(0, 1fr);
 	min-width: 0;
 	padding: 1rem;
 }
-.caption-studio-document #mobile-preview-header {
+.caption-studio-document .mobile-preview-header {
 	align-items: center;
 	display: flex !important;
 	justify-content: space-between;
 }
-.caption-studio-document #preview-container {
+.caption-studio-document .preview-container {
 	align-items: center;
 	display: grid !important;
 	justify-items: center;

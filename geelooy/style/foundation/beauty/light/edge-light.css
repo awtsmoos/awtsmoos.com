@@ -1,2 +1,3 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H edge light: the border remembers its source. */
 :root { --awt-edge-light: inset 0 1px 0 rgba(255,255,255,.72), 0 0 0 1px rgba(214,168,79,.16); }

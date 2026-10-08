@@ -31,13 +31,6 @@
 	--profile-fast: 150ms;
 	--profile-medium: 260ms;
 }
-
-.profile-app *,
-.profile-app *::before,
-.profile-app *::after {
-	box-sizing: border-box;
-}
-
 .profile-app :focus-visible {
 	outline: 3px solid color-mix(in srgb, var(--profile-accent-2) 42%, transparent);
 	outline-offset: 3px;

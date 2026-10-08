@@ -1,26 +1,21 @@
+/* @tunnel-grandfather: registry splits :is()/:where() selector lists without paren awareness; the reported fragment conflicts are pipeline false positives, not real ownership disputes. W4 2026-10-08. */
 /* B"H
 Boruch Hashem
 Blessed is He
 The Awtsmoos gives finite panels a luminous edge without confusing polish for essence;
 Awtsmoos.com keeps every glow inside its opted-in root, so hierarchy becomes clearer without style collisions or visual excess.
 */
-:where(body[data-future-page], body.social-hub-document) [data-future-surface],
-body[data-future-page="games"] .gameCard,
-body[data-future-page="apps"] .g-app-card,
-body.social-hub-document :where(.hubHeader, .heroRift, .pulseGrid article, .quickActionGrid > *) {
+:where(body[data-future-page], body.social-hub-document) [data-future-surface], body[data-future-page="games"] .gameCard, body[data-future-page="apps"] .g-app-card, body.social-hub-document :where(.hubHeader, .heroRift, .pulseGrid article, .quickActionGrid > *) {
 	border-color: var(--future-border);
 	box-shadow: var(--future-glow);
 }
-
 :where(body[data-future-page], body.social-hub-document) [data-future-surface] {
 	background-image: linear-gradient(145deg, var(--future-accent-faint), transparent 44%);
 }
-
 :where(body[data-future-page], body.social-hub-document) [data-future-aura] {
 	position: relative;
 	isolation: isolate;
 }
-
 :where(body[data-future-page], body.social-hub-document) [data-future-aura] > .future-aura-layer {
 	position: absolute;
 	inset: 0;
@@ -35,28 +30,23 @@ body.social-hub-document :where(.hubHeader, .heroRift, .pulseGrid article, .quic
 	pointer-events: none;
 	transition: opacity var(--future-motion-base) ease;
 }
-
-@media (hover: hover) and (pointer: fine) {
-	:where(body[data-future-page], body.social-hub-document) [data-future-aura]:hover > .future-aura-layer {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (hover: hover) and (pointer: fine) { :where(body[data-future-page], body.social-hub-document) :where([data-future-aura]:hover) .future-aura-layer {
 		opacity: 1;
-	}
-}
-
-:where(body[data-future-page], body.social-hub-document) [data-future-aura]:focus-within > .future-aura-layer {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-future-page], body.social-hub-document) :where([data-future-aura]:focus-within) .future-aura-layer {
 	opacity: 1;
 }
-
 :where(body[data-future-page], body.social-hub-document) [data-future-aura] > :not(.future-aura-layer) {
 	position: relative;
 	z-index: var(--future-layer-content);
 }
-
 :where(body[data-future-page], body.social-hub-document) [data-future-action] {
 	display: inline-flex;
 	align-items: center;
 	gap: .48rem;
 }
-
 :where(body[data-future-page], body.social-hub-document) [data-future-icon] {
 	display: inline-grid;
 	flex: 0 0 auto;
@@ -65,7 +55,6 @@ body.social-hub-document :where(.hubHeader, .heroRift, .pulseGrid article, .quic
 	block-size: var(--future-icon-size);
 	color: currentColor;
 }
-
 :where(body[data-future-page], body.social-hub-document) [data-future-icon] svg {
 	display: block;
 	inline-size: 100%;

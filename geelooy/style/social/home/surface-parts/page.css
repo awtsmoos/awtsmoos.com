@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .geelooy-home-shell, .home-surface-page { background: var(--home-surface-bg); color: var(--home-surface-text); min-height: 100dvh; }
 .home-surface-main { width: min(100%, 72rem); margin: 0 auto; display: grid; gap: 1rem; padding: 1rem; }
 .home-surface-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; }

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -13,7 +14,6 @@ html.geelooy-route-ready {
 	scrollbar-color: rgba(112, 213, 200, .42) rgba(7, 10, 15, .9);
 	scrollbar-width: thin;
 }
-
 body.geelooy-app-shell {
 	min-inline-size: 20rem;
 	min-block-size: 100dvh;
@@ -31,48 +31,40 @@ body.geelooy-app-shell {
 	-webkit-font-smoothing: antialiased;
 	text-rendering: optimizeLegibility;
 }
-
-body.geelooy-app-shell *,
-body.geelooy-app-shell *::before,
-body.geelooy-app-shell *::after {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+body.geelooy-app-shell *, :where(body.geelooy-app-shell) *::before, :where(body.geelooy-app-shell) *::after {
 	box-sizing: border-box;
 }
-
-body.geelooy-app-shell ::selection {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.geelooy-app-shell) ::selection {
 	background: rgba(112, 213, 200, .24);
 	color: #fff;
 }
-
 body.geelooy-app-shell :where(main, section, article, aside, nav, form, .geelooy-content-region) {
 	min-inline-size: 0;
 }
-
 body.geelooy-app-shell :where(.g-panel, .g-card, .home-panel) {
 	border-color: var(--g-line);
 	background: var(--g-panel-gradient);
 	box-shadow: var(--g-shadow-card);
 	color: var(--g-text);
 }
-
-body.geelooy-app-shell::-webkit-scrollbar {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.geelooy-app-shell)::-webkit-scrollbar {
 	inline-size: .7rem;
 	block-size: .7rem;
 }
-
-body.geelooy-app-shell::-webkit-scrollbar-track {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.geelooy-app-shell)::-webkit-scrollbar-track {
 	background: rgba(7, 10, 15, .9);
 }
-
-body.geelooy-app-shell::-webkit-scrollbar-thumb {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.geelooy-app-shell)::-webkit-scrollbar-thumb {
 	border: 2px solid rgba(7, 10, 15, .9);
 	border-radius: var(--g-radius-pill);
 	background: linear-gradient(var(--g-cyan), var(--g-blue));
 }
-
-@media (forced-colors: active) {
-	html.geelooy-route-ready,
-	body.geelooy-app-shell {
+@media (forced-colors: active) { html.geelooy-route-ready, body.geelooy-app-shell {
 		background: Canvas;
 		color: CanvasText;
-	}
-}
+	} }

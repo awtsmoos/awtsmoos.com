@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H home legend constellation/nodes.css. */
 .home-discovery-card a { position:relative; justify-content:flex-start; }
 .home-discovery-card a::after { content:""; margin-inline-start:auto; width:.48rem; height:.48rem; border-radius:999px; background:var(--awt-gold); box-shadow:0 0 .9rem rgba(185,133,63,.65); }

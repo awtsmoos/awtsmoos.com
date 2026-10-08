@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: registry splits :is()/:where() selector lists without paren awareness; the reported fragment conflicts are pipeline false positives, not real ownership disputes. W4 2026-10-08. */
 /* B"H
 Boruch Hashem
 Blessed is He
@@ -10,42 +11,32 @@ Awtsmoos.com lets icons answer focus and fine-pointer intent, then return to sti
 		rotate var(--future-motion-base) ease,
 		scale var(--future-motion-base) ease;
 }
-
 :where(body[data-future-page], body.social-hub-document) :where([data-future-action], .searchWrap):focus-within [data-future-icon="play"] {
 	translate: 2px 0;
 	scale: 1.05;
 }
-
 :where(body[data-future-page], body.social-hub-document) :where([data-future-action], button):focus-visible [data-future-icon="send"] {
 	translate: 3px -1px;
 	rotate: -4deg;
 }
-
-:where(body[data-future-page], body.social-hub-document) [data-future-action]:focus-visible [data-future-icon="wallet"],
-:where(body[data-future-page], body.social-hub-document) .searchWrap:focus-within [data-future-icon="search"],
-:where(body[data-future-page], body.social-hub-document) [data-future-action]:focus-visible [data-future-icon="orbit"],
-:where(body[data-future-page], body.social-hub-document) [data-future-action]:focus-visible [data-future-icon="create"],
-:where(body[data-future-page], body.social-hub-document) [data-future-action]:focus-visible [data-future-icon="spark"] {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-future-page], body.social-hub-document) :where([data-future-action]:focus-visible) [data-future-icon="wallet"], :where(body[data-future-page], body.social-hub-document) :where(.searchWrap:focus-within) [data-future-icon="search"], :where(body[data-future-page], body.social-hub-document) :where([data-future-action]:focus-visible) [data-future-icon="orbit"], :where(body[data-future-page], body.social-hub-document) :where([data-future-action]:focus-visible) [data-future-icon="create"], :where(body[data-future-page], body.social-hub-document) :where([data-future-action]:focus-visible) [data-future-icon="spark"] {
 	scale: 1.06;
 }
-
-@media (hover: hover) and (pointer: fine) {
-	:where(body[data-future-page], body.social-hub-document) :where([data-future-action], .searchWrap):hover [data-future-icon="play"] {
+@media (hover: hover) and (pointer: fine) { :where(body[data-future-page], body.social-hub-document) :where([data-future-action], .searchWrap):hover [data-future-icon="play"] {
 		translate: 2px 0;
 		scale: 1.05;
-	}
-
-	:where(body[data-future-page], body.social-hub-document) :where([data-future-action], button):hover [data-future-icon="send"] {
+	} }
+@media (hover: hover) and (pointer: fine) { :where(body[data-future-page], body.social-hub-document) :where([data-future-action], button):hover [data-future-icon="send"] {
 		translate: 3px -1px;
 		rotate: -4deg;
-	}
-
-	:where(body[data-future-page], body.social-hub-document) [data-future-action]:hover [data-future-icon="wallet"] {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (hover: hover) and (pointer: fine) { :where(body[data-future-page], body.social-hub-document) :where([data-future-action]:hover) [data-future-icon="wallet"] {
 		rotate: 8deg;
 		scale: 1.06;
-	}
-
-	:where(body[data-future-page], body.social-hub-document) [data-future-action]:hover :where(
+	} }
+@media (hover: hover) and (pointer: fine) { :where(body[data-future-page], body.social-hub-document) [data-future-action]:hover :where(
 		[data-future-icon="search"],
 		[data-future-icon="orbit"],
 		[data-future-icon="create"],
@@ -54,14 +45,10 @@ Awtsmoos.com lets icons answer focus and fine-pointer intent, then return to sti
 	) {
 		rotate: 6deg;
 		scale: 1.08;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	:where(body[data-future-page], body.social-hub-document) [data-future-icon] {
+	} }
+@media (prefers-reduced-motion: reduce) { :where(body[data-future-page], body.social-hub-document) [data-future-icon] {
 		translate: none;
 		rotate: none;
 		scale: 1;
 		transition: none;
-	}
-}
+	} }

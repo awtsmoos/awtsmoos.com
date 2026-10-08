@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H — Legacy clean Home remains navigable when this optional vessel is loaded. */
 .clean-home {
 	width: min(100% - 1rem, 44rem);

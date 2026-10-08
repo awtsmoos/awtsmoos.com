@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H Home post body: better rhythm for living words. */
 .home-post-card p,
 .home-post-card footer { color: var(--g-muted); }

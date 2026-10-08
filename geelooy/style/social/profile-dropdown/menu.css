@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -20,7 +21,6 @@
 	box-shadow: 0 34px 100px rgba(0, 0, 0, .72), 0 0 40px rgba(80, 180, 255, .12);
 	color: #f8fbff;
 }
-
 .awtsmoosDrop .profile-panel-heading {
 	display: flex;
 	align-items: center;
@@ -28,27 +28,24 @@
 	padding: .12rem .06rem .68rem;
 	border-bottom: 1px solid rgba(255, 255, 255, .09);
 }
-
-.awtsmoosDrop .profile-panel-heading > span:last-child {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.awtsmoosDrop) .profile-panel-heading span:last-child {
 	display: grid;
 	min-width: 0;
 	gap: .16rem;
 }
-
 .awtsmoosDrop .profile-panel-heading small {
 	color: #71dff5;
 	font: 850 .63rem/1 var(--g-mono, monospace);
 	letter-spacing: .09em;
 	text-transform: uppercase;
 }
-
 .awtsmoosDrop .profile-panel-heading strong {
 	overflow: hidden;
 	font-size: 1rem;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-
 .awtsmoosDrop .identity-current-card {
 	display: flex;
 	min-height: 4rem;
@@ -62,7 +59,6 @@
 	color: #fff;
 	text-decoration: none;
 }
-
 .awtsmoosDrop .identity-current-card > span {
 	display: grid;
 	grid-template-columns: auto 1fr;
@@ -70,18 +66,15 @@
 	gap: .5rem;
 	color: #9fb2d0;
 }
-
 .awtsmoosDrop .identity-current-card small {
 	font: 800 .65rem/1 var(--g-mono, monospace);
 	letter-spacing: .06em;
 	text-transform: uppercase;
 }
-
 .awtsmoosDrop .currentAliasName {
 	color: #fff;
 	font-weight: 900;
 }
-
 .awtsmoosDrop .local-mode-note {
 	margin: 0;
 	padding: .68rem;
@@ -92,7 +85,6 @@
 	font-size: .78rem;
 	line-height: 1.45;
 }
-
 .awtsmoosDrop .profile-menu-actions {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
@@ -100,7 +92,6 @@
 	padding-top: .68rem;
 	border-top: 1px solid rgba(255, 255, 255, .09);
 }
-
 .awtsmoosDrop .profile-menu-actions a {
 	display: flex;
 	min-height: 2.7rem;
@@ -114,7 +105,6 @@
 	font-weight: 820;
 	text-decoration: none;
 }
-
 .awtsmoosDrop .profile-account-avatar {
 	display: grid;
 	width: 2.75rem;

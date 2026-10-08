@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 .geelooy-profile-shell { width: min(72rem, calc(100vw - .7rem)); margin: .45rem auto 6.5rem; color: var(--g-text, #0f172a); display: grid; gap: .7rem; background: #f6f8fb; }
 .profile-hero-card, .profile-command-panel { border: 1px solid #dfe6ee; border-radius: 1rem; background: #fff; box-shadow: 0 2px 10px rgba(15,23,42,.06); overflow: hidden; }
 .profile-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(18rem, .72fr); gap: .8rem; align-items: start; }

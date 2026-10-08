@@ -1,2 +1,3 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H shadow stack: soft gravity for cards. */
 :root { --shadow-card: 0 .8rem 2rem rgba(31,23,12,.10), 0 .2rem .65rem rgba(31,23,12,.06); }

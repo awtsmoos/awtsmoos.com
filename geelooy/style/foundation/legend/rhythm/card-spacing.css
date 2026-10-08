@@ -1,2 +1,3 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H legend card spacing. */
 :root { --legend-card-pad: clamp(.85rem, 2.5vw, 1.35rem); --legend-card-gap: clamp(.65rem, 2vw, 1rem); }

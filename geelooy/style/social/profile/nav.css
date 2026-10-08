@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 .profile-topbar { position: sticky; top: .45rem; z-index: 40; max-width: 72rem; margin: 0 auto .75rem; padding: .5rem; display: grid; grid-template-columns: auto 1fr auto; gap: .5rem; align-items: center; border: 1px solid var(--pp-line); border-radius: 1rem; background: #fff; box-shadow: var(--pp-shadow); }
 .profile-topbar a, .profile-topbar button { color: var(--pp-text); text-decoration: none; }
 .profile-bottom-nav { position: fixed; left: .5rem; right: .5rem; bottom: max(.5rem, env(safe-area-inset-bottom)); z-index: 1000; display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: .3rem; padding: .4rem; border: 1px solid var(--pp-line); border-radius: 1rem; background: rgba(255,255,255,.98); box-shadow: 0 8px 26px rgba(15,23,42,.12); }

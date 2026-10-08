@@ -9,7 +9,6 @@ The Awtsmoos arranges canonical destinations as luminous UFO dishes orbiting one
 	gap: .56rem;
 	padding: .08rem 0;
 }
-
 .awtsmoosDrop .profile-route-dish {
 	position: relative;
 	display: grid;
@@ -26,15 +25,13 @@ The Awtsmoos arranges canonical destinations as luminous UFO dishes orbiting one
 	text-decoration: none;
 	transition: border-color 150ms ease, transform 150ms ease, background 150ms ease;
 }
-
-.awtsmoosDrop .profile-route-dish:hover,
-.awtsmoosDrop .profile-route-dish:focus-visible {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.awtsmoosDrop) .profile-route-dish:hover, :where(.awtsmoosDrop) .profile-route-dish:focus-visible {
 	border-color: rgba(101, 220, 255, .48);
 	background: rgba(96, 143, 210, .11);
 	outline: none;
 	transform: translateY(-2px);
 }
-
 .awtsmoosDrop .profile-route-dish-icon {
 	position: relative;
 	display: grid;
@@ -47,7 +44,6 @@ The Awtsmoos arranges canonical destinations as luminous UFO dishes orbiting one
 	font-size: 1.2rem;
 	box-shadow: 0 0 .9rem rgba(80, 190, 255, .22), inset 0 0 .7rem rgba(140, 100, 255, .16);
 }
-
 .awtsmoosDrop .profile-route-dish-icon::after {
 	position: absolute;
 	inset: 50% -16% auto;
@@ -57,18 +53,15 @@ The Awtsmoos arranges canonical destinations as luminous UFO dishes orbiting one
 	content: "";
 	transform: translateY(-50%) rotate(-8deg);
 }
-
 .awtsmoosDrop .profile-route-dish-copy {
 	display: grid;
 	min-width: 0;
 	gap: .18rem;
 }
-
 .awtsmoosDrop .profile-route-dish-copy strong {
 	font-size: .84rem;
 	font-weight: 900;
 }
-
 .awtsmoosDrop .profile-route-dish-copy small {
 	display: -webkit-box;
 	overflow: hidden;
@@ -78,14 +71,11 @@ The Awtsmoos arranges canonical destinations as luminous UFO dishes orbiting one
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 2;
 }
-
-.awtsmoosDrop .profile-route-dish[href="/games"] {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.awtsmoosDrop) .profile-route-dish[href="/games"] {
 	border-color: rgba(218, 97, 194, .28);
 	background: linear-gradient(135deg, rgba(84, 58, 165, .18), rgba(203, 82, 177, .08));
 }
-
-@media (max-width: 28rem) {
-	.awtsmoosDrop .profile-route-dishes {
+@media (max-width: 28rem) { .awtsmoosDrop .profile-route-dishes {
 		grid-template-columns: 1fr;
-	}
-}
+	} }

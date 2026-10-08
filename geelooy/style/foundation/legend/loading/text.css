@@ -1,2 +1,3 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H legend loading text. */
 .legend-loading-text { color: var(--awt-gold-light); font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }

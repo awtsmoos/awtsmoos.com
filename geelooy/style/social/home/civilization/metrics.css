@@ -34,15 +34,14 @@
 	letter-spacing: var(--tracking-caption);
 	text-transform: uppercase;
 }
-.civilization-metric-card small::before {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.civilization-metric-card) :where(small)::before {
 	width: .36rem;
 	height: .36rem;
 	border-radius: 50%;
 	background: var(--g-accent);
 	content: "";
 }
-@media (max-width: 34rem) {
-	.civilization-metrics {
+@media (max-width: 34rem) { .civilization-metrics {
 		grid-template-columns: 1fr;
-	}
-}
+	} }

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H Chapter 622: shared spacing sparks for every page river. */
 :root {
   --floating-clearance: max(5.5rem, calc(4.5rem + env(safe-area-inset-bottom)));

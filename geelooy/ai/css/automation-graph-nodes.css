@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not imported by geelooy/ai/styles.css manifest and not referenced by any HTML/JS; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H — Automation graph: shader-node cockpit skin */
 .automation-panel-content{min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr)}
 .automation-panel-content .right-panel-body{min-height:0;overflow:auto}.automation-graph-panel{--node-blue:rgba(34,211,238,.95);--node-purple:rgba(168,85,247,.95);--node-green:rgba(52,211,153,.95);--node-red:rgba(248,113,113,.95);display:grid;gap:.9rem}.automation-graph-panel .panel-note{border:1px solid rgba(34,211,238,.16);border-radius:18px;padding:.72rem .85rem;background:linear-gradient(135deg,rgba(8,47,73,.32),rgba(30,41,59,.24));color:rgba(226,232,240,.84)}

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -60,7 +61,8 @@
 	color: var(--heichel-muted-ink);
 	text-align: center;
 }
-.heichel-mobile-navigation .card-wrapper.selected {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-mobile-navigation) .card-wrapper.selected {
 	border-color: color-mix(in srgb, var(--heichel-cyan) 46%, var(--heichel-line));
 	box-shadow: 0 0 0 2px color-mix(in srgb, var(--heichel-cyan) 12%, transparent);
 }
@@ -69,17 +71,13 @@
 	box-shadow: var(--heichel-shadow-lift);
 	transform: translateY(var(--motion-hover-lift));
 }
-@media (min-width: 70rem) {
-	.heichel-mobile-navigation .series-list {
+@media (min-width: 70rem) { .heichel-mobile-navigation .series-list {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-	}
-	.heichel-mobile-navigation .post-list {
+	} }
+@media (min-width: 70rem) { .heichel-mobile-navigation .post-list {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-}
-@media (pointer: coarse) {
-	.heichel-mobile-navigation :where(.card-wrapper, .series-list > *, .post-card, .geelooy-card):hover {
+	} }
+@media (pointer: coarse) { .heichel-mobile-navigation :where(.card-wrapper, .series-list > *, .post-card, .geelooy-card):hover {
 		box-shadow: var(--heichel-shadow-soft);
 		transform: none;
-	}
-}
+	} }

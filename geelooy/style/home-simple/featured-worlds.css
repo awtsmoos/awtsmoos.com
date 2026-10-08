@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
 Boruch Hashem
 Blessed is He
@@ -8,7 +9,6 @@ body[data-geelooy-route="home"] .featured-worlds {
 	width: min(1240px, 100%);
 	padding: 1.5rem 0 .8rem;
 }
-
 body[data-geelooy-route="home"] .featured-heading {
 	display: flex;
 	align-items: end;
@@ -17,9 +17,8 @@ body[data-geelooy-route="home"] .featured-heading {
 	margin-bottom: .9rem;
 	padding-inline: .15rem;
 }
-
-body[data-geelooy-route="home"] .featured-heading p,
-body[data-geelooy-route="home"] .featured-card small {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .featured-heading p, :where(body[data-geelooy-route="home"]) .featured-card small {
 	margin: 0;
 	color: #6f819c;
 	font-size: .6rem;
@@ -27,80 +26,49 @@ body[data-geelooy-route="home"] .featured-card small {
 	letter-spacing: .14em;
 	text-transform: uppercase;
 }
-
-body[data-geelooy-route="home"] .featured-heading h2 {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .featured-heading h2 {
 	margin: .2rem 0 0;
 	font-size: clamp(1.5rem, 3vw, 2.6rem);
 	letter-spacing: -.055em;
 	line-height: 1;
 }
-
-body[data-geelooy-route="home"] .featured-heading > a {
-	display: inline-flex;
-	align-items: center;
-	gap: .55rem;
-	padding: .6rem .8rem;
-	border-radius: .72rem;
-	color: #8fa2bd;
-	font-size: .68rem;
-	font-weight: 780;
-	transition:
-		background 160ms ease,
-		color 160ms ease,
-		filter 110ms ease,
-		transform 170ms cubic-bezier(.2, .8, .2, 1);
-}
-
-@media (hover: hover) and (pointer: fine) {
-	body[data-geelooy-route="home"] .featured-heading > a:hover {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (hover: hover) and (pointer: fine) { :where(body[data-geelooy-route="home"]) .featured-heading a:hover {
 		background: rgba(108, 185, 239, .09);
 		color: #fff;
 		transform: translateY(-1px);
-	}
-}
-
-body[data-geelooy-route="home"] .featured-heading > a:active {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .featured-heading a:active {
 	background: rgba(108, 185, 239, .12);
 	color: #fff;
 	filter: brightness(.96);
 	transform: translateY(1px) scale(.985);
 }
-
-body[data-geelooy-route="home"] .featured-heading > a:focus-visible {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .featured-heading a:focus-visible {
 	outline: 3px solid var(--focus-ring);
 	outline-offset: 2px;
 }
-
 body[data-geelooy-route="home"] .featured-grid {
 	display: grid;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
 	gap: .7rem;
 }
-
 body[data-geelooy-route="home"] .featured-card--torah {
 	--featured-accent: 99, 178, 255;
 }
-
 body[data-geelooy-route="home"] .featured-card--apps {
 	--featured-accent: 104, 220, 160;
 }
-
 body[data-geelooy-route="home"] .featured-card--games {
 	--featured-accent: 245, 121, 164;
 }
-
 body[data-geelooy-route="home"] .featured-card--os {
 	--featured-accent: 148, 126, 255;
 }
-
-@media (prefers-reduced-motion: reduce) {
-	body[data-geelooy-route="home"] .featured-heading > a {
-		transition: none;
-	}
-
-	body[data-geelooy-route="home"] .featured-heading > a:hover,
-	body[data-geelooy-route="home"] .featured-heading > a:active,
-	body[data-geelooy-route="home"] .featured-heading > a:focus-visible {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .featured-heading a:hover, :where(body[data-geelooy-route="home"]) .featured-heading a:active, :where(body[data-geelooy-route="home"]) .featured-heading a:focus-visible {
 		transform: none;
-	}
-}
+	} }

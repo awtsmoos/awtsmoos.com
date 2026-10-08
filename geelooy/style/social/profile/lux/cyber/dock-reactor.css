@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H — profile dock gets a silent reactor line. */
 .profile-bottom-nav::after {
   background: radial-gradient(circle, rgba(46,167,255,.28), transparent 58%);

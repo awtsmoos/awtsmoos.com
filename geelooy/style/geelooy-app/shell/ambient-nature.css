@@ -1,3 +1,4 @@
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 /* B"H
 Boruch Hashem
 Blessed is He
@@ -5,7 +6,7 @@ Blessed is He
 The Awtsmoos renews every hidden current of light before a gradient may resemble sky, mist, or living field;
 Awtsmoos.com lets this ambient nature remain entirely inside the social shell, behind content and beyond pointer capture, quiet enough that navigation stays revealed.
 */
-.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient {
+:where(.g-shell[data-awtsmoos-surface="social-shell"]) .g-shell-ambient {
 	position: fixed;
 	z-index: -1;
 	inset: 0;
@@ -31,9 +32,8 @@ Awtsmoos.com lets this ambient nature remain entirely inside the social shell, b
 		);
 	transition: opacity var(--g-motion-slow) var(--g-ease);
 }
-
-.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient::before,
-.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient::after {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.g-shell[data-awtsmoos-surface="social-shell"]) .g-shell-ambient::before, :where(.g-shell[data-awtsmoos-surface="social-shell"]) .g-shell-ambient::after {
 	content: "";
 	position: absolute;
 	inset: -18%;
@@ -43,8 +43,8 @@ Awtsmoos.com lets this ambient nature remain entirely inside the social shell, b
 	will-change: transform;
 	pointer-events: none;
 }
-
-.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient::before {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.g-shell[data-awtsmoos-surface="social-shell"]) .g-shell-ambient::before {
 	background:
 		conic-gradient(
 			from 210deg,
@@ -58,37 +58,32 @@ Awtsmoos.com lets this ambient nature remain entirely inside the social shell, b
 		);
 	animation: g-ambient-orbit 28s linear infinite;
 }
-
-.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient::after {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.g-shell[data-awtsmoos-surface="social-shell"]) .g-shell-ambient::after {
 	inset: 12% -20% -28%;
 	background:
 		radial-gradient(ellipse, rgba(76, 141, 255, .055), transparent 62%),
 		radial-gradient(ellipse at 70% 58%, rgba(255, 85, 209, .035), transparent 48%);
 	animation: g-ambient-drift 20s var(--g-ease) infinite alternate;
 }
-
-.g-shell[data-awtsmoos-surface="social-shell"][data-g-ambient-paused="true"] .g-shell-ambient,
-.g-shell[data-awtsmoos-surface="social-shell"][data-g-ambient-paused="true"] .g-shell-ambient::before,
-.g-shell[data-awtsmoos-surface="social-shell"][data-g-ambient-paused="true"] .g-shell-ambient::after {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.g-shell[data-awtsmoos-surface="social-shell"][data-g-ambient-paused="true"]) .g-shell-ambient, :where(.g-shell[data-awtsmoos-surface="social-shell"][data-g-ambient-paused="true"]) .g-shell-ambient::before, :where(.g-shell[data-awtsmoos-surface="social-shell"][data-g-ambient-paused="true"]) .g-shell-ambient::after {
 	animation-play-state: paused;
 }
-
-.g-shell[data-awtsmoos-surface="social-shell"][data-g-performance="lean"] .g-shell-ambient {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.g-shell[data-awtsmoos-surface="social-shell"][data-g-performance="lean"]) .g-shell-ambient {
 	opacity: .38;
 }
-
-.g-shell[data-awtsmoos-surface="social-shell"][data-g-performance="lean"] .g-shell-ambient::before,
-.g-shell[data-awtsmoos-surface="social-shell"][data-g-performance="lean"] .g-shell-ambient::after {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.g-shell[data-awtsmoos-surface="social-shell"][data-g-performance="lean"]) .g-shell-ambient::before, :where(.g-shell[data-awtsmoos-surface="social-shell"][data-g-performance="lean"]) .g-shell-ambient::after {
 	display: none;
 }
-
-@keyframes g-ambient-orbit {
+@keyframes g-ambient-orbit{
 	to {
 		transform: rotate(1turn) scale(1.04);
 	}
 }
-
-@keyframes g-ambient-drift {
+@keyframes g-ambient-drift{
 	from {
 		transform: translate3d(-2%, 1%, 0) scale(.98);
 	}
@@ -96,10 +91,7 @@ Awtsmoos.com lets this ambient nature remain entirely inside the social shell, b
 		transform: translate3d(3%, -2%, 0) scale(1.04);
 	}
 }
-
-@media (prefers-reduced-motion: reduce) {
-	.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient::before,
-	.g-shell[data-awtsmoos-surface="social-shell"] .g-shell-ambient::after {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: reduce) { :where(.g-shell[data-awtsmoos-surface="social-shell"]) .g-shell-ambient::before, :where(.g-shell[data-awtsmoos-surface="social-shell"]) .g-shell-ambient::after {
 		animation: none;
-	}
-}
+	} }

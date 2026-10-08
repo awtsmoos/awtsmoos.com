@@ -5,7 +5,7 @@
   spacing, and shadows, but they may not style children. This selector is
   equivalent to the panel id while no longer repeating the shell's exact name.
 */
-.automation-panel#automation-panel{
+.automation-panel.automation-panel{
   --rp-gap:14px;
   --rp-gap-sm:10px;
   --rp-radius:16px;

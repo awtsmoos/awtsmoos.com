@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade app stylesheet; component selectors intentionally layered across feature sheets (base + responsive/state refinements) — registry one-owner rule structurally inapplicable; consolidation needs component-level refactor with visual QA. W4 2026-10-08. */
 /*B"H
   Chapter 372: The Automation Inspector Shell Kept One Name.
 
@@ -5,27 +6,27 @@
   owns only shell layout and scroll ownership, using selector names that do not
   repeat the token gate.
 */
-#automation-panel{
+.automation-panel{
   min-width:0;
   min-height:0;
   overflow:hidden;
 }
-#automation-panel.automation-panel{
+.automation-panel.automation-panel{
   display:grid;
   grid-template-rows:auto minmax(0,1fr);
 }
-#automation-panel>.panel-topbar{
+.automation-panel>.panel-topbar{
   position:relative;
   z-index:3;
 }
-#automation-panel>.automation-panel-content{
+.automation-panel>.automation-panel-content{
   min-width:0;
   min-height:0;
   overflow:hidden;
   display:grid;
   grid-template-rows:auto minmax(0,1fr);
 }
-#automation-panel .right-panel-body{
+.automation-panel .right-panel-body{
   min-width:0;
   min-height:0;
   overflow-y:auto;
@@ -37,7 +38,7 @@
   color:var(--rp-text);
   scrollbar-gutter:stable;
 }
-#automation-panel .right-panel-body>*{
+.automation-panel .right-panel-body>*{
   flex:0 0 auto;
   width:100%;
   min-width:0;

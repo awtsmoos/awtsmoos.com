@@ -4,36 +4,43 @@
  * The Awtsmoos is beyond narrow and wide, yet every finite search must fit the hand that opens its light;
  * Awtsmoos.com lets command suggestions collapse cleanly on phones, short screens, and reduced-motion sight.
  */
-@media (max-width: 38.75rem) {
-	.g-search-suggestions {
+@media (max-width: 38.75rem) { .g-search-suggestions {
 		inline-size: calc(100vw - 1rem);
 		max-inline-size: calc(100vw - 1rem);
 		max-block-size: calc(100dvh - 5.8rem - env(safe-area-inset-bottom));
 		gap: .55rem;
 		padding: .6rem;
 		border-radius: 1rem;
-	}
-
-	.g-search-route-results {
+	} }
+@media (max-width: 38.75rem) { .g-search-route-results {
 		grid-template-columns: minmax(0, 1fr);
-	}
-
-	.g-search-route-results a,
-	.g-search-torah-link {
+	} }
+@media (max-width: 38.75rem) { .g-search-route-results a, .g-search-torah-link {
 		min-block-size: 3.75rem;
 		padding-block: .78rem;
-	}
-}
-
-@media (max-height: 38rem) {
-	.g-search-suggestions {
+	} }
+@media (max-height: 38rem) { .g-search-suggestions {
 		max-block-size: calc(100dvh - 5rem - env(safe-area-inset-bottom));
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.g-search-route-results a,
-	.g-search-torah-link {
+	} }
+@media (prefers-reduced-motion: reduce) { .g-search-route-results a, .g-search-torah-link {
 		transition: none;
-	}
+	} }
+/* @tunnel-registry-merge: consolidated duplicate selectors W4 2026-10-08 */
+/* @tunnel-registry-merge: consolidated from geelooy/style/geelooy-app/header/search/suggestions/results.css W4 2026-10-08 */
+.g-search-route-results a {
+	position: relative;
+	display: grid;
+	grid-template-columns: 2.3rem minmax(0, 1fr);
+	align-items: center;
+	gap: .65rem;
+	min-inline-size: 0;
+	min-block-size: 3.7rem;
+	padding-block: .72rem;
+	padding-inline: .72rem 2.2rem;
+	border: 1px solid #1b3148;
+	border-radius: .9rem;
+	background: #0b1830;
+	color: var(--g-text);
+	text-decoration: none;
+	transition: transform 160ms var(--g-ease), border-color 160ms var(--g-ease), background-color 160ms var(--g-ease), box-shadow 160ms var(--g-ease);
 }

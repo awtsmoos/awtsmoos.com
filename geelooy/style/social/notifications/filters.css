@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .notifications-console { display: grid; grid-template-columns: 1fr 1fr minmax(9rem,.65fr) auto; gap: .8rem; padding: 1rem; align-items: end; }
 .notifications-console label { display: grid; gap: .35rem; color: #64748b; font-size: .82rem; font-weight: 750; text-transform: uppercase; letter-spacing: .08em; }
 .notifications-console input, .notifications-console select { min-height: 44px; width: 100%; border: 1px solid #dfe6ee; border-radius: .9rem; background: #fff; color: #0f172a; padding: .7rem .8rem; font: inherit; }

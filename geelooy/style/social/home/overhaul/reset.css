@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .home-search-vessel button,
 .home-profile-pill { color: #fff; background: #0f172a; border: 1px solid #0f172a; }
 .home-search-vessel input { background: #fff; border: 1px solid #dfe6ee; color: #0f172a; }

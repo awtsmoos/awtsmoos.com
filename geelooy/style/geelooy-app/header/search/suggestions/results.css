@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -10,9 +11,7 @@
 	gap: .45rem;
 	min-inline-size: 0;
 }
-
-.g-search-route-results a,
-.g-search-torah-link {
+.g-search-route-results a, .g-search-torah-link {
 	position: relative;
 	display: grid;
 	grid-template-columns: 2.3rem minmax(0, 1fr);
@@ -29,9 +28,8 @@
 	text-decoration: none;
 	transition: transform 160ms var(--g-ease), border-color 160ms var(--g-ease), background-color 160ms var(--g-ease), box-shadow 160ms var(--g-ease);
 }
-
-.g-search-route-results a::after,
-.g-search-torah-link::after {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.g-search-route-results) :where(a)::after, .g-search-torah-link::after {
 	content: "›";
 	position: absolute;
 	inset-inline-end: .8rem;
@@ -40,9 +38,7 @@
 	color: #7ce2f0;
 	font-size: 1.15rem;
 }
-
-.g-search-result-icon,
-.g-search-torah-link > span:first-child {
+.g-search-result-icon, .g-search-torah-link > span:first-child {
 	display: grid;
 	inline-size: 2.3rem;
 	block-size: 2.3rem;
@@ -51,14 +47,10 @@
 	border-radius: .8rem;
 	background: linear-gradient(145deg, #173b56, #392a78);
 }
-
-.g-search-result-copy,
-.g-search-result-copy strong,
-.g-search-result-copy small {
+.g-search-result-copy, .g-search-result-copy strong, .g-search-result-copy small {
 	display: block;
 	min-inline-size: 0;
 }
-
 .g-search-result-copy small {
 	margin-top: .16rem;
 	color: var(--g-muted);
@@ -66,33 +58,26 @@
 	line-height: 1.35;
 	overflow-wrap: anywhere;
 }
-
-.g-search-route-results a:focus-visible,
-.g-search-torah-link:focus-visible {
+.g-search-route-results a:focus-visible, .g-search-torah-link:focus-visible {
 	border-color: #3cecff;
 	outline: 3px solid #3cecff;
 	outline-offset: 2px;
 	background: #102340;
 	box-shadow: inset .2rem 0 #3cecff;
 }
-
-.g-search-route-results a:active,
-.g-search-torah-link:active {
+.g-search-route-results a:active, .g-search-torah-link:active {
 	transform: translateY(0) scale(.985);
 	border-color: #8df4ff;
 	background: #132a4b;
 }
-
 .g-search-torah-link {
 	border-color: #5b3e72;
 	background: #1a1530;
 }
-
 .g-search-torah-link > span:first-child {
 	background: var(--g-gradient);
 	color: #02050d;
 }
-
 .g-search-empty {
 	grid-column: 1 / -1;
 	margin: 0;
@@ -105,12 +90,9 @@
 	text-align: center;
 	overflow-wrap: anywhere;
 }
-
-@media (hover: hover) and (pointer: fine) {
-	.g-search-route-results a:hover:not(:active),
-	.g-search-torah-link:hover:not(:active) {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (hover: hover) and (pointer: fine) { :where(.g-search-route-results) a:hover:not(:active), :where(.g-search-torah-link:hover:not(:active)) {
 		transform: translateY(-2px);
 		border-color: #3cecff;
 		background: #102340;
-	}
-}
+	} }

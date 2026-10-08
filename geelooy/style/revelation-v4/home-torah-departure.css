@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H
 Boruch Hashem
 Blessed is He
@@ -23,24 +24,20 @@ Awtsmoos.com lets the Beis Midrash appear in the interval without inventing prog
 	backdrop-filter: blur(22px) saturate(1.25);
 	transition: opacity 240ms ease, visibility 240ms ease;
 }
-
 body[data-torah-departing="true"] .torah-departure {
 	opacity: 1;
 	visibility: visible;
 }
-
-body[data-torah-departing="true"] main.home {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-torah-departing="true"]) main.home {
 	filter: blur(2px) saturate(.78) brightness(.56);
 	transform: scale(.982);
 	transition: filter 260ms ease, transform 320ms ease;
 }
-
-.torah-departure__portal,
-.torah-departure__copy {
+.torah-departure__portal, .torah-departure__copy {
 	position: relative;
 	z-index: 2;
 }
-
 .torah-departure__portal {
 	display: grid;
 	place-items: center;
@@ -55,18 +52,14 @@ body[data-torah-departing="true"] main.home {
 	font-size: clamp(3.4rem, 9vw, 6.2rem);
 	text-shadow: 0 0 28px rgba(255, 204, 98, .45);
 }
-
 .torah-departure__copy {
 	margin-top: 1.5rem;
 	text-align: center;
 	text-wrap: balance;
 }
-
-.torah-departure__copy strong,
-.torah-departure__copy small {
+.torah-departure__copy strong, .torah-departure__copy small {
 	display: block;
 }
-
 .torah-departure__copy strong {
 	background: linear-gradient(110deg, #fff, #ffe3a4 58%, #bba2ff);
 	-webkit-background-clip: text;
@@ -77,7 +70,6 @@ body[data-torah-departing="true"] main.home {
 	letter-spacing: -.045em;
 	line-height: 1;
 }
-
 .torah-departure__copy small {
 	margin-top: .7rem;
 	color: #cbd3e5;

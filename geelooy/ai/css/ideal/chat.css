@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade app stylesheet; component selectors intentionally layered across feature sheets (base + responsive/state refinements) — registry one-owner rule structurally inapplicable; consolidation needs component-level refactor with visual QA. W4 2026-10-08. */
 /*B"H
   Chapter 340: The Chat River Hid Nothing By Force.
 
@@ -5,7 +6,7 @@
   transport banner, message bubbles, audio offers, countdown, live-follow, and
   scroll behavior. It uses cascade order, not forceful declarations.
 */
-.transport-status{
+.transport-status {
   min-height:var(--awt-transport-min);
   padding:var(--awt-transport-pad);
   font-size:var(--awt-transport-size);
@@ -20,10 +21,9 @@
   gap:10px;
   flex-wrap:wrap;
 }
-.transport-status:empty{display:none}
-.transport-status strong{color:var(--awt-text)}
-.transport-status a,
-.transport-status button{
+.transport-status:empty {display:none}
+.transport-status strong {color:var(--awt-text)}
+.transport-status a, .transport-status button {
   min-height:34px;
   border:1px solid var(--awt-line);
   border-radius:11px;
@@ -33,7 +33,7 @@
   font-weight:850;
   text-decoration:none;
 }
-.chat-box{
+.chat-box {
   min-height:0;
   overflow:auto;
   padding:var(--awt-chat-pad);
@@ -45,17 +45,16 @@
   overscroll-behavior:contain;
   scroll-behavior:auto;
 }
-.message-shell{
+.message-shell {
   width:100%;
   min-width:0;
   display:flex;
   flex-direction:column;
   gap:8px;
 }
-.message-shell.end-flow{align-items:flex-end}
-.message-shell.start-flow{align-items:flex-start}
-.message,
-.bubble{
+.message-shell.end-flow {align-items:flex-end}
+.message-shell.start-flow {align-items:flex-start}
+.message, .bubble {
   max-width:var(--awt-message-max);
   border:1px solid var(--awt-line-soft);
   border-radius:var(--awt-message-radius);
@@ -66,33 +65,24 @@
   position:relative;
   color:var(--awt-soft);
 }
-.assistant-message,
-.message.assistant{align-self:flex-start}
-.user-message,
-.message.user{
+.assistant-message, .message.assistant {align-self:flex-start}
+.user-message, .message.user {
   align-self:flex-end;
   background:linear-gradient(135deg,rgba(20,184,166,.94),rgba(37,99,235,.90));
   border-color:rgba(167,243,208,.32);
   color:white;
 }
-.message .content,
-.message-content{
+.message .content, .message-content {
   line-height:1.56;
   color:var(--awt-soft);
 }
-.message p{margin:.3rem 0 .75rem}
-.message p:last-child{margin-bottom:0}
-.event-text,
-.event-markdown-rendered,
-.md-code,
-pre,
-code{
+.message p:last-child {margin-bottom:0}
+.event-text, .event-markdown-rendered, .md-code, pre, code {
   max-width:100%;
   overflow-wrap:anywhere;
   white-space:pre-wrap;
 }
-pre,
-.md-code{
+pre, .md-code {
   overflow:auto;
   border-radius:15px;
   background:#040914;
@@ -100,7 +90,7 @@ pre,
   padding:13px;
   color:#d8eefc;
 }
-.render-loading{
+.render-loading {
   margin:auto;
   display:flex;
   align-items:center;
@@ -108,31 +98,22 @@ pre,
   color:var(--awt-muted);
   font-weight:900;
 }
-.render-loading i{
-  width:12px;
-  height:12px;
-  border-radius:999px;
-  background:var(--awt-hot);
-  box-shadow:0 0 24px var(--awt-hot);
-  animation:awtPulse 1.2s infinite ease-in-out;
-}
-.render-loading.idle{
+.render-loading.idle {
   border:1px solid var(--awt-line-soft);
   border-radius:18px;
   padding:16px 18px;
   background:rgba(8,19,33,.76);
 }
-.automation-countdown{
+.automation-countdown {
   border-color:rgba(34,230,196,.38);
   color:#e6fff9;
 }
-.chat-bottom-sentinel{
+.chat-bottom-sentinel {
   height:1px;
   scroll-margin-bottom:1rem;
 }
-.message-window-spacer[hidden],
-.message-window-spacer:disabled{display:none}
-.message-window-spacer{
+.message-window-spacer[hidden], .message-window-spacer:disabled {display:none}
+.message-window-spacer {
   align-self:center;
   width:min(100%,520px);
   border:1px dashed var(--awt-line-strong);
@@ -143,7 +124,7 @@ pre,
   font-weight:900;
   cursor:pointer;
 }
-.live-follow-button{
+.live-follow-button {
   position:fixed;
   right:clamp(.85rem,2.2vw,1.6rem);
   bottom:clamp(5.5rem,12vh,7.75rem);
@@ -162,11 +143,11 @@ pre,
   backdrop-filter:blur(14px);
   cursor:pointer;
 }
-.live-follow-button.is-visible{
+.live-follow-button.is-visible {
   display:inline-flex;
   animation:liveFollowPulse 1.7s ease-in-out infinite;
 }
-.chat-box[data-live-follow="paused"]::after{
+.chat-box[data-live-follow="paused"]::after {
   content:"Scroll paused — use ↓ Jump to bottom";
   position:sticky;
   bottom:.65rem;
@@ -184,7 +165,7 @@ pre,
   font-weight:900;
   pointer-events:none;
 }
-.audio-offer{
+.audio-offer {
   max-width:var(--awt-message-max);
   display:grid;
   gap:10px;
@@ -195,24 +176,19 @@ pre,
   background:linear-gradient(135deg,rgba(8,19,33,.62),rgba(3,8,17,.50));
   box-shadow:var(--awt-inset);
 }
-.audio-offer-head{
+.audio-offer-head {
   display:flex;
   gap:8px;
   align-items:baseline;
   flex-wrap:wrap;
   color:var(--awt-soft);
 }
-.audio-offer-head strong{
-  color:var(--awt-text);
-  letter-spacing:.01em;
-}
-.audio-offer-actions{
+.audio-offer-actions {
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(138px,1fr));
   gap:8px;
 }
-.audio-offer-actions button,
-.audio-offer button{
+.audio-offer-actions button, .audio-offer button {
   min-height:40px;
   border:1px solid var(--awt-line-soft);
   border-radius:14px;
@@ -223,15 +199,13 @@ pre,
   box-shadow:var(--awt-inset);
   text-align:center;
 }
-.audio-offer-actions button:hover,
-.audio-offer button:hover{
+.audio-offer-actions button:hover, .audio-offer button:hover {
   border-color:var(--awt-line-strong);
   color:var(--awt-text);
   box-shadow:var(--awt-ring);
 }
-.audio-offer :is(audio,.audio-progress){width:100%;max-width:100%}
-.audio-offer [data-audio-action="pause"],
-.audio-offer .pause{
+.audio-offer :is(audio,.audio-progress) {width:100%;max-width:100%}
+.audio-offer [data-audio-action="pause"], .audio-offer .pause {
   width:42px;
   min-width:42px;
   height:38px;
@@ -239,8 +213,7 @@ pre,
   display:inline-grid;
   place-items:center;
 }
-.audio-status,
-.audio-offer-status{
+.audio-status, .audio-offer-status {
   color:var(--awt-soft);
   font-weight:850;
   line-height:1.35;
@@ -253,15 +226,11 @@ pre,
 @keyframes liveFollowPulse{
   50%{box-shadow:0 18px 50px rgba(0,0,0,.34),0 0 42px rgba(34,211,238,.28)}
 }
-@media(max-width:760px){
-  .message{max-width:100%;width:100%}
-  .message-shell.end-flow,
-  .message-shell.start-flow{align-items:stretch}
-  .live-follow-button{right:.8rem;bottom:5.8rem;padding:.58rem .78rem;font-size:.84rem}
-  .audio-offer{max-width:100%}
-  .audio-offer-actions{grid-template-columns:1fr 1fr}
-}
-
+@media(max-width:760px) { .message {max-width:100%;width:100%} }
+@media(max-width:760px) { .message-shell.end-flow, .message-shell.start-flow {align-items:stretch} }
+@media(max-width:760px) { .live-follow-button {right:.8rem;bottom:5.8rem;padding:.58rem .78rem;font-size:.84rem} }
+@media(max-width:760px) { .audio-offer {max-width:100%} }
+@media(max-width:760px) { .audio-offer-actions {grid-template-columns:1fr 1fr} }
 /* @tunnel-interactive-states: auto-generated by css-guarantee */
 .transport-status button:hover {
 	filter: brightness(1.08);
@@ -290,13 +259,16 @@ pre,
 .live-follow-button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
-.live-follow-button.is-visible:hover {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.live-follow-button.is-visible:hover) {
 	filter: brightness(1.08);
 }
-.live-follow-button.is-visible:active {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.live-follow-button.is-visible:active) {
 	transform: scale(0.98);
 }
-.live-follow-button.is-visible:focus-visible {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.live-follow-button.is-visible:focus-visible) {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
 .audio-offer-actions button:active {

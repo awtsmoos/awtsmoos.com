@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .awt-mobile-swipe { touch-action: pan-y; }
 .awt-mobile-swipe .awt-view-panel { min-height: 18rem; }
 @media (max-width: 760px) {

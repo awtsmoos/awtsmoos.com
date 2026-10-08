@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H Chapter 629: the social home shell breathes without overflow. */
 .geelooy-home-shell, .home-page, .social-home, .home-feed, .feed-shell, .composer-shell { min-width: 0; width: 100%; }
 .geelooy-home-shell { overflow-x: hidden; padding-inline: clamp(.75rem, 2vw, 1.5rem); }

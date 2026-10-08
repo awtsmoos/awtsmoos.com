@@ -1,2 +1,3 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H legend elevation level 5. */
 :root { --legend-elevation-5-bg: rgba(5,7,18,.97); --legend-elevation-5-shadow: 0 2rem 5rem rgba(0,0,0,.46); }

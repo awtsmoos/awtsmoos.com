@@ -1,13 +1,5 @@
-/* B"H — profile repair shell is scoped to profile vessels only. */
-html:has(.geelooy-profile-shell),
-body:has(.geelooy-profile-shell) {
-  background: #020617 !important;
-  color: var(--pr-text) !important;
-  overflow-x: hidden;
-}
-
-.geelooy-profile-shell,
-.profile-page {
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
+.geelooy-profile-shell, .profile-page {
   background: radial-gradient(circle at 20% 0, rgba(139,92,246,.16), transparent 16rem), radial-gradient(circle at 85% 12%, rgba(46,167,255,.14), transparent 15rem), #020617 !important;
   box-sizing: border-box;
   color: var(--pr-text) !important;
@@ -16,16 +8,11 @@ body:has(.geelooy-profile-shell) {
   min-width: 0 !important;
   padding: .85rem .95rem max(9.25rem, env(safe-area-inset-bottom)) !important;
 }
-
-.profile-shell,
-.profile-main-grid,
-.profile-grid {
+.profile-shell, .profile-main-grid, .profile-grid {
   max-width: 100% !important;
   min-width: 0 !important;
 }
-
-.profile-main-grid,
-.profile-grid {
+.profile-main-grid, .profile-grid {
   display: grid !important;
   gap: 1rem !important;
   grid-template-columns: 1fr !important;

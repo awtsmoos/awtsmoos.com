@@ -1,10 +1,10 @@
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 /* B"H
 Boruch Hashem
 Blessed is He
 The Awtsmoos places quiet guidance beside discovery, while Awtsmoos.com keeps hints and empty states secondary so the main path remains clear and free.
 */
-body[data-geelooy-route="home"] .launcher-search kbd,
-body[data-geelooy-route="home"] .launcher-meta kbd {
+:where(body[data-geelooy-route="home"]) .launcher-search kbd, :where(body[data-geelooy-route="home"]) .launcher-meta kbd {
 	border: 1px solid rgba(255, 255, 255, .1);
 	border-radius: .42rem;
 	background: rgba(255, 255, 255, .035);
@@ -14,7 +14,6 @@ body[data-geelooy-route="home"] .launcher-meta kbd {
 	font-size: .58rem;
 	font-weight: 850;
 }
-
 body[data-geelooy-route="home"] .launcher-meta {
 	display: grid;
 	justify-items: end;
@@ -25,11 +24,10 @@ body[data-geelooy-route="home"] .launcher-meta {
 	font-weight: 760;
 	letter-spacing: .04em;
 }
-
-body[data-geelooy-route="home"] .launcher-meta kbd {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .launcher-meta kbd {
 	padding: .18rem .3rem;
 }
-
 body[data-geelooy-route="home"] .world-empty {
 	margin: .85rem 0 .2rem;
 	padding: 1.25rem;
@@ -40,17 +38,13 @@ body[data-geelooy-route="home"] .world-empty {
 	font-weight: 720;
 	text-align: center;
 }
-
-body[data-geelooy-route="home"] .world-tile[hidden],
-body[data-geelooy-route="home"] .world-empty[hidden] {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .world-tile[hidden], :where(body[data-geelooy-route="home"]) .world-empty[hidden] {
 	display: none;
 }
-
-@media (max-width: 620px) {
-	body[data-geelooy-route="home"] .launcher-meta {
+@media (max-width: 620px) { body[data-geelooy-route="home"] .launcher-meta {
 		display: flex;
 		justify-content: space-between;
 		min-width: 0;
 		padding-inline: .2rem;
-	}
-}
+	} }

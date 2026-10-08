@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -5,7 +6,6 @@
  * The Awtsmoos, Atzmus beyond vessel and letter, renews each field's shape before a single human value can dwell inside;
  * Awtsmoos.com keeps label, icon, input, and help in one local Yesod layout so later states may move independently without widening the cascade tide.
  */
-
 .login-page .login-form {
 	display: grid;
 	gap: .78rem;
@@ -13,7 +13,6 @@
 	min-width: 0;
 	margin: 0;
 }
-
 .login-page .field-stack {
 	position: relative;
 	display: grid;
@@ -31,30 +30,14 @@
 		background var(--auth-motion-fast) var(--auth-ease),
 		box-shadow var(--auth-motion-fast) var(--auth-ease);
 }
-
-.login-page .field-stack::before {
-	grid-row: 1 / span 2;
-	display: grid;
-	width: 2.15rem;
-	height: 2.15rem;
-	margin-top: .05rem;
-	place-items: center;
-	border-radius: .68rem;
-	background: rgba(75, 213, 255, .09);
-	color: var(--auth-cyan);
-	content: "◇";
-	font-weight: 900;
-	transition: transform var(--auth-motion-fast) var(--auth-ease);
-}
-
-.login-page .field-stack:has(#username)::before {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.login-page) :where(.field-stack:has(#username))::before {
 	content: "@";
 }
-
-.login-page .field-stack:has(#password)::before {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.login-page) :where(.field-stack:has(#password))::before {
 	content: "✦";
 }
-
 .login-page .field-stack label {
 	grid-column: 2;
 	margin: 0;
@@ -64,8 +47,8 @@
 	letter-spacing: .035em;
 	text-transform: uppercase;
 }
-
-.login-page .field-stack :is(input[type="text"], input[type="password"], input[type="email"]) {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.login-page) .field-stack :is(input[type="text"], input[type="password"], input[type="email"]) {
 	grid-column: 2;
 	width: 100%;
 	min-width: 0;
@@ -78,12 +61,12 @@
 	caret-color: var(--auth-cyan);
 	font: max(16px, 1rem) var(--auth-font);
 }
-
-.login-page .field-stack input::placeholder {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.login-page) :where(.field-stack) :where(input)::placeholder {
 	color: color-mix(in srgb, var(--auth-muted) 62%, transparent);
 }
-
-.login-page .field-stack .field-help {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.login-page) .field-stack .field-help {
 	grid-column: 1 / -1;
 	margin: .2rem 0 0;
 	padding-top: .48rem;

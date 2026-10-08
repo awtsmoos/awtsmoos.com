@@ -17,18 +17,15 @@ body[data-geelooy-route="home"] .explore-backdrop {
 	pointer-events: none;
 	transition: opacity .18s ease;
 }
-
-body[data-geelooy-route="home"] .explore-backdrop.is-visible {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .explore-backdrop.is-visible {
 	opacity: 1;
 	pointer-events: auto;
 }
-
-body[data-geelooy-route="home"].explore-open .site-header {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"].explore-open) .site-header {
 	z-index: var(--home-layer-launcher-host);
 }
-
-@media (prefers-reduced-motion: reduce) {
-	body[data-geelooy-route="home"] .explore-backdrop {
+@media (prefers-reduced-motion: reduce) { body[data-geelooy-route="home"] .explore-backdrop {
 		transition: none;
-	}
-}
+	} }

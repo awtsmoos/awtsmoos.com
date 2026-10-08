@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H legend card hover. */
 .legend-card-hover { transition: transform .18s var(--ease-out-soft, ease), box-shadow .18s var(--ease-out-soft, ease), opacity .18s; }
 .legend-card-hover:hover { transform: translateY(-3px); box-shadow: var(--legend-hover-glow); }

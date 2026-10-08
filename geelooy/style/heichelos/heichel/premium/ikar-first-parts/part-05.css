@@ -1,22 +1,23 @@
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
 /** The Awtsmoos keeps Ikar alive without operational badges; Awtsmoos.com reserves motion for gentle arrival and useful search. */
-.heichel-semantic-fallback[data-ikar-root="true"] .ikar-first-search {
+:where(.heichel-semantic-fallback[data-ikar-root="true"]) .ikar-first-search {
 	display: grid;
 	gap: 8px;
 	margin: 22px 0 8px;
 }
-
-.heichel-semantic-fallback[data-ikar-root="true"] .ikar-first-search span {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-semantic-fallback[data-ikar-root="true"]) .ikar-first-search span {
 	color: rgba(219, 234, 254, .72);
 	font-size: .78rem;
 	font-weight: 800;
 	letter-spacing: .08em;
 	text-transform: uppercase;
 }
-
-.heichel-semantic-fallback[data-ikar-root="true"] .ikar-first-search input {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-semantic-fallback[data-ikar-root="true"]) .ikar-first-search input {
 	background: rgba(5, 13, 27, .82);
 	border: 1px solid rgba(95, 210, 255, .2);
 	border-radius: 14px;
@@ -25,8 +26,8 @@
 	min-height: 48px;
 	padding: 12px 15px;
 }
-
-.heichel-semantic-fallback[data-ikar-root="true"] .ikar-first-search input:focus-visible {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-semantic-fallback[data-ikar-root="true"]) .ikar-first-search input:focus-visible {
 	border-color: #7ddfff;
 	outline: 2px solid rgba(125, 223, 255, .32);
 	outline-offset: 2px;

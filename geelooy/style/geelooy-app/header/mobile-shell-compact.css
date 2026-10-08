@@ -3,16 +3,14 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos lets the mobile crown preserve every doorway while visual competition falls away; Awtsmoos.com keeps brand, search, presence, profile, and menu reachable inside one compact 44-pixel law.
 */
-@media (max-width: 42rem) {
-	.geelooy-app-shell .g-unusual-header {
+@media (max-width: 42rem) { .geelooy-app-shell .g-unusual-header {
 		gap: .3rem;
 		padding: .38rem .42rem;
 		border-radius: 1rem;
 		background: rgba(5, 12, 27, .93);
 		box-shadow: 0 .75rem 2rem rgba(0, 0, 0, .3), inset 0 1px rgba(255, 255, 255, .06);
-	}
-
-	.geelooy-app-shell .g-header-actions {
+	} }
+@media (max-width: 42rem) { .geelooy-app-shell .g-header-actions {
 		flex: 0 0 auto;
 		inline-size: max-content;
 		max-inline-size: 100%;
@@ -20,58 +18,52 @@ The Awtsmoos lets the mobile crown preserve every doorway while visual competiti
 		overflow: hidden;
 		gap: .18rem;
 		flex-wrap: nowrap;
-	}
-
-	.geelooy-app-shell .g-header-action,
-	.geelooy-app-shell .universal-chat-header-launcher,
-	.geelooy-app-shell .g-header-profile .profile-trigger {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (max-width: 42rem) { .geelooy-app-shell .g-header-action, .geelooy-app-shell .universal-chat-header-launcher, :where(.geelooy-app-shell) .g-header-profile .profile-trigger {
 		flex: 0 0 44px;
 		inline-size: 44px;
 		min-inline-size: 44px;
 		max-inline-size: 44px;
 		block-size: 44px;
 		min-block-size: 44px;
-	}
-
-	/* Canonical 44px profile law: the single owner of .g-header-profile width
+	} }
+/* Canonical 44px profile law: the single owner of .g-header-profile width
 	   at narrow horizons. The retired max-width:66rem/30rem width rules in
 	   mobile.css, mobile-compact-actions.css, and mobile-touch-integrity.css
 	   are consolidated here. */
-	.geelooy-app-shell .g-header-profile {
+@media (max-width: 42rem) { .geelooy-app-shell .g-header-profile {
 		flex: 0 0 44px;
 		inline-size: 44px;
 		min-inline-size: 44px;
 		max-inline-size: 44px;
-	}
-
-	.geelooy-app-shell .universal-chat-header-launcher {
+	} }
+@media (max-width: 42rem) { .geelooy-app-shell .universal-chat-header-launcher {
 		overflow: hidden;
 		padding: 0;
 		border-radius: .85rem;
 		font-size: 0;
 		line-height: 0;
 		box-shadow: inset 0 1px rgba(255, 255, 255, .08), 0 0 .9rem rgba(116, 255, 176, .06);
-	}
-
-	.geelooy-app-shell .universal-chat-header-launcher::before {
+	} }
+@media (max-width: 42rem) { .geelooy-app-shell .universal-chat-header-launcher::before {
 		content: "●";
 		color: #8cf5b8;
 		font-size: .76rem;
 		line-height: 1;
 		text-shadow: 0 0 .7rem rgba(116, 255, 176, .42);
-	}
-
-	.geelooy-app-shell .universal-chat-header-launcher.is-offline::before {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (max-width: 42rem) { :where(.geelooy-app-shell) .universal-chat-header-launcher.is-offline::before {
 		color: #8693a7;
 		text-shadow: none;
-	}
-
-	.geelooy-app-shell .g-header-profile .profile-trigger {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (max-width: 42rem) { :where(.geelooy-app-shell) .g-header-profile .profile-trigger {
 		gap: 0;
 		padding: 0;
-	}
-
-	.geelooy-app-shell .profile-trigger-copy {
+	} }
+@media (max-width: 42rem) { .geelooy-app-shell .profile-trigger-copy {
 		position: absolute;
 		inline-size: 1px;
 		block-size: 1px;
@@ -81,9 +73,7 @@ The Awtsmoos lets the mobile crown preserve every doorway while visual competiti
 		clip: rect(0 0 0 0);
 		clip-path: inset(50%);
 		white-space: nowrap;
-	}
-
-	.geelooy-app-shell .profile-trigger-chevron {
+	} }
+@media (max-width: 42rem) { .geelooy-app-shell .profile-trigger-chevron {
 		display: none;
-	}
-}
+	} }

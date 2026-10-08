@@ -1,33 +1,14 @@
-/* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos gives every Torah doorway one compact sign and one unmistakable focus; Awtsmoos.com keeps ornament subordinate to the learner's path while search remains immediate and luminous.
-*/
-.heichel-semantic-fallback .heichel-semantic-discovery a::before {
-	align-items: center;
-	background: linear-gradient(145deg, rgba(77, 233, 255, .13), rgba(150, 100, 255, .11));
-	border: 1px solid rgba(100, 218, 255, .2);
-	border-radius: .62rem;
-	color: #7eeeff;
-	content: counter(ikar-door, decimal-leading-zero);
-	display: inline-flex;
-	font-size: .64rem;
-	font-weight: 900;
-	height: 1.9rem;
-	justify-content: center;
-	letter-spacing: .07em;
-	width: 1.9rem;
-}
-
-.heichel-semantic-fallback .heichel-semantic-discovery a::after {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
+:where(.heichel-semantic-fallback) :where(.heichel-semantic-discovery) :where(a)::after {
 	color: #7892af;
 	content: "↗";
 	font-size: .95rem;
 	font-weight: 800;
 	transition: color .16s ease, transform .16s ease;
 }
-
-.heichel-semantic-fallback .heichel-semantic-discovery a:hover {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-semantic-fallback) .heichel-semantic-discovery a:hover {
 	background:
 		linear-gradient(125deg, rgba(77, 233, 255, .1), transparent 42%),
 		linear-gradient(145deg, rgba(11, 29, 54, .96), rgba(5, 12, 28, .98));
@@ -35,25 +16,23 @@ The Awtsmoos gives every Torah doorway one compact sign and one unmistakable foc
 	box-shadow: 0 .65rem 1.7rem rgba(0, 0, 0, .22), 0 0 1.1rem rgba(77, 233, 255, .06);
 	transform: translateY(-1px);
 }
-
-.heichel-semantic-fallback .heichel-semantic-discovery a:focus-visible {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-semantic-fallback) .heichel-semantic-discovery a:focus-visible {
 	border-color: #67e8f9;
 	box-shadow: 0 0 0 .2rem rgba(103, 232, 249, .15), 0 .65rem 1.7rem rgba(0, 0, 0, .22);
 	outline: 2px solid #67e8f9;
 	outline-offset: 2px;
 }
-
-.heichel-semantic-fallback .heichel-semantic-discovery a:hover::after,
-.heichel-semantic-fallback .heichel-semantic-discovery a:focus-visible::after {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-semantic-fallback) :where(.heichel-semantic-discovery) :where(a:hover)::after, :where(.heichel-semantic-fallback) :where(.heichel-semantic-discovery) :where(a:focus-visible)::after {
 	color: #8ef2fa;
 	transform: translate(.08rem, -.08rem);
 }
-
-.heichel-semantic-fallback .heichel-semantic-discovery a:active {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-semantic-fallback) .heichel-semantic-discovery a:active {
 	transform: translateY(0) scale(.995);
 }
-
-@keyframes ikar-door-rise {
+@keyframes ikar-door-rise{
 	from {
 		opacity: 0;
 		transform: translateY(.9rem);
@@ -63,21 +42,25 @@ The Awtsmoos gives every Torah doorway one compact sign and one unmistakable foc
 		transform: none;
 	}
 }
-
-@media (prefers-reduced-motion: no-preference) {
-	.heichel-semantic-fallback .heichel-semantic-discovery li {
+@media (prefers-reduced-motion: no-preference) { .heichel-semantic-fallback .heichel-semantic-discovery li {
 		animation: ikar-door-rise .55s cubic-bezier(.22, .8, .3, 1) backwards;
-	}
-	.heichel-semantic-fallback .heichel-semantic-discovery li:nth-child(2) { animation-delay: .06s; }
-	.heichel-semantic-fallback .heichel-semantic-discovery li:nth-child(3) { animation-delay: .12s; }
-	.heichel-semantic-fallback .heichel-semantic-discovery li:nth-child(4) { animation-delay: .18s; }
-	.heichel-semantic-fallback .heichel-semantic-discovery li:nth-child(5) { animation-delay: .24s; }
-	.heichel-semantic-fallback .heichel-semantic-discovery li:nth-child(6) { animation-delay: .3s; }
-	.heichel-semantic-fallback .heichel-semantic-discovery li:nth-child(7) { animation-delay: .36s; }
-	.heichel-semantic-fallback .heichel-semantic-discovery li:nth-child(8) { animation-delay: .42s; }
-	.heichel-semantic-fallback .heichel-semantic-discovery li:nth-child(9) { animation-delay: .48s; }
-}
-
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: no-preference) { :where(.heichel-semantic-fallback) .heichel-semantic-discovery li:nth-child(2) { animation-delay: .06s; } }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: no-preference) { :where(.heichel-semantic-fallback) .heichel-semantic-discovery li:nth-child(3) { animation-delay: .12s; } }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: no-preference) { :where(.heichel-semantic-fallback) .heichel-semantic-discovery li:nth-child(4) { animation-delay: .18s; } }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: no-preference) { :where(.heichel-semantic-fallback) .heichel-semantic-discovery li:nth-child(5) { animation-delay: .24s; } }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: no-preference) { :where(.heichel-semantic-fallback) .heichel-semantic-discovery li:nth-child(6) { animation-delay: .3s; } }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: no-preference) { :where(.heichel-semantic-fallback) .heichel-semantic-discovery li:nth-child(7) { animation-delay: .36s; } }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: no-preference) { :where(.heichel-semantic-fallback) .heichel-semantic-discovery li:nth-child(8) { animation-delay: .42s; } }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: no-preference) { :where(.heichel-semantic-fallback) .heichel-semantic-discovery li:nth-child(9) { animation-delay: .48s; } }
 .ikar-first-search {
 	backdrop-filter: blur(16px);
 	background: rgba(6, 16, 35, .72);
@@ -88,11 +71,9 @@ The Awtsmoos gives every Torah doorway one compact sign and one unmistakable foc
 	margin: 1.15rem 0 .7rem;
 	padding: .72rem;
 }
-
 .ikar-first-search + .heichel-semantic-discovery {
 	margin-top: .82rem;
 }
-
 .ikar-first-search span {
 	color: #c5d8ed;
 	font-size: .74rem;
@@ -100,7 +81,6 @@ The Awtsmoos gives every Torah doorway one compact sign and one unmistakable foc
 	letter-spacing: .035em;
 	padding-inline: .12rem;
 }
-
 .ikar-first-search input {
 	background: rgba(1, 6, 17, .8);
 	border: 1px solid rgba(100, 218, 255, .22);
@@ -111,11 +91,10 @@ The Awtsmoos gives every Torah doorway one compact sign and one unmistakable foc
 	padding: .68rem .84rem;
 	width: 100%;
 }
-
-.ikar-first-search input::placeholder {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.ikar-first-search) :where(input)::placeholder {
 	color: #7186a0;
 }
-
 .ikar-first-search input:focus-visible {
 	border-color: #5be7ff;
 	box-shadow: 0 0 0 .22rem rgba(77, 233, 255, .1), 0 0 1.2rem rgba(77, 233, 255, .08);

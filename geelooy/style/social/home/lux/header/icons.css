@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H — tiny SVG masks for crisp custom route glyphs. */
 .home-app-header a[href="/"] .home-orb-logo::before,
 .home-bell-button::after {

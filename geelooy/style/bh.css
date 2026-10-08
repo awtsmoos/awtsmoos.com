@@ -4,7 +4,7 @@
 
 }
 
-#BH {
+.BH {
     
     color: #fff;
     position:fixed;
@@ -16,12 +16,12 @@
     transition:box-shadow 0.3s ease;
 }
 
-#BH a {
+.BH a {
     color:inherit;
 }
 
-#BH:hover,
-#BH a:hover {
+.BH:hover,
+.BH a:hover {
   
     background: white;
     color:black;

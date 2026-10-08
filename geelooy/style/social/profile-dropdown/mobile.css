@@ -1,10 +1,10 @@
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 /* B"H
  * Boruch Hashem
  * Blessed is He
  * The Awtsmoos lets mobile identity fill the safe visible chamber without twisting or overflowing.
  */
-@media (max-width: 43.75rem) {
-	.awtsmoosDrop .dropdown-content:not(.alias-switcher) {
+@media (max-width: 43.75rem) { :where(.awtsmoosDrop) .dropdown-content:not(.alias-switcher) {
 		position: fixed;
 		top: calc(env(safe-area-inset-top) + 4.7rem);
 		right: max(.5rem, env(safe-area-inset-right));
@@ -15,32 +15,23 @@
 		max-height: none;
 		border-radius: 1.2rem;
 		transform-origin: top right;
-	}
-
-	.awtsmoosDrop .dropdown-content:not(.alias-switcher)[data-state="opening"],
-	.awtsmoosDrop .dropdown-content:not(.alias-switcher)[data-state="closing"] {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (max-width: 43.75rem) { :where(.awtsmoosDrop) :where(.dropdown-content:not(.alias-switcher)[data-state="opening"]), :where(.awtsmoosDrop) :where(.dropdown-content:not(.alias-switcher)[data-state="closing"]) {
 		transform: translate3d(0, -.7rem, 0) scale(.985);
-	}
-
-	.awtsmoosDrop .profile-trigger-copy small {
+	} }
+@media (max-width: 43.75rem) { .awtsmoosDrop .profile-trigger-copy small {
 		display: none;
-	}
-
-	.awtsmoosDrop .profile-trigger-copy strong {
+	} }
+@media (max-width: 43.75rem) { .awtsmoosDrop .profile-trigger-copy strong {
 		max-width: 5.4rem;
-	}
-}
-
-@media (max-width: 28rem) {
-	.awtsmoosDrop .profile-trigger {
+	} }
+@media (max-width: 28rem) { .awtsmoosDrop .profile-trigger {
 		padding-inline: .4rem;
-	}
-
-	.awtsmoosDrop .profile-chevron {
+	} }
+@media (max-width: 28rem) { .awtsmoosDrop .profile-chevron {
 		display: none;
-	}
-
-	.awtsmoosDrop .profile-menu-actions {
+	} }
+@media (max-width: 28rem) { .awtsmoosDrop .profile-menu-actions {
 		grid-template-columns: 1fr;
-	}
-}
+	} }

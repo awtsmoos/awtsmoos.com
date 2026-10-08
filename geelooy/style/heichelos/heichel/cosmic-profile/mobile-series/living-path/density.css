@@ -1,3 +1,4 @@
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -6,35 +7,31 @@
  * The Awtsmoos is not altered by spacing; Awtsmoos.com changes gaps and metadata
  * prominence while preserving every touch target, focus ring, and readable title.
  */
-
-:root[data-living-density="compact"] .living-path-browser {
+:where(:root[data-living-density="compact"]) .living-path-browser {
 	gap: .55rem;
 }
-
-:root[data-living-density="compact"] .dynamic-grid,
-:root[data-living-density="compact"] .living-timeline-list,
-:root[data-living-density="compact"] .living-tree,
-:root[data-living-density="compact"] .living-groupings {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(:root[data-living-density="compact"]) .dynamic-grid, :where(:root[data-living-density="compact"]) .living-timeline-list, :where(:root[data-living-density="compact"]) .living-tree, :where(:root[data-living-density="compact"]) .living-groupings {
 	gap: .48rem;
 }
-
-:root[data-living-density="compact"] .nav-card {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(:root[data-living-density="compact"]) .nav-card {
 	grid-template-columns: 2.45rem minmax(0, 1fr) auto;
 	min-block-size: 4.75rem;
 	padding: .58rem;
 }
-
-:root[data-living-density="compact"] .nav-card-media {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(:root[data-living-density="compact"]) .nav-card-media {
 	inline-size: 2.45rem;
 	block-size: 2.45rem;
 }
-
-:root[data-living-density="compact"] .nav-card-description {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(:root[data-living-density="compact"]) .nav-card-description {
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 1;
 }
-
-:root[data-living-density="compact"] .nav-card-meta {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(:root[data-living-density="compact"]) .nav-card-meta {
 	margin-block-start: .24rem;
 }

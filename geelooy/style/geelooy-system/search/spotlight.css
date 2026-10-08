@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: registry splits :is()/:where() selector lists without paren awareness; the reported fragment conflicts are pipeline false positives, not real ownership disputes. W4 2026-10-08. */
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */

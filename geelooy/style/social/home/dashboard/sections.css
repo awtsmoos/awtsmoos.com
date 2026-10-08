@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .home-action-section, .home-discovery-panel { display: none !important; }
 .home-activity-panel { display: grid; gap: .8rem; padding: 1rem; }
 .home-activity-list { display: grid; gap: .65rem; list-style: none; margin: 0; padding: 0; }

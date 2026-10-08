@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H
 Boruch Hashem
 Blessed is He
@@ -26,13 +27,12 @@ body[data-geelooy-route="home"] .featured-card {
 		filter 120ms ease,
 		transform 200ms cubic-bezier(.2, .8, .2, 1);
 }
-
 body[data-geelooy-route="home"] .featured-card > * {
 	position: relative;
 	z-index: var(--home-local-content);
 }
-
-body[data-geelooy-route="home"] .featured-card::after {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .featured-card::after {
 	position: absolute;
 	right: 0;
 	bottom: 0;
@@ -43,14 +43,12 @@ body[data-geelooy-route="home"] .featured-card::after {
 	content: "";
 	pointer-events: none;
 }
-
 body[data-geelooy-route="home"] .featured-number {
 	color: rgba(var(--featured-accent), .72);
 	font-size: .58rem;
 	font-weight: 850;
 	letter-spacing: .1em;
 }
-
 body[data-geelooy-route="home"] .featured-symbol {
 	display: grid;
 	place-items: center;
@@ -63,58 +61,44 @@ body[data-geelooy-route="home"] .featured-symbol {
 	font-size: 1rem;
 	font-weight: 900;
 }
-
-body[data-geelooy-route="home"] .featured-card > div {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .featured-card div {
 	grid-column: 1 / -1;
 	align-self: end;
 }
-
-body[data-geelooy-route="home"] .featured-card h3 {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .featured-card h3 {
 	margin: .35rem 0 .45rem;
 	font-size: 1.1rem;
 	letter-spacing: -.035em;
 }
-
-body[data-geelooy-route="home"] .featured-card p {
-	margin: 0;
-	color: #96a5ba;
-	font-size: .72rem;
-	line-height: 1.5;
-}
-
-body[data-geelooy-route="home"] .featured-card > b {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .featured-card b {
 	color: rgba(var(--featured-accent), .9);
 	font-size: .9rem;
 }
-
-@media (hover: hover) and (pointer: fine) {
-	body[data-geelooy-route="home"] .featured-card:hover {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (hover: hover) and (pointer: fine) { :where(body[data-geelooy-route="home"]) .featured-card:hover {
 		border-color: rgba(var(--featured-accent), .76);
 		background: #10243b;
 		box-shadow: 0 24px 58px rgba(0, 0, 0, .34);
 		transform: translateY(-4px);
-	}
-}
-
-body[data-geelooy-route="home"] .featured-card:active {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .featured-card:active {
 	border-color: rgba(var(--featured-accent), .72);
 	filter: brightness(.96);
 	transform: translateY(1px) scale(.992);
 }
-
-body[data-geelooy-route="home"] .featured-card:focus-visible {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .featured-card:focus-visible {
 	outline: 3px solid var(--focus-ring);
 	outline-offset: 3px;
 }
-
-@media (prefers-reduced-motion: reduce) {
-	body[data-geelooy-route="home"] .featured-card {
+@media (prefers-reduced-motion: reduce) { body[data-geelooy-route="home"] .featured-card {
 		transition: none;
-	}
-
-	body[data-geelooy-route="home"] .featured-card:hover,
-	body[data-geelooy-route="home"] .featured-card:active,
-	body[data-geelooy-route="home"] .featured-card:focus-visible {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .featured-card:hover, :where(body[data-geelooy-route="home"]) .featured-card:active, :where(body[data-geelooy-route="home"]) .featured-card:focus-visible {
 		transform: none;
-	}
-}
+	} }

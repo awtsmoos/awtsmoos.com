@@ -12,7 +12,6 @@ body[data-geelooy-route="home"] .brand {
 	min-height: 44px;
 	width: max-content;
 }
-
 body[data-geelooy-route="home"] .brand-mark {
 	display: grid;
 	place-items: center;
@@ -27,54 +26,46 @@ body[data-geelooy-route="home"] .brand-mark {
 	font-weight: 850;
 	transition: border-color .16s ease, background .16s ease, box-shadow .16s ease, transform .16s ease;
 }
-
 body[data-geelooy-route="home"] .brand-copy {
 	display: grid;
 	gap: .04rem;
 	min-width: 0;
 }
-
-body[data-geelooy-route="home"] .brand-copy strong {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .brand-copy strong {
 	font-size: .91rem;
 	letter-spacing: .01em;
 }
-
-body[data-geelooy-route="home"] .brand-copy small {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .brand-copy small {
 	color: #718099;
 	font-size: .58rem;
 	font-weight: 700;
 	letter-spacing: .09em;
 	text-transform: uppercase;
 }
-
-body[data-geelooy-route="home"] .brand:hover .brand-mark,
-body[data-geelooy-route="home"] .brand:focus-visible .brand-mark {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) :where(.brand:hover) .brand-mark, :where(body[data-geelooy-route="home"]) :where(.brand:focus-visible) .brand-mark {
 	border-color: rgba(157, 224, 255, .58);
 	transform: translateY(-1px);
 }
-
-body[data-geelooy-route="home"] .brand:active .brand-mark {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) :where(.brand:active) .brand-mark {
 	transform: translateY(1px) scale(.96);
 }
-
-body[data-geelooy-route="home"] .brand:focus-visible {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .brand:focus-visible {
 	outline: 3px solid var(--focus-ring);
 	outline-offset: 3px;
 }
-
-@media (max-width: 430px) {
-	body[data-geelooy-route="home"] .brand-copy small {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (max-width: 430px) { :where(body[data-geelooy-route="home"]) .brand-copy small {
 		display: none;
-	}
-
-	body[data-geelooy-route="home"] .brand-mark {
+	} }
+@media (max-width: 430px) { body[data-geelooy-route="home"] .brand-mark {
 		width: 2.15rem;
 		height: 2.15rem;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	body[data-geelooy-route="home"] .brand-mark {
+	} }
+@media (prefers-reduced-motion: reduce) { body[data-geelooy-route="home"] .brand-mark {
 		transition: none;
-	}
-}
+	} }

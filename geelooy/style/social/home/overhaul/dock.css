@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .home-command-dock { background: rgba(255,255,255,.98); border: 1px solid #dfe6ee; box-shadow: 0 8px 26px rgba(15,23,42,.12); }
 .home-command-dock a { color: #64748b; text-decoration: none; }
 .home-command-dock a[aria-current="page"], .home-command-dock .is-create { color: #fff; background: #0f172a; }

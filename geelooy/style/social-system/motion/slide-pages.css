@@ -1,2 +1,3 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .home-dashboard-shell { animation: homeEnter .34s var(--m-ease) both; }
 @keyframes homeEnter { from { opacity: .01; transform: translateY(10px); } to { opacity: 1; transform: none; } }

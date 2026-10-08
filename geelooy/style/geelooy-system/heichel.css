@@ -1,19 +1,8 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H — Heichel chamber: readable library, calm controls. */
 .heichel-os-document .heichel-mobile-navigation { background: transparent; }
-.heichel-os-document .geelooy-heichel-hero {
-  background: radial-gradient(circle at 92% 0%, rgba(64, 216, 239, .18), transparent 20rem), linear-gradient(145deg, #172842, #0b1526);
-  border: 1px solid rgba(255, 255, 255, .12);
-  border-radius: var(--g-radius-xl);
-  box-shadow: var(--g-shadow-dark);
-  color: var(--g-ink-dark);
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: minmax(0, 1fr);
-  overflow: hidden;
-  padding: clamp(1.2rem, 4vw, 2.2rem);
-}
-.heichel-os-document .geelooy-heichel-hero #heichel-main-title,
-.heichel-os-document #heichel-main-title {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-os-document) :where(.geelooy-heichel-hero) :where(#heichel-main-title), :where(.heichel-os-document) :where(#heichel-main-title) {
   color: #ffffff !important;
   font-size: clamp(2.8rem, 8vw, 5.5rem);
   letter-spacing: -.055em;

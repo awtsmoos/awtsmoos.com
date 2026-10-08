@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -6,7 +7,6 @@
  * unrelated pages as its sky. Awtsmoos.com keeps drawer, dialog, toast, timing,
  * and reduced-motion law inside the revealed Geelooy crown, where local vessels stay free.
  */
-
 html.geelooy-route-ready {
 	--g-z-drawer: 140;
 	--g-z-modal: var(--g-z-dialog, 160);
@@ -20,21 +20,16 @@ html.geelooy-route-ready {
 	--g-panel-radius: 1.15rem;
 	--g-control-radius: .85rem;
 }
-
-@media (prefers-reduced-motion: reduce) {
-	html.geelooy-route-ready {
+@media (prefers-reduced-motion: reduce) { html.geelooy-route-ready {
 		--g-motion-fast: 1ms;
 		--g-motion-standard: 1ms;
 		--g-motion-slow: 1ms;
 		scroll-behavior: auto;
-	}
-
-	html.geelooy-route-ready body.geelooy-app-shell *,
-	html.geelooy-route-ready body.geelooy-app-shell *::before,
-	html.geelooy-route-ready body.geelooy-app-shell *::after {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: reduce) { :where(html.geelooy-route-ready) body.geelooy-app-shell *, :where(html.geelooy-route-ready) :where(body.geelooy-app-shell) *::before, :where(html.geelooy-route-ready) :where(body.geelooy-app-shell) *::after {
 		scroll-behavior: auto !important;
 		transition-duration: 1ms !important;
 		animation-duration: 1ms !important;
 		animation-iteration-count: 1 !important;
-	}
-}
+	} }

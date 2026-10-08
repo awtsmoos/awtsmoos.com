@@ -1,43 +1,33 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H
 Boruch Hashem
 Blessed is He
 The Awtsmoos lets the four gateways re-form across every screen, so Awtsmoos.com remains spacious without becoming distant.
 */
-@media (max-width: 900px) {
-	body[data-geelooy-route="home"] .featured-grid {
+@media (max-width: 900px) { body[data-geelooy-route="home"] .featured-grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-}
-
-@media (max-width: 680px) {
-	body[data-geelooy-route="home"] .featured-worlds {
+	} }
+@media (max-width: 680px) { body[data-geelooy-route="home"] .featured-worlds {
 		padding-top: 1rem;
-	}
-
-	body[data-geelooy-route="home"] .featured-heading {
+	} }
+@media (max-width: 680px) { body[data-geelooy-route="home"] .featured-heading {
 		align-items: center;
-	}
-
-	body[data-geelooy-route="home"] .featured-heading > a {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .featured-heading a {
 		display: none;
-	}
-
-	body[data-geelooy-route="home"] .featured-card {
+	} }
+@media (max-width: 680px) { body[data-geelooy-route="home"] .featured-card {
 		min-height: 190px;
 		padding: .85rem;
-	}
-}
-
-@media (max-width: 430px) {
-	body[data-geelooy-route="home"] .featured-grid {
+	} }
+@media (max-width: 430px) { body[data-geelooy-route="home"] .featured-grid {
 		gap: .5rem;
-	}
-
-	body[data-geelooy-route="home"] .featured-card {
+	} }
+@media (max-width: 430px) { body[data-geelooy-route="home"] .featured-card {
 		min-height: 174px;
-	}
-
-	body[data-geelooy-route="home"] .featured-card p {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (max-width: 430px) { :where(body[data-geelooy-route="home"]) .featured-card p {
 		font-size: .66rem;
-	}
-}
+	} }

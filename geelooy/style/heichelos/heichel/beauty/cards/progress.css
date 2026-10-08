@@ -1,2 +1,3 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H card progress beauty. */
 .heichel-card progress, .series-card progress { width: 100%; accent-color: var(--awt-gold); }

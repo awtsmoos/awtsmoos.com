@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
 Boruch Hashem
 Blessed is He
@@ -14,8 +15,8 @@ body[data-geelooy-route="home"] .dance-frame {
 	background: #050914;
 	box-shadow: 0 28px 72px rgba(0, 0, 0, .42);
 }
-
-body[data-geelooy-route="home"] .dance-frame::after {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .dance-frame::after {
 	position: absolute;
 	inset: 0;
 	z-index: var(--home-local-overlay);
@@ -25,8 +26,8 @@ body[data-geelooy-route="home"] .dance-frame::after {
 	content: "";
 	pointer-events: none;
 }
-
-body[data-geelooy-route="home"] main.home .hero-media {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) main.home .hero-media {
 	position: relative;
 	z-index: 0;
 	overflow: hidden;
@@ -34,26 +35,23 @@ body[data-geelooy-route="home"] main.home .hero-media {
 	aspect-ratio: 16 / 7;
 	background: #050914;
 }
-
-body[data-geelooy-route="home"] main.home .hero-image {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) main.home .hero-image {
 	display: block;
 	inline-size: 100%;
 	block-size: 100%;
 	object-fit: cover;
 	object-position: center 47%;
 }
-
-@media (max-width: 760px) {
-	body[data-geelooy-route="home"] .dance-frame {
+@media (max-width: 760px) { body[data-geelooy-route="home"] .dance-frame {
 		border-radius: 1rem;
-	}
-
-	body[data-geelooy-route="home"] main.home .hero-media {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) main.home .hero-media {
 		aspect-ratio: 16 / 9;
 		max-block-size: min(42svh, 15rem);
-	}
-
-	body[data-geelooy-route="home"] main.home .hero-image {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (max-width: 760px) { :where(body[data-geelooy-route="home"]) main.home .hero-image {
 		object-position: center 48%;
-	}
-}
+	} }

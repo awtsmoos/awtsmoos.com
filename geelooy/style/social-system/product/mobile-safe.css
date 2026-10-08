@@ -1,1 +1,2 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 @media (max-width: 760px) { html, body { overflow-x: hidden; } .p-safe-bottom { padding-bottom: max(8rem, env(safe-area-inset-bottom)); } }

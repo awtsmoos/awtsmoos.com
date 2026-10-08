@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 .series-list { display:grid; gap:.8rem; }
 .series-list > * { background:#0d1626; border:1px solid rgba(91,216,232,.18); border-radius:1rem; color:#f8fafc; padding:.9rem; }
 .series-list > *:hover { border-color:rgba(91,216,232,.34); }

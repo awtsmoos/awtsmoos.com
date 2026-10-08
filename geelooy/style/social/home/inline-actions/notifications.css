@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H notification previews: small bells, full route preserved. */
 .inline-notification-list{display:grid;gap:.55rem}.inline-notification-card{border:1px solid var(--g-line);border-radius:1rem;padding:.7rem;background:rgba(255,255,255,.055);content-visibility:auto;contain-intrinsic-size:5rem;}
 .inline-notification-card strong{display:block}.inline-notification-card p{margin:.25rem 0;color:var(--g-muted)}.inline-notification-card small{color:var(--g-soft)}

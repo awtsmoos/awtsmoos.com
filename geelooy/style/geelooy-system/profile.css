@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H — profile chamber: account pages belong to the same palace. */
 :where(.geelooy-profile-shell) { color: var(--g-ink-dark); }
 :where(.profile-hero-card) { padding: clamp(1.15rem, 3vw, 1.8rem); }

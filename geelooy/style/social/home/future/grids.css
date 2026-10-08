@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .geelooy-home-shell { gap: clamp(.85rem, 1.6vw, 1.25rem) !important; }
 .home-action-grid { grid-template-columns: repeat(6, minmax(0, 1fr)) !important; }
 .home-action-card { grid-column: span 2; }

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 .profile-activity-list { display: grid; gap: .65rem; }
 .profile-activity-item { background: #fff; border: 1px solid #dfe6ee; border-radius: 1rem; padding: .85rem; color: #0f172a; box-shadow: 0 2px 10px rgba(15,23,42,.06); }
 .profile-activity-item small { color: #64748b; }

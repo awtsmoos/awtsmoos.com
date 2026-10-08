@@ -1,3 +1,5 @@
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -8,31 +10,23 @@
  * suppresses generic social/profile machinery only inside Ikar so the canonical
  * library, search, and teachings become the complete visible workspace.
  */
-body.heichel-os-document[data-heichel-id="ikar"] .heichel-os-world-panel,
-body.heichel-os-document[data-heichel-id="ikar"] .heichel-profile-tabs,
-body.heichel-os-document[data-heichel-id="ikar"] .geelooy-bottom-nav {
+:where(body.heichel-os-document[data-heichel-id="ikar"]) .heichel-os-world-panel, :where(body.heichel-os-document[data-heichel-id="ikar"]) .heichel-profile-tabs, :where(body.heichel-os-document[data-heichel-id="ikar"]) .geelooy-bottom-nav {
 	display: none !important;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] .geelooy-main-stage,
-body.heichel-os-document[data-heichel-id="ikar"] .heichel-nav-panel,
-body.heichel-os-document[data-heichel-id="ikar"] .grid-realms {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) .geelooy-main-stage, :where(body.heichel-os-document[data-heichel-id="ikar"]) .heichel-nav-panel, :where(body.heichel-os-document[data-heichel-id="ikar"]) .grid-realms {
 	grid-template-columns: minmax(0, 1fr) !important;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] .grid-realms,
-body.heichel-os-document[data-heichel-id="ikar"] .viewport,
-body.heichel-os-document[data-heichel-id="ikar"] .dynamic-grid {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) .grid-realms, :where(body.heichel-os-document[data-heichel-id="ikar"]) .viewport, :where(body.heichel-os-document[data-heichel-id="ikar"]) .dynamic-grid {
 	grid-column: 1 / -1 !important;
 	min-inline-size: 0 !important;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] .living-path-full-path.hidden,
-body.heichel-os-document[data-heichel-id="ikar"] .living-path-sticky.hidden {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) .living-path-full-path.hidden, :where(body.heichel-os-document[data-heichel-id="ikar"]) .living-path-sticky.hidden {
 	display: none !important;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] .heichel-profile-actions,
-body.heichel-os-document[data-heichel-id="ikar"] .heichel-profile-stats {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) .heichel-profile-actions, :where(body.heichel-os-document[data-heichel-id="ikar"]) .heichel-profile-stats {
 	gap: .45rem !important;
 }

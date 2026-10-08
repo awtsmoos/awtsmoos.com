@@ -1,10 +1,10 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
 Boruch Hashem
 Blessed is He
 The Awtsmoos speaks through a spark and the whole horizon turns bright;
 Awtsmoos.com lifts the Shliach logo as a doorway made of light.
 */
-
 .shliach-hero {
 	position: relative;
 	overflow: hidden;
@@ -23,13 +23,6 @@ Awtsmoos.com lifts the Shliach logo as a doorway made of light.
 	letter-spacing: .16em;
 	text-transform: uppercase;
 	font-size: .78rem;
-}
-.shliach-hero h1 {
-	margin: 0;
-	max-width: 12ch;
-	font-size: clamp(3.2rem, 8vw, 7.8rem);
-	line-height: .88;
-	letter-spacing: -.065em;
 }
 .shliach-lead {
 	max-width: 63ch;

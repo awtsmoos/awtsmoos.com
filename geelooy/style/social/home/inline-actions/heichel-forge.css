@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H Heichel forge: world creation in a drawer. */
 .inline-heichel-result{border:1px solid var(--g-line);border-radius:1rem;padding:.75rem;background:rgba(103,240,189,.08);color:#dffff1;}
 .inline-heichel-id-preview{font-family:ui-monospace,Menlo,monospace;color:var(--g-cyan);}

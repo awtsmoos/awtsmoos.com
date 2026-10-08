@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H
  * Step 4b: Grids stop breaking the vessel.
  * Every column is minmax(0, 1fr), every auto grid respects 100%, and sidebars

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .home-command-dock { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: .35rem; margin: .45rem 0 0; padding: .45rem; border: 1px solid #dfe6ee; border-radius: 1.25rem; background: rgba(255,255,255,.98); box-shadow: 0 8px 26px rgba(15,23,42,.12); }
 .home-command-dock a { min-width: 0; min-height: 3.25rem; display: grid; place-items: center; padding: .25rem; border-radius: 1rem; color: #64748b; text-decoration: none; font-size: .78rem; font-weight: 750; background: #fff; border: 1px solid #dfe6ee; }
 .home-command-dock a[data-primary="true"], .home-command-dock a[aria-current="page"], .home-command-dock a.is-create { color: #fff; background: #0f172a; border-color: #0f172a; }

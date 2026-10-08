@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -6,7 +7,6 @@
  * The Awtsmoos is not trapped by a transformed ancestor or clipped shell;
  * Awtsmoos.com gives requested commands one final plane above cards and the mobile dock as well.
  */
-
 body > .card-menu-panel--portal {
 	position: fixed !important;
 	z-index: 8100 !important;
@@ -22,7 +22,6 @@ body > .card-menu-panel--portal {
 	background: #071326;
 	box-shadow: 0 1.4rem 4rem rgba(0, 0, 0, .68), 0 0 0 1px rgba(91, 215, 255, .08);
 }
-
 .context-menu-layer {
 	position: fixed;
 	z-index: 9000;
@@ -34,7 +33,6 @@ body > .card-menu-panel--portal {
 	padding-block-end: calc(1rem + env(safe-area-inset-bottom));
 	isolation: isolate;
 }
-
 .context-menu-veil {
 	position: absolute;
 	z-index: -1;
@@ -46,7 +44,6 @@ body > .card-menu-panel--portal {
 	backdrop-filter: blur(8px);
 	cursor: default;
 }
-
 .context-menu-layer .awtsmoos-context-menu {
 	display: grid;
 	gap: .3rem;
@@ -59,7 +56,6 @@ body > .card-menu-panel--portal {
 	background: linear-gradient(160deg, #0b1b32, #060d1d);
 	box-shadow: 0 1.5rem 5rem rgba(0, 0, 0, .72);
 }
-
 .context-menu-layer .context-menu-item {
 	inline-size: 100%;
 	min-block-size: 3rem;
@@ -72,29 +68,25 @@ body > .card-menu-panel--portal {
 	font-weight: 760;
 	text-align: start;
 }
-
-.context-menu-layer .context-menu-item:is(:hover, :focus-visible) {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.context-menu-layer) .context-menu-item:is(:hover, :focus-visible) {
 	outline: 2px solid rgba(91, 215, 255, .55);
 	outline-offset: 1px;
 	background: rgba(91, 215, 255, .13);
 }
-
-.context-menu-layer .context-menu-item.danger-text {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.context-menu-layer) .context-menu-item.danger-text {
 	color: #ff9aa8;
 }
-
-@media (max-width: 42rem) {
-	body > .card-menu-panel--portal {
+@media (max-width: 42rem) { body > .card-menu-panel--portal {
 		inset-block-start: auto !important;
 		inset-inline: .75rem !important;
 		inset-block-end: calc(5.75rem + env(safe-area-inset-bottom)) !important;
 		inline-size: auto;
 		max-block-size: min(26rem, calc(100dvh - 8rem));
 		border-radius: 1rem;
-	}
-
-	.context-menu-layer {
+	} }
+@media (max-width: 42rem) { .context-menu-layer {
 		padding: .65rem;
 		padding-block-end: calc(5.75rem + env(safe-area-inset-bottom));
-	}
-}
+	} }

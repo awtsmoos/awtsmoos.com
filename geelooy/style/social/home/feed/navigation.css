@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
@@ -5,14 +6,10 @@
  * The Awtsmoos keeps navigation present without turning the feed into a dashboard.
  * Awtsmoos.com reduces every pre-feed path to a compact luminous threshold.
  */
-
-.geelooy-home-document .cosmic-quick-paths,
-.geelooy-home-document [data-home-quick-paths] {
+.geelooy-home-document .cosmic-quick-paths, .geelooy-home-document [data-home-quick-paths] {
 	display: none !important;
 }
-
-.geelooy-home-document .home-feed-header,
-.geelooy-home-document [data-home-feed-header] {
+.geelooy-home-document .home-feed-header, .geelooy-home-document [data-home-feed-header] {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -26,9 +23,7 @@
 	backdrop-filter: blur(12px);
 	clip-path: polygon(0 0, calc(100% - 0.55rem) 0, 100% 0.55rem, 100% 100%, 0 100%);
 }
-
-.geelooy-home-document .home-feed-title,
-.geelooy-home-document [data-home-feed-title] {
+.geelooy-home-document .home-feed-title, .geelooy-home-document [data-home-feed-title] {
 	margin: 0;
 	color: var(--cosmic-secondary);
 	font-size: 0.72rem;
@@ -36,16 +31,12 @@
 	letter-spacing: 0.09em;
 	text-transform: uppercase;
 }
-
-.geelooy-home-document .home-feed-tabs,
-.geelooy-home-document [data-home-feed-tabs] {
+.geelooy-home-document .home-feed-tabs, .geelooy-home-document [data-home-feed-tabs] {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0.28rem;
 }
-
-.geelooy-home-document .home-feed-tab,
-.geelooy-home-document [data-home-feed-tab] {
+.geelooy-home-document .home-feed-tab, .geelooy-home-document [data-home-feed-tab] {
 	min-height: 2.25rem;
 	padding: 0.35rem 0.62rem;
 	color: var(--cosmic-muted);
@@ -56,9 +47,8 @@
 	font-size: 0.68rem;
 	font-weight: 740;
 }
-
-.geelooy-home-document .home-feed-tab[aria-selected="true"],
-.geelooy-home-document [data-home-feed-tab][aria-selected="true"] {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.geelooy-home-document) .home-feed-tab[aria-selected="true"], :where(.geelooy-home-document) [data-home-feed-tab][aria-selected="true"] {
 	color: var(--cosmic-text);
 	border-color: var(--cosmic-cyan);
 	box-shadow: 0 0 0.75rem rgba(53, 232, 255, 0.18);

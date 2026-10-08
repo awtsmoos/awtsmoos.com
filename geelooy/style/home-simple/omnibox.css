@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
 Boruch Hashem
 Blessed is He
@@ -8,13 +9,12 @@ body[data-geelooy-route="home"] .search-shell {
 	z-index: var(--home-layer-search);
 	width: 100%;
 }
-
-body[data-geelooy-route="home"] .search-shell.is-open .search {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) :where(.search-shell.is-open) .search {
 	border-color: #68ceff;
 	border-radius: 1.15rem 1.15rem .62rem .62rem;
 	box-shadow: 0 0 0 4px rgba(73, 157, 220, .11), 0 22px 58px rgba(0, 0, 0, .4);
 }
-
 body[data-geelooy-route="home"] .omnibox-panel {
 	position: absolute;
 	top: calc(100% + .42rem);
@@ -31,11 +31,10 @@ body[data-geelooy-route="home"] .omnibox-panel {
 	transform-origin: top center;
 	animation: omnibox-arrive .18s ease both;
 }
-
-body[data-geelooy-route="home"] .omnibox-panel[hidden] {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .omnibox-panel[hidden] {
 	display: none;
 }
-
 body[data-geelooy-route="home"] .omnibox-heading {
 	display: flex;
 	align-items: center;
@@ -48,8 +47,8 @@ body[data-geelooy-route="home"] .omnibox-heading {
 	letter-spacing: .11em;
 	text-transform: uppercase;
 }
-
-body[data-geelooy-route="home"] .omnibox-heading button {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .omnibox-heading button {
 	padding: .36rem .5rem;
 	border: 1px solid transparent;
 	border-radius: .45rem;
@@ -61,47 +60,42 @@ body[data-geelooy-route="home"] .omnibox-heading button {
 	text-transform: none;
 	transition: background .14s ease, border-color .14s ease, color .14s ease, transform .14s ease;
 }
-
-body[data-geelooy-route="home"] .omnibox-heading button:hover {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .omnibox-heading button:hover {
 	border-color: #2d4c68;
 	background: #102239;
 	color: #fff;
 }
-
-body[data-geelooy-route="home"] .omnibox-heading button:active {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .omnibox-heading button:active {
 	border-color: #3d6a94;
 	background: #0c1c30;
 	color: #fff;
 	transform: scale(.96);
 }
-
-body[data-geelooy-route="home"] .omnibox-heading button:focus-visible {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .omnibox-heading button:focus-visible {
 	outline: 3px solid var(--focus-ring);
 	outline-offset: 2px;
 }
-
 body[data-geelooy-route="home"] .omnibox-options {
 	display: grid;
 	gap: .2rem;
 }
-
-@keyframes omnibox-arrive {
+@keyframes omnibox-arrive{
 	from {
 		opacity: 0;
 		transform: translateY(-5px) scale(.992);
 	}
 }
-
-@media (prefers-reduced-motion: reduce) {
-	body[data-geelooy-route="home"] .omnibox-panel {
+@media (prefers-reduced-motion: reduce) { body[data-geelooy-route="home"] .omnibox-panel {
 		animation: none;
-	}
-
-	body[data-geelooy-route="home"] .omnibox-heading button {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .omnibox-heading button {
 		transition: none;
-	}
-
-	body[data-geelooy-route="home"] .omnibox-heading button:active {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .omnibox-heading button:active {
 		transform: none;
-	}
-}
+	} }

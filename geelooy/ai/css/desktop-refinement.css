@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade app stylesheet; component selectors intentionally layered across feature sheets (base + responsive/state refinements) — registry one-owner rule structurally inapplicable; consolidation needs component-level refactor with visual QA. W4 2026-10-08. */
 /*B"H*/
 /* Boruch Hashem */
 /* Blessed is He */
@@ -22,7 +23,7 @@
 	.container > .sidebar {
 		min-width:220px;
 	}
-	.container > #automation-panel {
+	.container > .automation-panel {
 		min-width:270px;
 	}
 	.chat-box {

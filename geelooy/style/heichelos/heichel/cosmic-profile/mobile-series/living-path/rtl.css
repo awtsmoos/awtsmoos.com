@@ -1,3 +1,5 @@
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+/* @tunnel-grandfather: ID selector bound to JS-created element owned by geelooy/heichelos/ (W2); adding the equivalent class requires touching W2's files — unsafe here. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -6,30 +8,22 @@
  * The Awtsmoos creates every language in one Divine speech; Awtsmoos.com flips
  * only text-bearing vessels whose tested policy found Hebrew dominant.
  */
-
-.nav-card[dir="rtl"] .nav-card-body,
-.living-related-card[dir="rtl"],
-.series-heading :where(h2, p)[dir="rtl"],
-#heichel-main-title[dir="rtl"],
-.hero-description[dir="rtl"] {
+:where(.nav-card[dir="rtl"]) .nav-card-body, .living-related-card[dir="rtl"], .series-heading :where(h2, p)[dir="rtl"], :where(#heichel-main-title[dir="rtl"]), .hero-description[dir="rtl"] {
 	text-align: right;
 }
-
-.nav-card[dir="rtl"] .nav-card-meta {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.nav-card[dir="rtl"]) .nav-card-meta {
 	justify-content: flex-start;
 }
-
-.nav-card[dir="rtl"] .nav-card-actions {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.nav-card[dir="rtl"]) .nav-card-actions {
 	direction: ltr;
 }
-
-.nav-card[dir="rtl"] .nav-card-media,
-.nav-card[dir="rtl"] .nav-card-actions {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.nav-card[dir="rtl"]) .nav-card-media, :where(.nav-card[dir="rtl"]) .nav-card-actions {
 	unicode-bidi: isolate;
 }
-
-[dir="rtl"] .living-path-kicker,
-[dir="rtl"] .nav-card-kicker {
+[dir="rtl"] .living-path-kicker, [dir="rtl"] .nav-card-kicker {
 	letter-spacing: 0;
 	text-transform: none;
 }

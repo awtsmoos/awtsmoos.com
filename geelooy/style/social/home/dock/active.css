@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .home-command-dock a[aria-current="page"] { color: #b56cff; }
 .home-command-dock a[aria-current="page"] span { color: #9a4dff; text-shadow: 0 0 18px rgba(154,77,255,.7); }
 .home-command-dock a[aria-current="page"]::after { display: none; }

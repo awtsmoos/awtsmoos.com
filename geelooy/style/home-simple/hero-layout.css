@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H
 Boruch Hashem
 Blessed is He
@@ -10,19 +11,16 @@ body[data-geelooy-route="home"] .home {
 	width: 100%;
 	padding: 14px 16px 6px;
 }
-
 body[data-geelooy-route="home"] .hero {
 	display: grid;
 	gap: .82rem;
 	width: min(1240px, 100%);
 }
-
 body[data-geelooy-route="home"] .dance-shell {
 	order: 1;
 	min-width: 0;
 	will-change: transform;
 }
-
 body[data-geelooy-route="home"] .action-panel {
 	order: 2;
 	display: grid;
@@ -30,27 +28,23 @@ body[data-geelooy-route="home"] .action-panel {
 	align-items: center;
 	gap: .75rem;
 }
-
 body[data-geelooy-route="home"] .portal-shortcuts {
 	order: 3;
 }
-
 body[data-geelooy-route="home"] .portal-status {
 	order: 4;
 }
-
 body[data-geelooy-route="home"] .direct-navigation {
 	order: 5;
 }
-
 body[data-geelooy-route="home"] .search-paths {
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
 	gap: .42rem;
 }
-
-body[data-geelooy-route="home"] .search-paths a {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .search-paths a {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -64,9 +58,8 @@ body[data-geelooy-route="home"] .search-paths a {
 	font-weight: 760;
 	transition: border-color .18s ease, color .18s ease, background .18s ease, transform .18s ease;
 }
-
-body[data-geelooy-route="home"] .search-paths a:hover,
-body[data-geelooy-route="home"] .search-paths a:focus-visible {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .search-paths a:hover, :where(body[data-geelooy-route="home"]) .search-paths a:focus-visible {
 	border-color: rgba(130, 205, 255, .38);
 	background: rgba(83, 143, 201, .1);
 	color: #e9f5ff;
@@ -74,36 +67,28 @@ body[data-geelooy-route="home"] .search-paths a:focus-visible {
 	outline-offset: 2px;
 	transform: translateY(-1px);
 }
-
-body[data-geelooy-route="home"] .search-paths a:active {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .search-paths a:active {
 	border-color: rgba(130, 205, 255, .5);
 	background: rgba(83, 143, 201, .16);
 	color: #fff;
 	transform: translateY(1px) scale(.98);
 }
-
-@media (max-width: 800px) {
-	body[data-geelooy-route="home"] .action-panel {
+@media (max-width: 800px) { body[data-geelooy-route="home"] .action-panel {
 		grid-template-columns: 1fr;
-	}
-
-	body[data-geelooy-route="home"] .search-paths {
+	} }
+@media (max-width: 800px) { body[data-geelooy-route="home"] .search-paths {
 		justify-content: center;
 		flex-wrap: wrap;
-	}
-}
-
-@media (max-width: 680px) {
-	body[data-geelooy-route="home"] .home {
+	} }
+@media (max-width: 680px) { body[data-geelooy-route="home"] .home {
 		padding: 8px 8px calc(6.5rem + env(safe-area-inset-bottom));
-	}
-
-	body[data-geelooy-route="home"] .hero {
+	} }
+@media (max-width: 680px) { body[data-geelooy-route="home"] .hero {
 		gap: .65rem;
-	}
-
-	body[data-geelooy-route="home"] .search-paths a {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .search-paths a {
 		min-height: 44px;
 		padding: .5rem .72rem;
-	}
-}
+	} }

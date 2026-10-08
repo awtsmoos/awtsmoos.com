@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -7,7 +8,6 @@
 	position: relative;
 	isolation: isolate;
 }
-
 .geelooy-app-shell .g-header-profile::before {
 	position: absolute;
 	inset: 0;
@@ -22,55 +22,49 @@
 	pointer-events: none;
 	transition: border-color 150ms ease, box-shadow 150ms ease;
 }
-
-.geelooy-app-shell .g-header-profile:focus-within::before,
-.geelooy-app-shell .g-header-profile:hover::before {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.geelooy-app-shell) .g-header-profile:focus-within::before, :where(.geelooy-app-shell) .g-header-profile:hover::before {
 	border-color: rgba(80, 215, 255, .72);
 	box-shadow: 0 0 1.45rem rgba(52, 155, 255, .22), 0 0 2rem rgba(218, 97, 194, .1);
 }
-
-.geelooy-app-shell .g-constellation-route[data-games-route="true"],
-.geelooy-app-shell .g-dock-route[data-games-route="true"] {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.geelooy-app-shell) .g-constellation-route[data-games-route="true"], :where(.geelooy-app-shell) .g-dock-route[data-games-route="true"] {
 	--g-route-accent: #da61c2;
 }
-
-.geelooy-app-shell .g-constellation-route[data-games-route="true"] {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.geelooy-app-shell) .g-constellation-route[data-games-route="true"] {
 	border-color: rgba(218, 97, 194, .44);
 	background: linear-gradient(135deg, rgba(84, 58, 165, .32), rgba(4, 12, 28, .94));
 }
-
-.geelooy-app-shell .g-constellation-route[data-games-route="true"] .g-constellation-icon {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.geelooy-app-shell) :where(.g-constellation-route[data-games-route="true"]) .g-constellation-icon {
 	filter: drop-shadow(0 0 .65rem rgba(218, 97, 194, .74));
 }
-
-.geelooy-app-shell[data-geelooy-route="games"] .g-bh-jewel,
-body[data-geelooy-route="games"] .g-bh-jewel {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.geelooy-app-shell[data-geelooy-route="games"]) .g-bh-jewel, body[data-geelooy-route="games"] .g-bh-jewel {
 	border-color: rgba(218, 97, 194, .72);
 	box-shadow: 0 0 1.2rem rgba(218, 97, 194, .28), inset 0 0 .8rem rgba(80, 215, 255, .12);
 }
-
-@media (prefers-reduced-motion: reduce) {
-	.geelooy-app-shell .g-header-profile::before {
+@media (prefers-reduced-motion: reduce) { .geelooy-app-shell .g-header-profile::before {
 		transition: none;
-	}
-}
-
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 /* Identity hydration skeleton — #awtsmoosDrop carries .is-loading from
    createProfileDropdown until hydrateProfileIdentity settles, so the profile
    doorway always renders a 44px shimmer slot instead of a natural-width gap. */
-.geelooy-app-shell .g-header-profile.is-loading {
+:where(.geelooy-app-shell) .g-header-profile.is-loading {
 	flex: 0 0 44px;
 	inline-size: 44px;
 	min-inline-size: 44px;
 	max-inline-size: 44px;
 	block-size: 44px;
 }
-
-.geelooy-app-shell .g-header-profile.is-loading > * {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.geelooy-app-shell) .g-header-profile.is-loading * {
 	visibility: hidden;
 }
-
-.geelooy-app-shell .g-header-profile.is-loading::after {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.geelooy-app-shell) .g-header-profile.is-loading::after {
 	content: "";
 	position: absolute;
 	inset: 0;

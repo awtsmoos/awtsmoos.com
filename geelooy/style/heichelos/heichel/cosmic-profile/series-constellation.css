@@ -1,3 +1,5 @@
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
@@ -5,25 +7,23 @@
  * The Awtsmoos distinguishes canonical writing from living oral transmission;
  * Awtsmoos.com keeps that constellation ornamental, never a tax on readable card width.
  */
-
-.heichel-os-document .nav-card[data-series-archetype="written"] {
+:where(.heichel-os-document) .nav-card[data-series-archetype="written"] {
 	--source-accent: var(--heichel-cosmic-cyan-core);
 	--series-secondary: var(--heichel-cosmic-blue-core);
 }
-
-.heichel-os-document .nav-card[data-series-archetype="oral"] {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-os-document) .nav-card[data-series-archetype="oral"] {
 	--source-accent: var(--heichel-cosmic-magenta-core);
 	--series-secondary: var(--heichel-cosmic-violet-core);
 }
-
-.heichel-os-document .nav-card[data-series-archetype="written"]::before {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-os-document) .nav-card[data-series-archetype="written"]::before {
 	content: "Canonical written source";
 }
-
-.heichel-os-document .nav-card[data-series-archetype="oral"]::before {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-os-document) .nav-card[data-series-archetype="oral"]::before {
 	content: "Living oral tradition";
 }
-
 .series-source-constellation {
 	position: absolute;
 	right: 4.2rem;
@@ -35,13 +35,10 @@
 	pointer-events: none;
 	opacity: .28;
 }
-
-.series-source-constellation::before,
-.series-source-constellation::after {
+.series-source-constellation::before, .series-source-constellation::after {
 	position: absolute;
 	content: "";
 }
-
 .series-source-constellation::before {
 	inset: 20% 4%;
 	background:
@@ -51,13 +48,11 @@
 	filter: drop-shadow(0 0 .3rem currentColor);
 	opacity: .5;
 }
-
 .series-source-constellation::after {
 	inset: 18% 32%;
 	border: 1px solid color-mix(in srgb, currentColor 46%, transparent);
 	border-radius: 50%;
 }
-
 .series-source-constellation i {
 	position: absolute;
 	display: block;
@@ -68,15 +63,11 @@
 	background: radial-gradient(circle, var(--heichel-cosmic-text), var(--series-secondary) 36%, var(--heichel-cosmic-void) 72%);
 	box-shadow: 0 0 .5rem currentColor;
 }
-
 .series-source-constellation i:nth-child(1) { left: 2%; top: 48%; }
 .series-source-constellation i:nth-child(2) { left: 24%; top: 4%; }
 .series-source-constellation i:nth-child(3) { left: 48%; top: 38%; width: .68rem; height: .68rem; }
 .series-source-constellation i:nth-child(4) { right: 21%; top: 8%; }
 .series-source-constellation i:nth-child(5) { right: 2%; top: 54%; }
-
-@media (max-width: 55rem) {
-	.series-source-constellation {
+@media (max-width: 55rem) { .series-source-constellation {
 		display: none;
-	}
-}
+	} }

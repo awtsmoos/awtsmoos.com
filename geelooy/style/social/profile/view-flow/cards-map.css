@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 .alias-card, .social-heichel-card, .profile-activity-item { transition: transform .24s ease, box-shadow .24s ease; }
 .alias-card:focus-within, .social-heichel-card:focus-within, .profile-activity-item:focus-within { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(15,23,42,.12); }
 .alias-card-actions, .panel-title-row { align-items: center; }

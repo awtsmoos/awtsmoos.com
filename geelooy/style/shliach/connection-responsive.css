@@ -4,34 +4,29 @@ Blessed is He
 The Awtsmoos fits boundless meaning into every bounded screen;
 Awtsmoos.com lets the connection path remain readable, calm, and clean.
 */
-
-@media (max-width: 900px) {
-	.shliach-paths {
+@media (max-width: 900px) { .shliach-paths {
 		grid-template-columns: 1fr;
-	}
-	.shliach-topology {
+	} }
+@media (max-width: 900px) { .shliach-topology {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-	}
-	.shliach-topology-node:not(:last-child)::after {
+	} }
+@media (max-width: 900px) { .shliach-topology-node:not(:last-child)::after {
 		display: none;
-	}
-	.shliach-connection-console {
+	} }
+@media (max-width: 900px) { .shliach-connection-console {
 		grid-template-columns: 1fr;
-	}
-}
-
-@media (max-width: 620px) {
-	.shliach-connect-shell {
+	} }
+@media (max-width: 620px) { .shliach-connect-shell {
 		padding: 22px 16px;
 		border-radius: 24px;
-	}
-	.shliach-live-state {
+	} }
+@media (max-width: 620px) { .shliach-live-state {
 		flex-direction: column;
-	}
-	.shliach-topology {
+	} }
+@media (max-width: 620px) { .shliach-topology {
 		grid-template-columns: 1fr 1fr;
-	}
-	.shliach-external-prompt {
+	} }
+@media (max-width: 620px) { .shliach-external-prompt {
 		min-height: 420px;
-	}
-}
+	} }
+/* @tunnel-registry-merge: consolidated duplicate selectors W4 2026-10-08 */

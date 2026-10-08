@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H — profile identity splits the darkness with a data beam. */
 .profile-hero-card::before {
   box-shadow: 0 0 18px rgba(40,243,215,.22), 0 0 30px rgba(154,77,255,.16);

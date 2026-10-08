@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -7,7 +8,6 @@
 .profile-app .profile-topbar {
 	z-index: var(--profile-z-sticky);
 }
-
 .profile-app .profile-destination-rail {
 	position: sticky;
 	top: 4.4rem;
@@ -26,7 +26,6 @@
 	backdrop-filter: blur(18px);
 	overflow: visible;
 }
-
 .profile-app .profile-destination {
 	display: grid;
 	grid-template-columns: auto minmax(0, 1fr);
@@ -41,18 +40,14 @@
 	text-align: left;
 	white-space: normal;
 }
-
-.profile-app .profile-destination.active {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.profile-app) .profile-destination.active {
 	border-color: color-mix(in srgb, var(--profile-accent) 24%, transparent);
 	background: linear-gradient(145deg, var(--profile-accent-soft), rgba(235, 248, 255, .9));
 	color: var(--profile-ink);
 	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9);
 }
-
-.profile-app .profile-destination-icon,
-.profile-app .profile-hero-action-icon,
-.profile-app .profile-about-action-icon,
-.profile-app .profile-rich-link-icon {
+.profile-app .profile-destination-icon, .profile-app .profile-hero-action-icon, .profile-app .profile-about-action-icon, .profile-app .profile-rich-link-icon {
 	display: grid;
 	place-items: center;
 	width: 2rem;
@@ -63,30 +58,19 @@
 	font-style: normal;
 	font-weight: 900;
 }
-
 .profile-app .profile-destination-copy {
 	display: grid;
 	min-width: 0;
 }
-
 .profile-app .profile-destination-copy strong {
 	color: inherit;
 }
-
-.profile-app .profile-destination-copy small {
-	color: var(--profile-muted);
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
 .profile-app .profile-social-header {
 	display: flex;
 	gap: .55rem;
 	align-items: center;
 	flex-wrap: wrap;
 }
-
 .profile-app .profile-social-pill {
 	min-height: 2.75rem;
 	padding: .55rem .8rem;
@@ -96,20 +80,15 @@
 	color: var(--profile-ink);
 	font-weight: 800;
 }
-
 .profile-app .profile-bottom-nav {
 	z-index: var(--profile-z-nav);
 }
-
-.profile-app .profile-network-columns,
-.profile-app .profile-about-grid {
+.profile-app .profile-network-columns, .profile-app .profile-about-grid {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: 1rem;
 }
-
-.profile-app .profile-connection-column,
-.profile-app .profile-about-story {
+.profile-app .profile-connection-column, .profile-app .profile-about-story {
 	padding: 1rem;
 	border: 1px solid var(--profile-line);
 	border-radius: var(--profile-r-m);

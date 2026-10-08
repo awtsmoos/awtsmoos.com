@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H — base: every chamber breathes from the same floor. */
 :where(.geelooy-home-document, .heichel-os-document, [data-profile]) {
   background:

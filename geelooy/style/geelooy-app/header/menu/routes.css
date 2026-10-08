@@ -18,20 +18,17 @@
 	background: #10182a;
 	transition: transform 150ms var(--g-ease), border-color 150ms var(--g-ease), background-color 150ms var(--g-ease), box-shadow 150ms var(--g-ease);
 }
-
 .g-constellation-route[aria-current="page"] {
 	border-color: rgba(60, 236, 255, .62);
 	background: #16284a;
 	box-shadow: inset .2rem 0 #3cecff;
 }
-
 .g-constellation-route[data-main-route="true"] {
 	grid-column: 1 / -1;
 	min-block-size: 5.75rem;
 	border-color: rgba(95, 232, 255, .62);
 	background: linear-gradient(115deg, #0d4055, #392a84 56%, #6f1e61);
 }
-
 .g-constellation-icon {
 	display: grid;
 	inline-size: 3rem;
@@ -42,30 +39,24 @@
 	font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
 	font-size: 1.45rem;
 }
-
-.g-constellation-route[data-main-route="true"] .g-constellation-icon {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.g-constellation-route[data-main-route="true"]) .g-constellation-icon {
 	inline-size: 3.6rem;
 	block-size: 3.6rem;
 	background: linear-gradient(135deg, #20d5f4, #7350ff 52%, #ff3aa9);
 	font-size: 1.8rem;
 }
-
-.g-constellation-copy,
-.g-constellation-route strong,
-.g-constellation-route small {
+.g-constellation-copy, .g-constellation-route strong, .g-constellation-route small {
 	display: block;
 	min-inline-size: 0;
 }
-
 .g-constellation-copy {
 	overflow-wrap: anywhere;
 }
-
 .g-constellation-route strong {
 	font-size: 1rem;
 	line-height: 1.2;
 }
-
 .g-constellation-route small {
 	margin-top: .22rem;
 	color: var(--g-muted);
@@ -73,7 +64,6 @@
 	line-height: 1.35;
 	overflow-wrap: anywhere;
 }
-
 .g-constellation-route:focus-visible {
 	border-color: #3cecff;
 	outline: 3px solid #3cecff;
@@ -81,23 +71,17 @@
 	background: #16284a;
 	box-shadow: 0 0 0 2px rgba(60, 236, 255, .12);
 }
-
 .g-constellation-route:active {
 	transform: translateY(0) scale(.985);
 	border-color: #9af6ff;
 	background: #1a3054;
 }
-
-@media (hover: hover) and (pointer: fine) {
-	.g-constellation-route:hover:not(:active) {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (hover: hover) and (pointer: fine) { :where(.g-constellation-route:hover:not(:active)) {
 		transform: translateY(-2px);
 		border-color: rgba(60, 236, 255, .46);
 		background: #16284a;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.g-constellation-route {
+	} }
+@media (prefers-reduced-motion: reduce) { .g-constellation-route {
 		transition: none;
-	}
-}
+	} }

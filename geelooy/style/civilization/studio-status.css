@@ -1,38 +1,46 @@
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
  * The Awtsmoos makes every render stage visible; Awtsmoos.com never hides failure behind an endless glow.
  */
-.caption-studio-document #actions-footer {
+:where(.caption-studio-document) :where(#actions-footer) {
 	background: rgba(5, 8, 17, .97) !important;
 	border-top: 1px solid var(--civil-line) !important;
 	display: grid !important;
 	gap: .65rem;
 	padding: .8rem !important;
 }
-.caption-studio-document #status {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.caption-studio-document) :where(#status) {
 	color: var(--civil-text-soft) !important;
 	font-size: .86rem;
 	margin: 0;
 	min-height: 1.35rem;
 }
-.caption-studio-document #status.success {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.caption-studio-document) :where(#status.success) {
 	color: var(--civil-green) !important;
 }
-.caption-studio-document #status.warning {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.caption-studio-document) :where(#status.warning) {
 	color: var(--civil-amber) !important;
 }
-.caption-studio-document #status.error {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.caption-studio-document) :where(#status.error) {
 	color: var(--civil-red) !important;
 }
-.caption-studio-document #progressContainer {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.caption-studio-document) :where(#progressContainer) {
 	background: #07111d !important;
 	border: 1px solid var(--civil-line) !important;
 	border-radius: 99rem !important;
 	height: .7rem;
 	overflow: hidden;
 }
-.caption-studio-document #progressBar {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.caption-studio-document) :where(#progressBar) {
 	background: linear-gradient(90deg, var(--civil-cyan), #2f8cff) !important;
 	height: 100%;
 	transition: width .18s linear;
@@ -42,7 +50,8 @@
 	gap: .55rem;
 	grid-template-columns: 1fr 1.35fr;
 }
-.caption-studio-document #render-overlay {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.caption-studio-document) :where(#render-overlay) {
 	align-content: center;
 	background: rgba(3, 6, 12, .88) !important;
 	color: var(--civil-text);
@@ -53,7 +62,8 @@
 	position: absolute;
 	text-align: center;
 }
-.caption-studio-document .rendering #render-overlay {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.caption-studio-document) :where(.rendering) :where(#render-overlay) {
 	display: grid;
 }
 .caption-studio-document .render-mark {
@@ -62,7 +72,8 @@
 	font-weight: 900;
 	letter-spacing: .12em;
 }
-.caption-studio-document #preset-dialog {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.caption-studio-document) :where(#preset-dialog) {
 	background: var(--civil-surface) !important;
 	border: 1px solid var(--civil-line-strong) !important;
 	border-radius: 1rem;
@@ -71,7 +82,8 @@
 	max-width: min(30rem, calc(100vw - 1.5rem));
 	padding: 1rem;
 }
-.caption-studio-document #preset-dialog::backdrop {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.caption-studio-document) :where(#preset-dialog)::backdrop {
 	background: rgba(0, 0, 0, .76);
 }
 .caption-studio-document .dialog-actions {

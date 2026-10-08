@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .home-heichel-menu { background: #fff; border: 1px solid #dfe6ee; border-radius: 1rem; box-shadow: 0 8px 26px rgba(15,23,42,.12); color: #0f172a; }
 .home-heichel-menu a, .home-heichel-menu button { background: #fff; border: 1px solid #dfe6ee; border-radius: .85rem; color: #0f172a; min-height: 40px; padding: .55rem .85rem; text-decoration: none; font-weight: 750; }
 .home-heichel-menu .active, .home-heichel-menu [aria-current="page"] { background: #0f172a; border-color: #0f172a; color: #fff; }

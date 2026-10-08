@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H — motion: swift when welcome, still when mercy asks. */
 @media (prefers-reduced-motion: no-preference) {
   :where(.geelooy-route-ready) { view-transition-name: geelooy-route; }

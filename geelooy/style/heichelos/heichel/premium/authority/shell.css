@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -15,23 +16,22 @@ body.heichel-os-document[data-heichel-id="ikar"] {
 	--ikar-authority-gap: .65rem;
 	background: #030912;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] .all {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) .all {
 	inline-size: 100% !important;
 	max-inline-size: none !important;
 	margin-inline: 0 !important;
 	padding-inline: clamp(.55rem, 2vw, 2rem) !important;
 	background: transparent !important;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] .main,
-body.heichel-os-document[data-heichel-id="ikar"] .heichel-mobile-navigation {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) .main, :where(body.heichel-os-document[data-heichel-id="ikar"]) .heichel-mobile-navigation {
 	inline-size: 100% !important;
 	max-inline-size: none !important;
 	min-inline-size: 0 !important;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] .geelooy-main-stage {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) .geelooy-main-stage {
 	display: grid !important;
 	grid-template-columns: minmax(0, 1fr) !important;
 	inline-size: min(100%, 84rem) !important;
@@ -40,8 +40,8 @@ body.heichel-os-document[data-heichel-id="ikar"] .geelooy-main-stage {
 	padding: 1rem 0 max(2rem, var(--ikar-dock-clearance, 1rem)) !important;
 	gap: 1rem !important;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] .geelooy-heichel-hero.cosmic-heichel-profile {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) .geelooy-heichel-hero.cosmic-heichel-profile {
 	grid-column: 1 / -1 !important;
 	min-block-size: 0 !important;
 	padding: 1rem !important;
@@ -51,36 +51,31 @@ body.heichel-os-document[data-heichel-id="ikar"] .geelooy-heichel-hero.cosmic-he
 		radial-gradient(circle at 88% 0%, rgba(91, 215, 255, .14), transparent 34%),
 		linear-gradient(140deg, rgba(9, 26, 44, .98), rgba(5, 12, 23, .96)) !important;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] .geelooy-heichel-hero .heichel-profile-cover {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) .geelooy-heichel-hero .heichel-profile-cover {
 	opacity: .22 !important;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] .geelooy-heichel-hero .heichel-profile-identity {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) .geelooy-heichel-hero .heichel-profile-identity {
 	min-inline-size: 0 !important;
 	gap: .72rem !important;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] .geelooy-heichel-hero .heichel-profile-copy {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) .geelooy-heichel-hero .heichel-profile-copy {
 	min-inline-size: 0 !important;
 	padding-block-start: 0 !important;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] .geelooy-heichel-hero #heichel-main-title {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) :where(.geelooy-heichel-hero) :where(#heichel-main-title) {
 	font-size: clamp(1.55rem, 4vw, 2.45rem) !important;
 	line-height: 1.05 !important;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] .heichel-profile-compact-context {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) .heichel-profile-compact-context {
 	margin: .15rem 0 0 !important;
 	color: var(--ikar-ink-soft, rgba(235, 246, 255, .72)) !important;
 }
-
-body.heichel-os-document[data-heichel-id="ikar"] .heichel-profile-details {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.heichel-os-document[data-heichel-id="ikar"]) .heichel-profile-details {
 	margin: 0 !important;
-}
-
-body.heichel-os-document[data-heichel-id="ikar"] .heichel-profile-details summary {
-	min-block-size: 2.45rem !important;
-	padding: .52rem .78rem !important;
 }

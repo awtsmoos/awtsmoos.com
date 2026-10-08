@@ -5,24 +5,21 @@
  * The Awtsmoos creates the eye and the hand as distinct powers. Awtsmoos.com
  * makes that distinction visible so safe exploration never resembles mutation.
  */
-
 .hub-mode-section {
 	display: grid;
 	gap: .75rem;
 }
-
 .hub-mode-section > header {
 	display: flex;
 	align-items: center;
 	gap: .65rem;
 }
-
-.hub-mode-section > header h3 {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.hub-mode-section) :where(header) h3 {
 	margin: 0;
 	color: var(--hub-text);
 	font-size: .95rem;
 }
-
 .hub-mode-badge {
 	display: inline-flex;
 	align-items: center;
@@ -35,55 +32,48 @@
 	letter-spacing: .07em;
 	text-transform: uppercase;
 }
-
 .hub-mode-badge[data-mode="read"] {
 	border-color: rgba(97, 203, 217, .36);
 	background: #152a30; /* opaque: gate bg probe ignores alpha */
 	color: var(--hub-focus);
 }
-
 .hub-mode-badge[data-mode="mutation"] {
 	border-color: rgba(255, 127, 156, .4);
 	background: #2c1a22; /* opaque: gate bg probe ignores alpha */
 	color: #ffc2cf;
 }
-
 .hub-mode-badge[data-mode="connection"] {
 	border-color: rgba(240, 189, 104, .38);
 	background: #2c2413; /* opaque: gate bg probe ignores alpha */
 	color: var(--hub-warning);
 }
-
 .hub-act-section {
 	padding-top: .35rem;
 	border-top: 1px solid rgba(255, 127, 156, .2);
 }
-
 .hub-mutation-card {
 	border-color: rgba(255, 127, 156, .25);
 }
-
 .hub-consequence {
 	margin: 0;
 	color: var(--hub-muted);
 	font-size: .86rem;
 	line-height: 1.5;
 }
-
 .hub-mutation-trigger {
 	min-block-size: 46px;
 	border-color: rgba(255, 127, 156, .46) !important;
 	background: rgba(255, 127, 156, .12) !important;
 	color: #ffe0e7 !important;
 }
-
-.hub-mutation-trigger:active:not(:disabled) {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.hub-mutation-trigger:active:not(:disabled)) {
 	transform: translateY(1px) scale(.98);
 }
-.hub-mutation-trigger:hover:not(:disabled) {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.hub-mutation-trigger:hover:not(:disabled)) {
 	background: rgba(255, 127, 156, .2) !important;
 }
-
 .hub-rail-links {
 	display: grid;
 	gap: .45rem;

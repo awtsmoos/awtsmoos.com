@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H — mock OS is a simple card system for previews. */
 :root { --mock-bg:#f6f8fb; --mock-panel:#fff; --mock-line:#dfe6ee; --mock-text:#0f172a; --mock-muted:#64748b; }
 .mockup-os { background: var(--mock-bg); color: var(--mock-text); display: grid; gap: 1rem; padding: 1rem; }

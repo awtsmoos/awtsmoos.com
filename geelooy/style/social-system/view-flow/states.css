@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .awt-view-empty, .awt-view-loading, .awt-view-error { border: 1px dashed #cbd6e2; border-radius: 1rem; background: #f8fafc; color: var(--vf-muted); padding: 1rem; }
 .awt-view-error { border-color: #fecaca; color: #991b1b; background: #fff; }
 .awt-view-loading { position: relative; overflow: hidden; }

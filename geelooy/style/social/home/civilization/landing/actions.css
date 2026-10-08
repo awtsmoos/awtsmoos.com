@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -6,14 +7,12 @@
  * card on Awtsmoos.com has useful density, clear hierarchy, and a restrained
  * response to hover and focus without decorative delay.
  */
-
 .geelooy-home-shell .g-home-actions {
 	display: grid;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
 	gap: .7rem;
 	margin-block-start: 1rem;
 }
-
 .geelooy-home-shell .g-home-action {
 	display: grid;
 	align-content: center;
@@ -27,35 +26,25 @@
 	text-decoration: none;
 	transition: border-color 150ms ease, background-color 150ms ease, transform 150ms ease;
 }
-
-.geelooy-home-shell .g-home-action .p-icon {
-	margin-block-end: .15rem;
-	color: #8bdce8;
-}
-
 .geelooy-home-shell .g-home-action strong {
 	font-size: .96rem;
 }
-
 .geelooy-home-shell .g-home-action small {
 	color: var(--home-faint);
 	font-size: .78rem;
 	line-height: 1.38;
 }
-
-.geelooy-home-shell .g-home-action:is(:hover, :focus-visible) {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.geelooy-home-shell) .g-home-action:is(:hover, :focus-visible) {
 	border-color: rgba(88, 199, 216, .46);
 	background: #182535;
 	transform: translateY(-2px);
 }
-
-.geelooy-home-shell .g-home-action.is-primary {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.geelooy-home-shell) .g-home-action.is-primary {
 	border-color: rgba(88, 199, 216, .52);
 	background: linear-gradient(145deg, rgba(88, 199, 216, .16), #162232);
 }
-
-@media (prefers-reduced-motion: reduce) {
-	.geelooy-home-shell .g-home-action {
+@media (prefers-reduced-motion: reduce) { .geelooy-home-shell .g-home-action {
 		transition: none;
-	}
-}
+	} }

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -6,12 +7,10 @@
  * The Awtsmoos knows every record without searching; Awtsmoos.com gives the seeking hand
  * a clear forty-eight-pixel vessel, where scope and result can meet without crowding the land.
  */
-
 .living-path-search-stack {
 	display: grid;
 	gap: .5rem;
 }
-
 .living-path-search-stack > .living-path-field {
 	display: grid;
 	grid-template-columns: auto minmax(8rem, 12rem);
@@ -19,14 +18,12 @@
 	justify-content: end;
 	gap: .5rem;
 }
-
 .living-path-field label {
 	color: #9fb1c7;
 	font-size: .72rem;
 	font-weight: 800;
 	line-height: 1.2;
 }
-
 .living-path-field select {
 	box-sizing: border-box;
 	min-inline-size: 0;
@@ -40,13 +37,11 @@
 	font-weight: 700;
 	touch-action: manipulation;
 }
-
 .living-path-field select:focus-visible {
 	border-color: rgba(91, 215, 255, .72);
 	outline: 2px solid rgba(91, 215, 255, .35);
 	outline-offset: 2px;
 }
-
 .living-path-result-status {
 	display: flex;
 	min-block-size: 34px;
@@ -58,30 +53,24 @@
 	font-size: .7rem;
 	font-weight: 720;
 }
-
 .living-path-result-status span:first-child {
 	color: #c7d6e5;
 }
-
-.filter-chip[data-active-count]:not([data-active-count="0"]) {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.filter-chip[data-active-count]:not([data-active-count="0"])) {
 	border-color: rgba(91, 215, 255, .7);
 	background: rgba(20, 54, 86, .96);
 	color: #fff;
 }
-
-@media (max-width: 34rem) {
-	.living-path-search-stack > .living-path-field {
+@media (max-width: 34rem) { .living-path-search-stack > .living-path-field {
 		grid-template-columns: minmax(0, 1fr);
 		justify-content: stretch;
 		gap: .32rem;
-	}
-
-	.living-path-field select {
+	} }
+@media (max-width: 34rem) { .living-path-field select {
 		inline-size: 100%;
-	}
-
-	.living-path-result-status {
+	} }
+@media (max-width: 34rem) { .living-path-result-status {
 		flex-wrap: wrap;
 		row-gap: .2rem;
-	}
-}
+	} }

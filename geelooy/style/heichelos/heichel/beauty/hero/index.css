@@ -55,13 +55,6 @@
 	background: var(--heichel-cyan);
 	content: "";
 }
-.heichel-mobile-navigation #heichel-main-title {
-	max-width: 12ch;
-	margin: var(--space-3) 0 0;
-	font-size: clamp(3rem, 9vw, 7.5rem);
-	line-height: .92;
-	letter-spacing: -.07em;
-}
 .heichel-mobile-navigation .hero-description {
 	max-width: 48rem;
 	margin: var(--space-5) 0 0;
@@ -69,14 +62,9 @@
 	font-size: var(--type-lead);
 	line-height: 1.68;
 }
-@media (max-width: 47.5rem) {
-	.heichel-mobile-navigation :where(.geelooy-heichel-hero, .heichel-hero) {
+@media (max-width: 47.5rem) { .heichel-mobile-navigation :where(.geelooy-heichel-hero, .heichel-hero) {
 		grid-template-columns: 1fr;
 		min-height: 25rem;
 		padding: var(--space-4);
 		border-radius: var(--radius-l);
-	}
-	.heichel-mobile-navigation #heichel-main-title {
-		font-size: clamp(3rem, 17vw, 5.25rem);
-	}
-}
+	} }

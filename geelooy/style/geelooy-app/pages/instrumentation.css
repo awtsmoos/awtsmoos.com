@@ -1,11 +1,11 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
  *
  * The Awtsmoos gives every connected Awtsmoos.com route a recognizable command face.
  */
-body.geelooy-app-shell .g-page-hero,
-body.geelooy-app-shell :where(.profile-hero-card, .spaces-hero) {
+body.geelooy-app-shell .g-page-hero, body.geelooy-app-shell :where(.profile-hero-card, .spaces-hero) {
 	position: relative;
 	isolation: isolate;
 	overflow: hidden;
@@ -17,9 +17,8 @@ body.geelooy-app-shell :where(.profile-hero-card, .spaces-hero) {
 		var(--g-surface);
 	box-shadow: var(--g-shadow-lg), inset 0 1px rgba(255, 255, 255, 0.07);
 }
-
-body.geelooy-app-shell .g-page-hero::after,
-body.geelooy-app-shell :where(.profile-hero-card, .spaces-hero)::after {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.geelooy-app-shell) .g-page-hero::after, :where(body.geelooy-app-shell) :where(.profile-hero-card, .spaces-hero)::after {
 	position: absolute;
 	inset: auto 6% 0;
 	height: 2px;
@@ -27,15 +26,13 @@ body.geelooy-app-shell :where(.profile-hero-card, .spaces-hero)::after {
 	content: "";
 	box-shadow: var(--g-glow);
 }
-
-body.geelooy-app-shell .g-page-hero h1,
-body.geelooy-app-shell :where(.profile-hero-card, .spaces-hero) h1 {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body.geelooy-app-shell) .g-page-hero h1, :where(body.geelooy-app-shell) :where(.profile-hero-card, .spaces-hero) h1 {
 	background: linear-gradient(100deg, #ffffff 10%, var(--g-cyan) 58%, #d7c9ff);
 	background-clip: text;
 	color: transparent;
 	text-wrap: balance;
 }
-
 body.geelooy-app-shell :where(
 	.notifications-console,
 	.g-search-form,
@@ -49,11 +46,7 @@ body.geelooy-app-shell :where(
 		var(--g-surface);
 	box-shadow: var(--g-shadow-md), inset 0 1px rgba(255, 255, 255, 0.055);
 }
-
-@media (max-width: 42rem) {
-	body.geelooy-app-shell .g-page-hero,
-	body.geelooy-app-shell :where(.profile-hero-card, .spaces-hero) {
+@media (max-width: 42rem) { body.geelooy-app-shell .g-page-hero, body.geelooy-app-shell :where(.profile-hero-card, .spaces-hero) {
 		align-items: stretch;
 		border-radius: 0.65rem 1.8rem 0.65rem 1.8rem;
-	}
-}
+	} }

@@ -1,2 +1,3 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H legend ambient glow. */
 :root { --legend-ambient-gold: radial-gradient(circle at 22% 0%, rgba(245,202,112,.24), transparent 24rem); --legend-ambient-blue: radial-gradient(circle at 86% 12%, rgba(91,132,255,.14), transparent 26rem); }

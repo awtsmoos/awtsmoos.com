@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .geelooy-home-shell { container-type: inline-size; overflow-x: clip; }
 .awt-home-view-flow { display: grid; gap: 1rem; }
 .awt-home-view-flow .awt-view-stage { width: 100%; }

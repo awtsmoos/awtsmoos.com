@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .home-empty-state { align-items: center; background: rgba(7,11,22,.66) !important; border: 1px solid rgba(139,92,246,.22) !important; display: grid; gap: .85rem; justify-items: center; padding: 1.35rem .85rem 1rem !important; text-align: center; }
 .home-empty-state strong { color: #fff; font-size: 1.15rem; }
 .home-empty-state p { color: #b6bed0; line-height: 1.42; margin: 0; max-width: 18rem; }

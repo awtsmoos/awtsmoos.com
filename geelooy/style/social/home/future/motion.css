@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .home-action-card,.home-discovery-card,.home-post-card,.home-command-dock a,.home-feed-tabs button,.object-action-row :is(a,button) { transition: transform 170ms cubic-bezier(.2,.8,.2,1), opacity 150ms ease, border-color 150ms ease, box-shadow 170ms ease, background 150ms ease !important; will-change: transform; }
 .home-action-card:hover,.home-discovery-card:hover,.home-post-card:hover { transform: translate3d(0,-3px,0) !important; }
 .home-action-card:active,.home-discovery-card:active,.home-post-card:active,.home-command-dock a:active { transform: translate3d(0,-1px,0) scale(.992) !important; }

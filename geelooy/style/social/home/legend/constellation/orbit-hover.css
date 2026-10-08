@@ -1,2 +1,3 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H home legend constellation/orbit-hover.css. */
 .home-discovery-card a:hover { transform:translateX(.16rem); box-shadow:var(--legend-hover-glow); }

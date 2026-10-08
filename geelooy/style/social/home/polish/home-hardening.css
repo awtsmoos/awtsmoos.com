@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .home-hardening, .geelooy-home-shell { background: #f6f8fb; color: #0f172a; }
 .home-hardening :is(button, a.button, .home-profile-pill, .home-search-vessel button) { background: #0f172a; border: 1px solid #0f172a; color: #fff; }
 .home-hardening :is(input, textarea, select) { background: #fff; border: 1px solid #dfe6ee; color: #0f172a; }

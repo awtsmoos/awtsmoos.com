@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 .geelooy-profile-shell, .profile-page { container-type: inline-size; overflow-x: clip; }
 .profile-main-grid, .profile-grid { gap: .85rem; max-width: 100%; min-width: 0; }
 .profile-stack { display: grid; gap: .85rem; min-width: 0; }

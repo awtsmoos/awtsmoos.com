@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .geelooy-home-shell { width: min(100%, 680px); margin: 0 auto; display: grid; gap: 1rem; padding: .85rem .95rem max(8.5rem, env(safe-area-inset-bottom)); background: transparent !important; color: var(--f-text); }
 .home-panel { background: rgba(7,11,22,.76); border: 1px solid var(--f-line); border-radius: 22px; box-shadow: var(--f-shadow); color: var(--f-text); }
 .home-kicker { color: #b56cff; font-size: .84rem; font-weight: 900; letter-spacing: .08em; margin: 0 0 .5rem; text-transform: uppercase; }

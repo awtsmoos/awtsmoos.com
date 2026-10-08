@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H Chapter 625: hidden chambers do not eat clicks. */
 [hidden], .is-hidden { display: none !important; }
 [aria-hidden="true"].modal-gate-hidden, .modal-gate-hidden, .modal-hidden, .hidden-void, .hidden-details, .hidden-comments { pointer-events: none !important; }

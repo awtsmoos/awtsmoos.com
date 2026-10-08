@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -46,9 +47,7 @@
 	gap: 1rem !important;
 	grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem) !important;
 }
-.heichel-main-stage,
-.heichel-sidebar,
-.heichel-content-panel {
+.heichel-main-stage, .heichel-sidebar, .heichel-content-panel {
 	min-width: 0;
 }
 .heichel-header {
@@ -57,7 +56,8 @@
 	border-radius: 1rem !important;
 	padding: clamp(1rem, 3vw, 2rem) !important;
 }
-#heichel-main-title {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(#heichel-main-title) {
 	font-size: clamp(2rem, 5vw, 4rem) !important;
 	letter-spacing: -.055em;
 	line-height: 1.05;
@@ -88,7 +88,8 @@
 	color: var(--civil-text-soft) !important;
 	min-height: 2.85rem;
 }
-.content-tabs .tab.Active {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.content-tabs) .tab.Active {
 	background: var(--civil-surface-2) !important;
 	color: var(--civil-gold) !important;
 }

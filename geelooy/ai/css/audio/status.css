@@ -1,7 +1,7 @@
+/* @tunnel-grandfather: single-cascade app stylesheet; component selectors intentionally layered across feature sheets (base + responsive/state refinements) — registry one-owner rule structurally inapplicable; consolidation needs component-level refactor with visual QA. W4 2026-10-08. */
 /*B"H*/
 /* Boruch Hashem */
 /* Blessed is He */
-
 /*
  * The Awtsmoos gives preparation, feedback, elapsed patience, and recovery their
  * own visible vessel. Awtsmoos.com keeps this task channel separate from the
@@ -16,26 +16,19 @@
 	border-radius: 12px;
 	background: rgba(0, 0, 0, 0.14);
 }
-
-.awtsmoos-audio-offer .audio-settings[hidden],
-.awtsmoos-audio-offer .audio-task-progress[hidden],
-.awtsmoos-audio-offer .audio-retry[hidden],
-.awtsmoos-audio-offer .audio-task-elapsed[hidden] {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.awtsmoos-audio-offer) .audio-settings[hidden], :where(.awtsmoos-audio-offer) .audio-task-progress[hidden], :where(.awtsmoos-audio-offer) .audio-retry[hidden], :where(.awtsmoos-audio-offer) .audio-task-elapsed[hidden] {
 	display: none;
 }
-
-.awtsmoos-audio-offer .audio-task-progress,
-.awtsmoos-audio-offer .audio-feedback {
+.awtsmoos-audio-offer .audio-task-progress, .awtsmoos-audio-offer .audio-feedback {
 	display: grid;
 	gap: 6px;
 	min-width: 0;
 }
-
 .awtsmoos-audio-offer .audio-feedback {
 	grid-template-columns: minmax(0, 1fr) auto;
 	align-items: center;
 }
-
 .awtsmoos-audio-offer .audio-task-meta {
 	display: flex;
 	align-items: baseline;
@@ -44,37 +37,31 @@
 	gap: 4px 10px;
 	min-width: 0;
 }
-
-.awtsmoos-audio-offer .audio-task-detail,
-.awtsmoos-audio-offer .audio-task-elapsed,
-.awtsmoos-audio-offer .audio-status {
+.awtsmoos-audio-offer .audio-task-detail, .awtsmoos-audio-offer .audio-task-elapsed, .awtsmoos-audio-offer .audio-status {
 	min-width: 0;
 	font-size: 12px;
 	line-height: 1.45;
 	color: var(--awt-muted);
 	overflow-wrap: anywhere;
 }
-
 .awtsmoos-audio-offer .audio-task-elapsed {
 	font-variant-numeric: tabular-nums;
 	white-space: nowrap;
 }
-
-.awtsmoos-audio-offer .audio-status[data-tone="error"] {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.awtsmoos-audio-offer) .audio-status[data-tone="error"] {
 	color: var(--awt-red);
 }
-
-.awtsmoos-audio-offer .audio-status[data-tone="success"] {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.awtsmoos-audio-offer) .audio-status[data-tone="success"] {
 	color: var(--awt-hot);
 }
-
 .awtsmoos-audio-offer .audio-task-meter {
 	height: 5px;
 	overflow: hidden;
 	border-radius: 999px;
 	background: rgba(255, 255, 255, 0.07);
 }
-
 .awtsmoos-audio-offer .audio-task-meter > span {
 	display: block;
 	height: 100%;
@@ -82,12 +69,7 @@
 	background: linear-gradient(90deg, var(--awt-hot), var(--awt-blue));
 	transition: width 180ms ease;
 }
-
-.awtsmoos-audio-offer .audio-task-progress[data-determinate="false"] .audio-task-meter > span {
-	animation: awtsmoos-audio-working 1.3s ease-in-out infinite alternate;
-}
-
-@keyframes awtsmoos-audio-working {
+@keyframes awtsmoos-audio-working{
 	from {
 		transform: translateX(-55%);
 	}

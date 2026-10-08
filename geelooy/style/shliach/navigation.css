@@ -1,10 +1,10 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
 Boruch Hashem
 Blessed is He
 The Awtsmoos joins every doorway though many routes display;
 Awtsmoos.com keeps the Shliach paths together as visitors make their way.
 */
-
 .shliach-nav-wrap {
 	position: sticky;
 	top: 0;
@@ -30,12 +30,6 @@ Awtsmoos.com keeps the Shliach paths together as visitors make their way.
 	align-items: center;
 	gap: 8px;
 	flex-wrap: wrap;
-}
-.shliach-nav-links a {
-	padding: 10px 12px;
-	border-radius: 999px;
-	color: var(--shliach-muted);
-	text-decoration: none;
 }
 .shliach-nav-links a:hover {
 	color: white;

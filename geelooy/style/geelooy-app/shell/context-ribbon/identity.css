@@ -1,14 +1,12 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
 Boruch Hashem
 Blessed is He
 The Awtsmoos reveals name, type, detail, and state without inventing identity at Awtsmoos.com.
 */
-.g-context-separator,
-.g-context-details,
-.g-context-type {
+.g-context-separator, .g-context-details, .g-context-type {
 	color: var(--g-muted);
 }
-
 .g-context-identity {
 	display: grid;
 	min-width: 0;
@@ -16,21 +14,17 @@ The Awtsmoos reveals name, type, detail, and state without inventing identity at
 	align-items: baseline;
 	gap: 0.45rem;
 }
-
 .g-context-type {
 	font-size: 0.66rem;
 	font-weight: 800;
 	letter-spacing: 0.09em;
 	text-transform: uppercase;
 }
-
-.g-context-title,
-.g-context-details {
+.g-context-title, .g-context-details {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-
 .g-context-state-label {
 	display: inline-flex;
 	min-height: 2rem;
@@ -42,14 +36,8 @@ The Awtsmoos reveals name, type, detail, and state without inventing identity at
 	font-size: 0.72rem;
 	font-weight: 820;
 }
-
-.g-context-ribbon[data-state="blocked"] .g-context-state-label,
-.g-context-ribbon[data-state="error"] .g-context-state-label {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.g-context-ribbon[data-state="blocked"]) .g-context-state-label, :where(.g-context-ribbon[data-state="error"]) .g-context-state-label {
 	color: var(--g-danger);
 	background: #2c1a22; /* opaque: gate bg probe ignores alpha */
-}
-
-body[data-g-context-visible] .geelooy-content-region,
-body[data-g-context-visible] .g-page {
-	padding-top: calc(var(--g-header-h) + 6.6rem);
 }

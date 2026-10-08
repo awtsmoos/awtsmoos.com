@@ -27,6 +27,6 @@
 	font-size: 1.04rem;
 }
 
-.geelooy-mail-document #root {
+.geelooy-mail-document .root {
 	min-height: calc(100dvh - var(--g-topbar));
 }

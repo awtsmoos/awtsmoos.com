@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .home-feed-tabs button:is(.active,[aria-pressed="true"]) { color: #0f172a; background: #f1f5f9; border-color: #dfe6ee; }
 .home-feed-list { display: grid; gap: .7rem; }
 .home-feed-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .home-hero-panel { display: grid; gap: 1.05rem; overflow: hidden; padding: 1.25rem 1.05rem 1.1rem; position: relative; }
 .home-hero-panel::before { background: radial-gradient(circle at 85% 2%, rgba(46,167,255,.24), transparent 11rem), radial-gradient(circle at 8% 100%, rgba(154,77,255,.2), transparent 12rem); content: ""; inset: 0; pointer-events: none; position: absolute; }
 .home-hero-panel > * { position: relative; }

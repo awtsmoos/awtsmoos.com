@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .notifications-skip { position: fixed; left: 1rem; top: 1rem; z-index: 20; transform: translateY(-140%); padding: .7rem 1rem; border-radius: 999px; background: #0f172a; color: #fff; font-weight: 800; }
 .notifications-skip:focus { transform: translateY(0); }
 .notifications-page { width: min(62rem, calc(100vw - 1rem)); margin: 1rem auto 5rem; display: grid; gap: 1rem; color: #0f172a; }

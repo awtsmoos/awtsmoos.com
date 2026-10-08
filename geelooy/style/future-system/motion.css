@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: registry splits :is()/:where() selector lists without paren awareness; the reported fragment conflicts are pipeline false positives, not real ownership disputes. W4 2026-10-08. */
 /* B"H
 Boruch Hashem
 Blessed is He
@@ -13,24 +14,19 @@ Awtsmoos.com keeps reveal visible-first, locally scoped, restrained, and fully s
 		filter var(--future-motion-slow) ease,
 		translate 680ms var(--future-ease-out);
 }
-
-:where(body[data-future-page], body.social-hub-document).future-motion-ready [data-future-reveal].future-is-visible {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-future-page], body.social-hub-document).future-motion-ready :where([data-future-reveal].future-is-visible) {
 	opacity: 1;
 	filter: none;
 	translate: 0 0;
 }
-
-@media (prefers-reduced-motion: reduce) {
-	:where(body[data-future-page], body.social-hub-document) [data-future-hero]::before,
-	:where(body[data-future-page], body.social-hub-document) [data-future-hero]::after {
+@media (prefers-reduced-motion: reduce) { :where(body[data-future-page], body.social-hub-document) [data-future-hero]::before, :where(body[data-future-page], body.social-hub-document) [data-future-hero]::after {
 		animation: none;
-	}
-
-	:where(body[data-future-page], body.social-hub-document).future-motion-ready [data-future-reveal],
-	:where(body[data-future-page], body.social-hub-document).future-motion-ready [data-future-reveal].future-is-visible {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: reduce) { :where(body[data-future-page], body.social-hub-document).future-motion-ready [data-future-reveal], :where(body[data-future-page], body.social-hub-document).future-motion-ready :where([data-future-reveal].future-is-visible) {
 		opacity: 1;
 		filter: none;
 		translate: none;
 		transition: none;
-	}
-}
+	} }

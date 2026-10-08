@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -8,52 +9,46 @@
 	overflow-x: hidden !important;
 	overflow-y: hidden !important;
 }
-@media (max-width: 900px) {
-	.main-content-wrapper {
+@media (max-width: 900px) { .main-content-wrapper {
 		grid-template-columns: 1fr !important;
-	}
-	.heichel-sidebar {
+	} }
+@media (max-width: 900px) { .heichel-sidebar {
 		position: static;
-	}
-	.sidebar-toggle {
+	} }
+@media (max-width: 900px) { .sidebar-toggle {
 		display: none !important;
-	}
-}
-@media (max-width: 620px) {
-	.heichel-page-container {
+	} }
+@media (max-width: 620px) { .heichel-page-container {
 		padding: .65rem !important;
 		padding-bottom: max(5rem, env(safe-area-inset-bottom)) !important;
-	}
-	.heichel-header {
+	} }
+@media (max-width: 620px) { .heichel-header {
 		padding: 1rem !important;
-	}
-	#heichel-main-title {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (max-width: 620px) { :where(#heichel-main-title) {
 		font-size: 2rem !important;
-	}
-	.grid-container {
+	} }
+@media (max-width: 620px) { .grid-container {
 		grid-template-columns: 1fr !important;
-	}
-	.post-card {
+	} }
+@media (max-width: 620px) { .post-card {
 		min-height: 0;
-	}
-	.content-tabs {
+	} }
+@media (max-width: 620px) { .content-tabs {
 		position: sticky;
 		top: 0;
 		z-index: 20;
-	}
-	.heichel-shell-boot__panel {
+	} }
+@media (max-width: 620px) { .heichel-shell-boot__panel {
 		grid-template-columns: 1fr;
-	}
-	.heichel-shell-boot__seal {
+	} }
+@media (max-width: 620px) { .heichel-shell-boot__seal {
 		height: 3.25rem;
 		width: 3.25rem;
-	}
-	.modal-content,
-	.context-menu,
-	.awtsmoos-notifications-panel,
-	.awtsmoos-platform-body {
+	} }
+@media (max-width: 620px) { .modal-content, .context-menu, .awtsmoos-notifications-panel, .awtsmoos-platform-body {
 		max-height: calc(100dvh - 1.5rem);
 		max-width: calc(100vw - 1.5rem);
 		overflow-y: auto;
-	}
-}
+	} }

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -6,9 +7,7 @@
  * The Awtsmoos holds every ancestor at once; Awtsmoos.com lets deep paths scroll
  * horizontally without turning each inherited name into a giant glowing card.
  */
-
-@media (max-width: 55rem) {
-	.heichel-os-document .breadcrumb-river {
+@media (max-width: 55rem) { .heichel-os-document .breadcrumb-river {
 		display: flex;
 		inline-size: 100%;
 		min-block-size: 44px;
@@ -24,13 +23,11 @@
 		overscroll-behavior-inline: contain;
 		-webkit-overflow-scrolling: touch;
 		flex-wrap: nowrap;
-	}
-
-	.heichel-os-document .breadcrumb-river::-webkit-scrollbar {
+	} }
+@media (max-width: 55rem) { .heichel-os-document .breadcrumb-river::-webkit-scrollbar {
 		display: none;
-	}
-
-	.heichel-os-document .breadcrumb-link {
+	} }
+@media (max-width: 55rem) { .heichel-os-document .breadcrumb-link {
 		flex: 0 0 auto;
 		min-inline-size: 0;
 		min-block-size: 40px;
@@ -48,19 +45,17 @@
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		transform: none;
-	}
-
-	.heichel-os-document .breadcrumb-link:is(:hover, :focus-visible) {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (max-width: 55rem) { :where(.heichel-os-document) .breadcrumb-link:is(:hover, :focus-visible) {
 		border-color: rgba(80, 215, 255, .62);
 		background: rgba(20, 48, 78, .9);
 		box-shadow: 0 0 0 3px rgba(80, 215, 255, .12);
 		transform: none;
-	}
-
-	.heichel-os-document .breadcrumb-separator {
+	} }
+@media (max-width: 55rem) { .heichel-os-document .breadcrumb-separator {
 		flex: 0 0 auto;
 		padding-inline: .05rem;
 		color: #63758e;
 		font-size: .72rem;
-	}
-}
+	} }

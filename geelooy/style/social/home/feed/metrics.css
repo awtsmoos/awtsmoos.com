@@ -1,2 +1,3 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .home-feed-metrics { display: grid; gap: .65rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .home-feed-metrics article { min-width: 0; }

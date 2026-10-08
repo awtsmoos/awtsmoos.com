@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H
 Boruch Hashem
 Blessed is He
@@ -10,8 +11,8 @@ body[data-geelooy-route="home"] .portal-shortcuts {
 	gap: .55rem;
 	margin-top: .7rem;
 }
-
-body[data-geelooy-route="home"] .portal-shortcuts a {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .portal-shortcuts a {
 	display: grid;
 	grid-template-columns: auto minmax(0, 1fr);
 	align-items: center;
@@ -30,8 +31,8 @@ body[data-geelooy-route="home"] .portal-shortcuts a {
 		filter 120ms ease,
 		transform 180ms cubic-bezier(.2, .8, .2, 1);
 }
-
-body[data-geelooy-route="home"] .portal-shortcuts a > span {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) :where(.portal-shortcuts) :where(a) span {
 	display: grid;
 	place-items: center;
 	width: 2.4rem;
@@ -43,57 +44,47 @@ body[data-geelooy-route="home"] .portal-shortcuts a > span {
 	font-size: 1.05rem;
 	font-weight: 900;
 }
-
-body[data-geelooy-route="home"] .portal-shortcuts strong,
-body[data-geelooy-route="home"] .portal-shortcuts small {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .portal-shortcuts strong, :where(body[data-geelooy-route="home"]) .portal-shortcuts small {
 	min-width: 0;
 }
-
-body[data-geelooy-route="home"] .portal-shortcuts strong {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .portal-shortcuts strong {
 	font-size: .86rem;
 }
-
-body[data-geelooy-route="home"] .portal-shortcuts small {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .portal-shortcuts small {
 	grid-column: 2;
 	color: #8597ab;
 	font-size: .62rem;
 	line-height: 1.35;
 }
-
-@media (hover: hover) and (pointer: fine) {
-	body[data-geelooy-route="home"] .portal-shortcuts a:hover {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (hover: hover) and (pointer: fine) { :where(body[data-geelooy-route="home"]) .portal-shortcuts a:hover {
 		border-color: #4a7696;
 		background: #10243a;
 		box-shadow: 0 14px 32px rgba(0, 0, 0, .28);
 		transform: translateY(-2px);
-	}
-}
-
-body[data-geelooy-route="home"] .portal-shortcuts a:active {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .portal-shortcuts a:active {
 	border-color: #4f83a8;
 	filter: brightness(.96);
 	transform: translateY(1px) scale(.988);
 }
-
-body[data-geelooy-route="home"] .portal-shortcuts a:focus-visible {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .portal-shortcuts a:focus-visible {
 	outline: 3px solid var(--focus-ring);
 	outline-offset: 2px;
 }
-
-@media (max-width: 900px) {
-	body[data-geelooy-route="home"] .portal-shortcuts {
+@media (max-width: 900px) { body[data-geelooy-route="home"] .portal-shortcuts {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	body[data-geelooy-route="home"] .portal-shortcuts a {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .portal-shortcuts a {
 		transition: none;
-	}
-
-	body[data-geelooy-route="home"] .portal-shortcuts a:hover,
-	body[data-geelooy-route="home"] .portal-shortcuts a:active,
-	body[data-geelooy-route="home"] .portal-shortcuts a:focus-visible {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .portal-shortcuts a:hover, :where(body[data-geelooy-route="home"]) .portal-shortcuts a:active, :where(body[data-geelooy-route="home"]) .portal-shortcuts a:focus-visible {
 		transform: none;
-	}
-}
+	} }

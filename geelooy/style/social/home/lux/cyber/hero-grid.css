@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H — the hero becomes a cockpit map of impossible futures. */
 .home-hero-panel::before {
   background: linear-gradient(90deg, transparent, rgba(40,243,215,.34), rgba(154,77,255,.28), transparent);

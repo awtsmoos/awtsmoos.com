@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H — side panels become disciplined product panels. */
 .home-route-card::after { display: none; }
 .home-route-card { background: #fff; border: 1px solid #dfe6ee; color: #0f172a; }

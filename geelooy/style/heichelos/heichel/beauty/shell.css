@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -84,16 +85,7 @@
 	border-radius: var(--radius-pill);
 	background: var(--awt-surface-muted);
 }
-.heichel-shell-boot__progress span {
-	display: block;
-	width: 64%;
-	height: 100%;
-	border-radius: inherit;
-	background: var(--heichel-cyan);
-	transform-origin: left;
-	animation: heichel-boot-pulse 1s var(--ease-soft) infinite alternate;
-}
-@keyframes heichel-boot-pulse {
+@keyframes heichel-boot-pulse{
 	to {
 		transform: scaleX(.68);
 		opacity: .55;

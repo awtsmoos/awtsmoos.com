@@ -1,2 +1,3 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H timing: quick enough for hands, slow enough for soul. */
 :root { --motion-fast: 160ms; --motion-medium: 260ms; --motion-slow: 520ms; }

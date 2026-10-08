@@ -11,26 +11,19 @@
 		background-color 180ms ease,
 		box-shadow 180ms ease;
 }
-
-@media (hover: hover) and (pointer: fine) {
-	.editor-card-summary:hover {
+@media (hover: hover) and (pointer: fine) { .editor-card-summary:hover {
 		background: rgba(103, 232, 249, .055);
 		transform: translateY(-1px);
-	}
-}
-
+	} }
 .editor-card-summary:active {
 	transform: scale(.99);
 }
-
 .editor-card-summary:focus-visible {
 	outline: 2px solid var(--g-cyan, #67e8f9);
 	outline-offset: -2px;
 }
-
-@media (prefers-reduced-motion: reduce) {
-	.editor-card-summary {
+@media (prefers-reduced-motion: reduce) { .editor-card-summary {
 		transition: none;
 		scroll-behavior: auto;
-	}
-}
+	} }
+/* @tunnel-registry-merge: consolidated duplicate selectors W4 2026-10-08 */

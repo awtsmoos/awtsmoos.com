@@ -4,7 +4,6 @@ Blessed is He
 The Awtsmoos keeps the Shliach image whole so identity is never cropped away;
 Awtsmoos.com gives mobile media a measured vessel while the mission copy leads the day.
 */
-
 .shliach-spotlight-image-link {
 	align-items: center;
 	aspect-ratio: 1;
@@ -16,12 +15,10 @@ Awtsmoos.com gives mobile media a measured vessel while the mission copy leads t
 	overflow: hidden;
 	position: relative;
 }
-
 .shliach-spotlight-image-link[data-media-state="missing"] {
 	aspect-ratio: auto;
 	min-height: 8rem;
 }
-
 .shliach-spotlight-image {
 	aspect-ratio: 1;
 	display: block;
@@ -30,7 +27,6 @@ Awtsmoos.com gives mobile media a measured vessel while the mission copy leads t
 	transition: transform 180ms ease, filter 180ms ease;
 	width: 100%;
 }
-
 .shliach-spotlight-media-fallback {
 	align-items: center;
 	color: #dbe9ff;
@@ -43,53 +39,42 @@ Awtsmoos.com gives mobile media a measured vessel while the mission copy leads t
 	text-align: center;
 	width: 100%;
 }
-
 .shliach-spotlight-media-fallback[hidden] {
 	display: none;
 }
-
 .shliach-spotlight-media-fallback strong {
 	color: #8db7ff;
 	font-size: 3rem;
 	line-height: 1;
 }
-
 .shliach-spotlight-media-fallback small {
 	font-size: .82rem;
 	font-weight: 800;
 	letter-spacing: .08em;
 	text-transform: uppercase;
 }
-
-.shliach-spotlight-image-link:hover .shliach-spotlight-image {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.shliach-spotlight-image-link:hover) .shliach-spotlight-image {
 	filter: brightness(1.05);
 	transform: scale(1.018);
 }
-
-.shliach-spotlight-image-link:active .shliach-spotlight-image {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.shliach-spotlight-image-link:active) .shliach-spotlight-image {
 	filter: brightness(.97);
 	transform: scale(.995);
 }
-
-@media (max-width: 720px) {
-	.shliach-spotlight-image-link {
+@media (max-width: 720px) { .shliach-spotlight-image-link {
 		justify-self: center;
 		max-width: min(58vw, 224px);
 		width: 100%;
-	}
-
-	.shliach-spotlight-image-link[data-media-state="missing"] {
+	} }
+@media (max-width: 720px) { .shliach-spotlight-image-link[data-media-state="missing"] {
 		max-width: 12rem;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.shliach-spotlight-image {
+	} }
+@media (prefers-reduced-motion: reduce) { .shliach-spotlight-image {
 		transition: none;
-	}
-
-	.shliach-spotlight-image-link:hover .shliach-spotlight-image,
-	.shliach-spotlight-image-link:active .shliach-spotlight-image {
+	} }
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+@media (prefers-reduced-motion: reduce) { :where(.shliach-spotlight-image-link:hover) .shliach-spotlight-image, :where(.shliach-spotlight-image-link:active) .shliach-spotlight-image {
 		transform: none;
-	}
-}
+	} }

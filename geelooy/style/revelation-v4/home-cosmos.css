@@ -1,10 +1,11 @@
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 /* B"H
 Boruch Hashem
 Blessed is He
 The Awtsmoos renews a universe before the eye can measure time;
 Awtsmoos.com lets gold, violet, and living blue become one truthful rhyme.
 */
-html body[data-geelooy-route="home"] {
+body[data-geelooy-route="home"] {
 	background:
 		radial-gradient(circle at 50% -12%, rgba(255, 214, 124, .32), transparent 28rem),
 		radial-gradient(circle at 7% 22%, rgba(118, 72, 255, .29), transparent 32rem),
@@ -14,14 +15,14 @@ html body[data-geelooy-route="home"] {
 	background-attachment: fixed;
 	color: #fbf8ff;
 }
-
-html body[data-geelooy-route="home"] .particle-sky {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(html) body[data-geelooy-route="home"] .particle-sky {
 	opacity: .86;
 	filter: saturate(1.6) contrast(1.14);
 	mix-blend-mode: screen;
 }
-
-html body[data-geelooy-route="home"] .ambient-glow {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(html) body[data-geelooy-route="home"] .ambient-glow {
 	background:
 		radial-gradient(circle at 50% 4%, rgba(255, 214, 126, .34), transparent 22rem),
 		radial-gradient(circle at 16% 44%, rgba(132, 79, 255, .27), transparent 28rem),
@@ -29,8 +30,8 @@ html body[data-geelooy-route="home"] .ambient-glow {
 	filter: blur(24px) saturate(1.22);
 	opacity: 1;
 }
-
-html body[data-geelooy-route="home"] .site-header {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(html) body[data-geelooy-route="home"] .site-header {
 	background:
 		linear-gradient(180deg, rgba(2, 2, 10, .98), rgba(6, 7, 20, .8)),
 		radial-gradient(circle at 50% 0%, rgba(255, 202, 89, .1), transparent 65%);
@@ -38,8 +39,8 @@ html body[data-geelooy-route="home"] .site-header {
 	box-shadow: 0 20px 58px rgba(0, 0, 0, .44), 0 1px rgba(255, 227, 166, .06);
 	backdrop-filter: blur(30px) saturate(1.4);
 }
-
-html body[data-geelooy-route="home"] .brand-mark {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(html) body[data-geelooy-route="home"] .brand-mark {
 	background: radial-gradient(circle at 31% 26%, #fffbed 0%, #ffdb7e 30%, #9e63ff 100%);
 	box-shadow:
 		0 0 28px rgba(255, 217, 132, .62),
@@ -47,13 +48,13 @@ html body[data-geelooy-route="home"] .brand-mark {
 		inset 0 1px rgba(255, 255, 255, .72);
 	color: #14090d;
 }
-
-body[data-geelooy-route="home"] main.home {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) main.home {
 	position: relative;
 	isolation: isolate;
 }
-
-body[data-geelooy-route="home"] main.home::before {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) :where(main.home)::before {
 	position: absolute;
 	inset: 1.5rem 2% auto;
 	z-index: -2;
@@ -64,8 +65,8 @@ body[data-geelooy-route="home"] main.home::before {
 	content: "";
 	pointer-events: none;
 }
-
-body[data-geelooy-route="home"] main.home::after {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) :where(main.home)::after {
 	position: absolute;
 	top: 1rem;
 	left: 50%;

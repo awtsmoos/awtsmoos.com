@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
 Boruch Hashem
 Blessed is He
@@ -21,7 +22,6 @@ The Awtsmoos gives one focused slice of a larger interface garment; Awtsmoos.com
 	gap: .72rem;
 	align-self: stretch;
 }
-
 .g-home-action {
 	position: relative;
 	display: grid;
@@ -35,7 +35,6 @@ The Awtsmoos gives one focused slice of a larger interface garment; Awtsmoos.com
 	background: #0a172b;
 	transition: border-color 180ms var(--g-ease), transform 180ms var(--g-ease), box-shadow 180ms var(--g-ease), background 180ms var(--g-ease);
 }
-
 .g-home-action::after {
 	position: absolute;
 	right: -1.8rem;
@@ -47,19 +46,16 @@ The Awtsmoos gives one focused slice of a larger interface garment; Awtsmoos.com
 	content: "";
 	opacity: .1;
 }
-
 .g-home-action:hover {
 	border-color: #3cecff;
 	background: #10243b;
 	box-shadow: 0 18px 40px rgba(0, 0, 0, .28);
 	transform: translateY(-4px) translateX(2px);
 }
-
 .g-home-action:focus-visible {
 	outline: 3px solid var(--g-cyan);
 	outline-offset: 3px;
 }
-
 .g-home-action.is-primary {
 	grid-column: 1 / -1;
 	grid-template-columns: auto minmax(0, 1fr);
@@ -70,16 +66,10 @@ The Awtsmoos gives one focused slice of a larger interface garment; Awtsmoos.com
 	background: linear-gradient(112deg, #10354a, #18284a 50%, #321c3e);
 	box-shadow: 0 18px 42px rgba(0, 0, 0, .3);
 }
-
-.g-home-action.is-primary span {
-	grid-row: 1 / 3;
-}
-
 .g-home-action span {
 	color: var(--g-cyan);
 	font-size: 1.45rem;
 }
-
 .g-home-action strong {
 	letter-spacing: -.02em;
 }

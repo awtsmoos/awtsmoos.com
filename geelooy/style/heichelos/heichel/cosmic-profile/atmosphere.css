@@ -1,10 +1,9 @@
+/* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
 /* The Awtsmoos places one living cosmic field behind the real Heichel route. */
-
-.heichel-os-document,
-.heichel-os-document body {
+.heichel-os-document, .heichel-os-document body {
 	min-width: 0;
 	min-height: 100%;
 	color: var(--heichel-cosmic-text) !important;
@@ -13,9 +12,8 @@
 		radial-gradient(circle at 97% 70%, rgba(163, 90, 255, .22), transparent 27rem),
 		linear-gradient(180deg, var(--heichel-cosmic-void), var(--heichel-cosmic-page) 54%, var(--heichel-cosmic-void)) !important;
 }
-
-.heichel-os-document body::before,
-.heichel-os-document body::after {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-os-document) :where(body)::before {
 	position: fixed;
 	inset-block: 0;
 	z-index: 0;
@@ -25,21 +23,13 @@
 	filter: blur(1.2rem);
 	opacity: .72;
 }
-
-.heichel-os-document body::before {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-os-document) :where(body)::before {
 	left: 0;
 	background:
 		radial-gradient(ellipse at left 18%, rgba(80, 215, 255, .22), transparent 56%),
 		radial-gradient(ellipse at 18% 72%, rgba(52, 155, 255, .18), transparent 58%);
 }
-
-.heichel-os-document body::after {
-	right: 0;
-	background:
-		radial-gradient(ellipse at right 31%, rgba(163, 90, 255, .23), transparent 57%),
-		radial-gradient(ellipse at 82% 78%, rgba(218, 97, 194, .17), transparent 60%);
-}
-
 .heichel-os-document .awtsmoos-cosmic-canvas {
 	position: fixed;
 	inset: 0;
@@ -49,26 +39,19 @@
 	height: 100%;
 	pointer-events: none;
 }
-
-.heichel-os-document[data-cosmic-fallback="true"] .awtsmoos-cosmic-canvas,
-.heichel-os-document .awtsmoos-cosmic-canvas[hidden] {
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(.heichel-os-document[data-cosmic-fallback="true"]) .awtsmoos-cosmic-canvas, :where(.heichel-os-document) .awtsmoos-cosmic-canvas[hidden] {
 	display: none;
 }
-
-.heichel-os-document .all,
-.heichel-os-document .heichel-mobile-navigation,
-.heichel-os-document .geelooy-main-stage {
+.heichel-os-document .all, .heichel-os-document .heichel-mobile-navigation, .heichel-os-document .geelooy-main-stage {
 	position: relative;
 	z-index: 1;
 }
-
-.heichel-os-document .heichel-page-container,
-.heichel-os-document .heichel-mobile-navigation {
+.heichel-os-document .heichel-page-container, .heichel-os-document .heichel-mobile-navigation {
 	max-width: none !important;
 	padding: 0 !important;
 	background: transparent !important;
 }
-
 .heichel-os-document .geelooy-main-stage {
 	width: min(calc(100% - 2rem), var(--heichel-profile-width));
 	margin-inline: auto;

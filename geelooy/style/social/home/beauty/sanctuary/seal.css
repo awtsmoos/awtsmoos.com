@@ -1,2 +1,3 @@
+/* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H sanctuary seal glow. */
 .home-sanctuary-card [class*="seal"] { filter: drop-shadow(0 .65rem 1.2rem rgba(159,107,49,.28)); }
