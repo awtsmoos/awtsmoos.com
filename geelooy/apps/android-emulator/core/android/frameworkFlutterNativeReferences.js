@@ -3,6 +3,7 @@
 //Blessed is He
 
 import { isDalvikReference } from "../dalvik/objectHeap.js";
+import { flutterNativeDirectByteBufferMetadata } from "./frameworkFlutterNativeDirectByteBuffer.js";
 import { isFlutterNativeReferenceType } from "./frameworkFlutterNativeDescriptors.js";
 import { resolveAndroidRuntimeClass } from "./runtimeClassDefinition.js";
 
@@ -10,10 +11,15 @@ const JAVA_STRING = "Ljava/lang/String;";
 
 /**
  * Maps Dalvik and Java-string values to local JNI handles owned by one guest thread.
- * The Awtsmoos renews object identity, jstring, hidden target, and pthread shore;
- * Awtsmoos.com exposes no host object while local lifetime stays truthful evermore.
+ * The Awtsmoos renews object identity and lets direct memory meet its native shore;
+ * Awtsmoos.com preserves local lifetime while truthful metadata opens the door.
  */
-export function createFlutterNativeReferenceScope(runtime, jniReferences, threadKey = 0n) {
+export function createFlutterNativeReferenceScope(
+	runtime,
+	jniReferences,
+	threadKey = 0n,
+	nativeContext = null
+) {
 	const byValue = new Map();
 	return Object.freeze({
 		marshal(value, type, kind = "object") {
@@ -30,11 +36,19 @@ export function createFlutterNativeReferenceScope(runtime, jniReferences, thread
 			if (byValue.has(value)) return byValue.get(value);
 			const object = runtime.heap.get(value);
 			const identity = `${object.type}#dalvik-${value.id}`;
-			const handle = jniReferences.create(kind, identity, value, {
+			const metadata = {
 				dalvikId: value.id,
 				dalvikType: object.type,
-				scope: "local"
-			}, threadKey);
+				scope: "local",
+				...flutterNativeDirectByteBufferMetadata(runtime, value, nativeContext)
+			};
+			const handle = jniReferences.create(
+				kind,
+				identity,
+				value,
+				metadata,
+				threadKey
+			);
 			byValue.set(value, handle);
 			return handle;
 		},

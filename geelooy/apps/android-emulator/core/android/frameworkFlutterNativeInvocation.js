@@ -1,6 +1,6 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 import { createAarch64Registers } from "../native/aarch64Registers.js";
 import { jniGuestThreadKey } from "../native/jniGuestThreadKey.js";
@@ -36,7 +36,11 @@ export function invokeFrameworkFlutterNative(
 	const scope = createFlutterNativeReferenceScope(
 		runtime,
 		session.state.jniReferences,
-		threadKey
+		threadKey,
+		{
+			memory: session.state.memory,
+			nativeHeap: session.state.nativeHeap
+		}
 	);
 	const receiver = staticMethod
 		? scope.marshalClass(record.method.classType)
