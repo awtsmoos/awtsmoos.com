@@ -269,16 +269,24 @@ function el(tag, className, text) {
 export function awakenMeluketSeferReader(post) {
 	const enrichment = post && post.enrichment;
 	if (!enrichment || !Array.isArray(enrichment.hebrew_phrases) || !enrichment.hebrew_phrases.length) {
+		console.log("B\"H sefer reader skipped: no hebrew_phrases", !!enrichment, enrichment?.hebrew_phrases?.length);
 		return false; // Not a Meluket enriched post.
 	}
 	const translationEn = enrichment.translation_en || {};
 	const summariesEn = enrichment.summaries_en || {};
 	const sectionSummaries = summariesEn.sections || {};
 	const realPost = document.getElementById('realPost');
-	if (!realPost) return false;
+	if (!realPost) {
+		console.log("B\"H sefer reader skipped: no #realPost element");
+		return false;
+	}
 
 	const hebrewSections = buildHebrewSections(enrichment.hebrew_phrases);
-	if (!hebrewSections.length) return false;
+	if (!hebrewSections.length) {
+		console.log("B\"H sefer reader skipped: buildHebrewSections empty");
+		return false;
+	}
+	console.log("B\"H sefer reader activating:", hebrewSections.length, "sections");
 
 	const langMode = readSavedLangMode();
 

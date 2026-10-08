@@ -101,9 +101,10 @@ export async function bootApplication() {
         // B"H — Meluket sefer restructuring: bilingual warm sections for enriched posts.
         try {
             const { awakenMeluketSeferReader } = await import("../scribe/MeluketSeferReader.js");
-            awakenMeluketSeferReader(post);
+            const seferResult = awakenMeluketSeferReader(post);
+            console.log("B\"H meluket sefer reader result:", seferResult, "phrases:", post?.enrichment?.hebrew_phrases?.length);
         } catch (seferError) {
-            console.warn("B\"H meluket sefer reader skipped", seferError);
+            console.error("B\"H meluket sefer reader FAILED", seferError);
         }
 
         appendFooterNavigation(viewport, post, series, pIdx);
