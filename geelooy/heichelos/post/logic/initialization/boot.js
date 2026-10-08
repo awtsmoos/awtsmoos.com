@@ -103,8 +103,19 @@ export async function bootApplication() {
             const { awakenMeluketSeferReader } = await import("../scribe/MeluketSeferReader.js");
             const seferResult = awakenMeluketSeferReader(post);
             console.log("B\"H meluket sefer reader result:", seferResult, "phrases:", post?.enrichment?.hebrew_phrases?.length);
+            // TEMP DEBUG: show result on page
+            const dbg = document.createElement('div');
+            dbg.id = 'sefer-debug';
+            dbg.style.cssText = 'position:fixed;top:0;left:0;background:yellow;color:black;padding:10px;z-index:99999;font-size:16px;';
+            dbg.textContent = `Sefer reader result: ${seferResult}, phrases: ${post?.enrichment?.hebrew_phrases?.length}, hasRealPost: ${!!document.getElementById('realPost')}`;
+            document.body.appendChild(dbg);
         } catch (seferError) {
             console.error("B\"H meluket sefer reader FAILED", seferError);
+            const dbg = document.createElement('div');
+            dbg.id = 'sefer-debug-error';
+            dbg.style.cssText = 'position:fixed;top:0;left:0;background:red;color:white;padding:10px;z-index:99999;font-size:16px;';
+            dbg.textContent = `Sefer reader ERROR: ${seferError.message}`;
+            document.body.appendChild(dbg);
         }
 
         appendFooterNavigation(viewport, post, series, pIdx);
