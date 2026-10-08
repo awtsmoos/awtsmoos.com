@@ -261,10 +261,10 @@ function applyLangMode(root, mode) {
 	if (titleHe) {
 		titleHe.style.display = (mode === 'english') ? 'none' : '';
 	}
-	// Also hide the old post-title element that we preserved
-	const postTitle = root.parentElement ? root.parentElement.querySelector('.post-title') : null;
-	if (postTitle) {
-		postTitle.style.display = (mode === 'english') ? 'none' : '';
+	// Also hide the preserved old post-title (stored reference on sefer)
+	const preservedTitle = root._preservedTitle;
+	if (preservedTitle) {
+		preservedTitle.style.display = (mode === 'english') ? 'none' : '';
 	}
 	try {
 		localStorage.setItem('meluket-lang-mode', mode);
@@ -441,6 +441,8 @@ export function awakenMeluketSeferReader(post) {
 	realPost.innerHTML = '';
 	if (existingTitle) realPost.appendChild(existingTitle);
 	realPost.appendChild(sefer);
+	// Store reference to preserved title for language mode toggling
+	if (existingTitle) sefer._preservedTitle = existingTitle;
 
 	// Mark the reader root so sefer styles apply.
 	const root = document.querySelector('.post-reader-localized-context');
@@ -489,11 +491,10 @@ export function awakenMeluketSeferReader(post) {
 		if (titleHe) {
 			titleHe.style.display = (langMode === 'english') ? 'none' : '';
 		}
-		// Also hide the preserved old post-title
-		const realPost = sefer.parentElement;
-		const postTitle = realPost ? realPost.querySelector('.post-title') : null;
-		if (postTitle) {
-			postTitle.style.display = (langMode === 'english') ? 'none' : '';
+		// Also hide the preserved old post-title (stored reference)
+		const preservedTitle = sefer._preservedTitle;
+		if (preservedTitle) {
+			preservedTitle.style.display = (langMode === 'english') ? 'none' : '';
 		}
 	};
 	applySeferTheme();
