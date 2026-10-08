@@ -266,6 +266,15 @@ function applyLangMode(root, mode) {
 	if (preservedTitle) {
 		preservedTitle.style.display = (mode === 'english') ? 'none' : '';
 	}
+	// Update document tab title in English mode
+	if (mode === 'english') {
+		// Save original title if not already saved
+		if (!document._originalTitle) document._originalTitle = document.title;
+		// Use English transliteration for tab
+		document.title = 'Meluket - English | Awtsmoos';
+	} else {
+		if (document._originalTitle) document.title = document._originalTitle;
+	}
 	try {
 		localStorage.setItem('meluket-lang-mode', mode);
 	} catch (_) { /* private mode */ }
