@@ -25,9 +25,7 @@ async function dispatch(options = {}) {
 	const record = createRecord(options);
 	Activity.queued(options.context, record);
 	const waiting = Lifecycle.attachWaiter(record, options.waitMs);
-	try {
-		await sendDurably(options, record);
-	} catch (error) {
+	void sendDurably(options, record).catch((error) => {
 		void Lifecycle.finishPending(
 			options.context,
 			options.plan.transportId,
@@ -38,7 +36,7 @@ async function dispatch(options = {}) {
 				error
 			)
 		);
-	}
+	});
 	return waiting;
 }
 
