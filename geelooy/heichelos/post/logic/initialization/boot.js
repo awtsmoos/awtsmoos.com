@@ -98,6 +98,14 @@ export async function bootApplication() {
             appendHTML(post.content, viewport);
         }
 
+        // B"H — Meluket sefer restructuring: bilingual warm sections for enriched posts.
+        try {
+            const { awakenMeluketSeferReader } = await import("../scribe/MeluketSeferReader.js");
+            awakenMeluketSeferReader(post);
+        } catch (seferError) {
+            console.warn("B\"H meluket sefer reader skipped", seferError);
+        }
+
         appendFooterNavigation(viewport, post, series, pIdx);
         await initConduit({ post, mainParent: document.body, parent: window.commentTab.actual, tab: window.commentTab });
 

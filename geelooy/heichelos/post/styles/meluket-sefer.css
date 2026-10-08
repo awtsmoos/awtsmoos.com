@@ -1,0 +1,375 @@
+/* B"H — Meluket Sefer Reader.
+ * A printed-sefer dignity for the maamar: warm paper, distinct sections,
+ * Hebrew above with the English dwelling beneath it — never side by side.
+ * Applies only when .meluket-sefer-active marks the reader root.
+ */
+
+/* ---------- Sefer container ---------- */
+.meluket-sefer-active .meluket-sefer {
+	--sefer-paper: #faf5e9;
+	--sefer-paper-deep: #f3ecdc;
+	--sefer-ink: #2b2118;
+	--sefer-ink-soft: #5a4c3d;
+	--sefer-accent: #8a6d3b;
+	--sefer-rule: #d9c9a8;
+	--sefer-card: #fffdf6;
+	--sefer-shadow: 0 2px 14px rgba(90, 70, 40, 0.10);
+	max-width: 1180px;
+	margin: 0 auto;
+	padding: clamp(1rem, 3vw, 2.5rem) clamp(0.75rem, 3vw, 2rem) 4rem;
+	background: var(--sefer-paper);
+	border-radius: 6px;
+}
+
+:root[data-theme="dark"] .meluket-sefer-active .meluket-sefer,
+.meluket-sefer-active[data-theme="dark"] .meluket-sefer {
+	--sefer-paper: #171209;
+	--sefer-paper-deep: #100c06;
+	--sefer-ink: #f0e7d3;
+	--sefer-ink-soft: #c9b992;
+	--sefer-accent: #d4a94e;
+	--sefer-rule: #4a3a22;
+	--sefer-card: #201a10;
+	--sefer-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
+}
+
+/* ---------- Title block ---------- */
+.meluket-sefer-active .meluket-sefer-title {
+	text-align: center;
+	padding: 1.5rem 1rem 1rem;
+	margin-bottom: 1rem;
+	border-bottom: 3px double var(--sefer-rule);
+}
+
+.meluket-sefer-active .meluket-sefer-title-he {
+	font-family: "Frank Ruhl Libre", Cardo, Georgia, serif;
+	font-size: clamp(7.6rem, 20vw, 11.6rem);
+	line-height: 1.25;
+	color: var(--sefer-ink);
+	margin: 0;
+	font-weight: 700;
+}
+
+/* ---------- Language toggle ---------- */
+.meluket-sefer-active .meluket-lang-toggle {
+	display: flex;
+	gap: 0.5rem;
+	justify-content: center;
+	margin: 0 auto 1.75rem;
+	flex-wrap: wrap;
+}
+
+.meluket-sefer-active .meluket-lang-btn {
+	font-family: inherit;
+	font-size: 4rem;
+	font-weight: 700;
+	padding: 2.2rem 5.6rem;
+	border-radius: 999px;
+	border: 8px solid var(--sefer-rule);
+	background: transparent;
+	color: var(--sefer-ink-soft);
+	cursor: pointer;
+	transition: all 0.18s ease;
+}
+
+.meluket-sefer-active .meluket-lang-btn:hover {
+	border-color: var(--sefer-accent);
+	color: var(--sefer-ink);
+}
+
+.meluket-sefer-active .meluket-lang-btn.is-active {
+	background: var(--sefer-accent);
+	border-color: var(--sefer-accent);
+	color: #fffdf6;
+}
+
+/* ---------- Section card ---------- */
+.meluket-sefer-active .meluket-sefer-section {
+	position: relative;
+	background: var(--sefer-card);
+	border: 1px solid var(--sefer-rule);
+	border-radius: 10px;
+	box-shadow: var(--sefer-shadow);
+	margin: 0 0 1.75rem;
+	padding: 1.75rem clamp(1rem, 3vw, 2.25rem) 1.5rem;
+	overflow: hidden;
+}
+
+/* Warm top edge — like a sefer's page head. */
+.meluket-sefer-active .meluket-sefer-section::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 5px;
+	background: linear-gradient(90deg, var(--sefer-accent), var(--sefer-rule), var(--sefer-accent));
+	opacity: 0.65;
+}
+
+/* Section number — the siman. */
+.meluket-sefer-active .meluket-section-marker {
+	position: absolute;
+	top: 0.9rem;
+	inset-inline-start: 1rem;
+	pointer-events: none;
+}
+
+.meluket-sefer-active .meluket-section-number {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 8.4rem;
+	height: 8.4rem;
+	padding: 0 1.6rem;
+	border-radius: 50%;
+	background: var(--sefer-paper-deep);
+	border: 6px solid var(--sefer-accent);
+	color: var(--sefer-accent);
+	font-weight: 800;
+	font-size: 4rem;
+	line-height: 1;
+}
+
+/* ---------- Hebrew vessel ---------- */
+.meluket-sefer-active .meluket-hebrew {
+	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
+	font-size: clamp(5.4rem, 10.4vw, 6.6rem);
+	line-height: 1.75;
+	color: var(--sefer-ink);
+	text-align: justify;
+	margin-bottom: 2rem;
+}
+
+/* Phrase blocks — split by Yaakov's punctuation rule (., ()[]). */
+.meluket-sefer-active .meluket-phrase {
+	margin: 0 0 0.85em;
+}
+
+.meluket-sefer-active .meluket-phrase:last-child {
+	margin-bottom: 0;
+}
+
+.meluket-sefer-active .meluket-hebrew h3 {
+	font-size: 1.25em;
+	line-height: 1.4;
+	margin: 0 0 0.75em;
+	color: var(--sefer-ink);
+	text-align: center;
+}
+
+.meluket-sefer-active .meluket-hebrew p {
+	margin: 0 0 0.9em;
+}
+
+.meluket-sefer-active .meluket-hebrew sup {
+	color: var(--sefer-accent);
+	font-size: 0.68em;
+	font-weight: 700;
+	margin-inline-start: 0.15em;
+	cursor: pointer;
+}
+
+/* [cup] markers become bold — the dibur hamatchil. */
+.meluket-sefer-active .meluket-hebrew b,
+.meluket-sefer-active .meluket-hebrew strong {
+	color: var(--sefer-ink);
+}
+
+/* ---------- English vessel ---------- */
+.meluket-sefer-active .meluket-english {
+	font-family: "Source Serif 4", Georgia, serif;
+	font-size: clamp(4.2rem, 8.4vw, 4.88rem);
+	line-height: 1.7;
+	color: var(--sefer-ink-soft);
+	border-top: 4px dashed var(--sefer-rule);
+	margin-top: 4.4rem;
+	padding-top: 4.4rem;
+}
+
+.meluket-sefer-active .meluket-english p {
+	margin: 0 0 0.8em;
+}
+
+.meluket-sefer-active .meluket-english p:last-child {
+	margin-bottom: 0;
+}
+
+/* ---------- Language modes ---------- */
+.meluket-sefer-active .meluket-sefer-section[data-lang-mode="hebrew"] .meluket-english {
+	display: none;
+}
+
+.meluket-sefer-active .meluket-sefer-section[data-lang-mode="english"] .meluket-hebrew {
+	display: none;
+}
+
+.meluket-sefer-active .meluket-sefer-section[data-lang-mode="english"] .meluket-english {
+	border-top: none;
+	margin-top: 0;
+	padding-top: 0;
+	color: var(--sefer-ink);
+	font-size: clamp(4.8rem, 9.6vw, 5.8rem);
+}
+
+/* ---------- Summaries ---------- */
+.meluket-sefer-active .meluket-post-summary {
+	background: var(--sefer-paper-deep);
+	border: 1px solid var(--sefer-rule);
+	border-radius: 10px;
+	padding: 1.25rem clamp(1rem, 3vw, 1.75rem);
+	margin: 0 0 1.75rem;
+	font-size: 1.15rem;
+	line-height: 1.7;
+	color: var(--sefer-ink-soft);
+}
+
+.meluket-sefer-active .meluket-summary {
+	margin-top: 1.1rem;
+	padding-top: 1rem;
+	border-top: 1px dotted var(--sefer-rule);
+	font-size: 1.08rem;
+	line-height: 1.65;
+	color: var(--sefer-ink-soft);
+}
+
+.meluket-sefer-active .meluket-summary-label {
+	font-size: 0.85rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--sefer-accent);
+	margin-bottom: 0.4rem;
+}
+
+.meluket-sefer-active .meluket-summary p,
+.meluket-sefer-active .meluket-post-summary p {
+	margin: 0;
+}
+
+/* ---------- Q&A ---------- */
+.meluket-sefer-active .meluket-qa {
+	margin-top: 2.5rem;
+	background: var(--sefer-card);
+	border: 1px solid var(--sefer-rule);
+	border-radius: 10px;
+	box-shadow: var(--sefer-shadow);
+	padding: 1.5rem clamp(1rem, 3vw, 2rem);
+}
+
+.meluket-sefer-active .meluket-qa-title {
+	font-family: "Frank Ruhl Libre", Georgia, serif;
+	font-size: 1.5rem;
+	color: var(--sefer-ink);
+	margin: 0 0 1.25rem;
+	padding-bottom: 0.6rem;
+	border-bottom: 2px solid var(--sefer-accent);
+}
+
+.meluket-sefer-active .meluket-qa-item {
+	margin-bottom: 1.25rem;
+	padding-bottom: 1.25rem;
+	border-bottom: 1px dotted var(--sefer-rule);
+}
+
+.meluket-sefer-active .meluket-qa-item:last-child {
+	margin-bottom: 0;
+	padding-bottom: 0;
+	border-bottom: none;
+}
+
+.meluket-sefer-active .meluket-qa-q {
+	font-weight: 700;
+	font-size: 1.15rem;
+	color: var(--sefer-ink);
+	margin-bottom: 0.5rem;
+}
+
+.meluket-sefer-active .meluket-qa-a {
+	font-size: 1.08rem;
+	line-height: 1.65;
+	color: var(--sefer-ink-soft);
+}
+
+/* ---------- Footnotes shelf — distinct from the main text ---------- */
+.meluket-sefer-active .meluket-footnotes-shelf {
+	margin-top: 2.5rem;
+	background: var(--sefer-paper-deep);
+	border: 1px solid var(--sefer-rule);
+	border-radius: 10px;
+	padding: 1.5rem clamp(1rem, 3vw, 2rem);
+}
+
+.meluket-sefer-active .meluket-footnotes-title {
+	font-family: "Frank Ruhl Libre", Georgia, serif;
+	font-size: 5.6rem;
+	color: var(--sefer-ink);
+	margin: 0 0 4rem;
+	padding-bottom: 2.4rem;
+	border-bottom: 8px solid var(--sefer-accent);
+}
+
+.meluket-sefer-active .meluket-footnotes-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.meluket-sefer-active .meluket-footnote {
+	display: flex;
+	gap: 3.6rem;
+	padding: 3.2rem 0;
+	border-bottom: 4px dotted var(--sefer-rule);
+	font-size: 4.08rem;
+	line-height: 1.65;
+}
+
+.meluket-sefer-active .meluket-footnote:last-child {
+	border-bottom: none;
+}
+
+.meluket-sefer-active .meluket-footnote-num {
+	flex: 0 0 8rem;
+	height: 8rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	background: var(--sefer-accent);
+	color: #fffdf6;
+	font-weight: 800;
+	font-size: 3.68rem;
+}
+
+.meluket-sefer-active .meluket-footnote-body {
+	flex: 1;
+	color: var(--sefer-ink-soft);
+}
+
+.meluket-sefer-active .meluket-footnote-he {
+	display: block;
+	font-family: "Frank Ruhl Libre", Georgia, serif;
+	color: var(--sefer-ink);
+	margin-bottom: 0.35rem;
+}
+
+.meluket-sefer-active .meluket-footnote-en {
+	display: block;
+	font-family: "Source Serif 4", Georgia, serif;
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 640px) {
+	.meluket-sefer-active .meluket-sefer {
+		padding: 0.75rem 0.5rem 3rem;
+		border-radius: 0;
+	}
+	.meluket-sefer-active .meluket-sefer-section {
+		border-radius: 8px;
+		padding: 1.4rem 1rem 1.2rem;
+		margin-bottom: 1.25rem;
+	}
+	.meluket-sefer-active .meluket-hebrew {
+		text-align: right;
+	}
+}
