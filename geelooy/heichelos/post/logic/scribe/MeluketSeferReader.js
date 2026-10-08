@@ -256,6 +256,11 @@ function applyLangMode(root, mode) {
 	root.querySelectorAll('.meluket-sefer-section').forEach(section => {
 		section.dataset.langMode = mode;
 	});
+	// Hide/show Hebrew title via JS
+	const titleHe = root.querySelector('.meluket-sefer-title-he');
+	if (titleHe) {
+		titleHe.style.display = (mode === 'english') ? 'none' : '';
+	}
 	try {
 		localStorage.setItem('meluket-lang-mode', mode);
 	} catch (_) { /* private mode */ }
@@ -458,6 +463,35 @@ export function awakenMeluketSeferReader(post) {
 			setTimeout(() => target.classList.remove('meluket-footnote-highlight'), 2000);
 		}
 	});
+
+	// Theme watcher: force sefer colors based on awtsmoos-theme.
+	// This overrides any CSS cascade issues with !important inline styles.
+	const applySeferTheme = () => {
+		const theme = localStorage.getItem('awtsmoos-theme') || 'dark';
+		const isLight = theme === 'light';
+		const ink = isLight ? '#2b2118' : '#f0e7d3';
+		const bg = isLight ? '#faf5e9' : '#171209';
+		sefer.style.setProperty('color', ink, 'important');
+		sefer.style.setProperty('background-color', bg, 'important');
+		sefer.querySelectorAll('*').forEach(el => {
+			// Skip buttons and interactive elements that have their own colors
+			if (el.tagName === 'BUTTON' && el.classList.contains('meluket-fn-marker')) return;
+			el.style.setProperty('color', ink, 'important');
+		});
+		// Hide Hebrew title in English mode via JS (backup for CSS)
+		const langMode = sefer.dataset.langMode;
+		const titleHe = sefer.querySelector('.meluket-sefer-title-he');
+		if (titleHe) {
+			titleHe.style.display = (langMode === 'english') ? 'none' : '';
+		}
+	};
+	applySeferTheme();
+	// Watch for theme changes
+	window.addEventListener('storage', (e) => {
+		if (e.key === 'awtsmoos-theme') applySeferTheme();
+	});
+	// Also check periodically (theme might change without storage event)
+	setInterval(applySeferTheme, 2000);
 
 	return true;
 }
