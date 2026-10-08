@@ -424,9 +424,19 @@ export function awakenMeluketSeferReader(post) {
 
 	// Footnote markers: click to scroll to footnote in shelf.
 	sefer.addEventListener('click', (e) => {
-		const marker = e.target.closest('[data-fn]');
-		if (!marker) return;
-		const fnNum = marker.getAttribute('data-fn');
+		// Try data-fn attribute first, then plain sup with number
+		let marker = e.target.closest('[data-fn]');
+		let fnNum = marker ? marker.getAttribute('data-fn') : null;
+		if (!fnNum) {
+			const sup = e.target.closest('sup');
+			if (sup) {
+				const text = sup.textContent.trim();
+				// Extract number from sup text (e.g., "1", "*", "1,2")
+				const match = text.match(/(\d+)/);
+				if (match) fnNum = match[1];
+			}
+		}
+		if (!fnNum) return;
 		const target = sefer.querySelector(`.meluket-footnote[data-fn="${fnNum}"]`);
 		if (target) {
 			target.scrollIntoView({ behavior: 'smooth', block: 'center' });

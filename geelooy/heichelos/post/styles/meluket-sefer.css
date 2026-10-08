@@ -402,3 +402,28 @@
 	border-radius: 4px;
 	transition: background 0.3s;
 }
+
+/* Force dark text in light theme — override any inherited white text */
+:root[data-theme="light"] .meluket-sefer-active .meluket-sefer,
+:root:not([data-theme="dark"]) .meluket-sefer-active .meluket-sefer {
+	--sefer-ink: #2b2118 !important;
+	--sefer-ink-soft: #5a4c3d !important;
+}
+
+:root[data-theme="light"] .meluket-sefer-active .meluket-hebrew,
+:root[data-theme="light"] .meluket-sefer-active .meluket-english,
+:root[data-theme="light"] .meluket-sefer-active .meluket-sefer-title-he,
+:root:not([data-theme="dark"]) .meluket-sefer-active .meluket-hebrew,
+:root:not([data-theme="dark"]) .meluket-sefer-active .meluket-english,
+:root:not([data-theme="dark"]) .meluket-sefer-active .meluket-sefer-title-he {
+	color: #2b2118 !important;
+}
+
+/* Force English mode — hide Hebrew reliably */
+.meluket-sefer-active .meluket-sefer[data-lang-mode="english"] .meluket-hebrew,
+.meluket-sefer-active .meluket-sefer-section[data-lang-mode="english"] .meluket-hebrew {
+	display: none !important;
+	visibility: hidden !important;
+	height: 0 !important;
+	overflow: hidden !important;
+}
