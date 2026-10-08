@@ -2,6 +2,8 @@
 //Boruch Hashem
 //Blessed is He
 
+import { splitSelectors } from "../cssParse.mjs";
+
 /**
  * @file Layer 7 (Deploy-Time Animation Injection) of the Airtight CSS Guarantee System.
  * @description Interactive elements without transitions feel janky: a hover that
@@ -89,7 +91,7 @@ function processBlock(text, state) {
  * Possibly inject a transition into one rule body; record hover info.
  */
 function processRule(prelude, body, state) {
-  const selectors = prelude.split(",").map((s) => s.trim());
+  const selectors = splitSelectors(prelude);
 
   if (HOVER_RE.test(prelude) && !TRANSFORM_PROP_RE.test(";" + body)) {
     state.hoverWithoutTransform.push(prelude.trim());

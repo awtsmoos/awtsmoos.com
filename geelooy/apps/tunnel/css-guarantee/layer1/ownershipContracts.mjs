@@ -3,6 +3,7 @@
 //Blessed is He
 
 import { qualityFinding } from "../../../tests/quality/finding.mjs";
+import { splitSelectors } from "../cssParse.mjs";
 
 /**
  * @file Layer 4 (Property Ownership) of the Airtight CSS Guarantee System — @tunnel-owns contract parsing and overlap checking.
@@ -330,7 +331,7 @@ function ruleSelectors(content) {
 		if (!text || text.startsWith("@")) {
 			continue;
 		}
-		for (const selector of text.split(",")) {
+		for (const selector of splitSelectors(text)) {
 			const normalized = selector.trim();
 			if (normalized) {
 				selectors.push(normalized);

@@ -3,6 +3,7 @@
 //Blessed is He
 
 import { qualityFinding } from "../../../tests/quality/finding.mjs";
+import { splitSelectors } from "../cssParse.mjs";
 
 /**
  * @file Layer 1 global selector registry for the Airtight CSS Guarantee System.
@@ -157,7 +158,7 @@ function extractSelectorOccurrences(content) {
 				stack.push({ skipped });
 				if (!skipped && prelude) {
 					let searchFrom = 0;
-					for (const part of prelude.split(",")) {
+					for (const part of splitSelectors(prelude)) {
 						const selector = part.trim();
 						if (selector) {
 							const relative = prelude.indexOf(selector, searchFrom);
