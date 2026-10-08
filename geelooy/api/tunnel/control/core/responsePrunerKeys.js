@@ -26,7 +26,7 @@ const CORE_KEYS = new Set([
 	"projectRoot", "scopeRoot", "workspaceId", "targetVessel", "nonce", "traceId", "spanId",
 	"jobId", "workerId", "receiptId", "taskId", "stream", "cwd", "mode", "running", "done",
 	"exitCode", "signal", "timedOut", "pending", "timeout", "relayWaitTimedOut", "waitedMs",
-	"timeoutMs", "retryAfterMs", "resumeToken", "next", "nextAction", "retryPayload",
+	"timeoutMs", "retryAfterMs", "resumeToken", "observeWith", "nextSafeAction", "deviceAccepted", "deviceAcceptanceProven", "dispatched", "dispatchedAt", "acceptedAt", "blindRedispatchForbidden", "freshRedispatchSafe", "next", "nextAction", "retryPayload",
 	"statusPayload", "waitPayload", "stdoutPagePayload", "stderrPagePayload", "outputPage",
 	"cancelPayload", "content", "content64", "stdout", "stderr", "files", "items",
 	"detailedItems", "results", "result", "record", "history", "historySummary", "timeline",
