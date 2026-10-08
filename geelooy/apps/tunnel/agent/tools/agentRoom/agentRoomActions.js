@@ -9,7 +9,12 @@
 // Action names:
 //   agentRoomCreate   { room }                              -> { ok, room }
 //   agentRoomJoin     { room, agent, desc? }                 -> { ok, room, agent }
-//   agentRoomPost     { room, agent, text }                  -> { ok, seq, room }
+//   agentRoomPost     { room, agent, text, clientId? }         -> { ok, seq, room, clientId, duplicate? }
+//     Idempotency contract: retries must reuse the SAME clientId. If none is
+//     passed, one is minted and echoed back in the response — capture it and
+//     reuse it on retry. A retry with the same clientId returns the original
+//     seq with duplicate:true instead of posting twice.
+//   agentRoomRetract  { room, agent, seq }                     -> { ok, retracted, ... }
 //   agentRoomRead     { room, since?, tail? }                -> { ok, room, seq, messages[] }
 //   agentRoomHeartbeat{ room, agent, status?, desc? }        -> { ok, room, agent, lastSeen }
 //   agentRoomClaim    { room, agent, target, note? }         -> { ok, claimed, ... }
@@ -25,6 +30,7 @@
 
 'use strict';
 
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const core = require('./room.js');
@@ -54,7 +60,19 @@ function buildAgentRoomActions() {
 
   const agentRoomCreate = wrap(p => core.newRoom(req(p, 'room'), p.agent || undefined));
   const agentRoomJoin = wrap(p => core.joinRoom(req(p, 'room'), req(p, 'agent'), p.desc));
-  const agentRoomPost = wrap(p => core.postMessage(req(p, 'room'), req(p, 'agent'), req(p, 'text')));
+  const agentRoomPost = wrap(p => {
+    const clientId = p.clientId || ('act-' + crypto.randomUUID());
+    const r = core.postMessage(req(p, 'room'), req(p, 'agent'), req(p, 'text'), clientId);
+    r.clientId = clientId;
+    return r;
+  });
+  const agentRoomRetract = wrap(p => {
+    const seq = p.seq;
+    if ((typeof seq !== 'string' || !seq.trim()) && typeof seq !== 'number') {
+      throw new Error('missing/invalid param: seq');
+    }
+    return core.retractMessage(req(p, 'room'), req(p, 'agent'), seq);
+  });
   const agentRoomRead = wrap(p => core.readMessages(req(p, 'room'), { since: p.since, tail: p.tail }));
   const agentRoomHeartbeat = wrap(p => core.heartbeat(req(p, 'room'), req(p, 'agent'), p.status, p.desc));
   const agentRoomClaim = wrap(p => core.claimTarget(req(p, 'room'), req(p, 'agent'), req(p, 'target'), p.note));
@@ -65,7 +83,7 @@ function buildAgentRoomActions() {
   const agentRoomRooms = wrap(() => listRooms());
 
   return {
-    agentRoomCreate, agentRoomJoin, agentRoomPost, agentRoomRead,
+    agentRoomCreate, agentRoomJoin, agentRoomPost, agentRoomRetract, agentRoomRead,
     agentRoomHeartbeat, agentRoomClaim, agentRoomRelease, agentRoomClaims,
     agentRoomCheck, agentRoomStatus, agentRoomRooms
   };

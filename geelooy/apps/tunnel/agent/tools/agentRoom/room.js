@@ -133,21 +133,52 @@ function joinRoom(room, agent, desc) {
   });
 }
 
-function postMessage(room, agent, text) {
+function postMessage(room, agent, text, clientId) {
   checkAgent(agent);
   if (typeof text !== 'string' || !text.trim()) throw new Error('message text required');
   if (text.length > 20000) throw new Error('message too long (max 20000 chars)');
+  if (clientId !== undefined && clientId !== null && String(clientId).length > 128) {
+    throw new Error('client message id too long (max 128 chars)');
+  }
   ensureRoomsDir();
   return withLock(room, () => {
     const data = readRoom(room);
+    // idempotent post: same agent + clientId -> return existing seq, no duplicate
+    if (clientId) {
+      const existing = (data.messages || []).find(m => m.agent === agent && m.clientId === String(clientId));
+      if (existing) return { ok: true, seq: existing.seq, room, duplicate: true };
+    }
     data.seq += 1;
     const msg = { seq: data.seq, agent, ts: nowIso(), text: String(text) };
+    if (clientId) msg.clientId = String(clientId);
     data.messages.push(msg);
     // bound history: keep last 2000 messages
     if (data.messages.length > 2000) data.messages = data.messages.slice(-2000);
     touchAgent(data, agent, {});
     writeRoom(room, data);
-    return { ok: true, seq: msg.seq, room };
+    return { ok: true, seq: msg.seq, room, duplicate: false };
+  });
+}
+
+// retract a message by seq — only its author may retract it.
+// seq is a high-water mark: other messages keep their numbers.
+function retractMessage(room, agent, seq) {
+  checkAgent(agent);
+  const n = Number(seq);
+  if (!Number.isInteger(n) || n < 1) throw new Error('message seq required (positive integer)');
+  ensureRoomsDir();
+  return withLock(room, () => {
+    const data = readRoom(room);
+    const idx = (data.messages || []).findIndex(m => m.seq === n);
+    if (idx < 0) return { ok: false, retracted: false, reason: 'no such message in room' };
+    const msg = data.messages[idx];
+    if (msg.agent !== agent) {
+      return { ok: false, retracted: false, reason: 'only the author can retract', by: msg.agent };
+    }
+    data.messages.splice(idx, 1);
+    touchAgent(data, agent, {});
+    writeRoom(room, data);
+    return { ok: true, retracted: true, room, seq: n };
   });
 }
 
@@ -279,7 +310,7 @@ function roomStatus(room, withinMs) {
 
 module.exports = {
   stateDir, checkRoom, checkAgent,
-  newRoom, joinRoom, postMessage, readMessages, heartbeat,
+  newRoom, joinRoom, postMessage, retractMessage, readMessages, heartbeat,
   claimTarget, releaseTarget, listClaims, checkClaim, presence, roomStatus,
   ONLINE_WINDOW_MS
 };

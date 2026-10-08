@@ -41,6 +41,13 @@ crew) can be in the room within seconds.
    `release` when done. Claims are advisory but binding by convention.
 4. **Post/read messages.** History is bounded (last 2000 messages per room).
    Use `--since N` to poll for new messages, `--tail N` for the latest.
+   **Flap safety (idempotent post):** retrying a post with the same agent + id
+   returns the original seq instead of creating a duplicate. Pass `--id YOUR_ID`
+   (any unique string, e.g. a UUID); if you omit it the CLI mints one and echoes
+   it back as `clientId` — capture it and reuse it if you need to retry.
+   Retries that mint a fresh id each time are NOT deduped (that's the contract:
+   same id = same message). To remove your own message:
+   `agent-room retract <room> --agent NAME <seq>` (author only).
 5. **Best of both on conflicts.** Never delete another agent's work, never
    step on in-flight files. Message the room first when unsure.
 
@@ -49,7 +56,8 @@ crew) can be in the room within seconds.
 ```
 node agent-room.js create <room> [--agent NAME]
 node agent-room.js join <room> --agent NAME [--desc "what you do"]
-node agent-room.js post <room> --agent NAME "message text"      # or --text-file FILE
+node agent-room.js post <room> --agent NAME "message text"      # or --text-file FILE; add --id MSG_ID for idempotent post
+node agent-room.js retract <room> --agent NAME <seq>          # delete your own message
 node agent-room.js read <room> [--since N] [--tail N] [--raw]
 node agent-room.js heartbeat <room> --agent NAME [--status active|away|busy] [--desc TEXT]
 node agent-room.js claim <room> --agent NAME <target> [--note TEXT]

@@ -21,6 +21,7 @@
 
 'use strict';
 
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const core = require('./room.js');
@@ -31,7 +32,8 @@ function usage() {
     '',
     '  create <room> [--agent NAME]',
     '  join <room> --agent NAME [--desc TEXT]',
-    '  post <room> --agent NAME "text" | --text-file FILE',
+    '  post <room> --agent NAME "text" | --text-file FILE [--id CLIENT_MSG_ID]  # idempotent; omit --id to mint one (echoed as clientId — reuse on retry)',
+    '  retract <room> --agent NAME <seq>   # delete your own message (author only)',
     '  read <room> [--since N] [--tail N] [--raw]',
     '  heartbeat <room> --agent NAME [--status active|away|busy] [--desc TEXT]',
     '  claim <room> --agent NAME <target> [--note TEXT]',
@@ -109,7 +111,23 @@ function main() {
           for (const p of pos.slice(2)) msgParts.push(p);
           text = msgParts.join(' ');
         }
-        process.exitCode = out(core.postMessage(room, agent, text), raw);
+        // Flap-safe idempotency: a retry is only deduped when the caller
+        // reuses the SAME id. If none is given we mint one and echo it so
+        // the caller can capture `clientId` from the output and reuse it.
+        const clientId = flags.id || ('cli-' + crypto.randomUUID());
+        const r = core.postMessage(room, agent, text, clientId);
+        r.clientId = clientId;
+        process.exitCode = out(r, raw);
+        break;
+      }
+      case 'retract': {
+        if (!room) throw new Error('room name required');
+        core.checkAgent(agent);
+        const seq = pos[2];
+        if (!seq) throw new Error('message seq required');
+        const r = core.retractMessage(room, agent, seq);
+        process.exitCode = out(r, raw);
+        process.exitCode = (r.ok && r.retracted) ? 0 : 1;
         break;
       }
       case 'read': {
