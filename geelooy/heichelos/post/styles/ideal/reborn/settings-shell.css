@@ -77,3 +77,14 @@
 	box-shadow: 0 2rem 7rem rgb(0 0 0 / 20%), inset 0 1px 0 rgb(255 255 255 / 70%);
 	color: #21160a;
 }
+
+/* B"H — Yaakov 2026-10-08: force dark text in light theme, no exceptions */
+:where(:root[data-theme="light"]) .post-reader-localized-context .typography-details *,
+:where(.post-reader-localized-context[data-theme="light"]) .typography-details *,
+:where(.typography-details[data-theme="light"]) * {
+  color: #21160a !important;
+}
+:where(:root[data-theme="light"]) .post-reader-localized-context .typography-details .setting-name,
+:where(:root[data-theme="light"]) .post-reader-localized-context .typography-details .control-label {
+  color: #21160a !important;
+}

@@ -70,3 +70,15 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 		color: transparent;
 		-webkit-text-fill-color: transparent;
 	} }
+
+/* B"H — Yaakov 2026-10-08: series page headings must be visible in light theme */
+:where(:root[data-theme="light"]) #heichel-boot-title {
+  background: linear-gradient(100deg, #1a1206 8%, #2a4a5a 44%, #3a3a6a 72%, #4a2a6a 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: #1a1206 !important;
+}
+:where(:root[data-theme="light"]) .heichel-semantic-context,
+:where(:root[data-theme="light"]) .heichel-semantic-discovery h2 {
+  color: #1a1206 !important;
+}

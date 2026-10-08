@@ -114,3 +114,14 @@ body[data-geelooy-route="home"] .shliach-hero-cta {
 @media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .shliach-hero-cta:hover, :where(body[data-geelooy-route="home"]) .shliach-hero-cta:focus-visible, :where(body[data-geelooy-route="home"]) .shliach-hero-cta:active {
 		transform: none;
 	} }
+
+/* B"H — Yaakov 2026-10-08: homepage hero contrast fix — lighten scrim, add text shadows */
+body[data-geelooy-route="home"] .shliach-hero-scrim {
+  background: linear-gradient(180deg, rgba(4,8,16,.08) 0%, rgba(4,8,16,.20) 42%, rgba(3,6,13,.62) 100%) !important;
+}
+body[data-geelooy-route="home"] .shliach-hero-title {
+  text-shadow: 0 2px 18px rgba(0,0,0,.7), 0 1px 4px rgba(0,0,0,.85) !important;
+}
+body[data-geelooy-route="home"] .shliach-hero-sub {
+  text-shadow: 0 1px 12px rgba(0,0,0,.65), 0 1px 3px rgba(0,0,0,.8) !important;
+}
