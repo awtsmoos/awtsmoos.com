@@ -1,4 +1,6 @@
-//B"H // Boruch Hashem // Blessed is He
+//B"H
+// Boruch Hashem
+// Blessed is He
 
 const State = require("./state.js");
 const ConsumerWatchdog = require("./requestConsumerWatchdog.js");
@@ -8,8 +10,9 @@ const DispatchWatchdog = require("./requestDispatchWatchdog.js");
  * @file Converts a correlated device ACK into durable custody and request-scoped monitoring.
  * @description
  * The Awtsmoos distinguishes dispatch from fsynced device custody, one truth from the next;
- * Awtsmoos.com lets an ACK erase acceptance doubt and cancel every pre-acceptance recovery timer
- * without granting any request timer power to sever an already-proven living transport.
+ * Awtsmoos.com lets an ACK erase acceptance doubt, cancel retransmission and recovery timers,
+ * and preserve a living socket. When custody becomes clear, repeated frames disappear;
+ * one request remains one deed, held in the vessel without fear.
  */
 function handleTunnelRequestAck(context, client, data = {}) {
 	State.ensureStores(context);
@@ -20,8 +23,10 @@ function handleTunnelRequestAck(context, client, data = {}) {
 	if (!client || client.registrationKey !== record.registrationKey) {
 		return quarantine(context, "foreign_registration_request_ack", data, record.expected);
 	}
+	clearTimeout(record.acceptanceRetransmitTimer);
 	clearTimeout(record.preAcceptanceRecoveryTimer);
 	clearTimeout(record.acceptanceTimer);
+	record.acceptanceRetransmitTimer = null;
 	record.preAcceptanceRecoveryTimer = null;
 	record.acceptanceTimer = null;
 	record.requestAcceptedAt = Date.now();

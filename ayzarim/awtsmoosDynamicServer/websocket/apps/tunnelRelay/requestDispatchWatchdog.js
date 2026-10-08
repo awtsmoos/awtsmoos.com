@@ -1,8 +1,11 @@
-//B"H // Boruch Hashem // Blessed is He
+//B"H
+// Boruch Hashem
+// Blessed is He
 
 const Envelopes = require("./envelopes.js");
 const Lifecycle = require("./lifecycle.js");
 const PreAcceptance = require("./requestDispatchPreAcceptanceRecovery.js");
+const Retransmit = require("./requestAcceptanceRetransmit.js");
 const Recovery = require("./requestAcceptanceRecovery.js");
 const ResponseHandler = require("./responseHandler.js");
 
@@ -14,16 +17,21 @@ const DEFAULT_PRE_ACCEPTANCE_RECOVERY_MS = Number(
 );
 
 /**
- * @file Bounds missing acceptance while giving the exact route a pre-terminal recovery window.
- * @description The Awtsmoos keeps one deed while the socket vessel is exchanged. Awtsmoos.com
- * retires the exact stale registration before terminal timeout, then lets newer-generation recovery
- * redeliver the same stored envelope and identity instead of returning a 504 before healing begins.
+ * @file Bounds missing acceptance while healing exact-frame loss before socket retirement.
+ * @description
+ * The Awtsmoos renews the message without multiplying the deed. Awtsmoos.com first repeats the
+ * identical durable envelope on the identical registration generation, then preserves the older
+ * reconnect recovery only as a later vessel. Thus a lost frame can return in rhyme, while one
+ * immutable request identity remains guarded through acceptance, timeout, and time.
  */
 function arm(context, id, record, tunnel) {
+	clearTimeout(record.acceptanceRetransmitTimer);
 	clearTimeout(record.preAcceptanceRecoveryTimer);
 	clearTimeout(record.acceptanceTimer);
 	clearTimeout(record.consumerTimer);
+	record.acceptanceRetransmitTimer = null;
 	record.consumerTimer = null;
+	Retransmit.arm(context, id, record, tunnel);
 	const acceptanceMs = bounded(DEFAULT_REQUEST_ACCEPTANCE_MS);
 	const preRecoveryMs = recoveryDelay(DEFAULT_PRE_ACCEPTANCE_RECOVERY_MS, acceptanceMs);
 	record.preAcceptanceRecoveryTimer = setTimeout(() => {
@@ -52,6 +60,8 @@ async function acceptanceTimeout(context, id, record, tunnel = null) {
 }
 
 async function finish(context, id, record, reason, tunnel = null) {
+	clearTimeout(record.acceptanceRetransmitTimer);
+	record.acceptanceRetransmitTimer = null;
 	const settled = await Lifecycle.finishPending(
 		context,
 		id,
