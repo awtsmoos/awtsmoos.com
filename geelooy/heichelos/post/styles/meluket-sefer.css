@@ -427,3 +427,47 @@
 	height: 0 !important;
 	overflow: hidden !important;
 }
+
+/* Footnote markers as clickable buttons */
+.meluket-sefer-active .meluket-fn-marker {
+	background: none;
+	border: none;
+	padding: 0 2px;
+	margin: 0;
+	font-size: 0.7em;
+	vertical-align: super;
+	color: var(--sefer-accent);
+	cursor: pointer;
+	text-decoration: underline;
+	font-family: inherit;
+}
+
+.meluket-sefer-active .meluket-fn-marker:hover {
+	color: var(--sefer-ink);
+	background: rgba(138, 109, 59, 0.1);
+	border-radius: 3px;
+}
+
+/* Hide Hebrew title in English mode */
+.meluket-sefer-active .meluket-sefer[data-lang-mode="english"] .meluket-sefer-title-he {
+	display: none !important;
+}
+
+/* Nuclear light theme fix — maximum specificity */
+html body .meluket-sefer-active .meluket-sefer,
+html body .meluket-sefer-active .meluket-sefer * {
+	color: #2b2118 !important;
+}
+
+html body .meluket-sefer-active .meluket-sefer {
+	background: #faf5e9 !important;
+}
+
+html[data-theme="dark"] body .meluket-sefer-active .meluket-sefer,
+html[data-theme="dark"] body .meluket-sefer-active .meluket-sefer * {
+	color: #f0e7d3 !important;
+}
+
+html[data-theme="dark"] body .meluket-sefer-active .meluket-sefer {
+	background: #171209 !important;
+}
