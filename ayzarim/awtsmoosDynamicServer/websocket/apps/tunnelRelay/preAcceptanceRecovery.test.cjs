@@ -91,3 +91,19 @@ test("stale execution health still permits stale-route recovery", () => {
 	assert.equal(PreAcceptance.request(state.context, "receipt-one", state.record, state.tunnel, 25000), true);
 	assert.equal(state.closes.length, 1);
 });
+
+// A single missing ACK must not evict the entire shared transport.
+test("watchdog pre-acceptance timer does not close the shared socket", async () => {
+  const state = harness();
+  state.record.dispatchEnvelope = { type: "test" };
+  state.tunnel.send = () => {};
+  const original = global.setTimeout;
+  const callbacks = [];
+  global.setTimeout = (fn) => { callbacks.push(fn); return { unref() {} }; };
+  try { Watchdog.arm(state.context, "receipt-one", state.record, state.tunnel);
+    assert.ok(callbacks.length >= 2);
+    callbacks[1]();
+    assert.equal(state.closes.length, 0);
+    assert.ok(state.record.preAcceptanceRecoveryDeferredAt > 0);
+  } finally { global.setTimeout = original; }
+});

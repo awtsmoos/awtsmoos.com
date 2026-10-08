@@ -37,7 +37,9 @@ function arm(context, id, record, tunnel) {
 	record.preAcceptanceRecoveryTimer = setTimeout(() => {
 		record.preAcceptanceRecoveryTimer = null;
 		if (context.pendingTunnelRequests.get(id) !== record || record.requestAcceptedAt) return;
-		PreAcceptance.request(context, id, record, tunnel);
+		// Never evict a shared healthy registration for one unacknowledged request.
+		// Immutable retransmission and the sustained-failure recovery path remain active.
+		record.preAcceptanceRecoveryDeferredAt = Date.now();
 	}, preRecoveryMs);
 	record.preAcceptanceRecoveryTimer.unref?.();
 	record.acceptanceTimer = setTimeout(() => {
