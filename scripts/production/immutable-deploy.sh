@@ -6,7 +6,14 @@
 set -Eeuo pipefail
 
 requested="${1:-}"
-root="$(cd "$(dirname "$0")/../.." && pwd)"
+# B"H: shlep.sh extracts this script to a temp dir via mktemp, so $0 no longer
+# locates the repo tree. Prefer the $0-relative derivation for in-repo runs,
+# and fall back to the canonical production repo (same default as the sibling
+# scripts) when the entry is not found there.
+root="$(cd "$(dirname "$0")/../.." 2>/dev/null && pwd)"
+if [ ! -f "$root/scripts/production/remote-deploy-entry.sh" ]; then
+	root="${AWTSMOOS_PRODUCTION_REPO:-/mnt/HC_Volume_102267213/git/awtsmoos.com}"
+fi
 entry="$root/scripts/production/remote-deploy-entry.sh"
 
 if [ ! -x "$entry" ] && [ ! -f "$entry" ]; then
