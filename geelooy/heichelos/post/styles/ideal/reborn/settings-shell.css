@@ -88,3 +88,13 @@
 :where(:root[data-theme="light"]) .post-reader-localized-context .typography-details .control-label {
   color: #21160a !important;
 }
+
+/* B"H — Direct override, no :where() — force dark labels in light theme */
+html[data-theme="light"] .typography-details .control-label,
+html[data-theme="light"] .typography-details h3,
+html[data-theme="light"] .typography-details label,
+.post-reader-localized-context[data-theme="light"] .typography-details .control-label,
+.post-reader-localized-context[data-theme="light"] .typography-details h3,
+.post-reader-localized-context[data-theme="light"] .typography-details label {
+  color: #21160a !important;
+}
