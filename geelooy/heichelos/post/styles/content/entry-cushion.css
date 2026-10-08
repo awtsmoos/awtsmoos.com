@@ -4,17 +4,14 @@
    inline commentary, comments, header, body, html, or any global selector.
 */
 
-.post-reader-localized-context #realPost {
-    padding-block-start: clamp(9rem, 24vh, 17rem) !important;
-    scroll-padding-block-start: clamp(10rem, 28vh, 20rem) !important;
-}
 
-.post-reader-localized-context #realPost > .section:first-of-type {
+
+:where(.post-reader-localized-context) :where(#realPost) > .section:first-of-type {
     margin-block-start: clamp(4.5rem, 12vh, 9rem) !important;
     scroll-margin-block-start: clamp(12rem, 32vh, 22rem) !important;
 }
 
-.post-reader-localized-context #realPost .section:first-of-type .toichen,
-.post-reader-localized-context #realPost .section:first-of-type .sub-awtsmoos:first-child {
+:where(.post-reader-localized-context) :where(#realPost) :where(.section:first-of-type) .toichen,
+:where(.post-reader-localized-context) :where(#realPost) :where(.section:first-of-type) .sub-awtsmoos:first-child {
     scroll-margin-block-start: clamp(12rem, 32vh, 22rem) !important;
 }

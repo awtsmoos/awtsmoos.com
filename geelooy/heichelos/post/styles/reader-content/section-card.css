@@ -1,3 +1,8 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: .awtsmoos-reader-section:hover); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H Reader section card: subtle page breaks without owning current-state selector. */
-.awtsmoos-reader-section { border-radius: 1.2rem; padding: clamp(.85rem, 2vw, 1.2rem); border: 1px solid transparent; transition: background var(--motion-fast) var(--ease-soft), border-color var(--motion-fast) var(--ease-soft); }
+.awtsmoos-reader-section {
+--reader-current-glow: rgba(214,168,79,.58);
+background-clip: padding-box;
+border-radius: 1.2rem; padding: clamp(.85rem, 2vw, 1.2rem); border: 1px solid transparent; transition: background var(--motion-fast) var(--ease-soft), border-color var(--motion-fast) var(--ease-soft);
+}
 .awtsmoos-reader-section:hover { background: rgba(255,255,255,.34); border-color: rgba(122,82,31,.10); }

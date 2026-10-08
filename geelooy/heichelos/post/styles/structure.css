@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (2 selectors: .post-reader-localized-context .awtsmoos, .post-reader-localized-context .sidebar); cascade order intentional, merge would break responsive/layer */
 /* B"H - STRUCTURE
    Cleaning up the CSS to allow JavaScript-driven resizing.
 */
@@ -58,12 +59,14 @@
 }
 
 /* Performance Optimizations */
-#virtual-scroll-container {
-    will-change: transform;
+:where(#virtual-scroll-container) {
+scroll-padding-top: clamp(4rem, 12vh, 7rem); overscroll-behavior-y: contain;
+will-change: transform;
 }
 
 .scroll-chunk {
-    margin-bottom: 2rem;
+animation:legendPageEnter .34s var(--ease-enter, ease) both;
+margin-bottom: 2rem;
 }
 
 body.resizing-active {

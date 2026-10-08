@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (3 selectors: .post-reader-localized-context .awtsmoos, .post-reader-localized-context .awtsmoos); cascade order intentional, merge would break responsive/laye */
 /* B"H
    Chapter 50: The chamber stops being a stack of shadows.
    The Awtsmoos, without body or form, gives every tab a physical law: the
@@ -23,13 +24,13 @@
     contain: layout paint style !important;
 }
 
-.post-reader-localized-context .sidebar.hidden-comments {
+:where(.post-reader-localized-context) .sidebar.hidden-comments {
     pointer-events: none !important;
     opacity: 0 !important;
     transform: translate3d(var(--ideal-sidebar-hide-x), var(--ideal-sidebar-hide-y), 0) !important;
 }
 
-.post-reader-localized-context .sidebar.is-resizing {
+:where(.post-reader-localized-context) .sidebar.is-resizing {
     transition: none !important;
     box-shadow: none !important;
     user-select: none !important;
@@ -82,14 +83,14 @@
     contain: layout paint style !important;
 }
 
-.post-reader-localized-context .awtsmoos-slide-view.active-view {
+:where(.post-reader-localized-context) .awtsmoos-slide-view.active-view {
     transform: translate3d(0, 0, 0) !important;
     opacity: 1 !important;
     pointer-events: auto !important;
     z-index: 2 !important;
 }
 
-.post-reader-localized-context .awtsmoos-slide-view.slide-out-left {
+:where(.post-reader-localized-context) .awtsmoos-slide-view.slide-out-left {
     transform: translate3d(-10%, 0, 0) !important;
     opacity: .18 !important;
     pointer-events: none !important;
@@ -107,14 +108,7 @@
     gap: 10px !important;
 }
 
-.post-reader-localized-context .awtsmoos-view-content {
-    flex: 1 1 auto !important;
-    min-height: 0 !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    -webkit-overflow-scrolling: touch !important;
-    overscroll-behavior: contain !important;
-}
+
 
 .post-reader-localized-context .awtsmoos-view-title-text {
     color: #f8fafc !important;

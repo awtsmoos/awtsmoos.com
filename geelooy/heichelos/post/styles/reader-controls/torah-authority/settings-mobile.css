@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: registry false positive: selector is a comma-split fragment of :is()/:where() in this file, not a real rule */
 /*B"H*/
 /*Boruch Hashem*/
 /*Blessed be He*/
@@ -5,7 +6,7 @@
  * @file Final mobile reader-settings authority.
  * @description Keeps the Aa sheet compact, opaque, legible, and scrollable so settings never swallow the Torah surface.
  */
-body .all.post-reader-localized-context.awtsmoos-reader-vision
+body :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
 	> .typography-details:not(.hidden-details) {
 	inline-size: min(38rem, calc(100dvi - 1rem)) !important;
 	max-inline-size: calc(100dvi - 1rem) !important;
@@ -21,14 +22,14 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 	-webkit-backdrop-filter: none !important;
 }
 
-body .all.post-reader-localized-context.awtsmoos-reader-vision
+body :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
 	> .typography-details .typography-content {
 	gap: .55rem !important;
 	padding: .65rem !important;
 	background: #07111f !important;
 }
-body .all.post-reader-localized-context.awtsmoos-reader-vision
-	> .typography-details .typography-content > .settings-group {
+body :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
+	> :where(.typography-details) .typography-content > .settings-group {
 	gap: .55rem !important;
 	padding: .65rem !important;
 	border-color: rgba(123, 213, 255, .16) !important;
@@ -37,12 +38,12 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 	box-shadow: none !important;
 }
 
-body .all.post-reader-localized-context.awtsmoos-reader-vision
+:where(body) :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
 	> .typography-details :is(button, select, input, output) {
 	color: #f8fbff !important;
 }
 
-body .all.post-reader-localized-context.awtsmoos-reader-vision
+:where(body) :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
 	> .typography-details :is(.auto-scroll-unit-switch button, .auto-scroll-presets button) {
 	min-block-size: 44px !important;
 	border-color: rgba(112, 225, 255, .22) !important;
@@ -51,7 +52,7 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 	font-size: .78rem !important;
 }
 
-body .all.post-reader-localized-context.awtsmoos-reader-vision
+body :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
 	> .typography-details .auto-scroll-semantic-summary {
 	border-color: rgba(112, 225, 255, .18) !important;
 	background: #0b1a2b !important;

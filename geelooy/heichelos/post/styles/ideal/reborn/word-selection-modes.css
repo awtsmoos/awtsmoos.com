@@ -21,7 +21,7 @@
 	color: #a9b8cb;
 }
 
-.awtsmoos-word-toolbar .awtsmoos-word-mode[aria-pressed="true"] {
+:where(.awtsmoos-word-toolbar) .awtsmoos-word-mode[aria-pressed="true"] {
 	border-color: rgba(248, 214, 130, .58);
 	background: linear-gradient(135deg, rgba(248, 214, 130, .92), rgba(34, 211, 238, .74));
 	color: #07111f;
@@ -40,7 +40,7 @@
 	vertical-align: super;
 }
 
-.awtsmoos-word-token.is-range-end:not(.is-range-start) {
+:where(.awtsmoos-word-token.is-range-end:not(.is-range-start)) {
 	box-shadow:
 		0 0 0 .1em rgba(34, 211, 238, .78),
 		0 .18em .62em rgba(34, 211, 238, .24);

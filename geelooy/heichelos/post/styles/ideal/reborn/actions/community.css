@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (3 selectors: .btn, .post-reader-localized-context .ai-draft); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
@@ -29,7 +30,9 @@
 }
 
 .post-reader-localized-context .btn-ai-draft {
-	border-color: rgb(158 140 255 / 34%);
+font-size: 0.82rem !important;
+    padding: 0.45rem 0.75rem !important;
+border-color: rgb(158 140 255 / 34%);
 	background: linear-gradient(145deg, rgb(62 48 127 / 84%), rgb(25 20 66 / 94%));
 }
 

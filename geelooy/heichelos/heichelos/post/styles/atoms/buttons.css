@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: legacy unloaded tree (geelooy/heichelos/heichelos/); selectors never loaded together, no runtime conflict */
 
 /* B"H
    THE VESSELS OF WILL (BUTTONS)
@@ -38,12 +39,12 @@
     color: var(--bg-surface);
 }
 
-.awtsmoos-btn.danger {
+:where(.awtsmoos-btn.danger) {
     border-color: var(--color-danger);
     color: var(--color-danger);
 }
 
-.awtsmoos-btn.danger:hover {
+:where(.awtsmoos-btn.danger:hover) {
     background: var(--color-danger);
     color: white;
 }

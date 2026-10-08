@@ -1,2 +1,3 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: .post-reader-localized-context :where(#r); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H reader legend chamber/manuscript-noise.css. */
-.post-reader-localized-context #realPost.content { background-image:linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px); background-size:100% 2rem; }
+.post-reader-localized-context :where(#realPost.content) { background-image:linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px); background-size:100% 2rem; }

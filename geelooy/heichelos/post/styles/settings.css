@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (3 selectors: .font-selector, .post-reader-localized-context .typograp); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H - THE ALCHEMIST'S WORKSHOP (SETTINGS PANEL REFORGED) */
 
 /* MAIN CONTAINER (Positions managed in layout.css) */
@@ -84,7 +85,7 @@
 }
 
 /* SELECTS (FONT, THEME) */
-.font-selector, #themeSelector {
+.font-selector, :where(#themeSelector) {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -98,13 +99,13 @@
 .theme-controls {
     display: flex; gap: 10px; align-items: center;
 }
-#themeSelector { flex: 1; }
-#themeToggleBtn {
+:where(#themeSelector) { flex: 1; }
+:where(#themeToggleBtn) {
     width: 40px; height: 40px; padding: 0;
     border: 1px solid #444; background: #222; color: #eee;
     font-size: 18px;
 }
-#themeToggleBtn:hover { background: var(--color-accent); color: #000; }
+:where(#themeToggleBtn:hover) { background: var(--color-accent); color: #000; }
 
 /* COLOR PICKERS (INK POTS) */
 .color-picker-grid {
@@ -127,8 +128,8 @@ input[type="color"].ink-pot {
     cursor: pointer;
     padding: 0;
 }
-input[type="color"].ink-pot::-webkit-color-swatch-wrapper { padding: 0; }
-input[type="color"].ink-pot::-webkit-color-swatch { border: none; }
+:where(input[type="color"].ink-pot::-webkit-color-swatch-wrapper) { padding: 0; }
+:where(input[type="color"].ink-pot::-webkit-color-swatch) { border: none; }
 
 /* RESET BUTTON */
 .reset-section {

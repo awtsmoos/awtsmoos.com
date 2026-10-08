@@ -4,7 +4,7 @@
    "Concentrate the mind upon the one thing."
 */
 
-#scribeLensOverlay {
+:where(#scribeLensOverlay) {
     position: fixed;
     top: 0; left: 0;
     width: 100vw; height: 100vh;
@@ -20,12 +20,12 @@
     );
 }
 
-.focus-mode-active #scribeLensOverlay {
+.focus-mode-active :where(#scribeLensOverlay) {
     opacity: 1;
 }
 
 /* Brighten active content in Lens Mode */
-.focus-mode-active .section-vessel.active-reading-section {
+:where(.focus-mode-active) .section-vessel.active-reading-section {
     z-index: 9999;
     position: relative;
     filter: drop-shadow(0 0 30px white);

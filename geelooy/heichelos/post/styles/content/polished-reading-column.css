@@ -4,16 +4,16 @@
    vessels. Typography remains in the typography rhythm chamber.
 */
 
-.post-reader-localized-context #virtual-scroll-container.awtsmoos-virtual-scroll {
+.post-reader-localized-context :where(#virtual-scroll-container.awtsmoos-virtual-scroll) {
     max-width: min(920px, calc(100vw - 4rem)) !important;
     margin-inline: auto !important;
 }
 
-.post-reader-localized-context #virtual-scroll-container.awtsmoos-virtual-scroll > .scroll-chunk {
+.post-reader-localized-context :where(#virtual-scroll-container.awtsmoos-virtual-scroll) > .scroll-chunk {
     position: relative !important;
 }
 
-.post-reader-localized-context #virtual-scroll-container.awtsmoos-virtual-scroll > .scroll-chunk::before {
+.post-reader-localized-context :where(#virtual-scroll-container.awtsmoos-virtual-scroll) > .scroll-chunk::before {
     content: "" !important;
     position: absolute !important;
     inset: clamp(.8rem, 2vw, 1.4rem) 0 !important;

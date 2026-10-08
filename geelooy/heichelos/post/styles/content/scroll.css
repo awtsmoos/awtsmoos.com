@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: .post-reader-localized-context .active-r); cascade order intentional, merge would break responsive/layered architecture */
 
 /* B"H - FOCUS PHYSICS (SCROLL) - HIGH PERFORMANCE */
 
@@ -10,7 +11,7 @@
     margin-bottom: 5rem !important;
 }
 
-.post-reader-localized-context .section.active-reading-section {
+:where(.post-reader-localized-context) .section.active-reading-section {
     opacity: 1;
     filter: none;
     transform: scale(1);
@@ -28,7 +29,7 @@
 }
 
 /* Base RTL structure to avoid shifting */
-.post-reader-localized-context .heb .sub-awtsmoos {
+:where(.post-reader-localized-context) .heb .sub-awtsmoos {
     padding-left: 0;
     padding-right: 1.5rem;
 }
@@ -40,14 +41,15 @@
 }
 
 /* 3. RTL FOCUS */
-.post-reader-localized-context .heb .active-reading-sub {
-    border-left-color: transparent;
+:where(.post-reader-localized-context) .heb .active-reading-sub {
+transform: translateX(-10px);
+border-left-color: transparent;
     border-right-color: var(--color-primary);
     box-shadow: inset -10px 0 30px -15px var(--color-primary);
 }
 
 /* 4. LOCKED STATE (When you click 'Comment') */
-.post-reader-localized-context .post-reader-localized-context .commentary-focus {
+:where(.post-reader-localized-context) .post-reader-localized-context .commentary-focus {
     background-color: var(--bg-surface) !important;
     outline: 4px solid var(--color-accent);
     /* Box shadow overlay is a paint operation, very cheap */

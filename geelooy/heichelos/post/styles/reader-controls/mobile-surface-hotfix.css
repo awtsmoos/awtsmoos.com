@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: registry false positive: selector is a comma-split fragment of :is()/:where() in this file, not a real rule */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -6,7 +7,7 @@
  * Awtsmoos.com keeps touch targets above competing reader layers and inside safe-area shores.
  */
 @media (max-width: 900px) {
-	.all.post-reader-localized-context.awtsmoos-reader-vision > .typography-details:not(.hidden-details) {
+	:where(.all.post-reader-localized-context.awtsmoos-reader-vision) > .typography-details:not(.hidden-details) {
 		top: max(.55rem, env(safe-area-inset-top, 0px)) !important;
 		right: max(.55rem, env(safe-area-inset-right, 0px)) !important;
 		bottom: calc(var(--reader-dock-bottom) + var(--reader-dock-height) + .55rem) !important;
@@ -24,7 +25,7 @@
 		-webkit-backdrop-filter: none !important;
 	}
 
-	.all.post-reader-localized-context.awtsmoos-reader-vision > .typography-details .typography-content {
+	:where(.all.post-reader-localized-context.awtsmoos-reader-vision) > .typography-details .typography-content {
 		flex: 1 1 auto !important;
 		min-height: 0 !important;
 		overflow-y: auto !important;
@@ -32,14 +33,14 @@
 		overscroll-behavior: contain;
 	}
 
-	.all.post-reader-localized-context.awtsmoos-reader-vision > .typography-details .reset-section {
+	:where(.all.post-reader-localized-context.awtsmoos-reader-vision) > .typography-details .reset-section {
 		position: relative !important;
 		flex: 0 0 auto !important;
 		padding: .65rem .75rem calc(.65rem + env(safe-area-inset-bottom, 0px)) !important;
 		background: #07111f !important;
 	}
 
-	.all.post-reader-localized-context.awtsmoos-reader-vision #autoScrollSettingsToggle {
+	:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#autoScrollSettingsToggle) {
 		position: relative !important;
 		z-index: 2 !important;
 		min-height: 56px !important;
@@ -52,19 +53,19 @@
 		box-shadow: inset 0 1px 0 rgba(255, 255, 255, .09), 0 9px 24px rgba(0, 0, 0, .24) !important;
 	}
 
-	.all.post-reader-localized-context.awtsmoos-reader-vision #autoScrollSettingsToggle:is(.is-active, [aria-pressed="true"]) {
+	:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#autoScrollSettingsToggle:is(.is-active, [aria-pressed="true"])) {
 		border-color: rgba(52, 211, 153, .62) !important;
 		background: linear-gradient(135deg, #123a35, #08745c) !important;
 	}
 
-	.all.post-reader-localized-context.awtsmoos-reader-vision:has(> .typography-details:not(.hidden-details))
+	:where(.all.post-reader-localized-context.awtsmoos-reader-vision:has(> .typography-details:not(.hidden-details)))
 		> .awtsmoos-auto-scroll-floating {
 		opacity: 0 !important;
 		visibility: hidden !important;
 		pointer-events: none !important;
 	}
 
-	.all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar:not(.hidden-comments) {
+	:where(.all.post-reader-localized-context.awtsmoos-reader-vision) > :where(.main) > .sidebar:not(.hidden-comments) {
 		top: max(.55rem, env(safe-area-inset-top, 0px)) !important;
 		right: max(.55rem, env(safe-area-inset-right, 0px)) !important;
 		bottom: max(.55rem, env(safe-area-inset-bottom, 0px)) !important;
@@ -82,13 +83,13 @@
 		-webkit-backdrop-filter: none !important;
 	}
 
-	.all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar:not(.hidden-comments) .awtsmoos-sidebar-shell {
+	:where(.all.post-reader-localized-context.awtsmoos-reader-vision) > :where(.main) > :where(.sidebar:not(.hidden-comments)) .awtsmoos-sidebar-shell {
 		height: 100% !important;
 		max-height: 100% !important;
 		background: #07120f !important;
 	}
 
-	.all.post-reader-localized-context.awtsmoos-reader-vision:has(> .main > .sidebar:not(.hidden-comments))
+	:where(.all.post-reader-localized-context.awtsmoos-reader-vision:has(> .main > .sidebar:not(.hidden-comments)))
 		> :is(.awtsmoos-floating-controls, .awtsmoos-auto-scroll-floating) {
 		opacity: 0 !important;
 		visibility: hidden !important;

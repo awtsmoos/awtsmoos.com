@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: :where(.post-reader-localized-context) .); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -5,13 +6,13 @@
  * Awtsmoos.com keeps this motion local, pointer-aware, and subordinate to focus where it belongs.
  */
 @media (hover: hover) {
-	.post-reader-localized-context .awtsmoos-floating-controls button:hover {
+	:where(.post-reader-localized-context) .awtsmoos-floating-controls button:hover {
 		transform: translateY(-2px);
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.post-reader-localized-context .awtsmoos-floating-controls button:hover {
+	:where(.post-reader-localized-context) .awtsmoos-floating-controls button:hover {
 		transform: none;
 	}
 }

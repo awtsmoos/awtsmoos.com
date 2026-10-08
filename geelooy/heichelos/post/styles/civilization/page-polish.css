@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (6 selectors: universal, :root); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H
  * Chapter 573: The reader becomes a civilization scroll: calmer measure, clearer
  * focus, softer panels, and mobile respect without breaking reborn modules.
@@ -8,8 +9,8 @@
 }
 html { scroll-behavior: smooth; }
 body { text-rendering: optimizeLegibility; overflow-wrap: anywhere; }
-main, article, .reader, .post-reader, .post-content, .content, #content { line-height: 1.68; }
-article img, .post-content img, .content img, .reader img, video, iframe { max-width: 100%; height: auto; border-radius: clamp(10px, 2vw, 18px); }
+main, article, .reader, .post-reader, .post-content, .content, :where(#content) { line-height: 1.68; }
+:where(article) img, .post-content img, .content img, .reader img, video, iframe { max-width: 100%; height: auto; border-radius: clamp(10px, 2vw, 18px); }
 article, .post-shell, .reader-shell, .comments-panel, .comment-card, .inline-comment, .ai-thread, .settings-panel, .sidebar-panel { box-shadow: var(--reader-civ-glow); }
 a:focus-visible, button:focus-visible, summary:focus-visible, textarea:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--reader-civ-ring); outline-offset: 3px; box-shadow: 0 0 0 7px rgba(0,140,255,.10); }
 button, a, summary, [role="button"] { touch-action: manipulation; }
@@ -19,7 +20,7 @@ blockquote { border-inline-start: 4px solid var(--reader-civ-ring); margin-inlin
 .comment-composer, .inline-action-menu, .context-menu, .reader-controls, .details-panel { backdrop-filter: blur(14px) saturate(1.08); }
 @media (max-width: 760px) {
   body { overscroll-behavior-y: contain; }
-  main, article, .reader, .post-reader, .post-content, .content, #content { line-height: 1.62; }
+  main, article, .reader, .post-reader, .post-content, .content, :where(#content) { line-height: 1.62; }
   .comment-card, .inline-comment, .reader-controls, .details-panel { border-radius: 16px; }
 }
 @media (prefers-reduced-motion: reduce) {

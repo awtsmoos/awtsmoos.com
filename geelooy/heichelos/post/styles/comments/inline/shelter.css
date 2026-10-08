@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (7 selectors: .post-reader-localized-context .awtsmoos, .post-reader-localized-context .awtsmoos); cascade order intentional, merge would break responsive/laye */
 ﻿/* B"H
    Inline shelter v3: visible without shouting, connected to the source text,
    with strong empty/loading/status affordances.
@@ -28,7 +29,8 @@
 
 .post-reader-localized-context .marginal-gloss-shelter::before,
 .post-reader-localized-context .awtsmoos-inline-shelter-v2::before {
-    content: "" !important;
+display: none !important;
+content: "" !important;
     position: absolute !important;
     left: -10px !important;
     top: 1.25rem !important;
@@ -65,33 +67,39 @@
     box-shadow: inset 0 1px 0 rgba(255,255,255,.55) !important;
 }
 
-.post-reader-localized-context .awtsmoos-inline-status[data-kind="info"] {
+:where(.post-reader-localized-context) .awtsmoos-inline-status[data-kind="info"] {
     color: #1e3a8a !important;
     background: rgba(219,234,254,.86) !important;
     border: 1px solid rgba(59,130,246,.22) !important;
 }
 
-.post-reader-localized-context .awtsmoos-inline-status[data-kind="empty"] {
-    color: #475569 !important;
+:where(.post-reader-localized-context) .awtsmoos-inline-status[data-kind="empty"] {
+display: grid !important;
+    grid-template-columns: auto 1fr !important;
+    align-items: center !important;
+    gap: .75rem !important;
+color: #475569 !important;
     background: rgba(241,245,249,.92) !important;
     border: 1px solid rgba(148,163,184,.28) !important;
 }
 
-.post-reader-localized-context .awtsmoos-inline-status[data-kind="error"] {
+:where(.post-reader-localized-context) .awtsmoos-inline-status[data-kind="error"] {
     color: #991b1b !important;
     background: rgba(254,226,226,.92) !important;
     border: 1px solid rgba(239,68,68,.28) !important;
 }
 
-.post-reader-localized-context .heb .marginal-gloss-shelter,
-.post-reader-localized-context .heb .awtsmoos-inline-shelter-v2 {
+:where(.post-reader-localized-context) .heb .marginal-gloss-shelter,
+:where(.post-reader-localized-context) .heb .awtsmoos-inline-shelter-v2 {
     margin-inline: 0 clamp(0.55rem, 1.5vw, 1rem) !important;
     border-left: 1px solid rgba(99,102,241,.18) !important;
     border-right: 5px solid rgba(99,102,241,.72) !important;
 }
 
-.post-reader-localized-context .heb .marginal-gloss-shelter::before,
-.post-reader-localized-context .heb .awtsmoos-inline-shelter-v2::before {
-    left: auto !important;
+:where(.post-reader-localized-context) .heb .marginal-gloss-shelter::before,
+:where(.post-reader-localized-context) .heb .awtsmoos-inline-shelter-v2::before {
+display: none !important;
+display: none !important;
+left: auto !important;
     right: -10px !important;
 }

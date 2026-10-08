@@ -2,13 +2,13 @@
    Chapter 26: The active reading locus receives a gold-wine halo.
 */
 
-.post-reader-localized-context #realPost .active-reading-section,
-.post-reader-localized-context #realPost .active-reading-sub {
+.post-reader-localized-context :where(#realPost) .active-reading-section,
+.post-reader-localized-context :where(#realPost) .active-reading-sub {
     position: relative !important;
 }
 
-.post-reader-localized-context #realPost .active-reading-section::after,
-.post-reader-localized-context #realPost .active-reading-sub::after {
+.post-reader-localized-context :where(#realPost) .active-reading-section::after,
+.post-reader-localized-context :where(#realPost) .active-reading-sub::after {
     content: "" !important;
     position: absolute !important;
     inset: -0.75rem !important;

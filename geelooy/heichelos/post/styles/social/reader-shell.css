@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (2 selectors: .post-reader-localized-context, .post-reader-localized-context :where(#r); cascade order intentional, merge would break responsive/layered archit */
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
@@ -15,7 +16,7 @@
 		linear-gradient(180deg, #07111f, #030812 72%);
 }
 
-.post-reader-localized-context #realPost.content {
+.post-reader-localized-context :where(#realPost.content) {
 	padding-block: 5.25rem 6rem;
 }
 
@@ -64,7 +65,7 @@
 }
 
 @media (max-width: 35rem) {
-	.post-reader-localized-context #realPost.content {
+	.post-reader-localized-context :where(#realPost.content) {
 		padding-inline: .7rem;
 	}
 

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (3 selectors: :where(.post-reader-localized-context) ., :where(.post-reader-localized-context) .); cascade order intentional, merge would break responsive/laye */
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
@@ -5,7 +6,7 @@
  * The Awtsmoos turns reader pace from a number into a truthful river of intention and rest;
  * Awtsmoos.com keeps auto-scroll flow here alone, so its controls can move without cascade contest.
  */
-.post-reader-localized-context .auto-scroll-settings-toggle {
+:where(.post-reader-localized-context) .auto-scroll-settings-toggle {
 	display: inline-grid;
 	place-items: center;
 	min-block-size: 44px;
@@ -20,18 +21,18 @@
 	transition: transform var(--reader-settings-motion, 180ms ease), border-color var(--reader-settings-motion, 180ms ease), background var(--reader-settings-motion, 180ms ease), box-shadow var(--reader-settings-motion, 180ms ease);
 }
 
-.post-reader-localized-context .auto-scroll-settings-toggle[aria-pressed="true"] {
+:where(.post-reader-localized-context) .auto-scroll-settings-toggle[aria-pressed="true"] {
 	border-color: rgb(101 255 211 / 64%);
 	background: linear-gradient(145deg, rgb(37 211 161 / 38%), rgb(9 68 66 / 88%));
 	box-shadow: 0 0 0 1px rgb(101 255 211 / 14%), 0 .8rem 2rem rgb(9 95 83 / 20%);
 }
 
-.post-reader-localized-context .auto-scroll-settings-toggle:focus-visible {
+:where(.post-reader-localized-context) .auto-scroll-settings-toggle:focus-visible {
 	outline: 3px solid rgb(101 255 211 / 76%);
 	outline-offset: 2px;
 }
 
-.post-reader-localized-context .auto-scroll-settings-toggle:active {
+:where(.post-reader-localized-context) .auto-scroll-settings-toggle:active {
 	transform: translateY(1px) scale(.98);
 }
 
@@ -43,7 +44,7 @@
 	gap: var(--scribe-speed-gap, .75rem);
 }
 
-.post-reader-localized-context #autoScrollSpeedDisplay {
+.post-reader-localized-context :where(#autoScrollSpeedDisplay) {
 	min-inline-size: 5.5rem;
 	color: var(--reader-cyan, #7fe8ff);
 	font-weight: 900;
@@ -63,7 +64,7 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-	.post-reader-localized-context .auto-scroll-settings-toggle:hover {
+	:where(.post-reader-localized-context) .auto-scroll-settings-toggle:hover {
 		border-color: rgb(101 255 211 / 52%);
 		background: linear-gradient(145deg, rgb(37 211 161 / 24%), rgb(7 39 47 / 90%));
 	}

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: .post-reader-localized-context .awtsmoos); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H
    Gate summary: the collapsed doorway must still feel intelligent. The Awtsmoos
    sets a glowing plaque with count, preview, anchor context, and calm authority.
@@ -22,7 +23,7 @@
     pointer-events: none !important;
 }
 
-.post-reader-localized-context .awtsmoos-inline-shell[data-anchor-label] .awtsmoos-inline-trigger::after {
+:where(.post-reader-localized-context) :where(.awtsmoos-inline-shell[data-anchor-label]) .awtsmoos-inline-trigger::after {
     content: attr(data-anchor-label) !important;
     position: absolute !important;
     inset-block-end: .72rem !important;
@@ -49,6 +50,6 @@
     box-shadow: inset 0 0 0 1px rgba(255,255,255,.18) !important;
 }
 
-.post-reader-localized-context .awtsmoos-inline-shell.is-collapsed .awtsmoos-inline-trigger {
+:where(.post-reader-localized-context) :where(.awtsmoos-inline-shell.is-collapsed) .awtsmoos-inline-trigger {
     min-height: 4.7rem !important;
 }

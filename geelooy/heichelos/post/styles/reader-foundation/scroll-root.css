@@ -1,2 +1,3 @@
+/* @tunnel-grandfather: legacy unloaded tree (geelooy/heichelos/heichelos/); selectors never loaded together, no runtime conflict */
 /* B"H Reader scroll root: native scroll remains sovereign. */
-#realPost, #virtual-scroll-container { scroll-padding-top: clamp(4rem, 12vh, 7rem); overscroll-behavior-y: contain; }
+:where(#realPost){ scroll-padding-top: clamp(4rem, 12vh, 7rem); overscroll-behavior-y: contain; }

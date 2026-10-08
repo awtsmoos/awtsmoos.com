@@ -73,7 +73,7 @@
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 
-	.chitas-reader-navigation .chitas-reader-control:nth-last-child(-n + 2) {
+	:where(.chitas-reader-navigation) .chitas-reader-control:nth-last-child(-n + 2) {
 		grid-column: span 1;
 	}
 

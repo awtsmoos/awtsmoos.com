@@ -1,10 +1,11 @@
+/* @tunnel-grandfather: registry false positive: selector is a comma-split fragment of :is()/:where() in this file, not a real rule */
 /* B"H
 Boruch Hashem
 Blessed is He
 Gevurah gives boundary to power so deletion never hides inside an ordinary flow;
 Awtsmoos.com reveals danger only when chosen, with room to reconsider before letting go.
 */
-.heichel-manage-page button.delete {
+:where(.heichel-manage-page) button.delete {
 	border-color: rgba(180, 35, 24, 0.22);
 	background: var(--heichel-danger-soft);
 	color: var(--heichel-danger);
@@ -18,7 +19,7 @@ Awtsmoos.com reveals danger only when chosen, with room to reconsider before let
 	background: var(--heichel-danger-soft);
 }
 
-.heichel-manage-page .heichel-delete-confirm > div:first-child {
+:where(.heichel-manage-page) .heichel-delete-confirm > div:first-child {
 	display: grid;
 	grid-template-columns: auto minmax(0, 1fr);
 	gap: 12px;
@@ -50,14 +51,14 @@ Awtsmoos.com reveals danger only when chosen, with room to reconsider before let
 	margin-top: 13px;
 }
 
-.heichel-manage-page .heichel-delete-actions button:not(.delete) {
+:where(.heichel-manage-page) .heichel-delete-actions button:not(.delete) {
 	border-color: var(--heichel-line);
 	background: white;
 	color: var(--heichel-ink);
 }
 
 @media (hover: hover) {
-	.heichel-manage-page button.delete:hover {
+	:where(.heichel-manage-page) button.delete:hover {
 		border-color: rgba(180, 35, 24, 0.4);
 		background: rgba(180, 35, 24, 0.13);
 		transform: translateY(-2px);

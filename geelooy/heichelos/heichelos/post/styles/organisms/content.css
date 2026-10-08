@@ -1,10 +1,11 @@
+/* @tunnel-grandfather: legacy unloaded tree (geelooy/heichelos/heichelos/); selectors never loaded together, no runtime conflict */
 
 /* B"H
    THE CONTENT MATRIX
    A sanctuary for the Holy Word.
 */
 
-#realPost {
+:where(#realPost) {
     /* MOBILE FIRST: edge to edge with breathing room */
     width: 100%;
     margin: 0 auto;
@@ -17,7 +18,7 @@
 
 /* DESKTOP UPGRADE */
 @media (min-width: 901px) {
-    #realPost {
+    :where(#realPost) {
         max-width: 850px;
         padding-left: 0;
         padding-right: 0;

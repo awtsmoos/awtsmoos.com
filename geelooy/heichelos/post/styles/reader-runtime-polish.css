@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: .post-reader-localized-context .comment-); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H
    Runtime polish legacy vessel.
    The Awtsmoos has moved reader canvas, floating rail, sidebar, inline cards,
@@ -11,7 +12,7 @@
     gap: 0.8rem !important;
 }
 
-.post-reader-localized-context .footnote-item.awtsmoos-list-item {
+:where(.post-reader-localized-context) .footnote-item.awtsmoos-list-item {
     align-items: flex-start !important;
     gap: 0.85rem !important;
     padding: 0.95rem 1rem !important;

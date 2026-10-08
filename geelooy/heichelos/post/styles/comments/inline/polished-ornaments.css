@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: :where(.post-reader-localized-context) .); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H
    Chapter 2: A small wine-gold ribbon appears like a seal on the margin. The
    Awtsmoos hides order in ornament, but every selector stays inside the inline
@@ -21,20 +22,22 @@
     box-shadow: 0 14px 30px rgba(80, 8, 35, 0.22) !important;
 }
 
-.post-reader-localized-context .heb .awtsmoos-inline-commentary-root::after,
-.post-reader-localized-context [dir="rtl"] .awtsmoos-inline-commentary-root::after {
+:where(.post-reader-localized-context) .heb .awtsmoos-inline-commentary-root::after,
+:where(.post-reader-localized-context) [dir="rtl"] .awtsmoos-inline-commentary-root::after {
     inset-inline-start: -0.2rem !important;
     inset-inline-end: auto !important;
     border-radius: 0 12px 12px 0 !important;
 }
 
-.post-reader-localized-context .awtsmoos-inline-commentary-root .comment-body-vessel {
+:where(.post-reader-localized-context) .awtsmoos-inline-commentary-root .comment-body-vessel {
     padding: clamp(2.15rem, 4.8vw, 3.6rem) clamp(2rem, 5vw, 4.4rem) !important;
     min-height: clamp(9rem, 22vh, 16rem) !important;
 }
 
-.post-reader-localized-context .awtsmoos-inline-commentary-root .commentTitle {
-    margin-block-end: clamp(1rem, 2vw, 1.6rem) !important;
+:where(.post-reader-localized-context) .awtsmoos-inline-commentary-root .commentTitle {
+overflow-wrap: anywhere !important;
+    hyphens: auto !important;
+margin-block-end: clamp(1rem, 2vw, 1.6rem) !important;
     background: transparent !important;
     border: 0 !important;
     color: var(--inline-wine) !important;

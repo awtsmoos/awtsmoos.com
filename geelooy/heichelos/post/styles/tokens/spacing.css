@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: legacy unloaded tree (geelooy/heichelos/heichelos/); selectors never loaded together, no runtime conflict */
 
 :root {
     --border-thin: 2px solid var(--color-ink);

@@ -5,33 +5,33 @@
  * The Awtsmoos lifts true overlays without stealing geometry from neighboring vessels;
  * Awtsmoos.com leaves Scribe's Lens and floating controls to their dedicated modules.
  */
-.all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) > .main > .sidebar {
 	transform-origin: center center;
 	max-inline-size: 100vw;
 	max-block-size: 100dvh;
 	z-index: var(--z-sidebar, 3000);
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision > #command-palette-container {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) > :where(#command-palette-container) {
 	transform-origin: center center;
 	z-index: var(--z-overlay, 4000);
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision > #awtsmoos-verse-menu-container {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) > :where(#awtsmoos-verse-menu-container) {
 	transform-origin: center center;
 	z-index: var(--z-popover, 3500);
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-shell,
-.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-ideal-sidebar,
-.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-slide-viewport,
-.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-slide-view,
-.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-panel {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-shell,
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-ideal-sidebar,
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-slide-viewport,
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-slide-view,
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-panel {
 	min-block-size: 0;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-slide-view.active-view,
-.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-panel:not([hidden]) {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-slide-view.active-view,
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-panel:not([hidden]) {
 	overflow-x: hidden;
 	overflow-y: auto;
 	overscroll-behavior: contain;
@@ -39,7 +39,7 @@
 }
 
 @media (max-width: 56.25rem) {
-	.all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar {
+	:where(.all.post-reader-localized-context.awtsmoos-reader-vision) > .main > .sidebar {
 		position: fixed;
 		inset: auto 0 0;
 		inline-size: 100vw;
@@ -51,7 +51,7 @@
 		transition: transform var(--reader-motion, 180ms ease);
 	}
 
-	.all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar.hidden-comments {
+	:where(.all.post-reader-localized-context.awtsmoos-reader-vision) > :where(.main) > .sidebar.hidden-comments {
 		transform: translate3d(0, calc(100% + 2rem), 0);
 	}
 }

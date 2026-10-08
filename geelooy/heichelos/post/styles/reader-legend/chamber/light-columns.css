@@ -1,2 +1,3 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: .post-reader-localized-context .scroll-v); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H reader legend chamber/light-columns.css. */
 .post-reader-localized-context .scroll-view-wrapper { background-image:linear-gradient(90deg, transparent, rgba(244,197,107,.035), transparent); }

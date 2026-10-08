@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (2 selectors: :where(.all.post-reader-localized-contex, :where(.all.post-reader-localized-contex); cascade order intentional, merge would break responsive/laye */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -8,43 +9,47 @@
  * Awtsmoos.com keeps a readable measure without the historical five-rem entry
  * cushion or oversized ornamental shell that delayed the teaching itself.
  */
-.all.post-reader-localized-context.awtsmoos-reader-vision {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) {
 	--reader-authority-width: 50rem;
 	--reader-authority-edge: clamp(.72rem, 2.4vw, 1.2rem);
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision .main {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) .main {
 	inline-size: 100% !important;
 	max-inline-size: 100% !important;
 	margin: 0 auto !important;
 	padding: 0 !important;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper {
-	inline-size: 100% !important;
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) .scroll-view-wrapper {
+min-width: 0 !important;
+	min-height: 0 !important;
+	max-width: 100% !important;
+	overflow: visible !important;
+inline-size: 100% !important;
 	padding: 0 !important;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision #realPost {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost) {
 	inline-size: min(100%, var(--reader-authority-width)) !important;
 	max-inline-size: var(--reader-authority-width) !important;
 	margin: 0 auto !important;
 	padding: .8rem var(--reader-authority-edge) 5.5rem !important;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision #realPost {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost) {
 	margin-block-start: 0 !important;
 	padding-block-start: .8rem !important;
 	scroll-padding-block-start: 5rem !important;
 	scroll-margin-block-start: 5rem !important;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision #realPost > :first-child {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost) > :first-child {
 	margin-block-start: 0 !important;
 }
 
 @media (max-width: 48rem) {
-	.all.post-reader-localized-context.awtsmoos-reader-vision #realPost {
+	:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost) {
 		padding: .55rem .62rem 5.25rem !important;
 	}
 }

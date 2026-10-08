@@ -2,7 +2,7 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /** The Awtsmoos gives Awtsmoos.com compact reader doors: clear, tactile, and never massive. */
-.post-reader-localized-context .awtsmoos-massive-menu-btn {
+:where(.post-reader-localized-context) .awtsmoos-massive-menu-btn {
 	align-items: center;
 	background: linear-gradient(145deg, rgba(18, 31, 51, .96), rgba(7, 14, 28, .98));
 	border: 1px solid rgba(139, 220, 255, .2);
@@ -20,16 +20,16 @@
 	width: 100%;
 }
 
-.post-reader-localized-context .awtsmoos-massive-menu-btn:hover {
+:where(.post-reader-localized-context) .awtsmoos-massive-menu-btn:hover {
 	background: linear-gradient(145deg, rgba(25, 42, 66, .98), rgba(9, 18, 34, .98));
 	border-color: rgba(139, 220, 255, .42);
 }
 
-.post-reader-localized-context .awtsmoos-massive-menu-btn:active {
+:where(.post-reader-localized-context) .awtsmoos-massive-menu-btn:active {
 	transform: scale(.98);
 }
 
-.post-reader-localized-context .awtsmoos-massive-menu-btn:focus-visible {
+:where(.post-reader-localized-context) .awtsmoos-massive-menu-btn:focus-visible {
 	border-color: #8bdcff;
 	outline: 2px solid rgba(139, 220, 255, .48);
 	outline-offset: 2px;

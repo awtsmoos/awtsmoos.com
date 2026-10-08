@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (7 selectors: .post-reader-localized-context .comments, .post-reader-localized-context .marginal); cascade order intentional, merge would break responsive/laye */
 /* B"H - THE GLITCH IN THE MATRIX (MARGINALIA) */
 
 /* The overarching shelter for marginal glosses - Renders AFTER the paragraph text */
@@ -14,7 +15,7 @@
     padding-bottom: 15px !important;
 }
 
-.post-reader-localized-context .heb .marginal-gloss-shelter {
+:where(.post-reader-localized-context) .heb .marginal-gloss-shelter {
     margin: 15px 20px 30px 0 !important;
     border-left: none !important;
     border-right: 4px solid var(--color-ink) !important;
@@ -28,7 +29,7 @@
 }
 
 /* THE GUARDIAN GATEWAY (Button Holder) */
-.post-reader-localized-context .commentator.inline-holder {
+:where(.post-reader-localized-context) .commentator.inline-holder {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -36,12 +37,12 @@
 }
 
 /* RTL Override for buttons */
-.post-reader-localized-context .heb .commentator.inline-holder {
+:where(.post-reader-localized-context) :where(.heb) .commentator.inline-holder {
     align-items: flex-end;
 }
 
 /* The Intense Activation Button */
-.post-reader-localized-context .inline-summary-btn {
+:where(.post-reader-localized-context) .inline-summary-btn {
     all: unset;
     box-sizing: border-box !important;
     display: inline-flex !important;
@@ -60,13 +61,13 @@
     transition: all var(--time-fast) var(--ease-snap) !important;
 }
 
-.post-reader-localized-context .inline-summary-btn:hover {
+:where(.post-reader-localized-context) .inline-summary-btn:hover {
     background: var(--color-accent) !important;
     transform: translate(-2px, -2px) !important;
     box-shadow: 6px 6px 0 var(--color-ink) !important;
 }
 
-.post-reader-localized-context .inline-summary-btn.active {
+:where(.post-reader-localized-context) .inline-summary-btn.active {
     background: var(--color-ink) !important;
     color: var(--bg-surface) !important;
     box-shadow: 2px 2px 0 var(--color-accent) !important;
@@ -83,7 +84,7 @@
 }
 
 /* Individual inline comment card */
-.post-reader-localized-context .inline-comment {
+:where(.post-reader-localized-context) .inline-comment {
     background: var(--bg-surface) !important;
     border: var(--border-thick) !important;
     box-shadow: var(--shadow-ui) !important;
@@ -95,14 +96,14 @@
     overflow: hidden !important;
 }
 
-.post-reader-localized-context .inline-comment:hover {
+:where(.post-reader-localized-context) .inline-comment:hover {
     transform: translate(-4px, -4px) !important;
     box-shadow: var(--shadow-hover) !important;
     border-color: var(--color-electric) !important;
 }
 
 /* Focus button inside inline comment */
-.post-reader-localized-context .inline-comment .focus-trigger {
+:where(.post-reader-localized-context) :where(.inline-comment) .focus-trigger {
     position: absolute !important;
     top: 0 !important;
     right: 0 !important;
@@ -122,19 +123,19 @@
     z-index: 5 !important;
 }
 
-.post-reader-localized-context .heb .inline-comment .focus-trigger {
+:where(.post-reader-localized-context) :where(.heb) .inline-comment .focus-trigger {
     left: 0 !important;
     right: auto !important;
     border-left: none !important;
     border-right: var(--border-thin) !important;
 }
 
-.post-reader-localized-context .inline-comment .focus-trigger:hover {
+:where(.post-reader-localized-context) :where(.inline-comment) .focus-trigger:hover {
     background: var(--color-ink) !important;
     color: var(--bg-surface) !important;
 }
 
-.post-reader-localized-context .inline-comment .comment-text {
+:where(.post-reader-localized-context) .inline-comment .comment-text {
     padding: 15px !important;
     margin: 0 !important;
     border-bottom: none !important;

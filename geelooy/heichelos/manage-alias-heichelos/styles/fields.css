@@ -42,7 +42,7 @@ these Awtsmoos.com controls stay readable, bounded, and gently revealed.
 	line-height: 1.55;
 }
 
-.heichel-manage-page .heichel-field :is(input, textarea)::placeholder {
+.heichel-manage-page .heichel-field :where(:is(input, textarea))::placeholder {
 	color: #8a99aa;
 }
 

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (3 selectors: .post-reader-localized-context, .post-reader-localized-context .main); cascade order intentional, merge would break responsive/layered architectu */
 
 /* B"H - THE SCAFFOLDING OF THE REALM */
 

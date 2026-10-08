@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (6 selectors: .post-reader-localized-context .awtsmoos, .post-reader-localized-context .awtsmoos); cascade order intentional, merge would break responsive/laye */
 /* B"H
    Chapter 32: The margin flame.
    Inline cards become quiet parchment vessels: a tiny crown-header, a massive
@@ -62,7 +63,7 @@
     box-shadow: 0 4px 10px rgba(15, 23, 42, .14) !important;
 }
 
-.post-reader-localized-context .comment-body-vessel:is(.awtsmoos-inline-body) {
+:where(.post-reader-localized-context) .comment-body-vessel:is(.awtsmoos-inline-body) {
     max-width: min(100%, 49rem) !important;
     margin-inline: auto !important;
     padding: clamp(1.05rem, 3vw, 1.55rem) clamp(1.05rem, 3.2vw, 1.75rem) !important;
@@ -72,7 +73,7 @@
     text-align: start !important;
 }
 
-.post-reader-localized-context .comment-body-vessel .awtsmoos-comment-paragraph {
+:where(.post-reader-localized-context) .comment-body-vessel .awtsmoos-comment-paragraph {
     font-size: inherit !important;
     line-height: inherit !important;
     color: inherit !important;
@@ -80,14 +81,14 @@
     text-align: inherit !important;
 }
 
-.post-reader-localized-context .heb .comment-body-vessel:is(.awtsmoos-inline-body) {
+:where(.post-reader-localized-context) :where(.heb) .comment-body-vessel:is(.awtsmoos-inline-body) {
     direction: rtl !important;
     font-size: var(--ideal-inline-hebrew-size) !important;
     line-height: 1.9 !important;
     word-spacing: .045em !important;
 }
 
-.post-reader-localized-context [dir="rtl"] .comment-body-vessel:is(.awtsmoos-inline-body) {
+:where(.post-reader-localized-context) :where([dir="rtl"]) .comment-body-vessel:is(.awtsmoos-inline-body) {
     direction: rtl !important;
     font-size: var(--ideal-inline-hebrew-size) !important;
     line-height: 1.9 !important;

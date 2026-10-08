@@ -1,12 +1,13 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (4 selectors: .post-reader-localized-context .awtsmoos, :where(.post-reader-localized-context) .); cascade order intentional, merge would break responsive/laye */
 /* B"H
    Dark and accessibility layer: night mode keeps the text clear, focus visible,
    and motion humble. Dark selectors carry an explicit html context so no active
    rule fights the light-mode base selector/property pair.
 */
 
-.post-reader-localized-context .awtsmoos-inline-trigger:focus-visible,
-.post-reader-localized-context .awtsmoos-inline-focus:focus-visible,
-.post-reader-localized-context .awtsmoos-inline-commentary-root:focus-visible {
+:where(.post-reader-localized-context) .awtsmoos-inline-trigger:focus-visible,
+:where(.post-reader-localized-context) .awtsmoos-inline-focus:focus-visible,
+:where(.post-reader-localized-context) .awtsmoos-inline-commentary-root:focus-visible {
     outline: 3px solid color-mix(in srgb, var(--inline-gold, #c58a1a) 72%, white) !important;
     outline-offset: 4px !important;
 }
@@ -39,9 +40,9 @@
         border-color: rgba(214,170,79,.34) !important;
     }
 
-    html .post-reader-localized-context .awtsmoos-inline-card-header strong,
+    :where(html) .post-reader-localized-context .awtsmoos-inline-card-header strong,
     html .post-reader-localized-context .awtsmoos-inline-body,
-    html .post-reader-localized-context .awtsmoos-inline-commentary-root .comment-body-vessel {
+    html :where(.post-reader-localized-context) .awtsmoos-inline-commentary-root .comment-body-vessel {
         color: #f8fafc !important;
     }
 }

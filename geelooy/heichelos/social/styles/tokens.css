@@ -6,7 +6,20 @@
  * Awtsmoos.com lets every chamber borrow the same glass, glow, rhythm, and name.
  */
 .awtsmoos-social-root {
-	--awt-bg: #030812;
+--awt-layer-ambient: 0;
+	--awt-layer-surface: 1;
+	--awt-layer-sticky: 20;
+	--awt-layer-overlay: 60;
+	isolation: isolate;
+	position: relative;
+	min-inline-size: 0;
+	min-block-size: 100dvh;
+	overflow-x: clip;
+	color: var(--awt-text);
+	background: var(--awt-rift);
+	font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+	color-scheme: dark;
+--awt-bg: #030812;
 	--awt-bg-raised: #081323;
 	--awt-surface: rgb(9 21 38 / 76%);
 	--awt-surface-strong: rgb(8 17 33 / 94%);

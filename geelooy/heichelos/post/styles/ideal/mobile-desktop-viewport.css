@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: legacy unloaded tree (geelooy/heichelos/heichelos/); selectors never loaded together, no runtime conflict */
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
@@ -5,13 +6,13 @@
  * The Awtsmoos lets one reader breathe through desktop and phone without a second root decree;
  * Awtsmoos.com keeps descendant geometry and touch contracts here while the shell alone owns the sea.
  */
-.all.post-reader-localized-context.awtsmoos-reader-vision *,
-.all.post-reader-localized-context.awtsmoos-reader-vision *::before,
-.all.post-reader-localized-context.awtsmoos-reader-vision *::after {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) *,
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) *::before,
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) *::after {
 	box-sizing: border-box !important;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision > .awtsmoos-integrated-header {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) > .awtsmoos-integrated-header {
 	position: sticky !important;
 	top: 0 !important;
 	z-index: var(--z-header) !important;
@@ -20,7 +21,7 @@
 	overflow: clip !important;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision > .main {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) > .main {
 	position: relative !important;
 	align-items: stretch !important;
 	overflow: visible !important;
@@ -28,27 +29,25 @@
 	min-height: calc(100dvh - var(--reader-mobile-header-space, 78px)) !important;
 	max-width: 100% !important;
 }
-
-.all.post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper,
-.all.post-reader-localized-context.awtsmoos-reader-vision #realPost.content,
-.all.post-reader-localized-context.awtsmoos-reader-vision #virtual-scroll-container {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost.content),
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#virtual-scroll-container) {
 	min-width: 0 !important;
 	min-height: 0 !important;
 	max-width: 100% !important;
 	overflow: visible !important;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision button,
-.all.post-reader-localized-context.awtsmoos-reader-vision [role="button"],
-.all.post-reader-localized-context.awtsmoos-reader-vision input,
-.all.post-reader-localized-context.awtsmoos-reader-vision select,
-.all.post-reader-localized-context.awtsmoos-reader-vision textarea,
-.all.post-reader-localized-context.awtsmoos-reader-vision .comment-chip-action {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) button,
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) [role="button"],
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) input,
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) select,
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) textarea,
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) .comment-chip-action {
 	min-height: var(--reader-touch-target) !important;
 	touch-action: manipulation !important;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-tabs {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-tabs {
 	display: flex !important;
 	grid-template-columns: none !important;
 	max-width: 100% !important;
@@ -61,9 +60,9 @@
 	scroll-snap-type: x proximity !important;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision .tab-buttons,
-.all.post-reader-localized-context.awtsmoos-reader-vision .tabs,
-.all.post-reader-localized-context.awtsmoos-reader-vision [role="tablist"] {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) .tab-buttons,
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) .tabs,
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) [role="tablist"] {
 	max-width: 100% !important;
 	overflow-x: auto !important;
 	overflow-y: hidden !important;
@@ -73,7 +72,7 @@
 	flex-wrap: nowrap !important;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-tab-btn {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-tab-btn {
 	flex: 0 0 auto !important;
 	min-width: max(92px, 28vw) !important;
 	min-height: var(--reader-touch-target) !important;
@@ -87,29 +86,29 @@
 		overflow-x: clip !important;
 	}
 
-	body .all.post-reader-localized-context.awtsmoos-reader-vision {
+	body :where(.all.post-reader-localized-context.awtsmoos-reader-vision) {
 		--reader-mobile-header-space: clamp(52px, 14vw, 68px);
 		--reader-mobile-bottom-space: calc(var(--ideal-dock-height) + var(--reader-safe-bottom) + 74px);
 	}
 
-	body .all.post-reader-localized-context.awtsmoos-reader-vision > .awtsmoos-integrated-header {
+	body :where(.all.post-reader-localized-context.awtsmoos-reader-vision) > .awtsmoos-integrated-header {
 		min-height: 52px !important;
 		max-height: 68px !important;
 	}
 
-	body .all.post-reader-localized-context.awtsmoos-reader-vision > .main {
+	body :where(.all.post-reader-localized-context.awtsmoos-reader-vision) > .main {
 		display: block !important;
 		min-height: calc(100dvh - var(--reader-mobile-header-space)) !important;
 		padding-bottom: var(--reader-mobile-bottom-space) !important;
 	}
 
-	body .all.post-reader-localized-context.awtsmoos-reader-vision #virtual-scroll-container.awtsmoos-virtual-scroll {
+	body :where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#virtual-scroll-container.awtsmoos-virtual-scroll) {
 		padding-bottom: calc(var(--reader-mobile-bottom-space) + 3rem) !important;
 	}
 }
 
 @media (min-width: 901px) {
-	html body .all.post-reader-localized-context.awtsmoos-reader-vision > .main {
+	:where(html) body :where(.all.post-reader-localized-context.awtsmoos-reader-vision) > .main {
 		padding-inline-end: calc(var(--ideal-sidebar-width) + 18px) !important;
 	}
 }

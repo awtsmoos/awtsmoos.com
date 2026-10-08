@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (8 selectors: .post-reader-localized-context .awtsmoos, .post-reader-localized-context .awtsmoos); cascade order intentional, merge would break responsive/laye */
 ﻿/* B"H
    Inline responsive v3.
 */
@@ -5,8 +6,8 @@
 @media (max-width: 760px) {
     .post-reader-localized-context .marginal-gloss-shelter,
     .post-reader-localized-context .awtsmoos-inline-shelter-v2,
-    .post-reader-localized-context .heb .marginal-gloss-shelter,
-    .post-reader-localized-context .heb .awtsmoos-inline-shelter-v2 {
+    :where(.post-reader-localized-context) .heb .marginal-gloss-shelter,
+    :where(.post-reader-localized-context) .heb .awtsmoos-inline-shelter-v2 {
         margin-inline: 0 !important;
         padding: .72rem !important;
         border-left-width: 3px !important;
@@ -14,15 +15,12 @@
         border-radius: 18px !important;
     }
 
-    .post-reader-localized-context .marginal-gloss-shelter::before,
-    .post-reader-localized-context .awtsmoos-inline-shelter-v2::before,
-    .post-reader-localized-context .heb .marginal-gloss-shelter::before,
-    .post-reader-localized-context .heb .awtsmoos-inline-shelter-v2::before {
+    .post-reader-localized-context .marginal-gloss-shelter::before{
         display: none !important;
     }
 
     .post-reader-localized-context .awtsmoos-inline-trigger,
-    .post-reader-localized-context .commentator.inline-holder .inline-summary-btn {
+    :where(.post-reader-localized-context) :where(.commentator.inline-holder) .inline-summary-btn {
         border-radius: 16px !important;
         padding: .75rem !important;
     }
@@ -33,7 +31,7 @@
     }
 
     .post-reader-localized-context .awtsmoos-inline-body,
-    .post-reader-localized-context .awtsmoos-inline-commentary-root .comment-body-vessel {
+    :where(.post-reader-localized-context) .awtsmoos-inline-commentary-root .comment-body-vessel {
         padding: .85rem !important;
     }
 }

@@ -1,9 +1,10 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (4 selectors: .post-reader-localized-context .awtsmoos, .post-reader-localized-context .comments); cascade order intentional, merge would break responsive/laye */
 ﻿/* B"H
    Inline gate v3: readable summary, count pill, smooth collapse.
 */
 
 .post-reader-localized-context .awtsmoos-inline-shell,
-.post-reader-localized-context .commentator.inline-holder {
+:where(.post-reader-localized-context) .commentator.inline-holder {
     display: flex !important;
     flex-direction: column !important;
     gap: .85rem !important;
@@ -12,8 +13,8 @@
     border: 0 !important;
 }
 
-.post-reader-localized-context .awtsmoos-inline-trigger,
-.post-reader-localized-context .commentator.inline-holder .inline-summary-btn {
+:where(.post-reader-localized-context) .awtsmoos-inline-trigger,
+:where(.post-reader-localized-context) :where(.commentator.inline-holder) .inline-summary-btn {
     width: 100% !important;
     min-height: 54px !important;
     display: flex !important;
@@ -31,8 +32,7 @@
     transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease !important;
 }
 
-.post-reader-localized-context .awtsmoos-inline-trigger:hover,
-.post-reader-localized-context .commentator.inline-holder .inline-summary-btn:hover {
+:where(.post-reader-localized-context) .awtsmoos-inline-trigger:hover{
     transform: translateY(-2px) !important;
     box-shadow: 0 22px 48px rgba(88,28,135,.28) !important;
 }
@@ -60,7 +60,8 @@
     transition: opacity .2s ease, transform .2s ease !important;
 }
 
-.post-reader-localized-context .awtsmoos-inline-shell.is-collapsed .comments-holder-inline,
-.post-reader-localized-context .awtsmoos-inline-shell.is-collapsed .awtsmoos-inline-comments {
-    display: none !important;
+:where(.post-reader-localized-context) :where(.awtsmoos-inline-shell.is-collapsed) .comments-holder-inline,
+:where(.post-reader-localized-context) :where(.awtsmoos-inline-shell.is-collapsed) .awtsmoos-inline-comments {
+display: none !important;
+display: none !important;
 }

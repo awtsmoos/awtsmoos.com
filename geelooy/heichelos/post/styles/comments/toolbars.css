@@ -1,8 +1,9 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (2 selectors: :where(.post-reader-localized-context) ., :where(.post-reader-localized-context) .); cascade order intentional, merge would break responsive/laye */
 
 /* B"H - COMMENTARY TOOLBARS & ACTIONS */
 
 /* Sidebar Card Toolbar */
-.post-reader-localized-context .comment-content .comment-toolbar {
+:where(.post-reader-localized-context) .comment-content .comment-toolbar {
     background: rgba(0,0,0,0.04) !important;
     border-top: 2px dashed var(--color-ink-secondary) !important;
     padding: 12px 20px !important;
@@ -14,13 +15,13 @@
 }
 
 /* Dark theme inversion for toolbar */
-.post-reader-localized-context[data-theme="dark"] .comment-content .comment-toolbar {
+:where(.post-reader-localized-context[data-theme="dark"]) .comment-content .comment-toolbar {
     background: rgba(255,255,255,0.05) !important;
 }
 
 /* Action Buttons inside Toolbars */
-.post-reader-localized-context .comment-toolbar .btn,
-.post-reader-localized-context .comment-toolbar .menu-btn {
+:where(.post-reader-localized-context) :where(.comment-toolbar) .btn,
+:where(.post-reader-localized-context) :where(.comment-toolbar) .menu-btn {
     background: var(--bg-surface) !important;
     color: var(--color-ink) !important;
     border: 2px solid var(--color-ink) !important;
@@ -32,8 +33,8 @@
     transition: all 0.15s var(--ease-snap) !important;
 }
 
-.post-reader-localized-context .comment-toolbar .btn:hover,
-.post-reader-localized-context .comment-toolbar .menu-btn:hover {
+:where(.post-reader-localized-context) :where(.comment-toolbar) .btn:hover,
+:where(.post-reader-localized-context) :where(.comment-toolbar) .menu-btn:hover {
     background: var(--color-accent) !important;
     box-shadow: 4px 4px 0 var(--color-primary) !important;
     transform: translate(-2px, -2px) !important;
@@ -41,7 +42,7 @@
 }
 
 /* Intense Reply Toggle Button (Nested Comments) */
-.post-reader-localized-context .reply-toggle-btn {
+:where(.post-reader-localized-context) .reply-toggle-btn {
     background: var(--color-electric) !important;
     color: white !important;
     border: 3px solid var(--color-ink) !important;
@@ -56,7 +57,7 @@
     margin-top: 10px !important;
 }
 
-.post-reader-localized-context .reply-toggle-btn:hover {
+:where(.post-reader-localized-context) .reply-toggle-btn:hover {
     background: var(--color-primary) !important;
     box-shadow: 6px 6px 0 var(--color-ink) !important;
     transform: translate(-2px, -2px) !important;

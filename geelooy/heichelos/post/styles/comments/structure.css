@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (3 selectors: .post-reader-localized-context .children, :where(.post-reader-localized-context) .); cascade order intentional, merge would break responsive/laye */
 /* B"H - THREADING ARCHITECTURE (REFINED) */
 
 .post-reader-localized-context .children-slot {
@@ -11,7 +12,7 @@
 }
 
 /* THE TRUNK: A clean, solid line of connection */
-.post-reader-localized-context .children-slot::before {
+:where(.post-reader-localized-context) .children-slot::before {
     content: '';
     position: absolute;
     top: 0; 
@@ -24,17 +25,17 @@
 }
 
 /* HOVER: Illuminate the Path */
-.post-reader-localized-context .children-slot:hover::before {
+:where(.post-reader-localized-context) .children-slot:hover::before {
     background: var(--color-primary);
     opacity: 1;
 }
 
 /* THE BRANCH CONNECTOR */
-.post-reader-localized-context .children-slot > .comment-wrapper {
+:where(.post-reader-localized-context) .children-slot > .comment-wrapper {
     position: relative;
 }
 
-.post-reader-localized-context .children-slot > .comment-wrapper::after {
+:where(.post-reader-localized-context) :where(.children-slot) > .comment-wrapper::after {
     content: '';
     position: absolute;
     top: 1.5rem; 
@@ -46,13 +47,13 @@
     transition: all 0.3s ease;
 }
 
-.post-reader-localized-context .children-slot > .comment-wrapper:hover::after {
+:where(.post-reader-localized-context) :where(.children-slot) > .comment-wrapper:hover::after {
     background: var(--color-primary);
     opacity: 1;
 }
 
 /* REPLY TOGGLE BUTTON */
-.post-reader-localized-context .reply-toggle-btn {
+:where(.post-reader-localized-context) .reply-toggle-btn {
     width: auto;
     display: inline-block;
     padding: 5px 10px !important;
@@ -66,7 +67,7 @@
     border-radius: 4px;
 }
 
-.post-reader-localized-context .reply-toggle-btn:hover {
+:where(.post-reader-localized-context) .reply-toggle-btn:hover {
     background: var(--bg-surface) !important;
     border-style: solid !important;
     color: var(--color-primary) !important;

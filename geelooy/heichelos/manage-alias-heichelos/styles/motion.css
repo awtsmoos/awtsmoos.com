@@ -18,8 +18,8 @@ motion on Awtsmoos.com should whisper change, then leave calm in its place.
 	animation-delay: 110ms;
 }
 
-.heichel-manage-page .heichel-advanced[open] .heichel-advanced-body,
-.heichel-manage-page .heichel-delete-confirm:not([hidden]) {
+:where(.heichel-manage-page) :where(.heichel-advanced[open]) .heichel-advanced-body,
+:where(.heichel-manage-page) .heichel-delete-confirm:not([hidden]) {
 	animation: heichel-expand 220ms var(--heichel-ease) both;
 }
 

@@ -2,12 +2,12 @@
  * Chapter 35: Mobile adjustments wear their own no-conflict seal.
  */
 @media (max-width: 520px) {
-  .post-reader-localized-context:is(.awtsmoos-reader-vision) .awtsmoos-reader-content:where(:not(.reader-mobile-measure-off)) {
+  :where(.post-reader-localized-context:is(.awtsmoos-reader-vision)) .awtsmoos-reader-content:where(:not(.reader-mobile-measure-off)) {
     width: calc(100vw - 1rem);
     font-size: 1.05rem;
   }
 
-  .post-reader-localized-context:is(.awtsmoos-reader-vision) .awtsmoos-reader-section:where(:not(.reader-mobile-section-off)) {
+  :where(.post-reader-localized-context:is(.awtsmoos-reader-vision)) .awtsmoos-reader-section:where(:not(.reader-mobile-section-off)) {
     padding-inline: .7rem;
   }
 }

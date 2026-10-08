@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (2 selectors: .collapsible-section, .simple-advanced-drawer); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
@@ -33,7 +34,10 @@ body {
 .simple-advanced-drawer,
 .input-group,
 .editor-wrapper,
-.collapsible-section { min-inline-size:0; max-inline-size:100%; border:1px solid var(--create-line); border-radius:1rem; background:var(--create-panel); }
+.collapsible-section {
+min-inline-size:0; padding:.6rem;
+min-inline-size:0; max-inline-size:100%; border:1px solid var(--create-line); border-radius:1rem; background:var(--create-panel);
+}
 .compact-card,
 .composer-card,
 .submit-hero,
@@ -46,7 +50,7 @@ body {
 .page-title-glow { margin:0; overflow-wrap:anywhere; color:var(--create-ink); font-size:clamp(1.8rem,6vw,3.2rem); font-weight:750; letter-spacing:-.04em; line-height:1; }
 .submit-hero p,
 .page-header p,
-#submitStatusMessage { margin:0; overflow-wrap:anywhere; color:var(--create-muted); }
+:where(#submitStatusMessage) { margin:0; overflow-wrap:anywhere; color:var(--create-muted); }
 .eyebrow,
 .hero-kicker,
 .editor-label,

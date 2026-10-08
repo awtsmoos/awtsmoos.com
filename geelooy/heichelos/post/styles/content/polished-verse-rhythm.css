@@ -1,12 +1,13 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: :where(.post-reader-localized-context) :); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H
    Chapter 13: Each verse section emerges softly from the parchment sea.
 */
 
-.post-reader-localized-context #realPost .section {
+:where(.post-reader-localized-context) :where(#realPost) .section {
     isolation: isolate !important;
 }
 
-.post-reader-localized-context #realPost .section::before {
+.post-reader-localized-context :where(#realPost) .section::before {
     content: "" !important;
     position: absolute !important;
     left: 50% !important;
@@ -22,6 +23,6 @@
     z-index: -1 !important;
 }
 
-.post-reader-localized-context #realPost .section:hover {
+:where(.post-reader-localized-context) :where(#realPost) .section:hover {
     transform: translateY(-2px) !important;
 }

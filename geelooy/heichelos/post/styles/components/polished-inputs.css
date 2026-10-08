@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (4 selectors: .post-reader-localized-context select, .post-reader-localized-context select:fo); cascade order intentional, merge would break responsive/layered */
 /* B"H
    Chapter 25: Inputs become quiet parchment fields with ink focus.
 */

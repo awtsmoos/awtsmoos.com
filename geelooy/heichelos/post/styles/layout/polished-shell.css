@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: .post-reader-localized-context .scroll-v); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H
    Chapter 46: The scroll chamber becomes night-glass.
    This owner shapes the true scroll vessel: smooth depth, gold scroll rails,

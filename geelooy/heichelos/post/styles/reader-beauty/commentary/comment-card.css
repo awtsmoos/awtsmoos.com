@@ -1,2 +1,3 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: .comment-card); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H reader beauty commentary/comment-card.css. */
 .comment-card, .comment { box-shadow:var(--beauty-shadow-soft); }

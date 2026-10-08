@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: .post-reader-localized-context.awtsmoos-); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H
  * Chapter 24: The shell owns the painted body through a precise vessel.
  * Tokens hold variables; this shell holds the live page surface.

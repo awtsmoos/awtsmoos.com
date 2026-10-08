@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (2 selectors: :where(.post-reader-localized-context) ., :where(.post-reader-localized-context) .); cascade order intentional, merge would break responsive/laye */
 
 /* B"H
    MARGINAL INTENSITY (GLOSS STYLES)
@@ -13,7 +14,7 @@
     animation: fadeInReveal 0.6s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.post-reader-localized-context .heb .marginal-gloss-container {
+:where(.post-reader-localized-context) .heb .marginal-gloss-container {
     padding-left: 0;
     padding-right: 25px;
     border-left: none;
@@ -21,7 +22,7 @@
 }
 
 /* THE INLINE CARD */
-.post-reader-localized-context .inline-comment {
+:where(.post-reader-localized-context) .inline-comment {
     max-width: 500px;
     background: #ffffff !important;
     color: #000000 !important;
@@ -33,12 +34,12 @@
     transition: all 0.2s ease;
 }
 
-.post-reader-localized-context .inline-comment:hover {
+:where(.post-reader-localized-context) .inline-comment:hover {
     transform: translate(-3px, -3px);
     box-shadow: 12px 12px 0px var(--color-accent) !important;
 }
 
-.post-reader-localized-context .inline-comment .commentTitle {
+:where(.post-reader-localized-context) .inline-comment .commentTitle {
     font-size: 16px !important;
     padding: 8px 15px !important;
     background: #000 !important;
@@ -46,7 +47,7 @@
     margin: 0 !important;
 }
 
-.post-reader-localized-context .inline-comment .awtsmoos-comment-paragraph {
+:where(.post-reader-localized-context) .inline-comment .awtsmoos-comment-paragraph {
     font-size: 14px !important;
     line-height: 1.5 !important;
     padding: 12px 15px !important;

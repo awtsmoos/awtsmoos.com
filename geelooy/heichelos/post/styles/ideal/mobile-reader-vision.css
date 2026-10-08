@@ -17,24 +17,24 @@
     --reader-active-shadow: var(--ideal-shadow-card-gold);
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision #virtual-scroll-container.awtsmoos-virtual-scroll {
+.post-reader-localized-context.awtsmoos-reader-vision :where(#virtual-scroll-container.awtsmoos-virtual-scroll) {
     width: min(100%, var(--ideal-reading-width, 72rem)) !important;
     margin-inline: auto !important;
     padding-inline: var(--ideal-reading-pad, 1rem) !important;
     padding-bottom: clamp(8rem, 16vh, 12rem) !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .scroll-chunk[data-awtsmoos-revealed="true"] {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .scroll-chunk[data-awtsmoos-revealed="true"] {
     content-visibility: visible !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .scroll-chunk:not([data-awtsmoos-revealed="true"]) {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .scroll-chunk:not([data-awtsmoos-revealed="true"]) {
     content-visibility: auto !important;
     contain-intrinsic-size: 1px 920px !important;
     overflow: visible !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .section {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .section {
     position: relative !important;
     border: 1px solid var(--ideal-card-edge) !important;
     border-radius: clamp(22px, 5vw, var(--ideal-radius-xxl)) !important;
@@ -48,17 +48,17 @@
     overflow: hidden !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .section.active,
-.post-reader-localized-context.awtsmoos-reader-vision .section.awtsmoos-refresh-target,
-.post-reader-localized-context.awtsmoos-reader-vision .sub-awtsmoos.awtsmoos-refresh-target {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .section.active,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .section.awtsmoos-refresh-target,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .sub-awtsmoos.awtsmoos-refresh-target {
     border-color: var(--ideal-card-hot-edge) !important;
     box-shadow: var(--reader-active-shadow) !important;
     outline: 2px solid rgba(244, 197, 107, .22) !important;
     outline-offset: 4px !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .section.heb .toichen,
-.post-reader-localized-context.awtsmoos-reader-vision .sub-awtsmoos.heb {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) :where(.section.heb) .toichen,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .sub-awtsmoos.heb {
     direction: rtl !important;
     text-align: center !important;
     color: #fffdf5 !important;
@@ -69,7 +69,7 @@
     letter-spacing: .018em !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .sub-awtsmoos {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .sub-awtsmoos {
     border: 1px solid rgba(255, 255, 255, .10) !important;
     border-radius: clamp(18px, 4.6vw, 28px) !important;
     background: rgba(255, 255, 255, .055) !important;
@@ -79,7 +79,7 @@
     scroll-margin-top: calc(var(--reader-mobile-header-space) + 18px) !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-section-header {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-section-header {
     position: absolute !important;
     inset-block-start: 10px !important;
     inset-inline-start: 12px !important;
@@ -87,20 +87,20 @@
 }
 
 /* --- DAYBREAK (LIGHT THEME): text follows the light background --- */
-.post-reader-localized-context.awtsmoos-reader-vision[data-theme="light"] .section {
+:where(.post-reader-localized-context.awtsmoos-reader-vision[data-theme="light"]) .section {
     border-color: rgba(20, 30, 50, .10) !important;
     background:
         linear-gradient(180deg, rgba(255,255,255,.98), rgba(250,247,240,.94)) !important;
     box-shadow: 0 1rem 2.4rem rgba(20, 30, 50, .10) !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision[data-theme="light"] .section.heb .toichen,
-.post-reader-localized-context.awtsmoos-reader-vision[data-theme="light"] .sub-awtsmoos.heb {
+:where(.post-reader-localized-context.awtsmoos-reader-vision[data-theme="light"]) :where(.section.heb) .toichen,
+:where(.post-reader-localized-context.awtsmoos-reader-vision[data-theme="light"]) .sub-awtsmoos.heb {
     color: #1b1b1b !important;
     text-shadow: none !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision[data-theme="light"] .sub-awtsmoos {
+:where(.post-reader-localized-context.awtsmoos-reader-vision[data-theme="light"]) .sub-awtsmoos {
     border: 1px solid rgba(20, 30, 50, .10) !important;
     background: rgba(20, 30, 50, .030) !important;
     box-shadow: none !important;
@@ -109,14 +109,14 @@
 @media (max-width: 900px) {
     body.awtsmoos-auto-scroll-active { overscroll-behavior-y: contain !important; }
 
-    .post-reader-localized-context.awtsmoos-reader-vision .main { padding-bottom: var(--reader-mobile-bottom-space) !important; }
+    :where(.post-reader-localized-context.awtsmoos-reader-vision) .main { padding-bottom: var(--reader-mobile-bottom-space) !important; }
 
-    .post-reader-localized-context.awtsmoos-reader-vision #virtual-scroll-container.awtsmoos-mobile-scroll {
+    .post-reader-localized-context.awtsmoos-reader-vision :where(#virtual-scroll-container.awtsmoos-mobile-scroll) {
         padding-top: .45rem !important;
         padding-bottom: calc(var(--reader-mobile-bottom-space) + 4rem) !important;
     }
 
-    .post-reader-localized-context.awtsmoos-reader-vision .sidebar.awtsmoos-sidebar-open {
+    :where(.post-reader-localized-context.awtsmoos-reader-vision) .sidebar.awtsmoos-sidebar-open {
         height: min(64dvh, 580px) !important;
         max-height: calc(100dvh - var(--reader-mobile-header-space)) !important;
         border-radius: var(--ideal-sidebar-radius) !important;
@@ -125,7 +125,7 @@
         z-index: 760 !important;
     }
 
-    .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-floating-controls {
+    :where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-floating-controls {
         left: var(--ideal-floating-left) !important;
         right: auto !important;
         bottom: max(18px, calc(env(safe-area-inset-bottom) + 18px)) !important;
@@ -134,14 +134,14 @@
         gap: 12px !important;
     }
 
-    .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-floating-controls button {
+    :where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-floating-controls button {
         width: 56px !important;
         height: 56px !important;
         border-radius: 18px !important;
         box-shadow: 0 18px 38px rgba(0, 0, 0, .36) !important;
     }
 
-    .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-auto-scroll-floating.awtsmoos-mobile-river {
+    :where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-auto-scroll-floating.awtsmoos-mobile-river {
         right: var(--ideal-auto-right) !important;
         bottom: var(--ideal-auto-bottom) !important;
         width: 68px !important;
@@ -151,7 +151,7 @@
         box-shadow: 0 20px 44px rgba(4, 120, 87, .42), 0 0 0 1px rgba(255,255,255,.18) !important;
     }
 
-    .post-reader-localized-context.awtsmoos-reader-vision .typography-details {
+    :where(.post-reader-localized-context.awtsmoos-reader-vision) .typography-details {
         position: fixed !important;
         left: 12px !important;
         right: 12px !important;
@@ -167,10 +167,21 @@
 }
 
 @media (min-width: 901px) {
-    .post-reader-localized-context.awtsmoos-reader-vision .section { max-width: 78rem !important; margin-inline: auto !important; }
+    :where(.post-reader-localized-context.awtsmoos-reader-vision) .section { max-width: 78rem !important; margin-inline: auto !important; }
 
-    .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-auto-scroll-floating.awtsmoos-desktop-river {
+    :where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-auto-scroll-floating.awtsmoos-desktop-river {
         right: calc(var(--ideal-auto-right) + 8px) !important;
         bottom: calc(var(--ideal-auto-bottom) + 16px) !important;
     }
+}
+
+/* @tunnel-interactive-states: auto-generated by css-guarantee */
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-floating-controls button:hover {
+	filter: brightness(1.08);
+}
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-floating-controls button:active {
+	transform: scale(0.98);
+}
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-floating-controls button:focus-visible {
+	outline: 2px solid currentColor; outline-offset: 2px;
 }

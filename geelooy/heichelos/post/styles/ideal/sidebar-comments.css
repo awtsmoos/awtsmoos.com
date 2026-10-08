@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (7 selectors: .post-reader-localized-context .awtsmoos, .post-reader-localized-context .children); cascade order intentional, merge would break responsive/laye */
 /* B"H
    Chapter 31: The comment constellations.
    Sidebar comments become compact night-cards, each line readable, each author
@@ -43,13 +44,13 @@
     overflow-wrap: anywhere !important;
 }
 
-.post-reader-localized-context .comment-content .comment-text-root {
+:where(.post-reader-localized-context) .comment-content .comment-text-root {
     padding: 11px 12px !important;
     display: grid !important;
     gap: 8px !important;
 }
 
-.post-reader-localized-context .comment-content .awtsmoos-comment-paragraph {
+:where(.post-reader-localized-context) .comment-content .awtsmoos-comment-paragraph {
     margin: 0 !important;
     color: #dbe7f5 !important;
     font: 500 14px/1.58 var(--font-content, serif) !important;
@@ -57,7 +58,7 @@
     overflow-wrap: anywhere !important;
 }
 
-.post-reader-localized-context .comment-content .commentTitle {
+:where(.post-reader-localized-context) .comment-content .commentTitle {
     padding: 9px 11px !important;
     background: rgba(255, 255, 255, .05) !important;
     border-bottom: 1px solid var(--ideal-sidebar-line) !important;

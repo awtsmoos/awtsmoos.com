@@ -1,10 +1,11 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (2 selectors: .post-reader-localized-context .sub-awts, :where(.post-reader-localized-context) .); cascade order intentional, merge would break responsive/laye */
 /* B"H
    Chapter 33: The verse awakens.
    The active section receives a golden hush, the subsection receives a precise
    glow, and the verse-end becomes a clean dotted bridge into commentary.
 */
 
-.post-reader-localized-context .section.active-reading-section {
+:where(.post-reader-localized-context) .section.active-reading-section {
     outline: 1.5px solid rgba(220, 166, 66, .74) !important;
     outline-offset: 4px !important;
     border-radius: var(--ideal-radius-md) !important;
@@ -20,7 +21,7 @@
     transition: background 120ms linear, border-color 120ms linear, box-shadow 120ms linear !important;
 }
 
-.post-reader-localized-context .sub-awtsmoos.active-reading-section {
+:where(.post-reader-localized-context) .sub-awtsmoos.active-reading-section {
     border-color: rgba(220, 166, 66, .96) !important;
     box-shadow: 0 10px 26px rgba(220, 166, 66, .18) !important;
     background: rgba(255, 248, 220, .8) !important;

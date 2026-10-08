@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (4 selectors: .inline-comment, .sidebar); cascade order intentional, merge would break responsive/layered architecture */
 
 /* B"H 
    NEO-BRUTALIST MANIFESTO: MOBILE FIRST EDITION
@@ -19,7 +20,7 @@ body {
     color: var(--color-ink);
 }
 
-#realPost .toichen {
+:where(#realPost) .toichen {
     font-size: clamp(1.2rem, 5vw, 1.8rem); /* Fluid scaling */
     line-height: 1.65;
 }

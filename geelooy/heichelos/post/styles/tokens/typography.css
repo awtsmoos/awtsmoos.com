@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (2 selectors: .post-reader-localized-context .heb, :root); cascade order intentional, merge would break responsive/layered architecture */
 
 :root {
     --font-heading: 'Syne', sans-serif;

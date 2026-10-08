@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (6 selectors: .post-reader-localized-context, .post-reader-localized-context .awtsmoos); cascade order intentional, merge would break responsive/layered archit */
 /* B"H
  * Chapter 257: The letters ride on glass, not on jagged stone.
  * The reader keeps every awakened chunk, lowers layout violence, and surrounds
@@ -37,7 +38,7 @@
     text-shadow: 0 14px 36px rgba(0,0,0,.5) !important;
 }
 
-.post-reader-localized-context #virtual-scroll-container,
+.post-reader-localized-context :where(#virtual-scroll-container),
 .post-reader-localized-context .awtsmoos-virtual-scroll {
     display: block !important;
     width: 100% !important;
@@ -75,10 +76,10 @@
     transition: border-color .22s ease, box-shadow .22s ease, background .22s ease !important;
 }
 
-.post-reader-localized-context .section.active,
-.post-reader-localized-context .section.active-reading-section,
-.post-reader-localized-context .section.awtsmoos-current-section,
-.post-reader-localized-context .section.awtsmoos-current-reading-section,
+:where(.post-reader-localized-context) .section.active,
+:where(.post-reader-localized-context) .section.active-reading-section,
+:where(.post-reader-localized-context) .section.awtsmoos-current-section,
+:where(.post-reader-localized-context) .section.awtsmoos-current-reading-section,
 .post-reader-localized-context .awtsmoos-refresh-target {
     border-color: rgba(246,201,108,.78) !important;
     background:
@@ -99,16 +100,16 @@
     transform: translateZ(0) !important;
 }
 
-.post-reader-localized-context .sub-awtsmoos.active-reading-sub,
-.post-reader-localized-context .sub-awtsmoos.awtsmoos-current-subsection,
-.post-reader-localized-context .sub-awtsmoos.awtsmoos-current-reading-sub {
+:where(.post-reader-localized-context) .sub-awtsmoos.active-reading-sub,
+:where(.post-reader-localized-context) .sub-awtsmoos.awtsmoos-current-subsection,
+:where(.post-reader-localized-context) .sub-awtsmoos.awtsmoos-current-reading-sub {
     border-color: rgba(34,211,238,.52) !important;
     background: radial-gradient(circle at 50% 0%, rgba(34,211,238,.14), transparent 14rem), rgba(255,255,255,.09) !important;
     box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 0 0 2px rgba(34,211,238,.12), 0 18px 44px rgba(34,211,238,.10) !important;
 }
 
-.post-reader-localized-context .section.heb .toichen,
-.post-reader-localized-context .sub-awtsmoos.heb,
+:where(.post-reader-localized-context) :where(.section.heb) .toichen,
+:where(.post-reader-localized-context) .sub-awtsmoos.heb,
 .post-reader-localized-context .heb {
     direction: rtl !important;
     text-align: center !important;
@@ -118,43 +119,43 @@
 }
 
 /* B"H dark theme: light text on dark chamber */
-:root[data-theme="dark"] .post-reader-localized-context .section.heb .toichen,
-:root[data-theme="dark"] .post-reader-localized-context .sub-awtsmoos.heb,
-:root[data-theme="dark"] .post-reader-localized-context .heb,
-.post-reader-localized-context[data-theme="dark"] .section.heb .toichen,
-.post-reader-localized-context[data-theme="dark"] .sub-awtsmoos.heb,
-.post-reader-localized-context[data-theme="dark"] .heb {
+:where(:root[data-theme="dark"]) :where(.post-reader-localized-context) :where(.section.heb) .toichen,
+:where(:root[data-theme="dark"]) :where(.post-reader-localized-context) .sub-awtsmoos.heb,
+:where(:root[data-theme="dark"]) .post-reader-localized-context .heb,
+:where(.post-reader-localized-context[data-theme="dark"]) :where(.section.heb) .toichen,
+:where(.post-reader-localized-context[data-theme="dark"]) .sub-awtsmoos.heb,
+:where(.post-reader-localized-context[data-theme="dark"]) .heb {
     color: #fffdf5 !important;
     text-shadow: 0 8px 26px rgba(0,0,0,.42) !important;
 }
 /* B"H dark theme: force dark chamber background (overrides transparent) */
-:root[data-theme="dark"] .post-reader-localized-context.awtsmoos-reader-vision,
-:root[data-theme="dark"] .post-reader-localized-context,
-.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision,
+:where(:root[data-theme="dark"]) .post-reader-localized-context.awtsmoos-reader-vision,
+:where(:root[data-theme="dark"]) .post-reader-localized-context,
+:where(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision),
 .post-reader-localized-context[data-theme="dark"] {
     background-color: #0a1120 !important;
     background-image: linear-gradient(180deg, #0d1526, #060a14) !important;
 }
-:root[data-theme="dark"] .post-reader-localized-context .section,
-:root[data-theme="dark"] .post-reader-localized-context .section.heb,
-.post-reader-localized-context[data-theme="dark"] .section,
-.post-reader-localized-context[data-theme="dark"] .section.heb {
+:where(:root[data-theme="dark"]) .post-reader-localized-context .section,
+:where(:root[data-theme="dark"]) :where(.post-reader-localized-context) .section.heb,
+:where(.post-reader-localized-context[data-theme="dark"]) .section,
+:where(.post-reader-localized-context[data-theme="dark"]) .section.heb {
     background-color: #0a1120 !important;
     background: #0a1120 !important;
 }
 
 
-.post-reader-localized-context .section.heb > .toichen,
-.post-reader-localized-context .section.heb > .toichen > :not(.marginal-gloss-shelter):not(.awtsmoos-inline-shell),
-.post-reader-localized-context .section.heb > .sub-awtsmoos.heb,
-.post-reader-localized-context .section.heb > .sub-awtsmoos.heb > :not(.marginal-gloss-shelter):not(.awtsmoos-inline-shell) {
+:where(.post-reader-localized-context) :where(.section.heb) > .toichen,
+:where(.post-reader-localized-context) :where(.section.heb) > :where(.toichen) > :not(.marginal-gloss-shelter):not(.awtsmoos-inline-shell),
+:where(.post-reader-localized-context) :where(.section.heb) > .sub-awtsmoos.heb,
+:where(.post-reader-localized-context) :where(.section.heb) > :where(.sub-awtsmoos.heb) > :not(.marginal-gloss-shelter):not(.awtsmoos-inline-shell) {
     font-size: var(--post-text-size) !important;
     line-height: 1.42 !important;
 }
 
-.post-reader-localized-context .section:not(.heb) > .toichen,
-.post-reader-localized-context .section:not(.heb) > .sub-awtsmoos,
-.post-reader-localized-context .section:not(.heb) > .sub-awtsmoos > :not(.marginal-gloss-shelter):not(.awtsmoos-inline-shell) {
+:where(.post-reader-localized-context) :where(.section:not(.heb)) > .toichen,
+:where(.post-reader-localized-context) :where(.section:not(.heb)) > .sub-awtsmoos,
+:where(.post-reader-localized-context) :where(.section:not(.heb)) > :where(.sub-awtsmoos) > :not(.marginal-gloss-shelter):not(.awtsmoos-inline-shell) {
     font-size: var(--post-text-size) !important;
     line-height: 1.55 !important;
 }
@@ -162,11 +163,17 @@
 .post-reader-localized-context .awtsmoos-section-header,
 .post-reader-localized-context .awtsmoos-section-header *,
 .post-reader-localized-context .awtsmoos-verse-number {
-    font-size: 1rem !important;
+display: flex !important;
+    justify-content: center !important;
+    margin-block-end: .35rem !important;
+font-size: 1rem !important;
     line-height: 1 !important;
+border-radius: 999px !important;
+    background: radial-gradient(circle at 34% 25%, #fff3bb, #d89220) !important;
+    color: #1b1205 !important;
+    border: 1px solid rgba(255,255,255,.3) !important;
+    box-shadow: 0 10px 22px rgba(0,0,0,.28) !important;
 }
-
-.post-reader-localized-context .awtsmoos-section-header,
 .post-reader-localized-context .awtsmoos-verse-number {
     border-radius: 999px !important;
     background: radial-gradient(circle at 34% 25%, #fff3bb, #d89220) !important;

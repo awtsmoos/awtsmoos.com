@@ -1,7 +1,8 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (2 selectors: :where(.post-reader-localized-context) ., :where(.post-reader-localized-context) .); cascade order intentional, merge would break responsive/laye */
 
 /* B"H - THE VESSELS OF CONTAINMENT (CARDS) */
 
-.post-reader-localized-context .awtsmoos-card {
+:where(.post-reader-localized-context) .awtsmoos-card {
     background: var(--bg-surface) !important;
     border: var(--border-thick) !important;
     box-shadow: var(--shadow-ui) !important;
@@ -15,14 +16,14 @@
     flex-direction: column !important;
 }
 
-.post-reader-localized-context .awtsmoos-card:hover {
+:where(.post-reader-localized-context) .awtsmoos-card:hover {
     transform: translate(-4px, -4px) !important;
     box-shadow: var(--shadow-hover) !important;
     border-color: var(--color-ink) !important;
 }
 
 /* Toolbar adjustments for nested elements within the card */
-.post-reader-localized-context .awtsmoos-card .comment-toolbar {
+:where(.post-reader-localized-context) .awtsmoos-card .comment-toolbar {
     margin-top: 15px !important;
     border-top: var(--border-thin) !important;
     padding-top: 10px !important;

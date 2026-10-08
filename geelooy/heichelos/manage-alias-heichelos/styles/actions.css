@@ -1,10 +1,11 @@
+/* @tunnel-grandfather: legacy unloaded tree (geelooy/heichelos/heichelos/); selectors never loaded together, no runtime conflict */
 /* B"H
 Boruch Hashem
 Blessed is He
 The Awtsmoos turns intention into deed, yet each deed remains visibly known;
 Awtsmoos.com gives every press, hover, busy state, and release a deliberate tone.
 */
-.heichel-manage-page :is(.heichel-back, .heichel-route-dock a, button, .heichel-advanced summary) {
+:where(.heichel-manage-page) :is(.heichel-back, .heichel-route-dock a, button, .heichel-advanced summary) {
 	-webkit-tap-highlight-color: transparent;
 	transition:
 		transform 180ms var(--heichel-ease),
@@ -48,19 +49,19 @@ Awtsmoos.com gives every press, hover, busy state, and release a deliberate tone
 }
 
 @media (hover: hover) {
-	.heichel-manage-page button:not(.delete):hover {
+	:where(.heichel-manage-page) button:not(.delete):hover {
 		background: var(--heichel-accent-strong);
 		box-shadow: 0 12px 26px rgba(36, 95, 229, 0.22);
 		transform: translateY(-2px);
 	}
 
-	.heichel-manage-page .heichel-advanced summary:hover {
+	:where(.heichel-manage-page) .heichel-advanced summary:hover {
 		background: rgba(36, 95, 229, 0.05);
 		color: var(--heichel-accent);
 	}
 }
 
-.heichel-manage-page :is(.heichel-back, .heichel-route-dock a, button, .heichel-advanced summary):active {
+:where(.heichel-manage-page) :is(.heichel-back, .heichel-route-dock a, button, .heichel-advanced summary):active {
 	transform: translateY(1px) scale(0.985);
 }
 

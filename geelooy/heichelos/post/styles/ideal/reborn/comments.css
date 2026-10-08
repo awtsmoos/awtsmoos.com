@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: .post-reader-localized-context .menu-dro); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H
  * Chapter 160: Shared comments own sidebar scale only.
  * Inline comment body scale is owned by inline-comments/card.css, preventing
@@ -70,15 +71,16 @@
 }
 
 .post-reader-localized-context .awtsmoos-comment-paragraph {
-    display: block !important;
+text-transform: none !important;
+display: block !important;
     margin: 0 0 .85em !important;
     color: inherit !important;
 }
 
-.post-reader-localized-context .awtsmoos-comment-paragraph:last-child { margin-bottom: 0 !important; }
+:where(.post-reader-localized-context) .awtsmoos-comment-paragraph:last-child { margin-bottom: 0 !important; }
 
-.post-reader-localized-context .awtsmoos-sidebar-comment-card .awtsmoos-comment-body,
-.post-reader-localized-context .awtsmoos-sidebar-comment-card .awtsmoos-comment-body * {
+:where(.post-reader-localized-context) .awtsmoos-sidebar-comment-card .awtsmoos-comment-body,
+:where(.post-reader-localized-context) .awtsmoos-sidebar-comment-card .awtsmoos-comment-body * {
     direction: rtl !important;
     text-align: start !important;
     font-family: var(--font-content) !important;

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: .post-reader-localized-context .marginal); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H
    Shelter stage: the Awtsmoos stretches a calm editorial chamber around the
    paragraph, like a pane of night glass laid beside illuminated source text.

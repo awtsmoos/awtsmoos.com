@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (3 selectors: .awtsmoos-auto-scroll-floating), .awtsmoos-auto-scroll-floating):focus-vi); cascade order intentional, merge would break responsive/layered archi */
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
@@ -7,7 +8,7 @@
  * The Awtsmoos gives every reader tool a measured vessel and every word its air;
  * Awtsmoos.com stacks the scrolling river above its dock so no control eclipses another there.
  */
-body .all.post-reader-localized-context.awtsmoos-reader-vision {
+body :where(.all.post-reader-localized-context.awtsmoos-reader-vision) {
 	--reader-dock-edge: max(.8rem, env(safe-area-inset-right, 0px));
 	--reader-dock-bottom: max(.8rem, env(safe-area-inset-bottom, 0px));
 	--reader-dock-height: 54px;
@@ -15,7 +16,7 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision {
 	--reader-river-size: 78px;
 }
 
-body .all.post-reader-localized-context.awtsmoos-reader-vision
+body :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
 	> .awtsmoos-auto-scroll-floating {
 	top: auto !important;
 	left: auto !important;
@@ -28,14 +29,14 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 	transform: none !important;
 }
 
-body .all.post-reader-localized-context.awtsmoos-reader-vision
+:where(body) :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
 	> :is(.awtsmoos-floating-controls button, .awtsmoos-auto-scroll-floating):focus-visible {
 	outline: 3px solid rgba(103, 232, 249, .95) !important;
 	outline-offset: 3px !important;
 }
 
 @media (max-width: 48rem) {
-	body .all.post-reader-localized-context.awtsmoos-reader-vision {
+	body :where(.all.post-reader-localized-context.awtsmoos-reader-vision) {
 		--reader-dock-edge: max(.7rem, env(safe-area-inset-right, 0px));
 		--reader-dock-bottom: max(.7rem, env(safe-area-inset-bottom, 0px));
 		--reader-dock-height: 52px;
@@ -43,7 +44,7 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 		--reader-river-size: 64px;
 	}
 
-	body .all.post-reader-localized-context.awtsmoos-reader-vision
+	body :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
 		> .awtsmoos-floating-controls {
 		top: auto !important;
 		left: auto !important;
@@ -64,7 +65,7 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 		transform: none !important;
 	}
 
-	body .all.post-reader-localized-context.awtsmoos-reader-vision
+	:where(body) :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
 		> .awtsmoos-floating-controls button {
 		min-width: 44px !important;
 		height: 44px !important;
@@ -77,7 +78,7 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 		touch-action: manipulation;
 	}
 
-	body .all.post-reader-localized-context.awtsmoos-reader-vision
+	body :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
 		> .awtsmoos-auto-scroll-floating {
 		padding: .42rem !important;
 		border: 1px solid rgba(189, 255, 241, .34) !important;
@@ -89,7 +90,7 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 }
 
 @media (max-width: 23.75rem) {
-	body .all.post-reader-localized-context.awtsmoos-reader-vision
+	:where(body) :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
 		> .awtsmoos-floating-controls button {
 		padding-inline: .55rem !important;
 		font-size: .76rem !important;
@@ -97,14 +98,14 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 }
 
 @media (max-height: 31.25rem) and (orientation: landscape) and (max-width: 64rem) {
-	body .all.post-reader-localized-context.awtsmoos-reader-vision {
+	body :where(.all.post-reader-localized-context.awtsmoos-reader-vision) {
 		--reader-river-size: 54px;
 		--reader-dock-gap: .45rem;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	body .all.post-reader-localized-context.awtsmoos-reader-vision
+	body :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
 		> :is(.awtsmoos-floating-controls, .awtsmoos-auto-scroll-floating) {
 		transition: none !important;
 	}

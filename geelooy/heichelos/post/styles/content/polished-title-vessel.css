@@ -3,7 +3,7 @@
    gate of illuminated vellum.
 */
 
-.post-reader-localized-context #realPost .post-title {
+.post-reader-localized-context :where(#realPost) .post-title {
     position: relative !important;
     overflow: hidden !important;
     border: 1px solid rgba(99, 62, 15, 0.28) !important;
@@ -18,7 +18,7 @@
     color: #20150e !important;
 }
 
-.post-reader-localized-context #realPost .post-title::before {
+.post-reader-localized-context :where(#realPost) .post-title::before {
     content: "" !important;
     position: absolute !important;
     inset: 0 !important;
@@ -27,7 +27,7 @@
         linear-gradient(90deg, rgba(110,18,55,0.05), transparent 16%, transparent 84%, rgba(212,164,60,0.08)) !important;
 }
 
-.post-reader-localized-context #realPost .series-name {
+.post-reader-localized-context :where(#realPost) .series-name {
     color: #7a5211 !important;
     letter-spacing: 0.28em !important;
     font-weight: 700 !important;

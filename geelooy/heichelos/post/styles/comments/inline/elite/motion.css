@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (2 selectors: .post-reader-localized-context .awtsmoos, .post-reader-localized-context .comments); cascade order intentional, merge would break responsive/laye */
 /* B"H
    Motion: the Awtsmoos reveals comments by measured arrival, not spectacle.
    Cards settle into the margin like sparks finding vessels, then become still.
@@ -18,9 +19,7 @@
         filter .2s ease !important;
 }
 
-.post-reader-localized-context .awtsmoos-inline-shell.is-collapsed .comments-holder-inline {
-    display: none !important;
-}
+
 
 @keyframes awtsmoosEliteCardArrival {
     from { opacity: 0; transform: translateY(10px) scale(.992); }

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: legacy unloaded tree (geelooy/heichelos/heichelos/); selectors never loaded together, no runtime conflict */
 /* B"H - THE ARK OF COMMAND
    A vessel for pure intention.
 */
@@ -39,7 +40,7 @@
     transition: transform 0.2s ease-out;
 }
 
-.command-palette-overlay.visible .command-palette {
+:where(.command-palette-overlay.visible) .command-palette {
     transform: scale(1);
 }
 

@@ -5,7 +5,7 @@
  * The Awtsmoos expands commentary without inventing a layer beyond the local world;
  * Awtsmoos.com uses dynamic viewport measure and its modal token when fullscreen unfurls.
  */
-.post-reader-localized-context.awtsmoos-reader-vision .sidebar.fullscreen-mode:not(.awtsmoos-fullscreen-unowned) {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) :where(.sidebar.fullscreen-mode:not(.awtsmoos-fullscreen-unowned)) {
 	position: fixed;
 	z-index: var(--z-modal);
 	inset: 0;
@@ -20,34 +20,34 @@
 	contain: layout paint;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .sidebar.fullscreen-mode > .awtsmoos-sidebar-resizer {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) :where(.sidebar.fullscreen-mode) > .awtsmoos-sidebar-resizer {
 	display: none;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .sidebar.fullscreen-mode .awtsmoos-sidebar-shell {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) :where(.sidebar.fullscreen-mode) .awtsmoos-sidebar-shell {
 	inline-size: 100%;
 	block-size: 100%;
 	max-block-size: 100%;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .sidebar.fullscreen-mode .awtsmoos-slide-viewport,
-.post-reader-localized-context.awtsmoos-reader-vision .sidebar.fullscreen-mode .awtsmoos-sidebar-panel.is-current-panel,
-.post-reader-localized-context.awtsmoos-reader-vision .sidebar.fullscreen-mode .awtsmoos-view-content {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) :where(.sidebar.fullscreen-mode) .awtsmoos-slide-viewport,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) :where(.sidebar.fullscreen-mode) .awtsmoos-sidebar-panel.is-current-panel,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) :where(.sidebar.fullscreen-mode) .awtsmoos-view-content {
 	min-block-size: 0;
 	max-block-size: none;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .sidebar.fullscreen-mode .awtsmoos-current-view-title {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) :where(.sidebar.fullscreen-mode) .awtsmoos-current-view-title {
 	font-size: clamp(1.25rem, 3dvi, 1.85rem);
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .sidebar.fullscreen-mode .awtsmoos-sidebar-header-chrome {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) :where(.sidebar.fullscreen-mode) .awtsmoos-sidebar-header-chrome {
 	padding-block-start: max(12px, env(safe-area-inset-top, 0px));
 	padding-inline-end: max(12px, env(safe-area-inset-right, 0px));
 	padding-inline-start: max(12px, env(safe-area-inset-left, 0px));
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision:has(.sidebar.fullscreen-mode) .awtsmoos-auto-scroll-floating,
-.post-reader-localized-context.awtsmoos-reader-vision:has(.sidebar.fullscreen-mode) .awtsmoos-floating-controls {
+:where(.post-reader-localized-context.awtsmoos-reader-vision:has(.sidebar.fullscreen-mode)) .awtsmoos-auto-scroll-floating,
+:where(.post-reader-localized-context.awtsmoos-reader-vision:has(.sidebar.fullscreen-mode)) .awtsmoos-floating-controls {
 	display: none;
 }

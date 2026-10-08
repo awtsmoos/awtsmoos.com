@@ -5,14 +5,14 @@
  * The Awtsmoos gives each comment an identity without letting metadata dominate Torah;
  * Awtsmoos.com keeps avatar, author, coordinate, and crown compact in one local aura.
  */
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-card-header {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-card-header {
 	display: flex;
 	align-items: flex-start;
 	gap: 10px;
 	min-inline-size: 0;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-avatar {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-avatar {
 	flex: 0 0 auto;
 	display: grid;
 	place-items: center;
@@ -25,15 +25,15 @@
 	overflow: hidden;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-heading {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-heading {
 	flex: 1 1 auto;
 	display: grid;
 	gap: 3px;
 	min-inline-size: 0;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .comment-author-link,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-author-crown {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .comment-author-link,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-author-crown {
 	color: var(--awt-ink);
 	font-family: var(--font-ui);
 	font-weight: 800;
@@ -41,8 +41,8 @@
 	overflow-wrap: anywhere;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-meta,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-coordinate {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-meta,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-coordinate {
 	color: var(--awt-muted);
 	font-family: var(--font-ui);
 	font-size: .78rem;
@@ -51,12 +51,12 @@
 }
 
 @media (hover: hover) {
-	.post-reader-localized-context.awtsmoos-reader-vision .comment-author-link:hover {
+	:where(.post-reader-localized-context.awtsmoos-reader-vision) .comment-author-link:hover {
 		color: var(--awt-gold);
 	}
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .comment-author-link:focus-visible {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .comment-author-link:focus-visible {
 	outline: 3px solid rgba(91, 209, 255, .45);
 	outline-offset: 2px;
 	border-radius: 6px;

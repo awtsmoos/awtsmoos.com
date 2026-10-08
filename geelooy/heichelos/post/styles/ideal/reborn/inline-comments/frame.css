@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (8 selectors: .post-reader-localized-context .awtsmoos, .post-reader-localized-context .awtsmoos); cascade order intentional, merge would break responsive/laye */
 /* B"H
  * Chapter 294: The inline frame bows low and close.
  *
@@ -7,7 +8,7 @@
 
 .post-reader-localized-context .marginal-gloss-shelter,
 .post-reader-localized-context .awtsmoos-inline-shelter-v2,
-.post-reader-localized-context .commentator.inline-holder,
+:where(.post-reader-localized-context) .commentator.inline-holder,
 .post-reader-localized-context .awtsmoos-inline-shell {
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) !important;
@@ -26,7 +27,7 @@
     box-shadow: 0 12px 34px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.07) !important;
 }
 
-.post-reader-localized-context .section.heb .awtsmoos-inline-shelter-label,
+:where(.post-reader-localized-context) :where(.section.heb) .awtsmoos-inline-shelter-label,
 .post-reader-localized-context .awtsmoos-inline-shelter-label {
     display: flex !important;
     align-items: center !important;
@@ -50,7 +51,7 @@
     filter: drop-shadow(0 0 7px rgba(139, 92, 246, .55));
 }
 
-.post-reader-localized-context .section.heb .awtsmoos-inline-status,
+:where(.post-reader-localized-context) :where(.section.heb) .awtsmoos-inline-status,
 .post-reader-localized-context .awtsmoos-inline-status {
     display: grid !important;
     gap: .2rem !important;

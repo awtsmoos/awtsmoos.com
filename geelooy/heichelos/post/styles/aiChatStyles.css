@@ -40,13 +40,13 @@
     margin-left: 8px;
 }
 
-.post-reader-localized-context .ai-context-badge.active {
+:where(.post-reader-localized-context) .ai-context-badge.active {
     background: var(--color-accent);
     color: var(--color-ink);
     border-color: var(--color-ink);
 }
 
-.post-reader-localized-context .ai-save-action-btn {
+:where(.post-reader-localized-context) .ai-save-action-btn {
     font-size: 9px !important;
     padding: 4px 8px !important;
     background: transparent !important;
@@ -56,7 +56,7 @@
     border-radius: 3px !important;
     text-transform: uppercase;
 }
-.post-reader-localized-context .ai-save-action-btn:hover {
+:where(.post-reader-localized-context) .ai-save-action-btn:hover {
     background: var(--color-ink) !important;
     color: var(--bg-surface) !important;
 }
@@ -77,7 +77,7 @@
     max-width: 90%;
 }
 
-.post-reader-localized-context .ai-message.user {
+:where(.post-reader-localized-context) .ai-message.user {
     align-self: flex-end;
     flex-direction: row-reverse;
 }
@@ -104,13 +104,13 @@
     box-shadow: 2px 2px 0 rgba(0,0,0,0.05);
 }
 
-.post-reader-localized-context .ai-message.user .ai-msg-bubble {
+:where(.post-reader-localized-context) :where(.ai-message.user) .ai-msg-bubble {
     background: var(--color-primary);
     color: #fff;
     border: 1px solid var(--color-primary);
 }
 
-.post-reader-localized-context .ai-message.ai .ai-msg-bubble {
+:where(.post-reader-localized-context) :where(.ai-message.ai) .ai-msg-bubble {
     background: var(--bg-surface);
     border: 1px solid rgba(0,0,0,0.15);
 }
@@ -125,7 +125,7 @@
     align-items: flex-end;
 }
 
-.post-reader-localized-context .ai-input-box {
+:where(.post-reader-localized-context) .ai-input-box {
     flex: 1;
     border: 1px solid var(--color-ink-secondary) !important;
     border-radius: 4px !important;
@@ -139,12 +139,12 @@
     line-height: 1.4;
 }
 
-.post-reader-localized-context .ai-input-box:focus {
+:where(.post-reader-localized-context) .ai-input-box:focus {
     border-color: var(--color-primary) !important;
     background: #fff !important;
 }
 
-.post-reader-localized-context .ai-send-btn {
+:where(.post-reader-localized-context) .ai-send-btn {
     width: 36px !important;
     height: 36px !important;
     border-radius: 4px !important;
@@ -156,7 +156,7 @@
     font-size: 1rem !important;
 }
 
-.post-reader-localized-context .ai-send-btn:hover {
+:where(.post-reader-localized-context) .ai-send-btn:hover {
     background: var(--color-primary) !important;
     transform: translateY(-1px) !important;
 }

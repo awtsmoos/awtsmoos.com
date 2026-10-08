@@ -1,7 +1,7 @@
 
 /* B"H - INFO CARDS (Scroll Details) */
 
-.post-reader-localized-context .tl {
+:where(.post-reader-localized-context) .tl {
     background: var(--bg-surface);
     border: var(--border-thick);
     box-shadow: var(--shadow-ui);
@@ -13,12 +13,12 @@
     width: 100%; /* Ensure it respects parent width */
 }
 
-.post-reader-localized-context .tl:hover {
+:where(.post-reader-localized-context) .tl:hover {
     transform: translate(-2px, -2px);
     box-shadow: var(--shadow-hover);
 }
 
-.post-reader-localized-context .tl .label {
+:where(.post-reader-localized-context) .tl .label {
     font-family: var(--font-ui);
     font-size: 11px;
     text-transform: uppercase;
@@ -32,7 +32,7 @@
     letter-spacing: 1px;
 }
 
-.post-reader-localized-context .tl .value {
+:where(.post-reader-localized-context) .tl .value {
     font-size: 16px;
     font-weight: 700;
     line-height: 1.5;

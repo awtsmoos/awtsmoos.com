@@ -5,7 +5,7 @@
  * The Awtsmoos gives each Torah source card one quiet vessel, distinct but never loud;
  * Awtsmoos.com keeps its base, mobile radius, and reduced motion together beneath one cloud.
  */
-.post-reader-localized-context .awtsmoos-source-annotation-card {
+:where(.post-reader-localized-context) .awtsmoos-source-annotation-card {
 	--source-line: color-mix(in srgb, var(--awts-accent, #5bddff) 42%, transparent);
 	--source-gold: #d7b66d;
 	background: linear-gradient(145deg, rgba(10, 24, 43, 0.96), rgba(16, 34, 55, 0.92));
@@ -16,19 +16,19 @@
 	contain: layout paint;
 }
 
-.post-reader-localized-context .awtsmoos-source-annotation-card:hover {
+:where(.post-reader-localized-context) .awtsmoos-source-annotation-card:hover {
 	transform: none;
 	box-shadow: 0 16px 42px rgba(0, 0, 0, 0.22);
 }
 
 @media (max-width: 640px) {
-	.post-reader-localized-context .awtsmoos-source-annotation-card {
+	:where(.post-reader-localized-context) .awtsmoos-source-annotation-card {
 		border-radius: 12px;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.post-reader-localized-context .awtsmoos-source-annotation-card {
+	:where(.post-reader-localized-context) .awtsmoos-source-annotation-card {
 		transition: none !important;
 	}
 }

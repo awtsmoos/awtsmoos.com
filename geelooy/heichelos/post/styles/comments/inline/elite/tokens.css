@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: legacy unloaded tree (geelooy/heichelos/heichelos/); selectors never loaded together, no runtime conflict */
 /* B"H
    Elite tokens: the Awtsmoos opens a cabinet of measured light. These values
    make the mockup real without random decoration: ink, thread, glass, depth,
@@ -22,7 +23,8 @@
 }
 
 .post-reader-localized-context[data-inline-density="compact"] {
-    --inline-elite-gap: .55rem;
+--inline-gap: .65rem;
+--inline-elite-gap: .55rem;
     --inline-elite-card-radius: 1rem;
 }
 

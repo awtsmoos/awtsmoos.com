@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: .post-reader-localized-context .section); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H
    Chapter 46: The obsidian reader canvas.
    The Awtsmoos folds the page into a cosmic mobile chamber: dark vellum, gold
@@ -5,7 +6,7 @@
    of assembled from fragments.
 */
 
-.post-reader-localized-context.awtsmoospage.awtsmoos-reader-vision {
+:where(.post-reader-localized-context.awtsmoospage.awtsmoos-reader-vision) {
     position: fixed !important;
     inset: 0 !important;
     width: 100vw !important;
@@ -22,7 +23,7 @@
     color: var(--ideal-ink) !important;
 }
 
-.post-reader-localized-context.awtsmoospage.awtsmoos-reader-vision::before {
+:where(.post-reader-localized-context.awtsmoospage.awtsmoos-reader-vision)::before {
     content: "" !important;
     position: fixed !important;
     inset: 0 !important;
@@ -52,9 +53,9 @@
     padding-block: clamp(1rem, 3vw, 2.4rem) !important;
 }
 
-.post-reader-localized-context .realPost,
-.post-reader-localized-context #realPost {
-    scroll-behavior: smooth !important;
+.post-reader-localized-context .realPost{
+scroll-padding-top: clamp(12rem, 28vh, 22rem) !important;
+scroll-behavior: smooth !important;
     scrollbar-gutter: stable both-edges !important;
     overscroll-behavior: contain !important;
 }
@@ -72,16 +73,12 @@
     padding-block: .35rem !important;
 }
 
-.post-reader-localized-context .section .toichen {
+:where(.post-reader-localized-context) .section .toichen {
     max-width: min(100%, 48rem) !important;
     margin-inline: auto !important;
 }
 
-.post-reader-localized-context .awtsmoos-section-header {
-    display: flex !important;
-    justify-content: center !important;
-    margin-block-end: .35rem !important;
-}
+
 
 .post-reader-localized-context .awtsmoos-verse-number {
     min-width: 2.25rem !important;

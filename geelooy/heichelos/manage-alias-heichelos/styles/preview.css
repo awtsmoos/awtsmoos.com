@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: .heichel-manage-page .heichel-preview-pa); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H
 Boruch Hashem
 Blessed is He
@@ -32,7 +33,7 @@ this Awtsmoos.com preview stays calm, wrapped, and contained in its place.
 	font-weight: 750;
 }
 
-.heichel-manage-page .heichel-preview-panel > p:not(.heichel-eyebrow):not(.heichel-preview-address) {
+:where(.heichel-manage-page) :where(.heichel-preview-panel) > p:not(.heichel-eyebrow):not(.heichel-preview-address) {
 	color: var(--heichel-muted);
 	line-height: 1.65;
 	overflow-wrap: anywhere;

@@ -20,8 +20,6 @@
 	overflow-wrap: anywhere;
 }
 
-.post-reader-localized-context .menu-text-vessel,
-.post-reader-localized-context .menu-portal-desc,
-.post-reader-localized-context .menu-arrow {
+.post-reader-localized-context .menu-text-vessel{
 	display: none;
 }

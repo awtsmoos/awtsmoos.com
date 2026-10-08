@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (2 selectors: :where(body) :where(.all.post-reader-loc, body :where(.all.post-reader-localized-c); cascade order intentional, merge would break responsive/laye */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -12,7 +13,7 @@
  * physical button dimensions are declared last so RTL and legacy width laws
  * cannot move, squeeze, or wrap these controls unexpectedly.
  */
-body .all.post-reader-localized-context.awtsmoos-reader-vision
+body :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
 	> .awtsmoos-floating-controls {
 	position: fixed !important;
 	inset-block-start: auto !important;
@@ -42,12 +43,12 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 	translate: none !important;
 }
 
-body .all.post-reader-localized-context.awtsmoos-reader-vision
+body :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
 	> .awtsmoos-floating-controls > * {
 	pointer-events: auto !important;
 }
 
-body .all.post-reader-localized-context.awtsmoos-reader-vision
+:where(body) :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
 	> .awtsmoos-floating-controls button {
 	inline-size: auto !important;
 	min-inline-size: 44px !important;
@@ -71,7 +72,7 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 }
 
 @media (max-width: 48rem) {
-	body .all.post-reader-localized-context.awtsmoos-reader-vision
+	body :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
 		> .awtsmoos-floating-controls {
 		right: max(.55rem, env(safe-area-inset-right)) !important;
 		bottom: max(.55rem, env(safe-area-inset-bottom)) !important;
@@ -81,7 +82,7 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 }
 
 @media (prefers-reduced-motion: reduce) {
-	body .all.post-reader-localized-context.awtsmoos-reader-vision
+	body :where(.all.post-reader-localized-context.awtsmoos-reader-vision)
 		> .awtsmoos-floating-controls {
 		transition: none !important;
 	}

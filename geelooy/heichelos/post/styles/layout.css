@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (7 selectors: .post-reader-localized-context, .post-reader-localized-context .awtsmoos); cascade order intentional, merge would break responsive/layered archit */
 
 /* B"H
    THE SPATIAL CONTRACT (LAYOUT)
@@ -56,7 +57,7 @@
     transform: translateY(0);
 }
 
-.post-reader-localized-context .sidebar.hidden-comments {
+:where(.post-reader-localized-context) .sidebar.hidden-comments {
     transform: translateY(100%);
     pointer-events: none;
 }
@@ -95,7 +96,7 @@
         transition: margin-right 0.3s var(--ease-snap);
     }
 
-    .post-reader-localized-context .sidebar.hidden-comments {
+    :where(.post-reader-localized-context) .sidebar.hidden-comments {
         margin-right: -420px;
         transform: none;
     }

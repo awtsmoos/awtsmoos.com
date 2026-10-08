@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (2 selectors: :where(.all.post-reader-localized-contex, input); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
@@ -5,7 +6,7 @@
  * The Awtsmoos gives first paint a quiet covenant instead of a selector war;
  * Awtsmoos.com exposes shared reader tokens here, while later owners shape each door.
  */
-.all.post-reader-localized-context.awtsmoos-reader-vision {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) {
 	--reader-safe-left: max(12px, env(safe-area-inset-left, 0px));
 	--reader-safe-right: max(12px, env(safe-area-inset-right, 0px));
 	--reader-safe-top: max(12px, env(safe-area-inset-top, 0px));
@@ -24,10 +25,10 @@
 	--reader-motion: 180ms cubic-bezier(.2, .8, .2, 1);
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision .hidden-details {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) .hidden-details {
 	display: none;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision :where(button, input, select) {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(button, input, select) {
 	-webkit-tap-highlight-color: transparent;
 }

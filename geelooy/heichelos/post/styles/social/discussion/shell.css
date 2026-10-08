@@ -21,7 +21,7 @@
 	margin-block-end: 1.2rem;
 }
 
-.awtsmoos-social-discussion > header span {
+.awtsmoos-social-discussion > :where(header) span {
 	color: var(--reader-gold, #f4c96b);
 	font: 800 .78rem/1 Inter, sans-serif;
 	letter-spacing: .14em;
@@ -33,7 +33,7 @@
 	font: 900 clamp(1.55rem, 6vw, 2.45rem)/1.06 Inter, sans-serif;
 }
 
-.awtsmoos-social-discussion header p,
+.awtsmoos-social-discussion :where(header) p,
 .awtsmoos-social-empty {
 	color: var(--reader-muted, #aebdd0);
 }

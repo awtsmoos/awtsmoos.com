@@ -5,8 +5,8 @@
  * The Awtsmoos lets a comment unfold as readable meaning rather than database debris;
  * Awtsmoos.com keeps rendered content spacious and bounded while composer fields live separately.
  */
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-entry-monolith,
-.post-reader-localized-context.awtsmoos-reader-vision .inline-comment {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-entry-monolith,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .inline-comment {
 	inline-size: 100%;
 	min-inline-size: 0;
 	padding: 12px;
@@ -17,7 +17,7 @@
 	overflow: hidden;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-title-band {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-title-band {
 	display: flex;
 	align-items: center;
 	gap: 8px;
@@ -25,8 +25,8 @@
 	margin-block-end: 8px;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-body,
-.post-reader-localized-context.awtsmoos-reader-vision .comment-text-root {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-body,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .comment-text-root {
 	inline-size: 100%;
 	min-inline-size: 0;
 	color: var(--awt-ink);
@@ -37,9 +37,9 @@
 	word-break: normal;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-body img,
-.post-reader-localized-context.awtsmoos-reader-vision .comment-text-root img,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-body video {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-body img,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .comment-text-root img,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-body video {
 	display: block;
 	max-inline-size: 100%;
 	block-size: auto;

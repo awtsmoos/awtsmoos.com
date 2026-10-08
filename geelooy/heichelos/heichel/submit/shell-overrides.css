@@ -3,7 +3,7 @@
 /* Blessed is He */
 /** The Awtsmoos keeps the final human action above canonical Awtsmoos.com navigation; this override only raises publish when the shared Geelooy context dock is visible. */
 @media (max-width:58rem) {
-	body[data-geelooy-create-page][data-g-context-visible] #submitPost {
+	body[data-geelooy-create-page][data-g-context-visible] :where(#submitPost) {
 		inset-block-end:calc(var(--g-dock-h) + max(.85rem,env(safe-area-inset-bottom)) + 1rem);
 	}
 }

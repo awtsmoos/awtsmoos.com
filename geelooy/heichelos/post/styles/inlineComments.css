@@ -1,15 +1,16 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (3 selectors: .post-reader-localized-context .inline-c, :where(.post-reader-localized-context) .); cascade order intentional, merge would break responsive/laye */
 /* B"H 
 - INLINE COMMENT AESTHETICS ("THE GLITCH IN THE MATRIX") */
 
 /* Holder for an entire alias's comments on a verse/paragraph */
-.post-reader-localized-context .commentator.inline {
+:where(.post-reader-localized-context) .commentator.inline {
     width: 100%;
     margin: 1em 0;
     padding: 0.5em;
     border: 1px dashed var(--color-ink-secondary);
     background: rgba(0,0,0,0.02);
 }
-.post-reader-localized-context .dark .commentator.inline {
+:where(.post-reader-localized-context) :where(.dark) .commentator.inline {
     background: rgba(255,255,255,0.03);
 }
 
@@ -24,7 +25,7 @@
     padding-left: 10px;
 }
 
-.post-reader-localized-context .inline-comment::before {
+:where(.post-reader-localized-context) .inline-comment::before {
     content: '';
     position: absolute;
     left: 0;
@@ -35,17 +36,17 @@
     transition: all 0.3s ease;
 }
 
-.post-reader-localized-context .inline-comment:hover::before {
+:where(.post-reader-localized-context) .inline-comment:hover::before {
     box-shadow: 0 0 10px var(--color-primary);
 }
 
-.post-reader-localized-context .inline-comment .comment-text {
+:where(.post-reader-localized-context) .inline-comment .comment-text {
     border-bottom: none; /* No separator inside inline */
     padding: 10px;
 }
 
 /* Focus button (top right) */
-.post-reader-localized-context .inline-comment .focus-trigger {
+:where(.post-reader-localized-context) :where(.inline-comment) .focus-trigger {
     position: absolute;
     top: 5px;
     right: 5px;
@@ -62,7 +63,7 @@
     transition: all 0.2s;
 }
 
-.post-reader-localized-context .inline-comment:hover .focus-trigger {
+:where(.post-reader-localized-context) :where(.inline-comment:hover) .focus-trigger {
     background: var(--color-accent);
     color: var(--color-ink);
     border-color: var(--color-ink);
@@ -70,7 +71,7 @@
 }
 
 /* Reply button at bottom */
-.post-reader-localized-context .inline-comment .btn.small {
+:where(.post-reader-localized-context) :where(.inline-comment) .btn.small {
     width: calc(100% - 20px);
     margin: 0 10px 10px 10px;
     box-sizing: border-box;

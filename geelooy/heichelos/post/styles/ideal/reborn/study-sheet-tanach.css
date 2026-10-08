@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: .awtsmoos-tanach-result-group); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -71,6 +72,6 @@
 	cursor: pointer;
 }
 
-.awtsmoos-study-sheet .awtsmoos-tanach-more[hidden] {
+:where(.awtsmoos-study-sheet) .awtsmoos-tanach-more[hidden] {
 	display: none;
 }

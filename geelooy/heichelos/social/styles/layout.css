@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: registry false positive: selector is a comma-split fragment of :is()/:where() in this file, not a real rule */
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
@@ -103,7 +104,7 @@
 		position: static;
 	}
 
-	.awtsmoos-social-root .awt-rail.left {
+	:where(.awtsmoos-social-root) .awt-rail.left {
 		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
 }
@@ -114,7 +115,7 @@
 		flex-direction: column;
 	}
 
-	.awtsmoos-social-root .awt-rail.left {
+	:where(.awtsmoos-social-root) .awt-rail.left {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }

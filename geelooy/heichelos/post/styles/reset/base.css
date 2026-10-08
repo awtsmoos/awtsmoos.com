@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (6 selectors: .ai-role-tag, .ai-title); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H
    Chapter 7: The reset becomes a true reset.
    It now owns only canvas rhythm and anti-uppercase covenant through grouped

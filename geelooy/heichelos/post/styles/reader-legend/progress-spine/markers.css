@@ -1,2 +1,5 @@
 /* B"H reader legend progress-spine/markers.css. */
-.awtsmoos-progress-marker { outline:1px solid rgba(255,255,255,.2); }
+.awtsmoos-progress-marker {
+border-radius: 999px; background: rgba(214,168,79,.30);
+outline:1px solid rgba(255,255,255,.2);
+}

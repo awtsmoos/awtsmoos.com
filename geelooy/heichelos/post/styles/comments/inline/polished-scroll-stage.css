@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (4 selectors: .post-reader-localized-context, .post-reader-localized-context .awtsmoos); cascade order intentional, merge would break responsive/layered archit */
 /* B"H
    Chapter 1: The Awtsmoos reveals a quiet parchment chamber. This file never
    styles naked globals; it only refines the post reader and the sovereign
@@ -11,9 +12,6 @@
     --inline-ink: #101827;
     --inline-wine: #6e1237;
 }
-
-.post-reader-localized-context #realPost,
-.post-reader-localized-context .realPost,
 .post-reader-localized-context .post-body,
 .post-reader-localized-context .post-content {
     scroll-padding-top: clamp(12rem, 28vh, 22rem) !important;
@@ -23,7 +21,7 @@
     padding-inline: clamp(0.75rem, 3vw, 2.25rem) !important;
 }
 
-.post-reader-localized-context .comments-holder-inline > .awtsmoos-inline-commentary-root:first-child {
+:where(.post-reader-localized-context) :where(.comments-holder-inline) > .awtsmoos-inline-commentary-root:first-child {
     margin-block-start: 0 !important;
     scroll-margin-top: clamp(10rem, 26vh, 18rem) !important;
 }

@@ -21,8 +21,8 @@
 	border-radius: 6px;
 }
 
-:root[data-theme="dark"] .meluket-sefer-active .meluket-sefer,
-.meluket-sefer-active[data-theme="dark"] .meluket-sefer {
+:where(:root[data-theme="dark"]) .meluket-sefer-active .meluket-sefer,
+:where(.meluket-sefer-active[data-theme="dark"]) .meluket-sefer {
 	--sefer-paper: #171209;
 	--sefer-paper-deep: #100c06;
 	--sefer-ink: #f0e7d3;
@@ -34,8 +34,8 @@
 }
 
 /* Explicit light theme — ensure dark text on light paper */
-:root[data-theme="light"] .meluket-sefer-active .meluket-sefer,
-.meluket-sefer-active[data-theme="light"] .meluket-sefer,
+:where(:root[data-theme="light"]) .meluket-sefer-active .meluket-sefer,
+:where(.meluket-sefer-active[data-theme="light"]) .meluket-sefer,
 .meluket-sefer-active .meluket-sefer {
 	--sefer-paper: #faf5e9;
 	--sefer-paper-deep: #f3ecdc;
@@ -72,7 +72,7 @@
 	flex-wrap: wrap;
 }
 
-.meluket-sefer-active .meluket-lang-btn {
+:where(.meluket-sefer-active) .meluket-lang-btn {
 	font-family: inherit;
 	font-size: 4rem;
 	font-weight: 700;
@@ -85,12 +85,12 @@
 	transition: all 0.18s ease;
 }
 
-.meluket-sefer-active .meluket-lang-btn:hover {
+:where(.meluket-sefer-active) .meluket-lang-btn:hover {
 	border-color: var(--sefer-accent);
 	color: var(--sefer-ink);
 }
 
-.meluket-sefer-active .meluket-lang-btn.is-active {
+:where(.meluket-sefer-active) .meluket-lang-btn.is-active {
 	background: var(--sefer-accent);
 	border-color: var(--sefer-accent);
 	color: #fffdf6;
@@ -159,7 +159,7 @@
 	margin: 0 0 0.85em;
 }
 
-.meluket-sefer-active .meluket-phrase:last-child {
+:where(.meluket-sefer-active) .meluket-phrase:last-child {
 	margin-bottom: 0;
 }
 
@@ -204,23 +204,23 @@
 	margin: 0 0 0.8em;
 }
 
-.meluket-sefer-active .meluket-english p:last-child {
+:where(.meluket-sefer-active) .meluket-english p:last-child {
 	margin-bottom: 0;
 }
 
 /* ---------- Language modes ---------- */
-.meluket-sefer-active .meluket-sefer-section[data-lang-mode="hebrew"] .meluket-english,
-.meluket-sefer-active .meluket-sefer[data-lang-mode="hebrew"] .meluket-english {
+:where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="hebrew"]) .meluket-english,
+:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="hebrew"]) .meluket-english {
 	display: none !important;
 }
 
-.meluket-sefer-active .meluket-sefer-section[data-lang-mode="english"] .meluket-hebrew,
-.meluket-sefer-active .meluket-sefer[data-lang-mode="english"] .meluket-hebrew {
+:where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="english"]) .meluket-hebrew,
+:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="english"]) .meluket-hebrew {
 	display: none !important;
 }
 
-.meluket-sefer-active .meluket-sefer-section[data-lang-mode="english"] .meluket-english,
-.meluket-sefer-active .meluket-sefer[data-lang-mode="english"] .meluket-english {
+:where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="english"]) .meluket-english,
+:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="english"]) .meluket-english {
 	display: block !important;
 	border-top: none;
 	margin-top: 0;
@@ -289,7 +289,7 @@
 	border-bottom: 1px dotted var(--sefer-rule);
 }
 
-.meluket-sefer-active .meluket-qa-item:last-child {
+:where(.meluket-sefer-active) .meluket-qa-item:last-child {
 	margin-bottom: 0;
 	padding-bottom: 0;
 	border-bottom: none;
@@ -341,7 +341,7 @@
 	line-height: 1.65;
 }
 
-.meluket-sefer-active .meluket-footnote:last-child {
+:where(.meluket-sefer-active) .meluket-footnote:last-child {
 	border-bottom: none;
 }
 
@@ -404,24 +404,24 @@
 }
 
 /* Force dark text in light theme — override any inherited white text */
-:root[data-theme="light"] .meluket-sefer-active .meluket-sefer,
-:root:not([data-theme="dark"]) .meluket-sefer-active .meluket-sefer {
+:where(:root[data-theme="light"]) .meluket-sefer-active .meluket-sefer,
+:where(:root:not([data-theme="dark"])) .meluket-sefer-active .meluket-sefer {
 	--sefer-ink: #2b2118 !important;
 	--sefer-ink-soft: #5a4c3d !important;
 }
 
-:root[data-theme="light"] .meluket-sefer-active .meluket-hebrew,
-:root[data-theme="light"] .meluket-sefer-active .meluket-english,
-:root[data-theme="light"] .meluket-sefer-active .meluket-sefer-title-he,
-:root:not([data-theme="dark"]) .meluket-sefer-active .meluket-hebrew,
-:root:not([data-theme="dark"]) .meluket-sefer-active .meluket-english,
-:root:not([data-theme="dark"]) .meluket-sefer-active .meluket-sefer-title-he {
+:where(:root[data-theme="light"]) .meluket-sefer-active .meluket-hebrew,
+:where(:root[data-theme="light"]) .meluket-sefer-active .meluket-english,
+:where(:root[data-theme="light"]) .meluket-sefer-active .meluket-sefer-title-he,
+:where(:root:not([data-theme="dark"])) .meluket-sefer-active .meluket-hebrew,
+:where(:root:not([data-theme="dark"])) .meluket-sefer-active .meluket-english,
+:where(:root:not([data-theme="dark"])) .meluket-sefer-active .meluket-sefer-title-he {
 	color: #2b2118 !important;
 }
 
 /* Force English mode — hide Hebrew reliably */
-.meluket-sefer-active .meluket-sefer[data-lang-mode="english"] .meluket-hebrew,
-.meluket-sefer-active .meluket-sefer-section[data-lang-mode="english"] .meluket-hebrew {
+:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="english"]) .meluket-hebrew,
+:where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="english"]) .meluket-hebrew {
 	display: none !important;
 	visibility: hidden !important;
 	height: 0 !important;
@@ -429,7 +429,7 @@
 }
 
 /* Footnote markers as clickable buttons */
-.meluket-sefer-active .meluket-fn-marker {
+:where(.meluket-sefer-active) .meluket-fn-marker {
 	background: none;
 	border: none;
 	padding: 0 2px;
@@ -442,41 +442,64 @@
 	font-family: inherit;
 }
 
-.meluket-sefer-active .meluket-fn-marker:hover {
+:where(.meluket-sefer-active) .meluket-fn-marker:hover {
 	color: var(--sefer-ink);
 	background: rgba(138, 109, 59, 0.1);
 	border-radius: 3px;
 }
 
 /* Hide Hebrew title in English mode */
-.meluket-sefer-active .meluket-sefer[data-lang-mode="english"] .meluket-sefer-title-he {
+:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="english"]) .meluket-sefer-title-he {
 	display: none !important;
 }
 
 /* Nuclear light theme fix — maximum specificity */
-html body .meluket-sefer-active .meluket-sefer,
-html body .meluket-sefer-active .meluket-sefer * {
+:where(html) body .meluket-sefer-active .meluket-sefer,
+:where(html) body .meluket-sefer-active .meluket-sefer * {
 	color: #2b2118 !important;
 }
 
-html body .meluket-sefer-active .meluket-sefer {
+:where(html) body .meluket-sefer-active .meluket-sefer {
 	background: #faf5e9 !important;
 }
 
-html[data-theme="dark"] body .meluket-sefer-active .meluket-sefer,
-html[data-theme="dark"] body .meluket-sefer-active .meluket-sefer * {
+:where(html[data-theme="dark"]) body .meluket-sefer-active .meluket-sefer,
+:where(html[data-theme="dark"]) body .meluket-sefer-active .meluket-sefer * {
 	color: #f0e7d3 !important;
 }
 
-html[data-theme="dark"] body .meluket-sefer-active .meluket-sefer {
+:where(html[data-theme="dark"]) body .meluket-sefer-active .meluket-sefer {
 	background: #171209 !important;
 }
 
 /* Force typography panel hidden when ARIA says hidden (fix visual desync) */
-.meluket-sefer-active #typographyDetails[aria-hidden="true"],
-.meluket-sefer-active .typography-details[aria-hidden="true"] {
+.meluket-sefer-active :where(#typographyDetails[aria-hidden="true"]),
+:where(.meluket-sefer-active) .typography-details[aria-hidden="true"] {
 	display: none !important;
 	visibility: hidden !important;
 	opacity: 0 !important;
 	pointer-events: none !important;
+}
+
+/* @tunnel-interactive-states: auto-generated by css-guarantee */
+:where(.meluket-sefer-active) .meluket-lang-btn:active {
+	transform: scale(0.98);
+}
+:where(.meluket-sefer-active) .meluket-lang-btn:focus-visible {
+	outline: 2px solid currentColor; outline-offset: 2px;
+}
+:where(.meluket-sefer-active .meluket-hebrew sup):hover{
+	filter: brightness(1.08);
+}
+:where(.meluket-sefer-active .meluket-hebrew sup):active{
+	transform: scale(0.98);
+}
+:where(.meluket-sefer-active .meluket-hebrew sup):focus-visible{
+	outline: 2px solid currentColor; outline-offset: 2px;
+}
+:where(.meluket-sefer-active) .meluket-fn-marker:active {
+	transform: scale(0.98);
+}
+:where(.meluket-sefer-active) .meluket-fn-marker:focus-visible {
+	outline: 2px solid currentColor; outline-offset: 2px;
 }

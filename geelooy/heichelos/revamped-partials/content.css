@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (2 selectors: .card-title, .card-wrapper); cascade order intentional, merge would break responsive/layered architecture */
 
 /* B"H - THE CARD MANIFESTATION */
 

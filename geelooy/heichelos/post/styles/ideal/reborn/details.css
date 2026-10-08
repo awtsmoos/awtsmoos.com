@@ -133,13 +133,13 @@
 
 .post-reader-localized-context .awtsmoos-jump-go { background: linear-gradient(90deg,#fee68b,#22d3ee) !important; color: #07111f !important; }
 .post-reader-localized-context .awtsmoos-detail-svg { width: 52px !important; height: 52px !important; background: radial-gradient(circle at 30% 20%, #39d7ee, #7c3aed 75%) !important; box-shadow: 0 0 28px rgba(139,92,246,.5) !important; }
-.post-reader-localized-context .awtsmoos-detail-svg span::before { color: white !important; font: 900 1.45rem/1 var(--font-ui) !important; }
-.post-reader-localized-context .awtsmoos-detail-svg-person span::before { content: "👤"; }
-.post-reader-localized-context .awtsmoos-detail-svg-book span::before { content: "📖"; }
-.post-reader-localized-context .awtsmoos-detail-svg-path span::before { content: "✦"; }
-.post-reader-localized-context .awtsmoos-detail-svg-scroll span::before { content: "📜"; }
+.post-reader-localized-context .awtsmoos-detail-svg :where(span)::before { color: white !important; font: 900 1.45rem/1 var(--font-ui) !important; }
+.post-reader-localized-context .awtsmoos-detail-svg-person :where(span)::before { content: "👤"; }
+.post-reader-localized-context .awtsmoos-detail-svg-book :where(span)::before { content: "📖"; }
+.post-reader-localized-context .awtsmoos-detail-svg-path :where(span)::before { content: "✦"; }
+.post-reader-localized-context .awtsmoos-detail-svg-scroll :where(span)::before { content: "📜"; }
 
-.post-reader-localized-context .sub-awtsmoos[data-awtsmoos-substate="sleeping"] {
+:where(.post-reader-localized-context) .sub-awtsmoos[data-awtsmoos-substate="sleeping"] {
     display: grid !important;
     place-items: center !important;
     border: 1px dashed rgba(246,201,108,.22) !important;

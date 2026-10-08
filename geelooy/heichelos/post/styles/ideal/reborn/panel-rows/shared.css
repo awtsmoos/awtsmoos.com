@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: .post-reader-localized-context .commenta); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
@@ -5,7 +6,7 @@
  * The Awtsmoos gives generic reader rows one quiet garment without borrowing another component's name;
  * Awtsmoos.com keeps list chrome, commentator seals, and time text here so exact ownership stays plain.
  */
-.post-reader-localized-context .awtsmoos-list-item:not(.comment-wrapper) {
+:where(.post-reader-localized-context) .awtsmoos-list-item:not(.comment-wrapper) {
 	width: 100% !important;
 	max-width: 100% !important;
 	min-width: 0 !important;

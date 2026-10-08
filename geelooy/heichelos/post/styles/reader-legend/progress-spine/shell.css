@@ -1,2 +1,3 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: .awtsmoos-progress-spine); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H reader legend progress-spine/shell.css. */
 .awtsmoos-progress-spine { background:linear-gradient(180deg, transparent, rgba(244,197,107,.28), transparent) !important; }

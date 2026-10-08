@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (7 selectors: .post-reader-localized-context .awtsmoos, .post-reader-localized-context .crumb-ar); cascade order intentional, merge would break responsive/laye */
 
 /* B"H - THE PATH OF RETURN (BREADCRUMBS) */
 
@@ -13,8 +14,8 @@
     overflow: hidden !important;
 }
 
-.post-reader-localized-context .awtsmoos-crumb-link,
-.post-reader-localized-context .awtsmoos-back-btn {
+:where(.post-reader-localized-context) .awtsmoos-crumb-link,
+:where(.post-reader-localized-context) .awtsmoos-back-btn {
     all: unset; 
     box-sizing: border-box !important; 
     display: inline-flex !important;
@@ -31,13 +32,13 @@
     transition: all var(--time-fast) !important;
 }
 
-.post-reader-localized-context .awtsmoos-crumb-link:hover,
-.post-reader-localized-context .awtsmoos-back-btn:hover {
+:where(.post-reader-localized-context) .awtsmoos-crumb-link:hover,
+:where(.post-reader-localized-context) .awtsmoos-back-btn:hover {
     background: var(--color-ink) !important; 
     color: var(--bg-surface) !important;
 }
 
-.post-reader-localized-context .awtsmoos-crumb-link.active-crumb {
+:where(.post-reader-localized-context) .awtsmoos-crumb-link.active-crumb {
     background: var(--color-ink) !important; 
     color: var(--bg-surface) !important;
     pointer-events: none !important; 

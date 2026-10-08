@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (4 selectors: :where(.all.post-reader-localized-contex, :where(.all.post-reader-localized-contex); cascade order intentional, merge would break responsive/laye */
 /* B"H
  * Boruch Hashem
  * Blessed is He
@@ -8,8 +9,8 @@
  * every paragraph into a heavy card. Awtsmoos.com keeps Hebrew rhythm generous,
  * subsection hierarchy quiet, and verse coordinates visible but secondary.
  */
-.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .section,
-.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-reader-section {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost) .section,
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost) .awtsmoos-reader-section {
 	margin: 0 0 .45rem !important;
 	padding: .62rem .72rem !important;
 	border: 1px solid transparent !important;
@@ -18,33 +19,36 @@
 	box-shadow: none !important;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .section:hover,
-.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-reader-section:hover {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost) .section:hover,
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost) .awtsmoos-reader-section:hover {
 	border-color: rgba(126, 218, 255, .08) !important;
 	background: rgba(255, 255, 255, .018) !important;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .toichen,
-.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .sub-awtsmoos {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost) .toichen,
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost) .sub-awtsmoos {
 	min-inline-size: 0 !important;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .sub-awtsmoos,
-.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-modern-subsection {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost) .sub-awtsmoos,
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost) .awtsmoos-modern-subsection {
 	margin-block: .35rem !important;
 	padding: .5rem .58rem !important;
 	border-radius: .65rem !important;
 	background: rgba(255, 255, 255, .018) !important;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision #realPost :is(.heb, [dir="rtl"]) {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost) :is(.heb, [dir="rtl"]) {
 	direction: rtl;
 	text-align: start;
 	line-height: 1.78 !important;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-verse-number {
-	display: inline-grid !important;
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost) .awtsmoos-verse-number {
+min-inline-size: 44px !important;
+	min-block-size: 44px !important;
+	cursor: pointer;
+display: inline-grid !important;
 	place-items: center !important;
 	inline-size: 44px !important;
 	min-inline-size: 44px !important;
@@ -55,14 +59,14 @@
 	opacity: .7;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision #realPost
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost)
 	.scroll-chunk.awtsmoos-normal-verse-chunk {
 	min-block-size: 0 !important;
 	min-height: 0 !important;
 	height: auto !important;
 }
 
-.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-section-header {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost) .awtsmoos-section-header {
 	min-block-size: 0 !important;
 	margin-block-end: .2rem !important;
 }

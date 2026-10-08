@@ -4,15 +4,15 @@
  * cards keep their larger action dock, while inline cards expose only one menu.
  */
 
-.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .awtsmoos-comment-action-dock {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .inline-comment .awtsmoos-comment-action-dock {
     display: none !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .awtsmoos-comment-card-header {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .inline-comment .awtsmoos-comment-card-header {
     grid-template-columns: minmax(0,1fr) 52px auto !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .awtsmoos-inline-comment-menu {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .inline-comment .awtsmoos-inline-comment-menu {
     grid-column: 3 !important;
     justify-self: end !important;
     align-self: center !important;
@@ -21,7 +21,7 @@
     padding: 0 !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .awtsmoos-inline-comment-menu > summary {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .inline-comment .awtsmoos-inline-comment-menu > summary {
     list-style: none !important;
     display: grid !important;
     place-items: center !important;
@@ -35,16 +35,16 @@
     font: 950 1.55rem/1 var(--font-ui) !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .awtsmoos-inline-comment-menu > summary::-webkit-details-marker {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .inline-comment .awtsmoos-inline-comment-menu > :where(summary::-webkit-details-marker) {
     display: none !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .awtsmoos-inline-comment-menu[open] > summary {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) :where(.inline-comment) .awtsmoos-inline-comment-menu[open] > summary {
     background: linear-gradient(180deg, #f6c96c, #8b5cf6) !important;
     color: #06111f !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .awtsmoos-inline-comment-menu .menu-dropdown {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) :where(.inline-comment) .awtsmoos-inline-comment-menu .menu-dropdown {
     position: absolute !important;
     right: 0 !important;
     top: calc(100% + 10px) !important;
@@ -57,7 +57,7 @@
     box-shadow: 0 22px 60px rgba(0,0,0,.58), inset 0 1px 0 rgba(255,255,255,.08) !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .inline-comment .awtsmoos-inline-comment-menu .menu-item {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) :where(.inline-comment) .awtsmoos-inline-comment-menu .menu-item {
     width: 100% !important;
     min-height: 42px !important;
     justify-content: flex-start !important;
@@ -67,7 +67,7 @@
     font-size: .9rem !important;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-comment-card .awtsmoos-comment-more > summary {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-comment-card .awtsmoos-comment-more > summary {
     text-align: center !important;
 }
 /* B"H

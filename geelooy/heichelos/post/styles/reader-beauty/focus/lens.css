@@ -1,2 +1,2 @@
 /* B"H reader beauty focus/lens.css. */
-.reader-focus-active #scribeLensOverlay { opacity:.18; }
+.reader-focus-active :where(#scribeLensOverlay) { opacity:.18; }

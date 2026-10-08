@@ -3,19 +3,10 @@
    The core properties of the scroll. 
 */
 
-.post-reader-localized-context #realPost {
-    width: 100% !important;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* Generous padding so the top and bottom of the scroll feel infinite */
-    padding-top: 10vh; 
-    padding-bottom: 40vh;
-    isolation: isolate;
-}
+
 
 /* Ensure the Section has enough margin so the floating Verse Sigil doesn't crash into elements above it! */
-.post-reader-localized-context #realPost .section {
+.post-reader-localized-context :where(#realPost) .section {
     position: relative !important;
     width: 100% !important;
     margin-top: 3rem !important; /* B"H - Crucial spacer for the Sigil */
@@ -24,7 +15,7 @@
     transition: opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease;
 } 
 
-.post-reader-localized-context #realPost .toichen {
+.post-reader-localized-context :where(#realPost) .toichen {
     font-family: var(--font-content) !important;
     color: var(--color-ink) !important;
     /* Sets the root baseline for all em-based scaling in commentaries */
@@ -40,7 +31,7 @@
 }
 
 @media (max-width: 900px) {
-    .post-reader-localized-context #realPost .toichen {
+    .post-reader-localized-context :where(#realPost) .toichen {
         padding: 0 15px;
     }
 }

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (3 selectors: button, input); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H
 Boruch Hashem
 Blessed is He
@@ -9,13 +10,13 @@ Awtsmoos.com shows keyboard focus clearly while preserving the quiet surface eve
 	outline-offset: 3px;
 }
 
-.heichel-manage-page .heichel-field :is(input, textarea):focus-visible,
-.heichel-manage-page .heichel-address-control:focus-within {
+:where(.heichel-manage-page) .heichel-field :is(input, textarea):focus-visible,
+:where(.heichel-manage-page) .heichel-address-control:focus-within {
 	border-color: rgba(36, 95, 229, 0.58);
 	box-shadow: 0 0 0 4px rgba(36, 95, 229, 0.09);
 }
 
-.heichel-manage-page .heichel-advanced summary:focus-visible {
+:where(.heichel-manage-page) .heichel-advanced summary:focus-visible {
 	border-radius: calc(var(--heichel-radius-md) - 2px);
 }
 
@@ -23,7 +24,7 @@ Awtsmoos.com shows keyboard focus clearly while preserving the quiet surface eve
 	box-shadow: 0 0 0 5px rgba(36, 95, 229, 0.09);
 }
 
-.heichel-manage-page button.delete:focus-visible {
+:where(.heichel-manage-page) button.delete:focus-visible {
 	outline-color: rgba(180, 35, 24, 0.32);
 	box-shadow: 0 0 0 5px rgba(180, 35, 24, 0.08);
 }

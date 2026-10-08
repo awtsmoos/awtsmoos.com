@@ -5,7 +5,7 @@
  * The Awtsmoos lets inline community remain compact without overruling the reader dock;
  * Awtsmoos.com keeps language direction, card rhythm, and comment touch inside this local block.
  */
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-inline-shell {
+:where(:is(.post-reader-localized-context.awtsmoos-reader-vision)) .awtsmoos-inline-shell {
 	gap: clamp(.34rem, 1.5vw, .52rem);
 	margin-block: clamp(.5rem, 2vw, .82rem);
 	padding: clamp(.42rem, 1.8vw, .62rem);
@@ -22,7 +22,7 @@
 	white-space: nowrap;
 }
 
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-inline-trigger {
+:where(:is(.post-reader-localized-context.awtsmoos-reader-vision)) .awtsmoos-inline-trigger {
 	min-block-size: 2.5rem;
 	padding: .42rem .62rem;
 	gap: .3rem;
@@ -30,7 +30,7 @@
 	box-shadow: 0 .45rem 1.15rem rgb(79 70 229 / 16%), inset 0 1px 0 rgb(255 255 255 / 6%);
 }
 
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-inline-trigger-copy {
+:where(:is(.post-reader-localized-context.awtsmoos-reader-vision)) .awtsmoos-inline-trigger-copy {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -44,8 +44,8 @@
 	text-shadow: none;
 }
 
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-inline-trigger-count,
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .inline-comment :where(.awtsmoos-author-crown, .comment-author-link, .awtsmoos-comment-avatar) {
+:where(:is(.post-reader-localized-context.awtsmoos-reader-vision)) .awtsmoos-inline-trigger-count,
+:where(:is(.post-reader-localized-context.awtsmoos-reader-vision)) .inline-comment :where(.awtsmoos-author-crown, .comment-author-link, .awtsmoos-comment-avatar) {
 	display: none;
 }
 
@@ -58,36 +58,36 @@
 	padding: .32rem .44rem;
 }
 
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .inline-comment .awtsmoos-comment-coordinate {
+:where(:is(.post-reader-localized-context.awtsmoos-reader-vision)) .inline-comment .awtsmoos-comment-coordinate {
 	margin-inline-end: auto;
 	color: var(--inline-edge-gold, #f6cc72);
 	font: 820 clamp(.65rem, 2.4vw, .78rem)/1 var(--font-ui, system-ui);
 }
 
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-title-band {
+:where(:is(.post-reader-localized-context.awtsmoos-reader-vision)) .awtsmoos-comment-title-band {
 	padding: .38rem .58rem;
 	font-size: clamp(1.25rem, 5.4vw, 2.1rem);
 	line-height: 1.16;
 }
 
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .inline-comment.en :where(.comment-text-root, .awtsmoos-comment-body, .awtsmoos-comment-body *) {
+:where(:is(.post-reader-localized-context.awtsmoos-reader-vision)) .inline-comment.en :where(.comment-text-root, .awtsmoos-comment-body, .awtsmoos-comment-body *) {
 	direction: ltr;
 	text-align: left;
 	unicode-bidi: plaintext;
 }
 
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .inline-comment.heb :where(.comment-text-root, .awtsmoos-comment-body, .awtsmoos-comment-body *) {
+:where(:is(.post-reader-localized-context.awtsmoos-reader-vision)) .inline-comment.heb :where(.comment-text-root, .awtsmoos-comment-body, .awtsmoos-comment-body *) {
 	direction: rtl;
 	text-align: right;
 	unicode-bidi: plaintext;
 }
 
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .inline-comment :where(.comment-text-root, .awtsmoos-comment-body, .awtsmoos-comment-body *) {
+:where(:is(.post-reader-localized-context.awtsmoos-reader-vision)) .inline-comment :where(.comment-text-root, .awtsmoos-comment-body, .awtsmoos-comment-body *) {
 	font-size: clamp(1.2rem, 5.5vw, 2rem);
 	line-height: 1.36;
 }
 
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-more .menu-dropdown .menu-item {
+:where(:is(.post-reader-localized-context.awtsmoos-reader-vision)) :where(.awtsmoos-comment-more) .menu-dropdown .menu-item {
 	min-block-size: 2.75rem;
 	padding: .55rem .75rem;
 }

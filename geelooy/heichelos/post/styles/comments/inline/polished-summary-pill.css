@@ -1,9 +1,10 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: :where(.post-reader-localized-context) :); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H
    Chapter 5: The summary pill becomes a sealed black-gold gate. It announces
    the commentator with force, but never moves the inline card chamber below it.
 */
 
-.post-reader-localized-context .commentator.inline-holder .inline-summary-btn {
+:where(.post-reader-localized-context) :where(.commentator.inline-holder) .inline-summary-btn {
     padding: 0.72rem 1.15rem !important;
     border: 1px solid rgba(255,255,255,0.18) !important;
     border-radius: 999px !important;
@@ -18,7 +19,7 @@
     letter-spacing: 0.01em !important;
 }
 
-.post-reader-localized-context .commentator.inline-holder .inline-summary-btn::after {
+:where(.post-reader-localized-context) :where(.commentator.inline-holder) .inline-summary-btn::after {
     content: "" !important;
     width: 0.62rem !important;
     height: 0.62rem !important;
@@ -27,9 +28,11 @@
     box-shadow: 0 0 14px rgba(216,199,255,0.9) !important;
 }
 
-.post-reader-localized-context .commentator.inline-holder .inline-summary-btn:hover,
-.post-reader-localized-context .commentator.inline-holder .inline-summary-btn.active {
-    background: linear-gradient(135deg, #7a0f3a, #1b0c14 58%, #000) !important;
+:where(.post-reader-localized-context) :where(.commentator.inline-holder) .inline-summary-btn:hover,
+:where(.post-reader-localized-context) :where(.commentator.inline-holder) .inline-summary-btn.active {
+transform: translateY(-2px) !important;
+    box-shadow: 0 22px 48px rgba(88,28,135,.28) !important;
+background: linear-gradient(135deg, #7a0f3a, #1b0c14 58%, #000) !important;
     color: #fff7e6 !important;
     transform: translateY(-2px) !important;
 }

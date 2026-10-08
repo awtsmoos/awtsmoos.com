@@ -9,7 +9,7 @@
 	padding: 4px 0 12px;
 }
 
-.post-reader-localized-context .post-root-menu-grid > :last-child:nth-child(odd) {
+:where(.post-reader-localized-context) :where(.post-root-menu-grid) > :last-child:nth-child(odd) {
 	grid-column: 1 / -1;
 }
 
@@ -30,14 +30,14 @@
 	padding: 8px 12px;
 }
 
-.post-reader-localized-context .awtsmoos-sidebar-tab-btn.is-active {
+:where(.post-reader-localized-context) .awtsmoos-sidebar-tab-btn.is-active {
 	background: rgba(41, 213, 222, .12);
 	border-color: rgba(41, 213, 222, .35);
 	color: var(--awt-text);
 }
 
 @media (max-width: 520px) {
-	.post-reader-localized-context .sidebar.awtsmoos-sidebar-open {
+	:where(.post-reader-localized-context) .sidebar.awtsmoos-sidebar-open {
 		background: linear-gradient(180deg, #070d18, #050914 72%);
 		border: 1px solid rgba(139, 220, 255, .2);
 		border-bottom: 0;

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (2 selectors: .post-reader-localized-context .comment-, .post-reader-localized-context .comment-); cascade order intentional, merge would break responsive/laye */
 
 .post-reader-localized-context .comment-text {
     padding: 1.5rem; font-size: 15px; line-height: 1.6;
@@ -8,4 +9,7 @@
     background: var(--bg-vellum); padding: 10px 15px;
     display: flex; align-items: center; justify-content: flex-end; gap: 12px;
 }
-.post-reader-localized-context .children-slot.hidden { display: none !important; }
+:where(.post-reader-localized-context) .children-slot.hidden {
+display: none !important;
+display: none !important;
+}

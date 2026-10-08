@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (3 selectors: .post-reader-localized-context, .post-reader-localized-context .content); cascade order intentional, merge would break responsive/layered archite */
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
@@ -41,8 +42,23 @@
 	margin-inline: auto;
 }
 
-.post-reader-localized-context #realPost {
-	min-inline-size: 0;
+.post-reader-localized-context :where(#realPost) {
+scroll-padding-top: clamp(12rem, 28vh, 22rem) !important;
+width: 100% !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+                                                                            
+    padding-top: 10vh; 
+    padding-bottom: 40vh;
+    isolation: isolate;
+padding-block-start: clamp(9rem, 24vh, 17rem) !important;
+    scroll-padding-block-start: clamp(10rem, 28vh, 20rem) !important;
+scroll-padding-top: clamp(12rem, 28vh, 22rem) !important;
+scroll-behavior: smooth !important;
+    scrollbar-gutter: stable both-edges !important;
+    overscroll-behavior: contain !important;
+min-inline-size: 0;
 	contain: layout style;
 }
 

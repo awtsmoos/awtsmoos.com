@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (6 selectors: .post-reader-localized-context .menu-ico, .post-reader-localized-context .menu-por); cascade order intentional, merge would break responsive/laye */
 
 /* B"H - THE ROOTS OF NAVIGATION (SIDEBAR MAIN MENU) 
    Restoring balance and preventing vertical domination.
@@ -10,7 +11,7 @@
     padding-top: 8px;
 }
 
-.post-reader-localized-context .awtsmoos-massive-menu-btn {
+:where(.post-reader-localized-context) .awtsmoos-massive-menu-btn {
     all: unset;
     box-sizing: border-box !important;
     width: 100% !important;
@@ -25,7 +26,7 @@
     transition: all 0.15s cubic-bezier(0.19, 1, 0.22, 1) !important;
 }
 
-.post-reader-localized-context .awtsmoos-massive-menu-btn:hover {
+:where(.post-reader-localized-context) .awtsmoos-massive-menu-btn:hover {
     transform: translate(-3px, -3px) !important;
     box-shadow: 9px 9px 0 var(--color-primary) !important;
     background: var(--color-accent) !important;
@@ -39,7 +40,7 @@
     transition: transform 0.2s !important;
 }
 
-.post-reader-localized-context .awtsmoos-massive-menu-btn:hover .menu-icon-vessel {
+:where(.post-reader-localized-context) :where(.awtsmoos-massive-menu-btn:hover) .menu-icon-vessel {
     transform: scale(1.1) rotate(-10deg) !important;
 }
 
@@ -60,25 +61,27 @@
 }
 
 .post-reader-localized-context .menu-portal-desc {
-    font-family: var(--font-ui) !important;
+display: none;
+font-family: var(--font-ui) !important;
     font-size: 0.9rem !important;
     font-weight: 700 !important;
     color: var(--color-ink-secondary) !important;
     text-transform: none !important;
 }
 
-.post-reader-localized-context .awtsmoos-massive-menu-btn:hover .menu-portal-desc {
+:where(.post-reader-localized-context) :where(.awtsmoos-massive-menu-btn:hover) .menu-portal-desc {
     color: var(--color-ink) !important;
 }
 
 .post-reader-localized-context .menu-arrow {
-    font-size: 24px !important;
+display: none;
+font-size: 24px !important;
     font-weight: 900 !important;
     color: var(--color-ink) !important;
     transition: transform 0.2s !important;
 }
 
-.post-reader-localized-context .awtsmoos-massive-menu-btn:hover .menu-arrow {
+:where(.post-reader-localized-context) :where(.awtsmoos-massive-menu-btn:hover) .menu-arrow {
     transform: translateX(6px) !important;
     color: var(--bg-surface) !important;
     text-shadow: 2px 2px 0 var(--color-ink) !important;

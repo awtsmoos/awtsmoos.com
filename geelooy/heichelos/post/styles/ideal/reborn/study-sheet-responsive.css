@@ -10,7 +10,7 @@
 		align-items: flex-end;
 	}
 
-	body[data-study-sheet-open="true"] > .awtsmoos-study-sheet-backdrop > .awtsmoos-study-sheet {
+	:where(body[data-study-sheet-open="true"]) > .awtsmoos-study-sheet-backdrop > .awtsmoos-study-sheet {
 		inline-size: 100%;
 		block-size: min(84dvh, 52rem);
 		border-inline-start: 0;

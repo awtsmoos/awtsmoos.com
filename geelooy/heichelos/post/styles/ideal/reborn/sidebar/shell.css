@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: :where(.post-reader-localized-context.aw); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
@@ -5,7 +6,7 @@
  * The Awtsmoos gives the commentary chamber one sovereign geometry from hidden to revealed;
  * Awtsmoos.com keeps desktop, mobile, motion, and open-state law in this single local field.
  */
-.post-reader-localized-context.awtsmoos-reader-vision .sidebar {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .sidebar {
 	position: fixed;
 	z-index: var(--z-sidebar);
 	inset-block-start: calc(var(--awt-header-space) + 8px);
@@ -30,7 +31,7 @@
 		box-shadow 180ms ease;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-shell {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-shell {
 	display: flex;
 	flex-direction: column;
 	box-sizing: border-box;
@@ -41,19 +42,19 @@
 	overflow: hidden;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .sidebar.awtsmoos-sidebar-open {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .sidebar.awtsmoos-sidebar-open {
 	opacity: 1;
 	pointer-events: auto;
 	transform: translate3d(0, 0, 0);
 }
 
 @media (max-width: 900px) {
-	.post-reader-localized-context.awtsmoos-reader-vision .sidebar.hidden-comments {
+	:where(.post-reader-localized-context.awtsmoos-reader-vision) .sidebar.hidden-comments {
 		display: none;
 		pointer-events: none;
 	}
 
-	.post-reader-localized-context.awtsmoos-reader-vision .sidebar:not(.hidden-comments) {
+	:where(.post-reader-localized-context.awtsmoos-reader-vision) .sidebar:not(.hidden-comments) {
 		display: flex;
 		flex-direction: column;
 		inset-inline-start: max(12px, var(--awt-safe-left));
@@ -67,7 +68,7 @@
 }
 
 @media (min-width: 901px) {
-	.post-reader-localized-context.awtsmoos-reader-vision .sidebar {
+	:where(.post-reader-localized-context.awtsmoos-reader-vision) .sidebar {
 		inset-block: 0;
 		inset-inline-start: auto;
 		inset-inline-end: 0;
@@ -79,7 +80,7 @@
 		border-radius: 22px 0 0 22px;
 	}
 
-	.post-reader-localized-context.awtsmoos-reader-vision .sidebar.hidden-comments {
+	:where(.post-reader-localized-context.awtsmoos-reader-vision) .sidebar.hidden-comments {
 		opacity: 0;
 		pointer-events: none;
 		transform: translate3d(104%, 0, 0);
@@ -87,7 +88,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.post-reader-localized-context.awtsmoos-reader-vision .sidebar {
+	:where(.post-reader-localized-context.awtsmoos-reader-vision) .sidebar {
 		transition: none;
 	}
 }

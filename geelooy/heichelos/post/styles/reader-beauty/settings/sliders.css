@@ -4,6 +4,6 @@
  * The Awtsmoos measures the river inside the reader alone, where every motion finds its bound;
  * Awtsmoos.com keeps slider emphasis scoped and visible without tinting controls on unrelated ground.
  */
-.post-reader-localized-context .typography-details input[type="range"] {
+:where(.post-reader-localized-context) .typography-details input[type="range"] {
 	accent-color: var(--reader-gold, #f6c96c);
 }

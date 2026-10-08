@@ -1,7 +1,7 @@
 
 /* B"H - THE VESSELS OF RECEPTION (INPUTS & ALTARS) */
 
-.post-reader-localized-context input[type="text"],
+:where(.post-reader-localized-context) input[type="text"],
 .post-reader-localized-context textarea,
 .post-reader-localized-context select {
     background: var(--bg-surface);
@@ -17,7 +17,7 @@
     border-radius: 0;
 }
 
-.post-reader-localized-context input[type="text"]:focus,
+:where(.post-reader-localized-context) input[type="text"]:focus,
 .post-reader-localized-context textarea:focus,
 .post-reader-localized-context select:focus {
     border-color: var(--color-primary);

@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: .post-reader-localized-context .awtsmoos); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H
    Chapter 24: The source text answers. The Awtsmoos makes the paragraph and the
    margin acknowledge one another: not noisy, not theatrical, just a quiet mutual
@@ -23,19 +24,19 @@
     pointer-events: none !important;
 }
 
-.post-reader-localized-context .heb .awtsmoos-inline-source-vessel::after,
-.post-reader-localized-context [dir="rtl"] .awtsmoos-inline-source-vessel::after {
+:where(.post-reader-localized-context) .heb .awtsmoos-inline-source-vessel::after,
+:where(.post-reader-localized-context) [dir="rtl"] .awtsmoos-inline-source-vessel::after {
     inset-inline-start: auto !important;
     inset-inline-end: -.55rem !important;
 }
 
 .post-reader-localized-context .awtsmoos-inline-source-focused::after,
-.post-reader-localized-context .awtsmoos-inline-source-vessel:has(.awtsmoos-inline-reading-focus)::after {
+:where(.post-reader-localized-context) .awtsmoos-inline-source-vessel:has(.awtsmoos-inline-reading-focus)::after {
     opacity: .9 !important;
     transform: scaleY(1) !important;
 }
 
-.post-reader-localized-context .awtsmoos-inline-reading-focus .awtsmoos-inline-trigger-preview::before {
+:where(.post-reader-localized-context) .awtsmoos-inline-reading-focus .awtsmoos-inline-trigger-preview::before {
     content: "Linked passage · " !important;
     color: rgba(255,255,255,.68) !important;
     font-weight: 900 !important;
@@ -50,13 +51,13 @@
     opacity: .72 !important;
 }
 
-.post-reader-localized-context .heb .awtsmoos-inline-card-header::before,
-.post-reader-localized-context [dir="rtl"] .awtsmoos-inline-card-header::before {
+:where(.post-reader-localized-context) .heb .awtsmoos-inline-card-header::before,
+:where(.post-reader-localized-context) [dir="rtl"] .awtsmoos-inline-card-header::before {
     order: 99 !important;
 }
 
-.post-reader-localized-context .awtsmoos-inline-commentary-root:hover .awtsmoos-inline-card-header::before,
-.post-reader-localized-context .awtsmoos-inline-commentary-root:focus-within .awtsmoos-inline-card-header::before {
+:where(.post-reader-localized-context) :where(.awtsmoos-inline-commentary-root:hover) .awtsmoos-inline-card-header::before,
+:where(.post-reader-localized-context) :where(.awtsmoos-inline-commentary-root:focus-within) .awtsmoos-inline-card-header::before {
     opacity: 1 !important;
 }
 

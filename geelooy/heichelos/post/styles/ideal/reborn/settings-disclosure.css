@@ -12,7 +12,7 @@
 	overflow: clip;
 }
 
-.post-reader-localized-context .reader-advanced-settings > summary {
+:where(.post-reader-localized-context) .reader-advanced-settings > summary {
 	list-style: none;
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) auto;
@@ -27,11 +27,11 @@
 	transition: background var(--reader-settings-motion), color var(--reader-settings-motion), transform var(--reader-settings-motion);
 }
 
-.post-reader-localized-context .reader-advanced-settings > summary::-webkit-details-marker {
+.post-reader-localized-context .reader-advanced-settings > :where(summary::-webkit-details-marker) {
 	display: none;
 }
 
-.post-reader-localized-context .reader-advanced-settings > summary::after {
+:where(.post-reader-localized-context) .reader-advanced-settings > :where(summary)::after {
 	content: "+";
 	display: grid;
 	place-items: center;
@@ -44,39 +44,39 @@
 	transition: transform var(--reader-settings-motion), border-color var(--reader-settings-motion);
 }
 
-.post-reader-localized-context .reader-advanced-settings[open] > summary::after {
+:where(.post-reader-localized-context) .reader-advanced-settings[open] > :where(summary)::after {
 	transform: rotate(45deg);
 }
 
-.post-reader-localized-context .reader-advanced-settings > summary small {
+.post-reader-localized-context .reader-advanced-settings > :where(summary) small {
 	color: var(--inline-text-blue, #cbd5e1);
 	font: 750 .76rem/1.2 var(--font-ui);
 }
 
 @media (hover: hover) {
-	.post-reader-localized-context .reader-advanced-settings > summary:hover {
+	:where(.post-reader-localized-context) .reader-advanced-settings > summary:hover {
 		background: rgba(91, 221, 255, .08);
 	}
 
-	.post-reader-localized-context .reader-advanced-settings > summary:hover::after {
+	:where(.post-reader-localized-context) .reader-advanced-settings > :where(summary:hover)::after {
 		border-color: rgba(91, 221, 255, .6);
 	}
 }
 
-.post-reader-localized-context .reader-advanced-settings > summary:active {
+:where(.post-reader-localized-context) .reader-advanced-settings > summary:active {
 	transform: scale(.99);
 	background: rgba(91, 221, 255, .12);
 }
 
-.post-reader-localized-context .reader-advanced-settings > summary:focus-visible {
+:where(.post-reader-localized-context) .reader-advanced-settings > summary:focus-visible {
 	outline: 3px solid rgba(91, 221, 255, .9) !important;
 	outline-offset: 3px !important;
 	box-shadow: 0 0 0 6px rgba(91, 221, 255, .14) !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.post-reader-localized-context .reader-advanced-settings > summary,
-	.post-reader-localized-context .reader-advanced-settings > summary::after {
+	:where(.post-reader-localized-context) .reader-advanced-settings > summary,
+	:where(.post-reader-localized-context) .reader-advanced-settings > :where(summary)::after {
 		transition-duration: 0.001ms !important;
 	}
 }

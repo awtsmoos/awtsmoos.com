@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: .post-reader-localized-context .awtsmoos); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
@@ -52,12 +53,12 @@
 	text-align: center;
 }
 
-.post-reader-localized-context .awtsmoos-auto-scroll-floating .awtsmoos-auto-scroll-icon {
+:where(.post-reader-localized-context) .awtsmoos-auto-scroll-floating .awtsmoos-auto-scroll-icon {
 	font-size: 1.15rem;
 }
 
-.post-reader-localized-context .awtsmoos-auto-scroll-floating .awtsmoos-auto-scroll-label,
-.post-reader-localized-context .awtsmoos-auto-scroll-floating .awtsmoos-auto-scroll-speed {
+:where(.post-reader-localized-context) .awtsmoos-auto-scroll-floating .awtsmoos-auto-scroll-label,
+:where(.post-reader-localized-context) .awtsmoos-auto-scroll-floating .awtsmoos-auto-scroll-speed {
 	display: block;
 	font-size: .66rem;
 	line-height: 1.05;

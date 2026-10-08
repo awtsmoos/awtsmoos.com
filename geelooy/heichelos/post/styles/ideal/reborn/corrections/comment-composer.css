@@ -5,8 +5,8 @@
  * The Awtsmoos gives speech a disciplined vessel before it becomes a public comment;
  * Awtsmoos.com keeps the scribe clear, expandable, keyboard-visible, and locally resident.
  */
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-scribe-card,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-scribe-card {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-scribe-card,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-scribe-card {
 	display: grid;
 	gap: 10px;
 	inline-size: 100%;
@@ -16,7 +16,7 @@
 	background: rgba(10, 14, 28, .72);
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-scribe-head {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-scribe-head {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -24,29 +24,29 @@
 	font-family: var(--font-ui);
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-scope-row {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-scope-row {
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
 	gap: 7px;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-scope-hint {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-scope-hint {
 	color: var(--awt-muted);
 	font: 600 .78rem / 1.35 var(--font-ui);
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-extra-section {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-extra-section {
 	display: grid;
 	gap: 7px;
 	inline-size: 100%;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-extra-section-title,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-extra-section-text,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-title-input,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-scribe-card textarea,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-scribe-card textarea {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-extra-section-title,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-extra-section-text,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-title-input,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-scribe-card textarea,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-scribe-card textarea {
 	inline-size: 100%;
 	min-inline-size: 0;
 	padding: 10px 11px;
@@ -58,27 +58,27 @@
 	transition: border-color 150ms ease, box-shadow 150ms ease, background 150ms ease;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-scribe-card textarea,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-scribe-card textarea,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-extra-section-text {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-scribe-card textarea,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-scribe-card textarea,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-extra-section-text {
 	min-block-size: 7.5em;
 	resize: vertical;
 }
 
 @media (hover: hover) {
-	.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-extra-section-title:hover,
-	.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-extra-section-text:hover,
-	.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-title-input:hover,
-	.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-scribe-card textarea:hover {
+	:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-extra-section-title:hover,
+	:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-extra-section-text:hover,
+	:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-title-input:hover,
+	:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-scribe-card textarea:hover {
 		border-color: rgba(244, 197, 107, .22);
 	}
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-scribe-card textarea:focus-visible,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-scribe-card textarea:focus-visible,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-extra-section-title:focus-visible,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-extra-section-text:focus-visible,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-title-input:focus-visible {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-scribe-card textarea:focus-visible,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-scribe-card textarea:focus-visible,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-extra-section-title:focus-visible,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-extra-section-text:focus-visible,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-title-input:focus-visible {
 	outline: none;
 	border-color: rgba(91, 209, 255, .45);
 	box-shadow: 0 0 0 3px rgba(91, 209, 255, .14);

@@ -1,9 +1,10 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (2 selectors: .post-reader-localized-context :where(#r, .post-reader-localized-context :where(#r); cascade order intentional, merge would break responsive/laye */
 
 /* B"H - THE MONOLITH TITLES
    "Let there be a heaven"
 */
 
-.post-reader-localized-context #realPost .post-title {
+.post-reader-localized-context :where(#realPost) .post-title {
     font-family: var(--font-heading) !important;
     font-weight: 900 !important;
     font-size: clamp(3rem, 8vw, 7rem); 
@@ -21,11 +22,11 @@
     word-wrap: break-word;
 }
 
-.post-reader-localized-context[data-theme="dark"] #realPost .post-title {
+:where(.post-reader-localized-context[data-theme="dark"]) :where(#realPost) .post-title {
     text-shadow: 4px 4px 0 var(--color-electric);
 }
 
-.post-reader-localized-context #realPost .series-name {
+.post-reader-localized-context :where(#realPost) .series-name {
     display: block;
     font-size: 0.3em;
     letter-spacing: 4px;

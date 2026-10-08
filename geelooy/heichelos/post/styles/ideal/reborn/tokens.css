@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (4 selectors: .post-reader-localized-context, input); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H
  * Boruch Hashem
  * Blessed is He

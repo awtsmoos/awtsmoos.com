@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (6 selectors: .post-reader-localized-context .control-, .post-reader-localized-context .font-siz); cascade order intentional, merge would break responsive/laye */
 
 /* B"H - THE ALCHEMIST'S WORKSHOP (SETTINGS PANEL) */
 
@@ -21,7 +22,7 @@
     transform: translateY(0);
 }
 
-.post-reader-localized-context .typography-details.hidden-details {
+:where(.post-reader-localized-context) .typography-details.hidden-details {
     opacity: 0; 
     pointer-events: none; 
     transform: translateY(20px);
@@ -34,7 +35,7 @@
         transform: translateX(-50%) translateY(0);
         width: 90vw;
     }
-    .post-reader-localized-context .typography-details.hidden-details {
+    :where(.post-reader-localized-context) .typography-details.hidden-details {
         transform: translateX(-50%) translateY(20px);
     }
 }
@@ -51,7 +52,7 @@
     padding-bottom: var(--pad-md); 
     border-bottom: 2px dashed rgba(255,255,255,0.2);
 }
-.post-reader-localized-context .settings-group:last-child { border-bottom: none; }
+:where(.post-reader-localized-context) .settings-group:last-child { border-bottom: none; }
 
 .post-reader-localized-context .control-label {
     font-size: 11px; 
@@ -66,11 +67,11 @@
     display: flex; 
     border: 2px solid rgba(255,255,255,0.2); 
 }
-.post-reader-localized-context .font-adjust-btn {
+:where(.post-reader-localized-context) .font-adjust-btn {
     flex: 1; height: 44px; background: transparent; border: none;
     color: var(--bg-surface); font-size: 24px; font-weight: 900; cursor: pointer;
 }
-.post-reader-localized-context .font-adjust-btn:hover { background: var(--color-accent); color: var(--color-ink); }
+:where(.post-reader-localized-context) .font-adjust-btn:hover { background: var(--color-accent); color: var(--color-ink); }
 .post-reader-localized-context .font-size-display { 
     padding: 0 1rem; 
     border-left: 2px solid rgba(255,255,255,0.2); 
@@ -79,15 +80,18 @@
 }
 
 .post-reader-localized-context .font-selector, 
-.post-reader-localized-context #themeSelector {
+.post-reader-localized-context :where(#themeSelector) {
     background: rgba(255,255,255,0.1); 
     color: var(--bg-surface); 
     border: 2px solid rgba(255,255,255,0.2); 
     padding: 10px; width: 100%;
 }
 
-.post-reader-localized-context .reset-section { 
-    padding: var(--pad-md); 
+.post-reader-localized-context .reset-section {
+display: grid;
+	gap: .65rem;
+	padding-block-end: max(.25rem, env(safe-area-inset-bottom, 0px));
+padding: var(--pad-md); 
     border-top: 2px solid rgba(255,255,255,0.2); 
-    background: rgba(0,0,0,0.5); 
+    background: rgba(0,0,0,0.5);
 }

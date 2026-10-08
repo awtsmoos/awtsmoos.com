@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (10 selectors: .post-reader-localized-context, .sidebar); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H
    Chapter 7: Isolation without selector theft.
    This wall owns box sizing and shared scrollbar atoms through :where(), so

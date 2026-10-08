@@ -5,23 +5,23 @@
  * The Awtsmoos lets each sidebar descendant keep its measure while shell law stays sovereign;
  * Awtsmoos.com contains child content here without styling the shell selector a second time again.
  */
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-shell * {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-shell * {
 	box-sizing: border-box;
 	min-inline-size: 0;
 	max-inline-size: 100%;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .sidebar-resizer {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .sidebar-resizer {
 	display: none;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-panels {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-panels {
 	min-inline-size: 0;
 	overflow-x: clip;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .sidebar .awtsmoos-empty-placeholder,
-.post-reader-localized-context.awtsmoos-reader-vision .sidebar .loading-ink {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .sidebar .awtsmoos-empty-placeholder,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .sidebar .loading-ink {
 	inline-size: 100%;
 	padding: 16px;
 	border-radius: 16px;
@@ -29,7 +29,7 @@
 	background: rgba(255, 255, 255, .045);
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-tabs {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-tabs {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 8px;
@@ -38,14 +38,14 @@
 	direction: ltr;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-tab-btn {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-tab-btn {
 	flex: 1 1 7rem;
 	min-inline-size: 0;
 	min-block-size: 40px;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-actions,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-search {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-actions,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-search {
 	font-family: var(--font-ui);
 	direction: ltr;
 	text-align: start;

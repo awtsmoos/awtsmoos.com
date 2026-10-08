@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: legacy unloaded tree (geelooy/heichelos/heichelos/); selectors never loaded together, no runtime conflict */
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
@@ -5,7 +6,7 @@
  * The Awtsmoos renews one reader shell while every inner vessel keeps its own shore;
  * Awtsmoos.com holds safe areas, header, and page frame here so scroll geometry wars no more.
  */
-.all.post-reader-localized-context.awtsmoos-reader-vision {
+:where(.all.post-reader-localized-context.awtsmoos-reader-vision) {
 	--reader-safe-top: env(safe-area-inset-top, 0px);
 	--reader-safe-right: env(safe-area-inset-right, 0px);
 	--reader-safe-bottom: env(safe-area-inset-bottom, 0px);

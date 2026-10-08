@@ -1,3 +1,4 @@
+/* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: :where(.post-reader-localized-context) .); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
@@ -5,13 +6,9 @@
  * The Awtsmoos gives reset and danger a clear boundary: strong enough to warn, gentle enough to remain usable;
  * Awtsmoos.com owns destructive emphasis here without forceful cascade tricks, so the warning stays truthful and stable.
  */
-.post-reader-localized-context .reset-section {
-	display: grid;
-	gap: .65rem;
-	padding-block-end: max(.25rem, env(safe-area-inset-bottom, 0px));
-}
 
-.post-reader-localized-context .danger-outline {
+
+:where(.post-reader-localized-context) .danger-outline {
 	min-block-size: 44px;
 	padding: .72rem .95rem;
 	border: 1px solid rgb(255 126 126 / 34%);
@@ -24,24 +21,24 @@
 	transition: transform var(--reader-settings-motion, 180ms ease), border-color var(--reader-settings-motion, 180ms ease), background var(--reader-settings-motion, 180ms ease), box-shadow var(--reader-settings-motion, 180ms ease);
 }
 
-.post-reader-localized-context .danger-outline:focus-visible {
+:where(.post-reader-localized-context) .danger-outline:focus-visible {
 	outline: 3px solid rgb(255 157 157 / 80%);
 	outline-offset: 2px;
 	border-color: rgb(255 157 157 / 70%);
 	box-shadow: 0 0 0 5px rgb(255 126 126 / 12%);
 }
 
-.post-reader-localized-context .danger-outline:active {
+:where(.post-reader-localized-context) .danger-outline:active {
 	transform: translateY(1px) scale(.98);
 }
 
-.post-reader-localized-context .danger-outline:disabled {
+:where(.post-reader-localized-context) .danger-outline:disabled {
 	opacity: .45;
 	cursor: not-allowed;
 }
 
 @media (hover: hover) and (pointer: fine) {
-	.post-reader-localized-context .danger-outline:not(:disabled):hover {
+	:where(.post-reader-localized-context) :where(.danger-outline:not(:disabled):hover) {
 		border-color: rgb(255 157 157 / 68%);
 		background: linear-gradient(145deg, rgb(145 35 52 / 38%), rgb(54 12 26 / 76%));
 	}

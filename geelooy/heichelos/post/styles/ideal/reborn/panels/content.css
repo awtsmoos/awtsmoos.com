@@ -5,7 +5,7 @@
  * The Awtsmoos lets commentary become one river whose responsive banks share one source;
  * Awtsmoos.com gives content, active-panel scrolling, grids, and their breakpoints one course.
  */
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-view-header {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-view-header {
 	flex: 0 0 auto;
 	display: flex;
 	align-items: center;
@@ -17,8 +17,8 @@
 	direction: ltr;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-view-content,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-panel.is-current-panel {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-view-content,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-panel.is-current-panel {
 	flex: 1 1 auto;
 	min-block-size: 0;
 	inline-size: 100%;
@@ -29,24 +29,24 @@
 	scrollbar-gutter: stable;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-view-content {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-view-content {
 	padding: 10px;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-panel {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-panel {
 	display: none;
 	inline-size: 100%;
 	margin: 0;
 	padding: 0;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-panel.is-current-panel {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-panel.is-current-panel {
 	display: grid;
 	gap: 12px;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .post-root-menu-grid,
-.post-reader-localized-context.awtsmoos-reader-vision .keepers-assembly {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .post-root-menu-grid,
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .keepers-assembly {
 	display: grid;
 	align-content: start;
 	gap: 10px;
@@ -56,7 +56,7 @@
 	text-align: start;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-view-title {
+:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-view-title {
 	min-inline-size: 0;
 	margin: 0;
 	color: var(--awt-ink);
@@ -64,20 +64,20 @@
 }
 
 @media (max-width: 900px) {
-	.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-view-content,
-	.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-panel.is-current-panel {
+	:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-view-content,
+	:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-panel.is-current-panel {
 		padding-block-end: calc(22px + var(--awt-safe-bottom));
 	}
 
-	.post-reader-localized-context.awtsmoos-reader-vision .post-root-menu-grid,
-	.post-reader-localized-context.awtsmoos-reader-vision .keepers-assembly {
+	:where(.post-reader-localized-context.awtsmoos-reader-vision) .post-root-menu-grid,
+	:where(.post-reader-localized-context.awtsmoos-reader-vision) .keepers-assembly {
 		grid-template-columns: minmax(0, 1fr);
 	}
 }
 
 @media (min-width: 901px) {
-	.post-reader-localized-context.awtsmoos-reader-vision .post-root-menu-grid,
-	.post-reader-localized-context.awtsmoos-reader-vision .keepers-assembly {
+	:where(.post-reader-localized-context.awtsmoos-reader-vision) .post-root-menu-grid,
+	:where(.post-reader-localized-context.awtsmoos-reader-vision) .keepers-assembly {
 		grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
 	}
 }
