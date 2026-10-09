@@ -86,8 +86,10 @@ export function validatePreferenceName(value) {
 
 export function validatePreferenceKey(value) {
 	const key = String(value || "");
-	if (!key || key.length > 256 || key.includes("\0")) {
-		throw preferenceStateError("ANDROID_PREFERENCES_KEY_INVALID", key);
+	// Real Android allows long keys; Firebase uses very long user-agent strings.
+	// Only reject empty, null bytes, or absurdly long (>4096).
+	if (!key || key.length > 4096 || key.includes("\0")) {
+		throw preferenceStateError("ANDROID_PREFERENCES_KEY_INVALID", key.slice(0, 100));
 	}
 	return key;
 }
