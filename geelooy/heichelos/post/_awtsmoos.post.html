@@ -48,16 +48,16 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 		   Uses :root-prefixed selectors for specificity instead of !important. */
 		:root .post-reader-localized-context .sub-awtsmoos.heb,
 		:root .post-reader-localized-context .heb {
-			color: #1b1b1b;
+			color: var(--sefer-reader-ink);
 		}
 		:root[data-theme="dark"] .post-reader-localized-context .sub-awtsmoos.heb,
 		:root[data-theme="dark"] .post-reader-localized-context .heb {
-			color: #fffdf5;
+			color: var(--sefer-reader-ink);
 		}
 		:root[data-theme="dark"] .post-reader-localized-context,
 		:root[data-theme="dark"] .post-reader-localized-context .section {
-			background-color: #0a1120;
-			background: #0a1120;
+			background-color: var(--sefer-reader-bg);
+			background: var(--sefer-reader-bg);
 		}
 	</style>
 	<style id="awtsmoos-scribe-lens-panel">
@@ -317,7 +317,7 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 			inline-size: 1.56rem;
 			block-size: 1.56rem;
 			border-radius: 50%;
-			background: #fffdf7;
+			background: var(--lens-on-gold);
 			box-shadow: 0 .15rem .45rem rgb(30 18 6 / 32%);
 			transition: transform 200ms ease;
 		}
@@ -497,7 +497,7 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 		:root .post-reader-localized-context .auto-scroll-settings-toggle[aria-pressed="true"] {
 			background: var(--lens-gold);
 			border-color: var(--lens-gold);
-			color: #fffdf7;
+			color: var(--lens-on-gold);
 		}
 		:root .post-reader-localized-context .auto-scroll-settings-toggle:disabled {
 			opacity: .45;
@@ -535,7 +535,7 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 			inline-size: 1.5rem;
 			block-size: 1.5rem;
 			border-radius: 50%;
-			background: #fffdf7;
+			background: var(--lens-on-gold);
 			border: 2px solid var(--lens-gold);
 			box-shadow: 0 .2rem .5rem var(--lens-shadow);
 			cursor: pointer;
@@ -544,7 +544,7 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 			inline-size: 1.35rem;
 			block-size: 1.35rem;
 			border-radius: 50%;
-			background: #fffdf7;
+			background: var(--lens-on-gold);
 			border: 2px solid var(--lens-gold);
 			box-shadow: 0 .2rem .5rem var(--lens-shadow);
 			cursor: pointer;
@@ -794,7 +794,7 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 		:root .post-reader-localized-context #resetDefaultsBtn:hover {
 			background: var(--lens-gold-deep);
 			border-color: var(--lens-gold-deep);
-			color: #fffdf7;
+			color: var(--lens-on-gold);
 		}
 		:root .post-reader-localized-context #resetDefaultsBtn:focus-visible {
 			outline: 2px solid var(--lens-gold);
@@ -849,7 +849,7 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 		:root .post-reader-localized-context #typographyBtn.pushed {
 			background: var(--lens-gold);
 			border-color: var(--lens-gold);
-			color: #fffdf7;
+			color: var(--lens-on-gold);
 		}
 		:root .post-reader-localized-context #typographyBtn:disabled,
 		:root .post-reader-localized-context #commentaryBtn:disabled {
@@ -986,10 +986,10 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 		:root[data-theme="light"] .post-reader-localized-context .meluket-lang-btn.is-active {
 			background: var(--sefer-accent);
 			border-color: var(--sefer-accent);
-			color: #fffdf6;
+			color: var(--sefer-on-accent);
 		}
 		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-btn.is-active {
-			color: #171209;
+			color: var(--sefer-on-accent);
 		}
 		/* B"H — Language toggle INSIDE the Scribe's Lens panel.
 		   Segmented control matching the panel design. Full states, both themes. */
@@ -1018,7 +1018,7 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 			border-radius: 999px;
 			border: 1px solid transparent;
 			background: transparent;
-			color: #6d5a43;
+			color: var(--lens-lang-idle);
 			cursor: pointer;
 			transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
 			min-width: 44px;
@@ -1026,22 +1026,22 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 			margin: 0;
 		}
 		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn {
-			color: #9fb3ca;
+			color: var(--lens-lang-idle);
 		}
 		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:hover {
-			color: #21160a;
+			color: var(--lens-lang-hover);
 			background: rgb(255 255 255 / 50%);
 		}
 		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:hover {
-			color: #f8fbff;
+			color: var(--lens-lang-hover);
 			background: rgb(255 255 255 / 8%);
 		}
 		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:focus-visible {
-			outline: 2px solid #8a6d1a;
+			outline: 2px solid var(--lens-lang-focus);
 			outline-offset: 2px;
 		}
 		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:focus-visible {
-			outline-color: #7fe8ff;
+			outline-color: var(--lens-lang-focus);
 		}
 		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:active {
 			transform: scale(0.97);
@@ -1053,15 +1053,15 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 		}
 		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn.is-active,
 		:root[data-theme="light"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn.is-active {
-			background: #c79a4b;
-			border-color: #c79a4b;
-			color: #fffdf6;
+			background: var(--lens-gold);
+			border-color: var(--lens-gold);
+			color: var(--lens-active-ink);
 			box-shadow: 0 2px 8px rgb(199 154 75 / 40%);
 		}
 		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn.is-active {
-			background: #d9a94e;
-			border-color: #d9a94e;
-			color: #241a08;
+			background: var(--lens-gold);
+			border-color: var(--lens-gold);
+			color: var(--lens-active-ink);
 			box-shadow: 0 2px 8px rgb(217 169 78 / 30%);
 		}
 		/* Footnote markers: <sup>, not buttons. Clickable + keyboard accessible. */
