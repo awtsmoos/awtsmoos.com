@@ -299,13 +299,13 @@ function obtainFrame(fn, type, base) {
     if (fr.func === fn) {
       fr.pc = 0;
       fr.base = base;
-      recycleLabelsIntoPool(fr.labels);
+      if (fr.labels.length > 0) recycleLabelsIntoPool(fr.labels);
       return fr;
     }
     if (fr.lv.length !== fn.localTags.length) fr.lv = new Array(fn.localTags.length);
     fr.func = fn; fr.type = type; fr.code = fn.code; fr.pc = 0;
     fr.ltags = fn.localTags; fr.base = base; fr.blocks = fn.blocks;
-    recycleLabelsIntoPool(fr.labels);
+    if (fr.labels.length > 0) recycleLabelsIntoPool(fr.labels);
     return fr;
   }
   return { func: fn, type, code: fn.code, pc: 0, lv: new Array(fn.localTags.length), ltags: fn.localTags, labels: [], base, blocks: fn.blocks };
