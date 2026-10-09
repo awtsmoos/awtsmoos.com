@@ -13,7 +13,15 @@
  */
 (function(root, factory) {
   if (typeof module === 'object' && module.exports) module.exports = factory();
-  else { root.Merkava = root.Merkava || {}; root.Merkava.ExtensionHost = factory().ExtensionHost; }
+  else {
+    root.Merkava = root.Merkava || {};
+    var _mod = factory();
+    // B"H 2026-10-09: browser builds get the whole module surface, not just
+    // the class — helpers (validateManifest, urlMatches, ...) are needed by
+    // the app shell. `Merkava.ExtensionHost` stays the class (back-compat).
+    root.Merkava.ExtensionHost = _mod.ExtensionHost;
+    root.Merkava.ExtensionHostModule = _mod;
+  }
 })(typeof self !== 'undefined' ? self : this, function() {
   function nodeRequire(name) {
     try { if (typeof require === 'function') return require(name); } catch (e) {}
@@ -22,6 +30,18 @@
 
   const VmRunner = nodeRequire('./VmScriptRunner.js');
   const runVmScript = VmRunner ? VmRunner.VmScriptRunner.runVmScript : null;
+
+  // B"H 2026-10-09: browser seam — the page bundle injects the VM pipeline
+  // (VmScriptRunner.setPipelineLoaders) and hands the runner object here, so
+  // startBackground works without Node require(). Node callers are unaffected.
+  let _vmRunnerOverride = null;
+  function setVmRunner(runner) { _vmRunnerOverride = runner || null; }
+  function resolveRunner(r) {
+    if (!r) return null;
+    if (typeof r === 'function') return r;
+    if (typeof r.runVmScript === 'function') return r.runVmScript.bind(r);
+    return null;
+  }
 
   /* ---------------------------------------------------------------- */
   /* Match patterns: "*://*.example.com/*", "<all_urls>"               */
@@ -122,20 +142,57 @@
   /* The chrome.* API.                                                 */
   /* ---------------------------------------------------------------- */
 
-  function createChromeApi(ext, host) {
+  /* ---------------------------------------------------------------- */
+  /* chrome.storage backends: node fs -> browser localStorage -> memory. */
+  /* The browser page has no fs; localStorage keeps extension storage      */
+  /* alive across reloads under a per-extension key namespace.             */
+  /* ---------------------------------------------------------------- */
+  function createStorageBackend(ext) {
     const fs = nodeRequire('fs'), path = nodeRequire('path');
     const storeDir = ext.storeDir;
-    if (fs && storeDir) try { fs.mkdirSync(storeDir, { recursive: true }); } catch (e) {}
+    if (fs && path && storeDir) {
+      try { fs.mkdirSync(storeDir, { recursive: true }); } catch (e) {}
+      return {
+        kind: 'fs',
+        load(area) {
+          try { return JSON.parse(fs.readFileSync(path.join(storeDir, 'storage-' + area + '.json'), 'utf8')) || {}; }
+          catch (e) { return {}; }
+        },
+        save(area, data) {
+          try { fs.writeFileSync(path.join(storeDir, 'storage-' + area + '.json'), JSON.stringify(data)); } catch (e) {}
+        }
+      };
+    }
+    try {
+      if (typeof localStorage !== 'undefined' && localStorage) {
+        localStorage.getItem('merkava.ext.probe'); // throws in some private modes
+        const key = area => 'merkava.ext.' + ext.id + '.storage.' + area;
+        return {
+          kind: 'localStorage',
+          load(area) {
+            try { return JSON.parse(localStorage.getItem(key(area)) || '{}') || {}; }
+            catch (e) { return {}; }
+          },
+          save(area, data) {
+            try { localStorage.setItem(key(area), JSON.stringify(data)); } catch (e) {}
+          }
+        };
+      }
+    } catch (e) {}
+    const mem = {};
+    return {
+      kind: 'memory',
+      load(area) { return mem[area] ? JSON.parse(JSON.stringify(mem[area])) : {}; },
+      save(area, data) { mem[area] = JSON.parse(JSON.stringify(data === undefined ? {} : data)); }
+    };
+  }
 
-    function loadArea(area) {
-      if (!fs || !storeDir) return {};
-      try { return JSON.parse(fs.readFileSync(path.join(storeDir, 'storage-' + area + '.json'), 'utf8')); }
-      catch (e) { return {}; }
-    }
-    function saveArea(area, data) {
-      if (!fs || !storeDir) return;
-      try { fs.writeFileSync(path.join(storeDir, 'storage-' + area + '.json'), JSON.stringify(data)); } catch (e) {}
-    }
+  function createChromeApi(ext, host) {
+    const backend = createStorageBackend(ext);
+    ext._storageBackend = backend.kind;
+
+    function loadArea(area) { return backend.load(area); }
+    function saveArea(area, data) { backend.save(area, data); }
     const changeListeners = [];
     function makeStorageArea(area) {
       return {
@@ -177,6 +234,18 @@
     const alarmListeners = [];
     const actionClickListeners = [];
     const menuClickListeners = [];
+    const installedListeners = [];
+    const startupListeners = [];
+    // Guest listeners arrive as Merkava interpreter vessels bridged to
+    // host-callables ({__kind:'function'} with .call) or plain functions.
+    function fireGuestListeners(list, arg) {
+      for (const fn of list.slice()) {
+        try {
+          if (typeof fn === 'function') fn(arg);
+          else if (fn && typeof fn.call === 'function') fn.call([arg]);
+        } catch (e) {}
+      }
+    }
     const alarms = new Map();
     const menus = new Map();
     let menuSeq = 0;
@@ -199,8 +268,8 @@
           return Promise.resolve();
         },
         onMessage: { addListener(fn) { if (fn) msgListeners.push(fn); } },
-        onInstalled: { addListener() {} },
-        onStartup: { addListener() {} },
+        onInstalled: { addListener(fn) { if (fn) installedListeners.push(fn); } },
+        onStartup: { addListener(fn) { if (fn) startupListeners.push(fn); } },
         lastError: null,
         openOptionsPage() { host._openPage(ext, ext.manifest.options_page || ext.manifest.options_ui && ext.manifest.options_ui.page); }
       },
@@ -302,6 +371,9 @@
         }
       }
     };
+    // Internal: fired by ExtensionHost.startBackground (not part of chrome.*).
+    chrome._fireInstalled = (detail) => fireGuestListeners(installedListeners, detail || { reason: 'install' });
+    chrome._fireStartup = () => fireGuestListeners(startupListeners, undefined);
     // MV2 alias.
     chrome.browserAction = chrome.action;
     return chrome;
@@ -314,6 +386,9 @@
   class ExtensionHost {
     constructor(options = {}) {
       this.options = options;
+      // B"H 2026-10-09: browser builds pass the VM runner object
+      // ({ runVmScript } or { setPipelineLoaders }-injected VmScriptRunner).
+      this.vmRunner = options.vmRunner || null;
       const path = nodeRequire('path');
       this.dataDir = options.dataDir || (path ? path.join(process.cwd(), '.merkava-extensions') : '.merkava-extensions');
       this.extensions = new Map(); // id -> ext record
@@ -393,7 +468,8 @@
      * Merkava VM with the chrome.* API available as a global.
      */
     async startBackground(extId) {
-      if (!runVmScript) throw new Error('VmScriptRunner unavailable');
+      const runner = resolveRunner(this.vmRunner) || resolveRunner(_vmRunnerOverride) || runVmScript;
+      if (!runner) throw new Error('VmScriptRunner unavailable');
       const ext = typeof extId === 'string' ? this.extensions.get(extId) : extId;
       if (!ext) throw new Error('unknown extension');
       const mv = Number(ext.manifest.manifest_version);
@@ -415,9 +491,15 @@
         try { globals.URL = URL; } catch (e) {}
         globals.setTimeout = setTimeout; globals.clearTimeout = clearTimeout;
         globals.setInterval = setInterval; globals.clearInterval = clearInterval;
-        const r = await runVmScript(src.toString('utf8'), { label: 'ext:' + ext.id + ':' + name, globals, cycles: 60000 });
+        const r = await runner(src.toString('utf8'), { label: 'ext:' + ext.id + ':' + name, globals, cycles: 60000 });
         results.push({ script: name, ok: r.status === 'COMPLETED', error: r.error || null });
         ext._backgroundRan = ext._backgroundRan || r.status === 'COMPLETED';
+      }
+      // Chrome semantics: onStartup on every worker start, onInstalled once.
+      try { if (ext._chrome && ext._chrome._fireStartup) ext._chrome._fireStartup(); } catch (e) {}
+      if (!ext._installedFired) {
+        ext._installedFired = true;
+        try { if (ext._chrome && ext._chrome._fireInstalled) ext._chrome._fireInstalled({ reason: 'install' }); } catch (e) {}
       }
       return results;
     }
@@ -493,6 +575,9 @@
     patternToRegExp,
     urlMatches,
     parseCrx,
-    createChromeApi
+    createChromeApi,
+    // B"H 2026-10-09: browser seam — inject the VM runner when the page
+    // bundle provides it (setPipelineLoaders on VmScriptRunner first).
+    setVmRunner
   };
 });

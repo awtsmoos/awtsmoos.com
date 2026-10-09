@@ -36,7 +36,12 @@
   })();
 
   let _loaded = null;
+  // B"H 2026-10-09: browser seam — the page bundle injects the already-
+  // bundled pipeline modules so loadPipeline() never touches require().
+  let _pipelineOverride = null;
+  function setPipelineLoaders(loaders) { _pipelineOverride = loaders || null; }
   function loadPipeline() {
+    if (_pipelineOverride) return _pipelineOverride;
     if (_loaded) return _loaded;
     const p = nodePath();
     const B = p ? p.join(BROWSER_DIR, '..', 'merkava-binary') : '../merkava-binary';
@@ -78,7 +83,8 @@
   async function runVmScript(source, opts = {}) {
     const { compileJsToCode, createDefaultHost, decodeSangArtifact } = loadPipeline();
     const artifact = await compileJsToCode(String(source || ''), { file: opts.label || '<guest>' });
-    const decoded = Buffer.isBuffer(artifact) ? decodeSangArtifact(artifact) : artifact;
+    const hasBuffer = typeof Buffer !== 'undefined' && Buffer.isBuffer;
+    const decoded = (hasBuffer && Buffer.isBuffer(artifact)) ? decodeSangArtifact(artifact) : artifact;
     const seed = Object.assign({}, opts.globals || {});
     const memory = {
       globals: seed,
@@ -144,5 +150,5 @@
     return out;
   }
 
-  return { VmScriptRunner: { runVmScript, createListenerRegistry, dispatchListeners, loadPipeline } };
+  return { VmScriptRunner: { runVmScript, createListenerRegistry, dispatchListeners, loadPipeline, setPipelineLoaders } };
 });

@@ -40,6 +40,71 @@ const CMP_OPS = {
   "!=": { set: "SETNE", jt: "JNE", jf: "JE" },
 };
 
+// ---------------------------------------------------------------------------
+// Native tier v2 (stream 7): codegen extension registry.
+//
+// Streams building new value domains (strings, arrays, objects, JSON) plug in
+// here WITHOUT touching the integer core below. Each extension registers
+// handlers for any of four dispatch points:
+//
+//   literal(gen, node) — node is an ESTree Literal. Return true if fully
+//                        handled (value in RAX).
+//   binary(gen, node)  — node is an ESTree BinaryExpression. Return true if
+//                        handled (e.g. string '+' concatenation).
+//   member(gen, node)  — node is an ESTree MemberExpression. Return true if
+//                        handled (e.g. heap-object property load).
+//   call(gen, node)    — node is an ESTree CallExpression. Return true if
+//                        handled (e.g. runtime-helper calls).
+//
+// Contract: handlers run BEFORE the integer core at each dispatch point and
+// must return a strict `true` only when they emitted complete code leaving the
+// result in RAX. Anything else (falsy return, or no handler for the hook)
+// falls through to the integer core, whose behavior is unchanged when no
+// extension is registered. Registration order decides priority;
+// re-registering a name replaces the previous handlers.
+//
+// Helpers for extensions (on the AsmGen instance passed as `gen`):
+//   gen.extensionData(name, text) — a top-level .data chunk, emitted once per
+//                                   name (string bytes, bump-pointer qwords).
+//   gen.extensionCode(name, text) — a top-level .code chunk (runtime helpers),
+//                                   emitted once per name, after driverFns().
+//   gen.emit / gen.lbl / gen.expr / gen.exprVoid / gen.locOf / ... — the full
+//     AsmGen surface. The RAX-result and R10/R11-scratch conventions apply.
+// ---------------------------------------------------------------------------
+const codegenExtensions = [];
+const EXT_HOOK_NAMES = ["literal", "binary", "member", "call"];
+
+export function registerCodegenExtension(name, handlers) {
+  if (typeof name !== "string" || !name) fail("extension name must be a non-empty string");
+  if (!handlers || typeof handlers !== "object") fail(`extension '${name}': handlers must be an object`);
+  for (const k of Object.keys(handlers)) {
+    if (!EXT_HOOK_NAMES.includes(k)) fail(`extension '${name}': unknown hook '${k}' (want ${EXT_HOOK_NAMES.join("|")})`);
+    if (typeof handlers[k] !== "function") fail(`extension '${name}': hook '${k}' must be a function`);
+  }
+  const i = codegenExtensions.findIndex(e => e.name === name);
+  if (i >= 0) codegenExtensions[i] = { name, handlers };
+  else codegenExtensions.push({ name, handlers });
+  return name;
+}
+
+export function unregisterCodegenExtension(name) {
+  const i = codegenExtensions.findIndex(e => e.name === name);
+  if (i >= 0) codegenExtensions.splice(i, 1);
+  return i >= 0;
+}
+
+export function listCodegenExtensions() {
+  return codegenExtensions.map(e => e.name);
+}
+
+// Exit code the native binary uses to signal a tiering bailout: the operation
+// hit a case the integer core cannot represent exactly (overflow, inexact
+// division, uncompiled call, ...). The host re-runs the call interpreted.
+export const MERKAVA_BAILOUT_EXIT = 42;
+// Double-safe-integer bound: |result| > this needs a bailout, because int64
+// and IEEE-754 semantics can diverge there even without x86 overflow.
+export const MERKAVA_SAFE_INT_MAX = 9007199254740991;
+
 class AsmGen {
   constructor() {
     this.lines = [];
@@ -48,6 +113,118 @@ class AsmGen {
     this.locals = new Map();   // name -> {reg} | {stackOff}
     this.loopStack = [];       // {breakLbl, contLbl}
     this.stackReserve = 0;
+    // Stream 7: tiering flags (off by default — the integer core's default
+    // codegen is byte-identical with them off).
+    this.checkedArithmetic = false; // overflow/safe-range/div bailout traps
+    this.nativeDepthGuard = false;  // native call-depth guard (tiering)
+    this.entryNargs = 0;            // argv-mode arg count (tiering)
+    this.extData = [];              // extension .data chunks
+    this.extCode = [];              // extension .code chunks
+    this.extSeen = new Set();       // dedup keys for the above
+  }
+
+  // Stream 7: run extension handlers for a dispatch hook. The first handler
+  // returning strict true wins (result in RAX); anything else falls through
+  // to the integer core.
+  extensionHook(hook, node) {
+    if (!codegenExtensions.length) return false;
+    for (const ext of codegenExtensions) {
+      const fn = ext.handlers[hook];
+      if (typeof fn !== "function") continue;
+      let handled = false;
+      try { handled = fn(this, node) === true; }
+      catch (e) { throw new Error(`jsAsm: extension '${ext.name}' hook '${hook}' failed: ${e && e.message}`); }
+      if (handled) return true;
+    }
+    return false;
+  }
+
+  // Stream 7: extension-contributed top-level asm, emitted once per name.
+  extensionData(name, text) {
+    if (this.extSeen.has("data:" + name)) return;
+    this.extSeen.add("data:" + name);
+    this.extData.push(text);
+  }
+  extensionCode(name, text) {
+    if (this.extSeen.has("code:" + name)) return;
+    this.extSeen.add("code:" + name);
+    this.extCode.push(text);
+  }
+  extensionSections() {
+    if (!this.extData.length && !this.extCode.length) return "";
+    const L = [];
+    for (const chunk of this.extData) { L.push(".data", chunk); }
+    L.push(".code");
+    for (const chunk of this.extCode) L.push(chunk);
+    L.push(".code");
+    return L.join("\n");
+  }
+
+  // Stream 7: checked-arithmetic guards. The tiering maintains the invariant
+  // that every value in a register is a safe integer (|v| <= 2^53-1):
+  // arguments are marshal-checked, literals are analysis-checked, and every
+  // op below traps unless its result is safe. Under that invariant ADD/SUB
+  // can never wrap int64 (|a+b| <= 2^54-2 < 2^63), so the safe-range check
+  // alone is exact — no overflow flag needed (the assembler has no JO).
+  // A trap means "the interpreter computes this in doubles"; the host
+  // re-runs the whole call interpreted (exit 42). R11 is the scratch.
+  checkedIntResult() { this.checkedIntResultReg("RAX"); }
+  checkedIntResultReg(reg) {
+    if (!this.checkedArithmetic) return;
+    this.emit(`MOV R11, ${MERKAVA_SAFE_INT_MAX}`);
+    this.emit(`CMP ${reg}, R11`);
+    this.emit(`JG $jsa_bailout_trap`);
+    this.emit(`NEG R11`);
+    this.emit(`CMP ${reg}, R11`);
+    this.emit(`JL $jsa_bailout_trap`);
+  }
+  // Stream 7: checked multiply. RAX=a, R10=b (safe ints). The 64-bit product
+  // can wrap, so it is verified by division: writing p = a*b - k*2^64, if
+  // k != 0 then p/a != b or p%a != 0 (since |k*2^64/a| >= 2^11 > 0 and a
+  // divides k*2^64 only when the quotient differs). a==0 is exact directly.
+  // The IDIV is fault-free: |p| < 2^63, 1 <= |a| <= 2^53. Result in RAX.
+  checkedMul() {
+    const done = this.lbl("muldone");
+    this.emit(`PUSH R10`);              // save b
+    this.emit(`PUSH RAX`);              // save a
+    this.emit(`IMUL RAX, R10`);         // RAX = p (maybe wrapped)
+    this.emit(`MOV R11, RAX`);          // R11 = p
+    this.emit(`POP RAX`);               // RAX = a
+    this.emit(`CMP RAX, 0`);
+    this.emit(`JE ${done}`);            // a==0: p==0 exact, RAX already 0
+    this.emit(`MOV R10, R11`);          // R10 = p
+    this.emit(`MOV R11, RAX`);          // R11 = a (divisor)
+    this.emit(`MOV RAX, R10`);          // RAX = p (dividend)
+    this.emit(`CQO`);
+    this.emit(`IDIV R11`);              // RAX = p/a, RDX = rem
+    this.emit(`CMP RDX, 0`);
+    this.emit(`JNE $jsa_bailout_trap`);
+    this.emit(`CMP RAX, QWORD PTR [RSP]`); // quotient == b?
+    this.emit(`JNE $jsa_bailout_trap`);
+    this.emit(`MOV RAX, R10`);          // RAX = p
+    this.emit(`${done}:`);
+    this.emit(`POP R11`);               // discard saved b
+  }
+  // Stream 7: checked division guards. R10 = divisor, RAX = dividend.
+  // Traps on division by zero (JS: ±Infinity/NaN) and INT64_MIN / -1 (x86
+  // fault; JS: 2^63). Callers add the inexact-division check (RDX != 0).
+  emitDivGuards() {
+    if (!this.checkedArithmetic) return;
+    const ok = this.lbl("divok");
+    this.emit(`CMP R10, 0`);
+    this.emit(`JZ $jsa_bailout_trap`);
+    this.emit(`CMP R10, -1`);
+    this.emit(`JNE ${ok}`);
+    this.emit(`MOV R11, -9223372036854775808`);
+    this.emit(`CMP RAX, R11`);
+    this.emit(`JE $jsa_bailout_trap`);
+    this.emit(`${ok}:`);
+  }
+  // Stream 7: ToInt32 mask of RAX (resp. reg): SHL 32 then SAR 32 sign-extends
+  // the low 32 bits, exactly JS ToInt32 for safe-integer inputs.
+  toInt32RAX() {
+    this.emit(`SHL RAX, 32`);
+    this.emit(`SAR RAX, 32`);
   }
 
   emit(s) { this.lines.push(s); }
@@ -96,8 +273,26 @@ class AsmGen {
     this.emit(`MOV RAX, 60`);
     this.emit(`SYSCALL`);
     for (const stmt of fns) this.functionDecl(stmt);
-    this.emit(driverFns());
-    this.emit(mainFn(effEntry, this.functions));
+    // Stream 7: the argv parser helper is emitted only when the entry actually
+    // takes runtime argv (tiering); default output is unchanged.
+    this.emit(driverFns(!!(effEntry && effEntry.args === "argv")));
+    // Stream 7: tiering support. The bailout trampoline exits(42); the host
+    // treats that as "re-run this call in the interpreter". Emitted whenever
+    // any trap can reference it (checked arithmetic or the depth guard).
+    if (this.checkedArithmetic || this.nativeDepthGuard) {
+      this.emit(`$jsa_bailout_trap:`);
+      this.emit(`MOV RAX, 60`);
+      this.emit(`MOV RDI, ${MERKAVA_BAILOUT_EXIT}`);
+      this.emit(`SYSCALL`);
+    }
+    if (this.nativeDepthGuard) {
+      this.emit(`.data`);
+      this.emit(`__tier_depth: 0, 0, 0, 0, 0, 0, 0, 0`);
+      this.emit(`.code`);
+    }
+    const extSections = this.extensionSections();
+    if (extSections) this.emit(extSections);
+    this.emit(mainFn(effEntry, this.functions, { nargs: this.entryNargs }));
     return this.lines.join("\n");
   }
 
@@ -172,6 +367,18 @@ class AsmGen {
     this.emit(`${name}:`);
     this.emit(`PUSH RBP`);
     this.emit(`MOV RBP, RSP`);
+    // Stream 7: native call-depth guard (tiering). The interpreter limits
+    // expression nesting, not call depth; unbounded native recursion would
+    // segfault the child instead of throwing. Guard at 1000 nested native
+    // calls: deeper bails to the interpreter, which enforces its own limit —
+    // observable behavior stays identical, legitimate recursion unaffected.
+    if (this.nativeDepthGuard) {
+      this.emit(`MOV R11, QWORD PTR [__tier_depth]`);
+      this.emit(`INC R11`);
+      this.emit(`CMP R11, 1000`);
+      this.emit(`JG $jsa_bailout_trap`);
+      this.emit(`MOV QWORD PTR [__tier_depth], R11`);
+    }
     const usedPinned = PINNED.slice(0, regIdx);
     for (const r of usedPinned) this.emit(`PUSH ${r}`);
     if (stackBytes) this.emit(`SUB RSP, ${stackBytes}`);
@@ -185,6 +392,11 @@ class AsmGen {
     this.pinnedCount = usedPinned.length;
     this.emitBlock(node.body);
     this.emit(`${epilogue}:`);
+    if (this.nativeDepthGuard) {
+      this.emit(`MOV R11, QWORD PTR [__tier_depth]`);
+      this.emit(`DEC R11`);
+      this.emit(`MOV QWORD PTR [__tier_depth], R11`);
+    }
     if (stackBytes) this.emit(`ADD RSP, ${stackBytes}`);
     for (let i = usedPinned.length - 1; i >= 0; i--) this.emit(`POP ${usedPinned[i]}`);
     this.emit(`MOV RSP, RBP`);
@@ -408,10 +620,14 @@ class AsmGen {
         (node.operator === "++" || node.operator === "--")) {
       const desc = this.lvalue(node.argument);
       const ins = node.operator === "++" ? "INC" : "DEC";
-      if (desc.kind === "local" && desc.loc.reg) this.emit(`${ins} ${desc.loc.reg}`);
+      if (desc.kind === "local" && desc.loc.reg) {
+        this.emit(`${ins} ${desc.loc.reg}`);
+        this.checkedIntResultReg(desc.loc.reg); // stream 7: no-op unless checked
+      }
       else {
         this.loadDesc(desc, node.argument);
         this.emit(`${ins} RAX`);
+        this.checkedIntResult(); // stream 7: no-op unless checked
         this.storeDesc(desc);
       }
       return;
@@ -442,6 +658,9 @@ class AsmGen {
   expr(node) {
     switch (node.type) {
       case "Literal": {
+        // Stream 7: extension dispatch (e.g. string literals). Falls through
+        // to the integer core when no extension claims the node.
+        if (this.extensionHook("literal", node)) return;
         if (typeof node.value !== "number" || !Number.isInteger(node.value))
           fail(`only integer literals, got ${JSON.stringify(node.value)}`, node);
         const bi = BigInt(node.value);
@@ -453,6 +672,8 @@ class AsmGen {
         this.loadLoc(this.locOf(node.name, node));
         return;
       case "MemberExpression": {
+        // Stream 7: extension dispatch (e.g. heap-object property access).
+        if (this.extensionHook("member", node)) return;
         // obj.field load (non-computed, fixed shape).
         if (node.computed || node.object.type !== "Identifier" || node.property.type !== "Identifier")
           fail("only obj.field access supported", node);
@@ -484,15 +705,18 @@ class AsmGen {
           const r = desc.loc.reg;
           if (node.prefix) {
             this.emit(`${ins} ${r}`);
+            this.checkedIntResultReg(r); // stream 7: no-op unless checked
             if (r !== "RAX") this.emit(`MOV RAX, ${r}`);
           } else {
             if (r !== "RAX") this.emit(`MOV RAX, ${r}`);
             this.emit(`${ins} ${r}`);
+            this.checkedIntResultReg(r); // stream 7: no-op unless checked
           }
         } else {
           this.loadDesc(desc, node.argument);
           if (!node.prefix) this.emit(`PUSH RAX`); // save old value
           this.emit(delta === 1 ? `INC RAX` : `DEC RAX`);
+          this.checkedIntResult(); // stream 7: no-op unless checked
           this.storeDesc(desc);
           if (!node.prefix) this.emit(`POP RAX`);  // old value
         }
@@ -500,7 +724,14 @@ class AsmGen {
       }
       case "UnaryExpression": {
         const op = node.operator;
-        if (op === "-") { this.expr(node.argument); this.emit(`NEG RAX`); return; }
+        if (op === "-") {
+          this.expr(node.argument);
+          this.emit(`NEG RAX`);
+          // Stream 7: no checked trap needed — negating a safe integer is
+          // always a safe integer (INT64_MIN is unreachable under the
+          // safe-int invariant).
+          return;
+        }
         if (op === "+") { this.expr(node.argument); return; }
         if (op === "~") { this.expr(node.argument); this.emit(`NOT RAX`); return; }
         if (op === "!") {
@@ -513,6 +744,8 @@ class AsmGen {
         fail(`unary ${op} not supported`, node);
       }
       case "CallExpression": {
+        // Stream 7: extension dispatch (e.g. runtime-helper calls).
+        if (this.extensionHook("call", node)) return;
         if (node.callee.type !== "Identifier") fail("only direct calls", node);
         const nm = node.callee.name;
         if (!this.functions.has(nm)) fail(`call to undeclared '${nm}'`, node);
@@ -600,16 +833,35 @@ class AsmGen {
   }
 
   // RAX = left, R10 = right on entry; result in RAX.
+  // Stream 7: in checked mode, integer ops trap on overflow/unsafe results,
+  // division traps on zero / INT64_MIN/-1 / inexact, and bitwise ops apply
+  // JS ToInt32 semantics to both operands first.
   arithOp(op, node) {
+    const ck = this.checkedArithmetic;
+    const ckBit = ck && (op === "&" || op === "|" || op === "^");
     switch (op) {
-      case "+": this.emit(`ADD RAX, R10`); return;
-      case "-": this.emit(`SUB RAX, R10`); return;
-      case "*": this.emit(`IMUL RAX, R10`); return;
-      case "/": this.emit(`CQO`); this.emit(`IDIV R10`); return;
-      case "%": this.emit(`CQO`); this.emit(`IDIV R10`); this.emit(`MOV RAX, RDX`); return;
-      case "&": this.emit(`AND RAX, R10`); return;
-      case "|": this.emit(`OR RAX, R10`); return;
-      case "^": this.emit(`XOR RAX, R10`); return;
+      case "+": this.emit(`ADD RAX, R10`); this.checkedIntResult(); return;
+      case "-": this.emit(`SUB RAX, R10`); this.checkedIntResult(); return;
+      case "*":
+        if (ck) { this.checkedMul(); this.checkedIntResult(); }
+        else this.emit(`IMUL RAX, R10`);
+        return;
+      case "/":
+        this.emitDivGuards();          // R10 = divisor; traps on 0, INT64_MIN/-1
+        this.emit(`CQO`); this.emit(`IDIV R10`);
+        if (ck) { this.emit(`CMP RDX, 0`); this.emit(`JNE $jsa_bailout_trap`); } // inexact
+        return;
+      case "%":
+        this.emitDivGuards();
+        this.emit(`CQO`); this.emit(`IDIV R10`); this.emit(`MOV RAX, RDX`); return;
+      case "&": case "|": case "^": {
+        if (ckBit) {
+          this.emit(`SHL RAX, 32`); this.emit(`SAR RAX, 32`); // ToInt32 both
+          this.emit(`SHL R10, 32`); this.emit(`SAR R10, 32`);
+        }
+        this.emit(`${{ "&": "AND", "|": "OR", "^": "XOR" }[op]} RAX, R10`);
+        return;
+      }
       case "<<": case ">>": case ">>>":
         fail(`variable ${op} not supported in v1 (use constant shift)`, node);
       default: fail(`arith op ${op}`, node);
@@ -638,25 +890,48 @@ class AsmGen {
         this.expr(rhsNode);               // RAX = b
         this.emit(`MOV R10, RAX`);
         this.emit(`MOV RAX, ${loc.reg}`);
+        this.emitDivGuards();             // stream 7: traps on 0, INT64_MIN/-1
         this.emit(`CQO`);
         this.emit(`IDIV R10`);
-        if (aop === "%") this.emit(`MOV RAX, RDX`);
+        if (aop === "/" && this.checkedArithmetic) { this.emit(`CMP RDX, 0`); this.emit(`JNE $jsa_bailout_trap`); } // inexact
+        else if (aop === "%") this.emit(`MOV RAX, RDX`);
         this.emit(`MOV ${loc.reg}, RAX`);
         return;
       }
       if ((aop === "<<" || aop === ">>" || aop === ">>>") &&
           rhsNode.type === "Literal" && Number.isInteger(rhsNode.value)) {
-        const n = ((rhsNode.value % 64) + 64) % 64;
-        if (aop === "<<") this.emit(`SHL ${loc.reg}, ${n}`);
+        // Stream 7: checked mode = JS shift-count (mod 32) + ToInt32 operand.
+        const ck = this.checkedArithmetic;
+        const n = ck ? ((rhsNode.value % 32) + 32) % 32 : ((rhsNode.value % 64) + 64) % 64;
+        if (ck) { this.emit(`SHL ${loc.reg}, 32`); this.emit(`SAR ${loc.reg}, 32`); }
+        if (aop === "<<") {
+          this.emit(`SHL ${loc.reg}, ${n}`);
+          if (ck) { this.emit(`SHL ${loc.reg}, 32`); this.emit(`SAR ${loc.reg}, 32`); }
+        }
         else if (aop === ">>") this.emit(`SAR ${loc.reg}, ${n}`);
         else { this.emit(`AND ${loc.reg}, 4294967295`); this.emit(`SAR ${loc.reg}, ${n}`); }
         if (wantValue) this.emit(`MOV RAX, ${loc.reg}`);
         return;
       }
       if (["+", "-", "*", "&", "|", "^"].includes(aop)) {
+        const ck = this.checkedArithmetic;
+        const ckBit = ck && (aop === "&" || aop === "|" || aop === "^");
         this.expr(rhsNode);               // RAX = b
-        const mop = { "+": "ADD", "-": "SUB", "*": "IMUL", "&": "AND", "|": "OR", "^": "XOR" }[aop];
-        this.emit(`${mop} ${loc.reg}, RAX`);
+        if (ckBit) {
+          this.emit(`SHL ${loc.reg}, 32`); this.emit(`SAR ${loc.reg}, 32`); // ToInt32 both
+          this.emit(`SHL RAX, 32`); this.emit(`SAR RAX, 32`);
+        }
+        if (ck && aop === "*") {
+          this.emit(`MOV R10, RAX`);        // R10 = b
+          this.emit(`MOV RAX, ${loc.reg}`); // RAX = a
+          this.checkedMul();
+          this.checkedIntResult();
+          this.emit(`MOV ${loc.reg}, RAX`);
+        } else {
+          const mop = { "+": "ADD", "-": "SUB", "*": "IMUL", "&": "AND", "|": "OR", "^": "XOR" }[aop];
+          this.emit(`${mop} ${loc.reg}, RAX`);
+          if (ck && (aop === "+" || aop === "-")) this.checkedIntResultReg(loc.reg);
+        }
         if (wantValue) this.emit(`MOV RAX, ${loc.reg}`);
         return;
       }
@@ -674,6 +949,9 @@ class AsmGen {
 
   binary(node) {
     const op = node.operator;
+    // Stream 7: extension dispatch (e.g. string '+' concatenation). Falls
+    // through to the integer core when no extension claims the node.
+    if (this.extensionHook("binary", node)) return;
     if (CMP_OPS[op]) {
       // Boolean materialization: (a < b) -> 0/1.
       const info = CMP_OPS[op];
@@ -712,9 +990,17 @@ class AsmGen {
     // Constant shifts.
     if ((op === "<<" || op === ">>" || op === ">>>") &&
         node.right.type === "Literal" && Number.isInteger(node.right.value)) {
-      const n = ((node.right.value % 64) + 64) % 64;
+      // Stream 7: checked mode uses JS shift-count semantics (mod 32) and
+      // ToInt32 operands; unchecked keeps the v1 64-bit behavior.
+      const ck = this.checkedArithmetic;
+      const n = ck ? ((node.right.value % 32) + 32) % 32
+                   : ((node.right.value % 64) + 64) % 64;
       this.expr(node.left);
-      if (op === "<<") this.emit(`SHL RAX, ${n}`);
+      if (ck) this.toInt32RAX();
+      if (op === "<<") {
+        this.emit(`SHL RAX, ${n}`);
+        if (ck) { this.emit(`SHL RAX, 32`); this.emit(`SAR RAX, 32`); } // wrap to 32 bits
+      }
       else if (op === ">>") this.emit(`SAR RAX, ${n}`);
       else { this.emit(`AND RAX, 4294967295`); this.emit(`SAR RAX, ${n}`); }
       return;
@@ -723,7 +1009,10 @@ class AsmGen {
     const l = this.simpleOperand(node.left), r = this.simpleOperand(node.right);
     const immOk = (o) => !o.isImm || o.immFits32;
     // LEA peephole: (reg*C)+K -> single LEA (1cy vs IMUL+ADD). C in {3,5,9}.
-    if (op === "+" || (op === "-" && node.left.type === "BinaryExpression" && node.left.operator === "*")) {
+    // Stream 7: skipped in checked mode (LEA sets no overflow flags; the
+    // general path below carries the bailout guards instead).
+    if (!this.checkedArithmetic &&
+        (op === "+" || (op === "-" && node.left.type === "BinaryExpression" && node.left.operator === "*"))) {
       const mulNode = op === "+" ?
         (node.left.type === "BinaryExpression" && node.left.operator === "*" ? node.left :
          node.right.type === "BinaryExpression" && node.right.operator === "*" ? node.right : null) :
@@ -758,15 +1047,22 @@ class AsmGen {
       }
     }
     // Fast: right is reg/imm32 -> compile left, op in place.
-    if (r && immOk(r) && MOP[op]) {
+    // Stream 7: checked bitwise ops (& | ^) need ToInt32 on both operands, and
+    // checked multiply needs the verify-by-division sequence, so they skip
+    // these fast paths and use the general path below.
+    const ckBit = this.checkedArithmetic && (op === "&" || op === "|" || op === "^");
+    const ckMul = this.checkedArithmetic && op === "*";
+    if (r && immOk(r) && MOP[op] && !ckBit && !ckMul) {
       this.expr(node.left);           // RAX (calls safe: R10/R11 unused here)
       this.emit(`${MOP[op]} RAX, ${r.text}`);
+      if (this.checkedArithmetic) this.checkedIntResult(); // + - only here
       return;
     }
     // Fast: commutative, left simple, right complex -> compile right, op in place.
-    if (l && immOk(l) && ["+", "*", "&", "|", "^"].includes(op)) {
+    if (l && immOk(l) && ["+", "*", "&", "|", "^"].includes(op) && !ckBit && !ckMul) {
       this.expr(node.right);
       this.emit(`${MOP[op]} RAX, ${l.text}`);
+      if (this.checkedArithmetic) this.checkedIntResult(); // + only here
       return;
     }
     // Fast: simple reg left for - / / %.
@@ -774,8 +1070,13 @@ class AsmGen {
       this.expr(node.right);          // RAX = b
       this.emit(`MOV R10, RAX`);
       this.emit(`MOV RAX, ${l.text}`); // RAX = a
-      if (op === "-") this.emit(`SUB RAX, R10`);
-      else { this.emit(`CQO`); this.emit(`IDIV R10`); if (op === "%") this.emit(`MOV RAX, RDX`); }
+      if (op === "-") { this.emit(`SUB RAX, R10`); this.checkedIntResult(); }
+      else {
+        this.emitDivGuards();          // traps on 0 and INT64_MIN/-1 (checked only)
+        this.emit(`CQO`); this.emit(`IDIV R10`);
+        if (op === "/" && this.checkedArithmetic) { this.emit(`CMP RDX, 0`); this.emit(`JNE $jsa_bailout_trap`); } // inexact
+        else if (op === "%") this.emit(`MOV RAX, RDX`);
+      }
       return;
     }
     // General: left -> RAX, push, right -> RAX, R10 = right, pop left.
@@ -801,8 +1102,9 @@ function frameOff(stackOff, pinnedCount) {
 }
 
 // B"H: print helpers (unsigned recursion) + signed entry, all in asm.
-function driverFns() {
-  return [
+// includeParseArg: also emit __merkava_parse_arg (tiering argv mode).
+function driverFns(includeParseArg) {
+  const out = [
     `awts_putchar:`,          // RDI = byte
     `PUSH RBP`, `MOV RBP, RSP`,
     `PUSH R12`,
@@ -858,11 +1160,43 @@ function driverFns() {
     `$pp_done:`,
     `POP R12`, `POP RBX`,
     `MOV RSP, RBP`, `POP RBP`, `RET`,
-  ].join("\n");
+  ];
+  // B"H stream 7: argv decimal parser for tiering. RDI = NUL-terminated
+  // ASCII ("-123") -> RAX = signed int64. The host only passes safe-integer
+  // argv, so no overflow guard is needed here. Emitted only in argv mode so
+  // default compilations are byte-identical to before.
+  if (includeParseArg) out.push(
+    ``,
+    `__merkava_parse_arg:`,
+    `XOR RAX, RAX`,
+    `XOR R10, R10`,              // sign flag
+    `MOVZX R11, BYTE PTR [RDI]`,
+    `CMP R11, 45`,              // '-'
+    `JNE $pap_digits`,
+    `MOV R10, 1`,
+    `INC RDI`,
+    `$pap_digits:`,
+    `MOVZX R11, BYTE PTR [RDI]`,
+    `TEST R11, R11`,
+    `JZ $pap_done`,
+    `SUB R11, 48`,
+    `IMUL RAX, RAX, 10`,
+    `ADD RAX, R11`,
+    `INC RDI`,
+    `JMP $pap_digits`,
+    `$pap_done:`,
+    `TEST R10, R10`,
+    `JZ $pap_ret`,
+    `NEG RAX`,
+    `$pap_ret:`,
+    `RET`,
+  );
+  return out.join("\n");
 }
 
-// entry = {name, args: [ints], repeat?: n}
-function mainFn(entry, functions) {
+// entry = {name, args: [ints]} | {name, args: "argv"} (tiering: runtime argv)
+// opts = {nargs} for argv mode.
+function mainFn(entry, functions, opts) {
   if (!functions.has(entry.name)) throw new Error(`jsAsm: entry '${entry.name}' not declared`);
   const repeat = Math.max(1, entry.repeat | 0 || 1);
   const L = [
@@ -871,9 +1205,26 @@ function mainFn(entry, functions) {
     `PUSH RBX`, `PUSH R12`,
   ];
   if (repeat > 1) L.push(`MOV R12, ${repeat}`, `$repeat:`);
-  entry.args.forEach((a, i) => {
-    L.push(`MOV ${ARG_REGS[i]}, ${a}`);
-  });
+  if (entry.args === "argv") {
+    // B"H stream 7: tiering passes arguments on the process command line.
+    // At process entry RSP -> argc; `start: CALL main` pushes the return
+    // address, then the prologue pushes RBP/RBX/R12, so at this point
+    // RBP+16 -> argc, RBP+24 -> argv[0], and argv[i+1] is at [RBP+32+8i].
+    // Results are stacked first because RDI is both the parse input and
+    // arg0's register.
+    const nargs = (opts && opts.nargs | 0) || 0;
+    if (nargs > 6) throw new Error("jsAsm: max 6 entry args");
+    for (let i = 0; i < nargs; i++) {
+      L.push(`MOV RDI, QWORD PTR [RBP+${32 + 8 * i}]`);
+      L.push(`CALL __merkava_parse_arg`);
+      L.push(`PUSH RAX`);
+    }
+    for (let i = nargs - 1; i >= 0; i--) L.push(`POP ${ARG_REGS[i]}`);
+  } else {
+    entry.args.forEach((a, i) => {
+      L.push(`MOV ${ARG_REGS[i]}, ${a}`);
+    });
+  }
   L.push(`CALL ${entry.name}`);
   if (repeat > 1) {
     L.push(`DEC R12`, `JNZ $repeat`);
@@ -900,6 +1251,12 @@ export async function transpileJsToAsm(jsSource, entry, opts) {
   const program = new Parser(String(jsSource)).parse();
   const g = new AsmGen();
   if (opts && opts.repeat) g.repeatOverride = opts.repeat;
+  // Stream 7: tiering flags. checkedArithmetic emits bailout traps (exit 42)
+  // wherever int64 and IEEE-754 semantics can diverge; nativeDepthGuard adds
+  // a native call-depth guard; nargs feeds argv-mode entry parsing.
+  if (opts && opts.checkedArithmetic) g.checkedArithmetic = true;
+  if (opts && opts.nativeDepthGuard) g.nativeDepthGuard = true;
+  if (opts && opts.nargs) g.entryNargs = opts.nargs | 0;
   return { asm: g.run(program, entry) };
 }
 
@@ -907,7 +1264,12 @@ export async function transpileJsToAsm(jsSource, entry, opts) {
  * Compile JS straight to a native binary via the direct-asm backend.
  * @param {string} jsSource
  * @param {object|null} entry - {name, args} or null (auto-detect)
- * @param {object} [opts] - {repeat: n} run the entry n times per process (amortizes spawn)
+ * @param {object} [opts] - {repeat: n} run the entry n times per process
+ *   (amortizes spawn); {checkedArithmetic: true} emit bailout traps (exit 42)
+ *   on int64-overflow / unsafe-double-range / div-by-zero / inexact-division;
+ *   {nativeDepthGuard: true} trap past 1000 nested native calls;
+ *   entry.args may be the string "argv" (with opts.nargs) to take arguments
+ *   from the process command line instead of baked-in immediates.
  * @returns {Promise<{path, asm, compileMs}>}
  */
 export async function compileJsToNativeAsm(jsSource, entry, opts) {
