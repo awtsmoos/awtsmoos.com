@@ -60,6 +60,549 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 			background: #0a1120;
 		}
 	</style>
+	<style id="awtsmoos-scribe-lens-panel">
+		/* B"H — Scribe's Lens panel: complete self-contained styles, inline in
+		   template to bypass @import chain fragility. Yaakov's Law 1: NEVER
+		   use !important. Specificity via :root prefix beats base (0,2,0). */
+
+		/* GUARANTEE: panel NEVER visible by default. (0,3,1) beats everything. */
+		:root .post-reader-localized-context .typography-details.hidden-details,
+		:root .post-reader-localized-context #typographyDetails.hidden-details {
+			display: none;
+			visibility: hidden;
+		}
+
+		/* Overlay */
+		:root .post-reader-localized-context .scribe-lens-overlay {
+			position: fixed;
+			inset: 0;
+			z-index: 3050;
+			background: rgb(1 5 13 / 52%);
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 180ms ease;
+		}
+		:root .post-reader-localized-context:has(.typography-details:not(.hidden-details)) .scribe-lens-overlay {
+			opacity: 1;
+			pointer-events: auto;
+		}
+
+		/* Panel shell — fixed bottom sheet */
+		:root .post-reader-localized-context .typography-details {
+			position: fixed;
+			z-index: 3060;
+			inset-inline: max(.75rem, env(safe-area-inset-left, 0px)) max(.75rem, env(safe-area-inset-right, 0px));
+			bottom: max(.75rem, env(safe-area-inset-bottom, 0px));
+			inline-size: min(34rem, calc(100vw - 1.5rem));
+			max-block-size: min(88dvh, 52rem);
+			display: flex;
+			flex-direction: column;
+			border: 1px solid rgb(122 82 31 / 30%);
+			border-radius: 1.65rem;
+			background: linear-gradient(145deg, rgb(255 255 255 / 75%), transparent 48%), rgb(253 251 247 / 96%);
+			box-shadow: 0 2rem 7rem rgb(0 0 0 / 20%), inset 0 1px 0 rgb(255 255 255 / 70%);
+			color: #21160a;
+			overflow: hidden;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .typography-details {
+			border-color: rgb(127 232 255 / 18%);
+			background: linear-gradient(145deg, rgb(255 255 255 / 8%), transparent 48%), rgb(5 13 27 / 92%);
+			box-shadow: 0 2rem 7rem rgb(0 0 0 / 54%), inset 0 1px 0 rgb(255 255 255 / 8%);
+			color: #f8fbff;
+		}
+
+		/* Panel content scroll area */
+		:root .post-reader-localized-context .typography-content {
+			display: grid;
+			gap: .85rem;
+			padding: 1rem;
+			overflow-y: auto;
+			overscroll-behavior: contain;
+		}
+
+		/* Settings groups */
+		:root .post-reader-localized-context .settings-group {
+			display: grid;
+			gap: .7rem;
+			min-inline-size: 0;
+			padding: .9rem;
+			border: 1px solid rgb(122 82 31 / 22%);
+			border-radius: 1.05rem;
+			background: linear-gradient(145deg, rgb(255 255 255 / 65%), rgb(253 251 247 / 40%));
+			box-shadow: inset 0 1px 0 rgb(255 255 255 / 60%);
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .settings-group {
+			border-color: rgb(255 255 255 / 8%);
+			background: linear-gradient(145deg, rgb(255 255 255 / 5%), rgb(127 232 255 / 2%));
+			box-shadow: inset 0 1px 0 rgb(255 255 255 / 4%);
+		}
+		:root .post-reader-localized-context .settings-group .settings-group {
+			padding: 0;
+			border: 0;
+			border-radius: 0;
+			background: transparent;
+			box-shadow: none;
+		}
+
+		/* Labels */
+		:root .post-reader-localized-context .control-label {
+			color: #8a6d1a;
+			font-size: .78rem;
+			font-weight: 800;
+			letter-spacing: .12em;
+			text-transform: uppercase;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .control-label {
+			color: #f6cc72;
+		}
+		:root .post-reader-localized-context .setting-name {
+			color: #21160a;
+			font-size: .98rem;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .setting-name {
+			color: #f8fbff;
+		}
+
+		/* Focus mode row */
+		:root .post-reader-localized-context .focus-mode-control,
+		:root .post-reader-localized-context .theme-controls {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) auto;
+			align-items: center;
+		}
+
+		/* Toggle checkbox */
+		:root .post-reader-localized-context #focusModeToggle {
+			inline-size: 3rem;
+			block-size: 1.75rem;
+			appearance: none;
+			-webkit-appearance: none;
+			border: 2px solid rgb(122 82 31 / 40%);
+			border-radius: 999px;
+			background: rgb(255 255 255 / 80%);
+			cursor: pointer;
+			position: relative;
+			transition: background 180ms ease, border-color 180ms ease;
+			margin: 0;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context #focusModeToggle {
+			border-color: rgb(127 232 255 / 40%);
+			background: rgb(9 19 35 / 80%);
+		}
+		:root .post-reader-localized-context #focusModeToggle::after {
+			content: "";
+			position: absolute;
+			top: 2px;
+			inset-inline-start: 2px;
+			inline-size: 1.15rem;
+			block-size: 1.15rem;
+			border-radius: 50%;
+			background: #8a6d1a;
+			transition: transform 180ms ease, background 180ms ease;
+		}
+		:root .post-reader-localized-context #focusModeToggle:checked {
+			background: #8a6d1a;
+			border-color: #8a6d1a;
+		}
+		:root .post-reader-localized-context #focusModeToggle:checked::after {
+			transform: translateX(1.15rem);
+			background: #fffdf6;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context #focusModeToggle:checked {
+			background: #7fe8ff;
+			border-color: #7fe8ff;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context #focusModeToggle:checked::after {
+			background: #0a1120;
+		}
+		:root .post-reader-localized-context #focusModeToggle:hover {
+			border-color: #8a6d1a;
+		}
+		:root .post-reader-localized-context #focusModeToggle:focus-visible {
+			outline: 2px solid #8a6d1a;
+			outline-offset: 2px;
+		}
+		:root .post-reader-localized-context #focusModeToggle:disabled {
+			opacity: .45;
+			cursor: not-allowed;
+		}
+
+		/* Text scale controls */
+		:root .post-reader-localized-context .text-controls {
+			display: grid;
+			grid-template-columns: 4rem minmax(0, 1fr) 4rem;
+			gap: .65rem;
+			align-items: center;
+		}
+		:root .post-reader-localized-context .font-adjust-btn {
+			min-block-size: 44px;
+			border: 1px solid rgb(122 82 31 / 30%);
+			border-radius: .9rem;
+			background: linear-gradient(145deg, rgb(255 255 255 / 80%), rgb(253 251 247 / 60%));
+			color: #21160a;
+			font: 800 1.2rem/1 system-ui;
+			cursor: pointer;
+			display: inline-grid;
+			place-items: center;
+			transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .font-adjust-btn {
+			border-color: rgb(127 232 255 / 18%);
+			background: linear-gradient(145deg, rgb(255 255 255 / 7%), rgb(6 17 34 / 82%));
+			color: #f8fbff;
+		}
+		:root .post-reader-localized-context .font-adjust-btn:hover {
+			border-color: #8a6d1a;
+			transform: translateY(-1px);
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .font-adjust-btn:hover {
+			border-color: #7fe8ff;
+		}
+		:root .post-reader-localized-context .font-adjust-btn:focus-visible {
+			outline: 2px solid #8a6d1a;
+			outline-offset: 2px;
+		}
+		:root .post-reader-localized-context .font-adjust-btn:active {
+			transform: scale(.96);
+		}
+		:root .post-reader-localized-context .font-adjust-btn:disabled {
+			opacity: .45;
+			cursor: not-allowed;
+			transform: none;
+		}
+		:root .post-reader-localized-context .font-size-display {
+			display: grid;
+			place-items: center;
+			min-block-size: 3.5rem;
+			border: 1px solid rgb(122 82 31 / 25%);
+			border-radius: 1rem;
+			background: rgb(255 255 255 / 75%);
+			color: #21160a;
+			font-size: 1.15rem;
+			font-weight: 900;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .font-size-display {
+			border-color: rgb(127 232 255 / 16%);
+			background: rgb(9 19 35 / 62%);
+			color: #f8fbff;
+		}
+
+		/* Auto-scroll */
+		:root .post-reader-localized-context .auto-scroll-heading {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: .75rem;
+		}
+		:root .post-reader-localized-context #autoScrollStatus {
+			color: #6d5a43;
+			font-size: .85rem;
+			font-weight: 700;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context #autoScrollStatus {
+			color: #9fb3ca;
+		}
+		:root .post-reader-localized-context .auto-scroll-settings-toggle {
+			display: inline-flex;
+			align-items: center;
+			gap: .5rem;
+			min-block-size: 44px;
+			padding: .65rem 1rem;
+			border: 1px solid rgb(122 82 31 / 30%);
+			border-radius: .9rem;
+			background: linear-gradient(145deg, rgb(255 255 255 / 80%), rgb(253 251 247 / 60%));
+			color: #21160a;
+			font: 800 .9rem/1 system-ui;
+			cursor: pointer;
+			transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .auto-scroll-settings-toggle {
+			border-color: rgb(127 232 255 / 18%);
+			background: linear-gradient(145deg, rgb(255 255 255 / 7%), rgb(6 17 34 / 82%));
+			color: #f8fbff;
+		}
+		:root .post-reader-localized-context .auto-scroll-settings-toggle:hover {
+			border-color: #8a6d1a;
+			transform: translateY(-1px);
+		}
+		:root .post-reader-localized-context .auto-scroll-settings-toggle:focus-visible {
+			outline: 2px solid #8a6d1a;
+			outline-offset: 2px;
+		}
+		:root .post-reader-localized-context .auto-scroll-settings-toggle:active {
+			transform: scale(.98);
+		}
+		:root .post-reader-localized-context .auto-scroll-settings-toggle[aria-pressed="true"] {
+			background: #8a6d1a;
+			border-color: #8a6d1a;
+			color: #fffdf6;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .auto-scroll-settings-toggle[aria-pressed="true"] {
+			background: #7fe8ff;
+			border-color: #7fe8ff;
+			color: #0a1120;
+		}
+		:root .post-reader-localized-context .auto-scroll-settings-toggle:disabled {
+			opacity: .45;
+			cursor: not-allowed;
+			transform: none;
+		}
+		:root .post-reader-localized-context .speed-control-row {
+			display: grid;
+			grid-template-columns: auto minmax(0, 1fr) auto;
+			gap: .65rem;
+			align-items: center;
+		}
+		:root .post-reader-localized-context .speed-word {
+			color: #6d5a43;
+			font-size: .85rem;
+			font-weight: 700;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .speed-word {
+			color: #9fb3ca;
+		}
+		:root .post-reader-localized-context #autoScrollSpeedRange {
+			inline-size: 100%;
+			accent-color: #8a6d1a;
+			cursor: pointer;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context #autoScrollSpeedRange {
+			accent-color: #7fe8ff;
+		}
+		:root .post-reader-localized-context #autoScrollSpeedRange:focus-visible {
+			outline: 2px solid #8a6d1a;
+			outline-offset: 2px;
+		}
+		:root .post-reader-localized-context #autoScrollSpeedRange:disabled {
+			opacity: .45;
+			cursor: not-allowed;
+		}
+		:root .post-reader-localized-context .speed-readout-row {
+			display: flex;
+			justify-content: space-between;
+			gap: .75rem;
+			color: #6d5a43;
+			font-size: .85rem;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .speed-readout-row {
+			color: #9fb3ca;
+		}
+		:root .post-reader-localized-context #autoScrollSpeedDisplay {
+			font-weight: 700;
+			color: #21160a;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context #autoScrollSpeedDisplay {
+			color: #f8fbff;
+		}
+		:root .post-reader-localized-context .auto-scroll-help {
+			color: #6d5a43;
+			font-size: .8rem;
+			line-height: 1.5;
+			margin: 0;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .auto-scroll-help {
+			color: #9fb3ca;
+		}
+
+		/* Selects (Font Alchemist, Theme Engine) */
+		:root .post-reader-localized-context #fontSelector,
+		:root .post-reader-localized-context #themeSelector {
+			inline-size: 100%;
+			min-block-size: 44px;
+			padding-inline: .8rem;
+			border: 1px solid rgb(122 82 31 / 30%);
+			border-radius: .9rem;
+			background: linear-gradient(145deg, rgb(255 255 255 / 80%), rgb(253 251 247 / 60%));
+			color: #21160a;
+			font: 700 .95rem/1.4 system-ui;
+			cursor: pointer;
+			transition: border-color 180ms ease;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context #fontSelector,
+		:root[data-theme="dark"] .post-reader-localized-context #themeSelector {
+			border-color: rgb(127 232 255 / 18%);
+			background: linear-gradient(145deg, rgb(255 255 255 / 7%), rgb(6 17 34 / 82%));
+			color: #f8fbff;
+		}
+		:root .post-reader-localized-context #fontSelector:hover,
+		:root .post-reader-localized-context #themeSelector:hover {
+			border-color: #8a6d1a;
+		}
+		:root .post-reader-localized-context #fontSelector:focus-visible,
+		:root .post-reader-localized-context #themeSelector:focus-visible {
+			outline: 2px solid #8a6d1a;
+			outline-offset: 2px;
+		}
+		:root .post-reader-localized-context #fontSelector:disabled,
+		:root .post-reader-localized-context #themeSelector:disabled {
+			opacity: .45;
+			cursor: not-allowed;
+		}
+
+		/* Advanced appearance details */
+		:root .post-reader-localized-context .reader-advanced-settings summary {
+			display: flex;
+			justify-content: space-between;
+			gap: .75rem;
+			cursor: pointer;
+			color: #21160a;
+			font-weight: 700;
+			padding: .5rem 0;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .reader-advanced-settings summary {
+			color: #f8fbff;
+		}
+		:root .post-reader-localized-context .reader-advanced-settings summary small {
+			color: #6d5a43;
+			font-weight: 400;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .reader-advanced-settings summary small {
+			color: #9fb3ca;
+		}
+		:root .post-reader-localized-context .reader-advanced-settings summary:hover {
+			color: #8a6d1a;
+		}
+		:root .post-reader-localized-context .reader-advanced-settings summary:focus-visible {
+			outline: 2px solid #8a6d1a;
+			outline-offset: 2px;
+		}
+		:root .post-reader-localized-context .reader-advanced-settings summary:active {
+			transform: scale(.99);
+		}
+		:root .post-reader-localized-context .color-picker-grid {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: .7rem;
+		}
+		:root .post-reader-localized-context .color-control {
+			display: grid;
+			gap: .4rem;
+		}
+		:root .post-reader-localized-context .color-control label {
+			color: #21160a;
+			font-size: .85rem;
+			font-weight: 700;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .color-control label {
+			color: #f8fbff;
+		}
+		:root .post-reader-localized-context .ink-pot {
+			inline-size: 100%;
+			block-size: 44px;
+			border: 1px solid rgb(122 82 31 / 30%);
+			border-radius: .9rem;
+			background: rgb(255 255 255 / 80%);
+			cursor: pointer;
+			padding: 4px;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .ink-pot {
+			border-color: rgb(127 232 255 / 18%);
+			background: rgb(9 19 35 / 62%);
+		}
+		:root .post-reader-localized-context .ink-pot:hover {
+			border-color: #8a6d1a;
+		}
+		:root .post-reader-localized-context .ink-pot:focus-visible {
+			outline: 2px solid #8a6d1a;
+			outline-offset: 2px;
+		}
+		:root .post-reader-localized-context .ink-pot:disabled {
+			opacity: .45;
+			cursor: not-allowed;
+		}
+
+		/* Reset section */
+		:root .post-reader-localized-context .reset-section {
+			padding: 0 1rem 1rem;
+		}
+		:root .post-reader-localized-context #resetDefaultsBtn {
+			inline-size: 100%;
+			min-block-size: 44px;
+			border: 1px solid #b3541e;
+			border-radius: .9rem;
+			background: transparent;
+			color: #b3541e;
+			font: 800 .9rem/1 system-ui;
+			cursor: pointer;
+			transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+		}
+		:root .post-reader-localized-context #resetDefaultsBtn:hover {
+			background: #b3541e;
+			color: #fffdf6;
+		}
+		:root .post-reader-localized-context #resetDefaultsBtn:focus-visible {
+			outline: 2px solid #b3541e;
+			outline-offset: 2px;
+		}
+		:root .post-reader-localized-context #resetDefaultsBtn:active {
+			transform: scale(.98);
+		}
+		:root .post-reader-localized-context #resetDefaultsBtn:disabled {
+			opacity: .45;
+			cursor: not-allowed;
+			transform: none;
+		}
+
+		/* Floating controls (Aa / Sources buttons) */
+		:root .post-reader-localized-context .awtsmoos-floating-controls {
+			position: fixed;
+			z-index: 3040;
+			inset-inline-end: max(.75rem, env(safe-area-inset-right, 0px));
+			bottom: max(.75rem, env(safe-area-inset-bottom, 0px));
+			display: flex;
+			gap: .5rem;
+		}
+		:root .post-reader-localized-context #typographyBtn,
+		:root .post-reader-localized-context #commentaryBtn {
+			min-block-size: 44px;
+			min-inline-size: 44px;
+			padding: .65rem .9rem;
+			border: 1px solid rgb(122 82 31 / 30%);
+			border-radius: 999px;
+			background: rgb(253 251 247 / 94%);
+			color: #21160a;
+			font: 800 .9rem/1 system-ui;
+			cursor: pointer;
+			box-shadow: 0 .5rem 1.5rem rgb(0 0 0 / 14%);
+			transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context #typographyBtn,
+		:root[data-theme="dark"] .post-reader-localized-context #commentaryBtn {
+			border-color: rgb(127 232 255 / 22%);
+			background: rgb(5 13 27 / 92%);
+			color: #f8fbff;
+		}
+		:root .post-reader-localized-context #typographyBtn:hover,
+		:root .post-reader-localized-context #commentaryBtn:hover {
+			transform: translateY(-1px);
+			border-color: #8a6d1a;
+		}
+		:root .post-reader-localized-context #typographyBtn:focus-visible,
+		:root .post-reader-localized-context #commentaryBtn:focus-visible {
+			outline: 2px solid #8a6d1a;
+			outline-offset: 2px;
+		}
+		:root .post-reader-localized-context #typographyBtn:active,
+		:root .post-reader-localized-context #commentaryBtn:active {
+			transform: scale(.96);
+		}
+		:root .post-reader-localized-context #typographyBtn.pushed {
+			background: #8a6d1a;
+			border-color: #8a6d1a;
+			color: #fffdf6;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context #typographyBtn.pushed {
+			background: #7fe8ff;
+			border-color: #7fe8ff;
+			color: #0a1120;
+		}
+		:root .post-reader-localized-context #typographyBtn:disabled,
+		:root .post-reader-localized-context #commentaryBtn:disabled {
+			opacity: .45;
+			cursor: not-allowed;
+			transform: none;
+		}
+	</style>
 	<script>
 		/* B"H — Register Heichel Service Worker for auto-clearing cache. */
 		if ('serviceWorker' in navigator) {
