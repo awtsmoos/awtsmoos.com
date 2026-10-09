@@ -143,6 +143,12 @@ const EXTRABITS = [
   { min: 67, bits: 11, probs: [129,130,133,140,153,177,196,230,243,254,254] }, // CAT6 (10)
 ];
 
+// Hoisted token extra-bit probability tables (were array literals per token).
+const EPROBS_CAT3 = [140, 148, 173];
+const EPROBS_CAT4 = [135, 140, 155, 176];
+const EPROBS_CAT5 = [130, 134, 141, 157, 180];
+const EPROBS_CAT6 = [129, 130, 133, 140, 153, 177, 196, 230, 243, 254, 254];
+
 // Token tree node indices into the 11-probability rows (tokens.c)
 const EOB_NODE = 0, ZERO_NODE = 1, ONE_NODE = 2, LOW_VAL_NODE = 3,
       TWO_NODE = 4, THREE_NODE = 5, HIGH_LOW_NODE = 6, CAT_ONE_NODE = 7,
@@ -700,11 +706,12 @@ const KF_BMODE_PROBS = [
 // ---------------------------------------------------------------------------
 
 // Integer 4x4 inverse DCT (vp8_dixie_idct_add, sans the add).
-// in: 16 dequantized coefficients, row-major. Returns 16 residuals.
-export function vp8Idct4(inp) {
-  const ip = new Int16Array(16);
-  for (let i = 0; i < 16; i++) ip[i] = inp[i] | 0;
-  const tmp = new Int16Array(16);
+// Scratch-based internal: reads inp[inOff..inOff+15], writes out16.
+// The exported vp8Idct4 keeps its allocating API for tests.
+function vp8Idct4Into(inp, inOff, out16) {
+  const ip = _SCRATCH_IDCT_IP;
+  for (let i = 0; i < 16; i++) ip[i] = inp[inOff + i] | 0;
+  const tmp = _SCRATCH_IDCT_TMP;
   for (let i = 0; i < 4; i++) {
     let a1 = ip[i] + ip[i + 8];
     let b1 = ip[i] - ip[i + 8];
@@ -719,7 +726,7 @@ export function vp8Idct4(inp) {
     tmp[i + 4] = b1 + c1;
     tmp[i + 8] = b1 - c1;
   }
-  const op = new Int16Array(16);
+  const op = out16;
   for (let i = 0; i < 4; i++) {
     const o = i * 4;
     let a1 = tmp[o] + tmp[o + 2];
@@ -735,14 +742,18 @@ export function vp8Idct4(inp) {
     op[o + 1] = (b1 + c1 + 4) >> 3;
     op[o + 2] = (b1 - c1 + 4) >> 3;
   }
-  return op;
+}
+export function vp8Idct4(inp) {
+  vp8Idct4Into(inp, 0, _SCRATCH_IDCT_OP);
+  return _SCRATCH_IDCT_OP.slice();
 }
 
 // Inverse 4x4 Walsh-Hadamard (vp8_dixie_walsh). out = round(H*in*H/8).
-export function vp8Walsh4(inp) {
-  const ip = new Int16Array(16);
+// Scratch-based internal; exported wrapper keeps allocating API for tests.
+function vp8Walsh4Into(inp, out16) {
+  const ip = _SCRATCH_WALSH_IP;
   for (let i = 0; i < 16; i++) ip[i] = inp[i] | 0;
-  const tmp = new Int16Array(16);
+  const tmp = _SCRATCH_WALSH_TMP;
   for (let i = 0; i < 4; i++) {
     const a1 = ip[i] + ip[i + 12];
     const b1 = ip[i + 4] + ip[i + 8];
@@ -753,7 +764,7 @@ export function vp8Walsh4(inp) {
     tmp[i + 8] = a1 - b1;
     tmp[i + 12] = d1 - c1;
   }
-  const op = new Int16Array(16);
+  const op = out16;
   for (let i = 0; i < 4; i++) {
     const o = i * 4;
     const a1 = tmp[o] + tmp[o + 3];
@@ -766,7 +777,10 @@ export function vp8Walsh4(inp) {
     op[o + 2] = (c2 + 3) >> 3;
     op[o + 3] = (d2 + 3) >> 3;
   }
-  return op;
+}
+export function vp8Walsh4(inp) {
+  vp8Walsh4Into(inp, _SCRATCH_WALSH_OP);
+  return _SCRATCH_WALSH_OP.slice();
 }
 
 // Naive textbook 4x4 inverse DCT for cross-checking: out = (D^T C D)/2 with
@@ -817,8 +831,10 @@ export function naiveWalsh4(inp) {
 
 // IDCT + add to prediction with clamping (the vp8_dixie_idct_add hot path).
 // plane: Uint8Array; prediction already written at (ox, oy); stride in px.
-function idctAdd(plane, ox, oy, stride, coeffs16) {
-  const res = vp8Idct4(coeffs16);
+// Reads coefficients at coeffs[off..off+15] — no copy into a temp array.
+function idctAdd(plane, ox, oy, stride, coeffs, off) {
+  const res = _SCRATCH_IDCT_OP;
+  vp8Idct4Into(coeffs, off, res);
   for (let y = 0; y < 4; y++) {
     const base = (oy + y) * stride + ox;
     const r = y * 4;
@@ -885,6 +901,70 @@ export function predictTm8(above, left, topLeft) {
     for (let x = 0; x < 8; x++)
       out[y * 8 + x] = clamp255(left[y] + above[x] - topLeft);
   return out;
+}
+
+// Direct-to-plane intra prediction (hot path): same math as the exported
+// predict* functions, but writes straight into the plane instead of
+// allocating a temporary prediction buffer.
+function predictDc16Into(plane, stride, x0, y0, above, left) {
+  let sum = 0;
+  for (let i = 0; i < 16; i++) sum += above[i] + left[i];
+  const dc = (sum + 16) >> 5;
+  for (let y = 0; y < 16; y++) {
+    const b = (y0 + y) * stride + x0;
+    for (let x = 0; x < 16; x++) plane[b + x] = dc;
+  }
+}
+function predictV16Into(plane, stride, x0, y0, above) {
+  for (let y = 0; y < 16; y++) {
+    const b = (y0 + y) * stride + x0;
+    for (let x = 0; x < 16; x++) plane[b + x] = above[x];
+  }
+}
+function predictH16Into(plane, stride, x0, y0, left) {
+  for (let y = 0; y < 16; y++) {
+    const b = (y0 + y) * stride + x0, v = left[y];
+    for (let x = 0; x < 16; x++) plane[b + x] = v;
+  }
+}
+function predictTm16Into(plane, stride, x0, y0, above, left, topLeft) {
+  for (let y = 0; y < 16; y++) {
+    const b = (y0 + y) * stride + x0, lv = left[y];
+    for (let x = 0; x < 16; x++) {
+      const v = lv + above[x] - topLeft;
+      plane[b + x] = v < 0 ? 0 : v > 255 ? 255 : v;
+    }
+  }
+}
+function predictDc8Into(plane, stride, x0, y0, above, left) {
+  let sum = 0;
+  for (let i = 0; i < 8; i++) sum += above[i] + left[i];
+  const dc = (sum + 8) >> 4;
+  for (let y = 0; y < 8; y++) {
+    const b = (y0 + y) * stride + x0;
+    for (let x = 0; x < 8; x++) plane[b + x] = dc;
+  }
+}
+function predictV8Into(plane, stride, x0, y0, above) {
+  for (let y = 0; y < 8; y++) {
+    const b = (y0 + y) * stride + x0;
+    for (let x = 0; x < 8; x++) plane[b + x] = above[x];
+  }
+}
+function predictH8Into(plane, stride, x0, y0, left) {
+  for (let y = 0; y < 8; y++) {
+    const b = (y0 + y) * stride + x0, v = left[y];
+    for (let x = 0; x < 8; x++) plane[b + x] = v;
+  }
+}
+function predictTm8Into(plane, stride, x0, y0, above, left, topLeft) {
+  for (let y = 0; y < 8; y++) {
+    const b = (y0 + y) * stride + x0, lv = left[y];
+    for (let x = 0; x < 8; x++) {
+      const v = lv + above[x] - topLeft;
+      plane[b + x] = v < 0 ? 0 : v > 255 ? 255 : v;
+    }
+  }
 }
 
 // 4x4 sub-block prediction.
@@ -1314,11 +1394,11 @@ function decodeTokenBlock(td, probs, type, dfRow, li, ai, leftCtx, aboveCtx, out
     } else {
       let min, nbits, eprobs;
       if (!td.bool(probs[pb + CAT_THREEFOUR_NODE])) {
-        if (!td.bool(probs[pb + CAT_THREE_NODE])) { min = 11; nbits = 3; eprobs = [140, 148, 173]; }
-        else { min = 19; nbits = 4; eprobs = [135, 140, 155, 176]; }
+        if (!td.bool(probs[pb + CAT_THREE_NODE])) { min = 11; nbits = 3; eprobs = EPROBS_CAT3; }
+        else { min = 19; nbits = 4; eprobs = EPROBS_CAT4; }
       } else {
-        if (!td.bool(probs[pb + CAT_FIVE_NODE])) { min = 35; nbits = 5; eprobs = [130, 134, 141, 157, 180]; }
-        else { min = 67; nbits = 11; eprobs = [129, 130, 133, 140, 153, 177, 196, 230, 243, 254, 254]; }
+        if (!td.bool(probs[pb + CAT_FIVE_NODE])) { min = 35; nbits = 5; eprobs = EPROBS_CAT5; }
+        else { min = 67; nbits = 11; eprobs = EPROBS_CAT6; }
       }
       let x = 0;
       for (let b = nbits - 1; b >= 0; b--)
@@ -1361,11 +1441,13 @@ function decodeMbRowTokens(f, r) {
     let hasNz = 0;
     if (yMode !== B_PRED) {
       // Y2 block (index 24, type 1)
-      const y2 = new Int16Array(16);
+      const y2 = _SCRATCH_Y2;
+      y2.fill(0); // scratch reuse: decodeTokenBlock only writes decoded coeffs
       hasNz |= decodeTokenBlock(td, coeffProbs, 1, df[DQF_ROW[1]], 8, 8,
                                 leftCtx, above, y2, 0);
       // inverse WHT -> luma DCs
-      const w = vp8Walsh4(y2);
+      vp8Walsh4Into(y2, _SCRATCH_WALSH_OP);
+      const w = _SCRATCH_WALSH_OP;
       for (let i = 0; i < 16; i++) {
         hasNz |= decodeTokenBlock(td, coeffProbs, 0, df[DQF_ROW[0]],
                                   LEFT_CONTEXT_INDEX[i], ABOVE_CONTEXT_INDEX[i],
@@ -1441,6 +1523,23 @@ function fixupAbove(plane, stride, x0, y0, width, col, mode) {
     plane[(y0 - 1) * stride + x0 + width + i] = 127; // above-right
 }
 
+// Module scratch buffers for the reconstruction hot path: these replace
+// per-block/per-MB allocations (new Array / new Int16Array / new Uint8Array)
+// that ran millions of times per image.
+const _SCRATCH_Y2 = new Int16Array(16);
+const _SCRATCH_ABOVE9 = new Uint8Array(9);
+const _SCRATCH_LEFT5 = new Uint8Array(5);
+const _SCRATCH_ABOVE16 = new Uint8Array(16);
+const _SCRATCH_LEFT16 = new Uint8Array(16);
+const _SCRATCH_ABOVE8 = new Uint8Array(8);
+const _SCRATCH_LEFT8 = new Uint8Array(8);
+const _SCRATCH_WALSH_IP = new Int16Array(16);
+const _SCRATCH_WALSH_TMP = new Int16Array(16);
+const _SCRATCH_WALSH_OP = new Int16Array(16);
+const _SCRATCH_IDCT_IP = new Int16Array(16);
+const _SCRATCH_IDCT_TMP = new Int16Array(16);
+const _SCRATCH_IDCT_OP = new Int16Array(16);
+
 // Reconstruct one macroblock row (prediction + IDCT).
 function reconstructMbRow(f, r) {
   const { mbCols, yPlane, yStride, uPlane, vPlane, uvStride,
@@ -1464,7 +1563,7 @@ function reconstructMbRow(f, r) {
       for (let i = 0; i < 16; i++) {
         const bx = (i & 3) * 4, by = (i >> 2) * 4;
         const xx = x0 + bx, yy = y0 + by;
-        const above9 = new Array(9), left5 = new Array(5);
+        const above9 = _SCRATCH_ABOVE9, left5 = _SCRATCH_LEFT5;
         for (let j = -1; j <= 7; j++)
           above9[j + 1] = yPlane[(yy - 1) * yStride + xx + j];
         for (let k = -1; k <= 3; k++)
@@ -1473,28 +1572,20 @@ function reconstructMbRow(f, r) {
         for (let y = 0; y < 4; y++)
           for (let x = 0; x < 4; x++)
             yPlane[(yy + y) * yStride + xx + x] = pred[y * 4 + x];
-        const co = new Int16Array(16);
-        for (let k = 0; k < 16; k++) co[k] = rowCoeffs[mbOff + i * 16 + k];
-        idctAdd(yPlane, xx, yy, yStride, co);
+        idctAdd(yPlane, xx, yy, yStride, rowCoeffs, mbOff + i * 16);
       }
     } else {
-      const above16 = new Array(16), left16 = new Array(16);
+      const above16 = _SCRATCH_ABOVE16, left16 = _SCRATCH_LEFT16;
       for (let j = 0; j < 16; j++) above16[j] = yPlane[(y0 - 1) * yStride + x0 + j];
       for (let k = 0; k < 16; k++) left16[k] = yPlane[(y0 + k) * yStride + x0 - 1];
       const topLeft = yPlane[(y0 - 1) * yStride + x0 - 1];
-      let pred;
-      if (yMode === DC_PRED) pred = predictDc16(above16, left16);
-      else if (yMode === V_PRED) pred = predictV16(above16);
-      else if (yMode === H_PRED) pred = predictH16(left16);
-      else pred = predictTm16(above16, left16, topLeft);
-      for (let y = 0; y < 16; y++)
-        for (let x = 0; x < 16; x++)
-          yPlane[(y0 + y) * yStride + x0 + x] = pred[y * 16 + x];
+      if (yMode === DC_PRED) predictDc16Into(yPlane, yStride, x0, y0, above16, left16);
+      else if (yMode === V_PRED) predictV16Into(yPlane, yStride, x0, y0, above16);
+      else if (yMode === H_PRED) predictH16Into(yPlane, yStride, x0, y0, left16);
+      else predictTm16Into(yPlane, yStride, x0, y0, above16, left16, topLeft);
       for (let i = 0; i < 16; i++) {
         const bx = (i & 3) * 4, by = (i >> 2) * 4;
-        const co = new Int16Array(16);
-        for (let k = 0; k < 16; k++) co[k] = rowCoeffs[mbOff + i * 16 + k];
-        idctAdd(yPlane, x0 + bx, y0 + by, yStride, co);
+        idctAdd(yPlane, x0 + bx, y0 + by, yStride, rowCoeffs, mbOff + i * 16);
       }
     }
 
@@ -1502,25 +1593,18 @@ function reconstructMbRow(f, r) {
     const uvMode = f.mbUVMode[idx];
     for (let p = 0; p < 2; p++) {
       const plane = p === 0 ? uPlane : vPlane;
-      const above8 = new Array(8), left8 = new Array(8);
+      const above8 = _SCRATCH_ABOVE8, left8 = _SCRATCH_LEFT8;
       for (let j = 0; j < 8; j++) above8[j] = plane[(uy0 - 1) * uvStride + ux0 + j];
       for (let k = 0; k < 8; k++) left8[k] = plane[(uy0 + k) * uvStride + ux0 - 1];
       const topLeft = plane[(uy0 - 1) * uvStride + ux0 - 1];
-      let pred;
-      if (uvMode === DC_PRED) pred = predictDc8(above8, left8);
-      else if (uvMode === V_PRED) pred = predictV8(above8);
-      else if (uvMode === H_PRED) pred = predictH8(left8);
-      else pred = predictTm8(above8, left8, topLeft);
-      for (let y = 0; y < 8; y++)
-        for (let x = 0; x < 8; x++)
-          plane[(uy0 + y) * uvStride + ux0 + x] = pred[y * 8 + x];
+      if (uvMode === DC_PRED) predictDc8Into(plane, uvStride, ux0, uy0, above8, left8);
+      else if (uvMode === V_PRED) predictV8Into(plane, uvStride, ux0, uy0, above8);
+      else if (uvMode === H_PRED) predictH8Into(plane, uvStride, ux0, uy0, left8);
+      else predictTm8Into(plane, uvStride, ux0, uy0, above8, left8, topLeft);
       const base = p === 0 ? 16 : 20;
       for (let i = 0; i < 4; i++) {
         const bx = (i & 1) * 4, by = (i >> 1) * 4;
-        const co = new Int16Array(16);
-        for (let k = 0; k < 16; k++)
-          co[k] = rowCoeffs[mbOff + (base + i) * 16 + k];
-        idctAdd(plane, ux0 + bx, uy0 + by, uvStride, co);
+        idctAdd(plane, ux0 + bx, uy0 + by, uvStride, rowCoeffs, mbOff + (base + i) * 16);
       }
     }
   }
