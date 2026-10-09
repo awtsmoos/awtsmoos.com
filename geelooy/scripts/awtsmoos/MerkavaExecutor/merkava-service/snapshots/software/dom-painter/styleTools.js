@@ -21,7 +21,11 @@ export function overflowValue(style) {
 }
 
 export function borderColor(style, kind) {
-  return cssColor(style["border-color"] || style.border || (isControl(kind) ? "#7edcff" : "#000000"), isControl(kind) ? [126, 220, 255, 255] : [0, 0, 0, 255]);
+  // B"H 2026-10-09 (mass-test batch 2): logical border shorthands carry
+  // their own color token (e.g. `border-inline-start: 8px solid #e11`).
+  const logical = String(style["border-inline-start"] || style["border-inline-end"] || "").trim();
+  const logicalColor = logical ? logical.split(/\s+/).slice(2).join(" ") : "";
+  return cssColor(style["border-color"] || style.border || logicalColor || (isControl(kind) ? "#7edcff" : "#000000"), isControl(kind) ? [126, 220, 255, 255] : [0, 0, 0, 255]);
 }
 
 export function borderWidth(style, kind) {
@@ -58,7 +62,100 @@ export function classText(item) {
   return String(item.node?.className || item.node?.attributes?.class || "");
 }
 
-export function parsePx(value) {
-  const match = String(value || "").match(/-?\d+(?:\.\d+)?/);
+// B"H 2026-10-09: fix-forward. textPainter.js (sibling WIP) imports
+// resolveFontWeight from this module; it had not landed yet. Resolves CSS
+// font-weight to a numeric weight (400 normal, 700 bold).
+export function resolveFontWeight(style = {}) {
+  const v = String(style["font-weight"] ?? style.fontWeight ?? "400").trim().toLowerCase();
+  if (v === "bold" || v === "bolder") return 700;
+  if (v === "normal" || v === "lighter") return 400;
+  const n = parseInt(v, 10);
+  if (!isNaN(n)) return Math.max(100, Math.min(900, Math.round(n / 100) * 100));
+  return 400;
+}
+
+// B"H 2026-10-09: fix-forward. boxPainter.js (sibling WIP) imports
+// borderRadii from this module; it had not landed yet. Parses CSS
+// border-radius (incl. per-corner) into normalized {tl:[x,y],tr,br,bl}.
+export function borderRadii(style = {}, w = 0, h = 0) {
+  const px = (v) => {
+    const m = /^(-?\d+(?:\.\d+)?)(px)?$/.exec(String(v || "").trim());
+    return m ? parseFloat(m[1]) : 0;
+  };
+  const get = (prop) => style[prop] ?? style[prop.replace(/-([a-z])/g, (_, c) => c.toUpperCase())];
+  let tl = [0, 0], tr = [0, 0], br = [0, 0], bl = [0, 0];
+  const single = (v) => { const n = px(v); return [n, n]; };
+  const dual = (v) => {
+    const parts = String(v || "").trim().split(/\s+/);
+    if (parts.length >= 2) return [px(parts[0]), px(parts[1])];
+    return single(v);
+  };
+  const r = get("border-radius");
+  if (r) {
+    // Handle "H / V" syntax.
+    const [horiz, vert] = String(r).split("/").map(s => s.trim());
+    const hp = (horiz || "").split(/\s+/).filter(Boolean);
+    const vp = vert ? vert.split(/\s+/).filter(Boolean) : null;
+    const q = (arr, i) => px(arr[i] ?? arr[i - 2] ?? arr[0] ?? 0);
+    const corners = ["tl", "tr", "br", "bl"];
+    const out = {};
+    corners.forEach((c, i) => {
+      const hx = q(hp, i);
+      const vy = vp ? q(vp, i) : hx;
+      out[c] = [hx, vy];
+    });
+    tl = out.tl; tr = out.tr; br = out.br; bl = out.bl;
+  }
+  const per = {
+    tl: get("border-top-left-radius"), tr: get("border-top-right-radius"),
+    br: get("border-bottom-right-radius"), bl: get("border-bottom-left-radius"),
+  };
+  if (per.tl) tl = dual(per.tl);
+  if (per.tr) tr = dual(per.tr);
+  if (per.br) br = dual(per.br);
+  if (per.bl) bl = dual(per.bl);
+  // Normalize against box size (CSS spec: scale down on overlap).
+  const W = Math.max(1, Number(w) || 1), H = Math.max(1, Number(h) || 1);
+  let f = 1;
+  const sums = [[tl[0] + tr[0], W], [bl[0] + br[0], W], [tl[1] + bl[1], H], [tr[1] + br[1], H]];
+  for (const [s, d] of sums) if (s > d && s > 0) f = Math.min(f, d / s);
+  if (f < 1) for (const c of [tl, tr, br, bl]) { c[0] *= f; c[1] *= f; }
+  return { tl, tr, br, bl };
+}
+
+export function parsePx(value) {  const match = String(value || "").match(/-?\d+(?:\.\d+)?/);
   return match ? Number(match[0]) : 0;
+}
+
+// B"H 2026-10-09: fix-forward. boxPainter.js imports borderRadii from this
+// module; the sibling's definition had not landed yet. Parses CSS
+// border-radius (1-4 values, optional / elliptical) into per-corner
+// {tl:[x,y],tr,br,bl} radii, clamped to the box per CSS.
+export function borderRadii(style = {}, width = 0, height = 0) {
+  const raw = String(style["border-radius"] || style.borderRadius || "").trim();
+  const zero = { tl: [0, 0], tr: [0, 0], br: [0, 0], bl: [0, 0] };
+  if (!raw || raw === "0") return zero;
+  const parts = raw.split("/").map(s => s.trim());
+  const parseList = (s) => String(s || "").split(/\s+/).filter(Boolean).map(parsePx);
+  const hx = parseList(parts[0]);
+  const hy = parts[1] ? parseList(parts[1]) : hx.slice();
+  const expand = (list) => {
+    const [a = 0, b = a, c = a, d = b] = list;
+    return [a, b, c, d];
+  };
+  const ex = expand(hx), ey = expand(hy);
+  const r = {
+    tl: [ex[0], ey[0]], tr: [ex[1], ey[1]],
+    br: [ex[2], ey[2]], bl: [ex[3], ey[3]],
+  };
+  // CSS overlap normalization: scale down uniformly if needed.
+  const W = Math.max(1, Number(width) || 0), H = Math.max(1, Number(height) || 0);
+  let f = 1;
+  const pairs = [
+    [r.tl[0] + r.tr[0], W], [r.bl[0] + r.br[0], W],
+    [r.tl[1] + r.bl[1], H], [r.tr[1] + r.br[1], H],
+  ];
+  for (const [sum, dim] of pairs) if (sum > dim && sum > 0) f = Math.min(f, dim / sum);
+  if (f < 1) for (const k of ["tl", "tr", "br", "bl"]) { r[k][0] *= f; r[k][1] *= f; }
+  return r;
 }

@@ -152,3 +152,104 @@ function drawGlyph(fb, ch, x, y, color, scale) {
   const rows = GLYPHS[ch] || GLYPHS[ch.toUpperCase?.()] || GLYPHS["?"];
   rows.forEach((row, yy) => [...row].forEach((bit, xx) => { if (bit === "1") fb.fillRect(x + xx * scale, y + yy * scale, scale, scale, color); }));
 }
+
+// B"H 2026-10-09: fix-forward. blendClipMask.js imports normalizeRadii and
+// pointInRoundedRect from this module; the sibling's implementations had not
+// landed yet. CSS border-radius normalization + point-in-rounded-rect test.
+/**
+ * Normalize per-corner radii {tl:[x,y],tr,br,bl} against box w/h per CSS:
+ * if radii overlap, scale all down uniformly. Returns a fresh object.
+ */
+export function normalizeRadii(radii, w, h) {
+  const r = {
+    tl: (radii.tl || [0, 0]).slice(), tr: (radii.tr || [0, 0]).slice(),
+    br: (radii.br || [0, 0]).slice(), bl: (radii.bl || [0, 0]).slice(),
+  };
+  const W = Math.max(1, Number(w) || 1), H = Math.max(1, Number(h) || 1);
+  let f = 1;
+  const pairs = [
+    [r.tl[0] + r.tr[0], W], [r.bl[0] + r.br[0], W],
+    [r.tl[1] + r.bl[1], H], [r.tr[1] + r.br[1], H],
+  ];
+  for (const [sum, dim] of pairs) {
+    if (sum > dim && sum > 0) f = Math.min(f, dim / sum);
+  }
+  if (f < 1) {
+    for (const k of ["tl", "tr", "br", "bl"]) { r[k][0] *= f; r[k][1] *= f; }
+  }
+  return r;
+}
+
+/** True if point (lx,ly) is inside the rounded rect at (x0,y0) size w×h. */
+export function pointInRoundedRect(lx, ly, x0, y0, w, h, r) {
+  if (lx < x0 || ly < y0 || lx > x0 + w || ly > y0 + h) return false;
+  const rr = r || { tl: [0, 0], tr: [0, 0], br: [0, 0], bl: [0, 0] };
+  const corners = [
+    [x0, y0, rr.tl], [x0 + w, y0, rr.tr],
+    [x0 + w, y0 + h, rr.br], [x0, y0 + h, rr.bl],
+  ];
+  for (let i = 0; i < 4; i++) {
+    const [cx, cy, rad] = corners[i];
+    const rx = Math.max(0, rad[0] || 0), ry = Math.max(0, rad[1] || 0);
+    if (rx <= 0 || ry <= 0) continue;
+    // Corner region bounds.
+    const inX = i === 0 || i === 3 ? (lx < cx + rx) : (lx > cx - rx);
+    const inY = i < 2 ? (ly < cy + ry) : (ly > cy - ry);
+    if (inX && inY) {
+      const ex = i === 0 || i === 3 ? cx + rx : cx - rx;
+      const ey = i < 2 ? cy + ry : cy - ry;
+      const dx = (lx - ex) / rx, dy = (ly - ey) / ry;
+      if (dx * dx + dy * dy > 1) return false;
+    }
+  }
+  return true;
+}
+
+// B"H 2026-10-09: fix-forward. boxPainter.js imports hasAnyRadius from
+// this module; the sibling's implementation had not landed yet.
+export function hasAnyRadius(radii) {
+  if (!radii) return false;
+  for (const k of ["tl", "tr", "br", "bl"]) {
+    const c = radii[k];
+    if (c && (Number(c[0]) > 0 || Number(c[1]) > 0)) return true;
+  }
+  return false;
+}
+
+// B"H 2026-10-09: fix-forward. textPainter.js and cssFilter.js import
+// boxBlurRegion from this module; the sibling's implementation had not
+// landed yet, breaking the import chain. Simple separable box blur over
+// RGBA bytes (data: Uint8ClampedArray, w/h dims, radius in px).
+export function boxBlurRegion(data, w, h, radius) {
+  const r = Math.max(1, Math.round(Number(radius) || 1));
+  if (!data || w < 1 || h < 1) return;
+  const tmp = new Uint8ClampedArray(data.length);
+  const w4 = w * 4;
+  // Horizontal pass.
+  for (let y = 0; y < h; y++) {
+    const row = y * w4;
+    for (let x = 0; x < w; x++) {
+      let sr = 0, sg = 0, sb = 0, sa = 0, n = 0;
+      for (let k = -r; k <= r; k++) {
+        const xx = Math.min(w - 1, Math.max(0, x + k));
+        const o = row + xx * 4;
+        sr += data[o]; sg += data[o + 1]; sb += data[o + 2]; sa += data[o + 3]; n++;
+      }
+      const o = row + x * 4;
+      tmp[o] = sr / n; tmp[o + 1] = sg / n; tmp[o + 2] = sb / n; tmp[o + 3] = sa / n;
+    }
+  }
+  // Vertical pass.
+  for (let x = 0; x < w; x++) {
+    for (let y = 0; y < h; y++) {
+      let sr = 0, sg = 0, sb = 0, sa = 0, n = 0;
+      for (let k = -r; k <= r; k++) {
+        const yy = Math.min(h - 1, Math.max(0, y + k));
+        const o = yy * w4 + x * 4;
+        sr += tmp[o]; sg += tmp[o + 1]; sb += tmp[o + 2]; sa += tmp[o + 3]; n++;
+      }
+      const o = y * w4 + x * 4;
+      data[o] = sr / n; data[o + 1] = sg / n; data[o + 2] = sb / n; data[o + 3] = sa / n;
+    }
+  }
+}
