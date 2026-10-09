@@ -9,3 +9,18 @@
 @media (max-width:640px) { .series-heading {grid-template-columns:1fr} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width:640px) { :where(#seriesControls) {justify-self:start} }
+
+/* B"H Yaakov 2026-10-08: Light-theme branch for series-heading — dark text on light bg, no !important */
+html[data-theme="light"] .series-heading {
+  background: linear-gradient(180deg, #ffffff, #f5f7fa);
+  border-color: rgba(30, 41, 59, 0.12);
+}
+html[data-theme="light"] .series-heading h2 {
+  color: #1e293b;
+}
+html[data-theme="light"] .series-heading p:not(.series-label) {
+  color: #475569;
+}
+html[data-theme="light"] .series-heading .series-label {
+  color: #92400e;
+}
