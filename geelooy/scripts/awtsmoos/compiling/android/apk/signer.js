@@ -321,8 +321,12 @@ function jarManifestBytes(entries) {
 	return { bytes: te.encode(text), sections };
 }
 
-function jarSignatureFileBytes(manifest) {
+function jarSignatureFileBytes(manifest, schemes = []) {
+	// Rollback protection (AOSP v2 spec): v2-signed APKs that are also
+	// v1-signed must carry X-Android-APK-Signed in the SF main section.
+	const signedSchemes = schemes.length ? `X-Android-APK-Signed: ${schemes.join(",")}\r\n` : "";
 	let text = "Signature-Version: 1.0\r\nCreated-By: Awtsmoos\r\n"
+		+ signedSchemes
 		+ `SHA-256-Digest-Manifest: ${sha256Base64(manifest.bytes)}\r\n\r\n`;
 	for (const section of manifest.sections) {
 		text += `Name: ${section.name}\r\nSHA-256-Digest: ${sha256Base64(section.bytes)}\r\n\r\n`;
@@ -335,9 +339,9 @@ function jarSignatureFileBytes(manifest) {
  * input is untouched. CERT.RSA carries a PKCS#7 SignedData whose signature
  * covers the CERT.SF bytes.
  */
-export function addV1SignatureEntries(entries, key) {
+export function addV1SignatureEntries(entries, key, options = {}) {
 	const manifest = jarManifestBytes(entries);
-	const sfBytes = jarSignatureFileBytes(manifest);
+	const sfBytes = jarSignatureFileBytes(manifest, options.signedSchemes || []);
 	const signature = rsaSignPkcs1Sha256(sfBytes, key.privateKeyPem);
 	const rsaBytes = buildPkcs7SignedData({
 		certDer: key.certDer,
@@ -358,9 +362,9 @@ export function addV1SignatureEntries(entries, key) {
 // ---------------------------------------------------------------------------
 
 const V2_BLOCK_ID = 0x7109871a;
-// AOSP SignatureAlgorithm ID for RSASSA-PKCS1-v1_5 with SHA-256 (NOT 0x0103,
-// which is RSASSA-PSS; apksig deliberately uses PKCS#1 v1.5 for determinism).
-const SIG_RSA_PKCS1_SHA256 = 0x0101;
+// AOSP SignatureAlgorithm ID for RSASSA-PKCS1-v1_5 with SHA-256 is 0x0103
+// (source.android.com: 0x0101 is RSASSA-PSS, 0x0103 is RSASSA-PKCS1-v1_5).
+const SIG_RSA_PKCS1_SHA256 = 0x0103;
 const APK_SIG_BLOCK_MAGIC = te.encode("APK Sig Block 42");
 const V2_CHUNK_BYTES = 1048576;
 
@@ -501,7 +505,8 @@ export function signApkEntries(entries, key, options = {}) {
 	const useV1 = options.v1 !== false;
 	const useV2 = options.v2 !== false;
 	if (!key || !key.privateKeyPem || !key.certDer) throw signerError("APK_SIGN_KEY_INVALID");
-	const withSignatures = useV1 ? addV1SignatureEntries(entries, key) : entries;
+	const signedSchemes = [useV2 ? 2 : null].filter((id) => id !== null);
+	const withSignatures = useV1 ? addV1SignatureEntries(entries, key, { signedSchemes }) : entries;
 	const zip = buildStoredApk(withSignatures);
 	let bytes = zip.bytes;
 	let v2Evidence = null;
