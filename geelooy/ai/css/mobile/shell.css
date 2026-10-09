@@ -1,8 +1,15 @@
 /* @tunnel-grandfather: not imported by geelooy/ai/styles.css manifest and not referenced by any HTML/JS; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H — mobile shell: one true viewport, no sideways desert */
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
 @media (max-width: 680px) {
+<<<<<<< ours
   :root { --ai-mobile-gap: 6px; }
   html, body {
+=======
+  html:root { --ai-mobile-gap: 6px; }
+  html,
+  html body {
+>>>>>>> theirs
     min-width: 0;
     width: 100%;
     max-width: 100%;
@@ -10,9 +17,15 @@
     overflow: hidden;
     overscroll-behavior: none;
   }
+<<<<<<< ours
   body { position: fixed; inset: 0; }
   body::before, body::after { max-width: 100vw; overflow: hidden; }
   .container {
+=======
+  html body { position: fixed; inset: 0; }
+  html body::before, html body::after { max-width: 100vw; overflow: hidden; }
+  html .container {
+>>>>>>> theirs
     position: fixed;
     inset: 0;
     width: 100%;
@@ -27,6 +40,7 @@
     padding: max(6px, env(safe-area-inset-top)) 6px max(6px, env(safe-area-inset-bottom));
     overflow: hidden;
     transform: none;
+<<<<<<< ours
     background: radial-gradient(circle at 50% 0, rgba(34,211,238,.13), transparent 42%), #020711;
   }
   .container > * { min-width: 0; max-width: 100%; transform: none; }
@@ -34,6 +48,15 @@
   #right-resizer { grid-area: rightResize; }
   #composer-resizer { grid-area: composerResize; }
   .main {
+=======
+    background: radial-gradient(circle at 50% 0, rgba(34, 211, 238, .13), transparent 42%), #020711;
+  }
+  html .container > * { min-width: 0; max-width: 100%; transform: none; }
+  html #left-resizer { grid-area: leftResize; }
+  html #right-resizer { grid-area: rightResize; }
+  html #composer-resizer { grid-area: composerResize; }
+  html .main {
+>>>>>>> theirs
     grid-area: main;
     width: 100%;
     min-height: 0;
@@ -43,6 +66,11 @@
     grid-template-rows: auto minmax(0, 1fr) 16px minmax(112px, auto);
     grid-template-areas: "transport" "chat" "composerResize" "composer";
   }
+<<<<<<< ours
   #transport-status { min-height: 36px; max-width: 100%; overflow: auto; white-space: nowrap; }
   #chat-box { min-height: 0; max-width: 100%; overflow: auto; touch-action: pan-y; }
+=======
+  html #transport-status { min-height: 36px; max-width: 100%; overflow: auto; white-space: nowrap; }
+  html #chat-box { min-height: 0; max-width: 100%; overflow: auto; touch-action: pan-y; }
+>>>>>>> theirs
 }

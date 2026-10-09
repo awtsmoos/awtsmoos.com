@@ -4,6 +4,7 @@
   This shard is the law against overlap. Grids collapse to one clear column,
   controls become static, and every label holds its own children in peace.
 */
+<<<<<<< ours
 #automation-panel .automation-grid,
 #automation-panel .timing-grid,
 #automation-panel .event-filter-grid,
@@ -14,6 +15,20 @@
 #automation-panel .prompt-action-row,
 #automation-panel .relay-install-buttons,
 #automation-panel .compact-provider-actions{
+=======
+/* Tokens live on #automation-panel in clarity.css (light AND dark branches). */
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+html #automation-panel .automation-grid,
+html #automation-panel .timing-grid,
+html #automation-panel .event-filter-grid,
+html #automation-panel .relay-actions,
+html #automation-panel .graph-toolbar,
+html #automation-panel .automation-actions,
+html #automation-panel .conversation-portal-actions,
+html #automation-panel .prompt-action-row,
+html #automation-panel .relay-install-buttons,
+html #automation-panel .compact-provider-actions{
+>>>>>>> theirs
   position:static;
   display:flex;
   flex-direction:column;
@@ -26,11 +41,19 @@
   padding:0;
   transform:none;
 }
+<<<<<<< ours
 #automation-panel .automation-field,
 #automation-panel .automation-toggle-row,
 #automation-panel .event-filter,
 #automation-panel .provider-chat-row,
 #automation-panel .relay-install-card{
+=======
+html #automation-panel .automation-field,
+html #automation-panel .automation-toggle-row,
+html #automation-panel .event-filter,
+html #automation-panel .provider-chat-row,
+html #automation-panel .relay-install-card{
+>>>>>>> theirs
   position:static;
   display:flex;
   flex-direction:column;
@@ -51,13 +74,21 @@
   transform:none;
   white-space:normal;
   line-height:1.35;
+<<<<<<< ours
 }
 #automation-panel .automation-toggle-row,
 #automation-panel .event-filter{
+=======
+  color:var(--rp-text);
+}
+html #automation-panel .automation-toggle-row,
+html #automation-panel .event-filter{
+>>>>>>> theirs
   flex-direction:row;
   align-items:center;
   justify-content:space-between;
 }
+<<<<<<< ours
 #automation-panel .event-filter{
   justify-content:flex-start;
   gap:12px;
@@ -68,6 +99,18 @@
 #automation-panel button,
 #automation-panel .provider-import-button,
 #automation-panel code{
+=======
+html #automation-panel .event-filter{
+  justify-content:flex-start;
+  gap:12px;
+}
+html #automation-panel input,
+html #automation-panel select,
+html #automation-panel textarea,
+html #automation-panel button,
+html #automation-panel .provider-import-button,
+html #automation-panel code{
+>>>>>>> theirs
   position:static;
   display:block;
   width:100%;
@@ -78,6 +121,7 @@
   margin:0;
   transform:none;
   white-space:normal;
+<<<<<<< ours
 }
 #automation-panel input:not([type="checkbox"]),
 #automation-panel select,
@@ -86,15 +130,34 @@
   border:1px solid rgba(184,222,255,.18);
   border-radius:12px;
   background:rgba(2,8,18,.72);
+=======
+  color:var(--rp-text);
+}
+html #automation-panel input:not([type="checkbox"]),
+html #automation-panel select,
+html #automation-panel textarea{
+  padding:11px 12px;
+  border:1px solid var(--rp-input-border);
+  border-radius:12px;
+  background:var(--rp-input-bg);
+>>>>>>> theirs
   box-shadow:none;
   color:var(--rp-text);
   line-height:1.35;
 }
+<<<<<<< ours
 #automation-panel textarea{
   min-height:120px;
   resize:vertical;
 }
 #automation-panel input[type="checkbox"]{
+=======
+html #automation-panel textarea{
+  min-height:120px;
+  resize:vertical;
+}
+html #automation-panel input[type="checkbox"]{
+>>>>>>> theirs
   flex:0 0 auto;
   width:20px;
   min-width:20px;
@@ -102,42 +165,81 @@
   min-height:20px;
   max-width:20px;
   appearance:auto;
+<<<<<<< ours
   accent-color:#22d3ee;
 }
 #automation-panel .automation-toggle-row input[type="checkbox"]{
+=======
+  accent-color:var(--rp-accent);
+}
+html #automation-panel .automation-toggle-row input[type="checkbox"]{
+>>>>>>> theirs
   appearance:none;
   width:50px;
   min-width:50px;
   max-width:50px;
   height:28px;
   min-height:28px;
+<<<<<<< ours
   border:1px solid rgba(184,222,255,.24);
   border-radius:999px;
   background:rgba(5,13,26,.88);
 }
 #automation-panel button,
 #automation-panel .provider-import-button{
+=======
+  border:1px solid var(--rp-toggle-border);
+  border-radius:999px;
+  background:var(--rp-toggle-bg);
+}
+html #automation-panel button,
+html #automation-panel .provider-import-button{
+>>>>>>> theirs
   min-height:46px;
   padding:11px 14px;
   line-height:1.25;
   text-align:center;
   overflow:visible;
+<<<<<<< ours
 }
 #automation-panel code{
+=======
+  cursor:pointer;
+  background:var(--rp-field);
+  border:1px solid var(--rp-line);
+  border-radius:12px;
+}
+html #automation-panel code{
+>>>>>>> theirs
   padding:12px;
   overflow-wrap:anywhere;
   white-space:pre-wrap;
   line-height:1.45;
 }
+<<<<<<< ours
 #automation-panel input:focus,
 #automation-panel select:focus,
 #automation-panel textarea:focus{
   outline:2px solid rgba(45,212,191,.35);
   outline-offset:1px;
   border-color:var(--rp-strong);
+=======
+html #automation-panel input:focus,
+html #automation-panel select:focus,
+html #automation-panel textarea:focus{
+  outline:2px solid var(--rp-focus-ring);
+  outline-offset:1px;
+  border-color:var(--rp-strong);
+}
+html #automation-panel input:disabled,
+html #automation-panel select:disabled,
+html #automation-panel textarea:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+>>>>>>> theirs
 }
 
-/* @tunnel-interactive-states: auto-generated by css-guarantee */
+/* @tunnel-interactive-states: hover/active/focus-visible/disabled for every interactive control */
 #automation-panel button:hover {
 	filter: brightness(1.08);
 }
@@ -147,6 +249,12 @@
 #automation-panel button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
+#automation-panel button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+	filter: none;
+	transform: none;
+}
 #automation-panel .provider-import-button:hover {
 	filter: brightness(1.08);
 }
@@ -155,4 +263,10 @@
 }
 #automation-panel .provider-import-button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
+}
+#automation-panel .provider-import-button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+	filter: none;
+	transform: none;
 }

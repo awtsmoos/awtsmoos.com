@@ -4,26 +4,45 @@
   On a phone, the chat is the living river. Conversations and automation become
   summoned drawers instead of permanent height-hungry rails.
 */
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
 @media (max-width: 680px) {
+<<<<<<< ours
   .container {
+=======
+  html .container {
+>>>>>>> theirs
     grid-template-rows: minmax(0, 1fr);
     grid-template-areas: "main";
     padding: max(4px, env(safe-area-inset-top)) 4px max(4px, env(safe-area-inset-bottom));
     gap: 0;
   }
 
+<<<<<<< ours
   #left-resizer,
   #right-resizer {
     display: none;
   }
 
   .main {
+=======
+  html #left-resizer,
+  html #right-resizer {
+    display: none;
+  }
+
+  html .main {
+>>>>>>> theirs
     border-radius: 14px;
     grid-template-rows: minmax(34px, auto) minmax(0, 1fr) 10px minmax(96px, auto);
   }
 
+<<<<<<< ours
   .sidebar,
   .automation-panel {
+=======
+  html .sidebar,
+  html .automation-panel {
+>>>>>>> theirs
     position: fixed;
     left: 6px;
     right: 6px;
@@ -31,11 +50,16 @@
     width: auto;
     max-height: min(74dvh, 560px);
     z-index: 220;
+<<<<<<< ours
     box-shadow: 0 -18px 70px rgba(0,0,0,.48), 0 0 0 1px rgba(125,211,252,.14);
+=======
+    box-shadow: 0 -18px 70px rgba(0, 0, 0, .48), 0 0 0 1px rgba(125, 211, 252, .14);
+>>>>>>> theirs
     transform: translateY(calc(100% - 68px));
     transition: transform .18s ease, max-height .18s ease, opacity .18s ease;
   }
 
+<<<<<<< ours
   body:not([data-sidebar-collapsed="true"]) .sidebar,
   body:not([data-automation-collapsed="true"]) .automation-panel {
     transform: translateY(0);
@@ -43,12 +67,26 @@
 
   body:not([data-sidebar-collapsed="true"]) .automation-panel,
   body:not([data-automation-collapsed="true"]) .sidebar {
+=======
+  html body:not([data-sidebar-collapsed="true"]) .sidebar,
+  html body:not([data-automation-collapsed="true"]) .automation-panel {
+    transform: translateY(0);
+  }
+
+  html body:not([data-sidebar-collapsed="true"]) .automation-panel,
+  html body:not([data-automation-collapsed="true"]) .sidebar {
+>>>>>>> theirs
     opacity: 0;
     pointer-events: none;
   }
 
+<<<<<<< ours
   body[data-sidebar-collapsed="true"] .conversation-list,
   body[data-automation-collapsed="true"] .automation-panel > :not(.panel-topbar) {
+=======
+  html body[data-sidebar-collapsed="true"] .conversation-list,
+  html body[data-automation-collapsed="true"] .automation-panel > :not(.panel-topbar) {
+>>>>>>> theirs
     display: block;
     visibility: hidden;
     pointer-events: none;

@@ -6,22 +6,38 @@
   remove decorative layers, filters, animations, broad shadows, and expensive
   paint storms. High mode may invite the stars back explicitly.
 */
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08).
+ * FX-mode override sheets keep their winning specificity via the html prefix. */
 html.awts-fx-low body::before,
 html.awts-fx-low body::after,
 html.awts-fx-off body::before,
 html.awts-fx-off body::after,
+<<<<<<< ours
 body.awts-fx-low::before,
 body.awts-fx-low::after,
 body.awts-fx-off::before,
 body.awts-fx-off::after{display:none}
+=======
+html body.awts-fx-low::before,
+html body.awts-fx-low::after,
+html body.awts-fx-off::before,
+html body.awts-fx-off::after{display:none}
+>>>>>>> theirs
 html.awts-fx-low body .chat-box::before,
 html.awts-fx-low body .chat-box::after,
 html.awts-fx-off body .chat-box::before,
 html.awts-fx-off body .chat-box::after,
+<<<<<<< ours
 body.awts-fx-low .chat-box::before,
 body.awts-fx-low .chat-box::after,
 body.awts-fx-off .chat-box::before,
 body.awts-fx-off .chat-box::after{display:none}
+=======
+html body.awts-fx-low .chat-box::before,
+html body.awts-fx-low .chat-box::after,
+html body.awts-fx-off .chat-box::before,
+html body.awts-fx-off .chat-box::after{display:none}
+>>>>>>> theirs
 html.awts-fx-low body .showcase-hero-halo,
 html.awts-fx-low body .showcase-context-chips,
 html.awts-fx-low body .showcase-composer-aura,
@@ -32,6 +48,7 @@ html.awts-fx-off body .showcase-context-chips,
 html.awts-fx-off body .showcase-composer-aura,
 html.awts-fx-off body .showcase-side-badge,
 html.awts-fx-off body .showcase-tunnel-wave,
+<<<<<<< ours
 body.awts-fx-low .showcase-hero-halo,
 body.awts-fx-low .showcase-context-chips,
 body.awts-fx-low .showcase-composer-aura,
@@ -46,6 +63,22 @@ html.awts-fx-low body *,
 html.awts-fx-off body *,
 body.awts-fx-low *,
 body.awts-fx-off *{animation:none;transition:none;scroll-behavior:auto}
+=======
+html body.awts-fx-low .showcase-hero-halo,
+html body.awts-fx-low .showcase-context-chips,
+html body.awts-fx-low .showcase-composer-aura,
+html body.awts-fx-low .showcase-side-badge,
+html body.awts-fx-low .showcase-tunnel-wave,
+html body.awts-fx-off .showcase-hero-halo,
+html body.awts-fx-off .showcase-context-chips,
+html body.awts-fx-off .showcase-composer-aura,
+html body.awts-fx-off .showcase-side-badge,
+html body.awts-fx-off .showcase-tunnel-wave{display:none}
+html.awts-fx-low body *,
+html.awts-fx-off body *,
+html body.awts-fx-low *,
+html body.awts-fx-off *{animation:none;transition:none;scroll-behavior:auto}
+>>>>>>> theirs
 html.awts-fx-low body .container>.sidebar,
 html.awts-fx-low body .container>#automation-panel,
 html.awts-fx-low body .container>.main,
@@ -58,6 +91,7 @@ html.awts-fx-low body .input-area,
 html.awts-fx-low body .conversation-list li,
 html.awts-fx-low body .message,
 html.awts-fx-low body .bubble,
+<<<<<<< ours
 body.awts-fx-low .container>.sidebar,
 body.awts-fx-low .container>#automation-panel,
 body.awts-fx-low .container>.main,
@@ -70,6 +104,20 @@ body.awts-fx-low .input-area,
 body.awts-fx-low .conversation-list li,
 body.awts-fx-low .message,
 body.awts-fx-low .bubble{backdrop-filter:none;-webkit-backdrop-filter:none;filter:none;box-shadow:0 4px 10px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.03)}
+=======
+html body.awts-fx-low .container>.sidebar,
+html body.awts-fx-low .container>#automation-panel,
+html body.awts-fx-low .container>.main,
+html body.awts-fx-low .service-selector,
+html body.awts-fx-low .provider-key-panel,
+html body.awts-fx-low .transport-status,
+html body.awts-fx-low .mobile-control-center,
+html body.awts-fx-low .ai-empty-state,
+html body.awts-fx-low .input-area,
+html body.awts-fx-low .conversation-list li,
+html body.awts-fx-low .message,
+html body.awts-fx-low .bubble{backdrop-filter:none;-webkit-backdrop-filter:none;filter:none;box-shadow:0 4px 10px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.03)}
+>>>>>>> theirs
 html.awts-fx-off body .container>.sidebar,
 html.awts-fx-off body .container>#automation-panel,
 html.awts-fx-off body .container>.main,
@@ -82,6 +130,7 @@ html.awts-fx-off body .input-area,
 html.awts-fx-off body .conversation-list li,
 html.awts-fx-off body .message,
 html.awts-fx-off body .bubble,
+<<<<<<< ours
 body.awts-fx-off .container>.sidebar,
 body.awts-fx-off .container>#automation-panel,
 body.awts-fx-off .container>.main,
@@ -102,3 +151,25 @@ html.awts-fx-low body,
 html.awts-fx-off body,
 body.awts-fx-low,
 body.awts-fx-off{background:#020611}
+=======
+html body.awts-fx-off .container>.sidebar,
+html body.awts-fx-off .container>#automation-panel,
+html body.awts-fx-off .container>.main,
+html body.awts-fx-off .service-selector,
+html body.awts-fx-off .provider-key-panel,
+html body.awts-fx-off .transport-status,
+html body.awts-fx-off .mobile-control-center,
+html body.awts-fx-off .ai-empty-state,
+html body.awts-fx-off .input-area,
+html body.awts-fx-off .conversation-list li,
+html body.awts-fx-off .message,
+html body.awts-fx-off .bubble{backdrop-filter:none;-webkit-backdrop-filter:none;filter:none;box-shadow:none}
+html.awts-fx-low body .chat-box,
+html.awts-fx-off body .chat-box,
+html body.awts-fx-low .chat-box,
+html body.awts-fx-off .chat-box{background:linear-gradient(180deg,rgba(4,10,22,.28),rgba(2,6,17,.46))}
+html.awts-fx-low body,
+html.awts-fx-off body,
+html body.awts-fx-low,
+html body.awts-fx-off{background:var(--vision-bg,#020611)}
+>>>>>>> theirs
