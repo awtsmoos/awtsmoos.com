@@ -18,6 +18,7 @@
 .portal-value-object dt,
 .portal-facts dt {
 	font-weight: 760;
+	color: var(--aw-ui-text);
 }
 
 .portal-value-object dd,
@@ -36,6 +37,7 @@
 .portal-value-list > li {
 	margin-block: .35rem;
 	line-height: 1.5;
+	color: var(--aw-ui-text);
 }
 
 .portal-truncated,
