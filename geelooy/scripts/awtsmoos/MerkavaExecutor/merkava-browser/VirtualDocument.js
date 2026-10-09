@@ -191,6 +191,10 @@
      * without bound on mutation-heavy pages.
      */
     __notifyMutation(kind, target, extra) {
+      // B"H (parse fast path): during initial HTML parsing the tree builder
+      // sets __suppressMutations; every record/Date.now/journal write below is
+      // pure overhead until the first post-parse layout. Skip it all.
+      if (this.__suppressMutations) return;
       const record = { kind, target: target.__handle() };
       if (extra) for (const key in extra) record[key] = extra[key];
       record.at = Date.now();

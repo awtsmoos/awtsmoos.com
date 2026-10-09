@@ -32,12 +32,10 @@
 		 */
 		hydrate(document, source, options = {}) {
 			void options;
-			const tokens = tokenizer.tokenizeHtml(source);
-			const result = treeBuilder.buildHtmlTree(document, tokens);
-			return Object.freeze({
-				...result,
-				tokens: tokens.length
-			});
+			// Streaming path: tokenize and tree-build in one pass, no token array.
+			// Falls back to tokenizeHtml inside buildHtmlTreeStreaming when needed.
+			const result = treeBuilder.buildHtmlTreeStreaming(document, source, tokenizer);
+			return Object.freeze(result);
 		}
 	}
 

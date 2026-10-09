@@ -31,7 +31,12 @@
          */
         __notifyStyle(dashedName) {
             const owner = this.__owner;
-            const sched = owner && owner.ownerDocument && owner.ownerDocument.__layoutScheduler;
+            const doc = owner && owner.ownerDocument;
+            // B"H (parse fast path): style writes during initial HTML parsing
+            // (e.g. UA display defaults) skip scheduler bookkeeping; the first
+            // post-parse layout covers the whole tree.
+            if (doc && doc.__suppressMutations) return;
+            const sched = doc && doc.__layoutScheduler;
             if (sched) sched.noteStyleChange(owner, dashedName);
         }
     }
