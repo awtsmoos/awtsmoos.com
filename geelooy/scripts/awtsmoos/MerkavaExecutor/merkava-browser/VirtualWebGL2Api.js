@@ -4,12 +4,13 @@
 
 (function(root, factory) {
 	if (typeof module === 'object' && module.exports) {
-		module.exports = factory();
+		module.exports = factory(require('./VirtualGLPipeline.js'));
 	} else {
 		root.Merkava = root.Merkava || {};
-		Object.assign(root.Merkava, factory());
+		Object.assign(root.Merkava, factory(root.Merkava));
 	}
-})(typeof self !== 'undefined' ? self : this, function() {
+})(typeof self !== 'undefined' ? self : this, function(pipeMod) {
+	const PIPE = pipeMod && pipeMod.drawGL ? pipeMod : (pipeMod && pipeMod.VirtualGLPipeline) || {};
 	/**
 	 * Installs core WebGL2 object families and GPU command surfaces required by
 	 * GLES3/Vulkan/Metal lowering: VAOs, queries, samplers, syncs, transform
@@ -72,9 +73,27 @@
 			endTransformFeedback() { if (this.boundTransformFeedback) this.boundTransformFeedback.active = false; this.record('endTransformFeedback'); },
 			bindBufferBase(target, index, buffer) { this.record('bindBufferBase', { target, index, buffer: buffer?.id ?? null }); },
 			bindBufferRange(target, index, buffer, offset, size) { this.record('bindBufferRange', { target, index, buffer: buffer?.id ?? null, offset, size }); },
-			drawArraysInstanced(mode, first, count, instanceCount) { this.record('drawArraysInstanced', { mode, first, count, instanceCount }); },
-			drawElementsInstanced(mode, count, type, offset, instanceCount) { this.record('drawElementsInstanced', { mode, count, type, offset, instanceCount }); },
-			vertexAttribDivisor(index, divisor) { this.record('vertexAttribDivisor', { index, divisor }); },
+			drawArraysInstanced(mode, first, count, instanceCount) {
+				if (count < 0 || first < 0 || instanceCount < 0) return this.invalid(this.INVALID_VALUE, 'drawArraysInstanced');
+				if (!this.currentProgram) this.pushError(this.INVALID_OPERATION);
+				this.record('drawArraysInstanced', { mode, first, count, instanceCount, program: this.currentProgram?.id ?? null });
+				// B"H: really rasterize instanced draws (was: journal-only).
+				try { if (PIPE.drawArraysInstancedGL && this.currentProgram) this.drawResult = PIPE.drawArraysInstancedGL(this, mode, first, count, instanceCount); }
+				catch (e) { this.pushError(this.INVALID_OPERATION); }
+			},
+			drawElementsInstanced(mode, count, type, offset, instanceCount) {
+				if (count < 0 || offset < 0 || instanceCount < 0) return this.invalid(this.INVALID_VALUE, 'drawElementsInstanced');
+				if (!this.currentProgram) this.pushError(this.INVALID_OPERATION);
+				this.record('drawElementsInstanced', { mode, count, type, offset, instanceCount, program: this.currentProgram?.id ?? null });
+				// B"H: really rasterize instanced draws (was: journal-only).
+				try { if (PIPE.drawElementsInstancedGL && this.currentProgram) this.drawResult = PIPE.drawElementsInstancedGL(this, mode, count, type, offset, instanceCount); }
+				catch (e) { this.pushError(this.INVALID_OPERATION); }
+			},
+			vertexAttribDivisor(index, divisor) {
+				// B"H: live divisor state for the software pipeline (journal preserved).
+				(this.attribDivisors || (this.attribDivisors = {}))[index] = Math.max(0, divisor | 0);
+				this.record('vertexAttribDivisor', { index, divisor });
+			},
 			drawBuffers(buffers) { this.drawBuffersValue = Array.from(buffers || []); this.record('drawBuffers', { buffers: this.drawBuffersValue }); },
 			readBuffer(buffer) { this.readBufferValue = buffer; this.record('readBuffer', { buffer }); },
 			blitFramebuffer(...args) { this.record('blitFramebuffer', { args: args.slice() }); },

@@ -14,6 +14,13 @@
 	 * Installs WebGL buffer and vertex-attribute semantics on a virtual context.
 	 * Invalid targets, deleted handles, missing bindings, negative sizes, and
 	 * invalid offsets enter the WebGL error queue instead of silently succeeding.
+	 *
+	 * B"H 2026-10-09 — huge-buffer pass:
+	 *   * bufferData with a numeric size (the orphaning idiom) now allocates
+	 *     real zeroed storage so subsequent bufferSubData updates live data
+	 *     (was: stored the number; subdata silently journal-only).
+	 *   * bufferSubData writes directly into existing storage (was: full
+	 *     buffer copy per call — O(n) per streaming update).
 	 * @param {Function} Context Virtual context constructor.
 	 * @returns {void}
 	 */
@@ -38,7 +45,9 @@
 				if (bytes < 0) return this.invalid(this.INVALID_VALUE, 'bufferData', { target });
 				buffer.bytes = bytes;
 				buffer.usage = usage;
-				buffer.data = cloneData(data);
+				// B"H: numeric size = orphan/reserve idiom. Allocate real
+				// zeroed storage so bufferSubData has live bytes to update.
+				buffer.data = (typeof data === 'number') ? new ArrayBuffer(bytes) : cloneData(data);
 				this.record('bufferData', { target, bytes, usage });
 			},
 			bufferSubData(target, offset, data) {
@@ -46,13 +55,23 @@
 				if (!validTarget(this, target)) return this.invalid(this.INVALID_ENUM, 'bufferSubData', { target });
 				if (!buffer) return this.invalid(this.INVALID_OPERATION, 'bufferSubData', { target });
 				if (Number(offset) < 0) return this.invalid(this.INVALID_VALUE, 'bufferSubData', { offset });
-				// B"H: apply to the live stored data as well (journal preserved).
+				// B"H: write directly into live storage (no full-buffer copy).
 				try {
-					if (buffer.data && ArrayBuffer.isView(data) && ArrayBuffer.isView(buffer.data)) {
-						const Ctor = buffer.data.constructor;
-						const merged = new Ctor(buffer.data);
-						merged.set(new Ctor(data.buffer, data.byteOffset, data.byteLength), Math.floor(Number(offset) / merged.BYTES_PER_ELEMENT));
-						buffer.data = merged;
+					const off = Math.floor(Number(offset));
+					if (ArrayBuffer.isView(data)) {
+						const src = new Uint8Array(data.buffer, data.byteOffset, data.byteLength);
+						if (buffer.data instanceof ArrayBuffer) {
+							if (off + src.byteLength <= buffer.data.byteLength) {
+								new Uint8Array(buffer.data, off, src.byteLength).set(src);
+							}
+						} else if (ArrayBuffer.isView(buffer.data)) {
+							const Ctor = buffer.data.constructor;
+							const dst = new Ctor(buffer.data.buffer, buffer.data.byteOffset, buffer.data.byteLength);
+							const elOff = Math.floor(off / dst.BYTES_PER_ELEMENT);
+							if (elOff + src.byteLength / dst.BYTES_PER_ELEMENT <= dst.length) {
+								dst.set(new Ctor(src.buffer, src.byteOffset, src.byteLength / dst.BYTES_PER_ELEMENT), elOff);
+							}
+						}
 					}
 				} catch (e) { /* journal still records the call */ }
 				this.record('bufferSubData', { target, offset, bytes: byteLength(data) });
