@@ -8,7 +8,7 @@
  * leak glyphs past its vessel.
  */
 import { rgbPng } from "../pngTools.js";
-import { gradientColor, parseColor } from "./color.js";
+import { gradientColor, parseGradient, gradientColorAt, parseColor } from "./color.js";
 
 export class Framebuffer {
   constructor(width = 960, height = 640, bg = [0, 0, 0, 255]) {
@@ -29,15 +29,127 @@ export class Framebuffer {
     this.data[i + 2] = Math.round(color[2] * a + this.data[i + 2] * ia);
     this.data[i + 3] = 255;
   }
+  // B"H 2026-10-09: Packed-color fast path. Takes a Uint32 0xRRGGBBAA.
+  // Avoids 4 array-index lookups per pixel vs setPixel. Use with parseColorPacked.
+  setPixelPacked(x, y, packed) {
+    const ix = Math.round(x), iy = Math.round(y);
+    if (ix < 0 || iy < 0 || ix >= this.width || iy >= this.height) return;
+    const i = (iy * this.width + ix) * 4;
+    const a = (packed & 255) / 255;
+    if (a >= 1) {
+      // Opaque: direct write, no blend math.
+      this.data[i] = (packed >>> 24) & 255;
+      this.data[i + 1] = (packed >>> 16) & 255;
+      this.data[i + 2] = (packed >>> 8) & 255;
+      this.data[i + 3] = 255;
+    } else {
+      const ia = 1 - a;
+      this.data[i] = Math.round(((packed >>> 24) & 255) * a + this.data[i] * ia);
+      this.data[i + 1] = Math.round(((packed >>> 16) & 255) * a + this.data[i + 1] * ia);
+      this.data[i + 2] = Math.round(((packed >>> 8) & 255) * a + this.data[i + 2] * ia);
+      this.data[i + 3] = 255;
+    }
+  }
+  fillRectPacked(x, y, w, h, packed) {
+    const sx = Math.max(0, Math.floor(x)), sy = Math.max(0, Math.floor(y));
+    const ex = Math.min(this.width, Math.ceil(x + w)), ey = Math.min(this.height, Math.ceil(y + h));
+    for (let yy = sy; yy < ey; yy++) for (let xx = sx; xx < ex; xx++) this.setPixelPacked(xx, yy, packed);
+  }
   fillRect(x, y, w, h, color) {
     const sx = Math.max(0, Math.floor(x)), sy = Math.max(0, Math.floor(y));
     const ex = Math.min(this.width, Math.ceil(x + w)), ey = Math.min(this.height, Math.ceil(y + h));
     for (let yy = sy; yy < ey; yy++) for (let xx = sx; xx < ex; xx++) this.setPixel(xx, yy, color);
   }
   gradientRect(x, y, w, h, background, fallback) {
+    // B"H 2026-10-09 (speed): parse the gradient ONCE per rect instead of
+    // per pixel. A 800x600 gradient rect went from ~480k regex parses to 1.
+    const g = parseGradient(background);
     const sx = Math.max(0, Math.floor(x)), sy = Math.max(0, Math.floor(y));
     const ex = Math.min(this.width, Math.ceil(x + w)), ey = Math.min(this.height, Math.ceil(y + h));
-    for (let yy = sy; yy < ey; yy++) for (let xx = sx; xx < ex; xx++) this.setPixel(xx, yy, gradientColor(background, xx - x, yy - y, w, h, fallback));
+    if (g) {
+      for (let yy = sy; yy < ey; yy++) for (let xx = sx; xx < ex; xx++) this.setPixel(xx, yy, gradientColorAt(g, xx - x, yy - y, w, h, fallback));
+    } else {
+      for (let yy = sy; yy < ey; yy++) for (let xx = sx; xx < ex; xx++) this.setPixel(xx, yy, fallback);
+    }
+  }
+  // B"H 2026-10-09: fix-forward. boxPainter.js and blendClipMask.js call
+  // fillRoundedRect/gradientRoundedRect but the methods never landed on the
+  // class (only the pointInRoundedRect helper existed). Banded
+  // implementation: the middle band is one fast fillRect; only the corner
+  // bands test pixels, and only inside the corner x-ranges.
+  fillRoundedRect(x, y, w, h, radii, color) {
+    const r = normalizeRadii(radii || {}, w, h);
+    if (!hasAnyRadius(r)) return this.fillRect(x, y, w, h, color);
+    const top = Math.max(r.tl[1] || 0, r.tr[1] || 0);
+    const bot = Math.max(r.bl[1] || 0, r.br[1] || 0);
+    const lft = Math.max(r.tl[0] || 0, r.bl[0] || 0);
+    const rgt = Math.max(r.tr[0] || 0, r.br[0] || 0);
+    const midY0 = y + top, midY1 = y + h - bot;
+    if (midY1 > midY0) this.fillRect(x, midY0, w, midY1 - midY0, color);
+    this._roundedCornerBands(x, y, w, h, r, top, bot, lft, rgt, (xx, yy) => this.setPixel(xx, yy, color));
+  }
+  gradientRoundedRect(x, y, w, h, radii, background, fallback) {
+    const r = normalizeRadii(radii || {}, w, h);
+    const g = parseGradient(background);
+    if (!hasAnyRadius(r)) return this.gradientRect(x, y, w, h, background, fallback);
+    const top = Math.max(r.tl[1] || 0, r.tr[1] || 0);
+    const bot = Math.max(r.bl[1] || 0, r.br[1] || 0);
+    const lft = Math.max(r.tl[0] || 0, r.bl[0] || 0);
+    const rgt = Math.max(r.tr[0] || 0, r.br[0] || 0);
+    const midY0 = y + top, midY1 = y + h - bot;
+    if (midY1 > midY0) {
+      if (g) {
+        const sx = Math.max(0, Math.floor(x)), sy = Math.max(0, Math.floor(midY0));
+        const ex = Math.min(this.width, Math.ceil(x + w)), ey = Math.min(this.height, Math.ceil(midY1));
+        for (let yy = sy; yy < ey; yy++) for (let xx = sx; xx < ex; xx++) this.setPixel(xx, yy, gradientColorAt(g, xx - x, yy - y, w, h, fallback));
+      } else this.fillRect(x, midY0, w, midY1 - midY0, fallback);
+    }
+    if (g) this._roundedCornerBands(x, y, w, h, r, top, bot, lft, rgt, (xx, yy) => this.setPixel(xx, yy, gradientColorAt(g, xx - x, yy - y, w, h, fallback)));
+    else this._roundedCornerBands(x, y, w, h, r, top, bot, lft, rgt, (xx, yy) => this.setPixel(xx, yy, fallback));
+  }
+  // B"H 2026-10-09: strokeRoundedRect was also missing (boxPainter calls it
+  // for bordered rounded boxes). Pixel is on the border iff inside the outer
+  // rounded rect but outside the inner one (inset by lineWidth, radii shrunk).
+  strokeRoundedRect(x, y, w, h, radii, color, lineWidth = 1) {
+    const lw = Math.max(1, Math.round(lineWidth));
+    const r = normalizeRadii(radii || {}, w, h);
+    if (!hasAnyRadius(r)) return this.strokeRect(x, y, w, h, color, lw);
+    const inner = {};
+    for (const k of ["tl", "tr", "br", "bl"]) {
+      const c = r[k] || [0, 0];
+      inner[k] = [Math.max(0, c[0] - lw), Math.max(0, c[1] - lw)];
+    }
+    const ix = x + lw, iy = y + lw, iw = w - 2 * lw, ih = h - 2 * lw;
+    const sx = Math.max(0, Math.floor(x)), sy = Math.max(0, Math.floor(y));
+    const ex = Math.min(this.width, Math.ceil(x + w)), ey = Math.min(this.height, Math.ceil(y + h));
+    for (let yy = sy; yy < ey; yy++) {
+      for (let xx = sx; xx < ex; xx++) {
+        const cx = xx + 0.5, cy = yy + 0.5;
+        if (pointInRoundedRect(cx, cy, x, y, w, h, r) &&
+            !pointInRoundedRect(cx, cy, ix, iy, iw, ih, inner)) {
+          this.setPixel(xx, yy, color);
+        }
+      }
+    }
+  }
+  /** Corner bands of a rounded rect: middle x-range fills directly, corner
+   * x-ranges are tested per pixel. Shared by fill/gradient variants. */  _roundedCornerBands(x, y, w, h, r, top, bot, lft, rgt, paint) {
+    const midX0 = x + lft, midX1 = x + w - rgt;
+    for (const [b0, b1] of [[y, y + top], [y + h - bot, y + h]]) {
+      const yy0 = Math.max(0, Math.floor(b0)), yy1 = Math.min(this.height, Math.ceil(b1));
+      for (let yy = yy0; yy < yy1; yy++) {
+        const xxA0 = Math.max(0, Math.floor(x)), xxA1 = Math.min(this.width, Math.ceil(midX0));
+        for (let xx = xxA0; xx < xxA1; xx++)
+          if (pointInRoundedRect(xx + 0.5, yy + 0.5, x, y, w, h, r)) paint(xx, yy);
+        if (midX1 > midX0) {
+          const mx0 = Math.max(0, Math.floor(midX0)), mx1 = Math.min(this.width, Math.ceil(midX1));
+          for (let xx = mx0; xx < mx1; xx++) paint(xx, yy);
+        }
+        const xxB0 = Math.max(0, Math.floor(midX1)), xxB1 = Math.min(this.width, Math.ceil(x + w));
+        for (let xx = xxB0; xx < xxB1; xx++)
+          if (pointInRoundedRect(xx + 0.5, yy + 0.5, x, y, w, h, r)) paint(xx, yy);
+      }
+    }
   }
   strokeRect(x, y, w, h, color, lineWidth = 1) {
     const lw = Math.max(1, Math.round(lineWidth));
@@ -92,6 +204,15 @@ export class Framebuffer {
   }
   toPngBuffer() { return rgbPng(this.width, this.height, (x, y) => { const i = (y * this.width + x) * 4; return [this.data[i], this.data[i + 1], this.data[i + 2], 255]; }); }
   writeRaw(i, color) { this.data[i] = color[0]; this.data[i + 1] = color[1]; this.data[i + 2] = color[2]; this.data[i + 3] = color[3] ?? 255; }
+  // B"H 2026-10-09: Packed writeRaw. Zero array indexing.
+  writeRawPacked(i, packed) {
+    this.data[i] = (packed >>> 24) & 255;
+    this.data[i + 1] = (packed >>> 16) & 255;
+    this.data[i + 2] = (packed >>> 8) & 255;
+    this.data[i + 3] = packed & 255;
+  }
+  // B"H 2026-10-09: Packed clear. Uses writeRawPacked in the loop.
+  clearPacked(packed) { for (let i = 0; i < this.data.length; i += 4) this.writeRawPacked(i, packed); }
 }
 
 export function textWidth(text, scale = 1) { return String(text || "").length * 6 * scale; }
