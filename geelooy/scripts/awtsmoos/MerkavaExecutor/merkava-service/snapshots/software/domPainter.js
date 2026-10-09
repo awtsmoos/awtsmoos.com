@@ -118,7 +118,12 @@ function accumulate2D(item, byNode) {
       mE[4] + ex * (1 - mE[0]) - ey * mE[2],
       mE[5] + ey * (1 - mE[3]) - ex * mE[1],
     ];
-    M = multiplyMatrix(PE, M);
+    // B"H: column-vector convention — the outermost ancestor's page-space
+    // matrix applies LAST, so it stands LEFTMOST: M = PE_outer * ... * PE_item.
+    // (A previous revision had multiplyMatrix(PE, M), which applied ancestors
+    // first — invisible for commuting transforms but wrong for nested
+    // rotations/scales about different origins.)
+    M = multiplyMatrix(M, PE);
   }
   return { M };
 }
@@ -157,20 +162,77 @@ function isInSubtree(m, root) {
   return false;
 }
 
-export function paintLayout(fb, layout, canvas = {}) {
+export function paintLayout(fb, layout, canvas = {}, options = {}) {
   const textures = [...(canvas.textures || [])];
   const used = new Set();
-  const byNode = new Map(layout.map(item => [item.node, item]));
+  const vp = options.viewport;
+  // B"H 2026-10-09 (viewport culling): when a viewport is provided, reduce
+  // the working set to visible items + their ancestor chains BEFORE the
+  // expensive loops below. Ancestors are kept for clip/transform/opacity
+  // context but marked non-painting. For a 100k page with 2k visible, the
+  // hasKid O(n*depth) walk and paint loop operate on 2% of the data.
+  //
+  // B"H 2026-10-09 (spatial index): options.spatialIndex is a persistent
+  // SpatialIndex across frames. Index build is O(n log n) once; per-frame
+  // queries are O(log n + k). Without it, falls back to O(n) scan.
+  let paintSet = null;
+  let workList = layout;
+  let byNode;
+  if (vp && options.spatialIndex) {
+    const si = options.spatialIndex.ensure(layout, options.layoutGeneration ?? 0);
+    byNode = si.byNode;
+    const { visible, paintSet: ps } = si.queryVisible(vp, options.viewportMargin || 0);
+    paintSet = ps;
+    const context = si.ancestorContext(visible, paintSet);
+    workList = [...visible, ...context];
+  } else {
+    byNode = new Map(layout.map(item => [item.node, item]));
+    if (vp) {
+      paintSet = new Set();
+      const vx0 = vp.x || 0, vy0 = vp.y || 0;
+      const vx1 = vx0 + (vp.width || 800), vy1 = vy0 + (vp.height || 600);
+      const margin = options.viewportMargin || 0;
+      const visible = [];
+      for (const item of layout) {
+        const st = item.style || {};
+        const pos = String(st.position || "static").toLowerCase();
+        const t = String(st.transform || "").trim().toLowerCase();
+        // Fixed/sticky/transformed items are conservatively kept.
+        if (pos === "fixed" || pos === "sticky" || (t && t !== "none")) {
+          visible.push(item); paintSet.add(item); continue;
+        }
+        const ix = Number(item.x) || 0, iy = Number(item.y) || 0;
+        const iw = Number(item.width) || 0, ih = Number(item.height) || 0;
+        if (ix < vx1 + margin && ix + iw > vx0 - margin &&
+            iy < vy1 + margin && iy + ih > vy0 - margin) {
+          visible.push(item); paintSet.add(item);
+        }
+      }
+      // Keep ancestor chains for context (clip/transform/opacity lookups).
+      const context = new Set();
+      for (const item of visible) {
+        let n = item.node ? item.node.parentNode : null, g = 0;
+        while (n && g++ < 64) {
+          const anc = byNode.get(n);
+          if (anc && !paintSet.has(anc)) context.add(anc);
+          n = n.parentNode;
+        }
+      }
+      workList = [...visible, ...context];
+    }
+  }
   // B"H: a node's own textContent is laid out as a #text item (synthesized by
   // inlineKids when the node has no element children). paintBox must not paint
   // it a second time via directText — that double-paints every text run.
+  // B"H 2026-10-09 (viewport culling): operate on the culled workList.
   const textParents = new Set();
-  for (const item of layout) {
+  for (const item of workList) {
     if (item.kind === "#text" && item.node && item.node.parentNode) textParents.add(item.node.parentNode);
   }
   // B"H 2026-10-09: which items have painted descendants (opacity groups).
+  // B"H 2026-10-09 (viewport culling): operate on the culled workList.
   const hasKid = new Set();
-  for (const it of layout) {
+  for (const it of workList) {
     let n = it.node ? it.node.parentNode : null, g = 0;
     while (n && g++ < 64) {
       const anc = byNode.get(n);
@@ -179,7 +241,35 @@ export function paintLayout(fb, layout, canvas = {}) {
     }
   }
   const isGroupRoot = (it) => opacityOf(it.style) < 1 && hasKid.has(it);
-  const ordered = paintOrder(layout);
+  const ordered = paintOrder(workList);
+
+  // B"H 2026-10-09 (viewport culling): per-frame ancestor info cache.
+  // paintOne does 4 separate ancestor walks per item (accumulate2D,
+  // clipChainFor, clipFor, computeScene3D/nearestTransformCtx). The DOM
+  // doesn't change during a paint, so cache the combined results per item.
+  const ancCache = new Map();
+  function ancestorInfo(item) {
+    let info = ancCache.get(item);
+    if (info) return info;
+    const transformCtx = nearestTransformCtx(item, byNode);
+    // B"H: boxScene must run when the item OR any ancestor has a transform
+    // (computeScene3D walks ancestors for 3D). transformCtx is non-null when
+    // a transformed ancestor exists.
+    const mayHave3D = transformCtx || hasOwnTransform(item.style);
+    info = {
+      accum2d: accumulate2D(item, byNode),
+      clipChain: clipChainFor(item, byNode),
+      oclip: clipFor(item, byNode),
+      transformCtx,
+      // B"H 2026-10-09: computeScene3D is expensive; skip when no transform
+      // in play. Text roots the scene at the transformed ancestor; boxes use
+      // the item itself (computeScene3D walks ancestors internally).
+      textScene: mayHave3D ? computeScene3D(transformCtx || item, byNode) : null,
+      boxScene: mayHave3D ? computeScene3D(item, byNode) : null,
+    };
+    ancCache.set(item, info);
+    return info;
+  }
 
   // Paint one item: visibility, clip-path chain, overflow clip, effects.
   function paintOne(destFb, item, forceOpacity) {
@@ -188,31 +278,28 @@ export function paintLayout(fb, layout, canvas = {}) {
     // and still paint (their own computed visibility wins).
     const vis = String(item.style?.visibility || "visible").trim().toLowerCase();
     if (vis === "hidden" || vis === "collapse") return;
-    const accum2d = accumulate2D(item, byNode);
+    const info = ancestorInfo(item);
+    const accum2d = info.accum2d;
     // B"H 2026-10-09: the untransformed-box cull is only valid without
     // transforms; a transformed item may paint inside the clip while its
     // untransformed box sits outside. The pixel clip below still seals it.
     if (!accum2d && !visibleInsideAncestors(item, byNode)) return;
-    const clipChain = clipChainFor(item, byNode);
-    const fx = { clipChain, accum2d, forceOpacity };
-    const oclip = clipFor(item, byNode);
+    const fx = { clipChain: info.clipChain, accum2d, forceOpacity };
+    const oclip = info.oclip;
     if (oclip && typeof destFb.pushClip === "function") destFb.pushClip(oclip);
     try {
       if (item.kind === "#text") {
-        const ctx = nearestTransformCtx(item, byNode);
         // B"H 2026-10-09 — 3D scene is rooted at the transformed ancestor.
-        const scene = computeScene3D(ctx || item, byNode);
-        paintWithEffects(destFb, item, (f, it) => paintTextItem(f, it), ctx, fx, scene);
+        paintWithEffects(destFb, item, (f, it) => paintTextItem(f, it), info.transformCtx, fx, info.textScene);
       } else {
         // B"H 2026-10-09 — 3D transforms project with true perspective.
-        const scene = computeScene3D(item, byNode);
         paintWithEffects(
           destFb,
           item,
           (f, it) => paintBox(f, it, pickCanvasTexture(it, textures, used), textures, textParents),
           null,
           fx,
-          scene
+          info.boxScene
         );
       }
     } finally {
@@ -244,6 +331,9 @@ export function paintLayout(fb, layout, canvas = {}) {
   const skipped = new Set();
   for (const item of ordered) {
     if (skipped.has(item)) continue;
+    // B"H 2026-10-09 (viewport culling): context-only ancestors provide
+    // clip/transform/opacity lookups but never paint themselves.
+    if (paintSet && !paintSet.has(item)) continue;
     if (isGroupRoot(item)) {
       const gs = paintGroupSurface(item);
       fb.blitFrom(gs.base, 0, 0);
@@ -252,7 +342,10 @@ export function paintLayout(fb, layout, canvas = {}) {
     }
     paintOne(fb, item);
   }
-  for (const item of layout) if (shouldShowScrollbar(item)) paintScrollbar(fb, item);
+  for (const item of workList) {
+    if (paintSet && !paintSet.has(item)) continue;
+    if (shouldShowScrollbar(item)) paintScrollbar(fb, item);
+  }
 }
 
 /**
