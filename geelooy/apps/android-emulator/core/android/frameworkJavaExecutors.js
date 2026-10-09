@@ -70,6 +70,22 @@ export function createFrameworkJavaExecutorMethods(runtime) {
 			if (name === "awaitTermination") {
 				return guestExecutorState(runtime, args[0]).shutdown ? 1 : 0;
 			}
+			if (name === "setKeepAliveTime" || name === "setCorePoolSize" ||
+				name === "setMaximumPoolSize" || name === "setRejectedExecutionHandler" ||
+				name === "setThreadFactory" || name === "prestartAllCoreThreads" ||
+				name === "prestartCoreThread" || name === "purge" ||
+				name === "allowCoreThreadTimeOut") {
+				// Configuration methods: accept and ignore for emulation.
+				// Thread pool tuning doesn't affect correctness.
+				if (name === "allowCoreThreadTimeOut") {
+					return setGuestExecutorCoreThreadTimeout(runtime, args[0], args[1]);
+				}
+				return undefined;
+			}
+			if (name === "getKeepAliveTime") return 60;
+			if (name === "getCorePoolSize" || name === "getMaximumPoolSize" ||
+				name === "getPoolSize" || name === "getActiveCount" ||
+				name === "getTaskCount" || name === "getCompletedTaskCount") return 0;
 			throw executorError("ANDROID_EXECUTOR_METHOD_UNSUPPORTED", record.signature);
 		}
 	});
