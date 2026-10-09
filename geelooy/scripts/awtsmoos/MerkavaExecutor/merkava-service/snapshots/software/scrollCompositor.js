@@ -57,18 +57,32 @@ function blitRaw(dst, src, sx, sy, w, h, dx, dy) {
 /**
  * True when the item or any ancestor (up to 64) is position:fixed.
  * Fixed subtrees are viewport-relative and must not bake into scroll strips.
+ * Results memoize per generation via the compositor's fixedMemo.
  */
-function inFixedSubtree(item, byNode) {
+function inFixedSubtree(item, byNode, memo) {
+  if (memo) {
+    const m = memo.get(item);
+    if (m !== undefined) return m;
+  }
   let it = item, g = 0;
   const seen = new Set();
+  // Track the chain so we can memoize every visited item, not just the leaf.
+  const chain = [];
+  let result = false;
   while (it && !seen.has(it) && g++ < 64) {
     seen.add(it);
+    chain.push(it);
+    if (memo) {
+      const m = memo.get(it);
+      if (m !== undefined) { result = m; break; }
+    }
     const pos = String((it.style || {}).position || "static").trim().toLowerCase();
-    if (pos === "fixed") return true;
+    if (pos === "fixed") { result = true; break; }
     const node = it.node ? it.node.parentNode : null;
     it = node ? byNode.get(node) : null;
   }
-  return false;
+  if (memo) for (const c of chain) memo.set(c, result);
+  return result;
 }
 
 export class ScrollCompositor {
@@ -80,6 +94,10 @@ export class ScrollCompositor {
     this.vpH = 0;
     this.overlayItems = []; // fixed-subtree items, screen coords, per generation
     this.stripFb = null;    // reusable strip raster target (no per-strip alloc)
+    // B"H 2026-10-09: memoize fixed-subtree checks per generation. The
+    // ancestor walk ran per item per strip; results are generation-stable.
+    this.fixedMemo = new Map();
+    this.fixedMemoGen = -1;
   }
 
   /** Drop all cached pixels. Call on DOM/layout/style change. */
@@ -109,6 +127,11 @@ export class ScrollCompositor {
    */
   rasterizeStrip(layout, pageY0, stripH, bufY, spatialIndex, generation, collectFixed) {
     const vpW = this.vpW;
+    // Reset the fixed-subtree memo when the generation changes.
+    if (this.fixedMemoGen !== generation) {
+      this.fixedMemo.clear();
+      this.fixedMemoGen = generation;
+    }
     const si = spatialIndex.ensure(layout, generation);
     const byNode = si.byNode;
     // Query a slightly expanded rect so item edges anti-alias correctly.
@@ -120,7 +143,7 @@ export class ScrollCompositor {
     const translated = [];
     const paintSet = new Set();
     for (const item of all) {
-      if (inFixedSubtree(item, byNode)) {
+      if (inFixedSubtree(item, byNode, this.fixedMemo)) {
         if (collectFixed) collectFixed.push(item);
         continue;
       }

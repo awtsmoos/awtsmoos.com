@@ -77,6 +77,19 @@ export function resolveFontWeight(style = {}) {
   return 400;
 }
 
+// B"H 2026-10-09 (scroll perf): cache dashed->camelCase conversions.
+// borderRadii runs per item per frame; the regex replace on every miss
+// showed up at 12% in scroll profiles. Module-level cache, unbounded but
+// tiny (property names are a fixed vocabulary).
+const camelCache = new Map();
+function toCamel(prop) {
+  let c = camelCache.get(prop);
+  if (c === undefined) {
+    c = prop.replace(/-([a-z])/g, (_, ch) => ch.toUpperCase());
+    camelCache.set(prop, c);
+  }
+  return c;
+}
 // B"H 2026-10-09: fix-forward. boxPainter.js (sibling WIP) imports
 // borderRadii from this module; it had not landed yet. Parses CSS
 // border-radius (incl. per-corner) into normalized {tl:[x,y],tr,br,bl}.
@@ -85,7 +98,10 @@ export function borderRadii(style = {}, w = 0, h = 0) {
     const m = /^(-?\d+(?:\.\d+)?)(px)?$/.exec(String(v || "").trim());
     return m ? parseFloat(m[1]) : 0;
   };
-  const get = (prop) => style[prop] ?? style[prop.replace(/-([a-z])/g, (_, c) => c.toUpperCase())];
+  const get = (prop) => {
+    const v = style[prop];
+    return v !== undefined && v !== null ? v : style[toCamel(prop)];
+  };
   let tl = [0, 0], tr = [0, 0], br = [0, 0], bl = [0, 0];
   const single = (v) => { const n = px(v); return [n, n]; };
   const dual = (v) => {
