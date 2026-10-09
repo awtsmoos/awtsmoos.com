@@ -518,13 +518,15 @@ function enhanceScribeLensPanel() {
 	panel.dataset.lensEnhanced = '1';
 	const closeBtn = document.getElementById('scribeLensClose');
 	if (closeBtn) {
-		closeBtn.addEventListener('click', () => {
+		closeBtn.addEventListener('click', (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			// Directly hide the panel - don't rely on trigger button
+			panel.classList.add('hidden-details');
+			panel.setAttribute('aria-hidden', 'true');
 			const trigger = document.getElementById('typographyBtn');
 			if (trigger) {
-				trigger.click();
-			} else {
-				panel.classList.add('hidden-details');
-				panel.setAttribute('aria-hidden', 'true');
+				trigger.setAttribute('aria-expanded', 'false');
 			}
 		});
 	}
@@ -925,7 +927,7 @@ function isSourcesSheetOpen() {
 /* B"H — Hijack the Sources button on Meluket posts only (capture phase, so the
  * generic sidebar toggle on document.body never fires). Non-Meluket posts and
  * the general reader path are untouched. */
-function wireSourcesButton(post, sefer) {
+export function wireSourcesButton(post, sefer) {
 	const btn = document.getElementById('commentaryBtn');
 	if (!btn || btn.dataset.meluketSourcesBound === '1') return;
 	btn.dataset.meluketSourcesBound = '1';
