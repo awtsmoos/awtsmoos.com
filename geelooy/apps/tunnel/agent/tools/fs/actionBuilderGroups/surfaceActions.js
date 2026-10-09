@@ -14,6 +14,7 @@ const { buildAiTemplateActions } = require("../actionGroups/aiTemplateActions.js
 const { buildEphemeralActions } = require("../actionGroups/ephemeralActions.js");
 const { buildTransferActions } = require("../actionGroups/transferActions.js");
 const { buildRenderLabActions } = require("../actionGroups/renderLabActions.js");
+const { buildMerkavaScreenshotActions } = require("../actionGroups/merkavaScreenshotActions.js");
 const { buildAiAgentActions } = require("../actionGroups/aiAgentActions.js");
 
 /**
@@ -47,6 +48,7 @@ function buildSpecializedActions(context, buildActions) {
 		...buildAiTemplateActions(context, buildActions),
 		...buildEphemeralActions(context),
 		...buildRenderLabActions(context),
+		...buildMerkavaScreenshotActions(context),
 		...buildAiAgentActions(context)
 	};
 }

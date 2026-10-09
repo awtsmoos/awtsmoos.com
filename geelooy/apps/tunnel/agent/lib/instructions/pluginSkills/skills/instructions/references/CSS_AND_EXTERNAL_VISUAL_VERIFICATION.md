@@ -53,3 +53,15 @@ Discover the live action schema first. When tunnelWorkScreenshotGet is available
 For chromeScreenshot responses containing frame64, decode that image directly into a private host-local file, verify the returned byte count, and open it. Do not treat an encoded image as inspected. For ordinary project screenshots read64 remains a scoped binary fallback; it cannot retrieve paths outside the authorized project.
 
 When the discovered tunnelWorkReview schema exposes reviewVerdict, submit passed only after inspecting every image and finding the candidate suitable for release. Submit failed for observed defects or blocked when review could not be completed, with factual reviewNotes. The gate must reject failed, blocked, and legacy reviews without an explicit passing verdict. These are caller acknowledgements, not automatic proof of image inspection. A saved review or transfer alone never establishes visual correctness. Older deployments may lack these fields/actions: report the deployment gap and preserve the work; never invent capability or approval.
+
+## MERKAVA URL screenshots: merkavaScreenshotUrl (alias screenshot_url)
+
+For a quick real screenshot of any http(s) URL, call the tunnel action `merkavaScreenshotUrl` (alias `screenshot_url`). Payload: `{ url (REQUIRED), width, height, timeoutMs, backend }`, plus an optional nested `options` object carrying the same keys. Defaults: 1280x800, 30s timeout.
+
+- `backend: "auto"` (default): renders the URL with real Chrome headless; if Chrome is unavailable or fails, falls back to fetching the HTML and painting it with the MERKAVA software renderer. The result names the backend actually used plus `fallbackReason`.
+- `backend: "chrome"`: real Chrome headless only; fails closed with `chrome_not_found` / `chrome_url_screenshot_failed` when Chrome cannot render.
+- `backend: "merkava"`: fetches the page HTML (5MB cap, http/https only) and renders it with the MERKAVA synthetic DOM + software framebuffer; proof metadata (`nonBackgroundPixels`, `cssBytes`, pixel samples) says exactly what produced the pixels.
+
+Every success returns `{ ok: true, backend, url, width, height, bytes, sha256, mimeType: "image/png", pngPath, dataUrl, proof }`. `pngPath` is the PNG on the agent host (transfer it with the tunnel file actions; verify `bytes` and `sha256` after transfer). `dataUrl` is the same PNG inline as base64. Failures are fail-closed result objects (`screenshot_url_required`, `screenshot_url_protocol_unsupported`, `screenshot_url_fetch_failed`, `screenshot_url_http_error`, `screenshot_url_response_too_large`); no fake images are ever returned.
+
+Use this action for quick visual checks of any URL. For the full hardened evidence pipeline (readiness waits, deterministic evidence paths, review receipts), use `chromeScreenshotPipeline` instead.
