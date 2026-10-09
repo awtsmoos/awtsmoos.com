@@ -312,7 +312,14 @@ export class Framebuffer {
   // B"H 2026-10-09: composite an RGBA buffer ({width,height,data}, device px)
   // onto this surface at device coords (x,y), source-over, honoring the
   // active clip. Used by box-shadow / text-shadow painters.
-  blitFrom(src, x, y) {
+  //
+  // B"H (compositor): opts.srcRect {x0,y0,x1,y1} limits the source region
+  // composited (device px) — opacity-group blits only touch the group's
+  // bounds instead of the whole surface. opts.alphaScale (0..1) folds a
+  // group-opacity multiply into the same pass, replacing the old separate
+  // full-surface scaleSurfaceAlpha pass. Both default to no-ops, so
+  // existing callers are behavior-identical.
+  blitFrom(src, x, y, opts = {}) {
     if (!src || !src.data) return;
     const sw = src.width | 0, sh = src.height | 0;
     if (sw < 1 || sh < 1) return;
@@ -326,18 +333,31 @@ export class Framebuffer {
       x0 = Math.max(x0, c[0] - ox); y0 = Math.max(y0, c[1] - oy);
       x1 = Math.min(x1, c[2] - ox); y1 = Math.min(y1, c[3] - oy);
     }
+    const r = opts.srcRect;
+    if (r) {
+      x0 = Math.max(x0, Math.floor(r.x0 || 0)); y0 = Math.max(y0, Math.floor(r.y0 || 0));
+      x1 = Math.min(x1, Math.ceil(r.x1 === undefined ? sw : r.x1));
+      y1 = Math.min(y1, Math.ceil(r.y1 === undefined ? sh : r.y1));
+    }
+    if (x1 <= x0 || y1 <= y0) return;
+    // B"H (compositor): alphaScale folds group opacity into the composite.
+    // Math.round(srcA * k) matches the old scaleSurfaceAlpha pass exactly.
+    const ak = opts.alphaScale;
+    const useScale = ak !== undefined && ak < 1;
     for (let sy = y0; sy < y1; sy++) {
       const dy = oy + sy;
+      const srow = sy * sw * 4, drow = dy * dw * 4;
       for (let sx = x0; sx < x1; sx++) {
-        const si = (sy * sw + sx) * 4;
-        const a = sdata[si + 3] / 255;
-        if (a <= 0) continue;
-        const di = (dy * dw + ox + sx) * 4;
-        if (a >= 1) {
+        const si = srow + sx * 4;
+        let a255 = sdata[si + 3];
+        if (useScale) a255 = Math.round(a255 * ak);
+        if (a255 <= 0) continue;
+        const di = drow + (ox + sx) * 4;
+        if (a255 >= 255) {
           ddata[di] = sdata[si]; ddata[di + 1] = sdata[si + 1];
           ddata[di + 2] = sdata[si + 2]; ddata[di + 3] = 255;
         } else {
-          const ia = 1 - a;
+          const a = a255 / 255, ia = 1 - a;
           ddata[di] = Math.round(sdata[si] * a + ddata[di] * ia);
           ddata[di + 1] = Math.round(sdata[si + 1] * a + ddata[di + 1] * ia);
           ddata[di + 2] = Math.round(sdata[si + 2] * a + ddata[di + 2] * ia);
