@@ -588,14 +588,15 @@ export function paintWithEffects(fb, item, paintFn, transformCtx = null, extra =
 function blitMatrix(destFb, srcBase, m, tx, ty, ox, oy, tb, scale) {
   const det = m[0] * m[3] - m[1] * m[2];
   if (!det || !Number.isFinite(det)) return;
-  const inv = [
-    m[3] / det, -m[1] / det,
-    -m[2] / det, m[0] / det,
-    (m[2] * m[5] - m[3] * m[4]) / det,
-    (m[1] * m[4] - m[0] * m[5]) / det,
-  ];
-  const bx = (Number(tb.x) || 0) + (tx || 0);
-  const by = (Number(tb.y) || 0) + (ty || 0);
+  // B"H (compositor): hoist inverse-matrix components to locals — the old
+  // code indexed inv[] six times per destination pixel.
+  const i0 = m[3] / det, i1 = -m[1] / det;
+  const i2 = -m[2] / det, i3 = m[0] / det;
+  const i4 = (m[2] * m[5] - m[3] * m[4]) / det + ox;
+  const i5 = (m[1] * m[4] - m[0] * m[5]) / det + oy;
+  const txv = tx || 0, tyv = ty || 0;
+  const bx = (Number(tb.x) || 0) + txv;
+  const by = (Number(tb.y) || 0) + tyv;
   const bw = Number(tb.width) || 0;
   const bh = Number(tb.height) || 0;
   const x0 = Math.floor(bx);
@@ -612,14 +613,44 @@ function blitMatrix(destFb, srcBase, m, tx, ty, ox, oy, tb, scale) {
   const ddata = destBase.data;
   const dw = destBase.width;
   const dh = destBase.height;
+  // B"H (compositor): ds==1 fast path — the old code ran the yy/xx device
+  // loops even for a 1x surface. Split the loop once, outside.
+  if (ds === 1) {
+    for (let cy = y0; cy < y1; cy++) {
+      if (cy < 0 || cy >= dh) continue;
+      const ly = cy - tyv;
+      const drow = cy * dw * 4;
+      for (let cx = x0; cx < x1; cx++) {
+        if (cx < 0 || cx >= dw) continue;
+        const lx = cx - txv;
+        const px = Math.round((i0 * lx + i2 * ly + i4) * scale);
+        const py = Math.round((i1 * lx + i3 * ly + i5) * scale);
+        if (px < 0 || py < 0 || px >= sw || py >= sh) continue;
+        const si = (py * sw + px) * 4;
+        const a = sdata[si + 3];
+        if (a <= 4) continue;
+        const di = drow + cx * 4;
+        if (a >= 255) {
+          // Opaque: direct copy (blend math is identity at a=255).
+          ddata[di] = sdata[si]; ddata[di + 1] = sdata[si + 1];
+          ddata[di + 2] = sdata[si + 2]; ddata[di + 3] = 255;
+        } else {
+          const alpha = a / 255, ia = 1 - alpha;
+          ddata[di] = Math.round(sdata[si] * alpha + ddata[di] * ia);
+          ddata[di + 1] = Math.round(sdata[si + 1] * alpha + ddata[di + 1] * ia);
+          ddata[di + 2] = Math.round(sdata[si + 2] * alpha + ddata[di + 2] * ia);
+          ddata[di + 3] = 255;
+        }
+      }
+    }
+    return;
+  }
   for (let cy = y0; cy < y1; cy++) {
+    const ly = cy - tyv;
     for (let cx = x0; cx < x1; cx++) {
-      const lx = cx - (tx || 0);
-      const ly = cy - (ty || 0);
-      const sx = inv[0] * lx + inv[2] * ly + inv[4] + ox;
-      const sy = inv[1] * lx + inv[3] * ly + inv[5] + oy;
-      const px = Math.round(sx * scale);
-      const py = Math.round(sy * scale);
+      const lx = cx - txv;
+      const px = Math.round((i0 * lx + i2 * ly + i4) * scale);
+      const py = Math.round((i1 * lx + i3 * ly + i5) * scale);
       if (px < 0 || py < 0 || px >= sw || py >= sh) continue;
       const si = (py * sw + px) * 4;
       const a = sdata[si + 3];
@@ -627,19 +658,37 @@ function blitMatrix(destFb, srcBase, m, tx, ty, ox, oy, tb, scale) {
       // Device-space destination block for this CSS pixel.
       const dx0 = Math.round(cx * ds);
       const dy0 = Math.round(cy * ds);
-      for (let yy = 0; yy < ds; yy++) {
-        const dy = dy0 + yy;
-        if (dy < 0 || dy >= dh) continue;
-        for (let xx = 0; xx < ds; xx++) {
-          const dx = dx0 + xx;
-          if (dx < 0 || dx >= dw) continue;
-          const di = (dy * dw + dx) * 4;
-          const alpha = a / 255;
-          const ia = 1 - alpha;
-          ddata[di] = Math.round(sdata[si] * alpha + ddata[di] * ia);
-          ddata[di + 1] = Math.round(sdata[si + 1] * alpha + ddata[di + 1] * ia);
-          ddata[di + 2] = Math.round(sdata[si + 2] * alpha + ddata[di + 2] * ia);
-          ddata[di + 3] = 255;
+      if (a >= 255) {
+        // Opaque: direct copy, no blend math.
+        const sr = sdata[si], sg = sdata[si + 1], sb = sdata[si + 2];
+        for (let yy = 0; yy < ds; yy++) {
+          const dy = dy0 + yy;
+          if (dy < 0 || dy >= dh) continue;
+          const drow = dy * dw * 4;
+          for (let xx = 0; xx < ds; xx++) {
+            const dx = dx0 + xx;
+            if (dx < 0 || dx >= dw) continue;
+            const di = drow + dx * 4;
+            ddata[di] = sr; ddata[di + 1] = sg; ddata[di + 2] = sb; ddata[di + 3] = 255;
+          }
+        }
+      } else {
+        const alpha = a / 255;
+        const ia = 1 - alpha;
+        const sr = sdata[si], sg = sdata[si + 1], sb = sdata[si + 2];
+        for (let yy = 0; yy < ds; yy++) {
+          const dy = dy0 + yy;
+          if (dy < 0 || dy >= dh) continue;
+          const drow = dy * dw * 4;
+          for (let xx = 0; xx < ds; xx++) {
+            const dx = dx0 + xx;
+            if (dx < 0 || dx >= dw) continue;
+            const di = drow + dx * 4;
+            ddata[di] = Math.round(sr * alpha + ddata[di] * ia);
+            ddata[di + 1] = Math.round(sg * alpha + ddata[di + 1] * ia);
+            ddata[di + 2] = Math.round(sb * alpha + ddata[di + 2] * ia);
+            ddata[di + 3] = 255;
+          }
         }
       }
     }
