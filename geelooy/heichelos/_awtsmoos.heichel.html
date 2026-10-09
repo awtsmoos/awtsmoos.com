@@ -15,16 +15,16 @@ Awtsmoos.com keeps teachings discoverable and navigation alive even while the dy
 	<meta name="description" content="Enter a living Heichel of teachings, series, people, conversations, and contribution paths on Awtsmoos.com.">
 	<meta name="theme-color" content="#04040C">
 	<title>Heichel — Geelooy</title>
-	<link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=cosmic-profile-002">
-	<link rel="stylesheet" href="/style/heichelos/heichel/index.css?v=cosmic-profile-002">
-	<link rel="stylesheet" href="/style/geelooy-system/index.css?v=cosmic-profile-002">
-	<link rel="stylesheet" href="/style/civilization/core-tokens.css?v=cosmic-profile-002">
-	<link rel="stylesheet" href="/style/civilization/core-base.css?v=cosmic-profile-002">
-	<link rel="stylesheet" href="/style/civilization/core-components.css?v=cosmic-profile-002">
-	<link rel="stylesheet" href="/style/civilization/heichel-institution.css?v=cosmic-profile-002">
-	<link rel="stylesheet" href="/style/civilization/heichel-content.css?v=cosmic-profile-002">
-	<link rel="stylesheet" href="/style/civilization/heichel-responsive.css?v=cosmic-profile-002">
-	<link rel="stylesheet" href="/style/heichelos/heichel/cosmic-profile/index.css?v=cosmic-profile-002">
+	<link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=cosmic-profile-003">
+	<link rel="stylesheet" href="/style/heichelos/heichel/index.css?v=cosmic-profile-003">
+	<link rel="stylesheet" href="/style/geelooy-system/index.css?v=cosmic-profile-003">
+	<link rel="stylesheet" href="/style/civilization/core-tokens.css?v=cosmic-profile-003">
+	<link rel="stylesheet" href="/style/civilization/core-base.css?v=cosmic-profile-003">
+	<link rel="stylesheet" href="/style/civilization/core-components.css?v=cosmic-profile-003">
+	<link rel="stylesheet" href="/style/civilization/heichel-institution.css?v=cosmic-profile-003">
+	<link rel="stylesheet" href="/style/civilization/heichel-content.css?v=cosmic-profile-003">
+	<link rel="stylesheet" href="/style/civilization/heichel-responsive.css?v=cosmic-profile-003">
+	<link rel="stylesheet" href="/style/heichelos/heichel/cosmic-profile/index.css?v=cosmic-profile-003">
 	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=cosmic-profile-002"></script>
 	<script type="module" src="/scripts/awtsmoos/social/navigation/appNavigation.js?v=cosmic-profile-002"></script>
 	<script type="module" src="/heichelos/heichel/app.js?v=cosmic-profile-002"></script>
@@ -38,11 +38,33 @@ Awtsmoos.com keeps teachings discoverable and navigation alive even while the dy
 			<div class="heichel-shell-boot__copy">
 				<p class="civilization-kicker">Living Heichel</p>
 				<h1 id="heichel-boot-title">Opening this Heichel</h1>
-				<p>Teachings, series, people, conversations, and contribution paths are preparing now.</p>
-				<p><a href="/heichelos/">Browse all Heichelos</a> · <a href="/heichelos/ikar/">Enter Ikar</a> · <a href="/">Return home</a></p>
+				<p class="heichel-shell-boot__status" id="heichel-boot-status" aria-live="polite">Teachings, series, people, conversations, and contribution paths are preparing now.</p>
+				<p><a href="/heichelos/">Browse all Heichelos</a> · <a href="/heichelos/ikar/">Enter Ikar</a> · <a href="/heichelos/parsha-index/">Parsha &amp; Date Index</a> · <a href="/">Return home</a></p>
 				<noscript><p>The living graph requires JavaScript, but the Heichel directory and public routes remain available above.</p></noscript>
 			</div>
 			<div class="heichel-shell-boot__progress" aria-hidden="true"><span></span></div>
+			<script>
+			// B"H — the doorway breathes: rotating status lines while the living graph loads.
+			(function () {
+				var phrases = [
+					"Gathering teachings from the shelves…",
+					"Lighting the lamps of the study hall…",
+					"Unrolling the scrolls of the series…",
+					"Opening the gates of conversation…"
+				];
+				var node = document.getElementById("heichel-boot-status");
+				if (!node) return;
+				var i = 0;
+				var timer = setInterval(function () {
+					if (document.body.dataset.heichelBooted === "true" || !document.body.contains(node)) {
+						clearInterval(timer);
+						return;
+					}
+					i = (i + 1) % phrases.length;
+					node.textContent = phrases[i];
+				}, 2600);
+			})();
+			</script>
 		</section>
 	</main>
 	<script src="/register.js?v=cosmic-profile-002"></script>

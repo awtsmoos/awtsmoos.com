@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מפתח החסידות · Parsha &amp; Date Index</title>
+<style>
+:root{
+  --bg:#faf7f0; --card:#fffdf8; --ink:#2b2620; --muted:#8a7f6d;
+  --accent:#8a6d1c; --accent-soft:#f3e9cf; --line:#e7ddc8;
+  --badge:#eef3e6; --badge-ink:#4a5d23;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Segoe UI","Noto Sans Hebrew",Arial,sans-serif;line-height:1.6}
+header{position:sticky;top:0;z-index:10;background:var(--card);
+  border-bottom:1px solid var(--line);padding:14px 22px}
+header h1{margin:0;font-size:1.35rem;color:var(--accent)}
+header p{margin:2px 0 0;color:var(--muted);font-size:.85rem}
+.tabs{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.tabs button{border:1px solid var(--line);background:var(--bg);color:var(--ink);
+  border-radius:999px;padding:7px 18px;font-size:.95rem;cursor:pointer}
+.tabs button:hover{background:var(--accent-soft)}
+.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tabs button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.searchrow{margin-top:10px;display:flex;gap:8px}
+.searchrow input{flex:1;padding:9px 14px;border:1px solid var(--line);
+  border-radius:8px;font-size:1rem;background:#fff;color:var(--ink)}
+.searchrow input:focus{outline:2px solid var(--accent);border-color:var(--accent)}
+main{max-width:1100px;margin:0 auto;padding:18px 22px 60px}
+.group{border:1px solid var(--line);border-radius:12px;background:var(--card);
+  margin-bottom:12px;overflow:hidden}
+.group>summary{cursor:pointer;padding:12px 18px;font-weight:700;
+  list-style:none;display:flex;justify-content:space-between;align-items:center}
+.group>summary:hover{background:var(--accent-soft)}
+.group>summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.group>summary .count{background:var(--accent-soft);color:var(--accent);
+  border-radius:999px;padding:1px 12px;font-size:.85rem;font-weight:400}
+.group .body{border-top:1px solid var(--line);padding:6px 0}
+.post{display:flex;gap:10px;align-items:baseline;padding:9px 18px;
+  border-bottom:1px solid #f1ebdd;text-decoration:none;color:inherit}
+.post:last-child{border-bottom:none}
+.post:hover{background:#fdf9ef}
+.post .t{flex:1}
+.post .title{font-weight:600}
+.post .meta{font-size:.8rem;color:var(--muted)}
+.badge{display:inline-block;background:var(--badge);color:var(--badge-ink);
+  border-radius:6px;padding:0 8px;font-size:.78rem;margin-inline-start:8px}
+.srclink{font-size:.78rem;color:var(--accent);white-space:nowrap}
+.yearhead{font-size:1.15rem;font-weight:800;color:var(--accent);
+  margin:22px 0 8px}
+.monthhead{font-size:1rem;font-weight:700;margin:12px 0 6px;color:#5c523e}
+.loading,.empty{text-align:center;color:var(--muted);padding:40px}
+footer{text-align:center;color:var(--muted);font-size:.8rem;padding:20px}
+</style>
+</head>
+<body>
+<header>
+  <h1>מפתח החסידות</h1>
+  <p id="stats">טוען…</p>
+  <div class="tabs">
+    <button id="tab-parsha" class="active">לפי פרשה</button>
+    <button id="tab-date">לפי תאריך</button>
+  </div>
+  <div class="searchrow">
+    <input id="q" type="search" placeholder="חיפוש כותרת…">
+  </div>
+</header>
+<main id="main"><div class="loading">טוען את המפתח…</div></main>
+<footer>מפתח הפרשיות והתאריכים · Awtsmoos.com</footer>
+<script>
+let POSTS=[];
+const main=document.getElementById('main'), q=document.getElementById('q');
+const PARSHA_ORDER=["בראשית", "נח", "לך לך", "וירא", "חיי שרה", "תולדות", "ויצא", "וישלח", "וישב", "מקץ", "ויגש", "ויחי", "שמות", "וארא", "בא", "בשלח", "יתרו", "משפטים", "תרומה", "תצוה", "כי תשא", "ויקהל", "פקודי", "ויקרא", "צו", "שמיני", "תזריע", "מצורע", "אחרי מות", "קדושים", "אמור", "בהר", "בחוקתי", "במדבר", "נשא", "בהעלותך", "שלח", "קרח", "חקת", "בלק", "פנחס", "מטות", "מסעי", "דברים", "ואתחנן", "עקב", "ראה", "שופטים", "כי תצא", "כי תבוא", "נצבים", "וילך", "האזינו", "וזאת הברכה", "שקלים", "זכור", "פרה", "החדש"];
+const MONTH_ORDER=["תשרי", "מרחשון", "כסלו", "טבת", "שבט", "אדר א׳", "אדר", "אדר ב׳", "ניסן", "אייר", "סיון", "תמוז", "אב", "אלול"];
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function postRow(p){
+  const d=p.date_label?'<span class="badge">'+esc(p.date_label)+'</span>':'';
+  const link=p.sourceRoute?'<a class="srclink" href="'+esc(p.sourceRoute)+'" target="_blank" rel="noopener">מקור</a>':'';
+  return '<div class="post" data-title="'+esc(p.title)+'">'+
+    '<div class="t"><div class="title">'+esc(p.title)+d+'</div>'+
+    '<div class="meta">'+esc(p.series_he)+' · '+esc(p.author_he)+'</div></div>'+link+'</div>';
+}
+function renderParsha(){
+  const filt=q.value.trim();
+  const groups={};
+  POSTS.forEach(p=>{
+    if(filt && p.title.indexOf(filt)<0) return;
+    (groups[p.group]=groups[p.group]||[]).push(p);
+  });
+  const keys=Object.keys(groups).sort((a,b)=>{
+    const pa=groups[a][0], pb=groups[b][0];
+    const oa=PARSHA_ORDER.indexOf(pa.parsha), ob=PARSHA_ORDER.indexOf(pb.parsha);
+    const ra=pa.group_is_parsha?(oa>=0?oa:900):1000;
+    const rb=pb.group_is_parsha?(ob>=0?ob:900):1000;
+    return ra-rb||a.localeCompare(b,'he');
+  });
+  let h='';
+  keys.forEach(k=>{
+    const ps=groups[k], isP=ps[0].group_is_parsha;
+    h+='<details class="group"'+(filt?' open':'')+'><summary><span>'+esc(k)+
+      (isP?'':' <span class="badge">סדרה</span>')+'</span>'+
+      '<span class="count">'+ps.length+'</span></summary><div class="body">'+
+      ps.map(postRow).join('')+'</div></details>';
+  });
+  main.innerHTML=h||'<div class="empty">אין תוצאות</div>';
+}
+function renderDate(){
+  const filt=q.value.trim();
+  const years={};
+  POSTS.forEach(p=>{
+    if(!p.year && !p.month) return;
+    if(filt && p.title.indexOf(filt)<0) return;
+    const yk=p.year||0;
+    const y=years[yk]=years[yk]||{label:p.year?p.year_label:'ללא שנה',greg:p.greg,months:{}};
+    const mk=p.month||'—';
+    (y.months[mk]=y.months[mk]||[]).push(p);
+  });
+  const ykeys=Object.keys(years).map(Number).sort((a,b)=>b-a);
+  let h='';
+  ykeys.forEach(y=>{
+    const Y=years[y];
+    const ylab=y===0?'ללא שנה':(/^\d+$/.test(Y.label)?('שנת '+Y.label):('ה׳'+String(Y.label).replace(/^ה[׳']?/,'')));
+    h+='<div class="yearhead">'+esc(ylab)+
+       (Y.greg?' <span style="font-weight:400;font-size:.85rem">('+esc(Y.greg)+')</span>':'')+'</div>';
+    const mkeys=Object.keys(Y.months).sort((a,b)=>{
+      const ra=MONTH_ORDER.indexOf(a), rb=MONTH_ORDER.indexOf(b);
+      return (ra<0?99:ra)-(rb<0?99:rb)||a.localeCompare(b,'he');
+    });
+    mkeys.forEach(mn=>{
+      const ps=Y.months[mn].sort((a,b)=>(a.day||99)-(b.day||99));
+      h+='<details class="group"'+(filt?' open':'')+'><summary><span>'+esc(mn)+'</span>'+
+        '<span class="count">'+ps.length+'</span></summary><div class="body">'+
+        ps.map(p=>{
+          const dl=p.day_label?'<span class="badge">'+esc(p.day_label)+'</span> ':'';
+          return '<div class="post" data-title="'+esc(p.title)+'"><div class="t"><div class="title">'+
+            dl+esc(p.title)+'</div><div class="meta">'+esc(p.series_he)+' · '+esc(p.author_he)+
+            (p.parsha?' · פרשת '+esc(p.parsha):'')+'</div></div>'+
+            (p.sourceRoute?'<a class="srclink" href="'+esc(p.sourceRoute)+'" target="_blank" rel="noopener">מקור</a>':'')+
+            '</div>';
+        }).join('')+'</div></details>';
+    });
+  });
+  main.innerHTML=h||'<div class="empty">אין תוצאות מתוארכות</div>';
+}
+let mode='parsha';
+function render(){ mode==='parsha'?renderParsha():renderDate(); }
+document.getElementById('tab-parsha').onclick=e=>{mode='parsha';
+  document.getElementById('tab-parsha').classList.add('active');
+  document.getElementById('tab-date').classList.remove('active');render();};
+document.getElementById('tab-date').onclick=e=>{mode='date';
+  document.getElementById('tab-date').classList.add('active');
+  document.getElementById('tab-parsha').classList.remove('active');render();};
+q.addEventListener('input',render);
+fetch('index.json').then(r=>r.json()).then(d=>{
+  POSTS=d.posts;
+  const np=POSTS.filter(p=>p.group_is_parsha).length;
+  const nd=POSTS.filter(p=>p.year).length;
+  document.getElementById('stats').textContent=
+    d.posts.length+' רשומות · '+np+' בפרשה מזוהה · '+nd+' מתוארכות · נסרק '+
+    new Date(d.built_at*1000).toLocaleString('he-IL');
+  render();
+}).catch(()=>{main.innerHTML='<div class="empty">שגיאה בטעינה</div>';});
+</script>
+</body>
+</html>
