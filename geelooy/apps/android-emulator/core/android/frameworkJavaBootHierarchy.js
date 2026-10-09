@@ -48,7 +48,13 @@ export const BOOT_SUPERCLASSES = Object.freeze({
 	"Ljava/util/concurrent/Executors$DelegatedExecutorService;": "Ljava/util/concurrent/AbstractExecutorService;",
 	"Ljava/util/concurrent/FutureTask;": OBJECT,
 	"Ljava/util/concurrent/ScheduledThreadPoolExecutor;": "Ljava/util/concurrent/ThreadPoolExecutor;",
-	"Ljava/util/concurrent/ThreadPoolExecutor;": "Ljava/util/concurrent/AbstractExecutorService;"
+	"Ljava/util/concurrent/ThreadPoolExecutor;": "Ljava/util/concurrent/AbstractExecutorService;",
+	"Landroid/content/pm/PackageItemInfo;": OBJECT,
+	"Landroid/content/pm/ComponentInfo;": "Landroid/content/pm/PackageItemInfo;",
+	"Landroid/content/pm/ServiceInfo;": "Landroid/content/pm/ComponentInfo;",
+	"Landroid/content/pm/ActivityInfo;": "Landroid/content/pm/ComponentInfo;",
+	"Landroid/content/pm/ApplicationInfo;": "Landroid/content/pm/PackageItemInfo;",
+	"Landroid/content/pm/ProviderInfo;": "Landroid/content/pm/ComponentInfo;",
 });
 
 export const BOOT_INTERFACES = Object.freeze({
