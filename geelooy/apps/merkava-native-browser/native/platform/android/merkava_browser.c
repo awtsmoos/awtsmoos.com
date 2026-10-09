@@ -155,6 +155,8 @@ int awts_browser_init(AwtsBrowser* b) {
 	strncpy(t->url, AWTS_BROWSER_START_URL, sizeof(t->url) - 1);
 	strncpy(t->finalUrl, AWTS_BROWSER_START_URL, sizeof(t->finalUrl) - 1);
 	snprintf(t->status, sizeof(t->status), "Ready");
+	for (int i = 0; i < AWTS_BROWSER_MAX_FETCH; i++)
+		pthread_mutex_init(&b->fetch[i].mu, NULL);
 	return 1;
 }
 
@@ -163,6 +165,15 @@ void awts_browser_shutdown(AwtsBrowser* b) {
 	for (int i = 0; i < b->tabCount; i++) {
 		awts_html_free(&b->tabs[i].doc);
 		awts_css_free(&b->tabs[i].sheet);
+	}
+	for (int i = 0; i < AWTS_BROWSER_MAX_FETCH; i++) {
+		pthread_mutex_lock(&b->fetch[i].mu);
+		if (b->fetch[i].ready && b->fetch[i].bytes)
+			free(b->fetch[i].bytes);
+		b->fetch[i].bytes = NULL;
+		b->fetch[i].inUse = 0;
+		pthread_mutex_unlock(&b->fetch[i].mu);
+		pthread_mutex_destroy(&b->fetch[i].mu);
 	}
 	if (b->quadVbo) glDeleteBuffers(1, &b->quadVbo);
 	if (b->quadProgram) glDeleteProgram(b->quadProgram);
@@ -195,6 +206,18 @@ void awts_browser_close_tab(AwtsBrowser* b, int index) {
 	b->tabCount--;
 	memset(&b->tabs[b->tabCount], 0, sizeof(AwtsBrowserTab));
 	if (b->active >= b->tabCount) b->active = b->tabCount - 1;
+	/* Fix up in-flight fetches: the closed tab's fetch is dropped,
+	 * higher tab indices shift down. */
+	for (int i = 0; i < AWTS_BROWSER_MAX_FETCH; i++) {
+		pthread_mutex_lock(&b->fetch[i].mu);
+		if (b->fetch[i].inUse) {
+			if (b->fetch[i].tabIndex == index)
+				b->fetch[i].tabIndex = -1; /* poll discards */
+			else if (b->fetch[i].tabIndex > index)
+				b->fetch[i].tabIndex--;
+		}
+		pthread_mutex_unlock(&b->fetch[i].mu);
+	}
 	AWTS_BROWSER_LOG("close_tab index=%d active=%d", index, b->active);
 }
 
@@ -224,6 +247,147 @@ void awts_browser_normalize_url(const char* text, char* out, size_t cap) {
 		snprintf(out, cap, "https://%s", tmp);
 }
 
+/* ------------------------------------------------------------------ */
+/* Background fetch: worker thread per navigation, main loop applies.  */
+/* ------------------------------------------------------------------ */
+
+static void* fetch_worker(void* arg) {
+	AwtsFetchSlot* s = (AwtsFetchSlot*)arg;
+	uint8_t* bytes = NULL;
+	size_t len = 0;
+	char finalUrl[2048];
+	int ok = awts_net_fetch_vm((JavaVM*)s->vm, s->url, &bytes, &len,
+		finalUrl, sizeof(finalUrl));
+	pthread_mutex_lock(&s->mu);
+	s->ok = ok;
+	s->bytes = bytes;
+	s->len = len;
+	strncpy(s->finalUrl, finalUrl, sizeof(s->finalUrl) - 1);
+	s->finalUrl[sizeof(s->finalUrl) - 1] = 0;
+	s->ready = 1;
+	pthread_mutex_unlock(&s->mu);
+	return NULL;
+}
+
+/* Starts a background fetch for tab tabIndex. Non-blocking. */
+static void fetch_start(AwtsBrowser* b, void* vm, int tabIndex,
+	unsigned seq, const char* url) {
+	AwtsFetchSlot* slot = NULL;
+	for (int i = 0; i < AWTS_BROWSER_MAX_FETCH; i++) {
+		pthread_mutex_lock(&b->fetch[i].mu);
+		int free = !b->fetch[i].inUse;
+		pthread_mutex_unlock(&b->fetch[i].mu);
+		if (free) { slot = &b->fetch[i]; break; }
+	}
+	if (!slot || !vm) {
+		AWTS_BROWSER_LOG("fetch_no_slot");
+		AwtsBrowserTab* t = &b->tabs[tabIndex];
+		t->loading = 0;
+		snprintf(t->status, sizeof(t->status),
+			"Load failed — check connection");
+		return;
+	}
+	pthread_mutex_lock(&slot->mu);
+	slot->inUse = 1;
+	slot->tabIndex = tabIndex;
+	slot->fetchSeq = seq;
+	slot->vm = vm;
+	slot->ready = 0;
+	slot->ok = 0;
+	slot->bytes = NULL;
+	slot->len = 0;
+	strncpy(slot->url, url, sizeof(slot->url) - 1);
+	slot->url[sizeof(slot->url) - 1] = 0;
+	pthread_mutex_unlock(&slot->mu);
+
+	pthread_t th;
+	pthread_attr_t attr;
+	pthread_attr_init(&attr);
+	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
+	if (pthread_create(&th, &attr, fetch_worker, slot) != 0) {
+		pthread_mutex_lock(&slot->mu);
+		slot->inUse = 0;
+		pthread_mutex_unlock(&slot->mu);
+		AwtsBrowserTab* t = &b->tabs[tabIndex];
+		t->loading = 0;
+		snprintf(t->status, sizeof(t->status),
+			"Load failed — check connection");
+	}
+	pthread_attr_destroy(&attr);
+	AWTS_BROWSER_LOG("fetch_start tab=%d %s", tabIndex, url);
+}
+
+/** Applies completed background fetches. Call once per frame. */
+void awts_browser_poll(AwtsBrowser* b) {
+	if (!b) return;
+	for (int i = 0; i < AWTS_BROWSER_MAX_FETCH; i++) {
+		AwtsFetchSlot* s = &b->fetch[i];
+		pthread_mutex_lock(&s->mu);
+		if (!s->inUse || !s->ready) {
+			pthread_mutex_unlock(&s->mu);
+			continue;
+		}
+		int ok = s->ok;
+		uint8_t* bytes = s->bytes;
+		size_t len = s->len;
+		int tabIndex = s->tabIndex;
+		unsigned seq = s->fetchSeq;
+		char finalUrl[2048];
+		strncpy(finalUrl, s->finalUrl, sizeof(finalUrl) - 1);
+		finalUrl[sizeof(finalUrl) - 1] = 0;
+		s->inUse = 0;
+		s->ready = 0;
+		s->bytes = NULL;
+		pthread_mutex_unlock(&s->mu);
+
+		if (tabIndex < 0 || tabIndex >= b->tabCount) {
+			free(bytes);
+			continue;
+		}
+		AwtsBrowserTab* t = &b->tabs[tabIndex];
+		if (seq != t->fetchSeq) {
+			/* Stale: a newer navigate superseded this one. */
+			free(bytes);
+			AWTS_BROWSER_LOG("fetch_stale tab=%d", tabIndex);
+			continue;
+		}
+		if (!ok || !bytes) {
+			t->loading = 0;
+			snprintf(t->status, sizeof(t->status),
+				"Load failed — check connection");
+			AWTS_BROWSER_LOG("fetch_failed tab=%d", tabIndex);
+			free(bytes);
+			continue;
+		}
+		strncpy(t->finalUrl, finalUrl, sizeof(t->finalUrl) - 1);
+		t->finalUrl[sizeof(t->finalUrl) - 1] = 0;
+		awts_html_free(&t->doc);
+		if (!awts_html_parse((const char*)bytes, len, &t->doc)) {
+			t->loading = 0;
+			snprintf(t->status, sizeof(t->status), "Parse failed");
+			free(bytes);
+			continue;
+		}
+		/* v2: parse <style> into the cascade sheet. */
+		awts_css_free(&t->sheet);
+		t->hasSheet = 0;
+		if (t->doc.css && *t->doc.css) {
+			if (awts_css_parse(t->doc.css, &t->sheet))
+				t->hasSheet = 1;
+		}
+		t->hasPage = 1;
+		t->loading = 0;
+		t->scrollY = 0;
+		t->linkCount = 0;
+		snprintf(t->status, sizeof(t->status), "%zu blocks",
+			t->doc.blockCount);
+		AWTS_BROWSER_LOG("page_ok tab=%d blocks=%zu title=%s",
+			tabIndex, t->doc.blockCount,
+			t->doc.title ? t->doc.title : "(none)");
+		free(bytes);
+	}
+}
+
 void awts_browser_navigate(AwtsBrowser* b, struct android_app* app,
 	const char* url) {
 	if (!b || !url || !*url) return;
@@ -236,44 +400,13 @@ void awts_browser_navigate(AwtsBrowser* b, struct android_app* app,
 	strncpy(t->url, url, sizeof(t->url) - 1);
 	t->url[sizeof(t->url) - 1] = 0;
 	t->loading = 1;
+	t->fresh = 0;
+	t->fetchSeq++;
 	snprintf(t->status, sizeof(t->status), "Loading…");
 	AWTS_BROWSER_LOG("navigate %s", url);
 
-	uint8_t* bytes = NULL;
-	size_t len = 0;
-	char finalUrl[2048];
-	if (!awts_net_fetch(app, url, &bytes, &len, finalUrl, sizeof(finalUrl))) {
-		t->loading = 0;
-		snprintf(t->status, sizeof(t->status),
-			"Load failed — check connection");
-		AWTS_BROWSER_LOG("fetch_failed %s", url);
-		return;
-	}
-	strncpy(t->finalUrl, finalUrl, sizeof(t->finalUrl) - 1);
-
-	awts_html_free(&t->doc);
-	if (!awts_html_parse((const char*)bytes, len, &t->doc)) {
-		t->loading = 0;
-		snprintf(t->status, sizeof(t->status), "Parse failed");
-		free(bytes);
-		return;
-	}
-	/* v2: parse <style> into the cascade sheet. */
-	awts_css_free(&t->sheet);
-	t->hasSheet = 0;
-	if (t->doc.css && *t->doc.css) {
-		if (awts_css_parse(t->doc.css, &t->sheet))
-			t->hasSheet = 1;
-	}
-	t->hasPage = 1;
-	t->loading = 0;
-	t->scrollY = 0;
-	t->linkCount = 0;
-	snprintf(t->status, sizeof(t->status), "%zu blocks",
-		t->doc.blockCount);
-	AWTS_BROWSER_LOG("page_ok blocks=%zu title=%s", t->doc.blockCount,
-		t->doc.title ? t->doc.title : "(none)");
-	free(bytes);
+	JavaVM* vm = (app && app->activity) ? app->activity->vm : NULL;
+	fetch_start(b, (void*)vm, b->active, t->fetchSeq, url);
 }
 
 /* ------------------------------------------------------------------ */

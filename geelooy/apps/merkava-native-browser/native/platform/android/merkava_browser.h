@@ -12,6 +12,8 @@
 #include "../common/merkava_css.h"
 #include "merkava_android_text.h"
 
+#include <pthread.h>
+
 struct android_app;
 
 /* Browser chrome metrics (pixels). */
@@ -48,6 +50,7 @@ typedef struct {
 	int hasPage;
 	int loading;          /* 1=loading, 2=pending navigation */
 	int fresh;            /* 1=new tab, never navigated */
+	unsigned fetchSeq;    /* bumped per navigate; stale slots drop */
 	char status[256];
 	AwtsBrowserLink links[AWTS_BROWSER_MAX_LINKS];
 	int linkCount;
@@ -55,6 +58,24 @@ typedef struct {
 
 #define AWTS_BROWSER_MAX_HITS 64
 #define AWTS_BROWSER_EDIT_CAP 2048
+#define AWTS_BROWSER_MAX_FETCH 4
+
+/* One in-flight background fetch. Slots are fixed (never memmove'd);
+ * the worker thread fills its slot, the main loop applies it. */
+typedef struct {
+	pthread_mutex_t mu;
+	int inUse;
+	int tabIndex;      /* tab this fetch belongs to */
+	unsigned fetchSeq; /* tab's sequence at navigate time */
+	char url[2048];
+	void* vm;          /* JavaVM* (opaque here; cast at use) */
+	/* Result (valid when ready==1; guarded by mu). */
+	int ready;
+	int ok;
+	uint8_t* bytes;
+	size_t len;
+	char finalUrl[2048];
+} AwtsFetchSlot;
 
 /* Browser state: tabs + chrome + quad renderer. */
 typedef struct {
@@ -85,10 +106,15 @@ typedef struct {
 	AwtsBrowserHit keyHits[64];
 	int keyHitCount;
 	float kbY;          /* keyboard top (screen coords) */
+	/* Background fetch slots. */
+	AwtsFetchSlot fetch[AWTS_BROWSER_MAX_FETCH];
 } AwtsBrowser;
 
 int awts_browser_init(AwtsBrowser* b);
 void awts_browser_shutdown(AwtsBrowser* b);
+
+/** Applies completed background fetches to their tabs. Call each frame. */
+void awts_browser_poll(AwtsBrowser* b);
 
 /** Tab management. Returns tab index or -1. */
 int awts_browser_new_tab(AwtsBrowser* b);

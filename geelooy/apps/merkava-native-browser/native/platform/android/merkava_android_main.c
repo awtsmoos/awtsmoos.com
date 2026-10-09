@@ -401,6 +401,8 @@ void android_main(struct android_app* app) {
 					awts_browser_navigate(&state.browser, app,
 						tab->url);
 				}
+				/* Apply completed background fetches. */
+				awts_browser_poll(&state.browser);
 			}
 
 			if (state.browserReady && state.startNavPending) {

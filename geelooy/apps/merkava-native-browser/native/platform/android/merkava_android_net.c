@@ -16,11 +16,10 @@
 
 #define AWTS_NET_MAX_BODY (4u * 1024u * 1024u) /* 4MB cap per page */
 
-int awts_net_fetch(struct android_app* app, const char* url,
+int awts_net_fetch_vm(JavaVM* vm, const char* url,
 	uint8_t** outBytes, size_t* outLen,
 	char* outFinalUrl, size_t finalUrlCap) {
-	if (!app || !app->activity || !app->activity->vm || !url
-		|| !outBytes || !outLen) {
+	if (!vm || !url || !outBytes || !outLen) {
 		return 0;
 	}
 	*outBytes = NULL;
@@ -30,10 +29,27 @@ int awts_net_fetch(struct android_app* app, const char* url,
 		outFinalUrl[finalUrlCap - 1] = 0;
 	}
 
-	JavaVM* vm = app->activity->vm;
+	/*
+	 * Attach discipline (this was the "keeps stopping" crash):
+	 * the NativeActivity main thread is ALREADY attached by the
+	 * framework. AttachCurrentThread on it is a harmless no-op, but
+	 * the old code then called DetachCurrentThread unconditionally —
+	 * detaching the main thread, after which every framework JNI
+	 * call on it crashes the process. So: attach only when detached,
+	 * detach only what we attached.
+	 */
 	JNIEnv* env = NULL;
-	if ((*vm)->AttachCurrentThread(vm, &env, NULL) != JNI_OK || !env) {
-		AWTS_NET_LOG("attach_failed");
+	int attachedHere = 0;
+	jint genv = (*vm)->GetEnv(vm, (void**)&env, JNI_VERSION_1_6);
+	if (genv == JNI_EDETACHED) {
+		if ((*vm)->AttachCurrentThread(vm, &env, NULL) != JNI_OK
+			|| !env) {
+			AWTS_NET_LOG("attach_failed");
+			return 0;
+		}
+		attachedHere = 1;
+	} else if (genv != JNI_OK || !env) {
+		AWTS_NET_LOG("getenv_failed=%d", (int)genv);
 		return 0;
 	}
 
@@ -180,7 +196,8 @@ int awts_net_fetch(struct android_app* app, const char* url,
 	if ((*env)->ExceptionCheck(env)) (*env)->ExceptionClear(env);
 
 done:
-	(*vm)->DetachCurrentThread(vm);
+	if (attachedHere)
+		(*vm)->DetachCurrentThread(vm);
 	if (ok) {
 		*outBytes = body;
 		*outLen = bodyLen;
@@ -189,4 +206,13 @@ done:
 		free(body);
 	}
 	return ok;
+}
+
+int awts_net_fetch(struct android_app* app, const char* url,
+	uint8_t** outBytes, size_t* outLen,
+	char* outFinalUrl, size_t finalUrlCap) {
+	if (!app || !app->activity || !app->activity->vm)
+		return 0;
+	return awts_net_fetch_vm(app->activity->vm, url, outBytes, outLen,
+		outFinalUrl, finalUrlCap);
 }
