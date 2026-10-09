@@ -49,11 +49,23 @@ test("successful acceptance clears prior diagnostic strike state", () => {
 	assert.equal(tunnel.closeCalls, 0);
 });
 
+test("stale acceptance timeout cannot strike or acknowledge a settled request", async t => {
+	const harness = installSettlementHarness(t);
+	const tunnel = liveTunnel();
+	const context = harness.context("already-settled");
+	const record = context.pendingTunnelRequests.get("already-settled");
+	context.pendingTunnelRequests.delete("already-settled");
+	assert.equal(await Watchdog.acceptanceTimeout(context, "already-settled", record, tunnel), false);
+	assert.equal(tunnel.acceptanceFailureCount || 0, 0);
+	assert.equal(harness.settlementAcks, 0);
+});
+
 function installSettlementHarness(t) {
 	const originalFinish = Lifecycle.finishPending;
 	const originalAcknowledge = ResponseHandler.acknowledge;
 	const harness = { finalData: null, settlementAcks: 0 };
 	Lifecycle.finishPending = async (context, id, record, data) => {
+		if (context.pendingTunnelRequests.get(id) !== record) return false;
 		harness.finalData = data;
 		context.pendingTunnelRequests.delete(id);
 		return true;

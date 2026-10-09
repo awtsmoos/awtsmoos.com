@@ -57,7 +57,7 @@ async function acceptanceTimeout(context, id, record, tunnel = null) {
 		"device_request_acceptance_timeout",
 		tunnel
 	);
-	if (tunnel) noteFailure(tunnel, id, "device_request_acceptance_timeout");
+	if (settled && tunnel) noteFailure(tunnel, id, "device_request_acceptance_timeout");
 	return settled;
 }
 
@@ -70,7 +70,7 @@ async function finish(context, id, record, reason, tunnel = null) {
 		record,
 		Envelopes.acceptanceStallEnvelope(record.expected, reason)
 	);
-	if (tunnel) ResponseHandler.acknowledge(tunnel, { transportReceiptId: id }, id);
+	if (settled && tunnel) ResponseHandler.acknowledge(tunnel, { transportReceiptId: id }, id);
 	return settled;
 }
 
