@@ -2,19 +2,21 @@
 /**
  * @file jpegDecoder.js
  * @description
- * From-scratch baseline (SOF0) JPEG decoder for the Merkava browser's
- * image-decoding subsystem. No npm dependencies, ES module.
+ * From-scratch baseline (SOF0) + progressive (SOF2) JPEG decoder for the
+ * Merkava browser's image-decoding subsystem. No npm dependencies, ES module.
  *
  * decodeJpeg(bytes: Uint8Array) ->
  *   { width, height, data: Uint8ClampedArray (RGBA, row-major), format: 'jpeg' }
  * Throws an Error on invalid, truncated, or unsupported input.
  *
- * Supported: SOI, APPn/COM skip, DQT (8/16-bit), SOF0, DHT, DRI, SOS, EOI;
- * byte stuffing (FF00); restart markers FFD0-FFD7 (reset DC predictors);
- * 1- and 3-component scans; sampling factors H,V in {1,2} (4:4:4, 4:2:2,
- * 4:2:0) with bilinear chroma upsampling; AAN fast IDCT; YCbCr->RGB.
- * Rejected cleanly: progressive (SOF2), CMYK/Adobe, other SOF markers,
- * non-baseline scans (Ss/Se/AhAl), bad sampling factors, truncation.
+ * Supported: SOI, APPn/COM skip, DQT (8/16-bit), SOF0, SOF2 (progressive),
+ * DHT, DRI, SOS, EOI; byte stuffing (FF00); restart markers FFD0-FFD7
+ * (reset DC predictors); 1- and 3-component scans; sampling factors H,V in
+ * {1,2} (4:4:4, 4:2:2, 4:2:0) with bilinear chroma upsampling; AAN fast IDCT;
+ * YCbCr->RGB. Progressive: spectral selection (Ss/Se), successive
+ * approximation (Ah/Al), EOB runs, DC/AC refine scans.
+ * Rejected cleanly: CMYK/Adobe, other SOF markers, bad sampling factors,
+ * truncation.
  */
 
 // Zigzag index -> natural (row-major) index.
@@ -234,10 +236,14 @@ function parseDHT(bytes, p, end, dcH, acH){
   }
 }
 
-function parseSOS(bytes, p, sof, dcH, acH){
+function parseSOS(bytes, p, sof, dcH, acH, progressive){
   const ns = bytes[p++];
   if (!sof) throw new Error('SOS before SOF');
-  if (ns < 1 || ns > 3 || ns !== sof.comps.length) throw new Error('bad SOS component count');
+  if (ns < 1 || ns > 4) throw new Error('bad SOS component count');
+  // Baseline: single scan must cover all components. Progressive: each scan
+  // covers 1-4 components (typically 1 for AC scans, all for DC scans).
+  if (!progressive && ns !== sof.comps.length)
+    throw new Error('bad SOS component count');
   const comps = [];
   for (let i = 0; i < ns; i++){
     const cs = bytes[p], tdta = bytes[p + 1]; p += 2;
@@ -247,9 +253,20 @@ function parseSOS(bytes, p, sof, dcH, acH){
     if (!dcH[td] || !acH[ta]) throw new Error('missing Huffman table');
     comps.push({ ...c, dcT: dcH[td], acT: acH[ta] });
   }
-  if (bytes[p] !== 0 || bytes[p + 1] !== 63 || bytes[p + 2] !== 0)
-    throw new Error('unsupported JPEG scan (not baseline sequential)');
-  return { comps };
+  const Ss = bytes[p], Se = bytes[p + 1], AhAl = bytes[p + 2];
+  const Ah = AhAl >> 4, Al = AhAl & 15;
+  if (!progressive){
+    if (Ss !== 0 || Se !== 63 || AhAl !== 0)
+      throw new Error('unsupported JPEG scan (not baseline sequential)');
+  } else {
+    // Progressive scan validation per ITU-T T.81.
+    if (Ss > 63 || Se > 63 || Ss > Se) throw new Error('bad progressive spectral selection');
+    if (Ah > 13 || Al > 13) throw new Error('bad progressive successive approximation');
+    const isDC = (Ss === 0 && Se === 0);
+    if (!isDC && ns !== 1) throw new Error('progressive AC scan must have exactly 1 component');
+    // DC scans may be interleaved; AC scans are not.
+  }
+  return { comps, Ss, Se, Ah, Al };
 }
 
 // Unstuff scan data (FF00 -> FF), recording restart-marker bit positions.
