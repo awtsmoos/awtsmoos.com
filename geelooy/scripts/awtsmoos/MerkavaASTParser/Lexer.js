@@ -70,10 +70,11 @@ _skipWhitespace() {
     while (this.ch !== null) {
         this._guard();
 
-        if (' \t'.includes(this.ch)) {
+        const c = this.ch;
+        if (c === ' ' || c === '\t') {
             this._advance();
 
-        } else if ('\n\r'.includes(this.ch)) {
+        } else if (c === '\n' || c === '\r') {
             this.hasLineTerminatorBefore = true;
             if (this.ch === '\r' && this._peek() === '\n') this._advance();
             this._advance();
