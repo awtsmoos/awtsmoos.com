@@ -76,6 +76,18 @@ The Awtsmoos gives every nested Heichel one living cosmic profile inside Awtsmoo
 		]).join("\n");
 	</script>?>
 	<script defer src="/heichelos/heichel/critical-boot.js?v=critical-path-002"></script>
+<script>
+// B"H — Register Heichel Service Worker for auto-clearing cache
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/heichelos/post/heichel-sw.js', { scope: '/heichelos/' })
+      .then(function(reg) {
+        reg.update();
+      })
+      .catch(function() { /* SW not critical */ });
+  });
+}
+</script>
 </head>
 <body class="heichel-os-document" data-heichel-page data-geelooy-route="heichel">
 	<div class="all awtsmoospage heichel-os-page geelooy-content-region">
