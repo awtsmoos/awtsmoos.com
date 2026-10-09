@@ -47,7 +47,6 @@ const {
 } = transitionPkg;
 const {
   parseTransform,
-  computeTransformMatrix,
   transformRect,
   angleToRad,
   identityMatrix,
