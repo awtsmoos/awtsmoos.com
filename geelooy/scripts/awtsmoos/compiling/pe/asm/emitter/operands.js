@@ -67,7 +67,17 @@ export function parseOperand(arg, dataSymbols) {
 
     // Immediate?
     if (raw.match(/^-?0x[0-9A-Fa-f]+$/) || raw.match(/^-?\d+$/)) {
-        return { type: 'imm', val: parseInt(raw) };
+        // B"H: full 64-bit immediates. parseInt loses precision past 2^53;
+        // keep a BigInt when the literal exceeds the safe-integer range.
+        let val;
+        try {
+            const bi = BigInt(raw);
+            val = (bi >= BigInt(Number.MIN_SAFE_INTEGER) && bi <= BigInt(Number.MAX_SAFE_INTEGER))
+                ? Number(bi) : bi;
+        } catch {
+            val = parseInt(raw);
+        }
+        return { type: 'imm', val };
     }
 
     // Label (Data)?

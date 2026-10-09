@@ -78,14 +78,33 @@ export function emitPortableCBinary(node, context, emitExpression) {
 }
 
 export function portableIntegerValue(node) {
-	const value = Number(node.raw);
-	if (!Number.isSafeInteger(value) || value < -2147483648 || value > 2147483647) {
+	// B"H: full signed 64-bit literals. The x86_64 emitter encodes MOV r64,
+	// imm64 (REX.W + B8+r + 8 bytes), and every int slot is already 8 bytes.
+	const raw = String(node.raw).trim();
+	let value;
+	try {
+		value = BigInt(raw);
+	} catch {
 		throw portableCError(
 			"PORTABLE_C_INTEGER_RANGE",
-			`Integer literal '${node.raw}' is outside signed 32-bit range`
+			`Integer literal '${node.raw}' is not a valid integer`
 		);
 	}
-	return value;
+	const INT64_MIN = -(1n << 63n);
+	const INT64_MAX = (1n << 63n) - 1n;
+	if (value < INT64_MIN || value > INT64_MAX) {
+		throw portableCError(
+			"PORTABLE_C_INTEGER_RANGE",
+			`Integer literal '${node.raw}' is outside signed 64-bit range`
+		);
+	}
+	// Return a Number when exactly representable (keeps downstream code that
+	// does arithmetic on the value working); otherwise the raw string, which
+	// the asm emitter consumes via BigInt.
+	if (value >= BigInt(Number.MIN_SAFE_INTEGER) && value <= BigInt(Number.MAX_SAFE_INTEGER)) {
+		return Number(value);
+	}
+	return raw;
 }
 
 function emitLogicalNot(context) {
