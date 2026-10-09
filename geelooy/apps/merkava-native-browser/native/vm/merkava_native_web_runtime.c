@@ -30,7 +30,8 @@ int awts_native_web_trigger(
 	for (uint32_t index = 0; index < runtime->eventCount; index += 1) {
 		AwtsNativeTextEvent* event = &runtime->events[index];
 		if (event->targetHandle != targetHandle
-			|| !awts_native_slice_equals(event->eventName, eventName)) {
+			|| !awts_native_slice_equals(
+				awts_native_string_at(runtime, event->eventNameIdx), eventName)) {
 			continue;
 		}
 		AwtsNativeNode* target = awts_native_web_find_node(
@@ -40,7 +41,7 @@ int awts_native_web_trigger(
 		if (!target) {
 			return 0;
 		}
-		target->text = event->value;
+		target->textIdx = event->valueIdx;
 		/* A text mutation changes layout inputs; advance the mutation epoch
 		 * so cached layouts invalidate. */
 		runtime->executedOps += 1;

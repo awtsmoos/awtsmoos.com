@@ -13,7 +13,8 @@ static AwtsNativeNode* find_by_id(
 	const char* id
 ) {
 	for (uint32_t index = 0; index < runtime->nodeCount; index += 1) {
-		if (awts_native_slice_equals(runtime->nodes[index].id, id)) {
+		if (awts_native_slice_equals(
+			awts_native_string_at(runtime, runtime->nodes[index].idIdx), id)) {
 			return &runtime->nodes[index];
 		}
 	}
@@ -40,7 +41,9 @@ int main(int argc, char** argv) {
 	free(churn);
 	button = find_by_id(&runtime, "go");
 	output = find_by_id(&runtime, "out");
-	if (!button || !output || !awts_native_slice_equals(output->text, "ready")) {
+	if (!button || !output
+		|| !awts_native_slice_equals(
+			awts_native_string_at(&runtime, output->textIdx), "ready")) {
 		fprintf(stderr, "native_web_initial_state_failed\n");
 		return 3;
 	}
@@ -48,7 +51,8 @@ int main(int argc, char** argv) {
 		fprintf(stderr, "native_web_event_failed\n");
 		return 4;
 	}
-	if (!awts_native_slice_equals(output->text, "clicked")) {
+	if (!awts_native_slice_equals(
+		awts_native_string_at(&runtime, output->textIdx), "clicked")) {
 		fprintf(stderr, "native_web_mutation_failed\n");
 		return 5;
 	}
@@ -59,8 +63,8 @@ int main(int argc, char** argv) {
 		runtime.styleCount,
 		runtime.attributeCount,
 		runtime.executedOps,
-		(int)output->text.length,
-		(const char*)output->text.bytes
+		(int)awts_native_string_at(&runtime, output->textIdx).length,
+		(const char*)awts_native_string_at(&runtime, output->textIdx).bytes
 	);
 	return 0;
 }
