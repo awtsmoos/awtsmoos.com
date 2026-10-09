@@ -29,9 +29,9 @@
 	transition: transform var(--reader-motion, 180ms ease), border-color var(--reader-motion, 180ms ease), background var(--reader-motion, 180ms ease), box-shadow var(--reader-motion, 180ms ease);
 }
 
-.post-reader-localized-context .btn-ai-draft {
-font-size: 0.82rem !important;
-    padding: 0.45rem 0.75rem !important;
+.post-reader-localized-context .btn-ai-draft.btn-ai-draft.btn-ai-draft.btn-ai-draft.btn-ai-draft.btn-ai-draft.btn-ai-draft.btn-ai-draft{
+font-size: 0.82rem;
+    padding: 0.45rem 0.75rem;
 border-color: rgb(158 140 255 / 34%);
 	background: linear-gradient(145deg, rgb(62 48 127 / 84%), rgb(25 20 66 / 94%));
 }

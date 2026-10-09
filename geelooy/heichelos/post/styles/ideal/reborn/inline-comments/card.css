@@ -5,106 +5,106 @@
  * the eye can learn without delay.
  */
 
-.post-reader-localized-context .comments-holder-inline,
-.post-reader-localized-context .awtsmoos-inline-comments,
-.post-reader-localized-context .thread-scroll-area,
-.post-reader-localized-context .thread-alias-group {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) !important;
-    gap: clamp(.65rem, 2vw, .9rem) !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    overflow-x: clip !important;
+.post-reader-localized-context .comments-holder-inline.comments-holder-inline.comments-holder-inline.comments-holder-inline.comments-holder-inline.comments-holder-inline.comments-holder-inline.comments-holder-inline,
+.post-reader-localized-context .awtsmoos-inline-comments.awtsmoos-inline-comments.awtsmoos-inline-comments.awtsmoos-inline-comments.awtsmoos-inline-comments.awtsmoos-inline-comments.awtsmoos-inline-comments.awtsmoos-inline-comments,
+.post-reader-localized-context .thread-scroll-area.thread-scroll-area.thread-scroll-area.thread-scroll-area.thread-scroll-area.thread-scroll-area.thread-scroll-area.thread-scroll-area,
+.post-reader-localized-context .thread-alias-group.thread-alias-group.thread-alias-group.thread-alias-group.thread-alias-group.thread-alias-group.thread-alias-group.thread-alias-group{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(.65rem, 2vw, .9rem);
+    width: 100%;
+    min-width: 0;
+    overflow-x: clip;
 }
 
-:where(.post-reader-localized-context) .comments-holder-inline[hidden] { display: none !important; }
-.post-reader-localized-context .inline-comment,
-.post-reader-localized-context .awtsmoos-inline-card-v3,
-.post-reader-localized-context .awtsmoos-readable-inline-card {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) !important;
-    gap: 0 !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    border: 1px solid rgba(246, 201, 108, .32) !important;
-    border-radius: clamp(18px, 3.5vw, 22px) !important;
-    background: linear-gradient(180deg, rgba(7,16,31,.98), rgba(2,6,15,.99)) !important;
-    color: var(--inline-text-white) !important;
-    box-shadow: 0 14px 36px rgba(0,0,0,.34), 0 0 0 1px rgba(139,92,246,.10) !important;
-    overflow: hidden !important;
+:is(.post-reader-localized-context) .comments-holder-inline[hidden][hidden][hidden][hidden][hidden][hidden][hidden][hidden]{ display: none; }
+.post-reader-localized-context .inline-comment.inline-comment.inline-comment.inline-comment.inline-comment.inline-comment.inline-comment.inline-comment,
+.post-reader-localized-context .awtsmoos-inline-card-v3.awtsmoos-inline-card-v3.awtsmoos-inline-card-v3.awtsmoos-inline-card-v3.awtsmoos-inline-card-v3.awtsmoos-inline-card-v3.awtsmoos-inline-card-v3.awtsmoos-inline-card-v3,
+.post-reader-localized-context .awtsmoos-readable-inline-card.awtsmoos-readable-inline-card.awtsmoos-readable-inline-card.awtsmoos-readable-inline-card.awtsmoos-readable-inline-card.awtsmoos-readable-inline-card.awtsmoos-readable-inline-card.awtsmoos-readable-inline-card{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    width: 100%;
+    min-width: 0;
+    border: 1px solid rgba(246, 201, 108, .32);
+    border-radius: clamp(18px, 3.5vw, 22px);
+    background: linear-gradient(180deg, rgba(7,16,31,.98), rgba(2,6,15,.99));
+    color: var(--inline-text-white);
+    box-shadow: 0 14px 36px rgba(0,0,0,.34), 0 0 0 1px rgba(139,92,246,.10);
+    overflow: hidden;
 }
 
-.post-reader-localized-context .awtsmoos-inline-card-header {
-    display: grid !important;
-    grid-template-columns: 34px minmax(0, 1fr) !important;
-    gap: .5rem !important;
-    align-items: center !important;
-    min-height: 0 !important;
-    padding: .5rem .62rem !important;
-    background: rgba(7,13,27,.82) !important;
-    border-bottom: 1px solid rgba(255,255,255,.09) !important;
+.post-reader-localized-context .awtsmoos-inline-card-header.awtsmoos-inline-card-header.awtsmoos-inline-card-header.awtsmoos-inline-card-header.awtsmoos-inline-card-header.awtsmoos-inline-card-header.awtsmoos-inline-card-header.awtsmoos-inline-card-header{
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: .5rem;
+    align-items: center;
+    min-height: 0;
+    padding: .5rem .62rem;
+    background: rgba(7,13,27,.82);
+    border-bottom: 1px solid rgba(255,255,255,.09);
 }
 
-.post-reader-localized-context .awtsmoos-inline-avatar {
-    display: grid !important;
-    place-items: center !important;
-    width: 34px !important;
-    height: 34px !important;
-    border-radius: 999px !important;
-    color: #fff !important;
-    background: radial-gradient(circle at 30% 25%, #39d7ee, #7c3aed 72%) !important;
-    font: 950 .78rem/1 var(--font-ui) !important;
-    box-shadow: 0 0 14px rgba(139,92,246,.34) !important;
+.post-reader-localized-context .awtsmoos-inline-avatar.awtsmoos-inline-avatar.awtsmoos-inline-avatar.awtsmoos-inline-avatar.awtsmoos-inline-avatar.awtsmoos-inline-avatar.awtsmoos-inline-avatar.awtsmoos-inline-avatar{
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    color: #fff;
+    background: radial-gradient(circle at 30% 25%, #39d7ee, #7c3aed 72%);
+    font: 950 .78rem/1 var(--font-ui);
+    box-shadow: 0 0 14px rgba(139,92,246,.34);
 }
 
-.post-reader-localized-context .awtsmoos-inline-focus { display: none !important; }
-.post-reader-localized-context .awtsmoos-inline-card-heading { display: grid !important; gap: .1rem !important; min-width: 0 !important; }
-:where(.post-reader-localized-context) :where(.section.heb) .awtsmoos-inline-title,
-.post-reader-localized-context .awtsmoos-inline-title,
-:where(.post-reader-localized-context) :where(.section.heb) .inline-comment .comment-author-link,
-:where(.post-reader-localized-context) .inline-comment .comment-author-link {
-    color: #fff !important;
-    font-family: var(--font-ui) !important;
-    font-size: clamp(12px, 2.7vw, 14px) !important;
-    font-weight: 930 !important;
-    line-height: 1.12 !important;
-    overflow-wrap: anywhere !important;
+.post-reader-localized-context .awtsmoos-inline-focus.awtsmoos-inline-focus.awtsmoos-inline-focus.awtsmoos-inline-focus.awtsmoos-inline-focus.awtsmoos-inline-focus.awtsmoos-inline-focus.awtsmoos-inline-focus{ display: none; }
+.post-reader-localized-context .awtsmoos-inline-card-heading.awtsmoos-inline-card-heading.awtsmoos-inline-card-heading.awtsmoos-inline-card-heading.awtsmoos-inline-card-heading.awtsmoos-inline-card-heading.awtsmoos-inline-card-heading.awtsmoos-inline-card-heading{ display: grid; gap: .1rem; min-width: 0; }
+:is(.post-reader-localized-context) :is(.section.heb) .awtsmoos-inline-title.awtsmoos-inline-title.awtsmoos-inline-title.awtsmoos-inline-title.awtsmoos-inline-title.awtsmoos-inline-title.awtsmoos-inline-title.awtsmoos-inline-title,
+.post-reader-localized-context .awtsmoos-inline-title.awtsmoos-inline-title.awtsmoos-inline-title.awtsmoos-inline-title.awtsmoos-inline-title.awtsmoos-inline-title.awtsmoos-inline-title.awtsmoos-inline-title,
+:is(.post-reader-localized-context) :is(.section.heb) .inline-comment .comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link,
+:is(.post-reader-localized-context) .inline-comment .comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link{
+    color: #fff;
+    font-family: var(--font-ui);
+    font-size: clamp(12px, 2.7vw, 14px);
+    font-weight: 930;
+    line-height: 1.12;
+    overflow-wrap: anywhere;
 }
 
-:where(.post-reader-localized-context) :where(.section.heb) .awtsmoos-inline-meta,
-.post-reader-localized-context .awtsmoos-inline-meta,
-:where(.post-reader-localized-context) :where(.section.heb) .inline-comment .awtsmoos-comment-meta,
-:where(.post-reader-localized-context) .inline-comment .awtsmoos-comment-meta {
-    color: var(--inline-edge-gold) !important;
-    font-family: var(--font-ui) !important;
-    font-size: clamp(10px, 2.4vw, 12px) !important;
-    font-weight: 820 !important;
-    line-height: 1.16 !important;
+:is(.post-reader-localized-context) :is(.section.heb) .awtsmoos-inline-meta.awtsmoos-inline-meta.awtsmoos-inline-meta.awtsmoos-inline-meta.awtsmoos-inline-meta.awtsmoos-inline-meta.awtsmoos-inline-meta.awtsmoos-inline-meta,
+.post-reader-localized-context .awtsmoos-inline-meta.awtsmoos-inline-meta.awtsmoos-inline-meta.awtsmoos-inline-meta.awtsmoos-inline-meta.awtsmoos-inline-meta.awtsmoos-inline-meta.awtsmoos-inline-meta,
+:is(.post-reader-localized-context) :is(.section.heb) .inline-comment .awtsmoos-comment-meta.awtsmoos-comment-meta.awtsmoos-comment-meta.awtsmoos-comment-meta.awtsmoos-comment-meta.awtsmoos-comment-meta.awtsmoos-comment-meta.awtsmoos-comment-meta,
+:is(.post-reader-localized-context) .inline-comment .awtsmoos-comment-meta.awtsmoos-comment-meta.awtsmoos-comment-meta.awtsmoos-comment-meta.awtsmoos-comment-meta.awtsmoos-comment-meta.awtsmoos-comment-meta.awtsmoos-comment-meta{
+    color: var(--inline-edge-gold);
+    font-family: var(--font-ui);
+    font-size: clamp(10px, 2.4vw, 12px);
+    font-weight: 820;
+    line-height: 1.16;
 }
 
-:where(.post-reader-localized-context) :where(.section.heb) .awtsmoos-inline-body,
-:where(.post-reader-localized-context) :where(.section.heb) .inline-comment .comment-body-vessel,
-:where(.post-reader-localized-context) :where(.section.heb) .inline-comment .comment-text-root,
-.post-reader-localized-context .awtsmoos-inline-body,
-:where(.post-reader-localized-context) .inline-comment .comment-body-vessel,
-:where(.post-reader-localized-context) .inline-comment .comment-text-root {
-    direction: rtl !important;
-    text-align: center !important;
-    padding: clamp(.8rem, 3vw, 1.2rem) !important;
-    color: var(--inline-text-white) !important;
-    font-family: var(--font-content) !important;
-    font-size: clamp(25px, 6.7vw, 34px) !important;
-    font-weight: 780 !important;
-    line-height: 1.38 !important;
-    text-shadow: 0 8px 22px rgba(0,0,0,.48) !important;
-    overflow-wrap: anywhere !important;
+:is(.post-reader-localized-context) :is(.section.heb) .awtsmoos-inline-body.awtsmoos-inline-body.awtsmoos-inline-body.awtsmoos-inline-body.awtsmoos-inline-body.awtsmoos-inline-body.awtsmoos-inline-body.awtsmoos-inline-body,
+:is(.post-reader-localized-context) :is(.section.heb) .inline-comment .comment-body-vessel.comment-body-vessel.comment-body-vessel.comment-body-vessel.comment-body-vessel.comment-body-vessel.comment-body-vessel.comment-body-vessel,
+:is(.post-reader-localized-context) :is(.section.heb) .inline-comment .comment-text-root.comment-text-root.comment-text-root.comment-text-root.comment-text-root.comment-text-root.comment-text-root.comment-text-root,
+.post-reader-localized-context .awtsmoos-inline-body.awtsmoos-inline-body.awtsmoos-inline-body.awtsmoos-inline-body.awtsmoos-inline-body.awtsmoos-inline-body.awtsmoos-inline-body.awtsmoos-inline-body,
+:is(.post-reader-localized-context) .inline-comment .comment-body-vessel.comment-body-vessel.comment-body-vessel.comment-body-vessel.comment-body-vessel.comment-body-vessel.comment-body-vessel.comment-body-vessel,
+:is(.post-reader-localized-context) .inline-comment .comment-text-root.comment-text-root.comment-text-root.comment-text-root.comment-text-root.comment-text-root.comment-text-root.comment-text-root{
+    direction: rtl;
+    text-align: center;
+    padding: clamp(.8rem, 3vw, 1.2rem);
+    color: var(--inline-text-white);
+    font-family: var(--font-content);
+    font-size: clamp(25px, 6.7vw, 34px);
+    font-weight: 780;
+    line-height: 1.38;
+    text-shadow: 0 8px 22px rgba(0,0,0,.48);
+    overflow-wrap: anywhere;
 }
 
-:where(.post-reader-localized-context) :where(.section.heb) .inline-comment .awtsmoos-comment-body *,
-:where(.post-reader-localized-context) .inline-comment .awtsmoos-comment-body *,
-.post-reader-localized-context .awtsmoos-inline-body *,
-:where(.post-reader-localized-context) .inline-comment .comment-body-vessel * { color: inherit !important; font: inherit !important; line-height: inherit !important; text-shadow: inherit !important; }
-.post-reader-localized-context .awtsmoos-inline-action-dock { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: .5rem !important; padding: 0 .65rem .65rem !important; }
-.post-reader-localized-context .awtsmoos-inline-action { min-height: 44px !important; border: 1px solid rgba(246,201,108,.22) !important; border-radius: 14px !important; background: linear-gradient(180deg, rgba(24,29,49,.92), rgba(11,15,31,.98)) !important; color: #fffdf5 !important; font: 850 clamp(12px, 2.6vw, 14px)/1 var(--font-ui) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.07) !important; }
-.post-reader-localized-context .inline-comment img { max-width: 100% !important; height: auto !important; }
-@media (min-width: 560px) { .post-reader-localized-context .awtsmoos-inline-action-dock { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; } }
+:is(.post-reader-localized-context) :is(.section.heb) .inline-comment .awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body *,
+:is(.post-reader-localized-context) .inline-comment .awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body.awtsmoos-comment-body *,
+.post-reader-localized-context .awtsmoos-inline-body.awtsmoos-inline-body.awtsmoos-inline-body.awtsmoos-inline-body.awtsmoos-inline-body.awtsmoos-inline-body.awtsmoos-inline-body.awtsmoos-inline-body *,
+:is(.post-reader-localized-context) .inline-comment .comment-body-vessel.comment-body-vessel.comment-body-vessel.comment-body-vessel.comment-body-vessel.comment-body-vessel.comment-body-vessel.comment-body-vessel *{ color: inherit; font: inherit; line-height: inherit; text-shadow: inherit; }
+.post-reader-localized-context .awtsmoos-inline-action-dock.awtsmoos-inline-action-dock.awtsmoos-inline-action-dock.awtsmoos-inline-action-dock.awtsmoos-inline-action-dock.awtsmoos-inline-action-dock.awtsmoos-inline-action-dock.awtsmoos-inline-action-dock{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; padding: 0 .65rem .65rem; }
+.post-reader-localized-context .awtsmoos-inline-action.awtsmoos-inline-action.awtsmoos-inline-action.awtsmoos-inline-action.awtsmoos-inline-action.awtsmoos-inline-action.awtsmoos-inline-action.awtsmoos-inline-action{ min-height: 44px; border: 1px solid rgba(246,201,108,.22); border-radius: 14px; background: linear-gradient(180deg, rgba(24,29,49,.92), rgba(11,15,31,.98)); color: #fffdf5; font: 850 clamp(12px, 2.6vw, 14px)/1 var(--font-ui); box-shadow: inset 0 1px 0 rgba(255,255,255,.07); }
+.post-reader-localized-context .inline-comment.inline-comment.inline-comment.inline-comment.inline-comment.inline-comment.inline-comment.inline-comment img{ max-width: 100%; height: auto; }
+@media (min-width: 560px) { .post-reader-localized-context .awtsmoos-inline-action-dock.awtsmoos-inline-action-dock.awtsmoos-inline-action-dock.awtsmoos-inline-action-dock.awtsmoos-inline-action-dock.awtsmoos-inline-action-dock.awtsmoos-inline-action-dock.awtsmoos-inline-action-dock{ grid-template-columns: repeat(4, minmax(0, 1fr)); } }

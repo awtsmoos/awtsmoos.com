@@ -6,144 +6,144 @@
    steal clicks, and the active chamber alone receives breath, scroll, and touch.
 */
 
-.post-reader-localized-context .sidebar {
-    position: fixed !important;
-    inset: var(--ideal-sidebar-top) var(--ideal-sidebar-right) var(--ideal-sidebar-bottom) var(--ideal-sidebar-left) !important;
-    width: var(--ideal-sidebar-width) !important;
-    height: var(--ideal-sidebar-height) !important;
-    z-index: var(--z-sidebar, 500) !important;
-    background: linear-gradient(180deg, var(--ideal-sidebar-deep), var(--ideal-sidebar)) !important;
-    border-radius: var(--ideal-sidebar-radius) !important;
-    box-shadow: var(--ideal-shadow-sidebar) !important;
-    overflow: hidden !important;
-    opacity: 1 !important;
-    transform: translate3d(0, 0, 0) !important;
-    transition: transform var(--ideal-sidebar-speed) linear, opacity var(--ideal-sidebar-speed) linear !important;
-    backface-visibility: hidden !important;
-    will-change: transform, opacity !important;
-    contain: layout paint style !important;
+.post-reader-localized-context .sidebar.sidebar.sidebar.sidebar.sidebar.sidebar.sidebar.sidebar{
+    position: fixed;
+    inset: var(--ideal-sidebar-top) var(--ideal-sidebar-right) var(--ideal-sidebar-bottom) var(--ideal-sidebar-left);
+    width: var(--ideal-sidebar-width);
+    height: var(--ideal-sidebar-height);
+    z-index: var(--z-sidebar, 500);
+    background: linear-gradient(180deg, var(--ideal-sidebar-deep), var(--ideal-sidebar));
+    border-radius: var(--ideal-sidebar-radius);
+    box-shadow: var(--ideal-shadow-sidebar);
+    overflow: hidden;
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition: transform var(--ideal-sidebar-speed) linear, opacity var(--ideal-sidebar-speed) linear;
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+    contain: layout paint style;
 }
 
-:where(.post-reader-localized-context) .sidebar.hidden-comments {
-    pointer-events: none !important;
-    opacity: 0 !important;
-    transform: translate3d(var(--ideal-sidebar-hide-x), var(--ideal-sidebar-hide-y), 0) !important;
+:is(.post-reader-localized-context) .sidebar.hidden-comments.hidden-comments.hidden-comments.hidden-comments.hidden-comments.hidden-comments.hidden-comments.hidden-comments{
+    pointer-events: none;
+    opacity: 0;
+    transform: translate3d(var(--ideal-sidebar-hide-x), var(--ideal-sidebar-hide-y), 0);
 }
 
-:where(.post-reader-localized-context) .sidebar.is-resizing {
-    transition: none !important;
-    box-shadow: none !important;
-    user-select: none !important;
+:is(.post-reader-localized-context) .sidebar.is-resizing.is-resizing.is-resizing.is-resizing.is-resizing.is-resizing.is-resizing.is-resizing{
+    transition: none;
+    box-shadow: none;
+    user-select: none;
 }
 
-.post-reader-localized-context .awtsmoos-sidebar-shell {
-    display: flex !important;
-    flex-direction: column !important;
-    height: 100% !important;
-    min-height: 0 !important;
-    background: transparent !important;
-    color: var(--ideal-sidebar-text) !important;
-    transform: translateZ(0) !important;
-    backface-visibility: hidden !important;
+.post-reader-localized-context .awtsmoos-sidebar-shell.awtsmoos-sidebar-shell.awtsmoos-sidebar-shell.awtsmoos-sidebar-shell.awtsmoos-sidebar-shell.awtsmoos-sidebar-shell.awtsmoos-sidebar-shell.awtsmoos-sidebar-shell{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    background: transparent;
+    color: var(--ideal-sidebar-text);
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
-.post-reader-localized-context .awtsmoos-sidebar-resizer {
-    position: absolute !important;
-    z-index: 6 !important;
-    touch-action: none !important;
-    background: transparent !important;
-    cursor: ew-resize !important;
+.post-reader-localized-context .awtsmoos-sidebar-resizer.awtsmoos-sidebar-resizer.awtsmoos-sidebar-resizer.awtsmoos-sidebar-resizer.awtsmoos-sidebar-resizer.awtsmoos-sidebar-resizer.awtsmoos-sidebar-resizer.awtsmoos-sidebar-resizer{
+    position: absolute;
+    z-index: 6;
+    touch-action: none;
+    background: transparent;
+    cursor: ew-resize;
 }
 
-.post-reader-localized-context .awtsmoos-slide-viewport {
-    position: relative !important;
-    flex: 1 1 auto !important;
-    min-height: 0 !important;
-    overflow: hidden !important;
-    background: transparent !important;
-    isolation: isolate !important;
+.post-reader-localized-context .awtsmoos-slide-viewport.awtsmoos-slide-viewport.awtsmoos-slide-viewport.awtsmoos-slide-viewport.awtsmoos-slide-viewport.awtsmoos-slide-viewport.awtsmoos-slide-viewport.awtsmoos-slide-viewport{
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+    background: transparent;
+    isolation: isolate;
 }
 
-.post-reader-localized-context .awtsmoos-slide-view {
-    position: absolute !important;
-    inset: 0 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    min-width: 0 !important;
-    min-height: 0 !important;
-    height: 100% !important;
-    width: 100% !important;
-    background: transparent !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-    transform: translate3d(100%, 0, 0) !important;
-    transition: transform var(--ideal-tab-speed) linear, opacity var(--ideal-tab-speed) linear !important;
-    backface-visibility: hidden !important;
-    will-change: transform, opacity !important;
-    contain: layout paint style !important;
+.post-reader-localized-context .awtsmoos-slide-view.awtsmoos-slide-view.awtsmoos-slide-view.awtsmoos-slide-view.awtsmoos-slide-view.awtsmoos-slide-view.awtsmoos-slide-view.awtsmoos-slide-view{
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+    width: 100%;
+    background: transparent;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(100%, 0, 0);
+    transition: transform var(--ideal-tab-speed) linear, opacity var(--ideal-tab-speed) linear;
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+    contain: layout paint style;
 }
 
-:where(.post-reader-localized-context) .awtsmoos-slide-view.active-view {
-    transform: translate3d(0, 0, 0) !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-    z-index: 2 !important;
+:is(.post-reader-localized-context) .awtsmoos-slide-view.active-view.active-view.active-view.active-view.active-view.active-view.active-view.active-view{
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 2;
 }
 
-:where(.post-reader-localized-context) .awtsmoos-slide-view.slide-out-left {
-    transform: translate3d(-10%, 0, 0) !important;
-    opacity: .18 !important;
-    pointer-events: none !important;
-    z-index: 1 !important;
+:is(.post-reader-localized-context) .awtsmoos-slide-view.slide-out-left.slide-out-left.slide-out-left.slide-out-left.slide-out-left.slide-out-left.slide-out-left.slide-out-left{
+    transform: translate3d(-10%, 0, 0);
+    opacity: .18;
+    pointer-events: none;
+    z-index: 1;
 }
 
-.post-reader-localized-context .awtsmoos-view-header {
-    flex: 0 0 auto !important;
-    min-height: 48px !important;
-    padding: 10px 14px !important;
-    background: rgba(9, 16, 28, .92) !important;
-    border-bottom: 1px solid var(--ideal-sidebar-line) !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 10px !important;
+.post-reader-localized-context .awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header{
+    flex: 0 0 auto;
+    min-height: 48px;
+    padding: 10px 14px;
+    background: rgba(9, 16, 28, .92);
+    border-bottom: 1px solid var(--ideal-sidebar-line);
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 
 
-.post-reader-localized-context .awtsmoos-view-title-text {
-    color: #f8fafc !important;
-    font: 850 14px/1.1 var(--font-ui, system-ui) !important;
-    letter-spacing: .01em !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
+.post-reader-localized-context .awtsmoos-view-title-text.awtsmoos-view-title-text.awtsmoos-view-title-text.awtsmoos-view-title-text.awtsmoos-view-title-text.awtsmoos-view-title-text.awtsmoos-view-title-text.awtsmoos-view-title-text{
+    color: #f8fafc;
+    font: 850 14px/1.1 var(--font-ui, system-ui);
+    letter-spacing: .01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.post-reader-localized-context .awtsmoos-back-btn {
-    border-radius: 999px !important;
-    background: rgba(255, 255, 255, .045) !important;
-    color: #e2e8f0 !important;
-    border: 1px solid var(--ideal-sidebar-line) !important;
-    box-shadow: none !important;
-    width: 32px !important;
-    height: 32px !important;
+.post-reader-localized-context .awtsmoos-back-btn.awtsmoos-back-btn.awtsmoos-back-btn.awtsmoos-back-btn.awtsmoos-back-btn.awtsmoos-back-btn.awtsmoos-back-btn.awtsmoos-back-btn{
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .045);
+    color: #e2e8f0;
+    border: 1px solid var(--ideal-sidebar-line);
+    box-shadow: none;
+    width: 32px;
+    height: 32px;
 }
 
 @media (max-width: 900px) {
-    .post-reader-localized-context .awtsmoos-sidebar-resizer {
-        top: 0 !important;
-        left: 0 !important;
-        width: var(--ideal-sidebar-resizer-width) !important;
-        height: 22px !important;
-        cursor: ns-resize !important;
+    .post-reader-localized-context .awtsmoos-sidebar-resizer.awtsmoos-sidebar-resizer.awtsmoos-sidebar-resizer.awtsmoos-sidebar-resizer.awtsmoos-sidebar-resizer.awtsmoos-sidebar-resizer.awtsmoos-sidebar-resizer.awtsmoos-sidebar-resizer{
+        top: 0;
+        left: 0;
+        width: var(--ideal-sidebar-resizer-width);
+        height: 22px;
+        cursor: ns-resize;
     }
 }
 
 @media (min-width: 901px) {
-    .post-reader-localized-context .awtsmoos-sidebar-resizer {
-        top: 0 !important;
-        left: -5px !important;
-        width: var(--ideal-sidebar-resizer-width) !important;
-        height: 100% !important;
+    .post-reader-localized-context .awtsmoos-sidebar-resizer.awtsmoos-sidebar-resizer.awtsmoos-sidebar-resizer.awtsmoos-sidebar-resizer.awtsmoos-sidebar-resizer.awtsmoos-sidebar-resizer.awtsmoos-sidebar-resizer.awtsmoos-sidebar-resizer{
+        top: 0;
+        left: -5px;
+        width: var(--ideal-sidebar-resizer-width);
+        height: 100%;
     }
 }

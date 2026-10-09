@@ -66,8 +66,8 @@
 	touch-action: manipulation;
 }
 
-.post-reader-localized-context :is(.hidden, [hidden]) {
-	display: none !important;
+.post-reader-localized-context :is(.hidden, [hidden]):is(.hidden, [hidden]):is(.hidden, [hidden]):is(.hidden, [hidden]):is(.hidden, [hidden]):is(.hidden, [hidden]):is(.hidden, [hidden]):is(.hidden, [hidden]){
+	display: none;
 }
 
 .post-reader-localized-context.awtsmoos-reader-vision:where(:not(.awtsmoos-token-polish-off)) {

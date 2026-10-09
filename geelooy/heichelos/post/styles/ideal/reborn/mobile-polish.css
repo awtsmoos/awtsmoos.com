@@ -20,12 +20,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    :where(.post-reader-localized-context, .heichel-sovereign-wrapper, .awtsmoospage) *,
-    :where(.post-reader-localized-context, .heichel-sovereign-wrapper, .awtsmoospage) *::before,
-    :where(.post-reader-localized-context, .heichel-sovereign-wrapper, .awtsmoospage) *::after {
-        animation-duration: .001ms !important;
-        animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
-        transition-duration: .001ms !important;
+    :is(.post-reader-localized-context, .heichel-sovereign-wrapper, .awtsmoospage):is(.post-reader-localized-context, .heichel-sovereign-wrapper, .awtsmoospage):is(.post-reader-localized-context, .heichel-sovereign-wrapper, .awtsmoospage):is(.post-reader-localized-context, .heichel-sovereign-wrapper, .awtsmoospage):is(.post-reader-localized-context, .heichel-sovereign-wrapper, .awtsmoospage):is(.post-reader-localized-context, .heichel-sovereign-wrapper, .awtsmoospage):is(.post-reader-localized-context, .heichel-sovereign-wrapper, .awtsmoospage):is(.post-reader-localized-context, .heichel-sovereign-wrapper, .awtsmoospage) *,
+    :is(.post-reader-localized-context, .heichel-sovereign-wrapper, .awtsmoospage) *::before:before:before:before:before:before:before:before,
+    :is(.post-reader-localized-context, .heichel-sovereign-wrapper, .awtsmoospage) *::after:after:after:after:after:after:after:after{
+        animation-duration: .001ms;
+        animation-iteration-count: 1;
+        scroll-behavior: auto;
+        transition-duration: .001ms;
     }
 }

@@ -4,11 +4,11 @@
  * The Awtsmoos opens advanced appearance only when invited, never crowding the simple floor;
  * Awtsmoos.com gives this disclosure one owner for rest, hover, focus, motion, and the turning door.
  */
-.post-reader-localized-context .reader-advanced-settings {
-	padding: 0 !important;
-	border: 1px solid rgba(255, 255, 255, .11) !important;
-	border-radius: 20px !important;
-	background: linear-gradient(180deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .025)) !important;
+.post-reader-localized-context .reader-advanced-settings.reader-advanced-settings.reader-advanced-settings.reader-advanced-settings.reader-advanced-settings.reader-advanced-settings.reader-advanced-settings.reader-advanced-settings{
+	padding: 0;
+	border: 1px solid rgba(255, 255, 255, .11);
+	border-radius: 20px;
+	background: linear-gradient(180deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .025));
 	overflow: clip;
 }
 
@@ -68,16 +68,16 @@
 	background: rgba(91, 221, 255, .12);
 }
 
-:where(.post-reader-localized-context) .reader-advanced-settings > summary:focus-visible {
-	outline: 3px solid rgba(91, 221, 255, .9) !important;
-	outline-offset: 3px !important;
-	box-shadow: 0 0 0 6px rgba(91, 221, 255, .14) !important;
+:is(.post-reader-localized-context) .reader-advanced-settings > summary:focus-visible:focus-visible:focus-visible:focus-visible:focus-visible:focus-visible:focus-visible:focus-visible{
+	outline: 3px solid rgba(91, 221, 255, .9);
+	outline-offset: 3px;
+	box-shadow: 0 0 0 6px rgba(91, 221, 255, .14);
 }
 
 @media (prefers-reduced-motion: reduce) {
-	:where(.post-reader-localized-context) .reader-advanced-settings > summary,
-	:where(.post-reader-localized-context) .reader-advanced-settings > :where(summary)::after {
-		transition-duration: 0.001ms !important;
+	:is(.post-reader-localized-context) .reader-advanced-settings.reader-advanced-settings.reader-advanced-settings.reader-advanced-settings.reader-advanced-settings.reader-advanced-settings.reader-advanced-settings.reader-advanced-settings > summary,
+	:is(.post-reader-localized-context) .reader-advanced-settings > :is(summary)::after:after:after:after:after:after:after:after{
+		transition-duration: 0.001ms;
 	}
 }
 

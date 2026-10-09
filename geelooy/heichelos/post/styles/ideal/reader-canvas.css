@@ -6,101 +6,99 @@
    of assembled from fragments.
 */
 
-:where(.post-reader-localized-context.awtsmoospage.awtsmoos-reader-vision) {
-    position: fixed !important;
-    inset: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    display: flex !important;
-    flex-direction: column !important;
-    overflow: hidden !important;
-    z-index: var(--z-base) !important;
-    direction: ltr !important;
-    background:
-        radial-gradient(circle at 76% 2%, rgba(93, 70, 255, .22), transparent 20rem),
+:is(.post-reader-localized-context.awtsmoospage.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoospage.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoospage.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoospage.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoospage.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoospage.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoospage.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoospage.awtsmoos-reader-vision){
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: var(--z-base);
+    direction: ltr;
+    background: radial-gradient(circle at 76% 2%, rgba(93, 70, 255, .22), transparent 20rem),
         radial-gradient(circle at 16% 16%, rgba(244, 197, 107, .14), transparent 22rem),
-        linear-gradient(180deg, #02050b, var(--ideal-page) 42%, #050812) !important;
-    color: var(--ideal-ink) !important;
+        linear-gradient(180deg, #02050b, var(--ideal-page) 42%, #050812);
+    color: var(--ideal-ink);
 }
 
-:where(.post-reader-localized-context.awtsmoospage.awtsmoos-reader-vision)::before {
-    content: "" !important;
-    position: fixed !important;
-    inset: 0 !important;
-    pointer-events: none !important;
-    background:
-        linear-gradient(135deg, rgba(255,255,255,.04), transparent 35%, rgba(244,197,107,.05)),
-        radial-gradient(circle at 50% 110%, rgba(244,197,107,.13), transparent 24rem) !important;
-    z-index: 0 !important;
+:is(.post-reader-localized-context.awtsmoospage.awtsmoos-reader-vision)::before:before:before:before:before:before:before:before{
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(135deg, rgba(255,255,255,.04), transparent 35%, rgba(244,197,107,.05)),
+        radial-gradient(circle at 50% 110%, rgba(244,197,107,.13), transparent 24rem);
+    z-index: 0;
 }
 
-.post-reader-localized-context .main {
-    flex: 1 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    position: relative !important;
-    overflow: hidden !important;
-    width: 100% !important;
-    direction: ltr !important;
-    color: var(--ideal-ink) !important;
-    background: transparent !important;
+.post-reader-localized-context .main.main.main.main.main.main.main.main{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    direction: ltr;
+    color: var(--ideal-ink);
+    background: transparent;
 }
 
-.post-reader-localized-context .content {
-    max-width: var(--ideal-reading-width) !important;
-    margin-inline: auto !important;
-    padding-inline: var(--ideal-reading-pad) !important;
-    padding-block: clamp(1rem, 3vw, 2.4rem) !important;
+.post-reader-localized-context .content.content.content.content.content.content.content.content{
+    max-width: var(--ideal-reading-width);
+    margin-inline: auto;
+    padding-inline: var(--ideal-reading-pad);
+    padding-block: clamp(1rem, 3vw, 2.4rem);
 }
 
-.post-reader-localized-context .realPost{
-scroll-padding-top: clamp(12rem, 28vh, 22rem) !important;
-scroll-behavior: smooth !important;
-    scrollbar-gutter: stable both-edges !important;
-    overscroll-behavior: contain !important;
+.post-reader-localized-context .realPost.realPost.realPost.realPost.realPost.realPost.realPost.realPost{
+scroll-padding-top: clamp(12rem, 28vh, 22rem);
+scroll-behavior: smooth;
+    scrollbar-gutter: stable both-edges;
+    overscroll-behavior: contain;
 }
 
-.post-reader-localized-context .awtsmoos-integrated-header {
-    background: rgba(4, 8, 16, .72) !important;
-    border-bottom: 1px solid rgba(244, 197, 107, .20) !important;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, .42) !important;
-    backdrop-filter: var(--ideal-glass-blur) !important;
+.post-reader-localized-context .awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header{
+    background: rgba(4, 8, 16, .72);
+    border-bottom: 1px solid rgba(244, 197, 107, .20);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, .42);
+    backdrop-filter: var(--ideal-glass-blur);
 }
 
-.post-reader-localized-context .section {
-    position: relative !important;
-    margin-block: clamp(1rem, 2.8vw, 2.4rem) !important;
-    padding-block: .35rem !important;
+.post-reader-localized-context .section.section.section.section.section.section.section.section{
+    position: relative;
+    margin-block: clamp(1rem, 2.8vw, 2.4rem);
+    padding-block: .35rem;
 }
 
-:where(.post-reader-localized-context) .section .toichen {
-    max-width: min(100%, 48rem) !important;
-    margin-inline: auto !important;
+:is(.post-reader-localized-context) .section .toichen.toichen.toichen.toichen.toichen.toichen.toichen.toichen{
+    max-width: min(100%, 48rem);
+    margin-inline: auto;
 }
 
 
 
-.post-reader-localized-context .awtsmoos-verse-number {
-    min-width: 2.25rem !important;
-    height: 2.25rem !important;
-    border-radius: 999px !important;
-    display: inline-grid !important;
-    place-items: center !important;
-    color: var(--ideal-gold) !important;
-    background: rgba(244, 197, 107, .10) !important;
-    border: 1px solid rgba(244, 197, 107, .32) !important;
-    box-shadow: inset 0 0 18px rgba(244, 197, 107, .08) !important;
-    font: 850 .82rem/1 var(--font-ui, system-ui) !important;
+.post-reader-localized-context .awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number{
+    min-width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 999px;
+    display: inline-grid;
+    place-items: center;
+    color: var(--ideal-gold);
+    background: rgba(244, 197, 107, .10);
+    border: 1px solid rgba(244, 197, 107, .32);
+    box-shadow: inset 0 0 18px rgba(244, 197, 107, .08);
+    font: 850 .82rem/1 var(--font-ui, system-ui);
 }
 
 @media (min-width: 900px) {
-    .post-reader-localized-context .main {
-        flex-direction: row !important;
+    .post-reader-localized-context .main.main.main.main.main.main.main.main{
+        flex-direction: row;
     }
 }
 
 @media (max-width: 700px) {
-    .post-reader-localized-context .content {
-        padding-bottom: calc(var(--ideal-dock-height) + 4.5rem) !important;
+    .post-reader-localized-context .content.content.content.content.content.content.content.content{
+        padding-bottom: calc(var(--ideal-dock-height) + 4.5rem);
     }
 }

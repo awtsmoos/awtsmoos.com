@@ -8,77 +8,77 @@
  */
 
 @media (max-width: 900px) {
-	.post-reader-localized-context .awtsmoos-sidebar-shell {
-		min-height: 0 !important;
-		overflow: hidden !important;
+	.post-reader-localized-context .awtsmoos-sidebar-shell.awtsmoos-sidebar-shell.awtsmoos-sidebar-shell.awtsmoos-sidebar-shell.awtsmoos-sidebar-shell.awtsmoos-sidebar-shell.awtsmoos-sidebar-shell.awtsmoos-sidebar-shell{
+		min-height: 0;
+		overflow: hidden;
 	}
 
-	:where(.post-reader-localized-context) .sidebar .awtsmoos-slide-viewport {
-		min-height: 0 !important;
-		overflow: hidden !important;
+	:is(.post-reader-localized-context) .sidebar .awtsmoos-slide-viewport.awtsmoos-slide-viewport.awtsmoos-slide-viewport.awtsmoos-slide-viewport.awtsmoos-slide-viewport.awtsmoos-slide-viewport.awtsmoos-slide-viewport.awtsmoos-slide-viewport{
+		min-height: 0;
+		overflow: hidden;
 	}
 
-	:where(.post-reader-localized-context) :where(.sidebar) .awtsmoos-slide-view.active-view {
-		min-height: 0 !important;
-		overflow: hidden !important;
+	:is(.post-reader-localized-context) :is(.sidebar) .awtsmoos-slide-view.active-view.active-view.active-view.active-view.active-view.active-view.active-view.active-view{
+		min-height: 0;
+		overflow: hidden;
 	}
 
-	:where(.post-reader-localized-context) .awtsmoos-slide-view > .awtsmoos-view-header {
-		display: none !important;
+	:is(.post-reader-localized-context) .awtsmoos-slide-view > .awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header{
+		display: none;
 	}
 
-	:where(.post-reader-localized-context) :where(.awtsmoos-slide-view.has-back) > .awtsmoos-view-header {
-		align-items: center !important;
-		display: flex !important;
-		flex: 0 0 auto !important;
-		gap: 8px !important;
-		min-height: 52px !important;
-		padding: 4px 10px !important;
-		position: sticky !important;
-		top: 0 !important;
-		z-index: 3 !important;
+	:is(.post-reader-localized-context) :is(.awtsmoos-slide-view.has-back) > .awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header{
+		align-items: center;
+		display: flex;
+		flex: 0 0 auto;
+		gap: 8px;
+		min-height: 52px;
+		padding: 4px 10px;
+		position: sticky;
+		top: 0;
+		z-index: 3;
 	}
 
-	:where(.post-reader-localized-context) :where(.sidebar:has(.awtsmoos-slide-view.active-view.has-back))
-		.awtsmoos-sidebar-header-chrome .awtsmoos-current-view-title,
-	:where(.post-reader-localized-context) :where(.sidebar:has(.awtsmoos-slide-view.active-view.has-back))
-		.awtsmoos-sidebar-header-chrome .awtsmoos-sidebar-breadcrumbs {
-		display: none !important;
+	:is(.post-reader-localized-context) :is(.sidebar:has(.awtsmoos-slide-view.active-view.has-back))
+		.awtsmoos-sidebar-header-chrome .awtsmoos-current-view-title.awtsmoos-current-view-title.awtsmoos-current-view-title.awtsmoos-current-view-title.awtsmoos-current-view-title.awtsmoos-current-view-title.awtsmoos-current-view-title.awtsmoos-current-view-title,
+	:is(.post-reader-localized-context) :is(.sidebar:has(.awtsmoos-slide-view.active-view.has-back))
+		.awtsmoos-sidebar-header-chrome .awtsmoos-sidebar-breadcrumbs.awtsmoos-sidebar-breadcrumbs.awtsmoos-sidebar-breadcrumbs.awtsmoos-sidebar-breadcrumbs.awtsmoos-sidebar-breadcrumbs.awtsmoos-sidebar-breadcrumbs.awtsmoos-sidebar-breadcrumbs.awtsmoos-sidebar-breadcrumbs{
+		display: none;
 	}
 
-	.post-reader-localized-context .awtsmoos-view-header button,
-	.post-reader-localized-context .awtsmoos-sidebar-header-chrome button,
-	.post-reader-localized-context .awtsmoos-community-retry {
-		min-height: 44px !important;
-		min-width: 44px !important;
+	.post-reader-localized-context .awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header.awtsmoos-view-header button,
+	.post-reader-localized-context .awtsmoos-sidebar-header-chrome.awtsmoos-sidebar-header-chrome.awtsmoos-sidebar-header-chrome.awtsmoos-sidebar-header-chrome.awtsmoos-sidebar-header-chrome.awtsmoos-sidebar-header-chrome.awtsmoos-sidebar-header-chrome.awtsmoos-sidebar-header-chrome button,
+	.post-reader-localized-context .awtsmoos-community-retry.awtsmoos-community-retry.awtsmoos-community-retry.awtsmoos-community-retry.awtsmoos-community-retry.awtsmoos-community-retry.awtsmoos-community-retry.awtsmoos-community-retry{
+		min-height: 44px;
+		min-width: 44px;
 	}
 
-	:where(.post-reader-localized-context) .awtsmoos-slide-view > .awtsmoos-view-content,
-	:where(.post-reader-localized-context) .awtsmoos-sidebar-panel:not([hidden]) {
-		flex: 1 1 auto !important;
-		min-height: 0 !important;
-		overflow-x: hidden !important;
-		overflow-y: auto !important;
-		overscroll-behavior: contain !important;
-		-webkit-overflow-scrolling: touch !important;
+	:is(.post-reader-localized-context) .awtsmoos-slide-view > .awtsmoos-view-content.awtsmoos-view-content.awtsmoos-view-content.awtsmoos-view-content.awtsmoos-view-content.awtsmoos-view-content.awtsmoos-view-content.awtsmoos-view-content,
+	:is(.post-reader-localized-context) .awtsmoos-sidebar-panel:not([hidden]):not([hidden]):not([hidden]):not([hidden]):not([hidden]):not([hidden]):not([hidden]):not([hidden]){
+		flex: 1 1 auto;
+		min-height: 0;
+		overflow-x: hidden;
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		-webkit-overflow-scrolling: touch;
 	}
 
-	:where(.post-reader-localized-context) .sidebar .awtsmoos-empty-placeholder {
-		margin: 8px !important;
-		min-height: 0 !important;
-		padding: 14px !important;
+	:is(.post-reader-localized-context) .sidebar .awtsmoos-empty-placeholder.awtsmoos-empty-placeholder.awtsmoos-empty-placeholder.awtsmoos-empty-placeholder.awtsmoos-empty-placeholder.awtsmoos-empty-placeholder.awtsmoos-empty-placeholder.awtsmoos-empty-placeholder{
+		margin: 8px;
+		min-height: 0;
+		padding: 14px;
 	}
 
-	:where(.post-reader-localized-context:has(.sidebar.awtsmoos-sidebar-open:not(.hidden-comments))) > .awtsmoos-floating-controls,
-	:where(.post-reader-localized-context:has(.sidebar:not(.hidden-comments))) > .awtsmoos-floating-controls {
-		opacity: 0 !important;
-		pointer-events: none !important;
+	:is(.post-reader-localized-context:has(.sidebar.awtsmoos-sidebar-open:not(.hidden-comments))) > .awtsmoos-floating-controls.awtsmoos-floating-controls.awtsmoos-floating-controls.awtsmoos-floating-controls.awtsmoos-floating-controls.awtsmoos-floating-controls.awtsmoos-floating-controls.awtsmoos-floating-controls,
+	:is(.post-reader-localized-context:has(.sidebar:not(.hidden-comments))) > .awtsmoos-floating-controls.awtsmoos-floating-controls.awtsmoos-floating-controls.awtsmoos-floating-controls.awtsmoos-floating-controls.awtsmoos-floating-controls.awtsmoos-floating-controls.awtsmoos-floating-controls{
+		opacity: 0;
+		pointer-events: none;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.post-reader-localized-context .awtsmoos-slide-view,
-	.post-reader-localized-context .sidebar {
-		transition-duration: 0ms !important;
+	.post-reader-localized-context .awtsmoos-slide-view.awtsmoos-slide-view.awtsmoos-slide-view.awtsmoos-slide-view.awtsmoos-slide-view.awtsmoos-slide-view.awtsmoos-slide-view.awtsmoos-slide-view,
+	.post-reader-localized-context .sidebar.sidebar.sidebar.sidebar.sidebar.sidebar.sidebar.sidebar{
+		transition-duration: 0ms;
 	}
 }

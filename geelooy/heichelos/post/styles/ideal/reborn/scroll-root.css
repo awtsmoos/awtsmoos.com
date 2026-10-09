@@ -42,9 +42,9 @@
 	margin-inline: auto;
 }
 
-.post-reader-localized-context :where(#realPost) {
-scroll-padding-top: clamp(12rem, 28vh, 22rem) !important;
-width: 100% !important;
+.post-reader-localized-context :is(#realPost):is(#realPost):is(#realPost):is(#realPost):is(#realPost):is(#realPost):is(#realPost):is(#realPost){
+scroll-padding-top: clamp(12rem, 28vh, 22rem);
+width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -52,12 +52,12 @@ width: 100% !important;
     padding-top: 10vh; 
     padding-bottom: 40vh;
     isolation: isolate;
-padding-block-start: clamp(9rem, 24vh, 17rem) !important;
-    scroll-padding-block-start: clamp(10rem, 28vh, 20rem) !important;
-scroll-padding-top: clamp(12rem, 28vh, 22rem) !important;
-scroll-behavior: smooth !important;
-    scrollbar-gutter: stable both-edges !important;
-    overscroll-behavior: contain !important;
+padding-block-start: clamp(9rem, 24vh, 17rem);
+    scroll-padding-block-start: clamp(10rem, 28vh, 20rem);
+scroll-padding-top: clamp(12rem, 28vh, 22rem);
+scroll-behavior: smooth;
+    scrollbar-gutter: stable both-edges;
+    overscroll-behavior: contain;
 min-inline-size: 0;
 	contain: layout style;
 }

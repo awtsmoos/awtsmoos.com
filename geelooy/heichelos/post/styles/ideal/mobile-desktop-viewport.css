@@ -6,84 +6,84 @@
  * The Awtsmoos lets one reader breathe through desktop and phone without a second root decree;
  * Awtsmoos.com keeps descendant geometry and touch contracts here while the shell alone owns the sea.
  */
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) *,
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) *::before,
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) *::after {
-	box-sizing: border-box !important;
+:is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision) *,
+:is(.all.post-reader-localized-context.awtsmoos-reader-vision) *::before:before:before:before:before:before:before:before,
+:is(.all.post-reader-localized-context.awtsmoos-reader-vision) *::after:after:after:after:after:after:after:after{
+	box-sizing: border-box;
 }
 
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) > .awtsmoos-integrated-header {
-	position: sticky !important;
-	top: 0 !important;
-	z-index: var(--z-header) !important;
-	min-height: var(--reader-touch-target) !important;
-	max-width: 100% !important;
-	overflow: clip !important;
+:is(.all.post-reader-localized-context.awtsmoos-reader-vision) > .awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header{
+	position: sticky;
+	top: 0;
+	z-index: var(--z-header);
+	min-height: var(--reader-touch-target);
+	max-width: 100%;
+	overflow: clip;
 }
 
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) > .main {
-	position: relative !important;
-	align-items: stretch !important;
-	overflow: visible !important;
-	min-width: 0 !important;
-	min-height: calc(100dvh - var(--reader-mobile-header-space, 78px)) !important;
-	max-width: 100% !important;
+:is(.all.post-reader-localized-context.awtsmoos-reader-vision) > .main.main.main.main.main.main.main.main{
+	position: relative;
+	align-items: stretch;
+	overflow: visible;
+	min-width: 0;
+	min-height: calc(100dvh - var(--reader-mobile-header-space, 78px));
+	max-width: 100%;
 }
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost.content),
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#virtual-scroll-container) {
-	min-width: 0 !important;
-	min-height: 0 !important;
-	max-width: 100% !important;
-	overflow: visible !important;
-}
-
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) button,
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) [role="button"],
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) input,
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) select,
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) textarea,
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) .comment-chip-action {
-	min-height: var(--reader-touch-target) !important;
-	touch-action: manipulation !important;
+:is(.all.post-reader-localized-context.awtsmoos-reader-vision) :is(#realPost.content):is(#realPost.content):is(#realPost.content):is(#realPost.content):is(#realPost.content):is(#realPost.content):is(#realPost.content):is(#realPost.content),
+:is(.all.post-reader-localized-context.awtsmoos-reader-vision) :is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container){
+	min-width: 0;
+	min-height: 0;
+	max-width: 100%;
+	overflow: visible;
 }
 
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-tabs {
-	display: flex !important;
-	grid-template-columns: none !important;
-	max-width: 100% !important;
-	overflow-x: auto !important;
-	overflow-y: hidden !important;
-	overscroll-behavior-x: contain !important;
-	-webkit-overflow-scrolling: touch !important;
-	scrollbar-width: thin !important;
-	flex-wrap: nowrap !important;
-	scroll-snap-type: x proximity !important;
+:is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision) button,
+:is(.all.post-reader-localized-context.awtsmoos-reader-vision) [role="button"][role="button"][role="button"][role="button"][role="button"][role="button"][role="button"][role="button"],
+:is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision) input,
+:is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision) select,
+:is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision):is(.all.post-reader-localized-context.awtsmoos-reader-vision) textarea,
+:is(.all.post-reader-localized-context.awtsmoos-reader-vision) .comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action{
+	min-height: var(--reader-touch-target);
+	touch-action: manipulation;
 }
 
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) .tab-buttons,
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) .tabs,
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) [role="tablist"] {
-	max-width: 100% !important;
-	overflow-x: auto !important;
-	overflow-y: hidden !important;
-	overscroll-behavior-x: contain !important;
-	-webkit-overflow-scrolling: touch !important;
-	scrollbar-width: thin !important;
-	flex-wrap: nowrap !important;
+:is(.all.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-tabs.awtsmoos-sidebar-tabs.awtsmoos-sidebar-tabs.awtsmoos-sidebar-tabs.awtsmoos-sidebar-tabs.awtsmoos-sidebar-tabs.awtsmoos-sidebar-tabs.awtsmoos-sidebar-tabs{
+	display: flex;
+	grid-template-columns: none;
+	max-width: 100%;
+	overflow-x: auto;
+	overflow-y: hidden;
+	overscroll-behavior-x: contain;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: thin;
+	flex-wrap: nowrap;
+	scroll-snap-type: x proximity;
 }
 
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-tab-btn {
-	flex: 0 0 auto !important;
-	min-width: max(92px, 28vw) !important;
-	min-height: var(--reader-touch-target) !important;
-	scroll-snap-align: start !important;
+:is(.all.post-reader-localized-context.awtsmoos-reader-vision) .tab-buttons.tab-buttons.tab-buttons.tab-buttons.tab-buttons.tab-buttons.tab-buttons.tab-buttons,
+:is(.all.post-reader-localized-context.awtsmoos-reader-vision) .tabs.tabs.tabs.tabs.tabs.tabs.tabs.tabs,
+:is(.all.post-reader-localized-context.awtsmoos-reader-vision) [role="tablist"][role="tablist"][role="tablist"][role="tablist"][role="tablist"][role="tablist"][role="tablist"][role="tablist"]{
+	max-width: 100%;
+	overflow-x: auto;
+	overflow-y: hidden;
+	overscroll-behavior-x: contain;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: thin;
+	flex-wrap: nowrap;
+}
+
+:is(.all.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-tab-btn.awtsmoos-sidebar-tab-btn.awtsmoos-sidebar-tab-btn.awtsmoos-sidebar-tab-btn.awtsmoos-sidebar-tab-btn.awtsmoos-sidebar-tab-btn.awtsmoos-sidebar-tab-btn.awtsmoos-sidebar-tab-btn{
+	flex: 0 0 auto;
+	min-width: max(92px, 28vw);
+	min-height: var(--reader-touch-target);
+	scroll-snap-align: start;
 }
 
 @media (max-width: 900px) {
-	html,
-	body {
-		min-height: 100dvh !important;
-		overflow-x: clip !important;
+	:root:root:root:root:root:root:root html,:root:root:root:root:root:root:root 
+	body{
+		min-height: 100dvh;
+		overflow-x: clip;
 	}
 
 	body :where(.all.post-reader-localized-context.awtsmoos-reader-vision) {
@@ -91,24 +91,24 @@
 		--reader-mobile-bottom-space: calc(var(--ideal-dock-height) + var(--reader-safe-bottom) + 74px);
 	}
 
-	body :where(.all.post-reader-localized-context.awtsmoos-reader-vision) > .awtsmoos-integrated-header {
-		min-height: 52px !important;
-		max-height: 68px !important;
+	body :is(.all.post-reader-localized-context.awtsmoos-reader-vision) > .awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header.awtsmoos-integrated-header{
+		min-height: 52px;
+		max-height: 68px;
 	}
 
-	body :where(.all.post-reader-localized-context.awtsmoos-reader-vision) > .main {
-		display: block !important;
-		min-height: calc(100dvh - var(--reader-mobile-header-space)) !important;
-		padding-bottom: var(--reader-mobile-bottom-space) !important;
+	body :is(.all.post-reader-localized-context.awtsmoos-reader-vision) > .main.main.main.main.main.main.main.main{
+		display: block;
+		min-height: calc(100dvh - var(--reader-mobile-header-space));
+		padding-bottom: var(--reader-mobile-bottom-space);
 	}
 
-	body :where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#virtual-scroll-container.awtsmoos-virtual-scroll) {
-		padding-bottom: calc(var(--reader-mobile-bottom-space) + 3rem) !important;
+	body :is(.all.post-reader-localized-context.awtsmoos-reader-vision) :is(#virtual-scroll-container.awtsmoos-virtual-scroll):is(#virtual-scroll-container.awtsmoos-virtual-scroll):is(#virtual-scroll-container.awtsmoos-virtual-scroll):is(#virtual-scroll-container.awtsmoos-virtual-scroll):is(#virtual-scroll-container.awtsmoos-virtual-scroll):is(#virtual-scroll-container.awtsmoos-virtual-scroll):is(#virtual-scroll-container.awtsmoos-virtual-scroll):is(#virtual-scroll-container.awtsmoos-virtual-scroll){
+		padding-bottom: calc(var(--reader-mobile-bottom-space) + 3rem);
 	}
 }
 
 @media (min-width: 901px) {
-	:where(html) body :where(.all.post-reader-localized-context.awtsmoos-reader-vision) > .main {
-		padding-inline-end: calc(var(--ideal-sidebar-width) + 18px) !important;
+	:is(html) body :is(.all.post-reader-localized-context.awtsmoos-reader-vision) > .main.main.main.main.main.main.main.main{
+		padding-inline-end: calc(var(--ideal-sidebar-width) + 18px);
 	}
 }

@@ -4,71 +4,71 @@
  * cards keep their larger action dock, while inline cards expose only one menu.
  */
 
-:where(.post-reader-localized-context.awtsmoos-reader-vision) .inline-comment .awtsmoos-comment-action-dock {
-    display: none !important;
+:is(.post-reader-localized-context.awtsmoos-reader-vision) .inline-comment .awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock.awtsmoos-comment-action-dock{
+    display: none;
 }
 
-:where(.post-reader-localized-context.awtsmoos-reader-vision) .inline-comment .awtsmoos-comment-card-header {
-    grid-template-columns: minmax(0,1fr) 52px auto !important;
+:is(.post-reader-localized-context.awtsmoos-reader-vision) .inline-comment .awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header.awtsmoos-comment-card-header{
+    grid-template-columns: minmax(0,1fr) 52px auto;
 }
 
-:where(.post-reader-localized-context.awtsmoos-reader-vision) .inline-comment .awtsmoos-inline-comment-menu {
-    grid-column: 3 !important;
-    justify-self: end !important;
-    align-self: center !important;
-    position: relative !important;
-    display: block !important;
-    padding: 0 !important;
+:is(.post-reader-localized-context.awtsmoos-reader-vision) .inline-comment .awtsmoos-inline-comment-menu.awtsmoos-inline-comment-menu.awtsmoos-inline-comment-menu.awtsmoos-inline-comment-menu.awtsmoos-inline-comment-menu.awtsmoos-inline-comment-menu.awtsmoos-inline-comment-menu.awtsmoos-inline-comment-menu{
+    grid-column: 3;
+    justify-self: end;
+    align-self: center;
+    position: relative;
+    display: block;
+    padding: 0;
 }
 
-:where(.post-reader-localized-context.awtsmoos-reader-vision) .inline-comment .awtsmoos-inline-comment-menu > summary {
-    list-style: none !important;
-    display: grid !important;
-    place-items: center !important;
-    width: 44px !important;
-    height: 44px !important;
-    min-height: 44px !important;
-    border-radius: 999px !important;
-    color: #fffdf5 !important;
-    background: radial-gradient(circle at 30% 20%, rgba(246,201,108,.22), rgba(30,41,59,.88)) !important;
-    border: 1px solid rgba(246,201,108,.28) !important;
-    font: 950 1.55rem/1 var(--font-ui) !important;
+:is(.post-reader-localized-context.awtsmoos-reader-vision) .inline-comment .awtsmoos-inline-comment-menu.awtsmoos-inline-comment-menu.awtsmoos-inline-comment-menu.awtsmoos-inline-comment-menu.awtsmoos-inline-comment-menu.awtsmoos-inline-comment-menu.awtsmoos-inline-comment-menu.awtsmoos-inline-comment-menu > summary{
+    list-style: none;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
+    border-radius: 999px;
+    color: #fffdf5;
+    background: radial-gradient(circle at 30% 20%, rgba(246,201,108,.22), rgba(30,41,59,.88));
+    border: 1px solid rgba(246,201,108,.28);
+    font: 950 1.55rem/1 var(--font-ui);
 }
 
-:where(.post-reader-localized-context.awtsmoos-reader-vision) .inline-comment .awtsmoos-inline-comment-menu > :where(summary::-webkit-details-marker) {
-    display: none !important;
+:is(.post-reader-localized-context.awtsmoos-reader-vision) .inline-comment .awtsmoos-inline-comment-menu > :is(summary::-webkit-details-marker):is(summary::-webkit-details-marker):is(summary::-webkit-details-marker):is(summary::-webkit-details-marker):is(summary::-webkit-details-marker):is(summary::-webkit-details-marker):is(summary::-webkit-details-marker):is(summary::-webkit-details-marker){
+    display: none;
 }
 
-:where(.post-reader-localized-context.awtsmoos-reader-vision) :where(.inline-comment) .awtsmoos-inline-comment-menu[open] > summary {
-    background: linear-gradient(180deg, #f6c96c, #8b5cf6) !important;
-    color: #06111f !important;
+:is(.post-reader-localized-context.awtsmoos-reader-vision) :is(.inline-comment) .awtsmoos-inline-comment-menu[open][open][open][open][open][open][open][open] > summary{
+    background: linear-gradient(180deg, #f6c96c, #8b5cf6);
+    color: #06111f;
 }
 
-:where(.post-reader-localized-context.awtsmoos-reader-vision) :where(.inline-comment) .awtsmoos-inline-comment-menu .menu-dropdown {
-    position: absolute !important;
-    right: 0 !important;
-    top: calc(100% + 10px) !important;
-    z-index: 50 !important;
-    min-width: 176px !important;
-    padding: 8px !important;
-    border-radius: 18px !important;
-    border: 1px solid rgba(246,201,108,.3) !important;
-    background: rgba(3,8,18,.98) !important;
-    box-shadow: 0 22px 60px rgba(0,0,0,.58), inset 0 1px 0 rgba(255,255,255,.08) !important;
+:is(.post-reader-localized-context.awtsmoos-reader-vision) :is(.inline-comment) .awtsmoos-inline-comment-menu .menu-dropdown.menu-dropdown.menu-dropdown.menu-dropdown.menu-dropdown.menu-dropdown.menu-dropdown.menu-dropdown{
+    position: absolute;
+    right: 0;
+    top: calc(100% + 10px);
+    z-index: 50;
+    min-width: 176px;
+    padding: 8px;
+    border-radius: 18px;
+    border: 1px solid rgba(246,201,108,.3);
+    background: rgba(3,8,18,.98);
+    box-shadow: 0 22px 60px rgba(0,0,0,.58), inset 0 1px 0 rgba(255,255,255,.08);
 }
 
-:where(.post-reader-localized-context.awtsmoos-reader-vision) :where(.inline-comment) .awtsmoos-inline-comment-menu .menu-item {
-    width: 100% !important;
-    min-height: 42px !important;
-    justify-content: flex-start !important;
-    text-align: left !important;
-    padding: .7rem .85rem !important;
-    border-radius: 12px !important;
-    font-size: .9rem !important;
+:is(.post-reader-localized-context.awtsmoos-reader-vision) :is(.inline-comment) .awtsmoos-inline-comment-menu .menu-item.menu-item.menu-item.menu-item.menu-item.menu-item.menu-item.menu-item{
+    width: 100%;
+    min-height: 42px;
+    justify-content: flex-start;
+    text-align: left;
+    padding: .7rem .85rem;
+    border-radius: 12px;
+    font-size: .9rem;
 }
 
-:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-comment-card .awtsmoos-comment-more > summary {
-    text-align: center !important;
+:is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-comment-card .awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more.awtsmoos-comment-more > summary{
+    text-align: center;
 }
 /* B"H
  * Chapter 281: Local polish proof.

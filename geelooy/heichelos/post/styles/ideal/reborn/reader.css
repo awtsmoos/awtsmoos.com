@@ -7,244 +7,241 @@
 
 .post-reader-localized-context { --post-text-size: clamp(34px, 9.5vw, 48px); }
 
-.post-reader-localized-context .awtsmoos-post-title-crown {
-    width: min(820px, calc(100% - 1.5rem)) !important;
-    margin: clamp(.75rem, 3vw, 1.25rem) auto clamp(1rem, 4vw, 1.6rem) !important;
-    padding: clamp(1rem, 4vw, 1.55rem) !important;
-    border: 1px solid rgba(246,201,108,.34) !important;
-    border-radius: clamp(24px, 5vw, 36px) !important;
-    background:
-        radial-gradient(circle at 50% 0%, rgba(246,201,108,.20), transparent 16rem),
-        linear-gradient(180deg, rgba(13,23,42,.94), rgba(3,8,18,.98)) !important;
-    box-shadow: 0 24px 70px rgba(0,0,0,.36), inset 0 1px 0 rgba(255,255,255,.08) !important;
-    text-align: center !important;
+.post-reader-localized-context .awtsmoos-post-title-crown.awtsmoos-post-title-crown.awtsmoos-post-title-crown.awtsmoos-post-title-crown.awtsmoos-post-title-crown.awtsmoos-post-title-crown.awtsmoos-post-title-crown.awtsmoos-post-title-crown{
+    width: min(820px, calc(100% - 1.5rem));
+    margin: clamp(.75rem, 3vw, 1.25rem) auto clamp(1rem, 4vw, 1.6rem);
+    padding: clamp(1rem, 4vw, 1.55rem);
+    border: 1px solid rgba(246,201,108,.34);
+    border-radius: clamp(24px, 5vw, 36px);
+    background: radial-gradient(circle at 50% 0%, rgba(246,201,108,.20), transparent 16rem),
+        linear-gradient(180deg, rgba(13,23,42,.94), rgba(3,8,18,.98));
+    box-shadow: 0 24px 70px rgba(0,0,0,.36), inset 0 1px 0 rgba(255,255,255,.08);
+    text-align: center;
 }
 
-.post-reader-localized-context .awtsmoos-post-title-kicker,
-.post-reader-localized-context .awtsmoos-post-title-count {
-    color: var(--inline-edge-gold, #f6c96c) !important;
-    font: 900 clamp(.82rem, 3.2vw, 1rem)/1.2 var(--font-ui) !important;
-    letter-spacing: .08em !important;
-    text-transform: uppercase !important;
+.post-reader-localized-context .awtsmoos-post-title-kicker.awtsmoos-post-title-kicker.awtsmoos-post-title-kicker.awtsmoos-post-title-kicker.awtsmoos-post-title-kicker.awtsmoos-post-title-kicker.awtsmoos-post-title-kicker.awtsmoos-post-title-kicker,
+.post-reader-localized-context .awtsmoos-post-title-count.awtsmoos-post-title-count.awtsmoos-post-title-count.awtsmoos-post-title-count.awtsmoos-post-title-count.awtsmoos-post-title-count.awtsmoos-post-title-count.awtsmoos-post-title-count{
+    color: var(--inline-edge-gold, #f6c96c);
+    font: 900 clamp(.82rem, 3.2vw, 1rem)/1.2 var(--font-ui);
+    letter-spacing: .08em;
+    text-transform: uppercase;
 }
 
-.post-reader-localized-context .awtsmoos-post-title-main {
-    margin: .4rem 0 !important;
-    color: #fffdf5 !important;
-    font-family: var(--font-content) !important;
-    font-size: clamp(2rem, calc(var(--post-text-size) * .86), 4.8rem) !important;
-    line-height: 1.18 !important;
-    font-weight: 850 !important;
-    text-shadow: 0 14px 36px rgba(0,0,0,.5) !important;
+.post-reader-localized-context .awtsmoos-post-title-main.awtsmoos-post-title-main.awtsmoos-post-title-main.awtsmoos-post-title-main.awtsmoos-post-title-main.awtsmoos-post-title-main.awtsmoos-post-title-main.awtsmoos-post-title-main{
+    margin: .4rem 0;
+    color: #fffdf5;
+    font-family: var(--font-content);
+    font-size: clamp(2rem, calc(var(--post-text-size) * .86), 4.8rem);
+    line-height: 1.18;
+    font-weight: 850;
+    text-shadow: 0 14px 36px rgba(0,0,0,.5);
 }
 
-.post-reader-localized-context :where(#virtual-scroll-container),
-.post-reader-localized-context .awtsmoos-virtual-scroll {
-    display: block !important;
-    width: 100% !important;
-    max-width: 820px !important;
-    min-height: 140dvh !important;
-    height: auto !important;
-    margin-inline: auto !important;
-    padding-bottom: 2rem !important;
-    overflow: visible !important;
+.post-reader-localized-context :is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container),
+.post-reader-localized-context .awtsmoos-virtual-scroll.awtsmoos-virtual-scroll.awtsmoos-virtual-scroll.awtsmoos-virtual-scroll.awtsmoos-virtual-scroll.awtsmoos-virtual-scroll.awtsmoos-virtual-scroll.awtsmoos-virtual-scroll{
+    display: block;
+    width: 100%;
+    max-width: 820px;
+    min-height: 140dvh;
+    height: auto;
+    margin-inline: auto;
+    padding-bottom: 2rem;
+    overflow: visible;
 }
 
-.post-reader-localized-context .scroll-chunk {
-    display: block !important;
+.post-reader-localized-context .scroll-chunk.scroll-chunk.scroll-chunk.scroll-chunk.scroll-chunk.scroll-chunk.scroll-chunk.scroll-chunk{
+    display: block;
     min-height: 720px;
-    height: auto !important;
-    overflow: visible !important;
-    contain: layout style !important;
-    content-visibility: visible !important;
+    height: auto;
+    overflow: visible;
+    contain: layout style;
+    content-visibility: visible;
 }
 
-.post-reader-localized-context .section {
-    position: relative !important;
-    margin: clamp(1rem, 3.8vw, 2rem) auto !important;
-    padding: clamp(1rem, 4.5vw, 2.25rem) !important;
-    border: 1px solid rgba(255,255,255,.13) !important;
-    border-radius: clamp(22px, 5vw, 34px) !important;
-    background:
-        radial-gradient(circle at 50% 0%, rgba(34,211,238,.055), transparent 18rem),
+.post-reader-localized-context .section.section.section.section.section.section.section.section{
+    position: relative;
+    margin: clamp(1rem, 3.8vw, 2rem) auto;
+    padding: clamp(1rem, 4.5vw, 2.25rem);
+    border: 1px solid rgba(255,255,255,.13);
+    border-radius: clamp(22px, 5vw, 34px);
+    background: radial-gradient(circle at 50% 0%, rgba(34,211,238,.055), transparent 18rem),
         linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.055)),
-        rgba(17,24,39,.76) !important;
-    box-shadow: 0 24px 64px rgba(0,0,0,.35) !important;
-    overflow: hidden !important;
-    scroll-margin-top: calc(var(--awt-header-space) + 12px) !important;
-    transform: translateZ(0) !important;
-    transition: border-color .22s ease, box-shadow .22s ease, background .22s ease !important;
+        rgba(17,24,39,.76);
+    box-shadow: 0 24px 64px rgba(0,0,0,.35);
+    overflow: hidden;
+    scroll-margin-top: calc(var(--awt-header-space) + 12px);
+    transform: translateZ(0);
+    transition: border-color .22s ease, box-shadow .22s ease, background .22s ease;
 }
 
-:where(.post-reader-localized-context) .section.active,
-:where(.post-reader-localized-context) .section.active-reading-section,
-:where(.post-reader-localized-context) .section.awtsmoos-current-section,
-:where(.post-reader-localized-context) .section.awtsmoos-current-reading-section,
-.post-reader-localized-context .awtsmoos-refresh-target {
-    border-color: rgba(246,201,108,.78) !important;
-    background:
-        radial-gradient(circle at 50% 0%, rgba(246,201,108,.14), transparent 18rem),
+:is(.post-reader-localized-context) .section.active.active.active.active.active.active.active.active,
+:is(.post-reader-localized-context) .section.active-reading-section.active-reading-section.active-reading-section.active-reading-section.active-reading-section.active-reading-section.active-reading-section.active-reading-section,
+:is(.post-reader-localized-context) .section.awtsmoos-current-section.awtsmoos-current-section.awtsmoos-current-section.awtsmoos-current-section.awtsmoos-current-section.awtsmoos-current-section.awtsmoos-current-section.awtsmoos-current-section,
+:is(.post-reader-localized-context) .section.awtsmoos-current-reading-section.awtsmoos-current-reading-section.awtsmoos-current-reading-section.awtsmoos-current-reading-section.awtsmoos-current-reading-section.awtsmoos-current-reading-section.awtsmoos-current-reading-section.awtsmoos-current-reading-section,
+.post-reader-localized-context .awtsmoos-refresh-target.awtsmoos-refresh-target.awtsmoos-refresh-target.awtsmoos-refresh-target.awtsmoos-refresh-target.awtsmoos-refresh-target.awtsmoos-refresh-target.awtsmoos-refresh-target{
+    border-color: rgba(246,201,108,.78);
+    background: radial-gradient(circle at 50% 0%, rgba(246,201,108,.14), transparent 18rem),
         linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.06)),
-        rgba(17,24,39,.82) !important;
-    box-shadow: 0 26px 78px rgba(244,197,107,.18), 0 0 0 2px rgba(244,197,107,.16) !important;
+        rgba(17,24,39,.82);
+    box-shadow: 0 26px 78px rgba(244,197,107,.18), 0 0 0 2px rgba(244,197,107,.16);
 }
 
-.post-reader-localized-context .sub-awtsmoos {
-    display: block !important;
-    margin: clamp(.85rem, 3.2vw, 1.5rem) 0 !important;
-    padding: clamp(1rem, 4.2vw, 1.9rem) !important;
-    border: 1px solid rgba(255,255,255,.11) !important;
-    border-radius: clamp(18px, 4.3vw, 28px) !important;
-    background: rgba(255,255,255,.07) !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.10) !important;
-    transform: translateZ(0) !important;
+.post-reader-localized-context .sub-awtsmoos.sub-awtsmoos.sub-awtsmoos.sub-awtsmoos.sub-awtsmoos.sub-awtsmoos.sub-awtsmoos.sub-awtsmoos{
+    display: block;
+    margin: clamp(.85rem, 3.2vw, 1.5rem) 0;
+    padding: clamp(1rem, 4.2vw, 1.9rem);
+    border: 1px solid rgba(255,255,255,.11);
+    border-radius: clamp(18px, 4.3vw, 28px);
+    background: rgba(255,255,255,.07);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.10);
+    transform: translateZ(0);
 }
 
-:where(.post-reader-localized-context) .sub-awtsmoos.active-reading-sub,
-:where(.post-reader-localized-context) .sub-awtsmoos.awtsmoos-current-subsection,
-:where(.post-reader-localized-context) .sub-awtsmoos.awtsmoos-current-reading-sub {
-    border-color: rgba(34,211,238,.52) !important;
-    background: radial-gradient(circle at 50% 0%, rgba(34,211,238,.14), transparent 14rem), rgba(255,255,255,.09) !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 0 0 2px rgba(34,211,238,.12), 0 18px 44px rgba(34,211,238,.10) !important;
+:is(.post-reader-localized-context) .sub-awtsmoos.active-reading-sub.active-reading-sub.active-reading-sub.active-reading-sub.active-reading-sub.active-reading-sub.active-reading-sub.active-reading-sub,
+:is(.post-reader-localized-context) .sub-awtsmoos.awtsmoos-current-subsection.awtsmoos-current-subsection.awtsmoos-current-subsection.awtsmoos-current-subsection.awtsmoos-current-subsection.awtsmoos-current-subsection.awtsmoos-current-subsection.awtsmoos-current-subsection,
+:is(.post-reader-localized-context) .sub-awtsmoos.awtsmoos-current-reading-sub.awtsmoos-current-reading-sub.awtsmoos-current-reading-sub.awtsmoos-current-reading-sub.awtsmoos-current-reading-sub.awtsmoos-current-reading-sub.awtsmoos-current-reading-sub.awtsmoos-current-reading-sub{
+    border-color: rgba(34,211,238,.52);
+    background: radial-gradient(circle at 50% 0%, rgba(34,211,238,.14), transparent 14rem), rgba(255,255,255,.09);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 0 0 2px rgba(34,211,238,.12), 0 18px 44px rgba(34,211,238,.10);
 }
 
-:where(.post-reader-localized-context) :where(.section.heb) .toichen,
-:where(.post-reader-localized-context) .sub-awtsmoos.heb,
-.post-reader-localized-context .heb {
-    direction: rtl !important;
-    text-align: center !important;
-    font-family: var(--font-content) !important;
-    color: #1b1b1b !important;
-    text-shadow: none !important;
+:is(.post-reader-localized-context) :is(.section.heb) .toichen.toichen.toichen.toichen.toichen.toichen.toichen.toichen,
+:is(.post-reader-localized-context) .sub-awtsmoos.heb.heb.heb.heb.heb.heb.heb.heb,
+.post-reader-localized-context .heb.heb.heb.heb.heb.heb.heb.heb{
+    direction: rtl;
+    text-align: center;
+    font-family: var(--font-content);
+    color: #1b1b1b;
+    text-shadow: none;
 }
 
 /* B"H dark theme: light text on dark chamber */
-:where(:root[data-theme="dark"]) :where(.post-reader-localized-context) :where(.section.heb) .toichen,
-:where(:root[data-theme="dark"]) :where(.post-reader-localized-context) .sub-awtsmoos.heb,
-:where(:root[data-theme="dark"]) .post-reader-localized-context .heb,
-:where(.post-reader-localized-context[data-theme="dark"]) :where(.section.heb) .toichen,
-:where(.post-reader-localized-context[data-theme="dark"]) .sub-awtsmoos.heb,
-:where(.post-reader-localized-context[data-theme="dark"]) .heb {
-    color: #fffdf5 !important;
-    text-shadow: 0 8px 26px rgba(0,0,0,.42) !important;
+:is(:root[data-theme="dark"]) :is(.post-reader-localized-context) :is(.section.heb) .toichen.toichen.toichen.toichen.toichen.toichen.toichen.toichen,
+:is(:root[data-theme="dark"]) :is(.post-reader-localized-context) .sub-awtsmoos.heb.heb.heb.heb.heb.heb.heb.heb,
+:is(:root[data-theme="dark"]) .post-reader-localized-context .heb.heb.heb.heb.heb.heb.heb.heb,
+:is(.post-reader-localized-context[data-theme="dark"]) :is(.section.heb) .toichen.toichen.toichen.toichen.toichen.toichen.toichen.toichen,
+:is(.post-reader-localized-context[data-theme="dark"]) .sub-awtsmoos.heb.heb.heb.heb.heb.heb.heb.heb,
+:is(.post-reader-localized-context[data-theme="dark"]) .heb.heb.heb.heb.heb.heb.heb.heb{
+    color: #fffdf5;
+    text-shadow: 0 8px 26px rgba(0,0,0,.42);
 }
 /* B"H dark theme: force dark chamber background (overrides transparent) */
-:where(:root[data-theme="dark"]) .post-reader-localized-context.awtsmoos-reader-vision,
-:where(:root[data-theme="dark"]) .post-reader-localized-context,
-:where(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision),
-.post-reader-localized-context[data-theme="dark"] {
-    background-color: #0a1120 !important;
-    background-image: linear-gradient(180deg, #0d1526, #060a14) !important;
+:is(:root[data-theme="dark"]) .post-reader-localized-context.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision,
+:is(:root[data-theme="dark"]) .post-reader-localized-context.post-reader-localized-context.post-reader-localized-context.post-reader-localized-context.post-reader-localized-context.post-reader-localized-context.post-reader-localized-context.post-reader-localized-context,
+:is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision):is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision):is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision):is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision):is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision):is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision):is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision):is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision),
+.post-reader-localized-context[data-theme="dark"][data-theme="dark"][data-theme="dark"][data-theme="dark"][data-theme="dark"][data-theme="dark"][data-theme="dark"][data-theme="dark"]{
+    background-color: #0a1120;
+    background-image: linear-gradient(180deg, #0d1526, #060a14);
 }
-:where(:root[data-theme="dark"]) .post-reader-localized-context .section,
-:where(:root[data-theme="dark"]) :where(.post-reader-localized-context) .section.heb,
-:where(.post-reader-localized-context[data-theme="dark"]) .section,
-:where(.post-reader-localized-context[data-theme="dark"]) .section.heb {
-    background-color: #0a1120 !important;
-    background: #0a1120 !important;
-}
-
-
-:where(.post-reader-localized-context) :where(.section.heb) > .toichen,
-:where(.post-reader-localized-context) :where(.section.heb) > :where(.toichen) > :not(.marginal-gloss-shelter):not(.awtsmoos-inline-shell),
-:where(.post-reader-localized-context) :where(.section.heb) > .sub-awtsmoos.heb,
-:where(.post-reader-localized-context) :where(.section.heb) > :where(.sub-awtsmoos.heb) > :not(.marginal-gloss-shelter):not(.awtsmoos-inline-shell) {
-    font-size: var(--post-text-size) !important;
-    line-height: 1.42 !important;
+:is(:root[data-theme="dark"]) .post-reader-localized-context .section.section.section.section.section.section.section.section,
+:is(:root[data-theme="dark"]) :is(.post-reader-localized-context) .section.heb.heb.heb.heb.heb.heb.heb.heb,
+:is(.post-reader-localized-context[data-theme="dark"]) .section.section.section.section.section.section.section.section,
+:is(.post-reader-localized-context[data-theme="dark"]) .section.heb.heb.heb.heb.heb.heb.heb.heb{
+    background-color: #0a1120;
+    background: #0a1120;
 }
 
-:where(.post-reader-localized-context) :where(.section:not(.heb)) > .toichen,
-:where(.post-reader-localized-context) :where(.section:not(.heb)) > .sub-awtsmoos,
-:where(.post-reader-localized-context) :where(.section:not(.heb)) > :where(.sub-awtsmoos) > :not(.marginal-gloss-shelter):not(.awtsmoos-inline-shell) {
-    font-size: var(--post-text-size) !important;
-    line-height: 1.55 !important;
+
+:is(.post-reader-localized-context) :is(.section.heb) > .toichen.toichen.toichen.toichen.toichen.toichen.toichen.toichen,
+:is(.post-reader-localized-context) :is(.section.heb) > :is(.toichen) > :not(.marginal-gloss-shelter):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell),
+:is(.post-reader-localized-context) :is(.section.heb) > .sub-awtsmoos.heb.heb.heb.heb.heb.heb.heb.heb,
+:is(.post-reader-localized-context) :is(.section.heb) > :is(.sub-awtsmoos.heb) > :not(.marginal-gloss-shelter):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell){
+    font-size: var(--post-text-size);
+    line-height: 1.42;
 }
 
-.post-reader-localized-context .awtsmoos-section-header,
-.post-reader-localized-context .awtsmoos-section-header *,
-.post-reader-localized-context .awtsmoos-verse-number {
-display: flex !important;
-    justify-content: center !important;
-    margin-block-end: .35rem !important;
-font-size: 1rem !important;
-    line-height: 1 !important;
-border-radius: 999px !important;
-    background: radial-gradient(circle at 34% 25%, #fff3bb, #d89220) !important;
-    color: #1b1205 !important;
-    border: 1px solid rgba(255,255,255,.3) !important;
-    box-shadow: 0 10px 22px rgba(0,0,0,.28) !important;
-}
-.post-reader-localized-context .awtsmoos-verse-number {
-    border-radius: 999px !important;
-    background: radial-gradient(circle at 34% 25%, #fff3bb, #d89220) !important;
-    color: #1b1205 !important;
-    border: 1px solid rgba(255,255,255,.3) !important;
-    box-shadow: 0 10px 22px rgba(0,0,0,.28) !important;
+:is(.post-reader-localized-context) :is(.section:not(.heb)) > .toichen.toichen.toichen.toichen.toichen.toichen.toichen.toichen,
+:is(.post-reader-localized-context) :is(.section:not(.heb)) > .sub-awtsmoos.sub-awtsmoos.sub-awtsmoos.sub-awtsmoos.sub-awtsmoos.sub-awtsmoos.sub-awtsmoos.sub-awtsmoos,
+:is(.post-reader-localized-context) :is(.section:not(.heb)) > :is(.sub-awtsmoos) > :not(.marginal-gloss-shelter):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell):not(.awtsmoos-inline-shell){
+    font-size: var(--post-text-size);
+    line-height: 1.55;
 }
 
-.post-reader-localized-context .awtsmoos-chapter-nav {
-    display: grid !important;
-    gap: .85rem !important;
-    width: min(820px, calc(100% - 1.5rem)) !important;
-    margin: 1rem auto calc(var(--awt-reader-bottom-space) + 6rem) !important;
-    padding: 1rem !important;
-    border: 1px solid rgba(246,201,108,.28) !important;
-    border-radius: 24px !important;
-    background: linear-gradient(180deg, rgba(9,18,34,.96), rgba(4,9,20,.98)) !important;
-    box-shadow: 0 24px 70px rgba(0,0,0,.3) !important;
+.post-reader-localized-context .awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header,
+.post-reader-localized-context .awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header.awtsmoos-section-header *,
+.post-reader-localized-context .awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number{
+display: flex;
+    justify-content: center;
+    margin-block-end: .35rem;
+font-size: 1rem;
+    line-height: 1;
+border-radius: 999px;
+    background: radial-gradient(circle at 34% 25%, #fff3bb, #d89220);
+    color: #1b1205;
+    border: 1px solid rgba(255,255,255,.3);
+    box-shadow: 0 10px 22px rgba(0,0,0,.28);
+}
+.post-reader-localized-context .awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number.awtsmoos-verse-number{
+    border-radius: 999px;
+    background: radial-gradient(circle at 34% 25%, #fff3bb, #d89220);
+    color: #1b1205;
+    border: 1px solid rgba(255,255,255,.3);
+    box-shadow: 0 10px 22px rgba(0,0,0,.28);
 }
 
-.post-reader-localized-context .awtsmoos-chapter-nav-status {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: .4rem !important;
-    color: var(--inline-edge-gold, #f6c96c) !important;
-    font: 900 1rem/1 var(--font-ui) !important;
+.post-reader-localized-context .awtsmoos-chapter-nav.awtsmoos-chapter-nav.awtsmoos-chapter-nav.awtsmoos-chapter-nav.awtsmoos-chapter-nav.awtsmoos-chapter-nav.awtsmoos-chapter-nav.awtsmoos-chapter-nav{
+    display: grid;
+    gap: .85rem;
+    width: min(820px, calc(100% - 1.5rem));
+    margin: 1rem auto calc(var(--awt-reader-bottom-space) + 6rem);
+    padding: 1rem;
+    border: 1px solid rgba(246,201,108,.28);
+    border-radius: 24px;
+    background: linear-gradient(180deg, rgba(9,18,34,.96), rgba(4,9,20,.98));
+    box-shadow: 0 24px 70px rgba(0,0,0,.3);
 }
 
-.post-reader-localized-context .awtsmoos-chapter-gate {
-    display: grid !important;
-    grid-template-columns: 42px 1fr auto !important;
-    align-items: center !important;
-    gap: .8rem !important;
-    min-height: 58px !important;
-    padding: .8rem 1rem !important;
-    border: 1px solid rgba(246,201,108,.22) !important;
-    border-radius: 18px !important;
-    background: rgba(255,255,255,.06) !important;
-    color: #fffdf5 !important;
-    text-decoration: none !important;
-    font: 900 1rem/1 var(--font-ui) !important;
+.post-reader-localized-context .awtsmoos-chapter-nav-status.awtsmoos-chapter-nav-status.awtsmoos-chapter-nav-status.awtsmoos-chapter-nav-status.awtsmoos-chapter-nav-status.awtsmoos-chapter-nav-status.awtsmoos-chapter-nav-status.awtsmoos-chapter-nav-status{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .4rem;
+    color: var(--inline-edge-gold, #f6c96c);
+    font: 900 1rem/1 var(--font-ui);
 }
 
-.post-reader-localized-context .awtsmoos-chapter-gate-arrow {
-    display: grid !important;
-    place-items: center !important;
-    width: 38px !important;
-    height: 38px !important;
-    border-radius: 999px !important;
-    background: radial-gradient(circle at 35% 25%, #f8dc8f, #d89b1d) !important;
-    color: #160d03 !important;
+.post-reader-localized-context .awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate.awtsmoos-chapter-gate{
+    display: grid;
+    grid-template-columns: 42px 1fr auto;
+    align-items: center;
+    gap: .8rem;
+    min-height: 58px;
+    padding: .8rem 1rem;
+    border: 1px solid rgba(246,201,108,.22);
+    border-radius: 18px;
+    background: rgba(255,255,255,.06);
+    color: #fffdf5;
+    text-decoration: none;
+    font: 900 1rem/1 var(--font-ui);
 }
 
-.post-reader-localized-context .awtsmoos-chapter-gate-number {
-    color: var(--inline-text-blue, #cbd5e1) !important;
-    font-size: .84rem !important;
+.post-reader-localized-context .awtsmoos-chapter-gate-arrow.awtsmoos-chapter-gate-arrow.awtsmoos-chapter-gate-arrow.awtsmoos-chapter-gate-arrow.awtsmoos-chapter-gate-arrow.awtsmoos-chapter-gate-arrow.awtsmoos-chapter-gate-arrow.awtsmoos-chapter-gate-arrow{
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    background: radial-gradient(circle at 35% 25%, #f8dc8f, #d89b1d);
+    color: #160d03;
 }
 
-.post-reader-localized-context .fatal-error,
-.post-reader-localized-context .awtsmoos-empty-placeholder {
-    border: 1px dashed var(--awt-line) !important;
-    border-radius: var(--awt-radius) !important;
-    background: rgba(255,255,255,.05) !important;
-    color: var(--awt-muted) !important;
-    padding: 1.25rem !important;
-    text-align: center !important;
+.post-reader-localized-context .awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number.awtsmoos-chapter-gate-number{
+    color: var(--inline-text-blue, #cbd5e1);
+    font-size: .84rem;
+}
+
+.post-reader-localized-context .fatal-error.fatal-error.fatal-error.fatal-error.fatal-error.fatal-error.fatal-error.fatal-error,
+.post-reader-localized-context .awtsmoos-empty-placeholder.awtsmoos-empty-placeholder.awtsmoos-empty-placeholder.awtsmoos-empty-placeholder.awtsmoos-empty-placeholder.awtsmoos-empty-placeholder.awtsmoos-empty-placeholder.awtsmoos-empty-placeholder{
+    border: 1px dashed var(--awt-line);
+    border-radius: var(--awt-radius);
+    background: rgba(255,255,255,.05);
+    color: var(--awt-muted);
+    padding: 1.25rem;
+    text-align: center;
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .post-reader-localized-context .section { transition: none !important; }
+    .post-reader-localized-context .section.section.section.section.section.section.section.section{ transition: none; }
 }
 /* B"H
  * Chapter 281: Local polish proof.

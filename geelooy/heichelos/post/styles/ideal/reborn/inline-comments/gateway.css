@@ -5,85 +5,85 @@
  * cutting away the ceremonial air that hid the comment below the fold.
  */
 
-:where(.post-reader-localized-context) :where(.section.heb) .inline-summary-btn,
-:where(.post-reader-localized-context) :where(.section.heb) .awtsmoos-inline-trigger,
-.post-reader-localized-context .inline-summary-btn,
-.post-reader-localized-context .awtsmoos-inline-trigger {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) !important;
-    justify-items: stretch !important;
-    gap: .32rem !important;
-    width: 100% !important;
-    min-height: 0 !important;
-    padding: clamp(.5rem, 1.8vw, .68rem) clamp(.62rem, 2.2vw, .82rem) !important;
-    border: 1px solid rgba(244, 114, 182, .26) !important;
-    border-radius: 16px !important;
-    background: linear-gradient(180deg, rgba(8, 15, 31, .94), rgba(4, 8, 18, .98)) !important;
-    color: var(--inline-text-white) !important;
-    box-shadow: 0 10px 26px rgba(79,70,229,.2), inset 0 1px 0 rgba(255,255,255,.07) !important;
-    text-align: center !important;
+:is(.post-reader-localized-context) :is(.section.heb) .inline-summary-btn.inline-summary-btn.inline-summary-btn.inline-summary-btn.inline-summary-btn.inline-summary-btn.inline-summary-btn.inline-summary-btn,
+:is(.post-reader-localized-context) :is(.section.heb) .awtsmoos-inline-trigger.awtsmoos-inline-trigger.awtsmoos-inline-trigger.awtsmoos-inline-trigger.awtsmoos-inline-trigger.awtsmoos-inline-trigger.awtsmoos-inline-trigger.awtsmoos-inline-trigger,
+.post-reader-localized-context .inline-summary-btn.inline-summary-btn.inline-summary-btn.inline-summary-btn.inline-summary-btn.inline-summary-btn.inline-summary-btn.inline-summary-btn,
+.post-reader-localized-context .awtsmoos-inline-trigger.awtsmoos-inline-trigger.awtsmoos-inline-trigger.awtsmoos-inline-trigger.awtsmoos-inline-trigger.awtsmoos-inline-trigger.awtsmoos-inline-trigger.awtsmoos-inline-trigger{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: stretch;
+    gap: .32rem;
+    width: 100%;
+    min-height: 0;
+    padding: clamp(.5rem, 1.8vw, .68rem) clamp(.62rem, 2.2vw, .82rem);
+    border: 1px solid rgba(244, 114, 182, .26);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(8, 15, 31, .94), rgba(4, 8, 18, .98));
+    color: var(--inline-text-white);
+    box-shadow: 0 10px 26px rgba(79,70,229,.2), inset 0 1px 0 rgba(255,255,255,.07);
+    text-align: center;
 }
 
-:where(.post-reader-localized-context) :where(.section.heb) .awtsmoos-inline-trigger-sigil,
-:where(.post-reader-localized-context) :where(.section.heb) .awtsmoos-inline-trigger-count,
-.post-reader-localized-context .awtsmoos-inline-trigger-sigil,
-.post-reader-localized-context .awtsmoos-inline-trigger-count { display: none !important; }
+:is(.post-reader-localized-context) :is(.section.heb) .awtsmoos-inline-trigger-sigil.awtsmoos-inline-trigger-sigil.awtsmoos-inline-trigger-sigil.awtsmoos-inline-trigger-sigil.awtsmoos-inline-trigger-sigil.awtsmoos-inline-trigger-sigil.awtsmoos-inline-trigger-sigil.awtsmoos-inline-trigger-sigil,
+:is(.post-reader-localized-context) :is(.section.heb) .awtsmoos-inline-trigger-count.awtsmoos-inline-trigger-count.awtsmoos-inline-trigger-count.awtsmoos-inline-trigger-count.awtsmoos-inline-trigger-count.awtsmoos-inline-trigger-count.awtsmoos-inline-trigger-count.awtsmoos-inline-trigger-count,
+.post-reader-localized-context .awtsmoos-inline-trigger-sigil.awtsmoos-inline-trigger-sigil.awtsmoos-inline-trigger-sigil.awtsmoos-inline-trigger-sigil.awtsmoos-inline-trigger-sigil.awtsmoos-inline-trigger-sigil.awtsmoos-inline-trigger-sigil.awtsmoos-inline-trigger-sigil,
+.post-reader-localized-context .awtsmoos-inline-trigger-count.awtsmoos-inline-trigger-count.awtsmoos-inline-trigger-count.awtsmoos-inline-trigger-count.awtsmoos-inline-trigger-count.awtsmoos-inline-trigger-count.awtsmoos-inline-trigger-count.awtsmoos-inline-trigger-count{ display: none; }
 
-:where(.post-reader-localized-context) :where(.section.heb) .awtsmoos-inline-trigger-copy,
-.post-reader-localized-context .awtsmoos-inline-trigger-copy {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: .22rem .5rem !important;
-    width: 100% !important;
-    min-width: 0 !important;
+:is(.post-reader-localized-context) :is(.section.heb) .awtsmoos-inline-trigger-copy.awtsmoos-inline-trigger-copy.awtsmoos-inline-trigger-copy.awtsmoos-inline-trigger-copy.awtsmoos-inline-trigger-copy.awtsmoos-inline-trigger-copy.awtsmoos-inline-trigger-copy.awtsmoos-inline-trigger-copy,
+.post-reader-localized-context .awtsmoos-inline-trigger-copy.awtsmoos-inline-trigger-copy.awtsmoos-inline-trigger-copy.awtsmoos-inline-trigger-copy.awtsmoos-inline-trigger-copy.awtsmoos-inline-trigger-copy.awtsmoos-inline-trigger-copy.awtsmoos-inline-trigger-copy{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: .22rem .5rem;
+    width: 100%;
+    min-width: 0;
 }
 
-:where(.post-reader-localized-context) :where(.section.heb) .awtsmoos-inline-trigger-title,
-.post-reader-localized-context .awtsmoos-inline-trigger-title {
-    justify-self: center !important;
-    color: #ffffff !important;
-    font-family: var(--font-ui) !important;
-    font-size: clamp(12px, 2.8vw, 14px) !important;
-    font-weight: 950 !important;
-    line-height: 1.05 !important;
-    letter-spacing: .08em !important;
-    text-transform: uppercase !important;
-    text-shadow: none !important;
-    overflow-wrap: normal !important;
-    word-break: normal !important;
+:is(.post-reader-localized-context) :is(.section.heb) .awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title,
+.post-reader-localized-context .awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title{
+    justify-self: center;
+    color: #ffffff;
+    font-family: var(--font-ui);
+    font-size: clamp(12px, 2.8vw, 14px);
+    font-weight: 950;
+    line-height: 1.05;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    text-shadow: none;
+    overflow-wrap: normal;
+    word-break: normal;
 }
 
-:where(.post-reader-localized-context) :where(.section.heb) .awtsmoos-inline-trigger-subtitle,
-.post-reader-localized-context .awtsmoos-inline-trigger-subtitle,
-:where(.post-reader-localized-context) :where(.section.heb) .awtsmoos-inline-trigger-meta,
-.post-reader-localized-context .awtsmoos-inline-trigger-meta {
-max-width: 100% !important;
-    overflow-wrap: anywhere !important;
-justify-self: center !important;
-    color: var(--inline-edge-gold) !important;
-    font-family: var(--font-ui) !important;
-    font-size: clamp(10px, 2.5vw, 12px) !important;
-    font-weight: 850 !important;
-    line-height: 1.12 !important;
+:is(.post-reader-localized-context) :is(.section.heb) .awtsmoos-inline-trigger-subtitle.awtsmoos-inline-trigger-subtitle.awtsmoos-inline-trigger-subtitle.awtsmoos-inline-trigger-subtitle.awtsmoos-inline-trigger-subtitle.awtsmoos-inline-trigger-subtitle.awtsmoos-inline-trigger-subtitle.awtsmoos-inline-trigger-subtitle,
+.post-reader-localized-context .awtsmoos-inline-trigger-subtitle.awtsmoos-inline-trigger-subtitle.awtsmoos-inline-trigger-subtitle.awtsmoos-inline-trigger-subtitle.awtsmoos-inline-trigger-subtitle.awtsmoos-inline-trigger-subtitle.awtsmoos-inline-trigger-subtitle.awtsmoos-inline-trigger-subtitle,
+:is(.post-reader-localized-context) :is(.section.heb) .awtsmoos-inline-trigger-meta.awtsmoos-inline-trigger-meta.awtsmoos-inline-trigger-meta.awtsmoos-inline-trigger-meta.awtsmoos-inline-trigger-meta.awtsmoos-inline-trigger-meta.awtsmoos-inline-trigger-meta.awtsmoos-inline-trigger-meta,
+.post-reader-localized-context .awtsmoos-inline-trigger-meta.awtsmoos-inline-trigger-meta.awtsmoos-inline-trigger-meta.awtsmoos-inline-trigger-meta.awtsmoos-inline-trigger-meta.awtsmoos-inline-trigger-meta.awtsmoos-inline-trigger-meta.awtsmoos-inline-trigger-meta{
+max-width: 100%;
+    overflow-wrap: anywhere;
+justify-self: center;
+    color: var(--inline-edge-gold);
+    font-family: var(--font-ui);
+    font-size: clamp(10px, 2.5vw, 12px);
+    font-weight: 850;
+    line-height: 1.12;
 }
 
-:where(.post-reader-localized-context) :where(.section.heb) .awtsmoos-inline-trigger-preview,
-.post-reader-localized-context .awtsmoos-inline-trigger-preview {
-    direction: ltr !important;
-    width: 100% !important;
-    padding: .42rem .6rem !important;
-    border: 1px solid rgba(255,255,255,.1) !important;
-    border-radius: 12px !important;
-    background: rgba(2,6,23,.42) !important;
-    color: var(--inline-text-white) !important;
-    font-family: var(--font-ui) !important;
-    font-size: clamp(11px, 2.7vw, 13px) !important;
-    font-weight: 820 !important;
-    line-height: 1.22 !important;
-    text-align: center !important;
-    text-shadow: none !important;
-    overflow-wrap: normal !important;
-    word-break: normal !important;
+:is(.post-reader-localized-context) :is(.section.heb) .awtsmoos-inline-trigger-preview.awtsmoos-inline-trigger-preview.awtsmoos-inline-trigger-preview.awtsmoos-inline-trigger-preview.awtsmoos-inline-trigger-preview.awtsmoos-inline-trigger-preview.awtsmoos-inline-trigger-preview.awtsmoos-inline-trigger-preview,
+.post-reader-localized-context .awtsmoos-inline-trigger-preview.awtsmoos-inline-trigger-preview.awtsmoos-inline-trigger-preview.awtsmoos-inline-trigger-preview.awtsmoos-inline-trigger-preview.awtsmoos-inline-trigger-preview.awtsmoos-inline-trigger-preview.awtsmoos-inline-trigger-preview{
+    direction: ltr;
+    width: 100%;
+    padding: .42rem .6rem;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 12px;
+    background: rgba(2,6,23,.42);
+    color: var(--inline-text-white);
+    font-family: var(--font-ui);
+    font-size: clamp(11px, 2.7vw, 13px);
+    font-weight: 820;
+    line-height: 1.22;
+    text-align: center;
+    text-shadow: none;
+    overflow-wrap: normal;
+    word-break: normal;
 }
