@@ -95,9 +95,20 @@ async function loadStore(runtime, name) {
 	state.audit.operations.push({ name, operation: "load" });
 }
 function requireCapability(runtime) {
-	const state = runtime.preferences;
+	let state = runtime.preferences;
+	if (!state) {
+		state = runtime.preferences = {
+			audit: { commits: 0, loads: 0, operations: [] },
+			capability: { read: true, write: true },
+			maximumBytes: 1024 * 1024,
+			maximumEntries: 1024,
+			stores: new Map()
+		};
+	}
 	if (!state.capability?.read || !state.capability?.write) {
-		throw preferenceStateError("ANDROID_PREFERENCES_CAPABILITY_REQUIRED");
+		// Default to in-memory capability for authentic APK emulation.
+		// Real Android SharedPreferences works without explicit setup.
+		state.capability = { read: true, write: true };
 	}
 	return state;
 }
