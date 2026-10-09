@@ -47,10 +47,19 @@ async function compileNativeApp(input = {}) {
 		styles: parseCss(allCss)
 	};
 	const binary = await compileUnifiedApp({ scripts, web });
+
+	// Assets: images (multi-res + recompress), fonts (subset), dedup.
+	let assets = null;
+	if (input.assets && Object.keys(input.assets).length) {
+		const { compileAssets } = require('./AssetCompiler.js');
+		assets = compileAssets({ html, css, js, files: input.assets });
+	}
+
 	const sourceBytes = Buffer.byteLength(html + css + js, 'utf8');
 	return {
 		binary,
 		appName,
+		assets,
 		meta: {
 			appName,
 			format: 'MAPP',
@@ -59,7 +68,9 @@ async function compileNativeApp(input = {}) {
 			compressionRatio: sourceBytes ? binary.length / sourceBytes : 0,
 			nodeCount: web.nodes.length,
 			styleCount: web.styles.length,
-			scriptCount: scripts.length
+			scriptCount: scripts.length,
+			assetIn: assets ? assets.totalIn : 0,
+			assetOut: assets ? assets.totalOut : 0
 		}
 	};
 }
@@ -99,7 +110,7 @@ async function compileNativeMWB4(input = {}) {
  * @param {{appName?:string,version?:string}} meta
  * @returns {Uint8Array} MKV1 container bytes.
  */
-function packMerkavaContainer(mappBinary, mwb4Binary, meta = {}) {
+function packMerkavaContainer(mappBinary, mwb4Binary, meta = {}, assetsSection) {
 	const { writeCanonicalContainer } = require('../merkava-canonical/Writer.js');
 	const { SECTION } = require('../merkava-canonical/Format.js');
 	const manifest = Buffer.from(JSON.stringify({
@@ -114,6 +125,9 @@ function packMerkavaContainer(mappBinary, mwb4Binary, meta = {}) {
 	];
 	if (mappBinary && mappBinary.length) {
 		sections.push({ type: SECTION.MODULES, bytes: new Uint8Array(mappBinary) });
+	}
+	if (assetsSection && assetsSection.length) {
+		sections.push({ type: SECTION.ASSETS, bytes: new Uint8Array(assetsSection) });
 	}
 	return writeCanonicalContainer({ sections });
 }

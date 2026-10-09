@@ -28,20 +28,43 @@ const os = require('os');
 const BINARY_DIR = path.resolve(__dirname, '../../../scripts/awtsmoos/MerkavaExecutor/merkava-binary');
 const NATIVE_DIR = path.resolve(__dirname, '../native');
 const DIST = process.env.MERKAVA_DIST || path.resolve(__dirname, '../dist/apps');
+const MERKAVA_LOGO = process.env.MERKAVA_LOGO || '/home/hatch/workspace/merkava-screenshots/media-generation-merkava-browser-logo-0-e85bddef-6b2d-409f-be92-a0794486954e.webp';
 
 const { compileNativeApp, compileNativeMWB4, packMerkavaContainer } = require(path.join(BINARY_DIR, 'NativeAppCompiler.js'));
+const { encodeAssetsSection } = require(path.join(BINARY_DIR, 'AssetCompiler.js'));
 
 function ensureDir(p) { fs.mkdirSync(p, { recursive: true }); return p; }
 function run(cmd, args, opts = {}) {
 	return execFileSync(cmd, args, { stdio: 'pipe', ...opts }).toString();
 }
 
-/** Compiles web source to .mapp + MKV1 container. Shared by all targets. */
-async function compileAppPackage({ html = '', css = '', js = '', appName = 'MerkavaApp' }) {
-	const compiled = await compileNativeApp({ html, css, js, appName });
+/** Compiles web source to .mapp + MWB4 + MKV1 container. Shared by all targets. */
+async function compileAppPackage({ html = '', css = '', js = '', appName = 'MerkavaApp', assets = null } = {}) {
+	const compiled = await compileNativeApp({ html, css, js, appName, assets });
 	const { mwb4 } = await compileNativeMWB4({ html, css, appName });
-	const container = packMerkavaContainer(compiled.binary, mwb4, { appName });
+	const assetsSection = compiled.assets ? encodeAssetsSection(compiled.assets) : null;
+	const container = packMerkavaContainer(compiled.binary, mwb4, { appName }, assetsSection);
 	return { ...compiled, mwb4, container };
+}
+
+/**
+ * Generates Android mipmap icons from the Merkava logo (or a custom icon).
+ * @param {string} logoPath Source image.
+ * @param {string} resDir   res/ directory to populate.
+ */
+function generateMipmapIcons(logoPath, resDir) {
+	const densities = { mdpi: 48, hdpi: 72, xhdpi: 96, xxhdpi: 144, xxxhdpi: 192 };
+	for (const [density, size] of Object.entries(densities)) {
+		const dir = ensureDir(path.join(resDir, `mipmap-${density}`));
+		const out = path.join(dir, 'ic_launcher.png');
+		execFileSync('python3', ['-c', `
+from PIL import Image
+im = Image.open(${JSON.stringify(logoPath)}).convert("RGBA")
+im = im.resize((${size}, ${size}), Image.LANCZOS)
+im.save(${JSON.stringify(out)}, "PNG", optimize=True)
+`], { stdio: 'pipe' });
+	}
+	return resDir;
 }
 
 function appDistDir(appName) {
@@ -186,7 +209,7 @@ async function compileToApk(html, css, js, appName = 'MerkavaApp') {
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="${packageName}" android:versionCode="1" android:versionName="1.0">
 <uses-sdk android:minSdkVersion="26" android:targetSdkVersion="36"/>
 <uses-feature android:glEsVersion="0x00030000" android:required="true"/>
-<application android:label="${appName}" android:hasCode="false">
+<application android:label="${appName}" android:hasCode="false" android:icon="@mipmap/ic_launcher">
 <activity android:name="android.app.NativeActivity" android:exported="true" android:configChanges="orientation|keyboardHidden|screenSize">
 <meta-data android:name="android.app.lib_name" android:value="${libName}"/>
 <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>
@@ -195,6 +218,11 @@ async function compileToApk(html, css, js, appName = 'MerkavaApp') {
 </manifest>
 `;
 	fs.writeFileSync(path.join(dir, 'AndroidManifest.xml'), manifestXml);
+	// App icons: Merkava logo at all densities.
+	const resDir = ensureDir(path.join(dir, 'res'));
+	generateMipmapIcons(process.env.MERKAVA_ICON || MERKAVA_LOGO, resDir);
+	const aapt2 = path.join(buildTools, 'aapt2');
+	run(aapt2, ['compile', '--dir', resDir, '-o', path.join(dir, 'res.zip')]);
 	const unsignedApk = path.join(dir, `${appName}-unsigned.apk`);
 	const assetsDir = ensureDir(path.join(dir, 'assets'));
 	fs.writeFileSync(path.join(assetsDir, 'app.merkava'), Buffer.from(pkg.container));
@@ -202,7 +230,7 @@ async function compileToApk(html, css, js, appName = 'MerkavaApp') {
 		'--manifest', path.join(dir, 'AndroidManifest.xml'),
 		'-I', path.join(androidHome, 'platforms/android-36/android.jar'),
 		'--target-sdk-version', '36', '--min-sdk-version', '26',
-		'-A', assetsDir]);
+		'-A', assetsDir, path.join(dir, 'res.zip')]);
 	// Inject the native lib as STORED+aligned (aapt2 link takes no libs).
 	injectZipEntry(unsignedApk, 'lib/arm64-v8a/libmerkava.so', fs.readFileSync(soPath));
 
