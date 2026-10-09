@@ -28,7 +28,10 @@ function inspect(installRoot, options = {}) {
 		return verdict(false, "receipt_invalid", { file, staleMs, error: String(error.message || error) });
 	}
 	if (receipt?.state !== "registered") {
-		return verdict(false, "not_registered", { file, staleMs, state: String(receipt?.state || "unknown") });
+		const state = String(receipt?.state || "unknown");
+		const updatedAt = timestamp(receipt.updatedAt);
+		const ageMs = updatedAt ? Math.max(0, now - updatedAt) : null;
+		return verdict(false, "not_registered", { file, staleMs, state, ageMs, freshnessKnown: Boolean(updatedAt) });
 	}
 	const observedAt = timestamp(receipt.lastServerMessageAt) || timestamp(receipt.updatedAt);
 	if (!observedAt) {

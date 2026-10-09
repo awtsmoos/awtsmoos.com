@@ -73,7 +73,13 @@ function registrationProbe(options) {
 function registrationIsStarting(registration) {
 	if (!registration || registration.ok) return false;
 	if (registration.reason === "receipt_missing") return true;
-	return registration.reason === "not_registered" && registration.state === "registration_pending";
+	if (registration.reason !== "not_registered") return false;
+	if (registration.state === "registration_pending") return true;
+	// A live agent reconnecting to a restarting server must not be killed by its
+	// own recovery guardian. Only a genuinely stale reconnect may be replaced.
+	return ["connecting", "reconnecting", "registering"].includes(registration.state)
+		&& registration.freshnessKnown === true
+		&& registration.ageMs <= Math.max(120000, registration.staleMs * 2);
 }
 
 /** Run the independent guardian until its service manager asks it to stop. */

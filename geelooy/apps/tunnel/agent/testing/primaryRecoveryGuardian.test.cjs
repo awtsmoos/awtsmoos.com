@@ -93,6 +93,21 @@ test("live child registration startup never accumulates failures or triggers rep
 	assert.equal(fake.repairs(), 0);
 });
 
+test("fresh connecting agent survives repeated guardian checks without destructive repair", () => {
+	const fake = harness([processUp()]);
+	const guardian = create(fake, () => ({ ok: false, reason: "not_registered", state: "connecting", freshnessKnown: true, ageMs: 5000, staleMs: 60000 }));
+	for (let i = 0; i < 30; i++) assert.equal(guardian.tick(i * 5000 + 1000).state, "registration_starting");
+	assert.equal(fake.repairs(), 0);
+});
+
+test("stale connecting agent eventually permits bounded recovery", () => {
+	const fake = harness([processUp()]);
+	const guardian = create(fake, () => ({ ok: false, reason: "not_registered", state: "connecting", freshnessKnown: true, ageMs: 180000, staleMs: 60000 }));
+	guardian.tick(1000); guardian.tick(2000);
+	assert.equal(guardian.tick(3000).state, "repair_started");
+	assert.equal(fake.repairs(), 1);
+});
+
 test("failed repairs obey cooldown", () => {
 	const fake = harness([processUp()], { ok: false, error: "repair_failed" });
 	const guardian = create(fake, stale, { minimumFailures: 1, repairCooldownMs: 10000 });
