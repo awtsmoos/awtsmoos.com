@@ -9,7 +9,7 @@
 input,
 textarea,
 select,
-.bulk-text { inline-size:100%; min-inline-size:0; min-block-size:44px; max-inline-size:100%; padding:.7rem .8rem; border:1px solid var(--create-line); border-radius:.75rem; background:#fff; color:var(--create-ink); font:inherit; }
+.bulk-text { inline-size:100%; min-inline-size:0; min-block-size:44px; max-inline-size:100%; padding:.7rem .8rem; border:1px solid var(--create-line); border-radius:.75rem; background:var(--create-panel); color:var(--create-ink); font:inherit; }
 textarea,
 .bulk-text { min-block-size:8rem; resize:vertical; }
 .kind-pills,
@@ -30,7 +30,7 @@ textarea,
 	padding:.6rem .85rem;
 	border:1px solid var(--create-line);
 	border-radius:999px;
-	background:#fff;
+	background:var(--create-panel);
 	color:var(--create-ink);
 	font:inherit;
 	font-weight:700;
@@ -39,7 +39,7 @@ textarea,
 }
 .kind-pill.active,
 .publish-button,
-.btn.primary { border-color:var(--create-ink); background:var(--create-ink); color:#fff; box-shadow:var(--create-shadow); }
+.btn.primary { border-color:var(--create-ink); background:var(--create-ink); color:var(--create-on-ink); box-shadow:var(--create-shadow); }
 @media (hover:hover) and (pointer:fine) {
 	.kind-pill,.soft-btn,.btn,.publish-button,.editor-toolbar button,.text-link,.top-controls a:hover { transform:translateY(-1px); filter:brightness(1.035); }
 }

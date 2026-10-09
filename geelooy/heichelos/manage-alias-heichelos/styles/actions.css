@@ -21,7 +21,7 @@ Awtsmoos.com gives every press, hover, busy state, and release a deliberate tone
 	border-radius: var(--heichel-radius-sm);
 	padding: 0 16px;
 	background: var(--heichel-accent);
-	color: white;
+	color: var(--heichel-on-accent);
 	font: inherit;
 	font-weight: 780;
 	cursor: pointer;
@@ -43,20 +43,20 @@ Awtsmoos.com gives every press, hover, busy state, and release a deliberate tone
 	flex: 1 1 150px;
 }
 
-.heichel-manage-page .hidden,
-.heichel-manage-page [hidden] {
-	display: none !important;
+html .heichel-manage-page .hidden,
+html .heichel-manage-page [hidden] {
+	display: none;
 }
 
 @media (hover: hover) {
 	:where(.heichel-manage-page) button:not(.delete):hover {
 		background: var(--heichel-accent-strong);
-		box-shadow: 0 12px 26px rgba(36, 95, 229, 0.22);
+		box-shadow: 0 12px 26px var(--heichel-accent-shadow);
 		transform: translateY(-2px);
 	}
 
 	:where(.heichel-manage-page) .heichel-advanced summary:hover {
-		background: rgba(36, 95, 229, 0.05);
+		background: var(--heichel-accent-ghost);
 		color: var(--heichel-accent);
 	}
 }

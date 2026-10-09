@@ -1,6 +1,27 @@
 /* @tunnel-grandfather: intentional layered/variant co-ownership (2 selectors: .card-title, .card-wrapper); cascade order intentional, merge would break responsive/layered architecture */
 
 /* B"H - THE CARD MANIFESTATION */
+/* Explicit light/dark tokens for this sheet (Yaakov 2026-10-08: no !important, no hardcoded colors, no white-on-white). */
+:root:not([data-theme="dark"]) {
+	--rev-card-title-fg: #2a251e;
+	--rev-trigger-bg: #ffffff;
+	--rev-trigger-fg: #2a251e;
+	--rev-trigger-bg-hover: #2a251e;
+	--rev-trigger-fg-hover: #ffffff;
+	--rev-badge-series-bg: #2a251e;
+	--rev-badge-series-fg: #ffffff;
+	--rev-badge-post-fg: #1a1410;
+}
+:root[data-theme="dark"] {
+	--rev-card-title-fg: #f5efe2;
+	--rev-trigger-bg: #241d14;
+	--rev-trigger-fg: #f5efe2;
+	--rev-trigger-bg-hover: #c5a372;
+	--rev-trigger-fg-hover: #1a1410;
+	--rev-badge-series-bg: #c5a372;
+	--rev-badge-series-fg: #1a1410;
+	--rev-badge-post-fg: #1a1410;
+}
 
 .card-wrapper {
     background: var(--bg-surface);
@@ -26,13 +47,14 @@
     background: var(--color-accent-soft);
 }
 
-.card-title {
+html .card-title {
     font-family: var(--font-heading);
     font-weight: 800;
     font-size: 1.5rem;
-    text-transform: none !important;
+    text-transform: none;
     margin: 0;
     line-height: 1.1;
+    color: var(--rev-card-title-fg);
 }
 
 .card-preview {
@@ -54,13 +76,28 @@
     font-weight: 900;
     font-size: 20px;
     cursor: pointer;
-    background: white;
+    background: var(--rev-trigger-bg);
+    color: var(--rev-trigger-fg);
     border: var(--border-thin);
 }
 
 .card-action-trigger:hover {
-    background: black;
-    color: white;
+    background: var(--rev-trigger-bg-hover);
+    color: var(--rev-trigger-fg-hover);
+}
+
+.card-action-trigger:focus-visible {
+    outline: 2px solid var(--color-accent, #c5a372);
+    outline-offset: 2px;
+}
+
+.card-action-trigger:active {
+    transform: scale(0.92);
+}
+
+.card-action-trigger:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
 }
 
 .post-card.series::after {
@@ -68,8 +105,8 @@
     position: absolute;
     bottom: -10px;
     right: 10px;
-    background: black;
-    color: white;
+    background: var(--rev-badge-series-bg);
+    color: var(--rev-badge-series-fg);
     font-size: 10px;
     font-weight: 900;
     padding: 2px 6px;
@@ -82,7 +119,7 @@
     bottom: -10px;
     right: 10px;
     background: var(--color-accent);
-    color: black;
+    color: var(--rev-badge-post-fg);
     font-size: 10px;
     font-weight: 900;
     padding: 2px 6px;

@@ -1,5 +1,14 @@
 
 /* B"H - DIVINE LAYOUT CONTRACT */
+/* Explicit light/dark tokens for this sheet (Yaakov 2026-10-08: no !important, no hardcoded colors, no white-on-white). */
+:root:not([data-theme="dark"]) {
+	--layout-title-fg: #2a251e;
+	--layout-empty-fg: #5a5245;
+}
+:root[data-theme="dark"] {
+	--layout-title-fg: #f5efe2;
+	--layout-empty-fg: #c9c0ae;
+}
 
 .heichel-page-container {
     --sidebar-w: 320px;
@@ -28,12 +37,13 @@
     z-index: 100;
 }
 
-:where(#heichel-main-title) {
+html #heichel-main-title {
     font-size: clamp(2rem, 6vw, 4.5rem);
-    text-transform: none !important;
+    text-transform: none;
     margin: 0;
     line-height: 0.9;
     letter-spacing: -2px;
+    color: var(--layout-title-fg);
 }
 
 .heichel-content-panel {
@@ -103,12 +113,13 @@
     }
 }
 
-.empty-realm-msg {
+html .empty-realm-msg {
     padding: 4rem 2rem;
     text-align: center;
     font-family: var(--font-ui);
     font-weight: 700;
-    text-transform: none !important;
+    text-transform: none;
     border: var(--border-thin);
     background: rgba(0,0,0,0.03);
+    color: var(--layout-empty-fg);
 }

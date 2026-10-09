@@ -13,6 +13,9 @@ these tokens belong only to this Heichel chamber on Awtsmoos.com alone.
 	--heichel-soft: rgba(238, 246, 255, 0.76);
 	--heichel-accent: #245fe5;
 	--heichel-accent-strong: #1545b2;
+	--heichel-on-accent: #ffffff;
+	--heichel-accent-shadow: rgba(36, 95, 229, 0.22);
+	--heichel-accent-ghost: rgba(36, 95, 229, 0.05);
 	--heichel-good: #177245;
 	--heichel-danger: #b42318;
 	--heichel-danger-soft: rgba(180, 35, 24, 0.08);

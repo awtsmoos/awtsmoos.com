@@ -46,12 +46,14 @@ motion on Awtsmoos.com should whisper change, then leave calm in its place.
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.heichel-manage-page *,
-	.heichel-manage-page *::before,
-	.heichel-manage-page *::after {
-		scroll-behavior: auto !important;
-		animation-duration: 0.01ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: 0.01ms !important;
+	/* Accessibility calm-down: no !important — Yaakov 2026-10-08 binding law.
+	   The html prefix raises specificity above the animation rules instead. */
+	html .heichel-manage-page *,
+	html .heichel-manage-page *::before,
+	html .heichel-manage-page *::after {
+		scroll-behavior: auto;
+		animation-duration: 0.01ms;
+		animation-iteration-count: 1;
+		transition-duration: 0.01ms;
 	}
 }
