@@ -35,6 +35,36 @@ function splitPseudoSelector(selector) {
 	return { base: text.slice(0, m.index).trim() || "*", pseudo: name };
 }
 
+/* B"H 2026-10-09 (render-bench): pseudo-rule index. matchPseudoRules was
+ * called 6x per element (before/after/marker/placeholder/first-line/
+ * first-letter), each call regex-splitting all 404 rule selectors — 21M
+ * regex executions on the nested page. Cache the split per rule and index
+ * rules by pseudo name per rules array. Semantics unchanged. */
+const PSEUDO_SPLIT_CACHE = new WeakMap();
+function cachedPseudoSplit(rule) {
+	let s = PSEUDO_SPLIT_CACHE.get(rule);
+	if (!s) {
+		s = splitPseudoSelector(rule.selector);
+		PSEUDO_SPLIT_CACHE.set(rule, s);
+	}
+	return s;
+}
+const PSEUDO_RULE_INDEX = new WeakMap();
+function pseudoRuleIndex(rules) {
+	let idx = PSEUDO_RULE_INDEX.get(rules);
+	if (!idx) {
+		idx = new Map();
+		for (const rule of rules || []) {
+			const split = cachedPseudoSplit(rule);
+			if (!split.pseudo) continue;
+			if (!idx.has(split.pseudo)) idx.set(split.pseudo, []);
+			idx.get(split.pseudo).push(rule);
+		}
+		PSEUDO_RULE_INDEX.set(rules, idx);
+	}
+	return idx;
+}
+
 function unquoteString(text) {
 	const t = String(text || "").trim();
 	if (t.length >= 2 && ((t[0] === '"' && t[t.length - 1] === '"') || (t[0] === "'" && t[t.length - 1] === "'"))) {
@@ -144,10 +174,10 @@ function applyCounters(element, style = {}) {
 function matchPseudoRules(element, pseudoName, rules) {
 	const name = String(pseudoName || "").toLowerCase();
 	if (!isPseudoElementName(name)) return [];
+	const candidates = pseudoRuleIndex(rules).get(name) || [];
 	const out = [];
-	for (const rule of rules || []) {
-		const split = splitPseudoSelector(rule.selector);
-		if (split.pseudo !== name) continue;
+	for (const rule of candidates) {
+		const split = cachedPseudoSplit(rule);
 		let matches = false;
 		try {
 			matches = split.base === "*" || matchesCssSelector(element, split.base);
