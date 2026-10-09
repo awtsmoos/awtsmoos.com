@@ -18,6 +18,7 @@ const SIGNATURES = Object.freeze({
 	edit: `${PREFERENCES}->edit()${EDITOR}`,
 	get: `${PREFERENCES}->getString(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;`,
 	handle: `Landroid/app/Activity;->getSharedPreferences(Ljava/lang/String;I)${PREFERENCES}`,
+	handleContext: `Landroid/content/Context;->getSharedPreferences(Ljava/lang/String;I)${PREFERENCES}`,
 	put: `${EDITOR}->putString(Ljava/lang/String;Ljava/lang/String;)${EDITOR}`
 });
 /**
@@ -31,7 +32,7 @@ export function createFrameworkPreferenceMethods(runtime) {
 			return Object.values(SIGNATURES).includes(record.signature);
 		},
 		async invoke(record, args) {
-			if (record.signature === SIGNATURES.handle) return openHandle(runtime, args);
+			if (record.signature === SIGNATURES.handle || record.signature === SIGNATURES.handleContext) return openHandle(runtime, args);
 			if (record.signature === SIGNATURES.edit) return openEditor(runtime, args);
 			if (record.signature === SIGNATURES.put) return putString(runtime, args);
 			if (record.signature === SIGNATURES.commit) return commit(runtime, args);
