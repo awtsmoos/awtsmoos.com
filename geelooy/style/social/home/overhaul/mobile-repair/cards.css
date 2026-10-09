@@ -1,46 +1,58 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+/* B"H — mobile-repair card tokens, explicit light AND dark branches (Yaakov 2026-10-08). */
+:root:not([data-theme="dark"]) {
+  --mrc-text: #e5edf8;
+}
+:root[data-theme="dark"] {
+  --mrc-text: #e5edf8;
+}
 @media (max-width: 760px) {
-  .home-command-card,
-  .home-feed-phone,
-  .home-route-card,
-  .home-post-card,
-  .home-surface-card {
-    box-sizing: border-box !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    overflow: hidden !important;
+  html .home-command-card,
+  html .home-feed-phone,
+  html .home-route-card,
+  html .home-post-card,
+  html .home-surface-card {
+    box-sizing: border-box;
+    max-width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    color: var(--mrc-text);
   }
-  .home-command-card { padding: 1rem !important; }
-  .home-hero-copy h1,
-  .home-command-card h1 {
-    font-size: clamp(2.15rem, 10vw, 3.4rem) !important;
-    line-height: .98 !important;
+  html .home-command-card { padding: 1rem; }
+  html .home-hero-copy h1,
+  html .home-command-card h1 {
+    font-size: clamp(2.15rem, 10vw, 3.4rem);
+    line-height: .98;
+    color: var(--mrc-text);
   }
-  .home-route-grid,
-  .home-command-grid,
-  .home-dashboard-grid,
-  .home-surface-grid {
-    display: grid !important;
-    gap: .7rem !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    max-width: 100% !important;
-    overflow: visible !important;
-    width: 100% !important;
+  html .home-route-grid,
+  html .home-command-grid,
+  html .home-dashboard-grid,
+  html .home-surface-grid {
+    display: grid;
+    gap: .7rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 100%;
+    overflow: visible;
+    width: 100%;
   }
-  .home-route-card {
-    aspect-ratio: auto !important;
-    min-height: 8.6rem !important;
-    padding: .95rem !important;
+  html .home-route-card {
+    aspect-ratio: auto;
+    min-height: 8.6rem;
+    padding: .95rem;
   }
-  .home-route-card h2,
-  .home-route-card strong {
-    font-size: 1.05rem !important;
-    line-height: 1.15 !important;
+  html .home-route-card h2,
+  html .home-route-card strong {
+    font-size: 1.05rem;
+    line-height: 1.15;
+    color: var(--mrc-text);
   }
-  .home-route-card p,
-  .home-route-card span {
-    font-size: .9rem !important;
-    line-height: 1.35 !important;
-    overflow-wrap: anywhere !important;
+  html .home-route-card p,
+  html .home-route-card span {
+    font-size: .9rem;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+    color: var(--mrc-text);
   }
 }

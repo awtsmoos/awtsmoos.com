@@ -4,10 +4,26 @@
   Mobile startup must never feel dead. These lightweight status shells avoid
   layout thrash while still showing the human that the stream-vessel is alive.
 */
+/* B"H — lightweight-feedback tokens, explicit light AND dark branches (Yaakov 2026-10-08). */
+:root:not([data-theme="dark"]) {
+  --lfb-text: #f5fbff;
+  --lfb-muted: #a9bad0;
+}
+:root[data-theme="dark"] {
+  --lfb-text: #f5fbff;
+  --lfb-muted: #a9bad0;
+}
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
 @media (max-width: 680px) {
+<<<<<<< ours
   .chat-load-state,
   .render-loading,
   .message.is-loading {
+=======
+  html .chat-load-state,
+  html .render-loading,
+  html .message.is-loading {
+>>>>>>> theirs
     margin: 6px;
     padding: 10px 12px 10px 38px;
     border-radius: 14px;
@@ -15,32 +31,61 @@
     min-height: 42px;
     box-shadow: none;
     contain: layout paint;
+<<<<<<< ours
   }
 
   .chat-load-state::after,
   .event-hydration-loading::after {
+=======
+    color: var(--lfb-text);
+  }
+
+  html .chat-load-state::after,
+  html .event-hydration-loading::after {
+>>>>>>> theirs
     animation-duration: 1.9s;
     opacity: .45;
   }
 
+<<<<<<< ours
   .message-loading {
     max-width: 100%;
     flex-wrap: wrap;
   }
 
   .message-loading em {
+=======
+  html .message-loading {
+    max-width: 100%;
+    flex-wrap: wrap;
+    color: var(--lfb-muted);
+  }
+
+  html .message-loading em {
+>>>>>>> theirs
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+<<<<<<< ours
   }
 
   #transport-status {
+=======
+    color: var(--lfb-muted);
+  }
+
+  html #transport-status {
+>>>>>>> theirs
     scrollbar-width: none;
     padding-inline: 8px;
   }
 
+<<<<<<< ours
   #transport-status::-webkit-scrollbar {
+=======
+  html #transport-status::-webkit-scrollbar {
+>>>>>>> theirs
     display: none;
   }
 }

@@ -1,35 +1,45 @@
 /* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
-.profile-bottom-nav {
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+/* B"H — profile dock fit tokens, explicit light AND dark branches (Yaakov 2026-10-08). */
+:root:not([data-theme="dark"]) {
+  --pdock-text: #f8fafc;
+}
+:root[data-theme="dark"] {
+  --pdock-text: #f8fafc;
+}
+html .profile-bottom-nav {
   box-sizing: border-box;
-  max-width: calc(100vw - 1.1rem) !important;
-  overflow: visible !important;
+  max-width: calc(100vw - 1.1rem);
+  overflow: visible;
+  color: var(--pdock-text);
 }
 
-.profile-bottom-nav a {
-  min-width: 0 !important;
+html .profile-bottom-nav a {
+  min-width: 0;
+  color: inherit;
 }
 
 @media (max-width: 430px) {
-  .profile-bottom-nav {
-    bottom: max(.56rem, env(safe-area-inset-bottom)) !important;
-    left: max(.55rem, env(safe-area-inset-left)) !important;
-    padding: .45rem !important;
-    right: max(.55rem, env(safe-area-inset-right)) !important;
+  html .profile-bottom-nav {
+    bottom: max(.56rem, env(safe-area-inset-bottom));
+    left: max(.55rem, env(safe-area-inset-left));
+    padding: .45rem;
+    right: max(.55rem, env(safe-area-inset-right));
   }
 
-  .profile-bottom-nav a {
-    font-size: .74rem !important;
-    min-height: 50px !important;
-    padding-inline: .12rem !important;
+  html .profile-bottom-nav a {
+    font-size: .74rem;
+    min-height: 50px;
+    padding-inline: .12rem;
   }
 
-  .profile-bottom-nav a.is-create {
-    transform: translate3d(0,-9px,0) !important;
+  html .profile-bottom-nav a.is-create {
+    transform: translate3d(0, -9px, 0);
   }
 }
 
 @media (max-width: 360px) {
-  .profile-bottom-nav a {
-    font-size: .68rem !important;
+  html .profile-bottom-nav a {
+    font-size: .68rem;
   }
 }

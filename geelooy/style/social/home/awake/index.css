@@ -1,9 +1,65 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H — the home wakes: color breathes, cards rise, and every doorway gleams. */
-.geelooy-home-document {
-  background: #050914;
+/* B"H — awake palette tokens, explicit light AND dark branches (Yaakov 2026-10-08).
+ * The awake home is dark neon in both themes; values are identical by design. */
+:root:not([data-theme="dark"]) {
+  --awake-doc-bg: #050914;
+  --awake-shell-grad-1: rgba(8, 13, 29, .98);
+  --awake-shell-grad-2: rgba(20, 7, 41, .96);
+  --awake-shell-grad-3: rgba(4, 26, 42, .96);
+  --awake-text: #f8fbff;
+  --awake-title: #ffffff;
+  --awake-title-shadow: rgba(0, 0, 0, .34);
+  --awake-panel-line: rgba(255, 255, 255, .14);
+  --awake-panel-grad-1: rgba(255, 255, 255, .13);
+  --awake-panel-grad-2: rgba(255, 255, 255, .055);
+  --awake-panel-shadow: rgba(0, 0, 0, .28);
+  --awake-panel-hi: rgba(255, 255, 255, .14);
+  --awake-hover-line: rgba(132, 229, 255, .42);
+  --awake-hover-shadow: rgba(0, 0, 0, .38);
+  --awake-hover-glow: rgba(110, 107, 255, .13);
+  --awake-dock-line: rgba(255, 255, 255, .18);
+  --awake-dock-bg: rgba(7, 10, 24, .78);
+  --awake-dock-shadow: rgba(0, 0, 0, .42);
+  --awake-tab-active-text: #10051c;
+  --awake-tab-active-grad-1: #ffb8e5;
+  --awake-tab-active-grad-2: #89ecff;
+  --awake-tab-active-shadow: rgba(88, 202, 255, .25);
+  --awake-hero-line: rgba(255, 255, 255, .2);
+  --awake-sheen: rgba(255, 255, 255, .26);
 }
-.geelooy-home-document::before {
+:root[data-theme="dark"] {
+  --awake-doc-bg: #050914;
+  --awake-shell-grad-1: rgba(8, 13, 29, .98);
+  --awake-shell-grad-2: rgba(20, 7, 41, .96);
+  --awake-shell-grad-3: rgba(4, 26, 42, .96);
+  --awake-text: #f8fbff;
+  --awake-title: #ffffff;
+  --awake-title-shadow: rgba(0, 0, 0, .34);
+  --awake-panel-line: rgba(255, 255, 255, .14);
+  --awake-panel-grad-1: rgba(255, 255, 255, .13);
+  --awake-panel-grad-2: rgba(255, 255, 255, .055);
+  --awake-panel-shadow: rgba(0, 0, 0, .28);
+  --awake-panel-hi: rgba(255, 255, 255, .14);
+  --awake-hover-line: rgba(132, 229, 255, .42);
+  --awake-hover-shadow: rgba(0, 0, 0, .38);
+  --awake-hover-glow: rgba(110, 107, 255, .13);
+  --awake-dock-line: rgba(255, 255, 255, .18);
+  --awake-dock-bg: rgba(7, 10, 24, .78);
+  --awake-dock-shadow: rgba(0, 0, 0, .42);
+  --awake-tab-active-text: #10051c;
+  --awake-tab-active-grad-1: #ffb8e5;
+  --awake-tab-active-grad-2: #89ecff;
+  --awake-tab-active-shadow: rgba(88, 202, 255, .25);
+  --awake-hero-line: rgba(255, 255, 255, .2);
+  --awake-sheen: rgba(255, 255, 255, .26);
+}
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+html .geelooy-home-document {
+  background: var(--awake-doc-bg);
+  color: var(--awake-text);
+}
+html .geelooy-home-document::before {
   content: "";
   position: fixed;
   inset: 0;
@@ -14,20 +70,21 @@
     radial-gradient(circle at 50% 90%, rgba(133, 85, 255, .18), transparent 34rem);
   animation: homeSky 14s ease-in-out infinite alternate;
 }
-.geelooy-home-shell {
+html .geelooy-home-shell {
   position: relative;
-  background: linear-gradient(150deg, rgba(8, 13, 29, .98), rgba(20, 7, 41, .96) 55%, rgba(4, 26, 42, .96));
-  color: #f8fbff;
+  background: linear-gradient(150deg, var(--awake-shell-grad-1), var(--awake-shell-grad-2) 55%, var(--awake-shell-grad-3));
+  color: var(--awake-text);
 }
-.home-hero-panel {
+html .home-hero-panel {
   overflow: hidden;
   background:
     linear-gradient(135deg, rgba(255, 255, 255, .16), rgba(255, 255, 255, .05)),
     radial-gradient(circle at 20% 0%, rgba(255, 100, 198, .26), transparent 25rem),
-    radial-gradient(circle at 90% 30%, rgba(65, 221, 255, .24), transparent 24rem) !important;
-  border-color: rgba(255, 255, 255, .2) !important;
+    radial-gradient(circle at 90% 30%, rgba(65, 221, 255, .24), transparent 24rem);
+  border-color: var(--awake-hero-line);
+  color: var(--awake-text);
 }
-.home-hero-panel::after {
+html .home-hero-panel::after {
   content: "";
   position: absolute;
   width: 12rem;
@@ -40,60 +97,66 @@
   opacity: .28;
   animation: homeOrb 9s linear infinite;
 }
-#home-title {
-  color: white;
-  text-shadow: 0 10px 45px rgba(0, 0, 0, .34);
+html #home-title {
+  color: var(--awake-title);
+  text-shadow: 0 10px 45px var(--awake-title-shadow);
 }
-#home-title span {
+/* Gradient headline on the dark hero; solid fallback for forced-colors mode. */
+html #home-title span {
   background: linear-gradient(90deg, #ff8bd7, #b99cff 46%, #79ebff);
   -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
   filter: drop-shadow(0 8px 24px rgba(137, 99, 255, .35));
 }
-.home-panel, .home-post-card {
-  border-color: rgba(255, 255, 255, .14) !important;
-  background: linear-gradient(145deg, rgba(255, 255, 255, .13), rgba(255, 255, 255, .055)) !important;
-  box-shadow: 0 26px 70px rgba(0, 0, 0, .28), inset 0 1px rgba(255, 255, 255, .14) !important;
+@media (forced-colors: active) { html #home-title span { color: var(--awake-title); background: none; -webkit-background-clip: border-box; } }
+html .home-panel, html .home-post-card {
+  border-color: var(--awake-panel-line);
+  background: linear-gradient(145deg, var(--awake-panel-grad-1), var(--awake-panel-grad-2));
+  box-shadow: 0 26px 70px var(--awake-panel-shadow), inset 0 1px var(--awake-panel-hi);
   backdrop-filter: blur(20px) saturate(1.2);
+  color: var(--awake-text);
 }
-.home-panel:hover, .home-post-card:hover {
-  transform: translateY(-5px) scale(1.006) !important;
-  border-color: rgba(132, 229, 255, .42) !important;
-  box-shadow: 0 34px 90px rgba(0, 0, 0, .38), 0 0 48px rgba(110, 107, 255, .13) !important;
+html .home-panel:hover, html .home-post-card:hover {
+  transform: translateY(-5px) scale(1.006);
+  border-color: var(--awake-hover-line);
+  box-shadow: 0 34px 90px var(--awake-hover-shadow), 0 0 48px var(--awake-hover-glow);
 }
-.home-action-card {
+html .home-action-card {
   position: relative;
   overflow: hidden;
-  transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease !important;
+  transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+  color: var(--awake-text);
+  cursor: pointer;
 }
-.home-action-card::after {
+html .home-action-card::after {
   content: "";
   position: absolute;
   inset: -80% -30%;
-  background: linear-gradient(110deg, transparent 40%, rgba(255,255,255,.26), transparent 60%);
+  background: linear-gradient(110deg, transparent 40%, var(--awake-sheen), transparent 60%);
   transform: translateX(-70%) rotate(12deg);
   transition: transform .65s ease;
 }
-.home-action-card:hover::after { transform: translateX(70%) rotate(12deg); }
-.home-action-card:hover { transform: translateY(-5px) rotate(-.6deg) !important; }
-.home-command-dock {
-  border: 1px solid rgba(255,255,255,.18) !important;
-  background: rgba(7, 10, 24, .78) !important;
-  box-shadow: 0 24px 70px rgba(0,0,0,.42) !important;
+html .home-action-card:hover::after { transform: translateX(70%) rotate(12deg); }
+html .home-action-card:hover { transform: translateY(-5px) rotate(-.6deg); }
+html .home-command-dock {
+  border: 1px solid var(--awake-dock-line);
+  background: var(--awake-dock-bg);
+  box-shadow: 0 24px 70px var(--awake-dock-shadow);
   backdrop-filter: blur(24px) saturate(1.35);
 }
-.home-feed-tabs button.active {
-  color: #10051c !important;
-  background: linear-gradient(120deg, #ffb8e5, #89ecff) !important;
-  box-shadow: 0 9px 30px rgba(88, 202, 255, .25);
+html .home-feed-tabs button.active {
+  color: var(--awake-tab-active-text);
+  background: linear-gradient(120deg, var(--awake-tab-active-grad-1), var(--awake-tab-active-grad-2));
+  box-shadow: 0 9px 30px var(--awake-tab-active-shadow);
 }
 @keyframes homeSky { to { transform: scale(1.05) translate3d(1.5rem, -1rem, 0); filter: hue-rotate(18deg); } }
 @keyframes homeOrb { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) {
-  .geelooy-home-document::before, .home-hero-panel::after { animation: none; }
+  html .geelooy-home-document::before, html .home-hero-panel::after { animation: none; }
 }
 
-/* @tunnel-interactive-states: auto-generated by css-guarantee */
+/* @tunnel-interactive-states: hover/active/focus-visible/disabled for every interactive control */
 .home-feed-tabs button.active:hover {
 	filter: brightness(1.08);
 }
@@ -102,4 +165,10 @@
 }
 .home-feed-tabs button.active:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
+}
+.home-feed-tabs button.active:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+	filter: none;
+	transform: none;
 }

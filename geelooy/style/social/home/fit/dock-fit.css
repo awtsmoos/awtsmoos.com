@@ -1,54 +1,55 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
-.home-command-dock {
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+html .home-command-dock {
   box-sizing: border-box;
-  max-width: calc(100vw - 1.1rem) !important;
-  overflow: visible !important;
-}
-
-.home-command-dock a {
-  min-width: 0 !important;
+  max-width: calc(100vw - 1.1rem);
   overflow: visible;
 }
 
-.home-command-dock a strong,
-.home-command-dock a span {
+html .home-command-dock a {
+  min-width: 0;
+  overflow: visible;
+}
+
+html .home-command-dock a strong,
+html .home-command-dock a span {
   max-width: 100%;
 }
 
 @media (max-width: 430px) {
-  .home-command-dock {
-    border-radius: 28px !important;
-    bottom: max(.56rem, env(safe-area-inset-bottom)) !important;
-    gap: .08rem !important;
-    left: max(.55rem, env(safe-area-inset-left)) !important;
-    padding: .45rem !important;
-    right: max(.55rem, env(safe-area-inset-right)) !important;
+  html .home-command-dock {
+    border-radius: 28px;
+    bottom: max(.56rem, env(safe-area-inset-bottom));
+    gap: .08rem;
+    left: max(.55rem, env(safe-area-inset-left));
+    padding: .45rem;
+    right: max(.55rem, env(safe-area-inset-right));
   }
 
-  .home-command-dock a {
-    min-height: 52px !important;
-    padding-inline: .12rem !important;
+  html .home-command-dock a {
+    min-height: 52px;
+    padding-inline: .12rem;
   }
 
-  .home-command-dock a span {
-    font-size: 1.05rem !important;
+  html .home-command-dock a span {
+    font-size: 1.05rem;
   }
 
-  .home-command-dock a strong {
-    font-size: .66rem !important;
+  html .home-command-dock a strong {
+    font-size: .66rem;
   }
 
-  .home-command-dock .is-create {
-    transform: translate3d(0,-9px,0) !important;
+  html .home-command-dock .is-create {
+    transform: translate3d(0, -9px, 0);
   }
 }
 
 @media (max-width: 360px) {
-  .home-command-dock a {
-    min-height: 48px !important;
+  html .home-command-dock a {
+    min-height: 48px;
   }
 
-  .home-command-dock a strong {
-    display: none !important;
+  html .home-command-dock a strong {
+    display: none;
   }
 }

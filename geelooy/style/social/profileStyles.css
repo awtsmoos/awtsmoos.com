@@ -10,16 +10,43 @@
 @import "./profile-styles-parts/hero.css";
 @import "./profile-styles-parts/cards.css";
 @import "./profile-styles-parts/mobile.css";
+/* B"H — profile dropdown palette tokens, explicit light AND dark branches (Yaakov 2026-10-08).
+ * The profile dropdown is dark glass in both themes; values are identical by design. */
+:root:not([data-theme="dark"]) {
+	--pdrop-bg: #060b15;
+	--pdrop-text: #fffaf1;
+	--pdrop-border: rgba(91, 216, 232, .26);
+	--pdrop-shadow: rgba(0, 0, 0, .58);
+	--pdrop-note-border: rgba(91, 216, 232, .22);
+	--pdrop-note-bg: rgba(46, 167, 255, .1);
+	--pdrop-note-text: #dff8ff;
+	--pdrop-field-bg: #f8fafc;
+	--pdrop-field-text: #0f172a;
+	--pdrop-focus: rgba(91, 216, 232, .4);
+}
+:root[data-theme="dark"] {
+	--pdrop-bg: #060b15;
+	--pdrop-text: #fffaf1;
+	--pdrop-border: rgba(91, 216, 232, .26);
+	--pdrop-shadow: rgba(0, 0, 0, .58);
+	--pdrop-note-border: rgba(91, 216, 232, .22);
+	--pdrop-note-bg: rgba(46, 167, 255, .1);
+	--pdrop-note-text: #dff8ff;
+	--pdrop-field-bg: #f8fafc;
+	--pdrop-field-text: #0f172a;
+	--pdrop-focus: rgba(91, 216, 232, .4);
+}
 :root {
 	--awtsmoos-z-dropdown-backdrop: 340;
 	--awtsmoos-z-dropdown-menu: 350;
 }
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-.awtsmoosDrop .hidden, .awtsmoos-dropdown-backdrop.hidden, :where(.awtsmoosDrop) .dropdown-content[aria-hidden="true"] {
-	display: none !important;
-	pointer-events: none !important;
+html .awtsmoosDrop .hidden, html .awtsmoos-dropdown-backdrop.hidden, html :where(.awtsmoosDrop) .dropdown-content[aria-hidden="true"] {
+	display: none;
+	pointer-events: none;
 }
-.awtsmoos-dropdown-backdrop {
+html .awtsmoos-dropdown-backdrop {
 	position: fixed;
 	inset: 0;
 	z-index: var(--awtsmoos-z-dropdown-backdrop);
@@ -27,82 +54,102 @@
 	backdrop-filter: blur(4px);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-.awtsmoos-profile-dropdown, :where(#awtsmoosDrop) {
+html .awtsmoos-profile-dropdown, html :where(#awtsmoosDrop) {
 	position: relative;
 	isolation: isolate;
 	z-index: var(--awtsmoos-z-dropdown-menu);
 	min-width: 0;
 	max-width: min(92vw, 24rem);
 }
-.awtsmoosDrop .dropdown-content {
+html .awtsmoosDrop .dropdown-content {
 	max-height: min(72dvh, 34rem);
 	overflow: auto;
 	overscroll-behavior: contain;
-	border: 1px solid rgba(91, 216, 232, .26) !important;
-	border-radius: 1.25rem !important;
-	background: #060b15 !important;
-	box-shadow: 0 1.4rem 3.4rem rgba(0, 0, 0, .58) !important;
-	color: #fffaf1 !important;
+	border: 1px solid var(--pdrop-border);
+	border-radius: 1.25rem;
+	background: var(--pdrop-bg);
+	box-shadow: 0 1.4rem 3.4rem var(--pdrop-shadow);
+	color: var(--pdrop-text);
 	pointer-events: auto;
 }
-.awtsmoosDrop .alias-switcher {
-	position: static !important;
-	width: 100% !important;
+html .awtsmoosDrop .alias-switcher {
+	position: static;
+	width: 100%;
 }
-.awtsmoosDrop .local-mode-note {
-	border-color: rgba(91, 216, 232, .22) !important;
-	background: rgba(46, 167, 255, .1) !important;
-	color: #dff8ff !important;
+html .awtsmoosDrop .local-mode-note {
+	border-color: var(--pdrop-note-border);
+	background: var(--pdrop-note-bg);
+	color: var(--pdrop-note-text);
 }
-.awtsmoosDrop input, .awtsmoosDrop textarea {
-	min-height: 44px !important;
-	border: 0 !important;
-	border-radius: .875rem !important;
-	background: #f8fafc !important;
-	color: #0f172a !important;
+html .awtsmoosDrop input, html .awtsmoosDrop textarea {
+	min-height: 44px;
+	border: 0;
+	border-radius: .875rem;
+	background: var(--pdrop-field-bg);
+	color: var(--pdrop-field-text);
+}
+html .awtsmoosDrop input:focus, html .awtsmoosDrop textarea:focus {
+	outline: 2px solid var(--pdrop-focus);
+	outline-offset: 1px;
+}
+html .awtsmoosDrop input:disabled, html .awtsmoosDrop textarea:disabled {
+	opacity: .55;
+	cursor: not-allowed;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(.awtsmoosDrop) .btn.dropt, .awtsmoosDrop a, .awtsmoosDrop button {
+html :where(.awtsmoosDrop) .btn.dropt, html .awtsmoosDrop a, html .awtsmoosDrop button {
 	white-space: nowrap;
 }
-.awtsmoosDrop .prim, .awtsmoosDrop .currentAliasName {
+html .awtsmoosDrop .prim, html .awtsmoosDrop .currentAliasName {
 	min-width: 0;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-.awtsmoosDrop button, .awtsmoosDrop a {
+html .awtsmoosDrop button, html .awtsmoosDrop a {
 	transition: transform 150ms ease, border-color 150ms ease, background 150ms ease;
+	color: var(--pdrop-text);
+	cursor: pointer;
 }
-.awtsmoosDrop button:is(:hover, :focus-visible), .awtsmoosDrop a:is(:hover, :focus-visible) {
+html .awtsmoosDrop button:is(:hover, :focus-visible), html .awtsmoosDrop a:is(:hover, :focus-visible) {
 	transform: translate3d(0, -1px, 0);
+	filter: brightness(1.08);
 }
-.awtsmoosDrop :focus-visible {
-	outline: 3px solid rgba(91, 216, 232, .4);
+html .awtsmoosDrop button:active, html .awtsmoosDrop a:active {
+	transform: scale(0.98);
+}
+html .awtsmoosDrop button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+	filter: none;
+	transform: none;
+}
+html .awtsmoosDrop :focus-visible {
+	outline: 3px solid var(--pdrop-focus);
 	outline-offset: 2px;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 600px) { .awtsmoos-profile-dropdown, :where(#awtsmoosDrop) {
+@media (max-width: 600px) { html .awtsmoos-profile-dropdown, html :where(#awtsmoosDrop) {
 		max-width: calc(100vw - .75rem);
 	} }
-@media (max-width: 600px) { .awtsmoosDrop .prim {
+@media (max-width: 600px) { html .awtsmoosDrop .prim {
 		max-width: 5.6rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 600px) { :where(.awtsmoosDrop) .dropdown-content:not(.alias-switcher) {
-		position: fixed !important;
-		left: max(.55rem, env(safe-area-inset-left)) !important;
-		right: max(.55rem, env(safe-area-inset-right)) !important;
-		top: max(4.35rem, calc(env(safe-area-inset-top) + 4.35rem)) !important;
-		width: auto !important;
-		min-width: 0 !important;
-		max-height: calc(100dvh - 5.2rem) !important;
+@media (max-width: 600px) { html :where(.awtsmoosDrop) .dropdown-content:not(.alias-switcher) {
+		position: fixed;
+		left: max(.55rem, env(safe-area-inset-left));
+		right: max(.55rem, env(safe-area-inset-right));
+		top: max(4.35rem, calc(env(safe-area-inset-top) + 4.35rem));
+		width: auto;
+		min-width: 0;
+		max-height: calc(100dvh - 5.2rem);
 	} }
-@media (prefers-reduced-motion: reduce) { .awtsmoosDrop button, .awtsmoosDrop a {
+@media (prefers-reduced-motion: reduce) { html .awtsmoosDrop button, html .awtsmoosDrop a {
 		transition: none;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-/* @tunnel-interactive-states: auto-generated by css-guarantee */
+/* @tunnel-interactive-states: hover/active/focus-visible/disabled for every interactive control */
 :where(.awtsmoosDrop) :where(.btn.dropt:hover) {
 	filter: brightness(1.08);
 }

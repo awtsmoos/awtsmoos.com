@@ -1,2 +1,4 @@
 /* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
-:root { --legacy-profile-bg:#f6f8fb; --legacy-profile-panel:#fff; --legacy-profile-line:#dfe6ee; --legacy-profile-text:#0f172a; --legacy-profile-muted:#64748b; --legacy-profile-shadow:0 2px 10px rgba(15,23,42,.06); }
+/* B"H — legacy profile palette tokens, explicit light AND dark branches (Yaakov 2026-10-08). */
+:root:not([data-theme="dark"]) { --legacy-profile-bg:#f6f8fb; --legacy-profile-panel:#fff; --legacy-profile-line:#dfe6ee; --legacy-profile-text:#0f172a; --legacy-profile-muted:#64748b; --legacy-profile-on-text:#ffffff; --legacy-profile-shadow:0 2px 10px rgba(15,23,42,.06); }
+:root[data-theme="dark"] { --legacy-profile-bg:#060910; --legacy-profile-panel:#0d1521; --legacy-profile-line:rgba(192,211,239,.14); --legacy-profile-text:#e8eef7; --legacy-profile-muted:#8b95a7; --legacy-profile-on-text:#0f172a; --legacy-profile-shadow:0 2px 10px rgba(0,0,0,.35); }

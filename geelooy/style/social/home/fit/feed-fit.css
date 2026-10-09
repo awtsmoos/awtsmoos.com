@@ -1,52 +1,53 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
-.home-feed-panel,
-.home-glance-panel,
-.home-activity-panel {
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+html .home-feed-panel,
+html .home-glance-panel,
+html .home-activity-panel {
   box-sizing: border-box;
   contain: layout paint;
-  min-width: 0 !important;
+  min-width: 0;
   overflow: hidden;
 }
 
-.home-empty-state,
-.home-feed-tabs,
-.home-glance-grid,
-.home-activity-list,
-.home-activity-list li {
-  min-width: 0 !important;
+html .home-empty-state,
+html .home-feed-tabs,
+html .home-glance-grid,
+html .home-activity-list,
+html .home-activity-list li {
+  min-width: 0;
 }
 
-.home-empty-actions {
-  align-items: stretch !important;
+html .home-empty-actions {
+  align-items: stretch;
 }
 
-.home-empty-actions a {
-  min-width: 0 !important;
+html .home-empty-actions a {
+  min-width: 0;
   text-align: center;
-  white-space: nowrap !important;
+  white-space: nowrap;
 }
 
 @media (max-width: 430px) {
-  .home-feed-panel,
-  .home-glance-panel,
-  .home-activity-panel {
-    border-radius: 22px !important;
-    padding: clamp(.72rem, 2.8vw, .86rem) !important;
+  html .home-feed-panel,
+  html .home-glance-panel,
+  html .home-activity-panel {
+    border-radius: 22px;
+    padding: clamp(.72rem, 2.8vw, .86rem);
   }
 
-  .home-empty-actions {
-    grid-template-columns: 1fr !important;
+  html .home-empty-actions {
+    grid-template-columns: 1fr;
   }
 
-  .home-glance-grid {
-    gap: .5rem !important;
+  html .home-glance-grid {
+    gap: .5rem;
   }
 
-  .home-glance-grid article {
-    padding: .65rem .25rem !important;
+  html .home-glance-grid article {
+    padding: .65rem .25rem;
   }
 
-  .home-glance-grid strong {
-    font-size: .98rem !important;
+  html .home-glance-grid strong {
+    font-size: .98rem;
   }
 }

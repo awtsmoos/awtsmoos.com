@@ -1,28 +1,85 @@
 /* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
-.profile-bottom-nav {
-  background: linear-gradient(180deg, rgba(20,24,38,.9), rgba(9,13,24,.94)) !important;
-  border: 1px solid rgba(148,163,184,.14) !important;
-  border-radius: 32px !important;
-  bottom: max(.72rem, env(safe-area-inset-bottom)) !important;
-  box-shadow: 0 20px 54px rgba(0,0,0,.56), 0 0 24px rgba(139,92,246,.18) !important;
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+/* B"H — profile dock repair tokens, explicit light AND dark branches (Yaakov 2026-10-08).
+ * The profile dock is dark glass in both themes; values are identical by design. */
+:root:not([data-theme="dark"]) {
+  --pdock-bg-1: rgba(20, 24, 38, .9);
+  --pdock-bg-2: rgba(9, 13, 24, .94);
+  --pdock-line: rgba(148, 163, 184, .14);
+  --pdock-shadow: rgba(0, 0, 0, .56);
+  --pdock-glow: rgba(139, 92, 246, .18);
+  --pdock-link: #8f98ad;
+  --pdock-link-active-bg: rgba(139, 92, 246, .18);
+  --pdock-link-active-text: #ffffff;
+  --pdock-create-grad-1: #2ea7ff;
+  --pdock-create-grad-2: #8b5cf6;
+  --pdock-create-grad-3: #d13cff;
+  --pdock-create-text: #ffffff;
+}
+:root[data-theme="dark"] {
+  --pdock-bg-1: rgba(20, 24, 38, .9);
+  --pdock-bg-2: rgba(9, 13, 24, .94);
+  --pdock-line: rgba(148, 163, 184, .14);
+  --pdock-shadow: rgba(0, 0, 0, .56);
+  --pdock-glow: rgba(139, 92, 246, .18);
+  --pdock-link: #8f98ad;
+  --pdock-link-active-bg: rgba(139, 92, 246, .18);
+  --pdock-link-active-text: #ffffff;
+  --pdock-create-grad-1: #2ea7ff;
+  --pdock-create-grad-2: #8b5cf6;
+  --pdock-create-grad-3: #d13cff;
+  --pdock-create-text: #ffffff;
+}
+html .profile-bottom-nav {
+  background: linear-gradient(180deg, var(--pdock-bg-1), var(--pdock-bg-2));
+  border: 1px solid var(--pdock-line);
+  border-radius: 32px;
+  bottom: max(.72rem, env(safe-area-inset-bottom));
+  box-shadow: 0 20px 54px var(--pdock-shadow), 0 0 24px var(--pdock-glow);
   box-sizing: border-box;
-  left: max(.65rem, env(safe-area-inset-left)) !important;
-  max-width: calc(100vw - 1.3rem) !important;
-  right: max(.65rem, env(safe-area-inset-right)) !important;
+  left: max(.65rem, env(safe-area-inset-left));
+  max-width: calc(100vw - 1.3rem);
+  right: max(.65rem, env(safe-area-inset-right));
+  color: var(--pdock-link-active-text);
 }
 
-.profile-bottom-nav a {
-  color: #8f98ad !important;
+html .profile-bottom-nav a {
+  color: var(--pdock-link);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  border-radius: 999px;
+  text-decoration: none;
 }
 
-.profile-bottom-nav a[aria-current="page"],
-.profile-bottom-nav a.active {
-  background: rgba(139,92,246,.18) !important;
-  color: #fff !important;
+html .profile-bottom-nav a:hover {
+  color: var(--pdock-link-active-text);
+  filter: brightness(1.1);
 }
 
-.profile-bottom-nav a.is-create {
-  background: linear-gradient(135deg, #2ea7ff, #8b5cf6 50%, #d13cff) !important;
-  color: #fff !important;
-  transform: translate3d(0,-10px,0);
+html .profile-bottom-nav a:active {
+  transform: scale(0.98);
+}
+
+html .profile-bottom-nav a:focus-visible {
+  outline: 2px solid var(--pdock-create-grad-2);
+  outline-offset: 2px;
+}
+
+html .profile-bottom-nav a[aria-current="page"],
+html .profile-bottom-nav a.active {
+  background: var(--pdock-link-active-bg);
+  color: var(--pdock-link-active-text);
+}
+
+html .profile-bottom-nav a.is-create {
+  background: linear-gradient(135deg, var(--pdock-create-grad-1), var(--pdock-create-grad-2) 50%, var(--pdock-create-grad-3));
+  color: var(--pdock-create-text);
+  transform: translate3d(0, -10px, 0);
+}
+
+html .profile-bottom-nav a.is-create:hover {
+  filter: brightness(1.12);
 }

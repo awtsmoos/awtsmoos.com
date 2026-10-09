@@ -1,9 +1,10 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
 @media (max-width: 760px) {
-  .home-action-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
-  .home-action-card, .home-action-primary { grid-column: auto !important; }
-  .home-dashboard-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
-  .home-continue-card { grid-column: 1 / -1 !important; }
-  .home-discovery-grid { grid-template-columns: 1fr !important; }
-  .home-action-card:hover, .home-discovery-card:hover, .home-post-card:hover { transform: translate3d(0,-3px,0) !important; }
+  html .home-action-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  html .home-action-card, html .home-action-primary { grid-column: auto; }
+  html .home-dashboard-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  html .home-continue-card { grid-column: 1 / -1; }
+  html .home-discovery-grid { grid-template-columns: 1fr; }
+  html .home-action-card:hover, html .home-discovery-card:hover, html .home-post-card:hover { transform: translate3d(0, -3px, 0); }
 }

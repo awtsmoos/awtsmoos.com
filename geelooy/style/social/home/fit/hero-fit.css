@@ -1,43 +1,55 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
-.home-hero-panel {
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+/* B"H — hero fit tokens, explicit light AND dark branches (Yaakov 2026-10-08).
+ * The home hero is dark-glass in both themes; values are identical by design. */
+:root:not([data-theme="dark"]) {
+  --fit-hero-title: #ffffff;
+  --fit-hero-glow: rgba(139, 92, 246, .18);
+}
+:root[data-theme="dark"] {
+  --fit-hero-title: #ffffff;
+  --fit-hero-glow: rgba(139, 92, 246, .18);
+}
+html .home-hero-panel {
   box-sizing: border-box;
-  min-width: 0 !important;
+  min-width: 0;
   overflow: hidden;
 }
 
-.home-hero-panel h1 {
-  color: #fff !important;
+html .home-hero-panel h1 {
+  color: var(--fit-hero-title);
   max-width: 8.8ch;
   overflow-wrap: anywhere;
-  text-shadow: 0 0 26px rgba(139,92,246,.18);
+  text-shadow: 0 0 26px var(--fit-hero-glow);
 }
 
-.home-hero-text,
-.home-kicker {
+html .home-hero-text,
+html .home-kicker {
   max-width: 100%;
-  min-width: 0 !important;
+  min-width: 0;
+  color: inherit;
 }
 
 @media (max-width: 430px) {
-  .home-hero-panel {
-    border-radius: 24px !important;
-    padding: clamp(.88rem, 3.3vw, 1rem) clamp(.76rem, 3vw, .95rem) !important;
+  html .home-hero-panel {
+    border-radius: 24px;
+    padding: clamp(.88rem, 3.3vw, 1rem) clamp(.76rem, 3vw, .95rem);
   }
 
-  .home-hero-panel h1 {
-    font-size: clamp(2.48rem, 11.8vw, 4.35rem) !important;
+  html .home-hero-panel h1 {
+    font-size: clamp(2.48rem, 11.8vw, 4.35rem);
     letter-spacing: -.075em;
     line-height: .9;
   }
 
-  .home-hero-text {
-    font-size: clamp(.92rem, 3.4vw, 1rem) !important;
+  html .home-hero-text {
+    font-size: clamp(.92rem, 3.4vw, 1rem);
     line-height: 1.46;
   }
 }
 
 @media (max-width: 370px) {
-  .home-hero-panel h1 {
-    font-size: 2.42rem !important;
+  html .home-hero-panel h1 {
+    font-size: 2.42rem;
   }
 }

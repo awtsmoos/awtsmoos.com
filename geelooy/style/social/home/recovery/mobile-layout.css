@@ -1,76 +1,77 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H — final mobile home geometry: one document flow, no cards beneath floating chrome. */
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
 @media (max-width: 720px) {
-  .geelooy-home-document { overflow-x: hidden !important; }
-  .geelooy-home-document .awtsmoosificationalisticaticalism {
-    position: relative !important;
-    inset: auto !important;
-    margin: max(.45rem, env(safe-area-inset-top)) auto .55rem !important;
-    width: calc(100% - .75rem) !important;
-    z-index: 40 !important;
+  html .geelooy-home-document { overflow-x: hidden; }
+  html .geelooy-home-document .awtsmoosificationalisticaticalism {
+    position: relative;
+    inset: auto;
+    margin: max(.45rem, env(safe-area-inset-top)) auto .55rem;
+    width: calc(100% - .75rem);
+    z-index: 40;
   }
-  .geelooy-home-document .geelooy-home-shell {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) !important;
-    width: min(100% - .7rem, 40rem) !important;
-    min-height: 0 !important;
-    margin: 0 auto !important;
-    padding: 0 0 calc(7.5rem + env(safe-area-inset-bottom)) !important;
-    gap: .75rem !important;
-    overflow: visible !important;
+  html .geelooy-home-document .geelooy-home-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    width: min(100% - .7rem, 40rem);
+    min-height: 0;
+    margin: 0 auto;
+    padding: 0 0 calc(7.5rem + env(safe-area-inset-bottom));
+    gap: .75rem;
+    overflow: visible;
   }
-  .geelooy-home-shell > * {
-    position: relative !important;
-    inset: auto !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    transform: none !important;
+  html .geelooy-home-shell > * {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    margin: 0;
+    transform: none;
   }
-  .home-feed-phone,
-  .home-feed-panel,
-  .home-feed-section,
-  .home-composer-card,
-  .home-post-card {
-    min-height: 0 !important;
-    max-height: none !important;
-    overflow: visible !important;
-    contain: none !important;
-    content-visibility: visible !important;
+  html .home-feed-phone,
+  html .home-feed-panel,
+  html .home-feed-section,
+  html .home-composer-card,
+  html .home-post-card {
+    min-height: 0;
+    max-height: none;
+    overflow: visible;
+    contain: none;
+    content-visibility: visible;
   }
-  .home-composer-card { order: 1 !important; }
-  .home-feed-phone,
-  .home-feed-panel,
-  .home-feed-section { order: 2 !important; }
-  .home-feed-header { display: flex !important; min-height: 0 !important; }
-  .home-feed-tabs {
-    position: relative !important;
-    top: auto !important;
-    z-index: 2 !important;
-    margin: .55rem 0 !important;
-    width: 100% !important;
-    overflow-x: auto !important;
+  html .home-composer-card { order: 1; }
+  html .home-feed-phone,
+  html .home-feed-panel,
+  html .home-feed-section { order: 2; }
+  html .home-feed-header { display: flex; min-height: 0; }
+  html .home-feed-tabs {
+    position: relative;
+    top: auto;
+    z-index: 2;
+    margin: .55rem 0;
+    width: 100%;
+    overflow-x: auto;
   }
-  .home-feed-list,
-  .home-post-list {
-    display: grid !important;
-    gap: .75rem !important;
-    margin: 0 !important;
-    padding: 0 !important;
+  html .home-feed-list,
+  html .home-post-list {
+    display: grid;
+    gap: .75rem;
+    margin: 0;
+    padding: 0;
   }
-  .home-post-card { margin: 0 !important; }
-  .home-command-dock.geelooy-bottom-dock,
-  .home-command-dock {
-    position: fixed !important;
-    left: .55rem !important;
-    right: .55rem !important;
-    bottom: max(.45rem, env(safe-area-inset-bottom)) !important;
-    top: auto !important;
-    width: auto !important;
-    max-width: none !important;
-    margin: 0 !important;
-    transform: none !important;
-    z-index: 100 !important;
+  html .home-post-card { margin: 0; }
+  html .home-command-dock.geelooy-bottom-dock,
+  html .home-command-dock {
+    position: fixed;
+    left: .55rem;
+    right: .55rem;
+    bottom: max(.45rem, env(safe-area-inset-bottom));
+    top: auto;
+    width: auto;
+    max-width: none;
+    margin: 0;
+    transform: none;
+    z-index: 100;
   }
 }

@@ -3,47 +3,79 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /** The Awtsmoos keeps the final deed near the thumb; Awtsmoos.com lets publication persist without becoming a wall. */
+/* B"H — mobile calm-actions tokens, explicit light AND dark branches (Yaakov 2026-10-08).
+ * The composer action bar is dark glass in both themes; values identical by design. */
+:root:not([data-theme="dark"]) {
+	--mca-text: #eef2f9;
+	--mca-bar-bg: rgb(7 13 22 / 94%);
+	--mca-panel-bg: rgb(7 13 22 / 98%);
+}
+:root[data-theme="dark"] {
+	--mca-text: #eef2f9;
+	--mca-bar-bg: rgb(7 13 22 / 94%);
+	--mca-panel-bg: rgb(7 13 22 / 98%);
+}
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
 @media (max-width: 51.25rem) {
-	.composer-civilization-document .composerLayout {
-		padding-block-end: calc(5.25rem + env(safe-area-inset-bottom)) !important;
+	html .composer-civilization-document .composerLayout {
+		padding-block-end: calc(5.25rem + env(safe-area-inset-bottom));
 	}
 
-	.composer-civilization-document .actionBar {
-		position: fixed !important;
-		inset-inline: max(.5rem, env(safe-area-inset-left)) max(.5rem, env(safe-area-inset-right)) !important;
-		inset-block: auto max(.5rem, env(safe-area-inset-bottom)) !important;
+	html .composer-civilization-document .actionBar {
+		position: fixed;
+		inset-inline: max(.5rem, env(safe-area-inset-left)) max(.5rem, env(safe-area-inset-right));
+		inset-block: auto max(.5rem, env(safe-area-inset-bottom));
 		z-index: var(--creator-layer-publish, 90);
-		display: grid !important;
-		grid-template-columns: auto minmax(0, 1fr) !important;
-		gap: .4rem !important;
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: .4rem;
 		max-inline-size: 46rem;
 		margin-inline: auto;
-		padding: .35rem !important;
-		border: 1px solid var(--composer-border) !important;
-		border-radius: .9rem !important;
-		background: rgb(7 13 22 / 94%) !important;
-		box-shadow: 0 .8rem 2rem rgb(0 0 0 / 26%) !important;
-		backdrop-filter: blur(16px) saturate(128%) !important;
+		padding: .35rem;
+		border: 1px solid var(--composer-border);
+		border-radius: .9rem;
+		background: var(--mca-bar-bg);
+		box-shadow: 0 .8rem 2rem rgb(0 0 0 / 26%);
+		backdrop-filter: blur(16px) saturate(128%);
 	}
 
-	.composer-civilization-document .actionBar #previewButton {
-		display: none !important;
+	html .composer-civilization-document .actionBar #previewButton {
+		display: none;
 	}
 
-	.composer-civilization-document .actionBar #publishButton,
-	.composer-civilization-document .composer-action-menu > summary {
-		min-block-size: 48px !important;
-		margin: 0 !important;
-		padding: .5rem .72rem !important;
-		border-radius: .7rem !important;
+	html .composer-civilization-document .actionBar #publishButton,
+	html .composer-civilization-document .composer-action-menu > summary {
+		min-block-size: 48px;
+		margin: 0;
+		padding: .5rem .72rem;
+		border-radius: .7rem;
+		color: var(--mca-text);
+		cursor: pointer;
 	}
 
-	.composer-civilization-document .actionBar #publishButton {
+	html .composer-civilization-document .actionBar #publishButton {
 		inline-size: 100%;
 		font-size: .9rem;
 	}
 
-	.composer-civilization-document .composer-action-menu > summary {
+	html .composer-civilization-document .actionBar #publishButton:hover {
+		filter: brightness(1.08);
+	}
+	html .composer-civilization-document .actionBar #publishButton:active {
+		transform: scale(0.98);
+	}
+	html .composer-civilization-document .actionBar #publishButton:focus-visible {
+		outline: 2px solid var(--g4-accent, #4cd4ff);
+		outline-offset: 2px;
+	}
+	html .composer-civilization-document .actionBar #publishButton:disabled {
+		opacity: .45;
+		cursor: not-allowed;
+		filter: none;
+		transform: none;
+	}
+
+	html .composer-civilization-document .composer-action-menu > summary {
 		display: grid;
 		min-inline-size: 4.3rem;
 		place-items: center;
@@ -51,31 +83,42 @@
 		list-style: none;
 	}
 
-	.composer-civilization-document .composer-action-menu > summary::-webkit-details-marker {
+	html .composer-civilization-document .composer-action-menu > summary:hover {
+		filter: brightness(1.08);
+	}
+	html .composer-civilization-document .composer-action-menu > summary:focus-visible {
+		outline: 2px solid var(--g4-accent, #4cd4ff);
+		outline-offset: 2px;
+	}
+
+	html .composer-civilization-document .composer-action-menu > summary::-webkit-details-marker {
 		display: none;
 	}
 
-	.composer-civilization-document .composer-action-menu-panel {
-		position: absolute !important;
-		inset: auto 0 calc(100% + .4rem) auto !important;
+	html .composer-civilization-document .composer-action-menu-panel {
+		position: absolute;
+		inset: auto 0 calc(100% + .4rem) auto;
 		display: grid;
 		gap: .35rem;
 		inline-size: min(18rem, calc(100vw - 1rem));
-		min-inline-size: 0 !important;
+		min-inline-size: 0;
 		padding: .4rem;
 		border: 1px solid var(--composer-border);
 		border-radius: .8rem;
-		background: rgb(7 13 22 / 98%);
+		background: var(--mca-panel-bg);
 		box-shadow: 0 1rem 2.4rem rgb(0 0 0 / 28%);
+		color: var(--mca-text);
 	}
 
-	.composer-civilization-document .composer-action-menu-panel button {
+	html .composer-civilization-document .composer-action-menu-panel button {
 		inline-size: 100%;
 		min-block-size: 44px;
+		color: var(--mca-text);
+		cursor: pointer;
 	}
 }
 
-/* @tunnel-interactive-states: auto-generated by css-guarantee */
+/* @tunnel-interactive-states: hover/active/focus-visible/disabled for every interactive control */
 .composer-civilization-document .composer-action-menu-panel button:hover {
 	filter: brightness(1.08);
 }
@@ -84,4 +127,10 @@
 }
 .composer-civilization-document .composer-action-menu-panel button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
+}
+.composer-civilization-document .composer-action-menu-panel button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+	filter: none;
+	transform: none;
 }

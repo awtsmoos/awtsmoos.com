@@ -1,13 +1,14 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
-.home-action-grid { min-width: 0 !important; }
-.home-action-card { box-sizing: border-box; min-width: 0 !important; overflow: hidden !important; }
-.home-action-card strong,
-.home-action-card small { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+html .home-action-grid { min-width: 0; }
+html .home-action-card { box-sizing: border-box; min-width: 0; overflow: hidden; }
+html .home-action-card strong,
+html .home-action-card small { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
 @media (max-width: 430px) {
-  .home-action-grid { gap: clamp(.56rem, 2vw, .72rem) !important; }
-  .home-action-card { min-height: 96px !important; padding: .72rem .42rem !important; }
-  .home-action-grid .home-action-primary { min-height: 92px !important; }
-  .home-action-card > span { font-size: 0 !important; }
-  .home-action-card strong { font-size: clamp(.76rem, 2.55vw, .86rem) !important; }
+  html .home-action-grid { gap: clamp(.56rem, 2vw, .72rem); }
+  html .home-action-card { min-height: 96px; padding: .72rem .42rem; }
+  html .home-action-grid .home-action-primary { min-height: 92px; }
+  html .home-action-card > span { font-size: 0; }
+  html .home-action-card strong { font-size: clamp(.76rem, 2.55vw, .86rem); }
 }
-@media (max-width: 370px) { .home-action-card { min-height: 90px !important; } .home-action-card strong { font-size: .72rem !important; } }
+@media (max-width: 370px) { html .home-action-card { min-height: 90px; } html .home-action-card strong { font-size: .72rem; } }

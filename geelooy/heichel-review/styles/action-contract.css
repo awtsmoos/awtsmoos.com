@@ -7,66 +7,98 @@
  * actions visibly. These final declarations belong to the review route and may
  * not be erased by a shared contrast or historical button generation.
  */
-
-body.heichel-review-document :where(
-	.primaryAction,
-	[data-review-action="approve"],
-	[data-review-action="publish"],
-	[data-review-action="schedule"]
-) {
-	border-color: #58c7d8 !important;
-	background-color: #58c7d8 !important;
-	background-image: none !important;
-	box-shadow: 0 .55rem 1.35rem rgba(88, 199, 216, .18) !important;
-	color: #061018 !important;
-	font-weight: 880 !important;
+/* B"H — review action tokens, explicit light AND dark branches (Yaakov 2026-10-08).
+ * The review route is intentionally dark in both themes; values identical by design. */
+:root:not([data-theme="dark"]) {
+	--review-approve: #58c7d8;
+	--review-approve-text: #061018;
+	--review-approve-shadow: rgba(88, 199, 216, .18);
+	--review-danger-border: rgba(255, 120, 148, .5);
+	--review-danger-bg: rgba(255, 120, 148, .13);
+	--review-danger-text: #ffb6c4;
+	--review-triage-border: rgba(240, 201, 107, .48);
+	--review-triage-bg: rgba(240, 201, 107, .11);
+	--review-triage-text: #f4d88f;
+	--review-focus: #7ed7e5;
+}
+:root[data-theme="dark"] {
+	--review-approve: #58c7d8;
+	--review-approve-text: #061018;
+	--review-approve-shadow: rgba(88, 199, 216, .18);
+	--review-danger-border: rgba(255, 120, 148, .5);
+	--review-danger-bg: rgba(255, 120, 148, .13);
+	--review-danger-text: #ffb6c4;
+	--review-triage-border: rgba(240, 201, 107, .48);
+	--review-triage-bg: rgba(240, 201, 107, .11);
+	--review-triage-text: #f4d88f;
+	--review-focus: #7ed7e5;
+}
+/* B"H — html prefix + dropped :where() replace every !important (Yaakov 2026-10-08).
+ * These stay final declarations of the review route; the higher specificity
+ * keeps them unbeaten by shared button generations without !important. */
+html body.heichel-review-document .primaryAction,
+html body.heichel-review-document [data-review-action="approve"],
+html body.heichel-review-document [data-review-action="publish"],
+html body.heichel-review-document [data-review-action="schedule"] {
+	border-color: var(--review-approve);
+	background-color: var(--review-approve);
+	background-image: none;
+	box-shadow: 0 .55rem 1.35rem var(--review-approve-shadow);
+	color: var(--review-approve-text);
+	font-weight: 880;
+	cursor: pointer;
 }
 
-body.heichel-review-document :where(
-	.dangerAction,
-	[data-review-action="reject"]
-) {
-	border-color: rgba(255, 120, 148, .5) !important;
-	background-color: rgba(255, 120, 148, .13) !important;
-	background-image: none !important;
-	color: #ffb6c4 !important;
+html body.heichel-review-document .dangerAction,
+html body.heichel-review-document [data-review-action="reject"] {
+	border-color: var(--review-danger-border);
+	background-color: var(--review-danger-bg);
+	background-image: none;
+	color: var(--review-danger-text);
+	cursor: pointer;
 }
 
-body.heichel-review-document :where(
-	[data-review-action="triage"],
-	[data-review-action="changes"]
-) {
-	border-color: rgba(240, 201, 107, .48) !important;
-	background-color: rgba(240, 201, 107, .11) !important;
-	background-image: none !important;
-	color: #f4d88f !important;
+html body.heichel-review-document [data-review-action="triage"],
+html body.heichel-review-document [data-review-action="changes"] {
+	border-color: var(--review-triage-border);
+	background-color: var(--review-triage-bg);
+	background-image: none;
+	color: var(--review-triage-text);
+	cursor: pointer;
 }
 
-body.heichel-review-document :where(input[type="checkbox"], input[type="radio"]) {
+html body.heichel-review-document input[type="checkbox"],
+html body.heichel-review-document input[type="radio"] {
 	appearance: auto;
 	inline-size: 1.25rem;
 	block-size: 1.25rem;
 	border: 0;
 	background: none;
-	accent-color: #58c7d8;
-	transition: none !important;
+	accent-color: var(--review-approve);
+	transition: none;
 }
 
-body.heichel-review-document :where(button, input, select, textarea, summary):focus-visible {
-	outline: 3px solid #7ed7e5;
+html body.heichel-review-document button:focus-visible,
+html body.heichel-review-document input:focus-visible,
+html body.heichel-review-document select:focus-visible,
+html body.heichel-review-document textarea:focus-visible,
+html body.heichel-review-document summary:focus-visible {
+	outline: 3px solid var(--review-focus);
 	outline-offset: 3px;
 }
 
 @media (forced-colors: active) {
-	body.heichel-review-document :where(.primaryAction, .dangerAction, button) {
-		background: ButtonFace !important;
-		border: 1px solid ButtonText !important;
-		box-shadow: none !important;
-		color: ButtonText !important;
+	html body.heichel-review-document .primaryAction,
+	html body.heichel-review-document .dangerAction,
+	html body.heichel-review-document button {
+		background: ButtonFace;
+		border: 1px solid ButtonText;
+		box-shadow: none;
+		color: ButtonText;
 	}
 }
 
-/* @tunnel-interactive-states: auto-generated by css-guarantee */
+/* @tunnel-interactive-states: hover/active/focus-visible/disabled for every interactive control */
 body.heichel-review-document button:hover {
 	filter: brightness(1.08);
 }
@@ -76,6 +108,12 @@ body.heichel-review-document button:active {
 body.heichel-review-document button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
+body.heichel-review-document button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+	filter: none;
+	transform: none;
+}
 button:hover {
 	filter: brightness(1.08);
 }
@@ -84,4 +122,10 @@ button:active {
 }
 button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
+}
+button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+	filter: none;
+	transform: none;
 }
