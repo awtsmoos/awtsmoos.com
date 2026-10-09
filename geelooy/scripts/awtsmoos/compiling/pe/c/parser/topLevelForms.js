@@ -24,6 +24,16 @@ export function isStructureDefinition(stream) {
 		&& isPunctuation(stream.peek(2), "{");
 }
 
+/**
+ * True for a forward declaration: `struct Name;` or `union Name;`.
+ * The type is only used through pointers; no layout is required.
+ */
+export function isForwardStructDeclaration(stream) {
+	return (isKeyword(stream.peek(), "struct") || isKeyword(stream.peek(), "union"))
+		&& stream.peek(1).type === TOKENS.ID
+		&& isPunctuation(stream.peek(2), ";");
+}
+
 export function parseStructure(stream) {
 	const kind = stream.expect(TOKENS.KEYWORD).value; // 'struct' or 'union'
 	const name = stream.expect(TOKENS.ID).value;

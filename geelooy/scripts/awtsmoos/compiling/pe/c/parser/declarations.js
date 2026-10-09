@@ -6,6 +6,7 @@ import { TOKENS } from "../lexer.js";
 import { parseBlock } from "./statements.js";
 import {
 	isEnumDefinition,
+	isForwardStructDeclaration,
 	isKeyword,
 	isOperator,
 	isPunctuation,
@@ -37,6 +38,12 @@ export function parseProgram(stream) {
 			parseExternDeclaration(stream, program);
 		} else if (isStructureDefinition(stream)) {
 			program.structs.push(parseStructure(stream));
+		} else if (isForwardStructDeclaration(stream)) {
+			// `struct Name;` — forward declaration; the struct is only used
+			// through pointers, so no layout is needed. Just consume it.
+			stream.consume(); // 'struct' or 'union'
+			stream.expect(TOKENS.ID);
+			stream.expect(TOKENS.PUNCT, ";");
 		} else if (isEnumDefinition(stream)) {
 			parseEnum(stream, program);
 		} else if (isKeyword(token, "typedef")) {
@@ -63,7 +70,15 @@ function parseFunctionOrGlobal(stream, program) {
 	}
 	const name = stream.expect(TOKENS.ID).value;
 	if (isPunctuation(stream.peek(), "(")) {
-		program.functions.push(parseFunction(stream, declaratorType, name));
+		const parsed = parseFunction(stream, declaratorType, name);
+		// A prototype `void foo(int);` declares without defining: it becomes
+		// an import unless this unit defines it later (standard C — the
+		// parseProgram filter drops satisfied imports).
+		if (parsed.prototype) {
+			program.imports.push({ dll: "prototype", func: name });
+			return;
+		}
+		program.functions.push(parsed);
 		return;
 	}
 	// A comma-separated global list desugars into sibling globals.
@@ -217,11 +232,21 @@ function parseFunction(stream, retType, name) {
 		}
 	}
 	stream.expect(TOKENS.PUNCT, ")");
+	// Prototype: `void foo(int);` — declaration without a body. The caller
+	// routes it to imports; a later definition in this unit wins.
+	if (isPunctuation(stream.peek(), ";")) {
+		stream.consume();
+		return { args, body: null, name, prototype: true, retType };
+	}
 	return { args, body: parseBlock(stream), name, retType };
 }
 
 function parseArgument(stream) {
 	const type = parseType(stream);
-	const name = stream.expect(TOKENS.ID).value;
+	// Parameter names are optional in prototypes (`void foo(int);`).
+	let name = "";
+	if (stream.peek().type === TOKENS.ID) {
+		name = stream.consume().value;
+	}
 	return { name, type };
 }
