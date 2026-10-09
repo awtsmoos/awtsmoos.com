@@ -31,7 +31,8 @@ const ARM64_RELOC_KIND_MAP = Object.freeze({
 	adr: "arm64_adr",
 	adrp: "arm64_adrp",
 	lo12: "arm64_lo12",
-	ldrLiteral: "arm64_ldr_literal"
+	ldrLiteral: "arm64_ldr_literal",
+	abs64: "arm64_abs64"
 });
 
 const DEFAULT_LIMITS = Object.freeze({

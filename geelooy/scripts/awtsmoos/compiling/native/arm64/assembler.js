@@ -632,6 +632,7 @@ function parseSource(source) {
 	const b = new Arm64Builder();
 	const dataBlobs = [];   // { label, bytes }
 	const dataLabels = {};  // name -> index into dataBlobs
+	const dataRelocs = [];  // { blobIndex, target } 64-bit absolute slots in data
 	let section = "text";
 	let dataBytes = [];
 	let dataLabel = null;
@@ -698,6 +699,12 @@ function parseSource(source) {
 							}
 						}
 						dataBytes.push(0);
+					} else if (/^[A-Za-z_][\w$.]*$/.test(rest)) {
+						// Bare label reference: an 8-byte absolute-address slot
+						// the linker resolves (arm64_abs64). The portable C
+						// backend emits these for global address initializers.
+						dataRelocs.push({ blobIndex: dataBlobs.length, target: rest });
+						dataBytes.push(0, 0, 0, 0, 0, 0, 0, 0);
 					} else {
 						dataBytes.push(...parseDataValues(rest));
 					}
@@ -736,7 +743,7 @@ function parseSource(source) {
 		}
 	}
 	flushData();
-	return { builder: b, dataBlobs, dataLabels };
+	return { builder: b, dataBlobs, dataLabels, dataRelocs };
 }
 
 // --- Patch resolution --------------------------------------------------------
@@ -746,7 +753,7 @@ function parseSource(source) {
  * Returns { bytes, symbols, relocations }.
  */
 function resolveAll(parsed) {
-	const { builder: b, dataBlobs, dataLabels } = parsed;
+	const { builder: b, dataBlobs, dataLabels, dataRelocs } = parsed;
 	const codeSize = b.words.length * 4;
 
 	// Data base: word-aligned right after code.
@@ -819,6 +826,12 @@ function resolveAll(parsed) {
 		}
 		b.words[p.wordIndex] = word;
 		relocations.push({ offset: pc, type: p.kind, target: p.target });
+	}
+	for (const r of dataRelocs || []) {
+		// 64-bit absolute address slots inside data blobs. The target may be
+		// a code or data label; targetOffset throws on undefined names.
+		targetOffset(r.target, dataOffsets[r.blobIndex]);
+		relocations.push({ offset: dataOffsets[r.blobIndex], type: "abs64", target: r.target });
 	}
 
 	// Emit code words little-endian.
