@@ -1,0 +1,232 @@
+/* B"H — Heichelos/Ikar complete light-theme fix (Yaakov 2026-10-08) */
+/* Generated systematically: every hardcoded light text color in
+   geelooy/style/heichelos/ gets an html[data-theme="light"] override.
+   NO !important — html[data-theme="light"] prefix outranks originals. */
+
+/* heichel/bottom-nav.css:40 — was #fff7df */
+html[data-theme="light"] .heichel-mobile-navigation .geelooy-bottom-nav a, .heichel-mobile-navigation .geelooy-bottom-nav button {
+  color: #1e293b;
+}
+
+/* heichel/hero.css:9 — was #fff */
+html[data-theme="light"] :where(#heichel-main-title) {
+  color: #1e293b;
+}
+
+/* heichel/hero.css:10 — was #b9c6dc */
+html[data-theme="light"] .hero-description {
+  color: #334155;
+}
+
+/* heichel/beauty/navigation/index.css:58 — was #fff */
+html[data-theme="light"] :where(.heichel-mobile-navigation) .geelooy-bottom-nav :nth-child(3) {
+  color: #1e293b;
+}
+
+/* heichel/cosmic-profile/mobile-series/living-path/card-menu.css:42 — was #d9e5ef */
+html[data-theme="light"] .card-menu-action, .card-menu-panel .post-social-action {
+  color: #334155;
+}
+
+/* heichel/cosmic-profile/mobile-series/living-path/card-menu.css:50 — was #fff */
+html[data-theme="light"] .card-menu-action:is(:hover, :focus-visible), :where(.card-menu-panel) .post-social-action:is(:hover, :focus-visible) {
+  color: #1e293b;
+}
+
+/* heichel/cosmic-profile/mobile-series/living-path/cards-content.css:31 — was #f8fbff */
+html[data-theme="light"] .nav-card-body h3 {
+  color: #1e293b;
+}
+
+/* heichel/cosmic-profile/mobile-series/living-path/filter-sheet-controls.css:40 — was #d6e1ee */
+html[data-theme="light"] .filter-choice {
+  color: #334155;
+}
+
+/* heichel/cosmic-profile/mobile-series/living-path/filter-sheet-controls.css:47 — was #fff */
+html[data-theme="light"] .filter-choice:has(input:checked) {
+  color: #1e293b;
+  background: rgba(186, 230, 253, .7);
+}
+
+/* heichel/cosmic-profile/mobile-series/living-path/filter-sheet-layout.css:66 — was #fff */
+html[data-theme="light"] .filter-sheet-close {
+  color: #1e293b;
+  background: #f1f5f9;
+}
+
+/* heichel/cosmic-profile/mobile-series/living-path/search.css:63 — was #fff */
+html[data-theme="light"] :where(.filter-chip[data-active-count]:not([data-active-count="0"])) {
+  color: #1e293b;
+  background: rgba(186, 230, 253, .9);
+}
+
+/* heichel/cosmic-profile/mobile-series/living-path/sticky-path.css:39 — was #f6f8ff */
+html[data-theme="light"] .living-path-sticky strong {
+  color: #1e293b;
+  background: rgba(241, 245, 249, .92);
+}
+
+/* heichel/cosmic-profile/mobile-series/living-path/tree.css:39 — was #fff */
+html[data-theme="light"] .series-expand-toggle[aria-expanded="true"] {
+  color: #1e293b;
+}
+
+/* heichel/future/bulk-actions.css:7 — was #fff7df */
+html[data-theme="light"] :where(#bulk-actions-bar) {
+  color: #1e293b;
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+/* heichel/future/bulk-actions.css:12 — was #fff7df */
+html[data-theme="light"] :where(#bulk-actions-bar) .ritual-btn {
+  color: #1e293b;
+}
+
+/* heichel/future/card-media.css:8 — was #fff8dc */
+html[data-theme="light"] .nav-card-media, .heichel-card-media, .series-card-media {
+  color: #1e293b;
+}
+
+/* heichel/future/card.css:17 — was #fff */
+html[data-theme="light"] .heichel-mobile-navigation .nav-card h2, .heichel-mobile-navigation .heichel-card h2, .heichel-mobile-navigation .series-card h2 {
+  color: #1e293b;
+}
+
+/* heichel/future/mini-mail.css:9 — was #fff7df */
+html[data-theme="light"] .heichel-mobile-navigation .mini-mail-panel header {
+  color: #1e293b;
+  background: #f8fafc;
+}
+
+/* heichel/future/mini-mail.css:11 — was #fff7df */
+html[data-theme="light"] :where(.heichel-mobile-navigation) :where(.mini-mail-panel) :where(header) button {
+  color: #1e293b;
+}
+
+/* heichel/future/series-heading.css:5 — was #fff */
+html[data-theme="light"] .series-heading h2 {
+  color: #1e293b;
+}
+
+/* heichel/future/series-heading.css:6 — was #b9c6dc */
+html[data-theme="light"] .series-heading p:not(.series-label) {
+  color: #334155;
+}
+
+/* heichel/premium/atmosphere.css:49 — was #fff */
+html[data-theme="light"] .heichel-os-document ::selection {
+  color: #1e293b;
+}
+
+/* heichel/premium/dictionary-browse.css:81 — was #fff5d6 */
+html[data-theme="light"] .dictionary-letter[data-active="true"], .dictionary-range[data-active="true"] {
+  color: #1e293b;
+  background: rgba(186, 230, 253, .55);
+}
+
+/* heichel/premium/ikar-first-parts/part-02.css:29 — was #ffffff */
+html[data-theme="light"] .ikar-first-actions a:hover, .ikar-first-actions a:focus-visible {
+  color: #1e293b;
+}
+
+/* revamped-partials/content.css:141 — was #fff */
+html[data-theme="light"] .heichel-editor-remove {
+  color: #1e293b;
+}
+
+/* revamped-partials/heichel-boot-states.css:5 — was #fff7df */
+html[data-theme="light"] .heichel-boot-shell {
+  color: #1e293b;
+}
+
+/* revamped-partials/heichel-os-world.css:46 — was #fff7df */
+html[data-theme="light"] .heichel-os-district-buttons button.active {
+  color: #1e293b;
+  background: linear-gradient(135deg, rgba(219,234,254,.95), rgba(254,243,199,.9));
+}
+
+/* revamped-partials/live-main.css:100 — was #fff */
+html[data-theme="light"] .tab-gates .tab.Active {
+  color: #1e293b;
+  background: linear-gradient(135deg, #dbeafe, #fef3c7);
+}
+
+/* spaces/empty.css:7 — was #fff */
+html[data-theme="light"] .social-empty-card h2 {
+  color: #1e293b;
+}
+
+/* spaces/hero.css:8 — was #fff */
+html[data-theme="light"] .spaces-hero h1 {
+  color: #1e293b;
+  background: linear-gradient(145deg, #f8fafc, #e2e8f0);
+}
+
+/* submit/create-mobile.css:33 — was #fff */
+html[data-theme="light"] .mobile-create-nav .active, .mobile-create-nav [aria-current="page"] {
+  color: #1e293b;
+}
+
+/* submit/create-shell.css:33 — was #fff */
+html[data-theme="light"] .submit-hero h1 {
+  color: #1e293b;
+}
+
+/* submit/create-shell.css:45 — was #fff */
+html[data-theme="light"] .target-summary {
+  color: #1e293b;
+}
+
+/* heichel/cosmic-profile/mobile-series/living-path/translation.css — supplementary sweep */
+/* .nav-card-translation-badge.is-pending — was #cbd5e1 on translucent slate */
+html[data-theme="light"] .nav-card-translation-badge.is-pending {
+  color: #475569;
+}
+
+/* .translation-search-source — was #cbd5e1 */
+html[data-theme="light"] .translation-search-source {
+  color: #475569;
+}
+
+/* translation badge (default) — was #fde68a light amber on amber tint */
+html[data-theme="light"] .nav-card-translation-badge {
+  color: #92400e;
+}
+
+@media (max-width: 55rem) {
+/* heichel/cosmic-profile/mobile-series/context-series.css:36 — was #9ddff0 */
+  html[data-theme="light"] :where(.heichel-os-document) .series-heading .series-label {
+    color: #0e7490;
+  }
+
+/* heichel/cosmic-profile/mobile-series/context-series.css:44 — was #f6f8ff */
+  html[data-theme="light"] .heichel-os-document .series-heading h2 {
+    color: #1e293b;
+  }
+
+/* heichel/cosmic-profile/mobile-series/context-series.css:57 — was #aebed3 */
+  html[data-theme="light"] :where(.heichel-os-document) .series-heading p:not(.series-label) {
+    color: #334155;
+  }
+
+/* heichel/cosmic-profile/mobile-series/controls-modes.css:47 — was #fff */
+  html[data-theme="light"] :where(.heichel-os-document) .tab-gates button:is(.active, [aria-selected="true"]), :where(.heichel-os-document) .tab-gate:is(.active, [aria-selected="true"]) {
+    color: #1e293b;
+    background: rgba(219, 234, 254, .9);
+  }
+
+/* heichel/cosmic-profile/mobile-series/controls-search.css:27 — was #f6f8ff */
+  html[data-theme="light"] .heichel-os-document .series-search-row input {
+    color: #1e293b;
+    background: #ffffff;
+    border-color: #cbd5e1;
+  }
+
+/* heichel/cosmic-profile/mobile-series/states.css:55 — was #f6f8ff */
+  html[data-theme="light"] .heichel-os-document .empty-glow-msg strong {
+    color: #1e293b;
+  }
+
+}
