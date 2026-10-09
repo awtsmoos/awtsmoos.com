@@ -1,11 +1,18 @@
 // B"H
-const OP = { '+': 'add', '-': 'sub', '*': 'mul', '/': 'div', '%': 'mod', '==': 'eq', '===': 'seq', '!=': 'neq', '!==': 'sneq', '<': 'lt', '<=': 'lte', '>': 'gt', '>=': 'gte' };
-const LOGICAL = { '&&': 'and', '||': 'or' };
+const OP = { '+': 'add', '-': 'sub', '*': 'mul', '/': 'div', '%': 'mod', '**': 'pow', '==': 'eq', '===': 'seq', '!=': 'neq', '!==': 'sneq', '<': 'lt', '<=': 'lte', '>': 'gt', '>=': 'gte' };
+const LOGICAL = { '&&': 'and', '||': 'or', '??': 'nullish' };
 const UNARY = { '!': 'not', '-': 'neg', '+': 'pos', typeof: 'typeof', void: 'void' };
 
 /**
  * Lowers a growing AST subset into raw Merkava JSON code.
  * Advanced constructs become semantic descriptors, not source strings.
+ *
+ * B"H 2026-10-09: stress-test additions —
+ * - `??` lowers to {op:'nullish'} (compiler emits lazy jump sequence).
+ * - `**` lowers to {op:'pow'}.
+ * - `instanceof` lowers to {op:'instanceof'}.
+ * - SpreadElement in array literals -> {op:'arraySpread'}.
+ * - SpreadElement in call args -> {op:'spreadCall'}/{op:'spreadCallMethod'}.
  */
 function lowerAstToJson(ast) {
   const steps = [];
@@ -50,7 +57,7 @@ function lowerAstToJson(ast) {
   const literalValue = node => node?.type === 'Literal' ? node.value : expr(node);
 
   const methodDescriptor = method => ({
-    name: method.key.name,
+    name: propName(method.key),
     params: (method.value.params || []).map(paramName),
     body: { op: 'block', body: blockSteps(method.value.body) }
   });
@@ -61,7 +68,7 @@ function lowerAstToJson(ast) {
   });
 
   const classDescriptor = node => ({
-    name: node.id.name,
+    name: node.id?.name || '',
     superClass: node.superClass ? { get: node.superClass.name } : null,
     methods: (node.body?.body || []).filter(member => member.type === 'MethodDefinition').map(methodDescriptor),
     fields: (node.body?.body || []).filter(member => member.type === 'PropertyDefinition' || member.type === 'FieldDefinition').map(fieldDescriptor)
@@ -75,19 +82,32 @@ function lowerAstToJson(ast) {
     op: 'function',
     name: node.id?.name || '',
     params: (node.params || []).map(paramName),
-    body: fnBody(node)
+    body: fnBody(node),
+    arrow: node.type === 'ArrowFunctionExpression'
   });
 
   const templateLiteral = node => {
     const parts = [];
     for (let i = 0; i < (node.quasis || []).length; i++) {
       const cooked = node.quasis[i]?.value?.cooked ?? node.quasis[i]?.value?.raw ?? '';
-      if (cooked) parts.push({ const: cooked });
+      // B"H 2026-10-09: keep empty strings — they force string concat (""+1="1", not 1).
+      parts.push({ const: cooked });
       if (node.expressions?.[i]) parts.push(expr(node.expressions[i]));
     }
     if (!parts.length) return { const: '' };
     return parts.reduce((left, right) => ({ op: 'add', args: [left, right] }));
   };
+
+  // Spread args -> flat [flag, node, flag, node...] where flag=true means spread.
+  const spreadParts = args => {
+    const flat = [];
+    for (const a of args || []) {
+      if (a && a.type === 'SpreadElement') flat.push({ const: true }, expr(a.argument));
+      else flat.push({ const: false }, expr(a));
+    }
+    return flat;
+  };
+  const hasSpreadArg = args => (args || []).some(a => a && a.type === 'SpreadElement');
 
   const expr = node => {
     if (!node) return { const: null };
@@ -110,12 +130,26 @@ function lowerAstToJson(ast) {
     if (node.type === 'SpreadElement') return expr(node.argument);
     if (node.type === 'UnaryExpression') {
       if (node.operator === 'typeof' && node.argument?.type === 'Identifier' && !isLexicalNameInCurrentScope(node.argument.name)) return { op: 'typeofName', name: node.argument.name };
-      return { op: UNARY[node.operator], value: expr(node.argument) };
+      const op = UNARY[node.operator];
+      if (!op) throw new Error(`Unsupported JS unary operator: ${node.operator}`);
+      return { op, value: expr(node.argument) };
     }
-    if (node.type === 'LogicalExpression') return { op: LOGICAL[node.operator], args: [expr(node.left), expr(node.right)] };
+    if (node.type === 'LogicalExpression') {
+      const op = LOGICAL[node.operator];
+      if (!op) throw new Error(`Unsupported JS logical operator: ${node.operator}`);
+      return { op, args: [expr(node.left), expr(node.right)] };
+    }
     if (node.type === 'ConditionalExpression') return { op: 'conditional', test: expr(node.test), consequent: expr(node.consequent), alternate: expr(node.alternate) };
-    if (node.type === 'BinaryExpression') return { op: LOGICAL[node.operator] || OP[node.operator], args: [expr(node.left), expr(node.right)] };
-    if (node.type === 'ArrayExpression') return { op: 'array', items: (node.elements || []).map(expr) };
+    if (node.type === 'BinaryExpression') {
+      if (node.operator === 'instanceof') return { op: 'instanceof', args: [expr(node.left), expr(node.right)] };
+      const op = LOGICAL[node.operator] || OP[node.operator];
+      if (!op) throw new Error(`Unsupported JS binary operator: ${node.operator}`);
+      return { op, args: [expr(node.left), expr(node.right)] };
+    }
+    if (node.type === 'ArrayExpression') {
+      if (hasSpreadArg(node.elements)) return { op: 'arraySpread', parts: spreadParts(node.elements) };
+      return { op: 'array', items: (node.elements || []).map(expr) };
+    }
     if (node.type === 'ObjectExpression') {
       if ((node.properties || []).some(p => p.type === 'SpreadElement')) return {
         op: 'objectMerge',
@@ -126,6 +160,7 @@ function lowerAstToJson(ast) {
       return { op: 'object', props: (node.properties || []).map(p => ({ key: propName(p.key), value: expr(p.value) })) };
     }
     if (node.type === 'FunctionExpression' || node.type === 'ArrowFunctionExpression') return fnDescriptor(node);
+    if (node.type === 'ClassExpression') return { op: 'class', descriptor: classDescriptor(node) };
     if (node.type === 'AssignmentExpression') {
       const compound = node.operator && node.operator !== '=' ? OP[node.operator.slice(0, -1)] : null;
       if (node.left.type === 'Identifier') {
@@ -140,6 +175,10 @@ function lowerAstToJson(ast) {
     }
     if (node.type === 'UpdateExpression') {
       const delta = { const: node.operator === '++' ? 1 : -1 };
+      // B"H 2026-10-09: postfix returns OLD value; prefix returns NEW.
+      if (!node.prefix && node.argument.type === 'Identifier') {
+        return { op: 'postUpdate', name: node.argument.name, delta };
+      }
       if (node.argument.type === 'Identifier') return { op: 'set', name: node.argument.name, value: { op: 'add', args: [{ get: node.argument.name }, delta] } };
       if (node.argument.type === 'MemberExpression') {
         const object = expr(node.argument.object), prop = node.argument.computed ? expr(node.argument.property) : { const: propName(node.argument.property) };
@@ -157,13 +196,23 @@ function lowerAstToJson(ast) {
     }
     if (node.type === 'MemberExpression') return { op: node.optional ? 'optionalGetProp' : 'getProp', object: expr(node.object), prop: node.computed ? expr(node.property) : propName(node.property) };
     if (node.type === 'CallExpression') {
-      const args = (node.arguments || []).map(expr);
-      if (node.callee.type === 'Super') return { op: 'superConstructor', args };
-      if (node.callee.type === 'Identifier') return { op: 'callFunction', fn: expr(node.callee), args };
-      if (node.callee.type === 'MemberExpression') return { op: (node.optional || node.callee.optional) ? 'optionalCallMethod' : 'callMethod', object: expr(node.callee.object), method: propName(node.callee.property), args };
-      if (node.optional || node.callee.type === 'ChainExpression') return { op: 'optionalCallFunction', fn: expr(node.callee), args };
-      if (node.optional || node.callee.type === 'ChainExpression') return { op: 'optionalCallFunction', fn: expr(node.callee), args };
-      return { op: 'callFunction', fn: expr(node.callee), args };
+      const spread = hasSpreadArg(node.arguments);
+      if (node.callee.type === 'Super') return { op: 'superConstructor', args: (node.arguments || []).map(expr) };
+      if (node.callee.type === 'Identifier') {
+        if (spread) return { op: 'spreadCall', fn: expr(node.callee), parts: spreadParts(node.arguments) };
+        return { op: 'callFunction', fn: expr(node.callee), args: (node.arguments || []).map(expr) };
+      }
+      // B"H 2026-10-09: a.b() is a method call; a[b]() calls the function value.
+      if (node.callee.type === 'MemberExpression' && !node.callee.computed) {
+        if (spread) return { op: 'spreadCallMethod', object: expr(node.callee.object), method: propName(node.callee.property), parts: spreadParts(node.arguments) };
+        return { op: (node.optional || node.callee.optional) ? 'optionalCallMethod' : 'callMethod', object: expr(node.callee.object), method: propName(node.callee.property), args: (node.arguments || []).map(expr) };
+      }
+      if (node.callee.type === 'MemberExpression' && node.callee.computed && spread) {
+        return { op: 'spreadCall', fn: expr(node.callee), parts: spreadParts(node.arguments) };
+      }
+      if (node.optional || node.callee.type === 'ChainExpression') return { op: 'optionalCallFunction', fn: expr(node.callee), args: (node.arguments || []).map(expr) };
+      if (node.optional || node.callee.type === 'ChainExpression') return { op: 'optionalCallFunction', fn: expr(node.callee), args: (node.arguments || []).map(expr) };
+      return { op: 'callFunction', fn: expr(node.callee), args: (node.arguments || []).map(expr) };
     }
     throw new Error(`Unsupported JS AST expression: ${node.type}`);
   };
@@ -175,13 +224,13 @@ function lowerAstToJson(ast) {
       for (const d of stmt.declarations) {
         if (d.id.type === 'ArrayPattern') {
           const tmp = `__destruct${target.length}`;
-          target.push({ op: 'set', name: tmp, value: expr(d.init) });
+          target.push({ op: 'declare', name: tmp, value: expr(d.init) });
           (d.id.elements || []).forEach((el, index) => {
             if (!el) return;
-            if (el.type === 'Identifier') target.push({ op: 'set', name: el.name, value: { op: 'getProp', object: { get: tmp }, prop: { const: index } } });
-            else if (el.type === 'RestElement') target.push({ op: 'set', name: el.argument.name, value: { op: 'callMethod', object: { get: tmp }, method: 'slice', args: [{ const: index }] } });
+            if (el.type === 'Identifier') target.push({ op: 'declare', name: el.name, value: { op: 'getProp', object: { get: tmp }, prop: { const: index } } });
+            else if (el.type === 'RestElement') target.push({ op: 'declare', name: el.argument.name, value: { op: 'callMethod', object: { get: tmp }, method: 'slice', args: [{ const: index }] } });
           });
-        } else target.push({ op: 'set', name: d.id.name, value: expr(d.init) });
+        } else target.push({ op: 'declare', name: d.id.name, value: expr(d.init) });
       }
     } else if (stmt.type === 'ExpressionStatement') {
       target.push(expr(stmt.expression));

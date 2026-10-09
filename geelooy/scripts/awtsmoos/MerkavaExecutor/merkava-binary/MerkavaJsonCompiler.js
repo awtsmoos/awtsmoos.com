@@ -6,7 +6,8 @@ const SYS = {
   class: 20, new: 21, callMethod: 22, getProp: 23, generator: 24,
   asyncFunction: 25, callFunction: 26, array: 27, object: 28, typedArray: 29,
   setProp: 31, function: 32, binary: 33, unary: 34, conditional: 35,
-  objectMerge: 36, awaitValue: 37, optionalGetProp: 38, newError: 39, forOf: 40, whileLoop: 41, switchStmt: 42, block: 43, optionalCallMethod: 44, optionalCallFunction: 45, typeofName: 46, typeofName: 46, optionalCallFunction: 45
+  objectMerge: 36, awaitValue: 37, optionalGetProp: 38, newError: 39, forOf: 40, whileLoop: 41, switchStmt: 42, block: 43, optionalCallMethod: 44, optionalCallFunction: 45, typeofName: 46, typeofName: 46, optionalCallFunction: 45,
+  arraySpread: 47, spreadCall: 48, spreadCallMethod: 49
 };
 
 function addConst(constants, value) { constants.push(value); return constants.length - 1; }
@@ -47,6 +48,9 @@ function normalizeTree(node) {
   const got = normalizeNode(node);
   if (!got || typeof got !== 'object') return got;
   if (Array.isArray(got)) return got.map(normalizeTree);
+  // B"H 2026-10-09: preserve native objects (RegExp, Date, Map, Set) — traversing
+  // them via Object.entries destroys them (no enumerable props).
+  if (got instanceof RegExp || got instanceof Date || got instanceof Map || got instanceof Set || got instanceof WeakMap) return got;
   const out = {};
   for (const [key, value] of Object.entries(got)) if (value !== undefined) out[key] = normalizeTree(value);
   return out;
@@ -57,6 +61,10 @@ function normalizeTree(node) {
  * No semantic JSON eval route is emitted: control flow and throw routes become
  * direct VM instructions, while tiny host syscalls only perform native value
  * construction/access where the VM intentionally delegates.
+ *
+ * B"H 2026-10-09: `nullish` (??) compiles to a lazy jump sequence — the right
+ * side is only evaluated when the left is null/undefined. `pow` (**), spread
+ * ops, and `instanceof` route through host syscalls.
  */
 function compileJsonCode(program = {}) {
   const constants = [], bytecode = [];
@@ -93,7 +101,19 @@ function compileJsonCode(program = {}) {
     if (node.get) return load(bytecode, constants, node.get);
     if (Object.prototype.hasOwnProperty.call(node, 'const')) return pushConst(bytecode, constants, node.const);
     if (BIN[node.op]) { emit(node.args[0]); emit(node.args[1]); bytecode.push(BIN[node.op]); return; }
-    if (node.op === 'set') { emit(node.value); store(bytecode, constants, node.name); load(bytecode, constants, node.name); return; }
+    if (node.op === 'set' || node.op === 'declare') { emit(node.value); store(bytecode, constants, node.name); load(bytecode, constants, node.name); return; }
+    if (node.op === 'postUpdate') {
+      // B"H 2026-10-09: postfix — leave OLD value on stack, store NEW.
+      const tmp = `__post${bytecode.length}_${constants.length}`;
+      load(bytecode, constants, node.name);   // [old]
+      store(bytecode, constants, tmp);        // tmp=old
+      load(bytecode, constants, tmp);         // [old]
+      pushConst(bytecode, constants, node.delta.const); // [old, delta]
+      bytecode.push(0x40);                    // [old+delta]
+      store(bytecode, constants, node.name);  // name=old+delta
+      load(bytecode, constants, tmp);         // [old]
+      return;
+    }
     if (node.op === 'syscall') return emitSys(node.id || 0, node.args || []);
     if (node.op === 'class') return emitSys(SYS.class, [{ const: normalizeTree(node.descriptor) }, node.descriptor.superClass || { const: null }]);
     if (node.op === 'new') return emitSys(SYS.new, [node.class, ...(node.args || [])]);
@@ -126,6 +146,23 @@ function compileJsonCode(program = {}) {
       pushConst(bytecode, constants, undefined);
       return;
     }
+    if (node.op === 'nullish') {
+      // a ?? b — lazy: b evaluates only when a is null/undefined.
+      // tmp = a; (tmp == null) ? b : tmp
+      const tmp = `__nullish${bytecode.length}_${constants.length}`;
+      emit(node.args[0]);                    // [a]
+      store(bytecode, constants, tmp);       // tmp = a
+      emitSys(SYS.binary, [{ const: 'eq' }, { get: tmp }, { const: null }]); // [tmp==null]
+      bytecode.push(0x04);                   // JUMP_IF_FALSE (pops)
+      const hasPatch = bytecode.length;
+      bytecode.push(0, 0);
+      emit(node.args[1]);                    // [b] (nullish path)
+      const endPatch = emitJump();
+      patchRelative(hasPatch);               // hasValue:
+      load(bytecode, constants, tmp);        // [a]
+      patchRelative(endPatch);               // end:
+      return;
+    }
     if (node.op === 'block') return emitConstSys(SYS.block, [node]);
     if (node.op === 'try') {
       bytecode.push(0x92);
@@ -143,6 +180,9 @@ function compileJsonCode(program = {}) {
       return;
     }
     if (node.op === 'array') return emitSys(SYS.array, node.items || []);
+    if (node.op === 'arraySpread') return emitSys(SYS.arraySpread, node.parts || []);
+    if (node.op === 'spreadCall') return emitSys(SYS.spreadCall, [node.fn, ...(node.parts || [])]);
+    if (node.op === 'spreadCallMethod') return emitSys(SYS.spreadCallMethod, [node.object, { const: node.method }, ...(node.parts || [])]);
     if (node.op === 'object') {
       const flat = [];
       for (const prop of node.props || []) flat.push({ const: prop.key }, prop.value);
@@ -157,7 +197,7 @@ function compileJsonCode(program = {}) {
       return emitSys(SYS.objectMerge, flat);
     }
     if (node.op === 'typedArray') return emitSys(SYS.typedArray, [{ const: node.kind }, ...(node.items || [])]);
-    if (['eq','seq','neq','sneq','lt','lte','gt','gte','and','or'].includes(node.op)) return emitSys(SYS.binary, [{ const: node.op }, node.args[0], node.args[1]]);
+    if (['eq','seq','neq','sneq','lt','lte','gt','gte','and','or','pow','instanceof'].includes(node.op)) return emitSys(SYS.binary, [{ const: node.op }, node.args[0], node.args[1]]);
     if (node.op === 'typeofName') return emitSys(SYS.typeofName, [{ const: node.name }]);
     if (node.op === 'typeofName') return emitSys(SYS.typeofName, [{ const: node.name }]);
     if (['not','neg','pos','typeof','void'].includes(node.op)) return emitSys(SYS.unary, [{ const: node.op }, node.value]);

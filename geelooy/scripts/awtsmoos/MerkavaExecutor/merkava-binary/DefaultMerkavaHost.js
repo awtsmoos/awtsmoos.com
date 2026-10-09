@@ -5,12 +5,20 @@
  * Chrome reports one exception; it does not consume the process. This host now
  * guards recursive AST interpretation, reports the op/get path that exceeded
  * fuel, and keeps native hooks separate from Merkava function vessels.
+ *
+ * B"H 2026-10-09: stress-test hardening —
+ * - while-loop guard raised to 100M (was 10k, silently truncating legit loops),
+ *   configurable via rootScope.__merkavaMaxLoop.
+ * - `pow` op for ** exponent.
+ * - `instanceof` op with VM-class chain walk + native fallback.
+ * - SYS 47/48/49: arraySpread, spreadCall, spreadCallMethod.
  */
 const { installCompactClasses, newCompactInstance, callCompactMethod } = require('./CompactClassRuntime.js');
 
 function createDefaultHost(rootScope = {}) {
   const MAX_DEPTH = Number(rootScope.__merkavaMaxDepth || 900);
   const MAX_STEPS = Number(rootScope.__merkavaMaxSteps || 240000);
+  const MAX_LOOP = Number(rootScope.__merkavaMaxLoop || 100000000);
   let stepCount = 0;
   const trace = [];
   const RETURN = Symbol('merkavaReturn');
@@ -26,6 +34,10 @@ function createDefaultHost(rootScope = {}) {
 
   const findMethod = (klass, name) => {
     if (!klass) return null;
+    // B"H 2026-10-09: prototype object first — monkey-patched methods override.
+    if (klass.prototype && klass.prototype[name]?.__kind === 'function') {
+      return { __patchedFn: klass.prototype[name], owner: klass };
+    }
     const method = (klass.methods || []).find(m => m.name === name);
     if (method) return { ...method, owner: klass };
     return findMethod(klass.superClass, name);
@@ -93,6 +105,14 @@ function createDefaultHost(rootScope = {}) {
     }
     return value;
   };
+  const spreadFlat = flat => {
+    const out = [];
+    for (let i = 0; i < flat.length;) {
+      if (flat[i++] === true) out.push(...Array.from(flat[i++] || []));
+      else out.push(flat[i++]);
+    }
+    return out;
+  };
   const interpretNode = (node, scope = {}, depth = 0) => {
     stepCount += 1;
     if (stepCount > MAX_STEPS) throw makeVmError("Merkava interpreter step budget exceeded at " + nodeLabel(node));
@@ -104,11 +124,35 @@ function createDefaultHost(rootScope = {}) {
       if (Object.prototype.hasOwnProperty.call(node, 'const')) return node.const;
       if (node.get) return read(node.get, scope);
       if (node.op === 'set') return write(node.name, interpretNode(node.value, scope, depth + 1), scope);
+      if (node.op === 'declare') { const v = interpretNode(node.value, scope, depth + 1); scope[node.name] = v; return v; }
+      // B"H 2026-10-09: postfix i++ returns old value.
+      if (node.op === 'postUpdate') { const old = read(node.name, scope); write(node.name, old + node.delta.const, scope); return old; }
       if (node.op === 'add') return interpretNode(node.args[0], scope, depth + 1) + interpretNode(node.args[1], scope, depth + 1);
       if (node.op === 'sub') return interpretNode(node.args[0], scope, depth + 1) - interpretNode(node.args[1], scope, depth + 1);
       if (node.op === 'mul') return interpretNode(node.args[0], scope, depth + 1) * interpretNode(node.args[1], scope, depth + 1);
       if (node.op === 'div') return interpretNode(node.args[0], scope, depth + 1) / interpretNode(node.args[1], scope, depth + 1);
       if (node.op === 'mod') return interpretNode(node.args[0], scope, depth + 1) % interpretNode(node.args[1], scope, depth + 1);
+      if (node.op === 'pow') return Math.pow(interpretNode(node.args[0], scope, depth + 1), interpretNode(node.args[1], scope, depth + 1));
+      if (node.op === 'nullish') { const a = interpretNode(node.args[0], scope, depth + 1); return a != null ? a : interpretNode(node.args[1], scope, depth + 1); }
+      if (node.op === 'arraySpread') {
+        const out = []; const parts = node.parts || [];
+        for (let i = 0; i < parts.length;) {
+          const isSpread = interpretNode(parts[i++], scope, depth + 1);
+          const val = interpretNode(parts[i++], scope, depth + 1);
+          if (isSpread) out.push(...Array.from(val || [])); else out.push(val);
+        }
+        return out;
+      }
+      if (node.op === 'spreadCall' || node.op === 'spreadCallMethod') {
+        const args = []; const parts = node.parts || [];
+        for (let i = 0; i < parts.length;) {
+          const isSpread = interpretNode(parts[i++], scope, depth + 1);
+          const val = interpretNode(parts[i++], scope, depth + 1);
+          if (isSpread) args.push(...Array.from(val || [])); else args.push(val);
+        }
+        if (node.op === 'spreadCall') return callFunction(interpretNode(node.fn, scope, depth + 1), ...args);
+        return callMethod(interpretNode(node.object, scope, depth + 1), node.method, ...args);
+      }
       if (node.op === 'eq') return interpretNode(node.args[0], scope, depth + 1) == interpretNode(node.args[1], scope, depth + 1);
       if (node.op === 'seq') return interpretNode(node.args[0], scope, depth + 1) === interpretNode(node.args[1], scope, depth + 1);
       if (node.op === 'neq') return interpretNode(node.args[0], scope, depth + 1) != interpretNode(node.args[1], scope, depth + 1);
@@ -123,12 +167,16 @@ function createDefaultHost(rootScope = {}) {
       if (node.op === 'neg') return -interpretNode(node.value, scope, depth + 1);
       if (node.op === 'pos') return +interpretNode(node.value, scope, depth + 1);
       if (node.op === 'typeof') {
-        try { return typeof interpretNode(node.value, scope, depth + 1); }
+        try {
+          const v = interpretNode(node.value, scope, depth + 1);
+          if (v && v.__kind === 'function') return 'function';
+          return typeof v;
+        }
         catch (error) { if (error instanceof ReferenceError) return 'undefined'; throw error; }
       }
       if (node.op === 'void') return void interpretNode(node.value, scope, depth + 1);
-      if (node.op === 'typeofName') { try { return typeof read(node.name, scope); } catch (error) { if (error instanceof ReferenceError) return 'undefined'; throw error; } }
-      if (node.op === 'typeofName') { try { return typeof read(node.name, scope); } catch (error) { if (error instanceof ReferenceError) return 'undefined'; throw error; } }
+      if (node.op === 'typeofName') { try { const tv = read(node.name, scope); if (tv && tv.__kind === 'function') return 'function'; return typeof tv; } catch (error) { if (error instanceof ReferenceError) return 'undefined'; throw error; } }
+      if (node.op === 'typeofName') { try { const tv = read(node.name, scope); if (tv && tv.__kind === 'function') return 'function'; return typeof tv; } catch (error) { if (error instanceof ReferenceError) return 'undefined'; throw error; } }
       if (node.op === 'await') { const value = interpretNode(node.value, scope, depth + 1); return value && value.__kind === 'syncPromise' ? value.value : value; }
       if (node.op === 'array') return (node.items || []).map(item => interpretNode(item, scope, depth + 1));
       if (node.op === 'object') { const out = {}; for (const prop of node.props || []) out[prop.key] = interpretNode(prop.value, scope, depth + 1); return out; }
@@ -137,6 +185,13 @@ function createDefaultHost(rootScope = {}) {
       if (node.op === 'newError') return new Error(interpretNode(node.message, scope, depth + 1));
       if (node.op === 'throw') throw interpretNode(node.value, scope, depth + 1);
       if (node.op === 'try') { try { evalBlock(node.body || [], scope); } catch (error) { const catchScope = Object.create(scope || null); if (node.catchParam) catchScope[node.catchParam] = error; evalBlock(node.catchBody || [], catchScope); } finally { evalBlock(node.finallyBody || [], scope); } return undefined; }
+      if (node.op === 'instanceof') {
+        const a = interpretNode(node.args[0], scope, depth + 1);
+        const b = interpretNode(node.args[1], scope, depth + 1);
+        let cls = a && a.__class;
+        while (cls) { if (cls === b) return true; cls = cls.superClass; }
+        try { return a instanceof b; } catch { return false; }
+      }
       if (node.op === 'class') return defineClass(node.descriptor, interpretNode(node.descriptor.superClass, scope, depth + 1), scope);
       if (node.op === 'new') { const klass = interpretNode(node.class, scope, depth + 1); const args = (node.args || []).map(arg => interpretNode(arg, scope, depth + 1)); if (typeof klass === 'function') return new klass(...args); return klass?.__kind === 'compactClass' ? newCompactInstance(klass, args, rootScope) : newInstance(klass, args); }
       if (node.op === 'function') return makeFunction(node, scope);
@@ -151,7 +206,7 @@ function createDefaultHost(rootScope = {}) {
       if (node.op === 'optionalGetProp') { const object = interpretNode(node.object, scope, depth + 1); return object == null ? undefined : getProp(object, interpretNode(node.prop, scope, depth + 1)); }
       if (node.op === 'if') return evalBlock(interpretNode(node.test, scope, depth + 1) ? (node.consequent || []) : (node.alternate || []), scope);
       if (node.op === 'forOf') { const values = interpretNode(node.right, scope, depth + 1) || []; for (const value of values) { scope[node.left] = value; evalBlock(node.body || [], scope); } return undefined; }
-      if (node.op === 'while') { let guard = 10000; while (interpretNode(node.test, scope, depth + 1) && guard-- > 0) evalBlock(node.body || [], scope); return undefined; }
+      if (node.op === 'while') { let guard = MAX_LOOP; while (interpretNode(node.test, scope, depth + 1) && guard-- > 0) evalBlock(node.body || [], scope); return undefined; }
       if (node.op === 'switch') { const value = interpretNode(node.discriminant, scope, depth + 1); const cases = node.cases || []; const start = Math.max(0, cases.findIndex(item => item.test == null || interpretNode(item.test, scope, depth + 1) === value)); for (const item of cases.slice(start)) evalBlock(item.body || [], scope); return undefined; }
       if (node.op === 'superConstructor') {
         const superClass = scope.__class?.superClass || scope.super?.__class || null;
@@ -172,10 +227,13 @@ function createDefaultHost(rootScope = {}) {
   };
 
   const makeFunction = (descriptor, closureScope = {}) => ({
-    __kind: 'function', name: descriptor.name || '', params: descriptor.params || [], body: descriptor.body || [], closure: closureScope,
+    __kind: 'function', name: descriptor.name || '', params: descriptor.params || [], body: descriptor.body || [], closure: closureScope, arrow: !!descriptor.arrow,
+    // B"H 2026-10-09: functions get a prototype object for `new` constructor pattern.
+    prototype: {},
     call(args = [], thisArg = undefined) {
       const scope = Object.create(this.closure || null);
-      scope.this = thisArg;
+      // B"H 2026-10-09: arrows capture lexical `this` — ignore call-site thisArg.
+      scope.this = this.arrow ? this.closure?.this : thisArg;
       scope.arguments = args;
       let argIndex = 0;
       this.params.forEach(param => { if (param && typeof param === 'object' && param.rest) scope[param.rest] = args.slice(argIndex); else if (param && typeof param === 'object' && param.name) { const value = args[argIndex++]; scope[param.name] = value === undefined ? interpretNode(param.default, scope) : value; } else scope[param] = args[argIndex++]; });
@@ -191,6 +249,15 @@ function createDefaultHost(rootScope = {}) {
   };
   const callMethod = (receiver, method, ...args) => {
     if (receiver == null) throw new TypeError(String(receiver) + ' has no method ' + String(method));
+    // B"H 2026-10-09: Function.prototype.apply/call/bind for VM functions.
+    if (receiver && receiver.__kind === 'function') {
+      if (method === 'apply') return receiver.call(args[1] != null ? Array.from(args[1]) : [], args[0]);
+      if (method === 'call') return receiver.call(args.slice(1), args[0]);
+      if (method === 'bind') {
+        const target = receiver, boundThis = args[0], boundArgs = args.slice(1);
+        return (...callArgs) => target.call([...boundArgs, ...callArgs], boundThis);
+      }
+    }
     if (receiver && receiver.__kind === 'iterator' && method === 'next') return receiver.next();
     if (receiver && receiver.__kind === 'compactInstance') return callCompactMethod(receiver, method, args, rootScope);
     if (receiver && receiver[method]?.__kind === 'function') return receiver[method].call(args, receiver);
@@ -201,6 +268,8 @@ function createDefaultHost(rootScope = {}) {
     const klass = receiver?.__selfClass || receiver?.__class;
     const found = findMethod(klass, method);
     if (!found) { const protoFn = klass?.prototype?.[method]; if (protoFn?.call) return protoFn.call(args, receiver); throw new TypeError(String(method) + ' is not a function'); }
+    // B"H 2026-10-09: monkey-patched prototype method — call the VM function directly.
+    if (found.__patchedFn) return found.__patchedFn.call(args, receiver);
     const superReceiver = found.owner.superClass ? { __kind: 'instance', __class: found.owner.superClass, __selfClass: found.owner.superClass, fields: receiver.fields || {} } : null;
     const scope = Object.assign(Object.create(found.owner.closure || null), { this: receiver, super: superReceiver, arguments: args, __class: found.owner });
     bindParams(scope, found.params || [], args);
@@ -218,6 +287,8 @@ function createDefaultHost(rootScope = {}) {
   const getProp = (obj, prop) => {
     if (obj == null) throw new TypeError('Cannot read properties of ' + String(obj) + " (reading '" + String(prop) + "')");
     if (Object.prototype.hasOwnProperty.call(obj, prop)) return obj[prop];
+    // B"H 2026-10-09: instance.constructor returns the class.
+    if (obj.__kind === 'instance' && prop === 'constructor') return obj.__class;
     if (obj.__kind === 'instance') {
       const found = findMethod(obj.__class, prop);
       if (found) return (...args) => callMethod(obj, prop, ...args);
@@ -229,7 +300,18 @@ function createDefaultHost(rootScope = {}) {
   const setProp = (obj, prop, value) => { if (obj != null) obj[prop] = value; return value; };
 
   return {
-    20: defineClass, 21: (klass, ...args) => typeof klass === 'function' ? new klass(...args) : (klass?.__kind === 'compactClass' ? newCompactInstance(klass, args, rootScope) : newInstance(klass, args)), 22: callMethod, 23: getProp, 24: makeGenerator, 25: makeAsyncVessel, 26: callFunction, 27: (...items) => items, 28: (...flat) => { const out = {}; for (let i = 0; i < flat.length; i += 2) out[flat[i]] = flat[i + 1]; return out; }, 29: (kind, ...items) => new (globalThis[kind] || Uint8Array)(items || []), 30: node => interpretNode(node, Object.create(rootScope)), 31: setProp, 32: node => makeFunction(node, rootScope), 33: (op, a, b) => interpretNode({ op, args: [{ const: a }, { const: b }] }), 34: (op, value) => interpretNode({ op, value: { const: value } }), 35: (test, consequent, alternate) => test ? consequent : alternate, 36: (...flat) => { const out = {}; for (let i = 0; i < flat.length;) { if (flat[i++] === true) Object.assign(out, flat[i++] || {}); else out[flat[i++]] = flat[i++]; } return out; }, 37: value => value && value.__kind === 'syncPromise' ? value.value : value, 38: (obj, prop) => obj == null ? undefined : getProp(obj, prop), 39: message => new Error(message), 40: node => interpretNode(node, Object.create(rootScope)), 41: node => interpretNode(node, Object.create(rootScope)), 42: node => interpretNode(node, Object.create(rootScope)), 43: node => interpretNode({ op: 'block', body: node.body || [] }, Object.create(rootScope)), 44: (receiver, method, ...args) => optionalCallMethod(receiver, method, ...args), 45: (fn, ...args) => fn == null ? undefined : callFunction(fn, ...args), 46: name => { try { return typeof read(name, rootScope); } catch (error) { if (error instanceof ReferenceError) return 'undefined'; throw error; } }, 60: classes => installCompactClasses(classes, rootScope)
+    20: defineClass, 21: (klass, ...args) => {
+      if (typeof klass === 'function') return new klass(...args);
+      if (klass?.__kind === 'compactClass') return newCompactInstance(klass, args, rootScope);
+      // B"H 2026-10-09: `new` on a plain VM function — constructor pattern.
+      // Instance links to fn.prototype; fn runs with this=instance.
+      if (klass?.__kind === 'function') {
+        const instance = { __kind: 'instance', __class: { methods: [], prototype: klass.prototype || {}, superClass: null }, fields: {} };
+        klass.call(args, instance);
+        return instance;
+      }
+      return newInstance(klass, args);
+    }, 22: callMethod, 23: getProp, 24: makeGenerator, 25: makeAsyncVessel, 26: callFunction, 27: (...items) => items, 28: (...flat) => { const out = {}; for (let i = 0; i < flat.length; i += 2) out[flat[i]] = flat[i + 1]; return out; }, 29: (kind, ...items) => new (globalThis[kind] || Uint8Array)(items || []), 30: node => interpretNode(node, Object.create(rootScope)), 31: setProp, 32: node => makeFunction(node, rootScope), 33: (op, a, b) => interpretNode({ op, args: [{ const: a }, { const: b }] }), 34: (op, value) => interpretNode({ op, value: { const: value } }), 35: (test, consequent, alternate) => test ? consequent : alternate, 36: (...flat) => { const out = {}; for (let i = 0; i < flat.length;) { if (flat[i++] === true) Object.assign(out, flat[i++] || {}); else out[flat[i++]] = flat[i++]; } return out; }, 37: value => value && value.__kind === 'syncPromise' ? value.value : value, 38: (obj, prop) => obj == null ? undefined : getProp(obj, prop), 39: message => new Error(message), 40: node => interpretNode(node, Object.create(rootScope)), 41: node => interpretNode(node, Object.create(rootScope)), 42: node => interpretNode(node, Object.create(rootScope)), 43: node => interpretNode({ op: 'block', body: node.body || [] }, Object.create(rootScope)), 44: (receiver, method, ...args) => optionalCallMethod(receiver, method, ...args), 45: (fn, ...args) => fn == null ? undefined : callFunction(fn, ...args), 46: name => { try { return typeof read(name, rootScope); } catch (error) { if (error instanceof ReferenceError) return 'undefined'; throw error; } }, 47: (...flat) => spreadFlat(flat), 48: (fn, ...flat) => callFunction(fn, ...spreadFlat(flat)), 49: (receiver, method, ...flat) => callMethod(receiver, method, ...spreadFlat(flat)), 60: classes => installCompactClasses(classes, rootScope)
   };
 }
 module.exports = { createDefaultHost };

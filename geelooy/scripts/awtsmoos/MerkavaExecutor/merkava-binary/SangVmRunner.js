@@ -51,6 +51,8 @@ function installRuntimeNatives(memory) {
   g.decodeURI = g.decodeURI || decodeURI;
   g.encodeURIComponent = g.encodeURIComponent || encodeURIComponent;
   g.decodeURIComponent = g.decodeURIComponent || decodeURIComponent;
+  // B"H 2026-10-09: Symbol for computed method names.
+  g.Symbol = g.Symbol || Symbol;
 }
 
 /**
