@@ -3,6 +3,7 @@
 //Blessed is He
 
 import { createCIntermediateRepresentation } from "../../pe/c/ir/index.js";
+import { buildIrModule } from "../../pe/c/ir/module.js";
 import { tokenize } from "../../pe/c/lexer.js";
 import { parse } from "../../pe/c/parser/index.js";
 import { preprocessC } from "../../pe/c/preprocessor.js";
@@ -38,7 +39,13 @@ export async function compilePortableCProgram(source, targetId, options = {}) {
 		dataLayout: options.ir?.dataLayout,
 		sourceLanguage: "awtsmoos-c-subset-v1"
 	});
-	const lowering = generatePortableCAssembly(irBundle.module, targetId);
+	// B"H: the envelope above carries verification/serialization; the lowered
+	// module below is what the backend consumes (version + lowered functions).
+	const irModule = buildIrModule(ast, {
+		dataLayout: options.ir?.dataLayout,
+		sourceLanguage: "awtsmoos-c-subset-v1"
+	});
+	const lowering = generatePortableCAssembly(irModule, targetId);
 	const artifact = await compileNativeAsm(lowering.assembly, targetId);
 	return Object.freeze({
 		...artifact,
