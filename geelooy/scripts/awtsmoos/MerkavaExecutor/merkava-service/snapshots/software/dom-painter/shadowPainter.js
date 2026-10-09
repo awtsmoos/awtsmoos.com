@@ -103,26 +103,34 @@ export function parseBoxShadows(style = {}) {
 
 /**
  * Paint box shadows. mode "outset" paints non-inset shadows under the box;
- * mode "inset" paints inset shadows over it. Simple implementation: solid
- * color rect (expanded by spread, offset by dx/dy), blurred, composited.
+ * mode "inset" paints inset shadows over it.
+ * B"H 2026-10-09: three fixes — (1) spread EXPANDS the shadow rect on all
+ * sides (was shifting it instead); (2) CSS paints the FIRST shadow in the
+ * list on top, so paint back-to-front; (3) the temp buffer is built at device
+ * px via fb.scale (blitFrom takes a device-px buffer with CSS-px offsets).
  */
 export function paintBoxShadows(fb, item, radii, shadows, mode) {
   try {
     if (!fb || !item || !Array.isArray(shadows)) return;
     const want = shadows.filter(s => (mode === "inset") === !!s.inset);
     if (!want.length) return;
-    for (const sh of want) {
+    if (typeof fb.blitFrom !== "function") return;
+    const scale = (fb && fb.scale) || 1;
+    for (let si = want.length - 1; si >= 0; si--) {
+      const sh = want[si];
       const blur = Math.max(0, sh.blur || 0);
       const spread = sh.spread || 0;
       const pad = Math.ceil(blur * 2) + 4;
-      const x0 = Math.round(item.x + (mode === "inset" ? 0 : sh.dx) - spread - pad);
-      const y0 = Math.round(item.y + (mode === "inset" ? 0 : sh.dy) - spread - pad);
-      const sw = Math.max(1, Math.ceil(item.width + spread * 2 + pad * 2));
-      const shh = Math.max(1, Math.ceil(item.height + spread * 2 + pad * 2));
-      // Paint the shadow shape into a temp buffer.
+      // Shadow rect = border box expanded by spread, offset by (dx,dy).
+      const rx = (item.x || 0) + (mode === "inset" ? 0 : sh.dx) - spread;
+      const ry = (item.y || 0) + (mode === "inset" ? 0 : sh.dy) - spread;
+      const rw = Math.max(1, (item.width || 0) + spread * 2);
+      const rh = Math.max(1, (item.height || 0) + spread * 2);
+      const sw = Math.max(1, Math.ceil((rw + pad * 2) * scale));
+      const shh = Math.max(1, Math.ceil((rh + pad * 2) * scale));
       const tmp = { width: sw, height: shh, data: new Uint8ClampedArray(sw * shh * 4) };
-      const ix = pad + spread, iy = pad + spread;
-      const iw = Math.max(1, Math.ceil(item.width)), ih = Math.max(1, Math.ceil(item.height));
+      const ix = Math.round(pad * scale), iy = Math.round(pad * scale);
+      const iw = Math.max(1, Math.round(rw * scale)), ih = Math.max(1, Math.round(rh * scale));
       const col = sh.color || [0, 0, 0, 128];
       for (let y = 0; y < ih; y++) {
         for (let x = 0; x < iw; x++) {
@@ -131,8 +139,21 @@ export function paintBoxShadows(fb, item, radii, shadows, mode) {
           tmp.data[o + 2] = col[2]; tmp.data[o + 3] = col[3];
         }
       }
-      if (blur > 0 && typeof boxBlurRegionLocal === "function") boxBlurRegionLocal(tmp.data, sw, shh, Math.max(1, Math.round(blur / 2)));
-      if (fb.blitFrom) fb.blitFrom(tmp, x0, y0, null);
+      if (blur > 0) boxBlurRegionLocal(tmp.data, sw, shh, Math.max(1, Math.round(blur * scale)));
+      if (mode === "inset") {
+        // B"H 2026-10-09: inset shadows are a soft INNER edge — punch out the
+        // box interior (eroded by the blur radius) so the blurred solid rect
+        // doesn't fill the center. What remains is the inner fade.
+        const er = Math.max(0, Math.round(blur * scale));
+        const px0 = Math.round(pad * scale), py0 = Math.round(pad * scale);
+        const px1 = Math.round((pad + rw) * scale), py1 = Math.round((pad + rh) * scale);
+        for (let yy = Math.max(0, py0 + er); yy < Math.min(shh, py1 - er); yy++) {
+          for (let xx = Math.max(0, px0 + er); xx < Math.min(sw, px1 - er); xx++) {
+            tmp.data[(yy * sw + xx) * 4 + 3] = 0;
+          }
+        }
+      }
+      fb.blitFrom(tmp, rx - pad, ry - pad);
     }
   } catch (_) { /* shadows are decorative; never break the render */ }
 }
