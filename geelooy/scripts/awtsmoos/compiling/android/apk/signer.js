@@ -422,9 +422,11 @@ function signerError(code, detail = "") {
 function jarManifestBytes(entries, scheme) {
 	const digestBase64 = scheme ? scheme.digestBase64 : sha256Base64;
 	const digestName = scheme ? scheme.digestName : "SHA-256-Digest";
-	let text = "Manifest-Version: 1.0\r\nCreated-By: Awtsmoos\r\n\r\n";
+	// Sections sorted by name to match ZIP central directory order (like aapt2).
+	const sorted = [...entries].sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0);
+	let text = "Manifest-Version: 1.0\r\n\r\n";
 	const sections = [];
-	for (const entry of entries) {
+	for (const entry of sorted) {
 		if (entry.name.startsWith("META-INF/")) continue;
 		const digest = digestBase64(entry.bytes);
 		const sectionText = `Name: ${entry.name}\r\n${digestName}: ${digest}\r\n\r\n`;
@@ -441,7 +443,7 @@ function jarSignatureFileBytes(manifest, scheme, schemes = []) {
 	const signedSchemes = schemes.length ? `X-Android-APK-Signed: ${schemes.join(",")}\r\n` : "";
 	const digestBase64 = scheme ? scheme.digestBase64 : sha256Base64;
 	const digestName = scheme ? scheme.digestName : "SHA-256-Digest";
-	let text = "Signature-Version: 1.0\r\nCreated-By: Awtsmoos\r\n"
+	let text = "Signature-Version: 1.0\r\n"
 		+ signedSchemes
 		+ `${digestName}-Manifest: ${digestBase64(manifest.bytes)}\r\n\r\n`;
 	for (const section of manifest.sections) {
