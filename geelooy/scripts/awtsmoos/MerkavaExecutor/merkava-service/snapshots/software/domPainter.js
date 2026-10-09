@@ -32,6 +32,10 @@ import { paintTextItem } from "./dom-painter/textPainter.js";
 import { paintWithEffects } from "./animation.js";
 import { computeScene3D } from "./transform3d.js";
 import { parseClipPath } from "./dom-painter/blendClipMask.js";
+import { parseBoxShadows, parseTextShadows } from "./dom-painter/shadowPainter.js";
+import { parseFilterList, FILTER_FUNCTIONS, filterPadPx } from "./cssFilter.js";
+import { parseColor } from "./color.js";
+import { borderRadii, borderWidth } from "./dom-painter/styleTools.js";
 import { Framebuffer } from "./framebuffer.js";
 import { ScaledFramebuffer } from "./supersample.js";
 import transformPkg from "../../../merkava-browser/standards/css/CssTransform.js";
@@ -135,7 +139,10 @@ function opacityOf(style = {}) {
   return Math.min(1, Math.max(0, n));
 }
 
-/** Scale the alpha channel of a surface (raw Framebuffer or ScaledFramebuffer). */
+/** Scale the alpha channel of a surface (raw Framebuffer or ScaledFramebuffer).
+ * B"H (compositor): legacy helper — superseded by blitFrom's alphaScale
+ * option, which folds the multiply into the composite pass. Kept for
+ * compatibility; new code should pass { alphaScale } to blitFrom. */
 function scaleSurfaceAlpha(surf, k) {
   const base = surf && surf.base ? surf.base : surf;
   if (!base || !base.data) return;
@@ -143,12 +150,41 @@ function scaleSurfaceAlpha(surf, k) {
   for (let i = 3; i < d.length; i += 4) d[i] = Math.round(d[i] * k);
 }
 
-/** Full-size transparent group surface in page coords, honoring fb's scale. */
-function makeGroupSurface(fb) {
+/**
+ * B"H (compositor): pooled group surfaces. The old code allocated a
+ * full-size transparent Framebuffer per opacity group per frame (2.4MB at
+ * 960x640) — pure GC churn. The pool reuses a few full-size surfaces
+ * across groups and frames; acquire clears via the uniform-color .fill()
+ * fast path. Nested groups hold one surface per nesting level; the pool
+ * grows to the max depth seen (capped).
+ */
+const groupSurfacePool = [];
+function acquireGroupSurface(fb) {
   const scale = (fb && fb.scale) || 1;
   const cw = Math.max(1, fb.width || 1), ch = Math.max(1, fb.height || 1);
+  for (let i = 0; i < groupSurfacePool.length; i++) {
+    const e = groupSurfacePool[i];
+    if (e.cw === cw && e.ch === ch && e.scale === scale) {
+      groupSurfacePool.splice(i, 1);
+      e.surf.base.clear([0, 0, 0, 0]);
+      return e.surf;
+    }
+  }
   const base = new Framebuffer(Math.round(cw * scale), Math.round(ch * scale), [0, 0, 0, 0]);
   return new ScaledFramebuffer(base, scale, cw, ch);
+}
+function releaseGroupSurface(surf) {
+  if (!surf) return;
+  if (groupSurfacePool.length < 4) {
+    groupSurfacePool.push({ cw: surf.width, ch: surf.height, scale: surf.scale, surf });
+  }
+}
+
+/** Full-size transparent group surface in page coords, honoring fb's scale.
+ * B"H (compositor): prefer acquireGroupSurface/releaseGroupSurface (pooled).
+ * Kept for compatibility. */
+function makeGroupSurface(fb) {
+  return acquireGroupSurface(fb);
 }
 
 /** True when m's DOM node descends from root's DOM node. */
@@ -160,6 +196,83 @@ function isInSubtree(m, root) {
     n = n.parentNode;
   }
   return false;
+}
+
+/**
+ * B"H (compositor): occlusion culling. Paint order is back-to-front, so a
+ * front-to-back pre-pass marks items fully covered by opaque items in front
+ * of them; the main loop then skips them entirely.
+ *
+ * Conservative by design:
+ * - Only axis-aligned, untransformed, unclipped boxes with a fully opaque
+ *   background-color, no border, no border-radius, no blend mode, no
+ *   clip-path/mask, and opacity 1 qualify as OCCLUDERS.
+ * - Only items whose paint is contained in their layout box (no outset
+ *   shadow, no filter, no text-shadow, no transform) can be SKIPPED.
+ * - Opacity-group members and group roots are excluded: they composite
+ *   through group surfaces, not the main framebuffer.
+ * Returns a Set of items to skip (empty when nothing is occluded).
+ */
+function computeOccludedSet(ordered, paintSet, isGroupRoot, ancestorInfo) {
+  const occluded = new Set();
+  const inGroup = new Set();
+  for (const item of ordered) {
+    if (isGroupRoot(item)) {
+      for (const d of ordered) if (d !== item && isInSubtree(d, item)) inGroup.add(d);
+    }
+  }
+  const occluders = [];
+  const isCovered = (x0, y0, x1, y1) => {
+    for (const o of occluders) {
+      if (o.x0 <= x0 && o.y0 <= y0 && o.x1 >= x1 && o.y1 >= y1) return true;
+    }
+    return false;
+  };
+  for (let i = ordered.length - 1; i >= 0; i--) {
+    const item = ordered[i];
+    if (paintSet && !paintSet.has(item)) continue;
+    if (inGroup.has(item) || isGroupRoot(item)) continue;
+    const st = item.style || {};
+    const vis = String(st.visibility || "visible").trim().toLowerCase();
+    if (vis === "hidden" || vis === "collapse") continue;
+    const ix = Number(item.x) || 0, iy = Number(item.y) || 0;
+    const iw = Number(item.width) || 0, ih = Number(item.height) || 0;
+    if (iw <= 0 || ih <= 0) continue;
+    const info = ancestorInfo(item);
+    // Transforms move paint outside the box: neither role allowed.
+    if (info.accum2d || info.boxScene) continue;
+    // Paint-spreading effects: the item's paint is not box-contained.
+    let spread = false;
+    try {
+      spread = parseBoxShadows(st).some(s => !s.inset);
+      if (!spread && item.kind === "#text") spread = parseTextShadows(st).length > 0;
+      if (!spread) {
+        const fl = parseFilterList(st.filter);
+        spread = fl.length > 0 && fl.every(f => FILTER_FUNCTIONS.has(f.name));
+      }
+    } catch (_) { spread = true; }
+    if (!spread && isCovered(ix, iy, ix + iw, iy + ih)) {
+      occluded.add(item);
+      continue;
+    }
+    // Occluder candidacy: strict opaque box.
+    if (spread) continue;
+    if (opacityOf(st) < 1) continue;
+    if (String(st["mix-blend-mode"] || "normal").trim().toLowerCase() !== "normal") continue;
+    if (st["clip-path"] || st.clipPath || st["mask-image"] || st.maskImage) continue;
+    if (borderWidth(st, item.kind) !== 0) continue;
+    const bg = parseColor(st["background-color"], null);
+    if (!bg || bg[3] < 255) continue;
+    const radii = borderRadii(st, iw, ih);
+    if (radii.tl[0] > 0 || radii.tl[1] > 0 || radii.tr[0] > 0 || radii.tr[1] > 0 ||
+        radii.br[0] > 0 || radii.br[1] > 0 || radii.bl[0] > 0 || radii.bl[1] > 0) continue;
+    if (info.clipChain && info.clipChain.length) continue;
+    const clip = info.oclip;
+    if (clip && (ix < clip.x0 || iy < clip.y0 || ix + iw > clip.x1 || iy + ih > clip.y1)) continue;
+    occluders.push({ x0: ix, y0: iy, x1: ix + iw, y1: iy + ih });
+    if (occluders.length > 256) occluders.shift();
+  }
+  return occluded;
 }
 
 export function paintLayout(fb, layout, canvas = {}, options = {}) {
@@ -327,24 +440,98 @@ export function paintLayout(fb, layout, canvas = {}, options = {}) {
 
   // Paint root's whole subtree into a group surface (nested opacity groups
   // recurse), applying the root's own opacity once around everything.
+  //
+  // B"H (compositor): pooled surface (no per-frame alloc), bounds-limited
+  // final composite (only the painted region is blitted, not the whole
+  // surface), and the group opacity folded into the blit via alphaScale
+  // (replaces the old separate full-surface scaleSurfaceAlpha pass).
   function paintGroupSurface(root) {
-    const surf = makeGroupSurface(fb);
+    const surf = acquireGroupSurface(fb);
+    const scale = surf.scale || 1;
+    // Union bounds (CSS px, page coords) of everything painted into the
+    // surface. Items with 2D/3D transforms can paint anywhere -> full blit.
+    let bx0 = Infinity, by0 = Infinity, bx1 = -Infinity, by1 = -Infinity;
+    let fullBlit = false;
+    const trackBounds = (m) => {
+      const ix = Number(m.x) || 0, iy = Number(m.y) || 0;
+      const iw = Number(m.width) || 0, ih = Number(m.height) || 0;
+      let pad = 0;
+      const st = m.style || {};
+      // Outset box-shadows / text-shadows / filters extend past the box.
+      try {
+        for (const sh of parseBoxShadows(st)) {
+          if (sh.inset) continue;
+          const e = Math.abs(sh.dx || 0) + Math.abs(sh.dy || 0) + (sh.spread || 0) + (sh.blur || 0) * 2 + 8;
+          if (e > pad) pad = e;
+        }
+        if (m.kind === "#text") {
+          for (const sh of parseTextShadows(st)) {
+            const e = Math.abs(sh.dx || 0) + Math.abs(sh.dy || 0) + (sh.blur || 0) * 2 + 8;
+            if (e > pad) pad = e;
+          }
+        }
+        const fl = parseFilterList(st.filter);
+        if (fl.length && fl.every(f => FILTER_FUNCTIONS.has(f.name))) pad += filterPadPx(fl) + 8;
+      } catch (_) { /* conservative: pad stays */ }
+      const info = ancestorInfo(m);
+      if (info.accum2d || info.boxScene) fullBlit = true;
+      if (ix - pad < bx0) bx0 = ix - pad;
+      if (iy - pad < by0) by0 = iy - pad;
+      if (ix + iw + pad > bx1) bx1 = ix + iw + pad;
+      if (iy + ih + pad > by1) by1 = iy + ih + pad;
+    };
     const lskip = new Set();
     for (const m of ordered) {
       if (m !== root && !isInSubtree(m, root)) continue;
       if (lskip.has(m)) continue;
       if (m !== root && isGroupRoot(m)) {
         const inner = paintGroupSurface(m);
-        surf.blitFrom(inner.base, 0, 0);
+        try {
+          const ib = inner.__bounds;
+          const op = opacityOf(m.style);
+          if (ib) {
+            surf.blitFrom(inner.base, 0, 0, {
+              srcRect: {
+                x0: Math.max(0, Math.floor(ib.x0 * scale)),
+                y0: Math.max(0, Math.floor(ib.y0 * scale)),
+                x1: Math.min(inner.base.width, Math.ceil(ib.x1 * scale)),
+                y1: Math.min(inner.base.height, Math.ceil(ib.y1 * scale)),
+              },
+              alphaScale: op,
+            });
+            // Union the inner group's bounds into ours.
+            if (ib.x0 < bx0) bx0 = ib.x0;
+            if (ib.y0 < by0) by0 = ib.y0;
+            if (ib.x1 > bx1) bx1 = ib.x1;
+            if (ib.y1 > by1) by1 = ib.y1;
+            if (ib.full) fullBlit = true;
+          } else {
+            surf.blitFrom(inner.base, 0, 0, { alphaScale: op });
+            fullBlit = true;
+          }
+        } finally {
+          releaseGroupSurface(inner);
+        }
         for (const d of ordered) if (d !== m && isInSubtree(d, m)) lskip.add(d);
       } else {
+        trackBounds(m);
         paintOne(surf, m, m === root ? 1 : undefined);
       }
     }
-    const op = opacityOf(root.style);
-    if (op < 1) scaleSurfaceAlpha(surf, op);
+    if (!fullBlit && bx1 > bx0 && by1 > by0) {
+      surf.__bounds = { x0: bx0, y0: by0, x1: bx1, y1: by1, full: false };
+    } else {
+      surf.__bounds = null;
+    }
     return surf;
   }
+
+  // B"H (compositor): occlusion culling — front-to-back pre-pass marks items
+  // fully covered by opaque items in front of them. Default on; pass
+  // { occlusion: false } to disable.
+  const occluded = options.occlusion === false
+    ? new Set()
+    : computeOccludedSet(ordered, paintSet, isGroupRoot, ancestorInfo);
 
   const skipped = new Set();
   for (const item of ordered) {
@@ -352,9 +539,31 @@ export function paintLayout(fb, layout, canvas = {}, options = {}) {
     // B"H 2026-10-09 (viewport culling): context-only ancestors provide
     // clip/transform/opacity lookups but never paint themselves.
     if (paintSet && !paintSet.has(item)) continue;
+    if (occluded.has(item)) continue;
     if (isGroupRoot(item)) {
       const gs = paintGroupSurface(item);
-      fb.blitFrom(gs.base, 0, 0);
+      try {
+        // B"H (compositor): bounds-limited composite + folded group alpha.
+        // The surface is pooled and released back after the blit.
+        const b = gs.__bounds;
+        const gscale = gs.scale || 1;
+        const op = opacityOf(item.style);
+        if (b) {
+          fb.blitFrom(gs.base, 0, 0, {
+            srcRect: {
+              x0: Math.max(0, Math.floor(b.x0 * gscale)),
+              y0: Math.max(0, Math.floor(b.y0 * gscale)),
+              x1: Math.min(gs.base.width, Math.ceil(b.x1 * gscale)),
+              y1: Math.min(gs.base.height, Math.ceil(b.y1 * gscale)),
+            },
+            alphaScale: op,
+          });
+        } else {
+          fb.blitFrom(gs.base, 0, 0, { alphaScale: op });
+        }
+      } finally {
+        releaseGroupSurface(gs);
+      }
       for (const d of ordered) if (d !== item && isInSubtree(d, item)) skipped.add(d);
       continue;
     }
