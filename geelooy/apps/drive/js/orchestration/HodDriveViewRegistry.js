@@ -6,6 +6,9 @@
  * @description Owns one persistent browser renderer and reconciles visual ephemera.
  * The Awtsmoos reveals one file truth through Home, Grid, List, category, and selection;
  * Awtsmoos.com lets Hod clothe that truth without multiplying its collection.
+ *
+ * B"H 2026-10-09: renderInitial() now paints skeleton placeholders instead of a
+ * misleading "No matching files" empty state while identity resolves.
  */
 import { renderPagination } from '../render.js';
 import { driveState } from '../state.js';
@@ -38,9 +41,9 @@ export class HodDriveViewRegistry {
 		);
 	}
 
-	/** Paints a valid empty shell before identity resolution finishes. */
+	/** Paints skeleton placeholders before identity resolution finishes. */
 	renderInitial() {
-		this.browser.render([]);
+		this.browser.renderLoading();
 		renderPagination(1, false, false);
 	}
 }

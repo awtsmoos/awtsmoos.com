@@ -43,6 +43,61 @@
     }
 }
 
+/* B"H — Skeleton loading placeholders.
+   Shown while entries load so users never see a misleading "No matching files"
+   flash. Shimmer respects prefers-reduced-motion. Tokens only, no hardcodes. */
+.drive-skeleton {
+    display: grid;
+    gap: 12px;
+    padding: 4px 2px;
+}
+
+.drive-skeleton-cards {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+}
+
+.drive-skeleton-rows {
+    grid-template-columns: 1fr;
+}
+
+.drive-skeleton-item {
+    border-radius: var(--drive-radius-small);
+    background: var(--drive-surface-raised);
+    border: 1px solid var(--drive-line);
+    min-height: 96px;
+    position: relative;
+    overflow: hidden;
+}
+
+.drive-skeleton-rows .drive-skeleton-item {
+    min-height: 56px;
+}
+
+.drive-skeleton-item::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(100deg, transparent 20%, var(--drive-line-strong) 50%, transparent 80%);
+    transform: translateX(-100%);
+    animation: drive-skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .drive-skeleton-item::after {
+        animation: none;
+        transform: none;
+        opacity: 0.5;
+    }
+}
+
+@keyframes drive-skeleton-shimmer {
+    to { transform: translateX(100%); }
+}
+
+.drive-skeleton[aria-busy="true"] {
+    cursor: progress;
+}
+
 /* B"H — [hidden] must win over component display rules (flex, grid, etc.).
    This file loads last in the Drive cascade, so source order gives it
    priority without !important (Yaakov 2026-10-08 binding law). */

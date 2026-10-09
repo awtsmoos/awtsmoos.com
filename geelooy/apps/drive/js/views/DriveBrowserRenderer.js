@@ -6,6 +6,9 @@
  * @description Paints Home, Grid, and List from one authoritative entry collection plus bounded presentation categories.
  * The Awtsmoos is one truth revealed through many useful arrangements; Awtsmoos.com changes
  * garment and category without multiplying the file-state from which every visible card is born.
+ *
+ * B"H 2026-10-09: added renderLoading() — skeleton placeholders shown while
+ * entries load, so users never see a misleading "No matching files" flash.
  */
 import { driveState } from '../state.js';
 import { filterEntriesBySearch } from '../entryMetadata.js';
@@ -15,6 +18,8 @@ import { DriveEntryMenu } from './DriveEntryMenu.js';
 import { DriveEntryPresenter } from './DriveEntryPresenter.js';
 import { DriveFolderCard } from './DriveFolderCard.js';
 import { DriveHomeRenderer } from './DriveHomeRenderer.js';
+
+const SKELETON_COUNT = 8;
 
 export class DriveBrowserRenderer {
 	constructor(onAction, selection, categories, labels) {
@@ -27,12 +32,15 @@ export class DriveBrowserRenderer {
 		this.folderCard = new DriveFolderCard(onAction, this.menu, selection);
 		this.row = new DriveEntryListRow(onAction, this.menu, selection);
 		this.home = new DriveHomeRenderer(this.card, this.folderCard);
+		this.loading = false;
 	}
 
 	/** Replaces the visible browser from current authoritative entries only. */
 	render(entries = []) {
+		this.loading = false;
 		const host = document.querySelector('#entry-rows');
 		if (!host) return;
+		host.removeAttribute('aria-busy');
 		const searched = filterEntriesBySearch(entries, driveState.filters.search);
 		const presented = this.folderFirst(searched.map(entry => this.presenter.present(entry)));
 		const categorized = this.categories?.filter(presented) || presented;
@@ -46,6 +54,36 @@ export class DriveBrowserRenderer {
 		else host.append(this.grid(visible));
 		this.selection?.paint();
 		this.labels?.refresh(entries);
+	}
+
+	/**
+	 * Paints skeleton placeholders while entries load.
+	 * Call render() with real entries when loading completes.
+	 */
+	renderLoading() {
+		this.loading = true;
+		const host = document.querySelector('#entry-rows');
+		if (!host) return;
+		host.setAttribute('aria-busy', 'true');
+		host.replaceChildren();
+		this.paintContext(0, true);
+		const mode = document.body.dataset.driveView || 'home';
+		const skeleton = document.createElement('div');
+		skeleton.className = 'drive-skeleton ' + (mode === 'list' ? 'drive-skeleton-rows' : 'drive-skeleton-cards');
+		skeleton.setAttribute('aria-busy', 'true');
+		skeleton.setAttribute('aria-label', 'Loading files');
+		for (let i = 0; i < SKELETON_COUNT; i++) {
+			const item = document.createElement('div');
+			item.className = 'drive-skeleton-item';
+			item.setAttribute('aria-hidden', 'true');
+			skeleton.append(item);
+		}
+		host.append(skeleton);
+	}
+
+	/** True while the skeleton loading state is visible. */
+	isLoading() {
+		return this.loading;
 	}
 
 	grid(items) {
@@ -86,12 +124,12 @@ export class DriveBrowserRenderer {
 		});
 	}
 
-	paintContext(count) {
+	paintContext(count, loading = false) {
 		const location = document.querySelector('#drive-location');
 		const itemCount = document.querySelector('#drive-item-count');
 		const up = document.querySelector('#path-back');
 		if (location) location.textContent = driveState.currentPath || 'My Drive';
-		if (itemCount) itemCount.textContent = `${count} ${count === 1 ? 'item' : 'items'}`;
+		if (itemCount) itemCount.textContent = loading ? 'Loading…' : `${count} ${count === 1 ? 'item' : 'items'}`;
 		if (!up) return;
 		up.disabled = !driveState.currentPath;
 		up.title = driveState.currentPath ? 'Go up one folder' : 'Already at My Drive';
