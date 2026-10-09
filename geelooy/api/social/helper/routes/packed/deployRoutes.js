@@ -14,6 +14,7 @@
  * Routes (mounted under /api/social by the packed composer):
  *   POST /packed/deploy/push   — write files to the production working tree
  *   GET  /packed/deploy/status — check the API is live and configured
+ *   POST /packed/deploy/restart — restart the production service (MAC-SEVERANCE)
  *
  * Push body: {
  *   operatorKey: string (must match AWTSMOOS_DEPLOY_KEY),
@@ -118,6 +119,7 @@ class PackedDeployRoutes {
 		return {
 			'/packed/deploy/push': this.push.bind(this),
 			'/packed/deploy/status': this.status.bind(this),
+			'/packed/deploy/restart': this.restart.bind(this),
 		};
 	}
 
@@ -185,6 +187,50 @@ class PackedDeployRoutes {
 			maxFileBytes: MAX_FILE_BYTES,
 			maxFiles: MAX_FILES_PER_PUSH,
 		};
+	}
+
+	// MAC-SEVERANCE: restart the production service via HTTPS.
+	// This eliminates the last SSH dependency — the VM can deploy files
+	// AND restart the service entirely over HTTPS, never needing the Mac.
+	async restart() {
+		const bad = requireMethod(this.$i, 'POST');
+		if (bad) return bad;
+		const auth = this.checkAuth();
+		if (auth) return auth;
+
+		try {
+			// Try systemd first (production), fall back gracefully
+			execFileSync('systemctl', ['--user', 'restart', 'awtsmoos'], { timeout: 30000 });
+			appendDeployLog({
+				at: new Date().toISOString(),
+				message: 'Service restart via deploy API',
+				restart: true,
+			});
+			return {
+				success: true,
+				message: 'B"H service restart initiated via HTTPS. No Mac involved.',
+			};
+		} catch (e) {
+			// If systemctl --user fails, try system-level (may need sudoers)
+			try {
+				execFileSync('sudo', ['systemctl', 'restart', 'awtsmoos'], { timeout: 30000 });
+				appendDeployLog({
+					at: new Date().toISOString(),
+					message: 'Service restart via deploy API (sudo)',
+					restart: true,
+				});
+				return {
+					success: true,
+					message: 'B"H service restart initiated via HTTPS (sudo). No Mac involved.',
+				};
+			} catch (e2) {
+				return {
+					success: false,
+					error: 'RESTART_FAILED',
+					message: `Restart failed: ${e2.message}`,
+				};
+			}
+		}
 	}
 
 	async push() {
