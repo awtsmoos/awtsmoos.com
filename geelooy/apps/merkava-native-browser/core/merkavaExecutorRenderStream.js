@@ -24,7 +24,8 @@ export async function buildMerkavaExecutorRenderStream(page) {
   const scriptErrors = [];
   for (const source of page.scripts || []) {
     try {
-      const binary = await encodeMode2JsBinary(String(source || ""));
+      // B"H (startup): fast single-pass encode — first paint doesn't need the 8x size search.
+      const binary = await encodeMode2JsBinary(String(source || ""), { fast: true });
       runMode2JsBinary(binary, { globals: runtime.globals() });
     } catch (error) {
       scriptErrors.push({ message: error.message, bytes: Buffer.byteLength(String(source || ""), "utf8") });
