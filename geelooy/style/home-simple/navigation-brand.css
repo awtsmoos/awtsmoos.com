@@ -17,11 +17,11 @@ body[data-geelooy-route="home"] .brand-mark {
 	place-items: center;
 	width: 2.35rem;
 	height: 2.35rem;
-	border: 1px solid rgba(154, 221, 255, .28);
+	border: 1px solid var(--home-line-soft);
 	border-radius: .8rem;
-	background: linear-gradient(145deg, rgba(104, 185, 255, .23), rgba(129, 77, 204, .18));
-	box-shadow: inset 0 1px rgba(255, 255, 255, .12), 0 8px 24px rgba(30, 89, 160, .18);
-	color: #e9f6ff;
+	background: linear-gradient(145deg, var(--home-accent-soft), var(--home-wash));
+	box-shadow: inset 0 1px var(--home-inset-hi), 0 8px 24px var(--home-glow);
+	color: var(--home-accent-strong);
 	font-size: 1.12rem;
 	font-weight: 850;
 	transition: border-color .16s ease, background .16s ease, box-shadow .16s ease, transform .16s ease;
@@ -38,7 +38,7 @@ body[data-geelooy-route="home"] .brand-copy {
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .brand-copy small {
-	color: #718099;
+	color: var(--text-muted);
 	font-size: .58rem;
 	font-weight: 700;
 	letter-spacing: .09em;
@@ -46,7 +46,7 @@ body[data-geelooy-route="home"] .brand-copy {
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) :where(.brand:hover) .brand-mark, :where(body[data-geelooy-route="home"]) :where(.brand:focus-visible) .brand-mark {
-	border-color: rgba(157, 224, 255, .58);
+	border-color: var(--home-accent);
 	transform: translateY(-1px);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */

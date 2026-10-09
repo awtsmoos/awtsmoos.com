@@ -67,16 +67,16 @@ body[data-geelooy-route="home"] .direct-navigation small {
 }
 
 body[data-geelooy-route="home"] .direct-navigation a:hover {
-	border-color: #4c9ccb;
-	background: #102840;
-	color: #fff;
+	border-color: var(--panel-border-strong);
+	background: var(--panel-raised);
+	color: var(--text-primary);
 	transform: translateY(-2px);
 }
 
 body[data-geelooy-route="home"] .direct-navigation a:active {
-	border-color: #4c9ccb;
-	background: #0c2033;
-	color: #fff;
+	border-color: var(--home-accent);
+	background: var(--panel-raised);
+	color: var(--text-primary);
 	filter: brightness(.96);
 	transform: translateY(1px) scale(.98);
 }

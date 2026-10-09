@@ -8,10 +8,10 @@ body[data-geelooy-route="home"] .shliach-hero-card {
 	isolation: isolate;
 	display: grid;
 	min-height: clamp(22rem, 44vw, 32rem);
-	border: 1px solid #2c5879;
+	border: 1px solid var(--panel-border);
 	border-radius: 1.65rem;
-	background: #050914;
-	box-shadow: 0 28px 72px rgba(0, 0, 0, .42);
+	background: var(--panel-background);
+	box-shadow: var(--home-card-shadow);
 }
 body[data-geelooy-route="home"] .shliach-hero-media {
 	position: absolute;
@@ -30,7 +30,7 @@ body[data-geelooy-route="home"] .shliach-hero-image {
 body[data-geelooy-route="home"] .shliach-hero-scrim {
 	position: absolute;
 	inset: 0;
-	background: linear-gradient(180deg, rgba(4, 8, 16, .16) 0%, rgba(4, 8, 16, .34) 42%, rgba(3, 6, 13, .84) 100%);
+	background: var(--home-hero-scrim);
 }
 body[data-geelooy-route="home"] .shliach-hero-content {
 	position: relative;
@@ -47,22 +47,25 @@ body[data-geelooy-route="home"] .shliach-hero-title {
 	min-width: 0;
 	max-width: 100%;
 	margin: 0;
-	color: #f2f8ff;
+	color: var(--home-hero-ink);
+	font-family: var(--dream-serif-font);
 	font-size: clamp(2.1rem, 6.4vw, 3.6rem);
-	font-weight: 850;
+	font-weight: 700;
 	letter-spacing: -.01em;
 	line-height: 1.02;
 	overflow-wrap: anywhere;
 	text-wrap: balance;
+	text-shadow: 0 2px 18px rgba(0, 0, 0, .7), 0 1px 4px rgba(0, 0, 0, .85);
 }
 body[data-geelooy-route="home"] .shliach-hero-sub {
 	min-width: 0;
 	max-width: 100%;
 	margin: 0;
-	color: #c9d8ec;
+	color: var(--home-hero-ink-soft);
 	font-size: clamp(1rem, 2.6vw, 1.28rem);
 	font-weight: 650;
 	overflow-wrap: anywhere;
+	text-shadow: 0 1px 12px rgba(0, 0, 0, .65), 0 1px 3px rgba(0, 0, 0, .8);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .shliach-hero-content .search-shell {
@@ -75,10 +78,10 @@ body[data-geelooy-route="home"] .shliach-hero-cta {
 	gap: .5rem;
 	min-height: 44px;
 	padding: .7rem 1.15rem;
-	border: 1px solid rgba(255, 210, 104, .38);
+	border: 1px solid var(--home-accent-strong);
 	border-radius: 999px;
-	background: rgba(22, 17, 7, .55);
-	color: #ffe2a1;
+	background: var(--home-accent);
+	color: var(--home-accent-ink);
 	font-size: .86rem;
 	font-weight: 800;
 	text-decoration: none;
@@ -87,18 +90,25 @@ body[data-geelooy-route="home"] .shliach-hero-cta {
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .shliach-hero-cta:hover, :where(body[data-geelooy-route="home"]) .shliach-hero-cta:focus-visible {
-	border-color: rgba(255, 214, 120, .7);
-	background: rgba(38, 29, 11, .72);
+	border-color: var(--home-accent-strong);
+	background: var(--home-accent-strong);
+	color: var(--home-accent-ink);
 	outline: 3px solid var(--focus-ring);
 	outline-offset: 3px;
 	transform: translateY(-1px);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .shliach-hero-cta:active {
-	border-color: rgba(255, 214, 120, .55);
-	background: rgba(28, 22, 9, .8);
+	border-color: var(--home-accent-strong);
+	background: var(--home-accent-strong);
 	filter: brightness(.96);
 	transform: translateY(1px) scale(.98);
+}
+/* B"H 2026-10-09 — Dream audit: disabled state for the hero CTA. */
+:where(body[data-geelooy-route="home"]) .shliach-hero-cta[aria-disabled="true"] {
+	opacity: .55;
+	cursor: not-allowed;
+	transform: none;
 }
 @media (max-width: 680px) { body[data-geelooy-route="home"] .shliach-hero-card {
 		min-height: clamp(21rem, 118vw, 30rem);
@@ -115,13 +125,5 @@ body[data-geelooy-route="home"] .shliach-hero-cta {
 		transform: none;
 	} }
 
-/* B"H — Yaakov 2026-10-08: homepage hero contrast fix — lighten scrim, add text shadows */
-body[data-geelooy-route="home"] .shliach-hero-scrim {
-  background: linear-gradient(180deg, rgba(4,8,16,.08) 0%, rgba(4,8,16,.20) 42%, rgba(3,6,13,.62) 100%) !important;
-}
-body[data-geelooy-route="home"] .shliach-hero-title {
-  text-shadow: 0 2px 18px rgba(0,0,0,.7), 0 1px 4px rgba(0,0,0,.85) !important;
-}
-body[data-geelooy-route="home"] .shliach-hero-sub {
-  text-shadow: 0 1px 12px rgba(0,0,0,.65), 0 1px 3px rgba(0,0,0,.8) !important;
-}
+/* B"H — Yaakov 2026-10-08: homepage hero contrast fix — lighten scrim, add text shadows.
+   B"H 2026-10-09: folded into the base rules above (same selector, later order wins — no !important). */

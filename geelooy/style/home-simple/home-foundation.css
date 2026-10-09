@@ -54,10 +54,10 @@ body[data-geelooy-route="home"] .home-skip-link {
 	clip-path: none;
 	opacity: 1;
 	pointer-events: auto;
-	border: 2px solid #bce7ff;
+	border: 2px solid var(--home-accent);
 	border-radius: .75rem;
-	background: #071221;
-	color: #fff;
+	background: var(--panel-raised);
+	color: var(--text-primary);
 	font-weight: 850;
 	white-space: normal;
 }
@@ -78,8 +78,8 @@ body[data-geelooy-route="home"] :where(a, button, input, summary, [tabindex]):fo
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) ::selection {
-	background: #225a7d;
-	color: #fff;
+	background: var(--home-accent);
+	color: var(--home-accent-ink);
 }
 @media (prefers-reduced-motion: reduce) { html[data-geelooy-route="home"] {
 		scroll-behavior: auto;

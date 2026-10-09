@@ -10,10 +10,10 @@ body[data-geelooy-route="home"] .system-signal {
 	align-items: center;
 	gap: .45rem;
 	padding: .42rem .62rem;
-	border: 1px solid rgba(111, 220, 180, .12);
+	border: 1px solid var(--home-line-soft);
 	border-radius: 999px;
-	background: rgba(37, 119, 88, .07);
-	color: #8bb7a7;
+	background: var(--home-wash);
+	color: var(--text-muted);
 	font-size: .62rem;
 	font-weight: 800;
 	letter-spacing: .06em;
@@ -24,8 +24,8 @@ body[data-geelooy-route="home"] .system-signal {
 	width: .42rem;
 	height: .42rem;
 	border-radius: 50%;
-	background: #62dfaa;
-	box-shadow: 0 0 .8rem rgba(98, 223, 170, .7);
+	background: var(--home-success);
+	box-shadow: 0 0 .8rem var(--home-success);
 	animation: signal-pulse 2.4s ease-in-out infinite;
 }
 @keyframes signal-pulse{

@@ -14,17 +14,17 @@ Awtsmoos.com makes the mobile dock a living threshold without hiding the links f
 		grid-template-columns: repeat(5, minmax(0, 1fr));
 		gap: .32rem;
 		padding: .46rem;
-		border: 1px solid rgba(255, 220, 154, .24);
+		border: 1px solid var(--panel-border-strong);
 		border-radius: 1.45rem;
 		background:
-			radial-gradient(circle at 50% 0%, rgba(255, 207, 105, .12), transparent 65%),
-			linear-gradient(145deg, rgba(5, 7, 19, .94), rgba(12, 8, 27, .94));
-		box-shadow: 0 22px 58px rgba(0, 0, 0, .58), 0 0 40px rgba(113, 72, 255, .13), inset 0 1px rgba(255, 255, 255, .07);
+			radial-gradient(circle at 50% 0%, var(--home-glow), transparent 65%),
+			linear-gradient(145deg, var(--panel-background), var(--panel-raised));
+		box-shadow: var(--home-card-shadow);
 		backdrop-filter: blur(24px) saturate(1.35);
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 680px) { :where(body[data-geelooy-route="home"]) :where(nav.mobile-dock) a {
-		--dock-accent: 147, 128, 255;
+		--dock-accent: 138, 109, 59;
 		position: relative;
 		isolation: isolate;
 		display: grid;
@@ -35,8 +35,8 @@ Awtsmoos.com makes the mobile dock a living threshold without hiding the links f
 		overflow: hidden;
 		border: 1px solid rgba(var(--dock-accent), .16);
 		border-radius: 1rem;
-		background: linear-gradient(160deg, rgba(var(--dock-accent), .08), rgba(255, 255, 255, .018));
-		color: #c8d1e3;
+		background: linear-gradient(160deg, rgba(var(--dock-accent), .08), var(--home-inset-hi));
+		color: var(--text-muted);
 		text-decoration: none;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
@@ -72,9 +72,9 @@ Awtsmoos.com makes the mobile dock a living threshold without hiding the links f
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 680px) { :where(body[data-geelooy-route="home"]) :where(nav.mobile-dock) a[aria-current="page"], :where(body[data-geelooy-route="home"]) :where(nav.mobile-dock) a:focus-visible {
 		border-color: rgba(var(--dock-accent), .62);
-		background: linear-gradient(160deg, rgba(var(--dock-accent), .2), rgba(255, 255, 255, .04));
-		box-shadow: 0 0 26px rgba(var(--dock-accent), .2), inset 0 1px rgba(255, 255, 255, .09);
-		color: #fff8e8;
+		background: linear-gradient(160deg, rgba(var(--dock-accent), .2), var(--home-inset-hi));
+		box-shadow: 0 0 26px rgba(var(--dock-accent), .2), inset 0 1px var(--home-inset-hi);
+		color: var(--home-accent-strong);
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 680px) { :where(body[data-geelooy-route="home"]) :where(nav.mobile-dock) a :first-child {

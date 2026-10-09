@@ -20,7 +20,7 @@ body[data-geelooy-route="home"] .hero, body[data-geelooy-route="home"] .action-p
 	height: 13rem;
 	border-radius: 50%;
 	background:
-		radial-gradient(ellipse, rgba(56, 179, 255, .13), rgba(123, 76, 255, .08) 46%, transparent 74%);
+		radial-gradient(ellipse, var(--home-glow), var(--home-wash) 46%, transparent 74%);
 	content: "";
 	filter: blur(34px);
 	pointer-events: none;
@@ -38,15 +38,18 @@ body[data-geelooy-route="home"] .featured-worlds {
 	height: 25rem;
 	border-radius: 50%;
 	background:
-		radial-gradient(ellipse at 50% 18%, rgba(255, 193, 73, .13), rgba(119, 68, 255, .09) 46%, transparent 76%);
+		radial-gradient(ellipse at 50% 18%, var(--home-glow), var(--home-wash) 46%, transparent 76%);
 	content: "";
 	filter: blur(40px);
 	pointer-events: none;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+/* B"H 2026-10-09 — Dream audit: gradient text rebuilt from theme tokens so it
+   stays legible on the warm cream paper (the old white/violet stops were
+   invisible on light backgrounds). */
 :where(body[data-geelooy-route="home"]) .featured-heading h2 {
 	max-width: 16ch;
-	background: linear-gradient(110deg, #fff 0%, #ffe9b8 48%, #bca5ff 100%);
+	background: linear-gradient(110deg, var(--sefer-title-ink) 0%, var(--home-accent) 48%, var(--home-accent-strong) 100%);
 	-webkit-background-clip: text;
 	background-clip: text;
 	color: transparent;
@@ -62,7 +65,7 @@ body[data-geelooy-route="home"] .featured-grid {
 body[data-geelooy-route="home"] .featured-card {
 	transform-style: preserve-3d;
 	box-shadow:
-		0 24px 62px rgba(0, 0, 0, .32),
-		0 0 0 1px rgba(255, 255, 255, .025),
-		inset 0 1px rgba(255, 255, 255, .045);
+		var(--home-card-shadow),
+		0 0 0 1px var(--home-line-soft),
+		inset 0 1px var(--home-inset-hi);
 }

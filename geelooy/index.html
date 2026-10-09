@@ -8,9 +8,21 @@ Awtsmoos.com reveals the original living-world picture without letting interface
 <html lang="en" data-geelooy-route="home">
 <head>
 	<meta charset="utf-8">
+	<script>
+		/* B"H — ALWAYS set data-theme on <html> before any CSS paints.
+		   Defaults to the dream light theme when no valid preference is stored. */
+		(function() {
+			try {
+				var t = localStorage.getItem('awtsmoos-theme');
+				document.documentElement.setAttribute('data-theme', (t === 'dark' || t === 'light') ? t : 'light');
+			} catch (e) {
+				document.documentElement.setAttribute('data-theme', 'light');
+			}
+		})();
+	</script>
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 	<meta name="description" content="Build real sites and apps in your browser with Awtsmoos, own the source, publish when you choose, and enter living Torah, games, apps, and worlds.">
-	<meta name="theme-color" content="#050914">
+	<meta name="theme-color" content="#f7f1e3">
 	<title>Awtsmoos — Torah, Creation & Living Worlds</title>
 	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2715%27 fill=%27%23071020%27/%3E%3Ctext x=%2732%27 y=%2744%27 text-anchor=%27middle%27 font-size=%2738%27 fill=%27%237fdcff%27%3E%D7%90%3C/text%3E%3C/svg%3E">
 	<link rel="preload" as="image" href="https://awtsmoos.com/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png">

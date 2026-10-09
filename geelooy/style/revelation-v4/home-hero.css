@@ -10,41 +10,40 @@ Awtsmoos.com makes wonder immense while every action remains honest and bright.
 	grid-template-columns: minmax(0, 1.14fr) minmax(22rem, .86fr);
 	min-height: clamp(470px, 49vw, 650px);
 	overflow: hidden;
-	border: 1px solid rgba(255, 214, 128, .48);
+	border: 1px solid var(--panel-border-strong);
 	border-radius: 2.2rem;
 	background:
-		linear-gradient(140deg, rgba(5, 4, 14, .98), rgba(8, 12, 29, .98)),
-		radial-gradient(circle at 50% 0%, rgba(255, 205, 100, .13), transparent 50%);
+		linear-gradient(140deg, var(--panel-background), var(--panel-raised)),
+		radial-gradient(circle at 50% 0%, var(--home-glow), transparent 50%);
 	box-shadow:
-		0 58px 148px rgba(0, 0, 0, .7),
-		0 0 0 1px rgba(135, 92, 255, .2),
-		0 0 102px rgba(124, 72, 255, .22),
-		0 0 160px rgba(255, 193, 69, .12),
-		inset 0 1px rgba(255, 240, 203, .09);
+		var(--home-card-shadow),
+		0 0 0 1px var(--home-line-soft),
+		0 0 102px var(--home-glow),
+		inset 0 1px var(--home-inset-hi);
 	transform-style: preserve-3d;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) :where(main.home) .dance-frame::after {
-	border-color: rgba(255, 229, 169, .2);
-	background: linear-gradient(120deg, rgba(255, 255, 255, .04), transparent 30%, rgba(128, 83, 255, .04) 72%, transparent);
-	box-shadow: inset 0 0 116px rgba(26, 10, 59, .36), inset 0 0 36px rgba(255, 201, 92, .11);
+	border-color: var(--home-line-soft);
+	background: linear-gradient(120deg, var(--home-inset-hi), transparent 30%, var(--home-wash) 72%, transparent);
+	box-shadow: inset 0 0 116px var(--home-veil), inset 0 0 36px var(--home-glow);
 	pointer-events: none;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) main.home .hero-media {
 	min-width: 0;
 	background:
-		radial-gradient(circle at 52% 43%, rgba(255, 204, 94, .24), transparent 37%),
-		radial-gradient(circle at 30% 62%, rgba(121, 73, 255, .16), transparent 50%),
-		#03040c;
+		radial-gradient(circle at 52% 43%, var(--home-glow), transparent 37%),
+		radial-gradient(circle at 30% 62%, var(--home-wash), transparent 50%),
+		var(--panel-raised);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) :where(main.home) .hero-media::after {
 	position: absolute;
 	inset: 0;
 	background:
-		linear-gradient(90deg, transparent 58%, rgba(5, 5, 16, .84) 91%),
-		linear-gradient(180deg, transparent 60%, rgba(4, 4, 14, .74));
+		linear-gradient(90deg, transparent 58%, var(--home-veil) 91%),
+		linear-gradient(180deg, transparent 60%, var(--home-veil));
 	content: "";
 	pointer-events: none;
 }
@@ -64,25 +63,25 @@ Awtsmoos.com makes wonder immense while every action remains honest and bright.
 	justify-content: center;
 	padding: clamp(1.75rem, 3.6vw, 3.9rem);
 	background:
-		radial-gradient(circle at 92% 10%, rgba(133, 83, 255, .27), transparent 16rem),
-		radial-gradient(circle at 18% 92%, rgba(255, 191, 70, .1), transparent 14rem),
-		linear-gradient(135deg, rgba(9, 7, 23, .94), rgba(7, 13, 31, .88));
+		radial-gradient(circle at 92% 10%, var(--home-glow), transparent 16rem),
+		radial-gradient(circle at 18% 92%, var(--home-wash), transparent 14rem),
+		linear-gradient(135deg, var(--panel-background), var(--panel-raised));
 	backdrop-filter: blur(15px) saturate(1.14);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) :where(main.home) .banner-copy .eyebrow {
-	color: #ffe1a5;
+	color: var(--home-accent-strong);
 	letter-spacing: .15em;
-	text-shadow: 0 0 30px rgba(255, 198, 82, .46);
+	text-shadow: 0 0 30px var(--home-glow);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) main.home .hero-title {
 	max-width: 11ch;
-	background: linear-gradient(112deg, #fff 0%, #fff5d9 31%, #ffd06f 58%, #bd9dff 100%);
+	background: linear-gradient(112deg, var(--sefer-title-ink) 0%, var(--home-accent-strong) 45%, var(--home-accent) 100%);
 	-webkit-background-clip: text;
 	background-clip: text;
 	color: transparent;
-	filter: drop-shadow(0 8px 27px rgba(255, 194, 77, .14));
+	filter: drop-shadow(0 8px 27px var(--home-glow));
 	font-size: clamp(2.7rem, 5.45vw, 5.7rem);
 	line-height: .92;
 	letter-spacing: -.06em;
@@ -91,7 +90,7 @@ Awtsmoos.com makes wonder immense while every action remains honest and bright.
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) main.home .hero-summary {
 	max-width: 54ch;
-	color: #d7deef;
+	color: var(--text-muted);
 	font-size: clamp(1rem, 1.38vw, 1.16rem);
 	line-height: 1.72;
 }
@@ -99,22 +98,22 @@ Awtsmoos.com makes wonder immense while every action remains honest and bright.
 :where(body[data-geelooy-route="home"]) main.home .creation-form {
 	margin-top: 1.3rem;
 	padding: .92rem;
-	border: 1px solid rgba(255, 208, 116, .3);
+	border: 1px solid var(--panel-border-strong);
 	border-radius: 1.25rem;
-	background: linear-gradient(135deg, rgba(2, 4, 14, .74), rgba(17, 10, 36, .64));
-	box-shadow: 0 22px 56px rgba(0, 0, 0, .36), 0 0 40px rgba(125, 74, 255, .09), inset 0 1px rgba(255, 255, 255, .06);
+	background: linear-gradient(135deg, var(--panel-background), var(--panel-raised));
+	box-shadow: var(--home-card-shadow), 0 0 40px var(--home-glow), inset 0 1px var(--home-inset-hi);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) :where(main.home) .creation-field input {
-	background: rgba(255, 255, 255, .07);
-	border-color: rgba(177, 188, 255, .27);
-	color: #fff;
+	background: var(--home-input-background);
+	border-color: var(--panel-border);
+	color: var(--text-primary);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) :where(main.home) .creation-field button {
-	background: linear-gradient(135deg, #ffe6a5, #f8b64b 46%, #aa70ff 125%);
-	box-shadow: 0 12px 36px rgba(255, 181, 58, .3), 0 0 30px rgba(137, 83, 255, .13);
-	color: #160d08;
+	background: linear-gradient(135deg, var(--home-accent-strong), var(--home-accent) 60%, var(--home-accent-strong) 125%);
+	box-shadow: 0 12px 36px var(--home-glow);
+	color: var(--home-accent-ink);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 /* @tunnel-interactive-states: auto-generated by css-guarantee */

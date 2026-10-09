@@ -5,19 +5,81 @@
  *
  * The Awtsmoos is beyond color, depth, and layer; Awtsmoos.com gives Home a bounded local vocabulary
  * so no neighboring route receives its palette or stacking order merely because both exist in one document universe.
+ *
+ * B"H 2026-10-09 — Dream theme: the Home route follows the approved post-reader dream design
+ * (warm cream light theme, deep warm dark theme, elegant serif, gold accents). Light is the default;
+ * :root[data-theme="dark"] (set before paint by the inline bootstrap in index.html, honoring the
+ * stored awtsmoos-theme) switches to the deep warm dark. Zero !important, tokens only.
  */
 html[data-geelooy-route="home"] {
-	color-scheme: dark;
-	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-	font-synthesis: none;
-	--page-background: #030711;
-	--panel-background: #091326;
-	--panel-raised: #0d1a30;
-	--panel-border: #1d3552;
-	--panel-border-strong: #34668f;
-	--text-primary: #f6f9ff;
-	--text-muted: #9aacbf;
-	--focus-ring: #71d4ff;
+	/* Dream typography — canonical stacks from the approved post-reader design. */
+	--dream-hebrew-font: "Frank Ruhl Libre", "Cardo", "Times New Roman", serif;
+	--dream-serif-font: "Source Serif 4", "Cardo", Georgia, serif;
+	--dream-sans-font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+	/* Dream sefer palette — light (warm cream) default. */
+	--sefer-paper: #f7f1e3;
+	--sefer-paper-deep: #efe4cd;
+	--sefer-ink: #2b2118;
+	--sefer-title-ink: #1f1712;
+	--sefer-ink-soft: #5a4c3d;
+	--sefer-accent: #8a6d3b;
+	--sefer-rule: #d9c9a8;
+	--sefer-card: #fffdf6;
+	--sefer-focus: #b3541e;
+	--sefer-shadow: 0 2px 14px rgba(90, 70, 40, 0.10);
+	/* Home semantic vocabulary mapped onto the dream palette (light). */
+	--page-background: var(--sefer-paper);
+	--panel-background: var(--sefer-card);
+	--panel-raised: #fbf6ea;
+	--panel-border: var(--sefer-rule);
+	--panel-border-strong: #b49a5c;
+	--text-primary: var(--sefer-ink);
+	--text-muted: var(--sefer-ink-soft);
+	--text-faint: #8a795f;
+	--focus-ring: var(--sefer-focus);
+	--home-accent: var(--sefer-accent);
+	--home-accent-strong: #6f5527;
+	--home-accent-soft: rgba(138, 109, 59, 0.12);
+	--home-accent-ink: #fffdf6;
+	--home-glow: rgba(138, 109, 59, 0.16);
+	--home-wash: rgba(138, 109, 59, 0.07);
+	--home-line-soft: rgba(138, 109, 59, 0.18);
+	--home-input-background: #fffdf6;
+	--home-placeholder: #9a8a70;
+	--home-veil: rgba(31, 23, 18, 0.45);
+	--home-hero-ink: #fffdf6;
+	--home-hero-ink-soft: #f3e9d2;
+	--home-hero-scrim: linear-gradient(180deg, rgba(43, 30, 16, 0.08) 0%, rgba(43, 30, 16, 0.20) 42%, rgba(31, 23, 18, 0.62) 100%);
+	--home-card-shadow: 0 18px 46px rgba(90, 70, 40, 0.18);
+	--home-success: #4e7c43;
+	--home-danger: #a83a2e;
+	--home-inset-hi: rgba(255, 255, 255, 0.55);
+	--home-backdrop: rgba(31, 23, 18, 0.78);
+	--home-speck: rgba(138, 109, 59, 0.42);
+	/* Revelation-v4 cosmos tokens remapped to the dream palette (light) so the
+	   inherited home-scoped revelation rules rhyme with the dream design. */
+	--g4-bg: var(--sefer-paper);
+	--g4-bg-deep: var(--sefer-paper-deep);
+	--g4-surface: rgba(255, 253, 246, 0.82);
+	--g4-surface-strong: rgba(255, 253, 246, 0.96);
+	--g4-surface-soft: rgba(138, 109, 59, 0.06);
+	--g4-surface-hover: rgba(138, 109, 59, 0.10);
+	--g4-line: rgba(138, 109, 59, 0.20);
+	--g4-line-strong: rgba(138, 109, 59, 0.34);
+	--g4-text: var(--sefer-ink);
+	--g4-text-secondary: var(--sefer-ink-soft);
+	--g4-text-muted: #8a795f;
+	--g4-accent: var(--sefer-accent);
+	--g4-accent-strong: #6f5527;
+	--g4-cyan: var(--sefer-focus);
+	--g4-gold: var(--sefer-accent);
+	--g4-success: #4e7c43;
+	--g4-danger: #a83a2e;
+	--g4-focus: var(--sefer-focus);
+	--g4-shadow-1: 0 8px 30px rgba(90, 70, 40, 0.16);
+	--g4-shadow-2: 0 18px 54px rgba(90, 70, 40, 0.22);
+	--g4-shadow-float: 0 28px 90px rgba(90, 70, 40, 0.30);
+	/* Stacking layers (unchanged). */
 	--home-layer-atmosphere: 1;
 	--home-layer-content: 4;
 	--home-layer-search: 8;
@@ -35,6 +97,72 @@ html[data-geelooy-route="home"] {
 	--home-local-overlay: 3;
 	--home-local-control: 4;
 	--home-local-copy: 5;
+	color-scheme: light;
+	font-family: var(--dream-sans-font);
+	font-synthesis: none;
 	background: var(--page-background);
 	color: var(--text-primary);
+}
+/* B"H — Dream dark theme: deep warm dark, same gold accent language. */
+html[data-geelooy-route="home"][data-theme="dark"] {
+	--sefer-paper: #171209;
+	--sefer-paper-deep: #100c06;
+	--sefer-ink: #f0e7d3;
+	--sefer-title-ink: #faf3e2;
+	--sefer-ink-soft: #c9b992;
+	--sefer-accent: #d4a94e;
+	--sefer-rule: #4a3a22;
+	--sefer-card: #201a10;
+	--sefer-focus: #e8a34d;
+	--sefer-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
+	--page-background: var(--sefer-paper);
+	--panel-background: var(--sefer-card);
+	--panel-raised: #2a2114;
+	--panel-border: var(--sefer-rule);
+	--panel-border-strong: #6f5527;
+	--text-primary: var(--sefer-ink);
+	--text-muted: var(--sefer-ink-soft);
+	--text-faint: #9c8c6d;
+	--focus-ring: var(--sefer-focus);
+	--home-accent: var(--sefer-accent);
+	--home-accent-strong: #e8bd68;
+	--home-accent-soft: rgba(212, 169, 78, 0.14);
+	--home-accent-ink: #171209;
+	--home-glow: rgba(212, 169, 78, 0.18);
+	--home-wash: rgba(212, 169, 78, 0.08);
+	--home-line-soft: rgba(212, 169, 78, 0.24);
+	--home-input-background: #201a10;
+	--home-placeholder: #7d6f57;
+	--home-veil: rgba(16, 12, 6, 0.62);
+	--home-hero-ink: #faf3e2;
+	--home-hero-ink-soft: #e6d9b8;
+	--home-hero-scrim: linear-gradient(180deg, rgba(23, 18, 9, 0.10) 0%, rgba(23, 18, 9, 0.24) 42%, rgba(16, 12, 6, 0.66) 100%);
+	--home-card-shadow: 0 18px 46px rgba(0, 0, 0, 0.42);
+	--home-success: #7fb873;
+	--home-danger: #e08a7d;
+	--home-inset-hi: rgba(255, 255, 255, 0.08);
+	--home-backdrop: rgba(16, 12, 6, 0.82);
+	--home-speck: rgba(212, 169, 78, 0.50);
+	--g4-bg: var(--sefer-paper);
+	--g4-bg-deep: var(--sefer-paper-deep);
+	--g4-surface: rgba(32, 26, 16, 0.82);
+	--g4-surface-strong: rgba(32, 26, 16, 0.96);
+	--g4-surface-soft: rgba(212, 169, 78, 0.07);
+	--g4-surface-hover: rgba(212, 169, 78, 0.11);
+	--g4-line: rgba(212, 169, 78, 0.24);
+	--g4-line-strong: rgba(212, 169, 78, 0.38);
+	--g4-text: var(--sefer-ink);
+	--g4-text-secondary: var(--sefer-ink-soft);
+	--g4-text-muted: #9c8c6d;
+	--g4-accent: var(--sefer-accent);
+	--g4-accent-strong: #e8bd68;
+	--g4-cyan: var(--sefer-focus);
+	--g4-gold: var(--sefer-accent);
+	--g4-success: #7fb873;
+	--g4-danger: #e08a7d;
+	--g4-focus: var(--sefer-focus);
+	--g4-shadow-1: 0 8px 30px rgba(0, 0, 0, 0.35);
+	--g4-shadow-2: 0 18px 54px rgba(0, 0, 0, 0.45);
+	--g4-shadow-float: 0 28px 90px rgba(0, 0, 0, 0.55);
+	color-scheme: dark;
 }

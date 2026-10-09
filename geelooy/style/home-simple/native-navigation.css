@@ -28,8 +28,8 @@ The Awtsmoos entrusts Explore to native details and summary behavior, removing t
 .navigation-hub summary:hover,
 .navigation-hub summary:focus-visible,
 .navigation-hub[open] summary {
-	background: rgba(126, 166, 226, .13);
-	color: #fff;
+	background: var(--home-accent-soft);
+	color: var(--text-primary);
 	outline: none;
 }
 

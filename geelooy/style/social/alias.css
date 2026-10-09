@@ -4,13 +4,30 @@
 @import "./alias-parts/forms.css";
 @import "./alias-parts/responsive.css";
 
-/* B"H — alias activity contract surface for profile/menu flows. */
+/* B"H 2026-10-09 — Dream audit: the alias shell root carries the dream palette
+   so pre-render and empty states (e.g. "@x was not found") never flash
+   browser-default white, in either theme. */
+body {
+  margin: 0;
+  background: var(--alias-bg);
+  color: var(--alias-text);
+  font-family: var(--dream-sans-font);
+}
+body ::selection {
+  background: var(--alias-accent);
+  color: var(--alias-panel);
+}
+
+/* B"H — alias activity contract surface for profile/menu flows.
+   B"H 2026-10-09 — Dream audit: border follows the dream --alias-line token. */
 .alias-activity-summary {
-  border: 1px solid rgba(148, 163, 184, .22);
+  border: 1px solid var(--alias-line);
   border-radius: 1rem;
   display: grid;
   gap: .45rem;
   padding: .85rem;
+  background: var(--alias-panel);
+  color: var(--alias-text);
 }
 
 .alias-activity-summary strong {

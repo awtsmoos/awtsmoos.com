@@ -16,7 +16,7 @@ body[data-geelooy-route="home"] .dance-frame, body[data-geelooy-route="home"] .f
 	border-radius: inherit;
 	background: radial-gradient(
 		420px circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
-		rgba(152, 221, 255, .13),
+		var(--home-glow),
 		transparent 56%
 	);
 	content: "";

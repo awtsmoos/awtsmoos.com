@@ -2,6 +2,18 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <script>
+            /* B"H — ALWAYS set data-theme on <html> before any CSS paints.
+               Defaults to the dream light theme when no valid preference is stored. */
+            (function() {
+                try {
+                    var t = localStorage.getItem('awtsmoos-theme');
+                    document.documentElement.setAttribute('data-theme', (t === 'dark' || t === 'light') ? t : 'light');
+                } catch (e) {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                }
+            })();
+        </script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=legend-002">
         <link rel="stylesheet" href="/style/social/alias.css">
