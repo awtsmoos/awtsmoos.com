@@ -669,6 +669,12 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 		   controls must render styled even when the chain breaks.
 		   Yaakov's laws: every interactive element gets full states;
 		   explicit colors for both themes; NEVER !important. */
+		/* B"H — Yaakov: language toggle NEVER on the main page.
+		   It lives ONLY inside the Scribe's Lens settings panel.
+		   This hides it if JS ever renders it as a direct child of .meluket-sefer. */
+		:root .post-reader-localized-context .meluket-sefer > .meluket-lang-toggle {
+			display: none;
+		}
 		:root .post-reader-localized-context .meluket-lang-toggle,
 		:root[data-theme="light"] .post-reader-localized-context .meluket-lang-toggle {
 			display: flex;
@@ -721,6 +727,79 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 		}
 		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-btn.is-active {
 			color: #171209;
+		}
+		/* B"H — Language toggle INSIDE the Scribe's Lens panel.
+		   Segmented control matching the panel design. Full states, both themes. */
+		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-toggle-panel,
+		:root[data-theme="light"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-toggle-panel {
+			display: flex;
+			gap: 0.5rem;
+			margin: 0;
+			padding: 0.35rem;
+			border-radius: 999px;
+			background: rgb(122 82 31 / 10%);
+			border: 1px solid rgb(122 82 31 / 20%);
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-toggle-panel {
+			background: rgb(255 255 255 / 6%);
+			border-color: rgb(127 232 255 / 14%);
+		}
+		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn,
+		:root[data-theme="light"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn {
+			flex: 1;
+			font-family: inherit;
+			font-size: 0.95rem;
+			font-weight: 700;
+			line-height: 1.2;
+			padding: 0.7rem 0.5rem;
+			border-radius: 999px;
+			border: 1px solid transparent;
+			background: transparent;
+			color: #6d5a43;
+			cursor: pointer;
+			transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+			min-width: 44px;
+			min-height: 44px;
+			margin: 0;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn {
+			color: #9fb3ca;
+		}
+		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:hover {
+			color: #21160a;
+			background: rgb(255 255 255 / 50%);
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:hover {
+			color: #f8fbff;
+			background: rgb(255 255 255 / 8%);
+		}
+		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:focus-visible {
+			outline: 2px solid #8a6d1a;
+			outline-offset: 2px;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:focus-visible {
+			outline-color: #7fe8ff;
+		}
+		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:active {
+			transform: scale(0.97);
+		}
+		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:disabled {
+			opacity: 0.45;
+			cursor: not-allowed;
+			transform: none;
+		}
+		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn.is-active,
+		:root[data-theme="light"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn.is-active {
+			background: #8a6d1a;
+			border-color: #8a6d1a;
+			color: #fffdf6;
+			box-shadow: 0 2px 8px rgb(138 109 26 / 30%);
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn.is-active {
+			background: #7fe8ff;
+			border-color: #7fe8ff;
+			color: #0a1120;
+			box-shadow: 0 2px 8px rgb(127 232 255 / 25%);
 		}
 		/* Footnote markers: <sup>, not buttons. Clickable + keyboard accessible. */
 		:root .post-reader-localized-context sup.meluket-fn-marker,

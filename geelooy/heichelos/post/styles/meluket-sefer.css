@@ -98,6 +98,13 @@
 }
 
 /* ---------- Language toggle ---------- */
+/* B"H — Yaakov: language toggle NEVER on the main page.
+   It lives ONLY inside the Scribe's Lens settings panel (#typographyDetails).
+   This hides it if JS ever renders it as a direct child of .meluket-sefer. */
+.meluket-sefer-active .meluket-sefer > .meluket-lang-toggle {
+	display: none;
+}
+
 .meluket-sefer-active .meluket-lang-toggle {
 	display: flex;
 	gap: 0.5rem;

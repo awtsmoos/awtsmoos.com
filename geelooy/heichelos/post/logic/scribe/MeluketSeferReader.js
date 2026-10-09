@@ -265,6 +265,35 @@ function buildLangToggle(currentMode, onChange) {
 }
 
 /**
+ * B"H — Yaakov: the language toggle lives ONLY in the Scribe's Lens settings
+ * panel, NEVER on the main page. Injects the toggle into #typographyDetails
+ * as a proper settings-group. If the panel isn't in the DOM yet, hides the
+ * toggle (CSS safety net covers .meluket-sefer > .meluket-lang-toggle).
+ */
+function injectLangToggleIntoSettings(toggle) {
+	const panel = document.querySelector('#typographyDetails .typography-content');
+	if (!panel) {
+		toggle.style.display = 'none';
+		return;
+	}
+	const group = document.createElement('div');
+	group.className = 'settings-group meluket-lang-settings-group';
+	const label = document.createElement('div');
+	label.className = 'control-label';
+	label.textContent = 'Language';
+	group.appendChild(label);
+	toggle.classList.add('meluket-lang-toggle-panel');
+	group.appendChild(toggle);
+	// Place after the Scribe's Lens header group, or at the top.
+	const firstGroup = panel.querySelector('.settings-group');
+	if (firstGroup && firstGroup.nextSibling) {
+		panel.insertBefore(group, firstGroup.nextSibling);
+	} else {
+		panel.prepend(group);
+	}
+}
+
+/**
  * Applies the language mode to all sefer sections.
  */
 function applyLangMode(root, mode) {
@@ -368,9 +397,10 @@ export function awakenMeluketSeferReader(post) {
 		sefer.appendChild(summaryWrap);
 	}
 
-	// Language toggle.
+	// Language toggle — B"H Yaakov: lives ONLY in the Scribe's Lens settings
+	// panel, NEVER on the main page. Injected into #typographyDetails.
 	const toggle = buildLangToggle(langMode, (mode) => applyLangMode(sefer, mode));
-	sefer.appendChild(toggle);
+	injectLangToggleIntoSettings(toggle);
 
 	// Sections.
 	hebrewSections.forEach(({ sectionId, html }, index) => {
