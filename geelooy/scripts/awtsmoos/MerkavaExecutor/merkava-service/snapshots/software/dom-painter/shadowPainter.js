@@ -1,4 +1,5 @@
 // B"H
+import { boxBlurRegion } from "../framebuffer.js";
 /**
  * shadowPainter.js — text-shadow parsing for the DOM painter.
  *
@@ -139,7 +140,10 @@ export function paintBoxShadows(fb, item, radii, shadows, mode) {
           tmp.data[o + 2] = col[2]; tmp.data[o + 3] = col[3];
         }
       }
-      if (blur > 0) boxBlurRegionLocal(tmp.data, sw, shh, Math.max(1, Math.round(blur * scale)));
+      // B"H (compositor): use the shared sliding-window O(w*h) box blur from
+      // framebuffer.js instead of the old naive O(w*h*r) local version —
+      // pixel-identical (same clamped sampling, same constant divisor).
+      if (blur > 0) boxBlurRegion(tmp.data, sw, shh, Math.max(1, Math.round(blur * scale)));
       if (mode === "inset") {
         // B"H: inset shadows are a soft INNER ring — visible only inside the
         // border box, within (spread+blur) of its edge. Punch out everything
@@ -161,39 +165,6 @@ export function paintBoxShadows(fb, item, radii, shadows, mode) {
       fb.blitFrom(tmp, rx - pad, ry - pad);
     }
   } catch (_) { /* shadows are decorative; never break the render */ }
-}
-
-// Local blur (avoids a hard import cycle; framebuffer.js has the canonical one).
-function boxBlurRegionLocal(data, w, h, radius) {
-  const r = Math.max(1, Math.round(Number(radius) || 1));
-  if (!data || w < 1 || h < 1) return;
-  const tmp = new Uint8ClampedArray(data.length);
-  const w4 = w * 4;
-  for (let y = 0; y < h; y++) {
-    const row = y * w4;
-    for (let x = 0; x < w; x++) {
-      let sr = 0, sg = 0, sb = 0, sa = 0, n = 0;
-      for (let k = -r; k <= r; k++) {
-        const xx = Math.min(w - 1, Math.max(0, x + k));
-        const o = row + xx * 4;
-        sr += data[o]; sg += data[o + 1]; sb += data[o + 2]; sa += data[o + 3]; n++;
-      }
-      const o = row + x * 4;
-      tmp[o] = sr / n; tmp[o + 1] = sg / n; tmp[o + 2] = sb / n; tmp[o + 3] = sa / n;
-    }
-  }
-  for (let x = 0; x < w; x++) {
-    for (let y = 0; y < h; y++) {
-      let sr = 0, sg = 0, sb = 0, sa = 0, n = 0;
-      for (let k = -r; k <= r; k++) {
-        const yy = Math.min(h - 1, Math.max(0, y + k));
-        const o = yy * w4 + x * 4;
-        sr += tmp[o]; sg += tmp[o + 1]; sb += tmp[o + 2]; sa += tmp[o + 3]; n++;
-      }
-      const o = y * w4 + x * 4;
-      data[o] = sr / n; data[o + 1] = sg / n; data[o + 2] = sb / n; data[o + 3] = sa / n;
-    }
-  }
 }
 
 /**
