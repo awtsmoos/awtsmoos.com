@@ -135,7 +135,14 @@ function compareAndSwapField(runtime, objRef, offset, expected, newValue, bits) 
 	const currentNum = Number(current) || 0;
 	const expectedNum = Number(expected) || 0;
 	// For object CAS (bits=0), compare by reference identity.
+	// In Dalvik, null is often represented as 0.
 	if (bits === 0) {
+		const currentIsNull = current === undefined || current === null || current === 0;
+		const expectedIsNull = expected === undefined || expected === null || expected === 0;
+		if (currentIsNull && expectedIsNull) {
+			runtime.heap.setField(objRef, key, newValue);
+			return 1;
+		}
 		const same = (current?.id === expected?.id) || (current === expected);
 		if (same) {
 			runtime.heap.setField(objRef, key, newValue);
@@ -155,9 +162,16 @@ function compareAndSwapOffsetStorage(objRef, offset, expected, newValue, bits) {
 	const current = OFFSET_STORAGE.get(storageKey);
 	if (bits === 0) {
 		// Object comparison by identity.
+		// In Dalvik, null is often represented as 0.
+		const currentIsNull = current === undefined || current === null || current === 0;
+		const expectedIsNull = expected === undefined || expected === null || expected === 0;
+		if (currentIsNull && expectedIsNull) {
+			OFFSET_STORAGE.set(storageKey, newValue);
+			return 1;
+		}
 		const currentId = current?.id ?? current;
 		const expectedId = expected?.id ?? expected;
-		if (currentId === expectedId || (current === undefined && expected === null)) {
+		if (currentId === expectedId) {
 			OFFSET_STORAGE.set(storageKey, newValue);
 			return 1;
 		}
