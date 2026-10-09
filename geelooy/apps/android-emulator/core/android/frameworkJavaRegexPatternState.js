@@ -58,7 +58,13 @@ function translateJavaRegex(value) {
 			return escapeJavaScriptRegex(literal);
 		})
 		.replace(/\\z/g, "$")
-		.replace(/\\A/g, "^");
+		.replace(/\\A/g, "^")
+		// Convert Java possessive quantifiers to regular ones.
+		// Possessive (?+, *+, ++) are not supported in JavaScript;
+		// regular quantifiers are semantically close enough for matching.
+		.replace(/\?\++/g, "?")
+		.replace(/\*\+/g, "*")
+		.replace(/\+\+/g, "+");
 }
 
 function escapeJavaScriptRegex(value) {
