@@ -9,7 +9,8 @@ import { emitMemBytes } from './utils.js';
 
 export function emitMath(code, mnemonic, args, dataSymbols) {
     const op1 = parseOperand(args[0], dataSymbols);
-    const op2 = parseOperand(args[1], dataSymbols);
+    const op2 = args.length > 1 ? parseOperand(args[1], dataSymbols) : null;
+    const op3 = args.length > 2 ? parseOperand(args[2], dataSymbols) : null;
 
     // --- SETcc ---
     if (mnemonic.startsWith('SET')) {
@@ -68,10 +69,34 @@ export function emitMath(code, mnemonic, args, dataSymbols) {
         return;
     }
 
+    // --- MUL (unsigned): RDX:RAX = RAX * r/m64 ---
+    if (mnemonic === 'MUL') {
+        if (op1.type === 'reg') {
+             const rex = PREFIXES.REX_W | (op1.val >= 8 ? PREFIXES.REX_B : 0);
+             const modRM = makeModRM(MOD.DIRECT, 4, op1.val & 7);
+             code.addBytes([rex, 0xF7, modRM]);
+        } else {
+            throw new Error('MUL only supports Reg');
+        }
+        return;
+    }
+
     // --- IMUL ---
     if (mnemonic === 'IMUL') {
+        // IMUL Reg, Reg, Imm (3-operand: dest = src * imm32)
+        if (op1.type === 'reg' && op2.type === 'reg' && op3 && op3.type === 'imm') {
+            const rex = PREFIXES.REX_W | (op1.val >= 8 ? PREFIXES.REX_R : 0) | (op2.val >= 8 ? PREFIXES.REX_B : 0);
+            const modRM = makeModRM(MOD.DIRECT, op1.val & 7, op2.val & 7);
+            const imm = Number(op3.val);
+            if (imm >= -128 && imm <= 127) {
+                code.addBytes([rex, 0x6B, modRM, imm & 0xFF]);
+            } else {
+                code.addBytes([rex, 0x69, modRM]);
+                code.add32(imm);
+            }
+        }
         // IMUL Reg, Reg
-        if (op1.type === 'reg' && op2.type === 'reg') {
+        else if (op1.type === 'reg' && op2.type === 'reg') {
             const rex = PREFIXES.REX_W | (op1.val >= 8 ? PREFIXES.REX_R : 0) | (op2.val >= 8 ? PREFIXES.REX_B : 0);
             const modRM = makeModRM(MOD.DIRECT, op1.val & 7, op2.val & 7);
             code.addBytes([rex, OPCODES.IMUL_R64_RM64[0], OPCODES.IMUL_R64_RM64[1], modRM]);
