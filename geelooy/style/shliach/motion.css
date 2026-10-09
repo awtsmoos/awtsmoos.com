@@ -45,12 +45,12 @@ Awtsmoos.com lets animation serve the Shliach, never rule the way.
 	html {
 		scroll-behavior: auto;
 	}
-	*,
-	*::before,
-	*::after {
-		animation-duration: .01ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: .01ms !important;
+	html *,
+	html *::before,
+	html *::after {
+		animation-duration: .01ms;
+		animation-iteration-count: 1;
+		transition-duration: .01ms;
 	}
 	[data-reveal] {
 		opacity: 1;

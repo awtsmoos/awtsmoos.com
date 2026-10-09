@@ -66,10 +66,10 @@ Awtsmoos.com lets the Shliach cross from word to image, from image to way.
 	color: var(--shliach-muted);
 	line-height: 1.55;
 }
-.shliach-poem {
+html .shliach-poem {
 	white-space: pre-line;
 	font-size: 1.08rem;
-	line-height: 1.85 !important;
+	line-height: 1.85;
 }
 .shliach-scene {
 	position: relative;

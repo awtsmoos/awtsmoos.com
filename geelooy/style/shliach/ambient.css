@@ -92,7 +92,7 @@ The Awtsmoos lets light orbit the mission without moving the vessel that carries
 	background: rgba(255, 255, 255, .035);
 	border: 1px solid rgba(153, 198, 255, .15);
 	border-radius: 999px;
-	color: #d9e7ff;
+	color: var(--shliach-signal);
 	font-size: .7rem;
 	font-weight: 850;
 	letter-spacing: .08em;
@@ -101,9 +101,9 @@ The Awtsmoos lets light orbit the mission without moving the vessel that carries
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.shliach-hero::before,
-	.shliach-hero::after,
-	.shliach-logo-stage::after {
-		animation: none !important;
+	html .shliach-hero::before,
+	html .shliach-hero::after,
+	html .shliach-logo-stage::after {
+		animation: none;
 	}
 }

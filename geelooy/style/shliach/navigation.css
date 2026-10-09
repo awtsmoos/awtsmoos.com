@@ -31,11 +31,37 @@ Awtsmoos.com keeps the Shliach paths together as visitors make their way.
 	gap: 8px;
 	flex-wrap: wrap;
 }
+html .shliach-nav-links a {
+	color: var(--shliach-ink);
+	text-decoration: none;
+}
 .shliach-nav-links a:hover {
-	color: white;
+	color: var(--shliach-ink);
 	background: rgba(255, 255, 255, .07);
 }
-.shliach-launch {
+.shliach-nav-links a:focus-visible {
+	outline: 3px solid var(--shliach-cyan);
+	outline-offset: 3px;
+	border-radius: 6px;
+}
+.shliach-nav-links a:active {
+	color: var(--shliach-gold-bright);
+}
+html .shliach-brand {
+	color: var(--shliach-ink);
+}
+html .shliach-brand:hover {
+	color: var(--shliach-gold-bright);
+}
+html .shliach-brand:focus-visible {
+	outline: 3px solid var(--shliach-cyan);
+	outline-offset: 3px;
+	border-radius: 6px;
+}
+html .shliach-brand:active {
+	color: var(--shliach-gold);
+}
+html .shliach-launch {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -44,8 +70,25 @@ Awtsmoos.com keeps the Shliach paths together as visitors make their way.
 	border: 1px solid rgba(255, 230, 163, .46);
 	border-radius: 999px;
 	background: linear-gradient(135deg, var(--shliach-gold), var(--shliach-gold-bright));
-	color: #21140b !important;
+	color: var(--shliach-on-gold);
 	font-weight: 900;
 	text-decoration: none;
 	box-shadow: 0 10px 30px rgba(245, 200, 107, .18);
+}
+html .shliach-launch:hover {
+	filter: brightness(1.06);
+	transform: translateY(-1px);
+}
+html .shliach-launch:focus-visible {
+	outline: 3px solid var(--shliach-cyan);
+	outline-offset: 3px;
+}
+html .shliach-launch:active {
+	transform: translateY(1px) scale(.99);
+	filter: brightness(.97);
+}
+html .shliach-launch:disabled {
+	opacity: .55;
+	cursor: not-allowed;
+	transform: none;
 }

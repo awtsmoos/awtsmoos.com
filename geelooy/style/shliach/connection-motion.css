@@ -26,13 +26,13 @@ Awtsmoos.com lets motion teach the route with a calm and luminous sheen.
 }
 .shliach-topology-node strong {
 	font-size: 0.82rem;
-	color: #fff0c4;
+	color: var(--shliach-node-title);
 }
 .shliach-topology-node span {
 	margin-top: 6px;
 	font-size: 0.72rem;
 	line-height: 1.35;
-	color: rgba(245, 244, 255, 0.58);
+	color: var(--shliach-node-sub);
 }
 .shliach-topology-node:nth-child(2n) {
 	animation: shliach-node-breathe 4s ease-in-out infinite;
@@ -57,6 +57,6 @@ Awtsmoos.com lets motion teach the route with a calm and luminous sheen.
 		box-shadow: 0 0 34px rgba(141, 121, 255, 0.13);
 	}
 }
-@media (prefers-reduced-motion: reduce) { .shliach-topology-node, .shliach-topology-node::after {
-		animation: none !important;
+@media (prefers-reduced-motion: reduce) { html .shliach-topology-node, html .shliach-topology-node::after {
+		animation: none;
 	} }
