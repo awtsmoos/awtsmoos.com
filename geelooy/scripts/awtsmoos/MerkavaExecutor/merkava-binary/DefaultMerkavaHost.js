@@ -434,6 +434,46 @@ function createDefaultHost(rootScope = {}) {
     if (fn && typeof fn.call === 'function') return fn.call(args);
     throw new TypeError(String(fn) + ' is not a function');
   };
+  // B"H: Compile a simple sort comparator to native. Recognizes
+  //   function(x,y){ return <binop>(x|y, x|y|const); }
+  // where <binop> is sub/add/mul/div/mod. Returns a native (a,b)=>... or null.
+  // Pure (no side effects, no this/closure use) so the substitution is exact.
+  const tryCompileSortComparator = (fn) => {
+    if (!fn || fn.__kind !== 'function') return null;
+    const params = fn.params;
+    if (!Array.isArray(params) || params.length !== 2) return null;
+    if (typeof params[0] !== 'string' || typeof params[1] !== 'string') return null;
+    const body = fn.body;
+    if (!Array.isArray(body) || body.length !== 1) return null;
+    const ret = body[0];
+    if (!ret || ret.op !== 'return' || !ret.value || typeof ret.value !== 'object') return null;
+    const expr = ret.value;
+    // Binary op with both operands being params or constants
+    const binOps = { sub: (a,b) => a-b, add: (a,b) => a+b, mul: (a,b) => a*b, div: (a,b) => a/b, mod: (a,b) => a%b };
+    const opFn = binOps[expr.op];
+    if (!opFn || !Array.isArray(expr.args) || expr.args.length !== 2) return null;
+    const resolveIdx = (node) => {
+      if (!node || typeof node !== 'object') return -1;
+      // {get: 'x'} -> param index; {const: N} -> constant marker
+      if (typeof node.get === 'string') {
+        if (node.get === params[0]) return 0;
+        if (node.get === params[1]) return 1;
+        return -1; // closure variable — not pure, bail
+      }
+      if (Object.prototype.hasOwnProperty.call(node, 'const')) return 2;
+      return -1;
+    };
+    const i0 = resolveIdx(expr.args[0]), i1 = resolveIdx(expr.args[1]);
+    if (i0 < 0 || i1 < 0) return null;
+    const c0 = i0 === 2 ? expr.args[0].const : null;
+    const c1 = i1 === 2 ? expr.args[1].const : null;
+    // Build (a,b) => op(select(a,b,c))
+    return (a, b) => {
+      const v0 = i0 === 0 ? a : (i0 === 1 ? b : c0);
+      const v1 = i1 === 0 ? a : (i1 === 1 ? b : c1);
+      return opFn(v0, v1);
+    };
+  };
   const callMethod = (receiver, method, ...args) => {
     if (receiver == null) throw new TypeError(String(receiver) + ' has no method ' + String(method));
     // B"H: JSON.parse/stringify hot path — direct native call. Wraps only
@@ -454,6 +494,14 @@ function createDefaultHost(rootScope = {}) {
     if (receiver && receiver.__kind === 'iterator' && method === 'next') return receiver.next();
     if (receiver && receiver.__kind === 'compactInstance') return callCompactMethod(receiver, method, args, rootScope);
     if (receiver && receiver[method]?.__kind === 'function') return receiver[method].call(args, receiver);
+    // B"H: sort comparator fast path. A comparator like function(x,y){return x-y;}
+    // would otherwise cost ~300k VM calls (interpretNode each) for 20k elements.
+    // We recognize single-return binary-op-on-params shapes and compile to a
+    // native function once — semantically identical, no VM calls per comparison.
+    if (method === 'sort' && args.length === 1) {
+      const fastCmp = tryCompileSortComparator(args[0]);
+      if (fastCmp) return receiver.sort(fastCmp);
+    }
     if (receiver && typeof receiver[method] === 'function' && receiver.__kind !== 'instance') {
       const bridged = args.map(arg => arg && arg.__kind === 'function' ? (...inner) => callFunction(arg, ...inner) : arg);
       return receiver[method](...bridged);
