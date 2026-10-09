@@ -315,21 +315,26 @@ _skipWhitespace() {
         return this._makeToken(TOKEN.ILLEGAL, 'Unterminated template literal', undefined, undefined, startPosition);
     }
 
-    // B"H - Rectified _makeToken
+    // B"H - Rectified _makeToken: fast path when positions are provided.
 	_makeToken(type, literal, startColumn, startLine, startPosition) {
-		this._guard();
-		const col = startColumn ?? this.column - (literal?.length || (this.ch === null ? 0 : 1));
-		const line = startLine || this.line;
-		
+		if (startColumn !== undefined) {
+			return {
+				type: type,
+				literal: literal,
+				line: startLine,
+				column: startColumn,
+				hasLineTerminatorBefore: this.hasLineTerminatorBefore,
+				startIndex: startPosition
+			};
+		}
+		const ll = literal ? literal.length : 0;
 		return {
-			type,
-			literal,
-			line: line,
-			column: col,
+			type: type,
+			literal: literal,
+			line: startLine || this.line,
+			column: this.column - (ll || (this.ch === null ? 0 : 1)),
 			hasLineTerminatorBefore: this.hasLineTerminatorBefore,
-            // Use the explicitly passed startPosition if available.
-            // If not (fallback), calculate it from the end.
-			startIndex: startPosition !== undefined ? startPosition : (this.position - (literal?.length || 0))
+			startIndex: startPosition !== undefined ? startPosition : this.position - ll
 		};
 	}
 
