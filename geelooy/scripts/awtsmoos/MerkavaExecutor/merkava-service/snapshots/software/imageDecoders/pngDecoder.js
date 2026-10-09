@@ -17,7 +17,7 @@
  * rejected.
  */
 import { inflateSync } from "zlib";
-import { crc32 } from "../../pngTools.js";
+import { crc32Init, crc32Update, crc32Finish } from "../../pngTools.js";
 
 const PNG_MAGIC = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
 
@@ -92,10 +92,12 @@ function parseChunks(b) {
     const data = b.subarray(dataStart, dataEnd);
     const storedCrc = readU32BE(b, dataEnd);
 
-    const sig = new Uint8Array(4 + length);
-    sig.set(typeBytes, 0);
-    sig.set(data, 4);
-    if (crc32(sig) !== storedCrc) fail("CRC mismatch in chunk " + type);
+    // Incremental table-driven CRC over the type + data bytes: no concatenation
+    // buffer is allocated (the old code copied up to megabytes per IDAT chunk).
+    let crc = crc32Init();
+    crc = crc32Update(crc, typeBytes, 0, 4);
+    crc = crc32Update(crc, data, 0, length);
+    if (crc32Finish(crc) !== storedCrc) fail("CRC mismatch in chunk " + type);
 
     pos = dataEnd + 4;
 
@@ -199,11 +201,11 @@ function unfilterRow(f, row, prev, cur, bpp) {
     return;
   }
   if (f === 1) {
-    // Sub
-    for (let i = 0; i < n; i++) {
-      const a = i >= bpp ? cur[i - bpp] : 0;
-      cur[i] = (row[i] + a) & 255;
-    }
+    // Sub: first bpp bytes have no left neighbor (plain copy), then branch-free.
+    let i = 0;
+    const first = bpp < n ? bpp : n;
+    for (; i < first; i++) cur[i] = row[i];
+    for (; i < n; i++) cur[i] = (row[i] + cur[i - bpp]) & 255;
     return;
   }
   if (f === 2) {
@@ -212,23 +214,29 @@ function unfilterRow(f, row, prev, cur, bpp) {
     return;
   }
   if (f === 3) {
-    // Average
-    for (let i = 0; i < n; i++) {
-      const a = i >= bpp ? cur[i - bpp] : 0;
-      cur[i] = (row[i] + ((a + prev[i]) >> 1)) & 255;
-    }
+    // Average: first bpp bytes average with 0 on the left.
+    let i = 0;
+    const first = bpp < n ? bpp : n;
+    for (; i < first; i++) cur[i] = (row[i] + (prev[i] >> 1)) & 255;
+    for (; i < n; i++) cur[i] = (row[i] + ((cur[i - bpp] + prev[i]) >> 1)) & 255;
     return;
   }
   if (f === 4) {
-    // Paeth
-    for (let i = 0; i < n; i++) {
-      const a = i >= bpp ? cur[i - bpp] : 0;
+    // Paeth: first bpp bytes degrade to Up (a=0,c=0 -> pr=b); then branch-free.
+    let i = 0;
+    const first = bpp < n ? bpp : n;
+    for (; i < first; i++) cur[i] = (row[i] + prev[i]) & 255;
+    for (; i < n; i++) {
+      const a = cur[i - bpp];
       const bb = prev[i];
-      const c = i >= bpp ? prev[i - bpp] : 0;
+      const c = prev[i - bpp];
       const p = a + bb - c;
-      const pa = p - a < 0 ? a - p : p - a;
-      const pb = p - bb < 0 ? bb - p : p - bb;
-      const pc = p - c < 0 ? c - p : p - c;
+      let pa = p - a;
+      if (pa < 0) pa = -pa;
+      let pb = p - bb;
+      if (pb < 0) pb = -pb;
+      let pc = p - c;
+      if (pc < 0) pc = -pc;
       const pr = pa <= pb && pa <= pc ? a : pb <= pc ? bb : c;
       cur[i] = (row[i] + pr) & 255;
     }
@@ -272,6 +280,61 @@ function makeToByte(bitDepth) {
   const t = new Uint8Array(max + 1);
   for (let i = 0; i <= max; i++) t[i] = Math.round((i * 255) / max);
   return t;
+}
+
+// Fast blit for 8-bit rows with no tRNS: works directly on the unfiltered
+// bytes, skipping the Uint16 sample buffer and the toByte table entirely.
+// For the common non-interlaced RGBA case this is a single bulk copy.
+function blitRowFast8(cur, pw, colorType, out, dstRow, x0, dx, plte) {
+  if (colorType === 6) {
+    if (dx === 1) {
+      out.set(cur, dstRow + x0 * 4);
+      return;
+    }
+    for (let x = 0; x < pw; x++) {
+      const o = dstRow + (x0 + x * dx) * 4, s = x * 4;
+      out[o] = cur[s];
+      out[o + 1] = cur[s + 1];
+      out[o + 2] = cur[s + 2];
+      out[o + 3] = cur[s + 3];
+    }
+  } else if (colorType === 2) {
+    for (let x = 0; x < pw; x++) {
+      const o = dstRow + (x0 + x * dx) * 4, s = x * 3;
+      out[o] = cur[s];
+      out[o + 1] = cur[s + 1];
+      out[o + 2] = cur[s + 2];
+      out[o + 3] = 255;
+    }
+  } else if (colorType === 0) {
+    for (let x = 0; x < pw; x++) {
+      const o = dstRow + (x0 + x * dx) * 4, g = cur[x];
+      out[o] = g;
+      out[o + 1] = g;
+      out[o + 2] = g;
+      out[o + 3] = 255;
+    }
+  } else if (colorType === 4) {
+    for (let x = 0; x < pw; x++) {
+      const o = dstRow + (x0 + x * dx) * 4, s = x * 2, g = cur[s];
+      out[o] = g;
+      out[o + 1] = g;
+      out[o + 2] = g;
+      out[o + 3] = cur[s + 1];
+    }
+  } else {
+    // colorType === 3 (palette)
+    for (let x = 0; x < pw; x++) {
+      const idx = cur[x];
+      const pi = idx * 3;
+      if (pi + 2 >= plte.length) fail("palette index out of range");
+      const o = dstRow + (x0 + x * dx) * 4;
+      out[o] = plte[pi];
+      out[o + 1] = plte[pi + 1];
+      out[o + 2] = plte[pi + 2];
+      out[o + 3] = 255;
+    }
+  }
 }
 
 function blitRow(
@@ -367,7 +430,10 @@ export function decodePng(bytes) {
 
   const t = resolveTransparency(trns, colorType, plte);
   const spp = SAMPLES_PER_PIXEL[colorType];
-  const toByte = makeToByte(bitDepth);
+  // toByte table is only needed on the slow path (sub-byte/16-bit/tRNS).
+  // 8-bit rows without tRNS skip the sample buffer + toByte table entirely.
+  const fast8 = bitDepth === 8 && t.gray === -1 && t.rgb === null && t.pal === null;
+  const toByte = fast8 ? null : makeToByte(bitDepth);
   // Filter "bytes per pixel": one complete pixel, rounded up to whole bytes.
   const bpp = Math.max(1, Math.ceil((bitDepth * spp) / 8));
 
@@ -410,28 +476,32 @@ export function decodePng(bytes) {
     const { x0, y0, dx, dy, pw, ph, rowBytes } = pass;
     let prev = new Uint8Array(rowBytes);
     let cur = new Uint8Array(rowBytes);
-    const smp = new Uint16Array(pw * spp);
+    const smp = fast8 ? null : new Uint16Array(pw * spp);
     for (let y = 0; y < ph; y++) {
       const f = raw[p++];
       const row = raw.subarray(p, p + rowBytes);
       p += rowBytes;
       unfilterRow(f, row, prev, cur, bpp);
-      unpackRow(cur, smp, pw, spp, bitDepth);
       const dstRow = (y0 + y * dy) * width * 4;
-      blitRow(
-        smp,
-        pw,
-        colorType,
-        toByte,
-        out,
-        dstRow,
-        x0,
-        dx,
-        plte,
-        t.gray,
-        t.rgb,
-        t.pal
-      );
+      if (fast8) {
+        blitRowFast8(cur, pw, colorType, out, dstRow, x0, dx, plte);
+      } else {
+        unpackRow(cur, smp, pw, spp, bitDepth);
+        blitRow(
+          smp,
+          pw,
+          colorType,
+          toByte,
+          out,
+          dstRow,
+          x0,
+          dx,
+          plte,
+          t.gray,
+          t.rgb,
+          t.pal
+        );
+      }
       const tmp = prev;
       prev = cur;
       cur = tmp;

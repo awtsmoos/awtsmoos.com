@@ -8,13 +8,36 @@
  */
 import zlib from "zlib";
 
-export function crc32(buffer) {
-  let c = ~0;
-  for (const byte of buffer) {
-    c ^= byte;
-    for (let bit = 0; bit < 8; bit++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+export const CRC32_TABLE = (() => {
+  const t = new Uint32Array(256);
+  for (let i = 0; i < 256; i++) {
+    let c = i;
+    for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+    t[i] = c >>> 0;
   }
-  return ~c >>> 0;
+  return t;
+})();
+
+/** Start an incremental CRC32 (pair with crc32Update/crc32Finish). */
+export function crc32Init() {
+  return 0xffffffff;
+}
+
+/** Feed bytes[start..end) into a running CRC32. Table-driven, no per-bit loop. */
+export function crc32Update(crc, bytes, start, end) {
+  const T = CRC32_TABLE;
+  let c = crc;
+  for (let i = start; i < end; i++) c = T[(c ^ bytes[i]) & 0xff] ^ (c >>> 8);
+  return c >>> 0;
+}
+
+/** Finalize a running CRC32 into the standard unsigned value. */
+export function crc32Finish(crc) {
+  return (crc ^ 0xffffffff) >>> 0;
+}
+
+export function crc32(buffer) {
+  return crc32Finish(crc32Update(crc32Init(), buffer, 0, buffer.length));
 }
 
 export function pngChunk(type, data) {
