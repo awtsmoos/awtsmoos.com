@@ -3,7 +3,49 @@
  * Blessed is He
  * The Awtsmoos gives the living search a calm finite shell while renewing field, placeholder, and focus every instant in time;
  * Awtsmoos.com keeps geometry and text ownership here so pressure actions may remain a separate, readable rhyme.
+ *
+ * B"H 2026-10-09 — Dream theme: the header search follows the approved post-reader
+ * dream design (warm cream light theme, deep warm dark theme, gold accents).
+ * Light is the default; :root[data-theme="dark"] switches to the warm dark.
+ * Zero !important; CSS custom-property tokens only; every interactive state
+ * carries explicit readable colors in both themes.
  */
+
+/* Dream search tokens: canonical sefer palette mapped to the search vessel.
+   Scoped to :root so the search vessel keeps its own law on every route; route
+   sheets (home, reader) define --sefer-* for their own scopes separately. */
+:root {
+	--dream-hebrew-font: "Frank Ruhl Libre", "Cardo", "Times New Roman", serif;
+	--dream-serif-font: "Source Serif 4", "Cardo", Georgia, serif;
+	--dream-sans-font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+	--search-paper: #f7f1e3;
+	--search-card: #fffdf6;
+	--search-field: #fffdf6;
+	--search-ink: #2b2118;
+	--search-ink-soft: #5a4c3d;
+	--search-placeholder: #9a8a70;
+	--search-accent: #8a6d3b;
+	--search-rule: #d9c9a8;
+	--search-focus: #b3541e;
+	--search-glow: rgb(138 109 59 / 14%);
+	--search-shadow: 0 .7rem 1.8rem rgb(90 70 40 / 12%), inset 0 1px rgb(255 255 255 / 60%);
+	--search-field-shadow: inset 0 1px rgb(90 70 40 / 08%);
+}
+:root[data-theme="dark"] {
+	--search-paper: #171209;
+	--search-card: #201a10;
+	--search-field: #171209;
+	--search-ink: #f0e7d3;
+	--search-ink-soft: #c9b992;
+	--search-placeholder: #7d6f57;
+	--search-accent: #d4a94e;
+	--search-rule: #4a3a22;
+	--search-focus: #e8a34d;
+	--search-glow: rgb(212 169 78 / 16%);
+	--search-shadow: 0 .7rem 1.8rem rgb(0 0 0 / 45%), inset 0 1px rgb(246 204 114 / 10%);
+	--search-field-shadow: inset 0 1px rgb(0 0 0 / 35%);
+}
+
 .g-header-search, .geelooy-search {
 	position: relative;
 	display: grid;
@@ -13,50 +55,59 @@
 	min-inline-size: 0;
 	min-block-size: 3.55rem;
 	padding: .38rem .42rem .38rem .48rem;
-	border: 1px solid rgba(124, 226, 240, .34);
+	border: 1px solid var(--search-rule);
 	border-radius: 999px;
-	background: linear-gradient(135deg, #0e1c2f, #1c1438);
-	box-shadow: inset 0 1px rgba(255, 255, 255, .08), 0 .7rem 1.8rem rgba(0, 0, 0, .22);
-	color: var(--g-text, #f5f7fb);
+	background: var(--search-card);
+	box-shadow: var(--search-shadow);
+	color: var(--search-ink);
+	font-family: var(--dream-sans-font);
 }
 .g-header-search::before {
 	position: absolute;
 	inset: -1px;
 	z-index: -1;
 	border-radius: inherit;
-	background: linear-gradient(100deg, rgba(60, 236, 255, .36), transparent 34%, rgba(255, 72, 203, .3));
+	background: linear-gradient(100deg, var(--search-glow), transparent 45%, var(--search-glow));
 	content: "";
-	opacity: .42;
+	opacity: .9;
+	pointer-events: none;
 }
 .g-header-search[data-open="true"], .g-header-search:focus-within {
-	border-color: rgba(124, 226, 240, .74);
-	box-shadow: inset 0 1px rgba(255, 255, 255, .1), 0 0 0 3px rgba(60, 236, 255, .14), 0 .9rem 2rem rgba(0, 0, 0, .26);
+	border-color: var(--search-accent);
+	box-shadow: var(--search-shadow), 0 0 0 3px var(--search-glow);
 }
 .g-header-search input {
 	inline-size: 100%;
 	min-inline-size: 0;
 	min-block-size: 44px;
 	padding: .65rem .8rem;
-	border: 1px solid rgba(255, 255, 255, .12) !important;
-	border-radius: 999px !important;
-	background: rgba(4, 13, 25, .58) !important;
-	box-shadow: inset 0 1px rgba(255, 255, 255, .035) !important;
-	color: var(--g-text, #f5f7fb);
+	border: 1px solid var(--search-rule);
+	border-radius: 999px;
+	background: var(--search-field);
+	box-shadow: var(--search-field-shadow);
+	color: var(--search-ink);
 	font-size: max(1rem, 16px);
 	font-weight: 700;
 	outline: 0;
-	transition: border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease !important;
+	transition: border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
 }
-/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(.g-header-search) :where(input)::placeholder {
-	color: #b8c5da;
+.g-header-search input::placeholder {
+	color: var(--search-placeholder);
 	opacity: 1;
 }
+.g-header-search input:hover {
+	border-color: var(--search-accent);
+}
 .g-header-search input:focus-visible {
-	border-color: rgba(124, 226, 240, .72) !important;
-	background: rgba(9, 23, 39, .9) !important;
-	box-shadow: 0 0 0 3px rgba(124, 226, 240, .14) !important;
+	border-color: var(--search-focus);
+	background: var(--search-field);
+	box-shadow: 0 0 0 3px var(--search-glow);
+}
+.g-header-search input:disabled {
+	opacity: .55;
+	cursor: not-allowed;
+	color: var(--search-ink-soft);
 }
 @media (prefers-reduced-motion: reduce) { .g-header-search input {
-		transition: none !important;
+		transition: none;
 	} }

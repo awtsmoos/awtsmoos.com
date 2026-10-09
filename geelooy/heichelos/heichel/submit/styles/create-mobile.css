@@ -25,14 +25,14 @@
 	overflow:clip;
 	border:1px solid var(--create-line);
 	border-radius:999px;
-	background:rgba(255,255,255,.98);
+	background:var(--create-panel);
 	box-shadow:var(--create-shadow);
 }
 .mobile-create-nav a { min-inline-size:0; min-block-size:44px; padding:.65rem .45rem; overflow:hidden; border-radius:999px; color:var(--create-muted); font-size:.78rem; font-weight:750; text-align:center; text-overflow:ellipsis; text-decoration:none; white-space:nowrap; }
-.mobile-create-nav .active { background:#f1f5f9; color:var(--create-ink); }
-@media (hover:hover) and (pointer:fine) { .mobile-create-nav a:hover { transform:translateY(-1px); background:#f8fafc; } }
+.mobile-create-nav .active { background:var(--create-hover-wash); color:var(--create-ink); }
+@media (hover:hover) and (pointer:fine) { .mobile-create-nav a:hover { transform:translateY(-1px); background:var(--create-hover-wash); color:var(--create-ink); } }
 .mobile-create-nav a:active { transform:scale(.96); }
-.mobile-create-nav a:focus-visible { outline:3px solid color-mix(in srgb,var(--create-accent),white 20%); outline-offset:2px; }
+.mobile-create-nav a:focus-visible { outline:3px solid var(--create-focus); outline-offset:2px; }
 @media (min-width:60rem) {
 	.submit-page,
 	.post-creator-container { grid-template-columns:minmax(0,1fr) 17.5rem; align-items:start; }

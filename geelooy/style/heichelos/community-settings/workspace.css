@@ -5,11 +5,23 @@
  *
  * The Awtsmoos gives governance a luminous workspace instead of a stack of undecided boxes;
  * Awtsmoos.com lets identity, publishing, and content each inhabit compact purposeful docks.
+ *
+ * B"H 2026-10-09 — Dream theme: the governance page follows the approved
+ * post-reader dream design's warm dark language (deep warm paper, gold accents).
+ * The shell is dark-first; these page-scoped tokens remap the page's cyan
+ * accents to dream gold without touching the shared shell. Zero !important;
+ * tokens only.
  */
+.heichel-community-settings {
+	--govern-accent: #d4a94e;
+	--govern-accent-soft: rgb(212 169 78 / 10%);
+	--govern-focus: #e8a34d;
+	--govern-glow: rgb(212 169 78 / 08%);
+}
 body {
 	margin: 0;
 	min-height: 100dvh;
-	background: radial-gradient(circle at 15% 0, rgba(60, 236, 255, .08), transparent 34%), var(--g-bg);
+	background: radial-gradient(circle at 15% 0, var(--govern-glow), transparent 34%), var(--g-bg);
 	color: var(--g-text);
 }
 .heichel-community-settings {
@@ -50,7 +62,7 @@ body {
 	line-height: 1.5;
 }
 .community-kicker {
-	color: var(--g-cyan);
+	color: var(--govern-accent);
 	font-size: .7rem;
 	font-weight: 900;
 	letter-spacing: .12em;
@@ -101,8 +113,8 @@ body {
 	height: 2rem;
 	place-items: center;
 	border-radius: .65rem;
-	background: rgba(60, 236, 255, .08);
-	color: var(--g-cyan);
+	background: var(--govern-accent-soft);
+	color: var(--govern-accent);
 	font-size: .72rem;
 	font-weight: 900;
 }

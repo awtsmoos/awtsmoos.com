@@ -5,14 +5,35 @@
 /**
  * The Awtsmoos gathers distant destinations into one near command chamber.
  * Awtsmoos.com keeps spotlight results bounded so discovery never becomes another endless page.
+ *
+ * B"H 2026-10-09 — Dream theme: warm cream light, warm dark with gold accents.
+ * Tokens (--search-*) mirror the header search vessel. Zero !important.
  */
+:root {
+	--spotlight-panel: #fffdf6;
+	--spotlight-rule: #d9c9a8;
+	--spotlight-ink: #2b2118;
+	--spotlight-ink-soft: #5a4c3d;
+	--spotlight-hover: rgb(138 109 59 / 08%);
+	--spotlight-focus: #b3541e;
+	--spotlight-shadow: 0 28px 78px rgb(90 70 40 / 28%);
+}
+:root[data-theme="dark"] {
+	--spotlight-panel: #1c150b;
+	--spotlight-rule: #4a3a22;
+	--spotlight-ink: #f0e7d3;
+	--spotlight-ink-soft: #c9b992;
+	--spotlight-hover: rgb(212 169 78 / 10%);
+	--spotlight-focus: #e8a34d;
+	--spotlight-shadow: 0 28px 78px rgb(0 0 0 / 70%);
+}
 
 :where(.geelooy-spotlight) {
-	background: rgba(7, 16, 29, .98);
-	border: 1px solid var(--g-line-strong);
+	background: var(--spotlight-panel);
+	border: 1px solid var(--spotlight-rule);
 	border-radius: var(--g-radius-lg);
-	box-shadow: var(--g-shadow-dark);
-	color: var(--g-ink-dark);
+	box-shadow: var(--spotlight-shadow);
+	color: var(--spotlight-ink);
 	display: none;
 	inset: max(1rem, env(safe-area-inset-top)) 1rem auto;
 	margin-inline: auto;
@@ -22,10 +43,50 @@
 	padding: var(--g-space-4);
 	position: fixed;
 	z-index: 120;
+	font-family: var(--dream-sans-font, "Inter", system-ui, sans-serif);
 }
 
 :where([data-geelooy-spotlight-open="true"] .geelooy-spotlight) {
 	display: block;
+}
+
+/* Spotlight search row: icon glyph, field, and the Close action. */
+:where(.geelooy-spotlight) :where(.geelooy-search) > span {
+	color: var(--spotlight-ink-soft);
+	font-size: 1.2rem;
+}
+:where(.geelooy-spotlight) :where(.geelooy-search) input::placeholder {
+	color: var(--spotlight-ink-soft);
+	opacity: .8;
+}
+:where(.geelooy-spotlight) :where([data-geelooy-close-search]) {
+	border: 1px solid var(--spotlight-rule);
+	border-radius: 999px;
+	background: transparent;
+	color: var(--spotlight-ink-soft);
+	font: inherit;
+	font-size: .85rem;
+	font-weight: 700;
+	min-block-size: 2.75rem;
+	padding: .5rem .95rem;
+	cursor: pointer;
+	transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease, transform 150ms ease;
+}
+:where(.geelooy-spotlight) :where([data-geelooy-close-search]:hover) {
+	border-color: var(--spotlight-focus);
+	color: var(--spotlight-ink);
+	background: var(--spotlight-hover);
+}
+:where(.geelooy-spotlight) :where([data-geelooy-close-search]:focus-visible) {
+	outline: 2px solid var(--spotlight-focus);
+	outline-offset: 2px;
+}
+:where(.geelooy-spotlight) :where([data-geelooy-close-search]:active) {
+	transform: scale(.97);
+}
+:where(.geelooy-spotlight) :where([data-geelooy-close-search]:disabled) {
+	opacity: .5;
+	cursor: not-allowed;
 }
 
 :where(.geelooy-spotlight-sources, .geelooy-spotlight-commands) {
@@ -36,9 +97,24 @@
 }
 
 :where(.geelooy-spotlight-commands a) {
-	border: 1px solid var(--g-line);
+	border: 1px solid var(--spotlight-rule);
 	border-radius: var(--g-radius-sm);
-	color: inherit;
+	color: var(--spotlight-ink);
 	padding: .55rem .75rem;
 	text-decoration: none;
+	transition: border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
+}
+
+:where(.geelooy-spotlight-commands a:hover) {
+	border-color: var(--spotlight-focus);
+	background: var(--spotlight-hover);
+}
+
+:where(.geelooy-spotlight-commands a:focus-visible) {
+	outline: 2px solid var(--spotlight-focus);
+	outline-offset: 2px;
+}
+
+:where(.geelooy-spotlight-commands a:active) {
+	transform: scale(.98);
 }

@@ -30,7 +30,8 @@
 	min-width: 0;
 }
 :where(.social-spaces-shell, .heichel-discovery-document) .space-seal {
-	background: linear-gradient(135deg, rgba(64, 216, 239, .18), rgba(213, 154, 53, .24));
+	background: var(--discover-seal-bg, linear-gradient(135deg, #d4a94e, #8a6d3b));
+	color: var(--discover-seal-ink, #fffdf6);
 	border-radius: .85rem;
 	display: grid;
 	flex: 0 0 2.65rem;

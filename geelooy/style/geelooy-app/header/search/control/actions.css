@@ -3,6 +3,10 @@
  * Blessed is He
  * The Awtsmoos lets each finite search action reveal approach, focus, and pressure without confusing one state for another;
  * Awtsmoos.com gives hover, active, keyboard focus, and reduced motion separate vessels so every mobile touch remains clear to a sister or brother.
+ *
+ * B"H 2026-10-09 — Dream theme: warm cream / warm dark gold actions for the search
+ * vessel. Tokens (--search-*) are defined in ./frame.css. Zero !important;
+ * tokens only; every state explicit in both themes.
  */
 .g-search-orb, .g-search-submit {
 	display: grid;
@@ -12,38 +16,41 @@
 	min-block-size: 44px;
 	place-items: center;
 	padding: 0;
-	border: 1px solid rgba(255, 255, 255, .2) !important;
-	border-radius: 50% !important;
+	border: 1px solid var(--search-rule);
+	border-radius: 50%;
 	box-shadow: none;
 	font-weight: 900;
 	cursor: pointer;
-	transition: transform 150ms ease, border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease !important;
+	transition: transform 150ms ease, border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
 }
 .g-search-orb {
-	background: linear-gradient(145deg, #d95ab2, #7057df) !important;
-	color: #fff !important;
+	background: var(--search-accent);
+	color: var(--search-card);
 }
 .g-search-submit {
-	background: rgba(124, 226, 240, .12) !important;
-	color: #91eff7 !important;
+	background: transparent;
+	color: var(--search-accent);
+}
+.g-search-orb:disabled, .g-search-submit:disabled {
+	opacity: .5;
+	cursor: not-allowed;
 }
 .g-search-orb:focus-visible, .g-search-submit:focus-visible {
-	border-color: #7ce2f0 !important;
-	box-shadow: 0 0 0 3px rgba(124, 226, 240, .16);
-	outline: 3px solid #7ce2f0;
+	border-color: var(--search-focus);
+	box-shadow: 0 0 0 3px var(--search-glow);
+	outline: 2px solid var(--search-focus);
 	outline-offset: 3px;
 }
 .g-search-orb:active, .g-search-submit:active {
 	transform: scale(.92);
-	border-color: #b7f8ff !important;
-	box-shadow: 0 0 0 2px rgba(124, 226, 240, .12);
+	border-color: var(--search-focus);
+	box-shadow: 0 0 0 2px var(--search-glow);
 }
-/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (hover: hover) and (pointer: fine) { :where(.g-search-orb:hover:not(:active)), :where(.g-search-submit:hover:not(:active)) {
+@media (hover: hover) and (pointer: fine) { .g-search-orb:hover:not(:active), .g-search-submit:hover:not(:active) {
 		transform: translateY(-1px);
-		border-color: #7ce2f0 !important;
-		box-shadow: 0 0 0 3px rgba(124, 226, 240, .14);
+		border-color: var(--search-accent);
+		box-shadow: 0 0 0 3px var(--search-glow);
 	} }
 @media (prefers-reduced-motion: reduce) { .g-search-orb, .g-search-submit {
-		transition: none !important;
+		transition: none;
 	} }

@@ -2,21 +2,62 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/** The Awtsmoos reveals a clean page before advanced creation machinery; Awtsmoos.com keeps every foundational vessel bounded and readable. */
+/** The Awtsmoos reveals a clean page before advanced creation machinery; Awtsmoos.com keeps every foundational vessel bounded and readable.
+ *
+ * B"H 2026-10-09 — Dream theme: the composer follows the approved post-reader
+ * dream design (warm cream light theme, deep warm dark theme, elegant serif
+ * headings, gold accents). Light is the default; :root[data-theme="dark"]
+ * switches to the warm dark. Zero !important; CSS custom-property tokens only.
+ */
 :root {
-	--create-bg:#f5f7fa;
-	--create-panel:#fff;
-	--create-line:#e4e8ee;
-	--create-ink:#0f172a;
-	--create-muted:#64748b;
-	--create-accent:#0ea5a4;
-	--create-danger:#dc2626;
-	--create-shadow:0 6px 20px rgba(15,23,42,.08);
-	--create-on-ink:#ffffff;
-	--create-summary-bg:#f8fafc;
+	--dream-hebrew-font: "Frank Ruhl Libre", "Cardo", "Times New Roman", serif;
+	--dream-serif-font: "Source Serif 4", "Cardo", Georgia, serif;
+	--dream-sans-font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+	/* Dream composer tokens — light (warm cream) default. */
+	--create-bg:#f7f1e3;
+	--create-panel:#fffdf6;
+	--create-line:#d9c9a8;
+	--create-ink:#2b2118;
+	--create-muted:#5a4c3d;
+	--create-faint:#8a795f;
+	--create-accent:#8a6d3b;
+	--create-accent-strong:#6f5527;
+	--create-danger:#a83a2e;
+	--create-shadow:0 6px 20px rgba(90,70,40,.10);
+	--create-on-ink:#fffdf6;
+	--create-summary-bg:#efe4cd;
+	--create-field:#fffdf6;
+	--create-placeholder:#9a8a70;
+	--create-section-bg:#fbf6ea;
+	--create-drop-line:#b49a5c;
+	--create-veil:rgba(31,23,18,.45);
+	--create-focus:#b3541e;
+	--create-hover-wash:rgba(138,109,59,.08);
+}
+:root[data-theme="dark"] {
+	/* Dream composer tokens — deep warm dark. */
+	--create-bg:#171209;
+	--create-panel:#201a10;
+	--create-line:#4a3a22;
+	--create-ink:#f0e7d3;
+	--create-muted:#c9b992;
+	--create-faint:#9c8c6d;
+	--create-accent:#d4a94e;
+	--create-accent-strong:#e8bd68;
+	--create-danger:#e08a7d;
+	--create-shadow:0 6px 20px rgba(0,0,0,.45);
+	--create-on-ink:#171209;
+	--create-summary-bg:#100c06;
+	--create-field:#171209;
+	--create-placeholder:#7d6f57;
+	--create-section-bg:#2a2114;
+	--create-drop-line:#6f5527;
+	--create-veil:rgba(16,12,6,.62);
+	--create-focus:#e8a34d;
+	--create-hover-wash:rgba(212,169,78,.10);
 }
 * { box-sizing:border-box; }
-html { color-scheme:light; }
+html { color-scheme:light dark; }
 body {
 	margin:0;
 	min-block-size:100dvh;
@@ -24,7 +65,7 @@ body {
 	overflow-x:clip;
 	background:var(--create-bg);
 	color:var(--create-ink);
-	font:16px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+	font:16px/1.45 var(--dream-sans-font);
 }
 .submit-page,
 .main,
@@ -39,6 +80,7 @@ body {
 .collapsible-section {
 min-inline-size:0; padding:.6rem;
 min-inline-size:0; max-inline-size:100%; border:1px solid var(--create-line); border-radius:1rem; background:var(--create-panel);
+box-shadow:var(--create-shadow);
 }
 .compact-card,
 .composer-card,
@@ -49,7 +91,7 @@ min-inline-size:0; max-inline-size:100%; border:1px solid var(--create-line); bo
 .submit-hero,
 .page-header { display:grid; gap:.45rem; min-inline-size:0; }
 .submit-hero h1,
-.page-title-glow { margin:0; overflow-wrap:anywhere; color:var(--create-ink); font-size:clamp(1.8rem,6vw,3.2rem); font-weight:750; letter-spacing:-.04em; line-height:1; }
+.page-title-glow { margin:0; overflow-wrap:anywhere; color:var(--create-ink); font-family:var(--dream-serif-font); font-size:clamp(1.8rem,6vw,3.2rem); font-weight:700; letter-spacing:-.02em; line-height:1.1; }
 .submit-hero p,
 .page-header p,
 :where(#submitStatusMessage) { margin:0; overflow-wrap:anywhere; color:var(--create-muted); }
@@ -57,5 +99,5 @@ min-inline-size:0; max-inline-size:100%; border:1px solid var(--create-line); bo
 .hero-kicker,
 .editor-label,
 .field-label,
-label { display:block; margin:.75rem 0 .35rem; color:var(--create-muted); font-size:.78rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
+label { display:block; margin:.75rem 0 .35rem; color:var(--create-accent); font-size:.78rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
 .target-summary { display:inline-flex; align-items:center; inline-size:fit-content; max-inline-size:100%; min-block-size:36px; padding:.45rem .7rem; overflow-wrap:anywhere; border:1px solid var(--create-line); border-radius:999px; background:var(--create-summary-bg); color:var(--create-muted); font-size:.9rem; }
