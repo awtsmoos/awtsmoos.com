@@ -35,10 +35,10 @@ function matchesCssPseudo(element, name, argument, matchesSelector) {
 	if (name === "empty") return isEmpty(element);
 	if (name === "first-child") return childIndex(element) === 1;
 	if (name === "last-child") return childIndexFromEnd(element) === 1;
-	if (name === "only-child") return elementSiblings(element).length === 1;
+	if (name === "only-child") return isOnlyChild(element);
 	if (name === "first-of-type") return typeIndex(element) === 1;
 	if (name === "last-of-type") return typeIndexFromEnd(element) === 1;
-	if (name === "only-of-type") return typeSiblings(element).length === 1;
+	if (name === "only-of-type") return isOnlyOfType(element);
 	if (name === "is" || name === "where") return matchesAny(element, argument, matchesSelector);
 	if (name === "not") return !matchesAny(element, argument, matchesSelector);
 	if (name === "has") return matchesHas(element, argument, matchesSelector);
@@ -50,13 +50,34 @@ function matchesStructuralNth(element, name, argument, matchesSelector) {
 	const split = findTopLevelWord(argument, "of");
 	const expressionText = split < 0 ? argument : argument.slice(0, split);
 	const filter = split < 0 ? "" : argument.slice(split + 2).trim();
-	let siblings = name.includes("of-type") ? typeSiblings(element) : elementSiblings(element);
-	if (filter) siblings = siblings.filter(item => matchesSelector(item, filter));
-	const rawIndex = siblings.indexOf(element);
-	if (rawIndex < 0) return false;
+	const ofType = name.includes("of-type");
 	const reverse = name === "nth-last-child" || name === "nth-last-of-type";
-	const index = reverse ? siblings.length - rawIndex : rawIndex + 1;
-	return matchesNth(index, parseNthExpression(expressionText));
+	const expression = parseNthExpression(expressionText);
+	const tag = element.localName;
+	const kids = element.parentNode?.children;
+	if (!filter) {
+		// B"H 2026-10-09: single pass, no sibling-array allocation.
+		let total = 0, index = 0;
+		for (const child of kids || []) {
+			if (child.nodeType !== 1) continue;
+			if (ofType && child.localName !== tag) continue;
+			total += 1;
+			if (child === element) index = total;
+		}
+		if (index === 0) return false;
+		const oneBased = reverse ? total - index + 1 : index;
+		return matchesNth(oneBased, expression);
+	}
+	const list = [];
+	for (const child of kids || []) {
+		if (child.nodeType !== 1) continue;
+		if (ofType && child.localName !== tag) continue;
+		if (matchesSelector(child, filter)) list.push(child);
+	}
+	const rawIndex = list.indexOf(element);
+	if (rawIndex < 0) return false;
+	const oneBased = reverse ? list.length - rawIndex : rawIndex + 1;
+	return matchesNth(oneBased, expression);
 }
 
 function matchesAny(element, argument, matchesSelector) {
@@ -67,65 +88,128 @@ function matchesHas(element, argument, matchesSelector) {
 	for (const selector of splitSelectorList(argument)) {
 		const clean = selector.trim();
 		if (clean.startsWith(">")) {
-			if (elementSiblingsOf(element).some(child => matchesSelector(child, clean.slice(1).trim()))) return true;
-			continue;
-		}
-		if (clean.startsWith("+")) return Boolean(element.nextSibling && matchesSelector(element.nextSibling, clean.slice(1).trim()));
-		if (clean.startsWith("~")) {
-			for (let sibling = element.nextSibling; sibling; sibling = sibling.nextSibling) {
-				if (matchesSelector(sibling, clean.slice(1).trim())) return true;
+			// B"H 2026-10-09: hoisted slice, no filtered-array allocation.
+			const sub = clean.slice(1).trim();
+			for (const child of element.children || []) {
+				if (child.nodeType === 1 && matchesSelector(child, sub)) return true;
 			}
 			continue;
 		}
-		if (descendants(element).some(child => matchesSelector(child, clean))) return true;
+		if (clean.startsWith("+")) {
+			const sub = clean.slice(1).trim();
+			return Boolean(element.nextSibling && matchesSelector(element.nextSibling, sub));
+		}
+		if (clean.startsWith("~")) {
+			const sub = clean.slice(1).trim();
+			for (let sibling = element.nextSibling; sibling; sibling = sibling.nextSibling) {
+				if (matchesSelector(sibling, sub)) return true;
+			}
+			continue;
+		}
+		// B"H 2026-10-09: iterative DFS with early exit — no full
+		// descendant-array allocation.
+		const stack = [];
+		const roots = element.children || [];
+		for (let i = roots.length - 1; i >= 0; i--) stack.push(roots[i]);
+		while (stack.length > 0) {
+			const node = stack.pop();
+			if (node.nodeType === 1 && matchesSelector(node, clean)) return true;
+			const kids = node.children || [];
+			for (let i = kids.length - 1; i >= 0; i--) stack.push(kids[i]);
+		}
 	}
 	return false;
-}
-
-function descendants(element) {
-	const result = [];
-	const visit = node => {
-		for (const child of node.children || []) {
-			if (child.nodeType === 1) result.push(child);
-			visit(child);
-		}
-	};
-	visit(element);
-	return result;
 }
 
 function isEmpty(element) {
 	return !(element.children || []).some(child => child.nodeType === 1 || child.nodeType === 3 && child.textContent);
 }
 
-function elementSiblings(element) {
-	return (element.parentNode?.children || []).filter(child => child.nodeType === 1);
-}
-
-function elementSiblingsOf(element) {
-	return (element.children || []).filter(child => child.nodeType === 1);
-}
-
-function typeSiblings(element) {
-	return elementSiblings(element).filter(child => child.localName === element.localName);
-}
-
+/**
+ * B"H 2026-10-09: structural helpers below are single-pass and
+ * allocation-free — the old versions built filtered sibling arrays
+ * (elementSiblings/typeSiblings) on every :first-child/:nth-child/etc.
+ * test. Semantics preserved exactly, including the detached-node edge
+ * cases (childIndex 0 / childIndexFromEnd 1 with no parent).
+ */
 function childIndex(element) {
-	return elementSiblings(element).indexOf(element) + 1;
+	const kids = element.parentNode?.children;
+	if (!kids) return 0;
+	let n = 0;
+	for (let i = 0; i < kids.length; i++) {
+		const child = kids[i];
+		if (child.nodeType !== 1) continue;
+		n += 1;
+		if (child === element) return n;
+	}
+	return 0;
 }
 
 function childIndexFromEnd(element) {
-	const siblings = elementSiblings(element);
-	return siblings.length - siblings.indexOf(element);
+	const kids = element.parentNode?.children;
+	if (!kids) return 1;
+	let total = 0, index = 0;
+	for (let i = 0; i < kids.length; i++) {
+		const child = kids[i];
+		if (child.nodeType !== 1) continue;
+		total += 1;
+		if (child === element) index = total;
+	}
+	return index === 0 ? total + 1 : total - index + 1;
 }
 
 function typeIndex(element) {
-	return typeSiblings(element).indexOf(element) + 1;
+	const kids = element.parentNode?.children;
+	if (!kids) return 0;
+	const tag = element.localName;
+	let n = 0;
+	for (let i = 0; i < kids.length; i++) {
+		const child = kids[i];
+		if (child.nodeType !== 1 || child.localName !== tag) continue;
+		n += 1;
+		if (child === element) return n;
+	}
+	return 0;
 }
 
 function typeIndexFromEnd(element) {
-	const siblings = typeSiblings(element);
-	return siblings.length - siblings.indexOf(element);
+	const kids = element.parentNode?.children;
+	if (!kids) return 1;
+	const tag = element.localName;
+	let total = 0, index = 0;
+	for (let i = 0; i < kids.length; i++) {
+		const child = kids[i];
+		if (child.nodeType !== 1 || child.localName !== tag) continue;
+		total += 1;
+		if (child === element) index = total;
+	}
+	return index === 0 ? total + 1 : total - index + 1;
+}
+
+function isOnlyChild(element) {
+	const kids = element.parentNode?.children;
+	if (!kids) return false;
+	let n = 0;
+	for (let i = 0; i < kids.length; i++) {
+		if (kids[i].nodeType !== 1) continue;
+		n += 1;
+		if (n > 1) return false;
+	}
+	return n === 1;
+}
+
+function isOnlyOfType(element) {
+	const kids = element.parentNode?.children;
+	if (!kids) return false;
+	const tag = element.localName;
+	let n = 0;
+	for (let i = 0; i < kids.length; i++) {
+		const child = kids[i];
+		if (child.nodeType !== 1 || child.localName !== tag) continue;
+		n += 1;
+		if (n > 1) return false;
+	}
+	return n === 1;
 }
 
 const LINK_ELEMENTS = new Set(["a", "area", "link"]);

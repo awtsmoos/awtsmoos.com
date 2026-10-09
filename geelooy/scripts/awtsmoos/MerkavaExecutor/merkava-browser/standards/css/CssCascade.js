@@ -5,7 +5,8 @@
 {
 const { compareSpecificity } = (typeof module === "object" && module.exports ? require("./CssSpecificity.js") : globalThis.Merkava);
 const { isInheritedCssProperty } = (typeof module === "object" && module.exports ? require("./CssInheritedProperties.js") : globalThis.Merkava);
-const { matchesCssSelector } = (typeof module === "object" && module.exports ? require("./CssSelectorMatcher.js") : globalThis.Merkava);
+const matcherPkg = (typeof module === "object" && module.exports ? require("./CssSelectorMatcher.js") : globalThis.Merkava);
+const { compileSelectorList, elementKeys, matchesCompiledSelectorList } = matcherPkg;
 const indexMod = (typeof module === "object" && module.exports ? require("./CssRuleIndex.js") : globalThis.Merkava);
 const { cssRuleCandidates, matchesIndexedCssRule } = indexMod || {};
 
@@ -15,10 +16,13 @@ function cascadeCss(element, rules, parentStyle = {}, inline = [], ruleIndex = n
 	// B"H 2026-10-09: when a rule index is supplied, only test candidate
 	// rules (id/class/tag buckets + universal). Same match set as scanning
 	// all rules; winners are picked by specificity/order, not scan order.
+	// The element keys (bloom signature + class words) are built once per
+	// element so they amortize over every candidate rule.
 	const candidates = (ruleIndex && cssRuleCandidates) ? cssRuleCandidates(ruleIndex, element) : (rules || []);
+	const elKeys = (ruleIndex && matchesIndexedCssRule) ? elementKeys(element) : undefined;
 	const matches = (ruleIndex && matchesIndexedCssRule)
-		? (rule) => matchesIndexedCssRule(element, rule, ruleIndex)
-		: (rule) => matchesCssSelector(element, rule.selector);
+		? (rule) => matchesIndexedCssRule(element, rule, ruleIndex, elKeys)
+		: (rule) => matchesCompiledSelectorList(element, compileSelectorList(rule.selector), elKeys);
 	for (const rule of candidates) {
 		if (!matches(rule)) continue;
 		for (const declaration of rule.declarations) {

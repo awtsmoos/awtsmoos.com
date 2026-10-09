@@ -17,6 +17,7 @@ import compilerPkg from "../../../merkava-browser/standards/css/CssRuleCompiler.
 import ruleParserPkg from "../../../merkava-browser/standards/css/CssRuleParser.js";
 import selectorListPkg from "../../../merkava-browser/standards/css/CssSelectorList.js";
 import ruleIndexPkg from "../../../merkava-browser/standards/css/CssRuleIndex.js";
+import matcherPkg from "../../../merkava-browser/standards/css/CssSelectorMatcher.js";
 import conditionsPkg from "../../../merkava-browser/standards/css/CssConditionEvaluator.js";
 import specificityPkg from "../../../merkava-browser/standards/css/CssSpecificity.js";
 import inheritedPkg from "../../../merkava-browser/standards/css/CssInheritedProperties.js";
@@ -25,6 +26,7 @@ const { compileCssStyleSheet, declarationsFromObject } = compilerPkg;
 const { parseCssRules } = ruleParserPkg;
 const { splitSelectorList } = selectorListPkg;
 const { buildCssRuleIndex, cssRuleCandidates, matchesIndexedCssRule } = ruleIndexPkg;
+const { elementKeys } = matcherPkg;
 const { matchesMediaQuery, matchesSupportsCondition } = conditionsPkg;
 const { compareSpecificity } = specificityPkg;
 const { isInheritedCssProperty } = inheritedPkg;
@@ -55,7 +57,7 @@ export function candidateRulesFor(index, node) {
 
 /** Tests one indexed rule (shared index). Exported for testing. */
 export function matchesIndexedRule(node, rule, index) {
-  return matchesIndexedCssRule(node, rule, index);
+  return matchesIndexedCssRule(node, rule, index, elementKeys(node));
 }
 
 
