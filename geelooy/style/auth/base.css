@@ -23,8 +23,14 @@
 	border: 1px solid var(--auth-line-strong);
 	border-radius: .9rem;
 	background: var(--auth-panel-strong);
+	color: var(--auth-text);
 	box-shadow: 0 16px 44px rgba(0, 0, 0, .35);
 	font-weight: 900;
 	letter-spacing: -.02em;
 	backdrop-filter: blur(18px) saturate(135%);
+}
+.login-page .BH:hover {
+	border-color: var(--auth-focus);
+	background: var(--auth-panel-strong);
+	color: var(--auth-accent);
 }

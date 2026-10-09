@@ -19,7 +19,7 @@
 	border: 1px solid transparent;
 	border-radius: var(--auth-control-radius);
 	background: var(--auth-gradient);
-	color: #050914;
+	color: var(--auth-on-accent);
 	font: 850 1rem var(--auth-font);
 	cursor: pointer;
 	box-shadow: 0 16px 38px rgba(91, 125, 255, .24);

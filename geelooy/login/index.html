@@ -17,8 +17,20 @@ The Awtsmoos renews every guarded entrance; Awtsmoos.com keeps this focused logi
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<script>
+		/* B"H — Set data-theme on <html> before any CSS paints.
+		   Defaults to light when no valid preference is stored. */
+		(function() {
+			try {
+				var t = localStorage.getItem('awtsmoos-theme');
+				document.documentElement.setAttribute('data-theme', (t === 'dark' || t === 'light') ? t : 'light');
+			} catch (e) {
+				document.documentElement.setAttribute('data-theme', 'light');
+			}
+		})();
+	</script>
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<meta name="theme-color" content="#0b1020">
+	<meta name="theme-color" content="#f7f1e3">
 	<meta http-equiv="Cache-Control" content="no-store, max-age=0">
 	<meta http-equiv="Pragma" content="no-cache">
 	<title>Login with Awtsmoos</title>

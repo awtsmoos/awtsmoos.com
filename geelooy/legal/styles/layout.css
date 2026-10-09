@@ -46,7 +46,7 @@ Awtsmoos.com keeps the document mobile-first, with retractable navigation and no
 	justify-content: space-between;
 	gap: .75rem;
 	padding: .7rem .85rem;
-	color: #f5f7fb;
+	color: var(--legal-text);
 	font-size: .82rem;
 	font-weight: 820;
 	cursor: pointer;
@@ -67,7 +67,7 @@ Awtsmoos.com keeps the document mobile-first, with retractable navigation and no
 }
 .legal-page__toc summary:is(:hover, :focus-visible) {
 	background: rgba(255, 255, 255, .045);
-	color: #ffffff;
+	color: var(--legal-text-bright);
 }
 .legal-page__toc summary:active {
 	transform: scale(.995);

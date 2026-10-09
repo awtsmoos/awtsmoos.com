@@ -43,12 +43,19 @@ Awtsmoos.com keeps every animation local, transform-led, and removable for anyon
 	animation: about-page-rise 220ms ease-out both;
 }
 @media (prefers-reduced-motion: reduce) {
-	.about-page *,
-	.about-page *::before,
-	.about-page *::after {
-		scroll-behavior: auto !important;
-		animation: none !important;
-		transition: none !important;
+	/* B"H — Zero !important: the html prefix outranks every about
+	   animation/transition rule, so motion stills cleanly. */
+	html .about-page,
+	html .about-page *,
+	html .about-page *::before,
+	html .about-page *::after {
+		scroll-behavior: auto;
+		animation: none;
+		transition: none;
+	}
+	html .about-page .about-page__chapter summary,
+	html .about-page .about-page__primary {
+		transition: none;
 	}
 }
 @media (forced-colors: active) {

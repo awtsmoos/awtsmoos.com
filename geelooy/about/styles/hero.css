@@ -37,15 +37,15 @@ Awtsmoos.com keeps hero scale and action behavior in this vessel so the foundati
 	padding: 0 1rem;
 	border: 1px solid rgba(255, 255, 255, .55);
 	border-radius: .95rem;
-	background: #eef7ff;
-	color: #091220;
+	background: var(--about-primary-bg);
+	color: var(--about-primary-ink);
 	font-size: .88rem;
 	font-weight: 850;
 	text-decoration: none;
 	transition: transform var(--about-fast), background var(--about-fast), box-shadow var(--about-fast);
 }
 .about-page__primary:is(:hover, :focus-visible) {
-	background: #ffffff;
+	background: var(--about-primary-bg-hover);
 	box-shadow: 0 1rem 2.4rem rgba(90, 171, 255, .18);
 	transform: translateY(-2px);
 }
