@@ -12,7 +12,56 @@ function expandCssDeclarations(style) {
 		const key = `border-${side}`;
 		if (out[key]) expandBorder(out, `-${side}`, out[key]);
 	}
+	if (out.margin) expandBoxShorthand(out, "margin", out.margin);
+	if (out.padding) expandBoxShorthand(out, "padding", out.padding);
+	if (out.flex) expandFlex(out, out.flex);
 	return out;
+}
+
+/** Expands margin/padding 1-4 value shorthands into per-side properties. */
+function expandBoxShorthand(out, base, value) {
+	const parts = splitWhitespaceOutsideFunctions(value);
+	if (!parts.length) return;
+	const [top, right = top, bottom = top, left = right] = parts;
+	if (!out[`${base}-top`]) out[`${base}-top`] = top;
+	if (!out[`${base}-right`]) out[`${base}-right`] = right;
+	if (!out[`${base}-bottom`]) out[`${base}-bottom`] = bottom;
+	if (!out[`${base}-left`]) out[`${base}-left`] = left;
+}
+
+/** Expands the `flex` shorthand into flex-grow/shrink/basis. */
+function expandFlex(out, value) {
+	const text = String(value || "").trim().toLowerCase();
+	if (!text) return;
+	if (text === "none") {
+		if (!out["flex-grow"]) out["flex-grow"] = "0";
+		if (!out["flex-shrink"]) out["flex-shrink"] = "0";
+		if (!out["flex-basis"]) out["flex-basis"] = "auto";
+		return;
+	}
+	if (text === "auto") {
+		if (!out["flex-grow"]) out["flex-grow"] = "1";
+		if (!out["flex-shrink"]) out["flex-shrink"] = "1";
+		if (!out["flex-basis"]) out["flex-basis"] = "auto";
+		return;
+	}
+	const parts = splitWhitespaceOutsideFunctions(value);
+	const isNumber = t => /^[+-]?(?:\d+\.?\d*|\.\d+)$/.test(t);
+	if (parts.length === 1 && isNumber(parts[0])) {
+		if (!out["flex-grow"]) out["flex-grow"] = parts[0];
+		if (!out["flex-shrink"]) out["flex-shrink"] = "1";
+		if (!out["flex-basis"]) out["flex-basis"] = "0%";
+		return;
+	}
+	if (parts.length >= 1 && isNumber(parts[0])) {
+		if (!out["flex-grow"]) out["flex-grow"] = parts[0];
+		if (parts.length >= 2 && isNumber(parts[1]) && !out["flex-shrink"]) out["flex-shrink"] = parts[1];
+		if (parts.length >= 3 && !out["flex-basis"]) out["flex-basis"] = parts.slice(2).join(" ");
+		return;
+	}
+	if (!out["flex-basis"]) out["flex-basis"] = value;
+	if (!out["flex-grow"]) out["flex-grow"] = "1";
+	if (!out["flex-shrink"]) out["flex-shrink"] = "1";
 }
 
 function expandBackground(out, value) {

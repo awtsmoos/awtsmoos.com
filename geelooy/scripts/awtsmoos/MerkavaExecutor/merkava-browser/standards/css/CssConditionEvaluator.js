@@ -44,15 +44,45 @@ function matchesMediaType(type, environment) {
 
 function matchesFeature(source, environment) {
 	const colon = findTopLevelColon(source);
-	if (colon < 0) return false;
-	const name = source.slice(0, colon).trim();
-	const value = source.slice(colon + 1).trim();
+	const name = (colon < 0 ? source : source.slice(0, colon)).trim();
+	const value = colon < 0 ? "" : source.slice(colon + 1).trim();
 	if (name === "orientation") {
 		const width = Number(environment.width || 0);
 		const height = Number(environment.height || 0);
 		return value === (width >= height ? "landscape" : "portrait");
 	}
-	const numeric = parsePx(value);
+	// Discrete (value-less or keyword) features.
+	if (colon < 0) {
+		if (name === "color" || name === "hover" || name === "pointer") return true;
+		return false;
+	}
+	if (name === "prefers-color-scheme") {
+		return value === String(environment.colorScheme || "light").toLowerCase();
+	}
+	if (name === "prefers-reduced-motion") {
+		return value === (environment.reducedMotion ? "reduce" : "no-preference");
+	}
+	if (name === "hover" || name === "any-hover" || name === "pointer" || name === "any-pointer") {
+		const cap = String(environment[name.replace(/^any-/, "")] || "hover").toLowerCase();
+		return value === cap || (value === "none" && cap === "none");
+	}
+	if (name === "aspect-ratio" || name === "min-aspect-ratio" || name === "max-aspect-ratio") {
+		const ratio = parseAspectRatio(value);
+		if (ratio == null) return false;
+		const actual = Number(environment.width || 0) / Math.max(1, Number(environment.height || 0));
+		if (name === "aspect-ratio") return Math.abs(actual - ratio) < 1e-6;
+		if (name === "min-aspect-ratio") return actual >= ratio;
+		return actual <= ratio;
+	}
+	if (name === "resolution" || name === "min-resolution" || name === "max-resolution") {
+		const dpi = parseResolution(value);
+		if (dpi == null) return false;
+		const actual = Number(environment.resolutionDpi || 96);
+		if (name === "resolution") return actual === dpi;
+		if (name === "min-resolution") return actual >= dpi;
+		return actual <= dpi;
+	}
+	const numeric = parseLength(value, environment);
 	if (numeric == null) return false;
 	if (name === "width") return Number(environment.width) === numeric;
 	if (name === "min-width") return Number(environment.width) >= numeric;
@@ -95,10 +125,46 @@ function findTopLevelColon(source) {
 }
 
 function parsePx(source) {
+	return parseLength(source, {});
+}
+
+/** Parses px/em/rem lengths; em/rem resolve against environment.fontSize (default 16). */
+function parseLength(source, environment = {}) {
 	const text = String(source || "").trim().toLowerCase();
-	if (!text.endsWith("px")) return null;
-	const value = Number(text.slice(0, -2));
-	return Number.isFinite(value) ? value : null;
+	const fontSize = Number(environment.fontSize) || 16;
+	if (text.endsWith("px")) {
+		const value = Number(text.slice(0, -2));
+		return Number.isFinite(value) ? value : null;
+	}
+	if (text.endsWith("rem")) {
+		const value = Number(text.slice(0, -3));
+		return Number.isFinite(value) ? value * fontSize : null;
+	}
+	if (text.endsWith("em")) {
+		const value = Number(text.slice(0, -2));
+		return Number.isFinite(value) ? value * fontSize : null;
+	}
+	return null;
+}
+
+function parseAspectRatio(source) {
+	const text = String(source || "").trim();
+	const m = text.match(/^(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)$/);
+	if (!m) return null;
+	const denom = parseFloat(m[2]);
+	if (!denom) return null;
+	return parseFloat(m[1]) / denom;
+}
+
+function parseResolution(source) {
+	const text = String(source || "").trim().toLowerCase();
+	let m = text.match(/^([\d.]+)\s*dpi$/);
+	if (m) return parseFloat(m[1]) || null;
+	m = text.match(/^([\d.]+)\s*dppx$/);
+	if (m) return (parseFloat(m[1]) || 0) * 96 || null;
+	m = text.match(/^([\d.]+)\s*dpcm$/);
+	if (m) return (parseFloat(m[1]) || 0) * 2.54 || null;
+	return null;
 }
 
 const AwtsExports = { matchesMediaQuery, matchesSupportsCondition };

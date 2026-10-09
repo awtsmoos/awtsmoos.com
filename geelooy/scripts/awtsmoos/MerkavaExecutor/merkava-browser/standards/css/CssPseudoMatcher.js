@@ -6,8 +6,27 @@
 const { matchesNth, parseNthExpression } = (typeof module === "object" && module.exports ? require("./CssNthExpression.js") : globalThis.Merkava);
 const { findTopLevelWord } = (typeof module === "object" && module.exports ? require("./CssSelectorScanner.js") : globalThis.Merkava);
 const { splitSelectorList } = (typeof module === "object" && module.exports ? require("./CssSelectorList.js") : globalThis.Merkava);
-/** Matches one pseudo-class against current DOM state and structural context. */
+/** Matches one pseudo-class against current DOM state and structural context.
+ *
+ * Dynamic-state contract (set by the embedding runtime):
+ *   element.__merkavaState = { hover, active, visited, focusVisible }
+ *   element.ownerDocument.__merkavaTargetId = id for :target
+ */
 function matchesCssPseudo(element, name, argument, matchesSelector) {
+	const state = element.__merkavaState || {};
+	if (name === "hover") return Boolean(state.hover);
+	if (name === "active") return Boolean(state.active);
+	if (name === "link") return isLinkElement(element) && !state.visited;
+	if (name === "visited") return isLinkElement(element) && Boolean(state.visited);
+	if (name === "target") return Boolean(element.id) && element.ownerDocument?.__merkavaTargetId === element.id;
+	if (name === "focus-visible") return element.ownerDocument?.activeElement === element && state.focusVisible !== false;
+	if (name === "focus-within") return containsActiveElement(element);
+	if (name === "default") return isDefaultButton(element);
+	if (name === "required") return Boolean(element.required);
+	if (name === "optional") return isFormControl(element) && !element.required;
+	if (name === "read-only") return isReadOnly(element);
+	if (name === "read-write") return isFormControl(element) && !isReadOnly(element);
+	if (name === "placeholder-shown") return isPlaceholderShown(element);
 	if (name === "focus") return element.ownerDocument?.activeElement === element;
 	if (name === "root") return element.ownerDocument?.documentElement === element;
 	if (name === "checked") return Boolean(element.checked || element.selected);
@@ -107,6 +126,60 @@ function typeIndex(element) {
 function typeIndexFromEnd(element) {
 	const siblings = typeSiblings(element);
 	return siblings.length - siblings.indexOf(element);
+}
+
+const LINK_ELEMENTS = new Set(["a", "area", "link"]);
+const FORM_CONTROLS = new Set(["input", "textarea", "select", "button"]);
+
+function isLinkElement(element) {
+	return LINK_ELEMENTS.has(element.localName) && element.getAttribute?.("href") != null;
+}
+
+function isFormControl(element) {
+	return FORM_CONTROLS.has(element.localName);
+}
+
+function containsActiveElement(element) {
+	const active = element.ownerDocument?.activeElement;
+	if (!active || active === element) return active === element ? false : false;
+	let node = active.parentNode;
+	while (node) {
+		if (node === element) return true;
+		node = node.parentNode;
+	}
+	return false;
+}
+
+function isDefaultButton(element) {
+	if (element.localName === "button") {
+		const type = String(element.getAttribute?.("type") || "submit").toLowerCase();
+		return type === "submit";
+	}
+	if (element.localName === "input") {
+		const type = String(element.getAttribute?.("type") || "text").toLowerCase();
+		if (type === "submit" || type === "image") return true;
+		if ((type === "checkbox" || type === "radio") && element.checked) return true;
+	}
+	if (element.localName === "option") return Boolean(element.selected);
+	return false;
+}
+
+function isReadOnly(element) {
+	if (!isFormControl(element)) return true;
+	if (element.disabled) return true;
+	if (element.getAttribute?.("readonly") != null) return true;
+	if (element.localName === "input") {
+		const type = String(element.getAttribute?.("type") || "text").toLowerCase();
+		if (["checkbox", "radio", "submit", "button", "reset", "image", "file", "hidden"].includes(type)) return true;
+	}
+	return false;
+}
+
+function isPlaceholderShown(element) {
+	if (element.localName !== "input" && element.localName !== "textarea") return false;
+	if (element.getAttribute?.("placeholder") == null) return false;
+	const value = element.value != null ? String(element.value) : String(element.getAttribute?.("value") || "");
+	return value === "";
 }
 
 const AwtsExports = { matchesCssPseudo };
