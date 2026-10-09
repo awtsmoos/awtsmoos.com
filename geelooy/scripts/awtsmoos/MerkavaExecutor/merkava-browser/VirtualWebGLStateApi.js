@@ -4,16 +4,19 @@
 
 (function(root, factory) {
 	if (typeof module === 'object' && module.exports) {
-		module.exports = factory();
+		module.exports = factory(require('./VirtualGLPipeline.js'));
 	} else {
 		root.Merkava = root.Merkava || {};
-		Object.assign(root.Merkava, factory());
+		Object.assign(root.Merkava, factory(root.Merkava));
 	}
-})(typeof self !== 'undefined' ? self : this, function() {
+})(typeof self !== 'undefined' ? self : this, function(pipeMod) {
+	const PIPE = pipeMod && pipeMod.drawGL ? pipeMod : (pipeMod && pipeMod.VirtualGLPipeline) || {};
 	/**
 	 * Installs mutable raster, blend, depth, stencil, viewport, clear, and draw
 	 * state. Every setter updates retained state before journaling the operation,
 	 * enabling getParameter and native render backends to observe the same truth.
+	 * clear/drawArrays/drawElements additionally execute the real software
+	 * WebGL pipeline (never throws: failures enter the GL error queue).
 	 * @param {Function} Context Virtual context constructor.
 	 * @returns {void}
 	 */
@@ -37,6 +40,8 @@
 			},
 			clear(mask) {
 				this.record('clear', { mask });
+				// B"H: really clear the drawing buffer (never throws).
+				try { if (PIPE.clearGL) PIPE.clearGL(this, mask); } catch (e) { this.pushError(this.INVALID_OPERATION); }
 			},
 			viewport(x, y, width, height) {
 				if (width < 0 || height < 0) return this.invalid(this.INVALID_VALUE, 'viewport');
@@ -97,11 +102,17 @@
 				if (count < 0 || first < 0) return this.invalid(this.INVALID_VALUE, 'drawArrays');
 				if (!this.currentProgram) this.pushError(this.INVALID_OPERATION);
 				this.record('drawArrays', { mode, first, count, program: this.currentProgram?.id ?? null });
+				// B"H: really rasterize (never throws; failures -> error queue).
+				try { if (PIPE.drawGL && this.currentProgram) this.drawResult = PIPE.drawGL(this, mode, first, count); }
+				catch (e) { this.pushError(this.INVALID_OPERATION); }
 			},
 			drawElements(mode, count, type, offset) {
 				if (count < 0 || offset < 0) return this.invalid(this.INVALID_VALUE, 'drawElements');
 				if (!this.currentProgram) this.pushError(this.INVALID_OPERATION);
 				this.record('drawElements', { mode, count, type, offset, program: this.currentProgram?.id ?? null });
+				// B"H: really rasterize indexed geometry (never throws).
+				try { if (PIPE.drawElementsGL && this.currentProgram) this.drawResult = PIPE.drawElementsGL(this, mode, count, type, offset); }
+				catch (e) { this.pushError(this.INVALID_OPERATION); }
 			}
 		});
 	}

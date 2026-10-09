@@ -200,6 +200,8 @@ async function compileToApk(html, css, js, appName = 'MerkavaApp') {
 		path.join(glue, 'android_native_app_glue.c'),
 		path.join(androidPlat, 'merkava_android_asset.c'),
 		path.join(androidPlat, 'merkava_android_egl.c'),
+		path.join(androidPlat, 'merkava_android_mwb4.c'),
+		path.join(androidPlat, 'merkava_android_text.c'),
 		path.join(androidPlat, 'merkava_android_main.c'),
 		'-landroid', '-llog', '-lEGL', '-lGLESv3',
 		'-o', soPath

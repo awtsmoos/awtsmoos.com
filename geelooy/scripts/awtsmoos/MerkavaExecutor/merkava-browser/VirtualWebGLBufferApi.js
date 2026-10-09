@@ -46,6 +46,15 @@
 				if (!validTarget(this, target)) return this.invalid(this.INVALID_ENUM, 'bufferSubData', { target });
 				if (!buffer) return this.invalid(this.INVALID_OPERATION, 'bufferSubData', { target });
 				if (Number(offset) < 0) return this.invalid(this.INVALID_VALUE, 'bufferSubData', { offset });
+				// B"H: apply to the live stored data as well (journal preserved).
+				try {
+					if (buffer.data && ArrayBuffer.isView(data) && ArrayBuffer.isView(buffer.data)) {
+						const Ctor = buffer.data.constructor;
+						const merged = new Ctor(buffer.data);
+						merged.set(new Ctor(data.buffer, data.byteOffset, data.byteLength), Math.floor(Number(offset) / merged.BYTES_PER_ELEMENT));
+						buffer.data = merged;
+					}
+				} catch (e) { /* journal still records the call */ }
 				this.record('bufferSubData', { target, offset, bytes: byteLength(data) });
 			},
 			deleteBuffer(buffer) {
@@ -56,15 +65,30 @@
 				return this.validObject(buffer, 'buffer');
 			},
 			enableVertexAttribArray(location) {
+				(this.enabledAttribs || (this.enabledAttribs = new Set())).add(location);
 				this.record('enableVertexAttribArray', { location });
 			},
 			disableVertexAttribArray(location) {
+				(this.enabledAttribs || (this.enabledAttribs = new Set())).delete(location);
 				this.record('disableVertexAttribArray', { location });
 			},
 			vertexAttribPointer(location, size, type, normalized, stride, offset) {
 				if (size < 1 || size > 4 || stride < 0 || offset < 0) return this.invalid(this.INVALID_VALUE, 'vertexAttribPointer');
+				// B"H: live pointer state for the software pipeline (journal preserved).
+				(this.attribPointers || (this.attribPointers = {}))[location] = {
+					buffer: this.boundBuffers.get(this.ARRAY_BUFFER) || null,
+					size, type, normalized: !!normalized, stride, offset
+				};
 				this.record('vertexAttribPointer', { location, size, type, normalized: !!normalized, stride, offset });
-			}
+			},
+			vertexAttrib1f(l, x) { (this.attribConstants || (this.attribConstants = {}))[l] = [x, 0, 0, 1]; this.record('vertexAttrib1f', { location: l }); },
+			vertexAttrib2f(l, x, y) { (this.attribConstants || (this.attribConstants = {}))[l] = [x, y, 0, 1]; this.record('vertexAttrib2f', { location: l }); },
+			vertexAttrib3f(l, x, y, z) { (this.attribConstants || (this.attribConstants = {}))[l] = [x, y, z, 1]; this.record('vertexAttrib3f', { location: l }); },
+			vertexAttrib4f(l, x, y, z, w) { (this.attribConstants || (this.attribConstants = {}))[l] = [x, y, z, w]; this.record('vertexAttrib4f', { location: l }); },
+			vertexAttrib1fv(l, v) { (this.attribConstants || (this.attribConstants = {}))[l] = [v[0], 0, 0, 1]; this.record('vertexAttrib1fv', { location: l }); },
+			vertexAttrib2fv(l, v) { (this.attribConstants || (this.attribConstants = {}))[l] = [v[0], v[1], 0, 1]; this.record('vertexAttrib2fv', { location: l }); },
+			vertexAttrib3fv(l, v) { (this.attribConstants || (this.attribConstants = {}))[l] = [v[0], v[1], v[2], 1]; this.record('vertexAttrib3fv', { location: l }); },
+			vertexAttrib4fv(l, v) { (this.attribConstants || (this.attribConstants = {}))[l] = [v[0], v[1], v[2], v[3]]; this.record('vertexAttrib4fv', { location: l }); },
 		});
 	}
 
