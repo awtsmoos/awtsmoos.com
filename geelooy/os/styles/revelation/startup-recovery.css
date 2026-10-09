@@ -53,6 +53,6 @@ Awtsmoos.com keeps a failed startup visible, understandable, and actionable inst
 	outline: none;
 	box-shadow: var(--geo-focus-ring), var(--geo-glow-cyan);
 }
-.shell-status-error {
-	color: var(--geo-danger) !important;
+html .shell-status-error {
+	color: var(--geo-danger);
 }

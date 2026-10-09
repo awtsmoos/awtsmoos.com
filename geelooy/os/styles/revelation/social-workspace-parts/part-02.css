@@ -14,7 +14,7 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 	border: 1px solid rgba(255, 255, 255, .1);
 	border-radius: .8rem;
 	background: rgba(255, 255, 255, .045);
-	color: #fff;
+	color: var(--social-workspace-text);
 	text-decoration: none;
 	transition: transform 150ms ease, border-color 150ms ease, background 150ms ease;
 }
@@ -25,13 +25,21 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 }
 
 .geelooy-social-workspace__action-copy small {
-	color: rgba(235, 243, 255, .6);
+	color: var(--social-workspace-text-dim);
 }
 
 .geelooy-social-workspace__action:is(:hover, :focus-visible) {
 	transform: translateY(-2px);
-	border-color: #79e8ff;
+	border-color: var(--social-workspace-accent);
 	background: rgba(121, 232, 255, .08);
+}
+.geelooy-social-workspace__action:active {
+	transform: scale(0.98);
+}
+.geelooy-social-workspace__action:disabled,
+.geelooy-social-workspace__action[aria-disabled="true"] {
+	opacity: 0.55;
+	cursor: not-allowed;
 }
 
 .geelooy-social-workspace__action:focus-visible {

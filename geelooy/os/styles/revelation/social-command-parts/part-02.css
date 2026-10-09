@@ -10,13 +10,13 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 	gap: .45rem;
 	min-block-size: 3.2rem;
 	padding: .8rem;
-	color: #f7fbff;
+	color: var(--social-panel-text);
 	text-decoration: none;
 }
 
 .geelooy-os-social-panel__card small,
 .geelooy-os-social-panel__action small {
-	color: rgba(232, 240, 255, .62);
+	color: var(--social-panel-text-dim);
 }
 
 .geelooy-os-social-panel__action {
@@ -43,7 +43,7 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 	padding: .65rem .75rem;
 	border: 1px solid var(--social-panel-line);
 	background: rgba(255, 255, 255, .06);
-	color: #fff;
+	color: var(--social-panel-text);
 }
 
 .geelooy-os-social-panel :is(a, button):is(:hover, :focus-visible) {
@@ -67,9 +67,9 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.geelooy-os-social-panel * {
-		transition: none !important;
-		scroll-behavior: auto !important;
+	html .geelooy-os-social-panel * {
+		transition: none;
+		scroll-behavior: auto;
 	}
 }
 

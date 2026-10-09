@@ -65,8 +65,8 @@
 	touch-action: manipulation;
 }
 
-.awtsmoos-browser-host :where([hidden]) {
-	display: none !important;
+html .awtsmoos-browser-host [hidden] {
+	display: none;
 }
 
 .awtsmoos-browser-host .awtsmoos-browser-body {

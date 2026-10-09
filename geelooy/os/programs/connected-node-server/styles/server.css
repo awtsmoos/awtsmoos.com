@@ -8,6 +8,20 @@
  * every finite response. Awtsmoos.com keeps runtime testimony readable and solid
  * so process control never hides inside translucent chrome or ambiguous status.
  */
+/* B"H — connected-node-server theme tokens. Cards are deep navy in both
+ * themes, so text stays light; both theme branches are explicit. */
+:root:not([data-theme="dark"]) {
+	--cs-text: #f4f8ff;
+	--cs-text-dim: #a7b6c6;
+	--cs-card-bg: #0d1a2d;
+	--cs-card-line: #2b425b;
+}
+:root[data-theme="dark"] {
+	--cs-text: #f4f8ff;
+	--cs-text-dim: #9fadc0;
+	--cs-card-bg: #0d1a2d;
+	--cs-card-line: #2b425b;
+}
 
 .connectedServer__statusPanel,
 .connectedServer__logsPanel,
@@ -79,13 +93,13 @@
 	display: grid;
 	gap: 5px;
 	padding: 12px;
-	border: 1px solid #2b425b;
+	border: 1px solid var(--cs-card-line);
 	border-radius: 10px;
-	background: #0d1a2d;
+	background: var(--cs-card-bg);
 }
 
 .connectedServer__usageCard span {
-	color: #8799ae;
+	color: var(--cs-text-dim);
 	font-size: .68rem;
 	font-weight: 850;
 	letter-spacing: .06em;
@@ -93,7 +107,7 @@
 }
 
 .connectedServer__usageCard strong {
-	color: #f4f8ff;
+	color: var(--cs-text);
 	font-size: .92rem;
 	font-variant-numeric: tabular-nums;
 }

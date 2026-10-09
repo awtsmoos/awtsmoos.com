@@ -72,12 +72,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.awtsmoos-browser-host,
-	.awtsmoos-browser-host :where(*) {
-		scroll-behavior: auto !important;
-		animation-duration: 1ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: 1ms !important;
+	html .awtsmoos-browser-host,
+	html .awtsmoos-browser-host * {
+		scroll-behavior: auto;
+		animation-duration: 1ms;
+		animation-iteration-count: 1;
+		transition-duration: 1ms;
 	}
 }
 

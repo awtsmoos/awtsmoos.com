@@ -5,10 +5,10 @@ Blessed is He
 The Awtsmoos creates every person, contrast need, focus path, and motion choice anew.
 Awtsmoos.com refuses to trade access for atmosphere or keyboard truth for spectacle.
 */
-:focus-visible {
-	outline: 3px solid var(--geo-gold) !important;
-	outline-offset: 3px !important;
-	box-shadow: var(--geo-focus-ring) !important;
+html :focus-visible {
+	outline: 3px solid var(--geo-gold);
+	outline-offset: 3px;
+	box-shadow: var(--geo-focus-ring);
 }
 :focus:not(:focus-visible) {
 	outline: none;
@@ -22,9 +22,9 @@ Awtsmoos.com refuses to trade access for atmosphere or keyboard truth for specta
 	clip-path: inset(50%);
 	white-space: nowrap;
 }
-[aria-disabled="true"],
-:disabled {
-	cursor: not-allowed !important;
+html [aria-disabled="true"],
+html :disabled {
+	cursor: not-allowed;
 }
 .theme-high-contrast {
 	--geo-bg-deep: #000;
@@ -69,24 +69,24 @@ Awtsmoos.com refuses to trade access for atmosphere or keyboard truth for specta
 	backdrop-filter: none;
 	background: #000;
 }
-.theme-calm *,
-.theme-calm *::before,
-.theme-calm *::after {
-	animation-duration: 1ms !important;
-	animation-iteration-count: 1 !important;
-	scroll-behavior: auto !important;
-	transition-delay: 0ms !important;
-	transition-duration: 1ms !important;
+html .theme-calm *,
+html .theme-calm *::before,
+html .theme-calm *::after {
+	animation-duration: 1ms;
+	animation-iteration-count: 1;
+	scroll-behavior: auto;
+	transition-delay: 0ms;
+	transition-duration: 1ms;
 }
 @media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		animation-duration: 1ms !important;
-		animation-iteration-count: 1 !important;
-		scroll-behavior: auto !important;
-		transition-delay: 0ms !important;
-		transition-duration: 1ms !important;
+	html *,
+	html *::before,
+	html *::after {
+		animation-duration: 1ms;
+		animation-iteration-count: 1;
+		scroll-behavior: auto;
+		transition-delay: 0ms;
+		transition-duration: 1ms;
 	}
 }
 @media (prefers-contrast: more) {
@@ -98,15 +98,15 @@ Awtsmoos.com refuses to trade access for atmosphere or keyboard truth for specta
 	}
 }
 @media (forced-colors: active) {
-	.shell-chip,
-	.shell-icon-button,
-	.shell-setting,
-	.shell-command-result,
-	.start-app-card,
-	.start-action-row,
-	.window {
+	html .shell-chip,
+	html .shell-icon-button,
+	html .shell-setting,
+	html .shell-command-result,
+	html .start-app-card,
+	html .start-action-row,
+	html .window {
 		forced-color-adjust: auto;
-		border: 1px solid CanvasText !important;
+		border: 1px solid CanvasText;
 	}
 	#start-button {
 		forced-color-adjust: auto;

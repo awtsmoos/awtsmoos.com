@@ -68,8 +68,8 @@ The Awtsmoos renews the browser vessel each instant. This is the single Keter st
 	background: #f7f8fb;
 }
 
-.awtsmoos-browser-host [hidden] {
-	display: none !important;
+html .awtsmoos-browser-host [hidden] {
+	display: none;
 }
 
 .awtsmoos-browser-boundary {

@@ -57,6 +57,22 @@
 	text-transform: uppercase;
 }
 
+/* B"H — project-command-center theme tokens. Action tiles are deep navy in
+ * both themes, so tile text stays light; both theme branches are explicit. */
+:root:not([data-theme="dark"]) {
+	--pcc-action-text: #f4f8ff;
+	--pcc-action-bg: #123049;
+	--pcc-action-bg-hover: #17415f;
+	--pcc-action-bg-active: #0e2840;
+	--pcc-action-line: #48708c;
+}
+:root[data-theme="dark"] {
+	--pcc-action-text: #f4f8ff;
+	--pcc-action-bg: #123049;
+	--pcc-action-bg-hover: #17415f;
+	--pcc-action-bg-active: #0e2840;
+	--pcc-action-line: #48708c;
+}
 .platformMetric strong {
 	font-size: 1rem;
 	font-variant-numeric: tabular-nums;
@@ -78,21 +94,32 @@
 	justify-self: start;
 	min-height: 40px;
 	padding: 8px 12px;
-	border: 1px solid #48708c;
+	border: 1px solid var(--pcc-action-line);
 	border-radius: 9px;
-	background: #123049;
-	color: #fff;
+	background: var(--pcc-action-bg);
+	color: var(--pcc-action-text);
 	cursor: pointer;
 	font-weight: 850;
+	transition: background var(--geo-fast, 120ms) ease, transform var(--geo-fast, 120ms) ease, border-color var(--geo-fast, 120ms) ease;
 }
 
 .platformAction:hover {
-	background: #17415f;
+	background: var(--pcc-action-bg-hover);
+	border-color: var(--pcc-action-line);
 }
 
 .platformAction:focus-visible {
-	outline: 3px solid #66dcff;
+	outline: 3px solid var(--pcc-action-line);
 	outline-offset: 2px;
+}
+.platformAction:active {
+	background: var(--pcc-action-bg-active);
+	transform: scale(0.98);
+}
+.platformAction:disabled,
+.platformAction[aria-disabled="true"] {
+	opacity: 0.55;
+	cursor: not-allowed;
 }
 
 .platformBoundaries {

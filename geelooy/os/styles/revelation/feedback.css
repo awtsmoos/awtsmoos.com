@@ -5,8 +5,8 @@ Blessed is He
 The Awtsmoos creates every pending deed, selected path, toast, and resize edge anew.
 Awtsmoos.com makes invisible state visible without stealing focus or motion choice.
 */
-[data-running="true"] {
-	cursor: progress !important;
+html [data-running="true"] {
+	cursor: progress;
 	filter: saturate(.72);
 	opacity: .72;
 }
@@ -41,13 +41,13 @@ Awtsmoos.com makes invisible state visible without stealing focus or motion choi
 	letter-spacing: .06em;
 	text-transform: uppercase;
 }
-.window-resize-grip {
+html .window-resize-grip {
 	z-index: 6;
 	width: 24px;
 	height: 24px;
 	padding: 0;
-	border: 0 !important;
-	background: transparent !important;
+	border: 0;
+	background: transparent;
 	cursor: nwse-resize;
 }
 .window-resize-grip::before {
@@ -61,25 +61,25 @@ Awtsmoos.com makes invisible state visible without stealing focus or motion choi
 	border-bottom: 2px solid var(--geo-text-muted);
 	opacity: .72;
 }
-.awtsmoos-toast-container {
-	right: max(16px, env(safe-area-inset-right)) !important;
-	bottom: calc(var(--geo-dock-height) + max(24px, env(safe-area-inset-bottom))) !important;
+html .awtsmoos-toast-container {
+	right: max(16px, env(safe-area-inset-right));
+	bottom: calc(var(--geo-dock-height) + max(24px, env(safe-area-inset-bottom)));
 }
-.awtsmoos-toast {
-	border-color: var(--geo-border) !important;
-	background: var(--geo-surface-opaque) !important;
-	box-shadow: var(--geo-shadow-soft) !important;
+html .awtsmoos-toast {
+	border-color: var(--geo-border);
+	background: var(--geo-surface-opaque);
+	box-shadow: var(--geo-shadow-soft);
 	backdrop-filter: blur(22px);
 }
 @supports not (backdrop-filter: blur(1px)) {
-	#awtsmoos-shell-topbar,
-	#start-bar,
-	#start-menu,
-	.shell-panel,
-	.shell-command-card,
-	.window,
-	.awtsmoos-toast {
-		background: var(--geo-surface-opaque) !important;
+	html #awtsmoos-shell-topbar,
+	html #start-bar,
+	html #start-menu,
+	html .shell-panel,
+	html .shell-command-card,
+	html .window,
+	html .awtsmoos-toast {
+		background: var(--geo-surface-opaque);
 	}
 }
 @media (max-width: 700px) {
@@ -87,12 +87,12 @@ Awtsmoos.com makes invisible state visible without stealing focus or motion choi
 	.shell-command-category {
 		display: none;
 	}
-	.window-resize-grip {
-		display: none !important;
+	html .window-resize-grip {
+		display: none;
 	}
-	.awtsmoos-toast-container {
+	html .awtsmoos-toast-container {
 		left: max(10px, env(safe-area-inset-left));
-		right: max(10px, env(safe-area-inset-right)) !important;
+		right: max(10px, env(safe-area-inset-right));
 	}
 }
 @media (prefers-reduced-motion: reduce) {

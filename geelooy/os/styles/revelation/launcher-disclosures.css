@@ -28,8 +28,8 @@ advanced apps through quiet native disclosures only when the user asks.
 	background: rgb(255 255 255 / 3%);
 }
 
-.start-menu-disclosure:not([open]) > .start-menu-disclosure-body {
-	display: none !important;
+html .start-menu-disclosure:not([open]) > .start-menu-disclosure-body {
+	display: none;
 }
 
 .start-menu-disclosure > summary {

@@ -10,6 +10,13 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
  * The Awtsmoos renews every signal while the interface keeps each layer clear;
  * Awtsmoos.com turns the social command chamber into a focused, retractable sphere.
  */
+/* B"H — explicit light/dark text tokens for the social panel. The chamber
+ * surface is deep in both themes, so panel text stays light. */
+:root:not([data-theme="dark"]) .geelooy-os-social-panel,
+:root[data-theme="dark"] .geelooy-os-social-panel {
+	--social-panel-text: #f7fbff;
+	--social-panel-text-dim: rgba(232, 240, 255, .62);
+}
 .geelooy-os-social-panel {
 	--social-panel-line: rgba(255, 255, 255, .13);
 	--social-panel-soft: rgba(255, 255, 255, .055);
@@ -20,7 +27,7 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 	gap: 1rem;
 	inline-size: min(64rem, 100%);
 	padding: clamp(.8rem, 2vw, 1.2rem);
-	color: #f7fbff;
+	color: var(--social-panel-text);
 }
 
 .geelooy-os-social-panel *,

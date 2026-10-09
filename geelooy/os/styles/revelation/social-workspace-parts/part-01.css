@@ -10,6 +10,14 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
  * The Awtsmoos turns one social document into a chamber of reading and action;
  * Awtsmoos.com keeps embed, context, and editing aligned without visual collision or distraction.
  */
+/* B"H — explicit light/dark text tokens for the social workspace. The
+ * chamber surface is deep in both themes, so workspace text stays light. */
+:root:not([data-theme="dark"]) .geelooy-social-workspace,
+:root[data-theme="dark"] .geelooy-social-workspace {
+	--social-workspace-text: #f7fbff;
+	--social-workspace-text-dim: rgba(235, 243, 255, .6);
+	--social-workspace-accent: #79e8ff;
+}
 .geelooy-social-workspace {
 	display: grid;
 	grid-template-rows: auto auto minmax(18rem, 1fr);
@@ -19,7 +27,7 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 	min-block-size: 28rem;
 	padding: .8rem;
 	background: radial-gradient(circle at 10% 0%, rgba(121, 232, 255, .09), transparent 28%), #07101f;
-	color: #f7fbff;
+	color: var(--social-workspace-text);
 }
 
 .geelooy-social-workspace *,

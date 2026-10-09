@@ -112,9 +112,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.awtsmoos-browser-host * {
-		scroll-behavior: auto !important;
-		transition-duration: 0.01ms !important;
+	html .awtsmoos-browser-host * {
+		scroll-behavior: auto;
+		transition-duration: 0.01ms;
 	}
 
 	.awtsmoos-browser-progress.is-loading::before {

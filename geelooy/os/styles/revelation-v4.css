@@ -29,16 +29,16 @@ body::before {
 	box-shadow: var(--g4-shadow-1);
 	backdrop-filter: blur(24px) saturate(1.25);
 }
-.shell-chip,
-.shell-icon-button {
-	border-color: transparent !important;
-	background: transparent !important;
-	color: var(--g4-text-secondary) !important;
+html .shell-chip,
+html .shell-icon-button {
+	border-color: transparent;
+	background: transparent;
+	color: var(--g4-text-secondary);
 }
-.shell-chip:hover,
-.shell-icon-button:hover {
-	background: var(--g4-surface-hover) !important;
-	color: var(--g4-text) !important;
+html .shell-chip:hover,
+html .shell-icon-button:hover {
+	background: var(--g4-surface-hover);
+	color: var(--g4-text);
 }
 #desktop.desktop {
 	padding: 86px 18px 92px;
@@ -55,24 +55,24 @@ body::before {
 	box-shadow: var(--g4-shadow-float);
 	backdrop-filter: blur(30px) saturate(1.35);
 }
-#start-button,
-#start-bar button {
-	border-radius: 15px !important;
+html #start-button,
+html #start-bar button {
+	border-radius: 15px;
 }
-#start-menu,
-.shell-panel,
-.shell-command-card {
-	border: 1px solid var(--g4-line-strong) !important;
-	border-radius: var(--g4-radius-lg) !important;
-	background: rgba(12, 15, 25, 0.94) !important;
-	box-shadow: var(--g4-shadow-float) !important;
+html #start-menu,
+html .shell-panel,
+html .shell-command-card {
+	border: 1px solid var(--g4-line-strong);
+	border-radius: var(--g4-radius-lg);
+	background: rgba(12, 15, 25, 0.94);
+	box-shadow: var(--g4-shadow-float);
 	backdrop-filter: blur(32px) saturate(1.2);
 }
 @media (max-width: 700px) {
-	.shell-brand-copy,
-	#shell-status,
-	#shell-command-button {
-		display: none !important;
+	html .shell-brand-copy,
+	html #shell-status,
+	html #shell-command-button {
+		display: none;
 	}
 	#awtsmoos-shell-topbar {
 		margin-inline: 10px;
