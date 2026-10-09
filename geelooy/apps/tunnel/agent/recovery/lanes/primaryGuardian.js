@@ -8,6 +8,7 @@ const ServiceGuardian = require("./serviceGuardian.js");
 const DEFAULT_INTERVAL_MS = 5000;
 const DEFAULT_FAILURES = 6;
 const DEFAULT_COOLDOWN_MS = 60000;
+const DEFAULT_STALE_RECOVERY_GRACE_MS = 180000;
 
 /**
  * @file Keeps the primary alive when either process custody or route custody is lost.
@@ -39,6 +40,13 @@ function create(options = {}) {
 		if (processHealthy && registrationIsStarting(registration)) {
 			failures = 0;
 			return result("registration_starting", status, registration, "none");
+		}
+		// A stale receipt can coexist with a live launcher actively replacing its
+		// connection child. The child recovery has a separate 45s registration
+		// deadline and bounded retries; do not SIGTERM the entire launcher midway.
+		if (processHealthy && registrationRecoveryGrace(registration, options)) {
+			failures = 0;
+			return result("registration_recovery_grace", status, registration, "none");
 		}
 		const failureKind = processHealthy ? "registration" : "process";
 		failures += 1;
@@ -80,6 +88,19 @@ function registrationIsStarting(registration) {
 	return ["connecting", "reconnecting", "registering"].includes(registration.state)
 		&& registration.freshnessKnown === true
 		&& registration.ageMs <= Math.max(120000, registration.staleMs * 2);
+}
+
+/** Gives a living launcher time to complete its bounded child-level recovery. */
+function registrationRecoveryGrace(registration, options = {}) {
+	if (registration?.reason !== "registration_stale" || registration.freshnessKnown !== true) return false;
+	const ageMs = Number(registration.ageMs);
+	if (!Number.isFinite(ageMs) || ageMs < 0) return false;
+	const staleMs = Number(registration.staleMs || 0);
+	const graceMs = Math.max(
+		positive(options.registrationRecoveryGraceMs, DEFAULT_STALE_RECOVERY_GRACE_MS),
+		Number.isFinite(staleMs) ? staleMs * 3 : 0
+	);
+	return ageMs <= graceMs;
 }
 
 /** Run the independent guardian until its service manager asks it to stop. */
@@ -144,4 +165,4 @@ if (require.main === module) {
 	});
 }
 
-module.exports = { create, run, log, installLogFailureGuard };
+module.exports = { create, run, log, installLogFailureGuard, registrationRecoveryGrace };

@@ -108,6 +108,30 @@ test("stale connecting agent eventually permits bounded recovery", () => {
 	assert.equal(fake.repairs(), 1);
 });
 
+test("stale registered receipt inside child recovery grace never kills a live launcher", () => {
+	const fake = harness([processUp()]);
+	const guardian = create(fake, () => ({
+		ok: false, reason: "registration_stale", freshnessKnown: true,
+		ageMs: 125000, staleMs: 60000
+	}));
+	for (let i = 0; i < 20; i++) {
+		assert.equal(guardian.tick(1000 + i * 5000).state, "registration_recovery_grace");
+	}
+	assert.equal(fake.repairs(), 0);
+});
+
+test("stale receipt beyond recovery grace eventually triggers bounded service recovery", () => {
+	const fake = harness([processUp()]);
+	const guardian = create(fake, () => ({
+		ok: false, reason: "registration_stale", freshnessKnown: true,
+		ageMs: 205000, staleMs: 60000
+	}));
+	guardian.tick(1000);
+	guardian.tick(2000);
+	assert.equal(guardian.tick(3000).state, "repair_started");
+	assert.equal(fake.repairs(), 1);
+});
+
 test("failed repairs obey cooldown", () => {
 	const fake = harness([processUp()], { ok: false, error: "repair_failed" });
 	const guardian = create(fake, stale, { minimumFailures: 1, repairCooldownMs: 10000 });

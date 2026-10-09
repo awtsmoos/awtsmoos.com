@@ -41,7 +41,7 @@ function create(options = {}) {
 		const result = spawnSync(servicePath, ["repair"], {
 			cwd: installRoot,
 			encoding: "utf8",
-			timeout:15000,
+			timeout:60000,
 			maxBuffer:128*1024,
 			env: { ...process.env, AWTSMOOS_INSTALL_ROOT: installRoot }
 		});
