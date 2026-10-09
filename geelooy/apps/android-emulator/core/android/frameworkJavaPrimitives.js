@@ -165,10 +165,22 @@ function invokeBoolean(runtime, name, record, args) {
 		return boxBoolean(runtime, v ? 1 : 0);
 	}
 	if (name === "<init>") return initPrimitive(runtime, args[0], BOOLEAN_FIELD, Number(args[1]) ? 1 : 0);
-	if (name === "booleanValue") return readPrimitive(runtime, args[0], BOOLEAN_FIELD);
-	if (name === "hashCode") return readPrimitive(runtime, args[0], BOOLEAN_FIELD) ? 1231 : 1237;
-	if (name === "toString") return createGuestString(runtime, readPrimitive(runtime, args[0], BOOLEAN_FIELD) ? "true" : "false");
-	if (name === "equals") return readPrimitive(runtime, args[0], BOOLEAN_FIELD) === readPrimitive(runtime, args[1], BOOLEAN_FIELD) ? 1 : 0;
+	if (name === "booleanValue") {
+		if (!args[0]) return 0; // Null-safe.
+		return readPrimitive(runtime, args[0], BOOLEAN_FIELD);
+	}
+	if (name === "hashCode") {
+		if (!args[0]) return 1237; // Null hashCode.
+		return readPrimitive(runtime, args[0], BOOLEAN_FIELD) ? 1231 : 1237;
+	}
+	if (name === "toString") {
+		if (!args[0]) return createGuestString(runtime, "false");
+		return createGuestString(runtime, readPrimitive(runtime, args[0], BOOLEAN_FIELD) ? "true" : "false");
+	}
+	if (name === "equals") {
+		if (!args[0]) return 0; // null.equals() -> false (emulation lenient).
+		return readPrimitive(runtime, args[0], BOOLEAN_FIELD) === readPrimitive(runtime, args[1], BOOLEAN_FIELD) ? 1 : 0;
+	}
 	throw primitiveError("ANDROID_JAVA_BOOLEAN_METHOD_UNSUPPORTED", record.signature);
 }
 
