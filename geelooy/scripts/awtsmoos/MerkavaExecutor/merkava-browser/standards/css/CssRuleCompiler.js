@@ -89,20 +89,73 @@ function parseContainerPrelude(prelude) {
 	// style query: @container style(--theme: dark)
 	const styleMatch = text.match(/^style\s*\(([\s\S]*)\)$/i);
 	if (styleMatch) return { name: null, condition: { kind: "style", query: styleMatch[1].trim() } };
-	// named: @container sidebar (min-width: 300px)
-	const namedMatch = text.match(/^([a-zA-Z][\w-]*)\s*\(([\s\S]*)\)$/);
-	if (namedMatch) return { name: namedMatch[1].toLowerCase(), condition: parseSizeCondition(namedMatch[2]) };
-	// unnamed: @container (min-width: 400px)
-	const condMatch = text.match(/^\(([\s\S]*)\)$/);
-	if (condMatch) return { name: null, condition: parseSizeCondition(condMatch[1]) };
-	return { name: null, condition: null };
+	// named: @container card (min-width: 300px) — name is a leading ident,
+	// the rest must start a condition ("(" or "not").
+	const namedMatch = text.match(/^([a-zA-Z][\w-]*)\s+([\s\S]+)$/);
+	if (namedMatch && !/^(and|or|not|style)$/i.test(namedMatch[1])) {
+		const rest = namedMatch[2].trim();
+		if (rest.startsWith("(") || /^not\s/i.test(rest)) {
+			return { name: namedMatch[1].toLowerCase(), condition: parseSizeCondition(rest) };
+		}
+	}
+	// unnamed: the whole prelude is the condition (single or compound).
+	return { name: null, condition: parseSizeCondition(text) };
 }
 
 // Parse (min-width: 400px) / (max-width: ...) / (min-height: ...) etc.
+// B"H: also handles compound `not`, `and`, `or` conditions.
 function parseSizeCondition(text) {
-	const m = String(text || "").trim().match(/^(min-|max-)?(width|height)\s*:\s*(\d+(?:\.\d+)?)\s*(px|em|rem|vw|vh|%)?$/i);
-	if (!m) return null;
-	return { kind: "size", prop: m[2].toLowerCase(), op: m[1] ? m[1].toLowerCase() : "", value: Number(m[3]), unit: (m[4] || "px").toLowerCase() };
+  const t = String(text || "").trim();
+  // not <cond>
+  let m = t.match(/^not\s+([\s\S]+)$/i);
+  if (m) {
+    const inner = parseSizeCondition(m[1].trim());
+    return inner ? { kind: "not", cond: inner } : null;
+  }
+  // top-level and/or: "(a) and (b)", "(a) or (b) or (c)"
+  const parts = splitBoolTopLevel(t);
+  if (parts.length > 1) {
+    const conds = [], ops = [];
+    for (let i = 0; i < parts.length; i++) {
+      if (i % 2 === 0) {
+        const c = parseSizeCondition(parts[i]);
+        if (!c) return null;
+        conds.push(c);
+      } else ops.push(parts[i].toLowerCase());
+    }
+    return { kind: "bool", ops, conds };
+  }
+  // single: "(min-width: 400px)" or bare "min-width: 400px"
+  const inner = t.match(/^\(([\s\S]*)\)$/);
+  const core = inner ? inner[1].trim() : t;
+  m = core.match(/^(min-|max-)?(width|height)\s*:\s*(\d+(?:\.\d+)?)\s*(px|em|rem|vw|vh|%)?$/i);
+  if (!m) return null;
+  return { kind: "size", prop: m[2].toLowerCase(), op: m[1] ? m[1].toLowerCase() : "", value: Number(m[3]), unit: (m[4] || "px").toLowerCase() };
+}
+
+// Split text on top-level "and"/"or" (paren-depth 0). Returns
+// [cond, op, cond, op, cond...] or [text] when no top-level operator.
+function splitBoolTopLevel(text) {
+  const out = [];
+  let depth = 0, last = 0, i = 0;
+  while (i < text.length) {
+    const ch = text[i];
+    if (ch === "(") depth++;
+    else if (ch === ")") depth = Math.max(0, depth - 1);
+    else if (depth === 0) {
+      const mm = text.slice(i).match(/^\s+(and|or)\s+/i);
+      if (mm) {
+        out.push(text.slice(last, i));
+        out.push(mm[1]);
+        i += mm[0].length;
+        last = i;
+        continue;
+      }
+    }
+    i++;
+  }
+  out.push(text.slice(last));
+  return out;
 }
 
 /** Compiles a programmatically added declaration object into cascade entries. */

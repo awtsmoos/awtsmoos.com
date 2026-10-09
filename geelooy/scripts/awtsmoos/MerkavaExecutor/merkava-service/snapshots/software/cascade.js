@@ -400,28 +400,60 @@ export function resolveVarsInPlace(computed, vars) {
   for (const name of Object.keys(computed)) {
     const value = computed[name];
     if (typeof value === "string" && value.includes("var(")) {
-      computed[name] = resolveVarValue(value, vars, []);
+      // B"H: only custom properties keep the cyclic sentinel; regular
+      // properties collapse cyclic-invalid to "" (invalid declaration),
+      // exactly as before, so no sentinel ever leaks into layout/paint.
+      computed[name] = resolveVarValue(value, vars, [], name.startsWith("--"));
     }
   }
 }
 
-function resolveVarValue(value, vars, seen) {
+// B"H: sentinel marking a custom property "invalid at computed-value time"
+// (cyclic dependency). Per CSS Custom Properties L1, var(--x, fallback)
+// referencing such a property must substitute the fallback — so the cyclic
+// state must survive eager in-place resolution of the custom property itself.
+const VAR_CYCLIC = "\u0000var-cyclic\u0000";
+
+function resolveVarValue(value, vars, seen, forCustomProp = false) {
+  const r = resolveVarInner(String(value), vars, seen);
+  if (!r.cyclic) return r.value;
+  // B"H: cyclic custom properties stay marked invalid-at-computed-value-time
+  // so var(--x, fallback) can substitute the fallback per spec.
+  return forCustomProp ? VAR_CYCLIC : "";
+}
+
+function resolveVarInner(value, vars, seen) {
   let out = String(value);
   for (let guard = 0; guard < 10; guard++) {
     const found = findVarCall(out);
-    if (!found) return out;
+    if (!found) return { value: out, cyclic: false };
     const { start, end, name, fallback } = found;
-    let replacement;
+    let replacement = "";
+    // A var() whose target is cyclic/invalid: use fallback, else propagate invalid.
+    const useFallback = () => {
+      if (fallback == null) return { value: "", cyclic: true };
+      const fr = resolveVarInner(fallback, vars, seen);
+      return { value: fr.value, cyclic: fr.cyclic };
+    };
+    let r;
     if (seen.includes(name)) {
-      replacement = fallback == null ? "" : resolveVarValue(fallback, vars, seen);
+      r = useFallback();
     } else if (Object.prototype.hasOwnProperty.call(vars, name)) {
-      replacement = resolveVarValue(String(vars[name]), vars, [...seen, name]);
+      const raw = String(vars[name]);
+      if (raw === VAR_CYCLIC) {
+        r = useFallback();
+      } else {
+        r = resolveVarInner(raw, vars, [...seen, name]);
+        if (r.cyclic) r = useFallback();
+      }
     } else {
-      replacement = fallback == null ? "" : resolveVarValue(fallback, vars, seen);
+      r = useFallback();
     }
+    if (r.cyclic) return { value: "", cyclic: true };
+    replacement = r.value;
     out = out.slice(0, start) + replacement + out.slice(end);
   }
-  return out;
+  return { value: out, cyclic: false };
 }
 
 function findVarCall(text) {

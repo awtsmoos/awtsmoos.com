@@ -1768,6 +1768,16 @@ function matchingContainerRules(node, containerStack, containerRules) {
 // width/height; style queries check custom properties.
 function evaluateContainerCondition(cond, container) {
   if (!cond) return false;
+  // B"H: compound boolean conditions.
+  if (cond.kind === "not") return !evaluateContainerCondition(cond.cond, container);
+  if (cond.kind === "bool" && Array.isArray(cond.conds)) {
+    let result = evaluateContainerCondition(cond.conds[0], container);
+    for (let i = 0; i < cond.ops.length; i++) {
+      const r = evaluateContainerCondition(cond.conds[i + 1], container);
+      result = cond.ops[i] === "and" ? (result && r) : (result || r);
+    }
+    return !!result;
+  }
   const style = (container.node && container.node.computedStyle) || {};
   if (cond.kind === "style") {
     const m = String(cond.query || "").match(/^(--[\w-]+)\s*:\s*([\s\S]*)$/);

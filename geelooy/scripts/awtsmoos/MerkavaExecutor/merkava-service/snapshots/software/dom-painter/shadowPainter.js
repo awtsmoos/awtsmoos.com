@@ -141,15 +141,20 @@ export function paintBoxShadows(fb, item, radii, shadows, mode) {
       }
       if (blur > 0) boxBlurRegionLocal(tmp.data, sw, shh, Math.max(1, Math.round(blur * scale)));
       if (mode === "inset") {
-        // B"H 2026-10-09: inset shadows are a soft INNER edge — punch out the
-        // box interior (eroded by the blur radius) so the blurred solid rect
-        // doesn't fill the center. What remains is the inner fade.
-        const er = Math.max(0, Math.round(blur * scale));
-        const px0 = Math.round(pad * scale), py0 = Math.round(pad * scale);
-        const px1 = Math.round((pad + rw) * scale), py1 = Math.round((pad + rh) * scale);
-        for (let yy = Math.max(0, py0 + er); yy < Math.min(shh, py1 - er); yy++) {
-          for (let xx = Math.max(0, px0 + er); xx < Math.min(sw, px1 - er); xx++) {
-            tmp.data[(yy * sw + xx) * 4 + 3] = 0;
+        // B"H: inset shadows are a soft INNER ring — visible only inside the
+        // border box, within (spread+blur) of its edge. Punch out everything
+        // outside the border box and everything deeper than (spread+blur)
+        // inside it. (A previous revision eroded only by the blur radius from
+        // the spread-expanded rect, which erased the entire shadow.)
+        const bx0 = Math.round((pad + spread) * scale), by0 = Math.round((pad + spread) * scale);
+        const bx1 = Math.round((pad + spread + (item.width || 0)) * scale);
+        const by1 = Math.round((pad + spread + (item.height || 0)) * scale);
+        const er = Math.round((spread + blur) * scale);
+        for (let yy = 0; yy < shh; yy++) {
+          for (let xx = 0; xx < sw; xx++) {
+            const inBox = xx >= bx0 && xx < bx1 && yy >= by0 && yy < by1;
+            const deepInside = inBox && xx >= bx0 + er && xx < bx1 - er && yy >= by0 + er && yy < by1 - er;
+            if (!inBox || deepInside) tmp.data[(yy * sw + xx) * 4 + 3] = 0;
           }
         }
       }
