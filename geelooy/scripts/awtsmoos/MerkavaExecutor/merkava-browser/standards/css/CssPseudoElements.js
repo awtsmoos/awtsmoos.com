@@ -75,6 +75,14 @@ function resolveContent(value, element) {
 	for (const part of parts) {
 		const str = unquoteString(part);
 		if (str != null) { out += str; continue; }
+		// B"H 2026-10-09 (css-worker-2): quote keywords. The `quotes`
+		// property is not implemented, so use the standard default pair
+		// (U+201C/U+201D); no-open/close-quote contribute nothing but still
+		// generate a box (they are not content:none).
+		const low = part.toLowerCase();
+		if (low === "open-quote") { out += "\u201C"; continue; }
+		if (low === "close-quote") { out += "\u201D"; continue; }
+		if (low === "no-open-quote" || low === "no-close-quote") continue;
 		let m = part.match(/^attr\(\s*([a-zA-Z_:][a-zA-Z0-9_:.-]*)\s*\)$/i);
 		if (m) { out += String(element?.getAttribute?.(m[1]) ?? ""); continue; }
 		m = part.match(/^counter\(\s*([a-zA-Z_-][a-zA-Z0-9_-]*)\s*(?:,\s*[a-zA-Z-]+)?\s*\)$/i);

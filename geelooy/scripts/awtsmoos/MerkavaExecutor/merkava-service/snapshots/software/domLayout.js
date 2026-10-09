@@ -43,7 +43,17 @@ function merkavaSupports(prop, value) {
 
 export function buildLayoutTree(dom, viewport = { width: 960, height: 640 }, options = {}) {
   const root = wireParents(nodeFrom(dom));
-  const environment = { width: viewport.width, height: viewport.height, type: "screen", supports: merkavaSupports };
+  // B"H 2026-10-09: media environment — mediaType ("screen"/"print"),
+  // reducedMotion and forcedColors flags feed @media evaluation, so
+  // `@media print`, `(prefers-reduced-motion: reduce)` and
+  // `(forced-colors: ...)` can actually match when the embedder asks.
+  const environment = {
+    width: viewport.width, height: viewport.height,
+    type: String(options.mediaType || options.media || "screen").toLowerCase(),
+    reducedMotion: !!options.reducedMotion,
+    forcedColors: !!options.forcedColors,
+    supports: merkavaSupports,
+  };
   const fromDom = collectCssRules(root, environment, 0);
   const fromText = compileStylesheet(options.cssText || "", environment, fromDom.nextOrder);
   // B"H: animation context — @keyframes are global by name, so collect them
@@ -168,8 +178,14 @@ function layoutBlockBox(node, ctx, out, style) {
   paintOutsideMarker(node, item, out, x, padding, border);
   // Margins that collapsed through the parent's padding/border-less edges merge
   // outward into the parent's own margins (CSS margin collapsing).
+  // B"H 2026-10-09: when the merged top margin exceeds the parent's own, the
+  // parent itself must move down by the difference (the collapsed margin now
+  // sits ABOVE the parent). Previously margin.top was updated but y was not,
+  // so children collapsed to y=0 instead of pushing the parent down.
   if (!ctx.root) {
-    item.margin.top = Math.max(margin.top, flow.throughTop || 0);
+    const mergedTop = Math.max(margin.top, flow.throughTop || 0);
+    if (mergedTop > margin.top) shiftSubtree(item, mergedTop - margin.top);
+    item.margin.top = mergedTop;
     item.margin.bottom = Math.max(margin.bottom, flow.throughBottom || 0);
   }
   // B"H 2026-10-09: relative/sticky visual offset — the box shifts but its
@@ -355,13 +371,23 @@ function layoutBlockFlow(children, parent, ctx, out) {
   let y = ctx.y, total = 0, prevBottom = 0, first = true;
   let throughTop = 0, lastBottom = 0, sawBlock = false;
   let run = [];
+  // B"H 2026-10-09: float-row state (see the child loop below).
+  let floatRow = null;
+  const flushFloatRow = () => {
+    if (!floatRow) return;
+    const rowBottom = floatRow.y + floatRow.height;
+    if (rowBottom > y) { total += rowBottom - y; y = rowBottom; }
+    floatRow = null;
+  };
   const flushRun = () => {
     if (!run.length) return;
     // B"H 2026-10-09 (merkava-mass-tests lists-forms): a block's
     // margin-bottom separates it from a following inline run too — without
     // this the run overlaps the block's bottom margin (label/input touch).
     y += prevBottom; total += prevBottom; prevBottom = 0;
-    const h = layoutInlineRun(run, parent, ctx, out, y, depth);
+    // B"H 2026-10-09 (css-worker-2): text-indent applies to the block's first
+    // line only — flag the first run.
+    const h = layoutInlineRun(run, parent, ctx, out, y, depth, first);
     run = [];
     y += h; total += h;
     prevBottom = 0; first = false; sawBlock = true;
@@ -369,6 +395,39 @@ function layoutBlockFlow(children, parent, ctx, out) {
   for (const child of children) {
     if (isInlineLevel(child)) { run.push(child); continue; }
     flushRun();
+    const cs = styleOf(child) || {};
+    const fside = String(cs.float || "").trim().toLowerCase();
+    const isFloat = fside === "left" || fside === "right";
+    const clear = String(cs.clear || "").trim().toLowerCase();
+    // B"H 2026-10-09: minimal float rows. Consecutive float:left/right
+    // children pack horizontally into rows (wrapping when full); a non-float,
+    // a clear, or the end of flow flushes the row into the block height.
+    // Floats establish a BFC (noCollapse) and never join margin collapsing.
+    if (!isFloat) flushFloatRow();
+    else if (clear === "both" || clear === "left" || clear === "right") flushFloatRow();
+    if (isFloat) {
+      if (!floatRow) floatRow = { y, left: ctx.x, right: ctx.x + (ctx.width || 0), height: 0 };
+      const got = layoutBlockBox(child, { x: floatRow.left, y: floatRow.y, width: ctx.width, height: ctx.height, viewportHeight: ctx.viewportHeight, depth, noCollapse: true, vpW: ctx.vpW, vpH: ctx.vpH, cb: ctx.cb, blockFlow: true }, out);
+      if (!got) continue;
+      parent.children.push(got);
+      let gx = got.x;
+      if (fside === "right") { gx = floatRow.right - got.width; shiftSubtreeX(got, gx - got.x); }
+      const rowW = (ctx.width || 0);
+      const overflows = gx + got.width > ctx.x + rowW + 1;
+      const rowUsed = fside === "left" ? floatRow.left > ctx.x : floatRow.right < ctx.x + rowW;
+      if (overflows && rowUsed) {
+        // Wrap to a fresh row below.
+        floatRow.y += floatRow.height; floatRow.height = 0;
+        floatRow.left = ctx.x; floatRow.right = ctx.x + rowW;
+        shiftSubtree(got, floatRow.y - got.y);
+        gx = fside === "left" ? floatRow.left : floatRow.right - got.width;
+        shiftSubtreeX(got, gx - got.x);
+      }
+      if (fside === "left") floatRow.left = gx + got.width;
+      else floatRow.right = gx;
+      if (got.height > floatRow.height) floatRow.height = got.height;
+      continue;
+    }
     // B"H 2026-10-09 (css-worker-2): pass the parent's content height down so
     // % heights resolve against the containing block (was falling back to the
     // viewport height, so height:50% of a 300px parent measured 300px).
@@ -392,6 +451,7 @@ function layoutBlockFlow(children, parent, ctx, out) {
     first = false; sawBlock = true;
   }
   flushRun();
+  flushFloatRow();
   let throughBottom = 0;
   if (sawBlock && allowThrough && noBottomBarrier) {
     throughBottom = lastBottom; // merges outward, not into parent height
@@ -466,24 +526,54 @@ function syntheticMarkerText(node) {
 // Flatten inline content into placeable pieces.
 function inlinePieces(children, ctx) {
   const pieces = [];
+  // B"H 2026-10-09 (css-worker-2): white-space decides newline handling.
+  // pre/pre-wrap/pre-line preserve \n as forced line breaks; other values
+  // collapse it to a space (as the old tokenizer did implicitly).
+  const ws = String(ctx.whiteSpace || "").toLowerCase();
+  const preserveBreaks = ws === "pre" || ws === "pre-wrap" || ws === "pre-line";
   for (const child of children) {
     if (child.nodeType === 3) {
       // B"H 2026-10-09 (merkava-mass-tests lists-forms): synthetic text
       // (list markers) carries its own style instead of the parent's.
       const style = child.__textStyle || ((child.parentNode && child.parentNode.nodeType === 1 ? styleOf(child.parentNode) : ctx.inlineStyle) || {});
-      const tokens = String(child.textContent || "").match(/\S+\s*|\s+/g) || [];
+      const childWs = String(style["white-space"] || "").toLowerCase() || ws;
+      const childBreaks = childWs === "pre" || childWs === "pre-wrap" || childWs === "pre-line";
+      // B"H 2026-10-09 (css-worker-2): word-break:break-all and
+      // overflow-wrap:break-word allow breaking inside words. Split the word
+      // into per-character pieces so the line breaker can wrap mid-word.
+      // (break-word only breaks when the word overflows; break-all always may.)
+      const wb = String(style["word-break"] || "").toLowerCase();
+      const ow = String(style["overflow-wrap"] || style["word-wrap"] || "").toLowerCase();
+      const breakAll = wb === "break-all" || ow === "break-all";
+      const breakWord = breakAll || ow === "break-word" || ow === "anywhere";
+      const tokens = String(child.textContent || "").match(/[^\s\n]+[ \t]*|\n|[ \t]+/g) || [];
       for (const tok of tokens) {
+        if (tok === "\n") {
+          if (childBreaks) { pieces.push({ kind: "break", w: 0, h: 0, style, node: child }); continue; }
+          pieces.push({ kind: "space", w: textWidth(" ", style), h: lineHeightOf(style), style, node: child });
+          continue;
+        }
         if (!tok.trim()) { pieces.push({ kind: "space", w: textWidth(" ", style), h: lineHeightOf(style), style, node: child }); continue; }
         // B"H 2026-10-09: collapse a trailing whitespace RUN to one space.
         // The painter collapses \s+ anyway (drawWrappedText); measuring the
         // raw run spreads words unnaturally wide ("Multiple   spaces").
         const word = /\s$/.test(tok) ? tok.replace(/\s+$/, " ") : tok;
+        if ((breakAll || breakWord) && !/^\s+$/.test(word)) {
+          // Split into characters (keep a single trailing space as its own piece).
+          const m2 = word.match(/^(\S+?)(\s?)$/);
+          const chars = [...(m2 ? m2[1] : word)];
+          for (const ch of chars) {
+            pieces.push({ kind: "word", text: ch, w: textWidth(ch, style), h: lineHeightOf(style), style, node: child, charBreak: true });
+          }
+          if (m2 && m2[2]) pieces.push({ kind: "space", w: textWidth(" ", style), h: lineHeightOf(style), style, node: child });
+          continue;
+        }
         pieces.push({ kind: "word", text: word, w: textWidth(word, style), h: lineHeightOf(style), style, node: child });
       }
     } else {
       const style = styleOf(child);
       if (displayOf(style, child) === "inline") {
-        const inner = inlinePieces(inlineKids(child), { ...ctx, inlineStyle: inheritFont(style) });
+        const inner = inlinePieces(inlineKids(child), { ...ctx, inlineStyle: inheritFont(style), whiteSpace: String(style["white-space"] || "").toLowerCase() || ws });
         pieces.push({ kind: "box", node: child, style, w: inner.reduce((n, p) => n + p.w, 0), h: lineHeightOf(style), inner });
       } else {
         pieces.push({ kind: "atomic", node: child, style, w: 0, h: 0 });
@@ -493,13 +583,16 @@ function inlinePieces(children, ctx) {
   return pieces;
 }
 
-function layoutInlineRun(run, parent, ctx, out, y, depth) {
+function layoutInlineRun(run, parent, ctx, out, y, depth, isFirstRun) {
   const W = Math.max(1, ctx.width);
-  const pieces = inlinePieces(run, ctx);
   const pStyle = parent.style || {};
+  const wsValue = String(pStyle["white-space"] || "").trim().toLowerCase();
+  const pieces = inlinePieces(run, { ...ctx, whiteSpace: wsValue || ctx.whiteSpace });
   const align = String(pStyle["text-align"] || "left").trim().toLowerCase();
   // B"H 2026-10-09: white-space:nowrap — everything stays on one line.
-  const nowrap = String(pStyle["white-space"] || "").trim().toLowerCase() === "nowrap";
+  // B"H 2026-10-09 (css-worker-2): white-space:pre also never wraps (only
+  // pre-wrap / pre-line wrap).
+  const nowrap = wsValue === "nowrap" || wsValue === "pre";
   // B"H 2026-10-09: text-overflow:ellipsis needs a clipped single line.
   const ovx = String(pStyle["overflow-x"] || pStyle.overflow || "visible").trim().toLowerCase();
   const ellipsis = String(pStyle["text-overflow"] || "").trim().toLowerCase() === "ellipsis"
@@ -507,12 +600,33 @@ function layoutInlineRun(run, parent, ctx, out, y, depth) {
     && (ovx === "hidden" || ovx === "scroll" || ovx === "auto");
   let x = ctx.x, lineY = y, lineH = 0, totalH = 0;
   let lineItems = [];
+  // B"H 2026-10-09 (css-worker-2): text-indent shifts the first line's start
+  // rightward (first run of the block only).
+  if (isFirstRun) {
+    const indentPx = dim(String(pStyle["text-indent"] || ""), W);
+    if (indentPx > 0) x += indentPx;
+  }
   // B"H 2026-10-09: text-align — shift the whole line when center/right.
+  // B"H 2026-10-09 (css-worker-2): direction:rtl defaults the line to
+  // right-aligned (text-align:start), so rtl content hugs the right edge.
+  const _dir = String(pStyle.direction || "").trim().toLowerCase();
+  const effAlign = (align === "left" || align === "" || align === "start") && _dir === "rtl" ? "right" : align;
   const commitLine = () => {
-    if (lineItems.length && (align === "center" || align === "right")) {
+    // B"H 2026-10-09 (css-worker-2): vertical-align for atomic inline boxes.
+    // lineH is final here, so bottom/middle/top can shift each item's y.
+    // Text runs keep the line top (baseline model); only boxes move.
+    for (const it of lineItems) {
+      const va = it.va;
+      if (!va || it.kind === "#text") continue;
+      const ih = Number(it.height) || 0;
+      if (va === "bottom") it.y = lineY + lineH - ih;
+      else if (va === "middle") it.y = lineY + (lineH - ih) / 2;
+      else if (va === "top") it.y = lineY;
+    }
+    if (lineItems.length && (effAlign === "center" || effAlign === "right")) {
       const used = x - ctx.x;
       const extra = Math.max(0, W - used);
-      const dx = align === "center" ? extra / 2 : extra;
+      const dx = effAlign === "center" ? extra / 2 : extra;
       if (dx > 0.5) for (const it of lineItems) shiftSubtreeX(it, dx);
     }
     totalH += lineH; lineY += lineH; lineH = 0; x = ctx.x; lineItems = [];
@@ -532,7 +646,7 @@ function layoutInlineRun(run, parent, ctx, out, y, depth) {
     if (p.kind === "word") { placeWord(p); continue; }
     if (p.kind === "box") {
       // Atomic inline element: one line, no mid-element wrapping.
-      const item = { node: p.node, x, y: lineY, width: Math.max(1, p.w), height: p.h, style: p.style, children: [], kind: p.node.localName || "span" };
+      const item = { node: p.node, x, y: lineY, width: Math.max(1, p.w), height: p.h, style: p.style, children: [], kind: p.node.localName || "span", va: String(p.style["vertical-align"] || "").toLowerCase() || null };
       out.push(item); parent.children.push(item); lineItems.push(item);
       let ix = x;
       for (const ip of p.inner) {
@@ -556,14 +670,30 @@ function layoutInlineRun(run, parent, ctx, out, y, depth) {
       // width survives (a button with margin-right shrank and wrapped).
       const pm = box(p.style, "margin", W);
       const got = layoutBlockBox(p.node, { x, y: lineY, width: w + pm.left + pm.right, viewportHeight: ctx.viewportHeight, depth: (depth || 0) + 1, vpW: ctx.vpW, vpH: ctx.vpH, cb: ctx.cb }, out);
-      if (got) { parent.children.push(got); lineItems.push(got); x += got.width + (got.margin ? got.margin.right : 0); lineH = Math.max(lineH, got.height); }
+      if (got) { got.va = String(p.style["vertical-align"] || "").toLowerCase() || null; parent.children.push(got); lineItems.push(got); x += got.width + (got.margin ? got.margin.right : 0); lineH = Math.max(lineH, got.height); }
     }
+    // B"H 2026-10-09 (css-worker-2): forced line break from white-space:pre
+    // (a literal \n in the text). Commits the current line like a wrap.
+    if (p.kind === "break") { commitLine(); continue; }
   }
   // Flush the final line so text-align applies to it as well.
-  if (lineItems.length && (align === "center" || align === "right")) {
+  // B"H 2026-10-09 (css-worker-2): the final line needs the same
+  // vertical-align pass as committed lines (commitLine does it, but the last
+  // line never commits through it).
+  if (lineItems.length) {
+    for (const it of lineItems) {
+      const va = it.va;
+      if (!va || it.kind === "#text") continue;
+      const ih = Number(it.height) || 0;
+      if (va === "bottom") it.y = lineY + lineH - ih;
+      else if (va === "middle") it.y = lineY + (lineH - ih) / 2;
+      else if (va === "top") it.y = lineY;
+    }
+  }
+  if (lineItems.length && (effAlign === "center" || effAlign === "right")) {
     const used = x - ctx.x;
     const extra = Math.max(0, W - used);
-    const dx = align === "center" ? extra / 2 : extra;
+    const dx = effAlign === "center" ? extra / 2 : extra;
     if (dx > 0.5) for (const it of lineItems) shiftSubtreeX(it, dx);
   }
   // B"H 2026-10-09: single-line overflow gets the ellipsis treatment.
