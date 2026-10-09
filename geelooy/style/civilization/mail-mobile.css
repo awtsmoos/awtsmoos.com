@@ -16,45 +16,45 @@
 		min-height: 3.9rem;
 	}
 	.mail-civilization-frame {
-		display: block !important;
+		display: block;
 		position: relative;
 	}
 	.mail-civilization-sidebar,
 	.mail-civilization-chat {
 		inset: 0;
-		position: absolute !important;
+		position: absolute;
 	}
 	.mail-civilization-sidebar {
-		border: 0 !important;
-		display: grid !important;
+		border: 0;
+		display: grid;
 	}
 	.mail-civilization-chat {
-		display: none !important;
+		display: none;
 	}
 	.mail-civilization-frame.view-chat .mail-civilization-sidebar {
-		display: none !important;
+		display: none;
 	}
 	.mail-civilization-frame.view-chat .mail-civilization-chat {
-		display: grid !important;
+		display: grid;
 	}
 	.chat-header {
-		padding-top: max(.65rem, env(safe-area-inset-top)) !important;
+		padding-top: max(.65rem, env(safe-area-inset-top));
 	}
 	.messages-scroll {
-		padding: .75rem !important;
+		padding: .75rem;
 	}
 	.message-wrap {
 		max-width: 94%;
 	}
 	.composer-area {
-		padding-bottom: max(.55rem, env(safe-area-inset-bottom)) !important;
+		padding-bottom: max(.55rem, env(safe-area-inset-bottom));
 	}
 	.composer-topbar {
-		align-items: stretch !important;
+		align-items: stretch;
 		flex-direction: column;
 	}
 	.composer-window-controls {
-		display: grid !important;
+		display: grid;
 		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
 	.mode-tab {
@@ -68,7 +68,7 @@
 		gap: .2rem;
 	}
 	.mail-civilization-sidebar {
-		padding: .6rem !important;
+		padding: .6rem;
 	}
 	.mail-sender-category-grid,
 	.mail-folder-list {
@@ -81,12 +81,12 @@
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 	.composer-tabs {
-		display: grid !important;
+		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 }
 @media (prefers-reduced-motion: reduce) {
 	.mail-civilization-chat {
-		transition: none !important;
+		transition: none;
 	}
 }

@@ -6,7 +6,7 @@
  */
 @media (max-width: 1080px) {
 	.composerLayout {
-		grid-template-columns: minmax(0, 1fr) minmax(18rem, 23rem) !important;
+		grid-template-columns: minmax(0, 1fr) minmax(18rem, 23rem);
 	}
 	.actionBar {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -20,8 +20,8 @@
 		position: relative;
 	}
 	.composerLayout {
-		grid-template-columns: 1fr !important;
-		padding: .65rem !important;
+		grid-template-columns: 1fr;
+		padding: .65rem;
 	}
 	.composerColumn {
 		padding-bottom: 1rem;

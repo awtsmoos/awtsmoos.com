@@ -5,47 +5,91 @@
  * The Awtsmoos gives teachings, series, contributors, and governance distinct vessels while Awtsmoos.com keeps every row generous enough to read and touch.
  */
 .grid-container {
-	display: grid !important;
-	gap: .8rem !important;
-	grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)) !important;
+	display: grid;
+	gap: .8rem;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
 }
-.card-wrapper, .post-card, .heichel-sidebar, .heichel-content-panel, .heichel-editor-panel, .heichel-post-approval-panel, .heichel-role-settings-panel {
-	background: var(--civil-surface) !important;
-	border: 1px solid var(--civil-line) !important;
-	border-radius: .9rem !important;
-	box-shadow: none !important;
-	color: var(--civil-text) !important;
+.card-wrapper, .post-card, .heichel-sidebar, .heichel-content-panel, .heichel-post-approval-panel, .heichel-role-settings-panel {
+	background: var(--civil-surface);
+	border: 1px solid var(--civil-line);
+	border-radius: .9rem;
+	box-shadow: none;
+	color: var(--civil-text);
+}
+/* specificity (0,2,0): keep the civilization editor panel above the
+ * [data-heichel-page] .heichel-editor-panel admin overrides that load earlier. */
+.heichel-editor-panel.heichel-editor-panel {
+	background: var(--civil-surface);
+	border: 1px solid var(--civil-line);
+	border-radius: .9rem;
+	box-shadow: none;
+	color: var(--civil-text);
+}
+/* specificity (0,2,0): keep box-shadow:none above the
+ * .heichel-mobile-navigation .card-wrapper.selected ring. */
+.card-wrapper.card-wrapper {
+	box-shadow: none;
 }
 .post-card {
 	min-height: 10rem;
-	padding: 1rem !important;
+	padding: 1rem;
 }
 .post-card :where(h2, h3, h4, a) {
-	color: var(--civil-text) !important;
+	color: var(--civil-text);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-.post-preview, :where(#sidebar-description), .heichel-editor-panel-copy, .heichel-post-approval-preview {
-	color: var(--civil-text-soft) !important;
+/* specificity notes: .post-preview boosted to (0,2,0) above
+ * .post-preview[dir="rtl"]; #sidebar-description uses :is() for (1,0,0);
+ * .heichel-editor-panel-copy boosted to (0,2,0) above the
+ * [data-heichel-page] admin override. */
+.post-preview.post-preview {
+	color: var(--civil-text-soft);
 	line-height: 1.55;
 }
-.post-link, .awtsmoos-btn, .btn, .heichel-editor-add, .heichel-post-approval-action, .heichel-role-member-chat {
+:is(#sidebar-description) {
+	color: var(--civil-text-soft);
+	line-height: 1.55;
+}
+.heichel-editor-panel-copy.heichel-editor-panel-copy {
+	color: var(--civil-text-soft);
+	line-height: 1.55;
+}
+.heichel-post-approval-preview {
+	color: var(--civil-text-soft);
+	line-height: 1.55;
+}
+.post-link, .btn, .heichel-editor-add, .heichel-post-approval-action, .heichel-role-member-chat {
 	align-items: center;
-	background: var(--civil-surface-2) !important;
-	border: 1px solid var(--civil-line) !important;
-	border-radius: .7rem !important;
-	color: var(--civil-text) !important;
+	background: var(--civil-surface-2);
+	border: 1px solid var(--civil-line);
+	border-radius: .7rem;
+	color: var(--civil-text);
 	display: inline-flex;
 	justify-content: center;
 	min-height: 2.75rem;
-	padding: .6rem .8rem !important;
+	padding: .6rem .8rem;
+	text-decoration: none;
+}
+/* specificity (0,2,0): keep the civilization button above the
+ * geelooy-system .awtsmoos-btn:not(.danger) / .danger rules that load earlier. */
+.awtsmoos-btn.awtsmoos-btn {
+	align-items: center;
+	background: var(--civil-surface-2);
+	border: 1px solid var(--civil-line);
+	border-radius: .7rem;
+	color: var(--civil-text);
+	display: inline-flex;
+	justify-content: center;
+	min-height: 2.75rem;
+	padding: .6rem .8rem;
 	text-decoration: none;
 }
 .post-link:hover, .awtsmoos-btn:hover, .btn:hover {
-	border-color: rgba(213, 174, 100, .45) !important;
+	border-color: rgba(213, 174, 100, .45);
 }
 .heichel-sidebar {
 	align-self: start;
-	padding: 1rem !important;
+	padding: 1rem;
 	position: sticky;
 	top: 1rem;
 }
@@ -60,36 +104,55 @@
 	display: grid;
 	gap: .65rem;
 }
-.heichel-editor-row, .heichel-post-approval-card, .heichel-role-card, .heichel-role-member, .awtsmoos-notification-card, .awtsmoos-platform-card {
-	background: #091421 !important;
-	border: 1px solid var(--civil-line) !important;
-	border-radius: .75rem !important;
-	padding: .75rem !important;
+.heichel-post-approval-card, .heichel-role-card, .heichel-role-member, .awtsmoos-notification-card, .awtsmoos-platform-card {
+	background: #091421;
+	border: 1px solid var(--civil-line);
+	border-radius: .75rem;
+	padding: .75rem;
 }
-.context-menu, .modal-content, .awtsmoos-notifications-panel, .awtsmoos-platform-body {
-	background: var(--civil-surface) !important;
-	border: 1px solid var(--civil-line-strong) !important;
-	border-radius: .85rem !important;
-	box-shadow: var(--civil-shadow) !important;
-	color: var(--civil-text) !important;
+/* specificity (0,2,0): keep the civilization editor row above the
+ * [data-heichel-page] .heichel-editor-row admin overrides that load earlier. */
+.heichel-editor-row.heichel-editor-row {
+	background: #091421;
+	border: 1px solid var(--civil-line);
+	border-radius: .75rem;
+	padding: .75rem;
+}
+.modal-content, .awtsmoos-notifications-panel, .awtsmoos-platform-body {
+	background: var(--civil-surface);
+	border: 1px solid var(--civil-line-strong);
+	border-radius: .85rem;
+	box-shadow: var(--civil-shadow);
+	color: var(--civil-text);
+}
+/* specificity (0,2,0): keep the civilization context menu above the
+ * .heichel-mobile-navigation .context-menu rule that loads earlier. */
+.context-menu.context-menu {
+	background: var(--civil-surface);
+	border: 1px solid var(--civil-line-strong);
+	border-radius: .85rem;
+	box-shadow: var(--civil-shadow);
+	color: var(--civil-text);
 }
 .context-menu-item {
 	min-height: 2.75rem;
 	padding: .65rem .8rem;
 }
-.context-menu-item:hover {
-	background: var(--civil-surface-2) !important;
+/* specificity (0,3,0): keep the hover above the later cosmic-profile
+ * overlay-layer .context-menu-item rules. */
+.context-menu-item.context-menu-item:hover {
+	background: var(--civil-surface-2);
 }
 .heichel-os-document :where(button, input, select, textarea) {
 	font: inherit;
 }
 .heichel-os-document :where(input, select, textarea) {
-	background: #081321 !important;
-	border: 1px solid var(--civil-line) !important;
-	border-radius: .7rem !important;
-	color: var(--civil-text) !important;
+	background: #081321;
+	border: 1px solid var(--civil-line);
+	border-radius: .7rem;
+	color: var(--civil-text);
 	min-height: 2.75rem;
-	padding: .65rem .75rem !important;
+	padding: .65rem .75rem;
 }
 /* @tunnel-interactive-states: auto-generated by css-guarantee */
 a:active {
@@ -347,3 +410,14 @@ a:focus-visible {
   }
 
 }
+
+/* BH Yaakov 2026-10-08: Fix gradient-text white-on-white */
+:root:not([data-theme="dark"]) :where(.heichel-semantic-fallback) :where(#heichel-boot-title) {
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  color: #1e293b;
+  -webkit-text-fill-color: #1e293b;
+}
+:root:not([data-theme="dark"]) :where(.heichel-semantic-fallback) :where(#heichel-boot-description) { color: #475569; }
+:root:not([data-theme="dark"]) :where(#heichel-discovery-title) { color: #1e293b; }

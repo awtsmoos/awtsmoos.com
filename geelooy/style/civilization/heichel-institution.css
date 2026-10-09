@@ -5,9 +5,9 @@
  * The Awtsmoos makes a Heichel more than a group page; Awtsmoos.com becomes a disciplined cultural institution whose data remains real.
  */
 .heichel-os-document {
-	background: radial-gradient(circle at 50% 0, rgba(213, 174, 100, .11), transparent 34rem), var(--civil-bg) !important;
-	color: var(--civil-text) !important;
-	font-family: var(--civil-font) !important;
+	background: radial-gradient(circle at 50% 0, rgba(213, 174, 100, .11), transparent 34rem), var(--civil-bg);
+	color: var(--civil-text);
+	font-family: var(--civil-font);
 }
 .heichel-shell-boot {
 	display: grid;
@@ -37,59 +37,66 @@
 	place-items: center;
 	width: 4rem;
 }
+/* specificity (0,2,0): keep the container centered above the mobile-series
+ * shell-layout rule (.heichel-os-document :where(...) { margin-inline: 0 })
+ * that loads later at (0,1,0). */
+.heichel-page-container.heichel-page-container {
+	margin-inline: auto;
+}
 .heichel-page-container {
-	margin-inline: auto !important;
 	max-width: 96rem;
-	padding: clamp(.7rem, 2vw, 1.5rem) !important;
+	padding: clamp(.7rem, 2vw, 1.5rem);
 }
 .main-content-wrapper {
-	display: grid !important;
-	gap: 1rem !important;
-	grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem) !important;
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem);
 }
 .heichel-main-stage, .heichel-sidebar, .heichel-content-panel {
 	min-width: 0;
 }
 .heichel-header {
-	background: linear-gradient(135deg, rgba(13, 23, 37, .96), rgba(21, 28, 38, .96)) !important;
-	border: 1px solid rgba(213, 174, 100, .24) !important;
-	border-radius: 1rem !important;
-	padding: clamp(1rem, 3vw, 2rem) !important;
+	background: linear-gradient(135deg, rgba(13, 23, 37, .96), rgba(21, 28, 38, .96));
+	border: 1px solid rgba(213, 174, 100, .24);
+	border-radius: 1rem;
+	padding: clamp(1rem, 3vw, 2rem);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(#heichel-main-title) {
-	font-size: clamp(2rem, 5vw, 4rem) !important;
+/* :is() keeps (1,0,0): beats the later cosmic-profile desktop-profile
+ * :where() font-size override with no important flag needed. */
+:is(#heichel-main-title) {
+	font-size: clamp(2rem, 5vw, 4rem);
 	letter-spacing: -.055em;
 	line-height: 1.05;
-	margin: 0 0 1rem !important;
+	margin: 0 0 1rem;
 }
 .heichel-search-wrapper input {
-	background: #081321 !important;
-	border: 1px solid var(--civil-line) !important;
-	border-radius: .75rem !important;
-	color: var(--civil-text) !important;
+	background: #081321;
+	border: 1px solid var(--civil-line);
+	border-radius: .75rem;
+	color: var(--civil-text);
 	min-height: 3rem;
-	padding: .7rem .85rem !important;
+	padding: .7rem .85rem;
 	width: 100%;
 }
 .content-tabs {
-	background: var(--civil-surface) !important;
-	border: 1px solid var(--civil-line) !important;
-	border-radius: .8rem !important;
-	display: grid !important;
+	background: var(--civil-surface);
+	border: 1px solid var(--civil-line);
+	border-radius: .8rem;
+	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
-	margin: .9rem 0 !important;
-	padding: .25rem !important;
+	margin: .9rem 0;
+	padding: .25rem;
 }
 .content-tabs .tab {
-	background: transparent !important;
-	border: 0 !important;
-	border-radius: .65rem !important;
-	color: var(--civil-text-soft) !important;
+	background: transparent;
+	border: 0;
+	border-radius: .65rem;
+	color: var(--civil-text-soft);
 	min-height: 2.85rem;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.content-tabs) .tab.Active {
-	background: var(--civil-surface-2) !important;
-	color: var(--civil-gold) !important;
+	background: var(--civil-surface-2);
+	color: var(--civil-gold);
 }

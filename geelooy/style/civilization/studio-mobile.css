@@ -5,18 +5,18 @@
  * The Awtsmoos does not shrink a production desk into a phone; Awtsmoos.com reveals settings as accordions and preview as a safe full-screen sheet.
  */
 @media (max-width: 840px) { .caption-studio-document .app-container {
-		display: block !important;
-		height: auto !important;
+		display: block;
+		height: auto;
 		min-height: 100dvh;
 		overflow: visible;
 		padding-bottom: max(6rem, env(safe-area-inset-bottom));
 	} }
 @media (max-width: 840px) { .caption-studio-document .controls-wrapper {
-		border: 0 !important;
+		border: 0;
 		min-height: 100dvh;
 	} }
 @media (max-width: 840px) { .caption-studio-document .studio-header {
-		padding-top: max(.8rem, env(safe-area-inset-top)) !important;
+		padding-top: max(.8rem, env(safe-area-inset-top));
 		position: sticky;
 		top: 0;
 		z-index: 30;
@@ -26,21 +26,21 @@
 	} }
 @media (max-width: 840px) { .caption-studio-document .header-actions button {
 		font-size: .76rem;
-		padding-inline: .45rem !important;
+		padding-inline: .45rem;
 	} }
 @media (max-width: 840px) { .caption-studio-document .scroll-area {
-		overflow: visible !important;
+		overflow: visible;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 840px) { :where(.caption-studio-document) :where(#actions-footer) {
 		bottom: 0;
-		padding-bottom: max(.8rem, env(safe-area-inset-bottom)) !important;
+		padding-bottom: max(.8rem, env(safe-area-inset-bottom));
 		position: fixed;
 		width: 100%;
 		z-index: 40;
 	} }
 @media (max-width: 840px) { .caption-studio-document .preview-wrapper {
-		display: none !important;
+		display: none;
 		inset: 0;
 		overflow-y: auto;
 		padding: max(.8rem, env(safe-area-inset-top)) .8rem max(.8rem, env(safe-area-inset-bottom));
@@ -49,16 +49,16 @@
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 840px) { :where(.caption-studio-document) .preview-wrapper.mobile-visible {
-		display: grid !important;
+		display: grid;
 	} }
 @media (max-width: 840px) { .caption-studio-document :where(#previewCanvas, #outputVideo) {
 		max-height: calc(100dvh - 6rem);
 	} }
 @media (max-width: 840px) { .caption-studio-document .row {
-		grid-template-columns: 1fr !important;
+		grid-template-columns: 1fr;
 	} }
 @media (max-width: 840px) { .caption-studio-document .half {
-		width: 100% !important;
+		width: 100%;
 	} }
 @media (max-width: 390px) { .caption-studio-document .header-actions {
 		grid-template-columns: 1fr 1fr 1fr;
@@ -67,7 +67,7 @@
 		grid-column: 1 / -1;
 	} }
 @media (max-width: 390px) { .caption-studio-document .fx-grid {
-		grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	} }
 @media (max-width: 390px) { .caption-studio-document .main-buttons {
 		grid-template-columns: 1fr 1fr;

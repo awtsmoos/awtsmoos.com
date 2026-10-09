@@ -43,19 +43,19 @@
 	color: var(--civil-text-faint);
 }
 .actionBar {
-	background: rgba(5, 8, 17, .97) !important;
-	border: 1px solid var(--civil-line) !important;
-	border-radius: .9rem !important;
+	background: rgba(5, 8, 17, .97);
+	border: 1px solid var(--civil-line);
+	border-radius: .9rem;
 	bottom: max(.5rem, env(safe-area-inset-bottom));
-	display: grid !important;
+	display: grid;
 	gap: .5rem;
 	grid-template-columns: repeat(5, minmax(0, 1fr));
-	padding: .55rem !important;
+	padding: .55rem;
 	position: sticky;
 	z-index: 70;
 }
 .actionBar button {
-	min-height: 3rem !important;
+	min-height: 3rem;
 }
 #publishConfirmDialog {
 	background: var(--civil-surface);

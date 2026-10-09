@@ -6,31 +6,32 @@
  * preserves readable chambers, contained icons, and safe dialogs at every width.
  */
 .heichel-os-document summary.topbar-icon {
-	overflow-x: hidden !important;
-	overflow-y: hidden !important;
+	overflow-x: hidden;
+	overflow-y: hidden;
 }
 @media (max-width: 900px) { .main-content-wrapper {
-		grid-template-columns: 1fr !important;
+		grid-template-columns: 1fr;
 	} }
 @media (max-width: 900px) { .heichel-sidebar {
 		position: static;
 	} }
 @media (max-width: 900px) { .sidebar-toggle {
-		display: none !important;
+		display: none;
 	} }
 @media (max-width: 620px) { .heichel-page-container {
-		padding: .65rem !important;
-		padding-bottom: max(5rem, env(safe-area-inset-bottom)) !important;
+		padding: .65rem;
+		padding-bottom: max(5rem, env(safe-area-inset-bottom));
 	} }
 @media (max-width: 620px) { .heichel-header {
-		padding: 1rem !important;
+		padding: 1rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 620px) { :where(#heichel-main-title) {
-		font-size: 2rem !important;
+/* :is() keeps (1,0,0) so the small-screen size still beats the base rule. */
+@media (max-width: 620px) { :is(#heichel-main-title) {
+		font-size: 2rem;
 	} }
 @media (max-width: 620px) { .grid-container {
-		grid-template-columns: 1fr !important;
+		grid-template-columns: 1fr;
 	} }
 @media (max-width: 620px) { .post-card {
 		min-height: 0;

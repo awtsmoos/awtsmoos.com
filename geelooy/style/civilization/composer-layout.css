@@ -36,16 +36,16 @@
 	margin: .15rem 0 0;
 }
 .composerLayout {
-	display: grid !important;
-	gap: 1rem !important;
-	grid-template-columns: minmax(0, 1fr) minmax(21rem, 29rem) !important;
-	margin: 0 auto !important;
-	max-width: 96rem !important;
-	padding: clamp(.75rem, 2vw, 1.5rem) !important;
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: minmax(0, 1fr) minmax(21rem, 29rem);
+	margin: 0 auto;
+	max-width: 96rem;
+	padding: clamp(.75rem, 2vw, 1.5rem);
 }
 .composerColumn {
-	display: grid !important;
-	gap: .9rem !important;
+	display: grid;
+	gap: .9rem;
 	min-width: 0;
 	padding-bottom: 6rem;
 }
@@ -54,12 +54,12 @@
 }
 .composer-civilization-document .panel,
 .composer-civilization-document .previewSticky {
-	background: var(--civil-surface) !important;
-	border: 1px solid var(--civil-line) !important;
-	border-radius: var(--civil-radius) !important;
-	box-shadow: none !important;
-	color: var(--civil-text) !important;
-	padding: clamp(.9rem, 2vw, 1.25rem) !important;
+	background: var(--civil-surface);
+	border: 1px solid var(--civil-line);
+	border-radius: var(--civil-radius);
+	box-shadow: none;
+	color: var(--civil-text);
+	padding: clamp(.9rem, 2vw, 1.25rem);
 }
 .majorPanel > summary {
 	align-items: center;

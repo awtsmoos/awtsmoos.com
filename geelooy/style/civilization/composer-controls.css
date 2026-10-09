@@ -28,13 +28,13 @@
 	min-width: 0;
 }
 .composer-civilization-document :where(input, select, textarea) {
-	background: #081321 !important;
-	border: 1px solid var(--civil-line) !important;
-	border-radius: .72rem !important;
-	box-shadow: none !important;
-	color: var(--civil-text) !important;
+	background: #081321;
+	border: 1px solid var(--civil-line);
+	border-radius: .72rem;
+	box-shadow: none;
+	color: var(--civil-text);
 	min-height: 3rem;
-	padding: .7rem .8rem !important;
+	padding: .7rem .8rem;
 	width: 100%;
 }
 .composer-civilization-document textarea {
@@ -59,9 +59,9 @@
 }
 .composer-civilization-document .primaryAction,
 .composer-civilization-document .publishButton {
-	background: linear-gradient(135deg, var(--civil-cyan), #2f8cff) !important;
-	border-color: transparent !important;
-	color: #03101a !important;
+	background: linear-gradient(135deg, var(--civil-cyan), #2f8cff);
+	border-color: transparent;
+	color: #03101a;
 }
 .composer-civilization-document details:not(.majorPanel) {
 	background: rgba(255, 255, 255, .02);

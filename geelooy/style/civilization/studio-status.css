@@ -6,54 +6,54 @@
  * The Awtsmoos makes every render stage visible; Awtsmoos.com never hides failure behind an endless glow.
  */
 :where(.caption-studio-document) :where(#actions-footer) {
-	background: rgba(5, 8, 17, .97) !important;
-	border-top: 1px solid var(--civil-line) !important;
-	display: grid !important;
+	background: rgba(5, 8, 17, .97);
+	border-top: 1px solid var(--civil-line);
+	display: grid;
 	gap: .65rem;
-	padding: .8rem !important;
+	padding: .8rem;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.caption-studio-document) :where(#status) {
-	color: var(--civil-text-soft) !important;
+	color: var(--civil-text-soft);
 	font-size: .86rem;
 	margin: 0;
 	min-height: 1.35rem;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.caption-studio-document) :where(#status.success) {
-	color: var(--civil-green) !important;
+	color: var(--civil-green);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.caption-studio-document) :where(#status.warning) {
-	color: var(--civil-amber) !important;
+	color: var(--civil-amber);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.caption-studio-document) :where(#status.error) {
-	color: var(--civil-red) !important;
+	color: var(--civil-red);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.caption-studio-document) :where(#progressContainer) {
-	background: #07111d !important;
-	border: 1px solid var(--civil-line) !important;
-	border-radius: 99rem !important;
+	background: #07111d;
+	border: 1px solid var(--civil-line);
+	border-radius: 99rem;
 	height: .7rem;
 	overflow: hidden;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.caption-studio-document) :where(#progressBar) {
-	background: linear-gradient(90deg, var(--civil-cyan), #2f8cff) !important;
+	background: linear-gradient(90deg, var(--civil-cyan), #2f8cff);
 	height: 100%;
 	transition: width .18s linear;
 }
 .caption-studio-document .main-buttons {
-	display: grid !important;
+	display: grid;
 	gap: .55rem;
 	grid-template-columns: 1fr 1.35fr;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.caption-studio-document) :where(#render-overlay) {
 	align-content: center;
-	background: rgba(3, 6, 12, .88) !important;
+	background: rgba(3, 6, 12, .88);
 	color: var(--civil-text);
 	display: none;
 	inset: 0;
@@ -74,11 +74,11 @@
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.caption-studio-document) :where(#preset-dialog) {
-	background: var(--civil-surface) !important;
-	border: 1px solid var(--civil-line-strong) !important;
+	background: var(--civil-surface);
+	border: 1px solid var(--civil-line-strong);
 	border-radius: 1rem;
 	box-shadow: var(--civil-shadow);
-	color: var(--civil-text) !important;
+	color: var(--civil-text);
 	max-width: min(30rem, calc(100vw - 1.5rem));
 	padding: 1rem;
 }
