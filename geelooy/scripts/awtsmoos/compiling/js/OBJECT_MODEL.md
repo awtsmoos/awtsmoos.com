@@ -387,6 +387,21 @@ The differential harness (`~/workspace/js-vs-v8/`) marshals V8 results through
 `encodeValue` and compares against native-tier results with `strictEqual` —
 bit-level agreement, not string comparison.
 
+**Changelog 2026-10-09 — marshal reference identity.** Marshal calls preserve
+reference identity per top-level call; cycles supported via two-phase
+memoization. `encodeValue` threads a fresh `Map` through each top-level call:
+shared substructure encodes to one handle, and cyclic containers are
+allocated empty first, memoized, then filled, so self-references resolve
+instead of recursing forever. `decodeValue` mirrors this in reverse
+(tagged → JS) with its own per-call memo. Additionally, a per-heap identity
+table (`WeakMap`, scoped to the heap object, weakly keyed, holding only
+`BigInt` handles) remembers every marshaled reference, so marshaling the
+same JS reference across *separate* top-level calls returns the identical
+handle — V8 requires `a === a` across a marshal boundary, which a per-call
+memo alone cannot provide. Primitives (fixnums, boxed doubles, SSO strings,
+immediates) carry no identity and take no memo entries; heap strings compare
+by content (spec §12 rule 5).
+
 ---
 
 ## 17. Codegen notes (for the asm.js stream)

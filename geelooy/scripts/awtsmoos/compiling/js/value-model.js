@@ -197,8 +197,50 @@ export function makeHeap(sizeBytes = 1 << 20) {
 // Marshal: JS value <-> tagged value (host interop / differential testing).
 // Numbers: integers in fixnum range -> fixnum; -0 / fractions / out-of-range
 //          / Infinity -> boxed double; NaN -> V_NAN.
+//
+// Reference identity (spec §16): marshaling the same JS reference must yield
+// the identical tagged handle, even across separate top-level encodeValue
+// calls (V8: a === a across a marshal boundary). Two mechanisms cooperate:
+//
+//  1. Per-top-level-call memo (fresh Map, threaded through recursion):
+//     handles shared substructure and cycles *within* one call. Cyclic
+//     containers are allocated empty FIRST, memoized, then filled (two-phase),
+//     so self-references resolve to the in-progress handle instead of
+//     recursing forever.
+//  2. Per-heap identity table (WeakMap<heap, WeakMap<jsRef, tagged>>):
+//     consulted on every object/array encode, populated on success. A fresh
+//     per-call Map alone provably cannot make two separate top-level calls
+//     return the same handle; the table is the marshal-boundary remembered
+//     set. It is scoped per heap object (no cross-heap leaks), keyed weakly
+//     (encoded JS objects stay collectable), and holds only BigInt handles
+//     (no heap memory retained beyond the heap itself).
+//
+// Primitives (fixnums, boxed doubles, SSO strings, immediates) need no memo
+// entries: they carry no identity. Heap strings are content-compared by
+// strictEqual (spec §12 rule 5), so they need no identity entry either.
 // ---------------------------------------------------------------------------
+const heapIdentityTables = new WeakMap(); // heap object -> WeakMap<object, bigint>
+function identityTableFor(heap) {
+  let t = heapIdentityTables.get(heap);
+  if (!t) { t = new WeakMap(); heapIdentityTables.set(heap, t); }
+  return t;
+}
+
 export function encodeValue(heap, js) {
+  // Fast path: primitives carry no identity; skip the table entirely.
+  if (typeof js !== "object" || js === null) {
+    return encodeInner(heap, js, new Map(), identityTableFor(heap));
+  }
+  const table = identityTableFor(heap);
+  const hit = table.get(js);
+  if (hit !== undefined) return hit; // same reference marshaled before -> same handle
+  const memo = new Map(); // fresh per top-level call; never escapes
+  const out = encodeInner(heap, js, memo, table);
+  table.set(js, out); // only on success: a throw leaves no stale entry
+  return out;
+}
+
+function encodeInner(heap, js, memo, table) {
   if (typeof js === "number") {
     if (Number.isNaN(js)) return V_NAN;
     // NOTE: the upper bound is a strict < 2**60, not <= Number(FIXNUM_MAX).
@@ -211,32 +253,65 @@ export function encodeValue(heap, js) {
     return heap.allocDouble(js);
   }
   if (typeof js === "bigint") return fixnum(js); // throws if out of range: exact, no silent wrap
-  if (typeof js === "string") return heap.allocString(js);
+  if (typeof js === "string") {
+    const hit = memo.get(js);
+    if (hit !== undefined) return hit;
+    const out = heap.allocString(js);
+    memo.set(js, out);
+    return out;
+  }
   if (typeof js === "boolean") return js ? V_TRUE : V_FALSE;
   if (js === null) return V_NULL;
   if (js === undefined) return V_UNDEFINED;
   if (Array.isArray(js)) {
-    // Build densely: map() skips holes, so loop explicitly and use V_HOLE.
-    const elems = new Array(js.length);
-    for (let i = 0; i < js.length; i++) elems[i] = (i in js) ? encodeValue(heap, js[i]) : V_HOLE;
-    return heap.allocArray(elems, { length: js.length });
+    const hit = memo.get(js);
+    if (hit !== undefined) return hit;
+    const known = table.get(js);
+    if (known !== undefined) { memo.set(js, known); return known; }
+    // Two-phase: allocate the empty container FIRST, memoize it, then fill
+    // elements (map() skips holes, so loop explicitly and use V_HOLE).
+    // A self-reference inside resolves to the in-progress handle.
+    const length = js.length;
+    const ref = heap.allocArray([], { length, capacity: Math.max(length, 4) });
+    memo.set(js, ref);
+    const ptr = Number(heapPtr(ref));
+    for (let i = 0; i < length; i++) {
+      heap.dv.setBigUint64(ptr + HEADER_SIZE + i * 8,
+        asU64(i in js ? encodeInner(heap, js[i], memo, table) : V_HOLE), true);
+    }
+    return ref;
   }
   if (typeof js === "object") {
+    const hit = memo.get(js);
+    if (hit !== undefined) return hit;
+    const known = table.get(js);
+    if (known !== undefined) { memo.set(js, known); return known; }
     // Plain object -> TYPE_OBJECT with a fresh shape (names + slot indexes).
     const names = Object.keys(js);
-    const nameRefs = names.map((n) => heap.allocString(n));
+    const nameRefs = names.map((n) => encodeInner(heap, n, memo, table));
     const shapeOff = heap.alloc(TYPE_SHAPE, names.length * 16, BigInt(names.length));
     const dv = heap.dv;
-    nameRefs.forEach((r, i) => dv.setBigUint64(shapeOff + HEADER_SIZE + i * 8, r, true));
+    nameRefs.forEach((r, i) => dv.setBigUint64(shapeOff + HEADER_SIZE + i * 8, asU64(r), true));
     names.forEach((_, i) => dv.setUint32(shapeOff + HEADER_SIZE + names.length * 8 + i * 4, i, true));
+    // Two-phase: allocate the empty object, memoize it, then fill slots.
     const objOff = heap.alloc(TYPE_OBJECT, names.length * 8, BigInt(shapeOff));
-    names.forEach((n, i) => dv.setBigUint64(objOff + HEADER_SIZE + i * 8, encodeValue(heap, js[n]), true));
-    return heapref(BigInt(objOff));
+    const ref = heapref(BigInt(objOff));
+    memo.set(js, ref);
+    names.forEach((n, i) => dv.setBigUint64(objOff + HEADER_SIZE + i * 8,
+      asU64(encodeInner(heap, js[n], memo, table)), true));
+    return ref;
   }
   throw new TypeError(`encodeValue: unsupported JS type ${typeof js}`);
 }
 
 export function decodeValue(heap, v) {
+  // Fresh memo per top-level call (never escapes): shared substructure and
+  // cycles decode to identical JS references (two-phase: allocate the empty
+  // container, memoize it, then fill).
+  return decodeInner(heap, asU64(v), new Map());
+}
+
+function decodeInner(heap, v, memo) {
   const t = tagOf(v);
   if (t === TAG_FIXNUM) return Number(fixnumValue(v));
   if (t === TAG_IMM) {
@@ -250,6 +325,8 @@ export function decodeValue(heap, v) {
     }
   }
   if (t === TAG_SMALLSTR) return smallStringValue(v);
+  const hit = memo.get(v);
+  if (hit !== undefined) return hit;
   const dv = heap.dv;
   const ptr = Number(heapPtr(v));
   const { type, meta } = readHeader(dv, ptr);
@@ -262,14 +339,16 @@ export function decodeValue(heap, v) {
     const n = Number(meta);
     let s = "";
     for (let i = 0; i < n; i++) s += String.fromCharCode(dv.getUint16(ptr + HEADER_SIZE + i * 2, true));
+    memo.set(v, s);
     return s;
   }
   if (type === TYPE_ARRAY) {
     const length = Number(meta >> 32n);
     const out = new Array(length);
+    memo.set(v, out); // two-phase: memoize before filling
     for (let i = 0; i < length; i++) {
       const e = dv.getBigUint64(ptr + HEADER_SIZE + i * 8, true);
-      if (e !== V_HOLE) out[i] = decodeValue(heap, e); // holes stay holes
+      if (e !== V_HOLE) out[i] = decodeInner(heap, e, memo); // holes stay holes
     }
     return out;
   }
@@ -283,7 +362,8 @@ export function decodeValue(heap, v) {
     }
     const length = pairs.length ? pairs[pairs.length - 1][0] + 1 : 0;
     const out = new Array(length);
-    for (const [k, val] of pairs) out[k] = decodeValue(heap, val);
+    memo.set(v, out); // two-phase: memoize before filling
+    for (const [k, val] of pairs) out[k] = decodeInner(heap, val, memo);
     return out;
   }
   if (type === TYPE_OBJECT) {
@@ -292,16 +372,19 @@ export function decodeValue(heap, v) {
     if (sh.type !== TYPE_SHAPE) throw new Error("object meta is not a shape");
     const n = Number(sh.meta);
     const out = {};
+    memo.set(v, out); // two-phase: memoize before filling
     for (let i = 0; i < n; i++) {
-      const name = decodeValue(heap, dv.getBigUint64(shapeOff + HEADER_SIZE + i * 8, true));
+      const name = decodeInner(heap, dv.getBigUint64(shapeOff + HEADER_SIZE + i * 8, true), memo);
       const slot = dv.getUint32(shapeOff + HEADER_SIZE + n * 8 + i * 4, true);
-      out[name] = decodeValue(heap, dv.getBigUint64(ptr + HEADER_SIZE + slot * 8, true));
+      out[name] = decodeInner(heap, dv.getBigUint64(ptr + HEADER_SIZE + slot * 8, true), memo);
     }
     return out;
   }
   if (type === TYPE_BUFFER) {
     const n = Number(meta);
-    return new Uint8Array(dv.buffer, ptr + HEADER_SIZE, n).slice();
+    const out = new Uint8Array(dv.buffer, ptr + HEADER_SIZE, n).slice();
+    memo.set(v, out);
+    return out;
   }
   throw new Error(`decodeValue: unsupported heap type ${type}`);
 }
@@ -355,8 +438,12 @@ export function strictEqual(heap, a, b) {
     if (za && zb) return true; // -0 === +0
     if (za || zb) return false;
     // NaN payloads never equal (also guarded above for the imm case).
+    // Infinities (all-ones exponent, zero mantissa) compare by bits:
+    // Infinity === Infinity is true in V8; only a nonzero mantissa means NaN.
     const expA = ba & 0x7ff0000000000000n, expB = bb & 0x7ff0000000000000n;
-    if (expA === 0x7ff0000000000000n || expB === 0x7ff0000000000000n) return false;
+    const mantA = ba & 0xfffffffffffffn, mantB = bb & 0xfffffffffffffn;
+    if ((expA === 0x7ff0000000000000n && mantA !== 0n) ||
+        (expB === 0x7ff0000000000000n && mantB !== 0n)) return false;
     return ba === bb;
   }
   if (ta === TAG_HEAPREF) {

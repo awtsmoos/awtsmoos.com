@@ -222,5 +222,48 @@ ok(isDouble(d1) && !isHeapref(d1), "double not heapref");
   }
 }
 
+// --- marshal reference identity (spec §16): a === a across marshal calls ---
+{
+  const heap = makeHeap();
+  // double-encode of the same reference (separate top-level calls) -> same handle
+  const a = { x: 1, y: [1, 2] };
+  const e1 = encodeValue(heap, a), e2 = encodeValue(heap, a);
+  ok(e1 === e2, "double-encode same reference -> identical handle");
+  ok(strictEqual(heap, e1, e2), "double-encoded reference strictEqual");
+  // distinct references stay distinct
+  const d1 = encodeValue(heap, { x: 1 }), d2 = encodeValue(heap, { x: 1 });
+  ok(d1 !== d2 && !strictEqual(heap, d1, d2), "distinct literals -> distinct handles");
+  // cyclic array: encodes without hanging; decodes with identity intact
+  const ca = [1]; ca.push(ca);
+  const dca = decodeValue(heap, encodeValue(heap, ca));
+  ok(dca[0] === 1 && dca[1] === dca, "cyclic array round-trips with self-identity");
+  // cyclic object
+  const co = { n: "self" }; co.me = co;
+  const dco = decodeValue(heap, encodeValue(heap, co));
+  ok(dco.n === "self" && dco.me === dco, "cyclic object round-trips with self-identity");
+  // shared substructure within one call: {x:o, y:o} -> decoded x === y
+  const o = { v: 42 };
+  const de = decodeValue(heap, encodeValue(heap, { x: o, y: o }));
+  ok(de.x === de.y && de.x.v === 42, "shared substructure decodes to identical references");
+  // shared substructure across elements
+  const arr = [o, o];
+  const darr = decodeValue(heap, encodeValue(heap, arr));
+  ok(darr[0] === darr[1], "shared array elements decode to identical references");
+  // previously marshaled reference nested in a later call reuses its handle
+  const t1 = encodeValue(heap, o);
+  const t2 = encodeValue(heap, [o]);
+  const dt2 = decodeValue(heap, t2);
+  ok(dt2[0].v === 42, "nested reuse of marshaled reference decodes correctly");
+  ok(strictEqual(heap, t1, encodeValue(heap, o)), "re-marshal returns remembered handle");
+  // deep cycle through object -> array -> object
+  const top = { name: "top" }; const mid = [top]; top.mid = mid;
+  const dtop = decodeValue(heap, encodeValue(heap, top));
+  ok(dtop.mid[0] === dtop && dtop.name === "top", "object/array cycle round-trips");
+  // Infinity: boxed infinities compare true (V8: Infinity === Infinity)
+  const i1 = encodeValue(heap, Infinity), i2 = encodeValue(heap, Infinity);
+  ok(strictEqual(heap, i1, i2), "boxed Infinity === boxed Infinity");
+  ok(!strictEqual(heap, i1, encodeValue(heap, -Infinity)), "Infinity !== -Infinity");
+}
+
 console.log(`\nvalue-model: ${pass} pass, ${fail} fail`);
 process.exit(fail ? 1 : 0);
