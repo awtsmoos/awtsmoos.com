@@ -47,6 +47,7 @@ const RELA_ENTRY_SIZE = 24;
 const DYNAMIC_ENTRY_SIZE = 16;
 
 const STB_GLOBAL = 1;
+const STT_OBJECT = 1;
 const STT_FUNC = 2;
 
 /**
@@ -74,6 +75,10 @@ const MAXIMUM_BYTES_DEFAULT = 16 * 1024 * 1024;
  * @param {Array<{offset:number,type:number,symbolIndex?:number,addend?:number}>}
  *        [options.relocations] ELF-level RELA entries; offsets are virtual
  *        addresses (identical to file offsets in this layout)
+ * @param {Array<{name:string,kind?:string}>} [options.undefinedSymbols]
+ *        imported symbols (SHN_UNDEF dynsym entries) for dynamic linking,
+ *        e.g. [{name:"eglGetDisplay",kind:"function"}]. kind defaults to
+ *        "function"; use "data" for imported objects.
  * @param {number} [options.maximumBytes] output size cap
  * @returns {object} frozen { bytes, soname, exports, segments, dynamic, ... }
  */
@@ -87,16 +92,25 @@ export function writeElf64SharedObject(options = {}) {
 	);
 	const needed = normalizeNeeded(options.needed);
 	const exported = normalizeExports(options.exports, text.length);
-	const relocations = normalizeRelocations(options.relocations, exported.length + 1);
+	const undefinedSymbols = normalizeUndefinedSymbols(options.undefinedSymbols);
+	const relocations = normalizeRelocations(
+		options.relocations,
+		exported.length + undefinedSymbols.length + 1
+	);
 	const maximumBytes = safeInteger(
 		options.maximumBytes === undefined ? MAXIMUM_BYTES_DEFAULT : options.maximumBytes,
 		"ELF64 shared object limit"
 	);
 
-	const strings = buildStringTable([soname, ...needed, ...exported.map(entry => entry.name)]);
-	const symbolCount = exported.length + 1;
+	const strings = buildStringTable([
+		soname,
+		...needed,
+		...exported.map(entry => entry.name),
+		...undefinedSymbols.map(entry => entry.name)
+	]);
+	const symbolCount = exported.length + undefinedSymbols.length + 1;
 	const symtabSize = symbolCount * SYMBOL_SIZE;
-	const hashBytes = buildHashTable(exported);
+	const hashBytes = buildHashTable(symbolCount - 1);
 	const relaBytes = buildRelaTable(relocations);
 
 	const plannedDynamic = planDynamicEntries({
@@ -180,7 +194,14 @@ export function writeElf64SharedObject(options = {}) {
 	});
 	bytes.set(text, textOffset);
 	if (data.length) bytes.set(data, dataOffset);
-	writeSymbolTable(view, symtabOffset, exported, textAddress, strings.offsets);
+	writeSymbolTable(
+		view,
+		symtabOffset,
+		exported,
+		undefinedSymbols,
+		textAddress,
+		strings.offsets
+	);
 	bytes.set(strings.bytes, strtabOffset);
 	bytes.set(hashBytes, hashOffset);
 	if (relaBytes.length) bytes.set(relaBytes, relaOffset);
@@ -279,6 +300,25 @@ function normalizeRelocations(input, symbolCount) {
 	}));
 }
 
+function normalizeUndefinedSymbols(input) {
+	const list = input === undefined ? [] : input;
+	if (!Array.isArray(list)) throw sharedObjectError("ELF64_SO_UNDEFINED_ARRAY_REQUIRED");
+	const seen = new Set();
+	return Object.freeze(list.map((entry, index) => {
+		if (!entry || typeof entry !== "object") {
+			throw sharedObjectError("ELF64_SO_UNDEFINED_OBJECT_REQUIRED", String(index));
+		}
+		const name = normalizeObjectName(entry.name, "ELF64_SO_UNDEFINED_NAME_INVALID");
+		if (seen.has(name)) throw sharedObjectError("ELF64_SO_UNDEFINED_DUPLICATE", name);
+		seen.add(name);
+		const kind = entry.kind === undefined || entry.kind === null ? "function" : String(entry.kind);
+		if (kind !== "function" && kind !== "data") {
+			throw sharedObjectError("ELF64_SO_UNDEFINED_KIND_INVALID", `${name}:${kind}`);
+		}
+		return Object.freeze({ kind, name });
+	}));
+}
+
 function buildStringTable(values) {
 	const offsets = new Map();
 	const parts = [0];
@@ -303,16 +343,17 @@ function elfHash(name) {
 	return hash >>> 0;
 }
 
-function buildHashTable(exported) {
+function buildHashTable(definedCount) {
+	const count = safeInteger(definedCount, "ELF64 hash symbol count");
 	const nbucket = 1;
-	const nchain = exported.length + 1;
+	const nchain = count + 1;
 	const words = new Uint32Array(2 + nbucket + nchain);
 	words[0] = nbucket;
 	words[1] = nchain;
-	if (exported.length > 0) {
+	if (count > 0) {
 		words[2] = 1;
-		for (let symbol = 1; symbol <= exported.length; symbol += 1) {
-			words[2 + nbucket + symbol] = symbol < exported.length ? symbol + 1 : 0;
+		for (let symbol = 1; symbol <= count; symbol += 1) {
+			words[2 + nbucket + symbol] = symbol < count ? symbol + 1 : 0;
 		}
 	}
 	return new Uint8Array(words.buffer);
@@ -394,7 +435,7 @@ function writeProgramHeader(view, offset, segment) {
 	view.setBigUint64(offset + 48, BigInt(segment.alignment), true);
 }
 
-function writeSymbolTable(view, offset, exported, textAddress, stringOffsets) {
+function writeSymbolTable(view, offset, exported, undefinedSymbols, textAddress, stringOffsets) {
 	exported.forEach((entry, index) => {
 		const at = offset + (index + 1) * SYMBOL_SIZE;
 		view.setUint32(at, stringOffsets.get(entry.name), true);
@@ -403,6 +444,18 @@ function writeSymbolTable(view, offset, exported, textAddress, stringOffsets) {
 		view.setUint16(at + 6, 1, true);
 		view.setBigUint64(at + 8, BigInt(textAddress + entry.offset), true);
 		view.setBigUint64(at + 16, BigInt(entry.size), true);
+	});
+	undefinedSymbols.forEach((entry, position) => {
+		const at = offset + (exported.length + 1 + position) * SYMBOL_SIZE;
+		view.setUint32(at, stringOffsets.get(entry.name), true);
+		view.setUint8(
+			at + 4,
+			(STB_GLOBAL << 4) | (entry.kind === "data" ? STT_OBJECT : STT_FUNC)
+		);
+		view.setUint8(at + 5, 0);
+		view.setUint16(at + 6, 0, true);
+		view.setBigUint64(at + 8, 0n, true);
+		view.setBigUint64(at + 16, 0n, true);
 	});
 }
 
