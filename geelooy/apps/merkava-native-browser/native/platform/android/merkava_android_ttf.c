@@ -258,16 +258,34 @@ static uint32_t glyph_offset(const AwtsTtfFace* f, uint16_t glyph) {
 static int decode_simple(const uint8_t* g, Outline* o,
 		float m00, float m01, float m10, float m11, float dx, float dy) {
 	int16_t nContours = rds16(g);
+	if (nContours <= 0) return 0; /* malformed simple glyph */
 	const uint8_t* p = g + 10;
-	uint16_t* ends = (uint16_t*)malloc((size_t)nContours * sizeof(uint16_t));
-	if (!ends) return 0;
+	/* B"H: ONE arena for all decode temporaries (was 4 + 3 per contour).
+	   Peek nPts from the last contour end first. */
+	uint16_t nPts = (uint16_t)(rd16(p + (size_t)(nContours - 1) * 2) + 1);
+	size_t wsCap = (size_t)nPts * 2 + 2; /* max per-contour expansion */
+	size_t arenaSize = (size_t)nContours * sizeof(uint16_t) + 16
+		+ nPts + 16
+		+ (size_t)nPts * sizeof(float) + 16
+		+ (size_t)nPts * sizeof(float) + 16
+		+ wsCap * sizeof(float) + 16
+		+ wsCap * sizeof(float) + 16
+		+ wsCap + 16;
+	uint8_t* arena = (uint8_t*)malloc(arenaSize);
+	if (!arena) return 0;
+	uint8_t* ap = arena;
+	uint16_t* ends = (uint16_t*)ap; ap += (size_t)nContours * sizeof(uint16_t);
 	for (int i = 0; i < nContours; i++) ends[i] = rd16(p + i * 2);
 	p += (size_t)nContours * 2;
-	uint16_t nPts = ends[nContours - 1] + 1;
 	uint16_t instrLen = rd16(p); p += 2 + instrLen;
 
-	uint8_t* flags = (uint8_t*)malloc(nPts);
-	if (!flags) { free(ends); return 0; }
+	uint8_t* flags = ap; ap += nPts;
+	ap = (uint8_t*)(((uintptr_t)ap + 3) & ~(uintptr_t)3);
+	float* xs = (float*)ap; ap += (size_t)nPts * sizeof(float);
+	float* ys = (float*)ap; ap += (size_t)nPts * sizeof(float);
+	float* ex = (float*)ap; ap += wsCap * sizeof(float);
+	float* ey = (float*)ap; ap += wsCap * sizeof(float);
+	uint8_t* eon = ap; /* tail workspace; nothing allocated after */
 	size_t fi = 0;
 	while (fi < nPts) {
 		uint8_t fl = *p++;
@@ -277,9 +295,6 @@ static int decode_simple(const uint8_t* g, Outline* o,
 			while (rep-- && fi < nPts) flags[fi++] = fl;
 		}
 	}
-	float* xs = (float*)malloc(nPts * sizeof(float));
-	float* ys = (float*)malloc(nPts * sizeof(float));
-	if (!xs || !ys) { free(ends); free(flags); free(xs); free(ys); return 0; }
 	float x = 0, y = 0;
 	for (uint16_t i = 0; i < nPts; i++) {
 		uint8_t fl = flags[i];
@@ -311,14 +326,7 @@ static int decode_simple(const uint8_t* g, Outline* o,
 		 * off-curve points (circular). Then walk emitting lines
 		 * (on->on) and flattened quads (on->off->on).
 		 */
-		uint16_t cap = m * 2 + 2;
-		float* ex = (float*)malloc(cap * sizeof(float));
-		float* ey = (float*)malloc(cap * sizeof(float));
-		uint8_t* eon = (uint8_t*)malloc(cap);
-		if (!ex || !ey || !eon) {
-			free(ex); free(ey); free(eon);
-			break;
-		}
+		/* B"H: ex/ey/eon reuse the arena workspace (cap <= wsCap). */
 		uint16_t ne = 0;
 		for (uint16_t i = 0; i < m; i++) {
 			uint16_t a = start + i;
@@ -335,9 +343,8 @@ static int decode_simple(const uint8_t* g, Outline* o,
 		/* First on-curve index. */
 		uint16_t fi2 = 0;
 		while (fi2 < ne && !eon[fi2]) fi2++;
-		if (fi2 >= ne) { free(ex); free(ey); free(eon); start = end + 1; continue; }
+		if (fi2 >= ne) { start = end + 1; continue; }
 		if (!outline_push(o, TX(ex[fi2], ey[fi2]), TY(ex[fi2], ey[fi2]), 1)) {
-			free(ex); free(ey); free(eon);
 			break;
 		}
 		uint16_t i2 = fi2;
@@ -357,13 +364,12 @@ static int decode_simple(const uint8_t* g, Outline* o,
 				if (kk == fi2) break;
 			}
 		}
-		free(ex); free(ey); free(eon);
 		o->contourEnds[o->nContours - 1] = (uint16_t)(o->nPts - 1);
 		start = end + 1;
 	}
 #undef TX
 #undef TY
-	free(ends); free(flags); free(xs); free(ys);
+	free(arena);
 	return 1;
 }
 
@@ -442,10 +448,13 @@ static void rasterize_outline(const Outline* o, uint8_t* out, int outW, int outH
 	int sw = outW * SS, sh = outH * SS;
 	if (sw <= 0 || sh <= 0 || outW <= 0 || outH <= 0) return;
 
-	/* Build edge list in supersampled space. */
+	/* Build edge list in supersampled space.
+	   B"H: edges and the xs scratch share ONE block (was 2 mallocs). */
 	size_t ecap = 1024, ne = 0;
-	Edge* edges = (Edge*)malloc(ecap * sizeof(Edge));
-	if (!edges) return;
+	uint8_t* ebuf = (uint8_t*)malloc(ecap * (sizeof(Edge) + sizeof(float)));
+	if (!ebuf) return;
+	Edge* edges = (Edge*)ebuf;
+	float* xs = (float*)(ebuf + ecap * sizeof(Edge));
 	size_t cstart = 0;
 	for (size_t c = 0; c < o->nContours; c++) {
 		size_t cend = o->contourEnds[c];
@@ -457,9 +466,12 @@ static void rasterize_outline(const Outline* o, uint8_t* out, int outW, int outH
 			if (y0 == y1) continue; /* horizontal: no scanline crossing */
 			if (ne >= ecap) {
 				ecap *= 2;
-				Edge* ne2 = (Edge*)realloc(edges, ecap * sizeof(Edge));
-				if (!ne2) { free(edges); return; }
-				edges = ne2;
+				uint8_t* nb = (uint8_t*)realloc(ebuf,
+					ecap * (sizeof(Edge) + sizeof(float)));
+				if (!nb) { free(ebuf); return; }
+				ebuf = nb;
+				edges = (Edge*)ebuf;
+				xs = (float*)(ebuf + ecap * sizeof(Edge));
 			}
 			edges[ne].x0 = x0; edges[ne].y0 = y0;
 			edges[ne].x1 = x1; edges[ne].y1 = y1;
@@ -470,9 +482,7 @@ static void rasterize_outline(const Outline* o, uint8_t* out, int outW, int outH
 
 	/* Supersampled coverage accumulation. */
 	uint16_t* acc = (uint16_t*)calloc((size_t)sw * sh, sizeof(uint16_t));
-	if (!acc) { free(edges); return; }
-	float* xs = (float*)malloc(ne * sizeof(float));
-	if (!xs) { free(edges); free(acc); return; }
+	if (!acc) { free(ebuf); return; }
 
 	for (int sy = 0; sy < sh; sy++) {
 		float y = sy + 0.5f;
@@ -509,7 +519,7 @@ static void rasterize_outline(const Outline* o, uint8_t* out, int outW, int outH
 			out[y * outW + x] = (uint8_t)((sum * 255 + 8) / 16);
 		}
 	}
-	free(xs); free(acc); free(edges);
+	free(acc); free(ebuf);
 	(void)cmp_edge_x0;
 }
 
@@ -544,7 +554,8 @@ int awts_ttf_rasterize(const AwtsTtfFace* face, uint16_t glyph, int pixelHeight,
 	int ix0 = (int)minX - 1, iy0 = (int)minY - 1;
 	int ix1 = (int)(maxX + 1.999f) + 1, iy1 = (int)(maxY + 1.999f) + 1;
 	int w = ix1 - ix0, h = iy1 - iy0;
-	if (w <= 0 || h <= 0 || w > 1024 || h > 1024) { outline_free(&o); return 0; }
+	/* B"H: cap at 512px so the caller's scratch (256KB) always suffices. */
+	if (w <= 0 || h <= 0 || w > 512 || h > 512) { outline_free(&o); return 0; }
 
 	/* Shift outline so bitmap origin is (ix0,iy0). */
 	for (size_t i = 0; i < o.nPts; i++) {
@@ -553,13 +564,19 @@ int awts_ttf_rasterize(const AwtsTtfFace* face, uint16_t glyph, int pixelHeight,
 	}
 
 	int stride = outStride ? outStride : w;
-	uint8_t* tmp = (uint8_t*)malloc((size_t)w * h);
-	if (!tmp) { outline_free(&o); return 0; }
-	memset(tmp, 0, (size_t)w * h);
-	rasterize_outline(&o, tmp, w, h);
-	for (int y = 0; y < h; y++)
-		memcpy(out + (size_t)y * stride, tmp + (size_t)y * w, (size_t)w);
-	free(tmp);
+	if (stride == w) {
+		/* B"H: raster directly into the caller's buffer (no temp copy). */
+		memset(out, 0, (size_t)w * h);
+		rasterize_outline(&o, out, w, h);
+	} else {
+		uint8_t* tmp = (uint8_t*)malloc((size_t)w * h);
+		if (!tmp) { outline_free(&o); return 0; }
+		memset(tmp, 0, (size_t)w * h);
+		rasterize_outline(&o, tmp, w, h);
+		for (int y = 0; y < h; y++)
+			memcpy(out + (size_t)y * stride, tmp + (size_t)y * w, (size_t)w);
+		free(tmp);
+	}
 	outline_free(&o);
 
 	if (outW) *outW = w;

@@ -228,17 +228,14 @@ typedef struct WrapCtx {
 
 static void emit_left(const char* start, size_t len, void* vctx) {
 	WrapCtx* ctx = (WrapCtx*)vctx;
-	char* buf = (char*)malloc(len + 1);
-	if (!buf) return;
-	memcpy(buf, start, len);
-	buf[len] = 0;
+	/* B"H: length-delimited draw — no per-line malloc (was malloc+free
+	   per wrapped line, per frame). */
 	if (ctx->bold)
-		awts_text_draw_bold(ctx->tr, ctx->x, ctx->y,
-			ctx->scale, ctx->r, ctx->g, ctx->b, buf);
+		awts_text_draw_n_bold(ctx->tr, ctx->x, ctx->y,
+			ctx->scale, ctx->r, ctx->g, ctx->b, start, len);
 	else
-		awts_text_draw(ctx->tr, ctx->x, ctx->y,
-			ctx->scale, ctx->r, ctx->g, ctx->b, buf);
-	free(buf);
+		awts_text_draw_n(ctx->tr, ctx->x, ctx->y,
+			ctx->scale, ctx->r, ctx->g, ctx->b, start, len);
 	ctx->y += ctx->lineH;
 }
 

@@ -18,38 +18,59 @@
  *
  * This is the same execution path as NativeAppRunner.js on the JS side:
  * MWB4 opcodes build the DOM, events mutate it, the renderer paints it.
+ *
+ * MEMORY DESIGN (B"H — every byte used):
+ * - Tag names are INTERNED: one static copy per tag name shared by all
+ *   nodes. No per-node tag malloc. Unknown tags are dup'd once and flagged.
+ * - Node flags (heading/button/tag-owned) packed into ONE byte.
+ * - Struct field order chosen to eliminate padding: 88 bytes/node
+ *   (was 96 + one malloc per node for the tag).
+ * - Event names are a 1-byte kind enum, not a dup'd string.
  */
 
 /* Forward declarations. */
 typedef struct AwtsVm AwtsVm;
 typedef struct AwtsVmNode AwtsVmNode;
 
-/** A DOM node in the live tree. */
-struct AwtsVmNode {
-	uint32_t handle;        /* MWB4 handle (unique per node). */
-	char* tag;              /* e.g. "div", "h1", "button", "p". */
-	char* id;               /* id attribute (may be NULL). */
-	char* text;             /* Text content (may be NULL). */
-	float r, g, b;          /* Resolved text color. */
-	int isHeading;          /* 1 for h1..h6. */
-	int isButton;           /* 1 for button/input[type=button]. */
+/* Node flag bits. */
+#define AWTS_VM_FLAG_HEADING   0x01u
+#define AWTS_VM_FLAG_BUTTON    0x02u
+#define AWTS_VM_FLAG_TAG_OWNED 0x04u /* tag was dup'd (not interned) */
 
-	/* Tree links. */
+/* Event kinds. */
+#define AWTS_VM_EVENT_CLICK 0u
+
+/** A DOM node in the live tree: 88 bytes. */
+struct AwtsVmNode {
+	/* 8-byte fields first: zero padding. */
 	AwtsVmNode* parent;
 	AwtsVmNode** children;
-	size_t childCount;
-	size_t childCap;
+	char* text;              /* Text content (may be NULL). Owned. */
+	char* id;                /* id attribute (may be NULL). Owned. */
+	const char* tag;         /* Interned static string, or owned if
+	                            AWTS_VM_FLAG_TAG_OWNED. Never NULL. */
+	/* B"H: 32-bit child counts (a node can never have 4B children —
+	   the array alone would need 32GB). Saves 8 bytes -> node is 88. */
+	uint32_t childCount;
+	uint32_t childCap;
 
-	/* Layout (computed by awts_vm_layout). */
-	float x, y, w, h;       /* Bounds in pixels. */
+	/* 4-byte fields. */
+	float x, y, w, h;        /* Bounds in pixels. */
+	float r, g, b;           /* Resolved text color. */
+	uint32_t handle;         /* MWB4 handle (unique per node). */
+
+	/* 1-byte tail. */
+	uint8_t flags;           /* AWTS_VM_FLAG_* bits. */
+	/* 3 bytes implicit tail padding -> 88 total. */
 };
 
-/** A bound text-mutation event (from BIND_TEXT_EVENT). */
+/** A bound text-mutation event (from BIND_TEXT_EVENT): 24 bytes. */
 typedef struct AwtsVmEvent {
+	char* value;                 /* New text value. Owned. */
 	uint32_t targetHandle;       /* Node that receives the tap. */
-	char* event;                 /* Event name, e.g. "click". */
 	uint32_t actionTargetHandle; /* Node whose text gets replaced. */
-	char* value;                 /* New text value. */
+	uint8_t eventKind;           /* AWTS_VM_EVENT_* (1 byte, not a string). */
+	/* 7 bytes implicit tail padding -> 24 total. */
 } AwtsVmEvent;
 
 /** The VM instance. */

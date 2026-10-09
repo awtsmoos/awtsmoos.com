@@ -18,6 +18,78 @@
 #define MWB4_OP_SET_STYLE_HANDLE 5
 
 /* ------------------------------------------------------------------ */
+/* Tag interning: one static copy per tag name, shared by all nodes.   */
+/* No per-node tag malloc. Unknown tags are dup'd once and flagged.    */
+/* ------------------------------------------------------------------ */
+
+static const char* const TAG_TABLE[] = {
+	"div", "p", "span", "a", "img",
+	"h1", "h2", "h3", "h4", "h5", "h6",
+	"button", "input", "ul", "ol", "li",
+	"body", "html", "head", "title",
+	"header", "footer", "main", "section", "article", "nav",
+	"form", "label", "textarea", "select", "option",
+	"table", "tr", "td", "th",
+	"strong", "em", "b", "i", "u", "br", "hr",
+	NULL
+};
+
+/* Returns the interned pointer, or NULL when the tag is not internable
+   (caller must dup it and set AWTS_VM_FLAG_TAG_OWNED). */
+static const char* intern_tag(const char* s) {
+	if (!s || !*s) return "";
+	for (int i = 0; TAG_TABLE[i]; i++) {
+		if (strcmp(TAG_TABLE[i], s) == 0) return TAG_TABLE[i];
+	}
+	return NULL;
+}
+
+/* Pointer-identity checks: interned tags compare by pointer, not strcmp. */
+static int tag_is_heading(const char* tag) {
+	return tag == TAG_TABLE[5] || tag == TAG_TABLE[6] ||
+	       tag == TAG_TABLE[7] || tag == TAG_TABLE[8] ||
+	       tag == TAG_TABLE[9] || tag == TAG_TABLE[10];
+}
+
+static int tag_is_button(const char* tag) {
+	return tag == TAG_TABLE[11];
+}
+
+/* ------------------------------------------------------------------ */
+/* String arena: pool strings are transient (freed after execute), so  */
+/* they are bump-allocated from a few large blocks instead of one      */
+/* malloc per string.                                                  */
+/* ------------------------------------------------------------------ */
+
+typedef struct {
+	char* base;
+	size_t cap;
+	size_t at;
+} StrArena;
+
+static void arena_free(StrArena* a) {
+	if (a) { free(a->base); a->base = NULL; a->cap = a->at = 0; }
+}
+
+/* Copies len bytes + NUL into the arena. Returns NULL on OOM. */
+static char* arena_strndup(StrArena* a, const char* s, size_t len) {
+	size_t need = len + 1;
+	if (a->at + need > a->cap) {
+		size_t ncap = a->cap ? a->cap * 2 : 65536;
+		while (ncap < a->at + need) ncap *= 2;
+		char* nb = (char*)realloc(a->base, ncap);
+		if (!nb) return NULL;
+		a->base = nb;
+		a->cap = ncap;
+	}
+	char* out = a->base + a->at;
+	if (s && len) memcpy(out, s, len);
+	out[len] = 0;
+	a->at += need;
+	return out;
+}
+
+/* ------------------------------------------------------------------ */
 /* Bytecode reader.                                                    */
 /* ------------------------------------------------------------------ */
 
@@ -46,14 +118,13 @@ static uint32_t read_varuint(Mwb4Reader* r) {
 	return value;
 }
 
-static char* read_string(Mwb4Reader* r) {
+/* Reads a varuint-length string DIRECTLY into the arena (no temp malloc). */
+static char* read_string_arena(Mwb4Reader* r, StrArena* a) {
 	uint32_t len = read_varuint(r);
 	if (r->failed) return NULL;
 	if (r->at + len > r->length) { r->failed = 1; return NULL; }
-	char* out = (char*)malloc(len + 1);
+	char* out = arena_strndup(a, (const char*)(r->bytes + r->at), len);
 	if (!out) { r->failed = 1; return NULL; }
-	memcpy(out, r->bytes + r->at, len);
-	out[len] = 0;
 	r->at += len;
 	return out;
 }
@@ -102,16 +173,6 @@ static int parse_hex_color(const char* s, float* r, float* g, float* b) {
 	return 1;
 }
 
-static int is_heading_tag(const char* tag) {
-	return tag && (strcmp(tag, "h1") == 0 || strcmp(tag, "h2") == 0 ||
-		strcmp(tag, "h3") == 0 || strcmp(tag, "h4") == 0 ||
-		strcmp(tag, "h5") == 0 || strcmp(tag, "h6") == 0);
-}
-
-static int is_button_tag(const char* tag) {
-	return tag && (strcmp(tag, "button") == 0);
-}
-
 /* ------------------------------------------------------------------ */
 /* VM lifecycle.                                                       */
 /* ------------------------------------------------------------------ */
@@ -127,6 +188,7 @@ static AwtsVmNode* vm_new_node(AwtsVm* vm, uint32_t handle) {
 	AwtsVmNode* node = (AwtsVmNode*)calloc(1, sizeof(AwtsVmNode));
 	if (!node) return NULL;
 	node->handle = handle;
+	node->tag = "";
 	node->r = 0.96f; node->g = 0.96f; node->b = 0.98f;
 
 	if (vm->nodeCount == vm->nodeCap) {
@@ -142,10 +204,26 @@ static AwtsVmNode* vm_new_node(AwtsVm* vm, uint32_t handle) {
 	return node;
 }
 
+/* Assigns the node's tag: interned when known, dup'd+flagged otherwise. */
+static void vm_set_tag(AwtsVmNode* node, const char* tag) {
+	const char* interned = intern_tag(tag);
+	if (interned) {
+		node->tag = interned;
+	} else {
+		char* owned = dup_str(tag);
+		node->tag = owned ? owned : "";
+		if (owned) node->flags |= AWTS_VM_FLAG_TAG_OWNED;
+	}
+	if (tag_is_heading(node->tag)) node->flags |= AWTS_VM_FLAG_HEADING;
+	if (tag_is_button(node->tag)) node->flags |= AWTS_VM_FLAG_BUTTON;
+}
+
 static void vm_add_child(AwtsVmNode* parent, AwtsVmNode* child) {
 	if (!parent || !child) return;
 	if (parent->childCount == parent->childCap) {
-		size_t ncap = parent->childCap ? parent->childCap * 2 : 8;
+		/* B"H: start at 4 (was 8). Single-child nodes — the most
+		   common — use 32 bytes, not 64. Doubling covers the rest. */
+		uint32_t ncap = parent->childCap ? parent->childCap * 2 : 4;
 		AwtsVmNode** grown = (AwtsVmNode**)realloc(parent->children,
 			ncap * sizeof(AwtsVmNode*));
 		if (!grown) return;
@@ -193,7 +271,9 @@ static void vm_bind_event(AwtsVm* vm, uint32_t targetHandle,
 	AwtsVmEvent* e = &vm->events[vm->eventCount++];
 	memset(e, 0, sizeof(*e));
 	e->targetHandle = targetHandle;
-	e->event = dup_str(event);
+	/* Only "click" is dispatchable; anything else can never fire. */
+	e->eventKind = (event && strcmp(event, "click") == 0)
+		? AWTS_VM_EVENT_CLICK : (uint8_t)(AWTS_VM_EVENT_CLICK + 1);
 	e->actionTargetHandle = actionTargetHandle;
 	e->value = dup_str(value);
 }
@@ -214,16 +294,19 @@ int awts_vm_execute(AwtsVm* vm,
 	uint32_t poolCount = read_varuint(&r);
 	if (r.failed || poolCount > 100000) return 0;
 
+	/* Pool: one pointer array + one bump arena (was: 1 malloc/string). */
 	char** pool = (char**)calloc(poolCount ? poolCount : 1, sizeof(char*));
 	if (!pool) return 0;
-	for (uint32_t i = 0; i < poolCount; i++) {
-		pool[i] = read_string(&r);
-		if (r.failed) { pool[i] = dup_str(""); r.failed = 0; }
+	StrArena arena = { NULL, 0, 0 };
+	uint32_t pi;
+	for (pi = 0; pi < poolCount; pi++) {
+		pool[pi] = read_string_arena(&r, &arena);
+		if (r.failed) { pool[pi] = ""; r.failed = 0; }
 	}
 	uint32_t codeLen = read_varuint(&r);
 	if (r.failed || r.at + codeLen > r.length) {
-		for (uint32_t i = 0; i < poolCount; i++) free(pool[i]);
 		free(pool);
+		arena_free(&arena);
 		return 0;
 	}
 	size_t codeEnd = r.at + codeLen;
@@ -245,11 +328,9 @@ int awts_vm_execute(AwtsVm* vm,
 
 			AwtsVmNode* node = vm_new_node(vm, handle);
 			if (!node) break;
-			node->tag = dup_str(tag);
+			vm_set_tag(node, tag);
 			if (id && *id) node->id = dup_str(id);
 			if (text && *text) node->text = dup_str(text);
-			node->isHeading = is_heading_tag(tag);
-			node->isButton = is_button_tag(tag);
 
 			if (parentHandle != 0) {
 				AwtsVmNode* parent = awts_vm_find(vm, parentHandle);
@@ -306,8 +387,8 @@ int awts_vm_execute(AwtsVm* vm,
 	vm->layoutDirty = 1;
 	vm->ok = 1;
 
-	for (uint32_t i = 0; i < poolCount; i++) free(pool[i]);
 	free(pool);
+	arena_free(&arena);
 	return 1;
 }
 
@@ -329,6 +410,7 @@ static int count_lines(const char* text, float scale, float maxW, int bold) {
 		if (*p == '\n') { lines++; w = 0.0f; p++; continue; }
 		const char* wordEnd = p;
 		while (*wordEnd && *wordEnd != ' ' && *wordEnd != '\n') wordEnd++;
+		/* B"H: length-delimited measure — no per-word malloc. */
 		float wordW = bold
 			? awts_text_width_n_bold(p, (size_t)(wordEnd - p), scale)
 			: awts_text_width_n(p, (size_t)(wordEnd - p), scale);
@@ -340,14 +422,14 @@ static int count_lines(const char* text, float scale, float maxW, int bold) {
 	return lines;
 }
 
-static float node_scale(AwtsVmNode* node) {
-	if (node->isHeading) return 3.5f;
-	if (node->isButton) return 2.75f;
+static float node_scale(const AwtsVmNode* node) {
+	if (node->flags & AWTS_VM_FLAG_HEADING) return 3.5f;
+	if (node->flags & AWTS_VM_FLAG_BUTTON) return 2.75f;
 	return 2.5f;
 }
 
-static int node_bold(AwtsVmNode* node) {
-	return node->isHeading || node->isButton;
+static int node_bold(const AwtsVmNode* node) {
+	return (node->flags & (AWTS_VM_FLAG_HEADING | AWTS_VM_FLAG_BUTTON)) != 0;
 }
 
 /* Lays out one node and its children; returns the y for the next sibling. */
@@ -356,7 +438,7 @@ static float layout_node(AwtsVm* vm, AwtsVmNode* node,
 	(void)vm;
 	float scale = node_scale(node);
 	float lineH = 8.0f * scale * 1.35f;
-	float padY = node->isButton ? 12.0f : 6.0f;
+	float padY = (node->flags & AWTS_VM_FLAG_BUTTON) ? 12.0f : 6.0f;
 
 	node->x = x;
 	node->y = y;
@@ -428,7 +510,7 @@ int awts_vm_tap(AwtsVm* vm, float x, float y) {
 	for (size_t i = 0; i < vm->eventCount; i++) {
 		AwtsVmEvent* e = &vm->events[i];
 		if (e->targetHandle == hit->handle &&
-		    e->event && strcmp(e->event, "click") == 0) {
+		    e->eventKind == AWTS_VM_EVENT_CLICK) {
 			AwtsVmNode* target = awts_vm_find(vm, e->actionTargetHandle);
 			if (target) {
 				awts_vm_set_text(vm, target, e->value ? e->value : "");
@@ -447,7 +529,8 @@ static void free_node(AwtsVmNode* node) {
 	if (!node) return;
 	for (size_t i = 0; i < node->childCount; i++) free_node(node->children[i]);
 	free(node->children);
-	free(node->tag);
+	/* Interned tags are static: only free when dup'd. */
+	if (node->flags & AWTS_VM_FLAG_TAG_OWNED) free((void*)node->tag);
 	free(node->id);
 	free(node->text);
 	free(node);
@@ -465,7 +548,6 @@ void awts_vm_free(AwtsVm* vm) {
 	}
 	free(vm->nodes);
 	for (size_t i = 0; i < vm->eventCount; i++) {
-		free(vm->events[i].event);
 		free(vm->events[i].value);
 	}
 	free(vm->events);

@@ -85,8 +85,55 @@ static uint32_t utf8_next(const char** pp) {
 	return cp;
 }
 
+/* Length-bounded variant: never reads past end. */
+static uint32_t utf8_next_n(const char** pp, const char* end) {
+	const unsigned char* p = (const unsigned char*)*pp;
+	if (p >= (const unsigned char*)end) return 0;
+	uint32_t cp;
+	if (p[0] < 0x80) { cp = p[0]; *pp += 1; }
+	else if ((p[0] & 0xE0) == 0xC0 && p + 1 < (const unsigned char*)end) {
+		cp = ((uint32_t)(p[0] & 0x1F) << 6) | (p[1] & 0x3F); *pp += 2;
+	} else if ((p[0] & 0xF0) == 0xE0 && p + 2 < (const unsigned char*)end) {
+		cp = ((uint32_t)(p[0] & 0x0F) << 12) | ((uint32_t)(p[1] & 0x3F) << 6) |
+		     (p[2] & 0x3F); *pp += 3;
+	} else if ((p[0] & 0xF8) == 0xF0 && p + 3 < (const unsigned char*)end) {
+		cp = ((uint32_t)(p[0] & 0x07) << 18) | ((uint32_t)(p[1] & 0x3F) << 12) |
+		     ((uint32_t)(p[2] & 0x3F) << 6) | (p[3] & 0x3F); *pp += 4;
+	} else { cp = 0xFFFD; *pp += 1; }
+	return cp;
+}
+
 static int is_hebrew(uint32_t cp) {
 	return (cp >= 0x0590 && cp <= 0x05FF) || (cp >= 0xFB1D && cp <= 0xFB4F);
+}
+
+/* ------------------------------------------------------------------ */
+/* Font loading (Hebrew fonts load lazily on first Hebrew codepoint)   */
+/* ------------------------------------------------------------------ */
+
+static int load_one_font(LoadedFont* lf, const char* const* paths) {
+	memset(lf, 0, sizeof(*lf));
+	lf->loadAttempted = 1;
+	for (int i = 0; paths[i]; i++) {
+		size_t len = 0;
+		uint8_t* bytes = awts_ttf_read_file(paths[i], &len);
+		if (!bytes) continue;
+		AwtsTtfFace face;
+		if (awts_ttf_parse(bytes, len, &face) && face.ok) {
+			lf->face = face;
+			lf->fileBytes = bytes;
+			return 1;
+		}
+		free(bytes);
+	}
+	return 0;
+}
+
+/* Loads a lazy font slot on first use. Never retries a failed load. */
+static void ensure_font(AwtsTextRenderer* tr, int slot) {
+	LoadedFont* lf = &tr->fonts[slot];
+	if (lf->face.ok || lf->loadAttempted) return;
+	load_one_font(lf, FONT_PATHS[slot]);
 }
 
 /* ------------------------------------------------------------------ */
@@ -98,6 +145,10 @@ static int pick_font(AwtsTextRenderer* tr, uint32_t cp, int bold,
 	int order[FONT_COUNT];
 	int n = 0;
 	if (is_hebrew(cp)) {
+		/* B"H: Hebrew fonts load here on first Hebrew codepoint,
+		   not at init. Latin-only pages never pay for them. */
+		ensure_font(tr, FONT_HEBREW);
+		ensure_font(tr, FONT_HEBREW_BOLD);
 		order[n++] = bold ? FONT_HEBREW_BOLD : FONT_HEBREW;
 		order[n++] = bold ? FONT_HEBREW : FONT_HEBREW_BOLD;
 	}
@@ -122,6 +173,8 @@ static int pick_font(AwtsTextRenderer* tr, uint32_t cp, int bold,
 /* Glyph cache                                                        */
 /* ------------------------------------------------------------------ */
 
+/* B"H: key==0 is the "unused" sentinel. px is clamped >= 4 at every entry
+   point, so (font<<48)|(glyph<<16)|px can never be 0 for a real entry. */
 static uint64_t cache_key(int font, uint16_t glyph, int px) {
 	return ((uint64_t)(uint32_t)font << 48) |
 	       ((uint64_t)glyph << 16) | (uint64_t)(uint32_t)px;
@@ -137,7 +190,7 @@ static CacheEntry* cache_lookup(AwtsTextRenderer* tr, uint64_t key) {
 	size_t i = (size_t)(key * 11400714819323198485ull) & mask;
 	for (size_t n = 0; n < CACHE_SLOTS; n++) {
 		CacheEntry* e = &tr->cache[i];
-		if (!e->used) return NULL;
+		if (e->key == 0) return NULL;
 		if (e->key == key) return e;
 		i = (i + 1) & mask;
 	}
@@ -149,8 +202,8 @@ static CacheEntry* cache_insert(AwtsTextRenderer* tr, uint64_t key) {
 	size_t i = (size_t)(key * 11400714819323198485ull) & mask;
 	for (size_t n = 0; n < CACHE_SLOTS; n++) {
 		CacheEntry* e = &tr->cache[i];
-		if (!e->used || e->key == key) {
-			e->used = 1; e->key = key;
+		if (e->key == 0 || e->key == key) {
+			e->key = key;
 			return e;
 		}
 		i = (i + 1) & mask;
@@ -210,8 +263,10 @@ static CacheEntry* cache_glyph(AwtsTextRenderer* tr, int font, uint16_t glyph,
 
 	e = cache_insert(tr, key);
 	if (!e) return NULL;
-	e->ax = ax; e->ay = ay; e->w = w; e->h = h;
-	e->bx = bx; e->by = by; e->adv = adv;
+	e->ax = (int16_t)ax; e->ay = (int16_t)ay;
+	e->w = (int16_t)w; e->h = (int16_t)h;
+	e->bx = (int16_t)bx; e->by = (int16_t)by;
+	e->adv = adv;
 	return e;
 }
 
@@ -227,23 +282,6 @@ static GLuint compile_shader(GLenum type, const char* src) {
 	glGetShaderiv(sh, GL_COMPILE_STATUS, &ok);
 	if (!ok) { glDeleteShader(sh); return 0; }
 	return sh;
-}
-
-static int load_one_font(LoadedFont* lf, const char* const* paths) {
-	memset(lf, 0, sizeof(*lf));
-	for (int i = 0; paths[i]; i++) {
-		size_t len = 0;
-		uint8_t* bytes = awts_ttf_read_file(paths[i], &len);
-		if (!bytes) continue;
-		AwtsTtfFace face;
-		if (awts_ttf_parse(bytes, len, &face) && face.ok) {
-			lf->face = face;
-			lf->fileBytes = bytes;
-			return 1;
-		}
-		free(bytes);
-	}
-	return 0;
 }
 
 int awts_text_init(AwtsTextRenderer* tr) {
@@ -267,9 +305,13 @@ int awts_text_init(AwtsTextRenderer* tr) {
 	tr->uResolution = glGetUniformLocation(tr->program, "uResolution");
 	tr->uColor = glGetUniformLocation(tr->program, "uColor");
 
-	/* Device fonts. */
+	/* Device fonts: Latin eagerly, Hebrew lazily (see pick_font). */
 	tr->nFonts = 0;
 	for (int i = 0; i < FONT_COUNT; i++) {
+		if (i == FONT_HEBREW || i == FONT_HEBREW_BOLD) {
+			tr->fonts[i].lazy = 1;
+			continue;
+		}
 		if (load_one_font(&tr->fonts[i], FONT_PATHS[i]))
 			tr->nFonts++;
 	}
@@ -287,11 +329,13 @@ int awts_text_init(AwtsTextRenderer* tr) {
 		0, GL_RED, GL_UNSIGNED_BYTE, NULL);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	tr->scratch = (uint8_t*)malloc(1024 * 1024);
+	/* B"H: 256KB scratch (was 1MB). TTF caps glyphs at 512px. */
+	tr->scratch = (uint8_t*)malloc(AWTS_TEXT_SCRATCH_SIZE);
 	if (!tr->scratch) { awts_text_shutdown(tr); return 0; }
 
 	glGenBuffers(1, &tr->vbo);
-	tr->vertCap = 8192 * 6 * 4;
+	/* B"H: start at 1024 quads (96KB), grow on demand (was 768KB fixed). */
+	tr->vertCap = (size_t)AWTS_TEXT_VERT_QUADS_INIT * 6 * 4;
 	tr->verts = (float*)malloc(tr->vertCap * sizeof(float));
 	if (!tr->verts) { awts_text_shutdown(tr); return 0; }
 	cache_reset(tr);
@@ -305,6 +349,7 @@ void awts_text_shutdown(AwtsTextRenderer* tr) {
 	if (g_last_tr == tr) g_last_tr = NULL;
 	free(tr->verts);
 	tr->verts = NULL;
+	tr->vertCap = 0;
 	free(tr->scratch);
 	tr->scratch = NULL;
 	for (int i = 0; i < FONT_COUNT; i++) {
@@ -349,15 +394,36 @@ static void flush_quads(AwtsTextRenderer* tr) {
 	tr->vertCount = 0;
 }
 
+/* Grows the vertex buffer 2x; beyond the hard cap, flushes and continues. */
+static int push_vert_grow(AwtsTextRenderer* tr) {
+	size_t maxCap = (size_t)AWTS_TEXT_VERT_QUADS_MAX * 6 * 4;
+	if (tr->vertCap >= maxCap) {
+		flush_quads(tr); /* keep every glyph: upload and continue */
+		return tr->vertCap > 0;
+	}
+	size_t ncap = tr->vertCap ? tr->vertCap * 2
+		: (size_t)AWTS_TEXT_VERT_QUADS_INIT * 6 * 4;
+	if (ncap > maxCap) ncap = maxCap;
+	float* nv = (float*)realloc(tr->verts, ncap * sizeof(float));
+	if (!nv) { flush_quads(tr); return tr->vertCap > 0; }
+	tr->verts = nv;
+	tr->vertCap = ncap;
+	return 1;
+}
+
 static void push_vert(AwtsTextRenderer* tr, float x, float y, float u, float v) {
-	if (tr->vertCount + 4 > tr->vertCap) return;
+	while (tr->vertCount + 4 > tr->vertCap) {
+		if (!push_vert_grow(tr)) return;
+	}
 	float* p = tr->verts + tr->vertCount;
 	p[0] = x; p[1] = y; p[2] = u; p[3] = v;
 	tr->vertCount += 4;
 }
 
-static void draw_run(AwtsTextRenderer* tr, float x, float y, int px,
-		float r, float g, float b, const char* text, int bold) {
+/* Length-delimited inner draw: no NUL scan, no temp copy. */
+static void draw_run_n(AwtsTextRenderer* tr, float x, float y, int px,
+		float r, float g, float b,
+		const char* text, size_t len, int bold) {
 	if (!tr || !tr->ok || !text || px <= 0) return;
 	if (r != tr->curR || g != tr->curG || b != tr->curB) {
 		flush_quads(tr);
@@ -365,9 +431,10 @@ static void draw_run(AwtsTextRenderer* tr, float x, float y, int px,
 	}
 	float cx = x;
 	const char* p = text;
-	while (*p) {
+	const char* end = text + len;
+	while (p < end) {
 		if (*p == '\n') { p++; continue; }
-		uint32_t cp = utf8_next(&p);
+		uint32_t cp = utf8_next_n(&p, end);
 		if (cp == 0) break;
 		uint16_t glyph = 0;
 		int font = pick_font(tr, cp, bold, &glyph);
@@ -396,6 +463,11 @@ static void draw_run(AwtsTextRenderer* tr, float x, float y, int px,
 	}
 }
 
+static void draw_run(AwtsTextRenderer* tr, float x, float y, int px,
+		float r, float g, float b, const char* text, int bold) {
+	draw_run_n(tr, x, y, px, r, g, b, text, text ? strlen(text) : 0, bold);
+}
+
 void awts_text_draw(AwtsTextRenderer* tr, float x, float y, float scale,
 		float r, float g, float b, const char* text) {
 	int px = (int)(8.0f * scale + 0.5f);
@@ -410,19 +482,35 @@ void awts_text_draw_bold(AwtsTextRenderer* tr, float x, float y, float scale,
 	draw_run(tr, x, y, px, r, g, b, text, 1);
 }
 
+void awts_text_draw_n(AwtsTextRenderer* tr, float x, float y, float scale,
+		float r, float g, float b, const char* text, size_t len) {
+	int px = (int)(8.0f * scale + 0.5f);
+	if (px < 4) px = 4;
+	draw_run_n(tr, x, y, px, r, g, b, text, len, 0);
+}
+
+void awts_text_draw_n_bold(AwtsTextRenderer* tr, float x, float y, float scale,
+		float r, float g, float b, const char* text, size_t len) {
+	int px = (int)(8.0f * scale + 0.5f);
+	if (px < 4) px = 4;
+	draw_run_n(tr, x, y, px, r, g, b, text, len, 1);
+}
+
 void awts_text_end(AwtsTextRenderer* tr) {
 	flush_quads(tr);
 	glUseProgram(0);
 }
 
-static float measure_run(AwtsTextRenderer* tr, const char* text, int px,
-		int bold) {
+/* Length-delimited measure: no temp copy. */
+static float measure_run_n(AwtsTextRenderer* tr, const char* text, size_t len,
+		int px, int bold) {
 	/* Measure without GL: needs fonts loaded. Use a lightweight path. */
 	float w = 0;
 	const char* p = text ? text : "";
-	while (*p) {
+	const char* end = p + len;
+	while (p < end) {
 		if (*p == '\n') { p++; continue; }
-		uint32_t cp = utf8_next(&p);
+		uint32_t cp = utf8_next_n(&p, end);
 		if (cp == 0) break;
 		uint16_t glyph = 0;
 		int font = -1;
@@ -441,6 +529,11 @@ static float measure_run(AwtsTextRenderer* tr, const char* text, int px,
 		w += adv;
 	}
 	return w;
+}
+
+static float measure_run(AwtsTextRenderer* tr, const char* text, int px,
+		int bold) {
+	return measure_run_n(tr, text, text ? strlen(text) : 0, px, bold);
 }
 
 /* Width measurement uses the active renderer when available. */
@@ -465,31 +558,16 @@ float awts_text_width_bold(const char* text, float scale) {
 float awts_text_width_n(const char* text, size_t len, float scale) {
 	int px = (int)(8.0f * scale + 0.5f);
 	if (px < 4) px = 4;
-	if (g_last_tr && g_last_tr->ok) {
-		/* Copy to a temp NUL-terminated buffer for measurement. */
-		char* buf = (char*)malloc(len + 1);
-		if (!buf) return 0;
-		memcpy(buf, text, len);
-		buf[len] = 0;
-		float w = measure_run(g_last_tr, buf, px, 0);
-		free(buf);
-		return w;
-	}
+	if (g_last_tr && g_last_tr->ok)
+		return measure_run_n(g_last_tr, text, len, px, 0);
 	return (float)len * (float)px * 0.6f;
 }
 
 float awts_text_width_n_bold(const char* text, size_t len, float scale) {
 	int px = (int)(8.0f * scale + 0.5f);
 	if (px < 4) px = 4;
-	if (g_last_tr && g_last_tr->ok) {
-		char* buf = (char*)malloc(len + 1);
-		if (!buf) return 0;
-		memcpy(buf, text, len);
-		buf[len] = 0;
-		float w = measure_run(g_last_tr, buf, px, 1);
-		free(buf);
-		return w;
-	}
+	if (g_last_tr && g_last_tr->ok)
+		return measure_run_n(g_last_tr, text, len, px, 1);
 	return (float)len * (float)px * 0.65f;
 }
 
