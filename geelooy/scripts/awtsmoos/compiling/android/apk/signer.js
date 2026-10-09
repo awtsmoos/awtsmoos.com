@@ -56,8 +56,16 @@ function sha256(bytes) {
 	return new Uint8Array(createHash("sha256").update(bytes).digest());
 }
 
+function sha512(bytes) {
+	return new Uint8Array(createHash("sha512").update(bytes).digest());
+}
+
 function sha256Base64(bytes) {
 	return Buffer.from(sha256(bytes)).toString("base64");
+}
+
+function sha512Base64(bytes) {
+	return Buffer.from(sha512(bytes)).toString("base64");
 }
 
 function rsaSignPkcs1Sha256(data, privateKeyPem) {
@@ -66,13 +74,115 @@ function rsaSignPkcs1Sha256(data, privateKeyPem) {
 	return new Uint8Array(signer.sign(privateKeyPem));
 }
 
-function rsaVerifyPkcs1Sha256(data, signature, publicKeySpkiDer) {
+function rsaSignPkcs1Sha512(data, privateKeyPem) {
+	const signer = createSign("RSA-SHA512");
+	signer.update(data);
+	return new Uint8Array(signer.sign(privateKeyPem));
+}
+
+function rsaVerifyPkcs1(data, signature, publicKeySpkiDer, algorithm) {
 	const pem = "-----BEGIN PUBLIC KEY-----\n"
 		+ Buffer.from(publicKeySpkiDer).toString("base64").replace(/.{64}/g, "$&\n")
 		+ "\n-----END PUBLIC KEY-----\n";
-	const verifier = createVerify("RSA-SHA256");
+	const verifier = createVerify(algorithm);
 	verifier.update(data);
 	return verifier.verify(pem, signature);
+}
+
+function rsaVerifyPkcs1Sha256(data, signature, publicKeySpkiDer) {
+	return rsaVerifyPkcs1(data, signature, publicKeySpkiDer, "RSA-SHA256");
+}
+
+function rsaVerifyPkcs1Sha512(data, signature, publicKeySpkiDer) {
+	return rsaVerifyPkcs1(data, signature, publicKeySpkiDer, "RSA-SHA512");
+}
+
+/**
+ * Returns the RSA modulus bit length from a DER SPKI public key.
+ * Used to select SHA-256 vs SHA-512 per the AOSP key-strength rule.
+ */
+function rsaModulusBits(publicKeyDer) {
+	let at = 0;
+	const read = () => {
+		const tag = publicKeyDer[at++];
+		let len = publicKeyDer[at++];
+		if (len & 0x80) {
+			const n = len & 0x7f;
+			len = 0;
+			for (let i = 0; i < n; i++) len = (len << 8) | publicKeyDer[at++];
+		}
+		const val = publicKeyDer.subarray(at, at + len);
+		at += len;
+		return { tag, val };
+	};
+	// SPKI: SEQ { SEQ { OID, NULL }, BIT STRING }
+	const outer = read();
+	if (outer.tag !== 0x30) throw signerError("APK_SIGN_SPKI_PARSE");
+	at = 0;
+	const readFrom = (buf) => {
+		const tag = buf[at++];
+		let len = buf[at++];
+		if (len & 0x80) {
+			const n = len & 0x7f;
+			len = 0;
+			for (let i = 0; i < n; i++) len = (len << 8) | buf[at++];
+		}
+		const val = buf.subarray(at, at + len);
+		at += len;
+		return { tag, val };
+	};
+	at = 0;
+	readFrom(outer.val); // algorithm identifier SEQ
+	const bitStringTlv = readFrom(outer.val);
+	if (bitStringTlv.tag !== 0x03) throw signerError("APK_SIGN_SPKI_BITSTRING");
+	const bitString = bitStringTlv.val.subarray(1); // skip unused-bits byte
+	// BIT STRING wraps SEQ { modulus INTEGER, exponent INTEGER }
+	at = 0;
+	const rsaSeq = readFrom(bitString);
+	if (rsaSeq.tag !== 0x30) throw signerError("APK_SIGN_SPKI_RSA");
+	at = 0;
+	const modulus = readFrom(rsaSeq.val);
+	if (modulus.tag !== 0x02) throw signerError("APK_SIGN_SPKI_MODULUS");
+	let bytes = modulus.val;
+	if (bytes[0] === 0x00) bytes = bytes.subarray(1);
+	return bytes.length * 8;
+}
+
+const OID_SHA512 = [2, 16, 840, 1, 101, 3, 4, 2, 3];
+const OID_SHA512_WITH_RSA = [1, 2, 840, 113549, 1, 1, 13];
+
+/**
+ * Selects the signature scheme per the AOSP key-strength rule:
+ * RSA <= 3072 bits -> SHA-256 (0x0103); RSA > 3072 bits -> SHA-512 (0x0104).
+ */
+function selectSignatureScheme(key) {
+	const bits = rsaModulusBits(key.publicKeyDer);
+	if (bits > 3072) {
+		return {
+			algId: SIG_RSA_PKCS1_SHA512,
+			digestBytes: sha512,
+			digestBase64: sha512Base64,
+			digestName: "SHA-512-Digest",
+			hashName: "sha512",
+			signFn: rsaSignPkcs1Sha512,
+			verifyFn: rsaVerifyPkcs1Sha512,
+			digestOid: OID_SHA512,
+			signatureOid: OID_SHA512_WITH_RSA,
+			keyBits: bits
+		};
+	}
+	return {
+		algId: SIG_RSA_PKCS1_SHA256,
+		digestBytes: sha256,
+		digestBase64: sha256Base64,
+		digestName: "SHA-256-Digest",
+		hashName: "sha256",
+		signFn: rsaSignPkcs1Sha256,
+		verifyFn: rsaVerifyPkcs1Sha256,
+		digestOid: OID_SHA256,
+		signatureOid: OID_SHA256_WITH_RSA,
+		keyBits: bits
+	};
 }
 
 // ---------------------------------------------------------------------------
@@ -279,17 +389,19 @@ function parseCertificateIdentity(certDer) {
 // PKCS#7 SignedData (the CERT.RSA envelope for v1 JAR signing)
 // ---------------------------------------------------------------------------
 
-function buildPkcs7SignedData({ certDer, issuerDer, serial, signature }) {
+function buildPkcs7SignedData({ certDer, issuerDer, serial, signature, scheme }) {
+	const digestAlg = scheme ? scheme.digestOid : OID_SHA256;
+	const sigAlg = scheme ? scheme.signatureOid : OID_SHA256_WITH_RSA;
 	const signerInfo = derSequence(
 		derIntegerBytes(Uint8Array.from([1])),
 		derSequence(issuerDer, derIntegerBytes(serial)),
-		algorithmIdentifier(OID_SHA256),
-		algorithmIdentifier(OID_SHA256_WITH_RSA),
+		algorithmIdentifier(digestAlg),
+		algorithmIdentifier(sigAlg),
 		derOctetString(signature)
 	);
 	const signedData = derSequence(
 		derIntegerBytes(Uint8Array.from([1])),
-		derSet(algorithmIdentifier(OID_SHA256)),
+		derSet(algorithmIdentifier(digestAlg)),
 		derSequence(derOid(OID_DATA)),
 		derExplicit0(certDer),
 		derSet(signerInfo)
@@ -307,13 +419,15 @@ function signerError(code, detail = "") {
 // v1 JAR signing: META-INF/MANIFEST.MF, CERT.SF, CERT.RSA
 // ---------------------------------------------------------------------------
 
-function jarManifestBytes(entries) {
+function jarManifestBytes(entries, scheme) {
+	const digestBase64 = scheme ? scheme.digestBase64 : sha256Base64;
+	const digestName = scheme ? scheme.digestName : "SHA-256-Digest";
 	let text = "Manifest-Version: 1.0\r\nCreated-By: Awtsmoos\r\n\r\n";
 	const sections = [];
 	for (const entry of entries) {
 		if (entry.name.startsWith("META-INF/")) continue;
-		const digest = sha256Base64(entry.bytes);
-		const sectionText = `Name: ${entry.name}\r\nSHA-256-Digest: ${digest}\r\n\r\n`;
+		const digest = digestBase64(entry.bytes);
+		const sectionText = `Name: ${entry.name}\r\n${digestName}: ${digest}\r\n\r\n`;
 		const sectionBytes = te.encode(sectionText);
 		sections.push({ bytes: sectionBytes, name: entry.name });
 		text += sectionText;
@@ -321,15 +435,17 @@ function jarManifestBytes(entries) {
 	return { bytes: te.encode(text), sections };
 }
 
-function jarSignatureFileBytes(manifest, schemes = []) {
+function jarSignatureFileBytes(manifest, scheme, schemes = []) {
 	// Rollback protection (AOSP v2 spec): v2-signed APKs that are also
 	// v1-signed must carry X-Android-APK-Signed in the SF main section.
 	const signedSchemes = schemes.length ? `X-Android-APK-Signed: ${schemes.join(",")}\r\n` : "";
+	const digestBase64 = scheme ? scheme.digestBase64 : sha256Base64;
+	const digestName = scheme ? scheme.digestName : "SHA-256-Digest";
 	let text = "Signature-Version: 1.0\r\nCreated-By: Awtsmoos\r\n"
 		+ signedSchemes
-		+ `SHA-256-Digest-Manifest: ${sha256Base64(manifest.bytes)}\r\n\r\n`;
+		+ `${digestName}-Manifest: ${digestBase64(manifest.bytes)}\r\n\r\n`;
 	for (const section of manifest.sections) {
-		text += `Name: ${section.name}\r\nSHA-256-Digest: ${sha256Base64(section.bytes)}\r\n\r\n`;
+		text += `Name: ${section.name}\r\n${digestName}: ${digestBase64(section.bytes)}\r\n\r\n`;
 	}
 	return te.encode(text);
 }
@@ -340,14 +456,16 @@ function jarSignatureFileBytes(manifest, schemes = []) {
  * covers the CERT.SF bytes.
  */
 export function addV1SignatureEntries(entries, key, options = {}) {
-	const manifest = jarManifestBytes(entries);
-	const sfBytes = jarSignatureFileBytes(manifest, options.signedSchemes || []);
-	const signature = rsaSignPkcs1Sha256(sfBytes, key.privateKeyPem);
+	const scheme = selectSignatureScheme(key);
+	const manifest = jarManifestBytes(entries, scheme);
+	const sfBytes = jarSignatureFileBytes(manifest, scheme, options.signedSchemes || []);
+	const signature = scheme.signFn(sfBytes, key.privateKeyPem);
 	const rsaBytes = buildPkcs7SignedData({
 		certDer: key.certDer,
 		issuerDer: key.issuerDer,
 		serial: key.serial,
-		signature
+		signature,
+		scheme
 	});
 	return [
 		...entries,
@@ -362,9 +480,12 @@ export function addV1SignatureEntries(entries, key, options = {}) {
 // ---------------------------------------------------------------------------
 
 const V2_BLOCK_ID = 0x7109871a;
-// AOSP SignatureAlgorithm ID for RSASSA-PKCS1-v1_5 with SHA-256 is 0x0103
-// (source.android.com: 0x0101 is RSASSA-PSS, 0x0103 is RSASSA-PKCS1-v1_5).
+// AOSP SignatureAlgorithm IDs (source.android.com):
+// 0x0101 = RSASSA-PSS with SHA-256, 0x0103 = RSASSA-PKCS1-v1_5 with SHA-256,
+// 0x0104 = RSASSA-PKCS1-v1_5 with SHA-512.
+// AOSP rule: RSA keys longer than 3072 bits must pair with SHA-512.
 const SIG_RSA_PKCS1_SHA256 = 0x0103;
+const SIG_RSA_PKCS1_SHA512 = 0x0104;
 const APK_SIG_BLOCK_MAGIC = te.encode("APK Sig Block 42");
 const V2_CHUNK_BYTES = 1048576;
 
@@ -385,10 +506,10 @@ function lengthPrefixed(parts) {
  * the offset of the APK signing block (per the spec's section-4 rule), which
  * the caller prepares before invoking this function.
  */
-function v2ContentDigest(sections) {
+function v2ContentDigest(sections, hashName = "sha256") {
 	const chunkDigests = [];
 	const pushChunk = (chunk) => {
-		const hash = createHash("sha256");
+		const hash = createHash(hashName);
 		hash.update(Uint8Array.from([0xa5]));
 		hash.update(le32(chunk.length));
 		hash.update(chunk);
@@ -399,7 +520,7 @@ function v2ContentDigest(sections) {
 			pushChunk(section.subarray(offset, Math.min(offset + V2_CHUNK_BYTES, section.length)));
 		}
 	}
-	const finalHash = createHash("sha256");
+	const finalHash = createHash(hashName);
 	finalHash.update(Uint8Array.from([0x5a]));
 	finalHash.update(le32(chunkDigests.length));
 	for (const digest of chunkDigests) finalHash.update(digest);
@@ -420,6 +541,7 @@ function findEocd(apkBytes) {
  * entries themselves are untouched.
  */
 export function signApkV2(apkBytes, key) {
+	const scheme = selectSignatureScheme(key);
 	const eocdOffset = findEocd(apkBytes);
 	const centralOffset = readU32LE(apkBytes, eocdOffset + 16);
 	const beforeSigningBlock = apkBytes.subarray(0, centralOffset);
@@ -427,11 +549,14 @@ export function signApkV2(apkBytes, key) {
 	const eocd = apkBytes.subarray(eocdOffset);
 
 	// The signing block size is fully determined by the key material (one
-	// digest entry, one certificate, one RSA-2048 signature).
-	const digestEntryLength = 4 + 4 + 4 + 32; // LP(u32 algId + LP(digest))
+	// digest entry, one certificate, one RSA signature). Digest length and
+	// signature length vary with the scheme (SHA-256 vs SHA-512) and key.
+	const digestLen = scheme.algId === SIG_RSA_PKCS1_SHA512 ? 64 : 32;
+	const sigLen = Math.ceil(scheme.keyBits / 8); // RSA signature = modulus byte length
+	const digestEntryLength = 4 + 4 + 4 + digestLen; // LP(u32 algId + LP(digest))
 	const certificatesLength = 4 + 4 + key.certDer.length; // LP(LP(cert))
 	const signedDataContentLength = (4 + digestEntryLength) + certificatesLength + 4;
-	const signatureEntryLength = 4 + 4 + 4 + 256; // LP(u32 algId + LP(signature))
+	const signatureEntryLength = 4 + 4 + 4 + sigLen; // LP(u32 algId + LP(signature))
 	const signerLength = (4 + signedDataContentLength) + (4 + signatureEntryLength) + (4 + key.publicKeyDer.length);
 	const v2BlockLength = 4 + 4 + signerLength;
 	const pairLength = 8 + 4 + v2BlockLength;
@@ -446,20 +571,20 @@ export function signApkV2(apkBytes, key) {
 	new DataView(eocdForDigest.buffer, eocdForDigest.byteOffset, eocdForDigest.byteLength)
 		.setUint32(16, centralOffset, true);
 
-	const contentDigest = v2ContentDigest([beforeSigningBlock, centralDirectory, eocdForDigest]);
+	const contentDigest = v2ContentDigest([beforeSigningBlock, centralDirectory, eocdForDigest], scheme.hashName);
 
-	const digestEntry = lengthPrefixed([concatBytes([le32(SIG_RSA_PKCS1_SHA256), lengthPrefixed([contentDigest])])]);
+	const digestEntry = lengthPrefixed([concatBytes([le32(scheme.algId), lengthPrefixed([contentDigest])])]);
 	const digests = lengthPrefixed([digestEntry]);
 	const certificates = lengthPrefixed([lengthPrefixed([key.certDer])]);
 	const signedDataContent = concatBytes([digests, certificates, le32(0)]);
 	if (signedDataContent.length !== signedDataContentLength) {
 		throw signerError("APK_SIGN_V2_SIZE", `${signedDataContent.length}!=${signedDataContentLength}`);
 	}
-	const signature = rsaSignPkcs1Sha256(signedDataContent, key.privateKeyPem);
+	const signature = scheme.signFn(signedDataContent, key.privateKeyPem);
 	// Each signature: length-prefixed (u32 algId + length-prefixed sigBytes).
 	// The signatures *sequence* is the concatenation of entries; the signer
 	// block's own length prefix wraps it (no extra wrapper here).
-	const signatureEntry = lengthPrefixed([concatBytes([le32(SIG_RSA_PKCS1_SHA256), lengthPrefixed([signature])])]);
+	const signatureEntry = lengthPrefixed([concatBytes([le32(scheme.algId), lengthPrefixed([signature])])]);
 	const signatureRecords = signatureEntry;
 	const signer = concatBytes([
 		le32(signedDataContent.length), signedDataContent,
@@ -487,7 +612,11 @@ export function signApkV2(apkBytes, key) {
 		evidence: Object.freeze({
 			centralOffset: centralOffset + signingBlock.length,
 			contentDigestHex: Buffer.from(contentDigest).toString("hex"),
-			signatureAlgorithm: "RSASSA-PKCS1-v1_5-SHA256",
+			signatureAlgorithm: scheme.algId === SIG_RSA_PKCS1_SHA512
+				? "RSASSA-PKCS1-v1_5-SHA512"
+				: "RSASSA-PKCS1-v1_5-SHA256",
+			signatureAlgorithmId: `0x${scheme.algId.toString(16).padStart(4, "0")}`,
+			keyBits: scheme.keyBits,
 			signingBlockBytes: signingBlock.length
 		})
 	});
@@ -603,6 +732,25 @@ function parsePkcs7Signature(rsaDer) {
 		// fields in order: version INTEGER, digestAlgorithms SET,
 		// encapContentInfo SEQ, [0] certificates, signerInfos SET.
 		if (fields.length < 5) return null;
+		// Extract the digest algorithm OID from digestAlgorithms SET.
+		let digestOid = null;
+		try {
+			const digestAlgs = readAll(fields[1].val);
+			if (digestAlgs.length > 0 && digestAlgs[0].tag === 0x30) {
+				const algParts = readAll(digestAlgs[0].val);
+				if (algParts.length > 0 && algParts[0].tag === 0x06) {
+					// Decode OID arcs from DER body.
+					const body = algParts[0].val;
+					const arcs = [Math.floor(body[0] / 40), body[0] % 40];
+					let val = 0;
+					for (let i = 1; i < body.length; i++) {
+						val = (val << 7) | (body[i] & 0x7f);
+						if (!(body[i] & 0x80)) { arcs.push(val); val = 0; }
+					}
+					digestOid = arcs;
+				}
+			}
+		} catch (e) { /* digestOid stays null -> assume SHA-256 */ }
 		const certsField = fields[3].tag === 0xa0 ? fields[3] : null;
 		const signerInfos = fields[4].tag === 0x31 ? fields[4] : null;
 		if (!certsField || !signerInfos) return null;
@@ -632,7 +780,7 @@ function parsePkcs7Signature(rsaDer) {
 				return Buffer.of(0x80 | b.length, ...b);
 			})();
 		const certSpki = Buffer.concat([Buffer.of(0x30), spkiLenBytes, spkiVal]);
-		return { certDer, certSpki, signature: sigField.val };
+		return { certDer, certSpki, digestOid, signature: sigField.val };
 	} catch (e) {
 		return null;
 	}
@@ -714,6 +862,29 @@ export function verifySignedApk(apkBytes) {
 			const publicKeyLength = view.getUint32(at, true);
 			const publicKey = v2Signer.subarray(at + 4, at + 4 + publicKeyLength);
 
+			// Extract the claimed digest from signedData first, to learn which
+			// hash algorithm the signer used (0x0103 = SHA-256, 0x0104 = SHA-512).
+			const signedView = new DataView(signedData.buffer, signedData.byteOffset, signedData.byteLength);
+			let sat = 0;
+			const digestsLength = signedView.getUint32(sat, true);
+			sat += 4;
+			const digestsEnd = sat + digestsLength;
+			let claimed = null;
+			let claimedAlg = 0;
+			while (sat < digestsEnd) {
+				const entryLength = signedView.getUint32(sat, true);
+				const algo = signedView.getUint32(sat + 4, true);
+				const digestLength = signedView.getUint32(sat + 8, true);
+				const digest = signedData.subarray(sat + 12, sat + 12 + digestLength);
+				if (algo === SIG_RSA_PKCS1_SHA256 || algo === SIG_RSA_PKCS1_SHA512) {
+					claimed = digest;
+					claimedAlg = algo;
+				}
+				sat += 4 + entryLength;
+			}
+			const hashName = claimedAlg === SIG_RSA_PKCS1_SHA512 ? "sha512" : "sha256";
+			const verifyFn = claimedAlg === SIG_RSA_PKCS1_SHA512 ? rsaVerifyPkcs1Sha512 : rsaVerifyPkcs1Sha256;
+
 			// Recompute the content digest over the three sections, per AOSP:
 			// the EOCD is digested with its central-directory offset pointing
 			// at the signing block start.
@@ -723,23 +894,8 @@ export function verifySignedApk(apkBytes) {
 			const eocdForDigest = Uint8Array.from(apkBytes.subarray(eocdOffset));
 			new DataView(eocdForDigest.buffer, eocdForDigest.byteOffset, eocdForDigest.byteLength)
 				.setUint32(16, blockStart, true);
-			const expected = v2ContentDigest([before, central, eocdForDigest]);
+			const expected = v2ContentDigest([before, central, eocdForDigest], hashName);
 
-			// Extract the claimed digest from signedData.
-			const signedView = new DataView(signedData.buffer, signedData.byteOffset, signedData.byteLength);
-			let sat = 0;
-			const digestsLength = signedView.getUint32(sat, true);
-			sat += 4;
-			const digestsEnd = sat + digestsLength;
-			let claimed = null;
-			while (sat < digestsEnd) {
-				const entryLength = signedView.getUint32(sat, true);
-				const algo = signedView.getUint32(sat + 4, true);
-				const digestLength = signedView.getUint32(sat + 8, true);
-				const digest = signedData.subarray(sat + 12, sat + 12 + digestLength);
-				if (algo === SIG_RSA_PKCS1_SHA256) claimed = digest;
-				sat += 4 + entryLength;
-			}
 			const digestsMatch = claimed
 				&& claimed.length === expected.length
 				&& claimed.every((byte, index) => byte === expected[index]);
@@ -754,10 +910,10 @@ export function verifySignedApk(apkBytes) {
 				const algo = sigView.getUint32(gat + 4, true);
 				const sigLength = sigView.getUint32(gat + 8, true);
 				const sig = signatures.subarray(gat + 12, gat + 12 + sigLength);
-				if (algo === SIG_RSA_PKCS1_SHA256) signatureBytes = sig;
+				if (algo === claimedAlg) signatureBytes = sig;
 				gat += 4 + entryLength;
 			}
-			const signatureOk = signatureBytes && rsaVerifyPkcs1Sha256(signedData, signatureBytes, publicKey);
+			const signatureOk = signatureBytes && verifyFn(signedData, signatureBytes, publicKey);
 			ok = (signatureOk ? pass("v2-signature-valid") : fail("v2-signature-valid", "RSA verify failed")) && ok;
 		} catch (error) {
 			ok = fail("v2-parse", error.code || error.message) && ok;
@@ -781,17 +937,20 @@ export function verifySignedApk(apkBytes) {
 		} else {
 			const manifestText = td.decode(manifestBytes);
 			const sections = manifestText.split("\r\n\r\n").filter((part) => part.includes("Name: "));
+			// Accept SHA-256-Digest (RSA <= 3072-bit keys) or SHA-512-Digest (larger keys).
+			const digestLabel = manifestText.includes("SHA-512-Digest:") ? "SHA-512-Digest" : "SHA-256-Digest";
+			const digestFn = digestLabel === "SHA-512-Digest" ? sha512Base64 : sha256Base64;
 			let manifestOk = true;
 			for (const section of sections) {
 				const nameMatch = section.match(/Name: ([^\r\n]+)/);
-				const digestMatch = section.match(/SHA-256-Digest: ([^\r\n]+)/);
+				const digestMatch = section.match(/(?:SHA-256-Digest|SHA-512-Digest): ([^\r\n]+)/);
 				if (!nameMatch || !digestMatch) continue;
 				const data = byName.get(nameMatch[1]);
-				if (!data || sha256Base64(data) !== digestMatch[1]) manifestOk = false;
+				if (!data || digestFn(data) !== digestMatch[1]) manifestOk = false;
 			}
 			ok = (manifestOk ? pass("v1-manifest-digests") : fail("v1-manifest-digests", "entry digest mismatch")) && ok;
 			const sfText = td.decode(sfBytes);
-			const manifestDigestOk = sfText.includes(`SHA-256-Digest-Manifest: ${sha256Base64(manifestBytes)}`);
+			const manifestDigestOk = sfText.includes(`${digestLabel}-Manifest: ${digestFn(manifestBytes)}`);
 			ok = (manifestDigestOk ? pass("v1-sf-manifest-digest") : fail("v1-sf-manifest-digest", "mismatch")) && ok;
 			// SF per-section digests: each covers the manifest section bytes
 			// INCLUDING the trailing blank line (verified against reference).
@@ -804,16 +963,22 @@ export function verifySignedApk(apkBytes) {
 				const end = mfLatin.indexOf("\r\n\r\n", start);
 				if (start < 0 || end < 0) { sfSectionsOk = false; break; }
 				const sectionBytes = manifestBytes.subarray(start, end + 4);
-				const want = `Name: ${nameMatch[1]}\r\nSHA-256-Digest: ${sha256Base64(sectionBytes)}\r\n`;
+				const want = `Name: ${nameMatch[1]}\r\n${digestLabel}: ${digestFn(sectionBytes)}\r\n`;
 				if (!sfText.includes(want)) sfSectionsOk = false;
 			}
 			ok = (sfSectionsOk ? pass("v1-sf-section-digests") : fail("v1-sf-section-digests", "mismatch")) && ok;
 		}
 		// CERT.RSA: PKCS#7 signature over the CERT.SF bytes.
+		// Detect SHA-256 vs SHA-512 from the PKCS#7 digest algorithm OID.
 		if (rsaBytes && sfBytes) {
 			const parsed = parsePkcs7Signature(rsaBytes);
-			const rsaOk = parsed && rsaVerifyPkcs1Sha256(sfBytes, parsed.signature, parsed.certSpki);
-			ok = (rsaOk ? pass("v1-rsa-signature") : fail("v1-rsa-signature", "RSA verify failed")) && ok;
+			let v1VerifyOk = false;
+			if (parsed) {
+				const usesSha512 = parsed.digestOid && parsed.digestOid.join(".") === OID_SHA512.join(".");
+				const verifyFn = usesSha512 ? rsaVerifyPkcs1Sha512 : rsaVerifyPkcs1Sha256;
+				v1VerifyOk = verifyFn(sfBytes, parsed.signature, parsed.certSpki);
+			}
+			ok = (v1VerifyOk ? pass("v1-rsa-signature") : fail("v1-rsa-signature", "RSA verify failed")) && ok;
 		} else {
 			ok = fail("v1-rsa-signature", "CERT.RSA missing") && ok;
 		}
