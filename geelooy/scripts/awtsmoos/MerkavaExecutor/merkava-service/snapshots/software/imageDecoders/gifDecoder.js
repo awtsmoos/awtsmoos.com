@@ -142,9 +142,14 @@ function lzwDecode(data, minCodeSize, expected) {
   let outLen = 0;
   let codeSize = minCodeSize + 1;
   let nextCode = eoi + 1;
-  let bitPos = 0;
   let prev = -1;
   const dataLen = data.length;
+  // 32-bit LSB-first bit accumulator: at most 2 byte loads per code instead
+  // of the old per-bit-chunk loop. Bits survive clear codes (only the read
+  // width changes), so no reset is needed there.
+  let acc = 0;
+  let accBits = 0;
+  let bytePos = 0;
 
   for (;;) {
     // Grow the code width BEFORE reading, when the next dictionary code value
@@ -157,25 +162,19 @@ function lzwDecode(data, minCodeSize, expected) {
       codeSize++;
     }
 
-    // Read one code, LSB-first, at the current code width.
-    let code = 0;
-    let br = 0;
-    const cs = codeSize;
-    while (br < cs) {
-      const bi = bitPos >> 3;
-      if (bi >= dataLen) {
+    // Refill the accumulator to cover one code at the current width.
+    while (accBits < codeSize) {
+      if (bytePos >= dataLen) {
         // Tolerate a missing EOI only when the pixel count is already exact.
         if (outLen === expected) return out;
         throw new Error("decodeGif: truncated LZW data");
       }
-      const bit = bitPos & 7;
-      let take = 8 - bit;
-      const need = cs - br;
-      if (take > need) take = need;
-      code |= ((data[bi] >> bit) & ((1 << take) - 1)) << br;
-      br += take;
-      bitPos += take;
+      acc |= data[bytePos++] << accBits;
+      accBits += 8;
     }
+    const code = acc & ((1 << codeSize) - 1);
+    acc >>>= codeSize;
+    accBits -= codeSize;
 
     if (code === clear) {
       codeSize = minCodeSize + 1;
