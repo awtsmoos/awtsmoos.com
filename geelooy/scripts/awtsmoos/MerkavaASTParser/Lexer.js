@@ -29,7 +29,8 @@ class Lexer {
 	}
 
 	_guard() {
-		if (this.op_count++ > this.max_ops) {
+		// B"H - Amortized safety check: validate every 1024 ops instead of every op.
+		if (((++this.op_count & 1023) === 0) && this.op_count > this.max_ops) {
 			throw new Error(
 				`LEXER HALTED: Maximum operation count (${this.max_ops}) exceeded. ` +
 				`This is a guaranteed infinite loop, likely caused by a bug in the lexer's state. ` +
