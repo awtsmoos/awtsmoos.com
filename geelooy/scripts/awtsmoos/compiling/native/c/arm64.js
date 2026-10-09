@@ -48,9 +48,11 @@ const INTEGER = "-?[0-9]+|0x[0-9a-fA-F]+";
 
 const PATTERNS = Object.freeze({
 	call: new RegExp(`^CALL (${LABEL})$`),
+	indirectCall: new RegExp(`^CALL (${REGISTER_NAME})$`),
 	cmp: new RegExp(`^CMP (${REGISTER_NAME}), (${REGISTER_NAME}|${INTEGER})$`),
 	conditionalBranch: new RegExp(`^(JE|JNE|JL|JLE|JG|JGE) (\\$?${LABEL})$`),
 	directive: /^\.(code|data)$/,
+	externDirective: new RegExp(`^\\.extern (${LABEL})$`),
 	frameMemory: /^QWORD PTR \[(RBP|R10|RAX)(?:-([0-9]+))?\]$/,
 	jump: new RegExp(`^JMP (\\$?${LABEL})$`),
 	label: new RegExp(`^(\\$?${LABEL}):$`),
@@ -110,6 +112,11 @@ function translateLine(line, source, index, output) {
 		output.push(text);
 		return 0;
 	}
+	const externDirective = text.match(PATTERNS.externDirective);
+	if (externDirective) {
+		output.push(`.extern ${externDirective[1]}`);
+		return 0;
+	}
 	const label = text.match(PATTERNS.label);
 	if (label) {
 		output.push(`${normalizeLabel(label[1])}:`);
@@ -139,6 +146,11 @@ function translateLine(line, source, index, output) {
 	}
 	if (text === "RET") {
 		output.push("RET");
+		return 0;
+	}
+	const indirectCall = text.match(PATTERNS.indirectCall);
+	if (indirectCall) {
+		output.push(`BLR ${REGISTER[indirectCall[1]]}`);
 		return 0;
 	}
 	const call = text.match(PATTERNS.call);

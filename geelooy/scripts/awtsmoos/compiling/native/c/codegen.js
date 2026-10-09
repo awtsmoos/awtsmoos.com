@@ -46,13 +46,22 @@ export function generatePortableCAssembly(irModule, targetId, options = {}) {
 	const layout = createPortableCTypeLayout(irModule);
 	const strings = collectStringLiterals(irModule);
 	const globals = emitPortableCGlobals(irModule, layout, strings);
-	const backend = { globalTypes: globals.types, layout, strings };
+	const externals = new Set(irModule.imports.map(entry => entry.name));
+	const backend = { externals, globalTypes: globals.types, layout, strings };
 	const emittedFunctions = irModule.functions.map(functionNode => {
 		return emitPortableCFunction(functionNode, functions, globals.names, backend);
 	});
+	const arm64 = ARM64_TARGETS.has(targetId);
+	// B"H: extern declarations become assembler .extern directives so the
+	// linker leaves those call sites as external relocations: resolved
+	// statically against another object, or via PLT/GOT at load time.
+	const externDirectives = arm64
+		? [...externals].map(name => `.extern ${name}`)
+		: [];
 	const lines = [
 		`; B"H`,
 		...globals.lines,
+		...externDirectives,
 		`.code`
 	];
 	if (!libraryMode) {
@@ -65,7 +74,6 @@ export function generatePortableCAssembly(irModule, targetId, options = {}) {
 		);
 	}
 	for (const emitted of emittedFunctions) lines.push(...emitted.lines);
-	const arm64 = ARM64_TARGETS.has(targetId);
 	const finalLines = arm64
 		? translatePortableCAssemblyToArm64(lines)
 		: lines;
@@ -102,10 +110,10 @@ function validateModule(irModule, targetId, options = {}) {
 			`Portable C target '${targetId}' is unsupported`
 		);
 	}
-	if (irModule.imports.length) {
+	if (irModule.imports.length && !ARM64_TARGETS.has(targetId)) {
 		throw portableCError(
 			"PORTABLE_C_IMPORTS_UNSUPPORTED",
-			"Portable C v3 does not support imported functions"
+			"Portable C imports/externs require an ARM64 target"
 		);
 	}
 }

@@ -33,6 +33,8 @@ export function parseProgram(stream) {
 		const token = stream.peek();
 		if (isKeyword(token, "import")) {
 			parseImport(stream, program);
+		} else if (isKeyword(token, "extern")) {
+			parseExternDeclaration(stream, program);
 		} else if (isStructureDefinition(stream)) {
 			program.structs.push(parseStructure(stream));
 		} else if (isEnumDefinition(stream)) {
@@ -43,6 +45,10 @@ export function parseProgram(stream) {
 			parseFunctionOrGlobal(stream, program);
 		}
 	}
+	// A definition in this translation unit satisfies its own extern
+	// declaration (standard C): only truly external names stay imports.
+	const definedNames = new Set(program.functions.map(fn => fn.name));
+	program.imports = program.imports.filter(entry => !definedNames.has(entry.func));
 	return program;
 }
 
@@ -90,6 +96,84 @@ function parseFunctionOrGlobal(stream, program) {
 		stream.consume();
 	}
 	stream.expect(TOKENS.PUNCT, ";");
+}
+
+/**
+ * Parses `extern` function declarations into IR imports. The Awtsmoos keeps
+ * cross-module and host-library calls explicit; Awtsmoos.com lowers each
+ * extern name to an external symbol that the linker resolves statically
+ * between objects or dynamically through PLT/GOT at load time.
+ *
+ * `extern int name(params);` declares an imported function (parameter names
+ * are optional, as in C prototypes). `extern int name(params) { ... }` is a
+ * redundant-extern definition and lowers as a plain function. Extern
+ * variables are rejected: the scalar backend has no GOT-relative data model.
+ */
+function parseExternDeclaration(stream, program) {
+	stream.expect(TOKENS.KEYWORD, "extern");
+	const type = parseType(stream, { stars: false });
+	let declaratorType = { ...type };
+	while (stream.peek().type === TOKENS.OP && stream.peek().value === "*") {
+		stream.consume();
+		declaratorType.ptr++;
+	}
+	const name = stream.expect(TOKENS.ID).value;
+	if (!isPunctuation(stream.peek(), "(")) {
+		stream.error(
+			`extern '${name}' must declare a function; extern variables are unsupported`
+		);
+	}
+	const args = parsePrototypeArguments(stream);
+	if (isPunctuation(stream.peek(), ";")) {
+		stream.consume();
+		program.imports.push({ dll: "extern", func: name });
+		return;
+	}
+	if (isPunctuation(stream.peek(), "{")) {
+		if (args.some(argument => !argument.name)) {
+			stream.error(
+				`extern definition of '${name}' requires a name for every parameter`
+			);
+		}
+		program.functions.push({
+			args,
+			body: parseBlock(stream),
+			name,
+			retType: declaratorType
+		});
+		return;
+	}
+	stream.error(`Expected ';' or '{' after extern declaration of '${name}'`);
+}
+
+/**
+ * Parses a prototype parameter list. Parameter names are optional in a
+ * prototype (`extern int f(int, char *);`); definitions still require names
+ * wherever the body references them.
+ */
+function parsePrototypeArguments(stream) {
+	stream.expect(TOKENS.PUNCT, "(");
+	const args = [];
+	// `(void)` is the C idiom for an empty parameter list.
+	if (stream.peek().type === TOKENS.KEYWORD
+		&& stream.peek().value === "void"
+		&& stream.peek(1).type === TOKENS.PUNCT
+		&& stream.peek(1).value === ")") {
+		stream.consume();
+	} else {
+		while (!isPunctuation(stream.peek(), ")")) {
+			const type = parseType(stream);
+			let argName = "";
+			if (stream.peek().type === TOKENS.ID) {
+				argName = stream.consume().value;
+			}
+			args.push({ name: argName, type });
+			if (!isPunctuation(stream.peek(), ",")) break;
+			stream.consume();
+		}
+	}
+	stream.expect(TOKENS.PUNCT, ")");
+	return args;
 }
 
 /**
