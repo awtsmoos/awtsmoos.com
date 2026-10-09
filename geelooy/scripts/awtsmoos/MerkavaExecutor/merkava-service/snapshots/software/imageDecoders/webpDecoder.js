@@ -1428,13 +1428,15 @@ function fixupLeft(plane, stride, x0, y0, width, row, mode) {
 }
 
 function fixupAbove(plane, stride, x0, y0, width, col, mode) {
-  if (mode === DC_PRED && col > 0) {
-    for (let i = 0; i < width; i++)
-      plane[(y0 - 1) * stride + x0 + i] = plane[(y0 + i) * stride + x0 - 1];
-  } else {
-    for (let i = -1; i < width; i++)
-      plane[(y0 - 1) * stride + x0 + i] = 127;
-  }
+  // B"H FIX (2026-10-09): removed the DC_PRED branch that copied from the
+  // current row's left column. fixup runs BEFORE reconstruction, so that
+  // column is uninitialized zeros -> above border became 0 -> chroma
+  // decoded with a green cast (U/V planes identical and wrong).
+  // Per VP8 spec (RFC 6386 10.3), unavailable above pixels are 127.
+  // (fixupLeft's DC_PRED branch is fine: it reads the above row, which IS
+  // reconstructed for row > 0.)
+  for (let i = -1; i < width; i++)
+    plane[(y0 - 1) * stride + x0 + i] = 127;
   for (let i = 0; i < 4; i++)
     plane[(y0 - 1) * stride + x0 + width + i] = 127; // above-right
 }
