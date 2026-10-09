@@ -13,6 +13,13 @@
             this.pendingAsyncCount = 0; 
             this.cycleCount = 0;
             this.MAX_THREADS = 128; // B"H - Expanded for density
+            // B"H: capture host JSON identity for the JSON.parse/stringify fast
+            // path (executors/json.js). The call itself identity-checks the
+            // receiver, so shadowing/reassignment stays exactly correct.
+            const _hg = memoryManager && memoryManager.globals;
+            this._hostJSON = (_hg && _hg.JSON) || null;
+            this._hostJSONParse = (this._hostJSON && this._hostJSON.parse) || null;
+            this._hostJSONStringify = (this._hostJSON && this._hostJSON.stringify) || null;
         }
 
         spawn(codeObject) {

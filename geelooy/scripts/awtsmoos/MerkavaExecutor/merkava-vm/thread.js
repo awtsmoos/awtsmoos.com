@@ -189,6 +189,20 @@
             const op = bc[ip++];
             this.ip = ip;
             try {
+                // B"H: JSON.parse/stringify fast path (SYS 50/51) — skip the
+                // handler-table dispatch; jsonCall does the work directly.
+                // Falls through to the normal handler on any miss.
+                if (op === 0x90 && ip + 1 < bcLen) {
+                    const sid = bc[ip], sargc = bc[ip + 1];
+                    const svm = this.vm, shj = svm ? svm._hostJSON : null;
+                    const sjc = root.MerkavaVM.jsonCall;
+                    if ((sid === 50 || sid === 51) && shj && sjc && sargc >= 1 && sargc <= 4 &&
+                        this._sp >= sargc && this.stack[this._sp - sargc] === shj) {
+                        this.ip = ip + 2;
+                        sjc(this, sid === 50 ? 0 : 1, sargc);
+                        return true;
+                    }
+                }
                 const handler = handlers[op];
                 let result;
                 if (handler) {
@@ -500,6 +514,33 @@
                             target[key] = value;
                             stack[sp - 3] = value; stack[sp - 2] = undefined; stack[sp - 1] = undefined;
                             sp -= 2;
+                            steps++; continue;
+                        }
+                    }
+                    // B"H: JSON.parse/stringify fast path (SYS 50/51). Inline only
+                    // the host-JSON case on hoisted locals; anything else
+                    // (shadowed JSON, bad argc) falls through to the cold
+                    // handler, which implements exact generic semantics.
+                    if (op === 0x90 && ip + 1 < bcLen) {
+                        const sid = bc[ip], sargc = bc[ip + 1];
+                        const hj = vm ? vm._hostJSON : null;
+                        if ((sid === 50 || sid === 51) && hj && sargc >= 1 && sargc <= 4 && sp >= sargc && stack[sp - sargc] === hj) {
+                            ip += 2;
+                            const n = sargc - 1;
+                            let ja0, ja1, ja2;
+                            if (n > 2) { ja2 = stack[--sp]; stack[sp] = undefined; }
+                            if (n > 1) { ja1 = stack[--sp]; stack[sp] = undefined; }
+                            if (n > 0) { ja0 = stack[--sp]; stack[sp] = undefined; }
+                            sp--; stack[sp] = undefined; // pop jsonObj
+                            const jw = root.MerkavaVM.wrapForHost;
+                            const jw0 = jw ? jw(this, ja0) : ja0;
+                            const jw1 = n > 1 ? (jw ? jw(this, ja1) : ja1) : undefined;
+                            const jw2 = n > 2 ? (jw ? jw(this, ja2) : ja2) : undefined;
+                            let jr;
+                            if (sid === 50) jr = n > 1 ? vm._hostJSONParse(jw0, jw1) : vm._hostJSONParse(jw0);
+                            else jr = n > 2 ? vm._hostJSONStringify(jw0, jw1, jw2) : n > 1 ? vm._hostJSONStringify(jw0, jw1) : vm._hostJSONStringify(jw0);
+                            if (sp >= stack.length) { this._sp = sp; this._growStack(); stack = this.stack; }
+                            stack[sp++] = jr;
                             steps++; continue;
                         }
                     }

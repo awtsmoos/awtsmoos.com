@@ -10,6 +10,7 @@ const VM_FILES = [
   '../merkava-vm/executors/math.js',
   '../merkava-vm/executors/objects.js',
   '../merkava-vm/executors/functions.js',
+  '../merkava-vm/executors/json.js',
   '../merkava-vm/instructions.js',
   '../merkava-vm/thread.js',
   '../merkava-vm/index.js'

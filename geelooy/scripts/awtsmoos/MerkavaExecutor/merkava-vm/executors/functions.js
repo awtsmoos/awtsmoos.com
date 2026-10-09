@@ -33,6 +33,9 @@
         return v;
     };
 
+    // B"H: shared with executors/json.js (JSON.parse/stringify fast path).
+    root.MerkavaVM.wrapForHost = wrapForHost;
+
     H[0x70] = (t) => { // CLOSURE
         const code = t.constants[t.readU16()], flags = t.read8();
         if (t.currentScope && !t.currentScope.__parent) t.currentScope.__parent = t.currentUpvalues;

@@ -436,6 +436,12 @@ function createDefaultHost(rootScope = {}) {
   };
   const callMethod = (receiver, method, ...args) => {
     if (receiver == null) throw new TypeError(String(receiver) + ' has no method ' + String(method));
+    // B"H: JSON.parse/stringify hot path — direct native call. Wraps only
+    // function-kind args (reviver/replacer); no args.map array + closure alloc.
+    if (receiver === JSON && (method === 'parse' || method === 'stringify')) {
+      const w = (a) => a && a.__kind === 'function' ? (...inner) => callFunction(a, ...inner) : a;
+      return method === 'parse' ? JSON.parse(w(args[0]), w(args[1])) : JSON.stringify(w(args[0]), w(args[1]), args[2]);
+    }
     // B"H 2026-10-09: Function.prototype.apply/call/bind for VM functions.
     if (receiver && receiver.__kind === 'function') {
       if (method === 'apply') return receiver.call(args[1] != null ? Array.from(args[1]) : [], args[0]);

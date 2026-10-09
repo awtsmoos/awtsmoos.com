@@ -32,6 +32,7 @@
             'merkava-vm/executors/flow.js',
             'merkava-vm/executors/objects.js',
             'merkava-vm/executors/functions.js',
+            'merkava-vm/executors/json.js',
             'merkava-vm/instructions.js', // The Dispatcher
             'merkava-vm/index.js',
             'merkava-vm/thread.js',

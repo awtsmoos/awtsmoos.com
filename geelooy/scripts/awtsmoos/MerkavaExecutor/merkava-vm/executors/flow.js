@@ -57,8 +57,15 @@
     };
 
     H[0x90] = (t) => { // SYSCALL
-        const id = t.read8(), argc = t.read8(), args = [];
-        for(let i=0; i<argc; i++) args.unshift(t.pop());
+        const id = t.read8(), argc = t.read8();
+        // B"H: JSON.parse/stringify fast path (SYS 50/51, see executors/json.js).
+        if ((id === 50 || id === 51) && root.MerkavaVM.jsonCall) {
+            root.MerkavaVM.jsonCall(t, id === 50 ? 0 : 1, argc);
+            return;
+        }
+        // B"H: indexed fill O(n) (was unshift loop O(n^2)).
+        const args = new Array(argc);
+        for (let i = argc - 1; i >= 0; i--) args[i] = t.pop();
         t.push(t.vm.hostAPI[id] ? t.vm.hostAPI[id](...args) : undefined);
     };
 
