@@ -6,17 +6,21 @@
 	if (typeof module === "object" && module.exports) {
 		module.exports = factory(
 			require("./VirtualWindowMedia.js"),
-			require("./VirtualDeterministicCrypto.js")
+			require("./VirtualDeterministicCrypto.js"),
+			require("./VirtualBrowserApis.js"),
+			require("./VirtualBrowserNet.js")
 		);
 	} else {
 		root.Merkava = root.Merkava || {};
 		root.Merkava.VirtualWindowPlatform = factory(
-			root.Merkava, root.Merkava
+			root.Merkava, root.Merkava, root.Merkava, root.Merkava
 		).VirtualWindowPlatform;
 	}
-})(typeof self !== "undefined" ? self : this, function(mediaMod, cryptoMod) {
+})(typeof self !== "undefined" ? self : this, function(mediaMod, cryptoMod, apisMod, netMod) {
 	const installVirtualWindowMedia = mediaMod.installVirtualWindowMedia;
 	const VirtualDeterministicCrypto = cryptoMod.VirtualDeterministicCrypto;
+	const installVirtualBrowserApis = apisMod.installVirtualBrowserApis;
+	const installVirtualBrowserNet = netMod.installVirtualBrowserNet;
 
 	/**
 	 * Installs deterministic platform services onto one virtual window. The Awtsmoos
@@ -44,6 +48,12 @@
 			windowObject.IntersectionObserver = Observer;
 			windowObject.showDirectoryPicker = async () => directoryHandle();
 			windowObject.showOpenFilePicker = async () => [];
+			// B"H: real browser APIs — File System, IndexedDB, Cache, Notifications,
+			// Clipboard, Geolocation, storage persistence (VirtualBrowserApis) +
+			// fast fetch, parallel workers, WebSocket (VirtualBrowserNet).
+			// These override the stubs above with working implementations.
+			installVirtualBrowserApis(windowObject, this.options);
+			installVirtualBrowserNet(windowObject, this.options);
 		}
 	}
 
