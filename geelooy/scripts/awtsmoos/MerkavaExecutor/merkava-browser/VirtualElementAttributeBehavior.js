@@ -16,6 +16,26 @@
 		prototype.getAttribute = getAttribute;
 		prototype.hasAttribute = hasAttribute;
 		prototype.removeAttribute = removeAttribute;
+		prototype.__setParsedAttributes = __setParsedAttributes;
+	}
+
+	/**
+	 * B"H (parser fast path): bulk-applies pre-parsed attributes from the HTML
+	 * parser. The parser guarantees lowercase names, string values, and
+	 * first-wins dedup, so this skips String() coercion, oldValue tracking,
+	 * and mutation notify (the parser suppresses those during initial parse).
+	 * Reflection (id/class/style/data-*) still runs for correctness.
+	 *
+	 * @param {Array<{name:string,value:string}>} attributes Deduped pairs.
+	 */
+	function __setParsedAttributes(attributes) {
+		const target = this.attributes;
+		for (let i = 0; i < attributes.length; i++) {
+			target[attributes[i].name] = attributes[i].value;
+		}
+		for (let i = 0; i < attributes.length; i++) {
+			reflectAttribute(this, attributes[i].name, attributes[i].value);
+		}
 	}
 
 	/** Stores and reflects one HTML attribute into the element state. */

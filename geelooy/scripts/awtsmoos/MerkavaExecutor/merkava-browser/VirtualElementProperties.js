@@ -22,6 +22,9 @@
 			// B"H (2026-10-09): single allocation, no spreads. The document
 			// builds the record; detached nodes (no ownerDocument) skip.
 			const doc = this.ownerDocument;
+			// B"H (parse fast path): skip the notify call entirely while the
+			// HTML parser builds the initial tree.
+			if (doc && doc.__suppressMutations) return;
 			if (doc && doc.__notifyMutation) doc.__notifyMutation(kind, this, extra);
 		};
 		prototype.__handle = function() {

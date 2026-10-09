@@ -46,6 +46,9 @@
       this.__idMap = new Map();
       this.__selectorCache = new Map();
       this.__nodePool = [];
+      // B"H (parse fast path): declared here so toggling it during HTML parsing
+      // never changes the object's hidden class.
+      this.__suppressMutations = false;
       this.activeElement = null;
       this.readyState = 'loading';
       this.title = '';

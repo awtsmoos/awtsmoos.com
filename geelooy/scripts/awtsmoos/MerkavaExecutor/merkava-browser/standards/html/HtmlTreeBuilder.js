@@ -144,11 +144,29 @@
 
 	/**
 	 * Applies only the first occurrence of each HTML attribute name.
-	 * Null-prototype object instead of Set (one less allocation per element).
+	 * Uses the element's parser fast path (__setParsedAttributes) which skips
+	 * String() coercion and mutation notify; null-proto object for dedup.
 	 */
 	function applyAttributes(element, attributes) {
+		if (!attributes || attributes.length === 0) {
+			return;
+		}
+		if (typeof element.__setParsedAttributes === "function") {
+			const seen = Object.create(null);
+			const deduped = [];
+			for (const attribute of attributes) {
+				if (seen[attribute.name]) {
+					continue;
+				}
+				seen[attribute.name] = 1;
+				deduped.push(attribute);
+			}
+			element.__setParsedAttributes(deduped);
+			return;
+		}
+		// Fallback for documents without the fast path (e.g. test mocks).
 		const seen = Object.create(null);
-		for (const attribute of attributes || []) {
+		for (const attribute of attributes) {
 			if (seen[attribute.name]) {
 				continue;
 			}
