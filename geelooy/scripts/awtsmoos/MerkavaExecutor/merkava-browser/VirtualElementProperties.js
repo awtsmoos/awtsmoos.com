@@ -18,12 +18,11 @@
 			fragment.host = this;
 			return fragment;
 		};
-		prototype.__notify = function(kind, extra = {}) {
-			this.ownerDocument?.__notifyMutation?.({
-				...extra,
-				kind,
-				target: this.__handle()
-			});
+		prototype.__notify = function(kind, extra) {
+			// B"H (2026-10-09): single allocation, no spreads. The document
+			// builds the record; detached nodes (no ownerDocument) skip.
+			const doc = this.ownerDocument;
+			if (doc && doc.__notifyMutation) doc.__notifyMutation(kind, this, extra);
 		};
 		prototype.__handle = function() {
 			return support.virtualElementHandle(this);

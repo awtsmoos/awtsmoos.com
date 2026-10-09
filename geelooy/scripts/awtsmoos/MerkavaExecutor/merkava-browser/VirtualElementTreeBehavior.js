@@ -23,6 +23,12 @@
 		prototype.replaceChildren = replaceChildren;
 	}
 
+	/**
+	 * B"H (2026-10-09): all mutations go through __mutableChildren() so the
+	 * shared frozen empty-children array is never written to. childNodes is
+	 * a live alias (prototype getter), so no re-sync assignments are needed.
+	 */
+
 	/** Appends a child or drains a document fragment into this element. */
 	function appendChild(child) {
 		if (child.nodeType === 11) {
@@ -31,8 +37,7 @@
 		}
 		if (child.parentNode) child.parentNode.removeChild(child);
 		child.parentNode = this;
-		this.children.push(child);
-		this.childNodes = this.children;
+		this.__mutableChildren().push(child);
 		this.__notify("childList", { addedNodes: [child.__handle?.() || {}], removedNodes: [] });
 		return child;
 	}
@@ -63,8 +68,7 @@
 		if (index < 0) throw new Error("Reference node not found");
 		if (child.parentNode) child.parentNode.removeChild(child);
 		child.parentNode = this;
-		this.children.splice(index, 0, child);
-		this.childNodes = this.children;
+		this.__mutableChildren().splice(index, 0, child);
 		this.__notify("childList", { addedNodes: [child.__handle?.() || {}], removedNodes: [] });
 		return child;
 	}
@@ -73,8 +77,7 @@
 	function removeChild(child) {
 		const index = this.children.indexOf(child);
 		if (index < 0) throw new Error("Child not found");
-		this.children.splice(index, 1);
-		this.childNodes = this.children;
+		this.__mutableChildren().splice(index, 1);
 		child.parentNode = null;
 		this.__notify("childList", { addedNodes: [], removedNodes: [child.__handle?.() || {}] });
 		return child;
@@ -86,8 +89,24 @@
 		return oldChild;
 	}
 
+	/**
+	 * B"H (2026-10-09): discarded subtrees are recycled into the document
+	 * node pool instead of dropped for GC. One childList notification carries
+	 * all removed nodes (was: one notification per removed child).
+	 */
 	function replaceChildren(...nodes) {
-		while (this.firstChild) this.removeChild(this.firstChild);
+		const old = this._children;
+		if (old && old.length) {
+			const doc = this.ownerDocument;
+			const removedNodes = [];
+			for (const child of old) {
+				child.parentNode = null;
+				removedNodes.push(child.__handle?.() || {});
+				if (doc) doc.__recycleNode(child);
+			}
+			this._children = undefined;
+			this.__notify("childList", { addedNodes: [], removedNodes });
+		}
 		for (const node of nodes) this.appendChild(this.__coerceNode(node));
 	}
 

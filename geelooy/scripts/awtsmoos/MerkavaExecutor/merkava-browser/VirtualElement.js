@@ -24,9 +24,16 @@
 	/**
 	 * Core executor-owned DOM element vessel.
 	 *
-	 * The constructor stores only intrinsic node state. Standards-facing behavior
-	 * is installed from small repository modules so DOM evolution stays testable,
-	 * readable, and below the source-law line cap without external libraries.
+	 * B"H (2026-10-09): extreme DOM optimization pass.
+	 * The constructor stores only cheap intrinsic state. Expensive sub-objects
+	 * (style declaration, class list, attribute map, listener map, dataset)
+	 * and the children array are created LAZILY on first use: a bare div is
+	 * now ~20 own fields with zero sub-allocations instead of 30+ fields and
+	 * 6 child objects. See installLazyDomState below.
+	 *
+	 * Standards-facing behavior is installed from small repository modules so
+	 * DOM evolution stays testable, readable, and below the source-law line
+	 * cap without external libraries.
 	 */
 	class VirtualElement {
 		constructor(tagName = "div", ownerDocument = null) {
@@ -37,17 +44,13 @@
 			this.ownerDocument = ownerDocument;
 			this.__nodeId = ownerDocument ? ownerDocument.__nextNodeId++ : 0;
 			this.parentNode = null;
-			this.children = [];
-			this.childNodes = this.children;
-			this.attributes = {};
-			this.listeners = {};
-			this.style = new modules.VirtualStyleDeclaration();
-			this.dataset = {};
+			// B"H: children/childNodes/attributes/listeners/style/dataset/classList/id
+			// are lazy prototype accessors now (installLazyDomState). No eager
+			// allocation: a fresh node costs only the fields below.
 			this._textContent = "";
 			this.value = "";
 			this.checked = false;
 			this.selected = false;
-			this.id = "";
 			this.className = "";
 			this.name = "";
 			this.type = "";
@@ -63,7 +66,6 @@
 				this.attributes.width = "300";
 				this.attributes.height = "150";
 			}
-			this.classList = new modules.VirtualClassList(this);
 			if (this.localName === "template") {
 				this.__templateContent = this.__newFragment();
 			}
@@ -77,6 +79,95 @@
 		return 1;
 	}
 
+	/**
+	 * B"H: shared frozen empty-children singleton. Every childless node
+	 * aliases this instead of owning a private []. The tree behavior swaps
+	 * in a real array on first mutation via __mutableChildren().
+	 */
+	const EMPTY_CHILDREN = Object.freeze([]);
+
+	/**
+	 * B"H: keeps the document id index in sync. Called by the id setter.
+	 * Duplicate ids map to the most recently assigned node (invalid HTML
+	 * edge case; tree-order fallback still works through querySelector).
+	 */
+	function setElementId(element, value) {
+		const next = String(value ?? "");
+		const doc = element.ownerDocument;
+		const prev = element._id || "";
+		if (prev === next) {
+			element._id = next;
+			return;
+		}
+		if (doc && doc.__idMap) {
+			if (prev) doc.__idMap.delete(prev);
+			if (next) doc.__idMap.set(next, element);
+		}
+		element._id = next;
+		// B"H: id changes can re-match selectors with layout properties.
+		if (prev !== next && doc && doc.__layoutScheduler) doc.__layoutScheduler.noteIdChange();
+	}
+
+	/**
+	 * B"H: lazy DOM state. Getters allocate backing stores on first touch and
+	 * cache them, so repeated access keeps identity (el.style === el.style).
+	 * children/childNodes alias a shared frozen empty array until mutated.
+	 */
+	function installLazyDomState(prototype, mods) {
+		Object.defineProperties(prototype, {
+			style: {
+				configurable: true,
+				get() {
+					const s = this._style || (this._style = new mods.VirtualStyleDeclaration());
+					// B"H: layout thrashing defense — style writes notify the
+					// document scheduler. Re-linked on every access so pooled
+					// / recycled nodes can never notify a stale owner.
+					s.__owner = this;
+					return s;
+				}
+			},
+			classList: {
+				configurable: true,
+				get() { return this._classList || (this._classList = new mods.VirtualClassList(this)); }
+			},
+			attributes: {
+				configurable: true,
+				get() { return this._attributes || (this._attributes = {}); }
+			},
+			listeners: {
+				configurable: true,
+				get() { return this._listeners || (this._listeners = {}); }
+			},
+			dataset: {
+				configurable: true,
+				get() { return this._dataset || (this._dataset = {}); }
+			},
+			children: {
+				configurable: true,
+				get() { return this._children || EMPTY_CHILDREN; },
+				set(value) { this._children = value && value.length ? value : undefined; }
+			},
+			childNodes: {
+				configurable: true,
+				get() { return this._children || EMPTY_CHILDREN; },
+				set(value) { this._children = value && value.length ? value : undefined; }
+			},
+			id: {
+				configurable: true,
+				get() { return this._id || ""; },
+				set(value) { setElementId(this, value); }
+			}
+		});
+		/**
+		 * B"H: returns the mutable children array, allocating on first use.
+		 * All tree mutations go through this so the frozen shared empty
+		 * array is never written to.
+		 */
+		prototype.__mutableChildren = function() {
+			return this._children || (this._children = []);
+		};
+	}
+
 	modules.installVirtualElementProperties(VirtualElement.prototype);
 	modules.installVirtualElementTreeBehavior(VirtualElement.prototype);
 	modules.installVirtualElementCloneBehavior(VirtualElement.prototype);
@@ -85,6 +176,7 @@
 	modules.installVirtualElementEventBehavior(VirtualElement.prototype);
 	modules.installVirtualElementQueryBehavior(VirtualElement.prototype);
 	modules.installVirtualElementContentBehavior(VirtualElement.prototype);
+	installLazyDomState(VirtualElement.prototype, modules);
 
-	return { VirtualElement };
+	return { VirtualElement, EMPTY_CHILDREN, setElementId };
 });

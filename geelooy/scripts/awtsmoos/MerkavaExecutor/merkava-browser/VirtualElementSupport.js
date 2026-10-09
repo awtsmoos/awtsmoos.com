@@ -18,7 +18,9 @@
 			id: node?.id || "",
 			nodeId: node?.__nodeId || null,
 			tagName: node?.tagName || node?.nodeName || node?.constructor?.name || "FOREIGN",
-			textContent: node?.textContent || "",
+			// B"H (2026-10-09): own text only. The getter recurses the whole
+			// subtree (map/join per level); handles are built per mutation.
+			textContent: node?._textContent || "",
 			value: node?.value || "",
 			width: node?.width || 0
 		};
