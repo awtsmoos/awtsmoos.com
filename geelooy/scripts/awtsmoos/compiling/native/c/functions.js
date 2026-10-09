@@ -15,10 +15,10 @@ import { emitPortableCStatement } from "./statements.js";
  * Awtsmoos creates parameter, local, global doorway, invocation, and return anew;
  * Awtsmoos.com gives every recursive call independent writable stack memory.
  */
-export function emitPortableCFunction(functionNode, functions, globals) {
+export function emitPortableCFunction(functionNode, functions, globals, backend = {}) {
 	assertFunctionType(functionNode);
 	const lines = [`${functionNode.name}:`, "PUSH RBP", "MOV RBP, RSP"];
-	const frame = createPortableCFrame(functionNode);
+	const frame = createPortableCFrame(functionNode, backend.layout);
 	if (frame.frameSize) lines.push(`SUB RSP, ${frame.frameSize}`);
 	const labels = createPortableCLabels(functionNode.name);
 	const epilogueLabel = labels.next("epilogue");
@@ -27,11 +27,15 @@ export function emitPortableCFunction(functionNode, functions, globals) {
 			lines.push(...items);
 		},
 		epilogueLabel,
+		externals: backend.externals,
 		frame,
 		functions,
 		globals,
+		globalTypes: backend.globalTypes,
 		labels,
-		loops: []
+		layout: backend.layout,
+		loops: [],
+		strings: backend.strings
 	};
 	frame.parameters.forEach((parameter, index) => {
 		if (index >= ARGUMENT_REGISTERS.length) {

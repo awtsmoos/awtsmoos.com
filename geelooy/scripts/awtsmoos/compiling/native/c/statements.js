@@ -2,6 +2,7 @@
 //Boruch Hashem
 //Blessed is He
 
+import { emitAggregateDeclaration } from "./aggregates.js";
 import { emitPortableCControl } from "./controlFlow.js";
 import { portableCError, rejectPortableC } from "./errors.js";
 import { emitPortableCExpression } from "./expressions.js";
@@ -20,6 +21,9 @@ export function emitPortableCStatement(node, context) {
 		return;
 	}
 	if (node.kind === "declaration") {
+		if (emitAggregateDeclaration(node, context)) {
+			return;
+		}
 		if (node.initializer) {
 			emitPortableCExpression(node.initializer, context);
 		} else {

@@ -30,7 +30,9 @@ export function emitAddressOfSymbol(name, context) {
 		context.emit(`LEA RAX, ${name}`);
 		return;
 	}
-	context.emit(`LEA RAX, ${context.frame.address(name)}`);
+	// baseAddress() is the element/field-0 address: identical to address()
+	// for scalars, and the true aggregate base for arrays and structures.
+	context.emit(`LEA RAX, ${context.frame.baseAddress(name)}`);
 }
 
 export function emitDereferenceRead(node, context, emitExpression) {

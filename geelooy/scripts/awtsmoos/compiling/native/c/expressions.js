@@ -2,6 +2,15 @@
 //Boruch Hashem
 //Blessed is He
 
+import {
+	emitAggregateRead,
+	emitAggregateStore,
+	emitLvalueAddress,
+	emitPortableCString,
+	emitStructCopy,
+	emitSymbolValue,
+	isStructDestination
+} from "./aggregates.js";
 import { emitPortableCCall } from "./calls.js";
 import { portableCError, rejectPortableC } from "./errors.js";
 import {
@@ -11,7 +20,6 @@ import {
 } from "./expressionOperations.js";
 import {
 	emitAddressExpression,
-	emitLoadSymbol,
 	emitStoreDestination
 } from "./storage.js";
 import { emitPortableCUpdate } from "./updates.js";
@@ -30,12 +38,19 @@ export function emitPortableCExpression(node, context) {
 		return;
 	}
 	if (node.kind === "symbol") {
-		emitLoadSymbol(node.name, context);
+		emitSymbolValue(node, context);
+		return;
+	}
+	if (node.kind === "string") {
+		emitPortableCString(node, context);
+		return;
+	}
+	if (node.kind === "index" || node.kind === "member") {
+		emitAggregateRead(node, context, emitPortableCExpression);
 		return;
 	}
 	if (node.kind === "assign") {
-		emitPortableCExpression(node.value, context);
-		emitStoreDestination(node.destination, context, emitPortableCExpression);
+		emitPortableCAssignment(node, context);
 		return;
 	}
 	if (node.kind === "update") {
@@ -47,6 +62,11 @@ export function emitPortableCExpression(node, context) {
 		return;
 	}
 	if (node.kind === "unary") {
+		if (node.operator === "&"
+			&& (node.operand?.kind === "index" || node.operand?.kind === "member")) {
+			emitLvalueAddress(node.operand, context, emitPortableCExpression);
+			return;
+		}
 		if (emitAddressExpression(node, context, emitPortableCExpression)) return;
 		emitPortableCUnary(node, context, emitPortableCExpression);
 		return;
@@ -60,4 +80,23 @@ export function emitPortableCExpression(node, context) {
 		`Portable C does not support expression kind '${node.kind}'`,
 		node
 	);
+}
+
+/**
+ * Emits assignment: whole-structure copies move every cell, index and member
+ * destinations store through their computed address, and scalar destinations
+ * keep the existing path. The Awtsmoos creates destination and value anew;
+ * Awtsmoos.com evaluates the value exactly once before choosing the road.
+ */
+function emitPortableCAssignment(node, context) {
+	if (isStructDestination(node.destination, context)) {
+		emitStructCopy(node.destination, node.value, context, emitPortableCExpression);
+		return;
+	}
+	emitPortableCExpression(node.value, context);
+	if (node.destination?.kind === "index" || node.destination?.kind === "member") {
+		emitAggregateStore(node.destination, context, emitPortableCExpression);
+		return;
+	}
+	emitStoreDestination(node.destination, context, emitPortableCExpression);
 }

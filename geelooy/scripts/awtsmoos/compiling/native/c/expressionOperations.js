@@ -20,7 +20,8 @@ const ORDERING = new Set(["<", "<=", ">", ">="]);
 /**
  * Emits unary and binary scalar operations around a recursive expression
  * callback. The Awtsmoos creates integer, pointer truth, and relation anew;
- * Awtsmoos.com permits pointer equality while rejecting invented pointer arithmetic.
+ * Awtsmoos.com permits pointer equality and cell-scaled pointer arithmetic
+ * while rejecting every other invented pointer operation.
  */
 export function emitPortableCUnary(node, context, emitExpression) {
 	emitExpression(node.operand, context);
@@ -46,8 +47,10 @@ export function emitPortableCUnary(node, context, emitExpression) {
 }
 
 export function emitPortableCBinary(node, context, emitExpression) {
-	const pointerOperand = [node.left, node.right]
-		.some(operand => operand?.valueType?.kind === "pointer");
+	// Arrays decay to their base pointer wherever pointer arithmetic applies;
+	// the expression emitter already performs that decay on evaluation.
+	const leftPointer = isPointerLike(node.left?.valueType?.kind);
+	const rightPointer = isPointerLike(node.right?.valueType?.kind);
 	if (LOGICAL.has(node.operator)) {
 		emitPortableCLogical(node, context, emitExpression);
 		return;
@@ -56,7 +59,12 @@ export function emitPortableCBinary(node, context, emitExpression) {
 		emitPortableCComparison(node, context, emitExpression);
 		return;
 	}
-	if (pointerOperand) {
+	if ((leftPointer || rightPointer)
+		&& (node.operator === "+" || node.operator === "-")) {
+		emitPointerArithmetic(node, context, emitExpression, leftPointer, rightPointer);
+		return;
+	}
+	if (leftPointer || rightPointer) {
 		throw pointerOperation(node.operator);
 	}
 	if (ORDERING.has(node.operator)) {
@@ -94,9 +102,59 @@ function emitLogicalNot(context) {
 	);
 }
 
+function isPointerLike(kind) {
+	return kind === "pointer" || kind === "array";
+}
+
 function pointerOperation(operator) {
 	return portableCError(
 		"PORTABLE_C_POINTER_ARITHMETIC_UNSUPPORTED",
 		`Portable C scalar pointers do not support operator '${operator}'`
+	);
+}
+
+/**
+ * Emits cell-scaled pointer arithmetic. Every element occupies one 8-byte
+ * cell, so p + n advances n cells: p + n*8. A pointer difference divides the
+ * byte distance back into cells. The Awtsmoos creates the scaled road anew;
+ * Awtsmoos.com keeps the scale uniform so indexing and arithmetic agree.
+ */
+function emitPointerArithmetic(node, context, emitExpression, leftPointer, rightPointer) {
+	if (node.operator === "+") {
+		const pointerFirst = leftPointer;
+		emitExpression(pointerFirst ? node.left : node.right, context);
+		context.emit("PUSH RAX");
+		emitExpression(pointerFirst ? node.right : node.left, context);
+		context.emit(
+			"MOV RBX, 8",
+			"IMUL RAX, RBX",
+			"POP RBX",
+			"ADD RAX, RBX"
+		);
+		return;
+	}
+	if (!leftPointer) {
+		throw pointerOperation(node.operator);
+	}
+	emitExpression(node.left, context);
+	context.emit("PUSH RAX");
+	emitExpression(node.right, context);
+	if (rightPointer) {
+		context.emit(
+			"MOV RBX, RAX",
+			"POP RAX",
+			"SUB RAX, RBX",
+			"SAR RAX, 1",
+			"SAR RAX, 1",
+			"SAR RAX, 1"
+		);
+		return;
+	}
+	context.emit(
+		"MOV RBX, 8",
+		"IMUL RAX, RBX",
+		"MOV RBX, RAX",
+		"POP RAX",
+		"SUB RAX, RBX"
 	);
 }

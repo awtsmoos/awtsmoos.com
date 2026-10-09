@@ -6,6 +6,10 @@ import { translatePortableCAssemblyToArm64 } from "./arm64.js";
 import { portableCError } from "./errors.js";
 import { emitPortableCFunction } from "./functions.js";
 import { emitPortableCGlobals } from "./globals.js";
+import {
+	collectStringLiterals,
+	createPortableCTypeLayout
+} from "./types.js";
 
 const ARM64_TARGETS = new Set(["linux-arm64", "linux-arm64-dynamic", "linux-arm64-shared"]);
 const LIBRARY_TARGETS = new Set(["linux-arm64-shared"]);
@@ -39,9 +43,12 @@ export function generatePortableCAssembly(irModule, targetId, options = {}) {
 			}
 		}
 	}
-	const globals = emitPortableCGlobals(irModule);
+	const layout = createPortableCTypeLayout(irModule);
+	const strings = collectStringLiterals(irModule);
+	const globals = emitPortableCGlobals(irModule, layout, strings);
+	const backend = { globalTypes: globals.types, layout, strings };
 	const emittedFunctions = irModule.functions.map(functionNode => {
-		return emitPortableCFunction(functionNode, functions, globals.names);
+		return emitPortableCFunction(functionNode, functions, globals.names, backend);
 	});
 	const lines = [
 		`; B"H`,
@@ -99,12 +106,6 @@ function validateModule(irModule, targetId, options = {}) {
 		throw portableCError(
 			"PORTABLE_C_IMPORTS_UNSUPPORTED",
 			"Portable C v3 does not support imported functions"
-		);
-	}
-	if (irModule.structures.length) {
-		throw portableCError(
-			"PORTABLE_C_STRUCTURES_UNSUPPORTED",
-			"Portable C v3 does not support structures"
 		);
 	}
 }

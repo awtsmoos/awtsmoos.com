@@ -33,6 +33,10 @@ export function createCIntermediateRepresentation(ast, options = {}) {
 	};
 }
 
+export { buildIrModule } from "./module.js";
+export { serializeIrModule } from "./serialize.js";
+export { verifyIrModule } from "./verify.js";
+
 export function validateProgram(ast) {
 	if (!ast || typeof ast !== "object") throw irError("IR program must be an object");
 	for (const key of ["functions", "globals", "imports", "structs"]) {
