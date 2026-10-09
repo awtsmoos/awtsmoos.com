@@ -108,6 +108,7 @@
 
 - (void)dealloc {
 	free(_surface.pixels);
+	awts_native_layout_dispose(&_layout);
 }
 
 @end

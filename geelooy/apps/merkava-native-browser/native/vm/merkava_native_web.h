@@ -9,11 +9,11 @@
 #include <stdint.h>
 
 #define AWTS_NATIVE_WEB_MAX_STRINGS 512u
-#define AWTS_NATIVE_WEB_MAX_NODES 1024u
+#define AWTS_NATIVE_WEB_MAX_NODES 16384u
 #define AWTS_NATIVE_WEB_MAX_EVENTS 256u
-#define AWTS_NATIVE_WEB_MAX_ATTRIBUTES 2048u
-#define AWTS_NATIVE_WEB_MAX_STYLES 2048u
-#define AWTS_NATIVE_WEB_STRING_BYTES 65536u
+#define AWTS_NATIVE_WEB_MAX_ATTRIBUTES 8192u
+#define AWTS_NATIVE_WEB_MAX_STYLES 16384u
+#define AWTS_NATIVE_WEB_STRING_BYTES 262144u
 
 typedef struct AwtsNativeSlice {
 	const uint8_t* bytes;
@@ -44,7 +44,6 @@ typedef struct AwtsNativeAttribute {
 
 typedef struct AwtsNativeStyle {
 	uint32_t nodeHandle;
-	AwtsNativeSlice selector;
 	AwtsNativeSlice property;
 	AwtsNativeSlice value;
 } AwtsNativeStyle;

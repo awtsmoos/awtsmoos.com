@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
 	const uint32_t width = 640u;
 	const uint32_t height = 480u;
 	AwtsNativeWebRuntime runtime;
-	AwtsNativeLayout layout;
+	AwtsNativeLayout layout = { 0 };
 	AwtsNativeSurface surface;
 	AwtsNativeNode* button;
 	AwtsNativeNode* output;
@@ -50,27 +50,32 @@ int main(int argc, char** argv) {
 
 	if (argc != 2) {
 		fprintf(stderr, "usage: merkava-native-frame-probe <app.merkava>\n");
-		return 64;
+		awts_native_layout_dispose(&layout);
+	return 64;
 	}
 	if (!awts_native_web_execute_canonical_file(argv[1], &runtime)) {
 		fprintf(stderr, "native_frame_execute_failed\n");
-		return 2;
+		awts_native_layout_dispose(&layout);
+	return 2;
 	}
 	if (!awts_native_layout_build(&runtime, width, height, &layout)) {
 		fprintf(stderr, "native_frame_layout_failed\n");
-		return 3;
+		awts_native_layout_dispose(&layout);
+	return 3;
 	}
 	surface.width = width;
 	surface.height = height;
 	surface.pixels = calloc((size_t)width * height, sizeof(uint32_t));
 	if (!surface.pixels) {
 		fprintf(stderr, "native_frame_alloc_failed\n");
-		return 4;
+		awts_native_layout_dispose(&layout);
+	return 4;
 	}
 	if (!awts_native_raster_layout(&layout, &surface)) {
 		fprintf(stderr, "native_frame_raster_failed\n");
 		free(surface.pixels);
-		return 5;
+		awts_native_layout_dispose(&layout);
+	return 5;
 	}
 	before = awts_native_surface_hash(&surface);
 	button = find_by_id(&runtime, "go");
@@ -79,7 +84,8 @@ int main(int argc, char** argv) {
 	if (!button || !output || !buttonBox) {
 		fprintf(stderr, "native_frame_target_failed\n");
 		free(surface.pixels);
-		return 6;
+		awts_native_layout_dispose(&layout);
+	return 6;
 	}
 	hit = awts_native_layout_hit_test(
 		&layout,
@@ -89,19 +95,22 @@ int main(int argc, char** argv) {
 	if (hit != button->handle || !awts_native_web_trigger(&runtime, hit, "click")) {
 		fprintf(stderr, "native_frame_click_failed\n");
 		free(surface.pixels);
-		return 7;
+		awts_native_layout_dispose(&layout);
+	return 7;
 	}
 	if (!awts_native_layout_build(&runtime, width, height, &layout)
 		|| !awts_native_raster_layout(&layout, &surface)) {
 		fprintf(stderr, "native_frame_rerender_failed\n");
 		free(surface.pixels);
-		return 8;
+		awts_native_layout_dispose(&layout);
+	return 8;
 	}
 	after = awts_native_surface_hash(&surface);
 	if (before == after || !awts_native_slice_equals(output->text, "clicked")) {
 		fprintf(stderr, "native_frame_mutation_not_visible\n");
 		free(surface.pixels);
-		return 9;
+		awts_native_layout_dispose(&layout);
+	return 9;
 	}
 	printf(
 		"native_frame_ok hit=%u before=%llu after=%llu boxes=%u out=%.*s\n",
@@ -113,5 +122,6 @@ int main(int argc, char** argv) {
 		(const char*)output->text.bytes
 	);
 	free(surface.pixels);
+	awts_native_layout_dispose(&layout);
 	return 0;
 }

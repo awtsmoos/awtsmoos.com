@@ -41,7 +41,12 @@ static int execute_set_style(AwtsNativeExecution* execution) {
 		return 0;
 	}
 	style = &runtime->styles[runtime->styleCount];
-	style->selector = selector;
+	/* NOTE: selector-based styles carry no node handle, so they never match
+	 * node-scoped style queries; the selector bytes are consumed above only
+	 * to advance the reader. The dead selector field was removed to save
+	 * 8 bytes per style record. */
+	(void)selector;
+	style->nodeHandle = 0u;
 	style->property = property;
 	style->value = value;
 	runtime->styleCount += 1;

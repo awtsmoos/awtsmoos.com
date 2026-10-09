@@ -41,6 +41,9 @@ int awts_native_web_trigger(
 			return 0;
 		}
 		target->text = event->value;
+		/* A text mutation changes layout inputs; advance the mutation epoch
+		 * so cached layouts invalidate. */
+		runtime->executedOps += 1;
 		return 1;
 	}
 	return 0;
