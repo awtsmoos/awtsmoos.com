@@ -83,7 +83,9 @@
       }
       if (!rgba) rgba = new Uint8ClampedArray(w * h * 4);
       if (this.__pngTools && this.__pngTools.rgbPngFromRgba) {
-        return this.__pngTools.rgbPngFromRgba(rgba, w, h);
+        // B"H 2026-10-09 (readback): level 1 deflate — 58x faster encode,
+        // slightly larger file. Speed is the product here.
+        return this.__pngTools.rgbPngFromRgba(rgba, w, h, { level: 1 });
       }
       // Minimal fallback: raw RGBA wrapped as Buffer (non-browser env without pngTools).
       return typeof Buffer !== 'undefined' ? Buffer.from(rgba) : rgba;

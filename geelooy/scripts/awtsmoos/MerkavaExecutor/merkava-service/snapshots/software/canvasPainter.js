@@ -491,16 +491,31 @@ function putImageDataCmd(rp, cmd) {
   // B"H 2026-10-09 (readback): real putImageData. Per spec it replaces pixels
   // directly — unaffected by transform, clip, globalAlpha, or compositing.
   // Bulk row memcpy; no per-pixel JS overhead.
-  const src = cmd.bytes;
-  const sw = Math.round(Number(cmd.width || 0)), sh = Math.round(Number(cmd.height || 0));
+  blitPutImageData(rp.fb.data, rp.fb.width, rp.fb.height,
+    cmd.bytes, Math.round(Number(cmd.width || 0)), Math.round(Number(cmd.height || 0)),
+    Number(cmd.dx || 0), Number(cmd.dy || 0),
+    Number(cmd.dirtyX || 0), Number(cmd.dirtyY || 0),
+    Number(cmd.dirtyWidth || 0), Number(cmd.dirtyHeight || 0));
+}
+
+// B"H 2026-10-09 (readback): shared putImageData blit, exported so the 2D
+// context can write directly into its live raster surface (no source copy —
+// this is how Chrome hits sub-ms putImageData: one blit, no snapshot).
+export function blitPutImageData(dst, fw, fh, src, sw, sh, dx, dy, dirtyX, dirtyY, dw, dh) {
   if (!src || !src.length || sw <= 0 || sh <= 0) return;
-  const dirtyX = Math.max(0, Math.round(Number(cmd.dirtyX || 0)));
-  const dirtyY = Math.max(0, Math.round(Number(cmd.dirtyY || 0)));
-  let dw = Math.round(Number(cmd.dirtyWidth || 0)), dh = Math.round(Number(cmd.dirtyHeight || 0));
-  dw = Math.min(dw, sw - dirtyX); dh = Math.min(dh, sh - dirtyY);
+  dirtyX = Math.max(0, Math.round(dirtyX)); dirtyY = Math.max(0, Math.round(dirtyY));
+  dw = Math.min(Math.round(dw), sw - dirtyX); dh = Math.min(Math.round(dh), sh - dirtyY);
   if (dw <= 0 || dh <= 0) return;
-  const dx = Math.round(Number(cmd.dx || 0)) + dirtyX, dy = Math.round(Number(cmd.dy || 0)) + dirtyY;
-  const fb = rp.fb, fw = fb.width, fh = fb.height, dst = fb.data;
+  const rdx = Math.round(dx), rdy = Math.round(dy);
+  // Fast path: full-surface blit is a single memcpy (no per-row call overhead).
+  // Valid only when source and dest rects exactly cover both surfaces.
+  if (rdx === 0 && rdy === 0 && dirtyX === 0 && dirtyY === 0 &&
+      dw === fw && dh === fh && sw === fw && sh === fh &&
+      dst.length === src.length) {
+    dst.set(src);
+    return;
+  }
+  dx = rdx + dirtyX; dy = rdy + dirtyY;
   const x0 = Math.max(0, dx), y0 = Math.max(0, dy);
   const x1 = Math.min(fw, dx + dw), y1 = Math.min(fh, dy + dh);
   const cw = x1 - x0;
@@ -526,7 +541,21 @@ function drawImageCmd(rp, cmd) {
       src = { width: id.width, height: id.height, data: id.data };
     } else if (srcTex.kind === 'canvas-2d' || (srcTex.commands && srcTex.commands.length)) {
       rp.seen.add(srcTex.id);
-      try { src = renderCanvasSurface(srcTex, rp.allTextures, rp.seen); }
+      try {
+        // B"H 2026-10-09 (readback): reuse the texture's shared raster surface
+        // (same cache getImageData uses, versioned by the 2D context). Avoids
+        // re-rasterizing an unchanged source canvas on every drawImage.
+        const sw = Math.max(1, Math.round(Number(srcTex.width || 300)));
+        const sh = Math.max(1, Math.round(Number(srcTex.height || 150)));
+        const ver = srcTex.__version || 0;
+        const cached = srcTex.__surface;
+        if (cached && cached.w === sw && cached.h === sh && cached.version === ver && cached.fb) {
+          src = cached.fb;
+        } else {
+          src = renderCanvasSurface(srcTex, rp.allTextures, rp.seen);
+          srcTex.__surface = { w: sw, h: sh, version: ver, fb: src };
+        }
+      }
       finally { rp.seen.delete(srcTex.id); }
     }
   }

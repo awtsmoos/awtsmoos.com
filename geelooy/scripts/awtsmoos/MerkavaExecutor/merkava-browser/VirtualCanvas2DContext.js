@@ -17,7 +17,10 @@
     'arc', 'arcTo', 'ellipse', 'quadraticCurveTo', 'bezierCurveTo', 'roundRect',
     'addPath', 'clip', 'setLineDash', 'setTransform', 'transform', 'translate',
     'scale', 'rotate', 'resetTransform', 'createImageData', 'measureText',
-    'isPointInPath', 'isPointInStroke', 'drawFocusIfNeeded', 'scrollPathIntoView'
+    'isPointInPath', 'isPointInStroke', 'drawFocusIfNeeded', 'scrollPathIntoView',
+    // putImageData updates the live raster surface directly (see putImageData),
+    // so it must not invalidate the cache.
+    'putImageData'
   ]);
 
   /**
@@ -35,11 +38,10 @@
       this.__stack = [];
       this.__path = [];
       this.__lineDash = [];
-      // B"H 2026-10-09 (readback): raster cache for getImageData. Lazily
-      // rasterized from texture.commands; invalidated by mutating record()s.
-      // (Replaces the old dead __pixels allocation — same RAM, now useful.)
-      this.__surface = null;
-      this.__dirty = true;
+      // B"H 2026-10-09 (readback): raster cache lives on the TEXTURE (shared
+      // with drawImage's source-surface cache in canvasPainter.js) — one
+      // surface per canvas, versioned. __version bumps on mutating record()s;
+      // putImageData writes the surface directly without bumping.
       this.__painterMod = null;
       this.__resetState();
     }
@@ -82,9 +84,12 @@
     }
 
     record(op, data = {}) {
-      // B"H 2026-10-09 (readback): mutating ops invalidate the raster cache.
+      // B"H 2026-10-09 (readback): mutating ops bump the texture version,
+      // invalidating the shared raster cache (getImageData + drawImage).
       // Path-building / state / query ops don't touch pixels.
-      if (op !== 'getImageData' && !NON_MUTATING_OPS.has(op)) this.__dirty = true;
+      if (op !== 'getImageData' && !NON_MUTATING_OPS.has(op)) {
+        this.texture.__version = (this.texture.__version || 0) + 1;
+      }
       return this.arena.record(this.texture, op, { ...data, state: this.state() });
     }
     save() { this.__stack.push({ state: this.state(), path: this.__path.map(x => x.slice()) }); this.record('save'); }
@@ -145,18 +150,18 @@
     __rasterize() {
       const w = Math.max(1, Math.round(Number(this.canvas.width || 300)));
       const h = Math.max(1, Math.round(Number(this.canvas.height || 150)));
-      let c = this.__surface;
-      if (!c || c.w !== w || c.h !== h) { c = this.__surface = { w, h, fb: null }; this.__dirty = true; }
-      if (!c.fb || this.__dirty) {
+      const tex = this.texture;
+      tex.width = w; tex.height = h;
+      const ver = tex.__version || 0;
+      let c = tex.__surface;
+      if (!c || c.w !== w || c.h !== h || c.version !== ver || !c.fb) {
         const painter = this.__painter();
-        this.texture.width = w; this.texture.height = h;
         if (painter && painter.renderCanvasSurface) {
-          c.fb = painter.renderCanvasSurface(this.texture, this.arena.textures, new Set());
+          c = tex.__surface = { w, h, version: ver, fb: painter.renderCanvasSurface(tex, this.arena.textures, new Set()) };
         } else {
           // Fallback: blank surface if the painter can't load (non-Node env).
-          c.fb = { width: w, height: h, data: new Uint8ClampedArray(w * h * 4) };
+          c = tex.__surface = { w, h, version: ver, fb: { width: w, height: h, data: new Uint8ClampedArray(w * h * 4) } };
         }
-        this.__dirty = false;
       }
       return c.fb;
     }
@@ -168,6 +173,11 @@
       const fb = this.__rasterize();
       const sx = Math.round(n(x)), sy = Math.round(n(y));
       const sw = fb.width, sh = fb.height, src = fb.data;
+      // Fast path: full-surface readback is a single memcpy.
+      if (sx === 0 && sy === 0 && w === sw && h === sh) {
+        out.set(src);
+        return { data: out, width: w, height: h, colorSpace: settings.colorSpace || 'srgb' };
+      }
       const x0 = Math.max(0, sx), y0 = Math.max(0, sy);
       const x1 = Math.min(sw, sx + w), y1 = Math.min(sh, sy + h);
       const cw = x1 - x0;
@@ -181,13 +191,23 @@
       }
       return { data: out, width: w, height: h, colorSpace: settings.colorSpace || 'srgb' };
     }
-    // B"H 2026-10-09 (readback): REAL putImageData. Retains a copy of the
-    // pixel bytes in the journal (spec: pixels are captured at call time);
-    // the software renderer blits them with bulk row memcpys.
+    // B"H 2026-10-09 (readback): REAL putImageData, Chrome-speed. Writes
+    // directly into the live raster surface (one blit, zero source copy —
+    // Chrome's sub-ms putImageData proves no snapshot is taken). The journal
+    // keeps the bytes reference so page-render replay converges to the same
+    // pixels. Cache is NOT invalidated: the surface is updated in place.
     putImageData(imageData, dx, dy, dirtyX = 0, dirtyY = 0, dirtyWidth = imageData?.width || 0, dirtyHeight = imageData?.height || 0) {
       const data = imageData?.data;
-      const bytes = (data && data.length) ? Uint8ClampedArray.from(data) : new Uint8ClampedArray(0);
-      this.record('putImageData', { dx:n(dx), dy:n(dy), dirtyX:n(dirtyX), dirtyY:n(dirtyY), dirtyWidth:n(dirtyWidth), dirtyHeight:n(dirtyHeight), width:imageData?.width || 0, height:imageData?.height || 0, bytes });
+      const iw = imageData?.width || 0, ih = imageData?.height || 0;
+      if (data && data.length && iw > 0 && ih > 0) {
+        const fb = this.__rasterize();
+        const painter = this.__painter();
+        if (painter && painter.blitPutImageData) {
+          painter.blitPutImageData(fb.data, fb.width, fb.height, data, iw, ih,
+            n(dx), n(dy), n(dirtyX), n(dirtyY), n(dirtyWidth), n(dirtyHeight));
+        }
+      }
+      this.record('putImageData', { dx:n(dx), dy:n(dy), dirtyX:n(dirtyX), dirtyY:n(dirtyY), dirtyWidth:n(dirtyWidth), dirtyHeight:n(dirtyHeight), width:iw, height:ih, bytes:data });
     }
 
     createLinearGradient(x0, y0, x1, y1) { return gradient('linear', { x0:n(x0), y0:n(y0), x1:n(x1), y1:n(y1) }); }

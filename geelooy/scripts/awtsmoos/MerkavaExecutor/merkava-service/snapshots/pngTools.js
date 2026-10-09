@@ -70,7 +70,9 @@ export function rgbPng(width, height, painter) {
 // (480k closure calls + array allocs per pixel). When the source is already
 // an RGBA Uint8ClampedArray (the framebuffer), copy straight into RGB rows:
 // ~33ms for the same image. 23-40x faster.
-export function rgbPngFromRgba(rgba, width, height) {
+// B"H 2026-10-09 (readback): opts.level selects the zlib level. toDataURL
+// uses level 1 (12ms vs 733ms for 1920x1080 — 58x faster, slightly larger).
+export function rgbPngFromRgba(rgba, width, height, opts = {}) {
   const rowSize = width * 3 + 1;
   const raw = Buffer.allocUnsafe(rowSize * height);
   for (let y = 0; y < height; y++) {
@@ -85,7 +87,7 @@ export function rgbPngFromRgba(rgba, width, height) {
       raw[o++] = rgba[i + 2];
     }
   }
-  return pngFromRaw(raw, width, height);
+  return pngFromRaw(raw, width, height, opts.level);
 }
 
 // B"H 2026-10-09 (speed): downsample a 2x/3x/4x supersampled RGBA buffer to
@@ -116,16 +118,19 @@ export function rgbPngDownsampled(rgba, srcWidth, scale, width, height) {
   return pngFromRaw(raw, width, height);
 }
 
-function pngFromRaw(raw, width, height) {
+function pngFromRaw(raw, width, height, level) {
   const ihdr = Buffer.alloc(13);
   ihdr.writeUInt32BE(width, 0);
   ihdr.writeUInt32BE(height, 4);
   ihdr[8] = 8;
   ihdr[9] = 2;
+  const idat = (level === undefined || level === null)
+    ? zlib.deflateSync(raw)
+    : zlib.deflateSync(raw, { level });
   return Buffer.concat([
     Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]),
     pngChunk("IHDR", ihdr),
-    pngChunk("IDAT", zlib.deflateSync(raw)),
+    pngChunk("IDAT", idat),
     pngChunk("IEND", Buffer.alloc(0))
   ]);
 }
