@@ -1,5 +1,5 @@
 /* B"H reader legend chapter-entrance/title-rise.css. */
 .awtsmoos-post-title-crown {
-box-shadow:var(--legend-sacred-glow), var(--beauty-shadow-deep) !important;
+box-shadow:var(--legend-sacred-glow), var(--beauty-shadow-deep);
 animation:legendPageEnter .48s var(--ease-enter, ease) both;
 }

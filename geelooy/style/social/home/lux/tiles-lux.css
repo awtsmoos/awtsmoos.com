@@ -20,7 +20,7 @@
 }
 
 .home-action-card:hover {
-  border-color: rgba(154,77,255,.48) !important;
+  border-color: rgba(154,77,255,.48);
 }
 
 .home-action-card:focus-within {

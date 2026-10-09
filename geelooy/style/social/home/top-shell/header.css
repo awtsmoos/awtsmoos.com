@@ -32,13 +32,13 @@
 .home-orb-logo::after { background: radial-gradient(circle, #0b1223 0 44%, transparent 46%); border-radius: inherit; content: ""; inset: 7px; position: absolute; }
 .home-brand-copy { display: grid; gap: .08rem; grid-template-columns: auto auto; line-height: 1; min-width: 0; }
 .home-brand-copy small { color: #f7d66d; font-size: .98rem; font-weight: 900; grid-column: 1 / -1; letter-spacing: .02em; }
-.home-brand-copy strong { color: #fff; font-size: 1.18rem; letter-spacing: -.03em; overflow: hidden; text-overflow: ellipsis; }
+.home-brand-copy strong { color: var(--light-text-fff, #fff); font-size: 1.18rem; letter-spacing: -.03em; overflow: hidden; text-overflow: ellipsis; }
 .home-brand-copy em { align-self: center; background: linear-gradient(135deg,#28f3d7,#8b5cf6); border-radius: 50%; color: #04111f; display: grid; font-size: .62rem; font-style: normal; font-weight: 1000; height: 17px; place-items: center; width: 17px; }
 .home-bell-button {
-  display: none !important;
+  display: none;
 }
 .home-sidebar-panel {
-  display: none !important;
+  display: none;
 }
 .home-bell-button:focus-visible { outline: 3px solid rgba(40,243,215,.55); outline-offset: 3px; }
 @media (max-width: 600px) { .home-app-header { padding-top: .65rem; } }

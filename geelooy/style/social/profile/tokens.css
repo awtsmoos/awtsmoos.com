@@ -2,7 +2,7 @@
 /* B"H 2026-10-09 — Dream audit: the profile shell tokens follow the approved dream
  * design (warm cream light theme, deep warm dark theme, elegant serif, gold accents).
  * Light is the default; :root[data-theme="dark"] switches to the deep warm dark.
- * Zero !important, tokens only. */
+ * Zero, tokens only. */
 :root:not([data-theme="dark"]) {
   --dream-hebrew-font: "Frank Ruhl Libre", "Cardo", "Times New Roman", serif;
   --dream-serif-font: "Source Serif 4", "Cardo", Georgia, serif;

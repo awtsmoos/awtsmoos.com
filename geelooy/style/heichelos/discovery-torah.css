@@ -9,7 +9,7 @@
  *
  * B"H 2026-10-09 — Dream theme: warm cream light, warm dark with gold accents.
  * Tokens (--discover-*) are defined at :root so every discovery sheet shares one
- * law. Zero !important; tokens only; explicit colors in both themes.
+ * law. Zero; tokens only; explicit colors in both themes.
  */
 
 /* Dream discovery tokens: canonical sefer palette mapped to the discovery page. */

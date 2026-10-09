@@ -3,40 +3,40 @@
 /* B"H - THE SCAFFOLDING OF THE REALM */
 
 .post-reader-localized-context {
-    position: fixed !important;
-    inset: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    display: flex !important;
-    flex-direction: column !important;
-    overflow: hidden !important;
-    z-index: var(--z-base) !important;
-    direction: ltr !important; 
-    background-color: var(--bg-vellum) !important;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: var(--z-base);
+    direction: ltr; 
+    background-color: var(--bg-vellum);
 }
 
 .post-reader-localized-context .main {
-    flex: 1 !important;
-    display: flex !important;
-    flex-direction: column !important; /* Stack on mobile */
-    position: relative !important;
-    overflow: hidden !important;
-    width: 100% !important;
-    direction: ltr !important;
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* Stack on mobile */
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    direction: ltr;
 }
 
 .post-reader-localized-context .scroll-view-wrapper {
-    flex: 1 !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    position: relative !important;
-    z-index: var(--z-content) !important;
-    scroll-behavior: auto !important; /* Remove smooth to fix chop */
-    background-color: var(--bg-vellum) !important;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    z-index: var(--z-content);
+    scroll-behavior: auto; /* Remove smooth to fix chop */
+    background-color: var(--bg-vellum);
 }
 
 @media (min-width: 900px) {
     .post-reader-localized-context .main {
-        flex-direction: row !important; /* Forces Side-by-Side */
+        flex-direction: row; /* Forces Side-by-Side */
     }
 }

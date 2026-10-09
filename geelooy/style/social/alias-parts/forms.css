@@ -1,4 +1,4 @@
-/* B"H 2026-10-09 — Dream audit: zero !important (the old .alias-secondary rule
+/* B"H 2026-10-09 — Dream audit: zero (the old .alias-secondary rule
  * needed it to outrank .alias-actions button; the chained selector below wins
  * by specificity instead). Buttons use theme-aware --alias-btn-* tokens so the
  * label stays legible in both the warm cream light theme and the deep warm

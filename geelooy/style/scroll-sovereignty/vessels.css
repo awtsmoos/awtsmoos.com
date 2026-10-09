@@ -4,7 +4,7 @@
 .geelooy-home-shell, .geelooy-social-shell, .heichel-mobile-navigation,
 .geelooy-main-stage, .heichel-nav-panel, .grid-realms, .viewport,
 .dynamic-grid, .scroll-view-wrapper, #realPost, #virtual-scroll-container {
-  min-width: 0; max-width: 100%; max-height: none !important; overflow-y: visible !important;
+  min-width: 0; max-width: 100%; max-height: none; overflow-y: visible;
 }
 .main, main, .page, .awts-page, .geelooy-home-shell, .geelooy-social-shell { width: 100%; }
 .card, .nav-card, .post-card, .series-card, .profile-card, .discovery-card,

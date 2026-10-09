@@ -29,6 +29,6 @@
 
 @media (prefers-reduced-motion: reduce) {
 	:where(.post-reader-localized-context) .awtsmoos-source-annotation-card {
-		transition: none !important;
+		transition: none;
 	}
 }

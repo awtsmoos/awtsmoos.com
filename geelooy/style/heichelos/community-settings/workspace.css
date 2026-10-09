@@ -9,7 +9,7 @@
  * B"H 2026-10-09 — Dream theme: the governance page follows the approved
  * post-reader dream design's warm dark language (deep warm paper, gold accents).
  * The shell is dark-first; these page-scoped tokens remap the page's cyan
- * accents to dream gold without touching the shared shell. Zero !important;
+ * accents to dream gold without touching the shared shell. Zero;
  * tokens only.
  */
 .heichel-community-settings {

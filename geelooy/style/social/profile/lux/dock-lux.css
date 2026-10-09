@@ -1,7 +1,7 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H — profile dock: a violet-blue navigation engine. */
 .profile-bottom-nav {
-  box-shadow: 0 20px 54px rgba(0,0,0,.56), 0 0 24px rgba(139,92,246,.2), inset 0 1px 0 rgba(255,255,255,.06) !important;
+  box-shadow: 0 20px 54px rgba(0,0,0,.56), 0 0 24px rgba(139,92,246,.2), inset 0 1px 0 rgba(255,255,255,.06);
   contain: layout paint;
   position: fixed;
 }
@@ -21,7 +21,7 @@
 }
 
 .profile-bottom-nav a:hover {
-  color: #fff !important;
+  color: var(--light-text-fff, #fff);
   transform: translate3d(0,-2px,0);
 }
 

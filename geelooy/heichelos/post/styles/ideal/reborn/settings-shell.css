@@ -78,8 +78,8 @@
 	color: #21160a;
 }
 
-/* B"H — LIGHT THEME: Scribe's Lens labels readable WITHOUT !important.
-   Yaakov's Law 1: NEVER use !important. EVER.
+/* B"H — LIGHT THEME: Scribe's Lens labels readable WITHOUT.
+   Yaakov's Law 1: NEVER use. EVER.
    
    STRATEGY: Override CSS variables so var(--reader-text, #f8fbff) resolves dark.
    The base rules in settings-groups.css use:
@@ -100,9 +100,9 @@
 	--reader-line: rgb(122 82 31 / 28%);
 }
 
-/* B"H — DIRECT LABEL COLORS, no !important.
+/* B"H — DIRECT LABEL COLORS, no.
    Belt-and-suspenders: even if variable inheritance fails, these (0,4,1) rules
-   beat the base (0,2,0) rules by specificity alone. No !important needed. */
+   beat the base (0,2,0) rules by specificity alone. No needed. */
 :root:not([data-theme="dark"]) .post-reader-localized-context .typography-details .setting-name {
 	color: #21160a;
 }

@@ -52,7 +52,7 @@
 @media (max-height: 38rem) and (orientation: landscape) { .login-page .login-card {
 		width: min(100%, 38rem);
 	} }
-/* B"H — Zero !important: .login-page.login-page outranks every auth animation/transition rule, so reduced motion stills cleanly. */
+/* B"H — Zero: .login-page.login-page outranks every auth animation/transition rule, so reduced motion stills cleanly. */
 @media (prefers-reduced-motion: reduce) { .login-page.login-page, .login-page.login-page *, .login-page.login-page *::before, .login-page.login-page *::after { animation: none; transition: none; scroll-behavior: auto; } }
 @media (forced-colors: active) { .login-page .login-card, .login-page .field-stack, .login-page .secondary-link, .login-page :is(.server-message, .serverMessage) {
 		border: 1px solid CanvasText;

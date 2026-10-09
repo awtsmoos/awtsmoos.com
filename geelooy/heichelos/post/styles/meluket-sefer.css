@@ -200,11 +200,11 @@
 	margin-bottom: 0;
 }
 
-/* Hebrew phrase : the ikar. RTL, nikkud-safe, visually dominant — Hebrew
-   glyphs render smaller than Latin at the same em, so Hebrew runs larger. */
+/* Hebrew phrase : the ikar. RTL, nikkud-safe.
+   B"H 2026-10-09 — Yaakov: Hebrew must be EXACTLY the same size as English. */
 .meluket-sefer-active .meluket-phrase--he {
 	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
-	font-size: clamp(3.2rem, 9vw, 5.2rem);
+	font-size: clamp(2rem, 5.2vw, 2.8rem);
 	font-weight: 700;
 	line-height: 1.9;
 	color: var(--sefer-ink);
@@ -635,7 +635,7 @@
    The Theme Engine sets data-theme="light" on <html>. The settings panel
    (.typography-details) had hardcoded dark styles in settings-mobile.css;
    those are now scoped to :root[data-theme="dark"] so these light rules win
-   by specificity alone. No !important. Dark theme is untouched. */
+   by specificity alone. No. Dark theme is untouched. */
 :root[data-theme="light"] .post-reader-localized-context .typography-details {
 	--reader-text: #21160a;
 	--reader-muted: #6d5a43;

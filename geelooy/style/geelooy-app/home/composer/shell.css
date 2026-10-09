@@ -74,11 +74,11 @@
 	color: #ffc1cd;
 }
 .geelooy-home-composer [hidden] {
-	display: none !important;
+	display: none;
 }
 @media (prefers-reduced-motion: reduce) { .geelooy-home-composer *, .geelooy-home-composer *::before, .geelooy-home-composer *::after {
-		scroll-behavior: auto !important;
-		animation-duration: .01ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: .01ms !important;
+		scroll-behavior: auto;
+		animation-duration: .01ms;
+		animation-iteration-count: 1;
+		transition-duration: .01ms;
 	} }

@@ -7,7 +7,7 @@
  *
  * B"H 2026-10-09 — Dream theme: warm cream light, warm dark with gold accents.
  * Tokens (--search-*) mirror ./control/frame.css; restated here so the suggestions
- * vessel keeps its own law even if the import order shifts. Zero !important.
+ * vessel keeps its own law even if the import order shifts. Zero.
  */
 :root {
 	--search-card: #fffdf6;

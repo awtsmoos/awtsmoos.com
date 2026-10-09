@@ -8,7 +8,7 @@
  *
  * B"H 2026-10-09 — Dream audit: explicit dream colors in both themes (the old
  * Canvas/currentColor mix left text color to chance), and full interactive
- * states on the card actions. Zero !important, tokens only.
+ * states on the card actions. Zero, tokens only.
  */
 
 .published-creations-root {

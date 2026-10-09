@@ -70,5 +70,5 @@ margin-bottom: 2rem;
 }
 
 body.resizing-active {
-    cursor: grabbing !important;
+    cursor: grabbing;
 }

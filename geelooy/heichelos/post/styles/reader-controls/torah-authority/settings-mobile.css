@@ -9,7 +9,7 @@
  * Theme scoping (2026-10-08): dark hard-coded colors are scoped to
  * `:root[data-theme="dark"]` ONLY. Layout/geometry properties stay unscoped so
  * both themes share the same sheet geometry. In light theme the dark
- * `!important` colors no longer apply, so the `[data-theme="light"]` overrides
+ * `` colors no longer apply, so the `[data-theme="light"]` overrides
  * in meluket-sefer.css win. Dark theme behavior is completely unchanged.
  */
 
@@ -25,7 +25,7 @@
  * Theme scoping (2026-10-08): dark hard-coded colors are scoped to
  * `:root[data-theme="dark"]` ONLY. Layout/geometry properties stay unscoped so
  * both themes share the same sheet geometry. In light theme the dark
- * `!important` colors no longer apply, so the `[data-theme="light"]` overrides
+ * `` colors no longer apply, so the `[data-theme="light"]` overrides
  * in meluket-sefer.css win. Dark theme behavior is completely unchanged.
  */
 

@@ -56,11 +56,11 @@
 }
 
 :where(.modal-gate-hidden, .modal-hidden, .hidden-void, .hidden-details, .hidden-comments, [aria-hidden="true"].modal-gate-hidden) {
-	pointer-events: none !important;
+	pointer-events: none;
 }
 
 :where(.modal-root-open, .context-menu-layer, .typography-details:not(.hidden-details), .sidebar:not(.hidden-comments)) {
-	pointer-events: auto !important;
+	pointer-events: auto;
 }
 
 :where(.geelooy-mobile-drawer, .heichel-library-sidebar, .typography-details, .sidebar, .awtsmoos-context-menu, .card-menu-panel, .dropdown, .dropdown-menu, [role="menu"], [data-dropdown]) {
@@ -105,10 +105,10 @@
 	*,
 	*::before,
 	*::after {
-		animation-duration: .01ms !important;
-		animation-iteration-count: 1 !important;
-		scroll-behavior: auto !important;
-		transition-duration: .01ms !important;
+		animation-duration: .01ms;
+		animation-iteration-count: 1;
+		scroll-behavior: auto;
+		transition-duration: .01ms;
 	}
 }
 
@@ -166,14 +166,14 @@ html[data-theme="light"] .post-reader-localized-context .typography-details labe
 :root[data-theme="dark"] .post-reader-localized-context .settings-group,
 :root[data-theme="dark"] .post-reader-localized-context .typography-details {
   background-color: #1a1a2e;
-  color: #f8fbff;
+  color: var(--light-text-f8fbff, #f8fbff);
 }
-:root[data-theme="dark"] .post-reader-localized-context .setting-name { color: #f8fbff; }
+:root[data-theme="dark"] .post-reader-localized-context .setting-name { color: var(--light-text-f8fbff, #f8fbff); }
 :root[data-theme="dark"] .post-reader-localized-context .control-label { color: #f6cc72; }
 :root:not([data-theme="dark"]) .post-reader-localized-context .typography-content,
 :root:not([data-theme="dark"]) .post-reader-localized-context .settings-group,
 :root:not([data-theme="dark"]) .post-reader-localized-context .typography-details {
-  background-color: #ffffff;
+  background-color: var(--light-text-ffffff, #ffffff);
   color: #21160a;
 }
 :root:not([data-theme="dark"]) .post-reader-localized-context .setting-name,

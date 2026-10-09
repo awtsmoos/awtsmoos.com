@@ -7,7 +7,7 @@
  * Awtsmoos.com reduces every pre-feed path to a compact luminous threshold.
  */
 .geelooy-home-document .cosmic-quick-paths, .geelooy-home-document [data-home-quick-paths] {
-	display: none !important;
+	display: none;
 }
 .geelooy-home-document .home-feed-header, .geelooy-home-document [data-home-feed-header] {
 	display: flex;

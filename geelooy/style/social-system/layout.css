@@ -28,4 +28,4 @@ main { min-height: 100dvh; min-width: 0; }
 :where(.stack) { display: grid; gap: var(--stack-gap, 1rem); }
 :where(.cluster) { align-items: center; display: flex; flex-wrap: wrap; gap: var(--cluster-gap, .75rem); }
 :where(.full-bleed-safe) { margin-inline: calc(50% - 50dvw); max-width: 100dvw; padding-inline: max(1rem, env(safe-area-inset-left)); }
-[hidden], .hidden { display: none !important; }
+[hidden], .hidden { display: none; }

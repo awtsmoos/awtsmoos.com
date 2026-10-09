@@ -22,7 +22,7 @@
 	display: grid;
 	grid-template-rows: auto auto minmax(0, 1fr);
 	background: linear-gradient(180deg, #091528 0%, #06101f 100%);
-	color: #f8fbff;
+	color: var(--study-sheet-ink, #f8fbff);
 	border-inline-start: 1px solid rgb(93 216 232 / .28);
 	box-shadow: -24px 0 80px rgb(0 0 0 / .4);
 	font-family: var(--awtsmoos-reader-ui-font, system-ui, sans-serif);

@@ -1,5 +1,5 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
-/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+/* B"H — html-prefixed specificity replaces every (Yaakov 2026-10-08). */
 /* B"H — mobile-repair card tokens, explicit light AND dark branches (Yaakov 2026-10-08). */
 :root:not([data-theme="dark"]) {
   --mrc-text: #e5edf8;

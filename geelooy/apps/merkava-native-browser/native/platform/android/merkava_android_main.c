@@ -14,6 +14,7 @@
 #include "merkava_android_egl.h"
 #include "merkava_android_vm.h"
 #include "merkava_android_text.h"
+#include "merkava_browser.h"
 #include "../../canonical/merkava_container.h"
 
 #define AWTS_LOG(...) __android_log_print(ANDROID_LOG_INFO, "Merkava", __VA_ARGS__)
@@ -35,12 +36,15 @@ typedef struct AwtsAndroidState {
 	struct android_app* app;
 	AwtsAndroidGraphics graphics;
 	AwtsTextRenderer text;
-	AwtsVm* vm;             /* Live Merkava VM: DOM + events. */
+	AwtsVm* vm;             /* Demo VM (offline fallback page). */
+	AwtsBrowser browser;    /* The browser. */
 	int textReady;
 	int ready;
 	int paused;
 	int frames;
 	int vpW, vpH;
+	int browserReady;
+	int startNavPending;
 } AwtsAndroidState;
 
 /** Android lifecycle: window, pause, resume, save state. */
@@ -53,9 +57,15 @@ static void handle_command(struct android_app* app, int32_t command) {
 			AWTS_LOG("graphics_ready=%d", state->ready);
 			if (state->ready && !state->textReady) {
 				state->textReady = awts_text_init(&state->text);
-				AWTS_LOG("text_ready=%d", state->textReady);
+				AWTS_LOG("text_ready=%d", state->ready);
 				glEnable(GL_BLEND);
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			}
+			if (state->ready && !state->browserReady) {
+				state->browserReady =
+					awts_browser_init(&state->browser);
+				AWTS_LOG("browser_ready=%d", state->browserReady);
+				state->startNavPending = state->browserReady;
 			}
 			if (state->vm) state->vm->layoutDirty = 1;
 		}
@@ -64,6 +74,10 @@ static void handle_command(struct android_app* app, int32_t command) {
 		if (state->textReady) {
 			awts_text_shutdown(&state->text);
 			state->textReady = 0;
+		}
+		if (state->browserReady) {
+			awts_browser_shutdown(&state->browser);
+			state->browserReady = 0;
 		}
 		awts_android_graphics_close(&state->graphics);
 		state->ready = 0;
@@ -92,25 +106,40 @@ static void handle_command(struct android_app* app, int32_t command) {
 	}
 }
 
-/** Touch input: tap -> VM hit test -> event dispatch -> re-render. */
+/** True when the browser owns the screen (has a page or is loading). */
+static int browser_active(AwtsAndroidState* state) {
+	if (!state->browserReady) return 0;
+	AwtsBrowserTab* t = &state->browser.tabs[state->browser.active];
+	return t->hasPage || t->loading;
+}
+
+/** Touch input: browser drag/tap, else demo-VM tap. */
 static int32_t handle_input(struct android_app* app, AInputEvent* event) {
 	AwtsAndroidState* state = (AwtsAndroidState*)app->userData;
 	if (AInputEvent_getType(event) != AINPUT_EVENT_TYPE_MOTION) return 0;
 	int32_t action = AMotionEvent_getAction(event) & AMOTION_EVENT_ACTION_MASK;
-	if (action != AMOTION_EVENT_ACTION_UP) return 0;
-	if (!state->vm || !state->ready || !state->textReady) return 0;
-
 	float x = AMotionEvent_getX(event, 0);
 	float y = AMotionEvent_getY(event, 0);
-	AWTS_LOG("tap x=%.0f y=%.0f", x, y);
 
+	if (browser_active(state)) {
+		int baction = -1;
+		if (action == AMOTION_EVENT_ACTION_DOWN) baction = 0;
+		else if (action == AMOTION_EVENT_ACTION_MOVE) baction = 1;
+		else if (action == AMOTION_EVENT_ACTION_UP) baction = 2;
+		else return 0;
+		return awts_browser_touch(&state->browser, baction, x, y);
+	}
+
+	/* Demo fallback: tap -> VM hit test -> event dispatch. */
+	if (action != AMOTION_EVENT_ACTION_UP) return 0;
+	if (!state->vm || !state->ready || !state->textReady) return 0;
+	AWTS_LOG("tap x=%.0f y=%.0f", x, y);
 	if (state->vm->layoutDirty) {
 		awts_vm_layout(state->vm, (float)state->vpW);
 	}
 	int fired = awts_vm_tap(state->vm, x, y);
 	if (fired) {
 		AWTS_LOG("event_fired: layout_dirty=1");
-		/* Layout re-runs on next frame before render. */
 	}
 	return fired ? 1 : 0;
 }
@@ -133,7 +162,7 @@ static void drain_events(struct android_app* app, int active) {
 	}
 }
 
-/** Loads assets/app.merkava and executes it on the VM. */
+/** Loads assets/app.merkava and executes it on the demo VM. */
 static void boot_vm(AwtsAndroidState* state) {
 	uint8_t* bytes = NULL;
 	size_t len = awts_android_read_asset(
@@ -253,22 +282,14 @@ static float render_node(AwtsAndroidState* state, AwtsVmNode* node,
 	float lineH = 8.0f * scale * 1.35f;
 	float padX = 16.0f;
 
-	/* Button background. */
-	if (NODE_IS_BUTTON(node)) {
-		/* Drawn as text with padding; background rect via clear color
-		   would need a quad renderer — text affordance suffices for v1. */
-	}
-
 	float ty = y + (NODE_IS_BUTTON(node) ? 12.0f : 6.0f);
 	if (node->text && *node->text) {
 		WrapCtx wctx = { tr, x + padX, ty, scale,
 			node->r, node->g, node->b, lineH, w - padX * 2.0f, bold };
 		if (NODE_IS_BUTTON(node)) {
-			/* Center button text. */
 			float tw = bold ? awts_text_width_bold(node->text, scale)
 			                : awts_text_width(node->text, scale);
 			wctx.x = x + (w - tw) / 2.0f;
-			/* Single-line buttons: no wrap. */
 			if (bold)
 				awts_text_draw_bold(tr, wctx.x, ty, scale,
 					node->r, node->g, node->b, node->text);
@@ -284,7 +305,6 @@ static float render_node(AwtsAndroidState* state, AwtsVmNode* node,
 		ty += (NODE_IS_BUTTON(node) ? 12.0f : 6.0f);
 	}
 
-	/* Children stack below. */
 	float childY = ty + 4.0f;
 	for (size_t i = 0; i < node->childCount; i++) {
 		childY = render_node(state, node->children[i], x + 8.0f, childY, w - 8.0f);
@@ -292,7 +312,7 @@ static float render_node(AwtsAndroidState* state, AwtsVmNode* node,
 	return childY > ty ? childY : ty;
 }
 
-/** Renders the live DOM: title bar + VM nodes. */
+/** Renders the demo VM DOM: title bar + VM nodes. */
 static void render_vm(AwtsAndroidState* state, int vpW, int vpH) {
 	AwtsTextRenderer* tr = &state->text;
 	AwtsVm* vm = state->vm;
@@ -301,7 +321,6 @@ static void render_vm(AwtsAndroidState* state, int vpW, int vpH) {
 	float cx = vpW / 2.0f;
 	float y = vpH * 0.06f;
 
-	/* Title bar: app name from the manifest. */
 	const char* title = (vm && vm->appName) ? vm->appName : "Merkava";
 	float titleScale = 4.0f;
 	float titleW = awts_text_width_bold(title, titleScale);
@@ -313,7 +332,6 @@ static void render_vm(AwtsAndroidState* state, int vpW, int vpH) {
 		AWTS_GOLD_R, AWTS_GOLD_G, AWTS_GOLD_B, title);
 	y += 8.0f * titleScale + vpH * 0.03f;
 
-	/* Live DOM nodes. */
 	if (vm && vm->root) {
 		if (vm->root->childCount > 0) {
 			for (size_t i = 0; i < vm->root->childCount; i++) {
@@ -332,7 +350,6 @@ static void render_vm(AwtsAndroidState* state, int vpW, int vpH) {
 			0.96f, 0.96f, 0.98f, msg);
 	}
 
-	/* Footer: VM stats prove live execution. */
 	char foot[128];
 	if (vm) {
 		snprintf(foot, sizeof(foot), "merkava vm: %zu nodes, %zu events",
@@ -348,7 +365,7 @@ static void render_vm(AwtsAndroidState* state, int vpW, int vpH) {
 	awts_text_end(tr);
 }
 
-/** Android NativeActivity entrypoint for the Merkava VM host. */
+/** Android NativeActivity entrypoint: browser first, demo VM as fallback. */
 void android_main(struct android_app* app) {
 	AwtsAndroidState state;
 	memset(&state, 0, sizeof(state));
@@ -360,7 +377,7 @@ void android_main(struct android_app* app) {
 	app->onAppCmd = handle_command;
 	app->onInputEvent = handle_input;
 
-	/* Boot the VM before the first frame: decode + execute bytecode. */
+	/* Boot the demo VM (offline fallback page). */
 	boot_vm(&state);
 	if (!state.vm || !state.vm->ok) {
 		AWTS_LOG("vm_boot_failed");
@@ -375,22 +392,51 @@ void android_main(struct android_app* app) {
 			state.vpW = w;
 			state.vpH = h;
 
-			/* Re-layout when the DOM changed (event fired). */
-			if (state.vm && state.vm->layoutDirty) {
-				awts_vm_layout(state.vm, (float)w);
+			/* Pending link-tap navigation. */
+			if (state.browserReady) {
+				AwtsBrowserTab* tab =
+					&state.browser.tabs[state.browser.active];
+				if (tab->loading == 2) {
+					tab->loading = 0;
+					awts_browser_navigate(&state.browser, app,
+						tab->url);
+				}
+			}
+
+			if (state.browserReady && state.startNavPending) {
+				/* First paint the loading chrome, then fetch. */
+				state.startNavPending = 0;
+				awts_browser_render(&state.browser, &state.text,
+					w, h);
+				awts_android_graphics_present(&state.graphics);
+				awts_browser_navigate(&state.browser, app,
+					state.browser.tabs[state.browser.active].url);
 			}
 
 			glViewport(0, 0, w, h);
-			glClearColor(AWTS_BG_R, AWTS_BG_G, AWTS_BG_B, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT);
-			if (state.textReady) {
-				render_vm(&state, w, h);
+			if (browser_active(&state)) {
+				if (state.browserReady) {
+					awts_browser_render(&state.browser,
+						&state.text, w, h);
+				}
+			} else {
+				/* Demo fallback (no page yet / fetch failed). */
+				if (state.vm && state.vm->layoutDirty) {
+					awts_vm_layout(state.vm, (float)w);
+				}
+				glClearColor(AWTS_BG_R, AWTS_BG_G, AWTS_BG_B,
+					1.0f);
+				glClear(GL_COLOR_BUFFER_BIT);
+				if (state.textReady) {
+					render_vm(&state, w, h);
+				}
 			}
 			awts_android_graphics_present(&state.graphics);
 			state.frames++;
 		}
 	}
 	if (state.textReady) awts_text_shutdown(&state.text);
+	if (state.browserReady) awts_browser_shutdown(&state.browser);
 	awts_android_graphics_close(&state.graphics);
 	awts_vm_free(state.vm);
 }

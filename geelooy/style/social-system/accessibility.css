@@ -45,11 +45,11 @@
 }
 @media (forced-colors: active) {
 	:where(button, .btn, .button, input, textarea, select, .card, .panel, [role="tab"]) {
-		border: 1px solid CanvasText !important;
-		box-shadow: none !important;
+		border: 1px solid CanvasText;
+		box-shadow: none;
 	}
 	:where([aria-current="page"], [aria-selected="true"], .active, .Active) {
-		outline: 2px solid Highlight !important;
+		outline: 2px solid Highlight;
 	}
 }
 @media (prefers-contrast: more) {
@@ -62,10 +62,10 @@
 	*,
 	*::before,
 	*::after {
-		animation-duration: .01ms !important;
-		animation-iteration-count: 1 !important;
-		scroll-behavior: auto !important;
-		transition-duration: .01ms !important;
+		animation-duration: .01ms;
+		animation-iteration-count: 1;
+		scroll-behavior: auto;
+		transition-duration: .01ms;
 	}
 }
 

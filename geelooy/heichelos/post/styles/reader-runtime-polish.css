@@ -5,57 +5,59 @@
    and active focus into `styles/ideal/*`. This file now keeps only safe utility
    details that do not compete with those domains.
 */
+/* B"H 2026-10-09 — CSS audit: removed all (Yaakov: NEVER EVER).
+   Doubled class selectors provide the needed specificity instead. */
 
-.post-reader-localized-context .footnotes-list {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 0.8rem !important;
+.post-reader-localized-context.post-reader-localized-context .footnotes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
 }
 
-:where(.post-reader-localized-context) .footnote-item.awtsmoos-list-item {
-    align-items: flex-start !important;
-    gap: 0.85rem !important;
-    padding: 0.95rem 1rem !important;
-    border: 1px solid rgba(35, 24, 14, 0.18) !important;
-    border-radius: 14px !important;
-    background: linear-gradient(180deg, #fffef9, #f2e6cf) !important;
-    box-shadow: 0 10px 28px rgba(38, 23, 9, 0.08) !important;
+:where(.post-reader-localized-context) .footnote-item.awtsmoos-list-item.awtsmoos-list-item {
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 0.95rem 1rem;
+    border: 1px solid var(--reader-fn-border, rgba(35, 24, 14, 0.18));
+    border-radius: 14px;
+    background: var(--reader-fn-bg, linear-gradient(180deg, #fffef9, #f2e6cf));
+    box-shadow: 0 10px 28px rgba(38, 23, 9, 0.08);
 }
 
-.post-reader-localized-context .footnote-id {
-    flex: 0 0 auto !important;
-    min-width: 2rem !important;
-    height: 2rem !important;
-    border-radius: 999px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    background: #111 !important;
-    color: #ffbd17 !important;
-    font-weight: 900 !important;
+.post-reader-localized-context.post-reader-localized-context .footnote-id {
+    flex: 0 0 auto;
+    min-width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--reader-fn-id-bg, #111);
+    color: var(--reader-fn-id-ink, #ffbd17);
+    font-weight: 900;
 }
 
-.post-reader-localized-context .footnote-text,
-.post-reader-localized-context .footnote-paragraph {
-    font: 500 clamp(1rem, 1.6vw, 1.18rem)/1.65 var(--font-content) !important;
-    color: #1d150f !important;
-    margin: 0 !important;
+.post-reader-localized-context.post-reader-localized-context .footnote-text,
+.post-reader-localized-context.post-reader-localized-context .footnote-paragraph {
+    font: 500 clamp(1rem, 1.6vw, 1.18rem)/1.65 var(--font-content);
+    color: var(--reader-fn-text, #1d150f);
+    margin: 0;
 }
 
-.post-reader-localized-context .comment-action-strip {
-    display: flex !important;
-    gap: 0.45rem !important;
-    flex-wrap: wrap !important;
+.post-reader-localized-context.post-reader-localized-context .comment-action-strip {
+    display: flex;
+    gap: 0.45rem;
+    flex-wrap: wrap;
 }
 
-.post-reader-localized-context .comment-chip-action {
-    all: unset !important;
-    box-sizing: border-box !important;
-    cursor: pointer !important;
-    border-radius: 999px !important;
-    padding: 0.4rem 0.62rem !important;
-    border: 1px solid rgba(148, 163, 184, .22) !important;
-    background: rgba(255, 255, 255, .08) !important;
-    color: inherit !important;
-    font: 850 0.78rem/1 var(--font-ui) !important;
+.post-reader-localized-context.post-reader-localized-context .comment-chip-action {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    border-radius: 999px;
+    padding: 0.4rem 0.62rem;
+    border: 1px solid var(--reader-chip-border, rgba(148, 163, 184, .22));
+    background: var(--reader-chip-bg, rgba(255, 255, 255, .08));
+    color: inherit;
+    font: 850 0.78rem/1 var(--font-ui);
 }

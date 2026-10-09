@@ -5,7 +5,7 @@
  * Awtsmoos.com gives hover, active, keyboard focus, and reduced motion separate vessels so every mobile touch remains clear to a sister or brother.
  *
  * B"H 2026-10-09 — Dream theme: warm cream / warm dark gold actions for the search
- * vessel. Tokens (--search-*) are defined in ./frame.css. Zero !important;
+ * vessel. Tokens (--search-*) are defined in ./frame.css. Zero;
  * tokens only; every state explicit in both themes.
  */
 .g-search-orb, .g-search-submit {

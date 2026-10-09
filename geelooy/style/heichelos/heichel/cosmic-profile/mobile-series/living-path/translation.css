@@ -24,13 +24,13 @@
 .nav-card-translation-badge.is-missing {
 	background: rgba(120, 53, 15, .16);
 	border-color: rgba(251, 191, 36, .28);
-	color: #fde68a;
+	color: var(--light-text-fde68a, #fde68a);
 }
 
 .nav-card-translation-badge.is-pending {
 	background: rgba(71, 85, 105, .24);
 	border-color: rgba(148, 163, 184, .25);
-	color: #cbd5e1;
+	color: var(--light-text-cbd5e1, #cbd5e1);
 }
 
 .living-path-translation-search {
@@ -74,7 +74,7 @@
 }
 
 .translation-search-source {
-	color: #cbd5e1;
+	color: var(--light-text-cbd5e1, #cbd5e1);
 	font-size: .8rem;
 	line-height: 1.45;
 	text-align: right;

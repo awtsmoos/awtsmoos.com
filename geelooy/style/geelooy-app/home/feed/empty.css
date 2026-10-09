@@ -81,8 +81,8 @@
 
 .home-empty-ikar {
 	grid-column: 1 / -1;
-	background: linear-gradient(110deg, #12bfe8, #7a4cff 55%, #ff3bad) !important;
-	color: white !important;
+	background: linear-gradient(110deg, #12bfe8, #7a4cff 55%, #ff3bad);
+	color: white;
 	font-size: 1.05rem;
 }
 

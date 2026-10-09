@@ -68,11 +68,11 @@
 .post-reader-localized-context .approval-card {
     display: grid;
     gap: 0.8rem;
-    padding: 1rem !important;
-    border-radius: 24px !important;
-    background: var(--bg-surface) !important;
-    border: 1px solid color-mix(in srgb, var(--color-ink) 16%, transparent) !important;
-    box-shadow: 0 12px 34px rgba(40, 24, 8, 0.09) !important;
+    padding: 1rem;
+    border-radius: 24px;
+    background: var(--bg-surface);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 16%, transparent);
+    box-shadow: 0 12px 34px rgba(40, 24, 8, 0.09);
     cursor: pointer;
     transition: opacity 180ms ease, transform 180ms ease, border-color 180ms ease;
 }

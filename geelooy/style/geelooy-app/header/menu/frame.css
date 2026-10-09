@@ -28,7 +28,7 @@
 
 .g-constellation-menu[hidden],
 .sidebarMitzvah[hidden] {
-	display: none !important;
+	display: none;
 }
 
 .g-constellation-heading {

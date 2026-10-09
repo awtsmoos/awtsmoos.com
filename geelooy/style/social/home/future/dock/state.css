@@ -2,7 +2,7 @@
 /* B"H — navigation state rises as soft energy. */
 .home-command-dock a:hover {
   background: rgba(40,243,215,.08);
-  color: #fff;
+  color: var(--light-text-fff, #fff);
 }
 
 .home-command-dock a[aria-current="page"],

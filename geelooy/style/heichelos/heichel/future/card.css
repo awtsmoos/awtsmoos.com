@@ -14,7 +14,7 @@
 :where(.heichel-mobile-navigation) .nav-card.selected { outline: 3px solid rgba(102,231,255,.62); outline-offset: 3px; }
 .heichel-mobile-navigation .nav-card-body { min-width: 0; display: grid; align-content: center; gap: .48rem; padding-inline-end: .25rem; }
 .heichel-mobile-navigation .nav-card-title-row { min-width: 0; display: flex; align-items: flex-start; justify-content: space-between; gap: .5rem; }
-.heichel-mobile-navigation .nav-card h2, .heichel-mobile-navigation .heichel-card h2, .heichel-mobile-navigation .series-card h2 { margin: 0; max-width: 100%; color: #fff; font-size: clamp(1.12rem, 2.7vw, 1.55rem); letter-spacing: 0; line-height: 1.08; overflow-wrap: anywhere; text-wrap: balance; }
+.heichel-mobile-navigation .nav-card h2, .heichel-mobile-navigation .heichel-card h2, .heichel-mobile-navigation .series-card h2 { margin: 0; max-width: 100%; color: var(--light-text-fff, #fff); font-size: clamp(1.12rem, 2.7vw, 1.55rem); letter-spacing: 0; line-height: 1.08; overflow-wrap: anywhere; text-wrap: balance; }
 .heichel-mobile-navigation .nav-card p { margin: 0; max-width: 48ch; color: var(--heichel-soft-ink); font-size: clamp(.9rem, 1.8vw, 1rem); line-height: 1.45; white-space: pre-wrap; overflow-wrap: anywhere; }
 .heichel-mobile-navigation .nav-card-meta { display: flex; flex-wrap: wrap; gap: .34rem; margin-top: .1rem; color: var(--heichel-muted-ink); font-size: .72rem; font-weight: 900; line-height: 1; }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */

@@ -6,7 +6,7 @@
 
 .BH {
     
-    color: #fff;
+    color: var(--bh-ink, #fff);
     position:fixed;
     padding:12px;
     border-radius:8px;

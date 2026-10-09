@@ -62,9 +62,9 @@
 }
 .hub-mutation-trigger {
 	min-block-size: 46px;
-	border-color: rgba(255, 127, 156, .46) !important;
-	background: rgba(255, 127, 156, .12) !important;
-	color: #ffe0e7 !important;
+	border-color: rgba(255, 127, 156, .46);
+	background: rgba(255, 127, 156, .12);
+	color: #ffe0e7;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.hub-mutation-trigger:active:not(:disabled)) {
@@ -72,7 +72,7 @@
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.hub-mutation-trigger:hover:not(:disabled)) {
-	background: rgba(255, 127, 156, .2) !important;
+	background: rgba(255, 127, 156, .2);
 }
 .hub-rail-links {
 	display: grid;

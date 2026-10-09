@@ -30,7 +30,7 @@ body[data-geelooy-route="home"] .profile-mount {
 :where(body[data-geelooy-route="home"]) .profile-mount .awtsmoosDrop {
 	z-index: var(--home-layer-profile);
 }
-/* B"H 2026-10-09 — Dream audit: zero !important. The chained route+mount selector
+/* B"H 2026-10-09 — Dream audit: zero. The chained route+mount selector
    (0,5,1) outranks the profile dropdown base rules (0,2,0)/(0,2,1), so the fixed
    chamber geometry wins by specificity alone. The dropdown interior keeps its
    dark-glass identity (Yaakov 2026-10-08); only the geometry is home-owned. */

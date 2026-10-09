@@ -2,9 +2,9 @@
 .geelooy-profile-shell { color: #0f172a; background: #f6f8fb; }
 .profile-command-panel, .profile-hero-card, .profile-card, .alias-card, .social-heichel-card { background: #fff; border: 1px solid #dfe6ee; box-shadow: 0 2px 10px rgba(15,23,42,.06); color: #0f172a; }
 .profile-banner-light { display: none; }
-.profile-primary-action, .panel-title-row a, .profile-tabs button.active { background: #0f172a; color: #fff; border: 1px solid #0f172a; }
+.profile-primary-action, .panel-title-row a, .profile-tabs button.active { background: #0f172a; color: var(--light-text-fff, #fff); border: 1px solid #0f172a; }
 .profile-bottom-nav { background: rgba(255,255,255,.98); border: 1px solid #dfe6ee; box-shadow: 0 8px 26px rgba(15,23,42,.12); }
-.profile-bottom-nav a[aria-current="page"], .profile-bottom-nav a.active, .profile-bottom-nav a.is-create { color: #fff; background: #0f172a; }
+.profile-bottom-nav a[aria-current="page"], .profile-bottom-nav a.active, .profile-bottom-nav a.is-create { color: var(--light-text-fff, #fff); background: #0f172a; }
 .profile-tabs { background: #fff; border: 1px solid #dfe6ee; }
 .profile-card::before, .profile-command-panel::before, .profile-hero-card::before { display: none; }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */

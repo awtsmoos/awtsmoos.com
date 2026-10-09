@@ -9,7 +9,7 @@
  * B"H 2026-10-09 — Dream theme: the Home route follows the approved post-reader dream design
  * (warm cream light theme, deep warm dark theme, elegant serif, gold accents). Light is the default;
  * :root[data-theme="dark"] (set before paint by the inline bootstrap in index.html, honoring the
- * stored awtsmoos-theme) switches to the deep warm dark. Zero !important, tokens only.
+ * stored awtsmoos-theme) switches to the deep warm dark. Zero, tokens only.
  */
 html[data-geelooy-route="home"] {
 	/* Dream typography — canonical stacks from the approved post-reader design. */

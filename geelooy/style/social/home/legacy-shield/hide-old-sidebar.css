@@ -5,5 +5,5 @@ body.geelooy-home-document > .sidebarMitzvah {
 }
 body.geelooy-home-document > .sidebarMitzvah.offscreen,
 body.geelooy-home-document > .sidebarMitzvah[hidden] {
-  display: none !important;
+  display: none;
 }

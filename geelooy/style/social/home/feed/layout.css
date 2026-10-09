@@ -27,7 +27,7 @@
 .geelooy-home-document [data-home-sidebar],
 .geelooy-home-document [data-home-discovery],
 .cosmic-feed-intro {
-	display: none !important;
+	display: none;
 }
 
 .geelooy-home-document .home-feed-section,

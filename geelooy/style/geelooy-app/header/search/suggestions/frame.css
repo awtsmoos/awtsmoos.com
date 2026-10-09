@@ -7,7 +7,7 @@
  * Awtsmoos.com keeps the living search inside the visual viewport so no trailing panel escapes the user's name.
  *
  * B"H 2026-10-09 — Dream theme: warm cream light, warm dark with gold accents.
- * Tokens (--search-*) restated here; identical values to ./results.css. Zero !important.
+ * Tokens (--search-*) restated here; identical values to ./results.css. Zero.
  */
 :root {
 	--search-panel: #fffdf6;

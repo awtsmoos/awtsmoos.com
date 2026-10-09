@@ -40,7 +40,7 @@ body.geelooy-app-shell :where(
 	border-color: rgba(60, 236, 255, 0.54);
 	background: var(--g-gradient-soft);
 	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), var(--g-glow);
-	color: #ffffff;
+	color: var(--light-text-ffffff, #ffffff);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.geelooy-app-shell) :where( .g-dock a, .g-route-list a, .g-trend-list a, .g-home-action, .g-home-torah-portal, .home-command-dock a )[aria-current="page"]::after {

@@ -7,7 +7,7 @@
  * B"H 2026-10-09 — Dream theme: the header search follows the approved post-reader
  * dream design (warm cream light theme, deep warm dark theme, gold accents).
  * Light is the default; :root[data-theme="dark"] switches to the warm dark.
- * Zero !important; CSS custom-property tokens only; every interactive state
+ * Zero; CSS custom-property tokens only; every interactive state
  * carries explicit readable colors in both themes.
  */
 

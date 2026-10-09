@@ -1,7 +1,7 @@
 /* B"H — Heichelos/Ikar complete light-theme fix (Yaakov 2026-10-08) */
 /* Generated systematically: every hardcoded light text color in
    geelooy/style/heichelos/ gets an html[data-theme="light"] override.
-   NO !important — html[data-theme="light"] prefix outranks originals. */
+   NO — html[data-theme="light"] prefix outranks originals. */
 
 /* heichel/bottom-nav.css:40 — was #fff7df */
 html[data-theme="light"] .heichel-mobile-navigation .geelooy-bottom-nav a, .heichel-mobile-navigation .geelooy-bottom-nav button {
@@ -221,7 +221,7 @@ html[data-theme="light"] .nav-card-translation-badge {
   html[data-theme="light"] .heichel-os-document .series-search-row input {
     color: #1e293b;
     background: #ffffff;
-    border-color: #cbd5e1;
+    border-color: var(--light-text-cbd5e1, #cbd5e1);
   }
 
 /* heichel/cosmic-profile/mobile-series/states.css:55 — was #f6f8ff */

@@ -17,7 +17,7 @@
 .profile-primary-action:hover,
 .profile-card button:hover,
 .profile-card a.button:hover {
-  box-shadow: 0 0 26px rgba(139,92,246,.28) !important;
+  box-shadow: 0 0 26px rgba(139,92,246,.28);
   transform: translate3d(0,-2px,0);
 }
 

@@ -47,5 +47,5 @@
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 .card-menu-action:is(:hover, :focus-visible), :where(.card-menu-panel) .post-social-action:is(:hover, :focus-visible) {
 	background: rgba(91, 215, 255, .1);
-	color: #fff;
+	color: var(--light-text-fff, #fff);
 }

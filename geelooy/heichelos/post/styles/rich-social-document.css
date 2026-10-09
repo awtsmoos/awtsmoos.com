@@ -122,7 +122,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	/* B"H — no !important: :root scoping outranks the component rules above. */
+	/* B"H — no: :root scoping outranks the component rules above. */
 	:root .post-reader-localized-context .awtsmoos-rich-social-document *,
 	:root .post-reader-localized-context .awtsmoos-chain-app-embed * {
 		scroll-behavior: auto;

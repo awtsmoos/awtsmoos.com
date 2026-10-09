@@ -97,7 +97,7 @@
     letter-spacing: .06em;
 }
 .tab-gates .tab.Active {
-    color: #fff;
+    color: var(--light-text-fff, #fff);
     background: linear-gradient(135deg, #231f2d, #8a2b06);
     box-shadow: 0 14px 30px rgba(35,31,45,.22);
 }

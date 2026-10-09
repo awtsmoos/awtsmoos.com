@@ -4,7 +4,7 @@
   .profile-avatar-orb,
   .profile-bottom-nav a[aria-current="page"],
   .profile-bottom-nav a.active {
-    animation: none !important;
+    animation: none;
   }
 
   .profile-card:hover,
@@ -15,6 +15,6 @@
   .alias-card:active,
   .social-heichel-card:active,
   .profile-section-card:active {
-    transform: none !important;
+    transform: none;
   }
 }

@@ -13,7 +13,7 @@
  *      fragments but no resting card style.
  *   3. Series with hundreds of posts render unbounded <li> rows.
  * This sheet is linked LAST in <head>, so equal-specificity rules here win
- * over the earlier sheets. Yaakov's laws: ZERO !important; explicit colors
+ * over the earlier sheets. Yaakov's laws: ZERO; explicit colors
  * for BOTH themes; CSS custom-property tokens only — the dream --sefer-*
  * set, same values as the approved post reader.
  */

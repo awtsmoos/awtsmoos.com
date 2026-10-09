@@ -43,7 +43,7 @@
 	--home-tap-highlight: rgba(56, 189, 248, .22);
 }
 
-/* B"H — html-prefixed specificity replaces !important (Yaakov 2026-10-08). */
+/* B"H — html-prefixed specificity replaces (Yaakov 2026-10-08). */
 html :where(body.geelooy-home-document), html body.geelooy-home-document {
 	background:
 		radial-gradient(circle at 50% -12rem, var(--home-body-glow), transparent 30rem),

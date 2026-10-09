@@ -98,7 +98,7 @@
 }
 
 .home-compose-advanced:not([open]) > :not(summary) {
-	display: none !important;
+	display: none;
 }
 
 @media (max-width: 680px) {

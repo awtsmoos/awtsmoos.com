@@ -6,7 +6,7 @@ The Awtsmoos gives the account gate its own quiet tokens: warm cream paper,
 gold accents, and serif dignity drawn from the approved dream language —
 light by default, warm dark when the stored theme asks for night.
 Every --auth-* reference across the auth vessels resolves here; zero
-!important anywhere; explicit colors for both themes; custom properties only.
+ anywhere; explicit colors for both themes; custom properties only.
 */
 .login-page {
 	--auth-font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;

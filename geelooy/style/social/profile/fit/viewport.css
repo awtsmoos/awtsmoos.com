@@ -2,27 +2,27 @@
 /* B"H — profile viewport fit never touches unrelated pages. */
 html:has(.geelooy-profile-shell) {
   max-width: 100%;
-  overflow-x: hidden !important;
+  overflow-x: hidden;
 }
 .geelooy-profile-shell, .profile-page {
   box-sizing: border-box;
   inline-size: 100%;
-  max-width: min(680px, 100vw) !important;
-  min-width: 0 !important;
-  overflow-x: clip !important;
+  max-width: min(680px, 100vw);
+  min-width: 0;
+  overflow-x: clip;
 }
 .profile-shell, .profile-main-grid, .profile-grid, .profile-identity-row, .profile-meta-row, .profile-actions {
   max-width: 100%;
-  min-width: 0 !important;
+  min-width: 0;
 }
 @media (max-width: 430px) { .geelooy-profile-shell, .profile-page {
-    gap: .82rem !important;
-    padding-inline: clamp(.58rem, 2.8vw, .78rem) !important;
+    gap: .82rem;
+    padding-inline: clamp(.58rem, 2.8vw, .78rem);
   } }
 /* @tunnel-registry-merge: consolidated duplicate selectors W4 2026-10-08 */
 /* @tunnel-registry-merge: consolidated from geelooy/style/social/profile/repair/shell.css W4 2026-10-08 */
 html:has(.geelooy-profile-shell) {
-  background: #020617 !important;
-  color: var(--pr-text) !important;
+  background: #020617;
+  color: var(--pr-text);
   overflow-x: hidden;
 }

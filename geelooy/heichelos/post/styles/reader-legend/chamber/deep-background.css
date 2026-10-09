@@ -1,3 +1,3 @@
 /* @tunnel-grandfather: intentional layered/variant co-ownership (1 selectors: .post-reader-localized-context.awtsmoos-); cascade order intentional, merge would break responsive/layered architecture */
 /* B"H reader legend chamber/deep-background.css. */
-.post-reader-localized-context.awtsmoos-reader-vision { background-image:var(--legend-ambient-blue), var(--legend-ambient-gold), var(--ambient-reader) !important; }
+.post-reader-localized-context.awtsmoos-reader-vision { background-image:var(--legend-ambient-blue), var(--legend-ambient-gold), var(--ambient-reader); }

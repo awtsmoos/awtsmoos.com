@@ -6,7 +6,7 @@
  * Awtsmoos.com keeps delight small, focused, and gentle enough to leave the question first.
  *
  * B"H 2026-10-09 — Dream theme: the home search spark wears the dream gold
- * (warm cream light / warm dark). Zero !important; tokens only.
+ * (warm cream light / warm dark). Zero; tokens only.
  */
 :root {
 	--home-search-seal: linear-gradient(145deg, #d4a94e, #8a6d3b);

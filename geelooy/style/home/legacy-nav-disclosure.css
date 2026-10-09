@@ -23,7 +23,7 @@
 	padding: 9px 10px;
 }
 .sidebarMitzvah a[aria-current="page"] {
-	background: rgba(40, 243, 215, .11) !important;
+	background: rgba(40, 243, 215, .11);
 	border-color: rgba(40, 243, 215, .48);
 	box-shadow: inset 3px 0 0 #28f3d7;
 }

@@ -4,7 +4,7 @@
 .notifications-console input, .notifications-console select { min-height: 44px; width: 100%; border: 1px solid #dfe6ee; border-radius: .9rem; background: #fff; color: #0f172a; padding: .7rem .8rem; font: inherit; }
 .notifications-actions { display: flex; gap: .5rem; flex-wrap: wrap; }
 .notifications-actions button, .notifications-more { min-height: 44px; border: 1px solid #dfe6ee; border-radius: 999px; padding: .7rem 1rem; background: #fff; color: #0f172a; font-weight: 750; cursor: pointer; }
-.notifications-actions button:first-child, .notifications-more { background: #0f172a; border-color: #0f172a; color: #fff; }
+.notifications-actions button:first-child, .notifications-more { background: #0f172a; border-color: #0f172a; color: var(--light-text-fff, #fff); }
 .notifications-summary { padding: .85rem 1rem; color: #64748b; }
 .notifications-summary[data-mode="loading"] { color: #0f766e; }
 .notifications-summary[data-mode="error"] { color: #dc2626; }

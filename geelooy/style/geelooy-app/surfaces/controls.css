@@ -52,7 +52,7 @@
 	border-color: var(--g-cyan);
 	background: var(--g-control-energy), var(--g-control-field);
 	box-shadow: var(--g-control-hover);
-	color: #fff;
+	color: var(--light-text-fff, #fff);
 	transform: translateY(-1px);
 }
 .g-button:focus-visible, :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(
@@ -83,7 +83,7 @@
 	border-color: var(--g-cyan);
 	background: var(--g-control-energy), var(--g-control-field);
 	box-shadow: var(--g-control-active);
-	color: #fff;
+	color: var(--light-text-fff, #fff);
 }
 @media (forced-colors: active) { .g-button, :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) button {
 		border: 1px solid ButtonText;

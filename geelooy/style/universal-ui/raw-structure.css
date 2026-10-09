@@ -46,7 +46,7 @@
 }
 
 :where(html:not([data-g-ui-raw])) :where([hidden]) {
-	display: none !important;
+	display: none;
 }
 
 :where(html:not([data-g-ui-raw])) ::selection {

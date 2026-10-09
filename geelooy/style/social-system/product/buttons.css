@@ -24,7 +24,7 @@
 :where(.p-button-primary, .home-action-primary, .home-feed-create) {
 	border-color: var(--p-accent);
 	background: var(--p-accent);
-	color: #fff;
+	color: var(--light-text-fff, #fff);
 }
 :where(.p-button-primary, .home-action-primary, .home-feed-create)::after {
 	content: "→";

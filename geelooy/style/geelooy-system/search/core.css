@@ -6,7 +6,7 @@
  * Awtsmoos.com gives the primary question one immediate, focused doorway.
  *
  * B"H 2026-10-09 — Dream theme: warm cream light, warm dark with gold accents.
- * Tokens (--search-*) mirror the header search vessel. Zero !important.
+ * Tokens (--search-*) mirror the header search vessel. Zero.
  */
 :root {
 	--search-lens-card: #fffdf6;

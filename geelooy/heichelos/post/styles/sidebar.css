@@ -41,15 +41,15 @@
     font-family: var(--font-heading);
     font-weight: 900;
     font-size: clamp(1rem, 4vw, 1.2rem); 
-    text-transform: none !important;
+    text-transform: none;
     letter-spacing: 1px;
 }
 
 /* Hard-Hitting Buttons */
 :where(.post-reader-localized-context) .awtsmoos-chrome-btn {
-    background: transparent !important;
-    border: var(--border-thin) !important;
-    color: var(--color-ink) !important;
+    background: transparent;
+    border: var(--border-thin);
+    color: var(--color-ink);
     width: 38px; /* Mobile Friendly Touch Target */
     height: 38px;
     display: flex; 
@@ -58,18 +58,18 @@
     border-radius: 0; /* Neo-Brutalist Sharpness */
     cursor: pointer;
     font-size: 20px;
-    box-shadow: 2px 2px 0 var(--color-ink) !important;
+    box-shadow: 2px 2px 0 var(--color-ink);
     transition: transform 0.1s, box-shadow 0.1s;
 }
 :where(.post-reader-localized-context) .awtsmoos-chrome-btn:hover {
-    background: var(--color-ink) !important;
-    color: var(--bg-surface) !important;
+    background: var(--color-ink);
+    color: var(--bg-surface);
     transform: translate(-1px, -1px);
-    box-shadow: 4px 4px 0 var(--color-accent) !important;
+    box-shadow: 4px 4px 0 var(--color-accent);
 }
 :where(.post-reader-localized-context) .awtsmoos-chrome-btn:active {
     transform: translate(2px, 2px);
-    box-shadow: 0 0 0 var(--color-ink) !important;
+    box-shadow: 0 0 0 var(--color-ink);
 }
 
 /* 3. BREADCRUMBS */
@@ -117,12 +117,12 @@
 .post-reader-localized-context .awtsmoos-view-content,
 .post-reader-localized-context .keepers-container,
 .post-reader-localized-context .keepers-assembly {
-flex: 1 1 auto !important;
-    min-height: 0 !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    -webkit-overflow-scrolling: touch !important;
-    overscroll-behavior: contain !important;
+flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
 padding: clamp(0.85rem, 2.6vw, 1.25rem);
 }
 
@@ -130,13 +130,13 @@ padding: clamp(0.85rem, 2.6vw, 1.25rem);
 :where(.post-reader-localized-context) .sidebar.fullscreen-mode {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    width: 100vw !important;
-    height: 100vh !important;
-    max-width: none !important;
-    max-height: none !important;
-    flex-basis: auto !important;
+    width: 100vw;
+    height: 100vh;
+    max-width: none;
+    max-height: none;
+    flex-basis: auto;
     border: none;
     z-index: 50000;
-    margin: 0 !important;
-    transform: none !important;
+    margin: 0;
+    transform: none;
 }

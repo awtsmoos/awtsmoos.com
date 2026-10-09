@@ -16,12 +16,12 @@
 	padding-inline: var(--page-gutter);
 }
 :where(.profile-hero-card, .profile-command-panel, .profile-about-grid article, .profile-stat-grid article, .profile-activity-item, .profile-alias-card, .profile-heichel-card, .profile-post-card, .profile-comment-card) {
-	border: 1px solid var(--g-border) !important;
-	border-radius: var(--radius-l) !important;
-	background: var(--awt-surface) !important;
-	box-shadow: var(--shadow-paper) !important;
-	filter: none !important;
-	backdrop-filter: none !important;
+	border: 1px solid var(--g-border);
+	border-radius: var(--radius-l);
+	background: var(--awt-surface);
+	box-shadow: var(--shadow-paper);
+	filter: none;
+	backdrop-filter: none;
 }
 .profile-hero-card {
 	display: grid;
@@ -31,12 +31,12 @@
 	padding: clamp(1rem, 4vw, 2.5rem);
 }
 :where(.profile-avatar, .profile-seal, .profile-icon-symbol) {
-	border: 1px solid var(--g-border-strong) !important;
-	border-radius: 1rem !important;
-	background: var(--awt-surface-muted) !important;
-	box-shadow: none !important;
-	color: var(--g-accent) !important;
-	filter: none !important;
+	border: 1px solid var(--g-border-strong);
+	border-radius: 1rem;
+	background: var(--awt-surface-muted);
+	box-shadow: none;
+	color: var(--g-accent);
+	filter: none;
 }
 :where(.profile-eyebrow, .profile-label, .profile-section-kicker) {
 	display: inline-flex;
@@ -99,10 +99,10 @@
 	contain-intrinsic-size: auto 10rem;
 }
 .profile-bottom-nav {
-	background: var(--awt-surface) !important;
-	box-shadow: var(--shadow-dock) !important;
-	filter: none !important;
-	backdrop-filter: none !important;
+	background: var(--awt-surface);
+	box-shadow: var(--shadow-dock);
+	filter: none;
+	backdrop-filter: none;
 }
 @media (max-width: 42.5rem) {
 	.profile-hero-card {

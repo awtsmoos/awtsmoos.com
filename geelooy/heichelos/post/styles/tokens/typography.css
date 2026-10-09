@@ -9,7 +9,7 @@
     --post-text-size: 24px;
 }
 .post-reader-localized-context .heb {
-    font-family: var(--font-sacred) !important;
-    direction: rtl !important;
-    text-align: right !important;
+    font-family: var(--font-sacred);
+    direction: rtl;
+    text-align: right;
 }

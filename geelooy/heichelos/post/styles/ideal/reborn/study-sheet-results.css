@@ -30,7 +30,7 @@
 .awtsmoos-study-sheet-secondary {
 	border: 1px solid rgb(148 163 184 / .22);
 	background: rgb(255 255 255 / .04);
-	color: #cbd5e1;
+	color: var(--study-sheet-muted-ink, #cbd5e1);
 }
 
 .awtsmoos-study-sheet-status,
@@ -40,7 +40,7 @@
 	padding: 1rem;
 	border-radius: .9rem;
 	background: rgb(255 255 255 / .05);
-	color: #cbd5e1;
+	color: var(--study-sheet-muted-ink, #cbd5e1);
 	line-height: 1.55;
 }
 

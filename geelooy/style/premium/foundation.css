@@ -22,7 +22,7 @@
 [data-premium-ui] ::selection,
 .premium-surface ::selection {
 	background: rgba(227, 205, 157, .32);
-	color: #fff;
+	color: var(--premium-ink, #fff);
 }
 [data-premium-ui] :focus-visible,
 .premium-surface :focus-visible {

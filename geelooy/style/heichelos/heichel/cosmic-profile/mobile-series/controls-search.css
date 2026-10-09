@@ -24,7 +24,7 @@
 		border-radius: .75rem;
 		background: rgba(5, 14, 31, .92);
 		box-shadow: none;
-		color: #f6f8ff;
+		color: var(--light-text-f6f8ff, #f6f8ff);
 		font-size: 1rem;
 		font-weight: 620;
 		line-height: 1.2;

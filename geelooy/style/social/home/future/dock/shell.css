@@ -1,8 +1,8 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H — a ship-console dock, fixed and contained. */
 .home-command-dock {
-  background: linear-gradient(180deg, rgba(18,26,38,.97), rgba(8,12,18,.97)) !important;
-  border-color: rgba(40,243,215,.24) !important;
+  background: linear-gradient(180deg, rgba(18,26,38,.97), rgba(8,12,18,.97));
+  border-color: rgba(40,243,215,.24);
   position: fixed;
 }
 

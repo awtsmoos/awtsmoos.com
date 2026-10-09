@@ -73,29 +73,31 @@ body {
     border-bottom: var(--border-thick);
 }
 
-.awtsmoos-chrome-btn {
+/* B"H 2026-10-09 — CSS audit: removed (Yaakov: NEVER EVER).
+   Doubled class selectors provide the needed specificity instead. */
+.awtsmoos-chrome-btn.awtsmoos-chrome-btn {
     min-height: var(--touch-target);
     min-width: var(--touch-target);
-    background: var(--color-ink) !important;
-    color: var(--bg-surface) !important;
+    background: var(--color-ink);
+    color: var(--bg-surface);
     font-weight: 900;
 }
 
 /* 5. CARDS OF INSIGHT */
-.comment-content {
-    margin-bottom: 25px !important;
-    border: var(--border-thick) !important;
-    box-shadow: 8px 8px 0 var(--color-ink) !important;
+.comment-content.comment-content {
+    margin-bottom: 25px;
+    border: var(--border-thick);
+    box-shadow: 8px 8px 0 var(--color-ink);
     overflow: hidden;
 }
 
-.comment-content:hover {
-    box-shadow: 12px 12px 0 var(--color-primary) !important;
+.comment-content.comment-content:hover {
+    box-shadow: 12px 12px 0 var(--color-primary);
 }
 
 /* 6. RESPONSIVE ORBS */
-.awtsmoos-floating-controls {
-    display: grid !important;
+.awtsmoos-floating-controls.awtsmoos-floating-controls {
+    display: grid;
     grid-template-columns: 1fr 1fr; /* Easy thumb access on mobile */
     width: auto;
     bottom: 20px;

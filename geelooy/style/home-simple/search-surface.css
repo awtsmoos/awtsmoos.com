@@ -18,15 +18,36 @@ body[data-geelooy-route="home"] .search {
 	box-shadow: var(--home-card-shadow), inset 0 1px var(--home-inset-hi);
 	backdrop-filter: blur(20px);
 	transition: border-color .18s ease, box-shadow .18s ease, border-radius .18s ease;
+	position: relative;
+}
+/* B"H 2026-10-09 — Dream search: gold shimmer line atop the bar. */
+body[data-geelooy-route="home"] .search::before {
+	content: "";
+	position: absolute;
+	inset: -1px;
+	border-radius: inherit;
+	padding: 1px;
+	background: linear-gradient(135deg, var(--home-accent-soft), transparent 30%, transparent 70%, var(--home-accent-soft));
+	-webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+	-webkit-mask-composite: xor;
+	mask-composite: exclude;
+	pointer-events: none;
+	opacity: .6;
+	transition: opacity .2s ease;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(body[data-geelooy-route="home"]) .search:hover { border-color: var(--panel-border-strong); }
+:where(body[data-geelooy-route="home"]) .search:hover {
+	border-color: var(--panel-border-strong);
+	box-shadow: var(--home-card-shadow), inset 0 1px var(--home-inset-hi), 0 0 24px var(--home-glow);
+}
+:where(body[data-geelooy-route="home"]) .search:hover::before { opacity: 1; }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .search:focus-within, :where(body[data-geelooy-route="home"]) .search.has-query {
 	border-color: var(--home-accent);
 	border-radius: 1.45rem;
-	box-shadow: 0 0 0 4px var(--home-glow), var(--home-card-shadow);
+	box-shadow: 0 0 0 4px var(--home-glow), var(--home-card-shadow), 0 0 44px var(--home-glow);
 }
+:where(body[data-geelooy-route="home"]) .search:focus-within::before { opacity: 1; }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .search.is-invalid { border-color: var(--home-danger); animation: search-nudge .24s ease; }
 body[data-geelooy-route="home"] .search-symbol {
@@ -37,9 +58,16 @@ body[data-geelooy-route="home"] .search-symbol {
 	margin: .1rem;
 	border: 0;
 	border-radius: 50%;
-	background: transparent;
-	color: var(--text-muted);
+	background: var(--home-accent-soft);
+	color: var(--home-accent-strong);
 	font-size: 1.45rem;
+	transition: background .18s ease, color .18s ease, transform .18s ease;
+}
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .search:focus-within .search-symbol {
+	background: var(--home-accent);
+	color: var(--home-accent-ink);
+	transform: scale(1.06);
 }
 /* B"H 2026-10-09 — Dream audit: the search composer never had a base style.
    Explicit dream ink on the theme input surface, both themes. */
@@ -50,12 +78,26 @@ body[data-geelooy-route="home"] .search-symbol {
 	border-radius: .6rem;
 	background: transparent;
 	color: var(--text-primary);
-	font-size: 1rem;
+	font-family: var(--dream-serif-font);
+	font-size: 1.08rem;
 	line-height: 1.5;
 	resize: none;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(body[data-geelooy-route="home"]) :where(.search) :where(textarea)::placeholder { color: var(--home-placeholder); opacity: 1; }
+:where(body[data-geelooy-route="home"]) :where(.search) :where(textarea)::placeholder {
+	color: var(--home-placeholder);
+	opacity: 1;
+	font-style: italic;
+	letter-spacing: .01em;
+}
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) :where(.search) :where(textarea):focus {
+	outline: none;
+}
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) :where(.search) :where(textarea):focus::placeholder {
+	color: var(--text-faint);
+}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) :where(.search) :where(textarea):disabled {
 	opacity: .55;

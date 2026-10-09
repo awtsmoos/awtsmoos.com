@@ -52,7 +52,7 @@
   --hdr-link-border: rgba(255, 255, 255, .09);
 }
 
-/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+/* B"H — html-prefixed specificity replaces every (Yaakov 2026-10-08). */
 html .awtsmoosificationalisticaticalism, html .awtsmoos-header, html .header, html .site-header {
 	align-items: center;
 	background: linear-gradient(180deg, var(--hdr-grad-1), var(--hdr-grad-2));

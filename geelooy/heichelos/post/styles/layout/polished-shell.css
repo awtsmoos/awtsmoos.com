@@ -6,49 +6,49 @@
 */
 
 .post-reader-localized-context .scroll-view-wrapper {
-    flex: 1 !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    position: relative !important;
-    z-index: var(--z-content) !important;
-    scroll-behavior: auto !important;
-    scrollbar-gutter: stable !important;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    z-index: var(--z-content);
+    scroll-behavior: auto;
+    scrollbar-gutter: stable;
     background:
         linear-gradient(90deg, rgba(255,255,255,.055), transparent 18%, transparent 82%, rgba(244,197,107,.05)),
-        radial-gradient(circle at 50% 0%, rgba(255,255,255,.08), transparent 42%) !important;
+        radial-gradient(circle at 50% 0%, rgba(255,255,255,.08), transparent 42%);
 }
 
 .post-reader-localized-context .scroll-view-wrapper::before {
-    content: "" !important;
-    position: sticky !important;
-    top: 0 !important;
-    display: block !important;
-    height: 1px !important;
-    z-index: 4 !important;
-    box-shadow: 0 18px 42px rgba(0, 0, 0, .42) !important;
+    content: "";
+    position: sticky;
+    top: 0;
+    display: block;
+    height: 1px;
+    z-index: 4;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, .42);
 }
 
 .post-reader-localized-context .scroll-view-wrapper::-webkit-scrollbar,
 .post-reader-localized-context .sidebar *::-webkit-scrollbar {
-    width: 10px !important;
-    height: 10px !important;
+    width: 10px;
+    height: 10px;
 }
 
 .post-reader-localized-context .scroll-view-wrapper::-webkit-scrollbar-track,
 .post-reader-localized-context .sidebar *::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, .04) !important;
+    background: rgba(255, 255, 255, .04);
 }
 
 .post-reader-localized-context .scroll-view-wrapper::-webkit-scrollbar-thumb,
 .post-reader-localized-context .sidebar *::-webkit-scrollbar-thumb {
-    border: 2px solid rgba(7, 11, 19, .72) !important;
-    border-radius: 999px !important;
-    background: linear-gradient(180deg, var(--ideal-gold), var(--ideal-gold-deep)) !important;
-    box-shadow: inset 0 0 10px rgba(255,255,255,.18) !important;
+    border: 2px solid rgba(7, 11, 19, .72);
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--ideal-gold), var(--ideal-gold-deep));
+    box-shadow: inset 0 0 10px rgba(255,255,255,.18);
 }
 
 @media (max-width: 900px) {
     .post-reader-localized-context .scroll-view-wrapper {
-        padding-bottom: calc(var(--ideal-dock-height) + 1.2rem) !important;
+        padding-bottom: calc(var(--ideal-dock-height) + 1.2rem);
     }
 }

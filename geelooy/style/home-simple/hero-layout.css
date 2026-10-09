@@ -93,7 +93,7 @@ body[data-geelooy-route="home"] .search-paths {
 		padding: .5rem .72rem;
 	} }
 
-/* B"H Yaakov 2026-10-08: Homepage H1 = Awtsmoos (not Shliach). No !important.
+/* B"H Yaakov 2026-10-08: Homepage H1 = Awtsmoos (not Shliach). No.
    B"H 2026-10-09: Dream theme — elegant serif title, gold Shliach doorway, warm hero ink. */
 body[data-geelooy-route="home"] .home-hero-title {
   font-family: var(--dream-serif-font);

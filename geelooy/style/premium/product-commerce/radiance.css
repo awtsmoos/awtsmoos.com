@@ -29,7 +29,7 @@
 	font-weight: 800;
 	letter-spacing: 0.09em;
 	text-transform: uppercase;
-	color: #fde68a;
+	color: var(--light-text-fde68a, #fde68a);
 }
 
 .awts-commerce__radiance-title {
@@ -47,7 +47,7 @@
 
 .awts-commerce__radiance-meta {
 	font-weight: 750;
-	color: #fde68a;
+	color: var(--light-text-fde68a, #fde68a);
 }
 
 .awts-commerce__radiance-status {

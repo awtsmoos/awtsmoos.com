@@ -2,13 +2,13 @@
 /* B"H — compact devices keep the crown exact. */
 @media (max-width: 430px) {
   .home-orb-logo {
-    height: 46px !important;
-    width: 46px !important;
+    height: 46px;
+    width: 46px;
   }
 
   .home-bell-button {
-    height: 50px !important;
-    width: 50px !important;
+    height: 50px;
+    width: 50px;
   }
 }
 

@@ -64,7 +64,7 @@ body[data-geelooy-route="home"] .launcher-glyph {
 		padding: 0;
 		overflow: hidden;
 	} }
-/* B"H 2026-10-09 — Dream audit: same intent without !important. The chained
+/* B"H 2026-10-09 — Dream audit: same intent without. The chained
    route + launcher selector (0,4,1) outranks the :where()-reduced base rules. */
 @media (max-width: 460px) { body[data-geelooy-route="home"] .world-launcher .launcher-button > span:last-child {
 		display: none;

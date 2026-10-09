@@ -1,5 +1,5 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .home-feed-header { align-items: center; display: flex; gap: 1rem; justify-content: space-between; }
-.home-feed-header h2 { align-items: center; color: #fff; display: inline-flex; gap: .45rem; font-size: 1.25rem; letter-spacing: -.025em; margin: 0; }
+.home-feed-header h2 { align-items: center; color: var(--light-text-fff, #fff); display: inline-flex; gap: .45rem; font-size: 1.25rem; letter-spacing: -.025em; margin: 0; }
 .home-feed-header h2 span { color: #9a4dff; }
 .home-feed-create { color: #b56cff; display: inline-flex; font-weight: 900; min-height: 38px; padding: .4rem .2rem; text-decoration: none; }

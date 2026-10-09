@@ -1,7 +1,7 @@
 /* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H */
 .awts-commerce__offers, .awts-commerce__topups { padding: 18px 20px; }
-.awts-commerce__offers h3, .awts-commerce__topups h3 { margin: 0 0 11px; color: #fff; font-size: 0.92rem; }
+.awts-commerce__offers h3, .awts-commerce__topups h3 { margin: 0 0 11px; color: var(--light-text-fff, #fff); font-size: 0.92rem; }
 .awts-commerce__offer {
 	display: grid;
 	grid-template-columns: 1fr auto;
@@ -13,14 +13,14 @@
 	border-radius: 16px;
 	background: linear-gradient(145deg, rgba(255,255,255,0.075), rgba(255,255,255,0.035));
 }
-.awts-commerce__offer strong { color: #fff; font-size: 0.9rem; }
+.awts-commerce__offer strong { color: var(--light-text-fff, #fff); font-size: 0.9rem; }
 .awts-commerce__offer span { color: #ffe7a7; font-size: 0.72rem; font-weight: 780; }
 .awts-commerce__topup {
 	min-height: 40px;
 	border: 1px solid rgba(117,213,255,0.3);
 	border-radius: 12px;
 	background: linear-gradient(135deg, rgba(65,151,210,0.22), rgba(243,201,107,0.12));
-	color: #f8fbff;
+	color: var(--light-text-f8fbff, #f8fbff);
 	font: inherit;
 	font-size: 0.75rem;
 	font-weight: 850;

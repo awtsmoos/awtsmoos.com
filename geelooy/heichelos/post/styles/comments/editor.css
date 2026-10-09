@@ -42,7 +42,7 @@
 
 .wysiwyg-btn.active {
     background: var(--color-ink);
-    color: #fff;
+    color: var(--btn-active-ink, #fff);
 }
 
 /* THE WRITING SURFACE */

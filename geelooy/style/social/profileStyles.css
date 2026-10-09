@@ -40,7 +40,7 @@
 	--awtsmoos-z-dropdown-backdrop: 340;
 	--awtsmoos-z-dropdown-menu: 350;
 }
-/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+/* B"H — html-prefixed specificity replaces every (Yaakov 2026-10-08). */
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 html .awtsmoosDrop .hidden, html .awtsmoos-dropdown-backdrop.hidden, html :where(.awtsmoosDrop) .dropdown-content[aria-hidden="true"] {
 	display: none;

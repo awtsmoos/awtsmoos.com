@@ -63,7 +63,7 @@
 
 .awts-commerce__title {
 	margin: 5px 0 0;
-	color: #fff;
+	color: var(--light-text-fff, #fff);
 	font-size: clamp(1.2rem, 5vw, 1.6rem);
 	line-height: 1.1;
 	overflow-wrap: anywhere;
@@ -78,7 +78,7 @@
 	border: 1px solid var(--awts-commerce-line);
 	border-radius: 50%;
 	background: rgba(255, 255, 255, 0.06);
-	color: #fff;
+	color: var(--light-text-fff, #fff);
 	font: 400 1.55rem/1 system-ui;
 	cursor: pointer;
 }

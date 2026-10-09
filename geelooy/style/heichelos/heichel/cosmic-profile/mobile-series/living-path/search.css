@@ -60,7 +60,7 @@
 :where(.filter-chip[data-active-count]:not([data-active-count="0"])) {
 	border-color: rgba(91, 215, 255, .7);
 	background: rgba(20, 54, 86, .96);
-	color: #fff;
+	color: var(--light-text-fff, #fff);
 }
 @media (max-width: 34rem) { .living-path-search-stack > .living-path-field {
 		grid-template-columns: minmax(0, 1fr);

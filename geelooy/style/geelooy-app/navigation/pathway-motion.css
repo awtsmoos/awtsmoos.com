@@ -19,7 +19,7 @@
 
 	body.geelooy-app-shell :where(.g-dock a, .home-command-dock a):hover {
 		background: rgba(60, 236, 255, 0.08);
-		color: #ffffff;
+		color: var(--pathway-ink, #ffffff);
 	}
 }
 
@@ -55,6 +55,6 @@ body.geelooy-app-shell :where(
 		.g-home-torah-portal,
 		.home-command-dock a
 	) {
-		transform: none !important;
+		transform: none;
 	}
 }

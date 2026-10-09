@@ -35,7 +35,7 @@
 	.home-command-dock *,
 	.home-command-dock *::before,
 	.home-command-dock *::after {
-		transition: none !important;
-		animation: none !important;
+		transition: none;
+		animation: none;
 	}
 }

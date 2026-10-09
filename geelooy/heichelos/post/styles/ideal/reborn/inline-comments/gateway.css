@@ -43,7 +43,7 @@
 :is(.post-reader-localized-context) :is(.section.heb) .awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title,
 .post-reader-localized-context .awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title.awtsmoos-inline-trigger-title{
     justify-self: center;
-    color: #ffffff;
+    color: var(--inline-trigger-ink, #ffffff);
     font-family: var(--font-ui);
     font-size: clamp(12px, 2.8vw, 14px);
     font-weight: 950;

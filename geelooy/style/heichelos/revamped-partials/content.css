@@ -138,7 +138,7 @@
 .heichel-editor-remove {
     padding: 0.5rem 0.85rem;
     background: rgba(239, 68, 68, 0.15);
-    color: #fff;
+    color: var(--light-text-fff, #fff);
 }
 .heichel-editor-add {
     justify-self: start;

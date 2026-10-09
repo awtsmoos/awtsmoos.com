@@ -7,7 +7,7 @@
 .social-heichel-card,
 .profile-hero-card {
   backface-visibility: hidden;
-  box-shadow: 0 1px 0 rgba(255,255,255,.07) inset, 0 24px 68px rgba(0,0,0,.44), 0 0 34px rgba(139,92,246,.1) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,.07) inset, 0 24px 68px rgba(0,0,0,.44), 0 0 34px rgba(139,92,246,.1);
   min-width: 0;
   transform: translate3d(0,0,0);
 }
@@ -22,14 +22,14 @@
 .profile-card:hover,
 .alias-card:hover,
 .social-heichel-card:hover {
-  border-color: rgba(154,77,255,.48) !important;
+  border-color: rgba(154,77,255,.48);
   transform: translate3d(0,-2px,0);
 }
 
 .profile-card:focus-within,
 .alias-card:focus-within,
 .social-heichel-card:focus-within {
-  border-color: rgba(40,243,215,.55) !important;
+  border-color: rgba(40,243,215,.55);
 }
 
 .profile-card h2,

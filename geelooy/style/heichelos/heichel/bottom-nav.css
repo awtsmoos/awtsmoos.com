@@ -37,7 +37,7 @@
 	border: 1px solid transparent;
 	border-radius: 1rem;
 	background: transparent;
-	color: #fff7df;
+	color: var(--light-text-fff7df, #fff7df);
 	font: inherit;
 	font-size: clamp(.64rem, 2.5vw, .72rem);
 	font-weight: 900;

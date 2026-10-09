@@ -7,13 +7,13 @@
  * focus visible, status audible, motion optional, and meaning beyond color.
  */
 .cosmic-visually-hidden {
-	position: absolute !important;
-	width: 1px !important;
-	height: 1px !important;
-	overflow: hidden !important;
-	clip: rect(0 0 0 0) !important;
-	clip-path: inset(50%) !important;
-	white-space: nowrap !important;
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	white-space: nowrap;
 }
 .cosmic-post-card :is(a, button, input):focus-visible, .cosmic-post-card:focus-visible {
 	outline: 3px solid var(--source-accent);
@@ -26,17 +26,17 @@
 		0 0 2.1rem color-mix(in srgb, var(--source-accent) 18%, transparent);
 }
 @media (prefers-reduced-motion: reduce) { .geelooy-home-document *, .geelooy-home-document *::before, .geelooy-home-document *::after {
-		scroll-behavior: auto !important;
-		transition-duration: 0.001ms !important;
-		animation-duration: 0.001ms !important;
-		animation-iteration-count: 1 !important;
+		scroll-behavior: auto;
+		transition-duration: 0.001ms;
+		animation-duration: 0.001ms;
+		animation-iteration-count: 1;
 	} }
 @media (prefers-reduced-motion: reduce) { .cosmic-post-card[data-resonance] {
 		transform: none;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (prefers-reduced-motion: reduce) { .cosmic-source-sigil::after, :where(.cosmic-post-card[data-resonance]) .cosmic-lineage-line, .cosmic-action::after, .cosmic-utility-button::after {
-		animation: none !important;
+		animation: none;
 	} }
 @media (forced-colors: active) { .cosmic-post-card, .cosmic-action, .cosmic-source-graph, .cosmic-poll {
 		border: 1px solid CanvasText;

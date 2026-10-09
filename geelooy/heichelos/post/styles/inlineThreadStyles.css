@@ -19,10 +19,12 @@
     -webkit-backdrop-filter: blur(12px);
     border-radius: 8px;
     overflow: hidden;
-    
-    /* B"H - GLOBAL FONT REDUCTION FOR THREAD */
-    font-size: 13px !important; 
-    line-height: 1.4 !important;
+}
+
+/* B"H - GLOBAL FONT REDUCTION FOR THREAD (doubled specificity, no) */
+.awtsmoos-inline-thread.awtsmoos-inline-thread {
+    font-size: 13px;
+    line-height: 1.4;
 }
 
 :where(.post-reader-localized-context[data-theme="dark"]) .awtsmoos-inline-thread {
@@ -61,7 +63,7 @@
 .thread-close-btn:hover {
     transform: scale(1.1) rotate(90deg);
     background: var(--color-danger);
-    color: white;
+    color: var(--color-danger-ink, #fff);
 }
 
 /* Scroll Area */
@@ -98,10 +100,10 @@
     display: none;
 }
 
-.expand-portal-btn, .portal-btn {
+.expand-portal-btn.expand-portal-btn, .portal-btn.portal-btn {
     width: auto;
-    padding: 8px 16px !important;
-    font-size: 11px !important;
+    padding: 8px 16px;
+    font-size: 11px;
     min-height: auto;
 }
 
@@ -122,8 +124,8 @@
 }
 
 /* Inline Comment Card Override for Compactness */
-.awtsmoos-inline-thread .inline-comment {
-    font-size: 12px !important;
+.awtsmoos-inline-thread.awtsmoos-inline-thread .inline-comment {
+    font-size: 12px;
     padding: 8px;
     margin-bottom: 8px;
     border: 1px solid var(--color-ink-secondary);
@@ -132,18 +134,18 @@
 }
 
 /* AI Chat adjustments within inline thread */
-.awtsmoos-inline-thread .ai-chat-container {
-    font-size: 12px !important;
+.awtsmoos-inline-thread.awtsmoos-inline-thread .ai-chat-container {
+    font-size: 12px;
 }
-.awtsmoos-inline-thread .ai-input-box {
-    font-size: 12px !important;
-    padding: 6px !important;
+.awtsmoos-inline-thread.awtsmoos-inline-thread .ai-input-box {
+    font-size: 12px;
+    padding: 6px;
 }
-.awtsmoos-inline-thread .ai-message {
-    font-size: 12px !important;
+.awtsmoos-inline-thread.awtsmoos-inline-thread .ai-message {
+    font-size: 12px;
 }
-.awtsmoos-inline-thread .ai-block-content {
-    padding: 8px !important;
+.awtsmoos-inline-thread.awtsmoos-inline-thread .ai-block-content {
+    padding: 8px;
 }
 
 /* Mobile Adaptation */

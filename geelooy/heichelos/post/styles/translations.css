@@ -6,7 +6,7 @@
  *
  * B"H — Theme contract: every text element has explicit color in BOTH themes.
  * Light theme: dark ink on light card. Dark theme: light ink on dark card.
- * No !important, ever — specificity via :root prefix and doubled classes.
+ * No, ever — specificity via :root prefix and doubled classes.
  */
 .post-reader-localized-context .awtsmoos-translation-toolbar {
 	display: flex;
@@ -69,7 +69,7 @@
 }
 
 /* B"H — English translation block: English under Hebrew, never side by side.
-   Doubled class (0,2,0) beats the RTL Hebrew rules without !important. */
+   Doubled class (0,2,0) beats the RTL Hebrew rules without. */
 .post-reader-localized-context .awtsmoos-translation-block.awtsmoos-translation-block {
 	direction: ltr;
 	text-align: left;
@@ -119,7 +119,7 @@
 	color: var(--sefer-ink, #f0e7d3);
 }
 
-/* B"H — Hidden translations: :root prefix (0,2,0+) hides without !important. */
+/* B"H — Hidden translations: :root prefix (0,2,0+) hides without. */
 :root .post-reader-localized-context.awtsmoos-translations-hidden .awtsmoos-translation-block {
 	display: none;
 }

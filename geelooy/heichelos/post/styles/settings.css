@@ -138,9 +138,9 @@ input[type="color"].ink-pot {
     border-top: 2px solid #444;
 }
 .danger-outline {
-    width: 100%; border: 1px solid var(--color-danger) !important; color: var(--color-danger) !important;
-    background: transparent !important; text-align: center;
+    width: 100%; border: 1px solid var(--color-danger); color: var(--color-danger);
+    background: transparent; text-align: center;
     padding: 10px; font-weight: 700; text-transform: uppercase; cursor: pointer;
     transition: all 0.2s;
 }
-.danger-outline:hover { background: var(--color-danger) !important; color: #000 !important; }
+.danger-outline:hover { background: var(--color-danger); color: #000; }

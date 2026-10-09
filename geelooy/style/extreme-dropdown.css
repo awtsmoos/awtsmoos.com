@@ -64,7 +64,7 @@ A terminal of divine data—rendered through fire, code, and cosmic structure.
   transition: all 0.15s ease-out;
 }
 .extreme-dropdown__item:hover, .extreme-dropdown__item:focus {
-  color: #ffffff;
+  color: var(--dropdown-ink, #ffffff);
   background-color: rgba(255,255,255,0.04);
   transform: translateX(5px) scale(1.03);
   letter-spacing: 0.09em;
@@ -148,7 +148,7 @@ A terminal of divine data—rendered through fire, code, and cosmic structure.
 }
 @keyframes flashLines{
   0%, 100% { color: #89caff; background-color: transparent; }
-  50% { color: #ffffff; background-color: black; }
+  50% { color: var(--dropdown-ink, #ffffff); background-color: black; }
 }
 @keyframes asciiGlow{
   0% { opacity: 0.05; transform: scaleX(1); }
@@ -201,6 +201,6 @@ A terminal of divine data—rendered through fire, code, and cosmic structure.
   } }
 /* -- REDUCED MOTION: MERCY FOR THE FRAGILE CIRCUITS -- */
 @media (prefers-reduced-motion: reduce) { .extreme-dropdown, .extreme-dropdown__item, .extreme-dropdown__item::before, .extreme-dropdown__item::after {
-    animation: none !important;
-    transition: none !important;
+    animation: none;
+    transition: none;
   } }
