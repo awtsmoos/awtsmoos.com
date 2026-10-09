@@ -294,6 +294,45 @@ function injectLangToggleIntoSettings(toggle) {
 }
 
 /**
+ * B"H — Scribe's Lens panel enhancements: the ✕ close button in the panel
+ * header closes the sheet (via the Aa trigger, keeping gate aria in sync),
+ * and range sliders get a --fill percent so the gold track fill follows
+ * the thumb. Idempotent: safe to call on re-render.
+ */
+function enhanceScribeLensPanel() {
+	const panel = document.getElementById('typographyDetails');
+	if (!panel || panel.dataset.lensEnhanced === '1') {
+		return;
+	}
+	panel.dataset.lensEnhanced = '1';
+	const closeBtn = document.getElementById('scribeLensClose');
+	if (closeBtn) {
+		closeBtn.addEventListener('click', () => {
+			const trigger = document.getElementById('typographyBtn');
+			if (trigger) {
+				trigger.click();
+			} else {
+				panel.classList.add('hidden-details');
+				panel.setAttribute('aria-hidden', 'true');
+			}
+		});
+	}
+	const paintFill = (range) => {
+		const min = parseFloat(range.min || '0');
+		const max = parseFloat(range.max || '100');
+		const val = parseFloat(range.value || '0');
+		const pct = max > min ? ((val - min) / (max - min)) * 100 : 0;
+		range.style.setProperty('--fill', pct.toFixed(1) + '%');
+	};
+	panel.querySelectorAll('input[type="range"]').forEach(paintFill);
+	panel.addEventListener('input', (event) => {
+		if (event.target && event.target.matches && event.target.matches('input[type="range"]')) {
+			paintFill(event.target);
+		}
+	});
+}
+
+/**
  * Applies the language mode to all sefer sections.
  */
 function applyLangMode(root, mode) {
@@ -401,6 +440,7 @@ export function awakenMeluketSeferReader(post) {
 	// panel, NEVER on the main page. Injected into #typographyDetails.
 	const toggle = buildLangToggle(langMode, (mode) => applyLangMode(sefer, mode));
 	injectLangToggleIntoSettings(toggle);
+	enhanceScribeLensPanel();
 
 	// Sections.
 	hebrewSections.forEach(({ sectionId, html }, index) => {
