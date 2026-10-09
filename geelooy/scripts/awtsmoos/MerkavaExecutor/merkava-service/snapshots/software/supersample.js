@@ -7,7 +7,7 @@
  * make Merkava a browser, but it removes the harsh debug-grid look and gives
  * text, borders, and canvas strokes a more screenshot-like edge.
  */
-import { rgbPng } from "../pngTools.js";
+import { rgbPngFromRgba, rgbPngDownsampled } from "../pngTools.js";
 import { Framebuffer } from "./framebuffer.js";
 
 export function makeSupersampledSurface(width, height, factor = 2, background = [8, 9, 14, 255]) {
@@ -26,6 +26,17 @@ export class ScaledFramebuffer {
 
   fillRect(x, y, w, h, color) { this.base.fillRect(x * this.scale, y * this.scale, w * this.scale, h * this.scale, color); }
   gradientRect(x, y, w, h, background, fallback) { this.base.gradientRect(x * this.scale, y * this.scale, w * this.scale, h * this.scale, background, fallback); }
+  // B"H 2026-10-09: proxy the rounded-rect methods (added to Framebuffer);
+  // radii scale with the surface like any other length.
+  fillRoundedRect(x, y, w, h, radii, color) {
+    this.base.fillRoundedRect(x * this.scale, y * this.scale, w * this.scale, h * this.scale, scaleRadii(radii, this.scale), color);
+  }
+  gradientRoundedRect(x, y, w, h, radii, background, fallback) {
+    this.base.gradientRoundedRect(x * this.scale, y * this.scale, w * this.scale, h * this.scale, scaleRadii(radii, this.scale), background, fallback);
+  }
+  strokeRoundedRect(x, y, w, h, radii, color, lineWidth = 1) {
+    this.base.strokeRoundedRect(x * this.scale, y * this.scale, w * this.scale, h * this.scale, scaleRadii(radii, this.scale), color, Math.max(1, lineWidth * this.scale));
+  }
   strokeRect(x, y, w, h, color, lineWidth = 1) { this.base.strokeRect(x * this.scale, y * this.scale, w * this.scale, h * this.scale, color, Math.max(1, lineWidth * this.scale)); }
   drawLine(x0, y0, x1, y1, color, width = 1) { this.base.drawLine(x0 * this.scale, y0 * this.scale, x1 * this.scale, y1 * this.scale, color, Math.max(1, width * this.scale)); }
   drawText(text, x, y, color, scale = 1, maxWidth = Infinity) { return this.base.drawText(text, x * this.scale, y * this.scale, color, scale * this.scale, maxWidth * this.scale) / this.scale; }
@@ -33,10 +44,33 @@ export class ScaledFramebuffer {
   sample(x, y) { return this.base.sample(x * this.scale, y * this.scale); }
   countNonBackground(bg) { return countDownsampledNonBackground(this.base, this.scale, this.width, this.height, bg); }
   toPngBuffer() { return downsampleToPng(this.base, this.scale, this.width, this.height); }
+  // B"H 2026-10-09: clip + blit delegation (CSS px -> device px). src for
+  // blitFrom is a device-px {width,height,data} buffer; callers scale it.
+  pushClip(rect) {
+    const s = this.scale, r = rect || {};
+    this.base.pushClip((r.x0 || 0) * s, (r.y0 || 0) * s, (r.x1 || 0) * s, (r.y1 || 0) * s);
+  }
+  popClip() { this.base.popClip(); }
+  blitFrom(src, x, y) { this.base.blitFrom(src, (x || 0) * this.scale, (y || 0) * this.scale); }
 }
 
 export function downsampleToPng(base, scale, width, height) {
-  return rgbPng(width, height, (x, y) => averagePixel(base, scale, x, y));
+  // B"H 2026-10-09 (speed): scale=1 copies the RGBA buffer straight to PNG;
+  // scale>1 averages from the raw buffer. No per-pixel closures either way.
+  if (scale === 1) return rgbPngFromRgba(base.data, width, height);
+  return rgbPngDownsampled(base.data, base.width, scale, width, height);
+}
+
+// B"H 2026-10-09: scale per-corner radii {tl:[x,y],...} by the supersample
+// factor so rounded rects keep their CSS proportions on the big surface.
+function scaleRadii(radii, scale) {
+  if (!radii || scale === 1) return radii;
+  const out = {};
+  for (const k of ["tl", "tr", "br", "bl"]) {
+    const c = radii[k] || [0, 0];
+    out[k] = [c[0] * scale, c[1] * scale];
+  }
+  return out;
 }
 
 function averagePixel(base, scale, x, y) {
