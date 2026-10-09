@@ -41,6 +41,16 @@ export function createFrameworkJavaListMethods(runtime) {
 		},
 		invoke(record, args, dispatch, context) {
 			const name = record.method.name;
+			// Null-safe: if receiver is null, return safe defaults for read methods.
+			if (!args[0] && name !== "<init>") {
+				if (name === "isEmpty") return 1;
+				if (name === "size") return 0;
+				if (name === "contains") return 0;
+				if (name === "toArray") return 0;
+				if (name === "iterator" || name === "listIterator") return 0;
+				// For other methods, let it throw (or return 0).
+				if (name === "get" || name === "remove" || name === "set") return 0;
+			}
 			if (name === "<init>") {
 				return initializeJavaListCollection(runtime, context, record, args);
 			}
