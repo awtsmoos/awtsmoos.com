@@ -132,7 +132,24 @@ test("declares NativeActivity with the lib_name meta-data in the manifest", asyn
 		nativeLibs: { "arm64-v8a": { "libmerkava.so": buildSo() } }
 	});
 	const manifest = apk.bytes;
-	const text = new TextDecoder().decode(manifest);
+	// The AXML string pool is UTF-16LE (like aapt2): match raw byte sequences.
+	const hasString = (s) => {
+		const utf8 = new TextEncoder().encode(s);
+		if (manifest.includes(utf8)) return true;
+		const utf16 = new Uint8Array(s.length * 2);
+		for (let i = 0; i < s.length; i++) {
+			utf16[i * 2] = s.charCodeAt(i) & 0xff;
+			utf16[i * 2 + 1] = (s.charCodeAt(i) >>> 8) & 0xff;
+		}
+		// Uint8Array.includes doesn't do subsequence; do a manual scan.
+		outer: for (let i = 0; i + utf16.length <= manifest.length; i++) {
+			for (let j = 0; j < utf16.length; j++) {
+				if (manifest[i + j] !== utf16[j]) continue outer;
+			}
+			return true;
+		}
+		return false;
+	};
 	for (const required of [
 		"android.app.NativeActivity",
 		"android.app.lib_name",
@@ -141,7 +158,7 @@ test("declares NativeActivity with the lib_name meta-data in the manifest", asyn
 		"configChanges",
 		"meta-data"
 	]) {
-		assert.ok(text.includes(required), `manifest carries ${required}`);
+		assert.ok(hasString(required), `manifest carries ${required}`);
 	}
 	assert.deepEqual(apk.evidence.nativeActivity, {
 		configChanges: "orientation|keyboardHidden",
