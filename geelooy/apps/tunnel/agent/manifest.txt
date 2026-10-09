@@ -1,5 +1,5 @@
 B"H
-1.0.650
+1.0.651
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1999,6 +1999,7 @@ tools/fs/actionGroups/mac/macSeeActions.js
 tools/fs/actionGroups/mac/stateDir.js
 tools/fs/actionGroups/macCompanionActions.js
 tools/fs/actionGroups/macSpeakerActions.js
+tools/fs/actionGroups/merkavaScreenshotActions.js
 tools/fs/actionGroups/missionActionPayload.js
 tools/fs/actionGroups/missionActions.js
 tools/fs/actionGroups/missionAssignmentActions.js
