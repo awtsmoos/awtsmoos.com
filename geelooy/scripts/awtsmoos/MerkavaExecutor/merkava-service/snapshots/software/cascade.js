@@ -152,11 +152,25 @@ export function compileStylesheet(cssText, environment = {}, orderStart = 0) {
   // unlayered). Falls back to all-unlayered on any structural mismatch.
   const layerKeys = annotateLayerKeys(clean, environment, compiled.rules.length);
   return {
-    rules: compiled.rules.map((rule, i) => ({
-      ...rule,
-      layerKey: layerKeys ? layerKeys[i] : null,
-      declarations: expandDeclarations(rule.declarations),
-    })),
+    rules: compiled.rules.map((rule, i) => {
+      const declarations = expandDeclarations(rule.declarations);
+      // B"H: precompute revert-layer presence once at parse time — the fast
+      // path was doing String().trim().toLowerCase() per declaration per
+      // element (millions of wasted ops; benchmark pages have zero).
+      let hasRevertLayer = false;
+      for (const d of declarations) {
+        if (typeof d.value === 'string' && d.value.trim().toLowerCase() === 'revert-layer') {
+          hasRevertLayer = true;
+          break;
+        }
+      }
+      return {
+        ...rule,
+        layerKey: layerKeys ? layerKeys[i] : null,
+        declarations,
+        hasRevertLayer,
+      };
+    }),
     // B"H 2026-10-09: @container rules ride along for per-element
     // evaluation in applyCascade (domLayout.js).
     containerRules: compiled.containerRules || [],
@@ -378,6 +392,7 @@ function cascadeFastPath(node, rules, parentStyle, inline, ruleIndex, candidates
   for (const rule of candidates) {
     if (!matchesIndexedRule(node, rule, ruleIndex)) continue;
     if (rule.layerKey) return false; // layered: use slow path
+    if (rule.hasRevertLayer) return false; // precomputed at parse time
     matched.push(rule);
   }
   matched.sort(compareRulePriority);
@@ -385,7 +400,6 @@ function cascadeFastPath(node, rules, parentStyle, inline, ruleIndex, candidates
   const importantWinners = new Map();
   for (const rule of matched) {
     for (const declaration of rule.declarations) {
-      if (String(declaration.value || "").trim().toLowerCase() === "revert-layer") return false;
       (declaration.important ? importantWinners : winners).set(declaration.name, declaration);
     }
   }
