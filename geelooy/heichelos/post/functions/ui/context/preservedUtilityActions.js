@@ -9,6 +9,7 @@
  */
 import { copyToClipboard } from '../../utils.js';
 import { makeToast } from '../../ui.js';
+import { downloadMaamarPdf } from './maamarPdf.js';
 
 const primary = action => ({ ...action, importance: 'primary' });
 const secondary = action => ({ ...action, importance: 'secondary' });
@@ -17,6 +18,18 @@ const secondary = action => ({ ...action, importance: 'secondary' });
 export function utilityReaderActions({ event, selection, postText, contextual = [] }) {
 	const actions = [
 		...contextual,
+		primary({
+			label: 'Download PDF of maamar',
+			icon: '⤓',
+			action: () => {
+				try {
+					downloadMaamarPdf();
+					makeToast('Opening PDF — choose “Save as PDF”');
+				} catch (error) {
+					makeToast(error?.message || 'Could not open the PDF view.');
+				}
+			}
+		}),
 		secondary({
 			label: 'Fullscreen',
 			icon: '⛶',
