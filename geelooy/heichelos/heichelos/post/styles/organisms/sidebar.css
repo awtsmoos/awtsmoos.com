@@ -21,8 +21,9 @@
     max-width: 100%;
 }
 
-.sidebar .hidden,
-.sidebar[hidden] { display: none !important; }
+
+
+html .sidebar .hidden, html .sidebar[hidden] { display: none; }
 
 @media (min-width: 901px) {
     .sidebar {
@@ -32,13 +33,13 @@
 }
 
 @media (max-width: 900px) {
-    .sidebar,
-    .post-reader-localized-context .sidebar {
-        position: relative !important;
-        left: auto !important;
-        right: auto !important;
-        bottom: auto !important;
-        transform: none !important;
+    
+    html .sidebar, html .post-reader-localized-context .sidebar {
+        position: relative;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        transform: none;
         opacity: 1;
         pointer-events: auto;
         margin: 0;
@@ -49,4 +50,34 @@
     .sidebar > * {
         max-width: 100%;
     }
+}
+
+/* B"H — Law 2: visible keyboard-focus ring token */
+:root:not([data-theme="dark"]) {
+  --focus-ring: #1a56db;
+}
+:root[data-theme="dark"] {
+  --focus-ring: #8fb3ff;
+}
+
+/* B"H — Law 2: visible keyboard-focus rings for interactive elements */
+.sidebar button:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.sidebar a:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.sidebar input:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.sidebar textarea:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.sidebar select:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
 }

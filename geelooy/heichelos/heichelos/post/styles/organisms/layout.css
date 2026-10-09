@@ -52,11 +52,11 @@
 }
 
 @media (max-width: 900px) {
-    html,
-    body {
+    
+    html, html body {
         min-height: 100%;
-        overflow-y: auto !important;
-        overflow-x: hidden !important;
+        overflow-y: auto;
+        overflow-x: hidden;
         touch-action: pan-y;
     }
 
@@ -86,8 +86,10 @@
         padding: 0 clamp(0.85rem, 4vw, 1.25rem) 8rem;
     }
 
-    .sidebar {
-        width: 100% !important;
+    
+
+    html .sidebar {
+        width: 100%;
         max-width: none;
         height: auto;
         max-height: none;

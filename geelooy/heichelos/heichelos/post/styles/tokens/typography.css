@@ -24,8 +24,10 @@
     --letter-spacing-brutalist: -0.02em;
 }
 
-[data-lang="heb"] {
-    font-family: var(--font-sacred) !important;
+
+
+html [data-lang="heb"] {
+    font-family: var(--font-sacred);
     line-height: var(--line-height-sacred);
     direction: rtl;
 }
