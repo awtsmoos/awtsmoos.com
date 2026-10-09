@@ -90,6 +90,9 @@ check("subs x0, x0, #1", E.subsImm(0, 0, 1, 0, 64), 0xF1000400);
 check("mul x0, x1, x2", E.mul(0, 1, 2, 64), 0x9B027C20);
 check("mul w0, w1, w2", E.mul(0, 1, 2, 32), 0x1B027C20);
 check("madd x0, x1, x2, x3", E.madd(0, 1, 2, 3, 64), 0x9B020C20);
+check("msub x0, x1, x2, x3", E.msub(0, 1, 2, 3, 64), 0x9B028C20);
+check("msub w0, w1, w2, w3", E.msub(0, 1, 2, 3, 32), 0x1B028C20);
+check("msub x0, x9, x1, x0", E.msub(0, 9, 1, 0, 64), 0x9B018120);
 check("sdiv x0, x1, x2", E.sdiv(0, 1, 2, 64), 0x9AC20C20);
 check("udiv x0, x1, x2", E.udiv(0, 1, 2, 64), 0x9AC20820);
 check("sdiv w0, w1, w2", E.sdiv(0, 1, 2, 32), 0x1AC20C20);
@@ -105,6 +108,8 @@ check("and x0, x1, #1", E.andImm(0, 1, 1, 64), 0x92400020);
 check("orr x0, x1, #0xff", E.orrImm(0, 1, 0xFF, 64), 0xB2401C20);
 check("eor x0, x1, #0x5555555555555555", E.eorImm(0, 1, 0x5555555555555555n, 64), 0xD2000820);
 check("and w0, w1, #0xff", E.andImm(0, 1, 0xFF, 32), 0x12009C20);
+check("orr w0, w1, #0xbbbbbbbb (rotated ones-run)", E.orrImm(0, 1, 0xBBBBBBBB, 32), 0x32011820);
+check("and x0, x1, #0xdddddddddddddddd", E.andImm(0, 1, 0xDDDDDDDDDDDDDDDDn, 64), 0x92021820);
 check("lsl x0, x1, #3", E.lsl(0, 1, 3, 64), 0xD37DF020);
 check("lsr x0, x1, #3", E.lsr(0, 1, 3, 64), 0xD343FC20);
 check("asr x0, x1, #3", E.asr(0, 1, 3, 64), 0x9343FC20);
@@ -219,6 +224,11 @@ checkWords("cbz/cbnz", `
 done:
 	ret
 `, [0xB4000060, 0x35000041, 0xD503201F, 0xD65F03C0]);
+
+checkWords("msub from text", `
+	msub x0, x9, x1, x0
+	msub w2, w3, w4, w5
+`, [0x9B018120, 0x1B049462]);
 
 checkWords("adr to label", `
 	adr x0, target

@@ -102,17 +102,16 @@ export function encodeBitmask(value, width) {
 		}
 		if (ones === 0 || ones === esize) continue;
 
-		// Rotate right until bit 0 is set; elem must then be low `ones` bits.
-		let e = elem;
-		let r = 0;
-		while (((e & 1n) === 0n) && r < esize) {
-			e = ((e >> 1n) | ((e & 1n) << BigInt(esize - 1))) & emask;
-			r++;
+		// Find the rotation R such that elem == ROR(ones(ones), esize, R).
+		// The ones-run may start at any bit position (e.g. 0xB = 0b1011 is a
+		// rotated run of 3 ones), so every rotation must be tried.
+		const want = (1n << BigInt(ones)) - 1n;
+		let immr = -1;
+		for (let r = 0; r < esize; r++) {
+			const rot = (((want >> BigInt(r)) | (want << BigInt(esize - r))) & emask);
+			if (rot === elem) { immr = r; break; }
 		}
-		if (e !== (1n << BigInt(ones)) - 1n) continue;
-
-		// Decoder does ROR(ones, R), so R = (esize - r) mod esize.
-		const immr = (esize - r) % esize;
+		if (immr < 0) continue;
 		const n = esize === 64 ? 1 : 0;
 		let imms;
 		if (esize === 64) {
@@ -252,6 +251,19 @@ export function madd(rd, rn, rm, ra, sf) {
 	checkRange(ra, 0, 31, "Ra");
 	const s = sf === 64 ? 1 : 0;
 	return u32((s << 31) | (0b11011 << 24) | (rm << 16) | (ra << 10) | (rn << 5) | rd);
+}
+
+/**
+ * MSUB: Rd = Ra - Rn*Rm. Same data-processing 3-source class as MADD with the
+ * o1 bit (bit 15) set. The C backend emits this for the % operator.
+ */
+export function msub(rd, rn, rm, ra, sf) {
+	checkRange(rd, 0, 31, "Rd");
+	checkRange(rn, 0, 31, "Rn");
+	checkRange(rm, 0, 31, "Rm");
+	checkRange(ra, 0, 31, "Ra");
+	const s = sf === 64 ? 1 : 0;
+	return u32((s << 31) | (0b11011 << 24) | (rm << 16) | (1 << 15) | (ra << 10) | (rn << 5) | rd);
 }
 
 // Data-processing 3-source: sf 00 11010110 Rm o2(6) Rn Rd ; o2: 000011=SDIV 000010=UDIV
