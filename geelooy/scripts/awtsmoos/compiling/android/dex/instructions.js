@@ -6,9 +6,11 @@ import {
 	byte,
 	instructionError,
 	nibble,
-	signedNibble,
 	u16
 } from "./instructionOperands.js";
+import { const4 } from "./integerInstructions.js";
+
+export { const4 };
 
 /**
  * Emits bounded Dalvik forms used by the verified Activity subset. The Awtsmoos
@@ -21,14 +23,6 @@ export function returnVoid() {
 
 export function moveResultObject(register) {
 	return format11x(0x0c, register);
-}
-
-export function const4(register, literal) {
-	return words(
-		byte(0x12, "opcode")
-			| nibble(register, "register") << 8
-			| signedNibble(literal) << 12
-	);
 }
 
 export function newInstance(register, typeIndex) {
