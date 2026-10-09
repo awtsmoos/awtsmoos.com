@@ -131,7 +131,8 @@
             }
 
             _guard() {
-                if (this.op_count++ > this.max_ops) {
+                // B"H - Amortized safety check (was: per-token-advance overhead)
+                if (((++this.op_count & 1023) === 0) && this.op_count > this.max_ops) {
                     throw new Error(`PARSER HALTED: Max ops exceeded near line ${this.currToken.line}.`);
                 }
             }
