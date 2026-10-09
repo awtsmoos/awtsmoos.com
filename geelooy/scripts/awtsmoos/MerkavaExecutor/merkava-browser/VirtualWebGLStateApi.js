@@ -94,6 +94,12 @@
 				this.cullFaceValue = mode;
 				this.record('cullFace', { mode });
 			},
+			lineWidth(width) {
+				// B"H: real line rasterization honors this (default 1).
+				if (!(width > 0)) return this.invalid(this.INVALID_VALUE, 'lineWidth');
+				this.lineWidthValue = width;
+				this.record('lineWidth', { width });
+			},
 			frontFace(mode) {
 				this.frontFaceValue = mode;
 				this.record('frontFace', { mode });

@@ -5,12 +5,12 @@
 // structured IR (instruction lists) -> stack-machine interpreter with typed
 // vector values. No host eval, no Function constructor, no dependencies.
 //
-// Supported subset (honest): float/int/bool, vec2/3/4, ivec/bvec, mat4,
+// Supported subset (honest): float/int/bool, vec2/3/4, ivec/bvec, mat2/mat3/mat4,
 // arrays (constant + dynamic index), uniforms/attributes/varyings,
 // precision statements, user functions, if/else, for/while/do-while,
 // break/continue/return/discard, ternary, constructors, swizzles (r-value
 // and l-value), ~40 built-ins. Not supported: structs, samplers (declared
-// but texture2D errors), mat2/mat3, preprocessor params, goto.
+// but texture2D errors), preprocessor params, goto.
 (function(root, factory) {
 	if (typeof module === 'object' && module.exports) module.exports = factory();
 	else { root.Merkava = root.Merkava || {}; Object.assign(root.Merkava, factory()); }
@@ -172,7 +172,7 @@ function parse(src) {
 		const precision = parsePrecision();
 		const type = parseType();
 		if (type === 'struct') err('structs unsupported');
-		if (['mat2','mat3'].includes(type)) err(type + ' unsupported (mat4 only)');
+		// B"H: mat2/mat3 fully supported (was: rejected here).
 		const decls = [];
 		do {
 			const name = expect('id').v;
@@ -333,7 +333,9 @@ function I(v) { return { t: 'i', v: Math.trunc(+v) }; }
 function B(v) { return { t: 'b', v: !!v }; }
 function V(n, arr) { return { t: 'v', n, v: arr.map(Number) }; }
 function BV(n, arr) { return { t: 'bv', n, v: arr.map(x => !!x) }; }
-function M4(arr) { return { t: 'm', n: 4, v: arr.map(Number) }; }
+function M4(arr) { return MAT(4, arr); }
+// B"H: general n x n matrix (column-major). n=2..4.
+function MAT(n, arr) { return { t: 'm', n, v: arr.map(Number) }; }
 function ARR(elem, arr) { return { t: 'arr', elem, v: arr.slice() }; }
 
 function isScalar(x) { return x.t === 'f' || x.t === 'i' || x.t === 'b'; }
@@ -421,9 +423,24 @@ const BUILTINS = {
 		if (k < 0) return V(i.n, i.v.map(() => 0));
 		return V(i.n, i.v.map((v, kk) => e * v - (e * d + Math.sqrt(k)) * n.v[kk]));
 	},
-	matrixCompMult: (a, b) => M4(a.v.map((v, i) => v * b.v[i])),
-	outerProduct: (c, r) => M4(Array.from({ length: 16 }, (_, i) => c.v[i % 4] * r.v[(i / 4) | 0])),
-	transpose: m => M4(Array.from({ length: 16 }, (_, i) => m.v[(i % 4) * 4 + ((i / 4) | 0)])),
+	// B"H: matrix builtins generalized to n x n (mat2/mat3/mat4).
+	matrixCompMult: (a, b) => {
+		if (a.t !== 'm' || b.t !== 'm' || a.n !== b.n) throw new Error('GLSL runtime: matrixCompMult needs same-size matrices');
+		return MAT(a.n, a.v.map((v, i) => v * b.v[i]));
+	},
+	outerProduct: (c, r) => {
+		// B"H: GLSL ES 1.00 outerProduct is square (vecN x vecN -> matN).
+		if (c.n !== r.n) throw new Error('GLSL runtime: outerProduct needs same-size vectors');
+		const n = c.n, out = [];
+		for (let cc = 0; cc < n; cc++) for (let rr = 0; rr < n; rr++) out.push(c.v[rr] * r.v[cc]);
+		return MAT(n, out);
+	},
+	transpose: m => {
+		if (m.t !== 'm') throw new Error('GLSL runtime: transpose needs matrix');
+		const n = m.n, out = new Array(n * n);
+		for (let c = 0; c < n; c++) for (let rr = 0; rr < n; rr++) out[rr * n + c] = m.v[c * n + rr];
+		return MAT(n, out);
+	},
 	lessThan: (a, b) => BV(a.n, a.v.map((v, i) => v < b.v[i])),
 	lessThanEqual: (a, b) => BV(a.n, a.v.map((v, i) => v <= b.v[i])),
 	greaterThan: (a, b) => BV(a.n, a.v.map((v, i) => v > b.v[i])),
@@ -672,6 +689,8 @@ function zeroOf(type) {
 		case 'float': return F(0); case 'int': return I(0); case 'bool': return B(false);
 		case 'vec2': return V(2, [0, 0]); case 'vec3': return V(3, [0, 0, 0]);
 		case 'vec4': return V(4, [0, 0, 0, 0]);
+		case 'mat2': return MAT(2, [1,0, 0,1]);
+		case 'mat3': return MAT(3, [1,0,0, 0,1,0, 0,0,1]);
 		case 'mat4': return M4([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]);
 		default: return F(0);
 	}
@@ -698,6 +717,7 @@ class Runner {
 			varyingNames: entryInputs.varyingNames || new Set(),
 			out: {}, discard: false,
 			fragCoord: entryInputs.fragCoord || null,
+			pointCoord: entryInputs.pointCoord || null,
 			loopDepth: 0,
 		};
 		// seed globals
@@ -715,6 +735,7 @@ class Runner {
 		if (name in env.varyings) return env.varyings[name];
 		if (name in env.out) return env.out[name];
 		if (name === 'gl_FragCoord' && env.fragCoord) return env.fragCoord;
+		if (name === 'gl_PointCoord' && env.pointCoord) return env.pointCoord;
 		throw new Error('GLSL runtime: undeclared identifier ' + name);
 	}
 	assign(env, name, val) {
@@ -884,7 +905,7 @@ class Runner {
 		const fn = this.program.functions.get(name);
 		if (!fn) throw new Error('GLSL runtime: unknown function ' + name);
 		const fenv = { vars: new Map(), parent: env, attribs: env.attribs, uniforms: env.uniforms,
-			varyings: env.varyings, varyingNames: env.varyingNames, out: env.out, discard: false, fragCoord: env.fragCoord, loopDepth: 0 };
+			varyings: env.varyings, varyingNames: env.varyingNames, out: env.out, discard: false, fragCoord: env.fragCoord, pointCoord: env.pointCoord, loopDepth: 0 };
 		fn.params.forEach((p, i) => fenv.vars.set(p.name, args[i] !== undefined ? args[i] : zeroOf(p.type)));
 		const stack = [];
 		const sig = this.execList(fn.body, fenv, stack);
@@ -897,12 +918,15 @@ class Runner {
 // ---- value operations ----
 function arith(op, a, b) {
 	[a, b] = promote(a, b);
-	// matrix ops
-	if (a.t === 'm' && b.t === 'm' && op === 'mul') return matMul(a, b);
-	if (a.t === 'm' && b.t === 'v' && b.n === 4 && op === 'mul') return matVec(a, b);
-	if (a.t === 'v' && a.n === 4 && b.t === 'm' && op === 'mul') return vecMat(a, b);
+	// matrix ops (B"H: n x n, column-major; GLSL ES requires matching sizes)
+	if (a.t === 'm' && b.t === 'm' && op === 'mul') {
+		if (a.n !== b.n) throw new Error('GLSL runtime: mat size mismatch in *');
+		return matMul(a, b);
+	}
+	if (a.t === 'm' && b.t === 'v' && b.n === a.n && op === 'mul') return matVec(a, b);
+	if (a.t === 'v' && b.t === 'm' && a.n === b.n && op === 'mul') return vecMat(a, b);
 	if (a.t === 'm' && isScalar(b) && (op === 'mul' || op === 'div'))
-		return M4(a.v.map(v => op === 'mul' ? v * toFloat(b) : v / toFloat(b)));
+		return MAT(a.n, a.v.map(v => op === 'mul' ? v * toFloat(b) : v / toFloat(b)));
 	const f = { add: (x, y) => x + y, sub: (x, y) => x - y, mul: (x, y) => x * y,
 		div: (x, y) => x / y, mod: (x, y) => x - y * Math.floor(x / y) }[op];
 	if (a.t === 'v' && b.t === 'v') {
@@ -925,32 +949,32 @@ function cmp(op, a, b) {
 	if (isScalar(a) && isScalar(b)) return B(f(toFloat(a), toFloat(b)));
 	throw new Error('GLSL runtime: bad operands for comparison');
 }
-function matMul(a, b) { // column-major
-	const r = new Array(16).fill(0);
-	for (let c = 0; c < 4; c++) for (let r_ = 0; r_ < 4; r_++) {
+function matMul(a, b) { // column-major, n x n
+	const n = a.n, r = new Array(n * n).fill(0);
+	for (let c = 0; c < n; c++) for (let r_ = 0; r_ < n; r_++) {
 		let s = 0;
-		for (let k = 0; k < 4; k++) s += a.v[k * 4 + r_] * b.v[c * 4 + k];
-		r[c * 4 + r_] = s;
+		for (let k = 0; k < n; k++) s += a.v[k * n + r_] * b.v[c * n + k];
+		r[c * n + r_] = s;
 	}
-	return M4(r);
+	return MAT(n, r);
 }
 function matVec(m, v) {
-	const r = [];
-	for (let row = 0; row < 4; row++) {
+	const n = m.n, r = [];
+	for (let row = 0; row < n; row++) {
 		let s = 0;
-		for (let k = 0; k < 4; k++) s += m.v[k * 4 + row] * v.v[k];
+		for (let k = 0; k < n; k++) s += m.v[k * n + row] * v.v[k];
 		r.push(s);
 	}
-	return V(4, r);
+	return V(n, r);
 }
 function vecMat(v, m) {
-	const r = [];
-	for (let c = 0; c < 4; c++) {
+	const n = m.n, r = [];
+	for (let c = 0; c < n; c++) {
 		let s = 0;
-		for (let k = 0; k < 4; k++) s += v.v[k] * m.v[c * 4 + k];
+		for (let k = 0; k < n; k++) s += v.v[k] * m.v[c * n + k];
 		r.push(s);
 	}
-	return V(4, r);
+	return V(n, r);
 }
 function makeVec(n, args) {
 	// flatten: scalars fill, vecs spread
@@ -983,20 +1007,31 @@ function construct(type, args) {
 			const n = +type[4];
 			return BV(n, args.flatMap(a => a.t === 'bv' || a.t === 'v' ? a.v.map(Boolean) : [truthy(a)]).slice(0, n));
 		}
-		case 'mat4': {
-			if (args.length === 0) return M4([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]);
-			if (args.length === 1 && isScalar(args[0])) {
-				const d = toFloat(args[0]);
-				return M4([d,0,0,0, 0,d,0,0, 0,0,d,0, 0,0,0,d]);
-			}
-			if (args.length === 1 && args[0].t === 'm') return args[0];
-			const comps = [];
-			for (const a of args) { if (a.t === 'v') comps.push(...a.v); else comps.push(toFloat(a)); }
-			if (comps.length !== 16) throw new Error('GLSL runtime: mat4 needs 16 components');
-			return M4(comps);
-		}
+		case 'mat2': return constructMat(2, args);
+		case 'mat3': return constructMat(3, args);
+		case 'mat4': return constructMat(4, args);
 		default: throw new Error('GLSL runtime: bad constructor ' + type);
 	}
+}
+function constructMat(n, args) {
+	// B"H: mat2/mat3/mat4 constructor. 0 args -> identity; 1 scalar -> diagonal;
+	// 1 matrix -> same matrix; else column-major components (vecs spread).
+	if (args.length === 0) {
+		const id = new Array(n * n).fill(0);
+		for (let i = 0; i < n; i++) id[i * n + i] = 1;
+		return MAT(n, id);
+	}
+	if (args.length === 1 && isScalar(args[0])) {
+		const d = toFloat(args[0]);
+		const m = new Array(n * n).fill(0);
+		for (let i = 0; i < n; i++) m[i * n + i] = d;
+		return MAT(n, m);
+	}
+	if (args.length === 1 && args[0].t === 'm') return args[0];
+	const comps = [];
+	for (const a of args) { if (a.t === 'v') comps.push(...a.v); else comps.push(toFloat(a)); }
+	if (comps.length !== n * n) throw new Error('GLSL runtime: mat' + n + ' needs ' + (n * n) + ' components, got ' + comps.length);
+	return MAT(n, comps);
 }
 function applySwizzle(val, mask) {
 	if (val.t !== 'v') throw new Error('GLSL runtime: swizzle on non-vector');
@@ -1022,7 +1057,12 @@ function indexValue(o, idx) {
 		if (idx < 0 || idx >= o.n) throw new Error('GLSL runtime: vec index OOB');
 		return F(o.v[idx]);
 	}
-	if (o.t === 'm') return V(4, [o.v[idx * 4], o.v[idx * 4 + 1], o.v[idx * 4 + 2], o.v[idx * 4 + 3]]);
+	if (o.t === 'm') {
+		if (idx < 0 || idx >= o.n) throw new Error('GLSL runtime: mat index OOB');
+		const col = [];
+		for (let j = 0; j < o.n; j++) col.push(o.v[idx * o.n + j]);
+		return V(o.n, col);
+	}
 	if (o.t === 'arr') {
 		if (idx < 0 || idx >= o.v.length) throw new Error('GLSL runtime: array index OOB');
 		return o.v[idx];
@@ -1032,6 +1072,15 @@ function indexValue(o, idx) {
 function applyIndexStore(cur, idx, v) {
 	if (cur.t === 'v') {
 		const nv = cur.v.slice(); nv[idx] = toFloat(v); return V(cur.n, nv);
+	}
+	if (cur.t === 'm') {
+		// B"H: GLSL allows column assignment m[i] = vecN.
+		if (idx < 0 || idx >= cur.n) throw new Error('GLSL runtime: mat index store OOB');
+		const col = v.t === 'v' ? v.v : new Array(cur.n).fill(toFloat(v));
+		if (col.length < cur.n) throw new Error('GLSL runtime: mat column store needs ' + cur.n + ' comps');
+		const nv = cur.v.slice();
+		for (let j = 0; j < cur.n; j++) nv[idx * cur.n + j] = col[j];
+		return MAT(cur.n, nv);
 	}
 	if (cur.t === 'arr') {
 		const nv = cur.v.slice(); nv[idx] = v; return ARR(cur.elem, nv);
@@ -1060,8 +1109,8 @@ function createShaderRunner(compiled) {
 				? env.varyings[v.name] : zeroOf(v.type);
 			return { position: out.gl_Position, varyings, pointSize: out.gl_PointSize };
 		},
-		runFragment(varyings, uniforms, fragCoord) {
-			const { env, mainValue } = execMain({ attribs: {}, uniforms, varyings: { ...varyings }, fragCoord, globals: {} });
+		runFragment(varyings, uniforms, fragCoord, pointCoord) {
+			const { env, mainValue } = execMain({ attribs: {}, uniforms, varyings: { ...varyings }, fragCoord, pointCoord, globals: {} });
 			if (mainValue && mainValue.__discarded) return { discarded: true };
 			const out = env.out;
 			const color = out.gl_FragColor || (out.gl_FragData && out.gl_FragData[0]);

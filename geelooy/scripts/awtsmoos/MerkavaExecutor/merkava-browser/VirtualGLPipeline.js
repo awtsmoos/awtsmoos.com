@@ -252,10 +252,11 @@ function gatherUniforms(gl, program) {
 		else if (u.type === 'vec2') uniforms[u.name] = { t: 'v', n: 2, v: [v[0] || 0, v[1] || 0] };
 		else if (u.type === 'vec3') uniforms[u.name] = { t: 'v', n: 3, v: [v[0] || 0, v[1] || 0, v[2] || 0] };
 		else if (u.type === 'vec4') uniforms[u.name] = { t: 'v', n: 4, v: [v[0] || 0, v[1] || 0, v[2] || 0, v[3] === undefined ? 1 : v[3]] };
-		else if (u.type === 'mat4') {
-			const m = new Array(16).fill(0);
-			for (let i = 0; i < Math.min(16, v.length); i++) m[i] = v[i];
-			uniforms[u.name] = { t: 'm', n: 4, v: m };
+		else if (u.type === 'mat2' || u.type === 'mat3' || u.type === 'mat4') {
+			const n = u.type === 'mat2' ? 2 : u.type === 'mat3' ? 3 : 4;
+			const m = new Array(n * n).fill(0);
+			for (let i = 0; i < Math.min(n * n, v.length); i++) m[i] = v[i];
+			uniforms[u.name] = { t: 'm', n, v: m };
 		}
 		else uniforms[u.name] = { t: 'f', v: v[0] || 0 };
 	}
@@ -330,6 +331,11 @@ function shadeInto(ctx, vi, instance, slot, store, wantSample) {
 	const p = vs.position.v;
 	store.pos[slot * 4] = p[0]; store.pos[slot * 4 + 1] = p[1];
 	store.pos[slot * 4 + 2] = p[2]; store.pos[slot * 4 + 3] = p[3];
+	// B"H: gl_PointSize for point rasterization (default 1.0 per GL spec).
+	let ps = vs.pointSize;
+	ps = (ps && (ps.t === 'f' || ps.t === 'i')) ? +ps.v : 1;
+	if (!(ps >= 1)) ps = 1;
+	store.ps[slot] = ps;
 	if (wantSample) return { sample: vs.varyings };
 	for (let k = 0; k < store.vdList.length; k++) {
 		const vd = store.vdList[k];
@@ -392,6 +398,7 @@ function drawCoreWithCtx(gl, ctx, mode, order, npos) {
 		sx: new Float32Array(nslots),
 		sy: new Float32Array(nslots),
 		sw: new Float32Array(nslots),
+		ps: new Float32Array(nslots).fill(1),
 		vdList: null, vdTotal: 0,
 	};
 	// Shade slot 0 first to learn varying layout.
@@ -414,8 +421,17 @@ function drawCoreWithCtx(gl, ctx, mode, order, npos) {
 	}
 	viewportTransform(store, nslots, vx, vy, vw, vh, db.h);
 
+	// B"H: real point/line rasterization (was: silently dropped, zero pixels).
+	if (mode === POINTS) {
+		const pixels = rasterizePoints(gl, db, ctx, store, order, npos);
+		return { ok: true, triangles: 0, pixels, points: npos };
+	}
+	if (mode === LINES || mode === LINE_STRIP || mode === LINE_LOOP) {
+		const r = rasterizeLines(gl, db, ctx, store, order, npos, mode);
+		return { ok: true, triangles: 0, pixels: r.pixels, lines: r.lines };
+	}
+
 	const tris = triSlots(mode, order.slots, npos);
-	const fRun = ctx.fRun;
 	let pixels = 0, triCount = 0;
 	for (let t = 0; t < tris.length; t += 3) {
 		const s0 = tris[t], s1 = tris[t + 1], s2 = tris[t + 2];
@@ -562,6 +578,217 @@ function drawElementsInstancedGL(gl, mode, count, type, offset, instanceCount) {
 	return { ok: true, triangles: totalTris, pixels: totalPixels };
 }
 
+// ================= shared fragment stage =================
+// B"H: loop-invariant fragment state, built once per draw. Reusable
+// varying holders are never retained past the fragment call.
+function makeFragState(gl, db, ctx, store) {
+	const vdList = store.vdList;
+	const holders = vdList.map(vd => vd.n === 1
+		? (vd.kind === 'i' ? { t: 'i', v: 0 } : vd.kind === 'b' ? { t: 'b', v: false } : { t: 'f', v: 0 })
+		: { t: 'v', n: vd.n, v: new Array(vd.n).fill(0) });
+	const varyingsIn = {};
+	for (let k = 0; k < vdList.length; k++) varyingsIn[vdList[k].name] = holders[k];
+	const fragCoord = { t: 'v', n: 4, v: [0, 0, 0, 1] };
+	return {
+		fRun: ctx.fRun, uniforms: ctx.uniforms, vdList, holders, varyingsIn, fragCoord,
+		fragCoordV: fragCoord.v,
+		depthOn: !!gl.enabledCaps?.has(DEPTH_TEST),
+		depthFunc: gl.depthFuncValue ?? LEQUAL,
+		blendOn: !!gl.enabledCaps?.has(BLEND),
+		colorMask: gl.colorMaskValue || [true, true, true, true],
+		dbW: db.w, dbH: db.h, dst: db.color, depthArr: db.depth,
+	};
+}
+
+// Per-pixel: depth test -> fragment shader -> blend -> color/depth write.
+// Caller fills fs.holders (varyings) first. Returns 1 if written.
+function fragPixel(gl, db, fs, x, y, depth, invW, pointCoord) {
+	const di = y * fs.dbW + x;
+	if (fs.depthOn && !depthPass(fs.depthFunc, depth, fs.depthArr[di])) return 0;
+	const fcv = fs.fragCoordV;
+	fcv[0] = x + 0.5; fcv[1] = fs.dbH - (y + 0.5); fcv[2] = depth; fcv[3] = invW;
+	let frag;
+	try { frag = fs.fRun.runFragment(fs.varyingsIn, fs.uniforms, fs.fragCoord, pointCoord); }
+	catch (e) { frag = null; }
+	if (!frag || frag.discarded) return 0;
+	let r = frag.color.v[0], g = frag.color.v[1], b = frag.color.v[2], a = frag.color.v[3];
+	r = Math.max(0, Math.min(1, r)); g = Math.max(0, Math.min(1, g));
+	b = Math.max(0, Math.min(1, b)); a = Math.max(0, Math.min(1, a));
+	const oi = di * 4, dst = fs.dst;
+	if (fs.blendOn) {
+		const dr = dst[oi] / 255, dg = dst[oi + 1] / 255, db2 = dst[oi + 2] / 255, da = dst[oi + 3] / 255;
+		const bf = gl.blendFuncSeparateValue || gl.blendFuncValue || [SRC_ALPHA, ONE_MINUS_SRC_ALPHA];
+		const bc = gl.blendColorValue || [0, 0, 0, 0];
+		const bfRGB = bf.length === 4 ? [bf[0], bf[1]] : bf;
+		const bfA = bf.length === 4 ? [bf[2], bf[3]] : bf;
+		const sfRGB = blendFactor(bfRGB[0], r, g, b, a, dr, dg, db2, da, bc);
+		const dfRGB = blendFactor(bfRGB[1], r, g, b, a, dr, dg, db2, da, bc);
+		const sfA = blendFactor(bfA[0], r, g, b, a, dr, dg, db2, da, bc);
+		const dfA = blendFactor(bfA[1], r, g, b, a, dr, dg, db2, da, bc);
+		const eq = gl.blendEquationValue ?? FUNC_ADD;
+		if (eq === FUNC_SUBTRACT) { r = r * sfRGB[0] - dr * dfRGB[0]; g = g * sfRGB[1] - dg * dfRGB[1]; b = b * sfRGB[2] - db2 * dfRGB[2]; a = a * sfA[3] - da * dfA[3]; }
+		else if (eq === FUNC_REVERSE_SUBTRACT) { r = dr * dfRGB[0] - r * sfRGB[0]; g = dg * dfRGB[1] - g * sfRGB[1]; b = db2 * dfRGB[2] - b * sfRGB[2]; a = da * dfA[3] - a * sfA[3]; }
+		else { r = r * sfRGB[0] + dr * dfRGB[0]; g = g * sfRGB[1] + dg * dfRGB[1]; b = b * sfRGB[2] + db2 * dfRGB[2]; a = a * sfA[3] + da * dfA[3]; }
+	}
+	const cm = fs.colorMask;
+	if (cm[0]) dst[oi] = Math.round(Math.max(0, Math.min(1, r)) * 255);
+	if (cm[1]) dst[oi + 1] = Math.round(Math.max(0, Math.min(1, g)) * 255);
+	if (cm[2]) dst[oi + 2] = Math.round(Math.max(0, Math.min(1, b)) * 255);
+	if (cm[3]) dst[oi + 3] = Math.round(Math.max(0, Math.min(1, a)) * 255);
+	if (gl.depthMaskValue !== false) fs.depthArr[di] = depth;
+	return 1;
+}
+
+// Fill holders from one slot's varyings (points: constant across the point).
+function fillHoldersFromSlot(fs, store, s) {
+	const vdList = fs.vdList;
+	for (let k = 0; k < vdList.length; k++) {
+		const vd = vdList[k], h = fs.holders[k], n = vd.n, data = vd.data, base = s * n;
+		if (n === 1) {
+			const val = data[base];
+			if (vd.kind === 'i') h.v = Math.trunc(val);
+			else if (vd.kind === 'b') h.v = !!Math.round(val);
+			else h.v = val;
+		} else {
+			const hv = h.v;
+			for (let j = 0; j < n; j++) hv[j] = data[base + j];
+		}
+	}
+}
+
+// Fill holders by linear interpolation between two slots (lines).
+function fillHoldersLerp(fs, store, s0, s1, t) {
+	const vdList = fs.vdList, u = 1 - t;
+	for (let k = 0; k < vdList.length; k++) {
+		const vd = vdList[k], h = fs.holders[k], n = vd.n, data = vd.data;
+		const b0 = s0 * n, b1 = s1 * n;
+		if (n === 1) {
+			const val = data[b0] * u + data[b1] * t;
+			if (vd.kind === 'i') h.v = Math.trunc(val);
+			else if (vd.kind === 'b') h.v = !!Math.round(val);
+			else h.v = val;
+		} else {
+			const hv = h.v;
+			for (let j = 0; j < n; j++) hv[j] = data[b0 + j] * u + data[b1 + j] * t;
+		}
+	}
+}
+
+// Canvas-space clip rect: viewport intersected with scissor (if enabled),
+// clamped to the drawing buffer.
+function clipRect(gl, db, ctx) {
+	const cvy0 = db.h - ctx.vy - ctx.vh;
+	let x0 = ctx.vx, y0 = cvy0, x1 = ctx.vx + ctx.vw - 1, y1 = cvy0 + ctx.vh - 1;
+	if (gl.enabledCaps?.has(SCISSOR_TEST) && gl.scissorValue) {
+		const [cx, cy, cw, ch] = gl.scissorValue;
+		const scy0 = db.h - cy - ch, scy1 = db.h - cy - 1;
+		if (cx > x0) x0 = cx; if (scy0 > y0) y0 = scy0;
+		if (cx + cw - 1 < x1) x1 = cx + cw - 1; if (scy1 < y1) y1 = scy1;
+	}
+	if (x0 < 0) x0 = 0; if (y0 < 0) y0 = 0;
+	if (x1 > db.w - 1) x1 = db.w - 1; if (y1 > db.h - 1) y1 = db.h - 1;
+	return { x0: Math.ceil(x0), y0: Math.ceil(y0), x1: Math.floor(x1), y1: Math.floor(y1) };
+}
+
+// ================= real point rasterization =================
+// B"H: square points centered on the vertex, side = gl_PointSize
+// (default 1.0). Varyings are constant across the point; gl_PointCoord
+// is (0,0) top-left .. (1,1) bottom-right.
+function rasterizePoints(gl, db, ctx, store, order, npos) {
+	const fs = makeFragState(gl, db, ctx, store);
+	const { sx, sy, sw, ndc, ps } = store;
+	const slots = order.slots;
+	const clip = clipRect(gl, db, ctx);
+	const pointCoord = { t: 'v', n: 2, v: [0, 0] };
+	let pixels = 0;
+	for (let i = 0; i < npos; i++) {
+		const s = slots[i];
+		const w = sw[s];
+		if (w <= 0) continue; // behind near plane (same guard as triangles)
+		const size = ps[s];
+		const cx = sx[s], cy = sy[s];
+		const half = size / 2;
+		// B"H: top-left fill rule (matches triangle convention): left/top
+		// edges inclusive, right/bottom exclusive -> exactly size^2 pixels
+		// for integer sizes centered on integer coordinates.
+		let x0 = Math.ceil(cx - half - 0.5), x1 = Math.ceil(cx + half - 0.5) - 1;
+		let y0 = Math.ceil(cy - half - 0.5), y1 = Math.ceil(cy + half - 0.5) - 1;
+		if (x0 < clip.x0) x0 = clip.x0; if (x1 > clip.x1) x1 = clip.x1;
+		if (y0 < clip.y0) y0 = clip.y0; if (y1 > clip.y1) y1 = clip.y1;
+		if (x1 < x0 || y1 < y0) continue;
+		const depth = ndc[s * 3 + 2] * 0.5 + 0.5;
+		const invW = 1 / w;
+		fillHoldersFromSlot(fs, store, s);
+		for (let y = y0; y <= y1; y++) {
+			pointCoord.v[1] = (y + 0.5 - (cy - half)) / size;
+			for (let x = x0; x <= x1; x++) {
+				pointCoord.v[0] = (x + 0.5 - (cx - half)) / size;
+				pixels += fragPixel(gl, db, fs, x, y, depth, invW, pointCoord);
+			}
+		}
+	}
+	return pixels;
+}
+
+// ================= real line rasterization =================
+// B"H: Bresenham with per-step linear varying/depth interpolation and
+// square width stamping (side = gl.lineWidth, default 1).
+function lineSegments(mode, slots, npos) {
+	const segs = [];
+	if (mode === LINES) {
+		for (let i = 0; i + 1 < npos; i += 2) segs.push(slots[i], slots[i + 1]);
+	} else if (mode === LINE_STRIP) {
+		for (let i = 0; i + 1 < npos; i++) segs.push(slots[i], slots[i + 1]);
+	} else if (mode === LINE_LOOP) {
+		for (let i = 0; i + 1 < npos; i++) segs.push(slots[i], slots[i + 1]);
+		if (npos > 2) segs.push(slots[npos - 1], slots[0]);
+	}
+	return segs;
+}
+
+function rasterizeLines(gl, db, ctx, store, order, npos, mode) {
+	const fs = makeFragState(gl, db, ctx, store);
+	const { sx, sy, sw, ndc } = store;
+	const segs = lineSegments(mode, order.slots, npos);
+	const clip = clipRect(gl, db, ctx);
+	const width = Math.max(1, Math.round(gl.lineWidthValue || 1));
+	const wx0 = -Math.floor((width - 1) / 2), wx1 = Math.ceil((width - 1) / 2);
+	let pixels = 0, lines = 0;
+	for (let g = 0; g < segs.length; g += 2) {
+		const s0 = segs[g], s1 = segs[g + 1];
+		if (sw[s0] <= 0 || sw[s1] <= 0) continue; // near-plane guard
+		lines++;
+		const x1 = Math.round(sx[s1]), y1 = Math.round(sy[s1]);
+		let x = Math.round(sx[s0]), y = Math.round(sy[s0]);
+		const dx = Math.abs(x1 - x), dy = Math.abs(y1 - y);
+		const steps = Math.max(dx, dy);
+		const z0 = ndc[s0 * 3 + 2], z1 = ndc[s1 * 3 + 2];
+		const iw0 = 1 / sw[s0], iw1 = 1 / sw[s1];
+		const sxStep = x < x1 ? 1 : -1, syStep = y < y1 ? 1 : -1;
+		let err = dx - dy;
+		for (let st = 0; ; st++) {
+			const t = steps === 0 ? 0 : st / steps;
+			const depth = (z0 + (z1 - z0) * t) * 0.5 + 0.5;
+			const invW = iw0 + (iw1 - iw0) * t;
+			fillHoldersLerp(fs, store, s0, s1, t);
+			for (let oy = wx0; oy <= wx1; oy++) {
+				const yy = y + oy;
+				if (yy < clip.y0 || yy > clip.y1) continue;
+				for (let ox = wx0; ox <= wx1; ox++) {
+					const xx = x + ox;
+					if (xx < clip.x0 || xx > clip.x1) continue;
+					pixels += fragPixel(gl, db, fs, xx, yy, depth, invW, null);
+				}
+			}
+			if (x === x1 && y === y1) break;
+			const e2 = 2 * err;
+			if (e2 > -dy) { err -= dy; x += sxStep; }
+			if (e2 < dx) { err += dx; y += syStep; }
+		}
+	}
+	return { pixels, lines };
+}
+
 // ================= rasterization =================
 function edge(ax, ay, bx, by, px, py) { return (bx - ax) * (py - ay) - (by - ay) * (px - ax); }
 
@@ -632,20 +859,7 @@ function rasterizeTri(gl, db, ctx, store, s0, s1, s2, vx, vy, vw, vh) {
 		}
 	}
 
-	const depthOn = !!gl.enabledCaps?.has(DEPTH_TEST);
-	const depthFunc = gl.depthFuncValue ?? LEQUAL;
-	const blendOn = gl.enabledCaps?.has(BLEND);
-	const colorMask = gl.colorMaskValue || [true, true, true, true];
-	const fRun = ctx.fRun, uniforms = ctx.uniforms;
-	// Reusable fragment-varying holders (never retained past the call).
-	const holders = vdList.map(vd => vd.n === 1
-		? (vd.kind === 'i' ? { t: 'i', v: 0 } : vd.kind === 'b' ? { t: 'b', v: false } : { t: 'f', v: 0 })
-		: { t: 'v', n: vd.n, v: new Array(vd.n).fill(0) });
-	const varyingsIn = {};
-	for (let k = 0; k < nv; k++) varyingsIn[vdList[k].name] = holders[k];
-	const fragCoord = { t: 'v', n: 4, v: [0, 0, 0, 1] };
-	const fragCoordV = fragCoord.v;
-	const dbW = db.w, dbH = db.h, dst = db.color, depthArr = db.depth;
+	const fs = makeFragState(gl, db, ctx, store);
 
 	let pixels = 0;
 	// B"H: running numerator array (flat) instead of per-pixel allocation.
@@ -653,59 +867,25 @@ function rasterizeTri(gl, db, ctx, store, s0, s1, s2, vx, vy, vw, vh) {
 	for (let y = sy0; y <= sy1; y++) {
 		let re0 = e0, re1 = e1, re2 = e2, rD = D, rNz = Nz;
 		for (let t = 0; t < store.vdTotal; t++) Nr[t] = Narr[t];
-		const py = y + 0.5;
 		for (let x = sx0; x <= sx1; x++) {
 			const inside = area > 0 ? !(re0 < 0 || re1 < 0 || re2 < 0) : !(re0 > 0 || re1 > 0 || re2 > 0);
 			if (inside && rD !== 0) {
 				const depth = (rNz / rD) * 0.5 + 0.5;
-				const di = y * dbW + x;
-				if (!depthOn || depthPass(depthFunc, depth, depthArr[di])) {
-					const invD = 1 / rD;
-					for (let k = 0; k < nv; k++) {
-						const vd = vdList[k], h = holders[k], n = vd.n, off = vd.offset;
-						if (n === 1) {
-							const val = Nr[off] * invD;
-							if (vd.kind === 'i') h.v = Math.trunc(val);
-							else if (vd.kind === 'b') h.v = !!Math.round(val);
-							else h.v = val;
-						} else {
-							const hv = h.v;
-							for (let j = 0; j < n; j++) hv[j] = Nr[off + j] * invD;
-						}
-					}
-					// gl_FragCoord: old code passed 1/wsum where wsum = rD/area.
-					fragCoordV[0] = x + 0.5; fragCoordV[1] = dbH - py; fragCoordV[2] = depth; fragCoordV[3] = area / rD;
-					let frag;
-					try { frag = fRun.runFragment(varyingsIn, uniforms, fragCoord); }
-					catch (e) { frag = null; }
-					if (frag && !frag.discarded) {
-						let r = frag.color.v[0], g = frag.color.v[1], b = frag.color.v[2], a = frag.color.v[3];
-						r = Math.max(0, Math.min(1, r)); g = Math.max(0, Math.min(1, g));
-						b = Math.max(0, Math.min(1, b)); a = Math.max(0, Math.min(1, a));
-						const oi = di * 4;
-						if (blendOn) {
-							const dr = dst[oi] / 255, dg = dst[oi + 1] / 255, db2 = dst[oi + 2] / 255, da = dst[oi + 3] / 255;
-							const bf = gl.blendFuncSeparateValue || gl.blendFuncValue || [SRC_ALPHA, ONE_MINUS_SRC_ALPHA];
-							const bc = gl.blendColorValue || [0, 0, 0, 0];
-							const bfRGB = bf.length === 4 ? [bf[0], bf[1]] : bf;
-							const bfA = bf.length === 4 ? [bf[2], bf[3]] : bf;
-							const sfRGB = blendFactor(bfRGB[0], r, g, b, a, dr, dg, db2, da, bc);
-							const dfRGB = blendFactor(bfRGB[1], r, g, b, a, dr, dg, db2, da, bc);
-							const sfA = blendFactor(bfA[0], r, g, b, a, dr, dg, db2, da, bc);
-							const dfA = blendFactor(bfA[1], r, g, b, a, dr, dg, db2, da, bc);
-							const eq = gl.blendEquationValue ?? FUNC_ADD;
-							if (eq === FUNC_SUBTRACT) { r = r * sfRGB[0] - dr * dfRGB[0]; g = g * sfRGB[1] - dg * dfRGB[1]; b = b * sfRGB[2] - db2 * dfRGB[2]; a = a * sfA[3] - da * dfA[3]; }
-							else if (eq === FUNC_REVERSE_SUBTRACT) { r = dr * dfRGB[0] - r * sfRGB[0]; g = dg * dfRGB[1] - g * sfRGB[1]; b = db2 * dfRGB[2] - b * sfRGB[2]; a = da * dfA[3] - a * sfA[3]; }
-							else { r = r * sfRGB[0] + dr * dfRGB[0]; g = g * sfRGB[1] + dg * dfRGB[1]; b = b * sfRGB[2] + db2 * dfRGB[2]; a = a * sfA[3] + da * dfA[3]; }
-						}
-						if (colorMask[0]) dst[oi] = Math.round(Math.max(0, Math.min(1, r)) * 255);
-						if (colorMask[1]) dst[oi + 1] = Math.round(Math.max(0, Math.min(1, g)) * 255);
-						if (colorMask[2]) dst[oi + 2] = Math.round(Math.max(0, Math.min(1, b)) * 255);
-						if (colorMask[3]) dst[oi + 3] = Math.round(Math.max(0, Math.min(1, a)) * 255);
-						if (gl.depthMaskValue !== false) depthArr[di] = depth;
-						pixels++;
+				const invD = 1 / rD;
+				for (let k = 0; k < nv; k++) {
+					const vd = vdList[k], h = fs.holders[k], n = vd.n, off = vd.offset;
+					if (n === 1) {
+						const val = Nr[off] * invD;
+						if (vd.kind === 'i') h.v = Math.trunc(val);
+						else if (vd.kind === 'b') h.v = !!Math.round(val);
+						else h.v = val;
+					} else {
+						const hv = h.v;
+						for (let j = 0; j < n; j++) hv[j] = Nr[off + j] * invD;
 					}
 				}
+				// gl_FragCoord: old code passed 1/wsum where wsum = rD/area.
+				pixels += fragPixel(gl, db, fs, x, y, depth, area / rD, null);
 			}
 			// step to next pixel
 			re0 += dE0dx; re1 += dE1dx; re2 += dE2dx; rD += dDdx; rNz += dNzdx;
@@ -752,8 +932,8 @@ function blendFactor(f, sr, sg, sb, sa, dr, dg, db, da, bc) {
 	}
 }
 
-// ---- lines & points (minimal, honest) ----
-function drawLinesOrPoints() { return { ok: true, note: 'lines/points minimal' }; }
+// B"H: lines & points are now really rasterized (rasterizePoints/rasterizeLines
+// above); the old minimal stub is gone.
 
 return { ensureDrawingBuffer, clearGL, drawGL, drawElementsGL, drawArraysInstancedGL, drawElementsInstancedGL };
 });
