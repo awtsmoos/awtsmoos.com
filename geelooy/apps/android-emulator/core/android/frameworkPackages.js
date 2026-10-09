@@ -2,6 +2,7 @@
 
 import { createApplicationContext } from "./applicationObjects.js";
 import { createGuestString, readGuestText } from "./guestText.js";
+import { createJavaList } from "./frameworkJavaCollectionFactories.js";
 import { systemClassLoader } from "./frameworkJavaClassRuntime.js";
 import { createInstalledPackageContext } from "./frameworkPackageContexts.js";
 import {
@@ -19,6 +20,7 @@ const SIGNATURES = Object.freeze({
 	applicationInfo: `Landroid/content/Context;->getApplicationInfo()${APPLICATION_INFO}`,
 	applicationInfoByName: `${PACKAGE_MANAGER}->getApplicationInfo(Ljava/lang/String;I)${APPLICATION_INFO}`,
 	checkPermission: `${PACKAGE_MANAGER}->checkPermission(Ljava/lang/String;Ljava/lang/String;)I`,
+	queryIntentServices: `${PACKAGE_MANAGER}->queryIntentServices(Landroid/content/Intent;I)Ljava/util/List;`,
 	applicationLabel: `${PACKAGE_MANAGER}->getApplicationLabel(${APPLICATION_INFO})Ljava/lang/CharSequence;`,
 	classLoader: "Landroid/content/Context;->getClassLoader()Ljava/lang/ClassLoader;",
 	createPackageContext: "Landroid/content/Context;->createPackageContext(Ljava/lang/String;I)Landroid/content/Context;",
@@ -69,6 +71,11 @@ export function createFrameworkPackageMethods(runtime) {
 			if ([SIGNATURES.systemFeature, SIGNATURES.instantApp].includes(signature)) return 0;
 			if (signature === SIGNATURES.installer) return 0;
 			if (signature === SIGNATURES.checkPermission) return 0; // PERMISSION_GRANTED
+			if (signature === SIGNATURES.queryIntentServices) {
+				// Return empty list; Firebase component discovery via intents not needed
+				// since we handle metadata directly via hierarchical field resolution.
+				return createJavaList(runtime, []);
+			}
 			throw packageError("ANDROID_PACKAGE_METHOD_UNSUPPORTED", signature);
 		}
 	});
