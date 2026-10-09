@@ -1,0 +1,178 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Dream standard for the server-rendered Heichel / series fallback.
+ * The semantic fallback is the truthful first-ready surface (crawlers,
+ * no-JS readers, pre-hydration paint). Audit 2026-10-09 found:
+ *   1. LIGHT THEME dark-on-dark: the page keeps its dark cosmic vessel
+ *      (#020713) while text flips dark (#1e293b title) — unreadable.
+ *   2. The discovery list had no base styles at all: the kicker rule
+ *      targets a .civilization-kicker that is never rendered, the <ul>
+ *      has no grid/list reset, and the links have hover/focus/active
+ *      fragments but no resting card style.
+ *   3. Series with hundreds of posts render unbounded <li> rows.
+ * This sheet is linked LAST in <head>, so equal-specificity rules here win
+ * over the earlier sheets. Yaakov's laws: ZERO !important; explicit colors
+ * for BOTH themes; CSS custom-property tokens only — the dream --sefer-*
+ * set, same values as the approved post reader.
+ */
+
+/* ---------- dream tokens (same values as the approved post reader) ---------- */
+:root.heichel-os-document {
+	--dream-hebrew-font: "Frank Ruhl Libre", "Cardo", "Times New Roman", serif;
+	--dream-serif-font: "Source Serif 4", "Cardo", Georgia, serif;
+	--dream-sans-font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+	--sefer-paper: #f7f1e3;
+	--sefer-paper-deep: #efe4cd;
+	--sefer-ink: #2b2118;
+	--sefer-title-ink: #1f1712;
+	--sefer-ink-soft: #5a4c3d;
+	--sefer-accent: #8a6d3b;
+	--sefer-rule: #d9c9a8;
+	--sefer-card: #fffdf6;
+	--sefer-focus: #b3541e;
+	--sefer-shadow: 0 2px 14px rgba(90, 70, 40, 0.10);
+}
+:root[data-theme="dark"].heichel-os-document {
+	--sefer-paper: #171209;
+	--sefer-paper-deep: #100c06;
+	--sefer-ink: #f0e7d3;
+	--sefer-title-ink: #faf3e2;
+	--sefer-ink-soft: #c9b992;
+	--sefer-accent: #d4a94e;
+	--sefer-rule: #4a3a22;
+	--sefer-card: #201a10;
+	--sefer-focus: #e8a34d;
+	--sefer-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
+}
+/* Light theme: the full dream paper. This repairs the dark-on-dark
+   breakage — warm cream page, dark-brown ink, gold accents. */
+:root[data-theme="light"].heichel-os-document {
+	background: var(--sefer-paper);
+	color: var(--sefer-ink);
+}
+:root[data-theme="light"].heichel-os-document body {
+	background: var(--sefer-paper);
+	color: var(--sefer-ink);
+}
+:root[data-theme="light"].heichel-os-document body::before {
+	display: none;
+}
+/* Fallback hero: kicker, title, description. */
+:root.heichel-os-document .heichel-semantic-hero {
+	max-width: 58rem;
+	margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+}
+:root.heichel-os-document .heichel-semantic-context {
+	font-family: var(--dream-sans-font);
+	font-size: .78rem;
+	font-weight: 800;
+	letter-spacing: .22em;
+	text-transform: uppercase;
+	color: var(--sefer-accent);
+	margin: 0 0 1rem;
+}
+:root[data-theme="light"].heichel-os-document #heichel-boot-title {
+	font-family: var(--dream-serif-font);
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	line-height: 1.12;
+	color: var(--sefer-title-ink);
+	-webkit-text-fill-color: var(--sefer-title-ink);
+	text-wrap: balance;
+}
+:root.heichel-os-document .heichel-semantic-description {
+	font-family: var(--dream-sans-font);
+	color: var(--sefer-ink-soft);
+	text-wrap: pretty;
+}
+:root.heichel-os-document #heichel-discovery-title {
+	font-family: var(--dream-serif-font);
+	font-weight: 700;
+	font-size: clamp(1.5rem, 4vw, 2.2rem);
+	letter-spacing: -0.01em;
+	color: var(--sefer-title-ink);
+	margin: 0 0 1rem;
+}
+/* Discovery list: real grid, list reset, rendering containment for
+   series with hundreds of posts. Intrinsically responsive — one
+   column on narrow vessels without a breakpoint. */
+:root.heichel-os-document .heichel-semantic-discovery ul {
+	list-style: none;
+	margin: 1.25rem 0 0;
+	padding: 0;
+	display: grid;
+	gap: .7rem;
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+}
+:root.heichel-os-document .heichel-semantic-discovery li {
+	min-width: 0;
+	content-visibility: auto;
+	contain-intrinsic-size: auto 4.5rem;
+}
+@media (max-width: 42rem) {
+	:root.heichel-os-document .heichel-semantic-discovery ul {
+		grid-template-columns: minmax(0, 1fr);
+		gap: .55rem;
+	}
+}
+/* Discovery links: the resting card the existing hover/focus/active
+   fragments were missing. Full interactive states, gold dream accent. */
+:root.heichel-os-document .heichel-semantic-discovery a {
+	display: flex;
+	align-items: center;
+	gap: .8rem;
+	min-height: 3rem;
+	padding: .95rem 1.15rem;
+	border: 1px solid var(--sefer-rule);
+	border-radius: 1rem;
+	background: var(--sefer-card);
+	color: var(--sefer-ink);
+	font-family: var(--dream-sans-font);
+	font-weight: 600;
+	font-size: 1.02rem;
+	line-height: 1.45;
+	text-decoration: none;
+	box-shadow: var(--sefer-shadow);
+	transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease, background-color .18s ease;
+}
+:root.heichel-os-document .heichel-semantic-discovery a:hover {
+	border-color: var(--sefer-accent);
+	transform: translateY(-2px);
+	box-shadow: var(--sefer-shadow), 0 0 0 1px var(--sefer-accent);
+}
+:root.heichel-os-document .heichel-semantic-discovery a:focus-visible {
+	outline: 2px solid var(--sefer-focus);
+	outline-offset: 2px;
+	border-color: var(--sefer-accent);
+}
+:root.heichel-os-document .heichel-semantic-discovery a:active {
+	transform: scale(.985);
+}
+:root.heichel-os-document .heichel-semantic-discovery a::after {
+	color: var(--sefer-accent);
+	margin-inline-start: auto;
+}
+:root.heichel-os-document .heichel-semantic-discovery a:hover::after,
+:root.heichel-os-document .heichel-semantic-discovery a:focus-visible::after {
+	color: var(--sefer-accent);
+	transform: translate(.08rem, -.08rem);
+}
+:root.heichel-os-document .heichel-discovery-description {
+	color: var(--sefer-ink-soft);
+	font-family: var(--dream-sans-font);
+	font-size: .95rem;
+	line-height: 1.6;
+	margin: .4rem 0 0;
+	text-wrap: pretty;
+}
+:root.heichel-os-document .heichel-semantic-fallback ::selection {
+	background: var(--sefer-accent);
+	color: var(--sefer-paper);
+}
+@media (prefers-reduced-motion: reduce) {
+	:root.heichel-os-document .heichel-semantic-discovery a {
+		transition: none;
+	}
+}
