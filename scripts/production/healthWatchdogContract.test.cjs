@@ -28,6 +28,7 @@ writeExecutable("curl", curlShim());
 try {
 	testInstaller();
 	testStartupGrace();
+	testMatureSuccessIsSilent();
 	testMatureFailure();
 	testInactiveFailure();
 	console.log("HEALTH_WATCHDOG_CONTRACT_PASS");
@@ -64,6 +65,18 @@ function testStartupGrace() {
 	});
 	assert.equal(result.status, 0, result.stderr);
 	assert.doesNotMatch(fs.readFileSync(log, "utf8"), /curl/);
+}
+
+function testMatureSuccessIsSilent() {
+	fs.writeFileSync(log, "");
+	const result = run(watchdog, {
+		TEST_SERVICE_STATE: "active",
+		TEST_ACTIVE_USEC: "1000000",
+		AWTSMOOS_WATCHDOG_UPTIME_SECONDS: "300"
+	});
+	assert.equal(result.status, 0, result.stderr);
+	assert.equal(result.stdout, "");
+	assert.match(fs.readFileSync(log, "utf8"), /curl .*--output \/dev\/null/);
 }
 
 function testMatureFailure() {

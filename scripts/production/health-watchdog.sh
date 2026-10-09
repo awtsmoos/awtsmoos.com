@@ -45,4 +45,4 @@ if [[ "$active_usec" =~ ^[0-9]+$ ]] && [[ "$uptime_whole" =~ ^[0-9]+$ ]]; then
 	fi
 fi
 
-exec "$curl_bin" --fail --silent --show-error --max-time 10 "$health_url"
+exec "$curl_bin" --fail --silent --show-error --output /dev/null --max-time 10 "$health_url"
