@@ -51,7 +51,14 @@ class CanonicalActivationPrewarmFixture {
 		const deadline = Date.now() + READY_TIMEOUT_MS;
 		while (Date.now() < deadline) {
 			if (fs.existsSync(this.readyFile)) {
-				return JSON.parse(fs.readFileSync(this.readyFile, "utf8")).port;
+				try {
+					const ready = JSON.parse(fs.readFileSync(this.readyFile, "utf8"));
+					if (Number.isInteger(ready.port) && ready.port > 0 && ready.port <= 65535) {
+						return ready.port;
+					}
+				} catch (error) {
+					if (!(error instanceof SyntaxError) && error.code !== "ENOENT") throw error;
+				}
 			}
 			Atomics.wait(WAIT_ARRAY, 0, 0, WAIT_STEP_MS);
 		}
