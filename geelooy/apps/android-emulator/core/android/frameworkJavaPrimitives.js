@@ -52,6 +52,8 @@ function invokeByte(runtime, name, record, args) {
 	if (name === "valueOf") return boxByte(runtime, parseByteValue(runtime, args));
 	if (name === "<init>") return initPrimitive(runtime, args[0], BYTE_FIELD, parseByteValue(runtime, args));
 	if (name === "byteValue") return readPrimitive(runtime, args[0], BYTE_FIELD);
+	if (name === "hashCode") return readPrimitive(runtime, args[0], BYTE_FIELD);
+	if (name === "toString") return createGuestString(runtime, String(readPrimitive(runtime, args[0], BYTE_FIELD)));
 	throw primitiveError("ANDROID_JAVA_BYTE_METHOD_UNSUPPORTED", record.signature);
 }
 
@@ -66,6 +68,8 @@ function invokeShort(runtime, name, record, args) {
 	if (name === "valueOf") return boxShort(runtime, parseShortValue(runtime, args));
 	if (name === "<init>") return initPrimitive(runtime, args[0], SHORT_FIELD, parseShortValue(runtime, args));
 	if (name === "shortValue") return readPrimitive(runtime, args[0], SHORT_FIELD);
+	if (name === "hashCode") return readPrimitive(runtime, args[0], SHORT_FIELD);
+	if (name === "toString") return createGuestString(runtime, String(readPrimitive(runtime, args[0], SHORT_FIELD)));
 	throw primitiveError("ANDROID_JAVA_SHORT_METHOD_UNSUPPORTED", record.signature);
 }
 
@@ -80,6 +84,8 @@ function invokeInteger(runtime, name, record, args) {
 	if (name === "valueOf") return boxInt(runtime, parseIntValue(runtime, args));
 	if (name === "<init>") return initPrimitive(runtime, args[0], INT_FIELD, parseIntValue(runtime, args));
 	if (name === "intValue") return readPrimitive(runtime, args[0], INT_FIELD);
+	if (name === "hashCode") return readPrimitive(runtime, args[0], INT_FIELD);
+	if (name === "toString") return createGuestString(runtime, String(readPrimitive(runtime, args[0], INT_FIELD)));
 	throw primitiveError("ANDROID_JAVA_INTEGER_METHOD_UNSUPPORTED", record.signature);
 }
 
@@ -104,6 +110,9 @@ function invokeBoolean(runtime, name, record, args) {
 	}
 	if (name === "<init>") return initPrimitive(runtime, args[0], BOOLEAN_FIELD, Number(args[1]) ? 1 : 0);
 	if (name === "booleanValue") return readPrimitive(runtime, args[0], BOOLEAN_FIELD);
+	if (name === "hashCode") return readPrimitive(runtime, args[0], BOOLEAN_FIELD) ? 1231 : 1237;
+	if (name === "toString") return createGuestString(runtime, readPrimitive(runtime, args[0], BOOLEAN_FIELD) ? "true" : "false");
+	if (name === "equals") return readPrimitive(runtime, args[0], BOOLEAN_FIELD) === readPrimitive(runtime, args[1], BOOLEAN_FIELD) ? 1 : 0;
 	throw primitiveError("ANDROID_JAVA_BOOLEAN_METHOD_UNSUPPORTED", record.signature);
 }
 
