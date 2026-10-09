@@ -174,22 +174,21 @@ function buildSectionElement(sectionIndex, sectionId, hebrewHtml, englishText, s
 	} else {
 		hebrew.innerHTML = hebrewHtml;
 	}
-	// Convert plain <sup> footnote markers to clickable buttons.
+	// Footnote markers stay as <sup> tags (Yaakov: never buttons).
+	// Enhance in place: clickable, accessible, scrolls to footnote shelf.
 	hebrew.querySelectorAll('sup').forEach((sup, idx) => {
 		const text = sup.textContent.trim();
 		// Map marker to footnote number: try numeric, else use position
 		const numMatch = text.match(/(\d+)/);
 		const fnNum = numMatch ? numMatch[1] : String(idx + 1);
-		const btn = document.createElement('button');
-		btn.type = 'button';
-		btn.className = 'meluket-fn-marker';
-		btn.setAttribute('data-fn', fnNum);
+		sup.classList.add('meluket-fn-marker');
+		sup.setAttribute('data-fn', fnNum);
 		// Unique ID allows the shelf to scroll back to THIS specific marker
 		// (handles duplicate footnote numbers referenced from multiple places).
-		btn.id = `meluket-fn-marker-${fnNum}-${idx}`;
-		btn.setAttribute('aria-label', `Footnote ${fnNum}`);
-		btn.textContent = text;
-		sup.replaceWith(btn);
+		sup.id = `meluket-fn-marker-${fnNum}-${idx}`;
+		sup.setAttribute('aria-label', `Footnote ${fnNum}`);
+		sup.setAttribute('role', 'button');
+		sup.setAttribute('tabindex', '0');
 	});
 	section.appendChild(hebrew);
 
@@ -517,6 +516,15 @@ export function awakenMeluketSeferReader(post) {
 			target.classList.add('meluket-footnote-highlight');
 			setTimeout(() => target.classList.remove('meluket-footnote-highlight'), 2000);
 		}
+	});
+
+	// Keyboard activation for <sup role="button"> footnote markers.
+	sefer.addEventListener('keydown', (e) => {
+		if (e.key !== 'Enter' && e.key !== ' ') return;
+		const marker = e.target.closest && e.target.closest('sup.meluket-fn-marker[data-fn]');
+		if (!marker) return;
+		e.preventDefault();
+		marker.click();
 	});
 
 	// Theme watcher: force sefer colors based on awtsmoos-theme.
