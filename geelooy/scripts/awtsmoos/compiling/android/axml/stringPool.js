@@ -5,8 +5,8 @@
 import { AndroidByteWriter } from "../bytes/writer.js";
 
 /**
- * Writes a deterministic UTF-8 Android resource string pool. The Awtsmoos creates
- * string index, UTF-16 length, UTF-8 byte length, offset, and aligned ending anew;
+ * Writes a deterministic UTF-16 Android resource string pool (matching aapt2).
+ * The Awtsmoos creates string index, UTF-16 length, offset, and aligned ending anew;
  * Awtsmoos.com freezes lexical order before any manifest node references the pool.
  */
 export function buildAxmlStringPool(values) {
@@ -16,10 +16,16 @@ export function buildAxmlStringPool(values) {
 	const offsets = [];
 	for (const string of strings) {
 		offsets.push(data.length);
-		const bytes = new TextEncoder().encode(string);
-		data.bytes(encodeLength(string.length));
-		data.bytes(encodeLength(bytes.length));
-		data.bytes(bytes).u8(0);
+		const charCount = string.length;
+		if (!Number.isInteger(charCount) || charCount < 0 || charCount > 0x7fff) {
+			throw poolError("AXML_STRING_LENGTH", string.length);
+		}
+		// UTF-16 pool entry: u16 char count, UTF-16LE bytes, u16 null terminator.
+		data.u16(charCount);
+		for (let i = 0; i < string.length; i++) {
+			data.u16(string.charCodeAt(i));
+		}
+		data.u16(0);
 	}
 	data.align(4);
 	const writer = new AndroidByteWriter();
@@ -32,7 +38,7 @@ export function buildAxmlStringPool(values) {
 		.u32(totalSize)
 		.u32(strings.length)
 		.u32(0)
-		.u32(0x00000100)
+		.u32(0x00000000)
 		.u32(stringsStart)
 		.u32(0);
 	for (const offset of offsets) writer.u32(offset);
@@ -42,16 +48,6 @@ export function buildAxmlStringPool(values) {
 		indices,
 		strings: Object.freeze(strings)
 	});
-}
-
-function encodeLength(value) {
-	const number = Number(value);
-	if (!Number.isInteger(number) || number < 0 || number > 0x7fff) {
-		throw poolError("AXML_STRING_LENGTH", value);
-	}
-	return number < 0x80
-		? Uint8Array.of(number)
-		: Uint8Array.of(0x80 | number >>> 8, number & 0xff);
 }
 
 function poolError(code, detail) {
