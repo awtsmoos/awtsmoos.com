@@ -9,8 +9,14 @@
  * output — it never assembles or links anything.
  *
  * Supported: MOV/MOVZ/MOVK/MOVN, ADD/SUB/MUL/SDIV/MSUB/NEG/AND/ORR/EOR,
- * LSL/LSR/ASR (immediate), CMP, B/B.cc, BL/RET, LDR/STR/LDUR/STUR/LDP/STP,
+ * LSL/LSR/ASR (immediate), CMP, B/B.cc, BL/RET, LDR/STR/LDUR/STUR/LDP/STP
+ * (X = 64-bit, W = 32-bit), LDRB/STRB/LDRH/STRH/LDRSB/LDRSH/LDRSW and the
+ * LDUR/STUR unscaled narrow forms, FMOV between W/X and S/D (bit-preserving),
  * ADR, SVC #0 (halts; X0 is the exit value).
+ *
+ * Memory offsets in the assembly text are byte offsets and are used verbatim.
+ * Every data line carries exactly 8 bytes, so data labels address cumulative
+ * 8-byte slots from DATA_BASE.
  */
 
 const MASK64 = (1n << 64n) - 1n;
@@ -136,6 +142,7 @@ function parseInstruction(line) {
 
 function createState(program) {
 	const registers = new Array(31).fill(0n);
+	const vectors = new Array(32).fill(0n);
 	const memory = new Map();
 	for (const entry of program.dataEntries) {
 		const address = program.dataAddresses.get(entry.name);
@@ -152,7 +159,8 @@ function createState(program) {
 		memory,
 		pc: program.codeLabels.get("start") ?? 0,
 		registers,
-		sp: BigInt(STACK_TOP)
+		sp: BigInt(STACK_TOP),
+		vectors
 	};
 }
 
@@ -166,25 +174,44 @@ function toLeBytes(value) {
 	return bytes;
 }
 
+function parseRegisterOperand(name) {
+	if (name === "SP") return { kind: "sp" };
+	if (name === "FP") return { index: 29, kind: "x" };
+	if (name === "LR") return { index: 30, kind: "x" };
+	let match = name.match(/^X([0-9]|1[0-9]|2[0-9]|30)$/);
+	if (match) return { index: Number(match[1]), kind: "x" };
+	match = name.match(/^W([0-9]|1[0-9]|2[0-9]|30)$/);
+	if (match) return { index: Number(match[1]), kind: "w" };
+	match = name.match(/^S([0-9]|1[0-9]|2[0-9]|30|31)$/);
+	if (match) return { index: Number(match[1]), kind: "s" };
+	match = name.match(/^D([0-9]|1[0-9]|2[0-9]|30|31)$/);
+	if (match) return { index: Number(match[1]), kind: "d" };
+	throw new Error(`arm64_simulation_bad_register:${name}`);
+}
+
 function registerIndex(name) {
-	if (name === "SP") return "sp";
-	if (name === "FP") return 29;
-	if (name === "LR") return 30;
-	const match = name.match(/^X([0-9]|1[0-9]|2[0-9]|30)$/);
-	if (!match) throw new Error(`arm64_simulation_bad_register:${name}`);
-	return Number(match[1]);
+	const parsed = parseRegisterOperand(name);
+	if (parsed.kind === "sp") return "sp";
+	if (parsed.kind === "x") return parsed.index;
+	throw new Error(`arm64_simulation_bad_register:${name}`);
 }
 
 function readRegister(state, name) {
-	const index = registerIndex(name);
-	return index === "sp" ? state.sp : state.registers[index];
+	const parsed = parseRegisterOperand(name);
+	if (parsed.kind === "sp") return state.sp;
+	if (parsed.kind === "w") return state.registers[parsed.index] & 0xffffffffn;
+	return state.registers[parsed.index];
 }
 
 function writeRegister(state, name, value) {
+	const parsed = parseRegisterOperand(name);
 	const masked = BigInt(value) & MASK64;
-	const index = registerIndex(name);
-	if (index === "sp") state.sp = masked;
-	else state.registers[index] = masked;
+	if (parsed.kind === "sp") {
+		state.sp = masked;
+		return;
+	}
+	// A W write zeroes the upper half of the X register, like hardware.
+	state.registers[parsed.index] = parsed.kind === "w" ? masked & 0xffffffffn : masked;
 }
 
 function parseImmediate(text) {
@@ -209,7 +236,7 @@ function parseMemoryOperand(text) {
 	throw new Error(`arm64_simulation_bad_memory:${text}`);
 }
 
-function effectiveAddress(state, memoryOperand, size) {
+function effectiveAddress(state, memoryOperand) {
 	const base = readRegister(state, memoryOperand.base);
 	if (memoryOperand.preIndexed) {
 		const address = base + memoryOperand.offset;
@@ -220,10 +247,8 @@ function effectiveAddress(state, memoryOperand, size) {
 		writeRegister(state, memoryOperand.base, base + memoryOperand.offset);
 		return base;
 	}
-	const offset = memoryOperand.offset < 0
-		? memoryOperand.offset
-		: memoryOperand.offset * BigInt(size);
-	return base + offset;
+	// Offsets in the assembly text are byte offsets; use them verbatim.
+	return base + memoryOperand.offset;
 }
 
 function loadBytes(state, address, size) {
@@ -247,6 +272,11 @@ function toSigned(value) {
 	return masked >> 63n ? masked - (1n << 64n) : masked;
 }
 
+function signExtend(value, bits) {
+	const masked = BigInt(value) & ((1n << BigInt(bits)) - 1n);
+	return masked >> BigInt(bits - 1) ? masked | ~((1n << BigInt(bits)) - 1n) : masked;
+}
+
 function updateCompareFlags(state, a, b) {
 	const difference = (BigInt(a) - BigInt(b)) & MASK64;
 	const aNegative = (BigInt(a) >> 63n) & 1n;
@@ -261,6 +291,18 @@ function updateCompareFlags(state, a, b) {
 function shiftAmount(operands) {
 	if (operands.length < 3) throw new Error("arm64_simulation_shift_arity");
 	return Number(parseImmediate(operands[2]));
+}
+
+function executeMemoryAccess(state, operands, size, signed) {
+	const memory = parseMemoryOperand(operands[1]);
+	const address = effectiveAddress(state, memory);
+	const value = loadBytes(state, address, size);
+	writeRegister(state, operands[0], signed ? signExtend(value, size * 8) : value);
+}
+
+function executeMemoryStore(state, operands, size) {
+	const memory = parseMemoryOperand(operands[1]);
+	storeBytes(state, effectiveAddress(state, memory), size, readRegister(state, operands[0]));
 }
 
 function execute(instruction, state, program) {
@@ -347,28 +389,73 @@ function execute(instruction, state, program) {
 		}
 		case "LDR":
 		case "LDUR": {
-			const memory = parseMemoryOperand(operands[1]);
-			writeRegister(state, operands[0], loadBytes(state, effectiveAddress(state, memory, 8), 8));
+			const width = parseRegisterOperand(operands[0]).kind === "w" ? 4 : 8;
+			executeMemoryAccess(state, operands, width, false);
 			break;
 		}
 		case "STR":
 		case "STUR": {
-			const memory = parseMemoryOperand(operands[1]);
-			storeBytes(state, effectiveAddress(state, memory, 8), 8, readRegister(state, operands[0]));
+			const width = parseRegisterOperand(operands[0]).kind === "w" ? 4 : 8;
+			executeMemoryStore(state, operands, width);
 			break;
 		}
+		case "LDRB":
+		case "LDURB":
+			executeMemoryAccess(state, operands, 1, false);
+			break;
+		case "STRB":
+		case "STURB":
+			executeMemoryStore(state, operands, 1);
+			break;
+		case "LDRH":
+		case "LDURH":
+			executeMemoryAccess(state, operands, 2, false);
+			break;
+		case "STRH":
+		case "STURH":
+			executeMemoryStore(state, operands, 2);
+			break;
+		case "LDRSB":
+		case "LDURSB":
+			executeMemoryAccess(state, operands, 1, true);
+			break;
+		case "LDRSH":
+		case "LDURSH":
+			executeMemoryAccess(state, operands, 2, true);
+			break;
+		case "LDRSW":
+		case "LDURSW":
+			executeMemoryAccess(state, operands, 4, true);
+			break;
 		case "LDP": {
 			const memory = parseMemoryOperand(operands[2]);
-			const address = effectiveAddress(state, memory, 8);
+			const address = effectiveAddress(state, memory);
 			writeRegister(state, operands[0], loadBytes(state, address, 8));
 			writeRegister(state, operands[1], loadBytes(state, address + 8n, 8));
 			break;
 		}
 		case "STP": {
 			const memory = parseMemoryOperand(operands[2]);
-			const address = effectiveAddress(state, memory, 8);
+			const address = effectiveAddress(state, memory);
 			storeBytes(state, address, 8, readRegister(state, operands[0]));
 			storeBytes(state, address + 8n, 8, readRegister(state, operands[1]));
+			break;
+		}
+		case "FMOV": {
+			const dst = parseRegisterOperand(operands[0]);
+			const src = parseRegisterOperand(operands[1]);
+			if (dst.kind === "s" && src.kind === "w") {
+				// Bit-preserving W -> S; the upper lanes clear, like hardware.
+				state.vectors[dst.index] = readRegister(state, operands[1]) & 0xffffffffn;
+			} else if (dst.kind === "w" && src.kind === "s") {
+				writeRegister(state, operands[0], state.vectors[src.index] & 0xffffffffn);
+			} else if (dst.kind === "d" && src.kind === "x") {
+				state.vectors[dst.index] = readRegister(state, operands[1]) & 0xffffffffffffffffn;
+			} else if (dst.kind === "x" && src.kind === "d") {
+				writeRegister(state, operands[0], state.vectors[src.index] & 0xffffffffffffffffn);
+			} else {
+				throw new Error(`arm64_simulation_bad_fmov:${instruction.line}`);
+			}
 			break;
 		}
 		case "ADR": {

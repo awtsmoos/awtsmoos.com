@@ -4,13 +4,17 @@ Boruch Hashem
 */
 import { TOKENS } from '../lexer.js';
 
-/** Type qualifiers the subset accepts and ignores: no const checking. */
+/** Type qualifiers the subset accepts. `unsigned` selects zero-extending loads;
+ * `signed`, `const`, and `static` are accepted and ignored for codegen. */
 const QUALIFIERS = new Set(["const", "static", "unsigned", "signed"]);
 
 function skipQualifiers(stream) {
+	let unsigned = false;
 	while (stream.peek().type === TOKENS.KEYWORD && QUALIFIERS.has(stream.peek().value)) {
+		if (stream.peek().value === "unsigned") unsigned = true;
 		stream.consume();
 	}
+	return { unsigned };
 }
 
 function parseStars(stream) {
@@ -24,7 +28,7 @@ function parseStars(stream) {
 }
 
 export function parseType(stream, options = {}) {
-    skipQualifiers(stream);
+    const { unsigned } = skipQualifiers(stream);
     const t = stream.peek();
 
     let base = '';
@@ -38,16 +42,16 @@ export function parseType(stream, options = {}) {
             stream.consume();
             skipQualifiers(stream);
             if (stream.peek().type === TOKENS.ID) stream.consume();
-            return { base: 'int', ptr: options.stars === false ? 0 : parseStars(stream) };
+            return { base: 'int', ptr: options.stars === false ? 0 : parseStars(stream), unsigned: false };
         } else {
-            base = stream.consume().value; // int, char, void
+            base = stream.consume().value; // int, char, float, ...
         }
     } else if (t.type === TOKENS.ID) {
         const name = stream.consume().value;
         const aliased = stream.typedefs ? stream.typedefs.get(name) : undefined;
         if (aliased) {
             // A typedef name resolves to its aliased type before stars.
-            return { base: aliased.base, ptr: aliased.ptr + (options.stars === false ? 0 : parseStars(stream)) };
+            return { base: aliased.base, ptr: aliased.ptr + (options.stars === false ? 0 : parseStars(stream)), unsigned: Boolean(aliased.unsigned) };
         }
         base = name;
     } else {
@@ -58,14 +62,14 @@ export function parseType(stream, options = {}) {
     // (int *p, q) opt out of star consumption here and parse their own.
     const ptr = options.stars === false ? 0 : parseStars(stream);
 
-    return { base, ptr };
+    return { base, ptr, unsigned };
 }
 
 /** True when the stream opens a declaration (type, qualifier, or typedef name). */
 export function isDeclarationStart(stream) {
 	const t = stream.peek();
 	if (t.type === TOKENS.KEYWORD) {
-		return ["int", "char", "short", "void", "long", "struct", "union", "enum", "const", "static", "typedef"].includes(t.value);
+		return ["int", "char", "short", "void", "long", "float", "double", "struct", "union", "enum", "const", "static", "unsigned", "signed", "typedef"].includes(t.value);
 	}
 	return t.type === TOKENS.ID && !!stream.typedefs && stream.typedefs.has(t.value);
 }

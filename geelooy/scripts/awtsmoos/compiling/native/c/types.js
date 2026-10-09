@@ -3,15 +3,23 @@
 //Blessed is He
 
 import { portableCError } from "./errors.js";
+import {
+	fieldLayout,
+	layoutStructFields,
+	layoutUnionFields,
+	typeAlign,
+	typeSize
+} from "./aapcs64.js";
 
 /**
- * Cell-based type layout for the portable C backend. Every value occupies
- * whole 8-byte cells: a scalar is one cell, an array is one cell per element,
- * and a structure is one cell per scalar field with every field cell-aligned.
- * Aggregates lay out upward: element/field 0 lives at the lowest address of
- * the variable's range, so indexing (p[i]) and pointer arithmetic (p + n)
- * agree on direction. The Awtsmoos creates measure and field road anew;
- * Awtsmoos.com never invents a byte layout the IR did not describe.
+ * AAPCS64 type layout for the portable C backend. Every value occupies its
+ * true ARM64 ABI size: scalars use their natural width (char 1, short 2,
+ * int/float 4, long/double/pointer 8), arrays pack elements back to back,
+ * and structures/unions get field offsets, alignment, and tail padding from
+ * the shared aapcs64 layout engine — the same engine the emulator uses, so
+ * emulated structures and compiled structures can never disagree on where a
+ * field lives. The Awtsmoos creates measure and field road anew; Awtsmoos.com
+ * never invents a byte layout the IR did not describe.
  */
 export const CELL_BYTES = 8;
 
@@ -32,12 +40,14 @@ export function createPortableCTypeLayout(irModule) {
 			name: structure.name
 		});
 	}
-	const structures = new Map();
+	const laidOut = new Map();
 	const measuring = new Set();
-	function structCells(structName) {
-		const name = String(structName);
-		const done = structures.get(name);
-		if (done) return done.cells;
+	const resolveStruct = name => {
+		const done = laidOut.get(String(name));
+		if (done) return done;
+		return layOutStructure(String(name));
+	};
+	function layOutStructure(name) {
 		if (measuring.has(name)) {
 			throw portableCError(
 				"PORTABLE_C_STRUCTURE_RECURSIVE",
@@ -52,102 +62,54 @@ export function createPortableCTypeLayout(irModule) {
 			);
 		}
 		measuring.add(name);
-		const record = layoutStructure(definition, measureCellCount);
+		const record = definition.kind === "union"
+			? layoutUnionFields(definition.fields, resolveStruct)
+			: layoutStructFields(definition.fields, resolveStruct);
 		measuring.delete(name);
-		structures.set(name, record);
-		return record.cells;
-	}
-	function measureCellCount(valueType) {
-		const kind = valueType?.kind;
-		if (kind === "integer" || kind === "pointer" || kind === "void") {
-			return 1;
-		}
-		if (kind === "array") {
-			const length = Number(valueType.length);
-			if (!Number.isSafeInteger(length) || length <= 0) {
-				throw portableCError(
-					"PORTABLE_C_ARRAY_LENGTH_INVALID",
-					`Array length '${valueType.length}' is not a positive integer`
-				);
-			}
-			return length * measureCellCount(valueType.elementType);
-		}
-		if (kind === "structure") {
-			return structCells(valueType.name);
-		}
-		throw portableCError(
-			"PORTABLE_C_TYPE_UNSUPPORTED",
-			`Portable C has no cell measure for type kind '${kind}'`
-		);
+		laidOut.set(name, record);
+		return record;
 	}
 	// Eagerly lay out every structure so malformed definitions fail at
 	// module validation time, not at first use inside a function body.
-	for (const name of pending.keys()) structCells(name);
+	for (const name of pending.keys()) layOutStructure(name);
+	function structRecord(structName) {
+		const record = laidOut.get(String(structName));
+		if (!record) {
+			throw portableCError(
+				"PORTABLE_C_STRUCTURE_UNKNOWN",
+				`No layout exists for structure '${structName}'`
+			);
+		}
+		return record;
+	}
 	const layout = {
-		structures,
-		cellCount: measureCellCount,
-		fieldOffsetCells(structName, fieldName) {
-			const record = structures.get(String(structName));
-			if (!record) {
-				throw portableCError(
-					"PORTABLE_C_STRUCTURE_UNKNOWN",
-					`No layout exists for structure '${structName}'`
-				);
-			}
-			const field = record.fields.get(String(fieldName));
-			if (!field) {
-				throw portableCError(
-					"PORTABLE_C_STRUCT_FIELD_UNKNOWN",
-					`Structure '${structName}' has no field '${fieldName}'`
-				);
-			}
-			return field.offsetCells;
+		structures: laidOut,
+		/** Byte size of any IR type per AAPCS64. */
+		typeSize(valueType) {
+			return typeSize(valueType, resolveStruct);
 		},
-		structCells
+		/** Byte alignment of any IR type per AAPCS64. */
+		typeAlign(valueType) {
+			return typeAlign(valueType, resolveStruct);
+		},
+		/** Byte size of a laid-out structure or union. */
+		structSize(structName) {
+			return structRecord(structName).size;
+		},
+		/** Byte alignment of a laid-out structure or union. */
+		structAlign(structName) {
+			return structRecord(structName).align;
+		},
+		/** Byte offset of a field within its structure (unions: always 0). */
+		fieldOffset(structName, fieldName) {
+			return fieldLayout(structRecord(structName), fieldName).offset;
+		},
+		/** IR type of a field, for picking the access width. */
+		fieldType(structName, fieldName) {
+			return fieldLayout(structRecord(structName), fieldName).valueType;
+		}
 	};
 	return Object.freeze(layout);
-}
-
-function layoutStructure(definition, measureCellCount) {
-	const fields = new Map();
-	if (definition.kind === "union") {
-		let cells = 0;
-		for (const field of definition.fields) {
-			addField(fields, field, 0, measureCellCount);
-			cells = Math.max(cells, fields.get(field.name).cells);
-		}
-		assertFieldsPresent(definition, fields);
-		return Object.freeze({ cells, fields: Object.freeze(fields), kind: "union" });
-	}
-	let offsetCells = 0;
-	for (const field of definition.fields) {
-		addField(fields, field, offsetCells, measureCellCount);
-		offsetCells += fields.get(field.name).cells;
-	}
-	assertFieldsPresent(definition, fields);
-	return Object.freeze({ cells: offsetCells, fields: Object.freeze(fields), kind: "structure" });
-}
-
-function addField(fields, field, offsetCells, measureCellCount) {
-	if (!field?.name || fields.has(field.name)) {
-		throw portableCError(
-			"PORTABLE_C_STRUCT_FIELD_INVALID",
-			`Invalid or duplicate field '${field?.name}'`
-		);
-	}
-	fields.set(field.name, Object.freeze({
-		cells: measureCellCount(field.valueType),
-		offsetCells
-	}));
-}
-
-function assertFieldsPresent(definition, fields) {
-	if (fields.size === 0) {
-		throw portableCError(
-			"PORTABLE_C_STRUCTURE_EMPTY",
-			`Structure '${definition.name}' declares no fields`
-		);
-	}
 }
 
 /**
@@ -273,22 +235,20 @@ export function decodeCStringEscapes(text) {
 }
 
 /**
- * Emits one NUL-terminated string as one byte per 8-byte cell, so indexing
- * (s[i]) and pointer arithmetic (s + n) address bytes exactly like the
- * backend's char arrays do. Every line carries exactly 8 bytes under its own
- * label so the ARM64 simulator, assembler, and linker all observe the same
- * layout; the base label addresses the string's first byte.
+ * Emits one NUL-terminated string as packed bytes, 8 per data line, so the
+ * bytes on device are exactly the C string the platform expects. The base
+ * label addresses the string's first byte; continuation lines take
+ * `<label>_c<N>` labels. Every line carries exactly 8 bytes so the ARM64
+ * simulator, assembler, and linker all observe the same layout.
  */
 export function stringDataLines(label, value) {
 	const bytes = [...String(value)].map(ch => ch.charCodeAt(0) & 0xff);
 	bytes.push(0);
+	while (bytes.length % CELL_BYTES !== 0) bytes.push(0);
 	const lines = [];
-	for (let index = 0; index < bytes.length; index += 1) {
-		const chunk = Array(CELL_BYTES).fill(0);
-		chunk[0] = bytes[index];
-		lines.push(index === 0
-			? `${label}: ${chunk.join(", ")}`
-			: `${label}_c${index}: ${chunk.join(", ")}`);
+	for (let index = 0; index < bytes.length; index += CELL_BYTES) {
+		const chunk = bytes.slice(index, index + CELL_BYTES);
+		lines.push(`${index === 0 ? label : `${label}_c${index / CELL_BYTES}`}: ${chunk.join(", ")}`);
 	}
 	return Object.freeze(lines);
 }

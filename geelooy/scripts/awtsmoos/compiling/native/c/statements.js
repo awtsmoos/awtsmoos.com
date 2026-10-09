@@ -42,6 +42,12 @@ export function emitPortableCStatement(node, context) {
 		} else {
 			context.emit("MOV RAX, 0");
 		}
+		// AAPCS64 returns float/double in S0/D0; the value travels as bits.
+		if (context.returnType?.kind === "float") {
+			context.emit(Number(context.returnType.bits) === 64
+				? "FMOV64 D0, RAX"
+				: "FMOV32 S0, RAX");
+		}
 		context.emit(`JMP ${context.epilogueLabel}`);
 		return;
 	}

@@ -60,7 +60,12 @@ export function parsePostfix(stream, parseExpression) {
 
 function parsePrimary(stream, parseExpression) {
 	const token = stream.peek();
-	if (token.type === TOKENS.NUM) return { type: "literal", val: stream.consume().value };
+	if (token.type === TOKENS.NUM) {
+		const consumed = stream.consume();
+		const node = { type: "literal", val: consumed.value };
+		if (consumed.floatKind) node.floatKind = consumed.floatKind;
+		return node;
+	}
 	if (token.type === TOKENS.STRING) return { type: "string", val: stream.consume().value };
 	if (token.type === TOKENS.ID) return parseIdentifier(stream, parseExpression);
 	if (isPunctuation(token, "(")) {

@@ -52,8 +52,8 @@ test("executes large, recursive, and nested stack frames", async () => {
 test("reports deterministic frame layout metadata", async () => {
 	const compiled = await compilePortableCProgram(PROGRAMS[0].source, "linux-x64-static");
 	const frame = compiled.frames.find(item => item.name === "main").frame;
-	assert.equal(frame.frameSize, 64);
-	assert.deepEqual(frame.slots.map(slot => slot.offset), [8, 16, 24, 32, 40, 48, 56, 64]);
+	assert.equal(frame.frameSize, 32);
+	assert.deepEqual(frame.slots.map(slot => slot.offset), [4, 8, 12, 16, 20, 24, 28, 32]);
 	assert.match(compiled.assembly, /PUSH RBP/);
-	assert.match(compiled.assembly, /MOV QWORD PTR \[RBP-64\], RAX/);
+	assert.match(compiled.assembly, /MOV DWORD PTR \[RBP-32\], RAX/);
 });

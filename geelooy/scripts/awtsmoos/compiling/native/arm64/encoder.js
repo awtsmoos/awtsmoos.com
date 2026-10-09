@@ -463,6 +463,115 @@ export function strPost(rt, rn, byteOffset, sf) {
 	return ldstIndexed(false, rt, rn, byteOffset, sf, "post");
 }
 
+// Narrow load/store (unsigned immediate): size(1/2) 111001 opc imm12 Rn Rt ;
+// imm12 scaled by the access size. opc: 00 store, 01 zero-extending load,
+// 10 sign-extending load into Xt (LDRSB/LDRSH/LDRSW).
+function ldstNarrowUnsigned(isLoad, signed, rt, rn, byteOffset, size) {
+	checkRange(rt, 0, 31, "Rt");
+	checkRange(rn, 0, 31, "Rn");
+	if (!Number.isInteger(byteOffset / size) || byteOffset < 0) {
+		throw new Error(`Unaligned offset for narrow access: ${byteOffset}`);
+	}
+	const imm12 = byteOffset / size;
+	checkRange(imm12, 0, 0xFFF, "imm12");
+	const sizeCode = size === 1 ? 0b00 : size === 2 ? 0b01 : 0b10;
+	const opc = !isLoad ? 0b00 : signed ? 0b10 : 0b01;
+	return u32((sizeCode << 30) | (0b111001 << 24) | (opc << 22) | (imm12 << 10) | (rn << 5) | rt);
+}
+
+export function ldrbImm(rt, rn, byteOffset) {
+	return ldstNarrowUnsigned(true, false, rt, rn, byteOffset, 1);
+}
+
+export function strbImm(rt, rn, byteOffset) {
+	return ldstNarrowUnsigned(false, false, rt, rn, byteOffset, 1);
+}
+
+export function ldrhImm(rt, rn, byteOffset) {
+	return ldstNarrowUnsigned(true, false, rt, rn, byteOffset, 2);
+}
+
+export function strhImm(rt, rn, byteOffset) {
+	return ldstNarrowUnsigned(false, false, rt, rn, byteOffset, 2);
+}
+
+export function ldrsbImm(rt, rn, byteOffset) {
+	return ldstNarrowUnsigned(true, true, rt, rn, byteOffset, 1);
+}
+
+export function ldrshImm(rt, rn, byteOffset) {
+	return ldstNarrowUnsigned(true, true, rt, rn, byteOffset, 2);
+}
+
+export function ldrswImm(rt, rn, byteOffset) {
+	return ldstNarrowUnsigned(true, true, rt, rn, byteOffset, 4);
+}
+
+// Narrow load/store (unscaled immediate): size 111000 opc imm9 Rn Rt ;
+// LDURB/STURB/LDURH/STURH/LDURSB/LDURSH, -256..255, no scaling.
+function ldstNarrowUnscaled(isLoad, signed, rt, rn, byteOffset, size) {
+	checkRange(rt, 0, 31, "Rt");
+	checkRange(rn, 0, 31, "Rn");
+	checkRange(byteOffset, -256, 255, "unscaled offset");
+	const sizeCode = size === 1 ? 0b00 : size === 2 ? 0b01 : 0b10;
+	const opc = !isLoad ? 0b00 : signed ? 0b10 : 0b01;
+	return u32((sizeCode << 30) | (0b111000 << 24) | (opc << 22) | ((byteOffset & 0x1FF) << 12) | (rn << 5) | rt);
+}
+
+export function ldurb(rt, rn, byteOffset) {
+	return ldstNarrowUnscaled(true, false, rt, rn, byteOffset, 1);
+}
+
+export function sturb(rt, rn, byteOffset) {
+	return ldstNarrowUnscaled(false, false, rt, rn, byteOffset, 1);
+}
+
+export function ldurh(rt, rn, byteOffset) {
+	return ldstNarrowUnscaled(true, false, rt, rn, byteOffset, 2);
+}
+
+export function sturh(rt, rn, byteOffset) {
+	return ldstNarrowUnscaled(false, false, rt, rn, byteOffset, 2);
+}
+
+export function ldursb(rt, rn, byteOffset) {
+	return ldstNarrowUnscaled(true, true, rt, rn, byteOffset, 1);
+}
+
+export function ldursh(rt, rn, byteOffset) {
+	return ldstNarrowUnscaled(true, true, rt, rn, byteOffset, 2);
+}
+
+export function ldursw(rt, rn, byteOffset) {
+	return ldstNarrowUnscaled(true, true, rt, rn, byteOffset, 4);
+}
+
+// FMOV (general): bit-preserving transfers between general and SIMD&FP
+// registers. Encodings verified against the emulator's own FMOV decoder.
+export function fmovToSimd32(sd, wn) {
+	checkRange(sd, 0, 31, "Sd");
+	checkRange(wn, 0, 31, "Wn");
+	return u32(0x1e270000 | (wn << 5) | sd);
+}
+
+export function fmovToGen32(wd, sn) {
+	checkRange(wd, 0, 31, "Wd");
+	checkRange(sn, 0, 31, "Sn");
+	return u32(0x1e260000 | (sn << 5) | wd);
+}
+
+export function fmovToSimd64(dd, xn) {
+	checkRange(dd, 0, 31, "Dd");
+	checkRange(xn, 0, 31, "Xn");
+	return u32(0x9e670000 | (xn << 5) | dd);
+}
+
+export function fmovToGen64(xd, dn) {
+	checkRange(xd, 0, 31, "Xd");
+	checkRange(dn, 0, 31, "Dn");
+	return u32(0x9e660000 | (dn << 5) | xd);
+}
+
 // Load/store pair: size(31-30) 10100(29-25) idx(24-23) L(22) imm7 Rt2 Rn Rt
 // size: 00=32-bit, 10=64-bit ; L: 0=store, 1=load ; imm7 scaled, signed
 const PAIR_IDX = { offset: 0b10, pre: 0b11, post: 0b01 };

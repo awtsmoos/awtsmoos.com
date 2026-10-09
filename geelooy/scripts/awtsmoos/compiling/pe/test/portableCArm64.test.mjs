@@ -144,16 +144,18 @@ test("arm64 sign-extends negative immediates and encodes wide positives", () => 
 });
 
 test("arm64 reaches frame slots beyond the unscaled offset range", () => {
+	// Seventy 4-byte ints need 280 frame bytes, so the farthest slots exceed
+	// the 255-byte unscaled window and must travel through X9.
 	const declarations = Array.from(
-		{ length: 40 },
+		{ length: 70 },
 		(_, index) => `int slot${index} = 1;`
 	).join(" ");
-	const sum = Array.from({ length: 40 }, (_, index) => `slot${index}`).join(" + ");
+	const sum = Array.from({ length: 70 }, (_, index) => `slot${index}`).join(" + ");
 	const source = `int main() { ${declarations} return ${sum}; }`;
 	const arm64 = compileCToAssembly(source, "linux-arm64-dynamic");
 	assert.match(arm64.assembly, /SUB X9, FP, X9/);
 	assert.doesNotMatch(arm64.assembly, /\[FP, #-(25[6-9]|[3-9][0-9]{2,})\]/);
-	assert.equal(simulateArm64Assembly(arm64.assembly).x0, 40n);
+	assert.equal(simulateArm64Assembly(arm64.assembly).x0, 70n);
 });
 
 test("arm64 uses STP/LDP frames and keeps 16-byte stack alignment", () => {

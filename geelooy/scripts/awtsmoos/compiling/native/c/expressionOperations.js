@@ -32,6 +32,22 @@ export function emitPortableCUnary(node, context, emitExpression) {
 	if (node.operand?.valueType?.kind === "pointer") {
 		throw pointerOperation(node.operator);
 	}
+	if (node.operand?.valueType?.kind === "float") {
+		// Negating a float flips the sign bit of the bit pattern; every
+		// other float operator needs real FP arithmetic, which the
+		// integer-only portable ISA does not provide.
+		if (node.operator === "-") {
+			const mask = Number(node.operand.valueType.bits) === 64
+				? "0x8000000000000000"
+				: "0x80000000";
+			context.emit(`MOV RBX, ${mask}`, "XOR RAX, RBX");
+			return;
+		}
+		throw portableCError(
+			"PORTABLE_C_FLOAT_OPERATOR_UNSUPPORTED",
+			`Portable C does not support float operator '${node.operator}'`
+		);
+	}
 	if (node.operator === "-") {
 		context.emit("NEG RAX");
 		return;
@@ -47,6 +63,12 @@ export function emitPortableCUnary(node, context, emitExpression) {
 }
 
 export function emitPortableCBinary(node, context, emitExpression) {
+	if (node.left?.valueType?.kind === "float" || node.right?.valueType?.kind === "float") {
+		throw portableCError(
+			"PORTABLE_C_FLOAT_OPERATOR_UNSUPPORTED",
+			`Portable C does not support float operator '${node.operator}'`
+		);
+	}
 	// Arrays decay to their base pointer wherever pointer arithmetic applies;
 	// the expression emitter already performs that decay on evaluation.
 	const leftPointer = isPointerLike(node.left?.valueType?.kind);
@@ -133,19 +155,25 @@ function pointerOperation(operator) {
 }
 
 /**
- * Emits cell-scaled pointer arithmetic. Every element occupies one 8-byte
- * cell, so p + n advances n cells: p + n*8. A pointer difference divides the
- * byte distance back into cells. The Awtsmoos creates the scaled road anew;
- * Awtsmoos.com keeps the scale uniform so indexing and arithmetic agree.
+ * Emits byte-scaled pointer arithmetic per AAPCS64. Every element occupies its
+ * true ABI stride, so p + n advances n*stride bytes. A pointer difference
+ * divides the byte distance back into elements. The Awtsmoos creates the
+ * scaled road anew; Awtsmoos.com keeps the scale uniform so indexing and
+ * arithmetic agree.
  */
 function emitPointerArithmetic(node, context, emitExpression, leftPointer, rightPointer) {
+	const stride = elementStride(node, leftPointer, context);
 	if (node.operator === "+") {
 		const pointerFirst = leftPointer;
 		emitExpression(pointerFirst ? node.left : node.right, context);
 		context.emit("PUSH RAX");
 		emitExpression(pointerFirst ? node.right : node.left, context);
+		if (stride === 1) {
+			context.emit("POP RBX", "ADD RAX, RBX");
+			return;
+		}
 		context.emit(
-			"MOV RBX, 8",
+			`MOV RBX, ${stride}`,
 			"IMUL RAX, RBX",
 			"POP RBX",
 			"ADD RAX, RBX"
@@ -162,18 +190,40 @@ function emitPointerArithmetic(node, context, emitExpression, leftPointer, right
 		context.emit(
 			"MOV RBX, RAX",
 			"POP RAX",
-			"SUB RAX, RBX",
-			"SAR RAX, 1",
-			"SAR RAX, 1",
-			"SAR RAX, 1"
+			"SUB RAX, RBX"
+		);
+		if (stride !== 1) {
+			context.emit(`MOV RBX, ${stride}`, "CQO", "IDIV RBX");
+		}
+		return;
+	}
+	if (stride === 1) {
+		context.emit(
+			"MOV RBX, RAX",
+			"POP RAX",
+			"SUB RAX, RBX"
 		);
 		return;
 	}
 	context.emit(
-		"MOV RBX, 8",
+		`MOV RBX, ${stride}`,
 		"IMUL RAX, RBX",
 		"MOV RBX, RAX",
 		"POP RAX",
 		"SUB RAX, RBX"
 	);
+}
+
+/** Byte stride of the pointed-to element behind a pointer arithmetic node. */
+function elementStride(node, leftPointer, context) {
+	const pointerType = leftPointer ? node.left?.valueType : node.right?.valueType;
+	const element = pointerType?.kind === "pointer"
+		? pointerType.pointee
+		: pointerType?.kind === "array"
+			? pointerType.elementType
+			: null;
+	if (!element) {
+		throw pointerOperation(node.operator);
+	}
+	return context.layout.typeSize(element);
 }

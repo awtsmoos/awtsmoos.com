@@ -5,10 +5,8 @@
 import { portableCError } from "./errors.js";
 import {
 	emitAddressOfSymbol,
-	emitLoadSymbol,
-	isGlobal
+	emitLoadSymbol
 } from "./storage.js";
-import { CELL_BYTES } from "./types.js";
 
 /**
  * Emits structure member access, array indexing, string literals, and the
@@ -16,8 +14,10 @@ import { CELL_BYTES } from "./types.js";
  * word anew; Awtsmoos.com keeps every address computation in one place so
  * reads, writes, and address-of can never disagree on where a value lives.
  *
- * All multi-byte arithmetic uses the cell model: one 8-byte cell per scalar
- * element or field, aggregates laid out upward from element/field 0.
+ * All addresses are byte addresses per AAPCS64: member offsets, alignment,
+ * and padding come from the shared layout engine, array elements pack at
+ * their natural stride, and every access uses the width of the accessed
+ * type (LDRB/LDRH/LDR for unsigned, LDRSB/LDRSH/LDRSW for signed).
  */
 
 /** Emits a string literal: RAX becomes a pointer to NUL-terminated bytes. */
@@ -26,28 +26,45 @@ export function emitPortableCString(node, context) {
 }
 
 /**
- * Reads an index or member lvalue into RAX.
+ * Reads an index or member lvalue into RAX, using the access width of the
+ * lvalue's type. A structure-typed lvalue cannot be read as a value;
+ * structures travel by pointer.
  */
 export function emitAggregateRead(node, context, emitExpression) {
+	const access = accessOf(lvalueType(node, context), context);
+	if (access.bytes > 8) {
+		throw portableCError(
+			"PORTABLE_C_STRUCT_VALUE",
+			"Structure values cannot be read into a register; take the address or access a field"
+		);
+	}
 	emitLvalueAddress(node, context, emitExpression);
-	context.emit("MOV RAX, QWORD PTR [RAX]");
+	context.emit(`MOV${access.signed ? "SX" : ""} RAX, ${access.ptr} [RAX]`);
 }
 
 /**
- * Stores the value already in RAX into an index or member lvalue.
+ * Stores the value already in RAX into an index or member lvalue, using the
+ * access width of the lvalue's type (narrow stores truncate, as in C).
  */
 export function emitAggregateStore(node, context, emitExpression) {
+	const access = accessOf(lvalueType(node, context), context);
+	if (access.bytes > 8) {
+		throw portableCError(
+			"PORTABLE_C_STRUCT_VALUE",
+			"Structure values cannot be stored from a register; use whole-structure copy"
+		);
+	}
 	context.emit("PUSH RAX");
 	emitLvalueAddress(node, context, emitExpression);
 	context.emit(
 		"MOV R10, RAX",
 		"POP RAX",
-		"MOV QWORD PTR [R10], RAX"
+		`MOV ${access.ptr} [R10], RAX`
 	);
 }
 
 /**
- * Copies every cell of a structure value into a structure destination.
+ * Copies every byte of a structure value into a structure destination.
  * Both sides must be lvalues; RAX is clobbered.
  */
 export function emitStructCopy(destination, value, context, emitExpression) {
@@ -58,23 +75,41 @@ export function emitStructCopy(destination, value, context, emitExpression) {
 			"Structure copy requires a structure destination"
 		);
 	}
-	const cells = context.layout.structCells(destType.name);
+	const size = context.layout.structSize(destType.name);
 	emitLvalueAddress(destination, context, emitExpression);
 	context.emit("MOV R10, RAX");
 	emitLvalueAddress(value, context, emitExpression);
-	for (let cell = 0; cell < cells; cell += 1) {
+	let done = 0;
+	while (done + 8 <= size) {
 		context.emit(
 			"MOV RBX, QWORD PTR [RAX]",
 			"MOV QWORD PTR [R10], RBX"
 		);
-		if (cell + 1 < cells) {
-			context.emit(
-				"ADD RAX, 8",
-				"MOV RBX, R10",
-				"ADD RBX, 8",
-				"MOV R10, RBX"
-			);
+		done += 8;
+		if (done < size) {
+			context.emit("ADD RAX, 8", "ADD R10, 8");
 		}
+	}
+	const tail = size - done;
+	if (tail >= 4) {
+		context.emit(
+			"MOV RBX, DWORD PTR [RAX]",
+			"MOV DWORD PTR [R10], RBX"
+		);
+		done += 4;
+	}
+	if (size - done >= 2) {
+		context.emit(
+			"MOV RBX, WORD PTR [RAX]",
+			"MOV WORD PTR [R10], RBX"
+		);
+		done += 2;
+	}
+	if (size - done >= 1) {
+		context.emit(
+			"MOV RBX, BYTE PTR [RAX]",
+			"MOV BYTE PTR [R10], RBX"
+		);
 	}
 }
 
@@ -135,11 +170,18 @@ export function emitSymbolValue(node, context) {
 }
 
 function emitIndexAddress(node, context, emitExpression) {
+	const stride = accessOf(elementTypeOf(node, context), context).bytes;
 	emitIndexBase(node.target, context, emitExpression);
+	if (stride === 1) {
+		context.emit("PUSH RAX");
+		emitExpression(node.index, context);
+		context.emit("POP RBX", "ADD RAX, RBX");
+		return;
+	}
 	context.emit("PUSH RAX");
 	emitExpression(node.index, context);
 	context.emit(
-		"MOV RBX, 8",
+		`MOV RBX, ${stride}`,
 		"IMUL RAX, RBX",
 		"POP RBX",
 		"ADD RAX, RBX"
@@ -165,13 +207,21 @@ function emitIndexBase(target, context, emitExpression) {
 
 function emitMemberAddress(node, context, emitExpression) {
 	const structName = memberStructName(node, context);
-	const offsetCells = context.layout.fieldOffsetCells(structName, node.field);
+	let offset;
+	try {
+		offset = context.layout.fieldOffset(structName, node.field);
+	} catch (error) {
+		throw portableCError(
+			"PORTABLE_C_STRUCT_FIELD_UNKNOWN",
+			`Structure '${structName}' has no field '${node.field}'`
+		);
+	}
 	if (node.throughPointer) {
 		emitExpression(node.target, context);
 	} else {
 		emitLvalueAddress(node.target, context, emitExpression);
 	}
-	addCellOffset(context, offsetCells);
+	addByteOffset(context, offset);
 }
 
 function memberStructName(node, context) {
@@ -196,10 +246,38 @@ function memberStructName(node, context) {
 	return targetType.name;
 }
 
+/** Field type from the AAPCS64 layout; unknown fields fail closed. */
+function fieldType(structName, field, context) {
+	try {
+		return context.layout.fieldType(structName, field);
+	} catch (error) {
+		throw portableCError(
+			"PORTABLE_C_STRUCT_FIELD_UNKNOWN",
+			`Unknown field '${field}' on struct '${structName}'`
+		);
+	}
+}
+
 function lvalueType(node, context) {
 	if (node?.kind === "symbol") {
 		return symbolType(node.name, context) || node.valueType;
 	}
+	if (node?.kind === "member") {
+		return fieldType(memberStructName(node, context), node.field, context);
+	}
+	if (node?.kind === "index") {
+		return elementTypeOf(node, context);
+	}
+	return node?.valueType;
+}
+
+/** Element type behind an index node: the indexed value's element type. */
+function elementTypeOf(node, context) {
+	const targetType = node.target?.kind === "symbol"
+		? symbolType(node.target.name, context) || node.target?.valueType
+		: node.target?.valueType;
+	if (targetType?.kind === "array") return targetType.elementType;
+	if (targetType?.kind === "pointer") return targetType.pointee;
 	return node?.valueType;
 }
 
@@ -213,38 +291,76 @@ function symbolType(name, context) {
 	return null;
 }
 
-/** Adds a cell-count-scaled byte offset to the address in RAX. */
-function addCellOffset(context, offsetCells) {
-	if (!offsetCells) return;
-	const bytes = offsetCells * CELL_BYTES;
-	if (bytes <= 4095) {
-		context.emit(`ADD RAX, ${bytes}`);
-		return;
+/**
+ * Access width for a value type: byte size plus whether loads sign-extend.
+ * Unsigned integers zero-extend; signed integers sign-extend; pointers and
+ * floats are 8 bytes.
+ */
+export function accessOf(valueType, context) {
+	const kind = valueType?.kind;
+	if (kind === "integer") {
+		const bytes = Math.max(1, Math.ceil(Number(valueType.bits || 32) / 8));
+		if (bytes !== 1 && bytes !== 2 && bytes !== 4 && bytes !== 8) {
+			throw portableCError(
+				"PORTABLE_C_TYPE_UNSUPPORTED",
+				`Portable C has no access width for '${bytes}'-byte integers`
+			);
+		}
+		return { bytes, ptr: `${sizePrefix(bytes)} PTR`, signed: valueType.signed !== false };
 	}
-	context.emit(`MOV R10, ${bytes}`, "ADD RAX, R10");
+	if (kind === "pointer" || kind === "float") {
+		const bytes = valueType.kind === "float" && Number(valueType.bits) === 32 ? 4 : 8;
+		return { bytes, ptr: `${sizePrefix(bytes)} PTR`, signed: false };
+	}
+	if (kind === "array" || kind === "structure") {
+		return { bytes: context.layout.typeSize(valueType), ptr: "QWORD PTR", signed: false };
+	}
+	throw portableCError(
+		"PORTABLE_C_TYPE_UNSUPPORTED",
+		`Portable C cannot access type kind '${kind}'`
+	);
 }
 
-/** True when the destination is a whole-structure lvalue (cell copy path). */
+function sizePrefix(bytes) {
+	if (bytes === 1) return "BYTE";
+	if (bytes === 2) return "WORD";
+	if (bytes === 4) return "DWORD";
+	return "QWORD";
+}
+
+/** Adds a byte offset to the address in RAX. */
+function addByteOffset(context, offset) {
+	if (!offset) return;
+	if (offset <= 4095) {
+		context.emit(`ADD RAX, ${offset}`);
+		return;
+	}
+	context.emit(`MOV R10, ${offset}`, "ADD RAX, R10");
+}
+
+/** True when the destination is a whole-structure lvalue (struct copy path). */
 export function isStructDestination(destination, context) {
-	return destination?.kind === "symbol"
-		&& symbolType(destination.name, context)?.kind === "structure";
+	const type = destination?.kind === "symbol"
+		? symbolType(destination.name, context)
+		: destination?.valueType;
+	return type?.kind === "structure";
 }
 
 /**
- * Emits an aggregate declaration: zero-initializes every cell, or copies a
- * string literal into a char array cell by cell. Returns true when the
+ * Emits an aggregate declaration: zero-initializes every byte, or copies a
+ * string literal into a char array byte by byte. Returns true when the
  * declaration was an aggregate (the caller skips the scalar path).
  */
 export function emitAggregateDeclaration(node, context) {
 	const kind = node.valueType?.kind;
 	if (kind !== "array" && kind !== "structure") return false;
-	const cells = context.layout.cellCount(node.valueType);
+	const size = context.layout.typeSize(node.valueType);
 	if (!node.initializer) {
-		zeroCells(context, node.name, cells);
+		zeroBytes(context, node.name, size);
 		return true;
 	}
 	if (node.initializer.kind === "string" && kind === "array") {
-		initCharArray(context, node.name, cells, String(node.initializer.value));
+		initCharArray(context, node.name, size, String(node.initializer.value));
 		return true;
 	}
 	throw portableCError(
@@ -253,31 +369,42 @@ export function emitAggregateDeclaration(node, context) {
 	);
 }
 
-function zeroCells(context, name, cells) {
+function zeroBytes(context, name, size) {
 	const base = context.frame.baseOffset(name);
-	for (let cell = 0; cell < cells; cell += 1) {
-		context.emit(
-			"MOV RAX, 0",
-			`MOV QWORD PTR [RBP-${base - cell * CELL_BYTES}], RAX`
-		);
+	context.emit("MOV RAX, 0");
+	let done = 0;
+	while (done + 8 <= size) {
+		context.emit(`MOV QWORD PTR [RBP-${base - done}], RAX`);
+		done += 8;
+	}
+	if (size - done >= 4) {
+		context.emit(`MOV DWORD PTR [RBP-${base - done}], RAX`);
+		done += 4;
+	}
+	if (size - done >= 2) {
+		context.emit(`MOV WORD PTR [RBP-${base - done}], RAX`);
+		done += 2;
+	}
+	if (size - done >= 1) {
+		context.emit(`MOV BYTE PTR [RBP-${base - done}], RAX`);
 	}
 }
 
-function initCharArray(context, name, cells, text) {
+function initCharArray(context, name, size, text) {
 	const bytes = [...text].map(ch => ch.charCodeAt(0) & 0xff);
 	bytes.push(0);
-	if (bytes.length > cells) {
+	if (bytes.length > size) {
 		throw portableCError(
 			"PORTABLE_C_AGGREGATE_INIT_UNSUPPORTED",
-			`String initializer overflows '${name}' (${bytes.length} bytes into ${cells} cells)`
+			`String initializer overflows '${name}' (${bytes.length} bytes into ${size} bytes)`
 		);
 	}
+	zeroBytes(context, name, size);
 	const base = context.frame.baseOffset(name);
-	for (let cell = 0; cell < cells; cell += 1) {
-		const byte = cell < bytes.length ? bytes[cell] : 0;
+	for (let index = 0; index < bytes.length; index += 1) {
 		context.emit(
-			`MOV RAX, ${byte}`,
-			`MOV QWORD PTR [RBP-${base - cell * CELL_BYTES}], RAX`
+			`MOV RAX, ${bytes[index]}`,
+			`MOV BYTE PTR [RBP-${base - index}], RAX`
 		);
 	}
 }

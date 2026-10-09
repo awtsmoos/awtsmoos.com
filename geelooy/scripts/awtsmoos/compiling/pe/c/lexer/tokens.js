@@ -15,7 +15,7 @@ export const TOKENS = Object.freeze({
 });
 
 export const KEYWORDS = new Set([
-	"import", "extern", "void", "int", "char", "short", "long", "return", "if", "else", "while", "for",
+	"import", "extern", "void", "int", "char", "short", "long", "float", "double", "return", "if", "else", "while", "for",
 	"do", "switch", "case", "default", "break", "continue", "struct", "sizeof",
 	"union", "enum", "typedef", "const", "static", "unsigned", "signed"
 ]);

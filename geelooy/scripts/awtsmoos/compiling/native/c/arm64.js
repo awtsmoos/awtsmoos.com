@@ -45,6 +45,8 @@ const ALU = Object.freeze({
 const LABEL = "[A-Za-z_.$][A-Za-z0-9_.$-]*";
 const REGISTER_NAME = "RAX|RBX|R10|RDI|RSI|RDX|RCX|R8|R9";
 const INTEGER = "-?[0-9]+|0x[0-9a-fA-F]+";
+const MEM_SIZE = "QWORD|DWORD|WORD|BYTE";
+const FLOAT_REG = "S[0-7]|D[0-7]";
 
 const PATTERNS = Object.freeze({
 	call: new RegExp(`^CALL (${LABEL})$`),
@@ -53,11 +55,16 @@ const PATTERNS = Object.freeze({
 	conditionalBranch: new RegExp(`^(JE|JNE|JL|JLE|JG|JGE) (\\$?${LABEL})$`),
 	directive: /^\.(code|data)$/,
 	externDirective: new RegExp(`^\\.extern (${LABEL})$`),
-	frameMemory: /^QWORD PTR \[(RBP|R10|RAX)(?:-([0-9]+))?\]$/,
+	frameMemory: new RegExp(`^(${MEM_SIZE}) PTR \\[(RBP|R10|RAX)(?:-([0-9]+))?\\]$`),
 	jump: new RegExp(`^JMP (\\$?${LABEL})$`),
 	label: new RegExp(`^(\\$?${LABEL}):$`),
 	lea: new RegExp(`^LEA (RAX|R10), (${LABEL}|QWORD PTR \\[RBP-[0-9]+\\])$`),
-	mov: new RegExp(`^MOV (${REGISTER_NAME}|RBP|RSP|QWORD PTR \\[[^\\]]+\\]), (.+)$`),
+	mov: new RegExp(`^MOV ((${MEM_SIZE}) PTR \\[[^\\]]+\\]|${REGISTER_NAME}|RBP|RSP), (.+)$`),
+	// Sign-extending narrow load: MOVSX RAX, <BYTE|WORD|DWORD> PTR [...]
+	movsx: new RegExp(`^MOVSX (RAX), ((?:BYTE|WORD|DWORD) PTR \\[[^\\]]+\\])$`),
+	// Bit-preserving integer<->SIMD transfer: FMOV32/FMOV64 between a portable
+	// integer register and an S/D register.
+	fmov: new RegExp(`^FMOV(32|64) (${FLOAT_REG}|${REGISTER_NAME}), (${FLOAT_REG}|${REGISTER_NAME})$`),
 	pop: new RegExp(`^POP (${REGISTER_NAME}|RBP)$`),
 	push: new RegExp(`^PUSH (${REGISTER_NAME}|RBP)$`),
 	scaledIntegerBinary: /^(ADD|SUB|AND|OR|XOR) (RAX|RBX), (RBX|-?[0-9]+|0x[0-9a-fA-F]+)$/,
@@ -204,9 +211,19 @@ function translateLine(line, source, index, output) {
 		translateLea(lea[1], lea[2], output);
 		return 0;
 	}
+	const fmov = text.match(PATTERNS.fmov);
+	if (fmov) {
+		translateFmov(fmov[1], fmov[2], fmov[3], output);
+		return 0;
+	}
+	const movsx = text.match(PATTERNS.movsx);
+	if (movsx) {
+		translateMovsx(movsx[2], output);
+		return 0;
+	}
 	const mov = text.match(PATTERNS.mov);
 	if (mov) {
-		return translateMov(mov[1], mov[2], source, index, output);
+		return translateMov(mov[1], mov[2], mov[3], source, index, output);
 	}
 	if (isGlobalDataLine(text)) {
 		output.push(text);
@@ -255,7 +272,7 @@ function translateLea(target, source, output) {
 	output.push(`ADR ${REGISTER[target]}, ${source}`);
 }
 
-function translateMov(destination, source, lines, index, output) {
+function translateMov(destination, size, source, lines, index, output) {
 	if (destination === "RBP" && source === "RSP") {
 		output.push("MOV FP, SP");
 		return 0;
@@ -267,11 +284,11 @@ function translateMov(destination, source, lines, index, output) {
 	const frame = source.match(PATTERNS.frameMemory);
 	const destinationFrame = destination.match(PATTERNS.frameMemory);
 	if (frame && !destinationFrame) {
-		translateLoad(REGISTER[destination], frame[1], frame[2], output);
+		translateLoad(REGISTER[destination], memSizeBytes(frame[1]), frame[2], frame[3], output);
 		return 0;
 	}
 	if (destinationFrame && !frame) {
-		translateStore(REGISTER[source], destinationFrame[1], destinationFrame[2], output);
+		translateStore(REGISTER[source], memSizeBytes(destinationFrame[1]), destinationFrame[2], destinationFrame[3], output);
 		return 0;
 	}
 	if (REGISTER[source] && REGISTER[destination]) {
@@ -295,28 +312,90 @@ function translateMov(destination, source, lines, index, output) {
 	);
 }
 
-function translateLoad(target, base, offsetText, output) {
+/**
+ * Sign-extending narrow load into X0: MOVSX RAX, <BYTE|WORD|DWORD> PTR [...].
+ * LDRSB/LDRSH/LDRSW keep C signed-char/short/int promotion exact.
+ */
+function translateMovsx(memory, output) {
+	const parsed = memory.match(PATTERNS.frameMemory);
+	if (!parsed) {
+		throw portableCError(
+			"PORTABLE_C_ARM64_UNTRANSLATED",
+			`ARM64 backend cannot translate 'MOVSX RAX, ${memory}'`
+		);
+	}
+	const bytes = memSizeBytes(parsed[1]);
+	const base = parsed[2];
+	const offset = Number(parsed[3] || 0);
+	const mnemonic = bytes === 1 ? "LDURSB" : bytes === 2 ? "LDURSH" : "LDURSW";
 	if (base === "RBP") {
-		translateFrameAccess("LDUR", "LDR", target, Number(offsetText), output);
+		if (offset <= 255) {
+			output.push(`${mnemonic} X0, [FP, #-${offset}]`);
+			return;
+		}
+		output.push(...loadImmediate("X9", BigInt(offset)), "SUB X9, FP, X9", `${mnemonic.replace("LDUR", "LDR")} X0, [X9]`);
 		return;
 	}
-	output.push(`LDR ${target}, [${REGISTER[base]}]`);
+	output.push(`${mnemonic.replace("LDUR", "LDR")} X0, [${REGISTER[base]}]`);
 }
 
-function translateStore(source, base, offsetText, output) {
+/**
+ * Bit-preserving integer<->SIMD transfer. FMOV32 moves through W/S views,
+ * FMOV64 through X/D views; the bit pattern is never interpreted.
+ */
+function translateFmov(width, destination, source, output) {
+	const wide = width === "64";
+	const armDst = simdReg(destination, wide);
+	const armSrc = simdReg(source, wide);
+	output.push(`FMOV ${armDst}, ${armSrc}`);
+}
+
+/** Maps a portable FMOV operand to its ARM64 register text. */
+function simdReg(operand, wide) {
+	if (/^S[0-7]$/.test(operand) || /^D[0-7]$/.test(operand)) return operand;
+	const mapped = REGISTER[operand];
+	if (!mapped) {
+		throw portableCError(
+			"PORTABLE_C_ARM64_UNTRANSLATED",
+			`ARM64 backend cannot map FMOV register '${operand}'`
+		);
+	}
+	// Integer side uses the W view for 32-bit transfers, X for 64-bit.
+	return wide ? mapped : mapped.replace(/^X/, "W");
+}
+
+function memSizeBytes(size) {
+	if (size === "BYTE") return 1;
+	if (size === "WORD") return 2;
+	if (size === "DWORD") return 4;
+	return 8;
+}
+
+function translateLoad(target, bytes, base, offsetText, output) {
+	const wide = bytes === 8 ? target : target.replace(/^X/, "W");
 	if (base === "RBP") {
-		translateFrameAccess("STUR", "STR", source, Number(offsetText), output);
+		translateFrameAccess(bytes, "LDUR", "LDR", wide, Number(offsetText), output);
 		return;
 	}
-	output.push(`STR ${source}, [${REGISTER[base]}]`);
+	output.push(`${bytes === 8 ? "LDR" : bytes === 4 ? "LDR" : bytes === 2 ? "LDRH" : "LDRB"} ${wide}, [${REGISTER[base]}]`);
 }
 
-function translateFrameAccess(unscaled, scaled, register, offset, output) {
+function translateStore(source, bytes, base, offsetText, output) {
+	const wide = bytes === 8 ? source : source.replace(/^X/, "W");
+	if (base === "RBP") {
+		translateFrameAccess(bytes, "STUR", "STR", wide, Number(offsetText), output);
+		return;
+	}
+	output.push(`${bytes === 8 ? "STR" : bytes === 4 ? "STR" : bytes === 2 ? "STRH" : "STRB"} ${wide}, [${REGISTER[base]}]`);
+}
+
+function translateFrameAccess(bytes, unscaled, scaled, register, offset, output) {
+	const suffix = bytes === 8 ? "" : bytes === 4 ? "" : bytes === 2 ? "H" : "B";
 	if (offset <= 255) {
-		output.push(`${unscaled} ${register}, [FP, #-${offset}]`);
+		output.push(`${unscaled}${suffix} ${register}, [FP, #-${offset}]`);
 		return;
 	}
-	output.push(...loadImmediate("X9", offset), "SUB X9, FP, X9", `${scaled} ${register}, [X9]`);
+	output.push(...loadImmediate("X9", BigInt(offset)), "SUB X9, FP, X9", `${scaled}${suffix} ${register}, [X9]`);
 }
 
 function armOperand(operand) {
@@ -329,8 +408,16 @@ function isIntegerLiteral(text) {
 }
 
 function parseInteger(text) {
-	const value = Number(text);
-	if (!Number.isSafeInteger(value)) {
+	let value;
+	try {
+		value = BigInt(text);
+	} catch {
+		throw portableCError(
+			"PORTABLE_C_ARM64_INTEGER_RANGE",
+			`ARM64 backend cannot encode integer literal '${text}'`
+		);
+	}
+	if (value < -(1n << 63n) || value > (1n << 64n) - 1n) {
 		throw portableCError(
 			"PORTABLE_C_ARM64_INTEGER_RANGE",
 			`ARM64 backend cannot encode integer literal '${text}'`
@@ -350,20 +437,39 @@ function normalizeLabel(label) {
 }
 
 /**
- * Loads a signed 32-bit immediate into an X register with MOVZ/MOVK/MOVN.
- * Negative values keep true sign extension into the upper 32 bits.
+ * Loads a 64-bit immediate into an X register with MOVZ/MOVK/MOVN.
+ * Every 16-bit chunk is emitted exactly; values above 32 bits no longer
+ * truncate. Negative values keep true two's-complement encoding.
  */
 function loadImmediate(register, value) {
-	if (value >= 0 && value <= 0xffff) {
-		return [`MOVZ ${register}, #${value}`];
-	}
-	if (value >= 0) {
-		const lines = [`MOVZ ${register}, #${value & 0xffff}`];
-		if (value >>> 16) lines.push(`MOVK ${register}, #${(value >>> 16) & 0xffff}, LSL #16`);
+	const v = BigInt(value);
+	// 32-bit fast path: the historic MOVZ/MOVN idiom, byte-exact with the
+	// original backend. MOVN sign-extends through the full 64-bit register,
+	// so negative 32-bit values arrive correctly widened.
+	if (v >= -(1n << 31n) && v < (1n << 32n)) {
+		const n = Number(v);
+		if (n >= 0 && n <= 0xffff) {
+			return [`MOVZ ${register}, #${n}`];
+		}
+		if (n >= 0) {
+			const lines = [`MOVZ ${register}, #${n & 0xffff}`];
+			if (n >>> 16) lines.push(`MOVK ${register}, #${(n >>> 16) & 0xffff}, LSL #16`);
+			return lines;
+		}
+		const lines = [`MOVN ${register}, #${(~n) & 0xffff}`];
+		const high = (n >>> 16) & 0xffff;
+		if (high !== 0xffff) lines.push(`MOVK ${register}, #${high}, LSL #16`);
 		return lines;
 	}
-	const lines = [`MOVN ${register}, #${(~value) & 0xffff}`];
-	const high = (value >>> 16) & 0xffff;
-	if (high !== 0xffff) lines.push(`MOVK ${register}, #${high}, LSL #16`);
+	// Full 64-bit path: MOVZ the low chunk, MOVK every nonzero higher chunk.
+	// Used for 64-bit literals and addresses the old 32-bit idiom truncated.
+	const masked = v & ((1n << 64n) - 1n);
+	const chunk = index => Number((masked >> BigInt(16 * index)) & 0xffffn);
+	const lines = [`MOVZ ${register}, #${chunk(0)}`];
+	for (let index = 1; index < 4; index += 1) {
+		if (chunk(index) !== 0) {
+			lines.push(`MOVK ${register}, #${chunk(index)}, LSL #${16 * index}`);
+		}
+	}
 	return lines;
 }

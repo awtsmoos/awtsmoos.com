@@ -23,6 +23,7 @@
  *
  * IR type shapes consumed:
  *   { kind: "integer", bits, signed }
+ *   { kind: "float", bits }            (32 -> 4/4, 64 -> 8/8)
  *   { kind: "pointer", pointee }
  *   { kind: "array", elementType, length }
  *   { kind: "structure", name }  (resolved through resolveStruct)
@@ -53,6 +54,10 @@ function layoutOf(type, resolveStruct) {
 	}
 	if (kind === "pointer") {
 		return { align: 8, size: 8 };
+	}
+	if (kind === "float") {
+		const bytes = Math.max(1, Math.ceil(Number(type.bits || 32) / 8));
+		return { align: bytes, size: bytes };
 	}
 	if (kind === "array") {
 		const element = layoutOf(type.elementType, resolveStruct);

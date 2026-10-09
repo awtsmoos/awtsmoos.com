@@ -84,9 +84,10 @@ static int init_egl(struct ANativeWindow* window) {
     return 1;
 }
 
-/* Draw one frame: clear to the default color and present. */
+/* Draw one frame: clear to Awtsmoos blue and present. */
 static void draw_frame(void) {
     if (g_display == 0) return;
+    glClearColor(0.2f, 0.4f, 0.9f, 1.0f);
     glClear(0x4000); /* GL_COLOR_BUFFER_BIT */
     eglSwapBuffers(g_display, g_surface);
 }

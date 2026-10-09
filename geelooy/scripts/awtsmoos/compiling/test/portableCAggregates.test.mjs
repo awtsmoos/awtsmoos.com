@@ -278,12 +278,12 @@ test("library: linked .so resolves the string-pointer data slot", () => {
 	const bytes = readFileSync(path);
 	const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
 	// readelf -l reports the RW data segment at file offset == vaddr 0x2000;
-	// layout order is msg (1 cell) then the 3 string cells 'h','i',0.
+	// layout order is msg (1 cell) then the packed "hi\0" bytes in one cell.
 	const dataFileOff = 0x2000;
 	assert.equal(view.getBigUint64(dataFileOff, true), 0x2008n);
-	assert.equal(view.getBigUint64(dataFileOff + 8, true), 0x68n);
-	assert.equal(view.getBigUint64(dataFileOff + 16, true), 0x69n);
-	assert.equal(view.getBigUint64(dataFileOff + 24, true), 0n);
+	assert.equal(view.getUint8(dataFileOff + 8), 0x68);
+	assert.equal(view.getUint8(dataFileOff + 9), 0x69);
+	assert.equal(view.getUint8(dataFileOff + 10), 0x00);
 });
 
 test("library: struct/array/string code simulates the expected values", () => {

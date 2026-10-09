@@ -19,6 +19,12 @@ import { elementTypeOf } from "./types.js";
 export function lowerExpression(expression, context) {
 	if (!expression) return null;
 	if (expression.type === "literal") {
+		if (expression.floatKind === "float" || expression.floatKind === "double") {
+			return irNode("floatLiteral", {
+				raw: expression.val,
+				valueType: context.types.baseType(expression.floatKind)
+			});
+		}
 		return irNode("integer", {
 			raw: expression.val,
 			valueType: context.types.baseType("int")

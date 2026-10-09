@@ -77,6 +77,29 @@ function splitOperands(text) {
  * Parse [Rn], [Rn, #imm], [Rn, #imm]!, [Rn], #imm.
  * Returns { rn, offset, mode } with mode in offset|pre|post.
  */
+const NARROW_MEM = {
+	ldrb: { bytes: 1, signed: false, unscaled: false, isLoad: true },
+	strb: { bytes: 1, signed: false, unscaled: false, isLoad: false },
+	ldrh: { bytes: 2, signed: false, unscaled: false, isLoad: true },
+	strh: { bytes: 2, signed: false, unscaled: false, isLoad: false },
+	ldrsb: { bytes: 1, signed: true, unscaled: false, isLoad: true },
+	ldrsh: { bytes: 2, signed: true, unscaled: false, isLoad: true },
+	ldrsw: { bytes: 4, signed: true, unscaled: false, isLoad: true },
+	ldurb: { bytes: 1, signed: false, unscaled: true, isLoad: true },
+	sturb: { bytes: 1, signed: false, unscaled: true, isLoad: false },
+	ldurh: { bytes: 2, signed: false, unscaled: true, isLoad: true },
+	sturh: { bytes: 2, signed: false, unscaled: true, isLoad: false },
+	ldursb: { bytes: 1, signed: true, unscaled: true, isLoad: true },
+	ldursh: { bytes: 2, signed: true, unscaled: true, isLoad: true },
+	ldursw: { bytes: 4, signed: true, unscaled: true, isLoad: true }
+};
+
+function parseFmovReg(text) {
+	const match = String(text).trim().match(/^([sSwWdDxX])([0-9]|1[0-9]|2[0-9]|30|31)$/);
+	if (!match) throw new Error(`Bad FMOV register: ${text}`);
+	return { cls: match[1].toLowerCase(), num: Number(match[2]) };
+}
+
 function parseMem(text) {
 	let t = text.trim();
 	let mode = "offset";
@@ -515,6 +538,58 @@ function emitInstruction(b, mnemonic, ops) {
 			b.emit(isLoad
 				? E.ldrImm(rt.num, mem.rn, mem.offset, rt.sf)
 				: E.strImm(rt.num, mem.rn, mem.offset, rt.sf));
+			return;
+		}
+		// -- Narrow memory: byte/halfword zero- and sign-extending transfers.
+		case "ldrb":
+		case "strb":
+		case "ldrh":
+		case "strh":
+		case "ldrsb":
+		case "ldrsh":
+		case "ldrsw":
+		case "ldurb":
+		case "sturb":
+		case "ldurh":
+		case "sturh":
+		case "ldursb":
+		case "ldursh":
+		case "ldursw": {
+			needArgs(ops, 2, m);
+			const spec = NARROW_MEM[m];
+			const rt = E.parseReg(ops[0]);
+			const wantSf = spec.signed ? 64 : 32;
+			if (rt.sf !== wantSf) throw new Error(`${m.toUpperCase()} needs a ${wantSf}-bit register`);
+			const mem = parseMem(ops[1].trim());
+			if (mem.mode !== "offset") throw new Error(`${m.toUpperCase()} takes only offset mode`);
+			let fn;
+			if (spec.unscaled) {
+				fn = !spec.isLoad
+					? { 1: E.sturb, 2: E.sturh }[spec.bytes]
+					: spec.signed
+					? { 1: E.ldursb, 2: E.ldursh, 4: E.ldursw }[spec.bytes]
+					: { 1: E.ldurb, 2: E.ldurh }[spec.bytes];
+			} else {
+				fn = !spec.isLoad
+					? { 1: E.strbImm, 2: E.strhImm }[spec.bytes]
+					: spec.signed
+					? { 1: E.ldrsbImm, 2: E.ldrshImm, 4: E.ldrswImm }[spec.bytes]
+					: { 1: E.ldrbImm, 2: E.ldrhImm }[spec.bytes];
+			}
+			b.emit(fn(rt.num, mem.rn, mem.offset));
+			return;
+		}
+		// -- FMOV (general): bit-preserving general<->SIMD&FP transfers.
+		case "fmov": {
+			needArgs(ops, 2, m);
+			const dst = parseFmovReg(ops[0]);
+			const src = parseFmovReg(ops[1]);
+			const pair = dst.cls + src.cls;
+			if (pair === "sw") b.emit(E.fmovToSimd32(dst.num, src.num));
+			else if (pair === "ws") b.emit(E.fmovToGen32(dst.num, src.num));
+			else if (pair === "dx") b.emit(E.fmovToSimd64(dst.num, src.num));
+			else if (pair === "xd") b.emit(E.fmovToGen64(dst.num, src.num));
+			else throw new Error(`FMOV needs S/W, W/S, D/X, or X/D, got ${ops[0]}, ${ops[1]}`);
 			return;
 		}
 		case "ldp":

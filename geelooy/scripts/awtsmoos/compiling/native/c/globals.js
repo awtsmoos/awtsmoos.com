@@ -6,17 +6,17 @@ import {
 	decodeCStringEscapes,
 	stringDataLines
 } from "./types.js";
+import { accessOf } from "./aggregates.js";
+import { alignUp } from "../../../../../shared/compiling/native/image/align.js";
 import { portableCError } from "./errors.js";
 
 /**
- * Emits deterministic global storage through assembly data symbols. Scalars
- * occupy one 8-byte cell; arrays and structures occupy one cell per scalar
- * element/field, laid out upward from element/field 0 so the data label
- * addresses the aggregate base. String literals collected from the whole
- * module are appended as NUL-terminated byte runs (one byte per cell). The
- * Awtsmoos creates static value, address, and relocation anew; Awtsmoos.com
- * reuses the verified object linker instead of embedding format-specific
- * addresses.
+ * Emits deterministic global storage through assembly data symbols. Every
+ * global occupies its AAPCS64 byte size padded up to 8 bytes, so all globals
+ * stay 8-aligned; aggregates are byte-packed with the shared layout engine
+ * and string literals are NUL-terminated byte runs. The Awtsmoos creates
+ * static value, address, and relocation anew; Awtsmoos.com reuses the verified
+ * object linker instead of embedding format-specific addresses.
  */
 export function emitPortableCGlobals(irModule, layout, strings) {
 	const names = new Set(irModule.globals.map(global => global.name));
@@ -26,10 +26,10 @@ export function emitPortableCGlobals(irModule, layout, strings) {
 	for (const global of irModule.globals) {
 		const kind = global.valueType?.kind;
 		if (kind === "array" || kind === "structure") {
-			const cells = layout.cellCount(global.valueType);
-			lines.push(...aggregateGlobalLines(global, cells));
+			const size = alignUp(layout.typeSize(global.valueType), 8);
+			lines.push(...aggregateGlobalLines(global, size));
 			metadata.push(Object.freeze({
-				cells,
+				bytes: size,
 				kind: "aggregate",
 				name: global.name,
 				valueType: global.valueType
@@ -37,8 +37,9 @@ export function emitPortableCGlobals(irModule, layout, strings) {
 			continue;
 		}
 		assertScalarType(global.valueType, global.name);
-		const description = initializerDescription(global.initializer, names, strings);
-		lines.push(`${global.name}: ${description.assembly}`);
+		const access = accessOf(global.valueType, { layout });
+		const description = initializerDescription(global.initializer, names, strings, access);
+		lines.push(...scalarGlobalLines(global.name, description, access.bytes));
 		metadata.push(Object.freeze({
 			initializer: description,
 			name: global.name,
@@ -57,53 +58,85 @@ export function emitPortableCGlobals(irModule, layout, strings) {
 	});
 }
 
-function aggregateGlobalLines(global, cells) {
+/** One 8-byte data line per 8 bytes of global storage, zero-padded. */
+function dataLinesFor(label, bytes) {
+	const lines = [];
+	const total = alignUp(bytes.length, 8);
+	while (bytes.length < total) bytes.push(0);
+	for (let offset = 0; offset < total; offset += 8) {
+		const chunk = bytes.slice(offset, offset + 8);
+		lines.push(`${offset === 0 ? label : `${label}_c${offset / 8}`}: ${chunk.join(", ")}`);
+	}
+	return lines;
+}
+
+function aggregateGlobalLines(global, size) {
 	const initializer = global.initializer;
 	if (!initializer) {
-		return zeroCells(global.name, cells);
+		return dataLinesFor(global.name, new Array(size).fill(0));
 	}
 	if (initializer.kind === "string") {
-		return stringArrayGlobalLines(global, cells);
+		return stringArrayGlobalLines(global, size);
 	}
 	throw unsupportedInitializer(initializer);
 }
 
-function stringArrayGlobalLines(global, cells) {
+function stringArrayGlobalLines(global, size) {
 	const text = decodeCStringEscapes(String(global.initializer.value ?? global.initializer.raw ?? ""));
 	const bytes = [...text].map(ch => ch.charCodeAt(0) & 0xff);
 	bytes.push(0);
-	if (bytes.length > cells) {
+	if (bytes.length > size) {
 		throw portableCError(
 			"PORTABLE_C_GLOBAL_INITIALIZER_UNSUPPORTED",
-			`String initializer overflows global '${global.name}' (${bytes.length} bytes into ${cells} cells)`
+			`String initializer overflows global '${global.name}' (${bytes.length} bytes into ${size} bytes)`
 		);
 	}
-	while (bytes.length < cells) bytes.push(0);
-	const lines = [];
-	for (let cell = 0; cell < cells; cell += 1) {
-		const chunk = Array(8).fill(0);
-		chunk[0] = bytes[cell];
-		const label = cell === 0 ? global.name : `${global.name}_c${cell}`;
-		lines.push(`${label}: ${chunk.join(", ")}`);
-	}
-	return lines;
+	while (bytes.length < size) bytes.push(0);
+	return dataLinesFor(global.name, bytes);
 }
 
-function zeroCells(name, cells) {
-	const lines = [];
-	for (let cell = 0; cell < cells; cell += 1) {
-		const label = cell === 0 ? name : `${name}_c${cell}`;
-		lines.push(`${label}: 0, 0, 0, 0, 0, 0, 0, 0`);
+function scalarGlobalLines(name, description, bytes) {
+	if (description.kind === "global-address") {
+		return [`${name}: ${description.assembly}`];
 	}
-	return lines;
+	const raw = byteList(description, bytes);
+	return dataLinesFor(name, raw);
 }
 
-function initializerDescription(initializer, globalNames, strings) {
+function byteList(description, bytes) {
+	if (description.kind === "zero") {
+		return new Array(bytes).fill(0);
+	}
+	if (description.kind === "integer") {
+		const out = [];
+		let remaining = BigInt(description.value);
+		for (let index = 0; index < bytes; index += 1) {
+			out.push(Number(remaining & 0xffn));
+			remaining >>= 8n;
+		}
+		return out;
+	}
+	if (description.kind === "floatBits") {
+		const out = [];
+		let remaining = description.bits;
+		for (let index = 0; index < bytes; index += 1) {
+			out.push(Number(remaining & 0xffn));
+			remaining >>= 8n;
+		}
+		return out;
+	}
+	throw unsupportedInitializer(description);
+}
+
+function initializerDescription(initializer, globalNames, strings, access) {
 	if (!initializer) {
 		return Object.freeze({ assembly: zeroBytes(), kind: "zero" });
 	}
 	if (initializer.kind === "integer") {
-		return integerInitializer(Number(initializer.raw));
+		return integerInitializer(initializer.raw);
+	}
+	if (initializer.kind === "floatLiteral") {
+		return floatInitializer(initializer.raw, initializer.valueType);
 	}
 	if (initializer.kind === "string") {
 		if (!strings) {
@@ -119,7 +152,7 @@ function initializerDescription(initializer, globalNames, strings) {
 		if (initializer.operand?.kind !== "integer") {
 			throw unsupportedInitializer(initializer);
 		}
-		return integerInitializer(-Number(initializer.operand.raw));
+		return integerInitializer(`-${initializer.operand.raw}`);
 	}
 	if (initializer.kind === "unary" && initializer.operator === "&") {
 		const target = initializer.operand;
@@ -135,22 +168,48 @@ function initializerDescription(initializer, globalNames, strings) {
 	throw unsupportedInitializer(initializer);
 }
 
-function integerInitializer(value) {
-	if (!Number.isSafeInteger(value)
-		|| value < -2147483648
-		|| value > 2147483647) {
+function integerInitializer(raw) {
+	let value;
+	try {
+		value = BigInt(String(raw).trim());
+	} catch {
 		throw portableCError(
 			"PORTABLE_C_GLOBAL_INTEGER_RANGE",
-			`Global integer '${value}' is outside signed 32-bit range`
+			`Global integer '${raw}' is not a valid integer`
 		);
 	}
-	const bytes = new Uint8Array(8);
-	new DataView(bytes.buffer).setBigInt64(0, BigInt(value), true);
-	return Object.freeze({
-		assembly: [...bytes].join(", "),
-		kind: "integer",
-		value
-	});
+	if (value < -(1n << 63n) || value > (1n << 64n) - 1n) {
+		throw portableCError(
+			"PORTABLE_C_GLOBAL_INTEGER_RANGE",
+			`Global integer '${raw}' is outside 64-bit range`
+		);
+	}
+	return Object.freeze({ kind: "integer", value });
+}
+
+function floatInitializer(raw, valueType) {
+	const text = String(raw).trim();
+	const isFloat = valueType?.kind === "float"
+		? Number(valueType.bits) !== 64
+		: /[fF]$/.test(text);
+	const numeric = Number(isFloat ? text.replace(/[fF]$/, "") : text);
+	if (!Number.isFinite(numeric)) {
+		throw portableCError(
+			"PORTABLE_C_GLOBAL_INITIALIZER_UNSUPPORTED",
+			`Global float initializer '${raw}' is not finite`
+		);
+	}
+	const buffer = new ArrayBuffer(8);
+	const view = new DataView(buffer);
+	let bits;
+	if (isFloat) {
+		view.setFloat32(0, numeric, true);
+		bits = BigInt(view.getUint32(0, true));
+	} else {
+		view.setFloat64(0, numeric, true);
+		bits = view.getBigUint64(0, true);
+	}
+	return Object.freeze({ bits, kind: "floatBits" });
 }
 
 function zeroBytes() {
@@ -158,10 +217,10 @@ function zeroBytes() {
 }
 
 function assertScalarType(valueType, name) {
-	if (!["integer", "pointer"].includes(valueType?.kind)) {
+	if (!["integer", "pointer", "float"].includes(valueType?.kind)) {
 		throw portableCError(
 			"PORTABLE_C_GLOBAL_TYPE_UNSUPPORTED",
-			`Global '${name}' must be integer or pointer storage`
+			`Global '${name}' must be integer, float, or pointer storage`
 		);
 	}
 }

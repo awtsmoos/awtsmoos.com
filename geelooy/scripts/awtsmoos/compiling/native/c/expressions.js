@@ -37,6 +37,10 @@ export function emitPortableCExpression(node, context) {
 		context.emit(`MOV RAX, ${portableIntegerValue(node)}`);
 		return;
 	}
+	if (node.kind === "floatLiteral") {
+		context.emit(`MOV RAX, ${portableFloatBits(node)}`);
+		return;
+	}
 	if (node.kind === "symbol") {
 		emitSymbolValue(node, context);
 		return;
@@ -83,7 +87,36 @@ export function emitPortableCExpression(node, context) {
 }
 
 /**
- * Emits assignment: whole-structure copies move every cell, index and member
+ * Bit pattern of a float/double literal as a portable integer immediate:
+ * float32 bits fit in a decimal immediate, float64 bits travel as hex
+ * (they can exceed the safe-integer range).
+ */
+function portableFloatBits(node) {
+	const text = String(node.raw).trim();
+	// The valueType width is authoritative: the lexer suffix may already be
+	// stripped from raw by the time the IR reaches the backend.
+	const wide = node.valueType?.kind === "float"
+		? Number(node.valueType.bits) === 64
+		: !/[fF]$/.test(text);
+	const numeric = Number(wide ? text : text.replace(/[fF]$/, ""));
+	if (!Number.isFinite(numeric)) {
+		throw portableCError(
+			"PORTABLE_C_FLOAT_LITERAL",
+			`Float literal '${node.raw}' is not finite`
+		);
+	}
+	const buffer = new ArrayBuffer(8);
+	const view = new DataView(buffer);
+	if (wide) {
+		view.setFloat64(0, numeric, true);
+		return `0x${view.getBigUint64(0, true).toString(16)}`;
+	}
+	view.setFloat32(0, numeric, true);
+	return String(view.getUint32(0, true));
+}
+
+/**
+ * Emits assignment: whole-structure copies move every byte, index and member
  * destinations store through their computed address, and scalar destinations
  * keep the existing path. The Awtsmoos creates destination and value anew;
  * Awtsmoos.com evaluates the value exactly once before choosing the road.

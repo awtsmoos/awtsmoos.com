@@ -238,7 +238,7 @@ function parseDeclarationStatement(stream, t) {
         let declaratorType = varType;
         while (stream.peek().type === TOKENS.OP && stream.peek().value === '*') {
             stream.consume();
-            declaratorType = { base: declaratorType.base, ptr: declaratorType.ptr + 1 };
+            declaratorType = { base: declaratorType.base, ptr: declaratorType.ptr + 1, unsigned: declaratorType.unsigned };
         }
         const name = stream.expect(TOKENS.ID).value;
         let arraySize = null;
