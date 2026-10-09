@@ -21,6 +21,21 @@ function matchesComplexSelector(element, selector) {
 	return matchFromRight(element, tokens, tokens.length - 1);
 }
 
+/**
+ * Matches a pre-tokenized selector list (B"H 2026-10-09: rule-index fast path).
+ * `tokenizedList` is an array of token arrays as produced by
+ * tokenizeSelectorSequence, one per selector in the list. Identical matching
+ * semantics to matchesCssSelector without re-parsing selector strings.
+ */
+function matchesTokenizedSelectorList(element, tokenizedList) {
+	if (!element || element.nodeType !== 1) return false;
+	for (const tokens of tokenizedList || []) {
+		if (!tokens.length || tokens.length % 2 === 0) continue;
+		if (matchFromRight(element, tokens, tokens.length - 1)) return true;
+	}
+	return false;
+}
+
 function matchFromRight(element, tokens, at) {
 	if (!element || !matchesCompoundSelector(element, tokens[at])) return false;
 	if (at === 0) return true;
@@ -105,7 +120,7 @@ function isTypeStart(character) {
 	return code >= 65 && code <= 90 || code >= 97 && code <= 122 || code >= 0x80;
 }
 
-const AwtsExports = { matchesCompoundSelector, matchesCssSelector };
+const AwtsExports = { matchesCompoundSelector, matchesCssSelector, matchesTokenizedSelectorList };
 if (typeof module === "object" && module.exports) {
 	module.exports = AwtsExports;
 } else {

@@ -16,18 +16,47 @@
 import compilerPkg from "../../../merkava-browser/standards/css/CssRuleCompiler.js";
 import ruleParserPkg from "../../../merkava-browser/standards/css/CssRuleParser.js";
 import selectorListPkg from "../../../merkava-browser/standards/css/CssSelectorList.js";
+import ruleIndexPkg from "../../../merkava-browser/standards/css/CssRuleIndex.js";
 import conditionsPkg from "../../../merkava-browser/standards/css/CssConditionEvaluator.js";
 import specificityPkg from "../../../merkava-browser/standards/css/CssSpecificity.js";
 import inheritedPkg from "../../../merkava-browser/standards/css/CssInheritedProperties.js";
-import selectorMatcherPkg from "../../../merkava-browser/standards/css/CssSelectorMatcher.js";
 
 const { compileCssStyleSheet, declarationsFromObject } = compilerPkg;
 const { parseCssRules } = ruleParserPkg;
 const { splitSelectorList } = selectorListPkg;
+const { buildCssRuleIndex, cssRuleCandidates, matchesIndexedCssRule } = ruleIndexPkg;
 const { matchesMediaQuery, matchesSupportsCondition } = conditionsPkg;
 const { compareSpecificity } = specificityPkg;
 const { isInheritedCssProperty } = inheritedPkg;
-const { matchesCssSelector } = selectorMatcherPkg;
+
+
+/* ------------------------------------------------------------------ */
+/* Rule index (B"H 2026-10-09): shared Chrome-style candidate filtering  */
+/* from standards/css/CssRuleIndex.js. Cached per rules-array identity   */
+/* in a WeakMap, so stylesheets compiled once pay the indexing cost once.*/
+/* ------------------------------------------------------------------ */
+
+const ruleIndexCache = new WeakMap();
+
+/** Returns the cached rule index for one rules array, building it on first use. */
+export function getRuleIndex(rules) {
+  let index = ruleIndexCache.get(rules);
+  if (!index) {
+    index = buildCssRuleIndex(rules);
+    ruleIndexCache.set(rules, index);
+  }
+  return index;
+}
+
+/** Candidate rules for one element (shared index). Exported for testing. */
+export function candidateRulesFor(index, node) {
+  return cssRuleCandidates(index, node);
+}
+
+/** Tests one indexed rule (shared index). Exported for testing. */
+export function matchesIndexedRule(node, rule, index) {
+  return matchesIndexedCssRule(node, rule, index);
+}
 
 
 /* ------------------------------------------------------------------ */
@@ -308,8 +337,14 @@ function cascadeWithLayers(node, rules, parentStyle = {}, inline = []) {
       String(declaration.value || "").trim().toLowerCase() === "revert-layer" ? revertLayerWinners : winners;
     consider(map, declaration, specificity, order, layerKey, originRank);
   };
-  for (const rule of rules || []) {
-    if (!matchesCssSelector(node, rule.selector)) continue;
+  // B"H 2026-10-09: rule index — only test rules whose rightmost compound
+  // could match this element (id/class/tag buckets + universal bucket),
+  // using pre-tokenized selectors (no per-element selector re-parsing).
+  // Same match set as scanning all rules; winners are order-independent.
+  const ruleIndex = getRuleIndex(rules);
+  const candidates = candidateRulesFor(ruleIndex, node);
+  for (const rule of candidates) {
+    if (!matchesIndexedRule(node, rule, ruleIndex)) continue;
     const layerKey = rule.layerKey || null;
     for (const declaration of rule.declarations) {
       feed(

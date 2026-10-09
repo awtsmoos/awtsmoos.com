@@ -6,12 +6,21 @@
 const { compareSpecificity } = (typeof module === "object" && module.exports ? require("./CssSpecificity.js") : globalThis.Merkava);
 const { isInheritedCssProperty } = (typeof module === "object" && module.exports ? require("./CssInheritedProperties.js") : globalThis.Merkava);
 const { matchesCssSelector } = (typeof module === "object" && module.exports ? require("./CssSelectorMatcher.js") : globalThis.Merkava);
+const indexMod = (typeof module === "object" && module.exports ? require("./CssRuleIndex.js") : globalThis.Merkava);
+const { cssRuleCandidates, matchesIndexedCssRule } = indexMod || {};
 
 /** Cascades author rules, inheritance, CSS-wide keywords, and inline declarations. */
-function cascadeCss(element, rules, parentStyle = {}, inline = []) {
+function cascadeCss(element, rules, parentStyle = {}, inline = [], ruleIndex = null) {
 	const winners = new Map();
-	for (const rule of rules || []) {
-		if (!matchesCssSelector(element, rule.selector)) continue;
+	// B"H 2026-10-09: when a rule index is supplied, only test candidate
+	// rules (id/class/tag buckets + universal). Same match set as scanning
+	// all rules; winners are picked by specificity/order, not scan order.
+	const candidates = (ruleIndex && cssRuleCandidates) ? cssRuleCandidates(ruleIndex, element) : (rules || []);
+	const matches = (ruleIndex && matchesIndexedCssRule)
+		? (rule) => matchesIndexedCssRule(element, rule, ruleIndex)
+		: (rule) => matchesCssSelector(element, rule.selector);
+	for (const rule of candidates) {
+		if (!matches(rule)) continue;
 		for (const declaration of rule.declarations) {
 			consider(winners, declaration, rule.specificity, rule.order);
 		}
