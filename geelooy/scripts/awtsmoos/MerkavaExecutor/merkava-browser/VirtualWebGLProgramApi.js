@@ -131,6 +131,12 @@
 				if (this.currentProgram === program) this.currentProgram = null;
 				this.record('deleteProgram', { id: program?.id ?? null });
 			},
+			isProgram(program) {
+				return this.validObject(program, 'program');
+			},
+			isShader(shader) {
+				return this.validObject(shader, 'shader');
+			},
 			getAttribLocation(program, name) {
 				if (!this.validObject(program, 'program') || !program.linked) return -1;
 				const key = String(name ?? '');

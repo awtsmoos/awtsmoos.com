@@ -74,7 +74,17 @@
 			},
 			blendFunc(sfactor, dfactor) {
 				this.blendFuncValue = [sfactor, dfactor];
+				this.blendFuncSeparateValue = null;
 				this.record('blendFunc', { sfactor, dfactor });
+			},
+			blendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha) {
+				this.blendFuncSeparateValue = [srcRGB, dstRGB, srcAlpha, dstAlpha];
+				this.blendFuncValue = null;
+				this.record('blendFuncSeparate', { srcRGB, dstRGB, srcAlpha, dstAlpha });
+			},
+			blendColor(r, g, b, a) {
+				this.blendColorValue = [r, g, b, a];
+				this.record('blendColor', { r, g, b, a });
 			},
 			blendEquation(mode) {
 				this.blendEquationValue = mode;

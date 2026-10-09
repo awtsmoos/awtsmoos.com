@@ -66,10 +66,11 @@
 							}
 						} else if (ArrayBuffer.isView(buffer.data)) {
 							const Ctor = buffer.data.constructor;
-							const dst = new Ctor(buffer.data.buffer, buffer.data.byteOffset, buffer.data.byteLength);
+							// B"H: TypedArray 3rd ctor arg is element count, not bytes.
+						const dst = new Ctor(buffer.data.buffer, buffer.data.byteOffset, buffer.data.length);
 							const elOff = Math.floor(off / dst.BYTES_PER_ELEMENT);
 							if (elOff + src.byteLength / dst.BYTES_PER_ELEMENT <= dst.length) {
-								dst.set(new Ctor(src.buffer, src.byteOffset, src.byteLength / dst.BYTES_PER_ELEMENT), elOff);
+								dst.set(new Ctor(src.buffer, src.byteOffset, Math.floor(src.byteLength / dst.BYTES_PER_ELEMENT)), elOff);
 							}
 						}
 					}

@@ -500,7 +500,7 @@ class Compiler {
 	}
 	compileGlobalDecl(d, out) {
 		for (const one of d.decls) {
-			const rec = { type: d.type, name: one.name };
+			const rec = { type: d.type, name: one.name, arrSize: one.arrSize || 0 };
 			if (d.storage === 'attribute') {
 				if (this.stage !== 'vertex') this.errors.push('attribute in fragment shader');
 				this.attributes.push(rec);

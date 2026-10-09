@@ -84,7 +84,9 @@ function clearGL(gl, mask) {
 		const c = gl.clearColorValue || [0, 0, 0, 0];
 		const r = Math.round(c[0] * 255), g = Math.round(c[1] * 255),
 			b = Math.round(c[2] * 255), a = Math.round(c[3] * 255);
-		if (scx0 === 0 && scy0 === 0 && scx1 === db.w - 1 && scy1 === db.h - 1) {
+		const cm = gl.colorMaskValue || [true, true, true, true];
+		const fullClear = scx0 === 0 && scy0 === 0 && scx1 === db.w - 1 && scy1 === db.h - 1;
+		if (fullClear && cm[0] && cm[1] && cm[2] && cm[3]) {
 			// B"H: identical bytes to the per-pixel loop, via one 32-bit fill.
 			const u32 = new Uint32Array(db.color.buffer, db.color.byteOffset, db.color.length >>> 2);
 			u32.fill((r | (g << 8) | (b << 16) | (a << 24)) >>> 0);
@@ -97,7 +99,8 @@ function clearGL(gl, mask) {
 			for (let y = scy0; y <= scy1; y++) {
 				for (let x = scx0; x <= scx1; x++) {
 					const i = (y * db.w + x) * 4;
-					db.color[i] = r; db.color[i+1] = g; db.color[i+2] = b; db.color[i+3] = a;
+					if (cm[0]) db.color[i] = r; if (cm[1]) db.color[i+1] = g;
+					if (cm[2]) db.color[i+2] = b; if (cm[3]) db.color[i+3] = a;
 				}
 			}
 		}
@@ -220,11 +223,30 @@ function fillHolder(h, d, vi) {
 function gatherUniforms(gl, program) {
 	const uniforms = {};
 	for (const u of program.uniformList || []) {
-		const key = program.id + ':' + u.name;
-		const rec = gl.uniformValues?.get(key);
-		if (!rec) continue;
-		const v = rec.value || [];
-		if (u.type === 'float') uniforms[u.name] = { t: 'f', v: v[0] || 0 };
+		let key = program.id + ':' + u.name;
+		let rec = gl.uniformValues?.get(key);
+		if (!rec && u.arrSize > 0) {
+			// B"H: arrays are set via 'name[0]' location.
+			key = program.id + ':' + u.name + '[0]';
+			rec = gl.uniformValues?.get(key);
+		}
+		// B"H: unset uniforms default to zero (WebGL spec).
+		const v = rec ? (rec.value || []) : [];
+		if (u.arrSize > 0) {
+			// B"H: uniform arrays -> {t:'arr', v:[...]}
+			const n = u.arrSize;
+			const arr = [];
+			for (let i = 0; i < n; i++) {
+				if (u.type === 'float') arr.push({ t: 'f', v: v[i] || 0 });
+				else if (u.type === 'int') arr.push({ t: 'i', v: Math.trunc(v[i] || 0) });
+				else if (u.type === 'vec2') arr.push({ t: 'v', n: 2, v: [v[i*2]||0, v[i*2+1]||0] });
+				else if (u.type === 'vec3') arr.push({ t: 'v', n: 3, v: [v[i*3]||0, v[i*3+1]||0, v[i*3+2]||0] });
+				else if (u.type === 'vec4') arr.push({ t: 'v', n: 4, v: [v[i*4]||0, v[i*4+1]||0, v[i*4+2]||0, v[i*4+3]||0] });
+				else arr.push({ t: 'f', v: v[i] || 0 });
+			}
+			uniforms[u.name] = { t: 'arr', v: arr };
+		}
+		else if (u.type === 'float') uniforms[u.name] = { t: 'f', v: v[0] || 0 };
 		else if (u.type === 'int') uniforms[u.name] = { t: 'i', v: Math.trunc(v[0] || 0) };
 		else if (u.type === 'bool') uniforms[u.name] = { t: 'b', v: !!v[0] };
 		else if (u.type === 'vec2') uniforms[u.name] = { t: 'v', n: 2, v: [v[0] || 0, v[1] || 0] };
@@ -610,7 +632,7 @@ function rasterizeTri(gl, db, ctx, store, s0, s1, s2, vx, vy, vw, vh) {
 		}
 	}
 
-	const depthOn = !gl.enabledCaps || gl.enabledCaps.has(DEPTH_TEST) || gl.depthFuncValue !== undefined;
+	const depthOn = !!gl.enabledCaps?.has(DEPTH_TEST);
 	const depthFunc = gl.depthFuncValue ?? LEQUAL;
 	const blendOn = gl.enabledCaps?.has(BLEND);
 	const colorMask = gl.colorMaskValue || [true, true, true, true];
