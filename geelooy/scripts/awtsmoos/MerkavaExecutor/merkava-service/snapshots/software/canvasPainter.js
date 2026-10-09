@@ -34,7 +34,9 @@ export function paintCanvasTexture(fb, texture, box, allTextures = []) {
 // Render one canvas texture into a standalone RGBA surface at its own
 // pixel size. Used for canvas-source drawImage (true pixel replay: the
 // source canvas is fully rasterized first, then sampled).
-function renderCanvasSurface(texture, allTextures, seen) {
+// B"H 2026-10-09 (readback): exported for getImageData — the 2D context
+// rasterizes its own texture through this instead of a PNG round-trip.
+export function renderCanvasSurface(texture, allTextures, seen) {
   const w = Math.max(1, Math.round(Number(texture.width || 300)));
   const h = Math.max(1, Math.round(Number(texture.height || 150)));
   const off = new Framebuffer(w, h, [0, 0, 0, 0]);
@@ -486,11 +488,29 @@ function textCmd(rp, cmd) {
 }
 
 function putImageDataCmd(rp, cmd) {
-  // The recorder does not retain pixel bytes; keep the visible placeholder.
-  const t = transformOf(cmd);
-  const [x, y] = toOff(rp, t, n(cmd.dx), n(cmd.dy));
-  rp.fb.fillRect(x, y, 12, 12, [255, 255, 255, 255]);
-  rp.fb.strokeRect(x, y, 12, 12, [0, 0, 0, 255], 1);
+  // B"H 2026-10-09 (readback): real putImageData. Per spec it replaces pixels
+  // directly — unaffected by transform, clip, globalAlpha, or compositing.
+  // Bulk row memcpy; no per-pixel JS overhead.
+  const src = cmd.bytes;
+  const sw = Math.round(Number(cmd.width || 0)), sh = Math.round(Number(cmd.height || 0));
+  if (!src || !src.length || sw <= 0 || sh <= 0) return;
+  const dirtyX = Math.max(0, Math.round(Number(cmd.dirtyX || 0)));
+  const dirtyY = Math.max(0, Math.round(Number(cmd.dirtyY || 0)));
+  let dw = Math.round(Number(cmd.dirtyWidth || 0)), dh = Math.round(Number(cmd.dirtyHeight || 0));
+  dw = Math.min(dw, sw - dirtyX); dh = Math.min(dh, sh - dirtyY);
+  if (dw <= 0 || dh <= 0) return;
+  const dx = Math.round(Number(cmd.dx || 0)) + dirtyX, dy = Math.round(Number(cmd.dy || 0)) + dirtyY;
+  const fb = rp.fb, fw = fb.width, fh = fb.height, dst = fb.data;
+  const x0 = Math.max(0, dx), y0 = Math.max(0, dy);
+  const x1 = Math.min(fw, dx + dw), y1 = Math.min(fh, dy + dh);
+  const cw = x1 - x0;
+  if (cw <= 0 || y1 <= y0) return;
+  const sox = dirtyX + (x0 - dx), soy = dirtyY + (y0 - dy);
+  for (let y = y0; y < y1; y++) {
+    const si = ((soy + (y - y0)) * sw + sox) * 4;
+    const di = (y * fw + x0) * 4;
+    dst.set(src.subarray(si, si + cw * 4), di);
+  }
 }
 
 function drawImageCmd(rp, cmd) {
