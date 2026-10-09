@@ -129,7 +129,11 @@ function compareAndSwapField(runtime, objRef, offset, expected, newValue, bits) 
 	let current;
 	try {
 		current = runtime.heap.getField(objRef, key);
-	} catch {
+	} catch (e) {
+		if (e.code === "DALVIK_FIELD_ON_ARRAY") {
+			// Not a heap object; use offset storage.
+			return compareAndSwapOffsetStorage(objRef, offset, expected, newValue, bits);
+		}
 		current = 0;
 	}
 	const currentNum = Number(current) || 0;
@@ -209,7 +213,11 @@ function getFieldByOffset(runtime, objRef, offset) {
 	}
 	try {
 		return runtime.heap.getField(objRef, key) || 0;
-	} catch {
+	} catch (e) {
+		// If it's not a heap object (e.g., array-backed map), use offset storage.
+		if (e.code === "DALVIK_FIELD_ON_ARRAY" || e.code === "DALVIK_REFERENCE_INVALID") {
+			return OFFSET_STORAGE.get(offsetStorageKey(objRef, offset)) || 0;
+		}
 		return 0;
 	}
 }
@@ -220,5 +228,14 @@ function setFieldByOffset(runtime, objRef, offset, value) {
 		OFFSET_STORAGE.set(offsetStorageKey(objRef, offset), value);
 		return;
 	}
-	runtime.heap.setField(objRef, key, value);
+	try {
+		runtime.heap.setField(objRef, key, value);
+	} catch (e) {
+		// If it's not a heap object, use offset storage.
+		if (e.code === "DALVIK_FIELD_ON_ARRAY" || e.code === "DALVIK_REFERENCE_INVALID") {
+			OFFSET_STORAGE.set(offsetStorageKey(objRef, offset), value);
+			return;
+		}
+		throw e;
+	}
 }
