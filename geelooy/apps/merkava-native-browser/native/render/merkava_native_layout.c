@@ -165,7 +165,7 @@ int awts_native_layout_scratch_build(
 			continue;
 		}
 		scratch->propId[index] = classify_property(
-			runtime->styles[index].property);
+			awts_native_string_at(runtime, runtime->styles[index].propertyIdx));
 		nodeIndex = awts_native_layout_handle_index(scratch, handle);
 		if (nodeIndex == AWTS_NATIVE_LAYOUT_NONE) {
 			continue;
@@ -247,7 +247,7 @@ static int layout_node(
 	node = &runtime->nodes[nodeIndex];
 	style = awts_native_resolve_box_style_indexed(
 		runtime, node, scratch, nodeIndex);
-	if (style.hidden || awts_native_is_metadata_node(node)) {
+	if (style.hidden || awts_native_is_metadata_node(runtime, node)) {
 		*bottom = y;
 		return 1;
 	}
@@ -270,15 +270,15 @@ static int layout_node(
 	box->padding = style.padding;
 	box->textOffset = 0u;
 	box->textLength = 0u;
-	if (node->text.length && node->text.bytes) {
-		const uint8_t* base = runtime->stringStorage;
-		const uint8_t* limit = base + AWTS_NATIVE_WEB_STRING_BYTES;
-		if (node->text.bytes >= base && node->text.bytes < limit) {
-			box->textOffset = (uint32_t)(node->text.bytes - base);
-			box->textLength = node->text.length;
+	{
+		AwtsNativeSlice text = awts_native_string_at(runtime, node->textIdx);
+		if (text.length && text.bytes) {
+			const uint8_t* base = runtime->stringStorage;
+			box->textOffset = (uint32_t)(text.bytes - base);
+			box->textLength = text.length;
 		}
+		contentY = y + style.padding + (text.length ? 18.0f : 0.0f);
 	}
-	contentY = y + style.padding + (node->text.length ? 18.0f : 0.0f);
 	for (child = scratch->firstChild[nodeIndex];
 		child != AWTS_NATIVE_LAYOUT_NONE;
 		child = scratch->nextSibling[child]) {
@@ -311,7 +311,7 @@ static int layout_node(
 	} else {
 		box = &layout->boxes[boxIndex];
 		box->height = clamp_min(
-			style.padding * 2.0f + (node->text.length ? 18.0f : 20.0f),
+			style.padding * 2.0f + (box->textLength ? 18.0f : 20.0f),
 			36.0f);
 	}
 	*bottom = y + box->height;

@@ -22,8 +22,9 @@ AwtsNativeSlice awts_native_attribute_value(
 	for (uint32_t index = runtime->attributeCount; index > 0; index -= 1) {
 		const AwtsNativeAttribute* attribute = &runtime->attributes[index - 1];
 		if (attribute->nodeHandle == nodeHandle
-			&& awts_native_slice_equals(attribute->name, name)) {
-			return attribute->value;
+			&& awts_native_slice_equals(
+				awts_native_string_at(runtime, attribute->nameIdx), name)) {
+			return awts_native_string_at(runtime, attribute->valueIdx);
 		}
 	}
 	return empty_slice();
@@ -41,8 +42,9 @@ AwtsNativeSlice awts_native_style_value(
 	for (uint32_t index = runtime->styleCount; index > 0; index -= 1) {
 		const AwtsNativeStyle* style = &runtime->styles[index - 1];
 		if (style->nodeHandle == nodeHandle
-			&& awts_native_slice_equals(style->property, property)) {
-			return style->value;
+			&& awts_native_slice_equals(
+				awts_native_string_at(runtime, style->propertyIdx), property)) {
+			return awts_native_string_at(runtime, style->valueIdx);
 		}
 	}
 	return empty_slice();

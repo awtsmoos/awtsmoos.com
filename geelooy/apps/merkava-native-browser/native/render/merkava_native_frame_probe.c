@@ -14,7 +14,8 @@ static AwtsNativeNode* find_by_id(
 	const char* id
 ) {
 	for (uint32_t index = 0; index < runtime->nodeCount; index += 1) {
-		if (awts_native_slice_equals(runtime->nodes[index].id, id)) {
+		if (awts_native_slice_equals(
+			awts_native_string_at(runtime, runtime->nodes[index].idIdx), id)) {
 			return &runtime->nodes[index];
 		}
 	}
@@ -106,7 +107,9 @@ int main(int argc, char** argv) {
 	return 8;
 	}
 	after = awts_native_surface_hash(&surface);
-	if (before == after || !awts_native_slice_equals(output->text, "clicked")) {
+	if (before == after
+		|| !awts_native_slice_equals(
+			awts_native_string_at(&runtime, output->textIdx), "clicked")) {
 		fprintf(stderr, "native_frame_mutation_not_visible\n");
 		free(surface.pixels);
 		awts_native_layout_dispose(&layout);
@@ -118,8 +121,8 @@ int main(int argc, char** argv) {
 		(unsigned long long)before,
 		(unsigned long long)after,
 		layout.boxCount,
-		(int)output->text.length,
-		(const char*)output->text.bytes
+		(int)awts_native_string_at(&runtime, output->textIdx).length,
+		(const char*)awts_native_string_at(&runtime, output->textIdx).bytes
 	);
 	free(surface.pixels);
 	awts_native_layout_dispose(&layout);

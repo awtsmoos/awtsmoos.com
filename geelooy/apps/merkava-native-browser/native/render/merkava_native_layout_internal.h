@@ -27,7 +27,9 @@ AwtsNativeBoxStyle awts_native_resolve_box_style(
 );
 
 /** Returns nonzero for metadata elements excluded from visual formatting. */
-int awts_native_is_metadata_node(const AwtsNativeNode* node);
+int awts_native_is_metadata_node(
+	const AwtsNativeWebRuntime* runtime,
+	const AwtsNativeNode* node);
 
 /** Layout-relevant property ids; 255 means "ignored by layout". */
 enum {

@@ -61,14 +61,18 @@ static int property_slot(AwtsNativeSlice property) {
 }
 
 /** Chooses a deterministic default background before author styles override it. */
-static AwtsNativeColor default_background(const AwtsNativeNode* node) {
-	if (awts_native_slice_equals(node->tag, "button")) {
+static AwtsNativeColor default_background(
+	const AwtsNativeWebRuntime* runtime,
+	const AwtsNativeNode* node
+) {
+	AwtsNativeSlice tag = awts_native_string_at(runtime, node->tagIdx);
+	if (awts_native_slice_equals(tag, "button")) {
 		return rgb(35u, 78u, 122u);
 	}
-	if (awts_native_slice_equals(node->tag, "output")) {
+	if (awts_native_slice_equals(tag, "output")) {
 		return rgb(238u, 243u, 248u);
 	}
-	if (awts_native_slice_equals(node->tag, "section")) {
+	if (awts_native_slice_equals(tag, "section")) {
 		return rgb(250u, 251u, 253u);
 	}
 	return rgb(245u, 247u, 250u);
@@ -91,13 +95,15 @@ static void apply_length(
 
 /** Applies parsed values from six collected property slices to one style. */
 static AwtsNativeBoxStyle apply_found_values(
+	const AwtsNativeWebRuntime* runtime,
 	const AwtsNativeNode* node,
 	const AwtsNativeSlice* found
 ) {
 	AwtsNativeBoxStyle style = { 0 };
+	AwtsNativeSlice tag = awts_native_string_at(runtime, node->tagIdx);
 	style.padding = 8.0f;
-	style.background = default_background(node);
-	style.foreground = awts_native_slice_equals(node->tag, "button")
+	style.background = default_background(runtime, node);
+	style.foreground = awts_native_slice_equals(tag, "button")
 		? rgb(255u, 255u, 255u)
 		: rgb(24u, 28u, 34u);
 	style.hidden = awts_native_slice_equals(
@@ -159,19 +165,21 @@ AwtsNativeBoxStyle awts_native_resolve_box_style(
 			if (record->nodeHandle != handle) {
 				continue;
 			}
-			propertySlot = property_slot(record->property);
+			propertySlot = property_slot(
+				awts_native_string_at(runtime, record->propertyIdx));
 			if (propertySlot < 0
 				|| (foundMask & (1u << (uint32_t)propertySlot))) {
 				continue;
 			}
-			found[propertySlot] = record->value;
+			found[propertySlot] = awts_native_string_at(
+				runtime, record->valueIdx);
 			foundMask |= (uint32_t)(1u << (uint32_t)propertySlot);
 			if (foundMask == wantedMask) {
 				break;
 			}
 		}
 	}
-	return apply_found_values(node, found);
+	return apply_found_values(runtime, node, found);
 }
 
 /** Indexed style resolution using the layout scratch's per-node chains.
@@ -196,7 +204,7 @@ AwtsNativeBoxStyle awts_native_resolve_box_style_indexed(
 		found[slot].length = 0u;
 	}
 	if (!runtime || !scratch || nodeIndex >= scratch->nodeCount) {
-		return apply_found_values(node, found);
+		return apply_found_values(runtime, node, found);
 	}
 	styleIndex = scratch->styleHead[nodeIndex];
 	while (styleIndex != AWTS_NATIVE_LAYOUT_NONE
@@ -208,18 +216,24 @@ AwtsNativeBoxStyle awts_native_resolve_box_style_indexed(
 		propId = scratch->propId[styleIndex];
 		if (propId <= AWTS_NATIVE_PROP_COLOR
 			&& !(foundMask & (1u << propId))) {
-			found[propId] = runtime->styles[styleIndex].value;
+			found[propId] = awts_native_string_at(runtime, runtime->styles[styleIndex].valueIdx);
 			foundMask |= (uint32_t)(1u << propId);
 		}
 		styleIndex = scratch->styleNext[styleIndex];
 	}
-	return apply_found_values(node, found);
+	return apply_found_values(runtime, node, found);
 }
 
 /** Returns nonzero for metadata elements excluded from visual formatting. */
-int awts_native_is_metadata_node(const AwtsNativeNode* node) {
-	return node && (
-		awts_native_slice_equals(node->tag, "meta")
-		|| awts_native_slice_equals(node->tag, "title")
-	);
+int awts_native_is_metadata_node(
+	const AwtsNativeWebRuntime* runtime,
+	const AwtsNativeNode* node
+) {
+	AwtsNativeSlice tag;
+	if (!node) {
+		return 0;
+	}
+	tag = awts_native_string_at(runtime, node->tagIdx);
+	return awts_native_slice_equals(tag, "meta")
+		|| awts_native_slice_equals(tag, "title");
 }
