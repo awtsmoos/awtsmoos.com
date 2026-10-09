@@ -51,7 +51,12 @@ export class ScaledFramebuffer {
     this.base.pushClip((r.x0 || 0) * s, (r.y0 || 0) * s, (r.x1 || 0) * s, (r.y1 || 0) * s);
   }
   popClip() { this.base.popClip(); }
-  blitFrom(src, x, y) { this.base.blitFrom(src, (x || 0) * this.scale, (y || 0) * this.scale); }
+  blitFrom(src, x, y, opts) {
+    const s = this.scale;
+    // B"H (compositor): srcRect is in SOURCE device px — pass through
+    // unchanged; only the dest offset scales.
+    this.base.blitFrom(src, (x || 0) * s, (y || 0) * s, opts);
+  }
 }
 
 export function downsampleToPng(base, scale, width, height) {
