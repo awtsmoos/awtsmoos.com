@@ -221,6 +221,11 @@ export function paintLayout(fb, layout, canvas = {}, options = {}) {
       workList = [...visible, ...context];
     }
   }
+  // B"H 2026-10-09 (scroll compositor): a caller-supplied paintSet wins.
+  // The compositor pre-culls via the spatial index in page space, translates
+  // items to strip space, and passes only context ancestors for lookup —
+  // they must never paint themselves.
+  if (options.paintSet instanceof Set) paintSet = options.paintSet;
   // B"H: a node's own textContent is laid out as a #text item (synthesized by
   // inlineKids when the node has no element children). paintBox must not paint
   // it a second time via directText — that double-paints every text run.

@@ -105,6 +105,34 @@ export class Framebuffer {
     const sx = Math.max(0, Math.floor(x)), sy = Math.max(0, Math.floor(y));
     const ex = Math.min(this.width, Math.ceil(x + w)), ey = Math.min(this.height, Math.ceil(y + h));
     const [csx, csy, cex, cey] = this._clipBounds(sx, sy, ex, ey);
+    const cw = cex - csx, ch = cey - csy;
+    if (cw <= 0 || ch <= 0) return;
+    // B"H 2026-10-09 (scroll perf): opaque fast path. setPixel's per-pixel
+    // blend math (Math.round x5, alpha multiply) dominated strip
+    // rasterization at 44% of profile. Opaque fills write rows directly.
+    if ((color[3] ?? 255) >= 255) {
+      const d = this.data, W = this.width;
+      const r = color[0], g = color[1], b = color[2];
+      if (cw * ch >= 1024) {
+        // Large: build one row pattern, memcpy per row (native speed).
+        const row = new Uint8ClampedArray(cw * 4);
+        for (let xx = 0; xx < cw; xx++) {
+          const o = xx * 4;
+          row[o] = r; row[o + 1] = g; row[o + 2] = b; row[o + 3] = 255;
+        }
+        for (let yy = csy; yy < cey; yy++) d.set(row, (yy * W + csx) * 4);
+      } else {
+        // Small: direct writes, no call overhead.
+        for (let yy = csy; yy < cey; yy++) {
+          let i = (yy * W + csx) * 4;
+          for (let xx = 0; xx < cw; xx++) {
+            d[i] = r; d[i + 1] = g; d[i + 2] = b; d[i + 3] = 255;
+            i += 4;
+          }
+        }
+      }
+      return;
+    }
     for (let yy = csy; yy < cey; yy++) for (let xx = csx; xx < cex; xx++) this.setPixel(xx, yy, color);
   }
   gradientRect(x, y, w, h, background, fallback) {
@@ -328,6 +356,278 @@ export class Framebuffer {
   }
   // B"H 2026-10-09: Packed clear. Uses writeRawPacked in the loop.
   clearPacked(packed) { for (let i = 0; i < this.data.length; i += 4) this.writeRawPacked(i, packed); }
+
+  // B"H 2026-10-09 (scroll compositor): raw opaque blit — memcpy a rectangle
+  // from src (no alpha blending, no clip). Row-wise typed-array copies are
+  // ~50x faster than blitFrom's per-pixel blend loop. Used for tile/strip
+  // compositing where the source is fully painted and opaque.
+  blitRaw(src, sx, sy, w, h, dx, dy) {
+    if (!src || !src.data) return;
+    sx |= 0; sy |= 0; w |= 0; h |= 0; dx |= 0; dy |= 0;
+    // Clip to both surfaces.
+    if (sx < 0) { w += sx; dx -= sx; sx = 0; }
+    if (sy < 0) { h += sy; dy -= sy; sy = 0; }
+    if (dx < 0) { w += dx; sx -= dx; dx = 0; }
+    if (dy < 0) { h += dy; sy -= dy; dy = 0; }
+    w = Math.min(w, src.width - sx, this.width - dx);
+    h = Math.min(h, src.height - sy, this.height - dy);
+    if (w <= 0 || h <= 0) return;
+    const sdata = src.data, ddata = this.data;
+    const sw4 = src.width * 4, dw4 = this.width * 4;
+    const rowBytes = w * 4;
+    for (let r = 0; r < h; r++) {
+      const si = (sy + r) * sw4 + sx * 4;
+      const di = (dy + r) * dw4 + dx * 4;
+      ddata.set(sdata.subarray(si, si + rowBytes), di);
+    }
+  }
+
+  // ------------------------------------------------------------------
+  // B"H 2026-10-09 (canvas 2D correctness): alpha-correct compositing
+  // primitives for canvas replay. The page pipeline keeps using the
+  // opaque-optimized setPixel/fillRect above; these new methods preserve
+  // real alpha and honor an optional path-clip mask, so canvas clearRect,
+  // globalAlpha, composite ops, and clip() behave like a real canvas.
+  // ------------------------------------------------------------------
+  /** Path-clip mask: Uint8Array(w*h), 1 = paint allowed. null = no mask. */
+  setClipMask(mask) { this._clipMask = mask || null; }
+  getClipMask() { return this._clipMask || null; }
+  _maskOk(ix, iy) { const m = this._clipMask; return !m || m[iy * this.width + ix] !== 0; }
+
+  /**
+   * Porter-Duff composite of one src pixel onto the surface, preserving
+   * real alpha in the output. Fast path for the common source-over case.
+   * r,g,b,a: 0-255. op: any canvas globalCompositeOperation value.
+   */
+  blendPixel(x, y, r, g, b, a, op = 'source-over') {
+    const ix = Math.round(x), iy = Math.round(y);
+    if (ix < 0 || iy < 0 || ix >= this.width || iy >= this.height) return;
+    if (!this._inClip(ix, iy) || !this._maskOk(ix, iy)) return;
+    this._blendPixelFast(ix, iy, r, g, b, a, op);
+  }
+
+  /**
+   * Blend one pixel with NO bounds/clip/mask checks — the caller guarantees
+   * ix, iy are in range and paintable. Hot path for span fills and blits.
+   */
+  _blendPixelFast(ix, iy, r, g, b, a, op) {
+    const i = (iy * this.width + ix) * 4;
+    const d = this.data;
+    const sa = (a | 0) / 255;
+    if (sa <= 0) return;
+    if (!op || op === 'source-over') {
+      if (sa >= 1) { d[i] = r; d[i + 1] = g; d[i + 2] = b; d[i + 3] = 255; return; }
+      const da = d[i + 3] / 255, ia = 1 - sa;
+      const oa = sa + da * ia;
+      const inv = oa > 0 ? 1 / oa : 0;
+      d[i] = Math.round((r * sa + d[i] * da * ia) * inv);
+      d[i + 1] = Math.round((g * sa + d[i + 1] * da * ia) * inv);
+      d[i + 2] = Math.round((b * sa + d[i + 2] * da * ia) * inv);
+      d[i + 3] = Math.round(oa * 255);
+      return;
+    }
+    // General Porter-Duff in premultiplied 0..1 space.
+    const da = d[i + 3] / 255;
+    const sr = r / 255, sg = g / 255, sb = b / 255;
+    const dr = d[i] / 255, dg = d[i + 1] / 255, db = d[i + 2] / 255;
+    const SP0 = sr * sa, SP1 = sg * sa, SP2 = sb * sa;
+    const DP0 = dr * da, DP1 = dg * da, DP2 = db * da;
+    let P0, P1, P2, oa;
+    switch (op) {
+      case 'destination-over':
+        oa = da + sa * (1 - da);
+        P0 = DP0 + SP0 * (1 - da); P1 = DP1 + SP1 * (1 - da); P2 = DP2 + SP2 * (1 - da);
+        break;
+      case 'copy': oa = sa; P0 = SP0; P1 = SP1; P2 = SP2; break;
+      case 'lighter':
+        oa = Math.min(1, sa + da);
+        P0 = Math.min(1, SP0 + DP0); P1 = Math.min(1, SP1 + DP1); P2 = Math.min(1, SP2 + DP2);
+        break;
+      case 'xor':
+        oa = sa + da - 2 * sa * da;
+        P0 = SP0 * (1 - da) + DP0 * (1 - sa);
+        P1 = SP1 * (1 - da) + DP1 * (1 - sa);
+        P2 = SP2 * (1 - da) + DP2 * (1 - sa);
+        break;
+      case 'source-in': oa = sa * da; P0 = SP0 * da; P1 = SP1 * da; P2 = SP2 * da; break;
+      case 'source-out': oa = sa * (1 - da); P0 = SP0 * (1 - da); P1 = SP1 * (1 - da); P2 = SP2 * (1 - da); break;
+      case 'destination-in': oa = da * sa; P0 = DP0 * sa; P1 = DP1 * sa; P2 = DP2 * sa; break;
+      case 'destination-out': oa = da * (1 - sa); P0 = DP0 * (1 - sa); P1 = DP1 * (1 - sa); P2 = DP2 * (1 - sa); break;
+      case 'source-atop':
+        oa = da; P0 = SP0 * da + DP0 * (1 - sa); P1 = SP1 * da + DP1 * (1 - sa); P2 = SP2 * da + DP2 * (1 - sa);
+        break;
+      case 'destination-atop':
+        oa = sa; P0 = DP0 * sa + SP0 * (1 - da); P1 = DP1 * sa + SP1 * (1 - da); P2 = DP2 * sa + SP2 * (1 - da);
+        break;
+      default: // unknown op -> source-over
+        oa = sa + da * (1 - sa);
+        P0 = SP0 + DP0 * (1 - sa); P1 = SP1 + DP1 * (1 - sa); P2 = SP2 + DP2 * (1 - sa);
+        break;
+    }
+    if (oa <= 0) { d[i] = 0; d[i + 1] = 0; d[i + 2] = 0; d[i + 3] = 0; return; }
+    const inv = 1 / oa;
+    d[i] = Math.round(Math.max(0, Math.min(1, P0 * inv)) * 255);
+    d[i + 1] = Math.round(Math.max(0, Math.min(1, P1 * inv)) * 255);
+    d[i + 2] = Math.round(Math.max(0, Math.min(1, P2 * inv)) * 255);
+    d[i + 3] = Math.round(Math.max(0, Math.min(1, oa)) * 255);
+  }
+
+  /** Direct write with no blending (clearRect semantics), honors clip+mask. */
+  writePixel(x, y, r, g, b, a) {
+    const ix = Math.round(x), iy = Math.round(y);
+    if (ix < 0 || iy < 0 || ix >= this.width || iy >= this.height) return;
+    if (!this._inClip(ix, iy) || !this._maskOk(ix, iy)) return;
+    const i = (iy * this.width + ix) * 4;
+    this.data[i] = r; this.data[i + 1] = g; this.data[i + 2] = b; this.data[i + 3] = a;
+  }
+
+  /** Erase a rect to transparent black (real clearRect). Honors clip+mask. */
+  clearRectRaw(x, y, w, h) {
+    const sx = Math.max(0, Math.floor(x)), sy = Math.max(0, Math.floor(y));
+    const ex = Math.min(this.width, Math.ceil(x + w)), ey = Math.min(this.height, Math.ceil(y + h));
+    const [csx, csy, cex, cey] = this._clipBounds(sx, sy, ex, ey);
+    const d = this.data, W = this.width, m = this._clipMask;
+    for (let yy = csy; yy < cey; yy++) {
+      const row = yy * W;
+      for (let xx = csx; xx < cex; xx++) {
+        if (m && m[row + xx] === 0) continue;
+        const i = (row + xx) * 4;
+        d[i] = 0; d[i + 1] = 0; d[i + 2] = 0; d[i + 3] = 0;
+      }
+    }
+  }
+
+  /**
+   * Fill one horizontal span with an RGBA color under a composite op.
+   * Fast path: opaque source-over writes directly (no per-pixel call).
+   */
+  fillSpanAlpha(y, x0, x1, r, g, b, a, op = 'source-over') {
+    const yy = Math.round(y);
+    if (yy < 0 || yy >= this.height) return;
+    let xa = Math.max(0, Math.floor(x0)), xb = Math.min(this.width, Math.ceil(x1));
+    const c = this._clip;
+    if (c) {
+      if (yy < c[1] || yy >= c[3]) return;
+      xa = Math.max(xa, c[0]); xb = Math.min(xb, c[2]);
+    }
+    if (xb <= xa) return;
+    const m = this._clipMask, row = yy * this.width, d = this.data;
+    const sa = (a | 0) / 255;
+    if (sa <= 0) return;
+    if ((!op || op === 'source-over') && sa >= 1 && !m) {
+      for (let xx = xa; xx < xb; xx++) {
+        const i = (row + xx) * 4;
+        d[i] = r; d[i + 1] = g; d[i + 2] = b; d[i + 3] = 255;
+      }
+      return;
+    }
+    for (let xx = xa; xx < xb; xx++) {
+      if (m && m[row + xx] === 0) continue;
+      this._blendPixelFast(xx, yy, r, g, b, a, op);
+    }
+  }
+
+  /**
+   * Composite a whole RGBA surface onto this one with globalAlpha and a
+   * composite op, preserving real alpha. Honors clip rect + mask.
+   */
+  blitAlpha(src, dx, dy, alpha = 1, op = 'source-over') {
+    if (!src || !src.data) return;
+    const sw = src.width | 0, sh = src.height | 0;
+    if (sw < 1 || sh < 1) return;
+    const sdata = src.data, dW = this.width, dH = this.height;
+    const ox = Math.round(dx), oy = Math.round(dy);
+    let x0 = Math.max(0, -ox), y0 = Math.max(0, -oy);
+    let x1 = Math.min(sw, dW - ox), y1 = Math.min(sh, dH - oy);
+    const c = this._clip;
+    if (c) {
+      x0 = Math.max(x0, c[0] - ox); y0 = Math.max(y0, c[1] - oy);
+      x1 = Math.min(x1, c[2] - ox); y1 = Math.min(y1, c[3] - oy);
+    }
+    if (x1 <= x0 || y1 <= y0) return;
+    const m = this._clipMask;
+    if ((!op || op === 'source-over') && !m) {
+      // Fast path: bounds + page clip precomputed, no path mask.
+      const d = this.data;
+      for (let sy = y0; sy < y1; sy++) {
+        const dy2 = oy + sy, srow = sy * sw, drow = (dy2 * dW + ox) * 4;
+        for (let sx = x0; sx < x1; sx++) {
+          const si = (srow + sx) * 4;
+          const sa8 = sdata[si + 3];
+          if (sa8 === 0) continue;
+          const di = drow + sx * 4;
+          if (alpha >= 1 && sa8 === 255) {
+            d[di] = sdata[si]; d[di + 1] = sdata[si + 1]; d[di + 2] = sdata[si + 2]; d[di + 3] = 255;
+            continue;
+          }
+          const sa = (sa8 / 255) * alpha, ia = 1 - sa;
+          const da = d[di + 3] / 255;
+          const oa = sa + da * ia;
+          const inv = oa > 0 ? 1 / oa : 0;
+          d[di] = Math.round((sdata[si] * sa + d[di] * da * ia) * inv);
+          d[di + 1] = Math.round((sdata[si + 1] * sa + d[di + 1] * da * ia) * inv);
+          d[di + 2] = Math.round((sdata[si + 2] * sa + d[di + 2] * da * ia) * inv);
+          d[di + 3] = Math.round(oa * 255);
+        }
+      }
+      return;
+    }
+    for (let sy = y0; sy < y1; sy++) {
+      const dy2 = oy + sy, srow = sy * sw;
+      for (let sx = x0; sx < x1; sx++) {
+        if (m && m[dy2 * dW + ox + sx] === 0) continue;
+        const si = (srow + sx) * 4;
+        const sa = (sdata[si + 3] / 255) * alpha;
+        if (sa <= 0) continue;
+        this._blendPixelFast(ox + sx, dy2, sdata[si], sdata[si + 1], sdata[si + 2], Math.round(sa * 255), op);
+      }
+    }
+  }
+
+  /**
+   * Tint for canvas shadows: rgb := color.rgb, a := a * color.a.
+   * Used after rasterizing a blurred white silhouette.
+   */
+  tintWith(color) {
+    const d = this.data;
+    const r = color[0] | 0, g = color[1] | 0, b = color[2] | 0;
+    const k = (color[3] ?? 255) / 255;
+    for (let i = 0; i < d.length; i += 4) {
+      d[i] = r; d[i + 1] = g; d[i + 2] = b;
+      d[i + 3] = Math.round(d[i + 3] * k);
+    }
+  }
+
+  /**
+   * Alpha-aware text via the 5x7 glyph atlas. Each set-pixel run becomes a
+   * span fill so globalAlpha / composite ops / clip masks apply correctly.
+   */
+  drawTextAlpha(text, x, y, color, scale = 1, maxWidth = Infinity, op = 'source-over') {
+    const r = color[0] | 0, g = color[1] | 0, b = color[2] | 0, a = color[3] ?? 255;
+    let cursor = x;
+    const charW = 6 * scale;
+    for (const ch of String(text || '')) {
+      if (cursor + charW > x + maxWidth) break;
+      const rows = GLYPHS[ch] || GLYPHS[ch.toUpperCase?.()] || GLYPHS['?'];
+      for (let yy = 0; yy < rows.length; yy++) {
+        const rowS = rows[yy];
+        let run = -1;
+        for (let xx = 0; xx <= 5; xx++) {
+          const bit = xx < 5 ? rowS[xx] : '0';
+          if (bit === '1' && run < 0) run = xx;
+          if (bit !== '1' && run >= 0) {
+            const x0 = cursor + run * scale, x1 = cursor + xx * scale;
+            for (let syy = 0; syy < scale; syy++) {
+              this.fillSpanAlpha(y + yy * scale + syy, x0, x1, r, g, b, a, op);
+            }
+            run = -1;
+          }
+        }
+      }
+      cursor += charW;
+    }
+    return cursor - x;
+  }
 }
 
 // B"H 2026-10-09 (viewport culling): text measurement cache. textWidth()
