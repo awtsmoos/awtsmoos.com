@@ -13,9 +13,9 @@ static int execute_create_node(AwtsNativeExecution* execution) {
 	node = &runtime->nodes[runtime->nodeCount];
 	node->handle = awts_native_read_varuint(&execution->code);
 	node->parentHandle = awts_native_read_varuint(&execution->code);
-	node->tag = awts_native_read_ref(execution);
-	node->id = awts_native_read_ref(execution);
-	node->text = awts_native_read_ref(execution);
+	node->tagIdx = awts_native_read_ref(execution);
+	node->idIdx = awts_native_read_ref(execution);
+	node->textIdx = awts_native_read_ref(execution);
 	if (!execution->code.ok || !node->handle) {
 		return 0;
 	}
@@ -35,9 +35,9 @@ static int execute_bind_event(AwtsNativeExecution* execution) {
 	}
 	event = &runtime->events[runtime->eventCount];
 	event->targetHandle = awts_native_read_varuint(&execution->code);
-	event->eventName = awts_native_read_ref(execution);
+	event->eventNameIdx = awts_native_read_ref(execution);
 	event->actionTargetHandle = awts_native_read_varuint(&execution->code);
-	event->value = awts_native_read_ref(execution);
+	event->valueIdx = awts_native_read_ref(execution);
 	if (!execution->code.ok
 		|| !awts_native_web_find_node(runtime, event->targetHandle)
 		|| !awts_native_web_find_node(runtime, event->actionTargetHandle)) {

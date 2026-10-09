@@ -25,7 +25,7 @@ int awts_native_read_pool(
 	AwtsNativeWebRuntime* runtime
 );
 
-AwtsNativeSlice awts_native_read_ref(AwtsNativeExecution* execution);
+uint32_t awts_native_read_ref(AwtsNativeExecution* execution);
 int awts_native_execute_record_op(
 	AwtsNativeExecution* execution,
 	uint8_t opcode
