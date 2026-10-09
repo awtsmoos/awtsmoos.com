@@ -183,6 +183,10 @@ static uint64_t cache_key(int font, uint16_t glyph, int px) {
 static void cache_reset(AwtsTextRenderer* tr) {
 	memset(tr->cache, 0, sizeof(tr->cache));
 	tr->shelfX = 0; tr->shelfY = 0; tr->shelfH = 0;
+	/* B"H: ASCII entry pointers are stale after atlas reset (they point
+	   into the cleared hash table). Metrics tables (font/glyph/adv/px)
+	   survive — only the atlas UVs are invalid. */
+	memset(tr->asciiEntry, 0, sizeof(tr->asciiEntry));
 }
 
 static CacheEntry* cache_lookup(AwtsTextRenderer* tr, uint64_t key) {
@@ -420,6 +424,68 @@ static void push_vert(AwtsTextRenderer* tr, float x, float y, float u, float v) 
 	tr->vertCount += 4;
 }
 
+/*
+ * B"H: Batched quad emission. One capacity check + one call per glyph
+ * instead of six push_vert calls (six checks, six calls). The vertex
+ * order matches the old six-push_vert sequence exactly.
+ */
+static void push_quad(AwtsTextRenderer* tr,
+		float x0, float y0, float x1, float y1,
+		float u0, float v0, float u1, float v1) {
+	if (tr->vertCount + 24 > tr->vertCap) {
+		if (!push_vert_grow(tr)) return;
+		if (tr->vertCount + 24 > tr->vertCap) return;
+	}
+	float* p = tr->verts + tr->vertCount;
+	p[0] = x0; p[1] = y0; p[2] = u0; p[3] = v0;
+	p[4] = x1; p[5] = y0; p[6] = u1; p[7] = v0;
+	p[8] = x1; p[9] = y1; p[10] = u1; p[11] = v1;
+	p[12] = x0; p[13] = y0; p[14] = u0; p[15] = v0;
+	p[16] = x1; p[17] = y1; p[18] = u1; p[19] = v1;
+	p[20] = x0; p[21] = y1; p[22] = u0; p[23] = v1;
+	tr->vertCount += 24;
+}
+
+/* ------------------------------------------------------------------ */
+/* ASCII fast path                                                    */
+/* ------------------------------------------------------------------ */
+
+/*
+ * B"H: Builds the 128-entry ASCII tables for one (bold,px) combination.
+ * Each entry is resolved via pick_font so semantics match the slow path
+ * exactly (including font fallback for missing glyphs). Advances are
+ * precomputed so measure never touches the TTF. Cache entries are filled
+ * lazily on draw (avoids rasterizing all 128 glyphs upfront).
+ *
+ * Cost: 128 pick_font + 128 advance calls, once per (bold,px). Pays for
+ * itself after ~128 characters (saves ~50ns/char thereafter).
+ */
+static void ascii_ensure(AwtsTextRenderer* tr, int bold, int px) {
+	int fi = bold ? 1 : 0;
+	int c;
+	if (tr->asciiPx[fi] == px) return;
+	for (c = 0; c < 128; c++) {
+		uint16_t glyph = 0;
+		int font = pick_font(tr, (uint32_t)c, bold, &glyph);
+		if (font < 0) {
+			font = 0;
+			glyph = 0;
+		}
+		tr->asciiFont[fi][c] = (uint8_t)font;
+		tr->asciiGlyph[fi][c] = glyph;
+		if (glyph) {
+			LoadedFont* lf = &tr->fonts[font];
+			int au = awts_ttf_advance(&lf->face, glyph);
+			tr->asciiAdv[fi][c] = au *
+				((float)px / (float)lf->face.unitsPerEm);
+		} else {
+			tr->asciiAdv[fi][c] = (float)px * 0.5f;
+		}
+		tr->asciiEntry[fi][c] = NULL;
+	}
+	tr->asciiPx[fi] = px;
+}
+
 /* Length-delimited inner draw: no NUL scan, no temp copy. */
 static void draw_run_n(AwtsTextRenderer* tr, float x, float y, int px,
 		float r, float g, float b,
@@ -429,37 +495,83 @@ static void draw_run_n(AwtsTextRenderer* tr, float x, float y, int px,
 		flush_quads(tr);
 		tr->curR = r; tr->curG = g; tr->curB = b;
 	}
-	float cx = x;
-	const char* p = text;
-	const char* end = text + len;
-	while (p < end) {
-		if (*p == '\n') { p++; continue; }
-		uint32_t cp = utf8_next_n(&p, end);
-		if (cp == 0) break;
-		uint16_t glyph = 0;
-		int font = pick_font(tr, cp, bold, &glyph);
-		if (font < 0) {
-			/* Missing glyph: advance by a space-ish width. */
-			cx += px * 0.5f;
-			continue;
+	ascii_ensure(tr, bold, px);
+	{
+		int fi = bold ? 1 : 0;
+		float cx = x;
+		const char* p = text;
+		const char* end = text + len;
+		/* Hoisted: avoid per-glyph division. */
+		float uScale = 1.0f / (float)ATLAS_W;
+		float vScale = 1.0f / (float)ATLAS_H;
+		while (p < end) {
+			unsigned char c = (unsigned char)*p;
+			CacheEntry* e;
+			float x0, y0, x1, y1;
+			if (c == '\n') { p++; continue; }
+			if (c < 0x80u) {
+				/*
+				 * B"H: ASCII fast path. No UTF-8 decode, no
+				 * pick_font (cmap binary search), no cache_key
+				 * hash — just three array lookups.
+				 */
+				e = tr->asciiEntry[fi][c];
+				if (!e) {
+					e = cache_glyph(tr,
+						tr->asciiFont[fi][c],
+						tr->asciiGlyph[fi][c], px);
+					tr->asciiEntry[fi][c] = e;
+					if (!e) {
+						p++;
+						continue;
+					}
+				}
+				p++;
+			} else {
+				/* Slow path: non-ASCII (Hebrew etc.). */
+				uint32_t cp = utf8_next_n(&p, end);
+				uint32_t mkey;
+				size_t mi;
+				int font;
+				uint16_t glyph;
+				if (cp == 0) break;
+				/*
+				 * B"H: cp memo — repeated non-ASCII chars skip
+				 * pick_font entirely (direct-mapped, 64 entries).
+				 */
+				mkey = cp + 1;
+				mi = (size_t)((cp * 2654435761u) >> 26);
+				if (tr->cpMemoCp[fi][mi] == mkey) {
+					if (tr->cpMemoFont[fi][mi] == 255) {
+						cx += (float)px * 0.5f;
+						continue;
+					}
+					font = tr->cpMemoFont[fi][mi];
+					glyph = tr->cpMemoGlyph[fi][mi];
+				} else {
+					font = pick_font(tr, cp, bold, &glyph);
+					tr->cpMemoCp[fi][mi] = mkey;
+					if (font < 0) {
+						tr->cpMemoFont[fi][mi] = 255;
+						cx += (float)px * 0.5f;
+						continue;
+					}
+					tr->cpMemoFont[fi][mi] = (uint8_t)font;
+					tr->cpMemoGlyph[fi][mi] = glyph;
+				}
+				e = cache_glyph(tr, font, glyph, px);
+				if (!e) continue;
+			}
+			if (e->w > 0 && e->h > 0) {
+				x0 = cx + e->bx; y0 = y + e->by;
+				x1 = x0 + e->w; y1 = y0 + e->h;
+				push_quad(tr, x0, y0, x1, y1,
+					e->ax * uScale, e->ay * vScale,
+					(e->ax + e->w) * uScale,
+					(e->ay + e->h) * vScale);
+			}
+			cx += e->adv;
 		}
-		CacheEntry* e = cache_glyph(tr, font, glyph, px);
-		if (!e) continue;
-		if (e->w > 0 && e->h > 0) {
-			float x0 = cx + e->bx, y0 = y + e->by;
-			float x1 = x0 + e->w, y1 = y0 + e->h;
-			float u0 = (float)e->ax / ATLAS_W;
-			float v0 = (float)e->ay / ATLAS_H;
-			float u1 = (float)(e->ax + e->w) / ATLAS_W;
-			float v1 = (float)(e->ay + e->h) / ATLAS_H;
-			push_vert(tr, x0, y0, u0, v0);
-			push_vert(tr, x1, y0, u1, v0);
-			push_vert(tr, x1, y1, u1, v1);
-			push_vert(tr, x0, y0, u0, v0);
-			push_vert(tr, x1, y1, u1, v1);
-			push_vert(tr, x0, y1, u0, v1);
-		}
-		cx += e->adv;
 	}
 }
 
@@ -508,25 +620,71 @@ static float measure_run_n(AwtsTextRenderer* tr, const char* text, size_t len,
 	float w = 0;
 	const char* p = text ? text : "";
 	const char* end = p + len;
-	while (p < end) {
-		if (*p == '\n') { p++; continue; }
-		uint32_t cp = utf8_next_n(&p, end);
-		if (cp == 0) break;
-		uint16_t glyph = 0;
-		int font = -1;
-		if (tr && tr->ok) font = pick_font(tr, cp, bold, &glyph);
-		if (font < 0) { w += px * 0.5f; continue; }
-		uint64_t key = cache_key(font, glyph, px);
-		CacheEntry* e = cache_lookup(tr, key);
-		float adv;
-		if (e) {
-			adv = e->adv;
-		} else {
-			LoadedFont* lf = &tr->fonts[font];
-			int au = awts_ttf_advance(&lf->face, glyph);
-			adv = au * ((float)px / (float)lf->face.unitsPerEm);
+	if (!tr || !tr->ok) {
+		/* No renderer: estimate without touching fonts. */
+		while (p < end) {
+			unsigned char c = (unsigned char)*p;
+			if (c == '\n') { p++; continue; }
+			if (c < 0x80u) { p++; }
+			else { utf8_next_n(&p, end); }
+			w += (float)px * 0.5f;
 		}
-		w += adv;
+		return w;
+	}
+	ascii_ensure(tr, bold, px);
+	{
+		int fi = bold ? 1 : 0;
+		while (p < end) {
+			unsigned char c = (unsigned char)*p;
+			uint32_t cp;
+			uint32_t mkey;
+			size_t mi;
+			int font;
+			uint16_t glyph;
+			uint64_t key;
+			CacheEntry* e;
+			float adv;
+			if (c == '\n') { p++; continue; }
+			if (c < 0x80u) {
+				/* B"H: ASCII fast path — precomputed advance. */
+				w += tr->asciiAdv[fi][c];
+				p++;
+				continue;
+			}
+			cp = utf8_next_n(&p, end);
+			if (cp == 0) break;
+			/* cp memo (same as draw path). */
+			mkey = cp + 1;
+			mi = (size_t)((cp * 2654435761u) >> 26);
+			if (tr->cpMemoCp[fi][mi] == mkey) {
+				if (tr->cpMemoFont[fi][mi] == 255) {
+					w += (float)px * 0.5f;
+					continue;
+				}
+				font = tr->cpMemoFont[fi][mi];
+				glyph = tr->cpMemoGlyph[fi][mi];
+			} else {
+				font = pick_font(tr, cp, bold, &glyph);
+				tr->cpMemoCp[fi][mi] = mkey;
+				if (font < 0) {
+					tr->cpMemoFont[fi][mi] = 255;
+					w += (float)px * 0.5f;
+					continue;
+				}
+				tr->cpMemoFont[fi][mi] = (uint8_t)font;
+				tr->cpMemoGlyph[fi][mi] = glyph;
+			}
+			key = cache_key(font, glyph, px);
+			e = cache_lookup(tr, key);
+			if (e) {
+				adv = e->adv;
+			} else {
+				LoadedFont* lf = &tr->fonts[font];
+				int au = awts_ttf_advance(&lf->face, glyph);
+				adv = au * ((float)px / (float)lf->face.unitsPerEm);
+			}
+			w += adv;
+		}
 	}
 	return w;
 }

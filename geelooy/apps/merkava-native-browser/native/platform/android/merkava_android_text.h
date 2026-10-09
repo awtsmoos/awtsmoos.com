@@ -47,7 +47,7 @@
 #define AWTS_TEXT_VERT_QUADS_MAX 8192
 
 typedef struct {
-	uint32_t key; /* (font<<24)|(glyph<<8)|px; 0 = slot unused */
+	uint64_t key; /* (font<<48)|(glyph<<16)|px; 0 = slot unused */
 	int16_t ax, ay;   /* atlas position */
 	int16_t w, h;     /* bitmap size */
 	int16_t bx, by;   /* bearings (px, y-down from pen) */
@@ -82,6 +82,33 @@ typedef struct AwtsTextRenderer {
 	AwtsTextCacheEntry cache[AWTS_TEXT_CACHE_SLOTS];
 	int shelfX, shelfY, shelfH;
 	uint8_t* scratch; /* glyph raster scratch (AWTS_TEXT_SCRATCH_SIZE) */
+
+	/*
+	 * B"H (2026-10-09): Extreme text optimization -- ASCII fast path.
+	 *
+	 * 95%+ of Latin text is ASCII. These tables eliminate per-character
+	 * pick_font (cmap lookups) and cache_key hashing for ASCII:
+	 * - asciiFont/asciiGlyph/asciiAdv: resolved once per (bold,px),
+	 *   then O(1) per character. Built via pick_font so semantics match.
+	 * - asciiEntry: lazy CacheEntry* per ASCII char (atlas UVs for draw).
+	 *   Cleared on cache_reset (atlas overflow); metrics tables survive.
+	 * - asciiPx: px the tables were built for; 0 = unbuilt.
+	 */
+	uint8_t asciiFont[2][128];
+	uint16_t asciiGlyph[2][128];
+	float asciiAdv[2][128];
+	AwtsTextCacheEntry* asciiEntry[2][128];
+	int asciiPx[2];
+
+	/*
+	 * B"H: Non-ASCII codepoint memo (direct-mapped, 64 entries per bold).
+	 * Memoizes (cp,bold) -> (font, glyph) so repeated Hebrew chars skip
+	 * pick_font. Stores cp+1 (0 = empty). 255 = missing glyph.
+	 * Survives cache_reset (font/glyph mapping is atlas-independent).
+	 */
+	uint32_t cpMemoCp[2][64];
+	uint16_t cpMemoGlyph[2][64];
+	uint8_t cpMemoFont[2][64];
 } AwtsTextRenderer;
 
 int awts_text_init(AwtsTextRenderer* tr);
