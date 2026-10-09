@@ -106,15 +106,35 @@ class AsmGen {
     const params = node.params || [];
     if (params.length > 6) fail("max 6 params supported", node);
     for (const p of params) if (p.type !== "Identifier") fail("only simple params", p);
-    // Pre-pass: collect all locals (function-scoped for v1).
+    // Pre-pass: collect all locals (function-scoped for v1). Object literals
+    // with fixed integer fields become stack-allocated fixed-shape objects
+    // (compile-time hidden classes: field -> fixed stack offset).
     const localNames = [];
+    const objInits = new Map(); // name -> {fields: [names], node}
     const seen = new Set(params.map(p => p.name));
+    const isObjInit = (d) => d.init && d.init.type === "ObjectExpression";
     const collect = (n) => {
       if (!n || typeof n.type !== "string") return;
       if (n.type === "VariableDeclaration") {
         for (const d of n.declarations) {
           if (d.id.type !== "Identifier") fail("destructuring not supported", d);
-          if (!seen.has(d.id.name)) { seen.add(d.id.name); localNames.push(d.id.name); }
+          if (!seen.has(d.id.name)) {
+            seen.add(d.id.name); localNames.push(d.id.name);
+            if (isObjInit(d)) {
+              const fields = [];
+              for (const prop of d.init.properties || []) {
+                if (prop.type !== "Property" || prop.computed ||
+                    (prop.key.type !== "Identifier" && prop.key.type !== "Literal"))
+                  fail("only fixed identifier fields in object literals", prop);
+                const fname = prop.key.type === "Identifier" ? prop.key.name : String(prop.key.value);
+                if (fields.includes(fname)) fail(`duplicate field '${fname}'`, prop);
+                fields.push(fname);
+              }
+              objInits.set(d.id.name, { fields, node: d.init });
+            }
+          } else if (isObjInit(d)) {
+            fail(`object literal re-init of '${d.id.name}' not supported (declare once)`, d);
+          }
           if (d.init) collect(d.init);
         }
         return;
@@ -127,34 +147,44 @@ class AsmGen {
       }
     };
     collect(node.body);
-    // Allocate: params + locals to pinned regs first, rest to stack.
+    // Allocate: objects always on the stack (fixed shape); scalars to pinned
+    // regs first, rest to stack.
     this.locals = new Map();
     const allNames = [...params.map(p => p.name), ...localNames];
-    let stackOff = 0;
-    allNames.forEach((nm, i) => {
-      if (i < PINNED.length) this.locals.set(nm, { reg: PINNED[i] });
-      else { stackOff += 8; this.locals.set(nm, { stackOff }); }
-    });
-    this.stackReserve = stackOff;
+    let stackBytes = 0;
+    let regIdx = 0;
+    for (const nm of allNames) {
+      const oi = objInits.get(nm);
+      if (oi) {
+        const fieldOff = {};
+        for (const f of oi.fields) { stackBytes += 8; fieldOff[f] = stackBytes; }
+        this.locals.set(nm, { obj: true, fieldOff });
+        continue;
+      }
+      if (regIdx < PINNED.length) { this.locals.set(nm, { reg: PINNED[regIdx++] }); }
+      else { stackBytes += 8; this.locals.set(nm, { stackOff: stackBytes }); }
+    }
+    this.stackReserve = stackBytes;
     this.loopStack = [];
+    this.objInits = objInits;
 
     this.emit(`${name}:`);
     this.emit(`PUSH RBP`);
     this.emit(`MOV RBP, RSP`);
-    const usedPinned = allNames.slice(0, PINNED.length).map(nm => this.locals.get(nm).reg);
+    const usedPinned = PINNED.slice(0, regIdx);
     for (const r of usedPinned) this.emit(`PUSH ${r}`);
-    if (stackOff) this.emit(`SUB RSP, ${stackOff}`);
+    if (stackBytes) this.emit(`SUB RSP, ${stackBytes}`);
     params.forEach((p, i) => {
       const loc = this.locals.get(p.name);
       if (loc.reg) { if (ARG_REGS[i] !== loc.reg) this.emit(`MOV ${loc.reg}, ${ARG_REGS[i]}`); }
-      else this.emit(`MOV QWORD PTR [RBP-${frameOff(loc.stackOff, usedPinned.length)}], ${ARG_REGS[i]}`);
+      else this.emit(`MOV QWORD PTR [RBP-${loc.stackOff + usedPinned.length * 8}], ${ARG_REGS[i]}`);
     });
     const epilogue = this.lbl("epilogue");
     this.epilogue = epilogue;
     this.pinnedCount = usedPinned.length;
     this.emitBlock(node.body);
     this.emit(`${epilogue}:`);
-    if (stackOff) this.emit(`ADD RSP, ${stackOff}`);
+    if (stackBytes) this.emit(`ADD RSP, ${stackBytes}`);
     for (let i = usedPinned.length - 1; i >= 0; i--) this.emit(`POP ${usedPinned[i]}`);
     this.emit(`MOV RSP, RBP`);
     this.emit(`POP RBP`);
@@ -164,6 +194,14 @@ class AsmGen {
   // frame offset of a stack local, accounting for pushed pinned regs.
   stackAddr(loc) {
     return `QWORD PTR [RBP-${loc.stackOff + this.pinnedCount * 8}]`;
+  }
+
+  // address of an object field.
+  fieldAddr(loc, field, node) {
+    if (!loc.obj) fail(`'${field}' accessed on non-object`, node);
+    const off = loc.fieldOff[field];
+    if (off === undefined) fail(`unknown field '${field}'`, node);
+    return `QWORD PTR [RBP-${off + this.pinnedCount * 8}]`;
   }
 
   locOf(name, node) {
@@ -270,12 +308,23 @@ class AsmGen {
   }
 
   storeLoc(loc) {
+    if (loc.obj) fail("cannot store a scalar into an object local (assign obj.field instead)");
     if (loc.reg) this.emit(`MOV ${loc.reg}, RAX`);
     else this.emit(`MOV ${this.stackAddr(loc)}, RAX`);
   }
 
-  // Shared literal-init: destination gets the constant with no RAX hop.
+  // Shared init: literal fast path; object literals fill fixed field slots.
   initLoc(loc, initNode) {
+    if (loc.obj) {
+      if (!initNode || initNode.type !== "ObjectExpression")
+        fail("object local requires an object literal initializer", initNode);
+      for (const prop of initNode.properties || []) {
+        const fname = prop.key.type === "Identifier" ? prop.key.name : String(prop.key.value);
+        this.expr(prop.value); // -> RAX
+        this.emit(`MOV ${this.fieldAddr(loc, fname, prop)}, RAX`);
+      }
+      return;
+    }
     if (initNode.type === "Literal" && typeof initNode.value === "number" &&
         Number.isInteger(initNode.value)) {
       const bi = BigInt(initNode.value);
@@ -289,6 +338,7 @@ class AsmGen {
   }
 
   loadLoc(loc) {
+    if (loc.obj) fail("cannot load an object local as a scalar (use obj.field)");
     if (loc.reg) { if (loc.reg !== "RAX") this.emit(`MOV RAX, ${loc.reg}`); }
     else this.emit(`MOV RAX, ${this.stackAddr(loc)}`);
   }
@@ -307,7 +357,7 @@ class AsmGen {
     }
     if (node.type === "Identifier") {
       const loc = this.locals.get(node.name);
-      if (loc && loc.reg) return { text: loc.reg, isImm: false, immFits32: false, value: null };
+      if (loc && !loc.obj && loc.reg) return { text: loc.reg, isImm: false, immFits32: false, value: null };
     }
     return null;
   }
@@ -355,20 +405,20 @@ class AsmGen {
   exprVoid(node) {
     if (node.type === "UpdateExpression" &&
         (node.operator === "++" || node.operator === "--")) {
-      const loc = this.lvalue(node.argument);
+      const desc = this.lvalue(node.argument);
       const ins = node.operator === "++" ? "INC" : "DEC";
-      if (loc.reg) this.emit(`${ins} ${loc.reg}`);
+      if (desc.kind === "local" && desc.loc.reg) this.emit(`${ins} ${desc.loc.reg}`);
       else {
-        this.emit(`MOV RAX, ${this.stackAddr(loc)}`);
+        this.loadDesc(desc, node.argument);
         this.emit(`${ins} RAX`);
-        this.emit(`MOV ${this.stackAddr(loc)}, RAX`);
+        this.storeDesc(desc);
       }
       return;
     }
     if (node.type === "AssignmentExpression") {
-      const loc = this.lvalue(node.left);
-      if (node.operator === "=") { this.expr(node.right); this.storeLoc(loc); return; }
-      this.compoundAssign(loc, node.operator.slice(0, -1), node.right, false, node);
+      const desc = this.lvalue(node.left);
+      if (node.operator === "=") { this.expr(node.right); this.storeDesc(desc); return; }
+      this.compoundAssign(desc, node.operator.slice(0, -1), node.right, false, node);
       return;
     }
     this.expr(node);
@@ -401,6 +451,14 @@ class AsmGen {
       case "Identifier":
         this.loadLoc(this.locOf(node.name, node));
         return;
+      case "MemberExpression": {
+        // obj.field load (non-computed, fixed shape).
+        if (node.computed || node.object.type !== "Identifier" || node.property.type !== "Identifier")
+          fail("only obj.field access supported", node);
+        const oloc = this.locOf(node.object.name, node.object);
+        this.emit(`MOV RAX, ${this.fieldAddr(oloc, node.property.name, node)}`);
+        return;
+      }
       case "BinaryExpression":
         this.binary(node);
         return;
@@ -408,32 +466,33 @@ class AsmGen {
         const op = node.operator;
         if (!["=", "+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "|=", "^="].includes(op))
           fail(`assignment operator ${op} not supported`, node);
-        const loc = this.lvalue(node.left);
+        const desc = this.lvalue(node.left);
         if (op === "=") {
           this.expr(node.right);
-          this.storeLoc(loc);
+          this.storeDesc(desc);
           return; // RAX already holds the value (JS assignment value)
         }
-        this.compoundAssign(loc, op.slice(0, -1), node.right, true, node);
+        this.compoundAssign(desc, op.slice(0, -1), node.right, true, node);
         return;
       }
       case "UpdateExpression": {
-        const loc = this.lvalue(node.argument);
+        const desc = this.lvalue(node.argument);
         const delta = node.operator === "++" ? 1 : node.operator === "--" ? -1 : fail(`bad update`, node);
         const ins = delta === 1 ? "INC" : "DEC";
-        if (loc.reg) {
+        if (desc.kind === "local" && desc.loc.reg) {
+          const r = desc.loc.reg;
           if (node.prefix) {
-            this.emit(`${ins} ${loc.reg}`);
-            if (loc.reg !== "RAX") this.emit(`MOV RAX, ${loc.reg}`);
+            this.emit(`${ins} ${r}`);
+            if (r !== "RAX") this.emit(`MOV RAX, ${r}`);
           } else {
-            if (loc.reg !== "RAX") this.emit(`MOV RAX, ${loc.reg}`);
-            this.emit(`${ins} ${loc.reg}`);
+            if (r !== "RAX") this.emit(`MOV RAX, ${r}`);
+            this.emit(`${ins} ${r}`);
           }
         } else {
-          this.emit(`MOV RAX, ${this.stackAddr(loc)}`);
+          this.loadDesc(desc, node.argument);
           if (!node.prefix) this.emit(`PUSH RAX`); // save old value
           this.emit(delta === 1 ? `INC RAX` : `DEC RAX`);
-          this.emit(`MOV ${this.stackAddr(loc)}, RAX`);
+          this.storeDesc(desc);
           if (!node.prefix) this.emit(`POP RAX`);  // old value
         }
         return;
@@ -491,37 +550,52 @@ class AsmGen {
   }
 
   lvalue(node) {
-    if (node.type !== "Identifier") fail("only identifier lvalues", node);
-    return this.locOf(node.name, node);
+    if (node.type === "Identifier") return { kind: "local", loc: this.locOf(node.name, node) };
+    if (node.type === "MemberExpression" && !node.computed &&
+        node.object.type === "Identifier" && node.property.type === "Identifier") {
+      const loc = this.locOf(node.object.name, node.object);
+      if (!loc.obj) fail(`property access on non-object '${node.object.name}'`, node);
+      const field = node.property.name;
+      if (loc.fieldOff[field] === undefined) fail(`unknown field '${field}'`, node);
+      return { kind: "field", loc, field };
+    }
+    fail("only identifier and obj.field lvalues supported", node);
+  }
+
+  storeDesc(desc) {
+    if (desc.kind === "local") { this.storeLoc(desc.loc); return; }
+    this.emit(`MOV ${this.fieldAddr(desc.loc, desc.field)}, RAX`);
+  }
+
+  loadDesc(desc, node) {
+    if (desc.kind === "local") { this.loadLoc(desc.loc); return; }
+    this.emit(`MOV RAX, ${this.fieldAddr(desc.loc, desc.field, node)}`);
   }
 
   // RAX = n (signed 64) on entry; RAX = n % d on exit. d > 0, fits 32 bits.
   // Barrett reduction: q = mulhi(|n|, μ), r = |n| - q*d, correct by loop.
-  // μ = floor(2^64/d). No IDIV — ~10 cycles vs ~30-90.
+  // μ = floor(2^64/d). Branchless abs via sign mask; no IDIV (~10cy vs ~30).
   barrettMod(d) {
     const mu = (1n << 64n) / BigInt(d); // BigInt, fits 64 bits for d >= 1
-    const nn = this.lbl("bnn"), corr = this.lbl("bcorr"), cdone = this.lbl("bcdone"), sdone = this.lbl("bsdone");
-    this.emit(`MOV R11, RAX`);          // orig n (sign)
-    this.emit(`CMP RAX, 0`);
-    this.emit(`JGE ${nn}`);
-    this.emit(`NEG RAX`);
-    this.emit(`${nn}:`);                // RAX = |n|
-    this.emit(`PUSH RAX`);              // save |n|
+    const corr = this.lbl("bcorr"), cdone = this.lbl("bcdone");
+    this.emit(`MOV R11, RAX`);          // orig n
+    this.emit(`SAR R11, 63`);           // mask = 0 or -1
+    this.emit(`XOR RAX, R11`);
+    this.emit(`SUB RAX, R11`);          // RAX = |n| (INT64_MIN wraps to 2^63, fine)
+    this.emit(`PUSH RAX`);              // save |n| (MUL clobbers RAX)
     this.emit(`MOV R10, ${mu}`);        // Barrett magic
     this.emit(`MUL R10`);               // RDX:RAX = |n|*μ, RDX = q
     this.emit(`IMUL R10, RDX, ${d}`);   // R10 = q*d
     this.emit(`POP RAX`);               // RAX = |n|
     this.emit(`SUB RAX, R10`);          // RAX = r >= 0
-    this.emit(`${corr}:`);              // correction: at most a couple iterations
+    this.emit(`${corr}:`);              // correction: essentially never iterates
     this.emit(`CMP RAX, ${d}`);
     this.emit(`JL ${cdone}`);
     this.emit(`SUB RAX, ${d}`);
     this.emit(`JMP ${corr}`);
     this.emit(`${cdone}:`);
-    this.emit(`CMP R11, 0`);
-    this.emit(`JGE ${sdone}`);
-    this.emit(`NEG RAX`);
-    this.emit(`${sdone}:`);
+    this.emit(`XOR RAX, R11`);
+    this.emit(`SUB RAX, R11`);          // reapply sign: r or -r
   }
 
   // RAX = left, R10 = right on entry; result in RAX.
@@ -543,8 +617,9 @@ class AsmGen {
 
   // Compound assignment core. wantValue=false skips materializing the
   // assignment value in RAX (void context).
-  compoundAssign(loc, aop, rhsNode, wantValue, node) {
-    if (loc.reg) {
+  compoundAssign(desc, aop, rhsNode, wantValue, node) {
+    const loc = desc.kind === "local" ? desc.loc : null;
+    if (loc && loc.reg) {
       // Fast path: op directly on the register. No push/pop, no reload.
       if (aop === "/" || aop === "%") {
         // Barrett for constant positive 32-bit divisor.
@@ -586,14 +661,14 @@ class AsmGen {
       }
       fail(`compound ${aop}= with register lhs not supported`, node);
     }
-    // Stack-local lhs: load/op/store.
-    this.loadLoc(loc);                    // RAX = a
+    // Stack-local or object-field lhs: load/op/store.
+    this.loadDesc(desc, node);             // RAX = a
     this.emit(`PUSH RAX`);
     this.expr(rhsNode);                   // RAX = b
     this.emit(`MOV R10, RAX`);
     this.emit(`POP RAX`);                 // RAX = a, R10 = b
     this.arithOp(aop, node);              // RAX = a OP b
-    this.storeLoc(loc);
+    this.storeDesc(desc);
   }
 
   binary(node) {
