@@ -4,33 +4,33 @@
 
 /* Header of the comment in the Sidebar */
 :where(.post-reader-localized-context) .comment-content .commentTitle {
-    background: var(--color-ink) !important;
-    color: var(--color-accent) !important;
-    font-family: var(--font-heading) !important;
-    font-size: 1.6rem !important; 
-    padding: 15px 25px !important;
-    border-bottom: 6px solid var(--color-primary) !important;
-    text-transform: none !important; /* NO DEFAULT CAPS */
-    letter-spacing: 1px !important;
-    font-weight: 900 !important;
-    margin: 0 !important;
-    display: block !important;
-    width: 100% !important;
+    background: var(--color-ink);
+    color: var(--color-accent);
+    font-family: var(--font-heading);
+    font-size: 1.6rem; 
+    padding: 15px 25px;
+    border-bottom: 6px solid var(--color-primary);
+    text-transform: none; /* NO DEFAULT CAPS */
+    letter-spacing: 1px;
+    font-weight: 900;
+    margin: 0;
+    display: block;
+    width: 100%;
 }
 
 /* Header of the Inline comment */
 :where(.post-reader-localized-context) .inline-comment .commentTitle {
-    background: var(--color-ink) !important;
-    color: var(--color-accent) !important;
-    font-size: 1.8rem !important; 
-    font-family: var(--font-heading) !important;
-    padding: 15px 25px !important;
-    text-transform: none !important; /* NO DEFAULT CAPS */
-    border-bottom: 6px solid var(--color-primary) !important;
-    letter-spacing: 1px !important;
-    font-weight: 900 !important;
-    margin: 0 !important;
-    display: block !important;
+    background: var(--color-ink);
+    color: var(--color-accent);
+    font-size: 1.8rem; 
+    font-family: var(--font-heading);
+    padding: 15px 25px;
+    text-transform: none; /* NO DEFAULT CAPS */
+    border-bottom: 6px solid var(--color-primary);
+    letter-spacing: 1px;
+    font-weight: 900;
+    margin: 0;
+    display: block;
 }
 
 /* Guarding paragraphs against text transformations */

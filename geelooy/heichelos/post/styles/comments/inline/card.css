@@ -5,46 +5,51 @@
 
 :where(.post-reader-localized-context) .awtsmoos-inline-card-v2,
 :where(.post-reader-localized-context) .awtsmoos-inline-commentary-root {
-    border-radius: 24px !important;
-    border: 1px solid rgba(148,163,184,.24) !important;
-    background: linear-gradient(135deg, rgba(255,255,255,.99), rgba(248,250,252,.94)) !important;
-    box-shadow: 0 18px 48px rgba(15,23,42,.12) !important;
-    overflow: hidden !important;
-    color: #0f172a !important;
-    width: 100% !important;
-    max-width: min(100%, 880px) !important;
-    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease !important;
+    border-radius: 24px;
+    border: 1px solid rgba(148,163,184,.24);
+    background: linear-gradient(135deg, rgba(255,255,255,.99), rgba(248,250,252,.94));
+    box-shadow: 0 18px 48px rgba(15,23,42,.12);
+    overflow: hidden;
+    color: #0f172a;
+    width: 100%;
+    max-width: min(100%, 880px);
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
 }
 
 :where(.post-reader-localized-context) .awtsmoos-inline-card-v2:hover,
 :where(.post-reader-localized-context) .awtsmoos-inline-commentary-root:hover {
-    transform: translateY(-2px) !important;
-    border-color: rgba(99,102,241,.42) !important;
-    box-shadow: 0 24px 60px rgba(15,23,42,.16) !important;
+    transform: translateY(-2px);
+    border-color: rgba(99,102,241,.42);
+    box-shadow: 0 24px 60px rgba(15,23,42,.16);
 }
 
 .post-reader-localized-context .awtsmoos-inline-card-header {
-    display: flex !important;
-    align-items: center !important;
-    gap: .75rem !important;
-    padding: .9rem 1rem !important;
-    background: linear-gradient(135deg, rgba(99,102,241,.12), rgba(14,165,233,.10)) !important;
-    border-bottom: 1px solid rgba(148,163,184,.20) !important;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(99,102,241,.12), rgba(14,165,233,.10));
+    border-bottom: 1px solid rgba(148,163,184,.20);
+}
+/* B"H (Yaakov 2026-10-08: never use important — fix the selector): the doubled scoping class
+   lifts this to (0,3,0) so gap/padding keep beating the reader-vision variant's
+   equal-specificity rules in ideal/reborn/inline-comments/compact-audit.css. */
+.post-reader-localized-context.post-reader-localized-context .awtsmoos-inline-card-header {
+    gap: .75rem;
+    padding: .9rem 1rem;
 }
 
 .post-reader-localized-context .awtsmoos-inline-avatar {
-    width: 38px !important;
-    height: 38px !important;
-    border-radius: 999px !important;
-    box-shadow: 0 10px 24px rgba(99,102,241,.24) !important;
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    box-shadow: 0 10px 24px rgba(99,102,241,.24);
 }
 
 .post-reader-localized-context .awtsmoos-inline-body,
 :where(.post-reader-localized-context) .awtsmoos-inline-commentary-root .comment-body-vessel {
-    padding: clamp(.95rem, 2.4vw, 1.35rem) !important;
-    line-height: 1.72 !important;
+    padding: clamp(.95rem, 2.4vw, 1.35rem);
+    line-height: 1.72;
 }
 
 .post-reader-localized-context .awtsmoos-inline-focus {
-    flex: 0 0 auto !important;
+    flex: 0 0 auto;
 }

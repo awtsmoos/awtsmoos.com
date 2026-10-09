@@ -47,26 +47,26 @@
 
 /* THE WRITING SURFACE */
 :where(.post-reader-localized-context) .awtsmoos-writing-surface {
-    display: block !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-    min-height: 150px !important;
-    max-height: 50vh !important;
-    padding: 20px !important;
-    margin: 0 !important;
-    background: #ffffff !important;
-    color: #000000 !important;
-    border: none !important;
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.08) !important;
-    font-family: var(--font-content) !important;
-    font-size: 16px !important;
-    line-height: 1.7 !important;
-    overflow-y: auto !important;
-    outline: none !important;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 150px;
+    max-height: 50vh;
+    padding: 20px;
+    margin: 0;
+    background: #ffffff;
+    color: #000000;
+    border: none;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.08);
+    font-family: var(--font-content);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-y: auto;
+    outline: none;
 }
 
 :where(.post-reader-localized-context) .awtsmoos-writing-surface:focus {
-    background: #fffef9 !important;
+    background: #fffef9;
 }
 
 /* Placeholder */
@@ -79,15 +79,15 @@
 
 /* Source View */
 .post-reader-localized-context .awtsmoos-source-surface {
-    min-height: 150px !important;
-    width: 100% !important;
-    padding: 20px !important;
-    box-sizing: border-box !important;
-    font-family: monospace !important;
-    font-size: 14px !important;
-    background: #1a1a1a !important;
-    color: #00ff00 !important;
-    border: none !important;
+    min-height: 150px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: monospace;
+    font-size: 14px;
+    background: #1a1a1a;
+    color: #00ff00;
+    border: none;
     resize: vertical;
     outline: none;
 }

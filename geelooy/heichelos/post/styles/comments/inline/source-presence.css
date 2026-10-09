@@ -6,81 +6,81 @@
 */
 
 .post-reader-localized-context .awtsmoos-inline-source-vessel {
-    position: relative !important;
+    position: relative;
 }
 
 .post-reader-localized-context .awtsmoos-inline-source-vessel::after {
-    content: "" !important;
-    position: absolute !important;
-    inset-block: .18rem !important;
-    inset-inline-start: -.55rem !important;
-    width: 3px !important;
-    border-radius: 999px !important;
-    background: linear-gradient(180deg, transparent, var(--inline-thread, rgba(197,138,26,.42)), transparent) !important;
-    opacity: .34 !important;
-    transform: scaleY(.72) !important;
-    transform-origin: center !important;
-    transition: opacity .22s ease, transform .22s ease !important;
-    pointer-events: none !important;
+    content: "";
+    position: absolute;
+    inset-block: .18rem;
+    inset-inline-start: -.55rem;
+    width: 3px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, transparent, var(--inline-thread, rgba(197,138,26,.42)), transparent);
+    opacity: .34;
+    transform: scaleY(.72);
+    transform-origin: center;
+    transition: opacity .22s ease, transform .22s ease;
+    pointer-events: none;
 }
 
 :where(.post-reader-localized-context) .heb .awtsmoos-inline-source-vessel::after,
 :where(.post-reader-localized-context) [dir="rtl"] .awtsmoos-inline-source-vessel::after {
-    inset-inline-start: auto !important;
-    inset-inline-end: -.55rem !important;
+    inset-inline-start: auto;
+    inset-inline-end: -.55rem;
 }
 
 .post-reader-localized-context .awtsmoos-inline-source-focused::after,
 :where(.post-reader-localized-context) .awtsmoos-inline-source-vessel:has(.awtsmoos-inline-reading-focus)::after {
-    opacity: .9 !important;
-    transform: scaleY(1) !important;
+    opacity: .9;
+    transform: scaleY(1);
 }
 
 :where(.post-reader-localized-context) .awtsmoos-inline-reading-focus .awtsmoos-inline-trigger-preview::before {
-    content: "Linked passage · " !important;
-    color: rgba(255,255,255,.68) !important;
-    font-weight: 900 !important;
+    content: "Linked passage · ";
+    color: rgba(255,255,255,.68);
+    font-weight: 900;
 }
 
 .post-reader-localized-context .awtsmoos-inline-card-header::before {
-    content: "" !important;
-    align-self: stretch !important;
-    width: 3px !important;
-    border-radius: 999px !important;
-    background: linear-gradient(180deg, var(--inline-thread, rgba(197,138,26,.52)), transparent) !important;
-    opacity: .72 !important;
+    content: "";
+    align-self: stretch;
+    width: 3px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--inline-thread, rgba(197,138,26,.52)), transparent);
+    opacity: .72;
 }
 
 :where(.post-reader-localized-context) .heb .awtsmoos-inline-card-header::before,
 :where(.post-reader-localized-context) [dir="rtl"] .awtsmoos-inline-card-header::before {
-    order: 99 !important;
+    order: 99;
 }
 
 :where(.post-reader-localized-context) :where(.awtsmoos-inline-commentary-root:hover) .awtsmoos-inline-card-header::before,
 :where(.post-reader-localized-context) :where(.awtsmoos-inline-commentary-root:focus-within) .awtsmoos-inline-card-header::before {
-    opacity: 1 !important;
+    opacity: 1;
 }
 
 .post-reader-localized-context .awtsmoos-inline-shelter-label::after {
-    content: "anchored marginalia" !important;
-    margin-inline-start: .45rem !important;
-    padding: .16rem .45rem !important;
-    border-radius: 999px !important;
-    border: 1px solid color-mix(in srgb, var(--inline-gold, #c58a1a) 28%, transparent) !important;
-    color: color-mix(in srgb, currentColor 78%, var(--inline-gold, #c58a1a)) !important;
-    font-size: .68rem !important;
-    letter-spacing: .08em !important;
+    content: "anchored marginalia";
+    margin-inline-start: .45rem;
+    padding: .16rem .45rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--inline-gold, #c58a1a) 28%, transparent);
+    color: color-mix(in srgb, currentColor 78%, var(--inline-gold, #c58a1a));
+    font-size: .68rem;
+    letter-spacing: .08em;
 }
 
 @media (max-width: 760px) {
     .post-reader-localized-context .awtsmoos-inline-source-vessel::after,
     .post-reader-localized-context .awtsmoos-inline-shelter-label::after {
-        display: none !important;
+        display: none;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
     .post-reader-localized-context .awtsmoos-inline-source-vessel::after {
-        transition: none !important;
+        transition: none;
     }
 }

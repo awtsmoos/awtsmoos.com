@@ -4,61 +4,66 @@
 
 /* Sidebar Card Toolbar */
 :where(.post-reader-localized-context) .comment-content .comment-toolbar {
-    background: rgba(0,0,0,0.04) !important;
-    border-top: 2px dashed var(--color-ink-secondary) !important;
-    padding: 12px 20px !important;
-    display: flex !important;
-    justify-content: flex-end !important;
-    gap: 15px !important;
-    align-items: center !important;
-    margin-top: auto !important; /* Pushes toolbar to bottom if card is tall */
+    background: rgba(0,0,0,0.04);
+    border-top: 2px dashed var(--color-ink-secondary);
+    padding: 12px 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    align-items: center;
+    margin-top: auto; /* Pushes toolbar to bottom if card is tall */
 }
 
 /* Dark theme inversion for toolbar */
 :where(.post-reader-localized-context[data-theme="dark"]) .comment-content .comment-toolbar {
-    background: rgba(255,255,255,0.05) !important;
+    background: rgba(255,255,255,0.05);
 }
 
 /* Action Buttons inside Toolbars */
 :where(.post-reader-localized-context) :where(.comment-toolbar) .btn,
 :where(.post-reader-localized-context) :where(.comment-toolbar) .menu-btn {
-    background: var(--bg-surface) !important;
-    color: var(--color-ink) !important;
-    border: 2px solid var(--color-ink) !important;
-    box-shadow: 2px 2px 0 var(--color-ink) !important;
-    font-size: 1rem !important; 
-    padding: 6px 14px !important;
-    font-weight: 900 !important;
-    text-transform: uppercase !important;
-    transition: all 0.15s var(--ease-snap) !important;
+    background: var(--bg-surface);
+    color: var(--color-ink);
+    border: 2px solid var(--color-ink);
+    box-shadow: 2px 2px 0 var(--color-ink);
+    font-size: 1rem; 
+    padding: 6px 14px;
+    font-weight: 900;
+    text-transform: uppercase;
+    transition: all 0.15s var(--ease-snap);
 }
 
 :where(.post-reader-localized-context) :where(.comment-toolbar) .btn:hover,
 :where(.post-reader-localized-context) :where(.comment-toolbar) .menu-btn:hover {
-    background: var(--color-accent) !important;
-    box-shadow: 4px 4px 0 var(--color-primary) !important;
-    transform: translate(-2px, -2px) !important;
-    border-color: var(--color-ink) !important;
+    background: var(--color-accent);
+    box-shadow: 4px 4px 0 var(--color-primary);
+    transform: translate(-2px, -2px);
+    border-color: var(--color-ink);
 }
 
 /* Intense Reply Toggle Button (Nested Comments) */
 :where(.post-reader-localized-context) .reply-toggle-btn {
-    background: var(--color-electric) !important;
-    color: white !important;
-    border: 3px solid var(--color-ink) !important;
-    font-size: 1.1rem !important;
-    box-shadow: 4px 4px 0 var(--color-ink) !important;
-    padding: 10px 20px !important;
-    text-transform: uppercase !important;
-    font-weight: 900 !important;
-    transition: all 0.2s !important;
-    display: inline-block !important;
-    width: max-content !important;
-    margin-top: 10px !important;
+    background: var(--color-electric);
+    color: white;
+    border: 3px solid var(--color-ink);
+    font-size: 1.1rem;
+    box-shadow: 4px 4px 0 var(--color-ink);
+    padding: 10px 20px;
+    font-weight: 900;
+    transition: all 0.2s;
+}
+/* B"H (Yaakov 2026-10-08: never use important — fix the selector): width/margin-top split out
+   and boosted to (0,2,0) so the intense toggle keeps beating structure.css's
+   non-important base. display/text-transform stay above: both files agree on the value. */
+.post-reader-localized-context .reply-toggle-btn {
+    display: inline-block;
+    width: max-content;
+    margin-top: 10px;
+    text-transform: uppercase;
 }
 
 :where(.post-reader-localized-context) .reply-toggle-btn:hover {
-    background: var(--color-primary) !important;
-    box-shadow: 6px 6px 0 var(--color-ink) !important;
-    transform: translate(-2px, -2px) !important;
+    background: var(--color-primary);
+    box-shadow: 6px 6px 0 var(--color-ink);
+    transform: translate(-2px, -2px);
 }

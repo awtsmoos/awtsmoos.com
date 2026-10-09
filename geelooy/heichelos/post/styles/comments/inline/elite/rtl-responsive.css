@@ -7,47 +7,47 @@
 
 :where(.post-reader-localized-context) .awtsmoos-inline-commentary-root[data-script-direction="rtl"],
 :where(.post-reader-localized-context) .awtsmoos-inline-commentary-root[data-script-direction="mixed"] {
-    text-align: start !important;
-    unicode-bidi: plaintext !important;
+    text-align: start;
+    unicode-bidi: plaintext;
 }
 
 :where(.post-reader-localized-context) :where(.awtsmoos-inline-commentary-root[data-script-direction="rtl"]) .awtsmoos-inline-card-header,
 :where(.post-reader-localized-context) [dir="rtl"] .comments-holder-inline,
 :where(.post-reader-localized-context) .heb .comments-holder-inline {
-    direction: rtl !important;
+    direction: rtl;
 }
 
 :where(.post-reader-localized-context) [dir="rtl"] .comments-holder-inline,
 :where(.post-reader-localized-context) .heb .comments-holder-inline {
-    padding-inline-start: 0 !important;
-    padding-inline-end: clamp(.35rem, .9vw, .75rem) !important;
+    padding-inline-start: 0;
+    padding-inline-end: clamp(.35rem, .9vw, .75rem);
 }
 
 :where(.post-reader-localized-context) [dir="rtl"] .comments-holder-inline::before,
 :where(.post-reader-localized-context) .heb .comments-holder-inline::before {
-    inset-inline-start: auto !important;
-    inset-inline-end: .05rem !important;
+    inset-inline-start: auto;
+    inset-inline-end: .05rem;
 }
 
 :where(.post-reader-localized-context) [dir="rtl"] .awtsmoos-inline-commentary-root::before,
 :where(.post-reader-localized-context) .heb .awtsmoos-inline-commentary-root::before {
-    inset-inline-start: auto !important;
-    inset-inline-end: -.73rem !important;
+    inset-inline-start: auto;
+    inset-inline-end: -.73rem;
 }
 
 @media (max-width: 760px) {
     :where(body) :where(.post-reader-localized-context) :where(.awtsmoos-inline-shell[data-anchor-label]) .awtsmoos-inline-trigger::after {
-        position: static !important;
-        max-width: 100% !important;
-        margin-inline-start: 3.25rem !important;
-        margin-block-start: .35rem !important;
+        position: static;
+        max-width: 100%;
+        margin-inline-start: 3.25rem;
+        margin-block-start: .35rem;
     }
 
     body .post-reader-localized-context .comments-holder-inline {
-        padding-inline-start: .4rem !important;
+        padding-inline-start: .4rem;
     }
 
     body :where(.post-reader-localized-context) :where(.awtsmoos-inline-commentary-root[data-reading-length="long"]) .comment-body-vessel {
-        max-height: none !important;
+        max-height: none;
     }
 }

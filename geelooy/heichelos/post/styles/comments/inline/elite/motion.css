@@ -5,8 +5,8 @@
 */
 
 .post-reader-localized-context .awtsmoos-inline-commentary-root {
-    animation: awtsmoosEliteCardArrival .34s cubic-bezier(.2,.8,.2,1) both !important;
-    animation-delay: calc(var(--inline-insertion-order, 0) * 42ms) !important;
+    animation: awtsmoosEliteCardArrival .34s cubic-bezier(.2,.8,.2,1) both;
+    animation-delay: calc(var(--inline-insertion-order, 0) * 42ms);
 }
 
 .post-reader-localized-context .awtsmoos-inline-trigger,
@@ -16,7 +16,7 @@
         transform .22s cubic-bezier(.2,.8,.2,1),
         box-shadow .22s cubic-bezier(.2,.8,.2,1),
         opacity .2s ease,
-        filter .2s ease !important;
+        filter .2s ease;
 }
 
 
@@ -30,7 +30,7 @@
     .post-reader-localized-context .awtsmoos-inline-commentary-root,
     .post-reader-localized-context .awtsmoos-inline-trigger,
     .post-reader-localized-context .comments-holder-inline::before {
-        animation: none !important;
-        transition: none !important;
+        animation: none;
+        transition: none;
     }
 }

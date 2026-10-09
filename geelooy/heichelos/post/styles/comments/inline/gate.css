@@ -5,63 +5,75 @@
 
 .post-reader-localized-context .awtsmoos-inline-shell,
 :where(.post-reader-localized-context) .commentator.inline-holder {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: .85rem !important;
-    padding: 0 !important;
-    background: transparent !important;
-    border: 0 !important;
+    display: flex;
+    flex-direction: column;
+    gap: .85rem;
+    padding: 0;
+    background: transparent;
+    border: 0;
 }
 
 :where(.post-reader-localized-context) .awtsmoos-inline-trigger,
 :where(.post-reader-localized-context) :where(.commentator.inline-holder) .inline-summary-btn {
-    width: 100% !important;
-    min-height: 54px !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: .75rem !important;
-    border: 1px solid rgba(255,255,255,.16) !important;
-    border-radius: 20px !important;
-    background: linear-gradient(135deg, rgba(30,41,59,.98), rgba(88,28,135,.94)) !important;
-    color: white !important;
-    box-shadow: 0 16px 38px rgba(15,23,42,.23) !important;
-    padding: .85rem 1rem !important;
-    cursor: pointer !important;
-    font-weight: 850 !important;
-    text-align: left !important;
-    transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease !important;
+    width: 100%;
+    min-height: 54px;
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(30,41,59,.98), rgba(88,28,135,.94));
+    color: white;
+    box-shadow: 0 16px 38px rgba(15,23,42,.23);
+    cursor: pointer;
+    font-weight: 850;
+    text-align: left;
+    transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+}
+/* B"H (Yaakov 2026-10-08: never use important — fix the selector): gap/border/padding split
+   out and boosted to (0,2,0) so they keep beating the reader-vision variant's
+   equal-specificity rules (ideal/reborn/.../inline-shell.css, compact-audit.css).
+   border-radius/background/box-shadow/transition stay above: the elite layers
+   (elite/gate-summary.css, elite/motion.css) already outrank them by specificity. */
+.post-reader-localized-context .awtsmoos-inline-trigger {
+    gap: .75rem;
+    border: 1px solid rgba(255,255,255,.16);
+    padding: .85rem 1rem;
+}
+:where(.post-reader-localized-context) :where(.commentator.inline-holder) .inline-summary-btn {
+    gap: .75rem;
+    border: 1px solid rgba(255,255,255,.16);
+    padding: .85rem 1rem;
 }
 
 :where(.post-reader-localized-context) .awtsmoos-inline-trigger:hover{
-    transform: translateY(-2px) !important;
-    box-shadow: 0 22px 48px rgba(88,28,135,.28) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 22px 48px rgba(88,28,135,.28);
 }
 
 .post-reader-localized-context .awtsmoos-inline-trigger-count {
-    margin-inline-start: auto !important;
-    min-width: 2.15rem !important;
-    height: 2.15rem !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    border-radius: 999px !important;
-    background: rgba(255,255,255,.14) !important;
-    color: white !important;
-    font-size: .84rem !important;
-    font-weight: 950 !important;
+    margin-inline-start: auto;
+    min-width: 2.15rem;
+    height: 2.15rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: rgba(255,255,255,.14);
+    color: white;
+    font-size: .84rem;
+    font-weight: 950;
 }
 
 .post-reader-localized-context .comments-holder-inline,
 .post-reader-localized-context .awtsmoos-inline-comments {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: clamp(.8rem, 2vw, 1.15rem) !important;
-    width: 100% !important;
-    transition: opacity .2s ease, transform .2s ease !important;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(.8rem, 2vw, 1.15rem);
+    width: 100%;
+    transition: opacity .2s ease, transform .2s ease;
 }
 
 :where(.post-reader-localized-context) :where(.awtsmoos-inline-shell.is-collapsed) .comments-holder-inline,
 :where(.post-reader-localized-context) :where(.awtsmoos-inline-shell.is-collapsed) .awtsmoos-inline-comments {
-display: none !important;
-display: none !important;
+display: none;
+display: none;
 }

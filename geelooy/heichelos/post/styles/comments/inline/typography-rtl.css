@@ -7,122 +7,122 @@
 
 .post-reader-localized-context .awtsmoos-inline-commentary-root,
 .post-reader-localized-context .awtsmoos-inline-trigger {
-    font-kerning: normal !important;
-    font-optical-sizing: auto !important;
-    text-rendering: optimizeLegibility !important;
+    font-kerning: normal;
+    font-optical-sizing: auto;
+    text-rendering: optimizeLegibility;
 }
 
 :where(.post-reader-localized-context) .awtsmoos-inline-commentary-root .comment-body-vessel,
 :where(.post-reader-localized-context) .awtsmoos-inline-commentary-root .comment-text,
 :where(.post-reader-localized-context) .awtsmoos-inline-commentary-root .awtsmoos-comment-paragraph {
-margin: 0 0 0.65rem 0 !important;
-    padding: 0 !important;
-    border-bottom: 0 !important;
-    color: var(--color-ink) !important;
-    font-family: var(--font-content) !important;
-    font-size: inherit !important;
-    font-weight: 500 !important;
-    line-height: 1.68 !important;
-    text-transform: none !important;
-    word-break: break-word !important;
-    overflow-wrap: anywhere !important;
-margin: 0 0 0.65rem 0 !important;
-    padding: 0 !important;
-    border-bottom: 0 !important;
-    color: var(--color-ink) !important;
-    font-family: var(--font-content) !important;
-    font-size: inherit !important;
-    font-weight: 500 !important;
-    line-height: 1.68 !important;
-    text-transform: none !important;
-    word-break: break-word !important;
-    overflow-wrap: anywhere !important;
-max-width: var(--inline-reading-measure, 68ch) !important;
-    letter-spacing: .002em !important;
-    word-spacing: .02em !important;
-    hanging-punctuation: first allow-end last !important;
+margin: 0 0 0.65rem 0;
+    padding: 0;
+    border-bottom: 0;
+    color: var(--color-ink);
+    font-family: var(--font-content);
+    font-size: inherit;
+    font-weight: 500;
+    line-height: 1.68;
+    text-transform: none;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+margin: 0 0 0.65rem 0;
+    padding: 0;
+    border-bottom: 0;
+    color: var(--color-ink);
+    font-family: var(--font-content);
+    font-size: inherit;
+    font-weight: 500;
+    line-height: 1.68;
+    text-transform: none;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+max-width: var(--inline-reading-measure, 68ch);
+    letter-spacing: .002em;
+    word-spacing: .02em;
+    hanging-punctuation: first allow-end last;
 }
 
 .post-reader-localized-context .awtsmoos-inline-commentary-root p,
 .post-reader-localized-context .awtsmoos-inline-commentary-root li {
-    margin-block: 0 .82em !important;
+    margin-block: 0 .82em;
 }
 
 :where(.post-reader-localized-context) .awtsmoos-inline-commentary-root p:last-child,
 :where(.post-reader-localized-context) .awtsmoos-inline-commentary-root li:last-child {
-    margin-block-end: 0 !important;
+    margin-block-end: 0;
 }
 
 .post-reader-localized-context .awtsmoos-inline-commentary-root blockquote {
-    margin: 1rem 0 !important;
-    padding: .75rem 1rem !important;
-    border-inline-start: 3px solid var(--inline-thread, rgba(197,138,26,.55)) !important;
-    border-radius: 0 14px 14px 0 !important;
-    background: color-mix(in srgb, var(--inline-gold, #c58a1a) 8%, transparent) !important;
-    color: color-mix(in srgb, currentColor 88%, var(--inline-gold, #c58a1a)) !important;
+    margin: 1rem 0;
+    padding: .75rem 1rem;
+    border-inline-start: 3px solid var(--inline-thread, rgba(197,138,26,.55));
+    border-radius: 0 14px 14px 0;
+    background: color-mix(in srgb, var(--inline-gold, #c58a1a) 8%, transparent);
+    color: color-mix(in srgb, currentColor 88%, var(--inline-gold, #c58a1a));
 }
 
 :where(.post-reader-localized-context) .heb .awtsmoos-inline-commentary-root blockquote,
 :where(.post-reader-localized-context) [dir="rtl"] .awtsmoos-inline-commentary-root blockquote {
-    border-inline-start: 0 !important;
-    border-inline-end: 3px solid var(--inline-thread, rgba(197,138,26,.55)) !important;
-    border-radius: 14px 0 0 14px !important;
+    border-inline-start: 0;
+    border-inline-end: 3px solid var(--inline-thread, rgba(197,138,26,.55));
+    border-radius: 14px 0 0 14px;
 }
 
 .post-reader-localized-context .awtsmoos-inline-commentary-root code,
 .post-reader-localized-context .awtsmoos-inline-commentary-root pre {
-    direction: ltr !important;
-    unicode-bidi: isolate !important;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+    direction: ltr;
+    unicode-bidi: isolate;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
 .post-reader-localized-context .awtsmoos-inline-commentary-root code {
-    padding: .12rem .32rem !important;
-    border-radius: .45rem !important;
-    background: color-mix(in srgb, currentColor 9%, transparent) !important;
-    font-size: .91em !important;
+    padding: .12rem .32rem;
+    border-radius: .45rem;
+    background: color-mix(in srgb, currentColor 9%, transparent);
+    font-size: .91em;
 }
 
 .post-reader-localized-context .awtsmoos-inline-commentary-root pre {
-    max-width: 100% !important;
-    overflow-x: auto !important;
-    padding: 1rem !important;
-    border-radius: 16px !important;
-    background: rgba(15, 23, 42, .94) !important;
-    color: #f8fafc !important;
+    max-width: 100%;
+    overflow-x: auto;
+    padding: 1rem;
+    border-radius: 16px;
+    background: rgba(15, 23, 42, .94);
+    color: #f8fafc;
 }
 
 :where(.post-reader-localized-context) :where(.heb) .awtsmoos-inline-commentary-root .comment-body-vessel,
 :where(.post-reader-localized-context) :where([dir="rtl"]) .awtsmoos-inline-commentary-root .comment-body-vessel {
-    line-height: 1.86 !important;
-    letter-spacing: 0 !important;
-    word-spacing: .045em !important;
+    line-height: 1.86;
+    letter-spacing: 0;
+    word-spacing: .045em;
 }
 
 :where(.post-reader-localized-context) .heb .awtsmoos-inline-card-header,
 :where(.post-reader-localized-context) [dir="rtl"] .awtsmoos-inline-card-header {
-    flex-direction: row-reverse !important;
+    flex-direction: row-reverse;
 }
 
 :where(.post-reader-localized-context) .heb .awtsmoos-inline-trigger-count,
 :where(.post-reader-localized-context) [dir="rtl"] .awtsmoos-inline-trigger-count {
-    margin-inline-start: 0 !important;
-    margin-inline-end: auto !important;
+    margin-inline-start: 0;
+    margin-inline-end: auto;
 }
 
 .post-reader-localized-context .awtsmoos-inline-trigger-title,
 .post-reader-localized-context .awtsmoos-inline-trigger-preview,
 .post-reader-localized-context .awtsmoos-inline-trigger-meta {
-    max-width: 100% !important;
-    overflow-wrap: anywhere !important;
+    max-width: 100%;
+    overflow-wrap: anywhere;
 }
 
 :where(.post-reader-localized-context) .awtsmoos-inline-commentary-root a {
-    color: color-mix(in srgb, var(--inline-wine, #6e1237) 82%, #2563eb) !important;
-    text-decoration-thickness: .08em !important;
-    text-underline-offset: .18em !important;
+    color: color-mix(in srgb, var(--inline-wine, #6e1237) 82%, #2563eb);
+    text-decoration-thickness: .08em;
+    text-underline-offset: .18em;
 }
 
 :where(.post-reader-localized-context) .awtsmoos-inline-commentary-root a:hover {
-    text-decoration-thickness: .14em !important;
+    text-decoration-thickness: .14em;
 }

@@ -8,30 +8,30 @@
     .post-reader-localized-context .awtsmoos-inline-shelter-v2,
     :where(.post-reader-localized-context) .heb .marginal-gloss-shelter,
     :where(.post-reader-localized-context) .heb .awtsmoos-inline-shelter-v2 {
-        margin-inline: 0 !important;
-        padding: .72rem !important;
-        border-left-width: 3px !important;
-        border-right-width: 3px !important;
-        border-radius: 18px !important;
+        margin-inline: 0;
+        padding: .72rem;
+        border-left-width: 3px;
+        border-right-width: 3px;
+        border-radius: 18px;
     }
 
     .post-reader-localized-context .marginal-gloss-shelter::before{
-        display: none !important;
+        display: none;
     }
 
     .post-reader-localized-context .awtsmoos-inline-trigger,
     :where(.post-reader-localized-context) :where(.commentator.inline-holder) .inline-summary-btn {
-        border-radius: 16px !important;
-        padding: .75rem !important;
+        border-radius: 16px;
+        padding: .75rem;
     }
 
     .post-reader-localized-context .awtsmoos-inline-card-header {
-        align-items: flex-start !important;
-        gap: .65rem !important;
+        align-items: flex-start;
+        gap: .65rem;
     }
 
     .post-reader-localized-context .awtsmoos-inline-body,
     :where(.post-reader-localized-context) .awtsmoos-inline-commentary-root .comment-body-vessel {
-        padding: .85rem !important;
+        padding: .85rem;
     }
 }

@@ -5,9 +5,9 @@
 */
 
 .marginal-gloss-container {
-    display: block !important;
+    display: block;
     min-height: 10px;
-    margin: 25px 0 !important;
+    margin: 25px 0;
     padding-left: 25px;
     border-left: 3px dashed var(--color-ink-secondary);
     background: rgba(200, 200, 200, 0.05);
@@ -24,35 +24,40 @@
 /* THE INLINE CARD */
 :where(.post-reader-localized-context) .inline-comment {
     max-width: 500px;
-    background: #ffffff !important;
-    color: #000000 !important;
-    border: 3px solid #000000 !important;
-    box-shadow: 8px 8px 0px #000000 !important;
-    padding: 0 !important; /* Managed by inner content */
-    margin-bottom: 30px !important;
+    color: #000000;
+    box-shadow: 8px 8px 0px #000000;
+    padding: 0; /* Managed by inner content */
     position: relative;
     transition: all 0.2s ease;
+}
+/* B"H (Yaakov 2026-10-08: never use important — fix the selector): margin-bottom/background/border
+   split out and boosted to (0,2,0) so the intensified card keeps beating the base
+   card.css rules. box-shadow stays above: intensified.css's own (0,2,0) rule dominates it. */
+.post-reader-localized-context .inline-comment {
+    margin-bottom: 30px;
+    background: #ffffff;
+    border: 3px solid #000000;
 }
 
 :where(.post-reader-localized-context) .inline-comment:hover {
     transform: translate(-3px, -3px);
-    box-shadow: 12px 12px 0px var(--color-accent) !important;
+    box-shadow: 12px 12px 0px var(--color-accent);
 }
 
 :where(.post-reader-localized-context) .inline-comment .commentTitle {
-    font-size: 16px !important;
-    padding: 8px 15px !important;
-    background: #000 !important;
-    color: #fff !important;
-    margin: 0 !important;
+    font-size: 16px;
+    padding: 8px 15px;
+    background: #000;
+    color: #fff;
+    margin: 0;
 }
 
 :where(.post-reader-localized-context) .inline-comment .awtsmoos-comment-paragraph {
-    font-size: 14px !important;
-    line-height: 1.5 !important;
-    padding: 12px 15px !important;
-    color: #333 !important;
-    font-weight: 600 !important;
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 12px 15px;
+    color: #333;
+    font-weight: 600;
 }
 
 /* THE AVATAR SYSTEM */

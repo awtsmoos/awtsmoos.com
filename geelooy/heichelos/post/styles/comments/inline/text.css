@@ -2,25 +2,25 @@
 :where(.post-reader-localized-context) .awtsmoos-inline-commentary-root .awtsmoos-comment-paragraph p,
 :where(.post-reader-localized-context) .awtsmoos-inline-commentary-root .awtsmoos-comment-paragraph span,
 :where(.post-reader-localized-context) .awtsmoos-inline-commentary-root .comment-text p {
-    margin: 0 0 0.65rem 0 !important;
-    padding: 0 !important;
-    border-bottom: 0 !important;
-    color: var(--color-ink) !important;
-    font-family: var(--font-content) !important;
-    font-size: inherit !important;
-    font-weight: 500 !important;
-    line-height: 1.68 !important;
-    text-transform: none !important;
-    word-break: break-word !important;
-    overflow-wrap: anywhere !important;
+    margin: 0 0 0.65rem 0;
+    padding: 0;
+    border-bottom: 0;
+    color: var(--color-ink);
+    font-family: var(--font-content);
+    font-size: inherit;
+    font-weight: 500;
+    line-height: 1.68;
+    text-transform: none;
+    word-break: break-word;
+    overflow-wrap: anywhere;
 }
 
 :where(.post-reader-localized-context) :where(.awtsmoos-inline-commentary-root) .awtsmoos-comment-paragraph p:last-child,
 :where(.post-reader-localized-context) :where(.awtsmoos-inline-commentary-root) .comment-text p:last-child {
-    margin-bottom: 0 !important;
+    margin-bottom: 0;
 }
 
 :where(.post-reader-localized-context) .awtsmoos-inline-commentary-root .comment-toolbar {
-    border-top: 1px solid color-mix(in srgb, var(--color-ink) 12%, transparent) !important;
-    background: color-mix(in srgb, var(--bg-vellum) 72%, transparent) !important;
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 12%, transparent);
+    background: color-mix(in srgb, var(--bg-vellum) 72%, transparent);
 }

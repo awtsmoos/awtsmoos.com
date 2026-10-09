@@ -23,64 +23,64 @@
 }
 
 .post-reader-localized-context .awtsmoos-inline-commentary-root {
-    animation: awtsmoosInlineCardArrival .28s cubic-bezier(.2,.8,.2,1) both !important;
-    transform-origin: top center !important;
-    will-change: transform, opacity !important;
+    animation: awtsmoosInlineCardArrival .28s cubic-bezier(.2,.8,.2,1) both;
+    transform-origin: top center;
+    will-change: transform, opacity;
 }
 
 :where(.post-reader-localized-context) :where(.comments-holder-inline) > .awtsmoos-inline-commentary-root:nth-child(2) {
-    animation-delay: .035s !important;
+    animation-delay: .035s;
 }
 
 :where(.post-reader-localized-context) :where(.comments-holder-inline) > .awtsmoos-inline-commentary-root:nth-child(3) {
-    animation-delay: .07s !important;
+    animation-delay: .07s;
 }
 
 :where(.post-reader-localized-context) :where(.comments-holder-inline) > .awtsmoos-inline-commentary-root:nth-child(n+4) {
-    animation-delay: .095s !important;
+    animation-delay: .095s;
 }
 
 :where(.post-reader-localized-context) :where(.awtsmoos-inline-shell.is-collapsed) .awtsmoos-inline-trigger {
-    animation: awtsmoosInlineGateBreath 4.8s ease-in-out infinite !important;
+    animation: awtsmoosInlineGateBreath 4.8s ease-in-out infinite;
 }
 
 :where(.post-reader-localized-context) :where(.awtsmoos-inline-shell.awtsmoos-inline-reading-focus) .awtsmoos-inline-commentary-root {
-    transform: translateY(-1px) !important;
+    transform: translateY(-1px);
 }
 
 .post-reader-localized-context .comments-holder-inline {
-    transform-origin: top center !important;
+    transform-origin: top center;
 }
 
 .post-reader-localized-context .awtsmoos-inline-trigger-count {
-    transition: transform .18s ease, background-color .18s ease !important;
+    transition: transform .18s ease, background-color .18s ease;
 }
 
 :where(.post-reader-localized-context) :where(.awtsmoos-inline-trigger:hover) .awtsmoos-inline-trigger-count,
 :where(.post-reader-localized-context) :where(.awtsmoos-inline-trigger:focus-visible) .awtsmoos-inline-trigger-count {
-    transform: scale(1.08) !important;
-    background: rgba(255,255,255,.22) !important;
+    transform: scale(1.08);
+    background: rgba(255,255,255,.22);
 }
 
 .post-reader-localized-context .awtsmoos-inline-source-focused {
-border-radius: var(--inline-radius-md) !important;
-    background: var(--inline-focus-wash) !important;
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--inline-gold, #c58a1a) 18%, transparent) !important;
-outline: 1px solid color-mix(in srgb, var(--inline-gold, #c58a1a) 24%, transparent) !important;
-    outline-offset: .25rem !important;
-transition-duration: .28s !important;
+border-radius: var(--inline-radius-md);
+    background: var(--inline-focus-wash);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--inline-gold, #c58a1a) 18%, transparent);
+outline: 1px solid color-mix(in srgb, var(--inline-gold, #c58a1a) 24%, transparent);
+    outline-offset: .25rem;
+transition-duration: .28s;
 }
 
 @media (prefers-reduced-motion: reduce) {
     .post-reader-localized-context .awtsmoos-inline-commentary-root,
     :where(.post-reader-localized-context) :where(.awtsmoos-inline-shell.is-collapsed) .awtsmoos-inline-trigger {
-        animation: none !important;
-        will-change: auto !important;
+        animation: none;
+        will-change: auto;
     }
 
     :where(.post-reader-localized-context) :where(.awtsmoos-inline-shell.awtsmoos-inline-reading-focus) .awtsmoos-inline-commentary-root,
     :where(.post-reader-localized-context) :where(.awtsmoos-inline-trigger:hover) .awtsmoos-inline-trigger-count,
     :where(.post-reader-localized-context) :where(.awtsmoos-inline-trigger:focus-visible) .awtsmoos-inline-trigger-count {
-        transform: none !important;
+        transform: none;
     }
 }

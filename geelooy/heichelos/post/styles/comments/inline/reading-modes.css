@@ -38,41 +38,41 @@
 
 :where(.post-reader-localized-context[data-inline-mode]) .awtsmoos-inline-trigger,
 :where(.post-reader-localized-context[data-inline-mode]) :where(.commentator.inline-holder) .inline-summary-btn {
-    background: var(--inline-mode-gate-bg) !important;
+    background: var(--inline-mode-gate-bg);
 }
 
 :where(.post-reader-localized-context[data-inline-mode]) .awtsmoos-inline-commentary-root {
-    background: var(--inline-mode-card-bg) !important;
-    border-color: var(--inline-mode-border) !important;
+    background: var(--inline-mode-card-bg);
+    border-color: var(--inline-mode-border);
 }
 
 :where(.post-reader-localized-context[data-inline-mode]) .awtsmoos-inline-trigger-title,
 :where(.post-reader-localized-context[data-inline-mode]) .awtsmoos-inline-trigger-meta {
-    letter-spacing: var(--inline-mode-header-tracking) !important;
+    letter-spacing: var(--inline-mode-header-tracking);
 }
 
 :where(.post-reader-localized-context[data-inline-mode="discussion"]) .awtsmoos-inline-card-header {
-    background: linear-gradient(135deg, rgba(99,102,241,.14), rgba(14,165,233,.10)) !important;
+    background: linear-gradient(135deg, rgba(99,102,241,.14), rgba(14,165,233,.10));
 }
 
 :where(.post-reader-localized-context[data-inline-mode="scholar"]) .awtsmoos-inline-commentary-root .comment-body-vessel {
-    font-family: Georgia, "Times New Roman", serif !important;
-    font-size: clamp(1rem, 1.65vw, 1.11rem) !important;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1rem, 1.65vw, 1.11rem);
 }
 
 :where(.post-reader-localized-context[data-inline-mode="manuscript"]) .awtsmoos-inline-commentary-root::after {
-    content: "✥" !important;
-    background: linear-gradient(180deg, #6e1237, #2b0715) !important;
+    content: "✥";
+    background: linear-gradient(180deg, #6e1237, #2b0715);
 }
 
 :where(.post-reader-localized-context[data-inline-density="compact"]) .awtsmoos-inline-trigger-preview {
-    -webkit-line-clamp: 1 !important;
+    -webkit-line-clamp: 1;
 }
 
 :where(.post-reader-localized-context[data-inline-density="comfortable"]) .comments-holder-inline {
-    gap: clamp(.9rem, 2vw, 1.25rem) !important;
+    gap: clamp(.9rem, 2vw, 1.25rem);
 }
 
 :where(.post-reader-localized-context[data-inline-density="immersive"]) .awtsmoos-inline-trigger-preview {
-    -webkit-line-clamp: 3 !important;
+    -webkit-line-clamp: 3;
 }

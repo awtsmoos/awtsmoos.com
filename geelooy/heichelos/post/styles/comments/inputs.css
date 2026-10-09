@@ -2,21 +2,21 @@
 /* B"H - THE COMMAND CONSOLES (Containers & Buttons) */
 
 :where(.post-reader-localized-context) .comment-section-container.awtsmoos-scribe-altar {
-    padding: clamp(0.9rem, 3vw, 1.25rem) !important;
-    border: 1px solid color-mix(in srgb, var(--color-ink) 18%, transparent) !important;
-    border-radius: 24px !important;
-    background: linear-gradient(180deg, var(--bg-surface), color-mix(in srgb, var(--bg-surface) 78%, var(--bg-vellum))) !important;
-    box-shadow: 0 12px 38px rgba(40, 24, 8, 0.10) !important;
-    margin: 0 0 1rem 0 !important;
+    padding: clamp(0.9rem, 3vw, 1.25rem);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 18%, transparent);
+    border-radius: 24px;
+    background: linear-gradient(180deg, var(--bg-surface), color-mix(in srgb, var(--bg-surface) 78%, var(--bg-vellum)));
+    box-shadow: 0 12px 38px rgba(40, 24, 8, 0.10);
+    margin: 0 0 1rem 0;
 }
 
 .post-reader-localized-context .awtsmoos-comment-entry-monolith {
-    border-bottom: 0 !important;
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 0.65rem !important;
+    border-bottom: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
 }
 
 .post-reader-localized-context .awtsmoos-comment-actions-bar {
@@ -33,42 +33,42 @@
 
 :where(.post-reader-localized-context) .awtsmoos-add-comment-btn {
     width: 100%;
-    justify-content: center !important;
+    justify-content: center;
     text-align: center;
-    background: var(--bg-surface) !important;
-    border: 1px solid color-mix(in srgb, var(--color-ink) 22%, transparent) !important;
-    color: var(--color-ink) !important;
-    padding: 0.85rem 1rem !important;
-    border-radius: 999px !important;
-    box-shadow: 0 8px 24px rgba(37, 24, 10, 0.10) !important;
-    font-size: clamp(1rem, 4vw, 1.25rem) !important;
-    font-weight: 850 !important;
-    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease !important;
-    text-transform: none !important;
+    background: var(--bg-surface);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 22%, transparent);
+    color: var(--color-ink);
+    padding: 0.85rem 1rem;
+    border-radius: 999px;
+    box-shadow: 0 8px 24px rgba(37, 24, 10, 0.10);
+    font-size: clamp(1rem, 4vw, 1.25rem);
+    font-weight: 850;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    text-transform: none;
 }
 
 :where(.post-reader-localized-context) .awtsmoos-add-comment-btn:hover,
 :where(.post-reader-localized-context) .awtsmoos-add-comment-btn:focus-visible {
-    border-color: var(--color-primary) !important;
-    box-shadow: 0 12px 30px rgba(37, 24, 10, 0.16) !important;
-    transform: translateY(-1px) !important;
+    border-color: var(--color-primary);
+    box-shadow: 0 12px 30px rgba(37, 24, 10, 0.16);
+    transform: translateY(-1px);
 }
 
 :where(.post-reader-localized-context) .awtsmoos-media-trigger {
     width: 100%;
     cursor: pointer;
-    border: 1px solid transparent !important;
-    border-radius: 18px !important;
-    padding: 0.55rem 0.75rem !important;
-    color: var(--color-ink) !important;
-    background: color-mix(in srgb, var(--bg-vellum) 78%, transparent) !important;
-    font-size: clamp(0.95rem, 3.6vw, 1.1rem) !important;
-    line-height: 1.25 !important;
+    border: 1px solid transparent;
+    border-radius: 18px;
+    padding: 0.55rem 0.75rem;
+    color: var(--color-ink);
+    background: color-mix(in srgb, var(--bg-vellum) 78%, transparent);
+    font-size: clamp(0.95rem, 3.6vw, 1.1rem);
+    line-height: 1.25;
 }
 
 :where(.post-reader-localized-context) .awtsmoos-media-trigger:hover,
 :where(.post-reader-localized-context) .awtsmoos-media-trigger:focus-visible {
-    border-color: color-mix(in srgb, var(--color-primary) 45%, transparent) !important;
+    border-color: color-mix(in srgb, var(--color-primary) 45%, transparent);
 }
 
 .post-reader-localized-context .awtsmoos-action-submit {
@@ -76,15 +76,15 @@
 }
 
 :where(.post-reader-localized-context) .awtsmoos-action-cancel {
-    background: transparent !important;
-    border-color: transparent !important;
-    box-shadow: none !important;
-    color: var(--color-ink-secondary) !important;
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    color: var(--color-ink-secondary);
 }
 
 :where(.post-reader-localized-context) .awtsmoos-action-cancel:hover {
-    color: var(--color-danger) !important;
-    background: transparent !important;
+    color: var(--color-danger);
+    background: transparent;
 }
 
 .post-reader-localized-context .ai-draft-bar {
@@ -109,13 +109,13 @@
 
 @media (max-width: 720px) {
     :where(.post-reader-localized-context) .comment-section-container.awtsmoos-scribe-altar {
-        padding: 0.85rem !important;
-        border-radius: 20px !important;
-        box-shadow: 0 8px 26px rgba(40, 24, 8, 0.08) !important;
+        padding: 0.85rem;
+        border-radius: 20px;
+        box-shadow: 0 8px 26px rgba(40, 24, 8, 0.08);
     }
 
     :where(.post-reader-localized-context) .awtsmoos-add-comment-btn {
-        padding: 0.72rem 0.8rem !important;
+        padding: 0.72rem 0.8rem;
     }
 }
 
