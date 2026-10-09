@@ -153,6 +153,15 @@ typedef unsigned long size_t;
 typedef long ptrdiff_t;
 `;
 
+/*
+ * B"H — Minimal stdarg.h: va_list as an opaque pointer. The portable backend
+ * does not implement variadic calls; this header only lets declarations that
+ * mention va_list (e.g. __android_log_vprint) parse.
+ */
+const STDARG_H = `
+typedef void* va_list;
+`;
+
 export const STD_LIBS = {
     'stdio.h': STDIO_H,
     'stdlib.h': STDLIB_H,
@@ -162,5 +171,6 @@ export const STD_LIBS = {
     'dirent.h': DIRENT_H,
     'unistd.h': UNISTD_H,
     'stdint.h': STDINT_H,
-    'stddef.h': STDDEF_H
+    'stddef.h': STDDEF_H,
+    'stdarg.h': STDARG_H
 };

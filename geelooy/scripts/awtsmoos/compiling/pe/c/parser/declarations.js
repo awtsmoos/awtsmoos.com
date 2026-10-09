@@ -13,6 +13,7 @@ import {
 	isStructureDefinition,
 	parseConstantInitializer,
 	parseEnum,
+	parseEnumBody,
 	parseImport,
 	parseStructure
 } from "./topLevelForms.js";
@@ -47,7 +48,7 @@ export function parseProgram(stream) {
 		} else if (isEnumDefinition(stream)) {
 			parseEnum(stream, program);
 		} else if (isKeyword(token, "typedef")) {
-			parseTypedef(stream);
+			parseTypedef(stream, program);
 		} else {
 			parseFunctionOrGlobal(stream, program);
 		}
@@ -177,6 +178,15 @@ function parsePrototypeArguments(stream) {
 		stream.consume();
 	} else {
 		while (!isPunctuation(stream.peek(), ")")) {
+			// Variadic `...` (three '.' ops) — the portable backend has no
+			// varargs; the declaration is accepted and the `...` is ignored.
+			if (isOperator(stream.peek(), ".")
+				&& isOperator(stream.peek(1), ".")
+				&& isOperator(stream.peek(2), ".")) {
+				stream.consume(); stream.consume(); stream.consume();
+				if (isPunctuation(stream.peek(), ",")) stream.consume();
+				continue;
+			}
 			const type = parseType(stream);
 			let argName = "";
 			if (stream.peek().type === TOKENS.ID) {
@@ -195,8 +205,21 @@ function parsePrototypeArguments(stream) {
  * Registers type aliases (`typedef int myint;`) for later parseType
  * resolution. Aliases never reach IR: every use is already the real type.
  */
-function parseTypedef(stream) {
+function parseTypedef(stream, program) {
 	stream.expect(TOKENS.KEYWORD, "typedef");
+	// `typedef enum Name { ... } Alias;` — parse the enum body, then alias it.
+	if (isKeyword(stream.peek(), "enum") && isPunctuation(stream.peek(2), "{")) {
+		stream.expect(TOKENS.KEYWORD, "enum");
+		if (stream.peek().type === TOKENS.ID) stream.consume(); // Optional tag.
+		stream.expect(TOKENS.PUNCT, "{");
+		parseEnumBody(stream, program);
+		stream.expect(TOKENS.PUNCT, "}");
+		const alias = stream.expect(TOKENS.ID).value;
+		// Enums desugar to int.
+		stream.typedefs.set(alias, { base: "int", ptr: 0 });
+		stream.expect(TOKENS.PUNCT, ";");
+		return;
+	}
 	const type = parseType(stream);
 	for (;;) {
 		const aliased = { ...type };
@@ -226,6 +249,14 @@ function parseFunction(stream, retType, name) {
 		stream.consume();
 	} else {
 		while (!isPunctuation(stream.peek(), ")")) {
+			// Variadic `...` — accepted and ignored (no varargs in backend).
+			if (isOperator(stream.peek(), ".")
+				&& isOperator(stream.peek(1), ".")
+				&& isOperator(stream.peek(2), ".")) {
+				stream.consume(); stream.consume(); stream.consume();
+				if (isPunctuation(stream.peek(), ",")) stream.consume();
+				continue;
+			}
 			args.push(parseArgument(stream));
 			if (!isPunctuation(stream.peek(), ",")) break;
 			stream.consume();

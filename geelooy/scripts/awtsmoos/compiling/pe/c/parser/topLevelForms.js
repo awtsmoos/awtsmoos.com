@@ -112,6 +112,13 @@ export function parseEnum(stream, program) {
 	stream.expect(TOKENS.KEYWORD, "enum");
 	if (stream.peek().type === TOKENS.ID) stream.consume(); // Optional tag.
 	stream.expect(TOKENS.PUNCT, "{");
+	parseEnumBody(stream, program);
+	stream.expect(TOKENS.PUNCT, "}");
+	stream.expect(TOKENS.PUNCT, ";");
+}
+
+/** Parses enum enumerators `{ A, B = 5, ... }` into program.globals. */
+export function parseEnumBody(stream, program) {
 	let nextValue = 0n;
 	let first = true;
 	while (!isPunctuation(stream.peek(), "}")) {
@@ -131,8 +138,6 @@ export function parseEnum(stream, program) {
 		});
 		nextValue++;
 	}
-	stream.expect(TOKENS.PUNCT, "}");
-	stream.expect(TOKENS.PUNCT, ";");
 }
 
 /** Parses one enumerator value: optional `-`, a number, or an earlier enumerator. */
