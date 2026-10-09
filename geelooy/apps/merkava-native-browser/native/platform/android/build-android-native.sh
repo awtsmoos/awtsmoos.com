@@ -30,7 +30,6 @@ mkdir -p "$(dirname -- "$OUTPUT")"
 	"$GLUE/android_native_app_glue.c" \
 	"$SCRIPT_DIR/merkava_android_asset.c" \
 	"$SCRIPT_DIR/merkava_android_egl.c" \
-	"$SCRIPT_DIR/merkava_android_mwb4.c" \
 	"$SCRIPT_DIR/merkava_android_vm.c" \
 	"$SCRIPT_DIR/merkava_android_ttf.c" \
 	"$SCRIPT_DIR/merkava_android_text.c" \
