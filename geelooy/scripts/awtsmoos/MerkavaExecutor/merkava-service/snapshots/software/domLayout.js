@@ -2696,11 +2696,23 @@ function cellSpan(node, attr) {
   return Number.isFinite(n) && n > 0 ? Math.min(n, 100) : 1;
 }
 
-// Per-side border {w, color} for collapse-mode conflict resolution.
-// NOTE: this engine's cascade names per-side props `border-color-top`
-// (shorthand-first), not the standard `border-top-color` — check both.
-function borderSideInfo(style, side) {
-  const w = borderBox(style, 0)[side] || 0;
+/* B"H 2026-10-09 (render-bench): all-sides border info in one pass.
+ * borderSideInfo called borderBox(style, 0) (all 4 sides parsed) then took
+ * ONE side — and table collapse resolution calls it per cell per side.
+ * Compute all four {w, color} once per style, cache per style object. */
+const BORDER_ALL_CACHE = new WeakMap();
+function borderAllSides(style) {
+  let hit = (style && typeof style === "object") ? BORDER_ALL_CACHE.get(style) : undefined;
+  if (hit) return hit;
+  const widths = borderBox(style, 0);
+  const out = {};
+  for (const side of ["top", "right", "bottom", "left"]) {
+    out[side] = borderOneSide(style, side, widths[side] || 0);
+  }
+  if (style && typeof style === "object") BORDER_ALL_CACHE.set(style, out);
+  return out;
+}
+function borderOneSide(style, side, w) {
   let color = style[`border-color-${side}`] || style[`border-${side}-color`] || style["border-color"] || "";
   if (!color) {
     // B"H 2026-10-09 (columns-tables): the cascade keeps `border:1px solid
@@ -2717,6 +2729,12 @@ function borderSideInfo(style, side) {
   const st = String(style[`border-style-${side}`] || style[`border-${side}-style`] || style["border-style"] || style.border || "").toLowerCase();
   if (/(^|\s)(none|hidden)(\s|$)/.test(` ${st} `)) return { w: 0, color: color || "#000000" };
   return { w, color: color || "#000000" };
+}
+// Per-side border {w, color} for collapse-mode conflict resolution.
+// NOTE: this engine's cascade names per-side props `border-color-top`
+// (shorthand-first), not the standard `border-top-color` — check both.
+function borderSideInfo(style, side) {
+  return borderAllSides(style)[side] || { w: 0, color: "#000000" };
 }
 
 // The generic box painter only understands `border-width`/`border-color`/
