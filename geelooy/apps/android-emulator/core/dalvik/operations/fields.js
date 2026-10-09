@@ -3,6 +3,7 @@
 //Blessed is He
 
 import { createDalvikFieldEvidence } from "./fieldEvidence.js";
+import { BOOT_SUPERCLASSES } from "../android/frameworkJavaBootHierarchy.js";
 
 const FIELD_PREFIXES = Object.freeze(["iget", "iput", "sget", "sput"]);
 
