@@ -81,10 +81,13 @@ test('truncated scan throws', () => {
   assertThrows(() => decodeJpeg(full.slice(0, 24)), /truncated/i);
 });
 
-test('progressive (SOF2) throws clean unsupported', () => {
+test('progressive (SOF2) is supported (no longer throws unsupported)', () => {
   const j = buildMinimalJpeg();
   j[72] = 0xC2; // SOF0 marker -> SOF2
-  assertThrows(() => decodeJpeg(j), /progressive/i);
+  let threw = null;
+  try { decodeJpeg(j); } catch (e) { threw = e; }
+  assert(!threw || !/progressive.*unsupported/i.test(threw.message),
+    'SOF2 should not throw progressive-unsupported, got: ' + (threw && threw.message));
 });
 
 // 16x8 grayscale, DRI=1: block0 has DC+7 and one AC coef, RST0, block1 has DC-7.
