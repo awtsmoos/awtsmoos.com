@@ -379,6 +379,344 @@ function el(tag, className, text) {
 	return node;
 }
 
+/* ---------------------------------------------------------------------------
+ * B"H — Footnote popup (Yaakov: popup, never scroll-to-bottom).
+ * Tapping a <sup class="meluket-fn-marker"> opens an elegant modal with the
+ * footnote text instead of scrolling to the shelf. Built lazily, dream-styled
+ * via the awtsmoos-dream-sources-fn style block. No !important, ever.
+ * ------------------------------------------------------------------------- */
+let fnOverlayEl = null;
+let fnModalEl = null;
+let fnNumEl = null;
+let fnBodyEl = null;
+let fnCloseEl = null;
+let fnLastMarker = null;
+
+function ensureFootnoteModal() {
+	if (fnModalEl) return;
+	const root = document.querySelector('.post-reader-localized-context') || document.body;
+	fnOverlayEl = el('div', 'awtsmoos-fn-overlay');
+	fnOverlayEl.setAttribute('aria-hidden', 'true');
+	fnModalEl = el('div', 'awtsmoos-fn-modal');
+	fnModalEl.setAttribute('role', 'dialog');
+	fnModalEl.setAttribute('aria-modal', 'true');
+	fnModalEl.setAttribute('aria-label', 'Footnote');
+	const head = el('div', 'awtsmoos-fn-head');
+	fnNumEl = el('span', 'awtsmoos-fn-num', '');
+	const headTitle = el('span', 'awtsmoos-fn-title', 'הערה · Footnote');
+	fnCloseEl = el('button', 'awtsmoos-fn-close', '✕');
+	fnCloseEl.type = 'button';
+	fnCloseEl.setAttribute('aria-label', 'Close footnote');
+	head.append(fnNumEl, headTitle, fnCloseEl);
+	fnBodyEl = el('div', 'awtsmoos-fn-body');
+	fnModalEl.append(head, fnBodyEl);
+	root.append(fnOverlayEl, fnModalEl);
+	fnCloseEl.addEventListener('click', closeFootnotePopup);
+	fnOverlayEl.addEventListener('click', closeFootnotePopup);
+}
+
+function openFootnotePopup(fnNum, marker, sefer) {
+	const note = sefer.querySelector(`.meluket-footnote[data-fn="${fnNum}"]`);
+	if (!note) return;
+	ensureFootnoteModal();
+	fnNumEl.textContent = fnNum;
+	fnBodyEl.innerHTML = '';
+	const he = note.querySelector('.meluket-footnote-he');
+	const en = note.querySelector('.meluket-footnote-en');
+	if (he) {
+		const h = el('div', 'awtsmoos-fn-he');
+		h.setAttribute('dir', 'rtl');
+		h.setAttribute('lang', 'he');
+		h.innerHTML = he.innerHTML;
+		fnBodyEl.appendChild(h);
+	}
+	if (en) {
+		const e = el('div', 'awtsmoos-fn-en');
+		e.setAttribute('dir', 'ltr');
+		e.setAttribute('lang', 'en');
+		e.textContent = en.textContent;
+		fnBodyEl.appendChild(e);
+	}
+	if (!he && !en) {
+		const f = el('div', 'awtsmoos-fn-en');
+		f.setAttribute('dir', 'auto');
+		f.textContent = note.textContent.trim();
+		fnBodyEl.appendChild(f);
+	}
+	fnLastMarker = marker || null;
+	fnOverlayEl.classList.add('is-open');
+	fnModalEl.classList.add('is-open');
+	fnCloseEl.focus({ preventScroll: true });
+}
+
+function closeFootnotePopup() {
+	if (!fnModalEl) return;
+	fnOverlayEl.classList.remove('is-open');
+	fnModalEl.classList.remove('is-open');
+	if (fnLastMarker && typeof fnLastMarker.focus === 'function') {
+		fnLastMarker.focus({ preventScroll: true });
+	}
+	fnLastMarker = null;
+}
+
+function isFootnotePopupOpen() {
+	return !!(fnModalEl && fnModalEl.classList.contains('is-open'));
+}
+
+/* ---------------------------------------------------------------------------
+ * B"H — Sources sheet (Yaakov: the Sources button must open a real menu).
+ * A dream-styled bottom sheet showing this post's sources (sefer, series,
+ * author) plus a per-section index. Every section row carries a Comment
+ * affordance: an inline composer that posts a real comment anchored to that
+ * section via the site's comment-tree endpoint. The commentaryBtn hijack is
+ * installed at capture phase so the generic sidebar toggle never fires on
+ * Meluket posts; non-Meluket posts are untouched.
+ * ------------------------------------------------------------------------- */
+let srcOverlayEl = null;
+let srcSheetEl = null;
+let srcCloseEl = null;
+let srcMetaEl = null;
+let srcListEl = null;
+let srcOpen = false;
+
+function sourcesReaderRoot() {
+	return document.querySelector('.post-reader-localized-context') || document.body;
+}
+
+function sourcesActiveAlias() {
+	try {
+		const alias = window.curAlias
+			|| localStorage.getItem('lastAliasUsed')
+			|| localStorage.getItem('awtsmoos-alias')
+			|| '';
+		if (alias) window.curAlias = alias;
+		return alias;
+	} catch (_) { return ''; }
+}
+
+function ensureSourcesSheet() {
+	if (srcSheetEl) return;
+	const root = sourcesReaderRoot();
+	srcOverlayEl = el('div', 'awtsmoos-src-overlay');
+	srcOverlayEl.setAttribute('aria-hidden', 'true');
+	srcSheetEl = el('div', 'awtsmoos-src-sheet');
+	srcSheetEl.setAttribute('role', 'dialog');
+	srcSheetEl.setAttribute('aria-modal', 'true');
+	srcSheetEl.setAttribute('aria-label', 'Sources');
+	const grab = el('div', 'awtsmoos-src-grab');
+	grab.setAttribute('aria-hidden', 'true');
+	const head = el('div', 'awtsmoos-src-head');
+	const headTitle = el('div', 'awtsmoos-src-title', 'מקורות · Sources');
+	srcCloseEl = el('button', 'awtsmoos-src-close', '✕');
+	srcCloseEl.type = 'button';
+	srcCloseEl.setAttribute('aria-label', 'Close sources');
+	head.append(headTitle, srcCloseEl);
+	srcMetaEl = el('div', 'awtsmoos-src-meta');
+	srcListEl = el('div', 'awtsmoos-src-list');
+	srcListEl.setAttribute('role', 'list');
+	srcSheetEl.append(grab, head, srcMetaEl, srcListEl);
+	root.append(srcOverlayEl, srcSheetEl);
+	srcCloseEl.addEventListener('click', closeSourcesSheet);
+	srcOverlayEl.addEventListener('click', closeSourcesSheet);
+}
+
+function sourcesSectionPreview(sectionEl) {
+	const hebrew = sectionEl.querySelector('.meluket-hebrew');
+	const raw = hebrew ? hebrew.textContent : sectionEl.textContent;
+	const clean = String(raw || '').replace(/\s+/g, ' ').trim();
+	return clean.length > 90 ? clean.slice(0, 90) + '…' : clean;
+}
+
+function buildSourcesSheetContent(post, sefer) {
+	ensureSourcesSheet();
+	// Post sources card.
+	srcMetaEl.innerHTML = '';
+	const card = el('div', 'awtsmoos-src-card');
+	const seriesName = (window.series && (window.series.prateem?.name || window.series.name))
+		|| post.seriesTitle || post.seriesId || '';
+	const rows = [
+		['Sefer', post.title || ''],
+		['Series', seriesName],
+		['Author', post.author || post.authorName || ''],
+	].filter(([, v]) => v && String(v).trim());
+	rows.forEach(([label, value]) => {
+		const row = el('div', 'awtsmoos-src-card-row');
+		row.append(el('span', 'awtsmoos-src-card-label', label), el('span', 'awtsmoos-src-card-value', String(value)));
+		row.lastChild.setAttribute('dir', 'auto');
+		card.appendChild(row);
+	});
+	const sections = Array.from(sefer.querySelectorAll('.meluket-sefer-section'));
+	const footnotes = Array.from(sefer.querySelectorAll('.meluket-footnote'));
+	const stats = el('div', 'awtsmoos-src-stats', `${sections.length} sections · ${footnotes.length} footnotes`);
+	card.appendChild(stats);
+	if (card.children.length) srcMetaEl.appendChild(card);
+
+	// Per-section index with comment affordances.
+	srcListEl.innerHTML = '';
+	sections.forEach((sectionEl, index) => {
+		const sectionId = sectionEl.dataset.sectionId || `sec-${index + 1}`;
+		const item = el('div', 'awtsmoos-src-item');
+		item.setAttribute('role', 'listitem');
+		const goto = el('button', 'awtsmoos-src-goto');
+		goto.type = 'button';
+		goto.setAttribute('aria-label', `Go to section ${index + 1}`);
+		const medallion = el('span', 'awtsmoos-src-medaillon', String(index + 1));
+		const preview = el('span', 'awtsmoos-src-preview', sourcesSectionPreview(sectionEl));
+		preview.setAttribute('dir', 'auto');
+		goto.append(medallion, preview);
+		goto.addEventListener('click', () => {
+			closeSourcesSheet();
+			sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		});
+		const commentBtn = el('button', 'awtsmoos-src-comment-btn', 'Comment');
+		commentBtn.type = 'button';
+		commentBtn.setAttribute('aria-expanded', 'false');
+		const composer = el('div', 'awtsmoos-src-composer');
+		composer.hidden = true;
+		const textarea = el('textarea', 'awtsmoos-src-textarea');
+		textarea.setAttribute('aria-label', `Comment on section ${index + 1}`);
+		textarea.setAttribute('placeholder', 'Share a thought on this section…');
+		textarea.setAttribute('rows', '3');
+		const actions = el('div', 'awtsmoos-src-composer-actions');
+		const send = el('button', 'awtsmoos-src-send', 'Send');
+		send.type = 'button';
+		const cancel = el('button', 'awtsmoos-src-cancel', 'Cancel');
+		cancel.type = 'button';
+		const notice = el('div', 'awtsmoos-src-notice');
+		notice.setAttribute('role', 'status');
+		actions.append(send, cancel);
+		composer.append(textarea, actions, notice);
+		commentBtn.addEventListener('click', () => {
+			const opening = composer.hidden;
+			composer.hidden = !opening;
+			commentBtn.setAttribute('aria-expanded', String(opening));
+			commentBtn.textContent = opening ? 'Close' : 'Comment';
+			if (opening) textarea.focus();
+		});
+		cancel.addEventListener('click', () => {
+			composer.hidden = true;
+			commentBtn.setAttribute('aria-expanded', 'false');
+			commentBtn.textContent = 'Comment';
+		});
+		send.addEventListener('click', () => {
+			submitSectionComment({ post, sectionId, sectionIndex: index, textarea, send, notice });
+		});
+		item.append(goto, commentBtn, composer);
+		srcListEl.appendChild(item);
+	});
+}
+
+async function submitSectionComment({ post, sectionId, sectionIndex, textarea, send, notice }) {
+	const text = textarea.value.trim();
+	notice.textContent = '';
+	notice.classList.remove('is-error', 'is-ok');
+	if (!text) {
+		notice.textContent = 'Write something first.';
+		notice.classList.add('is-error');
+		return;
+	}
+	const alias = sourcesActiveAlias();
+	if (!alias) {
+		notice.textContent = 'Choose an alias or sign in to comment.';
+		notice.classList.add('is-error');
+		return;
+	}
+	const heichelId = (window.post && window.post.heichel && window.post.heichel.id) || 'ikar';
+	const postId = post.id || (window.post && window.post.id) || '';
+	if (!postId) {
+		notice.textContent = 'Could not determine this post. Please reload and try again.';
+		notice.classList.add('is-error');
+		return;
+	}
+	send.disabled = true;
+	send.textContent = 'Sending…';
+	try {
+		const body = new URLSearchParams({
+			aliasId: alias,
+			seriesId: (window.post && window.post.parentSeriesId) || (window.series && window.series.id) || 'root',
+			content: text,
+			verseSection: String(sectionId),
+			subsectionId: `sec-${sectionIndex + 1}`,
+			assets: '[]',
+			sections: '[]',
+			links: '[]',
+		});
+		const res = await fetch(`/api/social/heichelos/${heichelId}/posts/${postId}/comment-tree`, {
+			method: 'POST',
+			body,
+		});
+		const json = await res.json();
+		if (!json.success) {
+			throw new Error((json.error && (json.error.message || json.error)) || 'Comment submission failed.');
+		}
+		textarea.value = '';
+		notice.textContent = 'Posted. Thank you for learning together.';
+		notice.classList.add('is-ok');
+		try {
+			const bus = await import('/heichelos/post/comments/state/eventBus.js');
+			bus.emitAwtsmoosEvent && bus.emitAwtsmoosEvent('comment:submitted', {
+				aliasId: alias,
+				verseSection: String(sectionId),
+				subsectionId: `sec-${sectionIndex + 1}`,
+			});
+		} catch (_) { /* event bus optional */ }
+	} catch (err) {
+		notice.textContent = err && err.message ? err.message : 'Could not post. Try again.';
+		notice.classList.add('is-error');
+	} finally {
+		send.disabled = false;
+		send.textContent = 'Send';
+	}
+}
+
+function openSourcesSheet(post, sefer) {
+	buildSourcesSheetContent(post, sefer);
+	srcOverlayEl.classList.add('is-open');
+	srcSheetEl.classList.add('is-open');
+	srcOpen = true;
+	const btn = document.getElementById('commentaryBtn');
+	if (btn) {
+		btn.classList.add('pushed');
+		btn.setAttribute('aria-pressed', 'true');
+		btn.setAttribute('aria-expanded', 'true');
+	}
+	srcCloseEl.focus({ preventScroll: true });
+}
+
+function closeSourcesSheet() {
+	if (!srcSheetEl) return;
+	srcOverlayEl.classList.remove('is-open');
+	srcSheetEl.classList.remove('is-open');
+	srcOpen = false;
+	const btn = document.getElementById('commentaryBtn');
+	if (btn) {
+		btn.classList.remove('pushed');
+		btn.setAttribute('aria-pressed', 'false');
+		btn.setAttribute('aria-expanded', 'false');
+		btn.focus({ preventScroll: true });
+	}
+}
+
+function isSourcesSheetOpen() {
+	return srcOpen;
+}
+
+/* B"H — Hijack the Sources button on Meluket posts only (capture phase, so the
+ * generic sidebar toggle on document.body never fires). Non-Meluket posts and
+ * the general reader path are untouched. */
+function wireSourcesButton(post, sefer) {
+	const btn = document.getElementById('commentaryBtn');
+	if (!btn || btn.dataset.meluketSourcesBound === '1') return;
+	btn.dataset.meluketSourcesBound = '1';
+	btn.addEventListener('click', (e) => {
+		if (!e.isTrusted) return; // ignore synthetic clicks from tab machinery
+		e.preventDefault();
+		e.stopPropagation();
+		if (isSourcesSheetOpen()) closeSourcesSheet();
+		else openSourcesSheet(post, sefer);
+	}, true);
+}
+
 /**
  * Main entry: restructures a Meluket post into bilingual sefer sections.
  * @param {object} post The window.post object with enrichment.
@@ -565,27 +903,16 @@ export function awakenMeluketSeferReader(post) {
 	// never contradicts the English visibly on the page.
 	try { refreshTranslationStatus(); } catch (_) { /* toolbar absent */ }
 
-	// Footnote markers: click to scroll to footnote in shelf.
+	// B"H — Footnote markers: tap opens the footnote popup (Yaakov: never scroll
+	// to the bottom). Only <sup class="meluket-fn-marker"> triggers this; the
+	// shelf notes themselves are not triggers.
 	sefer.addEventListener('click', (e) => {
-		// Try data-fn attribute first, then plain sup with number
-		let marker = e.target.closest('[data-fn]');
-		let fnNum = marker ? marker.getAttribute('data-fn') : null;
-		if (!fnNum) {
-			const sup = e.target.closest('sup');
-			if (sup) {
-				const text = sup.textContent.trim();
-				// Extract number from sup text (e.g., "1", "*", "1,2")
-				const match = text.match(/(\d+)/);
-				if (match) fnNum = match[1];
-			}
-		}
+		const marker = e.target.closest ? e.target.closest('sup.meluket-fn-marker[data-fn]') : null;
+		if (!marker) return;
+		const fnNum = marker.getAttribute('data-fn');
 		if (!fnNum) return;
-		const target = sefer.querySelector(`.meluket-footnote[data-fn="${fnNum}"]`);
-		if (target) {
-			target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-			target.classList.add('meluket-footnote-highlight');
-			setTimeout(() => target.classList.remove('meluket-footnote-highlight'), 2000);
-		}
+		e.preventDefault();
+		openFootnotePopup(fnNum, marker, sefer);
 	});
 
 	// Keyboard activation for <sup role="button"> footnote markers.
@@ -596,6 +923,23 @@ export function awakenMeluketSeferReader(post) {
 		e.preventDefault();
 		marker.click();
 	});
+
+	// Escape closes the footnote popup or the Sources sheet.
+	document.addEventListener('keydown', (e) => {
+		if (e.key !== 'Escape') return;
+		if (isFootnotePopupOpen()) {
+			e.preventDefault();
+			closeFootnotePopup();
+			return;
+		}
+		if (isSourcesSheetOpen()) {
+			e.preventDefault();
+			closeSourcesSheet();
+		}
+	});
+
+	// B"H — Sources button opens the Sources sheet on Meluket posts.
+	wireSourcesButton(post, sefer);
 
 	// Theme watcher: force sefer colors based on awtsmoos-theme.
 	// This overrides any CSS cascade issues with !important inline styles.
