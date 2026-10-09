@@ -48,9 +48,12 @@ runtime/
 ## Current compiler capability (2026-10-09)
 
 The portable C compiler supports: scalar int functions, pointer dereference,
-recursion, control flow, static locals.
+pointer arithmetic, array indexing, string literals, structs, recursion,
+control flow, static locals, and `extern` function declarations (cross-module
+calls resolve statically at link time; still-undefined names become dynamic
+PLT/GOT imports, e.g. for libc syscalls via `DT_NEEDED`).
 
-It does NOT yet support: structs, array indexing, string literals, pointer
-arithmetic, extern/imports, non-scalar globals. These are tracked compiler
-gaps — see AUDIT.md. Runtime modules are written to be compilable TODAY where
-possible, and staged for the gaps otherwise.
+It does NOT yet support: non-scalar globals, the `long`/`unsigned` types,
+character literals. These are tracked compiler gaps — see AUDIT.md. Runtime
+modules are written to be compilable TODAY where possible, and staged for
+the gaps otherwise.
