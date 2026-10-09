@@ -13,7 +13,16 @@ function create(options={}){
   timer=setTimer(()=>expire(pid,id,expected),delay);timer?.unref?.();}
  function arm(pid,id){clear();childPid=Number(pid||0);childIncarnationId=String(id||"");startedAt=now();phase="bootstrap";graceUsed=false;schedule(deadlineMs);return snapshot();}
  function progress(state={}){
-  if(!timer||phase!=="bootstrap"||state.connected!==true)return false;
+  if(!timer)return false;
+  // The authenticated server may still own a healthy preceding connection.
+  // Give the existing socket one bounded liveness expiry instead of killing
+  // another child every 30s while its protected registration is fenced.
+  const fenced=String(state.lastFailure?.message||"")==="lower_authority_tunnel_owner_active";
+  if(fenced&&phase==="registration_ack"){
+   clearTimer(timer);phase="registry_contention";
+   schedule(Math.max(1000,startedAt+120000-now()));return true;
+  }
+  if(phase!=="bootstrap"||state.connected!==true)return false;
   clearTimer(timer);phase="registration_ack";
   schedule(Math.min(30000,Math.max(1000,startedAt+90000-now())));return true;
  }

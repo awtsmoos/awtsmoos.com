@@ -74,3 +74,29 @@ test("rearming fences an obsolete child's old timer", () => {
 	assert.equal(clock.callbacks[1](), true);
 	assert.equal(expirations[0].childPid, 91);
 });
+
+test("fenced healthy incumbent extends only once and old timers cannot kill the new child", () => {
+ let now=1000; const clock=timers(); const expired=[];
+ const deadline=Deadline.create({now:()=>now,setTimer:clock.setTimer,clearTimer:clock.clearTimer,onExpired:v=>expired.push(v)});
+ deadline.arm(92,"child-contention");
+ now=3000; assert.equal(deadline.progress({connected:true}),true);
+ assert.equal(deadline.snapshot().phase,"registration_ack");
+ now=8000; assert.equal(deadline.progress({lastFailure:{message:"lower_authority_tunnel_owner_active"}}),true);
+ assert.equal(deadline.snapshot().phase,"registry_contention");
+ assert.equal(deadline.snapshot().deadlineAt,121000);
+ assert.equal(deadline.progress({lastFailure:{message:"lower_authority_tunnel_owner_active"}}),false);
+ assert.equal(clock.callbacks[1](),false);
+ deadline.registered();
+ assert.equal(clock.callbacks[2](),false);
+ assert.equal(expired.length,0);
+});
+
+test("non-fencing registration failures retain normal 30s acknowledgement timeout", () => {
+ let now=1000; const clock=timers(); const expired=[];
+ const deadline=Deadline.create({now:()=>now,setTimer:clock.setTimer,clearTimer:clock.clearTimer,onExpired:v=>expired.push(v)});
+ deadline.arm(93,"normal");now=2000;deadline.progress({connected:true});
+ assert.equal(deadline.progress({lastFailure:{message:"some_other_failure"}}),false);
+ now=32000;assert.equal(clock.callbacks[1](),true);
+ assert.equal(expired.length,1);
+ assert.equal(expired[0].phase,"registration_ack");
+});
