@@ -30,9 +30,25 @@ static void handle_command(struct android_app* app, int32_t command) {
 	}
 }
 
+/**
+ * Drains pending looper events. ALooper_pollAll was removed in recent NDKs;
+ * ALooper_pollOnce processes one event per call, so drain in a loop.
+ */
+static void drain_events(struct android_app* app, int ready) {
+	int events;
+	struct android_poll_source* source;
+	for (;;) {
+		int ident = ALooper_pollOnce(ready ? 0 : -1, NULL, &events, (void**)&source);
+		if (ident < 0) break;
+		if (source) source->process(app, source);
+		if (app->destroyRequested) break;
+		/* When not ready, block on the first event only per frame. */
+		if (!ready) break;
+	}
+}
+
 /** Android NativeActivity entrypoint for the final canonical runtime host. */
 void android_main(struct android_app* app) {
-	app_dummy();
 	AwtsAndroidState state = {0};
 	state.app = app;
 	state.graphics.display = EGL_NO_DISPLAY;
@@ -46,12 +62,7 @@ void android_main(struct android_app* app) {
 	}
 	AWTS_LOG("canonical_asset_verified");
 	while (!app->destroyRequested) {
-		int events;
-		struct android_poll_source* source;
-		while (ALooper_pollAll(state.ready ? 0 : -1, NULL, &events, (void**)&source) >= 0) {
-			if (source) source->process(app, source);
-			if (app->destroyRequested) break;
-		}
+		drain_events(app, state.ready);
 		if (state.ready) {
 			glViewport(0, 0, ANativeWindow_getWidth(app->window), ANativeWindow_getHeight(app->window));
 			glClearColor(0.02f, 0.03f, 0.05f, 1.0f);

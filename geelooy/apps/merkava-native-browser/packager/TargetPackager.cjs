@@ -175,8 +175,10 @@ async function compileToApk(html, css, js, appName = 'MerkavaApp') {
 	const androidHome = process.env.ANDROID_HOME || path.join(os.homedir(), 'workspace/android-sdk');
 	const buildTools = process.env.ANDROID_BUILD_TOOLS || newestBuildTools(androidHome);
 	const ndk = process.env.ANDROID_NDK_HOME || findNdk(androidHome);
+	const androidJar = process.env.ANDROID_JAR || findAndroidJar(androidHome);
 	if (!buildTools) throw new Error('missing_android_build_tools');
 	if (!ndk) throw new Error('missing_android_ndk');
+	if (!androidJar) throw new Error('missing_android_jar');
 
 	const dir = appDistDir(appName + '-android');
 	const packageName = `com.merkava.${appName.toLowerCase().replace(/[^a-z0-9]/g, '')}`;
@@ -207,7 +209,7 @@ async function compileToApk(html, css, js, appName = 'MerkavaApp') {
 	//    android.app.NativeActivity is a framework class).
 	const manifestXml = `<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="${packageName}" android:versionCode="1" android:versionName="1.0">
-<uses-sdk android:minSdkVersion="26" android:targetSdkVersion="36"/>
+<uses-sdk android:minSdkVersion="26" android:targetSdkVersion="34"/>
 <uses-feature android:glEsVersion="0x00030000" android:required="true"/>
 <application android:label="${appName}" android:hasCode="false" android:icon="@mipmap/ic_launcher">
 <activity android:name="android.app.NativeActivity" android:exported="true" android:configChanges="orientation|keyboardHidden|screenSize">
@@ -228,8 +230,8 @@ async function compileToApk(html, css, js, appName = 'MerkavaApp') {
 	fs.writeFileSync(path.join(assetsDir, 'app.merkava'), Buffer.from(pkg.container));
 	run(path.join(buildTools, 'aapt2'), ['link', '-o', unsignedApk,
 		'--manifest', path.join(dir, 'AndroidManifest.xml'),
-		'-I', path.join(androidHome, 'platforms/android-36/android.jar'),
-		'--target-sdk-version', '36', '--min-sdk-version', '26',
+		'-I', androidJar,
+		'--target-sdk-version', '34', '--min-sdk-version', '26',
 		'-A', assetsDir, path.join(dir, 'res.zip')]);
 	// Inject the native lib as STORED+aligned (aapt2 link takes no libs).
 	injectZipEntry(unsignedApk, 'lib/arm64-v8a/libmerkava.so', fs.readFileSync(soPath));
@@ -238,9 +240,20 @@ async function compileToApk(html, css, js, appName = 'MerkavaApp') {
 	const alignedApk = path.join(dir, `${appName}-aligned.apk`);
 	run(path.join(buildTools, 'zipalign'), ['-f', '4', unsignedApk, alignedApk]);
 	const keystore = ensureDebugKeystore(dir);
-	run(path.join(buildTools, 'apksigner'), ['sign', '--ks', keystore, '--ks-pass:android', '--out', path.join(dir, `${appName}.apk`), alignedApk]);
+	run(path.join(buildTools, 'apksigner'), ['sign', '--ks', keystore, '--ks-pass', 'pass:android', '--key-pass', 'pass:android', '--out', path.join(dir, `${appName}.apk`), alignedApk]);
 
 	return { target: 'apk', apk: path.join(dir, `${appName}.apk`), packageName, meta: pkg.meta };
+}
+
+function findAndroidJar(androidHome) {
+	const plats = path.join(androidHome, 'platforms');
+	if (fs.existsSync(plats)) {
+		for (const e of fs.readdirSync(plats).sort().reverse()) {
+			const jar = path.join(plats, e, 'android.jar');
+			if (fs.existsSync(jar)) return jar;
+		}
+	}
+	return null;
 }
 
 function newestBuildTools(androidHome) {
@@ -274,70 +287,20 @@ function ensureDebugKeystore(dir) {
 	return ks;
 }
 
-/** Minimal ZIP entry injector (STORED or DEFLATED) for adding the .so. */
+/** Adds the native .so as STORED (uncompressed) via the zip tool, then relies
+ * on zipalign for 4-byte alignment. */
 function injectZipEntry(apkPath, entryName, data) {
 	const { execFileSync } = require('child_process');
-	// Use zipalign-safe approach: python-free manual append via node zip writer.
-	const zlib = require('zlib');
-	const raw = fs.readFileSync(apkPath);
-	// Parse EOCD to find central directory.
-	let eocd = -1;
-	for (let i = raw.length - 22; i >= 0; i--) {
-		if (readU32(raw, i) === 0x06054b50) { eocd = i; break; }
-	}
-	if (eocd < 0) throw new Error('apk_eocd_not_found');
-	const cdCount = readU16(raw, eocd + 10);
-	const cdOffset = readU32(raw, eocd + 16);
-	// .so entries must be STORED (uncompressed) and 4-byte aligned for extractNativeLibs.
-	const nameBytes = Buffer.from(entryName, 'utf8');
-	const crc = crc32(data);
-	const localHeaderOffset = raw.length; // we append local entry at end (before new central dir)
-	const lh = Buffer.alloc(30 + nameBytes.length);
-	lh.writeUInt32LE(0x04034b50, 0); lh.writeUInt16LE(20, 4); lh.writeUInt16LE(0, 6);
-	lh.writeUInt16LE(0, 8); lh.writeUInt16LE(0, 10); lh.writeUInt16LE(0, 12);
-	lh.writeUInt32LE(crc, 14); lh.writeUInt32LE(data.length, 18); lh.writeUInt32LE(data.length, 22);
-	lh.writeUInt16LE(nameBytes.length, 26); lh.writeUInt16LE(0, 28);
-	nameBytes.copy(lh, 30);
-	// Alignment padding for 4-byte alignment of data start.
-	const padLen = (4 - ((localHeaderOffset + lh.length) % 4)) % 4;
-	const pad = Buffer.alloc(padLen);
-	// Build new central directory: copy old + new entry.
-	const oldCd = raw.slice(cdOffset, eocd);
-	const ce = Buffer.alloc(46 + nameBytes.length);
-	ce.writeUInt32LE(0x02014b50, 0); ce.writeUInt16LE(20, 4); ce.writeUInt16LE(20, 6);
-	ce.writeUInt16LE(0, 8); ce.writeUInt16LE(0, 10); ce.writeUInt16LE(0, 12);
-	ce.writeUInt32LE(crc, 16); ce.writeUInt32LE(data.length, 20); ce.writeUInt32LE(data.length, 24);
-	ce.writeUInt16LE(nameBytes.length, 28); ce.writeUInt16LE(0, 30); ce.writeUInt16LE(0, 32);
-	ce.writeUInt16LE(0, 34); ce.writeUInt16LE(0, 36); ce.writeUInt32LE(0, 38);
-	ce.writeUInt32LE(localHeaderOffset, 42);
-	nameBytes.copy(ce, 46);
-	const newCdOffset = localHeaderOffset + lh.length + padLen + data.length;
-	const newCd = Buffer.concat([oldCd, ce]);
-	const newEocd = Buffer.alloc(22);
-	newEocd.writeUInt32LE(0x06054b50, 0);
-	newEocd.writeUInt16LE(cdCount + 1, 8); newEocd.writeUInt16LE(cdCount + 1, 10);
-	newEocd.writeUInt32LE(newCd.length, 12); newEocd.writeUInt32LE(newCdOffset, 16);
-	// data before old central directory + new local entry + new central dir + new eocd
-	const out = Buffer.concat([raw.slice(0, cdOffset), lh, pad, data, newCd, newEocd]);
-	fs.writeFileSync(apkPath, out);
-}
-
-function readU16(b, o) { return b[o] | (b[o + 1] << 8); }
-function readU32(b, o) { return (b[o] | (b[o + 1] << 8) | (b[o + 2] << 16) | (b[o + 3] << 24)) >>> 0; }
-
-const CRC_TABLE = (() => {
-	const t = new Uint32Array(256);
-	for (let n = 0; n < 256; n++) {
-		let c = n;
-		for (let k = 0; k < 8; k++) c = (c & 1) ? (0xedb88320 ^ (c >>> 1)) : (c >>> 1);
-		t[n] = c >>> 0;
-	}
-	return t;
-})();
-function crc32(data) {
-	let c = 0xffffffff;
-	for (let i = 0; i < data.length; i++) c = CRC_TABLE[(c ^ data[i]) & 0xff] ^ (c >>> 8);
-	return (c ^ 0xffffffff) >>> 0;
+	const fs = require('fs');
+	const os = require('os');
+	const path = require('path');
+	const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'mkv-apk-'));
+	const dest = path.join(tmp, entryName);
+	fs.mkdirSync(path.dirname(dest), { recursive: true });
+	fs.writeFileSync(dest, data);
+	// -0 = store only, -j junk paths handled by cd, -X strip extra fields
+	execFileSync('zip', ['-0', '-X', '-q', apkPath, entryName], { cwd: tmp, stdio: 'pipe' });
+	fs.rmSync(tmp, { recursive: true, force: true });
 }
 
 module.exports = { compileToElf, compileToExe, compileToApp, compileToApk, compileAppPackage };
