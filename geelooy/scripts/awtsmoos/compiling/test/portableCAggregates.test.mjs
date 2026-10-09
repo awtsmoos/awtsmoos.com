@@ -13,7 +13,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -262,6 +262,28 @@ test("library: struct/array/string/pointer code links to a valid .so", () => {
 		assert.ok(syms.includes(name), `${name} missing from .dynsym`);
 	}
 	assert.ok(lib.linker.dataLength > 0, "data section empty despite globals and strings");
+});
+
+test("library: linked .so resolves the string-pointer data slot", () => {
+	// Proves the abs64 data relocation the assembler emits for global
+	// address initializers lands resolved in the final linked bytes:
+	// the msg slot must hold the linked address of the string bytes.
+	const lib = compilePortableCLibrary(
+		"char *msg = \"hi\";\nint get0() { return msg[0]; }\n",
+		{ exports: ["get0"], soname: "libproof.so" }
+	);
+	const dir = mkdtempSync(join(tmpdir(), "awtsmoos-aggtest-"));
+	const path = join(dir, "libproof.so");
+	writeFileSync(path, lib.bytes);
+	const bytes = readFileSync(path);
+	const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+	// readelf -l reports the RW data segment at file offset == vaddr 0x2000;
+	// layout order is msg (1 cell) then the 3 string cells 'h','i',0.
+	const dataFileOff = 0x2000;
+	assert.equal(view.getBigUint64(dataFileOff, true), 0x2008n);
+	assert.equal(view.getBigUint64(dataFileOff + 8, true), 0x68n);
+	assert.equal(view.getBigUint64(dataFileOff + 16, true), 0x69n);
+	assert.equal(view.getBigUint64(dataFileOff + 24, true), 0n);
 });
 
 test("library: struct/array/string code simulates the expected values", () => {
