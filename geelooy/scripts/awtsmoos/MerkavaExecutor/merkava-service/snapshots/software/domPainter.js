@@ -283,6 +283,19 @@ export function paintLayout(fb, layout, canvas = {}, options = {}) {
     // and still paint (their own computed visibility wins).
     const vis = String(item.style?.visibility || "visible").trim().toLowerCase();
     if (vis === "hidden" || vis === "collapse") return;
+    // B"H 2026-10-09 (scroll perf): simple-paint fast lane. When the caller
+    // guarantees no transforms, clip-paths, masks, filters, blend modes,
+    // opacity<1, or overflow clips in the layout (compositor verifies per
+    // generation), skip ancestorInfo's 4 walks + paintWithEffects entirely.
+    // This was ~0.3ms per item; the fast lane is ~0.05ms.
+    if (options.simplePaint) {
+      if (item.kind === "#text") {
+        paintTextItem(destFb, item);
+      } else {
+        paintBox(destFb, item, pickCanvasTexture(item, textures, used), textures, textParents);
+      }
+      return;
+    }
     const info = ancestorInfo(item);
     const accum2d = info.accum2d;
     // B"H 2026-10-09: the untransformed-box cull is only valid without

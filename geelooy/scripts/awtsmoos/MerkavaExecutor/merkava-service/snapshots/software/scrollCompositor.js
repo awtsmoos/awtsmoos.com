@@ -98,6 +98,45 @@ export class ScrollCompositor {
     // ancestor walk ran per item per strip; results are generation-stable.
     this.fixedMemo = new Map();
     this.fixedMemoGen = -1;
+    // B"H 2026-10-09: simple-layout flag per generation. When true, strip
+    // rasterization uses paintLayout's simplePaint fast lane (no ancestor
+    // walks or effect parsing). Verified by scanning the layout once.
+    this.simpleGen = -2;
+    this.simpleLayout = false;
+  }
+
+  /**
+   * Check if the layout is "simple": no transforms, clip-paths, masks,
+   * filters, blend modes, opacity<1, or non-visible overflow. Such layouts
+   * paint identically via the simplePaint fast lane. O(n), cached per gen.
+   */
+  isSimpleLayout(layout, generation) {
+    if (this.simpleGen === generation) return this.simpleLayout;
+    let simple = true;
+    for (const item of layout) {
+      const st = item.style || {};
+      const pos = String(st.position || "static").trim().toLowerCase();
+      // Fixed/sticky are excluded from strips anyway; they don't disqualify.
+      if (pos !== "static" && pos !== "relative" && pos !== "absolute") continue;
+      const t = String(st.transform || "").trim().toLowerCase();
+      if (t && t !== "none") { simple = false; break; }
+      if (st["clip-path"] != null && String(st["clip-path"]).trim() !== "" &&
+          String(st["clip-path"]).trim().toLowerCase() !== "none") { simple = false; break; }
+      if (st["mask-image"] != null || st["-webkit-mask-image"] != null || st.mask != null) { simple = false; break; }
+      if (st.filter != null && String(st.filter).trim() !== "" &&
+          String(st.filter).trim().toLowerCase() !== "none") { simple = false; break; }
+      if (st["mix-blend-mode"] != null && String(st["mix-blend-mode"]).trim() !== "" &&
+          String(st["mix-blend-mode"]).trim().toLowerCase() !== "normal") { simple = false; break; }
+      const op = st.opacity;
+      if (op != null && Number(op) < 1) { simple = false; break; }
+      const ov = String(st.overflow || "visible").trim().toLowerCase();
+      const ovx = String(st["overflow-x"] || ov).trim().toLowerCase();
+      const ovy = String(st["overflow-y"] || ov).trim().toLowerCase();
+      if ((ovx !== "visible" && ovx !== "") || (ovy !== "visible" && ovy !== "")) { simple = false; break; }
+    }
+    this.simpleGen = generation;
+    this.simpleLayout = simple;
+    return simple;
   }
 
   /** Drop all cached pixels. Call on DOM/layout/style change. */
@@ -182,7 +221,9 @@ export class ScrollCompositor {
     // Pre-culled via the spatial index: no viewport re-cull needed. The
     // caller paintSet keeps context ancestors from painting; byNode is
     // built from the translated list so ancestor lookups stay consistent.
-    paintLayout(sfb, translated, {}, { paintSet });
+    // Simple layouts use the fast lane (no per-item ancestor walks).
+    const simple = this.isSimpleLayout(layout, generation);
+    paintLayout(sfb, translated, {}, { paintSet, simplePaint: simple });
     blitRaw(this.buf, sfb, 0, 0, vpW, stripH, 0, bufY);
   }
 
