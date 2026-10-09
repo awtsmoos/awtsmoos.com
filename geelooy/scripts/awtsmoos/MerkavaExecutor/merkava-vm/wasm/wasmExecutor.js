@@ -488,7 +488,8 @@ function runLoop(inst, frames, stk) {
   };
 
   while (frames.length > 0) {
-    if (++steps > maxSteps) throw new WasmTrap('timeout', 'step budget exceeded');
+    // Step budget checked once per 4096-instruction quantum (not per instr).
+    for (let q = 0; q < 4096 && frames.length > 0; q++) {
     if (pc >= code.length) { doReturnInline(); continue; } // fell off the end
     const op = code[pc++];
     switch (op) {
@@ -1211,6 +1212,9 @@ function runLoop(inst, frames, stk) {
         throw new WasmTrap('unimplemented-op', info.name);
       }
     }
+    } // end 4096-quantum for
+    steps += 4096;
+    if (steps > maxSteps) throw new WasmTrap('timeout', 'step budget exceeded');
   }
   stk.sp = sp;
 }
