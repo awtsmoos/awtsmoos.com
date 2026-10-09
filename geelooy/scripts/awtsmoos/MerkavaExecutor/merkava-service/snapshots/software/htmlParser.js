@@ -51,6 +51,32 @@ function parseAttributes(attrText) {
   return attrs;
 }
 
+/* B"H 2026-10-09 (render-bench): cached raw-text close-tag regexes. The old
+ * code compiled `new RegExp` per <script>/<style>/<textarea> element. */
+const CLOSE_RE_CACHE = new Map();
+function closeReFor(name) {
+  let re = CLOSE_RE_CACHE.get(name);
+  if (!re) {
+    re = new RegExp(`</${name}\\s*>`, "i");
+    if (CLOSE_RE_CACHE.size < 64) CLOSE_RE_CACHE.set(name, re);
+  }
+  return re;
+}
+
+/* B"H 2026-10-09 (render-bench): manual tag-name validation. Replaces
+ * /^[a-zA-Z][\w-]*$/ per tag — the regex engine was measurable at 68k tags. */
+function isTagName(s) {
+  if (!s) return false;
+  const c0 = s.charCodeAt(0);
+  if (!((c0 >= 65 && c0 <= 90) || (c0 >= 97 && c0 <= 122))) return false;
+  for (let i = 1; i < s.length; i++) {
+    const c = s.charCodeAt(i);
+    if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122) || (c >= 48 && c <= 57) || c === 95 || c === 45) continue;
+    return false;
+  }
+  return true;
+}
+
 function makeElement(tagName, attributes) {
   return {
     tagName,
@@ -102,13 +128,21 @@ export function parseHtmlToDom(html) {
 
     const gt = clean.indexOf(">", lt + 1);
     if (gt < 0) break; // Malformed: dangling <.
-    const tagInner = clean.slice(lt + 1, gt).trim();
+    // B"H 2026-10-09 (render-bench): manual tag bounds — the old
+    // clean.slice(lt+1, gt).trim() + split(/\s/) + search(/\s/) allocated and
+    // regex-scanned per tag. Scan whitespace by char code instead.
+    let ts = lt + 1, te = gt;
+    while (ts < te && clean.charCodeAt(ts) <= 32) ts++;
+    while (te > ts && clean.charCodeAt(te - 1) <= 32) te--;
     pos = gt + 1;
 
-    if (!tagInner) continue;
+    if (ts >= te) continue;
+    const firstCh = clean[ts];
     // Closing tag.
-    if (tagInner[0] === "/") {
-      const name = tagInner.slice(1).split(/\s/)[0].toLowerCase();
+    if (firstCh === "/") {
+      let ns = ts + 1, ne = ns;
+      while (ne < te && clean.charCodeAt(ne) > 32) ne++;
+      const name = clean.slice(ns, ne).toLowerCase();
       // Pop stack until matching open tag (malformed HTML recovery).
       for (let i = stack.length - 1; i > 0; i--) {
         if (stack[i].localName === name) {
@@ -119,14 +153,24 @@ export function parseHtmlToDom(html) {
       continue;
     }
     // Skip processing instructions / declarations.
-    if (tagInner[0] === "?" || tagInner[0] === "!") continue;
+    if (firstCh === "?" || firstCh === "!") continue;
 
-    const selfClosing = tagInner.endsWith("/");
-    const inner = selfClosing ? tagInner.slice(0, -1).trim() : tagInner;
-    const spaceIdx = inner.search(/\s/);
-    const name = (spaceIdx < 0 ? inner : inner.slice(0, spaceIdx)).toLowerCase();
-    const attrText = spaceIdx < 0 ? "" : inner.slice(spaceIdx + 1);
-    if (!/^[a-zA-Z][\w-]*$/.test(name)) continue;
+    let selfClosing = false;
+    if (clean.charCodeAt(te - 1) === 47) { // "/"
+      selfClosing = true;
+      te--;
+      while (te > ts && clean.charCodeAt(te - 1) <= 32) te--;
+    }
+    let ns = ts, ne = ns;
+    while (ne < te && clean.charCodeAt(ne) > 32) ne++;
+    const name = clean.slice(ns, ne).toLowerCase();
+    let attrText = "";
+    if (ne < te) {
+      let as = ne;
+      while (as < te && clean.charCodeAt(as) <= 32) as++;
+      attrText = clean.slice(as, te);
+    }
+    if (!isTagName(name)) continue;
 
     // Skip head content except we still need to walk past it.
     // <style> and <script> are raw-text: consume until close tag.
@@ -136,7 +180,7 @@ export function parseHtmlToDom(html) {
     if (name === "textarea") {
       const el = makeElement(name, parseAttributes(attrText));
       stack[stack.length - 1].children.push(el);
-      const closeRe = new RegExp(`</${name}\\s*>`, "i");
+      const closeRe = closeReFor(name);
       const rest = clean.slice(pos);
       const cm = closeRe.exec(rest);
       let raw = "";
@@ -146,7 +190,7 @@ export function parseHtmlToDom(html) {
       continue;
     }
     if (RAW_TEXT_ELEMENTS.has(name)) {
-      const closeRe = new RegExp(`</${name}\\s*>`, "i");
+      const closeRe = closeReFor(name);
       const rest = clean.slice(pos);
       const cm = closeRe.exec(rest);
       if (cm) pos += cm.index + cm[0].length;
