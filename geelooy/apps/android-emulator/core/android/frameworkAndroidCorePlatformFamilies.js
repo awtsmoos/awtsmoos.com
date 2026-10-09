@@ -12,6 +12,7 @@ import { createFrameworkFlutterPlatformMessageMethods } from "./frameworkFlutter
 import { createFrameworkNetworkMethods } from "./frameworkNetwork.js";
 import { createFrameworkMessengerMethods } from "./frameworkMessengers.js";
 import { createFrameworkPowerManagerMethods } from "./frameworkPowerManagers.js";
+import { createFrameworkContextMethods } from "./frameworkContexts.js";
 import { createFrameworkWebGlesMethods } from "./frameworkWebGles.js";
 
 /**
@@ -31,6 +32,7 @@ export function createFrameworkAndroidCorePlatformFamilies(olamRuntime) {
 		createFrameworkNetworkMethods(olamRuntime),
 		createFrameworkMessengerMethods(olamRuntime),
 		createFrameworkPowerManagerMethods(olamRuntime),
+		createFrameworkContextMethods(olamRuntime),
 		createFrameworkConstructors(olamRuntime),
 		createFrameworkAndroidSettingsMethods(olamRuntime),
 		createFrameworkAndroidDateFormatMethods(olamRuntime),
