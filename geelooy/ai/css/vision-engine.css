@@ -7,7 +7,9 @@
   static gradients. High effects can be forced with `?awtsmoosFx=high`; off can
   be forced with `?awtsmoosFx=off`.
 */
-:root{
+/* B"H — vision palette tokens, explicit light AND dark branches (Yaakov 2026-10-08).
+ * The AI vessel is intentionally dark in both themes; values are identical by design. */
+:root:not([data-theme="dark"]){
   --vision-bg:#020611;
   --vision-bg-2:#050b18;
   --vision-card:rgba(8,18,34,.74);
@@ -24,34 +26,151 @@
   --vision-muted:#71839a;
   --vision-shadow-soft:0 10px 26px rgba(0,0,0,.26);
   --vision-inset:inset 0 1px 0 rgba(255,255,255,.045);
+  --vision-placeholder:#8da0b8;
+  --vision-prompt-text:#e9d5ff;
+  --vision-prompt-bg:rgba(21,13,43,.78);
+  --vision-prompt-border:rgba(192,132,252,.28);
+  --vision-prompt-shadow:rgba(88,28,135,.16);
+  --vision-orb-bg-1:rgba(34,211,197,.16);
+  --vision-orb-bg-2:rgba(124,58,237,.28);
+  --vision-orb-border:rgba(192,132,252,.32);
+  --vision-orb-shadow:rgba(124,58,237,.18);
+  --vision-send-grad-1:#22d3c5;
+  --vision-send-grad-2:#3b82f6;
+  --vision-send-grad-3:#7c3aed;
+  --vision-send-border:rgba(196,181,253,.30);
+  --vision-send-shadow:rgba(124,58,237,.22);
+  --vision-transport-bg-1:rgba(9,24,32,.84);
+  --vision-transport-bg-2:rgba(7,14,28,.94);
+  --vision-transport-border:rgba(74,222,128,.22);
+  --vision-main-bg-1:rgba(4,10,22,.90);
+  --vision-main-bg-2:rgba(2,6,17,.96);
+  --vision-sidebar-bg-1:rgba(8,18,34,.88);
+  --vision-sidebar-bg-2:rgba(3,8,17,.96);
+  --vision-chat-halo:rgba(124,58,237,.08);
+  --vision-chat-bg-1:rgba(3,8,17,.26);
+  --vision-chat-bg-2:rgba(3,8,17,.44);
+  --vision-msg-shadow:rgba(0,0,0,.24);
+  --vision-asst-bg-1:rgba(13,24,42,.88);
+  --vision-asst-bg-2:rgba(5,12,25,.95);
+  --vision-user-bg-1:rgba(64,33,128,.90);
+  --vision-user-bg-2:rgba(29,21,56,.96);
+  --vision-input-bg-1:rgba(10,20,36,.88);
+  --vision-input-bg-2:rgba(4,9,20,.97);
+  --vision-input-border:rgba(34,211,197,.22);
+  --vision-input-shadow:rgba(0,0,0,.34);
+  --vision-field-bg:rgba(5,14,28,.88);
+  --vision-field-border:rgba(148,163,184,.18);
+  --vision-empty-bg-1:rgba(12,22,40,.82);
+  --vision-empty-bg-2:rgba(5,11,22,.94);
+  --vision-empty-halo:rgba(192,132,252,.18);
+  --vision-empty-border:rgba(192,132,252,.22);
+  --vision-empty-shadow:rgba(0,0,0,.34);
+  --vision-panel-bg-1:rgba(12,22,40,.76);
+  --vision-panel-bg-2:rgba(5,11,22,.90);
+  --vision-key-btn-bg:rgba(5,14,28,.82);
+  --vision-dock-bg-1:rgba(10,20,36,.92);
+  --vision-dock-bg-2:rgba(4,9,20,.97);
+  --vision-dock-shadow:rgba(0,0,0,.30);
 }
+:root[data-theme="dark"]{
+  --vision-bg:#020611;
+  --vision-bg-2:#050b18;
+  --vision-card:rgba(8,18,34,.74);
+  --vision-card-strong:rgba(10,22,42,.90);
+  --vision-line:rgba(148,163,184,.16);
+  --vision-line-cyan:rgba(34,211,197,.24);
+  --vision-line-purple:rgba(168,85,247,.24);
+  --vision-cyan:#22d3c5;
+  --vision-green:#4ade80;
+  --vision-purple:#8b5cf6;
+  --vision-purple-2:#c084fc;
+  --vision-text:#f8fbff;
+  --vision-soft:#aebbd0;
+  --vision-muted:#71839a;
+  --vision-shadow-soft:0 10px 26px rgba(0,0,0,.26);
+  --vision-inset:inset 0 1px 0 rgba(255,255,255,.045);
+  --vision-placeholder:#8da0b8;
+  --vision-prompt-text:#e9d5ff;
+  --vision-prompt-bg:rgba(21,13,43,.78);
+  --vision-prompt-border:rgba(192,132,252,.28);
+  --vision-prompt-shadow:rgba(88,28,135,.16);
+  --vision-orb-bg-1:rgba(34,211,197,.16);
+  --vision-orb-bg-2:rgba(124,58,237,.28);
+  --vision-orb-border:rgba(192,132,252,.32);
+  --vision-orb-shadow:rgba(124,58,237,.18);
+  --vision-send-grad-1:#22d3c5;
+  --vision-send-grad-2:#3b82f6;
+  --vision-send-grad-3:#7c3aed;
+  --vision-send-border:rgba(196,181,253,.30);
+  --vision-send-shadow:rgba(124,58,237,.22);
+  --vision-transport-bg-1:rgba(9,24,32,.84);
+  --vision-transport-bg-2:rgba(7,14,28,.94);
+  --vision-transport-border:rgba(74,222,128,.22);
+  --vision-main-bg-1:rgba(4,10,22,.90);
+  --vision-main-bg-2:rgba(2,6,17,.96);
+  --vision-sidebar-bg-1:rgba(8,18,34,.88);
+  --vision-sidebar-bg-2:rgba(3,8,17,.96);
+  --vision-chat-halo:rgba(124,58,237,.08);
+  --vision-chat-bg-1:rgba(3,8,17,.26);
+  --vision-chat-bg-2:rgba(3,8,17,.44);
+  --vision-msg-shadow:rgba(0,0,0,.24);
+  --vision-asst-bg-1:rgba(13,24,42,.88);
+  --vision-asst-bg-2:rgba(5,12,25,.95);
+  --vision-user-bg-1:rgba(64,33,128,.90);
+  --vision-user-bg-2:rgba(29,21,56,.96);
+  --vision-input-bg-1:rgba(10,20,36,.88);
+  --vision-input-bg-2:rgba(4,9,20,.97);
+  --vision-input-border:rgba(34,211,197,.22);
+  --vision-input-shadow:rgba(0,0,0,.34);
+  --vision-field-bg:rgba(5,14,28,.88);
+  --vision-field-border:rgba(148,163,184,.18);
+  --vision-empty-bg-1:rgba(12,22,40,.82);
+  --vision-empty-bg-2:rgba(5,11,22,.94);
+  --vision-empty-halo:rgba(192,132,252,.18);
+  --vision-empty-border:rgba(192,132,252,.22);
+  --vision-empty-shadow:rgba(0,0,0,.34);
+  --vision-panel-bg-1:rgba(12,22,40,.76);
+  --vision-panel-bg-2:rgba(5,11,22,.90);
+  --vision-key-btn-bg:rgba(5,14,28,.82);
+  --vision-dock-bg-1:rgba(10,20,36,.92);
+  --vision-dock-bg-2:rgba(4,9,20,.97);
+  --vision-dock-shadow:rgba(0,0,0,.30);
+}
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
 html body{
   color:var(--vision-text);
   background:
     radial-gradient(circle at 18% -8%,rgba(34,211,197,.12),transparent 32%),
     radial-gradient(circle at 78% 4%,rgba(139,92,246,.16),transparent 36%),
     linear-gradient(180deg,var(--vision-bg-2),var(--vision-bg));
+  color-scheme:dark;
 }
-body::before,body::after{content:"";position:fixed;pointer-events:none;z-index:-1}
-body::before{
+html body::before,html body::after{content:"";position:fixed;pointer-events:none;z-index:-1}
+html body::before{
   inset:-12% -8% auto -8%;
   height:48vh;
   background:radial-gradient(ellipse at 68% 26%,rgba(168,85,247,.18),transparent 48%);
   opacity:.72;
 }
-body::after{
+html body::after{
   left:12%;right:8%;bottom:-18%;height:38vh;
   background:radial-gradient(ellipse at 50% 50%,rgba(88,28,135,.16),transparent 58%);
   opacity:.62;
 }
+<<<<<<< ours
 .container>.sidebar,.container>#automation-panel,.container>.main,.service-selector,.provider-key-panel,.transport-status,.mobile-control-center,.ai-empty-state,.input-area,.conversation-list li,.right-panel-card,.automation-panel .card,.desktop-shell-card,.desktop-shell-tunnel{
+=======
+html .container>.sidebar,html .container>#automation-panel,html .container>.main,html .service-selector,html .provider-key-panel,html .transport-status,html .mobile-control-center,html .ai-empty-state,html .input-area,html .conversation-list li,html .right-panel-card,html .automation-panel .card,html .desktop-shell-card,html .desktop-shell-tunnel{
+>>>>>>> theirs
   border-color:var(--vision-line);
   box-shadow:var(--vision-shadow-soft),var(--vision-inset);
 }
-body.awts-fx-high .container>.sidebar,body.awts-fx-high .container>#automation-panel,body.awts-fx-high .container>.main,body.awts-fx-high .service-selector,body.awts-fx-high .provider-key-panel,body.awts-fx-high .transport-status,body.awts-fx-high .mobile-control-center,body.awts-fx-high .ai-empty-state,body.awts-fx-high .input-area{
+html body.awts-fx-high .container>.sidebar,html body.awts-fx-high .container>#automation-panel,html body.awts-fx-high .container>.main,html body.awts-fx-high .service-selector,html body.awts-fx-high .provider-key-panel,html body.awts-fx-high .transport-status,html body.awts-fx-high .mobile-control-center,html body.awts-fx-high .ai-empty-state,html body.awts-fx-high .input-area{
   backdrop-filter:blur(12px) saturate(1.1);
   -webkit-backdrop-filter:blur(12px) saturate(1.1);
 }
+<<<<<<< ours
 .container>.main,body:not(.is-awtsmoos-embedded-ai) .main,body.is-awtsmoos-embedded-ai .main{
   background:radial-gradient(circle at 50% 12%,rgba(139,92,246,.10),transparent 34%),linear-gradient(180deg,rgba(4,10,22,.90),rgba(2,6,17,.96));
 }
@@ -113,8 +232,75 @@ body.awts-fx-off *,body.awts-fx-low *{animation:none;transition:none}
 body.awts-fx-off::before,body.awts-fx-off::after{display:none}
 @media(min-width:901px){body:not(.is-awtsmoos-embedded-ai) .container{background:linear-gradient(180deg,#050b18,#020611)}}
 @media(max-width:900px){.mobile-app-crown,.mobile-bottom-dock{background:linear-gradient(180deg,rgba(10,20,36,.92),rgba(4,9,20,.97));border-color:rgba(148,163,184,.16);box-shadow:0 10px 24px rgba(0,0,0,.30),var(--vision-inset)}}
+=======
+html .container>.main,html body:not(.is-awtsmoos-embedded-ai) .main,html body.is-awtsmoos-embedded-ai .main{
+  background:radial-gradient(circle at 50% 12%,rgba(139,92,246,.10),transparent 34%),linear-gradient(180deg,var(--vision-main-bg-1),var(--vision-main-bg-2));
+}
+html .container>.sidebar,html .container>#automation-panel,html body:not(.is-awtsmoos-embedded-ai) #sidebar,html body:not(.is-awtsmoos-embedded-ai) #automation-panel{
+  background:linear-gradient(180deg,var(--vision-sidebar-bg-1),var(--vision-sidebar-bg-2));
+}
+html .refresh-button.new-chat,html #send-button,html body.is-awtsmoos-embedded-ai #send-button,html body[data-mobile-scene] #send-button{
+  background:linear-gradient(135deg,var(--vision-send-grad-1),var(--vision-send-grad-2) 46%,var(--vision-send-grad-3) 88%);
+  border-color:var(--vision-send-border);
+  box-shadow:0 10px 22px var(--vision-send-shadow);
+  color:var(--vision-text);
+}
+html .transport-status,html .mobile-control-center{
+  background:linear-gradient(135deg,var(--vision-transport-bg-1),var(--vision-transport-bg-2));
+  border-color:var(--vision-transport-border);
+}
+html .transport-status strong,html .mobile-control-dot[data-state="ready"] + span strong{color:var(--vision-green)}
+html .chat-box{
+  background:radial-gradient(circle at 50% 20%,var(--vision-chat-halo),transparent 34%),linear-gradient(180deg,var(--vision-chat-bg-1),var(--vision-chat-bg-2));
+}
+html .message,html .bubble,html .assistant-message,html .user-message{
+  border:1px solid var(--vision-line);
+  border-radius:24px;
+  box-shadow:0 10px 24px var(--vision-msg-shadow),var(--vision-inset);
+  color:var(--vision-text);
+}
+html .assistant-message,html .message.assistant,html .bubble.assistant{background:linear-gradient(180deg,var(--vision-asst-bg-1),var(--vision-asst-bg-2))}
+html .user-message,html .message.user,html .bubble.user{
+  background:linear-gradient(135deg,var(--vision-user-bg-1),var(--vision-user-bg-2));
+  border-color:var(--vision-line-purple);
+}
+html .input-area,html body:not(.is-awtsmoos-embedded-ai) .input-area,html body.is-awtsmoos-embedded-ai .input-area,html body[data-mobile-scene] .input-area{
+  background:linear-gradient(180deg,var(--vision-input-bg-1),var(--vision-input-bg-2));
+  border-color:var(--vision-input-border);
+  box-shadow:0 12px 30px var(--vision-input-shadow),var(--vision-inset);
+}
+html #message-input{background:var(--vision-field-bg);border-color:var(--vision-field-border);color:var(--vision-text)}
+html #message-input::placeholder{color:var(--vision-placeholder)}
+html #message-input:disabled{opacity:.55;cursor:not-allowed}
+html .mobile-suggestion-rail button,html .ai-empty-prompts button,html body.is-awtsmoos-embedded-ai .mobile-suggestion-rail button{
+  background:var(--vision-prompt-bg);
+  border-color:var(--vision-prompt-border);
+  color:var(--vision-prompt-text);
+  box-shadow:0 8px 18px var(--vision-prompt-shadow),var(--vision-inset);
+}
+html .ai-empty-state{
+  background:radial-gradient(circle at 50% 0,var(--vision-empty-halo),transparent 44%),linear-gradient(180deg,var(--vision-empty-bg-1),var(--vision-empty-bg-2));
+  border-color:var(--vision-empty-border);
+  box-shadow:0 16px 42px var(--vision-empty-shadow),var(--vision-inset);
+  color:var(--vision-text);
+}
+html .ai-empty-orb{
+  background:linear-gradient(135deg,var(--vision-orb-bg-1),var(--vision-orb-bg-2));
+  color:var(--vision-prompt-text);
+  border-color:var(--vision-orb-border);
+  box-shadow:0 0 22px var(--vision-orb-shadow);
+}
+html .provider-key-panel,html .service-selector{background:linear-gradient(180deg,var(--vision-panel-bg-1),var(--vision-panel-bg-2));color:var(--vision-text)}
+html .provider-key-row button,html .provider-key-row a,html .service-selector select{background:var(--vision-key-btn-bg);border-color:var(--vision-field-border);color:var(--vision-text)}
+html body.is-awtsmoos-embedded-ai .mobile-control-center{max-width:min(980px,calc(100vw - 24px))}
+html body.is-awtsmoos-embedded-ai .input-area,html body.is-awtsmoos-embedded-ai .mobile-suggestion-rail{max-width:min(980px,calc(100vw - 28px));margin-inline:auto}
+html body.awts-fx-off *,html body.awts-fx-low *{animation:none;transition:none}
+html body.awts-fx-off::before,html body.awts-fx-off::after{display:none}
+@media(min-width:901px){html body:not(.is-awtsmoos-embedded-ai) .container{background:linear-gradient(180deg,var(--vision-bg-2),var(--vision-bg))}}
+@media(max-width:900px){html .mobile-app-crown,html .mobile-bottom-dock{background:linear-gradient(180deg,var(--vision-dock-bg-1),var(--vision-dock-bg-2));border-color:var(--vision-line);box-shadow:0 10px 24px var(--vision-dock-shadow),var(--vision-inset);color:var(--vision-text)}}
+>>>>>>> theirs
 
-/* @tunnel-interactive-states: auto-generated by css-guarantee */
+/* @tunnel-interactive-states: hover/active/focus-visible/disabled for every interactive control */
 .refresh-button.new-chat:hover {
 	filter: brightness(1.08);
 }
@@ -132,6 +318,12 @@ body.awts-fx-off::before,body.awts-fx-off::after{display:none}
 }
 #send-button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
+}
+#send-button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+	filter: none;
+	transform: none;
 }
 body.is-awtsmoos-embedded-ai #send-button:hover {
 	filter: brightness(1.08);
@@ -160,6 +352,12 @@ body[data-mobile-scene] #send-button:focus-visible {
 .mobile-suggestion-rail button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
+.mobile-suggestion-rail button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+	filter: none;
+	transform: none;
+}
 .ai-empty-prompts button:hover {
 	filter: brightness(1.08);
 }
@@ -168,6 +366,12 @@ body[data-mobile-scene] #send-button:focus-visible {
 }
 .ai-empty-prompts button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
+}
+.ai-empty-prompts button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+	filter: none;
+	transform: none;
 }
 body.is-awtsmoos-embedded-ai .mobile-suggestion-rail button:hover {
 	filter: brightness(1.08);
@@ -186,4 +390,10 @@ body.is-awtsmoos-embedded-ai .mobile-suggestion-rail button:focus-visible {
 }
 .provider-key-row button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
+}
+.provider-key-row button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+	filter: none;
+	transform: none;
 }
