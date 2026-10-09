@@ -2,9 +2,12 @@
 //Boruch Hashem
 //Blessed is He
 
+import { translatePortableCAssemblyToArm64 } from "./arm64.js";
 import { portableCError } from "./errors.js";
 import { emitPortableCFunction } from "./functions.js";
 import { emitPortableCGlobals } from "./globals.js";
+
+const ARM64_TARGETS = new Set(["linux-arm64", "linux-arm64-dynamic"]);
 
 /**
  * Lowers a verified Awtsmoos IR module directly to portable assembly. The
@@ -35,9 +38,15 @@ export function generatePortableCAssembly(irModule, targetId) {
 		`SYSCALL`
 	];
 	for (const emitted of emittedFunctions) lines.push(...emitted.lines);
+	const arm64 = ARM64_TARGETS.has(targetId);
+	const finalLines = arm64
+		? translatePortableCAssemblyToArm64(lines)
+		: lines;
 	return Object.freeze({
-		assembly: lines.join("\n"),
-		backend: "awtsmoos-direct-ir-portable-c-x86_64-v3-scalars",
+		assembly: finalLines.join("\n"),
+		backend: arm64
+			? "awtsmoos-direct-ir-portable-c-arm64-v1-scalars"
+			: "awtsmoos-direct-ir-portable-c-x86_64-v3-scalars",
 		frames: Object.freeze(emittedFunctions.map(emitted => Object.freeze({
 			frame: emitted.frame,
 			name: emitted.name
@@ -55,7 +64,7 @@ function validateModule(irModule, targetId) {
 			`Expected awtsmoos-ir-v1, received '${irModule?.version}'`
 		);
 	}
-	if (!["linux-x64-static", "macos-x64"].includes(targetId)) {
+	if (!["linux-x64-static", "macos-x64", "linux-arm64", "linux-arm64-dynamic"].includes(targetId)) {
 		throw portableCError(
 			"PORTABLE_C_TARGET_UNSUPPORTED",
 			`Portable C target '${targetId}' is unsupported`
@@ -76,5 +85,6 @@ function validateModule(irModule, targetId) {
 }
 
 function exitSyscall(targetId) {
+	if (ARM64_TARGETS.has(targetId)) return 93;
 	return targetId === "linux-x64-static" ? 60 : 0x2000001;
 }

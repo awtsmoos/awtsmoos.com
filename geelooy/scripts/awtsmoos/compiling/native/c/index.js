@@ -12,4 +12,5 @@ export {
 	compilePortableCProgram
 } from "./compiler.js";
 export { generatePortableCAssembly } from "./codegen.js";
+export { translatePortableCAssemblyToArm64 } from "./arm64.js";
 export { portableCError } from "./errors.js";
