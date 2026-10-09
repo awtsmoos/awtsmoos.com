@@ -108,12 +108,23 @@ function fieldKeyFromOffset(runtime, offset) {
 	}
 }
 
+// Side table for offsets that can't be mapped to fields.
+// Key: `${objectId}:${offset}`, Value: the stored value.
+const OFFSET_STORAGE = new Map();
+
+function offsetStorageKey(objRef, offset) {
+	const id = objRef?.id ?? String(objRef);
+	return `${id}:${String(offset)}`;
+}
+
 function compareAndSwapField(runtime, objRef, offset, expected, newValue, bits) {
 	let key = fieldKeyFromOffset(runtime, offset);
 	if (!key) {
-		// Infer field for atomic types.
 		key = inferAtomicField(runtime, objRef);
-		if (!key) return 0; // Cannot determine field; fail the CAS safely.
+	}
+	if (!key) {
+		// Use offset-based side storage.
+		return compareAndSwapOffsetStorage(objRef, offset, expected, newValue, bits);
 	}
 	let current;
 	try {
@@ -139,6 +150,28 @@ function compareAndSwapField(runtime, objRef, offset, expected, newValue, bits) 
 	return 0;
 }
 
+function compareAndSwapOffsetStorage(objRef, offset, expected, newValue, bits) {
+	const storageKey = offsetStorageKey(objRef, offset);
+	const current = OFFSET_STORAGE.get(storageKey);
+	if (bits === 0) {
+		// Object comparison by identity.
+		const currentId = current?.id ?? current;
+		const expectedId = expected?.id ?? expected;
+		if (currentId === expectedId || (current === undefined && expected === null)) {
+			OFFSET_STORAGE.set(storageKey, newValue);
+			return 1;
+		}
+		return 0;
+	}
+	const currentNum = Number(current) || 0;
+	const expectedNum = Number(expected) || 0;
+	if (currentNum === expectedNum) {
+		OFFSET_STORAGE.set(storageKey, newValue);
+		return 1;
+	}
+	return 0;
+}
+
 function inferAtomicField(runtime, objRef) {
 	try {
 		const obj = runtime.heap.get(objRef);
@@ -157,7 +190,9 @@ function inferAtomicField(runtime, objRef) {
 
 function getFieldByOffset(runtime, objRef, offset) {
 	const key = fieldKeyFromOffset(runtime, offset) || inferAtomicField(runtime, objRef);
-	if (!key) return 0;
+	if (!key) {
+		return OFFSET_STORAGE.get(offsetStorageKey(objRef, offset)) || 0;
+	}
 	try {
 		return runtime.heap.getField(objRef, key) || 0;
 	} catch {
@@ -167,6 +202,9 @@ function getFieldByOffset(runtime, objRef, offset) {
 
 function setFieldByOffset(runtime, objRef, offset, value) {
 	const key = fieldKeyFromOffset(runtime, offset) || inferAtomicField(runtime, objRef);
-	if (!key) return;
+	if (!key) {
+		OFFSET_STORAGE.set(offsetStorageKey(objRef, offset), value);
+		return;
+	}
 	runtime.heap.setField(objRef, key, value);
 }
