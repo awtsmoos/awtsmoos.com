@@ -18,6 +18,7 @@ const SIGNATURES = Object.freeze({
 	applicationContext: "Landroid/content/Context;->getApplicationContext()Landroid/content/Context;",
 	applicationInfo: `Landroid/content/Context;->getApplicationInfo()${APPLICATION_INFO}`,
 	applicationInfoByName: `${PACKAGE_MANAGER}->getApplicationInfo(Ljava/lang/String;I)${APPLICATION_INFO}`,
+	checkPermission: `${PACKAGE_MANAGER}->checkPermission(Ljava/lang/String;Ljava/lang/String;)I`,
 	applicationLabel: `${PACKAGE_MANAGER}->getApplicationLabel(${APPLICATION_INFO})Ljava/lang/CharSequence;`,
 	classLoader: "Landroid/content/Context;->getClassLoader()Ljava/lang/ClassLoader;",
 	createPackageContext: "Landroid/content/Context;->createPackageContext(Ljava/lang/String;I)Landroid/content/Context;",
@@ -67,6 +68,7 @@ export function createFrameworkPackageMethods(runtime) {
 			}
 			if ([SIGNATURES.systemFeature, SIGNATURES.instantApp].includes(signature)) return 0;
 			if (signature === SIGNATURES.installer) return 0;
+			if (signature === SIGNATURES.checkPermission) return 0; // PERMISSION_GRANTED
 			throw packageError("ANDROID_PACKAGE_METHOD_UNSUPPORTED", signature);
 		}
 	});
