@@ -78,23 +78,40 @@
 	color: #21160a;
 }
 
-/* B"H — Yaakov 2026-10-08: force dark text in light theme, no exceptions */
-:where(:root[data-theme="light"]) .post-reader-localized-context .typography-details *,
-:where(.post-reader-localized-context[data-theme="light"]) .typography-details *,
-:where(.typography-details[data-theme="light"]) * {
-  color: #21160a !important;
-}
-:where(:root[data-theme="light"]) .post-reader-localized-context .typography-details .setting-name,
-:where(:root[data-theme="light"]) .post-reader-localized-context .typography-details .control-label {
-  color: #21160a !important;
+/* B"H — LIGHT THEME: Scribe's Lens labels readable WITHOUT !important.
+   Yaakov's Law 1: NEVER use !important. EVER.
+   
+   STRATEGY: Override CSS variables so var(--reader-text, #f8fbff) resolves dark.
+   The base rules in settings-groups.css use:
+     .post-reader-localized-context .setting-name { color: var(--reader-text, #f8fbff); }  /* (0,2,0) */
+     .post-reader-localized-context .control-label { color: var(--reader-gold, #f6cc72); } /* (0,2,0) */
+   
+   By setting --reader-text and --reader-gold to dark values on .typography-details
+   (an ancestor), all descendants inherit the dark values. No color fight needed.
+   
+   SELECTOR: :root:not([data-theme="dark"]) targets light theme OR unset theme
+   (which defaults to light). Real specificity (0,4,1), NOT :where() (which is 0).
+   This beats the base (0,2,0) for variable definition precedence. */
+:root:not([data-theme="dark"]) .post-reader-localized-context .typography-details {
+	--reader-text: #21160a;
+	--reader-gold: #8a6d1a;
+	--reader-muted: #6d5a43;
+	--reader-cyan: #0b6e8f;
+	--reader-line: rgb(122 82 31 / 28%);
 }
 
-/* B"H — Direct override, no :where() — force dark labels in light theme */
-html[data-theme="light"] .typography-details .control-label,
-html[data-theme="light"] .typography-details h3,
-html[data-theme="light"] .typography-details label,
-.post-reader-localized-context[data-theme="light"] .typography-details .control-label,
-.post-reader-localized-context[data-theme="light"] .typography-details h3,
-.post-reader-localized-context[data-theme="light"] .typography-details label {
-  color: #21160a !important;
+/* B"H — DIRECT LABEL COLORS, no !important.
+   Belt-and-suspenders: even if variable inheritance fails, these (0,4,1) rules
+   beat the base (0,2,0) rules by specificity alone. No !important needed. */
+:root:not([data-theme="dark"]) .post-reader-localized-context .typography-details .setting-name {
+	color: #21160a;
+}
+:root:not([data-theme="dark"]) .post-reader-localized-context .typography-details .control-label {
+	color: #8a6d1a;
+}
+:root:not([data-theme="dark"]) .post-reader-localized-context .typography-details h3 {
+	color: #21160a;
+}
+:root:not([data-theme="dark"]) .post-reader-localized-context .typography-details label {
+	color: #21160a;
 }
