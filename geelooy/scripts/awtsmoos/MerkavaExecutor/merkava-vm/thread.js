@@ -21,7 +21,10 @@
             this.ip = 0;
             // B"H: Preallocated stack with manual pointer. Eliminates Array.push/pop
             // method call overhead and growth reallocations in the hot path.
-            this.stack = new Array(256);
+            // B"H (RAM): start at 64 slots (was 256); _growStack doubles
+            // on demand. Saves ~1.5KB per thread; threads are numerous
+            // and short-lived.
+            this.stack = new Array(64);
             this._sp = 0;
             this.status = 'READY';
             this.frames = [];
@@ -29,6 +32,11 @@
             this.environment = context;
             this.catchStack = [];
             this.lastError = null;
+            // B"H (2026-10-09): cache the strict-mode flag once. The old code
+            // walked root.MerkavaVM.Security -> policy() -> vm.securityPolicy
+            // on EVERY property get/set. securityPolicy is fixed at VM build
+            // time and never mutated afterwards (verified: no setters exist).
+            this._strict = !!(vm && vm.securityPolicy && vm.securityPolicy.strict === true);
             // B"H: Cache the handler table once. The old code did
             // `root.MerkavaExecutor || ...` on EVERY instruction.
             this._handlers = null;
