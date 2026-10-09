@@ -19,6 +19,7 @@ import { createFrameworkJavaThreadMethods } from "./frameworkJavaThreads.js";
 import { createFrameworkJavaLoggerMethods } from "./frameworkJavaLoggers.js";
 import { createFrameworkJavaMathMethods } from "./frameworkJavaMaths.js";
 import { createFrameworkJavaPrimitiveMethods } from "./frameworkJavaPrimitives.js";
+import { createFrameworkJavaThrowableMethods } from "./frameworkJavaThrowables.js";
 import { createFrameworkJavaTimeUnitMethods } from "./frameworkJavaTimeUnits.js";
 import { createFrameworkJavaValueFamilies } from "./frameworkJavaValueFamilies.js";
 
@@ -40,6 +41,7 @@ export function createFrameworkJavaPlatformFamilies(runtime) {
 		createFrameworkJavaLoggerMethods(runtime),
 		createFrameworkJavaPrimitiveMethods(runtime),
 		createFrameworkJavaMathMethods(runtime),
+		createFrameworkJavaThrowableMethods(runtime),
 		createFrameworkJavaFutureMethods(runtime),
 		createFrameworkJavaLockMethods(runtime),
 		createFrameworkJavaReferenceMethods(runtime),
