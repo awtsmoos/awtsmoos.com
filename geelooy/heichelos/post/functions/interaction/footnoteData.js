@@ -11,7 +11,14 @@ const FOOTNOTE_KEYS = ["footnotes", "הערות", "notes"];
 
 function stringifyId(value, fallback) {
     if (value === undefined || value === null || value === "") return String(fallback);
-    return String(value).replace(/[\[\]\(\)]/g, "").trim() || String(fallback);
+    // B"H fix: stronger normalization for dedup —
+    // strips brackets, trailing periods, extra whitespace, leading zeros.
+    const cleaned = String(value)
+        .replace(/[\[\]\(\)]/g, "")
+        .replace(/[.\s]+$/g, "")
+        .trim()
+        .replace(/^0+(\d)/, "$1");
+    return cleaned || String(fallback);
 }
 
 function collectTextParts(value, out = []) {
@@ -80,6 +87,11 @@ export function getNormalizedFootnotes(dayuh = window.post?.dayuh) {
             const id = stringifyId(note?.id ?? note?.number ?? note?.key, index + 1);
             if (seen.has(id)) return;
             const paragraphs = collectTextParts(note).filter(Boolean);
+            // B"H fix: skip completely empty notes (no text in any shape).
+            if (!paragraphs.length) {
+                seen.add(id); // mark seen so it isn't re-added from another container
+                return;
+            }
             normalized.push({
                 id,
                 paragraphs,
@@ -89,6 +101,15 @@ export function getNormalizedFootnotes(dayuh = window.post?.dayuh) {
             seen.add(id);
         });
     }
+
+    // B"H fix: sort numerically by footnote ID so the panel order matches
+    // the reading order (fixes "51 before 47-50").
+    normalized.sort((a, b) => {
+        const aNum = parseInt(a.id, 10);
+        const bNum = parseInt(b.id, 10);
+        if (!isNaN(aNum) && !isNaN(bNum)) return aNum - bNum;
+        return String(a.id).localeCompare(String(b.id));
+    });
 
     return normalized;
 }

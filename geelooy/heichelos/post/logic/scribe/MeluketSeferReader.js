@@ -170,6 +170,9 @@ function buildSectionElement(sectionIndex, sectionId, hebrewHtml, englishText, s
 		btn.type = 'button';
 		btn.className = 'meluket-fn-marker';
 		btn.setAttribute('data-fn', fnNum);
+		// Unique ID allows the shelf to scroll back to THIS specific marker
+		// (handles duplicate footnote numbers referenced from multiple places).
+		btn.id = `meluket-fn-marker-${fnNum}-${idx}`;
 		btn.setAttribute('aria-label', `Footnote ${fnNum}`);
 		btn.textContent = text;
 		sup.replaceWith(btn);
@@ -484,16 +487,11 @@ export function awakenMeluketSeferReader(post) {
 	// This overrides any CSS cascade issues with !important inline styles.
 	const applySeferTheme = () => {
 		const theme = localStorage.getItem('awtsmoos-theme') || 'dark';
-		const isLight = theme === 'light';
-		const ink = isLight ? '#2b2118' : '#f0e7d3';
-		const bg = isLight ? '#faf5e9' : '#171209';
-		sefer.style.setProperty('color', ink, 'important');
-		sefer.style.setProperty('background-color', bg, 'important');
-		sefer.querySelectorAll('*').forEach(el => {
-			// Skip buttons and interactive elements that have their own colors
-			if (el.tagName === 'BUTTON' && el.classList.contains('meluket-fn-marker')) return;
-			el.style.setProperty('color', ink, 'important');
-		});
+		// B"H fix: NO !important inline styles (violates Yaakov's CSS Law 1).
+		// Colors are defined in meluket-sefer.css using :root[data-theme] selectors.
+		// Set data-theme on the sefer root so CSS :root[data-theme] rules apply.
+		sefer.dataset.awtsmoosTheme = theme;
+		document.documentElement.dataset.theme = theme;
 		// Hide Hebrew title in English mode via JS (backup for CSS)
 		const langMode = sefer.dataset.langMode;
 		const titleHe = sefer.querySelector('.meluket-sefer-title-he');
@@ -511,8 +509,17 @@ export function awakenMeluketSeferReader(post) {
 	window.addEventListener('storage', (e) => {
 		if (e.key === 'awtsmoos-theme') applySeferTheme();
 	});
-	// Also check periodically (theme might change without storage event)
-	setInterval(applySeferTheme, 2000);
+	// Also check periodically (theme might change without storage event).
+	// B"H fix: only touch the DOM when the theme actually changed (was: forced
+	// !important inline styles on every element every 2 seconds).
+	let lastSeenTheme = localStorage.getItem('awtsmoos-theme') || 'dark';
+	setInterval(() => {
+		const current = localStorage.getItem('awtsmoos-theme') || 'dark';
+		if (current !== lastSeenTheme) {
+			lastSeenTheme = current;
+			applySeferTheme();
+		}
+	}, 2000);
 
 	return true;
 }

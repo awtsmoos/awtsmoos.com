@@ -44,14 +44,33 @@ export function renderFootnotesPanel(actualTab) {
                 events: {
                     click: (e) => {
                         e.stopPropagation();
-                        const ref = document.querySelector(`sup[data-footnote-id="${CSS.escape(idVal)}"], sub[data-footnote-id="${CSS.escape(idVal)}"], .footnote-ref[data-footnote-id="${CSS.escape(idVal)}"]`);
+                        // B"H fix: robust marker lookup — tries (in order):
+                        // 1. refs wired by initializeFootnotes (data-footnote-id)
+                        // 2. Meluket reader markers (button.meluket-fn-marker[data-fn])
+                        // 3. plain sup/sub whose text contains the footnote number
+                        const esc = CSS.escape(idVal);
+                        const ref =
+                            document.querySelector(`sup[data-footnote-id="${esc}"], sub[data-footnote-id="${esc}"], .footnote-ref[data-footnote-id="${esc}"], [data-note-id="${esc}"]`) ||
+                            document.querySelector(`.meluket-fn-marker[data-fn="${esc}"]`) ||
+                            Array.from(document.querySelectorAll('#realPost sup, #realPost sub')).find(el => {
+                                const t = (el.textContent || '').trim();
+                                return t === idVal || (t.match(/(\d+)/) || [])[1] === idVal;
+                            });
                         if (ref) {
                             ref.scrollIntoView({ behavior: 'smooth', block: 'center' });
                             ref.classList.add('active-footnote-match');
                             setTimeout(() => ref.classList.remove('active-footnote-match'), 2000);
-                            
+
                             if (window.innerWidth <= 900) {
                                 import("../../logic/listeners.js").then(m => m.toggleSidebar(false));
+                            }
+                        } else {
+                            // B"H fix: never silently do nothing — flash the panel item
+                            // to acknowledge the click when no marker is found.
+                            const item = e.currentTarget;
+                            if (item) {
+                                item.classList.add('active');
+                                setTimeout(() => item.classList.remove('active'), 1200);
                             }
                         }
                     }
