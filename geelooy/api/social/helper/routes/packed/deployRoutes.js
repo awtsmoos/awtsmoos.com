@@ -194,8 +194,8 @@ class PackedDeployRoutes {
 		if (auth) return auth;
 
 		const body = this.$i?.body || {};
-		const files = body.files || [];
-		const message = String(body.message || '').slice(0, 500);
+		const files = body.files || this.$i?.$_POST?.files || [];
+		const message = String(body.message || this.$i?.$_POST?.message || '').slice(0, 500);
 
 		if (!Array.isArray(files) || files.length === 0) {
 			return { success: false, error: 'NO_FILES', message: 'files[] is required and must not be empty.' };
