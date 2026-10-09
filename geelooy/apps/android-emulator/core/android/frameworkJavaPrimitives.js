@@ -86,6 +86,33 @@ function invokeInteger(runtime, name, record, args) {
 	if (name === "intValue") return readPrimitive(runtime, args[0], INT_FIELD);
 	if (name === "hashCode") return readPrimitive(runtime, args[0], INT_FIELD);
 	if (name === "toString") return createGuestString(runtime, String(readPrimitive(runtime, args[0], INT_FIELD)));
+	if (name === "numberOfLeadingZeros") return Math.clz32(Number(args[0]));
+	if (name === "numberOfTrailingZeros") {
+		let v = Number(args[0]) | 0;
+		if (v === 0) return 32;
+		let c = 0;
+		while ((v & 1) === 0) { v >>>= 1; c++; }
+		return c;
+	}
+	if (name === "bitCount") {
+		let v = Number(args[0]) | 0;
+		v = v - ((v >>> 1) & 0x55555555);
+		v = (v & 0x33333333) + ((v >>> 2) & 0x33333333);
+		return (((v + (v >>> 4)) & 0x0F0F0F0F) * 0x01010101) >>> 24);
+	}
+	if (name === "highestOneBit") {
+		let v = Number(args[0]) | 0;
+		v |= v >>> 1; v |= v >>> 2; v |= v >>> 4; v |= v >>> 8; v |= v >>> 16;
+		return (v - (v >>> 1)) | 0;
+	}
+	if (name === "lowestOneBit") { const v = Number(args[0]) | 0; return (v & -v) | 0; }
+	if (name === "reverse") {
+		let v = Number(args[0]) | 0;
+		v = ((v & 0x55555555) << 1) | ((v >>> 1) & 0x55555555);
+		v = ((v & 0x33333333) << 2) | ((v >>> 2) & 0x33333333);
+		v = ((v & 0x0F0F0F0F) << 4) | ((v >>> 4) & 0x0F0F0F0F);
+		return ((v << 24) | ((v & 0xFF00) << 8) | ((v >>> 8) & 0xFF00) | (v >>> 24)) | 0;
+	}
 	throw primitiveError("ANDROID_JAVA_INTEGER_METHOD_UNSUPPORTED", record.signature);
 }
 
