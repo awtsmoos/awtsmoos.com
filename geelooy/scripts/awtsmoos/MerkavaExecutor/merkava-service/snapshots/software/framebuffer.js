@@ -227,11 +227,18 @@ export class Framebuffer {
     const ix = x + lw, iy = y + lw, iw = w - 2 * lw, ih = h - 2 * lw;
     const sx = Math.max(0, Math.floor(x)), sy = Math.max(0, Math.floor(y));
     const ex = Math.min(this.width, Math.ceil(x + w)), ey = Math.min(this.height, Math.ceil(y + h));
+    // B"H: hoist rounded-rect tests out of the per-pixel loop — was allocating
+    // two test closures per pixel via pointInRoundedRect (23% of blog paint).
+    const outerTest = makeRoundedTest(x, y, w, h, r);
+    const innerTest = makeRoundedTest(ix, iy, iw, ih, inner);
+    // outerTest non-null here (hasAnyRadius checked above); innerTest may be
+    // null if radii shrank to zero — then fall back to plain rect check.
+    const inOuter = outerTest;
+    const inInner = innerTest || ((lx, ly) => lx >= ix && ly >= iy && lx <= ix + iw && ly <= iy + ih);
     for (let yy = sy; yy < ey; yy++) {
       for (let xx = sx; xx < ex; xx++) {
         const cx = xx + 0.5, cy = yy + 0.5;
-        if (pointInRoundedRect(cx, cy, x, y, w, h, r) &&
-            !pointInRoundedRect(cx, cy, ix, iy, iw, ih, inner)) {
+        if (inOuter(cx, cy) && !inInner(cx, cy)) {
           this.setPixel(xx, yy, color);
         }
       }
