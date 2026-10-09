@@ -59,7 +59,7 @@
 :where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-view-title {
 	min-inline-size: 0;
 	margin: 0;
-	color: var(--awt-ink);
+	color: var(--sefer-title-ink);
 	font: 800 1rem / 1.2 var(--font-ui);
 }
 

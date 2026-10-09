@@ -62,7 +62,7 @@
 .post-reader-localized-context .command-palette-head small,
 .post-reader-localized-context .command-palette-item small,
 .post-reader-localized-context .command-palette-empty {
-	color: var(--awt-muted);
+	color: var(--sefer-ink-soft);
 }
 
 .post-reader-localized-context .command-palette-input {

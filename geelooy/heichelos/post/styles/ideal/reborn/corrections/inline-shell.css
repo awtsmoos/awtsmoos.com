@@ -34,7 +34,7 @@
 :where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-inline-title,
 :where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-inline-trigger-title {
 	margin: 0;
-	color: var(--awt-ink);
+	color: var(--sefer-ink);
 	font-family: var(--font-ui);
 	font-weight: 800;
 	line-height: 1.22;
@@ -45,7 +45,7 @@
 :where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-inline-trigger-meta,
 :where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-inline-trigger-subtitle,
 :where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-inline-shelter-label {
-	color: var(--awt-muted);
+	color: var(--sefer-ink-soft);
 	font-family: var(--font-ui);
 	line-height: 1.35;
 	overflow-wrap: anywhere;

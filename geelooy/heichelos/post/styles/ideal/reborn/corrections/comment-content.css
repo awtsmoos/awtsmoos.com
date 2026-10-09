@@ -29,7 +29,7 @@
 :where(.post-reader-localized-context.awtsmoos-reader-vision) .comment-text-root {
 	inline-size: 100%;
 	min-inline-size: 0;
-	color: var(--awt-ink);
+	color: var(--sefer-ink);
 	font-family: var(--font-ui);
 	line-height: 1.58;
 	white-space: pre-wrap;

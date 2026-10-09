@@ -8,8 +8,8 @@
 :where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-header-chrome {
 	flex: 0 0 auto;
 	padding: 10px 12px 8px;
-	border-block-end: 1px solid rgba(255, 255, 255, .08);
-	background: linear-gradient(180deg, rgba(255, 255, 255, .055), transparent);
+	border-block-end: 1px solid var(--sefer-rule);
+	background: linear-gradient(180deg, color-mix(in srgb, var(--sefer-accent) 6%, transparent), transparent);
 	font-family: var(--font-ui);
 	direction: ltr;
 }
@@ -30,6 +30,7 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	color: var(--sefer-title-ink);
 }
 
 :where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-chrome-controls {
@@ -47,10 +48,10 @@
 	min-inline-size: 42px;
 	min-block-size: 42px;
 	padding: 8px 10px;
-	border: 1px solid rgba(255, 255, 255, .12);
+	border: 1px solid var(--sefer-rule);
 	border-radius: 13px;
-	color: var(--awt-ink);
-	background: rgba(255, 255, 255, .055);
+	color: var(--sefer-ink);
+	background: var(--sefer-paper);
 	font: 700 .9rem / 1 var(--font-ui);
 	cursor: pointer;
 	transition:
@@ -63,9 +64,9 @@
 @media (hover: hover) {
 	:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-chrome-btn:hover,
 	:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-back-btn:hover {
-		border-color: rgba(244, 197, 107, .38);
-		background: rgba(244, 197, 107, .11);
-		box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+		border-color: color-mix(in srgb, var(--sefer-accent) 38%, transparent);
+		background: color-mix(in srgb, var(--sefer-accent) 11%, transparent);
+		box-shadow: var(--sefer-shadow);
 	}
 }
 
@@ -76,7 +77,7 @@
 
 :where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-chrome-btn:focus-visible,
 :where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-back-btn:focus-visible {
-	outline: 3px solid rgba(91, 209, 255, .52);
+	outline: 3px solid color-mix(in srgb, var(--sefer-focus) 52%, transparent);
 	outline-offset: 2px;
 }
 
@@ -88,6 +89,6 @@
 }
 
 :where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-close-btn {
-	color: #ffd4dc;
-	border-color: rgba(255, 108, 138, .24);
+	color: var(--sefer-focus);
+	border-color: color-mix(in srgb, var(--sefer-focus) 24%, transparent);
 }

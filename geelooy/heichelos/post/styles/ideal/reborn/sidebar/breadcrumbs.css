@@ -22,10 +22,10 @@
 	min-block-size: 34px;
 	max-inline-size: 100%;
 	padding: .42rem .66rem;
-	border: 1px solid rgba(255, 255, 255, .09);
+	border: 1px solid var(--sefer-rule);
 	border-radius: 999px;
-	color: var(--awt-muted);
-	background: rgba(255, 255, 255, .035);
+	color: var(--sefer-ink-soft);
+	background: var(--sefer-card);
 	font: 700 .78rem / 1.1 var(--font-ui);
 	text-decoration: none;
 	white-space: normal;
@@ -39,9 +39,9 @@
 
 @media (hover: hover) {
 	:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-crumb-link:hover {
-		color: var(--awt-ink);
-		background: rgba(91, 209, 255, .09);
-		border-color: rgba(91, 209, 255, .26);
+		color: var(--sefer-ink);
+		background: color-mix(in srgb, var(--sefer-accent) 9%, transparent);
+		border-color: color-mix(in srgb, var(--sefer-accent) 26%, transparent);
 	}
 }
 
@@ -50,11 +50,11 @@
 }
 
 :where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-crumb-link:focus-visible {
-	outline: 3px solid rgba(91, 209, 255, .5);
+	outline: 3px solid color-mix(in srgb, var(--sefer-accent) 50%, transparent);
 	outline-offset: 2px;
 }
 
 :where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-crumb-separator {
-	color: rgba(255, 255, 255, .3);
+	color: var(--sefer-ink-soft);
 	user-select: none;
 }
