@@ -1,9 +1,14 @@
 // B"H — Heichel Reader Service Worker
-// Auto-clearing cache: every deploy bumps CACHE_VERSION, old caches are
-// deleted automatically on activate. HTML is network-first (always fresh).
-// CSS/JS are cache-first with background revalidation.
+// Auto-clearing cache: the server stamps __AWTSMOOS_BUILD_ID__ with the running
+// build identity on every deploy, so CACHE_VERSION changes automatically, the
+// browser installs the new worker by itself, and old caches are deleted on
+// activate. No human ever bumps a version string. HTML is network-first
+// (always fresh). CSS/JS are cache-first with background revalidation.
 
-const CACHE_VERSION = 'heichel-reader-v4';
+const AWTSMOOS_BUILD_ID = '__AWTSMOOS_BUILD_ID__';
+const CACHE_VERSION = AWTSMOOS_BUILD_ID.startsWith('__AWTSMOOS_BUILD')
+	? 'heichel-reader-v4'
+	: 'heichel-reader-' + AWTSMOOS_BUILD_ID;
 const STATIC_CACHE = CACHE_VERSION + '-static';
 const PAGES_CACHE = CACHE_VERSION + '-pages';
 

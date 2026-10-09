@@ -20,6 +20,8 @@ const {
 	sendCompactJs
 } = require('./static/GeneratedCompactResponse.js');
 const { readStaticAsset } = require('./static/StaticAssetRepresentation.js');
+const { isTemplate } = require('./static/StaticAssetHeaders.js');
+const { sendCompressedTemplate } = require('./static/TemplateCompressedResponse.js');
 
 const HANDLED_RESPONSE = Symbol('handled-response');
 
@@ -60,6 +62,9 @@ async function doFileResponse(context) {
 			context.contentType,
 			context.isBinary
 		);
+		if (isTemplate(context)) {
+			return sendCompressedTemplate(context, proper);
+		}
 		response.end(proper);
 	} catch (errors) {
 		console.error(errors);
