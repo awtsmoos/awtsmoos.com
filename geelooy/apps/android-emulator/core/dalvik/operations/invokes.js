@@ -69,19 +69,6 @@ export async function executeInvokeOperation(instruction, frame, context) {
 
 async function invokeResolved(record, args, dispatch, context) {
 	if (record.code) {
-		// For virtual/direct calls, validate the receiver is a proper reference.
-		// Obfuscated code may pass small integers due to type confusion;
-		// treat as null (return 0) rather than crashing the emulation.
-		if ((dispatch === "virtual" || dispatch === "direct") && args.length > 0) {
-			const receiver = args[0];
-			if (typeof receiver === "number" && Number.isInteger(receiver) && receiver >= 0 && receiver < 1000) {
-				// Invalid small-int receiver; return null/0 for object returns, 0 for primitives.
-				// The descriptor determines the return type.
-				const desc = record.method?.descriptor || "";
-				if (desc.endsWith(")V")) return undefined;
-				return 0;
-			}
-		}
 		return context.invokeGuest(record, args, dispatch);
 	}
 	return context.framework.invoke(

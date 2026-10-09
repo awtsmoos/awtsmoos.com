@@ -42,6 +42,13 @@ export function createFrameworkJavaPrimitiveMethods(runtime) {
 }
 
 function invokeByte(runtime, name, record, args) {
+	// Static methods.
+	if (name === "hashCode" && args.length === 1 && typeof args[0] === "number") {
+		return args[0] | 0;
+	}
+	if (name === "toString" && args.length === 1 && typeof args[0] === "number") {
+		return createGuestString(runtime, String(args[0] | 0));
+	}
 	if (name === "parseByte") {
 		const s = readGuestText(runtime, args[0]);
 		const radix = args.length > 1 ? Number(args[1]) : 10;
@@ -58,6 +65,13 @@ function invokeByte(runtime, name, record, args) {
 }
 
 function invokeShort(runtime, name, record, args) {
+	// Static methods.
+	if (name === "hashCode" && args.length === 1 && typeof args[0] === "number") {
+		return args[0] | 0;
+	}
+	if (name === "toString" && args.length === 1 && typeof args[0] === "number") {
+		return createGuestString(runtime, String(args[0] | 0));
+	}
 	if (name === "parseShort") {
 		const s = readGuestText(runtime, args[0]);
 		const radix = args.length > 1 ? Number(args[1]) : 10;
@@ -74,6 +88,14 @@ function invokeShort(runtime, name, record, args) {
 }
 
 function invokeInteger(runtime, name, record, args) {
+	// Static methods (Java 8+): hashCode(int), toString(int), etc.
+	// These take a primitive int, not a reference.
+	if (name === "hashCode" && args.length === 1 && typeof args[0] === "number") {
+		return args[0] | 0;
+	}
+	if (name === "toString" && args.length === 1 && typeof args[0] === "number") {
+		return createGuestString(runtime, String(args[0] | 0));
+	}
 	if (name === "parseInt") {
 		const s = readGuestText(runtime, args[0]);
 		const radix = args.length > 1 ? Number(args[1]) : 10;
@@ -127,6 +149,13 @@ function invokeCharacter(runtime, name, record, args) {
 }
 
 function invokeBoolean(runtime, name, record, args) {
+	// Static methods.
+	if (name === "hashCode" && args.length === 1 && typeof args[0] === "number") {
+		return args[0] ? 1231 : 1237;
+	}
+	if (name === "toString" && args.length === 1 && typeof args[0] === "number") {
+		return createGuestString(runtime, args[0] ? "true" : "false");
+	}
 	if (name === "parseBoolean") {
 		const s = readGuestText(runtime, args[0]);
 		return s.toLowerCase() === "true" ? 1 : 0;
