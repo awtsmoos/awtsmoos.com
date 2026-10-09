@@ -838,7 +838,7 @@ function resolveAll(parsed) {
 	for (const [k, v] of Object.entries(b.labels)) symbols[k] = v;
 	for (const [k, v] of Object.entries(dataLabels)) symbols[k] = dataOffsets[v];
 
-	return { bytes, symbols, relocations };
+	return { bytes, symbols, relocations, codeSize, dataSize: totalSize - codeSize };
 }
 
 /** OR the Rd field into an already-encoded word (adr/adrp placeholders record rd at emit time). */
@@ -851,7 +851,8 @@ function patchRd(word, p) {
 /**
  * Assemble ARM64 source text into machine code.
  * @param {string} source
- * @returns {{ bytes: Uint8Array, symbols: Object, relocations: Array }}
+ * @returns {{ bytes: Uint8Array, symbols: Object, relocations: Array, codeSize: number, dataSize: number }}
+ *   codeSize/dataSize split bytes into .text and .data for section-aware linking.
  */
 export function assemble(source) {
 	const parsed = parseSource(source);

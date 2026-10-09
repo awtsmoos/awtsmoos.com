@@ -104,7 +104,17 @@ export function executeCFunction(src, funcName = "main", args = []) {
 // Stage 3: link objects -> ELF .so
 // ---------------------------------------------------------------------------
 
-const RELOC_KIND_MAP = { bl: "arm64_bl", b: "arm64_b" };
+const RELOC_KIND_MAP = {
+	bl: "arm64_bl",
+	b: "arm64_b",
+	cbz: "arm64_cbz",
+	cbnz: "arm64_cbnz",
+	bcond: "arm64_bcond",
+	adr: "arm64_adr",
+	adrp: "arm64_adrp",
+	lo12: "arm64_lo12",
+	ldrLiteral: "arm64_ldr_literal"
+};
 
 export function linkCToSharedObject(src, options = {}) {
 	const { assembled } = compileCToArm64(src);
