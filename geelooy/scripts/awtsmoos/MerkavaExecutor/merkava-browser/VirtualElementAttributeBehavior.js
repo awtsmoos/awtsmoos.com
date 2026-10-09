@@ -46,6 +46,11 @@
 		delete this.attributes[key];
 		if (key === "id") this.id = "";
 		if (key === "class") this.className = "";
+		// B"H: removing the style attribute must clear inline declarations —
+		// otherwise removed styles keep affecting the cascade and layout.
+		if (key === "style" && this._style) {
+			for (const prop of Object.keys(this._style.props)) this._style.removeProperty(prop);
+		}
 		if (key === "width" && this.localName === "canvas") this.width = 300;
 		if (key === "height" && this.localName === "canvas") this.height = 150;
 		this.__notify("attributes", {

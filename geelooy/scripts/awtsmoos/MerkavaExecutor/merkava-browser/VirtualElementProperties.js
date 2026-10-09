@@ -46,6 +46,38 @@
 					return this.children.filter(child => child.nodeType === 1).length;
 				}
 			},
+			/**
+			 * B"H: layout thrashing defense. className/hidden/value writes
+			 * can re-match selectors or change intrinsic geometry, so they
+			 * notify the document scheduler (batched, never sync layout).
+			 */
+			className: {
+				get() { return this._className || ""; },
+				set(value) {
+					const next = String(value ?? "");
+					if (this._className === next) return;
+					this._className = next;
+					this.__notify("attributes", { attributeName: "class" });
+				}
+			},
+			hidden: {
+				get() { return !!this._hidden; },
+				set(value) {
+					const next = !!value;
+					if (!!this._hidden === next) return;
+					this._hidden = next;
+					this.__notify("attributes", { attributeName: "hidden" });
+				}
+			},
+			value: {
+				get() { return this._value != null ? String(this._value) : ""; },
+				set(value) {
+					const next = String(value ?? "");
+					if (this._value === next) return;
+					this._value = next;
+					this.__notify("attributes", { attributeName: "value" });
+				}
+			},
 			content: {
 				get() {
 					if (this.localName !== "template") return undefined;
@@ -60,6 +92,7 @@
 					this.__height = support.virtualElementPositiveInteger(value, 0);
 					this.attributes.height = String(this.__height);
 					this.__syncCanvasTextureSize();
+					this.__notify("attributes", { attributeName: "height" });
 				}
 			},
 			innerText: {
@@ -77,7 +110,16 @@
 				},
 				set(value) {
 					this._textContent = String(value ?? "");
-					if (this.nodeType !== 3) this.replaceChildren();
+					if (this.nodeType === 3) {
+						// B"H: text-node edits never notified before — stale layout.
+						this.__notify("characterData");
+						return;
+					}
+					const hadChildren = this.children.length > 0;
+					this.replaceChildren();
+					// replaceChildren() notifies childList only when children
+					// existed; a bare text assignment still changes geometry.
+					if (!hadChildren) this.__notify("characterData");
 				}
 			},
 			width: {
@@ -86,6 +128,7 @@
 					this.__width = support.virtualElementPositiveInteger(value, 0);
 					this.attributes.width = String(this.__width);
 					this.__syncCanvasTextureSize();
+					this.__notify("attributes", { attributeName: "width" });
 				}
 			}
 		};
