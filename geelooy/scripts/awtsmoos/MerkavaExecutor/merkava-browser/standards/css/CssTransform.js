@@ -59,7 +59,10 @@ function splitTopLevelArgs(text) {
 		const ch = text[at];
 		if (ch === "(") depth += 1;
 		if (ch === ")") depth = Math.max(0, depth - 1);
-		if ((at === text.length || ch === ",") && depth === 0) {
+		// B"H 2026-10-09: CSS transform args may be comma-separated
+		// (legacy) or whitespace-separated (e.g. translate(100px 50px)).
+		// Split on both at top level so translate(100px 50px) yields two args.
+		if (depth === 0 && (at === text.length || ch === "," || (ch !== undefined && /\s/.test(ch)))) {
 			const part = text.slice(start, at).trim();
 			if (part) parts.push(part);
 			start = at + 1;
@@ -167,6 +170,10 @@ function functionToMatrix(fn, refBox = {}) {
 /**
  * Parses `transform-origin` into a px point inside refBox.
  * Accepts keywords (left/center/right/top/bottom), lengths, and percentages.
+ * B"H 2026-10-09: two-keyword position semantics — top/bottom are always the
+ * vertical component and left/right always horizontal (per CSS <position>),
+ * so "bottom right" and "top center" resolve correctly regardless of order.
+ * "center" may serve as either axis.
  */
 function parseTransformOrigin(value, refBox = {}) {
 	const width = Number(refBox.width) || 0;
@@ -184,18 +191,34 @@ function parseTransformOrigin(value, refBox = {}) {
 		if (t === "top" || t === "bottom") return { x: width / 2, y: resolveY(t) };
 		return { x: resolveX(t), y: height / 2 };
 	}
-	return { x: resolveX(parts[0]), y: resolveY(parts[1]) };
+	const [a, b] = parts;
+	const aVert = a === "top" || a === "bottom";
+	const bVert = b === "top" || b === "bottom";
+	const aHoriz = a === "left" || a === "right";
+	const bHoriz = b === "left" || b === "right";
+	// top/bottom always vertical; left/right always horizontal.
+	if (aVert && !bVert) return { x: resolveX(b), y: resolveY(a) };
+	if (bVert && !aVert) return { x: resolveX(a), y: resolveY(b) };
+	if (aHoriz && !bHoriz) return { x: resolveX(a), y: resolveY(b) };
+	if (bHoriz && !aHoriz) return { x: resolveX(b), y: resolveY(a) };
+	return { x: resolveX(a), y: resolveY(b) };
 }
 
 /**
  * Computes the final 2D matrix for a computed style object and reference box.
  * Honors transform-origin. Returns identity when no transform applies.
+ * B"H 2026-10-09: composition follows the CSS order — transform: f1 f2 ... fn
+ * yields M = M1 * M2 * ... * Mn (the leftmost function is the outermost frame;
+ * e.g. translateX(100px) scale(2) moves the box 100px THEN scales it in the
+ * translated frame, so the translation itself is not scaled). The previous
+ * loop multiplied in reverse (Mn*...*M1), rendering every chained transform
+ * backwards.
  */
 function computeTransformMatrix(style = {}, refBox = {}) {
 	const list = parseTransform(style.transform);
 	if (!list.length) return identityMatrix();
 	let m = identityMatrix();
-	for (const fn of list) m = multiplyMatrix(functionToMatrix(fn, refBox), m);
+	for (const fn of list) m = multiplyMatrix(m, functionToMatrix(fn, refBox));
 	const origin = parseTransformOrigin(style["transform-origin"], refBox);
 	const ox = origin.x;
 	const oy = origin.y;
