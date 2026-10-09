@@ -44,6 +44,10 @@ export function createFrameworkJavaDateFormatMethods(runtime) {
 				if (name === "getDateInstance" || name === "getDateTimeInstance" || name === "getTimeInstance") {
 					return createFormat(runtime, "yyyy-MM-dd");
 				}
+				if (name === "format") {
+					// DateFormat.format(Date) — delegate to SimpleDateFormat logic.
+					return formatDate(runtime, args[0], args[1]);
+				}
 			}
 			throw dateFormatError(
 				"ANDROID_JAVA_DATEFORMAT_METHOD_UNSUPPORTED",
