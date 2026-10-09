@@ -45,7 +45,8 @@
 			ip: thread.ip,
 			isConstructor: isNew,
 			scope: thread.currentScope,
-			stackSize: thread.stack.length,
+			// B"H (2026-10-09): use _sp (was stack.length, now capacity not size)
+			stackSize: thread._sp,
 			upvalues: thread.currentUpvalues
 		});
 		thread.bytecode = closure.code.bytecode;

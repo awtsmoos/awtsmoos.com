@@ -1,4 +1,3 @@
-
 // B"H
 (function(root) {
     root.MerkavaVM = root.MerkavaVM || {};
@@ -8,10 +7,10 @@
     H[0x70] = (t) => { // CLOSURE
         const code = t.constants[t.readU16()], flags = t.read8();
         if (t.currentScope && !t.currentScope.__parent) t.currentScope.__parent = t.currentUpvalues;
-        const cls = { 
-            type: 'CLOSURE', code, 
+        const cls = {
+            type: 'CLOSURE', code,
             isAsync: !!(flags & 1), isGenerator: !!(flags & 2), isArrow: !!(flags & 4),
-            upvalues: t.currentScope, environment: t.environment, prototype: {} 
+            upvalues: t.currentScope, environment: t.environment, prototype: {}
         };
         cls.bind = (thisArg, ...args) => ({ ...cls, boundThis: thisArg, boundArgs: args });
         t.push(cls);
@@ -21,17 +20,17 @@
         const finalArgs = (callee.boundArgs || []).concat(args);
         t.frames.push({
             ip: t.ip, bytecode: t.bytecode, constants: t.constants,
-            scope: t.currentScope, upvalues: t.currentUpvalues, stackSize: t.stack.length,
+            scope: t.currentScope, upvalues: t.currentUpvalues, stackSize: t._sp,
             environment: t.environment, isConstructor: isNew,
             constructingInstance: isNew ? Object.create(callee.prototype || {}) : null
         });
-        
+
         t.bytecode = callee.code.bytecode;
         t.constants = callee.code.constants;
         t.ip = 0;
 
-        const scopeThis = isNew 
-            ? t.frames[t.frames.length-1].constructingInstance 
+        const scopeThis = isNew
+            ? t.frames[t.frames.length-1].constructingInstance
             : (callee.isArrow ? (callee.upvalues ? callee.upvalues['this'] : undefined) : (callee.boundThis !== undefined ? callee.boundThis : t.environment));
 
         t.currentScope = { 'this': scopeThis, 'arguments': finalArgs };
@@ -45,7 +44,7 @@
         const copy = {};
         const props = [
             'key', 'code', 'clientX', 'clientY', 'offsetX', 'offsetY',
-            'target', 'type', 'button', 'buttons', 'shiftKey', 'ctrlKey', 
+            'target', 'type', 'button', 'buttons', 'shiftKey', 'ctrlKey',
             'altKey', 'metaKey', 'detail', 'deltaX', 'deltaY', 'deltaZ'
         ];
         props.forEach(k => { if (e[k] !== undefined) copy[k] = e[k]; });
@@ -95,7 +94,7 @@
                 t.push(callee.apply(safeCtx, hostArgs));
             } catch(e) {
                 console.error("[VM] Native Call Error:", e);
-                throw e; 
+                throw e;
             }
         } else {
             throw new TypeError(`[VM] Call Error: ${typeof callee} is not a function.`);
@@ -113,7 +112,7 @@
     };
 
     H[0x73] = (t) => { // MAKE_CLASS
-        t.readU16(); 
+        t.readU16();
         const ctor = t.pop(), sup = t.pop();
         let final = ctor || { type: 'CLOSURE', code: { bytecode: [0x02], constants: [] }, upvalues: t.currentScope, prototype: {} };
         if (sup) {

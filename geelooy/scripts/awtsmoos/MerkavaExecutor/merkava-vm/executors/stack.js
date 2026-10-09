@@ -17,7 +17,8 @@
 
 	handlers[0x10] = thread => thread.pop();
 	handlers[0x11] = thread => {
-		if (thread.stack.length === 0) {
+		// B"H (2026-10-09): use _sp (was stack.length, now capacity not size)
+		if (thread._sp === 0) {
 			throw new Error("[VM Critical] Stack Underflow (DUP)");
 		}
 		thread.push(thread.peek());

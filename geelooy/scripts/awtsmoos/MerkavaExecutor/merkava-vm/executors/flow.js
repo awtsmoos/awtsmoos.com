@@ -1,4 +1,3 @@
-
 // B"H
 (function(root) {
     root.MerkavaVM = root.MerkavaVM || {};
@@ -9,27 +8,31 @@
     H[0x00] = (t) => {}; // NOP
     H[0x0a] = (t) => {}; // Crumple Zone
     H[0x01] = (t) => 'HALT';
-    
-    H[0x03] = (t) => t.ip += t.read16(); // JUMP
+
+    // B"H 2026-10-09: FIXED off-by-2 in JUMP. `t.ip += t.read16()` reads t.ip
+    // BEFORE read16() advances it (JS evaluates LHS base before RHS), landing
+    // 2 bytes early. Read offset first, then add.
+    H[0x03] = (t) => { const off = t.read16(); t.ip += off; }; // JUMP
     H[0x04] = (t) => { const off = t.read16(); if (!t.pop()) t.ip += off; }; // JUMP_IF_FALSE
     H[0x05] = (t) => { const off = t.read16(); if (t.pop()) t.ip += off; }; // JUMP_IF_TRUE
 
     H[0x02] = (t) => { // RETURN
         const retVal = t.pop();
-        
+
         if (t.frames.length > 0) {
             const frame = t.frames.pop();
             t.ip = frame.ip; t.bytecode = frame.bytecode; t.constants = frame.constants;
             t.currentScope = frame.scope; t.currentUpvalues = frame.upvalues; t.environment = frame.environment;
-            
+
             let actualRet = retVal;
             if (frame.isConstructor) {
                  if (!retVal || (typeof retVal !== 'object' && typeof retVal !== 'function')) {
                      actualRet = frame.constructingInstance || frame.scope['this'];
                  }
             }
-            
-            while (t.stack.length > frame.stackSize) t.stack.pop();
+
+            // B"H (2026-10-09): use _sp (was stack.length, now capacity not size)
+            while (t._sp > frame.stackSize) t.pop();
             t.push(actualRet);
         } else {
             t.push(retVal); t.status = 'COMPLETED'; return 'COMPLETED';
@@ -55,12 +58,13 @@
     };
 
     H[0x91] = (t) => { throw t.pop(); }; // THROW
-    
-    H[0x92] = (t) => t.catchStack.push(t.ip + t.read16()); // ENTER_TRY
+
+    // B"H 2026-10-09: FIXED same off-by-2 in ENTER_TRY.
+    H[0x92] = (t) => { const off = t.read16(); t.catchStack.push(t.ip + off); }; // ENTER_TRY
     H[0x93] = (t) => t.catchStack.pop(); // EXIT_TRY
-    
+
     H[0x95] = (t) => { t.pop(); t.push(Promise.resolve({})); }; // IMPORT (Dynamic import placeholder)
-    
+
     H[0x96] = (t) => { // IMPORT_MODULE (ES Module Resolution)
         const specifier = t.pop();
         if (t.vm.importModule) {
@@ -70,7 +74,7 @@
             t.push(Promise.resolve({}));
         }
     };
-    
+
     // --- ADVANCED FLOW ---
     H[0xA0] = (t) => { // GET_ITERATOR
         const v = t.pop();
@@ -80,7 +84,7 @@
     H[0xA1] = (t) => t.push(t.peek().next()); // NEXT
     H[0xA2] = (t) => t.push(t.peek().done);   // DONE
     H[0xA3] = (t) => { const res = t.peek(); t.pop(); t.push(res.value); }; // VALUE
-    
+
     H[0xA5] = (t) => { // CHAIN_CHECK
         const off = t.read16(), val = t.peek();
         if (val == null) { t.pop(); t.push(undefined); t.ip += off; }
