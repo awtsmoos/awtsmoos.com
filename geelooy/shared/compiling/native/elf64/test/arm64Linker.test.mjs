@@ -281,3 +281,72 @@ test("produces a structurally valid ET_DYN AArch64 .so", () => {
 	assert.equal(name, "libstruct.so", "DT_SONAME correct");
 	assert.equal(so.linker.version, "awtsmoos-arm64-link-v1");
 });
+
+test("preserves 64-bit vs 32-bit width on cbz/cbnz re-encoding", () => {
+	const mk = (word, kind) => makeObject({
+		name: `width-${kind}`,
+		sections: [{
+			alignment: 4,
+			bytes: wordsToBytes([word, E.ret(), E.ret()]),
+			name: "code",
+			permissions: { execute: true, read: true }
+		}],
+		symbols: [{ binding: "global", kind: "function", name: "tgt", offset: 8, section: "code" }],
+		relocations: [
+			{ addend: 0, kind, sourceOffset: 0, sourceSection: "code", targetSymbol: "tgt" }
+		]
+	});
+	// 64-bit CBZ x2 must stay 64-bit (top byte 0xB4), not silently become 32-bit (0x34)
+	const linked64 = linkArm64Objects([mk(E.cbz(2, 0, 64), "arm64_cbz")]);
+	const ins64 = viewOf(linked64.text).getUint32(0, true);
+	assert.equal(ins64 >>> 24, 0xB4, "64-bit CBZ keeps 0xB4");
+	assert.equal(ins64 & 0x1F, 2, "rt preserved");
+	// 32-bit CBNZ w3 must stay 32-bit (top byte 0x35)
+	const linked32 = linkArm64Objects([mk(E.cbnz(3, 0, 32), "arm64_cbnz")]);
+	const ins32 = viewOf(linked32.text).getUint32(0, true);
+	assert.equal(ins32 >>> 24, 0x35, "32-bit CBNZ keeps 0x35");
+	assert.equal(ins32 & 0x1F, 3, "rt preserved");
+	// branch still reaches the target in both widths
+	const t64 = linked64.layout.textAddress + (((ins64 >>> 5) & 0x7FFFF) * 4);
+	assert.equal(t64, linked64.layout.textAddress + 8, "64-bit CBZ reaches target");
+});
+
+test("preserves 64-bit vs 32-bit width on lo12 add/sub re-encoding", () => {
+	const mk = (word) => makeObject({
+		name: "width-lo12",
+		sections: [
+			{
+				alignment: 4,
+				bytes: wordsToBytes([word]),
+				name: "code",
+				permissions: { execute: true, read: true }
+			},
+			{
+				alignment: 8,
+				bytes: new Uint8Array(16),
+				name: "data",
+				permissions: { read: true, write: true }
+			}
+		],
+		symbols: [{ binding: "global", kind: "data", name: "d", offset: 8, section: "data" }],
+		relocations: [
+			{ addend: 0, kind: "arm64_lo12", sourceOffset: 0, sourceSection: "code", targetSymbol: "d" }
+		]
+	});
+	// 64-bit ADD x0,x0,:lo12: keeps sf=1
+	const l64 = linkArm64Objects([mk(E.addImm(0, 0, 0, 0, 64))]);
+	const i64 = viewOf(l64.text).getUint32(0, true);
+	assert.equal((i64 >>> 31) & 1, 1, "64-bit ADD keeps sf=1");
+	assert.equal((i64 >>> 10) & 0xFFF, 8, "lo12 value = 8");
+	// 32-bit ADD w0,w0,:lo12: keeps sf=0
+	const l32 = linkArm64Objects([mk(E.addImm(0, 0, 0, 0, 32))]);
+	const i32 = viewOf(l32.text).getUint32(0, true);
+	assert.equal((i32 >>> 31) & 1, 0, "32-bit ADD keeps sf=0");
+	// 64-bit SUB keeps sf=1 and sub op
+	const ls = linkArm64Objects([mk(E.subImm(5, 6, 0, 0, 64))]);
+	const is = viewOf(ls.text).getUint32(0, true);
+	assert.equal((is >>> 31) & 1, 1, "64-bit SUB keeps sf=1");
+	assert.equal((is >>> 30) & 1, 1, "SUB op preserved");
+	assert.equal(is & 0x1F, 5, "rd preserved");
+	assert.equal((is >>> 5) & 0x1F, 6, "rn preserved");
+});

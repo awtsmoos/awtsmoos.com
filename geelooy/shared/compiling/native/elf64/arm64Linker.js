@@ -665,7 +665,7 @@ function applyBranchRelocation(bytes, at, sourceVaddr, targetVaddr, kind) {
 		case "arm64_cbz":
 		case "arm64_cbnz": {
 			const rt = existing & 0x1F;
-			const sf = (existing >>> 31) & 1;
+			const sf = ((existing >>> 31) & 1) === 1 ? 64 : 32;
 			assertCbzOpcode(existing, kind);
 			encoded = encodeCbz(rt, wordOffset, sf, kind === "arm64_cbnz");
 			break;
@@ -696,7 +696,7 @@ function applyBranchRelocation(bytes, at, sourceVaddr, targetVaddr, kind) {
 			const rd = existing & 0x1F;
 			const rn = (existing >>> 5) & 0x1F;
 			const sh = (existing >>> 22) & 1;
-			const sf = (existing >>> 31) & 1;
+			const sf = ((existing >>> 31) & 1) === 1 ? 64 : 32;
 			const isSub = ((existing >>> 30) & 1) === 1;
 			assertOpcode(existing, [0b100010], 23, 6, kind);
 			const imm12 = isSub ? ((-targetVaddr) & 0xFFF) : (targetVaddr & 0xFFF);
