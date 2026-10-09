@@ -18,18 +18,23 @@ const VOID_ELEMENTS = new Set([
 
 const RAW_TEXT_ELEMENTS = new Set(["script", "style", "textarea"]);
 
+/* B"H 2026-10-09 (render-bench): single-pass entity decode. The old version
+ * ran 10 chained regex replaces over every text chunk and attribute value.
+ * One alternation regex, one pass, map lookup. */
+const ENTITY_MAP = {
+  "&amp;": "&", "&lt;": "<", "&gt;": ">", "&quot;": '"', "&#39;": "'",
+  "&apos;": "'", "&nbsp;": " ",
+};
+const ENTITY_RE = /&(amp|lt|gt|quot|apos|nbsp);|&#(\d+);|&#x([0-9a-fA-F]+);/g;
 /** Decode common HTML entities. */
 function decodeEntities(text) {
-  return String(text || "")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&apos;/g, "'")
-    .replace(/&nbsp;/g, " ")
-    .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n) || 63))
-    .replace(/&#x([0-9a-fA-F]+);/g, (_, h) => String.fromCodePoint(parseInt(h, 16) || 63));
+  const s = String(text || "");
+  if (s.indexOf("&") < 0) return s;
+  return s.replace(ENTITY_RE, (m, named, dec, hex) => {
+    if (named) return ENTITY_MAP["&" + named + ";"];
+    if (dec) return String.fromCodePoint(Number(dec) || 63);
+    return String.fromCodePoint(parseInt(hex, 16) || 63);
+  });
 }
 
 /** Parse attribute string into {name: value}. */

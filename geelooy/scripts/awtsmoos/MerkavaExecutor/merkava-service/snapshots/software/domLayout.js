@@ -1643,6 +1643,16 @@ function expandRepeat(text, total, gap, itemCount) {
 function layoutText(node, ctx, out, parentStyle) { const text = String(node.textContent || "").trim(); if (!text) return null; const item = { node, x: ctx.x, y: ctx.y, width: ctx.width, height: textHeight(text, parentStyle || {}, ctx.width), style: parentStyle || {}, kind: "#text", text }; out.push(item); return item; }
 export function nodeFrom(raw = {}, depth = 0) { const localName = String(raw.tagName || raw.localName || "div").replace(/^#TEXT$/i, "#text").toLowerCase(); return { ...raw, localName, nodeType: raw.nodeType || (localName === "#text" ? 3 : 1), textContent: raw.textContent || "", style: raw.style || {}, computedStyle: raw.computedStyle || {}, attributes: raw.attributes || {}, children: depth > MAX_LAYOUT_DEPTH ? [] : childArray(raw.children).map(c => nodeFrom(c, depth + 1)) }; }
 
+/* B"H 2026-10-09 (render-bench): batch hidden-prop definition. wireParents
+ * ran up to 6 separate Object.defineProperty traps per node (ownerDocument,
+ * previousSibling, nextSibling, classList, getAttribute, hasAttribute) —
+ * each trap is ~100x a plain store. One defineProperties call per node. */
+function defineHiddenProps(obj, props) {
+  const desc = {};
+  for (const k of Object.keys(props)) desc[k] = { value: props[k], enumerable: false, configurable: true, writable: true };
+  Object.defineProperties(obj, desc);
+}
+
 function defineProp(obj, key, value) {
   Object.defineProperty(obj, key, { value, enumerable: false, configurable: true, writable: true });
 }
@@ -1654,16 +1664,21 @@ function normalizeNode(node) {
   if (node.id == null) node.id = attrs.id != null ? String(attrs.id) : "";
   const classAttr = node.className != null ? String(node.className) : String(attrs.class || "");
   const classes = classAttr.split(/\s+/).filter(Boolean);
-  defineProp(node, "classList", { contains: (c) => classes.includes(String(c)) });
+  // B"H 2026-10-09 (render-bench): single defineProperties trap for all three
+  // helpers instead of three separate defineProperty calls.
+  const hidden = {
+    classList: { contains: (c) => classes.includes(String(c)) },
+  };
   if (typeof node.getAttribute !== "function") {
-    defineProp(node, "getAttribute", (name) => {
+    hidden.getAttribute = (name) => {
       const v = attrs[String(name)];
       return v == null ? null : String(v);
-    });
+    };
   }
   if (typeof node.hasAttribute !== "function") {
-    defineProp(node, "hasAttribute", (name) => Object.prototype.hasOwnProperty.call(attrs, String(name)));
+    hidden.hasAttribute = (name) => Object.prototype.hasOwnProperty.call(attrs, String(name));
   }
+  defineHiddenProps(node, hidden);
   // B"H 2026-10-09 (merkava-mass-tests lists-forms): the standards'
   // :disabled/:checked/:required pseudo-classes read JS properties, not
   // attributes — mirror boolean form attributes onto the node.
@@ -1678,14 +1693,15 @@ function normalizeNode(node) {
 function wireParents(node, parent = null, doc = null) {
   if (!node) return node;
   if (!doc) doc = { documentElement: node.nodeType === 1 ? node : null };
-  defineProp(node, "parentNode", parent);
-  defineProp(node, "ownerDocument", doc);
+  defineHiddenProps(node, { parentNode: parent, ownerDocument: doc });
   normalizeNode(node);
   const kids = node.children || [];
-  kids.forEach((child, i) => {
-    defineProp(child, "previousSibling", i > 0 ? kids[i - 1] : null);
-    defineProp(child, "nextSibling", i < kids.length - 1 ? kids[i + 1] : null);
-  });
+  for (let i = 0; i < kids.length; i++) {
+    defineHiddenProps(kids[i], {
+      previousSibling: i > 0 ? kids[i - 1] : null,
+      nextSibling: i < kids.length - 1 ? kids[i + 1] : null,
+    });
+  }
   for (const child of kids) wireParents(child, node, doc);
   return node;
 }
@@ -2491,26 +2507,77 @@ function horizChrome(style, refW = 0) {
   const pad = box(style || {}, "padding", refW), b = borderBox(style || {}, refW);
   return pad.left + pad.right + b.left + b.right;
 }
-function box(s, p, refW = 0) {
-  // B"H: correct box model — % resolves against the containing-block width,
-  // 1-4 value shorthands expand like CSS, per-side longhands win.
+/* B"H 2026-10-09 (render-bench): box() parse/resolve split. box() is called
+ * 3-4x per layout node; the string splitting/parsing was pure waste because
+ * the containing-block width (refW) varies per node, defeating naive caches.
+ * Parse once per (interned style, property) into numeric/percent parts, then
+ * resolve against refW with 4 cheap multiplies. Styles are interned, so the
+ * WeakMap has a near-perfect hit rate regardless of refW. */
+const BOX_PARSED = new WeakMap();
+function parseSideValue(v) {
+  const t = String(v || "").trim();
+  if (!t) return null;
+  if (t.endsWith("%")) return { n: Number(t.slice(0, -1)) || 0, pct: true, raw: null };
+  // B"H: min()/max()/clamp() may carry % args resolved against refW — keep
+  // the raw string and resolve late via dim().
+  if (/^(min|max|clamp)\(/i.test(t)) return { n: 0, pct: false, raw: t };
+  return { n: dim(t, 0), pct: false, raw: null };
+}
+function parsedBox(s, p) {
+  let m = (s && typeof s === "object") ? BOX_PARSED.get(s) : undefined;
+  if (m) { const hit = m.get(p); if (hit) return hit; }
   const sides = ["top", "right", "bottom", "left"];
-  const out = { top: 0, right: 0, bottom: 0, left: 0 };
+  const vals = { top: null, right: null, bottom: null, left: null };
   const base = String(s[p] || "").trim();
   if (base) {
-    const parts = base.split(/\s+/).map(v => dim(v, refW));
-    const vals = parts.length === 1 ? [parts[0], parts[0], parts[0], parts[0]]
+    const parts = base.split(/\s+/);
+    const ps = parts.length === 1 ? [parts[0], parts[0], parts[0], parts[0]]
       : parts.length === 2 ? [parts[0], parts[1], parts[0], parts[1]]
       : parts.length === 3 ? [parts[0], parts[1], parts[2], parts[1]]
       : [parts[0], parts[1], parts[2], parts[3]];
-    sides.forEach((sd, i) => { out[sd] = vals[i] || 0; });
+    sides.forEach((sd, i) => { vals[sd] = parseSideValue(ps[i]); });
   }
   for (const sd of sides) {
     const v = s[`${p}-${sd}`];
-    if (v !== undefined && String(v).trim() !== "") out[sd] = dim(v, refW);
+    if (v !== undefined && String(v).trim() !== "") vals[sd] = parseSideValue(v);
   }
-  applyLogicalSides(s, out, p, refW);
-  return out;
+  applyLogicalParsed(s, vals, p);
+  if (s && typeof s === "object") {
+    if (!m) { m = new Map(); BOX_PARSED.set(s, m); }
+    if (m.size < 16) m.set(p, vals);
+  }
+  return vals;
+}
+/* Logical margin/padding/border sides, parsed once (mirrors applyLogicalSides
+ * semantics: physical longhands win, shorthands expand 1-2 values). */
+function applyLogicalParsed(s, vals, p) {
+  const rtl = String((s || {}).direction || "").trim().toLowerCase() === "rtl";
+  const physOf = (log) => log === "inline-start" ? (rtl ? "right" : "left")
+    : log === "inline-end" ? (rtl ? "left" : "right")
+    : log === "block-start" ? "top" : log === "block-end" ? "bottom" : "";
+  const set = (log, v) => {
+    const t = String(v ?? "").trim();
+    if (!t) return;
+    const phys = physOf(log);
+    if (!phys) return;
+    const physKey = `${p}-${phys}`;
+    if (s[physKey] !== undefined && String(s[physKey]).trim() !== "") return;
+    vals[phys] = parseSideValue(t);
+  };
+  const inlineParts = String(s[`${p}-inline`] || "").trim().split(/\s+/).filter(Boolean);
+  if (inlineParts.length) { set("inline-start", inlineParts[0]); set("inline-end", inlineParts[1] || inlineParts[0]); }
+  const blockParts = String(s[`${p}-block`] || "").trim().split(/\s+/).filter(Boolean);
+  if (blockParts.length) { set("block-start", blockParts[0]); set("block-end", blockParts[1] || blockParts[0]); }
+  for (const log of ["inline-start", "inline-end", "block-start", "block-end"]) set(log, s[`${p}-${log}`]);
+}
+function resolveBox(parsed, refW) {
+  const r = (e) => !e ? 0 : e.pct ? e.n * refW / 100 : (e.raw ? dim(e.raw, refW) : e.n);
+  return { top: r(parsed.top), right: r(parsed.right), bottom: r(parsed.bottom), left: r(parsed.left) };
+}
+function box(s, p, refW = 0) {
+  // B"H: correct box model — % resolves against the containing-block width,
+  // 1-4 value shorthands expand like CSS, per-side longhands win.
+  return resolveBox(parsedBox(s, p), refW);
 }
 // B"H 2026-10-09 (mass-test batch 2): logical margin/padding support.
 // inline-start/end resolve direction-aware; block-start/end are top/bottom.
@@ -2544,24 +2611,43 @@ function applyLogicalSides(s, out, p, refW) {
 }
 // B"H: "border: 2px solid red" carries its width in the shorthand; the old
 // code passed the whole shorthand string to dim(), which only worked by luck.
+/* B"H 2026-10-09 (render-bench): border-shorthand parse cache. borderBox()
+ * re-split the `border`/`border-<side>` shorthands on every call; parse once
+ * per style into {short, top, right, bottom, left, inlineStart, inlineEnd}. */
+const BORDER_PARSED = new WeakMap();
+function parsedBorder(style) {
+  let hit = (style && typeof style === "object") ? BORDER_PARSED.get(style) : undefined;
+  if (hit) return hit;
+  const first = (v) => String(v || "").trim().split(/\s+/)[0] || "";
+  hit = {
+    short: first(style.border),
+    top: first(style["border-top"]), right: first(style["border-right"]),
+    bottom: first(style["border-bottom"]), left: first(style["border-left"]),
+    inlineStart: first(style["border-inline-start"]), inlineEnd: first(style["border-inline-end"]),
+  };
+  if (style && typeof style === "object") BORDER_PARSED.set(style, hit);
+  return hit;
+}
 export function borderBox(style, refW = 0) {
   const w = box(style, "border-width", refW);
-  const short = String(style.border || "").trim().split(/\s+/)[0] || "";
-  const fromShort = dim(short, refW);
-  for (const sd of ["top", "right", "bottom", "left"]) {
+  const bp = parsedBorder(style);
+  const fromShort = dim(bp.short, refW);
+  const sides = ["top", "right", "bottom", "left"];
+  for (let i = 0; i < 4; i++) {
+    const sd = sides[i];
     if (!w[sd] && fromShort) w[sd] = fromShort;
     if (!style[`border-${sd}-width`]) {
-      const side = String(style[`border-${sd}`] || "").trim().split(/\s+/)[0] || "";
-      const v = dim(side, refW);
+      const v = dim(bp[sd], refW);
       if (v) w[sd] = v;
     }
   }
   // B"H 2026-10-09 (mass-test batch 2): border-inline-start/end widths are
   // direction-aware; only fill sides that carried no width yet.
-  for (const log of ["inline-start", "inline-end"]) {
-    const phys = logicalSide(style, log);
+  const rtl = String((style || {}).direction || "").trim().toLowerCase() === "rtl";
+  const li = [[bp.inlineStart, rtl ? "right" : "left"], [bp.inlineEnd, rtl ? "left" : "right"]];
+  for (const [raw, phys] of li) {
     if (phys && !w[phys]) {
-      const v = dim(String(style[`border-${log}`] || "").trim().split(/\s+/)[0] || "", refW);
+      const v = dim(raw, refW);
       if (v) w[phys] = v;
     }
   }
