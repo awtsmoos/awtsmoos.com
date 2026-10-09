@@ -60,6 +60,17 @@ export function createFrameworkJavaExecutorMethods(runtime) {
 			}
 			if (name === "execute") return executeGuestTask(runtime, context, args[0], args[1]);
 			if (name === "submit") return submitGuestTask(runtime, context, record, args);
+			if (name === "schedule") {
+				// ScheduledThreadPoolExecutor.schedule: for emulation, execute immediately.
+				// args: (executor, runnable/callable, delay, timeUnit)
+				const task = args[1];
+				return executeGuestTask(runtime, context, args[0], task);
+			}
+			if (name === "scheduleAtFixedRate" || name === "scheduleWithFixedDelay") {
+				// For emulation, execute once immediately.
+				const task = args[1];
+				return executeGuestTask(runtime, context, args[0], task);
+			}
 			if (name === "invokeAll") return invokeAllGuestTasks(runtime, context, args[0], args[1]);
 			if (name === "invokeAny") return invokeAnyGuestTask(runtime, context, args[0], args[1]);
 			if (name === "shutdown") return shutdownGuestExecutor(runtime, args[0]);
