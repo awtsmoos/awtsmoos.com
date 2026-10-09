@@ -42,8 +42,11 @@ export function textScale(kind, style) {
 }
 
 export function fallbackFor(kind) {
-  if (kind === "body") return [8, 9, 14, 255];
-  if (["main", "section", "article", "div", "form", "fieldset"].includes(kind)) return [18, 26, 42, 255];
+  if (kind === "body") return [255, 255, 255, 255];
+  // B"H: CSS spec — background-color initial value is transparent. Unstyled
+  // div/main/section/article must show the canvas through, not opaque dark.
+  // (Screenshot proof: httpbin.org rendered dark bars on plain <div>s.)
+  if (["main", "section", "article", "div", "form", "fieldset"].includes(kind)) return [0, 0, 0, 0];
   if (kind === "button") return [69, 90, 210, 255];
   if (["input", "select", "textarea"].includes(kind)) return [24, 38, 59, 255];
   if (["h1", "h2", "h3", "p", "span", "strong", "label", "li", "ul"].includes(kind)) return [0, 0, 0, 0];
@@ -126,36 +129,8 @@ export function borderRadii(style = {}, w = 0, h = 0) {
 export function parsePx(value) {  const match = String(value || "").match(/-?\d+(?:\.\d+)?/);
   return match ? Number(match[0]) : 0;
 }
-
-// B"H 2026-10-09: fix-forward. boxPainter.js imports borderRadii from this
-// module; the sibling's definition had not landed yet. Parses CSS
-// border-radius (1-4 values, optional / elliptical) into per-corner
-// {tl:[x,y],tr,br,bl} radii, clamped to the box per CSS.
-export function borderRadii(style = {}, width = 0, height = 0) {
-  const raw = String(style["border-radius"] || style.borderRadius || "").trim();
-  const zero = { tl: [0, 0], tr: [0, 0], br: [0, 0], bl: [0, 0] };
-  if (!raw || raw === "0") return zero;
-  const parts = raw.split("/").map(s => s.trim());
-  const parseList = (s) => String(s || "").split(/\s+/).filter(Boolean).map(parsePx);
-  const hx = parseList(parts[0]);
-  const hy = parts[1] ? parseList(parts[1]) : hx.slice();
-  const expand = (list) => {
-    const [a = 0, b = a, c = a, d = b] = list;
-    return [a, b, c, d];
-  };
-  const ex = expand(hx), ey = expand(hy);
-  const r = {
-    tl: [ex[0], ey[0]], tr: [ex[1], ey[1]],
-    br: [ex[2], ey[2]], bl: [ex[3], ey[3]],
-  };
-  // CSS overlap normalization: scale down uniformly if needed.
-  const W = Math.max(1, Number(width) || 0), H = Math.max(1, Number(height) || 0);
-  let f = 1;
-  const pairs = [
-    [r.tl[0] + r.tr[0], W], [r.bl[0] + r.br[0], W],
-    [r.tl[1] + r.bl[1], H], [r.tr[1] + r.br[1], H],
-  ];
-  for (const [sum, dim] of pairs) if (sum > dim && sum > 0) f = Math.min(f, dim / sum);
-  if (f < 1) for (const k of ["tl", "tr", "br", "bl"]) { r[k][0] *= f; r[k][1] *= f; }
-  return r;
-}
+// B"H 2026-10-09: collision fix. Two sibling fix-forward borderRadii stubs
+// landed in the same file (duplicate declaration = hard SyntaxError, module
+// unloadable). Kept the FIRST definition above (strict superset: per-corner
+// properties + camelCase fallback + H/V syntax); removed the second stub,
+// which handled only the plain border-radius shorthand. No behavior lost.
