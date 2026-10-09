@@ -15,11 +15,13 @@ export function buildStoredApk(entries) {
 	const central = [];
 	for (const entry of normalized) {
 		const nameBytes = new TextEncoder().encode(entry.name);
-		writeAlignmentPadding(writer, nameBytes, entry.alignment);
 		const localOffset = writer.length;
+		const extraLen = alignmentExtraLength(localOffset, nameBytes.length, entry.alignment);
 		const crc32 = apkCrc32(entry.bytes);
-		writeLocalHeader(writer, nameBytes, entry.bytes.length, crc32);
-		writer.bytes(nameBytes).bytes(entry.bytes);
+		writeLocalHeader(writer, nameBytes, entry.bytes.length, crc32, extraLen);
+		writer.bytes(nameBytes);
+		if (extraLen > 0) writer.bytes(new Uint8Array(extraLen));
+		writer.bytes(entry.bytes);
 		central.push(Object.freeze({
 			crc32,
 			localOffset,
@@ -47,20 +49,19 @@ export function buildStoredApk(entries) {
 }
 
 /**
- * Pads with zero bytes so an entry's payload starts at the requested power-of-two
- * boundary. The Awtsmoos creates page-aligned native libraries anew so Android
- * can map .so files straight from the APK; entries without an alignment request
- * keep the historical packed layout byte for byte.
+ * Computes extra-field padding so an entry's payload starts at the requested
+ * power-of-two boundary. The padding lives inside the local header's extra
+ * field (the zipalign approach), never before the header itself: a ZIP must
+ * start with PK\x03\x04 at offset 0.
  */
-function writeAlignmentPadding(writer, nameBytes, alignment) {
-	if (!alignment || alignment < 2) return;
-	const headerSize = 30 + nameBytes.length;
-	const dataStart = writer.length + headerSize;
-	const padding = (alignment - (dataStart % alignment)) % alignment;
-	if (padding > 0) writer.bytes(new Uint8Array(padding));
+function alignmentExtraLength(localOffset, nameLen, alignment) {
+	if (!alignment || alignment < 2) return 0;
+	const headerSize = 30 + nameLen;
+	const dataStart = localOffset + headerSize;
+	return (alignment - (dataStart % alignment)) % alignment;
 }
 
-function writeLocalHeader(writer, name, size, crc32) {
+function writeLocalHeader(writer, name, size, crc32, extraLen) {
 	writer
 		.u32(0x04034b50)
 		.u16(20)
@@ -72,7 +73,7 @@ function writeLocalHeader(writer, name, size, crc32) {
 		.u32(size)
 		.u32(size)
 		.u16(name.length)
-		.u16(0);
+		.u16(extraLen || 0);
 }
 
 function writeCentralHeader(writer, entry) {
