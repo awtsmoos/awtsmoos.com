@@ -1,6 +1,7 @@
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H — mail base: bright, fast, grid-ready. */
-:root {
+/* B"H — mail shell palette tokens, explicit light AND dark branches (Yaakov 2026-10-08). */
+:root:not([data-theme="dark"]) {
   color-scheme: light;
   --mail-bg: #f6f8fb;
   --mail-panel: #ffffff;
@@ -12,36 +13,111 @@
   --mail-accent: #0f766e;
   --mail-danger: #dc2626;
   --mail-shadow: 0 10px 34px rgba(15, 23, 42, .08);
-  --sidebar-w: 320px;
+  --mail-input-bg: #ffffff;
+  --mail-card-bg: #ffffff;
+  --mail-hover-card: #ffffff;
+  --mail-hover-border: rgba(46, 167, 255, .28);
+  --mail-glass-1: rgba(255, 255, 255, .96);
+  --mail-glass-2: rgba(245, 250, 255, .9);
+  --mail-glass-3: rgba(255, 255, 255, .9);
+  --mail-glass-hi: rgba(255, 255, 255, .92);
+  --mail-border-soft: rgba(207, 216, 227, .82);
+  --mail-border-softer: rgba(207, 216, 227, .68);
+  --mail-active-grad-1: #eef6f5;
+  --mail-active-grad-2: #eef7ff;
+  --mail-active-border: rgba(15, 118, 110, .3);
+  --mail-on-accent: #ffffff;
+  --mail-profile-text: #1e3a5f;
+  --mail-cta-grad-1: #0f172a;
+  --mail-cta-grad-2: #26324a;
+  --mail-teal-grad-1: #0f766e;
+  --mail-teal-grad-2: #2ea7ff;
+  --mail-fab-grad-1: #0f172a;
+  --mail-fab-grad-2: #0f766e;
+  --mail-fab-grad-3: #2ea7ff;
+  --mail-head-grad: rgba(15, 118, 110, .1);
+  --mail-focus-ring: rgba(15, 118, 110, .28);
+  --mail-focus-blue: rgba(46, 167, 255, .28);
+  --mail-sidebar-w: 320px;
 }
-html, body {
-  background: var(--mail-bg) !important;
-  color: var(--mail-text) !important;
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --mail-bg: #060910;
+  --mail-panel: #0d1521;
+  --mail-soft: #0a111c;
+  --mail-line: rgba(192, 211, 239, .14);
+  --mail-line-2: rgba(192, 211, 239, .22);
+  --mail-text: #f5f7fb;
+  --mail-muted: #8b95a7;
+  --mail-accent: #5eead4;
+  --mail-danger: #f0a5a5;
+  --mail-shadow: 0 18px 60px rgba(0, 0, 0, .32);
+  --mail-input-bg: #0d1521;
+  --mail-card-bg: #0d1521;
+  --mail-hover-card: #16202f;
+  --mail-hover-border: rgba(94, 234, 212, .35);
+  --mail-glass-1: rgba(16, 24, 38, .92);
+  --mail-glass-2: rgba(10, 16, 28, .88);
+  --mail-glass-3: rgba(13, 21, 33, .88);
+  --mail-glass-hi: rgba(13, 21, 33, .9);
+  --mail-border-soft: rgba(192, 211, 239, .16);
+  --mail-border-softer: rgba(192, 211, 239, .12);
+  --mail-active-grad-1: rgba(15, 118, 110, .25);
+  --mail-active-grad-2: rgba(46, 167, 255, .18);
+  --mail-active-border: rgba(94, 234, 212, .4);
+  --mail-on-accent: #ffffff;
+  --mail-profile-text: #cfe3f5;
+  --mail-cta-grad-1: #0f766e;
+  --mail-cta-grad-2: #2ea7ff;
+  --mail-teal-grad-1: #0f766e;
+  --mail-teal-grad-2: #2ea7ff;
+  --mail-fab-grad-1: #0f172a;
+  --mail-fab-grad-2: #0f766e;
+  --mail-fab-grad-3: #2ea7ff;
+  --mail-head-grad: rgba(94, 234, 212, .12);
+  --mail-focus-ring: rgba(94, 234, 212, .35);
+  --mail-focus-blue: rgba(46, 167, 255, .35);
+  --mail-sidebar-w: 320px;
+}
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+html:root,
+html body {
+  background: var(--mail-bg);
+  color: var(--mail-text);
   height: 100%;
   margin: 0;
   overflow: hidden;
 }
-body::before, body::after { display: none !important; }
-#root {
-  background: var(--mail-bg) !important;
-  color: var(--mail-text) !important;
+html body::before, html body::after { display: none; }
+html #root {
+  background: var(--mail-bg);
+  color: var(--mail-text);
   height: 100%;
   min-height: 100dvh;
 }
-a { color: var(--mail-accent); text-decoration: none; }
-button, input, textarea, select { font: inherit; }
-input, textarea, select {
-  background: #fff !important;
-  border: 1px solid var(--mail-line) !important;
-  border-radius: 12px !important;
-  color: var(--mail-text) !important;
+html a { color: var(--mail-accent); text-decoration: none; }
+html button, html input, html textarea, html select { font: inherit; }
+html input, html textarea, html select {
+  background: var(--mail-input-bg);
+  border: 1px solid var(--mail-line);
+  border-radius: 12px;
+  color: var(--mail-text);
 }
-button { cursor: pointer; }
-.hidden { display: none !important; }
-:focus-visible { outline: 3px solid rgba(15, 118, 110, .28); outline-offset: 2px; }
-.mail-social-shell { min-height: 100dvh; background: var(--mail-bg); }
+html input:focus, html textarea:focus, html select:focus {
+  border-color: var(--mail-accent);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--mail-focus-ring);
+}
+html input:disabled, html textarea:disabled, html select:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+html button { cursor: pointer; color: var(--mail-text); }
+html .hidden { display: none; }
+html :focus-visible { outline: 3px solid var(--mail-focus-ring); outline-offset: 2px; }
+html .mail-social-shell { min-height: 100dvh; background: var(--mail-bg); }
 
-/* @tunnel-interactive-states: auto-generated by css-guarantee */
+/* @tunnel-interactive-states: hover/active/focus-visible/disabled for every interactive control */
 a:hover {
 	filter: brightness(1.08);
 }
@@ -59,4 +135,10 @@ button:active {
 }
 button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
+}
+button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+	filter: none;
+	transform: none;
 }

@@ -4,95 +4,191 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos gathers many voices without noise; Awtsmoos.com makes people and meaning primary while deep social machinery remains a choice.
 */
-.socialHubShell,
-.hubShell,
-.workspace {
+/* B"H — g4 revelation palette tokens, explicit light AND dark branches (Yaakov 2026-10-08).
+ * Revelation surfaces are dark glassmorphism by design in both themes. */
+:root:not([data-theme="dark"]) {
+	--g4-bg: #0a0c14;
+	--g4-text: #eef2f9;
+	--g4-text-secondary: #9aa6bc;
+	--g4-line: rgba(148, 163, 184, .14);
+	--g4-line-strong: rgba(148, 163, 184, .28);
+	--g4-surface: rgba(255, 255, 255, .04);
+	--g4-surface-hover: rgba(255, 255, 255, .07);
+	--g4-radius-sm: 10px;
+	--g4-radius-md: 14px;
+	--g4-radius-lg: 20px;
+	--g4-radius-pill: 999px;
+	--g4-shadow-1: 0 8px 22px rgba(0, 0, 0, .30);
+	--g4-shadow-2: 0 14px 36px rgba(0, 0, 0, .40);
+	--g4-shadow-float: 0 24px 64px rgba(0, 0, 0, .50);
+	--g4-gold: #ffc24e;
+	--g4-on-gold: #100b03;
+	--g4-accent: #4cd4ff;
+	--g4-on-accent: #060711;
+	--g4-blur: 22px;
+	--g4-safe-top: env(safe-area-inset-top, 0px);
+	--g4-safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+:root[data-theme="dark"] {
+	--g4-bg: #0a0c14;
+	--g4-text: #eef2f9;
+	--g4-text-secondary: #9aa6bc;
+	--g4-line: rgba(148, 163, 184, .14);
+	--g4-line-strong: rgba(148, 163, 184, .28);
+	--g4-surface: rgba(255, 255, 255, .04);
+	--g4-surface-hover: rgba(255, 255, 255, .07);
+	--g4-radius-sm: 10px;
+	--g4-radius-md: 14px;
+	--g4-radius-lg: 20px;
+	--g4-radius-pill: 999px;
+	--g4-shadow-1: 0 8px 22px rgba(0, 0, 0, .30);
+	--g4-shadow-2: 0 14px 36px rgba(0, 0, 0, .40);
+	--g4-shadow-float: 0 24px 64px rgba(0, 0, 0, .50);
+	--g4-gold: #ffc24e;
+	--g4-on-gold: #100b03;
+	--g4-accent: #4cd4ff;
+	--g4-on-accent: #060711;
+	--g4-blur: 22px;
+	--g4-safe-top: env(safe-area-inset-top, 0px);
+	--g4-safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+html .socialHubShell,
+html .hubShell,
+html .workspace {
 	background:
 		radial-gradient(circle at 50% -12%, rgba(92, 118, 255, 0.15), transparent 34%),
-		var(--g4-bg) !important;
+		var(--g4-bg);
 	color: var(--g4-text);
 }
-.hubHeader {
-	border-bottom: 1px solid var(--g4-line) !important;
-	background: rgba(7, 9, 16, 0.76) !important;
+html .hubHeader {
+	border-bottom: 1px solid var(--g4-line);
+	background: rgba(7, 9, 16, 0.76);
 	backdrop-filter: blur(24px) saturate(1.2);
+	color: var(--g4-text);
 }
-.routeNavigation {
-	gap: 5px !important;
-	padding: 5px !important;
-	border: 1px solid var(--g4-line) !important;
-	border-radius: var(--g4-radius-pill) !important;
-	background: rgba(255, 255, 255, 0.035) !important;
+html .routeNavigation {
+	gap: 5px;
+	padding: 5px;
+	border: 1px solid var(--g4-line);
+	border-radius: var(--g4-radius-pill);
+	background: rgba(255, 255, 255, 0.035);
 }
-.routeButton {
+html .routeButton {
 	min-block-size: 40px;
-	border-radius: var(--g4-radius-pill) !important;
-	color: var(--g4-text-secondary) !important;
+	border-radius: var(--g4-radius-pill);
+	color: var(--g4-text-secondary);
+	cursor: pointer;
+	background: transparent;
+	border: 1px solid transparent;
+	padding: 6px 16px;
 }
-.routeButton[aria-current="page"],
-.routeButton.is-active,
-.routeButton:hover {
-	background: var(--g4-surface-hover) !important;
-	color: var(--g4-text) !important;
+html .routeButton[aria-current="page"],
+html .routeButton.is-active,
+html .routeButton:hover {
+	background: var(--g4-surface-hover);
+	color: var(--g4-text);
 }
-.workspacePanel {
+html .routeButton:active {
+	transform: scale(0.98);
+}
+html .routeButton:focus-visible {
+	outline: 2px solid var(--g4-accent);
+	outline-offset: 2px;
+}
+html .routeButton:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+	filter: none;
+	transform: none;
+}
+html .workspacePanel {
 	inline-size: min(100%, 1160px);
 	margin-inline: auto;
 }
-.homeCreationCard,
-.awtsmoosFeedCard,
-.publicFeedCard,
-.feedCard,
-.peopleCard,
-.profileCard,
-.activityCard,
-.sharedActivityCard,
-.futureCapabilityCard,
-.hubMessageCard {
-	border: 1px solid var(--g4-line) !important;
-	border-radius: var(--g4-radius-lg) !important;
-	background: var(--g4-surface) !important;
-	box-shadow: none !important;
+html .homeCreationCard,
+html .awtsmoosFeedCard,
+html .publicFeedCard,
+html .feedCard,
+html .peopleCard,
+html .profileCard,
+html .activityCard,
+html .sharedActivityCard,
+html .futureCapabilityCard,
+html .hubMessageCard {
+	border: 1px solid var(--g4-line);
+	border-radius: var(--g4-radius-lg);
+	background: var(--g4-surface);
+	box-shadow: none;
+	color: var(--g4-text);
 }
-.homeCreationCard {
-	border-color: color-mix(in srgb, var(--g4-accent) 32%, var(--g4-line)) !important;
-	background: linear-gradient(145deg, rgba(124, 156, 255, 0.1), var(--g4-surface)) !important;
+html .homeCreationCard {
+	border-color: color-mix(in srgb, var(--g4-accent) 32%, var(--g4-line));
+	background: linear-gradient(145deg, rgba(124, 156, 255, 0.1), var(--g4-surface));
 }
-.socialPrimaryComposer,
-.hubComposerField__input,
-.hubConversationComposer {
-	border-radius: var(--g4-radius-md) !important;
-	background: rgba(255, 255, 255, 0.055) !important;
+html .socialPrimaryComposer,
+html .hubComposerField__input,
+html .hubConversationComposer {
+	border-radius: var(--g4-radius-md);
+	background: rgba(255, 255, 255, 0.055);
+	color: var(--g4-text);
+	border: 1px solid var(--g4-line);
 }
-.awtsmoosFeedCard:hover,
-.publicFeedCard:hover,
-.peopleCard:hover {
+html .socialPrimaryComposer:focus,
+html .hubComposerField__input:focus,
+html .hubConversationComposer:focus {
+	border-color: var(--g4-accent);
+	outline: none;
+	box-shadow: 0 0 0 3px rgba(76, 212, 255, .18);
+}
+html .socialPrimaryComposer:disabled,
+html .hubComposerField__input:disabled,
+html .hubConversationComposer:disabled {
+	opacity: .55;
+	cursor: not-allowed;
+}
+html .awtsmoosFeedCard:hover,
+html .publicFeedCard:hover,
+html .peopleCard:hover {
 	transform: translateY(-2px);
-	border-color: var(--g4-line-strong) !important;
-	box-shadow: var(--g4-shadow-1) !important;
+	border-color: var(--g4-line-strong);
+	box-shadow: var(--g4-shadow-1);
 }
-.publicDiscovery__controls,
-.publicDiscovery__viewOptions,
-.futureCapabilityCenter__search {
-	border-radius: var(--g4-radius-md) !important;
+html .awtsmoosFeedCard:active,
+html .publicFeedCard:active,
+html .peopleCard:active {
+	transform: translateY(0) scale(0.995);
 }
-.mobileDock {
-	border: 1px solid var(--g4-line-strong) !important;
-	background: rgba(10, 13, 22, 0.88) !important;
-	box-shadow: var(--g4-shadow-float) !important;
+html .awtsmoosFeedCard:focus-visible,
+html .publicFeedCard:focus-visible,
+html .peopleCard:focus-visible {
+	outline: 2px solid var(--g4-accent);
+	outline-offset: 2px;
+}
+html .publicDiscovery__controls,
+html .publicDiscovery__viewOptions,
+html .futureCapabilityCenter__search {
+	border-radius: var(--g4-radius-md);
+	color: var(--g4-text);
+}
+html .mobileDock {
+	border: 1px solid var(--g4-line-strong);
+	background: rgba(10, 13, 22, 0.88);
+	box-shadow: var(--g4-shadow-float);
 	backdrop-filter: blur(28px) saturate(1.25);
+	color: var(--g4-text);
 }
 @media (max-width: 760px) {
-	.hubHeader {
-		padding-top: var(--g4-safe-top) !important;
+	html .hubHeader {
+		padding-top: var(--g4-safe-top);
 	}
-	.workspacePanel {
-		padding-inline: 12px !important;
-		padding-bottom: calc(84px + var(--g4-safe-bottom)) !important;
+	html .workspacePanel {
+		padding-inline: 12px;
+		padding-bottom: calc(84px + var(--g4-safe-bottom));
 	}
-	.mobileDock {
-		inset-inline: 10px !important;
-		bottom: max(9px, var(--g4-safe-bottom)) !important;
-		border-radius: 22px !important;
+	html .mobileDock {
+		inset-inline: 10px;
+		bottom: max(9px, var(--g4-safe-bottom));
+		border-radius: 22px;
 	}
 }

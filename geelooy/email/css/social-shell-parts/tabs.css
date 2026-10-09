@@ -1,30 +1,40 @@
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H — restrained folder tabs. */
-.tabs-container,
-.mail-tabs {
-  background: var(--mail-soft) !important;
-  border: 1px solid var(--mail-line) !important;
-  border-radius: 14px !important;
-  display: grid !important;
-  gap: .25rem !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  margin: 0 1rem .85rem !important;
-  padding: .25rem !important;
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+html .tabs-container,
+html .mail-tabs {
+  background: var(--mail-soft);
+  border: 1px solid var(--mail-line);
+  border-radius: 14px;
+  display: grid;
+  gap: .25rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0 1rem .85rem;
+  padding: .25rem;
 }
-.nav-tab,
-.mail-tab {
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 10px !important;
-  color: var(--mail-muted) !important;
-  font-weight: 740 !important;
-  min-height: 38px !important;
-  text-transform: none !important;
+html .nav-tab,
+html .mail-tab {
+  background: transparent;
+  border: 0;
+  border-radius: 10px;
+  color: var(--mail-muted);
+  font-weight: 740;
+  min-height: 38px;
+  text-transform: none;
+  cursor: pointer;
 }
-.nav-tab.active,
-.mail-tab.active,
-.nav-tab[aria-selected="true"] {
-  background: #fff !important;
-  box-shadow: 0 1px 4px rgba(15,23,42,.06) !important;
-  color: var(--mail-text) !important;
+html .nav-tab:hover,
+html .mail-tab:hover { color: var(--mail-text); background: var(--mail-soft); }
+html .nav-tab:active,
+html .mail-tab:active { transform: scale(0.98); }
+html .nav-tab:focus-visible,
+html .mail-tab:focus-visible { outline: 2px solid var(--mail-accent); outline-offset: 2px; }
+html .nav-tab:disabled,
+html .mail-tab:disabled { opacity: .45; cursor: not-allowed; filter: none; transform: none; }
+html .nav-tab.active,
+html .mail-tab.active,
+html .nav-tab[aria-selected="true"] {
+  background: var(--mail-card-bg);
+  box-shadow: 0 1px 4px rgba(15, 23, 42, .06);
+  color: var(--mail-text);
 }
