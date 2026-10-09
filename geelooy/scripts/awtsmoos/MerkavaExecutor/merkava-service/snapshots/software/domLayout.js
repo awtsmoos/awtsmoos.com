@@ -387,7 +387,12 @@ function layoutBlockFlow(children, parent, ctx, out) {
   const refW = Math.max(1, ctx.width || 0);
   const noTopBarrier = !(dim(pStyle["padding-top"], refW) > 0 || borderBox(pStyle, refW).top > 0);
   const noBottomBarrier = !(dim(pStyle["padding-bottom"], refW) > 0 || borderBox(pStyle, refW).bottom > 0);
-  const allowThrough = !ctx.root && !ctx.noCollapse;
+  // B"H: overflow other than visible establishes a BFC (CSS2.1 §9.4.1),
+  // which blocks first/last-child margin collapsing through the parent.
+  // Also a speed win: skipping collapse-through avoids the outward margin walk.
+  const ov = String(pStyle["overflow"] || pStyle["overflow-y"] || "visible").trim().toLowerCase();
+  const isBFC = ov !== "visible";
+  const allowThrough = !ctx.root && !ctx.noCollapse && !isBFC;
   const depth = (ctx.depth || 0) + 1;
   let y = ctx.y, total = 0, prevBottom = 0, first = true;
   let throughTop = 0, lastBottom = 0, sawBlock = false;
@@ -2387,6 +2392,11 @@ function isInlineLevel(node) {
   return d === "inline" || d === "inline-block";
 }
 function hidden(n) { return ["br", "script", "style", "template", "head", "title", "meta", "link"].includes(n.localName) || n.hidden || String(n.style?.display || n.computedStyle?.display || "").toLowerCase() === "none"; }
+/* B"H 2026-10-09 (render-bench): dim() string cache. dim() is called
+ * hundreds of thousands of times per page with the same handful of strings
+ * ("6px", "0", "8px", ...). Cache parent-independent values; % and
+ * min()/max()/clamp() depend on the containing block so they skip it. */
+const DIM_CACHE = new Map();
 function dim(v, parent) {
   const t = String(v || "").trim();
   if (!t || t === "auto") return 0;
@@ -2397,7 +2407,12 @@ function dim(v, parent) {
     if (r != null) return r;
   }
   if (t.endsWith("%")) return parent * Number(t.slice(0, -1)) / 100;
-  const m = t.match(/-?\d+(?:\.\d+)?/); return m ? Number(m[0]) : 0;
+  let c = DIM_CACHE.get(t);
+  if (c === undefined) {
+    const m = t.match(/-?\d+(?:\.\d+)?/); c = m ? Number(m[0]) : 0;
+    if (DIM_CACHE.size < 4096) DIM_CACHE.set(t, c);
+  }
+  return c;
 }
 
 // B"H 2026-10-09: innermost-first evaluation of min()/max()/clamp() in

@@ -104,7 +104,7 @@ function paintTextShadowLayer(fb, text, item, style, padX, padY, sh) {
   const tmp = new Framebuffer(tw, th, [0, 0, 0, 0]);
   tmp.drawWrappedText(safe, pad, pad, maxWidth, maxHeight, sh.color, scale, weight, style);
   if (blur > 0) boxBlurRegion(tmp.data, tw, th, Math.max(1, Math.round(blur / 2)));
-  fb.blitFrom(tmp, Math.round(item.x + padX + sh.dx - pad), Math.round(item.y + padY + sh.dy - pad), null);
+  fb.blitFrom(tmp, Math.round(item.x + padX + sh.dx - pad), Math.round(item.y + padY + sh.dy - pad));
 }
 
 // B"H 2026-10-08 — background-clip:text (Worker 3): the gradient lives only
