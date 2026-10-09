@@ -88,6 +88,9 @@ export function compileStylesheet(cssText, environment = {}, orderStart = 0) {
       layerKey: layerKeys ? layerKeys[i] : null,
       declarations: expandDeclarations(rule.declarations),
     })),
+    // B"H 2026-10-09: @container rules ride along for per-element
+    // evaluation in applyCascade (domLayout.js).
+    containerRules: compiled.containerRules || [],
     // B"H 2026-10-09: @property registrations (math-env-property batch).
     // Fix-forward: the registrar hasn't landed yet — keep the field without
     // crashing the cascade until it does.

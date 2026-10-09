@@ -22,13 +22,18 @@ export function clipFor(item, byNode) {
     const parent = byNode.get(node);
     if (parent) {
       const ov = overflowValue(parent.style || {});
-      if (CLIPPED.has(ov.x)) {
+      // B"H 2026-10-09: contain:paint (also via content/strict) clips
+      // descendants to the padding box exactly like overflow:hidden —
+      // paint containment's whole point is nothing escapes the box.
+      const c = String((parent.style || {}).contain || "").toLowerCase().split(/\s+/);
+      const paintContain = c.includes("paint") || c.includes("content") || c.includes("strict");
+      if (CLIPPED.has(ov.x) || paintContain) {
         const r = innerRect(parent);
         if (r.x > x0) x0 = r.x;
         if (r.x + r.width < x1) x1 = r.x + r.width;
         any = true;
       }
-      if (CLIPPED.has(ov.y)) {
+      if (CLIPPED.has(ov.y) || paintContain) {
         const r = innerRect(parent);
         if (r.y > y0) y0 = r.y;
         if (r.y + r.height < y1) y1 = r.y + r.height;

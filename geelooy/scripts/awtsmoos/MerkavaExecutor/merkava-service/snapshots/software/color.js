@@ -46,12 +46,37 @@ export function parseColor(value, fallback = [0, 0, 0, 255]) {
   const text = String(value || "").trim().toLowerCase();
   if (!text) return fallback;
   if (NAMED[text]) return NAMED[text].slice();
+  if (SYSTEM[text]) return SYSTEM[text].slice();
   const hex = text.match(/#([0-9a-f]{3,8})\b/i);
   if (hex) return hexColor(hex[1], fallback);
   const rgb = text.match(/rgba?\(([^)]+)\)/i);
   if (rgb) return rgbColor(rgb[1], fallback);
   return fallback;
 }
+
+// B"H 2026-10-09: CSS Color 4 system colors — light-mode UA defaults.
+// In a non-forced-colors environment these resolve to the platform's
+// standard light values (browsers do the same when no dark color-scheme
+// is in play), instead of falling back to transparent/inherited.
+const SYSTEM = Object.freeze({
+  canvas: [255, 255, 255, 255],
+  canvastext: [0, 0, 0, 255],
+  linktext: [0, 0, 238, 255],
+  visitedtext: [85, 26, 139, 255],
+  activetext: [255, 0, 0, 255],
+  buttonface: [240, 240, 240, 255],
+  buttontext: [0, 0, 0, 255],
+  buttonborder: [143, 143, 143, 255],
+  field: [255, 255, 255, 255],
+  fieldtext: [0, 0, 0, 255],
+  highlight: [181, 213, 255, 255],
+  highlighttext: [0, 0, 0, 255],
+  graytext: [128, 128, 128, 255],
+  mark: [255, 255, 0, 255],
+  marktext: [0, 0, 0, 255],
+  selecteditem: [0, 120, 215, 255],
+  selecteditemtext: [255, 255, 255, 255],
+});
 
 export function mix(a, b, t) {
   const n = Math.max(0, Math.min(1, Number(t) || 0));

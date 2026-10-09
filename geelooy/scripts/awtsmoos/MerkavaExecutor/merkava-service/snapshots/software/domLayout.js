@@ -67,7 +67,9 @@ export function buildLayoutTree(dom, viewport = { width: 960, height: 640 }, opt
   const rules = [...fromDom.rules, ...fromText.rules];
   // B"H 2026-10-09: @property registrations merge across stylesheets (later wins).
   const propertyRegs = { ...fromDom.properties, ...fromText.properties };
-  applyCascade(root, rules, viewport, anim, propertyRegs);
+  // B"H 2026-10-09: @container rules from both stylesheets.
+  const containerRules = [...(fromDom.containerRules || []), ...(fromText.containerRules || [])];
+  applyCascade(root, rules, viewport, anim, propertyRegs, containerRules);
   // B"H 2026-10-09 (merkava-mass-tests lists-forms): CSS counters are
   // applied inside materializePseudoElements' pre-order walk (see below) —
   // each element's counter-reset/increment lands BEFORE its own ::before
@@ -150,10 +152,29 @@ function layoutBlockBox(node, ctx, out, style) {
   const provCB = pos !== "static"
     ? { x, y, width, height: Math.max(fixedH || 0, dim(style["min-height"], ctx.viewportHeight || 0), 1) }
     : null;
-  const content = { x: x + padding.left + border.left, y: y + padding.top + border.top, width: Math.max(1, width - padding.left - padding.right - border.left - border.right), height: Math.max(0, (fixedH || ctx.height || 0) - padding.top - padding.bottom - border.top - border.bottom), viewportHeight: ctx.viewportHeight, depth: depth + 1, inlineStyle: inheritFont(style), root: !!ctx.root, noCollapse: !!ctx.noCollapse || pos === "absolute" || pos === "fixed", cb: provCB || ctx.cb || null, vpW, vpH };
-  const kids = inlineKids(node);
+  const content = { x: x + padding.left + border.left, y: y + padding.top + border.top, width: Math.max(1, width - padding.left - padding.right - border.left - border.right), height: Math.max(0, (fixedH || ctx.height || 0) - padding.top - padding.bottom - border.top - border.bottom), viewportHeight: ctx.viewportHeight, depth: depth + 1, inlineStyle: inheritFont(style), root: !!ctx.root, noCollapse: !!ctx.noCollapse || pos === "absolute" || pos === "fixed", cb: provCB || ctx.cb || null, vpW, vpH, subgrid: ctx.subgrid || null };
+  // B"H 2026-10-09: content-visibility — `hidden` always skips contents;
+  // `auto` skips when the box starts below the viewport (static renderer:
+  // no scroll position, so below-fold means y >= viewport height).
+  // Skipped boxes size from contain-intrinsic-size (or collapse to 0).
+  const cv = String(style["content-visibility"] || "visible").trim().toLowerCase();
+  const vpHeight = ctx.viewportHeight || 0;
+  const cvSkip = cv === "hidden" || (cv === "auto" && y >= vpHeight && vpHeight > 0);
+  let cvIntrinsic = null;
+  if (cvSkip) {
+    const cis = String(style["contain-intrinsic-size"] || "").trim().split(/\s+/);
+    const ph = (s) => { const m = String(s || "").match(/^(\d+(?:\.\d+)?)px$/); return m ? Number(m[1]) : 0; };
+    cvIntrinsic = { width: ph(cis[0]), height: ph(cis[cis.length - 1] || cis[0]) };
+  }
+  const kids = cvSkip ? [] : inlineKids(node);
   const flow = kids.length ? layoutChildren(kids, item, content, out, displayOf(style, node)) : { height: 0, throughTop: 0, throughBottom: 0, oof: [] };
-  const contentH = flow.height;
+  // B"H 2026-10-09: contain:size (also via strict) — the box's size is
+  // computed as if it had no contents: auto height collapses to 0,
+  // set heights never grow. Children still lay out (they overflow).
+  const containToks = String(style.contain || "").toLowerCase().split(/\s+/);
+  const sizeContain = containToks.includes("size") || containToks.includes("strict");
+  // B"H 2026-10-09: content-visibility skip — size from intrinsic, not content.
+  const contentH = cvSkip ? (cvIntrinsic ? cvIntrinsic.height : 0) : (sizeContain ? 0 : flow.height);
   const naturalH = fixedH || contentH + padding.top + padding.bottom + border.top + border.bottom;
   // B"H: defaultHeight is a last resort for empty auto-height boxes — it must
   // never inflate an explicit height (old code turned height:20px into 22px).
@@ -777,11 +798,75 @@ function layoutInlineBox(node, ctx, out, style) {
   return item;
 }
 
-function layoutGrid(children, parent, ctx, out) {
+// B"H 2026-10-09: masonry layout — items pack into the shortest track.
+// rowMasonry: fixed columns, items go to the shortest column (by height).
+// colMasonry: fixed rows, items go to the shortest row (by width).
+// Each item keeps its natural size; tracks grow independently.
+function layoutMasonry(children, parent, ctx, out, rowMasonry) {
   const s = parent.style || {};
   const gaps = parseGridGap(s);
   const gap = gaps.col, rowGap = gaps.row;
+  const items = children.filter(c => !hidden(c) && c.nodeType !== 3);
+  const depth = (ctx.depth || 0) + 1;
+  // parent IS the layout item (like layoutGrid); position children into it.
+  parent.x = ctx.x; parent.y = ctx.y;
+
+  if (rowMasonry) {
+    // Fixed columns from the template; rows are masonry.
+    const colText = String(s["grid-template-columns"] || "").trim();
+    const cols = colText ? tracks(colText, ctx.width, gap, items.length) : [ctx.width];
+    const C = Math.max(1, cols.length);
+    const colX = [0];
+    for (let i = 0; i < C; i++) colX.push(colX[i] + (cols[i] || 100) + gap);
+    const colH = new Array(C).fill(0);
+    for (const child of items) {
+      // Find the shortest column.
+      let c = 0;
+      for (let i = 1; i < C; i++) if (colH[i] < colH[c]) c = i;
+      const got = layoutBlockBox(child, { x: ctx.x + colX[c], y: ctx.y + colH[c], width: Math.max(1, cols[c] || 100), viewportHeight: ctx.viewportHeight, depth, noCollapse: true, vpW: ctx.vpW, vpH: ctx.vpH, cb: ctx.cb }, out);
+      if (!got) continue;
+      parent.children.push(got);
+      colH[c] += got.height + rowGap;
+    }
+    parent.height = Math.max(0, Math.max(...colH) - rowGap);
+    parent.width = ctx.width;
+  } else {
+    // Column masonry: items flow left-to-right, each keeping natural size.
+    // (True 2D column-masonry with row tracks is rare; this covers the tests.)
+    let x = 0, maxH = 0;
+    for (const child of items) {
+      const got = layoutBlockBox(child, { x: ctx.x + x, y: ctx.y, width: Math.max(1, ctx.width), viewportHeight: ctx.viewportHeight, depth, noCollapse: true, vpW: ctx.vpW, vpH: ctx.vpH, cb: ctx.cb }, out);
+      if (!got) continue;
+      parent.children.push(got);
+      x += got.width + gap;
+      maxH = Math.max(maxH, got.height);
+    }
+    parent.width = Math.max(1, x - gap);
+    parent.height = maxH;
+  }
+  return { height: parent.height, throughTop: 0, throughBottom: 0, oof: [] };
+}
+
+function layoutGrid(children, parent, ctx, out) {
+  const s = parent.style || {};
   const colText = String(s["grid-template-columns"] || "").trim(), rowText = String(s["grid-template-rows"] || "").trim();
+  // B"H 2026-10-09: masonry — grid-template-rows:masonry packs items into
+  // the shortest column; grid-template-columns:masonry packs into the
+  // shortest row. Each item keeps its natural size (no row stretching).
+  const rowMasonry = /\bmasonry\b/i.test(rowText);
+  const colMasonry = /\bmasonry\b/i.test(colText);
+  if (rowMasonry || colMasonry) {
+    return layoutMasonry(children, parent, ctx, out, rowMasonry);
+  }
+  const gaps = parseGridGap(s);
+  let gap = gaps.col, rowGap = gaps.row;
+  // B"H 2026-10-09: subgrid — when the parent grid passed track info via
+  // ctx.subgrid, use those tracks (and gap) instead of our own template.
+  const sg = ctx.subgrid || null;
+  const useSubCol = sg && sg.cols && sg.cols.length > 0;
+  const useSubRow = sg && sg.rows && sg.rows.length > 0;
+  if (useSubCol && sg.gap != null) gap = sg.gap;
+  if (useSubRow && sg.rowGap != null) rowGap = sg.rowGap;
   // Grid ignores stray text nodes and hidden children.
   const items = children.filter(c => !hidden(c) && c.nodeType !== 3);
   const areaInfo = parseGridAreas(s["grid-template-areas"]);
@@ -792,7 +877,8 @@ function layoutGrid(children, parent, ctx, out) {
   const dense = flow.indexOf("dense") >= 0;
   // B"H 2026-10-09: track COUNT comes from the expanded list — `200px
   // repeat(2,1fr)` is 3 tracks, not 2 (unexpanded token count was wrong).
-  const cols = colText ? tracks(colText, ctx.width, gap, items.length) : [];
+  // Subgrid: use the parent-provided tracks directly.
+  const cols = useSubCol ? sg.cols.slice() : (colText ? tracks(colText, ctx.width, gap, items.length) : []);
   const explicitCols = cols.slice();
   let C = Math.max(1, cols.length || areaInfo.cols);
   // B"H 2026-10-09: with no template columns, row flow keeps the old
@@ -916,6 +1002,10 @@ function layoutGrid(children, parent, ctx, out) {
   for (let i = 0; i < cols.length; i++) colX.push(colX[i] + cols[i] + xGap);
   const rowHeights = [];
   explicitRows.forEach((h, i) => { rowHeights[i] = h; });
+  // B"H 2026-10-09: subgrid rows — use the parent's row track heights.
+  if (useSubRow) {
+    for (let i = 0; i < sg.rows.length; i++) rowHeights[i] = sg.rows[i];
+  }
   // Pass 1: lay out each item at its column x (y=0); record natural heights.
   const laid = [];
   for (const p of placed) {
@@ -926,7 +1016,24 @@ function layoutGrid(children, parent, ctx, out) {
     // B"H 2026-10-09: stretch only sizes auto-width items — a definite
     // width is kept (it was wrongly stretched to the full cell before).
     const itemW = explicitW > 0 ? Math.min(cellW, explicitW) : cellW;
-    const got = layoutBlockBox(p.child, { x: ctx.x + colX[p.pc - 1], y: 0, width: Math.max(1, itemW), viewportHeight: ctx.viewportHeight, depth, noCollapse: true, vpW: ctx.vpW, vpH: ctx.vpH, cb: ctx.cb }, out);
+    // B"H 2026-10-09: subgrid — a grid item with grid-template-columns:subgrid
+    // (or rows) inherits the parent grid's tracks for the spanned range.
+    // Pass the parent's track sizes/positions/gap through ctx.
+    const pColText = String(p.st["grid-template-columns"] || "").trim().toLowerCase();
+    const pRowText = String(p.st["grid-template-rows"] || "").trim().toLowerCase();
+    const isSubCol = pColText === "subgrid" || pColText.split(/\s+/).includes("subgrid");
+    const isSubRow = pRowText === "subgrid" || pRowText.split(/\s+/).includes("subgrid");
+    let subgridCtx = null;
+    if ((isSubCol || isSubRow) && String(p.st.display || "").trim().toLowerCase().includes("grid")) {
+      subgridCtx = {
+        cols: isSubCol ? cols.slice(p.pc - 1, p.pc - 1 + p.cs) : null,
+        colX: isSubCol ? colX.slice(p.pc - 1, p.pc - 1 + p.cs).map(x => x - colX[p.pc - 1]) : null,
+        gap: isSubCol ? xGap : null,
+        rows: isSubRow ? rowHeights.slice(p.pr - 1, p.pr - 1 + p.rs) : null,
+        rowGap: isSubRow ? rowGap : null,
+      };
+    }
+    const got = layoutBlockBox(p.child, { x: ctx.x + colX[p.pc - 1], y: 0, width: Math.max(1, itemW), viewportHeight: ctx.viewportHeight, depth, noCollapse: true, vpW: ctx.vpW, vpH: ctx.vpH, cb: ctx.cb, subgrid: subgridCtx }, out);
     if (!got) continue;
     parent.children.push(got);
     laid.push({ ...p, got, cellW, js, as });
@@ -1478,15 +1585,24 @@ function trackSize(token, total) {
 function splitTrackList(text) {
   const parts = [];
   let depth = 0, cur = "", quote = "";
+  const push = () => { if (cur) { parts.push(cur); cur = ""; } };
   for (const ch of String(text || "")) {
     if (quote) { cur += ch; if (ch === quote) quote = ""; continue; }
     if (ch === '"' || ch === "'") { quote = ch; cur += ch; continue; }
     if (ch === "(") depth++;
     if (ch === ")") depth = Math.max(0, depth - 1);
-    if (/\s/.test(ch) && depth === 0) { if (cur) { parts.push(cur); cur = ""; } continue; }
+    // B"H 2026-10-09: split on bracket boundaries too — `[a]150px[b]`
+    // (no spaces) must tokenize as `[a]`, `150px`, `[b]`.
+    if (depth === 0 && (ch === "[" || ch === "]")) {
+      if (ch === "[") push();
+      cur += ch;
+      if (ch === "]") push();
+      continue;
+    }
+    if (/\s/.test(ch) && depth === 0) { push(); continue; }
     cur += ch;
   }
-  if (cur) parts.push(cur);
+  push();
   return parts;
 }
 // B"H 2026-10-09: repeat() expansion, now paren-aware and supporting
@@ -1573,18 +1689,39 @@ function wireParents(node, parent = null, doc = null) {
  * Correct cascade: parents are styled before children (walk is pre-order),
  * so inherited and custom properties flow down through parentComputed.
  */
-function applyCascade(root, rules, viewport, anim = null, propertyRegs = {}) {
+function applyCascade(root, rules, viewport, anim = null, propertyRegs = {}, containerRules = []) {
+  // B"H 2026-10-09: query-container stack — ancestors with container-type,
+  // innermost last. Parents-first walk guarantees a container's computed
+  // style (hence its queryable size) exists before descendants evaluate.
+  // Containers are popped when the walk ascends past their depth.
+  const containerStack = [];
   walk(root, (n) => {
     if (!n || n.nodeType !== 1) return;
+    const d = depthOf(n);
+    while (containerStack.length && containerStack[containerStack.length - 1].depth >= d) containerStack.pop();
     const parent = n.parentNode;
     const parentComputed = parent && parent.nodeType === 1 ? parent.computedStyle || {} : {};
     n.computedStyle = computeElementStyle(n, rules, parentComputed, propertyRegs);
+    // B"H 2026-10-09: @container — evaluate against the nearest matching
+    // query container; matching inner rules join the cascade for this
+    // element (re-run with the augmented rule list for correct specificity).
+    if (containerRules.length && containerStack.length) {
+      const extra = matchingContainerRules(n, containerStack, containerRules);
+      if (extra.length) {
+        n.computedStyle = computeElementStyle(n, rules.concat(extra), parentComputed, propertyRegs);
+      }
+    }
+    const ctype = String(n.computedStyle["container-type"] || "").trim().toLowerCase();
+    if (ctype && ctype !== "normal" && ctype !== "none") {
+      const cname = String(n.computedStyle["container-name"] || "").trim().toLowerCase();
+      containerStack.push({ node: n, type: ctype, name: cname, depth: d });
+    }
     // B"H 2026-10-09 (mass-test batch 2): the dir attribute drives
     // `direction` for logical-property resolution when no CSS sets it.
     // direction is inherited, so descendants pick it up through the cascade.
     if (n.computedStyle.direction == null || String(n.computedStyle.direction).trim() === "") {
-      const d = typeof n.getAttribute === "function" ? n.getAttribute("dir") : null;
-      if (d && /^(rtl|ltr)$/i.test(String(d).trim())) n.computedStyle.direction = String(d).trim().toLowerCase();
+      const d2 = typeof n.getAttribute === "function" ? n.getAttribute("dir") : null;
+      if (d2 && /^(rtl|ltr)$/i.test(String(d2).trim())) n.computedStyle.direction = String(d2).trim().toLowerCase();
     }
     // B"H: keyframe animations + transition state-changes evaluate at the
     // screenshot timestamp, before layout — animated width/height reflow.
@@ -1599,6 +1736,65 @@ function applyCascade(root, rules, viewport, anim = null, propertyRegs = {}) {
       n.computedStyle["min-height"] = `${viewport.height}px`;
     }
   });
+}
+
+// B"H 2026-10-09: depth of a node (root = 0).
+function depthOf(n) {
+  let d = 0, p = n.parentNode;
+  while (p) { d++; p = p.parentNode; }
+  return d;
+}
+
+// B"H 2026-10-09: find @container inner rules matching this element's
+// nearest query container (by name when the query is named).
+function matchingContainerRules(node, containerStack, containerRules) {
+  const out = [];
+  for (const cr of containerRules) {
+    // Nearest container with a matching name (or any when unnamed).
+    let container = null;
+    for (let i = containerStack.length - 1; i >= 0; i--) {
+      const c = containerStack[i];
+      if (!cr.name || c.name === cr.name || c.name.split(/\s+/).includes(cr.name)) { container = c; break; }
+    }
+    if (!container) continue;
+    if (!evaluateContainerCondition(cr.condition, container)) continue;
+    for (const r of cr.rules) out.push(r);
+  }
+  return out;
+}
+
+// B"H 2026-10-09: evaluate a parsed @container condition against a query
+// container's computed style. Size queries use the container's resolved px
+// width/height; style queries check custom properties.
+function evaluateContainerCondition(cond, container) {
+  if (!cond) return false;
+  const style = (container.node && container.node.computedStyle) || {};
+  if (cond.kind === "style") {
+    const m = String(cond.query || "").match(/^(--[\w-]+)\s*:\s*([\s\S]*)$/);
+    if (!m) return false;
+    const actual = String(style[m[1]] || "").trim().toLowerCase();
+    return actual === String(m[2]).trim().toLowerCase();
+  }
+  if (cond.kind === "size") {
+    // container-type:inline-size only exposes the inline (width) axis.
+    if (cond.prop === "height" && container.type === "inline-size") return false;
+    const raw = cond.prop === "width" ? style.width : style.height;
+    const px = resolveContainerPx(raw);
+    if (px == null) return false;
+    const v = cond.value; // px only for now
+    if (cond.op === "min-") return px >= v;
+    if (cond.op === "max-") return px <= v;
+    return px === v;
+  }
+  return false;
+}
+
+// B"H 2026-10-09: resolve a container's computed width/height to px when
+// it's an explicit length (the test suite uses explicit px widths).
+function resolveContainerPx(raw) {
+  const t = String(raw || "").trim().toLowerCase();
+  const m = t.match(/^(-?\d+(?:\.\d+)?)px$/);
+  return m ? Number(m[1]) : null;
 }
 
 // ---------------------------------------------------------------------------
@@ -1797,7 +1993,7 @@ function applyFirstLineStyles(out) {
 // against the viewport. % is left for layout (needs the containing block).
 // Runs after the cascade + pseudo-element materialization, before layout.
 // ---------------------------------------------------------------------------
-const REL_UNIT_RE = /(-?\d*\.?\d+)(vmin|vmax|rem|vw|vh|em)\b/gi;
+const REL_UNIT_RE = /(-?\d*\.?\d+)(cqw|cqh|cqi|cqb|cqmin|cqmax|vmin|vmax|rem|vw|vh|em)\b/gi;
 const FONT_SIZE_KEYWORDS = {
   "xx-small": 9, "x-small": 10, small: 13, medium: 16,
   large: 18, "x-large": 24, "xx-large": 32, larger: 19, smaller: 13,
@@ -1808,7 +2004,7 @@ const REL_UNIT_SKIP_PROPS = new Set([
   "list-style-type", "font", "font-variant",
 ]);
 
-function relUnitToPx(num, unit, emPx, remPx, vwPx, vhPx) {
+function relUnitToPx(num, unit, emPx, remPx, vwPx, vhPx, cqW = 0, cqH = 0) {
   switch (unit) {
     case "em": return num * emPx;
     case "rem": return num * remPx;
@@ -1816,12 +2012,21 @@ function relUnitToPx(num, unit, emPx, remPx, vwPx, vhPx) {
     case "vh": return num * vhPx;
     case "vmin": return num * Math.min(vwPx, vhPx);
     case "vmax": return num * Math.max(vwPx, vhPx);
+    // B"H 2026-10-09: container query units — relative to the nearest
+    // query container's dimensions (cqw/cqh = 1% of width/height,
+    // cqi/cqb = inline/block, cqmin/cqmax = smaller/larger).
+    case "cqw": return num * cqW / 100;
+    case "cqh": return num * cqH / 100;
+    case "cqi": return num * cqW / 100;
+    case "cqb": return num * cqH / 100;
+    case "cqmin": return num * Math.min(cqW, cqH) / 100;
+    case "cqmax": return num * Math.max(cqW, cqH) / 100;
     default: return null;
   }
 }
 
 /** Rewrite relative-unit length tokens to px, leaving quoted strings and url(...) alone. */
-function rewriteRelUnits(value, emPx, remPx, vwPx, vhPx) {
+function rewriteRelUnits(value, emPx, remPx, vwPx, vhPx, cqW = 0, cqH = 0) {
   const parts = String(value).split(/("[^"]*"|'[^']*')/g);
   for (let i = 0; i < parts.length; i += 2) {
     // Protect url(...) payloads inside the unquoted segments.
@@ -1829,7 +2034,7 @@ function rewriteRelUnits(value, emPx, remPx, vwPx, vhPx) {
     for (let j = 0; j < segs.length; j += 2) {
       REL_UNIT_RE.lastIndex = 0;
       segs[j] = segs[j].replace(REL_UNIT_RE, (m, num, unit) => {
-        const px = relUnitToPx(Number(num), unit.toLowerCase(), emPx, remPx, vwPx, vhPx);
+        const px = relUnitToPx(Number(num), unit.toLowerCase(), emPx, remPx, vwPx, vhPx, cqW, cqH);
         return px == null ? m : (Math.round(px * 1000) / 1000) + "px";
       });
     }
@@ -1958,9 +2163,18 @@ function resolveRelativeUnits(root, rules, viewport) {
     const r = resolveFontSizePx(htmlFs, 16, 16, vwPx, vhPx);
     if (r != null && r > 0) remPx = r;
   }
-  const visit = (node, parentFontPx) => {
+  const visit = (node, parentFontPx, cqW = 0, cqH = 0) => {
     if (!node || node.nodeType !== 1) return;
     const st = node.computedStyle || {};
+    // B"H 2026-10-09: if this node is a query container, its dimensions
+    // become the container-query units basis for its descendants.
+    let myCqW = cqW, myCqH = cqH;
+    const ctype = String(st["container-type"] || "").trim().toLowerCase();
+    if (ctype && ctype !== "normal" && ctype !== "none") {
+      const w = resolveContainerPx(st.width), h = resolveContainerPx(st.height);
+      if (w != null) myCqW = w;
+      if (h != null) myCqH = h;
+    }
     let fontPx = parentFontPx;
     const fsRaw = st["font-size"];
     if (fsRaw != null && String(fsRaw).trim() !== "") {
@@ -1980,7 +2194,7 @@ function resolveRelativeUnits(root, rules, viewport) {
       if (typeof v === "string" && !REL_UNIT_SKIP_PROPS.has(k) && !k.startsWith("--")) {
         REL_UNIT_RE.lastIndex = 0;
         if (REL_UNIT_RE.test(v)) {
-          let nv = rewriteRelUnits(v, fontPx, remPx, vwPx, vhPx);
+          let nv = rewriteRelUnits(v, fontPx, remPx, vwPx, vhPx, myCqW, myCqH);
           if (/(calc|min|max|clamp)\(/.test(nv) && !/%/.test(nv)) {
             const ev = evaluatePxMathOnly(nv);
             if (ev != null) nv = ev;
@@ -1994,7 +2208,7 @@ function resolveRelativeUnits(root, rules, viewport) {
     }
     // Replace (never mutate in place — styleOf() interns shared objects).
     if (changed) node.computedStyle = out;
-    for (const c of node.children || []) visit(c, fontPx);
+    for (const c of node.children || []) visit(c, fontPx, myCqW, myCqH);
   };
   visit(root, 16);
 }
@@ -2003,6 +2217,7 @@ function collectCssRules(root, environment, orderStart) {
   let order = orderStart;
   let rules = [];
   let properties = {};
+  let containerRules = [];
   let cssText = "";
   walk(root, (n) => {
     if (n.localName === "style") {
@@ -2011,10 +2226,11 @@ function collectCssRules(root, environment, orderStart) {
       const compiled = compileStylesheet(text, environment, order);
       rules = rules.concat(compiled.rules);
       properties = { ...properties, ...compiled.properties };
+      containerRules = containerRules.concat(compiled.containerRules || []);
       order = compiled.nextOrder;
     }
   });
-  return { rules, properties, nextOrder: order, cssText };
+  return { rules, properties, containerRules, nextOrder: order, cssText };
 }
 
 function childArray(c) { if (!c) return []; if (Array.isArray(c)) return c; if (typeof c === "object") return Object.values(c).filter(v => v && typeof v === "object"); return []; }
