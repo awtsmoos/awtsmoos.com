@@ -106,9 +106,8 @@ test("arm64 startup performs the Linux ARM64 exit syscall", () => {
 	const arm64 = compileCToAssembly("int main() { return 42; }", "linux-arm64");
 	const lines = arm64.assembly.split("\n");
 	const start = lines.indexOf("start:");
-	assert.deepEqual(lines.slice(start + 1, start + 5), [
+	assert.deepEqual(lines.slice(start + 1, start + 4), [
 		"BL main",
-		"MOV X0, X0",
 		"MOVZ X8, #93",
 		"SVC #0"
 	]);

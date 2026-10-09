@@ -77,7 +77,27 @@ export function translatePortableCAssemblyToArm64(lines) {
 		const consumed = translateLine(line, source, index, output);
 		index += consumed;
 	}
-	return Object.freeze(output);
+	return Object.freeze(removeRedundantStackRoundTrips(output));
+}
+
+/**
+ * Drops adjacent `STR Xt, [SP, #-16]!` / `LDR Xt, [SP], #16` pairs that move a
+ * register to the stack and straight back. The portable emitter produces these
+ * for single-argument calls (PUSH RAX followed by POP RDI, both X0); the net
+ * effect is nil, so both instructions are dead.
+ */
+function removeRedundantStackRoundTrips(lines) {
+	const result = [];
+	for (let index = 0; index < lines.length; index += 1) {
+		const push = String(lines[index]).match(/^STR (X\d+), \[SP, #-16\]!$/);
+		const next = lines[index + 1];
+		if (push && next === `LDR ${push[1]}, [SP], #16`) {
+			index += 1;
+			continue;
+		}
+		result.push(lines[index]);
+	}
+	return result;
 }
 
 function translateLine(line, source, index, output) {
@@ -243,6 +263,9 @@ function translateMov(destination, source, lines, index, output) {
 		return 0;
 	}
 	if (REGISTER[source] && REGISTER[destination]) {
+		if (REGISTER[source] === REGISTER[destination]) {
+			return 0;
+		}
 		output.push(`MOV ${REGISTER[destination]}, ${REGISTER[source]}`);
 		return 0;
 	}

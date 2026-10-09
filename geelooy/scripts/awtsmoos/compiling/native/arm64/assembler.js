@@ -349,6 +349,16 @@ function emitInstruction(b, mnemonic, ops) {
 			b.emit(E.madd(rd.num, rn.num, rm.num, ra.num, rd.sf));
 			return;
 		}
+		case "msub": {
+			needArgs(ops, 4, m);
+			const rd = E.parseReg(ops[0]);
+			const rn = E.parseReg(ops[1]);
+			const rm = E.parseReg(ops[2]);
+			const ra = E.parseReg(ops[3]);
+			if (rn.sf !== rd.sf || rm.sf !== rd.sf || ra.sf !== rd.sf) throw new Error(`${m} width mismatch`);
+			b.emit(E.msub(rd.num, rn.num, rm.num, ra.num, rd.sf));
+			return;
+		}
 		case "sdiv":
 		case "udiv": {
 			needArgs(ops, 3, m);
