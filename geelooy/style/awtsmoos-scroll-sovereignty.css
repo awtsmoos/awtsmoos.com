@@ -160,3 +160,21 @@ html[data-theme="light"] .post-reader-localized-context .typography-details labe
 :root:not([data-theme="dark"]) .post-reader-localized-context .typography-details label {
   color: #21160a;
 }
+
+/* BH Yaakov 2026-10-08: Scribe Lens theme sync - panel bg must match theme */
+:root[data-theme="dark"] .post-reader-localized-context .typography-content,
+:root[data-theme="dark"] .post-reader-localized-context .settings-group,
+:root[data-theme="dark"] .post-reader-localized-context .typography-details {
+  background-color: #1a1a2e;
+  color: #f8fbff;
+}
+:root[data-theme="dark"] .post-reader-localized-context .setting-name { color: #f8fbff; }
+:root[data-theme="dark"] .post-reader-localized-context .control-label { color: #f6cc72; }
+:root:not([data-theme="dark"]) .post-reader-localized-context .typography-content,
+:root:not([data-theme="dark"]) .post-reader-localized-context .settings-group,
+:root:not([data-theme="dark"]) .post-reader-localized-context .typography-details {
+  background-color: #ffffff;
+  color: #21160a;
+}
+:root:not([data-theme="dark"]) .post-reader-localized-context .setting-name,
+:root:not([data-theme="dark"]) .post-reader-localized-context .control-label { color: #21160a; }

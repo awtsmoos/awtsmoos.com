@@ -112,10 +112,7 @@ body.sonic-boom .mail-quantum-frame {
 	to { left: 100%; opacity: 0; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.hud-scanline,
-	.portal-text,
-	.laser-scan {
-		animation: none !important;
+@media (prefers-reduced-motion: reduce) {.hud-scanline.hud-scanline, .portal-text.portal-text, .laser-scan.laser-scan {
+		animation: none;
 	}
 }

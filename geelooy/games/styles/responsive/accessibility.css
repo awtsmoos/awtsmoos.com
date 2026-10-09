@@ -6,6 +6,10 @@
  * @fileoverview Gevurah accessibility boundary for visible keyboard focus, touch feedback, and calm motion.
  * The Awtsmoos is not hidden behind one manner of motion or touch;
  * Awtsmoos.com keeps every storefront action perceivable without repainting component ownership.
+
+CSS-law compliant rewrite (2026-10-09):
+- Zero !important (was 4). The reduced-motion kill-switch wins by specificity
+  (html prefix) instead of brute force.
  */
 .gamesShell :where(a, button, input, select, textarea, summary):focus-visible {
 	outline: 3px solid var(--games-cyan);
@@ -19,13 +23,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.gamesShell *,
-	.gamesShell *::before,
-	.gamesShell *::after {
-		scroll-behavior: auto !important;
-		transition-duration: 0.01ms !important;
-		animation-duration: 0.01ms !important;
-		animation-iteration-count: 1 !important;
+	html .gamesShell *,
+	html .gamesShell *::before,
+	html .gamesShell *::after {
+		scroll-behavior: auto;
+		transition-duration: 0.01ms;
+		animation-duration: 0.01ms;
+		animation-iteration-count: 1;
 	}
 }
 

@@ -5,23 +5,20 @@
 	align-items: center;
 	justify-content: flex-end;
 	gap: 0.55rem;
-}
-
-.send-btn,
-.send-transmission-btn {
+}.send-btn.send-btn, .send-transmission-btn.send-transmission-btn {
 	position: relative;
 	min-width: 11rem;
-	min-height: 2.85rem !important;
-	padding: 0.68rem 1rem !important;
+	min-height: 2.85rem;
+	padding: 0.68rem 1rem;
 	overflow: hidden;
-	border: 1px solid rgba(255, 222, 139, 0.68) !important;
-	border-radius: 0.85rem !important;
-	background: linear-gradient(115deg, var(--mail-gold), var(--mail-gold-hot)) !important;
-	color: #160900 !important;
+	border: 1px solid rgba(255, 222, 139, 0.68);
+	border-radius: 0.85rem;
+	background: linear-gradient(115deg, var(--mail-gold), var(--mail-gold-hot));
+	color: #160900;
 	font: 950 0.76rem/1 var(--font-mono);
 	letter-spacing: 0.08em;
 	text-transform: uppercase;
-	box-shadow: var(--mail-glow-gold) !important;
+	box-shadow: var(--mail-glow-gold);
 	cursor: pointer;
 }
 
@@ -38,12 +35,9 @@
 .send-btn:hover::before,
 .send-transmission-btn:hover::before {
 	transform: translateX(130%);
-}
-
-.send-btn:hover,
-.send-transmission-btn:hover {
+}.send-btn.send-btn:hover, .send-transmission-btn.send-transmission-btn:hover {
 	filter: brightness(1.08);
-	transform: translateY(-2px) scale(1.018) !important;
+	transform: translateY(-2px) scale(1.018);
 }
 
 .send-btn:disabled,
@@ -63,7 +57,7 @@
 }
 
 .compose-modal-card {
-	width: min(100%, 40rem) !important;
+	width: min(100%, 40rem);
 }
 
 .compose-modal-top {
@@ -81,16 +75,16 @@
 }
 
 .close-modal {
-	display: grid !important;
+	display: grid;
 	width: 2.45rem;
 	height: 2.45rem;
-	min-height: 2.45rem !important;
+	min-height: 2.45rem;
 	place-items: center;
-	padding: 0 !important;
-	border: 1px solid rgba(255, 255, 255, 0.12) !important;
-	border-radius: 0.75rem !important;
-	background: rgba(255, 255, 255, 0.04) !important;
-	color: var(--mail-text) !important;
+	padding: 0;
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 0.75rem;
+	background: rgba(255, 255, 255, 0.04);
+	color: var(--mail-text);
 }
 
 .identity-modal-card {

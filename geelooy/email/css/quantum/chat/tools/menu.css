@@ -21,23 +21,23 @@
 
 .ctx-item {
 	width: 100%;
-	min-height: 2.45rem !important;
-	justify-content: flex-start !important;
-	padding: 0.55rem 0.65rem !important;
-	border: 1px solid transparent !important;
-	border-radius: 0.65rem !important;
-	background: transparent !important;
-	color: var(--mail-text) !important;
+	min-height: 2.45rem;
+	justify-content: flex-start;
+	padding: 0.55rem 0.65rem;
+	border: 1px solid transparent;
+	border-radius: 0.65rem;
+	background: transparent;
+	color: var(--mail-text);
 	text-align: left;
 }
 
 .ctx-item:hover {
-	border-color: var(--mail-line) !important;
-	background: rgba(50, 231, 255, 0.08) !important;
+	border-color: var(--mail-line);
+	background: rgba(50, 231, 255, 0.08);
 }
 
 .ctx-danger {
-	color: #ff8298 !important;
+	color: #ff8298;
 }
 
 .ctx-separator {

@@ -49,7 +49,7 @@
 	}
 
 	.back-button {
-		display: grid !important;
+		display: grid;
 	}
 
 	.chat-header {

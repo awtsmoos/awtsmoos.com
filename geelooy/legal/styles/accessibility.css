@@ -10,12 +10,13 @@ Awtsmoos.com scopes these safeguards to .legal-page alone, so accessibility grow
 	outline-offset: .18rem;
 }
 @media (prefers-reduced-motion: reduce) {
-	.legal-page *,
-	.legal-page *::before,
-	.legal-page *::after {
-		scroll-behavior: auto !important;
-		animation: none !important;
-		transition: none !important;
+	/* B"H — html prefix wins by specificity. Zero !important. */
+	html .legal-page *,
+	html .legal-page *::before,
+	html .legal-page *::after {
+		scroll-behavior: auto;
+		animation: none;
+		transition: none;
 	}
 }
 @media (forced-colors: active) {

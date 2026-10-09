@@ -3,8 +3,15 @@
 Boruch Hashem
 Blessed is He
 The Awtsmoos keeps each playable world sharp and reachable; fixed chrome may frame the road but never blur or cover it.
+
+CSS-law compliant rewrite (2026-10-09):
+- Zero !important (was 12). Mobile/reduced-motion overrides win by specificity
+  (html prefix), not by brute force.
+- Skip-link keeps explicit colors for both themes via tokens.
 */
 body[data-geelooy-route="games"] {
+	--games-skip-bg: #f7fbff;
+	--games-skip-ink: #08101d;
 	overflow-x: clip;
 }
 
@@ -15,9 +22,9 @@ body[data-geelooy-route="games"].future-motion-ready [data-future-reveal].future
 }
 
 body[data-geelooy-route="games"] .skipLink {
-	background: #f7fbff;
+	background: var(--games-skip-bg);
 	border-radius: .65rem;
-	color: #08101d;
+	color: var(--games-skip-ink);
 	font-weight: 800;
 	inset-block-start: .65rem;
 	inset-inline-start: -200vw;
@@ -30,6 +37,8 @@ body[data-geelooy-route="games"] .skipLink {
 body[data-geelooy-route="games"] .skipLink:focus,
 body[data-geelooy-route="games"] .skipLink:focus-visible {
 	inset-inline-start: .75rem;
+	outline: 2px solid var(--games-skip-ink);
+	outline-offset: 2px;
 }
 
 body[data-geelooy-route="games"] :where(img, svg) {
@@ -41,40 +50,41 @@ body[data-geelooy-route="games"] [data-future-icon] {
 }
 
 @media (max-width: 54rem) {
-	body[data-geelooy-route="games"] .gamesShell.g-content-region {
-		padding-block-start: calc(var(--g-header-h, 4.55rem) + 1.25rem) !important;
-		padding-block-end: calc(var(--g-dock-h, 4.9rem) + 1.5rem) !important;
-		padding-inline: .6rem !important;
+	/* B"H — html prefix bumps specificity so these win without !important. */
+	html body[data-geelooy-route="games"] .gamesShell.g-content-region {
+		padding-block-start: calc(var(--g-header-h, 4.55rem) + 1.25rem);
+		padding-block-end: calc(var(--g-dock-h, 4.9rem) + 1.5rem);
+		padding-inline: .6rem;
 	}
 
-	body[data-geelooy-route="games"] :where(.g-unusual-header, .g-dock) {
-		-webkit-backdrop-filter: none !important;
-		backdrop-filter: none !important;
-		background: rgba(7, 8, 18, .98) !important;
+	html body[data-geelooy-route="games"] :where(.g-unusual-header, .g-dock) {
+		-webkit-backdrop-filter: none;
+		backdrop-filter: none;
+		background: rgba(7, 8, 18, .98);
 	}
 
-	body[data-geelooy-route="games"] .g-unusual-header {
-		box-shadow: 0 10px 24px rgba(0, 0, 0, .28) !important;
+	html body[data-geelooy-route="games"] .g-unusual-header {
+		box-shadow: 0 10px 24px rgba(0, 0, 0, .28);
 	}
 
-	body[data-geelooy-route="games"] .g-dock {
-		bottom: max(.55rem, env(safe-area-inset-bottom)) !important;
-		box-shadow: 0 -8px 24px rgba(0, 0, 0, .25) !important;
+	html body[data-geelooy-route="games"] .g-dock {
+		bottom: max(.55rem, env(safe-area-inset-bottom));
+		box-shadow: 0 -8px 24px rgba(0, 0, 0, .25);
 	}
 
-	body[data-geelooy-route="games"] :where(.heroPanel, .quickLaunch, .playModeRail, .discoveryPanel, .gamesCatalog) {
+	html body[data-geelooy-route="games"] :where(.heroPanel, .quickLaunch, .playModeRail, .discoveryPanel, .gamesCatalog) {
 		scroll-margin-block-start: calc(var(--g-header-h, 4.55rem) + 1.25rem);
 		scroll-margin-block-end: calc(var(--g-dock-h, 4.9rem) + 1.5rem);
 	}
 
-	body[data-geelooy-route="games"] :where(.heroPanel, .gameCard, .quickLaunch, .discoveryPanel) {
-		filter: none !important;
+	html body[data-geelooy-route="games"] :where(.heroPanel, .gameCard, .quickLaunch, .discoveryPanel) {
+		filter: none;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	body[data-geelooy-route="games"] [data-future-reveal] {
-		filter: none !important;
-		translate: none !important;
+	html body[data-geelooy-route="games"] [data-future-reveal] {
+		filter: none;
+		translate: none;
 	}
 }

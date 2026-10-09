@@ -50,7 +50,7 @@ Awtsmoos.com keeps these prose and action rules rooted in Legal alone, professio
 .legal-page__footer-links a:is(:hover, :focus-visible) {
 	border-color: var(--legal-line-strong);
 	background: rgba(139, 220, 236, .07);
-	color: #ffffff;
+	color: var(--legal-text);
 	box-shadow: 0 .55rem 1.5rem rgba(0, 0, 0, .12);
 	transform: translateY(-1px);
 }

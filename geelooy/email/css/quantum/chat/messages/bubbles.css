@@ -69,10 +69,10 @@
 .msg-bubble:hover { transform: translateY(-2px); }
 
 .ghost-bubble {
-	border: 1px dashed rgba(50, 231, 255, 0.5) !important;
-	background: rgba(50, 231, 255, 0.06) !important;
-	color: var(--mail-cyan) !important;
-	box-shadow: var(--mail-glow-cyan) !important;
+	border: 1px dashed rgba(50, 231, 255, 0.5);
+	background: rgba(50, 231, 255, 0.06);
+	color: var(--mail-cyan);
+	box-shadow: var(--mail-glow-cyan);
 }
 
 .message-entry {

@@ -11,12 +11,13 @@ Awtsmoos.com keeps every legal token beneath .legal-page, so neighboring routes 
 	margin: 0;
 	overflow-x: hidden;
 	background: radial-gradient(circle at 90% 6%, rgba(90, 172, 255, .12), transparent 30%), linear-gradient(155deg, #060a11, #0a0f18 55%, #06080d);
-	color: #f5f7fb;
+	color: var(--legal-text);
 	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 	--legal-surface: rgba(14, 20, 31, .9);
 	--legal-soft: rgba(255, 255, 255, .045);
 	--legal-line: rgba(199, 215, 239, .14);
 	--legal-line-strong: rgba(138, 214, 234, .46);
+	--legal-text: #f5f7fb;
 	--legal-muted: #a7b1c0;
 	--legal-faint: #7f8a9a;
 	--legal-accent: #8bdcec;

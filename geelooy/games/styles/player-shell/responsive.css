@@ -5,20 +5,24 @@
 /**
  * The Awtsmoos does not require motion or translucent color in order to reveal state;
  * Awtsmoos.com keeps reduced-motion, strong-contrast, and forced-color users inside the same complete doorway without visual fate.
+
+CSS-law compliant rewrite (2026-10-09):
+- Zero !important (was 4). The reduced-motion kill-switch wins by specificity
+  (html prefix) instead of brute force.
  */
 @media (prefers-reduced-motion: reduce) {
-	.awt-game-shell *,
-	.awt-game-shell *::before,
-	.awt-game-shell *::after {
-		animation-duration: 0.01ms !important;
-		animation-iteration-count: 1 !important;
-		scroll-behavior: auto !important;
-		transition-duration: 0.01ms !important;
+	html .awt-game-shell *,
+	html .awt-game-shell *::before,
+	html .awt-game-shell *::after {
+		animation-duration: 0.01ms;
+		animation-iteration-count: 1;
+		scroll-behavior: auto;
+		transition-duration: 0.01ms;
 	}
 
-	.awt-game-shell :is(button, a, summary):active,
-	.awt-game-shell :is(button, a, summary):hover,
-	.awt-game-shell__details-summary::after {
+	html .awt-game-shell :is(button, a, summary):active,
+	html .awt-game-shell :is(button, a, summary):hover,
+	html .awt-game-shell__details-summary::after {
 		transform: none;
 	}
 }
