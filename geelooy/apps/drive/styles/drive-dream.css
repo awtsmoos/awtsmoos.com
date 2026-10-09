@@ -1,0 +1,291 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos lets file-management feel like walking through living light;
+ * Awtsmoos.com gives uploads a shimmering becoming, drop targets a luminous
+ * welcome, cards a warm aura, and the home view a powers deck that surfaces
+ * the Drive API's deeper vessels — jobs, sites, projects, and storage. */
+
+/* Dream tokens: Drive is a dark-first world; one explicit law. */
+body[data-awtsmoos-drive] {
+	--dream-lift-shadow: 0 18px 44px rgba(0, 0, 0, .42), 0 0 28px rgba(84, 237, 187, .10);
+	--dream-card-glow: 0 0 0 1px rgba(84, 237, 187, .28), 0 14px 38px rgba(0, 0, 0, .4), 0 0 34px rgba(84, 237, 187, .12);
+	--dream-upload-shimmer: linear-gradient(100deg, transparent 30%, rgba(84, 237, 187, .22) 50%, transparent 70%);
+	--dream-progress-track: rgba(84, 237, 187, .14);
+	--dream-progress-fill: linear-gradient(90deg, #37d9d0, #54edbb);
+	--dream-gold-glow: rgba(223, 175, 67, .16);
+	--dream-power-border: rgba(84, 237, 187, .16);
+	--dream-power-border-hover: rgba(84, 237, 187, .45);
+	--dream-power-glyph-bg: rgba(84, 237, 187, .10);
+	--dream-empty-glow: radial-gradient(circle at 50% 28%, rgba(84, 237, 187, .10), transparent 60%);
+}
+
+/* ---------- Powers deck: the Drive API's deeper vessels, surfaced ---------- */
+.drive-powers {
+	display: grid;
+	gap: 10px;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+	margin: 2px 2px 4px;
+}
+.drive-powers-heading {
+	grid-column: 1 / -1;
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 8px;
+	margin: 0;
+	padding: 0 2px;
+}
+.drive-powers-heading strong {
+	color: var(--drive-text);
+	font-size: .82rem;
+	font-weight: 780;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+}
+.drive-powers-heading span {
+	color: var(--drive-faint);
+	font-size: .72rem;
+}
+.drive-power-card {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 14px 14px;
+	border: 1px solid var(--dream-power-border);
+	border-radius: var(--drive-radius);
+	background: linear-gradient(150deg, var(--drive-surface-raised), var(--drive-surface));
+	color: inherit;
+	text-decoration: none;
+	overflow: hidden;
+	transition: border-color 200ms ease, box-shadow 220ms ease, transform 200ms ease;
+}
+.drive-power-card::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: var(--dream-upload-shimmer);
+	transform: translateX(-110%);
+	transition: transform 800ms ease;
+	pointer-events: none;
+}
+.drive-power-card:hover {
+	border-color: var(--dream-power-border-hover);
+	box-shadow: var(--dream-lift-shadow);
+	transform: translateY(-2px);
+}
+.drive-power-card:hover::after {
+	transform: translateX(110%);
+}
+.drive-power-card:active {
+	transform: translateY(0) scale(.985);
+}
+.drive-power-card:focus-visible {
+	outline: 2px solid var(--drive-accent);
+	outline-offset: 3px;
+}
+.drive-power-glyph {
+	flex: 0 0 2.6rem;
+	display: grid;
+	place-items: center;
+	width: 2.6rem;
+	height: 2.6rem;
+	border-radius: 14px;
+	border: 1px solid var(--dream-power-border);
+	background: var(--dream-power-glyph-bg);
+	color: var(--drive-accent);
+	font-size: 1.15rem;
+}
+.drive-power-copy {
+	display: grid;
+	gap: 2px;
+	min-width: 0;
+}
+.drive-power-copy strong {
+	color: var(--drive-text);
+	font-size: .9rem;
+	font-weight: 750;
+	letter-spacing: -.01em;
+}
+.drive-power-copy span {
+	color: var(--drive-muted);
+	font-size: .76rem;
+	line-height: 1.4;
+}
+.drive-power-arrow {
+	margin-left: auto;
+	color: var(--drive-accent);
+	font-size: 1.05rem;
+	transition: transform 200ms ease;
+}
+.drive-power-card:hover .drive-power-arrow {
+	transform: translate(.2rem, -.2rem);
+}
+
+/* ---------- Upload delight: every byte's becoming shimmers ---------- */
+.drive-upload-row {
+	position: relative;
+	overflow: hidden;
+	border: 1px solid var(--drive-line);
+	transition: border-color 200ms ease, box-shadow 220ms ease;
+}
+.drive-upload-row[data-upload-status="uploading"] {
+	border-color: var(--dream-power-border-hover);
+	box-shadow: var(--dream-lift-shadow);
+}
+.drive-upload-row[data-upload-status="uploading"]::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: var(--dream-upload-shimmer);
+	transform: translateX(-110%);
+	animation: drive-dream-upload-sweep 1.8s ease-in-out infinite;
+	pointer-events: none;
+}
+.drive-upload-row[data-upload-status="complete"] {
+	border-color: rgba(84, 237, 187, .4);
+}
+.drive-upload-row[data-upload-status="failed"] {
+	border-color: var(--drive-danger);
+	box-shadow: 0 0 24px rgba(255, 109, 120, .12);
+}
+.drive-upload-row progress {
+	appearance: none;
+	-webkit-appearance: none;
+	height: .45rem;
+	border-radius: 999px;
+	background: var(--dream-progress-track);
+	border: 0;
+	overflow: hidden;
+}
+.drive-upload-row progress::-webkit-progress-bar {
+	background: var(--dream-progress-track);
+	border-radius: 999px;
+}
+.drive-upload-row progress::-webkit-progress-value {
+	background: var(--dream-progress-fill);
+	border-radius: 999px;
+	transition: width 180ms ease;
+}
+.drive-upload-row progress::-moz-progress-bar {
+	background: var(--dream-progress-fill);
+	border-radius: 999px;
+}
+.drive-upload-summary {
+	border: 1px solid var(--dream-power-border);
+	box-shadow: var(--dream-lift-shadow);
+}
+.drive-upload-summary-icon {
+	color: var(--drive-accent);
+	text-shadow: 0 0 18px rgba(84, 237, 187, .5);
+}
+@keyframes drive-dream-upload-sweep {
+	to { transform: translateX(110%); }
+}
+
+/* ---------- Drop zone: a luminous welcome ---------- */
+body[data-awtsmoos-drive] .drive-drop-zone.is-dragging {
+	border-color: var(--drive-accent);
+	border-style: solid;
+	background: rgba(84, 237, 187, .07);
+	box-shadow: 0 0 0 3px rgba(84, 237, 187, .12), 0 0 44px rgba(84, 237, 187, .18), inset 0 0 30px rgba(84, 237, 187, .06);
+	color: var(--drive-text);
+}
+body[data-awtsmoos-drive] .drive-drop-zone:focus-visible {
+	outline: 2px solid var(--drive-accent);
+	outline-offset: 3px;
+}
+
+/* ---------- Card aura: files glow when the hand nears ---------- */
+body[data-awtsmoos-drive] .drive-entry-card:hover,
+body[data-awtsmoos-drive] .drive-entry-card:focus-within {
+	box-shadow: var(--dream-card-glow);
+	transform: translateY(-2px);
+}
+body[data-awtsmoos-drive] .drive-entry-card:active {
+	transform: translateY(0) scale(.985);
+}
+body[data-awtsmoos-drive] .drive-entry-card[aria-selected="true"] {
+	border-color: var(--drive-accent);
+	box-shadow: var(--dream-card-glow);
+}
+body[data-awtsmoos-drive] .drive-entry-open:focus-visible {
+	outline: 2px solid var(--drive-accent);
+	outline-offset: 2px;
+}
+
+/* ---------- Folder rail: golden warmth ---------- */
+body[data-awtsmoos-drive] .drive-folder-rail .drive-entry-card:hover,
+body[data-awtsmoos-drive] .drive-folder-rail .drive-entry-card:focus-within {
+	box-shadow: 0 14px 34px rgba(0, 0, 0, .4), 0 0 30px var(--dream-gold-glow);
+	border-color: rgba(223, 175, 67, .45);
+}
+
+/* ---------- Empty state: a quiet vault, not a void ---------- */
+body[data-awtsmoos-drive] .drive-empty {
+	position: relative;
+	overflow: hidden;
+	background: var(--dream-empty-glow), var(--drive-surface);
+	border: 1px dashed var(--drive-line-strong);
+	border-radius: var(--drive-radius-large);
+	padding: clamp(2.5rem, 6vw, 4rem) 1.5rem;
+	text-align: center;
+}
+body[data-awtsmoos-drive] .drive-empty::before {
+	content: "✦";
+	display: grid;
+	place-items: center;
+	width: 3.2rem;
+	height: 3.2rem;
+	margin: 0 auto .9rem;
+	border-radius: 50%;
+	border: 1px solid var(--dream-power-border-hover);
+	background: var(--dream-power-glyph-bg);
+	color: var(--drive-accent);
+	font-size: 1.4rem;
+	box-shadow: 0 0 22px rgba(84, 237, 187, .25);
+}
+body[data-awtsmoos-drive] .drive-empty strong {
+	color: var(--drive-text);
+	font-size: 1.05rem;
+}
+body[data-awtsmoos-drive] .drive-empty span {
+	color: var(--drive-muted);
+}
+
+/* ---------- Home sections: quiet hierarchy ---------- */
+body[data-awtsmoos-drive] .drive-home-section .drive-section-heading h2 {
+	color: var(--drive-text);
+	letter-spacing: -.01em;
+}
+body[data-awtsmoos-drive] .drive-home-section .drive-section-heading h2::after {
+	content: "";
+	display: block;
+	height: 2px;
+	width: 2.4rem;
+	margin-top: 6px;
+	border-radius: 2px;
+	background: var(--dream-progress-fill);
+	box-shadow: 0 0 12px rgba(84, 237, 187, .4);
+}
+
+/* ---------- Reduced motion: complete stillness ---------- */
+@media (prefers-reduced-motion: reduce) {
+	.drive-power-card,
+	.drive-power-card::after,
+	.drive-power-arrow,
+	body[data-awtsmoos-drive] .drive-entry-card {
+		transition: none;
+	}
+	.drive-upload-row[data-upload-status="uploading"]::after {
+		animation: none;
+		transform: none;
+		opacity: .4;
+	}
+	.drive-power-card:hover,
+	body[data-awtsmoos-drive] .drive-entry-card:hover,
+	body[data-awtsmoos-drive] .drive-entry-card:focus-within {
+		transform: none;
+	}
+}

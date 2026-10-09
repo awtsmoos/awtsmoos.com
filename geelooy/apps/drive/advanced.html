@@ -34,7 +34,7 @@
 			<p id="status">Resolving your account…</p>
 			<p id="error" hidden></p>
 		</section>
-		<section class="advanced-overview">
+		<section class="advanced-overview" id="storage-overview">
 			<article class="advanced-panel">
 				<p class="advanced-kicker">STORAGE</p>
 				<h2>Usage</h2>
@@ -48,15 +48,15 @@
 				<div id="project-workspace" class="project-workspace" aria-live="polite"></div>
 			</article>
 		</section>
-		<details class="advanced-disclosure" open>
+		<details class="advanced-disclosure" id="website-maker" open>
 			<summary>Website Maker</summary>
 			<section id="site-builder-root" class="site-builder-root" aria-label="Website Maker" aria-live="polite"></section>
 		</details>
-		<details class="advanced-disclosure">
+		<details class="advanced-disclosure" id="project-platform-panel">
 			<summary>Project Platform</summary>
 			<section id="project-platform" class="project-platform" aria-label="Project control plane" aria-live="polite"></section>
 		</details>
-		<details class="advanced-disclosure">
+		<details class="advanced-disclosure" id="mission-control">
 			<summary>Mission Control</summary>
 			<section id="job-control" class="job-control" aria-label="Deferred work mission control">
 				<div class="advanced-panel-head"><div><p class="advanced-kicker">DEFERRED WORK</p><h2>Mission Control</h2></div><span id="job-health-badge" class="badge">Connect an alias</span></div>
@@ -66,11 +66,24 @@
 				<div class="table-scroll"><table><thead><tr><th>Type</th><th>Queue</th><th>Status</th><th>Subject</th><th>Available</th><th>Actions</th></tr></thead><tbody id="job-rows"><tr><td colspan="6">Connect an alias to load jobs.</td></tr></tbody></table></div>
 			</section>
 		</details>
-		<details class="advanced-disclosure">
+		<details class="advanced-disclosure" id="upload-defaults">
 			<summary>Upload defaults</summary>
 			<div class="advanced-actions"><label>New files<select id="upload-visibility"><option value="private">Private</option><option value="public">Public</option></select></label><label>Cache policy<select id="upload-cache"><option value="mutable">Mutable</option><option value="immutable">Immutable</option></select></label></div>
 		</details>
 	</main>
 	<script type="module" src="./js/advancedApp.js"></script>
+	<script>
+	// B"H — deep links from the Drive home powers deck open their target panel.
+	(function () {
+		function openHashTarget() {
+			var id = String(location.hash || "").replace(/^#/, "");
+			if (!id) return;
+			var node = document.getElementById(id);
+			if (node && node.tagName === "DETAILS" && !node.open) node.open = true;
+		}
+		window.addEventListener("hashchange", openHashTarget);
+		openHashTarget();
+	})();
+	</script>
 </body>
 </html>

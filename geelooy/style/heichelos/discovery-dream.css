@@ -1,0 +1,301 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Heichelos discovery dream layer: the luminous library.
+ * The Awtsmoos lets the Torah library glow without blinding the seeker;
+ * Awtsmoos.com gives the discovery surface living light — drifting glow in the
+ * hero, staggered card entrances, a radiant Ikar portal, and an empty state
+ * that feels like a quiet reading room rather than a dead end.
+ *
+ * B"H 2026-10-09 — Dream law: tokens only, explicit colors in both themes,
+ * no !important, full interactive states, reduced-motion stillness.
+ */
+
+/* Dream discovery tokens: light and glow laws shared by every rule below. */
+:root {
+	--dream-aura: rgb(212 169 78 / 22%);
+	--dream-aura-soft: rgb(212 169 78 / 10%);
+	--dream-hero-glow-a: rgb(212 169 78 / 16%);
+	--dream-hero-glow-b: rgb(180 84 30 / 10%);
+	--dream-hero-mote: rgb(138 109 59 / 26%);
+	--dream-title-glow: 0 1px 0 rgb(255 253 246 / 60%), 0 0 2.5rem rgb(212 169 78 / 18%);
+	--dream-card-hover-shadow: 0 1.2rem 3rem rgb(90 70 40 / 22%), 0 0 2.5rem var(--dream-aura-soft);
+	--dream-seal-glow: 0 0 1.1rem rgb(212 169 78 / 45%), inset 0 1px 0 rgb(255 253 246 / 35%);
+	--dream-ikar-ring: rgb(212 169 78 / 55%);
+	--dream-ikar-shimmer: linear-gradient(105deg, transparent 42%, rgb(255 250 235 / 55%) 50%, transparent 58%);
+	--dream-empty-glow: radial-gradient(circle at 50% 30%, rgb(212 169 78 / 16%), transparent 62%);
+}
+:root[data-theme="dark"] {
+	--dream-aura: rgb(246 204 114 / 20%);
+	--dream-aura-soft: rgb(246 204 114 / 09%);
+	--dream-hero-glow-a: rgb(246 204 114 / 13%);
+	--dream-hero-glow-b: rgb(232 163 77 / 08%);
+	--dream-hero-mote: rgb(246 204 114 / 22%);
+	--dream-title-glow: 0 0 2.5rem rgb(246 204 114 / 22%);
+	--dream-card-hover-shadow: 0 1.2rem 3rem rgb(0 0 0 / 55%), 0 0 2.5rem var(--dream-aura-soft);
+	--dream-seal-glow: 0 0 1.1rem rgb(246 204 114 / 40%), inset 0 1px 0 rgb(255 250 235 / 25%);
+	--dream-ikar-ring: rgb(246 204 114 / 60%);
+	--dream-ikar-shimmer: linear-gradient(105deg, transparent 42%, rgb(250 243 226 / 16%) 50%, transparent 58%);
+	--dream-empty-glow: radial-gradient(circle at 50% 30%, rgb(246 204 114 / 14%), transparent 62%);
+}
+
+/* ---------- Luminous hero: drifting light, floating motes ---------- */
+.heichelos-discovery-page .spaces-hero::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background:
+		radial-gradient(circle at 18% 22%, var(--dream-hero-glow-a), transparent 46%),
+		radial-gradient(circle at 84% 78%, var(--dream-hero-glow-b), transparent 52%);
+	animation: dream-hero-drift 14s ease-in-out infinite alternate;
+}
+.heichelos-discovery-page .spaces-hero::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background-image:
+		radial-gradient(circle, var(--dream-hero-mote) 1.5px, transparent 2.5px),
+		radial-gradient(circle, var(--dream-hero-mote) 1px, transparent 2px),
+		radial-gradient(circle, var(--dream-hero-mote) 2px, transparent 3px);
+	background-size: 9rem 9rem, 13rem 13rem, 7rem 7rem;
+	background-position: 12% 30%, 68% 12%, 38% 72%;
+	animation: dream-mote-float 22s ease-in-out infinite alternate;
+	opacity: .7;
+}
+.heichelos-discovery-page .spaces-hero > * {
+	position: relative;
+	z-index: 1;
+}
+.heichelos-discovery-page .spaces-hero h1 {
+	text-shadow: var(--dream-title-glow);
+}
+.heichelos-discovery-page .spaces-hero .field-label {
+	letter-spacing: .22em;
+	text-transform: uppercase;
+	color: var(--discover-accent);
+}
+@keyframes dream-hero-drift {
+	from { transform: translate3d(-1.5%, -1%, 0) scale(1); }
+	to { transform: translate3d(1.5%, 1.5%, 0) scale(1.04); }
+}
+@keyframes dream-mote-float {
+	from { background-position: 12% 30%, 68% 12%, 38% 72%; }
+	to { background-position: 16% 36%, 62% 20%, 44% 64%; }
+}
+
+/* ---------- Staggered entrance: cards rise like shelves of light ---------- */
+.heichelos-discovery-page [data-enter] {
+	animation: dream-rise .7s cubic-bezier(.16, 1, .3, 1) both;
+}
+.heichelos-discovery-page .spaces-grid > [data-enter]:nth-child(2) { animation-delay: .06s; }
+.heichelos-discovery-page .spaces-grid > [data-enter]:nth-child(3) { animation-delay: .12s; }
+.heichelos-discovery-page .spaces-grid > [data-enter]:nth-child(4) { animation-delay: .18s; }
+.heichelos-discovery-page .spaces-grid > [data-enter]:nth-child(5) { animation-delay: .24s; }
+.heichelos-discovery-page .spaces-grid > [data-enter]:nth-child(6) { animation-delay: .30s; }
+.heichelos-discovery-page .spaces-grid > [data-enter]:nth-child(7) { animation-delay: .36s; }
+.heichelos-discovery-page .spaces-grid > [data-enter]:nth-child(8) { animation-delay: .42s; }
+.heichelos-discovery-page .spaces-grid > [data-enter]:nth-child(9) { animation-delay: .48s; }
+.heichelos-discovery-page .spaces-grid > [data-enter]:nth-child(n+10) { animation-delay: .54s; }
+@keyframes dream-rise {
+	from { opacity: 0; transform: translateY(14px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Card aura: hover lifts the vessel into light ---------- */
+.heichelos-discovery-page .social-space-card:hover,
+.heichelos-discovery-page .social-space-card:focus-within {
+	box-shadow: var(--dream-card-hover-shadow);
+	border-color: var(--discover-accent);
+}
+.heichelos-discovery-page .social-space-card:active {
+	transform: translateY(0) scale(.995);
+}
+.heichelos-discovery-page .space-seal {
+	box-shadow: var(--dream-seal-glow);
+	transition: box-shadow 200ms ease, transform 200ms ease;
+}
+.heichelos-discovery-page .social-space-card:hover .space-seal,
+.heichelos-discovery-page .social-space-card:focus-within .space-seal {
+	transform: scale(1.06);
+}
+.heichelos-discovery-page .space-card-arrow {
+	color: var(--discover-accent);
+}
+
+/* ---------- Ikar portal: the radiant doorway ---------- */
+.heichelos-discovery-page .torah-library-card {
+	position: relative;
+	overflow: hidden;
+	border-width: 1px;
+	border-color: var(--dream-ikar-ring);
+	box-shadow: var(--discover-card-shadow), 0 0 3rem var(--dream-aura-soft);
+}
+.heichelos-discovery-page .torah-library-card::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background: var(--dream-ikar-shimmer);
+	transform: translateX(-110%);
+	transition: transform 900ms ease;
+}
+.heichelos-discovery-page .torah-library-card:hover::after,
+.heichelos-discovery-page .torah-library-card:focus-within::after {
+	transform: translateX(110%);
+}
+.heichelos-discovery-page .torah-library-card .space-seal {
+	font-size: 1.6rem;
+}
+
+/* ---------- Ikar card's parsha doorway: a golden footnote link ---------- */
+.heichelos-discovery-page .torah-library-parsha {
+	margin-top: .25rem;
+}
+.heichelos-discovery-page .torah-library-parsha a {
+	display: inline-flex;
+	align-items: center;
+	gap: .35rem;
+	color: var(--discover-accent);
+	font-weight: 800;
+	font-size: .88rem;
+	text-decoration: none;
+	border-bottom: 1px solid var(--discover-rule);
+	padding-bottom: 2px;
+	border-radius: .25rem;
+	transition: color 160ms ease, border-color 160ms ease, gap 160ms ease;
+}
+.heichelos-discovery-page .torah-library-parsha a:hover {
+	color: var(--discover-focus);
+	border-color: var(--discover-focus);
+	gap: .55rem;
+}
+.heichelos-discovery-page .torah-library-parsha a:active {
+	transform: scale(.98);
+}
+.heichelos-discovery-page .torah-library-parsha a:focus-visible {
+	outline: 2px solid var(--discover-focus);
+	outline-offset: 2px;
+}
+
+/* ---------- Result summary: a quiet counting chip ---------- */
+.heichelos-discovery-page .spaces-result-summary {
+	display: inline-flex;
+	align-items: center;
+	gap: .5rem;
+	width: auto;
+	padding: .4rem .9rem;
+	border: 1px solid var(--discover-rule);
+	border-radius: 999px;
+	background: var(--discover-card);
+	color: var(--discover-ink-soft);
+	box-shadow: var(--discover-card-shadow);
+}
+.heichelos-discovery-page .spaces-result-summary::before {
+	content: "✦";
+	color: var(--discover-accent);
+	font-size: .8em;
+}
+
+/* ---------- Empty state: a quiet reading room, not a dead end ---------- */
+.heichelos-discovery-page .social-empty-card {
+	position: relative;
+	overflow: hidden;
+	display: grid;
+	gap: .8rem;
+	justify-items: center;
+	text-align: center;
+	padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 4vw, 3rem);
+	border: 1px dashed var(--discover-rule);
+	border-radius: 1.25rem;
+	background: var(--dream-empty-glow), var(--discover-card-bg, var(--discover-card));
+	color: var(--discover-ink);
+	grid-column: 1 / -1;
+}
+.heichelos-discovery-page .social-empty-card::before {
+	content: "✦";
+	display: grid;
+	place-items: center;
+	width: 3.5rem;
+	height: 3.5rem;
+	border-radius: 50%;
+	border: 1px solid var(--dream-ikar-ring);
+	background: var(--discover-seal-bg);
+	color: var(--discover-seal-ink);
+	font-size: 1.5rem;
+	box-shadow: var(--dream-seal-glow);
+}
+.heichelos-discovery-page .social-empty-card h2 {
+	margin: 0;
+	font-family: var(--dream-serif-font);
+	font-size: clamp(1.4rem, 4vw, 2rem);
+	font-weight: 700;
+	letter-spacing: -.02em;
+	color: var(--discover-title-ink);
+}
+.heichelos-discovery-page .social-empty-card p {
+	margin: 0;
+	max-width: 46ch;
+	color: var(--discover-ink-soft);
+	line-height: 1.6;
+}
+.heichelos-discovery-page .social-empty-card .p-button {
+	margin-top: .4rem;
+}
+.heichelos-discovery-page .social-empty-card .p-button:hover {
+	transform: translateY(-1px);
+	border-color: var(--discover-accent);
+}
+.heichelos-discovery-page .social-empty-card .p-button:active {
+	transform: scale(.98);
+}
+.heichelos-discovery-page .social-empty-card .p-button:focus-visible {
+	outline: 2px solid var(--discover-focus);
+	outline-offset: 2px;
+}
+.heichelos-discovery-page .social-empty-card .p-button:disabled {
+	opacity: .55;
+	cursor: not-allowed;
+	transform: none;
+}
+
+/* ---------- "More spaces" disclosure: full tactile states ---------- */
+.heichelos-discovery-page .spaces-more > summary {
+	color: var(--discover-ink);
+	border-radius: var(--radius-l);
+	transition: background 180ms ease, box-shadow 180ms ease;
+}
+.heichelos-discovery-page .spaces-more > summary:hover {
+	background: var(--discover-wash);
+}
+.heichelos-discovery-page .spaces-more > summary:active {
+	transform: scale(.995);
+}
+.heichelos-discovery-page .spaces-more > summary:focus-visible {
+	outline: 2px solid var(--discover-focus);
+	outline-offset: 2px;
+}
+
+/* ---------- Live-search highlight ring ---------- */
+.heichelos-discovery-page .spaces-grid[data-live-filtering="true"] .social-space-card[data-hidden-by-filter="true"] {
+	display: none;
+}
+
+/* ---------- Reduced motion: complete stillness ---------- */
+@media (prefers-reduced-motion: reduce) {
+	.heichelos-discovery-page .spaces-hero::before,
+	.heichelos-discovery-page .spaces-hero::after,
+	.heichelos-discovery-page [data-enter] {
+		animation: none;
+	}
+	.heichelos-discovery-page .torah-library-card::after {
+		transition: none;
+		transform: none;
+	}
+	.heichelos-discovery-page .social-space-card:hover .space-seal,
+	.heichelos-discovery-page .social-space-card:focus-within .space-seal {
+		transform: none;
+	}
+}
