@@ -55,9 +55,47 @@ export function candidateRulesFor(index, node) {
   return cssRuleCandidates(index, node);
 }
 
+/* B"H 2026-10-09 (render-bench): cascade memoization. Three per-element
+ * recomputations eliminated:
+ * 1. elementKeys(node) ran once per CANDIDATE RULE per element (class split
+ *    each time) — cache per node.
+ * 2. inheritLayeredDefaults(parentStyle) refiltered the parent's full
+ *    computed style for every child — cache per parent computed object.
+ * 3. uaDefaultStyles spread ({...defs}) per element — cache per tag. */
+const ELEMENT_KEYS_CACHE = new WeakMap();
+function cachedElementKeys(node) {
+  let k = ELEMENT_KEYS_CACHE.get(node);
+  if (!k) {
+    k = elementKeys(node);
+    ELEMENT_KEYS_CACHE.set(node, k);
+  }
+  return k;
+}
+const INHERITED_SUBSET_CACHE = new WeakMap();
+function cachedInheritDefaults(parentStyle) {
+  if (!parentStyle || typeof parentStyle !== "object") return inheritLayeredDefaults(parentStyle);
+  let s = INHERITED_SUBSET_CACHE.get(parentStyle);
+  if (!s) {
+    s = inheritLayeredDefaults(parentStyle);
+    INHERITED_SUBSET_CACHE.set(parentStyle, s);
+  }
+  return s;
+}
+const UA_SPREAD_CACHE = new Map();
+function cachedUaDefaults(node) {
+  const tag = String(node && node.localName || "").toLowerCase();
+  let d = UA_SPREAD_CACHE.get(tag);
+  if (d === undefined) {
+    const defs = UA_DEFAULT_STYLES[tag];
+    d = defs ? { ...defs } : null;
+    UA_SPREAD_CACHE.set(tag, d);
+  }
+  return d ? { ...d } : {};
+}
+
 /** Tests one indexed rule (shared index). Exported for testing. */
 export function matchesIndexedRule(node, rule, index) {
-  return matchesIndexedCssRule(node, rule, index, elementKeys(node));
+  return matchesIndexedCssRule(node, rule, index, cachedElementKeys(node));
 }
 
 
@@ -369,7 +407,8 @@ function cascadeWithLayers(node, rules, parentStyle = {}, inline = []) {
   }
   // B"H 2026-10-09: seed UA defaults first (lowest priority), then
   // inherited properties override UA, then author winners override both.
-  const out = { ...uaDefaultStyles(node), ...inheritLayeredDefaults(parentStyle) };
+  // B"H 2026-10-09 (render-bench): cached UA spread + cached inherited subset.
+  const out = { ...cachedUaDefaults(node), ...cachedInheritDefaults(parentStyle) };
   for (const [name, winner] of winners) applyLayeredWinner(out, parentStyle, name, winner.declaration.value);
   for (const [name, rw] of revertLayerWinners) {
     const w = winners.get(name);
