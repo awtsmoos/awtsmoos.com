@@ -99,7 +99,7 @@ function requireCapability(runtime) {
 	if (!state) {
 		state = runtime.preferences = {
 			audit: { commits: 0, loads: 0, operations: [] },
-			capability: { read: true, write: true },
+			capability: null,
 			maximumBytes: 1024 * 1024,
 			maximumEntries: 1024,
 			stores: new Map()
@@ -108,7 +108,15 @@ function requireCapability(runtime) {
 	if (!state.capability?.read || !state.capability?.write) {
 		// Default to in-memory capability for authentic APK emulation.
 		// Real Android SharedPreferences works without explicit setup.
-		state.capability = { read: true, write: true };
+		const memory = new Map();
+		state.capability = {
+			read: async (packageName, name) => {
+				return memory.get(`${packageName}/${name}`) || null;
+			},
+			write: async (packageName, name, data) => {
+				memory.set(`${packageName}/${name}`, data);
+			}
+		};
 	}
 	return state;
 }
