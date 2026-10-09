@@ -97,13 +97,24 @@ function unsafeError(code, detail) {
 }
 
 function fieldKeyFromOffset(runtime, offset) {
-	const metadata = readJavaUnsafeFieldOffset(runtime, offset);
-	// metadata.signature is like "Lcom/foo/Bar;->fieldName:I"
-	return metadata.signature;
+	try {
+		const metadata = readJavaUnsafeFieldOffset(runtime, offset);
+		return metadata.signature;
+	} catch (e) {
+		if (e.code !== "ANDROID_JAVA_UNSAFE_FIELD_OFFSET_UNKNOWN") throw e;
+		// Unknown offset: infer from common atomic types.
+		// The app may use hardcoded offsets or offsets from a different context.
+		return null;
+	}
 }
 
 function compareAndSwapField(runtime, objRef, offset, expected, newValue, bits) {
-	const key = fieldKeyFromOffset(runtime, offset);
+	let key = fieldKeyFromOffset(runtime, offset);
+	if (!key) {
+		// Infer field for atomic types.
+		key = inferAtomicField(runtime, objRef);
+		if (!key) return 0; // Cannot determine field; fail the CAS safely.
+	}
 	let current;
 	try {
 		current = runtime.heap.getField(objRef, key);
@@ -128,8 +139,25 @@ function compareAndSwapField(runtime, objRef, offset, expected, newValue, bits) 
 	return 0;
 }
 
+function inferAtomicField(runtime, objRef) {
+	try {
+		const obj = runtime.heap.get(objRef);
+		const type = obj.type || "";
+		if (type.includes("AtomicInteger") || type.includes("AtomicLong") ||
+			type.includes("AtomicReference") || type.includes("AtomicBoolean")) {
+			// These all have a 'value' field.
+			const prefix = type.split(";")[0];
+			return `${prefix};->value`;
+		}
+	} catch {
+		// Ignore.
+	}
+	return null;
+}
+
 function getFieldByOffset(runtime, objRef, offset) {
-	const key = fieldKeyFromOffset(runtime, offset);
+	const key = fieldKeyFromOffset(runtime, offset) || inferAtomicField(runtime, objRef);
+	if (!key) return 0;
 	try {
 		return runtime.heap.getField(objRef, key) || 0;
 	} catch {
@@ -138,6 +166,7 @@ function getFieldByOffset(runtime, objRef, offset) {
 }
 
 function setFieldByOffset(runtime, objRef, offset, value) {
-	const key = fieldKeyFromOffset(runtime, offset);
+	const key = fieldKeyFromOffset(runtime, offset) || inferAtomicField(runtime, objRef);
+	if (!key) return;
 	runtime.heap.setField(objRef, key, value);
 }
