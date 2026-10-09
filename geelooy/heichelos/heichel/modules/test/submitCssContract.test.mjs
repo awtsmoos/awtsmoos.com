@@ -23,7 +23,7 @@ assert.equal(
 	'Create should load canonical composer CSS and one shell override'
 );
 assert.ok(
-	submit.includes('/heichelos/heichel/submit/style.css?v=create-004'),
+	submit.includes('/heichelos/heichel/submit/style.css?v=create-005'),
 	'Create must load canonical composer CSS'
 );
 assert.ok(
