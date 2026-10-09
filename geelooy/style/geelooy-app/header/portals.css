@@ -11,16 +11,32 @@
 	display: inline-flex;
 	align-items: center;
 	gap: .55rem;
+	/* B"H 2026-10-08: overlap fix. .g-header-action (shell/actions.css) sets
+	   inline-size:46px for icon-only buttons, and portals also carry that
+	   class. A portal holds glyph + label + caption ("Mail / Inbox"), which
+	   needs ~100px — at 46px the text painted outside the box and overlapped
+	   the Signals portal, the profile trigger, and the chat pill. Release the
+	   constraint here (same specificity, later cascade) so the portal sizes
+	   to its content, and forbid flex-shrink so the actions track can never
+	   squeeze it back into overlap. min-inline-size:46px still applies from
+	   .g-header-action, keeping the touch target. */
+	inline-size: auto;
+	flex: 0 0 auto;
 	min-height: var(--g-touch-target, 2.75rem);
 	padding: .38rem .65rem;
 	border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
 	border-radius: .9rem;
 	background: color-mix(in srgb, var(--g-surface, #111722) 88%, transparent);
+	/* Explicit light-on-dark: the header is a fixed dark-glass chrome in both
+	   page themes, so portal copy always renders light text on the dark
+	   portal surface — never inherited body text. */
+	color: var(--g-text);
 	transition:
 		transform var(--g-motion-fast) var(--g-motion-ease),
 		border-color var(--g-motion-fast) var(--g-motion-ease),
 		background var(--g-motion-fast) var(--g-motion-ease),
-		box-shadow var(--g-motion-fast) var(--g-motion-ease);
+		box-shadow var(--g-motion-fast) var(--g-motion-ease),
+		color var(--g-motion-fast) var(--g-motion-ease);
 }
 
 .g-header-portal:hover {
@@ -49,6 +65,7 @@
 .g-header-portal-glyph {
 	display: grid;
 	place-items: center;
+	flex: 0 0 auto;
 	width: 1.7rem;
 	height: 1.7rem;
 	border-radius: .55rem;
@@ -60,12 +77,18 @@
 	gap: .08rem;
 	min-width: 0;
 	line-height: 1;
+	/* Guard: copy can never paint outside the portal, even before CSS loads. */
+	overflow: hidden;
 }
 
 .g-header-portal-label {
 	font-size: .78rem;
 	font-weight: 720;
 	letter-spacing: .01em;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: var(--g-text);
 }
 
 .g-header-portal-caption {
@@ -74,14 +97,18 @@
 	letter-spacing: .055em;
 	text-transform: uppercase;
 	opacity: .58;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: var(--g-text);
 }
 
 .g-mail-portal .g-header-portal-glyph {
-	background: color-mix(in srgb, #6ea8ff 15%, transparent);
+	background: color-mix(in srgb, var(--g-blue) 15%, transparent);
 }
 
 .g-notification-portal .g-header-portal-glyph {
-	background: color-mix(in srgb, #bc8cff 14%, transparent);
+	background: color-mix(in srgb, var(--g-violet) 14%, transparent);
 }
 
 .g-header-portal-badge {
@@ -96,6 +123,7 @@
 	font-weight: 800;
 	line-height: 1;
 	text-align: center;
+	color: var(--g-text);
 }
 
 @media (max-width: 760px) {
@@ -106,5 +134,27 @@
 
 	.g-header-portal-copy {
 		display: none;
+	}
+}
+
+/* B"H 2026-10-08: progressive desktop compaction. The shared header crowded
+   into overlap near ~1100px viewports because Mail/Signals portals kept full
+   label+caption copy while the search track held an 18rem minimum. Shed copy
+   in stages before the actions track can crowd: captions first, then full copy
+   (icon-only portals) at narrowing widths. No !important; plain cascade. */
+@media (max-width: 80rem) {
+	.g-header-portal-caption {
+		display: none;
+	}
+}
+
+@media (max-width: 68rem) {
+	.g-header-portal-copy {
+		display: none;
+	}
+
+	.g-header-portal {
+		gap: 0;
+		padding-inline: .52rem;
 	}
 }

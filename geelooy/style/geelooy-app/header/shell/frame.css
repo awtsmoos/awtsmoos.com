@@ -13,7 +13,7 @@
 	display: grid;
 	width: min(calc(100% - 1.4rem), 82rem);
 	min-height: var(--g-header-h);
-	grid-template-columns: auto minmax(18rem, 1fr) auto;
+	grid-template-columns: auto minmax(0, 1fr) auto;
 	align-items: center;
 	gap: .75rem;
 	padding: .55rem .65rem;
@@ -50,6 +50,15 @@
 	box-shadow: 0 0 18px color-mix(in srgb, var(--g-cyan) 46%, transparent);
 	content: "";
 	pointer-events: none;
+}
+
+/* B"H 2026-10-08: grid items default to min-inline-size:auto, which blocks the
+   search track from shrinking and squeezes the actions track into overlap at
+   narrowing desktop widths. Allow the search form to shrink; the actions track
+   keeps its intrinsic width and never crowds. */
+.g-unusual-header > .g-header-search,
+.awtsmoosificationalisticaticalism > .g-header-search {
+	min-inline-size: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
