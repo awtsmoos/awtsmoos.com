@@ -23,6 +23,11 @@ export function renderAutoScrollButton(button, state, copy) {
 	button.classList.toggle('is-active', Boolean(state.active));
 	button.classList.toggle('is-paused', Boolean(state.paused));
 	button.classList.toggle('is-resting', Boolean(state.boundaryReason));
+	// B"H: mirror the state classes the stylesheet actually targets — without
+	// these, the active (Stop) and paused styles never apply and the button
+	// gives no visible feedback.
+	button.classList.toggle('awtsmoos-auto-scroll-on', Boolean(state.active) && !state.paused && !state.boundaryReason);
+	button.classList.toggle('awtsmoos-auto-scroll-is-paused', Boolean(state.active) && (Boolean(state.paused) || Boolean(state.boundaryReason)));
 	button.setAttribute('aria-pressed', String(Boolean(state.active)));
 	button.setAttribute('aria-label', copy.ariaLabel);
 	button.dataset.autoScrollState = state.status;

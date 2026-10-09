@@ -16,6 +16,12 @@ function statusText(report) {
 	const status = report?.meta?.source?.status || "unknown";
 	if (status === "loading") return "Loading English translation…";
 	if (rows.length) return `English translation · ${rows.length} aligned phrase${rows.length === 1 ? "" : "s"}`;
+	// B"H: the Meluket sefer reader mounts its own English beneath the Hebrew
+	// from enrichment (not from the translation API). Never claim it is missing
+	// when it is visibly on the page.
+	if (typeof document !== "undefined" && document.querySelector(".meluket-sefer .meluket-english p")) {
+		return "English translation · shown below the Hebrew";
+	}
 	if (status === "migration_required") return "English translation is being moved into the safe reader API.";
 	if (status === "source_missing") return "An English translation source is not yet materialized for this corpus.";
 	if (status === "ready") return "English translation is not available for this teaching yet.";
@@ -98,4 +104,20 @@ export function renderTranslationReport(viewport, report) {
 		mounted++;
 	}
 	return { mounted, missingTargets };
+}
+
+/**
+ * B"H: re-evaluates the toolbar status label against the live DOM.
+ * The Meluket sefer reader mounts its English after the translation toolbar;
+ * calling this refreshes the label so it never contradicts visible English.
+ * @returns {boolean} True when a toolbar label was refreshed.
+ */
+export function refreshTranslationStatus() {
+	if (typeof document === "undefined") return false;
+	const label = document.querySelector(".awtsmoos-translation-status");
+	if (!label) return false;
+	// Recompute from an empty report — statusText now checks the live DOM
+	// for Meluket English before claiming anything is missing.
+	label.textContent = statusText({ rows: [], meta: { source: { status: "ready" } } });
+	return true;
 }

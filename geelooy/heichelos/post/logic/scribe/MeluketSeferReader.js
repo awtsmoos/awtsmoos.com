@@ -18,6 +18,8 @@
  * enrichment.hebrew_phrases + enrichment.translation_en (Meluket).
  */
 
+import { refreshTranslationStatus } from '../../translations/render.js';
+
 /** Natural sort for phraseIds like segment_0_0, segment_0_10, segment_1_2. */
 function phraseIdKey(phraseId) {
 	const match = String(phraseId || '').match(/segment_(\d+)_(\d+)/);
@@ -53,7 +55,11 @@ export function buildHebrewSections(phrases) {
 	const ordered = Array.from(groups.keys()).sort((a, b) => sectionIdKey(a) - sectionIdKey(b));
 	return ordered.map(sectionId => {
 		const items = groups.get(sectionId).sort((a, b) => comparePhraseId(a.phraseId, b.phraseId));
-		const html = items.map(p => p.he || '').join('');
+		// B"H: convert scribe [cup] markers to bold — the enrichment phrases
+		// carry them raw, and without conversion they leak as literal text.
+		const html = items.map(p => p.he || '').join('')
+			.replace(/\[cup\]/g, '<b>')
+			.replace(/\[\/cup\]/g, '</b>');
 		return { sectionId, html };
 	});
 }
@@ -119,6 +125,14 @@ export function splitHebrewPhrases(html) {
 		} else {
 			current += ch;
 		}
+	}
+	// B"H: drop a trailing unclosed tag (e.g. a phrase truncated mid-tag like
+	// "<sup data-fn="1"). Browsers render a "<" with no closing ">" as literal
+	// text, which leaks raw markup into the visible page.
+	if (inTag) {
+		const cut = current.lastIndexOf('<');
+		if (cut !== -1) current = current.slice(0, cut);
+		inTag = false;
 	}
 	flush();
 	return phrases;
@@ -456,9 +470,31 @@ export function awakenMeluketSeferReader(post) {
 	// Store reference to preserved title for language mode toggling
 	if (existingTitle) sefer._preservedTitle = existingTitle;
 
+	// B"H: re-mount prev/next chapter navigation. The viewport wipe above
+	// removed the chapter nav that manifestPost appended — restore it after
+	// the sefer so readers can move between teachings.
+	if (typeof window !== 'undefined' && window.series && Array.isArray(window.series.posts)) {
+		let pIdx = window.currentIndexInSeries;
+		if ((pIdx === undefined || pIdx === null) && post.id) {
+			const found = window.series.posts.indexOf(post.id);
+			pIdx = found >= 0 ? found : 0;
+		}
+		import('../../functions/ui/nav.js').then(({ makeNavBars }) => {
+			try {
+				const nav = makeNavBars(post, window.series, pIdx);
+				if (nav && nav.nodeType === 1) realPost.appendChild(nav);
+			} catch (_) { /* navigation is optional */ }
+		}).catch(() => { /* navigation is optional */ });
+	}
+
 	// Mark the reader root so sefer styles apply.
 	const root = document.querySelector('.post-reader-localized-context');
 	if (root) root.classList.add('meluket-sefer-active');
+
+	// B"H: the sefer mounted its own English — refresh the generic translation
+	// toolbar (if it mounted earlier with an empty report) so its status label
+	// never contradicts the English visibly on the page.
+	try { refreshTranslationStatus(); } catch (_) { /* toolbar absent */ }
 
 	// Footnote markers: click to scroll to footnote in shelf.
 	sefer.addEventListener('click', (e) => {
