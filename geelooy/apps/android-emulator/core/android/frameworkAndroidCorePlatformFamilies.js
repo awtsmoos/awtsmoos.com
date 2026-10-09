@@ -10,6 +10,7 @@ import { createFrameworkFlutterJniBootstrapMethods } from "./frameworkFlutterJni
 import { createFrameworkFlutterJniMethods } from "./frameworkFlutterJNI.js";
 import { createFrameworkFlutterPlatformMessageMethods } from "./frameworkFlutterPlatformMessages.js";
 import { createFrameworkNetworkMethods } from "./frameworkNetwork.js";
+import { createFrameworkMessengerMethods } from "./frameworkMessengers.js";
 import { createFrameworkWebGlesMethods } from "./frameworkWebGles.js";
 
 /**
@@ -27,6 +28,7 @@ export function createFrameworkAndroidCorePlatformFamilies(olamRuntime) {
 		createFrameworkFlutterJniMethods(olamRuntime),
 		createFrameworkFlutterJniBootstrapMethods(olamRuntime),
 		createFrameworkNetworkMethods(olamRuntime),
+		createFrameworkMessengerMethods(olamRuntime),
 		createFrameworkConstructors(olamRuntime),
 		createFrameworkAndroidSettingsMethods(olamRuntime),
 		createFrameworkAndroidDateFormatMethods(olamRuntime),
