@@ -44,6 +44,8 @@ export function createFrameworkJavaBooleanMethods(runtime) {
 }
 
 function equalJavaBoolean(runtime, receiver, candidate) {
+	// Null-safe: null.equals() returns false in emulation (lenient).
+	if (!receiver) return 0;
 	const receiverValue = readJavaBoolean(runtime, receiver);
 	if (!isJavaBooleanReference(runtime, candidate)) return 0;
 	return receiverValue === readJavaBoolean(runtime, candidate) ? 1 : 0;

@@ -26,7 +26,8 @@ export function createFrameworkJavaPrimitiveMethods(runtime) {
 		canHandle(record) {
 			const t = record.method.classType;
 			return t === JAVA_BYTE || t === JAVA_SHORT || t === JAVA_INTEGER ||
-				t === JAVA_CHARACTER || t === JAVA_BOOLEAN;
+				t === JAVA_CHARACTER;
+			// Note: Boolean is handled by frameworkJavaBooleans.js
 		},
 		invoke(record, args) {
 			const type = record.method.classType;
@@ -35,7 +36,6 @@ export function createFrameworkJavaPrimitiveMethods(runtime) {
 			if (type === JAVA_SHORT) return invokeShort(runtime, name, record, args);
 			if (type === JAVA_INTEGER) return invokeInteger(runtime, name, record, args);
 			if (type === JAVA_CHARACTER) return invokeCharacter(runtime, name, record, args);
-			if (type === JAVA_BOOLEAN) return invokeBoolean(runtime, name, record, args);
 			throw primitiveError("ANDROID_JAVA_PRIMITIVE_UNSUPPORTED", record.signature);
 		}
 	});
@@ -149,39 +149,9 @@ function invokeCharacter(runtime, name, record, args) {
 }
 
 function invokeBoolean(runtime, name, record, args) {
-	// Static methods.
-	if (name === "hashCode" && args.length === 1 && typeof args[0] === "number") {
-		return args[0] ? 1231 : 1237;
-	}
-	if (name === "toString" && args.length === 1 && typeof args[0] === "number") {
-		return createGuestString(runtime, args[0] ? "true" : "false");
-	}
-	if (name === "parseBoolean") {
-		const s = readGuestText(runtime, args[0]);
-		return s.toLowerCase() === "true" ? 1 : 0;
-	}
-	if (name === "valueOf") {
-		const v = typeof args[0] === "string" ? args[0].toLowerCase() === "true" : Boolean(args[0]);
-		return boxBoolean(runtime, v ? 1 : 0);
-	}
-	if (name === "<init>") return initPrimitive(runtime, args[0], BOOLEAN_FIELD, Number(args[1]) ? 1 : 0);
-	if (name === "booleanValue") {
-		if (!args[0]) return 0; // Null-safe.
-		return readPrimitive(runtime, args[0], BOOLEAN_FIELD);
-	}
-	if (name === "hashCode") {
-		if (!args[0]) return 1237; // Null hashCode.
-		return readPrimitive(runtime, args[0], BOOLEAN_FIELD) ? 1231 : 1237;
-	}
-	if (name === "toString") {
-		if (!args[0]) return createGuestString(runtime, "false");
-		return createGuestString(runtime, readPrimitive(runtime, args[0], BOOLEAN_FIELD) ? "true" : "false");
-	}
-	if (name === "equals") {
-		if (!args[0]) return 0; // null.equals() -> false (emulation lenient).
-		return readPrimitive(runtime, args[0], BOOLEAN_FIELD) === readPrimitive(runtime, args[1], BOOLEAN_FIELD) ? 1 : 0;
-	}
-	throw primitiveError("ANDROID_JAVA_BOOLEAN_METHOD_UNSUPPORTED", record.signature);
+	// Deprecated: Boolean is handled by frameworkJavaBooleans.js.
+	// This is kept for reference but not used.
+	throw primitiveError("ANDROID_JAVA_BOOLEAN_DEPRECATED", record.signature);
 }
 
 function parseByteValue(runtime, args) {
