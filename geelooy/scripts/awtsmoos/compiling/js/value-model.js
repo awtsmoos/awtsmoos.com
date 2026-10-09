@@ -201,7 +201,11 @@ export function makeHeap(sizeBytes = 1 << 20) {
 export function encodeValue(heap, js) {
   if (typeof js === "number") {
     if (Number.isNaN(js)) return V_NAN;
-    if (Number.isInteger(js) && !Object.is(js, -0) && js >= Number(FIXNUM_MIN) && js <= Number(FIXNUM_MAX)) {
+    // NOTE: the upper bound is a strict < 2**60, not <= Number(FIXNUM_MAX).
+    // Number(2**60 - 1) as a JS double already rounds UP to the double 2**60,
+    // so a <= comparison admits 2**60 and fixnum() then throws RangeError.
+    // Only doubles strictly below 2^60 take the fixnum path; 2^60 itself boxes.
+    if (Number.isInteger(js) && !Object.is(js, -0) && js >= Number(FIXNUM_MIN) && js < 2 ** 60) {
       return fixnum(js);
     }
     return heap.allocDouble(js);
@@ -331,13 +335,15 @@ export function strictEqual(heap, a, b) {
   if (ta === TAG_IMM && tb === TAG_IMM && immCode(a) === IMM_NAN && immCode(b) === IMM_NAN) return false;
   if (a === b) return true; // covers fixnum eq, imm eq, smallstr eq, heapref identity
   if (ta !== tb) {
-    // Cross-tag numerics: fixnum 0 === double +0/-0.
+    // Cross-tag numerics (spec §12 rule 6): compare Number(fixnum) with the
+    // boxed double. Every fixnum is exactly representable as a double, so the
+    // numeric comparison is the exact comparison. NaN === anything is false
+    // (covers the NaN sub-case); fixnum(0) === double(-0) is true, matching V8.
     if ((ta === TAG_FIXNUM && tb === TAG_DOUBLE) || (ta === TAG_DOUBLE && tb === TAG_FIXNUM)) {
       const f = ta === TAG_FIXNUM ? a : b;
       const d = ta === TAG_DOUBLE ? a : b;
-      if (fixnumValue(f) !== 0n) return false;
-      const bits = heap.dv.getBigUint64(Number(heapPtr(d)) + HEADER_SIZE, true);
-      return (bits & 0x7fffffffffffffffn) === 0n; // +0 or -0
+      const dv = heap.dv.getFloat64(Number(heapPtr(d)) + HEADER_SIZE, true);
+      return dv === Number(fixnumValue(f));
     }
     return false;
   }

@@ -126,6 +126,17 @@ ok(isDouble(d1) && !isHeapref(d1), "double not heapref");
   // -0 keeps its sign through the box
   const negZero = decodeValue(heap, encodeValue(heap, -0));
   ok(Object.is(negZero, -0), "-0 sign preserved");
+  // Bug 2: the double 2**60 must box, not throw. Number(2**60 - 1) rounds UP
+  // to the double 2**60, so the old <= Number(FIXNUM_MAX) guard admitted it
+  // and fixnum() threw RangeError.
+  const b60 = encodeValue(heap, 2 ** 60);
+  ok(isDouble(b60), "2**60 encodes as boxed double");
+  ok(Object.is(decodeValue(heap, b60), 2 ** 60), "2**60 round-trips through box");
+  // 2**60 - 1 is not a distinct double (rounds to 2**60), so use the largest
+  // representable double strictly below 2**60 (spacing there is 256).
+  const justBelow = encodeValue(heap, 2 ** 60 - 256);
+  ok(isFixnum(justBelow), "2**60 - 256 still takes the fixnum path");
+  eq(decodeValue(heap, justBelow), 2 ** 60 - 256, "2**60 - 256 fixnum round-trip");
 }
 
 // --- nested marshal ---
@@ -156,7 +167,17 @@ ok(isDouble(d1) && !isHeapref(d1), "double not heapref");
   ok(strictEqual(heap, mz, pz), "-0 === 0");
   ok(strictEqual(heap, mz, encodeValue(heap, 0)), "-0 === +0 (boxed)");
   ok(!strictEqual(heap, encodeValue(heap, 0.5), fixnum(0)), "0.5 !== 0");
-  ok(strictEqual(heap, encodeValue(heap, 5), fixnum(5)), "boxed 5.0 === fixnum 5");
+  // spec §12 rule 6: cross-tag fixnum vs a GENUINELY boxed double
+  // (encodeValue(heap, 5) collapses to a fixnum, so it cannot exercise this path).
+  const boxed5 = heap.allocDouble(5.0);
+  ok(strictEqual(heap, boxed5, fixnum(5)), "true boxed 5.0 === fixnum 5");
+  ok(strictEqual(heap, fixnum(5), boxed5), "fixnum 5 === true boxed 5.0");
+  ok(!strictEqual(heap, boxed5, fixnum(6)), "true boxed 5.0 !== fixnum 6");
+  ok(!strictEqual(heap, fixnum(5), heap.allocDouble(5.5)), "fixnum 5 !== boxed 5.5");
+  ok(!strictEqual(heap, fixnum(5), heap.allocDouble(-0)), "fixnum 5 !== boxed -0");
+  ok(!strictEqual(heap, fixnum(5), heap.allocDouble(NaN)), "fixnum 5 !== boxed NaN");
+  ok(strictEqual(heap, fixnum(0), heap.allocDouble(-0)), "fixnum 0 === boxed -0");
+  ok(strictEqual(heap, fixnum(-7), heap.allocDouble(-7.0)), "fixnum -7 === boxed -7.0");
   const a1 = encodeValue(heap, [1]), a2 = encodeValue(heap, [1]);
   ok(!strictEqual(heap, a1, a2), "arrays === by identity");
   ok(strictEqual(heap, a1, a1), "array === itself");

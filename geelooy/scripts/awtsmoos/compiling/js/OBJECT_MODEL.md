@@ -17,6 +17,22 @@ marshal bridge to the `DefaultMerkavaHost` interpreter.
 
 ## CHANGELOG
 
+- **v2.0.1 — 2026-10-09 (fix-up).** Two verified-by-differential bugs fixed:
+  - *§12 rule 6 clarification:* `strictEqual` on cross-tag `fixnum` vs boxed
+    double compared only the zero sub-case; all other integer-valued boxed
+    doubles returned `false`. Rule 6 is exact: every fixnum is exactly
+    representable as a double, so the protocol is `Number(fixnum) ===`
+    the boxed double (`fixnum(5) === double(5.0)` → true; `NaN !== NaN`;
+    `fixnum(0) === double(-0)` → true). Implementations must use genuinely
+    boxed doubles (via `allocDouble`) when testing this path — `encodeValue`
+    of an integer-valued number collapses to a fixnum and never exercises it.
+  - *Encoder boundary rule:* the `encodeValue` number fast path used
+    `js <= Number(FIXNUM_MAX)`, but the double `Number(2**60 - 1)` already
+    rounds UP to `2**60`, which the guard admitted and `fixnum()` then
+    rejected with `RangeError`. The rule is now strict: only doubles with
+    `js < 2**60` take the fixnum path; `2**60` itself is boxed. (`2**60 - 1`
+    is not a distinct double at all; the largest boxed double is `2**60`,
+    the largest fixnum double is `2**60 - 256`.)
 - **v2.0.0 — 2026-10-09 (HEAP-1, first draft).** Initial contract: 3-bit tags
   (`000` fixnum / `001` heapref / `010` boxed double / `011` small string /
   `100` immediate); 16-byte headers; types STRING/ARRAY/OBJECT/DOUBLE/CLOSURE/
@@ -310,7 +326,8 @@ Codegen must implement exactly this (differential-tested vs V8):
 5. Same tag `001` (heapref): identity, **except strings compare by content**
    (length + units) — `'a' === 'a'` is true for distinct heap strings.
 6. Cross-tag number compare beyond rule 3 (e.g. `fixnum(5)` vs boxed `5.0`):
-   compare `Number(fixnum)` with the double bits; NaN → false.
+   compare `Number(fixnum)` with the double bits — every fixnum is exactly
+   representable, so the numeric comparison is exact. NaN → false.
 
 `==` (abstract equality) follows `ToPrimitive`/`ToNumber` per spec — later
 stream; the value model only guarantees the primitives above.
