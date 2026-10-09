@@ -1,0 +1,615 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos crowns the Home doorway in dream gold: a living hero that answers the
+pointer with true depth, an aurora that breathes behind the particle sky, portals
+that open like irises, and a search vessel that feels awake. Every motion is
+transform/opacity only, honors reduced-motion, and wins by cascade order —
+never by !important.
+*/
+@property --dream-spin {
+	syntax: "<angle>";
+	inherits: false;
+	initial-value: 0deg;
+}
+/* B"H — Dream overhaul tokens: layered on the dream palette, both themes. */
+html[data-geelooy-route="home"] {
+	--dream-spring: cubic-bezier(.2, .9, .25, 1.18);
+	--dream-spring-soft: cubic-bezier(.2, .8, .2, 1);
+	--dream-shimmer-hi: #caa14a;
+	--dream-aurora-1: rgba(202, 161, 74, .13);
+	--dream-aurora-2: rgba(179, 84, 30, .09);
+	--dream-aurora-3: rgba(138, 109, 59, .11);
+	--dream-sheen: rgba(255, 255, 255, .16);
+	--dream-optical-glow: 0 0 0 4px var(--home-glow), 0 18px 46px rgba(90, 70, 40, .18);
+}
+html[data-geelooy-route="home"][data-theme="dark"] {
+	--dream-shimmer-hi: #ffd98a;
+	--dream-aurora-1: rgba(232, 189, 104, .15);
+	--dream-aurora-2: rgba(232, 163, 77, .10);
+	--dream-aurora-3: rgba(212, 169, 78, .13);
+	--dream-sheen: rgba(255, 255, 255, .10);
+	--dream-optical-glow: 0 0 0 4px var(--home-glow), 0 18px 46px rgba(0, 0, 0, .42);
+}
+/* ============ AURORA ATMOSPHERE ============ */
+/* Two slow-drifting aurora bands live inside the ambient glow; the particle
+   sky keeps doing the heavy lifting on canvas while CSS breathes around it. */
+body[data-geelooy-route="home"] .ambient-glow::before, body[data-geelooy-route="home"] .ambient-glow::after {
+	content: "";
+	position: absolute;
+	inset: -24%;
+	border-radius: 50%;
+	pointer-events: none;
+}
+body[data-geelooy-route="home"] .ambient-glow::before {
+	background:
+		conic-gradient(from 20deg, transparent 0deg, var(--dream-aurora-1) 70deg, transparent 140deg, var(--dream-aurora-2) 220deg, transparent 300deg),
+		radial-gradient(circle at 60% 40%, var(--dream-aurora-3), transparent 62%);
+	filter: blur(56px);
+	opacity: .9;
+	animation: dream-aurora-drift 34s ease-in-out infinite alternate;
+}
+body[data-geelooy-route="home"] .ambient-glow::after {
+	background:
+		conic-gradient(from 200deg, transparent 0deg, var(--dream-aurora-2) 90deg, transparent 170deg, var(--dream-aurora-1) 260deg, transparent 330deg);
+	filter: blur(72px);
+	opacity: .7;
+	animation: dream-aurora-drift 46s ease-in-out infinite alternate-reverse;
+}
+@keyframes dream-aurora-drift {
+	from { transform: rotate(0deg) scale(1); }
+	to { transform: rotate(46deg) scale(1.12); }
+}
+/* The running sky sits a breath higher so the dream gold truly shimmers. */
+body[data-geelooy-route="home"] .particle-sky[data-particle-status="running"] {
+	opacity: .33;
+}
+/* ============ HERO: TRUE 3D DEPTH ============ */
+body[data-geelooy-route="home"] .hero-shliach {
+	perspective: 1600px;
+}
+body[data-geelooy-route="home"] .shliach-hero-card {
+	transform: rotateX(calc(var(--tilt-x, 0deg) * 2.1)) rotateY(calc(var(--tilt-y, 0deg) * 2.1));
+	transform-style: preserve-3d;
+	perspective: 1200px;
+	transition: transform .5s var(--dream-spring-soft), box-shadow .3s ease;
+	will-change: transform;
+}
+/* The artwork sinks back into the card while it counter-sways: parallax. */
+body[data-geelooy-route="home"] .shliach-hero-media {
+	transform: translateZ(-72px) scale(1.12) rotateX(calc(var(--tilt-x, 0deg) * -.7)) rotateY(calc(var(--tilt-y, 0deg) * -.7));
+	transition: transform .55s var(--dream-spring-soft);
+}
+/* The words float toward the visitor while counter-swaying against the art.
+   The full transition list is preserved here so the reveal controller's
+   opacity/filter choreography keeps working beneath the parallax. */
+body[data-geelooy-route="home"] .shliach-hero-content {
+	transform: translateZ(52px) rotateX(calc(var(--tilt-x, 0deg) * -.45)) rotateY(calc(var(--tilt-y, 0deg) * -.45));
+	transition:
+		transform .55s var(--dream-spring-soft),
+		opacity .52s ease,
+		filter .62s ease;
+	transition-delay:
+		0s,
+		calc(var(--reveal-order, 0) * 34ms),
+		calc(var(--reveal-order, 0) * 34ms);
+}
+/* Idle Ken Burns drift on the artwork; the tilt above adds the life. */
+body[data-geelooy-route="home"] .shliach-hero-image {
+	animation: dream-kenburns 28s ease-in-out infinite alternate;
+	will-change: transform;
+}
+@keyframes dream-kenburns {
+	from { transform: scale(1.02) translate(0, 0); }
+	to { transform: scale(1.085) translate(-1.1%, .9%); }
+}
+/* A slow gold comet circles the card's edge — the dream shimmer line. */
+body[data-geelooy-route="home"] .shliach-hero-card::before {
+	content: "";
+	position: absolute;
+	inset: -1px;
+	z-index: 3;
+	border-radius: inherit;
+	padding: 1.5px;
+	background: conic-gradient(from var(--dream-spin), transparent 0deg, transparent 250deg, var(--dream-shimmer-hi) 292deg, transparent 334deg);
+	-webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+	-webkit-mask-composite: xor;
+	mask-composite: exclude;
+	pointer-events: none;
+	opacity: .8;
+	animation: dream-spin 9s linear infinite;
+}
+@keyframes dream-spin {
+	to { --dream-spin: 360deg; }
+}
+/* Staggered springy entrance for the hero words once revealed. */
+body[data-geelooy-route="home"] .has-reveal-motion .shliach-hero-content.is-revealed > * {
+	animation: dream-rise .72s var(--dream-spring) both;
+}
+body[data-geelooy-route="home"] .has-reveal-motion .shliach-hero-content.is-revealed > *:nth-child(1) { animation-delay: .05s; }
+body[data-geelooy-route="home"] .has-reveal-motion .shliach-hero-content.is-revealed > *:nth-child(2) { animation-delay: .13s; }
+body[data-geelooy-route="home"] .has-reveal-motion .shliach-hero-content.is-revealed > *:nth-child(3) { animation-delay: .21s; }
+body[data-geelooy-route="home"] .has-reveal-motion .shliach-hero-content.is-revealed > *:nth-child(4) { animation-delay: .3s; }
+@keyframes dream-rise {
+	from { opacity: 0; transform: translateY(20px) scale(.984); filter: blur(4px); }
+}
+/* The Shliach doorway link: magnetic-ready, deeper hover, alive press. */
+body[data-geelooy-route="home"] .shliach-hero-link {
+	transform: translate(var(--mag-x, 0px), var(--mag-y, 0px));
+	transition: border-color 160ms ease, box-shadow 200ms ease, transform 200ms var(--dream-spring-soft);
+}
+@media (hover: hover) and (pointer: fine) {
+	body[data-geelooy-route="home"] .shliach-hero-link:hover {
+		border-color: var(--dream-shimmer-hi);
+		box-shadow: var(--dream-optical-glow), 0 0 34px var(--home-glow);
+		transform: translate(var(--mag-x, 0px), calc(var(--mag-y, 0px) - 3px)) scale(1.02);
+	}
+}
+body[data-geelooy-route="home"] .shliach-hero-link:active {
+	transform: translate(var(--mag-x, 0px), calc(var(--mag-y, 0px) + 1px)) scale(.97);
+	filter: brightness(.97);
+}
+body[data-geelooy-route="home"] .shliach-hero-link:focus-visible {
+	outline: 3px solid var(--focus-ring);
+	outline-offset: 3px;
+	box-shadow: var(--dream-optical-glow);
+}
+body[data-geelooy-route="home"] .shliach-hero-link[aria-disabled="true"] {
+	opacity: .55;
+	cursor: not-allowed;
+	transform: none;
+}
+/* The link arrow leans forward on hover — a doorway that beckons. */
+body[data-geelooy-route="home"] .shliach-hero-link-arrow {
+	display: inline-block;
+	transition: transform 220ms var(--dream-spring);
+}
+@media (hover: hover) and (pointer: fine) {
+	body[data-geelooy-route="home"] .shliach-hero-link:hover .shliach-hero-link-arrow {
+		transform: translateX(5px);
+	}
+}
+/* ============ SEARCH: THE VESSEL WAKES ============ */
+body[data-geelooy-route="home"] .search {
+	transition: border-color .2s ease, box-shadow .25s ease, border-radius .2s ease, transform .25s var(--dream-spring-soft);
+}
+body[data-geelooy-route="home"] .search:focus-within {
+	transform: translateY(-2px);
+}
+body[data-geelooy-route="home"] .search textarea {
+	caret-color: var(--home-accent-strong);
+	transition: transform .25s var(--dream-spring-soft);
+}
+body[data-geelooy-route="home"] .search:focus-within textarea {
+	transform: translateY(-1px);
+}
+/* While a question lives inside, the search sigil breathes gold. */
+body[data-geelooy-route="home"] .search.has-query .search-symbol {
+	animation: dream-sigil-breathe 1.8s ease-in-out infinite;
+}
+@keyframes dream-sigil-breathe {
+	0%, 100% { transform: scale(1.06); box-shadow: 0 0 0 0 transparent; }
+	50% { transform: scale(1.15); box-shadow: 0 0 20px var(--home-glow); }
+}
+/* The submit action: magnetic-ready, springs toward the pointer. */
+body[data-geelooy-route="home"] .search button {
+	transform: translate(var(--mag-x, 0px), var(--mag-y, 0px));
+	transition: background .16s ease, border-color .16s ease, transform .2s var(--dream-spring-soft), box-shadow .2s ease, filter .12s ease;
+}
+body[data-geelooy-route="home"] .search button:hover, body[data-geelooy-route="home"] .search button:focus-visible {
+	transform: translate(var(--mag-x, 0px), calc(var(--mag-y, 0px) - 1px)) scale(1.03);
+}
+body[data-geelooy-route="home"] .search button:active {
+	transform: translate(var(--mag-x, 0px), calc(var(--mag-y, 0px) + 1px)) scale(.97);
+}
+body[data-geelooy-route="home"] .search button:disabled {
+	transform: none;
+}
+/* Suggestion options arrive in a soft cascade. */
+body[data-geelooy-route="home"] .omnibox-panel:not([hidden]) .omnibox-option {
+	animation: dream-opt-in .3s var(--dream-spring-soft) both;
+}
+body[data-geelooy-route="home"] .omnibox-panel:not([hidden]) .omnibox-option:nth-child(1) { animation-delay: .01s; }
+body[data-geelooy-route="home"] .omnibox-panel:not([hidden]) .omnibox-option:nth-child(2) { animation-delay: .04s; }
+body[data-geelooy-route="home"] .omnibox-panel:not([hidden]) .omnibox-option:nth-child(3) { animation-delay: .07s; }
+body[data-geelooy-route="home"] .omnibox-panel:not([hidden]) .omnibox-option:nth-child(4) { animation-delay: .1s; }
+body[data-geelooy-route="home"] .omnibox-panel:not([hidden]) .omnibox-option:nth-child(5) { animation-delay: .13s; }
+body[data-geelooy-route="home"] .omnibox-panel:not([hidden]) .omnibox-option:nth-child(6) { animation-delay: .16s; }
+body[data-geelooy-route="home"] .omnibox-panel:not([hidden]) .omnibox-option:nth-child(7) { animation-delay: .19s; }
+body[data-geelooy-route="home"] .omnibox-panel:not([hidden]) .omnibox-option:nth-child(8) { animation-delay: .22s; }
+@keyframes dream-opt-in {
+	from { opacity: 0; transform: translateY(7px) scale(.99); }
+}
+body[data-geelooy-route="home"] .omnibox-symbol {
+	transition: transform .22s var(--dream-spring), background .16s ease, color .16s ease;
+}
+body[data-geelooy-route="home"] .omnibox-option:hover .omnibox-symbol, body[data-geelooy-route="home"] .omnibox-option.is-active .omnibox-symbol {
+	transform: translateX(2px) rotate(-7deg) scale(1.06);
+	background: var(--home-accent);
+	color: var(--home-accent-ink);
+}
+body[data-geelooy-route="home"] .omnibox-option:disabled {
+	opacity: .55;
+	cursor: not-allowed;
+}
+/* ============ WORLDS: STEPPING THROUGH PORTALS ============ */
+/* The closed launcher breathes a quiet invitation. */
+body[data-geelooy-route="home"] .world-launcher:not([open]) .launcher-button {
+	animation: dream-invite 3.4s ease-in-out infinite;
+}
+@keyframes dream-invite {
+	0%, 100% { box-shadow: 0 0 0 0 transparent; }
+	50% { box-shadow: 0 0 0 6px var(--home-glow); }
+}
+/* The panel opens like an iris: spring, blur, lift. */
+body[data-geelooy-route="home"] .world-launcher[open] .world-panel {
+	animation: dream-portal-in .38s var(--dream-spring) both;
+}
+@keyframes dream-portal-in {
+	from { opacity: 0; transform: translate(-50%, -18px) scale(.965); filter: blur(5px); }
+}
+/* Tiles cascade in as the portal opens. */
+body[data-geelooy-route="home"] .world-launcher[open] .world-tile {
+	animation: dream-tile-in .42s var(--dream-spring) both;
+}
+body[data-geelooy-route="home"] .world-launcher[open] .world-tile:nth-child(1) { animation-delay: .03s; }
+body[data-geelooy-route="home"] .world-launcher[open] .world-tile:nth-child(2) { animation-delay: .055s; }
+body[data-geelooy-route="home"] .world-launcher[open] .world-tile:nth-child(3) { animation-delay: .08s; }
+body[data-geelooy-route="home"] .world-launcher[open] .world-tile:nth-child(4) { animation-delay: .105s; }
+body[data-geelooy-route="home"] .world-launcher[open] .world-tile:nth-child(5) { animation-delay: .13s; }
+body[data-geelooy-route="home"] .world-launcher[open] .world-tile:nth-child(6) { animation-delay: .155s; }
+body[data-geelooy-route="home"] .world-launcher[open] .world-tile:nth-child(7) { animation-delay: .18s; }
+body[data-geelooy-route="home"] .world-launcher[open] .world-tile:nth-child(8) { animation-delay: .205s; }
+body[data-geelooy-route="home"] .world-launcher[open] .world-tile:nth-child(9) { animation-delay: .23s; }
+body[data-geelooy-route="home"] .world-launcher[open] .world-tile:nth-child(10) { animation-delay: .255s; }
+body[data-geelooy-route="home"] .world-launcher[open] .world-tile:nth-child(11) { animation-delay: .28s; }
+body[data-geelooy-route="home"] .world-launcher[open] .world-tile:nth-child(12) { animation-delay: .305s; }
+body[data-geelooy-route="home"] .world-launcher[open] .world-tile:nth-child(13) { animation-delay: .33s; }
+body[data-geelooy-route="home"] .world-launcher[open] .world-tile:nth-child(14) { animation-delay: .355s; }
+body[data-geelooy-route="home"] .world-launcher[open] .world-tile:nth-child(15) { animation-delay: .38s; }
+body[data-geelooy-route="home"] .world-launcher[open] .world-tile:nth-child(n+16) { animation-delay: .405s; }
+@keyframes dream-tile-in {
+	from { opacity: 0; transform: translateY(14px) scale(.94); filter: blur(3px); }
+}
+/* Tiles are magnetic and glow in their own world-tone on hover. */
+body[data-geelooy-route="home"] .world-tile {
+	position: relative;
+	overflow: hidden;
+	transform: translate3d(var(--mag-x, 0px), var(--mag-y, 0px), 0);
+	transition: border-color .2s ease, background .2s ease, transform .22s var(--dream-spring-soft), box-shadow .25s ease;
+}
+body[data-geelooy-route="home"] .world-tile::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(105deg, transparent 42%, var(--dream-sheen) 50%, transparent 58%);
+	transform: translateX(-130%);
+	transition: transform .7s ease;
+	pointer-events: none;
+}
+body[data-geelooy-route="home"] .world-tile:hover, body[data-geelooy-route="home"] .world-tile:focus-visible {
+	border-color: rgba(var(--world-accent), .55);
+	box-shadow: 0 16px 40px rgba(var(--world-accent), .3), inset 0 1px var(--home-inset-hi);
+	transform: translate3d(var(--mag-x, 0px), calc(var(--mag-y, 0px) - 3px), 0);
+}
+body[data-geelooy-route="home"] .world-tile:hover::after, body[data-geelooy-route="home"] .world-tile:focus-visible::after {
+	transform: translateX(130%);
+}
+body[data-geelooy-route="home"] .world-tile:active {
+	transform: translate3d(var(--mag-x, 0px), calc(var(--mag-y, 0px) + 1px), 0) scale(.97);
+}
+body[data-geelooy-route="home"] .world-tile span {
+	transition: transform .26s var(--dream-spring), background .2s ease, box-shadow .25s ease;
+}
+body[data-geelooy-route="home"] .world-tile:hover span, body[data-geelooy-route="home"] .world-tile:focus-visible span {
+	transform: rotate(-8deg) scale(1.1);
+	box-shadow: 0 12px 28px rgba(var(--world-accent), .35), inset 0 1px var(--home-inset-hi);
+}
+body[data-geelooy-route="home"] .world-tile b {
+	color: var(--text-primary);
+}
+body[data-geelooy-route="home"] .world-empty {
+	color: var(--text-muted);
+	font-size: .8rem;
+	text-align: center;
+	padding: 1.2rem .5rem;
+}
+/* ============ PORTAL SHORTCUTS: MAGNETIC DOORS ============ */
+body[data-geelooy-route="home"] .portal-shortcuts a {
+	position: relative;
+	overflow: hidden;
+	transform: translate(var(--mag-x, 0px), var(--mag-y, 0px));
+	transition: background .18s ease, border-color .18s ease, box-shadow .25s ease, filter .12s ease, transform .22s var(--dream-spring-soft);
+}
+body[data-geelooy-route="home"] .portal-shortcuts a::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(105deg, transparent 42%, var(--dream-sheen) 50%, transparent 58%);
+	transform: translateX(-130%);
+	transition: transform .7s ease;
+	pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+	body[data-geelooy-route="home"] .portal-shortcuts a:hover {
+		border-color: var(--panel-border-strong);
+		background: var(--panel-raised);
+		box-shadow: var(--dream-optical-glow), 0 0 30px var(--home-glow);
+		transform: translate(var(--mag-x, 0px), calc(var(--mag-y, 0px) - 3px)) scale(1.015);
+	}
+	body[data-geelooy-route="home"] .portal-shortcuts a:hover::after {
+		transform: translateX(130%);
+	}
+}
+body[data-geelooy-route="home"] .portal-shortcuts a:active {
+	border-color: var(--home-accent);
+	filter: brightness(.96);
+	transform: translate(var(--mag-x, 0px), calc(var(--mag-y, 0px) + 1px)) scale(.985);
+}
+body[data-geelooy-route="home"] .portal-shortcuts a:focus-visible {
+	outline: 3px solid var(--focus-ring);
+	outline-offset: 2px;
+	box-shadow: var(--dream-optical-glow);
+}
+/* The glyph springs up and tilts as the door opens. */
+body[data-geelooy-route="home"] .portal-shortcuts a span {
+	transition: transform .26s var(--dream-spring), background .18s ease, color .18s ease, box-shadow .25s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+	body[data-geelooy-route="home"] .portal-shortcuts a:hover span {
+		transform: translateY(-3px) rotate(-8deg) scale(1.08);
+		background: var(--home-accent);
+		color: var(--home-accent-ink);
+		box-shadow: 0 10px 26px var(--home-glow);
+	}
+}
+/* The name underlines itself in gold as the pointer arrives. */
+body[data-geelooy-route="home"] .portal-shortcuts strong {
+	color: var(--text-primary);
+	background-image: linear-gradient(var(--home-accent-strong), var(--home-accent-strong));
+	background-size: 0% 2px;
+	background-repeat: no-repeat;
+	background-position: left calc(100% - 1px);
+	transition: background-size .28s var(--dream-spring-soft);
+}
+@media (hover: hover) and (pointer: fine) {
+	body[data-geelooy-route="home"] .portal-shortcuts a:hover strong {
+		background-size: 100% 2px;
+	}
+}
+body[data-geelooy-route="home"] .portal-shortcuts small {
+	color: var(--text-muted);
+}
+/* ============ MOBILE DOCK: GLASS PERFECTION ============ */
+@media (max-width: 680px) {
+	body[data-geelooy-route="home"] .mobile-dock {
+		background: color-mix(in srgb, var(--panel-background) 82%, transparent);
+		-webkit-backdrop-filter: blur(22px) saturate(1.3);
+		backdrop-filter: blur(22px) saturate(1.3);
+		box-shadow: var(--home-card-shadow), 0 0 34px var(--home-glow), inset 0 1px var(--home-inset-hi);
+	}
+	body[data-geelooy-route="home"] .mobile-dock a {
+		position: relative;
+		transform: translate(var(--mag-x, 0px), var(--mag-y, 0px));
+		transition: background .18s ease, border-color .18s ease, color .18s ease, filter .12s ease, transform .22s var(--dream-spring-soft), box-shadow .22s ease;
+	}
+	body[data-geelooy-route="home"] .mobile-dock a[aria-current="page"] {
+		border-color: var(--home-accent);
+		background: var(--home-accent-soft);
+		color: var(--home-accent-strong);
+		box-shadow: 0 6px 22px var(--home-glow), inset 0 1px var(--home-inset-hi);
+	}
+	body[data-geelooy-route="home"] .mobile-dock a[aria-current="page"]::before {
+		content: "";
+		position: absolute;
+		top: 5px;
+		left: 50%;
+		width: 20px;
+		height: 3px;
+		border-radius: 999px;
+		background: var(--home-accent);
+		box-shadow: 0 0 10px var(--home-accent);
+		transform: translateX(-50%);
+	}
+	body[data-geelooy-route="home"] .mobile-dock a:active {
+		border-color: var(--home-accent);
+		background: var(--panel-raised);
+		filter: brightness(.96);
+		transform: translate(var(--mag-x, 0px), calc(var(--mag-y, 0px) + 1px)) scale(.94);
+	}
+	body[data-geelooy-route="home"] .mobile-dock a:active span {
+		transform: scale(.88);
+	}
+	body[data-geelooy-route="home"] .mobile-dock a span {
+		color: inherit;
+		transition: transform .2s var(--dream-spring);
+	}
+	body[data-geelooy-route="home"] .mobile-dock a small {
+		color: inherit;
+	}
+	body[data-geelooy-route="home"] .mobile-dock a:focus-visible {
+		outline: 3px solid var(--focus-ring);
+		outline-offset: 2px;
+	}
+}
+/* ============ HEADER: LIVING IDENTITY ============ */
+/* The Aleph breathes a slow gold halo. */
+body[data-geelooy-route="home"] .brand-mark {
+	position: relative;
+	overflow: hidden;
+	animation: dream-brand-breathe 5s ease-in-out infinite;
+}
+@keyframes dream-brand-breathe {
+	0%, 100% { box-shadow: inset 0 1px var(--home-inset-hi), 0 8px 24px var(--home-glow); }
+	50% { box-shadow: inset 0 1px var(--home-inset-hi), 0 8px 34px var(--home-glow), 0 0 18px var(--home-glow); }
+}
+body[data-geelooy-route="home"] .brand-mark::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(105deg, transparent 42%, var(--dream-sheen) 50%, transparent 58%);
+	transform: translateX(-130%);
+	transition: transform .7s ease;
+	pointer-events: none;
+}
+body[data-geelooy-route="home"] .brand:hover .brand-mark::after, body[data-geelooy-route="home"] .brand:focus-visible .brand-mark::after {
+	transform: translateX(130%);
+}
+body[data-geelooy-route="home"] .brand-copy strong {
+	color: var(--text-primary);
+}
+body[data-geelooy-route="home"] .brand-copy small {
+	color: var(--text-muted);
+}
+/* The living-system dot pings softly outward. */
+body[data-geelooy-route="home"] .system-signal i {
+	position: relative;
+}
+body[data-geelooy-route="home"] .system-signal i::after {
+	content: "";
+	position: absolute;
+	inset: -5px;
+	border: 2px solid var(--home-success);
+	border-radius: 50%;
+	opacity: .55;
+	animation: dream-ping 2.4s ease-out infinite;
+	pointer-events: none;
+}
+@keyframes dream-ping {
+	0% { transform: scale(.5); opacity: .6; }
+	80%, 100% { transform: scale(1.25); opacity: 0; }
+}
+body[data-geelooy-route="home"] .system-signal span {
+	color: var(--text-muted);
+}
+/* The launcher glyph twinkles: nine quiet points, one alive. */
+body[data-geelooy-route="home"] .launcher-glyph {
+	animation: dream-glyph-twinkle 3.8s ease-in-out infinite;
+}
+@keyframes dream-glyph-twinkle {
+	0%, 100% { opacity: .92; }
+	50% { opacity: .55; }
+}
+/* ============ FOOTER: QUIET SHORELINE ============ */
+body[data-geelooy-route="home"] .site-footer {
+	position: relative;
+	border-top: 1px solid transparent;
+}
+body[data-geelooy-route="home"] .site-footer::before {
+	content: "";
+	position: absolute;
+	top: -1px;
+	right: 12%;
+	left: 12%;
+	height: 1px;
+	background: linear-gradient(90deg, transparent, var(--home-line-soft) 30%, var(--home-line-soft) 70%, transparent);
+	pointer-events: none;
+}
+body[data-geelooy-route="home"] .site-footer p {
+	color: var(--text-muted);
+}
+body[data-geelooy-route="home"] .site-footer a {
+	position: relative;
+	color: var(--text-muted);
+	transition: background .18s ease, color .18s ease, transform .18s var(--dream-spring-soft);
+}
+body[data-geelooy-route="home"] .site-footer a::after {
+	content: "";
+	position: absolute;
+	right: .45rem;
+	bottom: 8px;
+	left: .45rem;
+	height: 1px;
+	background: var(--home-accent-strong);
+	transform: scaleX(0);
+	transform-origin: left center;
+	transition: transform .26s var(--dream-spring-soft);
+	pointer-events: none;
+}
+body[data-geelooy-route="home"] .site-footer a:hover, body[data-geelooy-route="home"] .site-footer a:focus-visible {
+	background: var(--home-accent-soft);
+	color: var(--text-primary);
+}
+body[data-geelooy-route="home"] .site-footer a:hover::after, body[data-geelooy-route="home"] .site-footer a:focus-visible::after {
+	transform: scaleX(1);
+}
+body[data-geelooy-route="home"] .site-footer a:active {
+	background: var(--home-accent-soft);
+	color: var(--text-primary);
+	transform: scale(.97);
+}
+body[data-geelooy-route="home"] .site-footer a:focus-visible {
+	outline: 3px solid var(--focus-ring);
+	outline-offset: 2px;
+}
+/* ============ FINISHING DREAM DETAILS ============ */
+body[data-geelooy-route="home"] ::selection {
+	background: var(--home-accent-soft);
+	color: var(--text-primary);
+}
+body[data-geelooy-route="home"] .world-panel {
+	scrollbar-width: thin;
+	scrollbar-color: var(--panel-border-strong) transparent;
+}
+/* The world-panel heading carries a soft portal wash behind the grid. */
+body[data-geelooy-route="home"] .world-panel::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	background: radial-gradient(560px 220px at 50% -60px, var(--home-glow), transparent 70%);
+	pointer-events: none;
+}
+/* Launcher filter input: gold caret, alive focus. */
+body[data-geelooy-route="home"] .launcher-search input {
+	caret-color: var(--home-accent-strong);
+	color: var(--text-primary);
+}
+body[data-geelooy-route="home"] .launcher-search input::placeholder {
+	color: var(--home-placeholder);
+}
+/* On small screens the dream stays calm: less tilt, softer shimmer. */
+@media (max-width: 680px) {
+	body[data-geelooy-route="home"] .shliach-hero-card {
+		transform: rotateX(calc(var(--tilt-x, 0deg) * 1.1)) rotateY(calc(var(--tilt-y, 0deg) * 1.1));
+	}
+	body[data-geelooy-route="home"] .shliach-hero-media {
+		transform: translateZ(-36px) scale(1.1) rotateX(calc(var(--tilt-x, 0deg) * -.4)) rotateY(calc(var(--tilt-y, 0deg) * -.4));
+	}
+	body[data-geelooy-route="home"] .shliach-hero-content {
+		transform: translateZ(26px);
+	}
+	body[data-geelooy-route="home"] .shliach-hero-card::before {
+		animation-duration: 14s;
+		opacity: .55;
+	}
+}
+/* ============ REDUCED MOTION: EVERYTHING RESTS ============ */
+@media (prefers-reduced-motion: reduce) {
+	body[data-geelooy-route="home"] .ambient-glow::before, body[data-geelooy-route="home"] .ambient-glow::after,
+	body[data-geelooy-route="home"] .shliach-hero-image,
+	body[data-geelooy-route="home"] .shliach-hero-card::before,
+	body[data-geelooy-route="home"] .world-launcher:not([open]) .launcher-button,
+	body[data-geelooy-route="home"] .brand-mark,
+	body[data-geelooy-route="home"] .launcher-glyph,
+	body[data-geelooy-route="home"] .system-signal i::after,
+	body[data-geelooy-route="home"] .search.has-query .search-symbol {
+		animation: none;
+	}
+	body[data-geelooy-route="home"] .shliach-hero-card,
+	body[data-geelooy-route="home"] .shliach-hero-media,
+	body[data-geelooy-route="home"] .shliach-hero-content,
+	body[data-geelooy-route="home"] .has-reveal-motion .shliach-hero-content.is-revealed > *,
+	body[data-geelooy-route="home"] .world-launcher[open] .world-panel,
+	body[data-geelooy-route="home"] .world-launcher[open] .world-tile,
+	body[data-geelooy-route="home"] .omnibox-panel:not([hidden]) .omnibox-option {
+		animation: none;
+		transform: none;
+		transition: none;
+	}
+	body[data-geelooy-route="home"] .world-tile::after,
+	body[data-geelooy-route="home"] .portal-shortcuts a::after,
+	body[data-geelooy-route="home"] .brand-mark::after {
+		display: none;
+	}
+}

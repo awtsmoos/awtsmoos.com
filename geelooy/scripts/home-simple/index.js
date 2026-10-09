@@ -16,8 +16,14 @@ import { installShliachSpotlight } from "./ShliachSpotlight.js?v=mobile-visual-0
 /** Boots the Home route against the current document. */
 async function revealHomeTiferes() {
 	try {
-		const { HomeTiferesRuntime } = await import("./HomeTiferesRuntime.js?v=home-runtime-007");
-		return new HomeTiferesRuntime(document).connect();
+		const { HomeTiferesRuntime } = await import("./HomeTiferesRuntime.js?v=home-runtime-008");
+		const runtime = new HomeTiferesRuntime(document).connect();
+		// B"H dream-overhaul: magnetic doors install after the world tiles render;
+		// fire-and-forget so a motion failure can never break the boot.
+		void import("./dream-motion.js?v=dream-motion-001")
+			.then(module => module.installDreamMotion(document))
+			.catch(() => {});
+		return runtime;
 	} catch (error) {
 		console.error("Awtsmoos Home enhanced runtime failed; revealing core doors.", error);
 		const menuRoot = document.querySelector("[data-menu-root]");
