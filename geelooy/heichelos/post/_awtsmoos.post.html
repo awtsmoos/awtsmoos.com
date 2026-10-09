@@ -913,6 +913,15 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 		:root .post-reader-localized-context .meluket-qa-title {
 			color: var(--sefer-title-ink);
 		}
+		/* B"H — the בס״ד title must never render faint: explicit ink, full
+		   opacity, no glow washout in light mode. */
+		:root .post-reader-localized-context .meluket-sefer-title-he {
+			opacity: 1;
+			text-shadow: none;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .meluket-sefer-title-he {
+			opacity: 1;
+		}
 		:root .post-reader-localized-context .meluket-hebrew,
 		:root .post-reader-localized-context .meluket-english {
 			color: var(--sefer-ink);
@@ -1205,13 +1214,34 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 			font-size: 1.25rem;
 			line-height: 1;
 		}
+		/* Phrase pairs — TRUE interleaving: each pair holds one Hebrew phrase
+		   block immediately followed by ITS English block, never a separate
+		   English vessel. (Yaakov defect #3.) */
+		:root .post-reader-localized-context .meluket-phrase-pair {
+			margin: 0 0 2.2em;
+		}
+		:root .post-reader-localized-context .meluket-phrase-pair:last-child {
+			margin-bottom: 0;
+		}
 		/* Hebrew: the ikar. Big traditional serif, generous nikkud line-height.
 		   Sized for VISUAL parity with the English: Hebrew glyphs render
-		   smaller than Latin at the same em size, so the Hebrew runs larger. */
+		   smaller than Latin at the same em size, so the Hebrew runs larger —
+		   never smaller than the English. */
+		:root .post-reader-localized-context .meluket-phrase--he {
+			font-family: var(--dream-hebrew-font);
+			font-weight: 700;
+			font-size: clamp(3.2rem, 9vw, 5.2rem);
+			line-height: 1.85;
+			letter-spacing: 0.005em;
+			color: var(--sefer-title-ink);
+			margin: 0;
+			text-wrap: pretty;
+			text-rendering: optimizeLegibility;
+		}
 		:root .post-reader-localized-context .meluket-hebrew {
 			font-family: var(--dream-hebrew-font);
 			font-weight: 700;
-			font-size: clamp(3rem, 8.5vw, 4.75rem);
+			font-size: clamp(3.2rem, 9vw, 5.2rem);
 			line-height: 1.85;
 			letter-spacing: 0.005em;
 			color: var(--sefer-title-ink);
@@ -1225,11 +1255,23 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 		:root .post-reader-localized-context .meluket-hebrew .meluket-phrase:last-child {
 			margin-bottom: 0;
 		}
-		/* English: beneath the Hebrew, never beside. Clean, large, softer ink. */
+		/* English: beneath its Hebrew phrase, never beside. Clean, large, softer ink. */
+		:root .post-reader-localized-context .meluket-phrase--en {
+			font-family: var(--dream-sans-font);
+			font-weight: 400;
+			font-size: clamp(2rem, 5.2vw, 2.8rem);
+			line-height: 1.75;
+			color: var(--sefer-ink-soft);
+			border-top: 2px dashed var(--sefer-rule);
+			margin: 1em 0 0;
+			padding-top: 1em;
+			text-wrap: pretty;
+			text-rendering: optimizeLegibility;
+		}
 		:root .post-reader-localized-context .meluket-english {
 			font-family: var(--dream-sans-font);
 			font-weight: 400;
-			font-size: clamp(1.9rem, 4.8vw, 2.6rem);
+			font-size: clamp(2rem, 5.2vw, 2.8rem);
 			line-height: 1.75;
 			color: var(--sefer-ink-soft);
 			margin: 0;
