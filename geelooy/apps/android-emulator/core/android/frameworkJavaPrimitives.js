@@ -98,7 +98,7 @@ function invokeInteger(runtime, name, record, args) {
 		let v = Number(args[0]) | 0;
 		v = v - ((v >>> 1) & 0x55555555);
 		v = (v & 0x33333333) + ((v >>> 2) & 0x33333333);
-		return (((v + (v >>> 4)) & 0x0F0F0F0F) * 0x01010101) >>> 24);
+		return ((((v + (v >>> 4)) & 0x0F0F0F0F) * 0x01010101) >>> 24) | 0;
 	}
 	if (name === "highestOneBit") {
 		let v = Number(args[0]) | 0;
