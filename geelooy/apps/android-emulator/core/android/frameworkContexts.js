@@ -2,7 +2,7 @@
 //Boruch Hashem
 //Blessed is He
 
-import { createGuestString } from "./guestText.js";
+import { createGuestString, readGuestText } from "./guestText.js";
 
 const CONTEXT = "Landroid/content/Context;";
 const PERMISSION_GRANTED = 0;
@@ -49,8 +49,18 @@ export function createFrameworkContextMethods(runtime) {
 }
 
 function getSystemService(runtime, contextRef, nameRef) {
-	// Return null for now; specific services handled by their families.
-	// The app should handle null gracefully or use a different API.
+	try {
+		const name = readGuestText(runtime, nameRef);
+		if (name === "connectivity") {
+			return runtime.heap.allocate("Landroid/net/ConnectivityManager;", {});
+		}
+		if (name === "power") {
+			return runtime.heap.allocate("Landroid/os/PowerManager;", {});
+		}
+	} catch {
+		// Fall through to null.
+	}
+	// Return null for unhandled services.
 	return 0;
 }
 
