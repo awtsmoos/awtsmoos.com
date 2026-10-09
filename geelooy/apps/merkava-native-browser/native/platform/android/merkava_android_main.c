@@ -121,8 +121,10 @@ static void load_document(AwtsAndroidState* state) {
 /** Greedy word wrap: calls emit(start,len) for each wrapped line. */
 typedef void (*AwtsLineEmit)(const char* start, size_t len, void* ctx);
 
-static void wrap_text(const char* text, float scale, float maxW, AwtsLineEmit emit, void* ctx) {
-	float spaceW = awts_text_width(" ", scale);
+static void wrap_text(const char* text, float scale, float maxW, int bold,
+		AwtsLineEmit emit, void* ctx) {
+	float spaceW = bold ? awts_text_width_bold(" ", scale)
+	                    : awts_text_width(" ", scale);
 	const char* p = text;
 	while (*p) {
 		while (*p == ' ') p++;
@@ -133,8 +135,9 @@ static void wrap_text(const char* text, float scale, float maxW, AwtsLineEmit em
 		while (*p && *p != '\n') {
 			const char* wordEnd = p;
 			while (*wordEnd && *wordEnd != ' ' && *wordEnd != '\n') wordEnd++;
-			float wordW = 0.0f;
-			for (const char* q = p; q < wordEnd; q++) wordW += awts_text_width("x", scale);
+			float wordW = bold
+				? awts_text_width_n_bold(p, (size_t)(wordEnd - p), scale)
+				: awts_text_width_n(p, (size_t)(wordEnd - p), scale);
 			float add = (w > 0.0f ? spaceW : 0.0f) + wordW;
 			if (w + add > maxW && w > 0.0f) break;
 			if (w > 0.0f) lastSpace = p - 1;
@@ -166,6 +169,7 @@ typedef struct WrapCtx {
 	float r, g, b;
 	float lineH;
 	float maxW;
+	int bold;
 } WrapCtx;
 
 static void emit_centered(const char* start, size_t len, void* vctx) {
@@ -174,9 +178,14 @@ static void emit_centered(const char* start, size_t len, void* vctx) {
 	if (!buf) return;
 	memcpy(buf, start, len);
 	buf[len] = 0;
-	float w = awts_text_width(buf, ctx->scale);
-	awts_text_draw(ctx->tr, ctx->cx - w / 2.0f, ctx->y,
-		ctx->scale, ctx->r, ctx->g, ctx->b, buf);
+	float w = ctx->bold ? awts_text_width_bold(buf, ctx->scale)
+	                    : awts_text_width(buf, ctx->scale);
+	if (ctx->bold)
+		awts_text_draw_bold(ctx->tr, ctx->cx - w / 2.0f, ctx->y,
+			ctx->scale, ctx->r, ctx->g, ctx->b, buf);
+	else
+		awts_text_draw(ctx->tr, ctx->cx - w / 2.0f, ctx->y,
+			ctx->scale, ctx->r, ctx->g, ctx->b, buf);
 	free(buf);
 	ctx->y += ctx->lineH;
 }
@@ -194,12 +203,12 @@ static void render_document(AwtsAndroidState* state, int vpW, int vpH) {
 	const char* title = (state->docReady && state->doc.appName)
 		? state->doc.appName : "Merkava";
 	float titleScale = 5.0f;
-	float titleW = awts_text_width(title, titleScale);
+	float titleW = awts_text_width_bold(title, titleScale);
 	while (titleW > maxW && titleScale > 2.0f) {
 		titleScale -= 0.5f;
-		titleW = awts_text_width(title, titleScale);
+		titleW = awts_text_width_bold(title, titleScale);
 	}
-	awts_text_draw(tr, cx - titleW / 2.0f, y, titleScale,
+	awts_text_draw_bold(tr, cx - titleW / 2.0f, y, titleScale,
 		AWTS_GOLD_R, AWTS_GOLD_G, AWTS_GOLD_B, title);
 	y += 8.0f * titleScale + vpH * 0.04f;
 
@@ -222,16 +231,16 @@ static void render_document(AwtsAndroidState* state, int vpW, int vpH) {
 			AwtsMwb4Text* t = &state->doc.texts[i];
 			float scale = t->isHeading ? 3.5f : 2.5f;
 			WrapCtx wctx = { tr, cx, y, scale, t->r, t->g, t->b,
-				8.0f * scale * 1.35f, maxW };
-			wrap_text(t->text, scale, maxW, emit_centered, &wctx);
+				8.0f * scale * 1.35f, maxW, t->isHeading };
+			wrap_text(t->text, scale, maxW, t->isHeading, emit_centered, &wctx);
 			y = wctx.y + vpH * 0.015f;
 			if (y > vpH * 0.88f) break;
 		}
 	} else {
 		const char* msg = "Hello from Merkava";
 		float scale = 3.0f;
-		float w = awts_text_width(msg, scale);
-		awts_text_draw(tr, cx - w / 2.0f, y, scale, 0.96f, 0.96f, 0.98f, msg);
+		float w = awts_text_width_bold(msg, scale);
+		awts_text_draw_bold(tr, cx - w / 2.0f, y, scale, 0.96f, 0.96f, 0.98f, msg);
 	}
 
 	/* Footer. */

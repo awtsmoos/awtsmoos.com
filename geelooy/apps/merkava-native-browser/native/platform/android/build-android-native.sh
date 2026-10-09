@@ -31,6 +31,7 @@ mkdir -p "$(dirname -- "$OUTPUT")"
 	"$SCRIPT_DIR/merkava_android_asset.c" \
 	"$SCRIPT_DIR/merkava_android_egl.c" \
 	"$SCRIPT_DIR/merkava_android_mwb4.c" \
+	"$SCRIPT_DIR/merkava_android_ttf.c" \
 	"$SCRIPT_DIR/merkava_android_text.c" \
 	"$SCRIPT_DIR/merkava_android_main.c" \
 	-landroid -llog -lEGL -lGLESv3 -o "$OUTPUT"
