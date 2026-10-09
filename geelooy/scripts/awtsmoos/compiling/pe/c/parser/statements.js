@@ -3,17 +3,34 @@ B"H
 Boruch Hashem
 */
 import { TOKENS } from '../lexer.js';
-import { parseType } from './types.js';
+import { isDeclarationStart, parseType } from './types.js';
 import { parseExpression } from './expressions.js';
 
 export function parseBlock(stream) {
     stream.expect(TOKENS.PUNCT, '{');
     const stmts = [];
     while (stream.peek().value !== '}' && stream.peek().type !== TOKENS.EOF) {
-        stmts.push(parseStatement(stream));
+        const statement = parseStatement(stream);
+        // A comma-separated declaration list desugars into sibling decls here,
+        // so blocks, IR, and the legacy round-trip keep one canonical shape.
+        // `typedef` produces no runtime statement and is dropped.
+        if (statement.type === 'nop') continue;
+        if (statement.type === 'decls') {
+            stmts.push(...statement.declarators);
+        } else {
+            stmts.push(statement);
+        }
     }
     stream.expect(TOKENS.PUNCT, '}');
     return { type: 'block', stmts };
+}
+
+/** Wraps one parsed statement as a block, expanding declaration lists. */
+function asBlock(statement) {
+    if (statement.type === 'nop') return { type: 'block', stmts: [] };
+    if (statement.type === 'block') return statement;
+    if (statement.type === 'decls') return { type: 'block', stmts: statement.declarators };
+    return { type: 'block', stmts: [statement] };
 }
 
 export function parseStatement(stream) {
@@ -58,8 +75,8 @@ export function parseStatement(stream) {
                 stream.consume();
                 el = parseStatement(stream);
             }
-            const thenBlock = then.type === 'block' ? then : { type: 'block', stmts: [then] };
-            const elBlock = el ? (el.type === 'block' ? el : { type: 'block', stmts: [el] }) : null;
+            const thenBlock = asBlock(then);
+            const elBlock = el ? asBlock(el) : null;
             return { type: 'if', cond, then: thenBlock, el: elBlock };
         }
 
@@ -70,7 +87,7 @@ export function parseStatement(stream) {
             const cond = parseExpression(stream);
             stream.expect(TOKENS.PUNCT, ')');
             const body = parseStatement(stream);
-            const bodyBlock = body.type === 'block' ? body : { type: 'block', stmts: [body] };
+            const bodyBlock = asBlock(body);
             return { type: 'while', cond, body: bodyBlock };
         }
 
@@ -83,7 +100,7 @@ export function parseStatement(stream) {
             const cond = parseExpression(stream);
             stream.expect(TOKENS.PUNCT, ')');
             stream.expect(TOKENS.PUNCT, ';');
-            const bodyBlock = body.type === 'block' ? body : { type: 'block', stmts: [body] };
+            const bodyBlock = asBlock(body);
             return { type: 'do_while', body: bodyBlock, cond };
         }
 
@@ -96,8 +113,12 @@ export function parseStatement(stream) {
             if (stream.peek().value !== ';') {
                 // Check if init is a declaration or expression
                 // Simple parser assumption: decl starts with keyword type
-                if (['int', 'char', 'void', 'struct'].includes(stream.peek().value)) {
-                    init = parseStatement(stream); // This handles the semicolon
+                if (isDeclarationStart(stream)) {
+                    const declared = parseStatement(stream); // This handles the semicolon
+                    init = declared.type === 'nop' ? null
+                        : declared.type === 'decls'
+                            ? { type: 'block', stmts: declared.declarators }
+                            : declared;
                 } else {
                     init = { type: 'expr', expr: parseExpression(stream) };
                     stream.expect(TOKENS.PUNCT, ';');
@@ -116,7 +137,7 @@ export function parseStatement(stream) {
             stream.expect(TOKENS.PUNCT, ')');
 
             const body = parseStatement(stream);
-            const bodyBlock = body.type === 'block' ? body : { type: 'block', stmts: [body] };
+            const bodyBlock = asBlock(body);
             
             return { type: 'for', init, cond, step, body: bodyBlock };
         }
@@ -140,11 +161,12 @@ export function parseStatement(stream) {
                     const stmts = [];
                     // Capture stmts until next case/default/end
                     while (
-                        stream.peek().value !== 'case' && 
-                        stream.peek().value !== 'default' && 
+                        stream.peek().value !== 'case' &&
+                        stream.peek().value !== 'default' &&
                         stream.peek().value !== '}'
                     ) {
-                        stmts.push(parseStatement(stream));
+                        const caseStatement = parseStatement(stream);
+                        if (caseStatement.type !== 'nop') stmts.push(caseStatement);
                     }
                     cases.push({ val, stmts: { type: 'block', stmts } });
                 } else if (stream.peek().value === 'default') {
@@ -152,11 +174,12 @@ export function parseStatement(stream) {
                     stream.expect(TOKENS.PUNCT, ':');
                     const stmts = [];
                     while (
-                        stream.peek().value !== 'case' && 
-                        stream.peek().value !== 'default' && 
+                        stream.peek().value !== 'case' &&
+                        stream.peek().value !== 'default' &&
                         stream.peek().value !== '}'
                     ) {
-                        stmts.push(parseStatement(stream));
+                        const caseStatement = parseStatement(stream);
+                        if (caseStatement.type !== 'nop') stmts.push(caseStatement);
                     }
                     defaultCase = { type: 'block', stmts };
                 } else {
@@ -169,28 +192,72 @@ export function parseStatement(stream) {
             return { type: 'switch', expr, cases, defaultCase };
         }
         
-        // Declaration
-        if (['int', 'char', 'void', 'struct'].includes(t.value)) {
-            const varType = parseType(stream);
-            const name = stream.expect(TOKENS.ID).value;
-            let arraySize = null;
-            if (stream.peek().value === '[') {
-                stream.consume(); 
-                const szToken = stream.expect(TOKENS.NUM);
-                arraySize = parseInt(szToken.value);
-                stream.expect(TOKENS.PUNCT, ']');
-            }
-            let init = null;
-            if (stream.peek().value === '=') {
-                stream.consume();
-                init = parseExpression(stream);
-            }
-            stream.expect(TOKENS.PUNCT, ';');
-            return { type: 'decl', varType, name, arraySize, init };
+        // Declaration (one or more comma-separated declarators sharing a type)
+        if (isDeclarationStart(stream)) {
+            return parseDeclarationStatement(stream, t);
         }
+    }
+
+    // A typedef alias lexes as an identifier but still opens a declaration.
+    if (t.type === TOKENS.ID && stream.typedefs && stream.typedefs.has(t.value)) {
+        return parseDeclarationStatement(stream, t);
     }
 
     const expr = parseExpression(stream);
     stream.expect(TOKENS.PUNCT, ';');
     return { type: 'expr', expr };
+}
+
+/** Parses a `typedef` alias registration or a variable declaration statement. */
+function parseDeclarationStatement(stream, t) {
+    if (t.value === 'typedef') {
+        stream.consume();
+        const aliased = parseType(stream);
+        for (;;) {
+            const one = { ...aliased };
+            while (stream.peek().type === TOKENS.OP && stream.peek().value === '*') {
+                stream.consume();
+                one.ptr++;
+            }
+            if (stream.peek().value === '[') {
+                stream.error("typedef of array type is not supported");
+            }
+            stream.typedefs.set(stream.expect(TOKENS.ID).value, one);
+            if (stream.peek().value !== ',') break;
+            stream.consume();
+        }
+        stream.expect(TOKENS.PUNCT, ';');
+        return { type: 'nop' };
+    }
+    // Stars bind to each declarator (`int *p, q`), so the base type is
+    // parsed star-free and every declarator consumes its own stars.
+    const varType = parseType(stream, { stars: false });
+    const declarators = [];
+    for (;;) {
+        // Each declarator carries its own pointer depth: `int *p, q;`
+        let declaratorType = varType;
+        while (stream.peek().type === TOKENS.OP && stream.peek().value === '*') {
+            stream.consume();
+            declaratorType = { base: declaratorType.base, ptr: declaratorType.ptr + 1 };
+        }
+        const name = stream.expect(TOKENS.ID).value;
+        let arraySize = null;
+        if (stream.peek().value === '[') {
+            stream.consume();
+            const szToken = stream.expect(TOKENS.NUM);
+            arraySize = parseInt(szToken.value);
+            stream.expect(TOKENS.PUNCT, ']');
+        }
+        let init = null;
+        if (stream.peek().value === '=') {
+            stream.consume();
+            init = parseExpression(stream);
+        }
+        declarators.push({ type: 'decl', varType: declaratorType, name, arraySize, init });
+        if (stream.peek().value !== ',') break;
+        stream.consume();
+    }
+    stream.expect(TOKENS.PUNCT, ';');
+    if (declarators.length === 1) return declarators[0];
+    return { type: 'decls', declarators };
 }

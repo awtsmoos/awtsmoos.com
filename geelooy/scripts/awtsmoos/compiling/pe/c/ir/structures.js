@@ -27,7 +27,7 @@ export function buildIrStructures(definitions, types) {
 		});
 		structures.set(definition.name, Object.freeze({
 			fields: Object.freeze(fields),
-			kind: "structure",
+			kind: definition.union ? "union" : "structure",
 			name: definition.name
 		}));
 	}
