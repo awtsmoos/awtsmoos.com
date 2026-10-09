@@ -151,7 +151,11 @@
 		if (value?.type !== "CLOSURE" || typeof key !== "string" || !key.startsWith("on")) {
 			return value;
 		}
-		return root.MerkavaVM.ClosureBridge?.wrapClosure(thread, value) || value;
+		/* B"H 2026-10-09: ClosureBridge removed — it broke per-iteration let
+		 * capture semantics (returned 1000 instead of 999, mismatching V8).
+		 * Event closures pass through unwrapped; capture is handled by the
+		 * VM's scope chain directly. */
+		return value;
 	}
 
 	// B"H (2026-10-09): cache of native-function detection. The old code ran
