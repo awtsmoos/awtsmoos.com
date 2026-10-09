@@ -42,6 +42,19 @@ Awtsmoos.com keeps every reader control reachable while the canonical client rev
 			? postSemanticHead
 			: "<title>Awtsmoos | Torah Revelation</title>";
 	</script>?>
+<script>
+// B"H — Register Heichel Service Worker for auto-clearing cache
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/heichelos/post/heichel-sw.js', { scope: '/heichelos/' })
+      .then(function(reg) {
+        // Check for updates on every page load
+        reg.update();
+      })
+      .catch(function() { /* SW not critical, page works without it */ });
+  });
+}
+</script>
 </head>
 <body>
 	<style id="awtsmoos-custom-styles"></style>
