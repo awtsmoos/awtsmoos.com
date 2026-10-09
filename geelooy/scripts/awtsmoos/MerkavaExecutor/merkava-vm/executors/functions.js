@@ -10,6 +10,12 @@
 
     const wrapForHost = (t, v) => {
         if (!v || typeof v !== 'object') return v;
+        if (v.__kind === 'function' && typeof v.call === 'function') {
+            // B"H: host-lowered VM function (DefaultMerkavaHost.makeFunction).
+            // Bridge V8-side calls back into the host interpreter.
+            const fn = v;
+            return (...inner) => fn.call(inner);
+        }
         if (v.type === 'CLOSURE') {
             const wrapped = function(...inner) {
                 const safeInner = inner.map(captureEvent);
@@ -46,7 +52,9 @@
             ip: t.ip, bytecode: t.bytecode, constants: t.constants,
             scope: t.currentScope, upvalues: t.currentUpvalues, stackSize: t._sp,
             environment: t.environment, isConstructor: isNew,
-            constructingInstance: isNew ? Object.create(callee.prototype || {}) : null
+            constructingInstance: isNew ? Object.create(callee.prototype || {}) : null,
+            // B"H 2026-10-09: try-contexts opened inside the callee die with it.
+            catchDepth: t.catchStack.length
         });
 
         t.bytecode = callee.code.bytecode;

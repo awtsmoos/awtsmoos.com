@@ -21,6 +21,11 @@
 
         if (t.frames.length > 0) {
             const frame = t.frames.pop();
+            // B"H 2026-10-09: a return inside try abandons the try — drop its
+            // catch contexts so a later throw can't land in a dead frame.
+            if (frame.catchDepth !== undefined && t.catchStack.length > frame.catchDepth) {
+                t.catchStack.length = frame.catchDepth;
+            }
             t.ip = frame.ip; t.bytecode = frame.bytecode; t.constants = frame.constants;
             t.currentScope = frame.scope; t.currentUpvalues = frame.upvalues; t.environment = frame.environment;
 
@@ -59,8 +64,13 @@
 
     H[0x91] = (t) => { throw t.pop(); }; // THROW
 
-    // B"H 2026-10-09: FIXED same off-by-2 in ENTER_TRY.
-    H[0x92] = (t) => { const off = t.read16(); t.catchStack.push(t.ip + off); }; // ENTER_TRY
+    // B"H 2026-10-09: ENTER_TRY saves the FULL execution context, not just the
+    // catch address. On catch, the thread unwinds frames pushed after the try,
+    // restores bytecode/constants/scope, and resets the stack — so a throw
+    // across call frames lands in the right function with a clean stack.
+    // Entry: [catchAddr, sp, frameDepth, bytecode, constants, scope, upvalues, env].
+    // Lean: one small array per ACTIVE try only; EXIT_TRY drops it.
+    H[0x92] = (t) => { const off = t.read16(); t.catchStack.push([t.ip + off, t._sp, t.frames.length, t.bytecode, t.constants, t.currentScope, t.currentUpvalues, t.environment]); }; // ENTER_TRY
     H[0x93] = (t) => t.catchStack.pop(); // EXIT_TRY
 
     H[0x95] = (t) => { t.pop(); t.push(Promise.resolve({})); }; // IMPORT (Dynamic import placeholder)

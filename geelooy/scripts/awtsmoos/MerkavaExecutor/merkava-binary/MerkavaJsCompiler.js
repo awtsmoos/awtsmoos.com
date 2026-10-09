@@ -25,7 +25,10 @@ async function parseJs(source, options = {}) {
 }
 
 function onlyClasses(ast) {
-  return (ast.body || []).length > 0 && (ast.body || []).every(stmt => stmt.type === 'ClassDeclaration');
+  const body = ast.body || [];
+  if (body.length === 0 || !body.every(stmt => stmt.type === 'ClassDeclaration')) return false;
+  const needsFull = cls => (cls.body?.body || []).some(m => m.static || m.kind === 'get' || m.kind === 'set');
+  return !body.some(needsFull);
 }
 
 /**

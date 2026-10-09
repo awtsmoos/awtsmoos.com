@@ -26,7 +26,9 @@ export const tests = [
   E('slice copy', 'function t(){const a=[1,2,3];const b=a.slice();b[0]=99;return a[0]+"/"+b[0];} __awtsmoosResult=t();', '1/99'),
   E('concat large', 'function t(){let a=[];for(let i=0;i<10;i++)a=a.concat(new Array(1000).fill(i));return a.length;} __awtsmoosResult=t();', 10000),
   E('json roundtrip big', 'function t(){const o={arr:new Array(1000).fill(1)};return JSON.parse(JSON.stringify(o)).arr.length;} __awtsmoosResult=t();', 1000),
-  E('fn churn', 'function t(){let f=null;for(let i=0;i<1000;i++)f=function(){return i;};return f();} __awtsmoosResult=t();', 1000),
+  // B"H 2026-10-09: 999 is correct per-iteration let semantics (matches V8):
+  // f captures the i=999 iteration's env; the final i++ runs in the next env.
+  E('fn churn', 'function t(){let f=null;for(let i=0;i<1000;i++)f=function(){return i;};return f();} __awtsmoosResult=t();', 999),
   E('class churn', 'function t(){let c=null;for(let i=0;i<100;i++)c=new (class{constructor(){this.v=i;}})();return c.v;} __awtsmoosResult=t();', 99),
   E('regex churn', 'function t(){let ok=true;for(let i=0;i<100;i++)ok=ok&&/x/.test("x");return ok;} __awtsmoosResult=t();', true),
   E('date churn', 'function t(){let d=null;for(let i=0;i<100;i++)d=new Date(2020,0,1);return d.getFullYear();} __awtsmoosResult=t();', 2020),

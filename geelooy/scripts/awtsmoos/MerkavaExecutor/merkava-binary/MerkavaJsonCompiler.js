@@ -1,7 +1,8 @@
 // B"H
 const { encodeSangArtifact } = require('./SangCodec.js');
 
-const BIN = { add: 0x40, sub: 0x41, mul: 0x42, div: 0x43, mod: 0x44 };
+const BIN = { add: 0x40, sub: 0x41, mul: 0x42, div: 0x43, mod: 0x44,
+  band: 0x46, bor: 0x47, bxor: 0x48, shl: 0x49, shr: 0x4A, ushr: 0x4B };
 const SYS = {
   class: 20, new: 21, callMethod: 22, getProp: 23, generator: 24,
   asyncFunction: 25, callFunction: 26, array: 27, object: 28, typedArray: 29,
@@ -101,6 +102,8 @@ function compileJsonCode(program = {}) {
     if (node.get) return load(bytecode, constants, node.get);
     if (Object.prototype.hasOwnProperty.call(node, 'const')) return pushConst(bytecode, constants, node.const);
     if (BIN[node.op]) { emit(node.args[0]); emit(node.args[1]); bytecode.push(BIN[node.op]); return; }
+    if (node.op === 'bitnot') { emit(node.value); bytecode.push(0x61); return; }
+    if (node.op === 'deleteProp') { emit(node.object); emit(node.prop); bytecode.push(0x34); return; }
     if (node.op === 'set' || node.op === 'declare') { emit(node.value); store(bytecode, constants, node.name); load(bytecode, constants, node.name); return; }
     if (node.op === 'postUpdate') {
       // B"H 2026-10-09: postfix — leave OLD value on stack, store NEW.
@@ -185,19 +188,23 @@ function compileJsonCode(program = {}) {
     if (node.op === 'spreadCallMethod') return emitSys(SYS.spreadCallMethod, [node.object, { const: node.method }, ...(node.parts || [])]);
     if (node.op === 'object') {
       const flat = [];
-      for (const prop of node.props || []) flat.push({ const: prop.key }, prop.value);
+      for (const prop of node.props || []) {
+        if (prop.getter || prop.setter) flat.push({ const: { __accessor: prop.key } }, { const: normalizeTree(prop) });
+        else flat.push({ const: prop.key }, prop.value);
+      }
       return emitSys(SYS.object, flat);
     }
     if (node.op === 'objectMerge') {
       const flat = [];
       for (const part of node.parts || []) {
         if (part.spread) flat.push({ const: true }, part.spread);
+        else if (part.key && typeof part.key === 'object' && part.key.__accessor) flat.push({ const: false }, { const: part.key }, { const: normalizeTree(part) });
         else flat.push({ const: false }, { const: part.key }, part.value);
       }
       return emitSys(SYS.objectMerge, flat);
     }
     if (node.op === 'typedArray') return emitSys(SYS.typedArray, [{ const: node.kind }, ...(node.items || [])]);
-    if (['eq','seq','neq','sneq','lt','lte','gt','gte','and','or','pow','instanceof'].includes(node.op)) return emitSys(SYS.binary, [{ const: node.op }, node.args[0], node.args[1]]);
+    if (['eq','seq','neq','sneq','lt','lte','gt','gte','and','or','pow','instanceof','in'].includes(node.op)) return emitSys(SYS.binary, [{ const: node.op }, node.args[0], node.args[1]]);
     if (node.op === 'typeofName') return emitSys(SYS.typeofName, [{ const: node.name }]);
     if (node.op === 'typeofName') return emitSys(SYS.typeofName, [{ const: node.name }]);
     if (['not','neg','pos','typeof','void'].includes(node.op)) return emitSys(SYS.unary, [{ const: node.op }, node.value]);

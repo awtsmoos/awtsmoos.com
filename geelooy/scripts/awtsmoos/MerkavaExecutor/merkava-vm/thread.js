@@ -56,6 +56,25 @@
             this.stack = grown;
         }
 
+        // B"H 2026-10-09: restores a try-context saved by ENTER_TRY after a
+        // throw. Unwinds call frames opened after the try, restores that
+        // frame's bytecode/constants/scope, and resets the operand stack —
+        // so a throw across call frames lands in the right function with a
+        // clean stack. Returns the error value to push for the catch block.
+        _unwindToCatch(entry, error) {
+            while (this.frames.length > entry[2]) this.frames.pop();
+            this.ip = entry[0];
+            this._sp = entry[1];
+            this.bytecode = entry[3];
+            this.constants = entry[4];
+            this.currentScope = entry[5];
+            this.currentUpvalues = entry[6];
+            this.environment = entry[7];
+            return error && error.vmValue !== undefined ? error.vmValue
+                : error && error.message !== undefined ? error.message
+                : error;
+        }
+
         // Public API (used by executors and host code)
         push(val) {
             if (this._sp >= this.stack.length) this._growStack();
@@ -192,9 +211,7 @@
                 }
             } catch (error) {
                 if (this.catchStack && this.catchStack.length > 0) {
-                    const catchAddr = this.catchStack.pop();
-                    this.ip = catchAddr;
-                    this.push(error.vmValue || error.message || error);
+                    this.push(this._unwindToCatch(this.catchStack.pop(), error));
                     return true;
                 }
                 this.status = 'CRASHED';
@@ -517,11 +534,11 @@
                     // B"H: sync before crash bookkeeping so trace/ip/push see truth.
                     this.ip = ip; this._sp = sp;
                     if (this.catchStack && this.catchStack.length > 0) {
-                        const catchAddr = this.catchStack.pop();
-                        this.ip = catchAddr;
-                        this.push(error.vmValue || error.message || error);
+                        this.push(this._unwindToCatch(this.catchStack.pop(), error));
                         ip = this.ip; sp = this._sp;
+                        bc = this.bytecode; bcLen = bc.length; constants = this.constants;
                         if (this.stack !== stack) stack = this.stack;
+                        env = this.environment;
                     } else {
                         this.status = 'CRASHED';
                         this.logCrash(error);

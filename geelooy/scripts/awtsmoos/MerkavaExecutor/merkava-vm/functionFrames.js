@@ -39,6 +39,7 @@
 		const instance = isNew ? makeInstance(thread, closure) : null;
 		thread.frames.push({
 			bytecode: thread.bytecode,
+			catchDepth: thread.catchStack.length,
 			constants: thread.constants,
 			constructingInstance: instance,
 			environment: thread.environment,

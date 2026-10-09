@@ -1,7 +1,7 @@
 // B"H
-const OP = { '+': 'add', '-': 'sub', '*': 'mul', '/': 'div', '%': 'mod', '**': 'pow', '==': 'eq', '===': 'seq', '!=': 'neq', '!==': 'sneq', '<': 'lt', '<=': 'lte', '>': 'gt', '>=': 'gte' };
+const OP = { '+': 'add', '-': 'sub', '*': 'mul', '/': 'div', '%': 'mod', '**': 'pow', '==': 'eq', '===': 'seq', '!=': 'neq', '!==': 'sneq', '<': 'lt', '<=': 'lte', '>': 'gt', '>=': 'gte', '&': 'band', '|': 'bor', '^': 'bxor', '<<': 'shl', '>>': 'shr', '>>>': 'ushr', 'in': 'in' };
 const LOGICAL = { '&&': 'and', '||': 'or', '??': 'nullish' };
-const UNARY = { '!': 'not', '-': 'neg', '+': 'pos', typeof: 'typeof', void: 'void' };
+const UNARY = { '!': 'not', '-': 'neg', '+': 'pos', typeof: 'typeof', void: 'void', '~': 'bitnot', delete: 'deleteProp' };
 
 /**
  * Lowers a growing AST subset into raw Merkava JSON code.
@@ -58,6 +58,8 @@ function lowerAstToJson(ast) {
 
   const methodDescriptor = method => ({
     name: propName(method.key),
+    kind: method.kind || 'method',
+    static: !!method.static,
     params: (method.value.params || []).map(paramName),
     body: { op: 'block', body: blockSteps(method.value.body) }
   });
@@ -112,6 +114,7 @@ function lowerAstToJson(ast) {
   const expr = node => {
     if (!node) return { const: null };
     if (node.type === 'Literal' && node.regex) return { const: new RegExp(node.regex.pattern, node.regex.flags || '') };
+    if (node.type === 'Literal' && node.bigint != null) return { const: BigInt(node.bigint) };
     if (node.type === 'Literal') return { const: node.value };
     if (node.type === 'TemplateLiteral') return templateLiteral(node);
     if (node.type === 'TaggedTemplateExpression') return templateLiteral(node.quasi);
@@ -130,6 +133,11 @@ function lowerAstToJson(ast) {
     if (node.type === 'SpreadElement') return expr(node.argument);
     if (node.type === 'UnaryExpression') {
       if (node.operator === 'typeof' && node.argument?.type === 'Identifier' && !isLexicalNameInCurrentScope(node.argument.name)) return { op: 'typeofName', name: node.argument.name };
+      if (node.operator === 'delete' && node.argument?.type === 'MemberExpression') {
+        return { op: 'deleteProp', object: expr(node.argument.object),
+          prop: node.argument.computed ? expr(node.argument.property) : { const: propName(node.argument.property) } };
+      }
+      if (node.operator === 'delete') return { const: true };
       const op = UNARY[node.operator];
       if (!op) throw new Error(`Unsupported JS unary operator: ${node.operator}`);
       return { op, value: expr(node.argument) };
@@ -155,9 +163,14 @@ function lowerAstToJson(ast) {
         op: 'objectMerge',
         parts: (node.properties || []).map(p => p.type === 'SpreadElement'
           ? { spread: expr(p.argument) }
-          : { key: propName(p.key), value: expr(p.value) })
+          : (p.kind === 'get' || p.kind === 'set')
+            ? { key: { __accessor: propName(p.key) }, [p.kind === 'get' ? 'getter' : 'setter']: fnDescriptor(p.value) }
+            : { key: propName(p.key), value: expr(p.value) })
       };
-      return { op: 'object', props: (node.properties || []).map(p => ({ key: propName(p.key), value: expr(p.value) })) };
+      return { op: 'object', props: (node.properties || []).map(p =>
+        (p.kind === 'get' || p.kind === 'set')
+          ? { key: propName(p.key), [p.kind === 'get' ? 'getter' : 'setter']: fnDescriptor(p.value) }
+          : { key: propName(p.key), value: expr(p.value) }) };
     }
     if (node.type === 'FunctionExpression' || node.type === 'ArrowFunctionExpression') return fnDescriptor(node);
     if (node.type === 'ClassExpression') return { op: 'class', descriptor: classDescriptor(node) };
@@ -247,9 +260,11 @@ function lowerAstToJson(ast) {
       const left = stmt.left?.type === 'VariableDeclaration'
         ? stmt.left.declarations?.[0]?.id?.name
         : stmt.left?.name;
+      const kind = stmt.left?.type === 'VariableDeclaration' ? stmt.left.kind : null;
       target.push({
         op: 'forOf',
         left: left || `__forOf${target.length}`,
+        kind,
         right: expr(stmt.right),
         body: stmt.body?.type === 'BlockStatement' ? blockSteps(stmt.body) : statementSteps(stmt.body)
       });
@@ -257,9 +272,11 @@ function lowerAstToJson(ast) {
       const left = stmt.left?.type === 'VariableDeclaration'
         ? stmt.left.declarations?.[0]?.id?.name
         : stmt.left?.name;
+      const kind = stmt.left?.type === 'VariableDeclaration' ? stmt.left.kind : null;
       target.push({
         op: 'forOf',
         left: left || `__forIn${target.length}`,
+        kind,
         right: { op: 'callMethod', object: { get: 'Object' }, method: 'keys', args: [expr(stmt.right)] },
         body: stmt.body?.type === 'BlockStatement' ? blockSteps(stmt.body) : statementSteps(stmt.body)
       });
@@ -270,13 +287,24 @@ function lowerAstToJson(ast) {
         body: stmt.body?.type === 'BlockStatement' ? blockSteps(stmt.body) : statementSteps(stmt.body)
       });
     } else if (stmt.type === 'ForStatement') {
+      let letNames = null;
       if (stmt.init) {
-        if (stmt.init.type === 'VariableDeclaration') lowerStmt(stmt.init, target);
+        if (stmt.init.type === 'VariableDeclaration') {
+          lowerStmt(stmt.init, target);
+          if (stmt.init.kind === 'let' || stmt.init.kind === 'const') {
+            letNames = (stmt.init.declarations || []).map(d => d.id?.name).filter(Boolean);
+          }
+        }
         else target.push(expr(stmt.init));
       }
       const body = stmt.body?.type === 'BlockStatement' ? blockSteps(stmt.body) : statementSteps(stmt.body);
-      if (stmt.update) body.push(expr(stmt.update));
-      target.push({ op: 'while', test: stmt.test ? expr(stmt.test) : { const: true }, body });
+      target.push({
+        op: 'while',
+        test: stmt.test ? expr(stmt.test) : { const: true },
+        body,
+        update: stmt.update ? expr(stmt.update) : null,
+        letNames
+      });
     } else if (stmt.type === 'SwitchStatement') {
       target.push({
         op: 'switch',
@@ -289,14 +317,13 @@ function lowerAstToJson(ast) {
     } else if (stmt.type === 'ThrowStatement') {
       target.push({ op: 'throw', value: expr(stmt.argument) });
     } else if (stmt.type === 'TryStatement') {
-      const thrown = (stmt.block?.body || []).find(s => s.type === 'ThrowStatement');
-      if (thrown && stmt.handler?.param?.name) {
-        target.push({ op: 'set', name: stmt.handler.param.name, value: expr(thrown.argument) });
-        target.push(...blockSteps(stmt.handler.body));
-      } else {
-        target.push(...blockSteps(stmt.block));
-      }
-      target.push(...blockSteps(stmt.finalizer));
+      target.push({
+        op: 'try',
+        body: blockSteps(stmt.block),
+        catchParam: stmt.handler?.param?.name || null,
+        catchBody: stmt.handler ? blockSteps(stmt.handler.body) : null,
+        finallyBody: stmt.finalizer ? blockSteps(stmt.finalizer) : null
+      });
     } else if (stmt.type === 'ClassDeclaration') {
       target.push({ op: 'set', name: stmt.id.name, value: { op: 'class', descriptor: classDescriptor(stmt) } });
     } else if (stmt.type === 'FunctionDeclaration') {
