@@ -68,10 +68,21 @@ start_service() {
 }
 
 restart_service() {
+	local previous_agent="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
 	touch "$ROOT/stop-supervisor"
 	"$LAUNCHCTL" bootout "$DOMAIN/$LABEL" >/dev/null 2>&1 ||
 		"$LAUNCHCTL" bootout "$DOMAIN" "$PLIST" >/dev/null 2>&1 || true
 	wait_unloaded || { printf 'LaunchAgent did not unload: %s\n' "$LABEL" >&2; return 1; }
+	# Bootout is asynchronous: never let a successor adopt the terminating old agent.
+	local wait_count=0
+	while [ -n "$previous_agent" ] && [ "$wait_count" -lt 120 ] &&  kill -0 "$previous_agent" 2>/dev/null &&  ps -p "$previous_agent" -o command= 2>/dev/null | grep -Fq "$ROOT/awtsmoos-agent-launcher.cjs"; do
+		wait_count=$((wait_count + 1))
+		sleep 0.25
+	done
+	if [ -n "$previous_agent" ] && kill -0 "$previous_agent" 2>/dev/null &&  ps -p "$previous_agent" -o command= 2>/dev/null | grep -Fq "$ROOT/awtsmoos-agent-launcher.cjs"; then
+		printf 'Old tunnel agent still shutting down: %s\n' "$previous_agent" >&2
+		return 1
+	fi
 	start_service
 }
 
@@ -99,19 +110,25 @@ NODE
 }
 
 repair_service() {
+	local previous_agent="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
 	restart_service
-	local attempt=0
-	while [ "$attempt" -lt 360 ]; do agent_ready && return 0; sleep 0.25; attempt=$((attempt + 1)); done
+	local attempt=0 current_agent=""
+	while [ "$attempt" -lt 360 ]; do
+		current_agent="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
+		if [ -n "$current_agent" ] && [ "$current_agent" != "$previous_agent" ] && agent_ready; then return 0; fi
+		sleep 0.25; attempt=$((attempt + 1))
+	done
 	printf 'LaunchAgent loaded but tunnel did not register within 90 seconds. Run: %s logs\n' "$0" >&2
 	return 1
 }
 
 status_service() {
-	local state="unloaded" pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)"
+	local state="unloaded" pid="$(cat "$ROOT/agent.pid" 2>/dev/null || true)" registration="not_ready"
 	loaded && state="loaded"
-	printf 'root=%s\nversion=%s\nplist=%s\nlabel=%s\nservice=%s\nagentPid=%s\n' \
+	agent_ready && registration="registered" || true
+	printf 'root=%s\nversion=%s\nplist=%s\nlabel=%s\nservice=%s\nagentPid=%s\nregistration=%s\n' \
 		"$ROOT" "$(cat "$ROOT/install-state.txt" 2>/dev/null || printf unknown)" \
-		"$PLIST" "$LABEL" "$state" "${pid:-missing}"
+		"$PLIST" "$LABEL" "$state" "${pid:-missing}" "$registration"
 }
 
 logs_service() {
