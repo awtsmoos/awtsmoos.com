@@ -26,6 +26,11 @@
 #define AWTS_GOLD_G 0.84f
 #define AWTS_GOLD_B 0.38f
 
+/* Node kind helpers: flags were packed into one byte by the RAM pass
+   (b35b8421a); these replace the old isHeading/isButton members. */
+#define NODE_IS_HEADING(n) (((n)->flags & AWTS_VM_FLAG_HEADING) != 0)
+#define NODE_IS_BUTTON(n)  (((n)->flags & AWTS_VM_FLAG_BUTTON) != 0)
+
 typedef struct AwtsAndroidState {
 	struct android_app* app;
 	AwtsAndroidGraphics graphics;
@@ -243,22 +248,22 @@ static void emit_left(const char* start, size_t len, void* vctx) {
 static float render_node(AwtsAndroidState* state, AwtsVmNode* node,
 		float x, float y, float w) {
 	AwtsTextRenderer* tr = &state->text;
-	float scale = node->isHeading ? 3.5f : (node->isButton ? 2.75f : 2.5f);
-	int bold = node->isHeading || node->isButton;
+	float scale = NODE_IS_HEADING(node) ? 3.5f : (NODE_IS_BUTTON(node) ? 2.75f : 2.5f);
+	int bold = NODE_IS_HEADING(node) || NODE_IS_BUTTON(node);
 	float lineH = 8.0f * scale * 1.35f;
 	float padX = 16.0f;
 
 	/* Button background. */
-	if (node->isButton) {
+	if (NODE_IS_BUTTON(node)) {
 		/* Drawn as text with padding; background rect via clear color
 		   would need a quad renderer — text affordance suffices for v1. */
 	}
 
-	float ty = y + (node->isButton ? 12.0f : 6.0f);
+	float ty = y + (NODE_IS_BUTTON(node) ? 12.0f : 6.0f);
 	if (node->text && *node->text) {
 		WrapCtx wctx = { tr, x + padX, ty, scale,
 			node->r, node->g, node->b, lineH, w - padX * 2.0f, bold };
-		if (node->isButton) {
+		if (NODE_IS_BUTTON(node)) {
 			/* Center button text. */
 			float tw = bold ? awts_text_width_bold(node->text, scale)
 			                : awts_text_width(node->text, scale);
@@ -276,7 +281,7 @@ static float render_node(AwtsAndroidState* state, AwtsVmNode* node,
 				emit_left, &wctx);
 			ty = wctx.y;
 		}
-		ty += (node->isButton ? 12.0f : 6.0f);
+		ty += (NODE_IS_BUTTON(node) ? 12.0f : 6.0f);
 	}
 
 	/* Children stack below. */
