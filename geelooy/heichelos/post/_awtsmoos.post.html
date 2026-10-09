@@ -603,6 +603,66 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 			transform: none;
 		}
 	</style>
+	<style id="awtsmoos-sefer-body-tokens">
+		/* B"H — Sefer body text tokens.
+		   ROOT CAUSE of white-on-white body text: --sefer-* variables were defined
+		   on .meluket-sefer-active .meluket-sefer (inner container), but the Overview,
+		   Q&A, and body elements are SIBLINGS of .meluket-sefer — CSS variables do
+		   not cross to siblings, so var(--sefer-ink-soft) was UNDEFINED for body text
+		   → invalid → inherited white → white-on-white.
+		   FIX: define tokens on .post-reader-localized-context (the reader root that
+		   wraps EVERYTHING), so every descendant sees them.
+		   Inline in the template to bypass the fragile @import chain.
+		   Light is the default; dark overrides below. No !important, ever. */
+		:root .post-reader-localized-context,
+		:root[data-theme="light"] .post-reader-localized-context {
+			--sefer-paper: #f7f1e3;
+			--sefer-paper-deep: #efe4cd;
+			--sefer-ink: #2b2118;
+			--sefer-title-ink: #1f1712;
+			--sefer-ink-soft: #5a4c3d;
+			--sefer-accent: #8a6d3b;
+			--sefer-rule: #d9c9a8;
+			--sefer-card: #fffdf6;
+			--sefer-focus: #b3541e;
+			--sefer-shadow: 0 2px 14px rgba(90, 70, 40, 0.10);
+		}
+		:root[data-theme="dark"] .post-reader-localized-context {
+			--sefer-paper: #171209;
+			--sefer-paper-deep: #100c06;
+			--sefer-ink: #f0e7d3;
+			--sefer-title-ink: #faf3e2;
+			--sefer-ink-soft: #c9b992;
+			--sefer-accent: #d4a94e;
+			--sefer-rule: #4a3a22;
+			--sefer-card: #201a10;
+			--sefer-focus: #e8a34d;
+			--sefer-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
+		}
+		/* Critical body text: explicit colors in both themes, no @import dependency. */
+		:root .post-reader-localized-context .meluket-post-summary,
+		:root .post-reader-localized-context .meluket-summary,
+		:root .post-reader-localized-context .meluket-post-summary p,
+		:root .post-reader-localized-context .meluket-summary p {
+			color: var(--sefer-ink-soft);
+		}
+		:root .post-reader-localized-context .meluket-sefer-title-he,
+		:root .post-reader-localized-context .meluket-qa-title {
+			color: var(--sefer-title-ink);
+		}
+		:root .post-reader-localized-context .meluket-hebrew,
+		:root .post-reader-localized-context .meluket-english {
+			color: var(--sefer-ink);
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .meluket-hebrew,
+		:root[data-theme="dark"] .post-reader-localized-context .meluket-english {
+			color: var(--sefer-ink);
+		}
+		:root .post-reader-localized-context .meluket-post-summary {
+			background: var(--sefer-paper-deep);
+			border-color: var(--sefer-rule);
+		}
+	</style>
 	<script>
 		/* B"H — Register Heichel Service Worker for auto-clearing cache. */
 		if ('serviceWorker' in navigator) {

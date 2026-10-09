@@ -13,8 +13,12 @@
  * - Hebrew-first: RTL default, logical properties only, nikkud-safe line heights.
  */
 
-/* ---------- Sefer container : Heichal ---------- */
-.meluket-sefer-active .meluket-sefer {
+/* ---------- Sefer tokens : Heichal ----------
+   B"H — --sefer-* tokens live on .meluket-sefer-active (the reader root), NOT on
+   .meluket-sefer (inner container): the Overview, Q&A, and body elements are
+   SIBLINGS of .meluket-sefer, and CSS variables do not cross to siblings.
+   Tokens scoped to the inner container are undefined for body text. */
+.meluket-sefer-active {
 	--sefer-paper: #f7f1e3;
 	--sefer-paper-deep: #efe4cd;
 	--sefer-ink: #2b2118;
@@ -25,6 +29,10 @@
 	--sefer-card: #fffdf6;
 	--sefer-focus: #b3541e;
 	--sefer-shadow: 0 2px 14px rgba(90, 70, 40, 0.10);
+}
+
+/* ---------- Sefer container : Heichal ---------- */
+.meluket-sefer-active .meluket-sefer {
 	max-width: 1180px;
 	margin: 0 auto;
 	padding: clamp(1rem, 3vw, 2.5rem) clamp(0.75rem, 3vw, 2rem) 4rem;
@@ -33,8 +41,8 @@
 	border-radius: 6px;
 }
 
-:where(:root[data-theme="dark"]) .meluket-sefer-active .meluket-sefer,
-:where(.meluket-sefer-active[data-theme="dark"]) .meluket-sefer {
+:where(:root[data-theme="dark"]) .meluket-sefer-active,
+:where(.meluket-sefer-active[data-theme="dark"])) {
 	--sefer-paper: #171209;
 	--sefer-paper-deep: #100c06;
 	--sefer-ink: #f0e7d3;
@@ -57,9 +65,9 @@
 }
 
 /* Explicit light theme — ensure dark text on light paper */
-:where(:root[data-theme="light"]) .meluket-sefer-active .meluket-sefer,
-:where(.meluket-sefer-active[data-theme="light"]) .meluket-sefer,
-.meluket-sefer-active .meluket-sefer {
+:where(:root[data-theme="light"]) .meluket-sefer-active,
+:where(.meluket-sefer-active[data-theme="light"]),
+.meluket-sefer-active {
 	--sefer-paper: #f7f1e3;
 	--sefer-paper-deep: #efe4cd;
 	--sefer-ink: #2b2118;
@@ -437,8 +445,8 @@
 }
 
 /* Force dark text in light theme — override any inherited white text */
-:where(:root[data-theme="light"]) .meluket-sefer-active .meluket-sefer,
-:where(:root:not([data-theme="dark"])) .meluket-sefer-active .meluket-sefer {
+:where(:root[data-theme="light"]) .meluket-sefer-active,
+:where(:root:not([data-theme="dark"])) .meluket-sefer-active {
 	--sefer-ink: #2b2118;
 	--sefer-title-ink: #1f1712;
 	--sefer-ink-soft: #5a4c3d;
