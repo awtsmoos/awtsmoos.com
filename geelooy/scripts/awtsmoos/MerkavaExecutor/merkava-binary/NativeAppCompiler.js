@@ -65,27 +65,57 @@ async function compileNativeApp(input = {}) {
 }
 
 /**
- * Packs a compiled .mapp binary into the canonical MKV1 container
- * (app.merkava) read by the native C launchers.
- * @param {Buffer} mappBinary
+ * Compiles web source into the MWB4 native executable (for the C launchers).
+ * Same HTML/CSS/JS in, but the output is the handle-addressed v4 bytecode
+ * the native decoders (APK/ELF/EXE/APP) execute — no JS VM needed at runtime.
+ * @param {{html?:string,css?:string,js?:string,appName?:string}} input
+ * @returns {Promise<{mwb4:Buffer,appName:string}>}
+ */
+async function compileNativeMWB4(input = {}) {
+	const html = String(input.html || '');
+	const css = String(input.css || '');
+	const appName = String(input.appName || 'MerkavaApp');
+	const { compileHtmlHandleNodes } = require('./SourceHtmlHandleCompiler.js');
+	const { compileNativeComputedStyles } = require('./NativeWebV4StyleCompiler.js');
+	const { compileNativeTextEvents } = require('./NativeWebV4EventCompiler.js');
+	const { encodeNativeWebV4 } = require('./NativeWebV4Encoder.js');
+	const { collectLinked } = require('./SourceLinkedAssets.js');
+	const linked = collectLinked(html, {}, '/index.html');
+	const allCss = [linked.css, css].filter(s => s && s.trim()).join('\n');
+	const nodes = compileHtmlHandleNodes(html);
+	const styles = compileNativeComputedStyles(nodes, allCss);
+	const events = compileNativeTextEvents(nodes);
+	const mwb4 = encodeNativeWebV4({ events, nodes, styles });
+	return { mwb4, appName };
+}
+
+/**
+ * Packs a compiled app into the canonical MKV1 container (app.merkava)
+ * read by the native C launchers. The BYTECODE section carries the MWB4
+ * native executable (the C decoders execute it directly); the .mapp binary
+ * for the JS VM path is embedded alongside for dual-runtime containers.
+ * @param {Buffer} mappBinary .mapp from compileNativeApp (JS VM path).
+ * @param {Buffer} mwb4Binary MWB4 from compileNativeMWB4 (native C path).
  * @param {{appName?:string,version?:string}} meta
  * @returns {Uint8Array} MKV1 container bytes.
  */
-function packMerkavaContainer(mappBinary, meta = {}) {
+function packMerkavaContainer(mappBinary, mwb4Binary, meta = {}) {
 	const { writeCanonicalContainer } = require('../merkava-canonical/Writer.js');
 	const { SECTION } = require('../merkava-canonical/Format.js');
 	const manifest = Buffer.from(JSON.stringify({
 		name: meta.appName || 'MerkavaApp',
 		version: meta.version || '1.0.0',
-		format: 'MAPP',
-		runtime: 'merkava-vm'
+		format: 'MWB4+MAPP',
+		runtime: 'merkava-native'
 	}), 'utf8');
-	return writeCanonicalContainer({
-		sections: [
-			{ type: SECTION.MANIFEST, bytes: manifest },
-			{ type: SECTION.BYTECODE, bytes: new Uint8Array(mappBinary) }
-		]
-	});
+	const sections = [
+		{ type: SECTION.MANIFEST, bytes: manifest },
+		{ type: SECTION.BYTECODE, bytes: new Uint8Array(mwb4Binary || []) }
+	];
+	if (mappBinary && mappBinary.length) {
+		sections.push({ type: SECTION.MODULES, bytes: new Uint8Array(mappBinary) });
+	}
+	return writeCanonicalContainer({ sections });
 }
 
 /**
@@ -147,4 +177,4 @@ function inspectNativeApp(binary) {
 	return report;
 }
 
-module.exports = { compileNativeApp, packMerkavaContainer, inspectNativeApp };
+module.exports = { compileNativeApp, compileNativeMWB4, packMerkavaContainer, inspectNativeApp };

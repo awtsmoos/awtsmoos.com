@@ -3,7 +3,7 @@
 
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-const { compileNativeApp, inspectNativeApp, packMerkavaContainer } = require('./NativeAppCompiler.js');
+const { compileNativeApp, compileNativeMWB4, inspectNativeApp, packMerkavaContainer } = require('./NativeAppCompiler.js');
 const { runNativeApp, visibleText, getById } = require('./NativeAppRunner.js');
 
 let pass = 0, fail = 0;
@@ -135,7 +135,7 @@ for (const t of APPS) {
 	totalBin += binary.length; totalSrc += srcBytes;
 	const insp = inspectNativeApp(binary);
 	ok(`${t.name}-native`, insp.ok, JSON.stringify(insp.checks.filter(c => !c.pass)));
-	const container = packMerkavaContainer(binary, { appName: t.name });
+	const container = packMerkavaContainer(binary, (await compileNativeMWB4({ html: t.html, css: t.css, appName: t.name })).mwb4, { appName: t.name });
 	ok(`${t.name}-container`, Buffer.from(container.slice(0, 4)).toString() === 'MKV1', 'MKV1 magic');
 	const app = runNativeApp(binary);
 	totalMs += app.startupMs;

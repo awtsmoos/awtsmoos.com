@@ -29,7 +29,7 @@ const BINARY_DIR = path.resolve(__dirname, '../../../scripts/awtsmoos/MerkavaExe
 const NATIVE_DIR = path.resolve(__dirname, '../native');
 const DIST = process.env.MERKAVA_DIST || path.resolve(__dirname, '../dist/apps');
 
-const { compileNativeApp, packMerkavaContainer } = require(path.join(BINARY_DIR, 'NativeAppCompiler.js'));
+const { compileNativeApp, compileNativeMWB4, packMerkavaContainer } = require(path.join(BINARY_DIR, 'NativeAppCompiler.js'));
 
 function ensureDir(p) { fs.mkdirSync(p, { recursive: true }); return p; }
 function run(cmd, args, opts = {}) {
@@ -39,8 +39,9 @@ function run(cmd, args, opts = {}) {
 /** Compiles web source to .mapp + MKV1 container. Shared by all targets. */
 async function compileAppPackage({ html = '', css = '', js = '', appName = 'MerkavaApp' }) {
 	const compiled = await compileNativeApp({ html, css, js, appName });
-	const container = packMerkavaContainer(compiled.binary, { appName });
-	return { ...compiled, container };
+	const { mwb4 } = await compileNativeMWB4({ html, css, appName });
+	const container = packMerkavaContainer(compiled.binary, mwb4, { appName });
+	return { ...compiled, mwb4, container };
 }
 
 function appDistDir(appName) {
