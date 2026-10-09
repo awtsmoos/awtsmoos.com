@@ -3,6 +3,7 @@
 //Blessed is He
 
 import { createGuestString, readGuestText } from "./guestText.js";
+import { createJavaMap } from "./frameworkJavaCollectionFactories.js";
 import {
 	preferenceStateError,
 	validatePreferenceBounds,
@@ -176,11 +177,13 @@ function getStringSet(runtime, args) {
 }
 function getAll(runtime, args) {
 	const store = preferenceStore(runtime, args[0]);
-	// Return a simple Map object with the entries.
-	const map = runtime.heap.allocate("Ljava/util/HashMap;", {});
-	// For now, return empty map — full Map population needs map APIs.
-	// The app likely just checks emptiness or iterates.
-	return map;
+	const records = Object.entries(store)
+		.filter(([k, v]) => v !== undefined && k !== "__clear__")
+		.map(([k, v]) => ({
+			key: createGuestString(runtime, k),
+			value: typeof v === "string" ? createGuestString(runtime, v) : v
+		}));
+	return createJavaMap(runtime, records);
 }
 function containsKey(runtime, args) {
 	const store = preferenceStore(runtime, args[0]);
