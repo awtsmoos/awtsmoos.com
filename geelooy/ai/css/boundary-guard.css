@@ -9,4 +9,4 @@ html, body, .container, .main, .chat-box, .message, .input-area {
   max-width: 100%;
 }
 
-[hidden] { display: none !important; }
+[hidden] { display: none; }

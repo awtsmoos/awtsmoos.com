@@ -10,15 +10,15 @@ body.is-awtsmoos-embedded-ai{background:#020611}
 body.is-awtsmoos-embedded-ai .mobile-app-crown,
 body.is-awtsmoos-embedded-ai .mobile-bottom-dock,
 body.is-awtsmoos-embedded-ai .desktop-shell-left,
-body.is-awtsmoos-embedded-ai .desktop-shell-right{display:none!important}
+body.is-awtsmoos-embedded-ai .desktop-shell-right{display:none}
 body.is-awtsmoos-embedded-ai .container{
   display:grid;
   width:100vw;
   height:100dvh;
   padding:0;
   gap:0;
-  grid-template-columns:minmax(0,1fr)!important;
-  grid-template-areas:"main"!important;
+  grid-template-columns:minmax(0,1fr);
+  grid-template-areas:"main";
   background:linear-gradient(180deg,#050b18,#020611);
   overflow:hidden;
 }
@@ -26,7 +26,7 @@ body.is-awtsmoos-embedded-ai #left-resizer,
 body.is-awtsmoos-embedded-ai #right-resizer,
 body.is-awtsmoos-embedded-ai #composer-resizer,
 body.is-awtsmoos-embedded-ai .sidebar,
-body.is-awtsmoos-embedded-ai .automation-panel{display:none!important}
+body.is-awtsmoos-embedded-ai .automation-panel{display:none}
 body.is-awtsmoos-embedded-ai .main{
   grid-area:main;
   position:relative;

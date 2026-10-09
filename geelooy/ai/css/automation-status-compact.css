@@ -1,23 +1,23 @@
 /* @tunnel-grandfather: not imported by geelooy/ai/styles.css manifest and not referenced by any HTML/JS; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /*B"H*/
 #automation-panel .automation-status{
-  position:static!important;
-  margin:.45rem 0 0!important;
-  padding:.48rem .62rem!important;
-  min-height:auto!important;
-  border-radius:.7rem!important;
-  border:1px solid rgba(125,211,252,.16)!important;
-  background:rgba(2,6,23,.66)!important;
-  color:rgba(226,232,240,.78)!important;
-  box-shadow:none!important;
-  font-size:.74rem!important;
-  line-height:1.28!important;
-  font-weight:760!important;
-  letter-spacing:.01em!important;
-  overflow-wrap:anywhere!important;
+  position:static;
+  margin:.45rem 0 0;
+  padding:.48rem .62rem;
+  min-height:auto;
+  border-radius:.7rem;
+  border:1px solid rgba(125,211,252,.16);
+  background:rgba(2,6,23,.66);
+  color:rgba(226,232,240,.78);
+  box-shadow:none;
+  font-size:.74rem;
+  line-height:1.28;
+  font-weight:760;
+  letter-spacing:.01em;
+  overflow-wrap:anywhere;
 }
 
 #automation-panel .automation-status::before,
-#automation-panel .automation-status::after{display:none!important}
+#automation-panel .automation-status::after{display:none}
 
-#automation-panel .automation-status:is(:empty){display:none!important}
+#automation-panel .automation-status:is(:empty){display:none}

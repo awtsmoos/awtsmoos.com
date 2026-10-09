@@ -8,39 +8,39 @@
   .chat-load-state,
   .render-loading,
   .message.is-loading {
-    margin: 6px !important;
-    padding: 10px 12px 10px 38px !important;
-    border-radius: 14px !important;
-    font-size: .86rem !important;
-    min-height: 42px !important;
-    box-shadow: none !important;
-    contain: layout paint !important;
+    margin: 6px;
+    padding: 10px 12px 10px 38px;
+    border-radius: 14px;
+    font-size: .86rem;
+    min-height: 42px;
+    box-shadow: none;
+    contain: layout paint;
   }
 
   .chat-load-state::after,
   .event-hydration-loading::after {
-    animation-duration: 1.9s !important;
-    opacity: .45 !important;
+    animation-duration: 1.9s;
+    opacity: .45;
   }
 
   .message-loading {
-    max-width: 100% !important;
-    flex-wrap: wrap !important;
+    max-width: 100%;
+    flex-wrap: wrap;
   }
 
   .message-loading em {
-    min-width: 0 !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    white-space: nowrap !important;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   #transport-status {
-    scrollbar-width: none !important;
-    padding-inline: 8px !important;
+    scrollbar-width: none;
+    padding-inline: 8px;
   }
 
   #transport-status::-webkit-scrollbar {
-    display: none !important;
+    display: none;
   }
 }

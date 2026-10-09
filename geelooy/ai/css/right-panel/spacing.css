@@ -14,53 +14,53 @@
 #automation-panel .prompt-action-row,
 #automation-panel .relay-install-buttons,
 #automation-panel .compact-provider-actions{
-  position:static!important;
-  display:flex!important;
-  flex-direction:column!important;
-  align-items:stretch!important;
-  gap:12px!important;
-  width:100%!important;
-  min-width:0!important;
-  height:auto!important;
-  margin:0!important;
-  padding:0!important;
-  transform:none!important;
+  position:static;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:12px;
+  width:100%;
+  min-width:0;
+  height:auto;
+  margin:0;
+  padding:0;
+  transform:none;
 }
 #automation-panel .automation-field,
 #automation-panel .automation-toggle-row,
 #automation-panel .event-filter,
 #automation-panel .provider-chat-row,
 #automation-panel .relay-install-card{
-  position:static!important;
-  display:flex!important;
-  flex-direction:column!important;
-  align-items:stretch!important;
-  gap:9px!important;
-  width:100%!important;
-  min-width:0!important;
-  height:auto!important;
-  min-height:0!important;
-  max-height:none!important;
-  margin:0!important;
-  padding:13px 14px!important;
-  overflow:visible!important;
-  border:1px solid var(--rp-line)!important;
-  border-radius:14px!important;
-  background:var(--rp-field)!important;
-  box-shadow:none!important;
-  transform:none!important;
-  white-space:normal!important;
-  line-height:1.35!important;
+  position:static;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:9px;
+  width:100%;
+  min-width:0;
+  height:auto;
+  min-height:0;
+  max-height:none;
+  margin:0;
+  padding:13px 14px;
+  overflow:visible;
+  border:1px solid var(--rp-line);
+  border-radius:14px;
+  background:var(--rp-field);
+  box-shadow:none;
+  transform:none;
+  white-space:normal;
+  line-height:1.35;
 }
 #automation-panel .automation-toggle-row,
 #automation-panel .event-filter{
-  flex-direction:row!important;
-  align-items:center!important;
-  justify-content:space-between!important;
+  flex-direction:row;
+  align-items:center;
+  justify-content:space-between;
 }
 #automation-panel .event-filter{
-  justify-content:flex-start!important;
-  gap:12px!important;
+  justify-content:flex-start;
+  gap:12px;
 }
 #automation-panel input,
 #automation-panel select,
@@ -68,73 +68,73 @@
 #automation-panel button,
 #automation-panel .provider-import-button,
 #automation-panel code{
-  position:static!important;
-  display:block!important;
-  width:100%!important;
-  min-width:0!important;
-  max-width:100%!important;
-  height:auto!important;
-  max-height:none!important;
-  margin:0!important;
-  transform:none!important;
-  white-space:normal!important;
+  position:static;
+  display:block;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  height:auto;
+  max-height:none;
+  margin:0;
+  transform:none;
+  white-space:normal;
 }
 #automation-panel input:not([type="checkbox"]),
 #automation-panel select,
 #automation-panel textarea{
-  padding:11px 12px!important;
-  border:1px solid rgba(184,222,255,.18)!important;
-  border-radius:12px!important;
-  background:rgba(2,8,18,.72)!important;
-  box-shadow:none!important;
-  color:var(--rp-text)!important;
-  line-height:1.35!important;
+  padding:11px 12px;
+  border:1px solid rgba(184,222,255,.18);
+  border-radius:12px;
+  background:rgba(2,8,18,.72);
+  box-shadow:none;
+  color:var(--rp-text);
+  line-height:1.35;
 }
 #automation-panel textarea{
-  min-height:120px!important;
-  resize:vertical!important;
+  min-height:120px;
+  resize:vertical;
 }
 #automation-panel input[type="checkbox"]{
-  flex:0 0 auto!important;
-  width:20px!important;
-  min-width:20px!important;
-  height:20px!important;
-  min-height:20px!important;
-  max-width:20px!important;
-  appearance:auto!important;
-  accent-color:#22d3ee!important;
+  flex:0 0 auto;
+  width:20px;
+  min-width:20px;
+  height:20px;
+  min-height:20px;
+  max-width:20px;
+  appearance:auto;
+  accent-color:#22d3ee;
 }
 #automation-panel .automation-toggle-row input[type="checkbox"]{
-  appearance:none!important;
-  width:50px!important;
-  min-width:50px!important;
-  max-width:50px!important;
-  height:28px!important;
-  min-height:28px!important;
-  border:1px solid rgba(184,222,255,.24)!important;
-  border-radius:999px!important;
-  background:rgba(5,13,26,.88)!important;
+  appearance:none;
+  width:50px;
+  min-width:50px;
+  max-width:50px;
+  height:28px;
+  min-height:28px;
+  border:1px solid rgba(184,222,255,.24);
+  border-radius:999px;
+  background:rgba(5,13,26,.88);
 }
 #automation-panel button,
 #automation-panel .provider-import-button{
-  min-height:46px!important;
-  padding:11px 14px!important;
-  line-height:1.25!important;
-  text-align:center!important;
-  overflow:visible!important;
+  min-height:46px;
+  padding:11px 14px;
+  line-height:1.25;
+  text-align:center;
+  overflow:visible;
 }
 #automation-panel code{
-  padding:12px!important;
-  overflow-wrap:anywhere!important;
-  white-space:pre-wrap!important;
-  line-height:1.45!important;
+  padding:12px;
+  overflow-wrap:anywhere;
+  white-space:pre-wrap;
+  line-height:1.45;
 }
 #automation-panel input:focus,
 #automation-panel select:focus,
 #automation-panel textarea:focus{
-  outline:2px solid rgba(45,212,191,.35)!important;
-  outline-offset:1px!important;
-  border-color:var(--rp-strong)!important;
+  outline:2px solid rgba(45,212,191,.35);
+  outline-offset:1px;
+  border-color:var(--rp-strong);
 }
 
 /* @tunnel-interactive-states: auto-generated by css-guarantee */

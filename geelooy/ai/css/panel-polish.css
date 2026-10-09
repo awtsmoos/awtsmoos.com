@@ -12,8 +12,8 @@
 }
 #automation-panel .right-tabs {
   flex: 0 0 auto;
-  overflow: visible !important;
-  overflow: visible !important;
+  overflow: visible;
+  overflow: visible;
   position: sticky;
   top: 0;
   z-index: 4;

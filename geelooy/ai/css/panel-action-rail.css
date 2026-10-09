@@ -7,7 +7,7 @@
 .transport-details > summary,
 .thought-envelope-card > summary,
 .thought-envelope-events > summary {
-  display: grid !important;
+  display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-items: start;
   gap: 0.55rem;
@@ -28,7 +28,7 @@
 
 .transport-details > summary,
 .thought-envelope-card > summary {
-  padding-inline-end: 6.8rem !important;
+  padding-inline-end: 6.8rem;
 }
 
 .event-summary-title,
@@ -39,7 +39,7 @@
 }
 
 .event-panel-actions {
-  display: inline-flex !important;
+  display: inline-flex;
   align-items: center;
   justify-content: flex-end;
   gap: 0.35rem;
@@ -50,11 +50,11 @@
 }
 
 .event-panel-actions button {
-  width: 1.85rem !important;
-  height: 1.85rem !important;
-  min-width: 1.85rem !important;
-  min-height: 1.85rem !important;
-  flex: 0 0 1.85rem !important;
+  width: 1.85rem;
+  height: 1.85rem;
+  min-width: 1.85rem;
+  min-height: 1.85rem;
+  flex: 0 0 1.85rem;
   line-height: 1;
 }
 

@@ -36,7 +36,7 @@
   pointer-events:none;
 }
 .ai-empty-state>*{position:relative;z-index:1}
-.ai-empty-state[hidden]{display:none!important}
+.ai-empty-state[hidden]{display:none}
 .ai-empty-orb{
   width:64px;
   height:64px;

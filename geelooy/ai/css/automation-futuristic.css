@@ -32,8 +32,8 @@
 
 #automation-panel .automation-field input[type="checkbox"] {
   appearance: none;
-  width: 2.75rem !important;
-  height: 1.42rem !important;
+  width: 2.75rem;
+  height: 1.42rem;
   margin: 0;
   border-radius: 999px;
   border: 1px solid rgba(148,163,184,.38);
@@ -221,7 +221,7 @@
 .graph-node-archive::before { background: linear-gradient(180deg, #34d399, #22d3ee); }
 
 .graph-json-field textarea {
-  min-height: 17rem !important;
+  min-height: 17rem;
   tab-size: 2;
   white-space: pre;
 }

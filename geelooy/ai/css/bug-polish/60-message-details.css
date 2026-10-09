@@ -15,4 +15,4 @@ Code, tables, media, and errors now sit in calm light.
 .chat-box img, .render-message img, .attachment-tray img { max-width: 100%; border-radius: 16px; border: 1px solid rgba(124,235,255,.18); box-shadow: 0 12px 36px rgba(0,0,0,.25); }
 .attachment-chip, .attachment-preview, .image-attachment { border: 1px solid rgba(124,235,255,.16); border-radius: 16px; background: rgba(8,18,34,.76); color: var(--bug-ink); }
 .error, [class*="error"] { --bug-error-border: rgba(255,109,154,.34); }
-.empty-state, .welcome-card, .showcase-card { border-color: rgba(124,235,255,.18) !important; background: linear-gradient(135deg, rgba(9,22,42,.78), rgba(8,13,28,.70)) !important; }
+.empty-state, .welcome-card, .showcase-card { border-color: rgba(124,235,255,.18); background: linear-gradient(135deg, rgba(9,22,42,.78), rgba(8,13,28,.70)); }

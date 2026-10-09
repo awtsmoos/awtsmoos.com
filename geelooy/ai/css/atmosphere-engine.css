@@ -23,7 +23,7 @@ body .chat-box::after{
 body.awts-fx-high::before{animation:awtsNebulaDrift 34s ease-in-out infinite alternate}
 body.awts-fx-high::after{animation:awtsNebulaPulse 28s ease-in-out infinite alternate}
 body.awts-fx-high .chat-box::before{animation:awtsStars 90s linear infinite}
-body.awts-fx-off .chat-box::before,body.awts-fx-off .chat-box::after{display:none!important}
+body.awts-fx-off .chat-box::before,body.awts-fx-off .chat-box::after{display:none}
 @keyframes awtsStars{from{transform:translateY(0)}to{transform:translateY(-80px)}}
 @keyframes awtsNebulaDrift{from{transform:translate3d(-1%,0,0)}to{transform:translate3d(1%,1%,0)}}
 @keyframes awtsNebulaPulse{from{opacity:.50}to{opacity:.72}}

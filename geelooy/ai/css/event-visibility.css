@@ -21,10 +21,10 @@ html[data-hide-tool_call] .event-kind-tool_call,
 html[data-hide-tool_call] .message-shell.event-only.kind-tool_call,
 html[data-hide-tool_result] .event-kind-tool_result,
 html[data-hide-tool_result] .message-shell.event-only.kind-tool_result {
-  display: none !important;
+  display: none;
 }
 .message-shell.event-only:empty {
-  display: none !important;
+  display: none;
 }
 .event-record-badge {
   margin: 4px 0 2px;

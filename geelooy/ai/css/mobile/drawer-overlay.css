@@ -7,78 +7,78 @@
   body,
   .container,
   .main,
-  #chat-box { overflow-x: hidden !important; }
+  #chat-box { overflow-x: hidden; }
 
   body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) .container {
-    grid-template-rows: minmax(0, 1fr) !important;
-    grid-template-areas: "main" !important;
-    padding-left: 54px !important;
+    grid-template-rows: minmax(0, 1fr);
+    grid-template-areas: "main";
+    padding-left: 54px;
   }
 
   body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) :is(#left-resizer, #right-resizer) {
-    display: none !important;
+    display: none;
   }
 
   body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) :is(.sidebar, .automation-panel) {
-    position: fixed !important;
-    top: max(6px, env(safe-area-inset-top)) !important;
-    bottom: max(6px, env(safe-area-inset-bottom)) !important;
-    height: auto !important;
-    max-height: none !important;
-    z-index: 40 !important;
-    transition: width .18s ease, transform .18s ease, box-shadow .18s ease !important;
-    box-shadow: 0 20px 58px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.08) !important;
+    position: fixed;
+    top: max(6px, env(safe-area-inset-top));
+    bottom: max(6px, env(safe-area-inset-bottom));
+    height: auto;
+    max-height: none;
+    z-index: 40;
+    transition: width .18s ease, transform .18s ease, box-shadow .18s ease;
+    box-shadow: 0 20px 58px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.08);
   }
 
   body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) .sidebar {
-    left: 6px !important;
-    width: min(86vw, 360px) !important;
+    left: 6px;
+    width: min(86vw, 360px);
   }
 
   body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) .automation-panel {
-    right: 6px !important;
-    width: min(92vw, 420px) !important;
+    right: 6px;
+    width: min(92vw, 420px);
   }
 
   body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded)[data-sidebar-collapsed="true"] .sidebar,
   body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded)[data-automation-collapsed="true"] .automation-panel {
-    width: 46px !important;
-    min-width: 46px !important;
-    max-width: 46px !important;
+    width: 46px;
+    min-width: 46px;
+    max-width: 46px;
   }
 
   body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded)[data-automation-collapsed="true"] .automation-panel {
-    transform: translateX(calc(100% - 46px)) !important;
+    transform: translateX(calc(100% - 46px));
   }
 
   body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-sidebar-collapsed="true"]) .sidebar,
   body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-automation-collapsed="true"]) .automation-panel {
-    transform: translateX(0) !important;
-    z-index: 60 !important;
+    transform: translateX(0);
+    z-index: 60;
   }
 
   body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) :is(.panel-topbar, .sidebar-header) {
-    min-height: 46px !important;
-    height: 46px !important;
-    padding: 6px !important;
-    gap: 6px !important;
+    min-height: 46px;
+    height: 46px;
+    padding: 6px;
+    gap: 6px;
   }
 
-  .panel-title { font-size: .78rem !important; line-height: 1.1 !important; letter-spacing: .04em !important; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; }
-  .panel-actions button { width: 34px !important; height: 34px !important; min-width: 34px !important; border-radius: 12px !important; font-size: 0 !important; }
+  .panel-title { font-size: .78rem; line-height: 1.1; letter-spacing: .04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .panel-actions button { width: 34px; height: 34px; min-width: 34px; border-radius: 12px; font-size: 0; }
   .panel-actions [data-panel-action="toggle"]::before { content: "☰"; font-size: 1.08rem; line-height: 1; }
 
   body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-sidebar-collapsed="true"]) #sidebar .panel-actions [data-panel-action="toggle"]::before,
   body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-automation-collapsed="true"]) #automation-panel .panel-actions [data-panel-action="toggle"]::before { content: "×"; }
 
   body[data-sidebar-collapsed="true"] #sidebar :is(.panel-title, .panel-actions [data-panel-action="fullscreen"]),
-  body[data-automation-collapsed="true"] #automation-panel :is(.panel-title, .panel-actions [data-panel-action="fullscreen"]) { display: none !important; }
+  body[data-automation-collapsed="true"] #automation-panel :is(.panel-title, .panel-actions [data-panel-action="fullscreen"]) { display: none; }
 
   body[data-sidebar-collapsed="true"] #sidebar .panel-topbar,
-  body[data-automation-collapsed="true"] #automation-panel .panel-topbar { justify-content: center !important; }
+  body[data-automation-collapsed="true"] #automation-panel .panel-topbar { justify-content: center; }
 
   body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded)[data-sidebar-collapsed="true"] #sidebar > :not(.panel-topbar),
-  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded)[data-automation-collapsed="true"] #automation-panel > :not(.panel-topbar) { display: none !important; }
+  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded)[data-automation-collapsed="true"] #automation-panel > :not(.panel-topbar) { display: none; }
 
   body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-sidebar-collapsed="true"])::before,
   body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-automation-collapsed="true"])::after {
@@ -88,15 +88,15 @@
     z-index: 35;
     background: rgba(2, 6, 23, .18);
     pointer-events: none;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-sidebar-collapsed="true"]) #sidebar,
-  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-automation-collapsed="true"]) #automation-panel { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-automation-collapsed="true"]) #automation-panel { backdrop-filter: none; -webkit-backdrop-filter: none; }
 
   .conversation-list,
-  .automation-panel > :not(.panel-topbar) { overflow-x: hidden !important; }
+  .automation-panel > :not(.panel-topbar) { overflow-x: hidden; }
 
   .message,
   .bubble,
@@ -109,14 +109,14 @@
   .md-code,
   .right-tabs,
   .automation-field,
-  .graph-node { max-width: 100% !important; min-width: 0 !important; overflow-x: hidden !important; word-break: break-word !important; overflow-wrap: anywhere !important; }
+  .graph-node { max-width: 100%; min-width: 0; overflow-x: hidden; word-break: break-word; overflow-wrap: anywhere; }
 
   pre,
   code,
-  .md-code code { white-space: pre-wrap !important; }
+  .md-code code { white-space: pre-wrap; }
 
-  .right-tabs { flex-wrap: wrap !important; }
-  .right-tabs button { min-width: 0 !important; flex: 1 1 120px !important; }
+  .right-tabs { flex-wrap: wrap; }
+  .right-tabs button { min-width: 0; flex: 1 1 120px; }
 }
 
 /* @tunnel-interactive-states: auto-generated by css-guarantee */

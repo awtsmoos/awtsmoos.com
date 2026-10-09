@@ -5,27 +5,27 @@
   the switch lives on the right, and no generated caption overlays the words.
 */
 #automation-panel .automation-field:has(input[type="checkbox"]) {
-  display: grid !important;
-  grid-template-columns: minmax(0, 1fr) auto !important;
-  grid-template-areas: "copy switch" !important;
-  align-items: center !important;
-  gap: .85rem !important;
-  min-height: auto !important;
-  padding: .82rem .92rem !important;
-  white-space: normal !important;
-  overflow: visible !important;
-  line-height: 1.35 !important;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "copy switch";
+  align-items: center;
+  gap: .85rem;
+  min-height: auto;
+  padding: .82rem .92rem;
+  white-space: normal;
+  overflow: visible;
+  line-height: 1.35;
 }
 
 #automation-panel .automation-field:has(input[type="checkbox"])::before {
-  content: none !important;
+  content: none;
 }
 
 #automation-panel .automation-field:has(input[type="checkbox"]) input[type="checkbox"] {
-  grid-area: switch !important;
-  justify-self: end !important;
-  align-self: center !important;
-  flex: 0 0 auto !important;
+  grid-area: switch;
+  justify-self: end;
+  align-self: center;
+  flex: 0 0 auto;
 }
 
 #automation-panel .event-filter-grid {
@@ -35,10 +35,10 @@
 }
 
 #automation-panel .event-filter {
-  min-height: 54px !important;
-  font-size: .88rem !important;
-  font-weight: 800 !important;
-  color: rgba(226,246,255,.9) !important;
+  min-height: 54px;
+  font-size: .88rem;
+  font-weight: 800;
+  color: rgba(226,246,255,.9);
 }
 
 #automation-panel .relay-card code,
@@ -50,5 +50,5 @@
 #automation-panel .automation-field textarea,
 #automation-panel .automation-field input:not([type="checkbox"]),
 #automation-panel .automation-field select {
-  min-width: 0 !important;
+  min-width: 0;
 }

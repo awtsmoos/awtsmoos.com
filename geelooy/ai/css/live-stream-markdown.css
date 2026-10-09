@@ -11,11 +11,11 @@
 }
 
 .message.is-streaming-markdown .message-live-text{
-  display:block!important;
-  white-space:pre-wrap!important;
+  display:block;
+  white-space:pre-wrap;
   text-wrap:pretty;
-  overflow-wrap:anywhere!important;
-  min-width:0!important;
+  overflow-wrap:anywhere;
+  min-width:0;
   opacity:.52;
   font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
   font-size:.82em;
@@ -29,14 +29,14 @@
 }
 
 .message-live-markdown-preview{
-  display:block!important;
+  display:block;
   min-width:0;
   white-space:normal;
   overflow-wrap:anywhere;
 }
 
-.message-live-markdown-preview > :first-child{margin-top:0!important}
-.message-live-markdown-preview > :last-child{margin-bottom:0!important}
+.message-live-markdown-preview > :first-child{margin-top:0}
+.message-live-markdown-preview > :last-child{margin-bottom:0}
 
 .message.has-pending-markdown-freeze .message-live-text::after,
 .message.is-streaming-markdown .message-live-markdown-preview::after{

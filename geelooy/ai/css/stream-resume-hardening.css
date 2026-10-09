@@ -78,7 +78,7 @@
 .transport-details:not([open]) > :not(summary):not(.event-panel-actions),
 .thought-envelope-events:not([open]) > :not(summary),
 .event-raw-lazy:not([open]) > :not(summary) {
-  display: none !important;
+  display: none;
 }
 
 .thought-inner-window,
@@ -147,7 +147,7 @@
 .player-play {
   width: 2.5rem;
   height: 2.5rem;
-  padding: 0 !important;
+  padding: 0;
   display: inline-grid;
   place-items: center;
   font-weight: 900;
@@ -196,7 +196,7 @@
 @media (max-width: 760px) {
   .transport-details > summary,
   .thought-envelope-card > summary {
-    padding-inline-end: 5.8rem !important;
+    padding-inline-end: 5.8rem;
   }
 
   .transport-details > .event-panel-actions,
@@ -207,10 +207,10 @@
   }
 
   .event-panel-actions button {
-    width: 1.65rem !important;
-    height: 1.65rem !important;
-    min-width: 1.65rem !important;
-    min-height: 1.65rem !important;
+    width: 1.65rem;
+    height: 1.65rem;
+    min-width: 1.65rem;
+    min-height: 1.65rem;
   }
 }
 
