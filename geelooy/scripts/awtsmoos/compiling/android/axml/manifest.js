@@ -45,7 +45,11 @@ function validateSpecification(specification) {
 	if (!/^[A-Za-z][A-Za-z0-9_.]*$/.test(String(specification.packageName || ""))) {
 		throw manifestError("AXML_PACKAGE_INVALID", specification.packageName);
 	}
-	if (!/^[A-Za-z_$][A-Za-z0-9_$]*$/.test(String(specification.className || ""))) {
+	if (specification.nativeActivity) {
+		if (!/^[A-Za-z0-9_]+$/.test(String(specification.nativeActivity.libName || ""))) {
+			throw manifestError("AXML_NATIVE_LIB_INVALID", specification.nativeActivity.libName);
+		}
+	} else if (!/^[A-Za-z_$][A-Za-z0-9_$]*$/.test(String(specification.className || ""))) {
 		throw manifestError("AXML_CLASS_INVALID", specification.className);
 	}
 	for (const permission of specification.permissions || []) {

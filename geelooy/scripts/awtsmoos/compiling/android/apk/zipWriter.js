@@ -14,8 +14,9 @@ export function buildStoredApk(entries) {
 	const writer = new AndroidByteWriter();
 	const central = [];
 	for (const entry of normalized) {
-		const localOffset = writer.length;
 		const nameBytes = new TextEncoder().encode(entry.name);
+		writeAlignmentPadding(writer, nameBytes, entry.alignment);
+		const localOffset = writer.length;
 		const crc32 = apkCrc32(entry.bytes);
 		writeLocalHeader(writer, nameBytes, entry.bytes.length, crc32);
 		writer.bytes(nameBytes).bytes(entry.bytes);
@@ -43,6 +44,20 @@ export function buildStoredApk(entries) {
 			})))
 		})
 	});
+}
+
+/**
+ * Pads with zero bytes so an entry's payload starts at the requested power-of-two
+ * boundary. The Awtsmoos creates page-aligned native libraries anew so Android
+ * can map .so files straight from the APK; entries without an alignment request
+ * keep the historical packed layout byte for byte.
+ */
+function writeAlignmentPadding(writer, nameBytes, alignment) {
+	if (!alignment || alignment < 2) return;
+	const headerSize = 30 + nameBytes.length;
+	const dataStart = writer.length + headerSize;
+	const padding = (alignment - (dataStart % alignment)) % alignment;
+	if (padding > 0) writer.bytes(new Uint8Array(padding));
 }
 
 function writeLocalHeader(writer, name, size, crc32) {
@@ -106,10 +121,21 @@ function normalizeEntries(entries) {
 		if (seen.has(name)) throw zipError("APK_ZIP_NAME_DUPLICATE", name);
 		seen.add(name);
 		return Object.freeze({
+			alignment: normalizeAlignment(entry.alignment),
 			bytes: entry.bytes instanceof Uint8Array ? entry.bytes : Uint8Array.from(entry.bytes || []),
 			name
 		});
 	}).sort((left, right) => left.name.localeCompare(right.name));
+}
+
+function normalizeAlignment(value) {
+	if (value === undefined || value === null) return 0;
+	const alignment = Number(value);
+	if (!Number.isSafeInteger(alignment) || alignment < 1
+		|| (alignment & (alignment - 1)) !== 0) {
+		throw zipError("APK_ZIP_ALIGNMENT_INVALID", value);
+	}
+	return alignment;
 }
 
 function zipError(code, detail) {

@@ -35,10 +35,47 @@ export function writeActivityManifestNodes(writer, pool, specification) {
 	start(writer, pool, "application", [
 		stringAttribute("label", specification.label || specification.className)
 	]);
+	if (specification.nativeActivity) {
+		writeNativeActivity(writer, pool, specification);
+	} else {
+		writeJavaActivity(writer, pool, specification);
+	}
+	end(writer, pool, "application");
+	end(writer, pool, "manifest");
+	writeNamespace(writer, pool, false);
+}
+
+function writeJavaActivity(writer, pool, specification) {
 	start(writer, pool, "activity", [
 		stringAttribute("name", `.${specification.className}`),
 		booleanAttribute("exported", true)
 	]);
+	writeLauncherIntentFilter(writer, pool);
+	end(writer, pool, "activity");
+}
+
+/**
+ * Declares android.app.NativeActivity with the android.app.lib_name meta-data
+ * pointing at the bundled .so. The Awtsmoos creates the native activity garment
+ * anew; the launcher intent-filter keeps the entry point reachable.
+ */
+function writeNativeActivity(writer, pool, specification) {
+	const native = specification.nativeActivity;
+	start(writer, pool, "activity", [
+		stringAttribute("name", "android.app.NativeActivity"),
+		stringAttribute("configChanges", native.configChanges || "orientation|keyboardHidden"),
+		booleanAttribute("exported", true)
+	]);
+	start(writer, pool, "meta-data", [
+		stringAttribute("name", "android.app.lib_name"),
+		stringAttribute("value", native.libName)
+	]);
+	end(writer, pool, "meta-data");
+	writeLauncherIntentFilter(writer, pool);
+	end(writer, pool, "activity");
+}
+
+function writeLauncherIntentFilter(writer, pool) {
 	start(writer, pool, "intent-filter");
 	start(writer, pool, "action", [
 		stringAttribute("name", "android.intent.action.MAIN")
@@ -49,10 +86,6 @@ export function writeActivityManifestNodes(writer, pool, specification) {
 	]);
 	end(writer, pool, "category");
 	end(writer, pool, "intent-filter");
-	end(writer, pool, "activity");
-	end(writer, pool, "application");
-	end(writer, pool, "manifest");
-	writeNamespace(writer, pool, false);
 }
 
 function start(writer, pool, name, attributes = []) {
