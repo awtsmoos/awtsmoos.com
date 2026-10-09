@@ -16,6 +16,7 @@ import { createFrameworkJavaStringMethods } from "./frameworkJavaStrings.js";
 import { createFrameworkJavaSystemMethods } from "./frameworkJavaSystem.js";
 import { createFrameworkJavaThreadLocalMethods } from "./frameworkJavaThreadLocals.js";
 import { createFrameworkJavaThreadMethods } from "./frameworkJavaThreads.js";
+import { createFrameworkJavaLoggerMethods } from "./frameworkJavaLoggers.js";
 import { createFrameworkJavaTimeUnitMethods } from "./frameworkJavaTimeUnits.js";
 import { createFrameworkJavaValueFamilies } from "./frameworkJavaValueFamilies.js";
 
@@ -34,6 +35,7 @@ export function createFrameworkJavaPlatformFamilies(runtime) {
 		createFrameworkJavaThreadMethods(runtime),
 		createFrameworkJavaExecutorMethods(runtime),
 		createFrameworkJavaTimeUnitMethods(runtime),
+		createFrameworkJavaLoggerMethods(runtime),
 		createFrameworkJavaFutureMethods(runtime),
 		createFrameworkJavaLockMethods(runtime),
 		createFrameworkJavaReferenceMethods(runtime),
