@@ -334,11 +334,30 @@ _skipWhitespace() {
 	}
 
 	_readIdentifier() {
-		const p = this.position;
-		while (this.ch !== null && this._isIdentifierChar(this.ch)) {
-			this._advance();
+		// B"H - Tight scan loop: zero per-character method calls.
+		const s = this.source;
+		const n = s.length;
+		const start = this.position;
+		let p = start;
+		while (p < n) {
+			const c = s.charCodeAt(p);
+			if ((c >= 97 && c <= 122) || (c >= 65 && c <= 90) || (c >= 48 && c <= 57) ||
+				c === 95 || c === 36 || c === 92 || c >= 128) {
+				p++;
+			} else break;
 		}
-		return this.source.slice(p, this.position);
+		const ident = s.slice(start, p);
+		this.column += (p - start);
+		this.position = p;
+		if (p >= n) {
+			this.ch = null;
+			this.readPosition = n + 1;
+		} else {
+			this.ch = s[p];
+			this.readPosition = p + 1;
+		}
+		this.op_count += (p - start);
+		return ident;
 	}
 
 	// B"H
