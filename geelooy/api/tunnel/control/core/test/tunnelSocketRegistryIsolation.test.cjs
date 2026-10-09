@@ -44,6 +44,7 @@ async function main() {
 	], calls);
 	assertNativeIsolation(server, aliceBinding, aliceNative, bobNative);
 	assertBrowserIsolation(server, aliceBrowser, bobBrowser);
+	assertReplacedSocketCannotShadowOwner(aliceBinding);
 	await Native.sendNativeTunnel(
 		server,
 		"alice",
@@ -71,6 +72,29 @@ function assertNativeIsolation(server, aliceBinding, aliceNative, bobNative) {
 		}),
 		null
 	);
+}
+
+function assertReplacedSocketCannotShadowOwner(bindingRecord) {
+	const registrationKey = 'alice:immutable-tunnel';
+	const owner = Fixture.nativeClient(bindingRecord, 200);
+	owner.registrationKey = registrationKey;
+	owner.isAlive = true;
+	const replaced = Fixture.nativeClient(bindingRecord, 100);
+	replaced.registrationKey = registrationKey;
+	replaced.lastSeenAt = 100000;
+	replaced.connected = false;
+	replaced.isAlive = false;
+	const server = {
+		ws: {
+			tunnelClients: new Map([[registrationKey, owner]]),
+			clients: new Set([owner, replaced])
+		}
+	};
+	assert.deepEqual(Native.listNativeTunnelClients(server, 'alice'), [owner]);
+	assert.equal(Native.findExactNativeTunnelClient(server, bindingRecord), owner);
+	// Once the accepted owner goes away, a lingering raw socket is not a route.
+	server.ws.tunnelClients.delete(registrationKey);
+	assert.deepEqual(Native.listNativeTunnelClients(server, 'alice'), []);
 }
 
 function assertBrowserIsolation(server, aliceBrowser, bobBrowser) {

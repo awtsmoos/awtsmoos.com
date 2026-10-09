@@ -19,14 +19,22 @@ const { verifyTunnelResponse } = require("./responseContract.js");
  * while preserving the friendly alias solely for response clarity and diagnostics.
  */
 function allTunnelClients(server = {}) {
+	// The accepted registration map owns routing authority. Raw WS clients can
+	// briefly retain a replaced or closed socket with the same immutable ID.
+	// Never let that older socket win discovery through a later heartbeat stamp.
+	const registry = server?.ws?.tunnelClients instanceof Map
+		? server.ws.tunnelClients
+		: server?.tunnelClients instanceof Map ? server.tunnelClients : null;
 	const clients = [
-		...Array.from(server?.tunnelClients?.values?.() || []),
+		...Array.from(registry?.values?.() || []),
 		...Array.from(server?.ws?.clients || [])
 	];
 	const unique = new Set();
 	return clients.filter((client) => {
 		if (!client || unique.has(client)) return false;
 		unique.add(client);
+		if (registry && client.registrationKey &&
+			registry.get(client.registrationKey) !== client) return false;
 		return true;
 	});
 }
