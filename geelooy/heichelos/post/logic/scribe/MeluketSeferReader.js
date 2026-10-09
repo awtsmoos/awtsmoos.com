@@ -42,10 +42,15 @@ function sectionIdKey(sectionId) {
 
 /**
  * Groups Hebrew phrases by sectionId, each group's phrases sorted by phraseId.
+ * B"H — each phrase also carries its English, joined on phraseId from
+ * enrichment.translation_en_phrases, so the renderer can place the English
+ * beneath its own Hebrew phrase instead of a section-level blob.
  * @param {Array} phrases Raw hebrew_phrases array.
- * @returns {Array<{sectionId:string, html:string}>} Ordered sections with concatenated HTML.
+ * @param {Map<string,string>} enByPhraseId phraseId -> English text.
+ * @returns {Array<{sectionId:string, html:string, items:Array<{phraseId:string,he:string,en:string}>}>}
+ *   Ordered sections with phrase items (plus the legacy concatenated HTML).
  */
-export function buildHebrewSections(phrases) {
+export function buildHebrewSections(phrases, enByPhraseId) {
 	const groups = new Map();
 	for (const phrase of phrases || []) {
 		const sectionId = phrase.sectionId || 'sec-000';
@@ -54,13 +59,20 @@ export function buildHebrewSections(phrases) {
 	}
 	const ordered = Array.from(groups.keys()).sort((a, b) => sectionIdKey(a) - sectionIdKey(b));
 	return ordered.map(sectionId => {
-		const items = groups.get(sectionId).sort((a, b) => comparePhraseId(a.phraseId, b.phraseId));
+		const sorted = groups.get(sectionId).sort((a, b) => comparePhraseId(a.phraseId, b.phraseId));
+		const items = sorted.map(p => {
+			const phraseId = String(p.phraseId || '');
+			const he = typeof p.he === 'string' ? p.he : (p.hebrew || '');
+			let en = '';
+			if (enByPhraseId && enByPhraseId.has(phraseId)) en = enByPhraseId.get(phraseId);
+			return { phraseId, he, en };
+		});
 		// B"H: convert scribe [cup] markers to bold — the enrichment phrases
 		// carry them raw, and without conversion they leak as literal text.
 		const html = items.map(p => p.he || '').join('')
 			.replace(/\[cup\]/g, '<b>')
 			.replace(/\[\/cup\]/g, '</b>');
-		return { sectionId, html };
+		return { sectionId, html, items };
 	});
 }
 
@@ -138,10 +150,141 @@ export function splitHebrewPhrases(html) {
 	return phrases;
 }
 
+/* ---------------------------------------------------------------------------
+ * B"H — Phrase-level English + footnote markers.
+ * Yaakov: translations for EVERY phrase (English beneath its own Hebrew
+ * phrase, never a section blob); footnotes as tappable <sup> markers that
+ * open the footnote popup, never scroll-to-bottom.
+ * ------------------------------------------------------------------------- */
+
 /**
- * Builds one sefer section: Hebrew phrase blocks + English beneath + summary.
+ * Builds the phrase English lookup: enrichment.translation_en_phrases
+ * joined on phraseId. Tolerates variant field spellings from the pipeline.
+ * @param {Array} enPhrases Raw translation_en_phrases array.
+ * @returns {Map<string,string>} phraseId -> English text.
  */
-function buildSectionElement(sectionIndex, sectionId, hebrewHtml, englishText, sectionSummary, langMode) {
+export function buildPhraseEnglishMap(enPhrases) {
+	const map = new Map();
+	for (const p of enPhrases || []) {
+		const phraseId = p.phraseId || p.phrase_id || p.id || p.segmentId;
+		const en = p.en || p.english || p.text;
+		if (phraseId && en && !map.has(String(phraseId))) {
+			map.set(String(phraseId), String(en));
+		}
+	}
+	return map;
+}
+
+/** True when an HTML/text fragment carries visible characters. */
+function hasVisibleText(fragment) {
+	return String(fragment || '')
+		.replace(/<[^>]*>/g, '')
+		.replace(/\[cup\]|\[\/cup\]/g, '')
+		.trim().length > 0;
+}
+
+/**
+ * One footnote marker element, as HTML. The sefer's delegated click/keydown
+ * handlers pick up sup.meluket-fn-marker[data-fn] and open the popup.
+ */
+function footnoteMarkerHtml(fnNum) {
+	const n = String(fnNum);
+	return `<sup class="meluket-fn-marker" data-fn="${n}" role="button" tabindex="0" aria-label="Footnote ${n}">${n}</sup>`;
+}
+
+/**
+ * Renders one English phrase string as HTML with footnote markers.
+ * - A literal `<sup data-fn="N">N</sup>` carried as TEXT in the data becomes
+ *   a real marker (textContent used to escape it — that is why Yaakov saw
+ *   raw markup on the page).
+ * - Bare trailing footnote digits ("…Israel 5.") become a marker. Only 1-3
+ *   digits, so years like 1967 are left alone.
+ * Everything else is HTML-escaped, so innerHTML is safe here.
+ */
+export function renderEnglishWithFootnotes(enText) {
+	const placeholders = [];
+	const SUP_LITERAL_RE = /<sup\b[^>]*\bdata-fn="(\d+)"[^>]*>\s*(\d+)\s*<\/sup\s*>/gi;
+	let text = String(enText || '').replace(SUP_LITERAL_RE, (m, fnNum) => {
+		placeholders.push(fnNum);
+		return `\u0000FN${placeholders.length - 1}\u0000`;
+	});
+	// Bare trailing digits: preceded by a non-digit (or start of phrase),
+	// 1-3 digits, then only closing punctuation/whitespace to phrase end.
+	text = text.replace(/(^|\D)(\d{1,3})([.!?…‥"”"'')\];:—–-]*\s*)$/, (m, pre, digits, tail) => {
+		placeholders.push(digits);
+		return `${pre}\u0000FN${placeholders.length - 1}\u0000${tail}`;
+	});
+	const escaped = text
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;');
+	return escaped.replace(/\u0000FN(\d+)\u0000/g, (m, idx) => footnoteMarkerHtml(placeholders[Number(idx)]));
+}
+
+/**
+ * Converts bare trailing footnote digits in Hebrew HTML to real <sup> markers.
+ * The data carries markers as plain digits ("ה'תשכ"ג1") — no <sup> in data.
+ * Only the phrase block's LAST text node is touched, and only 1-3 trailing
+ * digits, so years and in-content numbers are never mangled. Text inside
+ * existing <sup> markers is left alone.
+ */
+export function convertBareFootnoteDigits(root) {
+	if (!root || typeof document === 'undefined' || !document.createTreeWalker) return;
+	const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+		acceptNode(n) {
+			if (!n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_SKIP;
+			const p = n.parentElement;
+			if (p && p.closest && p.closest('sup')) return NodeFilter.FILTER_REJECT;
+			return NodeFilter.FILTER_ACCEPT;
+		}
+	});
+	let last = null;
+	let cur;
+	while ((cur = walker.nextNode())) last = cur;
+	if (!last || !last.parentNode) return;
+	const value = last.nodeValue;
+	const m = value.match(/(^|\D)(\d{1,3})([.!?…‥"”"'')\];:—–-]*\s*)$/);
+	if (!m) return;
+	const prefix = m[1];
+	const digits = m[2];
+	const tail = m[3];
+	last.nodeValue = value.slice(0, value.length - m[0].length) + prefix;
+	const sup = document.createElement('sup');
+	sup.setAttribute('data-fn', digits);
+	sup.textContent = digits;
+	const parent = last.parentNode;
+	parent.insertBefore(sup, last.nextSibling);
+	if (tail) parent.insertBefore(document.createTextNode(tail), sup.nextSibling);
+}
+
+/**
+ * Enhances one <sup> into a tappable footnote marker. Idempotent — safe to
+ * run over markers that already carry the class (e.g. from
+ * renderEnglishWithFootnotes). The sefer's delegated click/keydown handlers
+ * open the footnote popup from sup.meluket-fn-marker[data-fn].
+ */
+function enhanceFootnoteSup(sup, idx) {
+	const text = sup.textContent.trim();
+	const numMatch = text.match(/(\d+)/);
+	const fnNum = numMatch ? numMatch[1] : String(idx + 1);
+	sup.classList.add('meluket-fn-marker');
+	sup.setAttribute('data-fn', fnNum);
+	// Unique ID allows the shelf to scroll back to THIS specific marker
+	// (handles duplicate footnote numbers referenced from multiple places).
+	sup.id = `meluket-fn-marker-${fnNum}-${idx}`;
+	sup.setAttribute('aria-label', `Footnote ${fnNum}`);
+	sup.setAttribute('role', 'button');
+	sup.setAttribute('tabindex', '0');
+}
+
+/**
+ * Builds one sefer section: Hebrew phrase blocks with each phrase's English
+ * dwelling directly beneath its Hebrew — never side by side — plus summary.
+ * B"H — phrase-level English (joined on phraseId) replaces the old
+ * section-level English blob. Empty Hebrew phrases (tail misalignment) are
+ * skipped gracefully; a phrase block renders when it has Hebrew or English.
+ */
+export function buildSectionElement(sectionIndex, sectionId, hebrewItems, englishFallback, sectionSummary, langMode) {
 	const section = document.createElement('section');
 	section.className = 'meluket-sefer-section';
 	section.dataset.sectionId = sectionId;
@@ -158,56 +301,69 @@ function buildSectionElement(sectionIndex, sectionId, hebrewHtml, englishText, s
 	marker.appendChild(markerInner);
 	section.appendChild(marker);
 
-	// Hebrew vessel (the ikar, above the English) — phrase blocks.
+	// Hebrew vessel (the ikar, above the English) — one block per phrase.
 	const hebrew = document.createElement('div');
 	hebrew.className = 'meluket-hebrew';
 	hebrew.setAttribute('dir', 'rtl');
 	hebrew.setAttribute('lang', 'he');
-	const phraseBlocks = splitHebrewPhrases(hebrewHtml);
-	if (phraseBlocks.length) {
-		for (const phraseHtml of phraseBlocks) {
-			const block = document.createElement('div');
-			block.className = 'meluket-phrase';
-			block.innerHTML = phraseHtml;
-			hebrew.appendChild(block);
-		}
-	} else {
-		hebrew.innerHTML = hebrewHtml;
+	const items = Array.isArray(hebrewItems) ? hebrewItems : [];
+	const toCupHtml = (he) => String(he || '')
+		.replace(/\[cup\]/g, '<b>')
+		.replace(/\[\/cup\]/g, '</b>');
+	for (const item of items) {
+		// B"H: skip empty-Hebrew phrases gracefully (tail misalignment
+		// artifacts) instead of rendering blank blocks.
+		if (!hasVisibleText(item.he)) continue;
+		const block = document.createElement('div');
+		block.className = 'meluket-phrase';
+		if (item.phraseId) block.dataset.phraseId = item.phraseId;
+		block.innerHTML = toCupHtml(item.he);
+		// B"H: the data carries footnote markers as bare trailing digits —
+		// no <sup> in the data. Convert them to real markers at render time.
+		convertBareFootnoteDigits(block);
+		hebrew.appendChild(block);
 	}
-	// Footnote markers stay as <sup> tags (Yaakov: never buttons).
-	// Enhance in place: clickable, accessible, scrolls to footnote shelf.
-	hebrew.querySelectorAll('sup').forEach((sup, idx) => {
-		const text = sup.textContent.trim();
-		// Map marker to footnote number: try numeric, else use position
-		const numMatch = text.match(/(\d+)/);
-		const fnNum = numMatch ? numMatch[1] : String(idx + 1);
-		sup.classList.add('meluket-fn-marker');
-		sup.setAttribute('data-fn', fnNum);
-		// Unique ID allows the shelf to scroll back to THIS specific marker
-		// (handles duplicate footnote numbers referenced from multiple places).
-		sup.id = `meluket-fn-marker-${fnNum}-${idx}`;
-		sup.setAttribute('aria-label', `Footnote ${fnNum}`);
-		sup.setAttribute('role', 'button');
-		sup.setAttribute('tabindex', '0');
-	});
 	section.appendChild(hebrew);
 
-	// English vessel (translation) — beneath the Hebrew, never beside it.
-	if (englishText && englishText.trim()) {
+	// English vessel — each phrase's English dwells beneath its own Hebrew
+	// phrase, never side by side. Falls back to the legacy section blob for
+	// posts whose enrichment has no translation_en_phrases yet.
+	const phraseEnglish = items.filter(item => item.en && String(item.en).trim());
+	if (phraseEnglish.length) {
 		const english = document.createElement('div');
 		english.className = 'meluket-english';
 		english.setAttribute('dir', 'ltr');
 		english.setAttribute('lang', 'en');
-		const paragraphs = String(englishText).split(/\n{2,}|\r\n{2,}/);
+		for (const item of phraseEnglish) {
+			const block = document.createElement('div');
+			block.className = 'meluket-phrase';
+			if (item.phraseId) block.dataset.phraseId = item.phraseId;
+			// B"H: innerHTML — never textContent — so footnote markers
+			// become real <sup> elements; the renderer escapes the rest.
+			block.innerHTML = renderEnglishWithFootnotes(item.en);
+			english.appendChild(block);
+		}
+		section.appendChild(english);
+	} else if (englishFallback && String(englishFallback).trim()) {
+		const english = document.createElement('div');
+		english.className = 'meluket-english';
+		english.setAttribute('dir', 'ltr');
+		english.setAttribute('lang', 'en');
+		const paragraphs = String(englishFallback).split(/\n{2,}|\r\n{2,}/);
 		for (const para of paragraphs) {
 			const trimmed = para.trim();
 			if (!trimmed) continue;
 			const p = document.createElement('p');
-			p.textContent = trimmed;
+			p.innerHTML = renderEnglishWithFootnotes(trimmed);
 			english.appendChild(p);
 		}
 		section.appendChild(english);
 	}
+
+	// Footnote markers — in Hebrew AND English — stay as <sup> tags
+	// (Yaakov: never buttons). Enhanced in place: clickable, accessible,
+	// and the sefer's delegated handlers open the footnote popup.
+	section.querySelectorAll('sup').forEach((sup, idx) => enhanceFootnoteSup(sup, idx));
 
 	// Section summary — the hadracha beneath the translation.
 	if (sectionSummary && String(sectionSummary).trim()) {
@@ -737,7 +893,10 @@ export function awakenMeluketSeferReader(post) {
 		return false;
 	}
 
-	const hebrewSections = buildHebrewSections(enrichment.hebrew_phrases);
+	// B"H — phrase-level English joined on phraseId; the section-level
+	// translation_en blob is only a fallback for older enrichment.
+	const enByPhraseId = buildPhraseEnglishMap(enrichment.translation_en_phrases);
+	const hebrewSections = buildHebrewSections(enrichment.hebrew_phrases, enByPhraseId);
 	if (!hebrewSections.length) {
 		console.log("B\"H sefer reader skipped: buildHebrewSections empty");
 		return false;
@@ -780,11 +939,11 @@ export function awakenMeluketSeferReader(post) {
 	injectLangToggleIntoSettings(toggle);
 	enhanceScribeLensPanel();
 
-	// Sections.
-	hebrewSections.forEach(({ sectionId, html }, index) => {
+	// Sections — each phrase's English rides with its Hebrew phrase.
+	hebrewSections.forEach(({ sectionId, items }, index) => {
 		const englishText = translationEn[sectionId] || '';
 		const sectionSummary = sectionSummaries[sectionId] || '';
-		sefer.appendChild(buildSectionElement(index, sectionId, html, englishText, sectionSummary, langMode));
+		sefer.appendChild(buildSectionElement(index, sectionId, items, englishText, sectionSummary, langMode));
 	});
 
 	// Q&A — questions and answers.
