@@ -205,9 +205,15 @@
         }
 
         /**
-         * B"H (2026-10-09): Batch runner. Eliminates the per-instruction
-         * step() method-call overhead by running the dispatch loop inline.
-         * Falls back to step() semantics for catch/error paths.
+         * B"H (2026-10-09): Inline-threaded batch runner. The hottest opcodes
+         * execute directly on hoisted locals (ip/bc/constants/stack/sp) with
+         * zero handler-call overhead and zero per-instruction property
+         * traffic. Cold/complex opcodes sync state and fall through to the
+         * handler table; frame switches (CALL/RETURN) re-sync bc/constants/
+         * stack/env afterwards. Every inline fast path is bit-identical to
+         * its handler in executors/*.js (see notes per opcode). try/catch
+         * semantics, catchStack, and HALT/COMPLETED/UNKNOWN_OP signals are
+         * preserved exactly.
          */
         run(maxSteps) {
             if (this.status !== 'RUNNING') return 0;
@@ -216,38 +222,306 @@
                 this.status = 'CRASHED';
                 throw new Error('[VM Critical] Executor missing from the Palace.');
             }
+            // B"H: hoist hot state into locals. this.ip/this._sp are the
+            // authoritative copies; locals are synced before every cold
+            // handler call, every catch, and every loop exit.
             let steps = 0;
-            const bc = this.bytecode;
-            const bcLen = bc.length;
+            let ip = this.ip;
+            let bc = this.bytecode;
+            let bcLen = bc.length;
+            let constants = this.constants;
+            let stack = this.stack;
+            let sp = this._sp;
+            let env = this.environment;
+            const vm = this.vm;
+            const mem = vm ? vm.memory : null;
+            const memGlobals = mem ? mem.globals : undefined;
+            const vmCtx = vm ? vm.context : undefined;
+            // B"H: when no Security module is installed and the thread is not
+            // strict, property fast paths skip guard/prepare calls (they are
+            // no-ops without Security). Otherwise fall back to handlers.
+            const noSecurity = !root.MerkavaVM.Security && !this._strict;
+            const hasSelf = typeof self !== 'undefined';
+            const cssStyleDecl = typeof CSSStyleDeclaration !== 'undefined' ? CSSStyleDeclaration : null;
+            let coldResult;
             while (steps < maxSteps && this.status === 'RUNNING') {
-                let ip = this.ip;
                 if (ip >= bcLen) { this.status = 'COMPLETED'; break; }
                 const op = bc[ip++];
-                this.ip = ip;
-                const handler = handlers[op];
                 try {
-                    let result;
+                    // ---- stack primitives (mirrors executors/stack.js) ----
+                    if (op === 0x13) { // PUSH_CONST u16
+                        if (ip + 1 >= bcLen) { this.ip = ip; this._sp = sp; this.status = 'COMPLETED'; break; }
+                        const idx = bc[ip] | (bc[ip + 1] << 8); ip += 2;
+                        if (sp >= stack.length) { this._sp = sp; this._growStack(); stack = this.stack; }
+                        stack[sp++] = idx < constants.length ? constants[idx] : undefined;
+                        steps++; continue;
+                    }
+                    if (op === 0x11) { // DUP
+                        if (sp === 0) throw new Error('[VM Critical] Stack Underflow (DUP)');
+                        if (sp >= stack.length) { this._sp = sp; this._growStack(); stack = this.stack; }
+                        stack[sp] = stack[sp - 1]; sp++;
+                        steps++; continue;
+                    }
+                    if (op === 0x10) { // POP (clears slot; no-op on empty — mirrors pop())
+                        if (sp > 0) { sp--; stack[sp] = undefined; }
+                        steps++; continue;
+                    }
+                    if (op === 0x12) { // SWAP (underflow: exact pop/pop/push/push via cold path)
+                        if (sp >= 2) {
+                            const a = stack[sp - 1]; stack[sp - 1] = stack[sp - 2]; stack[sp - 2] = a;
+                            steps++; continue;
+                        }
+                    } else if (op === 0x14) { // PUSH_UNDEFINED
+                        if (sp >= stack.length) { this._sp = sp; this._growStack(); stack = this.stack; }
+                        stack[sp++] = undefined;
+                        steps++; continue;
+                    } else if (op === 0x15) { // PUSH_NULL
+                        if (sp >= stack.length) { this._sp = sp; this._growStack(); stack = this.stack; }
+                        stack[sp++] = null;
+                        steps++; continue;
+                    } else if (op === 0x16) { // PUSH_TRUE
+                        if (sp >= stack.length) { this._sp = sp; this._growStack(); stack = this.stack; }
+                        stack[sp++] = true;
+                        steps++; continue;
+                    } else if (op === 0x17) { // PUSH_FALSE
+                        if (sp >= stack.length) { this._sp = sp; this._growStack(); stack = this.stack; }
+                        stack[sp++] = false;
+                        steps++; continue;
+                    } else if (op === 0x20) { // LOAD_LOCAL u8 (mirrors 0x20: currentScope?.[slot])
+                        if (ip >= bcLen) { this.ip = ip; this._sp = sp; this.status = 'COMPLETED'; break; }
+                        const slot = bc[ip++];
+                        if (sp >= stack.length) { this._sp = sp; this._growStack(); stack = this.stack; }
+                        const cs = this.currentScope;
+                        stack[sp++] = cs == null ? undefined : cs[slot];
+                        steps++; continue;
+                    } else if (op === 0x21) { // STORE_LOCAL u8 (mirrors 0x21)
+                        if (ip >= bcLen) { this.ip = ip; this._sp = sp; this.status = 'COMPLETED'; break; }
+                        const slot = bc[ip++];
+                        let cs = this.currentScope;
+                        if (!cs) cs = this.currentScope = {};
+                        sp--; cs[slot] = stack[sp]; stack[sp] = undefined;
+                        steps++; continue;
+                    // ---- control flow (mirrors executors/flow.js) ----
+                    } else if (op === 0x03) { // JUMP s16
+                        if (ip + 1 >= bcLen) { this.ip = ip; this._sp = sp; this.status = 'COMPLETED'; break; }
+                        let off = bc[ip] | (bc[ip + 1] << 8); ip += 2;
+                        if (off >= 0x8000) off -= 0x10000;
+                        ip += off;
+                        steps++; continue;
+                    } else if (op === 0x04) { // JUMP_IF_FALSE s16 (mirrors pop() truthiness)
+                        if (ip + 1 >= bcLen) { this.ip = ip; this._sp = sp; this.status = 'COMPLETED'; break; }
+                        let off = bc[ip] | (bc[ip + 1] << 8); ip += 2;
+                        let cond;
+                        if (sp > 0) { sp--; cond = stack[sp]; stack[sp] = undefined; }
+                        if (!cond) {
+                            if (off >= 0x8000) off -= 0x10000;
+                            ip += off;
+                        }
+                        steps++; continue;
+                    } else if (op === 0x05) { // JUMP_IF_TRUE s16
+                        if (ip + 1 >= bcLen) { this.ip = ip; this._sp = sp; this.status = 'COMPLETED'; break; }
+                        let off = bc[ip] | (bc[ip + 1] << 8); ip += 2;
+                        let cond;
+                        if (sp > 0) { sp--; cond = stack[sp]; stack[sp] = undefined; }
+                        if (cond) {
+                            if (off >= 0x8000) off -= 0x10000;
+                            ip += off;
+                        }
+                        steps++; continue;
+                    } else if (op === 0x01) { // HALT
+                        this.ip = ip; this._sp = sp;
+                        this.status = 'COMPLETED';
+                        break;
+                    } else if (op === 0x00 || op === 0x0a) { // NOP / Crumple Zone
+                        steps++; continue;
+                    // ---- arithmetic (mirrors executors/math.js: no method calls, in-place) ----
+                    } else if (op === 0x40) { // ADD
+                        stack[sp - 2] = stack[sp - 2] + stack[sp - 1]; sp--;
+                        steps++; continue;
+                    } else if (op === 0x41) { // SUB
+                        stack[sp - 2] = stack[sp - 2] - stack[sp - 1]; sp--;
+                        steps++; continue;
+                    } else if (op === 0x42) { // MUL
+                        stack[sp - 2] = stack[sp - 2] * stack[sp - 1]; sp--;
+                        steps++; continue;
+                    } else if (op === 0x43) { // DIV
+                        stack[sp - 2] = stack[sp - 2] / stack[sp - 1]; sp--;
+                        steps++; continue;
+                    } else if (op === 0x44) { // MOD
+                        stack[sp - 2] = stack[sp - 2] % stack[sp - 1]; sp--;
+                        steps++; continue;
+                    } else if (op === 0x45) { // POW
+                        stack[sp - 2] = Math.pow(stack[sp - 2], stack[sp - 1]); sp--;
+                        steps++; continue;
+                    } else if (op === 0x46) { // AND
+                        stack[sp - 2] = stack[sp - 2] & stack[sp - 1]; sp--;
+                        steps++; continue;
+                    } else if (op === 0x47) { // OR
+                        stack[sp - 2] = stack[sp - 2] | stack[sp - 1]; sp--;
+                        steps++; continue;
+                    } else if (op === 0x48) { // XOR
+                        stack[sp - 2] = stack[sp - 2] ^ stack[sp - 1]; sp--;
+                        steps++; continue;
+                    } else if (op === 0x49) { // SHL
+                        stack[sp - 2] = stack[sp - 2] << stack[sp - 1]; sp--;
+                        steps++; continue;
+                    } else if (op === 0x4a) { // SHR
+                        stack[sp - 2] = stack[sp - 2] >> stack[sp - 1]; sp--;
+                        steps++; continue;
+                    } else if (op === 0x4b) { // USHR
+                        stack[sp - 2] = stack[sp - 2] >>> stack[sp - 1]; sp--;
+                        steps++; continue;
+                    } else if (op === 0x4c) { // EQ
+                        stack[sp - 2] = stack[sp - 2] == stack[sp - 1]; sp--;
+                        steps++; continue;
+                    } else if (op === 0x4d) { // NEQ
+                        stack[sp - 2] = stack[sp - 2] != stack[sp - 1]; sp--;
+                        steps++; continue;
+                    } else if (op === 0x4e) { // STRICT EQ
+                        stack[sp - 2] = stack[sp - 2] === stack[sp - 1]; sp--;
+                        steps++; continue;
+                    } else if (op === 0x4f) { // STRICT NEQ
+                        stack[sp - 2] = stack[sp - 2] !== stack[sp - 1]; sp--;
+                        steps++; continue;
+                    } else if (op === 0x50) { // GT
+                        stack[sp - 2] = stack[sp - 2] > stack[sp - 1]; sp--;
+                        steps++; continue;
+                    } else if (op === 0x51) { // GTE
+                        stack[sp - 2] = stack[sp - 2] >= stack[sp - 1]; sp--;
+                        steps++; continue;
+                    } else if (op === 0x52) { // LT
+                        stack[sp - 2] = stack[sp - 2] < stack[sp - 1]; sp--;
+                        steps++; continue;
+                    } else if (op === 0x53) { // LTE
+                        stack[sp - 2] = stack[sp - 2] <= stack[sp - 1]; sp--;
+                        steps++; continue;
+                    } else if (op === 0x60) { // NOT (in-place)
+                        stack[sp - 1] = !stack[sp - 1];
+                        steps++; continue;
+                    } else if (op === 0x61) { // BIT NOT (in-place)
+                        stack[sp - 1] = ~stack[sp - 1];
+                        steps++; continue;
+                    } else if (op === 0x62) { // NEGATE (in-place)
+                        stack[sp - 1] = -stack[sp - 1];
+                        steps++; continue;
+                    } else if (op === 0x63) { // TYPEOF (in-place)
+                        stack[sp - 1] = typeof stack[sp - 1];
+                        steps++; continue;
+                    } else if (op === 0x64) { // VOID (pop, no guard — mirrors t._sp--)
+                        sp--;
+                        steps++; continue;
+                    // ---- globals (mirrors stack.js readGlobal/storeGlobal fast path) ----
+                    } else if (op === 0x22) { // LOAD_GLOBAL u16
+                        if (ip + 1 >= bcLen) { this.ip = ip; this._sp = sp; this.status = 'COMPLETED'; break; }
+                        const idx = bc[ip] | (bc[ip + 1] << 8); ip += 2;
+                        const name = constants[idx];
+                        let v;
+                        if (!noSecurity || (this.withStack && this.withStack.length > 0) || name === 'exports') {
+                            // B"H: security/with-scope/exports need the full handler.
+                            this.ip = ip; this._sp = sp;
+                            coldResult = handlers[op](this);
+                            ip = this.ip; sp = this._sp;
+                            if (this.bytecode !== bc) { bc = this.bytecode; bcLen = bc.length; constants = this.constants; }
+                            if (this.stack !== stack) stack = this.stack;
+                            env = this.environment;
+                            if (coldResult === 'HALT' || coldResult === 'COMPLETED') { this.status = 'COMPLETED'; break; }
+                            if (coldResult === 'UNKNOWN_OP') { this.status = 'CRASHED'; this.rememberCrash(new Error(`Unknown opcode at IP ${this.ip - 1}`)); break; }
+                            steps++; continue;
+                        }
+                        if (name === 'undefined') v = undefined;
+                        else if (env && (name in env)) v = env[name];
+                        else if (memGlobals && Object.prototype.hasOwnProperty.call(memGlobals, name)) v = mem.getGlobal(name);
+                        else if (vmCtx && (name in vmCtx)) v = vmCtx[name];
+                        else throw new ReferenceError(`${String(name)} is not defined`);
+                        if (sp >= stack.length) { this._sp = sp; this._growStack(); stack = this.stack; }
+                        stack[sp++] = v;
+                        steps++; continue;
+                    } else if (op === 0x23) { // STORE_GLOBAL u16
+                        if (ip + 1 >= bcLen) { this.ip = ip; this._sp = sp; this.status = 'COMPLETED'; break; }
+                        const idx = bc[ip] | (bc[ip + 1] << 8); ip += 2;
+                        const name = constants[idx];
+                        let v;
+                        if (sp > 0) { sp--; v = stack[sp]; stack[sp] = undefined; }
+                        if (!noSecurity || (this.withStack && this.withStack.length > 0)) {
+                            // B"H: full handler for security/with-scope.
+                            if (sp >= stack.length) { this._sp = sp; this._growStack(); stack = this.stack; }
+                            stack[sp++] = v;
+                            this.ip = ip; this._sp = sp;
+                            coldResult = handlers[op](this);
+                            ip = this.ip; sp = this._sp;
+                            if (this.bytecode !== bc) { bc = this.bytecode; bcLen = bc.length; constants = this.constants; }
+                            if (this.stack !== stack) stack = this.stack;
+                            env = this.environment;
+                            if (coldResult === 'HALT' || coldResult === 'COMPLETED') { this.status = 'COMPLETED'; break; }
+                            if (coldResult === 'UNKNOWN_OP') { this.status = 'CRASHED'; this.rememberCrash(new Error(`Unknown opcode at IP ${this.ip - 1}`)); break; }
+                            steps++; continue;
+                        }
+                        if (env) env[name] = v;
+                        else if (mem) mem.setGlobal(name, v);
+                        steps++; continue;
+                    // ---- properties (mirrors executors/objects.js fast path) ----
+                    } else if (op === 0x32 && noSecurity) { // GET_PROP
+                        const key = stack[sp - 1], target = stack[sp - 2];
+                        if (target == null || (hasSelf && typeof key === 'string' &&
+                            (key === 'values' || key === 'keys' || key === 'entries'))) {
+                            // B"H: null warn / legacy Object[key] fallback need the handler.
+                        } else {
+                            let v = target[key];
+                            if (typeof v !== 'function') {
+                                stack[sp - 2] = v; stack[sp - 1] = undefined; sp--;
+                                steps++; continue;
+                            }
+                            // B"H: function values may need native-bind (legacyProperty) — cold.
+                        }
+                    } else if (op === 0x33 && noSecurity) { // SET_PROP
+                        const value = stack[sp - 1], key = stack[sp - 2], target = stack[sp - 3];
+                        const needsCold = target == null ||
+                            (value && value.type === 'CLOSURE' && typeof key === 'string' &&
+                                key.charCodeAt(0) === 111 && key.charCodeAt(1) === 110) || // 'on*' + CLOSURE: eventClosure
+                            (cssStyleDecl && target instanceof cssStyleDecl);
+                        if (!needsCold) {
+                            target[key] = value;
+                            stack[sp - 3] = value; stack[sp - 2] = undefined; stack[sp - 1] = undefined;
+                            sp -= 2;
+                            steps++; continue;
+                        }
+                    }
+                    // ---- cold/complex opcodes: sync state, delegate to handler table ----
+                    this.ip = ip; this._sp = sp;
+                    const handler = handlers[op];
                     if (handler) {
-                        result = handler(this);
-                    } else if (op !== 0x00) {
+                        coldResult = handler(this);
+                    } else if (op === 0x00 || op === 0x0a) {
+                        coldResult = undefined;
+                    } else {
                         this.status = 'CRASHED';
                         this.rememberCrash(new Error(`Unknown opcode 0x${op.toString(16)} at IP ${ip - 1}`));
                         break;
                     }
-                    if (result === 'HALT' || result === 'COMPLETED') {
+                    if (coldResult === 'HALT' || coldResult === 'COMPLETED') {
                         this.status = 'COMPLETED';
                         break;
                     }
-                    if (result === 'UNKNOWN_OP') {
+                    if (coldResult === 'UNKNOWN_OP') {
                         this.status = 'CRASHED';
                         this.rememberCrash(new Error(`Unknown opcode at IP ${this.ip - 1}`));
                         break;
                     }
+                    // B"H: re-sync — CALL/RETURN may have swapped bytecode,
+                    // constants, stack, and environment (frame switch).
+                    ip = this.ip; sp = this._sp;
+                    if (this.bytecode !== bc) { bc = this.bytecode; bcLen = bc.length; constants = this.constants; }
+                    if (this.stack !== stack) stack = this.stack;
+                    env = this.environment;
                 } catch (error) {
+                    // B"H: sync before crash bookkeeping so trace/ip/push see truth.
+                    this.ip = ip; this._sp = sp;
                     if (this.catchStack && this.catchStack.length > 0) {
                         const catchAddr = this.catchStack.pop();
                         this.ip = catchAddr;
                         this.push(error.vmValue || error.message || error);
+                        ip = this.ip; sp = this._sp;
+                        if (this.stack !== stack) stack = this.stack;
                     } else {
                         this.status = 'CRASHED';
                         this.logCrash(error);
@@ -256,6 +530,7 @@
                 }
                 steps++;
             }
+            this.ip = ip; this._sp = sp;
             return steps;
         }
     }
