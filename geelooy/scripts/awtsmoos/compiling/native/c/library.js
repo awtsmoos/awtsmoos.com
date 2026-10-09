@@ -164,7 +164,7 @@ function compilePortableCUnit(source, options = {}) {
 			"Portable C source exceeds the configured character limit"
 		);
 	}
-	const processedSource = preprocessC(sourceText);
+	const processedSource = preprocessC(sourceText, options.preprocessOptions || {});
 	const tokens = tokenize(processedSource, {
 		maximumTokens: limits.tokens
 	});

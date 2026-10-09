@@ -82,6 +82,8 @@ function parseFunctionPointerField(stream, returnType) {
 	const params = [];
 	while (!isPunctuation(stream.peek(), ")")) {
 		params.push(parseType(stream));
+		// Parameter names are optional in declarations; consume if present.
+		if (stream.peek().type === TOKENS.ID) stream.consume();
 		if (!isPunctuation(stream.peek(), ",")) break;
 		stream.consume();
 	}

@@ -6,6 +6,7 @@ import { createIrError } from "./errors.js";
 
 const BUILTIN_TYPES = Object.freeze({
 	char: Object.freeze({ kind: "integer", name: "char", bits: 8, signed: true }),
+	short: Object.freeze({ kind: "integer", name: "short", bits: 16, signed: true }),
 	int: Object.freeze({ kind: "integer", name: "int", bits: 32, signed: true }),
 	long: Object.freeze({ kind: "integer", name: "long", bits: 64, signed: true }),
 	void: Object.freeze({ kind: "void", name: "void" })

@@ -10,10 +10,15 @@ import { processLines } from "./directives.js";
  * keeps the full implementation in focused vessels beside this gate.
  *
  * @param {string} source C source in the documented Awtsmoos subset.
+ * @param {object} [options] Optional `{ headers: { name: content } }` with
+ *   additional `#include` headers beyond the built-in STD_LIBS.
  * @returns {string} Preprocessed source ready for the lexer.
  */
-export function preprocessC(source) {
-	const state = { macros: new Map(), included: new Set() };
+export function preprocessC(source, options = {}) {
+	const extraHeaders = options && typeof options.headers === "object"
+		? options.headers
+		: {};
+	const state = { macros: new Map(), included: new Set(), extraHeaders };
 	// Phase 2: splice backslash-newline before anything else.
 	const spliced = String(source).replace(/\\\r?\n/g, "");
 	const output = [];

@@ -115,7 +115,7 @@ function firstWord(text) {
 }
 
 function expandInclude(name, state, condStack, output) {
-	const header = STD_LIBS[name];
+	const header = STD_LIBS[name] || (state.extraHeaders && state.extraHeaders[name]);
 	if (!header) throw includeError(name);
 	if (state.included.has(name)) return;
 	state.included.add(name);

@@ -65,7 +65,7 @@ export function parseType(stream, options = {}) {
 export function isDeclarationStart(stream) {
 	const t = stream.peek();
 	if (t.type === TOKENS.KEYWORD) {
-		return ["int", "char", "void", "long", "struct", "union", "enum", "const", "static", "typedef"].includes(t.value);
+		return ["int", "char", "short", "void", "long", "struct", "union", "enum", "const", "static", "typedef"].includes(t.value);
 	}
 	return t.type === TOKENS.ID && !!stream.typedefs && stream.typedefs.has(t.value);
 }

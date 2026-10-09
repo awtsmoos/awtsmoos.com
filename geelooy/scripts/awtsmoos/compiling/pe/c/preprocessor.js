@@ -10,8 +10,9 @@ import { preprocessC as runPreprocessor } from "./preprocessor/index.js";
  * in the preprocessor chamber beside this gate.
  *
  * @param {string} source C source in the documented Awtsmoos subset.
+ * @param {object} [options] Optional `{ headers: { name: content } }` extra includes.
  * @returns {string} Preprocessed source ready for the lexer.
  */
-export function preprocessC(source) {
-	return runPreprocessor(source);
+export function preprocessC(source, options = {}) {
+	return runPreprocessor(source, options);
 }
