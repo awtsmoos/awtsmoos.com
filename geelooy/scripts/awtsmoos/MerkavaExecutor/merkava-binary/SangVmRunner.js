@@ -2,6 +2,9 @@
 const { decodeSangArtifact } = require('./SangCodec.js');
 const { loadMerkavaVm } = require('./MerkavaVmLoader.js');
 const { createDefaultHost } = require('./DefaultMerkavaHost.js');
+// B"H 2026-10-09: from-scratch regex engine — 100% Awtsmoos code, zero host
+// RegExp. Linear-time matching (Pike VM), BMH literal fast paths.
+const { MerkavaRegExp } = require('../merkava-vm/regex/index.js');
 
 class TinyMemory {
   constructor(seed = {}) { this.globals = { ...seed }; }
@@ -34,7 +37,7 @@ function installRuntimeNatives(memory) {
   g.String = g.String || String;
   g.Number = g.Number || Number;
   g.Boolean = g.Boolean || Boolean;
-  g.RegExp = g.RegExp || RegExp;
+  g.RegExp = g.RegExp || MerkavaRegExp;
   g.Error = g.Error || Error;
   g.TypeError = g.TypeError || TypeError;
   g.RangeError = g.RangeError || RangeError;

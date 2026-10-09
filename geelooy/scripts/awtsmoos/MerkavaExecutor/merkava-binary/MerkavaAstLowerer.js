@@ -1,4 +1,7 @@
 // B"H
+// B"H 2026-10-09: from-scratch regex engine — regex literals compile to
+// MerkavaRegExp (100% Awtsmoos code), never host RegExp.
+const { MerkavaRegExp } = require('../merkava-vm/regex/index.js');
 const OP = { '+': 'add', '-': 'sub', '*': 'mul', '/': 'div', '%': 'mod', '**': 'pow', '==': 'eq', '===': 'seq', '!=': 'neq', '!==': 'sneq', '<': 'lt', '<=': 'lte', '>': 'gt', '>=': 'gte', '&': 'band', '|': 'bor', '^': 'bxor', '<<': 'shl', '>>': 'shr', '>>>': 'ushr', 'in': 'in' };
 const LOGICAL = { '&&': 'and', '||': 'or', '??': 'nullish' };
 const UNARY = { '!': 'not', '-': 'neg', '+': 'pos', typeof: 'typeof', void: 'void', '~': 'bitnot', delete: 'deleteProp' };
@@ -113,7 +116,7 @@ function lowerAstToJson(ast) {
 
   const expr = node => {
     if (!node) return { const: null };
-    if (node.type === 'Literal' && node.regex) return { const: new RegExp(node.regex.pattern, node.regex.flags || '') };
+    if (node.type === 'Literal' && node.regex) return { const: new MerkavaRegExp(node.regex.pattern, node.regex.flags || '') };
     if (node.type === 'Literal' && node.bigint != null) return { const: BigInt(node.bigint) };
     if (node.type === 'Literal') return { const: node.value };
     if (node.type === 'TemplateLiteral') return templateLiteral(node);

@@ -8,7 +8,11 @@ const SYS = {
   asyncFunction: 25, callFunction: 26, array: 27, object: 28, typedArray: 29,
   setProp: 31, function: 32, binary: 33, unary: 34, conditional: 35,
   objectMerge: 36, awaitValue: 37, optionalGetProp: 38, newError: 39, forOf: 40, whileLoop: 41, switchStmt: 42, block: 43, optionalCallMethod: 44, optionalCallFunction: 45, typeofName: 46, typeofName: 46, optionalCallFunction: 45,
-  arraySpread: 47, spreadCall: 48, spreadCallMethod: 49
+  arraySpread: 47, spreadCall: 48, spreadCallMethod: 49,
+  // B"H: dedicated JSON fast-path syscalls (see merkava-vm/executors/json.js).
+  // The compiler emits these for `JSON.parse(x)` / `JSON.stringify(x)` instead
+  // of the generic callMethod — no arg array, no spread, no closure allocs.
+  jsonParse: 50, jsonStringify: 51
 };
 
 function addConst(constants, value) { constants.push(value); return constants.length - 1; }
@@ -51,7 +55,8 @@ function normalizeTree(node) {
   if (Array.isArray(got)) return got.map(normalizeTree);
   // B"H 2026-10-09: preserve native objects (RegExp, Date, Map, Set) — traversing
   // them via Object.entries destroys them (no enumerable props).
-  if (got instanceof RegExp || got instanceof Date || got instanceof Map || got instanceof Set || got instanceof WeakMap) return got;
+  // Also preserves MerkavaRegExp (from-scratch engine) via its marker.
+  if (got instanceof RegExp || got.__isMerkavaRegExp || got instanceof Date || got instanceof Map || got instanceof Set || got instanceof WeakMap) return got;
   const out = {};
   for (const [key, value] of Object.entries(got)) if (value !== undefined) out[key] = normalizeTree(value);
   return out;
@@ -120,7 +125,16 @@ function compileJsonCode(program = {}) {
     if (node.op === 'syscall') return emitSys(node.id || 0, node.args || []);
     if (node.op === 'class') return emitSys(SYS.class, [{ const: normalizeTree(node.descriptor) }, node.descriptor.superClass || { const: null }]);
     if (node.op === 'new') return emitSys(SYS.new, [node.class, ...(node.args || [])]);
-    if (node.op === 'callMethod') return emitSys(SYS.callMethod, [node.object, { const: node.method }, ...(node.args || [])]);
+    if (node.op === 'callMethod') {
+        // B"H: JSON.parse / JSON.stringify fast path. The runtime identity-checks
+        // the receiver (executors/json.js), so shadowing stays exactly correct —
+        // only the shape is specialized here, never the semantics.
+        const _cobj = normalizeNode(node.object);
+        if (_cobj && _cobj.get === 'JSON' && (node.method === 'parse' || node.method === 'stringify')) {
+            return emitSys(node.method === 'parse' ? SYS.jsonParse : SYS.jsonStringify, [node.object, ...(node.args || [])]);
+        }
+        return emitSys(SYS.callMethod, [node.object, { const: node.method }, ...(node.args || [])]);
+    }
     if (node.op === 'optionalCallMethod') return emitSys(SYS.optionalCallMethod, [node.object, { const: node.method }, ...(node.args || [])]);
     if (node.op === 'getProp') return emitSys(SYS.getProp, [node.object, propArg(node.prop)]);
     if (node.op === 'optionalGetProp') return emitSys(SYS.optionalGetProp, [node.object, propArg(node.prop)]);
