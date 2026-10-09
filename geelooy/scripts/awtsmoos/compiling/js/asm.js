@@ -722,6 +722,31 @@ class AsmGen {
     const MOP = { "+": "ADD", "-": "SUB", "*": "IMUL", "&": "AND", "|": "OR", "^": "XOR" };
     const l = this.simpleOperand(node.left), r = this.simpleOperand(node.right);
     const immOk = (o) => !o.isImm || o.immFits32;
+    // LEA peephole: (reg*C)+K -> single LEA (1cy vs IMUL+ADD). C in {3,5,9}.
+    if (op === "+" || (op === "-" && node.left.type === "BinaryExpression" && node.left.operator === "*")) {
+      const mulNode = op === "+" ?
+        (node.left.type === "BinaryExpression" && node.left.operator === "*" ? node.left :
+         node.right.type === "BinaryExpression" && node.right.operator === "*" ? node.right : null) :
+        node.left;
+      const kNode = mulNode === node.left ? node.right : node.left;
+      if (mulNode && kNode.type === "Literal" && Number.isInteger(kNode.value)) {
+        const ml = this.simpleOperand(mulNode.left), mr = this.simpleOperand(mulNode.right);
+        const regOp = ml && !ml.isImm ? ml : (mr && !mr.isImm ? mr : null);
+        const cOp = ml && ml.isImm ? ml : (mr && mr.isImm ? mr : null);
+        if (regOp && cOp && cOp.value > 0n) {
+          const C = Number(cOp.value);
+          let K = BigInt(kNode.value);
+          if (op === "-") K = -K;
+          if (K >= -2147483648n && K <= 2147483647n && [3, 5, 9].includes(C)) {
+            const R = regOp.text, ks = K >= 0n ? `+${K}` : `${K}`;
+            const mem = C === 3 ? `[${R}+${R}*2${ks}]` :
+                        C === 5 ? `[${R}+${R}*4${ks}]` : `[${R}+${R}*8${ks}]`;
+            this.emit(`LEA RAX, ${mem}`);
+            return;
+          }
+        }
+      }
+    }
     // Barrett: n % constant — strength-reduced, no IDIV.
     if (op === "%" && r && r.isImm && r.value !== 0n) {
       const d = r.value < 0n ? -r.value : r.value;
