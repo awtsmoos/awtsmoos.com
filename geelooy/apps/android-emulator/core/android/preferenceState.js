@@ -76,7 +76,9 @@ export function validatePreferenceBounds(state, value) {
 
 export function validatePreferenceName(value) {
 	const name = String(value || "");
-	if (!/^[A-Za-z0-9_.-]{1,80}$/.test(name)) {
+	// Real Android allows any characters in preference names (it's a filename).
+	// Firebase uses colons and plus signs, e.g. "com.google.firebase.common.prefs:...".
+	if (!name || name.length > 256 || name.includes("\0") || name.includes("/")) {
 		throw preferenceStateError("ANDROID_PREFERENCES_NAME_INVALID", name);
 	}
 	return name;
