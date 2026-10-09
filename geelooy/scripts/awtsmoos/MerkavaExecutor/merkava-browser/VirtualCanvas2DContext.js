@@ -81,9 +81,20 @@
     ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise = false) { this.__push('ellipse', x, y, radiusX, radiusY, rotation, startAngle, endAngle, !!anticlockwise); }
     quadraticCurveTo(cpx, cpy, x, y) { this.__push('quadraticCurveTo', cpx, cpy, x, y); }
     bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y) { this.__push('bezierCurveTo', cp1x, cp1y, cp2x, cp2y, x, y); }
-    roundRect(x, y, width, height, radii = 0) { const r = normalizeRadii(radii); this.__path.push(['roundRect', n(x), n(y), n(width), n(height), r]); this.record('roundRect', { x:n(x), y:n(y), width:n(width), height:n(height), radii:r }); }
+    roundRect(x, y, width, height, radii = 0) {
+      if ([x, y, width, height].some(v => typeof v === 'number' && !Number.isFinite(v))) return;
+      const r = normalizeRadii(radii);
+      this.__path.push(['roundRect', n(x), n(y), n(width), n(height), r]);
+      this.record('roundRect', { x:n(x), y:n(y), width:n(width), height:n(height), radii:r });
+    }
     addPath(path) { if (path?.commands) this.__path.push(...path.commands.map(item => item.slice())); this.record('addPath', { count: path?.commands?.length || 0 }); }
-    __push(op, ...values) { const nums = values.map(v => typeof v === 'boolean' ? v : n(v)); this.__path.push([op, ...nums]); this.record(op, objectFromValues(op, nums)); }
+    __push(op, ...values) {
+      // Per canvas spec: if any argument is infinite or NaN, the method does nothing.
+      if (values.some(v => typeof v === 'number' && !Number.isFinite(v))) return;
+      const nums = values.map(v => typeof v === 'boolean' ? v : n(v));
+      this.__path.push([op, ...nums]);
+      this.record(op, objectFromValues(op, nums));
+    }
 
     fill(path, fillRule = 'nonzero') { this.record('fillPath', { path: this.__pathArg(path), fillRule }); }
     stroke(path) { this.record('strokePath', { path: this.__pathArg(path) }); }
