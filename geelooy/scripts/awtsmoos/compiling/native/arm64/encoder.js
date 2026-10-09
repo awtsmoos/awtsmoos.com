@@ -29,8 +29,13 @@ const REG_RE = /^(x|w)(\d+)$/;
 export function parseReg(name) {
 	const n = name.trim().toLowerCase();
 	if (n === "sp") return { num: 31, sf: 64, sp: true };
+	if (n === "wsp") return { num: 31, sf: 32, sp: true };
 	if (n === "xzr") return { num: 31, sf: 64 };
 	if (n === "wzr") return { num: 31, sf: 32 };
+	if (n === "fp") return { num: 29, sf: 64 };
+	if (n === "wfp") return { num: 29, sf: 32 };
+	if (n === "lr") return { num: 30, sf: 64 };
+	if (n === "wlr") return { num: 30, sf: 32 };
 	const m = n.match(REG_RE);
 	if (!m) throw new Error(`Bad register: ${name}`);
 	const num = parseInt(m[1] === "x" ? m[2] : m[2], 10);
@@ -397,6 +402,53 @@ export function ldrImm(rt, rn, byteOffset, sf) {
 
 export function strImm(rt, rn, byteOffset, sf) {
 	return ldstImmUnsigned(false, rt, rn, byteOffset, sf);
+}
+
+// Load/store (unscaled immediate): size 111000 0(0)/1(0) 0 imm9 Rn Rt
+// STUR/LDUR support -256..255 byte offsets, no scaling
+function ldstImmUnscaled(isLoad, rt, rn, byteOffset, sf) {
+	checkRange(rt, 0, 31, "Rt");
+	checkRange(rn, 0, 31, "Rn");
+	checkRange(byteOffset, -256, 255, "unscaled offset");
+	const size = sf === 64 ? 0b11 : 0b10;
+	const opc = isLoad ? 0b01 : 0b00;
+	return u32((size << 30) | (0b111000 << 24) | (opc << 22) | ((byteOffset & 0x1FF) << 12) | (rn << 5) | rt);
+}
+
+export function ldur(rt, rn, byteOffset, sf) {
+	return ldstImmUnscaled(true, rt, rn, byteOffset, sf);
+}
+
+export function stur(rt, rn, byteOffset, sf) {
+	return ldstImmUnscaled(false, rt, rn, byteOffset, sf);
+}
+
+// Load/store with pre/post-indexed addressing
+function ldstIndexed(isLoad, rt, rn, byteOffset, sf, mode) {
+	checkRange(rt, 0, 31, "Rt");
+	checkRange(rn, 0, 31, "Rn");
+	checkRange(byteOffset, -256, 255, "indexed offset");
+	const size = sf === 64 ? 0b11 : 0b10;
+	const opc = isLoad ? 0b01 : 0b00;
+	const idx = mode === "pre" ? 0b11 : mode === "post" ? 0b01 : null;
+	if (idx === null) throw new Error(`Bad indexed mode: ${mode}`);
+	return u32((size << 30) | (0b111000 << 24) | (opc << 22) | ((byteOffset & 0x1FF) << 12) | (idx << 10) | (rn << 5) | rt);
+}
+
+export function ldrPre(rt, rn, byteOffset, sf) {
+	return ldstIndexed(true, rt, rn, byteOffset, sf, "pre");
+}
+
+export function strPre(rt, rn, byteOffset, sf) {
+	return ldstIndexed(false, rt, rn, byteOffset, sf, "pre");
+}
+
+export function ldrPost(rt, rn, byteOffset, sf) {
+	return ldstIndexed(true, rt, rn, byteOffset, sf, "post");
+}
+
+export function strPost(rt, rn, byteOffset, sf) {
+	return ldstIndexed(false, rt, rn, byteOffset, sf, "post");
 }
 
 // Load/store pair: size(31-30) 10100(29-25) idx(24-23) L(22) imm7 Rt2 Rn Rt

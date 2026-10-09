@@ -464,10 +464,12 @@ function emitInstruction(b, mnemonic, ops) {
 
 		// -- Memory --
 		case "ldr":
-		case "str": {
-			needArgs(ops, 2, m);
+		case "str":
+		case "ldur":
+		case "stur": {
 			const rt = E.parseReg(ops[0]);
-			const memText = ops[1].trim();
+			// post-index "[Rn], #imm" splits into two operands; rejoin
+			const memText = (ops.length === 3 ? ops[1] + ", " + ops[2] : ops[1]).trim();
 			if (!memText.startsWith("[")) {
 				// LDR (literal) with a label: ldr x0, mylabel
 				if (m !== "ldr") throw new Error(`STR needs a memory operand`);
@@ -479,8 +481,28 @@ function emitInstruction(b, mnemonic, ops) {
 				return;
 			}
 			const mem = parseMem(memText);
-			if (mem.mode !== "offset") throw new Error(`${m.toUpperCase()} (immediate) does not take ! or post-index`);
-			b.emit(m === "ldr"
+			const isLoad = m === "ldr" || m === "ldur";
+			const isUnscaled = m === "ldur" || m === "stur";
+			if (isUnscaled) {
+				if (mem.mode !== "offset") throw new Error(`${m.toUpperCase()} does not take ! or post-index`);
+				b.emit(isLoad
+					? E.ldur(rt.num, mem.rn, mem.offset, rt.sf)
+					: E.stur(rt.num, mem.rn, mem.offset, rt.sf));
+				return;
+			}
+			if (mem.mode === "pre") {
+				b.emit(isLoad
+					? E.ldrPre(rt.num, mem.rn, mem.offset, rt.sf)
+					: E.strPre(rt.num, mem.rn, mem.offset, rt.sf));
+				return;
+			}
+			if (mem.mode === "post") {
+				b.emit(isLoad
+					? E.ldrPost(rt.num, mem.rn, mem.offset, rt.sf)
+					: E.strPost(rt.num, mem.rn, mem.offset, rt.sf));
+				return;
+			}
+			b.emit(isLoad
 				? E.ldrImm(rt.num, mem.rn, mem.offset, rt.sf)
 				: E.strImm(rt.num, mem.rn, mem.offset, rt.sf));
 			return;
