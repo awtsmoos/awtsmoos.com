@@ -106,7 +106,7 @@ export const tests = [
   }),
   CHK('table+elem parsed', async (api) => {
     const m = api.parseModule(api.compileWatToBytes('(module (table 2 funcref) (func $a) (elem (i32.const 0) $a))'));
-    return { pass: m.tables.length === 1 && m.tables[0].min === 2 && m.elems.length === 1 && m.elems[0].funcs[0] === 0 };
+    return { pass: m.tables.length === 1 && m.tables[0].limits.min === 2 && m.elems.length === 1 && m.elems[0].funcs[0] === 0 };
   }),
   CHK('multi section order ok', async (api) => {
     const m = api.parseModule(api.compileWatToBytes(MOD_WAT));
@@ -114,6 +114,6 @@ export const tests = [
   }),
   CHK('data offset expr parsed', async (api) => {
     const m = api.parseModule(api.compileWatToBytes(MOD_WAT));
-    return { pass: m.datas[0].offset.code[0] === 0x41 }; // i32.const
+    return { pass: m.datas[0].offset.type === 'i32' && m.datas[0].offset.value === 5 };
   }),
 ];

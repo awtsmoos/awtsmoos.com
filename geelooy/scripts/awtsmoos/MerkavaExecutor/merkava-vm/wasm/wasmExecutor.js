@@ -28,10 +28,19 @@ const F64 = (v) => tv('f64', Number(v));
 
 function fromJs(t, v) {
   if (v === undefined || v === null) return tv(t, zeroOf(t));
-  if (t === 'i32') return I32(Number(v));
-  if (t === 'i64') return I64(v);
-  if (t === 'f32') return F32(Number(v));
-  return F64(Number(v));
+  if (t === 'i64') {
+    if (typeof v !== 'bigint') throw new WasmTrap('bad-arg', `i64 needs BigInt, got ${typeof v}`);
+    return I64(v);
+  }
+  if (typeof v === 'boolean') throw new WasmTrap('bad-arg', `${t} got boolean`);
+  const n = Number(v);
+  if (t === 'i32') {
+    if (!Number.isFinite(n)) throw new WasmTrap('bad-arg', `i32 got ${JSON.stringify(v)}`);
+    return I32(n);
+  }
+  // f32/f64: NaN and Infinity are legal values; reject only non-numeric junk
+  if (Number.isNaN(n) && typeof v !== 'number') throw new WasmTrap('bad-arg', `${t} got ${JSON.stringify(v)}`);
+  return t === 'f32' ? F32(n) : F64(n);
 }
 function toJs(a) {
   if (!a) return undefined;
@@ -136,7 +145,7 @@ function precomputeBlocks(code) {
     } else if (op === 0x0b) {
       if (stack.length === 0) break; // function-body end
       const top = stack.pop();
-      map.set(top.pc, { op: top.op, elsePc: top.elsePc, endPc: pc });
+      map.set(top.pc, { op: top.op, elsePc: top.elsePc, endPc: opc });
     }
   }
   return map;
@@ -175,11 +184,17 @@ export function instantiate(mod, importObject = {}, opts = {}) {
     } else if (im.kind === 'memory') {
       const mem = ns[im.name];
       if (!mem || !(mem.bytes instanceof Uint8Array)) throw new Error('[wasm] missing memory import ' + im.module + '.' + im.name);
+      if (!mem.view) mem.view = new DataView(mem.bytes.buffer, mem.bytes.byteOffset, mem.bytes.byteLength);
+      if (mem.pages === undefined) mem.pages = Math.floor(mem.bytes.length / PAGE);
+      if (mem.max === undefined) mem.max = null;
       inst.memories.push(mem);
     } else if (im.kind === 'global') {
-      const g = ns[im.name];
+      let g = ns[im.name];
       if (g === undefined) throw new Error('[wasm] missing global import ' + im.module + '.' + im.name);
-      inst.globals.push({ valtype: im.valtype, mutable: im.mutable, value: g && g.v !== undefined ? g.v : g });
+      // accept WebAssembly.Global objects as well as raw values / {v} wrappers
+      if (typeof WebAssembly !== 'undefined' && g instanceof WebAssembly.Global) g = g.value;
+      else if (g && g.v !== undefined) g = g.v;
+      inst.globals.push({ valtype: im.valtype, mutable: im.mutable, value: g });
     } else if (im.kind === 'table') {
       const t = ns[im.name];
       if (!Array.isArray(t)) throw new Error('[wasm] missing table import ' + im.module + '.' + im.name);
@@ -290,9 +305,15 @@ function doReturn(frames, stack) {
   for (const v of take) stack.push(v);
 }
 
-function doBranch(fr, stack, depth) {
+function doBranch(frames, fr, stack, depth) {
   const li = fr.labels.length - 1 - depth;
-  if (li < 0) throw new WasmTrap('bad-label', String(depth));
+  if (li < 0) {
+    if (depth === fr.labels.length) {
+      doReturn(frames, stack); // br to the function itself = return
+      return;
+    }
+    throw new WasmTrap('bad-label', String(depth));
+  }
   const label = fr.labels[li];
   const keep = stack.splice(stack.length - label.arity, label.arity);
   stack.length = label.height;
@@ -302,7 +323,7 @@ function doBranch(fr, stack, depth) {
     fr.pc = label.continuePc;
   } else {
     fr.labels.length = li; // block/if label is exited
-    fr.pc = label.endPc;
+    fr.pc = label.endPc + 1; // skip past the end opcode (1 byte, no immediate)
   }
 }
 
@@ -350,11 +371,10 @@ function stepFrame(inst, frames, stack) {
       };
       if (info.name === 'if') {
         const c = req(pop(), 'i32') | 0;
+        // always push the label; 'end' pops it. elsePc points past the else opcode.
+        fr.labels.push(label);
         if (c === 0) {
-          // skip to else/end WITHOUT pushing the label (end is skipped too)
           fr.pc = binfo.elsePc !== null ? binfo.elsePc : binfo.endPc;
-        } else {
-          fr.labels.push(label);
         }
       } else {
         fr.labels.push(label);
@@ -362,31 +382,34 @@ function stepFrame(inst, frames, stack) {
       break;
     }
     case 'else': {
-      const top = fr.labels.pop();
-      if (!top) throw new WasmTrap('else-mismatch');
-      fr.pc = top.endPc; // skip to past end; label already popped
+      // then-branch finished: skip the else-branch. Label stays for 'end' to pop.
+      const top = fr.labels[fr.labels.length - 1];
+      if (!top || top.kind !== 'if') throw new WasmTrap('else-mismatch');
+      fr.pc = top.endPc;
       break;
     }
     case 'end': {
       const top = fr.labels[fr.labels.length - 1];
-      if (top && top.endPc === fr.pc) {
+      if (top && top.endPc === opc) {
         fr.labels.pop();
-      } else {
+      } else if (!top) {
         doReturn(frames, stack);
+      } else {
+        throw new WasmTrap('end-mismatch');
       }
       break;
     }
-    case 'br': doBranch(fr, stack, imm); break;
+    case 'br': doBranch(frames, fr, stack, imm); break;
     case 'br_if': {
       const c = req(pop(), 'i32') | 0;
-      if (c !== 0) doBranch(fr, stack, imm);
+      if (c !== 0) doBranch(frames, fr, stack, imm);
       break;
     }
     case 'br_table': {
       const i = req(pop(), 'i32') | 0;
       const u = i >>> 0;
       const d = u < imm.targets.length ? imm.targets[u] : imm.default;
-      doBranch(fr, stack, d);
+      doBranch(frames, fr, stack, d);
       break;
     }
     case 'return': doReturn(frames, stack); break;

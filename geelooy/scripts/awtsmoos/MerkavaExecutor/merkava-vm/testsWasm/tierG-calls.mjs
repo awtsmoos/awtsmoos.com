@@ -11,7 +11,15 @@ export const tests = [
   T('fib 10', `(module ${FIB})`, 'fib', [10], [55], { xcheck: true }),
   T('fib 20', `(module ${FIB})`, 'fib', [20], [6765], { xcheck: true }),
   T('factorial rec', `(module (func $f (export "f") (param i32) (result i32) (if (result i32) (i32.le_s (local.get 0) (i32.const 1)) (then (i32.const 1)) (else (i32.mul (local.get 0) (call $f (i32.sub (local.get 0) (i32.const 1))))))))`, 'f', [10], [3628800], { xcheck: true }),
-  T('mutual recursion', `(module (func $even (export "even") (param i32) (result i32) (if (result i32) (i32.eqz (local.get 0)) (then (i32.const 1)) (else (call $odd (i32.sub (local.get 0) (i32.const 1)))))) (func $odd (param i32) (result i32) (if (result i32) (i32.eqz (local.get 0)) (then (i32.const 0)) (else (call $even (i32.sub (local.get 0) (i32.const 1))))))`, 'even', [100], [1], { xcheck: true }),
+  T('mutual recursion', `(module
+    (func $even (export "even") (param i32) (result i32)
+      (if (result i32) (i32.eqz (local.get 0))
+        (then (i32.const 1))
+        (else (call $odd (i32.sub (local.get 0) (i32.const 1))))))
+    (func $odd (param i32) (result i32)
+      (if (result i32) (i32.eqz (local.get 0))
+        (then (i32.const 0))
+        (else (call $even (i32.sub (local.get 0) (i32.const 1)))))))`, 'even', [100], [1], { xcheck: true }),
   T('deep recursion 1000', `(module (func $d (export "d") (param i32) (result i32) (if (result i32) (i32.eqz (local.get 0)) (then (i32.const 0)) (else (i32.add (i32.const 1) (call $d (i32.sub (local.get 0) (i32.const 1))))))))`, 'd', [1000], [1000], { xcheck: true }),
   T('deep recursion 10000', `(module (func $d (export "d") (param i32) (result i32) (if (result i32) (i32.eqz (local.get 0)) (then (i32.const 0)) (else (i32.add (i32.const 1) (call $d (i32.sub (local.get 0) (i32.const 1))))))))`, 'd', [10000], [10000]),
   T('call chain 3 deep', `(module (func $a (param i32) (result i32) (i32.add (local.get 0) (i32.const 1))) (func $b (param i32) (result i32) (call $a (call $a (local.get 0)))) (func (export "m") (param i32) (result i32) (call $b (call $b (local.get 0)))))`, 'm', [0], [4], { xcheck: true }),

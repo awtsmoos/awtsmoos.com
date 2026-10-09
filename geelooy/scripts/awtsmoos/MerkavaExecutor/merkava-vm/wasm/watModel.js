@@ -24,13 +24,13 @@ function dataBytes(strs) {
   return Uint8Array.from(out);
 }
 
-// Natural alignment (log2) per load/store op
+// Natural alignment (log2) per load/store op = log2(access size in bytes)
 export function naturalAlign(op) {
   if (/(load8|store8)/.test(op)) return 0;
   if (/(load16|store16)/.test(op)) return 1;
-  if (/(load32|store32|load|store)$/.test(op) && /^(i32|f32)/.test(op)) return 2;
-  if (/^(i64|f64)/.test(op)) return 3;
-  return 2;
+  if (/(load32|store32)/.test(op)) return 2;
+  if (/^(i32|f32)\.(load|store)$/.test(op)) return 2;
+  return 3; // i64/f64 load/store are 8 bytes
 }
 
 export function buildModel(src) {
@@ -73,7 +73,7 @@ export function buildModel(src) {
   // ---- pass 2: resolve bodies ----
   for (const fn of m.funcs) {
     if (fn.import) continue;
-    fn.body = compileBody(fn.rawBody, makeFuncCtx(m, fn), m);
+    fn.body = eliminateDeadCode(compileBody(fn.rawBody, makeFuncCtx(m, fn), m));
   }
   for (const g of m.globals) {
     if (g.import) continue;
@@ -158,10 +158,23 @@ function declareFunc(m, f) {
       body.push(item);
     }
   }
-  rec.params = parseParams(body);
-  rec.results = parseResults(body);
-  rec.locals = parseLocals(body);
-  rec.rawBody = body.filter((it) => !(Array.isArray(it) && (it[0] === 'param' || it[0] === 'result' || it[0] === 'local')));
+  // Only LEADING (param)/(result)/(local) are func declarations; later ones
+  // belong to instructions (e.g. if/block immediates) and must be kept.
+  const decls = [];
+  const rawBody = [];
+  let inDecls = true;
+  for (const item of body) {
+    if (inDecls && Array.isArray(item) && (item[0] === 'param' || item[0] === 'result' || item[0] === 'local')) {
+      decls.push(item);
+    } else {
+      inDecls = false;
+      rawBody.push(item);
+    }
+  }
+  rec.params = parseParams(decls);
+  rec.results = parseResults(decls);
+  rec.locals = parseLocals(decls);
+  rec.rawBody = rawBody;
   if (name) {
     if (m.funcNames.has(name)) throw new Error('[wat] dup func name ' + name);
     m.funcNames.set(name, rec); // record for now; replaced by index in assignIndices
@@ -261,12 +274,18 @@ function declareImport(m, f) {
     const nums = desc.slice(1).map(Number);
     m.imports.push({ module: mod, name: nm, kind: 'memory', min: nums[0] || 0, max: nums.length > 1 ? nums[1] : null });
   } else if (desc[0] === 'global') {
-    let vt = null, mut = false;
-    for (const t of desc.slice(1)) {
+    let vt = null, mut = false, gname = null;
+    let k = 1;
+    if (isName(desc[k])) { gname = desc[k]; k++; }
+    for (const t of desc.slice(k)) {
       if (Array.isArray(t) && t[0] === 'mut') { mut = true; vt = checkValtype(t[1]); }
       else if (VALTYPES.has(t)) vt = t;
     }
-    m.imports.push({ module: mod, name: nm, kind: 'global', valtype: vt, mutable: mut });
+    if (gname) {
+      if (m.globalNames.has(gname)) throw new Error('[wat] dup global name ' + gname);
+      m.globalNames.set(gname, true); // replaced by index in assignIndices
+    }
+    m.imports.push({ module: mod, name: nm, kind: 'global', globalName: gname, valtype: vt, mutable: mut });
   } else if (desc[0] === 'table') {
     const nums = desc.slice(1).filter((t) => t !== 'funcref').map(Number);
     m.imports.push({ module: mod, name: nm, kind: 'table', min: nums[0] || 0, max: nums.length > 1 ? nums[1] : null });
@@ -414,6 +433,34 @@ function makeFuncCtx(m, fn) {
   return ctx;
 }
 
+// ---- dead-code elimination ----
+// Removes instructions unreachable after br/br_table/return/unreachable,
+// which native validators reject (stack mismatch at block end).
+// Operates on the flat IR; keeps block/if/else/end structure intact.
+export function eliminateDeadCode(instrs) {
+  const out = [];
+  let deadDepth = 0;
+  for (const ins of instrs) {
+    if (deadDepth > 0) {
+      if (ins.op === 'block' || ins.op === 'loop' || ins.op === 'if') {
+        deadDepth++;
+      } else if (ins.op === 'end') {
+        deadDepth--;
+        if (deadDepth === 0) out.push(ins);
+      } else if (ins.op === 'else' && deadDepth === 1) {
+        deadDepth = 0;
+        out.push(ins);
+      }
+      continue;
+    }
+    out.push(ins);
+    if (ins.op === 'br' || ins.op === 'br_table' || ins.op === 'return' || ins.op === 'unreachable') {
+      deadDepth = 1;
+    }
+  }
+  return out;
+}
+
 // ---- instruction compilation ----
 export function compileBody(items, ctx, m) {
   const out = [];
@@ -429,7 +476,7 @@ function compileOne(items, i, ctx, out) {
     if (head === 'block' || head === 'loop') return compileBlock(it, ctx, out, i);
     if (head === 'if') return compileIf(it, ctx, out, i);
     if (head === 'then' || head === 'else') throw new Error('[wat] stray ' + head);
-    if (typeof head === 'string' && NAME_TO_OP[head]) {
+    if (typeof head === 'string' && NAME_TO_OP[head] !== undefined) {
       return compileFolded(it, ctx, out, i);
     }
     throw new Error('[wat] bad expr head: ' + JSON.stringify(head));
@@ -439,7 +486,7 @@ function compileOne(items, i, ctx, out) {
   if (it === 'then') return i + 1; // no-op in flat form
   if (it === 'else') { out.push({ op: 'else', imm: undefined }); return i + 1; }
   if (it === 'end') { out.push({ op: 'end', imm: undefined }); return i + 1; }
-  if (!NAME_TO_OP[it]) throw new Error('[wat] unknown instruction ' + it);
+  if (NAME_TO_OP[it] === undefined) throw new Error('[wat] unknown instruction ' + it);
   const info = needOp(it);
   const imm = parseFlatImm(info, items, i + 1, ctx);
   out.push({ op: it, imm: imm.value });

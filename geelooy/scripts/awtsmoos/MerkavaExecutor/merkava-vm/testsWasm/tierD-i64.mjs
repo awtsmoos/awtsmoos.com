@@ -26,7 +26,7 @@ export const tests = [
   op2('i64.div_s', 'i64.div_s', -7n, 3n, -2n),
   op2('i64.div_u', 'i64.div_u', -1n, 2n, (1n << 63n) - 1n),
   op2('i64.rem_s', 'i64.rem_s', -7n, 3n, -1n),
-  op2('i64.rem_u', 'i64.rem_u', -1n, 7n, 6n),
+  op2('i64.rem_u', 'i64.rem_u', -1n, 7n, 1n), // (2^64-1) % 7 = 1
   op2('i64.and', 'i64.and', 0b1100n, 0b1010n, 0b1000n),
   op2('i64.or', 'i64.or', 0b1100n, 0b1010n, 0b1110n),
   op2('i64.shl', 'i64.shl', 1n, 63n, I64MIN),

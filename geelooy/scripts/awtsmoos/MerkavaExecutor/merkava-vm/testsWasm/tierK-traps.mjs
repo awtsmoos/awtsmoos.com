@@ -37,7 +37,10 @@ export const tests = [
   TRAP('br_table bad depth traps', '(module (func (export "m") (param i32) (result i32) (block (local.get 0) (br_table 5))))', 'm', [0], 'bad-label'),
   T('locals default zero', '(module (func (export "m") (result i32 i64 f32 f64) (local i32) (local i64) (local f32) (local f64) (local.get 0) (local.get 1) (local.get 2) (local.get 3)))', 'm', [], [0, 0n, 0, 0], { xcheck: true }),
   T('params are locals', '(module (func (export "m") (param i32 i64) (result i64) (i64.add (i64.extend_i32_s (local.get 0)) (local.get 1))))', 'm', [5, 10n], [15n], { xcheck: true }),
-  T('imported global mutable', '(module (import "e" "g" (global $g (mut i32))) (func (export "m") (result i32) (global.set $g (i32.const 11)) (global.get $g)))', 'm', [], [11], { imports: { e: { g: 0 } } }),
+  T('imported global mutable', '(module (import "e" "g" (global $g (mut i32))) (func (export "m") (result i32) (global.set $g (i32.const 11)) (global.get $g)))', 'm', [], [11], {
+    imports: { e: { g: new WebAssembly.Global({ value: 'i32', mutable: true }, 0) } },
+    xcheck: true,
+  }),
   CHK('native validate rejects bad magic', async (api) => {
     const b = api.compileWatToBytes('(module)');
     b[0] = 9;

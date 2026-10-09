@@ -99,7 +99,7 @@
     strokeText(text, x, y, maxWidth) { const run = this.__textRun(text, x, y, maxWidth, 'stroke'); this.record('strokeText', run); }
     measureText(text) { return this.canvas.ownerDocument?.fontAtlas?.measure(text, this.font) || fallbackMeasure(text, this.font); }
 
-    drawImage(image, ...args) { this.record('drawImageTexture', { sourceTexture: image?.__webglCanvasTexture?.id ?? image?.__webglBoxTexture?.id ?? null, imageWidth: image?.width || 0, imageHeight: image?.height || 0, ...imageBox(image, args) }); }
+    drawImage(image, ...args) { this.record('drawImageTexture', { sourceTexture: image?.__decodedImageTexture?.id ?? image?.__webglCanvasTexture?.id ?? image?.__webglBoxTexture?.id ?? null, imageWidth: image?.width || 0, imageHeight: image?.height || 0, ...imageBox(image, args) }); }
     createImageData(widthOrData, height, settings = {}) { return makeImageData(widthOrData, height, undefined, settings); }
     getImageData(x, y, width, height, settings = {}) { this.record('getImageData', { x:n(x), y:n(y), width:n(width), height:n(height), settings }); return makeImageData(n(width), n(height), undefined, settings); }
     putImageData(imageData, dx, dy, dirtyX = 0, dirtyY = 0, dirtyWidth = imageData?.width || 0, dirtyHeight = imageData?.height || 0) { this.record('putImageData', { dx:n(dx), dy:n(dy), dirtyX:n(dirtyX), dirtyY:n(dirtyY), dirtyWidth:n(dirtyWidth), dirtyHeight:n(dirtyHeight), bytes:imageData?.data?.length || 0 }); }

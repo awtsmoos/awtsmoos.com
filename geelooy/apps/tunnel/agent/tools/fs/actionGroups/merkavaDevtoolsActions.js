@@ -20,11 +20,21 @@
  *   merkavaListNetworkRequests — recorded network requests
  *   merkavaDebugSessions    — list open sessions
  *   merkavaDebugClose       — close a session
+ *   merkavaInteractionRecord  — record a scripted user-interaction session
+ *   merkavaInteractionDo      — apply one live interaction to a session
+ *   merkavaInteractionPlay    — play the interaction journal forwards/backwards
+ *   merkavaInteractionTimeline — list all recorded interactions w/ timestamps+perf
+ *   merkavaInteractionGoto    — jump to interaction N (restore that DOM state)
+ *   merkavaLiveVariables      — variable values now + across the interaction journal
+ *   merkavaInteractionDiff    — DOM diff between two interaction points
+ *   merkavaInteractionSessions — list open interaction sessions
+ *   merkavaInteractionClose   — close an interaction session
  */
 const path = require("path");
 const { pathToFileURL } = require("url");
 
 let sessionModulePromise = null;
+let interactionModulePromise = null;
 function devtoolsUrl(rel) {
   return pathToFileURL(
     path.resolve(__dirname, "../../../../../../scripts/awtsmoos/MerkavaExecutor/merkava-service/snapshots/devtools", rel)
@@ -33,6 +43,21 @@ function devtoolsUrl(rel) {
 async function loadSessionModule() {
   if (!sessionModulePromise) sessionModulePromise = import(devtoolsUrl("devtoolsSession.js"));
   return await sessionModulePromise;
+}
+async function loadInteractionModule() {
+  if (!interactionModulePromise) interactionModulePromise = import(devtoolsUrl("interactionRecorder.js"));
+  return await interactionModulePromise;
+}
+
+// Interaction sessions live in the tunnel action host (separate registry from
+// the VM-debug sessions, because they journal InputSimulator-level state).
+const interactionSessions = new Map();
+let interactionSeq = 1;
+
+function needInteraction(id) {
+  const s = interactionSessions.get(String(id));
+  if (!s) throw new Error(`[merkavaDevtools] no such interaction session: ${id}`);
+  return s;
 }
 
 function needSession(ctx, id) {
@@ -152,6 +177,101 @@ function buildMerkavaDevtoolsActions(ctx) {
     async merkavaDebugClose() {
       const m = await mod(); ctx._devtools = m;
       return { ok: true, action: "merkavaDebugClose", closed: m.closeSession(payload.sessionId) };
+    },
+
+    /* ---------------- interaction replay ---------------- */
+
+    async merkavaInteractionRecord() {
+      const im = await loadInteractionModule();
+      const id = `int-${interactionSeq++}-${Date.now().toString(36)}`;
+      const rec = new im.InteractionRecorder(payload.html || "<body><h1>Merkava</h1></body>", {
+        width: Number(payload.width) || 960,
+        height: Number(payload.height) || 700,
+        label: payload.label || "tunnel-interaction"
+      });
+      // Optionally attach live VM variables from a DevTools debug session.
+      let probed = false;
+      if (payload.debugSessionId) {
+        const m = await mod(); ctx._devtools = m;
+        const dbg = needSession(ctx, payload.debugSessionId);
+        rec.attachVarProbe(() => dbg.getVariables());
+        probed = true;
+      }
+      interactionSessions.set(id, { id, rec, createdAt: new Date().toISOString(), probed });
+      const applied = [];
+      for (const step of (payload.interactions || [])) {
+        const { action, ...args } = step;
+        applied.push(rec.do(action, args));
+      }
+      return {
+        ok: true, action: "merkavaInteractionRecord", interactionSessionId: id,
+        probed, recorded: applied.length, currentIndex: rec.currentIndex,
+        timeline: rec.timeline()
+      };
+    },
+
+    async merkavaInteractionDo() {
+      const s = needInteraction(payload.interactionSessionId);
+      const { action, interactionSessionId, ...args } = payload;
+      const summary = s.rec.do(action, args);
+      return { ok: true, action: "merkavaInteractionDo", interactionSessionId: s.id, ...summary };
+    },
+
+    async merkavaInteractionPlay() {
+      const s = needInteraction(payload.interactionSessionId);
+      const direction = String(payload.direction || "forward").toLowerCase();
+      const steps = Math.max(1, Math.min(10000, Number(payload.steps) || 1));
+      const r = direction === "backward" ? s.rec.playBackward(steps) : s.rec.playForward(steps);
+      return { ok: true, action: "merkavaInteractionPlay", interactionSessionId: s.id, ...r };
+    },
+
+    async merkavaInteractionTimeline() {
+      const s = needInteraction(payload.interactionSessionId);
+      return {
+        ok: true, action: "merkavaInteractionTimeline", interactionSessionId: s.id,
+        currentIndex: s.rec.currentIndex, count: s.rec.interactions.length,
+        createdAt: s.createdAt, probed: s.probed,
+        timeline: s.rec.timeline()
+      };
+    },
+
+    async merkavaInteractionGoto() {
+      const s = needInteraction(payload.interactionSessionId);
+      const r = s.rec.goto(Number(payload.index));
+      return { ok: true, action: "merkavaInteractionGoto", interactionSessionId: s.id, ...r };
+    },
+
+    async merkavaLiveVariables() {
+      const s = needInteraction(payload.interactionSessionId);
+      const lv = s.rec.liveVariables();
+      let watch = null;
+      if (payload.expr && s.probed) {
+        // Expression evaluation lives on the attached debug session (merkavaWatch).
+        watch = { expr: payload.expr, note: "use merkavaWatch on the debug session for expression evaluation" };
+      }
+      return { ok: true, action: "merkavaLiveVariables", interactionSessionId: s.id, ...lv, watch };
+    },
+
+    async merkavaInteractionDiff() {
+      const s = needInteraction(payload.interactionSessionId);
+      const from = payload.from === -1 || payload.from === "-1" ? -1 : Number(payload.from);
+      const to = payload.to === -1 || payload.to === "-1" ? -1 : Number(payload.to);
+      return { ok: true, action: "merkavaInteractionDiff", interactionSessionId: s.id, ...s.rec.diff(from, to) };
+    },
+
+    async merkavaInteractionSessions() {
+      return {
+        ok: true, action: "merkavaInteractionSessions",
+        sessions: [...interactionSessions.values()].map((s) => ({
+          id: s.id, createdAt: s.createdAt, probed: s.probed,
+          interactions: s.rec.interactions.length, currentIndex: s.rec.currentIndex
+        }))
+      };
+    },
+
+    async merkavaInteractionClose() {
+      const id = String(payload.interactionSessionId);
+      return { ok: true, action: "merkavaInteractionClose", closed: interactionSessions.delete(id) };
     }
   };
 }

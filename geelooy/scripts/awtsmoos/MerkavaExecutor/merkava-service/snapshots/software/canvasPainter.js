@@ -49,9 +49,50 @@ function image(fb, box, cmd, sx, sy, allTextures, seen) {
   const src = allTextures.find(t => t.id === cmd.sourceTexture);
   if (!src || seen.has(src.id)) return missing(fb, r);
   seen.add(src.id);
+  // B"H: decoded-image textures carry real pixel data from imageDecoders.
+  // Created when drawImage() receives an HTMLImageElement with decoded bytes.
+  if (src.kind === 'decoded-image' && src.imageData) {
+    blitDecodedImage(fb, src.imageData, r, cmd);
+    return;
+  }
   fb.strokeRect(r.x, r.y, r.w, r.h, [135, 160, 255, 255], 2);
   if (src.kind === 'canvas-webgl') paintWebgl(fb, src, inset(r, 5));
   else paint2d(fb, src, inset(r, 5), allTextures, seen);
+}
+
+// B"H: blit a decoded {width,height,data} RGBA image into rect r.
+// Supports the 3-arg, 5-arg, and 9-arg drawImage forms via cmd.sx/sy/sw/sh.
+function blitDecodedImage(fb, img, r, cmd) {
+  const sw = img.width, sh = img.height;
+  let sx = 0, sy = 0, swd = sw, shd = sh;
+  if (cmd.sx !== undefined) {
+    sx = Math.max(0, cmd.sx | 0); sy = Math.max(0, cmd.sy | 0);
+    swd = Math.min(sw - sx, Math.max(1, cmd.sw | 0));
+    shd = Math.min(sh - sy, Math.max(1, cmd.sh | 0));
+  }
+  if (swd <= 0 || shd <= 0 || r.w <= 0 || r.h <= 0) return;
+  // Nearest-neighbor sample from source rect to dest rect with source-over.
+  const dst = fb.data, DW = fb.width, DH = fb.height, src = img.data;
+  const x0 = Math.max(0, Math.floor(r.x)), y0 = Math.max(0, Math.floor(r.y));
+  const x1 = Math.min(DW, Math.ceil(r.x + r.w)), y1 = Math.min(DH, Math.ceil(r.y + r.h));
+  for (let y = y0; y < y1; y++) {
+    const srcY = Math.min(sh - 1, sy + Math.floor(((y - r.y) / r.h) * shd));
+    const dRow = y * DW * 4, sRow = srcY * sw * 4;
+    for (let x = x0; x < x1; x++) {
+      const srcX = Math.min(sw - 1, sx + Math.floor(((x - r.x) / r.w) * swd));
+      const si = sRow + srcX * 4, di = dRow + x * 4;
+      const a = src[si + 3] / 255;
+      if (a >= 1) {
+        dst[di] = src[si]; dst[di + 1] = src[si + 1]; dst[di + 2] = src[si + 2]; dst[di + 3] = 255;
+      } else if (a > 0) {
+        const ia = 1 - a;
+        dst[di] = Math.round(src[si] * a + dst[di] * ia);
+        dst[di + 1] = Math.round(src[si + 1] * a + dst[di + 1] * ia);
+        dst[di + 2] = Math.round(src[si + 2] * a + dst[di + 2] * ia);
+        dst[di + 3] = 255;
+      }
+    }
+  }
 }
 
 function missing(fb, r) {

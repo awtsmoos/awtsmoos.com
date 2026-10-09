@@ -2,6 +2,7 @@
 // Parses magic, version, and sections 0-11 into a module object.
 import { makeReader } from './leb128.js';
 import { VALTYPE } from './wasmOpcodes.js';
+import { WasmTrap } from './wasmExecutor.js';
 
 const MAGIC = [0x00, 0x61, 0x73, 0x6D];
 
@@ -165,25 +166,29 @@ export function parseModule(bytes) {
   const buf = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
   const r = makeReader(buf);
   for (let i = 0; i < 4; i++) {
-    if (r.u8() !== MAGIC[i]) throw new Error('[wasm] bad magic number');
+    if (r.u8() !== MAGIC[i]) throw new WasmTrap('bad-magic', 'not a wasm module');
   }
   const version = [r.u8(), r.u8(), r.u8(), r.u8()];
   if (version[0] !== 1 || version[1] !== 0 || version[2] !== 0 || version[3] !== 0) {
-    throw new Error('[wasm] unsupported version');
+    throw new WasmTrap('bad-version', version.join('.'));
   }
   const mod = {
     types: [], imports: [], funcs: [], tables: [], memories: [],
     globals: [], exports: [], start: null, elems: [], codes: [], datas: [],
   };
+  let lastId = 0;
   while (r.remaining > 0) {
     const id = r.u8();
     const size = r.u32();
     const start = r.pos;
     const end = start + size;
     const sub = makeReader(buf.subarray(start, end));
+    if (id !== 0) {
+      if (id < lastId) throw new WasmTrap('order', `section ${id} after ${lastId}`);
+      lastId = id;
+    }
     if (id === 0) {
-      const nameLen = sub.u32();
-      sub.bytes(nameLen); // custom section name, skipped
+      // custom section: skip entirely (name + content)
     } else if (id === 1) mod.types = parseTypeSection(sub);
     else if (id === 2) mod.imports = parseImportSection(sub);
     else if (id === 3) mod.funcs = parseVecU32(sub);
@@ -200,7 +205,7 @@ export function parseModule(bytes) {
     else if (id === 10) mod.codes = parseCodeSection(sub);
     else if (id === 11) mod.datas = parseDataSection(sub);
     else throw new Error('[wasm] unknown section id ' + id);
-    if (sub.remaining !== 0) throw new Error('[wasm] section ' + id + ' has trailing bytes');
+    if (id !== 0 && sub.remaining !== 0) throw new Error('[wasm] section ' + id + ' has trailing bytes');
     r.bytes(size);
   }
   if (mod.funcs.length !== mod.codes.length) {

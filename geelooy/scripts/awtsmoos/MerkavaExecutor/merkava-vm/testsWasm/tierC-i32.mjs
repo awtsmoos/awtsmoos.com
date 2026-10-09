@@ -14,7 +14,7 @@ const TRAP = (name, op, a, b, code) => ({
 });
 
 export const tests = [
-  op2('i32.add', 'i32.add', 2000000000, 147483647, -2147483649),
+  op2('i32.add', 'i32.add', 2000000000, 147483647, 2147483647),
   op2('i32.add wrap', 'i32.add', -1, 1, 0),
   op2('i32.sub', 'i32.sub', 10, 4, 6),
   op2('i32.sub wrap', 'i32.sub', 0, 1, -1),
@@ -24,7 +24,7 @@ export const tests = [
   op2('i32.div_s neg2', 'i32.div_s', 7, -3, -2),
   op2('i32.div_u', 'i32.div_u', -1, 2, 2147483647),
   op2('i32.rem_s', 'i32.rem_s', -7, 3, -1),
-  op2('i32.rem_u', 'i32.rem_u', -7, 3, 2),
+  op2('i32.rem_u', 'i32.rem_u', -7, 3, 0), // 4294967289 = 3 * 1431655763
   op2('i32.and', 'i32.and', 0b1100, 0b1010, 0b1000),
   op2('i32.or', 'i32.or', 0b1100, 0b1010, 0b1110),
   op2('i32.xor', 'i32.xor', 0b1100, 0b1010, 0b0110),
