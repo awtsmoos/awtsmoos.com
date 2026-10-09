@@ -61,11 +61,14 @@ function compileAtRule(rule, state) {
 
 /** Compiles a programmatically added declaration object into cascade entries. */
 function declarationsFromObject(declarations) {
-	return Object.freeze(Object.entries(declarations || {}).map(([name, value]) => Object.freeze({
-		important: false,
-		name: String(name).toLowerCase(),
-		value: String(value)
-	})));
+	return Object.freeze(Object.entries(declarations || {}).map(([rawName, value]) => {
+		const key = String(rawName);
+		return Object.freeze({
+			important: false,
+			name: key.startsWith("--") ? key : key.toLowerCase(),
+			value: String(value)
+		});
+	}));
 }
 
 const AwtsExports = { compileCssStyleSheet, declarationsFromObject };

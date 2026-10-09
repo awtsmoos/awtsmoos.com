@@ -15,6 +15,12 @@
    * Variables, currentColor, min(), max(), clamp(), and color normalization
    * are decided here in MerkavaExecutor. The native host remains blind to CSS
    * language; it obeys already crystallized dimensions and paint tokens.
+   *
+   * Chapter 39: var() learns to nest. Substitution uses a balanced-paren
+   * scanner instead of a flat regex, so var(--a, var(--b, #fff)) and deeply
+   * chained custom properties resolve per CSS Custom Properties L1.
+   * Cyclic references resolve to the empty string (invalid at computed-value
+   * time). Custom property names stay case-sensitive.
    */
   class CssValueResolver {
     constructor() { this.colors = new CssColorResolver(); }
@@ -24,21 +30,45 @@
       const out = Object.create(null);
       for (const [key, value] of Object.entries(style || {})) {
         if (key.startsWith('--')) { out[key] = String(value); continue; }
-        let resolved = this.resolveValue(String(value ?? ''), vars, 0);
+        let resolved = this.resolveValue(String(value ?? ''), vars, 0, new Set());
+        if (resolved === INVALID) resolved = '';
         resolved = this.resolveMath(resolved);
         out[key] = colorProps.has(key) ? this.colors.normalize(resolved, out.color || inherited.color) : resolved;
       }
       return out;
     }
 
-    resolveValue(value, vars, depth) {
-      if (depth > 12) return '';
-      return String(value || '').replace(/var\(([^)]+)\)/g, (_all, body) => {
+    resolveValue(value, vars, depth, seen) {
+      if (depth > 64) return INVALID;
+      const chain = seen || new Set();
+      const text = String(value || '');
+      let out = '', at = 0;
+      while (at < text.length) {
+        const found = findVarFunction(text, at);
+        if (found < 0) { out += text.slice(at); break; }
+        out += text.slice(at, found);
+        const open = found + 3; // index of '(' after 'var'
+        const close = balancedParenEnd(text, open);
+        if (close < 0) { out += text.slice(found); break; }
+        const body = text.slice(open + 1, close);
         const [name, ...fallbackParts] = splitArgs(body);
         const key = String(name || '').trim();
-        if (Object.prototype.hasOwnProperty.call(vars, key)) return this.resolveValue(vars[key], vars, depth + 1);
-        return this.resolveValue(fallbackParts.join(',').trim(), vars, depth + 1);
-      }).replace(/\b(currentColor)\b/gi, vars.currentColor || vars.color || '#000000');
+        const hasFallback = fallbackParts.length > 0;
+        const fallback = fallbackParts.join(',').trim();
+        let replacement = INVALID;
+        if (key.startsWith('--') && Object.prototype.hasOwnProperty.call(vars, key) && !chain.has(key)) {
+          const next = new Set(chain);
+          next.add(key);
+          replacement = this.resolveValue(String(vars[key]), vars, depth + 1, next);
+        }
+        if (replacement === INVALID && hasFallback) {
+          replacement = this.resolveValue(fallback, vars, depth + 1, chain);
+        }
+        if (replacement === INVALID) return INVALID;
+        out += replacement;
+        at = close + 1;
+      }
+      return out.replace(/\b(currentColor)\b/gi, vars.currentColor || vars.color || '#000000');
     }
 
     resolveMath(value) {
@@ -50,6 +80,37 @@
       }
       return out;
     }
+  }
+
+  /** Marker for values invalid at computed-value time (cycles, missing refs). */
+  const INVALID = Symbol('merkava-css-invalid');
+
+  /** Finds the index of a case-insensitive `var(` outside strings, or -1. */
+  function findVarFunction(text, from) {
+    let quote = '';
+    for (let at = from; at + 3 < text.length; at++) {
+      const ch = text[at];
+      if (quote) { if (ch === quote) quote = ''; continue; }
+      if (ch === '"' || ch === "'") { quote = ch; continue; }
+      if ((ch === 'v' || ch === 'V') && text.slice(at, at + 4).toLowerCase() === 'var(') return at;
+    }
+    return -1;
+  }
+
+  /** Returns the index of the ')' balancing the '(' at openAt, or -1. */
+  function balancedParenEnd(text, openAt) {
+    let depth = 0, quote = '';
+    for (let at = openAt; at < text.length; at++) {
+      const ch = text[at];
+      if (quote) { if (ch === quote) quote = ''; continue; }
+      if (ch === '"' || ch === "'") { quote = ch; continue; }
+      if (ch === '(') depth++;
+      else if (ch === ')') {
+        depth--;
+        if (depth === 0) return at;
+      }
+    }
+    return -1;
   }
 
   function mathFn(fn, body) {

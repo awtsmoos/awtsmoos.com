@@ -34,8 +34,11 @@ function parseDeclaration(text, tokens, start, end) {
 	if (start >= end || tokens[start]?.type === "at-keyword") return null;
 	const colon = findColon(tokens, start, end);
 	if (colon < 0) return null;
-	const name = tokenSlice(text, tokens, start, colon).trim().toLowerCase();
-	if (!name) return null;
+	const rawName = tokenSlice(text, tokens, start, colon).trim();
+	if (!rawName) return null;
+	// Custom property names (--*) are case-sensitive per CSS Custom Properties L1;
+	// ordinary property names are ASCII case-insensitive.
+	const name = rawName.startsWith("--") ? rawName : rawName.toLowerCase();
 	let valueEnd = trimEnd(tokens, colon + 1, end);
 	const important = findImportant(tokens, colon + 1, valueEnd);
 	if (important >= 0) valueEnd = trimEnd(tokens, colon + 1, important);
