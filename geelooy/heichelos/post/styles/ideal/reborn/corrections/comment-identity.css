@@ -34,7 +34,7 @@
 
 :where(.post-reader-localized-context.awtsmoos-reader-vision) .comment-author-link,
 :where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-author-crown {
-	color: var(--awt-ink);
+	color: var(--sefer-ink);
 	font-family: var(--font-ui);
 	font-weight: 800;
 	text-decoration: none;
@@ -43,7 +43,7 @@
 
 :where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-meta,
 :where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-coordinate {
-	color: var(--awt-muted);
+	color: var(--sefer-ink-soft);
 	font-family: var(--font-ui);
 	font-size: .78rem;
 	line-height: 1.3;

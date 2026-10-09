@@ -11,11 +11,11 @@
     width: min(820px, calc(100% - 1.5rem));
     margin: clamp(.75rem, 3vw, 1.25rem) auto clamp(1rem, 4vw, 1.6rem);
     padding: clamp(1rem, 4vw, 1.55rem);
-    border: 1px solid rgba(246,201,108,.34);
+    border: 1px solid color-mix(in srgb, var(--sefer-accent) 34%, transparent);
     border-radius: clamp(24px, 5vw, 36px);
-    background: radial-gradient(circle at 50% 0%, rgba(246,201,108,.20), transparent 16rem),
-        linear-gradient(180deg, rgba(13,23,42,.94), rgba(3,8,18,.98));
-    box-shadow: 0 24px 70px rgba(0,0,0,.36), inset 0 1px 0 rgba(255,255,255,.08);
+    background: radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--sefer-accent) 20%, transparent), transparent 16rem),
+        linear-gradient(180deg, var(--sefer-card), var(--sefer-paper-deep));
+    box-shadow: var(--sefer-shadow), inset 0 1px 0 color-mix(in srgb, var(--sefer-accent) 12%, transparent);
     text-align: center;
 }
 
@@ -29,12 +29,12 @@
 
 .post-reader-localized-context .awtsmoos-post-title-main.awtsmoos-post-title-main.awtsmoos-post-title-main.awtsmoos-post-title-main.awtsmoos-post-title-main.awtsmoos-post-title-main.awtsmoos-post-title-main.awtsmoos-post-title-main{
     margin: .4rem 0;
-    color: #fffdf5;
+    color: var(--sefer-title-ink);
     font-family: var(--font-content);
     font-size: clamp(2rem, calc(var(--post-text-size) * .86), 4.8rem);
     line-height: 1.18;
     font-weight: 850;
-    text-shadow: 0 14px 36px rgba(0,0,0,.5);
+    text-shadow: none;
 }
 
 .post-reader-localized-context :is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container):is(#virtual-scroll-container),
@@ -62,12 +62,10 @@
     position: relative;
     margin: clamp(1rem, 3.8vw, 2rem) auto;
     padding: clamp(1rem, 4.5vw, 2.25rem);
-    border: 1px solid rgba(255,255,255,.13);
+    border: 1px solid var(--sefer-rule);
     border-radius: clamp(22px, 5vw, 34px);
-    background: radial-gradient(circle at 50% 0%, rgba(34,211,238,.055), transparent 18rem),
-        linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.055)),
-        rgba(17,24,39,.76);
-    box-shadow: 0 24px 64px rgba(0,0,0,.35);
+    background: var(--sefer-card);
+    box-shadow: var(--sefer-shadow);
     overflow: hidden;
     scroll-margin-top: calc(var(--awt-header-space) + 12px);
     transform: translateZ(0);
@@ -90,19 +88,19 @@
     display: block;
     margin: clamp(.85rem, 3.2vw, 1.5rem) 0;
     padding: clamp(1rem, 4.2vw, 1.9rem);
-    border: 1px solid rgba(255,255,255,.11);
+    border: 1px solid var(--sefer-rule);
     border-radius: clamp(18px, 4.3vw, 28px);
-    background: rgba(255,255,255,.07);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.10);
+    background: var(--sefer-card);
+    box-shadow: var(--sefer-shadow);
     transform: translateZ(0);
 }
 
 :is(.post-reader-localized-context) .sub-awtsmoos.active-reading-sub.active-reading-sub.active-reading-sub.active-reading-sub.active-reading-sub.active-reading-sub.active-reading-sub.active-reading-sub,
 :is(.post-reader-localized-context) .sub-awtsmoos.awtsmoos-current-subsection.awtsmoos-current-subsection.awtsmoos-current-subsection.awtsmoos-current-subsection.awtsmoos-current-subsection.awtsmoos-current-subsection.awtsmoos-current-subsection.awtsmoos-current-subsection,
 :is(.post-reader-localized-context) .sub-awtsmoos.awtsmoos-current-reading-sub.awtsmoos-current-reading-sub.awtsmoos-current-reading-sub.awtsmoos-current-reading-sub.awtsmoos-current-reading-sub.awtsmoos-current-reading-sub.awtsmoos-current-reading-sub.awtsmoos-current-reading-sub{
-    border-color: rgba(34,211,238,.52);
-    background: radial-gradient(circle at 50% 0%, rgba(34,211,238,.14), transparent 14rem), rgba(255,255,255,.09);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 0 0 2px rgba(34,211,238,.12), 0 18px 44px rgba(34,211,238,.10);
+    border-color: color-mix(in srgb, var(--sefer-accent) 52%, transparent);
+    background: radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--sefer-accent) 14%, transparent), transparent 14rem), var(--sefer-card);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--sefer-accent) 12%, transparent), 0 0 0 2px color-mix(in srgb, var(--sefer-accent) 12%, transparent), 0 18px 44px color-mix(in srgb, var(--sefer-accent) 10%, transparent);
 }
 
 :is(.post-reader-localized-context) :is(.section.heb) .toichen.toichen.toichen.toichen.toichen.toichen.toichen.toichen,
@@ -111,7 +109,7 @@
     direction: rtl;
     text-align: center;
     font-family: var(--font-content);
-    color: #1b1b1b;
+    color: var(--sefer-ink);
     text-shadow: none;
 }
 
@@ -122,24 +120,19 @@
 :is(.post-reader-localized-context[data-theme="dark"]) :is(.section.heb) .toichen.toichen.toichen.toichen.toichen.toichen.toichen.toichen,
 :is(.post-reader-localized-context[data-theme="dark"]) .sub-awtsmoos.heb.heb.heb.heb.heb.heb.heb.heb,
 :is(.post-reader-localized-context[data-theme="dark"]) .heb.heb.heb.heb.heb.heb.heb.heb{
-    color: #fffdf5;
-    text-shadow: 0 8px 26px rgba(0,0,0,.42);
+    color: var(--sefer-reader-ink);
+    text-shadow: 0 0 18px color-mix(in srgb, var(--sefer-accent) 32%, transparent);
 }
 /* B"H dark theme: force dark chamber background (overrides transparent) */
 :is(:root[data-theme="dark"]) .post-reader-localized-context.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision.awtsmoos-reader-vision,
 :is(:root[data-theme="dark"]) .post-reader-localized-context.post-reader-localized-context.post-reader-localized-context.post-reader-localized-context.post-reader-localized-context.post-reader-localized-context.post-reader-localized-context.post-reader-localized-context,
 :is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision):is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision):is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision):is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision):is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision):is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision):is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision):is(.post-reader-localized-context[data-theme="dark"].awtsmoos-reader-vision),
 .post-reader-localized-context[data-theme="dark"][data-theme="dark"][data-theme="dark"][data-theme="dark"][data-theme="dark"][data-theme="dark"][data-theme="dark"][data-theme="dark"]{
-    background-color: #0a1120;
-    background-image: linear-gradient(180deg, #0d1526, #060a14);
+    background-color: var(--sefer-reader-bg);
+    background-image: none;
 }
-:is(:root[data-theme="dark"]) .post-reader-localized-context .section.section.section.section.section.section.section.section,
-:is(:root[data-theme="dark"]) :is(.post-reader-localized-context) .section.heb.heb.heb.heb.heb.heb.heb.heb,
-:is(.post-reader-localized-context[data-theme="dark"]) .section.section.section.section.section.section.section.section,
-:is(.post-reader-localized-context[data-theme="dark"]) .section.heb.heb.heb.heb.heb.heb.heb.heb{
-    background-color: #0a1120;
-    background: #0a1120;
-}
+/* B"H — dark .section needs no override: the base rule above uses the
+   theme-aware var(--sefer-card), so the warm card follows the theme. */
 
 
 :is(.post-reader-localized-context) :is(.section.heb) > .toichen.toichen.toichen.toichen.toichen.toichen.toichen.toichen,
@@ -185,10 +178,10 @@ border-radius: 999px;
     width: min(820px, calc(100% - 1.5rem));
     margin: 1rem auto calc(var(--awt-reader-bottom-space) + 6rem);
     padding: 1rem;
-    border: 1px solid rgba(246,201,108,.28);
+    border: 1px solid var(--sefer-rule);
     border-radius: 24px;
-    background: linear-gradient(180deg, rgba(9,18,34,.96), rgba(4,9,20,.98));
-    box-shadow: 0 24px 70px rgba(0,0,0,.3);
+    background: var(--sefer-card);
+    box-shadow: var(--sefer-shadow);
 }
 
 .post-reader-localized-context .awtsmoos-chapter-nav-status.awtsmoos-chapter-nav-status.awtsmoos-chapter-nav-status.awtsmoos-chapter-nav-status.awtsmoos-chapter-nav-status.awtsmoos-chapter-nav-status.awtsmoos-chapter-nav-status.awtsmoos-chapter-nav-status{
@@ -207,10 +200,10 @@ border-radius: 999px;
     gap: .8rem;
     min-height: 58px;
     padding: .8rem 1rem;
-    border: 1px solid rgba(246,201,108,.22);
+    border: 1px solid color-mix(in srgb, var(--sefer-accent) 22%, transparent);
     border-radius: 18px;
-    background: rgba(255,255,255,.06);
-    color: #fffdf5;
+    background: var(--sefer-card);
+    color: var(--sefer-ink);
     text-decoration: none;
     font: 900 1rem/1 var(--font-ui);
 }

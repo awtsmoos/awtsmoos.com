@@ -37,7 +37,7 @@
 
 :where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-detail-description {
 	margin: 0;
-	color: var(--awt-muted);
+	color: var(--sefer-ink-soft);
 	font-family: var(--font-ui);
 	line-height: 1.55;
 	overflow-wrap: anywhere;

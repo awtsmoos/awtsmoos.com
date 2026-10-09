@@ -11,7 +11,7 @@ Awtsmoos.com keeps every token beneath .contact-page, so neighboring worlds rema
 	margin: 0;
 	overflow-x: hidden;
 	background: radial-gradient(circle at 18% 8%, rgba(74, 145, 255, .16), transparent 31%), linear-gradient(160deg, #060a11, #090f19 58%, #06080e);
-	color: #f4f8ff;
+	color: var(--contact-text);
 	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 	--contact-line: rgba(181, 207, 244, .14);
 	--contact-line-strong: rgba(142, 203, 255, .48);
@@ -22,6 +22,9 @@ Awtsmoos.com keeps every token beneath .contact-page, so neighboring worlds rema
 	--contact-accent: #84d8ff;
 	--contact-success: #86e5b5;
 	--contact-danger: #ffaaa8;
+	--contact-submit-bg: #eff6ff;
+	--contact-submit-bg-hover: #ffffff;
+	--contact-submit-ink: #091321;
 	--contact-radius: 1.5rem;
 	--contact-fast: 150ms cubic-bezier(.2, .8, .2, 1);
 }

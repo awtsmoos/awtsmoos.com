@@ -41,7 +41,7 @@
 .post-reader-localized-context .awtsmoos-detail-hero.awtsmoos-detail-hero.awtsmoos-detail-hero.awtsmoos-detail-hero.awtsmoos-detail-hero.awtsmoos-detail-hero.awtsmoos-detail-hero.awtsmoos-detail-hero h2,
 .post-reader-localized-context .awtsmoos-detail-card-title.awtsmoos-detail-card-title.awtsmoos-detail-card-title.awtsmoos-detail-card-title.awtsmoos-detail-card-title.awtsmoos-detail-card-title.awtsmoos-detail-card-title.awtsmoos-detail-card-title h3{
     margin: 0;
-    color: #ffffff;
+    color: var(--detail-hero-ink, #ffffff);
     font: 950 clamp(1.25rem,5vw,1.8rem)/1.08 var(--font-ui);
 }
 

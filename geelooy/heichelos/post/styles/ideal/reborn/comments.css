@@ -44,7 +44,7 @@
 .post-reader-localized-context .awtsmoos-comment-heading.awtsmoos-comment-heading.awtsmoos-comment-heading.awtsmoos-comment-heading.awtsmoos-comment-heading.awtsmoos-comment-heading.awtsmoos-comment-heading.awtsmoos-comment-heading{ display: grid; gap: .22rem; min-width: 0; }
 
 .post-reader-localized-context .comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link{
-    color: #ffffff;
+    color: var(--comment-author-ink, #ffffff);
     text-decoration: none;
     font: 950 var(--post-ui-chip-size, 16px)/1.16 var(--font-ui);
     overflow-wrap: anywhere;

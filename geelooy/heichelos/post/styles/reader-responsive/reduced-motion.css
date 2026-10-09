@@ -4,7 +4,7 @@
 @media (prefers-reduced-motion: reduce) {
   :where(.post-reader-localized-context):is(.awtsmoos-reader-vision) .awtsmoos-reader-section:where(:not(.reader-reduced-motion-off)),
   :where(.post-reader-localized-context):is(.awtsmoos-reader-vision) .awtsmoos-floating-controls button:where(:not(.reader-reduced-motion-off)) {
-    transition: none !important;
+    transition: none;
   }
 }
 

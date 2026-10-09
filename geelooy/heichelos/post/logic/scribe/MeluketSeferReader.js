@@ -184,6 +184,55 @@ function hasVisibleText(fragment) {
 }
 
 /**
+ * B"H — [cup] markers become bold (the dibur hamatchil). Module-level so
+ * EVERY Hebrew render path uses it — phrase blocks, footnote bodies, etc.
+ * Raw [cup] tokens must never leak to the page.
+ */
+export function toCupHtml(he) {
+	return String(he || '')
+		.replace(/\[cup\]/g, '<b>')
+		.replace(/\[\/cup\]/g, '</b>');
+}
+
+/**
+ * Decodes HTML entities carried as text in the data (e.g. footnote bodies
+ * with `&lt;b&gt;`). Uses a textarea so only entities decode — no markup
+ * is parsed here.
+ */
+export function decodeHtmlEntities(s) {
+	if (typeof document === 'undefined') return String(s || '');
+	const t = document.createElement('textarea');
+	t.innerHTML = String(s || '');
+	return t.value;
+}
+
+/**
+ * Sanitizes footnote HTML: decodes entities, then strips dangerous elements
+ * and event-handler attributes. Safe inline markup (b, i, em, strong) survives.
+ */
+export function sanitizeFootnoteHtml(raw) {
+	if (typeof document === 'undefined') return String(raw || '');
+	const decoded = decodeHtmlEntities(raw);
+	const div = document.createElement('div');
+	div.innerHTML = decoded;
+	div.querySelectorAll('script, style, iframe, object, embed, link, meta, form, input, button').forEach(n => n.remove());
+	div.querySelectorAll('*').forEach(n => {
+		for (const attr of Array.from(n.attributes)) {
+			if (/^on/i.test(attr.name) || attr.name === 'srcdoc') n.removeAttribute(attr.name);
+		}
+		const href = n.getAttribute('href');
+		if (href && /^\s*javascript:/i.test(href)) n.removeAttribute('href');
+	});
+	return div.innerHTML;
+}
+
+/** Sets a footnote body's HTML safely: [cup]→bold, entities decoded, sanitized. */
+export function setFootnoteBodyHtml(elm, raw) {
+	if (!elm) return;
+	elm.innerHTML = sanitizeFootnoteHtml(toCupHtml(raw));
+}
+
+/**
  * One footnote marker element, as HTML. The sefer's delegated click/keydown
  * handlers pick up sup.meluket-fn-marker[data-fn] and open the popup.
  */
@@ -278,11 +327,16 @@ function enhanceFootnoteSup(sup, idx) {
 }
 
 /**
- * Builds one sefer section: Hebrew phrase blocks with each phrase's English
- * dwelling directly beneath its Hebrew — never side by side — plus summary.
+ * Builds one sefer section with TRUE phrase interleaving: for each phrase, a
+ * `.meluket-phrase-pair` wrapper holds the Hebrew `.meluket-phrase` block
+ * IMMEDIATELY followed by its English `.meluket-phrase` block — never a
+ * separate English vessel after all the Hebrew (Yaakov's defect #3).
+ * A pair renders when it has Hebrew or English; empty Hebrew blocks are
+ * skipped (no blank blocks) but their English is preserved, never dropped.
+ * Falls back to the legacy section-level English blob for posts whose
+ * enrichment has no translation_en_phrases yet. Plus the section summary.
  * B"H — phrase-level English (joined on phraseId) replaces the old
- * section-level English blob. Empty Hebrew phrases (tail misalignment) are
- * skipped gracefully; a phrase block renders when it has Hebrew or English.
+ * section-level English blob.
  */
 export function buildSectionElement(sectionIndex, sectionId, hebrewItems, englishFallback, sectionSummary, langMode) {
 	const section = document.createElement('section');
@@ -301,50 +355,51 @@ export function buildSectionElement(sectionIndex, sectionId, hebrewItems, englis
 	marker.appendChild(markerInner);
 	section.appendChild(marker);
 
-	// Hebrew vessel (the ikar, above the English) — one block per phrase.
-	const hebrew = document.createElement('div');
-	hebrew.className = 'meluket-hebrew';
-	hebrew.setAttribute('dir', 'rtl');
-	hebrew.setAttribute('lang', 'he');
+	// Interleaved phrase pairs — Hebrew block, then ITS English directly
+	// beneath. One pair per phrase; the English never gathers into a
+	// separate section-level block.
 	const items = Array.isArray(hebrewItems) ? hebrewItems : [];
-	const toCupHtml = (he) => String(he || '')
-		.replace(/\[cup\]/g, '<b>')
-		.replace(/\[\/cup\]/g, '</b>');
+	let renderedPairs = 0;
 	for (const item of items) {
-		// B"H: skip empty-Hebrew phrases gracefully (tail misalignment
-		// artifacts) instead of rendering blank blocks.
-		if (!hasVisibleText(item.he)) continue;
-		const block = document.createElement('div');
-		block.className = 'meluket-phrase';
-		if (item.phraseId) block.dataset.phraseId = item.phraseId;
-		block.innerHTML = toCupHtml(item.he);
-		// B"H: the data carries footnote markers as bare trailing digits —
-		// no <sup> in the data. Convert them to real markers at render time.
-		convertBareFootnoteDigits(block);
-		hebrew.appendChild(block);
-	}
-	section.appendChild(hebrew);
-
-	// English vessel — each phrase's English dwells beneath its own Hebrew
-	// phrase, never side by side. Falls back to the legacy section blob for
-	// posts whose enrichment has no translation_en_phrases yet.
-	const phraseEnglish = items.filter(item => item.en && String(item.en).trim());
-	if (phraseEnglish.length) {
-		const english = document.createElement('div');
-		english.className = 'meluket-english';
-		english.setAttribute('dir', 'ltr');
-		english.setAttribute('lang', 'en');
-		for (const item of phraseEnglish) {
-			const block = document.createElement('div');
-			block.className = 'meluket-phrase';
-			if (item.phraseId) block.dataset.phraseId = item.phraseId;
+		const heText = item.he;
+		const enText = item.en;
+		const hasHe = hasVisibleText(heText);
+		const hasEn = enText && String(enText).trim().length > 0;
+		// Skip fully-empty artifacts (no Hebrew AND no English).
+		if (!hasHe && !hasEn) continue;
+		const pair = document.createElement('div');
+		pair.className = 'meluket-phrase-pair';
+		if (item.phraseId) pair.dataset.phraseId = String(item.phraseId);
+		if (hasHe) {
+			const heBlock = document.createElement('div');
+			heBlock.className = 'meluket-phrase meluket-phrase--he';
+			if (item.phraseId) heBlock.dataset.phraseId = String(item.phraseId);
+			heBlock.setAttribute('dir', 'rtl');
+			heBlock.setAttribute('lang', 'he');
+			heBlock.innerHTML = toCupHtml(heText);
+			// B"H: the data carries footnote markers as bare trailing digits —
+			// no <sup> in the data. Convert them to real markers at render time.
+			convertBareFootnoteDigits(heBlock);
+			pair.appendChild(heBlock);
+		}
+		if (hasEn) {
+			const enBlock = document.createElement('div');
+			enBlock.className = 'meluket-phrase meluket-phrase--en';
+			if (item.phraseId) enBlock.dataset.phraseId = String(item.phraseId);
+			enBlock.setAttribute('dir', 'ltr');
+			enBlock.setAttribute('lang', 'en');
 			// B"H: innerHTML — never textContent — so footnote markers
 			// become real <sup> elements; the renderer escapes the rest.
-			block.innerHTML = renderEnglishWithFootnotes(item.en);
-			english.appendChild(block);
+			enBlock.innerHTML = renderEnglishWithFootnotes(enText);
+			pair.appendChild(enBlock);
 		}
-		section.appendChild(english);
-	} else if (englishFallback && String(englishFallback).trim()) {
+		section.appendChild(pair);
+		renderedPairs++;
+	}
+
+	// Section-level English fallback — only when NO phrase pairs rendered
+	// (posts whose enrichment has no translation_en_phrases yet).
+	if (renderedPairs === 0 && englishFallback && String(englishFallback).trim()) {
 		const english = document.createElement('div');
 		english.className = 'meluket-english';
 		english.setAttribute('dir', 'ltr');
@@ -463,13 +518,15 @@ function enhanceScribeLensPanel() {
 	panel.dataset.lensEnhanced = '1';
 	const closeBtn = document.getElementById('scribeLensClose');
 	if (closeBtn) {
-		closeBtn.addEventListener('click', () => {
+		closeBtn.addEventListener('click', (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			// Directly hide the panel - don't rely on trigger button
+			panel.classList.add('hidden-details');
+			panel.setAttribute('aria-hidden', 'true');
 			const trigger = document.getElementById('typographyBtn');
 			if (trigger) {
-				trigger.click();
-			} else {
-				panel.classList.add('hidden-details');
-				panel.setAttribute('aria-hidden', 'true');
+				trigger.setAttribute('aria-expanded', 'false');
 			}
 		});
 	}
@@ -583,7 +640,9 @@ function openFootnotePopup(fnNum, marker, sefer) {
 		const h = el('div', 'awtsmoos-fn-he');
 		h.setAttribute('dir', 'rtl');
 		h.setAttribute('lang', 'he');
-		h.innerHTML = he.innerHTML;
+		// B"H: the shelf is already sanitized; re-decode defensively so the
+		// popup never shows literal &lt;b&gt; / [cup] text.
+		setFootnoteBodyHtml(h, he.innerHTML);
 		fnBodyEl.appendChild(h);
 	}
 	if (en) {
@@ -677,8 +736,16 @@ function ensureSourcesSheet() {
 }
 
 function sourcesSectionPreview(sectionEl) {
+	// B"H: with phrase interleaving there is no single .meluket-hebrew vessel;
+	// gather the Hebrew phrase blocks (fall back to legacy vessel / raw text).
+	const heNodes = sectionEl.querySelectorAll('.meluket-phrase--he');
 	const hebrew = sectionEl.querySelector('.meluket-hebrew');
-	const raw = hebrew ? hebrew.textContent : sectionEl.textContent;
+	let raw = '';
+	if (heNodes.length) {
+		raw = Array.from(heNodes).map(n => n.textContent).join(' ');
+	} else {
+		raw = hebrew ? hebrew.textContent : sectionEl.textContent;
+	}
 	const clean = String(raw || '').replace(/\s+/g, ' ').trim();
 	return clean.length > 90 ? clean.slice(0, 90) + '…' : clean;
 }
@@ -860,7 +927,7 @@ function isSourcesSheetOpen() {
 /* B"H — Hijack the Sources button on Meluket posts only (capture phase, so the
  * generic sidebar toggle on document.body never fires). Non-Meluket posts and
  * the general reader path are untouched. */
-function wireSourcesButton(post, sefer) {
+export function wireSourcesButton(post, sefer) {
 	const btn = document.getElementById('commentaryBtn');
 	if (!btn || btn.dataset.meluketSourcesBound === '1') return;
 	btn.dataset.meluketSourcesBound = '1';
@@ -1007,7 +1074,9 @@ export function awakenMeluketSeferReader(post) {
 				const heSpan = document.createElement('span');
 				heSpan.className = 'meluket-footnote-he';
 				heSpan.setAttribute('dir', 'rtl');
-				heSpan.innerHTML = heBody;
+				// B"H: footnote data carries escaped entities (&lt;b&gt;) and
+				// [cup] tokens — decode + bold them, never show raw markup.
+				setFootnoteBodyHtml(heSpan, heBody);
 				body.appendChild(heSpan);
 			}
 			if (enBody) {

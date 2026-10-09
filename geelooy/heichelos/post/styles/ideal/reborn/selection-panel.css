@@ -63,7 +63,7 @@
 	border: 1px solid rgba(148, 163, 184, .24);
 	border-radius: 999px;
 	background: rgba(255, 255, 255, .07);
-	color: #fff;
+	color: var(--selection-close-ink, #fff);
 	font-size: 1.65rem;
 	cursor: pointer;
 }

@@ -3,48 +3,48 @@
 /* B"H - THE PATH OF RETURN (BREADCRUMBS) */
 
 .post-reader-localized-context .awtsmoos-sidebar-breadcrumbs {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: wrap !important;
-    align-items: center !important;
-    gap: 8px !important;
-    padding-top: var(--pad-sm) !important;
-    border-top: 2px dashed var(--color-ink-secondary) !important;
-    width: 100% !important;
-    overflow: hidden !important;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding-top: var(--pad-sm);
+    border-top: 2px dashed var(--color-ink-secondary);
+    width: 100%;
+    overflow: hidden;
 }
 
 :where(.post-reader-localized-context) .awtsmoos-crumb-link,
 :where(.post-reader-localized-context) .awtsmoos-back-btn {
     all: unset; 
-    box-sizing: border-box !important; 
-    display: inline-flex !important;
-    align-items: center !important; 
-    font-family: var(--font-ui) !important; 
-    font-size: 11px !important;
-    text-transform: none !important; /* Purity of the True Name */
-    font-weight: 800 !important; 
-    padding: 6px 10px !important; 
-    cursor: pointer !important; 
-    color: var(--color-ink) !important; 
-    background: transparent !important;
-    border: 2px solid var(--color-ink) !important;
-    transition: all var(--time-fast) !important;
+    box-sizing: border-box; 
+    display: inline-flex;
+    align-items: center; 
+    font-family: var(--font-ui); 
+    font-size: 11px;
+    text-transform: none; /* Purity of the True Name */
+    font-weight: 800; 
+    padding: 6px 10px; 
+    cursor: pointer; 
+    color: var(--color-ink); 
+    background: transparent;
+    border: 2px solid var(--color-ink);
+    transition: all var(--time-fast);
 }
 
 :where(.post-reader-localized-context) .awtsmoos-crumb-link:hover,
 :where(.post-reader-localized-context) .awtsmoos-back-btn:hover {
-    background: var(--color-ink) !important; 
-    color: var(--bg-surface) !important;
+    background: var(--color-ink); 
+    color: var(--bg-surface);
 }
 
 :where(.post-reader-localized-context) .awtsmoos-crumb-link.active-crumb {
-    background: var(--color-ink) !important; 
-    color: var(--bg-surface) !important;
-    pointer-events: none !important; 
+    background: var(--color-ink); 
+    color: var(--bg-surface);
+    pointer-events: none; 
 }
 
 .post-reader-localized-context .crumb-arrow { 
-    margin: 0 6px !important; 
-    font-weight: bold !important;
+    margin: 0 6px; 
+    font-weight: bold;
 }

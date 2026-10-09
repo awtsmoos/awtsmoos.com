@@ -18,8 +18,10 @@ function statusText(report) {
 	if (rows.length) return `English translation · ${rows.length} aligned phrase${rows.length === 1 ? "" : "s"}`;
 	// B"H: the Meluket sefer reader mounts its own English beneath the Hebrew
 	// from enrichment (not from the translation API). Never claim it is missing
-	// when it is visibly on the page.
-	if (typeof document !== "undefined" && document.querySelector(".meluket-sefer .meluket-english p")) {
+	// when it is visibly on the page. Phrase-level English renders as
+	// .meluket-phrase--en inside .meluket-phrase-pair; the legacy section
+	// fallback renders .meluket-english p — accept both.
+	if (typeof document !== "undefined" && document.querySelector(".meluket-sefer .meluket-phrase--en, .meluket-sefer .meluket-english p, .meluket-sefer .meluket-english .meluket-phrase")) {
 		return "English translation · shown below the Hebrew";
 	}
 	if (status === "migration_required") return "English translation is being moved into the safe reader API.";

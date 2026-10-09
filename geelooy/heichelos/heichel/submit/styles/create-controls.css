@@ -9,7 +9,19 @@
 input,
 textarea,
 select,
-.bulk-text { inline-size:100%; min-inline-size:0; min-block-size:44px; max-inline-size:100%; padding:.7rem .8rem; border:1px solid var(--create-line); border-radius:.75rem; background:var(--create-panel); color:var(--create-ink); font:inherit; }
+.bulk-text { inline-size:100%; min-inline-size:0; min-block-size:44px; max-inline-size:100%; padding:.7rem .8rem; border:1px solid var(--create-line); border-radius:.75rem; background:var(--create-field); color:var(--create-ink); font:inherit; }
+.text-input::placeholder,
+input::placeholder,
+textarea::placeholder,
+.bulk-text::placeholder { color:var(--create-placeholder); opacity:1; }
+.text-input:hover,
+textarea:hover,
+select:hover,
+.bulk-text:hover { border-color:var(--create-accent); }
+.text-input:disabled,
+textarea:disabled,
+select:disabled,
+.bulk-text:disabled { opacity:.55; cursor:not-allowed; }
 textarea,
 .bulk-text { min-block-size:8rem; resize:vertical; }
 .kind-pills,
@@ -39,12 +51,12 @@ textarea,
 }
 .kind-pill.active,
 .publish-button,
-.btn.primary { border-color:var(--create-ink); background:var(--create-ink); color:var(--create-on-ink); box-shadow:var(--create-shadow); }
+.btn.primary { border-color:var(--create-accent); background:var(--create-accent); color:var(--create-on-ink); box-shadow:var(--create-shadow); }
 @media (hover:hover) and (pointer:fine) {
 	.kind-pill,.soft-btn,.btn,.publish-button,.editor-toolbar button,.text-link,.top-controls a:hover { transform:translateY(-1px); filter:brightness(1.035); }
 }
 .kind-pill,.soft-btn,.btn,.publish-button,.editor-toolbar button,.text-link,.top-controls a:active { transform:scale(.97); }
-.kind-pill,.soft-btn,.btn,.publish-button,.editor-toolbar button,.text-link,.top-controls a,input,textarea,select:focus-visible { outline:3px solid color-mix(in srgb,var(--create-accent),white 20%); outline-offset:2px; }
+.kind-pill,.soft-btn,.btn,.publish-button,.editor-toolbar button,.text-link,.top-controls a,input,textarea,select:focus-visible { outline:3px solid var(--create-focus); outline-offset:2px; }
 :where(button,input,textarea,select):disabled { cursor:not-allowed; opacity:.48; transform:none; }
 @media (prefers-reduced-motion:reduce) {
 	.kind-pill,.soft-btn,.btn,.publish-button,.editor-toolbar button,.text-link,.top-controls a { transition:none; }

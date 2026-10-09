@@ -32,7 +32,7 @@
 }
 
 :where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-scope-hint {
-	color: var(--awt-muted);
+	color: var(--sefer-ink-soft);
 	font: 600 .78rem / 1.35 var(--font-ui);
 }
 
@@ -50,10 +50,10 @@
 	inline-size: 100%;
 	min-inline-size: 0;
 	padding: 10px 11px;
-	border: 1px solid rgba(255, 255, 255, .11);
+	border: 1px solid var(--sefer-rule);
 	border-radius: 12px;
-	color: var(--awt-ink);
-	background: rgba(2, 6, 18, .62);
+	color: var(--sefer-ink);
+	background: var(--sefer-paper);
 	font: 500 .92rem / 1.45 var(--font-ui);
 	transition: border-color 150ms ease, box-shadow 150ms ease, background 150ms ease;
 }

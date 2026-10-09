@@ -25,7 +25,7 @@
 	inline-size: 100%;
 	padding: 16px;
 	border-radius: 16px;
-	color: var(--awt-muted);
+	color: var(--sefer-ink-soft);
 	background: rgba(255, 255, 255, .045);
 }
 

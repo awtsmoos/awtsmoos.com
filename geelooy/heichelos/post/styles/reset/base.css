@@ -6,27 +6,27 @@
 */
 
 .post-reader-localized-context {
-    margin: 0 !important;
-    padding: 0 !important;
-    font-family: var(--font-ui) !important;
-    background-color: var(--bg-vellum) !important;
-    color: var(--color-ink) !important;
-    direction: ltr !important;
-    text-align: left !important;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-ui);
+    background-color: var(--bg-vellum);
+    color: var(--color-ink);
+    direction: ltr;
+    text-align: left;
 }
 
 .post-reader-localized-context :where(h1, h2, h3, h4) {
-    margin: 0 !important;
-    font-family: var(--font-heading) !important;
+    margin: 0;
+    font-family: var(--font-heading);
 }
 
 .post-reader-localized-context :where(p) {
-    margin: 0 0 1rem 0 !important;
+    margin: 0 0 1rem 0;
 }
 
 .post-reader-localized-context :where(a) {
-    color: var(--color-primary) !important;
-    text-decoration: none !important;
+    color: var(--color-primary);
+    text-decoration: none;
 }
 
 .post-reader-localized-context :where(
@@ -52,5 +52,5 @@
     .awtsmoos-integrated-header *,
     .awtsmoos-massive-menu-btn *
 ) {
-    text-transform: none !important;
+    text-transform: none;
 }

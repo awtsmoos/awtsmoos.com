@@ -37,8 +37,8 @@ Awtsmoos.com keeps submission and disclosure controls local, animated, accessibl
 	padding: 0 1rem;
 	border: 1px solid rgba(255, 255, 255, .52);
 	border-radius: .95rem;
-	background: #eff6ff;
-	color: #091321;
+	background: var(--contact-submit-bg);
+	color: var(--contact-submit-ink);
 	font: inherit;
 	font-weight: 850;
 	cursor: pointer;
@@ -47,7 +47,7 @@ Awtsmoos.com keeps submission and disclosure controls local, animated, accessibl
 }
 .contact-page__submit:hover {
 	transform: translateY(-2px);
-	background: #ffffff;
+	background: var(--contact-submit-bg-hover);
 	box-shadow: 0 1rem 2.4rem rgba(80, 158, 255, .2);
 }
 .contact-page__submit:focus-visible {

@@ -32,24 +32,34 @@
     transform: translateY(0);
     pointer-events: all;
 }
-:where(.post-reader-localized-context) .popover-btn {
-    background: transparent !important;
-    color: #eaddc5 !important;
-    border: none !important;
-    border-right: 2px solid #5a4d3b !important;
-    box-shadow: none !important;
-    padding: 12px 24px !important;
-    font-size: 12px !important;
-    font-family: var(--font-heading) !important;
+/* B"H 2026-10-09 — CSS audit: removed (Yaakov: NEVER EVER).
+   Doubled class selectors provide the needed specificity instead. */
+.post-reader-localized-context.post-reader-localized-context .popover-btn {
+    background: transparent;
+    color: var(--popover-ink, #eaddc5);
+    border: none;
+    border-right: 2px solid var(--popover-divider, #5a4d3b);
+    box-shadow: none;
+    padding: 12px 24px;
+    font-size: 12px;
+    font-family: var(--font-heading);
     position: relative;
     cursor: pointer;
 }
-:where(.post-reader-localized-context) .popover-btn:last-child { border-right: none !important; }
-:where(.post-reader-localized-context) .popover-btn:hover {
-    background: rgba(255,255,255,0.1) !important;
-    color: #fff !important;
-    transform: none !important;
-    box-shadow: none !important;
+.post-reader-localized-context.post-reader-localized-context .popover-btn:last-child { border-right: none; }
+.post-reader-localized-context.post-reader-localized-context .popover-btn:hover {
+    background: var(--popover-hover-bg, rgba(255,255,255,0.1));
+    color: var(--popover-hover-ink, #fff);
+    transform: none;
+    box-shadow: none;
+}
+/* Light-theme variant: dark ink on light popover (no white-on-white). */
+:where(.post-reader-localized-context[data-theme="light"]) .popover-btn,
+:where(.post-reader-localized-context:not([data-theme="dark"])) .popover-btn {
+    --popover-ink: var(--text-primary);
+    --popover-divider: var(--panel-border-strong);
+    --popover-hover-bg: var(--panel-raised);
+    --popover-hover-ink: var(--text-primary);
 }
 
 /* Highlight Palette (Ink Pots) */
@@ -131,9 +141,9 @@
     margin-left: 10rem;
     margin-right: 0;
 }
-:where(.post-reader-localized-context) .marginal-sigil:hover,
-:where(.post-reader-localized-context) awtsmoos-note:hover + .marginal-sigil {
-    transform: scale(1.3) !important;
+.post-reader-localized-context.post-reader-localized-context .marginal-sigil:hover,
+.post-reader-localized-context.post-reader-localized-context awtsmoos-note:hover + .marginal-sigil {
+    transform: scale(1.3);
 }
 :where(.post-reader-localized-context) .marginal-sigil:hover::before {
     color: var(--color-danger);

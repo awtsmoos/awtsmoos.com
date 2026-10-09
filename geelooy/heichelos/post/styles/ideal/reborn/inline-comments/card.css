@@ -51,7 +51,7 @@
     width: 34px;
     height: 34px;
     border-radius: 999px;
-    color: #fff;
+    color: var(--inline-avatar-ink, #fff);
     background: radial-gradient(circle at 30% 25%, #39d7ee, #7c3aed 72%);
     font: 950 .78rem/1 var(--font-ui);
     box-shadow: 0 0 14px rgba(139,92,246,.34);
@@ -63,7 +63,7 @@
 .post-reader-localized-context .awtsmoos-inline-title.awtsmoos-inline-title.awtsmoos-inline-title.awtsmoos-inline-title.awtsmoos-inline-title.awtsmoos-inline-title.awtsmoos-inline-title.awtsmoos-inline-title,
 :is(.post-reader-localized-context) :is(.section.heb) .inline-comment .comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link,
 :is(.post-reader-localized-context) .inline-comment .comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link.comment-author-link{
-    color: #fff;
+    color: var(--inline-title-ink, #fff);
     font-family: var(--font-ui);
     font-size: clamp(12px, 2.7vw, 14px);
     font-weight: 930;

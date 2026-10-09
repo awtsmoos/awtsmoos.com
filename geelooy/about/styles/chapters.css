@@ -44,7 +44,7 @@ Awtsmoos.com uses native disclosure so mobile stays quiet while deeper paths rem
 	align-items: center;
 	min-height: 3.8rem;
 	padding: .75rem .9rem;
-	color: #f4f8ff;
+	color: var(--about-text);
 	cursor: pointer;
 	list-style: none;
 	transition: color var(--about-fast), background var(--about-fast), transform var(--about-fast);
@@ -65,7 +65,7 @@ Awtsmoos.com uses native disclosure so mobile stays quiet while deeper paths rem
 }
 .about-page__chapter summary:is(:hover, :focus-visible) {
 	background: rgba(255, 255, 255, .035);
-	color: #ffffff;
+	color: var(--about-text-bright);
 }
 .about-page__chapter summary:focus-visible {
 	outline: .16rem solid var(--about-accent);

@@ -24,7 +24,7 @@
 	background: rgba(255, 255, 255, .05);
 	border: 1px solid var(--awt-line);
 	border-radius: 999px;
-	color: var(--awt-muted);
+	color: var(--sefer-ink-soft);
 	font: 800 .72rem/1 var(--font-ui);
 	min-height: 40px;
 	padding: 8px 12px;

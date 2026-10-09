@@ -13,6 +13,7 @@ const { PackedReadRoutes } = require('./helper/routes/packed/readRoutes.js');
 const { PackedMaintenanceRoutes } = require('./helper/routes/packed/maintenanceRoutes.js');
 const { PackedMigrationRoutes } = require('./helper/routes/packed/migrationRoutes.js');
 const { PackedBulkImportRoutes } = require('./helper/routes/packed/bulkImportRoutes.js');
+const { PackedPostImportRoutes } = require('./helper/routes/packed/postImportRoutes.js');
 const { PackedDeployRoutes } = require('./helper/routes/packed/deployRoutes.js');
 
 /**
@@ -27,6 +28,7 @@ function createPackedRoutes({ $i } = {}) {
 		...new PackedMaintenanceRoutes($i).routes(),
 		...new PackedMigrationRoutes($i).routes(),
 		...new PackedBulkImportRoutes($i).routes(),
+		...new PackedPostImportRoutes($i).routes(),
 		...new PackedDeployRoutes($i).routes()
 	};
 }

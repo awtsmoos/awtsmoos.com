@@ -2,8 +2,9 @@
  * Chapter 216: The scribe altar obeys concealment and reply receives a palace.
  * The Awtsmoos breathes through one hidden law: if a vessel carries `hidden`,
  * no old display rule may resurrect it. Regular comments and replies share the
- * same gold-blue chamber language, with sections, source mode, and soft action
- * gates arranged as a coherent scroll.
+ * same warm gold chamber language, with sections, source mode, and soft action
+ * gates arranged as a coherent scroll. Cream/gold in light, warm dark glass
+ * in dark — the dream, via --sefer-* tokens. No, ever.
  */
 
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-entry-monolith:not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned){
@@ -12,12 +13,12 @@
     gap: 14px;
     width: 100%;
     padding: clamp(16px, 2vw, 22px);
-    border: 1px solid rgba(246,201,108,.28);
+    border: 1px solid var(--sefer-rule);
     border-radius: 26px;
-    background: radial-gradient(circle at 8% 0%, rgba(56,189,248,.18), transparent 15rem),
-        radial-gradient(circle at 100% 10%, rgba(139,92,246,.18), transparent 13rem),
-        linear-gradient(180deg, rgba(12,24,45,.98), rgba(4,10,23,.99));
-    box-shadow: 0 22px 58px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.08);
+    background: radial-gradient(circle at 8% 0%, color-mix(in srgb, var(--sefer-accent) 14%, transparent), transparent 15rem),
+        var(--sefer-card);
+    box-shadow: var(--sefer-shadow);
+    color: var(--sefer-ink);
     overflow: hidden;
 }
 
@@ -28,9 +29,9 @@
     max-width: 100%;
     border-radius: 999px;
     padding: .42rem .72rem;
-    color: #f6c96c;
-    background: rgba(246,201,108,.08);
-    border: 1px solid rgba(246,201,108,.22);
+    color: var(--sefer-accent);
+    background: color-mix(in srgb, var(--sefer-accent) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--sefer-accent) 22%, transparent);
     font: 950 .72rem/1 var(--font-ui);
     letter-spacing: .14em;
 }
@@ -40,11 +41,11 @@
     min-height: 58px;
     justify-content: center;
     border-radius: 20px;
-    border: 1px solid rgba(246,201,108,.34);
-    background: linear-gradient(90deg, rgba(246,201,108,.92), rgba(34,211,238,.76));
-    color: #07111f;
+    border: 1px solid color-mix(in srgb, var(--sefer-accent) 34%, transparent);
+    background: linear-gradient(90deg, var(--sefer-accent), color-mix(in srgb, var(--sefer-accent) 72%, var(--sefer-focus)));
+    color: var(--sefer-on-accent);
     font: 950 clamp(1rem,2.2vw,1.18rem)/1.1 var(--font-ui);
-    box-shadow: 0 16px 36px rgba(0,0,0,.28), 0 0 28px rgba(34,211,238,.14);
+    box-shadow: 0 16px 36px color-mix(in srgb, var(--sefer-accent) 28%, transparent), var(--sefer-shadow);
 }
 
 :is(.post-reader-localized-context.awtsmoos-reader-vision) :is(.awtsmoos-comment-entry-monolith) .awtsmoos-comment-scope-row:not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned){
@@ -58,20 +59,20 @@
     min-height: 44px;
     padding: 0 1rem;
     border-radius: 999px;
-    border: 1px solid rgba(191,203,226,.22);
-    background: rgba(255,255,255,.06);
-    color: #e5eefc;
+    border: 1px solid var(--sefer-rule);
+    background: var(--sefer-paper);
+    color: var(--sefer-ink);
     font: 900 .92rem/1 var(--font-ui);
 }
 
 :is(.post-reader-localized-context.awtsmoos-reader-vision) :is(.awtsmoos-comment-entry-monolith) :is(.awtsmoos-comment-scope-btn.is-active:not(.awtsmoos-composer-unowned):is(.awtsmoos-comment-scope-btn.is-active:not(.awtsmoos-composer-unowned):is(.awtsmoos-comment-scope-btn.is-active:not(.awtsmoos-composer-unowned):is(.awtsmoos-comment-scope-btn.is-active:not(.awtsmoos-composer-unowned):is(.awtsmoos-comment-scope-btn.is-active:not(.awtsmoos-composer-unowned):is(.awtsmoos-comment-scope-btn.is-active:not(.awtsmoos-composer-unowned):is(.awtsmoos-comment-scope-btn.is-active:not(.awtsmoos-composer-unowned):is(.awtsmoos-comment-scope-btn.is-active:not(.awtsmoos-composer-unowned)){
-    background: linear-gradient(90deg, #fee68b, #d99b19);
-    color: #08111f;
-    border-color: rgba(255,255,255,.3);
+    background: var(--sefer-accent);
+    color: var(--sefer-on-accent);
+    border-color: var(--sefer-accent);
 }
 
 :is(.post-reader-localized-context.awtsmoos-reader-vision) :is(.awtsmoos-comment-entry-monolith) .awtsmoos-comment-scope-hint:not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned){
-    color: #cbd5e1;
+    color: var(--sefer-ink-soft);
     font: 800 .86rem/1.25 var(--font-ui);
     overflow-wrap: anywhere;
 }
@@ -82,11 +83,11 @@
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-extra-section-title:not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned),
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-extra-section-text:not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned){
     width: 100%;
-    border: 1px solid rgba(191,203,226,.22);
+    border: 1px solid var(--sefer-rule);
     border-radius: 18px;
-    background: rgba(255,255,255,.07);
-    color: #fffdf5;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+    background: var(--sefer-paper);
+    color: var(--sefer-ink);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--sefer-accent) 8%, transparent);
 }
 
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-title-input:not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned){
@@ -98,9 +99,9 @@
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-wysiwyg-container:not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned){
     display: grid;
     overflow: hidden;
-    border: 1px solid rgba(246,201,108,.18);
+    border: 1px solid color-mix(in srgb, var(--sefer-accent) 18%, transparent);
     border-radius: 22px;
-    background: rgba(3,8,18,.56);
+    background: var(--sefer-paper);
 }
 
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-wysiwyg-toolbar:not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned){
@@ -108,22 +109,22 @@
     flex-wrap: wrap;
     gap: 8px;
     padding: 10px;
-    border-bottom: 1px solid rgba(191,203,226,.14);
-    background: rgba(255,255,255,.045);
+    border-bottom: 1px solid var(--sefer-rule);
+    background: var(--sefer-paper-deep);
 }
 
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .wysiwyg-btn:not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned){
     min-width: 42px;
     min-height: 38px;
     border-radius: 12px;
-    border: 1px solid rgba(246,201,108,.2);
-    background: linear-gradient(180deg, rgba(31,41,60,.95), rgba(12,18,31,.98));
-    color: #fffdf5;
+    border: 1px solid color-mix(in srgb, var(--sefer-accent) 20%, transparent);
+    background: var(--sefer-card);
+    color: var(--sefer-ink);
     font: 950 .9rem/1 var(--font-ui);
 }
 
 :is(.post-reader-localized-context.awtsmoos-reader-vision) :is(.wysiwyg-btn.toggle-source:not(.awtsmoos-composer-unowned):is(.wysiwyg-btn.toggle-source:not(.awtsmoos-composer-unowned):is(.wysiwyg-btn.toggle-source:not(.awtsmoos-composer-unowned):is(.wysiwyg-btn.toggle-source:not(.awtsmoos-composer-unowned):is(.wysiwyg-btn.toggle-source:not(.awtsmoos-composer-unowned):is(.wysiwyg-btn.toggle-source:not(.awtsmoos-composer-unowned):is(.wysiwyg-btn.toggle-source:not(.awtsmoos-composer-unowned):is(.wysiwyg-btn.toggle-source:not(.awtsmoos-composer-unowned)){ margin-left: auto; }
-:is(.post-reader-localized-context.awtsmoos-reader-vision) :is(.wysiwyg-btn.active:not(.awtsmoos-composer-unowned):is(.wysiwyg-btn.active:not(.awtsmoos-composer-unowned):is(.wysiwyg-btn.active:not(.awtsmoos-composer-unowned):is(.wysiwyg-btn.active:not(.awtsmoos-composer-unowned):is(.wysiwyg-btn.active:not(.awtsmoos-composer-unowned):is(.wysiwyg-btn.active:not(.awtsmoos-composer-unowned):is(.wysiwyg-btn.active:not(.awtsmoos-composer-unowned):is(.wysiwyg-btn.active:not(.awtsmoos-composer-unowned)){ color: #08111f; background: #f6c96c; }
+:is(.post-reader-localized-context.awtsmoos-reader-vision) :is(.wysiwyg-btn.active:not(.awtsmoos-composer-unowned):is(.wysiwyg-btn.active:not(.awtsmoos-composer-unowned):is(.wysiwyg-btn.active:not(.awtsmoos-composer-unowned):is(.wysiwyg-btn.active:not(.awtsmoos-composer-unowned):is(.wysiwyg-btn.active:not(.awtsmoos-composer-unowned):is(.wysiwyg-btn.active:not(.awtsmoos-composer-unowned):is(.wysiwyg-btn.active:not(.awtsmoos-composer-unowned):is(.wysiwyg-btn.active:not(.awtsmoos-composer-unowned)){ color: var(--sefer-on-accent); background: var(--sefer-accent); }
 
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-writing-surface:not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned),
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-source-surface:not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned){
@@ -135,7 +136,7 @@
 
 :where(.post-reader-localized-context.awtsmoos-reader-vision) :where(.awtsmoos-writing-surface:empty:not(.awtsmoos-composer-unowned))::before {
     content: attr(data-placeholder);
-    color: rgba(203,213,225,.62);
+    color: var(--sefer-ink-soft);
 }
 
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-section-list:not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned){
@@ -147,9 +148,9 @@
     display: grid;
     gap: 10px;
     padding: 12px;
-    border: 1px dashed rgba(246,201,108,.28);
+    border: 1px dashed color-mix(in srgb, var(--sefer-accent) 28%, transparent);
     border-radius: 20px;
-    background: rgba(255,255,255,.035);
+    background: var(--sefer-paper);
 }
 
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-extra-section-title:not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned){ min-height: 46px; padding: .75rem .9rem; }
@@ -159,17 +160,17 @@
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-media-trigger:not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned),
 :is(.post-reader-localized-context.awtsmoos-reader-vision) :is(.awtsmoos-comment-actions-bar) .btn:not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned){
     min-height: 46px;
-    border: 1px solid rgba(191,203,226,.2);
+    border: 1px solid var(--sefer-rule);
     border-radius: 999px;
-    background: rgba(255,255,255,.06);
-    color: #fffdf5;
+    background: var(--sefer-paper);
+    color: var(--sefer-ink);
     padding: .7rem 1rem;
     font: 900 .92rem/1 var(--font-ui);
 }
 
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-media-trigger:not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned){ display: inline-flex; align-items: center; width: max-content; max-width: 100%; }
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-actions-bar:not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned){ display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
-:is(.post-reader-localized-context.awtsmoos-reader-vision) :is(.awtsmoos-action-submit:not(:disabled):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned)){ background: linear-gradient(90deg,#34d399,#22d3ee); color: #04111f; }
+:is(.post-reader-localized-context.awtsmoos-reader-vision) :is(.awtsmoos-action-submit:not(:disabled):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned)){ background: var(--sefer-accent); color: var(--sefer-on-accent); }
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-action-cancel:not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned){ background: rgba(244,63,94,.12); border-color: rgba(244,63,94,.22); }
 
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-reply-box:not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned){
@@ -177,11 +178,11 @@
     gap: 12px;
     margin: 18px 0;
     padding: clamp(14px,2vw,22px);
-    border: 1px solid rgba(34,211,238,.28);
+    border: 1px solid color-mix(in srgb, var(--sefer-accent) 28%, transparent);
     border-radius: 28px;
-    background: radial-gradient(circle at 0% 0%, rgba(34,211,238,.18), transparent 16rem),
-        linear-gradient(180deg, rgba(10,24,43,.98), rgba(5,10,22,.98));
-    box-shadow: 0 18px 48px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.08);
+    background: radial-gradient(circle at 0% 0%, color-mix(in srgb, var(--sefer-accent) 14%, transparent), transparent 16rem),
+        var(--sefer-card);
+    box-shadow: var(--sefer-shadow);
 }
 
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .reply-header:not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned){
@@ -189,7 +190,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    color: #f6c96c;
+    color: var(--sefer-accent);
     font: 950 .9rem/1.15 var(--font-ui);
     letter-spacing: .04em;
 }
@@ -200,17 +201,17 @@
     border-radius: 999px;
     border: 1px solid rgba(244,63,94,.35);
     background: rgba(244,63,94,.12);
-    color: #fff;
+    color: var(--sefer-ink);
     font: 950 1.1rem/1 var(--font-ui);
 }
 
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-reply-title-input:not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned):not(.awtsmoos-composer-unowned){
     min-height: 48px;
     padding: .75rem .9rem;
-    border: 1px solid rgba(191,203,226,.22);
+    border: 1px solid var(--sefer-rule);
     border-radius: 16px;
-    background: rgba(255,255,255,.07);
-    color: #fffdf5;
+    background: var(--sefer-paper);
+    color: var(--sefer-ink);
     font: 900 .98rem/1.2 var(--font-ui);
 }
 
@@ -223,25 +224,25 @@
     display: grid;
     gap: 10px;
     padding: 12px;
-    border: 1px dashed rgba(34,211,238,.26);
+    border: 1px dashed color-mix(in srgb, var(--sefer-accent) 26%, transparent);
     border-radius: 18px;
-    background: rgba(255,255,255,.04);
+    background: var(--sefer-paper);
 }
 
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .reply-add-section.reply-add-section.reply-add-section.reply-add-section.reply-add-section.reply-add-section.reply-add-section.reply-add-section,
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .reply-submit.reply-submit.reply-submit.reply-submit.reply-submit.reply-submit.reply-submit.reply-submit{
     min-height: 44px;
     border-radius: 999px;
-    border: 1px solid rgba(191,203,226,.22);
+    border: 1px solid var(--sefer-rule);
     padding: .65rem 1rem;
-    color: #fffdf5;
-    background: rgba(255,255,255,.07);
+    color: var(--sefer-ink);
+    background: var(--sefer-paper);
     font: 900 .9rem/1 var(--font-ui);
 }
 
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .reply-submit:not(:disabled):not(:disabled):not(:disabled):not(:disabled):not(:disabled):not(:disabled):not(:disabled):not(:disabled){
-    background: linear-gradient(90deg,#34d399,#22d3ee);
-    color: #04111f;
+    background: var(--sefer-accent);
+    color: var(--sefer-on-accent);
 }
 
 :is(.post-reader-localized-context.awtsmoos-reader-vision) [hidden][hidden][hidden][hidden][hidden][hidden][hidden][hidden],

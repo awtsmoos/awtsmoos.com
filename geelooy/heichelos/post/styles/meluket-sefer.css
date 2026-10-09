@@ -98,6 +98,13 @@
 }
 
 /* ---------- Language toggle ---------- */
+/* B"H — Yaakov: language toggle NEVER on the main page.
+   It lives ONLY inside the Scribe's Lens settings panel (#typographyDetails).
+   This hides it if JS ever renders it as a direct child of .meluket-sefer. */
+.meluket-sefer-active .meluket-sefer > .meluket-lang-toggle {
+	display: none;
+}
+
 .meluket-sefer-active .meluket-lang-toggle {
 	display: flex;
 	gap: 0.5rem;
@@ -181,10 +188,62 @@
 	line-height: 1;
 }
 
-/* ---------- Hebrew vessel : RTL by default, nikkud-safe ---------- */
+/* ---------- Phrase pairs : TRUE interleaving ----------
+   Each .meluket-phrase-pair holds one Hebrew phrase block immediately
+   followed by ITS English block — never a separate English vessel.
+   (Yaakov defect #3: English beneath each Hebrew phrase.) */
+.meluket-sefer-active .meluket-phrase-pair {
+	margin: 0 0 2.2em;
+}
+
+:where(.meluket-sefer-active) .meluket-phrase-pair:last-child {
+	margin-bottom: 0;
+}
+
+/* Hebrew phrase : the ikar. RTL, nikkud-safe, visually dominant — Hebrew
+   glyphs render smaller than Latin at the same em, so Hebrew runs larger. */
+.meluket-sefer-active .meluket-phrase--he {
+	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
+	font-size: clamp(3.2rem, 9vw, 5.2rem);
+	font-weight: 700;
+	line-height: 1.9;
+	color: var(--sefer-ink);
+	text-align: justify;
+	direction: rtl;
+}
+
+/* English phrase : directly beneath its Hebrew, dashed rule between. */
+.meluket-sefer-active .meluket-phrase--en {
+	font-family: "Source Serif 4", Georgia, serif;
+	font-size: clamp(2rem, 5.2vw, 2.8rem);
+	line-height: 1.7;
+	color: var(--sefer-ink-soft);
+	border-top: 2px dashed var(--sefer-rule);
+	margin-top: 1em;
+	padding-top: 1em;
+	direction: ltr;
+}
+
+.meluket-sefer-active .meluket-phrase--he sup,
+.meluket-sefer-active .meluket-phrase--en sup {
+	color: var(--sefer-accent);
+	font-size: 0.68em;
+	font-weight: 700;
+	margin-inline-start: 0.15em;
+	cursor: pointer;
+}
+
+/* [cup] markers become bold — the dibur hamatchil. */
+.meluket-sefer-active .meluket-phrase--he b,
+.meluket-sefer-active .meluket-phrase--he strong {
+	color: var(--sefer-title-ink);
+}
+
+/* ---------- Hebrew vessel : RTL by default, nikkud-safe ----------
+   (Legacy container — kept for any non-interleaved render path.) */
 .meluket-sefer-active .meluket-hebrew {
 	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
-	font-size: clamp(5.4rem, 10.4vw, 6.6rem);
+	font-size: clamp(3.2rem, 9vw, 5.2rem);
 	line-height: 1.9;
 	color: var(--sefer-ink);
 	text-align: justify;
@@ -227,10 +286,11 @@
 	color: var(--sefer-title-ink);
 }
 
-/* ---------- English vessel : BELOW the Hebrew, never beside ---------- */
+/* ---------- English vessel : BELOW the Hebrew, never beside ----------
+   (Legacy section-level fallback — kept for posts without phrase data.) */
 .meluket-sefer-active .meluket-english {
 	font-family: "Source Serif 4", Georgia, serif;
-	font-size: clamp(4.2rem, 8.4vw, 4.88rem);
+	font-size: clamp(2rem, 5.2vw, 2.8rem);
 	line-height: 1.7;
 	color: var(--sefer-ink-soft);
 	border-top: 4px dashed var(--sefer-rule);
@@ -249,12 +309,16 @@
 
 /* ---------- Language modes ---------- */
 :where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="hebrew"]) .meluket-english,
-:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="hebrew"]) .meluket-english {
+:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="hebrew"]) .meluket-english,
+:where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="hebrew"]) .meluket-phrase--en,
+:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="hebrew"]) .meluket-phrase--en {
 	display: none;
 }
 
 :where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="english"]) .meluket-hebrew,
-:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="english"]) .meluket-hebrew {
+:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="english"]) .meluket-hebrew,
+:where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="english"]) .meluket-phrase--he,
+:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="english"]) .meluket-phrase--he {
 	display: none;
 }
 
@@ -265,7 +329,17 @@
 	margin-top: 0;
 	padding-top: 0;
 	color: var(--sefer-ink);
-	font-size: clamp(4.8rem, 9.6vw, 5.8rem);
+	font-size: clamp(2.4rem, 6vw, 3.2rem);
+}
+
+/* English-only mode: interleaved English phrases grow, no dashed rule. */
+:where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="english"]) .meluket-phrase--en,
+:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="english"]) .meluket-phrase--en {
+	border-top: none;
+	margin-top: 0;
+	padding-top: 0;
+	color: var(--sefer-ink);
+	font-size: clamp(2.4rem, 6vw, 3.2rem);
 }
 
 /* ---------- Summaries ---------- */

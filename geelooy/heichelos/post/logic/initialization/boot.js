@@ -99,9 +99,14 @@ export async function bootApplication() {
         }
 
         // B"H — Meluket sefer restructuring: bilingual warm sections for enriched posts.
+        // B"H — Sources button must work on ALL posts, not just Meluket.
         try {
-            const { awakenMeluketSeferReader } = await import("../scribe/MeluketSeferReader.js");
+            const { awakenMeluketSeferReader, wireSourcesButton } = await import("../scribe/MeluketSeferReader.js");
             const seferResult = awakenMeluketSeferReader(post);
+            // Wire Sources button even if Meluket reader didn't activate (non-Meluket posts)
+            if (!seferResult) {
+                wireSourcesButton(post, null);
+            }
             console.log("B\"H meluket sefer reader result:", seferResult, "phrases:", post?.enrichment?.hebrew_phrases?.length);
             // TEMP DEBUG: show result on page
             const dbg = document.createElement('div');

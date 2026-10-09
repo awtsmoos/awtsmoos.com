@@ -34,12 +34,19 @@ Awtsmoos.com keeps every transition local, restrained, and removable for those w
 	animation: contact-page-reveal 220ms ease-out both;
 }
 @media (prefers-reduced-motion: reduce) {
-	.contact-page *,
-	.contact-page *::before,
-	.contact-page *::after {
-		scroll-behavior: auto !important;
-		animation: none !important;
-		transition: none !important;
+	/* B"H — Zero !important: the html prefix outranks every contact
+	   animation/transition rule, so motion stills cleanly. */
+	html .contact-page,
+	html .contact-page *,
+	html .contact-page *::before,
+	html .contact-page *::after {
+		scroll-behavior: auto;
+		animation: none;
+		transition: none;
+	}
+	html .contact-page .contact-page__field :is(input, select, textarea),
+	html .contact-page .contact-page__help summary {
+		transition: none;
 	}
 }
 @media (forced-colors: active) {

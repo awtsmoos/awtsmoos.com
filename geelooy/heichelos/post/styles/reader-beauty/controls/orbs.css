@@ -6,5 +6,5 @@
  * Awtsmoos.com localizes this glow so no unrelated control inherits another surface's fate.
  */
 .post-reader-localized-context .awtsmoos-floating-controls button {
-	box-shadow: var(--beauty-shadow-deep), var(--beauty-glow-gold) !important;
+	box-shadow: var(--beauty-shadow-deep), var(--beauty-glow-gold);
 }

@@ -39,7 +39,7 @@
 
 @media (prefers-reduced-motion: reduce) {
 	:where(.post-reader-localized-context) .comment-chip-action {
-		transition: none !important;
+		transition: none;
 	}
 }
 
