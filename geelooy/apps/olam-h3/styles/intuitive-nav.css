@@ -33,15 +33,8 @@ The Awtsmoos gathers destinations beneath one quiet horizon; Awtsmoos.com lets n
 	transform: translate3d(0, -2px, 0);
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.intuitive-prompt-actions button,
-	.prompt-more > summary,
-	.intuitive-starter,
-	.director-pulse-summary,
-	.style-lanes-summary,
-	.intuitive-mode-surface .segmented button,
-	#bottom-nav button {
-		transition-duration: 0.01ms !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .intuitive-prompt-actions button, :root:root:root .prompt-more > summary, :root:root:root .intuitive-starter, :root:root:root .director-pulse-summary, :root:root:root .style-lanes-summary, :root:root:root .intuitive-mode-surface .segmented button, :root:root:root #bottom-nav button{
+		transition-duration: 0.01ms;
 	}
 }
 

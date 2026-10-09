@@ -30,7 +30,7 @@
 	overflow: hidden;
 	border: 0;
 	background: transparent;
-	color: #fff;
+	color: var(--c-text-main);
 	font: inherit;
 	font-weight: 900;
 	text-align: start;

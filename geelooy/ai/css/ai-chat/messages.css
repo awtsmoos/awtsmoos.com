@@ -30,7 +30,7 @@
 	max-width:min(680px,86%);
 	background:linear-gradient(145deg,rgba(41,103,111,.94),rgba(53,73,142,.92));
 	border-color:rgba(137,240,220,.28);
-	color:#fff;
+	color:var(--awt-text);
 }
 .assistant-message, .message.assistant {
 	background:linear-gradient(155deg,rgba(15,30,49,.96),rgba(6,15,28,.98));

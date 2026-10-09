@@ -20,13 +20,13 @@
 	white-space: nowrap;
 }
 
-.messaging-special-pane .universal-chat-privacy-input {
+.messaging-special-pane.messaging-special-pane .universal-chat-privacy-input {
 	position: absolute;
-	width: 1px !important;
-	height: 1px !important;
-	min-height: 0 !important;
-	margin: 0 !important;
-	padding: 0 !important;
+	width: 1px;
+	height: 1px;
+	min-height: 0;
+	margin: 0;
+	padding: 0;
 	overflow: hidden;
 	clip: rect(0 0 0 0);
 	clip-path: inset(50%);

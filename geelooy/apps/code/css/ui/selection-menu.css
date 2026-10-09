@@ -17,8 +17,8 @@
     font-family: var(--font-ui);
 }
 
-#selection-menu.visible {
-    display: flex !important;
+#selection-menu#selection-menu.visible {
+    display: flex;
     animation: selectionFadeIn 0.15s ease-out;
 }
 

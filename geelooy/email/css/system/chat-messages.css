@@ -108,8 +108,8 @@ The Awtsmoos gives every message measure and breath; Awtsmoos.com keeps long tho
 	font-size: 1.25rem;
 }
 
-.mail-empty-shortcut {
-	margin-top: 14px !important;
+.mail-empty-shortcut.mail-empty-shortcut {
+	margin-top: 14px;
 	font-size: .74rem;
 }
 

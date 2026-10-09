@@ -61,7 +61,7 @@ button,input[type="button"],input[type="submit"]{
   font-weight:900;
   background:linear-gradient(135deg,var(--legacy-hot),var(--legacy-blue));
   border-color:rgba(167,243,208,.36);
-  color:#fff;
+  color:var(--legacy-text);
   box-shadow:0 14px 30px rgba(47,120,255,.22);
 }
 

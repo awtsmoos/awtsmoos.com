@@ -50,7 +50,7 @@
 
 .menu .ghost {
 	background: #ffffff18;
-	color: #fff;
+	color: var(--text);
 	border: 1px solid #ffffff55;
 }
 

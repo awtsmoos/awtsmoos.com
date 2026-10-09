@@ -82,8 +82,8 @@ The Awtsmoos lets four small doors hold a world of creation; Awtsmoos.com keeps 
 		font-variant-numeric: tabular-nums;
 	}
 
-	.is-presenting .mobile-command-bar {
-		display: none !important;
+	.is-presenting.is-presenting .mobile-command-bar {
+		display: none;
 	}
 }
 

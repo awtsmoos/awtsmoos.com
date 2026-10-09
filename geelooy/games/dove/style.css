@@ -14,7 +14,7 @@ body {
 	height: 100%;
 	overflow: hidden;
 	background: #87ceeb;
-	color: #fff;
+	color: #14324a;
 	font-family: Georgia, 'Times New Roman', serif;
 }
 
@@ -114,9 +114,8 @@ button:active:not(:disabled) {
 	transform: scale(0.97);
 }
 
-@media (prefers-reduced-motion: reduce) {
-	* {
-		scroll-behavior: auto !important;
-		transition: none !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root *{
+		scroll-behavior: auto;
+		transition: none;
 	}
 }

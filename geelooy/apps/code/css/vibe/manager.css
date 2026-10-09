@@ -135,9 +135,9 @@
     box-shadow: 0 0 15px rgba(0, 0, 0, 1), 0 0 5px var(--box-accent);
 }
 
-.vibe-manager-input {
-    background: transparent !important;
-    border: none !important;
+.vibe-manager-input.vibe-manager-input {
+    background: transparent;
+    border: none;
     padding: 10px 15px;
     color: #fff;
     font-family: var(--font-code);

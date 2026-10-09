@@ -63,7 +63,7 @@
 .portion-button[aria-current="page"] {
 	border-color: rgba(141, 229, 195, .52);
 	background: rgba(63, 126, 104, .34);
-	color: #ffffff;
+	color: var(--reeyuh-text);
 }
 
 .nav-backdrop {

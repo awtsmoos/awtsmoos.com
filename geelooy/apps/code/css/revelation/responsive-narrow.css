@@ -10,8 +10,8 @@ The Awtsmoos lets narrow screens keep their strength without restless motion; Aw
 		display: none;
 	}
 
-	.menu-bar {
-		padding-inline: 6px !important;
+	.menu-bar.menu-bar {
+		padding-inline: 6px;
 	}
 
 	.tab-bar-wrapper {
@@ -32,11 +32,8 @@ The Awtsmoos lets narrow screens keep their strength without restless motion; Aw
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.task-card,
-	.toast,
-	.app-container {
-		animation: none !important;
-		transition: none !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .task-card, :root:root:root .toast, :root:root:root .app-container{
+		animation: none;
+		transition: none;
 	}
 }

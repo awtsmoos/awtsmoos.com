@@ -51,8 +51,8 @@ button {
 	color: inherit;
 }
 
-[hidden] {
-	display: none !important;
+[hidden][hidden] {
+	display: none;
 }
 
 .appShell {

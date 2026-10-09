@@ -28,7 +28,7 @@
 	border-radius: 999px;
 	background: rgba(0, 10, 12, .96);
 	box-shadow: 0 16px 42px rgba(0, 0, 0, .48), 0 0 24px rgba(0, 243, 255, .12);
-	color: #fff;
+	color: var(--c-text-main);
 	backdrop-filter: blur(16px);
 }
 
@@ -44,7 +44,7 @@
 	border: 1px solid rgba(255, 204, 0, .7);
 	border-radius: 999px;
 	background: #050908;
-	color: #fff;
+	color: var(--c-text-main);
 	font: inherit;
 	font-weight: 900;
 	cursor: pointer;

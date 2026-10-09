@@ -77,7 +77,7 @@ button {
 input {
 	border: 1px solid #376b54;
 	background: #06150f;
-	color: #fff;
+	color: #effcf6;
 	padding: 13px 14px;
 }
 button {
@@ -106,7 +106,7 @@ button:focus-visible {
 }
 @media (prefers-reduced-motion: reduce) {
 	* {
-		scroll-behavior: auto !important;
+		scroll-behavior: auto;
 	}
 }
 

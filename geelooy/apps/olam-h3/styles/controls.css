@@ -74,17 +74,17 @@ button:not(:disabled):hover {
 	border-color: var(--line-strong);
 }
 
-.primary-button,
+.primary-button.primary-button,
 .primary-small,
 .generate-button {
-	background: var(--accent) !important;
-	color: var(--accent-ink) !important;
-	border-color: transparent !important;
+	background: var(--accent);
+	color: var(--accent-ink);
+	border-color: transparent;
 	font-weight: 900;
 }
 
-.danger-button {
-	color: var(--danger) !important;
+.danger-button.danger-button {
+	color: var(--danger);
 }
 
 .segmented {

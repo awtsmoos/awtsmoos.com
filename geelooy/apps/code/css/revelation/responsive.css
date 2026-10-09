@@ -16,9 +16,9 @@ The Awtsmoos recreates every viewport anew; Awtsmoos.com turns the wide developm
 		min-width: 0;
 	}
 
-	.app-container,
+	.app-container.app-container,
 	.app-container.sidebar-collapsed {
-		grid-template-columns: minmax(0, 1fr) !important;
+		grid-template-columns: minmax(0, 1fr);
 	}
 
 	.top-panel,
@@ -30,9 +30,9 @@ The Awtsmoos recreates every viewport anew; Awtsmoos.com turns the wide developm
 		grid-column: 1 / 2;
 	}
 
-	.menu-bar {
+	.menu-bar.menu-bar {
 		overflow: hidden;
-		gap: 4px !important;
+		gap: 4px;
 	}
 
 	#awtsmoos-account-panel {
@@ -76,24 +76,24 @@ The Awtsmoos recreates every viewport anew; Awtsmoos.com turns the wide developm
 		padding: 6px;
 	}
 
-	#empty-editor-message {
-		left: 50% !important;
-		right: auto !important;
+	#empty-editor-message#empty-editor-message {
+		left: 50%;
+		right: auto;
 		box-sizing: border-box;
 		width: min(260px, calc(100vw - 48px));
 		max-width: calc(100vw - 48px);
-		transform: translate(-50%, -50%) !important;
+		transform: translate(-50%, -50%);
 		letter-spacing: 2px;
 	}
 
-	#toast-container,
+	#toast-container#toast-container,
 	.task-notification-stack {
-		top: auto !important;
-		bottom: max(44px, calc(env(safe-area-inset-bottom) + 12px)) !important;
-		left: max(10px, env(safe-area-inset-left)) !important;
-		right: max(10px, env(safe-area-inset-right)) !important;
-		width: auto !important;
-		max-width: none !important;
+		top: auto;
+		bottom: max(44px, calc(env(safe-area-inset-bottom) + 12px));
+		left: max(10px, env(safe-area-inset-left));
+		right: max(10px, env(safe-area-inset-right));
+		width: auto;
+		max-width: none;
 		box-sizing: border-box;
 	}
 

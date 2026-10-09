@@ -90,7 +90,7 @@
 	font-weight: 780;
 }
 
-#previewCanvas.hidden,
-#outputVideo.hidden {
-	display: none !important;
+#previewCanvas.hidden.hidden,
+#outputVideo.hidden.hidden {
+	display: none;
 }

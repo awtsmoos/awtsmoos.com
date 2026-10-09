@@ -37,11 +37,11 @@
     display: none;
 }
 
-.virtual-window.maximized {
-    left: 0 !important;
-    top: 0 !important;
-    width: 100% !important;
-    height: calc(100% - var(--vos-taskbar-height)) !important;
+.virtual-window.virtual-window.maximized {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: calc(100% - var(--vos-taskbar-height));
     border-radius: 0;
 }
 

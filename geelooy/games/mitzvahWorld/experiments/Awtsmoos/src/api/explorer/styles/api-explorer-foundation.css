@@ -42,8 +42,8 @@
 	box-sizing: border-box;
 }
 
-[data-awtsmoos-api-explorer][hidden] {
-	display: none !important;
+[data-awtsmoos-api-explorer][hidden][hidden] {
+	display: none;
 }
 
 [data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__title {

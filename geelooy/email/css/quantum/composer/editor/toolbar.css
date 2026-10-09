@@ -26,29 +26,29 @@
 	background: #101a27;
 }
 
-.visual-toolbar button {
-	display: grid !important;
+.visual-toolbar.visual-toolbar button {
+	display: grid;
 	inline-size: 44px;
 	block-size: 44px;
-	min-inline-size: 44px !important;
-	min-block-size: 44px !important;
+	min-inline-size: 44px;
+	min-block-size: 44px;
 	place-items: center;
-	padding: 0 !important;
-	border: 1px solid rgba(255, 255, 255, .12) !important;
-	border-radius: .65rem !important;
-	background: #182536 !important;
-	box-shadow: none !important;
-	color: var(--mail-muted) !important;
+	padding: 0;
+	border: 1px solid rgba(255, 255, 255, .12);
+	border-radius: .65rem;
+	background: #182536;
+	box-shadow: none;
+	color: var(--mail-muted);
 	font-weight: 850;
 	cursor: pointer;
-	transition: none !important;
+	transition: none;
 }
 
-.visual-toolbar button:is(:hover, :focus-visible),
+.visual-toolbar.visual-toolbar button:is(:hover, :focus-visible),
 .visual-toolbar button[aria-pressed="true"] {
-	border-color: rgba(50, 231, 255, .48) !important;
-	background: rgba(50, 231, 255, .12) !important;
-	color: var(--mail-cyan) !important;
+	border-color: rgba(50, 231, 255, .48);
+	background: rgba(50, 231, 255, .12);
+	color: var(--mail-cyan);
 }
 
 @media (max-width: 620px) {

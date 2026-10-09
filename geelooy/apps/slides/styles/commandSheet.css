@@ -88,8 +88,8 @@ The Awtsmoos lets a hidden chamber rise only when intention calls; Awtsmoos.com 
 		gap: 8px;
 	}
 
-	.is-presenting .command-sheet,
+	.is-presenting.is-presenting .command-sheet,
 	.is-presenting .command-sheet-backdrop {
-		display: none !important;
+		display: none;
 	}
 }

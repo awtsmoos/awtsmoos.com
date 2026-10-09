@@ -94,12 +94,11 @@
 		min-block-size: calc(100dvh - 4rem);
 	}
 }
-@media (prefers-reduced-motion: reduce) {
-	.caption-studio-document * {
-		scroll-behavior: auto !important;
-		animation-duration: .01ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: .01ms !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .caption-studio-document *{
+		scroll-behavior: auto;
+		animation-duration: .01ms;
+		animation-iteration-count: 1;
+		transition-duration: .01ms;
 	}
 }
 

@@ -40,8 +40,8 @@
   z-index: 1;
 }
 
-.awt-preview-settings {
-  border-color: rgba(255, 212, 112, .22) !important;
+.awt-preview-settings.awt-preview-settings {
+  border-color: rgba(255, 212, 112, .22);
 }
 
 .awt-preview-toggle {

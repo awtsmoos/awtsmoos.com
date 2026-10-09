@@ -98,12 +98,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		scroll-behavior: auto !important;
-		transition: none !important;
-		animation: none !important;
+	/* B"H — repeated data-attribute is valid CSS; triple repetition outranks every
+	   component transition/animation rule so reduced-motion holds without !important. */
+	html[data-mawgawl-page][data-mawgawl-page][data-mawgawl-page] *,
+	html[data-mawgawl-page][data-mawgawl-page][data-mawgawl-page] *::before,
+	html[data-mawgawl-page][data-mawgawl-page][data-mawgawl-page] *::after {
+		scroll-behavior: auto;
+		transition: none;
+		animation: none;
 	}
 }
 

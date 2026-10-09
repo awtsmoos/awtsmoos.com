@@ -7,8 +7,8 @@
  * keeps print honest by revealing the document itself while hiding only controls that cannot act on paper.
  */
 @media print {
-	body[data-geelooy-route="docs"] :where(.topbar, .nav-rail, .context-rail, .document-meta button) {
-		display: none !important;
+	body[data-geelooy-route="docs"][data-geelooy-route="docs"] :where(.topbar, .nav-rail, .context-rail, .document-meta button) {
+		display: none;
 	}
 
 	body[data-geelooy-route="docs"] .app-shell {

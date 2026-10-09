@@ -48,12 +48,10 @@
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.campaignShell *,
-	.campaignStage * {
-		scroll-behavior: auto !important;
-		animation: none !important;
-		transition: none !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .campaignShell *, :root:root:root .campaignStage *{
+		scroll-behavior: auto;
+		animation: none;
+		transition: none;
 	}
 }
 

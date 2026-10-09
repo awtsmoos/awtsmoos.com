@@ -70,11 +70,8 @@
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.touchButtons button,
-	.touchControls,
-	.stick span {
-		transition: none !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .touchButtons button, :root:root:root .touchControls, :root:root:root .stick span{
+		transition: none;
 	}
 
 	.touchButtons button.held {

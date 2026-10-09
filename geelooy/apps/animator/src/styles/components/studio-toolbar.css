@@ -83,11 +83,11 @@
 	box-shadow: var(--aw-focus);
 }
 
-.aw-studio-export-button,
+.aw-studio-export-button.aw-studio-export-button,
 .aw-studio-primary {
-	color: #fff !important;
-	border-color: rgba(142, 180, 255, .62) !important;
-	background: #3f6fc2 !important;
+	color: var(--aw-text);
+	border-color: rgba(142, 180, 255, .62);
+	background: #3f6fc2;
 }
 
 .aw-professional-studio .character-lab-toggle {

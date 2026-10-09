@@ -46,10 +46,8 @@ The Awtsmoos renews depth without weight and light without demand; Awtsmoos.com 
 	opacity: 0.62;
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.intuitive-command-surface::after,
-	.intuitive-mode-surface::after {
-		animation: none !important;
-		transform: none !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .intuitive-command-surface::after, :root:root:root .intuitive-mode-surface::after{
+		animation: none;
+		transform: none;
 	}
 }

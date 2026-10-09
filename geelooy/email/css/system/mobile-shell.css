@@ -38,44 +38,44 @@ The Awtsmoos reveals one Mail chamber without exiling another beyond the horizon
 		min-block-size: 0;
 		transition: opacity 180ms ease, transform 220ms cubic-bezier(.2, .8, .2, 1), visibility 0s linear 220ms;
 	}
-	.geelooy-mail-document .sidebar {
+	.geelooy-mail-document.geelooy-mail-document .sidebar {
 		z-index: 1;
 		visibility: visible;
 		pointer-events: auto;
 		opacity: 1;
 		transform: translateX(0) scale(1);
-		overflow-y: auto !important;
-		overflow-x: hidden !important;
+		overflow-y: auto;
+		overflow-x: hidden;
 		overscroll-behavior-y: contain;
 		scrollbar-width: thin;
 	}
-	.geelooy-mail-document .mail-sender-category-grid,
+	.geelooy-mail-document.geelooy-mail-document .mail-sender-category-grid,
 	.geelooy-mail-document .mail-folder-list {
-		display: flex !important;
+		display: flex;
 		flex: 0 0 auto;
 		gap: 8px;
-		overflow-x: auto !important;
+		overflow-x: auto;
 		overflow-y: hidden;
-		padding: 0 0 9px !important;
+		padding: 0 0 9px;
 		scroll-snap-type: x proximity;
 		scrollbar-width: none;
 	}
 	.geelooy-mail-document :is(.mail-sender-category-grid, .mail-folder-list)::-webkit-scrollbar {
 		display: none;
 	}
-	.geelooy-mail-document .mail-sender-category,
+	.geelooy-mail-document.geelooy-mail-document .mail-sender-category,
 	.geelooy-mail-document .mail-folder-tab {
 		flex: 0 0 min(9rem, 42vw);
-		inline-size: auto !important;
+		inline-size: auto;
 		min-block-size: 44px;
 		grid-template-columns: 30px minmax(0, 1fr) auto;
 		scroll-snap-align: start;
 	}
-	.geelooy-mail-document .thread-list {
+	.geelooy-mail-document.geelooy-mail-document .thread-list {
 		flex: 1 0 min(260px, 42dvh);
-		min-block-size: min(260px, 42dvh) !important;
+		min-block-size: min(260px, 42dvh);
 		max-block-size: none;
-		overflow-y: auto !important;
+		overflow-y: auto;
 		padding-block-end: max(5.5rem, env(safe-area-inset-bottom));
 	}
 	.geelooy-mail-document .chat-area {

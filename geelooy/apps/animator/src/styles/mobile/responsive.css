@@ -70,12 +70,12 @@
 		transform: translateY(0);
 	}
 
-	.left-resizer,
+	.left-resizer.left-resizer,
 	.right-resizer,
 	.h-resizer,
 	.mobile-bottom-nav,
 	.awtsmoos-chrome-rail {
-		display: none !important;
+		display: none;
 	}
 
 	.awtsmoos-mobile-dock {

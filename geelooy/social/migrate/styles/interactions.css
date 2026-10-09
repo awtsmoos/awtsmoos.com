@@ -110,12 +110,10 @@ body[data-future-page="migration"] dialog[open] .sheet {
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	body[data-future-page="migration"] :where(button, .buttonLike, a, summary),
-	body[data-future-page="migration"] dialog[open] .sheet {
+@media (prefers-reduced-motion: reduce) {:root:root:root body[data-future-page="migration"] :where(button, :root:root:root .buttonLike, :root:root:root a, :root:root:root summary), :root:root:root body[data-future-page="migration"] dialog[open] .sheet{
 		animation: none;
 		transition: none;
-		transform: none !important;
+		transform: none;
 	}
 }
 

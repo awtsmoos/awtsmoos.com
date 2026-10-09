@@ -11,10 +11,10 @@
  */
 
 @media (min-width: 761px) {
-	.awt-control-main {
+	.awt-control-main.awt-control-main {
 		grid-template-columns: 184px minmax(0, 1fr);
-		gap: 12px !important;
-		padding: 12px !important;
+		gap: 12px;
+		padding: 12px;
 	}
 
 	.awt-app-navigation {
@@ -136,13 +136,13 @@
 }
 
 @media (max-width: 760px) {
-	.awt-control-main {
+	.awt-control-main.awt-control-main {
 		grid-template-rows: minmax(0, 1fr) calc(64px + env(safe-area-inset-bottom));
 		padding:
 			6px
 			max(6px, env(safe-area-inset-right))
 			max(6px, env(safe-area-inset-bottom))
-			max(6px, env(safe-area-inset-left)) !important;
+			max(6px, env(safe-area-inset-left));
 	}
 
 	.awt-app-navigation {

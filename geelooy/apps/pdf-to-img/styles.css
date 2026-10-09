@@ -266,12 +266,7 @@ body.pdf-glass #file-input { display: none; }
 }
 
 /* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  body.pdf-glass .drop-zone,
-  body.pdf-glass .btn,
-  body.pdf-glass .file-card,
-  body.pdf-glass .progress-bar,
-  body.pdf-glass .controls { transition: none !important; }
+@media (prefers-reduced-motion: reduce) {:root:root:root body.pdf-glass .drop-zone, :root:root:root body.pdf-glass .btn, :root:root:root body.pdf-glass .file-card, :root:root:root body.pdf-glass .progress-bar, :root:root:root body.pdf-glass .controls{ transition: none; }
   body.pdf-glass .drop-zone.drag-over,
   body.pdf-glass .btn:hover,
   body.pdf-glass .file-card:hover { transform: none; }

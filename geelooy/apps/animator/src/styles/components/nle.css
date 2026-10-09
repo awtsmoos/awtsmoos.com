@@ -61,7 +61,7 @@
 }
 
 .aw-nle-play {
-	color: #fff;
+	color: var(--aw-text);
 	background: #315a9b;
 }
 
@@ -79,16 +79,16 @@
 	font-variant-numeric: tabular-nums;
 }
 
-.aw-nle-mode-collapsed {
-	height: 48px !important;
+.aw-nle-mode-collapsed.aw-nle-mode-collapsed {
+	height: 48px;
 }
 
-.aw-nle-mode-compact {
-	height: 126px !important;
+.aw-nle-mode-compact.aw-nle-mode-compact {
+	height: 126px;
 }
 
-.aw-nle-mode-expanded {
-	height: min(236px, 42vh) !important;
+.aw-nle-mode-expanded.aw-nle-mode-expanded {
+	height: min(236px, 42vh);
 }
 
 .aw-nle-collapsed-body {

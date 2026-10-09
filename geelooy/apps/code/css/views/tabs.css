@@ -58,13 +58,13 @@
     pointer-events: none; 
 }
 
-.close-tab-btn { 
+.close-tab-btn.close-tab-btn { 
     position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
     border-radius: 50%; width: 20px; height: 20px; 
     display: flex; align-items: center; justify-content: center;
     background: transparent; color: var(--color-text-tertiary);
     z-index: 10;
-    padding: 0 !important; /* Override button padding */
+    padding: 0; /* Override button padding */
 }
 .close-tab-btn:hover { background-color: rgba(255,255,255,0.1); color: var(--color-accent-danger); }
 .close-tab-btn svg { width: 14px; height: 14px; fill: currentColor; }

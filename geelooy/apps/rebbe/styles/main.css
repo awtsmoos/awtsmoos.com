@@ -30,7 +30,7 @@ header {
     z-index: 100;
     box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
 }
-.logo { font-size: 24px; font-weight: 900; letter-spacing: 2px; color: #fff; text-shadow: 2px 2px 0px #000; }
+.logo { font-size: 24px; font-weight: 900; letter-spacing: 2px; color: var(--c-text-main); text-shadow: 2px 2px 0px #000; }
 .logo span { color: var(--c-cyan); text-shadow: 0 0 8px var(--c-cyan); }
 
 .tools { display: flex; gap: 15px; }

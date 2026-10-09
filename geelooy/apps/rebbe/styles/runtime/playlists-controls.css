@@ -39,7 +39,7 @@
 .mini-btn.danger {
 	border-color: var(--c-magenta);
 	background: rgba(255, 0, 85, .14);
-	color: #fff;
+	color: var(--c-text-main);
 }
 
 .mini-btn:focus-visible {

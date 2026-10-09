@@ -90,10 +90,9 @@ button.secondary {
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	button {
+@media (prefers-reduced-motion: reduce) {:root:root:root button{
 		transition: none;
-		transform: none !important;
+		transform: none;
 	}
 }
 

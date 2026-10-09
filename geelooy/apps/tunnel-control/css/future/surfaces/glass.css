@@ -63,9 +63,9 @@
 
 .awt-result-card strong { font-size: 1rem; line-height: 1.15; }
 .awt-result-card p { margin: 0; color: var(--awt-muted); line-height: 1.35; }
-.awt-result-error { border-color: rgba(255,85,115,.36) !important; }
-.awt-result-ok { border-color: rgba(47,231,122,.26) !important; }
-.awt-result-next { color: var(--awt-gold) !important; }
+.awt-result-error.awt-result-error { border-color: rgba(255,85,115,.36); }
+.awt-result-ok.awt-result-ok { border-color: rgba(47,231,122,.26); }
+.awt-result-next.awt-result-next { color: var(--awt-gold); }
 .awt-raw-details { border-top: 1px solid rgba(255,255,255,.08); padding-top: 10px; }
 .awt-raw-details summary { cursor: pointer; color: var(--awt-cyan); font-weight: 900; }
 .awt-raw-details pre { max-height: 42vh; overflow: auto; white-space: pre-wrap; word-break: break-word; font-size: .78rem; line-height: 1.25; margin: 10px 0 0; }

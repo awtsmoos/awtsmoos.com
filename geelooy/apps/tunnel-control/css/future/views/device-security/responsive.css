@@ -59,11 +59,8 @@
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	#deviceSummary *,
-	#deviceSummary *::before,
-	#deviceSummary *::after {
-		transition: none !important;
-		animation: none !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root #deviceSummary *, :root:root:root #deviceSummary *::before, :root:root:root #deviceSummary *::after{
+		transition: none;
+		animation: none;
 	}
 }

@@ -90,8 +90,8 @@
 	cursor: progress;
 }
 
-.decisionFields label[hidden] {
-	display: none !important;
+.decisionFields label[hidden][hidden] {
+	display: none;
 }
 
 @media (max-width: 680px) {

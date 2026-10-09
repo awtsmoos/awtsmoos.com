@@ -9,8 +9,8 @@
     opacity: 0; animation: appFadeIn 0.5s ease forwards;
 }
 
-.app-container.sidebar-collapsed {
-    grid-template-columns: 0 minmax(0, 1fr) !important;
+.app-container.app-container.sidebar-collapsed {
+    grid-template-columns: 0 minmax(0, 1fr);
 }
 .app-container.sidebar-collapsed .sidebar-resizer {
     display: none;
@@ -28,15 +28,15 @@
 }
 
 /* B"H - ZEN MODE */
-body.zen-mode .sidebar, 
+body.zen-mode.zen-mode .sidebar, 
 body.zen-mode .top-panel, 
 body.zen-mode .status-bar,
 body.zen-mode .sidebar-resizer { 
-    display: none !important; 
+    display: none; 
 }
-body.zen-mode .app-container {
-    grid-template-columns: 1fr !important;
-    grid-template-rows: 1fr !important;
+body.zen-mode.zen-mode .app-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
 }
 body.zen-mode .main-content {
     grid-row: 1 / 2;

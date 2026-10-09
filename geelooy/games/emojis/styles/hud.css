@@ -92,7 +92,7 @@
 	top: 40%;
 	left: 50%;
 	z-index: 11;
-	color: #fff;
+	color: var(--emoji-text);
 	font-size: clamp(2.5rem, 8vw, 6rem);
 	font-weight: 950;
 	opacity: 0;

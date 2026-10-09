@@ -18,7 +18,7 @@
 	border: 1px solid rgba(255, 255, 255, 0.35);
 	border-radius: 999px;
 	background: rgba(7, 10, 18, 0.82);
-	color: #ffffff;
+	color: var(--emoji-text);
 	font: 700 0.95rem/1 system-ui, sans-serif;
 	backdrop-filter: blur(10px);
 	cursor: pointer;

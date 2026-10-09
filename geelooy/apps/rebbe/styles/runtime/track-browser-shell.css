@@ -39,7 +39,7 @@
 
 #list-tracks .premium-event-toolbar strong {
 	display: block;
-	color: #fff;
+	color: var(--c-text-main);
 	font-size: clamp(19px, 2.5vw, 26px);
 	line-height: 1.08;
 	overflow-wrap: anywhere;
@@ -58,14 +58,14 @@
 	min-inline-size: 0;
 }
 
-#list-tracks .premium-track-item {
+#list-tracks#list-tracks .premium-track-item {
 	display: grid;
-	grid-template-columns: auto minmax(0, 1fr) auto !important;
+	grid-template-columns: auto minmax(0, 1fr) auto;
 	align-items: center;
 	gap: 10px;
 	min-inline-size: 0;
 	margin: 9px 0;
-	padding: 12px !important;
+	padding: 12px;
 	border: 1px solid rgba(0, 243, 255, .16);
 	border-radius: 16px;
 	background: linear-gradient(90deg, rgba(255, 255, 255, .03), rgba(0, 243, 255, .018));

@@ -26,10 +26,10 @@ summary:is(:hover, :focus-visible) {
 	background: var(--awt-surface-soft);
 }
 
-:where(.markToolbar, .blockHeader, .sectionHeader, .mediaActions) button {
-	block-size: auto !important;
-	min-inline-size: 44px !important;
-	min-block-size: 44px !important;
+:where(.markToolbar.markToolbar, .blockHeader, .sectionHeader, .mediaActions) button {
+	block-size: auto;
+	min-inline-size: 44px;
+	min-block-size: 44px;
 	padding: .55rem .7rem;
 }
 
@@ -75,9 +75,8 @@ label:has(input[type="radio"]) {
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	:where(button, summary, input, textarea, select) {
-		transition: none !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root :where(button, :root:root:root summary, :root:root:root input, :root:root:root textarea, :root:root:root select){
+		transition: none;
 	}
 }
 

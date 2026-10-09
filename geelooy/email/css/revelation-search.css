@@ -92,11 +92,11 @@
 	box-shadow: 0 0 0 3px rgb(88 128 255 / 10%);
 }
 
-.mail-search-input {
+.mail-search-input.mail-search-input {
 	width: 100%;
 	min-width: 0;
-	border: 0 !important;
-	outline: 0 !important;
-	background: transparent !important;
-	box-shadow: none !important;
+	border: 0;
+	outline: 0;
+	background: transparent;
+	box-shadow: none;
 }

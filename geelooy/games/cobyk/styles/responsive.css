@@ -83,19 +83,11 @@
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.cobyk-app :where(
-		.cobyk-hud,
-		.cobyk-advanced__body,
-		.cobyk-joystick__knob,
-		.cobyk-button,
-		.cobyk-level-button,
-		.cobyk-action,
-		.cobyk-select,
-		.cobyk-advanced__summary
-	) {
-		animation: none !important;
-		transition-duration: 0.01ms !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .cobyk-app :where(
+		.cobyk-hud, :root:root:root .cobyk-advanced__body, :root:root:root .cobyk-joystick__knob, :root:root:root .cobyk-button, :root:root:root .cobyk-level-button, :root:root:root .cobyk-action, :root:root:root .cobyk-select, :root:root:root .cobyk-advanced__summary
+	){
+		animation: none;
+		transition-duration: 0.01ms;
 	}
 }
 

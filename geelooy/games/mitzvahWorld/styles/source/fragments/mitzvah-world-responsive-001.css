@@ -13,9 +13,9 @@ Awtsmoos.com keeps every coarse-pointer target full-sized instead of smaller tha
  * truth so loading and selection screens never inherit gameplay controls.
  */
 @media (pointer: fine) {
-	#mitzvah-world-root #joy,
+	#mitzvah-world-root#mitzvah-world-root #joy,
 	#mitzvah-world-root #jump {
-		display: none !important;
+		display: none;
 	}
 }
 
@@ -25,24 +25,24 @@ Awtsmoos.com keeps every coarse-pointer target full-sized instead of smaller tha
 		display: block;
 	}
 
-	html:not([data-awtsmoos-gameplay="true"]) #mitzvah-world-root #joy,
+	html:not([data-awtsmoos-gameplay="true"]) #mitzvah-world-root#mitzvah-world-root #joy,
 	html:not([data-awtsmoos-gameplay="true"]) #mitzvah-world-root #jump {
-		display: none !important;
+		display: none;
 	}
 
-	#mitzvah-world-root .Awtsmoos-hud-minimize,
+	#mitzvah-world-root#mitzvah-world-root .Awtsmoos-hud-minimize,
 	#mitzvah-world-root .Awtsmoos-player-hud-shell > [data-retract-toggle],
 	#mitzvah-world-root .Awtsmoos-mobile-shell > [data-retract-toggle] {
-		width: 44px !important;
-		height: 44px !important;
-		min-width: 44px !important;
-		min-height: 44px !important;
+		width: 44px;
+		height: 44px;
+		min-width: 44px;
+		min-height: 44px;
 	}
 
-	#mitzvah-world-root .Awtsmoos-action-bar button,
+	#mitzvah-world-root#mitzvah-world-root .Awtsmoos-action-bar button,
 	#mitzvah-world-root .Mitzvah-action-slot {
-		min-width: 44px !important;
-		min-height: 44px !important;
+		min-width: 44px;
+		min-height: 44px;
 	}
 }
 

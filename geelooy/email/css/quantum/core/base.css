@@ -1,12 +1,12 @@
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H — Quantum Mail lives in a black communications void beneath Geelooy. */
-.geelooy-mail-document {
+.geelooy-mail-document.geelooy-mail-document {
 	min-height: 100dvh;
 	overflow: hidden;
 	background:
 		radial-gradient(circle at 14% 14%, rgba(50, 231, 255, 0.1), transparent 26rem),
 		radial-gradient(circle at 88% 7%, rgba(255, 194, 71, 0.11), transparent 28rem),
-		linear-gradient(145deg, #010205, #030712 56%, #010207) !important;
+		linear-gradient(145deg, #010205, #030712 56%, #010207);
 	color: var(--mail-text);
 	font: 14px/1.5 var(--font-stack);
 }
@@ -61,8 +61,8 @@
 	font: inherit;
 }
 
-.geelooy-mail-document .hidden {
-	display: none !important;
+.geelooy-mail-document .hidden.hidden {
+	display: none;
 }
 
 .geelooy-mail-document .flex {

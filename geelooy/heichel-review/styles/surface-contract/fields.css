@@ -7,33 +7,33 @@
  * render as final dark instruments throughout Awtsmoos.com.
  */
 
-:where(input:not([type="checkbox"]):not([type="radio"]), textarea, select) {
+:is(input:not([type="checkbox"]):not([type="radio"]), textarea, select) {
 	min-block-size: 48px;
-	border: 1px solid rgba(255, 255, 255, .22) !important;
-	border-radius: .78rem !important;
-	background: #172333 !important;
-	box-shadow: inset 0 1px rgba(255, 255, 255, .035) !important;
-	color: #f5f7fb !important;
+	border: 1px solid rgba(255, 255, 255, .22);
+	border-radius: .78rem;
+	background: #172333;
+	box-shadow: inset 0 1px rgba(255, 255, 255, .035);
+	color: #f5f7fb;
 	font-size: max(16px, 1rem);
-	transition: none !important;
+	transition: none;
 }
 
 textarea {
 	min-block-size: 8rem;
 }
 
-:where(input, textarea)::placeholder {
-	color: #94a2b7 !important;
+:is(input, textarea)::placeholder {
+	color: #94a2b7;
 	opacity: 1;
 }
 
-:where(input, textarea, select):focus-visible {
-	border-color: #58c7d8 !important;
-	background: #192738 !important;
-	box-shadow: 0 0 0 3px rgba(88, 199, 216, .16) !important;
+:is(input, textarea, select):focus:focus-visible {
+	border-color: #58c7d8;
+	background: #192738;
+	box-shadow: 0 0 0 3px rgba(88, 199, 216, .16);
 }
 
-:where(button) {
+:is(button) {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -47,10 +47,10 @@ textarea {
 	box-shadow: none;
 	color: #f5f7fb;
 	font-weight: 800;
-	transition: none !important;
+	transition: none;
 }
 
-:where(button):is(:hover, :focus-visible) {
+:is(button):is(:hover, :focus-visible) {
 	border-color: rgba(88, 199, 216, .62);
 	background: #1d2c3e;
 	color: #b9f0f6;

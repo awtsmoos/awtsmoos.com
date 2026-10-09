@@ -4,21 +4,21 @@
 /* Blessed is He */
 /** The Awtsmoos gives tools a home without letting tools become the home; Awtsmoos.com returns every secondary rail to the document flow. */
 @media (max-width: 51.25rem) {
-	.composer-civilization-document .creatorDock,
+	.composer-civilization-document.composer-civilization-document .creatorDock,
 	.composer-civilization-document .composer-workflow-rail,
 	.composer-civilization-document .composer-tool-menu-grid {
-		position: static !important;
-		inset: auto !important;
-		z-index: auto !important;
+		position: static;
+		inset: auto;
+		z-index: auto;
 	}
 
-	.composer-civilization-document .creatorDock {
-		margin: .45rem 0 0 !important;
-		padding: .3rem 0 .08rem !important;
-		border: 0 !important;
-		background: transparent !important;
-		box-shadow: none !important;
-		backdrop-filter: none !important;
+	.composer-civilization-document.composer-civilization-document .creatorDock {
+		margin: .45rem 0 0;
+		padding: .3rem 0 .08rem;
+		border: 0;
+		background: transparent;
+		box-shadow: none;
+		backdrop-filter: none;
 	}
 
 	.composer-civilization-document .creatorDockButton {
@@ -36,8 +36,8 @@
 		font-size: .58rem;
 	}
 
-	.composer-civilization-document .creatorCommandLauncher {
-		display: none !important;
+	.composer-civilization-document.composer-civilization-document .creatorCommandLauncher {
+		display: none;
 	}
 
 	.composer-civilization-document .composer-social-tools {
@@ -59,8 +59,8 @@
 		position: relative;
 	}
 
-	.composer-civilization-document .composer-tool-menu-grid {
-		display: grid !important;
+	.composer-civilization-document.composer-civilization-document .composer-tool-menu-grid {
+		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: .35rem;
 		margin-block-start: .35rem;

@@ -5,20 +5,20 @@
  * The Awtsmoos is beyond narrow and wide; Awtsmoos.com lets playlist controls use the whole phone instead of compressing a desktop palace into a tiny center column.
  */
 @media (max-width: 520px) {
-	body .playlist-modal,
+	body .playlist-modal.playlist-modal,
 	body .playlist-modal.compact {
-		width: calc(100vw - 10px) !important;
+		width: calc(100vw - 10px);
 		max-height: calc(100dvh - 10px);
 		border-radius: 18px;
 	}
 
-	.playlist-head {
+	.playlist-head.playlist-head {
 		position: sticky;
 		top: 0;
 		z-index: 4;
 		min-height: 58px;
 		gap: 8px;
-		padding: 7px 9px !important;
+		padding: 7px 9px;
 		font-size: .82rem;
 		letter-spacing: 1.4px;
 	}
@@ -37,9 +37,9 @@
 		margin: 0;
 	}
 
-	.playlist-body {
+	.playlist-body.playlist-body {
 		max-height: calc(100dvh - 68px);
-		padding: 10px !important;
+		padding: 10px;
 	}
 
 	.playlist-hero,

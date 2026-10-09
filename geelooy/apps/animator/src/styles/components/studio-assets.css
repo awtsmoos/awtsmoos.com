@@ -12,7 +12,7 @@
 	margin-top: 9px;
 }
 
-.aw-studio-asset {
+.aw-studio-asset.aw-studio-asset {
 	display: grid;
 	grid-template-columns: 34px minmax(0, 1fr);
 	gap: 2px 8px;
@@ -20,7 +20,7 @@
 	min-height: 52px;
 	padding: 7px 9px;
 	text-align: left;
-	background: var(--aw-control-subtle) !important;
+	background: var(--aw-control-subtle);
 }
 
 .aw-studio-asset-icon {
@@ -45,10 +45,10 @@
 	text-transform: uppercase;
 }
 
-.aw-studio-asset.selected,
+.aw-studio-asset.aw-studio-asset.selected,
 .aw-studio-tree-row.selected {
-	border-color: rgba(112, 157, 255, .72) !important;
-	background: var(--aw-selection-soft) !important;
+	border-color: rgba(112, 157, 255, .72);
+	background: var(--aw-selection-soft);
 	box-shadow: inset 3px 0 0 var(--aw-selection);
 }
 
@@ -61,7 +61,7 @@
 	padding: 0 4px;
 }
 
-.aw-studio-tree-row {
+.aw-studio-tree-row.aw-studio-tree-row {
 	display: grid;
 	grid-template-columns: 24px minmax(0, 1fr) 22px 22px;
 	gap: 6px;
@@ -71,7 +71,7 @@
 	margin-bottom: 3px;
 	padding: 6px 7px;
 	text-align: left;
-	background: transparent !important;
+	background: transparent;
 }
 
 .aw-studio-tree-state {
@@ -80,6 +80,6 @@
 	text-align: center;
 }
 
-.aw-studio-tree-row:hover {
-	background: var(--aw-control-subtle) !important;
+.aw-studio-tree-row.aw-studio-tree-row:hover {
+	background: var(--aw-control-subtle);
 }

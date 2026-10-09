@@ -29,16 +29,16 @@
 		color: var(--rebbe-cyan);
 	}
 
-	#list-tracks .command-btn:hover:not(:disabled) {
-		border-color: var(--rebbe-cyan) !important;
+	#list-tracks#list-tracks .command-btn:hover:not(:disabled) {
+		border-color: var(--rebbe-cyan);
 		box-shadow: 0 8px 24px rgba(0, 243, 255, .08);
 		transform: translateY(-1px);
 	}
 }
 
 @media (max-width: 720px) {
-	#list-tracks .premium-track-item {
-		grid-template-columns: 44px minmax(0, 1fr) !important;
+	#list-tracks#list-tracks .premium-track-item {
+		grid-template-columns: 44px minmax(0, 1fr);
 	}
 
 	#list-tracks .row-command-deck {
@@ -71,10 +71,8 @@
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	#list-tracks .track-main-button,
-	#list-tracks .command-btn {
-		transition-duration: .01ms !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root #list-tracks .track-main-button, :root:root:root #list-tracks .command-btn{
+		transition-duration: .01ms;
 	}
 }
 

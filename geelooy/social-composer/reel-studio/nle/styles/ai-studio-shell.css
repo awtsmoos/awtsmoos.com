@@ -7,10 +7,10 @@
  * machine truth or confusing it with a remote media generator.
  */
 
-.nle-ai-action {
-	border-color: rgba(89, 189, 210, .38) !important;
-	background: var(--nle-cyan-soft) !important;
-	color: #c9edf4 !important;
+.nle-ai-action.nle-ai-action {
+	border-color: rgba(89, 189, 210, .38);
+	background: var(--nle-cyan-soft);
+	color: #c9edf4;
 }
 
 .nle-ai-dialog {

@@ -60,9 +60,8 @@ Awtsmoos.com gives every top-level disclosure a finished open, keyboard, pressed
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.majorPanelBody > details > summary {
+@media (prefers-reduced-motion: reduce) {:root:root:root .majorPanelBody > details > summary{
 		transition: none;
-		transform: none !important;
+		transform: none;
 	}
 }

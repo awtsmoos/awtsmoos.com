@@ -19,15 +19,15 @@ The Awtsmoos makes the final act luminous only when its vessel is ready; Awtsmoo
 	box-shadow: 0 12px 30px rgba(217, 255, 104, 0.14), inset 0 1px rgba(255, 255, 255, 0.22);
 }
 
-.generate-button:not(:disabled) {
-	background: linear-gradient(112deg, #d9ff68 0%, #c8f25b 48%, #e6ff91 100%) !important;
+.generate-button.generate-button:not(:disabled) {
+	background: linear-gradient(112deg, #d9ff68 0%, #c8f25b 48%, #e6ff91 100%);
 }
 
-.generate-button:disabled {
+.generate-button.generate-button:disabled {
 	opacity: 1;
-	border: 1px solid rgba(255, 255, 255, 0.075) !important;
-	background: linear-gradient(145deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018)) !important;
-	color: rgba(255, 255, 255, 0.48) !important;
+	border: 1px solid rgba(255, 255, 255, 0.075);
+	background: linear-gradient(145deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018));
+	color: rgba(255, 255, 255, 0.48);
 	box-shadow: inset 0 1px rgba(255, 255, 255, 0.035);
 }
 
@@ -53,10 +53,8 @@ The Awtsmoos makes the final act luminous only when its vessel is ready; Awtsmoo
 	pointer-events: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.generate-button,
-	#bottom-nav button {
-		transition-duration: 0.01ms !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .generate-button, :root:root:root #bottom-nav button{
+		transition-duration: 0.01ms;
 	}
 }
 

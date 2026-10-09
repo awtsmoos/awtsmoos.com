@@ -94,19 +94,19 @@ The Awtsmoos lets search respond with quiet precision; Awtsmoos.com gives focus,
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.search-error-card,
-	.library-results > *,
-	.library-search-form,
-	.library-search-button,
-	.library-scope-nav a,
-	.library-load-more,
-	.resultOpenLink,
-	.library-context > summary,
-	.result,
-	.library-rail-card,
-	.library-empty {
-		animation: none !important;
-		transition-duration: .001ms !important;
-		transform: none !important;
+	body[data-sefarim-search-page] .search-error-card,
+	body[data-sefarim-search-page] .library-results > *,
+	body[data-sefarim-search-page] .library-search-form,
+	body[data-sefarim-search-page] .library-search-button,
+	body[data-sefarim-search-page] .library-scope-nav a,
+	body[data-sefarim-search-page] .library-load-more,
+	body[data-sefarim-search-page] .resultOpenLink,
+	body[data-sefarim-search-page] .library-context > summary,
+	body[data-sefarim-search-page] .result,
+	body[data-sefarim-search-page] .library-rail-card,
+	body[data-sefarim-search-page] .library-empty {
+		animation: none;
+		transition-duration: .001ms;
+		transform: none;
 	}
 }

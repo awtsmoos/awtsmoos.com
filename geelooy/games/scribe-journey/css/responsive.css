@@ -53,7 +53,7 @@
 	:root { --mobile-control-size: 116px; }
 	#world-hud { height: calc(48px + var(--safe-top)); }
 	#world-viewport { inset: calc(48px + var(--safe-top)) 0 0; }
-	.hud-kicker, #coordinate-readout { display: none !important; }
+	.hud-kicker.hud-kicker, #coordinate-readout { display: none; }
 	#mobile-controls { left: auto; width: 280px; gap: 14px; }
 	#action-button { width: 76px; height: 76px; }
 	#dialogue-box {

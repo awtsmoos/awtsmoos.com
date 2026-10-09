@@ -48,7 +48,7 @@ body.has-playlist-selection #download-task-stack {
 	border: 1px solid rgba(255, 79, 122, .58);
 	border-radius: 50%;
 	background: rgba(255, 79, 122, .12);
-	color: #fff;
+	color: var(--c-text-main);
 	font-size: 20px;
 	cursor: pointer;
 	transition: transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease;
@@ -64,7 +64,7 @@ body.has-playlist-selection #download-task-stack {
 
 .download-task-card h3 {
 	margin: 5px 46px 8px 0;
-	color: #fff;
+	color: var(--c-text-main);
 	font-size: 15px;
 	overflow-wrap: anywhere;
 }
@@ -99,7 +99,7 @@ body.has-playlist-selection #download-task-stack {
 
 .download-task-percent {
 	margin-top: 4px;
-	color: #fff;
+	color: var(--c-text-main);
 	font-weight: 900;
 	text-align: right;
 }

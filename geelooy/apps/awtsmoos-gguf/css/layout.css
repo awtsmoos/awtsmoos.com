@@ -122,10 +122,10 @@
     box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25), 0 4px 25px rgba(0,0,0,0.4);
 }
 
-#chatInput {
+#chatInput#chatInput {
     resize: vertical;
     height: auto;
-    min-height: 150px !important; /* B"H - FORCE TALL HEIGHT */
+    min-height: 150px; /* B"H - FORCE TALL HEIGHT */
     max-height: 60vh;
     overflow-y: auto;
     background: transparent;
@@ -166,7 +166,7 @@
 @media (max-width: 1024px) {
     #app-root { grid-template-rows: auto 1fr; }
     #viewInspector { flex-direction: column; flex-wrap: nowrap; }
-    .insp-col { flex-basis: auto !important; min-height: 0; border-bottom: 1px solid var(--border-base); }
+    .insp-col.insp-col { flex-basis: auto; min-height: 0; border-bottom: 1px solid var(--border-base); }
     
     .console-sidebar {
         position: absolute; top: 0; right: 0; bottom: 0; width: 90%; max-width: 450px; z-index: 50;

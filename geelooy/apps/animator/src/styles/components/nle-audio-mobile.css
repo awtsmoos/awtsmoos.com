@@ -50,13 +50,10 @@
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.aw-professional-studio .aw-nle-recorder *,
-	.aw-professional-studio .aw-nle-recorder *::before,
-	.aw-professional-studio .aw-nle-recorder *::after {
+@media (prefers-reduced-motion: reduce) {:root:root:root .aw-professional-studio .aw-nle-recorder *, :root:root:root .aw-professional-studio .aw-nle-recorder *::before, :root:root:root .aw-professional-studio .aw-nle-recorder *::after{
 		scroll-behavior: auto;
-		transition-duration: 0.001ms !important;
-		animation-duration: 0.001ms !important;
-		animation-iteration-count: 1 !important;
+		transition-duration: 0.001ms;
+		animation-duration: 0.001ms;
+		animation-iteration-count: 1;
 	}
 }

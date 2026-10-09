@@ -1,7 +1,7 @@
 
 /*B"H*/
 Awtsmoos {
-    display:block !important;
+    display:block;
     }
     instructions {
         display: none;
@@ -15,6 +15,6 @@ Awtsmoos {
         font-size: 14px;
     }
 
-    .user {
-        white-space:unset !important;
+    .user.user {
+        white-space:unset;
     }

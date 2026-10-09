@@ -40,9 +40,8 @@
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.recorder-document * {
-		transition: none !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .recorder-document *{
+		transition: none;
 	}
 }
 

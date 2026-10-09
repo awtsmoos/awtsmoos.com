@@ -59,10 +59,10 @@
 	color: var(--aw-text);
 }
 
-.aw-studio-danger:hover,
+.aw-studio-danger.aw-studio-danger:hover,
 .aw-studio-danger:focus-visible {
-	border-color: rgba(255, 128, 147, .72) !important;
-	background: rgba(125, 41, 61, .28) !important;
+	border-color: rgba(255, 128, 147, .72);
+	background: rgba(125, 41, 61, .28);
 }
 
 .aw-studio-create-button:hover,

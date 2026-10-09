@@ -46,11 +46,11 @@
 	border: 1px solid var(--mawgawl-line-strong);
 	border-radius: 50%;
 	background: rgba(255, 114, 133, .08);
-	color: var(--mawgawl-danger) !important;
-	font-size: 1.2rem !important;
-	font-weight: 900 !important;
+	color: var(--mawgawl-danger);
+	font-size: 1.2rem;
+	font-weight: 900;
 	line-height: 1;
-	cursor: pointer !important;
+	cursor: pointer;
 	transition: transform var(--mawgawl-fast) var(--mawgawl-ease), border-color var(--mawgawl-fast) var(--mawgawl-ease), background var(--mawgawl-fast) var(--mawgawl-ease);
 }
 

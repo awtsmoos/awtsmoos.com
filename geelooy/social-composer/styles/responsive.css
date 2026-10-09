@@ -68,13 +68,10 @@
 		flex-basis: 100%;
 	}
 }
-@media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		animation-duration: .01ms !important;
-		scroll-behavior: auto !important;
-		transition-duration: .01ms !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root *, :root:root:root *::before, :root:root:root *::after{
+		animation-duration: .01ms;
+		scroll-behavior: auto;
+		transition-duration: .01ms;
 	}
 }
 

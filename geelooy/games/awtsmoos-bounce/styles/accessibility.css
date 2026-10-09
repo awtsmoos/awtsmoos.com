@@ -17,14 +17,11 @@ button:disabled {
 	cursor: not-allowed;
 }
 
-@media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		scroll-behavior: auto !important;
-		animation-duration: 0.001ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: 0.001ms !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root *, :root:root:root *::before, :root:root:root *::after{
+		scroll-behavior: auto;
+		animation-duration: 0.001ms;
+		animation-iteration-count: 1;
+		transition-duration: 0.001ms;
 	}
 
 	.game-shell::before {
@@ -33,22 +30,10 @@ button:disabled {
 
 	.pulse-dot {
 		box-shadow: none;
-	}
-
-	.hit-testimony,
-	.power-status,
-	.advanced-sheet-panel,
-	.advanced-sheet::backdrop {
-		animation: none !important;
-	}
-
-	.icon-button,
-	.level-nav button,
-	.primary-button,
-	.secondary-button,
-	.sheet-close,
-	.sheet-action {
-		transform: none !important;
+	}:root:root:root .hit-testimony, :root:root:root .power-status, :root:root:root .advanced-sheet-panel, :root:root:root .advanced-sheet::backdrop{
+		animation: none;
+	}:root:root:root .icon-button, :root:root:root .level-nav button, :root:root:root .primary-button, :root:root:root .secondary-button, :root:root:root .sheet-close, :root:root:root .sheet-action{
+		transform: none;
 	}
 }
 

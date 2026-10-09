@@ -8,7 +8,7 @@
  * plastic but receives more mercy.
  */
 .touch{position:fixed;left:8px;right:8px;bottom:calc(8px + var(--safe-bottom));z-index:3;display:none;justify-content:space-between;align-items:end;gap:8px;pointer-events:none}.movePad{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:min(62vw,340px);pointer-events:none}.moveBtn,.jump{position:relative;pointer-events:auto;user-select:none;-webkit-user-select:none;border:0;color:#160720;font-weight:1000;box-shadow:0 8px 20px #0009,0 0 14px #9df7ff22;touch-action:none}.moveBtn:before,.jump:before{content:"";position:absolute;left:-28px;right:-28px;top:-210px;bottom:-18px;border-radius:32px}.moveBtn{height:54px;border-radius:18px;font-size:15px;background:linear-gradient(135deg,#9df7ff,#dffcff)}.jump{width:min(34vw,150px);height:58px;border-radius:999px;font-size:17px;background:linear-gradient(135deg,var(--gold),var(--pink))}.jump:before{left:-40px;right:-40px;top:-230px}.moveBtn.held,.jump.held{transform:translateY(2px) scale(.985);filter:saturate(1.35);box-shadow:0 4px 14px #000b,0 0 28px #ffd36a88}
-@media (min-width:900px){.touch{display:none!important}}
+@media (min-width:900px){.touch.touch{display:none}}
 @media (max-width:720px){.touch{display:flex}}
 @media (max-width:420px){.touch{left:6px;right:6px;bottom:calc(6px + var(--safe-bottom));gap:6px}.movePad{gap:6px;width:64vw}.moveBtn{height:50px;font-size:14px;border-radius:17px}.jump{width:35vw;height:54px;font-size:16px}.moveBtn:before{left:-24px;right:-24px;top:-230px}.jump:before{left:-36px;right:-36px;top:-245px}}
 @media (hover:none),(pointer:coarse){.touch{display:flex}}

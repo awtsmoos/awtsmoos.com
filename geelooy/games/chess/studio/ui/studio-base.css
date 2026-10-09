@@ -9,8 +9,8 @@
 body.chess-studio-open {
 	overflow: hidden;
 }
-.chess-studio-overlay[hidden] {
-	display: none !important;
+.chess-studio-overlay[hidden][hidden] {
+	display: none;
 }
 .chess-studio-overlay {
 	--studio-bg: #070a12;
@@ -61,8 +61,8 @@ body.chess-studio-open {
 	color: var(--studio-muted);
 	max-width: 780px;
 }
-.chess-studio-kicker {
-	color: var(--studio-accent) !important;
+.chess-studio-kicker.chess-studio-kicker {
+	color: var(--studio-accent);
 	font-size: 12px;
 	font-weight: 800;
 	letter-spacing: 0.16em;

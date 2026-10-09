@@ -5,9 +5,9 @@ Blessed is He
 The Awtsmoos creates every developer and every mode of perception anew.
 Awtsmoos.com keeps focus, contrast, motion, and touch boundaries visible.
 */
-:focus-visible {
-	outline: 3px solid var(--code-reveal-gold) !important;
-	outline-offset: 2px !important;
+:focus:focus-visible {
+	outline: 3px solid var(--code-reveal-gold);
+	outline-offset: 2px;
 }
 button, [role="button"], input, select {
 	min-height: 34px;
@@ -16,12 +16,11 @@ button, [role="button"], input, select {
 	color: #fff;
 	background: rgba(91, 140, 255, 0.52);
 }
-@media (prefers-reduced-motion: reduce) {
-	*, *::before, *::after {
-		animation-duration: 1ms !important;
-		animation-iteration-count: 1 !important;
-		scroll-behavior: auto !important;
-		transition-duration: 1ms !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root *, :root:root:root *::before, :root:root:root *::after{
+		animation-duration: 1ms;
+		animation-iteration-count: 1;
+		scroll-behavior: auto;
+		transition-duration: 1ms;
 	}
 }
 @media (prefers-contrast: more) {
@@ -36,9 +35,9 @@ button, [role="button"], input, select {
 	}
 }
 @media (forced-colors: active) {
-	.sidebar, .top-panel, .status-bar, .tab, .icon-button, #editor-wrapper {
+	.sidebar.sidebar, .top-panel, .status-bar, .tab, .icon-button, #editor-wrapper {
 		forced-color-adjust: auto;
-		border-color: CanvasText !important;
+		border-color: CanvasText;
 	}
 }
 @media (pointer: coarse) {

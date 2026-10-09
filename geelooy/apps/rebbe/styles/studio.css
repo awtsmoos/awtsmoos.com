@@ -51,7 +51,7 @@
 
 .studio-stat { 
     position: absolute; top: 15px; left: 15px;
-    background: rgba(0,0,0,0.5); color: #fff; 
+    background: rgba(0,0,0,0.5); color: var(--c-text-main); 
     padding: 4px 8px; font-size: 12px; font-weight: bold;
     border-left: 3px solid var(--c-cyan);
     pointer-events: none; z-index: 100; font-family: monospace;
@@ -118,12 +118,12 @@
     display: flex; align-items: center; justify-content: center;
 }
 .btn-tool:hover, .modal-btn:hover {
-    background: #333; border-color: #666; color: #fff;
+    background: #333; border-color: #666; color: var(--c-text-main);
 }
 .btn-tool:active { transform: translateY(1px); }
 
 .btn-danger, .modal-btn.danger { border-color: #522; color: #f55; background: #2a1a1a; }
-.btn-danger:hover { background: #f00; color: #fff; border-color: #f00; }
+.btn-danger:hover { background: #f00; color: var(--c-text-main); border-color: #f00; }
 
 .full-width { width: 100%; }
 

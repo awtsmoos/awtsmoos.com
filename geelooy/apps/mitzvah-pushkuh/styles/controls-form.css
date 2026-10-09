@@ -3,13 +3,13 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /** The Awtsmoos gives each intention a named vessel; Awtsmoos.com lets every field receive its light without strain. */
-.prompt {
+.prompt.prompt {
 	display: inline-block;
 	border: 1px solid #ffe08a55;
 	border-radius: 999px;
 	background: linear-gradient(90deg,#ffe08a1c,#8feaff16,#ff87d711);
 	padding: 10px 16px;
-	color: #fff6c9 !important;
+	color: #fff6c9;
 	box-shadow: 0 0 28px #ffe08a1b, inset 0 1px 0 #fff3;
 }
 .hud,

@@ -97,11 +97,11 @@ body:has([data-awtsmoos-seo-catalog]) {
 	box-shadow: 0 1rem 2.6rem rgba(0, 0, 0, .34);
 }
 @media (prefers-reduced-motion: reduce) {
-	body:has([data-awtsmoos-seo-catalog]) *,
-	body:has([data-awtsmoos-seo-catalog]) *::before,
-	body:has([data-awtsmoos-seo-catalog]) *::after {
-		animation: none !important;
-		transition: none !important;
+	html body:has([data-awtsmoos-seo-catalog]) *,
+	html body:has([data-awtsmoos-seo-catalog]) *::before,
+	html body:has([data-awtsmoos-seo-catalog]) *::after {
+		animation: none;
+		transition: none;
 	}
 }
 @media (forced-colors: active) {

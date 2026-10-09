@@ -41,7 +41,7 @@
 .awt-runtime-entry small,
 .awt-mesh-row span,
 .awt-runtime-subtitle { color: var(--awt-muted); overflow-wrap: anywhere; }
-.awt-runtime-detail[hidden] { display: none !important; }
+.awt-runtime-detail[hidden][hidden] { display: none; }
 .awt-runtime-detail { display: grid; gap: 12px; }
 .awt-mesh-row,
 .awt-runtime-health-row {
@@ -67,7 +67,7 @@
 .awt-runtime-fact { display: inline-flex; gap: 6px; color: var(--awt-ink); background: rgba(255, 255, 255, .055); }
 .awt-json-reveal { display: grid; gap: 8px; }
 .awt-json-reveal-button { justify-self: start; }
-.awt-json-reveal-output[hidden] { display: none !important; }
+.awt-json-reveal-output[hidden][hidden] { display: none; }
 .awt-json-reveal-output { max-height: 320px; margin: 0; white-space: pre-wrap; overflow: auto; overflow-wrap: anywhere; }
 @media (max-width: 640px) {
   .awt-mesh-row { grid-template-columns: 1fr; }

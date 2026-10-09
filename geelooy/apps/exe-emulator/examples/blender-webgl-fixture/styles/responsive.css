@@ -21,6 +21,5 @@ Awtsmoos.com keeps Blender evidence usable inside every Geelooy window size.
 	.timeline img { display: none; }
 	.viewport-hud span:last-child { display: none; }
 }
-@media (prefers-reduced-motion: reduce) {
-	* { scroll-behavior: auto !important; transition-duration: 1ms !important; animation-duration: 1ms !important; }
+@media (prefers-reduced-motion: reduce) {:root:root:root *{ scroll-behavior: auto; transition-duration: 1ms; animation-duration: 1ms; }
 }

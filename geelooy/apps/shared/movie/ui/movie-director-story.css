@@ -50,14 +50,14 @@ Awtsmoos.com keeps boards and timeline readable so every beat can rhyme.
 	background: color-mix(in srgb, Canvas 82%, currentColor 6%);
 	overflow: hidden;
 }
-.movie-timeline-block {
+.movie-timeline-block.movie-timeline-block {
 	position: absolute;
 	left: var(--movie-left);
 	width: var(--movie-width);
 	top: 8px;
 	bottom: 8px;
-	min-height: 0 !important;
-	background: color-mix(in srgb, Highlight 58%, Canvas) !important;
+	min-height: 0;
+	background: color-mix(in srgb, Highlight 58%, Canvas);
 }
 .movie-empty {
 	padding: 18px;

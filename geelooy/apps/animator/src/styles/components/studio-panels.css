@@ -14,21 +14,21 @@
 	background: var(--aw-panel-glass-strong);
 }
 
-.aw-studio-tab {
+.aw-studio-tab.aw-studio-tab {
 	min-width: 0;
 	padding: 8px 5px;
-	border-color: transparent !important;
-	color: var(--aw-muted) !important;
-	background: transparent !important;
+	border-color: transparent;
+	color: var(--aw-muted);
+	background: transparent;
 	font-size: 10px;
 	font-weight: 650;
 	text-transform: uppercase;
 }
 
-.aw-studio-tab.active {
-	color: var(--aw-text) !important;
-	border-color: var(--aw-line-strong) !important;
-	background: var(--aw-selection-soft) !important;
+.aw-studio-tab.aw-studio-tab.active {
+	color: var(--aw-text);
+	border-color: var(--aw-line-strong);
+	background: var(--aw-selection-soft);
 	box-shadow: inset 0 -2px 0 var(--aw-selection);
 }
 

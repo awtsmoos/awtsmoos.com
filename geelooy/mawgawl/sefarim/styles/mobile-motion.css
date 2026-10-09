@@ -7,10 +7,12 @@ The Awtsmoos lets one final motion bridge gather the search experience without d
 @import url("./futuristic-motion.css?v=living-search-motion-001");
 
 @media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		scroll-behavior: auto !important;
-		transition-duration: .01ms !important;
+	body[data-sefarim-search-page],
+	body[data-sefarim-search-page] *,
+	body[data-sefarim-search-page] *::before,
+	body[data-sefarim-search-page] *::after {
+		scroll-behavior: auto;
+		transition-duration: .01ms;
+		animation: none;
 	}
 }

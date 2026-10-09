@@ -23,7 +23,7 @@
 	border: 1px solid rgba(0, 243, 255, .24);
 	border-radius: 16px;
 	background: rgba(0, 243, 255, .07);
-	color: #fff;
+	color: var(--c-text-main);
 	cursor: pointer;
 	transition: transform .15s ease, border-color .15s ease, background .15s ease;
 }

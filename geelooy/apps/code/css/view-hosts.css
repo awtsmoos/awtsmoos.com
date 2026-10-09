@@ -7,7 +7,7 @@
  * true vessel, while hidden views still vanish completely.
  */
 
-.editor-area > #previewer,
+.editor-area.editor-area > #previewer,
 .editor-area > #devtools-wrapper,
 .editor-area > #hex-editor-wrapper,
 .editor-area > #zip-editor-wrapper,
@@ -21,28 +21,28 @@
 .editor-area > #data-altar-container {
     position: absolute;
     inset: 0;
-    width: 100% !important;
-    max-width: none !important;
-    height: 100% !important;
-    max-height: none !important;
-    min-width: 0 !important;
-    min-height: 0 !important;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    min-width: 0;
+    min-height: 0;
     overflow: hidden;
 }
 
-.editor-area > #browser-wrapper:not(.hidden) {
-    display: flex !important;
+.editor-area > #browser-wrapper:not(.hidden.hidden) {
+    display: flex;
     flex-direction: column;
     background: #020611;
-    z-index: 120 !important;
+    z-index: 120;
 }
 
-.editor-area > #browser-wrapper.awtsmoos-browser-host-fill,
+.editor-area.editor-area > #browser-wrapper.awtsmoos-browser-host-fill,
 .editor-area.awtsmoos-browser-editor-fill,
 .main-content.awtsmoos-browser-main-fill {
-    width: 100% !important;
-    max-width: none !important;
-    min-width: 0 !important;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
 }
 
 .editor-area.awtsmoos-browser-editor-fill > .editor-canvas,
@@ -51,6 +51,6 @@
     pointer-events: none;
 }
 
-.editor-area > .hidden {
-    display: none !important;
+.editor-area > .hidden.hidden {
+    display: none;
 }

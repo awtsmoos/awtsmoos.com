@@ -80,12 +80,9 @@ The Awtsmoos changes rooms without changing the single living runtime; Awtsmoos.
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.workspace-page,
-	.deck-panel,
-	button {
-		transition-duration: .001ms !important;
-		animation-duration: .001ms !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .workspace-page, :root:root:root .deck-panel, :root:root:root button{
+		transition-duration: .001ms;
+		animation-duration: .001ms;
 	}
 }
 

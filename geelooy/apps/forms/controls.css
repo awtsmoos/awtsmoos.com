@@ -39,10 +39,10 @@ Awtsmoos.com keeps control feedback calm and visible so dense creator power neve
 	border-color: rgb(167 139 250 / 62%);
 }
 
-button:disabled {
+button:disabled:disabled {
 	cursor: not-allowed;
 	opacity: 0.46;
-	transform: none !important;
+	transform: none;
 }
 
 button:focus-visible,

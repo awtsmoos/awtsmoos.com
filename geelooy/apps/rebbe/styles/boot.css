@@ -13,7 +13,7 @@
 .boot-center { width: 400px; display: flex; flex-direction: column; gap: 20px; }
 
 .boot-logo { 
-    font-size: 40px; font-weight: 900; color: #fff; letter-spacing: 5px; 
+    font-size: 40px; font-weight: 900; color: var(--c-text-main); letter-spacing: 5px; 
     text-align: center; line-height: 1;
 }
 .boot-logo span { color: var(--c-cyan); font-size: 18px; letter-spacing: 12px; }

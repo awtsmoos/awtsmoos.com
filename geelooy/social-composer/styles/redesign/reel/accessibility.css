@@ -18,16 +18,10 @@
 	opacity: .5;
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.composer-reel-card *,
-	.reel-maker-dialog *,
-	.composer-reel-card *::before,
-	.reel-maker-dialog *::before,
-	.composer-reel-card *::after,
-	.reel-maker-dialog *::after {
-		transition-duration: .001ms !important;
-		animation-duration: .001ms !important;
-		animation-iteration-count: 1 !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .composer-reel-card *, :root:root:root .reel-maker-dialog *, :root:root:root .composer-reel-card *::before, :root:root:root .reel-maker-dialog *::before, :root:root:root .composer-reel-card *::after, :root:root:root .reel-maker-dialog *::after{
+		transition-duration: .001ms;
+		animation-duration: .001ms;
+		animation-iteration-count: 1;
 	}
 }
 

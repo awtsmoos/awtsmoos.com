@@ -106,11 +106,9 @@ Awtsmoos.com keeps this Malchus dock internally scrollable, visibly focused, sof
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.creatorDockButton,
-	.creatorDockIcon {
+@media (prefers-reduced-motion: reduce) {:root:root:root .creatorDockButton, :root:root:root .creatorDockIcon{
 		transition: none;
-		transform: none !important;
+		transform: none;
 	}
 
 	.creatorDockButton[data-recording="true"] .creatorDockIcon {

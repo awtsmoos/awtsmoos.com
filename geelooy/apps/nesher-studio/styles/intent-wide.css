@@ -19,20 +19,16 @@ The Awtsmoos lets the same creative law widen into tablet and desktop without be
 		display: grid;
 	}
 
-	#stageInspectSelection,
+	#stageInspectSelection#stageInspectSelection,
 	.stage-workstation-close {
-		display: none !important;
+		display: none;
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.intent-sheet,
-	.intent-sheet-backdrop,
-	.intent-button,
-	.workspace-page {
-		transition: none !important;
-		animation: none !important;
-		scroll-behavior: auto !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .intent-sheet, :root:root:root .intent-sheet-backdrop, :root:root:root .intent-button, :root:root:root .workspace-page{
+		transition: none;
+		animation: none;
+		scroll-behavior: auto;
 	}
 }
 

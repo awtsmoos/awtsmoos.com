@@ -46,7 +46,7 @@
   min-width:0;
 }
 .thought-step-title {
-  color:#f8fbff;
+  color:var(--awt-text);
   font-weight:950;
   letter-spacing:.06em;
   text-transform:uppercase;

@@ -25,8 +25,8 @@ body {
 }
 
 /* --- 3. UTILITY & SHARED CLASSES --- */
-.hidden {
-    display: none !important;
+.hidden.hidden {
+    display: none;
 }
 
 .menu {
@@ -300,9 +300,9 @@ body {
     background-color: #505050;
     color: #fff;
 }
-.current-move {
+.current-move.current-move {
     background: linear-gradient(145deg, #e6c37f, #c8a35f);
-    color: #121212 !important;
+    color: #121212;
     font-weight: bold;
     box-shadow: 0 0 8px rgba(230, 195, 127, 0.5);
 }

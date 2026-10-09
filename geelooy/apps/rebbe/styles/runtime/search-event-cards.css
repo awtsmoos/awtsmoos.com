@@ -36,7 +36,7 @@
 
 .result-title {
 	margin-top: 3px;
-	color: #fff;
+	color: var(--c-text-main);
 	font-size: clamp(1rem, 3vw, 1.55rem);
 	font-weight: 900;
 	overflow-wrap: anywhere;

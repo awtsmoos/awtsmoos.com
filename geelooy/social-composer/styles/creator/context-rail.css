@@ -106,10 +106,9 @@ Awtsmoos.com keeps each contextual action inside its own scrollable keli, where 
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.creatorContextAction {
+@media (prefers-reduced-motion: reduce) {:root:root:root .creatorContextAction{
 		animation: none;
 		transition: none;
-		transform: none !important;
+		transform: none;
 	}
 }

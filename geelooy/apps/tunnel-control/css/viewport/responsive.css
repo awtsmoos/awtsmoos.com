@@ -2,11 +2,11 @@
 /* B"H */
 /** One navigation becomes a mobile dock while every page keeps its bounded sky. */
 @media (max-width: 760px) {
-	.awt-control-main {
-		grid-template-columns: minmax(0, 1fr) !important;
+	.awt-control-main.awt-control-main {
+		grid-template-columns: minmax(0, 1fr);
 		grid-template-rows: minmax(0, 1fr) 62px;
-		gap: 6px !important;
-		padding: 6px !important;
+		gap: 6px;
+		padding: 6px;
 	}
 
 	.awt-home-mode .awt-control-main {

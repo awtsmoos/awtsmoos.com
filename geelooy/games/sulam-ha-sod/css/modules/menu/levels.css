@@ -16,7 +16,7 @@
 	min-height: 92px;
 	border-radius: 18px;
 	background: linear-gradient(135deg, #1c1235, #4a2a78);
-	color: #fff;
+	color: var(--text);
 	text-align: left;
 	padding: 12px;
 }

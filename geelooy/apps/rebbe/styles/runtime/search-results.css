@@ -75,7 +75,7 @@
 
 .search-summary-line strong,
 .selected-count {
-	color: #fff;
+	color: var(--c-text-main);
 }
 
 .bulk-selection-actions,

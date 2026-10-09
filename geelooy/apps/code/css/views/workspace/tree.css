@@ -30,13 +30,13 @@
     transform: translateX(4px); 
 }
 
-.tree-item.selected > .tree-item-name-wrap {
-    background-color: rgba(0, 246, 255, 0.15) !important;
-    border-color: var(--neon-cyan) !important;
+.tree-item.tree-item.selected > .tree-item-name-wrap {
+    background-color: rgba(0, 246, 255, 0.15);
+    border-color: var(--neon-cyan);
 }
 
-.tree-item.selected > .tree-item-name-wrap .tree-item-name {
-    color: var(--neon-cyan) !important;
+.tree-item.tree-item.selected > .tree-item-name-wrap .tree-item-name {
+    color: var(--neon-cyan);
     font-weight: bold;
 }
 

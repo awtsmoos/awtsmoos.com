@@ -66,13 +66,10 @@
 		padding: 8px;
 	}
 }
-@media (prefers-reduced-motion: reduce) {
-	.chess-studio-overlay *,
-	.chess-studio-overlay *::before,
-	.chess-studio-overlay *::after {
-		scroll-behavior: auto !important;
-		animation-duration: 0.001ms !important;
-		transition-duration: 0.001ms !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .chess-studio-overlay *, :root:root:root .chess-studio-overlay *::before, :root:root:root .chess-studio-overlay *::after{
+		scroll-behavior: auto;
+		animation-duration: 0.001ms;
+		transition-duration: 0.001ms;
 	}
 	.chess-studio-overlay button:hover {
 		transform: none;

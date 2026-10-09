@@ -17,7 +17,7 @@
     animation: fadeIn 0.2s ease; 
 }
 
-.dialog-overlay.visible { display: flex !important; }
+.dialog-overlay.dialog-overlay.visible { display: flex; }
 
 .dialog-content { 
     background-color: #1a1d2b; 

@@ -12,8 +12,8 @@
 	background: var(--aw-panel-inset);
 }
 
-.aw-professional-studio .app-timeline > :not(#aw-nle-mount) {
-	display: none !important;
+.aw-professional-studio.aw-professional-studio .app-timeline > :not(#aw-nle-mount) {
+	display: none;
 }
 
 .aw-professional-studio #aw-nle-mount {
@@ -36,9 +36,9 @@
 	box-shadow: none;
 }
 
-.aw-professional-studio .aw-nle-mode-compact,
+.aw-professional-studio.aw-professional-studio .aw-nle-mode-compact,
 .aw-professional-studio .aw-nle-mode-expanded {
-	height: 100% !important;
+	height: 100%;
 }
 
 .aw-professional-studio .aw-nle-toolbar {
