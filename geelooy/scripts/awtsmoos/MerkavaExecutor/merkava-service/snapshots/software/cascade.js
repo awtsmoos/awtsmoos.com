@@ -360,6 +360,44 @@ function compareCascadeCandidates(left, right) {
 
 /** Element cascade with layers + inline-style origins. Mirrors the shared
  * CssCascade (inheritance, CSS-wide keywords) with layer ordering added. */
+/* B"H 2026-10-09 (render-bench): cascade fast path. compareCascadeCandidates
+ * was 48% of layout on rule-heavy pages: a full origin/layer/specificity/
+ * order comparison (with a specificity.slice(1) allocation) per declaration
+ * per candidate rule. Observation: for unlayered author rules, cascade
+ * priority is a strict total order on (specificity, order) — so sorting the
+ * matched candidates once and letting the LAST writer win per property
+ * yields the identical winner with ZERO comparisons. !important is a
+ * separate origin: run the normal pass, then the important pass. Any
+ * layerKey or revert-layer value bails to the exact slow path. */
+function compareRulePriority(r1, r2) {
+  const s1 = r1.specificity, s2 = r2.specificity;
+  return (s1[1] - s2[1]) || (s1[2] - s2[2]) || (s1[3] - s2[3]) || (r1.order - r2.order);
+}
+function cascadeFastPath(node, rules, parentStyle, inline, ruleIndex, candidates, out) {
+  const matched = [];
+  for (const rule of candidates) {
+    if (!matchesIndexedRule(node, rule, ruleIndex)) continue;
+    if (rule.layerKey) return false; // layered: use slow path
+    matched.push(rule);
+  }
+  matched.sort(compareRulePriority);
+  const winners = new Map();
+  const importantWinners = new Map();
+  for (const rule of matched) {
+    for (const declaration of rule.declarations) {
+      if (String(declaration.value || "").trim().toLowerCase() === "revert-layer") return false;
+      (declaration.important ? importantWinners : winners).set(declaration.name, declaration);
+    }
+  }
+  for (const declaration of inline || []) {
+    if (String(declaration.value || "").trim().toLowerCase() === "revert-layer") return false;
+    (declaration.important ? importantWinners : winners).set(declaration.name, declaration);
+  }
+  for (const [name, declaration] of winners) applyLayeredWinner(out, parentStyle, name, declaration.value);
+  for (const [name, declaration] of importantWinners) applyLayeredWinner(out, parentStyle, name, declaration.value);
+  return true;
+}
+
 function cascadeWithLayers(node, rules, parentStyle = {}, inline = []) {
   const winners = new Map();
   // B"H 2026-10-09 (mass-test batch 2): revert-layer rolls back to the
@@ -383,6 +421,13 @@ function cascadeWithLayers(node, rules, parentStyle = {}, inline = []) {
   // Same match set as scanning all rules; winners are order-independent.
   const ruleIndex = getRuleIndex(rules);
   const candidates = candidateRulesFor(ruleIndex, node);
+  // B"H 2026-10-09: seed UA defaults first (lowest priority), then
+  // inherited properties override UA, then author winners override both.
+  // B"H 2026-10-09 (render-bench): cached UA spread + cached inherited subset.
+  const out = { ...cachedUaDefaults(node), ...cachedInheritDefaults(parentStyle) };
+  // B"H 2026-10-09 (render-bench): try the comparison-free fast path first.
+  // MERKAVA_CASCADE_SLOW=1 forces the slow path (differential testing).
+  if (!process.env.MERKAVA_CASCADE_SLOW && cascadeFastPath(node, rules, parentStyle, inline, ruleIndex, candidates, out)) return out;
   for (const rule of candidates) {
     if (!matchesIndexedRule(node, rule, ruleIndex)) continue;
     const layerKey = rule.layerKey || null;
@@ -405,10 +450,6 @@ function cascadeWithLayers(node, rules, parentStyle = {}, inline = []) {
       declaration.important ? ORIGIN_INLINE_IMPORTANT : ORIGIN_INLINE_NORMAL
     );
   }
-  // B"H 2026-10-09: seed UA defaults first (lowest priority), then
-  // inherited properties override UA, then author winners override both.
-  // B"H 2026-10-09 (render-bench): cached UA spread + cached inherited subset.
-  const out = { ...cachedUaDefaults(node), ...cachedInheritDefaults(parentStyle) };
   for (const [name, winner] of winners) applyLayeredWinner(out, parentStyle, name, winner.declaration.value);
   for (const [name, rw] of revertLayerWinners) {
     const w = winners.get(name);
