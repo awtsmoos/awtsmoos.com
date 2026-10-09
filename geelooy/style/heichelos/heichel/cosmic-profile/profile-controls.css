@@ -4,15 +4,15 @@
 /* Blessed is He */
 /* The Awtsmoos gives identity measurable life, deliberate action, and clear paths. */
 .heichel-os-document .heichel-profile-stats {
-	display: grid !important;
-	grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-	gap: 0 !important;
-	width: auto !important;
-	margin: .85rem clamp(1rem, 3vw, 2rem) 0 !important;
-	padding: .75rem 0 !important;
-	border-block: 1px solid rgba(80, 215, 255, .15) !important;
-	background: transparent !important;
-	box-shadow: none !important;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 0;
+	width: auto;
+	margin: .85rem clamp(1rem, 3vw, 2rem) 0;
+	padding: .75rem 0;
+	border-block: 1px solid rgba(80, 215, 255, .15);
+	background: transparent;
+	box-shadow: none;
 }
 .heichel-profile-stat {
 	display: grid;
@@ -46,7 +46,7 @@
 	display: grid;
 	min-height: 2.8rem;
 	place-items: center;
-	color: var(--heichel-cosmic-text) !important;
+	color: var(--heichel-cosmic-text);
 	border: 1px solid rgba(80, 215, 255, .35);
 	background: rgba(12, 20, 36, .8);
 	font-weight: 850;
@@ -65,7 +65,7 @@
 	background: rgba(4, 4, 12, .5);
 }
 .heichel-profile-tabs a:first-child {
-	color: var(--heichel-cosmic-cyan-core) !important;
+	color: var(--heichel-cosmic-cyan-core);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.heichel-profile-tabs) :where(a:first-child)::after {

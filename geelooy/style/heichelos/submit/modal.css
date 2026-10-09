@@ -13,7 +13,7 @@
 
 .modal[style*="flex"],
 #imageUploadModal[style*="flex"] {
-  display: grid !important;
+  display: grid;
 }
 
 .modal-content,

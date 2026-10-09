@@ -55,8 +55,8 @@
 		background-position: -120% 0;
 	}
 }
-@media (prefers-reduced-motion: reduce), (update: slow) { .nav-card, .series-expand-toggle, .series-source-link, .breadcrumb-link, .series-children-well, .living-tree-node, .series-branch-loading, .sacred-loading {
-		animation: none !important;
-		transition: none !important;
-		transform: none !important;
+@media (prefers-reduced-motion: reduce), (update: slow) { .nav-card, html .series-expand-toggle, .series-source-link, .breadcrumb-link, .series-children-well, .living-tree-node, .series-branch-loading, .sacred-loading {
+		animation: none;
+		transition: none;
+		transform: none;
 	} }

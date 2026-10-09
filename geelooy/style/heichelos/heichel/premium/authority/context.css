@@ -8,58 +8,58 @@
  * @description The Awtsmoos removes generic path machinery until it is truthful, then keeps only useful Torah context visible and touchable on Awtsmoos.com.
  */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) :is( .living-path-context[hidden], .living-path-full-path[hidden], .living-path-sticky[hidden] ) {
-	display: none !important;
+	display: none;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"][data-heichel-ready="false"]) :is( .living-path-sticky, .living-path-context, .living-path-search-stack, .living-path-result-status, .tab-gates ) {
-	display: none !important;
+	display: none;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"][data-heichel-ready="false"]) .heichel-nav-panel {
-	min-block-size: 0 !important;
-	block-size: auto !important;
+	min-block-size: 0;
+	block-size: auto;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .heichel-profile-details summary {
-	min-block-size: 44px !important;
-	padding-block: .55rem !important;
+	min-block-size: 44px;
+	padding-block: .55rem;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .heichel-profile-actions {
-	display: flex !important;
-	flex-wrap: wrap !important;
-	min-inline-size: 0 !important;
-	max-inline-size: 100% !important;
+	display: flex;
+	flex-wrap: wrap;
+	min-inline-size: 0;
+	max-inline-size: 100%;
 	overflow: clip;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .heichel-profile-action {
-	flex: 0 1 auto !important;
-	min-inline-size: 44px !important;
-	min-block-size: 44px !important;
-	max-inline-size: 100% !important;
+	flex: 0 1 auto;
+	min-inline-size: 44px;
+	min-block-size: 44px;
+	max-inline-size: 100%;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .series-heading {
-	min-block-size: 0 !important;
-	margin: 0 !important;
-	padding: .72rem .82rem !important;
+	min-block-size: 0;
+	margin: 0;
+	padding: .72rem .82rem;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .heichel-profile-actions {
-		gap: .4rem !important;
+		gap: .4rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 30rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .g-header-profile {
-		flex: 0 0 44px !important;
-		inline-size: 44px !important;
-		min-inline-size: 44px !important;
-		max-inline-size: 44px !important;
+		flex: 0 0 44px;
+		inline-size: 44px;
+		min-inline-size: 44px;
+		max-inline-size: 44px;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 30rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .g-header-profile .profile-trigger {
-		inline-size: 44px !important;
-		min-inline-size: 44px !important;
-		max-inline-size: 44px !important;
-		padding-inline: 0 !important;
+		inline-size: 44px;
+		min-inline-size: 44px;
+		max-inline-size: 44px;
+		padding-inline: 0;
 	} }

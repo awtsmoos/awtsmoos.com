@@ -43,10 +43,10 @@
 		padding-inline: 0;
 	}
 
-	.heichel-os-document .geelooy-main-stage {
-		inline-size: 100% !important;
-		max-inline-size: 100% !important;
-		padding: calc(var(--g-header-h, 4.1rem) + .7rem) .75rem calc(5.2rem + env(safe-area-inset-bottom)) !important;
+	html .heichel-os-document .geelooy-main-stage {
+		inline-size: 100%;
+		max-inline-size: 100%;
+		padding: calc(var(--g-header-h, 4.1rem) + .7rem) .75rem calc(5.2rem + env(safe-area-inset-bottom));
 		overflow: visible;
 	}
 

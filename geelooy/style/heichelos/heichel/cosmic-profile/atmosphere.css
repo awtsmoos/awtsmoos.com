@@ -6,11 +6,11 @@
 .heichel-os-document, .heichel-os-document body {
 	min-width: 0;
 	min-height: 100%;
-	color: var(--heichel-cosmic-text) !important;
+	color: var(--heichel-cosmic-text);
 	background:
 		radial-gradient(circle at 3% 28%, rgba(1, 161, 230, .2), transparent 24rem),
 		radial-gradient(circle at 97% 70%, rgba(163, 90, 255, .22), transparent 27rem),
-		linear-gradient(180deg, var(--heichel-cosmic-void), var(--heichel-cosmic-page) 54%, var(--heichel-cosmic-void)) !important;
+		linear-gradient(180deg, var(--heichel-cosmic-void), var(--heichel-cosmic-page) 54%, var(--heichel-cosmic-void));
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.heichel-os-document) :where(body)::before {
@@ -48,9 +48,9 @@
 	z-index: 1;
 }
 .heichel-os-document .heichel-page-container, .heichel-os-document .heichel-mobile-navigation {
-	max-width: none !important;
-	padding: 0 !important;
-	background: transparent !important;
+	max-width: none;
+	padding: 0;
+	background: transparent;
 }
 .heichel-os-document .geelooy-main-stage {
 	width: min(calc(100% - 2rem), var(--heichel-profile-width));

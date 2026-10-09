@@ -5,16 +5,16 @@
 /* The Awtsmoos contracts the giant landing card into a living profile identity. */
 .heichel-os-document .cosmic-heichel-profile {
 	position: relative;
-	display: grid !important;
-	grid-template-columns: 1fr !important;
-	gap: 0 !important;
-	min-height: 0 !important;
-	padding: 0 !important;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 0;
+	min-height: 0;
+	padding: 0;
 	overflow: hidden;
-	border: 1px solid rgba(80, 215, 255, .48) !important;
-	border-radius: var(--heichel-cosmic-radius) !important;
-	background: rgba(4, 12, 28, .91) !important;
-	box-shadow: var(--heichel-cosmic-shadow), inset 0 1px rgba(255, 255, 255, .06) !important;
+	border: 1px solid rgba(80, 215, 255, .48);
+	border-radius: var(--heichel-cosmic-radius);
+	background: rgba(4, 12, 28, .91);
+	box-shadow: var(--heichel-cosmic-shadow), inset 0 1px rgba(255, 255, 255, .06);
 	clip-path: polygon(0 0, calc(100% - 1rem) 0, 100% 1rem, 100% 100%, .8rem 100%, 0 calc(100% - .8rem));
 }
 .heichel-profile-cover {
@@ -35,25 +35,25 @@
 	margin-top: -3.15rem;
 }
 .heichel-os-document .heichel-seal {
-	width: clamp(5.6rem, 12vw, 7.7rem) !important;
-	height: clamp(5.6rem, 12vw, 7.7rem) !important;
-	margin: 0 !important;
-	border: 2px solid var(--heichel-cosmic-cyan-core) !important;
-	border-radius: 50% !important;
-	background: radial-gradient(circle, #0C2C5C, #04040C 72%) !important;
-	color: var(--heichel-cosmic-text) !important;
-	font-size: clamp(1.35rem, 4vw, 2rem) !important;
-	box-shadow: 0 0 1.8rem rgba(80, 215, 255, .42) !important;
+	width: clamp(5.6rem, 12vw, 7.7rem);
+	height: clamp(5.6rem, 12vw, 7.7rem);
+	margin: 0;
+	border: 2px solid var(--heichel-cosmic-cyan-core);
+	border-radius: 50%;
+	background: radial-gradient(circle, #0C2C5C, #04040C 72%);
+	color: var(--heichel-cosmic-text);
+	font-size: clamp(1.35rem, 4vw, 2rem);
+	box-shadow: 0 0 1.8rem rgba(80, 215, 255, .42);
 }
 .heichel-profile-copy {
 	min-width: 0;
 	padding-bottom: .35rem;
 }
 .heichel-os-document .hero-kicker {
-	margin: 0 0 .35rem !important;
-	color: var(--heichel-cosmic-cyan-core) !important;
-	border-color: rgba(80, 215, 255, .26) !important;
-	background: rgba(1, 161, 230, .1) !important;
+	margin: 0 0 .35rem;
+	color: var(--heichel-cosmic-cyan-core);
+	border-color: rgba(80, 215, 255, .26);
+	background: rgba(1, 161, 230, .1);
 }
 .heichel-profile-title-row {
 	display: flex;
@@ -61,13 +61,13 @@
 	gap: .5rem;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(.heichel-os-document) :where(#heichel-main-title) {
-	margin: 0 !important;
-	max-width: none !important;
-	color: var(--heichel-cosmic-text) !important;
-	font-size: clamp(2rem, 5vw, 3.75rem) !important;
-	line-height: 1 !important;
-	letter-spacing: -.045em !important;
+.heichel-os-document #heichel-main-title {
+	margin: 0;
+	max-width: none;
+	color: var(--heichel-cosmic-text);
+	font-size: clamp(2rem, 5vw, 3.75rem);
+	line-height: 1;
+	letter-spacing: -.045em;
 }
 .heichel-verification {
 	display: grid;
@@ -80,9 +80,9 @@
 	font-weight: 1000;
 }
 .heichel-os-document .hero-description {
-	margin: .55rem 0 0 !important;
-	max-width: 58rem !important;
-	color: var(--heichel-cosmic-secondary) !important;
-	font-size: clamp(.92rem, 1.6vw, 1.05rem) !important;
-	line-height: 1.5 !important;
+	margin: .55rem 0 0;
+	max-width: 58rem;
+	color: var(--heichel-cosmic-secondary);
+	font-size: clamp(.92rem, 1.6vw, 1.05rem);
+	line-height: 1.5;
 }

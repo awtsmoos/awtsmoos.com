@@ -9,8 +9,8 @@
  */
 @media (max-width: 55rem) { .heichel-os-document .cosmic-heichel-profile {
 		inline-size: 100%;
-		min-block-size: 0 !important;
-		border-radius: .9rem !important;
+		min-block-size: 0;
+		border-radius: .9rem;
 		clip-path: none;
 	} }
 @media (max-width: 55rem) { .heichel-os-document .heichel-profile-cover {
@@ -31,10 +31,10 @@
 		padding: 0 .75rem;
 	} }
 @media (max-width: 55rem) { .heichel-os-document .heichel-seal {
-		inline-size: 4rem !important;
-		block-size: 4rem !important;
-		font-size: 1rem !important;
-		box-shadow: 0 0 1rem rgba(80, 215, 255, .26) !important;
+		inline-size: 4rem;
+		block-size: 4rem;
+		font-size: 1rem;
+		box-shadow: 0 0 1rem rgba(80, 215, 255, .26);
 	} }
 @media (max-width: 55rem) { .heichel-os-document .heichel-profile-copy {
 		min-inline-size: 0;
@@ -51,8 +51,8 @@
 @media (max-width: 55rem) { :where(.heichel-os-document) :where(#heichel-main-title) {
 		min-inline-size: 0;
 		overflow: hidden;
-		font-size: clamp(1.35rem, 6vw, 1.7rem) !important;
-		line-height: 1.08 !important;
+		font-size: clamp(1.35rem, 6vw, 1.7rem);
+		line-height: 1.08;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	} }
@@ -63,17 +63,17 @@
 	} }
 @media (max-width: 55rem) { .heichel-os-document .hero-description {
 		display: -webkit-box;
-		margin: .22rem 0 0 !important;
+		margin: .22rem 0 0;
 		overflow: hidden;
-		font-size: .76rem !important;
-		line-height: 1.34 !important;
+		font-size: .76rem;
+		line-height: 1.34;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
 	} }
 @media (max-width: 55rem) { .heichel-os-document .heichel-profile-stats {
 		min-block-size: 0;
-		margin: .45rem .75rem 0 !important;
-		padding: .35rem 0 !important;
+		margin: .45rem .75rem 0;
+		padding: .35rem 0;
 	} }
 @media (max-width: 55rem) { .heichel-os-document .heichel-profile-stat {
 		gap: 0;
@@ -89,8 +89,8 @@
 	} }
 @media (max-width: 55rem) { .heichel-os-document .heichel-profile-actions {
 		gap: .5rem;
-		margin: 0 .75rem !important;
-		padding: .5rem 0 !important;
+		margin: 0 .75rem;
+		padding: .5rem 0;
 	} }
 @media (max-width: 55rem) { .heichel-os-document .heichel-profile-action {
 		min-block-size: 44px;

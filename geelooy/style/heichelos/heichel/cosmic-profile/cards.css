@@ -3,22 +3,22 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /* The Awtsmoos gives every real card a semantic source rail and luminous shell. */
-.heichel-os-document .nav-card {
+html .heichel-os-document .nav-card {
 	--source-accent: var(--heichel-cosmic-cyan-core);
 	position: relative;
-	display: grid !important;
-	grid-template-columns: 4.35rem minmax(0, 1fr) auto !important;
-	gap: .7rem !important;
+	display: grid;
+	grid-template-columns: 4.35rem minmax(0, 1fr) auto;
+	gap: .7rem;
 	align-items: center;
 	min-width: 0;
 	min-height: 8.3rem;
-	padding: 2.05rem .7rem .7rem !important;
+	padding: 2.05rem .7rem .7rem;
 	overflow: hidden;
-	color: var(--heichel-cosmic-text) !important;
-	border: 1px solid color-mix(in srgb, var(--source-accent) 58%, transparent) !important;
-	border-radius: .78rem !important;
-	background: linear-gradient(105deg, color-mix(in srgb, var(--source-accent) 9%, var(--heichel-cosmic-raised)), var(--heichel-cosmic-page) 68%, var(--heichel-cosmic-deep)) !important;
-	box-shadow: 0 .85rem 2.2rem rgba(0, 0, 0, .42), 0 0 1.2rem color-mix(in srgb, var(--source-accent) 13%, transparent) !important;
+	color: var(--heichel-cosmic-text);
+	border: 1px solid color-mix(in srgb, var(--source-accent) 58%, transparent);
+	border-radius: .78rem;
+	background: linear-gradient(105deg, color-mix(in srgb, var(--source-accent) 9%, var(--heichel-cosmic-raised)), var(--heichel-cosmic-page) 68%, var(--heichel-cosmic-deep));
+	box-shadow: 0 .85rem 2.2rem rgba(0, 0, 0, .42), 0 0 1.2rem color-mix(in srgb, var(--source-accent) 13%, transparent);
 	clip-path: polygon(0 0, calc(100% - .7rem) 0, 100% .7rem, 100% 100%, .55rem 100%, 0 calc(100% - .55rem));
 	contain: layout paint style;
 	content-visibility: auto;
@@ -72,26 +72,26 @@
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.heichel-os-document) .nav-card:hover, :where(.heichel-os-document) .nav-card:focus-within {
-	border-color: var(--source-accent) !important;
-	box-shadow: 0 1rem 2.8rem rgba(0, 0, 0, .48), 0 0 2rem color-mix(in srgb, var(--source-accent) 28%, transparent) !important;
+	border-color: var(--source-accent);
+	box-shadow: 0 1rem 2.8rem rgba(0, 0, 0, .48), 0 0 2rem color-mix(in srgb, var(--source-accent) 28%, transparent);
 	transform: translateY(-1px);
 }
-.heichel-os-document .nav-card-media {
+html .heichel-os-document .nav-card-media {
 	position: relative;
 	z-index: 1;
-	display: grid !important;
+	display: grid;
 	grid-column: 1;
-	width: 3.25rem !important;
-	height: 3.25rem !important;
+	width: 3.25rem;
+	height: 3.25rem;
 	place-items: center;
-	margin: 0 !important;
-	border: 1px solid var(--source-accent) !important;
-	border-radius: 50% !important;
-	background: radial-gradient(circle, color-mix(in srgb, var(--source-accent) 24%, var(--heichel-cosmic-panel)), var(--heichel-cosmic-void) 72%) !important;
-	box-shadow: 0 0 1rem color-mix(in srgb, var(--source-accent) 42%, transparent) !important;
+	margin: 0;
+	border: 1px solid var(--source-accent);
+	border-radius: 50%;
+	background: radial-gradient(circle, color-mix(in srgb, var(--source-accent) 24%, var(--heichel-cosmic-panel)), var(--heichel-cosmic-void) 72%);
+	box-shadow: 0 0 1rem color-mix(in srgb, var(--source-accent) 42%, transparent);
 }
 .heichel-os-document .nav-card-media span {
-	color: var(--heichel-cosmic-text) !important;
+	color: var(--heichel-cosmic-text);
 	font-size: 1rem;
 	font-weight: 900;
 }

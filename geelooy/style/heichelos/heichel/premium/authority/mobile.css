@@ -11,52 +11,52 @@
  * instrument while removing decorative height that belongs only on larger halls.
  */
 @media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .all {
-		padding-inline: 0 !important;
+		padding-inline: 0;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .geelooy-main-stage {
-		padding: .55rem .6rem max(1rem, env(safe-area-inset-bottom)) !important;
-		gap: .58rem !important;
+		padding: .55rem .6rem max(1rem, env(safe-area-inset-bottom));
+		gap: .58rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .geelooy-heichel-hero.cosmic-heichel-profile {
-		padding: .72rem !important;
-		gap: .48rem !important;
-		border-radius: 1rem !important;
+		padding: .72rem;
+		gap: .48rem;
+		border-radius: 1rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .heichel-nav-panel {
-		padding: .62rem !important;
-		border-radius: 1rem !important;
+@media (max-width: 48rem) { body.heichel-os-document[data-heichel-id="ikar"] .heichel-nav-panel {
+		padding: .62rem;
+		border-radius: 1rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .living-path-search-stack {
-		grid-template-columns: minmax(0, 1fr) !important;
-		padding: .5rem !important;
+		grid-template-columns: minmax(0, 1fr);
+		padding: .5rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .living-path-field {
-		display: grid !important;
-		grid-template-columns: auto minmax(0, 1fr) !important;
-		gap: .55rem !important;
-		align-items: center !important;
+@media (max-width: 48rem) { body.heichel-os-document[data-heichel-id="ikar"] .living-path-field {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: .55rem;
+		align-items: center;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .series-search-row {
-		grid-template-columns: minmax(0, 1fr) auto !important;
+		grid-template-columns: minmax(0, 1fr) auto;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .filter-chip {
-		inline-size: auto !important;
-		min-inline-size: 3rem !important;
+		inline-size: auto;
+		min-inline-size: 3rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .tab-gates .tab {
-		min-inline-size: max-content !important;
-		min-block-size: 2.75rem !important;
-		padding-inline: .72rem !important;
+		min-inline-size: max-content;
+		min-block-size: 2.75rem;
+		padding-inline: .72rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .nav-card {
-		padding: .8rem !important;
+		padding: .8rem;
 	} }

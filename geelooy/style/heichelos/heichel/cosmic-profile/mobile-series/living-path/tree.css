@@ -26,11 +26,11 @@
 .living-tree-node[aria-level="8"] { margin-inline-start: 2rem; }
 
 .tree-card {
-	border-color: rgba(91, 215, 255, .2) !important;
+	border-color: rgba(91, 215, 255, .2);
 }
 
 .tree-card::before {
-	background: linear-gradient(#66ecff, #40b9d1) !important;
+	background: linear-gradient(#66ecff, #40b9d1);
 }
 
 .series-expand-toggle[aria-expanded="true"] {

@@ -22,10 +22,10 @@
 .sacred-loading {
 	display: grid;
 	gap: .65rem;
-	min-block-size: 0 !important;
-	padding: 0 !important;
-	border: 0 !important;
-	background: transparent !important;
+	min-block-size: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
 }
 .living-path-skeleton {
 	display: grid;

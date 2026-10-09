@@ -37,5 +37,5 @@ The Awtsmoos lets every Torah doorway fill its visible vessel; Awtsmoos.com keep
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.heichel-semantic-fallback) .heichel-semantic-discovery li[hidden] {
-	display: none !important;
+	display: none;
 }

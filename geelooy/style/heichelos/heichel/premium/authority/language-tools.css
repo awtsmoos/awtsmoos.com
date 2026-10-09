@@ -11,7 +11,7 @@
  * lookup dominant, and keeps source choice and bounded dictionary browse clear.
  */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .custom-tool-page-active :is( .living-path-continue, .living-path-search-stack, .living-path-result-status, .living-path-translation-search, .tab-gates, .grid-realms, .living-path-related, .living-path-filter-sheet ) {
-	display: none !important;
+	display: none;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .custom-tool-page-active {
@@ -44,10 +44,10 @@
 	line-height: 1.45;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(body.heichel-os-document[data-heichel-id="ikar"]) .translation-hub-form {
-	grid-template-columns: minmax(0, 1fr) minmax(10rem, 13rem) auto !important;
-	gap: .6rem !important;
-	padding: .8rem !important;
+html :where(body.heichel-os-document[data-heichel-id="ikar"]) .translation-hub-form {
+	grid-template-columns: minmax(0, 1fr) minmax(10rem, 13rem) auto;
+	gap: .6rem;
+	padding: .8rem;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .translation-hub-input {
@@ -62,7 +62,7 @@
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .translation-hub-form {
-		grid-template-columns: minmax(0, 1fr) auto !important;
+		grid-template-columns: minmax(0, 1fr) auto;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .translation-hub-input {

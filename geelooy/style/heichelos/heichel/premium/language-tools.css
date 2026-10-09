@@ -33,7 +33,7 @@
 }
 .translation-hub-title {
 	margin: 0;
-	font-size: clamp(1.65rem, 5vw, 2.7rem) !important;
+	font-size: clamp(1.65rem, 5vw, 2.7rem);
 	line-height: 1.04;
 	letter-spacing: -0.035em;
 }

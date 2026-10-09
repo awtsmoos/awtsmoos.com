@@ -4,7 +4,7 @@
 /* Blessed is He */
 /* The Awtsmoos preserves one profile language across wide and narrow vessels. */
 @media (min-width: 70rem) { .heichel-os-document .geelooy-bottom-nav {
-		display: none !important;
+		display: none;
 	} }
 @media (min-width: 70rem) { .heichel-os-document .geelooy-main-stage {
 		padding-bottom: 2rem;
@@ -15,9 +15,9 @@
 		padding-bottom: 5.4rem;
 	} }
 @media (max-width: 55rem) { .heichel-os-document .cosmic-heichel-topbar {
-		grid-template-columns: auto minmax(0, 1fr) auto auto auto !important;
-		min-height: 4.1rem !important;
-		padding-inline: .62rem !important;
+		grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+		min-height: 4.1rem;
+		padding-inline: .62rem;
 	} }
 @media (max-width: 55rem) { .heichel-profile-cover {
 		height: 8.6rem;
@@ -28,20 +28,20 @@
 		padding-inline: .85rem;
 	} }
 @media (max-width: 55rem) { .heichel-os-document .heichel-seal {
-		width: 5.25rem !important;
-		height: 5.25rem !important;
+		width: 5.25rem;
+		height: 5.25rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 55rem) { :where(.heichel-os-document) :where(#heichel-main-title) {
-		font-size: clamp(1.85rem, 8vw, 2.75rem) !important;
+		font-size: clamp(1.85rem, 8vw, 2.75rem);
 	} }
 @media (max-width: 55rem) { .heichel-os-document .hero-description {
-		font-size: .88rem !important;
-		line-height: 1.42 !important;
+		font-size: .88rem;
+		line-height: 1.42;
 	} }
 @media (max-width: 55rem) { .heichel-os-document .heichel-profile-stats, .heichel-profile-actions {
-		margin-inline: .85rem !important;
-		padding-inline: 0 !important;
+		margin-inline: .85rem;
+		padding-inline: 0;
 	} }
 @media (max-width: 55rem) { .heichel-os-document .heichel-nav-panel {
 		padding: .62rem;
@@ -50,15 +50,15 @@
 		grid-template-columns: 1fr;
 	} }
 @media (max-width: 55rem) { .heichel-os-document .heichel-os-status-grid {
-		grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	} }
-@media (max-width: 55rem) { .heichel-os-document .nav-card {
-		grid-template-columns: 3.8rem minmax(0, 1fr) auto !important;
-		gap: .5rem !important;
+@media (max-width: 55rem) { html .heichel-os-document .nav-card {
+		grid-template-columns: 3.8rem minmax(0, 1fr) auto;
+		gap: .5rem;
 		min-height: 7.6rem;
-		padding: 1.9rem .55rem .62rem !important;
+		padding: 1.9rem .55rem .62rem;
 	} }
 @media (max-width: 55rem) { .heichel-os-document .nav-card-media {
-		width: 2.9rem !important;
-		height: 2.9rem !important;
+		width: 2.9rem;
+		height: 2.9rem;
 	} }

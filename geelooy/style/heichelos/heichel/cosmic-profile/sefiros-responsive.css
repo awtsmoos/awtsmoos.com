@@ -29,6 +29,6 @@
 	.heichel-merkavah,
 	.series-source-constellation,
 	.heichel-sefirah-node {
-		transition: none !important;
+		transition: none;
 	}
 }

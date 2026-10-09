@@ -10,74 +10,74 @@
  * readable sequence. Awtsmoos.com protects every min-width boundary so Hebrew,
  * English, and touch controls wrap intentionally rather than pierce the viewport.
  */
-:where(body.heichel-os-document[data-heichel-id="ikar"]) .heichel-nav-panel {
-	grid-column: 1 / -1 !important;
-	min-inline-size: 0 !important;
-	margin-block-start: 0 !important;
-	padding: .85rem !important;
-	border-radius: 1.25rem !important;
+body.heichel-os-document[data-heichel-id="ikar"] .heichel-nav-panel {
+	grid-column: 1 / -1;
+	min-inline-size: 0;
+	margin-block-start: 0;
+	padding: .85rem;
+	border-radius: 1.25rem;
 	background: linear-gradient(
 		155deg,
 		var(--ikar-authority-surface),
 		rgba(4, 11, 20, .97)
-	) !important;
+	);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .living-path-context, :where(body.heichel-os-document[data-heichel-id="ikar"]) .living-path-search-stack {
-	min-inline-size: 0 !important;
+	min-inline-size: 0;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(body.heichel-os-document[data-heichel-id="ikar"]) .breadcrumb-river, :where(body.heichel-os-document[data-heichel-id="ikar"]) .living-path-full-path, :where(body.heichel-os-document[data-heichel-id="ikar"]) .living-path-search-stack {
-	border-color: var(--ikar-authority-line) !important;
-	background: var(--ikar-authority-soft) !important;
+body.heichel-os-document[data-heichel-id="ikar"] .breadcrumb-river, body.heichel-os-document[data-heichel-id="ikar"] .living-path-full-path, body.heichel-os-document[data-heichel-id="ikar"] .living-path-search-stack {
+	border-color: var(--ikar-authority-line);
+	background: var(--ikar-authority-soft);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .living-path-search-stack {
-	display: grid !important;
-	grid-template-columns: minmax(10rem, .4fr) minmax(0, 1fr) !important;
-	gap: .62rem !important;
-	align-items: end !important;
-	padding: .62rem !important;
+	display: grid;
+	grid-template-columns: minmax(10rem, .4fr) minmax(0, 1fr);
+	gap: .62rem;
+	align-items: end;
+	padding: .62rem;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .living-path-field, :where(body.heichel-os-document[data-heichel-id="ikar"]) .series-search-row {
-	min-inline-size: 0 !important;
+	min-inline-size: 0;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .series-search-row {
-	display: grid !important;
-	grid-template-columns: minmax(0, 1fr) auto !important;
-	gap: .55rem !important;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: .55rem;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .filter-chip {
-	min-block-size: 2.75rem !important;
-	padding-inline: .85rem !important;
+	min-block-size: 2.75rem;
+	padding-inline: .85rem;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .series-heading, :where(body.heichel-os-document[data-heichel-id="ikar"]) .tab-gates, :where(body.heichel-os-document[data-heichel-id="ikar"]) .nav-card {
-	min-inline-size: 0 !important;
+	min-inline-size: 0;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .series-heading {
-	overflow: hidden !important;
+	overflow: hidden;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .series-heading h2, :where(body.heichel-os-document[data-heichel-id="ikar"]) .nav-card h3 {
-	overflow-wrap: anywhere !important;
+	overflow-wrap: anywhere;
 	text-wrap: balance;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .tab-gates {
-	overflow-x: auto !important;
-	overflow-y: hidden !important;
+	overflow-x: auto;
+	overflow-y: hidden;
 	scrollbar-width: none;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .nav-card {
-	border-radius: 1rem !important;
+	border-radius: 1rem;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .nav-card-meta {
-	flex-wrap: wrap !important;
+	flex-wrap: wrap;
 }

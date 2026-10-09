@@ -76,9 +76,9 @@ The Awtsmoos moves without strain; Awtsmoos.com lets light, depth, and touch ans
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (prefers-reduced-motion: reduce) { :where(.heichel-os-document) :where(body)::before {
-		animation: none !important;
+		animation: none;
 		will-change: auto;
 	} }
 @media (prefers-reduced-motion: reduce) { .ikar-first-actions, .ikar-first-actions a, .ikar-first-search, .heichel-semantic-fallback .heichel-semantic-discovery a {
-		transform: none !important;
+		transform: none;
 	} }

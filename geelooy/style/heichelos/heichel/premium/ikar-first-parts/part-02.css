@@ -71,14 +71,56 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 		-webkit-text-fill-color: transparent;
 	} }
 
-/* B"H — Yaakov 2026-10-08: series page headings must be visible in light theme */
-:where(:root[data-theme="light"]) #heichel-boot-title {
-  background: linear-gradient(100deg, #1a1206 8%, #2a4a5a 44%, #3a3a6a 72%, #4a2a6a 100%) !important;
-  -webkit-background-clip: text !important;
-  background-clip: text !important;
-  color: #1a1206 !important;
+/* B"H — Removed !important per CSS Law 1 (2026-10-09). See clean overrides below. */
+/* B"H — Light theme overrides for Ikar series page hero
+ * Fixes white-on-white for #heichel-boot-title (H1), .civilization-kicker (eyebrow),
+ * and .ikar-first-actions links in light theme.
+ * CSS Laws: no !important, explicit colors for both themes, token-based.
+ */
+
+/* Light theme: H1 gets solid dark text instead of light gradient */
+:where(:root[data-theme="light"]) :where(.heichel-semantic-fallback) :where(#heichel-boot-title) {
+	background: none;
+	-webkit-background-clip: border-box;
+	background-clip: border-box;
+	color: #1a2332;
+	-webkit-text-fill-color: #1a2332;
 }
-:where(:root[data-theme="light"]) .heichel-semantic-context,
-:where(:root[data-theme="light"]) .heichel-semantic-discovery h2 {
-  color: #1a1206 !important;
+
+/* Light theme: eyebrow kicker gets dark cyan instead of light cyan */
+:where(:root[data-theme="light"]) .heichel-semantic-fallback > .civilization-kicker {
+	color: #0b6e8f;
+}
+
+:where(:root[data-theme="light"]) .heichel-semantic-fallback > .civilization-kicker::before {
+	background: #0b6e8f;
+	box-shadow: 0 0 0 .28rem rgba(11, 110, 143, .12), 0 0 1.1rem rgba(11, 110, 143, .35);
+}
+
+/* Light theme: action pills get dark text */
+:where(:root[data-theme="light"]) .ikar-first-actions {
+	background: rgba(255, 255, 255, .85);
+	border-color: rgba(11, 110, 143, .25);
+}
+
+:where(:root[data-theme="light"]) .ikar-first-actions a {
+	color: #1a2332;
+}
+
+:where(:root[data-theme="light"]) .ikar-first-actions a[aria-current="page"] {
+	background: linear-gradient(110deg, rgba(11, 110, 143, .12), rgba(100, 80, 180, .14));
+	border-color: rgba(11, 110, 143, .4);
+	color: #0d1b2a;
+}
+
+:where(:root[data-theme="light"]) .ikar-first-actions a:hover,
+:where(:root[data-theme="light"]) .ikar-first-actions a:focus-visible {
+	background: rgba(11, 110, 143, .1);
+	border-color: rgba(11, 110, 143, .5);
+	color: #0d1b2a;
+}
+
+:where(:root[data-theme="light"]) .ikar-first-actions a:active {
+	color: #0d1b2a;
+	transform: translateY(0) scale(.97);
 }

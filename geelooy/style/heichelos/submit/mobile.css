@@ -39,8 +39,8 @@
   *,
   *::before,
   *::after {
-    animation: none !important;
-    transition-duration: .01ms !important;
+    animation: none;
+    transition-duration: .01ms;
   }
 
   :is(button, .btn, .action-button, .back-button-stylized):hover {

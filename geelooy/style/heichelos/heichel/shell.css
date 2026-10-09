@@ -43,5 +43,5 @@
   position: relative;
 }
 .heichel-mobile-navigation .hidden,
-.heichel-mobile-navigation .hidden-void { display: none !important; }
+.heichel-mobile-navigation .hidden-void { display: none; }
 @media (max-width: 560px) { .heichel-mobile-navigation { --heichel-topbar-height: 3.85rem; } }

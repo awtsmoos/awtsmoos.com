@@ -29,12 +29,12 @@
 		word-break: normal;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 55rem) { :where(.heichel-os-document) .nav-card[data-series-archetype]::before {
-		display: none !important;
-		content: none !important;
+@media (max-width: 55rem) { html :where(.heichel-os-document) .nav-card[data-series-archetype]::before {
+		display: none;
+		content: none;
 	} }
 @media (max-width: 55rem) { .series-source-constellation {
-		display: none !important;
+		display: none;
 	} }
 @media (max-width: 55rem) { .nav-card-actions {
 		position: relative;

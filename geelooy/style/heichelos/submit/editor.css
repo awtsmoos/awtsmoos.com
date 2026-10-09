@@ -37,7 +37,7 @@
 }
 
 .html-code-view {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important;
-  background: #050814 !important;
-  color: #d1fae5 !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  background: #050814;
+  color: #d1fae5;
 }

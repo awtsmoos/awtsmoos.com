@@ -18,64 +18,64 @@ body.heichel-os-document[data-heichel-id="ikar"] {
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .all {
-	inline-size: 100% !important;
-	max-inline-size: none !important;
-	margin-inline: 0 !important;
-	padding-inline: clamp(.55rem, 2vw, 2rem) !important;
-	background: transparent !important;
+	inline-size: 100%;
+	max-inline-size: none;
+	margin-inline: 0;
+	padding-inline: clamp(.55rem, 2vw, 2rem);
+	background: transparent;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .main, :where(body.heichel-os-document[data-heichel-id="ikar"]) .heichel-mobile-navigation {
-	inline-size: 100% !important;
-	max-inline-size: none !important;
-	min-inline-size: 0 !important;
+	inline-size: 100%;
+	max-inline-size: none;
+	min-inline-size: 0;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(body.heichel-os-document[data-heichel-id="ikar"]) .geelooy-main-stage {
-	display: grid !important;
-	grid-template-columns: minmax(0, 1fr) !important;
-	inline-size: min(100%, 84rem) !important;
-	max-inline-size: 84rem !important;
-	margin-inline: auto !important;
-	padding: 1rem 0 max(2rem, var(--ikar-dock-clearance, 1rem)) !important;
-	gap: 1rem !important;
+body.heichel-os-document[data-heichel-id="ikar"] .geelooy-main-stage {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	inline-size: min(100%, 84rem);
+	max-inline-size: 84rem;
+	margin-inline: auto;
+	padding: 1rem 0 max(2rem, var(--ikar-dock-clearance, 1rem));
+	gap: 1rem;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .geelooy-heichel-hero.cosmic-heichel-profile {
-	grid-column: 1 / -1 !important;
-	min-block-size: 0 !important;
-	padding: 1rem !important;
-	gap: .7rem !important;
-	border-radius: 1.3rem !important;
+	grid-column: 1 / -1;
+	min-block-size: 0;
+	padding: 1rem;
+	gap: .7rem;
+	border-radius: 1.3rem;
 	background:
 		radial-gradient(circle at 88% 0%, rgba(91, 215, 255, .14), transparent 34%),
-		linear-gradient(140deg, rgba(9, 26, 44, .98), rgba(5, 12, 23, .96)) !important;
+		linear-gradient(140deg, rgba(9, 26, 44, .98), rgba(5, 12, 23, .96));
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .geelooy-heichel-hero .heichel-profile-cover {
-	opacity: .22 !important;
+	opacity: .22;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .geelooy-heichel-hero .heichel-profile-identity {
-	min-inline-size: 0 !important;
-	gap: .72rem !important;
+	min-inline-size: 0;
+	gap: .72rem;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .geelooy-heichel-hero .heichel-profile-copy {
-	min-inline-size: 0 !important;
-	padding-block-start: 0 !important;
+	min-inline-size: 0;
+	padding-block-start: 0;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(body.heichel-os-document[data-heichel-id="ikar"]) :where(.geelooy-heichel-hero) :where(#heichel-main-title) {
-	font-size: clamp(1.55rem, 4vw, 2.45rem) !important;
-	line-height: 1.05 !important;
+body.heichel-os-document[data-heichel-id="ikar"] .geelooy-heichel-hero #heichel-main-title {
+	font-size: clamp(1.55rem, 4vw, 2.45rem);
+	line-height: 1.05;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .heichel-profile-compact-context {
-	margin: .15rem 0 0 !important;
-	color: var(--ikar-ink-soft, rgba(235, 246, 255, .72)) !important;
+	margin: .15rem 0 0;
+	color: var(--ikar-ink-soft, rgba(235, 246, 255, .72));
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .heichel-profile-details {
-	margin: 0 !important;
+	margin: 0;
 }

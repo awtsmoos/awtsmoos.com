@@ -14,12 +14,12 @@
 }
 
 .grouping-card {
-	border-color: rgba(160, 119, 255, .28) !important;
-	background: linear-gradient(145deg, rgba(23, 16, 52, .96), rgba(6, 11, 28, .98)) !important;
+	border-color: rgba(160, 119, 255, .28);
+	background: linear-gradient(145deg, rgba(23, 16, 52, .96), rgba(6, 11, 28, .98));
 }
 
 .grouping-card::before {
-	background: linear-gradient(#9e7cff, #dd6cc4) !important;
+	background: linear-gradient(#9e7cff, #dd6cc4);
 }
 
 .grouping-card .nav-card-media {

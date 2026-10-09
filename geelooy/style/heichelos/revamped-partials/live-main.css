@@ -107,7 +107,7 @@
 .viewport.hidden,
 .hidden,
 .hidden-void,
-.modal-gate-hidden { display: none !important; }
+.modal-gate-hidden { display: none; }
 .dynamic-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
@@ -148,7 +148,7 @@
     position: relative;
     min-height: 12rem;
     padding: 0;
-    overflow: visible !important;
+    overflow: visible;
     isolation: isolate;
     border: 1px solid rgba(42,37,30,.16);
     border-radius: 1.35rem;
@@ -173,7 +173,7 @@
     min-height: 12rem;
     padding: clamp(1rem, 2vw, 1.25rem) clamp(3.6rem, 9vw, 4.45rem) clamp(1rem, 2vw, 1.25rem) clamp(1rem, 2vw, 1.25rem);
     border-radius: inherit;
-    overflow: visible !important;
+    overflow: visible;
 }
 .card-wrapper h2 {
     margin: 0;
@@ -185,7 +185,7 @@
 }
 .card-wrapper p { margin: .75rem 0 0; color: #5f574e; line-height: 1.65; overflow-wrap: anywhere; }
 .card-social-actions,
-.card-social-action { display: none !important; }
+.card-social-action { display: none; }
 
 .card-menu-spark {
     position: absolute;
@@ -290,7 +290,7 @@
     .heichel-viewport-panel,
     .heichel-library-sidebar { border-radius: 1.25rem; }
     .dynamic-grid { grid-template-columns: 1fr; gap: .95rem; }
-    .card-wrapper.awtsmoos-card { min-height: 9rem; overflow: visible !important; }
+    .card-wrapper.awtsmoos-card { min-height: 9rem; overflow: visible; }
     .card-wrapper .post-card { min-height: 9rem; padding-inline-end: 4.2rem; }
     .card-menu-spark { top: .65rem; inset-inline-end: .65rem; }
     .card-menu-spark.open { position: fixed; inset: auto max(.75rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(.75rem, env(safe-area-inset-left)); z-index: 2147483000; place-items: stretch; }

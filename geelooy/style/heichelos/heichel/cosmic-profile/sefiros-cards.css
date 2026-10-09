@@ -46,11 +46,11 @@
 }
 
 .nav-card[data-olam="atzilus"] {
-	box-shadow: 0 .9rem 2.4rem rgba(0, 0, 0, .45), 0 0 1.7rem color-mix(in srgb, var(--source-accent) 23%, transparent) !important;
+	box-shadow: 0 .9rem 2.4rem rgba(0, 0, 0, .45), 0 0 1.7rem color-mix(in srgb, var(--source-accent) 23%, transparent);
 }
 
 .nav-card[data-olam="beriah"] {
-	background: linear-gradient(112deg, color-mix(in srgb, var(--source-accent) 13%, var(--heichel-cosmic-raised)), var(--heichel-cosmic-page) 70%) !important;
+	background: linear-gradient(112deg, color-mix(in srgb, var(--source-accent) 13%, var(--heichel-cosmic-raised)), var(--heichel-cosmic-page) 70%);
 }
 
 .nav-card[data-olam="yetzirah"] {

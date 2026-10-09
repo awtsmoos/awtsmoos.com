@@ -20,11 +20,11 @@ body.heichel-os-document :where(.field-label, label[for]):not(.sr-only), body.he
 body.heichel-os-document :where(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]), select, textarea), body.heichel-os-page :where(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]), select, textarea) {
 	min-block-size: 46px;
 	padding: .72rem .85rem;
-	border: 1px solid var(--heichel-line) !important;
-	border-radius: var(--radius-m) !important;
-	background: var(--heichel-panel) !important;
-	box-shadow: none !important;
-	color: var(--heichel-ink) !important;
+	border: 1px solid var(--heichel-line);
+	border-radius: var(--radius-m);
+	background: var(--heichel-panel);
+	box-shadow: none;
+	color: var(--heichel-ink);
 	font: inherit;
 	font-size: max(1rem, 16px);
 	line-height: 1.4;
@@ -32,12 +32,12 @@ body.heichel-os-document :where(input:not([type="checkbox"]):not([type="radio"])
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document) :where(input, textarea)::placeholder, :where(body.heichel-os-page) :where(input, textarea)::placeholder {
-	color: var(--heichel-muted-ink) !important;
+	color: var(--heichel-muted-ink);
 	opacity: 1;
 }
 body.heichel-os-document :where(input, select, textarea):focus-visible, body.heichel-os-page :where(input, select, textarea):focus-visible {
-	border-color: var(--heichel-cyan) !important;
-	box-shadow: 0 0 0 3px color-mix(in srgb, var(--heichel-cyan) 20%, transparent) !important;
+	border-color: var(--heichel-cyan);
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--heichel-cyan) 20%, transparent);
 }
 body.heichel-os-document :where(input, select, textarea):disabled, body.heichel-os-page :where(input, select, textarea):disabled {
 	cursor: not-allowed;

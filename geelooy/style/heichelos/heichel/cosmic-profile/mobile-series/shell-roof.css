@@ -7,35 +7,35 @@
  * keeps their touch size while refusing the oversized roof seen in the screenshot.
  */
 @media (max-width: 55rem) { .heichel-os-document .g-unusual-header {
-		inset-block-start: max(.35rem, env(safe-area-inset-top)) !important;
-		inset-inline: .4rem !important;
-		inline-size: auto !important;
-		min-block-size: 3.55rem !important;
-		grid-template-columns: auto minmax(0, 1fr) !important;
-		gap: .35rem !important;
-		padding: .35rem .4rem !important;
-		border-radius: 1rem !important;
-		box-shadow: 0 .8rem 2rem rgba(0, 0, 0, .45), inset 0 1px rgba(255, 255, 255, .06) !important;
+		inset-block-start: max(.35rem, env(safe-area-inset-top));
+		inset-inline: .4rem;
+		inline-size: auto;
+		min-block-size: 3.55rem;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: .35rem;
+		padding: .35rem .4rem;
+		border-radius: 1rem;
+		box-shadow: 0 .8rem 2rem rgba(0, 0, 0, .45), inset 0 1px rgba(255, 255, 255, .06);
 		backdrop-filter: blur(14px) saturate(125%);
 	} }
 @media (max-width: 55rem) { .heichel-os-document .g-header-brand {
-		max-inline-size: 3rem !important;
+		max-inline-size: 3rem;
 	} }
 @media (max-width: 55rem) { .heichel-os-document .g-bh-jewel {
-		inline-size: 2.65rem !important;
-		block-size: 2.65rem !important;
-		flex-basis: 2.65rem !important;
+		inline-size: 2.65rem;
+		block-size: 2.65rem;
+		flex-basis: 2.65rem;
 	} }
 @media (max-width: 55rem) { .heichel-os-document .g-header-actions {
 		min-inline-size: 0;
-		gap: .3rem !important;
+		gap: .3rem;
 	} }
 @media (max-width: 55rem) { .heichel-os-document .g-header-profile {
-		min-inline-size: 7.25rem !important;
-		max-inline-size: 8.75rem !important;
+		min-inline-size: 7.25rem;
+		max-inline-size: 8.75rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 55rem) { :where(.heichel-os-document) .g-header-profile .profile-trigger {
-		min-block-size: 44px !important;
-		padding-inline: .55rem !important;
+		min-block-size: 44px;
+		padding-inline: .55rem;
 	} }

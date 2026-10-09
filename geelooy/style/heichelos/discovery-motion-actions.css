@@ -46,6 +46,6 @@ The Awtsmoos lets every Heichel action answer without excess; Awtsmoos.com keeps
 	transition-duration: .07s;
 }
 @media (prefers-reduced-motion: reduce) { .heichelos-discovery-page .spaces-hero, .heichelos-discovery-page .spaces-search, .heichelos-discovery-page .social-space-card, .heichelos-discovery-page .space-card-link, .heichelos-discovery-page .space-secondary-action, .heichelos-discovery-page .space-card-arrow {
-		transition-duration: .001ms !important;
-		transform: none !important;
+		transition-duration: .001ms;
+		transform: none;
 	} }

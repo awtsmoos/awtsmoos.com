@@ -15,7 +15,7 @@
   .heichel-mobile-navigation .geelooy-main-stage { padding-inline: .7rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .001ms !important; animation-duration: .001ms !important; animation-iteration-count: 1 !important; }
+  *, *::before, *::after { scroll-behavior: auto; transition-duration: .001ms; animation-duration: .001ms; animation-iteration-count: 1; }
 }
 @media (prefers-contrast: more) {
   .nav-card, .heichel-nav-panel, .geelooy-heichel-hero, .tab-gates { border-color: rgba(36,22,11,.48); }

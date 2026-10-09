@@ -47,12 +47,12 @@
 	.geelooy-heichel-hero,
 	.heichel-nav-panel,
 	.heichel-os-world-panel {
-		animation: none !important;
+		animation: none;
 	}
 
 	:where(.nav-card, .post-card, .series-card, .geelooy-bottom-nav button, .translation-hub-submit) {
-		transition: none !important;
-		transform: none !important;
+		transition: none;
+		transform: none;
 	}
 }
 

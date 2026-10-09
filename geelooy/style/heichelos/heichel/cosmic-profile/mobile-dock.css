@@ -8,47 +8,47 @@
  * clears inherited centering transforms, and keeps five local actions above the safe-area edge where thumb, focus, and content can explore.
  */
 @media (max-width: 55rem) { body.heichel-os-document .g-dock {
-		display: none !important;
+		display: none;
 	} }
 @media (max-width: 55rem) { .heichel-os-document .geelooy-bottom-nav {
-		position: fixed !important;
-		right: .65rem !important;
-		bottom: max(.45rem, env(safe-area-inset-bottom)) !important;
-		left: .65rem !important;
-		z-index: 1100 !important;
-		display: grid !important;
-		grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-		gap: .18rem !important;
-		min-height: 4.25rem !important;
-		padding: .35rem !important;
-		transform: none !important;
-		border: 1px solid rgba(80, 215, 255, .22) !important;
-		border-radius: 1rem !important;
-		background: rgba(4, 4, 12, .92) !important;
-		box-shadow: 0 -1rem 2.7rem rgba(0, 0, 0, .48) !important;
+		position: fixed;
+		right: .65rem;
+		bottom: max(.45rem, env(safe-area-inset-bottom));
+		left: .65rem;
+		z-index: 1100;
+		display: grid;
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+		gap: .18rem;
+		min-height: 4.25rem;
+		padding: .35rem;
+		transform: none;
+		border: 1px solid rgba(80, 215, 255, .22);
+		border-radius: 1rem;
+		background: rgba(4, 4, 12, .92);
+		box-shadow: 0 -1rem 2.7rem rgba(0, 0, 0, .48);
 		backdrop-filter: blur(1rem);
 	} }
 @media (max-width: 55rem) { .heichel-os-document .geelooy-bottom-nav a, .heichel-os-document .geelooy-bottom-nav button {
-		min-width: 0 !important;
-		min-height: 3.45rem !important;
-		padding: .25rem !important;
-		color: var(--heichel-cosmic-secondary) !important;
-		border: 0 !important;
-		border-radius: .7rem !important;
-		background: transparent !important;
-		font-size: .64rem !important;
+		min-width: 0;
+		min-height: 3.45rem;
+		padding: .25rem;
+		color: var(--heichel-cosmic-secondary);
+		border: 0;
+		border-radius: .7rem;
+		background: transparent;
+		font-size: .64rem;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 55rem) { :where(.heichel-os-document) .geelooy-bottom-nav .is-create {
-		color: var(--heichel-cosmic-text) !important;
-		background: linear-gradient(135deg, rgba(52, 155, 255, .28), rgba(218, 97, 194, .28)) !important;
+		color: var(--heichel-cosmic-text);
+		background: linear-gradient(135deg, rgba(52, 155, 255, .28), rgba(218, 97, 194, .28));
 		box-shadow: inset 0 -2px var(--heichel-cosmic-cyan-core);
 	} }
 @media (max-width: 35rem) { .heichel-brand-word, .heichel-os-document .topbar-title small, .heichel-os-document .topbar-mail-gate {
-		display: none !important;
+		display: none;
 	} }
 @media (max-width: 35rem) { .heichel-os-document .cosmic-heichel-topbar {
-		grid-template-columns: auto minmax(0, 1fr) auto auto !important;
+		grid-template-columns: auto minmax(0, 1fr) auto auto;
 	} }
 @media (max-width: 35rem) { .heichel-os-document .nav-card-body > p {
 		display: -webkit-box;

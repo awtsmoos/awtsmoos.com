@@ -10,7 +10,7 @@
  * a dedicated workspace vessel while neutralizing legacy text-only clamping.
  */
 body.heichel-os-document[data-heichel-id="ikar"] .awtsmoos-platform-panel {
-	display: none !important;
+	display: none;
 }
 
 body.heichel-os-document[data-heichel-id="ikar"] .heichel-nav-panel:has(
@@ -21,16 +21,16 @@ body.heichel-os-document[data-heichel-id="ikar"] .heichel-nav-panel:has(
 	.tab-gates,
 	.grid-realms
 ) {
-	display: none !important;
+	display: none;
 }
 
 body.heichel-os-document[data-heichel-id="ikar"] .heichel-nav-panel:has(
 	.translation-hub-search
 ) .series-heading {
-	grid-template-columns: minmax(0, 1fr) !important;
-	align-items: start !important;
-	padding: .8rem !important;
-	overflow: visible !important;
+	grid-template-columns: minmax(0, 1fr);
+	align-items: start;
+	padding: .8rem;
+	overflow: visible;
 }
 
 body.heichel-os-document[data-heichel-id="ikar"] .series-heading:has(
@@ -39,24 +39,24 @@ body.heichel-os-document[data-heichel-id="ikar"] .series-heading:has(
 body.heichel-os-document[data-heichel-id="ikar"] .series-heading:has(
 	.translation-hub-form
 )::before {
-	display: none !important;
-	content: none !important;
+	display: none;
+	content: none;
 }
 
 body.heichel-os-document[data-heichel-id="ikar"] .series-heading:has(
 	.translation-hub-form
 ) > p:not(.series-label) {
-	display: block !important;
-	inline-size: 100% !important;
-	max-inline-size: none !important;
-	block-size: auto !important;
-	min-block-size: 0 !important;
-	margin: 0 !important;
-	padding: 0 !important;
-	overflow: visible !important;
-	white-space: normal !important;
-	-webkit-line-clamp: unset !important;
-	-webkit-box-orient: initial !important;
+	display: block;
+	inline-size: 100%;
+	max-inline-size: none;
+	block-size: auto;
+	min-block-size: 0;
+	margin: 0;
+	padding: 0;
+	overflow: visible;
+	white-space: normal;
+	-webkit-line-clamp: unset;
+	-webkit-box-orient: initial;
 }
 
 body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-intro {
@@ -66,28 +66,28 @@ body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-intro {
 }
 
 body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-kicker {
-	margin: 0 0 .2rem !important;
-	padding: 0 !important;
-	color: #74e6ff !important;
-	font-size: .7rem !important;
+	margin: 0 0 .2rem;
+	padding: 0;
+	color: #74e6ff;
+	font-size: .7rem;
 	font-weight: 850;
 	letter-spacing: .12em;
 	text-transform: uppercase;
 }
 
 body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-title {
-	margin: 0 !important;
-	padding: 0 !important;
-	font-size: clamp(1.45rem, 3vw, 2rem) !important;
-	line-height: 1.05 !important;
+	margin: 0;
+	padding: 0;
+	font-size: clamp(1.45rem, 3vw, 2rem);
+	line-height: 1.05;
 	text-wrap: balance;
 }
 
 body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-intro-copy {
-	margin: .4rem 0 0 !important;
-	padding: 0 !important;
-	color: rgba(231, 241, 255, .72) !important;
-	line-height: 1.45 !important;
+	margin: .4rem 0 0;
+	padding: 0;
+	color: rgba(231, 241, 255, .72);
+	line-height: 1.45;
 }
 
 body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-search,
@@ -97,8 +97,8 @@ body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-browse {
 }
 
 body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-source {
-	background: rgba(16, 31, 48, .96) !important;
-	color: #eef7ff !important;
+	background: rgba(16, 31, 48, .96);
+	color: #eef7ff;
 }
 
 body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-source option {
@@ -110,6 +110,6 @@ body.heichel-os-document[data-heichel-id="ikar"] .translation-hub-source option 
 	body.heichel-os-document[data-heichel-id="ikar"] .heichel-nav-panel:has(
 		.translation-hub-search
 	) .series-heading {
-		padding: .7rem !important;
+		padding: .7rem;
 	}
 }

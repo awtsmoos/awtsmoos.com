@@ -3,7 +3,7 @@
 .heichel-os-document .heichel-mobile-navigation { background: transparent; }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.heichel-os-document) :where(.geelooy-heichel-hero) :where(#heichel-main-title), :where(.heichel-os-document) :where(#heichel-main-title) {
-  color: #ffffff !important;
+  color: #ffffff;
   font-size: clamp(2.8rem, 8vw, 5.5rem);
   letter-spacing: -.055em;
   line-height: .9;

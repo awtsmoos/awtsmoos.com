@@ -8,36 +8,36 @@
  * Awtsmoos.com keeps search, scope, status, and action hierarchy luminous instead of letting night swallow the thread.
  */
 @media (max-width: 55rem) { body.heichel-os-document .living-path-search-stack :where(.field-label, label), :where(body.heichel-os-document) .living-path-search-stack .living-path-field span, body.heichel-os-document .living-path-result-status {
-		color: #c9d9ea !important;
+		color: #c9d9ea;
 	} }
 @media (max-width: 55rem) { body.heichel-os-document .living-path-search-stack :where(select, input), body.heichel-os-document .series-search-row :where(input, select) {
-		border-color: rgba(117, 218, 255, .28) !important;
-		background: rgba(6, 18, 35, .96) !important;
-		color: #f6fbff !important;
+		border-color: rgba(117, 218, 255, .28);
+		background: rgba(6, 18, 35, .96);
+		color: #f6fbff;
 		-webkit-text-fill-color: #f6fbff;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 55rem) { :where(body.heichel-os-document) .living-path-search-stack :where(input, textarea)::placeholder, :where(body.heichel-os-document) :where(.series-search-row) :where(input)::placeholder {
-		color: #aabbd0 !important;
-		opacity: 1 !important;
+		color: #aabbd0;
+		opacity: 1;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 55rem) { :where(body.heichel-os-document) .living-path-result-status span:first-child {
-		color: #e9f4ff !important;
+		color: #e9f4ff;
 		font-weight: 800;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 55rem) { :where(body.heichel-os-document) .living-path-result-status span:last-child {
-		color: #9feaff !important;
+		color: #9feaff;
 		font-weight: 750;
 	} }
 @media (max-width: 55rem) { body.heichel-os-document .filter-chip {
-		border-color: rgba(91, 222, 255, .42) !important;
-		background: rgba(9, 29, 52, .94) !important;
-		color: #edfaff !important;
+		border-color: rgba(91, 222, 255, .42);
+		background: rgba(9, 29, 52, .94);
+		color: #edfaff;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 55rem) { :where(body.heichel-os-document) .filter-chip:focus-visible, :where(body.heichel-os-document) .series-search-row :where(input, select):focus-visible, :where(body.heichel-os-document) .living-path-search-stack select:focus-visible {
-		border-color: #69e4ff !important;
-		box-shadow: 0 0 0 3px rgba(105, 228, 255, .2) !important;
+		border-color: #69e4ff;
+		box-shadow: 0 0 0 3px rgba(105, 228, 255, .2);
 	} }

@@ -19,4 +19,4 @@
 .social-empty-card a { justify-self: center; border-radius: .9rem; padding: .78rem 1rem; background: linear-gradient(135deg, #5c3414, #9b6a2f); color: #fffaf1; font-weight: 900; }
 .social-spaces-shell :is(a, button):focus-visible { outline: .18rem solid #f5ca70; outline-offset: .18rem; box-shadow: 0 0 0 .3rem rgba(245,202,112,.25); }
 @media (max-width: 680px) { .spaces-command-row { display: grid; justify-content: stretch; } .spaces-secondary { text-align: center; } .space-body { grid-template-columns: 1fr; } .social-space-card:hover { transform: none; } }
-@media (prefers-reduced-motion: reduce) { .social-spaces-shell * { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; } .social-space-card:hover { transform: none; } .social-space-card::after { display: none; } }
+@media (prefers-reduced-motion: reduce) { .social-spaces-shell * { scroll-behavior: auto; transition-duration: .01ms; animation-duration: .01ms; } .social-space-card:hover { transform: none; } .social-space-card::after { display: none; } }
