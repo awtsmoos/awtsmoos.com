@@ -243,7 +243,7 @@
    (Legacy container — kept for any non-interleaved render path.) */
 .meluket-sefer-active .meluket-hebrew {
 	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
-	font-size: clamp(3.2rem, 9vw, 5.2rem);
+	font-size: clamp(2rem, 5.2vw, 2.8rem);
 	line-height: 1.9;
 	color: var(--sefer-ink);
 	text-align: justify;
