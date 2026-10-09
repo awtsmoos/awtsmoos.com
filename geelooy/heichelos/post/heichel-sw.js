@@ -3,7 +3,7 @@
 // deleted automatically on activate. HTML is network-first (always fresh).
 // CSS/JS are cache-first with background revalidation.
 
-const CACHE_VERSION = 'heichel-reader-v3';
+const CACHE_VERSION = 'heichel-reader-v4';
 const STATIC_CACHE = CACHE_VERSION + '-static';
 const PAGES_CACHE = CACHE_VERSION + '-pages';
 
