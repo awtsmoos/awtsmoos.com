@@ -633,6 +633,7 @@ function parseSource(source) {
 	const dataBlobs = [];   // { label, bytes }
 	const dataLabels = {};  // name -> index into dataBlobs
 	const dataRelocs = [];  // { blobIndex, target } 64-bit absolute slots in data
+	const externals = new Set();  // `.extern` names: may stay undefined for the linker
 	let section = "text";
 	let dataBytes = [];
 	let dataLabel = null;
@@ -668,8 +669,14 @@ function parseSource(source) {
 				if (section === "data") {
 					while (dataBytes.length % n !== 0) dataBytes.push(0);
 				}
-			} else if (dir === ".globl" || dir === ".global" || dir === ".extern") {
+			} else if (dir === ".globl" || dir === ".global") {
 				// accepted, ignored
+			} else if (dir === ".extern") {
+				const name = parts[1] || "";
+				if (!/^[a-zA-Z_.][\w$.]*$/.test(name)) {
+					throw new Error(`Bad .extern name (line ${ln + 1}): ${line}`);
+				}
+				externals.add(name);
 			} else {
 				throw new Error(`Unknown directive (line ${ln + 1}): ${line}`);
 			}
@@ -743,7 +750,7 @@ function parseSource(source) {
 		}
 	}
 	flushData();
-	return { builder: b, dataBlobs, dataLabels, dataRelocs };
+	return { builder: b, dataBlobs, dataLabels, dataRelocs, externals };
 }
 
 // --- Patch resolution --------------------------------------------------------
@@ -753,7 +760,7 @@ function parseSource(source) {
  * Returns { bytes, symbols, relocations }.
  */
 function resolveAll(parsed) {
-	const { builder: b, dataBlobs, dataLabels, dataRelocs } = parsed;
+	const { builder: b, dataBlobs, dataLabels, dataRelocs, externals } = parsed;
 	const codeSize = b.words.length * 4;
 
 	// Data base: word-aligned right after code.
@@ -767,16 +774,20 @@ function resolveAll(parsed) {
 	const totalSize = cursor;
 	const bytes = new Uint8Array(totalSize);
 
-	const targetOffset = (name) => {
+	const targetOffset = (name, pc) => {
 		if (b.labels[name] !== undefined) return { off: b.labels[name], code: true };
 		if (dataLabels[name] !== undefined) return { off: dataOffsets[dataLabels[name]], code: false };
+		// External: placeholder encodes a valid zero-displacement instruction;
+		// the linker re-encodes it against the real target (another object or
+		// a PLT stub) and the relocation below is what carries the reference.
+		if (externals.has(name)) return { off: pc, code: true };
 		throw new Error(`Undefined label: ${name}`);
 	};
 
 	const relocations = [];
 	for (const p of b.patches) {
 		const pc = p.wordIndex * 4;
-		const t = targetOffset(p.target);
+		const t = targetOffset(p.target, pc);
 		let word;
 		switch (p.kind) {
 			case "b": {

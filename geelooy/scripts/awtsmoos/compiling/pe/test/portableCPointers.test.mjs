@@ -53,14 +53,22 @@ test("executes scalar pointer programs on Linux and macOS", async () => {
 	}
 });
 
-test("rejects pointer arithmetic before machine-code emission", async () => {
-	await assert.rejects(
-		compilePortableCProgram(
-			"int main(){int x=1;int *p=&x;return *(p+1);}",
-			"linux-x64-static"
-		),
-		error => error.code === "PORTABLE_C_POINTER_ARITHMETIC_UNSUPPORTED"
-	);
+test("compiles cell-scaled pointer arithmetic to machine code", async () => {
+	for (const targetId of ["linux-x64-static", "macos-x64"]) {
+		const compiled = await compilePortableCProgram(
+			"int main(){int a[3];a[0]=10;a[1]=20;a[2]=30;int *p=a;return *(p+1)+*(p+2)-(p-a);}",
+			targetId
+		);
+		const outcome = await runExecutableArtifact({
+			bytes: compiled.bytes,
+			extension: compiled.extension,
+			host: createRecordingHost(),
+			instructionLimit: 300000
+		});
+		assert.equal(outcome.result.executionClass, "instruction-subset-emulation");
+		// (20 + 30) - 0 = 50: p+1 and p+2 scale by the 8-byte cell, p-a is 0
+		assert.equal(outcome.result.exitCode, 50);
+	}
 });
 
 test("rejects nonconstant global initializers in the parser", async () => {

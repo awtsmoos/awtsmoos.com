@@ -42,11 +42,12 @@ export function lowerExpression(expression, context) {
 			return lowerMemberExpression(expression, context, lowerExpression);
 		}
 		const left = lowerExpression(expression.left, context);
+		const right = lowerExpression(expression.right, context);
 		return irNode("binary", {
 			left,
 			operator: expression.op,
-			right: lowerExpression(expression.right, context),
-			valueType: comparisonType(expression.op, left.valueType, context)
+			right,
+			valueType: arithmeticType(expression.op, left.valueType, right.valueType, context)
 		});
 	}
 	if (expression.type === "index") {
@@ -100,10 +101,23 @@ function lowerCall(expression, context) {
 	});
 }
 
-function comparisonType(operator, fallback, context) {
-	return ["==", "!=", "<", ">", "<=", ">=", "&&", "||"].includes(operator)
-		? context.types.baseType("int")
-		: fallback;
+function arithmeticType(operator, leftType, rightType, context) {
+	if (["==", "!=", "<", ">", "<=", ">=", "&&", "||"].includes(operator)) {
+		return context.types.baseType("int");
+	}
+	const leftPointer = isPointerLike(leftType);
+	const rightPointer = isPointerLike(rightType);
+	if (operator === "-" && leftPointer && rightPointer) {
+		return context.types.baseType("int");
+	}
+	if ((operator === "+" || operator === "-") && (leftPointer || rightPointer)) {
+		return leftPointer ? leftType : rightType;
+	}
+	return leftType;
+}
+
+function isPointerLike(type) {
+	return type?.kind === "pointer" || type?.kind === "array";
 }
 
 function irNode(kind, fields) {
