@@ -8,6 +8,7 @@ import { createFrameworkAndroidSettingsMethods } from "./frameworkAndroidSetting
 import { createFrameworkConstructors } from "./frameworkConstructors.js";
 import { createFrameworkFlutterJniBootstrapMethods } from "./frameworkFlutterJniBootstrapMethods.js";
 import { createFrameworkFlutterJniMethods } from "./frameworkFlutterJNI.js";
+import { createFrameworkFirebaseProviderMethods } from "./frameworkFirebaseProviders.js";
 import { createFrameworkFlutterPlatformMessageMethods } from "./frameworkFlutterPlatformMessages.js";
 import { createFrameworkNetworkMethods } from "./frameworkNetwork.js";
 import { createFrameworkMessengerMethods } from "./frameworkMessengers.js";
@@ -29,6 +30,7 @@ export function createFrameworkAndroidCorePlatformFamilies(olamRuntime) {
 		createFrameworkFlutterJniBootstrapMethods(olamRuntime),
 		createFrameworkNetworkMethods(olamRuntime),
 		createFrameworkMessengerMethods(olamRuntime),
+		createFrameworkFirebaseProviderMethods(olamRuntime),
 		createFrameworkConstructors(olamRuntime),
 		createFrameworkAndroidSettingsMethods(olamRuntime),
 		createFrameworkAndroidDateFormatMethods(olamRuntime),
