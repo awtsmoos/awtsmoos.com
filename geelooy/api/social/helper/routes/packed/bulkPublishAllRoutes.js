@@ -192,6 +192,14 @@ class BulkPublishAllRoutes extends PackedBulkImportRoutes {
 		if (bad) return bad;
 		const auth = this.checkAuth();
 		if (auth) return auth;
+		// OOM guard: refuse new jobs when the heap is already hot.
+		// (Shares the guard with the parent bulkImportRoutes module.)
+		try {
+			const mu = process.memoryUsage();
+			if (mu.heapUsed > 1200 * 1024 * 1024) {
+				return { success: false, error: 'SERVER_MEMORY_HIGH', message: 'Server heap is above the safe threshold for new import jobs. Retry shortly.' };
+			}
+		} catch (_) { /* ignore */ }
 		const uploadId = String(body.uploadId || requestValue(this.$i, 'uploadId') || '');
 		if (!UPLOAD_ID_RE.test(uploadId)) {
 			return { success: false, error: 'BAD_UPLOAD_ID', message: 'uploadId must match [A-Za-z0-9_-]{8,64}.' };

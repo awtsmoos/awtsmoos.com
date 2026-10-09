@@ -91,6 +91,37 @@ function runningJob() {
 
 function yieldTick() { return new Promise(resolve => setImmediate(resolve)); }
 
+// ---------------------------------------------------------------------------
+// OOM guards (2026-10-09 fix for the 2026-09-30 bulk-import quarantine).
+//
+// The 1.9 GB production Node server was OOM-killed by POSTs carrying large
+// inline `items` arrays: the JSON body parses to 3-5x its wire size in JS
+// objects, then gets copied into job.spec.items, comments[], merged[], and
+// the serialized output — 4-5x memory amplification on top of the ~1 GB
+// baseline. The publishAll path (chunked /stage upload + one-file-at-a-time
+// streaming) is the blessed path for large imports and is NOT gated here.
+// ---------------------------------------------------------------------------
+const INLINE_ITEMS_MAX_COUNT = 2000;          // hard cap on inline items per perPost job
+const INLINE_ITEMS_MAX_BYTES = 2 * 1024 * 1024; // 2 MB estimated wire size cap
+const HEAP_GUARD_BYTES = 1200 * 1024 * 1024;    // refuse new jobs above 1.2 GB heap
+
+function heapTooHigh() {
+	try {
+		const mu = process.memoryUsage();
+		return mu.heapUsed > HEAP_GUARD_BYTES;
+	} catch (_) {
+		return false;
+	}
+}
+
+function memoryGuardError() {
+	return {
+		success: false,
+		error: 'SERVER_MEMORY_HIGH',
+		message: 'Server heap is above the safe threshold for new import jobs. Retry shortly.',
+	};
+}
+
 function jobLogPath($i) {
 	const dir = $i?.db?.directory || $i?.db?.root || process.env.AWTSMOOS_DBROOT || '/mnt/HC_Volume_102267213/dayuhChadash';
 	return path.join(dir, 'socialPacked', 'bulk-import-jobs.log');
@@ -309,9 +340,18 @@ class PackedBulkImportRoutes {
 			job.errors.push({ message: 'INDEX_LS_FAILED: ' + e.message });
 			return 'failed';
 		}
+		// OOM guard: the index is a single in-memory object + one serialized
+		// string. Abort cleanly if the heap gets hot mid-build rather than
+		// OOM-killing the server. The index is a read fallback only; the
+		// primary lookup (alias parsed from comment ID -> per-post file)
+		// works without it.
 		for (const alias of aliases) {
 			if (job.cancelRequested) return 'cancelled';
 			if (String(alias).startsWith('_')) continue;
+			if (heapTooHigh()) {
+				job.errors.push({ message: 'INDEX_ABORTED_MEMORY: heap exceeded safe threshold during index build. Primary per-post lookup is unaffected.' });
+				return 'failed';
+			}
 			let files = [];
 			try { files = db.fs.ls(CHASSIDUS_BASE + '/' + alias) || []; }
 			catch (_) { continue; }
@@ -324,7 +364,13 @@ class PackedBulkImportRoutes {
 					if (c && c.id) { index[c.id] = data.postId || c.postId; total++; }
 				}
 				job.wrote++;
-				if (job.wrote % 100 === 0) { job.updatedAt = Date.now(); setJob(job); await yieldTick(); }
+				if (job.wrote % 25 === 0) {
+					job.updatedAt = Date.now(); setJob(job); await yieldTick();
+					if (heapTooHigh()) {
+						job.errors.push({ message: 'INDEX_ABORTED_MEMORY: heap exceeded safe threshold during index build. Primary per-post lookup is unaffected.' });
+						return 'failed';
+					}
+				}
 			}
 		}
 		if (!job.dryRun) {
@@ -380,6 +426,8 @@ class PackedBulkImportRoutes {
 		if (bad) return bad;
 		const auth = this.checkAuth();
 		if (auth) return auth;
+		// OOM guard: refuse new jobs when the heap is already hot.
+		if (heapTooHigh()) return memoryGuardError();
 		const body = this.$i?.body || {};
 		for (const k of ['kind', 'seriesId', 'postId', 'aliasId']) {
 			if (body[k] === undefined || body[k] === null || body[k] === '') {
@@ -401,9 +449,37 @@ class PackedBulkImportRoutes {
 			if (!seriesId || !postId || !aliasId) {
 				return { success: false, error: 'MISSING_PARAMS', message: 'seriesId, postId and aliasId are required for kind=perPost' };
 			}
+			// OOM gate: inline items are for SMALL payloads only. Large imports
+			// must use the chunked /packed/import/bulk/stage upload + kind=publishAll,
+			// which streams one payload file at a time with bounded memory.
+			// (2026-09-30 quarantine: inline 98 MB payloads OOM-killed production.)
+			const hasInlineItems = body.items !== undefined && body.items !== null && !body.payloadFile;
+			if (hasInlineItems) {
+				const inlineCount = Array.isArray(body.items) ? body.items.length : 0;
+				if (inlineCount > INLINE_ITEMS_MAX_COUNT) {
+					return {
+						success: false, error: 'INLINE_TOO_LARGE',
+						message: 'Inline items exceed ' + INLINE_ITEMS_MAX_COUNT + ' (' + inlineCount + ' given). Use POST /packed/import/bulk/stage (chunked upload) + kind=publishAll for large imports.',
+					};
+				}
+			}
 			const loaded = this.loadItems(body);
 			if (loaded.error) return loaded.error;
 			items = loaded.items;
+			// Byte-size gate (catches deep/large individual items the count misses).
+			if (hasInlineItems) {
+				let approxBytes = 0;
+				for (let n = 0; n < items.length; n++) {
+					const c = items[n] && typeof items[n].content === 'string' ? items[n].content.length : 0;
+					approxBytes += c;
+					if (approxBytes > INLINE_ITEMS_MAX_BYTES) {
+						return {
+							success: false, error: 'INLINE_TOO_LARGE',
+							message: 'Inline payload exceeds ~2 MB. Use POST /packed/import/bulk/stage (chunked upload) + kind=publishAll for large imports.',
+						};
+					}
+				}
+			}
 			for (let n = 0; n < items.length; n++) {
 				const err = validateCommentItem(items[n], n);
 				if (err) return { success: false, error: 'ITEM_INVALID', message: err };
