@@ -62,14 +62,14 @@ Awtsmoos.com lets animation become a quiet servant: revealing depth, never deman
 }
 
 @media (prefers-reduced-motion: reduce) {
-	[data-awtsmoos-surface],
-	[data-awtsmoos-surface] * ,
-	[data-awtsmoos-surface] *::before,
-	[data-awtsmoos-surface] *::after {
-		scroll-behavior: auto !important;
-		animation-duration: .001ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: .001ms !important;
+	html [data-awtsmoos-surface],
+	html [data-awtsmoos-surface] *,
+	html [data-awtsmoos-surface] *::before,
+	html [data-awtsmoos-surface] *::after {
+		scroll-behavior: auto;
+		animation-duration: .001ms;
+		animation-iteration-count: 1;
+		transition-duration: .001ms;
 	}
 }
 
