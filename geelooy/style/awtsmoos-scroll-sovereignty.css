@@ -146,3 +146,17 @@ html[data-theme="light"] .post-reader-localized-context .typography-details h3,
 html[data-theme="light"] .post-reader-localized-context .typography-details label {
   color: #21160a;
 }
+
+/* BH Yaakov 2026-10-08: Scribes Lens light-theme, matches pages without data-theme */
+:root:not([data-theme="dark"]) .post-reader-localized-context .typography-details {
+  --reader-text: #21160a;
+  --reader-muted: #6d5a43;
+  --reader-bg: #fefcf8;
+  background: #fefcf8;
+}
+:root:not([data-theme="dark"]) .post-reader-localized-context .typography-details .setting-name,
+:root:not([data-theme="dark"]) .post-reader-localized-context .typography-details .control-label,
+:root:not([data-theme="dark"]) .post-reader-localized-context .typography-details h3,
+:root:not([data-theme="dark"]) .post-reader-localized-context .typography-details label {
+  color: #21160a;
+}
