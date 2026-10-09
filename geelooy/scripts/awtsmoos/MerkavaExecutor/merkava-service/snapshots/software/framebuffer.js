@@ -240,19 +240,23 @@ export class Framebuffer {
   /** Corner bands of a rounded rect: middle x-range fills directly, corner
    * x-ranges are tested per pixel. Shared by fill/gradient variants. */  _roundedCornerBands(x, y, w, h, r, top, bot, lft, rgt, paint) {
     const midX0 = x + lft, midX1 = x + w - rgt;
+    // B"H 2026-10-09 (render-bench): hoist the rounded-rect test out of the
+    // per-pixel loop — was allocating per pixel via pointInRoundedRect.
+    const test = makeRoundedTest(x, y, w, h, r);
+    const inside = test || (() => true);
     for (const [b0, b1] of [[y, y + top], [y + h - bot, y + h]]) {
       const yy0 = Math.max(0, Math.floor(b0)), yy1 = Math.min(this.height, Math.ceil(b1));
       for (let yy = yy0; yy < yy1; yy++) {
         const xxA0 = Math.max(0, Math.floor(x)), xxA1 = Math.min(this.width, Math.ceil(midX0));
         for (let xx = xxA0; xx < xxA1; xx++)
-          if (pointInRoundedRect(xx + 0.5, yy + 0.5, x, y, w, h, r)) paint(xx, yy);
+          if (inside(xx + 0.5, yy + 0.5)) paint(xx, yy);
         if (midX1 > midX0) {
           const mx0 = Math.max(0, Math.floor(midX0)), mx1 = Math.min(this.width, Math.ceil(midX1));
           for (let xx = mx0; xx < mx1; xx++) paint(xx, yy);
         }
         const xxB0 = Math.max(0, Math.floor(midX1)), xxB1 = Math.min(this.width, Math.ceil(x + w));
         for (let xx = xxB0; xx < xxB1; xx++)
-          if (pointInRoundedRect(xx + 0.5, yy + 0.5, x, y, w, h, r)) paint(xx, yy);
+          if (inside(xx + 0.5, yy + 0.5)) paint(xx, yy);
       }
     }
   }
@@ -770,28 +774,47 @@ export function normalizeRadii(radii, w, h) {
 }
 
 /** True if point (lx,ly) is inside the rounded rect at (x0,y0) size w×h. */
-export function pointInRoundedRect(lx, ly, x0, y0, w, h, r) {
-  if (lx < x0 || ly < y0 || lx > x0 + w || ly > y0 + h) return false;
+/* B"H 2026-10-09 (render-bench): hoisted rounded-rect test. pointInRoundedRect
+ * allocated a 4-element corners array + destructured per PIXEL — 37.6% of the
+ * blog page (border-radius:3px on every card). Precompute corner ellipse
+ * params once per rect, return a closure with zero per-pixel allocation. */
+export function makeRoundedTest(x0, y0, w, h, r) {
   const rr = r || { tl: [0, 0], tr: [0, 0], br: [0, 0], bl: [0, 0] };
-  const corners = [
-    [x0, y0, rr.tl], [x0 + w, y0, rr.tr],
-    [x0 + w, y0 + h, rr.br], [x0, y0 + h, rr.bl],
-  ];
-  for (let i = 0; i < 4; i++) {
-    const [cx, cy, rad] = corners[i];
+  const cs = [];
+  const defs = [[x0, y0, rr.tl, 0], [x0 + w, y0, rr.tr, 1], [x0 + w, y0 + h, rr.br, 2], [x0, y0 + h, rr.bl, 3]];
+  for (let k = 0; k < 4; k++) {
+    const cx = defs[k][0], cy = defs[k][1], rad = defs[k][2], i = defs[k][3];
     const rx = Math.max(0, rad[0] || 0), ry = Math.max(0, rad[1] || 0);
     if (rx <= 0 || ry <= 0) continue;
-    // Corner region bounds.
-    const inX = i === 0 || i === 3 ? (lx < cx + rx) : (lx > cx - rx);
-    const inY = i < 2 ? (ly < cy + ry) : (ly > cy - ry);
-    if (inX && inY) {
-      const ex = i === 0 || i === 3 ? cx + rx : cx - rx;
-      const ey = i < 2 ? cy + ry : cy - ry;
-      const dx = (lx - ex) / rx, dy = (ly - ey) / ry;
-      if (dx * dx + dy * dy > 1) return false;
-    }
+    cs.push({
+      left: i === 0 || i === 3, top: i < 2,
+      bx: i === 0 || i === 3 ? cx + rx : cx - rx,
+      by: i < 2 ? cy + ry : cy - ry,
+      ex: (i === 0 || i === 3 ? cx + rx : cx - rx),
+      ey: i < 2 ? cy + ry : cy - ry,
+      rx, ry,
+    });
   }
-  return true;
+  if (!cs.length) return null;
+  const x1 = x0 + w, y1 = y0 + h;
+  return (lx, ly) => {
+    if (lx < x0 || ly < y0 || lx > x1 || ly > y1) return false;
+    for (let k = 0; k < cs.length; k++) {
+      const c = cs[k];
+      const inX = c.left ? (lx < c.bx) : (lx > c.bx);
+      const inY = c.top ? (ly < c.by) : (ly > c.by);
+      if (inX && inY) {
+        const dx = (lx - c.ex) / c.rx, dy = (ly - c.ey) / c.ry;
+        if (dx * dx + dy * dy > 1) return false;
+      }
+    }
+    return true;
+  };
+}
+
+export function pointInRoundedRect(lx, ly, x0, y0, w, h, r) {
+  const test = makeRoundedTest(x0, y0, w, h, r);
+  return test ? test(lx, ly) : (lx >= x0 && ly >= y0 && lx <= x0 + w && ly <= y0 + h);
 }
 
 // B"H 2026-10-09: fix-forward. boxPainter.js imports hasAnyRadius from

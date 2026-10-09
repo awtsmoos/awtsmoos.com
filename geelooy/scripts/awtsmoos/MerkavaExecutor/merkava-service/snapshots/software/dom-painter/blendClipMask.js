@@ -21,7 +21,7 @@
  */
 
 import { parseColor } from "../color.js";
-import { Framebuffer, pointInRoundedRect, normalizeRadii } from "../framebuffer.js";
+import { Framebuffer, pointInRoundedRect, makeRoundedTest, normalizeRadii } from "../framebuffer.js";
 import { ScaledFramebuffer } from "../supersample.js";
 
 /* ------------------------------------------------------------------ */
@@ -155,7 +155,10 @@ export function parseClipPath(value, w, h) {
       radii = { tl: [a, a], tr: [b, b], br: [c, c], bl: [d, d] };
     }
     const r = normalizeRadii(radii, Math.max(1, x1 - x0), Math.max(1, y1 - y0));
-    return { kind: "inset", test: (lx, ly) => pointInRoundedRect(lx, ly, x0, y0, x1 - x0, y1 - y0, r) };
+    // B"H 2026-10-09 (render-bench): hoisted test — the per-pixel closure
+    // was allocating via pointInRoundedRect on every pixel.
+    const roundedTest = makeRoundedTest(x0, y0, x1 - x0, y1 - y0, r);
+    return { kind: "inset", test: roundedTest || ((lx, ly) => lx >= x0 && ly >= y0 && lx <= x1 && ly <= y1) };
   }
 
   if (fn === "polygon") {
