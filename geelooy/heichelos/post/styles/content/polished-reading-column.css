@@ -4,22 +4,22 @@
    vessels. Typography remains in the typography rhythm chamber.
 */
 
-.post-reader-localized-context :where(#virtual-scroll-container.awtsmoos-virtual-scroll) {
-    max-width: min(920px, calc(100vw - 4rem)) !important;
-    margin-inline: auto !important;
+.post-reader-localized-context #virtual-scroll-container.awtsmoos-virtual-scroll {
+    max-width: min(920px, calc(100vw - 4rem));
+    margin-inline: auto;
 }
 
-.post-reader-localized-context :where(#virtual-scroll-container.awtsmoos-virtual-scroll) > .scroll-chunk {
-    position: relative !important;
+.post-reader-localized-context #virtual-scroll-container.awtsmoos-virtual-scroll > .scroll-chunk {
+    position: relative;
 }
 
-.post-reader-localized-context :where(#virtual-scroll-container.awtsmoos-virtual-scroll) > .scroll-chunk::before {
-    content: "" !important;
-    position: absolute !important;
-    inset: clamp(.8rem, 2vw, 1.4rem) 0 !important;
-    border-radius: 34px !important;
-    pointer-events: none !important;
+.post-reader-localized-context #virtual-scroll-container.awtsmoos-virtual-scroll > .scroll-chunk::before {
+    content: "";
+    position: absolute;
+    inset: clamp(.8rem, 2vw, 1.4rem) 0;
+    border-radius: 34px;
+    pointer-events: none;
     background:
-        linear-gradient(90deg, rgba(214,170,79,.07), transparent 12%, transparent 88%, rgba(110,18,55,.06)) !important;
-    filter: blur(.2px) !important;
+        linear-gradient(90deg, rgba(214,170,79,.07), transparent 12%, transparent 88%, rgba(110,18,55,.06));
+    filter: blur(.2px);
 }

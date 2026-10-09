@@ -48,9 +48,9 @@
 }
 
 .post-reader-localized-context .active-reading-sub {
-	background: var(--bg-surface) !important;
-	border-color: var(--color-ink) !important;
-	box-shadow: 8px 8px 0 var(--color-accent) !important;
+	background: var(--bg-surface);
+	border-color: var(--color-ink);
+	box-shadow: 8px 8px 0 var(--color-accent);
 	transform: translateX(10px);
 }
 

@@ -8,7 +8,7 @@
     filter: grayscale(1);
     transform: scale(0.98); /* Minimal scale to avoid heavy reflow */
     transition: opacity var(--time-std) var(--ease-snap), filter var(--time-std) var(--ease-snap), transform var(--time-std) var(--ease-snap);
-    margin-bottom: 5rem !important;
+    margin-bottom: 5rem;
 }
 
 :where(.post-reader-localized-context) .section.active-reading-section {
@@ -49,11 +49,11 @@ border-left-color: transparent;
 }
 
 /* 4. LOCKED STATE (When you click 'Comment') */
-:where(.post-reader-localized-context) .post-reader-localized-context .commentary-focus {
-    background-color: var(--bg-surface) !important;
+.post-reader-localized-context .post-reader-localized-context .commentary-focus {
+    background-color: var(--bg-surface);
     outline: 4px solid var(--color-accent);
     /* Box shadow overlay is a paint operation, very cheap */
-    box-shadow: 0 0 0 100vmax rgba(0,0,0,0.85) !important; 
-    z-index: var(--z-overlay) !important;
+    box-shadow: 0 0 0 100vmax rgba(0,0,0,0.85); 
+    z-index: var(--z-overlay);
     position: relative;
 }

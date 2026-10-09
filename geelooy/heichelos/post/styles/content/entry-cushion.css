@@ -6,12 +6,12 @@
 
 
 
-:where(.post-reader-localized-context) :where(#realPost) > .section:first-of-type {
-    margin-block-start: clamp(4.5rem, 12vh, 9rem) !important;
-    scroll-margin-block-start: clamp(12rem, 32vh, 22rem) !important;
+.post-reader-localized-context #realPost > .section:first-of-type {
+    margin-block-start: clamp(4.5rem, 12vh, 9rem);
+    scroll-margin-block-start: clamp(12rem, 32vh, 22rem);
 }
 
-:where(.post-reader-localized-context) :where(#realPost) :where(.section:first-of-type) .toichen,
-:where(.post-reader-localized-context) :where(#realPost) :where(.section:first-of-type) .sub-awtsmoos:first-child {
-    scroll-margin-block-start: clamp(12rem, 32vh, 22rem) !important;
+.post-reader-localized-context #realPost .section:first-of-type .toichen,
+.post-reader-localized-context #realPost .section:first-of-type .sub-awtsmoos:first-child {
+    scroll-margin-block-start: clamp(12rem, 32vh, 22rem);
 }

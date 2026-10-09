@@ -29,16 +29,16 @@
 	font-variant-numeric: tabular-nums;
 }
 
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost) .awtsmoos-initial-pasuk:target {
-	border-color: rgba(126, 218, 255, .22) !important;
-	background: rgba(126, 218, 255, .055) !important;
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-initial-pasuk:target {
+	border-color: rgba(126, 218, 255, .22);
+	background: rgba(126, 218, 255, .055);
 	outline: 2px solid rgba(126, 218, 255, .12);
 	outline-offset: 2px;
 }
 
 @media (max-width: 32rem) {
-	:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost) .awtsmoos-initial-pasuk {
+	.all.post-reader-localized-context.awtsmoos-reader-vision #realPost .awtsmoos-initial-pasuk {
 		gap: .4rem;
-		padding-inline: .45rem !important;
+		padding-inline: .45rem;
 	}
 }

@@ -3,32 +3,32 @@
    gate of illuminated vellum.
 */
 
-.post-reader-localized-context :where(#realPost) .post-title {
-    position: relative !important;
-    overflow: hidden !important;
-    border: 1px solid rgba(99, 62, 15, 0.28) !important;
-    border-radius: 38px !important;
+.post-reader-localized-context #realPost .post-title {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(99, 62, 15, 0.28);
+    border-radius: 38px;
     background:
         radial-gradient(circle at 50% 0%, rgba(255,255,255,0.88), transparent 42%),
-        linear-gradient(180deg, rgba(255,253,248,0.95), rgba(244,235,219,0.95)) !important;
+        linear-gradient(180deg, rgba(255,253,248,0.95), rgba(244,235,219,0.95));
     box-shadow:
         0 34px 90px rgba(50, 33, 12, 0.18),
-        inset 0 1px 0 rgba(255,255,255,0.95) !important;
-    text-shadow: 0 2px 10px rgba(110,18,55,0.12) !important;
-    color: #20150e !important;
+        inset 0 1px 0 rgba(255,255,255,0.95);
+    text-shadow: 0 2px 10px rgba(110,18,55,0.12);
+    color: #20150e;
 }
 
-.post-reader-localized-context :where(#realPost) .post-title::before {
-    content: "" !important;
-    position: absolute !important;
-    inset: 0 !important;
-    pointer-events: none !important;
+.post-reader-localized-context #realPost .post-title::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
     background:
-        linear-gradient(90deg, rgba(110,18,55,0.05), transparent 16%, transparent 84%, rgba(212,164,60,0.08)) !important;
+        linear-gradient(90deg, rgba(110,18,55,0.05), transparent 16%, transparent 84%, rgba(212,164,60,0.08));
 }
 
-.post-reader-localized-context :where(#realPost) .series-name {
-    color: #7a5211 !important;
-    letter-spacing: 0.28em !important;
-    font-weight: 700 !important;
+.post-reader-localized-context #realPost .series-name {
+    color: #7a5211;
+    letter-spacing: 0.28em;
+    font-weight: 700;
 }

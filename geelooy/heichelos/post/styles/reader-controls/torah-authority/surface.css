@@ -14,42 +14,42 @@
 	--reader-authority-edge: clamp(.72rem, 2.4vw, 1.2rem);
 }
 
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) .main {
-	inline-size: 100% !important;
-	max-inline-size: 100% !important;
-	margin: 0 auto !important;
-	padding: 0 !important;
+.all.post-reader-localized-context.awtsmoos-reader-vision .main {
+	inline-size: 100%;
+	max-inline-size: 100%;
+	margin: 0 auto;
+	padding: 0;
 }
 
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) .scroll-view-wrapper {
-min-width: 0 !important;
-	min-height: 0 !important;
-	max-width: 100% !important;
-	overflow: visible !important;
-inline-size: 100% !important;
-	padding: 0 !important;
+.all.post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper {
+min-width: 0;
+	min-height: 0;
+	max-width: 100%;
+	overflow: visible;
+inline-size: 100%;
+	padding: 0;
 }
 
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost) {
-	inline-size: min(100%, var(--reader-authority-width)) !important;
-	max-inline-size: var(--reader-authority-width) !important;
-	margin: 0 auto !important;
-	padding: .8rem var(--reader-authority-edge) 5.5rem !important;
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost {
+	inline-size: min(100%, var(--reader-authority-width));
+	max-inline-size: var(--reader-authority-width);
+	margin: 0 auto;
+	padding: .8rem var(--reader-authority-edge) 5.5rem;
 }
 
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost) {
-	margin-block-start: 0 !important;
-	padding-block-start: .8rem !important;
-	scroll-padding-block-start: 5rem !important;
-	scroll-margin-block-start: 5rem !important;
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost {
+	margin-block-start: 0;
+	padding-block-start: .8rem;
+	scroll-padding-block-start: 5rem;
+	scroll-margin-block-start: 5rem;
 }
 
-:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost) > :first-child {
-	margin-block-start: 0 !important;
+.all.post-reader-localized-context.awtsmoos-reader-vision #realPost > :first-child {
+	margin-block-start: 0;
 }
 
 @media (max-width: 48rem) {
-	:where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(#realPost) {
-		padding: .55rem .62rem 5.25rem !important;
+	.all.post-reader-localized-context.awtsmoos-reader-vision #realPost {
+		padding: .55rem .62rem 5.25rem;
 	}
 }
