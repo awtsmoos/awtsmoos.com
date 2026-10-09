@@ -67,6 +67,9 @@ export function buildLayoutTree(dom, viewport = { width: 960, height: 640 }, opt
   // executor-owned CssPseudoElements standard. Additive: when no
   // pseudo-element rules match, the tree is left untouched.
   materializePseudoElements(root, rules);
+  // B"H 2026-10-09 (css-worker-2): rewrite vw/vh/rem/em to px in every
+  // computed style before layout (dim() only resolves px and %).
+  resolveRelativeUnits(root, rules, viewport);
   const out = [];
   layoutNode(findBody(root) || root, { x: 0, y: 0, width: viewport.width, height: viewport.height, viewportHeight: viewport.height, root: true, depth: 0, cb: { x: 0, y: 0, width: viewport.width, height: viewport.height }, vpW: viewport.width, vpH: viewport.height }, out);
   applyFirstLineStyles(out);
@@ -111,7 +114,22 @@ function layoutBlockBox(node, ctx, out, style) {
   }
   const width = measuredWidth(node, style, Math.max(1, refW - margin.left - margin.right));
   const fixedH = measuredHeight(node, style, ctx.height || ctx.viewportHeight || 0);
-  const x = ctx.x + margin.left, y = ctx.y + margin.top;
+  // B"H 2026-10-09: block-level auto margins (normal flow only — flex/grid
+  // items resolve their own auto margins). A definite width + auto
+  // left/right margins absorbs free space: both auto => centered.
+  let x = ctx.x + margin.left;
+  if (ctx.blockFlow) {
+    const ew = dim(style.width, refW);
+    if (ew > 0) {
+      const mlA = isAutoMargin(style, "left"), mrA = isAutoMargin(style, "right");
+      if (mlA || mrA) {
+        const free = Math.max(0, refW - ew - (mlA ? 0 : margin.left) - (mrA ? 0 : margin.right));
+        if (mlA && mrA) x = ctx.x + free / 2;
+        else if (mlA) x = ctx.x + free;
+      }
+    }
+  }
+  const y = ctx.y + margin.top;
   const pos = positionOf(style);
   const vpW = ctx.vpW || refW, vpH = ctx.vpH || ctx.viewportHeight || 0;
   const item = { node, x, y, width, height: fixedH || 0, style, children: [], kind: node.localName || "div", margin: { ...margin } };
@@ -122,7 +140,7 @@ function layoutBlockBox(node, ctx, out, style) {
   const provCB = pos !== "static"
     ? { x, y, width, height: Math.max(fixedH || 0, dim(style["min-height"], ctx.viewportHeight || 0), 1) }
     : null;
-  const content = { x: x + padding.left + border.left, y: y + padding.top + border.top, width: Math.max(1, width - padding.left - padding.right - border.left - border.right), height: Math.max(0, (fixedH || ctx.height || 0) - padding.top - padding.bottom - border.top - border.bottom), viewportHeight: ctx.viewportHeight, depth: depth + 1, inlineStyle: inheritFont(style), root: !!ctx.root, noCollapse: !!ctx.noCollapse, cb: provCB || ctx.cb || null, vpW, vpH };
+  const content = { x: x + padding.left + border.left, y: y + padding.top + border.top, width: Math.max(1, width - padding.left - padding.right - border.left - border.right), height: Math.max(0, (fixedH || ctx.height || 0) - padding.top - padding.bottom - border.top - border.bottom), viewportHeight: ctx.viewportHeight, depth: depth + 1, inlineStyle: inheritFont(style), root: !!ctx.root, noCollapse: !!ctx.noCollapse || pos === "absolute" || pos === "fixed", cb: provCB || ctx.cb || null, vpW, vpH };
   const kids = inlineKids(node);
   const flow = kids.length ? layoutChildren(kids, item, content, out, displayOf(style, node)) : { height: 0, throughTop: 0, throughBottom: 0, oof: [] };
   const contentH = flow.height;
@@ -195,9 +213,15 @@ function paintOutsideMarker(node, item, out, x, padding, border) {
   const firstKid = (item.children || [])[0];
   const my = firstKid ? firstKid.y : item.y + (padding.top || 0) + (border.top || 0);
   const mRight = x + (padding.left || 0) + (border.left || 0) - 6;
+  // B"H 2026-10-09 (css-worker-2): vertically center the marker glyph in the
+  // line box. It was drawn at the very top of the line (y=0..8 of a 20px
+  // line), so probes at the line's vertical center missed the bullet.
+  const lineH = lineHeightOf(m.style);
+  const glyphH = 7 * painterScale(m.style);
+  const cy = my + Math.max(0, (lineH - glyphH) / 2);
   const markerNode = { nodeType: 3, textContent: mtext, parentNode: node, localName: "#text", children: [], __textStyle: m.style };
   const mitem = {
-    node: minimalTextNode(node), x: mRight - mw, y: my, width: mw, height: lineHeightOf(m.style),
+    node: minimalTextNode(node), x: mRight - mw, y: cy, width: mw, height: lineHeightOf(m.style),
     style: m.style, children: [], kind: "#text", text: mtext,
   };
   out.push(mitem);
@@ -226,10 +250,32 @@ function placeOOF(parentItem, oofNodes, cbRect, ctx, out) {
     if (!node || node.nodeType !== 1) continue;
     const style = styleOf(node);
     const cb = positionOf(style) === "fixed" ? viewportCB : (cbRect || viewportCB);
-    const w = dim(style.width, cb.width) || Math.max(1, Math.min(cb.width, naturalInlineWidth(node, style, cb.width)));
+    // B"H: CSS 2.1 §10.3.7/10.6.4 — if width is auto and both left+right are
+    // specified, width = CB width - left - right (stretch). Same for height.
+    // The `inset` shorthand expands to all four.
+    const insetParts = String(style.inset || "").trim().split(/\s+/).filter(Boolean);
+    const insetVal = (i) => insetParts[i] ?? insetParts[i - 2] ?? insetParts[0] ?? "";
+    const effLeft = !isAuto(style.left) ? style.left : insetVal(3) !== "" ? insetVal(3) : style.left;
+    const effRight = !isAuto(style.right) ? style.right : insetVal(1) !== "" ? insetVal(1) : style.right;
+    const effTop = !isAuto(style.top) ? style.top : insetVal(0) !== "" ? insetVal(0) : style.top;
+    const effBottom = !isAuto(style.bottom) ? style.bottom : insetVal(2) !== "" ? insetVal(2) : style.bottom;
+    const leftV = dim(effLeft, cb.width), rightV = dim(effRight, cb.width);
+    const topV = dim(effTop, cb.height), bottomV = dim(effBottom, cb.height);
+    let w = dim(style.width, cb.width);
+    if (!w && !isAuto(effLeft) && !isAuto(effRight)) {
+      w = Math.max(1, cb.width - leftV - rightV);
+    }
+    if (!w) w = Math.max(1, Math.min(cb.width, naturalInlineWidth(node, style, cb.width)));
+    // B"H: height stretch for top+bottom.
+    let h = dim(style.height, cb.height);
+    if (!h && !isAuto(effTop) && !isAuto(effBottom)) {
+      h = Math.max(1, cb.height - topV - bottomV);
+    }
     // B"H: temp ctx carries the CB height so % heights resolve against it.
     const got = layoutBlockBox(node, { x: 0, y: 0, width: Math.max(1, w), height: cb.height, viewportHeight: ctx.viewportHeight || vpH, depth: (ctx.depth || 0) + 1, vpW, vpH, cb }, out);
     if (!got) continue;
+    // B"H: apply stretched height from top+bottom.
+    if (h && h > got.height) got.height = h;
     parentItem.children.push(got);
     // B"H 2026-10-09 (mass-test batch 2): logical inset properties —
     // inset-inline-start/end, inset-block-start/end (+ inset-inline /
@@ -251,9 +297,26 @@ function placeOOF(parentItem, oofNodes, cbRect, ctx, out) {
       eff.bottom = pick(eff.bottom, [style["inset-block-end"], iib[1] || iib[0]]);
     }
     let fx = cb.x, fy = cb.y;
-    if (!isAuto(eff.left)) fx = cb.x + dim(eff.left, cb.width);
+    // B"H 2026-10-09: abspos auto margins (CSS 2.1 §10.3.7) — with left,
+    // width and right all definite, auto margins absorb free space equally
+    // (left:0;right:0;margin:0 auto => centered).
+    const mlA = isAutoMargin(style, "left"), mrA = isAutoMargin(style, "right");
+    const mtA = isAutoMargin(style, "top"), mbA = isAutoMargin(style, "bottom");
+    if (!isAuto(eff.left) && !isAuto(eff.right) && (mlA || mrA)) {
+      const free = Math.max(0, cb.width - dim(eff.left, cb.width) - dim(eff.right, cb.width) - got.width);
+      if (mlA && mrA) fx = cb.x + dim(eff.left, cb.width) + free / 2;
+      else if (mlA) fx = cb.x + dim(eff.left, cb.width) + free;
+      else fx = cb.x + dim(eff.left, cb.width);
+    }
+    else if (!isAuto(eff.left)) fx = cb.x + dim(eff.left, cb.width);
     else if (!isAuto(eff.right)) fx = cb.x + cb.width - dim(eff.right, cb.width) - got.width;
-    if (!isAuto(eff.top)) fy = cb.y + dim(eff.top, cb.height);
+    if (!isAuto(eff.top) && !isAuto(eff.bottom) && (mtA || mbA)) {
+      const free = Math.max(0, cb.height - dim(eff.top, cb.height) - dim(eff.bottom, cb.height) - got.height);
+      if (mtA && mbA) fy = cb.y + dim(eff.top, cb.height) + free / 2;
+      else if (mtA) fy = cb.y + dim(eff.top, cb.height) + free;
+      else fy = cb.y + dim(eff.top, cb.height);
+    }
+    else if (!isAuto(eff.top)) fy = cb.y + dim(eff.top, cb.height);
     else if (!isAuto(eff.bottom)) fy = cb.y + cb.height - dim(eff.bottom, cb.height) - got.height;
     if (fx !== got.x) shiftSubtreeX(got, fx - got.x);
     if (fy !== got.y) shiftSubtree(got, fy - got.y);
@@ -306,7 +369,10 @@ function layoutBlockFlow(children, parent, ctx, out) {
   for (const child of children) {
     if (isInlineLevel(child)) { run.push(child); continue; }
     flushRun();
-    const got = layoutBlockBox(child, { x: ctx.x, y, width: ctx.width, viewportHeight: ctx.viewportHeight, depth, vpW: ctx.vpW, vpH: ctx.vpH, cb: ctx.cb }, out);
+    // B"H 2026-10-09 (css-worker-2): pass the parent's content height down so
+    // % heights resolve against the containing block (was falling back to the
+    // viewport height, so height:50% of a 300px parent measured 300px).
+    const got = layoutBlockBox(child, { x: ctx.x, y, width: ctx.width, height: ctx.height, viewportHeight: ctx.viewportHeight, depth, vpW: ctx.vpW, vpH: ctx.vpH, cb: ctx.cb, blockFlow: true }, out);
     if (!got) continue;
     parent.children.push(got);
     const m = got.margin;
@@ -589,71 +655,156 @@ function layoutGrid(children, parent, ctx, out) {
   // Grid ignores stray text nodes and hidden children.
   const items = children.filter(c => !hidden(c) && c.nodeType !== 3);
   const areaInfo = parseGridAreas(s["grid-template-areas"]);
-  const colTokens = colText ? expandRepeat(colText, ctx.width, gap, items.length) : [];
-  const C = Math.max(1, colTokens.length || areaInfo.cols);
-  const cols = colTokens.length ? tracks(colText, ctx.width, gap, items.length)
-    : Array.from({ length: C }, () => Math.max(1, (ctx.width - gap * (C - 1)) / C));
+  const colLineNames = parseGridLineNames(colText);
+  const rowLineNames = parseGridLineNames(rowText);
+  const flow = String(s["grid-auto-flow"] || "row").trim().toLowerCase();
+  const colFlow = flow.indexOf("column") === 0;
+  const dense = flow.indexOf("dense") >= 0;
+  // B"H 2026-10-09: track COUNT comes from the expanded list — `200px
+  // repeat(2,1fr)` is 3 tracks, not 2 (unexpanded token count was wrong).
+  const cols = colText ? tracks(colText, ctx.width, gap, items.length) : [];
+  const explicitCols = cols.slice();
+  let C = Math.max(1, cols.length || areaInfo.cols);
+  // B"H 2026-10-09: with no template columns, row flow keeps the old
+  // single full-width column; column flow grows implicit columns instead
+  // (sized by grid-auto-columns via ensureCols).
+  if (!cols.length && !colFlow) for (let i = 0; i < C; i++) cols.push(Math.max(1, (ctx.width - gap * (C - 1)) / C));
   const rowTokens = rowText ? expandRepeat(rowText, ctx.height || 0, rowGap, Math.ceil(items.length / C)) : [];
   const explicitRows = rowTokens.length ? tracks(rowText, ctx.height || 0, rowGap, Math.ceil(items.length / C)) : [];
-  const justifyItems = gridAlignValue(s["justify-items"], "stretch");
-  const alignItems = gridAlignValue(s["align-items"], "stretch");
+  // B"H 2026-10-09: implicit track sizing from grid-auto-rows/columns.
+  // A fixed length sizes implicit tracks exactly; `auto` (default) stays
+  // content-sized as before.
+  const autoRowFixed = dim(String(s["grid-auto-rows"] || "auto").trim(), ctx.height || 0) || 0;
+  const autoColFixed = dim(String(s["grid-auto-columns"] || "auto").trim(), ctx.width) || 0;
+  // B"H 2026-10-09: place-items shorthand sets both alignments.
+  let justifyItems = gridAlignValue(s["justify-items"], "stretch");
+  let alignItems = gridAlignValue(s["align-items"], "stretch");
+  const pi = String(s["place-items"] || "").trim().split(/\s+/).filter(Boolean);
+  if (pi.length === 1) { const v = gridAlignValue(pi[0], "stretch"); alignItems = v; justifyItems = v; }
+  else if (pi.length >= 2) { alignItems = gridAlignValue(pi[0], alignItems); justifyItems = gridAlignValue(pi[1], justifyItems); }
   const depth = (ctx.depth || 0) + 1;
-  // B"H 2026-10-09: grid auto-placement with explicit grid-column/grid-row
-  // (line numbers and `span N`) and grid-template-areas placement.
+  // B"H 2026-10-09: grid auto-placement — explicit grid-column/grid-row
+  // (line numbers, named lines, `span N`), grid-area shorthand, named
+  // template areas, `order`-sorted auto-placement, row AND column flow.
   const occ = new Set();
   const key = (r, c) => r + ":" + c;
   const fits = (r, c, cs2, rs2) => {
-    if (c + cs2 - 1 > C) return false;
     for (let rr = r; rr < r + rs2; rr++) for (let cc = c; cc < c + cs2; cc++) if (occ.has(key(rr, cc))) return false;
     return true;
   };
   const occupy = (r, c, cs2, rs2) => { for (let rr = r; rr < r + rs2; rr++) for (let cc = c; cc < c + cs2; cc++) occ.add(key(rr, cc)); };
+  // Grow implicit columns (sized by grid-auto-columns, else mean explicit width).
+  const ensureCols = (n) => {
+    while (cols.length < n) {
+      const w = autoColFixed > 0 ? autoColFixed
+        : (explicitCols.length ? sum(explicitCols, 0, explicitCols.length) / explicitCols.length : Math.max(1, ctx.width));
+      cols.push(Math.max(1, w));
+    }
+    if (cols.length > C) C = cols.length;
+  };
+  const resolveLine = (v, isCol) => {
+    if (v > 0) return v;
+    if (v < 0) { const n = (isCol ? C : Math.max(explicitRows.length, 1)) + 2 + v; return Math.max(1, n); }
+    return 0;
+  };
+  // `order` reorders auto-placement (stable); paint order stays DOM order.
+  const domIdx = new Map(items.map((c, i) => [c, i]));
+  const placeSeq = items.slice().sort((a, b) => (num(styleOf(a).order, 0) - num(styleOf(b).order, 0)) || (domIdx.get(a) - domIdx.get(b)));
+  const R = Math.max(1, explicitRows.length || areaInfo.rows); // explicit row count (column-flow wrap limit)
   let curR = 1, curC = 1;
   const placed = [];
-  for (const child of items) {
+  for (const child of placeSeq) {
     const st = styleOf(child);
     const areaName = String(st["grid-area"] || "").trim();
     let pr = 0, pc = 0, rs = 1, cs = 1;
     const area = areaName && areaInfo.map[areaName];
     if (area) { pr = area.rs; pc = area.cs; rs = area.re - area.rs; cs = area.ce - area.cs; }
     else {
-      const gpC = parseLinePlacement(st["grid-column"]);
-      const gpR = parseLinePlacement(st["grid-row"]);
+      let gpC = parseLinePlacement(st["grid-column"], colLineNames);
+      let gpR = parseLinePlacement(st["grid-row"], rowLineNames);
+      const ga = parseGridAreaShorthand(areaName);
+      if (ga) {
+        gpR = parseLinePlacement(ga.row, rowLineNames);
+        gpC = parseLinePlacement(ga.col, colLineNames);
+      }
       cs = gpC.span; rs = gpR.span;
-      if (gpR.start) pr = gpR.start;
-      if (gpC.start) pc = gpC.start;
+      if (gpR.start) pr = resolveLine(gpR.start, false);
+      if (gpC.start) pc = resolveLine(gpC.start, true);
     }
-    if (pr && pc) occupy(pr, pc, cs, rs);
-    else if (pr && !pc) { let c = 1, r = pr, guard = 0; while (!fits(r, c, cs, rs) && guard++ < 100000) { c++; if (c > C) { c = 1; r++; } } pc = c; pr = r; occupy(pr, pc, cs, rs); }
-    else if (pc && !pr) { let r = 1, guard = 0; while (!fits(r, pc, cs, rs) && guard++ < 100000) r++; pr = r; occupy(pr, pc, cs, rs); }
+    if (pr && pc) { ensureCols(pc + cs - 1); occupy(pr, pc, cs, rs); }
+    else if (pr && !pc) {
+      let c = 1, r = pr, guard = 0;
+      if (colFlow) { while (!fits(r, c, cs, rs) && guard++ < 100000) c++; }
+      else { while (!fits(r, c, cs, rs) && guard++ < 100000) { c++; if (c + cs - 1 > C) { c = 1; r++; } } }
+      pc = c; pr = r; ensureCols(pc + cs - 1); occupy(pr, pc, cs, rs);
+    }
+    else if (pc && !pr) {
+      let r = 1, guard = 0;
+      if (colFlow) { while ((r + rs - 1 > R || !fits(r, pc, cs, rs)) && guard++ < 100000) r++; }
+      else { while (!fits(r, pc, cs, rs) && guard++ < 100000) r++; }
+      pr = r; ensureCols(pc + cs - 1); occupy(pr, pc, cs, rs);
+    }
+    else if (colFlow) {
+      // B"H 2026-10-09: grid-auto-flow:column — fill down, wrap to a new
+      // (implicit) column past the explicit row count.
+      let r = dense ? 1 : curR, c = dense ? 1 : curC, guard = 0;
+      for (;;) {
+        if (r + rs - 1 <= R && fits(r, c, cs, rs)) break;
+        r++;
+        if (r + rs - 1 > R) { r = 1; c++; }
+        if (guard++ > 100000) break;
+      }
+      pr = r; pc = c; ensureCols(pc + cs - 1); occupy(pr, pc, cs, rs);
+      curR = r + rs; curC = c;
+      if (curR + rs - 1 > R) { curR = 1; curC = c + 1; }
+    }
     else {
-      let r = curR, c = curC, guard = 0;
-      while (!fits(r, c, cs, rs) && guard++ < 100000) { c++; if (c > C) { c = 1; r++; } }
-      pr = r; pc = c; occupy(pr, pc, cs, rs);
+      let r = dense ? 1 : curR, c = dense ? 1 : curC, guard = 0;
+      while (!fits(r, c, cs, rs) && guard++ < 100000) { c++; if (c + cs - 1 > C) { c = 1; r++; } }
+      pr = r; pc = c; ensureCols(pc + cs - 1); occupy(pr, pc, cs, rs);
       curC = c + cs; curR = r;
       if (curC > C) { curC = 1; curR = r + 1; }
     }
-    placed.push({ child, st, pr, pc, rs, cs });
+    placed.push({ child, st, pr, pc, rs, cs, dom: domIdx.get(child) });
   }
-  const colX = [0];
-  for (let i = 0; i < C; i++) colX.push(colX[i] + cols[i] + gap);
+  // Paint order is DOM order even when `order` reshuffled placement.
+  placed.sort((a, b) => a.dom - b.dom);
+  // B"H 2026-10-09: justify-content / align-content — position the track
+  // grid inside the container (start/center/end + space distribution).
+  const jc = String(s["justify-content"] || "start").trim().toLowerCase();
+  const tracksW = sum(cols, 0, cols.length) + gap * Math.max(0, cols.length - 1);
+  const freeW = Math.max(0, ctx.width - tracksW);
+  let xLead = 0, xGap = gap;
+  if (jc === "center") xLead = freeW / 2;
+  else if (jc === "end" || jc === "flex-end" || jc === "right") xLead = freeW;
+  else if ((jc === "space-between" || jc === "space-around" || jc === "space-evenly") && cols.length > 0) {
+    if (jc === "space-between" && cols.length > 1) xGap = gap + freeW / (cols.length - 1);
+    else if (jc === "space-around") { xLead = freeW / (cols.length * 2); xGap = gap + freeW / cols.length; }
+    else if (jc === "space-evenly") { xLead = freeW / (cols.length + 1); xGap = gap + xLead; }
+  }
+  const colX = [xLead];
+  for (let i = 0; i < cols.length; i++) colX.push(colX[i] + cols[i] + xGap);
   const rowHeights = [];
   explicitRows.forEach((h, i) => { rowHeights[i] = h; });
   // Pass 1: lay out each item at its column x (y=0); record natural heights.
   const laid = [];
   for (const p of placed) {
-    const cellW = sum(cols, p.pc - 1, p.pc - 1 + p.cs) + gap * (p.cs - 1);
+    const cellW = sum(cols, p.pc - 1, p.pc - 1 + p.cs) + xGap * (p.cs - 1);
     const js = gridAlignValue(p.st["justify-self"], justifyItems);
     const as = gridAlignValue(p.st["align-self"], alignItems);
     const explicitW = dim(p.st.width, cellW);
-    const itemW = js === "stretch" || !explicitW ? cellW : Math.min(cellW, explicitW);
+    // B"H 2026-10-09: stretch only sizes auto-width items — a definite
+    // width is kept (it was wrongly stretched to the full cell before).
+    const itemW = explicitW > 0 ? Math.min(cellW, explicitW) : cellW;
     const got = layoutBlockBox(p.child, { x: ctx.x + colX[p.pc - 1], y: 0, width: Math.max(1, itemW), viewportHeight: ctx.viewportHeight, depth, noCollapse: true, vpW: ctx.vpW, vpH: ctx.vpH, cb: ctx.cb }, out);
     if (!got) continue;
     parent.children.push(got);
     laid.push({ ...p, got, cellW, js, as });
     if (p.rs === 1) {
       const idx = p.pr - 1;
-      if (explicitRows[idx] == null) rowHeights[idx] = Math.max(rowHeights[idx] || 0, got.height);
+      if (explicitRows[idx] == null) {
+        rowHeights[idx] = autoRowFixed > 0 ? autoRowFixed : Math.max(rowHeights[idx] || 0, got.height);
+      }
     }
   }
   // Row-spanning items grow the last implicit row they cover when needed.
@@ -662,17 +813,31 @@ function layoutGrid(children, parent, ctx, out) {
       let have = rowGap * (l.rs - 1), lastImplicit = -1;
       for (let rr = l.pr; rr < l.pr + l.rs; rr++) {
         have += rowHeights[rr - 1] || 0;
-        if (explicitRows[rr - 1] == null) lastImplicit = rr - 1;
+        if (explicitRows[rr - 1] == null && autoRowFixed <= 0) lastImplicit = rr - 1;
       }
       if (lastImplicit >= 0 && l.got.height > have) rowHeights[lastImplicit] += l.got.height - have;
     }
   }
-  // Pass 2: final y positions + justify/align within each cell.
-  const rowY = [0];
+  // B"H 2026-10-09: align-content — offset the row grid inside an
+  // explicit-height container (auto height => no free space => no-op).
   const nRows = rowHeights.length;
-  for (let i = 0; i < nRows; i++) rowY.push(rowY[i] + (rowHeights[i] || 0) + rowGap);
+  const tracksH = sum(rowHeights, 0, nRows) + rowGap * Math.max(0, nRows - 1);
+  const alignBoxH = ctx.height > 0 ? ctx.height : tracksH;
+  const freeH = Math.max(0, alignBoxH - tracksH);
+  const ac = String(s["align-content"] || "start").trim().toLowerCase();
+  let yLead = 0, yGap = rowGap;
+  if (ac === "center") yLead = freeH / 2;
+  else if (ac === "end" || ac === "flex-end") yLead = freeH;
+  else if ((ac === "space-between" || ac === "space-around" || ac === "space-evenly") && nRows > 0) {
+    if (ac === "space-between" && nRows > 1) yGap = rowGap + freeH / (nRows - 1);
+    else if (ac === "space-around") { yLead = freeH / (nRows * 2); yGap = rowGap + freeH / nRows; }
+    else if (ac === "space-evenly") { yLead = freeH / (nRows + 1); yGap = rowGap + yLead; }
+  }
+  // Pass 2: final y positions + justify/align within each cell.
+  const rowY = [yLead];
+  for (let i = 0; i < nRows; i++) rowY.push(rowY[i] + (rowHeights[i] || 0) + yGap);
   for (const l of laid) {
-    const cellH = sum(rowHeights, l.pr - 1, l.pr - 1 + l.rs) + rowGap * (l.rs - 1);
+    const cellH = sum(rowHeights, l.pr - 1, l.pr - 1 + l.rs) + yGap * (l.rs - 1);
     shiftSubtree(l.got, ctx.y + rowY[l.pr - 1] - l.got.y);
     let dx = 0;
     if (l.js === "center") dx = (l.cellW - l.got.width) / 2;
@@ -685,7 +850,35 @@ function layoutGrid(children, parent, ctx, out) {
       if (dy > 0) shiftSubtree(l.got, dy);
     }
   }
-  return { height: nRows ? rowY[nRows] - rowGap : 0, oof: [] };
+  return { height: nRows ? rowY[nRows] - yGap - yLead : 0, oof: [] };
+}
+
+// B"H 2026-10-09: map [name] line names in a track list to 1-based line
+// numbers (`[start]200px [mid] 1fr [end]` => start:1, mid:2, end:3).
+function parseGridLineNames(text) {
+  const map = {};
+  let line = 1;
+  for (const tok of splitTrackList(String(text || ""))) {
+    const names = [];
+    const bare = String(tok).replace(/\[([^\]]*)\]/g, (m, n) => { if (String(n).trim()) names.push(String(n).trim()); return " "; }).trim();
+    for (const n of names) { (map[n] = map[n] || []).push(line); }
+    if (bare) line++;
+  }
+  return map;
+}
+
+// B"H 2026-10-09: parse the `grid-area: r1/c1/r2/c2` shorthand (2 or 4
+// parts) into {row, col} placement strings for parseLinePlacement.
+// Returns null for named areas (handled by the template-areas map).
+function parseGridAreaShorthand(v) {
+  const t = String(v || "").trim();
+  if (!t || t.indexOf("/") < 0) return null;
+  const parts = t.split("/").map(x => x.trim());
+  if (parts.length !== 2 && parts.length !== 4) return null;
+  const ok = (p) => /^(auto|span\s+\d+|-?\d+|[a-zA-Z_][\w-]*)$/.test(p);
+  if (!parts.every(ok)) return null;
+  if (parts.length === 2) return { row: parts[0], col: parts[1] };
+  return { row: parts[0] + "/" + parts[2], col: parts[1] + "/" + parts[3] };
 }
 
 // B"H 2026-10-09: grid gap parsing — `gap: 16px 32px` is row 16 / column 32;
@@ -707,9 +900,13 @@ function parseGridGap(s) {
 // name -> {rs, cs, re, ce} 1-based line rectangles.
 function parseGridAreas(text) {
   const rows = [];
-  const re = /"([^"]*)"/g;
+  // B"H: handle both single and double quotes (HTML style attrs often use single).
+  const re = /"([^"]*)"|'([^']*)'/g;
   let m;
-  while ((m = re.exec(String(text || "")))) rows.push(m[1].trim().split(/\s+/).filter(Boolean));
+  while ((m = re.exec(String(text || "")))) {
+    const content = m[1] !== undefined ? m[1] : m[2];
+    rows.push(content.trim().split(/\s+/).filter(Boolean));
+  }
   const map = {};
   rows.forEach((cells, r) => cells.forEach((name, c) => {
     if (!name || name === ".") return;
@@ -721,23 +918,28 @@ function parseGridAreas(text) {
 }
 
 // B"H 2026-10-09: parse `grid-column`/`grid-row` values like "1/3", "2",
-// "span 2", "auto" into {start, span}.
-function parseLinePlacement(v) {
+// "span 2", "auto", and named lines ("mid/end" via the line-name map)
+// into {start, span}.
+function parseLinePlacement(v, lineNames) {
   const t = String(v || "").trim().toLowerCase();
   if (!t || t === "auto") return { start: 0, span: 1 };
+  const names = lineNames || {};
+  const val = (tok) => {
+    if (!tok) return {};
+    const spm = String(tok).match(/span\s+(\d+)/i);
+    if (spm) return { span: Number(spm[1]) };
+    const nm = names[tok];
+    if (nm && nm.length) return { start: nm[0] };
+    const m = String(tok).match(/^(-?\d+)/);
+    if (m) return { start: Number(m[1]) };
+    return {};
+  };
   const parts = t.split("/").map(x => x.trim());
-  const asNum = (tok) => { const m = String(tok || "").match(/^(-?\d+)/); return m ? Number(m[1]) : 0; };
-  const asSpan = (tok) => { const m = String(tok || "").match(/span\s+(\d+)/); return m ? Number(m[1]) : 0; };
+  const a = val(parts[0]), b = val(parts[1]);
   let start = 0, span = 1;
-  if (parts[0]) {
-    const sp = asSpan(parts[0]);
-    if (sp) span = sp; else start = asNum(parts[0]);
-  }
-  if (parts[1]) {
-    const sp = asSpan(parts[1]);
-    if (sp) span = sp;
-    else { const e = asNum(parts[1]); if (e && start) span = Math.max(1, e - start); }
-  }
+  if (a.span) span = a.span; else if (a.start) start = a.start;
+  if (b.span) span = b.span;
+  else if (b.start) { if (start) span = Math.max(1, b.start - start); else start = b.start; }
   return { start, span };
 }
 
@@ -756,19 +958,45 @@ function num(v, fallback) { const n = Number(String(v || "").trim()); return Num
 // flex-grow / flex-shrink / flex-basis. Items are blockified per CSS.
 function layoutFlex(children, parent, ctx, out) {
   const s = parent.style || {};
-  const dir = String(s["flex-direction"] || "row").trim().toLowerCase();
-  if (dir.startsWith("column")) return layoutFlexColumn(children, parent, ctx, out);
-  return layoutFlexRow(children, parent, ctx, out);
+  // B"H 2026-10-09: flex-flow shorthand sets direction + wrap; explicit
+  // longhands win over the shorthand's values.
+  const ff = String(s["flex-flow"] || "").trim().toLowerCase().split(/\s+/).filter(Boolean);
+  let dir = String(s["flex-direction"] || "").trim().toLowerCase();
+  let wrap = String(s["flex-wrap"] || "").trim().toLowerCase();
+  for (const t of ff) {
+    if (t === "row" || t === "row-reverse" || t === "column" || t === "column-reverse") { if (!dir) dir = t; }
+    else if (t === "nowrap" || t === "wrap" || t === "wrap-reverse") { if (!wrap) wrap = t; }
+  }
+  dir = dir || "row"; wrap = wrap || "nowrap";
+  const opts = { rev: dir === "row-reverse" || dir === "column-reverse", wrapRev: wrap === "wrap-reverse", wrap: wrap !== "nowrap" };
+  if (dir.indexOf("column") === 0) return layoutFlexColumn(children, parent, ctx, out, opts);
+  return layoutFlexRow(children, parent, ctx, out, opts);
 }
 
-function layoutFlexRow(children, parent, ctx, out) {
+// B"H 2026-10-09: true when the margin on `side` is `auto` (longhand or
+// shorthand). `dim()` collapses auto to 0, so this reads the raw value.
+function isAutoMargin(style, side) {
+  const s = style || {};
+  const long = String(s["margin-" + side] || "").trim().toLowerCase();
+  if (long) return long === "auto";
+  const parts = String(s.margin || "").trim().toLowerCase().split(/\s+/).filter(Boolean);
+  let v = "";
+  if (parts.length === 1) v = parts[0];
+  else if (parts.length === 2) v = (side === "top" || side === "bottom") ? parts[0] : parts[1];
+  else if (parts.length === 3) v = side === "top" ? parts[0] : side === "bottom" ? parts[2] : parts[1];
+  else if (parts.length >= 4) v = { top: parts[0], right: parts[1], bottom: parts[2], left: parts[3] }[side] || "";
+  return v === "auto";
+}
+
+function layoutFlexRow(children, parent, ctx, out, opts) {
   const s = parent.style || {};
+  const o = opts || {};
   const W = Math.max(1, ctx.width);
   const gap = px(s.gap || s["column-gap"] || 0);
   const rowGap = px(s["row-gap"] || s.gap || 0);
   const justify = String(s["justify-content"] || "flex-start").trim().toLowerCase();
   const align = String(s["align-items"] || "stretch").trim().toLowerCase();
-  const wrap = String(s["flex-wrap"] || "nowrap").trim().toLowerCase() !== "nowrap";
+  const wrap = !!o.wrap;
   const items = children.filter(c => !hidden(c)).map(child => {
     const st = styleOf(child);
     return { child, style: st, basis: Math.max(0, Math.min(W, flexBasis(child, st, W))), grow: num(st["flex-grow"], 0), shrink: num(st["flex-shrink"], 1), order: num(st.order, 0) };
@@ -802,23 +1030,42 @@ function layoutFlexRow(children, parent, ctx, out) {
     } else for (const it of line) it.main = it.basis;
     const used = line.reduce((n, it) => n + it.main, 0) + gaps;
     const extra = Math.max(0, W - used);
+    // B"H 2026-10-09: auto main-axis margins absorb free space before
+    // justify-content (which is then a no-op for the line).
+    let nAutoMain = 0;
+    for (const it of line) {
+      it.mlAuto = isAutoMargin(it.style, "left");
+      it.mrAuto = isAutoMargin(it.style, "right");
+      if (it.mlAuto) nAutoMain++;
+      if (it.mrAuto) nAutoMain++;
+    }
+    const autoMain = (nAutoMain > 0 && extra > 0) ? extra / nAutoMain : 0;
     let x = ctx.x, between = gap;
-    if (justify === "center") x = ctx.x + extra / 2;
+    if (autoMain > 0) { /* auto margins take the free space; no justify */ }
+    else if (justify === "center") x = ctx.x + extra / 2;
     else if (justify === "flex-end" || justify === "end" || justify === "right") x = ctx.x + extra;
     else if (justify === "space-between" && line.length > 1) between = gap + extra / (line.length - 1);
     else if (justify === "space-around" && line.length) { x = ctx.x + extra / (line.length * 2); between = gap + extra / line.length; }
     else if (justify === "space-evenly" && line.length) { x = ctx.x + extra / (line.length + 1); between = gap + extra / (line.length + 1); }
     const laid = [];
     for (const it of line) {
+      if (autoMain > 0 && it.mlAuto) x += autoMain;
       const got = layoutBlockBox(it.child, { x, y, width: it.main, viewportHeight: ctx.viewportHeight, depth, noCollapse: true, vpW: ctx.vpW, vpH: ctx.vpH, cb: ctx.cb }, out);
       if (got) { parent.children.push(got); laid.push({ it, got }); }
       x += it.main + between;
+      if (autoMain > 0 && it.mrAuto) x += autoMain;
     }
     const lineH = laid.reduce((n, l) => Math.max(n, l.got.height), 0);
+    // B"H 2026-10-09: align-items:baseline — align first baselines
+    // (approximated as 0.8em from the item top for text items).
+    const baseAlign = laid.some(l => String(l.it.style["align-self"] || align).trim().toLowerCase() === "baseline");
+    let maxBase = 0;
+    if (baseAlign) for (const l of laid) maxBase = Math.max(maxBase, flexBaselineOf(l.it));
     for (const { it, got } of laid) {
       const selfAlign = String(it.style["align-self"] || align).trim().toLowerCase();
       let dy = 0;
-      if (selfAlign === "center") dy = (lineH - got.height) / 2;
+      if (selfAlign === "baseline") dy = maxBase - flexBaselineOf(it);
+      else if (selfAlign === "center") dy = (lineH - got.height) / 2;
       else if (selfAlign === "flex-end" || selfAlign === "end") dy = lineH - got.height;
       else if (selfAlign === "stretch" && !measuredHeight(it.child, it.style, 0) && got.height < lineH) got.height = lineH;
       if (dy) shiftSubtree(got, dy);
@@ -863,20 +1110,53 @@ function layoutFlexRow(children, parent, ctx, out) {
     else if (ac === "space-evenly") { startY = ctx.y + extra / (n + 1); between = rowGap + extra / (n + 1); }
   }
   let ly = startY;
+  // B"H 2026-10-09: wrap-reverse mirrors lines about the container's cross
+  // extent (first line ends up at the bottom).
+  const spanTotal = lineHs.reduce((n, h) => n + h, 0) + between * Math.max(0, n - 1);
   for (let li = 0; li < n; li++) {
-    const dy = ly - lineStarts[li];
+    let dy = ly - lineStarts[li];
+    if (o.wrapRev) {
+      const y0 = lineStarts[li] + dy;
+      dy = (2 * startY + spanTotal - y0 - lineHs[li]) - lineStarts[li];
+    }
     if (dy) for (const l of lineLaid[li]) shiftSubtree(l.got, dy);
+    // B"H 2026-10-09: auto cross-axis margins absorb the line's free space.
+    for (const l of lineLaid[li]) {
+      const freeC = lineHs[li] - l.got.height;
+      if (freeC <= 0) continue;
+      const mtA = isAutoMargin(l.it.style, "top"), mbA = isAutoMargin(l.it.style, "bottom");
+      if (mtA && mbA) shiftSubtree(l.got, freeC / 2);
+      else if (mtA) shiftSubtree(l.got, freeC);
+    }
     ly += lineHs[li] + between;
+  }
+  // B"H 2026-10-09: row-reverse — mirror items about the container's
+  // vertical center line (order + justify already resolved above).
+  if (o.rev) {
+    for (const laid of lineLaid) for (const l of laid) {
+      const nx = ctx.x + W - (l.got.x - ctx.x) - l.got.width;
+      shiftSubtreeX(l.got, nx - l.got.x);
+    }
   }
   return { height: H, oof: [] };
 }
 
-function layoutFlexColumn(children, parent, ctx, out) {
+// B"H 2026-10-09: first-baseline offset of a flex item from its top,
+// approximated as 0.8em of its font size (covers the text-item tests).
+function flexBaselineOf(it) {
+  const fs = dim((it.style || {})["font-size"], 0) || 14;
+  return fs * 0.8;
+}
+
+function layoutFlexColumn(children, parent, ctx, out, opts) {
   const s = parent.style || {};
+  const o = opts || {};
   const W = Math.max(1, ctx.width);
   const gap = px(s.gap || s["row-gap"] || 0);
+  const colGap = px(s["column-gap"] || s.gap || 0);
   const justify = String(s["justify-content"] || "flex-start").trim().toLowerCase();
   const align = String(s["align-items"] || "stretch").trim().toLowerCase();
+  const wrap = !!o.wrap;
   const depth = (ctx.depth || 0) + 1;
   const items = children.filter(c => !hidden(c)).map(child => {
     const st = styleOf(child);
@@ -893,33 +1173,97 @@ function layoutFlexColumn(children, parent, ctx, out) {
     const got = layoutBlockBox(it.child, { x: ctx.x, y: 0, width: it.w, viewportHeight: ctx.viewportHeight, depth, noCollapse: true, vpW: ctx.vpW, vpH: ctx.vpH, cb: ctx.cb }, out);
     if (got) { parent.children.push(got); laid.push({ it, got }); }
   }
-  const contentH = laid.reduce((n, l) => n + l.got.height, 0) + gap * Math.max(0, laid.length - 1);
-  const containerH = Math.max(contentH, dim(s.height, ctx.viewportHeight || 0) || 0);
-  const extra = Math.max(0, containerH - contentH);
-  let y = ctx.y, between = gap;
-  if (justify === "center") y = ctx.y + extra / 2;
-  else if (justify === "flex-end" || justify === "end") y = ctx.y + extra;
-  else if (justify === "space-between" && laid.length > 1) between = gap + extra / (laid.length - 1);
-  else if (justify === "space-around" && laid.length) { y = ctx.y + extra / (laid.length * 2); between = gap + extra / laid.length; }
-  else if (justify === "space-evenly" && laid.length) { y = ctx.y + extra / (laid.length + 1); between = gap + extra / (laid.length + 1); }
+  // B"H 2026-10-09: column wrap — break into columns against the
+  // container's explicit height (no wrap => a single column).
+  const explicitH = dim(s.height, ctx.viewportHeight || 0) || 0;
+  const maxMain = wrap && explicitH > 0 ? explicitH : Infinity;
+  const cols = [[]];
+  let colH = 0;
   for (const l of laid) {
-    const targetY = y + l.got.margin.top;
-    shiftSubtree(l.got, targetY - l.got.y);
-    let dx = 0;
-    if (l.it.selfAlign === "center") dx = ctx.x + (W - l.got.width) / 2 - l.got.x;
-    else if (l.it.selfAlign === "flex-end" || l.it.selfAlign === "end" || l.it.selfAlign === "right") dx = ctx.x + W - l.got.width - l.got.x;
-    if (dx) shiftSubtreeX(l.got, dx);
-    y += l.got.height + between;
+    const next = colH ? colH + gap + l.got.height : l.got.height;
+    if (cols[cols.length - 1].length && next > maxMain + 0.5) { cols.push([]); colH = 0; }
+    cols[cols.length - 1].push(l);
+    colH = colH ? colH + gap + l.got.height : l.got.height;
   }
-  return { height: Math.max(contentH, containerH), oof: [] };
+  let x = ctx.x, totalW = 0;
+  const colXs = [];
+  for (const col of cols) {
+    if (!col.length) continue;
+    const contentH = col.reduce((n, l) => n + l.got.height, 0) + gap * Math.max(0, col.length - 1);
+    const containerH = Math.max(contentH, explicitH);
+    const extra = Math.max(0, containerH - contentH);
+    let y = ctx.y, between = gap;
+    if (justify === "center") y = ctx.y + extra / 2;
+    else if (justify === "flex-end" || justify === "end") y = ctx.y + extra;
+    else if (justify === "space-between" && col.length > 1) between = gap + extra / (col.length - 1);
+    else if (justify === "space-around" && col.length) { y = ctx.y + extra / (col.length * 2); between = gap + extra / col.length; }
+    else if (justify === "space-evenly" && col.length) { y = ctx.y + extra / (col.length + 1); between = gap + extra / (col.length + 1); }
+    const colW = Math.max(1, col.reduce((n, l) => Math.max(n, l.got.width), 0));
+    // B"H: a lone column aligns items within the container width; wrapped
+    // columns size to their content like flex lines do.
+    const crossW = (!wrap || cols.length <= 1) ? W : colW;
+    colXs.push({ x, col, colW, crossW, y0: y, between });
+    for (const l of col) {
+      const targetY = y + l.got.margin.top;
+      shiftSubtree(l.got, targetY - l.got.y);
+      let dx = 0;
+      if (l.it.selfAlign === "center") dx = x + (crossW - l.got.width) / 2 - l.got.x;
+      else if (l.it.selfAlign === "flex-end" || l.it.selfAlign === "end" || l.it.selfAlign === "right") dx = x + crossW - l.got.width - l.got.x;
+      else if (l.it.selfAlign === "stretch") dx = x - l.got.x;
+      // B"H 2026-10-09: auto cross-axis margins (margin-left/right:auto)
+      // absorb the column's free inline space.
+      const freeI = crossW - l.got.width;
+      if (freeI > 0) {
+        const mlA = isAutoMargin(l.it.style, "left"), mrA = isAutoMargin(l.it.style, "right");
+        if (mlA && mrA) dx = x + freeI / 2 - l.got.x;
+        else if (mlA) dx = x + freeI - l.got.x;
+        else if (mrA) dx = x - l.got.x;
+      }
+      if (dx) shiftSubtreeX(l.got, dx);
+      y += l.got.height + between;
+    }
+    x += colW + colGap;
+    totalW += colW + colGap;
+  }
+  if (cols.length && cols[cols.length - 1].length) totalW -= colGap;
+  const retH = Math.max(laid.reduce((n, l) => n + l.got.height, 0) + gap * Math.max(0, laid.length - 1), explicitH);
+  // B"H 2026-10-09: column-reverse — mirror items about the container's
+  // horizontal center line; wrap-reverse — mirror columns about the
+  // container's vertical center line.
+  if (o.rev) {
+    const boxH = Math.max(explicitH, retH);
+    for (const l of laid) {
+      const ny = ctx.y + boxH - (l.got.y - ctx.y) - l.got.height;
+      shiftSubtree(l.got, ny - l.got.y);
+    }
+  }
+  if (o.wrapRev && colXs.length > 1) {
+    // B"H 2026-10-09: wrap-reverse — mirror each column about the
+    // container's vertical center line (first column ends up at the right).
+    const boxW = Math.max(W, totalW);
+    for (const c of colXs) {
+      const nx = ctx.x + boxW - (c.x - ctx.x) - c.colW;
+      const dx = nx - c.x;
+      if (dx) for (const l of c.col) shiftSubtreeX(l.got, dx);
+    }
+  }
+  return { height: retH, oof: [] };
 }
 // B"H 2026-10-09: explicit widths are honored even past the containing block
 // (overflow then clips/paints them); only the auto case fills the container.
 function measuredWidth(node, s, avail) {
   const explicit = dim(s.width, avail);
-  if (explicit) return explicit;
-  if (node.localName === "canvas") return dim(node.attributes?.width || node.width, avail) || avail;
-  return avail;
+  let w;
+  if (explicit) w = explicit;
+  else if (node.localName === "canvas") w = dim(node.attributes?.width || node.width, avail) || avail;
+  else w = avail;
+  // B"H 2026-10-09 (css-worker-2): min-width/max-width clamp the used width
+  // (CSS 2.1 §10.4). Previously ignored entirely.
+  const minW = dim(s["min-width"], avail);
+  const maxW = dim(s["max-width"], avail);
+  if (minW > 0) w = Math.max(w, minW);
+  if (maxW > 0) w = Math.min(w, maxW);
+  return w;
 }
 function measuredHeight(node, s, parent) { return dim(s.height, parent) || (node.localName === "canvas" ? dim(node.attributes?.height || node.height, parent) : 0); }
 function flexBasis(node, style, parent) {
@@ -933,8 +1277,31 @@ function flexBasis(node, style, parent) {
   if (node.localName === "canvas") return Math.max(1, dim(node.attributes?.width || node.width, parent) || 0);
   const own = renderOwnText(node);
   if (own) return Math.max(1, textWidth(own, s));
+  // B"H 2026-10-09: a nested flex container's max-content follows ITS flex
+  // layout — a row sums children (+gaps), a column takes the widest.
+  const disp = String(s.display || "").trim().toLowerCase();
+  if (disp === "flex" || disp === "inline-flex") {
+    const ff = String(s["flex-flow"] || "").trim().toLowerCase().split(/\s+/).filter(Boolean);
+    let ddir = String(s["flex-direction"] || "").trim().toLowerCase();
+    for (const t of ff) if (t === "row" || t === "row-reverse" || t === "column" || t === "column-reverse") { if (!ddir) ddir = t; }
+    const isRow = ddir.indexOf("column") !== 0;
+    const fg = px(s.gap || s["column-gap"] || 0);
+    let total = 0, count = 0, widest = 0;
+    for (const k of (node.children || [])) {
+      if (hidden(k) || !k || k.nodeType !== 1) continue;
+      const ks = styleOf(k);
+      const pad = box(ks, "padding", parent);
+      const kw = dim(ks.width, parent);
+      const outer = (kw > 0 ? kw : naturalInlineWidth(k, ks, parent)) + pad.left + pad.right;
+      if (isRow) { total += outer; count++; }
+      else widest = Math.max(widest, outer);
+    }
+    return Math.max(1, isRow ? total + fg * Math.max(0, count - 1) : widest);
+  }
   // B"H 2026-10-09: content-driven max-content — the widest child (plus its
   // padding), not 1px, so e.g. a nested column flex keeps its intrinsic width.
+  // B"H 2026-10-09: an explicit child width IS its max-content contribution
+  // (a 200px-wide block child makes the container 200px, not ~22px).
   let widest = 0;
   for (const k of (node.children || [])) {
     if (hidden(k)) continue;
@@ -942,7 +1309,8 @@ function flexBasis(node, style, parent) {
     else {
       const ks = styleOf(k);
       const pad = box(ks, "padding", parent);
-      widest = Math.max(widest, naturalInlineWidth(k, ks, parent) + pad.left + pad.right);
+      const kw = dim(ks.width, parent);
+      widest = Math.max(widest, (kw > 0 ? kw : naturalInlineWidth(k, ks, parent)) + pad.left + pad.right);
     }
   }
   return Math.max(1, widest);
@@ -950,16 +1318,19 @@ function flexBasis(node, style, parent) {
 function tracks(text, total, gap, hint) {
   // B"H 2026-10-09: expand nested repeat() tokens, then size each track
   // (minmax() supported — the max bound wins for fixed sizes).
+  // B"H 2026-10-09: pure [name] line tokens are not tracks — drop them
+  // before sizing (`[start]200px [mid] 1fr [end]` = 2 tracks).
   const flat = [];
   for (const p of expandRepeat(text, total, gap, hint)) {
     if (/^repeat\(/i.test(p)) flat.push(...expandRepeat(p, total, gap, hint));
     else flat.push(p);
   }
-  const fixed = flat.map(p => trackSize(p, total).fixed || 0);
-  const fr = flat.map(p => trackSize(p, total).fr || 0);
-  const free = Math.max(1, (total || sum(fixed, 0, fixed.length) || 1) - gap * Math.max(0, flat.length - 1) - sum(fixed, 0, fixed.length));
+  const sized = flat.filter(p => !/^\[[^\]]*\]$/.test(String(p).trim()));
+  const fixed = sized.map(p => trackSize(p, total).fixed || 0);
+  const fr = sized.map(p => trackSize(p, total).fr || 0);
+  const free = Math.max(1, (total || sum(fixed, 0, fixed.length) || 1) - gap * Math.max(0, sized.length - 1) - sum(fixed, 0, fixed.length));
   const frSum = sum(fr, 0, fr.length) || 1;
-  return flat.length ? flat.map((_, i) => fixed[i] || (fr[i] ? free * fr[i] / frSum : 1)) : Array.from({ length: Math.max(1, hint || 1) }, () => total || 1);
+  return sized.length ? sized.map((_, i) => fixed[i] || (fr[i] ? free * fr[i] / frSum : 1)) : Array.from({ length: Math.max(1, hint || 1) }, () => total || 1);
 }
 function trackSize(token, total) {
   const t = String(token || "").trim();
@@ -1139,12 +1510,12 @@ function cascadePseudoStyle(element, matched) {
   );
   const flat = {};
   for (const d of decls) flat[d.name] = d.value;
-  const out = {};
-  for (const d of expandDeclarations(
-    Object.entries(flat).map(([name, value]) => ({ name, value, important: false }))
-  )) {
-    out[d.name] = d.value;
-  }
+  // B"H 2026-10-09 (css-worker-2): compileStylesheet already expanded
+  // shorthands (border -> border-width/style/color, margin -> margin-top...).
+  // Running expandDeclarations again double-expanded border-width into
+  // border-width-top/etc., which the painters don't read — so ::before/
+  // ::after borders never painted. Copy the flat map directly.
+  const out = { ...flat };
   // Pseudo-elements inherit text/font properties from their host element.
   const host = (element && element.computedStyle) || {};
   for (const k of ["font-size", "font-family", "font-weight", "font-style", "color", "line-height"]) {
@@ -1283,6 +1654,219 @@ function applyFirstLineStyles(out) {
       if (Math.abs((Number(t.y) || 0) - minY) < 1) t.style = { ...(t.style || {}), ...props };
     }
   }
+}
+
+// ---------------------------------------------------------------------------
+// B"H 2026-10-09 (css-worker-2): relative-unit resolution (vw/vh/vmin/vmax,
+// rem, em). The cascade leaves these as strings and layout's dim() only knew
+// px and % — so `50vw` measured as 50 and `10rem` as 10. This pre-layout
+// pass rewrites relative units to px in every element's computedStyle, so
+// all dim() call sites benefit without signature changes. Pre-order walk:
+// em resolves against the element's own (already resolved) font-size, rem
+// against the root font-size (`html{font-size}` honored, else 16px), vw/vh
+// against the viewport. % is left for layout (needs the containing block).
+// Runs after the cascade + pseudo-element materialization, before layout.
+// ---------------------------------------------------------------------------
+const REL_UNIT_RE = /(-?\d*\.?\d+)(vmin|vmax|rem|vw|vh|em)\b/gi;
+const FONT_SIZE_KEYWORDS = {
+  "xx-small": 9, "x-small": 10, small: 13, medium: 16,
+  large: 18, "x-large": 24, "xx-large": 32, larger: 19, smaller: 13,
+};
+// Properties whose values are never lengths (skip the rewrite there).
+const REL_UNIT_SKIP_PROPS = new Set([
+  "content", "font-family", "quotes", "counter-reset", "counter-increment",
+  "list-style-type", "font", "font-variant",
+]);
+
+function relUnitToPx(num, unit, emPx, remPx, vwPx, vhPx) {
+  switch (unit) {
+    case "em": return num * emPx;
+    case "rem": return num * remPx;
+    case "vw": return num * vwPx;
+    case "vh": return num * vhPx;
+    case "vmin": return num * Math.min(vwPx, vhPx);
+    case "vmax": return num * Math.max(vwPx, vhPx);
+    default: return null;
+  }
+}
+
+/** Rewrite relative-unit length tokens to px, leaving quoted strings and url(...) alone. */
+function rewriteRelUnits(value, emPx, remPx, vwPx, vhPx) {
+  const parts = String(value).split(/("[^"]*"|'[^']*')/g);
+  for (let i = 0; i < parts.length; i += 2) {
+    // Protect url(...) payloads inside the unquoted segments.
+    const segs = parts[i].split(/(url\([^)]*\))/gi);
+    for (let j = 0; j < segs.length; j += 2) {
+      REL_UNIT_RE.lastIndex = 0;
+      segs[j] = segs[j].replace(REL_UNIT_RE, (m, num, unit) => {
+        const px = relUnitToPx(Number(num), unit.toLowerCase(), emPx, remPx, vwPx, vhPx);
+        return px == null ? m : (Math.round(px * 1000) / 1000) + "px";
+      });
+    }
+    parts[i] = segs.join("");
+  }
+  return parts.join("");
+}
+
+/** Evaluate a px-only calc()/min()/max()/clamp(); null when it needs layout (% left). */
+function evaluatePxMathOnly(text) {
+  let out = String(text);
+  for (let guard = 0; guard < 12; guard++) {
+    const m = /(calc|min|max|clamp)\(/i.exec(out);
+    if (!m) return out;
+    const at = m.index, plen = m[0].length;
+    let depth = 0, end = -1;
+    for (let i = at + plen; i < out.length; i++) {
+      if (out[i] === "(") depth++;
+      else if (out[i] === ")") { if (depth === 0) { end = i; break; } depth--; }
+    }
+    if (end < 0) return out;
+    const inner = out.slice(at + plen, end);
+    if (/%/.test(inner)) return null;
+    const val = evaluatePxMathInner(m[1].toLowerCase(), inner);
+    if (val == null) return out;
+    out = out.slice(0, at) + (Math.round(val * 1000) / 1000) + "px" + out.slice(end + 1);
+  }
+  return out;
+}
+
+function evaluatePxMathInner(name, inner) {
+  // Tokenize numbers with px (or unitless) and operators.
+  const toks = [];
+  const re = /(-?\d*\.?\d+)(px)?|([+\-*/(),])/gi;
+  let m;
+  while ((m = re.exec(inner)) !== null) {
+    if (m[3]) toks.push(m[3]);
+    else if (m[1] !== undefined && m[1] !== "") toks.push(Number(m[1]));
+  }
+  if (!toks.length) return null;
+  try {
+    if (name === "calc") return evalPxTokens(toks);
+    // min/max/clamp: split on top-level commas.
+    const args = [];
+    let cur = [], depth = 0;
+    for (const t of toks) {
+      if (t === "(") depth++;
+      if (t === ")") depth--;
+      if (t === "," && depth === 0) { args.push(cur); cur = []; continue; }
+      cur.push(t);
+    }
+    args.push(cur);
+    const vals = args.map((a) => evalPxTokens(a));
+    if (vals.some((v) => v == null || !isFinite(v))) return null;
+    if (name === "min") return Math.min(...vals);
+    if (name === "max") return Math.max(...vals);
+    if (vals.length !== 3) return null;
+    return Math.min(Math.max(vals[1], vals[0]), vals[2]);
+  } catch { return null; }
+}
+
+function evalPxTokens(toks) {
+  // Shunting-yard for + - * / with parens, px-space numbers only.
+  const out = [], ops = [];
+  const prec = { "+": 1, "-": 1, "*": 2, "/": 2 };
+  const apply = () => {
+    const op = ops.pop(), b = out.pop(), a = out.pop();
+    if (typeof a !== "number" || typeof b !== "number") throw new Error("bad");
+    out.push(op === "+" ? a + b : op === "-" ? a - b : op === "*" ? a * b : a / b);
+  };
+  for (const t of toks) {
+    if (typeof t === "number") out.push(t);
+    else if (t === "(") ops.push(t);
+    else if (t === ")") { while (ops.length && ops[ops.length - 1] !== "(") apply(); ops.pop(); }
+    else if (prec[t]) { while (ops.length && ops[ops.length - 1] !== "(" && prec[ops[ops.length - 1]] >= prec[t]) apply(); ops.push(t); }
+    else throw new Error("bad");
+  }
+  while (ops.length) apply();
+  return out.length === 1 ? out[0] : null;
+}
+
+/** Resolve a font-size value to px (em/% against parent, rem against root). */
+function resolveFontSizePx(raw, parentPx, remPx, vwPx, vhPx) {
+  let s = rewriteRelUnits(String(raw || ""), parentPx, remPx, vwPx, vhPx).trim().toLowerCase();
+  if (!s) return null;
+  if (/(calc|min|max|clamp)\(/.test(s)) {
+    const ev = evaluatePxMathOnly(s);
+    if (ev == null) return null;
+    s = String(ev).trim().toLowerCase();
+  }
+  if (s.endsWith("%")) {
+    const n = parseFloat(s);
+    return isFinite(n) ? parentPx * n / 100 : null;
+  }
+  if (FONT_SIZE_KEYWORDS[s] != null) return FONT_SIZE_KEYWORDS[s];
+  const m = s.match(/^(-?[\d.]+)px$/);
+  if (m) return Number(m[1]);
+  const n = parseFloat(s);
+  return isFinite(n) && /^[\d.\-+e]+$/.test(s) ? n : null;
+}
+
+/** Winning `html{font-size}` declaration across rules (the parser drops <html>, so match by hand). */
+function htmlRootFontSize(rules) {
+  let best = null, bestScore = null;
+  const cmp = (a, b) => {
+    const n = Math.max(a.length, b.length);
+    for (let i = 0; i < n; i++) { const d = (a[i] || 0) - (b[i] || 0); if (d) return d; }
+    return 0;
+  };
+  for (const rule of rules || []) {
+    if (String(rule.selector || "").trim().toLowerCase() !== "html") continue;
+    for (const d of rule.declarations || []) {
+      if (String(d.name || "").toLowerCase() !== "font-size") continue;
+      const score = [d.important ? 1 : 0, ...(rule.specificity || [0, 0, 0, 0]), rule.order || 0];
+      if (!best || cmp(score, bestScore) >= 0) { best = d.value; bestScore = score; }
+    }
+  }
+  return best;
+}
+
+function resolveRelativeUnits(root, rules, viewport) {
+  const vwPx = (viewport.width || 0) / 100, vhPx = (viewport.height || 0) / 100;
+  let remPx = 16;
+  const htmlFs = htmlRootFontSize(rules);
+  if (htmlFs != null) {
+    const r = resolveFontSizePx(htmlFs, 16, 16, vwPx, vhPx);
+    if (r != null && r > 0) remPx = r;
+  }
+  const visit = (node, parentFontPx) => {
+    if (!node || node.nodeType !== 1) return;
+    const st = node.computedStyle || {};
+    let fontPx = parentFontPx;
+    const fsRaw = st["font-size"];
+    if (fsRaw != null && String(fsRaw).trim() !== "") {
+      const r = resolveFontSizePx(fsRaw, parentFontPx, remPx, vwPx, vhPx);
+      if (r != null && r > 0) fontPx = r;
+    }
+    let changed = false;
+    const out = {};
+    for (const k of Object.keys(st)) {
+      const v = st[k];
+      if (k === "font-size") {
+        const nv = (Math.round(fontPx * 1000) / 1000) + "px";
+        out[k] = nv;
+        if (nv !== v) changed = true;
+        continue;
+      }
+      if (typeof v === "string" && !REL_UNIT_SKIP_PROPS.has(k) && !k.startsWith("--")) {
+        REL_UNIT_RE.lastIndex = 0;
+        if (REL_UNIT_RE.test(v)) {
+          let nv = rewriteRelUnits(v, fontPx, remPx, vwPx, vhPx);
+          if (/(calc|min|max|clamp)\(/.test(nv) && !/%/.test(nv)) {
+            const ev = evaluatePxMathOnly(nv);
+            if (ev != null) nv = ev;
+          }
+          out[k] = nv;
+          if (nv !== v) changed = true;
+          continue;
+        }
+      }
+      out[k] = v;
+    }
+    // Replace (never mutate in place — styleOf() interns shared objects).
+    if (changed) node.computedStyle = out;
+    for (const c of node.children || []) visit(c, fontPx);
+  };
+  visit(root, 16);
 }
 
 function collectCssRules(root, environment, orderStart) {
