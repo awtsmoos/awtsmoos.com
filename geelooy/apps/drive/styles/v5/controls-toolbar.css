@@ -38,9 +38,9 @@
 }
 
 .drive-primary-action {
-	border-color: transparent !important;
-	background: var(--drive-accent) !important;
-	color: #03100c !important;
+	border-color: transparent;
+	background: var(--drive-accent);
+	color: var(--drive-on-accent);
 	font-weight: 820;
 	box-shadow: 0 7px 24px rgba(84, 237, 187, .15);
 }
@@ -53,7 +53,8 @@
 }
 
 .drive-primary-action:hover {
-	background: #70f4c8 !important;
+	background: var(--drive-accent);
+	filter: brightness(1.12);
 }
 
 .drive-view-switch {

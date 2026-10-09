@@ -47,14 +47,17 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+	/* Accessibility: disable motion for users who need it.
+	   No !important — Yaakov 2026-10-08 binding law. This media query
+	   loads after the animation definitions, so it wins by source order. */
 	[data-awtsmoos-drive],
 	[data-awtsmoos-drive] *,
 	[data-awtsmoos-drive] *::before,
 	[data-awtsmoos-drive] *::after {
-		scroll-behavior: auto !important;
-		animation-duration: 1ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: 1ms !important;
+		scroll-behavior: auto;
+		animation-duration: 1ms;
+		animation-iteration-count: 1;
+		transition-duration: 1ms;
 	}
 }
 

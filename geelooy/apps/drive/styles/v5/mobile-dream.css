@@ -14,7 +14,7 @@
 		padding-top: 14px;
 	}
 	.drive-mobile-brand {
-		display: flex !important;
+		display: flex;
 		min-width: 0;
 	}
 	#drive-account-slot {

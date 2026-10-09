@@ -11,7 +11,10 @@
 	height: 100vh;
 	padding: 26px 18px 22px;
 	border-right: 1px solid var(--drive-line);
+	background: #060f0d;
 	background: rgba(4, 10, 9, .66);
+	color: #f5faf8;
+	color: var(--drive-text);
 	backdrop-filter: blur(18px);
 }
 
@@ -51,17 +54,20 @@
 	border: 0;
 	border-radius: 11px;
 	background: transparent;
+	color: #a8bfb8;
 	color: var(--drive-muted);
 	text-align: left;
 }
 
 .drive-sidebar-nav button:hover {
 	background: var(--drive-surface-hover);
+	color: #f5faf8;
 	color: var(--drive-text);
 }
 
 .drive-sidebar-nav button[aria-current="true"] {
 	background: rgba(84, 237, 187, .11);
+	color: #54edbb;
 	color: var(--drive-accent);
 }
 

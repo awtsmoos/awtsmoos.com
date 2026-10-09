@@ -16,11 +16,14 @@ body[data-awtsmoos-drive] {
 	--drive-line: rgba(168, 255, 225, 0.13);
 	--drive-line-strong: rgba(168, 255, 225, 0.24);
 	--drive-text: #f5faf8;
-	--drive-muted: #91a6a1;
-	--drive-faint: #637873;
+	--drive-muted: #a8bfb8;
+	--drive-faint: #7a8f89;
 	--drive-accent: #54edbb;
 	--drive-accent-cyan: #37d9d0;
+	--drive-on-accent: #04110d;
 	--drive-danger: #ff6d78;
+	--drive-chip: #12211f;
+	--drive-ink: #e8f0ee;
 	--drive-radius-small: 10px;
 	--drive-radius: 16px;
 	--drive-radius-large: 24px;
@@ -86,9 +89,8 @@ body[data-awtsmoos-drive] :is(button, input, select, summary, a):focus-visible {
 	outline-offset: 3px;
 }
 
-body[data-awtsmoos-drive] [hidden] {
-	display: none !important;
-}
+/* [hidden] elements: hidden via cascade order (see drive-v5.css end).
+   Never use !important — Yaakov 2026-10-08 binding law. */
 
 body[data-awtsmoos-drive] .drive-skip-link {
 	position: fixed;

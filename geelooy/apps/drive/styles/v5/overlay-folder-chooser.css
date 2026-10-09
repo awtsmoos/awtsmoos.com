@@ -64,5 +64,6 @@
 }
 
 .drive-folder-chooser-error {
-	color: var(--drive-danger) !important;
+	color: #ff6d78;
+	color: var(--drive-danger);
 }

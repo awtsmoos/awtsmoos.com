@@ -67,11 +67,12 @@
 
 	.drive-entry-menu-close {
 		display: block;
-		width: auto !important;
-		min-height: 38px !important;
-		padding: 0 6px !important;
-		color: var(--drive-muted) !important;
-		text-align: right !important;
+		width: auto;
+		min-height: 38px;
+		padding: 0 6px;
+		color: #a8bfb8;
+		color: var(--drive-muted);
+		text-align: right;
 	}
 
 	.drive-entry-menu-popover button:not(.drive-entry-menu-close) {

@@ -30,8 +30,8 @@
     overflow: visible;
     z-index: 9999;
     padding: 10px 16px;
-    background: #0f0;
-    color: #000;
+    background: var(--drive-accent);
+    color: var(--drive-on-accent);
     border-radius: 6px;
     font-weight: bold;
     text-decoration: none;
@@ -41,4 +41,11 @@
     .drive-skip-link {
         transition: none;
     }
+}
+
+/* B"H — [hidden] must win over component display rules (flex, grid, etc.).
+   This file loads last in the Drive cascade, so source order gives it
+   priority without !important (Yaakov 2026-10-08 binding law). */
+body[data-awtsmoos-drive] [hidden] {
+    display: none;
 }

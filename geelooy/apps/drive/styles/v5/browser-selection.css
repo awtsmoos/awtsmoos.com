@@ -41,7 +41,7 @@
 	height: 24px;
 	border-radius: 999px;
 	background: var(--drive-accent);
-	color: #04110d;
+	color: var(--drive-on-accent);
 	font-size: .77rem;
 	font-weight: 900;
 	pointer-events: none;

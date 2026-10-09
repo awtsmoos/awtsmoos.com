@@ -22,7 +22,9 @@
 	padding: 0 13px;
 	border: 1px solid var(--drive-line);
 	border-radius: 11px;
+	background: #0a1512;
 	background: rgba(5, 18, 15, .72);
+	color: #a8bfb8;
 	color: var(--drive-muted);
 	font: inherit;
 	font-size: .74rem;
@@ -33,14 +35,15 @@
 .drive-category-bar button:hover,
 .drive-category-bar button:focus-visible {
 	border-color: rgba(84, 237, 187, .38);
+	color: #f5faf8;
 	color: var(--drive-text);
 	outline: 0;
 }
 
 .drive-category-bar button[aria-pressed="true"] {
 	border-color: var(--drive-accent);
-	background: linear-gradient(145deg, var(--drive-accent), #40dcb0);
-	color: #04130f;
+	background: linear-gradient(145deg, var(--drive-accent), var(--drive-accent-cyan));
+	color: var(--drive-on-accent);
 	box-shadow: 0 8px 24px rgba(84, 237, 187, .16);
 }
 

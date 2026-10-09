@@ -54,8 +54,9 @@
 
 .drive-bulk-dialog-error {
 	min-height: 18px;
-	color: var(--drive-danger) !important;
-	font-size: .72rem !important;
+	color: #ff6d78;
+	color: var(--drive-danger);
+	font-size: .72rem;
 }
 
 .drive-bulk-dialog .drive-dialog-actions .is-danger {

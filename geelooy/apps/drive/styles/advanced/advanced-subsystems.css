@@ -9,8 +9,8 @@
 .advanced-drive .site-builder-root,
 .advanced-drive .project-platform,
 .advanced-drive .job-control {
-	padding: 18px !important;
-	background: #0a1512 !important;
+	padding: 18px;
+	background: #0a1512;
 }
 
 .advanced-drive .site-builder-root *,
@@ -19,7 +19,7 @@
 	--surface: #0d1a17;
 	--surface-raised: #12231f;
 	--text: #f5faf8;
-	--muted: #91a6a1;
+	--muted: #a8bfb8;
 }
 
 .advanced-drive .site-builder-root :is(section, article, div),
@@ -29,15 +29,15 @@
 
 .advanced-drive .site-builder-root :is(input, textarea, select),
 .advanced-drive .project-platform :is(input, textarea, select) {
-	background: #091310 !important;
-	color: #f5faf8 !important;
-	border-color: rgba(168, 255, 225, .18) !important;
+	background: #091310;
+	color: #f5faf8;
+	border-color: rgba(168, 255, 225, .18);
 }
 
 .advanced-drive .site-builder-root :is(p, label, small),
 .advanced-drive .project-platform :is(p, label, small),
 .advanced-drive .job-control :is(p, label, small) {
-	color: #a6b8b4 !important;
+	color: #a8bfb8;
 }
 
 .advanced-drive table {

@@ -27,9 +27,7 @@
 	outline-offset: 3px;
 }
 
-[data-awtsmoos-drive] [hidden] {
-	display: none !important;
-}
+/* [hidden] handled by drive-v5.css cascade order — no !important (Yaakov 2026-10-08). */
 
 @media (forced-colors: active) {
 	[data-awtsmoos-drive] :where(.panel, .connection-card, .drop-zone, .status, .error) {
