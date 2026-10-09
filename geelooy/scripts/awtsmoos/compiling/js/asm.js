@@ -82,6 +82,7 @@ class AsmGen {
       });
       effEntry = { name: "__merkava_kernel", args: [] };
     }
+    if (this.repeatOverride && effEntry) effEntry = { ...effEntry, repeat: this.repeatOverride };
     for (const stmt of fns) {
       if (stmt.type !== "FunctionDeclaration") fail(`top-level ${stmt.type} not supported`, stmt);
       if (!stmt.id || !stmt.id.name) fail("anonymous functions not supported", stmt);
@@ -869,20 +870,24 @@ function mainFn(entry, functions) {
  * @param {{name: string, args: number[]}} entry
  * @returns {Promise<{asm: string}>}
  */
-export async function transpileJsToAsm(jsSource, entry) {
+export async function transpileJsToAsm(jsSource, entry, opts) {
   const Parser = await require("../../MerkavaASTParser/parser-core.js");
   const program = new Parser(String(jsSource)).parse();
   const g = new AsmGen();
+  if (opts && opts.repeat) g.repeatOverride = opts.repeat;
   return { asm: g.run(program, entry) };
 }
 
 /**
  * Compile JS straight to a native binary via the direct-asm backend.
+ * @param {string} jsSource
+ * @param {object|null} entry - {name, args} or null (auto-detect)
+ * @param {object} [opts] - {repeat: n} run the entry n times per process (amortizes spawn)
  * @returns {Promise<{path, asm, compileMs}>}
  */
-export async function compileJsToNativeAsm(jsSource, entry) {
+export async function compileJsToNativeAsm(jsSource, entry, opts) {
   const t0 = Date.now();
-  const { asm } = await transpileJsToAsm(jsSource, entry);
+  const { asm } = await transpileJsToAsm(jsSource, entry, opts);
   const out = await compileNativeAsm(asm, "linux-x64-static");
   const compileMs = Date.now() - t0;
   const { chmodSync, mkdirSync, writeFileSync } = await import("fs");
