@@ -663,6 +663,188 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 			border-color: var(--sefer-rule);
 		}
 	</style>
+	<style id="awtsmoos-sefer-controls">
+		/* B"H — Language toggle + critical text sizes, inlined.
+		   The @import chain for meluket-sefer.css is fragile; these critical
+		   controls must render styled even when the chain breaks.
+		   Yaakov's laws: every interactive element gets full states;
+		   explicit colors for both themes; NEVER !important. */
+		/* B"H — Yaakov: language toggle NEVER on the main page.
+		   It lives ONLY inside the Scribe's Lens settings panel.
+		   This hides it if JS ever renders it as a direct child of .meluket-sefer. */
+		:root .post-reader-localized-context .meluket-sefer > .meluket-lang-toggle {
+			display: none;
+		}
+		:root .post-reader-localized-context .meluket-lang-toggle,
+		:root[data-theme="light"] .post-reader-localized-context .meluket-lang-toggle {
+			display: flex;
+			gap: 0.75rem;
+			justify-content: center;
+			align-items: center;
+			flex-wrap: wrap;
+			margin: 0 auto 2rem;
+			padding: 0.5rem;
+		}
+		:root .post-reader-localized-context .meluket-lang-btn,
+		:root[data-theme="light"] .post-reader-localized-context .meluket-lang-btn {
+			font-family: inherit;
+			font-size: 1.35rem;
+			font-weight: 700;
+			line-height: 1.2;
+			padding: 0.85rem 1.75rem;
+			border-radius: 999px;
+			border: 2px solid var(--sefer-rule);
+			background: var(--sefer-card);
+			color: var(--sefer-ink-soft);
+			cursor: pointer;
+			transition: border-color 0.18s ease, color 0.18s ease, background-color 0.18s ease, transform 0.18s ease;
+			min-width: 44px;
+			min-height: 44px;
+		}
+		:root .post-reader-localized-context .meluket-lang-btn:hover {
+			border-color: var(--sefer-accent);
+			color: var(--sefer-ink);
+			transform: translateY(-1px);
+		}
+		:root .post-reader-localized-context .meluket-lang-btn:focus-visible {
+			outline: 3px solid var(--sefer-focus);
+			outline-offset: 2px;
+		}
+		:root .post-reader-localized-context .meluket-lang-btn:active {
+			transform: translateY(1px) scale(0.98);
+			border-color: var(--sefer-accent);
+		}
+		:root .post-reader-localized-context .meluket-lang-btn:disabled {
+			opacity: 0.45;
+			cursor: not-allowed;
+			transform: none;
+		}
+		:root .post-reader-localized-context .meluket-lang-btn.is-active,
+		:root[data-theme="light"] .post-reader-localized-context .meluket-lang-btn.is-active {
+			background: var(--sefer-accent);
+			border-color: var(--sefer-accent);
+			color: #fffdf6;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-btn.is-active {
+			color: #171209;
+		}
+		/* B"H — Language toggle INSIDE the Scribe's Lens panel.
+		   Segmented control matching the panel design. Full states, both themes. */
+		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-toggle-panel,
+		:root[data-theme="light"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-toggle-panel {
+			display: flex;
+			gap: 0.5rem;
+			margin: 0;
+			padding: 0.35rem;
+			border-radius: 999px;
+			background: rgb(122 82 31 / 10%);
+			border: 1px solid rgb(122 82 31 / 20%);
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-toggle-panel {
+			background: rgb(255 255 255 / 6%);
+			border-color: rgb(127 232 255 / 14%);
+		}
+		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn,
+		:root[data-theme="light"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn {
+			flex: 1;
+			font-family: inherit;
+			font-size: 0.95rem;
+			font-weight: 700;
+			line-height: 1.2;
+			padding: 0.7rem 0.5rem;
+			border-radius: 999px;
+			border: 1px solid transparent;
+			background: transparent;
+			color: #6d5a43;
+			cursor: pointer;
+			transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+			min-width: 44px;
+			min-height: 44px;
+			margin: 0;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn {
+			color: #9fb3ca;
+		}
+		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:hover {
+			color: #21160a;
+			background: rgb(255 255 255 / 50%);
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:hover {
+			color: #f8fbff;
+			background: rgb(255 255 255 / 8%);
+		}
+		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:focus-visible {
+			outline: 2px solid #8a6d1a;
+			outline-offset: 2px;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:focus-visible {
+			outline-color: #7fe8ff;
+		}
+		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:active {
+			transform: scale(0.97);
+		}
+		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:disabled {
+			opacity: 0.45;
+			cursor: not-allowed;
+			transform: none;
+		}
+		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn.is-active,
+		:root[data-theme="light"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn.is-active {
+			background: #8a6d1a;
+			border-color: #8a6d1a;
+			color: #fffdf6;
+			box-shadow: 0 2px 8px rgb(138 109 26 / 30%);
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn.is-active {
+			background: #7fe8ff;
+			border-color: #7fe8ff;
+			color: #0a1120;
+			box-shadow: 0 2px 8px rgb(127 232 255 / 25%);
+		}
+		/* Footnote markers: <sup>, not buttons. Clickable + keyboard accessible. */
+		:root .post-reader-localized-context sup.meluket-fn-marker,
+		:root[data-theme="light"] .post-reader-localized-context sup.meluket-fn-marker {
+			color: var(--sefer-accent);
+			cursor: pointer;
+			text-decoration: underline;
+			text-decoration-thickness: 1px;
+			text-underline-offset: 2px;
+			font-size: 0.7em;
+			padding: 0 2px;
+			border-radius: 3px;
+			transition: color 0.15s ease, background-color 0.15s ease;
+		}
+		:root .post-reader-localized-context sup.meluket-fn-marker:hover {
+			color: var(--sefer-ink);
+			background: var(--sefer-paper-deep);
+		}
+		:root .post-reader-localized-context sup.meluket-fn-marker:focus-visible {
+			outline: 2px solid var(--sefer-focus);
+			outline-offset: 1px;
+		}
+		:root .post-reader-localized-context sup.meluket-fn-marker:active {
+			color: var(--sefer-ink);
+		}
+		/* Critical text sizes: Yaakov wants text MUCH bigger by default.
+		   These mirror meluket-sefer.css but load even when @import breaks. */
+		:root .post-reader-localized-context .meluket-hebrew {
+			font-size: clamp(2.2rem, 5vw, 3.4rem);
+			line-height: 1.9;
+		}
+		:root .post-reader-localized-context .meluket-english {
+			font-size: clamp(1.7rem, 4vw, 2.6rem);
+			line-height: 1.7;
+		}
+		:root .post-reader-localized-context .meluket-post-summary,
+		:root .post-reader-localized-context .meluket-summary {
+			font-size: clamp(1.5rem, 3.6vw, 2.2rem);
+			line-height: 1.65;
+		}
+		:root .post-reader-localized-context .meluket-sefer-title-he {
+			font-size: clamp(2.6rem, 6vw, 4rem);
+			line-height: 1.4;
+		}
+	</style>
 	<script>
 		/* B"H — Register Heichel Service Worker for auto-clearing cache. */
 		if ('serviceWorker' in navigator) {

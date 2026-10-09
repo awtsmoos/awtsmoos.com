@@ -174,22 +174,21 @@ function buildSectionElement(sectionIndex, sectionId, hebrewHtml, englishText, s
 	} else {
 		hebrew.innerHTML = hebrewHtml;
 	}
-	// Convert plain <sup> footnote markers to clickable buttons.
+	// Footnote markers stay as <sup> tags (Yaakov: never buttons).
+	// Enhance in place: clickable, accessible, scrolls to footnote shelf.
 	hebrew.querySelectorAll('sup').forEach((sup, idx) => {
 		const text = sup.textContent.trim();
 		// Map marker to footnote number: try numeric, else use position
 		const numMatch = text.match(/(\d+)/);
 		const fnNum = numMatch ? numMatch[1] : String(idx + 1);
-		const btn = document.createElement('button');
-		btn.type = 'button';
-		btn.className = 'meluket-fn-marker';
-		btn.setAttribute('data-fn', fnNum);
+		sup.classList.add('meluket-fn-marker');
+		sup.setAttribute('data-fn', fnNum);
 		// Unique ID allows the shelf to scroll back to THIS specific marker
 		// (handles duplicate footnote numbers referenced from multiple places).
-		btn.id = `meluket-fn-marker-${fnNum}-${idx}`;
-		btn.setAttribute('aria-label', `Footnote ${fnNum}`);
-		btn.textContent = text;
-		sup.replaceWith(btn);
+		sup.id = `meluket-fn-marker-${fnNum}-${idx}`;
+		sup.setAttribute('aria-label', `Footnote ${fnNum}`);
+		sup.setAttribute('role', 'button');
+		sup.setAttribute('tabindex', '0');
 	});
 	section.appendChild(hebrew);
 
@@ -263,6 +262,35 @@ function buildLangToggle(currentMode, onChange) {
 		wrap.appendChild(btn);
 	}
 	return wrap;
+}
+
+/**
+ * B"H — Yaakov: the language toggle lives ONLY in the Scribe's Lens settings
+ * panel, NEVER on the main page. Injects the toggle into #typographyDetails
+ * as a proper settings-group. If the panel isn't in the DOM yet, hides the
+ * toggle (CSS safety net covers .meluket-sefer > .meluket-lang-toggle).
+ */
+function injectLangToggleIntoSettings(toggle) {
+	const panel = document.querySelector('#typographyDetails .typography-content');
+	if (!panel) {
+		toggle.style.display = 'none';
+		return;
+	}
+	const group = document.createElement('div');
+	group.className = 'settings-group meluket-lang-settings-group';
+	const label = document.createElement('div');
+	label.className = 'control-label';
+	label.textContent = 'Language';
+	group.appendChild(label);
+	toggle.classList.add('meluket-lang-toggle-panel');
+	group.appendChild(toggle);
+	// Place after the Scribe's Lens header group, or at the top.
+	const firstGroup = panel.querySelector('.settings-group');
+	if (firstGroup && firstGroup.nextSibling) {
+		panel.insertBefore(group, firstGroup.nextSibling);
+	} else {
+		panel.prepend(group);
+	}
 }
 
 /**
@@ -369,9 +397,10 @@ export function awakenMeluketSeferReader(post) {
 		sefer.appendChild(summaryWrap);
 	}
 
-	// Language toggle.
+	// Language toggle — B"H Yaakov: lives ONLY in the Scribe's Lens settings
+	// panel, NEVER on the main page. Injected into #typographyDetails.
 	const toggle = buildLangToggle(langMode, (mode) => applyLangMode(sefer, mode));
-	sefer.appendChild(toggle);
+	injectLangToggleIntoSettings(toggle);
 
 	// Sections.
 	hebrewSections.forEach(({ sectionId, html }, index) => {
@@ -517,6 +546,15 @@ export function awakenMeluketSeferReader(post) {
 			target.classList.add('meluket-footnote-highlight');
 			setTimeout(() => target.classList.remove('meluket-footnote-highlight'), 2000);
 		}
+	});
+
+	// Keyboard activation for <sup role="button"> footnote markers.
+	sefer.addEventListener('keydown', (e) => {
+		if (e.key !== 'Enter' && e.key !== ' ') return;
+		const marker = e.target.closest && e.target.closest('sup.meluket-fn-marker[data-fn]');
+		if (!marker) return;
+		e.preventDefault();
+		marker.click();
 	});
 
 	// Theme watcher: force sefer colors based on awtsmoos-theme.
