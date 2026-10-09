@@ -2,9 +2,15 @@
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 
-const { encodeMode2JsBinary, runMode2JsBinary } = require("../../../scripts/awtsmoos/MerkavaExecutor/merkava-binary/Mode2JsBinary.js");
 const { SyntheticBrowserRuntime } = require("../../../scripts/awtsmoos/MerkavaExecutor/merkava-browser/SyntheticBrowserRuntime.js");
 const { VirtualHtmlHydrator } = require("../../../scripts/awtsmoos/MerkavaExecutor/merkava-browser/VirtualHtmlHydrator.js");
+// B"H (startup): Mode2JsBinary costs ~120ms to load and is only needed for
+// pages with scripts. Lazy-load on first script compile.
+let _mode2 = null;
+function mode2() {
+  if (!_mode2) _mode2 = require("../../../scripts/awtsmoos/MerkavaExecutor/merkava-binary/Mode2JsBinary.js");
+  return _mode2;
+}
 
 /**
  * Chapter 3: The Page Soul Learns to Speak OpenGL.
@@ -25,6 +31,7 @@ export async function buildMerkavaExecutorRenderStream(page) {
   for (const source of page.scripts || []) {
     try {
       // B"H (startup): fast single-pass encode — first paint doesn't need the 8x size search.
+      const { encodeMode2JsBinary, runMode2JsBinary } = mode2();
       const binary = await encodeMode2JsBinary(String(source || ""), { fast: true });
       runMode2JsBinary(binary, { globals: runtime.globals() });
     } catch (error) {
