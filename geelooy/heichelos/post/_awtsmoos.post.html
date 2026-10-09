@@ -48,16 +48,16 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 		   Uses :root-prefixed selectors for specificity instead of !important. */
 		:root .post-reader-localized-context .sub-awtsmoos.heb,
 		:root .post-reader-localized-context .heb {
-			color: #1b1b1b;
+			color: var(--sefer-reader-ink);
 		}
 		:root[data-theme="dark"] .post-reader-localized-context .sub-awtsmoos.heb,
 		:root[data-theme="dark"] .post-reader-localized-context .heb {
-			color: #fffdf5;
+			color: var(--sefer-reader-ink);
 		}
 		:root[data-theme="dark"] .post-reader-localized-context,
 		:root[data-theme="dark"] .post-reader-localized-context .section {
-			background-color: #0a1120;
-			background: #0a1120;
+			background-color: var(--sefer-reader-bg);
+			background: var(--sefer-reader-bg);
 		}
 	</style>
 	<style id="awtsmoos-scribe-lens-panel">
@@ -80,6 +80,12 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 			--lens-hairline: rgb(120 80 30 / 16%);
 			--lens-track: rgb(120 80 30 / 20%);
 			--lens-shadow: rgb(30 18 6 / 26%);
+			/* B"H — tokenized fixed accents: no hardcoded colors at usage sites. */
+			--lens-on-gold: #fffdf7;
+			--lens-active-ink: #fffdf6;
+			--lens-lang-idle: #6d5a43;
+			--lens-lang-hover: #21160a;
+			--lens-lang-focus: #8a6d1a;
 		}
 		:root[data-theme="dark"] .post-reader-localized-context {
 			--lens-bg: #231a10;
@@ -94,6 +100,12 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 			--lens-hairline: rgb(255 255 255 / 11%);
 			--lens-track: rgb(255 255 255 / 16%);
 			--lens-shadow: rgb(0 0 0 / 55%);
+			/* B"H — tokenized fixed accents: no hardcoded colors at usage sites. */
+			--lens-on-gold: #fffdf7;
+			--lens-active-ink: #241a08;
+			--lens-lang-idle: #9fb3ca;
+			--lens-lang-hover: #f8fbff;
+			--lens-lang-focus: #7fe8ff;
 		}
 
 		/* GUARANTEE: panel NEVER visible by default. (0,3,1) beats everything. */
@@ -305,7 +317,7 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 			inline-size: 1.56rem;
 			block-size: 1.56rem;
 			border-radius: 50%;
-			background: #fffdf7;
+			background: var(--lens-on-gold);
 			box-shadow: 0 .15rem .45rem rgb(30 18 6 / 32%);
 			transition: transform 200ms ease;
 		}
@@ -485,7 +497,7 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 		:root .post-reader-localized-context .auto-scroll-settings-toggle[aria-pressed="true"] {
 			background: var(--lens-gold);
 			border-color: var(--lens-gold);
-			color: #fffdf7;
+			color: var(--lens-on-gold);
 		}
 		:root .post-reader-localized-context .auto-scroll-settings-toggle:disabled {
 			opacity: .45;
@@ -523,7 +535,7 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 			inline-size: 1.5rem;
 			block-size: 1.5rem;
 			border-radius: 50%;
-			background: #fffdf7;
+			background: var(--lens-on-gold);
 			border: 2px solid var(--lens-gold);
 			box-shadow: 0 .2rem .5rem var(--lens-shadow);
 			cursor: pointer;
@@ -532,7 +544,7 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 			inline-size: 1.35rem;
 			block-size: 1.35rem;
 			border-radius: 50%;
-			background: #fffdf7;
+			background: var(--lens-on-gold);
 			border: 2px solid var(--lens-gold);
 			box-shadow: 0 .2rem .5rem var(--lens-shadow);
 			cursor: pointer;
@@ -782,7 +794,7 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 		:root .post-reader-localized-context #resetDefaultsBtn:hover {
 			background: var(--lens-gold-deep);
 			border-color: var(--lens-gold-deep);
-			color: #fffdf7;
+			color: var(--lens-on-gold);
 		}
 		:root .post-reader-localized-context #resetDefaultsBtn:focus-visible {
 			outline: 2px solid var(--lens-gold);
@@ -837,7 +849,7 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 		:root .post-reader-localized-context #typographyBtn.pushed {
 			background: var(--lens-gold);
 			border-color: var(--lens-gold);
-			color: #fffdf7;
+			color: var(--lens-on-gold);
 		}
 		:root .post-reader-localized-context #typographyBtn:disabled,
 		:root .post-reader-localized-context #commentaryBtn:disabled {
@@ -869,6 +881,10 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 			--sefer-card: #fffdf6;
 			--sefer-focus: #b3541e;
 			--sefer-shadow: 0 2px 14px rgba(90, 70, 40, 0.10);
+			/* B"H — tokenized accents: no hardcoded colors at usage sites. */
+			--sefer-on-accent: #fffdf6;
+			--sefer-reader-ink: #1b1b1b;
+			--sefer-reader-bg: transparent;
 		}
 		:root[data-theme="dark"] .post-reader-localized-context {
 			--sefer-paper: #171209;
@@ -881,6 +897,10 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 			--sefer-card: #201a10;
 			--sefer-focus: #e8a34d;
 			--sefer-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
+			/* B"H — tokenized accents: no hardcoded colors at usage sites. */
+			--sefer-on-accent: #171209;
+			--sefer-reader-ink: #f3e3b0;
+			--sefer-reader-bg: #171209;
 		}
 		/* Critical body text: explicit colors in both themes, no @import dependency. */
 		:root .post-reader-localized-context .meluket-post-summary,
@@ -966,10 +986,10 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 		:root[data-theme="light"] .post-reader-localized-context .meluket-lang-btn.is-active {
 			background: var(--sefer-accent);
 			border-color: var(--sefer-accent);
-			color: #fffdf6;
+			color: var(--sefer-on-accent);
 		}
 		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-btn.is-active {
-			color: #171209;
+			color: var(--sefer-on-accent);
 		}
 		/* B"H — Language toggle INSIDE the Scribe's Lens panel.
 		   Segmented control matching the panel design. Full states, both themes. */
@@ -998,7 +1018,7 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 			border-radius: 999px;
 			border: 1px solid transparent;
 			background: transparent;
-			color: #6d5a43;
+			color: var(--lens-lang-idle);
 			cursor: pointer;
 			transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
 			min-width: 44px;
@@ -1006,22 +1026,22 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 			margin: 0;
 		}
 		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn {
-			color: #9fb3ca;
+			color: var(--lens-lang-idle);
 		}
 		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:hover {
-			color: #21160a;
+			color: var(--lens-lang-hover);
 			background: rgb(255 255 255 / 50%);
 		}
 		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:hover {
-			color: #f8fbff;
+			color: var(--lens-lang-hover);
 			background: rgb(255 255 255 / 8%);
 		}
 		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:focus-visible {
-			outline: 2px solid #8a6d1a;
+			outline: 2px solid var(--lens-lang-focus);
 			outline-offset: 2px;
 		}
 		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:focus-visible {
-			outline-color: #7fe8ff;
+			outline-color: var(--lens-lang-focus);
 		}
 		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn:active {
 			transform: scale(0.97);
@@ -1033,15 +1053,15 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 		}
 		:root .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn.is-active,
 		:root[data-theme="light"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn.is-active {
-			background: #c79a4b;
-			border-color: #c79a4b;
-			color: #fffdf6;
+			background: var(--lens-gold);
+			border-color: var(--lens-gold);
+			color: var(--lens-active-ink);
 			box-shadow: 0 2px 8px rgb(199 154 75 / 40%);
 		}
 		:root[data-theme="dark"] .post-reader-localized-context .meluket-lang-settings-group .meluket-lang-btn.is-active {
-			background: #d9a94e;
-			border-color: #d9a94e;
-			color: #241a08;
+			background: var(--lens-gold);
+			border-color: var(--lens-gold);
+			color: var(--lens-active-ink);
 			box-shadow: 0 2px 8px rgb(217 169 78 / 30%);
 		}
 		/* Footnote markers: <sup>, not buttons. Clickable + keyboard accessible. */
@@ -1897,6 +1917,736 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 		@media (prefers-reduced-motion: reduce) {
 			:root .post-reader-localized-context #typographyBtn,
 			:root .post-reader-localized-context #commentaryBtn {
+				transition: none;
+			}
+		}
+	</style>
+	<style id="awtsmoos-dream-sources-fn">
+		/* B"H — Footnote popup + Sources sheet, dream-styled.
+		   Warm cream cards, gold accents, serif; CSS tokens only, zero !important.
+		   Layers sit above the Scribe's Lens stack (3040/3050/3060): 3070/3080.
+		   Reference: the approved dream mockups (light + dark). */
+
+		/* ---------- shared overlays ---------- */
+		:root .post-reader-localized-context .awtsmoos-fn-overlay,
+		:root .post-reader-localized-context .awtsmoos-src-overlay {
+			position: fixed;
+			inset: 0;
+			z-index: 3070;
+			background: rgb(43 30 15 / 46%);
+			-webkit-backdrop-filter: blur(3px);
+			backdrop-filter: blur(3px);
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 200ms ease;
+		}
+		:root .post-reader-localized-context .awtsmoos-fn-overlay.is-open,
+		:root .post-reader-localized-context .awtsmoos-src-overlay.is-open {
+			opacity: 1;
+			pointer-events: auto;
+		}
+
+		/* ---------- footnote modal ---------- */
+		:root .post-reader-localized-context .awtsmoos-fn-modal {
+			position: fixed;
+			z-index: 3080;
+			inset-inline: 0;
+			top: 50%;
+			inline-size: min(32rem, calc(100% - 2.5rem));
+			margin-inline: auto;
+			max-block-size: min(70vh, 34rem);
+			overflow-y: auto;
+			background: var(--sefer-card);
+			border: 1px solid var(--sefer-rule);
+			border-radius: 1.5rem;
+			box-shadow: var(--sefer-shadow);
+			padding: 1.25rem 1.5rem 1.5rem;
+			opacity: 0;
+			pointer-events: none;
+			transform: translateY(-46%) scale(.97);
+			transition: opacity 220ms ease, transform 220ms ease;
+		}
+		:root .post-reader-localized-context .awtsmoos-fn-modal.is-open {
+			opacity: 1;
+			pointer-events: auto;
+			transform: translateY(-50%) scale(1);
+		}
+		:root .post-reader-localized-context .awtsmoos-fn-head {
+			display: flex;
+			align-items: center;
+			gap: .75rem;
+			margin-block-end: .9rem;
+			padding-block-end: .75rem;
+			border-block-end: 1px solid var(--sefer-rule);
+		}
+		:root .post-reader-localized-context .awtsmoos-fn-num {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			min-inline-size: 2.25rem;
+			block-size: 2.25rem;
+			border-radius: 50%;
+			border: 2px solid var(--sefer-accent);
+			color: var(--sefer-accent);
+			font-family: "Frank Ruhl Libre", "Cardo", serif;
+			font-weight: 700;
+			font-size: 1.15rem;
+			line-height: 1;
+			flex: none;
+		}
+		:root .post-reader-localized-context .awtsmoos-fn-title {
+			flex: 1;
+			font-family: "Frank Ruhl Libre", "Cardo", serif;
+			font-size: 1.35rem;
+			font-weight: 700;
+			color: var(--sefer-title-ink);
+		}
+		:root .post-reader-localized-context .awtsmoos-fn-close,
+		:root .post-reader-localized-context .awtsmoos-src-close {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			inline-size: 2.5rem;
+			block-size: 2.5rem;
+			flex: none;
+			border-radius: 50%;
+			border: 1px solid var(--sefer-rule);
+			background: var(--sefer-paper);
+			color: var(--sefer-ink-soft);
+			font-size: 1.1rem;
+			line-height: 1;
+			cursor: pointer;
+			transition: background-color .18s ease, color .18s ease, border-color .18s ease, transform .18s ease;
+		}
+		:root .post-reader-localized-context .awtsmoos-fn-close:hover,
+		:root .post-reader-localized-context .awtsmoos-src-close:hover {
+			background: var(--sefer-paper-deep);
+			color: var(--sefer-ink);
+			border-color: var(--sefer-accent);
+		}
+		:root .post-reader-localized-context .awtsmoos-fn-close:focus-visible,
+		:root .post-reader-localized-context .awtsmoos-src-close:focus-visible {
+			outline: 2px solid var(--sefer-focus);
+			outline-offset: 2px;
+		}
+		:root .post-reader-localized-context .awtsmoos-fn-close:active,
+		:root .post-reader-localized-context .awtsmoos-src-close:active {
+			transform: scale(.94);
+		}
+		:root .post-reader-localized-context .awtsmoos-fn-close:disabled,
+		:root .post-reader-localized-context .awtsmoos-src-close:disabled {
+			opacity: .45;
+			cursor: not-allowed;
+			transform: none;
+		}
+		:root .post-reader-localized-context .awtsmoos-fn-body {
+			display: grid;
+			gap: .9rem;
+		}
+		:root .post-reader-localized-context .awtsmoos-fn-he {
+			font-family: "Frank Ruhl Libre", "Cardo", serif;
+			font-size: 1.5rem;
+			line-height: 1.9;
+			color: var(--sefer-ink);
+		}
+		:root .post-reader-localized-context .awtsmoos-fn-en {
+			font-family: "Inter", system-ui, sans-serif;
+			font-size: 1.1rem;
+			line-height: 1.7;
+			color: var(--sefer-ink-soft);
+		}
+
+		/* ---------- sources sheet ---------- */
+		:root .post-reader-localized-context .awtsmoos-src-sheet {
+			position: fixed;
+			z-index: 3080;
+			inset-inline: 0;
+			bottom: 0;
+			inline-size: min(38rem, 100%);
+			margin-inline: auto;
+			max-block-size: 84vh;
+			display: flex;
+			flex-direction: column;
+			background: var(--sefer-card);
+			border: 1px solid var(--sefer-rule);
+			border-block-end: none;
+			border-start-start-radius: 1.75rem;
+			border-start-end-radius: 1.75rem;
+			box-shadow: var(--sefer-shadow);
+			transform: translateY(103%);
+			transition: transform 260ms ease;
+		}
+		:root .post-reader-localized-context .awtsmoos-src-sheet.is-open {
+			transform: translateY(0);
+		}
+		:root .post-reader-localized-context .awtsmoos-src-grab {
+			inline-size: 3rem;
+			block-size: .3rem;
+			border-radius: 999px;
+			background: var(--sefer-rule);
+			margin: .7rem auto .2rem;
+			flex: none;
+		}
+		:root .post-reader-localized-context .awtsmoos-src-head {
+			display: flex;
+			align-items: center;
+			gap: .75rem;
+			padding: .5rem 1.25rem .9rem;
+			border-block-end: 1px solid var(--sefer-rule);
+			flex: none;
+		}
+		:root .post-reader-localized-context .awtsmoos-src-title {
+			flex: 1;
+			font-family: "Frank Ruhl Libre", "Cardo", serif;
+			font-size: 1.6rem;
+			font-weight: 700;
+			color: var(--sefer-title-ink);
+		}
+		:root .post-reader-localized-context .awtsmoos-src-meta {
+			padding: 1rem 1.25rem 0;
+			flex: none;
+		}
+		:root .post-reader-localized-context .awtsmoos-src-card {
+			background: var(--sefer-paper);
+			border: 1px solid var(--sefer-rule);
+			border-radius: 1.25rem;
+			padding: 1rem 1.15rem;
+			display: grid;
+			gap: .55rem;
+		}
+		:root .post-reader-localized-context .awtsmoos-src-card-row {
+			display: flex;
+			gap: .75rem;
+			align-items: baseline;
+		}
+		:root .post-reader-localized-context .awtsmoos-src-card-label {
+			flex: none;
+			inline-size: 4.5rem;
+			font-size: .8rem;
+			font-weight: 700;
+			letter-spacing: .06em;
+			text-transform: uppercase;
+			color: var(--sefer-accent);
+		}
+		:root .post-reader-localized-context .awtsmoos-src-card-value {
+			font-family: "Frank Ruhl Libre", "Cardo", serif;
+			font-size: 1.15rem;
+			color: var(--sefer-ink);
+		}
+		:root .post-reader-localized-context .awtsmoos-src-stats {
+			font-size: .9rem;
+			color: var(--sefer-ink-soft);
+			border-block-start: 1px dashed var(--sefer-rule);
+			padding-block-start: .55rem;
+		}
+		:root .post-reader-localized-context .awtsmoos-src-list {
+			overflow-y: auto;
+			padding: .75rem 1.25rem 1.75rem;
+			display: grid;
+			gap: .55rem;
+		}
+		:root .post-reader-localized-context .awtsmoos-src-item {
+			display: flex;
+			flex-direction: column;
+			border: 1px solid var(--sefer-rule);
+			border-radius: 1rem;
+			background: var(--sefer-paper);
+			overflow: hidden;
+		}
+		:root .post-reader-localized-context .awtsmoos-src-goto {
+			display: flex;
+			align-items: center;
+			gap: .8rem;
+			inline-size: 100%;
+			padding: .8rem .95rem;
+			background: transparent;
+			border: none;
+			cursor: pointer;
+			text-align: start;
+			transition: background-color .18s ease;
+		}
+		:root .post-reader-localized-context .awtsmoos-src-goto:hover {
+			background: var(--sefer-paper-deep);
+		}
+		:root .post-reader-localized-context .awtsmoos-src-goto:focus-visible {
+			outline: 2px solid var(--sefer-focus);
+			outline-offset: -2px;
+		}
+		:root .post-reader-localized-context .awtsmoos-src-goto:active {
+			background: var(--sefer-paper-deep);
+		}
+		:root .post-reader-localized-context .awtsmoos-src-medaillon {
+			flex: none;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			inline-size: 2rem;
+			block-size: 2rem;
+			border-radius: 50%;
+			border: 1.5px solid var(--sefer-accent);
+			color: var(--sefer-accent);
+			font-family: "Frank Ruhl Libre", "Cardo", serif;
+			font-weight: 700;
+			font-size: .95rem;
+			line-height: 1;
+		}
+		:root .post-reader-localized-context .awtsmoos-src-preview {
+			font-size: 1rem;
+			line-height: 1.55;
+			color: var(--sefer-ink-soft);
+			overflow: hidden;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+		}
+		:root .post-reader-localized-context .awtsmoos-src-comment-btn {
+			align-self: flex-end;
+			margin: 0 .95rem .85rem;
+			padding: .55rem 1.2rem;
+			border-radius: 999px;
+			border: 1px solid var(--sefer-accent);
+			background: transparent;
+			color: var(--sefer-accent);
+			font-size: .95rem;
+			font-weight: 700;
+			line-height: 1.2;
+			cursor: pointer;
+			transition: background-color .18s ease, color .18s ease, transform .18s ease;
+		}
+		:root .post-reader-localized-context .awtsmoos-src-comment-btn:hover {
+			background: var(--sefer-accent);
+			color: var(--sefer-card);
+		}
+		:root .post-reader-localized-context .awtsmoos-src-comment-btn:focus-visible {
+			outline: 2px solid var(--sefer-focus);
+			outline-offset: 2px;
+		}
+		:root .post-reader-localized-context .awtsmoos-src-comment-btn:active {
+			transform: scale(.96);
+		}
+		:root .post-reader-localized-context .awtsmoos-src-composer {
+			display: grid;
+			gap: .6rem;
+			padding: 0 .95rem .95rem;
+		}
+		:root .post-reader-localized-context .awtsmoos-src-textarea {
+			inline-size: 100%;
+			min-block-size: 4.5rem;
+			border: 1px solid var(--sefer-rule);
+			border-radius: .9rem;
+			background: var(--sefer-card);
+			color: var(--sefer-ink);
+			padding: .7rem .9rem;
+			font-size: 1rem;
+			line-height: 1.55;
+			font-family: inherit;
+			resize: vertical;
+		}
+		:root .post-reader-localized-context .awtsmoos-src-textarea:focus-visible {
+			outline: 2px solid var(--sefer-focus);
+			outline-offset: 1px;
+			border-color: var(--sefer-accent);
+		}
+		:root .post-reader-localized-context .awtsmoos-src-composer-actions {
+			display: flex;
+			gap: .6rem;
+			justify-content: flex-end;
+		}
+		:root .post-reader-localized-context .awtsmoos-src-send,
+		:root .post-reader-localized-context .awtsmoos-src-cancel {
+			padding: .6rem 1.3rem;
+			border-radius: 999px;
+			font-size: .95rem;
+			font-weight: 700;
+			line-height: 1.2;
+			cursor: pointer;
+			transition: background-color .18s ease, color .18s ease, border-color .18s ease, transform .18s ease, opacity .18s ease;
+		}
+		:root .post-reader-localized-context .awtsmoos-src-send {
+			border: 1px solid var(--sefer-accent);
+			background: var(--sefer-accent);
+			color: var(--sefer-card);
+		}
+		:root .post-reader-localized-context .awtsmoos-src-send:hover {
+			filter: brightness(1.07);
+		}
+		:root .post-reader-localized-context .awtsmoos-src-send:focus-visible {
+			outline: 2px solid var(--sefer-focus);
+			outline-offset: 2px;
+		}
+		:root .post-reader-localized-context .awtsmoos-src-send:active {
+			transform: scale(.96);
+		}
+		:root .post-reader-localized-context .awtsmoos-src-send:disabled {
+			opacity: .5;
+			cursor: not-allowed;
+			transform: none;
+		}
+		:root .post-reader-localized-context .awtsmoos-src-cancel {
+			border: 1px solid var(--sefer-rule);
+			background: transparent;
+			color: var(--sefer-ink-soft);
+		}
+		:root .post-reader-localized-context .awtsmoos-src-cancel:hover {
+			color: var(--sefer-ink);
+			border-color: var(--sefer-accent);
+		}
+		:root .post-reader-localized-context .awtsmoos-src-cancel:focus-visible {
+			outline: 2px solid var(--sefer-focus);
+			outline-offset: 2px;
+		}
+		:root .post-reader-localized-context .awtsmoos-src-cancel:active {
+			transform: scale(.96);
+		}
+		:root .post-reader-localized-context .awtsmoos-src-notice {
+			font-size: .9rem;
+			line-height: 1.5;
+			min-block-size: 1.35em;
+			color: var(--sefer-ink-soft);
+		}
+		:root .post-reader-localized-context .awtsmoos-src-notice.is-error {
+			color: var(--sefer-focus);
+		}
+		:root .post-reader-localized-context .awtsmoos-src-notice.is-ok {
+			color: var(--sefer-accent);
+		}
+
+		/* ---------- reduced motion ---------- */
+		@media (prefers-reduced-motion: reduce) {
+			:root .post-reader-localized-context .awtsmoos-fn-overlay,
+			:root .post-reader-localized-context .awtsmoos-src-overlay,
+			:root .post-reader-localized-context .awtsmoos-fn-modal,
+			:root .post-reader-localized-context .awtsmoos-src-sheet,
+			:root .post-reader-localized-context .awtsmoos-fn-close,
+			:root .post-reader-localized-context .awtsmoos-src-close,
+			:root .post-reader-localized-context .awtsmoos-src-goto,
+			:root .post-reader-localized-context .awtsmoos-src-comment-btn,
+			:root .post-reader-localized-context .awtsmoos-src-send,
+			:root .post-reader-localized-context .awtsmoos-src-cancel {
+				transition: none;
+			}
+		}
+	</style>
+	<style id="awtsmoos-dream-universal">
+		/* B"H — Dream universal: every series, every reader surface.
+		   The four canonical dream blocks cover Meluket content + the Scribe's
+		   Lens chrome + footnotes/sources. This block extends the SAME warm
+		   cream/gold dream to non-Meluket series content
+		   (.section/.toichen/.sub-awtsmoos), the social discussion, and inline
+		   comments — so ikar Torah series, other heichels, and other corpora
+		   read in the same dream.
+		   Yaakov's laws: ZERO !important; CSS custom-property tokens only;
+		   explicit colors for both themes; full interactive states on every
+		   control; 44px tap targets; RTL-safe Hebrew; no horizontal overflow.
+		   This block sits LAST in <head>, so equal-specificity rules here win. */
+
+		/* ---------- 1. non-Meluket English body: serif beneath Hebrew ---------- */
+		:root .post-reader-localized-context .section:not(.heb) > .toichen,
+		:root .post-reader-localized-context .sub-awtsmoos:not(.heb),
+		:root[data-theme="light"] .post-reader-localized-context .section:not(.heb) > .toichen,
+		:root[data-theme="light"] .post-reader-localized-context .sub-awtsmoos:not(.heb) {
+			font-family: "Source Serif 4", Georgia, serif;
+			color: var(--sefer-ink-soft);
+			line-height: 1.75;
+		}
+		:root[data-theme="dark"] .post-reader-localized-context .section:not(.heb) > .toichen,
+		:root[data-theme="dark"] .post-reader-localized-context .sub-awtsmoos:not(.heb) {
+			font-family: "Source Serif 4", Georgia, serif;
+			color: var(--sefer-ink-soft);
+			line-height: 1.75;
+		}
+		/* Hebrew chunks: RTL is set in reader.css; keep nikkud-safe rhythm. */
+		:root .post-reader-localized-context .toichen.heb,
+		:root .post-reader-localized-context .sub-awtsmoos.heb {
+			line-height: 1.85;
+			text-wrap: pretty;
+		}
+
+		/* ---------- 2. social discussion: the community in the dream ---------- */
+		:root .post-reader-localized-context #awtsmoos-social-discussion {
+			max-inline-size: min(46rem, calc(100vw - 2rem));
+			margin-inline: auto;
+			padding-block: 2rem 4rem;
+			color: var(--sefer-ink);
+		}
+		:root .post-reader-localized-context #awtsmoos-social-discussion > header {
+			text-align: center;
+			margin-block-end: 1.75rem;
+		}
+		:root .post-reader-localized-context #awtsmoos-social-discussion > header > span {
+			display: inline-block;
+			font-family: "Inter", system-ui, sans-serif;
+			font-size: 0.8rem;
+			font-weight: 700;
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+			color: var(--sefer-accent);
+			margin-block-end: 0.5rem;
+		}
+		:root .post-reader-localized-context #awtsmoos-social-discussion > header > h2 {
+			font-family: "Frank Ruhl Libre", "Cardo", serif;
+			font-weight: 700;
+			font-size: clamp(1.6rem, 4vw, 2.1rem);
+			color: var(--sefer-title-ink);
+			margin: 0 0 0.6rem;
+			text-wrap: balance;
+		}
+		:root .post-reader-localized-context #awtsmoos-social-discussion > header > p {
+			font-family: "Source Serif 4", Georgia, serif;
+			color: var(--sefer-ink-soft);
+			margin: 0 auto;
+			max-inline-size: 62ch;
+			line-height: 1.65;
+		}
+		:root .post-reader-localized-context .awtsmoos-social-thread {
+			display: grid;
+			gap: 1rem;
+		}
+		:root .post-reader-localized-context .awtsmoos-social-empty {
+			text-align: center;
+			font-family: "Source Serif 4", Georgia, serif;
+			color: var(--sefer-ink-soft);
+			background: var(--sefer-card);
+			border: 1px dashed var(--sefer-rule);
+			border-radius: 1.25rem;
+			padding: 2rem 1.5rem;
+		}
+		:root .post-reader-localized-context .awtsmoos-social-comment-body {
+			font-family: "Source Serif 4", Georgia, serif;
+			color: var(--sefer-ink);
+			line-height: 1.7;
+			margin-block: 0.6rem;
+			overflow-wrap: anywhere;
+		}
+		:root .post-reader-localized-context .awtsmoos-social-actions {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.5rem;
+		}
+		:root .post-reader-localized-context .awtsmoos-social-actions button,
+		:root .post-reader-localized-context .awtsmoos-reaction-chip {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.4rem;
+			min-block-size: 2.75rem;
+			padding: 0.5rem 0.95rem;
+			border-radius: 999px;
+			border: 1px solid var(--sefer-rule);
+			background: var(--sefer-paper);
+			color: var(--sefer-ink-soft);
+			font-family: "Inter", system-ui, sans-serif;
+			font-size: 0.9rem;
+			font-weight: 700;
+			cursor: pointer;
+			transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+		}
+		:root .post-reader-localized-context .awtsmoos-social-actions button:hover,
+		:root .post-reader-localized-context .awtsmoos-reaction-chip:hover {
+			border-color: var(--sefer-accent);
+			color: var(--sefer-ink);
+			background: var(--sefer-paper-deep);
+		}
+		:root .post-reader-localized-context .awtsmoos-social-actions button:focus-visible,
+		:root .post-reader-localized-context .awtsmoos-reaction-chip:focus-visible {
+			outline: 2px solid var(--sefer-focus);
+			outline-offset: 2px;
+		}
+		:root .post-reader-localized-context .awtsmoos-social-actions button:active,
+		:root .post-reader-localized-context .awtsmoos-reaction-chip:active {
+			transform: scale(0.96);
+		}
+		:root .post-reader-localized-context .awtsmoos-social-actions button:disabled,
+		:root .post-reader-localized-context .awtsmoos-reaction-chip:disabled {
+			opacity: 0.45;
+			cursor: not-allowed;
+			transform: none;
+		}
+		:root .post-reader-localized-context .awtsmoos-reaction-chip[aria-pressed="true"] {
+			background: var(--sefer-accent);
+			border-color: var(--sefer-accent);
+			color: var(--sefer-on-accent);
+		}
+		:root .post-reader-localized-context .awtsmoos-social-reply {
+			margin-inline-start: 1rem;
+			padding-inline-start: 1rem;
+			border-inline-start: 2px solid var(--sefer-rule);
+		}
+		:root .post-reader-localized-context .awtsmoos-comment-connect-status {
+			font-size: 0.85rem;
+			color: var(--sefer-ink-soft);
+			min-block-size: 1.35em;
+		}
+
+		/* ---------- 3. inline comments: dream cards ---------- */
+		:root .post-reader-localized-context .commentator.inline {
+			inline-size: 100%;
+			max-inline-size: 100%;
+			margin: 1em 0;
+			padding: 0.75em;
+			border: 1px dashed var(--sefer-rule);
+			border-radius: 1rem;
+			background: var(--sefer-paper);
+			color: var(--sefer-ink);
+			overflow-wrap: anywhere;
+		}
+		:root .post-reader-localized-context .inline-comment {
+			position: relative;
+			margin: 0.5rem 0;
+			padding: 0.75rem 0.75rem 0.75rem 1rem;
+			border: 1px solid var(--sefer-rule);
+			border-radius: 0.9rem;
+			background: var(--sefer-card);
+			color: var(--sefer-ink);
+			box-shadow: var(--sefer-shadow);
+			font-family: "Source Serif 4", Georgia, serif;
+			line-height: 1.65;
+			overflow-wrap: anywhere;
+		}
+		:root .post-reader-localized-context .inline-comment::before {
+			content: "";
+			position: absolute;
+			inset-inline-start: 0;
+			top: 0.75rem;
+			bottom: 0.75rem;
+			inline-size: 4px;
+			border-radius: 999px;
+			background: var(--sefer-accent);
+		}
+		:root .post-reader-localized-context .inline-comment .focus-trigger {
+			position: absolute;
+			top: 0.4rem;
+			inset-inline-end: 0.4rem;
+			inline-size: 2.5rem;
+			block-size: 2.5rem;
+			border: 1px solid var(--sefer-rule);
+			border-radius: 50%;
+			color: var(--sefer-ink-soft);
+			background: var(--sefer-paper);
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			font-size: 0.9rem;
+			transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+		}
+		:root .post-reader-localized-context .inline-comment .focus-trigger:hover {
+			background: var(--sefer-accent);
+			border-color: var(--sefer-accent);
+			color: var(--sefer-on-accent);
+			transform: scale(1.06);
+		}
+		:root .post-reader-localized-context .inline-comment .focus-trigger:focus-visible {
+			outline: 2px solid var(--sefer-focus);
+			outline-offset: 2px;
+		}
+		:root .post-reader-localized-context .inline-comment .focus-trigger:active {
+			transform: scale(0.94);
+		}
+		:root .post-reader-localized-context .inline-comment .btn.small {
+			inline-size: calc(100% - 1.25rem);
+			margin: 0.6rem 0.625rem 0.625rem;
+			box-sizing: border-box;
+			display: block;
+			text-align: center;
+			min-block-size: 2.75rem;
+			border-radius: 999px;
+			border: 1px solid var(--sefer-accent);
+			background: transparent;
+			color: var(--sefer-accent);
+			font-weight: 700;
+			cursor: pointer;
+			transition: background-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+		}
+		:root .post-reader-localized-context .inline-comment .btn.small:hover {
+			background: var(--sefer-accent);
+			color: var(--sefer-on-accent);
+		}
+		:root .post-reader-localized-context .inline-comment .btn.small:focus-visible {
+			outline: 2px solid var(--sefer-focus);
+			outline-offset: 2px;
+		}
+		:root .post-reader-localized-context .inline-comment .btn.small:active {
+			transform: scale(0.97);
+		}
+
+		/* ---------- 4. modern-composer verse wrappers: no overflow ---------- */
+		:root .post-reader-localized-context .awtsmoos-modern-section,
+		:root .post-reader-localized-context .awtsmoos-normal-verse-chunk {
+			min-inline-size: 0;
+			max-inline-size: 100%;
+			overflow-wrap: anywhere;
+		}
+		:root .post-reader-localized-context .awtsmoos-modern-section__body {
+			display: grid;
+			gap: 1rem;
+		}
+
+		/* ---------- 5. small screens: the dream fits in one hand ---------- */
+		@media (max-width: 26rem) {
+			:root .post-reader-localized-context #awtsmoos-social-discussion {
+				padding-inline: 0.25rem;
+			}
+			:root .post-reader-localized-context .awtsmoos-social-reply {
+				margin-inline-start: 0.45rem;
+				padding-inline-start: 0.55rem;
+			}
+			:root .post-reader-localized-context .inline-comment {
+				padding: 0.65rem 0.65rem 0.65rem 0.9rem;
+			}
+		}
+
+		/* ---------- 6. generic footnote overlay (non-Meluket series) ---------- */
+		:root .post-reader-localized-context #realPost sup[data-footnote-id],
+		:root .post-reader-localized-context #realPost .footnote-ref {
+			color: var(--sefer-accent);
+			font-weight: 700;
+			cursor: pointer;
+			border-radius: 0.35rem;
+			padding-inline: 0.15em;
+			transition: color 0.18s ease, background-color 0.18s ease;
+		}
+		:root .post-reader-localized-context #realPost sup[data-footnote-id]:hover,
+		:root .post-reader-localized-context #realPost .footnote-ref:hover {
+			color: var(--sefer-focus);
+			background: color-mix(in srgb, var(--sefer-accent) 12%, transparent);
+		}
+		:root .post-reader-localized-context #realPost sup[data-footnote-id]:focus-visible,
+		:root .post-reader-localized-context #realPost .footnote-ref:focus-visible {
+			outline: 2px solid var(--sefer-focus);
+			outline-offset: 2px;
+		}
+		:root .post-reader-localized-context .awtsmoos-footnote-overlay {
+			position: fixed;
+			inset: 0;
+			z-index: 3070;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 1.25rem;
+			background: rgb(43 30 15 / 46%);
+			-webkit-backdrop-filter: blur(3px);
+			backdrop-filter: blur(3px);
+		}
+		:root .post-reader-localized-context .awtsmoos-footnote-overlay .awtsmoosFootnote {
+			inline-size: min(32rem, 100%);
+			max-block-size: min(70vh, 34rem);
+			overflow-y: auto;
+			background: var(--sefer-card);
+			border: 1px solid var(--sefer-rule);
+			border-radius: 1.5rem;
+			box-shadow: var(--sefer-shadow);
+			padding: 1.25rem 1.5rem 1.5rem;
+			color: var(--sefer-ink);
+			font-family: "Source Serif 4", Georgia, serif;
+			line-height: 1.7;
+		}
+
+		/* ---------- 7. reduced motion ---------- */
+		@media (prefers-reduced-motion: reduce) {
+			:root .post-reader-localized-context .awtsmoos-social-actions button,
+			:root .post-reader-localized-context .awtsmoos-reaction-chip,
+			:root .post-reader-localized-context .inline-comment .focus-trigger,
+			:root .post-reader-localized-context .inline-comment .btn.small {
 				transition: none;
 			}
 		}
