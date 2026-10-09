@@ -101,8 +101,8 @@ NODE
 repair_service() {
 	restart_service
 	local attempt=0
-	while [ "$attempt" -lt 80 ]; do agent_ready && return 0; sleep 0.25; attempt=$((attempt + 1)); done
-	printf 'LaunchAgent loaded but tunnel did not register within 20 seconds. Run: %s logs\n' "$0" >&2
+	while [ "$attempt" -lt 360 ]; do agent_ready && return 0; sleep 0.25; attempt=$((attempt + 1)); done
+	printf 'LaunchAgent loaded but tunnel did not register within 90 seconds. Run: %s logs\n' "$0" >&2
 	return 1
 }
 

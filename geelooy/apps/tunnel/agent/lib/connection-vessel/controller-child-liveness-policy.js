@@ -5,7 +5,8 @@
 const DEFAULT_STALE_MS = 15000;
 const DEFAULT_CHECK_MS = 1000;
 const DEFAULT_COOLDOWN_MS = 30000;
-const DEFAULT_STARTUP_GRACE_MS = 10000;
+// Align IPC bootstrap with the separate 45-second registration deadline.
+const DEFAULT_STARTUP_GRACE_MS = 40000;
 
 /**
  * @file Measures child-watchdog timing without letting local clock delay become child evidence.

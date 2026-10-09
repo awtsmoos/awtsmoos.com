@@ -17,6 +17,8 @@ proveBootstrapSilence();
 proveParentLagWindow();
 proveRepeatedLagExtendsGrace();
 proveRealMessageEndsGrace();
+proveSlowBootstrapSurvivesOldTimeout();
+proveResponsiveChildStillTimesOutWithinBootstrapWindow();
 
 console.log("BHY child liveness requires sustained punctual sight after parent lag");
 
@@ -101,4 +103,20 @@ function create(now) {
 		cooldownMs: 10000,
 		startupGraceMs: 1000
 	});
+}
+
+function proveSlowBootstrapSurvivesOldTimeout() {
+	let now=1000;
+	const liveness=Liveness.create({now:()=>now,staleMs:15000,checkMs:1000,startupGraceMs:40000});
+	liveness.started();
+	for (let i=1;i<=39;i++){now=1000+i*1000;assert.equal(liveness.inspect().reason,"startup_grace");}
+	now=41000;assert.equal(liveness.inspect().reason,"child_ipc_bootstrap_stalled");
+}
+function proveResponsiveChildStillTimesOutWithinBootstrapWindow() {
+	let now=1000;
+	const liveness=Liveness.create({now:()=>now,staleMs:15000,checkMs:1000,startupGraceMs:40000});
+	liveness.started();
+	now=2000;liveness.note();
+	for(let i=1;i<15;i++){now=2000+i*1000;assert.equal(liveness.inspect().shouldRestart,false);}
+	now=17000;assert.equal(liveness.inspect().reason,"child_ipc_stalled");
 }

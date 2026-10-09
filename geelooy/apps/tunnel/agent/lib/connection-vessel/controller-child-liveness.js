@@ -57,7 +57,9 @@ function create(options = {}) {
 		if (observedAt < parentLagGraceUntil) {
 			return snapshot(observedAt, "parent_lag_grace");
 		}
-		if (observedAt - startedAt < timing.startupGraceMs) {
+		// Startup grace belongs only to a child which has not spoken yet.
+		// A previously responsive child must still be repaired after real silence.
+		if (!hasMessage && observedAt - startedAt < timing.startupGraceMs) {
 			return snapshot(observedAt, "startup_grace");
 		}
 		const messageAgeMs = Math.max(0, observedAt - lastMessageAt);
