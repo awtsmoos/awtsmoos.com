@@ -75,7 +75,8 @@
     font-size: 13px;
 }
 :where(.ai-thread-block.model) .ai-block-content { background: var(--bg-vellum); }
-:where(.ai-thread-block.user) .ai-block-content { background: var(--color-primary); color: #fff; border: 1px solid #000; }
+
+:where(.ai-thread-block.user) .ai-block-content { background: var(--color-primary); color: var(--text-inverse); border: 1px solid #000; }
 
 /* Meta Header (Role Tag) */
 .ai-msg-meta {
@@ -136,4 +137,12 @@
 }
 .ai-branch-trigger:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
+}
+
+/* B"H — theme tokens (CSS Laws: token colors, explicit light+dark themes) */
+:root:not([data-theme="dark"]) {
+  --text-inverse: #ffffff;
+}
+:root[data-theme="dark"] {
+  --text-inverse: #ffffff;
 }

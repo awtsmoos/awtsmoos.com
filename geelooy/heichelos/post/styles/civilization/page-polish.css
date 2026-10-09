@@ -25,5 +25,20 @@ blockquote { border-inline-start: 4px solid var(--reader-civ-ring); margin-inlin
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+  
+  html *, html *::before, html *::after { animation-duration: .001ms; transition-duration: .001ms; }
+}
+
+/* B"H — Law 2: visible keyboard-focus ring token */
+:root:not([data-theme="dark"]) {
+  --focus-ring: #1a56db;
+}
+:root[data-theme="dark"] {
+  --focus-ring: #8fb3ff;
+}
+
+/* B"H — Law 2: visible keyboard-focus rings for interactive elements */
+[role="button"]:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
 }

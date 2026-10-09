@@ -2,17 +2,21 @@
 /* B"H - EXTREME COMMENT ARCHITECTURE - "DIGITAL SCRIBE" REFINEMENT */
 
 /* MAIN CARD */
-:where(.post-reader-localized-context) .comment-content {
+/* /BH/awtsmoos.com/geelooy/heichelos/post/styles/commentSectionStyles.css */
+/* B"H - EXTREME COMMENT ARCHITECTURE - "DIGITAL SCRIBE" REFINEMENT */
+
+/* MAIN CARD */
+html:where(.post-reader-localized-context) .comment-content {
     background: var(--bg-surface);
-    border: 2px solid var(--color-ink); /* Thinner border */
+    border: 2px solid var(--color-ink); 
     margin-bottom: 20px;
     padding: 0;
     box-shadow: 5px 5px 0 var(--color-ink-secondary); 
     transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease;
     position: relative; 
     z-index: 2;
-    /* B"H - Root anchor for EM scaling */
-    font-size: var(--post-text-size, 24px) !important;
+    
+    font-size: var(--post-text-size, 24px);
 }
 
 :where(.post-reader-localized-context) .comment-content:hover {
@@ -23,14 +27,17 @@
 }
 
 /* CONTENT AREA - EM-BASED PROPORTIONAL FONT SIZE */
-.post-reader-localized-context .comment-text {
+
+
+/* CONTENT AREA - EM-BASED PROPORTIONAL FONT SIZE */
+html .post-reader-localized-context .comment-text {
     padding: 1rem 1.25rem;
-    font-size: 1.6em !important; /* Massive relative font size */
+    font-size: 1.6em; 
     line-height: 1.6;
-    border-bottom: 2px solid var(--color-ink); /* Separator */
+    border-bottom: 2px solid var(--color-ink); 
     font-family: var(--font-content);
-    word-break: break-word !important;
-    overflow-wrap: break-word !important;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 :where(.post-reader-localized-context[data-theme="dark"]) .comment-text {
     border-bottom-color: rgba(255,255,255,0.1);
@@ -45,10 +52,11 @@
     justify-content: flex-end;
     gap: 10px;
 }
-:where(.post-reader-localized-context) :where(.comment-toolbar) .btn.small {
-    padding: 5px 10px !important;
-    font-size: 10px !important;
-    font-weight: 800 !important;
+
+html:where(.post-reader-localized-context) :where(.comment-toolbar) .btn.small {
+    padding: 5px 10px;
+    font-size: 10px;
+    font-weight: 800;
 }
 
 /* --- THE TREE STRUCTURE (THREADING) --- */
@@ -82,27 +90,32 @@
 }
 
 /* REPLY TOGGLE BUTTON */
-:where(.post-reader-localized-context) .reply-toggle-btn {
+
+
+/* REPLY TOGGLE BUTTON */
+html:where(.post-reader-localized-context) .reply-toggle-btn {
     display: inline-block;
     width: auto;
     margin-top: 10px;
-    padding: 6px 12px !important;
-    background: var(--bg-surface) !important;
-    color: var(--color-ink) !important;
-    border: 1px solid var(--color-ink) !important;
-    font-family: var(--font-ui) !important;
-    font-weight: 900 !important;
-    font-size: 0.55em !important; /* Scale relative to root! */
-    text-transform: uppercase !important;
-    cursor: pointer !important;
-    text-align: left !important;
-    box-shadow: 2px 2px 0 var(--color-ink) !important;
+    padding: 6px 12px;
+    background: var(--bg-surface);
+    color: var(--color-ink);
+    border: 1px solid var(--color-ink);
+    font-family: var(--font-ui);
+    font-weight: 900;
+    font-size: 0.55em; 
+    text-transform: uppercase;
+    cursor: pointer;
+    text-align: left;
+    box-shadow: 2px 2px 0 var(--color-ink);
     transition: all 0.1s;
 }
 
-:where(.post-reader-localized-context) .reply-toggle-btn:hover {
-    transform: translate(-1px, -1px) !important;
-    box-shadow: 3px 3px 0 var(--color-accent) !important;
+
+
+html:where(.post-reader-localized-context) .reply-toggle-btn:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0 var(--color-accent);
 }
 
 /* MARKDOWN STYLES WITHIN COMMENTS */
@@ -143,4 +156,22 @@
 }
 :where(.post-reader-localized-context) .reply-toggle-btn:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
+}
+
+/* B"H — Law 2: visible keyboard-focus ring token */
+:root:not([data-theme="dark"]) {
+  --focus-ring: #1a56db;
+}
+:root[data-theme="dark"] {
+  --focus-ring: #8fb3ff;
+}
+
+/* B"H — Law 2: visible keyboard-focus rings for interactive elements */
+html:where(.post-reader-localized-context) .reply-toggle-btn:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.post-reader-localized-context .comment-text a:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
 }

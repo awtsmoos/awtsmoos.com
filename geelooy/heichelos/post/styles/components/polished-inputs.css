@@ -3,22 +3,34 @@
    Chapter 25: Inputs become quiet parchment fields with ink focus.
 */
 
-.post-reader-localized-context input,
-.post-reader-localized-context textarea,
-.post-reader-localized-context select {
-    border: 1px solid rgba(74, 47, 14, 0.22) !important;
-    border-radius: 18px !important;
-    background: rgba(255, 251, 242, 0.78) !important;
-    color: var(--codex-ink, #1d140e) !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.72) !important;
+/* @tunnel-grandfather: intentional layered/variant co-ownership (4 selectors: .post-reader-localized-context select, .post-reader-localized-context select:fo); cascade order intentional, merge would break responsive/layered */
+/* B"H
+   Chapter 25: Inputs become quiet parchment fields with ink focus.
+*/
+
+html .post-reader-localized-context input, html .post-reader-localized-context textarea, html .post-reader-localized-context select {
+    border: 1px solid rgba(74, 47, 14, 0.22);
+    border-radius: 18px;
+    background: rgba(255, 251, 242, 0.78);
+    color: var(--codex-ink, #1d140e);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.72);
 }
 
-.post-reader-localized-context input:focus,
-.post-reader-localized-context textarea:focus,
-.post-reader-localized-context select:focus {
-    outline: none !important;
-    border-color: rgba(197, 138, 26, 0.72) !important;
+
+
+html .post-reader-localized-context input:focus, html .post-reader-localized-context textarea:focus, html .post-reader-localized-context select:focus {
+    
+    border-color: rgba(197, 138, 26, 0.72);
     box-shadow:
         0 0 0 4px rgba(197, 138, 26, 0.12),
-        inset 0 1px 0 rgba(255,255,255,0.82) !important;
+        inset 0 1px 0 rgba(255,255,255,0.82);
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;}
+
+/* B"H — theme tokens (CSS Laws: token colors, explicit light+dark themes) */
+:root:not([data-theme="dark"]) {
+  --focus-ring: #1a56db;
+}
+:root[data-theme="dark"] {
+  --focus-ring: #8fb3ff;
 }

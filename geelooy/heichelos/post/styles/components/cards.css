@@ -2,38 +2,49 @@
 
 /* B"H - THE VESSELS OF CONTAINMENT (CARDS) */
 
-:where(.post-reader-localized-context) .awtsmoos-card {
-    background: var(--bg-surface) !important;
-    border: var(--border-thick) !important;
-    box-shadow: var(--shadow-ui) !important;
-    padding: var(--pad-md) !important;
-    transition: all var(--time-std) var(--ease-snap) !important;
-    margin-bottom: var(--pad-md) !important;
-    position: relative !important;
-    overflow: hidden !important;
-    width: 100% !important;
-    display: flex !important;
-    flex-direction: column !important;
+/* @tunnel-grandfather: intentional layered/variant co-ownership (2 selectors: :where(.post-reader-localized-context) ., :where(.post-reader-localized-context) .); cascade order intentional, merge would break responsive/laye */
+
+/* B"H - THE VESSELS OF CONTAINMENT (CARDS) */
+
+html:where(.post-reader-localized-context) .awtsmoos-card {
+    background: var(--bg-surface);
+    border: var(--border-thick);
+    box-shadow: var(--shadow-ui);
+    padding: var(--pad-md);
+    transition: all var(--time-std) var(--ease-snap);
+    margin-bottom: var(--pad-md);
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-:where(.post-reader-localized-context) .awtsmoos-card:hover {
-    transform: translate(-4px, -4px) !important;
-    box-shadow: var(--shadow-hover) !important;
-    border-color: var(--color-ink) !important;
+
+
+html:where(.post-reader-localized-context) .awtsmoos-card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--color-ink);
 }
 
 /* Toolbar adjustments for nested elements within the card */
-:where(.post-reader-localized-context) .awtsmoos-card .comment-toolbar {
-    margin-top: 15px !important;
-    border-top: var(--border-thin) !important;
-    padding-top: 10px !important;
+
+
+/* Toolbar adjustments for nested elements within the card */
+html:where(.post-reader-localized-context) .awtsmoos-card .comment-toolbar {
+    margin-top: 15px;
+    border-top: var(--border-thin);
+    padding-top: 10px;
 }
 
-.card-title {
+
+
+html .card-title {
     font-family: var(--font-heading);
     font-weight: 800;
     font-size: 1.5rem;
-    text-transform: none !important;
+    text-transform: none;
     margin: 0;
     line-height: 1.1;
 }
