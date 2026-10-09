@@ -7,7 +7,7 @@ import {
 	javaUnsafeArrayBaseOffset,
 	javaUnsafeArrayIndexScale
 } from "./frameworkJavaUnsafeArrayLayout.js";
-import { createJavaUnsafeFieldOffset } from "./frameworkJavaUnsafeOffsets.js";
+import { createJavaUnsafeFieldOffset, readJavaUnsafeFieldOffset } from "./frameworkJavaUnsafeOffsets.js";
 import {
 	javaUnsafeReference,
 	SUN_MISC_UNSAFE
@@ -38,6 +38,33 @@ export function createFrameworkJavaUnsafeMethods(runtime) {
 			if (matches(record, "arrayIndexScale", ARRAY_INDEX_SCALE)) {
 				return javaUnsafeArrayIndexScale(args[1]);
 			}
+			// Compare-and-swap operations.
+			if (record.method.name === "compareAndSwapInt") {
+				return compareAndSwapField(runtime, args[1], args[2], args[3], args[4], 32);
+			}
+			if (record.method.name === "compareAndSwapLong") {
+				return compareAndSwapField(runtime, args[1], args[2], args[3], args[4], 64);
+			}
+			if (record.method.name === "compareAndSwapObject") {
+				return compareAndSwapField(runtime, args[1], args[2], args[3], args[4], 0);
+			}
+			// Volatile and plain field access via Unsafe.
+			if (record.method.name === "getIntVolatile" || record.method.name === "getInt") {
+				return getFieldByOffset(runtime, args[1], args[2]);
+			}
+			if (record.method.name === "putIntVolatile" || record.method.name === "putInt" ||
+				record.method.name === "putOrderedInt") {
+				setFieldByOffset(runtime, args[1], args[2], args[3]);
+				return undefined;
+			}
+			if (record.method.name === "getObjectVolatile" || record.method.name === "getObject") {
+				return getFieldByOffset(runtime, args[1], args[2]);
+			}
+			if (record.method.name === "putObjectVolatile" || record.method.name === "putObject" ||
+				record.method.name === "putOrderedObject") {
+				setFieldByOffset(runtime, args[1], args[2], args[3]);
+				return undefined;
+			}
 			throw unsafeError(
 				"ANDROID_JAVA_UNSAFE_METHOD_UNSUPPORTED",
 				record.signature
@@ -67,4 +94,50 @@ function unsafeError(code, detail) {
 	const error = new Error(`${code}:${detail}`);
 	error.code = code;
 	return error;
+}
+
+function fieldKeyFromOffset(runtime, offset) {
+	const metadata = readJavaUnsafeFieldOffset(runtime, offset);
+	// metadata.signature is like "Lcom/foo/Bar;->fieldName:I"
+	return metadata.signature;
+}
+
+function compareAndSwapField(runtime, objRef, offset, expected, newValue, bits) {
+	const key = fieldKeyFromOffset(runtime, offset);
+	let current;
+	try {
+		current = runtime.heap.getField(objRef, key);
+	} catch {
+		current = 0;
+	}
+	const currentNum = Number(current) || 0;
+	const expectedNum = Number(expected) || 0;
+	// For object CAS (bits=0), compare by reference identity.
+	if (bits === 0) {
+		const same = (current?.id === expected?.id) || (current === expected);
+		if (same) {
+			runtime.heap.setField(objRef, key, newValue);
+			return 1;
+		}
+		return 0;
+	}
+	if (currentNum === expectedNum) {
+		runtime.heap.setField(objRef, key, newValue);
+		return 1;
+	}
+	return 0;
+}
+
+function getFieldByOffset(runtime, objRef, offset) {
+	const key = fieldKeyFromOffset(runtime, offset);
+	try {
+		return runtime.heap.getField(objRef, key) || 0;
+	} catch {
+		return 0;
+	}
+}
+
+function setFieldByOffset(runtime, objRef, offset, value) {
+	const key = fieldKeyFromOffset(runtime, offset);
+	runtime.heap.setField(objRef, key, value);
 }
