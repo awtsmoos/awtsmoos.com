@@ -416,7 +416,7 @@
 	border: 1px solid var(--over-rule);
 	border-inline-start: 3px solid var(--over-gold);
 	border-radius: 0.4rem 1rem 1rem 0.4rem;
-	background: var(--over-wash);
+	background: var(--over-card);
 	padding: 1rem 1.25rem;
 	margin-block-start: 1.4rem;
 }
