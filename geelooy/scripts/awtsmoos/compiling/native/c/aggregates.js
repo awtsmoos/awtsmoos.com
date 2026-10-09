@@ -109,10 +109,17 @@ export function emitLvalueAddress(node, context, emitExpression) {
 
 /**
  * Loads a symbol as a value with C array-to-pointer decay: an array-typed
- * symbol evaluates to the address of its element 0, and a structure-typed
- * symbol cannot be used as a value (structures travel by pointer).
+ * symbol evaluates to the address of its element 0, a function-typed symbol
+ * evaluates to the function's address, and a structure-typed symbol cannot
+ * be used as a value (structures travel by pointer).
  */
 export function emitSymbolValue(node, context) {
+	// Function designator: `onStart` in `activity->onStart = onStart` is the
+	// function's address, not a stack slot.
+	if (context.functions?.has(node.name)) {
+		context.emit(`LEA RAX, ${node.name}`);
+		return;
+	}
 	const kind = node.valueType?.kind;
 	if (kind === "array") {
 		emitAddressOfSymbol(node.name, context);

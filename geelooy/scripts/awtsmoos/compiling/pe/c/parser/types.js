@@ -5,7 +5,7 @@ Boruch Hashem
 import { TOKENS } from '../lexer.js';
 
 /** Type qualifiers the subset accepts and ignores: no const checking. */
-const QUALIFIERS = new Set(["const", "static"]);
+const QUALIFIERS = new Set(["const", "static", "unsigned", "signed"]);
 
 function skipQualifiers(stream) {
 	while (stream.peek().type === TOKENS.KEYWORD && QUALIFIERS.has(stream.peek().value)) {
@@ -65,7 +65,7 @@ export function parseType(stream, options = {}) {
 export function isDeclarationStart(stream) {
 	const t = stream.peek();
 	if (t.type === TOKENS.KEYWORD) {
-		return ["int", "char", "void", "struct", "union", "enum", "const", "static", "typedef"].includes(t.value);
+		return ["int", "char", "void", "long", "struct", "union", "enum", "const", "static", "typedef"].includes(t.value);
 	}
 	return t.type === TOKENS.ID && !!stream.typedefs && stream.typedefs.has(t.value);
 }

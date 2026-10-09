@@ -91,10 +91,28 @@ function lowerSymbol(expression, context) {
 }
 
 function lowerCall(expression, context) {
+	// Indirect call: the callee is an arbitrary expression (e.g. `a->cb`).
+	// The IR carries the lowered callee; backends emit an indirect branch.
+	if (expression.target) {
+		const callee = lowerExpression(expression.target, context);
+		const pointee = callee?.valueType?.kind === "pointer"
+			? callee.valueType.pointee
+			: null;
+		return irNode("call", {
+			arguments: expression.args.map(argument => lowerExpression(argument, context)),
+			callee,
+			calleeKind: "indirect",
+			resolution: "indirect",
+			valueType: pointee?.kind === "function"
+				? pointee.returnType
+				: context.types.unknown(`call:indirect`)
+		});
+	}
 	const symbol = context.scope.resolve(expression.name);
 	return irNode("call", {
 		arguments: expression.args.map(argument => lowerExpression(argument, context)),
 		callee: expression.name,
+		calleeKind: "direct",
 		resolution: symbol ? symbol.kind : "unresolved",
 		valueType: symbol?.valueType?.returnType
 			|| context.types.unknown(`call:${expression.name}`)

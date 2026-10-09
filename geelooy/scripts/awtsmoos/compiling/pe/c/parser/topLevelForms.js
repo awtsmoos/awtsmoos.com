@@ -31,6 +31,12 @@ export function parseStructure(stream) {
 	const fields = [];
 	while (!isPunctuation(stream.peek(), "}")) {
 		const type = parseType(stream);
+		// Function pointer field: `void (*cb)(int, char)` — the declarator
+		// opens with '(' after the return type instead of an identifier.
+		if (isPunctuation(stream.peek(), "(")) {
+			fields.push(parseFunctionPointerField(stream, type));
+			continue;
+		}
 		const fieldName = stream.expect(TOKENS.ID).value;
 		let arraySize = 0;
 		if (isPunctuation(stream.peek(), "[")) {
@@ -46,6 +52,36 @@ export function parseStructure(stream) {
 	const result = { name, fields };
 	if (kind === "union") result.union = true;
 	return result;
+}
+
+/**
+ * Parses a function pointer field declarator after the return type:
+ * `(*name)(param, ...)` — the AST type carries fnptr so the IR builds a
+ * pointer-to-function instead of a plain data pointer.
+ */
+function parseFunctionPointerField(stream, returnType) {
+	stream.expect(TOKENS.PUNCT, "(");
+	const star = stream.peek();
+	if (star.type !== TOKENS.OP || star.value !== "*") {
+		stream.error(`Expected '*' in function pointer declarator, got '${star.value}'`);
+	}
+	stream.consume();
+	const fieldName = stream.expect(TOKENS.ID).value;
+	stream.expect(TOKENS.PUNCT, ")");
+	stream.expect(TOKENS.PUNCT, "(");
+	const params = [];
+	while (!isPunctuation(stream.peek(), ")")) {
+		params.push(parseType(stream));
+		if (!isPunctuation(stream.peek(), ",")) break;
+		stream.consume();
+	}
+	stream.expect(TOKENS.PUNCT, ")");
+	stream.expect(TOKENS.PUNCT, ";");
+	return {
+		arraySize: 0,
+		name: fieldName,
+		type: { ...returnType, fnptr: { params } }
+	};
 }
 
 export function isEnumDefinition(stream) {

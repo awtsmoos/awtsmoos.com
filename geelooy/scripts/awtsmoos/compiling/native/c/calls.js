@@ -36,11 +36,13 @@ export function emitPortableCCall(node, context, emitExpression) {
 		context.emit("SYSCALL");
 		return;
 	}
-	const resolved = node.resolution === "function"
-		? context.functions.has(node.callee)
-		: node.resolution === "import"
-			? context.externals?.has(node.callee) === true
-			: false;
+	const resolved = node.calleeKind === "indirect"
+		? true
+		: node.resolution === "function"
+			? context.functions.has(node.callee)
+			: node.resolution === "import"
+				? context.externals?.has(node.callee) === true
+				: false;
 	if (!resolved) {
 		throw portableCError(
 			"PORTABLE_C_CALL_UNRESOLVED",
@@ -53,6 +55,21 @@ export function emitPortableCCall(node, context, emitExpression) {
 			`Call '${node.callee}' has ${node.arguments.length} arguments`
 		);
 	}
+	// Indirect call: the callee is an expression (function pointer). Evaluate
+	// it first so nested argument calls cannot clobber the target address,
+	// then run the standard argument shuffle and branch to the register.
+	if (node.calleeKind === "indirect") {
+		emitExpression(node.callee, context);
+		context.emit("PUSH RAX");
+		emitCallArguments(node, context, emitExpression);
+		context.emit("POP R10", "CALL R10");
+		return;
+	}
+	emitCallArguments(node, context, emitExpression);
+	context.emit(`CALL ${node.callee}`);
+}
+
+function emitCallArguments(node, context, emitExpression) {
 	for (const argument of node.arguments) {
 		emitExpression(argument, context);
 		context.emit("PUSH RAX");
@@ -60,5 +77,4 @@ export function emitPortableCCall(node, context, emitExpression) {
 	for (let index = node.arguments.length - 1; index >= 0; index -= 1) {
 		context.emit(`POP ${ARGUMENT_REGISTERS[index]}`);
 	}
-	context.emit(`CALL ${node.callee}`);
 }

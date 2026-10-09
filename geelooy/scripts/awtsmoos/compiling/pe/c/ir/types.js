@@ -7,6 +7,7 @@ import { createIrError } from "./errors.js";
 const BUILTIN_TYPES = Object.freeze({
 	char: Object.freeze({ kind: "integer", name: "char", bits: 8, signed: true }),
 	int: Object.freeze({ kind: "integer", name: "int", bits: 32, signed: true }),
+	long: Object.freeze({ kind: "integer", name: "long", bits: 64, signed: true }),
 	void: Object.freeze({ kind: "void", name: "void" })
 });
 
@@ -27,6 +28,13 @@ export class IrTypeFactory {
 		let type = this.baseType(astType.base);
 		for (let depth = 0; depth < Number(astType.ptr || 0); depth += 1) {
 			type = this.pointerTo(type);
+		}
+		// Function pointer declarator: `void (*cb)(int)` — the declarator star
+		// makes it a pointer; the pointee is the function type itself.
+		if (astType.fnptr) {
+			const params = (astType.fnptr.params || []).map(param => this.fromAst(param));
+			const signature = this.functionType(type, params, false);
+			type = this.pointerTo(signature);
 		}
 		return type;
 	}
