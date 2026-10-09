@@ -7,7 +7,9 @@ There shall be no other styles before it.
 Its laws of ink, vellum, border, and shadow are absolute and eternal.
 */
 
-:root {
+/* B"H — covenant palette tokens, explicit light AND dark branches (Yaakov 2026-10-08).
+ * Dark hook: both [data-theme="dark"] and the legacy .awtsmoos-dark-theme class are honored. */
+:root:not([data-theme="dark"]) {
     /* The Palette of Creation */
     --bg-surface: #ffffff;
     --bg-vellum: #f9f4e9; /* A warmer, aged parchment */
@@ -17,6 +19,9 @@ Its laws of ink, vellum, border, and shadow are absolute and eternal.
     --color-accent: #c5a372; /* The gold of the Menorah */
     --color-danger: #a12a2a;
     --color-success: #367b36;
+    /* Text colors that sit ON the saturated fills (explicit per theme for contrast) */
+    --color-on-primary: #ffffff;
+    --color-on-danger: #ffffff;
 
     /* The Fonts of the Scribe */
     --font-heading: 'Syne', 'Frank Ruhl Libre', serif; /* For power and presence */
@@ -29,12 +34,16 @@ Its laws of ink, vellum, border, and shadow are absolute and eternal.
     --shadow-hard: 8px 8px 0px var(--color-ink);
     --shadow-hover: 12px 12px 0px var(--color-ink);
     --shadow-ui: 4px 4px 0px rgba(0,0,0,0.1);
+    --shadow-btn-hover: 6px 6px 0px rgba(0,0,0,0.2);
+    --shadow-btn-active: 0 0 0 transparent;
+    --shadow-focus: 6px 6px 0 var(--color-primary);
 
     /* The Sacred Vessel (Post Text) Size */
     --post-text-size: 28px;
 }
 
 /* --- THE DARK MIRROR (Night Theme) --- */
+:root[data-theme="dark"],
 .awtsmoos-dark-theme {
     --bg-surface: #1a1816;
     --bg-vellum: #121110;
@@ -43,6 +52,10 @@ Its laws of ink, vellum, border, and shadow are absolute and eternal.
     --color-primary: #d46a65;
     --color-accent: #e0ac65;
     --color-danger: #db6a59;
+    /* Dark-theme fills are lighter, so the on-colors flip to dark ink for contrast. */
+    --color-on-primary: #2a0d0a;
+    --color-on-danger: #2a0d0a;
+    --shadow-ui: 4px 4px 0px rgba(0,0,0,0.45);
 }
 
 /*
@@ -52,95 +65,125 @@ THE UNIVERSAL LAWS (Applied Everywhere)
 */
 
 /* --- THE ONE TRUE BUTTON (`.btn`) --- */
-.btn {
-    font-family: var(--font-ui) !important;
-    background: var(--bg-surface) !important;
-    border: var(--border-ui) !important;
-    color: var(--color-ink) !important;
-    font-weight: 800 !important;
-    text-transform: uppercase !important;
-    padding: 10px 20px !important;
-    cursor: pointer !important;
-    box-shadow: var(--shadow-ui) !important;
-    transition: all 0.15s cubic-bezier(0.19, 1, 0.22, 1) !important;
-    font-size: 13px !important;
-    letter-spacing: 1.5px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 8px !important;
-    text-decoration: none !important;
-    line-height: 1 !important;
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+html .btn {
+    font-family: var(--font-ui);
+    background: var(--bg-surface);
+    border: var(--border-ui);
+    color: var(--color-ink);
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    cursor: pointer;
+    box-shadow: var(--shadow-ui);
+    transition: all 0.15s cubic-bezier(0.19, 1, 0.22, 1);
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    line-height: 1;
 }
-.btn:hover {
-    transform: translate(-3px, -3px) !important;
-    box-shadow: 6px 6px 0px rgba(0,0,0,0.2) !important;
-    background: var(--color-accent) !important;
-    border-color: var(--color-ink) !important;
+html .btn:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: var(--shadow-btn-hover);
+    background: var(--color-accent);
+    border-color: var(--color-ink);
+    color: var(--color-ink);
 }
-.btn:active {
-    transform: translate(2px, 2px) !important;
-    box-shadow: 0 0 0 transparent !important;
+html .btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: var(--shadow-btn-active);
+}
+html .btn:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+}
+html .btn:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: var(--shadow-ui);
 }
 
 /* Variations */
-.btn.primary { background: var(--color-primary) !important; color: #fff !important; }
-.btn.danger { background: var(--color-danger) !important; color: #fff !important; }
+html .btn.primary { background: var(--color-primary); border-color: var(--color-primary); color: var(--color-on-primary); }
+html .btn.danger { background: var(--color-danger); border-color: var(--color-danger); color: var(--color-on-danger); }
 
 /* --- THE ONE TRUE CARD (`.card`) --- */
-.card {
+html .card {
     background: var(--bg-surface);
     border: var(--border-thick);
     padding: 2rem;
     box-shadow: var(--shadow-hard);
+    color: var(--color-ink);
     transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1);
 }
-.card:hover {
+html .card:hover {
     transform: translate(-5px, -5px);
     box-shadow: var(--shadow-hover);
 }
 
 /* --- THE ONE TRUE INPUT (`.input-field`) --- */
-.input-field {
-    border: var(--border-ui) !important;
-    padding: 12px !important;
-    font-family: var(--font-ui) !important;
-    background: var(--bg-surface) !important;
-    color: var(--color-ink) !important;
-    outline: none !important;
-    box-shadow: var(--shadow-ui) !important;
-    font-size: 15px !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-    transition: all 0.2s !important;
+html .input-field {
+    border: var(--border-ui);
+    padding: 12px;
+    font-family: var(--font-ui);
+    background: var(--bg-surface);
+    color: var(--color-ink);
+    outline: none;
+    box-shadow: var(--shadow-ui);
+    font-size: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all 0.2s;
 }
-.input-field:focus {
-    box-shadow: 6px 6px 0 var(--color-primary) !important;
-    transform: translate(-2px, -2px) !important;
-    border-color: var(--color-primary) !important;
+html .input-field:hover {
+    border-color: var(--color-accent);
+}
+html .input-field:focus {
+    box-shadow: var(--shadow-focus);
+    transform: translate(-2px, -2px);
+    border-color: var(--color-primary);
+    outline: none;
+}
+html .input-field:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+}
+html .input-field:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    background: var(--bg-vellum);
+    color: var(--color-ink-secondary);
 }
 
 /* Add more unified components here: .modal, .tooltip, etc. */
 
-/* @tunnel-interactive-states: auto-generated by css-guarantee */
-.btn:focus-visible {
-	outline: 2px solid currentColor; outline-offset: 2px;
+/* @tunnel-interactive-states: hover/active/focus-visible/disabled for every interactive control */
+html .btn.primary:hover {
+    filter: brightness(1.08);
+    transform: translate(-3px, -3px);
 }
-.btn.primary:hover {
-	filter: brightness(1.08);
+html .btn.primary:active {
+    transform: translate(2px, 2px);
+    filter: none;
 }
-.btn.primary:active {
-	transform: scale(0.98);
+html .btn.primary:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
 }
-.btn.primary:focus-visible {
-	outline: 2px solid currentColor; outline-offset: 2px;
+html .btn.danger:hover {
+    filter: brightness(1.08);
+    transform: translate(-3px, -3px);
 }
-.btn.danger:hover {
-	filter: brightness(1.08);
+html .btn.danger:active {
+    transform: translate(2px, 2px);
+    filter: none;
 }
-.btn.danger:active {
-	transform: scale(0.98);
-}
-.btn.danger:focus-visible {
-	outline: 2px solid currentColor; outline-offset: 2px;
+html .btn.danger:focus-visible {
+    outline: 3px solid var(--color-danger);
+    outline-offset: 2px;
 }

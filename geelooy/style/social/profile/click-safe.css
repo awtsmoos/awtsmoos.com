@@ -1,87 +1,121 @@
 /* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H — final click covenant: only real controls catch the finger. */
-body:has(.geelooy-profile-shell) {
-  background: #06111f;
+
+/* B"H — profile palette tokens, explicit light AND dark branches (Yaakov 2026-10-08).
+ * This page is intentionally dark in both themes; values are identical by design. */
+:root:not([data-theme="dark"]) {
+  --profile-body-bg: #06111f;
+  --profile-text: #f8fafc;
+  --profile-panel-bg: #101d21;
+  --profile-chip-bg: #17282d;
+  --profile-drawer-bg: #07111d;
+  --profile-accent-border: rgba(117, 231, 244, .34);
+  --profile-nav-border: rgba(117, 231, 244, .28);
+  --profile-menu-bg: #050915;
 }
-body:has(.geelooy-profile-shell) :is([hidden], .hidden) {
-  display: none !important;
-  pointer-events: none !important;
+:root[data-theme="dark"] {
+  --profile-body-bg: #06111f;
+  --profile-text: #f8fafc;
+  --profile-panel-bg: #101d21;
+  --profile-chip-bg: #17282d;
+  --profile-drawer-bg: #07111d;
+  --profile-accent-border: rgba(117, 231, 244, .34);
+  --profile-nav-border: rgba(117, 231, 244, .28);
+  --profile-menu-bg: #050915;
 }
-body:has(.geelooy-profile-shell) .awtsmoos-dropdown-backdrop {
-  display: none !important;
-  pointer-events: none !important;
+
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+html body:has(.geelooy-profile-shell) {
+  background: var(--profile-body-bg);
+  color: var(--profile-text);
+  max-width: 100%;
+  overflow-x: hidden;
 }
-.geelooy-profile-shell {
+html body:has(.geelooy-profile-shell) :is([hidden], .hidden) {
+  display: none;
+  pointer-events: none;
+}
+html body:has(.geelooy-profile-shell) .awtsmoos-dropdown-backdrop {
+  display: none;
+  pointer-events: none;
+}
+html .geelooy-profile-shell {
   isolation: isolate;
-  margin-top: .85rem !important;
+  margin-top: .85rem;
   padding-top: clamp(4.6rem, 11vw, 5.7rem);
   pointer-events: auto;
   position: relative;
   z-index: 1;
+  color: var(--profile-text);
 }
-.geelooy-profile-shell::before, .geelooy-profile-shell::after, .profile-hero-card::before, .profile-hero-card::after, .profile-command-panel::before, .profile-command-panel::after, .profile-bottom-nav::before, .profile-bottom-nav::after {
-  pointer-events: none !important;
+html .geelooy-profile-shell::before, html .geelooy-profile-shell::after, html .profile-hero-card::before, html .profile-hero-card::after, html .profile-command-panel::before, html .profile-command-panel::after, html .profile-bottom-nav::before, html .profile-bottom-nav::after {
+  pointer-events: none;
 }
-.geelooy-profile-shell :is(a, button, input, select, textarea, summary, [role="button"], [tabindex]) {
-  pointer-events: auto !important;
+html .geelooy-profile-shell :is(a, button, input, select, textarea, summary, [role="button"], [tabindex]) {
+  pointer-events: auto;
   touch-action: manipulation;
+  color: var(--profile-text);
 }
-.profile-hero-card, .profile-command-panel {
-  background: #101d21 !important;
-  overflow: visible !important;
+html .profile-hero-card, html .profile-command-panel {
+  background: var(--profile-panel-bg);
+  color: var(--profile-text);
+  overflow: visible;
   position: relative;
 }
-.profile-stat-grid article, .profile-inline-actions :is(button,a), .profile-command-rail a, .profile-tabs button, .panel-title-row a {
-  background: #17282d !important;
-  color: #f8fafc !important;
+html .profile-stat-grid article, html .profile-inline-actions :is(button,a), html .profile-command-rail a, html .profile-tabs button, html .panel-title-row a {
+  background: var(--profile-chip-bg);
+  color: var(--profile-text);
 }
-.profile-action-drawer[hidden] {
-  display: none !important;
-  pointer-events: none !important;
+html .profile-action-drawer[hidden] {
+  display: none;
+  pointer-events: none;
 }
-.profile-action-drawer {
-  background: #07111d !important;
-  border-color: rgba(117,231,244,.34) !important;
-  color: #f8fafc !important;
-  z-index: 2600 !important;
+html .profile-action-drawer {
+  background: var(--profile-drawer-bg);
+  border-color: var(--profile-accent-border);
+  color: var(--profile-text);
+  z-index: 2600;
 }
-.profile-bottom-nav {
-  background: #07111d !important;
-  border-color: rgba(117,231,244,.28) !important;
-  bottom: max(.6rem, env(safe-area-inset-bottom)) !important;
-  left: max(.7rem, env(safe-area-inset-left)) !important;
-  right: max(.7rem, env(safe-area-inset-right)) !important;
-  z-index: 1800 !important;
+html .profile-bottom-nav {
+  background: var(--profile-drawer-bg);
+  border-color: var(--profile-nav-border);
+  bottom: max(.6rem, env(safe-area-inset-bottom));
+  left: max(.7rem, env(safe-area-inset-left));
+  right: max(.7rem, env(safe-area-inset-right));
+  z-index: 1800;
 }
-.profile-bottom-nav a {
-  border-radius: 999px !important;
-  min-height: 48px !important;
+html .profile-bottom-nav a {
+  border-radius: 999px;
+  min-height: 48px;
 }
-body:has(.geelooy-profile-shell) .awtsmoosificationalisticaticalism {
+html body:has(.geelooy-profile-shell) .awtsmoosificationalisticaticalism {
   left: 50%;
-  position: fixed !important;
+  position: fixed;
   top: max(.25rem, env(safe-area-inset-top));
   transform: translateX(-50%);
-  z-index: 3200 !important;
+  z-index: 3200;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body:has(.geelooy-profile-shell)) .awtsmoosDrop .dropdown-content {
-  background: #050915 !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  z-index: 3300 !important;
+  background: var(--profile-menu-bg);
+  color: var(--profile-text);
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 3300;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body:has(.geelooy-profile-shell)) .sidebarMitzvah:not(.offscreen) {
-  background: #050915 !important;
-  opacity: 1 !important;
-  z-index: 3150 !important;
+  background: var(--profile-menu-bg);
+  color: var(--profile-text);
+  opacity: 1;
+  z-index: 3150;
 }
-@media (max-width: 430px) { .geelooy-profile-shell { padding-top: 5.25rem; } }
-@media (max-width: 430px) { .profile-inline-actions { gap: .5rem; } }
-@media (max-width: 430px) { .profile-inline-actions :is(button,a) { min-height: 48px; width: 100%; } }
-@media (max-width: 430px) { .profile-stat-grid { grid-template-columns: 1fr; } }
-/* @tunnel-interactive-states: auto-generated by css-guarantee */
+@media (max-width: 430px) { html .geelooy-profile-shell { padding-top: 5.25rem; } }
+@media (max-width: 430px) { html .profile-inline-actions { gap: .5rem; } }
+@media (max-width: 430px) { html .profile-inline-actions :is(button,a) { min-height: 48px; width: 100%; } }
+@media (max-width: 430px) { html .profile-stat-grid { grid-template-columns: 1fr; } }
+
+/* @tunnel-interactive-states: hover/active/focus-visible/disabled for every interactive control */
 button:hover {
 	filter: brightness(1.08);
 }
@@ -90,6 +124,12 @@ button:active {
 }
 button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
+}
+button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+	filter: none;
+	transform: none;
 }
 [role="button"]:hover {
 	filter: brightness(1.08);
@@ -109,6 +149,12 @@ button:focus-visible {
 .profile-inline-actions button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
+.profile-inline-actions button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+	filter: none;
+	transform: none;
+}
 a:hover {
 	filter: brightness(1.08);
 }
@@ -127,9 +173,11 @@ a:focus-visible {
 .profile-tabs button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
+.profile-tabs button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+	filter: none;
+	transform: none;
+}
 /* @tunnel-registry-merge: consolidated duplicate selectors W4 2026-10-08 */
 /* @tunnel-registry-merge: consolidated from geelooy/style/social/profile/fit/viewport.css W4 2026-10-08 */
-body:has(.geelooy-profile-shell) {
-  max-width: 100%;
-  overflow-x: hidden !important;
-}

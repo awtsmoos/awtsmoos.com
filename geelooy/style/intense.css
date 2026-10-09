@@ -1,6 +1,42 @@
 /* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /**B"H**/
 /*B"H*/
+/* B"H — intense page palette tokens, explicit light AND dark branches (Yaakov 2026-10-08).
+ * This page is intentionally pitch-dark in both themes; values are identical by design. */
+:root:not([data-theme="dark"]) {
+  --intense-bg: #000000;
+  --intense-text: #ffffff;
+  --intense-card-bg: #ffffff;
+  --intense-h2: #ff9d6f;
+  --intense-h3: #ff6a6a;
+  --intense-h2-shadow: rgba(0, 0, 0, 0.7);
+  --intense-h1-glow: rgba(255, 255, 255, 0.5);
+  --intense-link-bg: #000000;
+  --intense-link-shadow: rgba(144, 196, 255, 0.75);
+  --intense-link-hover-shadow: rgba(0, 0, 0, 0.75);
+  --intense-panel-shadow: rgba(0, 0, 0, 0.75);
+  --intense-side-grad-1: #ff9d6f;
+  --intense-side-grad-2: #ff6a6a;
+  --intense-side-border: #000000;
+  --intense-star: #ffffff;
+}
+:root[data-theme="dark"] {
+  --intense-bg: #000000;
+  --intense-text: #ffffff;
+  --intense-card-bg: #ffffff;
+  --intense-h2: #ff9d6f;
+  --intense-h3: #ff6a6a;
+  --intense-h2-shadow: rgba(0, 0, 0, 0.7);
+  --intense-h1-glow: rgba(255, 255, 255, 0.5);
+  --intense-link-bg: #000000;
+  --intense-link-shadow: rgba(144, 196, 255, 0.75);
+  --intense-link-hover-shadow: rgba(0, 0, 0, 0.75);
+  --intense-panel-shadow: rgba(0, 0, 0, 0.75);
+  --intense-side-grad-1: #ff9d6f;
+  --intense-side-grad-2: #ff6a6a;
+  --intense-side-border: #000000;
+  --intense-star: #ffffff;
+}
 /* General Body Styling */
 body {
     display: flex;
@@ -8,14 +44,16 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background: #000; /* Dark background color maintained */
+    background: var(--intense-bg); /* Dark background color maintained */
+    color: var(--intense-text);
+    color-scheme: dark;
     font-family: 'Roboto', Helvetica, Arial, sans-serif;
     text-align: center;
     overflow: hidden;
 }
 /* Image Styling */
 .merkos {
-    background: white;
+    background: var(--intense-card-bg);
     width: 248px;
     padding: 26px;
     border-radius: 7px;
@@ -28,11 +66,11 @@ body {
 body, p {
     white-space: pre-wrap;
     font-size: 4vw; /* Adjust as necessary */
-    color: #ffffff;
+    color: var(--intense-text);
 }
 /* Header Styling */
 h1, h2, h3, h4 {
-    color: #fff;
+    color: var(--intense-text);
     text-align: center;
     margin-top: 0.4em;
     margin-bottom: 0.4em;
@@ -42,42 +80,42 @@ h1, h2, h3, h4 {
 h1 {
     font-size: 7vw; /* Large size for main title */
     font-weight: 700; /* Bold weight for prominence */
-    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5); /* Subtle glow for depth */
+    text-shadow: 2px 2px 4px var(--intense-h1-glow); /* Subtle glow for depth */
 }
 h2 {
     font-size: 6vw;
     font-weight: 600;
-    color: #ff9d6f; /* A distinct color for secondary headers */
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* Shadow for contrast */
+    color: var(--intense-h2); /* A distinct color for secondary headers */
+    text-shadow: 1px 1px 3px var(--intense-h2-shadow); /* Shadow for contrast */
 }
 h3 {
     font-size: 5.5vw;
     font-weight: 500;
-    color: #ff6a6a; /* Another distinct color for tertiary headers */
+    color: var(--intense-h3); /* Another distinct color for tertiary headers */
     letter-spacing: 1px; /* Spacing for better readability */
 }
 h4 {
     font-size: 5vw;
     font-weight: 400;
-    color: #ffffff; /* Subdued color for the least prominent headers */
+    color: var(--intense-text); /* Subdued color for the least prominent headers */
     opacity: 0.9; /* Slightly lower opacity for a softer appearance */
 }
 /* Link Styling */
 a {
     text-decoration: none;
-    color: #fff;
+    color: var(--intense-text);
     transition: all 0.3s ease;
     display: inline-block;
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 5px;
-    background: black;
+    background: var(--intense-link-bg);
     font-size: 3.5vw;
-    box-shadow: 0px 10px 10px -5px rgba(144, 196, 255, 0.75);
+    box-shadow: 0px 10px 10px -5px var(--intense-link-shadow);
 }
 a:hover {
     transform: scale(1.1);
-    box-shadow: 0px 20px 20px -10px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 20px 20px -10px var(--intense-link-hover-shadow);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 /* Message Styling */
@@ -88,6 +126,7 @@ a:hover {
     box-sizing: border-box;
     scrollbar-width: none; /* For Firefox */
     -ms-overflow-style: none; /* For IE and Edge */
+    color: var(--intense-text);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(#message)::-webkit-scrollbar {
@@ -96,19 +135,21 @@ a:hover {
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 /* Panel Styling */
 :where(#side-panel), :where(#content-panel) {
-    box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 10px 10px -5px var(--intense-panel-shadow);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(#side-panel) {
     width: 20%;
-    border-right: 1px solid black;
+    border-right: 1px solid var(--intense-side-border);
     padding: 20px;
-    background: linear-gradient(60deg, #ff9d6f, #ff6a6a);
+    background: linear-gradient(60deg, var(--intense-side-grad-1), var(--intense-side-grad-2));
+    color: var(--intense-side-border);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(#content-panel) {
     width: 75%;
     padding-left: 5%;
+    color: var(--intense-text);
 }
 /* Animation for Links */
 .reeyuh a {
@@ -132,7 +173,7 @@ a:hover {
 }
 .star {
     position: absolute;
-    background-color: #fff;
+    background-color: var(--intense-star);
     width: 2px;
     height: 2px;
     z-index: -1;
@@ -154,7 +195,7 @@ a:hover {
 @media (max-width: 800px) { .merkos {
         width: 80%;
     } }
-/* @tunnel-interactive-states: auto-generated by css-guarantee */
+/* @tunnel-interactive-states: hover/active/focus-visible for every interactive control */
 a:active {
 	transform: scale(0.98);
 }

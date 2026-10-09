@@ -1,6 +1,8 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H — strict finish layer: complete, calm, professional. */
-:root {
+
+/* B"H — finish palette tokens, explicit light AND dark branches (Yaakov 2026-10-08). */
+:root:not([data-theme="dark"]) {
   --finish-bg: #f6f8fb;
   --finish-panel: #ffffff;
   --finish-soft: #f8fafc;
@@ -12,53 +14,86 @@
   --finish-accent: #0f766e;
   --finish-ring: rgba(15, 118, 110, .2);
   --finish-shadow: 0 2px 10px rgba(15, 23, 42, .06);
+  --finish-field-bg: #ffffff;
+  --finish-skeleton: #eef2f7;
+  --finish-on-ink: #ffffff;
+  --finish-dock-bg: rgba(255, 255, 255, .98);
+  --finish-dock-shadow: rgba(15, 23, 42, .12);
+  --finish-card-hover-shadow: rgba(15, 23, 42, .08);
+  --finish-color-scheme: light;
 }
-html, body { background: var(--finish-bg) !important; color: var(--finish-text) !important; color-scheme: light !important; }
-body, input, textarea, select, button { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important; }
-h1, h2, h3, h4 { color: var(--finish-ink) !important; letter-spacing: -.025em !important; }
-p, li, small, span { text-wrap: pretty; }
-a { color: var(--finish-accent); }
-a[class], nav a, .card a, .home-route-card, .social-space-card, .profile-command-rail a, .space-actions a { color: inherit; text-decoration: none !important; }
-button, a[class], input, textarea, select, summary { -webkit-tap-highlight-color: transparent; }
-button, .btn, .soft-btn, .home-profile-pill, .spaces-create, .profile-primary-action, .publish-button, .home-search-vessel button, .space-actions a, .profile-command-rail a, .home-empty-actions a {
-  border-radius: 12px !important;
-  font-weight: 700 !important;
-  letter-spacing: -.01em !important;
-  min-height: 40px !important;
-}
-input, textarea, select {
-  background: #fff !important;
-  border: 1px solid var(--finish-line) !important;
-  border-radius: 12px !important;
-  color: var(--finish-ink) !important;
-  box-shadow: none !important;
-}
-input:hover, textarea:hover, select:hover { border-color: var(--finish-line-strong) !important; }
-input:focus, textarea:focus, select:focus { border-color: var(--finish-accent) !important; box-shadow: 0 0 0 3px var(--finish-ring) !important; outline: none !important; }
-.card, .panel, .dashboard-panel, .home-command-card, .home-feed-phone, .home-route-card, .home-post-card, .profile-hero-card, .profile-command-panel, .social-space-card, .social-empty-card, .spaces-hero, .awt-settings-section, .awt-review-card, .composer-card, .submit-hero, .status-card, .simple-advanced-drawer {
-  background: var(--finish-panel) !important;
-  border: 1px solid var(--finish-line) !important;
-  box-shadow: var(--finish-shadow) !important;
-  color: var(--finish-text) !important;
-}
-.home-route-card:hover, .social-space-card:hover, .home-post-card:hover { border-color: var(--finish-line-strong) !important; box-shadow: 0 4px 16px rgba(15, 23, 42, .08) !important; }
-.home-route-card::after, .social-space-card::after, .home-post-card::after { display: none !important; }
-.empty-state, .social-empty-card, [data-heichelos-empty-state], .home-feed-loading { align-items: start; display: grid !important; gap: .7rem !important; }
-.home-command-dock, .profile-bottom-nav, .spaces-bottom-nav, .mobile-bottom-nav, .mail-bottom-nav {
-  background: rgba(255, 255, 255, .98) !important;
-  border: 1px solid var(--finish-line-strong) !important;
-  box-shadow: 0 8px 26px rgba(15, 23, 42, .12) !important;
-}
-.home-command-dock a, .profile-bottom-nav a, .spaces-bottom-nav a, .mobile-bottom-nav a, .mail-bottom-nav a { color: var(--finish-muted) !important; }
-[aria-current="page"], .active, [aria-selected="true"] { color: var(--finish-ink) !important; }
-.is-create, .publish-button, .home-search-vessel button, .profile-primary-action, .spaces-create, button.primary, .btn.primary, .btn-primary { background: var(--finish-ink) !important; border-color: var(--finish-ink) !important; color: #fff !important; }
-.skeleton, .loading-card, [aria-busy="true"] { background: #eef2f7 !important; }
-@media (max-width: 760px) {
-  .home-command-card, .home-feed-phone, .profile-hero-card, .profile-command-panel, .spaces-hero, .social-space-card, .composer-card, .submit-hero { border-radius: 18px !important; }
-  main { scroll-padding-bottom: 7rem; }
+:root[data-theme="dark"] {
+  --finish-bg: #0b1220;
+  --finish-panel: #101a2c;
+  --finish-soft: #0d1526;
+  --finish-line: #223049;
+  --finish-line-strong: #33506e;
+  --finish-ink: #e8eef7;
+  --finish-text: #dbe4f0;
+  --finish-muted: #93a4ba;
+  --finish-accent: #2dd4bf;
+  --finish-ring: rgba(45, 212, 191, .25);
+  --finish-shadow: 0 2px 10px rgba(0, 0, 0, .35);
+  --finish-field-bg: #101a2c;
+  --finish-skeleton: #16213a;
+  --finish-on-ink: #0f172a;
+  --finish-dock-bg: rgba(13, 21, 38, .98);
+  --finish-dock-shadow: rgba(0, 0, 0, .45);
+  --finish-card-hover-shadow: rgba(0, 0, 0, .35);
+  --finish-color-scheme: dark;
 }
 
-/* @tunnel-interactive-states: auto-generated by css-guarantee */
+/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+html:root, html body { background: var(--finish-bg); color: var(--finish-text); color-scheme: var(--finish-color-scheme); }
+html body, html input, html textarea, html select, html button { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+html h1, html h2, html h3, html h4 { color: var(--finish-ink); letter-spacing: -.025em; }
+html p, html li, html small, html span { text-wrap: pretty; }
+html a { color: var(--finish-accent); }
+html a[class], html nav a, html .card a, html .home-route-card, html .social-space-card, html .profile-command-rail a, html .space-actions a { color: inherit; text-decoration: none; }
+html button, html a[class], html input, html textarea, html select, html summary { -webkit-tap-highlight-color: transparent; }
+html button, html .btn, html .soft-btn, html .home-profile-pill, html .spaces-create, html .profile-primary-action, html .publish-button, html .home-search-vessel button, html .space-actions a, html .profile-command-rail a, html .home-empty-actions a {
+  border-radius: 12px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  min-height: 40px;
+  color: var(--finish-text);
+  background: var(--finish-soft);
+  border: 1px solid var(--finish-line);
+}
+html input, html textarea, html select {
+  background: var(--finish-field-bg);
+  border: 1px solid var(--finish-line);
+  border-radius: 12px;
+  color: var(--finish-ink);
+  box-shadow: none;
+}
+html input:hover, html textarea:hover, html select:hover { border-color: var(--finish-line-strong); }
+html input:focus, html textarea:focus, html select:focus { border-color: var(--finish-accent); box-shadow: 0 0 0 3px var(--finish-ring); outline: none; }
+html input:disabled, html textarea:disabled, html select:disabled { opacity: .55; cursor: not-allowed; }
+html .card, html .panel, html .dashboard-panel, html .home-command-card, html .home-feed-phone, html .home-route-card, html .home-post-card, html .profile-hero-card, html .profile-command-panel, html .social-space-card, html .social-empty-card, html .spaces-hero, html .awt-settings-section, html .awt-review-card, html .composer-card, html .submit-hero, html .status-card, html .simple-advanced-drawer {
+  background: var(--finish-panel);
+  border: 1px solid var(--finish-line);
+  box-shadow: var(--finish-shadow);
+  color: var(--finish-text);
+}
+html .home-route-card:hover, html .social-space-card:hover, html .home-post-card:hover { border-color: var(--finish-line-strong); box-shadow: 0 4px 16px var(--finish-card-hover-shadow); }
+html .home-route-card::after, html .social-space-card::after, html .home-post-card::after { display: none; }
+html .empty-state, html .social-empty-card, html [data-heichelos-empty-state], html .home-feed-loading { align-items: start; display: grid; gap: .7rem; }
+html .home-command-dock, html .profile-bottom-nav, html .spaces-bottom-nav, html .mobile-bottom-nav, html .mail-bottom-nav {
+  background: var(--finish-dock-bg);
+  border: 1px solid var(--finish-line-strong);
+  box-shadow: 0 8px 26px var(--finish-dock-shadow);
+}
+html .home-command-dock a, html .profile-bottom-nav a, html .spaces-bottom-nav a, html .mobile-bottom-nav a, html .mail-bottom-nav a { color: var(--finish-muted); }
+html [aria-current="page"], html .active, html [aria-selected="true"] { color: var(--finish-ink); }
+html .is-create, html .publish-button, html .home-search-vessel button, html .profile-primary-action, html .spaces-create, html button.primary, html .btn.primary, html .btn-primary { background: var(--finish-ink); border-color: var(--finish-ink); color: var(--finish-on-ink); }
+html .skeleton, html .loading-card, html [aria-busy="true"] { background: var(--finish-skeleton); }
+@media (max-width: 760px) {
+  html .home-command-card, html .home-feed-phone, html .profile-hero-card, html .profile-command-panel, html .spaces-hero, html .social-space-card, html .composer-card, html .submit-hero { border-radius: 18px; }
+  html main { scroll-padding-bottom: 7rem; }
+}
+
+/* @tunnel-interactive-states: hover/active/focus-visible/disabled for every interactive control */
 button:hover {
 	filter: brightness(1.08);
 }
@@ -67,6 +102,12 @@ button:active {
 }
 button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
+}
+button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+	filter: none;
+	transform: none;
 }
 a:active {
 	transform: scale(0.98);
@@ -92,6 +133,12 @@ a[class]:focus-visible {
 .btn:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
+.btn:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+	filter: none;
+	transform: none;
+}
 .publish-button:hover {
 	filter: brightness(1.08);
 }
@@ -100,6 +147,12 @@ a[class]:focus-visible {
 }
 .publish-button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
+}
+.publish-button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+	filter: none;
+	transform: none;
 }
 .home-search-vessel button:hover {
 	filter: brightness(1.08);

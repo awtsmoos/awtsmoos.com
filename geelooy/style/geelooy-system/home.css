@@ -1,114 +1,159 @@
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 /* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H — Home owns one premium social feed. All old dashboard noise is contained. */
-:where(html:has(body.geelooy-home-document)), body.geelooy-home-document {
-  background:
-    radial-gradient(circle at 50% -12rem, rgba(59, 130, 246, .22), transparent 30rem),
-    linear-gradient(180deg, #07111f 0%, #09111d 48%, #060b12 100%) !important;
-  color: #e5edf8;
-  min-height: 100%;
-  overflow-x: hidden;
+
+/* B"H — Home palette tokens. Explicit light AND dark branches (Yaakov 2026-10-08).
+ * This page is intentionally dark in both themes; values are identical by design. */
+:root:not([data-theme="dark"]) {
+	--home-body-glow: rgba(59, 130, 246, .22);
+	--home-body-grad-1: #07111f;
+	--home-body-grad-2: #09111d;
+	--home-body-grad-3: #060b12;
+	--home-text: #e5edf8;
+	--home-shell-bg: rgba(7, 17, 31, .84);
+	--home-shell-border: rgba(148, 163, 184, .13);
+	--home-dock-bg: rgba(7, 17, 31, .92);
+	--home-dock-border: rgba(148, 163, 184, .18);
+	--home-dock-shadow: rgba(0, 0, 0, .34);
+	--home-tabs-bg: rgba(15, 23, 42, .78);
+	--home-tabs-border: rgba(148, 163, 184, .16);
+	--home-tab-text: #94a3b8;
+	--home-tab-active-bg: #f8fafc;
+	--home-tab-active-text: #0f172a;
+	--home-tab-active-shadow: rgba(0, 0, 0, .2);
+	--home-tap-highlight: rgba(56, 189, 248, .22);
 }
-.geelooy-home-document .awtsmoosificationalisticaticalism {
-  backdrop-filter: blur(18px) saturate(1.2);
-  background: rgba(7, 17, 31, .84) !important;
-  border-bottom: 1px solid rgba(148, 163, 184, .13) !important;
-  min-height: 56px;
+:root[data-theme="dark"] {
+	--home-body-glow: rgba(59, 130, 246, .22);
+	--home-body-grad-1: #07111f;
+	--home-body-grad-2: #09111d;
+	--home-body-grad-3: #060b12;
+	--home-text: #e5edf8;
+	--home-shell-bg: rgba(7, 17, 31, .84);
+	--home-shell-border: rgba(148, 163, 184, .13);
+	--home-dock-bg: rgba(7, 17, 31, .92);
+	--home-dock-border: rgba(148, 163, 184, .18);
+	--home-dock-shadow: rgba(0, 0, 0, .34);
+	--home-tabs-bg: rgba(15, 23, 42, .78);
+	--home-tabs-border: rgba(148, 163, 184, .16);
+	--home-tab-text: #94a3b8;
+	--home-tab-active-bg: #f8fafc;
+	--home-tab-active-text: #0f172a;
+	--home-tab-active-shadow: rgba(0, 0, 0, .2);
+	--home-tap-highlight: rgba(56, 189, 248, .22);
 }
-.geelooy-home-document .home-dashboard-shell {
-  display: grid !important;
-  grid-template-columns: minmax(0, 668px) !important;
-  justify-content: center !important;
-  gap: 10px !important;
-  margin: 0 auto !important;
-  max-width: 704px !important;
-  padding: 10px 10px calc(var(--g-dock-h) + 92px) !important;
+
+/* B"H — html-prefixed specificity replaces !important (Yaakov 2026-10-08). */
+html :where(body.geelooy-home-document), html body.geelooy-home-document {
+	background:
+		radial-gradient(circle at 50% -12rem, var(--home-body-glow), transparent 30rem),
+		linear-gradient(180deg, var(--home-body-grad-1) 0%, var(--home-body-grad-2) 48%, var(--home-body-grad-3) 100%);
+	color: var(--home-text);
+	min-height: 100%;
+	overflow-x: hidden;
 }
-.geelooy-home-document .home-app-header, .geelooy-home-document .home-hero-panel, .geelooy-home-document .home-glance-panel, .geelooy-home-document .home-activity-panel, .geelooy-home-document .home-feed-header {
-  display: none !important;
+html .geelooy-home-document .awtsmoosificationalisticaticalism {
+	backdrop-filter: blur(18px) saturate(1.2);
+	background: var(--home-shell-bg);
+	border-bottom: 1px solid var(--home-shell-border);
+	min-height: 56px;
 }
-.geelooy-home-document .geelooy-home-composer, .geelooy-home-document .home-feed-panel {
-  grid-column: 1 !important;
-  margin: 0 !important;
-  width: 100% !important;
+html .geelooy-home-document .home-dashboard-shell {
+	display: grid;
+	grid-template-columns: minmax(0, 668px);
+	justify-content: center;
+	gap: 10px;
+	margin: 0 auto;
+	max-width: 704px;
+	padding: 10px 10px calc(var(--g-dock-h) + 92px);
 }
-.geelooy-home-document .home-feed-panel {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  padding: 0 !important;
+html .geelooy-home-document .home-app-header, html .geelooy-home-document .home-hero-panel, html .geelooy-home-document .home-glance-panel, html .geelooy-home-document .home-activity-panel, html .geelooy-home-document .home-feed-header {
+	display: none;
 }
-.geelooy-home-document .home-feed-tabs {
-  align-items: center !important;
-  backdrop-filter: blur(16px);
-  background: rgba(15, 23, 42, .78) !important;
-  border: 1px solid rgba(148, 163, 184, .16) !important;
-  border-radius: 999px !important;
-  display: flex !important;
-  gap: 4px !important;
-  margin: 0 0 10px !important;
-  overflow-x: auto !important;
-  padding: 4px !important;
-  position: sticky !important;
-  top: 58px !important;
-  z-index: 12 !important;
+html .geelooy-home-document .geelooy-home-composer, html .geelooy-home-document .home-feed-panel {
+	grid-column: 1;
+	margin: 0;
+	width: 100%;
 }
-.geelooy-home-document .home-feed-tabs button {
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 999px !important;
-  color: #94a3b8 !important;
-  flex: 1 0 auto !important;
-  font-size: .88rem !important;
-  font-weight: 850 !important;
-  min-height: 34px !important;
-  padding: 0 14px !important;
+html .geelooy-home-document .home-feed-panel {
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+	padding: 0;
+}
+html .geelooy-home-document .home-feed-tabs {
+	align-items: center;
+	backdrop-filter: blur(16px);
+	background: var(--home-tabs-bg);
+	border: 1px solid var(--home-tabs-border);
+	border-radius: 999px;
+	display: flex;
+	gap: 4px;
+	margin: 0 0 10px;
+	overflow-x: auto;
+	padding: 4px;
+	position: sticky;
+	top: 58px;
+	z-index: 12;
+}
+html .geelooy-home-document .home-feed-tabs button {
+	background: transparent;
+	border: 0;
+	border-radius: 999px;
+	color: var(--home-tab-text);
+	flex: 1 0 auto;
+	font-size: .88rem;
+	font-weight: 850;
+	min-height: 34px;
+	padding: 0 14px;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.geelooy-home-document) .home-feed-tabs button.active, :where(.geelooy-home-document) .home-feed-tabs button[aria-pressed="true"] {
-  background: #f8fafc !important;
-  color: #0f172a !important;
-  box-shadow: 0 8px 18px rgba(0,0,0,.2) !important;
+	background: var(--home-tab-active-bg);
+	color: var(--home-tab-active-text);
+	box-shadow: 0 8px 18px var(--home-tab-active-shadow);
 }
-.geelooy-home-document .home-feed-list {
-  display: grid !important;
-  gap: 12px !important;
+html .geelooy-home-document .home-feed-list {
+	display: grid;
+	gap: 12px;
 }
-.geelooy-home-document .home-command-dock {
-  backdrop-filter: blur(18px) saturate(1.2);
-  background: rgba(7, 17, 31, .92) !important;
-  border: 1px solid rgba(148, 163, 184, .18) !important;
-  box-shadow: 0 -18px 50px rgba(0,0,0,.34) !important;
+html .geelooy-home-document .home-command-dock {
+	backdrop-filter: blur(18px) saturate(1.2);
+	background: var(--home-dock-bg);
+	border: 1px solid var(--home-dock-border);
+	box-shadow: 0 -18px 50px var(--home-dock-shadow);
 }
-@media (max-width: 720px) { .geelooy-home-document .home-dashboard-shell { padding: 8px 8px calc(var(--g-dock-h) + 86px) !important; } }
-@media (max-width: 720px) { .geelooy-home-document .home-feed-tabs { top: 54px !important; } }
+@media (max-width: 720px) { html .geelooy-home-document .home-dashboard-shell { padding: 8px 8px calc(var(--g-dock-h) + 86px); } }
+@media (max-width: 720px) { html .geelooy-home-document .home-feed-tabs { top: 54px; } }
 /* B"H mobile click covenant: controls stay touchable even when legacy menus mis-set state. */
-body.geelooy-home-document :where(.awtsmoosificationalisticaticalism, .home-feed-tabs, .home-command-dock, .home-empty-actions, .geelooy-feed-compact-actions, .geelooy-verse-chip) {
-  pointer-events: auto !important;
+html body.geelooy-home-document :where(.awtsmoosificationalisticaticalism, .home-feed-tabs, .home-command-dock, .home-empty-actions, .geelooy-feed-compact-actions, .geelooy-verse-chip) {
+	pointer-events: auto;
 }
-body.geelooy-home-document :where(.home-feed-tabs button, .home-command-dock a, .home-empty-actions a, #shared-menu-button, .menuBtn, .geelooy-feed-compact-actions button, .geelooy-verse-chip) {
-  cursor: pointer !important;
-  pointer-events: auto !important;
-  touch-action: manipulation !important;
-  user-select: none !important;
-  -webkit-tap-highlight-color: rgba(56, 189, 248, .22) !important;
+html body.geelooy-home-document :where(.home-feed-tabs button, .home-command-dock a, .home-empty-actions a, #shared-menu-button, .menuBtn, .geelooy-feed-compact-actions button, .geelooy-verse-chip) {
+	cursor: pointer;
+	pointer-events: auto;
+	touch-action: manipulation;
+	user-select: none;
+	-webkit-tap-highlight-color: var(--home-tap-highlight);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.geelooy-home-document[data-global-menu-open="true"]) .geelooy-home-shell, :where(body.geelooy-home-document[data-geelooy-drawer-open="false"]) .geelooy-home-shell {
-  opacity: 1 !important;
-  pointer-events: auto !important;
+	opacity: 1;
+	pointer-events: auto;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.geelooy-home-document) :where(.sidebarMitzvah.geelooy-drawer:not(.offscreen)) {
-  display: grid !important;
-  pointer-events: auto !important;
-  z-index: 5000 !important;
+	display: grid;
+	pointer-events: auto;
+	z-index: 5000;
 }
-body.geelooy-home-document .home-feed-tabs { z-index: 120 !important; }
-body.geelooy-home-document .home-command-dock { z-index: 4600 !important; }
-body.geelooy-home-document .awtsmoosificationalisticaticalism { z-index: 4700 !important; }
+html body.geelooy-home-document .home-feed-tabs { z-index: 120; }
+html body.geelooy-home-document .home-command-dock { z-index: 4600; }
+html body.geelooy-home-document .awtsmoosificationalisticaticalism { z-index: 4700; }
+
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-/* @tunnel-interactive-states: auto-generated by css-guarantee */
+/* @tunnel-interactive-states: hover/active/focus-visible for every interactive control */
+/* Feed tab buttons — base is set above; full state set: */
 :where(.geelooy-home-document) .home-feed-tabs button:hover {
 	filter: brightness(1.08);
 }
@@ -119,6 +164,11 @@ body.geelooy-home-document .awtsmoosificationalisticaticalism { z-index: 4700 !i
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.geelooy-home-document) .home-feed-tabs button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
+}
+:where(.geelooy-home-document) .home-feed-tabs button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+	filter: none;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.geelooy-home-document) :where(.home-feed-tabs) button.active:hover {
@@ -203,6 +253,11 @@ body.geelooy-home-document .awtsmoosificationalisticaticalism { z-index: 4700 !i
 }
 .geelooy-feed-compact-actions button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
+}
+.geelooy-feed-compact-actions button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+	filter: none;
 }
 .geelooy-verse-chip:hover {
 	filter: brightness(1.08);
