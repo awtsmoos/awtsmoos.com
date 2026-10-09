@@ -131,3 +131,18 @@ a:active {
 a:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
+
+/* BH Yaakov 2026-10-08: Scribes Lens light-theme fix, no important */
+:where(:root[data-theme="light"]) .post-reader-localized-context .typography-details,
+:where(.post-reader-localized-context[data-theme="light"]) .typography-details {
+  --reader-text: #21160a;
+  --reader-muted: #6d5a43;
+  --reader-bg: #fefcf8;
+  background: #fefcf8;
+}
+html[data-theme="light"] .post-reader-localized-context .typography-details .setting-name,
+html[data-theme="light"] .post-reader-localized-context .typography-details .control-label,
+html[data-theme="light"] .post-reader-localized-context .typography-details h3,
+html[data-theme="light"] .post-reader-localized-context .typography-details label {
+  color: #21160a;
+}
