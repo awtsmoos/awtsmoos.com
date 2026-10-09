@@ -50,9 +50,60 @@ function nodeRequire(name) {
 const __http = nodeRequire("http");
 const __https = nodeRequire("https");
 const __url = nodeRequire("url");
+const __zlib = nodeRequire("zlib");
 
 const DEFAULT_TIMEOUT_MS = 30000;
 const DEFAULT_MAX_REDIRECTS = 5;
+const DEFAULT_MAX_CONCURRENCY = 6;
+
+// B"H: pipeline-wide counters. wireBytesIn counts compressed bytes off the
+// socket; bodyBytesOut counts decompressed bytes handed to callers. The gap
+// between them is the compression win. No per-request state retained.
+const stats = {
+	requests: 0,
+	wireBytesIn: 0,
+	bodyBytesOut: 0,
+	decompressedResponses: 0,
+	redirectsFollowed: 0
+};
+
+function resetStats() {
+	stats.requests = 0;
+	stats.wireBytesIn = 0;
+	stats.bodyBytesOut = 0;
+	stats.decompressedResponses = 0;
+	stats.redirectsFollowed = 0;
+}
+
+/**
+ * Decompress a body when WE asked for compression (autoDecompress). Handles
+ * stacked encodings ("gzip, br") in reverse order. Never throws: on any
+ * failure the raw body is returned so a lying server cannot break the fetch.
+ */
+function autoDecompress(body, contentEncoding) {
+	if (!body || body.length === 0) return body;
+	if (!__zlib) return body;
+	const encodings = String(contentEncoding || "")
+		.split(",").map(s => s.trim().toLowerCase()).filter(Boolean).reverse();
+	let out = body;
+	for (const enc of encodings) {
+		try {
+			if (enc === "gzip" || enc === "x-gzip") out = __zlib.gunzipSync(out);
+			else if (enc === "deflate") out = __zlib.inflateSync(out);
+			else if (enc === "br") out = __zlib.brotliDecompressSync(out);
+			else if (enc === "identity" || enc === "") { /* nothing */ }
+			else return body; // unknown encoding: bail out with raw body
+		} catch (_e) {
+			return body; // corrupt encoding: raw body beats a thrown fetch
+		}
+	}
+	return out;
+}
+
+function hasHeader(headers, name) {
+	const wanted = String(name).toLowerCase();
+	return Object.keys(headers || {}).some(k => k.toLowerCase() === wanted);
+}
 
 function lowerHeaders(headers) {
 	const out = {};
@@ -97,6 +148,15 @@ function requestOnce(targetUrl, options, bodyBuf) {
 		const headers = Object.assign({}, options.headers || {});
 		// NOTE: deliberately NO Origin injection, NO CORS preflight. The caller
 		// controls headers completely — native-app semantics.
+		// B"H: like every real browser we ask for compression when the caller
+		// did not choose their own accept-encoding. Fewer wire bytes = faster
+		// page loads; decompression happens below before the body is returned.
+		let autoDecompressBody = false;
+		if (!hasHeader(headers, "accept-encoding")) {
+			headers["accept-encoding"] = "gzip, deflate, br";
+			autoDecompressBody = true;
+		}
+		const onChunk = typeof options.onChunk === "function" ? options.onChunk : null;
 		const reqOpts = {
 			protocol: parsed.protocol,
 			hostname: parsed.hostname,
@@ -109,14 +169,40 @@ function requestOnce(targetUrl, options, bodyBuf) {
 		};
 		const req = lib.request(reqOpts, res => {
 			const chunks = [];
-			res.on("data", c => chunks.push(c));
+			let wireBytes = 0;
+			res.on("data", c => {
+				chunks.push(c);
+				wireBytes += c.length;
+				// B"H: streaming hook — the HTML parser (or any consumer) can
+				// start work on each chunk while the rest still downloads.
+				// The body is still buffered and returned whole below, so the
+				// return shape never changes.
+				if (onChunk) { try { onChunk(c); } catch (_e) {} }
+			});
 			res.on("end", () => {
+				let body = Buffer.concat(chunks);
+				const lowered = lowerHeaders(res.headers);
+				// B"H: undo the compression we asked for, so callers always
+				// see the real bytes. content-encoding/content-length describe
+				// the wire form, not the body — drop them after decoding.
+				if (autoDecompressBody && lowered["content-encoding"]) {
+					const decoded = autoDecompress(body, lowered["content-encoding"]);
+					if (decoded !== body) {
+						body = decoded;
+						delete lowered["content-encoding"];
+						delete lowered["content-length"];
+						stats.decompressedResponses++;
+					}
+				}
+				stats.requests++;
+				stats.wireBytesIn += wireBytes;
+				stats.bodyBytesOut += body.length;
 				resolve({
 					status: res.statusCode || 0,
 					statusText: res.statusMessage || "",
-					headers: lowerHeaders(res.headers),
+					headers: lowered,
 					rawHeaders: res.rawHeaders || [],
-					body: Buffer.concat(chunks),
+					body,
 					url: targetUrl
 				});
 			});
@@ -137,7 +223,11 @@ function requestOnce(targetUrl, options, bodyBuf) {
  * body is readable, like curl or any native app.
  *
  * @param {string} url
- * @param {object} [options] { method, headers, body (string|Buffer|Uint8Array), timeoutMs, maxRedirects, keepAlive }
+ * @param {object} [options] { method, headers, body (string|Buffer|Uint8Array), timeoutMs, maxRedirects, keepAlive,
+ *   onChunk(chunk) — streaming hook called per wire chunk while downloading (body still returned whole) }
+ * Compression: unless the caller sets their own accept-encoding, we send
+ * "gzip, deflate, br" and transparently decompress — callers always see the
+ * real bytes, and content-encoding/content-length are stripped after decoding.
  * @returns {Promise<{ok,status,statusText,headers,body:Buffer,url,redirected,redirectCount}>}
  */
 async function directFetch(url, options = {}) {
@@ -168,6 +258,7 @@ async function directFetch(url, options = {}) {
 			} catch (e) {
 				break;
 			}
+			stats.redirectsFollowed++;
 			continue;
 		}
 		return {
@@ -182,6 +273,40 @@ async function directFetch(url, options = {}) {
 		};
 	}
 	throw new Error("DirectNet: too many redirects or bad Location for " + url);
+}
+
+/**
+ * Fetch many URLs in parallel with a bounded concurrency cap (browser-style:
+ * default 6 per host group). Results come back in input order. Individual
+ * failures reject only their own slot when options.settleAll is true —
+ * otherwise the first failure rejects the whole batch.
+ *
+ * The shared runtime keep-alive agent means parallel requests reuse warm
+ * connections instead of paying a TCP+TLS handshake per resource.
+ */
+async function directFetchAll(urls, options = {}) {
+	const list = Array.isArray(urls) ? urls : [urls];
+	const maxConcurrency = Math.max(1, Number(options.maxConcurrency) || DEFAULT_MAX_CONCURRENCY);
+	const settleAll = !!options.settleAll;
+	const results = new Array(list.length);
+	let next = 0;
+	async function worker() {
+		while (true) {
+			const i = next++;
+			if (i >= list.length) return;
+			try {
+				results[i] = { ok: true, value: await directFetch(list[i], options) };
+			} catch (error) {
+				if (!settleAll) throw error;
+				results[i] = { ok: false, error };
+			}
+		}
+	}
+	const workers = [];
+	for (let w = 0; w < Math.min(maxConcurrency, list.length); w++) workers.push(worker());
+	await Promise.all(workers);
+	if (settleAll) return results;
+	return results.map(r => r.value);
 }
 
 async function directFetchText(url, options = {}) {
@@ -220,11 +345,15 @@ async function proveCorsBypass(url = "https://example.com", forgedOrigin = "http
 
 const DirectNet = {
 	directFetch,
+	directFetchAll,
 	directFetchText,
 	directFetchJson,
 	proveCorsBypass,
+	stats,
+	resetStats,
 	DEFAULT_TIMEOUT_MS,
-	DEFAULT_MAX_REDIRECTS
+	DEFAULT_MAX_REDIRECTS,
+	DEFAULT_MAX_CONCURRENCY
 };
 
 return { DirectNet };
