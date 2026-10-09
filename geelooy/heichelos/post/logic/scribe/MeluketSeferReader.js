@@ -603,7 +603,12 @@ let fnModalEl = null;
 let fnNumEl = null;
 let fnBodyEl = null;
 let fnCloseEl = null;
+let fnPrevEl = null;
+let fnNextEl = null;
+let fnCountEl = null;
 let fnLastMarker = null;
+let fnNavSefer = null;
+let fnNavNum = null;
 
 function ensureFootnoteModal() {
 	if (fnModalEl) return;
@@ -617,22 +622,65 @@ function ensureFootnoteModal() {
 	const head = el('div', 'awtsmoos-fn-head');
 	fnNumEl = el('span', 'awtsmoos-fn-num', '');
 	const headTitle = el('span', 'awtsmoos-fn-title', 'הערה · Footnote');
+	// B"H overhaul: glide between footnotes without closing the popup.
+	fnPrevEl = el('button', 'awtsmoos-fn-prev', '‹');
+	fnPrevEl.type = 'button';
+	fnPrevEl.setAttribute('aria-label', 'Previous footnote');
+	fnNextEl = el('button', 'awtsmoos-fn-next', '›');
+	fnNextEl.type = 'button';
+	fnNextEl.setAttribute('aria-label', 'Next footnote');
+	fnCountEl = el('span', 'awtsmoos-fn-count', '');
+	fnCountEl.setAttribute('aria-hidden', 'true');
 	fnCloseEl = el('button', 'awtsmoos-fn-close', '✕');
 	fnCloseEl.type = 'button';
 	fnCloseEl.setAttribute('aria-label', 'Close footnote');
-	head.append(fnNumEl, headTitle, fnCloseEl);
+	head.append(fnNumEl, headTitle, fnPrevEl, fnCountEl, fnNextEl, fnCloseEl);
 	fnBodyEl = el('div', 'awtsmoos-fn-body');
 	fnModalEl.append(head, fnBodyEl);
 	root.append(fnOverlayEl, fnModalEl);
 	fnCloseEl.addEventListener('click', closeFootnotePopup);
 	fnOverlayEl.addEventListener('click', closeFootnotePopup);
+	fnPrevEl.addEventListener('click', () => stepFootnotePopup(-1));
+	fnNextEl.addEventListener('click', () => stepFootnotePopup(1));
+}
+
+/** B"H — footnote popup navigator: step to the previous/next footnote. */
+function footnoteNavList() {
+	if (fnNavSefer && Array.isArray(fnNavSefer._sortedFootnoteNums) && fnNavSefer._sortedFootnoteNums.length) {
+		return fnNavSefer._sortedFootnoteNums.slice();
+	}
+	// Fallback: DOM order of the shelf.
+	const items = Array.from(document.querySelectorAll('.meluket-footnote[data-fn]'));
+	return items.map((li) => li.getAttribute('data-fn'));
+}
+
+function stepFootnotePopup(dir) {
+	const list = footnoteNavList();
+	if (list.length < 2 || fnNavNum == null) return;
+	let idx = list.indexOf(String(fnNavNum));
+	if (idx < 0) idx = 0;
+	const next = list[(idx + dir + list.length) % list.length];
+	// Find a marker for the target note so focus returns sanely.
+	const marker = fnNavSefer
+		? fnNavSefer.querySelector(`sup.meluket-fn-marker[data-fn="${next}"]`)
+		: document.querySelector(`sup.meluket-fn-marker[data-fn="${next}"]`);
+	openFootnotePopup(next, marker || fnLastMarker, fnNavSefer || document);
 }
 
 function openFootnotePopup(fnNum, marker, sefer) {
-	const note = sefer.querySelector(`.meluket-footnote[data-fn="${fnNum}"]`);
+	const scope = sefer && sefer.querySelector ? sefer : document;
+	const note = scope.querySelector(`.meluket-footnote[data-fn="${fnNum}"]`);
 	if (!note) return;
 	ensureFootnoteModal();
+	fnNavSefer = sefer && sefer.querySelector ? sefer : null;
+	fnNavNum = String(fnNum);
 	fnNumEl.textContent = fnNum;
+	// Counter: "3 / 12" — the study-partner navigator.
+	const navList = footnoteNavList();
+	const navIdx = navList.indexOf(String(fnNum));
+	if (fnCountEl) {
+		fnCountEl.textContent = navIdx >= 0 ? `${navIdx + 1} / ${navList.length}` : '';
+	}
 	fnBodyEl.innerHTML = '';
 	const he = note.querySelector('.meluket-footnote-he');
 	const en = note.querySelector('.meluket-footnote-en');
@@ -1028,7 +1076,13 @@ export function awakenMeluketSeferReader(post) {
 			const aText = aObj ? (aObj.a || aObj.answer || '') : '';
 			const qLabel = aObj && aObj.q ? aObj.q : qText;
 			if (qLabel && String(qLabel).trim()) {
-				const q = el('div', 'meluket-qa-q', String(qLabel).trim());
+				// B"H overhaul: the question is a real button — the study-partner
+				// accordion (see awakenReaderChrome). Full keyboard support.
+				const q = document.createElement('button');
+				q.type = 'button';
+				q.className = 'meluket-qa-q';
+				q.setAttribute('aria-expanded', 'false');
+				q.textContent = String(qLabel).trim();
 				q.setAttribute('dir', 'auto');
 				item.appendChild(q);
 			}
@@ -1046,10 +1100,56 @@ export function awakenMeluketSeferReader(post) {
 	}
 
 	// Footnotes shelf — visually distinct from the main text.
-	const footnotes = Array.isArray(post.footnotes) ? post.footnotes : [];
+	// B"H overhaul (pending footnote-fix patch, adapted): dedupe by footnote
+	// number/content, sort NUMERICALLY by the real footnote number (never the
+	// array index), skip JSON dumps for empty notes, and make every shelf row
+	// clickable — it glides back to its marker in the text (Yaakov: the popup
+	// stays the marker-click behavior; the shelf scrolls back to the marker).
+	const rawFootnotes = Array.isArray(post.footnotes) ? post.footnotes : [];
+	const seenFnKeys = new Set();
+	const footnotes = [];
+	for (const fn of rawFootnotes) {
+		if (fn == null) continue;
+		const fnId = (typeof fn === 'string')
+			? ''
+			: String(fn.id ?? fn.number ?? fn.key ?? '').replace(/[\[\]()]/g, '').trim();
+		const heBody = (typeof fn === 'string') ? fn : (fn.body || fn.hebrew || '');
+		const enBody = (typeof fn === 'string') ? '' : (fn.body_en || fn.english || '');
+		const hasBody = (typeof fn === 'string' && fn.trim())
+			|| (heBody && String(heBody).trim())
+			|| (enBody && String(enBody).trim());
+		const contentKey = fnId || `${String(heBody).slice(0, 120)}|${String(enBody).slice(0, 120)}`;
+		if (seenFnKeys.has(contentKey)) continue;
+		seenFnKeys.add(contentKey);
+		footnotes.push({ _fnNum: fnId, _heBody: heBody, _enBody: enBody, _raw: fn, _hasBody: !!hasBody });
+	}
+	// Numeric sort by the real footnote number ("51 before 47" bug).
+	footnotes.sort((a, b) => {
+		const aNum = parseInt(a._fnNum, 10);
+		const bNum = parseInt(b._fnNum, 10);
+		if (!isNaN(aNum) && !isNaN(bNum)) return aNum - bNum;
+		if (!isNaN(aNum)) return -1;
+		if (!isNaN(bNum)) return 1;
+		return String(a._fnNum).localeCompare(String(b._fnNum));
+	});
 	if (footnotes.length) {
+		// Assign display numbers: real numbers stay; unnumbered notes take the
+		// smallest free positive integer (never colliding with a real number).
+		const usedNums = new Set(
+			footnotes.map((fn) => fn._fnNum).filter((n) => n && !isNaN(parseInt(n, 10)))
+		);
+		let nextFree = 1;
+		const displayNum = (fn, idx) => {
+			if (fn._fnNum) return fn._fnNum;
+			while (usedNums.has(String(nextFree))) nextFree++;
+			const n = String(nextFree);
+			usedNums.add(n);
+			nextFree++;
+			return n;
+		};
 		const shelf = document.createElement('aside');
 		shelf.className = 'meluket-footnotes-shelf';
+		shelf.setAttribute('aria-label', 'Footnotes');
 		const shelfTitle = document.createElement('h2');
 		shelfTitle.className = 'meluket-footnotes-title';
 		shelfTitle.textContent = 'הערות · Notes';
@@ -1057,19 +1157,25 @@ export function awakenMeluketSeferReader(post) {
 		const list = document.createElement('ol');
 		list.className = 'meluket-footnotes-list';
 		footnotes.forEach((fn, idx) => {
+			// The REAL footnote number — never the array index.
+			const fnNum = displayNum(fn, idx);
 			const li = document.createElement('li');
 			li.className = 'meluket-footnote';
-			li.id = `meluket-fn-${idx + 1}`;
-			li.setAttribute('data-fn', String(idx + 1));
+			li.id = `meluket-fn-${fnNum}`;
+			li.setAttribute('data-fn', fnNum);
+			li.setAttribute('tabindex', '0');
+			li.setAttribute('role', 'button');
+			li.setAttribute('aria-label', `Back to footnote ${fnNum} in the text`);
 			const num = document.createElement('span');
 			num.className = 'meluket-footnote-num';
-			num.textContent = String(idx + 1);
+			num.textContent = fnNum;
+			num.setAttribute('aria-hidden', 'true');
 			li.appendChild(num);
 			const body = document.createElement('span');
 			body.className = 'meluket-footnote-body';
 			body.setAttribute('dir', 'auto');
-			const heBody = fn.body || fn.hebrew || '';
-			const enBody = fn.body_en || fn.english || '';
+			const heBody = fn._heBody;
+			const enBody = fn._enBody;
 			if (heBody) {
 				const heSpan = document.createElement('span');
 				heSpan.className = 'meluket-footnote-he';
@@ -1087,13 +1193,39 @@ export function awakenMeluketSeferReader(post) {
 				body.appendChild(enSpan);
 			}
 			if (!heBody && !enBody) {
-				body.textContent = typeof fn === 'string' ? fn : JSON.stringify(fn).slice(0, 200);
+				// Graceful empty: a soft note, never a JSON dump.
+				const emptySpan = document.createElement('span');
+				emptySpan.className = 'meluket-footnote-empty';
+				emptySpan.textContent = (typeof fn._raw === 'string' && fn._raw.trim())
+					? fn._raw.trim()
+					: 'No text available for this note.';
+				body.appendChild(emptySpan);
 			}
 			li.appendChild(body);
+			// Shelf row click: glide back to the marker in the text.
+			const goToMarker = () => {
+				const marker = sefer.querySelector(`sup.meluket-fn-marker[data-fn="${fnNum}"]`)
+					|| document.getElementById(`meluket-fn-marker-${fnNum}-0`);
+				if (marker) {
+					marker.scrollIntoView({ behavior: 'smooth', block: 'center' });
+					marker.classList.add('meluket-fn-marker-highlight');
+					if (typeof marker.focus === 'function') marker.focus({ preventScroll: true });
+					setTimeout(() => marker.classList.remove('meluket-fn-marker-highlight'), 2000);
+				}
+			};
+			li.addEventListener('click', goToMarker);
+			li.addEventListener('keydown', (e) => {
+				if (e.key === 'Enter' || e.key === ' ') {
+					e.preventDefault();
+					goToMarker();
+				}
+			});
 			list.appendChild(li);
 		});
 		shelf.appendChild(list);
 		sefer.appendChild(shelf);
+		// Sorted numbers drive the popup's prev/next navigator.
+		sefer._sortedFootnoteNums = footnotes.map((fn, idx) => displayNum(fn, idx));
 	}
 
 	// Replace the single-block rendering with the sefer.
@@ -1207,5 +1339,130 @@ export function awakenMeluketSeferReader(post) {
 		}
 	}, 2000);
 
+	// B"H overhaul: reading chrome — progress hairline, section rail,
+	// scroll reveal, Q&A study-partner accordion.
+	awakenReaderChrome(sefer);
+
 	return true;
+}
+
+/**
+ * B"H — Reader chrome (overhaul layer).
+ * - Reading progress hairline (rAF-throttled, transform-only).
+ * - Section navigator rail (numbered dots, smooth scroll, active tracking).
+ * - Scroll reveal for phrase pairs (IntersectionObserver, staggered).
+ * - Q&A accordion (question buttons toggle their answers).
+ * All additive: the data pipeline is untouched.
+ */
+function awakenReaderChrome(sefer) {
+	const root = document.querySelector('.post-reader-localized-context') || document.body;
+
+	// ---- Reading progress hairline ----
+	let progressEl = root.querySelector('.meluket-reading-progress');
+	if (!progressEl) {
+		progressEl = document.createElement('div');
+		progressEl.className = 'meluket-reading-progress';
+		progressEl.setAttribute('aria-hidden', 'true');
+		root.appendChild(progressEl);
+	}
+	let progressQueued = false;
+	const updateProgress = () => {
+		progressQueued = false;
+		const rect = sefer.getBoundingClientRect();
+		const total = Math.max(1, rect.height - window.innerHeight);
+		const done = Math.min(Math.max(-rect.top, 0), total);
+		progressEl.style.setProperty('--rp', (done / total).toFixed(4));
+	};
+	const queueProgress = () => {
+		if (progressQueued) return;
+		progressQueued = true;
+		requestAnimationFrame(updateProgress);
+	};
+	window.addEventListener('scroll', queueProgress, { passive: true });
+	window.addEventListener('resize', queueProgress);
+	queueProgress();
+
+	// ---- Scroll reveal for phrase pairs ----
+	const pairs = Array.from(sefer.querySelectorAll('.meluket-phrase-pair'));
+	const revealAll = () => pairs.forEach((p) => p.classList.add('is-visible'));
+	if ('IntersectionObserver' in window && pairs.length) {
+		const pairIO = new IntersectionObserver((entries) => {
+			for (const entry of entries) {
+				if (entry.isIntersecting) {
+					entry.target.classList.add('is-visible');
+					pairIO.unobserve(entry.target);
+				}
+			}
+		}, { threshold: 0.08, rootMargin: '0px 0px 12% 0px' });
+		let stagger = 0;
+		let lastSection = null;
+		for (const pair of pairs) {
+			const section = pair.closest('.meluket-sefer-section');
+			stagger = (section === lastSection) ? (stagger + 1) % 4 : 0;
+			lastSection = section;
+			pair.style.setProperty('--reveal-i', String(stagger));
+			pairIO.observe(pair);
+		}
+		// Fail-safe: nothing stays invisible if the observer misfires.
+		setTimeout(revealAll, 4000);
+	} else {
+		revealAll();
+	}
+
+	// ---- Section navigator rail ----
+	const sections = Array.from(sefer.querySelectorAll('.meluket-sefer-section'));
+	let rail = root.querySelector('.meluket-section-rail');
+	if (rail) rail.remove();
+	if (sections.length > 1) {
+		rail = document.createElement('nav');
+		rail.className = 'meluket-section-rail';
+		rail.setAttribute('aria-label', 'Sections');
+		const dots = [];
+		sections.forEach((section, i) => {
+			const dot = document.createElement('button');
+			dot.type = 'button';
+			dot.className = 'meluket-rail-dot';
+			dot.textContent = String(i + 1);
+			dot.setAttribute('aria-label', `Go to section ${i + 1}`);
+			dot.addEventListener('click', () => {
+				section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			});
+			rail.appendChild(dot);
+			dots.push(dot);
+		});
+		root.appendChild(rail);
+		if ('IntersectionObserver' in window) {
+			const sectionIO = new IntersectionObserver((entries) => {
+				for (const entry of entries) {
+					if (!entry.isIntersecting) continue;
+					const idx = sections.indexOf(entry.target);
+					dots.forEach((d, di) => d.classList.toggle('is-active', di === idx));
+				}
+			}, { rootMargin: '-38% 0px -52% 0px', threshold: 0 });
+			sections.forEach((s) => sectionIO.observe(s));
+		} else if (dots[0]) {
+			dots[0].classList.add('is-active');
+		}
+	}
+
+	// ---- Q&A study-partner accordion ----
+	const qaList = sefer.querySelector('.meluket-qa-list');
+	if (qaList && !qaList.dataset.accordionBound) {
+		qaList.dataset.accordionBound = 'true';
+		qaList.addEventListener('click', (e) => {
+			const q = e.target.closest ? e.target.closest('button.meluket-qa-q') : null;
+			if (!q || !qaList.contains(q)) return;
+			const item = q.closest('.meluket-qa-item');
+			if (!item) return;
+			const open = item.classList.toggle('is-open');
+			q.setAttribute('aria-expanded', String(open));
+		});
+		// The first question opens itself — an invitation, not a wall.
+		const firstItem = qaList.querySelector('.meluket-qa-item');
+		if (firstItem) {
+			firstItem.classList.add('is-open');
+			const firstQ = firstItem.querySelector('button.meluket-qa-q');
+			if (firstQ) firstQ.setAttribute('aria-expanded', 'true');
+		}
+	}
 }

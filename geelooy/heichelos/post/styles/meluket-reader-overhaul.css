@@ -1,0 +1,515 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed be He
+ * Meluket Sefer Reader — Overhaul layer ("infinitely more insane").
+ * Additive dream polish on top of meluket-sefer.css + the inline dream blocks:
+ * reading progress hairline, phrase-pair hover sync + scroll reveal, footnote
+ * marker chips, clickable footnote shelf, footnote popup prev/next, section
+ * navigator rail, Q&A study-partner accordion, candlelit dark vignette,
+ * auto-scroll breathing glow, and full micro-interactions at 60fps
+ * (transform/opacity only, prefers-reduced-motion respected).
+ *
+ * Yaakov's CSS Laws: NEVER !important. Zero validator errors. Every
+ * interactive element gets :hover, :focus-visible, :active (:disabled where
+ * applicable). Every text element has explicit color for BOTH themes.
+ * Colors ONLY via --over-* custom property tokens. No white-on-white.
+ *
+ * Specificity: every rule is prefixed
+ *   :root .post-reader-localized-context.meluket-sefer-active
+ * so it wins over the earlier inline dream blocks at equal element depth
+ * without !important.
+ */
+
+/* ============ Overhaul tokens — light (default) ============ */
+:root .post-reader-localized-context {
+	--over-gold: #a5762a;
+	--over-gold-deep: #7d5a1e;
+	--over-gold-soft: #c99b45;
+	--over-on-gold: #fffdf6;
+	--over-wash: rgb(165 118 42 / 7%);
+	--over-wash-strong: rgb(165 118 42 / 16%);
+	--over-ink: #2b2118;
+	--over-ink-soft: #5a4c3d;
+	--over-card: #fffdf6;
+	--over-rule: #d9c9a8;
+	--over-progress: linear-gradient(90deg, var(--over-gold-soft), var(--over-gold));
+	--over-marker-bg: rgb(165 118 42 / 12%);
+	--over-focus: #b3541e;
+	--over-shadow: 0 10px 30px rgb(90 70 40 / 14%);
+	--over-rail-bg: rgb(255 253 246 / 88%);
+	--over-vignette: rgb(60 42 18 / 10%);
+}
+
+/* ============ Overhaul tokens — dark (candlelit beis medrash) ============ */
+:root[data-theme="dark"] .post-reader-localized-context {
+	--over-gold: #d4a94e;
+	--over-gold-deep: #f6cc72;
+	--over-gold-soft: #e8bc6d;
+	--over-on-gold: #241a08;
+	--over-wash: rgb(212 169 78 / 9%);
+	--over-wash-strong: rgb(212 169 78 / 20%);
+	--over-ink: #f0e7d3;
+	--over-ink-soft: #c9b992;
+	--over-card: rgb(32 26 16 / 92%);
+	--over-rule: rgb(212 169 78 / 30%);
+	--over-progress: linear-gradient(90deg, var(--over-gold-deep), var(--over-gold));
+	--over-marker-bg: rgb(212 169 78 / 14%);
+	--over-focus: #e8a34d;
+	--over-shadow: 0 12px 34px rgb(0 0 0 / 55%);
+	--over-rail-bg: rgb(23 18 9 / 88%);
+	--over-vignette: rgb(0 0 0 / 34%);
+}
+
+/* ============ Reading progress hairline ============ */
+:root .post-reader-localized-context.meluket-sefer-active .meluket-reading-progress {
+	position: fixed;
+	top: 0;
+	inset-inline: 0;
+	block-size: 3px;
+	z-index: 4000;
+	background: var(--over-progress);
+	box-shadow: 0 1px 8px var(--over-wash-strong);
+	transform-origin: 0 50%;
+	transform: scaleX(var(--rp, 0));
+	pointer-events: none;
+}
+
+/* ============ Phrase pairs: hover sync + scroll reveal ============ */
+:root .post-reader-localized-context.meluket-sefer-active .meluket-phrase-pair {
+	position: relative;
+	border-radius: 1rem;
+	padding: 0.7rem 1rem;
+	margin-inline: -1rem;
+	margin-block-end: 1.6em;
+	opacity: 0;
+	translate: 0 16px;
+	transition:
+		opacity 0.55s ease,
+		translate 0.55s cubic-bezier(0.22, 0.9, 0.3, 1),
+		background-color 0.25s ease;
+	transition-delay: calc(var(--reveal-i, 0) * 70ms), calc(var(--reveal-i, 0) * 70ms), 0ms;
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-phrase-pair.is-visible {
+	opacity: 1;
+	translate: 0 0;
+}
+/* Gold spine that grows on hover — the pair lights as one. */
+:root .post-reader-localized-context.meluket-sefer-active .meluket-phrase-pair::before {
+	content: "";
+	position: absolute;
+	inset-inline-start: 0;
+	top: 0.9rem;
+	bottom: 0.9rem;
+	inline-size: 3px;
+	border-radius: 3px;
+	background: var(--over-progress);
+	opacity: 0;
+	transform: scaleY(0.5);
+	transition: opacity 0.25s ease, transform 0.25s ease;
+	pointer-events: none;
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-phrase-pair:hover {
+	background-color: var(--over-wash);
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-phrase-pair:hover::before {
+	opacity: 1;
+	transform: scaleY(1);
+}
+/* Hovering the Hebrew gently lifts its English — they read as one breath. */
+:root .post-reader-localized-context.meluket-sefer-active .meluket-phrase--he {
+	border-radius: 0.6rem;
+	transition: text-shadow 0.25s ease;
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-phrase--en {
+	border-radius: 0.6rem;
+	transition: background-color 0.25s ease;
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-phrase--he:hover + .meluket-phrase--en {
+	background-color: var(--over-wash);
+}
+
+/* ============ Footnote markers: gold chips ============ */
+:root .post-reader-localized-context.meluket-sefer-active sup.meluket-fn-marker {
+	display: inline-block;
+	min-inline-size: 1.5em;
+	padding: 0.08em 0.4em;
+	margin-inline-start: 0.3em;
+	border-radius: 999px;
+	border: 1px solid transparent;
+	background: var(--over-marker-bg);
+	color: var(--over-gold-deep);
+	font-size: 0.62em;
+	font-weight: 800;
+	line-height: 1.5;
+	cursor: pointer;
+	vertical-align: super;
+	transition:
+		transform 0.18s ease,
+		background-color 0.18s ease,
+		border-color 0.18s ease,
+		box-shadow 0.18s ease;
+}
+:root .post-reader-localized-context.meluket-sefer-active sup.meluket-fn-marker:hover {
+	transform: translateY(-2px);
+	border-color: var(--over-gold);
+	background: var(--over-wash-strong);
+	box-shadow: 0 4px 12px var(--over-wash-strong);
+}
+:root .post-reader-localized-context.meluket-sefer-active sup.meluket-fn-marker:focus-visible {
+	outline: 2px solid var(--over-focus);
+	outline-offset: 2px;
+}
+:root .post-reader-localized-context.meluket-sefer-active sup.meluket-fn-marker:active {
+	transform: translateY(0) scale(0.92);
+}
+:root .post-reader-localized-context.meluket-sefer-active sup.meluket-fn-marker-highlight {
+	animation: over-fn-pulse 0.9s ease 2;
+}
+@keyframes over-fn-pulse {
+	0%, 100% { box-shadow: 0 0 0 0 transparent; }
+	50% { box-shadow: 0 0 0 7px var(--over-wash-strong); }
+}
+
+/* ============ Footnotes shelf: clickable rows ============ */
+:root .post-reader-localized-context.meluket-sefer-active .meluket-footnotes-shelf {
+	position: relative;
+}
+:root .post-reader-localized-context.meluket-sefer-active li.meluket-footnote {
+	cursor: pointer;
+	border-radius: 0.9rem;
+	padding-inline: 0.9rem;
+	margin-inline: -0.9rem;
+	transition: background-color 0.2s ease, transform 0.2s ease;
+}
+:root .post-reader-localized-context.meluket-sefer-active li.meluket-footnote:hover {
+	background-color: var(--over-wash);
+}
+:root .post-reader-localized-context.meluket-sefer-active li.meluket-footnote:focus-visible {
+	outline: 2px solid var(--over-focus);
+	outline-offset: 2px;
+}
+:root .post-reader-localized-context.meluket-sefer-active li.meluket-footnote:active {
+	transform: scale(0.996);
+}
+/* Graceful empty note — never a JSON dump. */
+:root .post-reader-localized-context.meluket-sefer-active .meluket-footnote-empty {
+	color: var(--over-ink-soft);
+	font-style: italic;
+}
+/* Shelf flash when a marker click lands here (kept for programmatic use). */
+:root .post-reader-localized-context.meluket-sefer-active li.meluket-footnote.meluket-footnote-flash {
+	animation: over-fn-flash 1.6s ease;
+}
+@keyframes over-fn-flash {
+	0%, 100% { background-color: transparent; }
+	25% { background-color: var(--over-wash-strong); }
+}
+
+/* ============ Footnote popup: prev/next + counter ============ */
+:root .post-reader-localized-context.meluket-sefer-active .awtsmoos-fn-head {
+	gap: 0.6rem;
+}
+:root .post-reader-localized-context.meluket-sefer-active .awtsmoos-fn-prev,
+:root .post-reader-localized-context.meluket-sefer-active .awtsmoos-fn-next {
+	flex: 0 0 auto;
+	inline-size: 2.1rem;
+	block-size: 2.1rem;
+	border-radius: 999px;
+	border: 1px solid var(--over-rule);
+	background: var(--over-card);
+	color: var(--over-gold-deep);
+	font-size: 1rem;
+	font-weight: 800;
+	line-height: 1;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	transition:
+		transform 0.16s ease,
+		border-color 0.16s ease,
+		background-color 0.16s ease,
+		box-shadow 0.16s ease;
+}
+:root .post-reader-localized-context.meluket-sefer-active .awtsmoos-fn-prev:hover,
+:root .post-reader-localized-context.meluket-sefer-active .awtsmoos-fn-next:hover {
+	border-color: var(--over-gold);
+	background: var(--over-wash-strong);
+	transform: translateY(-1px);
+	box-shadow: 0 4px 10px var(--over-wash-strong);
+}
+:root .post-reader-localized-context.meluket-sefer-active .awtsmoos-fn-prev:focus-visible,
+:root .post-reader-localized-context.meluket-sefer-active .awtsmoos-fn-next:focus-visible {
+	outline: 2px solid var(--over-focus);
+	outline-offset: 2px;
+}
+:root .post-reader-localized-context.meluket-sefer-active .awtsmoos-fn-prev:active,
+:root .post-reader-localized-context.meluket-sefer-active .awtsmoos-fn-next:active {
+	transform: scale(0.92);
+}
+:root .post-reader-localized-context.meluket-sefer-active .awtsmoos-fn-prev:disabled,
+:root .post-reader-localized-context.meluket-sefer-active .awtsmoos-fn-next:disabled {
+	opacity: 0.35;
+	cursor: not-allowed;
+	transform: none;
+	box-shadow: none;
+}
+:root .post-reader-localized-context.meluket-sefer-active .awtsmoos-fn-count {
+	flex: 0 0 auto;
+	font-size: 0.82rem;
+	font-weight: 700;
+	color: var(--over-ink-soft);
+	font-variant-numeric: tabular-nums;
+	letter-spacing: 0.04em;
+	white-space: nowrap;
+}
+/* Gold crown on the modal. */
+:root .post-reader-localized-context.meluket-sefer-active .awtsmoos-fn-modal {
+	border-top: 3px solid var(--over-gold);
+}
+
+/* ============ Section navigator rail ============ */
+:root .post-reader-localized-context.meluket-sefer-active .meluket-section-rail {
+	position: fixed;
+	inset-inline-end: clamp(0.6rem, 2vw, 1.4rem);
+	top: 50%;
+	translate: 0 -50%;
+	z-index: 2500;
+	display: flex;
+	flex-direction: column;
+	gap: 0.45rem;
+	padding: 0.65rem 0.5rem;
+	border-radius: 999px;
+	background: var(--over-rail-bg);
+	border: 1px solid var(--over-rule);
+	box-shadow: var(--over-shadow);
+	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(10px);
+	max-block-size: 70vh;
+	overflow-y: auto;
+	scrollbar-width: thin;
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-rail-dot {
+	inline-size: 2.1rem;
+	block-size: 2.1rem;
+	border-radius: 999px;
+	border: 1px solid transparent;
+	background: transparent;
+	color: var(--over-ink-soft);
+	font-size: 0.72rem;
+	font-weight: 800;
+	font-variant-numeric: tabular-nums;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	transition:
+		transform 0.18s ease,
+		background-color 0.18s ease,
+		border-color 0.18s ease,
+		color 0.18s ease,
+		box-shadow 0.18s ease;
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-rail-dot:hover {
+	border-color: var(--over-gold);
+	color: var(--over-gold-deep);
+	transform: scale(1.14);
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-rail-dot:focus-visible {
+	outline: 2px solid var(--over-focus);
+	outline-offset: 2px;
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-rail-dot:active {
+	transform: scale(0.92);
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-rail-dot.is-active {
+	background: var(--over-gold);
+	border-color: var(--over-gold);
+	color: var(--over-on-gold);
+	box-shadow: 0 0 14px var(--over-wash-strong);
+	transform: scale(1.1);
+}
+@media (max-width: 900px) {
+	:root .post-reader-localized-context.meluket-sefer-active .meluket-section-rail {
+		display: none;
+	}
+}
+
+/* ============ Q&A: living study-partner accordion ============ */
+:root .post-reader-localized-context.meluket-sefer-active .meluket-qa-item {
+	display: grid;
+	grid-template-rows: auto 0fr;
+	border-radius: 1.1rem;
+	padding: 0.35rem 0.9rem;
+	margin-inline: -0.9rem;
+	margin-block-end: 0.6rem;
+	border-bottom: none;
+	transition: grid-template-rows 0.38s cubic-bezier(0.22, 0.9, 0.3, 1), background-color 0.25s ease;
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-qa-item.is-open {
+	grid-template-rows: auto 1fr;
+	background-color: var(--over-wash);
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-qa-item:hover {
+	background-color: var(--over-wash);
+}
+/* The question is a real button (wired in MeluketSeferReader). */
+:root .post-reader-localized-context.meluket-sefer-active button.meluket-qa-q {
+	inline-size: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	text-align: start;
+	background: none;
+	border: none;
+	padding: 0.85rem 0.2rem;
+	margin: 0;
+	font: inherit;
+	font-weight: 700;
+	font-size: 1.15rem;
+	line-height: 1.5;
+	color: var(--over-ink);
+	cursor: pointer;
+	border-radius: 0.7rem;
+}
+:root .post-reader-localized-context.meluket-sefer-active button.meluket-qa-q:hover {
+	color: var(--over-gold-deep);
+}
+:root .post-reader-localized-context.meluket-sefer-active button.meluket-qa-q:focus-visible {
+	outline: 2px solid var(--over-focus);
+	outline-offset: 2px;
+}
+:root .post-reader-localized-context.meluket-sefer-active button.meluket-qa-q:active {
+	transform: scale(0.995);
+}
+/* Chevron: CSS triangle that rotates open. */
+:root .post-reader-localized-context.meluket-sefer-active button.meluket-qa-q::after {
+	content: "";
+	flex: 0 0 auto;
+	inline-size: 0.62rem;
+	block-size: 0.62rem;
+	border-inline-end: 2.5px solid var(--over-gold);
+	border-block-end: 2.5px solid var(--over-gold);
+	transform: rotate(45deg) translate(-2px, -2px);
+	transition: transform 0.3s ease;
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-qa-item.is-open button.meluket-qa-q::after {
+	transform: rotate(225deg) translate(-2px, -2px);
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-qa-a {
+	overflow: hidden;
+	min-block-size: 0;
+	font-size: 1.08rem;
+	line-height: 1.7;
+	color: var(--over-ink-soft);
+	padding-block-end: 0.4rem;
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-qa-item.is-open .meluket-qa-a {
+	padding-block-end: 1rem;
+}
+
+/* ============ Section summaries: gold-ruled marginal notes ============ */
+:root .post-reader-localized-context.meluket-sefer-active .meluket-summary {
+	border: 1px solid var(--over-rule);
+	border-inline-start: 3px solid var(--over-gold);
+	border-radius: 0.4rem 1rem 1rem 0.4rem;
+	background: var(--over-wash);
+	padding: 1rem 1.25rem;
+	margin-block-start: 1.4rem;
+}
+:root[dir="rtl"] .post-reader-localized-context.meluket-sefer-active .meluket-summary {
+	border-radius: 1rem 0.4rem 0.4rem 1rem;
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-summary-label {
+	color: var(--over-gold-deep);
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-summary p {
+	color: var(--over-ink-soft);
+}
+
+/* ============ Section medallions: halo on hover ============ */
+:root .post-reader-localized-context.meluket-sefer-active .meluket-section-number {
+	transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-section-marker:hover .meluket-section-number {
+	border-color: var(--over-gold);
+	box-shadow: 0 0 0 5px var(--over-wash), 0 0 22px var(--over-wash-strong);
+	transform: scale(1.06);
+}
+
+/* ============ Overview card: gentle entrance ============ */
+:root .post-reader-localized-context.meluket-sefer-active .meluket-post-summary {
+	animation: over-card-in 0.7s cubic-bezier(0.22, 0.9, 0.3, 1) both;
+}
+@keyframes over-card-in {
+	from { opacity: 0; translate: 0 18px; }
+	to { opacity: 1; translate: 0 0; }
+}
+
+/* ============ Dark only: candlelit vignette + ember title ============ */
+:root[data-theme="dark"] .post-reader-localized-context.meluket-sefer-active .meluket-sefer {
+	position: relative;
+}
+:root[data-theme="dark"] .post-reader-localized-context.meluket-sefer-active .meluket-sefer::after {
+	content: "";
+	position: fixed;
+	inset: 0;
+	z-index: 2000;
+	pointer-events: none;
+	background: radial-gradient(115% 85% at 50% 0%, transparent 58%, var(--over-vignette) 100%);
+}
+@media (prefers-reduced-motion: no-preference) {
+	:root[data-theme="dark"] .post-reader-localized-context.meluket-sefer-active .meluket-sefer-title-he {
+		animation: over-candle 7s ease-in-out infinite;
+	}
+}
+@keyframes over-candle {
+	0%, 100% { text-shadow: 0 0 18px var(--over-wash-strong), 0 0 46px rgb(212 169 78 / 12%); }
+	50% { text-shadow: 0 0 26px rgb(212 169 78 / 42%), 0 0 64px rgb(212 169 78 / 20%); }
+}
+/* Ember progress bar in the dark. */
+:root[data-theme="dark"] .post-reader-localized-context.meluket-sefer-active .meluket-reading-progress {
+	box-shadow: 0 1px 12px rgb(212 169 78 / 45%);
+}
+
+/* ============ Auto-scroll river: breathing glow while flowing ============ */
+:root .post-reader-localized-context.meluket-sefer-active #awtsmoosAutoScrollBtn.awtsmoos-auto-scroll-on {
+	animation: over-river-breathe 2.6s ease-in-out infinite;
+}
+@keyframes over-river-breathe {
+	0%, 100% { box-shadow: 0 0 0 0 var(--over-wash-strong); }
+	50% { box-shadow: 0 0 0 12px transparent; }
+}
+:root .post-reader-localized-context.meluket-sefer-active #awtsmoosAutoScrollBtn .awtsmoos-auto-scroll-speed {
+	font-variant-numeric: tabular-nums;
+}
+
+/* ============ Reduced motion: everything calms down ============ */
+@media (prefers-reduced-motion: reduce) {
+	:root .post-reader-localized-context.meluket-sefer-active .meluket-phrase-pair,
+	:root .post-reader-localized-context.meluket-sefer-active .meluket-post-summary {
+		opacity: 1;
+		translate: none;
+		transition: none;
+		animation: none;
+	}
+	:root .post-reader-localized-context.meluket-sefer-active .meluket-qa-item {
+		transition: none;
+	}
+	:root .post-reader-localized-context.meluket-sefer-active sup.meluket-fn-marker,
+	:root .post-reader-localized-context.meluket-sefer-active li.meluket-footnote,
+	:root .post-reader-localized-context.meluket-sefer-active .meluket-rail-dot,
+	:root .post-reader-localized-context.meluket-sefer-active .awtsmoos-fn-prev,
+	:root .post-reader-localized-context.meluket-sefer-active .awtsmoos-fn-next,
+	:root .post-reader-localized-context.meluket-sefer-active button.meluket-qa-q,
+	:root .post-reader-localized-context.meluket-sefer-active .meluket-section-number {
+		transition: none;
+		animation: none;
+	}
+	:root .post-reader-localized-context.meluket-sefer-active #awtsmoosAutoScrollBtn.awtsmoos-auto-scroll-on {
+		animation: none;
+	}
+}
