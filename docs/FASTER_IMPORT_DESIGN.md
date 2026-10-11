@@ -136,15 +136,41 @@ per-book verification.
 | When | What | Records/s | Notes |
 |---|---|---|---|
 | 2026-10-11 ~18:16 | Serial `runJob`, 11,062 posts | ~7 | Baseline; 26 min projected |
-| 2026-10-11 ~18:55 | 8-worker pool, chunk3 (1,143 fresh writes) | **18–22** | 1,143 wrote in ~65s of write time; 3× serial |
+| 2026-10-11 ~18:55 | 8-worker pool, chunk3 (1,143 fresh writes) | **18–22** | 3× serial |
+| 2026-10-11 ~19:05 | 8-worker pool, chunk5 (1,410 fresh writes) | **~17** | Consistent |
+| 2026-10-11 ~19:10 | 8-worker pool, chunk6 (1,310 fresh writes) | **~17.5** | Consistent |
+| 2026-10-11 ~19:15 | 8-worker pool, chunk8 (1,749 fresh writes) | **~18** | Consistent |
 | 2026-10-11 ~18:52 | 8-worker pool, chunk1 (1,239 skips w/ native check) | ~37 skips/s | Skip path (packed hit + native `db.get`) |
-| 2026-10-11 ~18:58 | chunk3 verify (1,143 posts) | ~14 | Server-side byte-exact read-back |
+| 2026-10-11 ~19:00 | Verify jobs (1,143–2,302 posts) | ~14 | Server-side byte-exact read-back |
 
 **Why only 3×, not 8×:** the 8 workers overlap the network round trips, but the
 AwtsmoosDB driver and/or the `/mnt/HC_Volume` network volume serialize writes
 somewhere below the Node event loop — workers queue behind each other on the actual
 I/O. The remaining bottleneck is per-record write latency, not CPU or parallelism.
 §3.1 (bulk native write — one round trip per 100–500 posts) is the next 10× lever.
+
+## 6. Igros Kodesh import — final tally (2026-10-11 ~19:20 EDT)
+
+All 11,062 posts live as native AwtsmoosDB records, byte-exact verified:
+
+| Chunk | Volumes | Posts | Verified |
+|---|---|---|---|
+| 1 | 1–4 | 1,239 | 1,239/1,239 ✓ |
+| 2 | 5–7 | 1,034 | 1,034/1,034 ✓ |
+| 3 | 8–10 | 1,143 | 1,143/1,143 ✓ |
+| 4 | 11–13 | 1,381 | 1,381/1,381 ✓ |
+| 5 | 14–16 | 1,410 | 1,410/1,410 ✓ |
+| 6 | 17–19 | 1,310 | 1,310/1,310 ✓ |
+| 7 | 20–22 | 1,243 | 1,243/1,243 ✓ |
+| 8 | 23–28 | 2,302 | 2,302/2,302 ✓ |
+| **Total** | **28 vols** | **11,062** | **11,062/11,062, 0 mismatches** |
+
+Incidents during import (all resolved):
+- 1 post (`igeres-he-v21-0236`) hit the crash-between-writes hole (packed without native);
+  repaired via the new airtight skip logic, re-verified byte-exact.
+- 4 jobs interrupted by intermittent production restarts; client auto-resume + idempotent
+  skip recovered every one with zero duplicates and zero data loss.
+- Verify jobs block import starts (same `runningJob()` gate); worked around by sequencing.
 
 ## 5. Recommendation
 
