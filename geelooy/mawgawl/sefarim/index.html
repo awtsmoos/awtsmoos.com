@@ -12,6 +12,7 @@ Awtsmoos.com keeps the question near the answer, with quieter context afterward.
 	<meta name="description" content="Search indexed Torah source text, Tanach phrases, and exact Hebrew words with provenance.">
 	<meta name="theme-color" content="#050811">
 	<title>Search the Living Library — Geelooy</title>
+	<link rel="design-reference" href="https://awtsmoos.com/design-refs/law8/search-ref.webp" data-design-ref="https://awtsmoos.com/design-refs/law8/search-ref.webp">
 	<link rel="stylesheet" href="/style/civilization/core-tokens.css?v=living-search-006">
 	<link rel="stylesheet" href="/style/civilization/core-base.css?v=living-search-006">
 	<link rel="stylesheet" href="/style/civilization/core-components.css?v=living-search-006">
@@ -29,6 +30,7 @@ Awtsmoos.com keeps the question near the answer, with quieter context afterward.
 	<link rel="stylesheet" href="./styles/result-grouping.css?v=living-search-category-001">
 	<link rel="stylesheet" href="./styles/comments.css?v=living-search-006">
 	<link rel="stylesheet" href="./styles/comment-actions.css?v=living-search-006">
+	<link rel="stylesheet" href="./styles/law8-cosmic.css?v=law8-search-001">
 	<link rel="stylesheet" href="./styles/responsive.css?v=living-search-010">
 	<link rel="stylesheet" href="./styles/mobile.css?v=living-search-011">
 	<link rel="stylesheet" href="./styles/mobile-motion.css?v=living-search-006">
@@ -38,6 +40,7 @@ Awtsmoos.com keeps the question near the answer, with quieter context afterward.
 </head>
 <body data-sefarim-search-page data-geelooy-route="search">
 	<a class="search-skip-link" href="#searchForm">Skip to search</a>
+	<div class="law8-particles" aria-hidden="true"><span>א</span><span>ב</span><span>ג</span><span>ד</span><span>ה</span><span>ו</span><span>ז</span><span>ח</span><span>ט</span><span>י</span><span>כ</span><span>ל</span><span>מ</span><span>נ</span><span>ס</span><span>ע</span><span>פ</span><span>צ</span><span>ק</span><span>ר</span><span>ש</span><span>ת</span><span>ך</span><span>ם</span></div>
 	<main class="library-page geelooy-content-region" aria-labelledby="search-title">
 		<header class="library-hero">
 			<p class="library-kicker">Living source graph</p>
@@ -80,7 +83,7 @@ Awtsmoos.com keeps the question near the answer, with quieter context afterward.
 					<article class="library-empty library-empty-intro"><span aria-hidden="true">⌕</span><div><strong>Begin with a phrase, question, or teaching.</strong><p>The library reveals only results supplied by a live persisted index.</p></div></article>
 				</section>
 			</section>
-			<details class="library-context">
+			<details class="library-context" open>
 				<summary><span>Library context</span><small>Indexed lanes, local history, and search guidance</small></summary>
 				<aside class="library-discovery-rail" aria-label="Search context">
 					<section class="library-rail-card">
