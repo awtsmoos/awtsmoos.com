@@ -65,7 +65,7 @@ const path = require('path');
 const { execFile } = require('child_process');
 
 const { requireMethod, requestValue } = require('./requestValues.js');
-const { mirrorPost, mirrorPostBulk, readPacked, listPackedRecords } = require('../../packed/socialPacked.js');
+const { mirrorPost, mirrorPostBulk, readPacked, listPackedRecords, fileRoot, forEachLineFastAsync, fastKeyType } = require('../../packed/socialPacked.js');
 const { logicalKey } = require('../../packed/shardPaths.js');
 const importSign = require('./importSign.js');
 
@@ -440,7 +440,7 @@ class PackedPostImportRoutes {
 	// Different bytes = overwrite (counts as updated). Missing = write.
 	//
 	// The live hashes are loaded ONCE per job (buildLiveHashCache) instead
-	// of readPacked-per-post: on production the core shard is a ~200MB
+	// of readPacked-per-post: on production the core shard is a multi-GB
 	// JSONL file and re-reading it per post made the import O(n^2)
 	// (~25s/post, stalling after ~60 posts).
 	buildLiveHashCache($i, heichelId) {
@@ -460,6 +460,31 @@ class PackedPostImportRoutes {
 				cache.set(postId, contentHash(rec.value));
 			} catch (_) { /* skip unhashable records */ }
 		}
+		return cache;
+	}
+
+	// B"H 2026-10-11: async variant — streams the core shard with
+	// event-loop yields and parses ONLY lines whose key matches this
+	// heichel's prefix. The old sync full-parse blocked the loop for ~45s
+	// on the 3.9 GB production shard (and readFileSync crashed >2 GiB).
+	async buildLiveHashCacheAsync($i, heichelId) {
+		const cache = new Map();
+		const prefix = '/posts/' + heichelId + '/';
+		const root = fileRoot($i);
+		if (!root) return this.buildLiveHashCache($i, heichelId);
+		await forEachLineFastAsync(root, 'core', (head, getFull) => {
+			const fast = fastKeyType(head);
+			if (fast && typeof fast.key === 'string' && !fast.key.startsWith(prefix)) return;
+			let rec;
+			try { rec = JSON.parse(getFull()); } catch (_) { return; }
+			const key = rec && rec.key;
+			if (typeof key !== 'string' || !key.startsWith(prefix)) return;
+			const postId = key.slice(prefix.length);
+			if (rec.op === 'del') { cache.delete(postId); return; }
+			const post = rec.value;
+			if (!post) return;
+			try { cache.set(post.postId || postId, contentHash(post)); } catch (_) { /* skip */ }
+		});
 		return cache;
 	}
 
@@ -615,9 +640,12 @@ class PackedPostImportRoutes {
 		try {
 		// One-time scan of the live core shard into {postId -> contentHash}.
 		// This replaces the per-post full-shard read that made imports O(n^2).
+		// B"H 2026-10-11: async streaming scan — parses only this heichel's
+		// post lines and yields to the event loop (the sync scan blocked ~45s
+		// on the 3.9 GB production shard).
 		let liveHashes = new Map();
 		try {
-			liveHashes = this.buildLiveHashCache($i, spec.heichelId);
+			liveHashes = await this.buildLiveHashCacheAsync($i, spec.heichelId);
 		} catch (e) {
 			job.errors.push({ message: 'LIVE_CACHE_FAILED: ' + (e.message || e) });
 		}

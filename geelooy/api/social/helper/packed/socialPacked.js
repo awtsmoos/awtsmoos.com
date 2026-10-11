@@ -63,26 +63,215 @@ function forEachFileRecord(root, shard, onRecord) {
   }
 }
 /**
- * Async variant of forEachFileRecord (readline streaming): yields to the
- * event loop between chunks, so the packed read routes never block the
- * server on multi-GB shards. Same record semantics as the sync version.
+ * Fast forward raw-line scan: chunked reading (no readline overhead) with a
+ * setImmediate yield per chunk so the event loop stays responsive on
+ * multi-GB shards. Byte-level 0x0A splitting is UTF-8 safe.
+ * Lines are located with indexOf (V8's split() on multi-MB strings with
+ * 300 KB lines is ~60 MB/s); only each line's head is materialized, since
+ * the packed envelope's op/key/recordType always lead the line.
  */
-function forEachFileRecordAsync(root, shard, onRecord) {
+function forEachLineFastAsync(root, shard, onLine) {
   return new Promise((resolve) => {
     const file = fileFor(root, shard);
     if (!file || !fs.existsSync(file)) return resolve();
-    const rl = require('readline').createInterface({ input: fs.createReadStream(file, 'utf8'), crlfDelay: Infinity });
-    rl.on('line', (line) => {
-      if (!line) return;
-      let rec;
-      try { rec = JSON.parse(line); } catch (_) { return; }
-      if (rec && rec.key) {
-        try { onRecord(rec); } catch (_) { /* ignore */ }
+    const CHUNK = 4 * 1024 * 1024;
+    const HEAD = 512;
+    let fh = null;
+    (async () => {
+      try { fh = await fs.promises.open(file, 'r'); }
+      catch (_) { return resolve(); }
+      const buf = Buffer.allocUnsafe(CHUNK);
+      try {
+        const size = (await fh.stat()).size;
+        let pos = 0;
+        let carry = Buffer.alloc(0); // partial-line bytes from previous chunk
+        let stopped = false;
+        while (pos < size && !stopped) {
+          const n = Math.min(CHUNK, size - pos);
+          const { bytesRead } = await fh.read(buf, 0, n, pos);
+          if (bytesRead <= 0) break;
+          pos += bytesRead;
+          const chunk = buf.subarray(0, bytesRead);
+          let lineStart = 0;
+          let carryConsumed = false;
+          for (;;) {
+            const nl = chunk.indexOf(0x0A, lineStart);
+            if (nl < 0) break;
+            let head, getFull;
+            if (carry.length && !carryConsumed) {
+              // Line spans the chunk boundary: head = first 512 bytes of carry+segment.
+              const need = Math.max(0, HEAD - carry.length);
+              head = (need > 0
+                ? Buffer.concat([carry, chunk.subarray(0, Math.min(nl, need))])
+                : carry.subarray(0, HEAD)).toString('utf8');
+              const c0 = carry, s1 = lineStart, e1 = nl;
+              getFull = () => Buffer.concat([c0, chunk.subarray(s1, e1)]).toString('utf8');
+              carryConsumed = true;
+            } else {
+              head = chunk.subarray(lineStart, Math.min(nl, lineStart + HEAD)).toString('utf8');
+              const s1 = lineStart, e1 = nl;
+              getFull = () => chunk.subarray(s1, e1).toString('utf8');
+            }
+            if (onLine(head, getFull) === false) { stopped = true; break; }
+            lineStart = nl + 1;
+          }
+          // chunk is a reused view — copy the tail.
+          carry = lineStart < chunk.length ? Buffer.from(chunk.subarray(lineStart)) : Buffer.alloc(0);
+          await new Promise(r => setImmediate(r));
+        }
+        if (!stopped && carry.length) {
+          const tail = carry.toString('utf8');
+          onLine(tail.slice(0, HEAD), () => tail);
+        }
+      } finally {
+        try { await fh.close(); } catch (_) {}
+        resolve();
       }
-    });
-    rl.on('close', () => resolve());
-    rl.on('error', () => resolve());
+    })();
   });
+}
+function forEachLineReverseAsync(root, shard, onLine, maxBytes = Infinity) {
+  return new Promise((resolve) => {
+    const file = fileFor(root, shard);
+    if (!file || !fs.existsSync(file)) return resolve();
+    const CHUNK = 4 * 1024 * 1024;
+    let fh = null;
+    (async () => {
+      try { fh = await fs.promises.open(file, 'r'); }
+      catch (_) { return resolve(); }
+      try {
+        const size = (await fh.stat()).size;
+        let pos = size;
+        let scanned = 0;
+        let pending = Buffer.alloc(0);
+        let stopped = false;
+        const buf = Buffer.allocUnsafe(CHUNK);
+        while (pos > 0 && scanned < maxBytes && !stopped) {
+          const n = Math.min(CHUNK, pos, maxBytes - scanned);
+          const start = pos - n;
+          const { bytesRead } = await fh.read(buf, 0, n, start);
+          if (bytesRead <= 0) break;
+          pos = start; scanned += bytesRead;
+          const combined = pending.length ? Buffer.concat([buf.subarray(0, bytesRead), pending]) : buf.subarray(0, bytesRead);
+          const spans = [];
+          let cur = combined.length;
+          for (let j = combined.length - 1; j >= 0; j--) {
+            if (combined[j] === 0x0A) { spans.push([j + 1, cur]); cur = j; }
+          }
+          pending = combined.subarray(0, cur);
+          for (const [a, b] of spans) {
+            if (b <= a) continue;
+            if (onLine(combined.subarray(a, b).toString('utf8')) === false) { stopped = true; break; }
+          }
+          await new Promise(r => setImmediate(r));
+        }
+        if (!stopped && pending.length) onLine(pending.toString('utf8'));
+      } finally {
+        try { await fh.close(); } catch (_) {}
+        resolve();
+      }
+    })();
+  });
+}
+/**
+ * Fast {key, op, recordType} extraction without JSON.parse — the stats scan
+ * touches every line of multi-GB shards, and full parsing is ~90 MB/s
+ * (3.9 GB ≈ 43 s, past nginx's timeout). Targeted string extraction runs
+ * at ~500 MB/s+. Falls back to null (caller then JSON.parses the line).
+ * Field order follows makeEnvelope(): op, key, recordType, value, ...
+ */
+function fastKeyType(line) {
+  try {
+    const vi = line.indexOf('"value":');
+    let ki = line.indexOf('"key":"');
+    if (ki < 0 || (vi >= 0 && ki > vi)) return null;
+    ki += 7;
+    let ke = ki;
+    while (ke < line.length) {
+      const c = line[ke];
+      if (c === '\\') { ke += 2; continue; }
+      if (c === '"') break;
+      ke++;
+    }
+    if (ke >= line.length) return null;
+    const key = line.slice(ki, ke);
+    if (!key) return null;
+    let op = 'put';
+    const oi = line.indexOf('"op":"');
+    if (oi >= 0 && oi < ki) {
+      const oe = line.indexOf('"', oi + 6);
+      if (oe > oi + 6) op = line.slice(oi + 6, oe);
+    }
+    let type = 'unknown';
+    const ti = line.indexOf('"recordType":"');
+    if (ti >= 0 && ti < ki + 200) {
+      const te = line.indexOf('"', ti + 14);
+      if (te > ti + 14) type = line.slice(ti + 14, te);
+    }
+    return { key, op, type };
+  } catch (_) { return null; }
+}
+/**
+ * Latest-wins key listing via reverse scan: the first hit per key scanning
+ * backwards is the latest record, so a bounded tail scan yields exact
+ * results for the returned keys. Tombstoned keys (latest op 'del') are
+ * correctly omitted. O(limit) memory — never loads the shard.
+ */
+async function listKeysReverseAsync({ $i, shard = 'core', prefix = '', limit = 200 } = {}) {
+  const root = fileRoot($i);
+  const keys = [];
+  const seen = new Set();
+  if (!root) {
+    try {
+      for (const record of store.list({ shard, predicate: r => r.parts?.[0] === 'records' })) {
+        const key = record.value?.key;
+        if (!key || seen.has(key)) continue;
+        seen.add(key);
+        if (prefix && !key.startsWith(prefix)) continue;
+        keys.push(key);
+        if (keys.length >= limit) break;
+      }
+    } catch (_) { /* ignore */ }
+    return keys;
+  }
+  await forEachLineReverseAsync(root, shard, (line) => {
+    if (!line) return;
+    let rec = null;
+    const fast = fastKeyType(line);
+    if (fast) {
+      if (seen.has(fast.key)) return;
+      seen.add(fast.key);
+      if (fast.op === 'del') return;
+      if (prefix && !fast.key.startsWith(prefix)) return;
+      keys.push(fast.key);
+    } else {
+      try { rec = JSON.parse(line); } catch (_) { return; }
+      const key = rec && rec.key;
+      if (!key || seen.has(key)) return;
+      seen.add(key);
+      if (rec.op === 'del') return;
+      if (prefix && !key.startsWith(prefix)) return;
+      keys.push(key);
+    }
+    if (keys.length >= limit) return false;
+  });
+  return keys;
+}
+/** Single-key read via reverse scan: stops at the first (latest) hit. */
+async function findKeyReverseAsync({ $i, shard = 'core', key }) {
+  const root = fileRoot($i);
+  if (!root) {
+    try { return store.get({ shard, parts: ['records', key] })?.value || null; } catch { return null; }
+  }
+  let found = null;
+  let done = false;
+  await forEachLineReverseAsync(root, shard, (line) => {
+    if (!line || done) return;
+    let rec;
+    try { rec = JSON.parse(line); } catch (_) { return; }
+    if (rec && rec.key === key) { found = rec.op === 'del' ? null : rec; done = true; return false; }
+  });
+  return found;
 }
 function writeFileRecord(root, shard, record) {
   const file = fileFor(root, shard);
@@ -100,6 +289,28 @@ async function latestFileRecordsAsync(root, shard) {
   const latest = new Map();
   await forEachFileRecordAsync(root, shard, (record) => latest.set(record.key, record));
   return [...latest.values()];
+}
+/**
+ * Async forward scan that never accumulates: the callback decides what to
+ * retain. (latestFileRecordsAsync above retains everything — do NOT use it
+ * on multi-GB shards; it OOMs. It is kept only for small-shard callers.)
+ */
+function forEachFileRecordAsync(root, shard, onRecord) {
+  return new Promise((resolve) => {
+    const file = fileFor(root, shard);
+    if (!file || !fs.existsSync(file)) return resolve();
+    const rl = require('readline').createInterface({ input: fs.createReadStream(file, 'utf8'), crlfDelay: Infinity });
+    rl.on('line', (line) => {
+      if (!line) return;
+      let rec;
+      try { rec = JSON.parse(line); } catch (_) { return; }
+      if (rec && rec.key) {
+        try { onRecord(rec); } catch (_) { /* ignore */ }
+      }
+    });
+    rl.on('close', () => resolve());
+    rl.on('error', () => resolve());
+  });
 }
 function writePacked({ $i, shard = 'core', key, value, op = 'put', meta = {}, type }) {
   const record = envelope({ op, key, value, meta, type });
@@ -222,10 +433,40 @@ function shardStats({ $i, shard = 'core' }) {
 }
 function allShardStats({ $i } = {}) { return ['core', 'allPosts', 'meta', 'graph', 'notify', 'audit', 'search', 'feed'].map(shard => shardStats({ $i, shard })); }
 async function shardStatsAsync({ $i, shard = 'core' }) {
-  const records = await listPackedRecordsAsync({ $i, shard });
+  // B"H 2026-10-11: exact aggregates WITHOUT retaining records — the core
+  // shard is 3.9 GB and holding parsed values OOMs the server. We retain
+  // only key -> type (~2 MB for 21k keys) and extract key/type/op without
+  // JSON.parse (fast path; JSON.parse fallback per line when needed).
+  const types = new Map();
+  const recordOne = (key, type, op) => {
+    if (!key) return;
+    if (op === 'del') { types.delete(key); return; }
+    types.set(key, type || 'unknown');
+  };
+  const root = fileRoot($i);
+  if (root) {
+    // Forward raw-line scan with fast key/type extraction (no JSON.parse):
+    // chunked ~4 MB reads with event-loop yields — the 3.9 GB core shard
+    // finishes inside nginx's timeout instead of 504ing.
+    await forEachLineFastAsync(root, shard, (head, getFull) => {
+      const fast = fastKeyType(head);
+      if (fast) { recordOne(fast.key, fast.type, fast.op); return; }
+      try {
+        const rec = JSON.parse(getFull());
+        if (rec && rec.key) recordOne(rec.key, rec.recordType || (rec.meta && rec.meta.kind), rec.op);
+      } catch (_) { /* skip corrupt line */ }
+    });
+  } else {
+    try {
+      for (const record of store.list({ shard, predicate: r => r.parts?.[0] === 'records' })) {
+        const v = record.value || {};
+        recordOne(v.key, v.recordType || (v.meta && v.meta.kind), v.op);
+      }
+    } catch (_) { /* ignore */ }
+  }
   const byType = {};
-  for (const r of records) byType[r.recordType || r.meta?.kind || 'unknown'] = (byType[r.recordType || r.meta?.kind || 'unknown'] || 0) + 1;
-  return { shard, records: records.length, logicalKeys: new Set(records.map(r => r.key).filter(Boolean)).size, byType, approximate: false, engine: fileRoot($i) ? 'JSONL' : 'AwtsmoosDB', bytes: shardFileStats({ $i, shard }).bytes, files: shardFileStats({ $i, shard }).files };
+  for (const t of types.values()) byType[t] = (byType[t] || 0) + 1;
+  return { shard, records: types.size, logicalKeys: types.size, byType, approximate: false, engine: fileRoot($i) ? 'JSONL' : 'AwtsmoosDB', bytes: shardFileStats({ $i, shard }).bytes, files: shardFileStats({ $i, shard }).files };
 }
 async function allShardStatsAsync({ $i } = {}) {
   const out = [];
@@ -233,4 +474,4 @@ async function allShardStatsAsync({ $i } = {}) {
   return out;
 }
 function writeMigrationManifest({ $i, manifest }) { return writePacked({ $i, shard: 'meta', key: logicalKey(['migrations', manifest.id]), value: manifest, type: RECORD_TYPES.migrationManifest, meta: { kind: 'migrationManifest', migrationType: manifest.type } }); }
-module.exports = { resolveDbRoot, writePacked, readPacked, readPackedAsync, listPackedRecords, listPackedRecordsAsync, forEachFileRecord, forEachFileRecordAsync, writeManifest, writeIndex, appendEvent, mirrorPost, mirrorPostBulk, mirrorAllPost, mirrorGraphReference, mirrorNotification, writeMigrationManifest, shardStats, shardStatsAsync, allShardStats, allShardStatsAsync, shardFileStats };
+module.exports = { resolveDbRoot, fileRoot, writePacked, readPacked, readPackedAsync, listPackedRecords, forEachFileRecord, forEachFileRecordAsync, forEachLineFastAsync, forEachLineReverseAsync, listKeysReverseAsync, findKeyReverseAsync, fastKeyType, writeManifest, writeIndex, appendEvent, mirrorPost, mirrorPostBulk, mirrorAllPost, mirrorGraphReference, mirrorNotification, writeMigrationManifest, shardStats, shardStatsAsync, allShardStats, allShardStatsAsync, shardFileStats };
