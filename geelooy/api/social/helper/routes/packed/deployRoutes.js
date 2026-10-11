@@ -55,26 +55,12 @@ const MAX_FILE_BYTES = 5 * 1024 * 1024;      // 5 MB per file
 const MAX_FILES_PER_PUSH = 50;               // 50 files per request
 
 // Directories that may receive pushed files. Everything else is rejected.
-// Keep this tight: the deploy API is for web-facing code, not secrets.
+// Covers the full geelooy/ web app tree (pages, styles, client JS, apps);
+// blocklisted segments below (.git, node_modules, secrets, env files) stay
+// rejected regardless of root. Server-internal ayzarim/ is intentionally
+// NOT deployable via this route.
 const ALLOWED_ROOTS = [
-	'geelooy/heichelos/',
-	'geelooy/api/',
-	'geelooy/apps/',
-	'geelooy/ohr-haganuz/',
-	'geelooy/awtsmoos/',
-	'geelooy/scripts/',
-	'geelooy/sso/',
-	'geelooy/profiles/',
-	'geelooy/pulse/',
-	'geelooy/onboarding/',
-	'geelooy/mitzvahWorld/',
-	'geelooy/mikvah/',
-	'geelooy/kiddush/',
-	'geelooy/home/',
-	'geelooy/ikar/',
-	'geelooy/derech/',
-	'geelooy/components/',
-	'geelooy/ai/',
+	'geelooy/',
 	'scripts/',
 	'ops/',
 	'index.js',
