@@ -154,10 +154,15 @@ function forEachLineReverseAsync(root, shard, onLine, maxBytes = Infinity) {
           if (bytesRead <= 0) break;
           pos = start; scanned += bytesRead;
           const combined = pending.length ? Buffer.concat([buf.subarray(0, bytesRead), pending]) : buf.subarray(0, bytesRead);
+          // Native reverse search (memrchr) — a JS byte loop over 4 MB is ~10x slower.
           const spans = [];
           let cur = combined.length;
-          for (let j = combined.length - 1; j >= 0; j--) {
-            if (combined[j] === 0x0A) { spans.push([j + 1, cur]); cur = j; }
+          for (;;) {
+            const nl = combined.lastIndexOf(0x0A, cur - 1);
+            if (nl < 0) break;
+            spans.push([nl + 1, cur]);
+            cur = nl;
+            if (cur <= 0) break;
           }
           pending = combined.subarray(0, cur);
           for (const [a, b] of spans) {
