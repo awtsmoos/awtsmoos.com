@@ -1,0 +1,691 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * heichel-polish-law8.css — LAW 8 polish layer for the Heichelos discovery
+ * surface (the /heichelos/ index page) and the Heichel doorway boot page.
+ *
+ * Design law: the luminous Torah library. Warm cream by day, deep cosmic
+ * night by dark theme; golden Hebrew letters drift behind glassy sefer
+ * cards; the Ikar portal glows like a doorway of light.
+ *
+ * Binding tunnel laws honored: CSS custom-property tokens only, explicit
+ * colors for light AND dark themes, full :hover / :focus-visible / :active /
+ * :disabled states, zero !important, CSS-only effects (no new assets).
+ *
+ * This sheet loads LAST, so it refines — never fights — the base sheets.
+ * Scoped to .heichelos-discovery-page (index) and
+ * body.heichel-os-page[data-heichel-page] (doorway). Never touches
+ * .ikar-heichel or any sibling lane.
+ */
+
+/* ============ 1. LAW 8 tokens — light (warm cream) default ============ */
+:root {
+	--law8-page-0: #f8f3e6;
+	--law8-page-1: #efe4cb;
+	--law8-gold: #8a6d1a;
+	--law8-gold-deep: #a07f24;
+	--law8-gold-ember: #7c6115;
+	--law8-gold-ink: #2e2308;
+	--law8-ink: #2b2118;
+	--law8-ink-soft: #5a4c3d;
+	--law8-ink-faint: #6f6242;
+	--law8-card: rgba(255, 253, 246, 0.82);
+	--law8-card-solid: #fffdf4;
+	--law8-line: rgba(138, 109, 26, 0.45);
+	--law8-line-soft: rgba(138, 109, 26, 0.22);
+	--law8-field-bg: #fffdf6;
+	--law8-on-gold: #fffdf6;
+	--law8-glow-soft: 0 0 2.5rem rgba(138, 109, 26, 0.20);
+	--law8-glow-strong: 0 0 3.5rem rgba(138, 109, 26, 0.30);
+	--law8-shadow-card: 0 1.1rem 2.6rem rgba(90, 70, 30, 0.16);
+	--law8-watermark-opacity: 0.05;
+	--law8-mote-opacity: 0.20;
+	--law8-radius: 1.1rem;
+	--law8-radius-lg: 1.5rem;
+	--law8-ease: cubic-bezier(0.16, 1, 0.3, 1);
+	--law8-speed: 220ms;
+}
+
+/* ============ 2. LAW 8 tokens — dark (cosmic night) ============ */
+:root[data-theme="dark"] {
+	--law8-page-0: #04060d;
+	--law8-page-1: #0a1026;
+	--law8-gold: #e9c76f;
+	--law8-gold-deep: #d4a94e;
+	--law8-gold-ember: #b07f2e;
+	--law8-gold-ink: #fff6df;
+	--law8-ink: #f5f2e8;
+	--law8-ink-soft: #c9c2ae;
+	--law8-ink-faint: #a89e83;
+	--law8-card: rgba(14, 20, 42, 0.66);
+	--law8-card-solid: #10172e;
+	--law8-line: rgba(212, 169, 78, 0.38);
+	--law8-line-soft: rgba(212, 169, 78, 0.18);
+	--law8-field-bg: rgba(4, 6, 13, 0.55);
+	--law8-on-gold: #1a1206;
+	--law8-glow-soft: 0 0 2.5rem rgba(212, 169, 78, 0.18);
+	--law8-glow-strong: 0 0 3.5rem rgba(212, 169, 78, 0.30);
+	--law8-shadow-card: 0 1.1rem 2.8rem rgba(2, 4, 12, 0.6);
+	--law8-watermark-opacity: 0.06;
+	--law8-mote-opacity: 0.30;
+}
+
+/* =====================================================================
+   3. DISCOVERY PAGE — cosmic library backdrop + drifting Hebrew letters
+   ===================================================================== */
+body.heichelos-discovery-page {
+	background-color: var(--law8-page-0);
+	background-image:
+		radial-gradient(56rem 30rem at 88% -6%, rgba(212, 169, 78, 0.16), transparent 62%),
+		radial-gradient(48rem 26rem at 6% 10%, rgba(120, 130, 220, 0.10), transparent 60%),
+		radial-gradient(70rem 38rem at 50% 112%, rgba(150, 110, 60, 0.10), transparent 62%),
+		linear-gradient(180deg, var(--law8-page-1), var(--law8-page-0) 42rem);
+	color: var(--law8-ink);
+}
+
+/* Giant watermark: the letter Tav — Torah — watching over the shelves. */
+body.heichelos-discovery-page::before {
+	content: "ת";
+	position: fixed;
+	inset-inline-end: -7vmin;
+	inset-block-start: 6vmin;
+	font-size: 54vmin;
+	line-height: 1;
+	color: var(--law8-gold);
+	opacity: var(--law8-watermark-opacity);
+	pointer-events: none;
+	z-index: 0;
+}
+
+/* Drifting motes of golden letters along the upper-left margin. */
+body.heichelos-discovery-page::after {
+	content: "א ש ב ה מ ל ך";
+	position: fixed;
+	inset-inline-start: 3.5vw;
+	inset-block-start: 5vh;
+	font-size: clamp(1.4rem, 3.6vw, 2.6rem);
+	letter-spacing: 0.55em;
+	line-height: 2.1;
+	max-inline-size: 9em;
+	color: var(--law8-gold);
+	opacity: var(--law8-mote-opacity);
+	text-shadow: 0 0 1.4rem var(--law8-gold-deep);
+	pointer-events: none;
+	z-index: 0;
+	animation: law8-mote-drift 26s ease-in-out infinite alternate;
+}
+
+@keyframes law8-mote-drift {
+	from { transform: translate3d(0, 0, 0); }
+	to { transform: translate3d(1.2rem, 1.8rem, 0); }
+}
+
+/* Keep the living content above the drifting letters. */
+.heichelos-discovery-page .social-spaces-shell {
+	position: relative;
+	z-index: 1;
+}
+
+/* =====================================================================
+   4. HERO — the golden doorway
+   ===================================================================== */
+.heichelos-discovery-page .spaces-hero {
+	background:
+		radial-gradient(34rem 17rem at 85% -12%, rgba(212, 169, 78, 0.32), transparent 60%),
+		radial-gradient(22rem 12rem at 12% 110%, rgba(212, 169, 78, 0.12), transparent 62%),
+		linear-gradient(155deg, var(--law8-card-solid), var(--law8-page-1));
+	border: 1px solid var(--law8-line);
+	border-radius: var(--law8-radius-lg);
+	box-shadow: var(--law8-shadow-card), var(--law8-glow-soft), inset 0 1px 0 rgba(212, 169, 78, 0.35);
+	padding: clamp(1.4rem, 5vw, 2.6rem);
+	color: var(--law8-ink);
+}
+
+.heichelos-discovery-page .spaces-hero h1 {
+	color: var(--law8-gold-ink);
+	font-size: clamp(2rem, 7vw, 3.4rem);
+	line-height: 1.04;
+	letter-spacing: -0.025em;
+	margin: 0;
+	text-shadow: 0 2px 1.6rem rgba(212, 169, 78, 0.35);
+}
+
+.heichelos-discovery-page .spaces-hero > div > p {
+	color: var(--law8-ink-soft);
+}
+
+.heichelos-discovery-page .spaces-command-row {
+	gap: 0.65rem;
+	flex-wrap: wrap;
+}
+
+/* =====================================================================
+   5. Eyebrow labels + section headings
+   ===================================================================== */
+.heichelos-discovery-page .field-label {
+	color: var(--law8-gold);
+	font-size: 0.76rem;
+	font-weight: 800;
+	letter-spacing: 0.22em;
+	text-transform: uppercase;
+	margin: 0 0 0.55rem;
+}
+
+.heichelos-discovery-page .spaces-section-heading h2 {
+	color: var(--law8-gold-ink);
+	letter-spacing: -0.02em;
+}
+
+.heichelos-discovery-page .spaces-section-heading > p {
+	color: var(--law8-ink-soft);
+}
+
+.heichelos-discovery-page .spaces-section-heading .p-button {
+	margin-top: 0.35rem;
+}
+
+/* =====================================================================
+   6. BUTTONS — golden vessels, every state accounted
+   ===================================================================== */
+.heichelos-discovery-page .p-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	min-height: 3rem;
+	padding: 0.65rem 1.35rem;
+	font-size: 0.98rem;
+	font-weight: 700;
+	line-height: 1.25;
+	color: var(--law8-ink);
+	background: linear-gradient(160deg, var(--law8-card-solid), var(--law8-page-1));
+	border: 1px solid var(--law8-line);
+	border-radius: 999px;
+	text-decoration: none;
+	cursor: pointer;
+	transition:
+		transform var(--law8-speed) var(--law8-ease),
+		box-shadow var(--law8-speed) var(--law8-ease),
+		background-color var(--law8-speed) var(--law8-ease),
+		border-color var(--law8-speed) var(--law8-ease),
+		color var(--law8-speed) var(--law8-ease);
+}
+
+.heichelos-discovery-page .p-button:hover {
+	border-color: var(--law8-gold);
+	color: var(--law8-gold);
+	box-shadow: var(--law8-glow-soft);
+	transform: translateY(-1px);
+}
+
+.heichelos-discovery-page .p-button:focus-visible {
+	outline: 2px solid var(--law8-gold);
+	outline-offset: 3px;
+}
+
+.heichelos-discovery-page .p-button:active {
+	transform: translateY(0) scale(0.97);
+}
+
+.heichelos-discovery-page .p-button:disabled,
+.heichelos-discovery-page .p-button[aria-disabled="true"] {
+	opacity: 0.55;
+	cursor: not-allowed;
+	transform: none;
+	box-shadow: none;
+}
+
+/* Primary: solid gold, dark sefer-ink lettering. */
+.heichelos-discovery-page .p-button.p-button-primary {
+	color: var(--law8-on-gold);
+	background: linear-gradient(160deg, var(--law8-gold), var(--law8-gold-deep));
+	border-color: transparent;
+	box-shadow: var(--law8-glow-soft);
+}
+
+.heichelos-discovery-page .p-button-primary:hover {
+	color: var(--law8-on-gold);
+	border-color: transparent;
+	box-shadow: var(--law8-glow-strong);
+	transform: translateY(-1px);
+	filter: brightness(1.05);
+}
+
+.heichelos-discovery-page .p-button-primary:active {
+	transform: translateY(0) scale(0.97);
+	filter: none;
+}
+
+/* =====================================================================
+   7. SEARCH — the luminous glass bar
+   ===================================================================== */
+.heichelos-discovery-page .spaces-search {
+	background: var(--law8-card);
+	border: 1px solid var(--law8-line);
+	border-radius: var(--law8-radius-lg);
+	box-shadow: var(--law8-shadow-card);
+	padding: clamp(0.9rem, 3vw, 1.25rem);
+	backdrop-filter: blur(10px);
+}
+
+.heichelos-discovery-page .spaces-search .field-label {
+	grid-column: 1 / -1;
+}
+
+.heichelos-discovery-page .spaces-search input {
+	width: 100%;
+	min-height: 3.1rem;
+	padding: 0.7rem 1.15rem;
+	font: inherit;
+	font-size: 1rem;
+	color: var(--law8-ink);
+	background: var(--law8-field-bg);
+	border: 1px solid var(--law8-line-soft);
+	border-radius: 999px;
+	transition:
+		border-color var(--law8-speed) var(--law8-ease),
+		box-shadow var(--law8-speed) var(--law8-ease),
+		transform var(--law8-speed) var(--law8-ease);
+}
+
+.heichelos-discovery-page .spaces-search input:hover {
+	border-color: var(--law8-line);
+}
+
+.heichelos-discovery-page .spaces-search input:active {
+	transform: scale(0.995);
+}
+
+.heichelos-discovery-page .spaces-search input:focus {
+	border-color: var(--law8-gold);
+	box-shadow: 0 0 0 3px rgba(212, 169, 78, 0.22), var(--law8-glow-soft);
+}
+
+.heichelos-discovery-page .spaces-search input:focus-visible {
+	outline: 2px solid var(--law8-gold);
+	outline-offset: 2px;
+}
+
+.heichelos-discovery-page .spaces-search input:disabled {
+	opacity: 0.55;
+	cursor: not-allowed;
+	color: var(--law8-ink-faint);
+}
+
+/* =====================================================================
+   8. CARD GRID — one column in the hand, shelves on the desk
+   ===================================================================== */
+.heichelos-discovery-page .spaces-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 1rem;
+}
+
+@media (min-width: 46rem) {
+	.heichelos-discovery-page .spaces-grid {
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
+		gap: 1.25rem;
+	}
+}
+
+/* =====================================================================
+   9. SEFER CARDS — glass vessels of light
+   ===================================================================== */
+.heichelos-discovery-page .social-space-card {
+	background: var(--law8-card);
+	border: 1px solid var(--law8-line-soft);
+	border-radius: var(--law8-radius);
+	box-shadow: var(--law8-shadow-card);
+	color: var(--law8-ink);
+	padding: 1.15rem;
+	backdrop-filter: blur(10px);
+	transition:
+		transform var(--law8-speed) var(--law8-ease),
+		border-color var(--law8-speed) var(--law8-ease),
+		box-shadow var(--law8-speed) var(--law8-ease),
+		background-color var(--law8-speed) var(--law8-ease);
+}
+
+.heichelos-discovery-page .social-space-card:hover,
+.heichelos-discovery-page .social-space-card:focus-within {
+	border-color: var(--law8-line);
+	box-shadow: var(--law8-shadow-card), var(--law8-glow-soft);
+	transform: translateY(-3px);
+}
+
+.heichelos-discovery-page .social-space-card:active {
+	transform: translateY(-1px) scale(0.995);
+}
+
+.heichelos-discovery-page .space-title-row h2 {
+	color: var(--law8-ink);
+}
+
+.heichelos-discovery-page .space-copy > p {
+	color: var(--law8-ink-soft);
+	line-height: 1.55;
+}
+
+.heichelos-discovery-page .space-meta-line {
+	color: var(--law8-ink-faint);
+	font-size: 0.85rem;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.3rem 0.9rem;
+}
+
+/* The seal: a golden medallion stamped with the Heichel's letter. */
+.heichelos-discovery-page .space-seal {
+	background: linear-gradient(140deg, var(--law8-gold), var(--law8-gold-ember));
+	color: var(--law8-on-gold);
+	box-shadow:
+		0 0 1.25rem rgba(212, 169, 78, 0.45),
+		inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+/* The badge: a small golden chip. */
+.heichelos-discovery-page .p-badge {
+	display: inline-flex;
+	align-items: center;
+	font-size: 0.7rem;
+	font-weight: 800;
+	letter-spacing: 0.09em;
+	text-transform: uppercase;
+	white-space: nowrap;
+	color: var(--law8-gold);
+	background: rgba(212, 169, 78, 0.12);
+	border: 1px solid var(--law8-line-soft);
+	border-radius: 999px;
+	padding: 0.3rem 0.7rem;
+}
+
+.heichelos-discovery-page .space-card-arrow {
+	color: var(--law8-gold);
+}
+
+/* Secondary actions keep their quiet dignity, with golden focus. */
+.heichelos-discovery-page .space-secondary-action:focus-visible {
+	outline: 2px solid var(--law8-gold);
+	outline-offset: 3px;
+}
+
+/* =====================================================================
+   10. IKAR PORTAL — the radiant doorway of the Torah library
+   ===================================================================== */
+.heichelos-discovery-page .torah-library-card {
+	background:
+		radial-gradient(26rem 13rem at 86% -8%, rgba(212, 169, 78, 0.28), transparent 62%),
+		linear-gradient(150deg, var(--law8-card-solid), var(--law8-page-1));
+	border: 1px solid var(--law8-line);
+	box-shadow: var(--law8-shadow-card), var(--law8-glow-strong);
+	padding: clamp(1.25rem, 4vw, 2rem);
+}
+
+.heichelos-discovery-page .torah-library-card:hover,
+.heichelos-discovery-page .torah-library-card:focus-within {
+	box-shadow: var(--law8-shadow-card), var(--law8-glow-strong);
+	transform: translateY(-3px);
+}
+
+.heichelos-discovery-page .torah-library-card .space-seal {
+	font-size: 1.9rem;
+	width: 3.6rem;
+	height: 3.6rem;
+	flex-basis: 3.6rem;
+	border-radius: 1.15rem;
+}
+
+.heichelos-discovery-page .torah-library-card h2 {
+	font-size: clamp(1.5rem, 4.5vw, 2.1rem);
+	color: var(--law8-gold-ink);
+	text-shadow: 0 0 1.6rem rgba(212, 169, 78, 0.4);
+}
+
+.heichelos-discovery-page .torah-library-parsha a {
+	color: var(--law8-gold);
+	font-weight: 800;
+}
+
+.heichelos-discovery-page .torah-library-parsha a:hover {
+	color: var(--law8-gold-ink);
+}
+
+.heichelos-discovery-page .torah-library-parsha a:focus-visible {
+	outline: 2px solid var(--law8-gold);
+	outline-offset: 3px;
+}
+
+/* =====================================================================
+   11. RESULT SUMMARY + EMPTY STATE
+   ===================================================================== */
+.heichelos-discovery-page .spaces-result-summary {
+	font-size: 0.88rem;
+	font-weight: 600;
+	color: var(--law8-ink-soft);
+	background: var(--law8-card);
+	border-color: var(--law8-line-soft);
+}
+
+.heichelos-discovery-page .social-empty-card {
+	background:
+		radial-gradient(circle at 50% 28%, rgba(212, 169, 78, 0.16), transparent 62%),
+		var(--law8-card);
+	border: 1px dashed var(--law8-line);
+	border-radius: var(--law8-radius-lg);
+	color: var(--law8-ink);
+	box-shadow: var(--law8-shadow-card);
+}
+
+.heichelos-discovery-page .social-empty-card h2,
+.heichelos-discovery-page .social-empty-card h3 {
+	color: var(--law8-gold-ink);
+}
+
+.heichelos-discovery-page .social-empty-card p {
+	color: var(--law8-ink-soft);
+}
+
+/* =====================================================================
+   12. DOORWAY PAGE — the Heichel boot / loading vessel
+   ===================================================================== */
+body.heichel-os-page[data-heichel-page] {
+	background-color: var(--law8-page-0);
+	background-image:
+		radial-gradient(56rem 30rem at 50% -8%, rgba(212, 169, 78, 0.18), transparent 62%),
+		radial-gradient(48rem 30rem at 8% 90%, rgba(120, 130, 220, 0.10), transparent 60%),
+		linear-gradient(180deg, var(--law8-page-1), var(--law8-page-0) 40rem);
+	color: var(--law8-ink);
+	min-height: 100dvh;
+}
+
+/* Watermark: the letter Heh — Heichel — behind the doorway. */
+body.heichel-os-page[data-heichel-page]::before {
+	content: "ה";
+	position: fixed;
+	inset-inline-start: -6vmin;
+	inset-block-end: -10vmin;
+	font-size: 56vmin;
+	line-height: 1;
+	color: var(--law8-gold);
+	opacity: var(--law8-watermark-opacity);
+	pointer-events: none;
+	z-index: 0;
+}
+
+body.heichel-os-page[data-heichel-page]::after {
+	content: "ה י כ ל";
+	position: fixed;
+	inset-inline-end: 4vw;
+	inset-block-start: 6vh;
+	font-size: clamp(1.4rem, 3.6vw, 2.6rem);
+	letter-spacing: 0.55em;
+	color: var(--law8-gold);
+	opacity: var(--law8-mote-opacity);
+	text-shadow: 0 0 1.4rem var(--law8-gold-deep);
+	pointer-events: none;
+	z-index: 0;
+	animation: law8-mote-drift 30s ease-in-out infinite alternate;
+}
+
+.heichel-os-page .heichel-shell-boot {
+	position: relative;
+	z-index: 1;
+	min-height: 100dvh;
+	display: grid;
+	place-items: center;
+	padding: clamp(1rem, 4vw, 2.5rem);
+	padding-bottom: calc(clamp(1rem, 4vw, 2.5rem) + env(safe-area-inset-bottom));
+}
+
+.heichel-os-page .heichel-shell-boot__panel {
+	width: min(100%, 34rem);
+	display: grid;
+	gap: 1.1rem;
+	justify-items: center;
+	text-align: center;
+	background: var(--law8-card);
+	border: 1px solid var(--law8-line);
+	border-radius: var(--law8-radius-lg);
+	box-shadow: var(--law8-shadow-card), var(--law8-glow-soft);
+	backdrop-filter: blur(12px);
+	padding: clamp(2rem, 6vw, 3.4rem) clamp(1.5rem, 5vw, 3rem);
+}
+
+/* The golden seal breathes while the Heichel opens. */
+.heichel-os-page .heichel-shell-boot__seal {
+	width: 5.5rem;
+	height: 5.5rem;
+	display: grid;
+	place-items: center;
+	font-size: 1.7rem;
+	font-weight: 800;
+	color: var(--law8-on-gold);
+	background: radial-gradient(circle at 32% 26%, var(--law8-gold), var(--law8-gold-ember));
+	border-radius: 50%;
+	box-shadow: var(--law8-glow-strong), inset 0 2px 6px rgba(255, 255, 255, 0.35);
+	animation: law8-seal-breathe 4.2s ease-in-out infinite;
+}
+
+@keyframes law8-seal-breathe {
+	0%, 100% { transform: scale(1); }
+	50% { transform: scale(1.045); }
+}
+
+.heichel-os-page .civilization-kicker {
+	color: var(--law8-gold);
+	font-size: 0.76rem;
+	font-weight: 800;
+	letter-spacing: 0.24em;
+	text-transform: uppercase;
+	margin: 0;
+}
+
+.heichel-os-page #heichel-boot-title {
+	color: var(--law8-gold-ink);
+	font-size: clamp(1.8rem, 6vw, 2.6rem);
+	letter-spacing: -0.02em;
+	line-height: 1.1;
+	margin: 0;
+	text-shadow: 0 2px 1.6rem rgba(212, 169, 78, 0.35);
+}
+
+.heichel-os-page .heichel-shell-boot__status {
+	color: var(--law8-ink-soft);
+	line-height: 1.6;
+	margin: 0;
+	max-width: 38ch;
+}
+
+.heichel-os-page .heichel-shell-boot__copy > p:last-of-type {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 0.4rem 0.9rem;
+	margin: 0;
+	color: var(--law8-ink-faint);
+}
+
+.heichel-os-page .heichel-shell-boot__copy a {
+	color: var(--law8-gold);
+	font-weight: 700;
+	text-decoration: underline;
+	text-decoration-color: var(--law8-line-soft);
+	text-underline-offset: 3px;
+	border-radius: 4px;
+	transition: color var(--law8-speed) var(--law8-ease), text-decoration-color var(--law8-speed) var(--law8-ease);
+}
+
+.heichel-os-page .heichel-shell-boot__copy a:hover {
+	color: var(--law8-gold-ink);
+	text-decoration-color: var(--law8-gold);
+}
+
+.heichel-os-page .heichel-shell-boot__copy a:focus-visible {
+	outline: 2px solid var(--law8-gold);
+	outline-offset: 3px;
+}
+
+.heichel-os-page .heichel-shell-boot__copy a:active {
+	transform: scale(0.97);
+}
+
+/* The progress bar: a golden light sweeping the doorway. */
+.heichel-os-page .heichel-shell-boot__progress {
+	width: 100%;
+	height: 0.55rem;
+	border-radius: 999px;
+	background: rgba(212, 169, 78, 0.16);
+	border: 1px solid var(--law8-line-soft);
+	overflow: hidden;
+}
+
+.heichel-os-page .heichel-shell-boot__progress > * {
+	display: block;
+	height: 100%;
+	width: 38%;
+	border-radius: inherit;
+	background: linear-gradient(90deg, var(--law8-gold-ember), var(--law8-gold), var(--law8-gold-ember));
+	box-shadow: 0 0 1rem rgba(212, 169, 78, 0.55);
+	animation: law8-progress-sweep 1.7s ease-in-out infinite;
+}
+
+@keyframes law8-progress-sweep {
+	0% { transform: translateX(-115%); }
+	100% { transform: translateX(290%); }
+}
+
+.heichel-os-page .heichel-shell-boot noscript p {
+	color: var(--law8-ink-faint);
+	font-size: 0.9rem;
+	line-height: 1.6;
+	margin: 0;
+}
+
+/* =====================================================================
+   13. Shared focus law + selection + reduced motion
+   ===================================================================== */
+.heichelos-discovery-page :focus-visible,
+.heichel-os-page :focus-visible {
+	outline: 2px solid var(--law8-gold);
+	outline-offset: 3px;
+}
+
+.heichelos-discovery-page ::selection,
+.heichel-os-page ::selection {
+	background: var(--law8-gold-deep);
+	color: var(--law8-on-gold);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body.heichelos-discovery-page::after,
+	body.heichel-os-page[data-heichel-page]::after,
+	.heichel-os-page .heichel-shell-boot__seal,
+	.heichel-os-page .heichel-shell-boot__progress > *,
+	.heichelos-discovery-page .social-space-card,
+	.heichelos-discovery-page .p-button,
+	.heichelos-discovery-page .space-card-link {
+		animation: none;
+		transition: none;
+	}
+}

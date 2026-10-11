@@ -1,0 +1,243 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+LAW 8 polish — Home + Navigation + Account drawer (UI/UX lane, 2026-10-11).
+Loads AFTER base.css / components.css; additive only, never restates layout.
+Dream tokens only: home-tokens.css + law8-cosmic.css + local --polish-* aliases.
+No !important. Every interactive element carries :hover / :focus-visible /
+:active; every text rule declares an explicit theme-safe color.
+Reference: geelooy/design-refs/law8/homepage-uiux-ref.webp
+*/
+
+/* ============ 0. Polish tokens ============ */
+html[data-geelooy-route="home"] {
+	--polish-ease: cubic-bezier(0.22, 0.9, 0.28, 1);
+}
+
+/* ============ 1. Interaction foundation ============ */
+:where([data-geelooy-route="home"]) :focus-visible {
+	outline: 3px solid var(--focus-ring);
+	outline-offset: 2px;
+}
+html[data-geelooy-route="home"] ::selection {
+	background: var(--home-accent-soft);
+	color: var(--text-primary);
+}
+
+/* ============ 2. Header crown ============ */
+/* B"H — the crown stays with the traveler while worlds are browsed. */
+:where([data-geelooy-route="home"]) .site-header {
+	position: sticky;
+	top: 0;
+}
+:where([data-geelooy-route="home"]) .brand {
+	border-radius: 0.9rem;
+	color: var(--text-primary);
+	text-decoration: none;
+	transition: background-color 0.18s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+	:where([data-geelooy-route="home"]) .brand:hover {
+		background: var(--home-wash);
+	}
+}
+:where([data-geelooy-route="home"]) .brand:active {
+	background: var(--home-accent-soft);
+}
+:where([data-geelooy-route="home"]) .brand-mark {
+	text-shadow: 0 0 18px var(--home-glow);
+	transition: text-shadow 0.2s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+	:where([data-geelooy-route="home"]) .brand:hover .brand-mark {
+		text-shadow: 0 0 26px var(--law8-title-glow);
+	}
+}
+
+/* ============ 3. World launcher ============ */
+/* B"H — the constellation chamber arrives with one breath, never a snap. */
+:where([data-geelooy-route="home"]) .world-launcher[open] .world-panel {
+	animation: polish-panel-in 0.22s var(--polish-ease);
+}
+@keyframes polish-panel-in {
+	from { opacity: 0; transform: translateY(-8px) scale(0.985); }
+	to { opacity: 1; transform: none; }
+}
+:where([data-geelooy-route="home"]) .world-panel-heading small {
+	color: var(--text-faint);
+}
+:where([data-geelooy-route="home"]) .world-panel-heading strong {
+	color: var(--text-primary);
+}
+:where([data-geelooy-route="home"]) [data-world-total],
+:where([data-geelooy-route="home"]) [data-world-count] {
+	color: var(--text-muted);
+}
+:where([data-geelooy-route="home"]) .launcher-search input {
+	color: var(--text-primary);
+	background: var(--home-input-background);
+	border: 1px solid var(--panel-border);
+	border-radius: 0.7rem;
+	transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+:where([data-geelooy-route="home"]) .launcher-search input::placeholder {
+	color: var(--home-placeholder);
+}
+:where([data-geelooy-route="home"]) .launcher-search input:hover {
+	border-color: var(--panel-border-strong);
+}
+:where([data-geelooy-route="home"]) .launcher-search input:focus {
+	outline: 2px solid var(--focus-ring);
+	outline-offset: 1px;
+	border-color: var(--home-accent);
+}
+:where([data-geelooy-route="home"]) .launcher-search kbd,
+:where([data-geelooy-route="home"]) .launcher-meta kbd {
+	color: var(--text-muted);
+	background: var(--home-wash);
+	border: 1px solid var(--home-line-soft);
+	border-radius: 0.35rem;
+}
+:where([data-geelooy-route="home"]) .launcher-meta {
+	color: var(--text-faint);
+}
+/* B"H — each world tile names its vessel in ink, its promise in soft voice. */
+:where([data-geelooy-route="home"]) .world-tile > span {
+	color: var(--home-accent-strong);
+}
+:where([data-geelooy-route="home"]) .world-tile b {
+	color: var(--text-primary);
+	font-weight: 750;
+}
+:where([data-geelooy-route="home"]) .world-tile small {
+	color: var(--text-muted);
+}
+:where([data-geelooy-route="home"]) .world-empty {
+	color: var(--text-muted);
+}
+
+/* ============ 4. Hero ============ */
+:where([data-geelooy-route="home"]) .home-hero-title {
+	text-wrap: balance;
+}
+:where([data-geelooy-route="home"]) .shliach-hero-link-label {
+	color: var(--home-hero-ink);
+}
+:where([data-geelooy-route="home"]) .shliach-hero-link-icon {
+	color: var(--law8-gold-soft);
+}
+:where([data-geelooy-route="home"]) .shliach-hero-link-arrow {
+	color: var(--home-hero-ink-soft);
+	transition: transform 0.2s var(--polish-ease);
+}
+@media (hover: hover) and (pointer: fine) {
+	:where([data-geelooy-route="home"]) .shliach-hero-link:hover .shliach-hero-link-arrow {
+		transform: translateX(4px);
+	}
+}
+
+/* ============ 5. Search vessel internals ============ */
+:where([data-geelooy-route="home"]) .search textarea {
+	color: var(--text-primary);
+	font-size: 1.02rem;
+}
+:where([data-geelooy-route="home"]) .search textarea::placeholder {
+	color: var(--home-placeholder);
+}
+:where([data-geelooy-route="home"]) .search textarea:focus {
+	outline: 2px solid var(--focus-ring);
+	outline-offset: -2px;
+	border-radius: 0.6rem;
+}
+:where([data-geelooy-route="home"]) .search-symbol {
+	color: var(--home-accent-strong);
+}
+:where([data-geelooy-route="home"]) .shortcut-key {
+	color: var(--text-faint);
+	background: var(--home-wash);
+	border: 1px solid var(--home-line-soft);
+	border-radius: 0.45rem;
+}
+:where([data-geelooy-route="home"]) .omnibox-heading {
+	color: var(--text-muted);
+}
+:where([data-geelooy-route="home"]) [data-history-clear] {
+	color: var(--text-muted);
+	border-radius: 0.5rem;
+	transition: color 0.16s ease, background-color 0.16s ease, transform 0.16s var(--polish-ease);
+}
+@media (hover: hover) and (pointer: fine) {
+	:where([data-geelooy-route="home"]) [data-history-clear]:hover {
+		color: var(--home-danger);
+		background: var(--home-wash);
+	}
+}
+:where([data-geelooy-route="home"]) [data-history-clear]:active {
+	color: var(--home-danger);
+	transform: scale(0.96);
+}
+
+/* ============ 6. Portal shortcuts ============ */
+/* B"H — glyph in gold, name in ink, promise in a soft voice. */
+:where([data-geelooy-route="home"]) .portal-shortcut-link > span {
+	color: var(--home-accent-strong);
+}
+:where([data-geelooy-route="home"]) .portal-shortcut-link strong {
+	color: var(--text-primary);
+}
+:where([data-geelooy-route="home"]) .portal-shortcut-link small {
+	color: var(--text-muted);
+}
+
+/* ============ 7. Films teaser ============ */
+:where([data-geelooy-route="home"]) .films-teaser-link .films-teaser-arrow {
+	transition: transform 0.2s var(--polish-ease);
+}
+@media (hover: hover) and (pointer: fine) {
+	:where([data-geelooy-route="home"]) .films-teaser-link:hover .films-teaser-arrow {
+		transform: translateX(4px);
+	}
+}
+
+/* ============ 8. Account drawer — home-scoped accents ============ */
+/* B"H — the identity vessel is complete and keeps its Yaakov-approved
+   dark-glass identity on every page; home adds only what the shared
+   component lacks: an open-state accent on the trigger and a press answer
+   on the route dishes. Nothing restyled, nothing overridden. */
+:where([data-geelooy-route="home"]) .awtsmoosDrop[data-open] .profile-trigger {
+	border-color: var(--home-accent);
+	box-shadow: 0 0 0 4px var(--home-glow);
+}
+:where([data-geelooy-route="home"]) .awtsmoosDrop .profile-route-dish {
+	transition: transform 0.16s var(--polish-ease);
+}
+:where([data-geelooy-route="home"]) .awtsmoosDrop .profile-route-dish:active {
+	transform: scale(0.98);
+}
+
+/* ============ 9. Responsive refinements ============ */
+/* B"H — 412px: the crown breathes, the search vessel keeps its question. */
+@media (max-width: 480px) {
+	:where([data-geelooy-route="home"]) .shortcut-key {
+		display: none;
+	}
+	:where([data-geelooy-route="home"]) .shliach-hero-card {
+		border-radius: 1.1rem;
+	}
+	:where([data-geelooy-route="home"]) .portal-shortcuts {
+		gap: 0.7rem;
+	}
+}
+/* B"H — 1440px: portals breathe wider on the full horizon. */
+@media (min-width: 1100px) {
+	:where([data-geelooy-route="home"]) .portal-shortcuts {
+		gap: 1.25rem;
+	}
+}
+
+/* ============ 10. Reduced motion ============ */
+@media (prefers-reduced-motion: reduce) {
+	:where([data-geelooy-route="home"]) .world-launcher[open] .world-panel {
+		animation: none;
+	}
+}

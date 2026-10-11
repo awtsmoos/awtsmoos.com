@@ -1,0 +1,497 @@
+/* B"H — Post Reader Polish Pass, LAW 8 parchment aesthetic.
+   Layered ON TOP of existing reader styles (loads last). CSS-only, no assets,
+   no libraries. Tasteful refinement of spacing rhythm, typography scale,
+   section transitions, toolbar, footnote shelf, and dark theme.
+
+   CSS Laws: no !important anywhere; colors via tokens (var with fallbacks);
+   every text element gets explicit light + dark colors; full interactive
+   states on every interactive element; no white-on-white. */
+
+:root {
+	--polish-motion: 0.18s;
+}
+
+/* ============ 1. Reading column rhythm ============ */
+.post-reader-localized-context .main .scroll-view-wrapper {
+	scroll-behavior: smooth;
+}
+
+.post-reader-localized-context :where(#realPost.content) {
+	max-width: 46rem;
+	margin-inline: auto;
+	padding-block: clamp(1.5rem, 4vw, 3rem);
+	scroll-padding-top: 1.25rem;
+}
+
+/* ============ 2. Title crown + gold ornament ============ */
+.post-reader-localized-context .awtsmoos-post-title,
+.post-reader-localized-context .awtsmoos-reader-title,
+.post-reader-localized-context .post-title {
+	font-family: var(--law8-heb, "Frank Ruhl Libre", Cardo, Georgia, serif);
+	font-weight: 700;
+	font-size: clamp(2rem, 9vw, 3.4rem);
+	line-height: 1.08;
+	letter-spacing: -0.01em;
+	text-wrap: balance;
+	text-align: center;
+	color: var(--law8-ink, #26211a);
+	margin-block: clamp(0.75rem, 3vw, 1.5rem) 0;
+	position: relative;
+	padding-bottom: 2.1rem;
+}
+
+/* Gold hairline with center diamond — the LAW 8 ornament */
+.post-reader-localized-context .awtsmoos-post-title::after,
+.post-reader-localized-context .awtsmoos-reader-title::after,
+.post-reader-localized-context .post-title::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	bottom: 0.7rem;
+	transform: translateX(-50%);
+	width: min(15rem, 62%);
+	height: 1px;
+	background: linear-gradient(90deg,
+		transparent,
+		var(--law8-gold, #b8934a) 22%,
+		var(--law8-gold, #b8934a) 78%,
+		transparent);
+}
+.post-reader-localized-context .awtsmoos-post-title::before,
+.post-reader-localized-context .awtsmoos-reader-title::before,
+.post-reader-localized-context .post-title::before {
+	content: "";
+	position: absolute;
+	left: 50%;
+	bottom: 0.42rem;
+	transform: translateX(-50%) rotate(45deg);
+	width: 0.52rem;
+	height: 0.52rem;
+	background: var(--law8-gold, #b8934a);
+	box-shadow: 0 0 0 0.28rem var(--law8-page, #f6f1e6);
+}
+
+/* ============ 3. Single English kicker ============ */
+.post-reader-localized-context .awtsmoos-translation-kicker {
+	display: block;
+	text-align: center;
+	font-family: var(--law8-ui, Inter, system-ui, -apple-system, "Segoe UI", sans-serif);
+	font-weight: 700;
+	font-size: clamp(0.72rem, 2.8vw, 0.84rem);
+	line-height: 1.6;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: var(--law8-gold-deep, #8a6d2f);
+	margin-block: 0.4rem 1.6rem;
+	text-wrap: balance;
+}
+
+/* ============ 4. Prose rhythm: paragraphs, Hebrew, English ============ */
+.post-reader-localized-context .awtsmoos-plain-post-content p {
+	margin-block: 0 1.15em;
+	line-height: 1.78;
+	text-wrap: pretty;
+	color: var(--law8-ink, #26211a);
+}
+.post-reader-localized-context .awtsmoos-plain-post-content p + p {
+	margin-top: 1.05em;
+	color: var(--law8-ink, #26211a);
+}
+.post-reader-localized-context .awtsmoos-plain-post-content .heb,
+.post-reader-localized-context .awtsmoos-plain-post-content .sub-awtsmoos.heb {
+	font-family: var(--law8-heb, "Frank Ruhl Libre", Cardo, Georgia, serif);
+	font-size: 1.16em;
+	line-height: 1.92;
+	color: var(--law8-ink, #26211a);
+}
+.post-reader-localized-context .awtsmoos-plain-post-content .eng,
+.post-reader-localized-context .awtsmoos-plain-post-content .sub-awtsmoos.eng {
+	color: var(--law8-ink-soft, #6e6151);
+}
+
+/* Hebrew-to-English section transition: soft gold hairline */
+.post-reader-localized-context .awtsmoos-plain-post-content .heb + .eng,
+.post-reader-localized-context .awtsmoos-plain-post-content .sub-awtsmoos.heb + .sub-awtsmoos.eng {
+	border-top: 1px solid var(--law8-rule, #e6dcc4);
+	padding-top: 1.05em;
+	margin-top: 1.25em;
+}
+
+/* ============ 5. Section cards: breathing transitions ============ */
+.post-reader-localized-context .awtsmoos-reader-section {
+	margin-block: clamp(1.5rem, 4vw, 2.6rem);
+	scroll-margin-top: 5.5rem;
+}
+.post-reader-localized-context .awtsmoos-reader-section:focus-within {
+	border-color: var(--law8-gold, #b8934a);
+}
+.post-reader-localized-context .awtsmoos-reader-chunk {
+	margin-block: clamp(1rem, 2.6vw, 1.6rem);
+}
+.post-reader-localized-context .awtsmoos-reader-chunk + .awtsmoos-reader-chunk {
+	padding-top: clamp(1rem, 2.6vw, 1.6rem);
+	border-top: 1px dashed var(--law8-rule, #e6dcc4);
+}
+
+/* Extra (study) sections get the same calm rhythm */
+.post-reader-localized-context .awtsmoos-extra-section-title {
+	font-family: var(--law8-heb, "Frank Ruhl Libre", Cardo, Georgia, serif);
+	font-weight: 700;
+	font-size: clamp(1.25rem, 4.5vw, 1.6rem);
+	line-height: 1.25;
+	color: var(--law8-ink, #26211a);
+	text-align: center;
+	text-wrap: balance;
+	margin-block: 2.2rem 0.9rem;
+}
+.post-reader-localized-context .awtsmoos-extra-section-text {
+	color: var(--law8-ink-soft, #6e6151);
+	line-height: 1.75;
+	text-wrap: pretty;
+}
+
+/* ============ 6. Toolbar: floating reader controls ============ */
+.post-reader-localized-context .awtsmoos-floating-controls {
+	gap: 0.6rem;
+}
+.post-reader-localized-context .awtsmoos-floating-controls button {
+	width: 3rem;
+	height: 3rem;
+	border-radius: 999px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--law8-card, #fffdf8);
+	border: 1px solid var(--law8-rule, #e6dcc4);
+	color: var(--law8-ink, #26211a);
+	font-family: var(--law8-ui, Inter, system-ui, -apple-system, "Segoe UI", sans-serif);
+	font-weight: 800;
+	font-size: 1.05rem;
+	box-shadow: var(--law8-shadow-sm, 0 0.5rem 1.5rem rgb(120 95 50 / 10%));
+	cursor: pointer;
+	transition: transform var(--polish-motion) ease, box-shadow var(--polish-motion) ease, background-color var(--polish-motion) ease, border-color var(--polish-motion) ease, color var(--polish-motion) ease;
+}
+.post-reader-localized-context .awtsmoos-floating-controls button:hover {
+	background: var(--law8-card-soft, #fbf6ea);
+	border-color: var(--law8-gold, #b8934a);
+	color: var(--law8-gold-deep, #8a6d2f);
+	transform: translateY(-1px);
+	box-shadow: var(--law8-shadow, 0 1.25rem 3.5rem rgb(120 95 50 / 14%));
+}
+.post-reader-localized-context .awtsmoos-floating-controls button:active {
+	transform: scale(0.94);
+}
+.post-reader-localized-context .awtsmoos-floating-controls button:focus-visible {
+	outline: 2px solid var(--law8-gold-deep, #8a6d2f);
+	outline-offset: 3px;
+}
+.post-reader-localized-context .awtsmoos-floating-controls button[aria-expanded="true"] {
+	background: var(--law8-gold, #b8934a);
+	border-color: var(--law8-gold-deep, #8a6d2f);
+	color: var(--law8-btn-ink, #241a08);
+}
+.post-reader-localized-context .awtsmoos-floating-controls button[aria-expanded="true"]:hover {
+	filter: brightness(1.07);
+}
+.post-reader-localized-context .awtsmoos-floating-controls button[aria-expanded="true"]:active {
+	transform: scale(0.94);
+}
+.post-reader-localized-context .awtsmoos-floating-controls button[aria-expanded="true"]:focus-visible {
+	outline: 2px solid var(--law8-btn-ink, #241a08);
+	outline-offset: 3px;
+}
+
+/* Typography settings panel: parchment card */
+.post-reader-localized-context .typography-details .typography-content {
+	background: var(--law8-card, #fffdf8);
+	border: 1px solid var(--law8-rule, #e6dcc4);
+	border-radius: var(--law8-radius, 1.4rem);
+	color: var(--law8-ink, #26211a);
+	box-shadow: var(--law8-shadow, 0 1.25rem 3.5rem rgb(120 95 50 / 14%));
+	padding: clamp(1rem, 3vw, 1.5rem);
+}
+.post-reader-localized-context .typography-details .control-label,
+.post-reader-localized-context .typography-details .setting-name,
+.post-reader-localized-context .typography-details .auto-scroll-help {
+	color: var(--law8-ink-soft, #6e6151);
+	font-family: var(--law8-ui, Inter, system-ui, -apple-system, "Segoe UI", sans-serif);
+}
+.post-reader-localized-context .typography-details .auto-scroll-help {
+	font-size: 0.82rem;
+	line-height: 1.6;
+}
+
+/* Text-scale + / − pill buttons */
+.post-reader-localized-context .font-adjust-btn {
+	width: 2.5rem;
+	height: 2.5rem;
+	border-radius: 999px;
+	background: var(--law8-card-soft, #fbf6ea);
+	border: 1px solid var(--law8-rule, #e6dcc4);
+	color: var(--law8-ink, #26211a);
+	font-weight: 800;
+	font-size: 1.1rem;
+	cursor: pointer;
+	transition: transform var(--polish-motion) ease, background-color var(--polish-motion) ease, border-color var(--polish-motion) ease, color var(--polish-motion) ease;
+}
+.post-reader-localized-context .font-adjust-btn:hover {
+	border-color: var(--law8-gold, #b8934a);
+	color: var(--law8-gold-deep, #8a6d2f);
+	transform: translateY(-1px);
+}
+.post-reader-localized-context .font-adjust-btn:active {
+	transform: scale(0.92);
+}
+.post-reader-localized-context .font-adjust-btn:focus-visible {
+	outline: 2px solid var(--law8-gold-deep, #8a6d2f);
+	outline-offset: 2px;
+}
+.post-reader-localized-context .font-size-display {
+	color: var(--law8-ink, #26211a);
+	font-family: var(--law8-ui, Inter, system-ui, -apple-system, "Segoe UI", sans-serif);
+	font-weight: 700;
+}
+
+/* Reset button: calm gold outline */
+.post-reader-localized-context .reset-section .danger-outline {
+	background: transparent;
+	border: 1px solid var(--law8-gold, #b8934a);
+	color: var(--law8-gold-deep, #8a6d2f);
+	border-radius: 999px;
+	padding: 0.6rem 1.2rem;
+	font-family: var(--law8-ui, Inter, system-ui, -apple-system, "Segoe UI", sans-serif);
+	font-weight: 700;
+	font-size: 0.86rem;
+	cursor: pointer;
+	transition: background-color var(--polish-motion) ease, color var(--polish-motion) ease, transform var(--polish-motion) ease;
+}
+.post-reader-localized-context .reset-section .danger-outline:hover {
+	background: var(--law8-gold, #b8934a);
+	color: var(--law8-btn-ink, #241a08);
+}
+.post-reader-localized-context .reset-section .danger-outline:active {
+	transform: scale(0.96);
+}
+.post-reader-localized-context .reset-section .danger-outline:focus-visible {
+	outline: 2px solid var(--law8-gold-deep, #8a6d2f);
+	outline-offset: 2px;
+}
+
+/* ============ 7. Footnote pills: gold, glossy, tappable ============ */
+.post-reader-localized-context #realPost sup.footnote-ref,
+.post-reader-localized-context #realPost a.footnote-ref {
+	display: inline-block;
+	min-width: 2em;
+	padding: 0.3em 0.7em;
+	margin-inline: 0.15em;
+	border-radius: 999px;
+	background: linear-gradient(180deg, var(--law8-gold-btn, #d4a94e), var(--law8-gold-deep, #a37c33));
+	border: 1px solid var(--law8-gold-deep, #8a6d2f);
+	color: var(--law8-btn-ink, #241a08);
+	font-family: var(--law8-ui, Inter, system-ui, -apple-system, "Segoe UI", sans-serif);
+	font-weight: 800;
+	font-size: 0.66em;
+	line-height: 1.2;
+	text-align: center;
+	text-decoration: none;
+	vertical-align: super;
+	box-shadow: 0 0.28rem 0.7rem rgb(138 109 47 / 35%);
+	cursor: pointer;
+	transition: transform var(--polish-motion) ease, box-shadow var(--polish-motion) ease, filter var(--polish-motion) ease;
+}
+.post-reader-localized-context #realPost sup.footnote-ref:hover,
+.post-reader-localized-context #realPost a.footnote-ref:hover {
+	filter: brightness(1.08);
+	transform: translateY(-1px);
+	box-shadow: 0 0.45rem 0.9rem rgb(138 109 47 / 45%);
+}
+.post-reader-localized-context #realPost sup.footnote-ref:active,
+.post-reader-localized-context #realPost a.footnote-ref:active {
+	transform: scale(0.92);
+}
+.post-reader-localized-context #realPost sup.footnote-ref:focus-visible,
+.post-reader-localized-context #realPost a.footnote-ref:focus-visible {
+	outline: 2px solid var(--law8-gold-deep, #8a6d2f);
+	outline-offset: 2px;
+}
+.post-reader-localized-context #realPost .active-footnote-ref {
+	filter: brightness(1.12);
+	box-shadow: 0 0 0 2px var(--law8-gold, #b8934a), 0 0.28rem 0.7rem rgb(138 109 47 / 40%);
+}
+
+/* ============ 8. Footnote shelf: parchment cards ============ */
+.post-reader-localized-context .footnote-item {
+	background: var(--law8-card, #fffdf8);
+	border: 1px solid var(--law8-rule, #e6dcc4);
+	border-inline-start: 3px solid var(--law8-gold, #b8934a);
+	border-radius: 0.9rem;
+	padding: 1rem 1.15rem;
+	margin-block: 0.8rem;
+	color: var(--law8-ink, #26211a);
+	font-family: var(--law8-ui, Inter, system-ui, -apple-system, "Segoe UI", sans-serif);
+	line-height: 1.7;
+	box-shadow: var(--law8-shadow-sm, 0 0.5rem 1.5rem rgb(120 95 50 / 10%));
+	transition: border-color var(--polish-motion) ease, box-shadow var(--polish-motion) ease, transform var(--polish-motion) ease;
+}
+.post-reader-localized-context .footnote-item:hover {
+	border-color: var(--law8-gold, #b8934a);
+	transform: translateY(-1px);
+}
+.post-reader-localized-context .footnote-item.active {
+	background: var(--law8-card-soft, #fbf6ea);
+	border-color: var(--law8-gold, #b8934a);
+	box-shadow: var(--law8-shadow, 0 1.25rem 3.5rem rgb(120 95 50 / 14%));
+}
+.post-reader-localized-context .footnote-item .footnote-id {
+	background: linear-gradient(180deg, var(--law8-gold-btn, #d4a94e), var(--law8-gold-deep, #a37c33));
+	color: var(--law8-btn-ink, #241a08);
+	border: 1px solid var(--law8-gold-deep, #8a6d2f);
+	border-radius: 999px;
+	font-weight: 800;
+	font-size: 0.72rem;
+	padding: 0.22em 0.8em;
+	margin-bottom: 0.5rem;
+	display: inline-block;
+}
+
+/* ============ 9. Social + related polish (light touch) ============ */
+.post-reader-localized-context .awtsmoos-social-discussion > header span {
+	color: var(--law8-gold-deep, #8a6d2f);
+	font-family: var(--law8-ui, Inter, system-ui, -apple-system, "Segoe UI", sans-serif);
+	letter-spacing: 0.12em;
+}
+.post-reader-localized-context .awtsmoos-related-result h4 {
+	color: var(--law8-ink, #26211a);
+}
+.post-reader-localized-context .awtsmoos-related-result p {
+	color: var(--law8-ink-soft, #6e6151);
+	line-height: 1.65;
+}
+
+/* ============ 10. Mobile rhythm (412px) ============ */
+@media (max-width: 40rem) {
+	.post-reader-localized-context :where(#realPost.content) {
+		max-width: 100%;
+		padding-inline: clamp(1rem, 5vw, 1.35rem);
+	}
+	.post-reader-localized-context .awtsmoos-plain-post-content p {
+		color: var(--law8-ink, #26211a);
+	}
+	.post-reader-localized-context .awtsmoos-post-title,
+	.post-reader-localized-context .awtsmoos-reader-title,
+	.post-reader-localized-context .post-title {
+		font-size: clamp(1.9rem, 10.5vw, 2.5rem);
+		color: var(--law8-ink, #26211a);
+	}
+	.post-reader-localized-context .awtsmoos-floating-controls button {
+		width: 2.75rem;
+		height: 2.75rem;
+		color: var(--law8-ink, #26211a);
+	}
+	.post-reader-localized-context .footnote-item {
+		padding: 0.9rem 1rem;
+		color: var(--law8-ink, #26211a);
+	}
+}
+@media (max-width: 40rem) {
+	:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-plain-post-content p {
+		color: var(--law8-ink, #f2e9d5);
+	}
+	:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-plain-post-content p + p {
+		color: var(--law8-ink, #f2e9d5);
+	}
+	:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-post-title {
+		color: var(--law8-ink, #f2e9d5);
+	}
+	:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-floating-controls button {
+		color: var(--law8-ink, #f2e9d5);
+	}
+	:root[data-theme="dark"] .post-reader-localized-context .footnote-item {
+		color: var(--law8-ink, #f2e9d5);
+	}
+}
+
+/* ============ 11. Wide screens (1440px): measured column ============ */
+@media (min-width: 90rem) {
+	.post-reader-localized-context :where(#realPost.content) {
+		max-width: 50rem;
+	}
+	.post-reader-localized-context .awtsmoos-plain-post-content p {
+		font-size: 1.06em;
+		color: var(--law8-ink, #26211a);
+	}
+	:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-plain-post-content p {
+		color: var(--law8-ink, #f2e9d5);
+	}
+}
+
+/* ============ 12. Dark theme: candlelit chamber ============ */
+:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-post-title,
+:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-reader-title,
+:root[data-theme="dark"] .post-reader-localized-context .post-title {
+	color: var(--law8-ink, #f2e9d5);
+	text-shadow: 0 0.06em 0.5em rgb(0 0 0 / 45%);
+}
+:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-post-title::before,
+:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-reader-title::before,
+:root[data-theme="dark"] .post-reader-localized-context .post-title::before {
+	box-shadow: 0 0 0 0.28rem var(--law8-page, #16110a);
+}
+:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-translation-kicker {
+	color: var(--law8-gold, #d4a94e);
+}
+:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-plain-post-content p,
+:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-plain-post-content p + p,
+:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-plain-post-content .heb,
+:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-plain-post-content .sub-awtsmoos.heb {
+	color: var(--law8-ink, #f2e9d5);
+}
+:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-plain-post-content .eng,
+:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-plain-post-content .sub-awtsmoos.eng {
+	color: var(--law8-ink-soft, #cbbfa4);
+}
+:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-plain-post-content .heb + .eng,
+:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-plain-post-content .sub-awtsmoos.heb + .sub-awtsmoos.eng,
+:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-reader-chunk + .awtsmoos-reader-chunk {
+	border-top-color: var(--law8-rule, #463824);
+}
+:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-floating-controls button:hover {
+	background: var(--law8-card-soft, #2a2013);
+	color: var(--law8-gold, #d4a94e);
+}
+:root[data-theme="dark"] .post-reader-localized-context .typography-details .control-label,
+:root[data-theme="dark"] .post-reader-localized-context .typography-details .setting-name,
+:root[data-theme="dark"] .post-reader-localized-context .typography-details .auto-scroll-help {
+	color: var(--law8-ink-soft, #cbbfa4);
+}
+:root[data-theme="dark"] .post-reader-localized-context .reset-section .danger-outline {
+	color: var(--law8-gold, #d4a94e);
+}
+:root[data-theme="dark"] .post-reader-localized-context .footnote-item {
+	color: var(--law8-ink, #f2e9d5);
+}
+:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-extra-section-title {
+	color: var(--law8-ink, #f2e9d5);
+}
+:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-extra-section-text {
+	color: var(--law8-ink-soft, #cbbfa4);
+}
+:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-related-result h4 {
+	color: var(--law8-ink, #f2e9d5);
+}
+:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-related-result p {
+	color: var(--law8-ink-soft, #cbbfa4);
+}
+:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-social-discussion > header span {
+	color: var(--law8-gold, #d4a94e);
+}
+
+/* ============ 13. Reduced motion ============ */
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--polish-motion: 0s;
+	}
+	.post-reader-localized-context .main .scroll-view-wrapper {
+		scroll-behavior: auto;
+	}
+}
