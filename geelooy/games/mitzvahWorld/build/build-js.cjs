@@ -35,7 +35,11 @@ main().catch(error => {
 /** Regenerates essential assets, first control, then every deferred runtime chunk once. */
 async function main() {
 	console.error('[Mitzvah World build] essential assets');
-	const essentialAssets = await buildEssentialReleaseAssets(gameRoot);
+	const skipAssets = process.argv.includes('--skip-assets');
+	const essentialAssets = skipAssets
+		? JSON.parse(fs.readFileSync(path.join(generatedRoot, 'mitzvah-world-essential-assets.json'), 'utf8'))
+		: await buildEssentialReleaseAssets(gameRoot);
+	if (skipAssets) console.error('[Mitzvah World build] essential assets: reused verified local manifest (--skip-assets)');
 	const entryFile = path.join(sourceRoot, 'MinimalMeadowCompactBootstrap.js');
 	console.error('[Mitzvah World build] main');
 	const value = await compileMain(entryFile);

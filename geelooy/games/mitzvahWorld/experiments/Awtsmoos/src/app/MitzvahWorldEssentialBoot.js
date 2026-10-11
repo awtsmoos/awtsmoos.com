@@ -12,18 +12,29 @@
 import { MitzvahWorldEssentialLedger } from './MitzvahWorldEssentialLedger.js';
 import { dismissMitzvahWorldEssentialFailure } from './MitzvahWorldEssentialFailurePresenter.js';
 import { ESSENTIAL_MILESTONES as CATALOG_MILESTONES } from './MitzvahWorldEssentialMilestoneCatalog.js';
+import {
+	probeMitzvahWorldWebGlCapability,
+	readMitzvahWorldWebGlCapability,
+	rememberMitzvahWorldWebGlCapability,
+	WEBGL_UNAVAILABLE_CODE
+} from './MitzvahWorldWebGlCapabilityGate.js';
+import { transitionMitzvahWorldBootState } from './MitzvahWorldBootStateMachine.js';
 export { ESSENTIAL_MILESTONES } from './MitzvahWorldEssentialMilestoneCatalog.js';
 
 const LEDGER_KEY = 'AwtsmoosMitzvahWorldEssentialLedgerInternal';
 const RESTART_ENTRY_STAGE = 'world-launch-restart';
 
 export function initializeMitzvahWorldEssentialBoot(environment = globalThis) {
-	if (!environment[LEDGER_KEY]) installLedger(environment, new MitzvahWorldEssentialLedger(environment));
+	if (!environment[LEDGER_KEY]) {
+		gateWebGlCapabilityBeforeLedger(environment);
+		installLedger(environment, new MitzvahWorldEssentialLedger(environment));
+	}
 	return environment[LEDGER_KEY];
 }
 
 /** Restarts first-play custody so menu-idle evidence can never poison a later world click. */
 export function restartMitzvahWorldEssentialBoot(environment = globalThis) {
+	gateWebGlCapabilityBeforeLedger(environment);
 	const previous = environment[LEDGER_KEY] || null;
 	const entryEvidence = readEntryEvidence(previous) || { importerStage: RESTART_ENTRY_STAGE };
 	previous?.cancelWatchdog?.();
@@ -34,6 +45,38 @@ export function restartMitzvahWorldEssentialBoot(environment = globalThis) {
 		CATALOG_MILESTONES.ENTRY_MODULE_EXECUTED,
 		entryEvidence
 	);
+}
+
+/**
+ * Detects WebGL capability BEFORE the essential ledger exists, so the first-frame
+ * silence clock can never start on a device with no three-dimensional doorway.
+ * Fails the first-frame milestone closed with WEBGL_UNAVAILABLE and throws.
+ */
+function gateWebGlCapabilityBeforeLedger(environment) {
+	let capability = readMitzvahWorldWebGlCapability(environment);
+	if (!capability) {
+		capability = probeMitzvahWorldWebGlCapability(environment);
+		rememberMitzvahWorldWebGlCapability(environment, capability);
+	}
+	if (capability.supported !== false) return;
+	const ledger = new MitzvahWorldEssentialLedger(environment);
+	installLedger(environment, ledger);
+	ledger.fail(CATALOG_MILESTONES.RENDERER_FIRST_FRAME, {
+		failureCode: WEBGL_UNAVAILABLE_CODE,
+		failureMessage: capability.message,
+		importerStage: 'webgl-capability-probe',
+		resourceStatus: capability.reason || 'context-unavailable',
+		resourceUrl: environment.location?.href || 'unknown'
+	});
+	transitionMitzvahWorldBootState(environment, environment?.document, 'failed', {
+		code: WEBGL_UNAVAILABLE_CODE,
+		message: capability.message,
+		stage: 'webgl-capability-probe'
+	});
+	const error = new Error(capability.message);
+	error.name = 'WebGlCapabilityError';
+	error.code = WEBGL_UNAVAILABLE_CODE;
+	throw error;
 }
 
 function installLedger(environment, ledger) {

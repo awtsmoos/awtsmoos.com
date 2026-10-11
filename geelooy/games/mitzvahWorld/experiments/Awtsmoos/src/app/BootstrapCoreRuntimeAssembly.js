@@ -11,6 +11,7 @@
 
 import { installBootstrapControlsHud } from './BootstrapControlsHud.js';
 import { installBootstrapCoreStateSystems } from './BootstrapCoreStateSystems.js';
+import { installViewport } from './EretzViewport.js';
 import { MinimalMeadowBootstrapCombat } from './MinimalMeadowBootstrapCombat.js';
 import { createMinimalMeadowBootstrapMinimap } from './MinimalMeadowBootstrapMinimap.js';
 import { createBootstrapPlayerRuntime } from './BootstrapPlayerRuntime.js?v=20260723-visible-02';
@@ -50,6 +51,9 @@ export function assembleBootstrapCoreRuntime(
 
 	boot.begin('bootstrap-player-state');
 	const runtime = createPlayer(foundation);
+	// The renderer contract: every resize sets both the CSS box and the backing
+	// buffer to viewport size x capped DPR, from the first frame onward.
+	installViewport(runtime, environment);
 	attachEretzWorldExperience(runtime, options);
 	if (runtime.worldExperience?.id === BLANK_MEADOW_ID) {
 		installStateSystems(runtime, environment);

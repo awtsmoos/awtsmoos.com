@@ -10,6 +10,10 @@
  */
 
 import { markMitzvahWorldStartupMilestone } from '../app/MitzvahWorldStartupMilestones.js';
+import {
+	ensureMitzvahWorldBootVeil,
+	transitionMitzvahWorldBootState
+} from '../app/MitzvahWorldBootStateMachine.js';
 import { MitzvahWorldBootExperience } from '../ui/boot/MitzvahWorldBootExperience.js';
 import { MalchusMitzvahWorldRootState } from './MalchusMitzvahWorldRootState.js';
 import { createMitzvahWorldFailureReceipt } from './MitzvahWorldFailureReceipt.js';
@@ -51,6 +55,8 @@ export class MeadowLoadingScreen {
 		delete this.root.dataset.loadingComplete;
 		delete this.root.dataset.loadingFailure;
 		delete this.root.dataset.failureReceipt;
+		// The single boot state machine owns veil visibility; re-publish without transitioning.
+		ensureMitzvahWorldBootVeil(this.environment, this.document);
 		this.root.hidden = false;
 		this.root.setAttribute('aria-hidden', 'false');
 		this.root.setAttribute('aria-busy', 'true');
@@ -85,6 +91,8 @@ export class MeadowLoadingScreen {
 	finish() {
 		this.world({ message: 'Essential world ready.', progress: 1 });
 		this.experience.complete();
+		// The machine refuses ready unless boot truly left starting, and hides the veil itself.
+		transitionMitzvahWorldBootState(this.environment, this.document, 'ready', { code: 'LOADER_FINISH' });
 		this.rootStateMalchus.setFlag('menuReady', true);
 		this.root.dataset.loadingComplete = 'true';
 		this.root.hidden = true;
@@ -97,6 +105,12 @@ export class MeadowLoadingScreen {
 	fail(errorOhr) {
 		const receipt = createMitzvahWorldFailureReceipt(errorOhr);
 		this.block();
+		transitionMitzvahWorldBootState(this.environment, this.document, 'failed', {
+			code: receipt.code || 'LOADER_FAILED',
+			message: failureHeadline(receipt),
+			stage: receipt.stage || null,
+			url: receipt.url || null
+		});
 		this.rootStateMalchus.setBootStage('failed');
 		this.root.dataset.loadingFailure = 'true';
 		this.root.dataset.failureReceipt = JSON.stringify(receipt);

@@ -77,10 +77,10 @@ export class MitzvahWorldEssentialLedger {
 	timeout() {
 		const now = readMitzvahWorldEssentialTime(this.environment);
 		const overdue = firstTimedOutEssentialRecord(this.records, now);
-		if (overdue) return this.fail(overdue.name, timeoutDetails(overdue, {}, overdue.timeoutFailureCode));
+		if (overdue) return this.fail(overdue.name, timeoutDetails(overdue, {}, overdue.timeoutFailureCode, now));
 		if (essentialHardTimeoutReached(now, this.startedAtMilliseconds)) {
 			const record = firstActiveEssentialRecord(this.records);
-			if (record) return this.fail(record.name, timeoutDetails(record, {}, 'ESSENTIAL_FIRST_PLAY_HARD_TIMEOUT'));
+			if (record) return this.fail(record.name, timeoutDetails(record, {}, 'ESSENTIAL_FIRST_PLAY_HARD_TIMEOUT', now));
 		}
 		this.rearmWatchdog(now);
 		return this.publish();

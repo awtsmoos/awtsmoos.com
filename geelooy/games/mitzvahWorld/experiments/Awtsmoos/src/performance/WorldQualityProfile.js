@@ -9,7 +9,8 @@
  * while the pixel vessel is measured to the device so detail remains clear without asking a mobile GPU to carry needless weight.
  */
 
-const MOBILE_DPR = 1.25;
+const LIMITED_HARDWARE_DPR = 1.0;
+const MOBILE_DPR = 1.5;
 const DESKTOP_DPR = 1.5;
 const PRESERVED_DISTANCE = 520;
 const PRESERVED_MODELS = 11;
@@ -47,17 +48,20 @@ export function worldQualityProfile(quality) {
 /** Resolves only framebuffer density; it never removes gameplay or world-definition layers. */
 export function resolveDeviceDprCap(environment = globalThis) {
 	const navigator = environment.navigator || {};
-	const touchDevice = Number(navigator.maxTouchPoints) > 0
-		|| environment.matchMedia?.('(pointer: coarse)')?.matches === true;
 	const limitedMemory = finitePositive(navigator.deviceMemory)
 		&& Number(navigator.deviceMemory) <= 4;
 	const limitedCpu = finitePositive(navigator.hardwareConcurrency)
 		&& Number(navigator.hardwareConcurrency) <= 4;
+	// 2015 MacBook Air class (dual-core, <=4GB): the framebuffer is capped at 1.0
+	// so the integrated GPU never carries needless pixels.
+	if (limitedMemory || limitedCpu) {
+		return Object.freeze({ maxDpr: LIMITED_HARDWARE_DPR, reason: 'limited-hardware' });
+	}
+	const touchDevice = Number(navigator.maxTouchPoints) > 0
+		|| environment.matchMedia?.('(pointer: coarse)')?.matches === true;
+	// Pixel 6 Pro class and modern touch hardware: full 1.5 density.
 	if (touchDevice) {
 		return Object.freeze({ maxDpr: MOBILE_DPR, reason: 'touch-device' });
-	}
-	if (limitedMemory || limitedCpu) {
-		return Object.freeze({ maxDpr: MOBILE_DPR, reason: 'limited-hardware' });
 	}
 	return Object.freeze({ maxDpr: DESKTOP_DPR, reason: 'desktop-cap' });
 }

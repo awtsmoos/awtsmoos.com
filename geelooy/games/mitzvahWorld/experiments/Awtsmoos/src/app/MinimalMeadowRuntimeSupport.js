@@ -29,6 +29,11 @@ export function installMinimalResize(renderer, camera, quality, environment) {
 		const width = Math.max(1, Number(environment.innerWidth) || 1);
 		const height = Math.max(1, Number(environment.innerHeight) || 1);
 		camera.aspect = width / height;
+		const canvas = renderer?.canvas;
+		if (canvas?.style) {
+			canvas.style.width = `${Math.max(1, Math.round(width))}px`;
+			canvas.style.height = `${Math.max(1, Math.round(height))}px`;
+		}
 		renderer.setSize(
 			Math.round(width * quality.maxDpr),
 			Math.round(height * quality.maxDpr)

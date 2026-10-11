@@ -576,9 +576,13 @@ const __awtsmoosModule_276 = Object.create(null);
 
 const __awtsmoosModule_268 = Object.create(null);
 
+const __awtsmoosModule_277 = Object.create(null);
+
+const __awtsmoosModule_278 = Object.create(null);
+
 const __awtsmoosModule_267 = Object.create(null);
 
-const __awtsmoosModule_277 = Object.create(null);
+const __awtsmoosModule_279 = Object.create(null);
 
 const __awtsmoosModule_0 = Object.create(null);
 
@@ -2862,7 +2866,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_1q2g6o2 = {
+	const __awtsmoosDefault_1w00vnq = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -2876,7 +2880,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_1q2g6o2;
+	__exports.default = __awtsmoosDefault_1w00vnq;
 }
 
 // ---- libs/awtsmoos-procedural-core/src/adapters/native/runtime.js ----
@@ -8357,7 +8361,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * @file EretzDeferredEssentialAssets.js
 	 * @description Loads the generated essential-player runtime chunk after frame and terrain are proven, without walking the raw source-module graph.
 	 * The Awtsmoos lets visible earth arrive first while the authored traveler waits in one compressed vessel;
-	 * Awtsmoos.com preserves the real Chossid as essential yet removes dozens of source-module requests from the five-second road.
+	 * Awtsmoos.com preserves the real Chossid as essential yet removes dozens of source-module requests from the five-second road,
+	 * and lets the canonical GLB fetch begin in parallel with renderer and terrain work so travel never waits on a serial chain.
 	 */
 
 	const resolveGeneratedRuntimeChunkUrl = __awtsmoosModule_99.resolveGeneratedRuntimeChunkUrl;
@@ -8369,10 +8374,16 @@ const __awtsmoosModule_0 = Object.create(null);
 		READABLE_SOURCE
 	);
 
+	/** Starts the generated player-chunk import and canonical Chossid fetch without awaiting it. */
+	function beginDeferredEretzEssentialAssets(options = {}) {
+		return import(PLAYER_CHUNK_URL).then(module => module.loadEretzEssentialAssets(options));
+	}
+
+
+	__exports.beginDeferredEretzEssentialAssets = beginDeferredEretzEssentialAssets;
 	/** Loads the generated canonical-player chunk and delegates essential asset creation. */
 	async function loadDeferredEretzEssentialAssets(options = {}) {
-		const module = await import(PLAYER_CHUNK_URL);
-		return module.loadEretzEssentialAssets(options);
+		return beginDeferredEretzEssentialAssets(options);
 	}
 
 
@@ -9365,7 +9376,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_13izwqq = {
+	const __awtsmoosDefault_pyympq = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -9378,7 +9389,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_13izwqq;
+	__exports.default = __awtsmoosDefault_pyympq;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/math/Vec3.js ----
@@ -21707,6 +21718,14 @@ const __awtsmoosModule_0 = Object.create(null);
 			runtime.minimumRenderScale = density.minimumScale;
 			runtime.adaptiveRenderScale = density.scale;
 			runtime.camera.aspect = width / height;
+			const canvas = runtime.renderer?.canvas;
+			if (canvas?.style) {
+				// The renderer contract sets BOTH surfaces on every resize: the CSS box
+				// matches the viewport exactly while the backing buffer carries the
+				// capped device density, so the canvas can never collapse or blur.
+				canvas.style.width = `${Math.max(1, Math.round(width))}px`;
+				canvas.style.height = `${Math.max(1, Math.round(height))}px`;
+			}
 			runtime.renderer.setSize(
 				Math.max(1, Math.round(width * density.effectiveDpr)),
 				Math.max(1, Math.round(height * density.effectiveDpr))
@@ -21774,13 +21793,18 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/**
 	 * @file EretzWebGlBootFrame.js
-	 * @description Paints the first verified renderer frame through WebGL or Canvas2D fallback.
-	 * The Awtsmoos first reveals clear light upon whichever finite vessel exists; Awtsmoos.com
-	 * sizes the canvas, records backend evidence, and never lets missing GPU erase movement.
+	 * @description Paints the first verified renderer frame through WebGL only, refusing a zero-size viewport.
+	 * The Awtsmoos first reveals clear light upon one genuine vessel; Awtsmoos.com
+	 * sizes the canvas, records backend evidence, and names a zero-size canvas as its own
+	 * failure state instead of masking it behind a one-pixel render.
 	 */
 
 	const resolveViewportDensity = __awtsmoosModule_263.resolveViewportDensity;
 
+	const ZERO_SIZE_CANVAS_CODE = 'ZERO_SIZE_CANVAS';
+
+
+	__exports.ZERO_SIZE_CANVAS_CODE = ZERO_SIZE_CANVAS_CODE;
 	function paintEretzWebGlBootFrame(
 		services,
 		qualityProfile,
@@ -21788,14 +21812,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	) {
 		const renderer = services?.renderer;
 		if (!renderer) throw new Error('Renderer foundation is unavailable.');
-		const width = Math.max(
-			1,
-			Number(environment.innerWidth) || renderer.canvas.clientWidth || 1
-		);
-		const height = Math.max(
-			1,
-			Number(environment.innerHeight) || renderer.canvas.clientHeight || 1
-		);
+		const viewport = readRawViewport(renderer, environment);
+		if (viewport.width <= 0 || viewport.height <= 0) {
+			throw createZeroSizeCanvasError(viewport);
+		}
+		const width = Math.max(1, viewport.width);
+		const height = Math.max(1, viewport.height);
 		const density = resolveViewportDensity(
 			environment.devicePixelRatio,
 			qualityProfile.maxDpr,
@@ -21812,7 +21834,8 @@ const __awtsmoosModule_0 = Object.create(null);
 			contextName: renderer.contextName || (renderer.gl ? 'webgl' : null),
 			effectiveDpr: density.effectiveDpr,
 			fallbackEvidence: renderer.fallbackEvidence || null,
-			pixels: Object.freeze([pixelWidth, pixelHeight])
+			pixels: Object.freeze([pixelWidth, pixelHeight]),
+			viewportCss: Object.freeze([width, height])
 		});
 		renderer.bootFrame = receipt;
 		return receipt;
@@ -21820,6 +21843,40 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.paintEretzWebGlBootFrame = paintEretzWebGlBootFrame;
+	/**
+	 * Reads the raw viewport without the Math.max(1, …) mask so a genuinely zero-size
+	 * canvas becomes its own failure state instead of a silent one-pixel render.
+	 */
+	function readRawViewport(renderer, environment) {
+		const innerWidth = Number(environment.innerWidth);
+		const innerHeight = Number(environment.innerHeight);
+		const clientWidth = Number(renderer.canvas?.clientWidth);
+		const clientHeight = Number(renderer.canvas?.clientHeight);
+		const width = (Number.isFinite(innerWidth) && innerWidth > 0 ? innerWidth : 0)
+			|| (Number.isFinite(clientWidth) && clientWidth > 0 ? clientWidth : 0);
+		const height = (Number.isFinite(innerHeight) && innerHeight > 0 ? innerHeight : 0)
+			|| (Number.isFinite(clientHeight) && clientHeight > 0 ? clientHeight : 0);
+		return {
+			clientHeight: Number.isFinite(clientHeight) ? clientHeight : 0,
+			clientWidth: Number.isFinite(clientWidth) ? clientWidth : 0,
+			height,
+			innerHeight: Number.isFinite(innerHeight) ? innerHeight : 0,
+			innerWidth: Number.isFinite(innerWidth) ? innerWidth : 0,
+			width
+		};
+	}
+
+	function createZeroSizeCanvasError(viewport) {
+		const error = new Error(
+			'Mitzvah World canvas viewport is zero-sized; first frame refused.'
+		);
+		error.name = 'ZeroSizeCanvasError';
+		error.code = ZERO_SIZE_CANVAS_CODE;
+		error.evidence = Object.freeze({ ...viewport });
+		error.recoverable = false;
+		return error;
+	}
+
 	function paintWebGl(renderer) {
 		const gl = renderer.gl;
 		if (gl.isContextLost?.()) {
@@ -21847,6 +21904,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * @description Declares the five facts that alone may open first play and the finite silence/hard horizons that guard them.
 	 * The Awtsmoos renews each fact from nothing; Awtsmoos.com measures silence rather than punishing a slower vessel
 	 * that is still revealing truthful progress, while one outer horizon keeps first play bounded.
+	 * Each milestone carries its own stage-specific deadline instead of one fixed wait: local work (entry,
+	 * renderer context, terrain, movement) must land in seconds, while the authored Chossid GLB keeps a longer
+	 * network-honest horizon.
 	 */
 
 	const ESSENTIAL_BOOT_TIMEOUT_MS = 30000;
@@ -21856,6 +21916,22 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.ESSENTIAL_HARD_TIMEOUT_MS = ESSENTIAL_HARD_TIMEOUT_MS;
+	const ENTRY_DEADLINE_MS = 10000;
+
+	__exports.ENTRY_DEADLINE_MS = ENTRY_DEADLINE_MS;
+	const RENDERER_FIRST_FRAME_DEADLINE_MS = 15000;
+
+	__exports.RENDERER_FIRST_FRAME_DEADLINE_MS = RENDERER_FIRST_FRAME_DEADLINE_MS;
+	const SPAWN_TERRAIN_DEADLINE_MS = 15000;
+
+	__exports.SPAWN_TERRAIN_DEADLINE_MS = SPAWN_TERRAIN_DEADLINE_MS;
+	const CANONICAL_CHOSSID_DEADLINE_MS = 30000;
+
+	__exports.CANONICAL_CHOSSID_DEADLINE_MS = CANONICAL_CHOSSID_DEADLINE_MS;
+	const PLAYER_MOVEMENT_DEADLINE_MS = 10000;
+
+
+	__exports.PLAYER_MOVEMENT_DEADLINE_MS = PLAYER_MOVEMENT_DEADLINE_MS;
 	const ESSENTIAL_MILESTONES = Object.freeze({
 		ENTRY_MODULE_EXECUTED: 'entryModuleExecuted',
 		RENDERER_FIRST_FRAME: 'rendererFirstFrame',
@@ -21867,10 +21943,10 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	__exports.ESSENTIAL_MILESTONES = ESSENTIAL_MILESTONES;
 	const ESSENTIAL_MILESTONE_CATALOG = Object.freeze([
-		definition(ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED, 'Entry module executed', []),
-		definition(ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME, 'Renderer produced first frame', [ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED]),
-		definition(ESSENTIAL_MILESTONES.SPAWN_TERRAIN_EXISTS, 'Spawn terrain exists', [ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED]),
-		definition(ESSENTIAL_MILESTONES.CANONICAL_CHOSSID_DECODED, 'Canonical chossid.glb decoded', [ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED]),
+		definition(ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED, 'Entry module executed', [], ENTRY_DEADLINE_MS),
+		definition(ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME, 'Renderer produced first frame', [ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED], RENDERER_FIRST_FRAME_DEADLINE_MS),
+		definition(ESSENTIAL_MILESTONES.SPAWN_TERRAIN_EXISTS, 'Spawn terrain exists', [ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED], SPAWN_TERRAIN_DEADLINE_MS),
+		definition(ESSENTIAL_MILESTONES.CANONICAL_CHOSSID_DECODED, 'Canonical chossid.glb decoded', [ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED], CANONICAL_CHOSSID_DEADLINE_MS),
 		definition(
 			ESSENTIAL_MILESTONES.PLAYER_MOVEMENT_ENABLED,
 			'Player movement enabled',
@@ -21878,20 +21954,21 @@ const __awtsmoosModule_0 = Object.create(null);
 				ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME,
 				ESSENTIAL_MILESTONES.SPAWN_TERRAIN_EXISTS,
 				ESSENTIAL_MILESTONES.CANONICAL_CHOSSID_DECODED
-			]
+			],
+			PLAYER_MOVEMENT_DEADLINE_MS
 		)
 	]);
 
 
 	__exports.ESSENTIAL_MILESTONE_CATALOG = ESSENTIAL_MILESTONE_CATALOG;
 	/** Creates one immutable milestone covenant. */
-	function definition(name, label, dependencies) {
+	function definition(name, label, dependencies, timeoutMilliseconds = ESSENTIAL_BOOT_TIMEOUT_MS) {
 		return Object.freeze({
 			dependencies: Object.freeze([...dependencies]),
 			label,
 			name,
 			timeoutFailureCode: `ESSENTIAL_${toFailureToken(name)}_TIMEOUT`,
-			timeoutMilliseconds: ESSENTIAL_BOOT_TIMEOUT_MS
+			timeoutMilliseconds
 		});
 	}
 
@@ -22097,21 +22174,26 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.essentialDependencyFailure = essentialDependencyFailure;
 	function essentialDeadlineFailure(record, currentTime, bootStartedAt, details = {}) {
 		if (essentialRecordTimedOut(record, currentTime)) {
-			return timeoutDetails(record, details, record.timeoutFailureCode);
+			return timeoutDetails(record, details, record.timeoutFailureCode, currentTime);
 		}
 		if (currentTime - bootStartedAt >= ESSENTIAL_HARD_TIMEOUT_MS) {
-			return timeoutDetails(record, details, 'ESSENTIAL_FIRST_PLAY_HARD_TIMEOUT');
+			return timeoutDetails(record, details, 'ESSENTIAL_FIRST_PLAY_HARD_TIMEOUT', currentTime);
 		}
 		return null;
 	}
 
 
 	__exports.essentialDeadlineFailure = essentialDeadlineFailure;
-	function timeoutDetails(record, details, failureCode) {
+	function timeoutDetails(record, details, failureCode, nowMilliseconds = Date.now()) {
+		const startedAt = record.startedAtMilliseconds ?? nowMilliseconds;
+		const elapsedMilliseconds = Math.max(0, nowMilliseconds - startedAt);
 		return {
 			...details,
+			elapsedMilliseconds,
 			failureCode,
-			failureMessage: `${record.label} missed the bounded first-play deadline.`,
+			failureMessage: `${record.label} missed the bounded first-play deadline after ${Math.round(elapsedMilliseconds)} ms ` +
+				`(stage: ${details.importerStage || record.importerStage || 'essential-boot'}; ` +
+				`deadline: ${record.timeoutMilliseconds} ms).`,
 			status: 'timed-out'
 		};
 	}
@@ -22410,10 +22492,10 @@ const __awtsmoosModule_0 = Object.create(null);
 		timeout() {
 			const now = readMitzvahWorldEssentialTime(this.environment);
 			const overdue = firstTimedOutEssentialRecord(this.records, now);
-			if (overdue) return this.fail(overdue.name, timeoutDetails(overdue, {}, overdue.timeoutFailureCode));
+			if (overdue) return this.fail(overdue.name, timeoutDetails(overdue, {}, overdue.timeoutFailureCode, now));
 			if (essentialHardTimeoutReached(now, this.startedAtMilliseconds)) {
 				const record = firstActiveEssentialRecord(this.records);
-				if (record) return this.fail(record.name, timeoutDetails(record, {}, 'ESSENTIAL_FIRST_PLAY_HARD_TIMEOUT'));
+				if (record) return this.fail(record.name, timeoutDetails(record, {}, 'ESSENTIAL_FIRST_PLAY_HARD_TIMEOUT', now));
 			}
 			this.rearmWatchdog(now);
 			return this.publish();
@@ -22450,6 +22532,357 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldWebGlCapabilityGate.js ----
+{
+	const __exports = __awtsmoosModule_277;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file MitzvahWorldWebGlCapabilityGate.js
+	 * @description Probes genuine WebGL capability before the first-frame silence clock may begin.
+	 * The Awtsmoos tests the vessel before measuring its silence; Awtsmoos.com therefore learns whether
+	 * any three-dimensional doorway exists at all before any milestone timer starts counting, so a missing
+	 * GPU fails fast with its own name instead of masquerading as a slow first frame.
+	 */
+
+	const WEBGL_UNAVAILABLE_CODE = 'WEBGL_UNAVAILABLE';
+
+	__exports.WEBGL_UNAVAILABLE_CODE = WEBGL_UNAVAILABLE_CODE;
+	const CONTEXT_ATTEMPTS = Object.freeze(['webgl', 'experimental-webgl']);
+	const CAPABILITY_KEY = 'AwtsmoosMitzvahWorldWebGlCapability';
+
+	/**
+	 * Synchronously probes WebGL on a scratch canvas and releases the probe context.
+	 * Safe to run before the essential ledger exists; never throws.
+	 * Returns a tri-state: supported true (context obtained), false (DOM present but no
+	 * context — fail closed), or null (no DOM to probe, e.g. tests — do not gate).
+	 * @param {object} [environment=globalThis] Browser-like environment.
+	 * @returns {object} Frozen capability evidence with a stable failure code.
+	 */
+	function probeMitzvahWorldWebGlCapability(environment = globalThis) {
+		const detectedAtMs = readTime(environment);
+		const document = environment?.document;
+		if (!document || typeof document.createElement !== 'function') {
+			return unknown('no-document', detectedAtMs, environment);
+		}
+		let canvas = null;
+		try {
+			canvas = document.createElement('canvas');
+		} catch (error) {
+			return unknown('canvas-unavailable', detectedAtMs, environment);
+		}
+		if (!canvas || typeof canvas.getContext !== 'function') {
+			return unknown('canvas-unavailable', detectedAtMs, environment);
+		}
+		let context = null;
+		let contextName = null;
+		let lastError = null;
+		for (const attempt of CONTEXT_ATTEMPTS) {
+			try {
+				context = canvas.getContext(attempt, {
+					alpha: true,
+					antialias: false,
+					premultipliedAlpha: true
+				});
+			} catch (error) {
+				lastError = error;
+				context = null;
+			}
+			if (context) {
+				contextName = attempt;
+				break;
+			}
+		}
+		const elapsedMs = readTime(environment) - detectedAtMs;
+		if (!context) {
+			return unsupported('context-unavailable', detectedAtMs, environment, lastError, elapsedMs);
+		}
+		releaseProbeContext(context);
+		return Object.freeze({
+			code: 'WEBGL_AVAILABLE',
+			contextAttempts: [...CONTEXT_ATTEMPTS],
+			contextName,
+			detectedAtMs,
+			devicePixelRatio: Number(environment?.devicePixelRatio) || 1,
+			elapsedMs,
+			message: `WebGL capability confirmed (${contextName}).`,
+			supported: true
+		});
+	}
+
+
+	__exports.probeMitzvahWorldWebGlCapability = probeMitzvahWorldWebGlCapability;
+	/** Remembers probe evidence so later stages never pay for a second probe context. */
+	function rememberMitzvahWorldWebGlCapability(environment = globalThis, evidence) {
+		if (!environment || !evidence) return evidence;
+		try {
+			Object.defineProperty(environment, CAPABILITY_KEY, {
+				configurable: true,
+				enumerable: false,
+				value: Object.freeze({ ...evidence }),
+				writable: false
+			});
+		} catch {
+			environment[CAPABILITY_KEY] = Object.freeze({ ...evidence });
+		}
+		return environment[CAPABILITY_KEY];
+	}
+
+
+	__exports.rememberMitzvahWorldWebGlCapability = rememberMitzvahWorldWebGlCapability;
+	/** Returns remembered probe evidence or null when no probe has run yet. */
+	function readMitzvahWorldWebGlCapability(environment = globalThis) {
+		const evidence = environment?.[CAPABILITY_KEY];
+		return evidence && typeof evidence === 'object' ? evidence : null;
+	}
+
+
+	__exports.readMitzvahWorldWebGlCapability = readMitzvahWorldWebGlCapability;
+	/** Releases the scratch probe context so it never consumes a browser context slot. */
+	function releaseProbeContext(context) {
+		try {
+			context.getExtension?.('WEBGL_lose_context')?.loseContext();
+		} catch {}
+	}
+
+	function unsupported(reason, detectedAtMs, environment, error, elapsedMs = 0) {
+		return Object.freeze({
+			code: WEBGL_UNAVAILABLE_CODE,
+			contextAttempts: [...CONTEXT_ATTEMPTS],
+			contextName: null,
+			detectedAtMs,
+			devicePixelRatio: Number(environment?.devicePixelRatio) || 1,
+			elapsedMs,
+			errorName: error?.name || 'ContextUnavailable',
+			message: 'Mitzvah World requires WebGL to play.',
+			reason,
+			supported: false
+		});
+	}
+
+	/** No DOM exists to probe (tests, workers): capability is unknown, never a failure. */
+	function unknown(reason, detectedAtMs, environment) {
+		return Object.freeze({
+			code: 'WEBGL_UNKNOWN',
+			contextAttempts: [...CONTEXT_ATTEMPTS],
+			contextName: null,
+			detectedAtMs,
+			devicePixelRatio: Number(environment?.devicePixelRatio) || 1,
+			elapsedMs: 0,
+			errorName: null,
+			message: 'WebGL capability could not be probed in this environment.',
+			reason,
+			supported: null
+		});
+	}
+
+	function readTime(environment) {
+		return environment?.performance?.now?.() ?? Date.now();
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldBootStateMachine.js ----
+{
+	const __exports = __awtsmoosModule_278;
+	//B"H
+	//Boruch Hashem
+	//Blessed is He
+
+	/**
+	 * @file MitzvahWorldBootStateMachine.js
+	 * @description Owns the one boot truth behind bootStage, runtimeState, and the visible veil.
+	 * The Awtsmoos speaks one word while many ears receive it; Awtsmoos.com therefore lets every surface —
+	 * the boot stage attribute, the runtime state attributes, and the blocking loader veil — derive from a
+	 * single transition table, so ready can never be reported while starting or failed, and failed is terminal.
+	 */
+
+	const MACHINE_KEY = 'AwtsmoosMitzvahWorldBootStateInternal';
+	const ROOT_ID = 'mitzvah-world-root';
+	const VEIL_ID = 'menuBoot';
+
+	const TRANSITIONS = Object.freeze({
+		'starting': Object.freeze(['detecting-webgl', 'painting', 'failed']),
+		'detecting-webgl': Object.freeze(['starting', 'painting', 'failed']),
+		'painting': Object.freeze(['renderer-creating', 'launcher-loading', 'failed', 'starting']),
+		'renderer-creating': Object.freeze(['first-frame-painting', 'failed', 'starting']),
+		'first-frame-painting': Object.freeze(['launcher-loading', 'world-loading', 'failed', 'starting']),
+		'launcher-loading': Object.freeze(['launching', 'failed', 'starting']),
+		'launching': Object.freeze(['world-loading', 'failed', 'starting']),
+		'world-loading': Object.freeze(['ready', 'failed', 'starting']),
+		'ready': Object.freeze([]),
+		'failed': Object.freeze([])
+	});
+
+	/** Returns the current machine state without mutating anything. */
+	function readMitzvahWorldBootState(environment = globalThis) {
+		const record = environment?.[MACHINE_KEY];
+		if (record && typeof record === 'object' && typeof record.state === 'string') {
+			return Object.freeze({ ...record, evidence: record.evidence ? { ...record.evidence } : null });
+		}
+		return Object.freeze({ state: 'starting', evidence: null, updatedAtMs: 0 });
+	}
+
+
+	__exports.readMitzvahWorldBootState = readMitzvahWorldBootState;
+	/**
+	 * Moves the machine to the next state and publishes bootStage, runtimeState, and veil from it.
+	 * Illegal transitions are refused (never throwing): ready can never be reached while starting or failed.
+	 * @param {object} [environment=globalThis] Environment owning the machine.
+	 * @param {Document} [documentValue] Document carrying the game root and veil.
+	 * @param {string} next Requested state.
+	 * @param {object} [evidence] Failure or readiness evidence for the failed/ready states.
+	 * @returns {string} The resulting state.
+	 */
+	function transitionMitzvahWorldBootState(environment = globalThis, documentValue = null, next, evidence = null) {
+		const record = ensureRecord(environment);
+		const current = record.state;
+		const requested = String(next || 'starting');
+		if (requested === current) {
+			publish(record, documentValue || environment?.document);
+			return current;
+		}
+		const allowed = TRANSITIONS[current] || [];
+		if (!allowed.includes(requested)) {
+			refusedTransition(current, requested, evidence);
+			if (!record.published) publish(record, documentValue || environment?.document);
+			return current;
+		}
+		record.state = requested;
+		record.evidence = evidence ? Object.freeze({ ...evidence }) : null;
+		record.updatedAtMs = readTime(environment);
+		publish(record, documentValue || environment?.document);
+		return requested;
+	}
+
+
+	__exports.transitionMitzvahWorldBootState = transitionMitzvahWorldBootState;
+	/** Restarts the machine to starting from any state except ready (explicit world relaunch/retry). */
+	function restartMitzvahWorldBootState(environment = globalThis, documentValue = null) {
+		const record = ensureRecord(environment);
+		if (record.state === 'ready') return record.state;
+		if (record.state === 'failed') {
+			record.state = 'starting';
+			record.evidence = null;
+			record.updatedAtMs = readTime(environment);
+			publish(record, documentValue || environment?.document);
+			return 'starting';
+		}
+		return transitionMitzvahWorldBootState(environment, documentValue, 'starting', null);
+	}
+
+
+	__exports.restartMitzvahWorldBootState = restartMitzvahWorldBootState;
+	/** Re-publishes the current state's veil without transitioning (loading screen re-block). */
+	function ensureMitzvahWorldBootVeil(environment = globalThis, documentValue = null) {
+		const record = ensureRecord(environment);
+		publish(record, documentValue || environment?.document);
+		return record.state;
+	}
+
+
+	__exports.ensureMitzvahWorldBootVeil = ensureMitzvahWorldBootVeil;
+	/** Derives the public runtime state from the single machine state. */
+	function deriveMitzvahWorldRuntimeState(state) {
+		if (state === 'ready') return 'playable';
+		if (state === 'failed') return 'failed';
+		return 'starting';
+	}
+
+
+	__exports.deriveMitzvahWorldRuntimeState = deriveMitzvahWorldRuntimeState;
+	function ensureRecord(environment) {
+		if (!environment) return { state: 'starting', evidence: null, updatedAtMs: 0 };
+		let record = environment[MACHINE_KEY];
+		if (!record || typeof record !== 'object') {
+			record = { state: 'starting', evidence: null, updatedAtMs: readTime(environment) };
+			try {
+				Object.defineProperty(environment, MACHINE_KEY, {
+					configurable: true,
+					enumerable: false,
+					value: record,
+					writable: false
+				});
+			} catch {
+				environment[MACHINE_KEY] = record;
+			}
+		}
+		return record;
+	}
+
+	/** Publishes the machine state onto every historical surface at once. */
+	function publish(record, documentValue) {
+		record.published = true;
+		const state = record.state;
+		const runtimeState = deriveMitzvahWorldRuntimeState(state);
+		const root = documentValue?.getElementById?.(ROOT_ID) || null;
+		const documentRoot = documentValue?.documentElement || null;
+		for (const target of [documentRoot, root]) {
+			if (!target?.dataset) continue;
+			target.dataset.awtsmoosRuntime = runtimeState;
+			target.dataset.awtsmoosRuntimeState = runtimeState;
+			target.dataset.awtsmoosGameplay = state === 'ready' ? 'true' : 'false';
+			if (state === 'failed') {
+				target.dataset.awtsmoosRuntimeError = record.evidence?.message || String(record.evidence?.code || 'failed');
+			} else {
+				target.dataset.awtsmoosRuntimeError = '';
+			}
+			try {
+				target.setAttribute('aria-busy', runtimeState === 'starting' ? 'true' : 'false');
+			} catch {}
+		}
+		if (root?.dataset) {
+			root.dataset.awtsmoosBootStage = state;
+			if (state === 'ready') {
+				root.dataset.awtsmoosMenuReady = 'true';
+			} else {
+				delete root.dataset.awtsmoosMenuReady;
+			}
+		}
+		publishVeil(record, documentValue);
+		try {
+			if (typeof globalThis !== 'undefined') {
+				globalThis.AwtsmoosMitzvahWorldBootState = Object.freeze({
+					evidence: record.evidence,
+					runtimeState,
+					state,
+					updatedAtMs: record.updatedAtMs
+				});
+			}
+		} catch {}
+	}
+
+	/** Keeps the blocking veil visible in every state except ready. */
+	function publishVeil(record, documentValue) {
+		const veil = documentValue?.getElementById?.(VEIL_ID) || null;
+		if (!veil) return;
+		const ready = record.state === 'ready';
+		try {
+			veil.hidden = ready;
+			veil.setAttribute('aria-hidden', ready ? 'true' : 'false');
+			veil.setAttribute('aria-busy', ready ? 'false' : 'true');
+			if (ready) veil.dataset.loadingComplete = 'true';
+			else delete veil.dataset.loadingComplete;
+		} catch {}
+	}
+
+	function refusedTransition(current, requested, evidence) {
+		try {
+			globalThis.console?.warn?.(
+				`B"H MitzvahWorld boot state refused: ${current} -> ${requested}.`,
+				evidence?.code || ''
+			);
+		} catch {}
+	}
+
+	function readTime(environment) {
+		return environment?.performance?.now?.() ?? Date.now();
+	}
+
+}
+
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialBoot.js ----
 {
 	const __exports = __awtsmoosModule_267;
@@ -22467,13 +22900,21 @@ const __awtsmoosModule_0 = Object.create(null);
 	const MitzvahWorldEssentialLedger = __awtsmoosModule_268.MitzvahWorldEssentialLedger;
 	const dismissMitzvahWorldEssentialFailure = __awtsmoosModule_274.dismissMitzvahWorldEssentialFailure;
 	const CATALOG_MILESTONES = __awtsmoosModule_270.ESSENTIAL_MILESTONES;
+	const probeMitzvahWorldWebGlCapability = __awtsmoosModule_277.probeMitzvahWorldWebGlCapability;
+	const readMitzvahWorldWebGlCapability = __awtsmoosModule_277.readMitzvahWorldWebGlCapability;
+	const rememberMitzvahWorldWebGlCapability = __awtsmoosModule_277.rememberMitzvahWorldWebGlCapability;
+	const WEBGL_UNAVAILABLE_CODE = __awtsmoosModule_277.WEBGL_UNAVAILABLE_CODE;
+	const transitionMitzvahWorldBootState = __awtsmoosModule_278.transitionMitzvahWorldBootState;
 	__exports.ESSENTIAL_MILESTONES = __awtsmoosModule_270.ESSENTIAL_MILESTONES;
 
 	const LEDGER_KEY = 'AwtsmoosMitzvahWorldEssentialLedgerInternal';
 	const RESTART_ENTRY_STAGE = 'world-launch-restart';
 
 	function initializeMitzvahWorldEssentialBoot(environment = globalThis) {
-		if (!environment[LEDGER_KEY]) installLedger(environment, new MitzvahWorldEssentialLedger(environment));
+		if (!environment[LEDGER_KEY]) {
+			gateWebGlCapabilityBeforeLedger(environment);
+			installLedger(environment, new MitzvahWorldEssentialLedger(environment));
+		}
 		return environment[LEDGER_KEY];
 	}
 
@@ -22481,6 +22922,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.initializeMitzvahWorldEssentialBoot = initializeMitzvahWorldEssentialBoot;
 	/** Restarts first-play custody so menu-idle evidence can never poison a later world click. */
 	function restartMitzvahWorldEssentialBoot(environment = globalThis) {
+		gateWebGlCapabilityBeforeLedger(environment);
 		const previous = environment[LEDGER_KEY] || null;
 		const entryEvidence = readEntryEvidence(previous) || { importerStage: RESTART_ENTRY_STAGE };
 		previous?.cancelWatchdog?.();
@@ -22495,6 +22937,38 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.restartMitzvahWorldEssentialBoot = restartMitzvahWorldEssentialBoot;
+	/**
+	 * Detects WebGL capability BEFORE the essential ledger exists, so the first-frame
+	 * silence clock can never start on a device with no three-dimensional doorway.
+	 * Fails the first-frame milestone closed with WEBGL_UNAVAILABLE and throws.
+	 */
+	function gateWebGlCapabilityBeforeLedger(environment) {
+		let capability = readMitzvahWorldWebGlCapability(environment);
+		if (!capability) {
+			capability = probeMitzvahWorldWebGlCapability(environment);
+			rememberMitzvahWorldWebGlCapability(environment, capability);
+		}
+		if (capability.supported !== false) return;
+		const ledger = new MitzvahWorldEssentialLedger(environment);
+		installLedger(environment, ledger);
+		ledger.fail(CATALOG_MILESTONES.RENDERER_FIRST_FRAME, {
+			failureCode: WEBGL_UNAVAILABLE_CODE,
+			failureMessage: capability.message,
+			importerStage: 'webgl-capability-probe',
+			resourceStatus: capability.reason || 'context-unavailable',
+			resourceUrl: environment.location?.href || 'unknown'
+		});
+		transitionMitzvahWorldBootState(environment, environment?.document, 'failed', {
+			code: WEBGL_UNAVAILABLE_CODE,
+			message: capability.message,
+			stage: 'webgl-capability-probe'
+		});
+		const error = new Error(capability.message);
+		error.name = 'WebGlCapabilityError';
+		error.code = WEBGL_UNAVAILABLE_CODE;
+		throw error;
+	}
+
 	function installLedger(environment, ledger) {
 		Object.defineProperty(environment, LEDGER_KEY, {
 			configurable: true,
@@ -22543,7 +23017,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/RuntimeLaunchProgress.js ----
 {
-	const __exports = __awtsmoosModule_277;
+	const __exports = __awtsmoosModule_279;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -22653,28 +23127,103 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const createBootstrapWorldFoundation = __awtsmoosModule_1.createBootstrapWorldFoundation;
-	const loadDeferredEretzEssentialAssets = __awtsmoosModule_98.loadDeferredEretzEssentialAssets;
+	const beginDeferredEretzEssentialAssets = __awtsmoosModule_98.beginDeferredEretzEssentialAssets;
 	const createEretzFoundationServices = __awtsmoosModule_100.createEretzFoundationServices;
 	const attachEretzFoundationVisualHydration = __awtsmoosModule_259.attachEretzFoundationVisualHydration;
 	const paintEretzWebGlBootFrame = __awtsmoosModule_262.paintEretzWebGlBootFrame;
+	const ZERO_SIZE_CANVAS_CODE = __awtsmoosModule_262.ZERO_SIZE_CANVAS_CODE;
 	const completeMitzvahWorldEssentialMilestone = __awtsmoosModule_267.completeMitzvahWorldEssentialMilestone;
 	const ESSENTIAL_MILESTONES = __awtsmoosModule_267.ESSENTIAL_MILESTONES;
+	const failMitzvahWorldEssentialMilestone = __awtsmoosModule_267.failMitzvahWorldEssentialMilestone;
 	const updateMitzvahWorldEssentialMilestone = __awtsmoosModule_267.updateMitzvahWorldEssentialMilestone;
 	const markMitzvahWorldStartupMilestone = __awtsmoosModule_261.markMitzvahWorldStartupMilestone;
-	const nextLaunchFrame = __awtsmoosModule_277.nextLaunchFrame;
-	const reportLaunchProgress = __awtsmoosModule_277.reportLaunchProgress;
-	const throwIfLaunchAborted = __awtsmoosModule_277.throwIfLaunchAborted;
+	const probeMitzvahWorldWebGlCapability = __awtsmoosModule_277.probeMitzvahWorldWebGlCapability;
+	const readMitzvahWorldWebGlCapability = __awtsmoosModule_277.readMitzvahWorldWebGlCapability;
+	const rememberMitzvahWorldWebGlCapability = __awtsmoosModule_277.rememberMitzvahWorldWebGlCapability;
+	const WEBGL_UNAVAILABLE_CODE = __awtsmoosModule_277.WEBGL_UNAVAILABLE_CODE;
+	const transitionMitzvahWorldBootState = __awtsmoosModule_278.transitionMitzvahWorldBootState;
+	const nextLaunchFrame = __awtsmoosModule_279.nextLaunchFrame;
+	const reportLaunchProgress = __awtsmoosModule_279.reportLaunchProgress;
+	const throwIfLaunchAborted = __awtsmoosModule_279.throwIfLaunchAborted;
+
+	const RENDERER_INIT_FAILED_CODE = 'RENDERER_INIT_FAILED';
 
 	/** Builds truthful first frame and terrain before crossing the generated canonical-player boundary. */
 	async function createEretzWorldFoundation(hosts, options = {}) {
 		const qualityProfile = options.qualityProfile;
 		if (!qualityProfile) throw new Error('Eretz foundation requires a quality profile.');
 		const environment = options.environment || globalThis;
+		const document = environment.document || globalThis.document;
+		const bootState = (next, evidence = null) =>
+			transitionMitzvahWorldBootState(environment, document, next, evidence);
+
+		// WebGL capability was probed before the first-frame silence clock started; reuse that
+		// evidence here and fail fast with WEBGL_UNAVAILABLE rather than timing out later.
+		bootState('detecting-webgl');
+		const capability = readMitzvahWorldWebGlCapability(environment)
+			|| rememberMitzvahWorldWebGlCapability(environment, probeMitzvahWorldWebGlCapability(environment));
+		if (capability.supported === false) {
+			failFoundationMilestone(environment, ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME, {
+				failureCode: WEBGL_UNAVAILABLE_CODE,
+				failureMessage: capability.message,
+				importerStage: 'webgl-capability-probe',
+				resourceStatus: 'context-unavailable',
+				resourceUrl: environment.location?.href || 'unknown'
+			}, bootState);
+		}
+
+		// Fetch the canonical Chossid in parallel: the player-chunk import and GLB decode run
+		// while the renderer context, first frame, and spawn terrain are built below.
+		const essentialAssetsPromise = beginDeferredEretzEssentialAssets({
+			...options,
+			boot: options.boot,
+			environment,
+			quality: qualityProfile.quality
+		});
+		essentialAssetsPromise.catch(() => {});
+
+		bootState('renderer-creating');
 		options.boot?.begin('webgl-context');
 		reportFoundationStage(options, 'Opening WebGL…', 0.08, 'foundation-renderer-services');
-		const services = createEretzFoundationServices(hosts, qualityProfile, environment);
+		let services;
+		try {
+			services = createEretzFoundationServices(hosts, qualityProfile, environment);
+		} catch (error) {
+			failFoundationMilestone(environment, ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME, {
+				failureCode: RENDERER_INIT_FAILED_CODE,
+				failureMessage: `Renderer initialization failed: ${error?.message || String(error)}`,
+				importerStage: 'foundation-renderer-services',
+				resourceStatus: error?.code || 'renderer-constructor-threw',
+				resourceUrl: (( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzWorldFoundation.js")
+			}, bootState);
+		}
 		refreshMilestone(environment, ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME, 'foundation-renderer-services');
-		const webGlBootFrame = paintEretzWebGlBootFrame(services, qualityProfile, environment);
+
+		bootState('first-frame-painting');
+		let webGlBootFrame;
+		try {
+			webGlBootFrame = paintEretzWebGlBootFrame(services, qualityProfile, environment);
+		} catch (error) {
+			const zeroSize = error?.code === ZERO_SIZE_CANVAS_CODE;
+			failFoundationMilestone(environment, ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME, {
+				failureCode: zeroSize ? ZERO_SIZE_CANVAS_CODE : RENDERER_INIT_FAILED_CODE,
+				failureMessage: error?.message || String(error),
+				importerStage: 'webgl-boot-frame',
+				resourceStatus: zeroSize ? 'zero-size-viewport' : 'first-frame-paint-threw',
+				resourceUrl: (( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzWorldFoundation.js")
+			}, bootState);
+		}
+		// A first frame counts only after a REAL render with a nonzero viewport.
+		if (!webGlBootFrame?.pixels?.[0] || !webGlBootFrame?.pixels?.[1]
+			|| !webGlBootFrame?.viewportCss?.[0] || !webGlBootFrame?.viewportCss?.[1]) {
+			failFoundationMilestone(environment, ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME, {
+				failureCode: ZERO_SIZE_CANVAS_CODE,
+				failureMessage: 'First frame produced no nonzero viewport; refusing to certify.',
+				importerStage: 'webgl-boot-frame',
+				resourceStatus: 'zero-size-viewport',
+				resourceUrl: (( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzWorldFoundation.js")
+			}, bootState);
+		}
 		completeMilestone(environment, ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME, 'webgl-boot-frame');
 		markMitzvahWorldStartupMilestone(environment, 'rendererReady');
 		throwIfLaunchAborted(options.signal);
@@ -22688,12 +23237,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		await nextLaunchFrame(environment);
 
 		reportFoundationStage(options, 'Loading authored player…', 0.42, 'generated-essential-player');
-		const loaded = await loadDeferredEretzEssentialAssets({
-			...options,
-			boot: options.boot,
-			environment,
-			quality: qualityProfile.quality
-		});
+		const loaded = await essentialAssetsPromise;
 		throwIfLaunchAborted(options.signal);
 
 		const foundation = {
@@ -22711,6 +23255,22 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.createEretzWorldFoundation = createEretzWorldFoundation;
+	/** Fails one essential milestone with a named code, drives the machine to failed, and throws. */
+	function failFoundationMilestone(environment, milestone, details, bootState) {
+		failMitzvahWorldEssentialMilestone(environment, milestone, details);
+		markMitzvahWorldStartupMilestone(environment, 'rendererFailed');
+		bootState('failed', {
+			code: details.failureCode,
+			message: details.failureMessage,
+			stage: details.importerStage,
+			url: details.resourceUrl
+		});
+		const error = new Error(details.failureMessage);
+		error.name = 'MitzvahWorldFoundationError';
+		error.code = details.failureCode;
+		throw error;
+	}
+
 	function refreshMilestone(environment, milestone, importerStage) {
 		updateMitzvahWorldEssentialMilestone(environment, milestone, { importerStage });
 	}

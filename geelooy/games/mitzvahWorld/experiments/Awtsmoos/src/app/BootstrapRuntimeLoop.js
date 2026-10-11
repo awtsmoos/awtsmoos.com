@@ -27,13 +27,17 @@ import {
 	ESSENTIAL_MILESTONES
 } from './MitzvahWorldEssentialBoot.js';
 import { markMitzvahWorldStartupMilestone } from './MitzvahWorldStartupMilestones.js';
+import { RuntimeLongTaskMonitor } from '../performance/RuntimeLongTaskMonitor.js';
 
 const MAX_FRAME_DELTA_SECONDS = 0.05;
+const FRAME_BUDGET_P95_MS = 16.7;
+const LONG_TASK_BUDGET_MS = 50;
 
 /** Starts the main visual gameplay loop without multiplying animation clocks. */
 export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 	const movement = new BootstrapMovementController(runtime);
 	const frameWindow = new FrameBudgetWindow(240);
+	const longTaskMonitor = new RuntimeLongTaskMonitor();
 	const scheduler = createBootstrapFrameScheduler(environment);
 	let active = true;
 	let lastTime = now(environment);
@@ -66,7 +70,7 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 		scheduler.schedule(frame);
 	};
 
-	publishLoopState(runtime, frameWindow, scheduler);
+	publishLoopState(runtime, frameWindow, scheduler, longTaskMonitor);
 	primeBootstrapGameplay(runtime, movement, lastTime);
 	publishMovementReady(environment);
 	scheduler.schedule(frame);
@@ -95,15 +99,32 @@ function publishMovementReady(environment) {
 }
 
 /** Publishes frame evidence and scheduler ownership for runtime diagnostics. */
-function publishLoopState(runtime, frameWindow, scheduler) {
+function publishLoopState(runtime, frameWindow, scheduler, longTaskMonitor) {
 	runtime.bootstrapFrames = 0;
 	runtime.enrichedFrames = 0;
 	runtime.frameCadence = frameWindow;
 	runtime.frameBudget = frameWindow;
 	runtime.frameScheduler = scheduler;
+	runtime.longTaskMonitor = longTaskMonitor;
 	runtime.lastFrameAt = null;
 	runtime.lastFrameError = null;
 	runtime.runtimeFrameSource = 'starting';
+	// Frame-budget evidence for the 60 FPS covenant: minimal-meadow p95 frame time
+	// must stay <= 16.7ms and no observed long task may exceed 50ms.
+	runtime.frameBudgetVerdict = () => {
+		const frames = frameWindow.view();
+		const longTasks = longTaskMonitor.snapshot();
+		return Object.freeze({
+			frameBudgetP95Ms: FRAME_BUDGET_P95_MS,
+			frames,
+			longTaskBudgetMs: LONG_TASK_BUDGET_MS,
+			longTasks,
+			p95WithinBudget: Number.isFinite(frames.p95Ms) ? frames.p95Ms <= FRAME_BUDGET_P95_MS : null,
+			noLongTaskOverBudget: longTasks.available
+				? (longTasks.maximumMilliseconds ?? 0) <= LONG_TASK_BUDGET_MS
+				: null
+		});
+	};
 }
 
 /** Returns the best monotonic time available from the runtime vessel. */

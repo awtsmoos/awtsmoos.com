@@ -43,11 +43,11 @@ test('renderer progress refreshes renderer only and cannot hide silent terrain',
 test('truthful sibling progress keeps all three alive inside their silence budgets', () => {
 	const environment = createEssentialTestEnvironment();
 	activateSiblings(environment);
-	environment.advance(25000);
+	environment.advance(10000);
 	updateMitzvahWorldEssentialMilestone(environment, RENDERER, { importerStage: 'webgl-boot-frame' });
 	updateMitzvahWorldEssentialMilestone(environment, TERRAIN, { importerStage: 'bootstrap-world-foundation' });
 	updateMitzvahWorldEssentialMilestone(environment, CHOSSID, { importerStage: 'canonical-validation' });
-	environment.advance(29999);
+	environment.advance(14000);
 	environment.fireTimeout();
 	const snapshot = getMitzvahWorldEssentialBootSnapshot(environment);
 	assert.equal(snapshot.stalledMilestone, null);
@@ -59,14 +59,19 @@ test('truthful sibling progress keeps all three alive inside their silence budge
 test('hard first-play horizon cannot be extended forever by progress', () => {
 	const environment = createEssentialTestEnvironment();
 	initializeMitzvahWorldEssentialBoot(environment);
-	for (const time of [20000, 40000, 60000, 80000]) {
+	completeMitzvahWorldEssentialMilestone(environment, ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED);
+	// Keep every active milestone truthfully progressing inside its own stage-specific
+	// silence budget; the 90s outer horizon must still bound the whole first play.
+	for (const time of [10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000]) {
 		environment.advance(time - environment.performance.now());
-		updateMitzvahWorldEssentialMilestone(environment, ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED, { importerStage: `entry-${time}` });
+		updateMitzvahWorldEssentialMilestone(environment, RENDERER, { importerStage: `renderer-${time}` });
+		updateMitzvahWorldEssentialMilestone(environment, TERRAIN, { importerStage: `terrain-${time}` });
+		updateMitzvahWorldEssentialMilestone(environment, CHOSSID, { importerStage: `chossid-${time}` });
 	}
-	environment.advance(10000);
+	environment.advance(90000 - environment.performance.now());
 	environment.fireTimeout();
 	const stalled = getMitzvahWorldEssentialBootSnapshot(environment).stalledMilestone;
-	assert.equal(stalled.name, ESSENTIAL_MILESTONES.ENTRY_MODULE_EXECUTED);
+	assert.equal(stalled.name, RENDERER);
 	assert.equal(stalled.failureCode, 'ESSENTIAL_FIRST_PLAY_HARD_TIMEOUT');
 });
 

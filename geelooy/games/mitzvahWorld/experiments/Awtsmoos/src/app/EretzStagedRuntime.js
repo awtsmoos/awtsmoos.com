@@ -11,6 +11,7 @@
 
 import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
 import { resolveGeneratedRuntimeChunkUrl } from './GeneratedRuntimeChunkUrl.js';
+import { transitionMitzvahWorldBootState } from './MitzvahWorldBootStateMachine.js';
 import {
 	reportLaunchProgress,
 	throwIfLaunchAborted
@@ -22,6 +23,8 @@ const CORE_CHUNK_URL = generated('mitzvah-world-core.compact.js');
 
 /** Creates the playable runtime with essential foundation work receiving first-play priority. */
 export async function createStagedEretzRuntime(hosts, options = {}, boot) {
+	const environment = options.environment || globalThis;
+	const document = environment.document || globalThis.document;
 	boot.begin('quality-profile');
 	reportLaunchProgress(options, 'Choosing a responsive world quality…', 0.03, {
 		stage: 'quality-profile-module',
@@ -49,6 +52,8 @@ export async function createStagedEretzRuntime(hosts, options = {}, boot) {
 		stage: 'bootstrap-core-runtime',
 		url: CORE_CHUNK_URL
 	});
+	// First frame is proven; the core systems that grant first control now load.
+	transitionMitzvahWorldBootState(environment, document, 'world-loading', null);
 	const coreModule = await import(CORE_CHUNK_URL);
 	const core = coreModule.assembleBootstrapCoreRuntime(foundation, options, qualityProfile, boot);
 	return {

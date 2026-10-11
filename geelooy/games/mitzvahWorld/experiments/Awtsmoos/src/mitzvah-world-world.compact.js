@@ -6780,7 +6780,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_13izwqq = {
+	const __awtsmoosDefault_pyympq = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -6793,7 +6793,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_13izwqq;
+	__exports.default = __awtsmoosDefault_pyympq;
 }
 
 // ---- libs/awtsmoos-procedural-core/src/core/worldBuilding/CinematicEnvironmentPresets.js ----
@@ -8252,7 +8252,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.resetTreeToBase = resetTreeToBase;
-	const __awtsmoosDefault_1q2g6o2 = {
+	const __awtsmoosDefault_1w00vnq = {
 		Bone,
 		BufferAttribute,
 		BufferGeometry,
@@ -8266,7 +8266,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		Scene,
 		Vector3
 	};
-	__exports.default = __awtsmoosDefault_1q2g6o2;
+	__exports.default = __awtsmoosDefault_1w00vnq;
 }
 
 // ---- libs/awtsmoos-procedural-core/src/adapters/native/runtime.js ----
@@ -182627,12 +182627,12 @@ const __awtsmoosModule_0 = Object.create(null);
 	const loadTinyGlb = loadTinyGltf;
 
 	__exports.loadTinyGlb = loadTinyGlb;
-	const __awtsmoosDefault_f3boa9 = {
+	const __awtsmoosDefault_tb3ovh = {
 		loadTinyGltf,
 		loadTinyGlb,
 		loadTinyGltfBuffer
 	};
-	__exports.default = __awtsmoosDefault_f3boa9;
+	__exports.default = __awtsmoosDefault_tb3ovh;
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/ReleaseModelCatalog.js ----

@@ -56,8 +56,9 @@ gameplay visibility, and failure recovery inside one local stack so no emergency
 	pointer-events: none;
 }
 
+/* The canvas is NEVER hidden while the renderer initializes: the boot veil covers it
+   until gameplay, but the canvas itself stays visible so a real first frame can land. */
 html:not([data-awtsmoos-gameplay="true"]) #mitzvah-world-root :is(
-	#AwtsmoosCanvas,
 	#hud,
 	#npcTarget,
 	#npcDialogue,

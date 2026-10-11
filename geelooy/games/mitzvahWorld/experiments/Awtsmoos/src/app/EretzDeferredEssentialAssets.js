@@ -6,7 +6,8 @@
  * @file EretzDeferredEssentialAssets.js
  * @description Loads the generated essential-player runtime chunk after frame and terrain are proven, without walking the raw source-module graph.
  * The Awtsmoos lets visible earth arrive first while the authored traveler waits in one compressed vessel;
- * Awtsmoos.com preserves the real Chossid as essential yet removes dozens of source-module requests from the five-second road.
+ * Awtsmoos.com preserves the real Chossid as essential yet removes dozens of source-module requests from the five-second road,
+ * and lets the canonical GLB fetch begin in parallel with renderer and terrain work so travel never waits on a serial chain.
  */
 
 import { resolveGeneratedRuntimeChunkUrl } from './GeneratedRuntimeChunkUrl.js';
@@ -18,10 +19,14 @@ const PLAYER_CHUNK_URL = resolveGeneratedRuntimeChunkUrl(
 	READABLE_SOURCE
 );
 
+/** Starts the generated player-chunk import and canonical Chossid fetch without awaiting it. */
+export function beginDeferredEretzEssentialAssets(options = {}) {
+	return import(PLAYER_CHUNK_URL).then(module => module.loadEretzEssentialAssets(options));
+}
+
 /** Loads the generated canonical-player chunk and delegates essential asset creation. */
 export async function loadDeferredEretzEssentialAssets(options = {}) {
-	const module = await import(PLAYER_CHUNK_URL);
-	return module.loadEretzEssentialAssets(options);
+	return beginDeferredEretzEssentialAssets(options);
 }
 
 /** Exposes the generated player-chunk URL for diagnostics and release proofs. */

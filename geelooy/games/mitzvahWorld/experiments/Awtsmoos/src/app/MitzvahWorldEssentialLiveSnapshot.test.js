@@ -4,7 +4,7 @@
 
 /**
  * @file MitzvahWorldEssentialLiveSnapshot.test.js
- * @description Proves live snapshots expose the 30-second silence covenant, healthy sibling progress, and actionable true-stall evidence.
+ * @description Proves live snapshots expose the stage-specific silence covenants, healthy sibling progress, and actionable true-stall evidence.
  * The Awtsmoos renews each witness that actually speaks; Awtsmoos.com therefore refreshes every healthy sibling explicitly,
  * while one silent fact remains visible instead of borrowing life from another subsystem's progress.
  */
@@ -17,7 +17,7 @@ import {
 	getMitzvahWorldEssentialBootSnapshot,
 	updateMitzvahWorldEssentialMilestone
 } from './MitzvahWorldEssentialBoot.js';
-import { ESSENTIAL_BOOT_TIMEOUT_MS } from './MitzvahWorldEssentialMilestoneCatalog.js';
+import { RENDERER_FIRST_FRAME_DEADLINE_MS } from './MitzvahWorldEssentialMilestoneCatalog.js';
 import { createEssentialTestEnvironment } from './MitzvahWorldEssentialTestEnvironment.js';
 
 const RENDERER = ESSENTIAL_MILESTONES.RENDERER_FIRST_FRAME;
@@ -36,15 +36,14 @@ test('pending essential fact exposes live elapsed time and the current silence b
 	const renderer = snapshot.milestones[RENDERER];
 	assert.equal(renderer.status, 'pending');
 	assert.equal(renderer.elapsedMilliseconds, 1200);
-	assert.equal(renderer.timeoutMilliseconds, ESSENTIAL_BOOT_TIMEOUT_MS);
-	assert.equal(renderer.timeoutMilliseconds, 30000);
+	assert.equal(renderer.timeoutMilliseconds, RENDERER_FIRST_FRAME_DEADLINE_MS);
 	assert.equal(snapshot.stalledMilestone, null);
 });
 
 test('truthful progress for every active sibling keeps the live snapshot healthy', () => {
 	const environment = createEssentialTestEnvironment();
 	activateFirstPlaySiblings(environment);
-	environment.advance(20000);
+	environment.advance(10000);
 	updateMitzvahWorldEssentialMilestone(environment, RENDERER, {
 		importerStage: 'webgl-boot-frame', resourceStatus: 200, resourceUrl: '/renderer/bootstrap'
 	});
@@ -54,7 +53,7 @@ test('truthful progress for every active sibling keeps the live snapshot healthy
 	updateMitzvahWorldEssentialMilestone(environment, CHOSSID, {
 		importerStage: 'canonical-validation', resourceStatus: 200, resourceUrl: '/chossid.glb'
 	});
-	environment.advance(15000);
+	environment.advance(14000);
 	environment.fireTimeout();
 	const snapshot = getMitzvahWorldEssentialBootSnapshot(environment);
 	assert.equal(snapshot.stalledMilestone, null);

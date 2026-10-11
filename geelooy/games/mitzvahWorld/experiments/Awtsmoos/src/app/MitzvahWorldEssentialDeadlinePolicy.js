@@ -22,19 +22,24 @@ export function essentialDependencyFailure(details, missing) {
 
 export function essentialDeadlineFailure(record, currentTime, bootStartedAt, details = {}) {
 	if (essentialRecordTimedOut(record, currentTime)) {
-		return timeoutDetails(record, details, record.timeoutFailureCode);
+		return timeoutDetails(record, details, record.timeoutFailureCode, currentTime);
 	}
 	if (currentTime - bootStartedAt >= ESSENTIAL_HARD_TIMEOUT_MS) {
-		return timeoutDetails(record, details, 'ESSENTIAL_FIRST_PLAY_HARD_TIMEOUT');
+		return timeoutDetails(record, details, 'ESSENTIAL_FIRST_PLAY_HARD_TIMEOUT', currentTime);
 	}
 	return null;
 }
 
-export function timeoutDetails(record, details, failureCode) {
+export function timeoutDetails(record, details, failureCode, nowMilliseconds = Date.now()) {
+	const startedAt = record.startedAtMilliseconds ?? nowMilliseconds;
+	const elapsedMilliseconds = Math.max(0, nowMilliseconds - startedAt);
 	return {
 		...details,
+		elapsedMilliseconds,
 		failureCode,
-		failureMessage: `${record.label} missed the bounded first-play deadline.`,
+		failureMessage: `${record.label} missed the bounded first-play deadline after ${Math.round(elapsedMilliseconds)} ms ` +
+			`(stage: ${details.importerStage || record.importerStage || 'essential-boot'}; ` +
+			`deadline: ${record.timeoutMilliseconds} ms).`,
 		status: 'timed-out'
 	};
 }

@@ -32,6 +32,14 @@ export function installViewport(runtime, environment = globalThis) {
 		runtime.minimumRenderScale = density.minimumScale;
 		runtime.adaptiveRenderScale = density.scale;
 		runtime.camera.aspect = width / height;
+		const canvas = runtime.renderer?.canvas;
+		if (canvas?.style) {
+			// The renderer contract sets BOTH surfaces on every resize: the CSS box
+			// matches the viewport exactly while the backing buffer carries the
+			// capped device density, so the canvas can never collapse or blur.
+			canvas.style.width = `${Math.max(1, Math.round(width))}px`;
+			canvas.style.height = `${Math.max(1, Math.round(height))}px`;
+		}
 		runtime.renderer.setSize(
 			Math.max(1, Math.round(width * density.effectiveDpr)),
 			Math.max(1, Math.round(height * density.effectiveDpr))

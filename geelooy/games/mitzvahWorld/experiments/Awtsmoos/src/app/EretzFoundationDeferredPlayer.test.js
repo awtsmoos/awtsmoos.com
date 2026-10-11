@@ -40,10 +40,13 @@ test('foundation publishes real frame and terrain evidence before yielding', () 
 	assert.ok(terrainComplete < visibleYield);
 });
 
-test('generated canonical player stays deferred until after visible-world yield', () => {
+test('generated canonical player fetch starts in parallel but resolves after visible-world yield', () => {
+	const begin = position('beginDeferredEretzEssentialAssets({');
 	const visibleYield = position('await nextLaunchFrame(environment)');
-	const player = position('await loadDeferredEretzEssentialAssets');
-	assert.ok(player > visibleYield);
+	const playerAwait = position('await essentialAssetsPromise');
+	assert.ok(begin > 0, 'canonical Chossid fetch begins before the visible-world yield (parallel)');
+	assert.ok(begin < visibleYield);
+	assert.ok(playerAwait > visibleYield, 'foundation still awaits the player after the yield');
 	assert.doesNotMatch(foundation, /from '\.\/EretzEssentialAssetLoader\.js'/);
 	assert.doesNotMatch(foundation, /from '\.\/EretzEssentialPlayerGlb\.js'/);
 	assert.match(foundation, /from '\.\/EretzDeferredEssentialAssets\.js'/);

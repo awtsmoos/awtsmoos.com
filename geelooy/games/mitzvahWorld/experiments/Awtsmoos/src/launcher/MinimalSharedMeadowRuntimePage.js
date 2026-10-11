@@ -10,6 +10,7 @@
  */
 
 import { createMinimalMeadowRuntime } from '../app/createMinimalMeadowRuntime.js';
+import { transitionMitzvahWorldBootState } from '../app/MitzvahWorldBootStateMachine.js';
 import { MeadowLoadingScreen } from './MeadowLoadingScreen.js';
 import { installMinimalMeadowOptionalEntries } from './MinimalMeadowOptionalEntries.js';
 import { runMinimalSharedMeadowReadiness } from './MinimalSharedMeadowReadinessFlow.js';
@@ -94,8 +95,31 @@ function resolveRuntimeFactory(dependencies) {
 		: createMinimalMeadowRuntime;
 }
 
+const RUNTIME_PAGE_BOOT_STATES = Object.freeze({
+	'creative-ready': 'ready',
+	'creative-route': 'launching',
+	'failed': 'failed',
+	'hosts': 'starting',
+	'loading-screen': 'painting',
+	'readiness': 'launching',
+	'ready': 'ready',
+	'runtime-launch': 'launcher-loading'
+});
+
 function stage(documentValue, value, error = null) {
-	documentValue.documentElement.dataset.awtsmoosBootStage = value;
+	const environment = documentValue?.defaultView || globalThis;
+	const state = RUNTIME_PAGE_BOOT_STATES[value];
+	if (state) {
+		// The single boot state machine owns bootStage; the fine-grained page stage
+		// stays visible on a separate detail attribute for diagnostics.
+		transitionMitzvahWorldBootState(environment, documentValue, state, error ? {
+			code: 'RUNTIME_PAGE_FAILED',
+			message: error?.message || String(error)
+		} : null);
+		documentValue.documentElement.dataset.awtsmoosBootStageDetail = value;
+	} else {
+		documentValue.documentElement.dataset.awtsmoosBootStage = value;
+	}
 	if (error) {
 		documentValue.documentElement.dataset.awtsmoosBootError = error?.message
 		|| String(error);

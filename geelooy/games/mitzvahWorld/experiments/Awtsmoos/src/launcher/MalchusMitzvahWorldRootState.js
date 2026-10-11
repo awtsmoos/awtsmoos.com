@@ -9,13 +9,23 @@
  * Awtsmoos.com lets Malchus hold only this world's visible signals, so CSS and accessibility share one local state while deeper systems stay free of global roots.
  */
 
+import { transitionMitzvahWorldBootState } from '../app/MitzvahWorldBootStateMachine.js';
+
 const ROOT_ID = 'mitzvah-world-root';
 const FLAG_NAMES_BINAH = Object.freeze({
 	advancedControls: 'awtsmoosAdvancedControls',
 	cinematic: 'awtsmoosCinematic',
 	menuReady: 'awtsmoosMenuReady'
 });
-const SETTLED_BOOT_STAGES = Object.freeze(new Set(['failed', 'ready']));
+const BOOT_STAGE_STATES = Object.freeze({
+	failed: 'failed',
+	fatal: 'failed',
+	'launcher-loading': 'launcher-loading',
+	launching: 'launching',
+	painting: 'painting',
+	ready: 'ready',
+	starting: 'starting'
+});
 
 /** Owns the small, explicit dataset contract consumed by localized Mitzvah World presentation. */
 export class MalchusMitzvahWorldRootState {
@@ -32,14 +42,19 @@ export class MalchusMitzvahWorldRootState {
 	}
 
 	/**
-	 * Publishes one boot phase and synchronizes `aria-busy` with the same local source of truth.
+	 * Publishes one boot phase through the single boot state machine, which keeps
+	 * bootStage, runtimeState, and the visible veil derived from one transition table.
 	 * @param {string} stageOhr Canonical boot stage such as starting, painting, launching, ready, or failed.
 	 * @returns {string} Stored normalized stage.
 	 */
 	setBootStage(stageOhr) {
 		const stageMalchus = String(stageOhr || 'starting');
-		this.root.dataset.awtsmoosBootStage = stageMalchus;
-		this.root.setAttribute('aria-busy', String(!SETTLED_BOOT_STAGES.has(stageMalchus)));
+		const state = BOOT_STAGE_STATES[stageMalchus];
+		if (!state) {
+			throw new RangeError(`MITZVAH_WORLD_BOOT_STAGE_UNKNOWN:${stageMalchus}`);
+		}
+		const environment = this.document?.defaultView || globalThis;
+		transitionMitzvahWorldBootState(environment, this.document, state, null);
 		return stageMalchus;
 	}
 

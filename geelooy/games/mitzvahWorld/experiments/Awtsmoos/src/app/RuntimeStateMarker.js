@@ -14,17 +14,22 @@ import {
 	publishRendererRuntimeEvidence
 } from './RendererRuntimeEvidence.js';
 import { requireWebGlRuntime } from './WebGlRuntimeRequirement.js';
+import {
+	restartMitzvahWorldBootState,
+	transitionMitzvahWorldBootState
+} from './MitzvahWorldBootStateMachine.js';
 
 /** Marks a new runtime boot and clears renderer evidence from an earlier world. */
 export function markRuntimeStarting(documentValue = globalThis.document) {
 	const documentRoot = documentValue?.documentElement;
 	if (!documentRoot) return;
 	clearRendererRuntimeEvidence(documentRoot);
+	const environment = documentValue?.defaultView || globalThis;
+	restartMitzvahWorldBootState(environment, documentValue);
 	for (const root of runtimeRoots(documentValue)) {
 		root.dataset.awtsmoosGameplay = 'false';
 		root.dataset.awtsmoosRendererHydration = 'idle';
 	}
-	setRuntimeState(documentValue, 'starting');
 }
 
 /** Publishes playable state only after the renderer satisfies the WebGL covenant. */
@@ -35,13 +40,19 @@ export function markRuntimePlayable(
 	const renderer = requireWebGlRuntime(diagnostics?.runtime?.renderer);
 	const documentRoot = documentValue?.documentElement;
 	if (!documentRoot) return;
+	const environment = documentValue?.defaultView || globalThis;
+	// The single state machine refuses this transition unless boot truly left starting,
+	// so playable can never be published while starting or failed.
+	transitionMitzvahWorldBootState(environment, documentValue, 'ready', {
+		backend: renderer.backend,
+		code: 'PLAYABLE',
+		contextName: renderer.contextName,
+		hydrationState: renderer.hydrationState || 'ready'
+	});
 	for (const root of runtimeRoots(documentValue)) {
-		root.dataset.awtsmoosGameplay = 'true';
 		root.dataset.awtsmoosRendererHydration = renderer.hydrationState || 'ready';
-		root.dataset.awtsmoosRuntimeError = '';
 	}
 	publishRendererRuntimeEvidence(renderer, documentRoot);
-	setRuntimeState(documentValue, 'playable');
 }
 
 /** Updates renderer hydration without changing overall gameplay readiness. */
@@ -56,20 +67,12 @@ export function markRendererHydration(
 
 /** Marks startup failure while preserving the original error on every public runtime root. */
 export function markRuntimeFailed(error, documentValue = globalThis.document) {
-	for (const root of runtimeRoots(documentValue)) {
-		root.dataset.awtsmoosGameplay = 'false';
-		root.dataset.awtsmoosRuntimeError = error?.message || String(error);
-	}
-	setRuntimeState(documentValue, 'failed');
-}
-
-/** Synchronizes both historical runtime attributes and accessibility busy state. */
-function setRuntimeState(documentValue, state) {
-	for (const root of runtimeRoots(documentValue)) {
-		root.dataset.awtsmoosRuntime = state;
-		root.dataset.awtsmoosRuntimeState = state;
-		root.setAttribute('aria-busy', state === 'starting' ? 'true' : 'false');
-	}
+	const environment = documentValue?.defaultView || globalThis;
+	transitionMitzvahWorldBootState(environment, documentValue, 'failed', {
+		code: error?.code || 'RUNTIME_FAILED',
+		message: error?.message || String(error),
+		name: error?.name || 'Error'
+	});
 }
 
 /** Returns the diagnostic HTML root and public Mitzvah World host without duplicates. */
