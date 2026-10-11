@@ -986,6 +986,14 @@ class PackedPostImportRoutes {
 				}
 			} catch (_) { /* series index may not exist */ }
 		}
+		// Optional stray-alias cleanup: {aliasId} removes the alias info record
+		// and any backlinks the bad import wrote under it for this post.
+		const strayAlias = String(body.strayAliasId || requestValue(this.$i, 'strayAliasId') || '');
+		if (strayAlias && /^[A-Za-z0-9_-]{1,80}$/.test(strayAlias)) {
+			const s2 = (post && post.seriesId) || 'root';
+			try { await this.$i.db.delete(`/social/aliases/${strayAlias}/postsSubmitted/inHeichel/${heichelId}/inSeries/${s2}/${postId}`); removed.push('stray-backlink'); } catch (_) {}
+			try { await this.$i.db.delete(`/social/aliases/${strayAlias}/info`); removed.push('stray-alias-info'); } catch (_) {}
+		}
 		try {
 			const { writePacked } = require('../../packed/socialPacked.js');
 			writePacked({ $i: this.$i, shard: 'core', key: logicalKey(['posts', heichelId, postId]), value: null, op: 'del', meta: { kind: 'postTombstone' } });
