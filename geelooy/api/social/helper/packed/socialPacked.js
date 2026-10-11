@@ -135,6 +135,7 @@ function forEachLineReverseAsync(root, shard, onLine, maxBytes = Infinity) {
     const file = fileFor(root, shard);
     if (!file || !fs.existsSync(file)) return resolve();
     const CHUNK = 4 * 1024 * 1024;
+    const HEAD = 512;
     let fh = null;
     (async () => {
       try { fh = await fs.promises.open(file, 'r'); }
@@ -161,11 +162,18 @@ function forEachLineReverseAsync(root, shard, onLine, maxBytes = Infinity) {
           pending = combined.subarray(0, cur);
           for (const [a, b] of spans) {
             if (b <= a) continue;
-            if (onLine(combined.subarray(a, b).toString('utf8')) === false) { stopped = true; break; }
+            // Head slice + lazy full materialization (full 300 KB lines as
+            // strings would make a whole-file scan crawl).
+            const head = combined.subarray(a, Math.min(b, a + HEAD)).toString('utf8');
+            const getFull = () => combined.subarray(a, b).toString('utf8');
+            if (onLine(head, getFull) === false) { stopped = true; break; }
           }
           await new Promise(r => setImmediate(r));
         }
-        if (!stopped && pending.length) onLine(pending.toString('utf8'));
+        if (!stopped && pending.length) {
+          const tail = pending.toString('utf8');
+          onLine(tail.slice(0, HEAD), () => tail);
+        }
       } finally {
         try { await fh.close(); } catch (_) {}
         resolve();
@@ -234,10 +242,9 @@ async function listKeysReverseAsync({ $i, shard = 'core', prefix = '', limit = 2
     } catch (_) { /* ignore */ }
     return keys;
   }
-  await forEachLineReverseAsync(root, shard, (line) => {
-    if (!line) return;
-    let rec = null;
-    const fast = fastKeyType(line);
+  await forEachLineReverseAsync(root, shard, (head, getFull) => {
+    if (!head) return;
+    const fast = fastKeyType(head);
     if (fast) {
       if (seen.has(fast.key)) return;
       seen.add(fast.key);
@@ -245,7 +252,8 @@ async function listKeysReverseAsync({ $i, shard = 'core', prefix = '', limit = 2
       if (prefix && !fast.key.startsWith(prefix)) return;
       keys.push(fast.key);
     } else {
-      try { rec = JSON.parse(line); } catch (_) { return; }
+      let rec;
+      try { rec = JSON.parse(getFull()); } catch (_) { return; }
       const key = rec && rec.key;
       if (!key || seen.has(key)) return;
       seen.add(key);
@@ -265,10 +273,13 @@ async function findKeyReverseAsync({ $i, shard = 'core', key }) {
   }
   let found = null;
   let done = false;
-  await forEachLineReverseAsync(root, shard, (line) => {
-    if (!line || done) return;
+  await forEachLineReverseAsync(root, shard, (head, getFull) => {
+    if (!head || done) return;
+    // Fast path: compare keys without parsing 300 KB lines.
+    const fast = fastKeyType(head);
+    if (fast && fast.key !== key) return;
     let rec;
-    try { rec = JSON.parse(line); } catch (_) { return; }
+    try { rec = JSON.parse(getFull()); } catch (_) { return; }
     if (rec && rec.key === key) { found = rec.op === 'del' ? null : rec; done = true; return false; }
   });
   return found;
