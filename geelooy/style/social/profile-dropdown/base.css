@@ -45,6 +45,7 @@
 	text-transform: uppercase;
 }
 .awtsmoosDrop .profile-trigger-copy strong {
+	color: var(--text-primary, #f4f1e8);
 	overflow: hidden;
 	max-width: none;
 	font-size: .82rem;
