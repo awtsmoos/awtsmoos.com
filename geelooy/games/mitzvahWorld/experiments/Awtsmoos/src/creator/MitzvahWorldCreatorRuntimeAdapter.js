@@ -72,6 +72,11 @@ export class MitzvahWorldCreatorRuntimeAdapter {
 		return true;
 	}
 
+	/** Returns the live mesh for one mounted definition id, or null. */
+	meshFor(idOhr) {
+		return this.mounts.get(idOhr)?.mesh || null;
+	}
+
 	/** Releases every creator-owned live primitive without touching native world geometry. */
 	clear() {
 		for (const idOhr of [...this.mounts.keys()]) {

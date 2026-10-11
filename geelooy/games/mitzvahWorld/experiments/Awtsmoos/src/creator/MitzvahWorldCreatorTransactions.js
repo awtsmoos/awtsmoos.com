@@ -30,6 +30,40 @@ export async function commitCreatorPlacement(sessionTiferes, catalogBinah, defin
 	return receiptYesod;
 }
 
+/** Commits one universe placement (many composed primitives) atomically across
+ *  document, runtime, inventory, and history. Yaakov 2026-10-11: a house, a tree,
+ *  a chossid each land as one creative deed — or not at all. */
+export async function commitUniversePlacement(sessionTiferes, catalogBinah, definitionsOros) {
+	assertMaterial(sessionTiferes.inventory, catalogBinah);
+	const committedOros = [];
+	let chargedOhr = false;
+	try {
+		for (const definitionMalchus of definitionsOros) {
+			await sessionTiferes.documentStore.createPart(catalogBinah, definitionMalchus);
+			sessionTiferes.runtimeAdapter.mount(definitionMalchus);
+			committedOros.push(definitionMalchus);
+		}
+		sessionTiferes.inventory.remove(catalogBinah.itemId, catalogBinah.cost);
+		chargedOhr = true;
+	} catch (errorOhr) {
+		for (const definitionMalchus of committedOros.reverse()) {
+			sessionTiferes.runtimeAdapter.remove(definitionMalchus.id);
+			await safeDelete(sessionTiferes.documentStore, definitionMalchus.id);
+		}
+		if (chargedOhr) sessionTiferes.inventory.add(catalogBinah.itemId, catalogBinah.cost);
+		throw errorOhr;
+	}
+	const anchorMalchus = definitionsOros[0];
+	const receiptYesod = Object.freeze({
+		catalogId: catalogBinah.id,
+		definition: anchorMalchus,
+		definitions: Object.freeze([...definitionsOros]),
+		universe: true
+	});
+	sessionTiferes.history.commit(receiptYesod);
+	return receiptYesod;
+}
+
 /** Removes the latest placement and refunds its exact material cost. */
 export async function undoCreatorPlacement(sessionTiferes) {
 	const receiptYesod = sessionTiferes.history.takeUndo();

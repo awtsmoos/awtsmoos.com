@@ -34,6 +34,28 @@ export class AdventureStore {
 		return () => this.listeners.delete(listener);
 	}
 
+	/** Registers one player-authored (or otherwise runtime-added) quest so it can be
+	 *  offered, accepted, and completed like any catalog mission. Yaakov 2026-10-11:
+	 *  players create missions, not just buildings. */
+	registerQuest(definition) {
+		assertQuestDefinition(definition);
+		if (this.records.has(definition.id)) {
+			throw new Error(`ADVENTURE_QUEST_EXISTS:${definition.id}`);
+		}
+		this.records.set(definition.id, createAdventureRecord(definition));
+		this.publish();
+		return this.get(definition.id);
+	}
+
+	/** Removes one runtime-registered quest and its record. Catalog quests are permanent. */
+	unregisterQuest(questId) {
+		const record = this.records.get(questId);
+		if (!record) return false;
+		this.records.delete(questId);
+		this.publish();
+		return true;
+	}
+
 	offer(questId) {
 		return this.change(questId, record => {
 			if (['available', 'declined'].includes(record.status)) record.status = 'offered';
@@ -140,5 +162,15 @@ export class AdventureStore {
 	publish() {
 		const snapshot = this.snapshot();
 		for (const listener of this.listeners) listener(snapshot);
+	}
+}
+
+function assertQuestDefinition(definition) {
+	if (!definition || typeof definition !== 'object') throw new Error('ADVENTURE_QUEST_INVALID');
+	for (const key of ['id', 'name', 'objectives', 'reward']) {
+		if (definition[key] === undefined) throw new Error(`ADVENTURE_QUEST_MISSING:${key}`);
+	}
+	if (!Array.isArray(definition.objectives) || definition.objectives.length === 0) {
+		throw new Error('ADVENTURE_QUEST_OBJECTIVES_REQUIRED');
 	}
 }

@@ -58,6 +58,9 @@ async function reverseCreatorReceipt(sessionTiferes, receiptYesod) {
 	if (receiptYesod.operation === 'delete') {
 		return restoreCreatorObjectState(sessionTiferes, receiptYesod.definition, catalogBinah);
 	}
+	if (Array.isArray(receiptYesod.definitions)) {
+		return removeUniversePlacement(sessionTiferes, receiptYesod, catalogBinah);
+	}
 	return removePlacedObject(sessionTiferes, receiptYesod.definition, catalogBinah);
 }
 
@@ -74,10 +77,59 @@ async function replayCreatorReceipt(sessionTiferes, receiptYesod) {
 	if (receiptYesod.operation === 'delete') {
 		return deleteCreatorObjectState(sessionTiferes, receiptYesod.definition, catalogBinah);
 	}
+	if (Array.isArray(receiptYesod.definitions)) {
+		return restoreUniversePlacement(sessionTiferes, receiptYesod, catalogBinah);
+	}
 	return restoreCreatorObjectState(sessionTiferes, receiptYesod.definition, catalogBinah);
 }
 
 /** Removes one placed object and refunds its exact catalog material cost. */
 async function removePlacedObject(sessionTiferes, definitionMalchus, catalogBinah) {
 	return deleteCreatorObjectState(sessionTiferes, definitionMalchus, catalogBinah);
+}
+
+/** Removes every sub-part of one universe placement and refunds its single catalog cost. */
+async function removeUniversePlacement(sessionTiferes, receiptYesod, catalogBinah) {
+	for (const definitionMalchus of [...receiptYesod.definitions].reverse()) {
+		sessionTiferes.runtimeAdapter.remove(definitionMalchus.id);
+	}
+	try {
+		for (const definitionMalchus of [...receiptYesod.definitions].reverse()) {
+			await sessionTiferes.documentStore.deletePart(definitionMalchus.id);
+		}
+		sessionTiferes.inventory.add(catalogBinah.itemId, catalogBinah.cost);
+	} catch (errorOhr) {
+		for (const definitionMalchus of receiptYesod.definitions) {
+			try { sessionTiferes.runtimeAdapter.mount(definitionMalchus); } catch { /* best-effort */ }
+		}
+		throw errorOhr;
+	}
+	return receiptYesod.definitions;
+}
+
+/** Restores every sub-part of one universe placement and charges its single catalog cost. */
+async function restoreUniversePlacement(sessionTiferes, receiptYesod, catalogBinah) {
+	assertUniverseMaterial(sessionTiferes, catalogBinah);
+	const mountedOros = [];
+	try {
+		for (const definitionMalchus of receiptYesod.definitions) {
+			await sessionTiferes.documentStore.createPart(catalogBinah, definitionMalchus);
+			sessionTiferes.runtimeAdapter.mount(definitionMalchus);
+			mountedOros.push(definitionMalchus);
+		}
+		sessionTiferes.inventory.remove(catalogBinah.itemId, catalogBinah.cost);
+	} catch (errorOhr) {
+		for (const definitionMalchus of mountedOros.reverse()) {
+			sessionTiferes.runtimeAdapter.remove(definitionMalchus.id);
+			try { await sessionTiferes.documentStore.deletePart(definitionMalchus.id); } catch { /* best-effort */ }
+		}
+		throw errorOhr;
+	}
+	return receiptYesod.definitions;
+}
+
+function assertUniverseMaterial(sessionTiferes, catalogBinah) {
+	if (sessionTiferes.inventory?.quantity?.(catalogBinah.itemId) < catalogBinah.cost) {
+		throw new Error(`CREATOR_MATERIAL_REQUIRED:${catalogBinah.itemId}`);
+	}
 }

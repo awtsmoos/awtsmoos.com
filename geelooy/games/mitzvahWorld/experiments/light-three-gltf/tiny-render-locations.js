@@ -41,6 +41,7 @@ export function rendererLocations(gl, program, layerCount = TERRAIN_LAYER_TARGET
 		sunDirection: uniform('uSunDirection'), sunColor: uniform('uSunColor'),
 		cameraPosition: uniform('uCameraPosition'), fogColor: uniform('uFogColor'),
 		fogNear: uniform('uFogNear'), fogFar: uniform('uFogFar'), exposure: uniform('uExposure'),
+		roughness: uniform('uRoughness'), metalness: uniform('uMetalness'),
 		grassReactive: uniform('uGrassReactive'), windMode: uniform('uWindMode'),
 		interactor: uniform('uInteractor'), grassRadius: uniform('uGrassRadius'),
 		grassWindStrength: uniform('uGrassWindStrength'),

@@ -60,19 +60,33 @@ export function placeSunShadow(mesh, x, y, z, yaw) {
 	mesh.setBaseTransform();
 }
 
-/** Creates one circular projected shadow using shared primitive geometry. */
+/** Creates one circular projected shadow with a soft radial falloff: three nested
+ *  discs (dense core, soft mid, faint edge) so contact reads grounded, not stamped. */
 function shadowDisc(id, radius, opacity) {
-	return shadowMaterial(createPrimitiveMesh({
-		id,
-		shape: 'cylinder',
-		color: '#000000',
-		solid: false,
-		position: { x: 0, y: 0, z: 0 },
-		radius,
-		height: 0.025,
-		segments: 40,
-		rotation: {}
-	}), opacity);
+	const group = createNativeWorldGroup({ name: `${id}-soft` });
+	const rings = [
+		{ scale: 0.55, alpha: 1.0, lift: 0.0 },
+		{ scale: 0.80, alpha: 0.55, lift: 0.004 },
+		{ scale: 1.00, alpha: 0.25, lift: 0.008 }
+	];
+	for (const [index, ring] of rings.entries()) {
+		const disc = shadowMaterial(createPrimitiveMesh({
+			id: `${id}-ring-${index}`,
+			shape: 'cylinder',
+			color: '#000000',
+			solid: false,
+			position: { x: 0, y: ring.lift, z: 0 },
+			radius: radius * ring.scale,
+			height: 0.025,
+			segments: 40,
+			rotation: {}
+		}), opacity * ring.alpha);
+		group.add(disc);
+	}
+	group.setBaseTransform = () => {
+		for (const child of group.children || []) child.setBaseTransform?.();
+	};
+	return group;
 }
 
 /** Creates one rectangular projected roof shadow using shared primitive geometry. */

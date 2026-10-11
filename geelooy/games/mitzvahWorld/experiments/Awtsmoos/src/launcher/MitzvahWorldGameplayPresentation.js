@@ -48,10 +48,38 @@ export function prepareGameplayPresentation(
 		return environment.AwtsmoosHud;
 	}));
 	const creative = prepareCreativeDockPresentation(documentValue, environment);
+	prepareUniverseEntry(documentValue, environment);
 	return {
 		ready: Promise.all([stylesheetReadiness, hudControllerPromise, creative.ready]),
 		stylesheets: GAMEPLAY_STYLESHEETS
 	};
+}
+
+/** Mounts the "Create Universe" entry button once the HUD host exists. Yaakov 2026-10-11. */
+function prepareUniverseEntry(documentValue, environment) {
+	const scheduleFn = typeof environment.requestIdleCallback === 'function'
+		? environment.requestIdleCallback.bind(environment)
+		: fn => setTimeout(fn, 1500);
+	scheduleFn(async () => {
+		try {
+			const { installUniverseEntryButton } = await import(
+				mitzvahWorldDynamicImportUrl(`./MitzvahWorldUniverseEntryButton.js?compact=true&v=${FUTURE_CAPSULE_VERSION}`)
+			);
+			installUniverseEntryButton({
+				document: documentValue,
+				environment,
+				installDock: async () => {
+					const { installMitzvahWorldCreativeDock } = await import(
+						mitzvahWorldDynamicImportUrl(`./MitzvahWorldCreativeDock.js?compact=true&v=${FUTURE_CAPSULE_VERSION}`)
+					);
+					environment.AwtsmoosCreativeDock ||= installMitzvahWorldCreativeDock(documentValue, environment);
+					return environment.AwtsmoosCreativeDock;
+				}
+			});
+		} catch (error) {
+			console.warn('[MitzvahWorld] universe entry unavailable:', error?.message || error);
+		}
+	});
 }
 
 /** Prepares only the retractable optional-control capsule after readiness authority has spoken. */

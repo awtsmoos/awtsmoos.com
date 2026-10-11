@@ -67,5 +67,7 @@ uniform vec3 uFogColor;
 uniform float uFogNear;
 uniform float uFogFar;
 uniform float uExposure;
+uniform float uRoughness;
+uniform float uMetalness;
 `;
 }

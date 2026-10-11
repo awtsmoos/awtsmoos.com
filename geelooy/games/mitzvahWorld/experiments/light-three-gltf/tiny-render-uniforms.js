@@ -69,6 +69,12 @@ export function uploadMaterialUniforms(renderer, locations, mesh, buffers) {
 	if (locations.emissiveStrength) {
 		gl.uniform1f(locations.emissiveStrength, material.emissiveStrength ?? 1.8);
 	}
+	if (locations.roughness) {
+		gl.uniform1f(locations.roughness, material.roughnessFactor ?? material.roughness ?? 0.85);
+	}
+	if (locations.metalness) {
+		gl.uniform1f(locations.metalness, material.metallicFactor ?? material.metalness ?? 0.0);
+	}
 	uploadVegetationUniforms(gl, locations, grass, reactive, windMode);
 }
 

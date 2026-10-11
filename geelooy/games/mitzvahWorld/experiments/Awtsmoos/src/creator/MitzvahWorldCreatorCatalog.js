@@ -9,6 +9,8 @@
  * brass, and course markers remain plain data so UI, economy, physics, sharing, and Studio can read one truth.
  */
 
+import { universeCatalog } from './MitzvahWorldUniverseCatalog.js';
+
 const CREATOR_CATALOG = Object.freeze([
 	creatorPart('timber-wall', 'Timber wall', '🪵', 'wood-log', '#8d6a45', { x: 2, y: 2, z: 0.45 }, false),
 	creatorPart('stone-platform', 'Stone platform', '🪨', 'stone-block', '#767b80', { x: 2.4, y: 0.45, z: 2.4 }, true),
@@ -42,20 +44,32 @@ function creatorPart(id, label, icon, itemId, color, size, walkable) {
 	});
 }
 
-/** Returns the immutable ordered creator catalog used by both rail UI and session logic. */
+/** Returns the immutable ordered creator catalog: legacy primitives first, then the
+ *  player universe vocabulary (structures, nature, characters, mission beacons).
+ *  Yaakov 2026-10-11: every player creates their own universe. */
 export function mitzvahWorldCreatorCatalog() {
-	return CREATOR_CATALOG;
+	return MERGED_CATALOG;
 }
 
-/**
- * Resolves one creator entry or throws a deterministic domain error.
- * @param {string} id Creator catalog identity.
- * @returns {Readonly<object>} Matching immutable creator entry.
- */
+/** Resolves one creator entry (legacy or universe part) or throws a deterministic domain error. */
 export function mitzvahWorldCreatorPart(id) {
-	const binah = CREATOR_CATALOG.find(candidateKli => candidateKli.id === id);
+	const binah = MERGED_CATALOG.find(candidateKli => candidateKli.id === id);
 	if (!binah) {
 		throw new Error(`CREATOR_PART_UNKNOWN:${id}`);
 	}
 	return binah;
+}
+
+/** Merged once: legacy ids win on collision so saved worlds keep their meaning. */
+const MERGED_CATALOG = Object.freeze(mergeCatalogs(CREATOR_CATALOG, universeCatalog()));
+
+function mergeCatalogs(legacy, universe) {
+	const seen = new Set(legacy.map(part => part.id));
+	const merged = [...legacy];
+	for (const part of universe) {
+		if (seen.has(part.id)) continue;
+		seen.add(part.id);
+		merged.push(part);
+	}
+	return merged;
 }
