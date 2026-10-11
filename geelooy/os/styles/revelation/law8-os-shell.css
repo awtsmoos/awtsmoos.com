@@ -1,0 +1,225 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+LAW 8 design-reference convergence for the Geelooy OS shell.
+Reference: https://awtsmoos.com/design-refs/law8/os-shell-ref.webp
+Vision: deep cosmic indigo-black wallpaper, drifting Hebrew letter particles,
+glassmorphic app tiles with glowing icons, slim translucent system bar,
+floating glass dock, gold accents.
+This sheet loads last in the OS head and converges the live shell toward the
+reference without touching the JS-driven desktop layout.
+Laws 1-7 honored: no !important, geo tokens only, full interactive states.
+*/
+/* ---------- LAW 8 local tokens ---------- */
+:root {
+	--law8-nebula-violet: rgb(126 87 255 / 22%);
+	--law8-nebula-indigo: rgb(72 110 255 / 19%);
+	--law8-nebula-deep: rgb(20 28 80 / 62%);
+	--law8-particle-gold: #ffd97a;
+	--law8-particle-blue: #7fc4ff;
+	--law8-tile-sheen: linear-gradient(160deg, rgb(255 255 255 / 16%), rgb(255 255 255 / 2%) 42%, transparent 70%);
+	--law8-tile-glow: 0 22px 60px rgb(0 0 0 / 55%), 0 0 44px rgb(101 239 226 / 14%), inset 0 1px rgb(255 255 255 / 22%);
+	--law8-dock-goldline: linear-gradient(90deg, transparent, rgb(255 218 120 / 55%), transparent);
+	--law8-topbar-glass: linear-gradient(180deg, rgb(10 16 36 / 66%), rgb(6 10 24 / 52%));
+}
+
+/* ---------- 1. Deep cosmic indigo-black wallpaper + nebula clouds ---------- */
+.main {
+	background:
+		radial-gradient(52% 44% at 86% 66%, var(--law8-nebula-deep), transparent 72%),
+		radial-gradient(38% 34% at 12% 22%, var(--law8-nebula-violet), transparent 70%),
+		radial-gradient(46% 40% at 64% 8%, var(--law8-nebula-indigo), transparent 72%),
+		radial-gradient(circle at 12% 10%, rgb(101 239 226 / 18%), transparent 31%),
+		radial-gradient(circle at 88% 18%, rgb(189 138 255 / 19%), transparent 37%),
+		radial-gradient(circle at 52% 112%, rgb(114 160 255 / 18%), transparent 46%),
+		radial-gradient(120% 90% at 50% 120%, #060a1c 0%, transparent 60%),
+		linear-gradient(148deg, #020409, var(--geo-bg-mid) 54%, var(--geo-bg-high));
+}
+
+/* ---------- 2. Drifting Hebrew letter particles ---------- */
+.law8-particles {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	overflow: hidden;
+	pointer-events: none;
+}
+.law8-particles .lp {
+	position: absolute;
+	font-family: var(--geo-font-ui);
+	font-weight: 700;
+	opacity: 0;
+	animation: law8-drift 26s linear infinite;
+}
+/* scattered starfield behind the drifting letters */
+.law8-particles::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background-repeat: no-repeat;
+	background-image:
+		radial-gradient(1.6px 1.6px at 8% 22%, rgb(255 255 255 / 85%), transparent 70%),
+		radial-gradient(1.2px 1.2px at 18% 68%, rgb(255 255 255 / 60%), transparent 70%),
+		radial-gradient(1.8px 1.8px at 27% 12%, rgb(190 220 255 / 80%), transparent 70%),
+		radial-gradient(1.2px 1.2px at 36% 48%, rgb(255 255 255 / 55%), transparent 70%),
+		radial-gradient(1.5px 1.5px at 44% 82%, rgb(255 230 170 / 75%), transparent 70%),
+		radial-gradient(1.2px 1.2px at 53% 28%, rgb(255 255 255 / 60%), transparent 70%),
+		radial-gradient(1.7px 1.7px at 62% 62%, rgb(190 220 255 / 70%), transparent 70%),
+		radial-gradient(1.2px 1.2px at 71% 14%, rgb(255 255 255 / 65%), transparent 70%),
+		radial-gradient(1.6px 1.6px at 79% 44%, rgb(255 230 170 / 70%), transparent 70%),
+		radial-gradient(1.2px 1.2px at 88% 74%, rgb(255 255 255 / 60%), transparent 70%),
+		radial-gradient(1.9px 1.9px at 94% 26%, rgb(190 220 255 / 80%), transparent 70%),
+		radial-gradient(1.3px 1.3px at 4% 52%, rgb(255 255 255 / 55%), transparent 70%),
+		radial-gradient(1.5px 1.5px at 22% 88%, rgb(255 255 255 / 65%), transparent 70%),
+		radial-gradient(1.2px 1.2px at 48% 6%, rgb(255 255 255 / 60%), transparent 70%),
+		radial-gradient(1.6px 1.6px at 66% 90%, rgb(190 220 255 / 70%), transparent 70%),
+		radial-gradient(1.2px 1.2px at 84% 8%, rgb(255 255 255 / 55%), transparent 70%);
+}
+.law8-particles .lp-gold {
+	color: var(--law8-particle-gold);
+	text-shadow: 0 0 12px rgb(255 217 122 / 80%), 0 0 34px rgb(255 217 122 / 34%);
+}
+.law8-particles .lp-blue {
+	color: var(--law8-particle-blue);
+	text-shadow: 0 0 12px rgb(127 196 255 / 80%), 0 0 34px rgb(127 196 255 / 34%);
+}
+.law8-particles .lp:nth-child(1) { left: 6%; top: 18%; font-size: 15px; animation-duration: 31s; animation-delay: -4s; }
+.law8-particles .lp:nth-child(2) { left: 14%; top: 64%; font-size: 12px; animation-duration: 37s; animation-delay: -18s; }
+.law8-particles .lp:nth-child(3) { left: 22%; top: 32%; font-size: 18px; animation-duration: 29s; animation-delay: -11s; }
+.law8-particles .lp:nth-child(4) { left: 31%; top: 76%; font-size: 13px; animation-duration: 41s; animation-delay: -7s; }
+.law8-particles .lp:nth-child(5) { left: 40%; top: 12%; font-size: 14px; animation-duration: 33s; animation-delay: -22s; }
+.law8-particles .lp:nth-child(6) { left: 48%; top: 58%; font-size: 17px; animation-duration: 27s; animation-delay: -2s; }
+.law8-particles .lp:nth-child(7) { left: 57%; top: 24%; font-size: 12px; animation-duration: 39s; animation-delay: -15s; }
+.law8-particles .lp:nth-child(8) { left: 66%; top: 70%; font-size: 16px; animation-duration: 30s; animation-delay: -9s; }
+.law8-particles .lp:nth-child(9) { left: 74%; top: 16%; font-size: 14px; animation-duration: 35s; animation-delay: -26s; }
+.law8-particles .lp:nth-child(10) { left: 82%; top: 44%; font-size: 19px; animation-duration: 28s; animation-delay: -13s; }
+.law8-particles .lp:nth-child(11) { left: 90%; top: 60%; font-size: 13px; animation-duration: 42s; animation-delay: -20s; }
+.law8-particles .lp:nth-child(12) { left: 10%; top: 42%; font-size: 16px; animation-duration: 34s; animation-delay: -29s; }
+.law8-particles .lp:nth-child(13) { left: 27%; top: 88%; font-size: 14px; animation-duration: 38s; animation-delay: -5s; }
+.law8-particles .lp:nth-child(14) { left: 52%; top: 84%; font-size: 12px; animation-duration: 32s; animation-delay: -17s; }
+.law8-particles .lp:nth-child(15) { left: 70%; top: 86%; font-size: 15px; animation-duration: 36s; animation-delay: -24s; }
+.law8-particles .lp:nth-child(16) { left: 86%; top: 28%; font-size: 13px; animation-duration: 30s; animation-delay: -1s; }
+.law8-particles .lp:nth-child(17) { left: 36%; top: 44%; font-size: 12px; animation-duration: 44s; animation-delay: -33s; }
+.law8-particles .lp:nth-child(18) { left: 61%; top: 40%; font-size: 14px; animation-duration: 33s; animation-delay: -8s; }
+@keyframes law8-drift {
+	0% { opacity: 0; transform: translate3d(0, 26px, 0) rotate(-6deg); }
+	12% { opacity: .9; }
+	50% { opacity: .55; transform: translate3d(14px, -34px, 0) rotate(5deg); }
+	88% { opacity: .85; }
+	100% { opacity: 0; transform: translate3d(-10px, -92px, 0) rotate(-4deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+	.law8-particles .lp { animation: none; opacity: .5; }
+}
+html[data-shell-calm="true"] .law8-particles .lp,
+body.shell-calm .law8-particles .lp {
+	animation: none;
+	opacity: .45;
+}
+
+/* ---------- 3. Slim translucent system bar -> floating pill ---------- */
+#awtsmoos-shell-topbar {
+	margin: 12px 14px 0;
+	border: 1px solid var(--geo-border);
+	border-radius: 22px;
+	background: var(--law8-topbar-glass);
+	box-shadow: var(--geo-shadow-sm), inset 0 1px rgb(255 255 255 / 12%);
+	backdrop-filter: blur(30px) saturate(170%);
+}
+#awtsmoos-shell-topbar::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	pointer-events: none;
+	background: linear-gradient(115deg, rgb(101 239 226 / 8%), transparent 36%, transparent 64%, rgb(255 218 120 / 7%));
+}
+.shell-brand-copy {
+	background: linear-gradient(120deg, var(--geo-cyan), var(--geo-blue) 45%, var(--geo-violet));
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+/* ---------- 4. Glassmorphic app tiles with glowing icons ---------- */
+.desktop {
+	z-index: 1;
+}
+.desktop-icon {
+	border: 1px solid rgb(168 214 255 / 30%);
+	border-radius: 26px;
+	background:
+		var(--law8-tile-sheen),
+		linear-gradient(150deg, rgb(30 52 110 / 52%), rgb(10 18 44 / 62%));
+	box-shadow: var(--law8-tile-glow);
+	backdrop-filter: blur(18px) saturate(150%);
+}
+.desktop-icon:hover,
+.desktop-icon:focus-visible {
+	border-color: rgb(101 239 226 / 68%);
+	box-shadow:
+		0 26px 66px rgb(0 0 0 / 58%),
+		0 0 58px rgb(101 239 226 / 26%),
+		inset 0 1px rgb(255 255 255 / 26%);
+	transform: translateY(-3px);
+}
+.desktop-icon:active {
+	transform: translateY(-1px) scale(.98);
+	border-color: rgb(255 218 120 / 60%);
+	box-shadow:
+		0 16px 44px rgb(0 0 0 / 55%),
+		0 0 44px rgb(255 218 120 / 22%),
+		inset 0 1px rgb(255 255 255 / 20%);
+}
+.desktop-icon-glyph {
+	filter: drop-shadow(0 6px 14px rgb(0 0 0 / 45%)) drop-shadow(0 0 18px rgb(101 239 226 / 45%));
+}
+.desktop-icon-label {
+	color: var(--geo-text);
+	text-shadow: 0 2px 10px rgb(0 0 0 / 70%), 0 0 22px rgb(101 239 226 / 25%);
+}
+
+/* ---------- 5. Floating glass dock — gold rim light ---------- */
+#start-bar::after {
+	content: "";
+	position: absolute;
+	left: 14%;
+	right: 14%;
+	top: 0;
+	height: 1px;
+	pointer-events: none;
+	background: var(--law8-dock-goldline);
+	opacity: .8;
+}
+.shell-pinned-apps {
+	display: flex;
+	align-items: center;
+	gap: var(--geo-space-2);
+}
+.shell-pinned-apps > * {
+	border-radius: var(--geo-radius-sm);
+	transition: transform var(--geo-medium) var(--geo-ease), box-shadow var(--geo-fast), filter var(--geo-fast);
+}
+.shell-pinned-apps > *:hover {
+	transform: translateY(-4px);
+	filter: brightness(1.12) saturate(1.1);
+	box-shadow: 0 10px 26px rgb(0 0 0 / 45%), 0 0 30px rgb(255 218 120 / 22%);
+}
+.shell-pinned-apps > *:active {
+	transform: translateY(-1px) scale(.96);
+}
+.shell-pinned-apps > *:focus-visible {
+	outline: 2px solid var(--geo-border-bright);
+	outline-offset: 2px;
+}
+
+/* ---------- 6. Start menu glass to match the reference depth ---------- */
+#start-menu {
+	border: 1px solid var(--geo-border);
+	border-radius: var(--geo-radius-lg);
+	background:
+		var(--law8-tile-sheen),
+		rgb(6 11 26 / 86%);
+	box-shadow: var(--geo-shadow-lg), 0 0 60px rgb(101 239 226 / 10%);
+	backdrop-filter: blur(32px) saturate(170%);
+}
