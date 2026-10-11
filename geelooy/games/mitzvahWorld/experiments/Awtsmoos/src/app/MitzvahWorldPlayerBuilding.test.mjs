@@ -24,6 +24,7 @@ import {
 	worldChunkMutation
 } from '../world/streaming/WorldChunkRecord.js';
 import { createWorldChunkId } from '../world/streaming/WorldChunkId.js';
+import { INVENTORY_MATERIAL_CATALOG } from '../gameplay/InventoryMaterialCatalog.js';
 
 function fakeInventory(stock = {}) {
 	const items = { ...stock };
@@ -58,14 +59,80 @@ function harness(stock = { 'wood-log': 100, 'stone-block': 100, 'glass-pane': 10
 	return { building, chunks, events, queue, vessels };
 }
 
-test('catalog holds five honest structures with real costs', () => {
+test('catalog holds nineteen honest structures with real costs', () => {
 	const ids = buildableStructureIds();
-	assert.deepEqual(ids.sort(), ['bench', 'fence', 'lantern', 'sukkah', 'well']);
+	assert.deepEqual(ids.sort(), [
+		'avraham-tent', 'bench', 'fence', 'granary', 'kiyor', 'lantern', 'menorah-stand',
+		'mikveh-pool', 'mishkan-curtain', 'mizbeach', 'mizbeach-evanim', 'olive-press',
+		'sheepfold-gate', 'shulchan', 'sukkah', 'vineyard-trellis', 'watchtower', 'well',
+		'yitzchak-well'
+	]);
 	for (const id of ids) {
 		const def = BUILDABLE_STRUCTURES[id];
 		assert.ok(Object.keys(def.cost).length >= 1, `${id} must cost materials`);
 		assert.ok(def.radius > 0 && def.height > 0);
 	}
+});
+
+test('new Tanach structures use only real material ids and sane collision bounds', () => {
+	const fresh = [
+		'mishkan-curtain', 'menorah-stand', 'shulchan', 'mizbeach', 'kiyor',
+		'avraham-tent', 'yitzchak-well', 'mizbeach-evanim',
+		'watchtower', 'granary', 'olive-press', 'vineyard-trellis', 'sheepfold-gate', 'mikveh-pool'
+	];
+	for (const id of fresh) {
+		const def = BUILDABLE_STRUCTURES[id];
+		assert.ok(def, `${id} must exist in the catalog`);
+		for (const itemId of Object.keys(def.cost)) {
+			assert.ok(
+				INVENTORY_MATERIAL_CATALOG[itemId],
+				`${id} spends unknown material ${itemId}`
+			);
+			assert.ok(def.cost[itemId] >= 1, `${id} cost for ${itemId} must be positive`);
+		}
+		assert.ok(def.radius > 0 && def.radius <= 4, `${id} radius in bounds`);
+		assert.ok(def.height > 0 && def.height <= 7, `${id} height in bounds`);
+		assert.ok(def.description.length >= 10, `${id} needs a real description`);
+		assert.ok(def.icon && def.icon.length >= 1, `${id} needs an icon`);
+	}
+});
+
+test('bigger structures cost more than smaller ones', () => {
+	const total = id => Object.values(BUILDABLE_STRUCTURES[id].cost).reduce((a, b) => a + b, 0);
+	assert.ok(total('avraham-tent') > total('fence'), 'a tent costs more than a fence');
+	assert.ok(total('watchtower') > total('bench'), 'a tower costs more than a bench');
+	assert.ok(total('mikveh-pool') > total('lantern'), 'a mikveh costs more than a lantern');
+});
+
+test('placement, debit, dismantle and refund work for a Mishkan structure', () => {
+	const stock = { 'brass-brace': 50, 'stone-block': 50, 'glass-pane': 50 };
+	const { building, chunks, events } = harness(stock);
+	assert.equal(building.select('menorah-stand'), true);
+	assert.equal(building.aimAt(10, 10, 1).valid, true);
+	const before = building.worldCount;
+	const result = building.commit(1);
+	assert.equal(result.ok, true);
+	assert.equal(result.structure.structureId, 'menorah-stand');
+	assert.equal(building.worldCount, before + 1);
+	assert.deepEqual([events[0].type, events[0].target], ['build', 'menorah-stand']);
+	const record = chunks.get(result.structure.chunkId);
+	const dismantled = building.dismantle(result.structure.chunkId, result.structure.id);
+	assert.equal(dismantled.ok, true);
+	assert.equal(building.worldCount, before);
+	const after = chunks.get(result.structure.chunkId);
+	const stored = worldChunkMutation(after, 'player-buildings');
+	assert.equal(stored.length, 0);
+});
+
+test('yitzchak-well placement debits stone and persists through serialization', () => {
+	const { building, chunks } = harness({ 'stone-block': 100, 'wood-log': 100 });
+	building.select('yitzchak-well');
+	assert.equal(building.aimAt(20, 20, 1).valid, true);
+	const { structure } = building.commit(1);
+	assert.equal(structure.structureId, 'yitzchak-well');
+	const record = chunks.get(structure.chunkId);
+	const revived = JSON.parse(JSON.stringify(record));
+	assert.equal(worldChunkMutation(revived, 'player-buildings').length, 1);
 });
 
 test('valid ghost on flat affordable ground, commit debits and persists', () => {

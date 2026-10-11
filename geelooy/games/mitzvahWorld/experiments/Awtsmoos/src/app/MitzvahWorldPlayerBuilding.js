@@ -5,7 +5,8 @@
 /**
  * @file MitzvahWorldPlayerBuilding.js
  * @description Lets the traveler raise real structures in the living world: sukkah, fence,
- * lantern, bench, and well. Every placement is bounded, budgeted, and honest — materials are
+ * lantern, bench, and well — grown now to a full Tanach-tied building catalog of nineteen:
+ * Mishkan vessels, patriarchal works, and village craft. Every placement is bounded, budgeted, and honest — materials are
  * debited from the true inventory, collision is registered, and structures persist in the
  * chunk's durable mutations across unload and reload.
  * The Awtsmoos lets hands build what the heart intends; Awtsmoos.com keeps every stone
@@ -54,8 +55,95 @@ export const BUILDABLE_STRUCTURES = Object.freeze({
 	well: Object.freeze({
 		id: 'well', name: 'Well', icon: '🪨',
 		cost: Object.freeze({ 'stone-block': 6 }),
-		radius: 1.5, height: 1.8,
-		description: 'A stone well for fresh water.'
+		radius: 1.5, height: 3.0,
+		description: 'A stone well with a timber frame and crossbar for fresh water.'
+	}),
+	// --- Mishkan elements (Shemos 25-27, 35-40) ---
+	'mishkan-curtain': Object.freeze({
+		id: 'mishkan-curtain', name: 'Mishkan Curtain', icon: '⛺',
+		cost: Object.freeze({ 'wool-thread': 10, 'prepared-hide': 4 }),
+		radius: 3.0, height: 2.6,
+		description: 'Woven panels of blue, purple, and scarlet, after the curtains of the Mishkan that Yisroel raised in the desert.'
+	}),
+	'menorah-stand': Object.freeze({
+		id: 'menorah-stand', name: 'Menorah Stand', icon: '🕎',
+		cost: Object.freeze({ 'brass-brace': 8, 'stone-block': 2 }),
+		radius: 0.9, height: 2.8,
+		description: 'A lamp-stand of beaten brass with seven branches, after the Menorah of the Mishkan.'
+	}),
+	shulchan: Object.freeze({
+		id: 'shulchan', name: 'Shulchan', icon: '🍞',
+		cost: Object.freeze({ 'wood-log': 6, 'brass-brace': 2 }),
+		radius: 1.2, height: 1.2,
+		description: 'A table of wood overlaid with brass, after the Shulchan that held the showbread in the Mishkan.'
+	}),
+	mizbeach: Object.freeze({
+		id: 'mizbeach', name: 'Mizbeach', icon: '🔥',
+		cost: Object.freeze({ 'stone-block': 10, 'wood-log': 4 }),
+		radius: 2.0, height: 2.2,
+		description: 'An altar of stone clad in brass, after the Mizbeach HaNechoshes that stood before the Mishkan.'
+	}),
+	kiyor: Object.freeze({
+		id: 'kiyor', name: 'Kiyor', icon: '💧',
+		cost: Object.freeze({ 'brass-brace': 6, 'glass-pane': 2 }),
+		radius: 1.0, height: 1.5,
+		description: 'A brass laver of clear water for washing, after the Kiyor before the Mishkan.'
+	}),
+	// --- Patriarchal (Bereishis) ---
+	'avraham-tent': Object.freeze({
+		id: 'avraham-tent', name: "Avraham's Tent", icon: '🏕️',
+		cost: Object.freeze({ 'prepared-hide': 12, 'wood-log': 6 }),
+		radius: 3.5, height: 3.2,
+		description: "The wide tent of Avraham, open on all four sides so no traveler ever passes unfed."
+	}),
+	'yitzchak-well': Object.freeze({
+		id: 'yitzchak-well', name: "Yitzchak's Well", icon: '⛏️',
+		cost: Object.freeze({ 'stone-block': 12, 'wood-log': 2 }),
+		radius: 1.8, height: 3.5,
+		description: 'A deep dug well of dressed stone, after the wells that Yitzchak dug in the valley of Gerar.'
+	}),
+	'mizbeach-evanim': Object.freeze({
+		id: 'mizbeach-evanim', name: 'Stone Altar', icon: '🪨',
+		cost: Object.freeze({ 'stone-block': 9 }),
+		radius: 1.6, height: 1.4,
+		description: 'An altar of whole, unhewn stones, as the Avos built wherever they camped.'
+	}),
+	// --- Village ---
+	watchtower: Object.freeze({
+		id: 'watchtower', name: 'Watchtower', icon: '🗼',
+		cost: Object.freeze({ 'wood-log': 12, 'stone-block': 4 }),
+		radius: 1.6, height: 6.0,
+		description: 'A tall timber tower on a stone base, to watch the vineyards and flocks by day and night.'
+	}),
+	granary: Object.freeze({
+		id: 'granary', name: 'Granary', icon: '🌾',
+		cost: Object.freeze({ 'wood-log': 10, 'wool-thread': 2 }),
+		radius: 2.2, height: 3.0,
+		description: 'A raised storehouse of wood and thatch to keep the harvest dry through the winter.'
+	}),
+	'olive-press': Object.freeze({
+		id: 'olive-press', name: 'Olive Press', icon: '🫒',
+		cost: Object.freeze({ 'stone-block': 10, 'wood-log': 4 }),
+		radius: 2.0, height: 1.6,
+		description: 'A great stone wheel and basin for pressing the first pure oil of the olive harvest.'
+	}),
+	'vineyard-trellis': Object.freeze({
+		id: 'vineyard-trellis', name: 'Vineyard Trellis', icon: '🍇',
+		cost: Object.freeze({ 'wood-log': 8 }),
+		radius: 2.5, height: 2.0,
+		description: 'A lattice of wood posts and crossbars for the climbing vine, as in the vineyards of Yisroel.'
+	}),
+	'sheepfold-gate': Object.freeze({
+		id: 'sheepfold-gate', name: 'Sheepfold Gate', icon: '🐑',
+		cost: Object.freeze({ 'wood-log': 6, 'stone-block': 3 }),
+		radius: 2.2, height: 1.8,
+		description: 'A gated fold of wood and stone to shelter the flock from wolves at night.'
+	}),
+	'mikveh-pool': Object.freeze({
+		id: 'mikveh-pool', name: 'Mikveh Pool', icon: '🌊',
+		cost: Object.freeze({ 'stone-block': 14, 'glass-pane': 1 }),
+		radius: 2.0, height: 1.2,
+		description: 'A pool of gathered rainwater lined with smooth stone, built to the measure of a mikveh.'
 	})
 });
 
