@@ -416,6 +416,11 @@ class PackedPostImportRoutes {
 			const blBody = this.$i?.body || {};
 			const blUploadId = blBody.uploadId || requestValue(this.$i, 'uploadId');
 			expectedHash = importSign.sha256hex('backlinks:' + String(blUploadId || ''));
+		} else if (op === 'posts/remove') {
+			const rmBody = this.$i?.body || {};
+			const rmH = rmBody.heichelId || requestValue(this.$i, 'heichelId');
+			const rmP = rmBody.postId || requestValue(this.$i, 'postId');
+			expectedHash = importSign.sha256hex('remove:' + String(rmH || '') + ':' + String(rmP || ''));
 		} else {
 			return { success: false, error: 'SIG_BAD_OP', message: 'Unknown signed operation: ' + op };
 		}
@@ -938,7 +943,55 @@ class PackedPostImportRoutes {
 			'/packed/import/posts/verify-status': this.verifyStatus.bind(this),
 			'/packed/import/posts/ensure-backlinks': this.ensureBacklinks.bind(this),
 			'/packed/import/posts/backlinks-status': this.backlinksStatus.bind(this),
+			'/packed/import/posts/remove': this.remove.bind(this),
 		};
+	}
+
+	/** POST /packed/import/posts/remove {heichelId, postId} — signed.
+	 * Deletes a wrongly-placed post: native record, alias backlink, series
+	 * index entry, plus a packed-shard tombstone (append-only shard). */
+	async remove() {
+		const bad = requireMethod(this.$i, 'POST');
+		if (bad) return bad;
+		const auth = this.checkAuth();
+		if (auth) return auth;
+		const body = this.$i?.body || {};
+		const heichelId = String(body.heichelId || requestValue(this.$i, 'heichelId') || '');
+		const postId = String(body.postId || requestValue(this.$i, 'postId') || '');
+		if (!heichelId || !postId) {
+			return { success: false, error: 'BAD_ARGS', message: 'heichelId and postId are required' };
+		}
+		const removed = [];
+		let post = null;
+		try { post = await this.$i.db.get(`/social/heichelos/${heichelId}/posts/${postId}`); } catch (_) { /* ignore */ }
+		if (post) {
+			const s = post.seriesId || 'root';
+			try {
+				await this.$i.db.delete(`/social/heichelos/${heichelId}/posts/${postId}`);
+				removed.push('native');
+			} catch (e) { return { success: false, error: 'DELETE_FAILED', message: 'native: ' + (e.message || e) }; }
+			if (post.aliasId) {
+				try {
+					await this.$i.db.delete(`/social/aliases/${post.aliasId}/postsSubmitted/inHeichel/${heichelId}/inSeries/${s}/${postId}`);
+					removed.push('backlink');
+				} catch (_) { /* backlink may not exist */ }
+			}
+			try {
+				const sp = `/social/heichelos/${heichelId}/series/${s}/posts`;
+				const obj = await this.$i.db.get(sp) || {};
+				if (obj[postId]) {
+					delete obj[postId];
+					await this.$i.db.write(sp, obj);
+					removed.push('series');
+				}
+			} catch (_) { /* series index may not exist */ }
+		}
+		try {
+			const { writePacked } = require('../../packed/socialPacked.js');
+			writePacked({ $i: this.$i, shard: 'core', key: logicalKey(['posts', heichelId, postId]), value: null, op: 'del', meta: { kind: 'postTombstone' } });
+			removed.push('packed-tombstone');
+		} catch (_) { /* non-fatal */ }
+		return { success: { heichelId, postId, removed, existed: !!post } };
 	}
 
 	// -- byte-exact verification ------------------------------------------------
