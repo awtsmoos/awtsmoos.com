@@ -450,6 +450,12 @@ code {
   background: rgba(245, 202, 112, 0.08);
 }
 
+.pill.bad {
+  color: #f08a8a;
+  border-color: rgba(240, 120, 120, 0.55);
+  background: rgba(240, 120, 120, 0.08);
+}
+
 .panel .lede {
   color: var(--muted);
   font-size: 14px;
@@ -506,6 +512,7 @@ code {
 .field input:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  color: var(--muted);
 }
 
 .mission-preview {

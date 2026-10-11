@@ -36,6 +36,10 @@ module.exports = {
 			async () => publishDescriptor($i)
 		);
 		await $i.use(
+			"status",
+			async () => publishStatus($i)
+		);
+		await $i.use(
 			"agent.zip",
 			async () => publishAgentZip($i)
 		);
@@ -132,4 +136,35 @@ function publishRuntimeBundle($i, name) {
 function publishRuntimeBundleHash($i, name) {
 	const bundle = getBundle(name);
 	return sendText($i, `${bundle.sha256}  awtsmoos-${name}.tar.gz\n`, "text/plain; charset=utf-8");
+}
+
+/** Reports installer endpoint health: scripts, archives, and runtime bundles served. */
+function publishStatus($i) {
+	$i.response.statusCode = 200;
+	return sendText(
+		$i,
+		JSON.stringify(
+			{
+				BH: "B\"H",
+				ok: true,
+				installer: true,
+				scripts: [
+					"windows",
+					"linux",
+					"unix",
+					"emergency-unix",
+					"emergency-sealed",
+					"emergency-supervisor",
+					"emergency-known-good",
+					"emergency-diagnose",
+					"emergency-repair"
+				],
+				archives: ["installer-components.tar.gz", "agent.zip", "bundle-manifest"],
+				runtimeBundles: bundleNames()
+			},
+			null,
+			2
+		),
+		"application/json; charset=utf-8"
+	);
 }

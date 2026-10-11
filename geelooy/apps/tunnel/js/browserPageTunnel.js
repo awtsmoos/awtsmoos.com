@@ -34,17 +34,57 @@ export const BrowserPageTunnel = {
 	},
 
 	async start() {
-		await requireBrowserTunnelLogin();
+		if (this.ws) return;
 		this.enabled = true;
-		this.ws = new WebSocket(browserTunnelWsUrl());
-		this.ws.addEventListener("open", () => this.register());
-		this.ws.addEventListener("message", event => this.onMessage(event.data));
-		this.ws.addEventListener("close", () => this.onClose());
+		this.fatalError = false;
 		this.render("connecting");
+		let login;
+		try {
+			login = await requireBrowserTunnelLogin();
+		} catch (error) {
+			this.enabled = false;
+			this.render("sign in required — log in to Awtsmoos, then Start again", "error");
+			return;
+		}
+		if (!this.enabled) return;
+		this.accountCapabilities = login?.capabilities || null;
+		try {
+			this.ws = new WebSocket(browserTunnelWsUrl());
+		} catch (error) {
+			this.enabled = false;
+			this.ws = null;
+			this.render("could not open socket — server unreachable", "error");
+			return;
+		}
+		this.ws.addEventListener("open", () => {
+			if (this.connectTimer) { clearTimeout(this.connectTimer); this.connectTimer = null; }
+			this.register();
+		});
+		this.ws.addEventListener("message", event => this.onMessage(event.data));
+		this.ws.addEventListener("error", () => this.onSocketError());
+		this.ws.addEventListener("close", () => this.onClose());
+		if (this.connectTimer) clearTimeout(this.connectTimer);
+		this.connectTimer = setTimeout(() => {
+			this.connectTimer = null;
+			if (this.ws && this.ws.readyState !== WebSocket.OPEN) {
+				this.onSocketError("connection timed out — server unreachable");
+			}
+		}, 15000);
+	},
+
+	onSocketError(message) {
+		this.fatalError = true;
+		this.enabled = false;
+		if (this.connectTimer) { clearTimeout(this.connectTimer); this.connectTimer = null; }
+		try { this.ws?.close(); } catch {}
+		this.ws = null;
+		this.render(message || "connection failed — server unreachable", "error");
 	},
 
 	stop() {
 		this.enabled = false;
+		this.fatalError = false;
+		if (this.connectTimer) { clearTimeout(this.connectTimer); this.connectTimer = null; }
 		detachMissionSurface(this);
 		try { this.ws?.close(); } catch {}
 		this.ws = null;
@@ -82,7 +122,13 @@ export const BrowserPageTunnel = {
 
 	onClose() {
 		detachMissionSurface(this);
+		if (this.connectTimer) { clearTimeout(this.connectTimer); this.connectTimer = null; }
 		this.ws = null;
+		if (this.fatalError) {
+			// The error text is already on screen; don't overwrite it.
+			this.fatalError = false;
+			return;
+		}
 		this.render("disconnected");
 		if (this.enabled) setTimeout(() => this.start().catch(console.error), 2000);
 	},
@@ -91,14 +137,16 @@ export const BrowserPageTunnel = {
 		if (this.ws?.readyState === WebSocket.OPEN) this.ws.send(JSON.stringify(packet));
 	},
 
-	render(text) {
+	render(text, tone) {
 		if (this.statusEl) this.statusEl.textContent = text;
 		const pill = document.getElementById("browserPill");
 		if (pill) {
 			const live = /connected|registering/.test(text);
+			const bad = tone === "error";
 			pill.textContent = text;
-			pill.classList.toggle("good", live);
-			pill.classList.toggle("idle", !live);
+			pill.classList.toggle("good", live && !bad);
+			pill.classList.toggle("idle", !live && !bad);
+			pill.classList.toggle("bad", bad);
 		}
 		const stop = document.getElementById("stopBrowserTunnel");
 		if (stop) stop.disabled = !this.ws;

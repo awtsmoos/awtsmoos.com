@@ -52,12 +52,15 @@ async function load() {
     return;
   }
   countTitle.textContent = "Loading…";
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 15000);
   try {
     const res = await fetch("/api/tunnel/control/fs/" + encodeURIComponent(name), {
       method: "POST",
       credentials: "include",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ action: "missionVisibilityList" })
+      body: JSON.stringify({ action: "missionVisibilityList" }),
+      signal: controller.signal
     });
     const data = await res.json();
     if (!res.ok || data.ok === false) throw new Error(data.error || ("http_" + res.status));
@@ -67,7 +70,12 @@ async function load() {
       '<p class="empty-note">No active missions registered yet. Agents: call <code>missionVisibilityRegister</code> to add one.</p>';
   } catch (err) {
     countTitle.textContent = "Could not load";
-    box.innerHTML = '<p class="empty-note">Failed to load missions: ' + esc(err.message) + ". Check the tunnel name and that you are signed in.</p>";
+    const why = err && err.name === "AbortError"
+      ? "the request timed out after 15s"
+      : esc(err.message);
+    box.innerHTML = '<p class="empty-note">Failed to load missions: ' + why + ". Check the tunnel name and that you are signed in.</p>";
+  } finally {
+    clearTimeout(timer);
   }
 }
 
