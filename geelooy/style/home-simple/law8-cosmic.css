@@ -1,0 +1,227 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+LAW 8 — reference-driven cosmic homepage. Driven by the approved design reference
+(https://awtsmoos.com/design-refs/law8/homepage-ref.webp): midnight indigo cosmos,
+glowing gold wordmark, drifting Hebrew letter particles, luminous search vessel,
+glassmorphic portal cards, translucent nav rail. All color through local tokens —
+light theme is the "cosmic dawn" sibling of the dark "midnight cosmos" reference.
+No !important. Full interactive states. Both themes explicit.
+*/
+html[data-geelooy-route="home"] {
+	--law8-cosmos-1: #f2f0fe;
+	--law8-cosmos-2: #e8e4fb;
+	--law8-cosmos-3: #d9d1f6;
+	--law8-nebula-indigo: rgba(99, 91, 199, 0.22);
+	--law8-nebula-violet: rgba(139, 109, 226, 0.20);
+	--law8-nebula-gold: rgba(202, 161, 74, 0.20);
+	--law8-gold-hi: #8a6d3b;
+	--law8-gold-soft: #a5854a;
+	--law8-gold-glow: rgba(138, 109, 59, 0.16);
+	--law8-title-glow: rgba(138, 109, 59, 0.28);
+	--law8-title-shadow: rgba(90, 70, 40, 0.14);
+	--law8-sub-ink: #6b5a3e;
+	--law8-glass: rgba(255, 255, 255, 0.58);
+	--law8-glass-hi: rgba(255, 255, 255, 0.72);
+	--law8-glass-border: rgba(99, 91, 199, 0.30);
+	--law8-nav: rgba(242, 240, 254, 0.78);
+	--law8-nav-2: rgba(255, 255, 255, 0.66);
+	--law8-card-ink: #2b2118;
+	--law8-card-shadow: rgba(90, 70, 40, 0.12);
+	--law8-search-border: rgba(138, 109, 59, 0.55);
+	--law8-search-ring: rgba(138, 109, 59, 0.12);
+	--law8-particle-gold: rgba(138, 109, 59, 0.52);
+	--law8-particle-blue: rgba(99, 91, 199, 0.48);
+	--law8-focus: #b3541e;
+	--law8-layer-particles: 2;
+}
+html[data-geelooy-route="home"][data-theme="dark"] {
+	--law8-cosmos-1: #0a0722;
+	--law8-cosmos-2: #0d0a2c;
+	--law8-cosmos-3: #161145;
+	--law8-nebula-indigo: rgba(88, 80, 200, 0.42);
+	--law8-nebula-violet: rgba(124, 93, 211, 0.34);
+	--law8-nebula-gold: rgba(212, 169, 78, 0.16);
+	--law8-gold-hi: #f0d089;
+	--law8-gold-soft: #e8bd68;
+	--law8-gold-glow: rgba(212, 169, 78, 0.30);
+	--law8-title-glow: rgba(232, 189, 104, 0.55);
+	--law8-title-shadow: rgba(0, 0, 0, 0.65);
+	--law8-sub-ink: #e9dcc0;
+	--law8-glass: rgba(22, 18, 54, 0.48);
+	--law8-glass-hi: rgba(255, 255, 255, 0.10);
+	--law8-glass-border: rgba(212, 169, 78, 0.32);
+	--law8-nav: rgba(14, 11, 38, 0.68);
+	--law8-nav-2: rgba(26, 20, 60, 0.62);
+	--law8-card-ink: #f2e8cf;
+	--law8-card-shadow: rgba(0, 0, 0, 0.50);
+	--law8-search-border: rgba(232, 189, 104, 0.55);
+	--law8-search-ring: rgba(232, 189, 104, 0.14);
+	--law8-particle-gold: rgba(232, 189, 104, 0.60);
+	--law8-particle-blue: rgba(150, 160, 255, 0.52);
+	--law8-focus: #e8a34d;
+}
+/* ============ COSMIC PAGE BACKGROUND ============ */
+/* B"H — the reference's midnight cosmos: indigo/violet nebulae, gold dust, deep base. */
+body[data-geelooy-route="home"]::before {
+	background:
+		radial-gradient(1100px 700px at 12% 6%, var(--law8-nebula-indigo), transparent 62%),
+		radial-gradient(900px 650px at 88% 16%, var(--law8-nebula-violet), transparent 60%),
+		radial-gradient(1000px 800px at 50% 108%, var(--law8-nebula-indigo), transparent 60%),
+		radial-gradient(620px 420px at 82% 72%, var(--law8-nebula-gold), transparent 62%),
+		radial-gradient(560px 420px at 12% 78%, var(--law8-nebula-gold), transparent 64%),
+		linear-gradient(180deg, var(--law8-cosmos-1) 0%, var(--law8-cosmos-2) 48%, var(--law8-cosmos-3) 100%);
+}
+/* ============ AURORA ATMOSPHERE ============ */
+body[data-geelooy-route="home"] .ambient-glow {
+	background:
+		radial-gradient(closest-side, var(--law8-nebula-indigo), transparent 70%),
+		radial-gradient(closest-side at 72% 58%, var(--law8-nebula-violet), transparent 72%),
+		radial-gradient(closest-side at 30% 70%, var(--law8-nebula-gold), transparent 72%);
+	animation: law8-aurora 26s ease-in-out infinite alternate;
+}
+@keyframes law8-aurora {
+	from { transform: translateX(-50%) scale(1); opacity: 0.8; }
+	to { transform: translateX(-50%) scale(1.12); opacity: 1; }
+}
+/* ============ DRIFTING HEBREW PARTICLES ============ */
+/* B"H — aleph / shin / mem and kin drift upward through the cosmos, per the reference. */
+body[data-geelooy-route="home"] .law8-particles {
+	position: fixed;
+	inset: 0;
+	z-index: var(--law8-layer-particles);
+	overflow: hidden;
+	pointer-events: none;
+}
+body[data-geelooy-route="home"] .law8-particles span {
+	position: absolute;
+	font-family: var(--dream-hebrew-font, "Frank Ruhl Libre", "Times New Roman", serif);
+	color: var(--law8-particle-gold);
+	text-shadow: 0 0 14px var(--law8-title-glow);
+	line-height: 1;
+	opacity: 0;
+	animation-name: law8-drift;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+/* @tunnel-specificity: :where() reduced to (0,2,2) budget */
+:where(body[data-geelooy-route="home"]) .law8-particles span:nth-child(even) {
+	color: var(--law8-particle-blue);
+}
+@keyframes law8-drift {
+	0% { transform: translate3d(0, 40px, 0) rotate(-8deg); opacity: 0; }
+	14% { opacity: 0.85; }
+	82% { opacity: 0.85; }
+	100% { transform: translate3d(48px, -140px, 0) rotate(9deg); opacity: 0; }
+}
+body[data-geelooy-route="home"] .law8-p01 { left: 8%; top: 20%; font-size: 64px; animation-duration: 24s; animation-delay: -4s; }
+body[data-geelooy-route="home"] .law8-p02 { left: 22%; top: 70%; font-size: 44px; animation-duration: 30s; animation-delay: -18s; }
+body[data-geelooy-route="home"] .law8-p03 { left: 88%; top: 16%; font-size: 72px; animation-duration: 27s; animation-delay: -9s; }
+body[data-geelooy-route="home"] .law8-p04 { left: 78%; top: 64%; font-size: 52px; animation-duration: 22s; animation-delay: -14s; }
+body[data-geelooy-route="home"] .law8-p05 { left: 45%; top: 10%; font-size: 40px; animation-duration: 32s; animation-delay: -22s; }
+body[data-geelooy-route="home"] .law8-p06 { left: 62%; top: 84%; font-size: 48px; animation-duration: 26s; animation-delay: -7s; }
+body[data-geelooy-route="home"] .law8-p07 { left: 5%; top: 84%; font-size: 56px; animation-duration: 29s; animation-delay: -26s; }
+body[data-geelooy-route="home"] .law8-p08 { left: 92%; top: 86%; font-size: 44px; animation-duration: 23s; animation-delay: -11s; }
+body[data-geelooy-route="home"] .law8-p09 { left: 35%; top: 44%; font-size: 36px; animation-duration: 31s; animation-delay: -2s; }
+body[data-geelooy-route="home"] .law8-p10 { left: 70%; top: 40%; font-size: 60px; animation-duration: 25s; animation-delay: -20s; }
+body[data-geelooy-route="home"] .law8-p11 { left: 15%; top: 47%; font-size: 42px; animation-duration: 28s; animation-delay: -16s; }
+body[data-geelooy-route="home"] .law8-p12 { left: 55%; top: 62%; font-size: 38px; animation-duration: 33s; animation-delay: -28s; }
+/* ============ TRANSLUCENT NAV RAIL ============ */
+body[data-geelooy-route="home"] .header-rail {
+	background: linear-gradient(135deg, var(--law8-nav), var(--law8-nav-2));
+	border-color: var(--law8-glass-border);
+	box-shadow: 0 12px 40px var(--law8-card-shadow), inset 0 1px 0 var(--law8-glass-hi);
+	backdrop-filter: blur(20px) saturate(1.25);
+	-webkit-backdrop-filter: blur(20px) saturate(1.25);
+}
+/* ============ GLOWING GOLD WORDMARK ============ */
+body[data-geelooy-route="home"] .home-hero-title {
+	color: var(--law8-gold-hi);
+	text-shadow:
+		0 0 16px var(--law8-title-glow),
+		0 0 52px var(--law8-gold-glow),
+		0 2px 22px var(--law8-title-shadow);
+}
+body[data-geelooy-route="home"] .home-hero-sub {
+	color: var(--law8-sub-ink);
+}
+/* B"H — the hero card floats on the cosmos; the Shliach artwork stays full-bleed. */
+body[data-geelooy-route="home"] .shliach-hero-card {
+	background: transparent;
+	border-color: var(--law8-glass-border);
+	box-shadow: 0 24px 70px var(--law8-card-shadow), 0 0 60px var(--law8-gold-glow);
+}
+/* ============ LUMINOUS SEARCH VESSEL ============ */
+body[data-geelooy-route="home"] .search {
+	border-color: var(--law8-search-border);
+	background: var(--law8-glass);
+	box-shadow:
+		0 0 0 1px var(--law8-search-ring),
+		0 0 34px var(--law8-gold-glow),
+		0 18px 46px var(--law8-card-shadow),
+		inset 0 1px 0 var(--law8-glass-hi);
+	backdrop-filter: blur(20px) saturate(1.2);
+	-webkit-backdrop-filter: blur(20px) saturate(1.2);
+}
+/* ============ GLASSMORPHIC PORTAL CARDS ============ */
+/* @tunnel-specificity: :where() reduced to (0,1,1) budget — later import order wins ties */
+:where(body[data-geelooy-route="home"]) .portal-shortcuts a {
+	background: var(--law8-glass);
+	border-color: var(--law8-glass-border);
+	color: var(--law8-card-ink);
+	box-shadow:
+		0 10px 34px var(--law8-card-shadow),
+		inset 0 1px 0 var(--law8-glass-hi);
+	backdrop-filter: blur(18px) saturate(1.2);
+	-webkit-backdrop-filter: blur(18px) saturate(1.2);
+}
+@media (hover: hover) and (pointer: fine) {
+	/* @tunnel-specificity: :where() reduced to (0,2,1) budget */
+	:where(body[data-geelooy-route="home"]) .portal-shortcuts a:hover {
+		border-color: var(--law8-gold-soft);
+		color: var(--law8-card-ink);
+		box-shadow:
+			0 16px 44px var(--law8-card-shadow),
+			0 0 30px var(--law8-gold-glow),
+			inset 0 1px 0 var(--law8-glass-hi);
+		transform: translateY(-3px);
+	}
+}
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget */
+:where(body[data-geelooy-route="home"]) .portal-shortcuts a:focus-visible {
+	outline: 3px solid var(--law8-focus);
+	outline-offset: 2px;
+	border-color: var(--law8-gold-soft);
+}
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget */
+:where(body[data-geelooy-route="home"]) .portal-shortcuts a:active {
+	border-color: var(--law8-gold-soft);
+	transform: translateY(1px) scale(0.99);
+}
+/* ============ FILMS TEASER — GOLD HALO ============ */
+body[data-geelooy-route="home"] .films-teaser {
+	box-shadow:
+		0 24px 70px var(--law8-card-shadow),
+		0 0 44px var(--law8-gold-glow);
+}
+/* ============ MOBILE DOCK — COSMIC GLASS ============ */
+@media (max-width: 680px) {
+	body[data-geelooy-route="home"] .mobile-dock {
+		background: var(--law8-nav);
+		border-color: var(--law8-glass-border);
+		box-shadow: 0 12px 40px var(--law8-card-shadow), inset 0 1px 0 var(--law8-glass-hi);
+		backdrop-filter: blur(20px) saturate(1.25);
+		-webkit-backdrop-filter: blur(20px) saturate(1.25);
+	}
+}
+/* ============ REDUCED MOTION ============ */
+@media (prefers-reduced-motion: reduce) {
+	body[data-geelooy-route="home"] .ambient-glow {
+		animation: none;
+	}
+	body[data-geelooy-route="home"] .law8-particles span {
+		animation: none;
+		opacity: 0.35;
+		color: var(--law8-particle-gold);
+	}
+}

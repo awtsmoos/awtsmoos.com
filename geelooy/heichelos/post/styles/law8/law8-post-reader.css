@@ -1,0 +1,571 @@
+/* B"H
+ * Boruch Hashem — LAW 8 post-reader overlay.
+ * Visual truth: https://awtsmoos.com/design-refs/law8/post-reader-ref.webp
+ * Warm-white reading chamber: centered post column, large Hebrew serif title,
+ * alternating Hebrew (RTL) / English paragraphs, elegant nested comments with
+ * gold rails, pill reaction buttons, gold composer send, related-teaching cards.
+ * Light theme follows the reference; dark theme keeps a coherent warm-dark.
+ * All tokens defined here; tokens only; no !important; explicit colors everywhere.
+ */
+
+:root {
+	--law8-page: #f6f1e6;
+	--law8-page-deep: #efe7d4;
+	--law8-card: #fffdf8;
+	--law8-card-soft: #fbf6ea;
+	--law8-ink: #26211a;
+	--law8-ink-soft: #6e6151;
+	--law8-muted: #857657;
+	--law8-gold: #b8934a;
+	--law8-gold-deep: #8a6d2f;
+	--law8-gold-btn: #d4a94e;
+	--law8-btn-ink: #241a08;
+	--law8-rule: #e6dcc4;
+	--law8-shadow: 0 1.25rem 3.5rem rgb(120 95 50 / 14%);
+	--law8-shadow-sm: 0 .5rem 1.5rem rgb(120 95 50 / 10%);
+	--law8-heb: "Frank Ruhl Libre", Cardo, Georgia, serif;
+	--law8-ui: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+	--law8-radius: 1.4rem;
+}
+
+:root[data-theme="dark"] {
+	--law8-page: #16110a;
+	--law8-page-deep: #100c06;
+	--law8-card: #221a10;
+	--law8-card-soft: #2a2013;
+	--law8-ink: #f2e9d5;
+	--law8-ink-soft: #cbbfa4;
+	--law8-muted: #a89578;
+	--law8-gold: #d4a94e;
+	--law8-gold-deep: #e3b65c;
+	--law8-gold-btn: #d4a94e;
+	--law8-btn-ink: #241a08;
+	--law8-rule: #463824;
+	--law8-shadow: 0 1.25rem 3.5rem rgb(0 0 0 / 45%);
+	--law8-shadow-sm: 0 .5rem 1.5rem rgb(0 0 0 / 35%);
+}
+
+/* ---------- page chamber ---------- */
+.post-reader-localized-context.all.awtsmoos-reader-vision {
+	background:
+		radial-gradient(circle at 82% 0%, rgb(184 147 74 / 10%), transparent 26rem),
+		linear-gradient(180deg, var(--law8-page), var(--law8-page-deep));
+	color: var(--law8-ink);
+	font-family: var(--law8-ui);
+}
+
+.post-reader-localized-context > .awtsmoos-integrated-header {
+	background: var(--law8-card);
+	border-bottom: 1px solid var(--law8-rule);
+	color: var(--law8-ink);
+	box-shadow: var(--law8-shadow-sm);
+}
+
+/* ---------- centered post column ---------- */
+.post-reader-localized-context :where(#realPost.content) {
+	width: min(46rem, 100%);
+	box-sizing: border-box;
+	margin-inline: auto;
+	margin-left: auto;
+	margin-right: auto;
+	padding: clamp(1rem, 4vw, 2.5rem) clamp(.9rem, 4vw, 2rem) 5rem;
+}
+
+.post-reader-localized-context .awtsmoos-post-title {
+	margin: 0 0 1.6rem;
+	color: var(--law8-ink);
+	font-family: var(--law8-heb);
+	font-weight: 700;
+	font-size: clamp(2.9rem, 8vw, 4.4rem);
+	line-height: 1.08;
+	letter-spacing: 0;
+	text-align: center;
+	text-wrap: balance;
+}
+
+/* ---------- post body card: Hebrew / English rhythm ---------- */
+.post-reader-localized-context .awtsmoos-plain-post-content {
+	padding: clamp(1.4rem, 4vw, 2.4rem);
+	border: 1px solid var(--law8-rule);
+	border-radius: var(--law8-radius);
+	background: var(--law8-card);
+	color: var(--law8-ink);
+	box-shadow: var(--law8-shadow);
+}
+
+.post-reader-localized-context .awtsmoos-plain-post-content p {
+	margin: 0 0 1.15rem;
+	color: var(--law8-ink-soft);
+	font-family: var(--law8-ui);
+	font-size: 1.06rem;
+	line-height: 1.7;
+}
+
+.post-reader-localized-context :where(.awtsmoos-plain-post-content) p:last-child {
+	margin-bottom: 0;
+	color: var(--law8-ink-soft);
+}
+
+/* Hebrew paragraphs — (0,4,0) justified: must beat the inline head contrast-fix
+   (:root .post-reader-localized-context .sub-awtsmoos.heb = (0,3,0)) that ships
+   after stylesheets; a CSS-only pass cannot restructure that inline block. */
+.post-reader-localized-context .awtsmoos-plain-post-content .heb,
+.post-reader-localized-context .awtsmoos-plain-post-content .sub-awtsmoos.heb {
+	color: var(--law8-ink);
+	font-family: var(--law8-heb);
+	font-size: 1.32rem;
+	line-height: 1.75;
+	text-align: right;
+}
+
+/* ---------- discussion shell ---------- */
+.post-reader-localized-context .awtsmoos-social-discussion {
+	margin: 2.5rem 0;
+	padding: clamp(1.25rem, 4vw, 2rem);
+	border: 1px solid var(--law8-rule);
+	border-radius: var(--law8-radius);
+	background: var(--law8-card);
+	color: var(--law8-ink);
+	box-shadow: var(--law8-shadow);
+}
+
+.post-reader-localized-context .awtsmoos-social-discussion > header span {
+	color: var(--law8-gold-deep);
+	font-family: var(--law8-ui);
+	font-weight: 800;
+	font-size: .78rem;
+	letter-spacing: .14em;
+	text-transform: uppercase;
+}
+
+.post-reader-localized-context .awtsmoos-social-discussion h2 {
+	margin: .45rem 0 .35rem;
+	color: var(--law8-ink);
+	font-family: var(--law8-heb);
+	font-weight: 700;
+	font-size: clamp(1.6rem, 5vw, 2.1rem);
+	line-height: 1.15;
+}
+
+.post-reader-localized-context .awtsmoos-social-discussion > header p,
+.post-reader-localized-context .awtsmoos-social-empty {
+	color: var(--law8-muted);
+	font-family: var(--law8-ui);
+	font-size: .95rem;
+	line-height: 1.6;
+}
+
+.post-reader-localized-context .awtsmoos-social-thread {
+	display: grid;
+	gap: 1rem;
+}
+
+/* ---------- comments ---------- */
+.post-reader-localized-context .awtsmoos-social-comment {
+	margin: 0;
+	padding: 1.1rem 1.2rem;
+	border: 1px solid var(--law8-rule);
+	border-radius: 1.1rem;
+	background: var(--law8-card-soft);
+	color: var(--law8-ink);
+	box-shadow: var(--law8-shadow-sm);
+}
+
+/* nested reply: gold rail, per reference */
+.post-reader-localized-context .awtsmoos-social-comment .awtsmoos-social-comment {
+	margin-top: 1rem;
+	margin-inline-start: clamp(.5rem, 3vw, 1.25rem);
+	border-inline-start: 3px solid var(--law8-gold);
+	border-start-start-radius: .4rem;
+	border-end-start-radius: .4rem;
+	background: var(--law8-card);
+}
+
+.post-reader-localized-context .awtsmoos-social-comment header {
+	display: grid;
+	grid-template-columns: 2.75rem 1fr;
+	gap: .8rem;
+	align-items: center;
+	margin-bottom: .6rem;
+}
+
+.post-reader-localized-context .awtsmoos-social-avatar {
+	display: grid;
+	place-items: center;
+	inline-size: 2.75rem;
+	block-size: 2.75rem;
+	border-radius: 50%;
+	background: linear-gradient(135deg, var(--law8-gold-btn), var(--law8-gold));
+	color: var(--law8-btn-ink);
+	font-family: var(--law8-ui);
+	font-weight: 800;
+	font-size: 1.05rem;
+}
+
+.post-reader-localized-context .awtsmoos-social-comment header div {
+	display: grid;
+	gap: .15rem;
+}
+
+.post-reader-localized-context .awtsmoos-social-comment header strong {
+	color: var(--law8-ink);
+	font-family: var(--law8-ui);
+	font-weight: 800;
+	font-size: .95rem;
+}
+
+.post-reader-localized-context .awtsmoos-social-comment header small {
+	color: var(--law8-muted);
+	font-family: var(--law8-ui);
+	font-size: .8rem;
+}
+
+.post-reader-localized-context .awtsmoos-social-comment-body {
+	margin: 0 0 .8rem;
+	color: var(--law8-ink);
+	font-family: var(--law8-ui);
+	font-size: .98rem;
+	line-height: 1.65;
+}
+
+.post-reader-localized-context .awtsmoos-social-actions,
+.post-reader-localized-context .awtsmoos-social-reactions {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: .5rem;
+}
+
+.post-reader-localized-context .awtsmoos-social-actions {
+	justify-content: space-between;
+}
+
+/* ---------- reaction chips + reply ---------- */
+.post-reader-localized-context .awtsmoos-reaction-chip {
+	min-block-size: 2.5rem;
+	padding: .5rem .85rem;
+	border: 1px solid var(--law8-rule);
+	border-radius: 999px;
+	background: var(--law8-card);
+	color: var(--law8-ink-soft);
+	font-family: var(--law8-ui);
+	font-weight: 700;
+	font-size: .85rem;
+	cursor: pointer;
+	transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, color 160ms ease;
+}
+
+.post-reader-localized-context .awtsmoos-reaction-chip:hover {
+	transform: translateY(-1px);
+	border-color: var(--law8-gold);
+	background: var(--law8-card-soft);
+	color: var(--law8-ink);
+}
+
+.post-reader-localized-context .awtsmoos-reaction-chip:active {
+	transform: translateY(1px) scale(.98);
+}
+
+.post-reader-localized-context .awtsmoos-reaction-chip:focus-visible {
+	outline: 2px solid var(--law8-gold-deep);
+	outline-offset: 2px;
+}
+
+.post-reader-localized-context .awtsmoos-reaction-chip:disabled {
+	opacity: .55;
+	cursor: not-allowed;
+	transform: none;
+}
+
+.post-reader-localized-context .awtsmoos-social-reply {
+	min-block-size: 2.5rem;
+	padding: .5rem .9rem;
+	border: 1px solid transparent;
+	border-radius: 999px;
+	background: transparent;
+	color: var(--law8-gold-deep);
+	font-family: var(--law8-ui);
+	font-weight: 800;
+	font-size: .88rem;
+	cursor: pointer;
+	transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+
+.post-reader-localized-context .awtsmoos-social-reply:hover {
+	border-color: var(--law8-gold);
+	background: var(--law8-card-soft);
+	color: var(--law8-gold-deep);
+}
+
+.post-reader-localized-context .awtsmoos-social-reply:active {
+	transform: scale(.97);
+}
+
+.post-reader-localized-context .awtsmoos-social-reply:focus-visible {
+	outline: 2px solid var(--law8-gold-deep);
+	outline-offset: 2px;
+}
+
+.post-reader-localized-context .awtsmoos-social-reply:disabled {
+	opacity: .55;
+	cursor: not-allowed;
+}
+
+.post-reader-localized-context :where(.awtsmoos-social-discussion) :where(button, a):focus-visible {
+	outline: 2px solid var(--law8-gold-deep);
+	outline-offset: 2px;
+}
+
+/* ---------- comment composer ---------- */
+.post-reader-localized-context .awtsmoos-reply-box {
+	display: grid;
+	gap: .8rem;
+	padding: 1.1rem 1.2rem;
+	border: 1px solid var(--law8-rule);
+	border-radius: var(--law8-radius);
+	background: var(--law8-card-soft);
+	box-shadow: var(--law8-shadow-sm);
+}
+
+.post-reader-localized-context .reply-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .8rem;
+	color: var(--law8-ink);
+	font-family: var(--law8-ui);
+	font-weight: 800;
+	font-size: .95rem;
+}
+
+.post-reader-localized-context .close-reply {
+	inline-size: 2.5rem;
+	block-size: 2.5rem;
+	border: 1px solid var(--law8-rule);
+	border-radius: 50%;
+	background: var(--law8-card);
+	color: var(--law8-ink-soft);
+	font-family: var(--law8-ui);
+	font-size: 1.15rem;
+	line-height: 1;
+	cursor: pointer;
+	transition: border-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.post-reader-localized-context .close-reply:hover {
+	border-color: var(--law8-gold);
+	color: var(--law8-ink);
+}
+
+.post-reader-localized-context .close-reply:active {
+	transform: scale(.94);
+}
+
+.post-reader-localized-context .close-reply:focus-visible {
+	outline: 2px solid var(--law8-gold-deep);
+	outline-offset: 2px;
+}
+
+.post-reader-localized-context .awtsmoos-reply-title-input {
+	min-block-size: 3rem;
+	padding: .75rem 1.1rem;
+	border: 1px solid var(--law8-rule);
+	border-radius: 999px;
+	background: var(--law8-card);
+	color: var(--law8-ink);
+	font-family: var(--law8-ui);
+	font-size: .98rem;
+}
+
+.post-reader-localized-context :where(.awtsmoos-reply-title-input)::placeholder {
+	color: var(--law8-muted);
+	opacity: 1;
+}
+
+.post-reader-localized-context .awtsmoos-reply-title-input:hover {
+	border-color: var(--law8-gold);
+}
+
+.post-reader-localized-context .awtsmoos-reply-title-input:focus-visible {
+	outline: 2px solid var(--law8-gold-deep);
+	outline-offset: 2px;
+	border-color: var(--law8-gold);
+}
+
+.post-reader-localized-context .awtsmoos-extra-section-title {
+	color: var(--law8-ink);
+	font-family: var(--law8-ui);
+	font-weight: 800;
+	font-size: .95rem;
+}
+
+.post-reader-localized-context .awtsmoos-extra-section-text {
+	margin: 0;
+	color: var(--law8-muted);
+	font-family: var(--law8-ui);
+	font-size: .85rem;
+}
+
+/* gold send button — one justified specificity escalation: must beat the existing
+   ultra-specific composer rule (0,10,0) in ideal/reborn/comment-composer.css, which a
+   CSS-only LAW 8 pass cannot restructure. */
+.post-reader-localized-context.awtsmoos-reader-vision :where(.reply-submit):not(:disabled):not(:disabled):not(:disabled):not(:disabled):not(:disabled):not(:disabled):not(:disabled):not(:disabled):not(:disabled) {
+	min-block-size: 3rem;
+	padding: .8rem 1.6rem;
+	border: 1px solid var(--law8-gold-deep);
+	border-radius: 999px;
+	background: var(--law8-gold-btn);
+	color: var(--law8-btn-ink);
+	font-family: var(--law8-ui);
+	font-weight: 800;
+	font-size: .95rem;
+	cursor: pointer;
+	transition: transform 160ms ease, filter 160ms ease, box-shadow 160ms ease;
+	box-shadow: var(--law8-shadow-sm);
+}
+
+.post-reader-localized-context :where(.awtsmoos-reader-vision) :where(.reply-submit):not(:disabled):hover {
+	filter: brightness(1.07);
+	transform: translateY(-1px);
+}
+
+.post-reader-localized-context :where(.awtsmoos-reader-vision) :where(.reply-submit):not(:disabled):active {
+	transform: translateY(1px) scale(.98);
+}
+
+.post-reader-localized-context :where(.awtsmoos-reader-vision) :where(.reply-submit):focus-visible {
+	outline: 2px solid var(--law8-gold-deep);
+	outline-offset: 2px;
+}
+
+.post-reader-localized-context :where(.reply-submit):disabled {
+	opacity: .55;
+	cursor: not-allowed;
+}
+
+/* ---------- related teachings ---------- */
+.post-reader-localized-context .awtsmoos-related-section {
+	display: grid;
+	gap: .7rem;
+	margin: 0 0 2.5rem;
+	padding: clamp(1.25rem, 4vw, 1.75rem);
+	border: 1px solid var(--law8-rule);
+	border-radius: var(--law8-radius);
+	background: var(--law8-card);
+	color: var(--law8-ink);
+	box-shadow: var(--law8-shadow-sm);
+}
+
+.post-reader-localized-context .awtsmoos-related-section h3 {
+	margin: 0 0 .3rem;
+	color: var(--law8-ink);
+	font-family: var(--law8-heb);
+	font-weight: 700;
+	font-size: 1.45rem;
+}
+
+.post-reader-localized-context .awtsmoos-related-result {
+	display: grid;
+	gap: .3rem;
+	padding: .9rem 1rem;
+	border: 1px solid var(--law8-rule);
+	border-radius: 1rem;
+	background: var(--law8-card-soft);
+	transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+}
+
+.post-reader-localized-context .awtsmoos-related-result:hover {
+	border-color: var(--law8-gold);
+	transform: translateY(-1px);
+	box-shadow: var(--law8-shadow-sm);
+}
+
+.post-reader-localized-context .awtsmoos-related-result h4 {
+	margin: 0;
+	color: var(--law8-ink);
+	font-family: var(--law8-ui);
+	font-weight: 800;
+	font-size: 1rem;
+}
+
+.post-reader-localized-context .awtsmoos-related-result p {
+	margin: 0;
+	color: var(--law8-muted);
+	font-family: var(--law8-ui);
+	font-size: .86rem;
+}
+
+.post-reader-localized-context .awtsmoos-related-actions {
+	display: flex;
+	justify-content: center;
+	margin-top: .3rem;
+}
+
+.post-reader-localized-context :where(.awtsmoos-related-full-search),
+.post-reader-localized-context :where(.awtsmoos-related-actions) :where(a) {
+	color: var(--law8-gold-deep);
+	font-family: var(--law8-ui);
+	font-weight: 800;
+	font-size: .92rem;
+	text-decoration: none;
+	border-radius: .5rem;
+	padding: .4rem .8rem;
+	transition: background 160ms ease, color 160ms ease;
+}
+
+.post-reader-localized-context :where(.awtsmoos-related-actions) :where(a):hover,
+.post-reader-localized-context :where(.awtsmoos-related-full-search):hover {
+	background: var(--law8-card-soft);
+	color: var(--law8-gold-deep);
+	text-decoration: underline;
+	text-underline-offset: .18em;
+}
+
+.post-reader-localized-context :where(.awtsmoos-related-actions) :where(a):active,
+.post-reader-localized-context :where(.awtsmoos-related-full-search):active {
+	transform: scale(.98);
+}
+
+.post-reader-localized-context :where(.awtsmoos-related-actions) :where(a):focus-visible,
+.post-reader-localized-context :where(.awtsmoos-related-full-search):focus-visible {
+	outline: 2px solid var(--law8-gold-deep);
+	outline-offset: 2px;
+}
+
+.post-reader-localized-context .awtsmoos-related-kicker,
+.post-reader-localized-context .awtsmoos-related-summary,
+.post-reader-localized-context .awtsmoos-related-result small {
+	color: var(--law8-muted);
+	font-family: var(--law8-ui);
+}
+
+.post-reader-localized-context .awtsmoos-related-empty,
+.post-reader-localized-context .awtsmoos-related-pending {
+	color: var(--law8-muted);
+	font-family: var(--law8-ui);
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 40rem) {
+	.post-reader-localized-context :where(#realPost.content) {
+		padding-inline: .7rem;
+	}
+
+	.post-reader-localized-context .awtsmoos-social-comment .awtsmoos-social-comment {
+		margin-inline-start: .5rem;
+	}
+
+	.post-reader-localized-context .awtsmoos-post-title {
+		font-size: clamp(2.4rem, 13vw, 3rem);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.post-reader-localized-context .awtsmoos-reaction-chip,
+	.post-reader-localized-context .awtsmoos-social-reply,
+	.post-reader-localized-context .close-reply,
+	.post-reader-localized-context .awtsmoos-related-result,
+	.post-reader-localized-context :where(.awtsmoos-reader-vision) :where(.reply-submit):not(:disabled) {
+		transition: none;
+	}
+}
