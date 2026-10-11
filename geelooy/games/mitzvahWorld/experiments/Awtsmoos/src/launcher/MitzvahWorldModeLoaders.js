@@ -21,6 +21,37 @@ const DIRECT_OPTIONS_URL = releaseUrl('./MitzvahWorldDirectRuntimeOptions.js');
 
 export { hasMovieRequest } from './MitzvahWorldRouteQuery.js';
 
+/**
+ * Optional ornament imports must never stall world entry; boot is sacred.
+ * Every Track C import races this timeout, then logs and continues without the ornament.
+ */
+export const MITZVAH_WORLD_OPTIONAL_IMPORT_TIMEOUT_MS = 10000;
+
+/**
+ * Imports one optional module, racing a timeout so a stalled module fetch can
+ * never hang boot. Resolves the module namespace on success, or null on
+ * timeout/import failure after logging; the caller continues without the ornament.
+ */
+export async function importOptionalMitzvahWorldModule(url, label) {
+	let timer = null;
+	try {
+		return await Promise.race([
+			import(url).finally(() => {
+				if (timer) clearTimeout(timer);
+			}),
+			new Promise((_, reject) => {
+				timer = setTimeout(
+					() => reject(new Error(`optional-import-timeout:${label}`)),
+					MITZVAH_WORLD_OPTIONAL_IMPORT_TIMEOUT_MS
+				);
+			})
+		]);
+	} catch (error) {
+		console.warn(`[MitzvahWorld] optional module "${label}" skipped:`, error?.message || error);
+		return null;
+	}
+}
+
 /** Returns route handlers whose optional graphs remain asleep until their route is chosen. */
 export function createMitzvahWorldModeLoaders(environment = globalThis) {
 	return Object.freeze({
@@ -50,10 +81,20 @@ async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
 	startModeAftercare('singlePlayer', diagnostics, environment, runtimeOptions);
 	// B"H Track C: attach optional per-frame vessels, then apply a pending
 	// mitzvah-studio world handoff (?studioHandoff=1). Every line is guarded so
-	// these systems can never break world boot.
-	try { await import(releaseUrl('../fx/MitzvahParticleLayer.js')).then(module => module.attachMitzvahParticles({ runtime: diagnostics.runtime })); } catch {}
-	try { await import(releaseUrl('../npc/MitzvahNpcDialogue.js')).then(module => module.attachNpcDialogue({ runtime: diagnostics.runtime, environment })); } catch {}
-	try { await import(releaseUrl('../studio/MitzvahStudioHandoff.js')).then(module => module.maybeApplyStudioHandoff({ runtime: diagnostics.runtime, environment })); } catch {}
+	// these systems can never break world boot: each import races a timeout and
+	// the handoff module itself only lazy-loads its heavy creator graph on use.
+	try {
+		const particleModule = await importOptionalMitzvahWorldModule(releaseUrl('../fx/MitzvahParticleLayer.js'), 'MitzvahParticleLayer');
+		if (particleModule) particleModule.attachMitzvahParticles({ runtime: diagnostics.runtime });
+	} catch {}
+	try {
+		const dialogueModule = await importOptionalMitzvahWorldModule(releaseUrl('../npc/MitzvahNpcDialogue.js'), 'MitzvahNpcDialogue');
+		if (dialogueModule) dialogueModule.attachNpcDialogue({ runtime: diagnostics.runtime, environment });
+	} catch {}
+	try {
+		const handoffModule = await importOptionalMitzvahWorldModule(releaseUrl('../studio/MitzvahStudioHandoff.js'), 'MitzvahStudioHandoff');
+		if (handoffModule) await handoffModule.maybeApplyStudioHandoff({ runtime: diagnostics.runtime, environment });
+	} catch {}
 	return diagnostics;
 }
 

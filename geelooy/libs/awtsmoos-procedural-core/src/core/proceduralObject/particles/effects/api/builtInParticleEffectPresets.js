@@ -14,6 +14,9 @@ import { createGlyphParticleEffect } from '../presets/glyphs/createGlyphParticle
 import { createPetalParticleEffect } from '../presets/nature/createPetalParticleEffect.js';
 import { createPollenParticleEffect } from '../presets/nature/createPollenParticleEffect.js';
 import { createSeedDispersalParticleEffect } from '../presets/nature/createSeedDispersalParticleEffect.js';
+import { createFireflyParticleEffect } from '../presets/nature/createFireflyParticleEffect.js';
+import { createEmberParticleEffect } from '../presets/nature/createEmberParticleEffect.js';
+import { createSporeParticleEffect } from '../presets/nature/createSporeParticleEffect.js';
 import { createAtomParticleEffect } from '../presets/science/createAtomParticleEffect.js';
 import { createDnaParticleEffect } from '../presets/science/createDnaParticleEffect.js';
 import { createMoleculeParticleEffect } from '../presets/science/createMoleculeParticleEffect.js';
@@ -22,11 +25,14 @@ import { createMoleculeParticleEffect } from '../presets/science/createMoleculeP
 export const BUILT_IN_PARTICLE_EFFECT_PRESETS = Object.freeze({
 	atom: createAtomParticleEffect,
 	dna: createDnaParticleEffect,
+	embers: createEmberParticleEffect,
 	explosion: createExplosionParticleEffect,
 	fire: createFireParticleEffect,
+	fireflies: createFireflyParticleEffect,
 	glyphs: createGlyphParticleEffect,
 	molecule: createMoleculeParticleEffect,
 	petals: createPetalParticleEffect,
 	pollen: createPollenParticleEffect,
-	seeds: createSeedDispersalParticleEffect
+	seeds: createSeedDispersalParticleEffect,
+	spores: createSporeParticleEffect
 });

@@ -10,6 +10,12 @@
  */
 
 import { loadIsolatedGltf } from '../assets/ModelAssetLoader.js';
+import { bakeChossidSurfaceDetail } from '../assets/ChossidSurfaceDetail.js';
+import {
+	applyChossidOutfit,
+	chossidMaterialResolver,
+	playerChossidOutfit
+} from '../assets/ChossidOutfitPalette.js';
 import {
 	beginCanonicalChossidTiming,
 	completeCanonicalChossidTiming,
@@ -34,11 +40,19 @@ export async function loadEretzEssentialPlayerGlb(options = {}) {
 	boot?.begin?.('essential-player-glb');
 	boot?.progress?.('essential-player-glb', 0, 1, 'Loading the authored Chossid…', 'loading');
 	try {
+		// B"H: apply the chossid outfit palette (material resolver + outfit + surface
+		// detail bake) so the player renders as a real character, not a flat primitive.
+		const outfit = playerChossidOutfit();
 		const gltf = await loadGltf(PLAYER_MODEL_URL, 'eretz-essential-player-canonical', {
+			materialResolver: chossidMaterialResolver(outfit),
 			onProgress: detail => {
 				importerStage = reportProgress(environment, boot, detail, importerStage);
 			}
 		});
+		if (gltf?.scene) {
+			applyChossidOutfit(gltf.scene, outfit);
+			bakeChossidSurfaceDetail(gltf.scene);
+		}
 		importerStage = 'canonical-validation';
 		recordCanonicalChossidStage(environment, { phase: importerStage });
 		const evidence = validateCanonicalPlayerGltf(gltf);

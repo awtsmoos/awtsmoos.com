@@ -8,6 +8,9 @@ const {
 	parseResource,
 	resolveLocalCrn
 } = require("./paths.js");
+const { fileBaseExpression } = require("./moduleUrlTransform.js");
+
+const FALLBACK_RUNTIME_ORIGIN_JSON = JSON.stringify("https://awtsmoos.local");
 
 /**
  * @file Discovers and rewrites literal dynamic imports through the same CRN law used by static CompactJS links.
@@ -80,7 +83,11 @@ function rewriteDynamicImports(state, record, source) {
 
 /** Emits one absolute-public compact request without turning compact representation into graph identity. */
 function compactRuntimeImport(publicUrl) {
-	return `import(new URL(${JSON.stringify(publicUrl)}, globalThis.location?.origin || import.meta.url).href)`;
+	const anchor = JSON.stringify(
+		`/${String(publicUrl || '').split('/').filter(Boolean).slice(0, 2).join('/')}/`
+	);
+	const base = `(globalThis.location?.protocol === "file:" ? ${fileBaseExpression(anchor, FALLBACK_RUNTIME_ORIGIN_JSON)} : (/^(https?):\\/\\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : (${FALLBACK_RUNTIME_ORIGIN_JSON})))`;
+	return `import(new URL(${JSON.stringify(publicUrl)}, ${base}).href)`;
 }
 
 module.exports = {

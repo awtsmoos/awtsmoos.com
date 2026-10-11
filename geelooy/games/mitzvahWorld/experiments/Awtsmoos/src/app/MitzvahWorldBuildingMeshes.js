@@ -17,14 +17,15 @@
 import { BUILDINGS_MUTATION_KEY, BUILDABLE_STRUCTURES } from './MitzvahWorldPlayerBuilding.js';
 import { worldChunkMutation } from '../world/streaming/WorldChunkRecord.js';
 
-/** Simple, renderer-agnostic material palette. */
+/** Simple, renderer-agnostic material palette. proceduralTexture names a kind from the procedural generator. */
 const PALETTE = Object.freeze({
-	wood: Object.freeze({ color: 0x8a5a33, roughness: 0.9 }),
-	woodDark: Object.freeze({ color: 0x6b4226, roughness: 0.9 }),
-	stone: Object.freeze({ color: 0x9a958c, roughness: 0.95 }),
-	stoneDark: Object.freeze({ color: 0x6f6a61, roughness: 0.95 }),
+	wood: Object.freeze({ color: 0x8a5a33, proceduralTexture: 'wood', roughness: 0.9 }),
+	woodDark: Object.freeze({ color: 0x6b4226, proceduralTexture: 'wood', roughness: 0.9 }),
+	timberRaw: Object.freeze({ color: 0xa08050, proceduralTexture: 'wood', roughness: 0.95 }),
+	stone: Object.freeze({ color: 0x9a958c, proceduralTexture: 'stone', roughness: 0.95 }),
+	stoneDark: Object.freeze({ color: 0x6f6a61, proceduralTexture: 'stone', roughness: 0.95 }),
 	brass: Object.freeze({ color: 0xc9a227, roughness: 0.35, metalness: 0.7 }),
-	glass: Object.freeze({ color: 0xbfe3ea, roughness: 0.15, transparent: true }),
+	glass: Object.freeze({ color: 0xbfe3ea, proceduralTexture: 'glass', roughness: 0.15, transparent: true }),
 	woolBlue: Object.freeze({ color: 0x2c4d9e, roughness: 1.0 }),
 	woolPurple: Object.freeze({ color: 0x5e2c8a, roughness: 1.0 }),
 	woolScarlet: Object.freeze({ color: 0xa83232, roughness: 1.0 }),
@@ -32,7 +33,9 @@ const PALETTE = Object.freeze({
 	leaf: Object.freeze({ color: 0x3e7d3a, roughness: 1.0 }),
 	water: Object.freeze({ color: 0x3a7ca8, roughness: 0.2, transparent: true }),
 	flame: Object.freeze({ color: 0xff8c2e, roughness: 0.6, emissive: true }),
-	vine: Object.freeze({ color: 0x4a7d2e, roughness: 1.0 })
+	vine: Object.freeze({ color: 0x4a7d2e, roughness: 1.0 }),
+	ghostValid: Object.freeze({ color: 0x2eff7a, ghost: true, opacity: 0.35, roughness: 1.0, transparent: true }),
+	ghostInvalid: Object.freeze({ color: 0xff3b30, ghost: true, opacity: 0.35, roughness: 1.0, transparent: true })
 });
 
 function box(id, material, dx, dyCenter, dz, sx, sy, sz) {
@@ -328,4 +331,102 @@ export function meshesForChunkRecord(record) {
 /** Every buildable structure id that has a hand-tuned mesh builder. */
 export function meshedStructureIds() {
 	return Object.keys(BUILDERS);
+}
+
+/** Construction stages: frame (raw timber) -> walls (clad) -> roof and finish. */
+export const CONSTRUCTION_STAGES = Object.freeze([
+	Object.freeze({ id: 'frame', label: 'Frame', durationMs: 800 }),
+	Object.freeze({ id: 'walls', label: 'Walls', durationMs: 800 }),
+	Object.freeze({ id: 'roof', label: 'Roof & Finish', durationMs: 800 })
+]);
+
+/** Piece-id keywords that read as structural framing (stage 0). */
+const FRAME_KEYWORDS = Object.freeze([
+	'post', 'beam', 'pole', 'brace', 'rail', 'pier', 'axle', 'bar', 'stem', 'trestle'
+]);
+
+/** Piece-id keywords that read as roof and finishing work (stage 2). */
+const ROOF_KEYWORDS = Object.freeze([
+	'roof', 'schach', 'cap', 'flame', 'glass', 'cup', 'bread', 'bucket', 'vine',
+	'band', 'rim', 'horn', 'oil', 'water', 'step', 'drape'
+]);
+
+/** Classifies one built piece into a construction stage by its id. */
+export function constructionStageOfPiece(piece) {
+	const id = String(piece?.id || '').toLowerCase();
+	for (const keyword of FRAME_KEYWORDS) {
+		if (id.includes(keyword)) return 0;
+	}
+	for (const keyword of ROOF_KEYWORDS) {
+		if (id.includes(keyword)) return 2;
+	}
+	return 1;
+}
+
+/**
+ * Builds a translucent placement-preview ghost for the aimed structure:
+ * green when the placement is valid, red when it is not. The ghost is a single
+ * box matching the structure's collision footprint so validity reads instantly.
+ * @param {object} ghost Aim verdict { structureId, x, y, z, valid }.
+ * @returns {object[]} Ghost mesh definitions (not collidable, not persistent).
+ */
+export function buildGhostPreview(ghost) {
+	if (!ghost || !BUILDABLE_STRUCTURES[ghost.structureId]) return [];
+	const definition = BUILDABLE_STRUCTURES[ghost.structureId];
+	const material = ghost.valid ? PALETTE.ghostValid : PALETTE.ghostInvalid;
+	const id = `ghost-${ghost.structureId}`;
+	return [{
+		ghost: true,
+		id,
+		local: { x: 0, y: definition.height / 2, z: 0 },
+		material,
+		noEdge: true,
+		position: { x: ghost.x, y: ghost.y + definition.height / 2, z: ghost.z },
+		rotation: { y: 0 },
+		shape: 'box',
+		size: { x: definition.radius * 2, y: definition.height, z: definition.radius * 2 },
+		solid: false,
+		valid: Boolean(ghost.valid),
+		visible: true,
+		walkable: false
+	}];
+}
+
+/**
+ * Splits a structure's pieces into staged construction groups. Stage 0 (frame)
+ * pieces render in raw timber; stages 1 and 2 keep their authored materials.
+ * Each group carries world-space positions like buildStructureMeshes.
+ * @param {object} structure Placed structure record.
+ * @returns {Array<{stage:number, stageId:string, pieces:object[]}>} Three stage groups.
+ */
+export function buildConstructionStages(structure) {
+	const pieces = buildStructureMeshes(structure);
+	const groups = CONSTRUCTION_STAGES.map((stage, index) => ({
+		pieces: [],
+		stage: index,
+		stageId: stage.id
+	}));
+	for (const piece of pieces) {
+		const stage = constructionStageOfPiece(piece);
+		const staged = stage === 0
+			? { ...piece, material: PALETTE.timberRaw, stageMaterial: 'timberRaw' }
+			: { ...piece, stageMaterial: 'authored' };
+		groups[stage].pieces.push(staged);
+	}
+	return groups;
+}
+
+/** Milliseconds after placement when each stage becomes visible. */
+export function constructionStageTimings() {
+	let at = 0;
+	return CONSTRUCTION_STAGES.map(stage => {
+		const timing = Object.freeze({ id: stage.id, visibleAfterMs: at });
+		at += stage.durationMs;
+		return timing;
+	});
+}
+
+/** Total staged-construction duration in milliseconds (~2.4s). */
+export function constructionTotalMs() {
+	return CONSTRUCTION_STAGES.reduce((sum, stage) => sum + stage.durationMs, 0);
 }

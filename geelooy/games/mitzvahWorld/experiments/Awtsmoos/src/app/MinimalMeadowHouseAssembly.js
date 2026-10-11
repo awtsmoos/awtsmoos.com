@@ -18,6 +18,7 @@ import {
 	installMinimalMeadowHouseMezuzahs
 } from './MinimalMeadowHouseAssemblyInstallers.js';
 import { houseDimensionEvidence } from './MinimalMeadowHouseDimensionPolicy.js';
+import { withPitchedRoofDefinitions } from './MinimalMeadowHousePitchedRoof.js';
 
 /**
  * Creates one live Mitzvah house from a renderer-neutral Domem architecture plan.
@@ -37,9 +38,12 @@ export function createMinimalMeadowHouseAssembly(
 		runtime.terrain.heightAt
 	);
 	const group = createHouseGroup(profile);
+	// Stepped roof massing becomes true pitched geometry; collision follows the
+	// pitched triangles through the same installer pipeline, so walkability is unchanged.
+	const definitions = withPitchedRoofDefinitions(plan.definitions, profile, materials, plan.groundY);
 	const staticColliders = installMinimalMeadowHouseDefinitions(
 		group,
-		plan.definitions,
+		definitions,
 		runtime.mainOctree
 	);
 	const doors = installMinimalMeadowHouseDoors(
@@ -58,7 +62,7 @@ export function createMinimalMeadowHouseAssembly(
 	const dimensions = houseDimensionEvidence(profile);
 	group.userData.AwtsmoosHouseDimensions = dimensions;
 	return {
-		definitions: plan.definitions,
+		definitions,
 		dimensions,
 		doors,
 		floorSupport: plan.floorSupport,

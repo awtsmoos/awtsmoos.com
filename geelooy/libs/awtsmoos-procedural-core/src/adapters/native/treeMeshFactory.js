@@ -26,7 +26,8 @@ export function createProceduralTreeNativeGroup(chochmahConfig = {}) {
 		? {preset: chochmahConfig}
 		: chochmahConfig || {};
 	const tiferesData = generateTreeProceduralData(
-		tiferesConfig.preset || tiferesConfig.name || tiferesConfig
+		tiferesConfig.preset || tiferesConfig.name || tiferesConfig,
+		tiferesConfig.generationOptions || {}
 	);
 	const malchusRoot = new Group();
 	const malchusBark = createMesh(

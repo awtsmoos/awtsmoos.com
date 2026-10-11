@@ -18,6 +18,8 @@ import { cachedModelResponse } from './RemoteModelResponseCache.js';
 
 const GLB_MAGIC = 0x46546c67;
 const GLB_HEADER_BYTES = 12;
+/** Bounds one model fetch so a stalled byte stream can never hang boot forever. */
+const ASSET_FETCH_TIMEOUT_MS = 30000;
 
 /** Streams one exact trusted model URL and reports measured byte progress. */
 export async function fetchAssetBuffer(url, onProgress = () => {}, dependencies = {}) {
@@ -42,7 +44,20 @@ function trustedCandidates(url) {
 }
 
 async function fetchCandidate(url, onProgress, dependencies) {
-	const cached = await cachedModelResponse(url, dependencies);
+	const timeout = dependencies.fetchTimeoutMs ?? ASSET_FETCH_TIMEOUT_MS;
+	const controller = typeof AbortController === 'function' ? new AbortController() : null;
+	const timer = controller && timeout > 0
+		? setTimeout(() => controller.abort(new Error(`asset-fetch-timeout:${timeout}ms`)), timeout)
+		: null;
+	try {
+		const cached = await cachedModelResponse(url, { ...dependencies, signal: controller?.signal ?? dependencies.signal });
+		return await streamCandidateBody(url, onProgress, cached);
+	} finally {
+		if (timer) clearTimeout(timer);
+	}
+}
+
+async function streamCandidateBody(url, onProgress, cached) {
 	const response = cached.response;
 	if (!response.ok) throw new Error(`HTTP ${response.status}`);
 	let total = Number(response.headers.get('content-length')) || 0;

@@ -4152,13 +4152,21 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	const REMOTE_MODEL_RECORDS = __awtsmoosModule_42.REMOTE_MODEL_RECORDS;
 
-	const RELEASE_MODEL_ROOT = '/games/mitzvahWorld/build/generated/assets/';
 	const PLAYER_IDENTITY = 'player/chossid.glb';
+
+	/**
+	 * Release-local model root resolved against this module's real URL (not a hardcoded
+	 * absolute path), so source, compact bundles, https:, and file: all agree.
+	 * This module lives at <game>/experiments/Awtsmoos/src/assets/; models live at <game>/build/generated/assets/.
+	 */
+	function releaseModelRoot() {
+		return new URL('../../../../build/generated/assets/', (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvahWorld/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvahWorld/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ReleaseModelCatalog.js")).href;
+	}
 
 	/** Returns the exact hash-addressed packaged URL for the canonical Chossid. */
 	function canonicalChossidReleaseUrl() {
 		const record = REMOTE_MODEL_RECORDS[PLAYER_IDENTITY];
-		return `${RELEASE_MODEL_ROOT}${record.sha256}/chossid.glb`;
+		return `${releaseModelRoot()}${record.sha256}/chossid.glb`;
 	}
 
 
@@ -4389,6 +4397,8 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	const GLB_MAGIC = 0x46546c67;
 	const GLB_HEADER_BYTES = 12;
+	/** Bounds one model fetch so a stalled byte stream can never hang boot forever. */
+	const ASSET_FETCH_TIMEOUT_MS = 30000;
 
 	/** Streams one exact trusted model URL and reports measured byte progress. */
 	async function fetchAssetBuffer(url, onProgress = () => {}, dependencies = {}) {
@@ -4415,7 +4425,20 @@ const __awtsmoosModule_0 = Object.create(null);
 	}
 
 	async function fetchCandidate(url, onProgress, dependencies) {
-		const cached = await cachedModelResponse(url, dependencies);
+		const timeout = dependencies.fetchTimeoutMs ?? ASSET_FETCH_TIMEOUT_MS;
+		const controller = typeof AbortController === 'function' ? new AbortController() : null;
+		const timer = controller && timeout > 0
+			? setTimeout(() => controller.abort(new Error(`asset-fetch-timeout:${timeout}ms`)), timeout)
+			: null;
+		try {
+			const cached = await cachedModelResponse(url, { ...dependencies, signal: controller?.signal ?? dependencies.signal });
+			return await streamCandidateBody(url, onProgress, cached);
+		} finally {
+			if (timer) clearTimeout(timer);
+		}
+	}
+
+	async function streamCandidateBody(url, onProgress, cached) {
 		const response = cached.response;
 		if (!response.ok) throw new Error(`HTTP ${response.status}`);
 		let total = Number(response.headers.get('content-length')) || 0;

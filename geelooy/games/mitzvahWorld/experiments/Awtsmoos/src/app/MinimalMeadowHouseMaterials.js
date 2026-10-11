@@ -14,6 +14,7 @@ import {
 	loadPublicMaterialUrl
 } from '../assets/PublicMaterialCache.js';
 import { TEXTURE_PURPOSES, TEXTURE_URLS } from '../assets/TextureCatalog.js';
+import { getProceduralTexture } from './BootstrapProceduralTerrainTextures.js';
 
 const SOURCES = Object.freeze({
 	brick: TEXTURE_URLS.bricks.red1,
@@ -32,6 +33,26 @@ const COLORS = Object.freeze({
 	roof: '#743a32',
 	wood: '#5a321f'
 });
+
+/**
+ * Maps each house material role to a procedural texture kind. The remote image
+ * stays the primary mapImage (the remote-only provenance gate keeps policing that
+ * slot); the procedural field rides alongside as proceduralMapImage so an offline
+ * renderer has a reliable, honest fallback without tripping the gate.
+ */
+const PROCEDURAL_KIND_BY_ROLE = Object.freeze({
+	brick: 'brick',
+	brickLight: 'plaster',
+	floor: 'stone',
+	mezuzah: 'wood',
+	roof: 'roofTile',
+	wood: 'wood'
+});
+
+export function proceduralFallbackImageForRole(role) {
+	const kind = PROCEDURAL_KIND_BY_ROLE[role];
+	return kind ? getProceduralTexture(kind) : null;
+}
 
 export async function loadMinimalMeadowHouseMaterials() {
 	const records = await Promise.all(Object.values(SOURCES).map((url) => {
@@ -53,6 +74,7 @@ export function houseMaterial(role, image = null, url = null) {
 		houseMaterialRole: role,
 		mapImage: image,
 		mapRepeat: role === 'floor' ? [4, 4] : [3, 2],
+		proceduralMapImage: proceduralFallbackImageForRole(role),
 		sidePolicy: 'mesh-role-owned',
 		textureUrl: url
 	});

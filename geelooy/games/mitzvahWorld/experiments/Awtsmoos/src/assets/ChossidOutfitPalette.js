@@ -33,10 +33,52 @@ export function chossidPaletteStats() {
 	return { sharedBySourceMaterial: true };
 }
 
+/**
+ * Returns the canonical player outfit: yarmulke, jacket, no tefillin, with
+ * near-black coat/pants kept visibly separated instead of collapsing to pure black.
+ */
+export function playerChossidOutfit() {
+	return Object.freeze({
+		colors: Object.freeze({
+			coat: '#23252b',
+			eyes: '#4d6b8a',
+			glasses: '#26384a',
+			hair: '#4b2410',
+			pants: '#191a1d',
+			shirt: '#f5f1e8'
+		}),
+		headwear: 'yarmulke',
+		id: 'player-canonical',
+		jacket: true,
+		tefillin: false
+	});
+}
+
+export { materialRole as chossidMaterialRole };
+
+/**
+ * Refined base colors for authored materials the outfit palette does not recolor.
+ * The GLB ships skin as flat orange and several garments as pure black; these keep
+ * the authored identity while reading as natural skin and separated near-black cloth.
+ */
+const REFINED_RAW_COLORS = Object.freeze({
+	skin: '#b08a6e',
+	shoes: '#26211c',
+	tophat: '#121214',
+	yamulka: '#17171a',
+	teffilinstap: '#1d1710',
+	teffilinbayis: '#1d1710',
+	teffilinshin: '#1d1710'
+});
+
+function refinedRawColor(role) {
+	return REFINED_RAW_COLORS[role] || null;
+}
+
 function materialVariant(material, definition) {
 	if (!material) return material;
 	const role = materialRole(material.name);
-	const color = definition.colors[role];
+	const color = definition.colors[role] || refinedRawColor(role);
 	if (!color) return material;
 	let variants = variantCache.get(material);
 	if (!variants) {

@@ -23,6 +23,15 @@ export function resolveMitzvahWorldReleaseResourceUrl(
 	parentUrl = import.meta.url
 ) {
 	const resourceUrl = new URL(resourceSpecifier, parentUrl);
+	// B"H: file:// cannot carry query strings through dynamic import() (Chrome
+	// rejects file URLs with queries at the module loader, though fetch works).
+	// Cache-busters and compact flags are meaningless without an HTTP server,
+	// so return the bare path on file:.
+	if (resourceUrl.protocol === 'file:') {
+		resourceUrl.search = '';
+		resourceUrl.hash = '';
+		return resourceUrl.href;
+	}
 	resourceUrl.searchParams.delete('v');
 	resourceUrl.searchParams.set('v', MITZVAH_WORLD_RELEASE_ID);
 	return resolveMitzvahWorldCompactResourceUrl(resourceUrl.href, parentUrl);

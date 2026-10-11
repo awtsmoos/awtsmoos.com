@@ -9,6 +9,12 @@
  * Awtsmoos.com keeps the visible traveler moving through mountain promotion until the canonical clip-map enters the frame.
  */
 
+import { RUN_SPEED, WALK_SPEED } from './EretzConstants.js';
+import {
+	advanceLocomotionStride,
+	applyLocomotionStridePresentation,
+	createLocomotionStride
+} from './EretzLocomotionStride.js';
 import { measureLocomotionPlayback } from './EretzLocomotionPlayback.js';
 import { placePlayerModel } from './EretzPlayerModel.js';
 
@@ -17,6 +23,7 @@ export function updatePlayerPresentation(runtime, deltaTime) {
 	smoothRenderHeight(runtime.state, deltaTime);
 	updateAnimation(runtime, deltaTime);
 	placePlayerModel(runtime.model, runtime.state);
+	applyLocomotionStridePresentation(runtime.model, runtime.state, runtime.locomotionStrideState);
 }
 
 /** Smooths grounded vertical rendering while airborne motion follows physics immediately. */
@@ -29,11 +36,22 @@ function smoothRenderHeight(state, deltaTime) {
 function updateAnimation(runtime, deltaTime) {
 	const { state, clips, player } = runtime;
 	const motion = measureLocomotionPlayback(runtime, deltaTime);
+	const stride = runtime.locomotionStrideState
+		|| (runtime.locomotionStrideState = createLocomotionStride());
+	advanceLocomotionStride(stride, {
+		clipDuration: strideClipDuration(player, clips, motion.locomotion),
+		deltaTime,
+		facing: state.facing,
+		locomotion: motion.locomotion,
+		moving: motion.moving,
+		referenceSpeed: motion.locomotion === 'run' ? RUN_SPEED : WALK_SPEED,
+		speed: motion.speed
+	});
 	if (!clips || !player) {
 		player?.update?.(deltaTime);
 		return;
 	}
-	const wanted = wantedClip(state, clips, motion);
+	const wanted = wantedClip(state, clips, motion, stride);
 	if (wanted && state.clip !== wanted && typeof player.play === 'function') {
 		player.play(wanted);
 		state.clip = wanted;
@@ -44,16 +62,25 @@ function updateAnimation(runtime, deltaTime) {
 	player.update?.(deltaTime * playbackRate);
 }
 
-/** Chooses the best published locomotion clip without inventing authority for partial transition maps. */
-function wantedClip(state, clips, motion) {
+/** Resolves the authored clip-cycle duration so stride phase stays synchronized to visible feet. */
+function strideClipDuration(player, clips, locomotion) {
+	const name = locomotion === 'run' ? clips?.run : clips?.walk;
+	const match = player?.clips?.find?.(clip => clip?.name === name);
+	const duration = Number(match?.duration);
+	return Number.isFinite(duration) && duration > 0 ? duration : 1;
+}
+
+/** Chooses the best published locomotion clip with a debounced label so walk/run cannot flutter at the boundary. */
+function wantedClip(state, clips, motion, stride) {
 	const stand = clips.stand || state.clip || '';
 	if (!state.grounded) {
 		return state.airPhase === 'jump'
 			? (clips.jump || stand)
 			: (clips.fall || clips.jump || stand);
 	}
-	if (!motion.moving) return stand;
-	return motion.locomotion === 'run'
+	const locomotion = stride?.smoothedLocomotion || motion.locomotion;
+	if (locomotion !== 'walk' && locomotion !== 'run') return stand;
+	return locomotion === 'run'
 		? (clips.run || clips.walk || stand)
 		: (clips.walk || stand);
 }

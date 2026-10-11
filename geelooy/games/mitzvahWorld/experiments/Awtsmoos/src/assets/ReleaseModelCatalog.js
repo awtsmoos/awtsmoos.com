@@ -11,13 +11,21 @@
 
 import { REMOTE_MODEL_RECORDS } from './RemoteModelRecords.js';
 
-const RELEASE_MODEL_ROOT = '/games/mitzvahWorld/build/generated/assets/';
 const PLAYER_IDENTITY = 'player/chossid.glb';
+
+/**
+ * Release-local model root resolved against this module's real URL (not a hardcoded
+ * absolute path), so source, compact bundles, https:, and file: all agree.
+ * This module lives at <game>/experiments/Awtsmoos/src/assets/; models live at <game>/build/generated/assets/.
+ */
+function releaseModelRoot() {
+	return new URL('../../../../build/generated/assets/', import.meta.url).href;
+}
 
 /** Returns the exact hash-addressed packaged URL for the canonical Chossid. */
 export function canonicalChossidReleaseUrl() {
 	const record = REMOTE_MODEL_RECORDS[PLAYER_IDENTITY];
-	return `${RELEASE_MODEL_ROOT}${record.sha256}/chossid.glb`;
+	return `${releaseModelRoot()}${record.sha256}/chossid.glb`;
 }
 
 /** Accepts only a catalog-derived release-owned content-addressed model URL. */

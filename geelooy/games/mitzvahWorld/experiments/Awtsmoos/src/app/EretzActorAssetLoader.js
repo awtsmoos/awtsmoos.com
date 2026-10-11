@@ -71,11 +71,19 @@ export async function loadRemoteEretzActorAssets(options = {}, npcProfiles = [])
 }
 
 async function defaultRemoteActorLoader(options, npcProfiles) {
-	const [{ loadIsolatedGltf, sharedGltfAssetStats }, palette] = await Promise.all([
+	const [{ loadIsolatedGltf, sharedGltfAssetStats }, palette, { bakeChossidSurfaceDetail }] = await Promise.all([
 		import('../assets/ModelAssetLoader.js?v=20260902-glb-humans-only-01'),
-		import('../assets/ChossidOutfitPalette.js?v=20260902-glb-humans-only-01')
+		import('../assets/ChossidOutfitPalette.js?v=20260902-glb-humans-only-01'),
+		import('../assets/ChossidSurfaceDetail.js')
 	]);
-	const playerGltf = await loadIsolatedGltf(PLAYER_MODEL_URL, 'player-canonical');
+	const playerOutfit = palette.playerChossidOutfit();
+	const playerGltf = await loadIsolatedGltf(PLAYER_MODEL_URL, 'player-canonical', {
+		materialResolver: palette.chossidMaterialResolver(palette.playerChossidOutfit())
+	});
+	if (playerGltf.scene) {
+		palette.applyChossidOutfit(playerGltf.scene, playerOutfit);
+		bakeChossidSurfaceDetail(playerGltf.scene);
+	}
 	const npcGltfs = await Promise.all(npcProfiles.map((profile, index) => loadIsolatedGltf(
 		PLAYER_MODEL_URL,
 		`friendly-npc-${index}-${profile.id}`,

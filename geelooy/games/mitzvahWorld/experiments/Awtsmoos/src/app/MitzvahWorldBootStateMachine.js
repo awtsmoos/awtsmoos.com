@@ -16,7 +16,7 @@ const VEIL_ID = 'menuBoot';
 
 const TRANSITIONS = Object.freeze({
 	'starting': Object.freeze(['detecting-webgl', 'painting', 'failed']),
-	'detecting-webgl': Object.freeze(['starting', 'painting', 'failed']),
+	'detecting-webgl': Object.freeze(['starting', 'painting', 'renderer-creating', 'failed']),
 	'painting': Object.freeze(['renderer-creating', 'launcher-loading', 'failed', 'starting']),
 	'renderer-creating': Object.freeze(['first-frame-painting', 'failed', 'starting']),
 	'first-frame-painting': Object.freeze(['launcher-loading', 'world-loading', 'failed', 'starting']),

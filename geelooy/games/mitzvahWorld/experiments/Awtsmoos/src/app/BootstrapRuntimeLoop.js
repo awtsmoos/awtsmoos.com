@@ -26,12 +26,23 @@ import {
 	completeMitzvahWorldEssentialMilestone,
 	ESSENTIAL_MILESTONES
 } from './MitzvahWorldEssentialBoot.js';
+import { MinimalMeadowAdaptiveQuality } from './MinimalMeadowAdaptiveQuality.js';
 import { markMitzvahWorldStartupMilestone } from './MitzvahWorldStartupMilestones.js';
 import { RuntimeLongTaskMonitor } from '../performance/RuntimeLongTaskMonitor.js';
 
 const MAX_FRAME_DELTA_SECONDS = 0.05;
 const FRAME_BUDGET_P95_MS = 16.7;
 const LONG_TASK_BUDGET_MS = 50;
+/**
+ * Render stride per adaptive quality level: how many scheduler ticks pass per
+ * rendered frame. Simulation always advances; only the render is throttled, so
+ * slow GPUs stay responsive instead of spiraling behind.
+ */
+const QUALITY_RENDER_STRIDE = Object.freeze({
+	quality: 1,
+	balanced: 2,
+	performance: 3
+});
 
 /** Starts the main visual gameplay loop without multiplying animation clocks. */
 export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
@@ -39,9 +50,13 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 	const frameWindow = new FrameBudgetWindow(240);
 	const longTaskMonitor = new RuntimeLongTaskMonitor();
 	const scheduler = createBootstrapFrameScheduler(environment);
+	const adaptiveQuality = runtime.adaptiveQuality || new MinimalMeadowAdaptiveQuality(runtime);
+	runtime.adaptiveQuality = adaptiveQuality;
 	let active = true;
 	let lastTime = now(environment);
 	let lastUiAt = -Infinity;
+	let tick = 0;
+	let renderedFrames = 0;
 
 	const frame = (currentTime, source = 'unknown') => {
 		if (!active) {
@@ -51,9 +66,20 @@ export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 		const deltaSeconds = frameDelta(gap);
 		lastTime = currentTime;
 		frameWindow.add(gap);
+		tick += 1;
+		// B"H frame throttle: feed the adaptive quality tracker the REAL frame gap
+		// (not the simulation-capped delta), then stride the render when the GPU
+		// is strained. Simulation always advances; only the expensive render is
+		// skipped, keeping movement responsive on slow frames.
+		adaptiveQuality.update(gap / 1000);
+		const stride = QUALITY_RENDER_STRIDE[adaptiveQuality.level] || 1;
+		const shouldRender = renderedFrames === 0 || (tick % stride) === 0;
 		try {
 			advanceBootstrapGameplay(runtime, movement, deltaSeconds);
-			renderBootstrapGameplay(runtime, currentTime);
+			if (shouldRender) {
+				renderBootstrapGameplay(runtime, currentTime);
+				renderedFrames += 1;
+			}
 			lastUiAt = refreshBootstrapPresentation(
 				runtime,
 				currentTime,

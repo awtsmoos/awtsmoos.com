@@ -9,14 +9,16 @@
  * Awtsmoos.com keeps Simple Meadow free of unused imports while richer worlds receive their rightful power.
  */
 
+import { mitzvahWorldDynamicImportUrl } from '../launcher/MitzvahWorldDynamicImportUrl.js';
+
 const DISTRICT_URL = './EretzDistrictStreamingLaunch.js?compact=true&v=20260820-player-priority-02';
 const ENRICHMENT_URL = './EretzDeferredEnrichmentLaunch.js?compact=true&v=20260820-player-priority-02';
 
 /** Loads richer launchers only after policy proves the selected world needs them. */
 export async function loadEretzPostPlayableLaunchers() {
 	const [districtModule, enrichmentModule] = await Promise.all([
-		import(DISTRICT_URL),
-		import(ENRICHMENT_URL)
+		import(mitzvahWorldDynamicImportUrl(DISTRICT_URL)),
+		import(mitzvahWorldDynamicImportUrl(ENRICHMENT_URL))
 	]);
 	return Object.freeze({
 		startDeferred: enrichmentModule.startProductionEretzDeferredEnrichment,

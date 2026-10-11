@@ -9,6 +9,8 @@
  * presentation may reveal already-certified hosts, but it never declares gameplay truth—the readiness publisher alone bears that crown.
  */
 
+import { mitzvahWorldDynamicImportUrl } from './MitzvahWorldDynamicImportUrl.js';
+
 const STYLE_ATTRIBUTE = 'data-awtsmoos-gameplay-style';
 const FUTURE_CAPSULE_VERSION = '20260821-retractable-command-capsule-01';
 export const CREATIVE_DOCK_STYLESHEET =
@@ -41,7 +43,7 @@ export function prepareGameplayPresentation(
 		GAMEPLAY_STYLESHEETS.map((href, index) => loadStylesheet(documentValue, href, index))
 	);
 	hudControllerPromise ||= stylesheetReadiness.then(() => schedule(environment, async () => {
-		const { HudMinimizeController } = await import('../ui/HudMinimizeController.js?compact=true');
+		const { HudMinimizeController } = await import(mitzvahWorldDynamicImportUrl('../ui/HudMinimizeController.js?compact=true'));
 		environment.AwtsmoosHud ||= new HudMinimizeController(documentValue).install();
 		return environment.AwtsmoosHud;
 	}));
@@ -65,14 +67,21 @@ export function prepareCreativeDockPresentation(
 		CREATIVE_DOCK_STYLESHEET,
 		'creative-dock'
 	).then(() => schedule(environment, async () => {
-		const { installMitzvahWorldCreativeDock } = await import(
-			`./MitzvahWorldCreativeDock.js?compact=true&v=${FUTURE_CAPSULE_VERSION}`
-		);
-		environment.AwtsmoosCreativeDock ||= installMitzvahWorldCreativeDock(
-			documentValue,
-			environment
-		);
-		return environment.AwtsmoosCreativeDock;
+		// B"H: the creative dock is optional; a failed import (e.g. heavy creator
+		// graph unavailable) degrades gracefully instead of breaking boot.
+		try {
+			const { installMitzvahWorldCreativeDock } = await import(
+				mitzvahWorldDynamicImportUrl(`./MitzvahWorldCreativeDock.js?compact=true&v=${FUTURE_CAPSULE_VERSION}`)
+			);
+			environment.AwtsmoosCreativeDock ||= installMitzvahWorldCreativeDock(
+				documentValue,
+				environment
+			);
+			return environment.AwtsmoosCreativeDock;
+		} catch (error) {
+			console.warn('[MitzvahWorld] creative dock unavailable:', error?.message || error);
+			return null;
+		}
 	}));
 	return {
 		ready: creativeDockPromise,

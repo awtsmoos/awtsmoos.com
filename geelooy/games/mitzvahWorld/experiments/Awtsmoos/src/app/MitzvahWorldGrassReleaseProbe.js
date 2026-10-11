@@ -13,7 +13,11 @@ import { natureQualityBudget } from '../world/nature/NatureQualityBudget.js';
 import { measureMitzvahWorldGrassGpuDelta } from './MitzvahWorldGrassGpuTimer.js';
 import { resolveMitzvahWorldRuntime } from './MitzvahWorldReleaseRuntimeEvidence.js';
 
-const MANIFEST_URL = '/games/mitzvahWorld/build/generated/mitzvah-world-essential-assets.json';
+/** Release manifest resolved against this module's real URL (not a hardcoded absolute path). */
+const MANIFEST_URL = new URL(
+	'../../../../build/generated/mitzvah-world-essential-assets.json',
+	import.meta.url
+).href;
 const GRASS_SHADER = 'wind-reactive-procedural-grass';
 
 /** Collects runtime, package, and GPU timing evidence from the actual publication world. */

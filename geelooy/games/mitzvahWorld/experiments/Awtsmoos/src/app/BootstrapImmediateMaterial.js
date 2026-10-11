@@ -15,9 +15,11 @@ import {
 
 /**
  * Creates one remote-only bootstrap material whose mesh remains pending until hydration.
+ * Pass options.mapImage with a generated texture field ({width,height,data}) to bind
+ * procedural pixels immediately; the remote upgrade path stays untouched.
  * @param {string} name Stable material identity.
  * @param {number[]} color Non-visible base-factor hint while pending.
- * @param {object} [options={}] Semantic role, repeat, tags, and optional trusted URL.
+ * @param {object} [options={}] Semantic role, repeat, tags, mapImage, and optional trusted URL.
  * @returns {object} Core-owned native remote-pending material.
  */
 export function createBootstrapImmediateMaterial(name, color, options = {}) {
@@ -25,10 +27,11 @@ export function createBootstrapImmediateMaterial(name, color, options = {}) {
 	const semanticRole = options.semanticRole || null;
 	const textureUrl = options.textureUrl || null;
 	const mapRepeat = [...(options.mapRepeat || [1, 1])];
+	const mapImage = options.mapImage || null;
 	const material = createNativeWorldMaterial({
 		alphaMode: 'OPAQUE',
 		color: resolvedColor,
-		mapImage: null,
+		mapImage,
 		mapImageFallback: false,
 		mapRepeat,
 		name,
@@ -40,7 +43,7 @@ export function createBootstrapImmediateMaterial(name, color, options = {}) {
 	});
 	material.baseColorFactor = [...resolvedColor];
 	material.map = null;
-	material.mapImage = null;
+	material.mapImage = mapImage;
 	material.mapImageFallback = false;
 	material.mapRepeat = mapRepeat;
 	material.textureUrl = textureUrl;
@@ -49,6 +52,7 @@ export function createBootstrapImmediateMaterial(name, color, options = {}) {
 		bootstrapImmediate: true,
 		bootstrapMaterialRecord: {
 			label: name,
+			mapImageBound: Boolean(mapImage),
 			remoteOnly: true,
 			semanticRole,
 			textureUrl,

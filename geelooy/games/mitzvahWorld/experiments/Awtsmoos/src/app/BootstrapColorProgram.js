@@ -28,10 +28,17 @@ export function createBootstrapColorProgram(gl) {
 	gl.deleteShader(fragment);
 	return {
 		locations: {
+			cameraPos: gl.getUniformLocation(program, 'uCameraPos'),
 			color: gl.getUniformLocation(program, 'uColor'),
+			fogColor: gl.getUniformLocation(program, 'uFogColor'),
+			fogDensity: gl.getUniformLocation(program, 'uFogDensity'),
+			map: gl.getUniformLocation(program, 'uMap'),
+			mapRepeat: gl.getUniformLocation(program, 'uMapRepeat'),
 			model: gl.getUniformLocation(program, 'uModel'),
 			position: gl.getAttribLocation(program, 'aPosition'),
 			projectionView: gl.getUniformLocation(program, 'uProjectionView'),
+			texCoord: gl.getAttribLocation(program, 'aTexCoord'),
+			useMap: gl.getUniformLocation(program, 'uUseMap'),
 			vertexColor: gl.getAttribLocation(program, 'aColor')
 		},
 		program

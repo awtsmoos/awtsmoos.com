@@ -118,43 +118,47 @@ const __awtsmoosModule_33 = Object.create(null);
 
 const __awtsmoosModule_3 = Object.create(null);
 
-const __awtsmoosModule_52 = Object.create(null);
+const __awtsmoosModule_49 = Object.create(null);
 
-const __awtsmoosModule_51 = Object.create(null);
-
-const __awtsmoosModule_55 = Object.create(null);
+const __awtsmoosModule_48 = Object.create(null);
 
 const __awtsmoosModule_54 = Object.create(null);
 
 const __awtsmoosModule_53 = Object.create(null);
 
-const __awtsmoosModule_56 = Object.create(null);
-
 const __awtsmoosModule_57 = Object.create(null);
 
-const __awtsmoosModule_58 = Object.create(null);
+const __awtsmoosModule_56 = Object.create(null);
 
-const __awtsmoosModule_50 = Object.create(null);
+const __awtsmoosModule_55 = Object.create(null);
+
+const __awtsmoosModule_58 = Object.create(null);
 
 const __awtsmoosModule_59 = Object.create(null);
 
 const __awtsmoosModule_60 = Object.create(null);
 
-const __awtsmoosModule_49 = Object.create(null);
+const __awtsmoosModule_52 = Object.create(null);
 
 const __awtsmoosModule_61 = Object.create(null);
 
-const __awtsmoosModule_48 = Object.create(null);
+const __awtsmoosModule_62 = Object.create(null);
 
-const __awtsmoosModule_2 = Object.create(null);
+const __awtsmoosModule_51 = Object.create(null);
 
 const __awtsmoosModule_63 = Object.create(null);
 
+const __awtsmoosModule_50 = Object.create(null);
+
+const __awtsmoosModule_2 = Object.create(null);
+
 const __awtsmoosModule_65 = Object.create(null);
 
-const __awtsmoosModule_64 = Object.create(null);
+const __awtsmoosModule_67 = Object.create(null);
 
-const __awtsmoosModule_62 = Object.create(null);
+const __awtsmoosModule_66 = Object.create(null);
+
+const __awtsmoosModule_64 = Object.create(null);
 
 const __awtsmoosModule_0 = Object.create(null);
 
@@ -3341,13 +3345,21 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	const REMOTE_MODEL_RECORDS = __awtsmoosModule_43.REMOTE_MODEL_RECORDS;
 
-	const RELEASE_MODEL_ROOT = '/games/mitzvahWorld/build/generated/assets/';
 	const PLAYER_IDENTITY = 'player/chossid.glb';
+
+	/**
+	 * Release-local model root resolved against this module's real URL (not a hardcoded
+	 * absolute path), so source, compact bundles, https:, and file: all agree.
+	 * This module lives at <game>/experiments/Awtsmoos/src/assets/; models live at <game>/build/generated/assets/.
+	 */
+	function releaseModelRoot() {
+		return new URL('../../../../build/generated/assets/', (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvahWorld/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvahWorld/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/assets/ReleaseModelCatalog.js")).href;
+	}
 
 	/** Returns the exact hash-addressed packaged URL for the canonical Chossid. */
 	function canonicalChossidReleaseUrl() {
 		const record = REMOTE_MODEL_RECORDS[PLAYER_IDENTITY];
-		return `${RELEASE_MODEL_ROOT}${record.sha256}/chossid.glb`;
+		return `${releaseModelRoot()}${record.sha256}/chossid.glb`;
 	}
 
 
@@ -3578,6 +3590,8 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	const GLB_MAGIC = 0x46546c67;
 	const GLB_HEADER_BYTES = 12;
+	/** Bounds one model fetch so a stalled byte stream can never hang boot forever. */
+	const ASSET_FETCH_TIMEOUT_MS = 30000;
 
 	/** Streams one exact trusted model URL and reports measured byte progress. */
 	async function fetchAssetBuffer(url, onProgress = () => {}, dependencies = {}) {
@@ -3604,7 +3618,20 @@ const __awtsmoosModule_0 = Object.create(null);
 	}
 
 	async function fetchCandidate(url, onProgress, dependencies) {
-		const cached = await cachedModelResponse(url, dependencies);
+		const timeout = dependencies.fetchTimeoutMs ?? ASSET_FETCH_TIMEOUT_MS;
+		const controller = typeof AbortController === 'function' ? new AbortController() : null;
+		const timer = controller && timeout > 0
+			? setTimeout(() => controller.abort(new Error(`asset-fetch-timeout:${timeout}ms`)), timeout)
+			: null;
+		try {
+			const cached = await cachedModelResponse(url, { ...dependencies, signal: controller?.signal ?? dependencies.signal });
+			return await streamCandidateBody(url, onProgress, cached);
+		} finally {
+			if (timer) clearTimeout(timer);
+		}
+	}
+
+	async function streamCandidateBody(url, onProgress, cached) {
 		const response = cached.response;
 		if (!response.ok) throw new Error(`HTTP ${response.status}`);
 		let total = Number(response.headers.get('content-length')) || 0;
@@ -3943,9 +3970,344 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/ChossidOutfitPalette.js ----
+{
+	const __exports = __awtsmoosModule_49;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file ChossidOutfitPalette.js
+	 * @description Shares garment materials by role/color and controls real GLB layers.
+	 * The Awtsmoos renews each friendly face beyond cloth; Awtsmoos.com lets many people
+	 * differ through bounded palettes while identical colors inhabit one material vessel.
+	 */
+
+	const variantCache = new WeakMap();
+
+	function chossidMaterialResolver(outfitDefinition) {
+		const definition = normalizeOutfit(outfitDefinition);
+		return material => materialVariant(material, definition);
+	}
+
+
+	__exports.chossidMaterialResolver = chossidMaterialResolver;
+	function applyChossidOutfit(scene, outfitDefinition) {
+		const definition = normalizeOutfit(outfitDefinition);
+		const stats = { hiddenNodes: 0, visibleNodes: 0 };
+		scene.traverse(node => {
+			const visibility = clothingVisibility(node.name, definition);
+			if (visibility === null) return;
+			node.visible = visibility;
+			stats[visibility ? 'visibleNodes' : 'hiddenNodes'] += 1;
+		});
+		scene.userData.chossidOutfit = definition;
+		return stats;
+	}
+
+
+	__exports.applyChossidOutfit = applyChossidOutfit;
+	function chossidPaletteStats() {
+		return { sharedBySourceMaterial: true };
+	}
+
+
+	__exports.chossidPaletteStats = chossidPaletteStats;
+	/**
+	 * Returns the canonical player outfit: yarmulke, jacket, no tefillin, with
+	 * near-black coat/pants kept visibly separated instead of collapsing to pure black.
+	 */
+	function playerChossidOutfit() {
+		return Object.freeze({
+			colors: Object.freeze({
+				coat: '#23252b',
+				eyes: '#4d6b8a',
+				glasses: '#26384a',
+				hair: '#4b2410',
+				pants: '#191a1d',
+				shirt: '#f5f1e8'
+			}),
+			headwear: 'yarmulke',
+			id: 'player-canonical',
+			jacket: true,
+			tefillin: false
+		});
+	}
+
+
+	__exports.playerChossidOutfit = playerChossidOutfit;
+	__exports.chossidMaterialRole = materialRole;
+
+	/**
+	 * Refined base colors for authored materials the outfit palette does not recolor.
+	 * The GLB ships skin as flat orange and several garments as pure black; these keep
+	 * the authored identity while reading as natural skin and separated near-black cloth.
+	 */
+	const REFINED_RAW_COLORS = Object.freeze({
+		skin: '#b08a6e',
+		shoes: '#26211c',
+		tophat: '#121214',
+		yamulka: '#17171a',
+		teffilinstap: '#1d1710',
+		teffilinbayis: '#1d1710',
+		teffilinshin: '#1d1710'
+	});
+
+	function refinedRawColor(role) {
+		return REFINED_RAW_COLORS[role] || null;
+	}
+
+	function materialVariant(material, definition) {
+		if (!material) return material;
+		const role = materialRole(material.name);
+		const color = definition.colors[role] || refinedRawColor(role);
+		if (!color) return material;
+		let variants = variantCache.get(material);
+		if (!variants) {
+			variants = new Map();
+			variantCache.set(material, variants);
+		}
+		const key = `${role}:${color}`;
+		if (variants.has(key)) return variants.get(key);
+		const variant = Object.assign(
+			Object.create(Object.getPrototypeOf(material)),
+			material
+		);
+		variant.color = rgba(color, material.color?.[3] ?? 1);
+		variant.name = `${material.name || role}@${color}`;
+		variant.userData = {
+			...(material.userData || {}),
+			chossidPaletteKey: key
+		};
+		variants.set(key, variant);
+		return variant;
+	}
+
+	function clothingVisibility(nameValue, definition) {
+		const name = String(nameValue || '').toLowerCase();
+		if (name === 'top-hat') return definition.headwear === 'top-hat';
+		if (name === 'yarmalka') return definition.headwear !== 'top-hat';
+		if (name === 'jacket') return definition.jacket && !definition.tefillin;
+		if (name === 'jacket-teffilin') return definition.jacket && definition.tefillin;
+		if (name === 'outer-shirt') return true;
+		if (/teffilin|tefillin|batim|shinleft|shinright|ritzooyoys/.test(name)) {
+			return definition.tefillin;
+		}
+		return null;
+	}
+
+	function materialRole(nameValue) {
+		const name = String(nameValue || '').toLowerCase();
+		if (name.startsWith('jacket')) return 'coat';
+		if (name === 'shirt' || name === 'outer-shirt') return 'shirt';
+		if (name === 'pants') return 'pants';
+		if (name === 'hair') return 'hair';
+		if (name === 'glasses-frame') return 'glasses';
+		if (name === 'eye-color') return 'eyes';
+		return name;
+	}
+
+	function normalizeOutfit(value = {}) {
+		return {
+			colors: {
+				coat: value.colors?.coat || '#202226',
+				eyes: value.colors?.eyes || '#4d6b8a',
+				glasses: value.colors?.glasses || '#26384a',
+				hair: value.colors?.hair || '#4b2410',
+				pants: value.colors?.pants || '#17181a',
+				shirt: value.colors?.shirt || '#f4efe6'
+			},
+			headwear: value.headwear || 'yarmulke',
+			id: value.id || 'default',
+			jacket: value.jacket !== false,
+			tefillin: value.tefillin === true
+		};
+	}
+
+	function rgba(hex, alpha) {
+		const value = Number.parseInt(String(hex).replace('#', ''), 16);
+		return [
+			((value >> 16) & 255) / 255,
+			((value >> 8) & 255) / 255,
+			(value & 255) / 255,
+			alpha
+		];
+	}
+
+}
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/assets/ChossidSurfaceDetail.js ----
+{
+	const __exports = __awtsmoosModule_48;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file ChossidSurfaceDetail.js
+	 * @description Bakes deterministic per-vertex surface variation into one isolated
+	 * Chossid instance: subtle skin mottling, cloth grain, and crevice darkening from a
+	 * cheap normal-divergence approximation. Runs once at load in the app layer on
+	 * CLONED geometries (instance geometry is shared with the GLB template, so the
+	 * bake must never mutate it); the tiny renderer's shaders already consume a
+	 * `color` vertex attribute as a multiplier, so no shared-core shader or buffer
+	 * changes are needed. Fully procedural, deterministic, zero network.
+	 */
+
+	const chossidMaterialRole = __awtsmoosModule_49.chossidMaterialRole;
+
+	const CREVICE_CELL_SIZE = 0.045;
+	const MIN_SHADE = 0.7;
+	const MAX_SHADE = 1.06;
+
+	const SHADE_PARAMS = Object.freeze({
+		skin: Object.freeze({ crevice: 0.15, grain: 0, mottle: 0.085, warm: 0.035 }),
+		cloth: Object.freeze({ crevice: 0.24, grain: 0.055, mottle: 0, warm: 0 }),
+		hair: Object.freeze({ crevice: 0.17, grain: 0.03, mottle: 0, warm: 0 }),
+		hard: Object.freeze({ crevice: 0.1, grain: 0.015, mottle: 0, warm: 0 })
+	});
+
+	/**
+	 * Bakes surface detail into every mesh of one loaded Chossid scene.
+	 * @param {object} scene Loaded GLTF scene (traversable).
+	 * @param {object} [options] Optional tuning overrides.
+	 * @returns {object} Frozen bake receipt.
+	 */
+	function bakeChossidSurfaceDetail(scene, options = {}) {
+		const receipt = { meshesBaked: 0, meshesSkipped: 0, roles: {}, verticesBaked: 0 };
+		scene?.traverse?.(node => {
+			if (!node.isMesh && !node.isSkinnedMesh) return;
+			const baked = bakeMeshSurfaceDetail(node, options);
+			if (baked > 0) {
+				receipt.meshesBaked += 1;
+				receipt.verticesBaked += baked;
+				const role = shadeClass(chossidMaterialRole(meshMaterialName(node)));
+				receipt.roles[role] = (receipt.roles[role] || 0) + 1;
+			} else {
+				receipt.meshesSkipped += 1;
+			}
+		});
+		return Object.freeze({ ...receipt, roles: Object.freeze({ ...receipt.roles }) });
+	}
+
+
+	__exports.bakeChossidSurfaceDetail = bakeChossidSurfaceDetail;
+	function bakeMeshSurfaceDetail(mesh, options) {
+		const geometry = mesh.geometry;
+		const position = geometry?.attributes?.position;
+		const normal = geometry?.attributes?.normal;
+		if (!position || !normal || position.count < 1) return 0;
+		if (geometry.attributes.color) return 0;
+		const positions = position.array;
+		const normals = normal.array;
+		if (!positions || !normals || positions.length < position.count * 3) return 0;
+		const params = { ...SHADE_PARAMS[shadeClass(chossidMaterialRole(meshMaterialName(mesh)))], ...(options.params || {}) };
+		const cells = accumulateNormalCells(positions, normals, position.count);
+		const colors = new Float32Array(position.count * 4);
+		for (let i = 0; i < position.count; i++) {
+			const px = positions[i * 3];
+			const py = positions[i * 3 + 1];
+			const pz = positions[i * 3 + 2];
+			const nx = normals[i * 3];
+			const ny = normals[i * 3 + 1];
+			const nz = normals[i * 3 + 2];
+			let shade = creviceShade(cells, px, py, pz, nx, ny, nz, params.crevice);
+			shade *= 1 - 0.06 * (0.5 - 0.5 * ny);
+			let warm = 0;
+			if (params.mottle > 0) {
+				const mottle = hash3i(
+					Math.floor(px / 0.09),
+					Math.floor(py / 0.09),
+					Math.floor(pz / 0.09)
+				);
+				shade *= 1 + (mottle - 0.5) * params.mottle * 2;
+				warm = (mottle - 0.5) * params.warm * 2;
+			}
+			if (params.grain > 0) {
+				const grain = hash3i(
+					Math.floor(px / 0.004),
+					Math.floor(py / 0.004),
+					Math.floor(pz / 0.004)
+				);
+				shade *= 1 + (grain - 0.5) * params.grain * 2;
+			}
+			const clamped = Math.min(MAX_SHADE, Math.max(MIN_SHADE, shade));
+			colors[i * 4] = clamped * (1 + warm);
+			colors[i * 4 + 1] = clamped;
+			colors[i * 4 + 2] = clamped * (1 - warm * 0.7);
+			colors[i * 4 + 3] = 1;
+		}
+		mesh.geometry = cloneGeometryWithColor(geometry, colors, position.count);
+		return position.count;
+	}
+
+	function accumulateNormalCells(positions, normals, count) {
+		const cells = new Map();
+		for (let i = 0; i < count; i++) {
+			const key = cellKey(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]);
+			let cell = cells.get(key);
+			if (!cell) {
+				cell = { count: 0, x: 0, y: 0, z: 0 };
+				cells.set(key, cell);
+			}
+			cell.x += normals[i * 3];
+			cell.y += normals[i * 3 + 1];
+			cell.z += normals[i * 3 + 2];
+			cell.count += 1;
+		}
+		return cells;
+	}
+
+	function creviceShade(cells, px, py, pz, nx, ny, nz, strength) {
+		const cell = cells.get(cellKey(px, py, pz));
+		if (!cell || cell.count < 2) return 1;
+		const length = Math.hypot(cell.x, cell.y, cell.z) || 1;
+		const divergence = 1 - (nx * (cell.x / length) + ny * (cell.y / length) + nz * (cell.z / length));
+		const crevice = Math.min(1, Math.max(0, divergence * 3));
+		return 1 - strength * crevice * crevice;
+	}
+
+	function cellKey(x, y, z) {
+		const qx = Math.floor(x / CREVICE_CELL_SIZE);
+		const qy = Math.floor(y / CREVICE_CELL_SIZE);
+		const qz = Math.floor(z / CREVICE_CELL_SIZE);
+		return (Math.imul(qx, 73856093) ^ Math.imul(qy, 19349663) ^ Math.imul(qz, 83492791)) | 0;
+	}
+
+	function hash3i(x, y, z) {
+		let h = Math.imul(x, 374761393) ^ Math.imul(y, 668265263) ^ Math.imul(z, 1440662683);
+		h = Math.imul(h ^ (h >>> 13), 1274126177);
+		h ^= h >>> 16;
+		return (h >>> 0) / 4294967296;
+	}
+
+	function cloneGeometryWithColor(geometry, colors, count) {
+		const clone = Object.assign(Object.create(Object.getPrototypeOf(geometry)), geometry);
+		clone.attributes = {
+			...geometry.attributes,
+			color: { array: colors, count, itemSize: 4, normalized: false }
+		};
+		return clone;
+	}
+
+	function meshMaterialName(mesh) {
+		const material = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
+		return material?.name || '';
+	}
+
+	function shadeClass(role) {
+		if (role === 'skin' || role === 'lips' || role === 'gums') return 'skin';
+		if (role === 'coat' || role === 'shirt' || role === 'pants') return 'cloth';
+		if (role === 'hair') return 'hair';
+		return 'hard';
+	}
+
+}
+
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialMilestoneCatalog.js ----
 {
-	const __exports = __awtsmoosModule_52;
+	const __exports = __awtsmoosModule_54;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4031,7 +4393,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialClock.js ----
 {
-	const __exports = __awtsmoosModule_51;
+	const __exports = __awtsmoosModule_53;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4043,7 +4405,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * never confusing one fixed wall-clock guess with the living progress of a slower browser.
 	 */
 
-	const ESSENTIAL_BOOT_TIMEOUT_MS = __awtsmoosModule_52.ESSENTIAL_BOOT_TIMEOUT_MS;
+	const ESSENTIAL_BOOT_TIMEOUT_MS = __awtsmoosModule_54.ESSENTIAL_BOOT_TIMEOUT_MS;
 
 	function scheduleMitzvahWorldEssentialTimeout(environment, callback, delayMilliseconds = ESSENTIAL_BOOT_TIMEOUT_MS) {
 		const schedule = environment?.setTimeout?.bind(environment) || setTimeout;
@@ -4071,7 +4433,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialRecord.js ----
 {
-	const __exports = __awtsmoosModule_55;
+	const __exports = __awtsmoosModule_57;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4126,7 +4488,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialTiming.js ----
 {
-	const __exports = __awtsmoosModule_54;
+	const __exports = __awtsmoosModule_56;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4138,7 +4500,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com therefore measures each active fact from its latest witnessed progress, never from stale wall-clock memory.
 	 */
 
-	const essentialDependenciesComplete = __awtsmoosModule_55.essentialDependenciesComplete;
+	const essentialDependenciesComplete = __awtsmoosModule_57.essentialDependenciesComplete;
 
 	function activateReadyEssentialRecords(records, currentTime) {
 		const activated = [];
@@ -4198,7 +4560,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialDeadlinePolicy.js ----
 {
-	const __exports = __awtsmoosModule_53;
+	const __exports = __awtsmoosModule_55;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4210,8 +4572,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * from the outer hard horizon so diagnostics never confuse local stillness with total first-play exhaustion.
 	 */
 
-	const ESSENTIAL_HARD_TIMEOUT_MS = __awtsmoosModule_52.ESSENTIAL_HARD_TIMEOUT_MS;
-	const essentialRecordTimedOut = __awtsmoosModule_54.essentialRecordTimedOut;
+	const ESSENTIAL_HARD_TIMEOUT_MS = __awtsmoosModule_54.ESSENTIAL_HARD_TIMEOUT_MS;
+	const essentialRecordTimedOut = __awtsmoosModule_56.essentialRecordTimedOut;
 
 	function essentialDependencyFailure(details, missing) {
 		return {
@@ -4255,7 +4617,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialFailurePresenter.js ----
 {
-	const __exports = __awtsmoosModule_56;
+	const __exports = __awtsmoosModule_58;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4332,7 +4694,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialSnapshot.js ----
 {
-	const __exports = __awtsmoosModule_57;
+	const __exports = __awtsmoosModule_59;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4344,8 +4706,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com shows queued facts at zero, active facts aging, and terminal facts sealed where their evidence has been.
 	 */
 
-	const essentialElapsedMilliseconds = __awtsmoosModule_54.essentialElapsedMilliseconds;
-	const firstActiveEssentialRecord = __awtsmoosModule_54.firstActiveEssentialRecord;
+	const essentialElapsedMilliseconds = __awtsmoosModule_56.essentialElapsedMilliseconds;
+	const firstActiveEssentialRecord = __awtsmoosModule_56.firstActiveEssentialRecord;
 
 	/** Builds one immutable public receipt from the internal milestone map. */
 	function createMitzvahWorldEssentialSnapshot(records, startedAtMilliseconds, environment) {
@@ -4392,15 +4754,15 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialWatchdog.js ----
 {
-	const __exports = __awtsmoosModule_58;
+	const __exports = __awtsmoosModule_60;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
 
-	const ESSENTIAL_HARD_TIMEOUT_MS = __awtsmoosModule_52.ESSENTIAL_HARD_TIMEOUT_MS;
-	const cancelMitzvahWorldEssentialTimeout = __awtsmoosModule_51.cancelMitzvahWorldEssentialTimeout;
-	const readMitzvahWorldEssentialTime = __awtsmoosModule_51.readMitzvahWorldEssentialTime;
-	const scheduleMitzvahWorldEssentialTimeout = __awtsmoosModule_51.scheduleMitzvahWorldEssentialTimeout;
+	const ESSENTIAL_HARD_TIMEOUT_MS = __awtsmoosModule_54.ESSENTIAL_HARD_TIMEOUT_MS;
+	const cancelMitzvahWorldEssentialTimeout = __awtsmoosModule_53.cancelMitzvahWorldEssentialTimeout;
+	const readMitzvahWorldEssentialTime = __awtsmoosModule_53.readMitzvahWorldEssentialTime;
+	const scheduleMitzvahWorldEssentialTimeout = __awtsmoosModule_53.scheduleMitzvahWorldEssentialTimeout;
 
 	/**
 	 * @file MitzvahWorldEssentialWatchdog.js
@@ -4455,7 +4817,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialLedger.js ----
 {
-	const __exports = __awtsmoosModule_50;
+	const __exports = __awtsmoosModule_52;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4467,22 +4829,22 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com refreshes only the fact that truly progressed while every silent sibling keeps its own finite night.
 	 */
 
-	const readMitzvahWorldEssentialTime = __awtsmoosModule_51.readMitzvahWorldEssentialTime;
-	const essentialDeadlineFailure = __awtsmoosModule_53.essentialDeadlineFailure;
-	const essentialDependencyFailure = __awtsmoosModule_53.essentialDependencyFailure;
-	const timeoutDetails = __awtsmoosModule_53.timeoutDetails;
-	const ESSENTIAL_MILESTONE_CATALOG = __awtsmoosModule_52.ESSENTIAL_MILESTONE_CATALOG;
-	const presentMitzvahWorldEssentialFailure = __awtsmoosModule_56.presentMitzvahWorldEssentialFailure;
-	const applyEssentialDetails = __awtsmoosModule_55.applyEssentialDetails;
-	const createEssentialRecord = __awtsmoosModule_55.createEssentialRecord;
-	const isEssentialTerminal = __awtsmoosModule_55.isEssentialTerminal;
-	const createMitzvahWorldEssentialSnapshot = __awtsmoosModule_57.createMitzvahWorldEssentialSnapshot;
-	const activateReadyEssentialRecords = __awtsmoosModule_54.activateReadyEssentialRecords;
-	const firstActiveEssentialRecord = __awtsmoosModule_54.firstActiveEssentialRecord;
-	const firstTimedOutEssentialRecord = __awtsmoosModule_54.firstTimedOutEssentialRecord;
-	const touchEssentialRecord = __awtsmoosModule_54.touchEssentialRecord;
-	const MitzvahWorldEssentialWatchdog = __awtsmoosModule_58.MitzvahWorldEssentialWatchdog;
-	const essentialHardTimeoutReached = __awtsmoosModule_58.essentialHardTimeoutReached;
+	const readMitzvahWorldEssentialTime = __awtsmoosModule_53.readMitzvahWorldEssentialTime;
+	const essentialDeadlineFailure = __awtsmoosModule_55.essentialDeadlineFailure;
+	const essentialDependencyFailure = __awtsmoosModule_55.essentialDependencyFailure;
+	const timeoutDetails = __awtsmoosModule_55.timeoutDetails;
+	const ESSENTIAL_MILESTONE_CATALOG = __awtsmoosModule_54.ESSENTIAL_MILESTONE_CATALOG;
+	const presentMitzvahWorldEssentialFailure = __awtsmoosModule_58.presentMitzvahWorldEssentialFailure;
+	const applyEssentialDetails = __awtsmoosModule_57.applyEssentialDetails;
+	const createEssentialRecord = __awtsmoosModule_57.createEssentialRecord;
+	const isEssentialTerminal = __awtsmoosModule_57.isEssentialTerminal;
+	const createMitzvahWorldEssentialSnapshot = __awtsmoosModule_59.createMitzvahWorldEssentialSnapshot;
+	const activateReadyEssentialRecords = __awtsmoosModule_56.activateReadyEssentialRecords;
+	const firstActiveEssentialRecord = __awtsmoosModule_56.firstActiveEssentialRecord;
+	const firstTimedOutEssentialRecord = __awtsmoosModule_56.firstTimedOutEssentialRecord;
+	const touchEssentialRecord = __awtsmoosModule_56.touchEssentialRecord;
+	const MitzvahWorldEssentialWatchdog = __awtsmoosModule_60.MitzvahWorldEssentialWatchdog;
+	const essentialHardTimeoutReached = __awtsmoosModule_60.essentialHardTimeoutReached;
 
 	class MitzvahWorldEssentialLedger {
 		constructor(environment) {
@@ -4585,7 +4947,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldWebGlCapabilityGate.js ----
 {
-	const __exports = __awtsmoosModule_59;
+	const __exports = __awtsmoosModule_61;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -4737,7 +5099,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldBootStateMachine.js ----
 {
-	const __exports = __awtsmoosModule_60;
+	const __exports = __awtsmoosModule_62;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -4756,7 +5118,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	const TRANSITIONS = Object.freeze({
 		'starting': Object.freeze(['detecting-webgl', 'painting', 'failed']),
-		'detecting-webgl': Object.freeze(['starting', 'painting', 'failed']),
+		'detecting-webgl': Object.freeze(['starting', 'painting', 'renderer-creating', 'failed']),
 		'painting': Object.freeze(['renderer-creating', 'launcher-loading', 'failed', 'starting']),
 		'renderer-creating': Object.freeze(['first-frame-painting', 'failed', 'starting']),
 		'first-frame-painting': Object.freeze(['launcher-loading', 'world-loading', 'failed', 'starting']),
@@ -4936,7 +5298,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldEssentialBoot.js ----
 {
-	const __exports = __awtsmoosModule_49;
+	const __exports = __awtsmoosModule_51;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -4948,15 +5310,15 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * testify into one shared Malchus whose silence clocks renew with real progress and whose outer first-play horizon stays finite.
 	 */
 
-	const MitzvahWorldEssentialLedger = __awtsmoosModule_50.MitzvahWorldEssentialLedger;
-	const dismissMitzvahWorldEssentialFailure = __awtsmoosModule_56.dismissMitzvahWorldEssentialFailure;
-	const CATALOG_MILESTONES = __awtsmoosModule_52.ESSENTIAL_MILESTONES;
-	const probeMitzvahWorldWebGlCapability = __awtsmoosModule_59.probeMitzvahWorldWebGlCapability;
-	const readMitzvahWorldWebGlCapability = __awtsmoosModule_59.readMitzvahWorldWebGlCapability;
-	const rememberMitzvahWorldWebGlCapability = __awtsmoosModule_59.rememberMitzvahWorldWebGlCapability;
-	const WEBGL_UNAVAILABLE_CODE = __awtsmoosModule_59.WEBGL_UNAVAILABLE_CODE;
-	const transitionMitzvahWorldBootState = __awtsmoosModule_60.transitionMitzvahWorldBootState;
-	__exports.ESSENTIAL_MILESTONES = __awtsmoosModule_52.ESSENTIAL_MILESTONES;
+	const MitzvahWorldEssentialLedger = __awtsmoosModule_52.MitzvahWorldEssentialLedger;
+	const dismissMitzvahWorldEssentialFailure = __awtsmoosModule_58.dismissMitzvahWorldEssentialFailure;
+	const CATALOG_MILESTONES = __awtsmoosModule_54.ESSENTIAL_MILESTONES;
+	const probeMitzvahWorldWebGlCapability = __awtsmoosModule_61.probeMitzvahWorldWebGlCapability;
+	const readMitzvahWorldWebGlCapability = __awtsmoosModule_61.readMitzvahWorldWebGlCapability;
+	const rememberMitzvahWorldWebGlCapability = __awtsmoosModule_61.rememberMitzvahWorldWebGlCapability;
+	const WEBGL_UNAVAILABLE_CODE = __awtsmoosModule_61.WEBGL_UNAVAILABLE_CODE;
+	const transitionMitzvahWorldBootState = __awtsmoosModule_62.transitionMitzvahWorldBootState;
+	__exports.ESSENTIAL_MILESTONES = __awtsmoosModule_54.ESSENTIAL_MILESTONES;
 
 	const LEDGER_KEY = 'AwtsmoosMitzvahWorldEssentialLedgerInternal';
 	const RESTART_ENTRY_STAGE = 'world-launch-restart';
@@ -5068,7 +5430,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzConstants.js ----
 {
-	const __exports = __awtsmoosModule_61;
+	const __exports = __awtsmoosModule_63;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5120,7 +5482,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/MitzvahWorldCanonicalChossidTiming.js ----
 {
-	const __exports = __awtsmoosModule_48;
+	const __exports = __awtsmoosModule_50;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5132,9 +5494,9 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * reveal their measured spans so optimization follows witnessed time instead of guesses dressed as speed.
 	 */
 
-	const ESSENTIAL_MILESTONES = __awtsmoosModule_49.ESSENTIAL_MILESTONES;
-	const updateMitzvahWorldEssentialMilestone = __awtsmoosModule_49.updateMitzvahWorldEssentialMilestone;
-	const PLAYER_MODEL_URL = __awtsmoosModule_61.PLAYER_MODEL_URL;
+	const ESSENTIAL_MILESTONES = __awtsmoosModule_51.ESSENTIAL_MILESTONES;
+	const updateMitzvahWorldEssentialMilestone = __awtsmoosModule_51.updateMitzvahWorldEssentialMilestone;
+	const PLAYER_MODEL_URL = __awtsmoosModule_63.PLAYER_MODEL_URL;
 
 	const GLOBAL_NAME = 'AwtsmoosMitzvahWorldCanonicalChossidTiming';
 
@@ -5222,14 +5584,18 @@ const __awtsmoosModule_0 = Object.create(null);
 	 */
 
 	const loadIsolatedGltf = __awtsmoosModule_3.loadIsolatedGltf;
-	const beginCanonicalChossidTiming = __awtsmoosModule_48.beginCanonicalChossidTiming;
-	const completeCanonicalChossidTiming = __awtsmoosModule_48.completeCanonicalChossidTiming;
-	const recordCanonicalChossidStage = __awtsmoosModule_48.recordCanonicalChossidStage;
-	const PLAYER_MODEL_URL = __awtsmoosModule_61.PLAYER_MODEL_URL;
-	const completeMitzvahWorldEssentialMilestone = __awtsmoosModule_49.completeMitzvahWorldEssentialMilestone;
-	const ESSENTIAL_MILESTONES = __awtsmoosModule_49.ESSENTIAL_MILESTONES;
-	const failMitzvahWorldEssentialMilestone = __awtsmoosModule_49.failMitzvahWorldEssentialMilestone;
-	const updateMitzvahWorldEssentialMilestone = __awtsmoosModule_49.updateMitzvahWorldEssentialMilestone;
+	const bakeChossidSurfaceDetail = __awtsmoosModule_48.bakeChossidSurfaceDetail;
+	const applyChossidOutfit = __awtsmoosModule_49.applyChossidOutfit;
+	const chossidMaterialResolver = __awtsmoosModule_49.chossidMaterialResolver;
+	const playerChossidOutfit = __awtsmoosModule_49.playerChossidOutfit;
+	const beginCanonicalChossidTiming = __awtsmoosModule_50.beginCanonicalChossidTiming;
+	const completeCanonicalChossidTiming = __awtsmoosModule_50.completeCanonicalChossidTiming;
+	const recordCanonicalChossidStage = __awtsmoosModule_50.recordCanonicalChossidStage;
+	const PLAYER_MODEL_URL = __awtsmoosModule_63.PLAYER_MODEL_URL;
+	const completeMitzvahWorldEssentialMilestone = __awtsmoosModule_51.completeMitzvahWorldEssentialMilestone;
+	const ESSENTIAL_MILESTONES = __awtsmoosModule_51.ESSENTIAL_MILESTONES;
+	const failMitzvahWorldEssentialMilestone = __awtsmoosModule_51.failMitzvahWorldEssentialMilestone;
+	const updateMitzvahWorldEssentialMilestone = __awtsmoosModule_51.updateMitzvahWorldEssentialMilestone;
 
 	/** Loads the canonical player GLB with no fallback factory and validates visible animation-bearing identity. */
 	async function loadEretzEssentialPlayerGlb(options = {}) {
@@ -5242,11 +5608,19 @@ const __awtsmoosModule_0 = Object.create(null);
 		boot?.begin?.('essential-player-glb');
 		boot?.progress?.('essential-player-glb', 0, 1, 'Loading the authored Chossid…', 'loading');
 		try {
+			// B"H: apply the chossid outfit palette (material resolver + outfit + surface
+			// detail bake) so the player renders as a real character, not a flat primitive.
+			const outfit = playerChossidOutfit();
 			const gltf = await loadGltf(PLAYER_MODEL_URL, 'eretz-essential-player-canonical', {
+				materialResolver: chossidMaterialResolver(outfit),
 				onProgress: detail => {
 					importerStage = reportProgress(environment, boot, detail, importerStage);
 				}
 			});
+			if (gltf?.scene) {
+				applyChossidOutfit(gltf.scene, outfit);
+				bakeChossidSurfaceDetail(gltf.scene);
+			}
 			importerStage = 'canonical-validation';
 			recordCanonicalChossidStage(environment, { phase: importerStage });
 			const evidence = validateCanonicalPlayerGltf(gltf);
@@ -5335,7 +5709,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzDeferredHydrationState.js ----
 {
-	const __exports = __awtsmoosModule_63;
+	const __exports = __awtsmoosModule_65;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5398,7 +5772,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/DeferredAppModuleUrl.js ----
 {
-	const __exports = __awtsmoosModule_65;
+	const __exports = __awtsmoosModule_67;
 	//B"H
 	//Boruch Hashem
 	//Blessed is He
@@ -5436,7 +5810,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialHydrationUrls.js ----
 {
-	const __exports = __awtsmoosModule_64;
+	const __exports = __awtsmoosModule_66;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5448,7 +5822,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * so playable earth arrives with speed while later beauty crosses the same truthful path when its appointed light is kindled.
 	 */
 
-	const resolveDeferredAppModuleUrl = __awtsmoosModule_65.resolveDeferredAppModuleUrl;
+	const resolveDeferredAppModuleUrl = __awtsmoosModule_67.resolveDeferredAppModuleUrl;
 
 	const SOURCE_FILE_NAME = 'EretzEssentialHydrationUrls.js';
 	const MATERIAL_SPECIFIER = 'EretzAssetLoader.js?v=20260722-rich-assets-01';
@@ -5456,21 +5830,21 @@ const __awtsmoosModule_0 = Object.create(null);
 	const ACTOR_SPECIFIER = 'EretzActorAssetLoader.js?v=20260820-profile-preserve-01';
 
 	/** Resolves the rich-material loader without folding it into first-play compilation. */
-	function essentialMaterialHydrationUrl(executingModuleUrl = (( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialHydrationUrls.js")) {
+	function essentialMaterialHydrationUrl(executingModuleUrl = (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvahWorld/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvahWorld/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialHydrationUrls.js")) {
 		return resolveEssentialHydrationUrl(MATERIAL_SPECIFIER, executingModuleUrl);
 	}
 
 
 	__exports.essentialMaterialHydrationUrl = essentialMaterialHydrationUrl;
 	/** Resolves friendly NPC profiles only when canonical actor hydration actually begins. */
-	function essentialActorProfilesUrl(executingModuleUrl = (( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialHydrationUrls.js")) {
+	function essentialActorProfilesUrl(executingModuleUrl = (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvahWorld/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvahWorld/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialHydrationUrls.js")) {
 		return resolveEssentialHydrationUrl(PROFILE_SPECIFIER, executingModuleUrl);
 	}
 
 
 	__exports.essentialActorProfilesUrl = essentialActorProfilesUrl;
 	/** Resolves the canonical actor loader after playability instead of during first-play compilation. */
-	function essentialActorLoaderUrl(executingModuleUrl = (( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialHydrationUrls.js")) {
+	function essentialActorLoaderUrl(executingModuleUrl = (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvahWorld/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvahWorld/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialHydrationUrls.js")) {
 		return resolveEssentialHydrationUrl(ACTOR_SPECIFIER, executingModuleUrl);
 	}
 
@@ -5489,7 +5863,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/app/EretzEssentialHydrationState.js ----
 {
-	const __exports = __awtsmoosModule_62;
+	const __exports = __awtsmoosModule_64;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
@@ -5501,10 +5875,10 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com names the idle state canonical-stable, so diagnostics agree with the GLB-only covenant in every route.
 	 */
 
-	const createDeferredHydrationState = __awtsmoosModule_63.createDeferredHydrationState;
-	const essentialActorLoaderUrl = __awtsmoosModule_64.essentialActorLoaderUrl;
-	const essentialActorProfilesUrl = __awtsmoosModule_64.essentialActorProfilesUrl;
-	const essentialMaterialHydrationUrl = __awtsmoosModule_64.essentialMaterialHydrationUrl;
+	const createDeferredHydrationState = __awtsmoosModule_65.createDeferredHydrationState;
+	const essentialActorLoaderUrl = __awtsmoosModule_66.essentialActorLoaderUrl;
+	const essentialActorProfilesUrl = __awtsmoosModule_66.essentialActorProfilesUrl;
+	const essentialMaterialHydrationUrl = __awtsmoosModule_66.essentialMaterialHydrationUrl;
 
 	function createEssentialActorHydration(options = {}, dependencies = {}) {
 		const enabled = options.streamCanonicalActors === true;
@@ -5585,8 +5959,8 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	const createEssentialAssetRecord = __awtsmoosModule_1.createEssentialAssetRecord;
 	const loadEretzEssentialPlayerGlb = __awtsmoosModule_2.loadEretzEssentialPlayerGlb;
-	const createEssentialActorHydration = __awtsmoosModule_62.createEssentialActorHydration;
-	const createEssentialMaterialHydration = __awtsmoosModule_62.createEssentialMaterialHydration;
+	const createEssentialActorHydration = __awtsmoosModule_64.createEssentialActorHydration;
+	const createEssentialMaterialHydration = __awtsmoosModule_64.createEssentialMaterialHydration;
 
 	/**
 	 * Loads the canonical player before first gameplay while preserving later NPC/material enrichment.

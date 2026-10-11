@@ -13,9 +13,13 @@ import {
 	createBootstrapTerrainHydration
 } from './BootstrapTerrainHydration.js';
 import { createBootstrapVisibleWorld } from './BootstrapVisibleWorld.js';
+import { attachMeadowProceduralLayer } from './BootstrapMeadowProceduralLayer.js';
 
 export function createBootstrapTerrainPackage(options = {}) {
 	const group = createBootstrapVisibleWorld();
+	try {
+		attachMeadowProceduralLayer(group, options.meadowProcedural || {});
+	} catch {}
 	const forest = createForestState();
 	const textLandmark = createLandmarkState();
 	const stats = createStats(group, forest);

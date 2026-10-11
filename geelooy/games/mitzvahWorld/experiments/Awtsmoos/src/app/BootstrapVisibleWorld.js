@@ -15,6 +15,7 @@ import {
 } from '../../../../../../libs/awtsmoos-procedural-core/src/core/worldBuilding/index.js';
 import { bootstrapCubeGeometry } from './BootstrapCubeGeometry.js';
 import { createBootstrapImmediateMaterial } from './BootstrapImmediateMaterial.js';
+import { getProceduralTexture } from './BootstrapProceduralTerrainTextures.js';
 
 const COLORS = Object.freeze({
 	farHill: [0.21, 0.32, 0.18, 1],
@@ -33,30 +34,44 @@ const HILLS = Object.freeze([
 
 /**
  * Creates the bounded first-play valley while preserving later remote-material identity.
+ * Procedural grass and stone textures are bound immediately (generated once, cached);
+ * the remote upgrade path keeps working on top of them.
+ * @param {object} [options={}] Optional { textureSeed } to reseed the procedural ground.
  * @returns {object} Core-owned group containing one field and twelve hill tiers.
  */
-export function createBootstrapVisibleWorld() {
+export function createBootstrapVisibleWorld(options = {}) {
+	const seed = Number.isFinite(options.textureSeed) ? options.textureSeed : undefined;
+	const grass = seed === undefined ? getProceduralTexture('grass') : getProceduralTexture('grass', seed);
+	const stone = seed === undefined ? getProceduralTexture('stone') : getProceduralTexture('stone', seed);
 	const group = createNativeWorldGroup({
 		name: 'Awtsmoos_minimal_shared_meadow'
 	});
-	addBox(group, 'grass-field', [0, -0.5, 55], [220, 1, 240], COLORS.grass, 'terrain.grass');
+	addBox(group, 'grass-field', [0, -0.5, 55], [220, 1, 240], COLORS.grass, 'terrain.grass', {
+		mapImage: grass,
+		mapRepeat: [28, 30]
+	});
 	for (const [index, hill] of HILLS.entries()) {
-		addHill(group, index, hill);
+		addHill(group, index, hill, grass, stone);
 	}
 	group.userData = {
 		bootstrapTerrain: true,
 		meshCount: group.children.length,
+		proceduralGroundTextures: true,
 		visualMode: 'cinematic-bootstrap-remote-upgrade'
 	};
 	return group;
 }
 
 /** Adds one two-tier hill without changing mesh topology or semantic hydration roles. */
-function addHill(group, index, [x, y, z, width, height, depth]) {
-	const color = index > 3 ? COLORS.farHill : COLORS.hill;
-	const role = index > 3 ? 'stone.general' : 'terrain.grass';
-	addBox(group, `hill-${index}-base`, [x, y * 0.45, z], [width, height * 0.55, depth], color, role);
-	addBox(group, `hill-${index}-crest`, [x, y, z], [width * 0.64, height * 0.55, depth * 0.68], color, role);
+function addHill(group, index, [x, y, z, width, height, depth], grass, stone) {
+	const far = index > 3;
+	const color = far ? COLORS.farHill : COLORS.hill;
+	const role = far ? 'stone.general' : 'terrain.grass';
+	const texture = far
+		? { mapImage: stone, mapRepeat: [10, 10] }
+		: { mapImage: grass, mapRepeat: [8, 8] };
+	addBox(group, `hill-${index}-base`, [x, y * 0.45, z], [width, height * 0.55, depth], color, role, texture);
+	addBox(group, `hill-${index}-crest`, [x, y, z], [width * 0.64, height * 0.55, depth * 0.68], color, role, texture);
 }
 
 /**
@@ -67,11 +82,13 @@ function addHill(group, index, [x, y, z, width, height, depth]) {
  * @param {number[]} scale Local XYZ scale.
  * @param {number[]} color Bootstrap color factor.
  * @param {string} semanticRole Later remote-material role.
+ * @param {object} [texture={}] Optional { mapImage, mapRepeat } bound immediately.
  * @returns {void}
  */
-function addBox(group, name, position, scale, color, semanticRole) {
+function addBox(group, name, position, scale, color, semanticRole, texture = {}) {
 	const material = createBootstrapImmediateMaterial(`meadow-${name}`, color, {
-		mapRepeat: [6, 6],
+		mapImage: texture.mapImage || null,
+		mapRepeat: texture.mapRepeat || [6, 6],
 		semanticRole
 	});
 	const mesh = createNativeMeshFromGeometry(bootstrapCubeGeometry(), material, {

@@ -4,7 +4,7 @@
 
 /**
  * @file BootstrapMeshBufferCache.js
- * @description Uploads immutable position, optional color, and truthful index buffers once.
+ * @description Uploads immutable position, optional color, optional UV, and truthful index buffers once.
  * The Awtsmoos sustains one numerical vessel through many frames; Awtsmoos.com preserves color
  * anatomy without per-frame buffers and grants uncolored geometry a white multiplier.
  */
@@ -36,12 +36,26 @@ export class BootstrapMeshBufferCache {
 		gl.enableVertexAttribArray(location);
 		gl.vertexAttribPointer(location, entry.colorItemSize, entry.colorType, entry.colorNormalized, 0, 0);
 	}
+
+	bindUv(entry, location) {
+		if (location < 0) return;
+		const gl = this.gl;
+		if (!entry.uvBuffer) {
+			gl.disableVertexAttribArray?.(location);
+			gl.vertexAttrib2f?.(location, 0, 0);
+			return;
+		}
+		gl.bindBuffer(gl.ARRAY_BUFFER, entry.uvBuffer);
+		gl.enableVertexAttribArray(location);
+		gl.vertexAttribPointer(location, 2, gl.FLOAT, false, 0, 0);
+	}
 }
 
 function createEntry(gl, geometry) {
 	const position = geometry.attributes?.position;
 	if (!position?.array?.length) return null;
 	const color = geometry.attributes?.color;
+	const uv = geometry.attributes?.uv;
 	const entry = {
 		colorBuffer: color?.array?.length ? upload(gl, gl.ARRAY_BUFFER, color.array) : null,
 		colorItemSize: Math.max(1, Math.min(4, color?.itemSize || 4)),
@@ -50,7 +64,8 @@ function createEntry(gl, geometry) {
 		count: position.count || Math.floor(position.array.length / (position.itemSize || 3)),
 		indexBuffer: null,
 		indexType: null,
-		positionBuffer: upload(gl, gl.ARRAY_BUFFER, position.array)
+		positionBuffer: upload(gl, gl.ARRAY_BUFFER, position.array),
+		uvBuffer: uv?.array?.length ? upload(gl, gl.ARRAY_BUFFER, uv.array) : null
 	};
 	const index = geometry.index;
 	if (!index?.array?.length) return entry;

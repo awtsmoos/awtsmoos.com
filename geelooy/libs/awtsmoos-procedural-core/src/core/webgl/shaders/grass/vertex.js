@@ -17,6 +17,7 @@ attribute float aInstanceScale;
 attribute float aInstanceRotation;
 attribute float aInstanceBend;
 attribute float aInstanceWindPhase;
+attribute vec3 aInstanceTint;
 
 uniform mat4 uProjectionMatrix;
 uniform mat4 uModelViewMatrix;
@@ -26,6 +27,7 @@ uniform highp float uWindStrength;
 uniform highp float uGrassTurbulence;
 uniform highp float uGrassWetness;
 uniform highp float uGrassRecovery;
+uniform highp float uTintStrength;
 uniform int uInteractorCount;
 uniform vec3 uInteractors[5];
 uniform float uInteractorRadius[5];
@@ -97,7 +99,8 @@ void main(void) {
 	float seedVariationHod = sin(aInstanceWindPhase * 2.31) * 0.045;
 	vec3 rootColorMalchus = vec3(0.045, 0.19, 0.05);
 	vec3 tipColorMalchus = vec3(0.38, 0.72, 0.12);
-	vColor = mix(rootColorMalchus, tipColorMalchus, tipTiferes) + vec3(seedVariationHod);
+	vec3 tintMalchus = mix(vec3(1.0), max(aInstanceTint, vec3(0.0)), clamp(uTintStrength, 0.0, 1.0));
+	vColor = mix(rootColorMalchus, tipColorMalchus, tipTiferes) * tintMalchus + vec3(seedVariationHod);
 	vec3 normalOhr = normalize(vec3(-postureHod - windBendHod.x, 0.18, 1.0 - windBendHod.y));
 	vNormal = normalize((yawKli * vec4(normalOhr, 0.0)).xyz);
 }

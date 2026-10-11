@@ -27,6 +27,10 @@ const MAX_COMMITS_PER_FRAME = 1;
 /** Maximum terrain grade (rise over run) a structure may stand on. */
 const MAX_GRADE = 0.45;
 
+/** Staged construction: frame -> walls -> roof, ~2.4s total before the build reads finished. */
+export const CONSTRUCTION_STAGE_MS = Object.freeze([800, 800, 800]);
+export const CONSTRUCTION_TOTAL_MS = CONSTRUCTION_STAGE_MS.reduce((sum, ms) => sum + ms, 0);
+
 export const BUILDABLE_STRUCTURES = Object.freeze({
 	sukkah: Object.freeze({
 		id: 'sukkah', name: 'Sukkah', icon: '🌿',
@@ -164,6 +168,7 @@ export function createMitzvahWorldPlayerBuilding(vessels = {}) {
 	const nextId = vessels.nextId || (() => `bld_${Date.now().toString(36)}_${Math.floor(Math.random() * 1e6).toString(36)}`);
 
 	const state = {
+		construction: new Map(),
 		selected: 'sukkah',
 		ghost: null,
 		lastCommitFrame: -1,
@@ -304,6 +309,7 @@ export function createMitzvahWorldPlayerBuilding(vessels = {}) {
 		}
 		onEvent({ type: 'build', target: definition.id, count: 1, structureId: structure.id });
 		state.ghost = null;
+		state.construction.set(structure.id, Date.now());
 		return { ok: true, structure };
 	}
 
@@ -322,6 +328,7 @@ export function createMitzvahWorldPlayerBuilding(vessels = {}) {
 		if (collisionQueue && typeof collisionQueue.removeBox === 'function') {
 			collisionQueue.removeBox(boxOf(structure));
 		}
+		state.construction.delete(structureInstanceId);
 		onEvent({ type: 'dismantle', target: structure.structureId, count: 1 });
 		return { ok: true, structure };
 	}
@@ -340,10 +347,41 @@ export function createMitzvahWorldPlayerBuilding(vessels = {}) {
 		return total;
 	}
 
+	/**
+	 * Returns the staged-construction phase for a placed structure: 0 = frame,
+	 * 1 = walls, 2 = roof & finish, 3 = complete. Pure time math; never touches economy.
+	 */
+	function constructionStageOf(structureInstanceId, nowMs = Date.now()) {
+		const startedAt = state.construction.get(structureInstanceId);
+		if (!Number.isFinite(startedAt)) return 3;
+		const elapsed = nowMs - startedAt;
+		let at = 0;
+		for (let stage = 0; stage < CONSTRUCTION_STAGE_MS.length; stage += 1) {
+			at += CONSTRUCTION_STAGE_MS[stage];
+			if (elapsed < at) return stage;
+		}
+		return 3;
+	}
+
+	/** Shapes the current aim verdict for the ghost-preview mesh builder. */
+	function ghostPreview() {
+		const ghost = state.ghost;
+		if (!ghost?.structureId) return null;
+		return {
+			structureId: ghost.structureId,
+			valid: ghost.valid === true,
+			x: ghost.x,
+			y: ghost.y,
+			z: ghost.z
+		};
+	}
+
 	return Object.freeze({
 		aimAt,
 		commit,
+		constructionStageOf,
 		dismantle,
+		ghostPreview,
 		select,
 		recount,
 		structuresOf,
