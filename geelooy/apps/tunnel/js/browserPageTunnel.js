@@ -93,5 +93,16 @@ export const BrowserPageTunnel = {
 
 	render(text) {
 		if (this.statusEl) this.statusEl.textContent = text;
+		const pill = document.getElementById("browserPill");
+		if (pill) {
+			const live = /connected|registering/.test(text);
+			pill.textContent = text;
+			pill.classList.toggle("good", live);
+			pill.classList.toggle("idle", !live);
+		}
+		const stop = document.getElementById("stopBrowserTunnel");
+		if (stop) stop.disabled = !this.ws;
+		const start = document.getElementById("startBrowserTunnel");
+		if (start) start.disabled = !!this.ws;
 	}
 };

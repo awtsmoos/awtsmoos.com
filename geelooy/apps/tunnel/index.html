@@ -1,12 +1,25 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <title>Awtsmoos Tunnel Console</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <link rel="stylesheet" href="/geelooy/style/awtsmoos-tokens.css">
   <link rel="stylesheet" href="./css/tunnel.css">
 </head>
 <body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">✦</span>
+      <span class="brand-name"><strong>Awtsmoos</strong><small>Tunnel Console</small></span>
+    </div>
+    <div class="topbar-right">
+      <span class="version-chip" id="versionChip">tunnel</span>
+      <span class="conn"><span class="status-dot" id="connDot"></span><span id="connText">Checking…</span></span>
+    </div>
+  </header>
+
   <main class="page">
     <section class="hero">
       <div class="hero-glow"></div>
@@ -20,36 +33,56 @@
       </div>
     </section>
 
-    <section class="panel" id="browser-mode">
-      <div class="panel-head"><div><p class="eyebrow">Mode 2</p><h2>No-install browser tunnel</h2></div></div>
-      <p>This tab can register as a browser-tab tunnel with a small browser-local workspace. For mounted folders, open <a href="/apps/code/">/apps/code</a> and enable its browser tunnel.</p>
-      <div class="copy-row">
-        <code id="browserTunnelStatus">idle</code>
-        <button class="button small" id="startBrowserTunnel">Start</button>
-        <button class="button small" id="stopBrowserTunnel">Stop</button>
-      </div>
-    </section>
+    <div class="deck">
+      <section class="panel" id="browser-mode">
+        <div class="panel-head"><div><p class="eyebrow">Mode 2</p><h2>No-install browser tunnel</h2></div></div>
+        <p class="lede">This tab can register as a browser-tab tunnel with a small browser-local workspace. For mounted folders, open <a href="/apps/code/">/apps/code</a> and enable its browser tunnel.</p>
+        <div class="copy-row">
+          <code id="browserTunnelStatus">idle</code>
+        </div>
+        <div class="panel-actions">
+          <span class="pill idle" id="browserPill">idle</span>
+          <button class="button small" id="startBrowserTunnel">Start</button>
+          <button class="button small" id="stopBrowserTunnel" disabled>Stop</button>
+        </div>
+      </section>
 
-    <section class="panel" id="status">
-      <div class="panel-head"><div><p class="eyebrow">Status</p><h2>Installer Endpoint</h2></div><button class="button small" id="refreshStatus">Refresh</button></div>
-      <pre class="status-box" id="statusBox">Checking installer endpoint...</pre>
+      <section class="panel" id="status">
+        <div class="panel-head"><div><p class="eyebrow">Status</p><h2>Installer Endpoint</h2></div><button class="button small" id="refreshStatus">Refresh</button></div>
+        <pre class="status-box" id="statusBox">Checking installer endpoint...</pre>
+      </section>
+
+      <section class="panel" id="install">
+        <div class="panel-head"><div><p class="eyebrow">Mode 1</p><h2>Install native tunnel</h2></div></div>
+        <div class="tabs" role="tablist"><button class="tab active" data-tab="powershell" role="tab">PowerShell</button><button class="tab" data-tab="cmd" role="tab">CMD</button><button class="tab" data-tab="unix" role="tab">Mac / Linux</button></div>
+        <div class="command-card active" data-pane="powershell"><p class="lede">Recommended for Windows PowerShell:</p><div class="copy-row"><code id="cmdPowerShell">irm https://awtsmoos.com/api/tunnel/install/windows | iex</code><button class="button small copy" data-copy="cmdPowerShell">Copy</button></div></div>
+        <div class="command-card" data-pane="cmd"><p class="lede">Use this from regular Windows CMD:</p><div class="copy-row"><code id="cmdCmd">powershell -ExecutionPolicy Bypass -Command "irm https://awtsmoos.com/api/tunnel/install/windows | iex"</code><button class="button small copy" data-copy="cmdCmd">Copy</button></div></div>
+        <div class="command-card" data-pane="unix"><p class="lede">Use this on macOS or Linux:</p><div class="copy-row"><code id="cmdUnix">curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash</code><button class="button small copy" data-copy="cmdUnix">Copy</button></div></div>
+        <p class="note">Native mode gives full local filesystem, shell, Chrome, servers, and runtime tools. Browser mode stays inside the browser sandbox.</p>
+      </section>
+    </div>
+
+    <section class="panel" id="missions">
+      <div class="panel-head"><div><p class="eyebrow">Mission OS</p><h2>Mission board</h2></div><button class="button small" id="refreshMissions">Refresh</button></div>
+      <p class="lede">Open missions across every project. Claim one and the tunnel hands you the full context to continue.</p>
+      <div class="mission-preview" id="missionPreview"><div class="mission-row"><span class="t">Loading missions…</span></div></div>
+      <div class="panel-actions">
+        <a class="button small" href="./missions.html">Open mission board</a>
+      </div>
     </section>
 
     <section class="panel" id="handoffPanel" hidden>
       <div class="panel-head"><div><p class="eyebrow">ChatGPT handoff</p><h2>Copy this URL once</h2></div></div>
-      <p>Paste this stable URL into ChatGPT. Every later tunnel action refreshes this same page.</p>
+      <p class="lede">Paste this stable URL into ChatGPT. Every later tunnel action refreshes this same page.</p>
       <div class="copy-row"><code id="handoffUrl">Tunnel name appears here after login.</code><button class="button small" id="copyHandoffUrl">Copy</button></div>
     </section>
-
-    <section class="panel" id="install">
-      <div class="panel-head"><div><p class="eyebrow">Mode 1</p><h2>Install native tunnel</h2></div></div>
-      <div class="tabs" role="tablist"><button class="tab active" data-tab="powershell">PowerShell</button><button class="tab" data-tab="cmd">CMD</button><button class="tab" data-tab="unix">Mac / Linux</button></div>
-      <div class="command-card active" data-pane="powershell"><p>Recommended for Windows PowerShell:</p><div class="copy-row"><code id="cmdPowerShell">irm https://awtsmoos.com/api/tunnel/install/windows | iex</code><button class="button small copy" data-copy="cmdPowerShell">Copy</button></div></div>
-      <div class="command-card" data-pane="cmd"><p>Use this from regular Windows CMD:</p><div class="copy-row"><code id="cmdCmd">powershell -ExecutionPolicy Bypass -Command "irm https://awtsmoos.com/api/tunnel/install/windows | iex"</code><button class="button small copy" data-copy="cmdCmd">Copy</button></div></div>
-      <div class="command-card" data-pane="unix"><p>Use this on macOS or Linux:</p><div class="copy-row"><code id="cmdUnix">curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash</code><button class="button small copy" data-copy="cmdUnix">Copy</button></div></div>
-      <div class="note">Native mode gives full local filesystem, shell, Chrome, servers, and runtime tools. Browser mode stays inside the browser sandbox.</div>
-    </section>
   </main>
+
+  <footer class="statusbar">
+    <span class="flow"><span class="status-dot" id="footDot"></span><b id="footConn">Tunnel console</b><span>•</span><span id="footDetail">one protocol, three modes</span></span>
+    <span>All connections encrypted with TLS 1.3</span>
+  </footer>
+
   <script type="module" src="./js/main.js"></script>
 </body>
 </html>

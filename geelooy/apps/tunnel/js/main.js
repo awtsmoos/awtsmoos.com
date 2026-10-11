@@ -1,6 +1,6 @@
 // B"H
 
-import { mountTabs, mountCopyButtons, mountGptText, mountStatus } from "./ui.js";
+import { mountTabs, mountCopyButtons, mountGptText, mountStatus, mountMissions } from "./ui.js";
 import { mountHandoff } from "./handoff.js";
 import { BrowserPageTunnel } from "./browserPageTunnel.js";
 
@@ -13,6 +13,7 @@ function main() {
   mountCopyButtons();
   mountGptText();
   mountStatus();
+  mountMissions();
   mountHandoff();
   BrowserPageTunnel.init();
 
