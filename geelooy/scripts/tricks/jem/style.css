@@ -1,3 +1,11 @@
+/* B"H — CSS audit 2026-10-11: theme-safe variables (Yaakov tunnel laws: no hardcoded colors, no !important). */
+:root {
+	--jem-style-t1: #fff;
+}
+[data-theme="light"] {
+	--jem-style-t1: #1a1a1a;
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H */
 :root {
@@ -280,7 +288,7 @@ h2 { margin: 0; font-size: 1.2rem; font-weight: 600; }
     width: 16px;
     height: 16px;
     border: 2px solid rgba(255,255,255,0.3);
-    border-top-color: #fff;
+    border-top-color: var(--jem-style-t1);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
 }

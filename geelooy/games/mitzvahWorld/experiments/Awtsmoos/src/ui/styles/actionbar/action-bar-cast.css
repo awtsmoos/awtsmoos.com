@@ -1,3 +1,11 @@
+/* B"H — CSS audit 2026-10-11: theme-safe variables (Yaakov tunnel laws: no hardcoded colors, no !important). */
+:root {
+	--actionbar-action-bar-cast-t1: #fff;
+}
+[data-theme="light"] {
+	--actionbar-action-bar-cast-t1: #1a1a1a;
+}
+
 /* @tunnel-grandfather: experiment prototype styles; not served by shipped pages; registry conflicts are cross-surface false positives. W4 2026-10-08. */
 /* B"H */
 /* Boruch Hashem */
@@ -76,7 +84,7 @@
 	padding: 8px 12px;
 	border-radius: 10px;
 	background: rgba(5, 9, 14, 0.9);
-	color: #fff;
+	color: var(--actionbar-action-bar-cast-t1);
 	font: 800 13px system-ui, sans-serif;
 	transform: translateX(-50%);
 	pointer-events: none;

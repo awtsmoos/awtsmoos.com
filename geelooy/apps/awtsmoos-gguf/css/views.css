@@ -1,3 +1,11 @@
+/* B"H - tunnel CSS laws: theme-safe text colors (no hardcoded light text) */
+:root {
+  --gguf-chat-user-text: #fff;
+}
+[data-theme="light"] {
+  --gguf-chat-user-text: #1a1a1a;
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H - Views Styles */
 
@@ -20,7 +28,7 @@
 
 .chat-bubble.user {
     background-image: linear-gradient(135deg, #6366f1, #4f46e5);
-    color: #fff;
+    color: var(--gguf-chat-user-text);
     border-bottom-right-radius: 4px;
     border: 1px solid #4f46e5;
 }

@@ -1,3 +1,11 @@
+/* B"H - tunnel CSS laws: theme-safe text colors (no hardcoded light text) */
+:root {
+  --olam-director-hero-gradient: linear-gradient(112deg, #fff, #edffc5 45%, #c4b7ff 78%, #8bdcff);
+}
+[data-theme="light"] {
+  --olam-director-hero-gradient: linear-gradient(112deg, #1a1a1a, #5b6600 45%, #4a3d99 78%, #0b5d78);
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H
 Boruch Hashem
@@ -31,7 +39,7 @@ The Awtsmoos lets a frame glow before it exists; Awtsmoos.com turns the opening 
 	font-size: clamp(32px, 8vw, 62px);
 	line-height: 0.96;
 	letter-spacing: -0.055em;
-	background: linear-gradient(112deg, #fff, #edffc5 45%, #c4b7ff 78%, #8bdcff);
+	background: var(--olam-director-hero-gradient);
 	-webkit-background-clip: text;
 	background-clip: text;
 	color: transparent;

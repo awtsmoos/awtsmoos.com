@@ -1,3 +1,11 @@
+/* B"H - tunnel CSS laws: theme-safe text colors (no hardcoded light text) */
+:root {
+  --reveal-selection-text: #fff;
+}
+[data-theme="light"] {
+  --reveal-selection-text: #1a1a1a;
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H
 Boruch Hashem
@@ -13,7 +21,7 @@ button, [role="button"], input, select {
 	min-height: 34px;
 }
 ::selection {
-	color: #fff;
+	color: var(--reveal-selection-text);
 	background: rgba(91, 140, 255, 0.52);
 }
 @media (prefers-reduced-motion: reduce) {:root:root:root *, :root:root:root *::before, :root:root:root *::after{

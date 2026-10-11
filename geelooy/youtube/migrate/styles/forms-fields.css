@@ -1,3 +1,11 @@
+/* B"H — CSS audit 2026-10-11: theme-safe variables (Yaakov tunnel laws: no hardcoded colors, no !important). */
+:root {
+	--styles-forms-fields-t1: #f6f8ff;
+}
+[data-theme="light"] {
+	--styles-forms-fields-t1: #1a1a1a;
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H
 Boruch Hashem
@@ -35,7 +43,7 @@ select {
 	border: 1px solid #30394a;
 	border-radius: 12px;
 	background: #090d15;
-	color: #f6f8ff;
+	color: var(--styles-forms-fields-t1);
 	font: inherit;
 	transition:
 		border-color 160ms ease,

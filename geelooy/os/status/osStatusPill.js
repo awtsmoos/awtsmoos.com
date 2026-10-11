@@ -18,7 +18,8 @@ import { createOsStatus, withLiveTunnel } from "./osStatusModel.js";
  * @returns {HTMLElement} Status pill.
  */
 export function renderStatusPill(status, os) {
-	let pill = document.querySelector(".awtsmoos-status-pill");
+	let pill = document.querySelector(".awtsmoos-status-pill")
+		|| document.getElementById("shell-status");
 	if (!pill) {
 		pill = createStatusPill();
 		document.querySelector(".awtsmoos-top-header")?.prepend(pill);
@@ -51,6 +52,11 @@ function bindStatusPill(pill) {
 		openDiagnosticsPopup(context.os, liveStatus);
 	};
 	if (pill.awtPresenceTimer) {
+		return;
+	}
+	// The shared shell status element is refreshed by the shell's own tunnel-status
+	// binder; only a dedicated status pill needs this presence interval.
+	if (pill.id === "shell-status") {
 		return;
 	}
 	pill.awtPresenceTimer = globalThis.setInterval(

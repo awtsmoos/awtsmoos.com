@@ -24,9 +24,10 @@ void revealOperatingSystem();
 
 /** Starts the core OS, then attaches secondary shell chambers without making them fatal. */
 async function revealOperatingSystem() {
-	const os = new AwtsmoosOS();
-	window.awtsmoosOs = os;
+	let os;
 	try {
+		os = new AwtsmoosOS();
+		window.awtsmoosOs = os;
 		await os.start();
 	} catch (error) {
 		console.error("B\"H Geelooy OS startup rupture.", error);

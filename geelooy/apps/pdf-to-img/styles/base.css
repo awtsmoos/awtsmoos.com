@@ -1,3 +1,11 @@
+/* B"H - tunnel CSS laws: theme-safe text colors (no hardcoded light text) */
+:root {
+  --dropzone-icon-text: #cbd5e1;
+}
+[data-theme="light"] {
+  --dropzone-icon-text: #334155;
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H */
 /* Boruch Hashem */
@@ -74,7 +82,7 @@ p.subtitle {
 
 .drop-zone i {
 	font-size: 4rem;
-	color: #cbd5e1;
+	color: var(--dropzone-icon-text);
 	margin-bottom: 20px;
 	transition: color 0.3s ease;
 }

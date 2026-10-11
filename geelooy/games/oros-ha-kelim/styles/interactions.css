@@ -1,3 +1,11 @@
+/* B"H — CSS audit 2026-10-11: theme-safe variables (Yaakov tunnel laws: no hardcoded colors, no !important). */
+:root {
+	--styles-interactions-t1: #ffffff;
+}
+[data-theme="light"] {
+	--styles-interactions-t1: #1a1a1a;
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /*B"H*/
 /*Boruch Hashem*/
@@ -71,7 +79,7 @@
 		.oros-app .settings-grid select:hover,
 		.oros-app .ride-details summary:hover {
 			border-color: rgba(156, 236, 255, 0.52);
-			color: #ffffff;
+			color: var(--styles-interactions-t1);
 		}
 		.oros-app .switch-row:hover {
 			background: rgba(156, 236, 255, 0.06);

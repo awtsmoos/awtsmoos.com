@@ -1,3 +1,11 @@
+/* B"H — CSS audit 2026-10-11: theme-safe variables (Yaakov tunnel laws: no hardcoded colors, no !important). */
+:root {
+	--responsive-responsive-sheets-t1: #fff;
+}
+[data-theme="light"] {
+	--responsive-responsive-sheets-t1: #1a1a1a;
+}
+
 /* @tunnel-grandfather: experiment prototype styles; not served by shipped pages; registry conflicts are cross-surface false positives. W4 2026-10-08. */
 /* B"H */
 /* Boruch Hashem */
@@ -66,7 +74,7 @@
 	border: 1px solid #796844;
 	border-radius: 999px;
 	background: rgba(5, 16, 15, 0.96);
-	color: #fff;
+	color: var(--responsive-responsive-sheets-t1);
 	font: 11px system-ui, sans-serif;
 	white-space: nowrap;
 	transform: translateX(-50%);

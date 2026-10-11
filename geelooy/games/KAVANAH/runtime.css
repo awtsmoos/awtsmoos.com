@@ -1,3 +1,13 @@
+/* B"H — CSS audit 2026-10-11: theme-safe variables (Yaakov tunnel laws: no hardcoded colors, no !important). */
+:root {
+	--kavanah-runtime-t1: #fff;
+	--kavanah-runtime-t2: #fff;
+}
+[data-theme="light"] {
+	--kavanah-runtime-t1: #1a1a1a;
+	--kavanah-runtime-t2: #1a1a1a;
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H */
 /* Boruch Hashem */
@@ -23,7 +33,7 @@
 	background: rgba(0, 0, 0, .72);
 	backdrop-filter: blur(10px);
 	box-sizing: border-box;
-	color: #fff;
+	color: var(--kavanah-runtime-t1);
 	pointer-events: none;
 }
 
@@ -63,7 +73,7 @@
 	border: 1px solid rgba(255, 255, 255, .4);
 	border-radius: 999px;
 	background: #111827;
-	color: #fff;
+	color: var(--kavanah-runtime-t2);
 	font: inherit;
 	font-weight: 800;
 	pointer-events: auto;

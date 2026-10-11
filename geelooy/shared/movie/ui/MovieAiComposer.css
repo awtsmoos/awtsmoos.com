@@ -1,3 +1,11 @@
+/* B"H — CSS audit 2026-10-11: theme-safe variables (Yaakov tunnel laws: no hardcoded colors, no !important). */
+:root {
+	--ui-movieaicomposer-t1: #cbd5e1;
+}
+[data-theme="light"] {
+	--ui-movieaicomposer-t1: #1a1a1a;
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H
 Boruch Hashem
@@ -58,7 +66,7 @@ button, textarea, select, input { font: inherit; }
 	height: 42px;
 }
 form { display: grid; gap: 14px; padding: 12px 18px 18px; }
-label { display: grid; gap: 7px; color: #cbd5e1; font-size: .84rem; font-weight: 700; }
+label { display: grid; gap: 7px; color: var(--ui-movieaicomposer-t1); font-size: .84rem; font-weight: 700; }
 textarea, select, input {
 	box-sizing: border-box;
 	width: 100%;

@@ -1,3 +1,15 @@
+/* B"H — CSS audit 2026-10-11: theme-safe variables (Yaakov tunnel laws: no hardcoded colors, no !important). */
+:root {
+	--css-online-accessibility-t1: #ffffff;
+	--css-online-accessibility-t2: #ffffff;
+	--css-online-accessibility-t3: #ffffff;
+}
+[data-theme="light"] {
+	--css-online-accessibility-t1: #1a1a1a;
+	--css-online-accessibility-t2: #1a1a1a;
+	--css-online-accessibility-t3: #1a1a1a;
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /*B"H*/
 /*Boruch Hashem*/
@@ -16,7 +28,7 @@
 
 html[data-high-contrast='true'] body {
 	background: #000000;
-	color: #ffffff;
+	color: var(--css-online-accessibility-t1);
 }
 
 html[data-high-contrast='true'] .hero-panel,
@@ -34,7 +46,7 @@ html[data-high-contrast='true'] input,
 html[data-high-contrast='true'] select {
 	border: 3px solid #ffffff;
 	background: #000000;
-	color: #ffffff;
+	color: var(--css-online-accessibility-t2);
 }
 
 html[data-high-contrast='true'] .player-card {
@@ -44,7 +56,7 @@ html[data-high-contrast='true'] .player-card {
 
 html[data-high-contrast='true'] .eyebrow,
 html[data-high-contrast='true'] a {
-	color: #ffffff;
+	color: var(--css-online-accessibility-t3);
 	text-decoration: underline;
 }
 

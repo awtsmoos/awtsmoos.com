@@ -1,3 +1,13 @@
+/* B"H — CSS audit 2026-10-11: theme-safe variables (Yaakov tunnel laws: no hardcoded colors, no !important). */
+:root {
+	--styles-overlays-t1: #fff;
+	--styles-overlays-t2: #fff;
+}
+[data-theme="light"] {
+	--styles-overlays-t1: #1a1a1a;
+	--styles-overlays-t2: #1a1a1a;
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H */
 /* Boruch Hashem */
@@ -17,7 +27,7 @@
 	border-radius: 14px;
 	background: #050a12;
 	box-shadow: 0 26px 70px rgba(0, 0, 0, .7), 0 0 0 1px rgba(0, 255, 255, .08) inset;
-	color: #fff;
+	color: var(--styles-overlays-t1);
 	pointer-events: auto;
 	text-align: center;
 	transform: perspective(500px) rotateX(5deg);
@@ -25,7 +35,7 @@
 }
 
 .message-box:hover {
-	border-color: #fff;
+	border-color: var(--styles-overlays-t2);
 }
 
 .message-box:active {

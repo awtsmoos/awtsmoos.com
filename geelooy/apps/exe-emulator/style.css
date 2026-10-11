@@ -1,3 +1,11 @@
+/* B"H - tunnel CSS laws: theme-safe text colors (no hardcoded light text) */
+:root {
+  --exe-webgl-label-text: #fde68a;
+}
+[data-theme="light"] {
+  --exe-webgl-label-text: #92400e;
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H */
 :root { color-scheme: dark; --glow:#22d3ee; --bg:#050507; --card:#111118; --line:#2b2b36; }
@@ -20,7 +28,7 @@ button { cursor:pointer; background:linear-gradient(135deg,#164e63,#0f172a); }
 .virtual-window header { background:#2563eb; color:white; padding:9px 12px; }
 .virtual-window .window-body { padding:12px 14px; }
 .window-canvas { width:100%; height:180px; display:block; background:#05070b; border-top:1px solid #9ca3af; }
-.webgl-label { padding:8px 12px; background:#111827; color:#fde68a; border-top:1px solid #374151; font-size:12px; }
+.webgl-label { padding:8px 12px; background:#111827; color:var(--exe-webgl-label-text); border-top:1px solid #374151; font-size:12px; }
 .console { margin:14px; }
 @media (max-width:900px){ .shell{grid-template-columns:1fr;} .row{grid-template-columns:1fr;} }
 

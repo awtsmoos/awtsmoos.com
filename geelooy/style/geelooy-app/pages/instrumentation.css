@@ -1,3 +1,13 @@
+/* B"H — CSS audit 2026-10-11: theme-safe gradient stops (Yaakov tunnel laws: no hardcoded colors, no !important). */
+:root {
+	--pages-instrumentation-g1: #ffffff;
+	--pages-instrumentation-g2: #d7c9ff;
+}
+[data-theme="light"] {
+	--pages-instrumentation-g1: #1a1a1a;
+	--pages-instrumentation-g2: #42508f;
+}
+
 /* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H
  * Boruch Hashem
@@ -28,7 +38,7 @@ body.geelooy-app-shell .g-page-hero, body.geelooy-app-shell :where(.profile-hero
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.geelooy-app-shell) .g-page-hero h1, :where(body.geelooy-app-shell) :where(.profile-hero-card, .spaces-hero) h1 {
-	background: linear-gradient(100deg, #ffffff 10%, var(--g-cyan) 58%, #d7c9ff);
+	background: linear-gradient(100deg, var(--pages-instrumentation-g1) 10%, var(--g-cyan) 58%, var(--pages-instrumentation-g2));
 	background-clip: text;
 	color: transparent;
 	text-wrap: balance;

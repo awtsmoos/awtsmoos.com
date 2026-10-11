@@ -1,3 +1,11 @@
+/* B"H - tunnel CSS laws: theme-safe text colors (no hardcoded light text) */
+:root {
+  --form-control-label-text: #cbd5e1;
+}
+[data-theme="light"] {
+  --form-control-label-text: #334155;
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H
 Boruch Hashem
@@ -15,7 +23,7 @@ Awtsmoos.com keeps dozens of questions scannable, with description, options, req
 	font-size: .78rem;
 	font-weight: 720;
 	letter-spacing: .04em;
-	color: #cbd5e1;
+	color: var(--form-control-label-text);
 }
 
 .form-control.compact {

@@ -10,16 +10,20 @@
 
     /* Default style properties that will be updated by JS */
     --lyrics-font-size: 28px;
-    --lyrics-font-color: #FFFFFF;
+    --lyrics-font-color: rgb(255, 255, 255);
     --lyrics-highlight-color: #FFFF00;
     --lyrics-text-align: center;
     
     
     --lyrics-font-size: 48px;
-    --lyrics-font-color: #FFFFFF;
+    --lyrics-font-color: rgb(255, 255, 255);
     --lyrics-text-align: center;
     --lyrics-box-bg-color: rgba(0, 0, 0, 0.2);
     --lyrics-text-shadow: 0px 0px 5px #000000;
+}
+
+[data-theme="light"] {
+    --lyrics-font-color: #1a1a1a;
 }
 
 * {

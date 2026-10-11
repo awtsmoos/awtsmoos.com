@@ -1,3 +1,11 @@
+/* B"H - tunnel CSS laws: theme-safe text colors (no hardcoded light text) */
+:root {
+  --olam-glass-hero-gradient: linear-gradient(112deg, #ffffff 0%, #eefec3 42%, #c5b7ff 78%, #8bdcff 100%);
+}
+[data-theme="light"] {
+  --olam-glass-hero-gradient: linear-gradient(112deg, #1a1a1a 0%, #5b6600 42%, #4a3d99 78%, #0b5d78 100%);
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H
 Boruch Hashem
@@ -67,7 +75,7 @@ The Awtsmoos lets light pass through the studio without dissolving its edges; Aw
 
 .hero-copy h1,
 .page-header h1 {
-	background: linear-gradient(112deg, #ffffff 0%, #eefec3 42%, #c5b7ff 78%, #8bdcff 100%);
+	background: var(--olam-glass-hero-gradient);
 	-webkit-background-clip: text;
 	background-clip: text;
 	color: transparent;

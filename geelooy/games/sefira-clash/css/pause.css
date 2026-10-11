@@ -1,3 +1,11 @@
+/* B"H — CSS audit 2026-10-11: theme-safe variables (Yaakov tunnel laws: no hardcoded colors, no !important). */
+:root {
+	--css-pause-t1: #fff;
+}
+[data-theme="light"] {
+	--css-pause-t1: #1a1a1a;
+}
+
 /*B"H*/
 /*Boruch Hashem*/
 /*Blessed be He*/
@@ -12,7 +20,7 @@
 	background: #160d24e8;
 	border: 1px solid #d8b7ff80;
 	border-radius: 14px;
-	color: #fff;
+	color: var(--css-pause-t1);
 	display: inline-flex;
 	font: 800 0.9rem/1 system-ui, sans-serif;
 	height: 52px;

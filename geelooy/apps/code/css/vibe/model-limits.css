@@ -1,3 +1,11 @@
+/* B"H - tunnel CSS laws: theme-safe text colors (no hardcoded light text) */
+:root {
+  --model-limits-input-text: #fff;
+}
+[data-theme="light"] {
+  --model-limits-input-text: #1a1a1a;
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H - Model limits tables + pills */
 
@@ -11,7 +19,7 @@
 
 .model-limits-controls input[type="text"] {
     background: #000;
-    color: #fff;
+    color: var(--model-limits-input-text);
     border: 1px solid #222;
     border-radius: 8px;
     padding: 10px 12px;

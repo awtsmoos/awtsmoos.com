@@ -1,3 +1,11 @@
+/* B"H — CSS audit 2026-10-11: theme-safe variables (Yaakov tunnel laws: no hardcoded colors, no !important). */
+:root {
+	--styles-mobile-dock-t1: #fff;
+}
+[data-theme="light"] {
+	--styles-mobile-dock-t1: #1a1a1a;
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /*B"H
 Boruch Hashem
@@ -50,7 +58,7 @@ small, and unmistakable without letting navigation cover the work it exists to s
 	.dock-button.active {
 		background: linear-gradient(145deg, #563dff, #7757ff 58%, #528dff);
 		box-shadow: 0 10px 28px rgba(83, 66, 255, .38), inset 0 1px rgba(255, 255, 255, .24);
-		color: #fff;
+		color: var(--styles-mobile-dock-t1);
 		transform: translateY(-2px);
 	}
 

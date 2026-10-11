@@ -1,3 +1,11 @@
+/* B"H - tunnel CSS laws: theme-safe text colors (no hardcoded light text) */
+:root {
+  --terminal-text: #fff;
+}
+[data-theme="light"] {
+  --terminal-text: #1a1a1a;
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 
 /* B"H - TERMINAL STYLES (Extreme Refinement) */
@@ -67,7 +75,7 @@
     border: none;
     outline: none;
     box-shadow: none;
-    color: #ffffff;
+    color: var(--terminal-text);
     font-family: inherit;
     font-size: inherit;
     flex-grow: 1;
@@ -100,7 +108,7 @@
     font-size: 0.85em;
 }
 .terminal-history-cmd {
-    color: #fff;
+    color: var(--terminal-text);
     font-weight: bold;
 }
 
@@ -111,7 +119,7 @@
     padding: 1px 0;
 }
 .ls-entry.is-dir { font-weight: bold; color: #00f6ff; }
-.ls-entry.is-file { color: #ffffff; }
+.ls-entry.is-file { color: var(--terminal-text); }
 
 /* Meta Info */
 .terminal-welcome {

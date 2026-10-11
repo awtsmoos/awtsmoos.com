@@ -1,3 +1,11 @@
+/* B"H — CSS audit 2026-10-11: theme-safe variables (Yaakov tunnel laws: no hardcoded colors, no !important). */
+:root {
+	--styles-transport-t1: #fff;
+}
+[data-theme="light"] {
+	--styles-transport-t1: #1a1a1a;
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H
  * Boruch Hashem
@@ -29,7 +37,7 @@
 	border-color: rgba(185, 120, 239, .55);
 	background: linear-gradient(180deg, #a85ed8, var(--nle-violet-strong));
 	box-shadow: 0 .35rem 1rem rgba(121, 55, 166, .25);
-	color: #fff;
+	color: var(--styles-transport-t1);
 }
 
 .nle-transport input[type="range"],

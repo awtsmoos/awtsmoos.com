@@ -1,3 +1,19 @@
+/* B"H — CSS audit 2026-10-11: theme-safe gradient stops (Yaakov tunnel laws: no hardcoded colors, no !important). */
+:root {
+	--ikar-first-parts-part-02-g1: #ffffff;
+	--ikar-first-parts-part-02-g2: #c9f8ff;
+	--ikar-first-parts-part-02-g3: #a2b9ff;
+	--ikar-first-parts-part-02-g4: #d1b7ff;
+	--ikar-first-parts-part-02-g5: #f4f8ff;
+}
+[data-theme="light"] {
+	--ikar-first-parts-part-02-g1: #16283f;
+	--ikar-first-parts-part-02-g2: #1d3a5f;
+	--ikar-first-parts-part-02-g3: #274e7d;
+	--ikar-first-parts-part-02-g4: #31629b;
+	--ikar-first-parts-part-02-g5: #1a2332;
+}
+
 /* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H
 Boruch Hashem
@@ -54,10 +70,10 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.heichel-semantic-fallback) :where(#heichel-boot-title) {
-	background: linear-gradient(100deg, #ffffff 8%, #c9f8ff 44%, #a2b9ff 72%, #d1b7ff 100%);
+	background: linear-gradient(100deg, var(--ikar-first-parts-part-02-g1) 8%, var(--ikar-first-parts-part-02-g2) 44%, var(--ikar-first-parts-part-02-g3) 72%, var(--ikar-first-parts-part-02-g4) 100%);
 	-webkit-background-clip: text;
 	background-clip: text;
-	color: var(--light-text-f4f8ff, #f4f8ff);
+	color: var(--light-text-f4f8ff, var(--ikar-first-parts-part-02-g5));
 	font-size: clamp(2.8rem, 8vw, 5.8rem);
 	font-weight: 900;
 	letter-spacing: -.06em;

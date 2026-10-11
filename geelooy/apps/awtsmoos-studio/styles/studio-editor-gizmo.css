@@ -1,3 +1,11 @@
+/* B"H - tunnel CSS laws: theme-safe text colors (no hardcoded light text) */
+:root {
+  --studio-gizmo-axis-text: #ffffff;
+}
+[data-theme="light"] {
+  --studio-gizmo-axis-text: #1a1a1a;
+}
+
 /*B"H*/
 /* Boruch Hashem */
 /* Blessed is He */
@@ -45,7 +53,7 @@
 	border: 2px solid currentColor;
 	border-radius: 999px;
 	background: rgba(7, 16, 25, 0.9);
-	color: #ffffff;
+	color: var(--studio-gizmo-axis-text);
 	font-weight: 900;
 	touch-action: none;
 	cursor: grab;

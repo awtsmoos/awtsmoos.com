@@ -1,3 +1,15 @@
+/* B"H - tunnel CSS laws: theme-safe text colors (no hardcoded light text) */
+:root {
+  --workos-wordmark-mark-text: #fff;
+  --workos-avatar-text: #fff;
+  --workos-btn-primary-text: #fff;
+}
+[data-theme="light"] {
+  --workos-wordmark-mark-text: #1a1a1a;
+  --workos-avatar-text: #1a1a1a;
+  --workos-btn-primary-text: #1a1a1a;
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /*B"H — WorkOS design system. GitHub-style, dark-first, calm and sharp. */
 
@@ -99,7 +111,7 @@ code, .mono { font-family: var(--mono); font-size: 0.86em; }
   justify-content: center;
   font-size: 15px;
   font-weight: 800;
-  color: #fff;
+  color: var(--workos-wordmark-mark-text);
   background: linear-gradient(135deg, var(--accent-deep), #7c5cff);
   box-shadow: 0 4px 14px rgba(47, 111, 222, 0.45);
 }
@@ -312,7 +324,7 @@ a.card:hover {
   justify-content: center;
   font-size: 14px;
   font-weight: 700;
-  color: #fff;
+  color: var(--workos-avatar-text);
   flex: none;
   letter-spacing: 0.02em;
   text-shadow: 0 1px 2px rgba(0,0,0,.35);
@@ -422,10 +434,10 @@ a.card:hover {
 .btn.primary {
   background: linear-gradient(135deg, var(--accent-deep), #5b54e8);
   border-color: transparent;
-  color: #fff;
+  color: var(--workos-btn-primary-text);
   box-shadow: 0 4px 14px rgba(47, 111, 222, 0.35);
 }
-.btn.primary:hover { filter: brightness(1.1); color: #fff; }
+.btn.primary:hover { filter: brightness(1.1); color: var(--workos-btn-primary-text); }
 .btn:disabled { opacity: 0.5; cursor: default; }
 
 /* ---------- room ---------- */

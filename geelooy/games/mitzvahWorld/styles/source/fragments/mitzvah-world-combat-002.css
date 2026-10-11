@@ -1,3 +1,11 @@
+/* B"H — CSS audit 2026-10-11: theme-safe variables (Yaakov tunnel laws: no hardcoded colors, no !important). */
+:root {
+	--fragments-mitzvah-world-combat-002-t1: #fff;
+}
+[data-theme="light"] {
+	--fragments-mitzvah-world-combat-002-t1: #1a1a1a;
+}
+
 /* @tunnel-grandfather: build-input fragment; never served directly — runtime ownership lives in styles/generated/mitzvah-world.production.css (sole stylesheet linked by index.html). W4 2026-10-08. */
 /* B"H
 Boruch Hashem
@@ -67,7 +75,7 @@ small status vessel while responsive placement, health-detail, and combat-bar me
 	border-radius: var(--mw-radius-md);
 	background: rgba(25, 5, 22, 0.94);
 	box-shadow: var(--mw-shadow-control);
-	color: #fff;
+	color: var(--fragments-mitzvah-world-combat-002-t1);
 }
 
 #mitzvah-world-root .Awtsmoos-target-frame header {

@@ -1,3 +1,11 @@
+/* B"H - tunnel CSS laws: theme-safe text colors (no hardcoded light text) */
+:root {
+  --vibe-chat-prompt-text: #ffffff;
+}
+[data-theme="light"] {
+  --vibe-chat-prompt-text: #1a1a1a;
+}
+
 /* B"H
  * AI Chat Sidebar Repair
  * Chapter 1: the Awtsmoos pours cyan rain through the narrow vessel. The
@@ -98,7 +106,7 @@
     border: 1px solid rgba(0, 246, 255, 0.25);
     border-radius: 12px;
     background: rgba(0, 0, 0, 0.42);
-    color: #ffffff;
+    color: var(--vibe-chat-prompt-text);
     font-family: var(--font-ui);
     outline: none;
 }

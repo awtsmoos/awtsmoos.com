@@ -1,3 +1,11 @@
+/* B"H — CSS audit 2026-10-11: theme-safe variables (Yaakov tunnel laws: no hardcoded colors, no !important). */
+:root {
+	--styles-actions-t1: #fff;
+}
+[data-theme="light"] {
+	--styles-actions-t1: #1a1a1a;
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H
  * Boruch Hashem
@@ -25,7 +33,7 @@
 .primaryAction {
 	border-color: var(--g-accent);
 	background: var(--g-accent);
-	color: #fff;
+	color: var(--styles-actions-t1);
 	font-weight: 820;
 }
 .publishButton::after,

@@ -1,7 +1,15 @@
+/* B"H — CSS audit 2026-10-11: theme-safe gradient stops (Yaakov tunnel laws: no hardcoded colors, no !important). */
+:root {
+	--hero-type-g1: #fff;
+}
+[data-theme="light"] {
+	--hero-type-g1: #1a1a1a;
+}
+
 /* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
 /* B"H — identity text cuts through the night. */
 .profile-hero-card h1 {
-  background: linear-gradient(90deg, #fff, #9a4dff 62%, #2ea7ff);
+  background: linear-gradient(90deg, var(--hero-type-g1), #9a4dff 62%, #2ea7ff);
   -webkit-background-clip: text;
   color: transparent;
   font-size: clamp(2.72rem, 11.6vw, 4.6rem);

@@ -1,3 +1,11 @@
+/* B"H - tunnel CSS laws: theme-safe text colors (no hardcoded light text) */
+:root {
+  --dialog-content-text: #fff;
+}
+[data-theme="light"] {
+  --dialog-content-text: #1a1a1a;
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 
 /* B"H - DIALOGS STYLES */
@@ -34,7 +42,7 @@
     animation: scaleUp 0.25s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
     max-height: 85vh; 
     overflow-y: auto;
-    color: #fff;
+    color: var(--dialog-content-text);
 }
 
 .dialog-button-bar {

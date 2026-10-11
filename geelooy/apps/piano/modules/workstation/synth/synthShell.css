@@ -1,3 +1,13 @@
+/* B"H - tunnel CSS laws: theme-safe text colors (no hardcoded light text) */
+:root {
+  --synth-launcher-text: #fff;
+  --synth-close-text: #fff;
+}
+[data-theme="light"] {
+  --synth-launcher-text: #1a1a1a;
+  --synth-close-text: #1a1a1a;
+}
+
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
@@ -14,7 +24,7 @@
 	border: 1px solid #555;
 	border-radius: 9px;
 	background: #181818;
-	color: #fff;
+	color: var(--synth-launcher-text);
 	font-weight: 700;
 }
 
@@ -75,7 +85,7 @@
 	min-height: 38px;
 	border: 0;
 	border-radius: 10px;
-	color: #fff;
+	color: var(--synth-close-text);
 }
 
 .pro-synth-close {

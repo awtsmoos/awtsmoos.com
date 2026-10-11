@@ -1,3 +1,11 @@
+/* B"H - tunnel CSS laws: theme-safe text colors (no hardcoded light text) */
+:root {
+  --sheets-btn-primary-text: #ffffff;
+}
+[data-theme="light"] {
+  --sheets-btn-primary-text: #1a1a1a;
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /*B"H
 Boruch Hashem
@@ -56,13 +64,13 @@ Awtsmoos.com gives primary, quiet, tool, icon, and danger commands one family so
 .awtsmoos-sheets-app .aw-button--primary {
 	border-color: transparent;
 	background: linear-gradient(135deg, #137c53, #0b6844);
-	color: #ffffff;
+	color: var(--sheets-btn-primary-text);
 	box-shadow: 0 8px 22px rgba(19, 124, 83, 0.2);
 }
 
 .awtsmoos-sheets-app .aw-button--primary:hover:not(:disabled) {
 	background: linear-gradient(135deg, #16885c, #0d714a);
-	color: #ffffff;
+	color: var(--sheets-btn-primary-text);
 }
 
 .awtsmoos-sheets-app .aw-button--quiet,

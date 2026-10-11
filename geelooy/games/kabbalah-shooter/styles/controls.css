@@ -1,3 +1,13 @@
+/* B"H — CSS audit 2026-10-11: theme-safe variables (Yaakov tunnel laws: no hardcoded colors, no !important). */
+:root {
+	--styles-controls-t1: #fff;
+	--styles-controls-t2: #fff;
+}
+[data-theme="light"] {
+	--styles-controls-t1: #1a1a1a;
+	--styles-controls-t2: #1a1a1a;
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H */
 /* Boruch Hashem */
@@ -26,7 +36,7 @@
 	border: 1px solid #48dce8;
 	border-radius: 12px;
 	background: #06131d;
-	color: #fff;
+	color: var(--styles-controls-t1);
 	font: 800 15px/1 "Courier New", monospace;
 	letter-spacing: .04em;
 	touch-action: manipulation;
@@ -37,7 +47,7 @@
 }
 
 .kabbalah-action[aria-pressed="true"] {
-	border-color: #fff;
+	border-color: var(--styles-controls-t2);
 	box-shadow: 0 0 22px rgba(0, 255, 255, .7);
 }
 

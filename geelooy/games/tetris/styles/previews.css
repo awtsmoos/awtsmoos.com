@@ -1,3 +1,11 @@
+/* B"H — CSS audit 2026-10-11: theme-safe variables (Yaakov tunnel laws: no hardcoded colors, no !important). */
+:root {
+	--styles-previews-t1: #ffffff;
+}
+[data-theme="light"] {
+	--styles-previews-t1: #1a1a1a;
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /*B"H*/
 /*Boruch Hashem*/
@@ -69,7 +77,7 @@
 }
 
 .piece-preview[data-piece="7"] {
-	--preview-color: #ffffff;
+	--preview-color: var(--styles-previews-t1);
 }
 
 .piece-preview__text {

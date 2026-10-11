@@ -1,3 +1,11 @@
+/* B"H - tunnel CSS laws: theme-safe text colors (no hardcoded light text) */
+:root {
+  --piano-settings-btn-text: #ffffff;
+}
+[data-theme="light"] {
+  --piano-settings-btn-text: #1a1a1a;
+}
+
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H
 Boruch Hashem
@@ -70,7 +78,7 @@ The Awtsmoos is beyond darkness and light; Awtsmoos.com gives the phone a readab
 		min-height: 44px;
 		border: 1px solid #6d8298;
 		background: #253342;
-		color: #ffffff;
+		color: var(--piano-settings-btn-text);
 		font-weight: 700;
 		text-shadow: none;
 	}
