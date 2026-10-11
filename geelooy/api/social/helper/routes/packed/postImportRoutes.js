@@ -576,19 +576,23 @@ class PackedPostImportRoutes {
 	async flushSeriesAdds($i, job) {
 		for (const [key, adds] of job.seriesAdds) {
 			if (!adds.size) continue;
+			// B"H 2026-10-11: snapshot + clear SYNCHRONOUSLY before any await,
+			// so series adds made by concurrent import workers while this
+			// flush is in flight are never wiped by the clear().
+			const snapshot = new Map(adds);
+			adds.clear();
 			const [h, s] = JSON.parse(key);
 			const p = `/social/heichelos/${h}/series/${s}/posts`;
 			let obj = {};
 			try { obj = await $i.db.get(p) || {}; } catch (_) { /* ignore */ }
 			let changed = false;
-			for (const [pid, entry] of adds) {
+			for (const [pid, entry] of snapshot) {
 				if (!obj[pid] || obj[pid].author !== entry.author) { obj[pid] = entry; changed = true; }
 			}
 			if (changed) {
 				try { await $i.db.write(p, obj); }
 				catch (e) { job.errors.push({ message: 'SERIES_INDEX_FAILED: ' + s + ': ' + (e.message || e) }); }
 			}
-			adds.clear();
 		}
 		await yieldTick();
 	}
@@ -659,78 +663,122 @@ class PackedPostImportRoutes {
 			liveCacheSize: liveHashes.size,
 		});
 		const now = Date.now();
-		try {
-			for (let n = 0; n < spec.posts.length; n++) {
-				if (job.cancelRequested) { job.status = 'cancelled'; break; }
-				if (Date.now() - job.startedAt > job.timeBudgetMs) { job.status = 'paused'; break; }
-				if (heapTooHigh()) {
-					job.errors.push({ message: 'PAUSED_MEMORY: heap exceeded safe threshold; resume to continue.' });
-					job.status = 'paused';
-					break;
+		// B"H 2026-10-11: parallel worker pool (Yaakov: maximum throughput).
+		// Posts are independent (per-post keys); workers share the job's
+		// Maps/Sets, which are safe under the single-threaded event loop
+		// because every mutation is synchronous. Series-index flushes are
+		// mutex-guarded (a skipped flush's entries stay queued for the next
+		// checkpoint) and snapshot+clear so concurrent adds are never lost.
+		const WORKERS = Math.max(1, Math.min(16, Number(process.env.AWTSMOOS_IMPORT_WORKERS) || 8));
+		let nextPost = 0;
+		let flushRunning = false;
+		const processOnePost = async (n) => {
+			let raw;
+			try {
+				raw = this.readSpecPost(spec, spec.posts[n]);
+			} catch (e) {
+				job.failed++;
+				job.errors.push({ postId: String((spec.posts[n] && spec.posts[n].postId) || ('#' + n)), message: e.message });
+				return;
+			}
+			let post;
+			let aliasName;
+			try {
+				const verr = validatePost(raw, n);
+				if (verr) throw new Error(verr);
+				post = normalizePost(raw, spec.heichelId, now);
+				// Alias application (before the idempotency hash: the
+				// alias is part of the post's identity).
+				aliasName = (post.commentator && String(post.commentator).trim()) || spec.aliasName;
+				post.aliasId = this.postAliasId(post, spec.heichelId, spec.aliasId);
+				const wireBytes = Buffer.byteLength(canonicalBytes(post));
+				if (wireBytes > PER_POST_MAX_BYTES) {
+					throw new Error('POST_TOO_LARGE: post ' + post.postId + ' is ' + wireBytes + ' bytes (cap ' + PER_POST_MAX_BYTES + ')');
 				}
-				let raw;
+			} catch (e) {
+				job.failed++;
+				job.errors.push({ postId: String((raw && (raw.postId || raw.id)) || ('#' + n)), message: e.message });
+				return;
+			}
+			const hash = contentHash(post);
+			const liveHash = liveHashes.get(post.postId);
+			if (job.doneHashes[post.postId] === hash) {
+				// Already processed by THIS job: skip unconditionally.
+				job.skipped++;
+				return;
+			}
+			if (liveHash === hash) {
+				// B"H 2026-10-11: airtight idempotency. The packed mirror can
+				// exist without the native record (server crash between the
+				// two writes); a packed-hash match alone must not skip the
+				// native write. Verify the native record exists before
+				// skipping, otherwise fall through and re-write.
+				let nativeOk = false;
 				try {
-					raw = this.readSpecPost(spec, spec.posts[n]);
-				} catch (e) {
-					job.failed++;
-					job.errors.push({ postId: String((spec.posts[n] && spec.posts[n].postId) || ('#' + n)), message: e.message });
-					continue;
-				}
-				let post;
-				let aliasName;
-				try {
-					const verr = validatePost(raw, n);
-					if (verr) throw new Error(verr);
-					post = normalizePost(raw, spec.heichelId, now);
-					// Alias application (before the idempotency hash: the
-					// alias is part of the post's identity).
-					aliasName = (post.commentator && String(post.commentator).trim()) || spec.aliasName;
-					post.aliasId = this.postAliasId(post, spec.heichelId, spec.aliasId);
-					const wireBytes = Buffer.byteLength(canonicalBytes(post));
-					if (wireBytes > PER_POST_MAX_BYTES) {
-						throw new Error('POST_TOO_LARGE: post ' + post.postId + ' is ' + wireBytes + ' bytes (cap ' + PER_POST_MAX_BYTES + ')');
-					}
-				} catch (e) {
-					job.failed++;
-					job.errors.push({ postId: String((raw && (raw.postId || raw.id)) || ('#' + n)), message: e.message });
-					continue;
-				}
-				const hash = contentHash(post);
-				const liveHash = liveHashes.get(post.postId);
-				if (job.doneHashes[post.postId] === hash || liveHash === hash) {
+					const existingNative = await $i.db.get(`/social/heichelos/${post.heichelId}/posts/${post.postId}`);
+					nativeOk = !!existingNative;
+				} catch (_) { /* treat as missing -> re-write */ }
+				if (nativeOk) {
 					job.skipped++;
 					job.doneHashes[post.postId] = hash;
-					continue;
-				}
-				const existed = job.doneHashes[post.postId] !== undefined || liveHashes.has(post.postId);
-				if (!job.dryRun) {
-					try {
-						this.writeOnePostBulk($i, post); // packed mirror (readers' diagnostic + idempotency)
-						await this.ensureAlias($i, job.aliasCache, post.aliasId, aliasName, spec.heichelId);
-						await this.writeNativePost($i, post); // first-class native AwtsmoosDB record
-						this.seriesAdd(job, post);
-					} catch (e) {
-						job.failed++;
-						job.errors.push({ postId: post.postId, message: 'WRITE_FAILED: ' + (e.message || e) });
-						continue;
-					}
-				}
-				job.doneHashes[post.postId] = hash;
-				liveHashes.set(post.postId, hash);
-				job.postsDone++;
-				if (existed) job.updated++;
-				else job.wrote++;
-				// Yield after EVERY post (not every 10): a single post's
-				// writes can block the event loop for seconds on a network
-				// volume; without this the server 502s mid-import.
-				job.updatedAt = Date.now();
-				setJob(job);
-				await yieldTick();
-				if (job.postsDone % 25 === 0) {
-					saveJobState($i, job);
-					if (!job.dryRun) await this.flushSeriesAdds($i, job);
+					return;
 				}
 			}
+			const existed = job.doneHashes[post.postId] !== undefined || liveHashes.has(post.postId);
+			if (!job.dryRun) {
+				try {
+					// B"H 2026-10-11: native FIRST (source of truth), packed
+					// mirror second. A crash between them now leaves a native
+					// record without a packed mirror — which the skip check
+					// above re-writes idempotently — instead of the reverse
+					// (packed without native), which used to skip forever.
+					await this.writeNativePost($i, post); // first-class native AwtsmoosDB record
+					await this.ensureAlias($i, job.aliasCache, post.aliasId, aliasName, spec.heichelId);
+					this.writeOnePostBulk($i, post); // packed mirror (readers' diagnostic)
+					this.seriesAdd(job, post);
+				} catch (e) {
+					job.failed++;
+					job.errors.push({ postId: post.postId, message: 'WRITE_FAILED: ' + (e.message || e) });
+					return;
+				}
+			}
+			job.doneHashes[post.postId] = hash;
+			liveHashes.set(post.postId, hash);
+			job.postsDone++;
+			if (existed) job.updated++;
+			else job.wrote++;
+			// Yield after every post: a single post's writes can block the
+			// event loop for seconds on a network volume; without this the
+			// server 502s mid-import.
+			job.updatedAt = Date.now();
+			setJob(job);
+			await yieldTick();
+		};
+		try {
+			const worker = async () => {
+				while (job.status === 'running') {
+					if (job.cancelRequested) { job.status = 'cancelled'; break; }
+					if (Date.now() - job.startedAt > job.timeBudgetMs) { job.status = 'paused'; break; }
+					if (heapTooHigh()) {
+						job.errors.push({ message: 'PAUSED_MEMORY: heap exceeded safe threshold; resume to continue.' });
+						job.status = 'paused';
+						break;
+					}
+					const n = nextPost++;
+					if (n >= spec.posts.length) break;
+					await processOnePost(n);
+					if (job.postsDone % 25 === 0) {
+						saveJobState($i, job);
+						if (!job.dryRun && !flushRunning) {
+							flushRunning = true;
+							try { await this.flushSeriesAdds($i, job); }
+							finally { flushRunning = false; }
+						}
+					}
+				}
+			};
+			appendJobLog($i, { jobId: job.id, event: 'workers', workers: WORKERS });
+			await Promise.all(Array.from({ length: WORKERS }, () => worker()));
 			if (!job.dryRun) await this.flushSeriesAdds($i, job);
 			if (job.status === 'running') job.status = 'done';
 		} catch (e) {
