@@ -104,7 +104,7 @@ function isLoopback(host) {
 }
 
 module.exports = {
-	resolveServerModule,
+	loadSshServer,
 	start,
 	status,
 	stop

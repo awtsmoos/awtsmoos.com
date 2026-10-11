@@ -2002,6 +2002,8 @@ tools/fs/actionGroups/mac/macSeeActions.js
 tools/fs/actionGroups/mac/stateDir.js
 tools/fs/actionGroups/macCompanionActions.js
 tools/fs/actionGroups/macSpeakerActions.js
+tools/fs/actionGroups/merkavaAppActions.js
+tools/fs/actionGroups/merkavaDevtoolsActions.js
 tools/fs/actionGroups/merkavaScreenshotActions.js
 tools/fs/actionGroups/missionActionPayload.js
 tools/fs/actionGroups/missionActions.js
@@ -2470,7 +2472,6 @@ tools/fs/mission/autoStart/index.js
 tools/fs/mission/awdbLegacyMigration.js
 tools/fs/mission/awdbStore.js
 tools/fs/mission/board/autopsy.js
-tools/fs/mission/board/board.test.cjs
 tools/fs/mission/board/capsules.js
 tools/fs/mission/board/chaining.js
 tools/fs/mission/board/dashboard.js
