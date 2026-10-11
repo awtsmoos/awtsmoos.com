@@ -28,7 +28,13 @@ function wirePublicKey(publicKey) {
 function ensure(config = {}) {
 	const metadata = Metadata.loadOrCreate(config);
 	const privateKey = SecureStore.read(metadata.deviceId, "private-key");
-	if (privateKey || metadata.publicKey) return coherentMaterial(config, metadata, privateKey);
+	if (privateKey) return coherentMaterial(config, metadata, privateKey);
+	// B"H: a public key without its private key is a wounded witness. Without
+	// explicit creation authority it stays fail-closed; with fresh-install or
+	// operator-reset authority the gate regenerates instead of wedging forever.
+	if (metadata.publicKey && !Creation.creationAllowed(config)) {
+		return coherentMaterial(config, metadata, privateKey);
+	}
 	return generate(config, metadata);
 }
 
