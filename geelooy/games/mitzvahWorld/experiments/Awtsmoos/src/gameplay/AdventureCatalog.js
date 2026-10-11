@@ -59,7 +59,16 @@ export const ADVENTURE_CATALOG = Object.freeze([
 	quest('words-of-light', 'Words of Light', 'The Beis Midrash Teacher', 15, -50, [
 		objective('learn', 'torah-passage', 3, 'Learn three Torah passages.', 15, -50),
 		objective('defeat', 'dybbuk-shade', 1, 'Use a learned passage against one shade.', 0, -140)
-	], reward(160, 6), false)
+	], reward(160, 6), false),
+	quest('sukkah-for-travelers', 'A Sukkah for the Travelers', 'Sarah the Innkeeper', 12, -40, [
+		objective('build', 'sukkah', 1, 'Raise one sukkah near the village.', 14, -38)
+	], reward(140, 5), false),
+	quest('light-the-east-road', 'Light the East Road', 'Mendel the Watchman', 28, -58, [
+		objective('build', 'lantern', 4, 'Set four lantern posts along the east road.', 30, -60)
+	], reward(170, 6), false),
+	quest('fence-the-pasture', 'Fence the Pasture', 'Yosef the Shepherd', 100, 40, [
+		objective('build', 'fence', 8, 'Raise eight fence segments around the pasture.', 104, 44)
+	], reward(150, 5), false)
 ]);
 
 export function adventureDefinition(questId) {
