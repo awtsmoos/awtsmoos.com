@@ -1,0 +1,185 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * LAW 8 reference layer — Drive app visual convergence.
+ * Design reference: https://awtsmoos.com/design-refs/law8/drive-app-ref.webp
+ * Deep-space dark theme: navy glass sidebar, Hebrew letter starfield, glowing
+ * folder glyphs, file-card hover/selected glow, gold Upload + primary actions,
+ * glass search/breadcrumb toolbar, luminous right detail panel.
+ * This file loads LAST in the drive-v5 cascade; it only refines, never reverts.
+ */
+
+/* ---------- LAW 8 tokens ---------- */
+body[data-awtsmoos-drive] {
+	--law8-gold: #f2b942;
+	--law8-gold-bright: #ffd873;
+	--law8-gold-deep: #d99a26;
+	--law8-gold-line: rgba(242, 185, 66, 0.55);
+	--law8-gold-glow: rgba(242, 185, 66, 0.38);
+	--law8-gold-glow-soft: rgba(242, 185, 66, 0.16);
+	--law8-gold-sheen: rgba(255, 255, 255, 0.38);
+	--law8-on-gold: #241503;
+	--law8-navy-veil: linear-gradient(180deg, rgba(11, 20, 44, 0.66), rgba(6, 11, 26, 0.78));
+	--law8-toolbar-glass: rgba(8, 14, 30, 0.5);
+	--law8-loc-glass: rgba(10, 18, 40, 0.55);
+	--law8-edge-line: rgba(120, 170, 255, 0.14);
+	--law8-edge-glow: rgba(90, 150, 255, 0.08);
+	--law8-sky-text: #bfe6ff;
+	--law8-star: rgba(190, 224, 255, 0.5);
+	--law8-star-dim: rgba(178, 216, 255, 0.32);
+	--law8-star-shadows:
+		240px 140px 1px rgba(178, 216, 255, 0.32),
+		520px 40px 1px rgba(178, 216, 255, 0.28),
+		760px 200px 1px rgba(178, 216, 255, 0.32),
+		120px 330px 1px rgba(178, 216, 255, 0.26),
+		480px 300px 1px rgba(178, 216, 255, 0.3),
+		900px 90px 1px rgba(178, 216, 255, 0.32),
+		1050px 330px 1px rgba(178, 216, 255, 0.26),
+		660px 430px 1px rgba(178, 216, 255, 0.3),
+		300px 480px 1px rgba(178, 216, 255, 0.28),
+		980px 480px 1px rgba(178, 216, 255, 0.32),
+		60px 560px 1px rgba(178, 216, 255, 0.26),
+		820px 580px 1px rgba(178, 216, 255, 0.3),
+		1150px 180px 1px rgba(178, 216, 255, 0.28);
+	--law8-select-halo: rgba(56, 189, 248, 0.55);
+	--law8-select-glow: rgba(56, 189, 248, 0.28);
+	--law8-nav-current: rgba(56, 189, 248, 0.14);
+	--law8-nav-glow: rgba(56, 189, 248, 0.18);
+	--law8-folder-glow: rgba(84, 190, 255, 0.32);
+	--law8-folder-glow-soft: rgba(84, 190, 255, 0.14);
+	--law8-folder-edge: rgba(120, 200, 255, 0.45);
+}
+
+/* ---------- Hebrew letter starfield: distant-star particles ---------- */
+body[data-awtsmoos-drive]::before {
+	content: "א ב ג ד ה ו ז ח ט י כ ל מ נ ס ע פ צ ק ר ש ת";
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	padding: 5vh 3vw;
+	color: var(--law8-star);
+	font-size: 12px;
+	letter-spacing: 30px;
+	line-height: 1;
+	text-shadow: var(--law8-star-shadows);
+	pointer-events: none;
+}
+
+/* ---------- Navy glass sidebar ---------- */
+body[data-awtsmoos-drive] .drive-sidebar {
+	background: var(--law8-navy-veil), var(--drive-surface);
+	border-right: 1px solid var(--law8-edge-line);
+	box-shadow: inset -1px 0 0 var(--law8-edge-glow);
+	color: var(--drive-text);
+}
+
+/* Current folder: cyan indicator bar + halo (reference's glowing selection) */
+body[data-awtsmoos-drive] .drive-sidebar-nav button[aria-current="true"] {
+	background: var(--law8-nav-current);
+	color: var(--law8-sky-text);
+	box-shadow: inset 2px 0 0 var(--law8-select-halo), 0 0 18px var(--law8-nav-glow);
+}
+
+body[data-awtsmoos-drive] .drive-sidebar-nav button[aria-current="true"]:hover {
+	filter: brightness(1.12);
+}
+
+/* ---------- Gold Upload button (reference's gold CTA) ---------- */
+body[data-awtsmoos-drive] .drive-primary-action {
+	border: 1px solid var(--law8-gold-line);
+	border-radius: 12px;
+	background: linear-gradient(180deg, var(--law8-gold-bright), var(--law8-gold) 60%, var(--law8-gold-deep));
+	color: var(--law8-on-gold);
+	font-weight: 800;
+	box-shadow: 0 10px 28px var(--law8-gold-glow), inset 0 1px 0 var(--law8-gold-sheen);
+}
+
+body[data-awtsmoos-drive] .drive-primary-action:hover {
+	filter: brightness(1.07);
+	box-shadow: 0 12px 34px var(--law8-gold-glow), inset 0 1px 0 var(--law8-gold-sheen);
+}
+
+body[data-awtsmoos-drive] .drive-primary-action:active {
+	transform: translateY(1px) scale(0.98);
+}
+
+body[data-awtsmoos-drive] .drive-primary-action:focus-visible {
+	outline: 2px solid var(--law8-gold-bright);
+	outline-offset: 3px;
+}
+
+body[data-awtsmoos-drive] .drive-primary-action:disabled {
+	opacity: 0.55;
+	cursor: not-allowed;
+	box-shadow: none;
+	color: var(--law8-on-gold);
+}
+
+/* ---------- Glass toolbar + breadcrumb location bar ---------- */
+body[data-awtsmoos-drive] .drive-toolbar {
+	padding: 10px 12px;
+	border: 1px solid var(--law8-edge-line);
+	border-radius: 16px;
+	background: var(--law8-toolbar-glass), var(--drive-surface);
+	box-shadow: inset 0 1px 0 var(--law8-edge-glow);
+	color: var(--drive-text);
+}
+
+body[data-awtsmoos-drive] .drive-location-bar {
+	padding: 8px 14px;
+	border: 1px solid var(--law8-edge-line);
+	border-radius: 12px;
+	background: var(--law8-loc-glass), var(--drive-surface);
+	box-shadow: inset 0 1px 0 var(--law8-edge-glow);
+	color: var(--drive-muted);
+}
+
+body[data-awtsmoos-drive] .drive-location-bar strong {
+	color: var(--law8-sky-text);
+}
+
+/* ---------- File cards: cyan selected halo (reference's glowing card) ---------- */
+body[data-awtsmoos-drive] .drive-entry-card[aria-selected="true"] {
+	border-color: var(--law8-select-halo);
+	box-shadow:
+		0 0 0 1px var(--law8-select-halo),
+		0 18px 44px rgba(0, 0, 0, 0.42),
+		0 0 34px var(--law8-select-glow);
+}
+
+/* ---------- Glowing folder glyphs ---------- */
+body[data-awtsmoos-drive] [data-kind="folder"] .drive-entry-glyph {
+	border-color: var(--law8-folder-edge);
+	box-shadow: 0 10px 26px var(--law8-folder-glow), 0 0 22px var(--law8-folder-glow-soft);
+}
+
+/* ---------- Right detail panel: navy glass + gold primary action ---------- */
+body[data-awtsmoos-drive] .drive-details {
+	background: var(--law8-navy-veil), var(--drive-surface);
+	border-color: var(--law8-edge-line);
+	box-shadow: var(--drive-shadow), 0 0 30px var(--law8-edge-glow);
+	color: var(--drive-text);
+}
+
+body[data-awtsmoos-drive] .drive-details-actions button:first-child {
+	border: 1px solid var(--law8-gold-line);
+	border-radius: 9px;
+	background: linear-gradient(180deg, var(--law8-gold-bright), var(--law8-gold) 60%, var(--law8-gold-deep));
+	color: var(--law8-on-gold);
+	font-weight: 700;
+	box-shadow: 0 8px 22px var(--law8-gold-glow-soft), inset 0 1px 0 var(--law8-gold-sheen);
+}
+
+body[data-awtsmoos-drive] .drive-details-actions button:first-child:hover {
+	filter: brightness(1.07);
+}
+
+body[data-awtsmoos-drive] .drive-details-actions button:first-child:active {
+	transform: scale(0.98);
+}
+
+body[data-awtsmoos-drive] .drive-details-actions button:first-child:focus-visible {
+	outline: 2px solid var(--law8-gold-bright);
+	outline-offset: 2px;
+}
