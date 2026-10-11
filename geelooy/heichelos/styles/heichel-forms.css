@@ -1,0 +1,259 @@
+/* B"H
+ * heichel-forms.css — heichel design-system form elements.
+ *
+ * .heichel-field        label + control stack
+ * .heichel-label        field label
+ * .heichel-hint         help text under a control
+ * .heichel-input        text input
+ * .heichel-textarea     multi-line input
+ * .heichel-select       select (wrap in .heichel-select-wrap for the arrow)
+ * .heichel-select-wrap  positioning context for the custom arrow
+ * .heichel-search       glowing search pill (dream library search bar)
+ * .heichel-check        custom checkbox row
+ *
+ * Full states: :hover / :focus-visible / :disabled on every control.
+ * LAW 2: focus is always a visible ring — never outline:none.
+ * Tokens only — see heichel-tokens.css.
+ */
+
+/* ============ 1. Field scaffolding ============ */
+.heichel-field {
+	display: grid;
+	gap: 0.45rem;
+	margin: 0 0 var(--heichel-space-2);
+}
+.heichel-label {
+	font-family: var(--heichel-font-body);
+	font-size: var(--heichel-text-sm);
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	color: var(--heichel-ink-soft);
+}
+.heichel-hint {
+	font-family: var(--heichel-font-body);
+	font-size: var(--heichel-text-xs);
+	line-height: 1.5;
+	color: var(--heichel-ink-faint);
+	margin: 0;
+}
+.heichel-error-text {
+	font-family: var(--heichel-font-body);
+	font-size: var(--heichel-text-xs);
+	font-weight: 600;
+	color: var(--heichel-danger);
+	margin: 0;
+}
+
+/* ============ 2. Shared control base ============ */
+.heichel-input,
+.heichel-textarea,
+.heichel-select {
+	width: 100%;
+	font-family: var(--heichel-font-body);
+	font-size: var(--heichel-text-base);
+	line-height: 1.5;
+	color: var(--heichel-ink);
+	background-color: var(--heichel-field-bg);
+	border: 1px solid var(--heichel-field-border);
+	border-radius: var(--heichel-radius-md);
+	padding: 0.75rem 1rem;
+	transition:
+		border-color var(--heichel-speed-fast) var(--heichel-ease),
+		box-shadow var(--heichel-speed-fast) var(--heichel-ease),
+		background-color var(--heichel-speed-fast) var(--heichel-ease);
+}
+.heichel-input::placeholder,
+.heichel-textarea::placeholder {
+	color: var(--heichel-placeholder);
+	opacity: 1;
+}
+.heichel-textarea {
+	min-height: 7rem;
+	resize: vertical;
+}
+
+/* ============ 3. Input states ============ */
+.heichel-input:hover,
+.heichel-textarea:hover,
+.heichel-select:hover {
+	border-color: var(--heichel-field-border-hover);
+}
+.heichel-input:focus-visible,
+.heichel-textarea:focus-visible,
+.heichel-select:focus-visible {
+	outline: 2px solid var(--heichel-focus-ring);
+	outline-offset: 2px;
+	border-color: var(--heichel-gold);
+	box-shadow: var(--heichel-glow-gold);
+}
+.heichel-input:disabled,
+.heichel-textarea:disabled,
+.heichel-select:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+	background-color: var(--heichel-disabled-bg);
+	box-shadow: none;
+}
+.heichel-input[aria-invalid="true"],
+.heichel-textarea[aria-invalid="true"],
+.heichel-select[aria-invalid="true"] {
+	border-color: var(--heichel-danger);
+}
+:where(.heichel-input)[aria-invalid="true"]:focus-visible,
+:where(.heichel-textarea)[aria-invalid="true"]:focus-visible,
+:where(.heichel-select)[aria-invalid="true"]:focus-visible {
+	box-shadow: var(--heichel-shadow-pop);
+}
+
+/* ============ 4. Select with custom gold arrow ============ */
+.heichel-select-wrap {
+	position: relative;
+	display: block;
+}
+.heichel-select-wrap::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	right: 1.1rem;
+	width: 0;
+	height: 0;
+	margin-top: -0.2rem;
+	border-top: 0.42rem solid var(--heichel-gold);
+	border-left: 0.32rem solid transparent;
+	border-right: 0.32rem solid transparent;
+	pointer-events: none;
+}
+.heichel-select {
+	appearance: none;
+	-webkit-appearance: none;
+	padding-right: 2.6rem;
+	cursor: pointer;
+}
+.heichel-select:disabled {
+	cursor: not-allowed;
+}
+.heichel-select option {
+	color: var(--heichel-ink);
+	background-color: var(--heichel-field-bg);
+}
+
+/* ============ 5. Search pill (dream library search) ============ */
+.heichel-search {
+	width: 100%;
+	font-family: var(--heichel-font-body);
+	font-size: var(--heichel-text-lg);
+	color: var(--heichel-ink);
+	background-color: var(--heichel-field-bg);
+	border: 1px solid var(--heichel-gold);
+	border-radius: var(--heichel-radius-pill);
+	padding: 1rem 1.5rem 1rem 3.4rem;
+	box-shadow:
+		var(--heichel-inner-highlight),
+		var(--heichel-glow-gold);
+	transition:
+		border-color var(--heichel-speed-fast) var(--heichel-ease),
+		box-shadow var(--heichel-speed) var(--heichel-ease);
+}
+[data-theme="dark"] .heichel-search {
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+}
+.heichel-search::placeholder {
+	color: var(--heichel-placeholder);
+	opacity: 1;
+}
+.heichel-search:hover {
+	border-color: var(--heichel-gold-soft);
+	box-shadow:
+		var(--heichel-inner-highlight),
+		var(--heichel-glow-strong);
+}
+.heichel-search:focus-visible {
+	outline: 2px solid var(--heichel-focus-ring);
+	outline-offset: 3px;
+	border-color: var(--heichel-gold-soft);
+	box-shadow:
+		var(--heichel-inner-highlight),
+		var(--heichel-glow-strong);
+}
+.heichel-search:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+	box-shadow: none;
+}
+.heichel-search-wrap {
+	position: relative;
+	display: block;
+}
+.heichel-search-icon {
+	position: absolute;
+	top: 50%;
+	left: 1.2rem;
+	transform: translateY(-50%);
+	width: 1.4rem;
+	height: 1.4rem;
+	color: var(--heichel-gold);
+	pointer-events: none;
+}
+
+/* ============ 6. Checkbox row ============ */
+.heichel-check {
+	display: inline-flex;
+	align-items: flex-start;
+	gap: 0.65rem;
+	cursor: pointer;
+	font-family: var(--heichel-font-body);
+	font-size: var(--heichel-text-sm);
+	color: var(--heichel-ink-soft);
+	line-height: 1.5;
+}
+.heichel-check input {
+	width: 1.2rem;
+	height: 1.2rem;
+	margin: 0.1rem 0 0;
+	flex: none;
+	accent-color: var(--heichel-gold);
+	cursor: pointer;
+	color: var(--heichel-ink);
+}
+.heichel-check input:focus-visible {
+	outline: 2px solid var(--heichel-focus-ring);
+	outline-offset: 2px;
+}
+.heichel-check input:disabled {
+	cursor: not-allowed;
+	opacity: 0.6;
+	color: var(--heichel-ink);
+}
+
+/* ============ 7. Reduced motion ============ */
+@media (prefers-reduced-motion: reduce) {
+	.heichel-input,
+	.heichel-textarea,
+	.heichel-select,
+	.heichel-search {
+		transition: none;
+	}
+}
+
+/* ============ 8. Mobile — 412px tuning ============ */
+@media (max-width: 412px) {
+	.heichel-input,
+	.heichel-textarea,
+	.heichel-select {
+		font-size: 1rem;
+		padding: 0.85rem 1rem;
+	}
+	.heichel-search {
+		font-size: 1rem;
+		padding: 0.95rem 1.25rem 0.95rem 3rem;
+	}
+	.heichel-search-icon {
+		left: 1rem;
+		width: 1.25rem;
+		height: 1.25rem;
+	}
+	.heichel-field {
+		margin-bottom: var(--heichel-space-1);
+	}
+}

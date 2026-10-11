@@ -1,0 +1,304 @@
+/* B"H
+ * heichel-buttons.css — heichel design-system buttons.
+ *
+ * .heichel-btn            primary gold (dream: Save to Notes / Read)
+ * .heichel-btn-secondary   navy translucent, gold border (dream: Compare
+ *                         Commentaries / Notes / Listen / Share)
+ * .heichel-btn-ghost      borderless whisper of gold
+ * .heichel-btn-danger      destructive
+ * .heichel-pill           category pill (dream: Parshat HaShavua / Torah /
+ *                         Prophets / Writings / Commentary)
+ *
+ * Every variant carries :hover / :focus-visible / :active / :disabled.
+ * LAW 2: focus is always a visible ring — never outline:none.
+ * Tokens only — see heichel-tokens.css.
+ */
+
+/* ============ 1. Base button ============ */
+.heichel-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.6rem;
+	min-height: 2.9rem;
+	padding: 0.7rem 1.6rem;
+	font-family: var(--heichel-font-body);
+	font-size: var(--heichel-text-base);
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	line-height: 1.2;
+	text-decoration: none;
+	cursor: pointer;
+	border-radius: var(--heichel-radius-pill);
+	border: 1px solid transparent;
+	transition:
+		transform var(--heichel-speed) var(--heichel-ease),
+		box-shadow var(--heichel-speed) var(--heichel-ease),
+		background-color var(--heichel-speed) var(--heichel-ease),
+		background-image var(--heichel-speed) var(--heichel-ease),
+		border-color var(--heichel-speed) var(--heichel-ease),
+		color var(--heichel-speed) var(--heichel-ease),
+		opacity var(--heichel-speed-fast) var(--heichel-ease);
+	user-select: none;
+	-webkit-user-select: none;
+	touch-action: manipulation;
+}
+
+/* ============ 2. Primary gold ============ */
+.heichel-btn {
+	color: var(--heichel-on-gold);
+	background-color: var(--heichel-gold-soft);
+	background-image:
+		var(--heichel-img-button-glow),
+		linear-gradient(180deg, var(--heichel-gold-soft) 0%, var(--heichel-gold) 55%, var(--heichel-gold-deep) 100%);
+	background-size: cover, cover;
+	background-position: center, center;
+	border-color: var(--heichel-gold-deep);
+	box-shadow:
+		var(--heichel-inner-highlight),
+		var(--heichel-glow-gold),
+		var(--heichel-shadow-pop);
+	text-shadow: 0 1px 0 var(--heichel-gold-pale);
+}
+.heichel-btn:hover {
+	transform: translateY(-2px);
+	box-shadow:
+		var(--heichel-inner-highlight),
+		var(--heichel-glow-strong),
+		var(--heichel-shadow-pop);
+	border-color: var(--heichel-gold);
+}
+.heichel-btn:focus-visible {
+	outline: 2px solid var(--heichel-focus-ring);
+	outline-offset: 3px;
+}
+.heichel-btn:active {
+	transform: translateY(1px) scale(0.98);
+	box-shadow:
+		var(--heichel-inner-highlight),
+		var(--heichel-shadow-pop);
+}
+
+/* ============ 3. Secondary — navy glass, gold border ============ */
+.heichel-btn-secondary {
+	color: var(--heichel-gold);
+	background-color: var(--heichel-surface-soft);
+	background-image: linear-gradient(180deg, var(--heichel-surface) 0%, var(--heichel-surface-soft) 100%);
+	border-color: var(--heichel-line);
+	box-shadow:
+		var(--heichel-inner-highlight),
+		var(--heichel-shadow-pop);
+	text-shadow: none;
+}
+[data-theme="dark"] .heichel-btn-secondary {
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+}
+.heichel-btn-secondary:hover {
+	transform: translateY(-2px);
+	color: var(--heichel-gold-soft);
+	border-color: var(--heichel-gold);
+	box-shadow:
+		var(--heichel-inner-highlight),
+		var(--heichel-glow-gold),
+		var(--heichel-shadow-pop);
+}
+.heichel-btn-secondary:focus-visible {
+	outline: 2px solid var(--heichel-focus-ring);
+	outline-offset: 3px;
+}
+.heichel-btn-secondary:active {
+	transform: translateY(1px) scale(0.98);
+	box-shadow: var(--heichel-shadow-pop);
+}
+
+/* ============ 4. Ghost ============ */
+.heichel-btn-ghost {
+	color: var(--heichel-gold);
+	background-color: transparent;
+	background-image: none;
+	border-color: transparent;
+	box-shadow: none;
+	text-shadow: none;
+}
+.heichel-btn-ghost:hover {
+	transform: translateY(-1px);
+	color: var(--heichel-gold-soft);
+	background-color: var(--heichel-surface-soft);
+	border-color: var(--heichel-line-soft);
+	box-shadow: var(--heichel-shadow-pop);
+}
+.heichel-btn-ghost:focus-visible {
+	outline: 2px solid var(--heichel-focus-ring);
+	outline-offset: 3px;
+}
+.heichel-btn-ghost:active {
+	transform: translateY(1px) scale(0.98);
+	box-shadow: none;
+}
+
+/* ============ 5. Danger ============ */
+.heichel-btn-danger {
+	color: var(--heichel-on-danger);
+	background-color: var(--heichel-danger);
+	background-image: linear-gradient(180deg, var(--heichel-danger) 0%, var(--heichel-danger-deep) 100%);
+	border-color: var(--heichel-danger-deep);
+	box-shadow:
+		var(--heichel-inner-highlight),
+		var(--heichel-shadow-pop);
+	text-shadow: none;
+}
+.heichel-btn-danger:hover {
+	transform: translateY(-2px);
+	border-color: var(--heichel-danger);
+	box-shadow:
+		var(--heichel-inner-highlight),
+		var(--heichel-shadow-pop),
+		var(--heichel-glow-gold);
+}
+.heichel-btn-danger:focus-visible {
+	outline: 2px solid var(--heichel-focus-ring);
+	outline-offset: 3px;
+}
+.heichel-btn-danger:active {
+	transform: translateY(1px) scale(0.98);
+	box-shadow: var(--heichel-shadow-pop);
+}
+
+/* ============ 6. Disabled — wins over every state (declared last) ============ */
+.heichel-btn:disabled,
+.heichel-btn[disabled],
+.heichel-btn-secondary:disabled,
+.heichel-btn-secondary[disabled],
+.heichel-btn-ghost:disabled,
+.heichel-btn-ghost[disabled],
+.heichel-btn-danger:disabled,
+.heichel-btn-danger[disabled] {
+	opacity: 0.55;
+	cursor: not-allowed;
+	transform: none;
+	box-shadow: var(--heichel-shadow-pop);
+	text-shadow: none;
+}
+
+/* ============ 7. Sizes & shapes ============ */
+.heichel-btn-sm {
+	min-height: 2.3rem;
+	padding: 0.45rem 1.1rem;
+	font-size: var(--heichel-text-sm);
+}
+.heichel-btn-lg {
+	min-height: 3.5rem;
+	padding: 1rem 2.2rem;
+	font-size: var(--heichel-text-lg);
+}
+.heichel-btn-block {
+	display: flex;
+	width: 100%;
+}
+.heichel-btn-icon {
+	padding: 0.7rem;
+	min-width: 2.9rem;
+	border-radius: var(--heichel-radius-md);
+}
+.heichel-btn-square {
+	border-radius: var(--heichel-radius-md);
+}
+
+/* ============ 8. Category pills (dream library filter row) ============ */
+.heichel-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+	padding: 0.55rem 1.25rem;
+	font-family: var(--heichel-font-body);
+	font-size: var(--heichel-text-sm);
+	font-weight: 600;
+	letter-spacing: 0.03em;
+	color: var(--heichel-gold);
+	background-color: var(--heichel-surface-soft);
+	border: 1px solid var(--heichel-line);
+	border-radius: var(--heichel-radius-pill);
+	cursor: pointer;
+	transition:
+		transform var(--heichel-speed) var(--heichel-ease),
+		box-shadow var(--heichel-speed) var(--heichel-ease),
+		border-color var(--heichel-speed) var(--heichel-ease),
+		background-color var(--heichel-speed) var(--heichel-ease),
+		color var(--heichel-speed) var(--heichel-ease);
+	user-select: none;
+	-webkit-user-select: none;
+	touch-action: manipulation;
+}
+[data-theme="dark"] .heichel-pill {
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+}
+.heichel-pill:hover {
+	transform: translateY(-1px);
+	border-color: var(--heichel-gold);
+	color: var(--heichel-gold-soft);
+	box-shadow: var(--heichel-glow-gold);
+}
+.heichel-pill:focus-visible {
+	outline: 2px solid var(--heichel-focus-ring);
+	outline-offset: 2px;
+}
+.heichel-pill:active {
+	transform: translateY(1px) scale(0.97);
+}
+.heichel-pill[aria-pressed="true"],
+.heichel-pill-active {
+	color: var(--heichel-on-gold);
+	background-color: var(--heichel-gold-soft);
+	background-image: linear-gradient(180deg, var(--heichel-gold-soft) 0%, var(--heichel-gold) 60%, var(--heichel-gold-deep) 100%);
+	border-color: var(--heichel-gold-deep);
+	box-shadow:
+		var(--heichel-inner-highlight),
+		var(--heichel-glow-gold);
+}
+.heichel-pill:disabled,
+.heichel-pill[disabled] {
+	opacity: 0.55;
+	cursor: not-allowed;
+	transform: none;
+	box-shadow: none;
+}
+
+/* ============ 9. Button row helper ============ */
+.heichel-btn-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	align-items: center;
+}
+
+/* ============ 10. Reduced motion ============ */
+@media (prefers-reduced-motion: reduce) {
+	.heichel-btn,
+	.heichel-pill {
+		transition: none;
+	}
+}
+
+/* ============ 11. Mobile — 412px tuning ============ */
+@media (max-width: 412px) {
+	.heichel-btn {
+		min-height: 3.1rem;
+		padding: 0.8rem 1.4rem;
+		font-size: var(--heichel-text-base);
+	}
+	.heichel-btn-sm {
+		min-height: 2.7rem;
+	}
+	.heichel-btn-block-mobile {
+		display: flex;
+		width: 100%;
+	}
+	.heichel-pill {
+		padding: 0.6rem 1.1rem;
+	}
+	.heichel-btn-row {
+		gap: 0.6rem;
+	}
+}

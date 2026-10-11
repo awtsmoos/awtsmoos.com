@@ -1,0 +1,203 @@
+/* B"H
+ * heichel-tokens.css — the heichel design-system token layer.
+ *
+ * LAW 8 dream targets: luminous Torah library. Warm cream by day, deep
+ * cosmic night by dark theme; gold is the royal accent in both.
+ *
+ * Every color in this system lives here as a custom property with an
+ * explicit light value and a [data-theme="dark"] override. Module sheets
+ * (heichel-parchment/buttons/ornaments/typography/forms) use ONLY these
+ * tokens — never a raw color literal.
+ *
+ * Texture / ornament assets (served live from the repo):
+ *   ../../design-refs/law8/heichel/<name>.webp
+ * relative to geelooy/heichelos/styles/.
+ */
+
+/* ============ 1. Assets ============ */
+:root {
+	--heichel-img-parchment-light: url("../../design-refs/law8/heichel/parchment-light.webp");
+	--heichel-img-parchment-dark: url("../../design-refs/law8/heichel/parchment-dark.webp");
+	--heichel-img-gold-seal: url("../../design-refs/law8/heichel/gold-seal.webp");
+	--heichel-img-divider: url("../../design-refs/law8/heichel/divider-ornament.webp");
+	--heichel-img-corner: url("../../design-refs/law8/heichel/corner-ornament.webp");
+	--heichel-img-button-glow: url("../../design-refs/law8/heichel/button-glow.webp");
+
+	color-scheme: light;
+
+	/* ---- page ---- */
+	--heichel-page-0: #f9f3e3;
+	--heichel-page-1: #eee0bf;
+
+	/* ---- night backdrop (dream: starry cosmic library) ---- */
+	--heichel-night-0: #f9f3e3;
+	--heichel-night-1: #e9d9b4;
+	--heichel-night-ink: #2b2118;
+	--heichel-star: rgba(138, 109, 26, 0.35);
+
+	/* ---- surfaces ---- */
+	--heichel-surface: #fffdf4;
+	--heichel-surface-soft: #faf3e0;
+	--heichel-panel: #f4ead0;
+	--heichel-parchment-0: #f8eecd;
+	--heichel-parchment-1: #edd9ab;
+	--heichel-parchment-edge: rgba(122, 74, 20, 0.28);
+	--heichel-parchment-dark-0: #141b3a;
+	--heichel-parchment-dark-1: #0c1128;
+	--heichel-parchment-dark-edge: rgba(233, 199, 111, 0.22);
+	--heichel-parchment-dark-shade: rgba(20, 12, 4, 0.45);
+
+	/* ---- ink ---- */
+	--heichel-ink: #2b2118;
+	--heichel-ink-soft: #57493a;
+	--heichel-ink-faint: #7d6c4b;
+	--heichel-title-ink: #3a2b0d;
+
+	/* ---- parchment ink (cream surface stays light in both themes) ---- */
+	--heichel-parchment-ink: #2b2118;
+	--heichel-parchment-ink-soft: #57493a;
+	--heichel-parchment-ink-faint: #7d6c4b;
+	--heichel-parchment-title-ink: #3a2b0d;
+
+	/* ---- gold ---- */
+	--heichel-gold: #8a6d1a;
+	--heichel-gold-deep: #6e5510;
+	--heichel-gold-soft: #c9a53f;
+	--heichel-gold-pale: #e9d189;
+	--heichel-on-gold: #2e2308;
+
+	/* ---- hairlines ---- */
+	--heichel-line: rgba(138, 109, 26, 0.55);
+	--heichel-line-soft: rgba(138, 109, 26, 0.28);
+
+	/* ---- form fields ---- */
+	--heichel-field-bg: #fffdf6;
+	--heichel-field-border: rgba(138, 109, 26, 0.5);
+	--heichel-field-border-hover: rgba(138, 109, 26, 0.85);
+	--heichel-placeholder: #94825e;
+	--heichel-disabled-bg: #efe8d4;
+
+	/* ---- danger ---- */
+	--heichel-danger: #9c2b2e;
+	--heichel-danger-deep: #7c1f22;
+	--heichel-on-danger: #fff8f0;
+
+	/* ---- focus ring (LAW 2: always visible) ---- */
+	--heichel-focus-ring: #6e5510;
+
+	/* ---- progress track ---- */
+	--heichel-track: rgba(138, 109, 26, 0.22);
+
+	/* ---- shadows & glows ---- */
+	--heichel-shadow-card: 0 1.1rem 2.6rem rgba(90, 70, 30, 0.18);
+	--heichel-shadow-dialog: 0 2rem 5rem rgba(60, 45, 15, 0.35);
+	--heichel-shadow-pop: 0 0.4rem 1.2rem rgba(90, 70, 30, 0.28);
+	--heichel-glow-gold: 0 0 2.5rem rgba(176, 138, 42, 0.35);
+	--heichel-glow-strong: 0 0 3.5rem rgba(176, 138, 42, 0.5);
+	--heichel-inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+	--heichel-inner-shadow: inset 0 0 3.5rem rgba(122, 74, 20, 0.16);
+
+	/* ---- radii ---- */
+	--heichel-radius-sm: 0.5rem;
+	--heichel-radius-md: 0.9rem;
+	--heichel-radius-lg: 1.25rem;
+	--heichel-radius-xl: 1.75rem;
+	--heichel-radius-pill: 999px;
+
+	/* ---- type ---- */
+	--heichel-font-display: "Cormorant Garamond", "Playfair Display", Georgia, "Times New Roman", serif;
+	--heichel-font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	--heichel-font-hebrew: "David Libre", "Frank Ruhl Libre", "Noto Serif Hebrew", "Times New Roman", serif;
+	--heichel-text-xs: 0.75rem;
+	--heichel-text-sm: 0.875rem;
+	--heichel-text-base: 1rem;
+	--heichel-text-lg: 1.25rem;
+
+	/* ---- spacing ---- */
+	--heichel-space-1: 0.5rem;
+	--heichel-space-2: 1rem;
+	--heichel-space-3: 1.5rem;
+	--heichel-space-4: 2.5rem;
+
+	/* ---- motion ---- */
+	--heichel-ease: cubic-bezier(0.16, 1, 0.3, 1);
+	--heichel-speed-fast: 150ms;
+	--heichel-speed: 220ms;
+	--heichel-speed-slow: 420ms;
+
+	/* ---- ornament sizing ---- */
+	--heichel-seal-size: 4.5rem;
+	--heichel-corner-size: 4rem;
+	--heichel-divider-height: 1.75rem;
+}
+
+/* ============ 2. Dark theme — the cosmic night of the dream refs ============ */
+:root[data-theme="dark"] {
+	color-scheme: dark;
+
+	/* ---- page ---- */
+	--heichel-page-0: #04060d;
+	--heichel-page-1: #0a1026;
+
+	/* ---- night backdrop ---- */
+	--heichel-night-0: #060a18;
+	--heichel-night-1: #04060d;
+	--heichel-night-ink: #f5f1e6;
+	--heichel-star: rgba(233, 199, 111, 0.5);
+
+	/* ---- surfaces ---- */
+	--heichel-surface: #0e1734;
+	--heichel-surface-soft: #0b1226;
+	--heichel-panel: #0a0f24;
+	--heichel-parchment-0: #f3e4ba;
+	--heichel-parchment-1: #e2cb96;
+	--heichel-parchment-edge: rgba(96, 58, 14, 0.4);
+	--heichel-parchment-dark-0: #1b2450;
+	--heichel-parchment-dark-1: #0d1330;
+	--heichel-parchment-dark-edge: rgba(233, 199, 111, 0.3);
+	--heichel-parchment-dark-shade: rgba(0, 0, 0, 0.5);
+
+	/* ---- ink ---- */
+	--heichel-ink: #f5f1e6;
+	--heichel-ink-soft: #cfc5a8;
+	--heichel-ink-faint: #a89e83;
+	--heichel-title-ink: #f0d98a;
+
+	/* ---- gold ---- */
+	--heichel-gold: #e9c76f;
+	--heichel-gold-deep: #c99b3f;
+	--heichel-gold-soft: #f2d98c;
+	--heichel-gold-pale: #f7e8bd;
+	--heichel-on-gold: #241a06;
+
+	/* ---- hairlines ---- */
+	--heichel-line: rgba(233, 199, 111, 0.42);
+	--heichel-line-soft: rgba(233, 199, 111, 0.22);
+
+	/* ---- form fields ---- */
+	--heichel-field-bg: #0d142e;
+	--heichel-field-border: rgba(233, 199, 111, 0.4);
+	--heichel-field-border-hover: rgba(233, 199, 111, 0.8);
+	--heichel-placeholder: #8d8468;
+	--heichel-disabled-bg: #131a36;
+
+	/* ---- danger ---- */
+	--heichel-danger: #e57373;
+	--heichel-danger-deep: #c14f52;
+	--heichel-on-danger: #1c0d0d;
+
+	/* ---- focus ring ---- */
+	--heichel-focus-ring: #ffd97a;
+
+	/* ---- progress track ---- */
+	--heichel-track: rgba(233, 199, 111, 0.2);
+
+	/* ---- shadows & glows ---- */
+	--heichel-shadow-card: 0 1.1rem 2.6rem rgba(0, 0, 0, 0.55);
+	--heichel-shadow-dialog: 0 2rem 5rem rgba(0, 0, 0, 0.7);
+	--heichel-shadow-pop: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.5);
+	--heichel-glow-gold: 0 0 2.5rem rgba(233, 199, 111, 0.28);
+	--heichel-glow-strong: 0 0 3.5rem rgba(233, 199, 111, 0.45);
+	--heichel-inner-highlight: inset 0 1px 0 rgba(233, 199, 111, 0.28);
+	--heichel-inner-shadow: inset 0 0 3.5rem rgba(0, 0, 0, 0.35);
+}

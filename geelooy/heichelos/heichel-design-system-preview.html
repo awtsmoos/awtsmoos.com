@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<!-- B"H — Heichel design-system LAW 8 preview (additive; not linked from any page) -->
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Heichel Design System — LAW 8 Preview</title>
+<link rel="stylesheet" href="styles/heichel-tokens.css">
+<link rel="stylesheet" href="styles/heichel-parchment.css">
+<link rel="stylesheet" href="styles/heichel-typography.css">
+<link rel="stylesheet" href="styles/heichel-buttons.css">
+<link rel="stylesheet" href="styles/heichel-ornaments.css">
+<link rel="stylesheet" href="styles/heichel-forms.css">
+<style>
+	.preview-wrap { max-width: 1100px; margin: 0 auto; padding: 32px 20px 80px; position: relative; z-index: 1; }
+	.preview-section { margin: 40px 0; }
+	.btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0; }
+	.form-grid { display: grid; gap: 14px; max-width: 520px; margin: 16px 0; }
+	.search-demo { max-width: 640px; margin: 24px auto; }
+	.corner-demo { position: relative; min-height: 120px; }
+</style>
+</head>
+<body class="heichel-night" data-heichel-ambient>
+<div class="preview-wrap">
+
+	<div class="preview-section" style="text-align:center">
+		<div class="heichel-seal heichel-seal-lg" role="img" aria-label="Heichel seal"></div>
+		<h1 class="heichel-title">היכל הספרים</h1>
+		<p class="heichel-kicker">Heichel Design System · LAW 8 Preview</p>
+		<p class="heichel-english">Every surface, button, seal, and ornament — light and dark.</p>
+	</div>
+
+	<div class="preview-section">
+		<h2 class="heichel-subtitle">Glowing search</h2>
+		<div class="search-demo">
+			<label class="heichel-label" for="demo-search">Search the library</label>
+			<input class="heichel-search" id="demo-search" type="search" placeholder="Search the Torah, teachings, passages…">
+		</div>
+	</div>
+
+	<div class="preview-section">
+		<h2 class="heichel-subtitle">Buttons — all states</h2>
+		<div class="btn-row">
+			<button class="heichel-btn" type="button">Save to Notes</button>
+			<button class="heichel-btn-secondary" type="button">Compare Commentaries</button>
+			<button class="heichel-btn-ghost" type="button">Copy Hebrew</button>
+			<button class="heichel-btn-danger" type="button">Delete</button>
+			<button class="heichel-btn" type="button" disabled>Disabled</button>
+		</div>
+		<div class="btn-row">
+			<button class="heichel-pill" type="button" aria-pressed="true">Parshat HaShavua</button>
+			<button class="heichel-pill" type="button" aria-pressed="false">Torah</button>
+			<button class="heichel-pill" type="button" aria-pressed="false">Prophets</button>
+			<button class="heichel-pill" type="button" aria-pressed="false">Writings</button>
+		</div>
+	</div>
+
+	<div class="preview-section">
+		<h2 class="heichel-subtitle">Parchment reader</h2>
+		<div class="heichel-parchment">
+			<p class="heichel-kicker">Hebrew · Parashat Noach · Chapter 6</p>
+			<p class="heichel-hebrew">אֵלֶּה תּוֹלְדֹת נֹחַ נֹחַ אִישׁ צַדִּיק תָּמִים הָיָה בְּדֹרֹתָיו אֶת־הָאֱלֹהִים הִתְהַלֶּךְ־נֹחַ׃</p>
+			<div class="heichel-divider" role="separator"></div>
+			<p class="heichel-english">These are the generations of Noah. Noah was a righteous man, blameless in his generation; Noah walked with G-d.<span class="heichel-verse-num">1</span></p>
+			<p class="heichel-meta">Genesis 6:9 · 14 min remaining</p>
+		</div>
+	</div>
+
+	<div class="preview-section">
+		<h2 class="heichel-subtitle">Shelf panel + card</h2>
+		<div class="heichel-shelf-panel corner-demo heichel-corner">
+			<h3 class="heichel-subtitle">Continue Reading</h3>
+			<div class="heichel-card">
+				<p class="heichel-kicker">Genesis / בראשית</p>
+				<p class="heichel-english">Chapter 12 · Lech Lecha</p>
+				<div class="heichel-progress" style="--heichel-progress: 38%" role="progressbar" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100"></div>
+				<p class="heichel-meta">Continue · 14 min remaining</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="preview-section">
+		<h2 class="heichel-subtitle">Ornaments</h2>
+		<div class="heichel-divider" role="separator"></div>
+		<div class="heichel-divider-split"><span>Footnotes</span></div>
+		<div class="heichel-hairline"></div>
+		<div class="btn-row" style="align-items:center">
+			<div class="heichel-seal heichel-seal-sm" role="img" aria-label="Small seal"></div>
+			<div class="heichel-seal" role="img" aria-label="Seal"></div>
+		</div>
+	</div>
+
+	<div class="preview-section">
+		<h2 class="heichel-subtitle">Forms</h2>
+		<div class="form-grid">
+			<div>
+				<label class="heichel-label" for="demo-input">Shelf name</label>
+				<input class="heichel-input" id="demo-input" type="text" placeholder="Name this shelf…">
+				<p class="heichel-hint">Letters, numbers, and spaces only.</p>
+			</div>
+			<div>
+				<label class="heichel-label" for="demo-area">Notes</label>
+				<textarea class="heichel-textarea" id="demo-area" rows="3" placeholder="Write your note…"></textarea>
+			</div>
+			<div>
+				<label class="heichel-label" for="demo-select">Collection</label>
+				<span class="heichel-select-wrap">
+					<select class="heichel-select" id="demo-select">
+						<option>Weekly Parsha</option>
+						<option>Wisdom &amp; Ethics</option>
+						<option>Holidays &amp; Festivals</option>
+					</select>
+				</span>
+			</div>
+			<div>
+				<label class="heichel-check"><input type="checkbox" checked> <span>Show English alongside Hebrew</span></label>
+			</div>
+			<div>
+				<label class="heichel-label" for="demo-bad">Shelf name (invalid)</label>
+				<input class="heichel-input" id="demo-bad" type="text" value="!!!" aria-invalid="true">
+				<p class="heichel-error-text">Please use letters, numbers, and spaces only.</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="preview-section">
+		<h2 class="heichel-subtitle">Dialog</h2>
+		<div class="heichel-dialog" role="dialog" aria-label="Demo dialog">
+			<h3 class="heichel-subtitle">Add a shelf</h3>
+			<p class="heichel-english">Name your new shelf to organize these sefarim.</p>
+			<div class="btn-row">
+				<button class="heichel-btn" type="button">Create shelf</button>
+				<button class="heichel-btn-ghost" type="button">Cancel</button>
+			</div>
+		</div>
+	</div>
+
+</div>
+<script src="effects/heichel-ambient.js"></script>
+</body>
+</html>

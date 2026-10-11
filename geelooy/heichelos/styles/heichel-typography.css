@@ -1,0 +1,163 @@
+/* B"H
+ * heichel-typography.css — heichel design-system type helpers.
+ *
+ * .heichel-title      serif display title (dream: Ikar / Maor Torah /
+ *                     Magical Torah Reader mastheads)
+ * .heichel-kicker     letterspaced eyebrow (dream: HEBREW · PARASHAT NOACH ·
+ *                     CHAPTER 6 / ENGLISH TRANSLATION pills)
+ * .heichel-english    body English (dream reader translation column)
+ * .heichel-hebrew     Hebrew body, right-to-left
+ * .heichel-subtitle   secondary serif heading
+ * .heichel-meta       small faint metadata line
+ * .heichel-verse-num  circled gold verse number (dream reader)
+ *
+ * Every rule carries an explicit color for light AND dark (resolved through
+ * theme-aware tokens). Tokens only — see heichel-tokens.css.
+ */
+
+/* ============ 1. Display title ============ */
+.heichel-title {
+	font-family: var(--heichel-font-display);
+	font-weight: 700;
+	font-size: clamp(2rem, 4vw + 1rem, 3.25rem);
+	line-height: 1.08;
+	letter-spacing: 0.01em;
+	color: var(--heichel-title-ink);
+	margin: 0 0 var(--heichel-space-1);
+	text-wrap: balance;
+}
+.heichel-title-sm {
+	font-size: clamp(1.5rem, 3vw + 0.75rem, 2.25rem);
+}
+.heichel-title-center {
+	text-align: center;
+}
+
+/* ============ 2. Kicker / eyebrow ============ */
+.heichel-kicker {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.6rem;
+	font-family: var(--heichel-font-body);
+	font-size: var(--heichel-text-xs);
+	font-weight: 700;
+	letter-spacing: 0.24em;
+	text-transform: uppercase;
+	color: var(--heichel-gold);
+	margin: 0 0 var(--heichel-space-1);
+}
+.heichel-kicker-pill {
+	padding: 0.45rem 1.1rem;
+	border: 1px solid var(--heichel-line);
+	border-radius: var(--heichel-radius-pill);
+	background-color: var(--heichel-surface-soft);
+	color: var(--heichel-gold);
+}
+[data-theme="dark"] .heichel-kicker-pill {
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+}
+
+/* ============ 3. English body ============ */
+.heichel-english {
+	font-family: var(--heichel-font-body);
+	font-size: var(--heichel-text-base);
+	line-height: 1.75;
+	color: var(--heichel-ink);
+	margin: 0 0 var(--heichel-space-2);
+}
+.heichel-english-lead {
+	font-size: var(--heichel-text-lg);
+	line-height: 1.65;
+	color: var(--heichel-ink-soft);
+}
+
+/* ============ 4. Hebrew body ============ */
+.heichel-hebrew {
+	font-family: var(--heichel-font-hebrew);
+	font-size: 1.35rem;
+	line-height: 1.9;
+	color: var(--heichel-ink);
+	direction: rtl;
+	text-align: right;
+	margin: 0 0 var(--heichel-space-2);
+}
+.heichel-hebrew-center {
+	text-align: center;
+}
+.heichel-hebrew-large {
+	font-size: 1.8rem;
+	line-height: 2;
+}
+
+/* ============ 5. Subtitle ============ */
+.heichel-subtitle {
+	font-family: var(--heichel-font-display);
+	font-size: clamp(1.25rem, 2vw + 0.75rem, 1.75rem);
+	font-weight: 600;
+	line-height: 1.25;
+	color: var(--heichel-ink-soft);
+	margin: 0 0 var(--heichel-space-1);
+}
+
+/* ============ 6. Meta line ============ */
+.heichel-meta {
+	font-family: var(--heichel-font-body);
+	font-size: var(--heichel-text-sm);
+	line-height: 1.5;
+	color: var(--heichel-ink-faint);
+	margin: 0;
+}
+.heichel-meta-strong {
+	color: var(--heichel-ink-soft);
+	font-weight: 600;
+}
+
+/* ============ 7. Verse number medallion ============ */
+.heichel-verse-num {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 1.5rem;
+	height: 1.5rem;
+	padding: 0 0.35rem;
+	border-radius: var(--heichel-radius-pill);
+	font-family: var(--heichel-font-body);
+	font-size: var(--heichel-text-xs);
+	font-weight: 700;
+	line-height: 1;
+	color: var(--heichel-on-gold);
+	background-color: var(--heichel-gold-soft);
+	background-image: linear-gradient(180deg, var(--heichel-gold-soft) 0%, var(--heichel-gold) 100%);
+	border: 1px solid var(--heichel-gold-deep);
+	vertical-align: super;
+}
+
+/* ============ 8. Prose pairing helpers ============ */
+.heichel-prose-pair {
+	display: grid;
+	gap: var(--heichel-space-2);
+}
+.heichel-prose-pair > .heichel-hebrew,
+.heichel-prose-pair > .heichel-english {
+	margin: 0;
+}
+
+/* ============ 9. Mobile — 412px tuning ============ */
+@media (max-width: 412px) {
+	.heichel-title {
+		font-size: clamp(1.75rem, 8vw, 2.5rem);
+	}
+	.heichel-kicker {
+		letter-spacing: 0.16em;
+	}
+	.heichel-english {
+		line-height: 1.7;
+	}
+	.heichel-hebrew {
+		font-size: 1.25rem;
+	}
+	.heichel-hebrew-large {
+		font-size: 1.6rem;
+	}
+}

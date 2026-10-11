@@ -1,0 +1,199 @@
+/* B"H
+ * heichel-parchment.css — heichel design-system surfaces.
+ *
+ * .heichel-parchment       cream scroll (dream reader's Hebrew page — stays
+ *                          warm in both themes, like a physical sefer)
+ * .heichel-parchment-dark  night parchment (deep indigo, gold flecks)
+ * .heichel-card            theme-adaptive content card (cream / navy glass)
+ * .heichel-shelf-panel     deep shelf panel (library sidebars, shelves)
+ * .heichel-dialog          modal dialog surface
+ * .heichel-night           cosmic-night page backdrop (dream library sky)
+ *
+ * Tokens only — see heichel-tokens.css. No color literals in this file.
+ */
+
+/* ============ 1. Light parchment — the dream reader's scroll ============ */
+.heichel-parchment {
+	color: var(--heichel-ink);
+	background-color: var(--heichel-parchment-1);
+	background-image:
+		var(--heichel-img-parchment-light),
+		radial-gradient(ellipse at center, transparent 52%, var(--heichel-parchment-edge) 100%),
+		linear-gradient(160deg, var(--heichel-parchment-0) 0%, var(--heichel-parchment-1) 100%);
+	background-size: cover, cover, cover;
+	background-position: center, center, center;
+	background-repeat: no-repeat, no-repeat, no-repeat;
+	border: 1px solid var(--heichel-gold-deep);
+	border-radius: var(--heichel-radius-lg);
+	box-shadow:
+		var(--heichel-glow-gold),
+		var(--heichel-inner-shadow),
+		var(--heichel-shadow-card);
+	padding: var(--heichel-space-3);
+}
+.heichel-parchment > .heichel-title,
+.heichel-parchment > .heichel-kicker {
+	color: var(--heichel-title-ink);
+}
+/* Cream surface in both themes: descendants keep dark parchment ink. */
+.heichel-parchment .heichel-hebrew,
+.heichel-parchment .heichel-english,
+.heichel-parchment .heichel-english-lead,
+.heichel-parchment .heichel-subtitle,
+.heichel-parchment .heichel-meta {
+	color: var(--heichel-parchment-ink);
+}
+.heichel-parchment .heichel-kicker {
+	color: var(--heichel-parchment-ink-faint);
+}
+
+/* ============ 2. Dark parchment — night sefer ============ */
+.heichel-parchment-dark {
+	color: var(--heichel-night-ink);
+	background-color: var(--heichel-parchment-dark-1);
+	background-image:
+		var(--heichel-img-parchment-dark),
+		radial-gradient(ellipse at center, transparent 48%, var(--heichel-parchment-dark-shade) 100%),
+		linear-gradient(160deg, var(--heichel-parchment-dark-0) 0%, var(--heichel-parchment-dark-1) 100%);
+	background-size: cover, cover, cover;
+	background-position: center, center, center;
+	background-repeat: no-repeat, no-repeat, no-repeat;
+	border: 1px solid var(--heichel-line);
+	border-radius: var(--heichel-radius-lg);
+	box-shadow:
+		var(--heichel-glow-gold),
+		var(--heichel-inner-shadow),
+		var(--heichel-shadow-card);
+	padding: var(--heichel-space-3);
+}
+.heichel-parchment-dark > .heichel-title,
+.heichel-parchment-dark > .heichel-kicker {
+	color: var(--heichel-gold-soft);
+}
+
+/* ============ 3. Theme-adaptive card (dream: Continue Reading / collections) ============ */
+.heichel-card {
+	color: var(--heichel-ink);
+	background-color: var(--heichel-surface);
+	background-image: linear-gradient(165deg, var(--heichel-surface) 0%, var(--heichel-surface-soft) 100%);
+	border: 1px solid var(--heichel-line);
+	border-radius: var(--heichel-radius-md);
+	box-shadow:
+		var(--heichel-inner-highlight),
+		var(--heichel-shadow-card);
+	padding: var(--heichel-space-2);
+	transition:
+		transform var(--heichel-speed) var(--heichel-ease),
+		box-shadow var(--heichel-speed) var(--heichel-ease),
+		border-color var(--heichel-speed) var(--heichel-ease);
+}
+[data-theme="dark"] .heichel-card {
+	backdrop-filter: blur(14px);
+	-webkit-backdrop-filter: blur(14px);
+}
+.heichel-card:hover {
+	transform: translateY(-2px);
+	border-color: var(--heichel-field-border-hover);
+	box-shadow:
+		var(--heichel-inner-highlight),
+		var(--heichel-glow-gold),
+		var(--heichel-shadow-card);
+}
+.heichel-card:focus-visible {
+	outline: 2px solid var(--heichel-focus-ring);
+	outline-offset: 3px;
+}
+
+/* ============ 4. Shelf panel — deep library panel ============ */
+.heichel-shelf-panel {
+	color: var(--heichel-ink);
+	background-color: var(--heichel-panel);
+	background-image: linear-gradient(180deg, var(--heichel-panel) 0%, var(--heichel-surface-soft) 100%);
+	border: 1px solid var(--heichel-line);
+	border-radius: var(--heichel-radius-lg);
+	box-shadow:
+		var(--heichel-inner-highlight),
+		var(--heichel-shadow-card);
+	padding: var(--heichel-space-3);
+}
+[data-theme="dark"] .heichel-shelf-panel {
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+}
+
+/* ============ 5. Dialog surface ============ */
+.heichel-dialog {
+	color: var(--heichel-ink);
+	background-color: var(--heichel-surface);
+	background-image: linear-gradient(170deg, var(--heichel-surface) 0%, var(--heichel-surface-soft) 100%);
+	border: 1px solid var(--heichel-gold);
+	border-radius: var(--heichel-radius-xl);
+	box-shadow:
+		var(--heichel-inner-highlight),
+		var(--heichel-glow-strong),
+		var(--heichel-shadow-dialog);
+	padding: var(--heichel-space-3);
+	max-width: 34rem;
+	margin-inline: auto;
+}
+[data-theme="dark"] .heichel-dialog {
+	backdrop-filter: blur(18px);
+	-webkit-backdrop-filter: blur(18px);
+}
+/* The hidden attribute always wins on dialogs — higher specificity than any
+ * display rule a consumer may add. */
+.heichel-dialog[hidden] {
+	display: none;
+}
+.heichel-dialog-title {
+	font-family: var(--heichel-font-display);
+	font-size: var(--heichel-text-lg);
+	font-weight: 700;
+	color: var(--heichel-title-ink);
+	margin: 0 0 var(--heichel-space-1);
+}
+.heichel-dialog-body {
+	color: var(--heichel-ink-soft);
+	line-height: 1.65;
+	margin: 0 0 var(--heichel-space-2);
+}
+
+/* ============ 6. Night page backdrop — the dream library sky ============ */
+.heichel-night {
+	color: var(--heichel-night-ink);
+	background-color: var(--heichel-night-1);
+	background-image:
+		radial-gradient(ellipse 80% 55% at 50% -10%, var(--heichel-star) 0%, transparent 60%),
+		linear-gradient(180deg, var(--heichel-night-0) 0%, var(--heichel-night-1) 100%);
+	background-repeat: no-repeat, no-repeat;
+	min-height: 100%;
+}
+
+/* ============ 7. Reduced motion ============ */
+@media (prefers-reduced-motion: reduce) {
+	.heichel-card {
+		transition: none;
+	}
+}
+
+/* ============ 8. Mobile — 412px tuning ============ */
+@media (max-width: 412px) {
+	.heichel-parchment,
+	.heichel-parchment-dark {
+		border-radius: var(--heichel-radius-md);
+		padding: var(--heichel-space-2);
+	}
+	.heichel-card {
+		border-radius: var(--heichel-radius-sm);
+		padding: var(--heichel-space-1) var(--heichel-space-2);
+	}
+	.heichel-shelf-panel {
+		border-radius: var(--heichel-radius-md);
+		padding: var(--heichel-space-2);
+	}
+	.heichel-dialog {
+		border-radius: var(--heichel-radius-lg);
+		padding: var(--heichel-space-2);
+		max-width: calc(100vw - 2rem);
+	}
+}
