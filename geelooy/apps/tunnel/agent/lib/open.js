@@ -4,14 +4,18 @@ const childProcess = require("child_process");
 
 function openUrl(url) {
   try {
+    let child;
     if (process.platform === "win32") {
-      childProcess.spawn("cmd", ["/c", "start", "", url], { detached: true, stdio: "ignore" }).unref();
+      child = childProcess.spawn("cmd", ["/c", "start", "", url], { detached: true, stdio: "ignore" });
     } else if (process.platform === "darwin") {
-      childProcess.spawn("open", [url], { detached: true, stdio: "ignore" }).unref();
+      child = childProcess.spawn("open", [url], { detached: true, stdio: "ignore" });
     } else {
-      childProcess.spawn("xdg-open", [url], { detached: true, stdio: "ignore" }).unref();
+      child = childProcess.spawn("xdg-open", [url], { detached: true, stdio: "ignore" });
     }
-
+    // B"H: headless servers have no browser opener; a missing binary must not
+    // crash the process — the pairing URL is already printed for manual approval.
+    child.on("error", () => {});
+    child.unref();
     return true;
   } catch (e) {
     return false;
@@ -26,17 +30,25 @@ function openHostedControl(config) {
 }
 
 function openSystemExplorer(target) {
+  // B"H: same headless grace as openUrl — a missing opener must never crash.
+  const launch = (command, args) => {
+    try {
+      const child = childProcess.spawn(command, args, { detached: true, stdio: "ignore" });
+      child.on("error", () => {});
+      child.unref();
+    } catch {}
+  };
   if (process.platform === "win32") {
-    childProcess.spawn("explorer.exe", [target], { detached: true, stdio: "ignore" }).unref();
+    launch("explorer.exe", [target]);
     return true;
   }
 
   if (process.platform === "darwin") {
-    childProcess.spawn("open", [target], { detached: true, stdio: "ignore" }).unref();
+    launch("open", [target]);
     return true;
   }
 
-  childProcess.spawn("xdg-open", [target], { detached: true, stdio: "ignore" }).unref();
+  launch("xdg-open", [target]);
   return true;
 }
 
