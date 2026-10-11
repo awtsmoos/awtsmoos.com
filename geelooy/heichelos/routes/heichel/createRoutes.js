@@ -38,6 +38,7 @@ function createRoutes($i) {
 		'/:heichel/edit': async function renderEdit() { return $i.$ga('_awtsmoos.submitToHeichel.html'); },
 		'/:heichel/submit': async function renderSubmission(vars) { return renderSubmit(vars.heichel); },
 		'/:heichel/submitPost': async function renderPostSubmission(vars) { return $i.$ga('./heichel/submit/_awtsmoos.post.html', { heichel: vars.heichel }); },
+		'/post': async function renderPostDoorway() { return $i.$ga('_awtsmoos.postDoorway.html'); },
 		'/:heichel/post/:post': async function renderDirectPost(vars) { return renderPost(vars); },
 		'/:heichel/series/:series/post/:post': async function renderNamedSeriesPost(vars) { return renderSeriesPost(vars); },
 		'/:heichel/series/:series/:entry': async function renderSeriesEntryRoute(vars) { return renderSeriesEntry(vars); },

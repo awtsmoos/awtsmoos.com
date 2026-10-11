@@ -65,10 +65,12 @@ function testTranslationAndRoutes() {
 	assert.ok(html.includes('lang="en"') && html.includes('lang="he"') && html.includes('English light') && html.includes('אור'));
 	const routes = createRoutes({});
 	const keys = Object.keys(routes);
-	for (const route of ['/:heichel/post/:post', '/:heichel/series/:series/post/:post', '/:heichel/posts/:post/comments/:comment']) {
+	for (const route of ['/post', '/:heichel/post/:post', '/:heichel/series/:series/post/:post', '/:heichel/posts/:post/comments/:comment']) {
 		assert.equal(typeof routes[route], 'function');
 	}
 	assert.ok(keys.indexOf('/:heichel/series/:series/post/:post/translations') < keys.indexOf('/:heichel/series/:series/post/:post'));
+	// B"H — bare /heichelos/post/ must render the post doorway, never fall through to /:heichel with heichel='post'.
+	assert.ok(keys.indexOf('/post') < keys.indexOf('/:heichel'));
 }
 
 Promise.resolve()

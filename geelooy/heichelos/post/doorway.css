@@ -1,0 +1,133 @@
+/* B"H — Post doorway empty state.
+   Warm paper card in light theme, deep night blue in dark theme.
+   Theme custom-property tokens only; no !important; every text element
+   declares an explicit color in both themes; links carry full
+   :hover / :focus-visible / :active states. */
+
+:root {
+	--postdoor-bg: #f6f0e3;
+	--postdoor-card: #fffdf7;
+	--postdoor-ink: #3b2c1e;
+	--postdoor-muted: #7d6c52;
+	--postdoor-link: #7a4d12;
+	--postdoor-link-active: #54350a;
+	--postdoor-border: rgb(120 80 30 / 22%);
+	--postdoor-code-bg: #eee4cd;
+	--postdoor-code-ink: #5c3f1d;
+	--postdoor-focus-ring: #1f6feb;
+}
+
+html[data-theme="dark"] {
+	--postdoor-bg: #0b1322;
+	--postdoor-card: #121c31;
+	--postdoor-ink: #f3e9d2;
+	--postdoor-muted: #b3a582;
+	--postdoor-link: #f0c96a;
+	--postdoor-link-active: #ffe08a;
+	--postdoor-border: rgb(217 169 79 / 30%);
+	--postdoor-code-bg: #1b2742;
+	--postdoor-code-ink: #f0d9a0;
+	--postdoor-focus-ring: #6cb3ff;
+}
+
+body.postdoor {
+	margin: 0;
+	min-height: 100svh;
+	display: grid;
+	place-items: center;
+	padding: 1.5rem;
+	box-sizing: border-box;
+	background: var(--postdoor-bg);
+	color: var(--postdoor-ink);
+	font-family: Georgia, "Times New Roman", serif;
+}
+
+.postdoor-card {
+	max-width: 34rem;
+	width: 100%;
+	background: var(--postdoor-card);
+	color: var(--postdoor-ink);
+	border: 1px solid var(--postdoor-border);
+	border-radius: 1.25rem;
+	padding: clamp(1.75rem, 5vw, 3rem);
+	box-shadow: 0 1.25rem 3rem rgb(59 44 30 / 14%);
+	box-sizing: border-box;
+	text-align: center;
+}
+
+.postdoor-eyebrow {
+	margin: 0 0 0.6rem;
+	font-family: Inter, system-ui, sans-serif;
+	font-size: 0.8rem;
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--postdoor-muted);
+}
+
+.postdoor-title {
+	margin: 0 0 0.75rem;
+	font-size: clamp(1.7rem, 5vw, 2.4rem);
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	color: var(--postdoor-ink);
+}
+
+.postdoor-body {
+	margin: 0 0 1.75rem;
+	line-height: 1.6;
+	font-size: 1.05rem;
+	color: var(--postdoor-ink);
+}
+
+.postdoor-code {
+	font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+	font-size: 0.92em;
+	background: var(--postdoor-code-bg);
+	color: var(--postdoor-code-ink);
+	padding: 0.15em 0.45em;
+	border-radius: 0.35em;
+	white-space: nowrap;
+}
+
+.postdoor-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	justify-content: center;
+	margin: 0;
+	padding: 0;
+}
+
+.postdoor-link {
+	display: inline-block;
+	padding: 0.8rem 1.4rem;
+	border: 1px solid var(--postdoor-border);
+	border-radius: 0.75rem;
+	color: var(--postdoor-link);
+	background: transparent;
+	font-family: Inter, system-ui, sans-serif;
+	font-size: 1rem;
+	font-weight: 700;
+	text-decoration: none;
+	transition: color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.postdoor-link:hover {
+	color: var(--postdoor-link-active);
+	border-color: var(--postdoor-link-active);
+	text-decoration: underline;
+}
+
+.postdoor-link:focus-visible {
+	outline: 2px solid var(--postdoor-focus-ring);
+	outline-offset: 2px;
+	color: var(--postdoor-link-active);
+	border-color: var(--postdoor-link-active);
+}
+
+.postdoor-link:active {
+	color: var(--postdoor-link-active);
+	border-color: var(--postdoor-link-active);
+	transform: translateY(1px);
+}

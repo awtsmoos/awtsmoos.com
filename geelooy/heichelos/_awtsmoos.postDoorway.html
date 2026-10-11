@@ -1,0 +1,41 @@
+<!-- B"H
+Boruch Hashem
+Blessed be He
+The Awtsmoos leaves no seeker at a bare post doorway; the address /heichelos/post/ names no teaching, so this page says so plainly and opens the library doors instead of pretending "post" is a Heichel.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="description" content="The address /heichelos/post/ does not name a teaching. Every Torah post lives in a Heichel — open the library to find one.">
+	<title>Choose a teaching — Geelooy</title>
+	<script>
+		/* B"H — ALWAYS set data-theme on <html> before any CSS paints.
+		   Defaults to light when no valid preference is stored. */
+		(function() {
+			try {
+				var t = localStorage.getItem('awtsmoos-theme');
+				document.documentElement.setAttribute('data-theme', (t === 'dark' || t === 'light') ? t : 'light');
+			} catch (e) {
+				document.documentElement.setAttribute('data-theme', 'light');
+			}
+		})();
+	</script>
+	<link rel="stylesheet" href="/heichelos/post/doorway.css?v=post-doorway-1" type="text/css">
+</head>
+<body class="postdoor">
+	<main class="postdoor-card">
+		<p class="postdoor-eyebrow">TORAH · LIVING LIBRARY</p>
+		<h1 class="postdoor-title">Choose a teaching to open</h1>
+		<p class="postdoor-body">This address does not name a teaching. Every post lives inside a Heichel, and a teaching's full address looks like <code class="postdoor-code">/heichelos/{heichel}/series/{series}/post/{post}</code> — open one from the library below.</p>
+		<nav class="postdoor-links" aria-label="Library doors">
+			<a class="postdoor-link" href="/heichelos">Browse all Heichelos</a>
+			<a class="postdoor-link" href="/heichelos/ikar">Enter the Ikar library</a>
+		</nav>
+	</main>
+</body>
+</html>
