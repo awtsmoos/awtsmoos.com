@@ -416,6 +416,8 @@ class PackedPostImportRoutes {
 			const blBody = this.$i?.body || {};
 			const blUploadId = blBody.uploadId || requestValue(this.$i, 'uploadId');
 			expectedHash = importSign.sha256hex('backlinks:' + String(blUploadId || ''));
+		} else if (op === 'posts/backlinks-status') {
+			expectedHash = importSign.sha256hex('backlinks-status:' + String(requestValue(this.$i, 'backlinks') || ''));
 		} else if (op === 'posts/remove') {
 			const rmBody = this.$i?.body || {};
 			const rmH = rmBody.heichelId || requestValue(this.$i, 'heichelId');
