@@ -78,13 +78,13 @@
 	font-size: 0.72rem;
 }
 
-.method-disclaimer {
+.methodology-panel .method-disclaimer {
 	margin: 1rem 0 0;
 	padding: 0.72rem 0.78rem;
 	border: 1px solid rgba(255, 213, 138, 0.2);
 	border-radius: 12px;
 	background: rgba(255, 213, 138, 0.04);
-	color: #d8e5e0 !important;
+	color: #d8e5e0;
 	font-size: 0.72rem;
 	line-height: 1.5;
 }

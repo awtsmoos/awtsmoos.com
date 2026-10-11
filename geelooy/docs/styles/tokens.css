@@ -110,11 +110,11 @@ body[data-geelooy-route="docs"] ::selection {
 		scroll-behavior: auto;
 	}
 
-	body[data-geelooy-route="docs"] *,
-	body[data-geelooy-route="docs"] *::before,
-	body[data-geelooy-route="docs"] *::after {
-		animation-duration: .01ms !important;
-		transition-duration: .01ms !important;
+	body[data-geelooy-route="docs"][data-geelooy-route="docs"] *,
+	body[data-geelooy-route="docs"][data-geelooy-route="docs"] *::before,
+	body[data-geelooy-route="docs"][data-geelooy-route="docs"] *::after {
+		animation-duration: .01ms;
+		transition-duration: .01ms;
 	}
 }
 

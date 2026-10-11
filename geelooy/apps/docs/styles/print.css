@@ -9,46 +9,46 @@
  */
 @media print {
 	body,
-	.docs-app,
+	.docs-app.docs-app,
 	.workspace,
 	.page-stage {
-		background: white !important;
+		background: white;
 	}
 
-	.app-bar,
+	.app-bar.app-bar,
 	.command-shell,
 	.side-panel,
 	.toast-region,
 	.selection-toolbar,
 	.document-stats {
-		display: none !important;
+		display: none;
 	}
 
-	.docs-app,
+	.docs-app.docs-app,
 	.workspace {
-		display: block !important;
+		display: block;
 	}
 
-	.page-stage {
+	.page-stage.page-stage {
 		overflow: visible;
-		padding: 0 !important;
+		padding: 0;
 	}
 
-	.document-canvas,
+	.document-canvas.document-canvas,
 	.docs-app[data-page-mode="pageless"] .document-canvas {
-		width: auto !important;
-		max-width: none !important;
-		min-height: 0 !important;
-		margin: 0 !important;
-		padding: 0 !important;
-		border: 0 !important;
-		border-radius: 0 !important;
-		box-shadow: none !important;
+		width: auto;
+		max-width: none;
+		min-height: 0;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		border-radius: 0;
+		box-shadow: none;
 	}
 
-	.document-canvas::before,
+	.document-canvas.document-canvas::before,
 	.document-canvas::after {
-		display: none !important;
+		display: none;
 	}
 
 	.document-canvas a {

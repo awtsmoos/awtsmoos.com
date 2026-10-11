@@ -90,7 +90,7 @@
 }
 ::selection {
 	background: #5742a3;
-	color: #fff;
+	color: var(--light-text-fff, #fff);
 }
 @media (prefers-reduced-motion: reduce) { :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(button, input, select, textarea) {
 		transition-duration: .01ms;

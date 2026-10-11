@@ -65,10 +65,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		scroll-behavior: auto !important;
-		transition: none !important;
+	/* B"H — repeated data-attribute is valid CSS; triple repetition outranks every
+	   component transition/animation rule so reduced-motion holds without !important. */
+	html[data-zmanim-page][data-zmanim-page][data-zmanim-page] *,
+	html[data-zmanim-page][data-zmanim-page][data-zmanim-page] *::before,
+	html[data-zmanim-page][data-zmanim-page][data-zmanim-page] *::after {
+		scroll-behavior: auto;
+		transition: none;
 	}
 }

@@ -45,9 +45,9 @@
 	resize: vertical;
 }
 
-.visual-editor {
-	background-color: #101c2a !important;
-	background-image: none !important;
+.visual-editor.visual-editor {
+	background-color: #101c2a;
+	background-image: none;
 }
 
 .visual-editor:empty::before {

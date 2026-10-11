@@ -94,14 +94,8 @@
 		width: 14px;
 	}
 
-	@media (prefers-reduced-motion: reduce) {
-		.awt-agent-channel,
-		.awt-agent-channel-identity,
-		.awt-agent-telemetry-cell,
-		.awt-agent-fleet-metric,
-		.awt-agent-composer,
-		.awt-agent-open-channel::after {
-			transition: none !important;
+	@media (prefers-reduced-motion: reduce) {:root:root:root .awt-agent-channel, :root:root:root .awt-agent-channel-identity, :root:root:root .awt-agent-telemetry-cell, :root:root:root .awt-agent-fleet-metric, :root:root:root .awt-agent-composer, :root:root:root .awt-agent-open-channel::after{
+			transition: none;
 		}
 	}
 }

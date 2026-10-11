@@ -19,6 +19,12 @@ import { elementTypeOf } from "./types.js";
 export function lowerExpression(expression, context) {
 	if (!expression) return null;
 	if (expression.type === "literal") {
+		if (expression.floatKind === "float" || expression.floatKind === "double") {
+			return irNode("floatLiteral", {
+				raw: expression.val,
+				valueType: context.types.baseType(expression.floatKind)
+			});
+		}
 		return irNode("integer", {
 			raw: expression.val,
 			valueType: context.types.baseType("int")
@@ -42,11 +48,12 @@ export function lowerExpression(expression, context) {
 			return lowerMemberExpression(expression, context, lowerExpression);
 		}
 		const left = lowerExpression(expression.left, context);
+		const right = lowerExpression(expression.right, context);
 		return irNode("binary", {
 			left,
 			operator: expression.op,
-			right: lowerExpression(expression.right, context),
-			valueType: comparisonType(expression.op, left.valueType, context)
+			right,
+			valueType: arithmeticType(expression.op, left.valueType, right.valueType, context)
 		});
 	}
 	if (expression.type === "index") {
@@ -90,20 +97,51 @@ function lowerSymbol(expression, context) {
 }
 
 function lowerCall(expression, context) {
+	// Indirect call: the callee is an arbitrary expression (e.g. `a->cb`).
+	// The IR carries the lowered callee; backends emit an indirect branch.
+	if (expression.target) {
+		const callee = lowerExpression(expression.target, context);
+		const pointee = callee?.valueType?.kind === "pointer"
+			? callee.valueType.pointee
+			: null;
+		return irNode("call", {
+			arguments: expression.args.map(argument => lowerExpression(argument, context)),
+			callee,
+			calleeKind: "indirect",
+			resolution: "indirect",
+			valueType: pointee?.kind === "function"
+				? pointee.returnType
+				: context.types.unknown(`call:indirect`)
+		});
+	}
 	const symbol = context.scope.resolve(expression.name);
 	return irNode("call", {
 		arguments: expression.args.map(argument => lowerExpression(argument, context)),
 		callee: expression.name,
+		calleeKind: "direct",
 		resolution: symbol ? symbol.kind : "unresolved",
 		valueType: symbol?.valueType?.returnType
 			|| context.types.unknown(`call:${expression.name}`)
 	});
 }
 
-function comparisonType(operator, fallback, context) {
-	return ["==", "!=", "<", ">", "<=", ">=", "&&", "||"].includes(operator)
-		? context.types.baseType("int")
-		: fallback;
+function arithmeticType(operator, leftType, rightType, context) {
+	if (["==", "!=", "<", ">", "<=", ">=", "&&", "||"].includes(operator)) {
+		return context.types.baseType("int");
+	}
+	const leftPointer = isPointerLike(leftType);
+	const rightPointer = isPointerLike(rightType);
+	if (operator === "-" && leftPointer && rightPointer) {
+		return context.types.baseType("int");
+	}
+	if ((operator === "+" || operator === "-") && (leftPointer || rightPointer)) {
+		return leftPointer ? leftType : rightType;
+	}
+	return leftType;
+}
+
+function isPointerLike(type) {
+	return type?.kind === "pointer" || type?.kind === "array";
 }
 
 function irNode(kind, fields) {

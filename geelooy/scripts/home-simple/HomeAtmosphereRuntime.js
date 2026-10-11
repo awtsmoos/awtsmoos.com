@@ -8,7 +8,7 @@
  * Awtsmoos.com gathers optional sky, parallax, reveal, and pointer light here so
  * discovery remains independent and low-power devices may omit finite effects.
  */
-import { AmbientParallax } from "./ambient.js";
+import { AmbientParallax } from "./ambient.js?v=dream-overhaul-001";
 import { ParticleSky } from "./particles.js";
 import { PointerLight } from "./pointer-light.js";
 import { RevealController } from "./reveal-controller.js";

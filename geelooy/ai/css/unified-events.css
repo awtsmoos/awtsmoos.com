@@ -44,7 +44,7 @@
 }
 .transport-details[open]>summary::before,.thought-envelope-card[open]>summary::before{transform:rotate(90deg)}
 .event-title-wrap{display:flex;align-items:center;gap:8px;min-width:0;flex:1 1 auto;flex-wrap:wrap;padding-right:4px}
-.event-title-wrap b{color:#f8fbff;font-weight:950;letter-spacing:.01em}
+.event-title-wrap b{color:var(--awt-text);font-weight:950;letter-spacing:.01em}
 .event-kind-pill{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border:1px solid rgba(103,232,249,.28);border-radius:999px;background:rgba(14,165,233,.16);color:#a5f3fc;font-size:.72rem;font-weight:950;text-transform:uppercase;letter-spacing:.08em}
 .event-tool-target,.event-talked-to,.event-brief{min-width:0;max-width:100%;overflow-wrap:anywhere;color:#bfdbfe;font-size:.82rem;font-weight:800}
 .event-tool-target{padding:3px 8px;border-radius:999px;background:rgba(59,130,246,.12);border:1px solid rgba(147,197,253,.18);color:#dbeafe}
@@ -57,7 +57,7 @@
 .event-kind-awtsmoos_tool,.event-kind-agent_tool{border-color:rgba(34,211,238,.32)}
 .event-kind-awtsmoos_tool_result,.event-kind-tool_result{border-color:rgba(52,211,153,.32)}
 .event-kind-hidden{opacity:.9}.event-kind-hidden>summary{background:linear-gradient(90deg,rgba(51,65,85,.9),rgba(15,23,42,.9))}
-.thought-text-card{width:100%;margin:0;border:1px solid rgba(192,132,252,.28);border-radius:22px;background:radial-gradient(circle at 0 0,rgba(192,132,252,.18),transparent 42%),linear-gradient(145deg,rgba(16,24,43,.97),rgba(5,9,22,.95));box-shadow:0 18px 42px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.06);color:#f8fbff;overflow:hidden}
+.thought-text-card{width:100%;margin:0;border:1px solid rgba(192,132,252,.28);border-radius:22px;background:radial-gradient(circle at 0 0,rgba(192,132,252,.18),transparent 42%),linear-gradient(145deg,rgba(16,24,43,.97),rgba(5,9,22,.95));box-shadow:0 18px 42px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.06);color:var(--awt-text);overflow:hidden}
 .thought-text-title{padding:12px 14px;color:#f0abfc;font-weight:950;letter-spacing:.12em;text-transform:uppercase;background:rgba(88,28,135,.16)}
 .thought-text-body{padding:14px;color:#e2e8f0;line-height:1.68}
 .thought-envelope-card{padding:0;position:relative}

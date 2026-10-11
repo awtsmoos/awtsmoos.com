@@ -22,6 +22,11 @@ export const BOOT_SUPERCLASSES = Object.freeze({
 	"Ljava/lang/ClassLoader;": OBJECT,
 	"Ljava/lang/Exception;": "Ljava/lang/Throwable;",
 	"Ljava/lang/IllegalStateException;": "Ljava/lang/RuntimeException;",
+	"Ljava/lang/IllegalArgumentException;": "Ljava/lang/RuntimeException;",
+	"Ljava/lang/NullPointerException;": "Ljava/lang/RuntimeException;",
+	"Ljava/lang/IndexOutOfBoundsException;": "Ljava/lang/RuntimeException;",
+	"Ljava/lang/ArrayIndexOutOfBoundsException;": "Ljava/lang/IndexOutOfBoundsException;",
+	"Ljava/lang/UnsupportedOperationException;": "Ljava/lang/RuntimeException;",
 	"Ljava/lang/RuntimeException;": "Ljava/lang/Exception;",
 	"Ljava/lang/String;": OBJECT,
 	"Ljava/lang/Throwable;": OBJECT,
@@ -48,7 +53,13 @@ export const BOOT_SUPERCLASSES = Object.freeze({
 	"Ljava/util/concurrent/Executors$DelegatedExecutorService;": "Ljava/util/concurrent/AbstractExecutorService;",
 	"Ljava/util/concurrent/FutureTask;": OBJECT,
 	"Ljava/util/concurrent/ScheduledThreadPoolExecutor;": "Ljava/util/concurrent/ThreadPoolExecutor;",
-	"Ljava/util/concurrent/ThreadPoolExecutor;": "Ljava/util/concurrent/AbstractExecutorService;"
+	"Ljava/util/concurrent/ThreadPoolExecutor;": "Ljava/util/concurrent/AbstractExecutorService;",
+	"Landroid/content/pm/PackageItemInfo;": OBJECT,
+	"Landroid/content/pm/ComponentInfo;": "Landroid/content/pm/PackageItemInfo;",
+	"Landroid/content/pm/ServiceInfo;": "Landroid/content/pm/ComponentInfo;",
+	"Landroid/content/pm/ActivityInfo;": "Landroid/content/pm/ComponentInfo;",
+	"Landroid/content/pm/ApplicationInfo;": "Landroid/content/pm/PackageItemInfo;",
+	"Landroid/content/pm/ProviderInfo;": "Landroid/content/pm/ComponentInfo;",
 });
 
 export const BOOT_INTERFACES = Object.freeze({

@@ -3,12 +3,13 @@ const { ByteWriter } = require('./ByteWriter.js');
 const { ByteReader } = require('./ByteReader.js');
 const MAGIC = 'SANG';
 const VERSION = 1;
-const T = { NULL:0, FALSE:1, TRUE:2, NUM:3, STR:4, OBJ:5 };
+const T = { NULL:0, FALSE:1, TRUE:2, NUM:3, STR:4, OBJ:5, BIGINT:6 };
 
 function encodeValue(writer, value) {
   if (value == null) return writer.u8(T.NULL);
   if (value === false) return writer.u8(T.FALSE);
   if (value === true) return writer.u8(T.TRUE);
+  if (typeof value === 'bigint') return writer.u8(T.BIGINT).string(value.toString());
   if (typeof value === 'number') return writer.u8(T.NUM).string(String(value));
   if (typeof value === 'string') return writer.u8(T.STR).string(value);
   return writer.u8(T.OBJ).json(value);
@@ -19,6 +20,7 @@ function decodeValue(reader) {
   if (t === T.NULL) return null;
   if (t === T.FALSE) return false;
   if (t === T.TRUE) return true;
+  if (t === T.BIGINT) return BigInt(reader.string());
   if (t === T.NUM) return Number(reader.string());
   if (t === T.STR) return reader.string();
   if (t === T.OBJ) return reader.json();

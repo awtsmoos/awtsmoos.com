@@ -10,6 +10,20 @@
 
 /** Reads the APK asset into bounded memory and rejects malformed containers. */
 int awts_android_verify_asset(AAssetManager* manager) {
+	uint8_t* bytes = NULL;
+	size_t length = awts_android_read_asset(manager, &bytes);
+	if (!length || !bytes) {
+		return 0;
+	}
+	AwtsMerkavaContainer container;
+	int valid = awts_mkv_open(bytes, length, &container);
+	free(bytes);
+	return valid;
+}
+
+/** Reads assets/app.merkava into malloc'd memory for the VM decoders. */
+size_t awts_android_read_asset(AAssetManager* manager, uint8_t** outBytes) {
+	if (outBytes) *outBytes = NULL;
 	if (!manager) {
 		return 0;
 	}
@@ -27,10 +41,13 @@ int awts_android_verify_asset(AAssetManager* manager) {
 		AAsset_close(asset);
 		return 0;
 	}
-	int read = AAsset_read(asset, bytes, (size_t)length);
+	off_t read = AAsset_read(asset, bytes, (size_t)length);
 	AAsset_close(asset);
-	AwtsMerkavaContainer container;
-	int valid = read == length && awts_mkv_open(bytes, (size_t)length, &container);
-	free(bytes);
-	return valid;
+	if (read != length) {
+		free(bytes);
+		return 0;
+	}
+	if (outBytes) *outBytes = bytes;
+	else free(bytes);
+	return (size_t)length;
 }

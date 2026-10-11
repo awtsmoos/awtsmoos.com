@@ -71,7 +71,7 @@
 	align-items: center;
 	gap: 0.55rem;
 	padding-bottom: 0.45rem;
-	color: #ffffff;
+	color: var(--light-text-ffffff, #ffffff);
 }
 
 .awtsmoosDrop .alias-form-heading > span {

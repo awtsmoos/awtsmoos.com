@@ -44,7 +44,7 @@
 .filter-choice:has(input:checked) {
 	border-color: rgba(91, 215, 255, .62);
 	background: rgba(31, 72, 108, .65);
-	color: #fff;
+	color: var(--light-text-fff, #fff);
 }
 
 .filter-reset,

@@ -5,11 +5,11 @@ Blessed is He
 The Awtsmoos places quiet guidance beside discovery, while Awtsmoos.com keeps hints and empty states secondary so the main path remains clear and free.
 */
 :where(body[data-geelooy-route="home"]) .launcher-search kbd, :where(body[data-geelooy-route="home"]) .launcher-meta kbd {
-	border: 1px solid rgba(255, 255, 255, .1);
+	border: 1px solid var(--home-line-soft);
 	border-radius: .42rem;
-	background: rgba(255, 255, 255, .035);
-	box-shadow: inset 0 -1px rgba(0, 0, 0, .3);
-	color: #7789a3;
+	background: var(--home-wash);
+	box-shadow: inset 0 -1px var(--home-glow);
+	color: var(--text-muted);
 	font-family: inherit;
 	font-size: .58rem;
 	font-weight: 850;
@@ -19,7 +19,7 @@ body[data-geelooy-route="home"] .launcher-meta {
 	justify-items: end;
 	gap: .24rem;
 	min-width: 7rem;
-	color: #6d7e96;
+	color: var(--text-muted);
 	font-size: .58rem;
 	font-weight: 760;
 	letter-spacing: .04em;
@@ -31,9 +31,9 @@ body[data-geelooy-route="home"] .launcher-meta {
 body[data-geelooy-route="home"] .world-empty {
 	margin: .85rem 0 .2rem;
 	padding: 1.25rem;
-	border: 1px dashed rgba(137, 193, 235, .17);
+	border: 1px dashed var(--panel-border-strong);
 	border-radius: .92rem;
-	color: #7b8da6;
+	color: var(--text-muted);
 	font-size: .72rem;
 	font-weight: 720;
 	text-align: center;

@@ -6,8 +6,8 @@
 .heichel-seal { background:linear-gradient(135deg,rgba(241,184,79,.18),rgba(102,231,255,.14)); border:1px solid rgba(91,216,232,.25); border-radius:1rem; color:var(--heichel-gold); display:grid; font-size:clamp(1.2rem,2.5vw,1.7rem); height:clamp(3rem,6vw,4.2rem); margin-bottom:.85rem; place-items:center; width:clamp(3rem,6vw,4.2rem); }
 .hero-kicker { background:rgba(246,201,108,.12); border:1px solid rgba(246,201,108,.18); border-radius:999px; color:var(--heichel-gold); display:inline-flex; font-size:.72rem; font-weight:950; letter-spacing:.13em; margin:0 0 .55rem; padding:.28rem .64rem; text-transform:uppercase; }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(#heichel-main-title) { color:#fff; font-size:clamp(2.35rem,7vw,5.1rem); letter-spacing:-.06em; line-height:.95; margin:0; max-width:14ch; text-wrap:balance; }
-.hero-description { color:#b9c6dc; font-size:clamp(.98rem,2vw,1.16rem); line-height:1.62; margin:.9rem 0 0; max-width:64rem; overflow-wrap:anywhere; white-space:pre-wrap; }
+:where(#heichel-main-title) { color:var(--light-text-fff, #fff); font-size:clamp(2.35rem,7vw,5.1rem); letter-spacing:-.06em; line-height:.95; margin:0; max-width:14ch; text-wrap:balance; }
+.hero-description { color:var(--light-text-b9c6dc, #b9c6dc); font-size:clamp(.98rem,2vw,1.16rem); line-height:1.62; margin:.9rem 0 0; max-width:64rem; overflow-wrap:anywhere; white-space:pre-wrap; }
 @media (max-width:760px) { .geelooy-heichel-hero {grid-template-columns:1fr;min-height:220px} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width:760px) { :where(#heichel-main-title) {max-width:11ch} }

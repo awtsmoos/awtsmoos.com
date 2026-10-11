@@ -1,0 +1,709 @@
+/* B"H — Meluket Sefer Reader.
+ * A printed-sefer dignity for the maamar: warm paper, distinct sections,
+ * Hebrew above with the English dwelling beneath it — never side by side.
+ * Applies only when .meluket-sefer-active marks the reader root.
+ *
+ * Designed with the Awtsmoos Design OS:
+ * - Mikdash IA, Heichal level: one teaching, focused, minimal chrome.
+ * - Aleph (unity): one strict hierarchy — title 4x > section 2x > body > footnote.
+ * - Gimmel (generosity): generous whitespace; the page breathes.
+ * - Hei (clarity): body contrast >= 7.0 (ink #2b2118 on paper #f7f1e3 = 13.98).
+ * - Ayin (vision): the title carries the strongest contrast (#1f1712 = 15.67).
+ * - White fire: intentional emptiness; whitespace is designed, never accidental.
+ * - Hebrew-first: RTL default, logical properties only, nikkud-safe line heights.
+ */
+
+/* ---------- Sefer tokens : Heichal ----------
+   B"H — --sefer-* tokens live on .meluket-sefer-active (the reader root), NOT on
+   .meluket-sefer (inner container): the Overview, Q&A, and body elements are
+   SIBLINGS of .meluket-sefer, and CSS variables do not cross to siblings.
+   Tokens scoped to the inner container are undefined for body text. */
+.meluket-sefer-active {
+	--sefer-paper: #f7f1e3;
+	--sefer-paper-deep: #efe4cd;
+	--sefer-ink: #2b2118;
+	--sefer-title-ink: #1f1712;
+	--sefer-ink-soft: #5a4c3d;
+	--sefer-accent: #8a6d3b;
+	--sefer-rule: #d9c9a8;
+	--sefer-card: #fffdf6;
+	--sefer-focus: #b3541e;
+	--sefer-shadow: 0 2px 14px rgba(90, 70, 40, 0.10);
+}
+
+/* ---------- Sefer container : Heichal ---------- */
+.meluket-sefer-active .meluket-sefer {
+	max-width: 1180px;
+	margin: 0 auto;
+	padding: clamp(1rem, 3vw, 2.5rem) clamp(0.75rem, 3vw, 2rem) 4rem;
+	background: var(--sefer-paper);
+	color: var(--sefer-ink); /* Layer 15 completeness: explicit text color */
+	border-radius: 6px;
+}
+
+:where(:root[data-theme="dark"]) .meluket-sefer-active,
+:where(.meluket-sefer-active[data-theme="dark"])) {
+	--sefer-paper: #171209;
+	--sefer-paper-deep: #100c06;
+	--sefer-ink: #f0e7d3;
+	--sefer-title-ink: #faf3e2;
+	--sefer-ink-soft: #c9b992;
+	--sefer-accent: #d4a94e;
+	--sefer-rule: #4a3a22;
+	--sefer-card: #201a10;
+	--sefer-focus: #e8a34d;
+	--sefer-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
+}
+
+/* Layer 15 completeness: dark-theme accent is light gold — hardcoded cream
+   text on it is unreadable (2.15). Use dark text on the gold. */
+:where(:root[data-theme="dark"]) .meluket-sefer-active .meluket-footnote-num,
+:where(.meluket-sefer-active[data-theme="dark"]) .meluket-footnote-num,
+:where(:root[data-theme="dark"]) :where(.meluket-sefer-active) .meluket-lang-btn.is-active,
+:where(.meluket-sefer-active[data-theme="dark"]) .meluket-lang-btn.is-active {
+	color: #1a1409;
+}
+
+/* Explicit light theme — ensure dark text on light paper */
+:where(:root[data-theme="light"]) .meluket-sefer-active,
+:where(.meluket-sefer-active[data-theme="light"]),
+.meluket-sefer-active {
+	--sefer-paper: #f7f1e3;
+	--sefer-paper-deep: #efe4cd;
+	--sefer-ink: #2b2118;
+	--sefer-title-ink: #1f1712;
+	--sefer-ink-soft: #5a4c3d;
+	--sefer-accent: #8a6d3b;
+	--sefer-rule: #d9c9a8;
+	--sefer-card: #fffdf6;
+	--sefer-focus: #b3541e;
+}
+
+/* ---------- Title block : the Heichal entrance ---------- */
+/* White fire: the title rests in generous emptiness before the teaching begins. */
+.meluket-sefer-active .meluket-sefer-title {
+	text-align: center;
+	padding: 2.5rem 1rem 1.5rem;
+	margin-bottom: 2rem;
+	border-bottom: 3px double var(--sefer-rule);
+}
+
+.meluket-sefer-active .meluket-sefer-title-he {
+	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
+	font-size: clamp(7.6rem, 20vw, 11.6rem);
+	line-height: 1.25;
+	color: var(--sefer-title-ink);
+	margin: 0;
+	font-weight: 700;
+}
+
+/* ---------- Language toggle ---------- */
+/* B"H — Yaakov: language toggle NEVER on the main page.
+   It lives ONLY inside the Scribe's Lens settings panel (#typographyDetails).
+   This hides it if JS ever renders it as a direct child of .meluket-sefer. */
+.meluket-sefer-active .meluket-sefer > .meluket-lang-toggle {
+	display: none;
+}
+
+.meluket-sefer-active .meluket-lang-toggle {
+	display: flex;
+	gap: 0.5rem;
+	justify-content: center;
+	margin: 0 auto 1.75rem;
+	flex-wrap: wrap;
+}
+
+:where(.meluket-sefer-active) .meluket-lang-btn {
+	font-family: inherit;
+	font-size: 4rem;
+	font-weight: 700;
+	padding: 2.2rem 5.6rem;
+	border-radius: 999px;
+	border: 8px solid var(--sefer-rule);
+	background: transparent;
+	color: var(--sefer-ink-soft);
+	cursor: pointer;
+	transition: all 0.18s ease;
+	min-width: 44px;
+	min-height: 44px;
+}
+
+:where(.meluket-sefer-active) .meluket-lang-btn:hover {
+	border-color: var(--sefer-accent);
+	color: var(--sefer-ink);
+}
+
+:where(.meluket-sefer-active) .meluket-lang-btn.is-active {
+	background: var(--sefer-accent);
+	border-color: var(--sefer-accent);
+	color: #fffdf6;
+}
+
+/* ---------- Section card : one teaching, dwelling in whitespace ---------- */
+.meluket-sefer-active .meluket-sefer-section {
+	position: relative;
+	background: var(--sefer-card);
+	border: 1px solid var(--sefer-rule);
+	border-radius: 10px;
+	box-shadow: var(--sefer-shadow);
+	margin: 0 0 2rem;
+	padding: 2.25rem clamp(1rem, 3vw, 2.25rem) 2rem;
+	overflow: hidden;
+}
+
+/* Warm top edge — like a sefer's page head. */
+.meluket-sefer-active .meluket-sefer-section::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 5px;
+	background: linear-gradient(90deg, var(--sefer-accent), var(--sefer-rule), var(--sefer-accent));
+	opacity: 0.65;
+	pointer-events: none;
+}
+
+/* Section number — the siman. */
+.meluket-sefer-active .meluket-section-marker {
+	position: absolute;
+	top: 0.9rem;
+	inset-inline-start: 1rem;
+	pointer-events: none;
+}
+
+.meluket-sefer-active .meluket-section-number {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 8.4rem;
+	height: 8.4rem;
+	padding: 0 1.6rem;
+	border-radius: 50%;
+	background: var(--sefer-paper-deep);
+	border: 6px solid var(--sefer-accent);
+	color: var(--sefer-accent);
+	font-weight: 800;
+	font-size: 4rem;
+	line-height: 1;
+}
+
+/* ---------- Phrase pairs : TRUE interleaving ----------
+   Each .meluket-phrase-pair holds one Hebrew phrase block immediately
+   followed by ITS English block — never a separate English vessel.
+   (Yaakov defect #3: English beneath each Hebrew phrase.) */
+.meluket-sefer-active .meluket-phrase-pair {
+	margin: 0 0 2.2em;
+}
+
+:where(.meluket-sefer-active) .meluket-phrase-pair:last-child {
+	margin-bottom: 0;
+}
+
+/* Hebrew phrase : the ikar. RTL, nikkud-safe.
+   B"H 2026-10-09 — Yaakov: Hebrew must be EXACTLY the same size as English. */
+.meluket-sefer-active .meluket-phrase--he {
+	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
+	font-size: clamp(2rem, 5.2vw, 2.8rem);
+	font-weight: 700;
+	line-height: 1.9;
+	color: var(--sefer-ink);
+	text-align: justify;
+	direction: rtl;
+}
+
+/* English phrase : directly beneath its Hebrew, dashed rule between. */
+.meluket-sefer-active .meluket-phrase--en {
+	font-family: "Source Serif 4", Georgia, serif;
+	font-size: clamp(2rem, 5.2vw, 2.8rem);
+	line-height: 1.7;
+	color: var(--sefer-ink-soft);
+	border-top: 2px dashed var(--sefer-rule);
+	margin-top: 1em;
+	padding-top: 1em;
+	direction: ltr;
+}
+
+.meluket-sefer-active .meluket-phrase--he sup,
+.meluket-sefer-active .meluket-phrase--en sup {
+	color: var(--sefer-accent);
+	font-size: 0.68em;
+	font-weight: 700;
+	margin-inline-start: 0.15em;
+	cursor: pointer;
+}
+
+/* [cup] markers become bold — the dibur hamatchil. */
+.meluket-sefer-active .meluket-phrase--he b,
+.meluket-sefer-active .meluket-phrase--he strong {
+	color: var(--sefer-title-ink);
+}
+
+/* ---------- Hebrew vessel : RTL by default, nikkud-safe ----------
+   (Legacy container — kept for any non-interleaved render path.) */
+.meluket-sefer-active .meluket-hebrew {
+	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
+	font-size: clamp(2rem, 5.2vw, 2.8rem);
+	line-height: 1.9;
+	color: var(--sefer-ink);
+	text-align: justify;
+	margin-bottom: 2rem;
+	direction: rtl;
+}
+
+/* Phrase blocks — split by Yaakov's punctuation rule (., ()[]). */
+.meluket-sefer-active .meluket-phrase {
+	margin: 0 0 0.85em;
+}
+
+:where(.meluket-sefer-active) .meluket-phrase:last-child {
+	margin-bottom: 0;
+}
+
+.meluket-sefer-active .meluket-hebrew h3 {
+	font-size: 1.25em;
+	line-height: 1.4;
+	margin: 0 0 0.75em;
+	color: var(--sefer-title-ink);
+	text-align: center;
+}
+
+.meluket-sefer-active .meluket-hebrew p {
+	margin: 0 0 0.9em;
+}
+
+.meluket-sefer-active .meluket-hebrew sup {
+	color: var(--sefer-accent);
+	font-size: 0.68em;
+	font-weight: 700;
+	margin-inline-start: 0.15em;
+	cursor: pointer;
+}
+
+/* [cup] markers become bold — the dibur hamatchil. */
+.meluket-sefer-active .meluket-hebrew b,
+.meluket-sefer-active .meluket-hebrew strong {
+	color: var(--sefer-title-ink);
+}
+
+/* ---------- English vessel : BELOW the Hebrew, never beside ----------
+   (Legacy section-level fallback — kept for posts without phrase data.) */
+.meluket-sefer-active .meluket-english {
+	font-family: "Source Serif 4", Georgia, serif;
+	font-size: clamp(2rem, 5.2vw, 2.8rem);
+	line-height: 1.7;
+	color: var(--sefer-ink-soft);
+	border-top: 4px dashed var(--sefer-rule);
+	margin-top: 4.4rem;
+	padding-top: 4.4rem;
+	direction: ltr;
+}
+
+.meluket-sefer-active .meluket-english p {
+	margin: 0 0 0.8em;
+}
+
+:where(.meluket-sefer-active) .meluket-english p:last-child {
+	margin-bottom: 0;
+}
+
+/* ---------- Language modes ---------- */
+:where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="hebrew"]) .meluket-english,
+:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="hebrew"]) .meluket-english,
+:where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="hebrew"]) .meluket-phrase--en,
+:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="hebrew"]) .meluket-phrase--en {
+	display: none;
+}
+
+:where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="english"]) .meluket-hebrew,
+:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="english"]) .meluket-hebrew,
+:where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="english"]) .meluket-phrase--he,
+:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="english"]) .meluket-phrase--he {
+	display: none;
+}
+
+:where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="english"]) .meluket-english,
+:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="english"]) .meluket-english {
+	display: block;
+	border-top: none;
+	margin-top: 0;
+	padding-top: 0;
+	color: var(--sefer-ink);
+	font-size: clamp(2.4rem, 6vw, 3.2rem);
+}
+
+/* English-only mode: interleaved English phrases grow, no dashed rule. */
+:where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="english"]) .meluket-phrase--en,
+:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="english"]) .meluket-phrase--en {
+	border-top: none;
+	margin-top: 0;
+	padding-top: 0;
+	color: var(--sefer-ink);
+	font-size: clamp(2.4rem, 6vw, 3.2rem);
+}
+
+/* ---------- Summaries ---------- */
+.meluket-sefer-active .meluket-post-summary {
+	background: var(--sefer-paper-deep);
+	border: 1px solid var(--sefer-rule);
+	border-radius: 10px;
+	padding: 1.25rem clamp(1rem, 3vw, 1.75rem);
+	margin: 0 0 2rem;
+	font-size: 1.15rem;
+	line-height: 1.7;
+	color: var(--sefer-ink-soft);
+}
+
+.meluket-sefer-active .meluket-summary {
+	margin-top: 1.1rem;
+	padding-top: 1rem;
+	border-top: 1px dotted var(--sefer-rule);
+	font-size: 1.08rem;
+	line-height: 1.65;
+	color: var(--sefer-ink-soft);
+}
+
+.meluket-sefer-active .meluket-summary-label {
+	font-size: 0.85rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--sefer-accent);
+	margin-bottom: 0.4rem;
+}
+
+.meluket-sefer-active .meluket-summary p,
+.meluket-sefer-active .meluket-post-summary p {
+	margin: 0;
+}
+
+/* ---------- Q&A ---------- */
+.meluket-sefer-active .meluket-qa {
+	margin-top: 2.5rem;
+	background: var(--sefer-card);
+	border: 1px solid var(--sefer-rule);
+	border-radius: 10px;
+	box-shadow: var(--sefer-shadow);
+	padding: 1.5rem clamp(1rem, 3vw, 2rem);
+}
+
+.meluket-sefer-active .meluket-qa-title {
+	font-family: "Frank Ruhl Libre", Georgia, serif;
+	font-size: 1.5rem;
+	color: var(--sefer-title-ink);
+	margin: 0 0 1.25rem;
+	padding-bottom: 0.6rem;
+	border-bottom: 2px solid var(--sefer-accent);
+}
+
+.meluket-sefer-active .meluket-qa-item {
+	margin-bottom: 1.25rem;
+	padding-bottom: 1.25rem;
+	border-bottom: 1px dotted var(--sefer-rule);
+}
+
+:where(.meluket-sefer-active) .meluket-qa-item:last-child {
+	margin-bottom: 0;
+	padding-bottom: 0;
+	border-bottom: none;
+}
+
+.meluket-sefer-active .meluket-qa-q {
+	font-weight: 700;
+	font-size: 1.15rem;
+	color: var(--sefer-ink);
+	margin-bottom: 0.5rem;
+}
+
+.meluket-sefer-active .meluket-qa-a {
+	font-size: 1.08rem;
+	line-height: 1.65;
+	color: var(--sefer-ink-soft);
+}
+
+/* ---------- Footnotes shelf — distinct from the main text ---------- */
+.meluket-sefer-active .meluket-footnotes-shelf {
+	margin-top: 2.5rem;
+	background: var(--sefer-paper-deep);
+	border: 1px solid var(--sefer-rule);
+	border-radius: 10px;
+	padding: 1.5rem clamp(1rem, 3vw, 2rem);
+}
+
+.meluket-sefer-active .meluket-footnotes-title {
+	font-family: "Frank Ruhl Libre", Georgia, serif;
+	font-size: 5.6rem;
+	color: var(--sefer-title-ink);
+	margin: 0 0 4rem;
+	padding-bottom: 2.4rem;
+	border-bottom: 8px solid var(--sefer-accent);
+}
+
+.meluket-sefer-active .meluket-footnotes-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.meluket-sefer-active .meluket-footnote {
+	display: flex;
+	gap: 3.6rem;
+	padding: 3.2rem 0;
+	border-bottom: 4px dotted var(--sefer-rule);
+	font-size: 4.08rem;
+	line-height: 1.65;
+}
+
+:where(.meluket-sefer-active) .meluket-footnote:last-child {
+	border-bottom: none;
+}
+
+.meluket-sefer-active .meluket-footnote-num {
+	flex: 0 0 8rem;
+	height: 8rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	background: var(--sefer-accent);
+	color: #fffdf6;
+	font-weight: 800;
+	font-size: 3.68rem;
+}
+
+.meluket-sefer-active .meluket-footnote-body {
+	flex: 1;
+	color: var(--sefer-ink-soft);
+}
+
+.meluket-sefer-active .meluket-footnote-he {
+	display: block;
+	font-family: "Frank Ruhl Libre", Georgia, serif;
+	color: var(--sefer-ink);
+	margin-bottom: 0.35rem;
+	direction: rtl;
+}
+
+.meluket-sefer-active .meluket-footnote-en {
+	display: block;
+	font-family: "Source Serif 4", Georgia, serif;
+	direction: ltr;
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 640px) {
+	.meluket-sefer-active .meluket-sefer {
+		padding: 0.75rem 0.5rem 3rem;
+		border-radius: 0;
+	}
+	.meluket-sefer-active .meluket-sefer-section {
+		border-radius: 8px;
+		padding: 1.4rem 1rem 1.2rem;
+		margin-bottom: 1.25rem;
+	}
+	.meluket-sefer-active .meluket-hebrew {
+		text-align: right;
+	}
+}
+
+/* Hide old translation status banner when sefer reader is active */
+.meluket-sefer-active .awtsmoos-translation-status {
+	display: none;
+}
+
+/* Footnote highlight when clicked from marker */
+.meluket-sefer-active .meluket-footnote-highlight {
+	background: #fff3cd;
+	border-radius: 4px;
+	transition: background 0.3s;
+}
+
+/* Force dark text in light theme — override any inherited white text */
+:where(:root[data-theme="light"]) .meluket-sefer-active,
+:where(:root:not([data-theme="dark"])) .meluket-sefer-active {
+	--sefer-ink: #2b2118;
+	--sefer-title-ink: #1f1712;
+	--sefer-ink-soft: #5a4c3d;
+}
+
+:where(:root[data-theme="light"]) .meluket-sefer-active .meluket-hebrew,
+:where(:root[data-theme="light"]) .meluket-sefer-active .meluket-english,
+:where(:root[data-theme="light"]) .meluket-sefer-active .meluket-sefer-title-he,
+:where(:root:not([data-theme="dark"])) .meluket-sefer-active .meluket-hebrew,
+:where(:root:not([data-theme="dark"])) .meluket-sefer-active .meluket-english,
+:where(:root:not([data-theme="dark"])) .meluket-sefer-active .meluket-sefer-title-he {
+	color: #2b2118;
+}
+
+/* Force English mode — hide Hebrew reliably */
+:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="english"]) .meluket-hebrew,
+:where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="english"]) .meluket-hebrew {
+	display: none;
+	visibility: hidden;
+	height: 0;
+	overflow: hidden;
+}
+
+/* Footnote markers as clickable buttons */
+:where(.meluket-sefer-active) .meluket-fn-marker {
+	background: none;
+	border: none;
+	padding: 0 2px;
+	margin: 0;
+	font-size: 0.7em;
+	vertical-align: super;
+	color: var(--sefer-accent);
+	cursor: pointer;
+	text-decoration: underline;
+	font-family: inherit;
+	min-width: 44px;
+	min-height: 44px;
+}
+
+:where(.meluket-sefer-active) .meluket-fn-marker:hover {
+	color: var(--sefer-ink);
+	background: rgba(138, 109, 59, 0.1);
+	border-radius: 3px;
+}
+
+/* Hide Hebrew title in English mode */
+:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="english"]) .meluket-sefer-title-he {
+	display: none;
+}
+
+/* Nuclear light theme fix — maximum specificity */
+:where(html) body .meluket-sefer-active .meluket-sefer,
+:where(html) body .meluket-sefer-active .meluket-sefer * {
+	color: #2b2118;
+}
+
+:where(html) body .meluket-sefer-active .meluket-sefer {
+	background: #f7f1e3;
+}
+
+:where(html[data-theme="dark"]) body .meluket-sefer-active .meluket-sefer,
+:where(html[data-theme="dark"]) body .meluket-sefer-active .meluket-sefer * {
+	color: #f0e7d3;
+}
+
+:where(html[data-theme="dark"]) body .meluket-sefer-active .meluket-sefer {
+	background: #171209;
+}
+
+/* Force typography panel hidden when ARIA says hidden (fix visual desync) */
+.meluket-sefer-active :where(#typographyDetails[aria-hidden="true"]),
+:where(.meluket-sefer-active) .typography-details[aria-hidden="true"] {
+	display: none;
+	visibility: hidden;
+	opacity: 0;
+	pointer-events: none;
+}
+
+/* @tunnel-interactive-states: auto-generated by css-guarantee */
+:where(.meluket-sefer-active) .meluket-lang-btn:active {
+	transform: scale(0.98);
+}
+:where(.meluket-sefer-active) .meluket-lang-btn:focus-visible {
+	outline: 2px solid var(--sefer-focus); outline-offset: 2px;
+}
+:where(.meluket-sefer-active) .meluket-lang-btn:focus {
+	outline: 2px solid var(--sefer-focus); outline-offset: 2px;
+}
+:where(.meluket-sefer-active .meluket-hebrew sup):hover{
+	filter: brightness(1.08);
+}
+:where(.meluket-sefer-active .meluket-hebrew sup):active{
+	transform: scale(0.98);
+}
+:where(.meluket-sefer-active .meluket-hebrew sup):focus-visible{
+	outline: 2px solid var(--sefer-focus); outline-offset: 2px;
+}
+:where(.meluket-sefer-active .meluket-hebrew sup):focus{
+	outline: 2px solid var(--sefer-focus); outline-offset: 2px;
+}
+:where(.meluket-sefer-active) .meluket-fn-marker:active {
+	transform: scale(0.98);
+}
+:where(.meluket-sefer-active) .meluket-fn-marker:focus-visible {
+	outline: 2px solid var(--sefer-focus); outline-offset: 2px;
+}
+:where(.meluket-sefer-active) .meluket-fn-marker:focus {
+	outline: 2px solid var(--sefer-focus); outline-offset: 2px;
+}
+
+/* B"H — LIGHT THEME FOR THE SCRIBE'S LENS (settings panel).
+   The Theme Engine sets data-theme="light" on <html>. The settings panel
+   (.typography-details) had hardcoded dark styles in settings-mobile.css;
+   those are now scoped to :root[data-theme="dark"] so these light rules win
+   by specificity alone. No. Dark theme is untouched. */
+:root[data-theme="light"] .post-reader-localized-context .typography-details {
+	--reader-text: #21160a;
+	--reader-muted: #6d5a43;
+	--reader-line: rgb(122 82 31 / 28%);
+	--reader-gold: #8a6d1a;
+	--reader-cyan: #0b6e8f;
+	background: rgb(253 251 247 / 96%);
+	border: 1px solid rgb(122 82 31 / 30%);
+	border-radius: 1.65rem;
+	box-shadow: 0 2rem 7rem rgb(0 0 0 / 20%), inset 0 1px 0 rgb(255 255 255 / 70%);
+	color: #21160a;
+}
+:root[data-theme="light"] .post-reader-localized-context .typography-content {
+	background: rgb(253 251 247);
+	scrollbar-color: #8a6d1a rgb(253 251 247);
+}
+:root[data-theme="light"] .post-reader-localized-context .settings-group {
+	background: rgb(255 255 255);
+	border-color: rgb(122 82 31 / 35%);
+	border-radius: .85rem;
+	box-shadow: none;
+}
+:root[data-theme="light"] .post-reader-localized-context .control-label,
+:root[data-theme="light"] .post-reader-localized-context .setting-name {
+	color: #21160a;
+}
+:root[data-theme="light"] .post-reader-localized-context .typography-details .font-adjust-btn,
+:root[data-theme="light"] .post-reader-localized-context .typography-details button {
+	background: rgb(255 255 255);
+	border: 1px solid rgb(122 82 31 / 35%);
+	color: #21160a;
+}
+:root[data-theme="light"] .post-reader-localized-context .typography-details .font-adjust-btn:hover,
+:root[data-theme="light"] .post-reader-localized-context .typography-details .font-adjust-btn:active,
+:root[data-theme="light"] .post-reader-localized-context .typography-details button:hover,
+:root[data-theme="light"] .post-reader-localized-context .typography-details button:active {
+	background: rgb(240 230 210);
+	color: #21160a;
+}
+:root[data-theme="light"] .post-reader-localized-context .font-size-display {
+	color: #21160a;
+}
+:root[data-theme="light"] .post-reader-localized-context .typography-details .font-selector,
+:root[data-theme="light"] .post-reader-localized-context .typography-details select,
+:root[data-theme="light"] .post-reader-localized-context .typography-details input {
+	background-color: rgb(255 255 255);
+	border: 1px solid rgb(122 82 31 / 35%);
+	color: #21160a;
+}
+:root[data-theme="light"] .post-reader-localized-context .auto-scroll-settings-toggle {
+	background: rgb(255 255 255);
+	border: 1px solid rgb(122 82 31 / 35%);
+	color: #21160a;
+}
+:root[data-theme="light"] .post-reader-localized-context .auto-scroll-unit-switch button,
+:root[data-theme="light"] .post-reader-localized-context .auto-scroll-presets button {
+	background: rgb(255 255 255);
+	border-color: rgb(122 82 31 / 35%);
+	color: #21160a;
+}
+:root[data-theme="light"] .post-reader-localized-context .auto-scroll-semantic-summary {
+	background: rgb(255 250 240);
+	border-color: rgb(122 82 31 / 35%);
+	color: #21160a;
+}
+:root[data-theme="light"] .post-reader-localized-context .auto-scroll-help {
+	color: #6d5a43;
+}
+:root[data-theme="light"] .post-reader-localized-context output {
+	color: #21160a;
+}

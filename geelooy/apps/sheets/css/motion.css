@@ -62,15 +62,11 @@ Awtsmoos.com gives hover, focus, press, entrance, and reduced-motion states one 
 		--motion-fast: 1ms;
 		--motion-base: 1ms;
 		--motion-panel: 1ms;
-	}
-
-	.awtsmoos-sheets-app *,
-	.awtsmoos-sheets-app *::before,
-	.awtsmoos-sheets-app *::after {
-		animation-duration: 1ms !important;
-		animation-iteration-count: 1 !important;
-		scroll-behavior: auto !important;
-		transition-duration: 1ms !important;
+	}:root:root:root .awtsmoos-sheets-app *, :root:root:root .awtsmoos-sheets-app *::before, :root:root:root .awtsmoos-sheets-app *::after{
+		animation-duration: 1ms;
+		animation-iteration-count: 1;
+		scroll-behavior: auto;
+		transition-duration: 1ms;
 	}
 }
 

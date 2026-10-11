@@ -59,5 +59,5 @@ test('shell presents Ikar before community discovery', () => {
 test('root injects the discovery head and the head owns whole-card interaction styling', () => {
 	assert.match(rootSource, /\$a\('heichelos\/discovery-head\.html'\)/);
 	assert.match(headTemplate, /heichelos\/discovery-interaction-style\.html/);
-	assert.match(headTemplate, /\/style\/heichelos\/discovery\.css\?v=torah-first-007/);
+	assert.match(headTemplate, /\/style\/heichelos\/discovery\.css\?v=torah-first-008/);
 });

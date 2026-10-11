@@ -12,11 +12,11 @@
 	font-size: 9px;
 }
 
-.aw-studio-path-toggle {
-	display: flex !important;
-	grid-template-columns: none !important;
+.aw-studio-path-toggle.aw-studio-path-toggle {
+	display: flex;
+	grid-template-columns: none;
 	align-items: center;
-	gap: 8px !important;
+	gap: 8px;
 	min-height: 32px;
 	margin-top: 7px;
 }

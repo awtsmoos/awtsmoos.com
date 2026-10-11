@@ -3,8 +3,24 @@
 //Blessed be He
 
 {
-/** Parses an An+B structural selector expression without dependencies. */
+/**
+ * Parses an An+B structural selector expression without dependencies.
+ * Results are cached by source (bounded) — :nth-child() arguments are
+ * parsed once per unique expression instead of once per element tested.
+ */
+const PARSE_CACHE = new Map();
+const PARSE_CACHE_MAX = 256;
 function parseNthExpression(source) {
+	const key = String(source || "");
+	if (PARSE_CACHE.has(key)) return PARSE_CACHE.get(key);
+	const parsed = parseNthExpressionUncached(key);
+	if (PARSE_CACHE.size >= PARSE_CACHE_MAX) PARSE_CACHE.delete(PARSE_CACHE.keys().next().value);
+	PARSE_CACHE.set(key, parsed);
+	return parsed;
+}
+
+/** Parses an An+B structural selector expression without dependencies. */
+function parseNthExpressionUncached(source) {
 	const compact = String(source || "").toLowerCase().replace(/\s+/g, "");
 	if (compact === "odd") return Object.freeze({ a: 2, b: 1 });
 	if (compact === "even") return Object.freeze({ a: 2, b: 0 });

@@ -5,8 +5,8 @@
  * The Awtsmoos renews the chamber before character light may enter;
  * Awtsmoos.com keeps Character Lab absent when closed, modal when revealed, and bounded inside one calm professional vessel.
  */
-.character-customizer[hidden] {
-	display: none !important;
+.character-customizer[hidden][hidden] {
+	display: none;
 }
 
 .character-customizer {

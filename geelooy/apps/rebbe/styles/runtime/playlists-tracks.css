@@ -23,7 +23,7 @@
 .playlist-track-title {
 	min-width: 0;
 	overflow: hidden;
-	color: #fff;
+	color: var(--c-text-main);
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
@@ -94,8 +94,8 @@
 		grid-template-columns: 1fr;
 	}
 
-	.playlist-body {
-		padding: 14px !important;
+	.playlist-body.playlist-body {
+		padding: 14px;
 	}
 
 	.playlist-hero,

@@ -1,7 +1,7 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H — notification control is large, luminous, and reachable. */
 .home-bell-button {
-  border-color: rgba(154,77,255,.32) !important;
+  border-color: rgba(154,77,255,.32);
   box-shadow: 0 12px 30px rgba(0,0,0,.34), 0 0 20px rgba(139,92,246,.12);
   min-height: 50px;
   min-width: 50px;

@@ -16,11 +16,15 @@
 	const safeUndefinedGlobals = new Set(["undefined"]);
 
 	handlers[0x10] = thread => thread.pop();
+	// B"H (2026-10-09): direct _sp (was push()/peek() method calls).
 	handlers[0x11] = thread => {
-		if (thread.stack.length === 0) {
+		const sp = thread._sp;
+		if (sp === 0) {
 			throw new Error("[VM Critical] Stack Underflow (DUP)");
 		}
-		thread.push(thread.peek());
+		if (sp >= thread.stack.length) thread._growStack();
+		thread.stack[sp] = thread.stack[sp - 1];
+		thread._sp = sp + 1;
 	};
 	handlers[0x12] = thread => {
 		const first = thread.pop();
@@ -30,11 +34,15 @@
 	};
 	handlers[0x1A] = thread => duplicatePair(thread);
 	handlers[0x1B] = thread => swapPairs(thread);
+	// B"H (2026-10-09): direct _sp (was push() method call).
 	handlers[0x13] = thread => {
 		const index = thread.readU16();
-		thread.push(index >= 0 && index < thread.constants.length
+		const sp = thread._sp;
+		if (sp >= thread.stack.length) thread._growStack();
+		thread.stack[sp] = index >= 0 && index < thread.constants.length
 			? thread.constants[index]
-			: undefined);
+			: undefined;
+		thread._sp = sp + 1;
 	};
 	handlers[0x14] = thread => thread.push(undefined);
 	handlers[0x15] = thread => thread.push(null);

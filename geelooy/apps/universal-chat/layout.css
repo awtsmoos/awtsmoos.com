@@ -93,4 +93,4 @@ body[data-messaging-page] .messaging-details {
 	backdrop-filter: blur(24px);
 }
 
-body[data-messaging-page] [hidden] { display: none !important; }
+body[data-messaging-page] [hidden][hidden] { display: none; }

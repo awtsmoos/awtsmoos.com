@@ -81,8 +81,8 @@
 	background: #ff7474;
 }
 
-[hidden] {
-	display: none !important;
+[hidden][hidden] {
+	display: none;
 }
 
 @media (hover: hover) and (pointer: fine) {

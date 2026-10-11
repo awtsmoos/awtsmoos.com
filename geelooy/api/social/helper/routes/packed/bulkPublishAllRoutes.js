@@ -142,14 +142,14 @@ class BulkPublishAllRoutes extends PackedBulkImportRoutes {
 		if (!UPLOAD_ID_RE.test(uploadId)) {
 			return { success: false, error: 'BAD_UPLOAD_ID', message: 'uploadId must match [A-Za-z0-9_-]{8,64}.' };
 		}
-		const chunkIndex = Math.floor(Number(body.chunkIndex));
-		const totalChunks = Math.floor(Number(body.totalChunks));
+		const chunkIndex = Math.floor(Number(body.chunkIndex ?? requestValue(this.$i, 'chunkIndex')));
+		const totalChunks = Math.floor(Number(body.totalChunks ?? requestValue(this.$i, 'totalChunks')));
 		if (!Number.isFinite(chunkIndex) || chunkIndex < 0 || !Number.isFinite(totalChunks) || totalChunks < 1 || totalChunks > 100000 || chunkIndex >= totalChunks) {
 			return { success: false, error: 'BAD_CHUNK', message: 'chunkIndex/totalChunks invalid.' };
 		}
 		let buf;
 		try {
-			buf = Buffer.from(String(body.data || ''), 'base64');
+			buf = Buffer.from(String(body.data ?? requestValue(this.$i, 'data') ?? ''), 'base64');
 		} catch (_) {
 			return { success: false, error: 'BAD_DATA', message: 'data must be base64.' };
 		}

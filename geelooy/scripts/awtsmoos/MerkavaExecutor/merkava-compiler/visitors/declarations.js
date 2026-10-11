@@ -35,16 +35,16 @@
                     // but scope.declare is idempotent, so this is safe.
                     if (this.scope.depth > 0) {
                         const idx = this.scope.declare(decl.id.name);
-                        console.log(`[Compiler] Declaring Local '${decl.id.name}' at index ${idx} (Depth: ${this.scope.depth})`);
+                        if (root.MerkavaCompiler.DEBUG) console.log(`[Compiler] Declaring Local '${decl.id.name}' at index ${idx} (Depth: ${this.scope.depth})`);
                     } else {
-                        console.log(`[Compiler] Declaring Global '${decl.id.name}'`);
+                        if (root.MerkavaCompiler.DEBUG) console.log(`[Compiler] Declaring Global '${decl.id.name}'`);
                     }
                     this._visitIdentifier(decl.id, 'STORE');
                 } else if (decl.id.type === 'ObjectPattern') {
                     this._compileObjectDestructuring(decl.id);
                     this.buffer.write8(this.OPCODES.POP); 
                 } else {
-                    console.warn("[Compiler] Unsupported declaration pattern:", decl.id.type);
+                    if (root.MerkavaCompiler.DEBUG) console.warn("[Compiler] Unsupported declaration pattern:", decl.id.type);
                     this.buffer.write8(this.OPCODES.POP); 
                 }
             });

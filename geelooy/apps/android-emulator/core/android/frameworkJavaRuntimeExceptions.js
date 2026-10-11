@@ -8,6 +8,8 @@ import {
 } from "./frameworkJavaStringValue.js";
 
 const JAVA_RUNTIME_EXCEPTION = "Ljava/lang/RuntimeException;";
+const JAVA_EXCEPTION = "Ljava/lang/Exception;";
+const JAVA_IOEXCEPTION = "Ljava/io/IOException;";
 const JAVA_STRING = "Ljava/lang/String;";
 const CAUSE_FIELD = "java:throwable:cause";
 const MESSAGE_FIELD = "java:throwable:message";
@@ -42,11 +44,15 @@ export function createFrameworkJavaRuntimeExceptionMethods(runtime) {
 function isStringConstructor(runtime, record) {
 	return record.method.name === "<init>"
 		&& record.method.descriptor === STRING_CONSTRUCTOR
-		&& isClassAssignable(
+		&& (isClassAssignable(
 			runtime,
 			JAVA_RUNTIME_EXCEPTION,
 			record.method.classType
-		);
+		) || isClassAssignable(
+			runtime,
+			JAVA_EXCEPTION,
+			record.method.classType
+		) || record.method.classType === JAVA_IOEXCEPTION);
 }
 
 function requireRuntimeException(runtime, reference) {
@@ -57,7 +63,9 @@ function requireRuntimeException(runtime, reference) {
 		);
 	}
 	const object = runtime.heap.get(reference);
-	if (!isClassAssignable(runtime, JAVA_RUNTIME_EXCEPTION, object.type)) {
+	if (!isClassAssignable(runtime, JAVA_RUNTIME_EXCEPTION, object.type) &&
+		!isClassAssignable(runtime, JAVA_EXCEPTION, object.type) &&
+		object.type !== JAVA_IOEXCEPTION) {
 		throw runtimeExceptionError(
 			"ANDROID_JAVA_RUNTIME_EXCEPTION_RECEIVER_REQUIRED",
 			object.type

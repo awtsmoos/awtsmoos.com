@@ -23,8 +23,8 @@
 		font-size: .58rem;
 	}
 
-	.composer-civilization-document .majorPanelBody {
-		padding: clamp(.65rem, 3vw, .9rem) !important;
+	.composer-civilization-document.composer-civilization-document .majorPanelBody {
+		padding: clamp(.65rem, 3vw, .9rem);
 	}
 
 	.composer-civilization-document .majorPanelBody > * {

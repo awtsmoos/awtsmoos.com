@@ -22,7 +22,7 @@
 
 @media (min-width: 521px) {
 	.zman-comparison-details > .zman-comparison-body {
-		display: grid !important;
+		display: grid;
 	}
 }
 

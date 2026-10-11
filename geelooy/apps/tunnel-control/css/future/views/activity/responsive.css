@@ -66,14 +66,11 @@
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.awt-activity-panel *,
-	.awt-activity-panel *::before,
-	.awt-activity-panel *::after {
-		scroll-behavior: auto !important;
-		transition-duration: 0.01ms !important;
-		animation-duration: 0.01ms !important;
-		animation-iteration-count: 1 !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .awt-activity-panel *, :root:root:root .awt-activity-panel *::before, :root:root:root .awt-activity-panel *::after{
+		scroll-behavior: auto;
+		transition-duration: 0.01ms;
+		animation-duration: 0.01ms;
+		animation-iteration-count: 1;
 	}
 }
 

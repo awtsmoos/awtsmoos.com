@@ -1,6 +1,6 @@
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H */
-.modal.hidden, .awt-diagnostics-drawer:not(.is-open) { display: none !important; }
+.modal.hidden.hidden, .awt-diagnostics-drawer:not(.is-open) { display: none; }
 body.modal-open { overflow: hidden; }
 #rootPickerModal.modal {
   position: fixed;

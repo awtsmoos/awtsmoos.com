@@ -13,25 +13,25 @@ body[data-geelooy-route="home"] .omnibox-option {
 	padding: .54rem .65rem;
 	border: 1px solid transparent;
 	border-radius: .78rem;
-	color: #dce8f7;
+	color: var(--text-primary);
 	transition: background .14s ease, border-color .14s ease, transform .14s ease;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .omnibox-option:hover, :where(body[data-geelooy-route="home"]) .omnibox-option.is-active {
-	border-color: rgba(117, 201, 255, .16);
-	background: linear-gradient(90deg, rgba(90, 169, 229, .13), rgba(122, 92, 217, .055));
+	border-color: var(--home-line-soft);
+	background: linear-gradient(90deg, var(--home-accent-soft), var(--home-wash));
 	outline: none;
 	transform: translateX(2px);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .omnibox-option:active {
-	border-color: rgba(117, 201, 255, .3);
-	background: linear-gradient(90deg, rgba(90, 169, 229, .2), rgba(122, 92, 217, .09));
+	border-color: var(--panel-border-strong);
+	background: linear-gradient(90deg, var(--home-accent-soft), var(--home-wash));
 	transform: translateX(2px) scale(.99);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .omnibox-option:focus-visible {
-	border-color: rgba(117, 201, 255, .4);
+	border-color: var(--home-accent);
 	outline: 3px solid var(--focus-ring);
 	outline-offset: 1px;
 }
@@ -40,10 +40,10 @@ body[data-geelooy-route="home"] .omnibox-symbol {
 	place-items: center;
 	width: 2.35rem;
 	height: 2.35rem;
-	border: 1px solid rgba(128, 203, 255, .18);
+	border: 1px solid var(--home-line-soft);
 	border-radius: .7rem;
-	background: rgba(92, 170, 230, .08);
-	color: #9ed8ff;
+	background: var(--home-wash);
+	color: var(--home-accent-strong);
 	font-size: .82rem;
 	font-weight: 900;
 }
@@ -55,8 +55,8 @@ body[data-geelooy-route="home"] .omnibox-copy {
 body[data-geelooy-route="home"] .omnibox-badge {
 	padding: .28rem .42rem;
 	border-radius: 999px;
-	background: rgba(255, 255, 255, .045);
-	color: #71849e;
+	background: var(--home-wash);
+	color: var(--text-muted);
 	font-size: .53rem;
 	font-weight: 800;
 	white-space: nowrap;

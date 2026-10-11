@@ -1,0 +1,36 @@
+// B"H — WASM tests Tier H: memory load/store/size/grow (30 tests).
+const T = (name, wat, exp, args = [], expect = [0], extra = {}) => ({ name, wat, export: exp, args, expect, ...extra });
+const M1 = '(memory 1)';
+
+export const tests = [
+  T('i32 store load', `(module ${M1} (func (export "m") (result i32) (i32.store (i32.const 0) (i32.const 42)) (i32.load (i32.const 0))))`, 'm', [], [42], { xcheck: true }),
+  T('i32 store load offset', `(module ${M1} (func (export "m") (result i32) (i32.store offset=16 (i32.const 0) (i32.const 99)) (i32.load offset=16 (i32.const 0))))`, 'm', [], [99], { xcheck: true }),
+  T('i32.load8_s negative', `(module ${M1} (func (export "m") (result i32) (i32.store8 (i32.const 0) (i32.const 0xFF)) (i32.load8_s (i32.const 0))))`, 'm', [], [-1], { xcheck: true }),
+  T('i32.load8_u', `(module ${M1} (func (export "m") (result i32) (i32.store8 (i32.const 0) (i32.const 0xFF)) (i32.load8_u (i32.const 0))))`, 'm', [], [255], { xcheck: true }),
+  T('i32.load16_s', `(module ${M1} (func (export "m") (result i32) (i32.store16 (i32.const 0) (i32.const 0xFFFF)) (i32.load16_s (i32.const 0))))`, 'm', [], [-1], { xcheck: true }),
+  T('i32.load16_u', `(module ${M1} (func (export "m") (result i32) (i32.store16 (i32.const 0) (i32.const 0xABCD)) (i32.load16_u (i32.const 0))))`, 'm', [], [0xABCD], { xcheck: true }),
+  T('i64 store load', `(module ${M1} (func (export "m") (result i64) (i64.store (i32.const 8) (i64.const 1234567890123456789)) (i64.load (i32.const 8))))`, 'm', [], [1234567890123456789n], { xcheck: true }),
+  T('i64.load32_u', `(module ${M1} (func (export "m") (result i64) (i64.store32 (i32.const 0) (i64.const -1)) (i64.load32_u (i32.const 0))))`, 'm', [], [0xFFFFFFFFn], { xcheck: true }),
+  T('i64.load32_s', `(module ${M1} (func (export "m") (result i64) (i64.store32 (i32.const 0) (i64.const -1)) (i64.load32_s (i32.const 0))))`, 'm', [], [-1n], { xcheck: true }),
+  T('i64.load8_s', `(module ${M1} (func (export "m") (result i64) (i64.store8 (i32.const 0) (i64.const 0x80)) (i64.load8_s (i32.const 0))))`, 'm', [], [-128n], { xcheck: true }),
+  T('f32 store load', `(module ${M1} (func (export "m") (result f32) (f32.store (i32.const 0) (f32.const 1.5)) (f32.load (i32.const 0))))`, 'm', [], [1.5], { xcheck: true }),
+  T('f64 store load', `(module ${M1} (func (export "m") (result f64) (f64.store (i32.const 0) (f64.const 3.14159)) (f64.load (i32.const 0))))`, 'm', [], [3.14159], { xcheck: true }),
+  T('little endian layout', `(module ${M1} (func (export "m") (result i32) (i32.store (i32.const 0) (i32.const 0x01020304)) (i32.load8_u (i32.const 0))))`, 'm', [], [0x04], { xcheck: true }),
+  T('little endian byte 3', `(module ${M1} (func (export "m") (result i32) (i32.store (i32.const 0) (i32.const 0x01020304)) (i32.load8_u (i32.const 3))))`, 'm', [], [0x01], { xcheck: true }),
+  T('memory.size', `(module (memory 2) (func (export "m") (result i32) (memory.size)))`, 'm', [], [2], { xcheck: true }),
+  T('memory.grow returns old', `(module (memory 1) (func (export "m") (result i32) (memory.grow (i32.const 1))))`, 'm', [], [1], { xcheck: true }),
+  T('memory.grow then size', `(module (memory 1) (func (export "m") (result i32) (memory.grow (i32.const 2)) (drop) (memory.size)))`, 'm', [], [3], { xcheck: true }),
+  T('memory.grow past max fails', `(module (memory 1 2) (func (export "m") (result i32) (memory.grow (i32.const 5))))`, 'm', [], [-1], { xcheck: true }),
+  T('memory.grow zeroed', `(module (memory 1) (func (export "m") (result i32) (memory.grow (i32.const 1)) (drop) (i32.load (i32.const 65536))))`, 'm', [], [0], { xcheck: true }),
+  T('oob load traps', `(module ${M1} (func (export "m") (result i32) (i32.load (i32.const 65533))))`, 'm', [], null, { expectTrap: 'oob-memory' }),
+  T('oob store traps', `(module ${M1} (func (export "m") (i32.store (i32.const 70000) (i32.const 1))))`, 'm', [], null, { expectTrap: 'oob-memory' }),
+  T('oob load8 at last byte ok', `(module ${M1} (func (export "m") (result i32) (i32.load8_u (i32.const 65535))))`, 'm', [], [0], { xcheck: true }),
+  T('data segment read', `(module ${M1} (data (i32.const 100) "hello") (func (export "m") (result i32) (i32.load8_u (i32.const 101))))`, 'm', [], [101], { xcheck: true }),
+  T('data segment i32', `(module ${M1} (data (i32.const 0) "\\x2a\\00\\00\\00") (func (export "m") (result i32) (i32.load (i32.const 0))))`, 'm', [], [42], { xcheck: true }),
+  T('malloc-like bump', `(module ${M1} (global $hp (mut i32) (i32.const 1024)) (func $alloc (export "alloc") (param i32) (result i32) (global.get $hp) (global.set $hp (i32.add (global.get $hp) (local.get 0)))) (func (export "m") (result i32) (i32.store (call $alloc (i32.const 4)) (i32.const 77)) (i32.load (i32.const 1024))))`, 'm', [], [77], { xcheck: true }),
+  T('memcpy loop', `(module ${M1} (data (i32.const 0) "ABCDEFGH") (func (export "m") (result i32) (local $i i32) (loop $l (i32.store8 (i32.add (i32.const 100) (local.get $i)) (i32.load8_u (local.get $i))) (local.set $i (i32.add (local.get $i) (i32.const 1))) (br_if $l (i32.lt_u (local.get $i) (i32.const 8)))) (i32.load8_u (i32.const 107))))`, 'm', [], [72], { xcheck: true }),
+  T('no memory traps', `(module (func (export "m") (result i32) (i32.load (i32.const 0))))`, 'm', [], null, { expectTrap: 'no-memory' }),
+  T('store then grow preserves', `(module (memory 1) (func (export "m") (result i32) (i32.store (i32.const 0) (i32.const 123)) (memory.grow (i32.const 1)) (drop) (i32.load (i32.const 0))))`, 'm', [], [123], { xcheck: true }),
+  T('unaligned load', `(module ${M1} (func (export "m") (result i32) (i32.store (i32.const 1) (i32.const 0xAABBCCDD)) (i32.load (i32.const 1))))`, 'm', [], [0xAABBCCDD | 0], { xcheck: true }),
+  T('i32.store8 truncates', `(module ${M1} (func (export "m") (result i32) (i32.store8 (i32.const 0) (i32.const 0x1FF)) (i32.load8_u (i32.const 0))))`, 'm', [], [0xFF], { xcheck: true }),
+];

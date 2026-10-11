@@ -46,7 +46,7 @@ button {
 .destructive,
 .remove-section-btn:hover {
   background: #7f1d1d;
-  color: #fff;
+  color: var(--light-text-fff, #fff);
 }
 
 :is(button, .btn, .action-button, .back-button-stylized):hover {

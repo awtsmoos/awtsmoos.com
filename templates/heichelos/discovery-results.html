@@ -48,20 +48,27 @@ Awtsmoos.com therefore keeps orchestration small, readable, and easy to verify.
 
 	/**
 	 * Reveals an honest empty state rather than inventing content.
+	 * The quiet reading room: a luminous seal, truthful copy, and one
+	 * useful next step — never a dead end.
 	 *
 	 * @returns {string} Empty-state markup.
 	 */
 	function emptyState() {
 		var message = 'No community Heichelos are visible yet.';
+		var action = '';
 
 		if (queryText) {
 			message = 'No community Heichelos matched “' + escapeHtml(queryText) + '”.';
+			action = '<a class="p-button" href="/heichelos">Clear search</a>';
 		} else if (alias) {
 			message = 'No community Heichelos found for @' + escapeHtml(alias) + '.';
+			action = '<a class="p-button" href="/heichelos">Browse all Heichelos</a>';
+		} else if (doesOwn) {
+			action = '<a class="p-button p-button-primary" href="/heichelos/manage-alias-heichelos">Create the first Heichel</a>';
 		}
 
-		return '<article class="social-empty-card spaces-state-row empty-state" data-heichelos-empty-state>'
-			+ '<h2>No community spaces found</h2><p>' + message + '</p></article>';
+		return '<article class="social-empty-card spaces-state-row empty-state" data-heichelos-empty-state data-enter>'
+			+ '<h2>No community spaces found</h2><p>' + message + '</p>' + action + '</article>';
 	}
 
 	if (!heichelos.length) {

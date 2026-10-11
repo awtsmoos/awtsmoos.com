@@ -27,6 +27,15 @@
 	handlers[0xA6] = thread => pushWithScope(thread);
 	handlers[0xA7] = thread => thread.withStack?.pop();
 
+	// B"H (2026-10-09): threadStrict() reads the flag cached on the Thread at
+	// construction. Falls back to the full security lookup only for exotic
+	// thread-likes that lack the cached flag. Was: a global lookup plus
+	// policy() walk on EVERY property access.
+	function threadStrict(thread) {
+		const s = thread._strict;
+		return s === undefined ? security()?.isStrict(thread) === true : s;
+	}
+
 	function getProperty(thread) {
 		const key = thread.pop();
 		const target = thread.pop();
@@ -35,7 +44,7 @@
 			thread.push(undefined);
 			return;
 		}
-		if (isStrict(thread)) {
+		if (threadStrict(thread)) {
 			const value = target[key];
 			thread.push(security().prepareProperty(thread, target, key, value));
 			return;
@@ -52,9 +61,10 @@
 			thread.push(value);
 			return;
 		}
-		security()?.guardProperty(thread, target, key);
+		const strict = threadStrict(thread);
+		if (strict) security()?.guardProperty(thread, target, key);
 		const assigned = eventClosure(thread, key, value);
-		if (!isStrict(thread) && legacyStyleTarget(target)) {
+		if (!strict && legacyStyleTarget(target)) {
 			target.setProperty ? target.setProperty(key, String(assigned)) : target[key] = assigned;
 		} else {
 			target[key] = assigned;
@@ -65,7 +75,7 @@
 	function deleteProperty(thread) {
 		const key = thread.pop();
 		const target = thread.pop();
-		security()?.guardProperty(thread, target, key);
+		if (threadStrict(thread)) security()?.guardProperty(thread, target, key);
 		thread.push(delete target[key]);
 	}
 
@@ -90,7 +100,7 @@
 		security()?.assertTarget(thread, source);
 		security()?.assertTarget(thread, target);
 		if (source == null) return;
-		if (!isStrict(thread)) {
+		if (!threadStrict(thread)) {
 			Object.assign(target, source);
 			return;
 		}
@@ -111,7 +121,7 @@
 			for (const key in source) {
 				if (excluded.has(key)) continue;
 				security()?.guardProperty(thread, source, key);
-				rest[key] = isStrict(thread)
+				rest[key] = threadStrict(thread)
 					? security().prepareProperty(thread, source, key, source[key])
 					: source[key];
 			}
@@ -141,38 +151,57 @@
 		if (value?.type !== "CLOSURE" || typeof key !== "string" || !key.startsWith("on")) {
 			return value;
 		}
-		return root.MerkavaVM.ClosureBridge?.wrapClosure(thread, value) || value;
+		/* B"H 2026-10-09: ClosureBridge removed — it broke per-iteration let
+		 * capture semantics (returned 1000 instead of 999, mismatching V8).
+		 * Event closures pass through unwrapped; capture is handled by the
+		 * VM's scope chain directly. */
+		return value;
 	}
+
+	// B"H (2026-10-09): cache of native-function detection. The old code ran
+	// Function.prototype.toString() — which materializes the FULL source text
+	// — on EVERY function-valued property load. One WeakMap entry per distinct
+	// function; entries vanish with the function (no leak, minimal RAM).
+	const nativeFnCache = new WeakMap();
 
 	function legacyProperty(target, key) {
 		let value = target[key];
+		// B"H: direct comparisons — was a fresh 3-element array + includes()
+		// allocated on every undefined-valued load.
 		if (value === undefined && typeof key === "string"
-			&& ["values", "keys", "entries"].includes(key)
+			&& (key === "values" || key === "keys" || key === "entries")
 			&& typeof self !== "undefined" && self.Object) {
 			value = self.Object[key];
 		}
 		if (typeof value === "function" && !value._merkavaClosure) {
-			try {
-				if (value.toString().includes("[native code]") && !value.name.startsWith("bound ")) {
-					value = value.bind(target);
+			let isNative = nativeFnCache.get(value);
+			if (isNative === undefined) {
+				try {
+					isNative = value.toString().includes("[native code]") && !value.name.startsWith("bound ");
+				} catch {
+					return value;
 				}
-			} catch {
-				return value;
+				nativeFnCache.set(value, isNative);
+			}
+			if (isNative) {
+				try {
+					value = value.bind(target);
+				} catch {
+					// fall through with the unbound value, as before
+				}
 			}
 		}
 		return value;
 	}
 
+	// B"H (2026-10-09): hoisted — was a typeof global lookup on every store.
+	const HAS_CSS_STYLE_DECL = typeof CSSStyleDeclaration !== "undefined";
 	function legacyStyleTarget(target) {
-		return typeof CSSStyleDeclaration !== "undefined" && target instanceof CSSStyleDeclaration;
+		return HAS_CSS_STYLE_DECL && target instanceof CSSStyleDeclaration;
 	}
 
 	function markObject(thread, value) {
 		return security()?.markObject(thread, value) || value;
-	}
-
-	function isStrict(thread) {
-		return security()?.isStrict(thread) === true;
 	}
 
 	function security() {

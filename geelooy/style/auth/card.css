@@ -41,7 +41,7 @@
 	position: absolute;
 	inset: 0;
 	border-radius: inherit;
-	background: linear-gradient(110deg, transparent 15%, rgba(75, 213, 255, .045), transparent 48%);
+	background: linear-gradient(110deg, transparent 15%, var(--auth-sheen), transparent 48%);
 	content: "";
 	pointer-events: none;
 	transform: translateX(-60%);
@@ -72,10 +72,11 @@
 
 .login-page .login-card :is(h1, h2) {
 	margin: 0;
-	color: var(--auth-text);
+	color: var(--auth-title);
+	font-family: var(--auth-heading-font);
 	font-size: clamp(2.15rem, 9vw, 3.6rem);
 	line-height: .96;
-	letter-spacing: -.055em;
+	letter-spacing: -.01em;
 	text-wrap: balance;
 }
 

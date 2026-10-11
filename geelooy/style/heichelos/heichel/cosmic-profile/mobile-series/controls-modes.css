@@ -44,7 +44,7 @@
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 55rem) { :where(.heichel-os-document) .tab-gates button:is(.active, [aria-selected="true"]), :where(.heichel-os-document) .tab-gate:is(.active, [aria-selected="true"]) {
 		background: rgba(31, 60, 101, .7);
-		color: #fff;
+		color: var(--light-text-fff, #fff);
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 55rem) { :where(.heichel-os-document) :where(.tab-gates) :where(button:is(.active, [aria-selected="true"]))::after, :where(.heichel-os-document) .tab-gate:is(.active, [aria-selected="true"])::after {

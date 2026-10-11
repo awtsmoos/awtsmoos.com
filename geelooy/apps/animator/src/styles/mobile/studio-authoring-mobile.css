@@ -16,10 +16,10 @@
 		padding-bottom: 1px;
 	}
 
-	.aw-studio-command {
+	.aw-studio-command.aw-studio-command {
 		min-width: 44px;
-		min-height: 44px !important;
-		padding-inline: 10px !important;
+		min-height: 44px;
+		padding-inline: 10px;
 	}
 
 	.aw-studio-command-label {

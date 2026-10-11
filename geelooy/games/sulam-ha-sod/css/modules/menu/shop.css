@@ -91,7 +91,7 @@
 	border-radius: 999px;
 	padding: 2px 7px;
 	background: #ffffff18;
-	color: #fff;
+	color: var(--text);
 	text-transform: uppercase;
 	font-size: 10px;
 	letter-spacing: .08em;

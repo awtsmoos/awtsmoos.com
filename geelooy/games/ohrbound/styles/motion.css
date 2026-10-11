@@ -50,13 +50,10 @@
 	animation-iteration-count: 1;
 	transition-duration: 0.001ms;
 }
-@media (prefers-reduced-motion: reduce) {
-	.ohrbound-app *,
-.ohrbound-app *::before,
-.ohrbound-app *::after {
-		scroll-behavior: auto !important;
-		animation-duration: 0.001ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: 0.001ms !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .ohrbound-app *, :root:root:root .ohrbound-app *::before, :root:root:root .ohrbound-app *::after{
+		scroll-behavior: auto;
+		animation-duration: 0.001ms;
+		animation-iteration-count: 1;
+		transition-duration: 0.001ms;
 	}
 }

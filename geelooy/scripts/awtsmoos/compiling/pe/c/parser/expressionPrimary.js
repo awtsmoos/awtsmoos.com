@@ -39,13 +39,33 @@ export function parsePostfix(stream, parseExpression) {
 			};
 			continue;
 		}
+		// Indirect call: `a->cb(42)` or `(getcb())(1)` — the callee is an
+		// arbitrary expression, not a bare identifier. Direct `name(args)`
+		// is consumed by parseIdentifier, so this only fires for the rest.
+		if (isPunctuation(token, "(")) {
+			stream.consume();
+			const args = [];
+			while (!isPunctuation(stream.peek(), ")")) {
+				args.push(parseExpression(stream));
+				if (!isPunctuation(stream.peek(), ",")) break;
+				stream.consume();
+			}
+			stream.expect(TOKENS.PUNCT, ")");
+			expression = { args, target: expression, type: "call" };
+			continue;
+		}
 		return expression;
 	}
 }
 
 function parsePrimary(stream, parseExpression) {
 	const token = stream.peek();
-	if (token.type === TOKENS.NUM) return { type: "literal", val: stream.consume().value };
+	if (token.type === TOKENS.NUM) {
+		const consumed = stream.consume();
+		const node = { type: "literal", val: consumed.value };
+		if (consumed.floatKind) node.floatKind = consumed.floatKind;
+		return node;
+	}
 	if (token.type === TOKENS.STRING) return { type: "string", val: stream.consume().value };
 	if (token.type === TOKENS.ID) return parseIdentifier(stream, parseExpression);
 	if (isPunctuation(token, "(")) {

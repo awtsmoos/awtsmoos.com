@@ -11,7 +11,7 @@ Warnings became legible lanterns instead of smoke.
 .transport-status.ready { border-color: rgba(88,255,185,.34); background: linear-gradient(135deg, rgba(8,44,33,.78), rgba(7,18,33,.84)); }
 .transport-status.checking, .transport-status.feedback { border-color: rgba(88,220,255,.28); }
 .transport-status.error, .transport-status.is-private-network-blocked, .transport-status.is-relay-unreachable { border-color: rgba(255,190,105,.35); background: linear-gradient(135deg, rgba(68,39,13,.82), rgba(8,18,33,.86)); color: #fff3dc; }
-.transport-status b { color: #ffffff; }
+.transport-status b { color: var(--awt-text); }
 .transport-status span { color: rgba(244,252,255,.78); }
 .transport-status .transport-commands { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 9px; }
 .transport-status .transport-commands button, .transport-status .transport-commands a, .transport-status .transport-commands code { border: 1px solid rgba(255,232,168,.22); border-radius: 999px; padding: 7px 10px; color: inherit; background: rgba(255,255,255,.06); text-decoration: none; }

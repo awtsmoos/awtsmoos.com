@@ -3,6 +3,7 @@
 //Blessed is He
 
 import { createDalvikFieldEvidence } from "./fieldEvidence.js";
+import { BOOT_SUPERCLASSES } from "../../android/frameworkJavaBootHierarchy.js";
 
 const FIELD_PREFIXES = Object.freeze(["iget", "iput", "sget", "sput"]);
 
@@ -45,7 +46,7 @@ function executeResolvedField(instruction, field, frame, context) {
 	if (instruction.name.startsWith("iget")) {
 		registers.set(
 			instruction.a,
-			context.heap.getField(registers.get(instruction.b), key)
+			getFieldHierarchical(context, registers.get(instruction.b), field, key)
 		);
 		return handled();
 	}
@@ -79,6 +80,48 @@ function fieldAt(model, index) {
 
 function fieldSignature(field) {
 	return `${field.classType}->${field.name}:${field.type}`;
+}
+
+/**
+ * Resolves an instance field through the class hierarchy, like real ART.
+ * The DEX field reference names the referencing class, but the field may be
+ * declared in a superclass. Walks up via registry superType and boot hierarchy.
+ */
+function getFieldHierarchical(context, reference, field, key) {
+	// Fast path: exact key match.
+	const direct = context.heap.getField(reference, key);
+	if (direct !== 0) return direct;
+	// Check if the field exists (vs. is genuinely null) before walking.
+	if (hasFieldExact(context, reference, key)) return direct;
+	// Walk up the superclass hierarchy.
+	let classType = field.classType;
+	const seen = new Set([classType]);
+	for (let i = 0; i < 32; i++) {
+		const superType = superTypeOf(context, classType);
+		if (!superType || seen.has(superType)) break;
+		seen.add(superType);
+		const superKey = `${superType}->${field.name}:${field.type}`;
+		if (hasFieldExact(context, reference, superKey)) {
+			return context.heap.getField(reference, superKey);
+		}
+		classType = superType;
+	}
+	return direct;
+}
+
+function superTypeOf(context, classType) {
+	const fromRegistry = context.registry?.superType?.(classType);
+	if (fromRegistry) return fromRegistry;
+	return BOOT_SUPERCLASSES[classType] || null;
+}
+
+function hasFieldExact(context, reference, key) {
+	try {
+		const object = context.heap.get(reference);
+		return object?.fields?.has?.(String(key)) ?? false;
+	} catch {
+		return false;
+	}
 }
 
 function isStaticFieldOperation(name) {

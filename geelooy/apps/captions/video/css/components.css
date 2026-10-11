@@ -106,8 +106,8 @@ div + .file-label,
 }
 
 .hidden-control,
-.hidden {
-	display: none !important;
+.hidden.hidden {
+	display: none;
 }
 
 #translation-caption-field:not(.hidden-control) {

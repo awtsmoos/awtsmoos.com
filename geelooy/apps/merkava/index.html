@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Merkava</title>
+<link rel="stylesheet" href="css/browser.css">
+<!-- Engine UMD prerequisites: classic scripts populate globalThis.Merkava,
+     which the engine's ES modules read at evaluation time. Order matters. -->
+<script src="engine/umd/CssSyntaxCharacters.js"></script>
+<script src="engine/umd/CssSyntaxTokenizer.js"></script>
+<script src="engine/umd/CssDeclarationParser.js"></script>
+<script src="engine/umd/CssRuleParser.js"></script>
+<script src="engine/umd/CssSelectorList.js"></script>
+<script src="engine/umd/CssSelectorScanner.js"></script>
+<script src="engine/umd/CssSpecificity.js"></script>
+<script src="engine/umd/CssConditionEvaluator.js"></script>
+<script src="engine/umd/CssRuleCompiler.js"></script>
+<script src="engine/umd/CssInheritedProperties.js"></script>
+<script src="engine/umd/CssAttributeSelector.js"></script>
+<script src="engine/umd/CssNthExpression.js"></script>
+<script src="engine/umd/CssPseudoMatcher.js"></script>
+<script src="engine/umd/CssSelectorMatcher.js"></script>
+<script src="engine/umd/CssRuleIndex.js"></script>
+<script src="engine/umd/CssTransition.js"></script>
+<script src="engine/umd/CssTransform.js"></script>
+<script src="engine/umd/CssPseudoElements.js"></script>
+<!-- vm-core.js: classic script, sets globalThis.MerkavaVM — required before any
+     module evaluates, so page <script>s can run in the Merkava VM via createPage. -->
+<script src="engine/vm-core.js"></script>
+<!-- Extension host prerequisites (see js/extensions-host.js header for the seam
+     contract). Classic scripts, before the module boot. Order matters. -->
+<script src="../../scripts/awtsmoos/MerkavaExecutor/merkava-browser/ExtensionHost.js"></script>
+<script src="../../scripts/awtsmoos/MerkavaExecutor/merkava-browser/VmScriptRunner.js"></script>
+<script src="js/extensions-host.js"></script>
+</head>
+<body>
+<div id="app">
+  <div id="tabstrip" role="tablist" aria-label="Tabs">
+    <div id="tabs"></div>
+    <button id="newtab" title="New tab (Ctrl+T)" aria-label="New tab">+</button>
+  </div>
+
+  <div id="toolbar">
+    <button class="tbtn" id="back" title="Back (Alt+Left)" aria-label="Back">←</button>
+    <button class="tbtn" id="fwd" title="Forward (Alt+Right)" aria-label="Forward">→</button>
+    <button class="tbtn" id="reload" title="Reload (Ctrl+R)" aria-label="Reload">⟳</button>
+    <button class="tbtn" id="home" title="Home" aria-label="Home">⌂</button>
+    <input id="addr" type="text" spellcheck="false" autocomplete="off"
+           placeholder="Search, type a URL, paste HTML starting with <, or about:home"
+           aria-label="Address bar">
+    <button class="tbtn" id="go" title="Go (Enter)" aria-label="Go">↵</button>
+    <button class="tbtn" id="bkm" title="Bookmark this page" aria-label="Bookmark this page">★</button>
+    <div id="ext-buttons" aria-label="Extension buttons"></div>
+    <button class="tbtn" id="t-history" title="History" aria-label="History"><span>◷</span><span class="lbl">History</span></button>
+    <button class="tbtn" id="t-bookmarks" title="Bookmarks" aria-label="Bookmarks"><span>★</span><span class="lbl">Saved</span></button>
+    <button class="tbtn" id="t-downloads" title="Downloads" aria-label="Downloads"><span>⤓</span><span class="lbl">Files</span></button>
+    <button class="tbtn" id="t-extensions" title="Extensions" aria-label="Extensions"><span>🧩</span></button>
+    <button class="tbtn" id="t-settings" title="Settings" aria-label="Settings"><span>⚙</span></button>
+  </div>
+
+  <div id="notice" role="alert">
+    <span class="n-icon">⚠</span>
+    <span class="n-body"></span>
+    <button class="n-close" aria-label="Dismiss notice">Dismiss</button>
+  </div>
+
+  <div id="viewport">
+    <div id="canvases"></div>
+    <div id="chrome-layer"></div>
+    <div id="ext-popup" hidden></div>
+  </div>
+
+  <div id="shelf" aria-label="Downloads"></div>
+
+  <div id="statusbar">
+    <span>engine <b id="st-backend">…</b></span>
+    <span>render <b id="st-ms">–</b></span>
+    <span>items <b id="st-items">–</b></span>
+    <span>heap <b id="st-heap">–</b></span>
+    <span id="st-mode"></span>
+    <span class="st-right">Merkava — rendered from scratch</span>
+  </div>
+</div>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

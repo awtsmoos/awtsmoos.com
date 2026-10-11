@@ -23,15 +23,11 @@
 	transition-duration: 0.001ms;
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.shema-strike,
-	.shema-strike *,
-	.shema-strike *::before,
-	.shema-strike *::after {
-		scroll-behavior: auto !important;
-		animation-duration: 0.001ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: 0.001ms !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .shema-strike, :root:root:root .shema-strike *, :root:root:root .shema-strike *::before, :root:root:root .shema-strike *::after{
+		scroll-behavior: auto;
+		animation-duration: 0.001ms;
+		animation-iteration-count: 1;
+		transition-duration: 0.001ms;
 	}
 }
 

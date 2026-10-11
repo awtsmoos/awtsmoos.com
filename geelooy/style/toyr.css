@@ -38,7 +38,7 @@ body,p {
 
 a {
     text-decoration: none;
-    color: #fff;
+    color: var(--toyr-ink, #fff);
     transition: all 0.3s ease;
     display: inline-block;
     margin-bottom: 10px;
@@ -104,7 +104,7 @@ a:hover {
 }
 .star {
     position: absolute;
-    background-color: #fff;
+    background-color: var(--toyr-ink, #fff);
     width: 2px;
     height: 2px;
     z-index: -1;
@@ -127,7 +127,7 @@ a:hover {
 }
 .reeyuh a {
     text-decoration: none;
-    color: #fff;
+    color: var(--toyr-ink, #fff);
     transition: all 0.3s ease;
     display: inline-block;
     margin-bottom: 10px;

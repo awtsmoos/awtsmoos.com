@@ -66,13 +66,9 @@ Awtsmoos.com gives intent, context, and dock one tactile grammar where focus is 
 	.composer-civilization-document .creatorIntentRail .creatorRailButton[data-active="true"] > span {
 		animation: none;
 		filter: none;
-	}
-
-	.composer-civilization-document :is(
-		.creatorRailButton,
-		.creatorContextAction,
-		.creatorDockButton
-	) {
-		transform: none !important;
+	}:root:root:root .composer-civilization-document :is(
+		.creatorRailButton, :root:root:root .creatorContextAction, :root:root:root .creatorDockButton
+	){
+		transform: none;
 	}
 }

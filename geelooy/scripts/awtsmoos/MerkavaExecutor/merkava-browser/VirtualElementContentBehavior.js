@@ -4,10 +4,22 @@
 
 (function(root, factory) {
 	if (typeof module === "object" && module.exports) {
+		// B"H (startup): canvas/WebGL contexts cost ~160ms to load and most
+		// pages never touch a canvas. Load lazily on first getContext() call.
+		const lazyRequire = path => {
+			let mod = null;
+			return new Proxy({}, {
+				get(t, prop) {
+					if (typeof prop === "symbol") return undefined;
+					if (!mod) mod = require(path);
+					return mod[prop];
+				}
+			});
+		};
 		module.exports = factory(
 			require("./VirtualHtmlSerializer.js"),
-			require("./VirtualCanvas2DContext.js"),
-			require("./VirtualWebGLContext.js"),
+			lazyRequire("./VirtualCanvas2DContext.js"),
+			lazyRequire("./VirtualWebGLContext.js"),
 			require("./VirtualElementSupport.js")
 		);
 	} else {

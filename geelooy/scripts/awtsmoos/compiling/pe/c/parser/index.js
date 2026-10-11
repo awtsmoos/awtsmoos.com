@@ -7,5 +7,6 @@ import { parseProgram } from './declarations.js';
 
 export function parse(tokens) {
     const stream = new TokenStream(tokens);
+    stream.typedefs = new Map();
     return parseProgram(stream);
 }

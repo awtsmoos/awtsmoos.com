@@ -1,11 +1,39 @@
 /* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
-:root {
-  --alias-bg: #f6f8fb;
-  --alias-panel: #ffffff;
-  --alias-soft: #f8fafc;
-  --alias-line: #dfe6ee;
-  --alias-text: #0f172a;
-  --alias-muted: #64748b;
-  --alias-accent: #0f766e;
-  --alias-shadow: 0 2px 10px rgba(15, 23, 42, .06);
+/* B"H 2026-10-09 — Dream audit: the alias shell follows the approved dream design
+ * (warm cream light theme, deep warm dark theme, elegant serif, gold accents).
+ * Light is the default; :root[data-theme="dark"] switches to the deep warm dark.
+ * Zero, tokens only. */
+:root:not([data-theme="dark"]) {
+  --dream-hebrew-font: "Frank Ruhl Libre", "Cardo", "Times New Roman", serif;
+  --dream-serif-font: "Source Serif 4", "Cardo", Georgia, serif;
+  --dream-sans-font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --alias-bg: #f7f1e3;
+  --alias-panel: #fffdf6;
+  --alias-soft: #efe4cd;
+  --alias-line: #d9c9a8;
+  --alias-text: #2b2118;
+  --alias-muted: #5a4c3d;
+  --alias-accent: #8a6d3b;
+  --alias-focus: #b3541e;
+  --alias-btn-bg: #2b2118;
+  --alias-btn-text: #fffdf6;
+  --alias-focus-ring: rgba(138, 109, 59, 0.18);
+  --alias-shadow: 0 2px 14px rgba(90, 70, 40, 0.10);
+}
+:root[data-theme="dark"] {
+  --dream-hebrew-font: "Frank Ruhl Libre", "Cardo", "Times New Roman", serif;
+  --dream-serif-font: "Source Serif 4", "Cardo", Georgia, serif;
+  --dream-sans-font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --alias-bg: #171209;
+  --alias-panel: #201a10;
+  --alias-soft: #100c06;
+  --alias-line: #4a3a22;
+  --alias-text: #f0e7d3;
+  --alias-muted: #c9b992;
+  --alias-accent: #d4a94e;
+  --alias-focus: #e8a34d;
+  --alias-btn-bg: #d4a94e;
+  --alias-btn-text: #171209;
+  --alias-focus-ring: rgba(212, 169, 78, 0.22);
+  --alias-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
 }

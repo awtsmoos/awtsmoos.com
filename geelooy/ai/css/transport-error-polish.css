@@ -50,7 +50,7 @@
   padding: 3px 7px;
   border-radius: 10px;
   background: rgba(2, 6, 23, .48);
-  color: #fde68a;
+  color: var(--awt-amber);
   font-size: .78rem;
   white-space: normal;
 }

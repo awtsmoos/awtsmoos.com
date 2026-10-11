@@ -60,6 +60,17 @@ export function createFrameworkJavaExecutorMethods(runtime) {
 			}
 			if (name === "execute") return executeGuestTask(runtime, context, args[0], args[1]);
 			if (name === "submit") return submitGuestTask(runtime, context, record, args);
+			if (name === "schedule") {
+				// ScheduledThreadPoolExecutor.schedule: for emulation, execute immediately.
+				// args: (executor, runnable/callable, delay, timeUnit)
+				const task = args[1];
+				return executeGuestTask(runtime, context, args[0], task);
+			}
+			if (name === "scheduleAtFixedRate" || name === "scheduleWithFixedDelay") {
+				// For emulation, execute once immediately.
+				const task = args[1];
+				return executeGuestTask(runtime, context, args[0], task);
+			}
 			if (name === "invokeAll") return invokeAllGuestTasks(runtime, context, args[0], args[1]);
 			if (name === "invokeAny") return invokeAnyGuestTask(runtime, context, args[0], args[1]);
 			if (name === "shutdown") return shutdownGuestExecutor(runtime, args[0]);
@@ -70,6 +81,22 @@ export function createFrameworkJavaExecutorMethods(runtime) {
 			if (name === "awaitTermination") {
 				return guestExecutorState(runtime, args[0]).shutdown ? 1 : 0;
 			}
+			if (name === "setKeepAliveTime" || name === "setCorePoolSize" ||
+				name === "setMaximumPoolSize" || name === "setRejectedExecutionHandler" ||
+				name === "setThreadFactory" || name === "prestartAllCoreThreads" ||
+				name === "prestartCoreThread" || name === "purge" ||
+				name === "allowCoreThreadTimeOut") {
+				// Configuration methods: accept and ignore for emulation.
+				// Thread pool tuning doesn't affect correctness.
+				if (name === "allowCoreThreadTimeOut") {
+					return setGuestExecutorCoreThreadTimeout(runtime, args[0], args[1]);
+				}
+				return undefined;
+			}
+			if (name === "getKeepAliveTime") return 60;
+			if (name === "getCorePoolSize" || name === "getMaximumPoolSize" ||
+				name === "getPoolSize" || name === "getActiveCount" ||
+				name === "getTaskCount" || name === "getCompletedTaskCount") return 0;
 			throw executorError("ANDROID_EXECUTOR_METHOD_UNSUPPORTED", record.signature);
 		}
 	});

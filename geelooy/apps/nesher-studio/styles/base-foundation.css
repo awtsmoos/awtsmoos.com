@@ -40,6 +40,6 @@ body::before {
 	mask-image: radial-gradient(circle at center, black, transparent 86%);
 }
 
-[hidden] {
-	display: none !important;
+[hidden][hidden] {
+	display: none;
 }

@@ -5,7 +5,7 @@
 }
 
 .home-feed-panel {
-  background: linear-gradient(180deg, rgba(9,13,28,.82), rgba(4,7,16,.82)) !important;
+  background: linear-gradient(180deg, rgba(9,13,28,.82), rgba(4,7,16,.82));
   contain: layout paint;
 }
 

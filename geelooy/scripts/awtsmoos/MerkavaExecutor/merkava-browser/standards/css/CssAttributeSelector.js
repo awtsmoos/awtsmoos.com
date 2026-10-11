@@ -7,6 +7,14 @@
 function matchesAttributeSelector(element, source) {
 	const parsed = parseAttributeSelector(source);
 	if (!parsed) return false;
+	return matchParsedAttributeSelector(element, parsed);
+}
+
+/**
+ * Matches a pre-parsed attribute selector (B"H 2026-10-09: the compiled
+ * selector path parses once at compile time instead of per match).
+ */
+function matchParsedAttributeSelector(element, parsed) {
 	const value = element.getAttribute?.(parsed.name);
 	if (value == null) return !parsed.operator ? element.hasAttribute?.(parsed.name) === true : false;
 	if (!parsed.operator) return true;
@@ -21,8 +29,24 @@ function matchesAttributeSelector(element, source) {
 	return false;
 }
 
-/** Parses namespace-free CSS attribute selector syntax and comparison flags. */
+/**
+ * Parses namespace-free CSS attribute selector syntax and comparison flags.
+ * Results are cached by source (bounded) — attribute bodies are parsed once
+ * per unique selector instead of once per element tested.
+ */
+const PARSE_CACHE = new Map();
+const PARSE_CACHE_MAX = 1024;
 function parseAttributeSelector(source) {
+	const key = String(source || "");
+	if (PARSE_CACHE.has(key)) return PARSE_CACHE.get(key);
+	const parsed = parseAttributeSelectorUncached(key);
+	if (PARSE_CACHE.size >= PARSE_CACHE_MAX) PARSE_CACHE.delete(PARSE_CACHE.keys().next().value);
+	PARSE_CACHE.set(key, parsed);
+	return parsed;
+}
+
+/** Parses namespace-free CSS attribute selector syntax and comparison flags. */
+function parseAttributeSelectorUncached(source) {
 	const text = String(source || "").trim();
 	let at = 0;
 	const name = readName(text, at);
@@ -95,7 +119,7 @@ function isSpace(character) {
 	return character === " " || character === "\n" || character === "\r" || character === "\t" || character === "\f";
 }
 
-const AwtsExports = { matchesAttributeSelector, parseAttributeSelector };
+const AwtsExports = { matchParsedAttributeSelector, matchesAttributeSelector, parseAttributeSelector };
 if (typeof module === "object" && module.exports) {
 	module.exports = AwtsExports;
 } else {

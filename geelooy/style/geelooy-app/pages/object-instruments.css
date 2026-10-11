@@ -57,5 +57,5 @@ body.geelooy-app-shell :where(.notifications-summary, .g-search-status, .profile
 		transform: rotate(-5deg) scale(1.08);
 	} }
 @media (prefers-reduced-motion: reduce) { body.geelooy-app-shell .g-app-icon {
-		transform: none !important;
+		transform: none;
 	} }

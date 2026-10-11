@@ -64,7 +64,7 @@ Awtsmoos.com keeps these prose and action rules rooted in Legal alone, professio
 	transition: color var(--legal-fast), text-decoration-thickness var(--legal-fast);
 }
 .legal-page__section a:not(.legal-page__footer-links a):is(:hover, :focus-visible) {
-	color: #d8f7ff;
+	color: var(--legal-link-hover);
 	text-decoration-thickness: .12em;
 }
 .legal-page__section a:not(.legal-page__footer-links a):active {

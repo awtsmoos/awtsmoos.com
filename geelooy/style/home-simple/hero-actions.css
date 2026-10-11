@@ -19,13 +19,14 @@ body[data-geelooy-route="home"] .hero-actions {
 	gap: .55rem;
 	min-height: 44px;
 	padding: .75rem 1rem;
-	border: 1px solid #345b77;
+	border: 1px solid var(--panel-border);
 	border-radius: .88rem;
-	background: #0e2035;
-	color: #f4f8ff;
+	background: var(--panel-background);
+	color: var(--text-primary);
 	font-size: .82rem;
 	font-weight: 850;
 	text-align: center;
+	box-shadow: var(--sefer-shadow);
 	transition:
 		background 160ms ease,
 		border-color 160ms ease,
@@ -35,34 +36,34 @@ body[data-geelooy-route="home"] .hero-actions {
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .hero-actions a:first-child {
-	border-color: #d4eaff;
-	background: #eef7ff;
-	color: #07101d;
+	border-color: var(--home-accent-strong);
+	background: var(--home-accent);
+	color: var(--home-accent-ink);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .hero-actions a[data-world-id="wallet"] {
-	border-color: #7a5d24;
-	background: #2d230c;
-	color: #ffe2a1;
+	border-color: var(--panel-border-strong);
+	background: var(--panel-raised);
+	color: var(--home-accent-strong);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (hover: hover) and (pointer: fine) { :where(body[data-geelooy-route="home"]) .hero-actions a:hover {
-		border-color: #64c5ef;
-		background: #17334f;
-		color: #fff;
+		border-color: var(--panel-border-strong);
+		background: var(--panel-raised);
+		color: var(--text-primary);
 		transform: translateY(-2px);
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (hover: hover) and (pointer: fine) { :where(body[data-geelooy-route="home"]) :where(.hero-actions) a:first-child:hover {
-		border-color: #fff;
-		background: #fff;
-		color: #040b14;
+		border-color: var(--home-accent-strong);
+		background: var(--home-accent-strong);
+		color: var(--home-accent-ink);
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (hover: hover) and (pointer: fine) { :where(body[data-geelooy-route="home"]) :where(.hero-actions) a[data-world-id="wallet"]:hover {
-		border-color: #d5a73d;
-		background: #3b2c0c;
-		color: #fff0c9;
+		border-color: var(--home-accent);
+		background: var(--home-accent-soft);
+		color: var(--home-accent-strong);
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .hero-actions a:active {
@@ -73,6 +74,12 @@ body[data-geelooy-route="home"] .hero-actions {
 :where(body[data-geelooy-route="home"]) .hero-actions a:focus-visible {
 	outline: 3px solid var(--focus-ring);
 	outline-offset: 2px;
+}
+/* B"H 2026-10-09 — Dream audit: disabled state for hero action links. */
+:where(body[data-geelooy-route="home"]) .hero-actions a[aria-disabled="true"] {
+	opacity: .55;
+	cursor: not-allowed;
+	transform: none;
 }
 @media (max-width: 680px) { body[data-geelooy-route="home"] .hero-actions {
 		display: grid;

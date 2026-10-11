@@ -66,7 +66,7 @@
   padding: 0.2rem 0.5rem;
   border: 0;
   background: #222;
-  color: #fff;
+  color: var(--aw-text);
   font-family: var(--aw-mono);
   text-align: right;
 }
@@ -89,7 +89,7 @@
   border: 1px solid var(--aw-line-strong);
   border-radius: 4px;
   background: #0a0a0f;
-  color: #fff;
+  color: var(--aw-text);
   font-family: var(--aw-mono);
   font-size: 0.7rem;
   resize: vertical;
@@ -176,7 +176,7 @@
   padding: 0.2rem 0.5rem;
   border: 0;
   background: #222;
-  color: #fff;
+  color: var(--aw-text);
   font-family: var(--aw-mono);
   text-align: right;
 }
@@ -199,7 +199,7 @@
   border: 1px solid var(--aw-line-strong);
   border-radius: 4px;
   background: #0a0a0f;
-  color: #fff;
+  color: var(--aw-text);
   font-family: var(--aw-mono);
   font-size: 0.7rem;
   resize: vertical;

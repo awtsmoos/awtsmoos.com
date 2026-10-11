@@ -12,9 +12,9 @@
 	color: currentColor;
 }
 
-.bookshelf-modal {
-	width: min(900px, 94vw) !important;
-	max-width: min(900px, 94vw) !important;
+.bookshelf-modal.bookshelf-modal {
+	width: min(900px, 94vw);
+	max-width: min(900px, 94vw);
 }
 
 .bookshelf-top {
@@ -89,9 +89,9 @@
 }
 
 @media (max-width: 768px) {
-	.bookshelf-modal {
-		width: calc(100vw - 20px) !important;
-		max-width: none !important;
+	.bookshelf-modal.bookshelf-modal {
+		width: calc(100vw - 20px);
+		max-width: none;
 	}
 
 	.bookshelf-top > .modal-btn {

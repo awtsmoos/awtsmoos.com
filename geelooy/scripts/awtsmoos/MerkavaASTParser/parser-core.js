@@ -131,7 +131,8 @@
             }
 
             _guard() {
-                if (this.op_count++ > this.max_ops) {
+                // B"H - Amortized safety check (was: per-token-advance overhead)
+                if (((++this.op_count & 1023) === 0) && this.op_count > this.max_ops) {
                     throw new Error(`PARSER HALTED: Max ops exceeded near line ${this.currToken.line}.`);
                 }
             }
@@ -148,6 +149,8 @@
 
 
             _startNode() {
+                // B"H - noLoc fast path: minimal starter (parser mutates .loc.start internally)
+                if (this.noLoc) return { loc: {} };
                 return {
                     start: this.currToken.startIndex,
                     loc: { start: { line: this.currToken.line, column: this.currToken.column } }
@@ -155,6 +158,11 @@
             }
 
             _finishNode(node, startNodeInfo) {
+                // B"H - noLoc fast path: attach loc directly, no spread (saves 1 object per node)
+                if (this.noLoc) {
+                    node.loc = startNodeInfo.loc;
+                    return node;
+                }
                 const combined = { ...startNodeInfo, ...node };
                 const endToken = this.prevToken || this.currToken;
                 if (endToken) {

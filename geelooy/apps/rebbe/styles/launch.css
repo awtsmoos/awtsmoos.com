@@ -31,7 +31,7 @@
 .rebbe-runtime-gate[data-state="failed"] {
 	border-color: rgba(255, 102, 102, 0.8);
 	border-radius: 18px;
-	color: #fff;
+	color: var(--c-text-main);
 	text-transform: none;
 }
 
@@ -108,13 +108,9 @@
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.rebbe-runtime-gate,
-	#boot-sequence,
-	.boot-bar-fill,
-	.item {
-		transition: none !important;
-		animation: none !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .rebbe-runtime-gate, :root:root:root #boot-sequence, :root:root:root .boot-bar-fill, :root:root:root .item{
+		transition: none;
+		animation: none;
 	}
 }
 

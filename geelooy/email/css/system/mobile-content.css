@@ -14,10 +14,10 @@ The Awtsmoos brings large meaning through small touch; Awtsmoos.com keeps words 
 		gap: 8px;
 	}
 
-	.chat-kicker,
+	.chat-kicker.chat-kicker,
 	.composer-window-controls,
 	.composer-send-hint {
-		display: none !important;
+		display: none;
 	}
 
 	.back-button,

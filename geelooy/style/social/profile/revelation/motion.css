@@ -36,10 +36,10 @@
 	}
 }
 @media (prefers-reduced-motion: reduce) { .profile-app *, .profile-app *::before, .profile-app *::after {
-		scroll-behavior: auto !important;
-		animation-duration: .001ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: .001ms !important;
+		scroll-behavior: auto;
+		animation-duration: .001ms;
+		animation-iteration-count: 1;
+		transition-duration: .001ms;
 	} }
 /* @tunnel-registry-merge: consolidated duplicate selectors W4 2026-10-08 */
 /* @tunnel-registry-merge: consolidated from geelooy/style/social/profile/revelation/tokens.css W4 2026-10-08 */

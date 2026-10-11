@@ -56,7 +56,7 @@ test("records deterministic global metadata and assembly order", async () => {
 	);
 	assert.deepEqual(compiled.globals.map(global => global.name), ["first", "second"]);
 	assert.equal(compiled.globals[0].initializer.kind, "integer");
-	assert.equal(compiled.globals[1].initializer.value, -2);
+	assert.equal(compiled.globals[1].initializer.value, -2n);
 	assert.ok(compiled.assembly.indexOf("first:") < compiled.assembly.indexOf("second:"));
 	assert.equal(compiled.lowering.scalarStorage, "globals-stack-pointers-v1");
 });

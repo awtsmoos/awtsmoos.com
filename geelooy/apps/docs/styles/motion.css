@@ -94,14 +94,11 @@ button:active:not(:disabled) {
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		animation-duration: 0.001ms !important;
-		animation-iteration-count: 1 !important;
-		scroll-behavior: auto !important;
-		transition-duration: 0.001ms !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root *, :root:root:root *::before, :root:root:root *::after{
+		animation-duration: 0.001ms;
+		animation-iteration-count: 1;
+		scroll-behavior: auto;
+		transition-duration: 0.001ms;
 	}
 }
 

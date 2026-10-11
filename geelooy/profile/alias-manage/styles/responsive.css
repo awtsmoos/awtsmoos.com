@@ -77,13 +77,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.alias-studio *,
-	.alias-studio *::before,
-	.alias-studio *::after {
-		scroll-behavior: auto !important;
-		animation-duration: .01ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: .01ms !important;
+	.alias-studio.alias-studio *,
+	.alias-studio.alias-studio *::before,
+	.alias-studio.alias-studio *::after {
+		scroll-behavior: auto;
+		animation-duration: .01ms;
+		animation-iteration-count: 1;
+		transition-duration: .01ms;
 	}
 }
 

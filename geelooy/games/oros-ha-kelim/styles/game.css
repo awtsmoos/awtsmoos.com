@@ -20,11 +20,11 @@
 		backdrop-filter: blur(18px) saturate(125%);
 	}
 
-	.oros-app .hidden {
-		display: none !important;
+	.oros-app .hidden.hidden {
+		display: none;
 	}
 
-	.oros-app [hidden] {
-		display: none !important;
+	.oros-app [hidden][hidden] {
+		display: none;
 	}
 }

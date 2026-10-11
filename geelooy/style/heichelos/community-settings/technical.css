@@ -14,7 +14,7 @@
 	display: none;
 }
 .community-technical > summary:is(:hover, :focus-visible) {
-	background: rgba(60, 236, 255, .05);
+	background: var(--govern-accent-soft);
 	outline: 0;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
@@ -31,7 +31,7 @@
 	padding: .9rem;
 	border-top: 1px solid var(--g-line);
 	background: color-mix(in srgb, var(--g-bg-2) 94%, transparent);
-	color: color-mix(in srgb, var(--g-text) 82%, var(--g-cyan));
+	color: color-mix(in srgb, var(--g-text) 82%, var(--govern-accent));
 	font: 500 .78rem/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 	overflow: auto;
 	white-space: pre-wrap;

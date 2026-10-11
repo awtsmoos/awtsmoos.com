@@ -94,8 +94,8 @@ button:disabled {
 	color: var(--accent-ink);
 }
 
-.visually-hidden {
-	position: absolute !important;
+.visually-hidden.visually-hidden {
+	position: absolute;
 	width: 1px;
 	height: 1px;
 	padding: 0;

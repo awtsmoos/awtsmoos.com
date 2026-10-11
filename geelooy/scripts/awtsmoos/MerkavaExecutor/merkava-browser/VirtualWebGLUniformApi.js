@@ -36,7 +36,17 @@
 	function installWebGLUniformApi(Context) {
 		Context.prototype.getUniformLocation = function(program, name) {
 			if (!this.validObject(program, 'program') || !program.linked) return null;
-			const location = { program: program.id, name: String(name ?? '') };
+			const uname = String(name ?? '');
+			// B"H: return null for inactive/missing uniforms (WebGL spec).
+			// Strip [0] suffix for array base lookup.
+			const base = uname.replace(/\[0\]$/, '');
+			const list = program.uniformList || [];
+			const found = list.some(u => {
+				const un = typeof u === 'string' ? u : (u.name || '');
+				return un === uname || un === base || un.replace(/\[0\]$/, '') === base;
+			});
+			if (!found) return null;
+			const location = { program: program.id, name: uname };
 			this.record('getUniformLocation', location);
 			return location;
 		};

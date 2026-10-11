@@ -13,6 +13,11 @@
       return null;
     }
     pointer(type, x, y) {
+      // B"H: layout thrashing defense — hit-testing needs fresh geometry.
+      // The scheduler flushes at most one layout here (usually zero: clean).
+      const sched = this.document.__layoutScheduler;
+      if (sched && !sched.engine) sched.attachEngine(this.layoutEngine);
+      if (sched) sched.layoutIfNeeded();
       const target = this.hitTest(x, y) || this.document.body;
       this.log.push('event', `${type} target=${describe(target)}`);
       if (type === 'pointermove') this.updateHover(target);
@@ -26,13 +31,11 @@
       return { target: describe(target), defaultPrevented: event.defaultPrevented, x, y };
     }
     mouseEvent(type, x, y) { return new this.window.MouseEvent(type, { bubbles: true, cancelable: true, clientX: x, clientY: y, screenX: x, screenY: y }); }
-    mouseEvent(type, x, y) { return new this.window.MouseEvent(type, { bubbles: true, cancelable: true, clientX: x, clientY: y, screenX: x, screenY: y }); }
     focus(target) { const before = this.document.activeElement; target.focus?.(); if (before !== this.document.activeElement) this.log.push('event', 'focus changed', { target: describe(this.document.activeElement) }); }
     keyboard(type, key) { const target = this.document.activeElement || this.document.body; const event = new this.window.KeyboardEvent(type, { bubbles: true, cancelable: true, key }); this.log.push('event', `${type} key=${key} target=${describe(target)}`); target.dispatchEvent(event); return { target: describe(target), key }; }
     updateHover(target) { if (target === this.hovered) return; if (this.hovered) this.log.push('event', 'hover leave', { target: describe(this.hovered) }); this.hovered = target; if (target) this.log.push('event', 'hover enter', { target: describe(target) }); }
-    logPath(target) { const path = []; for (let n = target; n; n = n.parentNode) path.push(describe(n)); this.log.push('event', 'capture ' + path.slice().reverse().join(' -> ')); this.log.push('event', 'bubble ' + path.join(' -> ')); }
+    logPath(target) { if (!this.log.enabled) return; const path = []; for (let n = target; n; n = n.parentNode) path.push(describe(n)); this.log.push('event', 'capture ' + path.slice().reverse().join(' -> ')); this.log.push('event', 'bubble ' + path.join(' -> ')); }
   }
-  function eventTarget(node) { return node?.nodeType === 3 ? node.parentNode || node : node; }
   function eventTarget(node) { return node?.nodeType === 3 ? node.parentNode || node : node; }
   function focusable(node) { return !!node && ['input','textarea','select','button','a'].includes(node.localName) && !node.disabled; }
   function describe(node) { if (!node) return 'null'; return `${node.localName || node.tagName}${node.id ? '#' + node.id : ''}${node.className ? '.' + String(node.className).trim().replace(/\s+/g, '.') : ''}`; }

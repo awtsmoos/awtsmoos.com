@@ -110,8 +110,15 @@ searchPacked/
 *.pdf
 geelooy/games/mitzvahWorld/assets/
 geelooy/games/mitzvahWorld/references/
-# Release-owned first-play assets are verified by hash and must travel with the Git release.
-!geelooy/games/mitzvahWorld/build/generated/assets/
-!geelooy/games/mitzvahWorld/build/generated/assets/**
+# B"H (2026-10-09): Git repo is code-only per Yaakov — no images, no binaries.
+# All assets go to apps/drive via API. Removed the build/generated/assets exception.
+*.exe
+*.dll
+*.so
+*.apk
+*.aab
+*.db
+*.sqlite
+*.sqlite3
 /geelooy/web/
 /geelooy/games/awtsmoos-bounce/

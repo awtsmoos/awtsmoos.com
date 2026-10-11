@@ -24,7 +24,7 @@
 .playlist-card h3 {
 	margin: 0;
 	overflow: hidden;
-	color: #fff;
+	color: var(--c-text-main);
 	font-size: 22px;
 	text-overflow: ellipsis;
 	white-space: nowrap;

@@ -36,10 +36,7 @@
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.side-panel,
-	.selection-toolbar,
-	.docs-toast {
-		transition: none !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .side-panel, :root:root:root .selection-toolbar, :root:root:root .docs-toast{
+		transition: none;
 	}
 }

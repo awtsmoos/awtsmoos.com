@@ -6,10 +6,12 @@
 
 /** Draws one retained box background and its text into the CPU surface. */
 static void raster_box(
+	const AwtsNativeLayout* layout,
 	const AwtsNativeBox* box,
 	AwtsNativeSurface* surface
 ) {
-	if (!box || !surface) {
+	AwtsNativeSlice text;
+	if (!layout || !box || !surface) {
 		return;
 	}
 	awts_native_fill_rect(
@@ -18,15 +20,16 @@ static void raster_box(
 		(int)box->y,
 		(int)box->width,
 		(int)box->height,
-		box->background
+		awts_native_unpack_color(box->background)
 	);
-	if (box->text.length) {
+	text = awts_native_box_text(layout, box);
+	if (text.length) {
 		awts_native_draw_text(
 			surface,
 			(int)(box->x + box->padding),
 			(int)(box->y + box->padding),
-			box->text,
-			box->foreground
+			text,
+			awts_native_unpack_color(box->foreground)
 		);
 	}
 }
@@ -52,7 +55,7 @@ int awts_native_raster_layout(
 		page
 	);
 	for (uint32_t index = 0; index < layout->boxCount; index += 1) {
-		raster_box(&layout->boxes[index], surface);
+		raster_box(layout, &layout->boxes[index], surface);
 	}
 	return 1;
 }

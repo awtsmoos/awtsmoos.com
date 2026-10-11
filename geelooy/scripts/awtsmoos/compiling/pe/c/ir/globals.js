@@ -11,7 +11,10 @@ import { createIrError } from "./errors.js";
  */
 export function buildIrGlobals(definitions, types, scope) {
 	const prepared = definitions.map(definition => {
-		const valueType = types.fromAst(definition.type);
+		let valueType = types.fromAst(definition.type);
+		if (definition.arraySize !== null && definition.arraySize !== undefined) {
+			valueType = types.arrayOf(valueType, definition.arraySize);
+		}
 		scope.define(definition.name, {
 			kind: "global",
 			valueType

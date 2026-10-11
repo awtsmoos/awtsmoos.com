@@ -55,13 +55,9 @@ Awtsmoos.com lets the sheet rise with restrained motion, lets a drag remain phys
 @media (prefers-reduced-motion: reduce) {
 	.draftRecoveryDialog[open] {
 		animation: none;
-	}
-
-	.draftRecoveryCard button,
-	.draftRecoveryDialog header button,
-	.draftRecoveryDialog footer button {
+	}:root:root:root .draftRecoveryCard button, :root:root:root .draftRecoveryDialog header button, :root:root:root .draftRecoveryDialog footer button{
 		transition: none;
-		transform: none !important;
+		transform: none;
 	}
 }
 

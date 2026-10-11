@@ -25,10 +25,9 @@ contrast, and stillness so the forge does not demand one body or motion preferen
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	*, *::before, *::after {
-		scroll-behavior: auto !important;
-		transition-duration: 0.01ms !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root *, :root:root:root *::before, :root:root:root *::after{
+		scroll-behavior: auto;
+		transition-duration: 0.01ms;
 	}
 }
 

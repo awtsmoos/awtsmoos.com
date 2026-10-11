@@ -1,14 +1,14 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 @media (max-width: 760px) {
   .geelooy-home-shell {
-    max-width: 100vw !important;
-    padding-bottom: calc(max(9.5rem, env(safe-area-inset-bottom)) + .35rem) !important;
+    max-width: 100vw;
+    padding-bottom: calc(max(9.5rem, env(safe-area-inset-bottom)) + .35rem);
   }
 
   .home-command-dock {
-    left: max(.62rem, env(safe-area-inset-left)) !important;
-    max-width: calc(100vw - 1.24rem) !important;
-    right: max(.62rem, env(safe-area-inset-right)) !important;
+    left: max(.62rem, env(safe-area-inset-left));
+    max-width: calc(100vw - 1.24rem);
+    right: max(.62rem, env(safe-area-inset-right));
   }
 
   .home-empty-actions a {
@@ -17,9 +17,9 @@
   }
 
   .home-empty-state div {
-    align-items: start !important;
-    display: grid !important;
-    gap: .25rem !important;
+    align-items: start;
+    display: grid;
+    gap: .25rem;
   }
 
   .home-section-heading {

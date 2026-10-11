@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<!-- B"H — Merkava Terminal + Tunnel: the browser runs native commands and IS a tunnel client. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Merkava Terminal</title>
+<style>
+  :root { --bg: #0d1117; --fg: #e6edf3; --accent: #58a6ff; --panel: #161b22; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg);
+         font-family: ui-monospace, "Cascadia Code", Consolas, monospace; }
+  #tabs { display: flex; gap: 4px; padding: 8px; background: var(--panel); }
+  #tabs button { background: #21262d; color: var(--fg); border: 1px solid #30363d;
+                 padding: 6px 12px; cursor: pointer; border-radius: 6px; }
+  #tabs button.active { border-color: var(--accent); }
+  #term { padding: 12px; white-space: pre-wrap; word-break: break-all;
+          min-height: 60vh; font-size: 14px; line-height: 1.35; }
+  #term .cursor { background: var(--fg); color: var(--bg); }
+  #tunnel { padding: 12px; border-top: 1px solid #30363d; }
+  #tunnel input, #tunnel button { font: inherit; padding: 6px 10px; margin: 2px;
+      background: #21262d; color: var(--fg); border: 1px solid #30363d; border-radius: 6px; }
+  #tunnelOut { white-space: pre-wrap; max-height: 30vh; overflow: auto; margin-top: 8px; }
+</style>
+</head>
+<body>
+<div id="tabs"></div>
+<div id="term" tabindex="0"></div>
+<div id="tunnel">
+  <strong>Tunnel</strong>
+  <input id="tunnelCmd" placeholder="command to run on tunnel device…" size="40">
+  <button id="tunnelRun">Run</button>
+  <button id="tunnelDevices">Devices</button>
+  <div id="tunnelOut"></div>
+</div>
+<script>
+(function () {
+  "use strict";
+  // The host page wires Merkava.VirtualTerminal + Merkava.MerkavaTunnelClient.
+  const VT = (window.Merkava && window.Merkava.VirtualTerminal) || null;
+  const TC = (window.Merkava && window.Merkava.MerkavaTunnelClient) || null;
+  const termEl = document.getElementById("term");
+  const tabsEl = document.getElementById("tabs");
+
+  const ANSI_FG = ["#000","#a00","#0a0","#a50","#00a","#a0a","#0aa","#aaa",
+                   "#555","#f55","#5f5","#ff5","#55f","#f5f","#5ff","#fff"];
+
+  function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
+
+  let term = null, active = null;
+
+  function render(s) {
+    const lines = s.getStyledLines();
+    let html = "";
+    for (const ln of lines) {
+      for (const sp of ln.spans) {
+        let style = "";
+        const fg = sp.fgTrue ? `rgb(${sp.fgTrue.join(",")})` : (sp.fg !== 255 ? ANSI_FG[sp.fg % 16] : "");
+        const bg = sp.bgTrue ? `rgb(${sp.bgTrue.join(",")})` : (sp.bg !== 255 && sp.bg !== 0 ? ANSI_FG[sp.bg % 16] : "");
+        if (fg) style += `color:${fg};`;
+        if (bg) style += `background:${bg};`;
+        if (sp.attr & 1) style += "font-weight:bold;";
+        if (sp.attr & 8) style += "text-decoration:underline;";
+        if (sp.attr & 32) style += `color:${bg || "#000"};background:${fg || "#fff"};`;
+        html += style ? `<span style="${style}">${esc(sp.text)}</span>` : esc(sp.text);
+      }
+      html += "\n";
+    }
+    // cursor
+    termEl.innerHTML = html + '<span class="cursor"> </span>';
+    termEl.scrollTop = termEl.scrollHeight;
+  }
+
+  function renderTabs() {
+    tabsEl.innerHTML = "";
+    for (const info of term.list()) {
+      const b = document.createElement("button");
+      b.textContent = (info.id === active.id ? "● " : "") + info.title;
+      if (info.id === active.id) b.className = "active";
+      b.onclick = () => { active = term.activate(info.id); renderTabs(); render(active); };
+      tabsEl.appendChild(b);
+    }
+    const add = document.createElement("button");
+    add.textContent = "+";
+    add.onclick = () => { const s = term.createSession({}); s.onOutput = render; s.start(); active = s; renderTabs(); render(s); termEl.focus(); };
+    tabsEl.appendChild(add);
+  }
+
+  if (VT) {
+    term = new VT({ cols: 100, rows: 30 });
+    term.onSessionOutput = (s) => { if (s === active) render(s); };
+    active = term.createSession({ title: "main" });
+    active.onOutput = render;
+    active.start();
+    renderTabs(); render(active);
+    termEl.focus();
+    termEl.addEventListener("keydown", (e) => {
+      e.preventDefault();
+      let data = null;
+      if (e.key.length === 1 && !e.ctrlKey && !e.metaKey) data = e.key;
+      else if (e.key === "Enter") data = "\r";
+      else if (e.key === "Backspace") data = "\x7f";
+      else if (e.key === "Tab") data = "\t";
+      else if (e.key === "ArrowUp") data = "\x1b[A";
+      else if (e.key === "ArrowDown") data = "\x1b[B";
+      else if (e.key === "ArrowRight") data = "\x1b[C";
+      else if (e.key === "ArrowLeft") data = "\x1b[D";
+      else if (e.ctrlKey && e.key === "c") data = "\x03";
+      else if (e.ctrlKey && e.key === "d") data = "\x04";
+      else if (e.ctrlKey && e.key === "u") data = "\x15";
+      else if (e.ctrlKey && e.key === "a") data = "\x01";
+      else if (e.ctrlKey && e.key === "e") data = "\x05";
+      if (data) active.input(data);
+    });
+    // touch keyboard: hidden input trick
+    termEl.addEventListener("click", () => termEl.focus());
+  } else {
+    termEl.textContent = "VirtualTerminal not loaded in this host.";
+  }
+
+  // ---- Tunnel panel ----
+  const out = document.getElementById("tunnelOut");
+  let client = null;
+  function getClient() {
+    if (!TC) { out.textContent = "MerkavaTunnelClient not loaded."; return null; }
+    if (!client) {
+      const token = (window.MERKAVA_TUNNEL_TOKEN) || localStorage.getItem("merkava.tunnel.token") || "";
+      if (!token) { out.textContent = "Set localStorage['merkava.tunnel.token'] first."; return null; }
+      client = new TC({ token, onEvent: (t) => { if (t === "pending") out.textContent += "."; } });
+    }
+    return client;
+  }
+  document.getElementById("tunnelRun").onclick = async () => {
+    const c = getClient(); if (!c) return;
+    const cmd = document.getElementById("tunnelCmd").value || "echo hi";
+    out.textContent = "running: " + cmd + "\n";
+    try { const r = await c.commandRun(cmd, 60000); out.textContent += JSON.stringify(r, null, 2); }
+    catch (e) { out.textContent += "ERROR: " + e.code + " " + e.message; }
+  };
+  document.getElementById("tunnelDevices").onclick = async () => {
+    const c = getClient(); if (!c) return;
+    out.textContent = "discovering…\n";
+    try {
+      const d = await c.myDevice();
+      (d.nativeDevices || []).forEach(n => {
+        out.textContent += `${n.tunnelName} connected=${n.connected} alive=${n.isAlive}\n`;
+      });
+    } catch (e) { out.textContent += "ERROR: " + e.code + " " + e.message; }
+  };
+})();
+</script>
+</body>
+</html>

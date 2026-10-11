@@ -80,7 +80,7 @@ body.is-awtsmoos-embedded-ai .desktop-shell-tunnel{
 }
 body.is-awtsmoos-embedded-ai .desktop-shell-card h3{
   margin:0;
-  color:#f8fbff;
+  color:var(--awt-text);
   font-size:12px;
   text-transform:uppercase;
   letter-spacing:.08em;

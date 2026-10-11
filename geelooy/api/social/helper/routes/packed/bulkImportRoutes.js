@@ -215,19 +215,26 @@ class PackedBulkImportRoutes {
 	// Fail-closed operator key: the request must carry operatorKey matching
 	// process.env.AWTSMOOS_BULK_IMPORT_KEY. When the env var is unset, every
 	// call is rejected — never an open import door.
+	// MAC-SEVERANCE: also accepts AWTSMOOS_DEPLOY_KEY so the VM can import
+	// via the HTTPS deploy key without ever needing the Mac/tunnel.
 	checkAuth() {
 		const expected = process.env.AWTSMOOS_BULK_IMPORT_KEY;
-		if (!expected) {
+		const deployKey = process.env.AWTSMOOS_DEPLOY_KEY;
+		if (!expected && !deployKey) {
 			return { success: false, error: 'IMPORT_NOT_CONFIGURED', message: 'Bulk import operator key is not configured on this server.' };
 		}
 		const given = requestValue(this.$i, 'operatorKey') || this.$i?.body?.operatorKey || '';
 		if (!given) return { success: false, error: 'FORBIDDEN', message: 'operatorKey is required.' };
 		const a = Buffer.from(String(given));
-		const b = Buffer.from(String(expected));
-		if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) {
-			return { success: false, error: 'FORBIDDEN', message: 'Invalid operatorKey.' };
+		// Check against bulk-import key first, then deploy key (Mac-severance path)
+		for (const exp of [expected, deployKey]) {
+			if (!exp) continue;
+			const b = Buffer.from(String(exp));
+			if (a.length === b.length && crypto.timingSafeEqual(a, b)) {
+				return null;
+			}
 		}
-		return null;
+		return { success: false, error: 'FORBIDDEN', message: 'Invalid operatorKey.' };
 	}
 
 	// -- payload loading ------------------------------------------------------

@@ -8,32 +8,32 @@ Awtsmoos.com keeps geometry separate from the runtime truth of when controls exi
 */
 
 /** Touch geometry only; gameplay-state fragments own visibility. */
-#mitzvah-world-root #joy.Awtsmoos-mobile-joystick {
-	position: absolute !important;
-	left: max(18px, env(safe-area-inset-left)) !important;
-	bottom: max(18px, env(safe-area-inset-bottom)) !important;
-	width: 116px !important;
-	height: 116px !important;
-	border: 2px solid rgba(255, 255, 255, .64) !important;
-	border-radius: 50% !important;
-	background: rgba(18, 57, 61, .42) !important;
-	touch-action: none !important;
+#mitzvah-world-root#mitzvah-world-root #joy.Awtsmoos-mobile-joystick {
+	position: absolute;
+	left: max(18px, env(safe-area-inset-left));
+	bottom: max(18px, env(safe-area-inset-bottom));
+	width: 116px;
+	height: 116px;
+	border: 2px solid rgba(255, 255, 255, .64);
+	border-radius: 50%;
+	background: rgba(18, 57, 61, .42);
+	touch-action: none;
 }
 
-#mitzvah-world-root #jump {
-	position: absolute !important;
-	right: max(20px, env(safe-area-inset-right)) !important;
-	bottom: max(28px, env(safe-area-inset-bottom)) !important;
-	width: 70px !important;
-	height: 70px !important;
-	touch-action: manipulation !important;
+#mitzvah-world-root#mitzvah-world-root #jump {
+	position: absolute;
+	right: max(20px, env(safe-area-inset-right));
+	bottom: max(28px, env(safe-area-inset-bottom));
+	width: 70px;
+	height: 70px;
+	touch-action: manipulation;
 }
 
-#mitzvah-world-root #mobileControls[data-collapsed="true"] #joy,
+#mitzvah-world-root#mitzvah-world-root #mobileControls[data-collapsed="true"] #joy,
 #mitzvah-world-root #mobileControls[data-collapsed="true"] #jump {
-	display: none !important;
+	display: none;
 }
 
-#mitzvah-world-root [hidden] {
-	display: none !important;
+#mitzvah-world-root [hidden][hidden] {
+	display: none;
 }

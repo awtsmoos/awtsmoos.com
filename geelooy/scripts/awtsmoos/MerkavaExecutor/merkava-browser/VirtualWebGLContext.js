@@ -47,6 +47,13 @@
 			this.boundSamplers = new Map();
 			this.activeQueries = new Map();
 			this.pixelStore = new Map();
+			// B"H: live WebGL execution state (software pipeline). Journaling
+			// via record() is preserved; these fields drive real rendering.
+			this.attribPointers = {};
+			this.enabledAttribs = new Set();
+			this.attribConstants = {};
+			this.uniformValues = new Map();
+			this.drawingBuffer = null;
 			this.contextVersion = Number(options.version || 1);
 			modules.installCoreWebGLConstants(this);
 			modules.installTextureWebGLConstants(this);
@@ -93,6 +100,8 @@
 		recordUniform(op, location, value, extra = {}) {
 			if (!location) return;
 			if (location.program !== this.currentProgram?.id) return this.invalid(this.INVALID_OPERATION, op);
+			// B"H: live uniform store for the software pipeline (in addition to journal).
+			this.uniformValues.set(location.program + ':' + location.name, { op, value: Array.from(value || []) });
 			this.record(op, { location, value: Array.from(value || []), ...extra });
 		}
 

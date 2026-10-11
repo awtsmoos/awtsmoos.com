@@ -11,9 +11,9 @@ body[data-geelooy-route="home"] .search-shell {
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) :where(.search-shell.is-open) .search {
-	border-color: #68ceff;
+	border-color: var(--home-accent);
 	border-radius: 1.15rem 1.15rem .62rem .62rem;
-	box-shadow: 0 0 0 4px rgba(73, 157, 220, .11), 0 22px 58px rgba(0, 0, 0, .4);
+	box-shadow: 0 0 0 4px var(--home-glow), var(--home-card-shadow);
 }
 body[data-geelooy-route="home"] .omnibox-panel {
 	position: absolute;
@@ -24,10 +24,10 @@ body[data-geelooy-route="home"] .omnibox-panel {
 	max-height: min(430px, calc(100vh - 9rem));
 	overflow: auto;
 	padding: .48rem;
-	border: 1px solid #2b506f;
+	border: 1px solid var(--panel-border);
 	border-radius: .72rem 1rem 1.15rem 1.15rem;
-	background: #071324;
-	box-shadow: 0 24px 64px rgba(0, 0, 0, .56);
+	background: var(--panel-background);
+	box-shadow: var(--home-card-shadow);
 	transform-origin: top center;
 	animation: omnibox-arrive .18s ease both;
 }
@@ -41,7 +41,7 @@ body[data-geelooy-route="home"] .omnibox-heading {
 	justify-content: space-between;
 	gap: .8rem;
 	padding: .42rem .55rem .5rem;
-	color: #879ab3;
+	color: var(--text-muted);
 	font-size: .6rem;
 	font-weight: 840;
 	letter-spacing: .11em;
@@ -53,7 +53,7 @@ body[data-geelooy-route="home"] .omnibox-heading {
 	border: 1px solid transparent;
 	border-radius: .45rem;
 	background: transparent;
-	color: #93a6bd;
+	color: var(--text-muted);
 	cursor: pointer;
 	font: inherit;
 	letter-spacing: .04em;
@@ -62,16 +62,21 @@ body[data-geelooy-route="home"] .omnibox-heading {
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .omnibox-heading button:hover {
-	border-color: #2d4c68;
-	background: #102239;
-	color: #fff;
+	border-color: var(--panel-border-strong);
+	background: var(--panel-raised);
+	color: var(--text-primary);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .omnibox-heading button:active {
-	border-color: #3d6a94;
-	background: #0c1c30;
-	color: #fff;
+	border-color: var(--home-accent);
+	background: var(--panel-raised);
+	color: var(--text-primary);
 	transform: scale(.96);
+}
+/* B"H 2026-10-09 — Dream audit: disabled state for the history-clear button. */
+:where(body[data-geelooy-route="home"]) .omnibox-heading button:disabled {
+	opacity: .55;
+	cursor: not-allowed;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .omnibox-heading button:focus-visible {

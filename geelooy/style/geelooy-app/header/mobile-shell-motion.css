@@ -232,17 +232,17 @@ The Awtsmoos lets the shared crown answer focus and touch without stealing atten
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (prefers-reduced-motion: reduce) { .geelooy-app-shell .g-unusual-header, .geelooy-app-shell .g-header-action, :where(.geelooy-app-shell) .g-header-profile .profile-trigger, .geelooy-app-shell .universal-chat-header-launcher, :where(.geelooy-app-shell) :where(.g-shell[data-state="loading"]) .g-unusual-header, :where(.geelooy-app-shell) :where(.g-shell.is-ready) .g-unusual-header, :where(.geelooy-app-shell) :where(.g-shell[data-state="loading"]) .g-unusual-header :is(.g-header-brand, .g-header-search, .g-header-actions), :where(.geelooy-app-shell) :where(.g-shell.is-ready) .g-unusual-header :is(.g-header-brand, .g-header-search, .g-header-actions), .geelooy-app-shell .g-header-search, .geelooy-app-shell .g-search-suggestions, :where(.geelooy-app-shell) .g-search-suggestions :is(.g-search-route-results a, .g-search-torah-link), .geelooy-app-shell .g-constellation-menu, :where(.geelooy-app-shell) .g-constellation-menu .g-constellation-route {
-		transition-duration: .001ms !important;
-		transition-delay: 0ms !important;
-		transform: none !important;
-		translate: none !important;
-		animation: none !important;
+		transition-duration: .001ms;
+		transition-delay: 0ms;
+		transform: none;
+		translate: none;
+		animation: none;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (prefers-reduced-motion: reduce) { :where(.geelooy-app-shell) :where(.g-shell[data-state="loading"]) .g-unusual-header, :where(.geelooy-app-shell) :where(.g-shell[data-state="loading"]) .g-unusual-header :is(.g-header-brand, .g-header-search, .g-header-actions) {
-		opacity: 1 !important;
+		opacity: 1;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (prefers-reduced-motion: reduce) { :where(.geelooy-app-shell) :where(.g-shell[data-state="loading"]) .g-header-actions *::after, :where(.geelooy-app-shell) .g-header-profile.is-loading::after {
-		animation: none !important;
+		animation: none;
 	} }

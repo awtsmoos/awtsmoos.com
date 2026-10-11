@@ -70,8 +70,8 @@ body {
 	line-height: 1.55;
 }
 
-.camera-kicker {
-	margin-block-end: .35rem !important;
+.camera-kicker.camera-kicker {
+	margin-block-end: .35rem;
 	color: #61cbd9;
 	font-size: .76rem;
 	font-weight: 900;

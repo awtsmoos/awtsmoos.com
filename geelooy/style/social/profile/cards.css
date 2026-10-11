@@ -10,7 +10,7 @@
 }
 .profile-card h2, .profile-command-panel h2, .profile-section-card h2 { margin: .1rem 0 .45rem; color: var(--pp-text); letter-spacing: -.03em; }
 .profile-card p, .profile-section-card p { color: var(--pp-muted); line-height: 1.6; }
-.profile-follow-button, .profile-card button, .profile-card a.button { border: 1px solid rgba(15,23,42,.1); border-radius: .95rem; background: linear-gradient(135deg, var(--pp-text), #26324a); color: #fff; min-height: 42px; padding: .62rem .92rem; font-weight: 850; text-decoration: none; transition: transform .14s ease, box-shadow .14s ease; }
+.profile-follow-button, .profile-card button, .profile-card a.button { border: 1px solid rgba(15,23,42,.1); border-radius: .95rem; background: linear-gradient(135deg, var(--pp-text), #26324a); color: var(--profile-btn-ink, #fff); min-height: 42px; padding: .62rem .92rem; font-weight: 850; text-decoration: none; transition: transform .14s ease, box-shadow .14s ease; }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 .profile-follow-button:hover, .profile-card button:hover, :where(.profile-card) a.button:hover { transform: translate3d(0,-1px,0); box-shadow: 0 10px 22px rgba(15,23,42,.16); }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */

@@ -46,32 +46,30 @@ Blessed be He */
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.shliach-create-dialog,
-	.shliach-create-dialog * {
-		scroll-behavior: auto !important;
-		transition: none !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .shliach-create-dialog, :root:root:root .shliach-create-dialog *{
+		scroll-behavior: auto;
+		transition: none;
 	}
 }
 
-.shliach-directory-button {
+.shliach-directory-button.shliach-directory-button {
 	min-height: 44px;
 	padding-inline: 14px;
-	border-color: rgba(147, 193, 255, 0.62) !important;
+	border-color: rgba(147, 193, 255, 0.62);
 	background: linear-gradient(
 		135deg,
 		rgba(127, 173, 255, 0.22),
 		rgba(137, 101, 255, 0.15)
-	) !important;
+	);
 	color: inherit;
 	font-weight: 800;
 	white-space: nowrap;
 	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
-.shliach-directory-button:hover,
+.shliach-directory-button.shliach-directory-button:hover,
 .shliach-directory-button:focus-visible {
-	border-color: rgba(187, 220, 255, 0.9) !important;
+	border-color: rgba(187, 220, 255, 0.9);
 	box-shadow:
 		0 0 0 3px rgba(111, 165, 255, 0.13),
 		0 8px 24px rgba(42, 91, 194, 0.18);

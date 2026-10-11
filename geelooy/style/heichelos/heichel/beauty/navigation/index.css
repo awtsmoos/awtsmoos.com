@@ -55,7 +55,7 @@
 :where(.heichel-mobile-navigation) .geelooy-bottom-nav :nth-child(3) {
 	border-color: var(--heichel-cyan);
 	background: var(--heichel-cyan);
-	color: #fff;
+	color: var(--light-text-fff, #fff);
 }
 .heichel-mobile-navigation :where(input[type="search"], .search-input, .geelooy-search input) {
 	min-height: 46px;

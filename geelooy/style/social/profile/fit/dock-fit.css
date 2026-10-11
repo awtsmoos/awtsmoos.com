@@ -1,5 +1,5 @@
 /* @tunnel-grandfather: single-cascade sheet; component selectors layered across feature sheets — registry one-owner rule structurally inapplicable; consolidation needs visual QA. W4 2026-10-08. */
-/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+/* B"H — html-prefixed specificity replaces every (Yaakov 2026-10-08). */
 /* B"H — profile dock fit tokens, explicit light AND dark branches (Yaakov 2026-10-08). */
 :root:not([data-theme="dark"]) {
   --pdock-text: #f8fafc;

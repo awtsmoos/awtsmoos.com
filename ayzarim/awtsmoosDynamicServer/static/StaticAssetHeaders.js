@@ -74,7 +74,9 @@ function isTemplate(context) {
 }
 
 module.exports = {
+	cachePolicy,
 	isNotModified,
 	isTemplate,
-	projectStaticHeaders
+	projectStaticHeaders,
+	weakEtag
 };

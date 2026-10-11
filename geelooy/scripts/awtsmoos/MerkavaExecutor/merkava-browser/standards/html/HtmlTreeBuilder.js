@@ -15,25 +15,71 @@
 	 * Canonical html/head/body vessels are preserved, attributes use first-wins
 	 * semantics, raw style text feeds our CSS engine, and malformed closes recover.
 	 *
+	 * Title text and node count are tracked during the single build pass —
+	 * no post-build querySelector/count walks.
+	 *
 	 * @param {object} document Executor-owned VirtualDocument instance.
 	 * @param {ReadonlyArray<object>} tokens Token stream from tokenizeHtml().
 	 * @returns {{nodes:number,ok:boolean,title:string}} Tree-construction summary.
 	 */
 	function buildHtmlTree(document, tokens) {
-		document.head.replaceChildren();
-		document.body.replaceChildren();
-		const state = {
-			document,
-			stack: [document.documentElement]
-		};
+		const state = createTreeState(document);
 		for (const token of tokens) {
 			consumeToken(state, token);
 		}
-		support.applyHtmlDefaultDisplay(document.body);
+		return finishTreeState(state);
+	}
+
+	/**
+	 * Streaming build: tokenizes source and constructs the tree in one pass.
+	 * No token array is materialized. Falls back to tokenizeHtml when the
+	 * tokenizer lacks streamHtmlTokens.
+	 *
+	 * @param {object} document Executor-owned VirtualDocument instance.
+	 * @param {string} source Raw HTML source.
+	 * @param {object} tokenizer Module exposing streamHtmlTokens/tokenizeHtml.
+	 * @returns {{nodes:number,ok:boolean,title:string,tokens:number}} Summary.
+	 */
+	function buildHtmlTreeStreaming(document, source, tokenizer) {
+		const state = createTreeState(document);
+		let tokenCount = 0;
+		if (tokenizer && typeof tokenizer.streamHtmlTokens === "function") {
+			tokenCount = tokenizer.streamHtmlTokens(source, token => consumeToken(state, token));
+		} else {
+			const tokens = tokenizer.tokenizeHtml(source);
+			tokenCount = tokens.length;
+			for (const token of tokens) {
+				consumeToken(state, token);
+			}
+		}
+		const result = finishTreeState(state);
+		result.tokens = tokenCount;
+		return result;
+	}
+
+	function createTreeState(document) {
+		document.head.replaceChildren();
+		document.body.replaceChildren();
+		// B"H (parse fast path): suppress per-mutation journal/Date.now/handle
+		// overhead while the initial tree is built; the first post-parse layout
+		// covers everything. Cleared in finishTreeState.
+		document.__suppressMutations = true;
 		return {
-			nodes: support.countHtmlNodes(document.documentElement),
+			document,
+			nodeCount: 3, // documentElement + canonical head + body
+			stack: [document.documentElement],
+			titleElement: null,
+			titleText: ""
+		};
+	}
+
+	function finishTreeState(state) {
+		support.applyHtmlDefaultDisplay(state.document.body);
+		state.document.__suppressMutations = false;
+		return {
+			nodes: state.nodeCount,
 			ok: true,
-			title: document.querySelector("title")?.textContent || ""
+			title: state.titleText
 		};
 	}
 
@@ -56,8 +102,14 @@
 		const element = canonical || state.document.createElement(token.name);
 		applyAttributes(element, token.attributes);
 		const parent = support.htmlInsertionParent(state, token.name);
-		if (!canonical && element.parentNode !== parent) {
-			parent.appendChild(element);
+		if (!canonical) {
+			state.nodeCount += 1;
+			if (element.parentNode !== parent) {
+				parent.appendChild(element);
+			}
+			if (token.name === "title" && state.titleElement === null) {
+				state.titleElement = element;
+			}
 		}
 		if (!token.selfClosing && !support.VOID_TAGS.has(token.name)) {
 			state.stack.push(element);
@@ -81,22 +133,47 @@
 		}
 		const parent = support.currentHtmlParent(state);
 		parent.appendChild(state.document.createTextNode(text));
+		state.nodeCount += 1;
+		if (parent === state.titleElement) {
+			state.titleText += text;
+		}
 		if (parent.localName === "style") {
 			state.document.cssEngine.parseStyleSheet(text);
 		}
 	}
 
-	/** Applies only the first occurrence of each HTML attribute name. */
+	/**
+	 * Applies only the first occurrence of each HTML attribute name.
+	 * Uses the element's parser fast path (__setParsedAttributes) which skips
+	 * String() coercion and mutation notify; null-proto object for dedup.
+	 */
 	function applyAttributes(element, attributes) {
-		const seen = new Set();
-		for (const attribute of attributes || []) {
-			if (seen.has(attribute.name)) {
+		if (!attributes || attributes.length === 0) {
+			return;
+		}
+		if (typeof element.__setParsedAttributes === "function") {
+			const seen = Object.create(null);
+			const deduped = [];
+			for (const attribute of attributes) {
+				if (seen[attribute.name]) {
+					continue;
+				}
+				seen[attribute.name] = 1;
+				deduped.push(attribute);
+			}
+			element.__setParsedAttributes(deduped);
+			return;
+		}
+		// Fallback for documents without the fast path (e.g. test mocks).
+		const seen = Object.create(null);
+		for (const attribute of attributes) {
+			if (seen[attribute.name]) {
 				continue;
 			}
-			seen.add(attribute.name);
+			seen[attribute.name] = 1;
 			element.setAttribute(attribute.name, attribute.value);
 		}
 	}
 
-	return { buildHtmlTree };
+	return { buildHtmlTree, buildHtmlTreeStreaming };
 });

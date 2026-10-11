@@ -1,11 +1,11 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .home-search-row input {
-  background: linear-gradient(180deg, #090e16, #070b12) !important;
-  border-color: rgba(148,163,184,.28) !important;
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,.025) !important;
+  background: linear-gradient(180deg, #090e16, #070b12);
+  border-color: rgba(148,163,184,.28);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.025);
 }
 .home-search-row input:focus {
-  border-color: rgba(40,243,215,.72) !important;
-  box-shadow: 0 0 0 4px rgba(40,243,215,.12), inset 0 0 0 1px rgba(255,255,255,.05) !important;
+  border-color: rgba(40,243,215,.72);
+  box-shadow: 0 0 0 4px rgba(40,243,215,.12), inset 0 0 0 1px rgba(255,255,255,.05);
 }
-.home-suggestion-row a:hover { background: rgba(40,243,215,.1) !important; color: #e8fffb !important; }
+.home-suggestion-row a:hover { background: rgba(40,243,215,.1); color: #e8fffb; }

@@ -6,6 +6,9 @@
 export class AmbientParallax {
 	constructor(element) {
 		this.element = element;
+		// B"H dream-overhaul: tilt vars live on the hero card so the artwork AND
+		// the words inherit them as sibling layers; falls back to the element itself.
+		this.target = element.closest ? (element.closest(".shliach-hero-card") || element) : element;
 		this.canMove = !matchMedia("(prefers-reduced-motion: reduce)").matches;
 	}
 
@@ -22,12 +25,12 @@ export class AmbientParallax {
 		const bounds = this.element.getBoundingClientRect();
 		const horizontal = (event.clientX - bounds.left) / bounds.width - .5;
 		const vertical = (event.clientY - bounds.top) / bounds.height - .5;
-		this.element.style.setProperty("--tilt-x", `${vertical * -2.4}deg`);
-		this.element.style.setProperty("--tilt-y", `${horizontal * 2.8}deg`);
+		this.target.style.setProperty("--tilt-x", `${vertical * -2.4}deg`);
+		this.target.style.setProperty("--tilt-y", `${horizontal * 2.8}deg`);
 	}
 
 	reset() {
-		this.element.style.setProperty("--tilt-x", "0deg");
-		this.element.style.setProperty("--tilt-y", "0deg");
+		this.target.style.setProperty("--tilt-x", "0deg");
+		this.target.style.setProperty("--tilt-y", "0deg");
 	}
 }

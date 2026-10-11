@@ -46,5 +46,5 @@
 
 .heichel-os-document ::selection {
 	background: rgba(240, 211, 139, 0.28);
-	color: #fff;
+	color: var(--light-text-fff, #fff);
 }

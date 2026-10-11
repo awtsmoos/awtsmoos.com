@@ -46,8 +46,8 @@
 	-webkit-tap-highlight-color: transparent;
 }
 
-.temple-runner-route [hidden] {
-	display: none !important;
+.temple-runner-route [hidden][hidden] {
+	display: none;
 }
 
 .temple-runner-route :focus-visible {

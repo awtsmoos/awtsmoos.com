@@ -70,8 +70,8 @@ The Awtsmoos brings the needed action nearer without making the canvas smaller; 
 		pointer-events: none;
 	}
 
-	.is-presenting .mobile-element-dock {
-		display: none !important;
+	.is-presenting.is-presenting .mobile-element-dock {
+		display: none;
 	}
 }
 

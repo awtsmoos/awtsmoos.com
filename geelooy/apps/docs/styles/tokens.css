@@ -57,12 +57,9 @@ button {
 	cursor: pointer;
 }
 
-@media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		scroll-behavior: auto !important;
-		transition: none !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root *, :root:root:root *::before, :root:root:root *::after{
+		scroll-behavior: auto;
+		transition: none;
 	}
 }
 

@@ -1,0 +1,16 @@
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/.lightning_tmp/blob_fs_90787_1782942923707.db
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/.lightning_tmp/blob_fs_91294_1782943126531.db
+ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/vector_test.db
+geelooy/apps/exe-emulator/tests/generated/asm-draw.exe
+geelooy/apps/exe-emulator/tests/generated/asm-file.exe
+geelooy/apps/exe-emulator/tests/generated/asm-hello.exe
+geelooy/apps/exe-emulator/tests/generated/asm-loop.exe
+geelooy/apps/exe-emulator/tests/generated/asm-triangle.exe
+geelooy/apps/exe-emulator/tests/generated/asm-window.exe
+geelooy/apps/exe-emulator/tests/generated/c-opengl_stress.exe
+geelooy/apps/exe-emulator/tests/generated/c-opengl_triangle.exe
+geelooy/apps/exe-emulator/tests/generated/standard-console.exe
+geelooy/apps/exe-emulator/tests/generated/standard-gui.exe
+geelooy/games/mitzvahWorld/build/generated/assets/essential-grass.jpg
+geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-vm/closureBridge.js
+plugins/awtsmoos-shliach/assets/gpt-icon.png

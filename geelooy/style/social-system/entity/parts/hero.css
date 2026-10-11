@@ -3,4 +3,4 @@
 .entity-hero:after { display: none; }
 .entity-hero p { position: relative; margin: 0; color: #64748b; }
 .entity-actions { position: relative; display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .9rem; }
-.entity-actions button:first-child { background: #0f172a; color: #fff; border-color: #0f172a; }
+.entity-actions button:first-child { background: #0f172a; color: var(--light-text-fff, #fff); border-color: #0f172a; }

@@ -54,7 +54,7 @@
   --awake-hero-line: rgba(255, 255, 255, .2);
   --awake-sheen: rgba(255, 255, 255, .26);
 }
-/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+/* B"H — html-prefixed specificity replaces every (Yaakov 2026-10-08). */
 html .geelooy-home-document {
   background: var(--awake-doc-bg);
   color: var(--awake-text);

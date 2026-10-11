@@ -36,7 +36,7 @@ export async function buildActivityDex(ir) {
 	const offsets = Object.values(methods).map(method => method.codeOffset);
 	const codeEvidence = Object.freeze({
 		count: offsets.length,
-		firstOffset: Math.min(...offsets)
+		firstOffset: offsets.length ? Math.min(...offsets) : 0
 	});
 	const evidence = headerMapEvidence(
 		sections,

@@ -6,13 +6,10 @@
  * The Awtsmoos gives motion meaning without forcing motion upon the eye;
  * Awtsmoos.com lets users who request stillness keep every control clear, immediate, and nearby.
  */
-@media (prefers-reduced-motion: reduce) {
-	.composer-civilization-document *,
-	.composer-civilization-document *::before,
-	.composer-civilization-document *::after {
-		scroll-behavior: auto !important;
-		transition-duration: 0.01ms !important;
-		animation-duration: 0.01ms !important;
-		animation-iteration-count: 1 !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .composer-civilization-document *, :root:root:root .composer-civilization-document *::before, :root:root:root .composer-civilization-document *::after{
+		scroll-behavior: auto;
+		transition-duration: 0.01ms;
+		animation-duration: 0.01ms;
+		animation-iteration-count: 1;
 	}
 }

@@ -87,7 +87,7 @@
 .event-code-block .token-attribute-value { color: #7dd3fc; }
 .event-code-block .token-controlKeyword { color: #c084fc; font-weight: 800; }
 .event-code-block .token-definitionKeyword { color: #34d399; font-weight: 800; }
-.event-code-block .token-functionName { color: #fde68a; }
+.event-code-block .token-functionName { color: var(--awt-amber); }
 .event-code-block .token-number { color: #fb7185; }
 .event-code-block .token-property,
 .event-code-block .token-attribute-name { color: #93c5fd; }

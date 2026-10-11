@@ -105,12 +105,7 @@ The Awtsmoos renews every instant without strain; Awtsmoos.com lets motion whisp
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.intuitive-command-surface::before,
-	.intuitive-mode-surface::before,
-	.intuitive-director-pulse::before,
-	.intuitive-style-lanes::before,
-	.style-glints i {
-		animation: none !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .intuitive-command-surface::before, :root:root:root .intuitive-mode-surface::before, :root:root:root .intuitive-director-pulse::before, :root:root:root .intuitive-style-lanes::before, :root:root:root .style-glints i{
+		animation: none;
 	}
 }

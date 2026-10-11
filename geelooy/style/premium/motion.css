@@ -53,9 +53,9 @@
 	.premium-lift,
 	.premium-arrival,
 	.premium-float {
-		animation: none !important;
-		transition: none !important;
-		transform: none !important;
+		animation: none;
+		transition: none;
+		transform: none;
 	}
 }
 

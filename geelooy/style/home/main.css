@@ -46,7 +46,7 @@
   background: #0f172a;
   border: 1px solid #0f172a;
   border-radius: .85rem;
-  color: #fff;
+  color: var(--home-btn-ink, #fff);
   font-weight: 750;
   min-height: 40px;
   padding: .55rem .9rem;

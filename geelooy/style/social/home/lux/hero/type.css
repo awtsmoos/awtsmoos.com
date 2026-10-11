@@ -1,8 +1,8 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H — hero words cut open the black gradient. */
 .home-hero-panel h1 {
-  color: #f8fafc !important;
-  filter: none !important;
+  color: #f8fafc;
+  filter: none;
   letter-spacing: -.055em;
   max-width: 11ch;
 }

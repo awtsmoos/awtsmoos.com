@@ -42,7 +42,7 @@
   padding: 3px 8px;
   border: 1px solid rgba(250,204,21,.34);
   border-radius: 999px;
-  color: #fde68a;
+  color: var(--awt-amber);
   background: rgba(113,63,18,.18);
   font-size: .72rem;
   font-weight: 900;

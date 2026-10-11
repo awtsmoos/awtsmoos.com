@@ -21,7 +21,7 @@ const DATA_MNEMONICS = new Set([
 
 const MATH_MNEMONICS = new Set([
 	"ADD", "SUB", "XOR", "OR", "AND", "CMP", "TEST",
-	"INC", "DEC", "NEG", "IMUL", "IDIV", "DIV", "SAR", "SHL",
+	"INC", "DEC", "NEG", "IMUL", "MUL", "IDIV", "DIV", "SAR", "SHL",
 	"SETE", "SETNE", "SETG", "SETL", "SETGE", "SETLE"
 ]);
 

@@ -8,11 +8,11 @@
 	min-inline-size: 0;
 	max-inline-size: 100%;
 }
-.notification-primary-action {
+.notification-primary-action.notification-primary-action {
 	min-inline-size: 7.4rem;
 	max-inline-size: 100%;
-	border-color: color-mix(in srgb, var(--g-cyan) 42%, var(--g-line)) !important;
-	background: color-mix(in srgb, var(--g-cyan) 10%, var(--g-surface-3)) !important;
+	border-color: color-mix(in srgb, var(--g-cyan) 42%, var(--g-line));
+	background: color-mix(in srgb, var(--g-cyan) 10%, var(--g-surface-3));
 	box-shadow: 0 7px 22px rgba(60, 236, 255, .06);
 }
 .notification-secondary-actions {

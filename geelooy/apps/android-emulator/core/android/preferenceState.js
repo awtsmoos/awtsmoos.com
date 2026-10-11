@@ -76,7 +76,9 @@ export function validatePreferenceBounds(state, value) {
 
 export function validatePreferenceName(value) {
 	const name = String(value || "");
-	if (!/^[A-Za-z0-9_.-]{1,80}$/.test(name)) {
+	// Real Android allows any characters in preference names (it's a filename).
+	// Firebase uses colons and plus signs, e.g. "com.google.firebase.common.prefs:...".
+	if (!name || name.length > 256 || name.includes("\0") || name.includes("/")) {
 		throw preferenceStateError("ANDROID_PREFERENCES_NAME_INVALID", name);
 	}
 	return name;
@@ -84,8 +86,10 @@ export function validatePreferenceName(value) {
 
 export function validatePreferenceKey(value) {
 	const key = String(value || "");
-	if (!key || key.length > 256 || key.includes("\0")) {
-		throw preferenceStateError("ANDROID_PREFERENCES_KEY_INVALID", key);
+	// Real Android allows long keys; Firebase uses very long user-agent strings.
+	// Only reject empty, null bytes, or absurdly long (>4096).
+	if (!key || key.length > 4096 || key.includes("\0")) {
+		throw preferenceStateError("ANDROID_PREFERENCES_KEY_INVALID", key.slice(0, 100));
 	}
 	return key;
 }

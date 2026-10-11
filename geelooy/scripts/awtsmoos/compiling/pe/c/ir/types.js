@@ -6,7 +6,11 @@ import { createIrError } from "./errors.js";
 
 const BUILTIN_TYPES = Object.freeze({
 	char: Object.freeze({ kind: "integer", name: "char", bits: 8, signed: true }),
+	short: Object.freeze({ kind: "integer", name: "short", bits: 16, signed: true }),
 	int: Object.freeze({ kind: "integer", name: "int", bits: 32, signed: true }),
+	long: Object.freeze({ kind: "integer", name: "long", bits: 64, signed: true }),
+	float: Object.freeze({ kind: "float", name: "float", bits: 32 }),
+	double: Object.freeze({ kind: "float", name: "double", bits: 64 }),
 	void: Object.freeze({ kind: "void", name: "void" })
 });
 
@@ -25,8 +29,19 @@ export class IrTypeFactory {
 			throw createIrError("IR_TYPE_INVALID", "AST type requires a base name");
 		}
 		let type = this.baseType(astType.base);
+		// `unsigned` selects the zero-extending variant of an integer type.
+		if (astType.unsigned && type?.kind === "integer") {
+			type = Object.freeze({ ...type, signed: false });
+		}
 		for (let depth = 0; depth < Number(astType.ptr || 0); depth += 1) {
 			type = this.pointerTo(type);
+		}
+		// Function pointer declarator: `void (*cb)(int)` — the declarator star
+		// makes it a pointer; the pointee is the function type itself.
+		if (astType.fnptr) {
+			const params = (astType.fnptr.params || []).map(param => this.fromAst(param));
+			const signature = this.functionType(type, params, false);
+			type = this.pointerTo(signature);
 		}
 		return type;
 	}

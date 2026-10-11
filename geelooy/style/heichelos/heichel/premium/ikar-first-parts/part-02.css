@@ -26,7 +26,7 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 .ikar-first-actions a:hover, .ikar-first-actions a:focus-visible {
 	background: rgba(77, 233, 255, .1);
 	border-color: rgba(77, 233, 255, .45);
-	color: #ffffff;
+	color: var(--light-text-ffffff, #ffffff);
 	outline: none;
 	transform: translateY(-1px);
 }
@@ -57,7 +57,7 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 	background: linear-gradient(100deg, #ffffff 8%, #c9f8ff 44%, #a2b9ff 72%, #d1b7ff 100%);
 	-webkit-background-clip: text;
 	background-clip: text;
-	color: #f4f8ff;
+	color: var(--light-text-f4f8ff, #f4f8ff);
 	font-size: clamp(2.8rem, 8vw, 5.8rem);
 	font-weight: 900;
 	letter-spacing: -.06em;
@@ -71,11 +71,11 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 		-webkit-text-fill-color: transparent;
 	} }
 
-/* B"H — Removed !important per CSS Law 1 (2026-10-09). See clean overrides below. */
+/* B"H — Removed per CSS Law 1 (2026-10-09). See clean overrides below. */
 /* B"H — Light theme overrides for Ikar series page hero
  * Fixes white-on-white for #heichel-boot-title (H1), .civilization-kicker (eyebrow),
  * and .ikar-first-actions links in light theme.
- * CSS Laws: no !important, explicit colors for both themes, token-based.
+ * CSS Laws: no, explicit colors for both themes, token-based.
  */
 
 /* Light theme: H1 gets solid dark text instead of light gradient */
@@ -123,4 +123,10 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 :where(:root[data-theme="light"]) .ikar-first-actions a:active {
 	color: #0d1b2a;
 	transform: translateY(0) scale(.97);
+}
+/* B"H 2026-10-09 — CSS audit: light-theme safe gradient. */
+:where(:root[data-theme="light"]) :where(.heichel-semantic-fallback) :where(#heichel-boot-title) {
+	background: linear-gradient(100deg, var(--text-primary) 8%, #1e87cc 44%, #5a5fd0 72%, #7a3dff 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
 }

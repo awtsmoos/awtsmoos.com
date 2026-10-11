@@ -88,7 +88,7 @@
   padding: 3px 8px;
   border-radius: 999px;
   background: rgba(251,191,36,.14);
-  color: #fde68a;
+  color: var(--awt-amber);
   font-size: .72rem;
   font-weight: 800;
   letter-spacing: .02em;
@@ -107,7 +107,7 @@
   padding: 3px 8px;
   border-radius: 999px;
   background: rgba(251,191,36,.14);
-  color: #fde68a;
+  color: var(--awt-amber);
   font-size: .72rem;
   font-weight: 800;
   letter-spacing: .02em;

@@ -7,21 +7,45 @@ The search action stays unmistakable as the composer grows.
 body[data-geelooy-route="home"] .shortcut-key {
 	align-self: center;
 	padding: .35rem .45rem;
-	border: 1px solid #27384c;
+	border: 1px solid var(--panel-border);
 	border-radius: .55rem;
-	background: #0d1727;
-	color: #7f91a8;
+	background: var(--panel-raised);
+	color: var(--text-muted);
 	font-size: .62rem;
 	font-weight: 800;
 	white-space: nowrap;
 }
 body[data-geelooy-route="home"] .search-button-arrow { font-size: 1.45rem; font-weight: 900; line-height: 1; }
+/* B"H 2026-10-09 — Dream audit: the search submit button never had a base style
+   (native browser chrome). It is now a dream gold action with full states. */
+body[data-geelooy-route="home"] .search button {
+	display: inline-flex;
+	align-items: center;
+	gap: .45rem;
+	min-height: 44px;
+	padding: .55rem 1rem;
+	border: 1px solid var(--home-accent-strong);
+	border-radius: 999px;
+	background: var(--home-accent);
+	color: var(--home-accent-ink);
+	cursor: pointer;
+	font-weight: 800;
+	box-shadow: var(--sefer-shadow);
+	transition: background .16s ease, border-color .16s ease, transform .16s ease, box-shadow .16s ease, filter .12s ease;
+}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .search button:hover, :where(body[data-geelooy-route="home"]) .search button:focus-visible {
 	outline: 3px solid var(--focus-ring);
 	outline-offset: 3px;
-	box-shadow: 0 14px 34px rgba(103, 171, 235, .32);
+	background: var(--home-accent-strong);
+	border-color: var(--home-accent-strong);
+	box-shadow: 0 14px 34px var(--home-glow);
 	transform: translateY(-1px) scale(1.025);
+}
+/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
+:where(body[data-geelooy-route="home"]) .search button:active {
+	filter: brightness(.96);
+	transform: translateY(1px) scale(.98);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .search button:disabled { cursor: progress; opacity: .7; }

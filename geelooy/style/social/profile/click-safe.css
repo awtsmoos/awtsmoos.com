@@ -24,7 +24,7 @@
   --profile-menu-bg: #050915;
 }
 
-/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+/* B"H — html-prefixed specificity replaces every (Yaakov 2026-10-08). */
 html body:has(.geelooy-profile-shell) {
   background: var(--profile-body-bg);
   color: var(--profile-text);

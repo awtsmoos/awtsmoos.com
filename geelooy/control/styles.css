@@ -5,8 +5,8 @@
     margin: 0;
     padding: 0;
 }
-.console-output {
-    height: 100px !important;
+.console-output.console-output {
+    height: 100px;
 }
 body {
     font-family: Arial, sans-serif;

@@ -23,7 +23,7 @@ html, body {
 /* --- Utilities (Polyfilling Tailwind classes used in JS) --- */
 
 /* Display & Layout */
-.hidden { display: none !important; }
+.hidden.hidden { display: none; }
 .flex { display: flex; }
 .flex-col { flex-direction: column; }
 .flex-row { flex-direction: row; }

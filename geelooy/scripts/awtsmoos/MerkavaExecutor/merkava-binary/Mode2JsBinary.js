@@ -399,9 +399,16 @@ function encodeMode2Program(program, version = 6) {
   return w.toBuffer();
 }
 
-async function encodeMode2JsBinary(source) {
+async function encodeMode2JsBinary(source, options = {}) {
   const ast = typeof source === 'string' ? await parseJs(source) : source;
   const base = lowerAst(ast);
+  // B"H (startup): the 8-candidate size search costs 8x encode CPU for a few
+  // percent size win. For first-paint speed, encode once with v9 (newest).
+  if (options && options.fast) {
+    const plain = cloneMode2Program(base);
+    plain.mainSlots = [];
+    return encodeMode2Program(plain, 9);
+  }
   const plain = cloneMode2Program(base);
   plain.mainSlots = [];
   const slotted = applySafeMainSlotLowering(cloneMode2Program(base));

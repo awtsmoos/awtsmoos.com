@@ -29,13 +29,13 @@
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.login-page) :where(.field-stack:has(input:read-only:not([type="password"]))) {
-	border-color: rgba(164, 190, 255, .26);
-	background: rgba(8, 14, 28, .72);
+	border-color: var(--auth-readonly-line);
+	background: var(--auth-readonly-bg);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.login-page) .field-stack:has(input:user-invalid) {
 	border-color: color-mix(in srgb, var(--auth-danger) 72%, transparent);
-	box-shadow: 0 0 0 3px rgba(255, 100, 132, .09);
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--auth-danger) 12%, transparent);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.login-page) :where(.field-stack:has(input:user-valid:not(:placeholder-shown))) {
@@ -44,7 +44,7 @@
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.login-page) .field-stack input:-webkit-autofill, :where(.login-page) :where(.field-stack) input:-webkit-autofill:hover, :where(.login-page) :where(.field-stack) input:-webkit-autofill:focus {
 	-webkit-text-fill-color: var(--auth-text);
-	box-shadow: 0 0 0 1000px #08111f inset;
+	box-shadow: 0 0 0 1000px var(--auth-autofill-bg) inset;
 	caret-color: var(--auth-cyan);
 	transition: background-color 9999s ease-out 0s;
 }
@@ -56,5 +56,5 @@
 @media (hover: hover) and (pointer: fine) { :where(.login-page) .field-stack:hover {
 		transform: translateY(-1px);
 		border-color: var(--auth-line-strong);
-		background: rgba(8, 15, 28, .82);
+		background: var(--auth-field-hover-bg);
 	} }

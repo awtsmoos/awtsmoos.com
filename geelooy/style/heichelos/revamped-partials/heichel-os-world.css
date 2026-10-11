@@ -43,7 +43,7 @@
 }
 .heichel-os-district-buttons button.active {
     background: linear-gradient(135deg, rgba(43,34,53,.95), rgba(138,45,22,.9));
-    color: #fff7df;
+    color: var(--light-text-fff7df, #fff7df);
 }
 .heichel-os-status-grid {
     display: grid;

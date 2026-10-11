@@ -1,8 +1,8 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H Chapter 625: hidden chambers do not eat clicks. */
-[hidden], .is-hidden { display: none !important; }
-[aria-hidden="true"].modal-gate-hidden, .modal-gate-hidden, .modal-hidden, .hidden-void, .hidden-details, .hidden-comments { pointer-events: none !important; }
-.modal-root-open, .context-menu-layer, .typography-details:not(.hidden-details), .sidebar:not(.hidden-comments) { pointer-events: auto !important; }
+[hidden], .is-hidden { display: none; }
+[aria-hidden="true"].modal-gate-hidden, .modal-gate-hidden, .modal-hidden, .hidden-void, .hidden-details, .hidden-comments { pointer-events: none; }
+.modal-root-open, .context-menu-layer, .typography-details:not(.hidden-details), .sidebar:not(.hidden-comments) { pointer-events: auto; }
 .modal-card, .awtsmoos-modal, dialog { max-width: min(96vw, 54rem); max-height: min(92dvh, 54rem); overflow: auto; }
 .geelooy-mobile-drawer, .heichel-library-sidebar, .typography-details, .sidebar,
 .awtsmoos-context-menu, .card-menu-panel, .drawer, .panel-scroll { -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }

@@ -53,9 +53,15 @@ function invokeSet(runtime, record, args, context) {
 }
 
 function initialize(runtime, record, args, context) {
-	const values = record.method.descriptor.includes("Ljava/util/Collection;")
-		? collections.collectionValues(runtime, args[1])
-		: [];
+	// Null-safe: new HashSet((Collection)null) -> empty set in emulation.
+	let values = [];
+	if (record.method.descriptor.includes("Ljava/util/Collection;") && args[1]) {
+		try {
+			values = collections.collectionValues(runtime, args[1]);
+		} catch {
+			values = [];
+		}
+	}
 	return initializeJavaSet(runtime, args[0], values, context);
 }
 

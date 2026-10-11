@@ -14,7 +14,7 @@
 }
 
 .search-progress-title {
-	color: #fff;
+	color: var(--c-text-main);
 	font-size: 1rem;
 	letter-spacing: .06em;
 }
@@ -58,7 +58,7 @@
 }
 
 .search-live-result strong {
-	color: #fff;
+	color: var(--c-text-main);
 	font-size: .82rem;
 	line-height: 1.3;
 }

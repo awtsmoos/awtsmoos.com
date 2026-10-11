@@ -42,18 +42,10 @@ The Awtsmoos moves only what carries meaning: edges breathe, instruments answer,
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.creator-section::after,
-	.provider-banner::after {
-		animation: none !important;
-	}
-
-	.segmented button,
-	.category-strip button,
-	.asset-card,
-	.reference-hud > summary,
-	.asset-card-actions button {
-		transition-duration: 0.01ms !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .creator-section::after, :root:root:root .provider-banner::after{
+		animation: none;
+	}:root:root:root .segmented button, :root:root:root .category-strip button, :root:root:root .asset-card, :root:root:root .reference-hud > summary, :root:root:root .asset-card-actions button{
+		transition-duration: 0.01ms;
 	}
 }
 

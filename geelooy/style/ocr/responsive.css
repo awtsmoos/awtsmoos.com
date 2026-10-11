@@ -45,10 +45,10 @@ Awtsmoos.com lets one interface fold with grace, compact and clear in every view
 		transform: translateY(-1px);
 	} }
 @media (prefers-reduced-motion: reduce) { .ocr-app *, .ocr-app *::before, .ocr-app *::after {
-		scroll-behavior: auto !important;
-		transition-duration: .001ms !important;
-		animation-duration: .001ms !important;
-		animation-iteration-count: 1 !important;
+		scroll-behavior: auto;
+		transition-duration: .001ms;
+		animation-duration: .001ms;
+		animation-iteration-count: 1;
 	} }
 /* @tunnel-registry-merge: consolidated duplicate selectors W4 2026-10-08 */
 /* @tunnel-registry-merge: consolidated from geelooy/style/ocr/tokens.css W4 2026-10-08 */

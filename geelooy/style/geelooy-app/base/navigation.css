@@ -12,7 +12,7 @@ body.geelooy-app-shell :is(
 	.profile-bottom-nav,
 	.spaces-bottom-nav
 ) {
-	display: none !important;
+	display: none;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(html.geelooy-is-navigating) body.geelooy-app-shell :is( main, .geelooy-content-region, [data-geelooy-route-outlet] ) {

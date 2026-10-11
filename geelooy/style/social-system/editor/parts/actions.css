@@ -41,7 +41,7 @@
 .gold-btn {
 	border: 1px solid #0f172a;
 	background: #0f172a;
-	color: #fff;
+	color: var(--light-text-fff, #fff);
 }
 
 .soft-btn {

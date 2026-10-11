@@ -4,7 +4,7 @@
   .home-orb-logo,
   .home-command-dock .is-create,
   .home-crystal span {
-    animation: none !important;
+    animation: none;
   }
 
   .home-action-card:hover,
@@ -15,6 +15,6 @@
   .home-post-card:active,
   .home-discovery-card:active,
   .home-mini-card:active {
-    transform: none !important;
+    transform: none;
   }
 }

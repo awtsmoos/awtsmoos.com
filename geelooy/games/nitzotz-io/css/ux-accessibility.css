@@ -46,15 +46,11 @@
 	border-radius: 10px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.overlay *,
-	.hud *,
-	#stick *,
-	#pulse * {
-		animation-duration: 0.01ms !important;
-		animation-iteration-count: 1 !important;
-		scroll-behavior: auto !important;
-		transition-duration: 0.01ms !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .overlay *, :root:root:root .hud *, :root:root:root #stick *, :root:root:root #pulse *{
+		animation-duration: 0.01ms;
+		animation-iteration-count: 1;
+		scroll-behavior: auto;
+		transition-duration: 0.01ms;
 	}
 }
 

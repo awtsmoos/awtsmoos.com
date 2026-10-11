@@ -68,11 +68,11 @@ fields remain calm, buttons glow only by intent, active motion stays brief, and 
 	min-width: 58px;
 }
 
-.Awtsmoos-api-explorer__execute {
+.Awtsmoos-api-explorer__execute.Awtsmoos-api-explorer__execute {
 	min-width: 96px;
-	border-color: rgba(137, 255, 180, .34) !important;
-	background: linear-gradient(145deg, rgba(35, 101, 59, .9), rgba(12, 48, 27, .84)) !important;
-	box-shadow: 0 8px 24px rgba(4, 22, 10, .18), inset 0 1px 0 rgba(255, 255, 255, .075) !important;
+	border-color: rgba(137, 255, 180, .34);
+	background: linear-gradient(145deg, rgba(35, 101, 59, .9), rgba(12, 48, 27, .84));
+	box-shadow: 0 8px 24px rgba(4, 22, 10, .18), inset 0 1px 0 rgba(255, 255, 255, .075);
 }
 
 .Awtsmoos-api-explorer__command-row {

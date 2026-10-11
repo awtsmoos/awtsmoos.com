@@ -30,19 +30,22 @@ body[data-geelooy-route="home"] .profile-mount {
 :where(body[data-geelooy-route="home"]) .profile-mount .awtsmoosDrop {
 	z-index: var(--home-layer-profile);
 }
-/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(body[data-geelooy-route="home"]) :where(.profile-mount) :where(.awtsmoosDrop) .dropdown-content:not(.alias-switcher) {
-	position: fixed !important;
-	top: max(4.75rem, calc(env(safe-area-inset-top) + 4.35rem)) !important;
-	right: max(.75rem, env(safe-area-inset-right)) !important;
-	bottom: auto !important;
-	left: auto !important;
+/* B"H 2026-10-09 — Dream audit: zero. The chained route+mount selector
+   (0,5,1) outranks the profile dropdown base rules (0,2,0)/(0,2,1), so the fixed
+   chamber geometry wins by specificity alone. The dropdown interior keeps its
+   dark-glass identity (Yaakov 2026-10-08); only the geometry is home-owned. */
+body[data-geelooy-route="home"] .profile-mount .awtsmoosDrop .dropdown-content:not(.alias-switcher) {
+	position: fixed;
+	top: max(4.75rem, calc(env(safe-area-inset-top) + 4.35rem));
+	right: max(.75rem, env(safe-area-inset-right));
+	bottom: auto;
+	left: auto;
 	z-index: var(--home-layer-profile-dialog);
 	align-content: start;
-	width: min(25rem, calc(100vw - 1.5rem)) !important;
-	min-width: 0 !important;
-	max-height: calc(100dvh - 5.5rem) !important;
-	overflow-y: auto !important;
+	width: min(25rem, calc(100vw - 1.5rem));
+	min-width: 0;
+	max-height: calc(100dvh - 5.5rem);
+	overflow-y: auto;
 	overscroll-behavior: contain;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
@@ -73,13 +76,12 @@ body[data-geelooy-route="home"][data-awtsmoos-profile-open="true"] {
 @media (max-width: 760px) { :where(body[data-geelooy-route="home"]) .profile-mount .profile-trigger-copy, :where(body[data-geelooy-route="home"]) .profile-mount .profile-chevron {
 		display: none;
 	} }
-/* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media (max-width: 680px) { :where(body[data-geelooy-route="home"]) :where(.profile-mount) :where(.awtsmoosDrop) .dropdown-content:not(.alias-switcher) {
-		top: max(4.35rem, calc(env(safe-area-inset-top) + 4.1rem)) !important;
-		right: max(.5rem, env(safe-area-inset-right)) !important;
-		bottom: max(.5rem, env(safe-area-inset-bottom)) !important;
-		left: max(.5rem, env(safe-area-inset-left)) !important;
-		width: auto !important;
-		max-height: none !important;
-		border-radius: 1.15rem !important;
+@media (max-width: 680px) { body[data-geelooy-route="home"] .profile-mount .awtsmoosDrop .dropdown-content:not(.alias-switcher) {
+		top: max(4.35rem, calc(env(safe-area-inset-top) + 4.1rem));
+		right: max(.5rem, env(safe-area-inset-right));
+		bottom: max(.5rem, env(safe-area-inset-bottom));
+		left: max(.5rem, env(safe-area-inset-left));
+		width: auto;
+		max-height: none;
+		border-radius: 1.15rem;
 	} }

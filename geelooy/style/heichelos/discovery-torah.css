@@ -6,7 +6,49 @@
  * @fileoverview Gives Heichel discovery a Torah-first, human-scale final surface.
  * The Awtsmoos hides canonical machinery beneath a name a person can meet;
  * Awtsmoos.com lets Ikar glow first without forcing every other Heichel to retreat.
+ *
+ * B"H 2026-10-09 — Dream theme: warm cream light, warm dark with gold accents.
+ * Tokens (--discover-*) are defined at :root so every discovery sheet shares one
+ * law. Zero; tokens only; explicit colors in both themes.
  */
+
+/* Dream discovery tokens: canonical sefer palette mapped to the discovery page. */
+:root {
+	--dream-serif-font: "Source Serif 4", "Cardo", Georgia, serif;
+	--dream-sans-font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+	--discover-paper: #f7f1e3;
+	--discover-card: #fffdf6;
+	--discover-ink: #2b2118;
+	--discover-title-ink: #1f1712;
+	--discover-ink-soft: #5a4c3d;
+	--discover-accent: #8a6d3b;
+	--discover-rule: #d9c9a8;
+	--discover-focus: #b3541e;
+	--discover-hero-bg: linear-gradient(145deg, #fffdf6, #f7f1e3);
+	--discover-hero-shadow: 0 1.25rem 3rem rgb(90 70 40 / 18%);
+	--discover-card-bg: #fffdf6;
+	--discover-card-shadow: 0 1rem 2.6rem rgb(90 70 40 / 16%);
+	--discover-seal-bg: linear-gradient(135deg, #d4a94e, #8a6d3b);
+	--discover-seal-ink: #fffdf6;
+	--discover-wash: rgb(138 109 59 / 08%);
+}
+:root[data-theme="dark"] {
+	--discover-paper: #171209;
+	--discover-card: #201a10;
+	--discover-ink: #f0e7d3;
+	--discover-title-ink: #faf3e2;
+	--discover-ink-soft: #c9b992;
+	--discover-accent: #d4a94e;
+	--discover-rule: #4a3a22;
+	--discover-focus: #e8a34d;
+	--discover-hero-bg: linear-gradient(145deg, rgb(32 26 16 / 94%), rgb(23 18 9 / 94%));
+	--discover-hero-shadow: 0 1.25rem 3rem rgb(0 0 0 / 45%);
+	--discover-card-bg: linear-gradient(145deg, rgb(32 26 16 / 96%), rgb(23 18 9 / 96%));
+	--discover-card-shadow: 0 1rem 2.6rem rgb(0 0 0 / 45%);
+	--discover-seal-bg: linear-gradient(135deg, #f6cc72, #8a6d3b);
+	--discover-seal-ink: #171209;
+	--discover-wash: rgb(212 169 78 / 10%);
+}
 .heichelos-discovery-page .social-spaces-shell {
 	inline-size: min(100% - 2rem, 78rem);
 	margin-inline: auto;
@@ -15,13 +57,17 @@
 .heichelos-discovery-page .spaces-hero {
 	position: relative;
 	overflow: hidden;
-	border-color: rgba(91, 221, 255, .3);
+	border: 1px solid var(--discover-rule);
 	border-radius: 1.25rem;
-	background: radial-gradient(circle at 10% 0%, rgba(91, 221, 255, .13), transparent 40%), linear-gradient(145deg, rgba(9, 22, 42, .98), rgba(4, 10, 24, .98));
-	box-shadow: 0 1.25rem 3rem rgba(0, 0, 0, .25);
+	background: var(--discover-hero-bg);
+	color: var(--discover-ink);
+	box-shadow: var(--discover-hero-shadow);
 }
 .heichelos-discovery-page .spaces-hero h1 {
 	max-inline-size: 16ch;
+	font-family: var(--dream-serif-font);
+	font-weight: 700;
+	color: var(--discover-title-ink);
 	font-size: clamp(2.6rem, 8vw, 5.5rem);
 	line-height: .92;
 	letter-spacing: -.04em;
@@ -50,6 +96,69 @@
 .heichelos-discovery-page .spaces-search input {
 	min-inline-size: 0;
 	min-block-size: 3.25rem;
+	inline-size: 100%;
+	padding: .65rem .9rem;
+	border: 1px solid var(--discover-rule);
+	border-radius: .75rem;
+	background: var(--discover-card);
+	color: var(--discover-ink);
+	font: inherit;
+}
+.heichelos-discovery-page .spaces-search input::placeholder {
+	color: var(--discover-ink-soft);
+	opacity: .75;
+}
+.heichelos-discovery-page .spaces-search input:hover {
+	border-color: var(--discover-accent);
+}
+.heichelos-discovery-page .spaces-search input:focus-visible {
+	outline: 2px solid var(--discover-focus);
+	outline-offset: 2px;
+	border-color: var(--discover-accent);
+	box-shadow: 0 0 0 3px var(--discover-wash);
+}
+.heichelos-discovery-page .spaces-search input:disabled {
+	opacity: .55;
+	cursor: not-allowed;
+}
+/* Discovery-page dream buttons: page-scoped overrides of the social-system
+   cyan buttons, so the discovery surface keeps one warm law. */
+.heichelos-discovery-page .p-button {
+	border: 1px solid var(--discover-rule);
+	background: var(--discover-card);
+	color: var(--discover-ink);
+	font-weight: 700;
+	transition: transform 150ms ease, border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
+}
+.heichelos-discovery-page .p-button:hover {
+	border-color: var(--discover-accent);
+	background: var(--discover-wash);
+	transform: translateY(-1px);
+}
+.heichelos-discovery-page .p-button:active {
+	transform: scale(.98);
+}
+.heichelos-discovery-page .p-button:focus-visible {
+	outline: 2px solid var(--discover-focus);
+	outline-offset: 2px;
+}
+.heichelos-discovery-page .p-button:disabled {
+	opacity: .55;
+	cursor: not-allowed;
+	transform: none;
+}
+.heichelos-discovery-page .p-button-primary {
+	border-color: var(--discover-accent);
+	background: var(--discover-accent);
+	color: var(--discover-card);
+}
+.heichelos-discovery-page .p-button-primary:hover {
+	background: var(--discover-focus);
+	border-color: var(--discover-focus);
+}
+.heichelos-discovery-page .p-button-primary:focus-visible {
+	outline: 2px solid var(--discover-focus);
+	outline-offset: 2px;
 }
 .heichelos-discovery-page .social-space-card {
 	min-inline-size: 0;
@@ -57,14 +166,15 @@
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.heichelos-discovery-page) .social-space-card[data-torah="true"] {
-	border-color: rgba(91, 221, 255, .58);
-	background: radial-gradient(circle at 0 0, rgba(91, 221, 255, .15), transparent 42%), linear-gradient(145deg, rgba(10, 27, 49, .98), rgba(7, 12, 28, .98));
-	box-shadow: 0 1rem 2.6rem rgba(0, 0, 0, .3), 0 0 0 1px rgba(91, 221, 255, .08);
+	border-color: var(--discover-accent);
+	background: var(--discover-card-bg);
+	box-shadow: var(--discover-card-shadow);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.heichelos-discovery-page) :where(.social-space-card[data-torah="true"]) .space-seal {
 	font-size: 1.45rem;
-	color: #d7fbff;
+	background: var(--discover-seal-bg);
+	color: var(--discover-seal-ink);
 }
 .heichelos-discovery-page .space-copy, .heichelos-discovery-page .space-title-row, .heichelos-discovery-page .space-compact-row > div {
 	min-inline-size: 0;

@@ -73,12 +73,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		scroll-behavior: auto !important;
-		transition-duration: 1ms !important;
-		animation-duration: 1ms !important;
-		animation-iteration-count: 1 !important;
+	/* B"H — repeated data-attribute is valid CSS; triple repetition outranks every
+	   component transition/animation rule so reduced-motion holds without !important. */
+	html[data-cloud-page][data-cloud-page][data-cloud-page] *,
+	html[data-cloud-page][data-cloud-page][data-cloud-page] *::before,
+	html[data-cloud-page][data-cloud-page][data-cloud-page] *::after {
+		scroll-behavior: auto;
+		transition-duration: 1ms;
+		animation-duration: 1ms;
+		animation-iteration-count: 1;
 	}
 }

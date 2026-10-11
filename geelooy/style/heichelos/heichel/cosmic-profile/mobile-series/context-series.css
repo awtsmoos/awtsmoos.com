@@ -33,7 +33,7 @@
 @media (max-width: 55rem) { :where(.heichel-os-document) .series-heading .series-label {
 		margin: 0;
 		padding-inline-start: .2rem;
-		color: #9ddff0;
+		color: var(--light-text-9ddff0, #9ddff0);
 		font-size: .65rem;
 		letter-spacing: .13em;
 		line-height: 1.2;
@@ -41,7 +41,7 @@
 @media (max-width: 55rem) { .heichel-os-document .series-heading h2 {
 		margin: 0;
 		padding-inline-start: .2rem;
-		color: #f6f8ff;
+		color: var(--light-text-f6f8ff, #f6f8ff);
 		font-size: clamp(1.45rem, 7vw, 1.85rem);
 		line-height: 1.15;
 		letter-spacing: -.035em;
@@ -54,7 +54,7 @@
 		margin: .1rem 0 0;
 		padding-inline-start: .2rem;
 		overflow: hidden;
-		color: #aebed3;
+		color: var(--light-text-aebed3, #aebed3);
 		font-size: .84rem;
 		line-height: 1.45;
 		white-space: normal;
@@ -74,7 +74,7 @@
 		justify-self: start;
 	} }
 
-/* B"H Yaakov 2026-10-08: Series pages light-theme fix — no !important */
+/* B"H Yaakov 2026-10-08: Series pages light-theme fix — no */
 :where(:root[data-theme="light"]) .series-heading .series-label,
 :where(.series-heading[data-theme="light"]) .series-label {
   color: #8a6d1a;

@@ -51,7 +51,7 @@
 	.social-hub-document .homePulseDisclosure .heroRift h2 { display: none; }
 	.social-hub-document #pulseTarget { margin: 0; color: var(--muted); font-size: .7rem; overflow-wrap: anywhere; }
 	.social-hub-document .homePulseDisclosure .pulseGrid {
-		grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
 		gap: .3rem;
 		margin: .35rem 0 .5rem;
 	}
@@ -65,7 +65,7 @@
 	.social-hub-document .homePulseDisclosure .pulseGrid strong { font-size: .92rem; }
 	.social-hub-document .homePulseDisclosure .pulseGrid span { font-size: .56rem; line-height: 1.15; }
 	.social-hub-document .homeActionsDisclosure .quickActionGrid {
-		grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: .35rem;
 		margin: .4rem 0 .5rem;
 	}
@@ -79,5 +79,5 @@
 	.social-hub-document .homeActionsDisclosure .quickActionGrid > *::before { display: none; }
 }
 @media (max-width: 23rem) {
-	.social-hub-document .homePulseDisclosure .pulseGrid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+	.social-hub-document .homePulseDisclosure .pulseGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

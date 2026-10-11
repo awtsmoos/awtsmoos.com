@@ -48,14 +48,11 @@
 	background: var(--nle-scrollbar);
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.nle-studio *,
-	.nle-studio *::before,
-	.nle-studio *::after {
-		scroll-behavior: auto !important;
-		transition-duration: .001ms !important;
-		animation-duration: .001ms !important;
-		animation-iteration-count: 1 !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .nle-studio *, :root:root:root .nle-studio *::before, :root:root:root .nle-studio *::after{
+		scroll-behavior: auto;
+		transition-duration: .001ms;
+		animation-duration: .001ms;
+		animation-iteration-count: 1;
 	}
 }
 

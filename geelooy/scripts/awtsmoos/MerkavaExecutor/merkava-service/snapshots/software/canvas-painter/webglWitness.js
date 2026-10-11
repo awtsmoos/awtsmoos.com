@@ -4,6 +4,14 @@
  * invisible GPU lifecycle visible without confusing it with DOM layout levels.
  */
 export function paintWebgl(fb, texture, box) {
+  // B"H: real WebGL pixels win. The software pipeline writes RGBA into
+  // texture.glPixels on every clear/draw; blit them (nearest-neighbor).
+  // The witness badge remains as the fallback for journal-only textures.
+  const px = texture.glPixels;
+  if (px && px.data && px.width > 0 && px.height > 0) {
+    blitPixels(fb, px, box);
+    return;
+  }
   const commands = texture.commands || [];
   fb.fillRect(box.x, box.y, box.w, box.h, clearColor(commands));
   grid(fb, box);
@@ -12,6 +20,18 @@ export function paintWebgl(fb, texture, box) {
   fb.drawText('WEBGL CUBE', box.x + 68, box.y + 10, [255, 255, 255, 255], 1, Math.max(74, box.w - 150));
   cube(fb, { x: box.x + 22, y: box.y + 40, w: box.w - 44, h: Math.max(74, box.h - 96) }, hasTexture(commands));
   swatches(fb, box);
+}
+
+function blitPixels(fb, px, box) {
+  const sw = px.width, sh = px.height, data = px.data;
+  for (let y = 0; y < box.h; y++) {
+    const sy = Math.min(sh - 1, (y * sh / Math.max(1, box.h)) | 0);
+    for (let x = 0; x < box.w; x++) {
+      const sx = Math.min(sw - 1, (x * sw / Math.max(1, box.w)) | 0);
+      const i = (sy * sw + sx) * 4;
+      fb.setPixel(box.x + x, box.y + y, [data[i], data[i + 1], data[i + 2], data[i + 3]]);
+    }
+  }
 }
 
 function clearColor(commands) {

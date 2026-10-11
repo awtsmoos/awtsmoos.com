@@ -9,11 +9,11 @@
 #include <stdint.h>
 
 #define AWTS_NATIVE_WEB_MAX_STRINGS 512u
-#define AWTS_NATIVE_WEB_MAX_NODES 1024u
+#define AWTS_NATIVE_WEB_MAX_NODES 16384u
 #define AWTS_NATIVE_WEB_MAX_EVENTS 256u
-#define AWTS_NATIVE_WEB_MAX_ATTRIBUTES 2048u
-#define AWTS_NATIVE_WEB_MAX_STYLES 2048u
-#define AWTS_NATIVE_WEB_STRING_BYTES 65536u
+#define AWTS_NATIVE_WEB_MAX_ATTRIBUTES 8192u
+#define AWTS_NATIVE_WEB_MAX_STYLES 16384u
+#define AWTS_NATIVE_WEB_STRING_BYTES 262144u
 
 typedef struct AwtsNativeSlice {
 	const uint8_t* bytes;
@@ -23,30 +23,30 @@ typedef struct AwtsNativeSlice {
 typedef struct AwtsNativeNode {
 	uint32_t handle;
 	uint32_t parentHandle;
-	AwtsNativeSlice tag;
-	AwtsNativeSlice id;
-	AwtsNativeSlice text;
 	uint32_t attributeCount;
+	/* String-table indices into runtime->strings (was 16B slices; 4B each). */
+	uint32_t tagIdx;
+	uint32_t idIdx;
+	uint32_t textIdx;
 } AwtsNativeNode;
 
 typedef struct AwtsNativeTextEvent {
 	uint32_t targetHandle;
 	uint32_t actionTargetHandle;
-	AwtsNativeSlice eventName;
-	AwtsNativeSlice value;
+	uint32_t eventNameIdx;
+	uint32_t valueIdx;
 } AwtsNativeTextEvent;
 
 typedef struct AwtsNativeAttribute {
 	uint32_t nodeHandle;
-	AwtsNativeSlice name;
-	AwtsNativeSlice value;
+	uint32_t nameIdx;
+	uint32_t valueIdx;
 } AwtsNativeAttribute;
 
 typedef struct AwtsNativeStyle {
 	uint32_t nodeHandle;
-	AwtsNativeSlice selector;
-	AwtsNativeSlice property;
-	AwtsNativeSlice value;
+	uint32_t propertyIdx;
+	uint32_t valueIdx;
 } AwtsNativeStyle;
 
 typedef struct AwtsNativeWebRuntime {
@@ -64,6 +64,18 @@ typedef struct AwtsNativeWebRuntime {
 	uint32_t attributeCount;
 	uint32_t executedOps;
 } AwtsNativeWebRuntime;
+
+/** Resolves a string-table index to its slice (bounds-checked). */
+static inline AwtsNativeSlice awts_native_string_at(
+	const AwtsNativeWebRuntime* runtime,
+	uint32_t index
+) {
+	AwtsNativeSlice empty = { 0, 0 };
+	if (!runtime || index >= runtime->stringCount) {
+		return empty;
+	}
+	return runtime->strings[index];
+}
 
 /** Executes one MWB4 payload into bounded runtime state. */
 int awts_native_web_execute(

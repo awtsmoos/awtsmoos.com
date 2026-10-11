@@ -50,3 +50,8 @@ body.geelooy-app-shell :where(
 		align-items: stretch;
 		border-radius: 0.65rem 1.8rem 0.65rem 1.8rem;
 	} }
+/* B"H 2026-10-09 — CSS audit: light-theme safe gradient (white stops invisible on white bg). */
+:where(:root[data-theme="light"]) :where(body.geelooy-app-shell) .g-page-hero h1,
+:where(:root[data-theme="light"]) :where(body.geelooy-app-shell) :where(.profile-hero-card, .spaces-hero) h1 {
+	background: linear-gradient(100deg, var(--text-primary) 10%, var(--g-cyan) 58%, #7a6fd0);
+}

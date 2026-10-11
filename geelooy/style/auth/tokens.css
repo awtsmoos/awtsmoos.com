@@ -1,1 +1,92 @@
+/* B"H
+Boruch Hashem
+Blessed is He
 
+The Awtsmoos gives the account gate its own quiet tokens: warm cream paper,
+gold accents, and serif dignity drawn from the approved dream language —
+light by default, warm dark when the stored theme asks for night.
+Every --auth-* reference across the auth vessels resolves here; zero
+ anywhere; explicit colors for both themes; custom properties only.
+*/
+.login-page {
+	--auth-font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+	--auth-heading-font: "Source Serif 4", "Cardo", Georgia, serif;
+
+	/* Dream light: warm cream paper, dark-brown ink, gold accent. */
+	--auth-page-bg: #f7f1e3;
+	--auth-panel: #fffdf6;
+	--auth-panel-strong: #fffdf6;
+	--auth-field: #f7f1e3;
+	--auth-field-strong: #fffdf6;
+	--auth-line: #d9c9a8;
+	--auth-line-strong: #8a6d3b;
+	--auth-text: #2b2118;
+	--auth-title: #1f1712;
+	--auth-muted: #5a4c3d;
+	--auth-accent: #8a6d3b;
+	--auth-cyan: #8a6d3b;
+	--auth-focus: #b3541e;
+	--auth-focus-ring: 0 0 0 3px #fffdf6, 0 0 0 5px #b3541e;
+	--auth-gradient: linear-gradient(135deg, #d4a94e 0%, #8a6d3b 100%);
+	--auth-on-accent: #2b2118;
+	--auth-danger: #a83a2a;
+	--auth-warning: #96690f;
+	--auth-success: #4d7a3a;
+	--auth-field-hover-bg: rgb(138 109 59 / 8%);
+	--auth-readonly-bg: rgb(138 109 59 / 7%);
+	--auth-readonly-line: rgb(138 109 59 / 30%);
+	--auth-autofill-bg: #efe4cd;
+	--auth-help-line: rgb(138 109 59 / 22%);
+	--auth-sheen: rgb(212 169 78 / 9%);
+
+	--auth-control-radius: .9rem;
+	--auth-panel-radius: 1.75rem;
+	--auth-motion-fast: 140ms;
+	--auth-motion-standard: 240ms;
+	--auth-ease: cubic-bezier(.2, .8, .2, 1);
+	--auth-z-atmosphere: 0;
+	--auth-z-content: 1;
+	--auth-z-fixed: 10;
+	--auth-touch: 2.75rem;
+}
+
+/* Dream dark: warm brown-black paper, luminous gold, light warm ink. */
+:root[data-theme="dark"] .login-page {
+	--auth-page-bg: #171209;
+	--auth-panel: #201a10;
+	--auth-panel-strong: #2a2318;
+	--auth-field: #171209;
+	--auth-field-strong: #201a10;
+	--auth-line: #4a3a22;
+	--auth-line-strong: #d4a94e;
+	--auth-text: #f0e7d3;
+	--auth-title: #faf3e2;
+	--auth-muted: #c9b992;
+	--auth-accent: #d4a94e;
+	--auth-cyan: #d4a94e;
+	--auth-focus: #e8a34d;
+	--auth-focus-ring: 0 0 0 3px #171209, 0 0 0 5px #e8a34d;
+	--auth-gradient: linear-gradient(135deg, #f6cc72 0%, #d4a94e 100%);
+	--auth-on-accent: #171209;
+	--auth-danger: #e58693;
+	--auth-warning: #d9bb72;
+	--auth-success: #73cfa8;
+	--auth-field-hover-bg: rgb(212 169 78 / 8%);
+	--auth-readonly-bg: rgb(212 169 78 / 7%);
+	--auth-readonly-line: rgb(212 169 78 / 30%);
+	--auth-autofill-bg: #100c06;
+	--auth-help-line: rgb(212 169 78 / 22%);
+	--auth-sheen: rgb(246 204 114 / 9%);
+}
+
+/* Page ground: warm cream (light) / warm dark (night), explicit ink. */
+.login-page {
+	color-scheme: light;
+	margin: 0;
+	background: var(--auth-page-bg);
+	color: var(--auth-text);
+	font-family: var(--auth-font);
+}
+:root[data-theme="dark"] .login-page {
+	color-scheme: dark;
+}

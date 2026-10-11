@@ -42,7 +42,7 @@
 .walletRow b {
 	grid-area: count;
 	font-size: 20px;
-	color: #fff;
+	color: var(--text);
 }
 
 .walletRow em {
@@ -61,7 +61,7 @@
 
 .walletRow.shefa i {
 	background: linear-gradient(135deg, var(--cyan), var(--pink));
-	color: #fff;
+	color: var(--text);
 }
 
 .coinModal .coinRows {

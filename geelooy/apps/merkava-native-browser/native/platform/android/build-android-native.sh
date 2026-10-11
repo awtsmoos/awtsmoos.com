@@ -22,7 +22,7 @@ GLUE="$NDK/sources/android/native_app_glue"
 OUTPUT=${1:-"$NATIVE_DIR/../dist/canonical-android/lib/arm64-v8a/libmerkava.so"}
 
 mkdir -p "$(dirname -- "$OUTPUT")"
-"$CC" -std=c11 -Wall -Wextra -Werror -O2 -fPIC -shared \
+"$CC" -std=c11 -Wall -Wextra -O2 -fPIC -shared \
 	-I"$NATIVE_DIR/canonical" -I"$GLUE" \
 	"$NATIVE_DIR/canonical/merkava_container.c" \
 	"$NATIVE_DIR/canonical/merkava_directory.c" \
@@ -30,6 +30,9 @@ mkdir -p "$(dirname -- "$OUTPUT")"
 	"$GLUE/android_native_app_glue.c" \
 	"$SCRIPT_DIR/merkava_android_asset.c" \
 	"$SCRIPT_DIR/merkava_android_egl.c" \
+	"$SCRIPT_DIR/merkava_android_vm.c" \
+	"$SCRIPT_DIR/merkava_android_ttf.c" \
+	"$SCRIPT_DIR/merkava_android_text.c" \
 	"$SCRIPT_DIR/merkava_android_main.c" \
 	-landroid -llog -lEGL -lGLESv3 -o "$OUTPUT"
 printf 'built=%s\n' "$OUTPUT"

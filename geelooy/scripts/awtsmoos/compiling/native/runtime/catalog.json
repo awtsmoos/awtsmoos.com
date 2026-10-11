@@ -1,0 +1,1261 @@
+{
+ "Landroid/app/Activity;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkConstructors.js",
+   "frameworkJavaBootHierarchy.js"
+  ]
+ },
+ "Landroid/app/ActivityManager;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkAndroidActivityManager.js",
+   "frameworkAndroidServiceRegistry.js"
+  ]
+ },
+ "Landroid/app/Application;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "applicationObjects.js",
+   "frameworkApplications.js",
+   "frameworkJavaBootHierarchy.js"
+  ]
+ },
+ "Landroid/app/Fragment;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkAndroidFragmentRoads.js"
+  ]
+ },
+ "Landroid/app/FragmentManager;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkAndroidFragmentRoads.js"
+  ]
+ },
+ "Landroid/app/FragmentTransaction;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkAndroidFragmentRoads.js"
+  ]
+ },
+ "Landroid/app/Service;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js"
+  ]
+ },
+ "Landroid/app/UiModeManager;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkAndroidServiceRegistry.js"
+  ]
+ },
+ "Landroid/content/BroadcastReceiver;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkConstructors.js"
+  ]
+ },
+ "Landroid/content/ClipboardManager;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkAndroidServiceRegistry.js"
+  ]
+ },
+ "Landroid/content/ComponentCallbacks;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkApplications.js"
+  ]
+ },
+ "Landroid/content/ComponentName;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkComponentObjects.js"
+  ]
+ },
+ "Landroid/content/ContentProvider;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkContentProviders.js",
+   "providerMethods.js"
+  ]
+ },
+ "Landroid/content/ContentResolver;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkAndroidSettings.js",
+   "frameworkContentResolverState.js"
+  ]
+ },
+ "Landroid/content/Context;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "applicationObjects.js",
+   "frameworkAndroidDateFormats.js",
+   "frameworkAndroidDirectories.js",
+   "frameworkAndroidResourceAccess.js",
+   "frameworkAndroidResources.js",
+   "frameworkAndroidViewConfigurations.js",
+   "frameworkJavaBootHierarchy.js",
+   "frameworkPackageContexts.js"
+  ]
+ },
+ "Landroid/content/ContextWrapper;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js"
+  ]
+ },
+ "Landroid/content/Intent;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkIntentStorage.js"
+  ]
+ },
+ "Landroid/content/SharedPreferences;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkPreferences.js"
+  ]
+ },
+ "Landroid/content/pm/ActivityInfo;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkPackageObjects.js"
+  ]
+ },
+ "Landroid/content/pm/ApplicationInfo;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkPackageObjects.js"
+  ]
+ },
+ "Landroid/content/pm/ComponentInfo;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkServiceInfo.js",
+   "providerObjects.js"
+  ]
+ },
+ "Landroid/content/pm/PackageInfo;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkPackageObjects.js"
+  ]
+ },
+ "Landroid/content/pm/PackageItemInfo;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkServiceInfo.js",
+   "providerObjects.js"
+  ]
+ },
+ "Landroid/content/pm/PackageManager;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkComponentPackageQueries.js",
+   "frameworkPackages.js"
+  ]
+ },
+ "Landroid/content/pm/ProviderInfo;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "providerObjects.js"
+  ]
+ },
+ "Landroid/content/pm/ServiceInfo;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkServiceInfo.js"
+  ]
+ },
+ "Landroid/content/res/AssetManager;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkAndroidResourceState.js",
+   "frameworkAssets.js"
+  ]
+ },
+ "Landroid/content/res/ColorStateList;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidResourceLookup.js"
+  ]
+ },
+ "Landroid/content/res/Configuration;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidResourceState.js"
+  ]
+ },
+ "Landroid/content/res/Resources;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkAndroidResourceState.js"
+  ]
+ },
+ "Landroid/content/res/TypedArray;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidResourceState.js"
+  ]
+ },
+ "Landroid/database/ContentObserver;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkContentObservers.js"
+  ]
+ },
+ "Landroid/graphics/Bitmap;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidBitmapTypes.js"
+  ]
+ },
+ "Landroid/graphics/Matrix;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidMatrixState.js"
+  ]
+ },
+ "Landroid/graphics/Paint;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidPaints.js",
+   "frameworkJavaBootHierarchy.js"
+  ]
+ },
+ "Landroid/graphics/Point;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidPointValues.js"
+  ]
+ },
+ "Landroid/graphics/Rect;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidDisplayObjects.js",
+   "frameworkAndroidMediaImageConstruction.js",
+   "frameworkAndroidRectValues.js"
+  ]
+ },
+ "Landroid/graphics/RectF;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidMatrixMapping.js"
+  ]
+ },
+ "Landroid/graphics/drawable/Drawable;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidResourceLookup.js"
+  ]
+ },
+ "Landroid/hardware/HardwareBuffer;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidMediaTypes.js"
+  ]
+ },
+ "Landroid/hardware/display/DisplayManager;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkAndroidDisplays.js",
+   "frameworkAndroidServiceRegistry.js"
+  ]
+ },
+ "Landroid/hardware/display/VirtualDisplay;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkAndroidDisplayObjects.js"
+  ]
+ },
+ "Landroid/media/Image;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidMediaTypes.js"
+  ]
+ },
+ "Landroid/media/ImageReader;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkAndroidMediaTypes.js"
+  ]
+ },
+ "Landroid/net/ConnectivityManager;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkAndroidServiceRegistry.js"
+  ]
+ },
+ "Landroid/net/Uri;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkContentResolverState.js"
+  ]
+ },
+ "Landroid/os/BaseBundle;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkBundles.js"
+  ]
+ },
+ "Landroid/os/Build;": {
+  "status": "compilable-today",
+  "js_files": [
+   "frameworkAndroidBuildFields.js"
+  ]
+ },
+ "Landroid/os/Bundle;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "activityLifecycle.js",
+   "frameworkAndroidMessages.js",
+   "frameworkBundles.js",
+   "frameworkIntentStorage.js",
+   "frameworkServiceInfo.js",
+   "providerObjects.js"
+  ]
+ },
+ "Landroid/os/Handler;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkAndroidLoopState.js"
+  ]
+ },
+ "Landroid/os/Looper;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkAndroidHandlerMethods.js",
+   "frameworkAndroidLoopState.js"
+  ]
+ },
+ "Landroid/os/Message;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidLoopState.js"
+  ]
+ },
+ "Landroid/os/PowerManager;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkAndroidServiceRegistry.js"
+  ]
+ },
+ "Landroid/os/SystemClock;": {
+  "status": "compilable-today",
+  "js_files": [
+   "frameworkAndroidSystemClock.js"
+  ]
+ },
+ "Landroid/os/Trace;": {
+  "status": "compilable-today",
+  "js_files": [
+   "frameworkAndroidTrace.js",
+   "frameworkAndroidTraceFields.js",
+   "frameworkAndroidTraceMethods.js"
+  ]
+ },
+ "Landroid/text/SpannableStringBuilder;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaTextTypes.js"
+  ]
+ },
+ "Landroid/text/TextPaint;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidPaints.js",
+   "frameworkJavaBootHierarchy.js"
+  ]
+ },
+ "Landroid/text/format/DateFormat;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidDateFormats.js"
+  ]
+ },
+ "Landroid/util/DisplayMetrics;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidResourceState.js"
+  ]
+ },
+ "Landroid/util/Log;": {
+  "status": "compilable-today",
+  "js_files": [
+   "frameworkAndroidLog.js"
+  ]
+ },
+ "Landroid/util/LongArray;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidAccessibilityMetadata.js"
+  ]
+ },
+ "Landroid/util/LongSparseArray;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidLongSparseArrays.js"
+  ]
+ },
+ "Landroid/util/SparseArray;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidSparseArrays.js"
+  ]
+ },
+ "Landroid/util/TypedValue;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidResourceState.js"
+  ]
+ },
+ "Landroid/view/Choreographer;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkAndroidChoreographer.js",
+   "frameworkAndroidChoreographerState.js"
+  ]
+ },
+ "Landroid/view/ContextThemeWrapper;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js"
+  ]
+ },
+ "Landroid/view/Display;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkAndroidDisplays.js",
+   "frameworkAndroidServiceRegistry.js"
+  ]
+ },
+ "Landroid/view/Surface;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "surfaceHolderState.js"
+  ]
+ },
+ "Landroid/view/SurfaceHolder;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "surfaceHolderState.js"
+  ]
+ },
+ "Landroid/view/SurfaceView;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "surfaceHolderState.js"
+  ]
+ },
+ "Landroid/view/View;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkAndroidWindowIdentity.js",
+   "frameworkHost.js"
+  ]
+ },
+ "Landroid/view/ViewConfiguration;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidViewConfigurationState.js"
+  ]
+ },
+ "Landroid/view/ViewTreeObserver;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidViewTreeObserverState.js"
+  ]
+ },
+ "Landroid/view/Window;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkAndroidWindowIdentity.js"
+  ]
+ },
+ "Landroid/view/WindowInsets;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidWindowInsetsState.js"
+  ]
+ },
+ "Landroid/view/WindowManager;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkAndroidDisplays.js",
+   "frameworkAndroidServiceRegistry.js"
+  ]
+ },
+ "Landroid/view/WindowMetrics;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidDisplayObjects.js"
+  ]
+ },
+ "Landroid/view/accessibility/AccessibilityManager;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidAccessibilityManager.js",
+   "frameworkAndroidServiceRegistry.js"
+  ]
+ },
+ "Landroid/view/accessibility/AccessibilityNodeInfo;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidAccessibilityMetadata.js"
+  ]
+ },
+ "Landroid/view/accessibility/AccessibilityRecord;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidAccessibilityMetadata.js"
+  ]
+ },
+ "Landroid/view/inputmethod/InputMethodManager;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkAndroidInputMethods.js",
+   "frameworkAndroidServiceRegistry.js"
+  ]
+ },
+ "Landroid/webkit/WebSettings;": {
+  "status": "needs-host-binding",
+  "js_files": [
+   "frameworkWebGles.js"
+  ]
+ },
+ "Ljava/io/File;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaFileFields.js",
+   "frameworkJavaFileState.js"
+  ]
+ },
+ "Ljava/io/InputStream;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAssets.js",
+   "frameworkNetwork.js"
+  ]
+ },
+ "Ljava/io/ObjectStreamField;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaObjectStreamFields.js"
+  ]
+ },
+ "Ljava/io/Serializable;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaClassHierarchy.js"
+  ]
+ },
+ "Ljava/lang/Boolean;": {
+  "status": "compilable-today",
+  "js_files": [
+   "frameworkJavaBooleanValues.js",
+   "frameworkJavaPrimitiveTypeFields.js"
+  ]
+ },
+ "Ljava/lang/Byte;": {
+  "status": "compilable-today",
+  "js_files": [
+   "frameworkJavaPrimitiveTypeFields.js"
+  ]
+ },
+ "Ljava/lang/CharSequence;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidResourceValues.js",
+   "frameworkHost.js",
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaStrings.js"
+  ]
+ },
+ "Ljava/lang/Character;": {
+  "status": "compilable-today",
+  "js_files": [
+   "frameworkJavaPrimitiveTypeFields.js"
+  ]
+ },
+ "Ljava/lang/Class;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaClassValues.js",
+   "frameworkJavaClasses.js",
+   "frameworkJavaPrimitiveTypeFields.js"
+  ]
+ },
+ "Ljava/lang/ClassLoader;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaClassRuntime.js",
+   "frameworkJavaClasses.js"
+  ]
+ },
+ "Ljava/lang/Cloneable;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaClassHierarchy.js"
+  ]
+ },
+ "Ljava/lang/Comparable;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js"
+  ]
+ },
+ "Ljava/lang/Double;": {
+  "status": "compilable-today",
+  "js_files": [
+   "frameworkJavaDoubleValues.js",
+   "frameworkJavaPrimitiveTypeFields.js"
+  ]
+ },
+ "Ljava/lang/Enum;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaEnums.js"
+  ]
+ },
+ "Ljava/lang/Exception;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js"
+  ]
+ },
+ "Ljava/lang/Float;": {
+  "status": "compilable-today",
+  "js_files": [
+   "frameworkJavaFloatValues.js",
+   "frameworkJavaPrimitiveTypeFields.js"
+  ]
+ },
+ "Ljava/lang/IllegalStateException;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js"
+  ]
+ },
+ "Ljava/lang/Integer;": {
+  "status": "compilable-today",
+  "js_files": [
+   "frameworkJavaClassValues.js",
+   "frameworkJavaIntegerValues.js",
+   "frameworkJavaPrimitiveTypeFields.js"
+  ]
+ },
+ "Ljava/lang/Iterable;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaCollectionTypeChecks.js",
+   "frameworkJavaSets.js"
+  ]
+ },
+ "Ljava/lang/Long;": {
+  "status": "compilable-today",
+  "js_files": [
+   "frameworkJavaClassValues.js",
+   "frameworkJavaLongValues.js",
+   "frameworkJavaPrimitiveTypeFields.js"
+  ]
+ },
+ "Ljava/lang/Number;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaNumbers.js"
+  ]
+ },
+ "Ljava/lang/Object;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidHandlerMethods.js",
+   "frameworkAndroidHandlerQueue.js",
+   "frameworkAndroidLoopState.js",
+   "frameworkAndroidMessages.js",
+   "frameworkConstructors.js",
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaClassHierarchy.js",
+   "frameworkJavaObjects.js"
+  ]
+ },
+ "Ljava/lang/Package;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaClassRuntime.js"
+  ]
+ },
+ "Ljava/lang/Runnable;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaThreadLifecycle.js",
+   "frameworkJavaThreads.js"
+  ]
+ },
+ "Ljava/lang/Runtime;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaRuntime.js"
+  ]
+ },
+ "Ljava/lang/RuntimeException;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaRuntimeExceptions.js"
+  ]
+ },
+ "Ljava/lang/Short;": {
+  "status": "compilable-today",
+  "js_files": [
+   "frameworkJavaPrimitiveTypeFields.js",
+   "frameworkJavaShortValues.js"
+  ]
+ },
+ "Ljava/lang/String;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidActivityManager.js",
+   "frameworkAndroidBuildFields.js",
+   "frameworkAssets.js",
+   "frameworkFlutterNativeArrayElements.js",
+   "frameworkFlutterNativeReferences.js",
+   "frameworkHost.js",
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaClassValues.js",
+   "frameworkJavaFileFields.js",
+   "frameworkJavaGuestIdentity.js",
+   "frameworkJavaListStorage.js",
+   "frameworkJavaRuntimeExceptions.js",
+   "frameworkJavaStringBuilderAppend.js",
+   "frameworkJavaTextTypes.js",
+   "frameworkJavaThreadLifecycle.js",
+   "frameworkJavaValueIdentity.js",
+   "frameworkJsonArrayMethods.js",
+   "frameworkJsonObjectOperations.js",
+   "frameworkPackageObjects.js",
+   "frameworkServiceInfo.js",
+   "guestText.js",
+   "providerObjects.js"
+  ]
+ },
+ "Ljava/lang/StringBuffer;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaTextTypes.js"
+  ]
+ },
+ "Ljava/lang/StringBuilder;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaTextTypes.js"
+  ]
+ },
+ "Ljava/lang/System;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaSystem.js"
+  ]
+ },
+ "Ljava/lang/Thread;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaThreadState.js",
+   "frameworkJavaThreads.js"
+  ]
+ },
+ "Ljava/lang/ThreadGroup;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaThreadProperties.js"
+  ]
+ },
+ "Ljava/lang/ThreadLocal;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaThreadLocals.js"
+  ]
+ },
+ "Ljava/lang/Throwable;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidLog.js",
+   "frameworkJavaBootHierarchy.js"
+  ]
+ },
+ "Ljava/lang/Void;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaPrimitiveTypeFields.js"
+  ]
+ },
+ "Ljava/lang/ref/PhantomReference;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaReferences.js"
+  ]
+ },
+ "Ljava/lang/ref/Reference;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaReferences.js"
+  ]
+ },
+ "Ljava/lang/ref/ReferenceQueue;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaReferences.js"
+  ]
+ },
+ "Ljava/lang/ref/SoftReference;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaReferences.js"
+  ]
+ },
+ "Ljava/lang/ref/WeakReference;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaReferences.js"
+  ]
+ },
+ "Ljava/lang/reflect/AccessibleObject;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaReflectConstructors.js",
+   "frameworkJavaReflectFields.js",
+   "frameworkJavaReflectMethods.js",
+   "frameworkJavaReflectionFamilies.js"
+  ]
+ },
+ "Ljava/lang/reflect/Constructor;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaReflectConstructorValues.js"
+  ]
+ },
+ "Ljava/lang/reflect/Field;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaReflectFieldValues.js"
+  ]
+ },
+ "Ljava/lang/reflect/Method;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaReflectMethodValues.js"
+  ]
+ },
+ "Ljava/math/BigInteger;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBigIntegerValues.js"
+  ]
+ },
+ "Ljava/net/URI;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaFileQueries.js"
+  ]
+ },
+ "Ljava/nio/Buffer;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaByteBuffers.js"
+  ]
+ },
+ "Ljava/nio/ByteBuffer;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaByteBufferBulk.js",
+   "frameworkJavaByteBufferStorage.js",
+   "frameworkJavaByteBuffers.js"
+  ]
+ },
+ "Ljava/nio/ByteOrder;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaByteOrders.js"
+  ]
+ },
+ "Ljava/nio/charset/Charset;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaCharsets.js"
+  ]
+ },
+ "Ljava/nio/file/Path;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaFileQueries.js"
+  ]
+ },
+ "Ljava/util/AbstractCollection;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaSets.js"
+  ]
+ },
+ "Ljava/util/AbstractMap;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaAbstractMapConstructors.js",
+   "frameworkJavaMaps.js"
+  ]
+ },
+ "Ljava/util/ArrayDeque;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaConcurrentQueues.js"
+  ]
+ },
+ "Ljava/util/ArrayList;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaCollectionFactories.js",
+   "frameworkJavaExecutorTasks.js",
+   "frameworkJavaLists.js",
+   "frameworkJsonObjectOperations.js"
+  ]
+ },
+ "Ljava/util/Arrays;": {
+  "status": "compilable-today",
+  "js_files": [
+   "frameworkJavaArrays.js"
+  ]
+ },
+ "Ljava/util/Collection;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaArrayDequeStorage.js",
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaCollectionTypeChecks.js",
+   "frameworkJavaConcurrentLinkedQueue.js",
+   "frameworkJavaConcurrentQueues.js",
+   "frameworkJavaDequeStorage.js",
+   "frameworkJavaListCollections.js",
+   "frameworkJavaPriorityQueues.js",
+   "frameworkJavaSets.js",
+   "frameworkJsonArrayMethods.js"
+  ]
+ },
+ "Ljava/util/Collections;": {
+  "status": "compilable-today",
+  "js_files": [
+   "frameworkJavaCollections.js"
+  ]
+ },
+ "Ljava/util/Comparator;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaCollectionFactories.js",
+   "frameworkJavaPriorityQueues.js"
+  ]
+ },
+ "Ljava/util/Enumeration;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaClassLoader.js",
+   "frameworkJavaCollectionFactories.js"
+  ]
+ },
+ "Ljava/util/HashMap;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaCollectionFactories.js",
+   "frameworkJavaMaps.js"
+  ]
+ },
+ "Ljava/util/HashSet;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkBundleStorage.js",
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaCollectionFactories.js",
+   "frameworkJavaSets.js"
+  ]
+ },
+ "Ljava/util/Iterator;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaIterators.js"
+  ]
+ },
+ "Ljava/util/LinkedHashMap;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaMaps.js"
+  ]
+ },
+ "Ljava/util/LinkedHashSet;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaSets.js"
+  ]
+ },
+ "Ljava/util/LinkedList;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaLists.js"
+  ]
+ },
+ "Ljava/util/List;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaCollectionTypeChecks.js",
+   "frameworkJavaLists.js"
+  ]
+ },
+ "Ljava/util/Locale;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAndroidResourceState.js",
+   "frameworkJavaLocaleStorage.js"
+  ]
+ },
+ "Ljava/util/Map;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaMaps.js",
+   "frameworkJsonObjectOperations.js"
+  ]
+ },
+ "Ljava/util/PriorityQueue;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaPriorityQueueSources.js",
+   "frameworkJavaPriorityQueues.js"
+  ]
+ },
+ "Ljava/util/Set;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaCollectionTypeChecks.js",
+   "frameworkJavaSets.js"
+  ]
+ },
+ "Ljava/util/SortedMap;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js"
+  ]
+ },
+ "Ljava/util/SortedSet;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaPriorityQueues.js"
+  ]
+ },
+ "Ljava/util/WeakHashMap;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaMaps.js"
+  ]
+ },
+ "Ljava/util/concurrent/AbstractExecutorService;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaExecutors.js"
+  ]
+ },
+ "Ljava/util/concurrent/Callable;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaThreads.js"
+  ]
+ },
+ "Ljava/util/concurrent/ConcurrentLinkedQueue;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaConcurrentQueues.js"
+  ]
+ },
+ "Ljava/util/concurrent/CopyOnWriteArrayList;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaCopyOnWrite.js"
+  ]
+ },
+ "Ljava/util/concurrent/CopyOnWriteArraySet;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaCopyOnWrite.js"
+  ]
+ },
+ "Ljava/util/concurrent/Executor;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaExecutors.js"
+  ]
+ },
+ "Ljava/util/concurrent/ExecutorService;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaExecutors.js"
+  ]
+ },
+ "Ljava/util/concurrent/Executors;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaExecutors.js"
+  ]
+ },
+ "Ljava/util/concurrent/Future;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaFutures.js"
+  ]
+ },
+ "Ljava/util/concurrent/FutureTask;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaFutureState.js",
+   "frameworkJavaFutures.js"
+  ]
+ },
+ "Ljava/util/concurrent/LinkedBlockingQueue;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaConcurrentQueues.js"
+  ]
+ },
+ "Ljava/util/concurrent/RunnableFuture;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js"
+  ]
+ },
+ "Ljava/util/concurrent/ScheduledExecutorService;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaExecutors.js"
+  ]
+ },
+ "Ljava/util/concurrent/ScheduledThreadPoolExecutor;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaExecutorTypes.js",
+   "frameworkJavaExecutors.js"
+  ]
+ },
+ "Ljava/util/concurrent/ThreadFactory;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaThreads.js"
+  ]
+ },
+ "Ljava/util/concurrent/ThreadPoolExecutor;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaExecutorTypes.js",
+   "frameworkJavaExecutors.js"
+  ]
+ },
+ "Ljava/util/concurrent/atomic/AtomicBoolean;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAtomicBoolean.js"
+  ]
+ },
+ "Ljava/util/concurrent/atomic/AtomicInteger;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAtomicInteger.js"
+  ]
+ },
+ "Ljava/util/concurrent/atomic/AtomicLong;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAtomicLong.js"
+  ]
+ },
+ "Ljava/util/concurrent/atomic/AtomicReference;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAtomicReference.js"
+  ]
+ },
+ "Ljava/util/concurrent/atomic/AtomicReferenceFieldUpdater;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkAtomicReferenceFieldUpdaterMetadata.js"
+  ]
+ },
+ "Ljava/util/concurrent/locks/Lock;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaLocks.js"
+  ]
+ },
+ "Ljava/util/concurrent/locks/LockSupport;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaLocks.js"
+  ]
+ },
+ "Ljava/util/concurrent/locks/ReadWriteLock;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js"
+  ]
+ },
+ "Ljava/util/concurrent/locks/ReentrantLock;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaLocks.js"
+  ]
+ },
+ "Ljava/util/concurrent/locks/ReentrantReadWriteLock;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaBootHierarchy.js",
+   "frameworkJavaLocks.js"
+  ]
+ },
+ "Ljava/util/regex/Matcher;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaRegexMatcherState.js"
+  ]
+ },
+ "Ljava/util/regex/Pattern;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaRegexPatternState.js"
+  ]
+ },
+ "Ljava/util/stream/IntStream;": {
+  "status": "blocked-on-compiler",
+  "js_files": [
+   "frameworkJavaStringQueries.js"
+  ]
+ }
+}

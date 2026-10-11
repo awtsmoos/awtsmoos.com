@@ -15,11 +15,11 @@
     width: 100%;
 }
 
-#line-numbers { 
+#line-numbers#line-numbers { 
     font-family: var(--font-code);
-    font-size: 14px !important; 
-    line-height: 24px !important; 
-    padding: 10px 8px 24px 8px !important; 
+    font-size: 14px; 
+    line-height: 24px; 
+    padding: 10px 8px 24px 8px; 
     margin: 0;
     color: var(--color-text-tertiary); 
     text-align: right; 
@@ -33,7 +33,7 @@
     min-width: 55px; 
 }
 
-#editor { 
+#editor#editor { 
     flex-grow: 1; 
     height: 100%; 
     border: none; 
@@ -41,9 +41,9 @@
     background: transparent; 
     color: var(--color-text-primary); 
     font-family: var(--font-code);
-    font-size: 14px !important; 
-    line-height: 24px !important; 
-    padding: 10px 110px 24px 10px !important; 
+    font-size: 14px; 
+    line-height: 24px; 
+    padding: 10px 110px 24px 10px; 
     resize: none; 
     outline: none; 
     white-space: pre; 
@@ -192,7 +192,7 @@
     50% { transform: scale(1.2); }
 }
 
-.lint-marker { color: var(--color-accent-danger) !important; font-weight: bold; position: relative; }
+.lint-marker.lint-marker { color: var(--color-accent-danger); font-weight: bold; position: relative; }
 .lint-marker::after { content: '●'; font-size: 8px; position: absolute; left: -6px; top: 50%; transform: translateY(-50%); }
 
 .empty-editor-message { 

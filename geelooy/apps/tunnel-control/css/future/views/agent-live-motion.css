@@ -68,22 +68,10 @@
 		100% { transform: translateX(130%); }
 	}
 
-	@media (prefers-reduced-motion: reduce) {
-		.awt-agent-channel,
-		.awt-agent-socket-pulse,
-		.awt-agent-avatar-presence,
-		.awt-agent-direct-transport i,
-		.awt-agent-live-console::after,
-		.awt-agent-channel.is-selected::after,
-		.awt-agent-send::after {
-			animation: none !important;
-		}
-
-		.awt-agent-channel,
-		.awt-agent-open-channel,
-		.awt-agent-direct-input,
-		.awt-agent-send {
-			transition: none !important;
+	@media (prefers-reduced-motion: reduce) {:root:root:root .awt-agent-channel, :root:root:root .awt-agent-socket-pulse, :root:root:root .awt-agent-avatar-presence, :root:root:root .awt-agent-direct-transport i, :root:root:root .awt-agent-live-console::after, :root:root:root .awt-agent-channel.is-selected::after, :root:root:root .awt-agent-send::after{
+			animation: none;
+		}:root:root:root .awt-agent-channel, :root:root:root .awt-agent-open-channel, :root:root:root .awt-agent-direct-input, :root:root:root .awt-agent-send{
+			transition: none;
 		}
 	}
 }

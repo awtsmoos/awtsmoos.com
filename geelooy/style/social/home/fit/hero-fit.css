@@ -1,5 +1,5 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
-/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+/* B"H — html-prefixed specificity replaces every (Yaakov 2026-10-08). */
 /* B"H — hero fit tokens, explicit light AND dark branches (Yaakov 2026-10-08).
  * The home hero is dark-glass in both themes; values are identical by design. */
 :root:not([data-theme="dark"]) {

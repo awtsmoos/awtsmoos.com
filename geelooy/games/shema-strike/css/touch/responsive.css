@@ -11,8 +11,8 @@
 		display: grid;
 	}
 
-	.shema-strike .overlay.visible ~ .touch-controls {
-		display: none !important;
+	.shema-strike.shema-strike .overlay.visible ~ .touch-controls {
+		display: none;
 	}
 }
 

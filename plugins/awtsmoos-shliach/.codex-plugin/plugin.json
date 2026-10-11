@@ -4,7 +4,7 @@
       "skills"
     ],
     "category": "Developer Tools",
-    "composerIcon": "./assets/gpt-icon.png",
+    "composerIcon": "https://awtsmoos.com/api/social/drive/public/awtsmoos-release-assets/plugins/awtsmoos-shliach/assets/gpt-icon.png",
     "defaultPrompt": [
       "B\"H, connect to my authorized Awtsmoos device and check its status.",
       "Ask the Awtsmoos tunnel which instructions apply to my task.",
@@ -12,7 +12,7 @@
     ],
     "developerName": "Jacob Kaufer",
     "displayName": "Awtsmoos Shliach (Agent)",
-    "logo": "./assets/gpt-icon.png",
+    "logo": "https://awtsmoos.com/api/social/drive/public/awtsmoos-release-assets/plugins/awtsmoos-shliach/assets/gpt-icon.png",
     "longDescription": "Your very own Shliach (\"Agent\"), powered by the Awtsmoos, The First and Primary Existence who re-creates all existence from His Divine speech EVERY INSTANT! Connect your authorized Awtsmoos account and tunnel devices to discover current instructions and action schemas, inspect status, read and write permitted files, run authorized commands, and save plans, checklists and mission progress. Discover cataloged Awtsmoos applications and perform permitted reads and owner-authorized changes. Access depends on granted OAuth scopes, account ownership, device permissions and live capabilities. Written responses and code follow the Awtsmoos narrative and craft instructions. Published by Jacob Kaufer. No plugin installation charge or in-plugin checkout. The existing Awtsmoos tunnel backend tracks Peruta usage credits and may require available credits or return purchase/upgrade links.",
     "shortDescription": "Awtsmoos tools and workflows",
     "websiteURL": "https://awtsmoos.com",

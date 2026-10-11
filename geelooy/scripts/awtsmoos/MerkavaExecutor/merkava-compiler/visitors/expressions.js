@@ -4,28 +4,80 @@
     root.MerkavaCompiler = root.MerkavaCompiler || {};
     root.MerkavaCompiler.Visitors = root.MerkavaCompiler.Visitors || {};
 
+    // B"H - Module-level Set (was: array allocated + linear scan per identifier)
+    const CRITICAL_GLOBALS = new Set(['Object', 'Array', 'String', 'Number', 'console', 'window', 'document', 'Math', 'JSON', 'Symbol', 'Error', 'Promise']);
+
+    function buildBinOpMap(OPCODES) {
+        return {
+            '+': OPCODES.ADD, '-': OPCODES.SUB, '*': OPCODES.MUL,
+            '/': OPCODES.DIV, '%': OPCODES.MOD, '==': OPCODES.EQ,
+            '===': OPCODES.STRICT_EQ, '!=': OPCODES.NEQ, '!==': OPCODES.STRICT_NEQ,
+            '<': OPCODES.LT, '<=': OPCODES.LTE, '>': OPCODES.GT,
+            '>=': OPCODES.GTE, 'in': OPCODES.IN, 'instanceof': OPCODES.INSTANCEOF,
+            '**': OPCODES.POW, '&': OPCODES.BIT_AND, '|': OPCODES.BIT_OR,
+            '^': OPCODES.BIT_XOR, '<<': OPCODES.SHL, '>>': OPCODES.SHR,
+            '>>>': OPCODES.USHR
+        };
+    }
+
     root.MerkavaCompiler.Visitors.Expressions = {
         _visitBinary(node) {
-            if (['&&', '||', '??'].includes(node.operator)) return this._visitLogical(node);
+            const op = node.operator;
+            // B"H - Direct comparisons (was: array allocation per binary expression)
+            if (op === '&&' || op === '||' || op === '??') return this._visitLogical(node);
+            // B"H - Compile-time constant folding
+            if (this._tryFoldBinary(node)) return;
             this._visit(node.left);
             this._visit(node.right);
             const map = this._binaryOpMap();
-            const op = map[node.operator];
-            if (op === undefined) throw new Error(`[Compiler] Unknown Binary Operator: ${node.operator}`);
-            this.buffer.write8(op);
+            const code = map[op];
+            if (code === undefined) throw new Error(`[Compiler] Unknown Binary Operator: ${op}`);
+            this.buffer.write8(code);
+        },
+
+        // B"H - Fold literal-literal binary ops at compile time. Returns true if folded.
+        _tryFoldBinary(node) {
+            const l = node.left, r = node.right;
+            if (!l || !r || l.type !== 'Literal' || r.type !== 'Literal') return false;
+            const a = l.value, b = r.value;
+            const op = node.operator;
+            let out;
+            if (typeof a === 'number' && typeof b === 'number') {
+                switch (op) {
+                    case '+': out = a + b; break;
+                    case '-': out = a - b; break;
+                    case '*': out = a * b; break;
+                    case '/': out = a / b; break;
+                    case '%': out = a % b; break;
+                    case '**': out = Math.pow(a, b); break;
+                    case '==': out = a == b; break;
+                    case '===': out = a === b; break;
+                    case '!=': out = a != b; break;
+                    case '!==': out = a !== b; break;
+                    case '<': out = a < b; break;
+                    case '<=': out = a <= b; break;
+                    case '>': out = a > b; break;
+                    case '>=': out = a >= b; break;
+                    case '&': out = a & b; break;
+                    case '|': out = a | b; break;
+                    case '^': out = a ^ b; break;
+                    case '<<': out = a << b; break;
+                    case '>>': out = a >> b; break;
+                    case '>>>': out = a >>> b; break;
+                    default: return false;
+                }
+            } else if (op === '+' && typeof a === 'string' && typeof b === 'string') {
+                out = a + b;
+            } else {
+                return false;
+            }
+            this._visitLiteral({ type: 'Literal', value: out });
+            return true;
         },
 
         _binaryOpMap() {
-            return {
-                '+': this.OPCODES.ADD, '-': this.OPCODES.SUB, '*': this.OPCODES.MUL,
-                '/': this.OPCODES.DIV, '%': this.OPCODES.MOD, '==': this.OPCODES.EQ, 
-                '===': this.OPCODES.STRICT_EQ, '!=': this.OPCODES.NEQ, '!==': this.OPCODES.STRICT_NEQ,
-                '<': this.OPCODES.LT, '<=': this.OPCODES.LTE, '>': this.OPCODES.GT, 
-                '>=': this.OPCODES.GTE, 'in': this.OPCODES.IN, 'instanceof': this.OPCODES.INSTANCEOF,
-                '**': this.OPCODES.POW, '&': this.OPCODES.BIT_AND, '|': this.OPCODES.BIT_OR, 
-                '^': this.OPCODES.BIT_XOR, '<<': this.OPCODES.SHL, '>>': this.OPCODES.SHR, 
-                '>>>': this.OPCODES.USHR
-            };
+            // B"H - Cached per instance (was: fresh object per binary expression)
+            return this._binOpMap || (this._binOpMap = buildBinOpMap(this.OPCODES));
         },
 
         _visitLogical(node) {
@@ -45,8 +97,8 @@
                 this.buffer.write8(this.OPCODES.PUSH_UNDEFINED);
                 return;
             }
-            const criticalGlobals = ['Object', 'Array', 'String', 'Number', 'console', 'window', 'document', 'Math', 'JSON', 'Symbol', 'Error', 'Promise'];
-            if (criticalGlobals.includes(node.name)) {
+            // B"H - Module-level Set (was: array alloc + linear scan per identifier)
+            if (CRITICAL_GLOBALS.has(node.name)) {
                 const nameIdx = this._addConstant(node.name);
                 this.buffer.write8(mode === 'LOAD' ? this.OPCODES.LOAD_GLOBAL : this.OPCODES.STORE_GLOBAL);
                 this.buffer.write16(nameIdx);

@@ -59,7 +59,21 @@ export function scanTokens(source, options = {}) {
 		}
 		if (/[0-9]/.test(character)) {
 			const result = readNumber(source, cursor, line, col);
-			push(TOKENS.NUM, result.value, startLine, startCol);
+			if (result.floatKind) {
+				if (tokens.length >= maximumTokens) {
+					throw new CLexerError("C_TOKEN_LIMIT", "C token limit exceeded", startLine, startCol);
+				}
+				tokens.push(Object.freeze({
+					type: TOKENS.NUM,
+					value: result.value,
+					floatKind: result.floatKind,
+					raw: result.raw,
+					line: startLine,
+					col: startCol
+				}));
+			} else {
+				push(TOKENS.NUM, result.value, startLine, startCol);
+			}
 			({ cursor, line, col } = result);
 			continue;
 		}

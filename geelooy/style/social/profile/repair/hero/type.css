@@ -3,16 +3,22 @@
 .profile-hero-card h1 {
   background: linear-gradient(90deg, #fff, #9a4dff 62%, #2ea7ff);
   -webkit-background-clip: text;
-  color: transparent !important;
-  font-size: clamp(2.72rem, 11.6vw, 4.6rem) !important;
-  letter-spacing: -.07em !important;
-  line-height: .92 !important;
-  margin: 0 !important;
+  color: transparent;
+  font-size: clamp(2.72rem, 11.6vw, 4.6rem);
+  letter-spacing: -.07em;
+  line-height: .92;
+  margin: 0;
 }
 
 .profile-hero-card p {
-  color: var(--pr-muted) !important;
-  font-size: 1.05rem !important;
-  line-height: 1.45 !important;
-  margin: 0 !important;
+  color: var(--pr-muted);
+  font-size: 1.05rem;
+  line-height: 1.45;
+  margin: 0;
+}
+/* B"H 2026-10-09 — CSS audit: light-theme safe gradient. */
+:where(:root[data-theme="light"]) .profile-hero-card h1 {
+	background: linear-gradient(90deg, var(--text-primary), #7a3dff 62%, #1e87cc);
+	-webkit-background-clip: text;
+	background-clip: text;
 }

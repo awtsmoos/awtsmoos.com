@@ -21,15 +21,11 @@
 		}
 	}
 
-	@media (prefers-reduced-motion: reduce) {
-		#mitzvah-studio,
-		#mitzvah-studio *,
-		#mitzvah-studio *::before,
-		#mitzvah-studio *::after {
-			scroll-behavior: auto !important;
-			transition-duration: .01ms !important;
-			animation-duration: .01ms !important;
-			animation-iteration-count: 1 !important;
+	@media (prefers-reduced-motion: reduce) {:root:root:root #mitzvah-studio, :root:root:root #mitzvah-studio *, :root:root:root #mitzvah-studio *::before, :root:root:root #mitzvah-studio *::after{
+			scroll-behavior: auto;
+			transition-duration: .01ms;
+			animation-duration: .01ms;
+			animation-iteration-count: 1;
 		}
 	}
 

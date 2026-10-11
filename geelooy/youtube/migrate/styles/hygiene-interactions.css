@@ -68,10 +68,9 @@ Awtsmoos.com gives summary, open state, keyboard focus, universal pressure, fine
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.migrationCard[data-future-disclosure] > summary {
+@media (prefers-reduced-motion: reduce) {:root:root:root .migrationCard[data-future-disclosure] > summary{
 		transition: none;
-		transform: none !important;
+		transform: none;
 	}
 }
 

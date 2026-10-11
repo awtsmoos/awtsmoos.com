@@ -16,22 +16,41 @@
 		prototype.__captureEventError = captureVirtualElementEventError;
 	}
 
-	/** Invokes listeners for one target and event phase. */
+	/**
+	 * B"H (2026-10-09): EXTREME OPTIMIZATION.
+	 * Listener storage is split by phase: entry = { c: [...capture], b: [...bubble] },
+	 * each item { h: handler, o: once }. This kills the per-item capture branch
+	 * and lets dispatch skip whole phases with a single length check.
+	 * - Zero listeners: single property lookup + return. No array allocation.
+	 * - One listener: direct call, no snapshot copy.
+	 * - Many: snapshot copy only (spec-correct for add/remove during dispatch).
+	 * Handler invocation is inlined (no helper call per listener).
+	 */
 	function invokeVirtualElementListeners(event, capture) {
-		for (const item of (this.listeners[event.type] || []).slice()) {
-			if (item.capture !== capture) continue;
-			event.currentTarget = this;
+		const entry = this.listeners[event.type];
+		if (entry === undefined) return;
+		const list = capture ? entry.c : entry.b;
+		const n = list.length;
+		if (n === 0) return;
+		const target = this;
+		const type = event.type;
+		if (n === 1) {
+			const item = list[0];
+			event.currentTarget = target;
 			try {
-				const result = item.handler.call(this, event);
-				if (result && typeof result.catch === "function") {
-					result.catch(error => this.__captureEventError(error, event));
-				}
-			} catch (error) {
-				this.__captureEventError(error, event);
-			}
-			if (item.once) {
-				this.removeEventListener(event.type, item.handler, { capture });
-			}
+				const r = item.h.call(target, event);
+				if (r && typeof r.catch === "function") r.catch(e => target.__captureEventError(e, event));
+			} catch (e) { target.__captureEventError(e, event); }
+			if (item.o) target.removeEventListener(type, item.h, capture);
+			return;
+		}
+		for (const item of list.slice()) {
+			event.currentTarget = target;
+			try {
+				const r = item.h.call(target, event);
+				if (r && typeof r.catch === "function") r.catch(e => target.__captureEventError(e, event));
+			} catch (e) { target.__captureEventError(e, event); }
+			if (item.o) target.removeEventListener(type, item.h, capture);
 			if (event.__immediateStopped) break;
 		}
 	}

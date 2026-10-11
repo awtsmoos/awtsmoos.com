@@ -34,7 +34,7 @@
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media(max-width:900px) { :where(body[data-mobile-scene]) .mobile-control-center strong {
     display:block;
-    color:#f8fbff;
+    color:var(--awt-text);
     font-size:15px;
     line-height:1.1;
   } }

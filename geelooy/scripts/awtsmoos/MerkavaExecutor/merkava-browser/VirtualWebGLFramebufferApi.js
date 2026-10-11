@@ -84,8 +84,48 @@
 			},
 			readPixels(x, y, width, height, format, type, pixels) {
 				if (width < 0 || height < 0) return this.invalid(this.INVALID_VALUE, 'readPixels');
-				if (pixels && typeof pixels.fill === 'function') pixels.fill(0);
 				this.record('readPixels', { x, y, width, height, format, type, bytes: pixels?.byteLength ?? pixels?.length ?? 0 });
+				// B"H 2026-10-09 (readback): REAL readPixels. The software pipeline
+				// keeps the drawing buffer in RAM (Uint8ClampedArray, top-row-first),
+				// so readback is row memcpys with a Y-flip — no GPU round-trip.
+				// Chrome pays a pipeline flush + PCIe read here; we pay memcpy.
+				const RGBA = this.RGBA, UNSIGNED_BYTE = this.UNSIGNED_BYTE;
+				if (format !== RGBA || type !== UNSIGNED_BYTE) {
+					// Per spec only RGBA/UNSIGNED_BYTE is required for the default framebuffer.
+					return this.invalid(this.INVALID_OPERATION, 'readPixels');
+				}
+				const fb = boundFramebuffer(this, this.FRAMEBUFFER);
+				if (fb) {
+					// User FBOs don't have software pixel storage yet; keep zero-fill.
+					if (pixels && typeof pixels.fill === 'function') pixels.fill(0);
+					return;
+				}
+				let db = this.drawingBuffer;
+				if (!db) {
+					// Lazily create a zeroed buffer (matches initial GL state).
+					const w = Math.max(1, Math.floor(this.canvas?.width || 300));
+					const h = Math.max(1, Math.floor(this.canvas?.height || 150));
+					db = this.drawingBuffer = { w, h, color: new Uint8ClampedArray(w * h * 4), depth: new Float32Array(w * h).fill(1) };
+				}
+				const bw = db.w, bh = db.h, src = db.color;
+				const ix = Math.floor(x), iy = Math.floor(y), iw = Math.floor(width), ih = Math.floor(height);
+				const x0 = Math.max(0, ix), y0 = Math.max(0, iy);
+				const x1 = Math.min(bw, ix + iw), y1 = Math.min(bh, iy + ih);
+				const cw = x1 - x0, ch = y1 - y0;
+				if (!pixels || cw <= 0 || ch <= 0) return;
+				// Destination rows are bottom-up (GL convention); source buffer is top-row-first.
+				const rowBytes = cw * 4;
+				for (let r = 0; r < ch; r++) {
+					const grow = y0 + r;
+					const srow = bh - 1 - grow;
+					const si = (srow * bw + x0) * 4;
+					const di = (r * iw + (x0 - ix)) * 4;
+					if (typeof pixels.set === 'function') {
+						pixels.set(src.subarray(si, si + rowBytes), di);
+					} else {
+						for (let i = 0; i < rowBytes; i++) pixels[di + i] = src[si + i];
+					}
+				}
 			}
 		});
 	}

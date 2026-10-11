@@ -34,9 +34,8 @@
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.camera-document * {
-		transition: none !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .camera-document *{
+		transition: none;
 	}
 }
 

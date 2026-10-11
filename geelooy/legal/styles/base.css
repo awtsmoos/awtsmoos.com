@@ -18,9 +18,11 @@ Awtsmoos.com keeps every legal token beneath .legal-page, so neighboring routes 
 	--legal-line: rgba(199, 215, 239, .14);
 	--legal-line-strong: rgba(138, 214, 234, .46);
 	--legal-text: #f5f7fb;
+	--legal-text-bright: #ffffff;
 	--legal-muted: #a7b1c0;
 	--legal-faint: #7f8a9a;
 	--legal-accent: #8bdcec;
+	--legal-link-hover: #d8f7ff;
 	--legal-gold: #dfbd75;
 	--legal-radius: 1.35rem;
 	--legal-fast: 160ms cubic-bezier(.2, .8, .2, 1);

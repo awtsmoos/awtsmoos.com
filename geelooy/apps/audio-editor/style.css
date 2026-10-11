@@ -105,7 +105,7 @@ header h1 {
 
 .btn.primary:active {
     background-color: var(--accent-primary);
-    color: #fff;
+    color: var(--text-primary);
 }
 
 .btn.success {
@@ -273,7 +273,7 @@ input[type="range"]::-webkit-slider-runnable-track {
     margin-bottom: 16px;
 }
 
-.hidden { display: none !important; }
+.hidden.hidden { display: none; }
 
 @keyframes spin { 100% { transform: rotate(360deg); } }
 
@@ -323,8 +323,8 @@ input[type="range"]::-webkit-slider-runnable-track {
     }
 
     /* Bring back Zoom controls (scroll to right to see them) */
-    .zoom-controls { 
-        display: flex !important; 
+    .zoom-controls.zoom-controls { 
+        display: flex; 
         padding-left: 15px;
         border-left: 1px solid #333;
     }

@@ -54,8 +54,8 @@
 		max-inline-size: 100%;
 	}
 
-	.col {
-		inline-size: 100% !important;
+	.col.col {
+		inline-size: 100%;
 		max-inline-size: 100%;
 		min-inline-size: 0;
 	}
@@ -111,15 +111,15 @@
 		margin-inline: auto;
 	}
 
-	.date-search-results.is-results-fullscreen {
+	.date-search-results.date-search-results.is-results-fullscreen {
 		inset: max(6px, env(safe-area-inset-top)) max(6px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(6px, env(safe-area-inset-left));
-		inline-size: auto !important;
-		block-size: auto !important;
-		min-block-size: 0 !important;
-		max-block-size: none !important;
+		inline-size: auto;
+		block-size: auto;
+		min-block-size: 0;
+		max-block-size: none;
 		border-radius: 16px;
-		overflow-x: hidden !important;
-		overflow-y: auto !important;
+		overflow-x: hidden;
+		overflow-y: auto;
 		overscroll-behavior: contain;
 		touch-action: pan-y;
 		-webkit-overflow-scrolling: touch;
@@ -134,34 +134,34 @@
 		padding: 8px 10px;
 	}
 
-	.date-search-results.is-results-fullscreen .search-results-exit {
-		inline-size: auto !important;
+	.date-search-results.date-search-results.is-results-fullscreen .search-results-exit {
+		inline-size: auto;
 		min-inline-size: 132px;
 		min-block-size: 44px;
 		padding: 8px 12px;
 		font-size: .72rem;
 	}
 
-	.date-search-results.is-results-fullscreen .search-results-content {
+	.date-search-results.date-search-results.is-results-fullscreen .search-results-content {
 		min-block-size: 0;
 		padding: 8px;
-		overflow: visible !important;
+		overflow: visible;
 	}
 
-	.search-summary {
-		position: static !important;
-		display: grid !important;
-		grid-template-columns: 1fr !important;
+	.search-summary.search-summary {
+		position: static;
+		display: grid;
+		grid-template-columns: 1fr;
 		gap: 8px;
 		margin: 0 0 10px;
 		padding: 10px;
 	}
 
-	.bulk-selection-actions,
+	.bulk-selection-actions.bulk-selection-actions,
 	.event-action-grid {
-		display: grid !important;
-		grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-		gap: 6px !important;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 6px;
 	}
 
 	.bulk-selection-actions button,
@@ -189,9 +189,9 @@
 }
 
 @media (max-width: 350px) {
-	.bulk-selection-actions,
+	.bulk-selection-actions.bulk-selection-actions,
 	.event-action-grid {
-		grid-template-columns: 1fr !important;
+		grid-template-columns: 1fr;
 	}
 }
 

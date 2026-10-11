@@ -70,7 +70,7 @@
 	grid-column: 1 / -1;
 	margin: .2rem 0 0;
 	padding-top: .48rem;
-	border-top: 1px solid rgba(164, 190, 255, .09);
+	border-top: 1px solid var(--auth-help-line);
 	color: var(--auth-muted);
 	font-size: .76rem;
 	line-height: 1.45;

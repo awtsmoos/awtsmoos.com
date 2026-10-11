@@ -82,9 +82,8 @@ Awtsmoos.com keeps cards narrow, text honest, and correction paths tactile so a 
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.publicationReviewCard {
+@media (prefers-reduced-motion: reduce) {:root:root:root .publicationReviewCard{
 		transition: none;
-		transform: none !important;
+		transform: none;
 	}
 }

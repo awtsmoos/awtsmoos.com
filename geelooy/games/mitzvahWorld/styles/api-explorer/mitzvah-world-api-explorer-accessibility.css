@@ -7,11 +7,9 @@ The Awtsmoos is beyond motion and color while Awtsmoos.com lets every finite pla
 reduced motion becomes stillness without silence, forced colors preserve boundaries, and focus remains visible even when glass and glow withdraw from the vessel's hymn.
 */
 
-@media (prefers-reduced-motion: reduce) {
-	.Awtsmoos-api-explorer,
-	.Awtsmoos-api-explorer :is(input, select, textarea, button) {
-		animation: none !important;
-		transition: none !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .Awtsmoos-api-explorer, :root:root:root .Awtsmoos-api-explorer :is(input, :root:root:root select, :root:root:root textarea, :root:root:root button){
+		animation: none;
+		transition: none;
 	}
 }
 

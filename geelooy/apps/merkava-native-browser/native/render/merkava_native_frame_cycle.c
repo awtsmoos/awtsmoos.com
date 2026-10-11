@@ -45,7 +45,7 @@ int awts_native_frame_cycle(
 	uint32_t height,
 	AwtsNativeFrameCycle* out
 ) {
-	AwtsNativeLayout layout;
+	AwtsNativeLayout layout = { 0 };
 	AwtsNativeSurface surface = { 0 };
 	AwtsNativeBox* targetBox;
 	uint32_t targetHandle;
@@ -61,6 +61,7 @@ int awts_native_frame_cycle(
 		|| !awts_native_layout_build(runtime, width, height, &layout)
 		|| !awts_native_raster_layout(&layout, &surface)) {
 		free(surface.pixels);
+		awts_native_layout_dispose(&layout);
 		return 0;
 	}
 	beforeHash = awts_native_surface_hash(&surface);
@@ -68,6 +69,7 @@ int awts_native_frame_cycle(
 	targetBox = find_box(&layout, targetHandle);
 	if (!targetBox) {
 		free(surface.pixels);
+		awts_native_layout_dispose(&layout);
 		return 0;
 	}
 	hitHandle = awts_native_layout_hit_test(
@@ -80,6 +82,7 @@ int awts_native_frame_cycle(
 		|| !awts_native_layout_build(runtime, width, height, &layout)
 		|| !awts_native_raster_layout(&layout, &surface)) {
 		free(surface.pixels);
+		awts_native_layout_dispose(&layout);
 		return 0;
 	}
 	afterHash = awts_native_surface_hash(&surface);
@@ -88,5 +91,6 @@ int awts_native_frame_cycle(
 	out->hitHandle = hitHandle;
 	out->boxCount = layout.boxCount;
 	free(surface.pixels);
+	awts_native_layout_dispose(&layout);
 	return beforeHash != afterHash;
 }

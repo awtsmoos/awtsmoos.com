@@ -10,6 +10,19 @@
   const VirtualWebGLTextureArena = arenaMod.VirtualWebGLTextureArena;
   const VirtualPath2D = pathMod.VirtualPath2D || class VirtualPath2D { constructor() { this.commands = []; } };
 
+  // B"H 2026-10-09 (readback): ops that never change pixels — they don't
+  // invalidate the getImageData raster cache.
+  const NON_MUTATING_OPS = new Set([
+    'save', 'restore', 'beginPath', 'closePath', 'moveTo', 'lineTo', 'rect',
+    'arc', 'arcTo', 'ellipse', 'quadraticCurveTo', 'bezierCurveTo', 'roundRect',
+    'addPath', 'clip', 'setLineDash', 'setTransform', 'transform', 'translate',
+    'scale', 'rotate', 'resetTransform', 'createImageData', 'measureText',
+    'isPointInPath', 'isPointInStroke', 'drawFocusIfNeeded', 'scrollPathIntoView',
+    // putImageData updates the live raster surface directly (see putImageData),
+    // so it must not invalidate the cache.
+    'putImageData'
+  ]);
+
   /**
    * B"H
    * A browser-shaped CanvasRenderingContext2D state machine. It records paint
@@ -25,7 +38,11 @@
       this.__stack = [];
       this.__path = [];
       this.__lineDash = [];
-      this.__pixels = new Uint8ClampedArray(Math.max(0, (canvas.width || 300) * (canvas.height || 150) * 4));
+      // B"H 2026-10-09 (readback): raster cache lives on the TEXTURE (shared
+      // with drawImage's source-surface cache in canvasPainter.js) — one
+      // surface per canvas, versioned. __version bumps on mutating record()s;
+      // putImageData writes the surface directly without bumping.
+      this.__painterMod = null;
       this.__resetState();
     }
 
@@ -66,7 +83,15 @@
       };
     }
 
-    record(op, data = {}) { return this.arena.record(this.texture, op, { ...data, state: this.state() }); }
+    record(op, data = {}) {
+      // B"H 2026-10-09 (readback): mutating ops bump the texture version,
+      // invalidating the shared raster cache (getImageData + drawImage).
+      // Path-building / state / query ops don't touch pixels.
+      if (op !== 'getImageData' && !NON_MUTATING_OPS.has(op)) {
+        this.texture.__version = (this.texture.__version || 0) + 1;
+      }
+      return this.arena.record(this.texture, op, { ...data, state: this.state() });
+    }
     save() { this.__stack.push({ state: this.state(), path: this.__path.map(x => x.slice()) }); this.record('save'); }
     restore() { const old = this.__stack.pop(); if (old) this.__applySaved(old); this.record('restore'); }
     __applySaved(old) { Object.assign(this, old.state); this.__lineDash = old.state.lineDash || []; this.__transform = old.state.transform || [1,0,0,1,0,0]; this.__path = old.path || []; }
@@ -81,9 +106,20 @@
     ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise = false) { this.__push('ellipse', x, y, radiusX, radiusY, rotation, startAngle, endAngle, !!anticlockwise); }
     quadraticCurveTo(cpx, cpy, x, y) { this.__push('quadraticCurveTo', cpx, cpy, x, y); }
     bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y) { this.__push('bezierCurveTo', cp1x, cp1y, cp2x, cp2y, x, y); }
-    roundRect(x, y, width, height, radii = 0) { const r = normalizeRadii(radii); this.__path.push(['roundRect', n(x), n(y), n(width), n(height), r]); this.record('roundRect', { x:n(x), y:n(y), width:n(width), height:n(height), radii:r }); }
+    roundRect(x, y, width, height, radii = 0) {
+      if ([x, y, width, height].some(v => typeof v === 'number' && !Number.isFinite(v))) return;
+      const r = normalizeRadii(radii);
+      this.__path.push(['roundRect', n(x), n(y), n(width), n(height), r]);
+      this.record('roundRect', { x:n(x), y:n(y), width:n(width), height:n(height), radii:r });
+    }
     addPath(path) { if (path?.commands) this.__path.push(...path.commands.map(item => item.slice())); this.record('addPath', { count: path?.commands?.length || 0 }); }
-    __push(op, ...values) { const nums = values.map(v => typeof v === 'boolean' ? v : n(v)); this.__path.push([op, ...nums]); this.record(op, objectFromValues(op, nums)); }
+    __push(op, ...values) {
+      // Per canvas spec: if any argument is infinite or NaN, the method does nothing.
+      if (values.some(v => typeof v === 'number' && !Number.isFinite(v))) return;
+      const nums = values.map(v => typeof v === 'boolean' ? v : n(v));
+      this.__path.push([op, ...nums]);
+      this.record(op, objectFromValues(op, nums));
+    }
 
     fill(path, fillRule = 'nonzero') { this.record('fillPath', { path: this.__pathArg(path), fillRule }); }
     stroke(path) { this.record('strokePath', { path: this.__pathArg(path) }); }
@@ -99,10 +135,80 @@
     strokeText(text, x, y, maxWidth) { const run = this.__textRun(text, x, y, maxWidth, 'stroke'); this.record('strokeText', run); }
     measureText(text) { return this.canvas.ownerDocument?.fontAtlas?.measure(text, this.font) || fallbackMeasure(text, this.font); }
 
-    drawImage(image, ...args) { this.record('drawImageTexture', { sourceTexture: image?.__webglCanvasTexture?.id ?? image?.__webglBoxTexture?.id ?? null, imageWidth: image?.width || 0, imageHeight: image?.height || 0, ...imageBox(image, args) }); }
+    drawImage(image, ...args) { this.record('drawImageTexture', { sourceTexture: image?.__decodedImageTexture?.id ?? image?.__webglCanvasTexture?.id ?? image?.__webglBoxTexture?.id ?? null, imageWidth: image?.width || 0, imageHeight: image?.height || 0, ...imageBox(image, args) }); }
     createImageData(widthOrData, height, settings = {}) { return makeImageData(widthOrData, height, undefined, settings); }
-    getImageData(x, y, width, height, settings = {}) { this.record('getImageData', { x:n(x), y:n(y), width:n(width), height:n(height), settings }); return makeImageData(n(width), n(height), undefined, settings); }
-    putImageData(imageData, dx, dy, dirtyX = 0, dirtyY = 0, dirtyWidth = imageData?.width || 0, dirtyHeight = imageData?.height || 0) { this.record('putImageData', { dx:n(dx), dy:n(dy), dirtyX:n(dirtyX), dirtyY:n(dirtyY), dirtyWidth:n(dirtyWidth), dirtyHeight:n(dirtyHeight), bytes:imageData?.data?.length || 0 }); }
+    // B"H 2026-10-09 (readback): REAL getImageData. Rasterizes the recorded
+    // commands once (cached until the next mutating draw), then bulk-copies
+    // the requested rect with typed-array row memcpys. No PNG round-trip.
+    // Chrome pays a GPU pipeline flush + PCIe readback here; we pay memcpy.
+    __painter() {
+      if (!this.__painterMod && typeof require === 'function') {
+        try { this.__painterMod = require('../merkava-service/snapshots/software/canvasPainter.js'); } catch (e) { this.__painterMod = null; }
+      }
+      return this.__painterMod;
+    }
+    __rasterize() {
+      const w = Math.max(1, Math.round(Number(this.canvas.width || 300)));
+      const h = Math.max(1, Math.round(Number(this.canvas.height || 150)));
+      const tex = this.texture;
+      tex.width = w; tex.height = h;
+      const ver = tex.__version || 0;
+      let c = tex.__surface;
+      if (!c || c.w !== w || c.h !== h || c.version !== ver || !c.fb) {
+        const painter = this.__painter();
+        if (painter && painter.renderCanvasSurface) {
+          c = tex.__surface = { w, h, version: ver, fb: painter.renderCanvasSurface(tex, this.arena.textures, new Set()) };
+        } else {
+          // Fallback: blank surface if the painter can't load (non-Node env).
+          c = tex.__surface = { w, h, version: ver, fb: { width: w, height: h, data: new Uint8ClampedArray(w * h * 4) } };
+        }
+      }
+      return c.fb;
+    }
+    getImageData(x, y, width, height, settings = {}) {
+      this.record('getImageData', { x:n(x), y:n(y), width:n(width), height:n(height), settings });
+      const w = Math.max(0, Math.round(n(width))), h = Math.max(0, Math.round(n(height)));
+      const out = new Uint8ClampedArray(w * h * 4);
+      if (w === 0 || h === 0) return { data: out, width: w, height: h, colorSpace: settings.colorSpace || 'srgb' };
+      const fb = this.__rasterize();
+      const sx = Math.round(n(x)), sy = Math.round(n(y));
+      const sw = fb.width, sh = fb.height, src = fb.data;
+      // Fast path: full-surface readback is a single memcpy.
+      if (sx === 0 && sy === 0 && w === sw && h === sh) {
+        out.set(src);
+        return { data: out, width: w, height: h, colorSpace: settings.colorSpace || 'srgb' };
+      }
+      const x0 = Math.max(0, sx), y0 = Math.max(0, sy);
+      const x1 = Math.min(sw, sx + w), y1 = Math.min(sh, sy + h);
+      const cw = x1 - x0;
+      if (cw > 0 && y1 > y0) {
+        const rowBytes = cw * 4;
+        for (let ry = y0; ry < y1; ry++) {
+          const si = (ry * sw + x0) * 4;
+          const di = ((ry - sy) * w + (x0 - sx)) * 4;
+          out.set(src.subarray(si, si + rowBytes), di);
+        }
+      }
+      return { data: out, width: w, height: h, colorSpace: settings.colorSpace || 'srgb' };
+    }
+    // B"H 2026-10-09 (readback): REAL putImageData, Chrome-speed. Writes
+    // directly into the live raster surface (one blit, zero source copy —
+    // Chrome's sub-ms putImageData proves no snapshot is taken). The journal
+    // keeps the bytes reference so page-render replay converges to the same
+    // pixels. Cache is NOT invalidated: the surface is updated in place.
+    putImageData(imageData, dx, dy, dirtyX = 0, dirtyY = 0, dirtyWidth = imageData?.width || 0, dirtyHeight = imageData?.height || 0) {
+      const data = imageData?.data;
+      const iw = imageData?.width || 0, ih = imageData?.height || 0;
+      if (data && data.length && iw > 0 && ih > 0) {
+        const fb = this.__rasterize();
+        const painter = this.__painter();
+        if (painter && painter.blitPutImageData) {
+          painter.blitPutImageData(fb.data, fb.width, fb.height, data, iw, ih,
+            n(dx), n(dy), n(dirtyX), n(dirtyY), n(dirtyWidth), n(dirtyHeight));
+        }
+      }
+      this.record('putImageData', { dx:n(dx), dy:n(dy), dirtyX:n(dirtyX), dirtyY:n(dirtyY), dirtyWidth:n(dirtyWidth), dirtyHeight:n(dirtyHeight), width:iw, height:ih, bytes:data });
+    }
 
     createLinearGradient(x0, y0, x1, y1) { return gradient('linear', { x0:n(x0), y0:n(y0), x1:n(x1), y1:n(y1) }); }
     createRadialGradient(x0, y0, r0, x1, y1, r1) { return gradient('radial', { x0:n(x0), y0:n(y0), r0:n(r0), x1:n(x1), y1:n(y1), r1:n(r1) }); }

@@ -52,3 +52,17 @@ test('reader keeps whole-post copy direct and avoids mobile More dependence', ()
 	assert.match(factory, /aria-expanded/);
 	assert.match(factory, /More ·/);
 });
+
+test('reader offers a whole-maamar PDF download as a primary deed', () => {
+	const utility = read('./preservedUtilityActions.js');
+	const pdf = read('./maamarPdf.js');
+	assert.match(utility, /primary\(\{[\s\S]*label: 'Download PDF of maamar'/);
+	assert.match(utility, /downloadMaamarPdf/);
+	assert.match(pdf, /export function downloadMaamarPdf/);
+	assert.match(pdf, /meluket-phrase--he/);
+	assert.match(pdf, /meluket-phrase--en/);
+	assert.match(pdf, /meluket-footnote\[data-fn\]/);
+	assert.match(pdf, /@media print/);
+	assert.match(pdf, /Save as PDF/);
+	assert.doesNotMatch(pdf, /!important/);
+});

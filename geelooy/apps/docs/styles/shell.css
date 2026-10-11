@@ -69,6 +69,6 @@
 	background: color-mix(in srgb, var(--docs-accent-soft) 45%, white);
 }
 
-[hidden] {
-	display: none !important;
+[hidden][hidden] {
+	display: none;
 }

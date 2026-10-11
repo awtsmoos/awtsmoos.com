@@ -28,10 +28,11 @@ export function parseOperand(arg, dataSymbols) {
         }
     }
     
-    // Memory: Support [Reg], [Reg+Disp], [Reg+Reg], [Reg+Reg+Disp]
+    // Memory: Support [Reg], [Reg+Disp], [Reg+Reg], [Reg+Reg+Disp],
+    // and scaled index [Reg+Reg*scale+Disp] (scale in {1,2,4,8}).
     if (raw.startsWith('[') && raw.endsWith(']')) {
         const content = raw.slice(1, -1).trim();
-        const memMatch = content.match(/^([A-Za-z]\w*)\s*(?:([+\-])\s*([A-Za-z]\w*))?\s*(?:([+\-])\s*(0x[0-9A-Fa-f]+|\d+))?$/);
+        const memMatch = content.match(/^([A-Za-z]\w*)\s*(?:([+\-])\s*([A-Za-z]\w*)(?:\*([1248]))?)?\s*(?:([+\-])\s*(0x[0-9A-Fa-f]+|\d+))?$/);
         
         if (memMatch) {
             const baseName = memMatch[1].toUpperCase();
@@ -39,19 +40,22 @@ export function parseOperand(arg, dataSymbols) {
             const base = REGISTERS[baseName];
             
             let index = null;
+            let scale = 0; // SIB encoding: 0,1,2,3 -> x1,x2,x4,x8
             if (memMatch[3]) {
                 const indexName = memMatch[3].toUpperCase();
                 if (REGISTERS[indexName] === undefined) throw new Error("Invalid Index Register: " + indexName);
                 index = REGISTERS[indexName];
+                const sc = memMatch[4] ? parseInt(memMatch[4]) : 1;
+                scale = sc === 1 ? 0 : sc === 2 ? 1 : sc === 4 ? 2 : 3;
             }
             
             let disp = 0;
-            if (memMatch[5]) {
-                disp = parseInt(memMatch[5]);
-                if (memMatch[4] === '-') disp = -disp;
+            if (memMatch[6]) {
+                disp = parseInt(memMatch[6]);
+                if (memMatch[5] === '-') disp = -disp;
             }
             
-            return { type: 'mem', base, index, scale: 0, disp, size: sizeOverride || 64 };
+            return { type: 'mem', base, index, scale, disp, size: sizeOverride || 64 };
         }
     }
 
@@ -67,7 +71,17 @@ export function parseOperand(arg, dataSymbols) {
 
     // Immediate?
     if (raw.match(/^-?0x[0-9A-Fa-f]+$/) || raw.match(/^-?\d+$/)) {
-        return { type: 'imm', val: parseInt(raw) };
+        // B"H: full 64-bit immediates. parseInt loses precision past 2^53;
+        // keep a BigInt when the literal exceeds the safe-integer range.
+        let val;
+        try {
+            const bi = BigInt(raw);
+            val = (bi >= BigInt(Number.MIN_SAFE_INTEGER) && bi <= BigInt(Number.MAX_SAFE_INTEGER))
+                ? Number(bi) : bi;
+        } catch {
+            val = parseInt(raw);
+        }
+        return { type: 'imm', val };
     }
 
     // Label (Data)?

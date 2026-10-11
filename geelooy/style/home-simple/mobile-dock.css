@@ -25,10 +25,10 @@ body[data-geelooy-route="home"] .mobile-dock {
 		grid-template-columns: repeat(5, minmax(0, 1fr));
 		gap: .18rem;
 		padding: .34rem;
-		border: 1px solid #2d5473;
+		border: 1px solid var(--panel-border);
 		border-radius: 1.12rem;
-		background: #071221;
-		box-shadow: 0 20px 48px rgba(0, 0, 0, .58);
+		background: var(--panel-background);
+		box-shadow: var(--home-card-shadow);
 		transition: opacity .2s ease, transform .2s ease;
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
@@ -40,7 +40,7 @@ body[data-geelooy-route="home"] .mobile-dock {
 		min-height: 3.75rem;
 		border: 1px solid transparent;
 		border-radius: .78rem;
-		color: #9aacbf;
+		color: var(--text-muted);
 		transition:
 			background 150ms ease,
 			border-color 150ms ease,
@@ -50,21 +50,21 @@ body[data-geelooy-route="home"] .mobile-dock {
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .mobile-dock a[aria-current="page"] {
-		border-color: #355f7f;
-		background: #10253e;
-		color: #fff;
+		border-color: var(--panel-border-strong);
+		background: var(--home-accent-soft);
+		color: var(--home-accent-strong);
 	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 680px) { @media (hover: hover) and (pointer: fine) { :where(body[data-geelooy-route="home"]) .mobile-dock a:hover {
-			border-color: #355f7f;
-			background: #10253e;
-			color: #fff;
+			border-color: var(--panel-border-strong);
+			background: var(--home-accent-soft);
+			color: var(--home-accent-strong);
 			transform: translateY(-1px);
 		} } }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .mobile-dock a:active {
-		border-color: #4f83a8;
-		background: #0d1d30;
+		border-color: var(--home-accent);
+		background: var(--panel-raised);
 		filter: brightness(.96);
 		transform: translateY(1px) scale(.97);
 	} }

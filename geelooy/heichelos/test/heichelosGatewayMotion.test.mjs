@@ -51,7 +51,7 @@ test('surface owner distinguishes Torah primacy without weakening community card
 test('action owner keeps cards, arrows, and sibling actions tactile', () => {
 	assert.match(actions, /\.space-card-link:active/);
 	assert.match(actions, /scale\(\.986\)/);
-	assert.match(actions, /\.space-card-link:is\(:hover, :focus-visible\) \.space-card-arrow/);
+	assert.match(actions, /\.space-card-link:is\(:hover, :focus-visible\)\)? \.space-card-arrow/);
 	assert.match(actions, /\.space-secondary-action:is\(:hover, :focus-visible\)/);
 	assert.match(actions, /\.space-secondary-action:active/);
 	assert.match(actions, /scale\(\.985\)/);
@@ -59,8 +59,10 @@ test('action owner keeps cards, arrows, and sibling actions tactile', () => {
 
 test('reduced motion removes transforms and every focused owner stays bounded', () => {
 	assert.match(actions, /@media \(prefers-reduced-motion:\s*reduce\)/);
-	assert.match(actions, /transition-duration:\s*\.001ms !important/);
-	assert.match(actions, /transform:\s*none !important/);
+	/* B"H 2026-10-09: CSS Law 1 forbids !important — the reduced-motion block
+	   keeps its stillness through specificity, not !important. */
+	assert.match(actions, /transition-duration:\s*\.001ms/);
+	assert.match(actions, /transform:\s*none/);
 	for (const [name, source] of [
 		['bundle', bundle],
 		['bridge', bridge],

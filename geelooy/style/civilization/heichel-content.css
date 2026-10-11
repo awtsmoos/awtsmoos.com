@@ -181,7 +181,7 @@ a:focus-visible {
 /* B"H — Heichelos/Ikar complete light-theme fix (Yaakov 2026-10-08) */
 /* Generated systematically: every hardcoded light text color in
    geelooy/style/heichelos/ gets an :root:not([data-theme="dark"]) override.
-   NO !important — :root:not([data-theme="dark"]) prefix outranks originals. */
+   NO — :root:not([data-theme="dark"]) prefix outranks originals. */
 
 /* heichel/bottom-nav.css:40 — was #fff7df */
 :root:not([data-theme="dark"]) .heichel-mobile-navigation .geelooy-bottom-nav a, .heichel-mobile-navigation .geelooy-bottom-nav button {
@@ -401,7 +401,7 @@ a:focus-visible {
   :root:not([data-theme="dark"]) .heichel-os-document .series-search-row input {
     color: #1e293b;
     background: #ffffff;
-    border-color: #cbd5e1;
+    border-color: var(--light-text-cbd5e1, #cbd5e1);
   }
 
 /* heichel/cosmic-profile/mobile-series/states.css:55 — was #f6f8ff */

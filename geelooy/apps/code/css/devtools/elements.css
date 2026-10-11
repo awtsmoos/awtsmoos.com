@@ -24,8 +24,8 @@
 }
 
 /* B"H - SELECTION STYLES */
-.dt-el-node.selected > .dt-el-summary {
-    background: rgba(0, 246, 255, 0.2) !important;
+.dt-el-node.dt-el-node.selected > .dt-el-summary {
+    background: rgba(0, 246, 255, 0.2);
     outline: 1px solid var(--neon-cyan);
 }
 

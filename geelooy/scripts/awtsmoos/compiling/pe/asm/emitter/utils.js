@@ -12,7 +12,7 @@ import { MOD, makeModRM, makeSIB } from '../opcodes.js';
  * @returns {Array<number>} The array of bytes.
  */
 export function emitMemBytes(memOp, regCode) {
-    const { base, index, disp } = memOp;
+    const { base, index, disp, scale } = memOp;
     const bytes = [];
     
     let mod = MOD.DISP32;
@@ -30,7 +30,7 @@ export function emitMemBytes(memOp, regCode) {
     if (needsSib) {
         const sibIndex = (index !== null) ? (index & 7) : 4;
         const sibBase = base & 7;
-        const sib = makeSIB(0, sibIndex, sibBase);
+        const sib = makeSIB(scale || 0, sibIndex, sibBase);
         bytes.push(sib);
     }
     

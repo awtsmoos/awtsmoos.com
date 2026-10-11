@@ -3,23 +3,23 @@
 html:has(body.geelooy-home-document),
 body.geelooy-home-document,
 body.geelooy-home-document.geelooy-home-document {
-  background: #070b12 !important;
-  color: #f8fafc !important;
-  color-scheme: dark !important;
+  background: #070b12;
+  color: #f8fafc;
+  color-scheme: dark;
   max-width: 100%;
-  overflow-x: hidden !important;
+  overflow-x: hidden;
 }
 
 .geelooy-home-document {
   min-height: 100dvh;
   min-height: 100svh;
-  overflow-x: hidden !important;
+  overflow-x: hidden;
 }
 
 .geelooy-home-shell {
-  background: transparent !important;
+  background: transparent;
   box-sizing: border-box;
-  color: #f8fafc !important;
+  color: #f8fafc;
 }
 
 .geelooy-home-shell *,

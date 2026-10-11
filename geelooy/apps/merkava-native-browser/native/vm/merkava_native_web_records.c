@@ -9,8 +9,8 @@ static int execute_set_attribute(AwtsNativeExecution* execution) {
 	AwtsNativeWebRuntime* runtime = execution->runtime;
 	uint32_t handle = awts_native_read_varuint(&execution->code);
 	AwtsNativeNode* node = awts_native_web_find_node(runtime, handle);
-	AwtsNativeSlice name = awts_native_read_ref(execution);
-	AwtsNativeSlice value = awts_native_read_ref(execution);
+	uint32_t nameIdx = awts_native_read_ref(execution);
+	uint32_t valueIdx = awts_native_read_ref(execution);
 	AwtsNativeAttribute* attribute;
 	if (!execution->code.ok || !node) {
 		return 0;
@@ -20,8 +20,8 @@ static int execute_set_attribute(AwtsNativeExecution* execution) {
 	}
 	attribute = &runtime->attributes[runtime->attributeCount];
 	attribute->nodeHandle = handle;
-	attribute->name = name;
-	attribute->value = value;
+	attribute->nameIdx = nameIdx;
+	attribute->valueIdx = valueIdx;
 	runtime->attributeCount += 1;
 	node->attributeCount += 1;
 	return 1;
@@ -31,9 +31,9 @@ static int execute_set_attribute(AwtsNativeExecution* execution) {
 static int execute_set_style(AwtsNativeExecution* execution) {
 	AwtsNativeWebRuntime* runtime = execution->runtime;
 	AwtsNativeStyle* style;
-	AwtsNativeSlice selector = awts_native_read_ref(execution);
-	AwtsNativeSlice property = awts_native_read_ref(execution);
-	AwtsNativeSlice value = awts_native_read_ref(execution);
+	uint32_t selectorIdx = awts_native_read_ref(execution);
+	uint32_t propertyIdx = awts_native_read_ref(execution);
+	uint32_t valueIdx = awts_native_read_ref(execution);
 	if (!execution->code.ok) {
 		return 0;
 	}
@@ -41,9 +41,14 @@ static int execute_set_style(AwtsNativeExecution* execution) {
 		return 0;
 	}
 	style = &runtime->styles[runtime->styleCount];
-	style->selector = selector;
-	style->property = property;
-	style->value = value;
+	/* NOTE: selector-based styles carry no node handle, so they never match
+	 * node-scoped style queries; the selector bytes are consumed above only
+	 * to advance the reader. The dead selector field was removed to save
+	 * 8 bytes per style record. */
+	(void)selectorIdx;
+	style->nodeHandle = 0u;
+	style->propertyIdx = propertyIdx;
+	style->valueIdx = valueIdx;
 	runtime->styleCount += 1;
 	return 1;
 }
@@ -53,8 +58,8 @@ static int execute_set_style_handle(AwtsNativeExecution* execution) {
 	AwtsNativeWebRuntime* runtime = execution->runtime;
 	AwtsNativeStyle* style;
 	uint32_t handle = awts_native_read_varuint(&execution->code);
-	AwtsNativeSlice property = awts_native_read_ref(execution);
-	AwtsNativeSlice value = awts_native_read_ref(execution);
+	uint32_t propertyIdx = awts_native_read_ref(execution);
+	uint32_t valueIdx = awts_native_read_ref(execution);
 	if (!execution->code.ok
 		|| !awts_native_web_find_node(runtime, handle)
 		|| runtime->styleCount >= AWTS_NATIVE_WEB_MAX_STYLES) {
@@ -62,8 +67,8 @@ static int execute_set_style_handle(AwtsNativeExecution* execution) {
 	}
 	style = &runtime->styles[runtime->styleCount];
 	style->nodeHandle = handle;
-	style->property = property;
-	style->value = value;
+	style->propertyIdx = propertyIdx;
+	style->valueIdx = valueIdx;
 	runtime->styleCount += 1;
 	return 1;
 }

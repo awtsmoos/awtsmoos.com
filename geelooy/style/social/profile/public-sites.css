@@ -5,11 +5,16 @@
 /**
  * The Awtsmoos gives each public creation room to breathe without turning the creator into a wall of cards;
  * Awtsmoos.com keeps the storefront clear, responsive, and focused on the two compounding actions: visit and Remix.
+ *
+ * B"H 2026-10-09 — Dream audit: explicit dream colors in both themes (the old
+ * Canvas/currentColor mix left text color to chance), and full interactive
+ * states on the card actions. Zero, tokens only.
  */
 
 .published-creations-root {
 	width: min(1120px, calc(100% - 32px));
 	margin: 28px auto 56px;
+	color: var(--pp-text);
 }
 
 .public-sites {
@@ -28,12 +33,23 @@
 	margin: 0;
 }
 
+.public-sites h2,
+.public-sites h3 {
+	color: var(--pp-text);
+	font-family: var(--dream-serif-font);
+}
+
+.public-sites p {
+	color: var(--pp-muted);
+}
+
 .public-sites-eyebrow {
 	font-size: .78rem;
 	font-weight: 750;
 	letter-spacing: .12em;
 	text-transform: uppercase;
-	opacity: .66;
+	color: var(--pp-muted);
+	opacity: .85;
 }
 
 .public-sites-grid {
@@ -46,9 +62,11 @@
 	display: grid;
 	gap: 16px;
 	padding: 18px;
-	border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+	border: 1px solid var(--pp-line);
 	border-radius: 18px;
-	background: color-mix(in srgb, Canvas 94%, currentColor 6%);
+	background: var(--pp-panel);
+	box-shadow: var(--pp-shadow);
+	color: var(--pp-text);
 }
 
 .public-site-actions {
@@ -66,20 +84,45 @@
 	border-radius: 999px;
 	font-weight: 720;
 	text-decoration: none;
+	transition: background .16s ease, color .16s ease, border-color .16s ease, transform .16s ease, filter .12s ease;
 }
 
 .public-site-actions a:first-child {
-	background: currentColor;
-	color: Canvas;
+	background: var(--pp-accent);
+	border: 1px solid var(--pp-accent);
+	color: var(--pp-panel);
 }
 
 .public-site-actions a:last-child {
-	border: 1px solid color-mix(in srgb, currentColor 24%, transparent);
+	border: 1px solid var(--pp-line-strong);
+	color: var(--pp-text);
+	background: transparent;
+}
+
+.public-site-actions a:hover {
+	filter: brightness(1.08);
+	transform: translateY(-1px);
+}
+
+.public-site-actions a:active {
+	filter: brightness(.96);
+	transform: translateY(1px) scale(.98);
+}
+
+.public-site-actions a:focus-visible {
+	outline: 3px solid var(--pp-accent);
+	outline-offset: 2px;
+}
+
+.public-site-actions a[aria-disabled="true"] {
+	opacity: .55;
+	cursor: not-allowed;
+	transform: none;
 }
 
 .public-sites-empty {
 	padding: 16px 0;
-	opacity: .7;
+	color: var(--pp-muted);
 }
 
 @media (max-width: 420px) {

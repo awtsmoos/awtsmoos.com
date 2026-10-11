@@ -13,10 +13,77 @@ function matchesMediaQuery(source, environment = {}) {
 /** Evaluates @supports through a capability callback owned by the Merkava engine. */
 function matchesSupportsCondition(source, environment = {}) {
 	if (typeof environment.supports !== "function") return false;
-	const text = stripParens(String(source || "").trim());
+	return evaluateSupports(String(source || "").trim(), environment);
+}
+
+// B"H 2026-10-09: full @supports condition grammar — `not`, `and`, `or`
+// with parenthesized groups, plus `selector(...)` (true when the inner
+// selector parses as valid). Previously only a single (prop: value) was
+// handled, so every compound condition was skipped.
+function evaluateSupports(text, environment) {
+	text = text.trim();
+	if (/^not[\s(]/i.test(text)) {
+		const inner = text.replace(/^not\s*/i, "").trim();
+		return !evaluateSupports(stripOuterParens(inner) === inner ? inner : stripOuterParens(inner), environment);
+	}
+	const orParts = splitTopLevelBool(text, "or");
+	if (orParts.length > 1) return orParts.some(p => evaluateSupports(p, environment));
+	const andParts = splitTopLevelBool(text, "and");
+	if (andParts.length > 1) return andParts.every(p => evaluateSupports(p, environment));
+	const unwrapped = stripOuterParens(text);
+	if (unwrapped !== text) return evaluateSupports(unwrapped, environment);
+	const selMatch = text.match(/^selector\s*\(([\s\S]*)\)$/i);
+	if (selMatch) return isValidSelector(selMatch[1].trim());
 	const colon = findTopLevelColon(text);
 	if (colon < 0) return false;
 	return Boolean(environment.supports(text.slice(0, colon).trim(), text.slice(colon + 1).trim()));
+}
+
+// Remove one layer of wrapping parens when they enclose the whole string.
+function stripOuterParens(text) {
+	text = text.trim();
+	if (!text.startsWith("(") || !text.endsWith(")")) return text;
+	let depth = 0;
+	for (let i = 0; i < text.length; i++) {
+		if (text[i] === "(") depth++;
+		else if (text[i] === ")") {
+			depth--;
+			if (depth === 0 && i < text.length - 1) return text; // closes early
+		}
+	}
+	return depth === 0 ? text.slice(1, -1).trim() : text;
+}
+
+// Split on a top-level boolean operator (not inside parens).
+function splitTopLevelBool(text, op) {
+	const out = [];
+	let depth = 0, start = 0;
+	const lower = text.toLowerCase();
+	const needle = ` ${op} `;
+	for (let i = 0; i < text.length; i++) {
+		if (text[i] === "(") depth++;
+		else if (text[i] === ")") depth = Math.max(0, depth - 1);
+		else if (depth === 0 && lower.startsWith(needle, i)) {
+			out.push(text.slice(start, i).trim());
+			start = i + needle.length;
+			i += needle.length - 1;
+		}
+	}
+	out.push(text.slice(start).trim());
+	return out.filter(Boolean);
+}
+
+// A selector() argument is valid if it is non-empty and the engine's own
+// selector parser accepts it without throwing.
+function isValidSelector(sel) {
+	if (!sel) return false;
+	try {
+		const { splitSelectorList } = (typeof module === "object" && module.exports ? require("./CssSelectorList.js") : globalThis.Merkava);
+		const parts = splitSelectorList(sel);
+		return Array.isArray(parts) && parts.length > 0 && parts.every(p => String(p).trim().length > 0);
+	} catch {
+		return false;
+	}
 }
 
 function matchesOneQuery(source, environment) {
@@ -61,6 +128,13 @@ function matchesFeature(source, environment) {
 	}
 	if (name === "prefers-reduced-motion") {
 		return value === (environment.reducedMotion ? "reduce" : "no-preference");
+	}
+	// B"H 2026-10-09: forced-colors — `active` only when the embedder
+	// signals forced-colors mode; `none` is true otherwise (spec: the
+	// engine has no forced-colors mode, so `none` matches).
+	if (name === "forced-colors") {
+		const fc = !!environment.forcedColors;
+		return value === (fc ? "active" : "none");
 	}
 	if (name === "hover" || name === "any-hover" || name === "pointer" || name === "any-pointer") {
 		const cap = String(environment[name.replace(/^any-/, "")] || "hover").toLowerCase();

@@ -45,7 +45,7 @@
 }
 
 .marketUnlock b {
-	color: #fff;
+	color: var(--text);
 	font-size: 18px;
 }
 

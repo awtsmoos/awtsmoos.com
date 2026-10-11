@@ -6,12 +6,9 @@ Awtsmoos.com imports modular mobile vessels so every app receives the same light
 */
 @import url("./movie-director-shell.css");
 @import url("./movie-director-panels.css");
-@media (prefers-reduced-motion: reduce) {
-	.awtsmoos-movie-director *,
-	.awtsmoos-movie-director *::before,
-	.awtsmoos-movie-director *::after {
-		scroll-behavior: auto !important;
-		transition-duration: 0.001ms !important;
-		animation-duration: 0.001ms !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .awtsmoos-movie-director *, :root:root:root .awtsmoos-movie-director *::before, :root:root:root .awtsmoos-movie-director *::after{
+		scroll-behavior: auto;
+		transition-duration: 0.001ms;
+		animation-duration: 0.001ms;
 	}
 }

@@ -1,7 +1,7 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H — the dock floats like a native tab bar, never clipped. */
 .home-command-dock {
-  background: linear-gradient(180deg, rgba(20,24,42,.92), rgba(6,10,20,.95)) !important;
+  background: linear-gradient(180deg, rgba(20,24,42,.92), rgba(6,10,20,.95));
   contain: layout paint;
 }
 
@@ -11,7 +11,7 @@
 }
 
 .home-command-dock .is-create {
-  background: radial-gradient(circle at 50% 15%, rgba(255,255,255,.32), transparent 36%), linear-gradient(135deg, #2ea7ff, #8b5cf6 50%, #d13cff) !important;
+  background: radial-gradient(circle at 50% 15%, rgba(255,255,255,.32), transparent 36%), linear-gradient(135deg, #2ea7ff, #8b5cf6 50%, #d13cff);
 }
 
 .home-command-dock a:hover span {

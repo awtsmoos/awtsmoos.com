@@ -131,6 +131,37 @@ void closedir(struct DIR* d) {
 const TIME_H = `${IMPORTS_COMMON}
 `;
 
+/*
+ * B"H — Minimal Awtsmoos-owned stdint.h/stddef.h for the portable C subset.
+ * Fixed-width integer types and size_t, written from scratch. The portable
+ * value model is 64-bit; these aliases let ABI headers express exact widths
+ * (int32_t fields in structs get AAPCS64 layout via the layout engine).
+ */
+const STDINT_H = `
+typedef char int8_t;
+typedef short int16_t;
+typedef int int32_t;
+typedef long int64_t;
+typedef unsigned char uint8_t;
+typedef unsigned short uint16_t;
+typedef unsigned int uint32_t;
+typedef unsigned long uint64_t;
+`;
+
+const STDDEF_H = `
+typedef unsigned long size_t;
+typedef long ptrdiff_t;
+`;
+
+/*
+ * B"H — Minimal stdarg.h: va_list as an opaque pointer. The portable backend
+ * does not implement variadic calls; this header only lets declarations that
+ * mention va_list (e.g. __android_log_vprint) parse.
+ */
+const STDARG_H = `
+typedef void* va_list;
+`;
+
 export const STD_LIBS = {
     'stdio.h': STDIO_H,
     'stdlib.h': STDLIB_H,
@@ -138,5 +169,8 @@ export const STD_LIBS = {
     'math.h': IMPORTS_COMMON,
     'time.h': TIME_H,
     'dirent.h': DIRENT_H,
-    'unistd.h': UNISTD_H
+    'unistd.h': UNISTD_H,
+    'stdint.h': STDINT_H,
+    'stddef.h': STDDEF_H,
+    'stdarg.h': STDARG_H
 };

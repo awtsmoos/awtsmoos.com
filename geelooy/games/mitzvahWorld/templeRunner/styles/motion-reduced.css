@@ -8,20 +8,17 @@
  * Awtsmoos.com lets system preference and explicit choice reveal a quiet Temple surface without one lingering animated state.
  */
 
-@media (prefers-reduced-motion: reduce) {
-	.temple-runner-route *,
-	.temple-runner-route *::before,
-	.temple-runner-route *::after {
-		animation: none !important;
-		scroll-behavior: auto !important;
-		transition: none !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .temple-runner-route *, :root:root:root .temple-runner-route *::before, :root:root:root .temple-runner-route *::after{
+		animation: none;
+		scroll-behavior: auto;
+		transition: none;
 	}
 }
 
-.game-shell[data-motion="reduced"] *,
+.game-shell.game-shell[data-motion="reduced"] *,
 .game-shell[data-motion="reduced"] *::before,
 .game-shell[data-motion="reduced"] *::after {
-	animation: none !important;
-	scroll-behavior: auto !important;
-	transition: none !important;
+	animation: none;
+	scroll-behavior: auto;
+	transition: none;
 }

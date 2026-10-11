@@ -44,21 +44,44 @@ test("direct IR portable C executes internal calls on Linux and macOS", async ()
 	}
 });
 
-test("portable C returns coded boundaries for unsupported module features", async () => {
-	await assert.rejects(
-		compilePortableCProgram(
-			"struct Pair { int left; int right; }; int main(){return 0;}",
-			"linux-x64-static"
-		),
-		error => error.code === "PORTABLE_C_STRUCTURES_UNSUPPORTED"
-	);
-	await assert.rejects(
-		compilePortableCProgram(
-			"int main(){return \"unsupported string pointer\";}",
-			"linux-x64-static"
-		),
-		error => error.code === "PORTABLE_C_EXPRESSION_UNSUPPORTED"
-	);
+test("portable C compiles structures, arrays, strings, and pointer arithmetic", async () => {
+	for (const targetId of ["linux-x64-static", "macos-x64"]) {
+		const compiled = await compilePortableCProgram(
+			[
+				"struct Pair { int left; int right; };",
+				"int total = 0;",
+				"int sum(int *items, int n) {",
+				"\tint t = 0;",
+				"\tint i = 0;",
+				"\tfor (i = 0; i < n; i++) t = t + items[i];",
+				"\treturn t;",
+				"}",
+				"int main() {",
+				"\tstruct Pair p;",
+				"\tp.left = 20;",
+				"\tp.right = 22;",
+				"\tstruct Pair *pp = &p;",
+				"\tint vals[4];",
+				"\tvals[0] = pp->left;",
+				"\tvals[1] = pp->right;",
+				"\tvals[2] = *(vals + 1);",
+				"\tvals[3] = total;",
+				"\tchar *word = \"hi\";",
+				"\ttotal = sum(vals, 4);",
+				"\treturn total + word[1];",
+				"}"
+			].join("\n"),
+			targetId
+		);
+		const outcome = await runExecutableArtifact({
+			bytes: compiled.bytes,
+			extension: compiled.extension,
+			host: createRecordingHost()
+		});
+		assert.equal(outcome.result.executionClass, "instruction-subset-emulation");
+		// (20 + 22 + 22 + 0) + 'i'(105) = 169
+		assert.equal(outcome.result.exitCode, 169);
+	}
 });
 
 test("portable C enforces its bounded stack-slot limit", async () => {

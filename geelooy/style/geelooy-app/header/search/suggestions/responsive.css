@@ -26,21 +26,6 @@
 		transition: none;
 	} }
 /* @tunnel-registry-merge: consolidated duplicate selectors W4 2026-10-08 */
-/* @tunnel-registry-merge: consolidated from geelooy/style/geelooy-app/header/search/suggestions/results.css W4 2026-10-08 */
-.g-search-route-results a {
-	position: relative;
-	display: grid;
-	grid-template-columns: 2.3rem minmax(0, 1fr);
-	align-items: center;
-	gap: .65rem;
-	min-inline-size: 0;
-	min-block-size: 3.7rem;
-	padding-block: .72rem;
-	padding-inline: .72rem 2.2rem;
-	border: 1px solid #1b3148;
-	border-radius: .9rem;
-	background: #0b1830;
-	color: var(--g-text);
-	text-decoration: none;
-	transition: transform 160ms var(--g-ease), border-color 160ms var(--g-ease), background-color 160ms var(--g-ease), box-shadow 160ms var(--g-ease);
-}
+/* B"H 2026-10-09 — the canonical .g-search-route-results a rule lives in
+   ./results.css (dream theme); the byte-identical copy that lived here was
+   removed as a pure dedup, no visual change. */

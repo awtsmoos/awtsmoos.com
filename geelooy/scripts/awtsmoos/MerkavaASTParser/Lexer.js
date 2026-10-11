@@ -29,7 +29,8 @@ class Lexer {
 	}
 
 	_guard() {
-		if (this.op_count++ > this.max_ops) {
+		// B"H - Amortized safety check: validate every 1024 ops instead of every op.
+		if (((++this.op_count & 1023) === 0) && this.op_count > this.max_ops) {
 			throw new Error(
 				`LEXER HALTED: Maximum operation count (${this.max_ops}) exceeded. ` +
 				`This is a guaranteed infinite loop, likely caused by a bug in the lexer's state. ` +
@@ -69,10 +70,11 @@ _skipWhitespace() {
     while (this.ch !== null) {
         this._guard();
 
-        if (' \t'.includes(this.ch)) {
+        const c = this.ch;
+        if (c === ' ' || c === '\t') {
             this._advance();
 
-        } else if ('\n\r'.includes(this.ch)) {
+        } else if (c === '\n' || c === '\r') {
             this.hasLineTerminatorBefore = true;
             if (this.ch === '\r' && this._peek() === '\n') this._advance();
             this._advance();
@@ -314,30 +316,54 @@ _skipWhitespace() {
         return this._makeToken(TOKEN.ILLEGAL, 'Unterminated template literal', undefined, undefined, startPosition);
     }
 
-    // B"H - Rectified _makeToken
+    // B"H - Rectified _makeToken: fast path when positions are provided.
 	_makeToken(type, literal, startColumn, startLine, startPosition) {
-		this._guard();
-		const col = startColumn ?? this.column - (literal?.length || (this.ch === null ? 0 : 1));
-		const line = startLine || this.line;
-		
+		if (startColumn !== undefined) {
+			return {
+				type: type,
+				literal: literal,
+				line: startLine,
+				column: startColumn,
+				hasLineTerminatorBefore: this.hasLineTerminatorBefore,
+				startIndex: startPosition
+			};
+		}
+		const ll = literal ? literal.length : 0;
 		return {
-			type,
-			literal,
-			line: line,
-			column: col,
+			type: type,
+			literal: literal,
+			line: startLine || this.line,
+			column: this.column - (ll || (this.ch === null ? 0 : 1)),
 			hasLineTerminatorBefore: this.hasLineTerminatorBefore,
-            // Use the explicitly passed startPosition if available.
-            // If not (fallback), calculate it from the end.
-			startIndex: startPosition !== undefined ? startPosition : (this.position - (literal?.length || 0))
+			startIndex: startPosition !== undefined ? startPosition : this.position - ll
 		};
 	}
 
 	_readIdentifier() {
-		const p = this.position;
-		while (this.ch !== null && this._isIdentifierChar(this.ch)) {
-			this._advance();
+		// B"H - Tight scan loop: zero per-character method calls.
+		const s = this.source;
+		const n = s.length;
+		const start = this.position;
+		let p = start;
+		while (p < n) {
+			const c = s.charCodeAt(p);
+			if ((c >= 97 && c <= 122) || (c >= 65 && c <= 90) || (c >= 48 && c <= 57) ||
+				c === 95 || c === 36 || c === 92 || c >= 128) {
+				p++;
+			} else break;
 		}
-		return this.source.slice(p, this.position);
+		const ident = s.slice(start, p);
+		this.column += (p - start);
+		this.position = p;
+		if (p >= n) {
+			this.ch = null;
+			this.readPosition = n + 1;
+		} else {
+			this.ch = s[p];
+			this.readPosition = p + 1;
+		}
+		this.op_count += (p - start);
+		return ident;
 	}
 
 	// B"H

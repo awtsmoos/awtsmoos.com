@@ -56,7 +56,7 @@ body.geelooy-app-shell :where(.sr-only, .g-sr-only) {
 	white-space: nowrap;
 }
 body.geelooy-app-shell :where([hidden]) {
-	display: none !important;
+	display: none;
 }
 body.geelooy-app-shell :where(button, [role="button"], summary) {
 	touch-action: manipulation;

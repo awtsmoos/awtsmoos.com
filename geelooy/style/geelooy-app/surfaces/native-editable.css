@@ -42,7 +42,7 @@
 	pointer-events: none;
 	transform: none;
 }
-@media (prefers-reduced-motion: reduce) { :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) [contenteditable] { transform: none !important; } }
+@media (prefers-reduced-motion: reduce) { :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) [contenteditable] { transform: none; } }
 @media (forced-colors: active) { :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) [contenteditable] {
 		background: Canvas;
 		border: 1px solid ButtonText;

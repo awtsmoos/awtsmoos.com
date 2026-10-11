@@ -197,7 +197,7 @@ body, html {
     height: 16px; 
     accent-color: var(--primary-color);
 }
-.hidden-ui { display: none !important; }
+.hidden-ui.hidden-ui { display: none; }
 
 /* --- SCROLLBAR --- */
 .custom-scrollbar-container { 

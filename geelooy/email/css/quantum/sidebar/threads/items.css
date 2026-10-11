@@ -1,18 +1,18 @@
 /* @tunnel-grandfather: legacy/admin/game CSS — selectors are stable and page-scoped; registry conflicts are cross-page false positives; ID selectors intentional and working; refactor risk exceeds value. W3 2026-10-08. */
 /* B"H — Every thread row exposes sender, subject, snippet, and time in one scan. */
-.thread-item {
+.thread-item.thread-item {
 	position: relative;
-	display: grid !important;
+	display: grid;
 	width: 100%;
-	min-height: 4.65rem !important;
+	min-height: 4.65rem;
 	grid-template-columns: minmax(0, 1fr);
 	gap: 0.22rem;
-	padding: 0.66rem 0.72rem 0.66rem 0.9rem !important;
+	padding: 0.66rem 0.72rem 0.66rem 0.9rem;
 	overflow: hidden;
-	border: 1px solid rgba(255, 255, 255, 0.075) !important;
-	border-radius: 0.35rem 0.9rem 0.35rem 0.9rem !important;
-	background: linear-gradient(145deg, rgba(255, 255, 255, 0.045), rgba(50, 231, 255, 0.02)) !important;
-	color: var(--mail-text) !important;
+	border: 1px solid rgba(255, 255, 255, 0.075);
+	border-radius: 0.35rem 0.9rem 0.35rem 0.9rem;
+	background: linear-gradient(145deg, rgba(255, 255, 255, 0.045), rgba(50, 231, 255, 0.02));
+	color: var(--mail-text);
 	text-align: left;
 	cursor: pointer;
 	transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
@@ -38,12 +38,12 @@
 	content: "";
 }
 
-.thread-item:hover,
+.thread-item.thread-item:hover,
 .thread-item.active {
-	border-color: rgba(50, 231, 255, 0.34) !important;
-	background: linear-gradient(110deg, rgba(50, 231, 255, 0.12), rgba(139, 92, 255, 0.08)) !important;
+	border-color: rgba(50, 231, 255, 0.34);
+	background: linear-gradient(110deg, rgba(50, 231, 255, 0.12), rgba(139, 92, 255, 0.08));
 	box-shadow: var(--mail-glow-cyan);
-	transform: translateX(4px) !important;
+	transform: translateX(4px);
 }
 
 .thread-item:hover::before,

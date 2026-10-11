@@ -28,6 +28,8 @@ function bytesFor(mnemonic) {
 			return [OPCODES.INT3];
 		case "SYSCALL":
 			return [...OPCODES.SYSCALL];
+		case "CQO":
+			return [0x48, 0x99];
 		default:
 			return null;
 	}

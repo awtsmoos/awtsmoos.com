@@ -1,0 +1,18 @@
+203,204c203,204
+< /* Hebrew phrase : the ikar. RTL, nikkud-safe, visually dominant — Hebrew
+<    glyphs render smaller than Latin at the same em, so Hebrew runs larger. */
+---
+> /* Hebrew phrase : the ikar. RTL, nikkud-safe.
+>    B"H 2026-10-09 — Yaakov: Hebrew must be EXACTLY the same size as English. */
+207c207
+< 	font-size: clamp(3.2rem, 9vw, 5.2rem);
+---
+> 	font-size: clamp(2rem, 5.2vw, 2.8rem);
+246c246
+< 	font-size: clamp(3.2rem, 9vw, 5.2rem);
+---
+> 	font-size: clamp(2rem, 5.2vw, 2.8rem);
+638c638
+<    by specificity alone. No !important. Dark theme is untouched. */
+---
+>    by specificity alone. No. Dark theme is untouched. */

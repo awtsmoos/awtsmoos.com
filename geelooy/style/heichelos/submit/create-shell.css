@@ -30,7 +30,7 @@ body.submit-shell {
   gap: .75rem;
 }
 .submit-hero h1 {
-  color: #fff;
+  color: var(--light-text-fff, #fff);
   font-size: clamp(2.4rem, 8vw, 4.8rem);
   letter-spacing: -.06em;
   line-height: .92;
@@ -42,7 +42,7 @@ body.submit-shell {
   background: rgba(255,255,255,.1);
   border: 1px solid rgba(255,255,255,.16);
   border-radius: 999px;
-  color: #fff;
+  color: var(--light-text-fff, #fff);
   font-weight: 850;
   padding: .55rem .8rem;
   width: fit-content;

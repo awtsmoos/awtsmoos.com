@@ -19,7 +19,7 @@
 	border-radius: 1.2rem;
 	background: linear-gradient(180deg, rgba(8, 14, 25, .99), rgba(5, 9, 18, .99));
 	box-shadow: 0 34px 100px rgba(0, 0, 0, .72), 0 0 40px rgba(80, 180, 255, .12);
-	color: #f8fbff;
+	color: var(--light-text-f8fbff, #f8fbff);
 }
 .awtsmoosDrop .profile-panel-heading {
 	display: flex;
@@ -56,7 +56,7 @@
 	border: 1px solid rgba(93, 218, 255, .2);
 	border-radius: .95rem;
 	background: rgba(96, 143, 210, .09);
-	color: #fff;
+	color: var(--light-text-fff, #fff);
 	text-decoration: none;
 }
 .awtsmoosDrop .identity-current-card > span {
@@ -72,7 +72,7 @@
 	text-transform: uppercase;
 }
 .awtsmoosDrop .currentAliasName {
-	color: #fff;
+	color: var(--light-text-fff, #fff);
 	font-weight: 900;
 }
 .awtsmoosDrop .local-mode-note {
@@ -101,7 +101,7 @@
 	border: 1px solid rgba(255, 255, 255, .1);
 	border-radius: .78rem;
 	background: rgba(255, 255, 255, .035);
-	color: #fff;
+	color: var(--light-text-fff, #fff);
 	font-weight: 820;
 	text-decoration: none;
 }

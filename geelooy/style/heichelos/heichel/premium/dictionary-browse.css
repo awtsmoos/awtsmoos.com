@@ -78,7 +78,7 @@
 .dictionary-range[data-active="true"] {
 	border-color: rgba(243, 217, 149, 0.8);
 	background: linear-gradient(135deg, rgba(243, 217, 149, 0.2), rgba(85, 191, 244, 0.12));
-	color: #fff5d6;
+	color: var(--light-text-fff5d6, #fff5d6);
 }
 
 .dictionary-letter:hover,

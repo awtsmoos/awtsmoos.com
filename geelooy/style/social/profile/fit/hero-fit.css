@@ -1,6 +1,6 @@
 /* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H — no alias, name, or spark may push the screen sideways. */
-/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+/* B"H — html-prefixed specificity replaces every (Yaakov 2026-10-08). */
 /* B"H — profile hero fit tokens, explicit light AND dark branches (Yaakov 2026-10-08). */
 :root:not([data-theme="dark"]) {
   --pfit-text: #f8fafc;

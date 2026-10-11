@@ -32,7 +32,14 @@
      */
     render() {
       const beforePaint = this.document.textureArena.commands.length;
-      const layoutTree = this.layoutEngine.layout(this.viewport);
+      // B"H: layout thrashing defense — batched layout via the document
+      // scheduler; clean renders reuse the retained tree. Reuses the frame's
+      // viewport when one already ran (avoids a second full layout over a
+      // default-height difference).
+      const sched = this.document.__layoutScheduler;
+      if (sched && !sched.engine) sched.attachEngine(this.layoutEngine, () => this.viewport);
+      const vp = (sched && sched.lastViewport) || this.viewport;
+      const layoutTree = sched ? sched.layoutIfNeeded(vp) : this.layoutEngine.layout(this.viewport);
       this.renderer.paintElement(this.document.body, 0, 0, this.viewport.width, this.viewport.height);
       const gpuSnapshot = this.document.textureArena.snapshot();
       const displayList = buildDisplayList(gpuSnapshot.commands);

@@ -36,13 +36,10 @@
 	animation: awt-subagents-busy-sweep 1.5s linear infinite;
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.awt-subagents *,
-	.awt-subagents *::before,
-	.awt-subagents *::after {
-		animation-duration: .001ms !important;
-		animation-iteration-count: 1 !important;
-		scroll-behavior: auto !important;
-		transition-duration: .001ms !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .awt-subagents *, :root:root:root .awt-subagents *::before, :root:root:root .awt-subagents *::after{
+		animation-duration: .001ms;
+		animation-iteration-count: 1;
+		scroll-behavior: auto;
+		transition-duration: .001ms;
 	}
 }

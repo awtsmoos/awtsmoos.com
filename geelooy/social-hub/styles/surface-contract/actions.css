@@ -32,14 +32,14 @@
 .social-hub-document .routeNavigation button[data-active="true"] {
 	border-color: rgba(255, 72, 203, .62);
 	background: linear-gradient(125deg, rgba(60, 236, 255, .18), rgba(139, 92, 255, .22), rgba(255, 72, 203, .16));
-	color: #ffffff;
+	color: var(--g4-text);
 	box-shadow: 0 0 24px rgba(60, 236, 255, .14);
 }
 
 .social-hub-document :where(.hubHeader, .hubShell, .mobileDock) :where(button, .quickActionGrid > a, .fileButton):not(.publicDiscovery *):is(:hover, :focus-visible) {
 	border-color: rgba(255, 72, 203, .62);
 	background: linear-gradient(145deg, #20416a, #191032);
-	color: #ffffff;
+	color: var(--g4-text);
 	box-shadow: 0 0 0 3px rgba(60, 236, 255, .13), 0 0 30px rgba(255, 72, 203, .2);
 }
 

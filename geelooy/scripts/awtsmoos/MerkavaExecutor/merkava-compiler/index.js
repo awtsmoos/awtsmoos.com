@@ -12,42 +12,48 @@
     const G = getGlobal();
     G.MerkavaCompiler = G.MerkavaCompiler || {};
     
-    // B"H - Robust Opcode Resolution
-    const getOpcodes = () => {
-        // Standard Global
+    // B"H - Robust Opcode Resolution, cached ONCE at module load (was: per construction)
+    const OPCODES = (() => {
+        let o;
         if (G.MerkavaOpcodes && G.MerkavaOpcodes.OPCODES) {
-            return G.MerkavaOpcodes.OPCODES;
+            o = G.MerkavaOpcodes.OPCODES;
+        } else if (G.MerkavaOpcodes && G.MerkavaOpcodes.default && G.MerkavaOpcodes.default.OPCODES) {
+            o = G.MerkavaOpcodes.default.OPCODES;
+        } else {
+            if (G.MerkavaCompiler.DEBUG) console.warn("[MerkavaCompiler] MerkavaOpcodes not found. Using fallback map.");
+            o = {
+                NOP: 0x00, HALT: 0x01, RETURN: 0x02, JUMP: 0x03, JUMP_IF_FALSE: 0x04, JUMP_IF_TRUE: 0x05,
+                POP: 0x10, DUP: 0x11, SWAP: 0x12, PUSH_CONST: 0x13, PUSH_UNDEFINED: 0x14, PUSH_NULL: 0x15,
+                PUSH_TRUE: 0x16, PUSH_FALSE: 0x17, PUSH_THIS: 0x18, PUSH_META: 0x19,
+                LOAD_LOCAL: 0x20, STORE_LOCAL: 0x21, LOAD_GLOBAL: 0x22, STORE_GLOBAL: 0x23,
+                LOAD_UPVALUE: 0x24, STORE_UPVALUE: 0x25,
+                ALLOC_OBJECT: 0x30, ALLOC_ARRAY: 0x31, GET_PROP: 0x32, SET_PROP: 0x33, DELETE_PROP: 0x34,
+                ADD: 0x40, SUB: 0x41, MUL: 0x42, DIV: 0x43, MOD: 0x44, POW: 0x45,
+                CLOSURE: 0x70, CALL: 0x71, NEW: 0x72, MAKE_CLASS: 0x73,
+                AWAIT: 0x80, SYSCALL: 0x90, THROW: 0x91, DEBUGGER: 0x94,
+                ARRAY_PUSH: 0xB3, ARRAY_SPREAD: 0xB4, OBJECT_MERGE: 0xB5, OBJECT_REST: 0xB6
+            };
         }
-        // Default Export (Bundler compatibility)
-        if (G.MerkavaOpcodes && G.MerkavaOpcodes.default && G.MerkavaOpcodes.default.OPCODES) {
-            return G.MerkavaOpcodes.default.OPCODES;
-        }
-
-        // Fallback Definitions to prevent Compiler crash
-        console.warn("[MerkavaCompiler] MerkavaOpcodes not found. Using fallback map.");
-        return {
-            NOP: 0x00, HALT: 0x01, RETURN: 0x02, JUMP: 0x03, JUMP_IF_FALSE: 0x04, JUMP_IF_TRUE: 0x05,
-            POP: 0x10, DUP: 0x11, SWAP: 0x12, PUSH_CONST: 0x13, PUSH_UNDEFINED: 0x14, PUSH_NULL: 0x15,
-            PUSH_TRUE: 0x16, PUSH_FALSE: 0x17, PUSH_THIS: 0x18, PUSH_META: 0x19,
-            LOAD_LOCAL: 0x20, STORE_LOCAL: 0x21, LOAD_GLOBAL: 0x22, STORE_GLOBAL: 0x23,
-            LOAD_UPVALUE: 0x24, STORE_UPVALUE: 0x25,
-            ALLOC_OBJECT: 0x30, ALLOC_ARRAY: 0x31, GET_PROP: 0x32, SET_PROP: 0x33, DELETE_PROP: 0x34,
-            ADD: 0x40, SUB: 0x41, MUL: 0x42, DIV: 0x43, MOD: 0x44, POW: 0x45,
-            CLOSURE: 0x70, CALL: 0x71, NEW: 0x72, MAKE_CLASS: 0x73,
-            AWAIT: 0x80, SYSCALL: 0x90, THROW: 0x91, DEBUGGER: 0x94,
-            ARRAY_PUSH: 0xB3, ARRAY_SPREAD: 0xB4, OBJECT_MERGE: 0xB5, OBJECT_REST: 0xB6
-        };
-    };
+        // B"H - Enforce critical opcode values once (was: 3 checks per construction)
+        if (o.PUSH_CONST !== 0x13) o.PUSH_CONST = 0x13;
+        if (o.POP !== 0x10) o.POP = 0x10;
+        if (o.STORE_GLOBAL !== 0x23) o.STORE_GLOBAL = 0x23;
+        return o;
+    })();
+    // B"H - Back-compat: keep getOpcodes name for any external callers
+    const getOpcodes = () => OPCODES;
 
     // B"H - Re-aggregate Visitors from Global Namespace
     const getVisitors = () => {
         const V = G.MerkavaCompiler.Visitors || {};
         
-        // B"H - Verify Visitors
-        if (!V.Declarations) console.warn("[Compiler] Visitor.Declarations missing!");
-        if (!V.Expressions) console.warn("[Compiler] Visitor.Expressions missing!");
-        if (!V.Statements) console.warn("[Compiler] Visitor.Statements missing!");
-        if (!V.Literals) console.warn("[Compiler] Visitor.Literals missing!");
+        // B"H - Verify Visitors (gated: was unconditional warn per construction)
+        if (G.MerkavaCompiler.DEBUG) {
+            if (!V.Declarations) console.warn("[Compiler] Visitor.Declarations missing!");
+            if (!V.Expressions) console.warn("[Compiler] Visitor.Expressions missing!");
+            if (!V.Statements) console.warn("[Compiler] Visitor.Statements missing!");
+            if (!V.Literals) console.warn("[Compiler] Visitor.Literals missing!");
+        }
 
         return Object.assign({}, 
             V.Declarations,
@@ -128,47 +134,43 @@
         );
     };
 
+    // B"H - Merge visitors ONCE onto Compiler.prototype (was: Object.assign copy per construction, ~222us each)
+    // Deferred to first construction so visitor files may load after this file.
+    let _visitorsMerged = false;
+    function _ensureVisitorsMerged() {
+        if (_visitorsMerged) return;
+        _visitorsMerged = true;
+        Object.assign(Compiler.prototype, getVisitors());
+    }
+
+    // B"H - Cache Builder/Scope refs (was: global lookup + validation per construction)
+    let _Builder = null, _Scope = null;
+    function _ensureDeps() {
+        if (_Builder) return;
+        _Builder = G.MerkavaCompiler.BytecodeBuilder;
+        _Scope = G.MerkavaCompiler.Scope;
+        if (typeof _Builder !== 'function') {
+            throw new Error(`Critical: MerkavaCompiler.BytecodeBuilder is missing/invalid. Got: ${typeof _Builder}`);
+        }
+        if (typeof _Scope !== 'function') {
+            throw new Error(`Critical: MerkavaCompiler.Scope is missing/invalid. Got: ${typeof _Scope}`);
+        }
+    }
+
     class Compiler {
         constructor() {
-            this.OPCODES = getOpcodes();
-            
-            // B"H - Strict Opcode Validation
-            if (this.OPCODES.PUSH_CONST === undefined || this.OPCODES.PUSH_CONST !== 0x13) {
-                console.warn("[MerkavaCompiler] PUSH_CONST mismatch. Enforcing 0x13.");
-                this.OPCODES.PUSH_CONST = 0x13;
-            }
-            if (this.OPCODES.POP === undefined || this.OPCODES.POP !== 0x10) {
-                 console.warn("[MerkavaCompiler] POP mismatch! Enforcing 0x10");
-                 this.OPCODES.POP = 0x10;
-            }
-            if (this.OPCODES.STORE_GLOBAL === undefined || this.OPCODES.STORE_GLOBAL !== 0x23) {
-                 console.warn("[MerkavaCompiler] STORE_GLOBAL mismatch! Enforcing 0x23");
-                 this.OPCODES.STORE_GLOBAL = 0x23;
-            }
-            
-            // B"H - Check Dependencies on GLOBAL object
-            const Builder = G.MerkavaCompiler.BytecodeBuilder;
-            const Scope = G.MerkavaCompiler.Scope;
-
-            if (typeof Builder !== 'function') {
-                console.error("[MerkavaCompiler] Global Dump:", G.MerkavaCompiler);
-                throw new Error(`Critical: MerkavaCompiler.BytecodeBuilder is missing/invalid. Got: ${typeof Builder}`);
-            }
-            if (typeof Scope !== 'function') {
-                 console.error("[MerkavaCompiler] Global Dump:", G.MerkavaCompiler);
-                 throw new Error(`Critical: MerkavaCompiler.Scope is missing/invalid. Got: ${typeof Scope}`);
-            }
-
+            _ensureVisitorsMerged();
+            _ensureDeps();
+            this.OPCODES = OPCODES;
             this.constants = [];
-            this.buffer = new Builder();
-            this.scope = new Scope(null, true);
+            this.buffer = new _Builder();
+            this.scope = new _Scope(null, true);
             this.loops = [];
-            
-            Object.assign(this, getVisitors());
+            this._binOpMap = null;
         }
 
         compile(ast) {
-            console.log("[Compiler] Starting compilation...");
+            if (G.MerkavaCompiler.DEBUG) console.log("[Compiler] Starting compilation...");
             if (ast.type === 'Program') this._compileBlock(ast.body);
             else this._visit(ast);
             this.buffer.write8(this.OPCODES.HALT || 0x01);
@@ -186,15 +188,9 @@
         }
 
         _emitConstant(value) {
+            // B"H - Streamlined: opcode validated once at module load (was: paranoid check per constant)
             const idx = this._addConstant(value);
-            
-            // B"H - Paranoid Check for PUSH_CONST
-            let opcode = this.OPCODES.PUSH_CONST;
-            if (opcode === undefined || opcode === null || isNaN(opcode)) {
-                opcode = 0x13; // Fallback to standard
-            }
-            
-            this.buffer.write8(opcode);
+            this.buffer.write8(this.OPCODES.PUSH_CONST);
             this.buffer.write16(idx);
         }
 
@@ -268,6 +264,8 @@
     }
 
     G.MerkavaCompiler.Compiler = Compiler;
-    console.log("[MerkavaCompiler] Compiler Core Loaded via Global Resolution.");
+    // B"H - Debug toggle (was: unconditional log at module load)
+    G.MerkavaCompiler.setCompilerDebug = (v) => { G.MerkavaCompiler.DEBUG = !!v; };
+    if (G.MerkavaCompiler.DEBUG) console.log("[MerkavaCompiler] Compiler Core Loaded via Global Resolution.");
 
 })(typeof self !== 'undefined' ? self : this);

@@ -27,7 +27,12 @@
     appendHtml(selector, html) { const parent = this.window.document.querySelector(selector) || this.window.document.body; return this.dom.appendHtml(parent, html); }
     frame(viewport = { width: 760, height: 600 }) {
       const started = Date.now();
-      const tree = this.layout.layout(viewport);
+      // B"H: layout thrashing defense — the scheduler runs layout only when
+      // dirty (writes batch; clean frames reuse the retained tree at ~0 cost;
+      // transform/opacity animations never dirty layout at all).
+      const sched = this.window.document.__layoutScheduler;
+      if (sched && !sched.engine) sched.attachEngine(this.layout, () => viewport);
+      const tree = sched ? sched.layoutIfNeeded(viewport) : this.layout.layout(viewport);
       const snapshot = this.window.renderWebGLDom();
       const renderOps = snapshot.commands.length + this.layout.ops.length;
       const summary = { treeNodes: countTree(tree), layoutOps: this.layout.ops.length, renderOps, invalidations: this.dom.invalidations.length, frameMs: Date.now() - started };

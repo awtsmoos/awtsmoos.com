@@ -26,7 +26,7 @@ function importDefinition(definition) {
 }
 
 function structureDefinition(definition) {
-	return {
+	const result = {
 		name: definition.name,
 		fields: definition.fields.map(field => {
 			const split = splitLegacyArray(field.valueType, 0);
@@ -37,12 +37,16 @@ function structureDefinition(definition) {
 			};
 		})
 	};
+	if (definition.kind === "union") result.union = true;
+	return result;
 }
 
 function globalDefinition(definition) {
+	const split = splitLegacyArray(definition.valueType, null);
 	return {
-		type: toLegacyType(definition.valueType),
+		arraySize: split.arraySize,
 		name: definition.name,
+		type: split.type,
 		value: definition.initializer?.raw ?? null
 	};
 }

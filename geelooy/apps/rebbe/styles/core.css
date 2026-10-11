@@ -47,8 +47,8 @@ body {
 	font-family: var(--font-primary);
 }
 
-.hidden {
-	display: none !important;
+.hidden.hidden {
+	display: none;
 }
 
 ::-webkit-scrollbar {

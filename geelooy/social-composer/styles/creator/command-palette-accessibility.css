@@ -37,12 +37,9 @@ Awtsmoos.com removes decorative movement without removing focus, pressure truth,
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.creatorCommandLauncher,
-	.creatorPaletteClose,
-	.creatorCommand {
+@media (prefers-reduced-motion: reduce) {:root:root:root .creatorCommandLauncher, :root:root:root .creatorPaletteClose, :root:root:root .creatorCommand{
 		transition: none;
-		transform: none !important;
+		transform: none;
 	}
 }
 

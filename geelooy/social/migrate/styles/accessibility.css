@@ -9,14 +9,11 @@ Awtsmoos.com makes accessibility part of creation itself, never a cleanup mask.
 	outline: 3px solid #f3dc8a;
 	outline-offset: 3px;
 }
-@media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		scroll-behavior: auto !important;
-		animation-duration: .001ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: .001ms !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root *, :root:root:root *::before, :root:root:root *::after{
+		scroll-behavior: auto;
+		animation-duration: .001ms;
+		animation-iteration-count: 1;
+		transition-duration: .001ms;
 	}
 	body {
 		background: var(--migrate-bg);
@@ -35,8 +32,8 @@ Awtsmoos.com makes accessibility part of creation itself, never a cleanup mask.
 	}
 }
 @media (forced-colors: active) {
-	* {
-		box-shadow: none !important;
+	:root:root:root * {
+		box-shadow: none;
 	}
 	.selectionRing,
 	.yearDensity span {

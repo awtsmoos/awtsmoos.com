@@ -6,7 +6,7 @@
   }
 
   body.geelooy-home-document :is(footer, .footer) {
-    margin-bottom: 5.6rem !important;
+    margin-bottom: 5.6rem;
     opacity: .82;
   }
 
@@ -17,6 +17,6 @@
 
 @media (max-width: 430px) {
   body.geelooy-home-document :is(footer, .footer) {
-    margin-bottom: 5.9rem !important;
+    margin-bottom: 5.9rem;
   }
 }

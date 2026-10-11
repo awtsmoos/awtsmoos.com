@@ -38,7 +38,7 @@ body.geelooy-app-shell *, :where(body.geelooy-app-shell) *::before, :where(body.
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.geelooy-app-shell) ::selection {
 	background: rgba(112, 213, 200, .24);
-	color: #fff;
+	color: var(--app-structure-ink, #fff);
 }
 body.geelooy-app-shell :where(main, section, article, aside, nav, form, .geelooy-content-region) {
 	min-inline-size: 0;

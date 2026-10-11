@@ -54,14 +54,11 @@
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.composer-civilization-document *,
-	.composer-civilization-document *::before,
-	.composer-civilization-document *::after {
-		transition-duration: .001ms !important;
-		animation-duration: .001ms !important;
-		animation-iteration-count: 1 !important;
-		scroll-behavior: auto !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root .composer-civilization-document *, :root:root:root .composer-civilization-document *::before, :root:root:root .composer-civilization-document *::after{
+		transition-duration: .001ms;
+		animation-duration: .001ms;
+		animation-iteration-count: 1;
+		scroll-behavior: auto;
 	}
 }
 

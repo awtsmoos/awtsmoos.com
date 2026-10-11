@@ -77,16 +77,16 @@ int awts_native_read_pool(
 	return 1;
 }
 
-AwtsNativeSlice awts_native_read_ref(AwtsNativeExecution* execution) {
-	AwtsNativeSlice empty = { 0 };
+/* Returns the string-table index for a varuint ref (0 on error). */
+uint32_t awts_native_read_ref(AwtsNativeExecution* execution) {
 	uint32_t index;
 	if (!execution || !execution->runtime) {
-		return empty;
+		return 0u;
 	}
 	index = awts_native_read_varuint(&execution->code);
 	if (!execution->code.ok || index >= execution->runtime->stringCount) {
 		execution->code.ok = 0;
-		return empty;
+		return 0u;
 	}
-	return execution->runtime->strings[index];
+	return index;
 }

@@ -53,7 +53,7 @@
 	.home-state-row,
 	.home-error-state,
 	.home-empty-state {
-		animation: none !important;
-		transition: none !important;
+		animation: none;
+		transition: none;
 	}
 }

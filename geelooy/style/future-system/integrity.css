@@ -41,5 +41,5 @@ This local integrity layer prevents accidental overflow without becoming a globa
 }
 
 :where(body[data-future-page], body.social-hub-document) [hidden] {
-	display: none !important;
+	display: none;
 }

@@ -28,7 +28,7 @@
 
 .nav-card-body h3 {
 	margin-block-start: .2rem;
-	color: #f8fbff;
+	color: var(--light-text-f8fbff, #f8fbff);
 	font-size: 1rem;
 	line-height: 1.22;
 	text-wrap: balance;

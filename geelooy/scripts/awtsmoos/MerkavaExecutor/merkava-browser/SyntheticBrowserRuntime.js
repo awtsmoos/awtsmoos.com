@@ -154,15 +154,20 @@
         base.window = proxy; base.self = proxy; return proxy;
     }
 
+    function layoutSchedulerOf(node) { return node && node.ownerDocument && node.ownerDocument.__layoutScheduler; }
+
     function installElementCompat(Element, win) {
-        if (!Element.prototype.getBoundingClientRect) Element.prototype.getBoundingClientRect = function() { const width = Number(this.width || this.clientWidth || parsePx(this.style?.width) || (this.localName === 'canvas' ? 300 : 0)); const height = Number(this.height || this.clientHeight || parsePx(this.style?.height) || (this.localName === 'canvas' ? 150 : 0)); return { x: 0, y: 0, top: 0, left: 0, right: width, bottom: height, width, height, toJSON() { return this; } }; };
+        // B"H: layout thrashing defense — geometry reads batch. A read after
+        // writes flushes at most ONE layout for the whole read batch
+        // (beginRead/endRead coalesce nested reads); clean reads cost ~0.
+        if (!Element.prototype.getBoundingClientRect) Element.prototype.getBoundingClientRect = function() { const sched = layoutSchedulerOf(this); if (sched) sched.beginRead(); try { const width = Number(this.width || this.clientWidth || parsePx(this.style?.width) || (this.localName === 'canvas' ? 300 : 0)); const height = Number(this.height || this.clientHeight || parsePx(this.style?.height) || (this.localName === 'canvas' ? 150 : 0)); return { x: 0, y: 0, top: 0, left: 0, right: width, bottom: height, width, height, toJSON() { return this; } }; } finally { if (sched) sched.endRead(); } };
         defineSize(Element.prototype, 'clientWidth', node => node.width || parsePx(node.style?.width) || win.innerWidth || 0);
         defineSize(Element.prototype, 'clientHeight', node => node.height || parsePx(node.style?.height) || win.innerHeight || 0);
         defineSize(Element.prototype, 'offsetWidth', node => node.clientWidth || 0);
         defineSize(Element.prototype, 'offsetHeight', node => node.clientHeight || 0);
     }
 
-    function defineSize(proto, name, getter) { const desc = Object.getOwnPropertyDescriptor(proto, name); if (desc && desc.get) return; Object.defineProperty(proto, name, { configurable: true, get() { return Number(getter(this)) || 0; } }); }
+    function defineSize(proto, name, getter) { const desc = Object.getOwnPropertyDescriptor(proto, name); if (desc && desc.get) return; Object.defineProperty(proto, name, { configurable: true, get() { const sched = layoutSchedulerOf(this); if (sched) sched.beginRead(); try { return Number(getter(this)) || 0; } finally { if (sched) sched.endRead(); } } }); }
     function parsePx(value) { const got = String(value || '').match(/-?\d+(?:\.\d+)?/); return got ? Number(got[0]) : 0; }
     function captureTimerErrors(runtime) { const rows = runtime.window.__AWTSMOOS_CAPTURED_ERRORS__ || []; while (rows.length) runtime.errors.push(rows.shift()); }
     return { SyntheticBrowserRuntime };

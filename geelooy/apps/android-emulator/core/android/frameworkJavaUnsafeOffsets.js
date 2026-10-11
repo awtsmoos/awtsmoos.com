@@ -5,7 +5,13 @@
 import { readJavaReflectField } from "./frameworkJavaReflectFieldValues.js";
 
 const MAXIMUM_OFFSETS = 1000000;
-const REGISTRIES = new WeakMap();
+// Global registry (not per-runtime) — offsets must survive across
+// all runtime contexts within a single emulation run.
+const GLOBAL_REGISTRY = {
+	byOffset: new Map(),
+	bySignature: new Map(),
+	nextOffset: 1n
+};
 
 /**
  * Creates an opaque long token for one canonical guest instance field. The
@@ -54,16 +60,7 @@ export function readJavaUnsafeFieldOffset(runtime, value) {
 }
 
 function unsafeOffsetRegistry(runtime) {
-	let registry = REGISTRIES.get(runtime);
-	if (!registry) {
-		registry = {
-			byOffset: new Map(),
-			bySignature: new Map(),
-			nextOffset: 1n
-		};
-		REGISTRIES.set(runtime, registry);
-	}
-	return registry;
+	return GLOBAL_REGISTRY;
 }
 
 function offsetError(code, detail) {

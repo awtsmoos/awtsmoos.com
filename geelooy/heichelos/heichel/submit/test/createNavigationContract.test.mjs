@@ -26,13 +26,19 @@ const styleFiles = [
 const styles = Object.fromEntries(styleFiles.map(name => [name, readFileSync(`${base}/styles/${name}`, 'utf8')]));
 const requiredIds = ['backBtn', 'title', 'aliasId', 'postId', 'contentType', 'mainContentEditor', 'sectionsArea', 'toolbarTemplate', 'sectionTemplate', 'subSectionTemplate', 'imageUploadModal', 'submitPost'];
 
+/* B"H 2026-10-09: the route template composes toolbar/section/upload nodes from
+   partials via getT(...); resolve them the same way before asserting IDs so the
+   contract checks the served document, not the raw shell. */
+const partialNames = ['upload-dialog.html', 'toolbar-template.html', 'section-template.html', 'subsection-template.html'];
+const rendered = source + '\n' + partialNames.map(name => readFileSync(`${base}/partials/${name}`, 'utf8')).join('\n');
+
 assert.equal((source.match(/rel="stylesheet"/g) || []).length, 2, 'Create needs local styles and one shell override');
 assert.ok(source.includes('shell-overrides.css?v=create-005'), 'dock-safe Create override must load after local styles');
 assert.equal((source.match(/social\/shell\/boot\.js/g) || []).length, 1, 'Create needs one shell boot');
 assert.equal(source.includes('nav/header.html'), false, 'server header must not duplicate the shell');
 assert.equal(source.includes('mobile-create-nav'), false, 'route template must not own duplicate global navigation');
 assert.equal((source.match(/<nav\b/g) || []).length, 0, 'route template must not own global navigation');
-for (const id of requiredIds) assert.ok(source.includes(`id="${id}"`), `Create route missing required #${id}`);
+for (const id of requiredIds) assert.ok(rendered.includes(`id="${id}"`), `Create route missing required #${id}`);
 assert.ok(source.includes('/heichelos/heichel/submit/script.js'), 'mature composer script must remain connected');
 assert.ok(boot.includes('initializeCreateShellContext'), 'Create boot must publish destination context');
 assert.ok(context.includes('createDefault: false'), 'context preview must not create a Heichel');

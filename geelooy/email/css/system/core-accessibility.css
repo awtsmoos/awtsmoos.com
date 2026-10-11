@@ -4,8 +4,8 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos is present in every path; Awtsmoos.com keeps every path perceivable, reachable, and calm.
 */
-.hidden {
-	display: none !important;
+.hidden.hidden {
+	display: none;
 }
 
 button,
@@ -22,13 +22,13 @@ textarea,
 	-webkit-tap-highlight-color: transparent;
 }
 
-button:focus-visible,
+button:focus:focus-visible,
 a:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 [contenteditable="true"]:focus-visible {
-	outline: 2px solid var(--mail-border-focus) !important;
-	outline-offset: 3px !important;
+	outline: 2px solid var(--mail-border-focus);
+	outline-offset: 3px;
 }
 
 ::selection {
@@ -36,18 +36,12 @@ textarea:focus-visible,
 	color: var(--mail-text);
 }
 
-@media (prefers-reduced-motion: reduce) {
-	/* This global stills every transition and animation on the page,
-	   including the new ones: mail-thread-rise (thread stagger),
-	   mail-ctx-appear (context menu), mail-shimmer (loading panes),
-	   and the settings ::details-content grid-rows transition. */
-	*,
-	*::before,
-	*::after {
-		scroll-behavior: auto !important;
-		transition-duration: .01ms !important;
-		animation-duration: .01ms !important;
-		animation-iteration-count: 1 !important;
+@media (prefers-reduced-motion: reduce) {:root:root:root /* This global stills every transition and animation on the page, :root:root:root including the new ones: mail-thread-rise (thread stagger), :root:root:root mail-ctx-appear (context menu), :root:root:root mail-shimmer (loading panes), :root:root:root and the settings ::details-content grid-rows transition. */
+	*, :root:root:root *::before, :root:root:root *::after{
+		scroll-behavior: auto;
+		transition-duration: .01ms;
+		animation-duration: .01ms;
+		animation-iteration-count: 1;
 	}
 }
 

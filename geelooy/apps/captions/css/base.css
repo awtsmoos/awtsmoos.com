@@ -47,8 +47,8 @@ summary:focus-visible {
 	outline-offset: 3px;
 }
 
-[hidden] {
-	display: none !important;
+[hidden][hidden] {
+	display: none;
 }
 
 .eyebrow {

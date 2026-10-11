@@ -37,12 +37,12 @@
 	background: color-mix(in srgb, var(--awt-danger, #ff7c8c) 12%, transparent);
 }
 
-.awt-device-security-banner {
+.awt-device-security-banner.awt-device-security-banner {
 	grid-column: 1 / -1;
-	border-color: color-mix(in srgb, var(--awt-danger, #ff7c8c) 45%, transparent) !important;
+	border-color: color-mix(in srgb, var(--awt-danger, #ff7c8c) 45%, transparent);
 	background:
 		linear-gradient(135deg, color-mix(in srgb, var(--awt-danger, #ff7c8c) 14%, transparent), transparent 54%),
-		color-mix(in srgb, var(--awt-panel, #101820) 88%, transparent) !important;
+		color-mix(in srgb, var(--awt-panel, #101820) 88%, transparent);
 }
 
 .awt-device-security-banner .mini-card__header strong {

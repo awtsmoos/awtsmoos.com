@@ -43,7 +43,7 @@
   --finish-color-scheme: dark;
 }
 
-/* B"H — html-prefixed specificity replaces every !important (Yaakov 2026-10-08). */
+/* B"H — html-prefixed specificity replaces every (Yaakov 2026-10-08). */
 html:root, html body { background: var(--finish-bg); color: var(--finish-text); color-scheme: var(--finish-color-scheme); }
 html body, html input, html textarea, html select, html button { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
 html h1, html h2, html h3, html h4 { color: var(--finish-ink); letter-spacing: -.025em; }

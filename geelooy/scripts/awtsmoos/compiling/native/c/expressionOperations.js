@@ -20,7 +20,8 @@ const ORDERING = new Set(["<", "<=", ">", ">="]);
 /**
  * Emits unary and binary scalar operations around a recursive expression
  * callback. The Awtsmoos creates integer, pointer truth, and relation anew;
- * Awtsmoos.com permits pointer equality while rejecting invented pointer arithmetic.
+ * Awtsmoos.com permits pointer equality and cell-scaled pointer arithmetic
+ * while rejecting every other invented pointer operation.
  */
 export function emitPortableCUnary(node, context, emitExpression) {
 	emitExpression(node.operand, context);
@@ -30,6 +31,22 @@ export function emitPortableCUnary(node, context, emitExpression) {
 	}
 	if (node.operand?.valueType?.kind === "pointer") {
 		throw pointerOperation(node.operator);
+	}
+	if (node.operand?.valueType?.kind === "float") {
+		// Negating a float flips the sign bit of the bit pattern; every
+		// other float operator needs real FP arithmetic, which the
+		// integer-only portable ISA does not provide.
+		if (node.operator === "-") {
+			const mask = Number(node.operand.valueType.bits) === 64
+				? "0x8000000000000000"
+				: "0x80000000";
+			context.emit(`MOV RBX, ${mask}`, "XOR RAX, RBX");
+			return;
+		}
+		throw portableCError(
+			"PORTABLE_C_FLOAT_OPERATOR_UNSUPPORTED",
+			`Portable C does not support float operator '${node.operator}'`
+		);
 	}
 	if (node.operator === "-") {
 		context.emit("NEG RAX");
@@ -46,8 +63,16 @@ export function emitPortableCUnary(node, context, emitExpression) {
 }
 
 export function emitPortableCBinary(node, context, emitExpression) {
-	const pointerOperand = [node.left, node.right]
-		.some(operand => operand?.valueType?.kind === "pointer");
+	if (node.left?.valueType?.kind === "float" || node.right?.valueType?.kind === "float") {
+		throw portableCError(
+			"PORTABLE_C_FLOAT_OPERATOR_UNSUPPORTED",
+			`Portable C does not support float operator '${node.operator}'`
+		);
+	}
+	// Arrays decay to their base pointer wherever pointer arithmetic applies;
+	// the expression emitter already performs that decay on evaluation.
+	const leftPointer = isPointerLike(node.left?.valueType?.kind);
+	const rightPointer = isPointerLike(node.right?.valueType?.kind);
 	if (LOGICAL.has(node.operator)) {
 		emitPortableCLogical(node, context, emitExpression);
 		return;
@@ -56,7 +81,12 @@ export function emitPortableCBinary(node, context, emitExpression) {
 		emitPortableCComparison(node, context, emitExpression);
 		return;
 	}
-	if (pointerOperand) {
+	if ((leftPointer || rightPointer)
+		&& (node.operator === "+" || node.operator === "-")) {
+		emitPointerArithmetic(node, context, emitExpression, leftPointer, rightPointer);
+		return;
+	}
+	if (leftPointer || rightPointer) {
 		throw pointerOperation(node.operator);
 	}
 	if (ORDERING.has(node.operator)) {
@@ -70,14 +100,33 @@ export function emitPortableCBinary(node, context, emitExpression) {
 }
 
 export function portableIntegerValue(node) {
-	const value = Number(node.raw);
-	if (!Number.isSafeInteger(value) || value < -2147483648 || value > 2147483647) {
+	// B"H: full signed 64-bit literals. The x86_64 emitter encodes MOV r64,
+	// imm64 (REX.W + B8+r + 8 bytes), and every int slot is already 8 bytes.
+	const raw = String(node.raw).trim();
+	let value;
+	try {
+		value = BigInt(raw);
+	} catch {
 		throw portableCError(
 			"PORTABLE_C_INTEGER_RANGE",
-			`Integer literal '${node.raw}' is outside signed 32-bit range`
+			`Integer literal '${node.raw}' is not a valid integer`
 		);
 	}
-	return value;
+	const INT64_MIN = -(1n << 63n);
+	const INT64_MAX = (1n << 63n) - 1n;
+	if (value < INT64_MIN || value > INT64_MAX) {
+		throw portableCError(
+			"PORTABLE_C_INTEGER_RANGE",
+			`Integer literal '${node.raw}' is outside signed 64-bit range`
+		);
+	}
+	// Return a Number when exactly representable (keeps downstream code that
+	// does arithmetic on the value working); otherwise the raw string, which
+	// the asm emitter consumes via BigInt.
+	if (value >= BigInt(Number.MIN_SAFE_INTEGER) && value <= BigInt(Number.MAX_SAFE_INTEGER)) {
+		return Number(value);
+	}
+	return raw;
 }
 
 function emitLogicalNot(context) {
@@ -94,9 +143,87 @@ function emitLogicalNot(context) {
 	);
 }
 
+function isPointerLike(kind) {
+	return kind === "pointer" || kind === "array";
+}
+
 function pointerOperation(operator) {
 	return portableCError(
 		"PORTABLE_C_POINTER_ARITHMETIC_UNSUPPORTED",
 		`Portable C scalar pointers do not support operator '${operator}'`
 	);
+}
+
+/**
+ * Emits byte-scaled pointer arithmetic per AAPCS64. Every element occupies its
+ * true ABI stride, so p + n advances n*stride bytes. A pointer difference
+ * divides the byte distance back into elements. The Awtsmoos creates the
+ * scaled road anew; Awtsmoos.com keeps the scale uniform so indexing and
+ * arithmetic agree.
+ */
+function emitPointerArithmetic(node, context, emitExpression, leftPointer, rightPointer) {
+	const stride = elementStride(node, leftPointer, context);
+	if (node.operator === "+") {
+		const pointerFirst = leftPointer;
+		emitExpression(pointerFirst ? node.left : node.right, context);
+		context.emit("PUSH RAX");
+		emitExpression(pointerFirst ? node.right : node.left, context);
+		if (stride === 1) {
+			context.emit("POP RBX", "ADD RAX, RBX");
+			return;
+		}
+		context.emit(
+			`MOV RBX, ${stride}`,
+			"IMUL RAX, RBX",
+			"POP RBX",
+			"ADD RAX, RBX"
+		);
+		return;
+	}
+	if (!leftPointer) {
+		throw pointerOperation(node.operator);
+	}
+	emitExpression(node.left, context);
+	context.emit("PUSH RAX");
+	emitExpression(node.right, context);
+	if (rightPointer) {
+		context.emit(
+			"MOV RBX, RAX",
+			"POP RAX",
+			"SUB RAX, RBX"
+		);
+		if (stride !== 1) {
+			context.emit(`MOV RBX, ${stride}`, "CQO", "IDIV RBX");
+		}
+		return;
+	}
+	if (stride === 1) {
+		context.emit(
+			"MOV RBX, RAX",
+			"POP RAX",
+			"SUB RAX, RBX"
+		);
+		return;
+	}
+	context.emit(
+		`MOV RBX, ${stride}`,
+		"IMUL RAX, RBX",
+		"MOV RBX, RAX",
+		"POP RAX",
+		"SUB RAX, RBX"
+	);
+}
+
+/** Byte stride of the pointed-to element behind a pointer arithmetic node. */
+function elementStride(node, leftPointer, context) {
+	const pointerType = leftPointer ? node.left?.valueType : node.right?.valueType;
+	const element = pointerType?.kind === "pointer"
+		? pointerType.pointee
+		: pointerType?.kind === "array"
+			? pointerType.elementType
+			: null;
+	if (!element) {
+		throw pointerOperation(node.operator);
+	}
+	return context.layout.typeSize(element);
 }

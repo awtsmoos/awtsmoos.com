@@ -1,24 +1,24 @@
 /* @tunnel-grandfather: cross-page selector, no shared page. W4 2026-10-08. */
 /* B"H — premium cards plus recovered animator-style Chossid avatar rig. */
-body.geelooy-home-document :where(.home-post-card,.geelooy-feed-card,.geelooy-feed-card-core,article[data-feed-renderer="unified-feed-card"]) { background:#fff!important; border:1px solid rgba(15,23,42,.08)!important; border-radius:18px!important; box-shadow:0 18px 45px rgba(0,0,0,.18)!important; color:#0f172a!important; overflow:hidden!important; }
-body.geelooy-home-document :where(.geelooy-feed-card) { display:grid; gap:7px!important; padding:11px!important; }
+body.geelooy-home-document :where(.home-post-card,.geelooy-feed-card,.geelooy-feed-card-core,article[data-feed-renderer="unified-feed-card"]) { background:#fff; border:1px solid rgba(15,23,42,.08); border-radius:18px; box-shadow:0 18px 45px rgba(0,0,0,.18); color:#0f172a; overflow:hidden; }
+body.geelooy-home-document :where(.geelooy-feed-card) { display:grid; gap:7px; padding:11px; }
 :where(.geelooy-feed-card-head) { align-items:center; display:flex; gap:10px; }
 :where(.geelooy-feed-byline) { display:grid; gap:1px; min-width:0; }
-body.geelooy-home-document :where(.geelooy-feed-byline strong,.geelooy-feed-title,.geelooy-feed-title a) { color:#0f172a!important; }
+body.geelooy-home-document :where(.geelooy-feed-byline strong,.geelooy-feed-title,.geelooy-feed-title a) { color:#0f172a; }
 :where(.geelooy-feed-byline strong) { font-size:.97rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-body.geelooy-home-document :where(.geelooy-feed-byline small,.geelooy-feed-summary,.geelooy-reaction-summary) { color:#64748b!important; }
+body.geelooy-home-document :where(.geelooy-feed-byline small,.geelooy-feed-summary,.geelooy-reaction-summary) { color:#64748b; }
 :where(.geelooy-feed-title) { font-size:1.08rem; line-height:1.24; margin:0; }
 :where(.geelooy-feed-title a) { text-decoration:none; }
-:where(.geelooy-feed-summary) { display:-webkit-box!important; line-height:1.38!important; margin:0; overflow:hidden!important; -webkit-box-orient:vertical!important; -webkit-line-clamp:2!important; }
-body.geelooy-home-document :where(.geelooy-feed-meta-line) { align-items:center!important; display:flex!important; flex-wrap:wrap!important; gap:7px!important; }
+:where(.geelooy-feed-summary) { display:-webkit-box; line-height:1.38; margin:0; overflow:hidden; -webkit-box-orient:vertical; -webkit-line-clamp:2; }
+body.geelooy-home-document :where(.geelooy-feed-meta-line) { align-items:center; display:flex; flex-wrap:wrap; gap:7px; }
 :where(.awt-media-pill) { background:#f1f5f9; border:1px solid #e2e8f0; border-radius:999px; color:#64748b; font-size:.75rem; font-weight:850; padding:.2rem .5rem; }
-body.geelooy-home-document :where(.geelooy-verse-chip) { background:#eff6ff!important; border:1px solid #bfdbfe!important; border-radius:999px!important; color:#2563eb!important; cursor:pointer!important; font-size:.78rem!important; font-weight:900!important; min-height:28px!important; padding:0 10px!important; }
-body.geelooy-home-document :where(.geelooy-feed-compact-actions) { border-top:1px solid #e2e8f0; display:grid!important; gap:4px!important; grid-template-columns:repeat(3,minmax(0,1fr))!important; min-height:36px!important; padding-top:4px!important; }
-:where(.geelooy-feed-compact-actions button) { background:transparent; border:0; border-radius:10px; color:#64748b; cursor:pointer; font-weight:900; min-height:34px!important; padding:0 6px!important; white-space:nowrap!important; }
+body.geelooy-home-document :where(.geelooy-verse-chip) { background:#eff6ff; border:1px solid #bfdbfe; border-radius:999px; color:#2563eb; cursor:pointer; font-size:.78rem; font-weight:900; min-height:28px; padding:0 10px; }
+body.geelooy-home-document :where(.geelooy-feed-compact-actions) { border-top:1px solid #e2e8f0; display:grid; gap:4px; grid-template-columns:repeat(3,minmax(0,1fr)); min-height:36px; padding-top:4px; }
+:where(.geelooy-feed-compact-actions button) { background:transparent; border:0; border-radius:10px; color:#64748b; cursor:pointer; font-weight:900; min-height:34px; padding:0 6px; white-space:nowrap; }
 :where(.geelooy-feed-compact-actions button:hover,.geelooy-feed-compact-actions button.is-active) { background:#eef6ff; color:#2563eb; }
-body.geelooy-home-document :where(.geelooy-feed-compact-actions .geelooy-reaction-summary,.geelooy-feed-meta,.geelooy-section-preview) { display:none!important; }
+body.geelooy-home-document :where(.geelooy-feed-compact-actions .geelooy-reaction-summary,.geelooy-feed-meta,.geelooy-section-preview) { display:none; }
 :where(.geelooy-feed-sentinel) { background:rgba(255,255,255,.75); border:1px dashed rgba(148,163,184,.5); border-radius:18px; color:#64748b; padding:14px; text-align:center; width:100%; }
-body.geelooy-home-document :where(.geelooy-character-avatar) { --robe1:#f8f3df; --robe2:#d9caa7; --beard:#8b4a21; --hat:#18110c; --skin:#efc08d; background:linear-gradient(180deg,#e0f7ff,#f8fbff)!important; border:1px solid rgba(37,99,235,.24); border-radius:18px 18px 15px 15px!important; box-shadow:inset 0 1px 0 rgba(255,255,255,.92),0 8px 18px rgba(37,99,235,.18)!important; color:transparent!important; display:inline-block!important; height:58px; min-width:48px!important; overflow:hidden; perspective:120px; position:relative; width:48px; }
+body.geelooy-home-document :where(.geelooy-character-avatar) { --robe1:#f8f3df; --robe2:#d9caa7; --beard:#8b4a21; --hat:#18110c; --skin:#efc08d; background:linear-gradient(180deg,#e0f7ff,#f8fbff); border:1px solid rgba(37,99,235,.24); border-radius:18px 18px 15px 15px; box-shadow:inset 0 1px 0 rgba(255,255,255,.92),0 8px 18px rgba(37,99,235,.18); color:transparent; display:inline-block; height:58px; min-width:48px; overflow:hidden; perspective:120px; position:relative; width:48px; }
 :where(.character-aura,.character-shadow,.character-robe,.character-lapel,.character-belt,.character-leg,.character-shoe,.character-arm,.character-hand,.character-neck,.character-head,.character-ear,.character-hair,.character-peyos,.character-hat-brim,.character-hat-crown,.character-eye,.character-brow,.character-nose,.character-moustache,.character-beard,.character-smile,.character-initials) { position:absolute; }
 :where(.character-aura) { background:radial-gradient(circle,rgba(59,130,246,.16),transparent 62%); inset:1px; }
 :where(.character-shadow) { background:rgba(15,23,42,.18); border-radius:50%; bottom:3px; height:7px; left:8px; width:32px; }

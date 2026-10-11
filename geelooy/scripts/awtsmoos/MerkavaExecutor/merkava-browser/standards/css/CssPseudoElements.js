@@ -35,6 +35,36 @@ function splitPseudoSelector(selector) {
 	return { base: text.slice(0, m.index).trim() || "*", pseudo: name };
 }
 
+/* B"H 2026-10-09 (render-bench): pseudo-rule index. matchPseudoRules was
+ * called 6x per element (before/after/marker/placeholder/first-line/
+ * first-letter), each call regex-splitting all 404 rule selectors — 21M
+ * regex executions on the nested page. Cache the split per rule and index
+ * rules by pseudo name per rules array. Semantics unchanged. */
+const PSEUDO_SPLIT_CACHE = new WeakMap();
+function cachedPseudoSplit(rule) {
+	let s = PSEUDO_SPLIT_CACHE.get(rule);
+	if (!s) {
+		s = splitPseudoSelector(rule.selector);
+		PSEUDO_SPLIT_CACHE.set(rule, s);
+	}
+	return s;
+}
+const PSEUDO_RULE_INDEX = new WeakMap();
+function pseudoRuleIndex(rules) {
+	let idx = PSEUDO_RULE_INDEX.get(rules);
+	if (!idx) {
+		idx = new Map();
+		for (const rule of rules || []) {
+			const split = cachedPseudoSplit(rule);
+			if (!split.pseudo) continue;
+			if (!idx.has(split.pseudo)) idx.set(split.pseudo, []);
+			idx.get(split.pseudo).push(rule);
+		}
+		PSEUDO_RULE_INDEX.set(rules, idx);
+	}
+	return idx;
+}
+
 function unquoteString(text) {
 	const t = String(text || "").trim();
 	if (t.length >= 2 && ((t[0] === '"' && t[t.length - 1] === '"') || (t[0] === "'" && t[t.length - 1] === "'"))) {
@@ -75,6 +105,14 @@ function resolveContent(value, element) {
 	for (const part of parts) {
 		const str = unquoteString(part);
 		if (str != null) { out += str; continue; }
+		// B"H 2026-10-09 (css-worker-2): quote keywords. The `quotes`
+		// property is not implemented, so use the standard default pair
+		// (U+201C/U+201D); no-open/close-quote contribute nothing but still
+		// generate a box (they are not content:none).
+		const low = part.toLowerCase();
+		if (low === "open-quote") { out += "\u201C"; continue; }
+		if (low === "close-quote") { out += "\u201D"; continue; }
+		if (low === "no-open-quote" || low === "no-close-quote") continue;
 		let m = part.match(/^attr\(\s*([a-zA-Z_:][a-zA-Z0-9_:.-]*)\s*\)$/i);
 		if (m) { out += String(element?.getAttribute?.(m[1]) ?? ""); continue; }
 		m = part.match(/^counter\(\s*([a-zA-Z_-][a-zA-Z0-9_-]*)\s*(?:,\s*[a-zA-Z-]+)?\s*\)$/i);
@@ -136,10 +174,10 @@ function applyCounters(element, style = {}) {
 function matchPseudoRules(element, pseudoName, rules) {
 	const name = String(pseudoName || "").toLowerCase();
 	if (!isPseudoElementName(name)) return [];
+	const candidates = pseudoRuleIndex(rules).get(name) || [];
 	const out = [];
-	for (const rule of rules || []) {
-		const split = splitPseudoSelector(rule.selector);
-		if (split.pseudo !== name) continue;
+	for (const rule of candidates) {
+		const split = cachedPseudoSplit(rule);
 		let matches = false;
 		try {
 			matches = split.base === "*" || matchesCssSelector(element, split.base);
