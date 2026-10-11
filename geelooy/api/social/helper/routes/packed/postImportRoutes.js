@@ -412,6 +412,10 @@ class PackedPostImportRoutes {
 			expectedHash = importSign.sha256hex('verify:' + String(uploadId || ''));
 		} else if (op === 'posts/verify-status') {
 			expectedHash = importSign.sha256hex('verify-status:' + String(requestValue(this.$i, 'verify') || ''));
+		} else if (op === 'posts/ensure-backlinks') {
+			const blBody = this.$i?.body || {};
+			const blUploadId = blBody.uploadId || requestValue(this.$i, 'uploadId');
+			expectedHash = importSign.sha256hex('backlinks:' + String(blUploadId || ''));
 		} else {
 			return { success: false, error: 'SIG_BAD_OP', message: 'Unknown signed operation: ' + op };
 		}
@@ -925,6 +929,8 @@ class PackedPostImportRoutes {
 			'/packed/import/posts/cancel': this.cancel.bind(this),
 			'/packed/import/posts/verify': this.verify.bind(this),
 			'/packed/import/posts/verify-status': this.verifyStatus.bind(this),
+			'/packed/import/posts/ensure-backlinks': this.ensureBacklinks.bind(this),
+			'/packed/import/posts/backlinks-status': this.backlinksStatus.bind(this),
 		};
 	}
 
@@ -1092,6 +1098,135 @@ class PackedPostImportRoutes {
 				total: v.total, checked: v.checked, ok: v.ok,
 				mismatches: (v.mismatches || []).slice(0, 50),
 				mismatchCount: (v.mismatches || []).length,
+				durationMs: v.durationMs,
+			}
+		};
+	}
+
+	// -- alias backlink repair ------------------------------------------------
+	// Yaakov 2026-10-11 (binding): the 1,011-post Tanach import landed before
+	// the backlink writes existed, so every post verifies ALIAS_LINK_MISSING.
+	// This endpoint writes ONLY the missing alias backlinks (never touches
+	// post bodies):
+	//   /social/aliases/<aliasId>/heichelosContributedTo/<heichelId> = true
+	//   /social/aliases/<aliasId>/postsSubmitted/inHeichel/<h>/inSeries/<s>/<postId> = true
+	// Idempotent: existing links are skipped, never duplicated.
+	// POST /packed/import/posts/ensure-backlinks {uploadId}
+	//   -> {backlinkId}; poll GET /packed/import/posts/backlinks-status?backlinks=<id>.
+	async ensureBacklinks() {
+		const bad = requireMethod(this.$i, 'POST');
+		if (bad) return bad;
+		const auth = this.checkAuth();
+		if (auth) return auth;
+		const body = this.$i?.body || {};
+		const uploadId = String(body.uploadId || requestValue(this.$i, 'uploadId') || '');
+		if (!UPLOAD_ID_RE.test(uploadId)) {
+			return { success: false, error: 'BAD_UPLOAD_ID', message: 'uploadId must match [A-Za-z0-9_-]{8,64}' };
+		}
+		let dest;
+		try {
+			dest = await extractTarball(this.$i, uploadId);
+		} catch (e) {
+			return { success: false, error: 'STAGE_READ_FAILED', message: e.message };
+		}
+		let manifest;
+		try {
+			manifest = JSON.parse(fs.readFileSync(path.join(dest, 'manifest.json'), 'utf8'));
+		} catch (e) {
+			return { success: false, error: 'MANIFEST_UNREADABLE', message: e.message };
+		}
+		const files = Array.isArray(manifest.files) ? manifest.files : [];
+		if (!files.length) {
+			return { success: false, error: 'MANIFEST_EMPTY', message: 'No post files listed in manifest.json' };
+		}
+		const heichelId = String((files[0] && files[0].heichelId) || 'tanach');
+		const jobAliasId = heichelId + '-import';
+		const b = {
+			id: 'backlinks_' + Date.now().toString(36) + '_' + crypto.randomBytes(4).toString('hex'),
+			status: 'queued', uploadId, heichelId, aliasId: jobAliasId,
+			stagedDir: dest, total: files.length,
+			checked: 0, written: 0, skipped: 0, errors: [],
+			createdAt: Date.now(), updatedAt: Date.now(), finishedAt: null, durationMs: null,
+			spec: { heichelId, source: 'backlinks:' + uploadId, stagedDir: dest },
+			doneHashes: {},
+		};
+		setJob(b);
+		saveJobState(this.$i, { ...b });
+		this.runBacklinks(this.$i, b, files).catch(() => {});
+		return { success: { backlinkId: b.id, total: files.length, status: b.status } };
+	}
+
+	async runBacklinks($i, b, files) {
+		b.status = 'running';
+		b.startedAt = Date.now();
+		setJob(b);
+		await yieldTick();
+		try {
+			for (let n = 0; n < files.length; n++) {
+				const entry = files[n];
+				try {
+					const full = path.join(b.stagedDir, entry.file);
+					const raw = JSON.parse(fs.readFileSync(full, 'utf8'));
+					const h = entry.heichelId || b.heichelId;
+					const post = normalizePost(raw, h, Date.now());
+					const aliasId = deriveAliasId(post.commentator, h, b.aliasId);
+					const pid = String(post.postId || entry.postId || '');
+					const s = String(post.seriesId || '');
+					if (!aliasId || !pid) {
+						b.errors.push({ postId: String(entry.postId || ''), problem: 'NO_ALIAS_OR_POSTID' });
+					} else {
+						// 1. alias -> org(heichel) link (the queryable org/profile link).
+						const orgPath = `/social/aliases/${aliasId}/heichelosContributedTo/${h}`;
+						let orgLink = null;
+						try { orgLink = await $i.db.get(orgPath); } catch (_) { /* ignore */ }
+						if (!orgLink) { await $i.db.write(orgPath, true); b.written++; }
+						else b.skipped++;
+						// 2. alias -> post backlink.
+						const linkPath = `/social/aliases/${aliasId}/postsSubmitted/inHeichel/${h}/inSeries/${s}/${pid}`;
+						let link = null;
+						try { link = await $i.db.get(linkPath); } catch (_) { /* ignore */ }
+						if (!link) { await $i.db.write(linkPath, true); b.written++; }
+						else b.skipped++;
+					}
+				} catch (e) {
+					b.errors.push({ postId: String((entry && entry.postId) || ''), problem: 'BACKLINK_ERROR: ' + (e.message || e) });
+				}
+				b.checked++;
+				if (n % 25 === 24) {
+					b.updatedAt = Date.now();
+					setJob(b);
+					await yieldTick();
+				}
+			}
+			b.status = 'done';
+		} catch (e) {
+			b.status = 'failed';
+			b.errors.push({ postId: '', problem: 'BACKLINK_JOB_FAILED: ' + (e.message || e) });
+		}
+		b.finishedAt = Date.now();
+		b.durationMs = b.finishedAt - b.startedAt;
+		setJob(b);
+		saveJobState($i, { ...b, spec: { heichelId: b.heichelId, source: 'backlinks:' + b.uploadId, stagedDir: b.stagedDir }, doneHashes: {} });
+	}
+
+	/** GET /packed/import/posts/backlinks-status?backlinks=<id> */
+	async backlinksStatus() {
+		const bad = requireMethod(this.$i, 'GET');
+		if (bad) return bad;
+		const auth = this.checkAuth();
+		if (auth) return auth;
+		const backlinkId = requestValue(this.$i, 'backlinks');
+		const found = getJobView(this.$i, backlinkId);
+		if (!found) return { success: false, error: 'BACKLINKS_NOT_FOUND', backlinkId };
+		const v = found.view;
+		return {
+			success: {
+				id: v.id, status: v.status, live: found.live,
+				uploadId: v.uploadId, heichelId: v.heichelId,
+				total: v.total, checked: v.checked,
+				written: v.written, skipped: v.skipped,
+				errors: (v.errors || []).slice(0, 50),
+				errorCount: (v.errors || []).length,
 				durationMs: v.durationMs,
 			}
 		};
