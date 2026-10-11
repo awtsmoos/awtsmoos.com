@@ -59,7 +59,12 @@ async function main() {
 			gameRoot
 		}));
 	}
-	console.log(JSON.stringify({ chunks, essentialAssets, main: mainManifest }));
+	// The signed deploy endpoint rejects files over 5MB (HTTP 413); keep the world
+	// chunk deployable by splitting it at a module boundary when it grows past the cap.
+	const { splitWorldChunk } = require('./split-world-chunk.cjs');
+	const splitReceipt = splitWorldChunk();
+	console.error('[Mitzvah World build] world chunk split:', JSON.stringify(splitReceipt.chunkA || splitReceipt.skipped));
+	console.log(JSON.stringify({ chunks, essentialAssets, main: mainManifest, worldSplit: splitReceipt }));
 }
 
 function compileMain(entryFile) {
