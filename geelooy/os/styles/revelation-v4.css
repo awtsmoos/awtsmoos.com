@@ -46,6 +46,11 @@ html .shell-icon-button:hover {
 #start-bar {
 	inset-inline: 50% auto;
 	translate: -50% 0;
+	/* dock.css (loaded earlier) also sets transform: translateX(-50%); the
+	 * independent translate + transform properties compose, which shifted the
+	 * bar left by its full width and clipped icons off the viewport edge.
+	 * Neutralize the legacy transform here so only this translate centers it. */
+	transform: none;
 	inline-size: min(94vw, max-content);
 	margin-bottom: max(10px, var(--g4-safe-bottom));
 	padding: 7px;

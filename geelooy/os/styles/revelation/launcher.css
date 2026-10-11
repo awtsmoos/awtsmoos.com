@@ -93,7 +93,8 @@ Awtsmoos.com gives apps and actions one readable, keyboard-complete spatial map.
 }
 .start-app-grid {
 	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
+	grid-template-columns: repeat(auto-fill, var(--geo-app-tile));
+	justify-content: start;
 	gap: var(--geo-space-3);
 }
 .start-action-list {

@@ -19,12 +19,48 @@ import { installSocialMount, requestedSocialPath } from "../social/socialMountLi
 import { installSshSubsystem } from "../ssh/subsystem.js";
 import { OS_RUNTIME_STYLES } from "./osRuntimeStyles.js";
 
+/**
+ * Cold-load networks can stall a fetch or module import forever; every
+ * awaited boot stage therefore races a hard deadline so boot ALWAYS
+ * completes, continuing degraded rather than hanging on "Starting…".
+ */
+const BOOT_STAGE_TIMEOUT_MS = 15_000;
+
+/**
+ * Races one boot-stage promise against a timeout.
+ * @param {Promise|*} stage Stage promise (or plain value) to await.
+ * @param {string} label Human-readable stage name for diagnostics.
+ * @param {*} [fallback] Value boot continues with when the stage times out or rejects.
+ * @returns {Promise<*>} The stage result, or the fallback when degraded.
+ */
+async function withBootTimeout(stage, label, fallback) {
+	let timer = null;
+	try {
+		const deadline = new Promise((_, reject) => {
+			timer = setTimeout(
+				() => reject(new Error(`Geelooy OS boot stage "${label}" timed out`)),
+				BOOT_STAGE_TIMEOUT_MS
+			);
+		});
+		return await Promise.race([Promise.resolve(stage), deadline]);
+	} catch (error) {
+		console.warn(`B"H Geelooy OS boot stage "${label}" continued degraded:`, error?.message || error);
+		return fallback;
+	} finally {
+		if (timer) clearTimeout(timer);
+	}
+}
+
 /** Starts the desktop after registering every local first-class provider. */
 export async function startOs(os) {
-	await os.loadUtilities();
+	await withBootTimeout(os.loadUtilities(), "utilities");
 	await os.db.init("awtsmoos-os");
 	os.registerAdapters();
-	Object.assign(defaultPrograms, await SettingsManager.load(os.db, initialDefaultPrograms));
+	Object.assign(defaultPrograms, await withBootTimeout(
+		SettingsManager.load(os.db, initialDefaultPrograms),
+		"os-settings",
+		initialDefaultPrograms
+	));
 	os.makeDesktop();
 	os.renderDesktop();
 	os.updateStatus();
