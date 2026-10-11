@@ -22,13 +22,15 @@ status, safe areas, touch intent, and readable depth inside Mail alone.
 
 .geelooy-mail-document .mail-civilization-brand > span:last-child {
 	min-inline-size: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .geelooy-mail-document .mail-civilization-brand :is(strong, small) {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .geelooy-mail-document .mail-connection-state {
 	flex: 0 0 auto;
@@ -77,7 +79,8 @@ status, safe areas, touch intent, and readable depth inside Mail alone.
 
 	.geelooy-mail-document :is(.mail-header-shortcuts, .mail-civilization-brand small) {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.geelooy-mail-document .mail-workspace-frame {
 		padding-bottom: max(.25rem, env(safe-area-inset-bottom));

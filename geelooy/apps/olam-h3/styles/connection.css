@@ -49,7 +49,8 @@ The Awtsmoos lets a blocked external channel become visible without darkening th
 .provider-status-copy strong {
 	display: block;
 	font-size: 13px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .provider-status-copy p {
 	margin: 3px 0 0;

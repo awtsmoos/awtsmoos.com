@@ -32,7 +32,8 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoosDrop .aliasId > small {
 	margin-left: auto;
@@ -76,7 +77,8 @@
 
 .awtsmoosDrop .alias-form-heading > span {
 	display: grid;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoosDrop .alias-form-heading small {
 	color: #8ea4c7;

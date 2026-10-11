@@ -16,7 +16,8 @@
 .post-reader-localized-context .awtsmoos-sidebar-shell,
 .post-reader-localized-context .awtsmoos-sidebar-shell :where(div, section, article, header, footer, nav, aside, button, input, textarea, select, label, span) {
     box-sizing: border-box;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 /* 2. CHROME HEADER (The Crown) */
 .post-reader-localized-context .awtsmoos-sidebar-header-chrome {

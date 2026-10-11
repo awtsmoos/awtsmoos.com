@@ -70,7 +70,8 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .bh-page-presence-copy strong {
 	color: #f3f7fb;
 	font-size: .82rem;

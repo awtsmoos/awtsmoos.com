@@ -110,7 +110,8 @@
 	min-width: 0;
 	content-visibility: auto;
 	contain-intrinsic-size: auto 4.5rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 @media (max-width: 42rem) {
 	:root.heichel-os-document .heichel-semantic-discovery ul {
 		grid-template-columns: minmax(0, 1fr);
@@ -174,5 +175,6 @@
 @media (prefers-reduced-motion: reduce) {
 	:root.heichel-os-document .heichel-semantic-discovery a {
 		transition: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

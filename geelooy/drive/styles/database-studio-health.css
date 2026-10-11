@@ -35,12 +35,14 @@ Database Studio health remains compact, factual, touch-readable, and responsive.
 .project-health-card span {
 	font-size: .72rem;
 	opacity: .62;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .project-health-card strong {
 	font-size: .88rem;
 	line-height: 1.35;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .project-health-features {
 	display: flex;

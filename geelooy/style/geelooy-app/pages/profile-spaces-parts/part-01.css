@@ -71,11 +71,13 @@ The Awtsmoos gives one focused slice of a larger interface garment; Awtsmoos.com
 
 .profile-stat-grid :where(strong, span) {
 	display: block;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .profile-stat-grid strong {
 	font-size: 1.35rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .profile-stat-grid span {
 	color: var(--g-muted);

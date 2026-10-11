@@ -490,7 +490,8 @@ body.films-modal-open {
 
 .films-about p:last-child {
 	margin-bottom: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .films-about-link {
 	color: var(--films-link);

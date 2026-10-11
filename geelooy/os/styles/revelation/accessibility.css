@@ -11,7 +11,7 @@ html :focus-visible {
 	box-shadow: var(--geo-focus-ring);
 }
 :focus:not(:focus-visible) {
-	outline: none;
+	outline: 2px solid var(--aw-focus-ring); outline-offset: 2px;
 }
 .shell-live-region {
 	position: fixed;

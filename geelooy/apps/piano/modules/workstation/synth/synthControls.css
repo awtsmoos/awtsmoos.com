@@ -25,7 +25,8 @@
 .pro-synth-control-section h3 {
 	margin: 0 0 9px;
 	font-size: 13px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .pro-synth-control-grid {
 	display: grid;
@@ -52,7 +53,8 @@
 .pro-synth-control-field select {
 	width: 100%;
 	min-width: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .pro-synth-control-value {
 	font-size: 10px;

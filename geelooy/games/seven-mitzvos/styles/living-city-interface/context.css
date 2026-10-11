@@ -26,7 +26,8 @@
 .worldContext p,
 .worldContext h1 {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .worldContextKicker {
 	color: #9ddfff;
@@ -39,7 +40,8 @@
 .worldContext h1 {
 	font-size: 1rem;
 	margin-top: 0.1rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #worldContextText {
 	color: #c8d8e8;

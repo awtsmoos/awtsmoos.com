@@ -32,7 +32,8 @@ Awtsmoos.com gives the sticky consent threshold safe width, clear disabled truth
 		background-color 180ms ease,
 		box-shadow 180ms ease,
 		opacity 180ms ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .publicationReviewActions button:focus-visible,
 .publicationReviewHeader button:focus-visible {
@@ -51,7 +52,8 @@ Awtsmoos.com gives the sticky consent threshold safe width, clear disabled truth
 	opacity: .46;
 	filter: saturate(.3);
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: hover) and (pointer: fine) {
 	.publicationReviewActions button:not(:disabled):hover,
@@ -77,5 +79,6 @@ Awtsmoos.com gives the sticky consent threshold safe width, clear disabled truth
 @media (prefers-reduced-motion: reduce) {:root:root:root .publicationReviewActions button, :root:root:root .publicationReviewHeader button{
 		transition: none;
 		transform: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

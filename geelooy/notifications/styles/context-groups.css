@@ -27,7 +27,8 @@
 .notification-group__heading h3 {
 	margin: 0;
 	font-size: .92rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .notification-group__count {
 	font-size: .72rem;
@@ -54,12 +55,14 @@
 	font-size: .72rem;
 	font-weight: 720;
 	opacity: .82;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .notification-row-actions .g-button,
 .notification-row-actions button {
 	min-height: 44px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 560px) {
 	.notification-group {

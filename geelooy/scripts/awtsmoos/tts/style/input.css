@@ -46,7 +46,8 @@
 	font-weight: 700;
 }
 
-.checkbox-wrapper input { accent-color: var(--neon-cyan); }
+.checkbox-wrapper input { accent-color: var(--neon-cyan); 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .mini-btn {
 	background: transparent;

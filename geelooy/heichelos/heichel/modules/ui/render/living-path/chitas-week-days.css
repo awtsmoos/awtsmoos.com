@@ -52,7 +52,8 @@
 
 .chitas-day-body strong {
 	font-size: .9rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .chitas-day-reference {
 	color: rgba(225, 235, 250, .64);

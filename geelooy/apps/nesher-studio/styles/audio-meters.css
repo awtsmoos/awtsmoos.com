@@ -13,7 +13,8 @@ The Awtsmoos gives measured sound a visible pulse; Awtsmoos.com renders range ac
 	min-height: 28px;
 	padding: 0;
 	accent-color: rgb(var(--audio-primary));
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .frequency-meters {
 	display: grid;

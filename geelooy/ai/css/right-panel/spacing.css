@@ -122,7 +122,8 @@ html #automation-panel code{
   transform:none;
   white-space:normal;
 <<<<<<< ours
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 #automation-panel input:not([type="checkbox"]),
 #automation-panel select,
 #automation-panel textarea{
@@ -149,13 +150,15 @@ html #automation-panel textarea{
 #automation-panel textarea{
   min-height:120px;
   resize:vertical;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 #automation-panel input[type="checkbox"]{
 =======
 html #automation-panel textarea{
   min-height:120px;
   resize:vertical;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 html #automation-panel input[type="checkbox"]{
 >>>>>>> theirs
   flex:0 0 auto;
@@ -167,11 +170,13 @@ html #automation-panel input[type="checkbox"]{
   appearance:auto;
 <<<<<<< ours
   accent-color:#22d3ee;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 #automation-panel .automation-toggle-row input[type="checkbox"]{
 =======
   accent-color:var(--rp-accent);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 html #automation-panel .automation-toggle-row input[type="checkbox"]{
 >>>>>>> theirs
   appearance:none;
@@ -184,14 +189,16 @@ html #automation-panel .automation-toggle-row input[type="checkbox"]{
   border:1px solid rgba(184,222,255,.24);
   border-radius:999px;
   background:rgba(5,13,26,.88);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 #automation-panel button,
 #automation-panel .provider-import-button{
 =======
   border:1px solid var(--rp-toggle-border);
   border-radius:999px;
   background:var(--rp-toggle-bg);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 html #automation-panel button,
 html #automation-panel .provider-import-button{
 >>>>>>> theirs
@@ -201,7 +208,8 @@ html #automation-panel .provider-import-button{
   text-align:center;
   overflow:visible;
 <<<<<<< ours
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 #automation-panel code{
 =======
   cursor:pointer;
@@ -237,7 +245,8 @@ html #automation-panel textarea:disabled{
   opacity:.55;
   cursor:not-allowed;
 >>>>>>> theirs
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 /* @tunnel-interactive-states: hover/active/focus-visible/disabled for every interactive control */
 #automation-panel button:hover {
@@ -254,7 +263,8 @@ html #automation-panel textarea:disabled{
 	cursor: not-allowed;
 	filter: none;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 #automation-panel .provider-import-button:hover {
 	filter: brightness(1.08);
 }

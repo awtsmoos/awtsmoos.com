@@ -57,7 +57,8 @@
 
 	body[data-geelooy-route="docs"] .brand small {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	body[data-geelooy-route="docs"] {
 		overflow-x: clip;
@@ -71,7 +72,8 @@
 
 	body[data-geelooy-route="docs"] .hero h1 {
 		font-size: clamp(2.25rem, 15vw, 3.6rem);
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	body[data-geelooy-route="docs"] :where(.card-grid, .stat-strip) {
 		grid-template-columns: 1fr;

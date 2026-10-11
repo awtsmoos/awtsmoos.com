@@ -40,7 +40,8 @@
 .geelooy-home-shell .home-brand-copy strong {
 	font-size: 1rem;
 	letter-spacing: -.01em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .geelooy-home-shell .home-brand-copy small {
 	color: var(--home-faint);
 	font-size: .76rem;

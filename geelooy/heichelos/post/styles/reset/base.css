@@ -18,11 +18,13 @@
 .post-reader-localized-context :where(h1, h2, h3, h4) {
     margin: 0;
     font-family: var(--font-heading);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .post-reader-localized-context :where(p) {
     margin: 0 0 1rem 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .post-reader-localized-context :where(a) {
     color: var(--color-primary);
@@ -53,4 +55,5 @@
     .awtsmoos-massive-menu-btn *
 ) {
     text-transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

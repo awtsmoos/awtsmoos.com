@@ -15,7 +15,8 @@ body.geelooy-app-shell :where(button, input, select, textarea):disabled, body.ge
 	cursor: not-allowed;
 	filter: grayscale(.35);
 	opacity: .52;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 body.geelooy-app-shell [aria-busy="true"] {
 	cursor: progress;
 }
@@ -29,10 +30,12 @@ body.geelooy-app-shell :where(
 	summary
 ) {
 	-webkit-tap-highlight-color: rgba(77, 233, 255, .2);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 @media (pointer: coarse) { body.geelooy-app-shell :where(button, [role="button"], a.g-button, summary) {
 		min-block-size: 44px;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (prefers-reduced-motion: reduce) { html.geelooy-route-ready {
 		scroll-behavior: auto;
 	} }
@@ -57,7 +60,8 @@ body.geelooy-app-shell :where(
 		animation-iteration-count: 1;
 		scroll-behavior: auto;
 		transition-duration: .01ms;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (prefers-contrast: more) { body.geelooy-app-shell {
 		--g-line: rgba(255, 255, 255, .52);
 		--g-line-strong: rgba(255, 255, 255, .82);
@@ -69,7 +73,8 @@ body.geelooy-app-shell :where(
 @media (forced-colors: active) { body.geelooy-app-shell :where(button, input, select, textarea, .g-panel, .g-card) {
 		border-color: CanvasText;
 		box-shadow: none;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (forced-colors: active) { body.geelooy-app-shell :focus-visible {
 		outline-color: Highlight;
 	} }

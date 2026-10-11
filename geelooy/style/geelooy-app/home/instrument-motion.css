@@ -27,7 +27,8 @@
 
 .geelooy-home-shell .g-home-action span {
 	transition: filter var(--g-motion-medium) var(--g-ease), transform var(--g-motion-medium) var(--g-ease);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .geelooy-home-shell :where(.home-feed-panel, .g-home-aside) {
 	filter: drop-shadow(0 24px 54px rgba(0, 0, 0, .18));
@@ -53,11 +54,13 @@
 	.geelooy-home-shell .home-system-rail li {
 		grid-template-columns: auto 1fr;
 		column-gap: .55rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.geelooy-home-shell .home-system-rail small {
 		grid-column: 2;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.geelooy-home-shell .g-home-actions::before {
 		display: none;
@@ -67,5 +70,6 @@
 @media (prefers-reduced-motion: reduce) {
 	.geelooy-home-shell .g-home-action span {
 		transform: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

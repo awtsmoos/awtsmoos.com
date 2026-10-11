@@ -60,7 +60,8 @@ Awtsmoos.com keeps dialog content, public cards, controls, and toasts inside the
 .awtsmoos-sheets-app .dialog-stack select:disabled {
 	opacity: 0.48;
 	background: var(--surface-soft);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-sheets-app .dialog-actions {
 	display: flex;

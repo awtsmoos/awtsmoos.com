@@ -107,7 +107,8 @@ A terminal of divine data—rendered through fire, code, and cosmic structure.
   transform: translateY(0.6em);
   opacity: 0;
   animation: letterRise 0.4s forwards ease-out;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* -- HYPERLINKS WITH NO CHAFF -- */
 .extreme-dropdown__link {
   display: block;

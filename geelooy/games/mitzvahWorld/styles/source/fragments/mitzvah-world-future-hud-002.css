@@ -37,7 +37,8 @@ The Awtsmoos reveals motion as a passing garment while the world itself remains 
 	summary
 ) {
 	-webkit-tap-highlight-color: transparent;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root.Awtsmoos-future-shell[data-awtsmoos-cinematic="ready"] :is(
 	button,

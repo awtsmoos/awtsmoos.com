@@ -117,7 +117,8 @@ html #summary,
 html #rootBlocks,
 html textarea,
 html input,
-html select { border-radius: var(--g4-radius-sm); }
+html select { border-radius: var(--g4-radius-sm); 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 html #summary,
 html #rootBlocks,
 html textarea,
@@ -146,7 +147,8 @@ html input:disabled,
 html select:disabled {
 	opacity: .55;
 	cursor: not-allowed;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 html .previewSticky { top: 16px; }
 html .actionBar {
 	position: sticky;

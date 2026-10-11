@@ -21,7 +21,8 @@ The Awtsmoos brings the first Shliach sight close on a phone so artwork follows 
 
 	.shliach-nav-links a {
 		font-size: .78rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.shliach-hero {
 		padding: 30px 0 18px;
@@ -33,7 +34,8 @@ The Awtsmoos brings the first Shliach sight close on a phone so artwork follows 
 
 	.shliach-hero h1 {
 		font-size: clamp(2.65rem, 13vw, 4.35rem);
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.shliach-lead {
 		font-size: 1rem;

@@ -62,19 +62,22 @@ body {
 	line-height: 1.05;
 	margin: 0 0 0.6em;
 	text-align: center;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #teachings-screen h2 {
 	font-size: clamp(1.1rem, 4.5vw, 1.7rem);
 	line-height: 1.15;
 	margin: 1em 0 0.35em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #teachings-screen p {
 	font-size: clamp(0.95rem, 3.8vw, 1.2rem);
 	line-height: 1.5;
 	margin: 0 0 0.85em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #back-button {
 	align-self: center;
@@ -125,10 +128,12 @@ body {
 	#teachings-screen h1 {
 		font-size: clamp(1.25rem, 4vw, 1.8rem);
 		margin-bottom: 0.35em;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	#teachings-screen p {
 		font-size: clamp(0.85rem, 2.2vw, 1rem);
 		line-height: 1.35;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

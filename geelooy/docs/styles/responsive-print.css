@@ -9,7 +9,8 @@
 @media print {
 	body[data-geelooy-route="docs"][data-geelooy-route="docs"] :where(.topbar, .nav-rail, .context-rail, .document-meta button) {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	body[data-geelooy-route="docs"] .app-shell {
 		display: block;

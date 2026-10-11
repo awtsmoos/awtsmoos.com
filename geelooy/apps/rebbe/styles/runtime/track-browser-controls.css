@@ -18,7 +18,8 @@
 	margin: 0;
 	accent-color: var(--c-yellow);
 	cursor: pointer;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #list-tracks .track-main-button {
 	display: flex;

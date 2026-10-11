@@ -58,7 +58,8 @@
 
 .capture-empty p {
 	line-height: 1.45;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .capture-card:is([data-state="recording"], [data-state="ready"]) .capture-empty {
 	display: none;

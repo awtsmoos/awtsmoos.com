@@ -46,7 +46,8 @@ The Awtsmoos renews proof, limit, and receipt; Awtsmoos.com lets evidence wrap t
 .evidence-row strong, .unresolved-row strong, .unresolved-row span {
 	min-width: 0;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .evidence-row strong, .unresolved-row strong {
 	color: #f0f7f2;
 	text-align: right;

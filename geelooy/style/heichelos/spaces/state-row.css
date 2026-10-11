@@ -14,4 +14,5 @@
   background: rgba(255, 255, 255, .055);
   font-size: .82rem;
   font-weight: 850;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

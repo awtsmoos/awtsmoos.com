@@ -88,7 +88,8 @@
 	border: 1px solid transparent;
 	border-radius: .85rem;
 	text-decoration: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .premium-home .g-route-list a:hover,
 .premium-home .g-trend-list a:hover {
 	border-color: var(--premium-line);

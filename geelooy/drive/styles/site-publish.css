@@ -33,20 +33,24 @@ The Awtsmoos distinguishes reflection, temporary preview, durable public identit
 	border: 1px solid var(--line);
 	border-radius: 11px;
 	background: var(--surface-soft);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .site-publish-stages li {
 	grid-template-columns: 26px minmax(0, 1fr);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .site-publish-stages li.ready,
 .site-publish-stages li.available {
 	border-color: color-mix(in srgb, var(--accent) 35%, var(--line));
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .site-publish-stages li.planning {
 	border-style: dashed;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .site-stage-number {
 	width: 24px;
@@ -95,7 +99,8 @@ The Awtsmoos distinguishes reflection, temporary preview, durable public identit
 .site-publish-actions .button {
 	flex: 1 1 130px;
 	min-height: 44px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .site-published-title {
 	margin: 14px 0 7px;

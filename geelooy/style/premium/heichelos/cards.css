@@ -58,10 +58,12 @@
 	margin: 0;
 	font-size: clamp(1.6rem, 3vw, 2.35rem);
 	line-height: 1.03;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .social-spaces-shell .space-copy p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .social-spaces-shell .space-meta-line {
 	display: flex;
 	flex-wrap: wrap;
@@ -75,7 +77,8 @@
 	border: 1px solid rgba(255, 255, 255, .06);
 	border-radius: 999px;
 	background: rgba(255, 255, 255, .025);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .social-spaces-shell .space-actions {
 	position: relative;
 	z-index: 2;

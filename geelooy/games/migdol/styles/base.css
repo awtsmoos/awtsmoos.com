@@ -20,9 +20,11 @@
 * { box-sizing: border-box; }
 html, body { margin: 0; min-width: 100%; min-height: 100%; background: var(--bg); color: var(--text); font-family: Arial, sans-serif; }
 body { min-height: 100dvh; overflow: hidden; }
-button, select { font: inherit; }
+button, select { font: inherit; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 button { min-height: 48px; border: 0; border-radius: 12px; padding: 11px 16px; background: var(--accent); color: var(--text); font-weight: 800; cursor: pointer; touch-action: manipulation; }
-button:disabled { opacity: .45; cursor: default; }
+button:disabled { opacity: .45; cursor: default; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 button:focus-visible, select:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 .hidden { display: none; }
 
@@ -37,9 +39,11 @@ button:focus-visible, select:focus-visible { outline: 3px solid #fff; outline-of
 	padding: max(70px, env(safe-area-inset-top)) 0 max(80px, env(safe-area-inset-bottom));
 	overflow-y: auto;
 }
-#main-menu h1 { margin: 0; text-align: center; font-size: clamp(2.2rem, 10vw, 4rem); }
+#main-menu h1 { margin: 0; text-align: center; font-size: clamp(2.2rem, 10vw, 4rem); 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 #main-menu p { margin: 0 0 14px; text-align: center; line-height: 1.45; color: #c7d0d7; }
-#main-menu label { margin-top: 6px; font-weight: 800; }
+#main-menu label { margin-top: 6px; font-weight: 800; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 #main-menu select { min-height: 50px; border: 1px solid var(--line); border-radius: 10px; padding: 0 12px; background: var(--panel); color: var(--text); }
 #start-game { margin-top: 12px; background: var(--good); }
 

@@ -3,5 +3,6 @@
 .home-empty-state strong { color: var(--light-text-fff, #fff); font-size: 1.15rem; }
 .home-empty-state p { color: #b6bed0; line-height: 1.42; margin: 0; max-width: 18rem; }
 .home-empty-actions { display: grid; gap: .65rem; grid-template-columns: 1fr 1fr; width: 100%; }
-.home-empty-actions a { border-radius: 14px; min-height: 48px; }
+.home-empty-actions a { border-radius: 14px; min-height: 48px; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .home-empty-actions a:last-child { background: linear-gradient(90deg, #2ea7ff, #d13cff); border-color: transparent; color: var(--light-text-fff, #fff); }

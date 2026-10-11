@@ -18,7 +18,8 @@
 		border-color var(--motion-fast) var(--ease-out),
 		transform var(--motion-fast) var(--ease-out),
 		opacity var(--motion-fast) var(--ease-out);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-drive] details[open] > :not(summary) {
 	animation: awts-drive-disclosure-open var(--motion-standard) var(--ease-out) both;

@@ -17,6 +17,7 @@
 @media (max-width: 620px) {
   .awt-kabbalah-map { min-height: 560px; padding-bottom: 70px; }
   .awt-sefirah { width: 62px; font-size: .66rem; }
-  .awt-sefirah small { font-size: .52rem; }
+  .awt-sefirah small { font-size: .52rem; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
   .awt-kabbalah-map::after { bottom: 24px; font-size: .86rem; letter-spacing: .12em; }
 }

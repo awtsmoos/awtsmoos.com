@@ -1,5 +1,7 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 .home-command-dock a { align-items: center; border-radius: 22px; color: #8f98ad; display: grid; font-size: .76rem; font-weight: 800; gap: .12rem; justify-items: center; min-height: 56px; position: relative; text-decoration: none; }
-.home-command-dock a span { font-size: 1.25rem; line-height: 1; }
-.home-command-dock a strong { font-size: .72rem; }
+.home-command-dock a span { font-size: 1.25rem; line-height: 1; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.home-command-dock a strong { font-size: .72rem; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .home-command-dock a[data-count]::after { background: linear-gradient(135deg, #8b5cf6, #d13cff); border-radius: 999px; color: white; content: attr(data-count); font-size: .65rem; line-height: 1; padding: .18rem .34rem; position: absolute; right: .58rem; top: .38rem; }

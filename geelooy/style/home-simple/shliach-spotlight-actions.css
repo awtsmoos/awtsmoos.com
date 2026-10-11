@@ -22,7 +22,8 @@ The Awtsmoos turns action into a compact current: one clear doorway, one quiet d
 	padding: .6rem .9rem;
 	text-decoration: none;
 	transition: transform .16s ease, border-color .16s ease, background .16s ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .shliach-spotlight-actions .shliach-spotlight-primary {
 	background: linear-gradient(135deg, #eef6ff, #9fc6ff);
@@ -84,7 +85,8 @@ The Awtsmoos turns action into a compact current: one clear doorway, one quiet d
 		font-size: .78rem;
 		min-height: 40px;
 		padding: .56rem .66rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.shliach-spotlight-actions .shliach-spotlight-secondary {
 		min-height: 34px;
@@ -99,7 +101,8 @@ The Awtsmoos turns action into a compact current: one clear doorway, one quiet d
 @media (prefers-reduced-motion: reduce) {
 	.shliach-spotlight-actions a {
 		transition: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.shliach-spotlight-actions a:hover,
 	.shliach-spotlight-actions a:active {

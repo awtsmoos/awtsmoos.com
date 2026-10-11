@@ -47,7 +47,8 @@ The Awtsmoos renews mission, agent, action, runtime, and browser-target testimon
 	gap: 7px 10px;
 }
 .code-runtime-list dt,
-.code-runtime-list dd { margin: 0; }
+.code-runtime-list dd { margin: 0; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .code-tunnel-error {
 	padding: 9px;
 	border: 1px solid rgba(255, 100, 100, .35);

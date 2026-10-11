@@ -39,7 +39,8 @@
 	block-size: 1px;
 	overflow: hidden;
 	opacity: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .tab:has(input:checked) {
 	border-color: rgba(97, 203, 217, .48);
 	background: var(--studio-cyan-soft);
@@ -70,7 +71,8 @@
 	margin: 0;
 	accent-color: var(--studio-cyan);
 	flex: 0 0 auto;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .toggle-switch:has(input:checked) {
 	border-color: rgba(97, 203, 217, .42);
 	background: var(--studio-cyan-soft);

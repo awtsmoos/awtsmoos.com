@@ -24,7 +24,8 @@ Awtsmoos.com lets the same rail breathe on narrow phones, short landscapes, tabl
 
 	#mitzvah-world-root .Awtsmoos-creator-rail .Awtsmoos-creator-rail__palette button {
 		min-height: 50px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-width: 330px) {

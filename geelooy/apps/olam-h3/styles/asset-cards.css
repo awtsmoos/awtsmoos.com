@@ -47,7 +47,8 @@ The Awtsmoos lets one image, sound, or motion return across many scenes; Awtsmoo
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .asset-card-copy span,
 .library-asset-copy span {
@@ -69,7 +70,8 @@ The Awtsmoos lets one image, sound, or motion return across many scenes; Awtsmoo
 	border-radius: 11px;
 	background: var(--surface-soft);
 	cursor: pointer;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .library-asset-card > img,
 .library-asset-card > video,
@@ -112,7 +114,8 @@ The Awtsmoos lets one image, sound, or motion return across many scenes; Awtsmoo
 	border-radius: 999px;
 	background: var(--surface-soft);
 	font-size: 10px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .asset-library-actions {
 	padding-bottom: 13px;

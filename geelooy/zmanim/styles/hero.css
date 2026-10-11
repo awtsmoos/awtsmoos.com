@@ -40,7 +40,8 @@
 	font-size: 1.35rem;
 	line-height: 1;
 	letter-spacing: -.025em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .brand-copy span {
 	overflow: hidden;

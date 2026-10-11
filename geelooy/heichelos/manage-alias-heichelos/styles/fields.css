@@ -33,14 +33,16 @@ these Awtsmoos.com controls stay readable, bounded, and gently revealed.
 .heichel-manage-page .heichel-field input {
 	min-height: 48px;
 	padding: 0 14px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .heichel-manage-page .heichel-field textarea {
 	min-height: 132px;
 	padding: 13px 14px;
 	resize: vertical;
 	line-height: 1.55;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .heichel-manage-page .heichel-field :where(:is(input, textarea))::placeholder {
 	color: #8a99aa;

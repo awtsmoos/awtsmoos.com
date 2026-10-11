@@ -33,7 +33,8 @@ body {
 body > :where(a, .month-selector, #calendar, #hoursPopup, #minutesPopup) {
 	width: min(100%, 72rem);
 	margin-inline: auto;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #sefarim {
 	display: inline-flex;

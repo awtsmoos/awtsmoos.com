@@ -41,7 +41,8 @@
 	.composer-civilization-document :is(.structured-verse-controls, .structured-subsection-controls) button {
 		min-inline-size: 0;
 		padding-inline: .3rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.composer-civilization-document .structured-comments-toggle {
 		grid-column: 1 / -1;

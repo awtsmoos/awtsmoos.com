@@ -10,7 +10,8 @@
   border: 0;
   border-radius: .9rem;
   font-weight: 950;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: base :where()-reduced for :focus-visible budget W4 2026-10-08 */
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.heichel-mobile-navigation) :where(.gate-actions) button[type="button"] {

@@ -77,7 +77,8 @@
 }
 .heichel-shell-boot__copy h1 {
 	letter-spacing: -.03em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .heichel-shell-boot__status {
 	min-height: 1.6em;
 	color: var(--civil-text-soft);
@@ -113,7 +114,8 @@
 	border-radius: inherit;
 	background: var(--boot-progress-fill);
 	animation: heichel-boot-shimmer 1.6s ease-in-out infinite;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 @keyframes heichel-boot-rise {
 	from { opacity: 0; transform: translateY(16px); }
 	to { opacity: 1; transform: translateY(0); }
@@ -131,7 +133,8 @@
 	.heichel-shell-boot__seal,
 	.heichel-shell-boot__progress span {
 		animation: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 /* specificity (0,2,0): keep the container centered above the mobile-series
  * shell-layout rule (.heichel-os-document :where(...) { margin-inline: 0 })

@@ -21,11 +21,13 @@
 .heroContent h1 {
 	max-width: 11.5ch;
 	line-height: 0.94;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .heroContent h1 em {
 	max-width: 9.5ch;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .heroLead {
 	max-width: 62ch;
@@ -56,11 +58,13 @@
 		margin-bottom: 1rem;
 		font-size: clamp(2.55rem, 11.5vw, 4.5rem);
 		line-height: 0.92;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.heroContent h1 em {
 		max-width: 7.5ch;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.heroLead {
 		max-width: 36rem;
@@ -72,5 +76,6 @@
 @media (max-width: 360px) {
 	.heroContent h1 {
 		font-size: 2.35rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

@@ -61,14 +61,16 @@ body {
 ) {
 	min-inline-size: 0;
 	max-inline-size: 100%;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .futureDisclosureBody a,
 .statusLine,
 .summaryMeta {
 	overflow-wrap: anywhere;
 	word-break: normal;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .futureDisclosureBody :where(
 	.fieldGrid,

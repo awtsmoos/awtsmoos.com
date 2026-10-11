@@ -77,7 +77,8 @@ body[data-geelooy-route="home"] .omnibox-heading {
 :where(body[data-geelooy-route="home"]) .omnibox-heading button:disabled {
 	opacity: .55;
 	cursor: not-allowed;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .omnibox-heading button:focus-visible {
 	outline: 3px solid var(--focus-ring);
@@ -99,7 +100,8 @@ body[data-geelooy-route="home"] .omnibox-options {
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .omnibox-heading button {
 		transition: none;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .omnibox-heading button:active {
 		transform: none;

@@ -5,7 +5,8 @@
   .home-command-dock .is-create,
   .home-crystal span {
     animation: none;
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
   .home-action-card:hover,
   .home-post-card:hover,

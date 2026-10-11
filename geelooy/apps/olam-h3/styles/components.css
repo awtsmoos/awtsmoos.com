@@ -47,7 +47,8 @@ The Awtsmoos gives every persistent studio surface one quiet tongue; Awtsmoos.co
 	font-size: clamp(30px, 8vw, 54px);
 	line-height: 0.98;
 	letter-spacing: -0.045em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .hero-copy p {
 	margin: 10px 0 0;
@@ -95,7 +96,8 @@ The Awtsmoos gives every persistent studio surface one quiet tongue; Awtsmoos.co
 	margin: 2px 0 0;
 	font-size: 17px;
 	letter-spacing: -0.025em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .counter,
 .mode-note,

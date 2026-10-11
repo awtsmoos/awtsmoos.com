@@ -56,7 +56,8 @@
     margin: 0;
     font-size: clamp(1.15rem, 5vw, 1.65rem);
     line-height: 1.05;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .post-reader-localized-context .approval-hero p,
 .post-reader-localized-context .approval-empty p {
@@ -123,11 +124,13 @@
     padding: 0.72rem 0.9rem;
     font-weight: 900;
     cursor: pointer;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where(.post-reader-localized-context) .approval-actions button:disabled {
     cursor: progress;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .post-reader-localized-context .approval-deny {
     background: color-mix(in srgb, var(--color-ink) 8%, transparent);

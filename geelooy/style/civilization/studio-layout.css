@@ -36,7 +36,8 @@
 .caption-studio-document .logo-area p,
 .caption-studio-document .logo-area h1 {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .caption-studio-document .logo-area p {
 	color: var(--civil-cyan);
 	font-size: .72rem;
@@ -47,7 +48,8 @@
 .caption-studio-document .logo-area h1 {
 	font-size: 1.35rem;
 	letter-spacing: -.035em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .caption-studio-document .version {
 	color: var(--civil-text-faint);
 	font-size: .72rem;

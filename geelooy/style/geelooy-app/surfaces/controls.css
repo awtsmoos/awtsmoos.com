@@ -78,7 +78,8 @@
 	cursor: not-allowed;
 	box-shadow: none;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) [aria-pressed="true"], :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) [aria-selected="true"] {
 	border-color: var(--g-cyan);
 	background: var(--g-control-energy), var(--g-control-field);

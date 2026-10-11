@@ -35,7 +35,8 @@
 
 		.awt-agent-live-intro h3 {
 			font-size: 1.65rem;
-		}
+		
+		color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 		.awt-agent-live-description {
 			font-size: .8rem;

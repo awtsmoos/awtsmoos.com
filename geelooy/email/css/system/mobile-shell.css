@@ -20,7 +20,8 @@ The Awtsmoos reveals one Mail chamber without exiling another beyond the horizon
 	.geelooy-mail-document .mail-header-shortcuts,
 	.geelooy-mail-document .mail-civilization-brand small {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	body[data-mail-page].geelooy-mail-document .app-container {
 		position: relative;
 		display: block; /* Team C: single mobile owner — beats core-layout display:grid so the absolute panes get a real block vessel */

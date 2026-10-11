@@ -47,7 +47,8 @@
 .library-section-heading h2 {
 	font-size: clamp(1.2rem, 2.3vw, 1.6rem);
 	margin: .16rem 0 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .library-section-heading a {
 	color: #7cdced;
@@ -103,7 +104,8 @@
 .library-empty p,
 .library-error p {
 	margin: .2rem 0 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .library-error {
 	border-color: rgba(244, 119, 130, .35);

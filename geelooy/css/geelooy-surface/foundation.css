@@ -49,7 +49,8 @@ Awtsmoos.com keeps this foundation inside its chosen root, so containment become
 
 [data-awtsmoos-surface] :where(p, li, dd, dt, blockquote, figcaption) {
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-surface] :where(pre, code, kbd, samp) {
 	max-inline-size: 100%;

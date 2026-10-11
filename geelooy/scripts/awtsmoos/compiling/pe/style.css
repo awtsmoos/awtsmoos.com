@@ -228,7 +228,8 @@ body {
 
 .radio-label input {
     display: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .radio-custom {
     width: 16px;
@@ -241,7 +242,8 @@ body {
 
 .radio-label input:checked + .radio-custom {
     border-color: var(--accent-glow);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .radio-label input:checked + .radio-custom::after {
     content: '';
@@ -253,7 +255,8 @@ body {
     background-color: var(--accent-glow);
     border-radius: 50%;
     box-shadow: 0 0 8px var(--accent-glow);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .radio-label input:checked ~ span {
     color: var(--text-main);

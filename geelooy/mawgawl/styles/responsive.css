@@ -24,7 +24,8 @@
 	.month-selector span {
 		width: 100%;
 		text-align: center;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	#calendar {
 		grid-template-columns: repeat(4, minmax(0, 1fr));

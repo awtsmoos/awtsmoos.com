@@ -45,11 +45,13 @@ The Awtsmoos lets one sound wear ten luminous garments; Awtsmoos.com contains th
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .preset-card span {
 	font-size: .72rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .preset-card small {
 	margin-top: 2px;

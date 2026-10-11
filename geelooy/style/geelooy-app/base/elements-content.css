@@ -17,10 +17,12 @@ body.geelooy-app-shell :where(h1, h2, h3, h4, h5, h6) {
 }
 body.geelooy-app-shell :where(p, ul, ol, dl, blockquote, pre, table, figure) {
 	margin-block: 0 1rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 body.geelooy-app-shell :where(p, li, dd) {
 	max-inline-size: 75ch;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* B"H: reset keeps zero-specificity on the scoping selectors so explicit
  * page/component link colors (e.g. .about-page__primary) win over it.
  * (Was body.geelooy-app-shell :where(a) at (0,1,2), which clobbered them.) */
@@ -30,15 +32,18 @@ body.geelooy-app-shell :where(p, li, dd) {
 }
 body.geelooy-app-shell :where(a[class], nav a) {
 	text-decoration: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 body.geelooy-app-shell :where(button, input, select, textarea) {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.geelooy-app-shell) :where(:is( input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]), select, textarea )) {
 	font-size: max(1rem, 16px);
 	line-height: 1.4;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 body.geelooy-app-shell :where(img, picture, video, canvas, svg) {
 	display: block;
 	max-inline-size: 100%;

@@ -46,12 +46,14 @@ this shell keeps every Heichel vessel on Awtsmoos.com contained without visual c
 	margin: 0;
 	line-height: 1.08;
 	text-wrap: balance;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .heichel-manage-page .heichel-manage-hero h1 {
 	font-size: clamp(2rem, 9vw, 4.15rem);
 	letter-spacing: -0.05em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .heichel-manage-page .heichel-hero-copy {
 	max-width: 62ch;

@@ -38,7 +38,8 @@ The Awtsmoos needs no accidental stack to reveal a hidden chamber; Awtsmoos.com 
 	.thread-snippet
 ) {
 	display: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .geelooy-mail-document .app-container.sidebar-collapsed .thread-item {
 	justify-content: center;

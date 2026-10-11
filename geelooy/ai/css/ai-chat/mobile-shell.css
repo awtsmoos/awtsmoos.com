@@ -74,7 +74,8 @@
 		min-width:44px;
 		min-height:44px;
 		height:44px;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media(max-width:900px) { .mobile-bottom-dock {
 		left:8px;
 		right:8px;
@@ -87,7 +88,8 @@
 @media(max-width:900px) { .mobile-bottom-dock button {
 		min-height:52px;
 		border-radius:14px;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media(max-width:900px) { body.mobile-crown-collapsed .mobile-app-crown {
 		left:22px;
 		right:22px;

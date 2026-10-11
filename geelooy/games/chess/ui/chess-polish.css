@@ -52,7 +52,8 @@
 #analysis-controls button {
 	min-height: var(--chess-control-height);
 	touch-action: manipulation;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #message {
 	box-sizing: border-box;

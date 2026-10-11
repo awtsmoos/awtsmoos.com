@@ -32,14 +32,16 @@ Awtsmoos.com keeps repeated cards opaque, contained, and fast while preserving e
 	min-height: 22px;
 	margin-top: .15rem;
 	accent-color: var(--migrate-accent);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .memoryBody {
 	min-width: 0;
 }
 .memoryBody h3 {
 	margin: .25rem 0;
 	font-size: 1.02rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .memoryBody p {
 	margin-bottom: .75rem;
 	color: #c1ced5;

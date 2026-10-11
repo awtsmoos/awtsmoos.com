@@ -27,11 +27,13 @@
 
 [data-awtsmoos-drive] :where(button, input, select, textarea) {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-drive] :where(h1, h2, p) {
 	margin-top: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-drive] h1 {
 	max-width: 12ch;
@@ -39,12 +41,14 @@
 	font-size: clamp(2.3rem, 6vw, 5.4rem);
 	line-height: 0.96;
 	letter-spacing: -0.055em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-drive] h2 {
 	margin-bottom: 0;
 	font-size: clamp(1.15rem, 2vw, 1.55rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-drive] label {
 	display: grid;

@@ -16,7 +16,8 @@
 		box-shadow var(--motion-fast) var(--ease-out),
 		color var(--motion-fast) var(--ease-out),
 		transform var(--motion-fast) var(--ease-out);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-drive] :where(input, select, textarea) {
 	width: 100%;
@@ -69,7 +70,8 @@
 	opacity: 0.46;
 	box-shadow: none;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-drive] .primary-button {
 	border-color: transparent;

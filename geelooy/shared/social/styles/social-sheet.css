@@ -44,12 +44,14 @@
 .awtsmoosSocialSheet__option span {
 	font-size: .78rem;
 	opacity: .72;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .awtsmoosSocialSheet button,
 .awtsmoosIdentitySheet button,
 .awtsmoosCommandPalette button {
 	min-block-size: 44px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 @media (hover: hover) and (pointer: fine) {
 	.awtsmoosSocialSheet__option:hover {
 		transform: translateY(-1px);

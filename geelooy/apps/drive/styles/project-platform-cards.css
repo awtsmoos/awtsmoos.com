@@ -19,7 +19,8 @@
 	letter-spacing: .08em;
 	opacity: .72;
 	text-transform: uppercase;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-drive] .project-capability {
 	display: grid;
@@ -47,11 +48,13 @@
 	font-size: .82rem;
 	line-height: 1.4;
 	opacity: .8;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-drive] .project-capability small {
 	opacity: .58;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-drive] .project-capability__state {
 	justify-self: start;

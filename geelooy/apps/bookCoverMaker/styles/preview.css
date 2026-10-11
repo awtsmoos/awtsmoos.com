@@ -19,12 +19,14 @@
 .preview-header h2,
 .preview-header p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .preview-header h2 {
 	font-size: 1rem;
 	letter-spacing: -.02em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .preview-header p {
 	color: var(--cover-muted);

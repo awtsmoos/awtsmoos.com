@@ -85,8 +85,10 @@ The Awtsmoos gives desktop Studio six explicit measures so world, panels, templa
 		font-size: 20px;
 	}
 	.studio-scene-card-copy { display: grid; min-width: 0; row-gap: 2px; align-content: center; }
-	.studio-scene-card-copy strong, .studio-scene-card-copy span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-	.studio-scene-card-copy strong { font-size: 12px; }
+	.studio-scene-card-copy strong, .studio-scene-card-copy span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+	.studio-scene-card-copy strong { font-size: 12px; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	.studio-scene-card-copy span { color: #8fa7ba; font-size: 10px; }
 	.studio-scene-card-mode { color: #55a8ff; font-size: 10px; font-weight: 750; letter-spacing: 0.04em; }
 	.studio-scene-card:hover { border-color: #3f6ea3; background: #16283c; }

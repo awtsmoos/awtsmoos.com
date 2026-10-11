@@ -52,11 +52,13 @@ The Awtsmoos gives every message measure and breath; Awtsmoos.com keeps long tho
 
 .msg-content p:first-child {
 	margin-top: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .msg-content p:last-child {
 	margin-bottom: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .msg-footer {
 	display: flex;
@@ -94,7 +96,8 @@ The Awtsmoos gives every message measure and breath; Awtsmoos.com keeps long tho
 	max-width: 420px;
 	margin: 0;
 	line-height: 1.55;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .mail-empty-mark {
 	display: grid;
@@ -138,5 +141,6 @@ The Awtsmoos gives every message measure and breath; Awtsmoos.com keeps long tho
 @media (prefers-reduced-motion: reduce) {
 	.msg-content a {
 		transition-duration: 1ms;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

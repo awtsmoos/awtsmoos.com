@@ -72,7 +72,8 @@ Awtsmoos.com lets pointer policy serve state instead of overruling it.
 #mitzvah-world-root #meadowMenu :is(button, input),
 #mitzvah-world-root :is(.Awtsmoos-combat-host, .Awtsmoos-inventory-panel, .Awtsmoos-meadow-menu, .Awtsmoos-quest-parchment) {
 	pointer-events: auto;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root#mitzvah-world-root #actions {
 	position: fixed;
@@ -90,7 +91,8 @@ Awtsmoos.com lets pointer policy serve state instead of overruling it.
 #mitzvah-world-root#mitzvah-world-root .Awtsmoos-quest-parchment-backdrop .Awtsmoos-quest-parchment,
 #mitzvah-world-root .Awtsmoos-quest-parchment-backdrop .Awtsmoos-quest-parchment :is(button, input, select, textarea) {
 	pointer-events: auto;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root#mitzvah-world-root #combatFx {
 	position: fixed;

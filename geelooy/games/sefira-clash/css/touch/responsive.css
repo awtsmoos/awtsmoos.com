@@ -42,7 +42,8 @@
 
 	.touchButtons button.primary {
 		height: 52px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-height: 640px) and (max-width: 760px) {

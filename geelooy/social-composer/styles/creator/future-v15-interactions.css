@@ -17,7 +17,8 @@ Awtsmoos.com gives intent, context, and dock one tactile grammar where focus is 
 .composer-civilization-document .creatorIntentRail .creatorRailButton[data-active="true"] > span {
 	filter: drop-shadow(0 0 .55rem rgb(89 189 210 / 24%));
 	animation: creator-v15-intent-pop 260ms cubic-bezier(.18, 1, .3, 1) both;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .composer-civilization-document .creatorContextAction:active,
 .composer-civilization-document .creatorDockButton:active,
@@ -66,7 +67,8 @@ Awtsmoos.com gives intent, context, and dock one tactile grammar where focus is 
 	.composer-civilization-document .creatorIntentRail .creatorRailButton[data-active="true"] > span {
 		animation: none;
 		filter: none;
-	}:root:root:root .composer-civilization-document :is(
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}:root:root:root .composer-civilization-document :is(
 		.creatorRailButton, :root:root:root .creatorContextAction, :root:root:root .creatorDockButton
 	){
 		transform: none;

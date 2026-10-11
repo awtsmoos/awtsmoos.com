@@ -28,12 +28,14 @@
 	border-color: color-mix(in srgb, var(--g-magenta) 66%, var(--g-line));
 	background: linear-gradient(135deg, rgba(60, 236, 255, .08), rgba(255, 72, 203, .08));
 	box-shadow: 0 0 0 3px rgba(255, 72, 203, .08), var(--g-shadow-soft);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .g-choice-card:has(input:disabled) {
 	cursor: not-allowed;
 	filter: grayscale(.45);
 	opacity: .56;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .g-choice-copy {
 	display: grid;
 	gap: .22rem;

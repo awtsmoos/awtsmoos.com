@@ -66,7 +66,8 @@
 	min-width: 0;
 	overflow: hidden;
 	text-overflow: ellipsis;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .Awtsmoos-corpse-loot-backdrop .loot-item-name b {
 	color: var(--loot-rarity);

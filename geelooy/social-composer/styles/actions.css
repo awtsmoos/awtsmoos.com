@@ -28,7 +28,8 @@
 .actionBar button {
 	flex: 0 1 auto;
 	min-height: 44px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .publishButton,
 .primaryAction {
 	border-color: var(--g-accent);

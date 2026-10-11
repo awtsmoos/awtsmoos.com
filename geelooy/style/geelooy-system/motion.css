@@ -2,7 +2,8 @@
 /* B"H — motion: swift when welcome, still when mercy asks. */
 @media (prefers-reduced-motion: no-preference) {
   :where(.geelooy-route-ready) { view-transition-name: geelooy-route; }
-  :where(a, button, .home-action-card, .home-post-card) { transition-duration: .18s; transition-property: background, border-color, box-shadow, color, opacity, transform; }
+  :where(a, button, .home-action-card, .home-post-card) { transition-duration: .18s; transition-property: background, border-color, box-shadow, color, opacity, transform; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
   :where(.geelooy-is-navigating) { cursor: progress; }
 }
 @media (prefers-reduced-motion: reduce) {

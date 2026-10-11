@@ -20,7 +20,8 @@
 	transition:
 		transform var(--motion-fast) var(--ease-out),
 		opacity var(--motion-fast) var(--ease-soft);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .quick-actions button:focus-visible::after,
 .quick-actions button:active::after {

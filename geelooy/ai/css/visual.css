@@ -46,7 +46,8 @@
 .message-offload::before { content: "↯ "; color: var(--ai-good); }
 .is-offloaded .message { box-shadow: inset 0 0 0 1px rgba(47,240,160,.16), 0 14px 34px rgba(0,0,0,.22); }
 .conversation-list li.is-loading, .conversation-list li.is-error { white-space: normal; cursor: default; color: var(--ai-muted); }
-.conversation-list li.is-loading { animation: aiPulseCard 1.15s infinite ease-in-out; }
+.conversation-list li.is-loading { animation: aiPulseCard 1.15s infinite ease-in-out; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .conversation-list li.is-error { border-color: rgba(255,104,116,.42); color: #ffc2c8; }
 .conversation-list li[data-gizmo]::after {
   content: "GPT";
@@ -60,7 +61,8 @@
 }
 button, select, textarea, .conversation-list li, .message-offload, .event-group {
   transition: transform var(--ai-motion-fast) ease, border-color var(--ai-motion-fast) ease, box-shadow var(--ai-motion-fast) ease, filter var(--ai-motion-fast) ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 button:hover, .attach-button:hover, .message-offload:hover, .event-group:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(0,0,0,.24); }
 button:active, .conversation-list li:active, .message-offload:active { transform: translateY(1px) scale(.99); }
 .container::before {

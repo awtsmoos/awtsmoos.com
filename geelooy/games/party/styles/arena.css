@@ -38,7 +38,8 @@
 
 .turnHeader strong {
 	font-size: 1rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .turnHeader span {
 	color: var(--party-muted);
@@ -63,7 +64,8 @@
 .turnControls h2 {
 	margin: 0;
 	font-size: 1.4rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .turnControls p {
 	margin: 0;

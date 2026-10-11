@@ -13,4 +13,5 @@
   position: relative; display: grid; place-items: center; width: 2.65rem; height: 2.65rem; border-radius: 999px;
   background: rgba(216,170,81,.72); color: #fff7dc; text-shadow: 0 1px 0 rgba(0,0,0,.18);
 }
-@media (max-width: 620px) { .nav-card-media { min-height: 5.1rem; border-radius: .85rem; } .nav-card-media span { width: 2.3rem; height: 2.3rem; } }
+@media (max-width: 620px) { .nav-card-media { min-height: 5.1rem; border-radius: .85rem; } .nav-card-media span { width: 2.3rem; height: 2.3rem; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }

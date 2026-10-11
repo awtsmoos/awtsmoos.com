@@ -84,7 +84,8 @@
 	.messaging-special-pane > .messaging-empty-state { min-height: 0; }
 	.messaging-empty-mark { width: 58px; height: 58px; margin-bottom: 0.78rem; border-radius: 19px; }
 	.messaging-empty-mark .messaging-icon { width: 25px; height: 25px; }
-	.messaging-empty-state p { margin-top: 0.45rem; font-size: 0.78rem; line-height: 1.5; }
+	.messaging-empty-state p { margin-top: 0.45rem; font-size: 0.78rem; line-height: 1.5; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	.messaging-empty-action,
 	.messaging-link-button { width: 100%; min-height: 48px; margin-top: 0.8rem; }
 }

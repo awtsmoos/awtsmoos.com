@@ -36,7 +36,8 @@
 .studio-playback input[type="range"] {
 	flex: 1;
 	min-width: 100px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .studio-playback output {
 	min-width: 130px;
 	color: var(--studio-muted);

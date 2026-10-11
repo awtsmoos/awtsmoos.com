@@ -29,7 +29,8 @@
 	border: 1px solid rgba(255, 255, 255, 0.18);
 	border-radius: 12px;
 	background: rgba(5, 10, 24, 0.72);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .expeditionSummary em,
 .expeditionStats span {

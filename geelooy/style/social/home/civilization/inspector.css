@@ -33,11 +33,13 @@
 }
 :where(.object-inspector-section h3, .object-inspector-section p, .object-inspector-section pre) {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .object-inspector-section h3 {
 	font-size: var(--type-small);
 	letter-spacing: .02em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .object-inspector-section pre {
 	max-height: 16rem;
 	overflow: auto;

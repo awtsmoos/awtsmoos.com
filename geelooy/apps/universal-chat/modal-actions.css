@@ -28,12 +28,14 @@
 .messaging-modal-action:disabled,
 .messaging-modal input[readonly] {
 	opacity: 0.7;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .messaging-modal[aria-busy="true"] .messaging-modal-action:disabled,
 .messaging-modal[aria-busy="true"] input[readonly] {
 	cursor: progress;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .messaging-modal-error {
 	padding: 0.65rem 0.72rem;

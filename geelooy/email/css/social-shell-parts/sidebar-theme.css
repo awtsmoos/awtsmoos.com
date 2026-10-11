@@ -24,7 +24,8 @@ html .mail-folder-list,
 html .mail-search-panel,
 html .mail-sender-category-grid { border-bottom: 1px solid var(--mail-border-soft); display: grid; gap: .45rem; padding: 0 1rem 1rem; }
 html .mail-search-panel label { color: var(--mail-muted); font-size: .78rem; font-weight: 900; letter-spacing: .04em; }
-html .mail-search-panel input { box-shadow: inset 0 1px 0 var(--mail-glass-hi); min-height: 44px; padding: .7rem .85rem; }
+html .mail-search-panel input { box-shadow: inset 0 1px 0 var(--mail-glass-hi); min-height: 44px; padding: .7rem .85rem; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 html .mail-sender-category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); padding-top: .25rem; }
 html .mail-sender-category {
   align-items: center;
@@ -84,7 +85,8 @@ html .folder-button.active {
 	cursor: not-allowed;
 	filter: none;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .folder-button:active {
 	transform: scale(0.98);
 }

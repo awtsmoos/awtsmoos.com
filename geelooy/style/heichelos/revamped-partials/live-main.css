@@ -71,7 +71,8 @@
     color: #221f29;
 }
 #seriesNameAndInfo h2,
-#seriesNameAndInfo p { margin: 0; }
+#seriesNameAndInfo p { margin: 0; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 #seriesNameAndInfo p { margin-top: .45rem; line-height: 1.65; color: #5f574e; }
 
 .heichel-viewport-panel { padding: clamp(.85rem, 2vw, 1.25rem); }

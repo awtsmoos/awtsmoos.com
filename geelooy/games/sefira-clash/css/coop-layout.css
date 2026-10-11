@@ -33,11 +33,13 @@
 
 .coopHeader h1 {
 	margin: 4px 0 8px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .coopHeader p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .coopHeader nav,
 .setupActions,
@@ -56,12 +58,14 @@
 .setupPanel h2,
 .setupActions {
 	grid-column: 1 / -1;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .setupPanel label {
 	display: grid;
 	gap: 6px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .setupPanel input,
 .setupPanel select {

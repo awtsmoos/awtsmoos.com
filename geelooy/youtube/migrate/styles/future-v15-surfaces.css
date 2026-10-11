@@ -16,7 +16,8 @@ body {
 .migrationHeader h1 {
 	text-wrap: balance;
 	text-shadow: 0 1rem 3rem rgb(71 128 255 / 10%);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .migrationCard {
 	border-color: rgb(151 190 235 / 18%);

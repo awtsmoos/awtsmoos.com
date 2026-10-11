@@ -43,19 +43,23 @@
 :where(.g-shell.is-ready) :where(nav.g-dock) a:nth-child(1) {
 	animation: gnav-dock-item-in var(--gnav-duration-med) var(--gnav-ease-out) both;
 	animation-delay: 60ms;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.g-shell.is-ready) :where(nav.g-dock) a:nth-child(2) {
 	animation: gnav-dock-item-in var(--gnav-duration-med) var(--gnav-ease-out) both;
 	animation-delay: 110ms;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.g-shell.is-ready) :where(nav.g-dock) a:nth-child(3) {
 	animation: gnav-dock-item-in var(--gnav-duration-med) var(--gnav-ease-out) both;
 	animation-delay: 160ms;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.g-shell.is-ready) :where(nav.g-dock) a:nth-child(4) {
 	animation: gnav-dock-item-in var(--gnav-duration-med) var(--gnav-ease-out) both;
 	animation-delay: 210ms;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

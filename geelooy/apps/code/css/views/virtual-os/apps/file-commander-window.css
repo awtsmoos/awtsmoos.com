@@ -20,7 +20,8 @@
 .vos-file-commander-host input,
 .vos-file-commander-host select {
     font-family: var(--font-code, monospace);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .vos-file-commander-host .fc-content {
     min-height: 0;

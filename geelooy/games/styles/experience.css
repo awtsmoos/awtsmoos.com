@@ -38,4 +38,5 @@ body {
 
 .gamesFooter p {
 	margin: 4px 0 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

@@ -26,7 +26,8 @@
 		font-size: 12px;
 		white-space: normal;
 		overflow-wrap: anywhere;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 760px) { .awtsmoos-audio-offer .audio-primary-button {
 		min-height: 48px;
 		font-size: 14px;
@@ -54,10 +55,12 @@
 	} }
 @media (max-width: 430px) { .awtsmoos-audio-offer .audio-offer-title span {
 		max-width: 220px;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 430px) { .awtsmoos-audio-offer .audio-offer-actions button {
 		font-size: 11px;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 340px) { .awtsmoos-audio-offer .audio-offer-actions {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	} }

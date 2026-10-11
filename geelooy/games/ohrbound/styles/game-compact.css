@@ -10,8 +10,10 @@
 	}
 	.ohrbound-app .game-hud strong {
 		font-size: 0.82rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	.ohrbound-app .game-hud span {
 		font-size: 0.72rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

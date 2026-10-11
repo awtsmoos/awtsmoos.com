@@ -6,7 +6,8 @@
 @media (max-height: 680px) and (max-width: 900px) {
 	.overlay h1 {
 		font-size: 34px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	.stars {
 		font-size: 24px;
 	}

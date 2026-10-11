@@ -24,7 +24,8 @@
 	border: 1px solid rgba(160, 218, 255, 0.14);
 	border-radius: 0.72rem;
 	background: rgba(18, 37, 60, 0.66);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .gameHud small {
 	color: var(--muted);
@@ -40,4 +41,5 @@
 	font-size: clamp(0.68rem, 1.3vw, 0.92rem);
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

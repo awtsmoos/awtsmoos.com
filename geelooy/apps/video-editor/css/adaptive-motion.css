@@ -23,7 +23,8 @@
 
 	.transport button {
 		min-height: 44px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (prefers-reduced-motion: reduce) {:root:root:root *, :root:root:root *::before, :root:root:root *::after{

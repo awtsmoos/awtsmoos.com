@@ -48,8 +48,10 @@ Every provider and remembered chat receives a clean, glowing vessel.
   padding: 11px 12px;
 }
 .provider-key-row, .bridge-actions, .bridge-card-head { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-.provider-key-row input { min-width: 0; flex: 1 1 170px; }
-.provider-key-row button { flex: 0 0 auto; }
+.provider-key-row input { min-width: 0; flex: 1 1 170px; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.provider-key-row button { flex: 0 0 auto; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .provider-key-panel small, .chatgpt-bridge-card small, .bridge-summary { color: var(--bug-muted); line-height: 1.45; }
 .bridge-command {
   display: grid;

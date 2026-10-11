@@ -26,7 +26,8 @@ The Awtsmoos lets direction become visible without pretending that creativity ca
 	display: block;
 	margin-top: 2px;
 	font-size: 16px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .coverage-score {
 	font-size: 24px;
@@ -50,7 +51,8 @@ The Awtsmoos lets direction become visible without pretending that creativity ca
 	background: linear-gradient(90deg, #8794ff, #d8ff71);
 	box-shadow: 0 0 18px rgba(217, 255, 104, 0.28);
 	transition: width 220ms ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .ingredient-grid {
 	display: flex;
@@ -98,7 +100,8 @@ The Awtsmoos lets direction become visible without pretending that creativity ca
 	background: rgba(255, 255, 255, 0.035);
 	font-size: 8px;
 	text-transform: uppercase;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .brief-meta strong {
 	color: var(--accent);

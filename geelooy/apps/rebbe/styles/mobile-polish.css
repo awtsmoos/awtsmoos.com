@@ -173,7 +173,8 @@
 		font-size: .7rem;
 		line-height: 1.15;
 		white-space: normal;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.premium-event-card {
 		gap: 8px;

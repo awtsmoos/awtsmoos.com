@@ -7,7 +7,8 @@
 .home-search-row input {
   box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 10px 28px rgba(0,0,0,.22);
   min-height: 52px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .home-filter-button {
   box-shadow: 0 0 22px rgba(139,92,246,.18);

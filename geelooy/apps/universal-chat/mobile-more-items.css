@@ -56,12 +56,14 @@
 	display: grid;
 	min-width: 0;
 	gap: 0.1rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .messaging-mobile-more-item strong {
 	font-size: 0.8rem;
 	line-height: 1.25;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .messaging-mobile-more-item small {
 	overflow: hidden;

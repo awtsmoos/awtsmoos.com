@@ -19,7 +19,8 @@
 
 	.recorder-header > a {
 		inline-size: fit-content;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.capture-card {
 		grid-template-rows: auto auto auto auto;
@@ -31,7 +32,8 @@
 
 	.capture-actions button {
 		inline-size: 100%;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-height: 34rem) and (orientation: landscape) {

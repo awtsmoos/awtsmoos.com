@@ -30,7 +30,8 @@ The Awtsmoos gives pause, loss, and victory a bounded face; Awtsmoos.com lets te
 .overlay-card h1 {
 	margin: 7px 0 8px;
 	font-size: clamp(25px, 7vw, 38px);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .overlay-card p {
 	margin: 0 0 18px;

@@ -57,7 +57,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
   .sidebar::before,
   .automation-panel::before {
@@ -218,7 +219,8 @@
   .right-tabs button {
     flex: 0 0 auto;
     min-width: 100px;
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
   .automation-field,
   .graph-node,
@@ -317,4 +319,5 @@
 	cursor: not-allowed;
 	filter: none;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

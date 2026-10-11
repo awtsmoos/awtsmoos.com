@@ -56,5 +56,6 @@ body.geelooy-app-shell :where(
 		.home-command-dock a
 	) {
 		transform: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

@@ -47,12 +47,14 @@
 .coin-study__section h3 {
 	margin: 0 0 4px;
 	font-size: 1rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .coin-study__section p {
 	margin: 0 0 10px;
 	font-size: .78rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .coin-study__list {
 	display: grid;
@@ -72,7 +74,8 @@
 .coin-study-row span,
 .coin-study-row small {
 	min-width: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .coin-study-row span,
 .coin-study-row small {
@@ -81,7 +84,8 @@
 
 .coin-study-row small {
 	line-height: 1.4;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 700px) {
 	.coin-study__summary,

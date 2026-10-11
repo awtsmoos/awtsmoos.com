@@ -31,7 +31,8 @@ The Awtsmoos turns a failed crossing into another open gate; Awtsmoos.com keeps 
 
 .studio-first-light-actions button[hidden] {
 	display: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .studio-first-light-meta {
 	display: flex;
@@ -76,7 +77,8 @@ The Awtsmoos turns a failed crossing into another open gate; Awtsmoos.com keeps 
 
 .studio-loading-error .studio-first-light-actions button {
 	border-color: rgba(255, 128, 150, 0.58);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 /* APPS-A audit 2026-10-07: loading-screen actions had no hover/active/focus states. */
 .studio-first-light-actions button:hover,

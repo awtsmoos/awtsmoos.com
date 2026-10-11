@@ -32,7 +32,8 @@ body.heichel-os-document[data-heichel-id="ikar"] .living-path-search-stack {
 	font-size: .72rem;
 	font-weight: 700;
 	letter-spacing: .02em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .living-path-field select {
 	inline-size: 100%;
@@ -56,7 +57,8 @@ body.heichel-os-document[data-heichel-id="ikar"] .living-path-search-stack .seri
 	inline-size: 100%;
 	min-inline-size: 0;
 	min-block-size: 2.75rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 body.heichel-os-document[data-heichel-id="ikar"] .filter-chip {
 	inline-size: auto;
@@ -91,7 +93,8 @@ body.heichel-os-document[data-heichel-id="ikar"] .filter-chip {
 		clip: rect(0 0 0 0);
 		clip-path: inset(50%);
 		white-space: nowrap;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 48rem) { :where(body.heichel-os-document[data-heichel-id="ikar"]) .filter-chip {
 		min-inline-size: 2.75rem;
@@ -102,9 +105,11 @@ body.heichel-os-document[data-heichel-id="ikar"] .filter-chip {
 /* @tunnel-registry-merge: consolidated from geelooy/style/heichelos/heichel/premium/authority/browser.css W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .series-search-row input {
 	min-inline-size: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 /* @tunnel-registry-merge: consolidated from geelooy/style/heichelos/heichel/premium/authority/browser.css W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .series-search-row input {
 	inline-size: 100%;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

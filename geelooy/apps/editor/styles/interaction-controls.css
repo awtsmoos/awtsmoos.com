@@ -19,7 +19,8 @@
 		color var(--editor-fast) ease,
 		box-shadow var(--editor-fast) ease,
 		filter var(--editor-fast) ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-editor-shell .keyframe-btn {
 	min-width: 28px;

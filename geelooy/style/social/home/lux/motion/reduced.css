@@ -8,7 +8,8 @@
   .home-action-card,
   .home-command-dock a {
     transition-duration: 1ms;
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
   .home-action-card:active,
   .home-command-dock a:active,

@@ -18,7 +18,8 @@
 
 .cityStatus strong.isFresh {
 	animation: eventReveal 340ms ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .hasVictory .builderGrid {
 	animation: victoryGlow 2.5s ease-in-out infinite alternate;
@@ -57,5 +58,6 @@
 	.hasVictory .builderGrid {
 		animation: none;
 		transition: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

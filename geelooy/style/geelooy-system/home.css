@@ -135,7 +135,8 @@ html body.geelooy-home-document :where(.home-feed-tabs button, .home-command-doc
 	touch-action: manipulation;
 	user-select: none;
 	-webkit-tap-highlight-color: var(--home-tap-highlight);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.geelooy-home-document[data-global-menu-open="true"]) .geelooy-home-shell, :where(body.geelooy-home-document[data-geelooy-drawer-open="false"]) .geelooy-home-shell {
 	opacity: 1;
@@ -169,7 +170,8 @@ html body.geelooy-home-document .awtsmoosificationalisticaticalism { z-index: 47
 	opacity: .45;
 	cursor: not-allowed;
 	filter: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.geelooy-home-document) :where(.home-feed-tabs) button.active:hover {
 	filter: brightness(1.08);
@@ -258,7 +260,8 @@ html body.geelooy-home-document .awtsmoosificationalisticaticalism { z-index: 47
 	opacity: .45;
 	cursor: not-allowed;
 	filter: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .geelooy-verse-chip:hover {
 	filter: brightness(1.08);
 }

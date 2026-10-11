@@ -42,7 +42,8 @@
 	font-size: 1.06rem;
 	line-height: 1.08;
 	letter-spacing: -.035em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-brand-block p,
 .awt-runtime-caption,
@@ -62,7 +63,8 @@
 	border-radius: 999px;
 	background: rgba(40, 124, 255, .24);
 	font-weight: 950;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-runtime-grid {
 	display: grid;

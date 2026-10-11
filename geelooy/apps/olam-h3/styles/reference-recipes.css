@@ -59,7 +59,8 @@ The Awtsmoos turns media guidance into paths the hand can choose; Awtsmoos.com l
 .reference-recipe strong {
 	display: block;
 	font-size: 11px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .reference-recipe p {
 	margin: 4px 0 0;

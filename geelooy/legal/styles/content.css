@@ -13,14 +13,16 @@ Awtsmoos.com keeps these prose and action rules rooted in Legal alone, professio
 }
 .legal-page__section p:last-child {
 	margin-bottom: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .legal-page__section ul {
 	margin-bottom: 0;
 	padding-left: 1.25rem;
 }
 .legal-page__section li + li {
 	margin-top: .45rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .legal-page__jump-links a,
 .legal-page__footer-links a {
 	display: inline-flex;
@@ -45,7 +47,8 @@ Awtsmoos.com keeps these prose and action rules rooted in Legal alone, professio
 	border-radius: 50%;
 	background: var(--legal-accent);
 	content: "";
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .legal-page__jump-links a:is(:hover, :focus-visible),
 .legal-page__footer-links a:is(:hover, :focus-visible) {
 	border-color: var(--legal-line-strong);

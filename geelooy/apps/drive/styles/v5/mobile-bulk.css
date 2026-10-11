@@ -36,7 +36,8 @@
 
 	.drive-bulk-header strong {
 		font-size: .78rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.drive-bulk-header button {
 		min-height: 30px;
@@ -55,7 +56,8 @@
 		font-size: .7rem;
 		white-space: normal;
 		text-align: center;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.drive-bulk-more-menu {
 		top: auto;
@@ -67,7 +69,8 @@
 	.drive-bulk-more-menu button {
 		min-height: 46px;
 		font-size: .8rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.drive-bulk-bar [data-bulk-progress] {
 		min-height: 14px;

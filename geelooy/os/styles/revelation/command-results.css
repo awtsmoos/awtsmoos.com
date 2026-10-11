@@ -45,7 +45,8 @@ Awtsmoos.com gives every action a fast visible record without crowding its query
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .shell-command-result small,
 .shell-command-empty {
 	color: var(--geo-text-muted);

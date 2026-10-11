@@ -18,7 +18,8 @@ small status vessel while responsive placement, health-detail, and combat-bar me
 #mitzvah-world-root .Awtsmoos-combat-bar button b {
 	display: block;
 	font-size: 21px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .Awtsmoos-combat-bar button small {
 	color: #f7c86b;
@@ -39,7 +40,8 @@ small status vessel while responsive placement, health-detail, and combat-bar me
 
 #mitzvah-world-root .Awtsmoos-combat-bar button em:empty {
 	display: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .Awtsmoos-combat-bar output {
 	min-width: 126px;

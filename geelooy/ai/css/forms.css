@@ -69,7 +69,8 @@
 #send-button:hover, .refresh-button:hover, .new-chat:hover { filter: brightness(1.08); transform: translateY(-1px); }
 .refresh-button { width: calc(100% - 20px); margin: 5px 10px; }
 .service-selector { display: grid; gap: 8px; margin: 12px 10px; color: var(--ai-muted); }
-.service-selector label { font-size: .75rem; letter-spacing: .09em; text-transform: uppercase; }
+.service-selector label { font-size: .75rem; letter-spacing: .09em; text-transform: uppercase; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 #ai-service-select, #chatgpt-mode-select {
   min-width: 0;
   width: 100%;
@@ -119,7 +120,8 @@
   pointer-events: auto;
 }
 .attachment-tray { min-width: 0; display: flex; flex-wrap: nowrap; gap: 6px; overflow-x: auto; overflow-y: hidden; max-height: 28px; }
-.automation-panel h2 { margin: 0 0 12px; font-size: 1.05rem; }
+.automation-panel h2 { margin: 0 0 12px; font-size: 1.05rem; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .automation-field { display: grid; gap: 6px; margin: 0 0 12px; color: var(--ai-muted); }
 .automation-field input, .automation-field select { width: 100%; padding: 10px; border-radius: 12px; border: 1px solid var(--ai-border); background: rgba(3,8,14,.82); color: var(--ai-text); }
 .automation-status { color: var(--ai-muted); font-size: .9rem; overflow-wrap: anywhere; }

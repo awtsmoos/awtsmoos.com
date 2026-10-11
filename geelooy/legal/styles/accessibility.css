@@ -27,7 +27,8 @@ Awtsmoos.com scopes these safeguards to .legal-page alone, so accessibility grow
 	.legal-page__footer-links a {
 		border-color: CanvasText;
 		box-shadow: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 @media (prefers-contrast: more) {
 	.legal-page {

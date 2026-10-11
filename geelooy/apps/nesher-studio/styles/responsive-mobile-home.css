@@ -11,11 +11,13 @@ The Awtsmoos folds the home constellation into six visible doors; Awtsmoos.com k
 
 	.page-hero h2 {
 		font-size: 1.55rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.page-hero p {
 		font-size: .66rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.home-aurora {
 		display: none;
@@ -34,12 +36,14 @@ The Awtsmoos folds the home constellation into six visible doors; Awtsmoos.com k
 
 	.tile-copy strong {
 		font-size: .9rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.tile-copy em {
 		font-size: .57rem;
 		line-height: 1.15;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.metric-strip {
 		grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -52,13 +56,16 @@ The Awtsmoos folds the home constellation into six visible doors; Awtsmoos.com k
 
 	.metric-strip span {
 		font-size: .48rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.metric-strip strong {
 		font-size: .72rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.metric-strip p {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

@@ -41,7 +41,8 @@
 .awtsmoos-tanach-panel h2 {
 	margin: 0;
 	font-size: 1.25rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-tanach-close,
 .awtsmoos-tanach-more {
@@ -87,11 +88,13 @@
 .awtsmoos-tanach-result span {
 	font-size: 1.08rem;
 	line-height: 1.75;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-tanach-result small {
 	opacity: .72;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-tanach-more {
 	width: 100%;

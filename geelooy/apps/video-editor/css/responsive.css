@@ -43,7 +43,8 @@
 	.media-panel.is-minimized .caption-file,
 	.media-panel.is-minimized .file-picker small {
 		display: revert;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.media-panel.is-retracted .panel-header {
 		justify-content: space-between;
@@ -70,7 +71,8 @@
 
 	.transport button {
 		flex: 1 1 88px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-width: 420px) {
@@ -86,7 +88,8 @@
 
 	.transport button span {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.caption-word {
 		font-size: 1rem;

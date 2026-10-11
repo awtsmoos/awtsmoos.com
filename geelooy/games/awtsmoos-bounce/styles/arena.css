@@ -95,7 +95,8 @@
 	font-size: clamp(2.7rem, 10vw, 6.5rem);
 	line-height: 0.88;
 	letter-spacing: -0.06em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .overlay p {
 	margin: 0 auto;

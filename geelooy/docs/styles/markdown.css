@@ -18,19 +18,23 @@ body[data-geelooy-route="docs"] .markdown-body h4 {
 	line-height: 1.18;
 	letter-spacing: -.018em;
 	scroll-margin-top: calc(var(--topbar) + 24px);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 body[data-geelooy-route="docs"] .markdown-body h1 {
 	margin: 0 0 28px;
 	font-size: clamp(2.2rem, 5vw, 3.7rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 body[data-geelooy-route="docs"] .markdown-body h2 {
 	margin: 48px 0 16px;
 	font-size: 1.75rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 body[data-geelooy-route="docs"] .markdown-body h3 {
 	margin: 32px 0 12px;
 	font-size: 1.35rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 body[data-geelooy-route="docs"] .markdown-body p,
 body[data-geelooy-route="docs"] .markdown-body li {
 	color: color-mix(in srgb, var(--text) 90%, var(--muted));
@@ -93,11 +97,13 @@ body[data-geelooy-route="docs"] .markdown-body td {
 	border-bottom: 1px solid var(--line);
 	text-align: left;
 	vertical-align: top;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 body[data-geelooy-route="docs"] .markdown-body th {
 	background: var(--accent-soft);
 	font-weight: 700;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 body[data-geelooy-route="docs"] mark {
 	padding: 0 .12em;
 	border-radius: 3px;

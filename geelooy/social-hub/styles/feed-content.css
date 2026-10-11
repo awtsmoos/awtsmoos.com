@@ -100,5 +100,6 @@
 @media (prefers-reduced-motion: reduce) {
 	.social-hub-document .awtsmoosFeedTitle a {
 		transition: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

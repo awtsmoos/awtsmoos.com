@@ -19,7 +19,8 @@
 
 .hub-preboot :where(h1, p) {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .hub-preboot-grid {
 	display: grid;

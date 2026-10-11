@@ -80,7 +80,7 @@
 .menu-item:focus-visible,
 .menu-select-row:focus-within {
 	background: color-mix(in srgb, var(--docs-accent) 10%, var(--docs-surface));
-	outline: none;
+	outline: 2px solid var(--aw-focus-ring); outline-offset: 2px;
 }
 
 .menu-item:disabled,

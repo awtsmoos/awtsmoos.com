@@ -73,4 +73,5 @@
 	background: linear-gradient(90deg, var(--blue), var(--gold), var(--rose));
 	box-shadow: 0 0 18px currentColor;
 	animation: meterPulse 2.8s ease-in-out infinite;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

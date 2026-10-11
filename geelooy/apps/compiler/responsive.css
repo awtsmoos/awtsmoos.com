@@ -54,7 +54,8 @@ the same compiler forge remain usable in a desktop, OS window, tablet, or phone.
 
 .compiler-actions button {
 	flex: 1 1 9.5rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 58rem) {
 	.evidence-grid {

@@ -50,12 +50,14 @@
 
 .mail-search-copy strong {
 	font-size: .76rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .mail-search-copy small {
 	font-size: .65rem;
 	opacity: .52;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .mail-search-shortcut,
 .compose-shortcut {

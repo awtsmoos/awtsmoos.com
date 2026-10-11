@@ -68,7 +68,8 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 .geelooy-os-social-panel h3,
 .geelooy-os-social-panel p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .geelooy-os-social-panel__hero p,
 .geelooy-os-social-panel__card p,

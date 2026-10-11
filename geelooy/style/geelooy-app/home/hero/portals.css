@@ -62,7 +62,8 @@
 .g-home-torah-portal strong,
 .g-home-torah-portal small {
 	display: block;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .g-home-torah-portal small {
 	padding-right: 6rem;

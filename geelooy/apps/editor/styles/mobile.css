@@ -25,7 +25,8 @@
 		min-width: 46px;
 		min-height: 46px;
 		padding: 8px 11px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.awtsmoos-editor-shell .separator {
 		display: none;

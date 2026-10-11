@@ -21,7 +21,8 @@
 		line-height: .98;
 		letter-spacing: -.055em;
 		text-wrap: balance;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.awt-agent-eyebrow {
 		font-size: .66rem;

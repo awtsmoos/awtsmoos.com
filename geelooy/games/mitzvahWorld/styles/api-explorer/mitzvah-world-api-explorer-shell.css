@@ -54,7 +54,8 @@ this file owns no viewport coordinates, so the observatory may grow in depth whi
 	font-size: 14px;
 	font-weight: 760;
 	letter-spacing: -.01em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .Awtsmoos-api-explorer__descriptor {
 	min-height: 42px;

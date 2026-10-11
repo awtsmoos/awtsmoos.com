@@ -33,7 +33,8 @@
 
 	h1 {
 		font-size: clamp(44px, 15vw, 68px);
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.row {
 		flex-direction: column;
@@ -43,7 +44,8 @@
 	.row > button {
 		width: 100%;
 		text-align: center;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.coin-grid,
 	.ratio-grid {

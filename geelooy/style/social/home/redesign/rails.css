@@ -61,11 +61,13 @@
 	background: radial-gradient(circle at 35% 25%, #243c55, #101825 72%);
 	box-shadow: 0 .55rem 1.4rem rgba(0, 0, 0, .28);
 	font-size: 1.35rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .home-circle-rail strong {
 	font-size: .82rem;
 	line-height: 1.1;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .home-circle-rail small {
 	color: #7f91a5;
 	font-size: .68rem;

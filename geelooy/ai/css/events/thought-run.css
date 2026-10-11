@@ -125,4 +125,5 @@
   color:#e2e8f0;
   line-height:1.68;
 }
-.thought-text-body p:last-child {margin-bottom:0}
+.thought-text-body p:last-child {margin-bottom:0
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

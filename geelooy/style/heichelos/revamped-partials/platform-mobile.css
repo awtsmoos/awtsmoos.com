@@ -10,7 +10,8 @@
     .awtsmoos-platform-search button,
     .awtsmoos-platform-actions button {
         width: 100%;
-    }
+    
+    color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
     .awtsmoos-platform-body header,
     .awtsmoos-platform-actions,

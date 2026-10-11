@@ -24,7 +24,8 @@ body[data-geelooy-route="home"] .portal-status a {
 	display: inline-flex;
 	align-items: center;
 	gap: .38rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-geelooy-route="home"] .portal-status a {
 	min-height: 44px;
@@ -66,5 +67,6 @@ body[data-geelooy-route="home"] .portal-status a:active {
 @media (prefers-reduced-motion: reduce) {
 	body[data-geelooy-route="home"] .portal-status a {
 		transition: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

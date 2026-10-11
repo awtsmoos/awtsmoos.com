@@ -53,7 +53,8 @@
 }
 .audio-offer-actions button {
 	padding:8px 11px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .audio-offer-actions button:hover {
 	border-color:var(--awt-line-strong);
 	color:var(--awt-text);

@@ -31,7 +31,8 @@ input,
 		opacity var(--docs-motion-medium) var(--docs-ease-out),
 		box-shadow var(--docs-motion-medium) var(--docs-ease-out),
 		transform var(--docs-motion-medium) var(--docs-ease-out);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .docs-menu {
 	transform-origin: top left;

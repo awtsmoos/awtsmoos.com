@@ -49,13 +49,15 @@
 
 .awtsmoos-selection-panel h2 {
 	font-size: 1.16rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-selection-panel h3 {
 	font-size: .74rem;
 	letter-spacing: .08em;
 	text-transform: uppercase;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-selection-close {
 	width: 44px;
@@ -99,7 +101,8 @@
 .awtsmoos-selection-phonetics span {
 	font-size: 1.05rem;
 	font-weight: 800;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-selection-phonetics small {
 	color: #9aaac0;

@@ -18,7 +18,8 @@ Awtsmoos.com makes preview broad enough for cinema and small enough for mobile d
 .movie-canvas-wrap input[type="range"] {
 	width: 100%;
 	min-height: 44px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .movie-canvas-wrap output {
 	justify-self: end;
 	font-variant-numeric: tabular-nums;

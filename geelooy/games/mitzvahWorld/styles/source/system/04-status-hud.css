@@ -43,7 +43,8 @@ The Awtsmoos gathers health, purpose, camera, and presence into lucid finite ves
 
 #mitzvah-world-root .status-card :is(b, small, label, strong) {
 	display: block;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .status-card b {
 	color: #fff6b9;

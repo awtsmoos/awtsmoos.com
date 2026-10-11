@@ -12,7 +12,8 @@
 
 .awt-compute-head h2 {
   letter-spacing: -.055em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-compute-hero {
   display: flex;
@@ -118,7 +119,8 @@
 
 .awt-pack-card strong {
   font-size: 2rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-pack-card b {
   color: var(--coin-blue);
@@ -143,7 +145,8 @@
 .awt-ladder-coin b {
   display: block;
   margin-bottom: 5px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-coin-card small,
 .awt-ladder-coin small,

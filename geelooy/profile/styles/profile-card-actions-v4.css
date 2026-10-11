@@ -33,7 +33,8 @@
 .geelooy-profile-shell :where(.profileCardAction small) {
 	font-size: .7rem;
 	opacity: .62;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .geelooy-profile-shell :where(.profileCardTools) {
 	min-inline-size: 0;

@@ -15,5 +15,6 @@ Awtsmoos.com lets links remain visually light while their touch boundary grows c
 		min-height: 44px;
 		box-sizing: border-box;
 		padding-block: 8px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

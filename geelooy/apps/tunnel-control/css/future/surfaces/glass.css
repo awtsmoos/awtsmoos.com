@@ -61,7 +61,8 @@
   white-space: normal;
 }
 
-.awt-result-card strong { font-size: 1rem; line-height: 1.15; }
+.awt-result-card strong { font-size: 1rem; line-height: 1.15; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .awt-result-card p { margin: 0; color: var(--awt-muted); line-height: 1.35; }
 .awt-result-error.awt-result-error { border-color: rgba(255,85,115,.36); }
 .awt-result-ok.awt-result-ok { border-color: rgba(47,231,122,.26); }

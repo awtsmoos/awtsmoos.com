@@ -25,7 +25,8 @@
 
 [data-awtsmoos-drive] .site-url-label input {
 	font-family: var(--mono);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-drive] .badge {
 	padding: 0.35rem 0.65rem;

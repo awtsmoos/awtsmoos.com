@@ -41,7 +41,8 @@
 	margin: 0 0 14px;
 	font-size: 1rem;
 	letter-spacing: -.015em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .drive-utility-drawer {
 	margin-top: 18px;
@@ -59,4 +60,5 @@
 .drive-utility-drawer label {
 	display: grid;
 	gap: 5px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

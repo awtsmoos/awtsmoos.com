@@ -2,7 +2,8 @@
 .heichel-mobile-navigation :focus-visible { outline: 3px solid var(--heichel-focus); outline-offset: 3px; }
 .heichel-mobile-navigation button,
 .heichel-mobile-navigation a,
-.heichel-mobile-navigation input { -webkit-tap-highlight-color: rgba(216,170,81,.22); }
+.heichel-mobile-navigation input { -webkit-tap-highlight-color: rgba(216,170,81,.22); 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 @media (prefers-reduced-motion: reduce) {
   html .heichel-mobile-navigation .heichel-card,
   html .heichel-mobile-navigation .series-card,

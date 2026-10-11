@@ -19,7 +19,8 @@
 .ohrbound-app .section-heading span {
 	font-size: clamp(1.35rem, 3vw, 2rem);
 	font-weight: 850;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .ohrbound-app .section-heading small {
 	color: var(--muted);
 	font-size: 0.73rem;
@@ -74,11 +75,13 @@
 .ohrbound-app .level-kicker {
 	display: block;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .ohrbound-app .level-card strong {
 	margin: 0.5rem 0;
 	font-size: 1.06rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .ohrbound-app .level-card small {
 	color: var(--muted);
 	line-height: 1.42;

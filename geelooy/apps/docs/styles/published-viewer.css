@@ -33,11 +33,13 @@ body {
 .published-header h1,
 .published-header p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .published-header h1 {
 	font-size: clamp(18px, 3vw, 26px);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .published-kicker {
 	color: var(--docs-muted);
@@ -64,7 +66,7 @@ body {
 }
 
 .published-canvas {
-	outline: 0;
+
 	cursor: default;
 }
 

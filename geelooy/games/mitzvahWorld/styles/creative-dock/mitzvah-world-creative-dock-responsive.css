@@ -10,7 +10,8 @@ responsive density belongs only to the MitzvahWorld root here, while Clean View 
 @media (max-width: 820px), (pointer: coarse) {
 	#mitzvah-world-root .Awtsmoos-creative-dock__trigger > span:last-child {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	#mitzvah-world-root .Awtsmoos-creative-dock__sheet {
 		border-radius: 22px;

@@ -62,7 +62,8 @@ The Awtsmoos gives every essential proof a lucid vessel; Awtsmoos.com lets the m
 	font-size: clamp(2rem, 5vw, 4.25rem);
 	line-height: .98;
 	letter-spacing: -.055em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-chip {
 	display: inline-flex;
@@ -83,7 +84,8 @@ The Awtsmoos gives every essential proof a lucid vessel; Awtsmoos.com lets the m
 	border-radius: 50%;
 	background: #7ff0b6;
 	box-shadow: 0 0 0 5px rgba(127, 240, 182, .1);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-stage {
 	align-self: start;
@@ -99,6 +101,7 @@ The Awtsmoos gives every essential proof a lucid vessel; Awtsmoos.com lets the m
 	text-transform: uppercase;
 }
 
-#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-stage h2 { margin: 0; font-size: clamp(1.45rem, 3vw, 2.35rem); letter-spacing: -.035em; }
+#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-stage h2 { margin: 0; font-size: clamp(1.45rem, 3vw, 2.35rem); letter-spacing: -.035em; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 #mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-stage #loadingMessage { margin: 12px 0 10px; color: rgba(240, 255, 248, .76); line-height: 1.55; }
 #mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-stage small { color: rgba(196, 255, 225, .46); font: 650 .74rem/1.4 ui-monospace, monospace; }

@@ -22,7 +22,8 @@
 .sun-hud h1,
 .sun-hud p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .eyebrow {
 	color: #7fdcff;
@@ -36,7 +37,8 @@
 	margin-top: 3px;
 	font-size: 1.08rem;
 	letter-spacing: -.02em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .description {
 	margin-top: 6px;

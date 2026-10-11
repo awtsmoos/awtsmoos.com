@@ -33,10 +33,13 @@ body::before {
   mask-image: radial-gradient(circle at 50% 35%, black, transparent 72%);
 }
 *, *::before, *::after { box-sizing: border-box; }
-button, select, textarea, input { font: inherit; color-scheme: dark; }
+button, select, textarea, input { font: inherit; color-scheme: dark; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 button, select, textarea, input, .attach-button { color: inherit; }
-button { cursor: pointer; }
-button:disabled { cursor: not-allowed; opacity: .55; }
+button { cursor: pointer; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+button:disabled { cursor: not-allowed; opacity: .55; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 button:focus-visible, select:focus-visible, textarea:focus-visible, input:focus-visible, .attach-button:focus-visible {
   outline: 2px solid rgba(69, 238, 255, .96);
   outline-offset: 3px;

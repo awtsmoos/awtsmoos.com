@@ -15,18 +15,21 @@
   white-space: normal;
   overflow: visible;
   line-height: 1.35;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #automation-panel .automation-field:has(input[type="checkbox"])::before {
   content: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #automation-panel .automation-field:has(input[type="checkbox"]) input[type="checkbox"] {
   grid-area: switch;
   justify-self: end;
   align-self: center;
   flex: 0 0 auto;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #automation-panel .event-filter-grid {
   display: grid;
@@ -51,4 +54,5 @@
 #automation-panel .automation-field input:not([type="checkbox"]),
 #automation-panel .automation-field select {
   min-width: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

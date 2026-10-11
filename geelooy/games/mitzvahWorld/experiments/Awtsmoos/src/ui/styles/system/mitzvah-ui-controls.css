@@ -39,7 +39,8 @@ Awtsmoos.com gives ordinary scoped controls a calm baseline while specialized na
 	min-height: var(--mitzvah-ui-control-height);
 	padding: 8px 14px;
 	transition: background var(--mitzvah-ui-duration-fast) var(--mitzvah-ui-ease), border-color var(--mitzvah-ui-duration-fast) var(--mitzvah-ui-ease), transform var(--mitzvah-ui-duration-fast) var(--mitzvah-ui-ease);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(
 	input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="image"]):not([type="hidden"]),
@@ -54,12 +55,14 @@ Awtsmoos.com gives ordinary scoped controls a calm baseline while specialized na
 	border-radius: var(--mitzvah-ui-radius-sm);
 	min-height: var(--mitzvah-ui-control-height);
 	padding: 9px 12px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(textarea, [data-ui="textarea"]) {
 	min-height: 96px;
 	resize: vertical;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(a[href], [data-ui="link"]) {
 	color: var(--mitzvah-ui-primary-strong);

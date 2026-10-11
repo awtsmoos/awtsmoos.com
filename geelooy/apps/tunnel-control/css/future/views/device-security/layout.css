@@ -65,7 +65,8 @@
 	font-size: clamp(0.88rem, 1.4vw, 1rem);
 	line-height: 1.25;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .mini-card__body {
 	display: grid;

@@ -11,7 +11,8 @@
     .awtsmoos-notification-actions button,
     .awtsmoos-notification-actions a {
         width: 100%;
-    }
+    
+    color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
     .awtsmoos-notification-actions {
         flex-direction: column;

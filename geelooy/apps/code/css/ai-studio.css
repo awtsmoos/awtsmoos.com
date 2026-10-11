@@ -44,7 +44,8 @@
   margin: 0;
   opacity: 0.84;
   line-height: 1.45;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .ai-studio-input,
 .ai-studio-output,
@@ -105,18 +106,21 @@
   display: grid;
   gap: 5px;
   line-height: 1.35;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .ai-studio-card label:has(input[type="checkbox"]) {
   display: flex;
   gap: 8px;
   align-items: center;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .ai-studio-card input[type="checkbox"] {
   width: auto;
   accent-color: var(--neon-cyan);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .ai-live-suggestion-box {
   position: fixed;

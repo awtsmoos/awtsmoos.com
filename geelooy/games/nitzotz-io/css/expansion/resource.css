@@ -24,7 +24,8 @@
 	gap: 2px;
 	min-width: 0;
 	padding: 6px 9px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .resource-rail small {
 	color: #8390b8;

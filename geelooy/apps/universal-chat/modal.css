@@ -37,7 +37,8 @@
 	margin: 0;
 	font-size: 1.1rem;
 	line-height: 1.25;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .messaging-modal p {
 	margin: 0;

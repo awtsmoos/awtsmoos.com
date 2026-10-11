@@ -26,7 +26,8 @@
 
 .living-path-browser :where(button, a, input, select) {
 	touch-action: manipulation;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .living-path-browser :where(
 	.nav-card,
@@ -50,13 +51,15 @@
 @media (pointer: coarse) {
 	.living-path-browser :where(button, a, input, select, summary) {
 		min-block-size: 44px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (forced-colors: active) {
 	.living-path-browser :where(.nav-card, button, a, input, select, details, fieldset) {
 		border: 1px solid CanvasText;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.nav-card::before {
 		background: Highlight;

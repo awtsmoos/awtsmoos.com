@@ -23,7 +23,8 @@
 
 .householdCard h3 {
 	margin: 0 0 0.45rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .householdMetric {
 	margin-top: 0.4rem;
@@ -43,7 +44,8 @@
 .eventCard h3 {
 	margin: 0.15rem 0;
 	font-size: 1.65rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .eventTurn {
 	margin: 0;

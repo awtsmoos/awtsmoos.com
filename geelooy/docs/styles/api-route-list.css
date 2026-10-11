@@ -91,7 +91,8 @@ body[data-geelooy-route="docs"] .api-route-row:disabled {
 body[data-geelooy-route="docs"] .api-route-row strong {
 	font-family: var(--font-mono);
 	word-break: break-word;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-geelooy-route="docs"] .api-route-row small {
 	color: var(--faint);

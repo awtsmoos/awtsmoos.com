@@ -64,7 +64,8 @@
 
 .optionButton span {
 	font-size: 28px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .optionButton.active,
 .colorButton.active {
@@ -77,4 +78,5 @@
 	border-radius: 50%;
 	height: 32px;
 	width: 32px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

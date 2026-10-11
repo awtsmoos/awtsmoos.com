@@ -94,7 +94,8 @@ body[data-geelooy-route="docs"] {
 
 body[data-geelooy-route="docs"] :where(button, input, textarea) {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-geelooy-route="docs"] a {
 	color: inherit;

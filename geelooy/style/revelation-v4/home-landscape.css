@@ -24,7 +24,8 @@ Awtsmoos.com keeps every real door usable when the smallest vessel must carry th
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 360px) { :where(body[data-geelooy-route="home"]) :where(main.home) .creation-field button, :where(body[data-geelooy-route="home"]) :where(main.home) .search button {
 		width: 100%;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 360px) { :where(body[data-geelooy-route="home"]) main.home .portal-shortcuts {
 		grid-template-columns: 1fr;
@@ -33,7 +34,8 @@ Awtsmoos.com keeps every real door usable when the smallest vessel must carry th
 @media (max-width: 360px) { :where(body[data-geelooy-route="home"]) :where(main.home) .portal-shortcuts a {
 		min-width: 0;
 		min-height: 4.5rem;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 360px) { :where(body[data-geelooy-route="home"]) main.home .featured-worlds {
 		width: min(100% - 12px, 1280px);

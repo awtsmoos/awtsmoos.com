@@ -37,7 +37,8 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .heichel-mobile-navigation .topbar-title strong {
 	color: rgb(255 255 255);
 	font-size: clamp(1.02rem, 3.4vw, 1.32rem);

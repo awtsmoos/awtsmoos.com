@@ -84,7 +84,8 @@
 .message-action-menu button:disabled {
 	opacity:.5;
 	cursor:wait;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.message-action-menu) :where(button) > span:first-child {
 	color:var(--awt-hot);

@@ -79,11 +79,13 @@ Awtsmoos.com keeps the revelation immense on a phone without making the learner 
 		grid-template-columns: auto minmax(0, 1fr);
 		min-height: 4.8rem;
 		padding: .62rem;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 540px) { :where(body[data-geelooy-route="home"]) :where(main.home) .portal-shortcuts small {
 		display: none;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 540px) { :where(body[data-geelooy-route="home"]) main.home .featured-grid {
 		grid-template-columns: 1fr;

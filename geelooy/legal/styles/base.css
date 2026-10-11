@@ -60,7 +60,8 @@ Awtsmoos.com keeps every legal token beneath .legal-page, so neighboring routes 
 .legal-page p,
 .legal-page li {
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .legal-page h1 {
 	max-width: 14ch;
 	margin: 0;
@@ -68,13 +69,15 @@ Awtsmoos.com keeps every legal token beneath .legal-page, so neighboring routes 
 	line-height: .94;
 	letter-spacing: -.05em;
 	text-wrap: balance;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .legal-page h2 {
 	margin: 0;
 	font-size: clamp(1.3rem, 5vw, 2rem);
 	letter-spacing: -.025em;
 	text-wrap: balance;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .legal-page__version {
 	margin: .7rem 0;
 	color: var(--legal-faint);

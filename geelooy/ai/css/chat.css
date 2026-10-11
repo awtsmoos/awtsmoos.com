@@ -42,8 +42,10 @@
 .message img, .message video { max-width: 100%; height: auto; border-radius: 14px; }
 .message.user { background: var(--ai-user); color: white; }
 .message.tool { background: rgba(178, 129, 255, .12); }
-.message :is(p, ul, ol, blockquote, pre, code, table) { max-width: 100%; }
-.message p { margin: .25em 0 .7em; }
+.message :is(p, ul, ol, blockquote, pre, code, table) { max-width: 100%; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.message p { margin: .25em 0 .7em; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .message ul, .message ol { margin: .35em 0 .8em 1.25em; padding: 0; }
 .message pre, .md-code {
   overflow: auto;
@@ -257,10 +259,14 @@
   background: currentColor;
   opacity: .45;
   animation: aiPulseCard 1s infinite ease-in-out;
-}
-.message-loading span:nth-child(3) { animation-delay: .12s; }
-.message-loading span:nth-child(4) { animation-delay: .24s; }
-.message-loading em { font-style: normal; opacity: .82; }
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.message-loading span:nth-child(3) { animation-delay: .12s; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.message-loading span:nth-child(4) { animation-delay: .24s; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.message-loading em { font-style: normal; opacity: .82; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 @keyframes aiSpin { to { transform: rotate(1turn); } }
 @media (max-width: 720px) {
   .chat-box { padding: 10px 10px 102px; gap: 10px; scroll-padding-bottom: 106px; }

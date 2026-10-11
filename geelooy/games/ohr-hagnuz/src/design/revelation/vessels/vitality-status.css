@@ -47,7 +47,8 @@
 	height: 100%;
 	border-radius: inherit;
 	background: linear-gradient(90deg, #a96042, var(--ohr-gold-bright));
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .revelation-vitality small {
 	color: var(--ohr-muted);

@@ -8,9 +8,11 @@ Code, tables, media, and errors now sit in calm light.
 .chat-box code, .render-message code { border-radius: 8px; background: rgba(71,232,255,.10); padding: .12em .35em; }
 .chat-box pre code, .render-message pre code { background: transparent; padding: 0; }
 .chat-box a, .render-message a { color: #72ecff; text-decoration-thickness: .09em; text-underline-offset: .18em; }
-.chat-box blockquote, .render-message blockquote { margin: 12px 0; padding: 10px 14px; border-left: 3px solid rgba(101,235,255,.62); background: rgba(101,235,255,.07); border-radius: 12px; }
+.chat-box blockquote, .render-message blockquote { margin: 12px 0; padding: 10px 14px; border-left: 3px solid rgba(101,235,255,.62); background: rgba(101,235,255,.07); border-radius: 12px; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .chat-box table, .render-message table { width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 14px; }
-.chat-box th, .chat-box td, .render-message th, .render-message td { border: 1px solid rgba(124,235,255,.14); padding: 9px 10px; }
+.chat-box th, .chat-box td, .render-message th, .render-message td { border: 1px solid rgba(124,235,255,.14); padding: 9px 10px; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .chat-box th, .render-message th { background: rgba(124,235,255,.10); color: #f5fdff; }
 .chat-box img, .render-message img, .attachment-tray img { max-width: 100%; border-radius: 16px; border: 1px solid rgba(124,235,255,.18); box-shadow: 0 12px 36px rgba(0,0,0,.25); }
 .attachment-chip, .attachment-preview, .image-attachment { border: 1px solid rgba(124,235,255,.16); border-radius: 16px; background: rgba(8,18,34,.76); color: var(--bug-ink); }

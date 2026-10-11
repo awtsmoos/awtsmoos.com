@@ -19,7 +19,8 @@
 }
 .empty-glow-msg .empty-orb { display: grid; place-items: center; width: 3.4rem; height: 3.4rem; border-radius: 999px; background: linear-gradient(135deg, var(--heichel-gold), var(--heichel-cyan)); color: #03101b; box-shadow: var(--heichel-shadow-soft); }
 .empty-glow-msg strong { color: var(--heichel-ink); font-size: 1.15rem; letter-spacing: -.025em; }
-.empty-glow-msg span:last-child { max-width: 36ch; line-height: 1.55; }
+.empty-glow-msg span:last-child { max-width: 36ch; line-height: 1.55; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .heichel-mobile-navigation .sacred-loading {
   min-height: 9rem; border: 1px solid var(--heichel-line); border-radius: var(--heichel-radius); overflow: hidden;
   background: linear-gradient(90deg, rgba(255,255,255,.04), rgba(102,231,255,.1), rgba(255,255,255,.04));

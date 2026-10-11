@@ -28,7 +28,8 @@
 .cloud-proof span {
 	font-size: 16px;
 	font-weight: 850;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .cloud-offer-card {
 	display: grid;
 	align-content: start;
@@ -50,7 +51,8 @@
 .cloud-trust h2 {
 	margin: 0;
 	letter-spacing: -0.035em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .cloud-offer-short,
 .cloud-offer-terms,
@@ -69,7 +71,8 @@
 .cloud-offer-price strong {
 	font-size: 34px;
 	letter-spacing: -0.04em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .cloud-offer-price span {
 	color: var(--cloud-muted);

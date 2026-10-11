@@ -74,10 +74,12 @@
 .heichel-shell-boot__copy h1 {
 	margin: 0;
 	font-size: clamp(2rem, 6vw, 3.75rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .heichel-shell-boot__copy p:last-child {
 	margin-bottom: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .heichel-shell-boot__progress {
 	grid-column: 1 / -1;
 	overflow: hidden;

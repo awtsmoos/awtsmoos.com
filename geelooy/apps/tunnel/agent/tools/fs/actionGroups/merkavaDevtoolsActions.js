@@ -34,18 +34,26 @@ const path = require("path");
 const { pathToFileURL } = require("url");
 
 let sessionModulePromise = null;
+/* Self-contained Merkava runtime (Yaakov 2026-10-11 hard rule: no repo). */
+const SelfContained = require("../../../lib/selfContained.js");
+let merkavaRootPromise = null;
+function merkavaRoot() {
+  if (!merkavaRootPromise) merkavaRootPromise = SelfContained.ensureBundle("merkava");
+  return merkavaRootPromise;
+}
 let interactionModulePromise = null;
-function devtoolsUrl(rel) {
+async function devtoolsUrl(rel) {
+  const root = await merkavaRoot();
   return pathToFileURL(
-    path.resolve(__dirname, "../../../../../../scripts/awtsmoos/MerkavaExecutor/merkava-service/snapshots/devtools", rel)
+    path.resolve(root, "scripts/awtsmoos/MerkavaExecutor/merkava-service/snapshots/devtools", rel)
   ).href;
 }
 async function loadSessionModule() {
-  if (!sessionModulePromise) sessionModulePromise = import(devtoolsUrl("devtoolsSession.js"));
+  if (!sessionModulePromise) sessionModulePromise = import(await devtoolsUrl("devtoolsSession.js"));
   return await sessionModulePromise;
 }
 async function loadInteractionModule() {
-  if (!interactionModulePromise) interactionModulePromise = import(devtoolsUrl("interactionRecorder.js"));
+  if (!interactionModulePromise) interactionModulePromise = import(await devtoolsUrl("interactionRecorder.js"));
   return await interactionModulePromise;
 }
 

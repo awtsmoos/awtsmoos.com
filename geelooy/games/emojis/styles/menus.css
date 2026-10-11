@@ -29,7 +29,8 @@
 	letter-spacing: -.05em;
 	line-height: .9;
 	text-align: center;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .menu-container h2 {
 	margin: 0 0 8px;
@@ -112,7 +113,8 @@
 .menu-container textarea {
 	min-height: 110px;
 	resize: vertical;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .menu-container label {
 	margin-top: 8px;

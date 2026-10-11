@@ -39,7 +39,8 @@
 	} }
 @media (max-width: 760px) { .profile-app .profile-destination-copy small {
 		display: none;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 760px) { .profile-app .profile-archive-controls {
 		grid-template-columns: 1fr;
 	} }

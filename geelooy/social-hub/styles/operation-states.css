@@ -19,7 +19,8 @@
 		0 0 0 1px color-mix(in srgb, var(--future-accent, #5b7cff) 34%, transparent),
 		0 8px 28px var(--hub-operation-glow, rgba(91, 124, 255, 0.16));
 	transform: translateY(0);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document button[data-operation="loading"]::after,
 .social-hub-document button[aria-busy="true"]::after {
@@ -30,13 +31,15 @@
 	border-radius: inherit;
 	pointer-events: none;
 	animation: hub-operation-breathe 1.4s ease-in-out infinite;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document button[data-operation="loading"]:disabled,
 .social-hub-document button[aria-busy="true"]:disabled {
 	opacity: 0.74;
 	filter: saturate(0.86);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document button[data-operation="loading"]:focus-visible,
 .social-hub-document button[aria-busy="true"]:focus-visible {
@@ -84,7 +87,8 @@
 		animation: none;
 		opacity: 0.56;
 		transform: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.social-hub-document [data-operation="loading"] .publicDiscovery__list {
 		transition: none;

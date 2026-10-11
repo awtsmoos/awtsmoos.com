@@ -23,7 +23,8 @@
 	font-size: clamp(1.45rem, 4vw, 3.15rem);
 	line-height: 0.98;
 	text-wrap: balance;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .detailSummary {
 	grid-area: summary;

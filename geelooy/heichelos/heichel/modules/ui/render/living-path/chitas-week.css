@@ -37,7 +37,8 @@
 .chitas-week-header h2 {
 	margin: 0;
 	font-size: clamp(1.12rem, 4vw, 1.55rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .chitas-week-source {
 	color: rgba(225, 235, 250, .66);

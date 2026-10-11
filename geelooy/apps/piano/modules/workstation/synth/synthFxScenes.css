@@ -21,7 +21,8 @@ The Awtsmoos is beyond atmosphere and color; Awtsmoos.com gives each FX world a 
 .pro-synth-fx-scenes-heading span {
 	font-size: .72rem;
 	opacity: .64;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .pro-synth-fx-scenes-grid {
 	display: grid;
 	grid-template-columns: repeat(3, minmax(0, 1fr));

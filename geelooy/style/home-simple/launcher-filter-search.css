@@ -41,7 +41,8 @@ body[data-geelooy-route="home"] .launcher-search {
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .launcher-search span {
 	font-size: 1rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .launcher-search input {
 	box-sizing: border-box;

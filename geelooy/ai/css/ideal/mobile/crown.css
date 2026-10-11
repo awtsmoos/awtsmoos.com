@@ -62,7 +62,8 @@
     font-weight:950;
   } }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media(max-width:900px) { body.mobile-crown-collapsed .mobile-crown-menu, body.mobile-crown-collapsed .mobile-crown-code, body.mobile-crown-collapsed .mobile-crown-mark, :where(body.mobile-crown-collapsed) .mobile-crown-brand span:last-child {display:none} }
+@media(max-width:900px) { body.mobile-crown-collapsed .mobile-crown-menu, body.mobile-crown-collapsed .mobile-crown-code, body.mobile-crown-collapsed .mobile-crown-mark, :where(body.mobile-crown-collapsed) .mobile-crown-brand span:last-child {display:none
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media(max-width:900px) { :where(body.mobile-crown-collapsed) .mobile-crown-brand::before {
     content:"AWTSMOOS AI";
@@ -107,9 +108,11 @@
     font-weight:800;
   } }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media(max-width:900px) { .mobile-bottom-dock span {font-size:20px;line-height:1} }
+@media(max-width:900px) { .mobile-bottom-dock span {font-size:20px;line-height:1
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-@media(max-width:900px) { .mobile-bottom-dock em {font-style:normal;font-size:10px;line-height:1;white-space:nowrap} }
+@media(max-width:900px) { .mobile-bottom-dock em {font-style:normal;font-size:10px;line-height:1;white-space:nowrap
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media(max-width:900px) { body[data-mobile-scene="chat"] .mobile-nav-chat, body[data-mobile-scene="conversations"] .mobile-nav-conversations, body[data-mobile-scene="automation"] .mobile-nav-automation {
     background:rgba(124,58,237,.16);
     color:#c084fc;

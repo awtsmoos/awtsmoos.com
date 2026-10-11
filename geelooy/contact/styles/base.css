@@ -114,7 +114,8 @@ Awtsmoos.com keeps every token beneath .contact-page, so neighboring worlds rema
 	line-height: .96;
 	letter-spacing: -.045em;
 	text-wrap: balance;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .contact-page__hero-copy > p:last-child {
 	max-width: 62ch;
 	margin: .8rem 0 0;

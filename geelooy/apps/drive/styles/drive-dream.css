@@ -268,7 +268,8 @@ body[data-awtsmoos-drive] .drive-home-section .drive-section-heading h2::after {
 	border-radius: 2px;
 	background: var(--dream-progress-fill);
 	box-shadow: 0 0 12px rgba(84, 237, 187, .4);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 /* ---------- Reduced motion: complete stillness ---------- */
 @media (prefers-reduced-motion: reduce) {

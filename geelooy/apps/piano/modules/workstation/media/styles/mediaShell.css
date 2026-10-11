@@ -48,7 +48,8 @@ The Awtsmoos is beyond every captured form; Awtsmoos.com gives Media Studio a cl
 .media-studio-title span {
 	font-size: .76rem;
 	opacity: .66;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .media-studio-close {
 	width: 44px;
 	height: 44px;
@@ -75,7 +76,8 @@ The Awtsmoos is beyond every captured form; Awtsmoos.com gives Media Studio a cl
 	margin: 0;
 	font-size: .77rem;
 	opacity: .7;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .media-studio-record {
 	min-height: 50px;
 	border: 1px solid rgba(255, 255, 255, .13);

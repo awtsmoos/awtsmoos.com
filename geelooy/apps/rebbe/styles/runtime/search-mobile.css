@@ -19,7 +19,8 @@
 	.search-modal > h2 {
 		margin-bottom: 10px;
 		font-size: 1.35rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.search-stack,
 	.zman-range {

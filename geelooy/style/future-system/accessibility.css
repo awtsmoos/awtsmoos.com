@@ -32,7 +32,8 @@ This local layer makes focus unmistakable without painting outside the opted-in 
 ) {
 	cursor: not-allowed;
 	opacity: .58;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where(body[data-future-page], body.social-hub-document) [aria-busy="true"] {
 	cursor: progress;
@@ -40,7 +41,8 @@ This local layer makes focus unmistakable without painting outside the opted-in 
 
 :where(body[data-future-page], body.social-hub-document) :where(a, button, summary, [tabindex]) {
 	scroll-margin-block: 5rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (forced-colors: active) {
 	:where(body[data-future-page], body.social-hub-document) :where(

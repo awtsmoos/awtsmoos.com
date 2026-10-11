@@ -45,7 +45,8 @@ h1 {
 	margin: .25rem 0 .6rem;
 	font-size: clamp(2rem, 8vw, 3.4rem);
 	line-height: 1;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .pulse {
 	font-size: clamp(3rem, 16vw, 5rem);
@@ -67,7 +68,8 @@ button {
 	border: 0;
 	border-radius: 999px;
 	cursor: pointer;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 button.secondary {
 	background: #ffffff22;

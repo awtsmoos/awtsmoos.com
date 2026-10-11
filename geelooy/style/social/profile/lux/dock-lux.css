@@ -18,7 +18,8 @@
   min-height: 52px;
   touch-action: manipulation;
   transition: transform 160ms ease, color 160ms ease, background 160ms ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .profile-bottom-nav a:hover {
   color: var(--light-text-fff, #fff);
@@ -31,6 +32,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .profile-bottom-nav a { transition-duration: 1ms; }
+  .profile-bottom-nav a { transition-duration: 1ms; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
   .profile-bottom-nav a:hover { transform: none; }
 }

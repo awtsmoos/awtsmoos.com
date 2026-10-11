@@ -67,7 +67,8 @@
 	display: grid;
 	min-inline-size: 0;
 	gap: .12rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .composer-civilization-document .majorPanel > summary strong {
 	overflow: hidden;

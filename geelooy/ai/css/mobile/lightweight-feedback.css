@@ -68,7 +68,8 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 <<<<<<< ours
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
   #transport-status {
 =======

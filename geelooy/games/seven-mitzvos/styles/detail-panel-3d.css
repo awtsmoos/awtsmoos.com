@@ -74,4 +74,5 @@
 	font-size: clamp(2rem, 6vw, 4.6rem);
 	background: hsl(var(--mitzvah-hue) 72% 38% / 0.22);
 	box-shadow: 0 0 35px hsl(var(--mitzvah-hue) 90% 55% / 0.18);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

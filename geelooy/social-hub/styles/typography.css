@@ -13,23 +13,27 @@
 .social-hub-document h3,
 .social-hub-document p {
 	margin-top: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document h1,
 .social-hub-document h2,
 .social-hub-document h3 {
 	text-wrap: balance;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document h1 {
 	margin-bottom: 0.25rem;
 	font-size: clamp(1.5rem, 3vw, 2.8rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document h2 {
 	font-size: clamp(1.8rem, 4vw, 3.8rem);
 	line-height: 1.03;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document p {
 	color: var(--muted);

@@ -30,14 +30,16 @@
 .Awtsmoos-inventory-shell .inv-slot > span {
 	grid-row: 1 / 3;
 	font-size: 27px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .Awtsmoos-inventory-shell .inv-slot > :is(b, small) {
 	min-width: 0;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .Awtsmoos-inventory-shell .inv-slot small {
 	color: #a9cbc1;
@@ -83,4 +85,5 @@
 
 .Awtsmoos-inventory-shell .item-card :is(h4, p) {
 	margin: 0 0 6px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

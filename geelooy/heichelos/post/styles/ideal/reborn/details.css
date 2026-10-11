@@ -134,10 +134,14 @@
 .post-reader-localized-context .awtsmoos-jump-go.awtsmoos-jump-go.awtsmoos-jump-go.awtsmoos-jump-go.awtsmoos-jump-go.awtsmoos-jump-go.awtsmoos-jump-go.awtsmoos-jump-go{ background: linear-gradient(90deg,#fee68b,#22d3ee); color: #07111f; }
 .post-reader-localized-context .awtsmoos-detail-svg.awtsmoos-detail-svg.awtsmoos-detail-svg.awtsmoos-detail-svg.awtsmoos-detail-svg.awtsmoos-detail-svg.awtsmoos-detail-svg.awtsmoos-detail-svg{ width: 52px; height: 52px; background: radial-gradient(circle at 30% 20%, #39d7ee, #7c3aed 75%); box-shadow: 0 0 28px rgba(139,92,246,.5); }
 .post-reader-localized-context .awtsmoos-detail-svg :is(span)::before:before:before:before:before:before:before:before{ color: white; font: 900 1.45rem/1 var(--font-ui); }
-.post-reader-localized-context .awtsmoos-detail-svg-person :where(span)::before { content: "👤"; }
-.post-reader-localized-context .awtsmoos-detail-svg-book :where(span)::before { content: "📖"; }
-.post-reader-localized-context .awtsmoos-detail-svg-path :where(span)::before { content: "✦"; }
-.post-reader-localized-context .awtsmoos-detail-svg-scroll :where(span)::before { content: "📜"; }
+.post-reader-localized-context .awtsmoos-detail-svg-person :where(span)::before { content: "👤"; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.post-reader-localized-context .awtsmoos-detail-svg-book :where(span)::before { content: "📖"; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.post-reader-localized-context .awtsmoos-detail-svg-path :where(span)::before { content: "✦"; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.post-reader-localized-context .awtsmoos-detail-svg-scroll :where(span)::before { content: "📜"; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :is(.post-reader-localized-context) .sub-awtsmoos[data-awtsmoos-substate="sleeping"][data-awtsmoos-substate="sleeping"][data-awtsmoos-substate="sleeping"][data-awtsmoos-substate="sleeping"][data-awtsmoos-substate="sleeping"][data-awtsmoos-substate="sleeping"][data-awtsmoos-substate="sleeping"][data-awtsmoos-substate="sleeping"]{
     display: grid;

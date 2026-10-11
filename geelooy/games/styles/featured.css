@@ -51,7 +51,8 @@
 	margin-top: 7px;
 	font-size: clamp(1.7rem, 3vw, 2.4rem);
 	letter-spacing: -0.04em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .featuredCopy {
 	margin-top: 7px;

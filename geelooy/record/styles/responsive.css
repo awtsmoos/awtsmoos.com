@@ -25,7 +25,8 @@
 
 	.camera-actions button {
 		inline-size: 100%;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-height: 32rem) and (orientation: landscape) {

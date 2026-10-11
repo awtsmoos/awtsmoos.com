@@ -90,7 +90,8 @@
 	.library-search-options-summary span {
 		grid-column: 1;
 		min-width: 0;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.library-search-options-summary span {
 		line-height: 1.35;
@@ -98,7 +99,8 @@
 		overflow: visible;
 		text-overflow: clip;
 		white-space: normal;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.library-search-options-grid {
 		grid-template-columns: 1fr;

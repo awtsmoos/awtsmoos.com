@@ -91,7 +91,8 @@ body[data-geelooy-route="home"] .search-paths {
 @media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .search-paths a {
 		min-height: 44px;
 		padding: .5rem .72rem;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 
 /* B"H Yaakov 2026-10-08: Homepage H1 = Awtsmoos (not Shliach). No.
    B"H 2026-10-09: Dream theme — elegant serif title, gold Shliach doorway, warm hero ink. */

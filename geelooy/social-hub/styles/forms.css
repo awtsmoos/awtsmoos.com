@@ -43,7 +43,8 @@
 	gap: .7rem;
 	min-block-size: 50px;
 	font-weight: 780;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .fileButton {
 	position: relative;
@@ -56,4 +57,5 @@
 	block-size: 1px;
 	overflow: hidden;
 	clip: rect(0 0 0 0);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

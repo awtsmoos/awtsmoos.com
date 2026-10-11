@@ -14,7 +14,11 @@
 }
 .home-action-card > span::before { color: #fffaf1; font-size: 1.45rem; line-height: 1; }
 .home-action-card:nth-child(1) > span::before { content: "✍️"; color: #06101b; }
-.home-action-card:nth-child(2) > span::before { content: "🪐"; }
-.home-action-card:nth-child(3) > span::before { content: "✉️"; }
-.home-action-card:nth-child(4) > span::before { content: "🏛️"; }
-.home-action-card:nth-child(5) > span::before { content: "🧩"; }
+.home-action-card:nth-child(2) > span::before { content: "🪐"; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.home-action-card:nth-child(3) > span::before { content: "✉️"; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.home-action-card:nth-child(4) > span::before { content: "🏛️"; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.home-action-card:nth-child(5) > span::before { content: "🧩"; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

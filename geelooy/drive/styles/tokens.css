@@ -63,7 +63,8 @@ input,
 select,
 textarea {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 button,
 a,
@@ -71,7 +72,8 @@ input,
 select,
 textarea {
 	outline-offset: 3px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :focus-visible {
 	outline: 3px solid rgb(91 76 240 / 32%);

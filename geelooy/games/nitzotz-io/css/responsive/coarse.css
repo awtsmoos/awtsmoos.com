@@ -32,7 +32,8 @@
 	}
 	.stat strong {
 		font-size: 18px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	.mission {
 		max-width: calc(100vw - 126px);
 		padding: 9px 10px;
@@ -40,7 +41,8 @@
 	}
 	.mission-main strong {
 		font-size: 11px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	.bonus-line {
 		font-size: 10px;
 	}
@@ -52,7 +54,8 @@
 	.director-strip span {
 		padding: 5px 7px;
 		font-size: 8px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	.right-rail {
 		top: auto;
 		right: 10px;

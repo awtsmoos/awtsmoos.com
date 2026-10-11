@@ -21,7 +21,8 @@
 
 textarea {
 	min-block-size: 8rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :is(input, textarea)::placeholder {
 	color: var(--composer-faint);
@@ -38,9 +39,11 @@ textarea {
 	inline-size: 1.25rem;
 	block-size: 1.25rem;
 	accent-color: #58c7d8;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :is(input, textarea, select):disabled {
 	cursor: not-allowed;
 	opacity: .55;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

@@ -42,7 +42,8 @@ Awtsmoos.com gives apps and actions one readable, keyboard-complete spatial map.
 .start-menu-header strong {
 	font-size: clamp(19px, 2.4vw, 24px);
 	letter-spacing: -.025em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .start-menu-search {
 	box-sizing: border-box;
 	width: 100%;

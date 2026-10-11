@@ -51,7 +51,8 @@ body {
     font-size: 1.2rem;
     box-shadow: 0 0 15px var(--primary-cyan);
 }
-.brand h1 { margin: 0; font-family: var(--font-head); font-size: 1.5rem; letter-spacing: 2px; }
+.brand h1 { margin: 0; font-family: var(--font-head); font-size: 1.5rem; letter-spacing: 2px; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .brand p { margin: 0; font-size: 0.7rem; color: var(--text-dim); letter-spacing: 1px; }
 
 .status-module { display: flex; align-items: center; gap: 10px; font-size: 0.8rem; letter-spacing: 1px; }

@@ -81,7 +81,8 @@
 	white-space: nowrap;
 	font-size: 0.72rem;
 	font-weight: 820;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 760px) {
 	.messaging-special-pane .universal-chat-composer {
@@ -90,7 +91,8 @@
 		padding: 0.62rem 0.72rem max(0.68rem, env(safe-area-inset-bottom));
 	}
 	.messaging-special-pane .universal-chat-composer-guide { display: none; }
-	.messaging-special-pane .universal-chat-composer-intro > strong { font-size: 0.78rem; }
+	.messaging-special-pane .universal-chat-composer-intro > strong { font-size: 0.78rem; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-width: 340px) {

@@ -69,7 +69,8 @@ body[data-comment-thread-page] .comment-preview b {
 body[data-comment-thread-page] .comment-preview span {
 	font-size: .78rem;
 	opacity: .62;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-comment-thread-page] .comment-preview:focus-visible {
 	outline: 3px solid var(--thread-line-focus);

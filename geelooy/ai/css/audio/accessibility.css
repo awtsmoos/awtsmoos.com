@@ -16,25 +16,30 @@
 }
 .awtsmoos-audio-offer button, .awtsmoos-audio-offer select, .awtsmoos-audio-offer .audio-status, .awtsmoos-audio-offer .audio-task-detail, .awtsmoos-audio-offer .audio-task-elapsed, .awtsmoos-audio-offer .player-time {
 	max-width: 100%;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (prefers-reduced-motion: reduce) { :where(.awtsmoos-audio-offer) :where(.audio-task-progress[data-determinate="false"]) .audio-task-meter > span {
 		animation: none;
 		transform: none;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (prefers-reduced-motion: reduce) { .awtsmoos-audio-offer .audio-task-meter > span, .awtsmoos-audio-offer .player-meter > span, .awtsmoos-audio-offer button, .attach-button {
 		transition: none;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (forced-colors: active) { .awtsmoos-audio-offer, .awtsmoos-audio-offer .awtsmoos-player, .awtsmoos-audio-offer button, .awtsmoos-audio-offer select, .attach-button {
 		border-color: CanvasText;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (forced-colors: active) { .awtsmoos-audio-offer .player-meter::before, .awtsmoos-audio-offer .audio-task-meter {
 		background: Canvas;
 		border: 1px solid CanvasText;
 	} }
 @media (forced-colors: active) { .awtsmoos-audio-offer .player-meter > span, .awtsmoos-audio-offer .audio-task-meter > span {
 		background: Highlight;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (forced-colors: active) { .awtsmoos-audio-offer button:focus-visible, .awtsmoos-audio-offer select:focus-visible, :where(.awtsmoos-audio-offer) .player-meter:focus-visible, .attach-button:focus-visible {
 		outline-color: Highlight;
@@ -57,7 +62,8 @@
 /* @tunnel-registry-merge: consolidated from geelooy/ai/css/audio/status.css W4 2026-10-08 */
 :where(.awtsmoos-audio-offer) :where(.audio-task-progress[data-determinate="false"]) .audio-task-meter > span {
 	animation: awtsmoos-audio-working 1.3s ease-in-out infinite alternate;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-registry-merge: consolidated from geelooy/ai/css/audio/player.css W4 2026-10-08 */
 .awtsmoos-audio-offer .player-meter::before {
 	content: "";
@@ -77,4 +83,5 @@
 	border-radius: 999px;
 	background: linear-gradient(90deg, var(--awt-hot), var(--awt-blue));
 	transition: width 120ms linear;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

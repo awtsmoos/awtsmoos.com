@@ -18,7 +18,8 @@
 :where(.post-reader-localized-context) :where(.awtsmoos-inline-commentary-root) .awtsmoos-comment-paragraph p:last-child,
 :where(.post-reader-localized-context) :where(.awtsmoos-inline-commentary-root) .comment-text p:last-child {
     margin-bottom: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where(.post-reader-localized-context) .awtsmoos-inline-commentary-root .comment-toolbar {
     border-top: 1px solid color-mix(in srgb, var(--color-ink) 12%, transparent);

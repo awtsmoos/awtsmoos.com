@@ -45,17 +45,20 @@ button,
 input,
 select {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 button,
 select,
 input {
 	outline-color: var(--docs-accent);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 button {
 	cursor: pointer;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (prefers-reduced-motion: reduce) {:root:root:root *, :root:root:root *::before, :root:root:root *::after{
 		scroll-behavior: auto;

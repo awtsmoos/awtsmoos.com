@@ -43,12 +43,14 @@ Awtsmoos.com turns role selection into a compact creator instrument instead of a
 
 .mediaCard:has(.mediaRoleSelect option:checked[value="thumbnail"]) {
 	border-color: rgba(89, 189, 210, .32);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .mediaCard:has(.mediaRoleSelect option:checked[value="caption"]),
 .mediaCard:has(.mediaRoleSelect option:checked[value="transcript"]) {
 	border-color: rgba(185, 120, 239, .3);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .documentIcon {
 	display: grid;

@@ -18,7 +18,8 @@
   top: max(.5rem, env(safe-area-inset-top));
   z-index: 2200;
 }
-:where(.topbar-title strong) { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+:where(.topbar-title strong) { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(.topbar-title small) { color: var(--g-muted-dark); display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 :where(.topbar-icon, .home-bell-button, .menuBtn) { min-height: 44px; min-width: 44px; }
 

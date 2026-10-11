@@ -40,7 +40,8 @@ button:disabled {
 	opacity: .42;
 	cursor: default;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 button:focus-visible,
 input:focus,
@@ -54,9 +55,11 @@ input,
 select,
 textarea {
 	width: 100%;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 textarea {
 	resize: none;
 	overflow: hidden;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

@@ -19,13 +19,15 @@
 .social-hub-document .peoplePager button {
 	min-height: 44px;
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .peopleSearch input {
 	min-width: 0;
 	padding: 0 12px;
 	border-radius: 12px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .peopleSearch button,
 .social-hub-document .peopleCard__open,
@@ -64,7 +66,8 @@
 .social-hub-document .peoplePager button:disabled {
 	opacity: .5;
 	cursor: not-allowed;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 700px) {
 	.social-hub-document .peopleSearch {
@@ -73,7 +76,8 @@
 
 	.social-hub-document .peopleSearch input {
 		grid-column: 1 / -1;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.social-hub-document .peopleCard__open {
 		width: 100%;

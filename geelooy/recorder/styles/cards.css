@@ -28,7 +28,8 @@
 .capture-card h2,
 .capture-card p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .capture-card header p {
 	color: #61cbd9;
@@ -42,7 +43,8 @@
 	margin-block-start: .25rem;
 	font-size: 1.2rem;
 	letter-spacing: -.025em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .capture-state {
 	padding: .34rem .55rem;

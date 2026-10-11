@@ -29,7 +29,8 @@
 	inline-size: var(--nle-control);
 	padding-inline: 0;
 	border-radius: 999px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .nle-transport .nle-play-button {
 	inline-size: 2.85rem;
@@ -48,14 +49,16 @@
 	background: transparent;
 	accent-color: var(--nle-violet);
 	cursor: pointer;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .nle-transport input[type="range"]::-webkit-slider-runnable-track,
 .nle-zoom-control input[type="range"]::-webkit-slider-runnable-track {
 	block-size: .25rem;
 	border-radius: 999px;
 	background: var(--nle-surface-raised);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .nle-transport input[type="range"]::-webkit-slider-thumb,
 .nle-zoom-control input[type="range"]::-webkit-slider-thumb {
@@ -67,7 +70,8 @@
 	background: var(--nle-violet);
 	box-shadow: 0 0 0 2px rgba(185, 120, 239, .18);
 	-webkit-appearance: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .nle-transport output {
 	min-inline-size: 3.8rem;

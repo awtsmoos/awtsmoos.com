@@ -80,7 +80,8 @@ body {
 :where(.all.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-shell :is(.awtsmoos-chrome-btn, button) {
 	min-inline-size: 44px;
 	min-block-size: 44px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 48rem) {
 	.all.post-reader-localized-context.awtsmoos-reader-vision #realPost {

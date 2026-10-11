@@ -38,7 +38,8 @@ The Awtsmoos opens each room through consent, relation, and focus in a measured 
 .social-hub-document .hubConversationBack,
 .social-hub-document .hubConversationControls button {
 	transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .hubRelationshipChip {
 	min-height: 2.2rem;

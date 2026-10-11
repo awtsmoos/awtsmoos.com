@@ -15,11 +15,13 @@
 	min-height: 60px;
 	padding-block: 0.45rem;
 	border-top: 1px solid var(--line);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .ohrbound-app .preference-list label > span {
 	min-width: 0;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .ohrbound-app .preference-list select {
 	width: min(138px, 38vw);
 	min-height: var(--tap);
@@ -34,14 +36,16 @@
 	height: 1.3rem;
 	margin: 0;
 	accent-color: var(--glow);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 @media (max-width: 360px) {
 	.ohrbound-app .advanced-actions {
 		grid-template-columns: 1fr;
 	}
 	.ohrbound-app .preference-list label {
 		gap: 0.5rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	.ohrbound-app .preference-list select {
 		width: 116px;
 	}

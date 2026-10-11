@@ -42,11 +42,14 @@
 	text-transform: uppercase;
 }
 
-.revelation-brand strong { display: block; font: 800 23px/1.05 Georgia, serif; letter-spacing: 0.02em; }
+.revelation-brand strong { display: block; font: 800 23px/1.05 Georgia, serif; letter-spacing: 0.02em; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .revelation-location { justify-content: center; flex-direction: column; text-align: center; }
-.revelation-location strong { margin-top: 3px; font: 700 18px/1.2 Georgia, serif; }
+.revelation-location strong { margin-top: 3px; font: 700 18px/1.2 Georgia, serif; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .revelation-resources { justify-content: flex-end; gap: 8px; }
-.revelation-resources span { min-width: 72px; padding: 7px 10px; border: 1px solid var(--ohr-line-soft); border-radius: var(--ohr-radius-sm); background: rgba(255, 255, 255, 0.035); text-align: center; }
+.revelation-resources span { min-width: 72px; padding: 7px 10px; border: 1px solid var(--ohr-line-soft); border-radius: var(--ohr-radius-sm); background: rgba(255, 255, 255, 0.035); text-align: center; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .revelation-resources i, .revelation-resources b { display: block; }
 .revelation-resources i { color: var(--ohr-muted); font-size: 9px; font-style: normal; font-weight: 800; letter-spacing: 0.12em; }
 .revelation-resources b { margin-top: 2px; color: var(--ohr-gold-bright); font-size: 14px; }

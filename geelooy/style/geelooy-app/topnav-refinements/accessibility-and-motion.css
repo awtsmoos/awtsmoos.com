@@ -32,7 +32,8 @@
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (prefers-reduced-motion: reduce) { .g-shell.is-ready > header, :where(.g-shell.is-ready) :where(nav.g-dock) a:nth-child(1), :where(.g-shell.is-ready) :where(nav.g-dock) a:nth-child(2), :where(.g-shell.is-ready) :where(nav.g-dock) a:nth-child(3), :where(.g-shell.is-ready) :where(nav.g-dock) a:nth-child(4), :where(.g-shell.is-ready) :where(nav.g-dock) a:nth-child(5) {
 		animation: none;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (prefers-reduced-motion: reduce) { :where(.g-shell) :where(nav.g-dock) a, :where(.g-shell) :where(nav.g-dock) a:hover, :where(.g-shell) :where(nav.g-dock) a[aria-current="page"], :where(.g-shell) :where(header) a[href="/"]:hover, :where(.g-shell) nav.g-dock .gnav-ink, .g-shell.is-dim > header {
 		transition: none;
@@ -42,7 +43,8 @@
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (prefers-reduced-motion: reduce) { :where(.g-shell) :where(nav.g-dock) a[aria-current="page"] {
 		box-shadow: inset 0 0 0 2px var(--gnav-accent);
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (prefers-reduced-motion: reduce) { .g-shell.is-dim > header {
 		opacity: 0.08;
 	} }

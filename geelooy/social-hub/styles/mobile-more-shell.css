@@ -62,7 +62,8 @@
 .social-hub-document :is(.mobileMoreSheet__header h2, .mobileMoreSheet__group h3) {
 	margin: 0;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .mobileMoreSheet__group {
 	display: grid;
@@ -80,7 +81,8 @@
 .social-hub-document .mobileMoreSheet :where(button, a) {
 	max-inline-size: 100%;
 	min-block-size: 44px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .mobileMoreSheet__close {
 	min-inline-size: 44px;

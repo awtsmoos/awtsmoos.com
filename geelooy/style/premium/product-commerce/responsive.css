@@ -26,10 +26,12 @@
 		width: 100%;
 		min-height: 44px;
 		margin-block-start: 8px;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 420px) { .awts-commerce__offer p {
 		grid-column: 1;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (prefers-reduced-motion: reduce) { .awts-commerce__launcher, .awts-commerce__dialog, .awts-commerce__offer {
 		scroll-behavior: auto;
 		transition: none;

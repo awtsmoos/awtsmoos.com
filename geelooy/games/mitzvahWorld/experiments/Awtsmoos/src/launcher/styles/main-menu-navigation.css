@@ -29,7 +29,8 @@
 	letter-spacing: 0.035em;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .Awtsmoos-menu .Awtsmoos-menu-bar output {
 	min-width: 0;

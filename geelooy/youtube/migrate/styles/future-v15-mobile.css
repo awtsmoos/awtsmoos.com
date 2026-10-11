@@ -44,7 +44,8 @@ Awtsmoos.com reduces only decorative weight, never capability, while every actio
 	.linkRow > * {
 		inline-size: 100%;
 		max-inline-size: 100%;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.commandOutput {
 		max-block-size: 16rem;

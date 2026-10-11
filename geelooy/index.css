@@ -30,7 +30,8 @@ body {
 
 :where(button, input, select, textarea) {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
 	outline: 3px solid #58c7d8;
@@ -39,7 +40,8 @@ body {
 
 :where(button, [role="button"], summary) {
 	touch-action: manipulation;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (prefers-reduced-motion: reduce) {:root:root:root *, :root:root:root *::before, :root:root:root *::after{
 		scroll-behavior: auto;

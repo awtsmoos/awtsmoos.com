@@ -41,7 +41,8 @@
 		margin: 0;
 		font-size: 1.2rem;
 		line-height: 1.05;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.social-hub-document #identityState {
 		display: -webkit-box;

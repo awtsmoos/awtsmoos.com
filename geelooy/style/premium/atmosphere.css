@@ -48,12 +48,15 @@
 	border: 1px solid rgba(255, 255, 255, .06);
 	border-radius: 50%;
 	background: radial-gradient(circle, rgba(255, 255, 255, .035), transparent 66%);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .premium-sky span:first-child {
 	top: -14rem;
 	left: -8rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .premium-sky span:last-child {
 	right: -14rem;
 	bottom: -16rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

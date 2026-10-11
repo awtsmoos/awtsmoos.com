@@ -39,7 +39,8 @@
 .campaign-section-heading h2 {
 	font-size: 18px;
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .campaign-section-heading p {
 	color: #aebadd;
@@ -64,7 +65,8 @@
 }
 
 .chapter-card b { color: var(--cyan); }
-.chapter-card span { font-size: 11px; font-weight: 900; }
+.chapter-card span { font-size: 11px; font-weight: 900; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .chapter-card em { color: #9baad0; font-size: 8px; font-style: normal; }
 .chapter-card.active { background: rgba(126, 220, 255, 0.16); border-color: var(--cyan); }
 .chapter-card:disabled { cursor: not-allowed; opacity: 0.3; }

@@ -62,13 +62,15 @@ body[data-geelooy-route="apps"] .g-app-icon {
 body[data-geelooy-route="apps"] .g-app-card :where(h2, p) {
 	max-inline-size: 100%;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-geelooy-route="apps"] .g-app-card h2 {
 	margin: 0;
 	font-size: var(--g-font-size-lg);
 	letter-spacing: -.02em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-geelooy-route="apps"] .g-app-card p {
 	margin: 0;

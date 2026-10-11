@@ -35,12 +35,14 @@
 
 	.messaging-row-title-line strong {
 		font-size: 0.84rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.messaging-row-copy small {
 		font-size: 0.71rem;
 		line-height: 1.28;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.messaging-row-meta {
 		font-size: 0.61rem;
@@ -48,7 +50,8 @@
 
 	.messaging-list-row > button {
 		min-height: 44px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.messaging-list-row.is-selected::before {
 		top: 0.5rem;

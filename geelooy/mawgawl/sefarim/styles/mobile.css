@@ -21,7 +21,8 @@
 
 	.library-hero h1 {
 		font-size: clamp(2rem, 11vw, 3.35rem);
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.library-search-form {
 		gap: .5rem;
@@ -50,7 +51,8 @@
 		padding: .48rem .12rem;
 		text-align: center;
 		white-space: nowrap;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.library-section-heading {
 		align-items: start;
@@ -63,7 +65,8 @@
 		display: flex;
 		min-height: 2.75rem;
 		padding-inline: 0;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.result {
 		padding: .82rem;

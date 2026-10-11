@@ -9,7 +9,8 @@
 .shema-strike .touch-controls button {
 	-webkit-tap-highlight-color: transparent;
 	transition: transform 100ms ease, background 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .shema-strike .touch-controls button:focus-visible {
 	outline: 2px solid var(--shema-focus);
@@ -30,7 +31,8 @@
 .shema-strike .touch-controls button:disabled {
 	opacity: 0.35;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: hover) and (pointer: fine) {
 	.shema-strike .touch-controls button:hover {

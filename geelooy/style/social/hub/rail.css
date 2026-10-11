@@ -42,7 +42,8 @@
 }
 .hub-rail-copy h1, .hub-rail-copy p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .hub-rail-copy h1 {
 	color: var(--hub-text);
 	font-size: 1.12rem;
@@ -85,7 +86,8 @@
 	background: var(--hub-faint);
 	content: "";
 	flex: 0 0 auto;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .hub-rail button:active, .hub-mail-tag:active {
 	transform: translateY(1px) scale(.985);
 }
@@ -103,7 +105,8 @@
 :where(.hub-rail) :where(button.active)::before, :where(.hub-rail) :where(button[aria-pressed="true"])::before {
 	background: var(--hub-cyan);
 	box-shadow: 0 0 0 4px rgba(97, 203, 217, .12);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .hub-mail-tag {
 	margin-block-start: .2rem;
 	border-color: var(--hub-line);

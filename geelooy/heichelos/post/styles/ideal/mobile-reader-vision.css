@@ -137,7 +137,8 @@
         height: 56px;
         border-radius: 18px;
         box-shadow: 0 18px 38px rgba(0, 0, 0, .36);
-    }
+    
+    color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
     :is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-auto-scroll-floating.awtsmoos-mobile-river.awtsmoos-mobile-river.awtsmoos-mobile-river.awtsmoos-mobile-river.awtsmoos-mobile-river.awtsmoos-mobile-river.awtsmoos-mobile-river.awtsmoos-mobile-river{
         right: var(--ideal-auto-right);

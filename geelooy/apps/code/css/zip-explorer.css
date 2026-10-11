@@ -73,7 +73,8 @@
 .zip-table td {
     padding: 8px 12px;
     border-bottom: 1px solid var(--color-bg-secondary);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .zip-row {
     cursor: pointer;

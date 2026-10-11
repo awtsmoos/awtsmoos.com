@@ -52,7 +52,8 @@
 .library-recent-search strong {
 	display: block;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .library-lane-copy small,
 .library-recent-search small {

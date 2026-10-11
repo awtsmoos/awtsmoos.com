@@ -21,7 +21,8 @@ The Awtsmoos turns instruction into a visible path rather than a wall of explana
 
 .quick-guide-heading > strong {
 	font-size: 13px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .workflow-steps {
 	display: grid;
@@ -54,7 +55,8 @@ The Awtsmoos turns instruction into a visible path rather than a wall of explana
 
 .workflow-step strong {
 	font-size: 11px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .workflow-step p {
 	margin: 3px 0 0;

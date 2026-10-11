@@ -18,7 +18,8 @@ Awtsmoos.com lets the Shliach cross from word to image, from image to way.
 	font-size: clamp(2.15rem, 5vw, 4.4rem);
 	line-height: 1;
 	letter-spacing: -.045em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .shliach-section p {
 	color: var(--shliach-muted);
 	line-height: 1.7;
@@ -41,7 +42,8 @@ Awtsmoos.com lets the Shliach cross from word to image, from image to way.
 .shliach-card h3 {
 	margin: 0 0 8px;
 	font-size: 1.45rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .shliach-card strong {
 	display: block;
 	margin-bottom: 12px;
@@ -106,4 +108,5 @@ html .shliach-poem {
 .shliach-cta-band h2 {
 	margin: 0 0 12px;
 	font-size: clamp(2rem, 5vw, 4rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

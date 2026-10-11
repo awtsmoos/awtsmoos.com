@@ -66,10 +66,12 @@
 .automation-panel textarea {
   min-height:120px;
   resize:vertical;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .automation-panel .prompt-list-field textarea {
   min-height:150px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .automation-panel .automation-toggle-row {
   position:static;
   display:flex;
@@ -91,4 +93,5 @@
 .automation-panel .automation-toggle-row>span {
   min-width:0;
   flex:1 1 auto;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

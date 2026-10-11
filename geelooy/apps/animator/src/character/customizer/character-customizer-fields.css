@@ -55,11 +55,13 @@
 .character-customizer input[type='range'] {
 	padding: 0;
 	accent-color: var(--aw-accent);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .character-customizer input[type='color'] {
 	padding: 3px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .character-customizer output {
 	color: var(--aw-text-soft);

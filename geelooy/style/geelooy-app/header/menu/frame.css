@@ -57,7 +57,8 @@
 	display: block;
 	min-inline-size: 0;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .g-constellation-heading small {
 	color: var(--g-muted);

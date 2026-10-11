@@ -44,7 +44,8 @@
 	min-height: 42px;
 	white-space: normal;
 	text-align: left;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .aw-studio-create-button.aw-studio-create-button {
 	background: var(--aw-control-subtle);

@@ -47,11 +47,13 @@ body[data-geelooy-route="home"] .portal-shortcuts {
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .portal-shortcuts strong, :where(body[data-geelooy-route="home"]) .portal-shortcuts small {
 	min-width: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .portal-shortcuts strong {
 	font-size: .86rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .portal-shortcuts small {
 	grid-column: 2;
@@ -83,7 +85,8 @@ body[data-geelooy-route="home"] .portal-shortcuts {
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .portal-shortcuts a {
 		transition: none;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .portal-shortcuts a:hover, :where(body[data-geelooy-route="home"]) .portal-shortcuts a:active, :where(body[data-geelooy-route="home"]) .portal-shortcuts a:focus-visible {
 		transform: none;

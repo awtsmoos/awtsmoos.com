@@ -9,7 +9,8 @@
 .ohrbound-app .dialog-heading h2 {
 	margin: 0.15rem 0 0;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .ohrbound-app .dialog-heading button {
 	width: var(--tap);
 	height: var(--tap);
@@ -19,7 +20,8 @@
 	background: transparent;
 	font-size: 1.5rem;
 	cursor: pointer;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .ohrbound-app .toast {
 	position: fixed;
 	z-index: var(--layer-toast);

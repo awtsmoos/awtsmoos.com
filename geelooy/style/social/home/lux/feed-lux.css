@@ -2,7 +2,8 @@
 /* B"H — the feed breathes with depth while staying cheap to draw. */
 .home-crystal span {
   box-shadow: 0 0 24px rgba(154,77,255,.48), 0 0 38px rgba(46,167,255,.2);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .home-feed-panel {
   background: linear-gradient(180deg, rgba(9,13,28,.82), rgba(4,7,16,.82));
@@ -20,9 +21,11 @@
 
 .home-activity-list li {
   min-width: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .home-activity-list a,
 .home-empty-actions a {
   min-height: 46px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

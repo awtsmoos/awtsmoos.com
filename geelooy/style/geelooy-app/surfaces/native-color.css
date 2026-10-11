@@ -17,16 +17,19 @@
 	box-shadow: var(--g-control-shadow);
 	cursor: pointer;
 	transition: border-color var(--g-motion-fast) var(--g-ease), box-shadow var(--g-motion-standard) var(--g-ease), transform var(--g-motion-fast) var(--g-ease-pressure);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) :where(input[type="color"])::-webkit-color-swatch-wrapper {
 	padding: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) :where(input[type="color"])::-webkit-color-swatch {
 	border: 0;
 	border-radius: .55rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="color"]:focus-visible {
 	outline: 2px solid var(--g-cyan);
 	outline-offset: 3px;
@@ -37,7 +40,8 @@
 	cursor: not-allowed;
 	filter: grayscale(.7);
 	opacity: .48;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (hover: hover) { :where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) :where(input[type="color"]:hover:not(:disabled)) {
 		border-color: var(--g-magenta);
@@ -46,7 +50,8 @@
 	} }
 @media (prefers-reduced-motion: reduce) { :where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="color"] {
 		transition: none;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 :where(.g-page:active) {
 	transform: scale(0.98);
 }

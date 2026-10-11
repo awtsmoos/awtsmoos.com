@@ -50,7 +50,8 @@ body[data-geelooy-route="apps"] .apps-section-heading h2 {
 	margin: 0;
 	font-size: clamp(1.8rem, 4vw, 3.1rem);
 	letter-spacing: -.04em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-geelooy-route="apps"] .apps-section-heading > p {
 	min-width: 0;

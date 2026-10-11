@@ -44,7 +44,8 @@
 
 	.revelation-brand strong {
 		font-size: 13px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.revelation-resources {
 		gap: 2px;
@@ -54,7 +55,8 @@
 		border-radius: 7px;
 		min-width: 39px;
 		padding: 3px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.revelation-resources i {
 		font-size: 6px;
@@ -82,7 +84,8 @@
 
 	.revelation-nav-button span {
 		font-size: 15px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.revelation-nav-button b {
 		font-size: 6px;
@@ -92,7 +95,8 @@
 
 	.revelation-nav-button small {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.revelation-collapse {
 		bottom: calc(var(--ohr-dock-height) + 5px);

@@ -57,7 +57,8 @@
 .soul-result h1 {
 	margin: 0;
 	font-size: clamp(24px, 7vw, 34px);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .soul-result__score {
 	margin: 12px 0 20px;
@@ -87,7 +88,8 @@
 
 .soul-result a {
 	background: #101b2c;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .soul-session-button:focus-visible,
 .soul-result button:focus-visible,

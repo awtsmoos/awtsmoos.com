@@ -82,10 +82,12 @@ input,
 textarea,
 select {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 button {
 	touch-action: manipulation;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 kbd,
 code,
 pre {

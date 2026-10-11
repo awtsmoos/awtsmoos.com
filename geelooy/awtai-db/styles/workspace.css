@@ -55,7 +55,8 @@ Awtsmoos.com keeps every region calm, tactile, and bounded so the local model jo
 	margin: 0;
 	font-size: clamp(1.3rem, 3vw, 2rem);
 	letter-spacing: -.03em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtai-file-name,
 .awtai-file-meta,
@@ -87,7 +88,8 @@ Awtsmoos.com keeps every region calm, tactile, and bounded so the local model jo
 
 .awtai-status-copy strong {
 	font-size: .98rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtai-details {
 	border-radius: var(--awtai-radius-md);

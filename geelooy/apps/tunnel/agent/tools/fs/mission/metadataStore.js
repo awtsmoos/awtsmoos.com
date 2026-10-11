@@ -24,39 +24,35 @@ function awdbEnabled() {
 	return process.env.AWTSMOOS_MISSION_METADATA_AWDB === '1';
 }
 
-function awdbCandidates() {
-	return [
-		path.join(__dirname, '..', '..', '..', 'ayzarim', 'dosdb', 'awtsmoosBinary', 'awtsmoosdb', 'index.js'),
-		path.join(__dirname, '../../../../../../../ayzarim/dosdb/awtsmoosBinary/awtsmoosdb/index.js')
-	];
-}
-
-function loadAwdb() {
-	const tried = [];
-	for (const candidate of awdbCandidates()) {
-		tried.push(candidate);
-		if (fs.existsSync(candidate)) {
-			return require(candidate);
-		}
+async function loadAwdb() {
+	// Self-contained AwtsmoosDB runtime (Yaakov 2026-10-11 hard rule: no repo).
+	try {
+		const SelfContained = require("../../../lib/selfContained.js");
+		const file = await SelfContained.bundleFile("awtsmoosdb", "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js");
+		return require(file);
+	} catch (error) {
+		const wrapped = new Error(`awtsmoosdb_bundle_unavailable: ${error.message}`);
+		wrapped.code = "AWTSMOOSDB_MODULE_MISSING";
+		throw wrapped;
 	}
-	const error = new Error(`awtsmoosdb_module_missing: ${tried.join(' | ')}`);
-	error.code = 'AWTSMOOSDB_MODULE_MISSING';
-	throw error;
 }
 
-function openAwdb(file) {
-	const AwtsmoosDB = loadAwdb();
+async function openAwdbAsync(file) {
+	const AwtsmoosDB = await loadAwdb();
 	const database = new AwtsmoosDB(file, { debug: false });
 	database.open();
 	return database;
 }
 
-function leaseDatabase(file) {
+async function leaseDatabase(file) {
 	installExitHook();
 	let lease = databaseLeases.get(file);
 	if (!lease) {
-		lease = { database: openAwdb(file), timer: null };
+		lease = { database: null, databasePromise: openAwdbAsync(file), timer: null };
 		databaseLeases.set(file, lease);
+	}
+	if (!lease.database) {
+		lease.database = await lease.databasePromise;
 	}
 	if (lease.timer) {
 		clearTimeout(lease.timer);
@@ -105,12 +101,12 @@ function plain(value) {
 	return value && value.__resolve__ ? value.__resolve__() : value;
 }
 
-function withDb(config, input, callback) {
+async function withDb(config, input, callback) {
 	const info = MetadataPath.report(config, input);
 	fs.mkdirSync(info.metadataRoot, { recursive: true });
-	const database = leaseDatabase(info.dbFile);
+	const database = await leaseDatabase(info.dbFile);
 	try {
-		return callback(database, info);
+		return await callback(database, info);
 	} finally {
 		releaseDatabase(info.dbFile);
 	}
@@ -130,7 +126,7 @@ function entryFor(config = {}, mission = {}, kind = 'event', input = {}) {
 	};
 }
 
-function record(config = {}, mission = {}, kind = 'event', input = {}) {
+async function record(config = {}, mission = {}, kind = 'event', input = {}) {
 	const info = MetadataPath.report(config, input);
 	fs.mkdirSync(info.metadataRoot, { recursive: true });
 	const entry = entryFor(config, mission, kind, input);
@@ -174,7 +170,7 @@ function writeRecord(database, entry) {
 	database.root.collections[entry.kind][entry.id] = entry;
 }
 
-function listRecords(config = {}, input = {}) {
+async function listRecords(config = {}, input = {}) {
 	const info = MetadataPath.report(config, input);
 	if (!awdbEnabled()) {
 		const migrated = migrateLegacyRecords(config, input, info);
@@ -267,7 +263,7 @@ function roomEntry(config = {}, mission = {}, input = {}) {
 	};
 }
 
-function upsertRoom(config = {}, mission = {}, input = {}) {
+async function upsertRoom(config = {}, mission = {}, input = {}) {
 	const info = MetadataPath.report(config, input);
 	const room = mission.room || {};
 	const key = safe(room.id || input.roomId || mission.id);
@@ -408,7 +404,7 @@ function migrateLegacyRooms(config, input, info) {
 	}
 }
 
-function activeRooms(config = {}, input = {}) {
+async function activeRooms(config = {}, input = {}) {
 	const info = MetadataPath.report(config, input);
 	if (!awdbEnabled()) {
 		const migrated = migrateLegacyRooms(config, input, info);
@@ -438,7 +434,7 @@ function activeRooms(config = {}, input = {}) {
 	}
 }
 
-function status(config = {}, input = {}) {
+async function status(config = {}, input = {}) {
 	const info = MetadataPath.report(config, input);
 	const files = fs.existsSync(info.metadataRoot)
 		? fs.readdirSync(info.metadataRoot)
@@ -466,7 +462,6 @@ function limit(input = {}) {
 module.exports = {
 	DATABASE_IDLE_CLOSE_MS,
 	activeRooms,
-	awdbCandidates,
 	closeAllDatabases,
 	listRecords,
 	path: MetadataPath,

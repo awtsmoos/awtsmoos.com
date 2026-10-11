@@ -23,7 +23,8 @@
 .social-hub-document .hubShell textarea:not(.hubComposerField__input) {
 	min-block-size: 8.5rem;
 	resize: vertical;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .hubShell :where(input, textarea)::placeholder {
 	color: #8d9db8;
@@ -42,9 +43,11 @@
 	margin: 0;
 	accent-color: #3cecff;
 	flex: 0 0 auto;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document :where(.hubHeader, .hubShell) :where(input, textarea, select):disabled {
 	opacity: .52;
 	cursor: not-allowed;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

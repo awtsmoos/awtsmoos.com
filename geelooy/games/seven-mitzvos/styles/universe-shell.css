@@ -24,7 +24,8 @@
 	max-width: 760px;
 	margin-bottom: 0.25rem;
 	font-size: clamp(2.4rem, 5vw, 5rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .universeHeader > p {
 	max-width: 520px;

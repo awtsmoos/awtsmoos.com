@@ -54,7 +54,8 @@
 .provinceCard p,
 .provinceCard dl {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .provinceMeaning,
 .provinceGame,
@@ -83,12 +84,14 @@
 .provinceStats dt,
 .provinceStats dd {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .provinceStats dd {
 	font-weight: 800;
 	text-align: right;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .provinceAction {
 	width: 100%;

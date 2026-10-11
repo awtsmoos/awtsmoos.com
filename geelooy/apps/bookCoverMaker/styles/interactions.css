@@ -16,7 +16,8 @@
 		background-color .16s ease,
 		box-shadow .16s ease,
 		filter .16s ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: hover) and (pointer: fine) {
 	.cover-button:not(:disabled):hover,
@@ -65,7 +66,8 @@
 	.advanced-grid input,
 	.cover-field input[type="file"]::file-selector-button {
 		transition: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.cover-button:hover,
 	.cover-button:active,

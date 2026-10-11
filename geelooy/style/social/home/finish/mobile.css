@@ -14,7 +14,8 @@
   .home-empty-actions a {
     flex: 1 1 11rem;
     min-width: 0;
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
   .home-empty-state div {
     align-items: start;

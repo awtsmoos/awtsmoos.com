@@ -21,7 +21,8 @@
 	margin: 0;
 	font-size: clamp(1.15rem, 2vw, 1.45rem);
 	line-height: 1.25;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .messaging-special-lead,
 .messaging-special-explanation {

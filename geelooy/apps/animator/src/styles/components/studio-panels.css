@@ -50,14 +50,16 @@
 .aw-studio-panel select {
 	min-height: var(--aw-control-height);
 	padding: 6px 9px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .aw-studio-panel textarea {
 	min-height: 92px;
 	padding: 9px;
 	resize: vertical;
 	font: 11px/1.5 var(--aw-mono);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .aw-studio-ai {
 	display: grid;

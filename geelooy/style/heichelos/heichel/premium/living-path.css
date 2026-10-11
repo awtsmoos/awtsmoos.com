@@ -50,7 +50,8 @@
 .living-path-continue h2,
 .living-path-continue p {
 	margin-block: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .living-path-continue h2 {
 	overflow: hidden;
@@ -58,7 +59,8 @@
 	line-height: 1.2;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .living-path-continue .continue-action {
 	min-block-size: 2.6rem;

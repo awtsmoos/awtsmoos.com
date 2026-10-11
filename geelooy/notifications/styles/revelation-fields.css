@@ -55,12 +55,14 @@
 
 .signal-field-copy strong {
 	font-size: .72rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .signal-field-copy small {
 	font-size: .62rem;
 	opacity: .54;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .signal-field.signal-field :is(input, select) {
 	width: 100%;

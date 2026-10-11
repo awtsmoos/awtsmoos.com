@@ -24,7 +24,8 @@ Awtsmoos.com keeps every tool visible around the real WebGL scene.
 	background: rgb(5 8 20 / 82%);
 	backdrop-filter: blur(24px);
 }
-.studio-bar h1 { margin: 2px 0 0; font-size: 18px; letter-spacing: -.02em; }
+.studio-bar h1 { margin: 2px 0 0; font-size: 18px; letter-spacing: -.02em; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .eyebrow { color: var(--studio-cyan); font-size: 9px; font-weight: 900; letter-spacing: .15em; }
 .bar-actions { display: flex; gap: 8px; }
 .bar-actions button, .bar-actions a, .timeline button {
@@ -35,7 +36,8 @@ Awtsmoos.com keeps every tool visible around the real WebGL scene.
 	background: var(--studio-panel-soft);
 	text-decoration: none;
 	cursor: pointer;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .bar-actions button:hover, .bar-actions a:hover, .timeline button:hover { border-color: var(--studio-border-bright); }
 .workspace { display: grid; grid-template-columns: 230px minmax(0, 1fr) 290px; min-height: 0; }
 .viewport-shell { position: relative; min-width: 0; min-height: 0; background: #03050b; }
@@ -58,7 +60,8 @@ Awtsmoos.com keeps every tool visible around the real WebGL scene.
 	align-items: center; gap: 14px; padding: 9px 14px;
 	border-top: 1px solid var(--studio-border); background: var(--studio-panel);
 }
-.timeline input { width: 100%; accent-color: var(--studio-cyan); }
+.timeline input { width: 100%; accent-color: var(--studio-cyan); 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .timeline output { color: var(--studio-muted); font-variant-numeric: tabular-nums; }
 .timeline img { width: 96px; height: 54px; border-radius: 7px; object-fit: cover; border: 1px solid var(--studio-border); }
 

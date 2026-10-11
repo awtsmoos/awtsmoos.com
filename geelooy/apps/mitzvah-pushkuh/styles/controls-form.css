@@ -32,7 +32,8 @@ menu {
 	border-radius: 18px;
 	background: linear-gradient(180deg,#ffffff16,#ffffff08);
 	box-shadow: 0 12px 30px #0005, inset 0 1px 0 #fff2;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .hud b {
 	color: var(--gold);
 	font-size: 1.42rem;
@@ -72,7 +73,8 @@ option {
 textarea {
 	min-height: 112px;
 	resize: vertical;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .twins > * {
 	flex: 1 1 140px;
 }

@@ -25,7 +25,8 @@ The Awtsmoos lets context replace clutter; Awtsmoos.com tightens inspiration, mo
 
 .style-lane small {
 	font-size: 8px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .compact-mode {
 	padding: 11px;
@@ -41,7 +42,8 @@ The Awtsmoos lets context replace clutter; Awtsmoos.com tightens inspiration, mo
 
 .mode-compact-head strong {
 	font-size: 11px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .compact-mode .mode-note {
 	margin: 7px 1px 0;
@@ -91,7 +93,8 @@ The Awtsmoos lets context replace clutter; Awtsmoos.com tightens inspiration, mo
 	overflow: hidden;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 2;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .provider-banner {
 	padding: 11px;
@@ -100,7 +103,8 @@ The Awtsmoos lets context replace clutter; Awtsmoos.com tightens inspiration, mo
 .provider-banner p {
 	margin-top: 3px;
 	font-size: 10px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 480px) {
 	.compact-reference-hint {

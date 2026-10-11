@@ -28,7 +28,8 @@ Awtsmoos.com reveals danger only when chosen, with room to reconsider before let
 
 .heichel-manage-page .heichel-delete-confirm :is(h3, p) {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .heichel-manage-page .heichel-delete-confirm p {
 	margin-top: 5px;

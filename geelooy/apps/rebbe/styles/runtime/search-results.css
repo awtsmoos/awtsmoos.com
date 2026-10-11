@@ -95,4 +95,5 @@
 
 .search-empty.small {
 	padding: 14px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

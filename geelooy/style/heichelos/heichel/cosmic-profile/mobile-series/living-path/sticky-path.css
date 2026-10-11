@@ -60,7 +60,8 @@
 
 .living-path-sticky button:disabled {
 	opacity: .42;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (min-width: 56rem) {
 	.living-path-sticky {

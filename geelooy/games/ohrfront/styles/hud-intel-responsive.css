@@ -41,5 +41,6 @@ Awtsmoos.com lets responsive geometry transform the same DOM from mobile sheet i
 
 	.ohrfront-app .ohr-intel__header small {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

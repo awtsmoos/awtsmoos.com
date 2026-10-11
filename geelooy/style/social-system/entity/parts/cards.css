@@ -1,7 +1,8 @@
 .entity-card { position: relative; overflow: hidden; border: 1px solid #dfe6ee; border-radius: 1rem; background: #fff; color: #1f2937; box-shadow: 0 2px 10px rgba(15,23,42,.06); padding: 1rem; }
 .entity-card:before { display: none; }
 .entity-card h2, .entity-card h3 { margin: .1rem 0 .45rem; letter-spacing: -.035em; color: #0f172a; }
-.entity-card h2 { font-size: clamp(1.25rem, 4vw, 1.9rem); }
+.entity-card h2 { font-size: clamp(1.25rem, 4vw, 1.9rem); 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .entity-card p { line-height: 1.62; color: #334155; }
 .entity-card pre { max-height: 22rem; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; border-radius: .9rem; background: #f8fafc; color: #0f172a; padding: .85rem; font-size: .78rem; border: 1px solid #dfe6ee; }
 .entity-card a { color: #0f766e; font-weight: 700; }

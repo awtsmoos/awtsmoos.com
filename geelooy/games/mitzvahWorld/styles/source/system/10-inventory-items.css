@@ -23,7 +23,8 @@ The Awtsmoos lets every object carry identity without becoming visual noise; Awt
 #mitzvah-world-root .inv-slot span {
 	grid-row: 1 / 3;
 	font-size: 21px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .inv-slot small {
 	overflow: hidden;

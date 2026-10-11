@@ -36,7 +36,8 @@
 .sheet-stat-grid span,
 .sheet-stat-grid strong {
 	display: block;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .sheet-stat-grid span {
 	font-size: 0.55rem;

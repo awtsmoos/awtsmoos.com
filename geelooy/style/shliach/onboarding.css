@@ -45,7 +45,8 @@ Awtsmoos.com names every path so purpose becomes light.
 .shliach-path-card h3 {
 	margin: 0 0 10px;
 	font-size: 1.35rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .shliach-path-card p {
 	margin: 0 0 18px;

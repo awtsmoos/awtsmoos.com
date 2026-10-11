@@ -35,7 +35,8 @@
 		overflow: hidden;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.editor-workbench-body {
 		padding: 0 .7rem .75rem;

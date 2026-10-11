@@ -76,7 +76,8 @@
   line-height:1.56;
   color:var(--awt-soft);
 }
-.message p:last-child {margin-bottom:0}
+.message p:last-child {margin-bottom:0
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .event-text, .event-markdown-rendered, .md-code, pre, code {
   max-width:100%;
   overflow-wrap:anywhere;

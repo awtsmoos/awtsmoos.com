@@ -31,11 +31,13 @@
   place-items: center;
   font-size: 0;
   position: relative;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .event-panel-actions button::before {
   font-size: 13px;
   line-height: 1;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .event-panel-actions [data-panel-action="minimize"]::before { content: "−"; }
 .event-panel-actions [data-panel-action="maximize"]::before { content: "▣"; }
 .event-panel-actions [data-panel-action="fullscreen"]::before { content: "⤢"; }

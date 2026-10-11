@@ -18,8 +18,10 @@ The Awtsmoos lets canonical scenes become a truthful filmstrip without counterfe
 	.studio-scene-card[aria-pressed="true"] { border-color: #258cff; box-shadow: inset 0 0 0 1px #258cff; background: #172b43; }
 	.studio-scene-card-preview { grid-row: 1 / 3; display: grid; place-items: center; min-height: 58px; border-radius: 9px; background: linear-gradient(150deg, #233b55, #101a27); color: #77b9ff; font-size: 24px; }
 	.studio-scene-card-copy { display: grid; min-width: 0; align-content: center; }
-	.studio-scene-card-copy strong, .studio-scene-card-copy span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-	.studio-scene-card-copy strong { font-size: 11px; }
+	.studio-scene-card-copy strong, .studio-scene-card-copy span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+	.studio-scene-card-copy strong { font-size: 11px; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	.studio-scene-card-copy span, .studio-scene-card-mode { color: #8fa7ba; font-size: 9px; }
 	.studio-scene-card-mode { align-self: end; color: #55a8ff; font-weight: 750; letter-spacing: 0.04em; }
 	.studio-scene-controls { display: grid; grid-template-columns: minmax(0, 1fr) 72px repeat(5, 38px); gap: 5px; overflow-x: auto; }

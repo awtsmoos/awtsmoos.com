@@ -18,7 +18,8 @@
 	font-size: clamp(42px, 7vw, 82px);
 	line-height: 0.98;
 	letter-spacing: -0.06em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .cloud-lead {
 	max-width: 760px;
@@ -36,7 +37,8 @@
 .cloud-brief label {
 	font-size: 14px;
 	font-weight: 800;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .cloud-brief textarea {
 	width: 100%;

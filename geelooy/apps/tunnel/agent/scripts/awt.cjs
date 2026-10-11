@@ -20,8 +20,7 @@ const C = TTY
 	? { bold: "\x1b[1m", dim: "\x1b[2m", gold: "\x1b[1;33m", green: "\x1b[1;32m", red: "\x1b[1;31m", cyan: "\x1b[1;36m", off: "\x1b[0m" }
 	: { bold: "", dim: "", gold: "", green: "", red: "", cyan: "", off: "" };
 
-function readVersion(root) {
-	try {
+function readVersion(root) {	try {
 		const state = fs.readFileSync(path.join(root, "install-state.txt"), "utf8").trim();
 		if (state) return state;
 	} catch {}
@@ -40,6 +39,7 @@ function printBanner(out = process.stdout) {
 }
 
 const HELP_TOPICS = [
+	["hello", "Say hi — meet the tunnel and learn what it does."],
 	["status", "Show tunnel health, version, and supervised processes."],
 	["diagnose", "Inspect what is wrong and get the safe recovery recommendation."],
 	["doctor", "Deep diagnosis with repair guidance."],
@@ -80,6 +80,13 @@ async function main(argv = process.argv.slice(2)) {
 		printBanner(process.stdout);
 		process.stdout.write(`  version ${C.green}${readVersion(root)}${C.off}\n`);
 		return { ok: true, command: "version" };
+	}
+	// Yaakov 2026-10-11: a new user saying "hi" meets a real introduction.
+	if (argv[0] === "hello" || argv[0] === "hi") {
+		printBanner(process.stdout);
+		const { greeting } = require("../lib/onboarding.js");
+		process.stdout.write(greeting() + "\n");
+		return { ok: true, command: "hello" };
 	}
 	if (argv.includes("--help") || argv.includes("-h") || argv.length === 0 || (argv[0] === "help" && argv.length === 1)) {
 		printHelp(root);

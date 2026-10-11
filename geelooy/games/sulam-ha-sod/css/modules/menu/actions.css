@@ -46,7 +46,8 @@
 	filter: grayscale(1);
 	cursor: not-allowed;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .menu .ghost {
 	background: #ffffff18;

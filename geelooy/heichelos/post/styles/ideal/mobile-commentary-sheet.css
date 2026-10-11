@@ -51,7 +51,8 @@
 	.post-reader-localized-context .awtsmoos-community-retry.awtsmoos-community-retry.awtsmoos-community-retry.awtsmoos-community-retry.awtsmoos-community-retry.awtsmoos-community-retry.awtsmoos-community-retry.awtsmoos-community-retry{
 		min-height: 44px;
 		min-width: 44px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	:is(.post-reader-localized-context) .awtsmoos-slide-view > .awtsmoos-view-content.awtsmoos-view-content.awtsmoos-view-content.awtsmoos-view-content.awtsmoos-view-content.awtsmoos-view-content.awtsmoos-view-content.awtsmoos-view-content,
 	:is(.post-reader-localized-context) .awtsmoos-sidebar-panel:not([hidden]):not([hidden]):not([hidden]):not([hidden]):not([hidden]):not([hidden]):not([hidden]):not([hidden]){

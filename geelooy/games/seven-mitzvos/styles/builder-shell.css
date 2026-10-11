@@ -22,7 +22,8 @@
 
 .builderHeader h2 {
 	margin-bottom: 0.35rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .builderHeader > p {
 	max-width: 610px;
@@ -51,7 +52,8 @@
 .builderPanel h3,
 .builderPanel p {
 	margin-bottom: 0.55rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .builderPanel > p {
 	color: var(--muted);

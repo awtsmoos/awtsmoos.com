@@ -81,7 +81,8 @@ h1 {
     font-size: 7vw; /* Large size for main title */
     font-weight: 700; /* Bold weight for prominence */
     text-shadow: 2px 2px 4px var(--intense-h1-glow); /* Subtle glow for depth */
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 h2 {
     font-size: 6vw;
     font-weight: 600;
@@ -183,10 +184,12 @@ a:hover {
 /* Responsive Design */
 @media (max-width: 800px) { body, p {
         font-size: 7vw; /* Larger text for better readability on small screens */
-    } }
+    
+    color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 800px) { a {
         font-size: 7vw;
-    } }
+    
+    color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 800px) { :where(#side-panel), :where(#content-panel) {
         width: 100%;

@@ -60,7 +60,8 @@
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.awt-turn-progress span { transition: none; }
+		.awt-turn-progress span { transition: none; 
+		color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	}
 }
 

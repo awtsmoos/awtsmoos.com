@@ -29,7 +29,8 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .mini-button {
 	font-size: 10px;
@@ -49,7 +50,8 @@
 
 .stat strong {
 	font-size: 19px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .mission {
 	border-radius: 16px;
@@ -60,7 +62,8 @@
 
 .mission-main strong {
 	font-size: 14px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .bonus-line {
 	font-size: 10px;
@@ -92,7 +95,8 @@
 
 	.brand span {
 		max-width: 190px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.primary-stats {
 		display: grid;

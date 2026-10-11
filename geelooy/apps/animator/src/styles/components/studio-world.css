@@ -59,7 +59,8 @@
 	width: 100%;
 	min-width: 0;
 	box-sizing: border-box;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .aw-professional-studio .aw-studio-world-chips {
 	display: grid;
@@ -74,7 +75,8 @@
 	min-height: 40px;
 	overflow: hidden;
 	text-overflow: ellipsis;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .aw-professional-studio .aw-studio-world-chips > .is-selected {
 	border-color: var(--aw-accent);

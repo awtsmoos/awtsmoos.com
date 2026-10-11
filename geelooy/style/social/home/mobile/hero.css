@@ -9,7 +9,8 @@
     font-size: clamp(2.52rem, 12.2vw, 4.2rem);
     line-height: .9;
     max-width: 8.8ch;
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
   .home-hero-text {
     font-size: clamp(.96rem, 3.5vw, 1.05rem);

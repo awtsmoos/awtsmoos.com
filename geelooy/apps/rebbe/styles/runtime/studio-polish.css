@@ -32,7 +32,8 @@
 	border-radius: 999px;
 	line-height: 1;
 	flex: 0 0 auto;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .studio-preview-wrapper.studio-preview-wrapper {
 	overflow: hidden;
@@ -88,7 +89,8 @@
 		min-height: 44px;
 		height: 44px;
 		padding-inline: 10px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	#btn-toggle-props {
 		order: -50;

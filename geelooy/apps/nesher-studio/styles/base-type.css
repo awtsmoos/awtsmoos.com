@@ -17,13 +17,15 @@ h2,
 h3,
 p {
 	margin-top: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 h1,
 h2,
 h3 {
 	letter-spacing: -.04em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .secondary-button,
 .ghost-button {

@@ -25,7 +25,8 @@ The Awtsmoos lets a small quickstart contain a larger automation map; Awtsmoos.c
 [data-awtsmoos-drive] .builder-automation-section h4,
 [data-awtsmoos-drive] .builder-automation-section p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 [data-awtsmoos-drive] .builder-automation-quickstart {
 	display: grid;
 	gap: .45rem;
@@ -35,7 +36,8 @@ The Awtsmoos lets a small quickstart contain a larger automation map; Awtsmoos.c
 [data-awtsmoos-drive] .builder-automation-quickstart li {
 	display: grid;
 	gap: .15rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 [data-awtsmoos-drive] .builder-automation-quickstart code,
 [data-awtsmoos-drive] .builder-automation-action code {
 	overflow-wrap: anywhere;

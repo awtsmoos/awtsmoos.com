@@ -29,7 +29,8 @@
 .profile-app .profile-section-count strong {
 	font-size: 1.65rem;
 	line-height: 1;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .profile-app .profile-section-count small {
 	color: var(--profile-muted);
 }
@@ -57,7 +58,8 @@
 .profile-app .profile-archive-search input {
 	min-width: 0;
 	padding: 0 .9rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .profile-app .profile-archive-search-button {
 	border: 0;
 	padding: 0 1rem;

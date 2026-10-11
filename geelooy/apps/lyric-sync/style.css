@@ -90,7 +90,8 @@ header h1 {
     display: block;
     font-weight: bold;
     margin-bottom: 0.5rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .file-input-wrapper i {
     margin-right: 0.5rem;
@@ -98,7 +99,8 @@ header h1 {
 
 input[type="file"] {
     display: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .file-input-wrapper span {
     display: block;
@@ -253,12 +255,14 @@ input[type="file"] {
 .setting label {
     margin-bottom: 0.5rem;
     font-size: 0.9rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .setting input[type="range"], .setting select, .setting input[type="color"] {
     width: 100%;
     padding: 0.25rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .setting input[type="color"] {
     -webkit-appearance: none;
     border: none;
@@ -266,14 +270,17 @@ input[type="file"] {
     height: 40px;
     cursor: pointer;
     background: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .setting input[type="color"]::-webkit-color-swatch-wrapper {
     padding: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .setting input[type="color"]::-webkit-color-swatch {
     border-radius: 8px;
     border: 1px solid var(--border-color);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 
 /* Mobile Responsive */

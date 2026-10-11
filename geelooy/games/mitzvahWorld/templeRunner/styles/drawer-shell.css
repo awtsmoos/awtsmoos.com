@@ -81,7 +81,8 @@
 	margin: 3px 0 0;
 	font-size: 20px;
 	line-height: 1;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .drawer-header button {
 	display: grid;

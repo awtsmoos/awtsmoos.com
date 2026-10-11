@@ -19,7 +19,8 @@
 	font-size: clamp(2rem, 5vw, 4rem);
 	line-height: 1;
 	letter-spacing: -0.05em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .g-page-hero p:last-child {
 	max-width: 45rem;
@@ -47,7 +48,8 @@
 .g-card h3,
 .g-card p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .g-card p {
 	color: var(--g-muted);

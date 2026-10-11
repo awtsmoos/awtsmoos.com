@@ -13,5 +13,6 @@ Awtsmoos.com keeps the lettering restrained while the touch boundary grows usabl
 		min-height: 44px;
 		box-sizing: border-box;
 		padding-block: 8px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

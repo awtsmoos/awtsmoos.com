@@ -47,24 +47,29 @@
 	position: absolute;
 	bottom: .48rem;
 	transform: translateX(-50%);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .celestial-cardinals span:nth-child(1) {
 	left: .6rem;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .celestial-cardinals span:nth-child(2) {
 	left: 25%;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .celestial-cardinals span:nth-child(3) {
 	left: 50%;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .celestial-cardinals span:nth-child(4) {
 	left: 75%;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .celestial-cardinals::after {
 	right: .6rem;

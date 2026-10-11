@@ -52,7 +52,8 @@
 	font-size: clamp(1.02rem, 1.8vw, 1.28rem);
 	line-height: 1.25;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .score {
 	padding: .32rem .48rem;

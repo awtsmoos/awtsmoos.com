@@ -75,7 +75,8 @@
 
 @media (max-width: 760px) {
 	.messaging-workspace-search { height: 50px; margin: 0.5rem 0.6rem 0; padding-left: 0.62rem; }
-	.messaging-workspace-search button { width: 44px; height: 44px; min-width: 44px; min-height: 44px; }
+	.messaging-workspace-search button { width: 44px; height: 44px; min-width: 44px; min-height: 44px; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	.messaging-search-feedback { margin-inline: 0.68rem; }
 }
 

@@ -81,13 +81,15 @@ button,
 input,
 select {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 button,
 summary,
 a {
 	-webkit-tap-highlight-color: transparent;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 ::selection {
 	background: var(--mist);

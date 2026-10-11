@@ -41,7 +41,8 @@
 .logo-area p,
 .logo-area h1 {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .logo-area p {
 	color: var(--studio-cyan);
 	font-size: .72rem;
@@ -54,7 +55,8 @@
 	font-size: 1.55rem;
 	line-height: 1;
 	letter-spacing: -.035em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .version {
 	position: absolute;
 	inset-block-start: 0;

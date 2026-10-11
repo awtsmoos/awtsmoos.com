@@ -20,14 +20,16 @@
 .awt-health-head h3 {
   margin: 4px 0 0;
   font-size: clamp(1.1rem, 1.8vw, 1.6rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-health-head > strong {
   border-radius: 999px;
   padding: 10px 14px;
   background: rgba(255,255,255,.1);
   white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-health-grid {
   display: grid;
@@ -52,17 +54,20 @@
 .awt-health-card strong,
 .awt-mission-strip strong {
   font-size: .98rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-health-card span {
   font-weight: 800;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-health-card small,
 .awt-mission-strip span {
   opacity: .76;
   line-height: 1.35;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-health-card.is-good {
   border-color: rgba(71, 230, 156, .45);

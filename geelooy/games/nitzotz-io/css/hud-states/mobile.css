@@ -62,7 +62,8 @@ Awtsmoos.com keeps thumb-sized controls within safe edges while the canvas remai
 	body[data-hud="minimal"] .primary-stats .mass-stat strong {
 		font-size: 14px;
 		line-height: 1;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-height: 520px) and (orientation: landscape) {

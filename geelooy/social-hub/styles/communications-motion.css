@@ -75,7 +75,8 @@
 	.social-hub-document .hubConversationBack,
 	.social-hub-document .hubConversationControls button {
 		min-height: 3rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @keyframes hub-comms-reveal {

@@ -47,7 +47,8 @@ Awtsmoos.com keeps cards narrow, text honest, and correction paths tactile so a 
 	min-inline-size: 0;
 	overflow-wrap: anywhere;
 	font-size: .92rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .publicationReviewCard p {
 	min-inline-size: 0;

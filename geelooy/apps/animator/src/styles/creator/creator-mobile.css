@@ -47,7 +47,8 @@
 	[data-awtsmoos-creator] textarea {
 		min-height: 104px;
 		max-height: 28dvh;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	[data-awtsmoos-creator] .aw-creator__metrics {
 		grid-template-columns: 1fr;
@@ -82,7 +83,8 @@
 	[data-awtsmoos-creator] textarea {
 		min-height: 72px;
 		max-height: 22dvh;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	[data-awtsmoos-creator] .aw-creator__prompt-label,
 	[data-awtsmoos-creator] .aw-creator__advanced,

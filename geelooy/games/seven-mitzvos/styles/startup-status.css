@@ -50,7 +50,8 @@
 	margin: 0;
 	font-size: clamp(1.8rem, 6vw, 2.8rem);
 	letter-spacing: -.04em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .sevenMitzvosStartup p:last-child {
 	margin: 10px 0 0;

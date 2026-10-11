@@ -50,7 +50,8 @@
 	font-size: 0.78em;
 	font-weight: 620;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .Awtsmoos-gameplay .Awtsmoos-trade-button--buy {
 	color: var(--merchant-buy);

@@ -72,7 +72,8 @@
 
 	.modeCard strong {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.modeCard select {
 		min-width: 5.8rem;

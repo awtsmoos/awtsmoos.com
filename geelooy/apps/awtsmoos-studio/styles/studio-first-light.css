@@ -47,7 +47,8 @@ body {
 .studio-first-light h1 {
 	margin: 14px 0 8px;
 	font-size: clamp(20px, 6vw, 28px);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .studio-first-light p {
 	margin: 0;

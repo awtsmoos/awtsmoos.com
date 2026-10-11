@@ -21,7 +21,8 @@
 	border: 1px solid rgba(133, 161, 203, .24);
 	background: rgba(8, 18, 35, .68);
 	transition: border-color .16s ease, box-shadow .16s ease, background .16s ease, transform .16s ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .studio-view-quick button:hover,
 .studio-3d-quick-presets button:hover {
 	border-color: rgba(124, 224, 255, .58);
@@ -31,7 +32,8 @@
 	border-color: #79dcff;
 	background: rgba(30, 88, 121, .52);
 	box-shadow: 0 0 0 2px rgba(121, 220, 255, .2), inset 0 0 24px rgba(59, 164, 212, .12);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .studio-view-quick button.is-active::after,
 .studio-3d-quick-presets button.is-active::after {
 	content: "✓";

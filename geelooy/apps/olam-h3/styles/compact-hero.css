@@ -14,11 +14,13 @@ The Awtsmoos lets the opening frame become a quiet threshold instead of a billbo
 .director-hero-copy h1 {
 	margin: 3px 0 5px;
 	font-size: clamp(30px, 6vw, 48px);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .director-hero-copy p {
 	font-size: 11px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .hero-status-rail {
 	gap: 5px;
@@ -28,7 +30,8 @@ The Awtsmoos lets the opening frame become a quiet threshold instead of a billbo
 .hero-status-rail strong {
 	padding: 4px 7px;
 	font-size: 8px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .prompt-section {
 	padding: 14px;
@@ -54,7 +57,8 @@ The Awtsmoos lets the opening frame become a quiet threshold instead of a billbo
 .prompt-actions button {
 	flex: 0 0 auto;
 	min-height: 38px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .prompt-starters {
 	margin-top: 9px;
@@ -83,11 +87,13 @@ The Awtsmoos lets the opening frame become a quiet threshold instead of a billbo
 
 	.director-hero-copy h1 {
 		font-size: 30px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.director-hero-copy p {
 		max-width: 230px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.hero-viewfinder {
 		min-height: 86px;

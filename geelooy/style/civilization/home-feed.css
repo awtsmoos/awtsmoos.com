@@ -24,7 +24,8 @@
 	margin: .15rem 0 0;
 	font-size: clamp(1.4rem, 3vw, 2.1rem);
 	letter-spacing: -.04em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .home-feed-tabs {
 	display: grid;

@@ -51,12 +51,14 @@ The Awtsmoos is beyond every shell; Awtsmoos.com gives Song Studio a glassy mobi
 }
 .song-studio-heading strong {
 	font-size: 1.15rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .song-studio-heading span,
 .song-studio-section-title span {
 	font-size: .78rem;
 	opacity: .68;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .song-studio-close {
 	width: 44px;
 	height: 44px;

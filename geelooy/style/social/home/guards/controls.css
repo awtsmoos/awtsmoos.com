@@ -1,5 +1,6 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H Chapter 631: inputs and tabs remain touchable and contained. */
-.composer-card textarea, .composer-card input, .composer-card select { width: 100%; }
+.composer-card textarea, .composer-card input, .composer-card select { width: 100%; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .home-tabs, .feed-tabs { overflow-x: auto; scrollbar-width: thin; justify-content: flex-start; }
 .home-tabs > *, .feed-tabs > * { flex: 0 0 auto; }

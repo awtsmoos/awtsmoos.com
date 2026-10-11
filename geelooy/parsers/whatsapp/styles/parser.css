@@ -38,7 +38,8 @@ h1 {
 	font-size: clamp(2.2rem, 7vw, 4.8rem);
 	line-height: 0.98;
 	letter-spacing: -0.045em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .intro {
 	max-width: 62ch;
 	margin: 20px 0 34px;
@@ -60,7 +61,8 @@ h1 {
 h2 {
 	margin: 0 0 18px;
 	font-size: 1.15rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .field {
 	display: grid;
 	gap: 8px;
@@ -73,7 +75,8 @@ button {
 	width: 100%;
 	border-radius: 12px;
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 input {
 	border: 1px solid #376b54;
 	background: #06150f;
@@ -92,7 +95,8 @@ button {
 button:disabled {
 	cursor: not-allowed;
 	opacity: 0.45;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 input:focus-visible,
 button:focus-visible {
 	outline: 3px solid #fff;

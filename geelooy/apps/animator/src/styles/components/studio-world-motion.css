@@ -13,7 +13,8 @@
 		border-color 150ms ease,
 		box-shadow 150ms ease,
 		background 150ms ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .aw-professional-studio .aw-studio-world button:hover,
 .aw-professional-studio .aw-studio-world input:hover,
@@ -43,12 +44,14 @@
 	cursor: not-allowed;
 	opacity: .5;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (prefers-reduced-motion: reduce) {
 	.aw-professional-studio .aw-studio-world button,
 	.aw-professional-studio .aw-studio-world input,
 	.aw-professional-studio .aw-studio-world-advanced {
 		transition-duration: .01ms;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

@@ -18,7 +18,8 @@
 .awtsmoos-transcribe .transcribe-field > span {
 	font-size: .9rem;
 	font-weight: 760;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-transcribe .transcribe-field small {
 	color: var(--tr-muted);

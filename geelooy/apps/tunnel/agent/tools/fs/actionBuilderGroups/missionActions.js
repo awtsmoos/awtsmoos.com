@@ -4,6 +4,7 @@ const MissionRegistry = require("../actionGroups/missionRegistryBridge.js");
 const IdentityResolver = require("../actionGroups/missionIdentityResolver.js");
 const { buildMissionActions, mergedPayload } = require("../actionGroups/missionActions.js");
 const { buildMissionLedgerActions } = require("../actionGroups/missionLedgerActions.js");
+const { buildMissionBoardActions } = require("../actionGroups/missionBoardActions.js");
 const { buildMissionOperatingActions } = require("../actionGroups/missionOperatingActions.js");
 const { buildMissionAwareActions } = require("../actionGroups/missionAwareActions.js");
 const { buildMissionEightStepActions } = require("../actionGroups/missionEightStepActions.js");
@@ -77,6 +78,7 @@ function buildLegacyActions(context, buildActions) {
 	return {
 		...buildMissionActions(context),
 		...buildMissionLedgerActions(context),
+		...buildMissionBoardActions(context),
 		...buildMissionOperatingActions(context),
 		...buildMissionAwareActions(context),
 		...buildMissionEightStepActions(context),

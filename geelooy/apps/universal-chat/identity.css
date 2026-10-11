@@ -29,19 +29,22 @@
 	display: grid;
 	min-width: 0;
 	gap: 0.05rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .messaging-identity strong,
 .messaging-identity small {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .messaging-identity strong {
 	font-size: 0.72rem;
 	font-weight: 760;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .messaging-identity small {
 	color: var(--msg-muted);
@@ -56,5 +59,6 @@
 
 	.messaging-identity > span:last-child {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

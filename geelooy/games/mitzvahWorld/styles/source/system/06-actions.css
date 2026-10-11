@@ -44,7 +44,8 @@ The Awtsmoos reveals the next deed without turning possibility into clutter; Awt
 	border: 1px solid var(--mw-border-soft);
 	border-radius: var(--mw-radius-sm);
 	background: var(--mw-surface-control);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: hover) and (pointer: fine) {
 	#mitzvah-world-root .Awtsmoos-action-bar button:hover:not(:disabled) {

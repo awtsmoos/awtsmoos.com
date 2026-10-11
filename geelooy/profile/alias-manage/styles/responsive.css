@@ -51,7 +51,8 @@
 	.form-btns button,
 	.alias-delete-actions button {
 		width: 100%;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-width: 30rem) {
@@ -73,7 +74,8 @@
 @media (max-height: 34rem) and (orientation: landscape) {
 	.alias-field-shell textarea {
 		min-height: 5.5rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (prefers-reduced-motion: reduce) {

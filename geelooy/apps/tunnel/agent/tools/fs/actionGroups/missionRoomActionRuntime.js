@@ -24,7 +24,7 @@ async function resolve(config, data = {}) {
 		return mission ? { mission, created: false } : missing(data.missionId, data.roomId);
 	}
 	if (data.roomId) {
-		const registry = Metadata.activeRooms(config, data);
+		const registry = await Metadata.activeRooms(config, data);
 		const room = (registry.rooms || []).find(item => item.roomId === data.roomId);
 		if (!room?.missionId) return missing("", data.roomId);
 		const mission = await Mission.load(config, room.missionId);
@@ -46,7 +46,7 @@ async function createBackingMission(config, data = {}) {
 /** Persists mission state and its room lookup projection together. */
 async function save(config, mission, data = {}) {
 	await Mission.save(config, mission);
-	if (mission.room?.id) Metadata.upsertRoom(config, mission, data);
+	if (mission.room?.id) await Metadata.upsertRoom(config, mission, data);
 	return mission;
 }
 

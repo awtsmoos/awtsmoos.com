@@ -63,7 +63,8 @@
 .awtsmoos-browser-host :where(button) {
 	-webkit-tap-highlight-color: transparent;
 	touch-action: manipulation;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 html .awtsmoos-browser-host [hidden] {
 	display: none;

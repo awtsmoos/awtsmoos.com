@@ -41,7 +41,8 @@
 }
 
 .ohr-joy-core { position: absolute; left: 50%; top: 50%; width: 40px; height: 40px; border: 1px solid rgba(194, 167, 255, 0.32); border-radius: 50%; background: radial-gradient(circle, #59458b, #241b42); transform: translate(-50%, -50%); }
-.ohr-touch small { display: block; margin-top: 2px; font-size: 9px; font-weight: 800; }
+.ohr-touch small { display: block; margin-top: 2px; font-size: 9px; font-weight: 800; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .ohr-joy .ohr-touch { position: absolute; width: 40px; height: 40px; border-radius: 50%; font-size: 17px; }
 .ohr-joy .up { left: 42px; top: 7px; }
 .ohr-joy .down { left: 42px; bottom: 7px; }

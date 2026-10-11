@@ -42,7 +42,8 @@
 ) {
 	box-sizing: border-box;
 	max-inline-size: 100%;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoosSocialExperience :where(button, a, summary) {
 	-webkit-tap-highlight-color: transparent;
@@ -52,7 +53,8 @@
 		border-color var(--social-motion-base) var(--social-ease),
 		opacity var(--social-motion-fast) linear,
 		box-shadow var(--social-motion-base) var(--social-ease);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoosSocialExperience :where(
 	button,
@@ -71,7 +73,8 @@
 	cursor: not-allowed;
 	opacity: .48;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: hover) and (pointer: fine) {
 	.awtsmoosSocialExperience :where(
@@ -111,7 +114,8 @@
 		transition-duration: .01ms;
 		animation-duration: .01ms;
 		animation-iteration-count: 1;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (forced-colors: active) {

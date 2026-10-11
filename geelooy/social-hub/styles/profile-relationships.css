@@ -22,7 +22,8 @@
 	margin: 0 0 8px;
 	font-size: .84rem;
 	letter-spacing: .01em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .social-hub-document .profileRelationshipList {
 	display: flex;
 	flex-wrap: wrap;

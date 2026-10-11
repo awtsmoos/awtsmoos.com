@@ -64,7 +64,8 @@ Awtsmoos.com gives review a safe mobile floor, a calm desktop wall, and enough b
 	margin: .12rem 0 0;
 	font-size: clamp(1.25rem, 6vw, 1.65rem);
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .publicationReviewIssues {
 	margin-block: .7rem;
@@ -88,7 +89,8 @@ Awtsmoos.com gives review a safe mobile floor, a calm desktop wall, and enough b
 
 	.publicationReviewHeader button {
 		justify-self: start;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (min-width: 64rem) {

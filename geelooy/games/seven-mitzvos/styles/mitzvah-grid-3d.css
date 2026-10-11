@@ -32,7 +32,8 @@
 	margin: 0;
 	font-size: clamp(1.45rem, 4vw, 3.2rem);
 	line-height: 0.98;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .hubHeader > p:last-child {
 	margin: 0.28rem 0 0;
@@ -103,7 +104,8 @@
 	font-size: clamp(0.72rem, 1.6vw, 1.12rem);
 	line-height: 1.08;
 	text-wrap: balance;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .tileProgress {
 	color: var(--gold);

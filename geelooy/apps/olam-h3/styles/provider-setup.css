@@ -13,7 +13,8 @@ The Awtsmoos keeps the secret hidden while making configuration unmistakable; Aw
 
 .setup-status-row h2 {
 	margin-top: 3px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .setup-status {
 	flex: 0 0 auto;
@@ -67,7 +68,8 @@ The Awtsmoos keeps the secret hidden while making configuration unmistakable; Aw
 
 .setup-step strong {
 	font-size: 11px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .setup-step p {
 	margin: 3px 0 0;

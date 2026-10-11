@@ -99,7 +99,8 @@
 	font-size: 0.82rem;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .messaging-member-copy small { color: var(--msg-muted); font-size: 0.66rem; }
 

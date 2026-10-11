@@ -76,7 +76,8 @@
 .alias-command-link > span:nth-child(2) {
 	display: grid;
 	min-inline-size: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .alias-command-link small,
 .alias-default-action small {

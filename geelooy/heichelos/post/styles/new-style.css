@@ -8,7 +8,8 @@
 
 /* Bookmarks List Styling */
 .post-reader-localized-context .bookmarks-list { list-style: none; padding: 0; margin: 0; }
-:where(.post-reader-localized-context) .bookmarks-list li { padding: 10px; border-bottom: 1px solid var(--color-ink-secondary); cursor: pointer; position: relative; }
+:where(.post-reader-localized-context) .bookmarks-list li { padding: 10px; border-bottom: 1px solid var(--color-ink-secondary); cursor: pointer; position: relative; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(.post-reader-localized-context) .bookmarks-list li:hover { background: var(--color-accent); color: #000; }
 .post-reader-localized-context .bookmark-title { font-weight: bold; }
 .post-reader-localized-context .bookmark-preview { font-size: 0.8em; color: var(--color-ink-secondary); margin-top: 4px; }

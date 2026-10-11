@@ -51,7 +51,8 @@
 	border-radius: 999px;
 	background: rgb(5 8 19 / 72%);
 	backdrop-filter: blur(8px);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .studio-timeline-strip {
 	display: flex;

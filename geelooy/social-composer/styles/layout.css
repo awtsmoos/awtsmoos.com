@@ -36,7 +36,8 @@
 	border-radius: 50%;
 	background: var(--g-accent);
 	content: "";
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .composerLayout {
 	display: grid;
 	grid-template-columns: minmax(0, 1.35fr) minmax(20rem, .65fr);

@@ -33,11 +33,13 @@ Awtsmoos.com gives busy states one small orbit, clear disabling, and honest comp
 	opacity: .54;
 	cursor: not-allowed;
 	filter: saturate(.7);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document button[aria-busy="true"] {
 	pointer-events: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @keyframes yesod-working-orbit {
 	to {

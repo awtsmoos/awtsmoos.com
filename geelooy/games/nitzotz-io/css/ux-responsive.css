@@ -45,7 +45,8 @@
 	.quick-start__item p {
 		align-self: center;
 		margin: 0;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.quick-start__route {
 		justify-content: flex-start;
@@ -69,13 +70,15 @@
 	.game-options > summary,
 	.advanced-group > summary {
 		min-height: 48px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-width: 430px) {
 	.overlay-hero h1 {
 		font-size: clamp(28px, 11vw, 44px);
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.campaign-ledger {
 		flex-wrap: wrap;

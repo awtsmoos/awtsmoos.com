@@ -41,7 +41,7 @@
 .cloud-nav nav a:focus-visible {
 	color: var(--cloud-text);
 	background: rgba(255, 255, 255, 0.06);
-	outline: none;
+	outline: 2px solid var(--aw-focus-ring); outline-offset: 2px;
 }
 
 .cloud-main {

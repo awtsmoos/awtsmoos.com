@@ -96,12 +96,14 @@ Awtsmoos.com gives dense records depth without surrendering scanning speed.
 .start-record-copy small {
 	overflow: hidden;
 	text-overflow: ellipsis;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .start-record-copy strong {
 	font-size: 14px;
 	font-weight: 780;
 	letter-spacing: -.01em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .start-record-copy small {
 	color: var(--geo-text-muted);
 	line-height: 1.4;

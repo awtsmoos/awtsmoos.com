@@ -42,7 +42,8 @@
 	min-block-size: 5rem;
 	line-height: 1.55;
 	resize: vertical;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .composer-civilization-document select {
 	appearance: none;
@@ -66,7 +67,8 @@
 	block-size: 1rem;
 	margin: 0;
 	accent-color: var(--composer-violet);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .composer-civilization-document label:has(> input[type="checkbox"]),
 .composer-civilization-document label:has(> input[type="radio"]) {

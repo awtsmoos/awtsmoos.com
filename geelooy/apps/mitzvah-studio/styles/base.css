@@ -41,12 +41,14 @@
 		min-height: 40px;
 		padding: .62rem .82rem;
 		cursor: pointer;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	#mitzvah-studio :is(input, select) {
 		min-height: 40px;
 		padding: .55rem .72rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	#mitzvah-studio input::placeholder {
 		color: color-mix(in srgb, var(--studio-muted) 72%, transparent);
@@ -55,7 +57,8 @@
 	#mitzvah-studio input[type="search"] {
 		min-width: 0;
 		background-color: rgba(5, 10, 18, .68);
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	#mitzvah-studio :is(.studio-shelf-list, .studio-outliner-list, .inspector-fields, .studio-status) {
 		scrollbar-width: thin;

@@ -66,11 +66,13 @@
 
 .queueCard strong {
 	font-size: .96rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .queueCard span {
 	font-size: var(--type-small);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .queueCard .queueExcerpt {
 	color: var(--awt-ink);
@@ -79,4 +81,5 @@
 
 .queueCard small {
 	font-size: var(--type-caption);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

@@ -110,4 +110,5 @@
 }
 @media (prefers-reduced-motion: reduce) { .g-header-search input {
 		transition: none;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }

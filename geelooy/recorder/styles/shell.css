@@ -55,14 +55,16 @@ body {
 .recorder-header h1,
 .recorder-header p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .recorder-header h1 {
 	max-inline-size: 18ch;
 	font-size: clamp(1.85rem, 5vw, 3.5rem);
 	line-height: .98;
 	letter-spacing: -.05em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .recorder-header > div > p:last-child {
 	max-inline-size: 52rem;

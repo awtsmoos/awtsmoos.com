@@ -29,7 +29,8 @@
 .rebbe-runner .rebbe-runner__button span,
 .rebbe-runner .rebbe-runner__button small {
 	pointer-events: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .rebbe-runner .rebbe-runner__button small {
 	display: block;
@@ -115,8 +116,10 @@
 
 .rebbe-runner .rebbe-runner__drawer-body p {
 	margin: 0 0 8px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .rebbe-runner .rebbe-runner__drawer-body p:last-child {
 	margin-bottom: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

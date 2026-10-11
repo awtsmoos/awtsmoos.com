@@ -70,14 +70,16 @@ body[data-comment-thread-page] .threadHero :where(h1, p) {
 	margin: 0;
 	max-inline-size: 100%;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-comment-thread-page] .threadHero h1 {
 	font-size: clamp(1.55rem, 6vw, 2.55rem);
 	line-height: 1.04;
 	letter-spacing: -.035em;
 	text-wrap: balance;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-comment-thread-page] .threadHero__chips {
 	display: flex;

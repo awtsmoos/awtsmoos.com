@@ -36,7 +36,8 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .mail-status-light {
 	padding: 0.28rem 0.48rem;
@@ -109,6 +110,7 @@
 		padding-bottom: calc(4.9rem + env(safe-area-inset-bottom));
 	}
 	.mail-quantum-status { grid-template-columns: auto 1fr auto; }
-	.mail-quantum-status small { display: none; }
+	.mail-quantum-status small { display: none; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	.mail-quantum-frame { grid-template-columns: minmax(0, 1fr); border-radius: 0.8rem 1.8rem 0.8rem 1.8rem; }
 }

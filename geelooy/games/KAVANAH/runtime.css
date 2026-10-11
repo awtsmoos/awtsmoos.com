@@ -51,20 +51,23 @@
 .kavanah-hud p {
 	display: block;
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .kavanah-hud span {
 	margin-top: 2px;
 	font-size: .78rem;
 	opacity: .82;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .kavanah-hud p {
 	margin-top: 4px;
 	max-width: 52ch;
 	font-size: clamp(.72rem, 2.7vw, .9rem);
 	line-height: 1.28;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #pause-button,
 .kavanah-actions button {
@@ -111,7 +114,8 @@
 
 .kavanah-actions button {
 	padding: 10px 18px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 520px) {
 	.kavanah-hud {

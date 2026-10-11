@@ -19,7 +19,8 @@
 	.heroPanel h1 {
 		font-size: clamp(2rem, 9.5vw, 2.8rem);
 		line-height: 0.98;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.heroText {
 		font-size: 0.95rem;
@@ -56,7 +57,8 @@
 		min-height: 34px;
 		min-width: 0;
 		padding: 6px 10px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.discoveryPanel {
 		border-radius: 18px;
@@ -72,7 +74,8 @@
 
 	.discoveryHeading h2 {
 		font-size: clamp(1.35rem, 7vw, 1.8rem);
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.gameCount {
 		min-height: 32px;

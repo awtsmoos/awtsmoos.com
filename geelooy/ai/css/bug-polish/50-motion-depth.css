@@ -3,7 +3,8 @@
 Chapter 437: Motion became a servant, not a storm.
 Depth answers touch; reduced modes remain gentle.
 */
-button, select, .refresh-button, .attach-button, #conversation-items li, .provider-key-panel, .service-selector, .transport-status { transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease, opacity .18s ease; }
+button, select, .refresh-button, .attach-button, #conversation-items li, .provider-key-panel, .service-selector, .transport-status { transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease, opacity .18s ease; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 button:hover, .refresh-button:hover, .attach-button:hover { transform: translateY(-1px); box-shadow: 0 12px 34px rgba(0,255,255,.12); }
 .service-selector:hover, .provider-key-panel:hover, .transport-status:hover { border-color: rgba(88,235,255,.34); }
 .chat-box, .sidebar, .automation-panel { animation: bug-polish-arrive .44s ease both; }

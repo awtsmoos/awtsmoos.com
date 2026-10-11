@@ -55,7 +55,8 @@
 .composer-civilization-document select:disabled {
 	opacity: 0.5;
 	cursor: not-allowed;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .composer-civilization-document [aria-pressed="true"],
 .composer-civilization-document [aria-selected="true"] {

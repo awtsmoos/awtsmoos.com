@@ -60,7 +60,8 @@ body::after {
   background-size: 56px 56px;
   mask-image: radial-gradient(circle at center, black, transparent 70%);
 }
-button, select, textarea { font: inherit; }
+button, select, textarea { font: inherit; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 button, select { color: var(--ai-text); }
 ::selection { background: rgba(83, 216, 255, .36); }
 

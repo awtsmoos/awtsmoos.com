@@ -22,5 +22,6 @@
 		font-size: clamp(.66rem, 2.7vw, .76rem);
 		text-overflow: ellipsis;
 		white-space: nowrap;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-registry-merge: consolidated duplicate selectors W4 2026-10-08 */

@@ -61,7 +61,8 @@
 	line-height: .95;
 	letter-spacing: -.055em;
 	max-width: 12ch;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-subagents__hero p {
 	margin: 0;
@@ -69,7 +70,8 @@
 	font-size: clamp(1rem, 1.4vw, 1.18rem);
 	line-height: 1.65;
 	opacity: .76;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-subagents__eyebrow,
 .awt-subagents__panel-kicker {
@@ -116,5 +118,7 @@
 }
 
 .awt-subagents__panel h3,
-.awt-subagents__panel h4 { margin: 4px 0 14px; letter-spacing: -.025em; }
-.awt-subagents__panel h3 { font-size: clamp(1.3rem, 2vw, 1.8rem); }
+.awt-subagents__panel h4 { margin: 4px 0 14px; letter-spacing: -.025em; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.awt-subagents__panel h3 { font-size: clamp(1.3rem, 2vw, 1.8rem); 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

@@ -76,7 +76,8 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 		background: linear-gradient(180deg, rgba(23, 43, 65, .96), rgba(10, 24, 40, .96));
 		box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
 		touch-action: manipulation;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	body .all.post-reader-localized-context.awtsmoos-reader-vision
 		> .awtsmoos-auto-scroll-floating {
@@ -94,7 +95,8 @@ body .all.post-reader-localized-context.awtsmoos-reader-vision
 		> .awtsmoos-floating-controls button {
 		padding-inline: .55rem;
 		font-size: .76rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-height: 31.25rem) and (orientation: landscape) and (max-width: 64rem) {

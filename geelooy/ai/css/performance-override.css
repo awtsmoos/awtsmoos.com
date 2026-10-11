@@ -103,7 +103,8 @@ body.awts-fx-low .ai-empty-state,
 body.awts-fx-low .input-area,
 body.awts-fx-low .conversation-list li,
 body.awts-fx-low .message,
-body.awts-fx-low .bubble{backdrop-filter:none;-webkit-backdrop-filter:none;filter:none;box-shadow:0 4px 10px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.03)}
+body.awts-fx-low .bubble{backdrop-filter:none;-webkit-backdrop-filter:none;filter:none;box-shadow:0 4px 10px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.03)
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 =======
 html body.awts-fx-low .container>.sidebar,
 html body.awts-fx-low .container>#automation-panel,
@@ -116,7 +117,8 @@ html body.awts-fx-low .ai-empty-state,
 html body.awts-fx-low .input-area,
 html body.awts-fx-low .conversation-list li,
 html body.awts-fx-low .message,
-html body.awts-fx-low .bubble{backdrop-filter:none;-webkit-backdrop-filter:none;filter:none;box-shadow:0 4px 10px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.03)}
+html body.awts-fx-low .bubble{backdrop-filter:none;-webkit-backdrop-filter:none;filter:none;box-shadow:0 4px 10px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.03)
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 >>>>>>> theirs
 html.awts-fx-off body .container>.sidebar,
 html.awts-fx-off body .container>#automation-panel,
@@ -142,7 +144,8 @@ body.awts-fx-off .ai-empty-state,
 body.awts-fx-off .input-area,
 body.awts-fx-off .conversation-list li,
 body.awts-fx-off .message,
-body.awts-fx-off .bubble{backdrop-filter:none;-webkit-backdrop-filter:none;filter:none;box-shadow:none}
+body.awts-fx-off .bubble{backdrop-filter:none;-webkit-backdrop-filter:none;filter:none;box-shadow:none
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 html.awts-fx-low body .chat-box,
 html.awts-fx-off body .chat-box,
 body.awts-fx-low .chat-box,
@@ -163,7 +166,8 @@ html body.awts-fx-off .ai-empty-state,
 html body.awts-fx-off .input-area,
 html body.awts-fx-off .conversation-list li,
 html body.awts-fx-off .message,
-html body.awts-fx-off .bubble{backdrop-filter:none;-webkit-backdrop-filter:none;filter:none;box-shadow:none}
+html body.awts-fx-off .bubble{backdrop-filter:none;-webkit-backdrop-filter:none;filter:none;box-shadow:none
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 html.awts-fx-low body .chat-box,
 html.awts-fx-off body .chat-box,
 html body.awts-fx-low .chat-box,

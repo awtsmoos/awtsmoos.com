@@ -21,7 +21,8 @@ body[data-comment-thread-page] .threadSummary {
 body[data-comment-thread-page] .threadSummary > strong {
 	font-size: .9rem;
 	letter-spacing: -.01em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-comment-thread-page] :where(
 	.threadSummary__metrics,

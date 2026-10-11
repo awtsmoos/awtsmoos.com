@@ -17,29 +17,29 @@ const { createWireBackend } = require("./wireBackend.js");
  * layouts, keeping loopback proof and public-binding policy inside one release light.
  */
 
-const { AwtsmoosSshServer } = require(resolveServerModule());
+const SelfContained = require("../selfContained.js");
+
+let AwtsmoosSshServer = null;
+
+/** Resolves the SSH server from the self-contained bundle (no repo, ever). */
+async function loadSshServer() {
+	if (!AwtsmoosSshServer) {
+		const file = await SelfContained.bundleFile("ssh-server", "ayzarim/ssh/server/Server.js");
+		AwtsmoosSshServer = require(file).AwtsmoosSshServer;
+	}
+	return AwtsmoosSshServer;
+}
+
 let server = null;
 let serverConfig = null;
-
-/** Resolves the external SSH server in an installed bundle first, then source checkout. */
-function resolveServerModule() {
-	const candidates = [
-		path.resolve(__dirname, "../../ayzarim/ssh/server/Server.js"),
-		path.resolve(__dirname, "../../../../../../ayzarim/ssh/server/Server.js")
-	];
-	const found = candidates.find(candidate => fs.existsSync(candidate));
-	if (!found) {
-		throw new Error("fake_ssh_server_module_missing");
-	}
-	return found;
-}
 
 async function start(config = {}, input = {}) {
 	const host = bindHost(config, input);
 	assertPublicPolicy(config, host);
+	const ServerClass = await loadSshServer();
 	if (!server) {
 		serverConfig = { ...config };
-		server = new AwtsmoosSshServer({
+		server = new ServerClass({
 			...config,
 			backend: createWireBackend(config),
 			onError: error => config.debug?.(`fake SSH server: ${error.message}`)

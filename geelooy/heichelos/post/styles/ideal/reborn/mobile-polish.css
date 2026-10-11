@@ -8,7 +8,8 @@
 :where(.post-reader-localized-context, .heichel-sovereign-wrapper, .awtsmoospage) :where(button, a[href], [role="button"], summary) {
     -webkit-tap-highlight-color: rgba(246, 201, 108, .22);
     touch-action: manipulation;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where(.post-reader-localized-context, .heichel-sovereign-wrapper, .awtsmoospage) :where(button, a[href], input, select, textarea, [tabindex]):focus-visible {
     outline: 2px solid rgba(34, 211, 238, .72);

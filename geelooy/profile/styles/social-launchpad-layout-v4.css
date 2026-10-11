@@ -32,7 +32,8 @@
 	overflow-wrap: anywhere;
 	font-size: clamp(1.02rem, 4vw, 1.32rem);
 	letter-spacing: -.015em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .geelooy-profile-shell :where(.profile-social-launchpad__heading p) {
 	margin: 0;
@@ -40,7 +41,8 @@
 	font-size: .83rem;
 	line-height: 1.45;
 	opacity: .68;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .geelooy-profile-shell :where(.profile-social-launchpad .awtsmoosActionOverflow) {
 	align-items: stretch;

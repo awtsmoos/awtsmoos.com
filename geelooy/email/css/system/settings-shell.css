@@ -58,7 +58,8 @@ drawer, safe areas, and motion remain local while no neighboring element inherit
 	gap: 1rem;
 	padding: .35rem .15rem 1rem;
 }
-.geelooy-mail-document .mail-settings-header :is(h2, p) { margin: .18rem 0 0; }
+.geelooy-mail-document .mail-settings-header :is(h2, p) { margin: .18rem 0 0; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .geelooy-mail-document .mail-settings-header p { color: var(--mail-text-muted); }
 .geelooy-mail-document .mail-settings-kicker {
 	font-size: .72rem;

@@ -46,7 +46,8 @@
 	cursor: not-allowed;
 	opacity: .46;
 	filter: saturate(.4);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-social-root :where(.awt-panel, .awt-btn, .awt-link-button, .awt-chip, .awt-brutal-chip) {
 	border: 1px solid var(--awt-border);
@@ -95,5 +96,6 @@
 
 @media (prefers-reduced-motion: reduce) {
 	.awtsmoos-social-root::after { animation: none; }
-	.awtsmoos-social-root :where(button, a, [role="button"]) { transition-duration: .01ms; }
+	.awtsmoos-social-root :where(button, a, [role="button"]) { transition-duration: .01ms; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

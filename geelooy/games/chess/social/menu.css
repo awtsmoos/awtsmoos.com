@@ -18,7 +18,8 @@
 	display: grid;
 	gap: 0.3rem;
 	width: 100%;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .chess-social-menu input,
 .chess-social-menu select {
@@ -28,7 +29,8 @@
 	font: inherit;
 	padding: 0.65rem;
 	width: 100%;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .chess-social-list {
 	display: grid;
@@ -50,4 +52,5 @@
 .chess-social-menu p {
 	line-height: 1.45;
 	margin: 0.4rem 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

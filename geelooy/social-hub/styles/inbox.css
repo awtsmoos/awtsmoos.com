@@ -24,7 +24,8 @@
 .social-hub-document .communicationsInboxMessage,
 .social-hub-document .communicationsThreadIdentity :is(strong, span) {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .communicationsInboxHeading p,
 .social-hub-document .communicationsInboxMessage,
@@ -77,7 +78,8 @@
 
 .social-hub-document .communicationsSummaryCard strong {
 	font-size: clamp(1.35rem, 4vw, 1.8rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document #communicationsThreadHeader {
 	grid-template-columns: auto minmax(0, 1fr);

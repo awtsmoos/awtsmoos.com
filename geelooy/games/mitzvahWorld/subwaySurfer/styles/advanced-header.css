@@ -25,7 +25,8 @@
 	display: block;
 	font-size: 0.98rem;
 	letter-spacing: 0.08em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .peruta-run-route .advanced-drawer-title span {
 	display: block;

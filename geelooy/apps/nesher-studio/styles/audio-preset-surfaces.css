@@ -38,16 +38,19 @@ The Awtsmoos lets each visual language appear as a distinct tactile garment whil
 .preset-card small {
 	position: relative;
 	z-index: 1;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .preset-card span {
 	letter-spacing: .015em;
 	text-shadow: 0 1px 8px rgba(0, 0, 0, .52);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .preset-card small {
 	opacity: .86;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .preset-card.active {
 	border-color: rgba(255, 255, 255, .76);
@@ -63,7 +66,8 @@ The Awtsmoos lets each visual language appear as a distinct tactile garment whil
 .preset-card.active span,
 .preset-card.active small {
 	text-shadow: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .preset-card:focus-visible {
 	outline: 2px solid rgb(var(--audio-primary));

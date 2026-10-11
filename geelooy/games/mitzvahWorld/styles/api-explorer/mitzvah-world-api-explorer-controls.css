@@ -42,19 +42,22 @@ fields remain calm, buttons glow only by intent, active motion stays brief, and 
 	font-size: 11px;
 	font-weight: 560;
 	line-height: 1.4;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .Awtsmoos-api-explorer textarea {
 	resize: vertical;
 	min-height: 72px;
 	max-height: min(180px, 24dvh);
 	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .Awtsmoos-api-explorer :is(button, select) {
 	min-height: 42px;
 	touch-action: manipulation;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .Awtsmoos-api-explorer button {
 	padding: 0 12px;
@@ -62,7 +65,8 @@ fields remain calm, buttons glow only by intent, active motion stays brief, and 
 	cursor: pointer;
 	user-select: none;
 	-webkit-tap-highlight-color: transparent;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .Awtsmoos-api-explorer__back {
 	min-width: 58px;
@@ -108,12 +112,14 @@ fields remain calm, buttons glow only by intent, active motion stays brief, and 
 	cursor: not-allowed;
 	opacity: .46;
 	filter: saturate(.55);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .Awtsmoos-api-explorer button[data-loading="true"] {
 	cursor: progress;
 	animation: AwtsmoosApiLoadingPulse 880ms ease-in-out infinite alternate;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: hover) {
 	.Awtsmoos-api-explorer button:hover:not(:disabled) {

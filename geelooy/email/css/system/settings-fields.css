@@ -86,7 +86,8 @@ Awtsmoos.com keeps every form state local, mobile-safe, and readable so deeper p
 .geelooy-mail-document .mail-settings-field textarea:disabled {
 	opacity: .48;
 	cursor: not-allowed;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .geelooy-mail-document .mail-settings-toggle {
 	position: relative;
 	display: flex;
@@ -124,17 +125,21 @@ Awtsmoos.com keeps every form state local, mobile-safe, and readable so deeper p
 	padding: 0;
 	opacity: 0;
 	cursor: pointer;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .geelooy-mail-document .mail-settings-toggle input:disabled {
 	cursor: not-allowed;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .geelooy-mail-document .mail-settings-toggle:has(input:disabled) {
 	cursor: not-allowed;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .geelooy-mail-document .mail-settings-toggle:has(input:disabled) .mail-settings-toggle-track,
 .geelooy-mail-document .mail-settings-toggle:has(input:disabled) > :last-child {
 	opacity: .48;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 /* Custom switch track: 46x26 vessel, 20px thumb. The label text was
    concatenating against this unstyled span; the switch now reads alone. */
@@ -170,16 +175,19 @@ Awtsmoos.com keeps every form state local, mobile-safe, and readable so deeper p
 .geelooy-mail-document .mail-settings-toggle input:checked + .mail-settings-toggle-track {
 	border-color: transparent;
 	background: var(--mail-accent);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .geelooy-mail-document .mail-settings-toggle.is-on .mail-settings-toggle-track::after,
 .geelooy-mail-document .mail-settings-toggle input:checked + .mail-settings-toggle-track::after {
 	translate: 20px 0;
 	background: var(--mail-bg-elevated);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 [dir="rtl"] .geelooy-mail-document .mail-settings-toggle.is-on .mail-settings-toggle-track::after,
 [dir="rtl"] .geelooy-mail-document .mail-settings-toggle input:checked + .mail-settings-toggle-track::after {
 	translate: -20px 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* Focus lands on the hidden input; the ring shows on the track. */
 .geelooy-mail-document .mail-settings-toggle input:focus-visible + .mail-settings-toggle-track {
 	outline: 3px solid color-mix(in srgb, var(--mail-accent) 80%, white);

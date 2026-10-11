@@ -64,7 +64,7 @@
 .awtsmoos-browser-menu:hover,
 .awtsmoos-browser-menu:focus-visible {
 	background: rgba(255, 255, 255, 0.085);
-	outline: none;
+	outline: 2px solid var(--aw-focus-ring); outline-offset: 2px;
 }
 
 .awtsmoos-browser-progress {

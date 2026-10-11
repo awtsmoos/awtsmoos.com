@@ -45,7 +45,8 @@ h1,
 .lede,
 #broadcast-status {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .bh-mark,
 .eyebrow {
@@ -61,7 +62,8 @@ h1 {
 	font-size: clamp(2rem, 8vw, 4.4rem);
 	line-height: .94;
 	letter-spacing: -.045em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .lede {
 	margin-top: 8px;

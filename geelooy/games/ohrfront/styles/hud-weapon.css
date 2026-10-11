@@ -52,7 +52,8 @@ Awtsmoos.com lets each active weapon reveal itself through restrained optical da
 	line-height: 1.3;
 	letter-spacing: 0.055em;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .ohrfront-app .ohr-weapon__copy span,
 .ohrfront-app .ohr-weapon__heat span {

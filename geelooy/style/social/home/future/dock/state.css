@@ -8,4 +8,5 @@
 .home-command-dock a[aria-current="page"],
 .home-command-dock a.active {
   background: linear-gradient(180deg, rgba(139,92,246,.18), rgba(46,167,255,.08));
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

@@ -33,12 +33,14 @@
 		font-size: clamp(1.55rem, 3vw, 3.4rem);
 		line-height: 1;
 		letter-spacing: -.045em;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.awt-turn-head p {
 		margin: 0;
 		max-width: 760px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.awt-turn-state {
 		display: grid;
@@ -99,7 +101,8 @@
 		border-radius: inherit;
 		background: linear-gradient(90deg, var(--awt-green), var(--awt-cyan));
 		transition: width var(--awt-slow);
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.awt-turn-body {
 		display: grid;

@@ -32,7 +32,8 @@
 	border: 1px solid rgba(255, 255, 255, 0.12);
 	border-radius: 10px;
 	background: rgba(24, 37, 70, 0.62);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .health-grid strong {
 	font-size: 0.72rem;

@@ -72,4 +72,5 @@ The Awtsmoos gives one focused slice of a larger interface garment; Awtsmoos.com
 }
 .g-home-action strong {
 	letter-spacing: -.02em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

@@ -63,7 +63,8 @@
   border-radius: 16px;
   background: linear-gradient(135deg, rgba(14,165,233,.24), rgba(168,85,247,.22)), rgba(2,6,23,.9);
   box-shadow: 0 0 24px rgba(34,211,238,.16), inset 0 1px 0 rgba(255,255,255,.08);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .is-collapsed .panel-topbar:hover,
 .is-detached .panel-topbar:hover,
 .is-collapsed .panel-topbar:focus-visible,

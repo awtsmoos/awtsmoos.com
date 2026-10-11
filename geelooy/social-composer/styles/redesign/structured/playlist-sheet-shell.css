@@ -51,7 +51,8 @@
 	text-align: center;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .playlist-sheet-surface header button,
 .playlist-sheet-surface footer button {
@@ -69,7 +70,8 @@
 	inline-size: 2.65rem;
 	padding: 0;
 	font-size: 1.45rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .playlist-sheet-search {
 	display: grid;

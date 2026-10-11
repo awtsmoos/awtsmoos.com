@@ -24,7 +24,8 @@
 .awt-activity-timeline__header h3 {
 	margin: 0.15rem 0 0;
 	font-size: 1rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-activity-timeline__status {
 	margin: 0;

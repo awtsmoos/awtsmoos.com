@@ -29,7 +29,8 @@
 	height: 100%;
 	background: var(--gold);
 	transform-origin: left;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .gamePrompt {
 	max-width: 900px;

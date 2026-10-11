@@ -49,7 +49,8 @@
 	padding: 10px;
 	border-radius: 10px;
 	background: rgba(4, 7, 20, 0.64);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .bossPhaseList em {
 	font-style: italic;

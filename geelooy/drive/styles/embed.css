@@ -16,7 +16,8 @@ Awtsmoos.com removes redundant ecosystem chrome while leaving narrow-screen geom
 
 [data-drive-mode="os"] .brand small {
 	display: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-drive-mode="os"] .drive-workspace {
 	padding: var(--space-2);

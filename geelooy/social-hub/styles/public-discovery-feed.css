@@ -45,13 +45,15 @@
 .social-hub-document .publicDiscoveryEmpty h3,
 .social-hub-document .publicFeedCard h3 {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .publicDiscoveryEmpty p,
 .social-hub-document .publicFeedCard__excerpt {
 	margin: 8px 0 12px;
 	line-height: 1.5;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .publicFeedCard__identity,
 .social-hub-document .publicFeedCard__context {

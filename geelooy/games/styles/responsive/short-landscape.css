@@ -23,7 +23,8 @@ Awtsmoos.com lets landscape players see invitation and discovery together while 
 	.heroPanel h1 {
 		font-size: clamp(2rem, 5vw, 2.8rem);
 		line-height: .95;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.heroText,
 	.featuredCopy,
@@ -85,11 +86,13 @@ Awtsmoos.com lets landscape players see invitation and discovery together while 
 		min-height: 48px;
 		padding: 7px 10px;
 		border-radius: 14px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.quickLaunch small {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.quickIcon {
 		width: 32px;

@@ -25,7 +25,8 @@
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .post-reader-localized-context .ai-context-badge {
     font-size: 9px;

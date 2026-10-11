@@ -180,7 +180,8 @@
 	padding-inline: 0.9rem;
 	margin-inline: -0.9rem;
 	transition: background-color 0.2s ease, transform 0.2s ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :root .post-reader-localized-context.meluket-sefer-active li.meluket-footnote:hover {
 	background-color: var(--over-wash);
 }
@@ -199,7 +200,8 @@
 /* Shelf flash when a marker click lands here (kept for programmatic use). */
 :root .post-reader-localized-context.meluket-sefer-active li.meluket-footnote.meluket-footnote-flash {
 	animation: over-fn-flash 1.6s ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 @keyframes over-fn-flash {
 	0%, 100% { background-color: transparent; }
 	25% { background-color: var(--over-wash-strong); }
@@ -395,10 +397,12 @@
 	border-block-end: 2.5px solid var(--over-gold);
 	transform: rotate(45deg) translate(-2px, -2px);
 	transition: transform 0.3s ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :root .post-reader-localized-context.meluket-sefer-active .meluket-qa-item.is-open button.meluket-qa-q::after {
 	transform: rotate(225deg) translate(-2px, -2px);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :root .post-reader-localized-context.meluket-sefer-active .meluket-qa-a {
 	overflow: hidden;
 	min-block-size: 0;
@@ -508,7 +512,8 @@
 	:root .post-reader-localized-context.meluket-sefer-active .meluket-section-number {
 		transition: none;
 		animation: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	:root .post-reader-localized-context.meluket-sefer-active #awtsmoosAutoScrollBtn.awtsmoos-auto-scroll-on {
 		animation: none;
 	}

@@ -26,11 +26,13 @@ The Awtsmoos lets camera choice and HUD retraction remain tiny tools instead of 
 
 #mitzvah-world-root .Awtsmoos-camera-mode-toggle span {
 	font-size: 17px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .Awtsmoos-camera-mode-toggle small {
 	display: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .Awtsmoos-hud-minimize {
 	position: absolute;

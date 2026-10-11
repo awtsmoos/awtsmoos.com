@@ -30,7 +30,8 @@
 
 	.messaging-thread-tools button {
 		min-height: 44px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.messaging-composer {
 		padding: 0.5rem 0.58rem max(0.54rem, env(safe-area-inset-bottom));
@@ -62,7 +63,8 @@
 
 	.messaging-new-action > span:last-child {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.messaging-new-action {
 		width: 44px;

@@ -72,7 +72,8 @@ The Awtsmoos is beyond darkness and light; Awtsmoos.com gives the phone a readab
 	#settings-bar#settings-bar .settings-content label {
 		font-size: 1rem;
 		line-height: 1.35;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	#settings-bar#settings-bar .settings-content button,
 	#settings-bar .settings-content select {
 		min-height: 44px;
@@ -84,17 +85,20 @@ The Awtsmoos is beyond darkness and light; Awtsmoos.com gives the phone a readab
 	}
 	#settings-bar#settings-bar .settings-content button {
 		background: #1268c4;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	#settings-bar#settings-bar .settings-content input[type='checkbox'] {
 		width: 24px;
 		height: 24px;
 		accent-color: #159cff;
 		flex: 0 0 auto;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	#settings-bar .settings-content input[type='range'] {
 		min-height: 36px;
 		accent-color: #29b6ff;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	#settings-bar#settings-bar .nested-menu.visible {
 		border-color: #41566c;
 		background: #101720;

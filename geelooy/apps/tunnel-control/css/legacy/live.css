@@ -32,7 +32,8 @@
   outline: 2px solid rgba(94, 220, 255, .14);
 }
 .awt-live-group :where(strong, small),
-.awt-live-row :where(strong, small) { overflow-wrap: anywhere; }
+.awt-live-row :where(strong, small) { overflow-wrap: anywhere; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .awt-live-group :where(small),
 .awt-live-row :where(small) { color: var(--awt-muted); }
 .awt-live-viewport {

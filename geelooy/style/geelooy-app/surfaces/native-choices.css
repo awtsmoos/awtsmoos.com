@@ -31,13 +31,16 @@
 	cursor: pointer;
 	vertical-align: middle;
 	transition: background var(--g-motion-fast) var(--g-ease), border-color var(--g-motion-fast) var(--g-ease), box-shadow var(--g-motion-standard) var(--g-ease), transform var(--g-motion-fast) var(--g-ease-pressure);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="checkbox"] {
 	border-radius: .42rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="radio"] {
 	border-radius: 50%;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) :where(input[type="checkbox"], input[type="radio"])::before {
 	width: .78rem;
 	height: .78rem;
@@ -46,24 +49,29 @@
 	content: "";
 	transform: rotate(-18deg) scale(0);
 	transition: transform var(--g-motion-fast) var(--g-ease-pressure);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) :where(input[type="checkbox"])::before {
 	border-radius: .2rem;
 	clip-path: polygon(14% 44%, 0 59%, 39% 100%, 100% 18%, 84% 4%, 37% 68%);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) :where(input[type="radio"])::before {
 	border-radius: 50%;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) :where(input[type="checkbox"], input[type="radio"]):checked {
 	border-color: var(--g-magenta);
 	background: radial-gradient(circle, rgba(139, 92, 255, .34), rgba(4, 10, 24, .98) 70%);
 	box-shadow: 0 0 0 3px rgba(255, 72, 203, .12), var(--g-glow-hot);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) :where(input[type="checkbox"], input[type="radio"]):checked::before {
 	transform: rotate(0) scale(1);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) :where(input[type="checkbox"], input[type="radio"]):focus-visible {
 	outline: 2px solid var(--g-cyan);
 	outline-offset: 3px;
@@ -73,7 +81,8 @@
 	cursor: not-allowed;
 	filter: grayscale(.55);
 	opacity: .48;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 @media (hover: hover) { :where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) :where(input[type="checkbox"], input[type="radio"]):hover:not(:disabled) {
 		border-color: var(--g-cyan);
 		box-shadow: var(--g-glow);
@@ -84,10 +93,12 @@
 }
 @media (forced-colors: active) { :where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) :where(input[type="checkbox"], input[type="radio"]) {
 		appearance: auto;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (prefers-reduced-motion: reduce) { :where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) :where(input[type="checkbox"], input[type="radio"]) {
 		transition: none;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 :where(.g-page:active) {
 	transform: scale(0.98);
 }

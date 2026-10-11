@@ -15,7 +15,8 @@
 .messaging-special-header h2 {
 	margin: 0;
 	font-size: clamp(1.1rem, 2vw, 1.45rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .messaging-special-header p {
 	margin: 0.3rem 0 0;
@@ -90,7 +91,8 @@
 	.messaging-activity-header p {
 		font-size: 0.78rem;
 		line-height: 1.45;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.messaging-activity-preferences {
 		gap: 0.3rem;

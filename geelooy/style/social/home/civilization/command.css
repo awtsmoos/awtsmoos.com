@@ -38,7 +38,8 @@
 }
 :where(.home-command-galaxy button, .civilization-layer-tabs button) {
 	min-height: 44px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .civilization-layer-tabs {
 	display: flex;
 	gap: .35rem;
@@ -48,7 +49,8 @@
 }
 .civilization-layer-tabs button {
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 @media (max-width: 34rem) {
 	.home-command-galaxy {
 		grid-template-columns: 1fr;

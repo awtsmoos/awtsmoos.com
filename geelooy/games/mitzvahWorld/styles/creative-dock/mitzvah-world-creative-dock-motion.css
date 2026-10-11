@@ -9,7 +9,8 @@ own the dock's opening rhythm alone, drawing every duration from shared local to
 
 #mitzvah-world-root .Awtsmoos-creative-dock__trigger > span:first-child {
 	transition: transform var(--mw-motion-normal) var(--mw-ease-out), color var(--mw-motion-fast) ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .Awtsmoos-creative-dock__sheet {
 	transition: opacity var(--mw-motion-normal) ease, transform var(--mw-motion-normal) var(--mw-ease-spring), visibility 0s linear var(--mw-motion-normal);

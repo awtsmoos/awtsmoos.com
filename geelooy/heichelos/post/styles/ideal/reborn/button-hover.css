@@ -18,7 +18,8 @@
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .menu-item.menu-item.menu-item.menu-item.menu-item.menu-item.menu-item.menu-item,
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action{
     cursor: pointer;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision):is(.post-reader-localized-context.awtsmoos-reader-vision) button,
 :is(.post-reader-localized-context.awtsmoos-reader-vision) a[href][href][href][href][href][href][href][href],
@@ -29,7 +30,8 @@
 :is(.post-reader-localized-context.awtsmoos-reader-vision) .comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action{
     transition: transform .16s cubic-bezier(.2,.9,.2,1), box-shadow .16s ease, filter .16s ease, background .16s ease, border-color .16s ease, color .16s ease;
     transform-origin: center;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :is(.post-reader-localized-context.awtsmoos-reader-vision) button:is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible),
 :is(.post-reader-localized-context.awtsmoos-reader-vision) a[href]:is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible),
@@ -76,7 +78,8 @@
     opacity: .55;
     filter: grayscale(.25);
     transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .post-reader-localized-context.awtsmoos-reader-vision :is(button):has(svg):has(svg):has(svg):has(svg):has(svg):has(svg):has(svg):has(svg),
 :is(.post-reader-localized-context.awtsmoos-reader-vision) :is(a[href]:has(svg):is(a[href]:has(svg):is(a[href]:has(svg):is(a[href]:has(svg):is(a[href]:has(svg):is(a[href]:has(svg):is(a[href]:has(svg):is(a[href]:has(svg)),
@@ -87,7 +90,8 @@
 :is(.post-reader-localized-context.awtsmoos-reader-vision) summary:has(.awtsmoos-detail-svg):has(.awtsmoos-detail-svg):has(.awtsmoos-detail-svg):has(.awtsmoos-detail-svg):has(.awtsmoos-detail-svg):has(.awtsmoos-detail-svg):has(.awtsmoos-detail-svg):has(.awtsmoos-detail-svg),
 :is(.post-reader-localized-context.awtsmoos-reader-vision) [role="button"]:has(.awtsmoos-detail-svg):has(.awtsmoos-detail-svg):has(.awtsmoos-detail-svg):has(.awtsmoos-detail-svg):has(.awtsmoos-detail-svg):has(.awtsmoos-detail-svg):has(.awtsmoos-detail-svg):has(.awtsmoos-detail-svg){
     will-change: transform;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: none) {
     :is(.post-reader-localized-context.awtsmoos-reader-vision) button:is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible):is(:hover, :focus-visible),

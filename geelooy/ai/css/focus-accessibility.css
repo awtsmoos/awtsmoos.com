@@ -17,7 +17,8 @@
 
 :where(button, summary) {
   -webkit-tap-highlight-color: rgba(103, 232, 249, .18);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where(button, .conversation-list li, summary):active {
   transform: translateY(1px);

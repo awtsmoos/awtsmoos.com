@@ -12,7 +12,8 @@
 
   body.geelooy-home-document :is(footer a, .footer a) {
     font-size: .9rem;
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-width: 430px) {

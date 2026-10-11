@@ -34,7 +34,8 @@ body::after {
   mix-blend-mode: screen;
   background: repeating-linear-gradient(180deg, rgba(255,255,255,.025) 0 1px, transparent 1px 6px);
 }
-button, input, select, textarea { font: inherit; }
+button, input, select, textarea { font: inherit; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 button { color: inherit; }
 a { color: var(--awt-cyan); text-decoration: none; }
 pre, code, kbd { font-family: var(--awt-mono); }

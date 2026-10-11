@@ -9,7 +9,8 @@
 
 .home-hero-panel h1 span {
   text-shadow: 0 0 30px rgba(154,77,255,.28);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .home-kicker {
   letter-spacing: .18em;

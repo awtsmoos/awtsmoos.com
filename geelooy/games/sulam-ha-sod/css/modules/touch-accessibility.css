@@ -28,7 +28,8 @@
 .marketUnlock button,
 .skinCard button {
 	min-block-size: 44px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .hamburger,
 .coinHelp,
@@ -36,7 +37,8 @@
 .marketUnlock button,
 .skinCard button {
 	touch-action: manipulation;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 720px) {
 	.hamburger,

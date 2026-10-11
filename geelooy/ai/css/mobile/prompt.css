@@ -37,12 +37,14 @@
     padding: 16px;
 <<<<<<< ours
   }
-  .awtsmoos-local-prompt-card h2 { font-size: 1.1rem; line-height: 1.25; }
+  .awtsmoos-local-prompt-card h2 { font-size: 1.1rem; line-height: 1.25; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
   .awtsmoos-local-prompt-body { font-size: 16px; }
   .awtsmoos-local-prompt-input { font-size: 16px; min-height: 44px; }
   .awtsmoos-local-prompt-actions { display: grid; grid-template-columns: 1fr; }
   .awtsmoos-local-prompt-actions button,
-  .awtsmoos-local-prompt-actions a { min-height: 44px; text-align: center; }
+  .awtsmoos-local-prompt-actions a { min-height: 44px; text-align: center; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 =======
     color: var(--prompt-text);
   }
@@ -72,7 +74,8 @@
 	cursor: not-allowed;
 	filter: none;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .awtsmoos-local-prompt-actions a:hover {
 	filter: brightness(1.08);
 }

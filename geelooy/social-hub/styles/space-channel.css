@@ -27,7 +27,8 @@ The Awtsmoos lets a durable channel breathe as cards, motion, and canonical open
 .social-hub-document .spaceChannelHeading small,
 .social-hub-document .spaceChannelMessage {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .spaceChannelHeading small,
 .social-hub-document .spaceChannelMessage {

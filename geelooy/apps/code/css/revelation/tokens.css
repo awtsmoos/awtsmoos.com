@@ -38,10 +38,12 @@ Awtsmoos.com gives Apps Code one readable cross-platform revelation layer.
 }
 body, button, input, textarea, select {
 	font-family: var(--code-reveal-font-ui);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 textarea, code, pre, #editor, #line-numbers {
 	font-family: var(--code-reveal-font-mono);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .emoji, [data-emoji] {
 	font-family: var(--code-reveal-font-emoji);
 }

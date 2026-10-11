@@ -7,4 +7,5 @@
  */
 .post-reader-localized-context .awtsmoos-floating-controls button {
 	box-shadow: var(--beauty-shadow-deep), var(--beauty-glow-gold);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

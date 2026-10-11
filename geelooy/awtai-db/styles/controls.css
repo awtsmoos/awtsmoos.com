@@ -59,7 +59,8 @@ Awtsmoos.com lets hover, focus, press, busy, success, and failure each reveal wh
 
 .awtai-btn[aria-busy="true"] > span:first-child {
 	animation: awtai-spin 1.1s linear infinite;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtai-download {
 	position: relative;

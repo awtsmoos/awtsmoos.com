@@ -31,4 +31,5 @@
 
 :where(.all.post-reader-localized-context.awtsmoos-reader-vision) :where(button, input, select) {
 	-webkit-tap-highlight-color: transparent;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

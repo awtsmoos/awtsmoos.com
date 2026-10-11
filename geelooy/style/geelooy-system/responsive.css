@@ -8,7 +8,8 @@
   } }
 @media (max-width: 640px) { :where(.home-search-row, .home-search-vessel, .series-search-row, .spaces-hero, .profile-identity-row) { grid-template-columns: 1fr; } }
 @media (max-width: 640px) { :where(.home-command-dock, .geelooy-bottom-nav, .spaces-bottom-nav, .profile-bottom-nav) { max-width: calc(100vw - 1rem); width: calc(100vw - 1rem); } }
-@media (max-width: 640px) { :where(.home-command-dock a, .geelooy-bottom-nav a, .geelooy-bottom-nav button, .spaces-bottom-nav a, .profile-bottom-nav a) { font-size: .7rem; min-width: 0; padding-inline: .15rem; } }
+@media (max-width: 640px) { :where(.home-command-dock a, .geelooy-bottom-nav a, .geelooy-bottom-nav button, .spaces-bottom-nav a, .profile-bottom-nav a) { font-size: .7rem; min-width: 0; padding-inline: .15rem; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 640px) { :where(.nav-card) { grid-template-columns: 1fr; } }
 @media (max-width: 640px) { :where(.nav-card-media) { min-height: 3rem; } }
 @media (max-width: 640px) { :where(.nav-card-actions) { padding-top: 0; } }

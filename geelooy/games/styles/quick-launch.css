@@ -28,7 +28,8 @@
 	text-decoration: none;
 	touch-action: manipulation;
 	transition: transform 150ms ease, border-color 150ms ease, background 150ms ease, box-shadow 150ms ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: hover) and (pointer: fine) {
 	.quickLaunch a:hover {
@@ -65,7 +66,8 @@
 .quickLaunch small {
 	display: block;
 	min-width: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .quickLaunch small {
 	color: var(--games-muted);
@@ -87,7 +89,8 @@
 @media (prefers-reduced-motion: reduce) {
 	.quickLaunch a {
 		transition: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.quickLaunch a:hover,
 	.quickLaunch a:active {

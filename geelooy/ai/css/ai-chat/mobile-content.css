@@ -26,7 +26,8 @@
 @media(max-width:900px) { :where(body[data-mobile-scene]) .message :is(p,li,blockquote,td,th), body[data-mobile-scene] .message-content {
 		font-size:1rem;
 		line-height:1.62;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media(max-width:900px) { :where(body[data-mobile-scene]) .message pre, :where(body[data-mobile-scene]) .message .md-code, :where(body[data-mobile-scene]) .message table {
 		max-width:calc(100vw - 52px);
@@ -39,7 +40,8 @@
 @media(max-width:900px) { :where(body[data-mobile-scene]) .conversation-list li {
 		min-height:56px;
 		padding:11px 12px 11px 15px;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media(max-width:900px) { body[data-mobile-scene] .conversation-title {
 		white-space:normal;
 		display:-webkit-box;
@@ -49,7 +51,8 @@
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media(max-width:900px) { :where(body[data-mobile-scene]) .service-selector :is(select,input), :where(body[data-mobile-scene]) .automation-panel :is(input,select,textarea) {
 		font-size:16px;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media(max-width:900px) { :where(body[data-mobile-scene]) .automation-panel .right-panel-body {
 		padding:12px 10px calc(104px + env(safe-area-inset-bottom));
@@ -67,4 +70,5 @@
 	} }
 @media(max-width:360px) { .mobile-bottom-dock em {
 		font-size:9px;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }

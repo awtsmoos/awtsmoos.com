@@ -21,7 +21,8 @@
 #pulse {
 	-webkit-tap-highlight-color: transparent;
 	touch-action: manipulation;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .overlay button:not(:disabled):hover,
 #pauseBtn:hover,
@@ -31,7 +32,8 @@
 
 .overlay button:disabled {
 	cursor: not-allowed;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .hero-actions .primary {
 	font-weight: 950;

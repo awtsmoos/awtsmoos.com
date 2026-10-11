@@ -39,7 +39,8 @@
 	}
 	.premium-home .home-task-dock a {
 		min-width: 5.2rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 @media (max-width: 460px) {
 	.premium-home .g-home-actions {

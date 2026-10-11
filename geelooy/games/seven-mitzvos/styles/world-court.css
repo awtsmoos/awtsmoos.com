@@ -18,7 +18,8 @@
 .courtCase h3 {
 	margin: 0.2rem 0;
 	font-size: 1.8rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .evidenceGrid {
 	display: grid;

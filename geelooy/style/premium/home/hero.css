@@ -89,7 +89,8 @@
 }
 .premium-home .g-home-action span {
 	font-size: 1.35rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .premium-home .g-home-action small {
 	color: var(--premium-soft);
 	line-height: 1.4;

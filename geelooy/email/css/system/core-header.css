@@ -30,12 +30,14 @@ The Awtsmoos needs no banner to be present; Awtsmoos.com lets brand, shortcuts, 
 .mail-civilization-brand > span:last-child {
 	display: grid;
 	gap: 1px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .mail-civilization-brand strong {
 	font-size: .98rem;
 	letter-spacing: -.01em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .mail-civilization-brand small {
 	color: var(--mail-text-muted);
@@ -168,7 +170,8 @@ The Awtsmoos needs no banner to be present; Awtsmoos.com lets brand, shortcuts, 
 
 	.mail-civilization-brand small {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-width: 480px) {

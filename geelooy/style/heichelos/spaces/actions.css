@@ -5,8 +5,10 @@
  */
 .spaces-command-row, .space-actions, .spaces-empty-actions { display: flex; flex-wrap: wrap; gap: .4rem; }
 .spaces-command-row { justify-content: flex-end; }
-.spaces-create, .spaces-secondary, .space-actions a, .spaces-empty-actions a { min-height: 2.45rem; display: inline-flex; align-items: center; justify-content: center; border-radius: .78rem; padding: .58rem .78rem; font-weight: 900; text-align: center; text-decoration: none; }
+.spaces-create, .spaces-secondary, .space-actions a, .spaces-empty-actions a { min-height: 2.45rem; display: inline-flex; align-items: center; justify-content: center; border-radius: .78rem; padding: .58rem .78rem; font-weight: 900; text-align: center; text-decoration: none; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .spaces-create, .space-actions a:first-child, .spaces-empty-actions a:first-child { background: linear-gradient(135deg, var(--spaces-gold), var(--spaces-cyan)); color: #03101b; }
 .spaces-secondary, .space-actions a, .spaces-empty-actions a { border: 1px solid var(--spaces-line); background: rgba(255,255,255,.075); color: var(--spaces-ink-warm); }
 .space-actions { padding: 0 .66rem .66rem; }
-.space-actions a { flex: 1 1 7rem; }
+.space-actions a { flex: 1 1 7rem; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

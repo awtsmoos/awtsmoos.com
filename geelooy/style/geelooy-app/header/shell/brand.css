@@ -55,7 +55,8 @@
 .g-header-brand-copy strong {
 	font-size: 1.05rem;
 	letter-spacing: -0.04em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .g-header-brand-copy small {
 	margin-top: 0.28rem;

@@ -8,7 +8,8 @@
  */
 #gameShell :is(button, select, input, .commander-sigil__wallet) {
 	min-block-size: var(--merkava-control);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #gameShell :is(button, .commander-sigil__wallet) {
 	transition:
@@ -17,7 +18,8 @@
 		background var(--merkava-motion-fast) ease,
 		box-shadow var(--merkava-motion-fast) ease,
 		filter var(--merkava-motion-fast) ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #gameShell :is(button, .commander-sigil__wallet):active:not(:disabled) {
 	transform: translateY(1px) scale(0.985);

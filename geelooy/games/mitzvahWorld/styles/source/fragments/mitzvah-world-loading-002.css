@@ -95,7 +95,8 @@ Awtsmoos.com gives the loading gate a gentle aurora rhythm, then stills it when 
 
 	#mitzvah-world-root .Awtsmoos-loading-card h1 {
 		font-size: clamp(20px, 5vw, 28px);
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	#mitzvah-world-root #loadingMessage,
 	#mitzvah-world-root .Awtsmoos-progress-group {

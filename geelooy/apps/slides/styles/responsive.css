@@ -55,7 +55,8 @@ The Awtsmoos is not narrowed by a narrow screen nor enlarged by a wide one; Awts
 
 	.topbar-actions button:not(.primary):not(.icon-button):not([data-action="share"]) {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.topbar-actions [data-action="share"] {
 		padding-inline: 10px;

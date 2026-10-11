@@ -80,7 +80,8 @@ body[data-messaging-page] .messaging-text-send {
 @media (max-width: 430px) {
 	body[data-messaging-page] .messaging-composer { gap: 0.36rem; padding-inline: 0.48rem; }
 	body[data-messaging-page] .messaging-composer-row { gap: 0.3rem; padding: 0.28rem; border-radius: 18px; }
-	body[data-messaging-page] .messaging-composer textarea { max-block-size: 112px; padding: 0.7rem; }
+	body[data-messaging-page] .messaging-composer textarea { max-block-size: 112px; padding: 0.7rem; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	body[data-messaging-page] :is(.messaging-text-send, .messaging-voice-start) { padding-inline: 0.5rem; }
 }
 

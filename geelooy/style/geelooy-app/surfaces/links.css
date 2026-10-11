@@ -49,4 +49,5 @@
 @media (forced-colors: active) { :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) a:not(.g-button) {
 		background: none;
 		text-decoration: underline;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }

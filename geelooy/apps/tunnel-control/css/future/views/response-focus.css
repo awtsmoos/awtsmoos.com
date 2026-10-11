@@ -10,10 +10,12 @@
     display: block;
     letter-spacing: .14em;
     opacity: .68;
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
   .awt-response-focus strong {
     display: block;
     margin: 5px 0;
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
   .awt-response-focus code { white-space: normal; }
 }

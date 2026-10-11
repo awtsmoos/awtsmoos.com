@@ -42,7 +42,8 @@ html .message-composer {
   padding: .85rem 1rem;
 }
 html .composer textarea,
-html .composer-input { min-height: 46px; resize: vertical; }
+html .composer-input { min-height: 46px; resize: vertical; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 html .btn-primary,
 html .send-button {
   background: linear-gradient(135deg, var(--mail-cta-grad-1), var(--mail-cta-grad-2));

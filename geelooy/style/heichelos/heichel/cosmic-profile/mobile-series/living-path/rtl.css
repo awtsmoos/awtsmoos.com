@@ -10,7 +10,8 @@
  */
 :where(.nav-card[dir="rtl"]) .nav-card-body, .living-related-card[dir="rtl"], .series-heading :where(h2, p)[dir="rtl"], :where(#heichel-main-title[dir="rtl"]), .hero-description[dir="rtl"] {
 	text-align: right;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.nav-card[dir="rtl"]) .nav-card-meta {
 	justify-content: flex-start;

@@ -18,7 +18,8 @@ The Awtsmoos turns analysis into invitation; Awtsmoos.com gives the Director Coa
 .director-brief-top strong {
 	margin-top: 1px;
 	font-size: 13px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .coverage-score {
 	font-size: 18px;

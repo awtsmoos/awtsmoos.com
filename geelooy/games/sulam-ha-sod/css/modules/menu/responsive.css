@@ -13,7 +13,8 @@
 
 	.menu h1 {
 		font-size: clamp(42px, 18vw, 76px);
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.marketUnlock {
 		align-items: stretch;
@@ -22,7 +23,8 @@
 
 	.marketUnlock button {
 		width: 100%;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-width: 420px) {
@@ -39,7 +41,8 @@
 @media (prefers-reduced-motion: reduce) {
 	.menu button {
 		transition-duration: .01ms;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.menu button:hover,
 	.menu button:active {

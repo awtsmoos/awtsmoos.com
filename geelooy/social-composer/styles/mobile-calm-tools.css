@@ -34,7 +34,8 @@
 
 	.composer-civilization-document .creatorDockButton strong {
 		font-size: .58rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.composer-civilization-document.composer-civilization-document .creatorCommandLauncher {
 		display: none;
@@ -53,7 +54,8 @@
 		min-block-size: 44px;
 		padding: .42rem .7rem;
 		border-radius: .7rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.composer-civilization-document .composer-tool-menu {
 		position: relative;
@@ -72,7 +74,8 @@
 
 	.composer-civilization-document .composer-tool-menu-grid button {
 		min-block-size: 44px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.composer-civilization-document .composer-workflow-rail {
 		max-block-size: min(50vh, 22rem);

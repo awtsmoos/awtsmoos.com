@@ -5,6 +5,7 @@
 const { registerScriptRoute } = require("./tools/scriptRoute.js");
 const { buildAgentBundle } = require("./tools/zipBundle.js");
 const { buildInstallerComponents } = require("./tools/installerComponents.js");
+const { getBundle, bundleNames } = require("./tools/runtimeBundles.js");
 const { sendText } = require("./tools/respond.js");
 const Descriptor = require("./tools/bundleDescriptor.js");
 
@@ -38,6 +39,18 @@ module.exports = {
 			"agent.zip",
 			async () => publishAgentZip($i)
 		);
+		// Self-contained runtime bundles (Yaakov 2026-10-11 hard rule: nothing
+		// installed may depend on the repo). Served as tar.gz + .sha256.
+		for (const name of bundleNames()) {
+			await $i.use(
+				`runtime/${name}.tar.gz`,
+				async () => publishRuntimeBundle($i, name)
+			);
+			await $i.use(
+				`runtime/${name}.tar.gz.sha256`,
+				async () => publishRuntimeBundleHash($i, name)
+			);
+		}
 	}
 };
 
@@ -95,4 +108,28 @@ function setPublicHeaders($i) {
 	$i.response.setHeader("Access-Control-Allow-Origin", "*");
 	$i.response.setHeader("Cache-Control", "no-store, max-age=0");
 	$i.response.setHeader("Pragma", "no-cache");
+}
+
+/** Publishes one self-contained runtime bundle tarball for installed tunnels. */
+function publishRuntimeBundle($i, name) {
+	const bundle = getBundle(name);
+	$i.response.statusCode = 200;
+	$i.response.setHeader("Content-Type", "application/gzip");
+	$i.response.setHeader(
+		"Content-Disposition",
+		`attachment; filename="awtsmoos-${name}.tar.gz"`
+	);
+	$i.response.setHeader("X-Awtsmoos-SHA256", bundle.sha256);
+	$i.response.setHeader("X-Awtsmoos-Files", String(bundle.files));
+	$i.response.setHeader("Content-Length", String(bundle.bytes));
+	return {
+		mimeType: "application/gzip",
+		response: bundle.buffer
+	};
+}
+
+/** Publishes the sha256 of one runtime bundle for installed-tunnel verification. */
+function publishRuntimeBundleHash($i, name) {
+	const bundle = getBundle(name);
+	return sendText($i, `${bundle.sha256}  awtsmoos-${name}.tar.gz\n`, "text/plain; charset=utf-8");
 }

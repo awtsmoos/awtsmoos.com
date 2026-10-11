@@ -90,7 +90,8 @@ body[data-geelooy-route="home"] .world-panel-heading {
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .world-panel-heading span {
 		display: none;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) :where(.world-launcher[open]) .world-panel {
 		animation: none;

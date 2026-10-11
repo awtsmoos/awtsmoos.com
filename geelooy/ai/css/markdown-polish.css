@@ -9,7 +9,8 @@
   margin:.35em 0 .45em;
   line-height:1.18;
   letter-spacing:-.02em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .message blockquote,.event-markdown-rendered blockquote{
   margin:.65em 0;
   padding:.55em .8em;
@@ -57,13 +58,15 @@
   padding:.62em .75em;
   border-bottom:1px solid rgba(125,211,252,.16);
   vertical-align:top;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .md-table-wrap th{
   color:#cffafe;
   font-weight:900;
   background:rgba(14,165,233,.12);
 }
-.md-table-wrap tr:last-child td{border-bottom:0}
+.md-table-wrap tr:last-child td{border-bottom:0
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .message-window-spacer{
   border:1px dashed rgba(103,232,249,.42);
   border-radius:999px;
@@ -76,7 +79,8 @@
 }
 .message-window-spacer:not([hidden]):hover{filter:brightness(1.12);transform:translateY(-1px)}
 .message[data-markdown="active"] :is(p,li,blockquote),
-.message.is-streaming-markdown :is(p,li,blockquote){white-space:pre-wrap}
+.message.is-streaming-markdown :is(p,li,blockquote){white-space:pre-wrap
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .message[data-markdown="active"] table,.event-markdown-rendered table{
   max-width:100%;
   border-collapse:collapse;
@@ -84,6 +88,7 @@
 @media (max-width:640px){
   .md-code-toolbar{align-items:stretch;flex-direction:column}
   .md-code-copy{width:100%}
-  .message :is(h1,h2,h3){overflow-wrap:anywhere}
+  .message :is(h1,h2,h3){overflow-wrap:anywhere
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
   .md-table-wrap table{min-width:460px}
 }

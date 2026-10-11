@@ -32,7 +32,7 @@
 .drive-folder-choice:hover,
 .drive-folder-choice:focus-visible {
 	background: var(--drive-surface-hover);
-	outline: 0;
+	outline: 2px solid var(--aw-focus-ring); outline-offset: 2px;
 }
 
 .drive-folder-choice-icon {

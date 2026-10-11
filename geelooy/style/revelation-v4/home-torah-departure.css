@@ -59,7 +59,8 @@ body[data-torah-departing="true"] .torah-departure {
 }
 .torah-departure__copy strong, .torah-departure__copy small {
 	display: block;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .torah-departure__copy strong {
 	background: linear-gradient(110deg, var(--sefer-title-ink), var(--home-accent) 58%, var(--home-accent-strong));
 	-webkit-background-clip: text;

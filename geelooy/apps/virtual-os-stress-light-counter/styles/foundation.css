@@ -75,7 +75,8 @@ body.awtsmoos-light-counter {
 	font-size: clamp(2rem, 10vw, 3.5rem);
 	line-height: 1;
 	letter-spacing: -.045em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-light-counter .light-lede {
 	position: relative;

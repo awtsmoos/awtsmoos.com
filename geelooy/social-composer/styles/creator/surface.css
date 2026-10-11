@@ -44,7 +44,8 @@ Awtsmoos.com keeps the future quiet, fast, and near the thumb so writing remains
 .creatorSurfaceHeading strong {
 	font-size: clamp(1rem, 4.7vw, 1.2rem);
 	letter-spacing: -.018em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .creatorSurfaceHeading small {
 	color: var(--composer-text-muted);

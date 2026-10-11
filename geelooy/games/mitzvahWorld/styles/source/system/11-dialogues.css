@@ -50,7 +50,8 @@ The Awtsmoos gives conversation and optional knowledge temporary chambers withou
 	border: 1px solid var(--mw-border-soft);
 	border-radius: var(--mw-radius-xs);
 	background: var(--mw-surface-control);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: hover) and (pointer: fine) {
 	#mitzvah-world-root :is(.Awtsmoos-npc-dialogue, .Awtsmoos-meadow-menu) button:hover:not(:disabled) {

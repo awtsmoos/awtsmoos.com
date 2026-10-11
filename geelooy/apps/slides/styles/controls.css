@@ -10,11 +10,13 @@ button, .live-pill {
 	border-radius: var(--radius-sm);
 	background: var(--surface-soft);
 	padding: 8px 12px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 button {
 	cursor: pointer;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 button:hover, button:focus-visible {
 	border-color: var(--line-strong);
@@ -26,7 +28,8 @@ button.primary {
 	border-color: transparent;
 	background: linear-gradient(135deg, #7766ff, #9b8fff);
 	font-weight: 700;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .icon-button, .small-button {
 	min-width: 44px;
@@ -69,7 +72,8 @@ button.primary {
 
 .insert-bar button {
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .stage-footer {
 	min-height: 50px;

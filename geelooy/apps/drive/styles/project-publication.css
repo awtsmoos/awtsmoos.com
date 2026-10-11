@@ -9,7 +9,8 @@
 
 [data-awtsmoos-drive] :where(.project-site-list h3, .project-publisher h3) {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-drive] :where(.project-site-card, .project-publisher) {
 	border: 1px solid var(--line);
@@ -27,7 +28,8 @@
 
 [data-awtsmoos-drive] .project-publisher h3 {
 	grid-column: 1 / -1;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-drive] .project-check {
 	display: flex;

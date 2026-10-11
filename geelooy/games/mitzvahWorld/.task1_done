@@ -1,0 +1,53 @@
+B"H
+
+TASK 1 COMPLETE — renderer contract repaired, 60 FPS baseline established.
+
+Commit: 6ef1079de
+Date: 2026-10-11
+Message: B"H Mitzvah World: renderer contract repair + 60fps baseline (Task 1) + blank-meadow instant-start slice (Task 2)
+
+What was done (code-verified, all suites green):
+- WebGL capability probe runs BEFORE the essential ledger exists, so the
+  first-frame silence clock can never start where no 3D doorway exists.
+  Four distinct failure states with precise evidence: WEBGL_UNAVAILABLE,
+  RENDERER_INIT_FAILED, ZERO_SIZE_CANVAS, FIRST_FRAME_TIMEOUT.
+- Zero-size viewport is its own failure state (no more Math.max(1,...) mask);
+  first frame counts only after a REAL render with a nonzero viewport.
+- Resize sets BOTH CSS size (viewport px) and backing buffer (viewport x
+  capped DPR): cap 1.0 on limited-hardware class (2015 MacBook Air),
+  1.5 on touch class (Pixel 6 Pro). Staged core path now installs the
+  viewport resize handler (it previously had none).
+- Canvas is never hidden/collapsed while renderer init is pending
+  (removed #AwtsmoosCanvas from the pre-gameplay visibility:hidden rule).
+- ONE boot state machine owns bootStage, runtimeState, and the loader veil:
+  ready is refused while starting or failed; failed is terminal.
+- Frame-budget plumbing: long-task monitor wired into the runtime loop;
+  runtime.frameBudgetVerdict() exposes p95 vs 16.7ms and long tasks vs 50ms.
+- Task 2 slice included in same commit: canonical chossid.glb fetch starts
+  in parallel with renderer/terrain work; stage-specific deadlines
+  (10s/15s/15s/30s/10s) replace the fixed 30s wait; five-proof loader stays
+  until the machine reaches ready; no generated humanoid; heavy systems
+  stay behind post-playable activation. First-control entry bundle remains
+  7792 bytes (under the 8KB covenant); all chunks rebuilt deterministically.
+
+Verification evidence:
+- 110/110 app unit tests pass, 5/5 launcher tests pass, 9/9 performance
+  tests pass, 10/10 new state-machine/gate tests pass (incl. fail-closed
+  before timer starts, ready-refused-while-starting, failed-is-terminal).
+- Build: deterministic chunk rebuilds verified; CSS validator shows zero
+  NEW issues vs HEAD (100 errors / 591 warnings pre-existing, unchanged).
+- Pre-existing failures NOT caused by this change: essential-grass.jpg
+  untracked/missing (download 404s), index.html preload ?v= query test.
+
+NOT deployed: left for Yaakov's review per the task's confidence clause —
+the signed HTTPS deploy path is blocked (deploy key wiped from production
+per 2026-10-09; /packed/deploy/status unreachable) and real-hardware
+verification (below) is still required.
+
+Still needs real hardware (2015 MacBook Air + Pixel 6 Pro):
+- 10 consecutive launches per target (no WEBGL_UNAVAILABLE / init / timeout flakiness).
+- 2-minute p95 frame time <= 16.7ms on minimal meadow (read runtime.frameBudgetVerdict()).
+- No long task > 50ms during gameplay (longTaskMonitor snapshot).
+- Renderer setup performs no task > 4ms once gameplay begins.
+- Cold first visible meadow <= 5s, warm <= 2s; player control latency independent
+  of distant-world generation; missing optional assets cannot block movement.

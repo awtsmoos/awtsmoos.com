@@ -28,4 +28,5 @@ Awtsmoos.com names the search field and clothes the empty result so absence itse
 .creatorPalette input[role="combobox"] {
 	min-inline-size: 0;
 	max-inline-size: 100%;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

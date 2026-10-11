@@ -44,11 +44,13 @@
 		background: linear-gradient(90deg, var(--oros-cyan), var(--oros-violet));
 		box-shadow: 0 0 15px rgba(156, 236, 255, 0.52);
 		transition: width var(--oros-medium) var(--oros-ease);
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.oros-app .hud-meter.ohr > i > em {
 		background: linear-gradient(90deg, var(--oros-gold), var(--oros-cyan));
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	@media (pointer: coarse), (max-width: 760px) {
 		.oros-app #hud-meters {

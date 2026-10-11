@@ -45,7 +45,8 @@
 :is(.all.post-reader-localized-context.awtsmoos-reader-vision) .comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action.comment-chip-action{
 	min-height: var(--reader-touch-target);
 	touch-action: manipulation;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :is(.all.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-sidebar-tabs.awtsmoos-sidebar-tabs.awtsmoos-sidebar-tabs.awtsmoos-sidebar-tabs.awtsmoos-sidebar-tabs.awtsmoos-sidebar-tabs.awtsmoos-sidebar-tabs.awtsmoos-sidebar-tabs{
 	display: flex;

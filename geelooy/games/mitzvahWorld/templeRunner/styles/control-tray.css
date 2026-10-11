@@ -57,13 +57,15 @@
 .controls button span {
 	position: relative;
 	z-index: 2;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .controls button b {
 	font-size: 21px;
 	line-height: 1;
 	text-shadow: 0 1px 10px rgba(0, 0, 0, 0.58);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .controls button span {
 	color: var(--ivory-500);

@@ -107,7 +107,8 @@ Awtsmoos.com roots search, recency, focus, selection, and press beneath one Shee
 	font-weight: 720;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-sheets-app .command-row-copy small {
 	color: var(--muted);

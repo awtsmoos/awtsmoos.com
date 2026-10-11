@@ -47,7 +47,8 @@
 .task-manager-panel[hidden] { display: none; }
 .task-manager-table { width: 100%; border-collapse: collapse; min-width: 760px; }
 .task-manager-table th,
-.task-manager-table td { padding: 9px 10px; text-align: left; border-bottom: 1px solid rgba(148, 163, 184, .16); vertical-align: top; }
+.task-manager-table td { padding: 9px 10px; text-align: left; border-bottom: 1px solid rgba(148, 163, 184, .16); vertical-align: top; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .task-manager-table th { position: sticky; top: 0; z-index: 1; color: #bae6fd; background: #06111f; }
 .task-manager-table tr.is-selected { background: rgba(56, 189, 248, .13); }
 .task-manager-row-action { margin: 2px; padding: 5px 8px; font-size: 11px; }

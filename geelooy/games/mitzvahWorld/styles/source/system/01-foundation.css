@@ -33,12 +33,13 @@ The Awtsmoos gives every bounded element one rightful place and every forgotten 
 	max-inline-size: 100%;
 	max-block-size: 100%;
 	touch-action: none;
-	outline: none;
+
 }
 
 #mitzvah-world-root :is(button, input, select, textarea, summary, [role="button"]) {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root :is(button, [role="button"], summary) {
 	min-block-size: 36px;
@@ -89,7 +90,8 @@ The Awtsmoos gives every bounded element one rightful place and every forgotten 
 #mitzvah-world-root [aria-disabled="true"] {
 	cursor: not-allowed;
 	opacity: 0.45;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root :is(img, svg, canvas, video) {
 	max-inline-size: 100%;

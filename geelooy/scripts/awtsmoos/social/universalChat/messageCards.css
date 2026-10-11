@@ -81,13 +81,15 @@
 .universal-chat-result small {
 	display: block;
 	opacity: 0.7;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .universal-chat-source p {
 	line-height: 1.5;
 	margin: 0.15rem 0;
 	white-space: pre-wrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .universal-chat-source a {
 	color: #aef4c2;

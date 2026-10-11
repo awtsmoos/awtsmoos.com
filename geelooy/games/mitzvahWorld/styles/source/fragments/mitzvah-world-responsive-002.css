@@ -62,7 +62,8 @@ mitzvah-world-responsive-002.css reveals localized style through the Awtsmoos an
 		flex-basis: 44px;
 		width: 44px;
 		height: 42px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	#mitzvah-world-root#mitzvah-world-root #mitzvah-world-root .Awtsmoos-minimap {
 		width: 118px;

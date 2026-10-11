@@ -18,7 +18,8 @@
 		transform var(--aw-fast),
 		box-shadow var(--aw-fast),
 		opacity var(--aw-fast);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .aw-studio-toolbar button:active,
 .aw-studio-panel button:active,
@@ -35,7 +36,8 @@
 	cursor: not-allowed;
 	opacity: .42;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .aw-studio-toolbar button[aria-pressed='true'],
 .aw-studio-panel button[aria-pressed='true'] {
@@ -103,7 +105,8 @@
 	.aw-studio-asset,
 	.aw-studio-tree-row {
 		transition: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.aw-studio-command[aria-busy='true'] .aw-studio-command-emoji {
 		animation: none;

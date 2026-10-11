@@ -32,11 +32,13 @@
 
 	.nle-ai-header h2 {
 		font-size: .94rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.nle-ai-header p {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.nle-ai-tabs {
 		padding-inline: .55rem;
@@ -44,7 +46,8 @@
 
 	.nle-ai-tabs button {
 		flex: 1;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.nle-ai-brief,
 	.nle-ai-json {
@@ -58,7 +61,8 @@
 
 	.nle-ai-json textarea {
 		min-block-size: 55vh;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.nle-ai-actions {
 		grid-template-columns: 1fr;
@@ -74,7 +78,8 @@
 	.nle-ai-actions button {
 		min-inline-size: 0;
 		padding-inline: .3rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.nle-ai-actions .nle-ai-apply {
 		grid-column: 1 / -1;

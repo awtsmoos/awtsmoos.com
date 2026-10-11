@@ -5,7 +5,8 @@
 .heichel-form-card input, .heichel-form-card textarea { width: 100%; border: 1px solid #dfe6ee; border-radius: 1rem; background: #fff; color: #0f172a; font: inherit; padding: .85rem; resize: vertical; }
 .heichel-form-card input:focus, .heichel-form-card textarea:focus { border-color: #0f766e; box-shadow: 0 0 0 .22rem rgba(15,118,110,.18); outline: none; }
 .optional-id { display: grid; grid-template-columns: 1fr auto; gap: .5rem; align-items: end; }
-.optional-id label, .tooltiptext { grid-column: 1 / -1; }
+.optional-id label, .tooltiptext { grid-column: 1 / -1; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .tooltip { width: 44px; height: 44px; border-radius: 50%; border: 1px solid #dfe6ee; background: #f8fafc; color: #0f172a; font-weight: 800; cursor: help; }
 .tooltiptext { display: none; border: 1px solid #dfe6ee; border-radius: .9rem; padding: .7rem; color: #64748b; background: #f8fafc; }
 .optional-id:focus-within .tooltiptext, .optional-id:hover .tooltiptext { display: block; }

@@ -9,4 +9,5 @@ The Awtsmoos joins card and action without hiding their boundaries; Awtsmoos.com
 
 .notification-row-actions :where(a, button) {
 	min-height: 44px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

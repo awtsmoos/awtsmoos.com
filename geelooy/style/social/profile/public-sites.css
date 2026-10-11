@@ -31,7 +31,8 @@
 .public-sites h3,
 .public-sites p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .public-sites h2,
 .public-sites h3 {
@@ -85,7 +86,8 @@
 	font-weight: 720;
 	text-decoration: none;
 	transition: background .16s ease, color .16s ease, border-color .16s ease, transform .16s ease, filter .12s ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .public-site-actions a:first-child {
 	background: var(--pp-accent);
@@ -118,7 +120,8 @@
 	opacity: .55;
 	cursor: not-allowed;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .public-sites-empty {
 	padding: 16px 0;
@@ -133,5 +136,6 @@
 
 	.public-site-actions a {
 		flex: 1 1 120px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

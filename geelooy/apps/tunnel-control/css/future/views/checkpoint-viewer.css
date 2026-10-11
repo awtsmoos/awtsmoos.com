@@ -70,13 +70,15 @@
 .mission-checkpoint__content p,
 .mission-checkpoint__content blockquote {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .mission-checkpoint__content blockquote {
 	padding-left: 12px;
 	border-left: 3px solid var(--awt-accent, #8fe7ff);
 	opacity: .88;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .mission-checkpoint__content pre {
 	max-width: 100%;

@@ -1,0 +1,216 @@
+/* B"H — Awtsmoos global CSS token defaults (tunnel CSS laws).
+ *
+ * Every var() used bare (no fallback) in the scanned stylesheets MUST resolve.
+ * These :root defaults are the LOWEST-priority values in the cascade: any
+ * app stylesheet, theme block, or inline style defining the same token wins.
+ * Before this file, 97 tokens were used-but-never-defined, so every
+ * declaration using them was silently dropped (element left unstyled).
+ *
+ * Theme model (matches the site convention):
+ *   :root                  → dark-theme values (the site default)
+ *   [data-theme="light"]   → light-theme overrides
+ */
+
+:root {
+  /* ---- core text / surface tokens (used by the explicit-color pass) ---- */
+  --aw-text: #f2f4f8;
+  --aw-text-soft: #a7b0bf;
+  --aw-bg: #0b0d12;
+  --aw-surface: #14171e;
+  --aw-line: #232833;
+  --aw-accent: #5b9dff;
+  --aw-hot: #ff6b6b;
+  --aw-panel-2: #171b24;
+  --aw-stage-bg: #0b0d12;
+  --aw-focus-ring: #6ea8ff;
+  --sefer-highlight-bg: #3a2f10;
+
+  /* ---- app color tokens (were undefined; declarations were dropped) ---- */
+  --accent-alt: #c084fc;
+  --accent-gold: #d4a94e;
+  --ambient-reader: #f5ca70;
+  --awt-gold-border: 1px solid #d4a94e;
+  --awtsmoos-browser-accent: #5b9dff;
+  --awtsmoos-browser-accent-strong: #3b82f6;
+  --awtsmoos-browser-danger: #ff6b6b;
+  --awtsmoos-browser-ink: #eef1f6;
+  --awtsmoos-browser-line: #232833;
+  --awtsmoos-browser-muted: #a7b0bf;
+  --beauty-glass-dark: rgba(10, 12, 18, 0.72);
+  --bg-page: #0b0d12;
+  --body: #5b9dff;
+  --cap: #8a6d3b;
+  --color-accent-primary: #5b9dff;
+  --color-accent-warning: #f5b942;
+  --color-bg-hover: #1a1f2b;
+  --color-highlight: rgba(91, 157, 255, 0.18);
+  --composer-accent: #5b9dff;
+  --docs-panel: #14171e;
+  --docs-text: #eef1f6;
+  --f-line-hot: #ff6b6b;
+  --g-bg-2: #14171e;
+  --g-ink-2: #dfe3ea;
+  --g-panel-3: #1a1f2b;
+  --g-panel-solid: #14171e;
+  --g-pink: #f472b6;
+  --g-soft: #a7b0bf;
+  --g-surface-3: #1a1f2b;
+  --games-text-soft: #a7b0bf;
+  --h-gold: #d4a94e;
+  --h-muted: #a7b0bf;
+  --movie-border: #8a6d3b;
+  --mw-surface-danger: #2a1218;
+  --mw-surface-raised: #1a1f2b;
+  --player-color: #5b9dff;
+  --pp-gold: #d4a94e;
+  --preset-a: #c084fc;
+  --rider-color: #5b9dff;
+  --sefer-on-accent: #1a1206;
+  --sefer-reader-bg: #171209;
+  --sefer-reader-ink: #f0e7d3;
+
+  /* ---- hue / number tokens (used inside hsl()/calc()) ---- */
+  --dialog-hue: 210;
+  --foundation-hue: 210;
+  --hue: 210;
+  --mitzvah-hue: 210;
+  --province-hue: 210;
+  --region-hue: 210;
+  --world-hue: 210;
+  --spark: 0;
+
+  /* ---- length / layout tokens ---- */
+  --awt-safe-left: 0px;
+  --awt-safe-right: 0px;
+  --awtsmoos-browser-layer-drawer: 50;
+  --awtsmoos-browser-radius-sm: 8px;
+  --clip-left: 0;
+  --dx: 0px;
+  --editor-width: 8;
+  --g-rail: 64px;
+  --g-topbar: 56px;
+  --glyph-delay: 0s;
+  --glyph-x: 0px;
+  --h: 8px;
+  --home-gap: 1rem;
+  --key-left: 0;
+  --map-columns: 3;
+  --mastery: 0%;
+  --movie-left: 0;
+  --multitrack-peak: 0;
+  --mw-viewport-block: 100dvh;
+  --mw-viewport-inline: 100vw;
+  --nle-timeline-width: 1fr;
+  --playhead-ratio: 0;
+  --poll-value: 0%;
+  --preview-columns: 4;
+  --relevance: 0%;
+  --star-size: 12px;
+  --timeline-h: 120px;
+
+  /* ---- timing / easing tokens ---- */
+  --ease-out-soft: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --future-duration-slow: 0.6s;
+  --motion-quick: 0.15s;
+  --mw-ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+
+  /* ---- shadow tokens (neutral: previously dropped → no shadow) ---- */
+  --beauty-glow-gold: 0 0 0 rgba(0, 0, 0, 0);
+  --beauty-shadow-deep: 0 0 0 rgba(0, 0, 0, 0);
+  --beauty-shadow-soft: 0 0 0 rgba(0, 0, 0, 0);
+  --g-shadow-float: 0 0 0 rgba(0, 0, 0, 0);
+  --games-shadow-lg: 0 0 0 rgba(0, 0, 0, 0);
+  --games-shadow-sm: 0 0 0 rgba(0, 0, 0, 0);
+  --geo-shadow-soft: 0 0 0 rgba(0, 0, 0, 0);
+  --legend-elevation-1-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  --legend-elevation-2-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  --mw-shadow-glow: 0 0 0 rgba(0, 0, 0, 0);
+  --shadow-panel: 0 0 0 rgba(0, 0, 0, 0);
+
+  /* ---- font tokens ---- */
+  --ohr-font-ui: system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* ---- second-pass tokens (found in follow-up scan) ---- */
+  --accent-alt-glow: rgba(192, 132, 252, 0.35);
+  --awtsmoos-browser-radius-md: 12px;
+  --awtsmoos-browser-speed: 0.2s;
+  --awtsmoos-browser-speed-fast: 0.12s;
+  --beauty-edge-light: 0 0 0 rgba(0, 0, 0, 0);
+  --beauty-glass-border: 1px solid rgba(255, 255, 255, 0.14);
+  --clip-width: 120px;
+  --dy: 0px;
+  --f-glow: 0 0 0 rgba(0, 0, 0, 0);
+  --future-ease-standard: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --glyph-y: 0px;
+  --glyph-turn: 0deg;
+  --awtsmoos-browser-ease: ease;
+  --movie-input-bg: #14171e;
+  --movie-width: 640px;
+  --preset-b: #1e3a5f;
+  --preview-rows: 4;
+  --trim: #8a6d3b;
+}
+
+[data-theme="light"] {
+  --aw-text: #181a1d;
+  --aw-text-soft: #5a6270;
+  --aw-bg: #ffffff;
+  --aw-surface: #f4f5f7;
+  --aw-line: #dfe3ea;
+  --aw-accent: #1a56db;
+  --aw-hot: #d92d20;
+  --aw-panel-2: #eceff4;
+  --aw-stage-bg: #f4f5f7;
+  --aw-focus-ring: #1a56db;
+  --sefer-highlight-bg: #fff3cd;
+
+  --accent-alt: #7c3aed;
+  --accent-gold: #8a6d1a;
+  --ambient-reader: #8a6d1a;
+  --awt-gold-border: 1px solid #8a6d1a;
+  --awtsmoos-browser-accent: #1a56db;
+  --awtsmoos-browser-accent-strong: #1e40af;
+  --awtsmoos-browser-danger: #d92d20;
+  --awtsmoos-browser-ink: #181a1d;
+  --awtsmoos-browser-line: #dfe3ea;
+  --awtsmoos-browser-muted: #5a6270;
+  --beauty-glass-dark: rgba(255, 255, 255, 0.72);
+  --bg-page: #ffffff;
+  --body: #1a56db;
+  --cap: #5a4a26;
+  --color-accent-primary: #1a56db;
+  --color-accent-warning: #b45309;
+  --color-bg-hover: #eef0f4;
+  --color-highlight: rgba(26, 86, 219, 0.12);
+  --composer-accent: #1a56db;
+  --docs-panel: #ffffff;
+  --docs-text: #181a1d;
+  --f-line-hot: #d92d20;
+  --g-bg-2: #f4f5f7;
+  --g-ink-2: #3a3f4a;
+  --g-panel-3: #eceff4;
+  --g-panel-solid: #ffffff;
+  --g-pink: #db2777;
+  --g-soft: #5a6270;
+  --g-surface-3: #eceff4;
+  --games-text-soft: #5a6270;
+  --h-gold: #8a6d1a;
+  --h-muted: #5a6270;
+  --movie-border: #d4a94e;
+  --movie-input-bg: #1e2129;
+  --mw-surface-danger: #fde8e8;
+  --mw-surface-raised: #ffffff;
+  --player-color: #1a56db;
+  --pp-gold: #8a6d1a;
+  --preset-a: #7c3aed;
+  --rider-color: #1a56db;
+  --sefer-on-accent: #fffdf6;
+  --sefer-reader-bg: #f7f1e3;
+  --sefer-reader-ink: #2b2118;
+
+  --accent-alt-glow: rgba(124, 58, 237, 0.25);
+  --beauty-glass-border: 1px solid rgba(0, 0, 0, 0.12);
+  --movie-input-bg: #ffffff;
+  --preset-b: #dbe7f5;
+  --trim: #d4a94e;
+}

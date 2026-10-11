@@ -42,23 +42,28 @@ Awtsmoos.com makes the mobile dock a living threshold without hiding the links f
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 680px) { :where(body[data-geelooy-route="home"]) :where(nav.mobile-dock) a[href="/"] {
 		--dock-accent: 255, 208, 113;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 680px) { :where(body[data-geelooy-route="home"]) :where(nav.mobile-dock) a[href="/heichelos/ikar"] {
 		--dock-accent: 255, 193, 71;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 680px) { :where(body[data-geelooy-route="home"]) :where(nav.mobile-dock) a[href="/games/"] {
 		--dock-accent: 255, 101, 177;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 680px) { :where(body[data-geelooy-route="home"]) :where(nav.mobile-dock) a[href="/apps/"] {
 		--dock-accent: 75, 222, 192;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 680px) { :where(body[data-geelooy-route="home"]) :where(nav.mobile-dock) a[href="/profile"] {
 		--dock-accent: 126, 153, 255;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 680px) { :where(body[data-geelooy-route="home"]) :where(nav.mobile-dock) :where(a)::before {
 		position: absolute;
@@ -68,7 +73,8 @@ Awtsmoos.com makes the mobile dock a living threshold without hiding the links f
 		background: radial-gradient(circle, rgba(var(--dock-accent), .38), transparent 68%);
 		content: "";
 		pointer-events: none;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 680px) { :where(body[data-geelooy-route="home"]) :where(nav.mobile-dock) a[aria-current="page"], :where(body[data-geelooy-route="home"]) :where(nav.mobile-dock) a:focus-visible {
 		border-color: rgba(var(--dock-accent), .62);
@@ -79,7 +85,8 @@ Awtsmoos.com makes the mobile dock a living threshold without hiding the links f
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 680px) { :where(body[data-geelooy-route="home"]) :where(nav.mobile-dock) a :first-child {
 		filter: drop-shadow(0 0 10px rgba(var(--dock-accent), .38));
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 350px) { :where(body[data-geelooy-route="home"]) nav.mobile-dock {
 		left: 6px;
@@ -91,4 +98,5 @@ Awtsmoos.com makes the mobile dock a living threshold without hiding the links f
 @media (max-width: 350px) { :where(body[data-geelooy-route="home"]) :where(nav.mobile-dock) a {
 		min-height: 3.6rem;
 		padding-inline: .14rem;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }

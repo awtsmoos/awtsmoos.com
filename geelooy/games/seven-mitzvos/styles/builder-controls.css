@@ -58,7 +58,8 @@
 .buildCopy em {
 	overflow: hidden;
 	text-overflow: ellipsis;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .buildCopy small {
 	color: #f0d79b;

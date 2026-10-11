@@ -35,10 +35,12 @@
 .result-card h2,
 .result-card p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .result-card h2 {
 	font-size: clamp(1.8rem, 8vw, 3rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 #result-summary {
 	color: var(--muted);
 	line-height: 1.5;

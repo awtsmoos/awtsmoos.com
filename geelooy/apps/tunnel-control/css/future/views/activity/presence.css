@@ -30,7 +30,8 @@
 .awt-activity-presence__heading h3 {
 	margin: 0;
 	font-size: 0.9rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-activity-presence__heading span {
 	min-width: 1.8rem;
@@ -40,7 +41,8 @@
 	font-size: 0.72rem;
 	font-weight: 800;
 	text-align: center;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-activity-presence__list {
 	display: grid;
@@ -82,11 +84,13 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-activity-presence__copy strong {
 	font-size: 0.8rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-activity-presence__copy span {
 	margin-top: 0.12rem;

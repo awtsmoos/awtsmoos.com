@@ -87,7 +87,8 @@
 	.button
 ) {
 	min-height: 42px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-pane-content :where(
 	.card,
@@ -133,7 +134,8 @@
 .awt-activity-presence__copy strong,
 .awt-activity-presence__copy span {
 	min-width: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 760px) {
 	.awt-control-main.awt-control-main {
@@ -178,7 +180,8 @@
 
 	.awt-pane-content :where(button, a.button, .button) {
 		min-height: 46px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.awt-activity-presence__copy strong,
 	.awt-activity-presence__copy span {
@@ -186,7 +189,8 @@
 		text-overflow: clip;
 		white-space: normal;
 		overflow-wrap: anywhere;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.awt-activity-event__meta {
 		align-items: flex-start;

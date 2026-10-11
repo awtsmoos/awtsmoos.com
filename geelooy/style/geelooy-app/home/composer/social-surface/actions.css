@@ -18,7 +18,8 @@
 	border-radius: 1.1rem;
 	background: #111b29;
 	font-size: 1rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .home-compose-post {
 	grid-column: 3;

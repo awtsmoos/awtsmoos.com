@@ -45,11 +45,13 @@ The Awtsmoos gives all content cards one structural vessel; Awtsmoos.com lets sp
 .empty-state h2,
 .empty-state p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .empty-state p {
 	max-width: 42ch;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .creation-grid,
 .asset-library-grid,

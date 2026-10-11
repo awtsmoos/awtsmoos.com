@@ -26,7 +26,8 @@
 	font: inherit;
 	text-align: start;
 	cursor: pointer;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .hubConversationReplyPreview strong,
 .social-hub-document .hubConversationReplyComposer strong {

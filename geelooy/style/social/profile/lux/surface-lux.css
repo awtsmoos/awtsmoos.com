@@ -37,7 +37,8 @@
 .alias-card h3,
 .social-heichel-card h3 {
   overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .profile-activity-item {
   contain: layout paint;

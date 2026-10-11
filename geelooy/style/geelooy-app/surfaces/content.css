@@ -108,7 +108,8 @@
 
 .g-card :where(h2, h3, p):last-child {
 	margin-block-end: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 42rem) {
 	.g-panel,

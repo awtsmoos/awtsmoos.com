@@ -10,7 +10,8 @@
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(button, input, select, textarea) {
 	box-sizing: border-box;
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(
 	input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]),
 	select,
@@ -36,7 +37,8 @@
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) textarea {
 	min-block-size: 8rem;
 	resize: vertical;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(input, textarea)::placeholder {
 	color: var(--g-faint, #94a2b7);
 	opacity: 1;
@@ -47,7 +49,8 @@
 	background-color: transparent;
 	background-image: none;
 	box-shadow: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 @media (forced-colors: active) { :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(input, select, textarea) {
 		background: Canvas;
 		border: 1px solid ButtonText;

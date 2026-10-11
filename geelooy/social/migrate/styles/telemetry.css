@@ -46,7 +46,8 @@ Awtsmoos.com shows selection, density, recovery, and history from beginning to e
 	font-weight: 750;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .statGrid small {
 	display: block;
 	margin-top: .1rem;
@@ -66,7 +67,8 @@ Awtsmoos.com shows selection, density, recovery, and history from beginning to e
 	min-width: 2px;
 	border-radius: 2px 2px 0 0;
 	background: linear-gradient(to top, #4e7f89, var(--migrate-violet));
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .recoveryLine {
 	color: var(--migrate-muted);
 	font-size: .77rem;

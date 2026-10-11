@@ -71,7 +71,8 @@
 .translation-search-result strong {
 	font-size: .86rem;
 	line-height: 1.45;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .translation-search-source {
 	color: var(--light-text-cbd5e1, #cbd5e1);

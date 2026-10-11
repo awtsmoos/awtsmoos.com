@@ -56,12 +56,14 @@
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.post-author) :where(span)::after {
 	content: "א";
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .post-author strong, .post-author small {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .post-author strong {
 	color: var(--home-text);
 	font-size: .98rem;

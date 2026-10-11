@@ -14,7 +14,8 @@
 	font-size: 1.2rem;
 	font-weight: 820;
 	letter-spacing: -.025em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .drive-bulk-dialog form > p {
 	margin: 0;
@@ -31,7 +32,8 @@
 
 .drive-folder-chooser-location strong {
 	font-size: .82rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .drive-folder-chooser-location [data-folder-up] {
 	border-color: rgba(84, 237, 187, .22);

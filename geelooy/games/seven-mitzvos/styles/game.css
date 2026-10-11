@@ -24,7 +24,8 @@
 .gameHeader h2 {
 	margin-bottom: 0.4rem;
 	font-size: clamp(2.3rem, 5vw, 4.5rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .gameHeader p:last-child {
 	max-width: 580px;
@@ -58,7 +59,8 @@
 .gameStat strong {
 	font-family: var(--serif);
 	font-size: 1.55rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .meterRow {
 	display: grid;
@@ -80,7 +82,8 @@
 	width: 0;
 	background: linear-gradient(90deg, #6bc7a7, #f1c76d);
 	transition: width 240ms ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .gameFooter {
 	display: flex;

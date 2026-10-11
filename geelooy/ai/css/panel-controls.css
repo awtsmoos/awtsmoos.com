@@ -15,13 +15,15 @@
   place-items: center;
   touch-action: manipulation;
   transition: transform .12s ease, filter .12s ease, border-color .12s ease, background .12s ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .event-panel-actions button[aria-pressed="true"] {
   border-color: rgba(216, 180, 254, .72);
   background: linear-gradient(135deg, rgba(168,85,247,.86), rgba(14,165,233,.72));
   filter: saturate(1.16) brightness(1.08);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .event-panel-actions button:hover {
   transform: translateY(-1px);

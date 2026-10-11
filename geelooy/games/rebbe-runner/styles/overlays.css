@@ -32,7 +32,8 @@
 	margin: 8px 0 8px;
 	font-size: clamp(1.45rem, 6vw, 2.4rem);
 	letter-spacing: -.035em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .rebbe-runner .rebbe-runner__overlay-card p {
 	margin: 0 0 18px;

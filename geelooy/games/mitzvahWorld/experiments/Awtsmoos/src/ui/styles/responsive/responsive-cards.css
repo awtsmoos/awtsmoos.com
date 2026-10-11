@@ -22,7 +22,8 @@
 	border-radius: 8px;
 	background: rgba(255, 255, 255, 0.045);
 	text-align: center;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .Awtsmoos-gameplay :is(.Awtsmoos-stat-grid, .Awtsmoos-powerup-grid) {
 	display: grid;
@@ -47,7 +48,8 @@
 
 .Awtsmoos-gameplay :is(.Awtsmoos-stat-card, .Awtsmoos-powerup-card) > span:first-child {
 	font-size: 21px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .Awtsmoos-gameplay :is(.Awtsmoos-stat-card, .Awtsmoos-powerup-card) small {
 	display: block;

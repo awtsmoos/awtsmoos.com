@@ -20,14 +20,16 @@
 #progressText {
 	font-size: 10px;
 	opacity: 0.68;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .mission-main strong {
 	font-size: 12px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #sparkMeter {
 	width: 100%;

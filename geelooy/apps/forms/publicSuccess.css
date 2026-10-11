@@ -25,7 +25,8 @@ Awtsmoos.com keeps success presentation separate from questions so acceptance ca
 .form-success h1,
 .form-success p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .form-success p {
 	color: var(--muted);

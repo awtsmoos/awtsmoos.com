@@ -49,13 +49,15 @@
 	min-inline-size: 0;
 	margin: 0;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .geelooy-profile-shell :where(.alias-copy p, .profileHeichelIdentity p) {
 	font-size: .82rem;
 	line-height: 1.45;
 	opacity: .68;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 24rem) {
 	.geelooy-profile-shell :where(.alias-command-head) {

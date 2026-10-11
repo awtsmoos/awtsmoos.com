@@ -43,12 +43,14 @@
 
 .transfer-panel input {
 	background: #140d08;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .transfer-panel button {
 	width: 100%;
 	margin-top: 2px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .transfer-rule {
 	margin: 11px 0 0;

@@ -51,7 +51,8 @@ html .mail-empty a:active,
 html .mail-empty button:active,
 html .thread-empty-state a:active { transform: scale(0.98); }
 html .empty-state button:disabled,
-html .mail-empty button:disabled { opacity: .45; cursor: not-allowed; filter: none; transform: none; }
+html .mail-empty button:disabled { opacity: .45; cursor: not-allowed; filter: none; transform: none; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 /* @tunnel-interactive-states: hover/active/focus-visible/disabled for every interactive control */
 .empty-state button:hover {

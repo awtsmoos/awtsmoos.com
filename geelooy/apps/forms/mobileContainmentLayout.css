@@ -35,7 +35,8 @@ body {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .connection-status {
 	flex: 0 1 auto;
@@ -54,7 +55,8 @@ body {
 	max-width: 100%;
 	min-width: 0;
 	box-sizing: border-box;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 720px) {
 	.forms-topbar {
@@ -74,7 +76,8 @@ body {
 
 	.forms-brand > span:last-child {
 		max-width: 44vw;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.connection-status {
 		max-width: 34vw;

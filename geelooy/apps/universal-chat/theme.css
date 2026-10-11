@@ -60,11 +60,13 @@ body[data-messaging-page] *::after {
 
 body[data-messaging-page] :is(button, input, textarea, select) {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-messaging-page] :is(button, a, input, textarea, select, summary) {
 	-webkit-tap-highlight-color: transparent;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-messaging-page] #messagingAppRoot {
 	inline-size: 100%;

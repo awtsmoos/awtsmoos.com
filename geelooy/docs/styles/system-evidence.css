@@ -25,7 +25,8 @@ body[data-geelooy-route="docs"] :where(.system-risk-card, .system-evidence-block
 body[data-geelooy-route="docs"] :where(.system-risk-card h3, .system-evidence-block h3) {
 	margin: 0 0 8px;
 	font-size: .84rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-geelooy-route="docs"] :where(.system-risk-card p, .system-evidence-block p, .system-evidence-block li, .system-evidence-warning p) {
 	color: var(--muted);
@@ -44,7 +45,8 @@ body[data-geelooy-route="docs"] .system-evidence-block ul {
 
 body[data-geelooy-route="docs"] .system-evidence-block li + li {
 	margin-top: 5px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-geelooy-route="docs"] :where(.source-copy, .system-project-link) {
 	display: block;
@@ -90,7 +92,8 @@ body[data-geelooy-route="docs"] .system-evidence-warning {
 
 body[data-geelooy-route="docs"] .system-evidence-warning p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 40rem) {
 	body[data-geelooy-route="docs"] :where(.system-risk-grid, .system-evidence-grid) {

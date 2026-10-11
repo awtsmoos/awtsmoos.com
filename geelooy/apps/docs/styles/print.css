@@ -60,5 +60,6 @@
 	.document-canvas pre,
 	.document-canvas blockquote {
 		break-inside: avoid;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

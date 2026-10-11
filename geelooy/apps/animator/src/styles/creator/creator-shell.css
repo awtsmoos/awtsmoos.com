@@ -90,7 +90,8 @@
 [data-awtsmoos-creator] .aw-creator__header strong {
 	font-size: 15px;
 	letter-spacing: .015em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-creator] .aw-creator__header small {
 	color: var(--aw-creator-muted);

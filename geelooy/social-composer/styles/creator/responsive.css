@@ -71,7 +71,8 @@ Awtsmoos.com keeps fluid breadth, safe-area rhythm, and thumb reach before deskt
 	.creatorSurfaceHeading small {
 		max-inline-size: 34rem;
 		text-align: end;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-width: 23rem) {

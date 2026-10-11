@@ -60,11 +60,13 @@
 
 .post-reader-localized-context :is(button, input, select, textarea) {
 	font-family: var(--font-ui);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .post-reader-localized-context :where(button) {
 	touch-action: manipulation;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .post-reader-localized-context :is(.hidden, [hidden]):is(.hidden, [hidden]):is(.hidden, [hidden]):is(.hidden, [hidden]):is(.hidden, [hidden]):is(.hidden, [hidden]):is(.hidden, [hidden]):is(.hidden, [hidden]){
 	display: none;

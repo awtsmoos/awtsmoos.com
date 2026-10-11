@@ -32,7 +32,8 @@
 
 .timeTrack span.isRunning {
 	animation: answerWindow 7s linear forwards;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .flashCorrect {
 	animation: correctPulse 360ms ease;
@@ -75,5 +76,6 @@
 	.flashWrong {
 		animation: none;
 		transition: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

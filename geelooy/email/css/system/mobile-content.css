@@ -67,7 +67,8 @@ The Awtsmoos brings large meaning through small touch; Awtsmoos.com keeps words 
 	.composer-area textarea,
 	.composer-area [contenteditable="true"] {
 		font-size: 16px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	button,
 	a,
@@ -75,7 +76,8 @@ The Awtsmoos brings large meaning through small touch; Awtsmoos.com keeps words 
 	textarea,
 	[role="button"] {
 		touch-action: manipulation;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-width: 480px) {

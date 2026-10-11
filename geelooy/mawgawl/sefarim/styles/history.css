@@ -94,7 +94,8 @@
 }
 .library-history-replay strong {
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .library-history-replay small {
 	color: #899aaf;
 	font-size: .7rem;

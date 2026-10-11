@@ -71,7 +71,8 @@
 	font-weight: 900;
 	backdrop-filter: blur(10px);
 	touch-action: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .ohrbound-app .touch-actions .jump-button {
 	width: clamp(68px, 20vw, 82px);
 	height: clamp(68px, 20vw, 82px);
@@ -81,7 +82,8 @@
 .ohrbound-app .touch-actions button[data-active="true"] {
 	box-shadow: 0 0 30px rgba(110, 231, 200, 0.2);
 	transform: scale(0.95);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 @media (orientation: landscape) and (max-height: 520px) {
 	.ohrbound-app .mobile-controls {
 		bottom: max(0.45rem, env(safe-area-inset-bottom));
@@ -92,7 +94,8 @@
 	.ohrbound-app .touch-actions button {
 		width: 52px;
 		height: 52px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	.ohrbound-app .touch-actions .jump-button {
 		width: 64px;
 		height: 64px;

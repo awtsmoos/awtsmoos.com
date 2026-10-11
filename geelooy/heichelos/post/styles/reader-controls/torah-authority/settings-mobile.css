@@ -112,7 +112,8 @@ html:where(body) :where(.all.post-reader-localized-context.awtsmoos-reader-visio
 	> .typography-details :is(.auto-scroll-unit-switch button, .auto-scroll-presets button) {
 	min-block-size: 44px;
 	font-size: .78rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 /* ---- Dark auto-scroll button colors: DARK THEME ONLY ---- */
 

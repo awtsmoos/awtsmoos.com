@@ -17,7 +17,8 @@
 		color var(--editor-fast) ease,
 		box-shadow var(--editor-fast) ease,
 		filter var(--editor-fast) ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-editor-shell .timeline-controls button,
 .awtsmoos-editor-shell .timeline-controls select {
@@ -103,7 +104,8 @@
 	.awtsmoos-editor-shell .timeline-controls select,
 	.awtsmoos-editor-shell .timeline-disclosure {
 		min-height: 44px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.awtsmoos-editor-shell .timeline-disclosure {
 		width: 44px;

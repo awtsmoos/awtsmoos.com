@@ -79,7 +79,8 @@
 		margin: 0;
 		font-size: 1.15rem;
 		letter-spacing: -.025em;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.awt-agent-direct-title p {
 		margin: 0;

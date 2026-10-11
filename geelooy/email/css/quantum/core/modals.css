@@ -84,7 +84,8 @@
 .quantum-confirm-card h3 {
 	margin: 0;
 	font-size: 1.65rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .quantum-confirm-card > p:not(.mail-modal-kicker) {
 	color: var(--mail-muted);
@@ -102,7 +103,8 @@
 	border-radius: 0.85rem;
 	font-weight: 900;
 	cursor: pointer;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .quantum-cancel {
 	border: 1px solid var(--mail-line);

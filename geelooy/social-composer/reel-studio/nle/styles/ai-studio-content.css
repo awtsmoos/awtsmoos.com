@@ -47,7 +47,8 @@
 	margin-block: .25rem;
 	font-size: .96rem;
 	line-height: 1.45;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .nle-ai-brief :is(p, ul) {
 	margin: .28rem 0 0;
@@ -71,7 +72,8 @@
 	display: grid;
 	gap: .42rem;
 	min-block-size: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .nle-ai-json textarea {
 	inline-size: 100%;

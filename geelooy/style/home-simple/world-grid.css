@@ -107,7 +107,8 @@ html[data-geelooy-route="home"][data-theme="dark"] .world-tile {
 		width: 2.35rem;
 		height: 2.35rem;
 		border-radius: .72rem;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (prefers-reduced-motion: reduce) { body[data-geelooy-route="home"] .world-tile {
 		transition: none;
 	} }

@@ -39,11 +39,13 @@
 
 .cobyk-app :where(button, select, summary, canvas, div, header, nav, section, output, span, strong, b, label) {
 	box-sizing: border-box;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .cobyk-app :where(button, select, summary) {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .cobyk-app [hidden] {
 	display: none;

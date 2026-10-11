@@ -44,4 +44,5 @@
 	color: var(--ink-muted);
 	font-size: 0.7rem;
 }
-#desktop-help span { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+#desktop-help span { display: flex; align-items: center; gap: 6px; white-space: nowrap; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

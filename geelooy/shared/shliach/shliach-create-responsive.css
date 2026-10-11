@@ -43,7 +43,8 @@ Blessed be He */
 
 	.shliach-create-actions > button {
 		flex: 1;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (prefers-reduced-motion: reduce) {:root:root:root .shliach-create-dialog, :root:root:root .shliach-create-dialog *{

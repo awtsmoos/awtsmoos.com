@@ -117,7 +117,8 @@ body[data-comment-thread-page] .comment-card.state {
 
 body[data-comment-thread-page] .comment-card.state :where(h2, p) {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: hover) and (pointer: fine) {
 	body[data-comment-thread-page] .comment-card:not(.comment-tombstone):hover {

@@ -30,7 +30,8 @@
 	.overlay h1 {
 		font-size: clamp(28px, 9vw, 42px);
 		order: 2;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.eyebrow {
 		order: 1;

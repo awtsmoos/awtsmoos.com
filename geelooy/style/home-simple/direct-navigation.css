@@ -40,7 +40,8 @@ body[data-geelooy-route="home"] .direct-navigation a > span {
 	border-radius: .65rem;
 	background: #0c1d31;
 	font-size: .95rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-geelooy-route="home"] .direct-navigation b {
 	display: grid;
@@ -53,7 +54,8 @@ body[data-geelooy-route="home"] .direct-navigation small {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-geelooy-route="home"] .direct-navigation strong {
 	color: #eef5ff;
@@ -101,7 +103,8 @@ body[data-geelooy-route="home"] .direct-navigation a:focus-visible {
 @media (prefers-reduced-motion: reduce) {
 	body[data-geelooy-route="home"] .direct-navigation a {
 		transition: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	body[data-geelooy-route="home"] .direct-navigation a:hover,
 	body[data-geelooy-route="home"] .direct-navigation a:active {

@@ -58,7 +58,8 @@ The Awtsmoos reveals many actions without crowding the world; Awtsmoos.com gives
 #mitzvah-world-root .Awtsmoos-action-bar span {
 	font-size: 18px;
 	line-height: 1;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .Awtsmoos-action-bar small {
 	max-width: 40px;

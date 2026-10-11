@@ -14,7 +14,8 @@
 
 	.studio-editor-brand strong {
 		font-size: 14px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.studio-editor-status,
 	.studio-command-button[data-editor-panel="projects"],

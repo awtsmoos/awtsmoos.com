@@ -1300,6 +1300,7 @@ lib/instructions/service.js
 lib/local-api-actions.js
 lib/local-api-catalog-cache.js
 lib/local-api-catalog.js
+lib/local-api-content.js
 lib/local-api-health.js
 lib/local-api-limits.js
 lib/local-api-port-policy.js
@@ -1311,6 +1312,7 @@ lib/local-api-tool-dispatch.js
 lib/local-api.js
 lib/local-browser-relay.js
 lib/log.js
+lib/onboarding.js
 lib/open.js
 lib/privateStateRoot.js
 lib/public-action-emergency.js
@@ -1346,6 +1348,7 @@ lib/response-spill.js
 lib/response-values.js
 lib/responseContracts/index.js
 lib/responseContracts/registry.js
+lib/selfContained.js
 lib/runtime/action-identity.js
 lib/runtime/action-stream-query.js
 lib/runtime/action-stream-record.js
@@ -2004,6 +2007,7 @@ tools/fs/actionGroups/missionActionPayload.js
 tools/fs/actionGroups/missionActions.js
 tools/fs/actionGroups/missionAssignmentActions.js
 tools/fs/actionGroups/missionAwareActions.js
+tools/fs/actionGroups/missionBoardActions.js
 tools/fs/actionGroups/missionBootActions.js
 tools/fs/actionGroups/missionBrowserSpawnActions.js
 tools/fs/actionGroups/missionBrowserSpawnIdentity.js
@@ -2465,6 +2469,22 @@ tools/fs/mission/autoStart/create.js
 tools/fs/mission/autoStart/index.js
 tools/fs/mission/awdbLegacyMigration.js
 tools/fs/mission/awdbStore.js
+tools/fs/mission/board/autopsy.js
+tools/fs/mission/board/board.test.cjs
+tools/fs/mission/board/capsules.js
+tools/fs/mission/board/chaining.js
+tools/fs/mission/board/dashboard.js
+tools/fs/mission/board/federation.js
+tools/fs/mission/board/index.js
+tools/fs/mission/board/lifecycle.js
+tools/fs/mission/board/messages.js
+tools/fs/mission/board/model.js
+tools/fs/mission/board/scheduler.js
+tools/fs/mission/board/service.js
+tools/fs/mission/board/store.js
+tools/fs/mission/board/swarm.js
+tools/fs/mission/board/templates.js
+tools/fs/mission/board/voice.js
 tools/fs/mission/boot/index.js
 tools/fs/mission/boot/resume.js
 tools/fs/mission/bootPolicy/config.js

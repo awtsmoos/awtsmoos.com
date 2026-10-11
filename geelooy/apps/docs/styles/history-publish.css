@@ -43,7 +43,8 @@
 .workspace-dialog header h2,
 .workspace-dialog header p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .workspace-dialog .eyebrow {
 	color: var(--docs-muted);
@@ -100,7 +101,8 @@
 .publish-field textarea {
 	white-space: pre-wrap;
 	word-break: break-word;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .publish-field {
 	display: grid;
@@ -111,7 +113,8 @@
 .publish-field span,
 .publish-field textarea {
 	grid-column: 1 / -1;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .danger-action {
 	border-color: color-mix(in srgb, #b42318 30%, var(--docs-border));

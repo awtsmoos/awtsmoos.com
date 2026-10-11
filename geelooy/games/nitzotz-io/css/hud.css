@@ -78,7 +78,8 @@
 .stat strong {
 	font-size: 20px;
 	line-height: 1;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .stat.timer strong {
 	color: var(--gold);
@@ -98,7 +99,8 @@
 	border-radius: 999px;
 	font-size: 10px;
 	padding: 5px 8px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .status-strip b,
 #powerText,

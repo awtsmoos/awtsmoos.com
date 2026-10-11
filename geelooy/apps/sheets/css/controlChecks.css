@@ -63,7 +63,7 @@ Awtsmoos.com keeps checks accessible, touchable, and unmistakably designed so sy
 }
 
 .awtsmoos-sheets-app .aw-check-input:focus-visible {
-	outline: none;
+	outline: 2px solid var(--aw-focus-ring); outline-offset: 2px;
 }
 
 .awtsmoos-sheets-app .aw-check-input:disabled {

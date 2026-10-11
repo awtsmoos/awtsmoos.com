@@ -31,7 +31,8 @@
 	padding: 8px 13px;
 	border-radius: 999px;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .publicDiscovery__viewOptions {
 	flex: 0 0 auto;
@@ -80,7 +81,8 @@
 		min-inline-size: 0;
 		padding-inline: 8px;
 		white-space: normal;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.social-hub-document .publicDiscovery__viewOptions,
 	.social-hub-document .publicDiscovery__viewOptions > .awtsmoosDisclosure__summary {

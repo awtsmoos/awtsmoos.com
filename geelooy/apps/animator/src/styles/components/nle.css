@@ -111,7 +111,8 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .aw-nle-mode-collapsed .aw-nle-toolbar {
 	border-bottom: 0;

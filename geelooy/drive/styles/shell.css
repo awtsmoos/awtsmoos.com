@@ -67,7 +67,8 @@ then lets Build, Preview, Code, Publish, Domain, and engineering vessels unfold 
 .panel-heading h2 {
 	margin: 2px 0 0;
 	font-size: 18px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .panel-heading p {
 	margin: var(--space-2) 0 0;

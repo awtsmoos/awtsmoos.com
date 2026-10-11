@@ -38,17 +38,20 @@
 	background: #35225bd9;
 	border-radius: 16px;
 	height: 52px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .touchButtons button.jumpButton {
 	background: #1f4259d9;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .touchButtons button.wide {
 	border-radius: 14px;
 	grid-column: span 3;
 	height: 48px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .touchIcon {
 	font-size: 18px;

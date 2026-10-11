@@ -72,7 +72,8 @@ Awtsmoos.com bounds the recovery sheet to safe edges, gives its header room to b
 .draftRecoveryDialog p {
 	margin-block: .18rem;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .draftRecoveryDialog footer {
 	display: flex;
@@ -90,7 +91,8 @@ Awtsmoos.com bounds the recovery sheet to safe edges, gives its header room to b
 
 	.draftRecoveryDialog > header button {
 		justify-self: start;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (min-width: 50rem) {

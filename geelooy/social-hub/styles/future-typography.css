@@ -18,17 +18,20 @@ balanced titles, readable paragraphs, and stable numbers keep luminous surfaces 
 
 .social-hub-document :where(h1, h2, h3) {
 	text-wrap: balance;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document :where(p, li) {
 	text-wrap: pretty;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .pulseGrid strong,
 .social-hub-document .profileMetric strong,
 .social-hub-document [data-count] {
 	font-variant-numeric: tabular-nums;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .panelEyebrow,
 .social-hub-document .publicDiscovery__eyebrow,
@@ -38,4 +41,5 @@ balanced titles, readable paragraphs, and stable numbers keep luminous surfaces 
 
 .social-hub-document :where(input, textarea) {
 	caret-color: #7eefff;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

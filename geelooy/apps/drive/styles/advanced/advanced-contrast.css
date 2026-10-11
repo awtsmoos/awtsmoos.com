@@ -70,12 +70,14 @@
 .advanced-drive select {
 	width: 100%;
 	padding: 0 11px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .advanced-drive button {
 	padding: 0 14px;
 	cursor: pointer;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .advanced-drive .advanced-actions {
 	flex-wrap: wrap;

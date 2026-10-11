@@ -29,7 +29,8 @@
 		box-shadow var(--control-speed) ease,
 		color var(--control-speed) ease,
 		filter var(--control-speed) ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .icon-button:focus-visible,
 .level-nav button:focus-visible,
@@ -95,4 +96,5 @@
 	transform: none;
 	filter: none;
 	box-shadow: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

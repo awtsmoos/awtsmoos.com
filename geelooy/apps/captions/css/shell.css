@@ -54,7 +54,8 @@
 .brand-lockup strong,
 .brand-lockup small {
 	display: block;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .brand-lockup small {
 	margin-top: 2px;
@@ -87,7 +88,8 @@
 .studio-heading h1 {
 	margin: 0;
 	font-size: 1rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #studioClose {
 	display: none;

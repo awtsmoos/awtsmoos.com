@@ -39,7 +39,8 @@
 	[data-awtsmoos-creator] summary,
 	[data-awtsmoos-creator] .aw-creator__metric {
 		border-color: ButtonText;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	[data-awtsmoos-creator] [data-creator-preset][data-selected="true"] {
 		outline: 2px solid Highlight;

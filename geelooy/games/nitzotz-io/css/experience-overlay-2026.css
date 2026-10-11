@@ -52,7 +52,8 @@
 	font-size: clamp(36px, 7vw, 68px);
 	line-height: 0.94;
 	letter-spacing: -0.055em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #overlayText {
 	max-width: 660px;

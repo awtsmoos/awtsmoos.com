@@ -18,7 +18,8 @@
 .hub-result-digest strong,
 .hub-result-digest p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .hub-result-digest strong {
 	color: var(--hub-text);
@@ -34,7 +35,8 @@
 .hub-result-digest button {
 	justify-self: start;
 	min-block-size: 42px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .hub-raw-details {
 	min-inline-size: 0;

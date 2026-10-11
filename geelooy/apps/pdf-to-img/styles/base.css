@@ -53,7 +53,8 @@ h1 {
 	background: linear-gradient(135deg, var(--primary), #818cf8);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 p.subtitle {
 	color: var(--text-light);
@@ -94,7 +95,8 @@ p.subtitle {
 .drop-zone h3 {
 	font-size: 1.25rem;
 	margin-bottom: 8px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .drop-zone p {
 	color: var(--text-light);

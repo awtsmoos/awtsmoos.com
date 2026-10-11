@@ -15,7 +15,8 @@
 	} }
 @media (max-width: 42rem) { .g-home-hero-copy p:last-child {
 		font-size: 0.98rem;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 42rem) { .g-home-orbit {
 		top: 1.2rem;
 		right: 1.3rem;
@@ -35,7 +36,8 @@
 	} }
 @media (max-width: 42rem) { .g-home-action.is-primary span {
 		grid-row: auto;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 42rem) { .g-home-torah-portal {
 		grid-template-columns: 2.5rem minmax(0, 1fr);
 		padding: 0.72rem;
@@ -43,10 +45,12 @@
 @media (max-width: 42rem) { .g-home-torah-portal > span {
 		width: 2.5rem;
 		height: 2.5rem;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 42rem) { .g-home-torah-portal small {
 		padding-right: 0;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 42rem) { .g-home-torah-portal::after {
 		display: none;
 	} }

@@ -25,7 +25,8 @@ The Awtsmoos turns queue into motion and proof into stillness; Awtsmoos.com keep
 	border-radius: 15px;
 	background: rgba(255, 255, 255, .025);
 	transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease, opacity 180ms ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-milestones b {
 	display: grid;
@@ -40,12 +41,15 @@ The Awtsmoos turns queue into motion and proof into stillness; Awtsmoos.com keep
 
 #mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-milestones span { font-weight: 760; color: rgba(245, 255, 250, .82); }
 #mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-milestones em { font: 700 .7rem/1 ui-monospace, monospace; color: rgba(196, 226, 211, .48); font-style: normal; }
-#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-milestones li[data-status="active"] { transform: translateX(5px); border-color: rgba(127, 240, 182, .32); background: rgba(64, 178, 117, .09); }
+#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-milestones li[data-status="active"] { transform: translateX(5px); border-color: rgba(127, 240, 182, .32); background: rgba(64, 178, 117, .09); 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 #mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-milestones li[data-status="active"] b { background: #77eab0; color: #042015; animation: Awtsmoos-future-proof-breathe 1.6s ease-in-out infinite; }
-#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-milestones li[data-status="complete"] { border-color: rgba(247, 215, 116, .15); opacity: .82; }
+#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-milestones li[data-status="complete"] { border-color: rgba(247, 215, 116, .15); opacity: .82; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 #mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-milestones li[data-status="complete"] b { background: rgba(247, 215, 116, .16); color: #f7d774; }
 #mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-milestones li[data-status="complete"] em { color: #f7d774; }
-#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-milestones li[data-status="failed"] { border-color: rgba(255, 111, 111, .42); background: rgba(143, 35, 35, .16); }
+#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-milestones li[data-status="failed"] { border-color: rgba(255, 111, 111, .42); background: rgba(143, 35, 35, .16); 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 #mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-milestones li[data-status="failed"] b,
 #mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-milestones li[data-status="failed"] em { color: #ff9b9b; }
 
@@ -67,10 +71,13 @@ The Awtsmoos turns queue into motion and proof into stillness; Awtsmoos.com keep
 
 #mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-telemetry progress { height: 6px; }
 #mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-evidence { grid-column: 1 / -1; padding: 15px 17px; border: 1px solid rgba(255, 111, 111, .26); border-radius: 16px; background: rgba(98, 22, 22, .18); color: #ffd0d0; }
-#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-evidence strong { display: block; margin-bottom: 8px; font-size: .76rem; letter-spacing: .08em; text-transform: uppercase; }
+#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-evidence strong { display: block; margin-bottom: 8px; font-size: .76rem; letter-spacing: .08em; text-transform: uppercase; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 #mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-evidence pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; color: rgba(255, 229, 229, .8); font: 600 .72rem/1.55 ui-monospace, monospace; }
-#mitzvah-world-root .Awtsmoos-future-boot[data-essential-state="failed"] .Awtsmoos-boot-chip > span { background: #ff8585; box-shadow: 0 0 0 5px rgba(255, 133, 133, .1); }
-#mitzvah-world-root .Awtsmoos-future-boot[data-essential-state="complete"] .Awtsmoos-boot-chip > span { background: #f7d774; box-shadow: 0 0 0 5px rgba(247, 215, 116, .1); }
+#mitzvah-world-root .Awtsmoos-future-boot[data-essential-state="failed"] .Awtsmoos-boot-chip > span { background: #ff8585; box-shadow: 0 0 0 5px rgba(255, 133, 133, .1); 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+#mitzvah-world-root .Awtsmoos-future-boot[data-essential-state="complete"] .Awtsmoos-boot-chip > span { background: #f7d774; box-shadow: 0 0 0 5px rgba(247, 215, 116, .1); 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @keyframes Awtsmoos-future-proof-breathe {
 	0%, 100% { transform: scale(1); opacity: 1; }
@@ -80,15 +87,19 @@ The Awtsmoos turns queue into motion and proof into stillness; Awtsmoos.com keep
 @media (max-width: 720px) {
 	#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-loading-card { width: min(94vw, 560px); grid-template-columns: 1fr; gap: 16px; padding: 22px; border-radius: 24px; }
 	#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-header { align-items: center; }
-	#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-loading-card h1 { font-size: clamp(2rem, 11vw, 3.2rem); }
+	#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-loading-card h1 { font-size: clamp(2rem, 11vw, 3.2rem); 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-chip { padding: 8px 10px; }
 	#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-stage { padding-top: 8px; }
 	#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-telemetry { grid-template-columns: 1fr; }
-	#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-milestones li { min-height: 43px; padding: 8px 10px; }
+	#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-milestones li { min-height: 43px; padding: 8px 10px; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (prefers-reduced-motion: reduce) {
 	#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-milestones li,
-	#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-milestones li[data-status="active"] { transition: none; transform: none; }
-	#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-milestones li[data-status="active"] b { animation: none; }
+	#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-milestones li[data-status="active"] { transition: none; transform: none; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+	#mitzvah-world-root .Awtsmoos-future-boot .Awtsmoos-boot-milestones li[data-status="active"] b { animation: none; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

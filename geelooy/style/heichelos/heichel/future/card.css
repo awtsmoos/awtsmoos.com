@@ -18,7 +18,8 @@
 .heichel-mobile-navigation .nav-card p { margin: 0; max-width: 48ch; color: var(--heichel-soft-ink); font-size: clamp(.9rem, 1.8vw, 1rem); line-height: 1.45; white-space: pre-wrap; overflow-wrap: anywhere; }
 .heichel-mobile-navigation .nav-card-meta { display: flex; flex-wrap: wrap; gap: .34rem; margin-top: .1rem; color: var(--heichel-muted-ink); font-size: .72rem; font-weight: 900; line-height: 1; }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-.heichel-mobile-navigation .nav-card-meta span, :where(.heichel-mobile-navigation) :where(.nav-card) :where(footer) span { display: inline-flex; align-items: center; min-height: 1.55rem; padding: .34rem .5rem; border: 1px solid var(--heichel-line); border-radius: 999px; background: rgba(255,255,255,.06); }
+.heichel-mobile-navigation .nav-card-meta span, :where(.heichel-mobile-navigation) :where(.nav-card) :where(footer) span { display: inline-flex; align-items: center; min-height: 1.55rem; padding: .34rem .5rem; border: 1px solid var(--heichel-line); border-radius: 999px; background: rgba(255,255,255,.06); 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .heichel-mobile-navigation .nav-card-chevron { flex: 0 0 auto; color: var(--heichel-cyan); font-size: 1.45rem; line-height: .9; }
 @media (max-width: 620px) { .heichel-mobile-navigation .nav-card, .heichel-mobile-navigation .heichel-card, .heichel-mobile-navigation .series-card { grid-template-columns: 4.1rem minmax(0, 1fr) auto; min-height: 8.9rem; gap: .65rem; } }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */

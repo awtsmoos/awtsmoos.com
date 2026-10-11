@@ -23,11 +23,13 @@ Awtsmoos.com keeps this foundation quiet and local so feature garments can remai
 
 :where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(button, input, select, textarea) {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(h1, h2, h3, h4, p) {
 	margin-block-start: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(h1, h2, h3, h4) {
 	color: var(--mitzvah-ui-text);

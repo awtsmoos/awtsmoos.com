@@ -27,7 +27,8 @@ body {
 button,
 input {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .shell {
 	width: min(100% - 2rem, 1120px);
@@ -46,13 +47,15 @@ input {
 .section-heading h2 {
 	margin: 0;
 	letter-spacing: -0.04em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .hero h1 {
 	max-width: 14ch;
 	font-size: clamp(2.5rem, 12vw, 6rem);
 	line-height: 0.94;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .lede {
 	max-width: 52rem;

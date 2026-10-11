@@ -16,7 +16,8 @@
 	.library-context > summary small {
 		flex-basis: 100%;
 		margin-left: 0;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.library-discovery-rail {
 		grid-auto-flow: row;

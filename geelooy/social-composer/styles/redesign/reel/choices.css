@@ -79,12 +79,14 @@
 	position: relative;
 	z-index: 1;
 	grid-column: 2;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .reel-choice-card strong {
 	font-size: 1.02rem;
 	letter-spacing: -.015em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .reel-choice-card p {
 	margin: .15rem 0 0;
@@ -106,7 +108,8 @@
 	block-size: 1px;
 	overflow: hidden;
 	clip-path: inset(50%);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: hover) {
 	.reel-choice-card:hover {

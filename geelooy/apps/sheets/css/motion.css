@@ -18,7 +18,8 @@ Awtsmoos.com gives hover, focus, press, entrance, and reduced-motion states one 
 		color var(--motion-fast) var(--ease-direct),
 		opacity var(--motion-fast) var(--ease-direct),
 		transform var(--motion-fast) var(--ease-direct);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-sheets-app .motion-enter {
 	animation: awtsmoos-sheets-surface-in var(--motion-panel) var(--ease-spring) both;

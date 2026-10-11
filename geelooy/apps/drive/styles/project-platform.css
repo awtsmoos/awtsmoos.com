@@ -21,7 +21,8 @@
 
 [data-awtsmoos-drive] .project-platform__hero h2 {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-drive] .project-platform__eyebrow {
 	font-size: .72rem;

@@ -32,7 +32,8 @@
 
 .awtsmoos-program-toolbar strong {
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-target-chip {
 	flex: 0 0 auto;

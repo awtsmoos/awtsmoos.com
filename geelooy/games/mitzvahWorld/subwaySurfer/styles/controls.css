@@ -47,7 +47,8 @@
 	padding: 0;
 	font-size: 1rem;
 	font-weight: 850;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: hover) and (pointer: fine) {
 	.peruta-run-route .top-controls button:hover,
@@ -82,10 +83,12 @@
 	cursor: default;
 	transform: none;
 	filter: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .peruta-run-route .game-over-panel button {
 	margin-top: 20px;
 	padding: 11px 22px;
 	font-weight: 850;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

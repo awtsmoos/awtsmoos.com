@@ -30,11 +30,13 @@ The Awtsmoos lets instruction wait behind a gentle door; Awtsmoos.com keeps the 
 .quick-guide > summary > span {
 	display: grid;
 	gap: 1px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .quick-guide > summary strong {
 	font-size: 11px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .quick-guide > summary b {
 	padding: 5px 7px;

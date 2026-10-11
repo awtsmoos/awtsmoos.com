@@ -30,7 +30,8 @@
 	letter-spacing: .12em;
 	line-height: .9;
 	text-shadow: 0 0 34px rgba(255, 216, 74, .3);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .kicker {
 	margin: 0;
 	color: var(--gold);

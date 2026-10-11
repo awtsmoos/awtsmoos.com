@@ -45,12 +45,15 @@
 
 /* B"H — html-prefixed specificity replaces every (Yaakov 2026-10-08). */
 html:root, html body { background: var(--finish-bg); color: var(--finish-text); color-scheme: var(--finish-color-scheme); }
-html body, html input, html textarea, html select, html button { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+html body, html input, html textarea, html select, html button { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 html h1, html h2, html h3, html h4 { color: var(--finish-ink); letter-spacing: -.025em; }
-html p, html li, html small, html span { text-wrap: pretty; }
+html p, html li, html small, html span { text-wrap: pretty; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 html a { color: var(--finish-accent); }
 html a[class], html nav a, html .card a, html .home-route-card, html .social-space-card, html .profile-command-rail a, html .space-actions a { color: inherit; text-decoration: none; }
-html button, html a[class], html input, html textarea, html select, html summary { -webkit-tap-highlight-color: transparent; }
+html button, html a[class], html input, html textarea, html select, html summary { -webkit-tap-highlight-color: transparent; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 html button, html .btn, html .soft-btn, html .home-profile-pill, html .spaces-create, html .profile-primary-action, html .publish-button, html .home-search-vessel button, html .space-actions a, html .profile-command-rail a, html .home-empty-actions a {
   border-radius: 12px;
   font-weight: 700;
@@ -69,7 +72,8 @@ html input, html textarea, html select {
 }
 html input:hover, html textarea:hover, html select:hover { border-color: var(--finish-line-strong); }
 html input:focus, html textarea:focus, html select:focus { border-color: var(--finish-accent); box-shadow: 0 0 0 3px var(--finish-ring); outline: none; }
-html input:disabled, html textarea:disabled, html select:disabled { opacity: .55; cursor: not-allowed; }
+html input:disabled, html textarea:disabled, html select:disabled { opacity: .55; cursor: not-allowed; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 html .card, html .panel, html .dashboard-panel, html .home-command-card, html .home-feed-phone, html .home-route-card, html .home-post-card, html .profile-hero-card, html .profile-command-panel, html .social-space-card, html .social-empty-card, html .spaces-hero, html .awt-settings-section, html .awt-review-card, html .composer-card, html .submit-hero, html .status-card, html .simple-advanced-drawer {
   background: var(--finish-panel);
   border: 1px solid var(--finish-line);
@@ -108,7 +112,8 @@ button:disabled {
 	cursor: not-allowed;
 	filter: none;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 a:active {
 	transform: scale(0.98);
 }

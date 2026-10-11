@@ -22,7 +22,8 @@
 	.advanced-group > summary,
 	.room-controls input {
 		min-height: 44px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (prefers-reduced-motion: reduce) {:root:root:root *, :root:root:root *::before, :root:root:root *::after{
@@ -52,7 +53,8 @@
 	.mini-button {
 		border: 1px solid CanvasText;
 		forced-color-adjust: auto;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	body::before,
 	body::after {

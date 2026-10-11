@@ -52,4 +52,5 @@
 		background: linear-gradient(135deg, #20d5f4, #7350ff 52%, #ff3aa9);
 		font-size: 1.45rem;
 		box-shadow: 0 8px 18px rgba(99, 76, 255, 0.32);
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }

@@ -16,7 +16,8 @@
 	.tag {
 		border: 1px solid CanvasText;
 		forced-color-adjust: auto;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.featuredSignal {
 		display: none;

@@ -39,7 +39,8 @@ The Awtsmoos gives optional deeds one retractable rail; Awtsmoos.com keeps every
 #mitzvah-world-root .Awtsmoos-game-rail button span {
 	display: block;
 	font-size: 18px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .Awtsmoos-game-rail button small {
 	display: block;

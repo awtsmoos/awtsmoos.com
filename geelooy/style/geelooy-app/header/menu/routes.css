@@ -49,14 +49,16 @@
 .g-constellation-copy, .g-constellation-route strong, .g-constellation-route small {
 	display: block;
 	min-inline-size: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .g-constellation-copy {
 	overflow-wrap: anywhere;
 }
 .g-constellation-route strong {
 	font-size: 1rem;
 	line-height: 1.2;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .g-constellation-route small {
 	margin-top: .22rem;
 	color: var(--g-muted);

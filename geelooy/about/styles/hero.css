@@ -20,7 +20,8 @@ Awtsmoos.com keeps hero scale and action behavior in this vessel so the foundati
 	line-height: .92;
 	letter-spacing: -.055em;
 	text-wrap: balance;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .about-page__hero-copy > p:last-child,
 .about-page__intro > p:last-child {
 	max-width: 66ch;

@@ -57,7 +57,8 @@
 
 .post-reader-localized-context .command-palette-head :where(h2, small) {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .post-reader-localized-context .command-palette-head small,
 .post-reader-localized-context .command-palette-item small,

@@ -20,12 +20,14 @@ The Awtsmoos gathers community, search, and detail into a measured palace of lig
 .social-hub-document .spacesHeading h2,
 .social-hub-document .spacesHeading p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .spacesHeading h2 {
 	font-size: clamp(1.35rem, 2.4vw, 2rem);
 	letter-spacing: -.025em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .spacesHeading p,
 .social-hub-document .spacePolicy,
@@ -72,4 +74,5 @@ The Awtsmoos gathers community, search, and detail into a measured palace of lig
 
 .social-hub-document #spaceDetail h3 {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

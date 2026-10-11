@@ -56,7 +56,8 @@ button.primaryAction {
 	box-shadow:
 		0 .65rem 1.7rem rgb(0 0 0 / 18%),
 		inset 0 1px rgb(255 255 255 / 6%);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 button.primaryAction::after {
 	position: absolute;
@@ -67,7 +68,8 @@ button.primaryAction::after {
 	pointer-events: none;
 	transform: skewX(-16deg) translateX(0);
 	transition: transform 420ms cubic-bezier(.2, .8, .2, 1);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: hover) and (pointer: fine) {
 	details.migrationCard > summary:hover::after {
@@ -85,7 +87,8 @@ button.primaryAction::after {
 	details.migrationCard > summary::after,
 	button.primaryAction::after {
 		transition: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	details.migrationCard[open] > summary::after {
 		transform: translateY(-50%) rotate(90deg);

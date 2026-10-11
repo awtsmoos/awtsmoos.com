@@ -37,7 +37,8 @@
 .drive-details-public strong {
 	grid-column: 1 / -1;
 	font-size: .76rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .drive-details-public code {
 	min-width: 0;

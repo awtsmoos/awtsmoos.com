@@ -66,11 +66,13 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .drive-entry-row-name strong {
 	font-size: .9rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .drive-entry-row-name small,
 .drive-entry-row-modified,
@@ -82,7 +84,8 @@
 .drive-entry-row-name small {
 	display: none;
 	margin-top: 3px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .drive-home-recent {
 	border-top: 1px solid var(--drive-line);

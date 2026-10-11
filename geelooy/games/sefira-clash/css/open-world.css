@@ -51,7 +51,8 @@
 .openWorldServicePanel h4,
 .openWorldServicePanel p {
 	margin-top: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .openWorldTag {
 	display: inline-block;

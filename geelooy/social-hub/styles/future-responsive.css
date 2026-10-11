@@ -60,13 +60,15 @@
 
 	.social-hub-document :where(button, a, summary) {
 		touch-action: manipulation;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (hover: none) {
 	.social-hub-document :where(.primaryButton, .publicFeedCard__open, .publicDiscovery__lookup button)::after {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-width: 34rem) {

@@ -58,7 +58,8 @@
 	resize: vertical;
 	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 	line-height: 1.45;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .studio-grid,
 .chess-studio-procedural-options {
 	display: grid;
@@ -79,11 +80,13 @@
 	display: flex;
 	align-items: center;
 	gap: 7px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .studio-checks input {
 	width: auto;
 	min-height: auto;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .chess-studio-overlay button:focus-visible,
 .chess-studio-overlay input:focus-visible,
 .chess-studio-overlay select:focus-visible,

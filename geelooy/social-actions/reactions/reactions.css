@@ -97,11 +97,13 @@
 .awtsmoosReactionPalette__custom input {
 	min-width: 0;
 	min-height: 42px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoosReactionPalette__custom button {
 	padding: 7px 12px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoosReactionRail :focus-visible {
 	outline: 3px solid rgba(129, 140, 248, .72);

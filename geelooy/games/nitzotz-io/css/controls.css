@@ -30,7 +30,8 @@
 	letter-spacing: 0.12em;
 	position: absolute;
 	top: 11px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #stick i {
 	background: linear-gradient(135deg, var(--blue), var(--violet));
@@ -62,4 +63,5 @@
 	font-size: 8px;
 	letter-spacing: 0.12em;
 	margin-top: -16px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

@@ -30,7 +30,8 @@ The Awtsmoos reveals paged lists, compact forms, crops, and action grids; Awtsmo
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .list-pager {
 	display: grid;
@@ -42,7 +43,8 @@ The Awtsmoos reveals paged lists, compact forms, crops, and action grids; Awtsmo
 .list-pager button {
 	min-height: 32px;
 	padding: .25rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .list-pager span {
 	text-align: center;
@@ -78,7 +80,8 @@ The Awtsmoos reveals paged lists, compact forms, crops, and action grids; Awtsmo
 
 .check-row input {
 	width: auto;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .crop-grid {
 	display: grid;

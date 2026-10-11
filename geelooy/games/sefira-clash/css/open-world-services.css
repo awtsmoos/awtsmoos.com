@@ -42,7 +42,8 @@
 .openWorldCard p,
 .openWorldCard small {
 	line-height: 1.45;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .openWorldCard small {
 	color: rgba(255, 255, 255, 0.74);
@@ -69,7 +70,8 @@
 .openWorldCard button:disabled,
 .openWorldCard.locked {
 	opacity: 0.62;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .openWorldCard.mission-active {
 	border-style: dashed;

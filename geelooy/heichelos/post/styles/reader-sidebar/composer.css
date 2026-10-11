@@ -1,2 +1,3 @@
 /* B"H Reader sidebar composer. */
-.awtsmoos-inline-commentary-root textarea { border: 1px solid var(--reader-line); border-radius: .95rem; padding: .8rem; background: #fffdfa; resize: vertical; }
+.awtsmoos-inline-commentary-root textarea { border: 1px solid var(--reader-line); border-radius: .95rem; padding: .8rem; background: #fffdfa; resize: vertical; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

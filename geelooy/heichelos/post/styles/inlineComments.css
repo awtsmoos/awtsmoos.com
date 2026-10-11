@@ -77,4 +77,5 @@
     box-sizing: border-box;
     display: block;
     text-align: center;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

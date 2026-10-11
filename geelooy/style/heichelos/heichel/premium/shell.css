@@ -52,7 +52,8 @@
 
 .heichel-os-document :where(button, a, input, select, textarea) {
 	-webkit-tap-highlight-color: transparent;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .heichel-os-document :where(button, a, input, select, textarea):focus-visible {
 	outline: 2px solid var(--ikar-gold);

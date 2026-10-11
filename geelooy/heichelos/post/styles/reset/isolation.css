@@ -22,7 +22,8 @@
     li
 ) {
     box-sizing: border-box;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .post-reader-localized-context :where(
     .scroll-view-wrapper,

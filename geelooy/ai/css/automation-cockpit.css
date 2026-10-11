@@ -64,7 +64,8 @@
   width: 19px;
   height: 19px;
   accent-color: #22d3ee;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .event-filter {
   grid-template-columns: 22px minmax(0, 1fr);
   align-items: center;

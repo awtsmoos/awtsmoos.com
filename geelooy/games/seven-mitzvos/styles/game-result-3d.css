@@ -26,7 +26,8 @@
 .gameResult h3,
 .gameResult small {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .gameResult > p:first-child {
 	color: hsl(var(--mitzvah-hue) 92% 74%);
@@ -37,7 +38,8 @@
 
 .gameResult h3 {
 	font-size: clamp(1.7rem, 6vw, 4rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .gameResult small {
 	color: var(--gold);

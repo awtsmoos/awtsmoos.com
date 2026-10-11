@@ -14,7 +14,8 @@
 	font-weight: 900;
 	cursor: pointer;
 	transition: transform 160ms cubic-bezier(.2, .8, .2, 1), background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: hover) {
 	:where(.post-reader-localized-context) .awtsmoos-floating-controls button:hover {
@@ -37,4 +38,5 @@
 	opacity: .45;
 	cursor: not-allowed;
 	filter: saturate(.55);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

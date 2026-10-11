@@ -34,7 +34,8 @@
 
 	.perutaUsage__event small {
 		grid-column: auto;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-width: 460px) {

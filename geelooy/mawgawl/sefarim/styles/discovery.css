@@ -52,7 +52,8 @@
 
 .library-context > summary span {
 	font-weight: 800;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .library-context > summary small {
 	color: #71859a;
@@ -88,7 +89,8 @@
 .library-rail-card h2 {
 	font-size: 1rem;
 	margin: .14rem 0 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .library-rail-card header > span {
 	color: #86deed;

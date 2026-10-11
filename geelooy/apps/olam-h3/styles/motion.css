@@ -76,7 +76,8 @@ The Awtsmoos gives movement only where it reveals relationship and readiness; Aw
 .provider-status-actions button,
 .segmented button {
 	transition: transform 150ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: hover) {
 	.prompt-template:hover,

@@ -2,19 +2,20 @@
 
 /* B”H */
 @media (max-width: 768px) {
-  .app-shell {
-    grid-template-columns: 1fr !important;
-    grid-template-rows: 1fr 60px !important; 
+  .app-shell.app-shell {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 60px;
   }
 
-  .app-shell.ui-hidden {
-    grid-template-rows: 1fr 0px !important;
+  .app-shell.app-shell.ui-hidden {
+    grid-template-rows: 1fr 0px;
   }
 
-  .app-shell.ui-hidden .mobile-bottom-nav,
-  .app-shell.ui-hidden .action-bar button:not(#hide-ui-btn) {
-    display: none !important;
-  }
+  .app-shell.app-shell.ui-hidden .mobile-bottom-nav,
+  .app-shell.app-shell.ui-hidden .action-bar button:not(#hide-ui-btn) {
+    display: none;
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
   #left-sidebar {
     position: fixed;
@@ -60,15 +61,15 @@
     align-items: center;
   }
 
-  .main-stage {
-    grid-column: 1 !important;
-    grid-row: 1 !important;
+  .main-stage.main-stage {
+    grid-column: 1;
+    grid-row: 1;
   }
 }
 
 @media (min-width: 769px) {
-  .mobile-bottom-nav {
-    display: none !important;
+  .mobile-bottom-nav.mobile-bottom-nav {
+    display: none;
   }
 }
 

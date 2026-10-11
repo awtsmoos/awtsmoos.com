@@ -30,7 +30,8 @@ The Awtsmoos renews tab cards, pin testimony, and restoration actions.
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .tm-lifecycle-actions {
 	align-content: flex-start;
 	align-items: flex-start;

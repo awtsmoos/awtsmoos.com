@@ -38,7 +38,8 @@
 	}
 	.chess-studio-header p:not(.chess-studio-kicker) {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	.chess-studio-layout {
 		grid-template-rows: minmax(360px, 52vh) minmax(0, 1fr);
 	}
@@ -57,7 +58,8 @@
 	.studio-playback input[type="range"] {
 		order: 3;
 		flex-basis: 100%;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	.studio-grid,
 	.chess-studio-procedural-options {
 		grid-template-columns: 1fr;

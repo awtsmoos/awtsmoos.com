@@ -120,7 +120,21 @@ async function main() {
 	}
 
 	console.log(`B"H pushing ${payload.length} file(s) to production (Ed25519-signed)...`);
-	const data = await signedPost('/packed/deploy/push', { message, files: payload });
+	// Retry loop: 502/503/504 (nginx/upstream blips) and IMPORT_IN_PROGRESS
+	// (a bulk-import finalize holds the deploy lock) are retryable with
+	// exponential backoff. Anything else fails fast.
+	let data = null;
+	for (let attempt = 0; attempt < 8; attempt++) {
+		data = await signedPost('/packed/deploy/push', { message, files: payload });
+		const retryable = !data.success && (
+			data.error === 'IMPORT_IN_PROGRESS' ||
+			(data.error === 'BAD_RESPONSE' && [502, 503, 504].includes(data.http))
+		);
+		if (!retryable) break;
+		const waitMs = Math.min(15000 * Math.pow(2, attempt), 120000);
+		console.log(`B"H deploy ${data.error} — retrying in ${Math.round(waitMs / 1000)}s (attempt ${attempt + 2}/8)...`);
+		await new Promise(r => setTimeout(r, waitMs));
+	}
 	console.log(JSON.stringify(data, null, 2));
 	if (!data.success) process.exit(1);
 	console.log(`\nB"H deployed ${data.written} file(s) to production.`);

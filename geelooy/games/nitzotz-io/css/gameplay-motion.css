@@ -11,7 +11,8 @@
 .advanced-group > summary,
 .game-options > summary {
 	transition: transform 130ms ease, background-color 160ms ease, border-color 160ms ease, opacity 160ms ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .button:active,
 .mini-button:active,

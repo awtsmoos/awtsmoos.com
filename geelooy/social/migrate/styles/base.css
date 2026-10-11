@@ -43,7 +43,8 @@ input,
 select {
 	min-height: var(--migrate-control);
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 button,
 .buttonLike {
 	display: inline-flex;
@@ -75,7 +76,8 @@ button:active,
 button:disabled {
 	opacity: .45;
 	cursor: not-allowed;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 input,
 select {
 	width: 100%;
@@ -96,14 +98,17 @@ h2,
 h3,
 p {
 	margin-block-start: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 h1,
 h2 {
 	text-wrap: balance;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 p {
 	text-wrap: pretty;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .eyebrow {
 	margin-bottom: .35rem;
 	color: var(--migrate-accent);

@@ -62,7 +62,8 @@
 
 .drive-search-field input {
 	font-size: .86rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .drive-account > summary {
 	border-color: rgba(223, 175, 67, .34);

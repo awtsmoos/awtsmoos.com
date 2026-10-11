@@ -49,12 +49,14 @@
 	border-radius: 50%;
 	box-shadow: var(--mail-glow-cyan);
 	animation: mail-wormhole 700ms linear infinite;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .wormhole-loader strong {
 	font: 950 0.85rem/1 var(--font-mono);
 	letter-spacing: 0.14em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .wormhole-loader small {
 	color: var(--mail-muted);

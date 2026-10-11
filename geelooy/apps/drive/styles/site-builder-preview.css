@@ -25,7 +25,8 @@
 	gap: .4rem;
 }
 
-[data-awtsmoos-drive] .site-builder-root .builder-preview-tools button { min-height: 44px; }
+[data-awtsmoos-drive] .site-builder-root .builder-preview-tools button { min-height: 44px; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-drive] .site-builder-root .builder-preview-tools button[aria-pressed='true'] {
 	border-color: var(--accent);

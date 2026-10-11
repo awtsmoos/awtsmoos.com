@@ -54,7 +54,8 @@ The Awtsmoos gives language and settings a clean vessel; Awtsmoos.com keeps ever
 .search-field input {
 	min-height: 47px;
 	padding: 0 14px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .settings-grid {
 	display: grid;
@@ -79,7 +80,8 @@ The Awtsmoos gives language and settings a clean vessel; Awtsmoos.com keeps ever
 .setting-control {
 	display: grid;
 	gap: 7px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .form-stack input,
 .form-stack select,
@@ -87,7 +89,8 @@ The Awtsmoos gives language and settings a clean vessel; Awtsmoos.com keeps ever
 .settings-grid select {
 	min-height: 46px;
 	padding: 0 12px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .prompt-library-editor {
 	min-height: 112px;

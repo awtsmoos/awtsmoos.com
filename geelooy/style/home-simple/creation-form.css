@@ -109,11 +109,13 @@ The command deck stays native, keyboard-first, bounded, and truthful from the fi
 
 	.creation-field button {
 		width: 100%;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (prefers-reduced-motion: reduce) {
 	.creation-field button {
 		transition: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

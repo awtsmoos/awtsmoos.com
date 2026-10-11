@@ -27,7 +27,8 @@
 	border: 1px solid rgb(126 239 255 / 18%);
 	border-radius: 50%;
 	pointer-events: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .pulseOrb span::after {
 	position: absolute;
@@ -39,37 +40,43 @@
 	background: #bff7ff;
 	box-shadow: 0 0 14px rgb(126 239 255 / 72%);
 	content: "";
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .pulseOrb span:nth-child(1) {
 	inset: 6%;
 	transform: rotateX(67deg) rotateZ(12deg);
 	animation: chochmah-orbit 13s linear infinite;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .pulseOrb span:nth-child(2) {
 	inset: 17%;
 	border-color: rgb(178 134 255 / 20%);
 	transform: rotateY(64deg) rotateZ(-24deg);
 	animation: binah-orbit 17s linear infinite reverse;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .pulseOrb span:nth-child(2)::after {
 	background: #d7c8ff;
 	box-shadow: 0 0 14px rgb(178 134 255 / 65%);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .pulseOrb span:nth-child(3) {
 	inset: 29%;
 	border-color: rgb(255 132 218 / 18%);
 	transform: rotateX(54deg) rotateY(38deg);
 	animation: daas-orbit 21s linear infinite;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .pulseOrb span:nth-child(3)::after {
 	background: #ffd0ef;
 	box-shadow: 0 0 14px rgb(255 132 218 / 58%);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .pulseOrb[data-active="true"] {
 	animation: keter-orb-breathe 5.2s ease-in-out infinite;

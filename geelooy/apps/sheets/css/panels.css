@@ -30,7 +30,8 @@ and Awtsmoos.com roots context, text entry, and close/save interaction inside Sh
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-sheets-app .panel-kicker {
 	margin: 8px 0;
@@ -64,7 +65,8 @@ and Awtsmoos.com roots context, text entry, and close/save interaction inside Sh
 .awtsmoos-sheets-app .notes-panel textarea:disabled {
 	opacity: 0.48;
 	background: var(--surface-soft);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 760px) {
 	.awtsmoos-sheets-app .notes-panel {

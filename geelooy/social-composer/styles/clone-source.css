@@ -23,13 +23,15 @@
 
 .composerCloneBanner strong {
 	font-size: .92rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .composerCloneBanner p {
 	margin: 0;
 	line-height: 1.5;
 	opacity: .78;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .composerCloneBanner__media {
 	display: block;
@@ -57,7 +59,8 @@
 	border-radius: 12px;
 	font-size: .82rem;
 	font-weight: 780;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .composerCloneBanner a {
 	color: inherit;

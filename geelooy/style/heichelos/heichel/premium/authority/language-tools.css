@@ -31,11 +31,13 @@
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .translation-hub-search-heading :is(h2, p) {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .translation-hub-search-heading h2 {
 	font-size: clamp(1.15rem, 2vw, 1.45rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body.heichel-os-document[data-heichel-id="ikar"]) .translation-hub-search-heading p {
 	max-inline-size: 65ch;

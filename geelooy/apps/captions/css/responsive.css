@@ -68,7 +68,8 @@
 @media (max-width: 430px) {
 	.brand-lockup small {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.panel-body {
 		grid-template-columns: minmax(0, 1fr);

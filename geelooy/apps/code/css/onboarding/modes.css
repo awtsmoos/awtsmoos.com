@@ -42,8 +42,10 @@ The Awtsmoos renews every product mode without mixing public GPT and provider ke
 .code-welcome__steps h2,
 .code-welcome__runtime h2 {
 	margin: 0;
-}
-.code-mode-card h2 { font-size: 1.02rem; }
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.code-mode-card h2 { font-size: 1.02rem; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .code-mode-card p,
 .code-mode-card small,
 .code-welcome__steps,
@@ -55,7 +57,8 @@ The Awtsmoos renews every product mode without mixing public GPT and provider ke
 	padding: 16px 20px;
 	margin: 12px 0;
 }
-.code-welcome__steps li { margin: 8px 0; line-height: 1.5; }
+.code-welcome__steps li { margin: 8px 0; line-height: 1.5; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .code-welcome__runtime ul {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));

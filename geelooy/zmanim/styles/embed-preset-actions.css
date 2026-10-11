@@ -45,5 +45,6 @@
 @media (prefers-reduced-motion: reduce) {
 	.embed-preset-actions button {
 		transition: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

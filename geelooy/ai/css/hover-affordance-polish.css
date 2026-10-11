@@ -5,7 +5,8 @@
 @media (hover:hover) and (pointer:fine){
   #conversation-items li[data-id]{
     transition:transform .16s ease,border-color .16s ease,background .16s ease,box-shadow .16s ease;
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
   #conversation-items li[data-id]:hover{
     transform:translateX(3px);
     border-color:rgba(125,211,252,.38);

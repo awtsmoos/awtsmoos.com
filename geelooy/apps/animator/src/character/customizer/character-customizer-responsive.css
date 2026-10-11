@@ -29,7 +29,8 @@
 	.character-lab-header button {
 		width: var(--aw-touch-height);
 		height: var(--aw-touch-height);
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.character-lab-layout {
 		grid-template-columns: minmax(0, 1fr);
@@ -57,7 +58,8 @@
 	.character-customizer textarea,
 	.character-advanced summary {
 		min-height: var(--aw-touch-height);
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.character-lab-layout canvas {
 		width: min(100%, 280px);

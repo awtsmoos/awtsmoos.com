@@ -51,7 +51,8 @@ body {
 
 .studio-editor-brand strong {
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .studio-editor-status {
 	overflow: hidden;

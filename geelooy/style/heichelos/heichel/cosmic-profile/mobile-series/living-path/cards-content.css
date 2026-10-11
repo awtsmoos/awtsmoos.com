@@ -16,7 +16,8 @@
 .nav-card-description,
 .nav-card-meta {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .nav-card-kicker {
 	color: #62dff8;

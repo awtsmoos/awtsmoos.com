@@ -22,7 +22,8 @@
 	box-shadow: 0 0 120px rgba(114, 90, 255, 0.4), inset 0 0 70px rgba(255, 223, 108, 0.04);
 }
 .eyebrow { margin: 0 0 8px; color: var(--gold); font-size: 10px; font-weight: 950; letter-spacing: 0.19em; text-transform: uppercase; }
-.overlay h1 { margin: 0; font-size: clamp(42px, 6.3vw, 82px); line-height: 0.94; text-shadow: 0 0 35px rgba(126, 220, 255, 0.55); }
+.overlay h1 { margin: 0; font-size: clamp(42px, 6.3vw, 82px); line-height: 0.94; text-shadow: 0 0 35px rgba(126, 220, 255, 0.55); 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .stars { margin-top: 12px; color: var(--gold); font-size: clamp(27px, 4vw, 44px); letter-spacing: 0.14em; }
 #overlayText { max-width: 760px; margin: 10px auto 18px; color: #dfebff; font-size: clamp(15px, 1.8vw, 19px); font-weight: 650; }
 
@@ -37,7 +38,8 @@
 	color: white;
 }
 .level-card b { color: var(--gold); font-size: 18px; }
-.level-card span { font-size: 11px; font-weight: 850; }
+.level-card span { font-size: 11px; font-weight: 850; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .level-card em { color: #b8c8ec; font-size: 9px; font-style: normal; }
 .level-card.active { border-color: var(--gold); background: rgba(255, 223, 108, 0.12); box-shadow: 0 0 22px rgba(255, 223, 108, 0.18); }
 .level-card:disabled { cursor: not-allowed; opacity: 0.38; }
@@ -48,5 +50,6 @@
 .ghost, .chip { border-radius: 999px; background: rgba(255, 255, 255, 0.08); color: white; }
 .ghost { padding: 14px 22px; }
 .chip { display: grid; gap: 2px; min-width: 126px; padding: 10px 15px; }
-.chip span { font-size: 9px; opacity: 0.7; text-transform: uppercase; }
+.chip span { font-size: 9px; opacity: 0.7; text-transform: uppercase; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .chip.active { background: linear-gradient(135deg, rgba(255, 223, 108, 0.94), rgba(126, 220, 255, 0.88)); color: #130a00; }

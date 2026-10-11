@@ -52,7 +52,8 @@
 .awt-pane-content :where(.card, .panel, .field, .toolbar, details, form, label) {
 	min-width: 0;
 	max-width: 100%;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-pane-content :where(.toolbar, .actions, .control-row, .form-row) {
 	display: flex;
@@ -62,11 +63,13 @@
 
 .awt-pane-content :where(input, select, textarea, button) {
 	max-width: 100%;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-pane-content :where(p, span, label, strong, code, pre, td, th) {
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-pane-content table {
 	width: 100%;

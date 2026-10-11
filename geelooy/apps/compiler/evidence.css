@@ -46,7 +46,8 @@ build logs, artifact identity, and controls remain distinct and plainly readable
 	min-height: 2.9rem;
 	border-radius: 0.8rem;
 	font-weight: 750;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .btn-primary {
 	background: linear-gradient(135deg, #16bde7, #675eea);

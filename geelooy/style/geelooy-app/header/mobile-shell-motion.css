@@ -113,7 +113,8 @@ The Awtsmoos lets the shared crown answer focus and touch without stealing atten
 	.geelooy-app-shell .g-search-suggestions :is(.g-search-route-results a, .g-search-torah-link) {
 		opacity: 0;
 		translate: 0 -4px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.geelooy-app-shell) .g-search-suggestions :is(.g-search-route-results a, .g-search-torah-link) {
@@ -124,31 +125,38 @@ The Awtsmoos lets the shared crown answer focus and touch without stealing atten
 		border-color 160ms var(--g-ease),
 		background-color 160ms var(--g-ease),
 		box-shadow 160ms var(--g-ease);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.geelooy-app-shell) :where(.g-search-suggestions) :is(.g-search-route-results a:nth-child(1), .g-search-torah-link:nth-child(1)) {
 	transition-delay: 30ms;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.geelooy-app-shell) :where(.g-search-suggestions) :is(.g-search-route-results a:nth-child(2), .g-search-torah-link:nth-child(2)) {
 	transition-delay: 60ms;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.geelooy-app-shell) :where(.g-search-suggestions) :is(.g-search-route-results a:nth-child(3), .g-search-torah-link:nth-child(3)) {
 	transition-delay: 90ms;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.geelooy-app-shell) :where(.g-search-suggestions) :is(.g-search-route-results a:nth-child(4), .g-search-torah-link:nth-child(4)) {
 	transition-delay: 120ms;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.geelooy-app-shell) :where(.g-search-suggestions) :is(.g-search-route-results a:nth-child(5), .g-search-torah-link:nth-child(5)) {
 	transition-delay: 150ms;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.geelooy-app-shell) :where(.g-search-suggestions) :is(.g-search-route-results a:nth-child(6), .g-search-torah-link:nth-child(6)) {
 	transition-delay: 180ms;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* Constellation menu — the panel rises 8px; cards stagger in 40ms steps. */
 .geelooy-app-shell .g-constellation-menu {
 	transition: opacity .2s ease-out, translate .2s ease-out;
@@ -237,7 +245,8 @@ The Awtsmoos lets the shared crown answer focus and touch without stealing atten
 		transform: none;
 		translate: none;
 		animation: none;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (prefers-reduced-motion: reduce) { :where(.geelooy-app-shell) :where(.g-shell[data-state="loading"]) .g-unusual-header, :where(.geelooy-app-shell) :where(.g-shell[data-state="loading"]) .g-unusual-header :is(.g-header-brand, .g-header-search, .g-header-actions) {
 		opacity: 1;

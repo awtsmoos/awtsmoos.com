@@ -24,12 +24,14 @@
 		font-size: clamp(1.55rem, 3.3vw, 3.35rem);
 		line-height: .98;
 		letter-spacing: -.045em;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.awt-command-deck-head > p {
 		margin: 0;
 		max-width: 650px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.awt-command-deck-grid {
 		display: grid;

@@ -31,7 +31,8 @@
 .gameCommerce strong {
 	font-size: 0.74rem;
 	line-height: 1.35;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .gameCommerce:focus-visible {
 	border-color: #f0ce72;

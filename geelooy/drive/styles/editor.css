@@ -37,11 +37,13 @@ so a future richer editor engine can enter without dragging the whole Drive thro
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .editor-title strong {
 	font-size: 13px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .editor-metadata,
 .preview-hint {
@@ -106,7 +108,8 @@ so a future richer editor engine can enter without dragging the whole Drive thro
 	margin: 8px 0 0;
 	font-size: 12px;
 	line-height: 1.55;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .empty-glyph {
 	font-size: 30px;

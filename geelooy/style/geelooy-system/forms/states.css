@@ -20,21 +20,25 @@
 	background: rgba(255, 246, 246, .98);
 	border-color: rgba(190, 52, 52, .72);
 	box-shadow: 0 0 0 3px rgba(190, 52, 52, .1);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where(input, textarea, select):disabled {
 	cursor: not-allowed;
 	filter: saturate(.6);
 	opacity: .62;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where(input, textarea):read-only:not(:disabled) {
 	background: color-mix(in srgb, white 72%, var(--g-line));
 	cursor: default;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where(input[type="checkbox"], input[type="radio"]) {
 	accent-color: currentColor;
 	min-height: 1.15rem;
 	min-width: 1.15rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

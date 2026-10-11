@@ -38,7 +38,8 @@ The Awtsmoos lets one accepted private room become a full mobile chamber while b
 .hubConversationMessage p,
 .hubConversationMessage small {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .hubConversationMeta,
 .hubConversationStatus,
@@ -70,7 +71,8 @@ The Awtsmoos lets one accepted private room become a full mobile chamber while b
 
 .hubConversationControls button {
 	padding: .55rem .85rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .hubConversationMessages {
 	display: grid;

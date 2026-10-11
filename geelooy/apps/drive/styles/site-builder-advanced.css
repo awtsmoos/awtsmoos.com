@@ -26,7 +26,7 @@
 
 [data-awtsmoos-drive] .site-builder-root .builder-advanced > summary:focus-visible {
 	color: var(--accent);
-	outline: none;
+	outline: 2px solid var(--aw-focus-ring); outline-offset: 2px;
 }
 
 [data-awtsmoos-drive] .site-builder-root .builder-advanced > summary:active { opacity: .76; }

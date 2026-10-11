@@ -11,7 +11,8 @@
 :where(html[data-g-performance="lean"]) body.geelooy-app-shell :where( button, [role="button"], a[href], summary, [data-g-motion], .g-unusual-header, .g-dock, .g-context-ribbon, .g-constellation-menu, .g-panel, .geelooy-feed-card, .geelooy-home-composer, .desktopRail, .mobileDock, .composerShell, .reviewShell, .heichel-nav-panel, .modal-content, .dropdown-menu ) {
 	animation: none;
 	transition: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(html[data-g-performance="lean"]) body.geelooy-app-shell :where( .g-unusual-header, .g-dock, .g-context-ribbon, .g-constellation-menu, .g-panel, .geelooy-feed-card, .geelooy-home-composer, .desktopRail, .mobileDock, .composerShell, .reviewShell, .heichel-nav-panel, .modal-content, .dropdown-menu ) {
 	filter: none;

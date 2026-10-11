@@ -41,7 +41,8 @@
 
 .post-card :where(button, a) {
 	border-radius: var(--ikar-radius-xs);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @container (min-width: 42rem) {
 	.post-card[data-bilingual="true"],

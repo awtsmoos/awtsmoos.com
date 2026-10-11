@@ -63,7 +63,8 @@
 :where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-extra-section-text {
 	min-block-size: 7.5em;
 	resize: vertical;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: hover) {
 	:where(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-extra-section-title:hover,

@@ -37,7 +37,8 @@
 		font-size: .76rem;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.awt-agent-channel.has-failures .awt-agent-telemetry-cell:nth-child(2) {
 		border-color: rgb(var(--agent-gold) / .22);

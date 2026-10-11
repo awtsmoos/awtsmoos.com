@@ -54,7 +54,8 @@ body {
 .brand span {
 	opacity: 0.62;
 	font-size: 10px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #pauseBtn {
 	width: 36px;
@@ -85,17 +86,20 @@ body {
 	opacity: 0.58;
 	font-size: 9px;
 	letter-spacing: 0.12em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .primary-stats strong {
 	display: block;
 	margin-top: 2px;
 	font-size: 16px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .primary-stats .mass-stat strong {
 	font-size: 24px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .right-rail,
 #pulse,

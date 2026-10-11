@@ -11,7 +11,8 @@
 	background: linear-gradient(var(--g-cyan), var(--g-violet));
 	content: "";
 }
-.g-side-card h2 { margin: 0 0 0.9rem; font-size: 1.18rem; letter-spacing: -0.035em; }
+.g-side-card h2 { margin: 0 0 0.9rem; font-size: 1.18rem; letter-spacing: -0.035em; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .g-trend-list,
 .g-route-list { display: grid; gap: 0.5rem; }
 .g-trend-list a,
@@ -26,7 +27,8 @@
 	border-radius: 0.85rem 0.25rem 0.85rem 0.25rem;
 	background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(79, 125, 255, 0.035));
 	transition: border-color 180ms var(--g-ease), transform 180ms var(--g-ease), box-shadow 180ms var(--g-ease);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .g-trend-list a:hover,
 .g-route-list a:hover,
 .g-trend-list a:focus-visible,
@@ -68,8 +70,10 @@
 	border: 1px solid rgba(60, 236, 255, 0.2);
 	border-radius: 50%;
 	animation: g-signal-wave 3s ease-out infinite;
-}
-.g-signal-core span:nth-child(2) { animation-delay: 1.5s; }
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.g-signal-core span:nth-child(2) { animation-delay: 1.5s; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .g-signal-core b { color: var(--g-green); font: 900 0.72rem/1 var(--g-mono); letter-spacing: 0.18em; text-shadow: 0 0 12px rgba(72, 240, 182, 0.7); }
 .g-library-chamber { border-color: rgba(255, 72, 203, 0.22); }
 .g-create-chamber { background: linear-gradient(145deg, rgba(26, 17, 62, 0.94), rgba(7, 10, 24, 0.96)); }

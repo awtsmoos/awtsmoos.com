@@ -20,7 +20,8 @@
 
 .g-about-article h2 {
 	margin-top: 2.2rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .g-about-article p {
 	color: var(--g-muted);

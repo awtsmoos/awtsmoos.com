@@ -24,7 +24,8 @@
 }
 .hub-input-heading h3, .hub-input-heading p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .hub-input-heading h3 {
 	color: var(--hub-text);
 	font-size: 1rem;
@@ -54,7 +55,8 @@
 	display: inline-flex;
 	align-items: center;
 	gap: .4rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.hub-field) :where(span)::before {
 	inline-size: .38rem;
@@ -62,7 +64,8 @@
 	border-radius: 50%;
 	background: var(--hub-cyan);
 	content: "";
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .hub-field input, .hub-field textarea, .hub-field select {
 	inline-size: 100%;
 	min-inline-size: 0;
@@ -90,10 +93,12 @@
 .hub-field :is(input, textarea, select):disabled {
 	cursor: not-allowed;
 	opacity: .55;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .hub-field :is(input, textarea, select):user-invalid {
 	border-color: var(--hub-danger);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .hub-field-wide {
 	grid-column: span 2;
 }

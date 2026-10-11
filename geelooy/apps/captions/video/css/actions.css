@@ -30,7 +30,8 @@ button:disabled {
 	cursor: not-allowed;
 	opacity: .5;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .icon-btn {
 	white-space: nowrap;
 }
@@ -45,7 +46,8 @@ button:disabled {
 }
 .main-buttons button {
 	min-block-size: 52px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .primary-btn {
 	border-color: var(--studio-cyan);
 	background: var(--studio-cyan);
@@ -87,10 +89,12 @@ button:disabled {
 #preset-dialog h2,
 #preset-dialog p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 #preset-dialog h2 {
 	font-size: 1.25rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 #preset-dialog-copy {
 	color: var(--studio-muted);
 	line-height: 1.5;

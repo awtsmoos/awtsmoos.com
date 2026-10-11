@@ -77,4 +77,5 @@
 	background: linear-gradient(90deg, var(--heichel-cosmic-cyan-core), var(--heichel-cosmic-magenta-core));
 	box-shadow: 0 0 .7rem var(--heichel-cosmic-cyan-core);
 	content: "";
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

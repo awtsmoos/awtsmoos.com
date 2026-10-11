@@ -37,18 +37,21 @@
 	display: grid;
 	min-width: 0;
 	gap: 2px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .drive-toast strong,
 .drive-toast small {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .drive-toast strong {
 	font-size: .78rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .drive-toast small {
 	color: var(--drive-muted);

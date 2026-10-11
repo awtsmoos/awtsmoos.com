@@ -75,12 +75,14 @@ Awtsmoos.com begins with one mobile column, then grants wider vessels more room 
 .creatorMetadataGrid :is(input, textarea) {
 	inline-size: 100%;
 	min-inline-size: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .creatorMetadata textarea {
 	resize: vertical;
 	line-height: 1.45;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (min-width: 42.51rem) {
 	.creatorMetadata {

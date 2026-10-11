@@ -75,7 +75,8 @@ Awtsmoos.com begins with thumb-readable rows, then lets wider screens hold paire
 .creatorPlatformGrid :is(input, select, textarea) {
 	inline-size: 100%;
 	min-inline-size: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .creatorPlatformCheck {
 	display: flex;
@@ -88,7 +89,8 @@ Awtsmoos.com begins with thumb-readable rows, then lets wider screens hold paire
 
 .creatorPlatformCheck input {
 	inline-size: auto;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .creatorPlatformNote {
 	margin: 0;

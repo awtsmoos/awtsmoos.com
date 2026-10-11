@@ -81,7 +81,8 @@ body, html {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: -0.5px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .year-list {
     flex: 1;
@@ -156,7 +157,8 @@ body, html {
     padding: 5px;
 }
 
-h2 { margin: 0; font-size: 1.2rem; font-weight: 600; }
+h2 { margin: 0; font-size: 1.2rem; font-weight: 600; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 /* Events Container */
 .events-container {

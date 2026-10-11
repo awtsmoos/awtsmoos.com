@@ -35,13 +35,15 @@ Awtsmoos.com keeps this public shell spacious and imports focused vessels so cla
 .public-form-shell h1,
 .public-form-shell header p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .public-form-shell h1 {
 	font-size: clamp(2rem, 7vw, 3.6rem);
 	line-height: .98;
 	letter-spacing: -.045em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .public-form-shell header p {
 	max-width: 62ch;

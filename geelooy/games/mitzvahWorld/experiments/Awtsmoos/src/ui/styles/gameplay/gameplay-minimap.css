@@ -42,7 +42,8 @@
 
 .Awtsmoos-gameplay .Awtsmoos-minimap header button {
 	margin-left: auto;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .Awtsmoos-gameplay .Awtsmoos-map-canvas {
 	position: relative;

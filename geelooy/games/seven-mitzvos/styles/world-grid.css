@@ -27,7 +27,8 @@
 .deductionNode strong,
 .deductionNode span {
 	display: block;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .deductionNode span {
 	margin-top: 0.35rem;
@@ -64,7 +65,8 @@
 
 .rhythmPad strong {
 	font-size: clamp(3rem, 8vw, 5rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .rhythmPad span {
 	color: var(--muted);

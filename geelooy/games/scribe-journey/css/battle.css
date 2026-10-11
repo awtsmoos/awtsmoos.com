@@ -14,7 +14,8 @@
 	box-shadow: var(--glow);
 }
 .musag-stats { display: flex; justify-content: space-between; align-items: baseline; }
-.musag-stats h4 { margin: 0; font-family: var(--font-display); }
+.musag-stats h4 { margin: 0; font-family: var(--font-display); 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .musag-emoji { order: -1; display: grid; place-items: center; min-height: 110px; font-size: clamp(4rem, 10vw, 7rem); animation: battleFloat 2.8s ease-in-out infinite; }
 .health-bar, .kavanah-bar { width: 100%; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,0.12); }
 .health-bar { height: 11px; } .kavanah-bar { height: 6px; }

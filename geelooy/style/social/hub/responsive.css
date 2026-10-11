@@ -32,7 +32,8 @@
 		inline-size: auto;
 		flex: 1 1 9rem;
 		min-inline-size: 0;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 52rem) { .hub-mail-tag {
 		inline-size: auto;
 		flex: 1 1 100%;
@@ -48,7 +49,8 @@
 @media (max-width: 42rem) { .hub-hero-actions button {
 		min-inline-size: 0;
 		overflow-wrap: break-word;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 42rem) { .hub-input-heading {
 		display: grid;
 	} }
@@ -73,14 +75,16 @@
 	} }
 @media (max-width: 28rem) { .hub-hero-actions button, .hub-live-actions button {
 		inline-size: 100%;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 28rem) { .hub-card header {
 		display: grid;
 	} }
 @media (max-width: 28rem) { .hub-card small {
 		max-inline-size: 100%;
 		inline-size: fit-content;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-height: 34rem) and (orientation: landscape) { .hub-card pre {
 		max-block-size: 14rem;
 	} }
@@ -126,4 +130,5 @@
 /* @tunnel-registry-merge: consolidated from geelooy/style/social/hub/cards.css W4 2026-10-08 */
 .hub-card small {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

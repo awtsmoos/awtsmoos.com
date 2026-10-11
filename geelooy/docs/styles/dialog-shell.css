@@ -47,7 +47,8 @@ body[data-geelooy-route="docs"] .dialog-head {
 body[data-geelooy-route="docs"] .dialog-head h2 {
 	margin: 0;
 	font-size: 1.2rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-geelooy-route="docs"] :where(.search-field, .ask-field) {
 	display: block;

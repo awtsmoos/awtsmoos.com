@@ -113,7 +113,8 @@ body.pdf-glass .drop-zone i {
   position: relative;
 }
 
-body.pdf-glass .drop-zone h3 { margin: 0 0 .4rem; font-size: 1.15rem; position: relative; }
+body.pdf-glass .drop-zone h3 { margin: 0 0 .4rem; font-size: 1.15rem; position: relative; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 body.pdf-glass .drop-zone p { margin: 0; color: var(--glass-text-muted); font-size: .95rem; position: relative; }
 
 /* Controls */

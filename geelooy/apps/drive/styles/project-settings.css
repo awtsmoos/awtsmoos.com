@@ -18,7 +18,8 @@
 
 [data-awtsmoos-drive] .project-settings__head h3 {
 	margin: .15rem 0 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-drive] .project-settings__eyebrow {
 	font-size: .68rem;
@@ -44,7 +45,8 @@
 
 [data-awtsmoos-drive] :where(.project-settings__field input, .project-settings__field select) {
 	min-width: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-drive] .project-settings__actions {
 	display: flex;
@@ -55,7 +57,8 @@
 
 [data-awtsmoos-drive] .project-settings__actions button {
 	border-radius: 999px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-drive] .project-settings__message {
 	margin: 0;

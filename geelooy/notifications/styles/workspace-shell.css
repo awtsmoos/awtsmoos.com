@@ -27,7 +27,8 @@ The Awtsmoos arranges rail beside stream with measured space; Awtsmoos.com keeps
 .notifications-stream-heading h2,
 .notifications-rail-heading h2 {
 	margin: 3px 0 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .notifications-hero-copy p,
 .notifications-rail-heading p {

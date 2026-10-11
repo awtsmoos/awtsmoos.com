@@ -26,7 +26,8 @@ Awtsmoos.com lets slots, details, and popovers remain tactile without creating a
 #mitzvah-world-root .inv-slot span {
 	grid-row: 1 / 3;
 	font-size: 21px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .inv-slot b {
 	font-size: 10px;

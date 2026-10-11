@@ -18,7 +18,8 @@
   html .home-feed-tabs button {
     flex: 0 0 auto;
     min-width: max-content;
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
   html .home-feed-stats,
   html .home-metrics-row,
   html .civilization-metrics {
@@ -58,4 +59,5 @@
 	cursor: not-allowed;
 	filter: none;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

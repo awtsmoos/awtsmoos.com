@@ -58,7 +58,8 @@ body {
 button,
 input {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 button:focus-visible,
 input:focus-visible,

@@ -54,7 +54,8 @@ Awtsmoos.com gives each canonical road a bounded vessel, a quiet spark, and no h
 	max-inline-size: 100%;
 	font-size: .7rem;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: hover) and (pointer: fine) {
 	.social-hub-document .creatorLaunchButton:hover {
@@ -104,7 +105,8 @@ Awtsmoos.com gives each canonical road a bounded vessel, a quiet spark, and no h
 	.social-hub-document .creatorLaunchButton,
 	.social-hub-document .creatorLaunchButton span {
 		transition: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.social-hub-document .creatorLaunchButton:is(:hover, :active) {
 		transform: none;

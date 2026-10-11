@@ -55,7 +55,8 @@
 	margin: 0;
 	accent-color: var(--rebbe-gold);
 	cursor: pointer;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .track-check-shell input:focus-visible,
 .event-select-label input:focus-visible,

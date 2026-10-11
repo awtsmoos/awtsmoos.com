@@ -15,7 +15,8 @@
 	padding-inline-start: .18rem;
 	line-height: 1.55;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(html:not([data-g-ui-raw])) :where(ul:not([class]), ol:not([class])) :where(li)::marker {
 	color: var(--g-muted, var(--aw-ui-muted));
@@ -33,7 +34,8 @@
 :where(html:not([data-g-ui-raw])) :where(nav) :where(ul:not([class]), ol:not([class])) li {
 	margin: 0;
 	padding: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(html:not([data-g-ui-raw])) :where(nav) :where(ul:not([class]), ol:not([class])) a:not([class]) {
 	display: inline-flex;
@@ -42,7 +44,8 @@
 	padding: .5rem .7rem;
 	border-radius: var(--aw-ui-radius);
 	text-decoration: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(html:not([data-g-ui-raw])) :where(nav) :where(ul:not([class]), ol:not([class])) a:not([class]):is(:hover, :focus-visible) {
 	background: var(--g-accent-soft, var(--aw-ui-accent-soft));
@@ -55,7 +58,8 @@
 }
 :where(html:not([data-g-ui-raw])) dt:not([class]) {
 	font-weight: 750;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(html:not([data-g-ui-raw])) dd:not([class]) {
 	margin: 0;
 	color: var(--g-muted, var(--aw-ui-muted));
@@ -67,4 +71,5 @@
 	} }
 @media (max-width: 640px) { :where(html:not([data-g-ui-raw])) dd:not([class]) {
 		margin-block-end: .8rem;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }

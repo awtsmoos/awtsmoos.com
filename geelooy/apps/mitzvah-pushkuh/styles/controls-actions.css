@@ -28,7 +28,8 @@ menu button,
 	cursor: pointer;
 	touch-action: manipulation;
 	user-select: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .chip:hover,
 .filters button:hover,
 .head button:hover,

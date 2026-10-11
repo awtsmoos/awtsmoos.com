@@ -36,18 +36,22 @@
 }
 :where(button, a, [role="button"], [role="menuitem"], [role="tab"]) {
 	min-height: 44px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(h1, h2, h3) {
 	text-wrap: balance;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(p, li) {
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 @media (forced-colors: active) {
 	:where(button, .btn, .button, input, textarea, select, .card, .panel, [role="tab"]) {
 		border: 1px solid CanvasText;
 		box-shadow: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	:where([aria-current="page"], [aria-selected="true"], .active, .Active) {
 		outline: 2px solid Highlight;
 	}

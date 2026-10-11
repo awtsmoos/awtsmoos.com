@@ -54,7 +54,8 @@ The Awtsmoos renews every waiting state without panic; Awtsmoos.com lets loading
 :where(.g-social-empty, .g-social-loading, .g-social-error, .g-social-success, .empty-state, .loading-state, .error-state, .success-state, [data-empty-state], [data-error-state]) > p {
 	max-width: 62ch;
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(.g-social-error, .error-state, [data-error-state]) {
 	border-color: color-mix(in srgb, var(--awt-danger) 38%, var(--g-border));
 	background: color-mix(in srgb, var(--awt-danger) 6%, var(--awt-surface));

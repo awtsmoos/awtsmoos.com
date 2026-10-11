@@ -57,7 +57,8 @@
 .awtsmoos-platform-body small {
     opacity: 0.72;
     font-weight: 800;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-platform-search input {
     min-width: 0;

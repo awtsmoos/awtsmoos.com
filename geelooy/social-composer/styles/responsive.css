@@ -34,7 +34,8 @@
 	}
 	.actionBar button {
 		flex: 1 1 45%;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 @media (max-width: 37.5rem) {
 	/* Rails wrap instead of horizontal swipe (gate has no intentional-scroll opt-out). */
@@ -66,7 +67,8 @@
 	}
 	.actionBar button {
 		flex-basis: 100%;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 @media (prefers-reduced-motion: reduce) {:root:root:root *, :root:root:root *::before, :root:root:root *::after{
 		animation-duration: .01ms;

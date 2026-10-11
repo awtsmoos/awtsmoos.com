@@ -22,7 +22,8 @@ body::before { animation: awtGridDrift 34s linear infinite; }
   background: linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent);
   transform: translateX(-140%) skewX(-16deg);
   pointer-events: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .awt-nav-button:hover::after, .awt-home-button:hover::after, .awt-action-card:hover::after,
 .awt-control-shell :where(button):not(.awt-nav-button):not(.awt-home-button):not(.awt-action-card):hover::after,
 .awt-login-gate :where(button, .button-link):hover::after { animation: awtSignalSweep .78s ease; }

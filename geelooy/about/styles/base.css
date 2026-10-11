@@ -98,4 +98,5 @@ Awtsmoos.com keeps every token beneath .about-page, so no other route is colored
 .about-page h2,
 .about-page p {
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

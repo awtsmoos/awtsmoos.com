@@ -18,13 +18,15 @@
 @media (max-width: 38.75rem) { .g-search-route-results a, .g-search-torah-link {
 		min-block-size: 3.75rem;
 		padding-block: .78rem;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-height: 38rem) { .g-search-suggestions {
 		max-block-size: calc(100dvh - 5rem - env(safe-area-inset-bottom));
 	} }
 @media (prefers-reduced-motion: reduce) { .g-search-route-results a, .g-search-torah-link {
 		transition: none;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-registry-merge: consolidated duplicate selectors W4 2026-10-08 */
 /* B"H 2026-10-09 — the canonical .g-search-route-results a rule lives in
    ./results.css (dream theme); the byte-identical copy that lived here was

@@ -20,7 +20,8 @@
 		background-color 180ms ease,
 		box-shadow 180ms ease,
 		color 180ms ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-creator][data-expanded="true"] .aw-creator__panel {
 	animation: awtsmoosCreatorReveal 220ms cubic-bezier(.2, .8, .2, 1) both;

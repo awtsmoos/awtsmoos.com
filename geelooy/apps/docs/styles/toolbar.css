@@ -41,7 +41,8 @@
 .docs-menu button:disabled {
 	opacity: 0.42;
 	cursor: not-allowed;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .tool-separator {
 	flex: 0 0 1px;

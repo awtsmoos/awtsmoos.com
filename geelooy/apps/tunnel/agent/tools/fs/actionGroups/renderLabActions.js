@@ -2,14 +2,23 @@
 const path = require("path");
 const { pathToFileURL } = require("url");
 
+/* Self-contained Merkava runtime (Yaakov 2026-10-11 hard rule: no repo). */
+const SelfContained = require("../../../lib/selfContained.js");
+let merkavaRootPromise = null;
+function merkavaRoot() {
+  if (!merkavaRootPromise) merkavaRootPromise = SelfContained.ensureBundle("merkava");
+  return merkavaRootPromise;
+}
+
 let servicePromise = null;
 
-function serviceUrl() {
-  return pathToFileURL(path.resolve(__dirname, "../../../../../../scripts/awtsmoos/MerkavaExecutor/merkava-service/index.js")).href;
+async function serviceUrl() {
+  const root = await merkavaRoot();
+  return pathToFileURL(path.resolve(root, "scripts/awtsmoos/MerkavaExecutor/merkava-service/index.js")).href;
 }
 
 async function loadService() {
-  if (!servicePromise) servicePromise = import(serviceUrl());
+  if (!servicePromise) servicePromise = import(await serviceUrl());
   return await servicePromise;
 }
 

@@ -61,7 +61,8 @@
 	overflow-wrap: anywhere;
 	font-size: 0.9rem;
 	line-height: 1.4;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .messaging-activity-heading time {
 	flex: 0 0 auto;

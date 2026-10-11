@@ -35,7 +35,8 @@
 	align-items: center;
 	display: flex;
 	gap: .42rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .library-search-form label > span::before {
 	background: #55d0e7;
@@ -43,7 +44,8 @@
 	content: "";
 	height: .38rem;
 	width: .38rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .library-search-form :where(input, select) {
 	appearance: none;

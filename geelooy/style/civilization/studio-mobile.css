@@ -27,7 +27,8 @@
 @media (max-width: 840px) { .caption-studio-document .header-actions button {
 		font-size: .76rem;
 		padding-inline: .45rem;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 840px) { .caption-studio-document .scroll-area {
 		overflow: visible;
 	} }

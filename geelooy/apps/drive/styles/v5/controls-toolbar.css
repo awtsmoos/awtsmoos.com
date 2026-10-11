@@ -35,7 +35,8 @@
 .drive-location-bar button,
 .drive-utility-drawer button {
 	padding: 0 13px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .drive-primary-action {
 	border-color: transparent;

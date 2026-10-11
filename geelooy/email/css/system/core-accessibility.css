@@ -12,7 +12,8 @@ button,
 input,
 textarea {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 button,
 a,
@@ -20,7 +21,8 @@ input,
 textarea,
 [contenteditable="true"] {
 	-webkit-tap-highlight-color: transparent;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 button:focus:focus-visible,
 a:focus-visible,

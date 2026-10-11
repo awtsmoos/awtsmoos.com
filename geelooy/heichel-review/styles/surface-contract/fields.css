@@ -20,7 +20,8 @@
 
 textarea {
 	min-block-size: 8rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :is(input, textarea)::placeholder {
 	color: #94a2b7;

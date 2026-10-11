@@ -22,7 +22,8 @@
 .social-hub-document .hubConversationVoiceComposer > strong,
 .social-hub-document .hubConversationVoiceClock {
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .hubConversationVoiceComposer > strong {
 	color: rgba(239, 250, 255, .94);
@@ -62,7 +63,8 @@
 	cursor: wait;
 	opacity: .52;
 	filter: saturate(.55);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .hubConversationVoiceMessage {
 	margin-block: .08rem;
@@ -90,15 +92,18 @@
 	.social-hub-document .hubConversationVoiceClock,
 	.social-hub-document .hubConversationVoiceComposer .hubVoicePlayer {
 		grid-column: 1 / -1;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.social-hub-document .hubConversationVoiceComposer > button {
 		min-block-size: 48px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (prefers-reduced-motion: reduce) {
 	.social-hub-document .hubConversationVoiceComposer > button {
 		transition-duration: .01ms;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

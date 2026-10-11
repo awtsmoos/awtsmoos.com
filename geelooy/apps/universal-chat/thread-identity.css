@@ -60,7 +60,8 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .messaging-thread-identity-chevron {
 	display: none;
@@ -77,7 +78,8 @@
 		padding: 0.18rem 0.28rem;
 	}
 
-	.messaging-thread-title-row strong { font-size: 0.96rem; }
+	.messaging-thread-title-row strong { font-size: 0.96rem; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	.messaging-thread-identity-chevron { display: inline-block; }
 	.messaging-thread-identity[aria-expanded="true"] .messaging-thread-identity-chevron { transform: rotate(180deg); }
 

@@ -14,7 +14,8 @@
 
 #realmAccountQuests .realmAccountRow span {
 	white-space: normal;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #realmAccountCollections .realmAccountRow {
 	align-items: start;
@@ -25,7 +26,8 @@
 	-webkit-line-clamp: 3;
 	-webkit-box-orient: vertical;
 	white-space: normal;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 760px) {
 	.realmTopbar {

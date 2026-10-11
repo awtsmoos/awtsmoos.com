@@ -7,14 +7,18 @@
 .social-space-card:hover { transform: translateY(-2px); border-color: rgba(88,198,255,.36); box-shadow: 0 24px 70px rgba(36,64,96,.16); }
 .space-banner { min-height: 5.2rem; display: flex; align-items: flex-start; justify-content: flex-end; padding: .72rem; background: radial-gradient(circle at 78% 8%, rgba(115,231,244,.45), transparent 9rem), radial-gradient(circle at 12% 92%, rgba(242,207,104,.42), transparent 8rem), linear-gradient(135deg, #f8fbff, #dfeef9); }
 .space-banner span, .space-title-row span { border-radius: 999px; background: rgba(255,255,255,.7); color: #0f1d2d; font-size: .68rem; font-weight: 900; }
-.space-banner span { padding: .28rem .52rem; box-shadow: 0 8px 20px rgba(36,64,96,.12); }
+.space-banner span { padding: .28rem .52rem; box-shadow: 0 8px 20px rgba(36,64,96,.12); 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .space-body { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .68rem; padding: .82rem; }
 .space-seal { width: 2.65rem; height: 2.65rem; display: grid; place-items: center; border: 1px solid rgba(16,33,52,.12); border-radius: 50%; background: linear-gradient(135deg, #f2cf68, #73e7f4); color: #081827; }
 .space-title-row { display: flex; align-items: center; justify-content: space-between; gap: .52rem; min-width: 0; }
 .space-title-row h2 { margin-bottom: 0; overflow-wrap: anywhere; color: #0f1d2d; font-size: clamp(1.05rem, 3vw, 1.28rem); line-height: 1.04; }
-.space-title-row span { padding: .24rem .44rem; white-space: nowrap; }
+.space-title-row span { padding: .24rem .44rem; white-space: nowrap; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .space-copy p, .space-meta-line { color: #627184; }
-.space-copy p { margin-block: .4rem; line-height: 1.36; }
+.space-copy p { margin-block: .4rem; line-height: 1.36; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .space-meta-line, .space-stats { display: flex; flex-wrap: wrap; gap: .3rem; }
-.space-meta-line span, .space-stats span { min-width: 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.space-meta-line span, .space-stats span { min-width: 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .space-stats span { border: 1px solid rgba(16,33,52,.12); border-radius: 999px; padding: .24rem .44rem; background: rgba(15,29,45,.05); color: #627184; font-size: .72rem; }

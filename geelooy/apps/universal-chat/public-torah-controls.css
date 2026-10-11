@@ -71,7 +71,8 @@
 	}
 
 	.messaging-special-pane .universal-chat-view-control { grid-template-columns: 1fr; }
-	.messaging-special-pane .universal-chat-view-control > span { display: none; }
+	.messaging-special-pane .universal-chat-view-control > span { display: none; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	.messaging-special-pane .universal-chat-privacy-label { display: none; }
 	.messaging-special-pane .universal-chat-privacy-control { padding-inline: 0.42rem; }
 }

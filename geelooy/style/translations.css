@@ -37,7 +37,8 @@
 [data-awtsmoos-translation-page] a {
 	border-radius: .25rem;
 	padding: .1em .3em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-translation-page] a:hover {
 	background-color: rgba(49, 95, 114, .08);
@@ -51,5 +52,6 @@
 @media (prefers-reduced-motion: no-preference) {
 	[data-awtsmoos-translation-page] a {
 		transition: background-color 140ms ease-out, text-decoration-thickness 140ms ease-out;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

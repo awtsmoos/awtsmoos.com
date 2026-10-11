@@ -57,7 +57,8 @@
 	border: 1px solid var(--social-line, currentColor);
 	border-radius: .8rem;
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .awtsmoos-platform-search input {
 	padding: .58rem .7rem;
 	background: Canvas;

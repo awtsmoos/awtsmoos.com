@@ -20,7 +20,8 @@ The Awtsmoos makes a small screen spacious through order and intent; Awtsmoos.co
 	bottom: max(12px, env(safe-area-inset-bottom));
 	z-index: 2147483000;
 }
-button, textarea, select, input { font: inherit; }
+button, textarea, select, input { font: inherit; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .launcher {
 	border: 1px solid #ffffff2e;
 	border-radius: 999px;
@@ -56,7 +57,8 @@ button, textarea, select, input { font: inherit; }
 }
 .sheet header div { display: grid; gap: 3px; }
 .sheet header small { color: #a7b0c3; }
-.sheet header strong { font-size: 1.1rem; }
+.sheet header strong { font-size: 1.1rem; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .sheet header button {
 	border: 0;
 	background: #ffffff12;
@@ -76,7 +78,8 @@ textarea, select, input {
 	color: white;
 	padding: 12px;
 }
-textarea { min-height: 124px; resize: vertical; line-height: 1.45; }
+textarea { min-height: 124px; resize: vertical; line-height: 1.45; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .grid { display: grid; grid-template-columns: 1fr 110px; gap: 10px; }
 .generate {
 	min-height: 50px;

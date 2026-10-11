@@ -13,11 +13,13 @@
 @media (prefers-reduced-motion: reduce) { .living-path-sticky, .nav-card, .series-expand-toggle, .card-menu-panel, .filter-sheet-panel, .skeleton-lines span {
 		animation: none;
 		transition: none;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (update: slow) { .filter-sheet-backdrop {
 		backdrop-filter: none;
 	} }
 @media (update: slow) { .skeleton-lines span {
 		animation: none;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-registry-merge: consolidated duplicate selectors W4 2026-10-08 */

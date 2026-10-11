@@ -28,7 +28,8 @@
 	min-height: 8rem;
 	padding-block: .8rem;
 	resize: vertical;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where(select) {
 	padding-inline-end: 2.35rem;

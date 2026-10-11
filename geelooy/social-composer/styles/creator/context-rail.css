@@ -67,14 +67,16 @@ Awtsmoos.com keeps each contextual action inside its own scrollable keli, where 
 
 .creatorContextAction > :where(strong, span) {
 	min-inline-size: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .creatorContextAction strong {
 	overflow: hidden;
 	font-size: .72rem;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .creatorContextAction:focus-visible {
 	border-color: var(--composer-cyan);

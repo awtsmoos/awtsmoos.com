@@ -150,11 +150,13 @@ awtsmoos-location-search {
 .trust-caution strong,
 .trust-caution span {
 	display: block;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .trust-caution strong {
 	font-size: 0.76rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .trust-caution span,
 .trust-source {
@@ -171,7 +173,8 @@ awtsmoos-location-search {
 
 .trust-source p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .trust-dot {
 	width: 7px;

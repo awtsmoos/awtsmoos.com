@@ -20,6 +20,8 @@
 }
 .home-action-card::after { background: linear-gradient(90deg, transparent, rgba(40,243,215,.24), transparent); content: ""; height: 1px; inset: 0 18% auto; position: absolute; }
 .home-action-card:hover { border-color: rgba(40,243,215,.42); transform: translate3d(0,-1px,0); }
-.home-action-card strong { font-size: clamp(.86rem, 2.6vw, 1rem); letter-spacing: -.02em; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.home-action-card small { display: none; }
+.home-action-card strong { font-size: clamp(.86rem, 2.6vw, 1rem); letter-spacing: -.02em; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.home-action-card small { display: none; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .home-action-primary { background: linear-gradient(135deg, #f8d16f, #2ea7ff 50%, #8b5cf6); border-color: rgba(255,255,255,.46); color: #06101b; min-height: 104px; }

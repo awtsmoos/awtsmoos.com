@@ -70,7 +70,8 @@ body {
 .reader-title p,
 .reader-title h1 {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .reader-title p {
 	color: var(--reeyuh-accent);
@@ -84,7 +85,8 @@ body {
 	margin-top: 2px;
 	font-size: clamp(1.05rem, 4vw, 1.35rem);
 	letter-spacing: -.02em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .reader-status {
 	margin: 0;
@@ -97,7 +99,8 @@ button,
 input,
 summary {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 button,
 input {
@@ -110,7 +113,8 @@ input {
 
 button {
 	cursor: pointer;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :focus-visible {
 	outline: 3px solid var(--reeyuh-accent);

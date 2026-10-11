@@ -24,7 +24,8 @@ The Awtsmoos lets private consent, unread sequence truth, relationships, and acc
 .hubMessagesRegion h3,
 .hubMessagesStatus {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .hubMessagesHeading p,
 .hubMessagesStatus,
@@ -48,7 +49,8 @@ The Awtsmoos lets private consent, unread sequence truth, relationships, and acc
 
 .hubMessagesMetric strong {
 	font-size: 1.3rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .hubPrivateRequestComposer {
 	display: grid;
@@ -59,7 +61,8 @@ The Awtsmoos lets private consent, unread sequence truth, relationships, and acc
 .hubPrivateRequestComposer :is(input, select, button) {
 	min-height: 2.9rem;
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .hubPrivateRequestComposer button,
 .hubRequestActions button {

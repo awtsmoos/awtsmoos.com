@@ -63,7 +63,8 @@ body:has([data-awtsmoos-seo-catalog]) {
 	font-size: 1.02rem;
 	line-height: 1.35;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 [data-awtsmoos-seo-catalog] article h2 a {
 	color: #8bdcec;
 	text-decoration: none;
@@ -76,7 +77,7 @@ body:has([data-awtsmoos-seo-catalog]) {
 	color: #d8f7ff;
 	text-decoration: underline;
 	text-decoration-thickness: .1em;
-	outline: none;
+	outline: 2px solid var(--aw-focus-ring); outline-offset: 2px;
 }
 [data-awtsmoos-seo-catalog] article h2 a:focus-visible {
 	box-shadow: 0 0 0 .18rem rgba(139, 220, 236, .45);

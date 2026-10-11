@@ -37,11 +37,14 @@
 	font-size: clamp(.8rem, 2.5vw, 1rem);
 }
 #table-summary #leave-table { width: auto; min-height: 42px; margin-left: auto; }
-#player-actions button small { display: block; margin-top: 3px; opacity: .7; }
+#player-actions button small { display: block; margin-top: 3px; opacity: .7; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 #round-result { pointer-events: auto; }
-#round-result p { margin: 0 0 10px; }
+#round-result p { margin: 0 0 10px; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .round-actions { display: flex; gap: 10px; }
-.round-actions button { min-height: 48px; flex: 1; }
+.round-actions button { min-height: 48px; flex: 1; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 #menu-message { min-height: 1.3em; color: var(--cards-gold); }
 @media (max-height: 500px) and (orientation: landscape) {
 	#game-ui-container {
@@ -52,7 +55,8 @@
 		align-items: stretch;
 	}
 	#player-actions { flex-direction: column; }
-	#player-actions button { min-height: 48px; width: 100%; }
+	#player-actions button { min-height: 48px; width: 100%; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	.ui-panel { width: 100%; padding: 9px 10px; font-size: .9rem; }
 	#table-summary { right: calc(min(34vw, 290px) + 20px); justify-content: flex-start; }
 }
@@ -60,7 +64,8 @@
 	#table-summary { gap: 8px; flex-wrap: wrap; justify-content: flex-start; }
 	#table-summary #leave-table { margin-left: 0; }
 	#player-actions { width: 100%; }
-	#player-actions button { min-height: 52px; }
+	#player-actions button { min-height: 52px; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 @media (forced-colors: active) { #table-summary, #round-result { border: 2px solid CanvasText; } }
 

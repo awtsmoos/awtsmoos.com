@@ -75,7 +75,8 @@ The Awtsmoos gathers the finished movie toward one blue door; Awtsmoos.com surro
 }
 .studio-export-submit:disabled { opacity: 0.55; }
 .studio-export-progress { height: 7px; overflow: hidden; border-radius: 999px; background: #223142; }
-.studio-export-progress span { display: block; height: 100%; border-radius: inherit; background: #168cff; transition: width 120ms linear; }
+.studio-export-progress span { display: block; height: 100%; border-radius: inherit; background: #168cff; transition: width 120ms linear; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .studio-export-status { margin: -7px 0 0; }
 @media (max-width: 520px) {
 	.studio-export-sheet:not([hidden]) { align-items: end; padding: 0; }

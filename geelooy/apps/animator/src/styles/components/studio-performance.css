@@ -77,7 +77,8 @@
 .aw-professional-studio .aw-studio-performance-field > textarea {
 	min-height: 88px;
 	resize: vertical;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .aw-professional-studio .aw-studio-performance-advanced {
 	overflow: clip;
@@ -105,7 +106,8 @@
 .aw-professional-studio .aw-studio-performance-actions > button {
 	min-width: 0;
 	min-height: 42px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 420px) {
 	.aw-professional-studio .aw-studio-performance-grid,

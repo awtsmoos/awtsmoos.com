@@ -22,7 +22,8 @@
 .heichel-mobile-navigation .gate-chamber textarea {
   min-height: 7rem;
   resize: vertical;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .heichel-mobile-navigation .heichel-complex-post-note {
   margin: 0;

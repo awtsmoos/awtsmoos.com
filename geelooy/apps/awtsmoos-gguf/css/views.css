@@ -42,11 +42,13 @@
 
 /* --- MARKDOWN --- */
 .markdown-content * + * { margin-top: 0.75em; }
-.markdown-content p { margin: 0; }
+.markdown-content p { margin: 0; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .markdown-content strong { color: var(--accent-emerald); font-weight: 600; }
 .markdown-content em { color: var(--accent-blue); font-style: italic; }
 .markdown-content ul, .markdown-content ol { padding-left: 2em; }
-.markdown-content li { margin-bottom: 0.25em; }
+.markdown-content li { margin-bottom: 0.25em; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .markdown-content pre {
     background: var(--bg-input);
     border: 1px solid var(--border-base);

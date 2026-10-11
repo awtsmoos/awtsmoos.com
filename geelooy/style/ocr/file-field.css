@@ -27,7 +27,8 @@ Awtsmoos.com keeps its semantic soul while giving the hand a clearer sight.
 	clip: rect(0 0 0 0);
 	clip-path: inset(50%);
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .ocr-file-icon {
 	display: grid;
@@ -48,7 +49,8 @@ Awtsmoos.com keeps its semantic soul while giving the hand a clearer sight.
 
 .ocr-file-copy strong {
 	font-size: .92rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .ocr-file-copy small {
 	overflow: hidden;

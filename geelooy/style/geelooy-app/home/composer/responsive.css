@@ -45,7 +45,8 @@
 	} }
 @media (max-width: 680px) { .home-compose-tools button, .home-destination-grid > button {
 		inline-size: 100%;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 680px) { .home-compose-editor {
 		min-block-size: 10rem;
 	} }

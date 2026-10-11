@@ -35,7 +35,8 @@
 	line-height: .9;
 	margin: 10px 0;
 	text-shadow: 0 0 18px var(--cyan), 0 0 60px var(--pink);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .menu p {
 	max-width: 760px;
@@ -58,4 +59,5 @@
 
 .menuPanel h2 {
 	margin: 0 0 12px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

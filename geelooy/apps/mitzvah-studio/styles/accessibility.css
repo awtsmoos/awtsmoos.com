@@ -14,11 +14,13 @@
 	@media (pointer: coarse) {
 		#mitzvah-studio :is(button, input, select) {
 			min-height: 46px;
-		}
+		
+		color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 		#mitzvah-studio :is(.studio-shelf-card, .studio-outliner-row > button:first-child) {
 			min-height: 54px;
-		}
+		
+		color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	}
 
 	@media (prefers-reduced-motion: reduce) {:root:root:root #mitzvah-studio, :root:root:root #mitzvah-studio *, :root:root:root #mitzvah-studio *::before, :root:root:root #mitzvah-studio *::after{
@@ -38,7 +40,8 @@
 
 		#mitzvah-studio :is(.panel, button, input, select) {
 			border-width: 2px;
-		}
+		
+		color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 		#mitzvah-studio .studio-canvas {
 			outline: 1px solid rgba(255, 255, 255, .42);

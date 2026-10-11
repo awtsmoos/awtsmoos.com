@@ -47,14 +47,16 @@ body {
 .result-heading h2,
 .result-heading p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .db-header h1 {
 	margin-top: 4px;
 	font-size: clamp(2rem, 9vw, 4rem);
 	letter-spacing: -.045em;
 	line-height: .95;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .db-header > p:last-child {
 	margin-top: 9px;

@@ -50,7 +50,8 @@
 
 	.stat strong {
 		font-size: 18px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.mission {
 		width: min(330px, 100%);

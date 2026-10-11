@@ -42,7 +42,8 @@
 	.awt-vessel-table th,
 	.awt-vessel-table td {
 		padding: 0.58rem 0.62rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	#targetVesselSelect {
 		width: 100%;

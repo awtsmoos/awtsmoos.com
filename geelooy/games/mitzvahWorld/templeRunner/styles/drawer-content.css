@@ -38,7 +38,8 @@
 .detail-grid span,
 .detail-grid strong {
 	display: block;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .detail-grid span {
 	color: var(--ivory-500);

@@ -21,7 +21,8 @@
 .messaging-group-footer button {
 	min-height: 40px;
 	font-size: 0.7rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .messaging-details-members > div {
 	display: grid;

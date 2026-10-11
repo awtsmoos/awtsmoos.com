@@ -21,7 +21,8 @@
   cursor: pointer;
   color: #fffaf1;
 }
-.profile-tree-summary span { font-weight: 850; }
+.profile-tree-summary span { font-weight: 850; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .profile-tree-summary small, .profile-tree-empty { color: var(--pp-muted); font-size: .78rem; }
 .profile-tree-node .profile-tree-node { margin-left: .55rem; border-left-color: var(--pp-gold); }
 

@@ -45,7 +45,8 @@
 .Mitzvah-combat-host .Mitzvah-enemy-cast :is(p, small) {
 	display: block;
 	margin: 3px 0 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .Mitzvah-combat-host .Mitzvah-enemy-cast div {
 	height: 5px;

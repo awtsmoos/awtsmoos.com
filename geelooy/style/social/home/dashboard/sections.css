@@ -2,8 +2,10 @@
 .home-action-section, .home-discovery-panel { display: none; }
 .home-activity-panel { display: grid; gap: .8rem; padding: 1rem; }
 .home-activity-list { display: grid; gap: .65rem; list-style: none; margin: 0; padding: 0; }
-.home-activity-list li { align-items: center; display: grid; gap: .65rem; grid-template-columns: 34px minmax(0,1fr) auto; }
-.home-activity-list li > span { background: linear-gradient(135deg, #8b5cf6, #d13cff); border-radius: 14px; height: 34px; width: 34px; }
+.home-activity-list li { align-items: center; display: grid; gap: .65rem; grid-template-columns: 34px minmax(0,1fr) auto; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.home-activity-list li > span { background: linear-gradient(135deg, #8b5cf6, #d13cff); border-radius: 14px; height: 34px; width: 34px; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .home-activity-list p { color: #e9edf6; margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .home-activity-list a { color: #9bbdff; text-decoration: none; }
 .home-activity-list time { color: #8b93a7; font-size: .8rem; }

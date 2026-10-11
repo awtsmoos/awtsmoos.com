@@ -34,7 +34,8 @@
 	gap: .55rem;
 	padding: .42rem .5rem;
 	text-align: start;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .routeIcon {
 	display: grid;
@@ -51,7 +52,8 @@
 .social-hub-document .routeNavigation button[data-active="true"] .routeIcon {
 	border-color: rgba(126, 239, 255, .42);
 	background: rgba(126, 239, 255, .1);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .routeLabel {
 	overflow: hidden;

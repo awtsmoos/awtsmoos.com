@@ -63,7 +63,8 @@ body {
 .post p {
     
     white-space:pre-wrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 @keyframes postEntry {
     to {
         opacity: 1;
@@ -84,24 +85,29 @@ body {
 .post h1 {
     font-size: 28px; /* Larger size for main title */
     margin-bottom: 10px; /* Spacing after the title */
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .post h2 {
     font-size: 26px; /* Slightly smaller font for subtitles */
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .post h3 {
     font-size: 20px; /* Slightly smaller font for subtitles */
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .post h4 {
     font-size: 18px; /* Slightly smaller font for subtitles */
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .post h2, .post h3, .post h4 {
     
     margin-top: 5px; /* Spacing above subtitles */
     margin-bottom: 5px; /* Spacing below subtitles */
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .post a {
     color: #0066cc; /* Bright color for links */

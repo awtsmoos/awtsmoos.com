@@ -76,7 +76,8 @@
 .modeBadge {
 	position: relative;
 	z-index: 1;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .modeCard strong {
 	color: #ffe68b;

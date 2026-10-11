@@ -43,12 +43,14 @@
 .credit-portfolio__card h3,
 .credit-portfolio__history {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .credit-portfolio__card h3 {
 	font-size: 18px;
 	line-height: 1.2;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .credit-portfolio__balance {
 	color: var(--wallet-gold);

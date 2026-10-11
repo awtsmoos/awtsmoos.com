@@ -63,7 +63,8 @@ html .shell-icon-button:hover {
 html #start-button,
 html #start-bar button {
 	border-radius: 15px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 html #start-menu,
 html .shell-panel,
 html .shell-command-card {

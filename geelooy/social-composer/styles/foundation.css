@@ -23,10 +23,12 @@ input,
 textarea,
 select {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(button, input, textarea, select) {
 	border-radius: var(--radius-m);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(input:not([type="checkbox"]):not([type="radio"]), textarea, select) {
 	width: 100%;
 	min-width: 0;
@@ -43,7 +45,8 @@ textarea {
 	min-height: 7rem;
 	line-height: 1.55;
 	resize: vertical;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(input, textarea)::placeholder {
 	color: var(--awt-ink-faint);
 }
@@ -61,16 +64,19 @@ label:not(.sr-only) {
 }
 :where(h1, h2, h3, p) {
 	margin-top: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 h1 {
 	margin-bottom: .4rem;
 	font-size: clamp(2.2rem, 5vw, 4.5rem);
 	line-height: .94;
 	letter-spacing: -.055em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 h2 {
 	margin-bottom: .75rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(code, pre) {
 	font-family: var(--font-mono);
 }

@@ -39,7 +39,8 @@
 .void-logo h2,
 .void-logo p {
 	margin: 0.35rem 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .void-logo h2 {
 	color: var(--mail-text);

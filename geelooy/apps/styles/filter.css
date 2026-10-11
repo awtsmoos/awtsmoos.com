@@ -21,7 +21,8 @@ body[data-geelooy-route="apps"] .apps-filter-disclosure > summary > span:first-c
 	display: grid;
 	gap: 3px;
 	min-inline-size: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-geelooy-route="apps"] .apps-filter-disclosure > summary small {
 	color: var(--g-text-muted);
@@ -74,5 +75,6 @@ body[data-geelooy-route="apps"] .g-app-filter label {
 
 	body[data-geelooy-route="apps"] .g-app-filter label {
 		grid-row: 1;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

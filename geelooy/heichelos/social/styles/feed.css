@@ -83,12 +83,14 @@
 	margin: .65rem 0 .4rem;
 	overflow-wrap: anywhere;
 	font-size: 1.05rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-social-root .awt-card p {
 	margin: 0 0 .75rem;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: hover) and (pointer: fine) {
 	.awtsmoos-social-root :where(.awt-card, .awt-post-card):hover {

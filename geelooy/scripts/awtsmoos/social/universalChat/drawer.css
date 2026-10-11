@@ -47,7 +47,8 @@
 
 .universal-chat-header small {
 	opacity: 0.72;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .universal-chat-header button,
 .universal-chat-drawer button,
@@ -55,7 +56,8 @@
 .universal-chat-drawer select {
 	box-sizing: border-box;
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .universal-chat-drawer button,
 .universal-chat-drawer select,
@@ -63,7 +65,8 @@
 	border: 1px solid rgba(255, 255, 255, 0.22);
 	border-radius: 9px;
 	padding: 0.55rem 0.65rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .universal-chat-drawer button {
 	background: rgba(72, 132, 91, 0.34);
@@ -74,12 +77,14 @@
 .universal-chat-drawer button:disabled {
 	cursor: not-allowed;
 	opacity: 0.45;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .universal-chat-search-row input {
 	min-width: 0;
 	width: 100%;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .universal-chat-status,
 .universal-chat-roster {

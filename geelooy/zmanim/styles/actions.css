@@ -91,7 +91,8 @@ awtsmoos-date-control {
 	padding-inline: 0.4rem;
 	font-size: 0.72rem;
 	font-weight: 750;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .opinion-segments button[data-selected] {
 	border-color: var(--forest);
@@ -129,7 +130,8 @@ awtsmoos-date-control {
 	min-height: 34px;
 	padding-inline: 0.6rem;
 	font-size: 0.65rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .share-status {
 	width: 100%;

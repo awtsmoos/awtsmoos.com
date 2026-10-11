@@ -46,7 +46,8 @@
 	} }
 @media (max-width: 35rem) { .heichel-brand-word, .heichel-os-document .topbar-title small, .heichel-os-document .topbar-mail-gate {
 		display: none;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 35rem) { .heichel-os-document .cosmic-heichel-topbar {
 		grid-template-columns: auto minmax(0, 1fr) auto auto;
 	} }
@@ -55,7 +56,8 @@
 		overflow: hidden;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 3;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 35rem) { :where(.heichel-os-document) :where(body)::before, :where(.heichel-os-document) :where(body)::after {
 		width: 18vw;

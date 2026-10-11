@@ -52,7 +52,8 @@ The Awtsmoos gives each step and poem its own vessel: cards carry sequence, stor
 	font-size: clamp(1.35rem, 2.6vw, 1.9rem);
 	letter-spacing: -.025em;
 	margin: 17px 0 9px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .shliach-card p {
 	color: var(--shliach-muted);
@@ -79,7 +80,8 @@ The Awtsmoos gives each step and poem its own vessel: cards carry sequence, stor
 	letter-spacing: -.04em;
 	line-height: 1;
 	margin: 9px 0 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .shliach-poem {
 	color: rgba(239, 244, 255, .88);

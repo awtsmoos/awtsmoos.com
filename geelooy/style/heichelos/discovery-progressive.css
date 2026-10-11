@@ -55,10 +55,12 @@
 .space-compact-row h3, .space-compact-row p {
 	margin: 0;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .space-compact-row h3 {
 	font-size: .95rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .space-compact-row p {
 	color: var(--g-text-2);
 	font-size: var(--type-caption);

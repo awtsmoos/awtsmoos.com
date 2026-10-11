@@ -35,7 +35,8 @@
 	font-weight: 800;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-selection-variant:hover,
 .awtsmoos-selection-variant:focus-visible {

@@ -23,16 +23,19 @@ a {
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 a[class], :where(nav) a, .home-route-card, .social-space-card a, .profile-command-rail a, .space-actions a {
 	text-decoration: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 button, input, textarea, select {
 	box-sizing: border-box;
 	font-family: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"])), textarea, select {
 	font-size: max(1rem, 16px);
 	line-height: 1.4;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .profile-banner-light, .space-banner, .awtsmoos-filter-vessel {
 	display: none;
 }
@@ -59,7 +62,8 @@ button, input, textarea, select {
 .home-feed-tabs button.active, .profile-tabs .active {
 	border-color: var(--g-border-strong, rgba(255, 255, 255, .22));
 	background: var(--g-surface-2, #171f2d);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .sidebar, .chat-container, .mail-main, .thread-panel {
 	border-color: var(--g-border, rgba(255, 255, 255, .12));
 	background: var(--g-surface, #111722);

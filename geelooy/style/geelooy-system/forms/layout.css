@@ -31,7 +31,8 @@
 	border: 0;
 	box-shadow: none;
 	min-height: 46px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .g-field {
 	display: grid;

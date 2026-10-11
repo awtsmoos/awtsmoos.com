@@ -41,7 +41,8 @@
 	border-radius: 50%;
 	background: var(--g-accent);
 	content: "";
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 @media (max-width: 34rem) { .civilization-metrics {
 		grid-template-columns: 1fr;
 	} }

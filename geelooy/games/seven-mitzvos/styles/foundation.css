@@ -37,11 +37,13 @@ a:active {
 button,
 a {
 	-webkit-tap-highlight-color: transparent;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 button {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 button:focus-visible,
 a:focus-visible {
@@ -84,7 +86,8 @@ footer {
 
 footer p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 720px) {
 	.contentPanel {

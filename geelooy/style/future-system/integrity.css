@@ -38,7 +38,8 @@ This local integrity layer prevents accidental overflow without becoming a globa
 
 :where(body[data-future-page], body.social-hub-document) :where(input, select, textarea) {
 	max-inline-size: 100%;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where(body[data-future-page], body.social-hub-document) [hidden] {
 	display: none;

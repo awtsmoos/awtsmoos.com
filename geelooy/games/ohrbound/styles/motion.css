@@ -29,7 +29,8 @@
 }
 .ohrbound-app .hero h1 {
 	animation-delay: 35ms;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .ohrbound-app .hero-copy {
 	animation-delay: 70ms;
 }

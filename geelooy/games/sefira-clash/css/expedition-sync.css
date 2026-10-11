@@ -37,7 +37,8 @@
 	padding: 9px;
 	border-radius: 9px;
 	background: rgba(255, 255, 255, 0.07);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .syncFacts em {
 	font-style: normal;

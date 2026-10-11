@@ -67,18 +67,21 @@ body[data-awtsmoos-drive] button,
 body[data-awtsmoos-drive] input,
 body[data-awtsmoos-drive] select {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-awtsmoos-drive] button,
 body[data-awtsmoos-drive] select,
 body[data-awtsmoos-drive] summary,
 body[data-awtsmoos-drive] a {
 	-webkit-tap-highlight-color: transparent;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-awtsmoos-drive] button {
 	cursor: pointer;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-awtsmoos-drive] a {
 	color: inherit;

@@ -17,7 +17,8 @@
     border-bottom: 1px solid rgba(0,246,255,0.16);
     padding: 8px;
     text-align: left;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .vos-task-table th {
     color: var(--vos-cyan);

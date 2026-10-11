@@ -94,7 +94,8 @@ button:focus-visible,
 	border: 1px solid rgba(255, 255, 255, 0.1);
 	border-radius: 999px;
 	background: rgba(255, 255, 255, 0.035);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .radio-label input:checked + span {
 	color: #061018;

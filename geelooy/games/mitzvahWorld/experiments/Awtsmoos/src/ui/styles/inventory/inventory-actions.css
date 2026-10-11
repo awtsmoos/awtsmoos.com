@@ -9,7 +9,8 @@
 
 .Awtsmoos-inventory-shell button {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .Awtsmoos-inventory-shell :is(.inv-close, .inv-context-menu button) {
 	min-width: 44px;
@@ -50,7 +51,8 @@
 .Awtsmoos-inventory-shell :is(.inv-close, .inv-context-menu button):disabled {
 	opacity: 0.45;
 	cursor: not-allowed;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .Awtsmoos-inventory-shell .inv-context-menu {
 	z-index: var(--inv-z-actions);

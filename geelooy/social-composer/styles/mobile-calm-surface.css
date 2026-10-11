@@ -13,11 +13,13 @@
 
 	.composer-civilization-document .creatorSurfaceHeading small {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.composer-civilization-document .creatorSurfaceHeading strong {
 		font-size: 1rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.composer-civilization-document .creatorEyebrow {
 		font-size: .58rem;
@@ -34,7 +36,8 @@
 
 	.composer-civilization-document :where(input, textarea, select) {
 		max-inline-size: 100%;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-width: 23rem) {

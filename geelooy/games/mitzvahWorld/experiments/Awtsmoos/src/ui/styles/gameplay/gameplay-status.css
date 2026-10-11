@@ -51,7 +51,8 @@
 
 #mitzvah-world-root .Awtsmoos-status-dock :is(b, small, label) {
 	display: block;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .Awtsmoos-status-dock b {
 	color: #fff0c6;

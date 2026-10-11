@@ -46,7 +46,8 @@
 	.levelMeta span {
 		font-size: 11px;
 		padding: 3px 6px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-width: 420px) {

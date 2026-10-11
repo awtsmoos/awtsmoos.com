@@ -21,4 +21,5 @@
 .profile-hero-card,
 .social-alias-card,
 .social-heichel-card,
-.profile-tabs button.active { --profile-contract-anchor: 1; }
+.profile-tabs button.active { --profile-contract-anchor: 1; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

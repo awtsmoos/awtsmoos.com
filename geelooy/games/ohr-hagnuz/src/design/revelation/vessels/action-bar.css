@@ -62,7 +62,8 @@
 	text-align: left;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .revelation-action small {
 	position: absolute;

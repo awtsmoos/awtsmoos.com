@@ -53,11 +53,13 @@
 .panel p {
 	display: block;
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .panel strong {
 	font-size: 0.96rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .panel p {
 	color: rgba(226, 240, 250, 0.78);

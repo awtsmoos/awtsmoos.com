@@ -8,7 +8,8 @@
 	content-visibility: auto;
 	contain: layout paint style;
 	contain-intrinsic-size: auto 12rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(.series-list, .post-list, .g-feed-list, .activityList, .profileCommentList, .reviewQueue, .submissionQueue, .referenceList) {
 	contain: layout style;
 }

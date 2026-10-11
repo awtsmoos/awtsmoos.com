@@ -17,7 +17,8 @@ Awtsmoos.com uses subtle edge, focus, and depth changes so expandable power feel
 	max-width: 620px;
 	font-size: clamp(1.45rem, 3vw, 2.15rem);
 	letter-spacing: -.03em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 details.migrationCard > summary {
 	min-height: 58px;
 	padding: 14px 16px;
@@ -33,7 +34,8 @@ details.migrationCard > summary small {
 }
 details.migrationCard > summary strong {
 	font-size: .98rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 details.migrationCard[open] {
 	border-color: rgb(151 177 220 / 22%);
 }
@@ -58,7 +60,8 @@ details.migrationCard .futureDisclosureBody {
 }
 .reviewCard h2 {
 	font-size: clamp(1.35rem, 3vw, 2rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .commandOutput:empty {
 	display: none;
 }
@@ -86,7 +89,8 @@ details.migrationCard .futureDisclosureBody {
 	}
 	.primaryMigrationCard h2 {
 		font-size: 1.55rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	details.migrationCard > summary {
 		min-height: 54px;
 	}

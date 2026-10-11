@@ -127,9 +127,12 @@ input[type="color"].ink-pot {
     border: 1px solid #444;
     cursor: pointer;
     padding: 0;
-}
-:where(input[type="color"].ink-pot::-webkit-color-swatch-wrapper) { padding: 0; }
-:where(input[type="color"].ink-pot::-webkit-color-swatch) { border: none; }
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+:where(input[type="color"].ink-pot::-webkit-color-swatch-wrapper) { padding: 0; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+:where(input[type="color"].ink-pot::-webkit-color-swatch) { border: none; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 /* RESET BUTTON */
 .reset-section {

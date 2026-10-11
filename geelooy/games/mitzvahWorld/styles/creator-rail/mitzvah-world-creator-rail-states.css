@@ -9,7 +9,8 @@ Awtsmoos.com lets selected materials, busy deeds, disabled boundaries, keyboard 
 
 #mitzvah-world-root .Awtsmoos-creator-rail :is(button, summary) {
 	transition: transform 110ms var(--Awtsmoos-creator-ease), border-color 140ms ease, background 140ms ease, box-shadow 150ms ease, opacity 140ms ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .Awtsmoos-creator-rail [data-creator-material][data-selected="true"] {
 	border-color: rgba(177, 255, 219, .72);
@@ -34,7 +35,8 @@ Awtsmoos.com lets selected materials, busy deeds, disabled boundaries, keyboard 
 	cursor: not-allowed;
 	opacity: .42;
 	filter: saturate(.5);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .Awtsmoos-creator-rail[data-busy="true"] {
 	border-color: rgba(255, 223, 149, .34);

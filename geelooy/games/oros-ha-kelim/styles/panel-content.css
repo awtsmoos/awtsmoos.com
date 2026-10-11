@@ -32,7 +32,8 @@
 
 	.oros-app .settings-grid h2 {
 		grid-column: 1 / -1;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.oros-app .settings-grid label {
 		display: grid;
@@ -64,7 +65,8 @@
 		width: 20px;
 		height: 20px;
 		accent-color: var(--oros-cyan);
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.oros-app .diagnostics p {
 		margin: 6px 0;
@@ -80,6 +82,7 @@
 		}
 		.oros-app .settings-grid h2 {
 			grid-column: auto;
-		}
+		
+		color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	}
 }

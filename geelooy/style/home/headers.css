@@ -109,17 +109,21 @@ html .awtsmoosificationalisticaticalism .header-brand { display: none; }
 	transition: transform 150ms ease, border-color 150ms ease, background 150ms ease;
 	white-space: nowrap;
 }
-html a.home.icon { font-size: 1.12rem; max-width: 46px; padding: 0; }
+html a.home.icon { font-size: 1.12rem; max-width: 46px; padding: 0; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 html .menuBtn { font-size: 0; padding: 0; width: 46px; }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-.menuBtn::before, .menuBtn::after, :where(a.home.icon)::before { content: none; }
+.menuBtn::before, .menuBtn::after, :where(a.home.icon)::before { content: none; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .menuBtn .menuGlyph { color: transparent; font-size: 0; }
 .menuBtn .menuGlyph::before { color: var(--hdr-glyph); content: "☰"; font-size: 1.35rem; }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.menuBtn.is-open) .menuGlyph::before { content: "✕"; }
-.awtsmoosificationalisticaticalism a[href="/email"] { font-size: 0; padding: 0; width: 46px; }
+.awtsmoosificationalisticaticalism a[href="/email"] { font-size: 0; padding: 0; width: 46px; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(.awtsmoosificationalisticaticalism) :where(a[href="/email"])::before { content: "✉"; font-size: 1.18rem; }
+:where(.awtsmoosificationalisticaticalism) :where(a[href="/email"])::before { content: "✉"; font-size: 1.18rem; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.awtsmoosificationalisticaticalism) :where(#awtsmoosDrop) .btn.dropt { max-width: min(48vw, 210px); padding-inline: 9px; }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
@@ -167,23 +171,30 @@ html .sidebarMitzvah a {
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.sidebarMitzvah) :where(a)::before { background: linear-gradient(135deg, var(--hdr-icon-grad-1), var(--hdr-icon-grad-2)); border-radius: 999px; color: var(--hdr-icon-text); content: "✨"; display: grid; flex: 0 0 32px; height: 32px; place-items: center; width: 32px; }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(.sidebarMitzvah) :where(a[href="/email"])::before { content: "✉"; }
+:where(.sidebarMitzvah) :where(a[href="/email"])::before { content: "✉"; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(.sidebarMitzvah) :where(a[href*="heichel"])::before { content: "🪐"; }
+:where(.sidebarMitzvah) :where(a[href*="heichel"])::before { content: "🪐"; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(.sidebarMitzvah) :where(a[href*="ikar"])::before { content: "📚"; }
+:where(.sidebarMitzvah) :where(a[href*="ikar"])::before { content: "📚"; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(.sidebarMitzvah) :where(a[href*="games"])::before { content: "🎮"; }
+:where(.sidebarMitzvah) :where(a[href*="games"])::before { content: "🎮"; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(.sidebarMitzvah) :where(a[href*="profile"])::before { content: "👤"; }
+:where(.sidebarMitzvah) :where(a[href*="profile"])::before { content: "👤"; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(.sidebarMitzvah) :where(a[href*="apps"])::before { content: "🧩"; }
+:where(.sidebarMitzvah) :where(a[href*="apps"])::before { content: "🧩"; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 body[data-global-menu-open="true"] .geelooy-home-shell { opacity: .08; pointer-events: none; }
 @media (max-width: 430px) { html .awtsmoosificationalisticaticalism { gap: 5px; width: calc(100% - .75rem); } }
 @media (max-width: 430px) { html .awtsmoosificationalisticaticalism .lg { padding-inline: 9px; } }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 430px) { :where(.awtsmoosificationalisticaticalism) :where(#awtsmoosDrop) .btn.dropt { max-width: 142px; } }
-@media (max-width: 430px) { html .awtsmoosificationalisticaticalism a[href="/email"], html .menuBtn { width: 42px; } }
+@media (max-width: 430px) { html .awtsmoosificationalisticaticalism a[href="/email"], html .menuBtn { width: 42px; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (prefers-reduced-motion: reduce) { .awtsmoosificationalisticaticalism *, .sidebarMitzvah, .sidebarMitzvah * { transition-duration: 1ms; } }
 
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
@@ -231,7 +242,8 @@ body[data-global-menu-open="true"] .geelooy-home-shell { opacity: .08; pointer-e
 	cursor: not-allowed;
 	filter: none;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .header-buttons a:hover {
 	filter: brightness(1.08);
 }
@@ -306,7 +318,8 @@ a:active {
 	cursor: not-allowed;
 	filter: none;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .sidebarMitzvah a:hover {
 	filter: brightness(1.08);
 }

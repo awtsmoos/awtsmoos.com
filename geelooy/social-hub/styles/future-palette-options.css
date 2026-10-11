@@ -39,7 +39,8 @@ Awtsmoos.com keeps every command option bounded, keyboard-clear, pressed by ever
 	min-inline-size: 0;
 	max-inline-size: 100%;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .futureCommandOption span {
 	color: var(--muted);

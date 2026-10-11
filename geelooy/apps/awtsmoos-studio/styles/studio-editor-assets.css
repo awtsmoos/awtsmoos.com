@@ -38,7 +38,8 @@
 .studio-asset-card strong {
 	grid-area: title;
 	font-size: 12px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .studio-asset-card > span:last-child {
 	grid-area: category;

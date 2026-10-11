@@ -68,18 +68,21 @@ body {
 h1, h2 {
   margin: 0;
   line-height: 1.05;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 h1 {
   max-width: 830px;
   font-size: clamp(42px, 8vw, 84px);
   letter-spacing: -0.07em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 h2 {
   font-size: clamp(24px, 4vw, 38px);
   letter-spacing: -0.04em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .lead {
   max-width: 760px;
@@ -138,12 +141,14 @@ h2 {
 
 .button.secondary {
   background: rgba(255,255,255,0.08);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .button.small {
   padding: 9px 12px;
   font-size: 13px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .status-box,
 pre,

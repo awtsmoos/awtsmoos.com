@@ -15,7 +15,8 @@
 
 .drive-feedback p {
 	margin: 4px 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #error {
 	color: var(--drive-danger);
@@ -43,7 +44,8 @@
 .drive-pagination button:disabled {
 	opacity: .4;
 	cursor: default;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .drive-drop-zone {
 	display: none;

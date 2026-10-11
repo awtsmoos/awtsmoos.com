@@ -66,16 +66,19 @@
 	display: grid;
 	gap: .12rem;
 	min-inline-size: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .geelooy-profile-shell :where(.profileIdentityTool strong, .profileIdentityTool small) {
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .geelooy-profile-shell :where(.profileIdentityTool small) {
 	font-size: .72rem;
 	opacity: .62;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: hover) and (pointer: fine) {
 	.geelooy-profile-shell :where(.profile-social-action:hover, .profileIdentityTool:hover) {

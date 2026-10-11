@@ -35,7 +35,8 @@
 }
 .hub-card h3 {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .hub-card h3 {
 	color: var(--hub-text);
 	font-size: 1rem;

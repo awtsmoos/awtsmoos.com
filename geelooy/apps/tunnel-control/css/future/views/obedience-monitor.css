@@ -16,7 +16,10 @@
     letter-spacing: .12em;
     opacity: .7;
     text-transform: uppercase;
-  }
-  .awt-obedience-card strong { display: block; margin: 6px 0; }
-  .awt-obedience-card p { margin: 0; opacity: .75; }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+  .awt-obedience-card strong { display: block; margin: 6px 0; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+  .awt-obedience-card p { margin: 0; opacity: .75; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

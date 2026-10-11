@@ -58,7 +58,8 @@ The Awtsmoos renews the browser vessel each instant. This is the single Keter st
 .awtsmoos-browser-host input,
 .awtsmoos-browser-host textarea {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-browser-body {
 	position: relative;

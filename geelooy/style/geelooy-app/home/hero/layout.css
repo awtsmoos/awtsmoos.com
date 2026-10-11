@@ -82,7 +82,8 @@
 }
 
 .home-brand-copy { display: grid; gap: 0.12rem; }
-.home-brand-copy strong { letter-spacing: 0.04em; }
+.home-brand-copy strong { letter-spacing: 0.04em; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .home-brand-copy small { color: var(--g-muted); font: 700 0.6rem/1.2 var(--g-mono); letter-spacing: 0.08em; text-transform: uppercase; }
 .home-brand-copy b { color: var(--g-cyan); }
 

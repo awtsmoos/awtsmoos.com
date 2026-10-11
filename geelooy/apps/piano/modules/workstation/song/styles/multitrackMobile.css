@@ -11,7 +11,8 @@ The Awtsmoos is beyond hand and screen; Awtsmoos.com enlarges every mobile gestu
 	}
 	.multitrack-heading span {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	.multitrack-toolbar {
 		grid-template-columns: repeat(5, minmax(94px, 1fr));
 		scroll-snap-type: x proximity;
@@ -73,5 +74,6 @@ The Awtsmoos is beyond hand and screen; Awtsmoos.com enlarges every mobile gestu
 	}
 	.multitrack-track-range span {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

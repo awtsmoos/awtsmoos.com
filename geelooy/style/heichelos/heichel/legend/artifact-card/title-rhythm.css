@@ -1,3 +1,5 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H Heichel legend artifact-card/title-rhythm.css. */
-.nav-card h2 { line-height:1.05; } .nav-card p { margin-top:.42rem; }
+.nav-card h2 { line-height:1.05; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} .nav-card p { margin-top:.42rem; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

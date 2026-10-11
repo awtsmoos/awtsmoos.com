@@ -51,7 +51,8 @@
 .living-path-full-path li {
 	position: relative;
 	padding-inline-start: calc(var(--path-depth, 0) * .65rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.living-path-full-path) :where(li)::before {
 	position: absolute;
@@ -60,12 +61,18 @@
 	inline-size: 1px;
 	background: rgba(91, 215, 255, .16);
 	content: "";
-}
-.living-path-full-path li[data-depth="1"] { --path-depth: 1; }
-.living-path-full-path li[data-depth="2"] { --path-depth: 2; }
-.living-path-full-path li[data-depth="3"] { --path-depth: 3; }
-.living-path-full-path li[data-depth="4"] { --path-depth: 4; }
-.living-path-full-path li[data-depth="5"] { --path-depth: 5; }
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.living-path-full-path li[data-depth="1"] { --path-depth: 1; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.living-path-full-path li[data-depth="2"] { --path-depth: 2; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.living-path-full-path li[data-depth="3"] { --path-depth: 3; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.living-path-full-path li[data-depth="4"] { --path-depth: 4; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.living-path-full-path li[data-depth="5"] { --path-depth: 5; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .living-path-full-path .breadcrumb-link {
 	inline-size: 100%;
 	justify-content: flex-start;

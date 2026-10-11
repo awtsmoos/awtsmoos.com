@@ -22,7 +22,8 @@
 
 .composer-civilization-document .previewHeader :is(h2, h3, p) {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .composer-civilization-document .previewHeader h2,
 .composer-civilization-document .previewHeader h3 {
@@ -81,7 +82,8 @@
 
 .composer-civilization-document :is(.previewSection, .previewSubsection) :is(h3, h4, p) {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .composer-civilization-document .previewMedia {
 	display: grid;

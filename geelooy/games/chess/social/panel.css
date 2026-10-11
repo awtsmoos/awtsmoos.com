@@ -51,7 +51,8 @@
 .chess-social-panel input {
 	box-sizing: border-box;
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .chess-social-body {
 	display: grid;
@@ -79,7 +80,8 @@
 	border-radius: 8px;
 	min-width: 0;
 	padding: 0.55rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .chess-media-grid {
 	display: grid;

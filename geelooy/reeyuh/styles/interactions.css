@@ -14,7 +14,8 @@ button:not(.nav-backdrop),
 		background-color .16s ease,
 		filter .16s ease,
 		box-shadow .16s ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: hover) and (pointer: fine) {
 	button:not(.nav-backdrop):hover,
@@ -51,7 +52,8 @@ input:focus {
 	button:not(.nav-backdrop),
 	.content-details summary {
 		transition: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	button:not(.nav-backdrop):hover,
 	button:not(.nav-backdrop):active,

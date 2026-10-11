@@ -29,4 +29,5 @@
 	background: linear-gradient(90deg, var(--text-primary), #7a3dff 62%, #1e87cc);
 	-webkit-background-clip: text;
 	background-clip: text;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

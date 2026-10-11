@@ -64,7 +64,8 @@
 	font-variant-numeric: tabular-nums;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .peruta-run-route .peruta-metric strong {
 	color: var(--peruta-gold);
@@ -104,5 +105,6 @@
 	.peruta-run-route .metric span {
 		font-size: clamp(0.46rem, 2vw, 0.54rem);
 		letter-spacing: 0.07em;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

@@ -80,7 +80,8 @@
 
 .social-hub-document button.awtsmoosFeedIdentity {
 	cursor: pointer;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document button.awtsmoosFeedIdentity:is(:hover, :focus-visible) {
 	background: rgba(148, 163, 184, .09);

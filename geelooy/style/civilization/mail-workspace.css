@@ -37,7 +37,8 @@
 .mail-civilization-brand strong {
 	font-size: 1.15rem;
 	letter-spacing: -.025em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .mail-civilization-brand small,
 .mail-connection-state {
 	color: var(--civil-text-soft);

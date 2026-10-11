@@ -48,12 +48,21 @@ const MAX_TIMEOUT_MS = 120000;
 let chromeScreenshotPromise = null;
 let virtualRendererPromise = null;
 
-/** File URL of one MERKAVA service module, resolved from this file's home. */
-function serviceModuleUrl(relativePath) {
+/** Self-contained Merkava runtime (Yaakov 2026-10-11 hard rule: no repo). */
+const SelfContained = require("../../../lib/selfContained.js");
+let merkavaRootPromise = null;
+function merkavaRoot() {
+	if (!merkavaRootPromise) merkavaRootPromise = SelfContained.ensureBundle("merkava");
+	return merkavaRootPromise;
+}
+
+/** File URL of one MERKAVA service module, resolved inside the runtime bundle. */
+async function serviceModuleUrl(relativePath) {
+	const root = await merkavaRoot();
 	return pathToFileURL(
 		path.resolve(
-			__dirname,
-			"../../../../../../scripts/awtsmoos/MerkavaExecutor/merkava-service",
+			root,
+			"scripts/awtsmoos/MerkavaExecutor/merkava-service",
 			relativePath
 		)
 	).href;
@@ -61,14 +70,14 @@ function serviceModuleUrl(relativePath) {
 
 async function loadChromeScreenshot() {
 	if (!chromeScreenshotPromise) {
-		chromeScreenshotPromise = import(serviceModuleUrl("snapshots/chromeScreenshot.js"));
+		chromeScreenshotPromise = import(await serviceModuleUrl("snapshots/chromeScreenshot.js"));
 	}
 	return await chromeScreenshotPromise;
 }
 
 async function loadVirtualRenderer() {
 	if (!virtualRendererPromise) {
-		virtualRendererPromise = import(serviceModuleUrl("snapshots/virtualPngRenderer.js"));
+		virtualRendererPromise = import(await serviceModuleUrl("snapshots/virtualPngRenderer.js"));
 	}
 	return await virtualRendererPromise;
 }

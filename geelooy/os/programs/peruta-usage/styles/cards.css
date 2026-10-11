@@ -25,7 +25,8 @@
 	max-width: 700px;
 	margin: 0;
 	font-size: .8rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .perutaUsage__balanceGrid {
 	display: grid;

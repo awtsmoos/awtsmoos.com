@@ -72,7 +72,8 @@ a:hover { text-decoration: underline; }
 code, .mono { font-family: var(--mono); font-size: 0.86em; }
 .muted { color: var(--muted); }
 .faint { color: var(--faint); }
-.small { font-size: 0.85em; }
+.small { font-size: 0.85em; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 /* ---------- top bar ---------- */
 .topbar {
@@ -177,7 +178,8 @@ code, .mono { font-family: var(--mono); font-size: 0.86em; }
   font-size: 30px;
   letter-spacing: -0.02em;
   font-weight: 750;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .hero h1 .grad {
   background: linear-gradient(90deg, var(--accent), var(--purple));
   -webkit-background-clip: text;
@@ -204,7 +206,8 @@ code, .mono { font-family: var(--mono); font-size: 0.86em; }
   display: flex;
   align-items: center;
   gap: 9px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .section-head h2 .count {
   font-size: 12px;
   font-weight: 600;
@@ -235,7 +238,8 @@ a.card:hover {
   border-color: var(--border);
   box-shadow: var(--shadow);
 }
-.card h3 { margin: 0 0 6px; font-size: 16px; letter-spacing: -0.01em; }
+.card h3 { margin: 0 0 6px; font-size: 16px; letter-spacing: -0.01em; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .card h3 a { color: var(--text); }
 .card .card-sub { color: var(--muted); font-size: 13.5px; margin: 4px 0 0; }
 .card .card-foot { margin-top: 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
@@ -345,7 +349,8 @@ a.card:hover {
   overflow: hidden;
 }
 .mission-head .crumb { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
-.mission-head h1 { margin: 0 0 10px; font-size: 26px; letter-spacing: -0.02em; font-weight: 750; }
+.mission-head h1 { margin: 0 0 10px; font-size: 26px; letter-spacing: -0.02em; font-weight: 750; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .mission-head .objective { color: var(--text-2); max-width: 760px; margin: 0 0 16px; }
 .mission-head .meta-row { display: flex; gap: 22px; align-items: center; flex-wrap: wrap; margin-bottom: 18px; }
 .mission-head .meta-row .progress { min-width: 260px; flex: 1; max-width: 480px; }
@@ -382,17 +387,21 @@ a.card:hover {
   padding: 20px;
   margin-bottom: 16px;
 }
-.panel h3 { margin: 0 0 12px; font-size: 15px; }
+.panel h3 { margin: 0 0 12px; font-size: 15px; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 @media (max-width: 820px) { .two-col { grid-template-columns: 1fr; } }
 
 .kv { display: grid; grid-template-columns: 170px 1fr; gap: 8px 14px; font-size: 14px; }
 .kv dt { color: var(--muted); }
-.kv dd { margin: 0; }
+.kv dd { margin: 0; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .checklist { list-style: none; margin: 0; padding: 0; }
-.checklist li { padding: 7px 0 7px 28px; position: relative; border-bottom: 1px dashed var(--border-soft); font-size: 14px; }
-.checklist li:last-child { border-bottom: 0; }
+.checklist li { padding: 7px 0 7px 28px; position: relative; border-bottom: 1px dashed var(--border-soft); font-size: 14px; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.checklist li:last-child { border-bottom: 0; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .checklist li::before { content: "✓"; position: absolute; left: 4px; color: var(--green); font-weight: 700; }
 
 /* ---------- chips ---------- */
@@ -469,7 +478,8 @@ a.card:hover {
 .msg.mk-handoff { border-left-color: #9ee6a8; }
 
 .presence { background: var(--card); border: 1px solid var(--border-soft); border-radius: var(--radius); padding: 16px; position: sticky; top: 70px; }
-.presence h3 { margin: 0 0 12px; font-size: 14px; }
+.presence h3 { margin: 0 0 12px; font-size: 14px; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .presence .agent-row { padding: 7px 0; border-bottom: 1px dashed var(--border-soft); }
 .presence .agent-row:last-child { border-bottom: 0; }
 .presence-dot { width: 9px; height: 9px; border-radius: 50%; flex: none; margin-left: auto; }
@@ -499,7 +509,8 @@ a.card:hover {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(94,162,255,.15);
 }
-.composer textarea { width: 100%; min-height: 88px; resize: vertical; }
+.composer textarea { width: 100%; min-height: 88px; resize: vertical; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .composer .foot { display: flex; justify-content: flex-end; margin-top: 10px; }
 
 /* ---------- timeline / activity ---------- */
@@ -514,8 +525,10 @@ a.card:hover {
   background: var(--border);
   border-radius: 2px;
 }
-.timeline li { position: relative; padding: 0 0 18px 30px; }
-.timeline li:last-child { padding-bottom: 2px; }
+.timeline li { position: relative; padding: 0 0 18px 30px; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.timeline li:last-child { padding-bottom: 2px; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .timeline .t-dot {
   position: absolute;
   left: 3px;
@@ -595,7 +608,8 @@ a.card:hover {
 .footer-note { margin-top: 60px; text-align: center; color: var(--faint); font-size: 12.5px; }
 .tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
 .link-list { margin: 6px 0 0; padding-left: 18px; color: var(--muted); font-size: 13.5px; }
-.link-list a { word-break: break-all; }
+.link-list a { word-break: break-all; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 ::selection { background: rgba(94, 162, 255, 0.3); }
 ::-webkit-scrollbar { width: 10px; height: 10px; }
@@ -604,10 +618,13 @@ a.card:hover {
 
 @media (max-width: 640px) {
   .hero { padding: 24px 20px; }
-  .hero h1 { font-size: 23px; }
+  .hero h1 { font-size: 23px; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
   .mission-head { padding: 20px 18px 0; }
-  .mission-head h1 { font-size: 21px; }
-  .search-wrap input[type="search"] { width: 150px; }
+  .mission-head h1 { font-size: 21px; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+  .search-wrap input[type="search"] { width: 150px; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
   .page { padding: 20px 14px 60px; }
   .topbar-inner { padding: 10px 14px; gap: 10px; }
   .topbar nav { display: none; }

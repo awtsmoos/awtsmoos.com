@@ -29,7 +29,8 @@
 	background: color-mix(in srgb, var(--aw-creator-bg) 84%, transparent);
 	line-height: 1.52;
 	caret-color: var(--aw-creator-focus);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-creator] textarea::placeholder {
 	color: color-mix(in srgb, var(--aw-creator-muted) 68%, transparent);
@@ -81,7 +82,8 @@
 [data-awtsmoos-creator] .aw-creator__chip-grid button {
 	min-width: 0;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-creator] .aw-creator__status {
 	margin-top: 10px;

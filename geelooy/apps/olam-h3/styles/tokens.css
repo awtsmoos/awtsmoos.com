@@ -61,7 +61,8 @@ input,
 textarea,
 select {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 button,
 a,
@@ -69,7 +70,8 @@ select,
 input,
 textarea {
 	-webkit-tap-highlight-color: transparent;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 button {
 	color: inherit;
@@ -87,7 +89,8 @@ select:focus-visible {
 button:disabled {
 	opacity: 0.42;
 	cursor: not-allowed;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 ::selection {
 	background: var(--accent);

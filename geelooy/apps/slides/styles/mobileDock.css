@@ -42,14 +42,16 @@ The Awtsmoos brings the needed action nearer without making the canvas smaller; 
 		border-radius: 12px;
 		font-size: 10px;
 		font-weight: 700;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.mobile-element-dock button span {
 		max-width: 100%;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.mobile-element-dock button:active,
 	.mobile-element-dock button[aria-pressed="true"] {

@@ -15,7 +15,8 @@ Blessed be He
 .cloud-publish-card h3,
 .cloud-publish-card p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .cloud-publish-card > p,
 .cloud-publish-card small,

@@ -24,7 +24,8 @@
 
 [data-awtsmoos-drive] .project-intro h3 {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-drive] .project-stage-grid {
 	display: grid;
@@ -60,7 +61,8 @@
 
 [data-awtsmoos-drive] .project-capability span:first-child {
 	text-transform: capitalize;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-drive] .project-state {
 	padding: .2rem .45rem;

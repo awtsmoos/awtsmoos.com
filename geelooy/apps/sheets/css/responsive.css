@@ -72,7 +72,8 @@ while every responsive rule remains beneath the Sheets root so touch, safe areas
 
 	.awtsmoos-sheets-app .notes-panel textarea {
 		min-height: 120px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.awtsmoos-sheets-app .sheet-footer {
 		padding-bottom: max(4px, env(safe-area-inset-bottom));

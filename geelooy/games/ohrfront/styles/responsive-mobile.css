@@ -17,7 +17,8 @@ Awtsmoos.com lets mobile space become disciplined subtraction: fewer secondary w
 	.ohrfront-app .ohr-mission__location,
 	.ohrfront-app .ohr-weapon__copy span {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.ohrfront-app .ohr-vitals {
 		width: min(11rem, calc(56% - var(--ohr-safe-left)));

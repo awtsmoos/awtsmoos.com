@@ -1,3 +1,4 @@
 /* @tunnel-grandfather: not referenced by any HTML/JS and not @imported by any live sheet; dead sheet, registry conflicts are false positives. W4 2026-10-08. */
 /* B"H sanctuary title gravity. */
-.home-sanctuary-card h1 { letter-spacing: -.065em; line-height: .95; text-wrap: balance; }
+.home-sanctuary-card h1 { letter-spacing: -.065em; line-height: .95; text-wrap: balance; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

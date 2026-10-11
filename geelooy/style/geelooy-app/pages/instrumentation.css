@@ -64,4 +64,5 @@ body.geelooy-app-shell :where(
 :where(:root[data-theme="light"]) :where(body.geelooy-app-shell) .g-page-hero h1,
 :where(:root[data-theme="light"]) :where(body.geelooy-app-shell) :where(.profile-hero-card, .spaces-hero) h1 {
 	background: linear-gradient(100deg, var(--text-primary) 10%, var(--g-cyan) 58%, #7a6fd0);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

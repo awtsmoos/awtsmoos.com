@@ -4,7 +4,8 @@
 .home-command-dock .is-create,
 .home-crystal span {
   animation: homeFuturePulse 6s ease-in-out infinite;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @keyframes homeFuturePulse {
   0%, 100% { opacity: .92; transform: translate3d(0,0,0) scale(1); }

@@ -19,7 +19,8 @@
 .awtsmoos-social-root .awt-notification-head h2 {
 	margin: 0;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-social-root .awt-notification-list {
 	display: grid;

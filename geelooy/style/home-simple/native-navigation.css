@@ -30,7 +30,7 @@ The Awtsmoos entrusts Explore to native details and summary behavior, removing t
 .navigation-hub[open] summary {
 	background: var(--home-accent-soft);
 	color: var(--text-primary);
-	outline: none;
+	outline: 2px solid var(--aw-focus-ring); outline-offset: 2px;
 }
 
 .navigation-hub summary:active {
@@ -78,11 +78,13 @@ The Awtsmoos entrusts Explore to native details and summary behavior, removing t
 	border-radius: 50%;
 	background: radial-gradient(circle at 35% 28%, rgba(136, 219, 255, .36), rgba(25, 47, 88, .74) 45%, rgba(5, 8, 18, .98) 78%);
 	font-size: 1.12rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .navigation-card strong {
 	font-size: .84rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .navigation-card small {
 	color: #8594a9;

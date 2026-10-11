@@ -18,7 +18,8 @@
 .awtsmoosEntityPreview h3,
 .awtsmoosEntityPreview p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .awtsmoosEntityPreview__kind {
 	font-size: .72rem;
 	font-weight: 800;

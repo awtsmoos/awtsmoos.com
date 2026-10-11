@@ -32,12 +32,14 @@ The Awtsmoos folds instruction into a narrow instrument panel; Awtsmoos.com keep
 	display: grid;
 	gap: 2px;
 	min-width: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .reference-hud > summary strong {
 	font-size: 11px;
 	letter-spacing: 0.02em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .reference-hud > summary small {
 	color: var(--muted);
@@ -73,12 +75,14 @@ The Awtsmoos folds instruction into a narrow instrument panel; Awtsmoos.com keep
 .reference-hud .guide-row strong {
 	font-size: 9px;
 	letter-spacing: 0.04em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .reference-hud .guide-row p {
 	font-size: 10px;
 	line-height: 1.35;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .reference-hud[open] > summary b {
 	background: rgba(217, 255, 104, 0.07);

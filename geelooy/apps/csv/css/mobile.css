@@ -52,7 +52,8 @@
 	.btn:not(.small) {
 		min-height: 40px;
 		padding: 8px 10px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.grid-ops {
 		margin-left: auto;

@@ -50,7 +50,8 @@
 }
 .skeleton-lines span:nth-child(2) {
 	inline-size: 82%;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .skeleton-lines .short {
 	inline-size: 48%;
 }

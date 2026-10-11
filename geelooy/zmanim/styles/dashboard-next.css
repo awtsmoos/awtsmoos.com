@@ -50,7 +50,8 @@
 	font-size: clamp(1.75rem, 7vw, 2.7rem);
 	line-height: 1;
 	letter-spacing: -0.035em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .next-zman-row {
 	display: flex;
@@ -66,7 +67,8 @@
 	line-height: 0.9;
 	letter-spacing: -0.055em;
 	text-shadow: 0 6px 22px rgba(0, 0, 0, 0.12);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .next-countdown {
 	padding: 0.32rem 0.58rem;

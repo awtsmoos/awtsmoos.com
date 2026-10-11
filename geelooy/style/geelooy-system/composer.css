@@ -73,7 +73,8 @@
 :where(.home-destination-grid) { display: grid; gap: 8px; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 10px; }
 :where(.home-composer-verses) { display: grid; gap: 8px; margin-top: 10px; }
 :where(.home-composer-verses article) { display: grid; gap: 8px; grid-template-columns: minmax(0,.42fr) minmax(0,1fr); }
-:where(.home-composer-verses textarea) { border-radius: 14px; min-height: 72px; padding: 10px 12px; }
+:where(.home-composer-verses textarea) { border-radius: 14px; min-height: 72px; padding: 10px 12px; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where([data-home-composer-status]) { color: #94a3b8; display: none; font-size: .8rem; line-height: 1.2; margin: 0; }
 :where([data-home-real-composer][data-compose-open="true"] [data-home-composer-status]) { display: block; }
 @media (max-width: 560px) { :where(.home-compose-primary) { grid-template-columns: 36px minmax(0, 1fr) auto; } }

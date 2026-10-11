@@ -39,7 +39,8 @@
 
 .modelInspector strong {
 	font-size: clamp(0.82rem, 2.4vw, 1.05rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .modelInspector span {
 	color: #ffd166;
@@ -51,7 +52,8 @@
 	margin: 0;
 	font-size: clamp(0.66rem, 1.8vw, 0.8rem);
 	line-height: 1.28;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @keyframes inspectorReveal {
 	from {

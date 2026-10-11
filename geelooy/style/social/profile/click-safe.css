@@ -87,7 +87,8 @@ html .profile-bottom-nav {
 html .profile-bottom-nav a {
   border-radius: 999px;
   min-height: 48px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 html body:has(.geelooy-profile-shell) .awtsmoosificationalisticaticalism {
   left: 50%;
   position: fixed;
@@ -112,7 +113,8 @@ html body:has(.geelooy-profile-shell) .awtsmoosificationalisticaticalism {
 }
 @media (max-width: 430px) { html .geelooy-profile-shell { padding-top: 5.25rem; } }
 @media (max-width: 430px) { html .profile-inline-actions { gap: .5rem; } }
-@media (max-width: 430px) { html .profile-inline-actions :is(button,a) { min-height: 48px; width: 100%; } }
+@media (max-width: 430px) { html .profile-inline-actions :is(button,a) { min-height: 48px; width: 100%; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 430px) { html .profile-stat-grid { grid-template-columns: 1fr; } }
 
 /* @tunnel-interactive-states: hover/active/focus-visible/disabled for every interactive control */
@@ -130,7 +132,8 @@ button:disabled {
 	cursor: not-allowed;
 	filter: none;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 [role="button"]:hover {
 	filter: brightness(1.08);
 }
@@ -154,7 +157,8 @@ button:disabled {
 	cursor: not-allowed;
 	filter: none;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 a:hover {
 	filter: brightness(1.08);
 }
@@ -178,6 +182,7 @@ a:focus-visible {
 	cursor: not-allowed;
 	filter: none;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-registry-merge: consolidated duplicate selectors W4 2026-10-08 */
 /* @tunnel-registry-merge: consolidated from geelooy/style/social/profile/fit/viewport.css W4 2026-10-08 */

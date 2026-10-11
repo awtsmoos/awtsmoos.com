@@ -51,7 +51,8 @@ button,
 canvas,
 meter {
 	-webkit-tap-highlight-color: transparent;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #game {
 	background: var(--ink);
@@ -75,7 +76,8 @@ meter {
 		border-color 130ms ease,
 		background 130ms ease,
 		box-shadow 130ms ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .button:hover,
 .mini-button:hover,

@@ -63,7 +63,8 @@
 	margin: 2px 0 4px;
 	font-size: clamp(30px, 4vw, 52px);
 	letter-spacing: -.04em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .mediaLibrary__eyebrow { color: #6fd8ff; text-transform: uppercase; letter-spacing: .15em; font-size: 11px; }
 .mediaLibrary__lead { margin: 0; color: #bdd4ff; font-size: 16px; }
 .mediaLibrary__heroBadge { color: #e5dcff; }

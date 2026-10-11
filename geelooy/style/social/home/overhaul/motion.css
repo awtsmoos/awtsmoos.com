@@ -4,7 +4,8 @@
  * Performance first: tiny transitions only, no page animations.
  */
 @media (prefers-reduced-motion: no-preference) {
-  .home-route-card, .home-post-card, .home-command-dock a, .home-feed-tabs button, .home-empty-actions a { transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease; }
+  .home-route-card, .home-post-card, .home-command-dock a, .home-feed-tabs button, .home-empty-actions a { transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
   .home-route-card:hover, .home-post-card:hover { transform: translateY(-1px); }
   .home-command-dock a:active, .home-feed-tabs button:active, .home-empty-actions a:active { transform: scale(.98); }
 }

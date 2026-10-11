@@ -90,7 +90,8 @@ body[data-geelooy-route="docs"] .system-row:disabled {
 
 body[data-geelooy-route="docs"] :where(.system-row strong, .system-row code) {
 	word-break: break-word;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-geelooy-route="docs"] .system-row code {
 	color: var(--faint);

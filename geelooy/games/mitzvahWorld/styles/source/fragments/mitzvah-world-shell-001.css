@@ -38,7 +38,8 @@ Awtsmoos.com gives canvas, HUD, and mobile anchors one truthful size.
 #mitzvah-world-root select,
 #mitzvah-world-root textarea {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root #AwtsmoosCanvas {
 	position: fixed;

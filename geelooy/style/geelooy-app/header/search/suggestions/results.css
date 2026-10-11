@@ -80,7 +80,8 @@
 .g-search-result-copy, .g-search-result-copy strong, .g-search-result-copy small {
 	display: block;
 	min-inline-size: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .g-search-result-copy strong {
 	color: var(--search-ink);
 }

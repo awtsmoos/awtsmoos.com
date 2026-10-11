@@ -37,7 +37,8 @@
 .continue-copy h2,
 .continue-copy p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .continue-copy h2 {
 	overflow: hidden;

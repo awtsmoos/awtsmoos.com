@@ -36,11 +36,13 @@
 .composerArchiveForm label {
 	display: grid;
 	gap: 6px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .composerArchiveForm input {
 	min-height: 44px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .composerArchiveForm .archiveRemember {
 	display: flex;
@@ -58,7 +60,8 @@
 	.composerArchiveActions button {
 		flex: 1 1 140px;
 		min-height: 44px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.composerArchiveStorage a {
 		display: inline-flex;
@@ -67,7 +70,8 @@
 		min-height: 44px;
 		box-sizing: border-box;
 		padding-block: 8px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (forced-colors: active) {

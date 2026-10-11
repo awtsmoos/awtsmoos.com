@@ -46,7 +46,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	const BUILD_VERSION = '20260928-playable-meadow-01';
 	const SCRIPT_START_KEY = 'AwtsmoosMitzvahWorldScriptStart';
-	const SOURCE_URL = new URL((( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js"));
+	const SOURCE_URL = new URL((( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvahWorld/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvahWorld/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js"));
 	const LAUNCHER_BASE = SOURCE_URL.pathname.includes('/launcher/')
 		? new URL('./', SOURCE_URL)
 		: new URL('./launcher/', SOURCE_URL);
@@ -116,8 +116,8 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	const ROOT = globalThis.document?.querySelector?.('#mitzvah-world-root') || null;
 	const ENTRY = './experiments/Awtsmoos/src/mitzvah-world.compact.js';
-	const ESSENTIAL = new URL('./app/MitzvahWorldEssentialBoot.js', (( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/MinimalMeadowCompactBootstrap.js")).href;
-	const RELEASE = new URL('./app/MitzvahWorldReleaseGateSession.js', (( globalThis.location?.origin && globalThis.location.origin !== "null" ? globalThis.location.origin : "https://awtsmoos.local" ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/MinimalMeadowCompactBootstrap.js")).href;
+	const ESSENTIAL = new URL('./app/MitzvahWorldEssentialBoot.js', (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvahWorld/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvahWorld/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/MinimalMeadowCompactBootstrap.js")).href;
+	const RELEASE = new URL('./app/MitzvahWorldReleaseGateSession.js', (( globalThis.location?.protocol === "file:" ? (import.meta.url.lastIndexOf("/games/mitzvahWorld/") > 8 ? import.meta.url.slice(0, import.meta.url.lastIndexOf("/games/mitzvahWorld/")) : "https://awtsmoos.local") : (/^(https?):\/\//.test(globalThis.location?.origin || "") ? globalThis.location.origin : "https://awtsmoos.local") ) + "/games/mitzvahWorld/experiments/Awtsmoos/src/MinimalMeadowCompactBootstrap.js")).href;
 
 	publish('loading');
 	const bootPromise = boot();

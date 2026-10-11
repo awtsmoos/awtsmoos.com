@@ -18,7 +18,10 @@ async function verifyJsRuntime(filePath, options = {}) {
   if (!shouldVerify(filePath) || options.runtimeCheck !== true) return null;
   try {
     const fs = require("fs");
-    const { RuntimeAssembler } = require("../../../../../scripts/awtsmoos/MerkavaExecutor/merkava-runtime/RuntimeAssembler.js");
+    // Self-contained Merkava runtime (Yaakov 2026-10-11 hard rule: no repo).
+    const SelfContained = require("../../lib/selfContained.js");
+    const bundleDir = await SelfContained.ensureBundle("merkava");
+    const { RuntimeAssembler } = require(path.join(bundleDir, "scripts", "awtsmoos", "MerkavaExecutor", "merkava-runtime", "RuntimeAssembler.js"));
     const entry = path.basename(filePath);
     const files = { [entry]: fs.readFileSync(filePath, "utf8") };
     const runtime = options.runtime || "browser";

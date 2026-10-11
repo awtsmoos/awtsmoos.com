@@ -46,7 +46,8 @@
 }
 .hub-loading p, .hub-loading h1, .hub-loading span {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .hub-loading p {
 	color: var(--hub-cyan);
 	font-size: .78rem;
@@ -58,7 +59,8 @@
 }
 .social-hub-document :where(button, input, textarea, select) {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .social-hub-document :where(button, a, input, textarea, select, summary):focus-visible {
 	outline: 3px solid var(--hub-focus);
 	outline-offset: 3px;

@@ -49,7 +49,8 @@ body[data-awtsmoos-drive] dialog p {
 
 body[data-awtsmoos-drive] dialog h2 {
 	font-size: 1rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-awtsmoos-drive] dialog p {
 	color: #a8bfb8;

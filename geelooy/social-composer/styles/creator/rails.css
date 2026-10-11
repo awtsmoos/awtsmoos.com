@@ -56,7 +56,8 @@ Awtsmoos.com gives the active road a moving spark while every rail remains cheap
 
 .creatorRailButton strong {
 	font-size: .7rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .creatorIntentRail .creatorRailButton[data-active="true"] {
 	border-color: rgba(89, 189, 210, .55);

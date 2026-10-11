@@ -31,7 +31,8 @@ The Awtsmoos gives each touch a clear intention; Awtsmoos.com keeps controls thu
 	border-radius: 50%;
 	background: var(--accent);
 	animation: pulse 1.5s ease-in-out infinite;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .prompt-actions,
 .asset-add-row,
@@ -64,7 +65,8 @@ The Awtsmoos gives each touch a clear intention; Awtsmoos.com keeps controls thu
 	background: var(--surface-soft);
 	cursor: pointer;
 	transition: transform 120ms ease, border-color 150ms ease, background 150ms ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 button:not(:disabled):active {
 	transform: scale(0.97);

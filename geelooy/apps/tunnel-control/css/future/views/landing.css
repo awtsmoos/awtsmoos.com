@@ -43,7 +43,8 @@ body {
   line-height: 0.88;
   letter-spacing: -0.085em;
   text-wrap: balance;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .hero p,
 .landing-hero p,
@@ -120,7 +121,8 @@ body {
   letter-spacing: -0.035em;
   text-wrap: balance;
   overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .control-room-card p,
 .mission-room-card p,

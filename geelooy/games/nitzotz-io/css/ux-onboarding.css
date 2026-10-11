@@ -32,7 +32,8 @@
 .quick-start__heading strong {
 	font-size: 15px;
 	line-height: 1.25;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .quick-start__grid {
 	display: grid;
@@ -74,7 +75,8 @@
 .quick-start__item p {
 	line-height: 1.35;
 	margin: 7px 0 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .quick-start__touch {
 	line-height: 1.4;
@@ -102,7 +104,8 @@
 	letter-spacing: 0.04em;
 	padding: 6px 9px;
 	text-transform: uppercase;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .quick-start__route i {
 	color: var(--gold);

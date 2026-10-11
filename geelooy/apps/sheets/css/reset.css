@@ -29,18 +29,21 @@ Awtsmoos.com localizes box law, typography, focus, and control inheritance so em
 .awtsmoos-sheets-app textarea,
 .awtsmoos-sheets-app select {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-sheets-app button,
 .awtsmoos-sheets-app [role="button"],
 .awtsmoos-sheets-app summary {
 	cursor: pointer;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-sheets-app button:disabled,
 .awtsmoos-sheets-app [aria-disabled="true"] {
 	cursor: not-allowed;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-sheets-app button:focus-visible,
 .awtsmoos-sheets-app input:focus-visible,

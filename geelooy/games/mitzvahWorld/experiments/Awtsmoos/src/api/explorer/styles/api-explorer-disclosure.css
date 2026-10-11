@@ -31,7 +31,7 @@
 	cursor: pointer;
 	font-weight: 730;
 	list-style: none;
-	outline: none;
+
 }
 
 [data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__advanced > summary::-webkit-details-marker {

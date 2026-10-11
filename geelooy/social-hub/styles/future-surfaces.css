@@ -78,7 +78,8 @@ Awtsmoos.com gives blur only to great vessels, while repeating cards remain swif
 .social-hub-document .contextRibbon span,
 .social-hub-document .contextRibbon strong {
 	box-shadow: var(--yesod-inset);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .workspacePanel {
 	scroll-margin-top: 9rem;

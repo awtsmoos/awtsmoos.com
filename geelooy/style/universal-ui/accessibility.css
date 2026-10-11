@@ -46,12 +46,14 @@
 
 :where(main, section, article, h1, h2, h3, h4, h5, h6)[id] {
 	scroll-margin-block-start: 5rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where(nav, header, [role="navigation"]) a[aria-current="page"] {
 	text-decoration-thickness: max(0.12em, 2px);
 	text-underline-offset: 0.2em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (prefers-reduced-motion: reduce) {
 	.awtsmoos-skip-link {

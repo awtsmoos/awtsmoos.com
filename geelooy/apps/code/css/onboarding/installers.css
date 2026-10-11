@@ -28,7 +28,8 @@ The Awtsmoos renews installer commands and native-runtime truth as optional path
 .code-command-card button {
 	justify-self: start;
 	padding: 6px 10px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .code-settings-shell {
 	display: grid;
 	gap: 12px;
@@ -46,7 +47,8 @@ The Awtsmoos renews installer commands and native-runtime truth as optional path
 .settings-card h4,
 .settings-card p {
 	margin-top: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .settings-help {
 	color: var(--color-text-tertiary);
 	line-height: 1.5;

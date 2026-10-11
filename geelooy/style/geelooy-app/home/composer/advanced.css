@@ -74,7 +74,8 @@
 
 .home-destination-grid > button {
 	align-self: end;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .home-composer-verses {
 	display: grid;
@@ -95,7 +96,8 @@
 .geelooy-home-composer .home-compose-verse textarea {
 	min-block-size: 5.5rem;
 	resize: vertical;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .home-compose-advanced:not([open]) > :not(summary) {
 	display: none;

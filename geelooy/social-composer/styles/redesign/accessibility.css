@@ -24,7 +24,8 @@
 .composer-civilization-document :is(button, input, textarea, select, a):disabled {
 	cursor: not-allowed;
 	opacity: .5;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .composer-civilization-document ::selection {
 	background: rgba(185, 120, 239, .34);
@@ -34,18 +35,21 @@
 .composer-civilization-document :is(.previewColumn, .playlist-sheet-list, textarea) {
 	scrollbar-color: var(--composer-scrollbar) var(--composer-scrollbar-track);
 	scrollbar-width: thin;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .composer-civilization-document :is(.previewColumn, .playlist-sheet-list, textarea)::-webkit-scrollbar {
 	inline-size: .65rem;
 	block-size: .65rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .composer-civilization-document :is(.previewColumn, .playlist-sheet-list, textarea)::-webkit-scrollbar-thumb {
 	border: 2px solid var(--composer-scrollbar-track);
 	border-radius: 999px;
 	background: var(--composer-scrollbar);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: hover) {
 	.composer-civilization-document button:hover,
@@ -59,7 +63,8 @@
 @media (pointer: coarse) {
 	.composer-civilization-document :is(button, input, textarea, select, a, summary, label) {
 		min-block-size: 2.75rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (prefers-reduced-motion: reduce) {:root:root:root .composer-civilization-document *, :root:root:root .composer-civilization-document *::before, :root:root:root .composer-civilization-document *::after{

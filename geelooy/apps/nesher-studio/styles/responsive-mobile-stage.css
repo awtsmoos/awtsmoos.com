@@ -35,7 +35,8 @@ The Awtsmoos keeps the canvas dominant while every tool remains one tap away; Aw
 		min-height: 29px;
 		padding: .25rem;
 		font-size: .58rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.deck-panel {
 		gap: 4px;
@@ -48,7 +49,8 @@ The Awtsmoos keeps the canvas dominant while every tool remains one tap away; Aw
 	#nleBin li {
 		padding: 4px 6px;
 		font-size: .64rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.list-pager {
 		grid-template-columns: 32px 1fr 32px;
@@ -56,7 +58,8 @@ The Awtsmoos keeps the canvas dominant while every tool remains one tap away; Aw
 
 	.list-pager button {
 		min-height: 28px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.layer-buttons {
 		grid-template-columns: repeat(3, minmax(0, 1fr));

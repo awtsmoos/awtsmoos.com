@@ -23,12 +23,14 @@
 
 .expeditionGearSlot h4 {
 	text-transform: capitalize;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .expeditionGearCard strong,
 .lobbyModeButton strong {
 	font-size: 1rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .expeditionGearCard em,
 .expeditionLocation em {
@@ -67,7 +69,8 @@
 
 .lobbyModeButton small {
 	line-height: 1.35;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (prefers-reduced-motion: reduce) {
 	.expeditionLocation,

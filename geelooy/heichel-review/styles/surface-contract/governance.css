@@ -18,7 +18,8 @@
 	display: flex;
 	align-items: center;
 	gap: .65rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :is(input[type="checkbox"], input[type="radio"]) {
 	inline-size: 1.25rem;
@@ -26,7 +27,8 @@
 	accent-color: #58c7d8;
 	flex: 0 0 auto;
 	transition: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 680px) {
 	.pageHeader {
@@ -40,5 +42,6 @@
 
 	:where(button) {
 		inline-size: 100%;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

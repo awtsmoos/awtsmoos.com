@@ -62,7 +62,8 @@
 .social-hub-document .futureCoordinates__summary strong {
 	font-size: .9rem;
 	letter-spacing: .01em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .futureCoordinates__summary span {
 	grid-column: 1;

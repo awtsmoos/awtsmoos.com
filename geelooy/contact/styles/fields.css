@@ -40,7 +40,8 @@ Awtsmoos.com keeps every input state beneath Contact alone, responsive, readable
 	min-height: 10rem;
 	resize: vertical;
 	line-height: 1.55;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .contact-page__field :is(input, select, textarea):hover {
 	border-color: rgba(181, 207, 244, .27);
 	background: rgba(255, 255, 255, .055);
@@ -54,7 +55,8 @@ Awtsmoos.com keeps every input state beneath Contact alone, responsive, readable
 }
 .contact-page__field :is(input, select, textarea):user-invalid {
 	border-color: rgba(255, 170, 168, .5);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .contact-page__honey {
 	display: none;
 }

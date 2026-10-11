@@ -76,7 +76,8 @@ html body.heichel-review-document input[type="radio"] {
 	background: none;
 	accent-color: var(--review-approve);
 	transition: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 html body.heichel-review-document button:focus-visible,
 html body.heichel-review-document input:focus-visible,
@@ -113,7 +114,8 @@ body.heichel-review-document button:disabled {
 	cursor: not-allowed;
 	filter: none;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 button:hover {
 	filter: brightness(1.08);
 }
@@ -128,4 +130,5 @@ button:disabled {
 	cursor: not-allowed;
 	filter: none;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

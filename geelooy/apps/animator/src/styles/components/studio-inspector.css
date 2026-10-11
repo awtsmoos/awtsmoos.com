@@ -30,7 +30,8 @@
 	font-size: 15px;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .aw-studio-inspector-header small {
 	color: var(--aw-muted);

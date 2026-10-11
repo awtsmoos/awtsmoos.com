@@ -43,7 +43,8 @@ select {
 textarea {
   min-height: 8rem;
   resize: vertical;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 input[disabled],
 input[readonly] {

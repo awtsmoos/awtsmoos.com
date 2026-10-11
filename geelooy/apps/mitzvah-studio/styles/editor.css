@@ -40,7 +40,8 @@
 		display: grid;
 		gap: .32rem;
 		min-width: 0;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	#mitzvah-studio .inspector-fields fieldset {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -58,7 +59,8 @@
 
 	#mitzvah-studio .inspector-fields legend {
 		padding: 0 .28rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	#mitzvah-studio .studio-outliner-row > button:first-child {
 		display: flex;
@@ -67,7 +69,8 @@
 		flex: 1;
 		min-width: 0;
 		text-align: left;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	#mitzvah-studio .studio-status {
 		white-space: nowrap;
@@ -81,7 +84,8 @@
 		border: 1px solid rgba(158, 217, 255, .08);
 		border-radius: 999px;
 		background: rgba(255, 255, 255, .022);
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	#mitzvah-studio .studio-status strong {
 		color: var(--studio-text);

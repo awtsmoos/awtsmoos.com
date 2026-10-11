@@ -80,7 +80,8 @@
 .drive-account-panel input,
 .drive-account-panel select {
 	padding: 0 10px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .drive-account-panel input::placeholder {
 	color: var(--drive-faint);
@@ -88,7 +89,8 @@
 
 .drive-account-panel button {
 	font-weight: 720;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .drive-account-panel details summary,
 .drive-account-panel .drive-advanced-link {

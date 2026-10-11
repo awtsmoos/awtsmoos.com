@@ -39,7 +39,8 @@
 }
 .geelooy-home-shell :where(button, input, select, textarea) {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .geelooy-home-shell :where(.g-panel, .g-side-card, .home-feed-panel, .home-post-card) {
 	border: 1px solid var(--home-line);
 	background: var(--home-panel);

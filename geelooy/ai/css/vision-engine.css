@@ -165,7 +165,8 @@ html .container>.sidebar,html .container>#automation-panel,html .container>.main
 >>>>>>> theirs
   border-color:var(--vision-line);
   box-shadow:var(--vision-shadow-soft),var(--vision-inset);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 html body.awts-fx-high .container>.sidebar,html body.awts-fx-high .container>#automation-panel,html body.awts-fx-high .container>.main,html body.awts-fx-high .service-selector,html body.awts-fx-high .provider-key-panel,html body.awts-fx-high .transport-status,html body.awts-fx-high .mobile-control-center,html body.awts-fx-high .ai-empty-state,html body.awts-fx-high .input-area{
   backdrop-filter:blur(12px) saturate(1.1);
   -webkit-backdrop-filter:blur(12px) saturate(1.1);
@@ -225,7 +226,8 @@ html body.awts-fx-high .container>.sidebar,html body.awts-fx-high .container>#au
   box-shadow:0 0 22px rgba(124,58,237,.18);
 }
 .provider-key-panel,.service-selector{background:linear-gradient(180deg,rgba(12,22,40,.76),rgba(5,11,22,.90))}
-.provider-key-row button,.provider-key-row a,.service-selector select{background:rgba(5,14,28,.82);border-color:rgba(148,163,184,.18)}
+.provider-key-row button,.provider-key-row a,.service-selector select{background:rgba(5,14,28,.82);border-color:rgba(148,163,184,.18)
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 body.is-awtsmoos-embedded-ai .mobile-control-center{max-width:min(980px,calc(100vw - 24px))}
 body.is-awtsmoos-embedded-ai .input-area,body.is-awtsmoos-embedded-ai .mobile-suggestion-rail{max-width:min(980px,calc(100vw - 28px));margin-inline:auto}
 body.awts-fx-off *,body.awts-fx-low *{animation:none;transition:none}
@@ -357,7 +359,8 @@ body[data-mobile-scene] #send-button:focus-visible {
 	cursor: not-allowed;
 	filter: none;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .ai-empty-prompts button:hover {
 	filter: brightness(1.08);
 }
@@ -372,7 +375,8 @@ body[data-mobile-scene] #send-button:focus-visible {
 	cursor: not-allowed;
 	filter: none;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 body.is-awtsmoos-embedded-ai .mobile-suggestion-rail button:hover {
 	filter: brightness(1.08);
 }
@@ -396,4 +400,5 @@ body.is-awtsmoos-embedded-ai .mobile-suggestion-rail button:focus-visible {
 	cursor: not-allowed;
 	filter: none;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

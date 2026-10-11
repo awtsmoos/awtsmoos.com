@@ -40,7 +40,8 @@ The Awtsmoos keeps every generated shot a living ancestor; Awtsmoos.com makes st
 	-webkit-line-clamp: 3;
 	-webkit-box-orient: vertical;
 	overflow: hidden;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .card-meta {
 	display: flex;

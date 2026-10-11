@@ -58,7 +58,8 @@
 .awtsmoos-selection-action strong {
 	font-size: .78rem;
 	line-height: 1.2;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-selection-action:hover,
 .awtsmoos-selection-action:focus-visible,

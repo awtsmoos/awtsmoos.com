@@ -88,7 +88,8 @@
 	font-size: clamp(18px, 2.5vw, 24px);
 	font-variant-numeric: tabular-nums;
 	letter-spacing: -0.035em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .mass-stat strong {
 	color: var(--experience-gold);

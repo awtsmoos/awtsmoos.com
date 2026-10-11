@@ -22,7 +22,8 @@ Awtsmoos.com keeps a failed startup visible, understandable, and actionable inst
 .os-startup-recovery h1 {
 	margin: 0 0 .45rem;
 	font-size: 1.15rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .os-startup-recovery p {
 	margin: 0 0 .85rem;
 	color: var(--geo-text-muted);

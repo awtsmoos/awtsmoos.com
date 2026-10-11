@@ -18,4 +18,5 @@
 .home-mini-card strong,
 .home-glance-grid strong {
   text-shadow: 0 0 18px rgba(46,167,255,.18);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

@@ -33,7 +33,8 @@
 
 .alias-preview-disclosure > summary span {
 	font-weight: 850;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .alias-preview-disclosure > summary small {
 	color: var(--g-muted, #9aacbf);
@@ -73,11 +74,13 @@
 .alias-preview-copy h2,
 .alias-preview-copy p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .alias-preview-copy h2 {
 	font-size: 1.05rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .alias-preview-copy p {
 	color: var(--g-muted, #9aacbf);

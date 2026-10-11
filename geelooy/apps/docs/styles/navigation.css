@@ -44,7 +44,8 @@
 .document-canvas a[href^="#"] {
 	text-decoration-style: dotted;
 	text-underline-offset: 3px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .document-canvas ul:has([data-chip-kind="toc"]) {
 	margin-block: 1.2em 1.7em;
@@ -59,7 +60,8 @@
 .document-canvas ul:has([data-chip-kind="toc"]) > li:first-child {
 	margin-bottom: 7px;
 	list-style: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .outline-h4 {
 	padding-left: 42px;
@@ -93,7 +95,8 @@
 	.quick-field select,
 	.quick-field input {
 		min-height: 44px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.outline-h4 {
 		padding-left: 38px;

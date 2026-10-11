@@ -68,7 +68,8 @@
 
 .vibe-md-paragraph { margin-bottom: 8px; }
 .vibe-md-list { padding-left: 20px; margin: 8px 0; }
-.vibe-md-list li { margin-bottom: 4px; }
+.vibe-md-list li { margin-bottom: 4px; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .vibe-md-strong { color: var(--neon-cyan); font-weight: bold; }
 .vibe-md-em { color: var(--neon-lime); font-style: italic; }
 

@@ -43,7 +43,8 @@
 	font-size: 1.05rem;
 	background: rgba(8, 16, 36, 0.82);
 	backdrop-filter: blur(9px);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .shema-strike .touch-controls .attack-touch {
 	border-color: rgba(255, 215, 106, 0.58);

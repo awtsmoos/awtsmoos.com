@@ -47,7 +47,8 @@ body {
 .gameHeader h1 {
 	margin: 0;
 	font-size: clamp(1rem, 4vw, 1.45rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 button {
 	min-height: 44px;
@@ -57,7 +58,8 @@ button {
 	font: inherit;
 	font-weight: 800;
 	cursor: pointer;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 /* GAMES-A: button interactive states. */
 button:hover:not(:disabled) {
@@ -106,7 +108,8 @@ button:active:not(:disabled) {
 	background: rgba(0, 0, 0, 0.7);
 	font-size: 0.78rem;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #message {
 	position: absolute;

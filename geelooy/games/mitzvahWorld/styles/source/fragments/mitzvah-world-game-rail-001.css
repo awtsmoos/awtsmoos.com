@@ -39,7 +39,8 @@ so desktop compactness comes from spacing and garment, never from shrinking the 
 #mitzvah-world-root .Awtsmoos-game-rail button span {
 	display: block;
 	font-size: 18px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .Awtsmoos-game-rail button small {
 	display: block;
@@ -96,11 +97,13 @@ so desktop compactness comes from spacing and garment, never from shrinking the 
 		width: 48px;
 		min-height: 48px;
 		padding: 4px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	#mitzvah-world-root .Awtsmoos-game-rail button small {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	#mitzvah-world-root .Awtsmoos-player-hud-shell {
 		left: 18px;

@@ -23,7 +23,8 @@
 
 	.Awtsmoos-meadow-menu :is(button, summary) {
 		min-height: 48px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-width: 360px) {

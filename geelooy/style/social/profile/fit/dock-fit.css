@@ -31,15 +31,18 @@ html .profile-bottom-nav a {
     font-size: .74rem;
     min-height: 50px;
     padding-inline: .12rem;
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
   html .profile-bottom-nav a.is-create {
     transform: translate3d(0, -9px, 0);
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-width: 360px) {
   html .profile-bottom-nav a {
     font-size: .68rem;
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

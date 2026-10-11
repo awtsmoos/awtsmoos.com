@@ -13,4 +13,5 @@
 .home-orb-brand strong,
 .home-orb-brand span {
   overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

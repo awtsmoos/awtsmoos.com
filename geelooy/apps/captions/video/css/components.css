@@ -71,7 +71,8 @@ div + .file-label,
 	display: inline-flex;
 	align-items: center;
 	gap: .38rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .form-group > span::before,
 .file-label > span::before {
@@ -80,7 +81,8 @@ div + .file-label,
 	border-radius: 50%;
 	background: var(--studio-cyan);
 	content: "";
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .control-group label,
 .slider-group label {
@@ -88,7 +90,8 @@ div + .file-label,
 	align-items: center;
 	justify-content: space-between;
 	gap: .75rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .value-display {
 	padding: .2rem .42rem;

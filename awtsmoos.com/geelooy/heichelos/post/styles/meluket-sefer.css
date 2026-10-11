@@ -25,6 +25,7 @@
 	--sefer-card: #fffdf6;
 	--sefer-focus: #b3541e;
 	--sefer-shadow: 0 2px 14px rgba(90, 70, 40, 0.10);
+	--sefer-highlight-bg: #fff3cd;
 	max-width: 1180px;
 	margin: 0 auto;
 	padding: clamp(1rem, 3vw, 2.5rem) clamp(0.75rem, 3vw, 2rem) 4rem;
@@ -44,10 +45,11 @@
 	--sefer-card: #201a10;
 	--sefer-focus: #e8a34d;
 	--sefer-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
+	--sefer-highlight-bg: #3a2f10;
 }
 
 /* Explicit light theme — ensure dark text on light paper */
-:where(:root[data-theme="light"]) .meluket-sefer-active .meluket-sefer,
+:root[data-theme="light"] .meluket-sefer-active .meluket-sefer,
 :where(.meluket-sefer-active[data-theme="light"]) .meluket-sefer,
 .meluket-sefer-active .meluket-sefer {
 	--sefer-paper: #f7f1e3;
@@ -88,7 +90,7 @@
 	flex-wrap: wrap;
 }
 
-:where(.meluket-sefer-active) .meluket-lang-btn {
+.meluket-sefer-active .meluket-lang-btn {
 	font-family: inherit;
 	font-size: 4rem;
 	font-weight: 700;
@@ -103,12 +105,12 @@
 	min-height: 44px;
 }
 
-:where(.meluket-sefer-active) .meluket-lang-btn:hover {
+.meluket-sefer-active .meluket-lang-btn:hover {
 	border-color: var(--sefer-accent);
 	color: var(--sefer-ink);
 }
 
-:where(.meluket-sefer-active) .meluket-lang-btn.is-active {
+.meluket-sefer-active .meluket-lang-btn.is-active {
 	background: var(--sefer-accent);
 	border-color: var(--sefer-accent);
 	color: #fffdf6;
@@ -179,7 +181,7 @@
 	margin: 0 0 0.85em;
 }
 
-:where(.meluket-sefer-active) .meluket-phrase:last-child {
+.meluket-sefer-active .meluket-phrase:last-child {
 	margin-bottom: 0;
 }
 
@@ -193,7 +195,8 @@
 
 .meluket-sefer-active .meluket-hebrew p {
 	margin: 0 0 0.9em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .meluket-sefer-active .meluket-hebrew sup {
 	color: var(--sefer-accent);
@@ -223,26 +226,28 @@
 
 .meluket-sefer-active .meluket-english p {
 	margin: 0 0 0.8em;
-}
 
-:where(.meluket-sefer-active) .meluket-english p:last-child {
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+
+.meluket-sefer-active .meluket-english p:last-child {
 	margin-bottom: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 /* ---------- Language modes ---------- */
-:where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="hebrew"]) .meluket-english,
-:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="hebrew"]) .meluket-english {
-	display: none !important;
+.meluket-sefer-active .meluket-sefer-section[data-lang-mode="hebrew"] .meluket-english,
+.meluket-sefer-active .meluket-sefer[data-lang-mode="hebrew"] .meluket-english {
+	display: none;
 }
 
-:where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="english"]) .meluket-hebrew,
-:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="english"]) .meluket-hebrew {
-	display: none !important;
+.meluket-sefer-active .meluket-sefer-section[data-lang-mode="english"] .meluket-hebrew,
+.meluket-sefer-active .meluket-sefer[data-lang-mode="english"] .meluket-hebrew {
+	display: none;
 }
 
-:where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="english"]) .meluket-english,
-:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="english"]) .meluket-english {
-	display: block !important;
+.meluket-sefer-active .meluket-sefer-section[data-lang-mode="english"] .meluket-english,
+.meluket-sefer-active .meluket-sefer[data-lang-mode="english"] .meluket-english {
+	display: block;
 	border-top: none;
 	margin-top: 0;
 	padding-top: 0;
@@ -283,7 +288,8 @@
 .meluket-sefer-active .meluket-summary p,
 .meluket-sefer-active .meluket-post-summary p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 /* ---------- Q&A ---------- */
 .meluket-sefer-active .meluket-qa {
@@ -310,7 +316,7 @@
 	border-bottom: 1px dotted var(--sefer-rule);
 }
 
-:where(.meluket-sefer-active) .meluket-qa-item:last-child {
+.meluket-sefer-active .meluket-qa-item:last-child {
 	margin-bottom: 0;
 	padding-bottom: 0;
 	border-bottom: none;
@@ -362,7 +368,7 @@
 	line-height: 1.65;
 }
 
-:where(.meluket-sefer-active) .meluket-footnote:last-child {
+.meluket-sefer-active .meluket-footnote:last-child {
 	border-bottom: none;
 }
 
@@ -416,44 +422,44 @@
 
 /* Hide old translation status banner when sefer reader is active */
 .meluket-sefer-active .awtsmoos-translation-status {
-	display: none !important;
+	display: none;
 }
 
 /* Footnote highlight when clicked from marker */
 .meluket-sefer-active .meluket-footnote-highlight {
-	background: #fff3cd !important;
+	background: var(--sefer-highlight-bg);
 	border-radius: 4px;
 	transition: background 0.3s;
 }
 
 /* Force dark text in light theme — override any inherited white text */
-:where(:root[data-theme="light"]) .meluket-sefer-active .meluket-sefer,
-:where(:root:not([data-theme="dark"])) .meluket-sefer-active .meluket-sefer {
-	--sefer-ink: #2b2118 !important;
-	--sefer-title-ink: #1f1712 !important;
-	--sefer-ink-soft: #5a4c3d !important;
+:root[data-theme="light"] .meluket-sefer-active .meluket-sefer,
+:root:not([data-theme="dark"]) .meluket-sefer-active .meluket-sefer {
+	--sefer-ink: #2b2118;
+	--sefer-title-ink: #1f1712;
+	--sefer-ink-soft: #5a4c3d;
 }
 
-:where(:root[data-theme="light"]) .meluket-sefer-active .meluket-hebrew,
-:where(:root[data-theme="light"]) .meluket-sefer-active .meluket-english,
-:where(:root[data-theme="light"]) .meluket-sefer-active .meluket-sefer-title-he,
-:where(:root:not([data-theme="dark"])) .meluket-sefer-active .meluket-hebrew,
-:where(:root:not([data-theme="dark"])) .meluket-sefer-active .meluket-english,
-:where(:root:not([data-theme="dark"])) .meluket-sefer-active .meluket-sefer-title-he {
-	color: #2b2118 !important;
+:root[data-theme="light"] .meluket-sefer-active .meluket-hebrew,
+:root[data-theme="light"] .meluket-sefer-active .meluket-english,
+:root[data-theme="light"] .meluket-sefer-active .meluket-sefer-title-he,
+:root:not([data-theme="dark"]) .meluket-sefer-active .meluket-hebrew,
+:root:not([data-theme="dark"]) .meluket-sefer-active .meluket-english,
+:root:not([data-theme="dark"]) .meluket-sefer-active .meluket-sefer-title-he {
+	color: var(--sefer-ink);
 }
 
 /* Force English mode — hide Hebrew reliably */
-:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="english"]) .meluket-hebrew,
-:where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="english"]) .meluket-hebrew {
-	display: none !important;
-	visibility: hidden !important;
-	height: 0 !important;
-	overflow: hidden !important;
+.meluket-sefer-active .meluket-sefer[data-lang-mode="english"] .meluket-hebrew,
+.meluket-sefer-active .meluket-sefer-section[data-lang-mode="english"] .meluket-hebrew {
+	display: none;
+	visibility: hidden;
+	height: 0;
+	overflow: hidden;
 }
 
 /* Footnote markers as clickable buttons */
-:where(.meluket-sefer-active) .meluket-fn-marker {
+.meluket-sefer-active .meluket-fn-marker {
 	background: none;
 	border: none;
 	padding: 0 2px;
@@ -468,53 +474,53 @@
 	min-height: 44px;
 }
 
-:where(.meluket-sefer-active) .meluket-fn-marker:hover {
+.meluket-sefer-active .meluket-fn-marker:hover {
 	color: var(--sefer-ink);
 	background: rgba(138, 109, 59, 0.1);
 	border-radius: 3px;
 }
 
 /* Hide Hebrew title in English mode */
-:where(.meluket-sefer-active) :where(.meluket-sefer[data-lang-mode="english"]) .meluket-sefer-title-he {
-	display: none !important;
+.meluket-sefer-active .meluket-sefer[data-lang-mode="english"] .meluket-sefer-title-he {
+	display: none;
 }
 
 /* Nuclear light theme fix — maximum specificity */
-:where(html) body .meluket-sefer-active .meluket-sefer,
-:where(html) body .meluket-sefer-active .meluket-sefer * {
-	color: #2b2118 !important;
+html body .meluket-sefer-active .meluket-sefer,
+html body .meluket-sefer-active .meluket-sefer * {
+	color: var(--sefer-ink);
 }
 
-:where(html) body .meluket-sefer-active .meluket-sefer {
-	background: #f7f1e3 !important;
+html body .meluket-sefer-active .meluket-sefer {
+	background: var(--sefer-paper);
 }
 
-:where(html[data-theme="dark"]) body .meluket-sefer-active .meluket-sefer,
-:where(html[data-theme="dark"]) body .meluket-sefer-active .meluket-sefer * {
-	color: #f0e7d3 !important;
+html[data-theme="dark"] body .meluket-sefer-active .meluket-sefer,
+html[data-theme="dark"] body .meluket-sefer-active .meluket-sefer * {
+	color: var(--sefer-ink);
 }
 
-:where(html[data-theme="dark"]) body .meluket-sefer-active .meluket-sefer {
-	background: #171209 !important;
+html[data-theme="dark"] body .meluket-sefer-active .meluket-sefer {
+	background: var(--sefer-paper);
 }
 
 /* Force typography panel hidden when ARIA says hidden (fix visual desync) */
-.meluket-sefer-active :where(#typographyDetails[aria-hidden="true"]),
-:where(.meluket-sefer-active) .typography-details[aria-hidden="true"] {
-	display: none !important;
-	visibility: hidden !important;
-	opacity: 0 !important;
-	pointer-events: none !important;
+.meluket-sefer-active #typographyDetails[aria-hidden="true"],
+.meluket-sefer-active .typography-details[aria-hidden="true"] {
+	display: none;
+	visibility: hidden;
+	opacity: 0;
+	pointer-events: none;
 }
 
 /* @tunnel-interactive-states: auto-generated by css-guarantee */
-:where(.meluket-sefer-active) .meluket-lang-btn:active {
+.meluket-sefer-active .meluket-lang-btn:active {
 	transform: scale(0.98);
 }
-:where(.meluket-sefer-active) .meluket-lang-btn:focus-visible {
+.meluket-sefer-active .meluket-lang-btn:focus-visible {
 	outline: 2px solid var(--sefer-focus); outline-offset: 2px;
 }
-:where(.meluket-sefer-active) .meluket-lang-btn:focus {
+.meluket-sefer-active .meluket-lang-btn:focus {
 	outline: 2px solid var(--sefer-focus); outline-offset: 2px;
 }
 :where(.meluket-sefer-active .meluket-hebrew sup):hover{
@@ -529,12 +535,12 @@
 :where(.meluket-sefer-active .meluket-hebrew sup):focus{
 	outline: 2px solid var(--sefer-focus); outline-offset: 2px;
 }
-:where(.meluket-sefer-active) .meluket-fn-marker:active {
+.meluket-sefer-active .meluket-fn-marker:active {
 	transform: scale(0.98);
 }
-:where(.meluket-sefer-active) .meluket-fn-marker:focus-visible {
+.meluket-sefer-active .meluket-fn-marker:focus-visible {
 	outline: 2px solid var(--sefer-focus); outline-offset: 2px;
 }
-:where(.meluket-sefer-active) .meluket-fn-marker:focus {
+.meluket-sefer-active .meluket-fn-marker:focus {
 	outline: 2px solid var(--sefer-focus); outline-offset: 2px;
 }

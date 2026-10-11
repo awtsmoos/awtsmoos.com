@@ -41,7 +41,8 @@ uses the same phone boundary as the desktop so portrait and landscape agree.
 
 	.start-menu-header strong {
 		font-size: 18px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.start-menu-results {
 		display: block;
@@ -76,12 +77,14 @@ uses the same phone boundary as the desktop so portrait and landscape agree.
 
 	.start-app-card .start-record-copy small {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.start-app-card .start-record-copy strong {
 		font-size: 12px;
 		line-height: 1.2;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.start-menu-disclosure > summary {
 		min-height: 50px;

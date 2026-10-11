@@ -38,7 +38,8 @@ img {
 }
 button, textarea {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .shliach-shell {
 	width: var(--shliach-shell);
 	margin-inline: auto;

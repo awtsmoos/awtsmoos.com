@@ -28,7 +28,8 @@
 	padding: .48rem .72rem;
 	border-radius: 999px;
 	font-size: .72rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .composer-social-tools button > span {
 	color: var(--composer-cyan);

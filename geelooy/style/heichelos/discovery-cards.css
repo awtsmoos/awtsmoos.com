@@ -56,7 +56,8 @@
 	line-height: 1.15;
 	margin: 0;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(.social-spaces-shell, .heichel-discovery-document) .space-copy > p {
 	color: var(--g-text-2);
 	display: -webkit-box;
@@ -82,7 +83,8 @@
 }
 :where(.social-spaces-shell, .heichel-discovery-document) .space-actions :where(a, button) {
 	min-block-size: 40px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(.social-spaces-shell, .heichel-discovery-document) .p-badge, .heichel-discovery-document .space-card-badge {
 	align-items: center;
 	background: var(--awt-surface-soft);
@@ -101,7 +103,8 @@
 	} }
 @media (max-width: 30rem) { :where(.social-spaces-shell, .heichel-discovery-document) .space-actions :where(a, button) {
 		flex: 1 1 auto;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (prefers-reduced-motion: reduce) { :where(.social-spaces-shell, .heichel-discovery-document) .social-space-card {
 		transition: none;
 	} }

@@ -22,7 +22,8 @@
 	min-height: 3.1rem;
 	font-size: 1rem;
 	touch-action: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 760px) {
 	.realmMovement {
@@ -95,7 +96,8 @@
 
 	.realmMovement button {
 		min-height: 2.8rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (prefers-reduced-motion: reduce) {:root:root:root .realmLayer *, :root:root:root .realmLayer *::before, :root:root:root .realmLayer *::after{

@@ -28,7 +28,8 @@ Awtsmoos.com gives the real exported scene one coherent browser garment.
 * { box-sizing: border-box; }
 html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
 body { color: var(--studio-text); background: var(--studio-bg); }
-button, input, a { font: inherit; }
+button, input, a { font: inherit; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 button, a { color: inherit; }
 :focus-visible { outline: 3px solid var(--studio-gold); outline-offset: 3px; }
 

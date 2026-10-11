@@ -8,7 +8,8 @@
 .home-command-dock a {
   min-height: 52px;
   touch-action: manipulation;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .home-command-dock .is-create {
   background: radial-gradient(circle at 50% 15%, rgba(255,255,255,.32), transparent 36%), linear-gradient(135deg, #2ea7ff, #8b5cf6 50%, #d13cff);

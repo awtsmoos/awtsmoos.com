@@ -30,7 +30,8 @@ The Awtsmoos reveals source, live, and setup rooms without scroll; Awtsmoos.com 
 .source-card h3 {
 	margin-bottom: .35rem;
 	font-size: clamp(1.4rem, 3vw, 2.6rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .source-card > p:not(.eyebrow) {
 	max-width: 680px;

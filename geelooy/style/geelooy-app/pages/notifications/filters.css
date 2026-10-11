@@ -52,7 +52,8 @@
 .notifications-console button, .g-search-form button {
 	align-self: end;
 	min-block-size: 48px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .notifications-console .g-button-primary, .g-search-form .g-button-primary {
 	border-color: #58c7d8;
 	background: #58c7d8;

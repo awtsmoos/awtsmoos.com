@@ -83,7 +83,8 @@
 	.aw-studio-panel input,
 	.aw-studio-panel select {
 		font-size: 16px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.aw-professional-studio .aw-nle-editor-body {
 		grid-template-columns: minmax(0, 1fr);

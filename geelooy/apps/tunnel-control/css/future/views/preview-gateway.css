@@ -12,7 +12,8 @@
 
 .awt-preview-console .page-head h2 {
   letter-spacing: -.055em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-preview-grid {
   display: grid;
@@ -61,7 +62,8 @@
   width: 22px;
   height: 22px;
   accent-color: #74e4ff;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-preview-list {
   display: grid;
@@ -129,7 +131,8 @@
 .awt-preview-card button {
   background: linear-gradient(135deg, rgba(255, 112, 128, .9), rgba(255, 170, 76, .82));
   cursor: pointer;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-preview-list-panel {
   max-height: min(68vh, 760px);
@@ -182,7 +185,8 @@
 .awt-preview-console textarea {
   min-height: 150px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 920px) {
   .awt-preview-grid {

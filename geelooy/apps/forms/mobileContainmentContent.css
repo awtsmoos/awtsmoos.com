@@ -25,13 +25,15 @@ Awtsmoos.com keeps advanced content readable and bounded so deeper power expands
 .more-actions-menu,
 .forms-toast {
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .advanced-summary > span,
 .field-advanced-summary > span {
 	min-width: 0;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .advanced-summary-badge,
 .field-advanced-summary small {
@@ -41,7 +43,8 @@ Awtsmoos.com keeps advanced content readable and bounded so deeper power expands
 	text-align: right;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .forms-toast {
 	box-sizing: border-box;
@@ -69,5 +72,6 @@ Awtsmoos.com keeps advanced content readable and bounded so deeper power expands
 	.advanced-summary-badge,
 	.field-advanced-summary small {
 		max-width: 46%;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

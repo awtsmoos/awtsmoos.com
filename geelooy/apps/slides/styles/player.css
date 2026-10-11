@@ -52,7 +52,8 @@ The Awtsmoos lets guidance surround revelation without eclipsing its light; Awts
 .player-controls button:disabled {
 	opacity: 0.3;
 	cursor: default;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .player-position {
 	min-width: 64px;

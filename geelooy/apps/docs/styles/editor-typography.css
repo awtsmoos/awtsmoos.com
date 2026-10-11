@@ -21,7 +21,8 @@
 .document-canvas table {
 	margin-top: 0;
 	margin-bottom: 0.9em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .document-canvas h1,
 .document-canvas h2,
@@ -39,34 +40,40 @@
 .document-canvas h1 {
 	font-size: 2.15rem;
 	font-weight: 780;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .document-canvas h2 {
 	font-size: 1.65rem;
 	font-weight: 740;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .document-canvas h3 {
 	font-size: 1.35rem;
 	font-weight: 720;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .document-canvas h4 {
 	font-size: 1.15rem;
 	font-weight: 700;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .document-canvas h5 {
 	font-size: 1rem;
 	font-weight: 720;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .document-canvas h6 {
 	font-size: 0.9rem;
 	font-weight: 760;
 	letter-spacing: 0.02em;
 	text-transform: uppercase;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .document-canvas blockquote {
 	padding-left: 1em;

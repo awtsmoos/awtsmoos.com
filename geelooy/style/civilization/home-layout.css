@@ -97,7 +97,8 @@
 
 .home-task-card strong {
 	font-size: 1rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .home-task-card small {
 	color: var(--civil-text-faint);
@@ -111,7 +112,8 @@
 .home-discovery-card h2 {
 	margin: .2rem 0 .85rem;
 	font-size: 1.15rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .home-sync-card {
 	display: flex;

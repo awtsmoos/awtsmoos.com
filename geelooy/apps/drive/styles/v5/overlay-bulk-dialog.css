@@ -44,7 +44,8 @@
 .drive-folder-chooser-location button:disabled,
 .drive-bulk-dialog button:disabled {
 	opacity: .42;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .drive-bulk-dialog [data-folder-create] {
 	border-color: rgba(84, 237, 187, .24);

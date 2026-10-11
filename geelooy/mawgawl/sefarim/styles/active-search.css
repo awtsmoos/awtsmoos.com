@@ -19,7 +19,8 @@ body[data-search-active="true"] .library-hero h1 {
 	font-size: clamp(1.7rem, 3vw, 2.35rem);
 	margin-top: .1rem;
 	max-width: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-search-active="true"] .library-hero-description,
 body[data-search-active="true"] .library-trust-line {
@@ -36,7 +37,8 @@ body[data-search-active="true"] .library-scope-nav {
 
 body[data-search-active="true"] .library-scope-nav a {
 	min-height: 2.75rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-search-active="true"] .library-section-heading {
 	padding-block: .08rem;
@@ -60,5 +62,6 @@ body[data-search-active="true"] .library-status {
 
 	body[data-search-active="true"] .library-hero h1 {
 		font-size: 1.6rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

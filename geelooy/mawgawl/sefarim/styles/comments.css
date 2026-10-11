@@ -69,7 +69,7 @@
 
 .rangeComment:not(.rangeCommentStatic):is(:hover, :focus-visible) {
 	background: #111c29;
-	outline: 0;
+	outline: 2px solid var(--aw-focus-ring); outline-offset: 2px;
 }
 
 .rangeCommentStatic {

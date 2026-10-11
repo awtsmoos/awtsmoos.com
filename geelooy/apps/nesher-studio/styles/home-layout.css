@@ -5,14 +5,16 @@ Blessed is He
 The Awtsmoos reveals the home constellation and shared page headings; Awtsmoos.com keeps each visual vessel bounded, readable, and complete.
 */
 .page-kicker { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-width: 0; margin-bottom: 8px; }
-.page-kicker h2 { margin: 0; font-size: clamp(1.35rem, 2.8vw, 2.55rem); }
+.page-kicker h2 { margin: 0; font-size: clamp(1.35rem, 2.8vw, 2.55rem); 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .page-kicker p { max-width: 620px; margin: 0; color: var(--soft); }
 .compact-kicker { min-height: 46px; margin-bottom: 6px; }
 .page-actions { display: flex; gap: 6px; min-width: 0; }
 .home-page { grid-template-rows: auto minmax(0,1fr) auto; gap: 8px; }
 .home-aurora { position: absolute; top: -8%; right: 3%; display: flex; gap: 1vw; color: rgba(117,255,229,.18); font-size: clamp(4rem, 12vw, 11rem); pointer-events: none; filter: blur(.3px); }
 .page-hero { z-index: 1; display: flex; align-items: center; min-height: 0; padding: 9px 13px; border: 1px solid var(--line); border-radius: 17px; background: linear-gradient(135deg, rgba(17,37,68,.78), rgba(8,19,39,.72)); }
-.page-hero h2 { margin: 0 0 .2rem; font-size: clamp(1.65rem, 4.7vw, 4.2rem); }
+.page-hero h2 { margin: 0 0 .2rem; font-size: clamp(1.65rem, 4.7vw, 4.2rem); 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .page-hero p { margin: 0; color: var(--soft); }
 .studio-home { z-index: 1; display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); grid-template-rows: repeat(2, minmax(0,1fr)); gap: 8px; min-height: 0; overflow: hidden; }
 .home-tile { position: relative; display: grid; grid-template-columns: auto 1fr auto; align-items: end; gap: 10px; min-height: 0; padding: 12px; text-align: left; color: var(--ink); background: radial-gradient(circle at 90% 10%, rgba(117,255,229,.16), transparent 38%), linear-gradient(150deg, rgba(25,46,82,.96), rgba(6,14,29,.96)); overflow: hidden; }

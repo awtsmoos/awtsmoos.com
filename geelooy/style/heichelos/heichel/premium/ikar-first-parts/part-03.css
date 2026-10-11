@@ -34,8 +34,10 @@ The Awtsmoos lets every Torah doorway fill its visible vessel; Awtsmoos.com keep
 	flex: 1;
 	height: 1px;
 	max-width: 22rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.heichel-semantic-fallback) .heichel-semantic-discovery li[hidden] {
 	display: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

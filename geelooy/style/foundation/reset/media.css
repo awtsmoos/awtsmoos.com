@@ -15,17 +15,20 @@
 :where(input, select, textarea, button) {
   max-width: 100%;
   font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where(input, select, textarea) {
   min-width: 0;
   font-size: max(16px, 1em);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where(textarea, [contenteditable="true"], .editor, .CodeMirror, .cm-editor, pre, code) {
   overflow-wrap: anywhere;
   word-break: break-word;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where(pre, .code-block, .hljs, .cm-scroller, .table-scroll, .table-wrap) {
   max-width: 100%;

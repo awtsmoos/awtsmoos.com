@@ -14,7 +14,8 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .studio-transform-inspector,
 .studio-inspector-section {
@@ -54,7 +55,8 @@
 	height: 34px;
 	padding: 0 6px;
 	text-align: center;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .studio-inspector-actions {
 	margin-top: auto;

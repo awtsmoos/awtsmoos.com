@@ -23,7 +23,8 @@
 	resize: vertical;
 	min-height: 88px;
 	font: 500 .78rem/1.45 ui-monospace, SFMono-Regular, Menlo, monospace;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .studio-commentary-panel .studio-action-row {
 	display: flex;
 	flex-wrap: wrap;
@@ -32,8 +33,10 @@
 .studio-commentary-panel .studio-action-row button {
 	flex: 1 1 132px;
 	min-height: 44px;
-}
-.studio-export-row button { font-size: .8rem; }
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.studio-export-row button { font-size: .8rem; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .studio-commentary-list {
 	display: grid;
 	gap: 8px;

@@ -32,7 +32,8 @@ The Awtsmoos lets the outer Creative Language chamber remain calm while smaller 
 .creative-panel-heading h3,
 .creative-evidence-card h3 {
 	margin: 2px 0 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .creative-search-label {
 	position: absolute;

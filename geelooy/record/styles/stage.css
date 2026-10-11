@@ -59,7 +59,8 @@
 .camera-empty p {
 	margin: 0;
 	line-height: 1.5;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .camera-stage[data-camera-state="live"] .camera-empty {
 	display: none;

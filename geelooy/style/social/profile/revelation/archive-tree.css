@@ -60,7 +60,8 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .profile-app .profile-archive-group-copy small {
 	color: var(--profile-muted);
 	white-space: nowrap;
@@ -103,7 +104,8 @@
 .profile-app .profile-contribution-card h3, .profile-app .profile-context-body h3, .profile-app .profile-activity-item h3 {
 	margin: 0;
 	font-size: 1.06rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .profile-app .profile-contribution-card p, .profile-app .profile-context-body p, .profile-app .profile-activity-item p {
 	margin: 0;
 	line-height: 1.55;

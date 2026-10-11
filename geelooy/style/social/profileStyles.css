@@ -95,11 +95,13 @@ html .awtsmoosDrop input:focus, html .awtsmoosDrop textarea:focus {
 html .awtsmoosDrop input:disabled, html .awtsmoosDrop textarea:disabled {
 	opacity: .55;
 	cursor: not-allowed;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 html :where(.awtsmoosDrop) .btn.dropt, html .awtsmoosDrop a, html .awtsmoosDrop button {
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 html .awtsmoosDrop .prim, html .awtsmoosDrop .currentAliasName {
 	min-width: 0;
 	overflow: hidden;
@@ -123,7 +125,8 @@ html .awtsmoosDrop button:disabled {
 	cursor: not-allowed;
 	filter: none;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 html .awtsmoosDrop :focus-visible {
 	outline: 3px solid var(--pdrop-focus);
 	outline-offset: 2px;
@@ -147,7 +150,8 @@ html .awtsmoosDrop :focus-visible {
 	} }
 @media (prefers-reduced-motion: reduce) { html .awtsmoosDrop button, html .awtsmoosDrop a {
 		transition: none;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 /* @tunnel-interactive-states: hover/active/focus-visible/disabled for every interactive control */
 :where(.awtsmoosDrop) :where(.btn.dropt:hover) {

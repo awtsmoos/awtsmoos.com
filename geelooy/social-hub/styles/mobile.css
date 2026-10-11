@@ -39,7 +39,8 @@
 
 	.social-hub-document .commentComposer > label:first-child textarea {
 		min-block-size: 9rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.social-hub-document .promotionPanel {
 		position: static;

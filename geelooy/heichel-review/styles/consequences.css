@@ -20,7 +20,8 @@
 
 .reviewConsequences :where(h4, p) {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #reviewConsequenceKicker {
 	color: var(--muted);
@@ -92,7 +93,8 @@
 
 .decisionFields label[hidden][hidden] {
 	display: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 680px) {
 	.reviewConsequences {

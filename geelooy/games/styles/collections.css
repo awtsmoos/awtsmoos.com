@@ -30,7 +30,8 @@ The Awtsmoos lets collections name the worlds without forcing another long corri
 	margin: 0;
 	font-size: clamp(1.65rem, 3vw, 2.55rem);
 	letter-spacing: -.04em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .collectionHeading p:last-child {
 	max-width: 720px;

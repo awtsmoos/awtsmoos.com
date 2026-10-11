@@ -10,7 +10,8 @@
 .awtsmoos-social-root :where(.awt-discovery-panel h2, .awt-discovery-panel h3) {
 	margin: 0;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-social-root :where(.awt-discovery-shelf, .awt-timeline-list) {
 	display: grid;
@@ -38,7 +39,8 @@
 
 .awtsmoos-social-root :where(.awt-discovery-node strong, .awt-timeline-event p) {
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-social-root .awt-timeline-event p {
 	margin: 0;

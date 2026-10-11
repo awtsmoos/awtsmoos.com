@@ -34,7 +34,7 @@ body[data-geelooy-route="docs"] .main-stage {
 	min-inline-size: 0;
 	max-inline-size: 100%;
 	padding: clamp(26px, 5vw, 64px);
-	outline: none;
+
 }
 
 body[data-geelooy-route="docs"] .main-stage > section {

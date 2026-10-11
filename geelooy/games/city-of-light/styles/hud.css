@@ -45,7 +45,8 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .statusMission strong {
 	color: #fff0a6;
@@ -80,7 +81,8 @@
 .pauseMeta code {
 	display: block;
 	font-size: 0.82rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 760px) {
 	.statusGrid {
@@ -94,11 +96,13 @@
 
 	.statusGrid span {
 		font-size: 0.5rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.statusGrid strong {
 		font-size: 0.68rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.pauseMeta {
 		grid-template-columns: 1fr;

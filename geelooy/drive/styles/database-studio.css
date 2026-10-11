@@ -39,11 +39,13 @@
 
 .project-data-toolbar .button {
 	min-height: 42px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .project-data-field:has(input[type="search"]) {
 	margin: 10px 0 12px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .project-data-workspace {
 	display: grid;
@@ -94,7 +96,8 @@
 	opacity: .62;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .project-data-main {
 	min-width: 0;

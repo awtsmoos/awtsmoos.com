@@ -61,7 +61,8 @@ body[data-geelooy-route="docs"] .brand-mark {
 
 body[data-geelooy-route="docs"] .brand :where(strong, small) {
 	display: block;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-geelooy-route="docs"] .brand small {
 	margin-block-start: 1px;

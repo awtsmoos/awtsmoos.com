@@ -18,7 +18,8 @@
 .partyScoreboard h2 {
 	margin: 0;
 	font-size: 1.35rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .scoreRows {
 	display: grid;
@@ -40,7 +41,8 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .scoreRow span {
 	color: var(--party-gold);

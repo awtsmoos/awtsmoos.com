@@ -17,14 +17,17 @@
 .studio-track-stack { display: grid; gap: 4px; min-width: 336px; }
 .studio-track-row { display: grid; grid-template-columns: 76px minmax(260px, 1fr); gap: 5px; min-height: 42px; }
 .studio-track-header { display: grid; align-content: center; min-width: 0; color: #b8c8d4; font-size: 9px; }
-.studio-track-header strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.studio-track-header strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .studio-track-header span { color: #617b90; }
 .studio-track-content { position: relative; min-height: 38px; overflow: hidden; border-radius: 7px; background: #101d2a; }
 .studio-track-clip { position: absolute; left: var(--clip-left); top: 3px; width: var(--clip-width); min-width: 18px; height: 32px; overflow: hidden; padding: 4px 6px; border: 1px solid #3c75ca; border-radius: 6px; background: #263d94; color: white; text-align: left; }
 .studio-track-row:nth-child(2n) .studio-track-clip { border-color: #2e9d79; background: #1b735b; }
 .studio-track-row:nth-child(3n) .studio-track-clip { border-color: #9c4ed1; background: #6b2e91; }
-.studio-track-clip > strong, .studio-track-clip > span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 8px; }
-.studio-track-clip > span { opacity: 0.7; }
+.studio-track-clip > strong, .studio-track-clip > span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 8px; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.studio-track-clip > span { opacity: 0.7; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .studio-clip-keyframes { position: absolute; inset: 0; pointer-events: none; }
 .studio-clip-keyframe { position: absolute; left: var(--key-left); top: 50%; width: 7px; height: 7px; border: 1px solid white; background: #5ba9ff; transform: translate(-50%, -50%) rotate(45deg); }
 .studio-timeline-playhead { position: absolute; z-index: 4; top: 0; bottom: 0; left: calc(76px + (100% - 76px) * var(--playhead-ratio)); width: 1px; background: #ffffff; pointer-events: none; }

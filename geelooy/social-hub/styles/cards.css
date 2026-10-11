@@ -53,7 +53,8 @@
 
 .social-hub-document .pulseOrb span {
 	display: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document :where(.pulseGrid, .quickActionGrid, .cardGrid, .referenceMap) {
 	display: grid;

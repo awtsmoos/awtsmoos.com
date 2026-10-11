@@ -10,7 +10,8 @@ reduced motion becomes stillness without silence, forced colors preserve boundar
 @media (prefers-reduced-motion: reduce) {:root:root:root .Awtsmoos-api-explorer, :root:root:root .Awtsmoos-api-explorer :is(input, :root:root:root select, :root:root:root textarea, :root:root:root button){
 		animation: none;
 		transition: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (forced-colors: active) {
@@ -39,7 +40,8 @@ reduced motion becomes stillness without silence, forced colors preserve boundar
 	.Awtsmoos-api-explorer__descriptor,
 	.Awtsmoos-api-explorer__result {
 		border-color: rgba(224, 255, 235, .62);
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.Awtsmoos-api-explorer__command-row output,
 	.Awtsmoos-api-explorer__field,

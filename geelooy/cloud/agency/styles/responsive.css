@@ -32,7 +32,8 @@
 
 	h1 {
 		font-size: clamp(2.35rem, 13vw, 3.8rem);
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.hero,
 	.wide-panel,
@@ -48,7 +49,8 @@
 
 	button {
 		min-height: 48px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (prefers-reduced-motion: reduce) {:root:root:root *, :root:root:root *::before, :root:root:root *::after{

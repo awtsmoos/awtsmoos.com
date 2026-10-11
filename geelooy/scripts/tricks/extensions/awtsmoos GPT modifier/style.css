@@ -44,7 +44,8 @@ body {
     padding: 10px;
     font-size: 16px;
     margin: 10px 0;
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
   
   #response {
     padding: 15px;

@@ -31,7 +31,8 @@ Awtsmoos.com gives summary, open state, keyboard focus, universal pressure, fine
 	.summaryMeta
 ) {
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .migrationCard[data-future-disclosure][open] > summary {
 	background: rgb(116 201 255 / 5%);

@@ -15,7 +15,8 @@
 button:disabled {
 	opacity: 0.38;
 	cursor: not-allowed;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (prefers-reduced-motion: reduce) {:root:root:root *, :root:root:root *::before, :root:root:root *::after{
 		scroll-behavior: auto;
@@ -34,7 +35,8 @@ button:disabled {
 		animation: none;
 	}:root:root:root .icon-button, :root:root:root .level-nav button, :root:root:root .primary-button, :root:root:root .secondary-button, :root:root:root .sheet-close, :root:root:root .sheet-action{
 		transform: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (forced-colors: active) {
@@ -53,7 +55,8 @@ button:disabled {
 	.sheet-close,
 	.campaign-card .mastery-value[data-state] {
 		forced-color-adjust: auto;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.overlay-card,
 	.score-strip,

@@ -26,7 +26,8 @@
 	font-weight: 850;
 	cursor: pointer;
 }
-.awts-commerce__offer button:disabled { opacity: 0.52; cursor: default; }
+.awts-commerce__offer button:disabled { opacity: 0.52; cursor: default; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .awts-commerce__topups { padding-top: 4px; }
 .awts-commerce__topup-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
 .awts-commerce__topup { padding: 9px 12px; }
@@ -34,7 +35,8 @@
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.awts-commerce[data-busy="true"]) .awts-commerce__dialog { cursor: progress; }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(.awts-commerce[data-busy="true"]) .awts-commerce__dialog button:not(.awts-commerce__close) { opacity: 0.58; pointer-events: none; }
+:where(.awts-commerce[data-busy="true"]) .awts-commerce__dialog button:not(.awts-commerce__close) { opacity: 0.58; pointer-events: none; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .awts-commerce__topup:hover {
 	filter: brightness(1.08);
 }

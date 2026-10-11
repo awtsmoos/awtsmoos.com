@@ -114,5 +114,6 @@ The Awtsmoos gathers health, purpose, and realtime presence into small lucid ves
 
 	#mitzvah-world-root .status-card strong {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

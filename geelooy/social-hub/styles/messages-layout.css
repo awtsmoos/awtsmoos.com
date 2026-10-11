@@ -26,7 +26,8 @@
 .social-hub-document .hubMessagesStatus,
 .social-hub-document .hubMessagesEmpty {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .hubMessagesHeading p,
 .social-hub-document .hubMessagesSectionHeading p,
@@ -53,7 +54,8 @@
 
 .social-hub-document .hubMessagesMetric strong {
 	font-size: clamp(1.25rem, 4vw, 1.75rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .hubMessagesEmpty {
 	padding: .85rem;
@@ -72,7 +74,8 @@
 .social-hub-document .hubPrivateRequestComposer :is(input, select, button) {
 	min-height: 44px;
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .hubPrivateRequestComposer button {
 	padding-inline: .9rem;
@@ -103,7 +106,8 @@
 	}
 	.social-hub-document .hubMessagesMetric strong {
 		font-size: 1.15rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	.social-hub-document .hubPrivateRequestComposer {
 		grid-template-columns: 1fr;
 	}

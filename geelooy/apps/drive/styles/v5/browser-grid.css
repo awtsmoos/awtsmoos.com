@@ -88,4 +88,5 @@
 
 .drive-empty span {
 	font-size: .82rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

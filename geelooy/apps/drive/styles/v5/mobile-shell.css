@@ -63,7 +63,8 @@
 
 	.drive-primary-actions button {
 		min-height: 46px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.drive-toolbar-tools {
 		justify-content: space-between;
@@ -71,7 +72,8 @@
 
 	.drive-toolbar-tools label {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.drive-location-bar {
 		margin: 7px 0 12px;

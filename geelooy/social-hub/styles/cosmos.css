@@ -61,19 +61,22 @@
 	border-radius: 50%;
 	background: radial-gradient(circle at 35% 35%, rgb(158 247 255 / 12%), transparent 62%);
 	mix-blend-mode: screen;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document :where(.cosmos span:nth-child(1)) {
 	top: -12rem;
 	left: -8rem;
 	animation: hubCosmosDriftOne 28s ease-in-out infinite alternate;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document :where(.cosmos span:nth-child(2)) {
 	top: 16%;
 	right: -18rem;
 	animation: hubCosmosDriftTwo 36s ease-in-out infinite alternate;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @keyframes hubCosmosDriftOne {
 	to {

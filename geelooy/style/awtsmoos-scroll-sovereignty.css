@@ -90,7 +90,8 @@
 
 :where(.geelooy-bottom-nav, .awtsmoos-floating-controls, .heichel-mobile-topbar, .card-menu-trigger, .topbar-icon, button, a) {
 	touch-action: manipulation;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where(.geelooy-home-shell, .heichel-mobile-navigation, .post-reader-localized-context.awtsmoos-reader-vision) {
 	padding-bottom: var(--floating-clearance);

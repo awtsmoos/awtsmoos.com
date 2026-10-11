@@ -12,8 +12,10 @@
 }
 .wide-modal { width: min(920px, 100%); }
 .narrow-modal { width: min(440px, 100%); }
-h1, h2, h3, h4, p { margin-top: 0; }
-h1, h2, h3, h4 { font-family: var(--font-display); }
+h1, h2, h3, h4, p { margin-top: 0; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+h1, h2, h3, h4 { font-family: var(--font-display); 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 #main-menu { flex-direction: column; text-align: center; background: radial-gradient(circle at 50% 32%, rgba(105,233,239,0.18), rgba(3,11,15,0.95) 58%); }
 .title-sigil { width: 92px; height: 92px; display: grid; place-items: center; margin-bottom: 14px; border: 1px solid var(--gold); border-radius: 50%; color: var(--gold); font: 700 3.6rem Georgia, serif; box-shadow: 0 0 48px rgba(255,217,106,0.18); }
 .eyebrow { color: var(--cyan); font: 700 0.7rem var(--font-mono); letter-spacing: 0.2em; }

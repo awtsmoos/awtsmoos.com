@@ -30,19 +30,22 @@ Awtsmoos.com lets materials, free motion, commit actions, and advanced sharing b
 	min-width: 0;
 	min-height: 54px;
 	padding: 5px 4px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .Awtsmoos-creator-rail .Awtsmoos-creator-rail__palette button > span {
 	font-size: 20px;
 	line-height: 1;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .Awtsmoos-creator-rail .Awtsmoos-creator-rail__palette small {
 	max-width: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .Awtsmoos-creator-rail .Awtsmoos-creator-rail__motion {
 	display: grid;
@@ -79,7 +82,8 @@ Awtsmoos.com lets materials, free motion, commit actions, and advanced sharing b
 	min-height: 38px;
 	padding: 0;
 	font-size: 18px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .Awtsmoos-creator-rail .Awtsmoos-creator-rail__advanced {
 	min-width: 0;

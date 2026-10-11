@@ -20,27 +20,32 @@
 :where(.login-page) .field-stack input:is(:disabled, [aria-disabled="true"]) {
 	cursor: not-allowed;
 	opacity: .58;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.login-page) .field-stack:has(input:is(:disabled, [aria-disabled="true"])) {
 	border-style: dashed;
 	filter: saturate(.7);
 	opacity: .8;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.login-page) :where(.field-stack:has(input:read-only:not([type="password"]))) {
 	border-color: var(--auth-readonly-line);
 	background: var(--auth-readonly-bg);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.login-page) .field-stack:has(input:user-invalid) {
 	border-color: color-mix(in srgb, var(--auth-danger) 72%, transparent);
 	box-shadow: 0 0 0 3px color-mix(in srgb, var(--auth-danger) 12%, transparent);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.login-page) :where(.field-stack:has(input:user-valid:not(:placeholder-shown))) {
 	border-color: color-mix(in srgb, var(--auth-success) 34%, var(--auth-line));
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.login-page) .field-stack input:-webkit-autofill, :where(.login-page) :where(.field-stack) input:-webkit-autofill:hover, :where(.login-page) :where(.field-stack) input:-webkit-autofill:focus {
 	-webkit-text-fill-color: var(--auth-text);

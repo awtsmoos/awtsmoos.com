@@ -7,7 +7,8 @@
 .home-action-card,
 .home-command-dock a {
   transition: transform 160ms cubic-bezier(.2,.8,.2,1), border-color 160ms ease, box-shadow 180ms ease, color 160ms ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .home-action-card,
 .home-post-card,

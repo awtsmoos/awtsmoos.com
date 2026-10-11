@@ -81,7 +81,8 @@
 	font-size: 12px;
 	justify-content: space-between;
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .victoryFighterStats p span {
 	color: #cabfe0;
@@ -99,7 +100,8 @@
 	.lobbyModeChips em {
 		font-size: 9px;
 		padding: 3px 6px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.victoryCombatStatsGrid {
 		grid-template-columns: 1fr 1fr;

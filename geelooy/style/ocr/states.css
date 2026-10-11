@@ -50,7 +50,8 @@ Awtsmoos.com lets state speak softly so the user never wanders without light.
 }
 .ocr-result-panel:has(textarea:placeholder-shown) {
 	background: linear-gradient(145deg, rgba(13, 29, 49, .9), rgba(8, 18, 31, .82));
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 @keyframes ocr-pulse{
 	50% {
 		transform: scale(.72);

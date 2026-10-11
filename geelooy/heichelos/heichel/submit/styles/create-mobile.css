@@ -55,6 +55,8 @@
 @media (max-width:24rem) {
 	.composer-actions,
 	.editor-controls-bar { grid-template-columns:repeat(2,minmax(0,1fr)); }
-	.mobile-create-nav a { font-size:.7rem; padding-inline:.25rem; }
+	.mobile-create-nav a { font-size:.7rem; padding-inline:.25rem; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
-@media (prefers-reduced-motion:reduce) { .publish-button, .mobile-create-nav a { transition:none; animation:none; } }
+@media (prefers-reduced-motion:reduce) { .publish-button, .mobile-create-nav a { transition:none; animation:none; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }

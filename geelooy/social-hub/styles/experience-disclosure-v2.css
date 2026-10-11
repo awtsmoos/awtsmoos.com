@@ -33,12 +33,14 @@
 .social-hub-document .socialAdvancedSummary span {
 	min-inline-size: 0;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .socialAdvancedSummary span {
 	font-size: .72rem;
 	opacity: .66;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .socialAdvancedVessel[open] > .socialAdvancedSummary {
 	border-block-end: 1px solid var(--social-line, rgb(148 163 184 / 18%));

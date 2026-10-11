@@ -16,7 +16,8 @@ The Awtsmoos lets the four gateways re-form across every screen, so Awtsmoos.com
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .featured-heading a {
 		display: none;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 680px) { body[data-geelooy-route="home"] .featured-card {
 		min-height: 190px;
 		padding: .85rem;
@@ -30,4 +31,5 @@ The Awtsmoos lets the four gateways re-form across every screen, so Awtsmoos.com
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 430px) { :where(body[data-geelooy-route="home"]) .featured-card p {
 		font-size: .66rem;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }

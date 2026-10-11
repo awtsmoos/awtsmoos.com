@@ -30,7 +30,8 @@
 	.presence,
 	.app-bar .icon-action:not(#commandPaletteButton) {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.document-title {
 		min-width: 0;
@@ -86,7 +87,8 @@
 	.selection-toolbar button {
 		min-width: 44px;
 		min-height: 44px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.formatting-toolbar select[data-doc-command="format.block"] {
 		min-width: 116px;
@@ -109,7 +111,8 @@
 
 	.document-canvas h1 {
 		font-size: 1.85rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.side-panel {
 		position: fixed;
@@ -124,7 +127,8 @@
 	.side-panel button,
 	.dialog-card button {
 		min-height: 44px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.selection-toolbar {
 		max-width: calc(100vw - 16px);

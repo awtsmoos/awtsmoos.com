@@ -56,7 +56,8 @@ Awtsmoos.com keeps this governance vessel beneath .social-hub-document, bounded 
 .social-hub-document :is(.hubRoomMembership, .hubRoomPrivacy) h4 {
 	margin: 0;
 	font-size: .9rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .social-hub-document .hubRoomMemberList {
 	display: flex;
 	flex-wrap: wrap;

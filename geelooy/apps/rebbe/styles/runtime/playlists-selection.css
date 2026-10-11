@@ -35,7 +35,8 @@
 .playlist-selection-inner span {
 	min-width: 0;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .playlist-selection-inner button {
 	min-width: 44px;
@@ -86,11 +87,13 @@
 	.playlist-selection-inner span,
 	.playlist-selection-inner b {
 		grid-column: 1 / -1;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (prefers-reduced-motion: reduce) {
 	.playlist-selection-inner button {
 		transition-duration: .01ms;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

@@ -23,7 +23,8 @@
 	font-size: 0.88rem;
 	letter-spacing: 0.04em;
 	text-align: center;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .appTopBar small {
 	color: var(--gold);

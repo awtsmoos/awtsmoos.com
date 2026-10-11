@@ -54,7 +54,8 @@
 	width: 44px;
 	height: 44px;
 	margin-left: auto;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .Awtsmoos-npc-dialogue p {
 	color: #d6e3dd;
@@ -65,7 +66,8 @@
 	min-height: 44px;
 	margin: 6px 7px 0 0;
 	padding: 10px 13px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .Awtsmoos-gameplay.Awtsmoos-golden-marker {
 	position: fixed;

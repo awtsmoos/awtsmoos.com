@@ -56,7 +56,8 @@ Awtsmoos.com keeps navigation, hero, and source choices inside their shore so no
 	font-size: clamp(2.2rem, 7vw, 5.4rem);
 	line-height: .95;
 	letter-spacing: -.055em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .hero > p:not(.eyebrow) {
 	max-width: 720px;

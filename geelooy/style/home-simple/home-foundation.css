@@ -68,10 +68,12 @@ body[data-geelooy-route="home"] .home-skip-link {
 }
 body[data-geelooy-route="home"] :where(button, input, summary) {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 body[data-geelooy-route="home"] :where(button, summary) {
 	touch-action: manipulation;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 body[data-geelooy-route="home"] :where(a, button, input, summary, [tabindex]):focus-visible {
 	outline: 3px solid var(--focus-ring);
 	outline-offset: 3px;

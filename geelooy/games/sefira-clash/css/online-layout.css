@@ -51,7 +51,8 @@
 
 .check-field input {
 	min-height: auto;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .player-list {
 	display: grid;

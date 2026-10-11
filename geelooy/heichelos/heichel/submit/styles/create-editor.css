@@ -19,7 +19,8 @@
 .section,
 .sub-section { display:grid; gap:.55rem; min-inline-size:0; max-inline-size:100%; padding:.85rem; border:1px solid var(--create-line); border-radius:.9rem; background:var(--create-section-bg); color:var(--create-ink); }
 .section :where(h3,p),
-.sub-section :where(h4,p) { margin:0; overflow-wrap:anywhere; }
+.sub-section :where(h4,p) { margin:0; overflow-wrap:anywhere; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .subsection-manager { display:grid; gap:.5rem; min-inline-size:0; }
 @media (max-width:45rem) { .content-editor { min-block-size:12rem; } }
 

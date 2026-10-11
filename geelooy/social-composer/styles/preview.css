@@ -24,7 +24,8 @@
 .previewHeader h1 {
 	margin: 0.45rem 0;
 	font-size: clamp(1.8rem, 4vw, 3rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .previewHeader > p {
 	color: #b8c3e4;
 }

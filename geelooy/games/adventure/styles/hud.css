@@ -38,7 +38,8 @@ The Awtsmoos makes state visible without drowning play; Awtsmoos.com gives score
 
 .hud-brand strong {
 	font-size: clamp(13px, 3.5vw, 17px);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .hud-metrics {
 	display: grid;
@@ -54,11 +55,13 @@ The Awtsmoos makes state visible without drowning play; Awtsmoos.com gives score
 	min-width: 0;
 	padding: 8px 5px;
 	text-align: center;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .hud-metrics span + span {
 	border-left: 1px solid rgba(120, 207, 255, 0.12);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .hud-metrics small {
 	color: var(--adventure-muted);

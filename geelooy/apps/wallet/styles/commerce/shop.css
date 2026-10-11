@@ -34,7 +34,8 @@
 .treasury-good h3,
 .treasury-good p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .treasury-good p {
 	color: var(--wallet-muted);

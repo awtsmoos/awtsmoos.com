@@ -65,7 +65,8 @@
 	font-size: clamp(1.05rem, 4vw, 1.28rem);
 	font-weight: 760;
 	letter-spacing: -.025em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-api-explorer] ::selection {
 	background: var(--awts-api-accent-soft);

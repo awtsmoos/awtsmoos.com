@@ -22,15 +22,18 @@
 	text-align: start;
 	vertical-align: top;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(html:not([data-g-ui-raw])) th:not([class]) {
 	background: var(--g-surface-2, var(--aw-ui-surface-subtle));
 	font-weight: 760;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(html:not([data-g-ui-raw])) :where(tbody:not([class])) tr:last-child :where(th:not([class]), td:not([class])) {
 	border-block-end: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(html:not([data-g-ui-raw])) :where(tbody:not([class])) tr:hover :where(th:not([class]), td:not([class])) {
 	background: color-mix(in srgb, var(--g-accent-soft, var(--aw-ui-accent-soft)) 55%, transparent);
@@ -50,4 +53,5 @@
 @media (max-width: 700px) { :where(html:not([data-g-ui-raw])) :where(th:not([class]), td:not([class])) {
 		min-width: 8rem;
 		white-space: normal;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }

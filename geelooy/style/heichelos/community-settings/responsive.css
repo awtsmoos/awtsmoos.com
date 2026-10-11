@@ -28,7 +28,8 @@
 	} }
 @media (max-width: 40rem) { .community-hero-actions, .community-hero-actions > :where(a, button), .community-loaded-badge {
 		width: 100%;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 40rem) { .community-loaded-badge {
 		justify-content: center;
 	} }

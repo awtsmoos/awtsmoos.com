@@ -39,7 +39,8 @@
 .zman-group-summary > span {
 	display: grid;
 	gap: .02rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .zman-group-summary strong {
 	color: var(--ink);

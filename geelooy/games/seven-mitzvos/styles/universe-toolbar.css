@@ -37,7 +37,8 @@
 	position: absolute;
 	opacity: 0;
 	pointer-events: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .modeChoice span {
 	display: block;
@@ -47,7 +48,8 @@
 	border-radius: 999px;
 	background: #0c2a34;
 	cursor: pointer;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .modeChoice input:checked + span {
 	color: #102018;

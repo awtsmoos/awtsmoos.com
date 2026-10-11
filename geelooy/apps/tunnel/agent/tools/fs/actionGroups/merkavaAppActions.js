@@ -26,21 +26,38 @@ const { pathToFileURL } = require("url");
 /* Module loaders                                                      */
 /* ------------------------------------------------------------------ */
 
+/* ------------------------------------------------------------------ */
+/* Self-contained Merkava runtime (Yaakov 2026-10-11 hard rule: no repo)    */
+/* ------------------------------------------------------------------ */
+
+const SelfContained = require("../../../lib/selfContained.js");
+
+let merkavaRootPromise = null;
+function merkavaRoot() {
+	if (!merkavaRootPromise) merkavaRootPromise = SelfContained.ensureBundle("merkava");
+	return merkavaRootPromise;
+}
+function merkavaFile(...parts) {
+	return merkavaRoot().then(root => path.join(root, ...parts));
+}
+
 let servicePromise = null;
-function serviceUrl() {
-  return pathToFileURL(path.resolve(__dirname, "../../../../../../scripts/awtsmoos/MerkavaExecutor/merkava-service/index.js")).href;
+async function serviceUrl() {
+	const file = await merkavaFile("scripts", "awtsmoos", "MerkavaExecutor", "merkava-service", "index.js");
+	return pathToFileURL(file).href;
 }
 async function loadService() {
-  if (!servicePromise) servicePromise = import(serviceUrl());
-  return await servicePromise;
+	if (!servicePromise) servicePromise = import(await serviceUrl());
+	return await servicePromise;
 }
 
 let binaryModule = null;
-function loadBinary() {
-  if (!binaryModule) {
-    binaryModule = require("../../../../../../scripts/awtsmoos/MerkavaExecutor/merkava-binary/index.js");
-  }
-  return binaryModule;
+async function loadBinary() {
+	if (!binaryModule) {
+		const file = await merkavaFile("scripts", "awtsmoos", "MerkavaExecutor", "merkava-binary", "index.js");
+		binaryModule = require(file);
+	}
+	return binaryModule;
 }
 
 /* ------------------------------------------------------------------ */
@@ -837,7 +854,7 @@ function jarSign(entries) {
 async function merkavaCompileNative(payload = {}) {
   const action = "merkavaCompileNative";
   try {
-    const binary = loadBinary();
+    const binary = await loadBinary();
     if (typeof binary.compileSourceFilesToApp !== "function") {
       return fail(action, "compileSourceFilesToApp_unavailable");
     }

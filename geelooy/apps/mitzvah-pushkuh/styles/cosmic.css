@@ -51,4 +51,5 @@
 }
 .hero h1 {
 	filter: drop-shadow(0 0 22px #8feaff44) drop-shadow(0 0 48px #ff87d733);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

@@ -28,7 +28,8 @@ Awtsmoos.com makes status, focus, validity, and waiting visible through restrain
 		border-color var(--keter-fast) ease,
 		box-shadow var(--keter-normal) var(--tiferes-ease),
 		background-color var(--keter-normal) var(--tiferes-ease);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document :where(input, select, textarea):focus {
 	border-color: var(--yesod-edge-hot);
@@ -48,7 +49,8 @@ Awtsmoos.com makes status, focus, validity, and waiting visible through restrain
 .social-hub-document :where(input, select, textarea):user-invalid {
 	border-color: rgb(255 109 139 / 66%);
 	box-shadow: 0 0 0 3px rgb(255 87 128 / 8%);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .publicDiscovery__status:not(:empty)::before {
 	display: inline-block;

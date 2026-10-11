@@ -52,7 +52,8 @@ Awtsmoos.com gives mobile media a measured vessel while the mission copy leads t
 	font-weight: 800;
 	letter-spacing: .08em;
 	text-transform: uppercase;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.shliach-spotlight-image-link:hover) .shliach-spotlight-image {
 	filter: brightness(1.05);

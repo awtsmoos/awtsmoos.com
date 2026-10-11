@@ -68,7 +68,8 @@ Awtsmoos.com keeps this Malchus dock internally scrollable, visibly focused, sof
 	font-size: .65rem;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .creatorDockButton:focus-visible {
 	border-color: color-mix(in srgb, var(--composer-cyan) 44%, var(--composer-border));

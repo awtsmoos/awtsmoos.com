@@ -30,9 +30,11 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
 
-.messaging-thread-heading strong { font-size: 1rem; }
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+
+.messaging-thread-heading strong { font-size: 1rem; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .messaging-thread-heading small { color: var(--msg-muted); font-size: 0.7rem; }
 
 .messaging-thread-tools {
@@ -113,7 +115,8 @@
 
 @media (max-width: 760px) {
 	.messaging-thread-tools button,
-	.messaging-mobile-back { min-height: 44px; }
+	.messaging-mobile-back { min-height: 44px; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	.private-message { max-width: 88%; }
 }
 

@@ -13,7 +13,8 @@ body[data-geelooy-route="apps"] .g-app-filter :where(input, select) {
 		background-color 160ms ease,
 		box-shadow 160ms ease,
 		filter 120ms ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-geelooy-route="apps"] .g-app-filter :where(input, select):hover {
 	filter: brightness(1.07);
@@ -31,5 +32,6 @@ body[data-geelooy-route="apps"] .apps-filter-disclosure > summary:active {
 @media (prefers-reduced-motion: reduce) {
 	body[data-geelooy-route="apps"] .g-app-filter :where(input, select) {
 		transition: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

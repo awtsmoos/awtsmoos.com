@@ -30,7 +30,8 @@
 
 .peruta-run-route button {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .peruta-run-route button:focus-visible {
 	outline: 2px solid var(--peruta-gold);

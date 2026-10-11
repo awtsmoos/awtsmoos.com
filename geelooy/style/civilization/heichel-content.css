@@ -145,7 +145,8 @@
 }
 .heichel-os-document :where(button, input, select, textarea) {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .heichel-os-document :where(input, select, textarea) {
 	background: #081321;
 	border: 1px solid var(--civil-line);

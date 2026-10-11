@@ -65,7 +65,8 @@ body[data-messaging-page] .messaging-audio-player :where(button, input):disabled
 	cursor: not-allowed;
 	opacity: .46;
 	filter: saturate(.55);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (prefers-reduced-motion: reduce) {
 	body[data-messaging-page] .messaging-audio-player,

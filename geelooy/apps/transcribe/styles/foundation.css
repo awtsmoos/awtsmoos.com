@@ -45,19 +45,22 @@ body.awtsmoos-transcribe {
 .awtsmoos-transcribe h2,
 .awtsmoos-transcribe p {
 	margin-top: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-transcribe h1 {
 	margin-bottom: 10px;
 	font-size: clamp(2rem, 8vw, 3.6rem);
 	line-height: .98;
 	letter-spacing: -.045em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-transcribe h2 {
 	margin-bottom: 0;
 	font-size: 1.35rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-transcribe .transcribe-hero > p:last-child {
 	max-width: 62ch;

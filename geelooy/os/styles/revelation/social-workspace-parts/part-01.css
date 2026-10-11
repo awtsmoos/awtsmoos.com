@@ -63,7 +63,8 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 .geelooy-social-workspace__copy h2,
 .geelooy-social-workspace__copy p {
 	margin: .18rem 0 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .geelooy-social-workspace__copy p,
 .geelooy-social-workspace__breadcrumbs {
@@ -82,7 +83,8 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 	padding: .3rem .5rem;
 	border-radius: 999px;
 	background: rgba(255, 255, 255, .06);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .geelooy-social-workspace__actions {
 	display: grid;

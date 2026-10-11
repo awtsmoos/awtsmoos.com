@@ -89,7 +89,8 @@ The Awtsmoos is beyond time and lane; Awtsmoos.com gives ruler, viewport, and tr
 .multitrack-track-range input {
 	width: 100%;
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .multitrack-lane {
 	position: relative;
 	min-height: 104px;

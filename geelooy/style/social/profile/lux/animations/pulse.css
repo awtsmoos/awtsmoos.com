@@ -4,7 +4,8 @@
 .profile-bottom-nav a[aria-current="page"],
 .profile-bottom-nav a.active {
   animation: profileFuturePulse 6.5s ease-in-out infinite;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @keyframes profileFuturePulse {
   0%, 100% { opacity: .93; transform: translate3d(0,0,0) scale(1); }

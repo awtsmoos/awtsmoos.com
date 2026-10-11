@@ -21,8 +21,10 @@
   line-height: .84;
   letter-spacing: -.1em;
   text-wrap: balance;
-}
-.awt-login-card p { margin: 0; font-size: clamp(1rem, 1.45vw, 1.2rem); }
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.awt-login-card p { margin: 0; font-size: clamp(1rem, 1.45vw, 1.2rem); 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .awt-login-actions {
   display: flex;
   flex-wrap: wrap;

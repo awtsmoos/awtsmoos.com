@@ -70,7 +70,8 @@ The Awtsmoos gives each hostname gate its own measured vessel; Awtsmoos.com neve
 	font-size: 9px;
 	letter-spacing: .04em;
 	text-transform: uppercase;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .domain-stage span,
 .domain-plan-row span,

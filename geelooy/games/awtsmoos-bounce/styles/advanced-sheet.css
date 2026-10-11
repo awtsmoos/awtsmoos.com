@@ -64,7 +64,8 @@
 	margin: 4px 0 0;
 	font-size: 1.28rem;
 	letter-spacing: -0.025em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .sheet-close {
 	width: 46px;

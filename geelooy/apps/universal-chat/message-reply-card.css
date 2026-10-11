@@ -16,7 +16,8 @@
 	transition: transform 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
 }
 
-.private-message > p { padding-inline-end: 2.2rem; }
+.private-message > p { padding-inline-end: 2.2rem; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .private-message.is-reply-swiping { border-color: rgb(216 182 109 / 30%); }
 
 .private-message.is-reply-ready {

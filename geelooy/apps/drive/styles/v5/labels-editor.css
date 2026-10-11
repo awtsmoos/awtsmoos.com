@@ -9,7 +9,8 @@
 	letter-spacing: 0.08em;
 	opacity: 0.7;
 	margin: 14px 0 6px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .drive-labels-editor .drive-label-chips.is-static {
 	margin-bottom: 8px;
 }
@@ -27,4 +28,5 @@
 .drive-labels-name input {
 	flex: 1;
 	min-width: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

@@ -20,7 +20,8 @@
 
 	.brand span {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.primary-stats {
 		width: 236px;

@@ -40,4 +40,5 @@
 .social-hub-document :where(.privacyGrid, .categoryGrid) label {
 	border-color: rgba(139, 92, 255, .28);
 	background: linear-gradient(145deg, rgba(20, 35, 61, .94), rgba(8, 13, 28, .96));
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

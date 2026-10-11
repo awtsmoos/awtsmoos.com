@@ -46,7 +46,7 @@
     min-height: 5.25rem;
     align-items: flex-start;
     text-align: start;
-    outline: none;
+
 }
 
 /* B"H (Yaakov 2026-10-08: never use important — fix the selector): dropping the :where()
@@ -119,7 +119,8 @@
 .post-reader-localized-context .awtsmoos-inline-card-header strong{
     overflow-wrap: anywhere;
     hyphens: auto;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where(.post-reader-localized-context) .awtsmoos-inline-commentary-root .comment-body-vessel {
     font-size: clamp(.98rem, 1.65vw, 1.08rem);

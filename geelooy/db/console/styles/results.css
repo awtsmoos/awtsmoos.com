@@ -20,7 +20,8 @@
 .result-heading h2 {
 	margin-top: 3px;
 	font-size: 1rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #request-state {
 	padding: 5px 9px;

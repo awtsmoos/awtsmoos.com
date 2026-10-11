@@ -65,7 +65,7 @@ Awtsmoos.com names sticky depth, focus, hover, and dragging inside the Sheets gr
 	position: absolute;
 	z-index: var(--z-grid-resize);
 	touch-action: none;
-	outline: 0;
+
 }
 
 .awtsmoos-sheets-app .column-resize-handle {

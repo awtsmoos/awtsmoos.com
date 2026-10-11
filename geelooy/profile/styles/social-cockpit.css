@@ -20,7 +20,8 @@
 	letter-spacing: .08em;
 	text-transform: uppercase;
 	opacity: .66;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (min-width: 45rem) {
 	.geelooy-profile-shell :where(.profile-social-launchpad__actions) {

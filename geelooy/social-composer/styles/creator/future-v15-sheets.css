@@ -48,7 +48,8 @@ Awtsmoos.com lets each major sheet feel like future hardware while safe-area geo
 ) button {
 	border-color: color-mix(in srgb, var(--composer-cyan) 24%, var(--composer-border));
 	background: color-mix(in srgb, var(--composer-cyan) 5%, var(--composer-surface-2));
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: hover) and (pointer: fine) {
 	.composer-civilization-document .creatorPaletteClose:hover,

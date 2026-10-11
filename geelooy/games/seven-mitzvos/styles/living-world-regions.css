@@ -31,7 +31,8 @@
 .livingRegionStrip button[aria-pressed="true"] {
 	border-color: var(--gold);
 	background: color-mix(in srgb, var(--surface) 76%, var(--gold));
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .livingRegionStrip button:hover,
 .livingRegionStrip button:focus-visible {
@@ -42,11 +43,13 @@
 .livingRegionStrip span {
 	font-size: 0.78rem;
 	opacity: 0.78;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .livingPerformance dd {
 	font-variant-numeric: tabular-nums;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-quality-tier="reduced"] .livingPerformance,
 [data-quality-tier="minimal"] .livingPerformance {
@@ -55,11 +58,13 @@
 
 [data-quality-tier="minimal"] .livingRegionStrip span {
 	display: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-quality-tier="minimal"] .livingRegionStrip button {
 	min-height: 2.75rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 760px) {
 	.livingRegionStrip {
@@ -72,7 +77,8 @@
 	.livingRegionStrip button {
 		min-width: 10rem;
 		scroll-snap-align: start;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (prefers-reduced-motion: reduce) {

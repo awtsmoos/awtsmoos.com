@@ -92,11 +92,25 @@ async function loadParserFromAwtsmoos(origin = DEFAULT_AWTSMOOS_ORIGIN) {
  *
  * @returns {Promise<Function|null>} Parser class or null.
  */
+/**
+ * B"H
+ * Loads the Merkava parser from the self-contained runtime bundle first
+ * (Yaakov 2026-10-11 hard rule: no repo), then the production checkout,
+ * then null so the caller fetches from Awtsmoos.com.
+ *
+ * @returns {Promise<Function|null>} Parser class or null.
+ */
 async function loadRepoLocalParserIfPresent() {
-  const repoPath = path.resolve(__dirname, "../../../../../../scripts/awtsmoos/MerkavaASTParser/parser-core.js");
-  if (!repoPath.includes(`${path.sep}awtsmoos.com${path.sep}`)) return null;
-  if (!fs.existsSync(repoPath)) return null;
-  return await require(repoPath);
+	try {
+		const SelfContained = require("../../../lib/selfContained.js");
+		const dir = await SelfContained.ensureBundle("merkava");
+		const bundlePath = require("path").join(dir, "scripts", "awtsmoos", "MerkavaASTParser", "parser-core.js");
+		if (require("fs").existsSync(bundlePath)) return await require(bundlePath);
+	} catch {}
+	const repoPath = path.resolve(__dirname, "../../../../../../scripts/awtsmoos/MerkavaASTParser/parser-core.js");
+	if (!repoPath.includes(`${path.sep}awtsmoos.com${path.sep}`)) return null;
+	if (!fs.existsSync(repoPath)) return null;
+	return await require(repoPath);
 }
 
 /**

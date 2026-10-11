@@ -6,4 +6,5 @@
  */
 :where(.post-reader-localized-context) .typography-details input[type="range"] {
 	accent-color: var(--reader-gold, #f6c96c);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

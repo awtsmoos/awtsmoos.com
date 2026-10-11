@@ -32,7 +32,8 @@
 	border-radius: .75rem;
 	background: rgb(15 22 50 / 45%);
 	transition: border-color 140ms ease, background-color 140ms ease, transform 140ms var(--tiferes-ease);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document :where(.categoryGrid, .privacyGrid) label:focus-within {
 	border-color: var(--yesod-edge-hot);
@@ -48,7 +49,8 @@
 	block-size: 1.1rem;
 	min-block-size: 0;
 	accent-color: var(--cyan);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .legalLinks {
 	display: flex;
@@ -63,7 +65,8 @@
 	border-radius: 999px;
 	text-decoration: none;
 	transition: border-color 140ms ease, background-color 140ms ease, transform 140ms var(--tiferes-ease);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .legalLinks a:focus-visible {
 	border-color: var(--yesod-edge-hot);
@@ -99,5 +102,6 @@
 	.social-hub-document :where(.categoryGrid, .privacyGrid) label,
 	.social-hub-document .legalLinks a {
 		transition: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

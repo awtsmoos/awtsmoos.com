@@ -151,7 +151,8 @@
   letter-spacing: .08em;
   text-transform: uppercase;
 }
-.thought-text-body p:last-child { margin-bottom: 0; }
+.thought-text-body p:last-child { margin-bottom: 0; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .thought-text-card {
   margin: 8px;
   padding: 12px 14px;
@@ -169,7 +170,8 @@
   letter-spacing: .08em;
   text-transform: uppercase;
 }
-.thought-text-body p:last-child { margin-bottom: 0; }
+.thought-text-body p:last-child { margin-bottom: 0; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .event-long summary { color: #a7f3d0; }
 .event-long div { padding: 10px; overflow-wrap: anywhere; }
 .event-filter-grid {

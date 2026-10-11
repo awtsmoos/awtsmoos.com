@@ -58,14 +58,16 @@
 		font-size: .98rem;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.awt-agent-identity-copy small,
 	.awt-agent-state-badge {
 		font-size: .67rem;
 		letter-spacing: .08em;
 		text-transform: uppercase;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.awt-agent-identity-copy small {
 		color: rgba(210, 230, 250, .48);

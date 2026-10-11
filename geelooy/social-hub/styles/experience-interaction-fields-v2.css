@@ -29,7 +29,8 @@
 	inline-size: 100%;
 	max-inline-size: 100%;
 	min-inline-size: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .targetGrid,
 .social-hub-document .twoColumnFields,
@@ -70,11 +71,13 @@
 	display: grid;
 	gap: .12rem;
 	min-inline-size: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .toggleField small {
 	opacity: .68;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .privacyCategoryGrid label {
 	display: flex;
@@ -84,7 +87,8 @@
 	padding: .45rem .55rem;
 	border-radius: .7rem;
 	background: color-mix(in srgb, CanvasText 4%, Canvas);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (min-width: 42rem) {
 	.social-hub-document .targetGrid,

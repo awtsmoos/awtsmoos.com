@@ -71,7 +71,8 @@
 }
 .heichelos-discovery-page .spaces-hero h1 {
 	text-shadow: var(--dream-title-glow);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .heichelos-discovery-page .spaces-hero .field-label {
 	letter-spacing: .22em;
 	text-transform: uppercase;

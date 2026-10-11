@@ -34,7 +34,8 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 	min-block-size: 2.9rem;
 	border-radius: .8rem;
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .geelooy-os-social-panel input,
 .geelooy-os-social-panel textarea,

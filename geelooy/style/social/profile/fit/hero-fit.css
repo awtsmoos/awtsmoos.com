@@ -38,5 +38,6 @@ html .profile-hero-card .profile-meta-row {
 
   html .profile-hero-card h1 {
     font-size: clamp(2.4rem, 11vw, 3.8rem);
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

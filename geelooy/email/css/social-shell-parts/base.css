@@ -96,7 +96,8 @@ html #root {
   min-height: 100dvh;
 }
 html a { color: var(--mail-accent); text-decoration: none; }
-html button, html input, html textarea, html select { font: inherit; }
+html button, html input, html textarea, html select { font: inherit; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 html input, html textarea, html select {
   background: var(--mail-input-bg);
   border: 1px solid var(--mail-line);
@@ -111,7 +112,8 @@ html input:focus, html textarea:focus, html select:focus {
 html input:disabled, html textarea:disabled, html select:disabled {
   opacity: .55;
   cursor: not-allowed;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 html button { cursor: pointer; color: var(--mail-text); }
 html .hidden { display: none; }
 html :focus-visible { outline: 3px solid var(--mail-focus-ring); outline-offset: 2px; }
@@ -141,4 +143,5 @@ button:disabled {
 	cursor: not-allowed;
 	filter: none;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

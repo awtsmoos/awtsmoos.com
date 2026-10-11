@@ -26,7 +26,8 @@ Awtsmoos.com keeps boards and timeline readable so every beat can rhyme.
 	margin: 2px 0 0;
 	opacity: 0.68;
 	font-size: 12px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .movie-scene-number {
 	width: 34px;
 	height: 34px;

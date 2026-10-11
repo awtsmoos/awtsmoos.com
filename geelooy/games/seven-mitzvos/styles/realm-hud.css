@@ -64,14 +64,16 @@
 
 .realmEvent strong {
 	font-size: 0.83rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .realmEvent span,
 .realmLedger span,
 .realmLedger strong {
 	font-size: 0.64rem;
 	line-height: 1.25;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .realmLedger {
 	display: grid;

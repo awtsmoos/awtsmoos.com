@@ -37,16 +37,19 @@ The Awtsmoos lets one selected source reveal a few useful measures before deeper
 .intent-inline-form input {
 	width: 100%;
 	min-height: var(--touch);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .intent-check-form label {
 	grid-template-columns: auto 1fr;
 	align-items: center;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .intent-check-form input {
 	width: var(--touch);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .intent-go-deeper {
 	width: 100%;

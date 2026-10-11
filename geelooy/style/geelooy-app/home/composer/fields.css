@@ -60,7 +60,8 @@
 .home-compose-title input {
 	font-size: 1.02rem;
 	font-weight: 760;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .home-compose-editor-field {
 	display: grid;
 	gap: .22rem;
@@ -92,4 +93,5 @@
 	cursor: progress;
 	opacity: .68;
 	pointer-events: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

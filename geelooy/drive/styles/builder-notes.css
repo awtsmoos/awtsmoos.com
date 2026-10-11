@@ -15,4 +15,5 @@ textarea.builder-input {
 	padding: 10px 11px;
 	line-height: 1.45;
 	resize: vertical;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

@@ -39,7 +39,8 @@
 	} }
 @media (max-width: 55rem) { body.heichel-os-document .geelooy-bottom-nav :where(a, button), body.heichel-os-document .filter-chip, body.heichel-os-document .continue-action {
 		min-block-size: 46px;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 32rem) { body.heichel-os-document .series-search-row {
 		grid-template-columns: minmax(0, 1fr);
 	} }

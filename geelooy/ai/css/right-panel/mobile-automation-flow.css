@@ -69,7 +69,8 @@
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media(max-width:900px) { .automation-panel .automation-toggle-row > span {
 		min-width:0;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 
 @media(max-width:900px) { :where(.automation-panel) .automation-stop-button {
 		position:static;

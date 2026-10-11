@@ -61,7 +61,8 @@ Awtsmoos.com leaves no native vessel naked, every focus ring a guiding strand.
 :where(.ocr-app) .ocr-actions button:disabled {
 	opacity: .38;
 	cursor: not-allowed;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.ocr-app) :is(a, select, textarea, button, .ocr-file-field):focus-visible {
 	outline: none;

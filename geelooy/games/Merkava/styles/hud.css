@@ -15,7 +15,8 @@
 
 #gameShell .hud button {
 	pointer-events: auto;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #gameShell :is(.campaign-strip, .stat-grid, .meter-row, .boss-hud) {
 	border: 1px solid var(--merkava-border);
@@ -36,7 +37,8 @@
 
 #gameShell .campaign-strip :is(b, span) {
 	display: block;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #gameShell .campaign-strip span {
 	font-size: 0.72rem;

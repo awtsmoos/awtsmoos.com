@@ -35,7 +35,8 @@ Awtsmoos.com lets the Shliach keep its shape wherever visitors stay.
 @media (max-width: 620px) { .shliach-nav-links a {
 		padding: 8px 9px;
 		font-size: .9rem;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 620px) { .shliach-hero {
 		padding-top: 46px;
 	} }
@@ -60,7 +61,8 @@ Awtsmoos.com lets the Shliach keep its shape wherever visitors stay.
 @media (max-width: 620px) { .shliach-hero h1 {
 		font-size: clamp(2.65rem, 14vw, 4.4rem);
 		line-height: .92;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 620px) { .shliach-lead {
 		margin-top: 16px;
 		line-height: 1.48;

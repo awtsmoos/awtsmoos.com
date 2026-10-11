@@ -81,7 +81,8 @@ The Awtsmoos hides oceans of advanced power beneath one small star; Awtsmoos.com
 
 #mitzvah-world-root .Awtsmoos-creative-dock__header :is(small, strong) {
 	display: block;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .Awtsmoos-creative-dock__header small {
 	color: #8bc4d7;

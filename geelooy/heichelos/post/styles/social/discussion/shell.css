@@ -31,7 +31,8 @@
 .awtsmoos-social-discussion h2 {
 	margin: .45rem 0 .35rem;
 	font: 900 clamp(1.55rem, 6vw, 2.45rem)/1.06 Inter, sans-serif;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-social-discussion :where(header) p,
 .awtsmoos-social-empty {

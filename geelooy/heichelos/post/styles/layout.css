@@ -75,7 +75,8 @@
 
 .post-reader-localized-context .awtsmoos-floating-controls button {
     pointer-events: auto;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 /* --- DESKTOP REFINEMENTS (The Expansion) --- */
 @media (min-width: 901px) {

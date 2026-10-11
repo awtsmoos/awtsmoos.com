@@ -76,7 +76,8 @@
 	border-radius: 50%;
 	background: radial-gradient(circle, rgba(255, 238, 196, .34), rgba(255, 157, 66, .07) 56%, transparent 73%);
 	transform: translate(-50%, -50%);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .celestial-horizon {
 	position: absolute;

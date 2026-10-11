@@ -45,7 +45,8 @@ body {
 	height:38px;
 	border-radius:12px;
 	background:rgba(3,10,20,.72);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .resize-bar, .composer-resizer {
 	opacity:.38;
 	background:linear-gradient(180deg,transparent,rgba(99,230,208,.48),transparent);

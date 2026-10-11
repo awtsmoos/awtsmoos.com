@@ -68,7 +68,8 @@ body[data-geelooy-route="home"] .launcher-glyph {
    route + launcher selector (0,4,1) outranks the :where()-reduced base rules. */
 @media (max-width: 460px) { body[data-geelooy-route="home"] .world-launcher .launcher-button > span:last-child {
 		display: none;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 /* @tunnel-specificity: base :where()-reduced for :focus-visible budget W4 2026-10-08 */
 @media (prefers-reduced-motion: reduce) { :where(body[data-geelooy-route="home"]) .launcher-button {
 		transition: none;

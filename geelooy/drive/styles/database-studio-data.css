@@ -34,7 +34,8 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .project-data-table th {
 	position: sticky;
@@ -44,7 +45,8 @@
 	font-size: .7rem;
 	letter-spacing: .04em;
 	text-transform: uppercase;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .project-data-table tbody tr {
 	cursor: pointer;
@@ -53,7 +55,7 @@
 .project-data-table tbody tr:hover,
 .project-data-table tbody tr:focus-visible {
 	background: color-mix(in srgb, #5c6cff 7%, transparent);
-	outline: none;
+	outline: 2px solid var(--aw-focus-ring); outline-offset: 2px;
 }
 
 .project-data-schema {
@@ -79,7 +81,8 @@
 
 .project-data-schema-row small {
 	opacity: .62;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .project-data-api {
 	min-height: 260px;

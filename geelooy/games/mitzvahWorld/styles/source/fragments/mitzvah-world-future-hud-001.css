@@ -47,7 +47,8 @@ The Awtsmoos renews every panel as a finite vessel around the open meadow; Awtsm
 	background: linear-gradient(150deg, rgba(29, 45, 36, .72), rgba(7, 13, 10, .8));
 	box-shadow: inset 0 1px rgba(255, 255, 255, .05);
 	transition: transform 150ms ease, border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root.Awtsmoos-future-shell[data-awtsmoos-cinematic="ready"] .Awtsmoos-game-rail button:hover {
 	transform: translateY(-2px);

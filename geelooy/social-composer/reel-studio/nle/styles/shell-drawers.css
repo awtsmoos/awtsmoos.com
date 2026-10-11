@@ -87,7 +87,8 @@
 .nle-studio-surface > header strong,
 .nle-sheet-heading strong {
 	font-size: .82rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-nle-close-surface] {
 	inline-size: 2rem;

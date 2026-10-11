@@ -40,7 +40,8 @@
 	margin: 0;
 	font-size: 20px;
 	letter-spacing: -0.02em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .dialog-heading button {
 	width: 34px;
@@ -50,7 +51,8 @@
 	border-radius: 8px;
 	background: transparent;
 	font-size: 21px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .dialog-card label,
 .quick-field {
@@ -58,7 +60,8 @@
 	gap: 7px;
 	font-size: 13px;
 	font-weight: 650;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .dialog-card input,
 .dialog-card select {
@@ -97,7 +100,8 @@
 	border-radius: 9px;
 	background: var(--docs-surface-soft);
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .share-help {
 	margin: 0;
@@ -110,7 +114,8 @@
 .invite-row input {
 	min-width: 0;
 	flex: 1;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .wide {
 	width: 100%;

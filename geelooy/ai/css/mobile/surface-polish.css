@@ -69,13 +69,15 @@
 <<<<<<< ours
   .panel-actions button {
     touch-action: manipulation;
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
   .chat-box {
 =======
   html .panel-actions button {
     touch-action: manipulation;
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
   html .chat-box {
 >>>>>>> theirs
@@ -99,4 +101,5 @@
 	cursor: not-allowed;
 	filter: none;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

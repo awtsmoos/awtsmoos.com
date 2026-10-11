@@ -35,7 +35,8 @@
 .ohrbound-app select,
 .ohrbound-app textarea {
 	max-width: 100%;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .ohrbound-app .advanced-overlay,
 .ohrbound-app .game-pane {
 	contain: layout paint;

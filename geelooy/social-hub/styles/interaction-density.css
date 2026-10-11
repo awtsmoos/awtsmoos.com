@@ -27,7 +27,8 @@
 
 .social-hub-document .commentComposer > label:first-child textarea {
 	min-height: 8rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .hub-disclosure {
 	background: rgb(2 5 15 / 38%);
@@ -108,7 +109,8 @@
 @media (max-width: 640px) {
 	.social-hub-document .commentComposer > label:first-child textarea {
 		min-height: 6.5rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.social-hub-document .profilePanel .cardGrid {
 		max-height: 18rem;

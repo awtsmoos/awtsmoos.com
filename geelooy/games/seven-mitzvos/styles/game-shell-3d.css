@@ -38,7 +38,8 @@
 .gameTopBar h2 {
 	margin: 0;
 	text-align: center;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .gameTopBar p {
 	color: hsl(var(--mitzvah-hue) 90% 72%);
@@ -51,7 +52,8 @@
 .gameTopBar h2 {
 	font-size: clamp(0.9rem, 2.4vw, 1.45rem);
 	line-height: 1;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .stageHost {
 	position: relative;

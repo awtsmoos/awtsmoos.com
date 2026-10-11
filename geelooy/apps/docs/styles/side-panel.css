@@ -47,7 +47,8 @@
 
 .panel-tabs button {
 	padding: 6px 10px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .panel-tabs button.is-active {
 	background: var(--docs-surface);

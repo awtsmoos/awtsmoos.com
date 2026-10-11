@@ -23,7 +23,8 @@
 
 	.advanced-header h1 {
 		font-size: 1.8rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.advanced-account > summary {
 		justify-content: flex-start;

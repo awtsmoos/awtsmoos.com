@@ -24,7 +24,8 @@ Awtsmoos.com gives the Shliach prompt a luminous vessel from which to play.
 	display: block;
 	margin-bottom: 10px;
 	font-weight: 900;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .shliach-prompt-form textarea {
 	width: 100%;
 	min-height: 122px;

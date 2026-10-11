@@ -32,7 +32,8 @@
 	border-radius: 0.45rem 1rem 0.45rem 1rem;
 	background: linear-gradient(145deg, rgba(60, 236, 255, 0.07), rgba(139, 92, 255, 0.06));
 	box-shadow: inset 0 1px rgba(255, 255, 255, 0.045);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .geelooy-home-shell .home-system-rail strong {
 	color: var(--g-text);
@@ -52,7 +53,8 @@
 	background: var(--g-green);
 	box-shadow: 0 0 14px rgba(72, 240, 182, 0.72);
 	content: "";
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .geelooy-home-shell .g-home-portal-search {
 	position: relative;

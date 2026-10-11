@@ -65,7 +65,8 @@
 	height: 1.15rem;
 	margin: 0;
 	accent-color: var(--accent);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: hover) and (pointer: fine) {
 	.opinion-choice:hover {

@@ -35,7 +35,8 @@
 .awt-health-chip { min-width: 0; display: grid; gap: 2px; padding: 8px; border-radius: 14px; background: rgba(255,255,255,.04); }
 .awt-health-chip span { color: var(--awt-gold); }
 .awt-health-chip[data-state="good"] span { color: var(--awt-green); }
-.awt-health-chip strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .72rem; }
+.awt-health-chip strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .72rem; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .awt-health-chip small { color: var(--awt-muted); font-size: .64rem; }
 
 .awt-quick-actions.awt-quick-actions,

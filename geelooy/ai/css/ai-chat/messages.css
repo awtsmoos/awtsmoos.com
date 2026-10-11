@@ -38,10 +38,12 @@
 .message :is(p,li,blockquote,td,th), .message-content {
 	font-size:clamp(.96rem,.3vw + .9rem,1.06rem);
 	line-height:1.68;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .message p {
 	margin:.2rem 0 .85rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .message :is(h1,h2,h3,h4) {
 	color:var(--ai-text);
 	line-height:1.25;
@@ -77,7 +79,8 @@
 	padding:8px 10px;
 	border:1px solid rgba(160,195,226,.14);
 	text-align:left;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .message blockquote {
 	margin-inline:0;
 	padding-inline-start:14px;
@@ -86,4 +89,5 @@
 }
 /* @tunnel-registry-merge: consolidated duplicate selectors (each rule keeps original cascade order and @media context) W4 2026-10-08 */
 /* @tunnel-registry-merge: consolidated from geelooy/ai/css/ideal/chat.css W4 2026-10-08 */
-.message p {margin:.3rem 0 .75rem}
+.message p {margin:.3rem 0 .75rem
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

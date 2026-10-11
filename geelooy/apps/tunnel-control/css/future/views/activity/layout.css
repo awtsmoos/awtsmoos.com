@@ -31,7 +31,8 @@
 	margin: 0.2rem 0 0.45rem;
 	font-size: clamp(1.5rem, 3vw, 2.4rem);
 	line-height: 1.05;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-activity-panel__header p {
 	max-width: 70ch;

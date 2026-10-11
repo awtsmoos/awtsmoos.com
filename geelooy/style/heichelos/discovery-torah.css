@@ -120,7 +120,8 @@
 .heichelos-discovery-page .spaces-search input:disabled {
 	opacity: .55;
 	cursor: not-allowed;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* Discovery-page dream buttons: page-scoped overrides of the social-system
    cyan buttons, so the discovery surface keeps one warm law. */
 .heichelos-discovery-page .p-button {
@@ -181,7 +182,8 @@
 }
 .heichelos-discovery-page .space-copy h2, .heichelos-discovery-page .space-compact-row h3, .heichelos-discovery-page .space-copy p {
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 @media (max-width: 42rem) { .heichelos-discovery-page .social-spaces-shell {
 		inline-size: min(100% - 1rem, 78rem);
 	} }

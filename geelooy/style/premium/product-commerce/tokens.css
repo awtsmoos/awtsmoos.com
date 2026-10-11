@@ -13,7 +13,8 @@
 	text-align: left;
 }
 .awts-commerce *, .awts-commerce *::before, .awts-commerce *::after { box-sizing: border-box; }
-.awts-commerce button, .awts-commerce a { -webkit-tap-highlight-color: transparent; }
+.awts-commerce button, .awts-commerce a { -webkit-tap-highlight-color: transparent; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .awts-commerce button:focus-visible, .awts-commerce a:focus-visible {
 	outline: 3px solid var(--awts-commerce-blue);
 	outline-offset: 3px;

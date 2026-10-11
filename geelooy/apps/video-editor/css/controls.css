@@ -25,7 +25,8 @@
 		border-color .15s ease,
 		background .15s ease,
 		box-shadow .15s ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .icon-button {
 	display: inline-grid;
@@ -58,7 +59,8 @@
 	gap: 7px;
 	padding: 9px 15px;
 	font-weight: 750;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #playBtn {
 	border-color: rgba(121, 215, 255, 0.62);

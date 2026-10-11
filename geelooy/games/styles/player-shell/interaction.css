@@ -15,7 +15,8 @@
 		box-shadow .15s ease,
 		background-color .15s ease,
 		border-color .15s ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-game-shell :is(button, a, summary):focus-visible {
 	outline: 3px solid #9ee8ff;

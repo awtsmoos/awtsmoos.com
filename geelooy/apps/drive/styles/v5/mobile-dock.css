@@ -44,7 +44,8 @@
 	.drive-mobile-dock span {
 		font-size: .62rem;
 		font-weight: 700;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.drive-mobile-dock [aria-current="true"] {
 		background: rgba(84, 237, 187, .08);

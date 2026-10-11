@@ -40,7 +40,8 @@
 
 .tx-row small {
 	grid-column: 1 / -1;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .tx-row--positive strong {
 	color: var(--wallet-success);

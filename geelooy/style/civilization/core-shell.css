@@ -75,5 +75,6 @@
 	.civilization-nav a {
 		font-size: .74rem;
 		padding-inline: .2rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

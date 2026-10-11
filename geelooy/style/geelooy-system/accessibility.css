@@ -5,9 +5,11 @@
   outline-offset: 3px;
   box-shadow: var(--g-focus);
 }
-:where(a, button, summary, [role="button"]) { -webkit-tap-highlight-color: rgba(64, 216, 239, .2); }
+:where(a, button, summary, [role="button"]) { -webkit-tap-highlight-color: rgba(64, 216, 239, .2); 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 @media (prefers-reduced-motion: no-preference) {
-  :where(a, button, .nav-card, .social-space-card, .home-post-card) { transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .16s ease; }
+  :where(a, button, .nav-card, .social-space-card, .home-post-card) { transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .16s ease; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
   :where(a, button, .nav-card, .social-space-card, .home-post-card):hover { transform: translateY(-1px); }
 }
 @media (prefers-reduced-motion: reduce) {

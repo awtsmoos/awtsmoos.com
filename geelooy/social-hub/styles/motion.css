@@ -28,7 +28,8 @@
 		background-color var(--motion-fast) var(--ease-soft),
 		color var(--motion-fast) var(--ease-soft),
 		box-shadow var(--motion-fast) var(--ease-soft);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 ::view-transition-old(hub-panel),
 ::view-transition-new(hub-panel) {

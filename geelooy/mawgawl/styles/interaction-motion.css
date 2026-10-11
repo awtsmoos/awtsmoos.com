@@ -41,7 +41,8 @@
 	#sefarim {
 		background-size: 180% 180%;
 		background-position: 0 50%;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	button:is(:hover, :focus-visible),
 	#sefarim:is(:hover, :focus-visible) {

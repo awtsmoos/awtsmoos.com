@@ -31,7 +31,8 @@
 	.private-message p {
 		font-size: 0.86rem;
 		line-height: 1.5;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.private-message.is-continuation {
 		margin-top: 0.08rem;

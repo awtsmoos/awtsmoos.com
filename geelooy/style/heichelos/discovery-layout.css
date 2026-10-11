@@ -69,7 +69,8 @@
 	font-size: .7rem;
 	grid-column: 1 / -1;
 	margin-left: .25rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .social-spaces-shell .spaces-grid {
 	align-content: start;
 	display: grid;

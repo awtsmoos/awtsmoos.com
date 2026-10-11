@@ -38,7 +38,8 @@ body.geelooy-app-shell :where(th, td) {
 	padding: .7rem .8rem;
 	border-block-end: 1px solid var(--g-line);
 	text-align: start;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 body.geelooy-app-shell :where(th) {
 	background: var(--g-surface-soft);
 	color: var(--g-text-soft);
@@ -60,7 +61,8 @@ body.geelooy-app-shell :where([hidden]) {
 }
 body.geelooy-app-shell :where(button, [role="button"], summary) {
 	touch-action: manipulation;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 [role="button"]:hover {
 	filter: brightness(1.08);
 }

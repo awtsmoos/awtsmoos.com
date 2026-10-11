@@ -42,7 +42,8 @@ Awtsmoos.com keeps containment beneath one app root while JavaScript owns exact 
 .awtsmoos-sheets-app .sheet-dialog textarea {
 	max-width: 100%;
 	min-width: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 760px) {
 	.awtsmoos-sheets-app .notes-panel {

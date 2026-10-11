@@ -29,7 +29,8 @@
 	font-size: clamp(2.7rem, 8vw, 6rem);
 	line-height: .9;
 	letter-spacing: -.055em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .partyHero p {
 	color: var(--party-muted);
@@ -67,7 +68,8 @@
 
 .partyField label {
 	font-weight: 850;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .partyField input,
 .partyField select {

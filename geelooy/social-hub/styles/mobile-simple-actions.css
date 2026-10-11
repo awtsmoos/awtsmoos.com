@@ -54,6 +54,8 @@
 		padding: 1rem;
 	}
 	.social-hub-document .socialHubMount[data-shell-ready="false"] > .workspacePanel > :where(.panelIntro, .actionRow) { display: none; }
-	.social-hub-document .socialHubMount[data-shell-ready="false"] > .workspacePanel h1 { margin: 0 0 .35rem; font-size: 1.25rem; }
-	.social-hub-document .socialHubMount[data-shell-ready="false"] > .workspacePanel p { margin: .35rem 0; font-size: .82rem; line-height: 1.4; }
+	.social-hub-document .socialHubMount[data-shell-ready="false"] > .workspacePanel h1 { margin: 0 0 .35rem; font-size: 1.25rem; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+	.social-hub-document .socialHubMount[data-shell-ready="false"] > .workspacePanel p { margin: .35rem 0; font-size: .82rem; line-height: 1.4; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

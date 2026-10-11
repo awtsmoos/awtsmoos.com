@@ -35,12 +35,14 @@
 .mediaActions button {
 	min-height: 2.75rem;
 	min-width: 2.75rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .blockEditor textarea {
 	font-size: 1rem;
 	line-height: 1.7;
 	min-height: 8rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .mediaDrop {
 	align-items: center;
 	background: rgba(86, 207, 229, .055);
@@ -62,7 +64,8 @@
 	position: absolute;
 	white-space: nowrap;
 	width: 1px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .mediaGrid {
 	display: grid;
 	gap: .65rem;

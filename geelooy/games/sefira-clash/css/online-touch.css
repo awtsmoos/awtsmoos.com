@@ -34,13 +34,15 @@
 	min-height: 58px;
 	font-weight: 900;
 	touch-action: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .touch-controls button[aria-pressed='true'] {
 	transform: scale(0.94);
 	border-width: 3px;
 	text-decoration: underline;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (pointer: coarse), (max-width: 760px) {
 	.touch-controls {

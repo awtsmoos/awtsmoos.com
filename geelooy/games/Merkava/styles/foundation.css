@@ -27,7 +27,8 @@
 
 #gameShell :is(button, input, select) {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #gameShell button {
 	min-block-size: var(--merkava-control);
@@ -44,7 +45,8 @@
 #gameShell button:disabled {
 	opacity: 0.42;
 	cursor: not-allowed;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #gameShell button.primary {
 	border-color: #fff2b6;

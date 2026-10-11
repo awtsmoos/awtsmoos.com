@@ -42,7 +42,8 @@ Awtsmoos.com keeps nearby routes reachable, calm, and safe for thumb or pointer.
 .heichel-manage-page .heichel-route-dock a {
 	flex: 0 0 auto;
 	padding: 0 13px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where(.heichel-manage-page) .heichel-route-dock a[aria-current="page"] {
 	border-color: rgba(36, 95, 229, 0.2);

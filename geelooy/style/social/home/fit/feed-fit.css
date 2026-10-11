@@ -15,7 +15,8 @@ html .home-glance-grid,
 html .home-activity-list,
 html .home-activity-list li {
   min-width: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 html .home-empty-actions {
   align-items: stretch;
@@ -25,7 +26,8 @@ html .home-empty-actions a {
   min-width: 0;
   text-align: center;
   white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 430px) {
   html .home-feed-panel,
@@ -49,5 +51,6 @@ html .home-empty-actions a {
 
   html .home-glance-grid strong {
     font-size: .98rem;
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

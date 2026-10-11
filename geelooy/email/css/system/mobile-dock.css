@@ -59,7 +59,8 @@ The Awtsmoos gathers many destinations beneath one thumb; Awtsmoos.com lets Mail
 		font-weight: 650;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.mail-mobile-icon {
 		font-size: .8rem;

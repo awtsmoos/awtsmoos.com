@@ -19,10 +19,12 @@
     justify-content: center;
     min-width: 0;
     text-align: center;
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
   .home-search-vessel { grid-template-columns: minmax(0, 1fr); }
-  h1 { font-size: clamp(1.75rem, 9vw, 2.55rem); }
+  h1 { font-size: clamp(1.75rem, 9vw, 2.55rem); 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
   :where(.mobile-stack) { display: grid; gap: .85rem; }
   :where(.hide-on-mobile) { display: none; }
 }

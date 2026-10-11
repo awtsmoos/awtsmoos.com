@@ -5,7 +5,8 @@
   .profile-bottom-nav a[aria-current="page"],
   .profile-bottom-nav a.active {
     animation: none;
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
   .profile-card:hover,
   .alias-card:hover,

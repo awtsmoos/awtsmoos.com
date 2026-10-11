@@ -43,13 +43,15 @@
 .awtsDb h1,
 .awtsDb h2 {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsDb h1 {
 	font-size: clamp(2.2rem, 5vw, 4.6rem);
 	letter-spacing: -.055em;
 	line-height: .95;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsDb__lead,
 .awtsDb__note {

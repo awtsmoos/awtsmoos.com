@@ -20,7 +20,8 @@
 	display: grid;
 	gap: .35rem;
 	font-weight: 700;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .comment-composer label > span {
 	color: #334155;
 	font-size: .8rem;

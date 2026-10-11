@@ -60,7 +60,8 @@
 .awtsmoos-related-section h3 {
 	margin: .2rem 0 0;
 	font-size: .9rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .awtsmoos-related-result {
 	display: grid;
 	gap: .35rem;
@@ -70,11 +71,13 @@
 	background: color-mix(in srgb, var(--reader-bg, #fff) 97%, currentColor 3%);
 }
 .awtsmoos-related-result h4,
-.awtsmoos-related-result p { margin: 0; }
+.awtsmoos-related-result p { margin: 0; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .awtsmoos-related-result p {
 	font-size: .9rem;
 	line-height: 1.5;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .awtsmoos-related-result mark {
 	padding: 0 .12em;
 	border-radius: .18em;

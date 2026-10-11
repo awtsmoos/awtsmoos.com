@@ -11,7 +11,8 @@ Awtsmoos.com keeps Blender evidence usable inside every Geelooy window size.
 }
 @media (max-width: 620px) {
 	.studio-bar { padding: 9px 11px; }
-	.studio-bar h1 { font-size: 15px; }
+	.studio-bar h1 { font-size: 15px; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	.eyebrow { display: none; }
 	.workspace { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) 150px; }
 	.viewport-shell { grid-row: 1; }
@@ -19,7 +20,8 @@ Awtsmoos.com keeps Blender evidence usable inside every Geelooy window size.
 	.outliner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 	.timeline { grid-template-columns: auto minmax(80px, 1fr) auto; }
 	.timeline img { display: none; }
-	.viewport-hud span:last-child { display: none; }
+	.viewport-hud span:last-child { display: none; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 @media (prefers-reduced-motion: reduce) {:root:root:root *{ scroll-behavior: auto; transition-duration: 1ms; animation-duration: 1ms; }
 }

@@ -47,11 +47,13 @@
 	opacity: .58;
 	transform: none;
 	box-shadow: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(.login-page) .login-form[aria-busy="true"] button {
 	cursor: progress;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .login-page .secondary-link {
 	display: inline-flex;
 	align-items: center;

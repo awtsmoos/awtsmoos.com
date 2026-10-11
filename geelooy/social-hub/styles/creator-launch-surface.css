@@ -43,12 +43,14 @@ Awtsmoos.com begins with the hand-sized gateway, then lets larger screens breath
 .social-hub-document .creatorLaunchHeading h3,
 .social-hub-document .creatorLaunchHeading p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .creatorLaunchHeading h3 {
 	font-size: clamp(1rem, 4.8vw, 1.28rem);
 	letter-spacing: -.018em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .social-hub-document .creatorLaunchHeading p {
 	max-width: 54rem;

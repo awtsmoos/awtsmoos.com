@@ -56,7 +56,8 @@
 
 	.ohr-bottom-actions .ohr-touch small {
 		font-size: 8px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.ohr-world-card {
 		font-size: 10px;
@@ -80,7 +81,8 @@
 	.ohr-panel h2,
 	.ohr-dialogue h2 {
 		font-size: 19px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.ohr-panel section {
 		grid-template-columns: 1fr;
@@ -89,5 +91,6 @@
 	.ohr-dialogue p {
 		font-size: 14px;
 		padding: 11px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

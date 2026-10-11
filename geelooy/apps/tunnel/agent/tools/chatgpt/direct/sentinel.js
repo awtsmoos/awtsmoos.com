@@ -41,7 +41,9 @@ async function getChatRequirements(auth) {
 
 async function loadTokenClass(auth = {}) {
   installBrowserMask(auth);
-  const file = path.resolve(__dirname, "../../../../../../ai/js/chatgpt/sentinel/tokenClassLegacy.js");
+  // Self-contained sentinel runtime (Yaakov 2026-10-11 hard rule: no repo).
+  const SelfContained = require("../../../lib/selfContained.js");
+  const file = await SelfContained.bundleFile("chatgpt-sentinel", "geelooy/ai/js/chatgpt/sentinel/tokenClassLegacy.js");
   const module = await import(pathToFileURL(file).href + `?t=${Date.now()}`);
   return module.getTokenClass();
 }

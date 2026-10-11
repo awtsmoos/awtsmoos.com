@@ -18,7 +18,8 @@ body.social-hub-document.social-hub-document [aria-busy="true"] > .futureBusyOrb
 body.social-hub-document.social-hub-document .futureCommandPalette,
 body.social-hub-document.social-hub-document .futureCoordinates .targetGrid {
 		animation: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	body.social-hub-document.social-hub-document :where(
 		.riftCard,
@@ -33,11 +34,13 @@ body.social-hub-document.social-hub-document .futureCoordinates .targetGrid {
 		[role="button"]
 	) {
 		transform: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	body.social-hub-document.social-hub-document :where(.primaryButton::after, .publicFeedCard__open::after, .publicDiscovery__lookup button::after) {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (prefers-contrast: more) {
@@ -62,7 +65,8 @@ body.social-hub-document.social-hub-document::after,
 body.social-hub-document.social-hub-document .routeNavigation .routeButton::before,
 body.social-hub-document.social-hub-document .pulseOrb span {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @supports not (backdrop-filter: blur(1px)) {

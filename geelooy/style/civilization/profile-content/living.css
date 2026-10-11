@@ -31,7 +31,8 @@
 .profile-graph-card h2 {
 	margin: .2rem 0 .6rem;
 	font-size: 1.2rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .profile-graph-empty {
 	display: grid;

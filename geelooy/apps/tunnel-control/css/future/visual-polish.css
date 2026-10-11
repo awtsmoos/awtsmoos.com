@@ -100,7 +100,8 @@ body::after {
 }
 
 .awt-login-card:has(.awt-install-lines) > .awt-gate-brandline { grid-area: brand; }
-.awt-login-card:has(.awt-install-lines) > h1 { grid-area: title; }
+.awt-login-card:has(.awt-install-lines) > h1 { grid-area: title; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .awt-login-card:has(.awt-install-lines) > .awt-gate-lede { grid-area: lede; }
 .awt-login-card:has(.awt-install-lines) > .awt-gate-steps { grid-area: steps; }
 .awt-login-card:has(.awt-install-lines) > .awt-login-actions { grid-area: actions; }
@@ -188,7 +189,8 @@ body::after {
   grid-template-columns: 36px minmax(0, 1fr);
   gap: 11px;
   align-items: center;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-gate-steps li > span {
   display: grid;
@@ -205,7 +207,8 @@ body::after {
 .awt-gate-steps li > div {
   display: grid;
   gap: 2px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-gate-steps strong {
   color: #f6f9ff;
@@ -267,7 +270,8 @@ body::after {
   margin: 0;
   font-size: clamp(1.35rem, 2vw, 2rem);
   letter-spacing: -.045em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-transaction-badge,
 .awt-install-card-head span {
@@ -302,7 +306,8 @@ body::after {
   margin: 0;
   font-size: .96rem;
   letter-spacing: -.02em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-install-card-head span {
   border-color: rgba(135, 179, 224, .16);
@@ -351,7 +356,8 @@ body::after {
 
 .awt-no-tunnel-card h1 {
   max-width: 14ch;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-mode-grid {
   width: min(1180px, 100%);
@@ -366,7 +372,8 @@ body::after {
 .awt-mode-card h3 {
   margin: 0;
   font-size: 1.3rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-mode-card p {
   min-height: 3.1em;
@@ -490,14 +497,16 @@ body::after {
 .awt-zone-head h3 {
   font-size: clamp(1.45rem, 2.4vw, 2.35rem);
   letter-spacing: -.045em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-zone-head p {
   justify-self: end;
   max-width: 520px;
   text-align: right;
   line-height: 1.5;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-core-grid {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
@@ -579,7 +588,8 @@ body::after {
   .awt-zone-head p {
     justify-self: start;
     text-align: left;
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-width: 680px) {
@@ -598,11 +608,13 @@ body::after {
     max-width: 12ch;
     font-size: clamp(2.65rem, 14vw, 4.5rem);
     line-height: .92;
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
   .awt-gate-steps small {
     display: none;
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
   .awt-install-lines {
     padding: 14px;
@@ -631,7 +643,8 @@ body::after {
 
   .awt-mission-hero h2 {
     font-size: clamp(2.45rem, 13vw, 4.4rem);
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
   .awt-quick-actions {
     display: grid;

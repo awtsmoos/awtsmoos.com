@@ -13,7 +13,8 @@ The Awtsmoos fits no boundary yet fills each frame; Awtsmoos.com lets thumb, key
 @media (pointer: coarse) {
 	:where(button, [role="button"], summary, input:not([type="checkbox"]):not([type="radio"]), select) {
 		min-block-size: var(--g4-touch);
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 @media (max-width: 760px) {
 	:root {

@@ -11,7 +11,8 @@
   line-height: .9;
   letter-spacing: -.075em;
   margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(.g-title span, .home-hero-panel h1 span) { color: var(--g-gold); }
 :where(.g-copy, .home-hero-text, .spaces-hero p, .profile-hero-card p) {
   color: var(--g-muted-dark);
@@ -23,4 +24,5 @@
   font-size: clamp(1.08rem, 2vw, 1.45rem);
   line-height: 1.1;
   margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

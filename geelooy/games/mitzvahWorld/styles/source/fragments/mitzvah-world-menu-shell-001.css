@@ -15,7 +15,7 @@ gameplay visibility, and failure recovery inside one local stack so no emergency
 	width: 100%;
 	height: 100%;
 	touch-action: none;
-	outline: none;
+
 }
 
 #mitzvah-world-root .Awtsmoos-menu-boot {

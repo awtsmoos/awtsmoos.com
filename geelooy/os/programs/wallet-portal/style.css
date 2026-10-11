@@ -45,7 +45,8 @@
 	font-size: clamp(2.3rem, 6vw, 4.8rem);
 	letter-spacing: -.06em;
 	line-height: .95;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .walletPortal__lead,
 .walletPortal__rule,
@@ -76,7 +77,8 @@
 .walletPortal__balance strong {
 	font-size: 1.15rem;
 	font-variant-numeric: tabular-nums;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .walletPortal__actions {
 	display: grid;

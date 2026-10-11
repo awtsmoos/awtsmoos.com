@@ -43,10 +43,12 @@
 .profile-action-head h2 {
 	margin: 0;
 	font-size: clamp(1.05rem, 3vw, 1.3rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .profile-action-head button, .profile-action-drawer :where(.g-social-button, .g-button, a, button, input, select, textarea) {
 	min-block-size: 44px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .profile-action-head button {
 	min-inline-size: 44px;
 	border: 1px solid var(--civil-line);

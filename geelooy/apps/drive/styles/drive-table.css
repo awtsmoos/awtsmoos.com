@@ -18,7 +18,8 @@
 	border-bottom: 1px solid var(--line);
 	text-align: left;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 [data-awtsmoos-drive] .files-panel th {
 	position: sticky;

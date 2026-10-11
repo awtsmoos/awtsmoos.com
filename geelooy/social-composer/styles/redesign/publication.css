@@ -23,7 +23,8 @@
 	border: 1px solid var(--composer-border-soft);
 	border-radius: var(--composer-radius-sm);
 	background: rgba(255, 255, 255, .018);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .composer-civilization-document .publishing-checklist li::before {
 	inline-size: .48rem;
@@ -33,13 +34,15 @@
 	background: var(--composer-amber);
 	box-shadow: 0 0 .5rem rgba(242, 201, 109, .35);
 	content: '';
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .composer-civilization-document .publishing-checklist li.is-complete::before,
 .composer-civilization-document .publishing-checklist li[data-ready="true"]::before {
 	background: var(--composer-green);
 	box-shadow: 0 0 .5rem rgba(120, 189, 118, .35);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .composer-civilization-document .publishing-checklist span {
 	color: var(--composer-text-soft);

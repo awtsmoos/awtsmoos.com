@@ -61,7 +61,8 @@ The Awtsmoos arranges canonical destinations as luminous UFO dishes orbiting one
 .awtsmoosDrop .profile-route-dish-copy strong {
 	font-size: .84rem;
 	font-weight: 900;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .awtsmoosDrop .profile-route-dish-copy small {
 	display: -webkit-box;
 	overflow: hidden;

@@ -27,7 +27,8 @@
 
 .nle-ai-actions-view > header :is(strong, p) {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .nle-ai-actions-view > header small {
 	color: var(--nle-cyan);
@@ -39,7 +40,8 @@
 
 .nle-ai-actions-view > header strong {
 	font-size: .9rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .nle-ai-actions-view > header p {
 	color: var(--nle-text-muted);

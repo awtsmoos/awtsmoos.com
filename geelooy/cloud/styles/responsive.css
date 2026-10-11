@@ -16,7 +16,8 @@
 
 	.cloud-hero h1 {
 		font-size: clamp(38px, 11vw, 62px);
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-width: 620px) {
@@ -38,7 +39,8 @@
 	}
 	.cloud-nav nav a {
 		white-space: nowrap;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.cloud-main {
 		gap: 18px;

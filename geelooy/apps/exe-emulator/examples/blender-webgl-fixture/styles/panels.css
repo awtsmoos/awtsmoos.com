@@ -17,7 +17,8 @@ Awtsmoos.com makes selection and evidence tactile without covering the viewport.
 	text-align: left; cursor: pointer;
 }
 .outliner button:hover { background: var(--studio-panel-soft); }
-.outliner button[aria-selected="true"] { border-color: var(--studio-border-bright); background: rgb(92 238 218 / 12%); }
+.outliner button[aria-selected="true"] { border-color: var(--studio-border-bright); background: rgb(92 238 218 / 12%); 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .object-icon { display: grid; place-items: center; width: 27px; height: 27px; border-radius: 8px; background: rgb(113 156 255 / 13%); }
 .object-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .inspector { display: grid; gap: 11px; margin-bottom: 22px; }
@@ -28,7 +29,8 @@ Awtsmoos.com makes selection and evidence tactile without covering the viewport.
 .vector-fields input { width: 100%; min-width: 0; height: 31px; padding: 0 6px; border: 1px solid var(--studio-border); border-radius: 7px; color: var(--studio-text); background: rgb(255 255 255 / 5%); }
 .evidence { display: grid; gap: 8px; }
 .evidence-card { padding: 9px; border: 1px solid var(--studio-border); border-radius: var(--studio-radius-sm); background: var(--studio-panel-soft); }
-.evidence-card strong { display: block; margin-bottom: 4px; font-size: 12px; }
+.evidence-card strong { display: block; margin-bottom: 4px; font-size: 12px; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .evidence-card small { color: var(--studio-muted); line-height: 1.45; word-break: break-word; }
 .studio[data-state="error"] .viewport-shell { outline: 2px solid var(--studio-danger); outline-offset: -2px; }
 

@@ -37,7 +37,8 @@
 	margin: .55rem 0 1rem;
 	max-width: 13ch;
 	text-wrap: balance;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .home-hero-copy > p:not(.civilization-kicker) {
 	color: var(--civil-text-soft);
 	font-size: clamp(1rem, 1.8vw, 1.15rem);

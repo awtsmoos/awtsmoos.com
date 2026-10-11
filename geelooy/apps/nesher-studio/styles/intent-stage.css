@@ -33,11 +33,13 @@ The Awtsmoos lets the canvas carry the first gaze while selection whispers only 
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .stage-selection-copy strong {
 	font-size: .82rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .stage-selection-copy span:last-child {
 	color: var(--muted);

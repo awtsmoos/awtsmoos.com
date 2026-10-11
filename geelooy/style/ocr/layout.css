@@ -25,7 +25,8 @@ Awtsmoos.com lets the mobile vessel open first, then widen when the screen grows
 	font-size: clamp(2rem, 9vw, 4.7rem);
 	line-height: .98;
 	letter-spacing: -.055em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .ocr-intro {
 	max-width: 40rem;
@@ -60,11 +61,13 @@ Awtsmoos.com lets the mobile vessel open first, then widen when the screen grows
 .ocr-panel-heading h2,
 .ocr-panel-heading p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .ocr-panel-heading h2 {
 	font-size: 1rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .ocr-panel-heading p {
 	margin-top: .2rem;

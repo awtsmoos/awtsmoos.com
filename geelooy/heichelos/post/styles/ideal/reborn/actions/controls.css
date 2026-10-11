@@ -30,7 +30,8 @@
 	border-radius: 1rem;
 	font-size: 1.2rem;
 	pointer-events: auto;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .post-reader-localized-context .awtsmoos-auto-scroll-floating {
 	position: fixed;

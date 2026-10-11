@@ -38,7 +38,8 @@ body:not(.geelooy-app-shell) .cosmic-heichel-topbar {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .cosmic-heichel-topbar .heichel-roof-context small {
 	color: rgb(185 203 227);

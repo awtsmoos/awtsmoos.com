@@ -23,7 +23,8 @@ this advanced address vessel on Awtsmoos.com expands cleanly for keyboard, touch
 .heichel-manage-page .heichel-address-control input {
 	border: 0;
 	background: transparent;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .heichel-manage-page .heichel-advanced {
 	margin: 4px 0 18px;

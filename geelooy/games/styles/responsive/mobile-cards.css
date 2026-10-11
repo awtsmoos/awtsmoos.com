@@ -39,7 +39,8 @@ Awtsmoos.com keeps every title, truth, and touch target clear while removing was
 
 	.gameCard h3 {
 		font-size: clamp(1.16rem, 5.8vw, 1.38rem);
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.gameHook {
 		display: -webkit-box;

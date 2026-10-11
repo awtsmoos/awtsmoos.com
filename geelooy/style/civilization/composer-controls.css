@@ -11,11 +11,13 @@
 .composer-civilization-document h2 {
 	font-size: 1.15rem;
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .composer-civilization-document h3 {
 	font-size: 1rem;
 	margin: 1.1rem 0 .6rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .composer-civilization-document :where(p, small) {
 	color: var(--civil-text-soft);
 }
@@ -40,7 +42,8 @@
 .composer-civilization-document textarea {
 	min-height: 6rem;
 	resize: vertical;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .composer-civilization-document :where(input, textarea)::placeholder {
 	color: var(--civil-text-faint);
 }

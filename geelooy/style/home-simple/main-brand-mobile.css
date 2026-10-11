@@ -16,7 +16,8 @@ The Awtsmoos gives the narrow Home page one measured earth beneath its fixed doc
 		font-size: clamp(2.35rem, 12vw, 3.35rem);
 		line-height: .94;
 		max-width: 9ch;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 680px) { body[data-geelooy-route="home"] .hero-summary {
 		font-size: .98rem;
 		line-height: 1.5;
@@ -29,7 +30,8 @@ The Awtsmoos gives the narrow Home page one measured earth beneath its fixed doc
 @media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .featured-heading h2 {
 		font-size: clamp(1.8rem, 8.5vw, 2.55rem);
 		line-height: 1.02;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 680px) { body[data-geelooy-route="home"] .mobile-dock {
 		bottom: max(.55rem, env(safe-area-inset-bottom));
 	} }
@@ -42,4 +44,5 @@ The Awtsmoos gives the narrow Home page one measured earth beneath its fixed doc
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 390px) { :where(body[data-geelooy-route="home"]) .hero-actions a:last-child {
 		grid-column: 1 / -1;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }

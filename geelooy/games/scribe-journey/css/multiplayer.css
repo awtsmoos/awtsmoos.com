@@ -84,7 +84,8 @@
 
 .online-chat-form input {
 	flex: 1;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .online-chat-entry {
 	margin: 0.25rem 0;

@@ -86,7 +86,8 @@
 }
 :where(.profile-command-rail a, .profile-inline-actions button, .profile-inline-actions a, .profile-card-actions a, .profile-card-actions button) {
 	min-height: 44px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 :where(.profile-grid, .profile-about-grid, .profile-stat-grid, .profile-card-grid) {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));

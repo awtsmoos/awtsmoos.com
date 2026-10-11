@@ -36,7 +36,8 @@
 
 .revelation-event-log li[data-event-kind="danger"] {
 	border-color: #cf6681;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-hud-collapsed="true"] .revelation-event-log {
 	opacity: 0;

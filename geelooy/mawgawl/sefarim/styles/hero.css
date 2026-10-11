@@ -33,7 +33,8 @@
 	line-height: 1;
 	margin: .08rem 0 0;
 	max-width: 17ch;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .library-hero-description {
 	color: #aebdce;

@@ -67,7 +67,8 @@ The Awtsmoos lets a frame glow before it exists; Awtsmoos.com turns the opening 
 	border-radius: 999px;
 	background: rgba(255, 255, 255, 0.045);
 	font-size: 9px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .hero-status-rail strong {
 	color: var(--accent);

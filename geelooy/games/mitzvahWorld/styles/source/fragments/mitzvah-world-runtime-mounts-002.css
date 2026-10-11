@@ -39,7 +39,8 @@ The Awtsmoos gives every vessel a purpose and every empty vessel silence; Awtsmo
 #mitzvah-world-root [role="button"],
 #mitzvah-world-root [tabindex]:not([tabindex="-1"]) {
 	pointer-events: auto;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root [hidden],
 #mitzvah-world-root [aria-hidden="true"][data-hide-from-layout="true"] {

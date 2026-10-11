@@ -22,10 +22,12 @@
 	} }
 @media (max-width: 43.75rem) { .awtsmoosDrop .profile-trigger-copy small {
 		display: none;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 43.75rem) { .awtsmoosDrop .profile-trigger-copy strong {
 		max-width: 5.4rem;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 28rem) { .awtsmoosDrop .profile-trigger {
 		padding-inline: .4rem;
 	} }

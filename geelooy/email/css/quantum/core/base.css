@@ -59,7 +59,8 @@
 .geelooy-mail-document textarea,
 .geelooy-mail-document select {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .geelooy-mail-document .hidden.hidden {
 	display: none;

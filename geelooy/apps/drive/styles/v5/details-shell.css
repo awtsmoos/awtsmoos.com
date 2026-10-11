@@ -50,11 +50,13 @@
 	margin: 0;
 	max-width: 100%;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .drive-details-hero h2 {
 	font-size: 1rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .drive-details-hero p {
 	color: var(--drive-muted);

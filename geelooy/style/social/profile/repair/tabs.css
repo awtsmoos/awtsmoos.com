@@ -13,7 +13,8 @@
   border-radius: 14px;
   min-height: 48px;
   text-align: center;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .profile-tabs button.active, .profile-tabs .active, .profile-tabs [aria-selected="true"] {
   background: rgba(139,92,246,.16);
   color: var(--light-text-fff, #fff);

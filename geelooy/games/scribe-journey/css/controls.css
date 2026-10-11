@@ -76,7 +76,8 @@
 	touch-action: none;
 	pointer-events: auto;
 }
-#action-button small { font-size: 0.58rem; opacity: 0.72; }
+#action-button small { font-size: 0.58rem; opacity: 0.72; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 #action-button.active { transform: scale(0.94); background: var(--gold); color: #211b08; }
 body[data-left-handed='true'] #mobile-controls { flex-direction: row-reverse; }
 body[data-left-handed='true'] .joystick-pad { transform-origin: bottom right; }

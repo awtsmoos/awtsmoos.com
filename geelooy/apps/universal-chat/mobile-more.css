@@ -82,7 +82,8 @@
 .messaging-mobile-more-sheet h2 {
 	margin: 0;
 	font-size: 1.02rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .messaging-mobile-more-sheet header p {
 	margin: 0;
@@ -98,7 +99,8 @@
 	margin-left: auto;
 	padding: 0;
 	font-size: 1.25rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (min-width: 761px) {
 	.messaging-mobile-more-host {

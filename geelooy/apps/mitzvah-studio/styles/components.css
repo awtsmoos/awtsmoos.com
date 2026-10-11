@@ -21,7 +21,8 @@
 		font-size: 1.02rem;
 		letter-spacing: .04em;
 		text-shadow: var(--studio-glow-gold);
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	#mitzvah-studio :is(.studio-brand span, .panel-heading span, .studio-outliner-row small, .studio-shelf-copy small) {
 		color: var(--studio-muted);
@@ -61,7 +62,8 @@
 
 	#mitzvah-studio .panel-heading input {
 		width: min(100%, 188px);
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	#mitzvah-studio :is(.studio-shelf-list, .studio-outliner-list, .inspector-fields) {
 		display: grid;

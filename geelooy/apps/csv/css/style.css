@@ -169,7 +169,8 @@ body {
     font-size: 0.7rem;
     height: 20px;
     line-height: 1;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .btn.hidden {
     display: none;
@@ -198,7 +199,8 @@ th, td {
     border: 1px solid var(--border);
     padding: 0;
     position: relative;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 /* Header Cells */
 th {
@@ -232,7 +234,8 @@ td.row-header {
 td.cell {
     min-width: 100px;
     height: 32px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 td.cell input {
     width: 100%;
@@ -259,7 +262,8 @@ th.corner {
     background: var(--void);
     border-right: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 /* Loading State */
 .loading-overlay {

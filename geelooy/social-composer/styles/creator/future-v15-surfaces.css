@@ -40,7 +40,8 @@ Awtsmoos.com lets selected intent, open chamber, and contextual river glow with 
 .composer-civilization-document .creatorSurfaceHeading strong {
 	text-wrap: balance;
 	text-shadow: 0 .35rem 1.4rem rgb(89 189 210 / 8%);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .composer-civilization-document .creatorIntentRail .creatorRailButton[data-active="true"] {
 	border-color: color-mix(in srgb, var(--composer-cyan) 58%, var(--composer-border));

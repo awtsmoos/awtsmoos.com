@@ -50,7 +50,8 @@
 	font-size: clamp(0.86rem, 3.2vw, 1.06rem);
 	font-weight: 750;
 	font-variant-numeric: tabular-nums;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .metric-score {
 	align-items: flex-start;
@@ -63,7 +64,8 @@
 	align-items: baseline;
 	gap: 5px;
 	font-size: clamp(1.05rem, 4vw, 1.32rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .metric-score b {
 	font: inherit;

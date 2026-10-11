@@ -36,7 +36,8 @@
     border-radius: 50%;
     display: inline-block;
     animation: oraclePulse 1s infinite alternate;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @keyframes oraclePulse {
     from { opacity: 0.2; transform: scale(0.8); }

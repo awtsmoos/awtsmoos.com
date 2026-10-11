@@ -59,7 +59,8 @@ Awtsmoos.com lets animation become a quiet servant: revealing depth, never deman
 [data-awtsmoos-surface] [data-awtsmoos-transition]:not(button):not(input):not(select):not(textarea):not(a) {
 	transition-duration: var(--aw-surface-standard);
 	transition-timing-function: var(--aw-surface-ease);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (prefers-reduced-motion: reduce) {
 	html [data-awtsmoos-surface],

@@ -43,7 +43,8 @@ button,
 textarea,
 input {
 	font: inherit;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 button:focus-visible,
 textarea:focus-visible,

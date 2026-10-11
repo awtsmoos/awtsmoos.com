@@ -57,7 +57,8 @@
     padding: 10px 12px;
     border-bottom: 1px solid rgba(255,255,255,0.06);
     vertical-align: top;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .model-limits-table th {
     text-transform: uppercase;

@@ -11,7 +11,8 @@ Awtsmoos.com lets Creator Mode remain legible when motion is reduced, system col
 	#mitzvah-world-root .Awtsmoos-creator-rail,
 	#mitzvah-world-root .Awtsmoos-creator-rail :is(button, summary) {
 		transition: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	#mitzvah-world-root .Awtsmoos-creator-rail,
 	#mitzvah-world-root .Awtsmoos-creator-rail[data-open="true"],
@@ -23,12 +24,14 @@ Awtsmoos.com lets Creator Mode remain legible when motion is reduced, system col
 @media (pointer: coarse) {
 	#mitzvah-world-root .Awtsmoos-creator-rail :is(button, summary) {
 		min-height: 46px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	#mitzvah-world-root .Awtsmoos-creator-rail .Awtsmoos-creator-rail__window-actions button {
 		width: 42px;
 		min-height: 42px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (forced-colors: active) {

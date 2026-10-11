@@ -23,7 +23,8 @@ The Awtsmoos lets every command wear a human-readable garment while its identity
 .creative-command-card p {
 	margin: 0;
 	font-size: .78rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .creative-command-heading,
 .creative-command-field,
@@ -50,16 +51,19 @@ The Awtsmoos lets every command wear a human-readable garment while its identity
 .creative-command-field textarea {
 	width: 100%;
 	min-height: var(--touch);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .creative-command-field textarea {
 	resize: vertical;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .creative-command-field input[type="checkbox"] {
 	width: var(--touch);
 	justify-self: start;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .creative-command-run {
 	min-height: var(--touch);
@@ -81,9 +85,11 @@ The Awtsmoos lets every command wear a human-readable garment while its identity
 
 .creative-history-list li {
 	padding: 6px 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .creative-history-list li span {
 	display: block;
 	text-transform: uppercase;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

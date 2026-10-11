@@ -23,4 +23,5 @@
 .media-panel.is-minimized .caption-file,
 .media-panel.is-minimized .file-picker small {
 	display: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

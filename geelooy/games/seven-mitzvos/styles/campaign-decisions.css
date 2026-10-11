@@ -30,7 +30,8 @@
 .findingRow label,
 .rationaleButton {
 	min-height: 44px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .campaignStrategy {
 	padding: 10px;
@@ -52,13 +53,15 @@
 .findingRow legend {
 	width: 100%;
 	font-weight: 760;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .findingRow label {
 	display: inline-flex;
 	gap: 8px;
 	align-items: center;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .nextRevelation {
 	margin-top: 24px;

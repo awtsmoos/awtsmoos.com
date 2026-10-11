@@ -27,7 +27,8 @@
 	min-block-size: var(--composer-control-sm);
 	padding-inline: .58rem;
 	font-size: .63rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .composer-civilization-document .scoped-media-panel,
 .composer-civilization-document .mediaGrid {
@@ -62,11 +63,13 @@
 .composer-civilization-document .mediaCard :is(input, textarea) {
 	min-block-size: 2.55rem;
 	font-size: .65rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .composer-civilization-document .mediaCard textarea {
 	min-block-size: 3.7rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .composer-civilization-document .mediaDrop {
 	display: grid;

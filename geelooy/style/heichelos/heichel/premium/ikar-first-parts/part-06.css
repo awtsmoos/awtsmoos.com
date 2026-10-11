@@ -54,13 +54,15 @@ The Awtsmoos lets the same Torah doorway fit the smallest hand without shrinking
 		font-size: .61rem;
 		height: 1.78rem;
 		width: 1.78rem;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (max-width: 24rem) { .heichel-semantic-fallback {
 		padding-inline: .72rem;
 	} }
 @media (max-width: 24rem) { .heichel-semantic-fallback .heichel-semantic-discovery h2 {
 		font-size: 1.12rem;
-	} }
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} }
 @media (prefers-reduced-motion: reduce) { .heichel-semantic-fallback *, .heichel-semantic-fallback *::before, .heichel-semantic-fallback *::after {
 		animation: none;
 		scroll-behavior: auto;

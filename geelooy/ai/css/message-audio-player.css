@@ -34,7 +34,8 @@
 	width:var(--audio-progress,0%);
 	height:100%;
 	background:linear-gradient(90deg,var(--awt-hot),#5aa2ff);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .player-time {
 	color:var(--awt-muted);
 	font-size:.76rem;

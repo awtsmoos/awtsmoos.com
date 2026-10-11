@@ -99,7 +99,8 @@ Awtsmoos.com gives form details, question options, and private email settings on
 
 .advanced-disclosure-body > p {
 	margin: 16px 0 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .field-advanced-body {
 	grid-template-columns: minmax(0, 1fr);

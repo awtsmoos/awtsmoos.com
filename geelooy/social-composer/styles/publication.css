@@ -40,7 +40,8 @@
 	border-radius: 0.7rem;
 	background: color-mix(in srgb, var(--surface), transparent 10%);
 	font-size: 0.8rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .headerStats b {
 	display: block;
@@ -64,7 +65,8 @@
 
 .questionFields label:last-child {
 	grid-column: 1 / -1;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .previewFocused .composerColumn {
 	display: none;
@@ -87,5 +89,6 @@
 
 	.questionFields label:last-child {
 		grid-column: auto;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

@@ -21,7 +21,8 @@
     font-size: 24px;
     font-weight: 900;
     transition: all 0.1s var(--ease-snap);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where(.post-reader-localized-context) .awtsmoos-floating-controls button:hover {
     transform: translate(-3px, -3px);

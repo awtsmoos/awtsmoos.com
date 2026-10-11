@@ -179,7 +179,8 @@ body[data-geelooy-route="home"] .search:focus-within {
 body[data-geelooy-route="home"] .search textarea {
 	caret-color: var(--home-accent-strong);
 	transition: transform .25s var(--dream-spring-soft);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 body[data-geelooy-route="home"] .search:focus-within textarea {
 	transform: translateY(-1px);
 }
@@ -195,7 +196,8 @@ body[data-geelooy-route="home"] .search.has-query .search-symbol {
 body[data-geelooy-route="home"] .search button {
 	transform: translate(var(--mag-x, 0px), var(--mag-y, 0px));
 	transition: background .16s ease, border-color .16s ease, transform .2s var(--dream-spring-soft), box-shadow .2s ease, filter .12s ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 body[data-geelooy-route="home"] .search button:hover, body[data-geelooy-route="home"] .search button:focus-visible {
 	transform: translate(var(--mag-x, 0px), calc(var(--mag-y, 0px) - 1px)) scale(1.03);
 }
@@ -204,7 +206,8 @@ body[data-geelooy-route="home"] .search button:active {
 }
 body[data-geelooy-route="home"] .search button:disabled {
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* Suggestion options arrive in a soft cascade. */
 body[data-geelooy-route="home"] .omnibox-panel:not([hidden]) .omnibox-option {
 	animation: dream-opt-in .3s var(--dream-spring-soft) both;
@@ -300,7 +303,8 @@ body[data-geelooy-route="home"] .world-tile:active {
 }
 body[data-geelooy-route="home"] .world-tile span {
 	transition: transform .26s var(--dream-spring), background .2s ease, box-shadow .25s ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 body[data-geelooy-route="home"] .world-tile:hover span, body[data-geelooy-route="home"] .world-tile:focus-visible span {
 	transform: rotate(-8deg) scale(1.1);
 	box-shadow: 0 12px 28px rgba(var(--world-accent), .35), inset 0 1px var(--home-inset-hi);
@@ -320,7 +324,8 @@ body[data-geelooy-route="home"] .portal-shortcuts a {
 	overflow: hidden;
 	transform: translate(var(--mag-x, 0px), var(--mag-y, 0px));
 	transition: background .18s ease, border-color .18s ease, box-shadow .25s ease, filter .12s ease, transform .22s var(--dream-spring-soft);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 body[data-geelooy-route="home"] .portal-shortcuts a::after {
 	content: "";
 	position: absolute;
@@ -329,7 +334,8 @@ body[data-geelooy-route="home"] .portal-shortcuts a::after {
 	transform: translateX(-130%);
 	transition: transform .7s ease;
 	pointer-events: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 @media (hover: hover) and (pointer: fine) {
 	body[data-geelooy-route="home"] .portal-shortcuts a:hover {
 		border-color: var(--panel-border-strong);
@@ -354,7 +360,8 @@ body[data-geelooy-route="home"] .portal-shortcuts a:focus-visible {
 /* The glyph springs up and tilts as the door opens. */
 body[data-geelooy-route="home"] .portal-shortcuts a span {
 	transition: transform .26s var(--dream-spring), background .18s ease, color .18s ease, box-shadow .25s ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 @media (hover: hover) and (pointer: fine) {
 	body[data-geelooy-route="home"] .portal-shortcuts a:hover span {
 		transform: translateY(-3px) rotate(-8deg) scale(1.08);
@@ -392,7 +399,8 @@ body[data-geelooy-route="home"] .portal-shortcuts small {
 		position: relative;
 		transform: translate(var(--mag-x, 0px), var(--mag-y, 0px));
 		transition: background .18s ease, border-color .18s ease, color .18s ease, filter .12s ease, transform .22s var(--dream-spring-soft), box-shadow .22s ease;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	body[data-geelooy-route="home"] .mobile-dock a[aria-current="page"] {
 		border-color: var(--home-accent);
 		background: var(--home-accent-soft);
@@ -410,7 +418,8 @@ body[data-geelooy-route="home"] .portal-shortcuts small {
 		background: var(--home-accent);
 		box-shadow: 0 0 10px var(--home-accent);
 		transform: translateX(-50%);
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	body[data-geelooy-route="home"] .mobile-dock a:active {
 		border-color: var(--home-accent);
 		background: var(--panel-raised);
@@ -525,7 +534,8 @@ body[data-geelooy-route="home"] .site-footer a::after {
 	transform-origin: left center;
 	transition: transform .26s var(--dream-spring-soft);
 	pointer-events: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 body[data-geelooy-route="home"] .site-footer a:hover, body[data-geelooy-route="home"] .site-footer a:focus-visible {
 	background: var(--home-accent-soft);
 	color: var(--text-primary);
@@ -611,5 +621,6 @@ body[data-geelooy-route="home"] .launcher-search input::placeholder {
 	body[data-geelooy-route="home"] .portal-shortcuts a::after,
 	body[data-geelooy-route="home"] .brand-mark::after {
 		display: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

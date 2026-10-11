@@ -35,7 +35,8 @@
 	letter-spacing: .06em;
 	text-transform: uppercase;
 	opacity: .72;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-vessel-detail code {
 	display: block;
@@ -49,7 +50,8 @@
 .awt-vessel-detail p {
 	margin: 0;
 	line-height: 1.5;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-vessel-health {
 	display: grid;
@@ -62,13 +64,15 @@
 
 .awt-vessel-health strong {
 	font-size: .82rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-vessel-health span {
 	font-size: .78rem;
 	line-height: 1.45;
 	opacity: .8;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-vessel-health.is-healthy,
 .awt-vessel-health.is-virtual {
@@ -98,12 +102,14 @@
 	border-radius: 999px;
 	font-size: .76rem;
 	background: color-mix(in srgb, var(--awt-surface, #102235) 70%, transparent);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-vessel-actions a {
 	font-weight: 700;
 	text-decoration: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awt-vessel-actions a:hover,
 .awt-vessel-actions a:focus-visible {
@@ -115,4 +121,5 @@
 .awt-vessel-table th:nth-child(3) {
 	max-width: 260px;
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

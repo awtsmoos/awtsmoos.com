@@ -157,7 +157,8 @@ input[type="text"]:focus, textarea:focus {
     font-size: 2.3rem;
     margin: 0 0 1rem 0;
     line-height: 1.1;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .card-wrapper .post-preview {
     font-family: var(--font-content);
     line-height: 1.7;

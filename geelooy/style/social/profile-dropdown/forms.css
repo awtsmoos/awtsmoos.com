@@ -30,7 +30,8 @@
 .awtsmoosDrop textarea {
 	min-height: 5.4rem;
 	resize: vertical;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .awtsmoosDrop :where(input, textarea):focus {
 	border-color: #3cecff;
 	box-shadow: 0 0 0 4px rgba(60, 236, 255, 0.15), 0 0 28px rgba(139, 92, 255, 0.2);

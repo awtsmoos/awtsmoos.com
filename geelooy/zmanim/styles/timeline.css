@@ -58,7 +58,8 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .timeline-anchor span {
 	font-size: 0.59rem;
@@ -68,4 +69,5 @@
 .timeline-anchor strong {
 	margin-top: 0.1rem;
 	font-size: clamp(0.62rem, 2.5vw, 0.76rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

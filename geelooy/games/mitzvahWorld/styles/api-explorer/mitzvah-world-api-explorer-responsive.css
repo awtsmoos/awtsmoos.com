@@ -20,7 +20,8 @@ responsive law here changes density only, never viewport coordinates, so no text
 
 	.Awtsmoos-api-explorer__title strong {
 		font-size: 13px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.Awtsmoos-api-explorer__command-row {
 		grid-template-columns: 1fr;
@@ -50,7 +51,8 @@ responsive law here changes density only, never viewport coordinates, so no text
 	.Awtsmoos-api-explorer textarea {
 		min-height: 58px;
 		max-height: 96px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.Awtsmoos-api-explorer__result {
 		min-height: 64px;

@@ -55,7 +55,8 @@
 .victoryStats em {
 	display: block;
 	font-style: normal;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .victoryStats em {
 	color: #ffe68b;

@@ -40,7 +40,8 @@
 .advanced-panel h2 {
 	margin: 0;
 	letter-spacing: -.035em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .advanced-header > div > p:last-child {
 	max-width: 720px;
@@ -73,7 +74,8 @@
 
 .advanced-status p {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .advanced-status #error {
 	color: #ff747e;

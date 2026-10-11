@@ -46,14 +46,16 @@
 .connectedServer h1,
 .connectedServer h2 {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .connectedServer h1 {
 	max-width: 900px;
 	font-size: clamp(2rem, 5vw, 4.4rem);
 	letter-spacing: -.055em;
 	line-height: .95;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .connectedServer__lead {
 	max-width: 900px;

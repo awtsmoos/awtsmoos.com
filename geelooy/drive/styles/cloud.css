@@ -39,7 +39,8 @@ so every integration may become real without rewriting the language of honest re
 
 .capability-card strong {
 	font-size: 12px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .capability-card p {
 	margin: 5px 0 0;

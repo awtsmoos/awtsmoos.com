@@ -39,11 +39,13 @@ mitzvah-world-api-explorer-001.css reveals localized style through the Awtsmoos 
 	width: 100%;
 	min-height: 8rem;
 	overflow: auto;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root #universalApiExplorer button {
 	margin: .5rem .5rem .5rem 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (max-width: 48rem) {
 	#mitzvah-world-root #universalApiExplorer {

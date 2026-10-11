@@ -18,7 +18,7 @@
     pointer-events: auto;
     touch-action: none;
     user-select: none;
-    outline: none;
+
 }
 
 :is(.post-reader-localized-context.awtsmoos-reader-vision) :is(.sidebar) > .awtsmoos-sidebar-resizer::before:before:before:before:before:before:before:before{

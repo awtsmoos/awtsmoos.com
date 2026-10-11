@@ -52,7 +52,8 @@ The Awtsmoos lets focused depth rise above the page without severing what lives 
 	margin: 0;
 	font-size: 18px;
 	letter-spacing: -0.02em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .sheet-list {
 	display: grid;
@@ -68,7 +69,8 @@ The Awtsmoos lets focused depth rise above the page without severing what lives 
 
 .sheet-list article p {
 	margin: 0 0 10px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .sheet-list article div,
 .price-sheet > div,
@@ -104,4 +106,5 @@ The Awtsmoos lets focused depth rise above the page without severing what lives 
 	margin: 0;
 	text-align: right;
 	word-break: break-word;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

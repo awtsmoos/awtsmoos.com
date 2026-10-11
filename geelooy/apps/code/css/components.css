@@ -4,7 +4,8 @@
  * Buttons, find/replace, settings cards, and preview panes now have clear
  * bodies instead of half-manifested controls.
  */
-button,.button{font-family:var(--font-ui);cursor:pointer;border:none;transition:all var(--timing-fast) ease;user-select:none}
+button,.button{font-family:var(--font-ui);cursor:pointer;border:none;transition:all var(--timing-fast) ease;user-select:none
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .icon-button{background:none;color:var(--color-text-secondary);font-size:1.2em;line-height:1;padding:10px;border-radius:var(--radius-md);width:44px;height:44px;display:inline-flex;justify-content:center;align-items:center}
 .icon-button:hover:not(:disabled){background-color:var(--color-bg-tertiary);color:var(--neon-cyan);text-shadow:0 0 8px var(--glow-cyan)}
 .primary-btn{background:linear-gradient(45deg,var(--neon-cyan),var(--neon-magenta));color:white;border:none;padding:12px 20px;border-radius:var(--radius-sm);font-weight:bold;min-height:44px}
@@ -21,7 +22,8 @@ button,.button{font-family:var(--font-ui);cursor:pointer;border:none;transition:
 #find-replace-panel button{min-height:34px;padding:6px 10px;border-radius:8px;background:rgba(0,246,255,.08);color:var(--neon-cyan);border:1px solid rgba(0,246,255,.22)}
 .find-count{min-width:48px;text-align:center;color:var(--neon-lime);font-family:var(--font-code);font-size:12px}
 .fr-case{display:flex;align-items:center;gap:5px;color:var(--color-text-secondary);font-size:12px;white-space:nowrap}
-.fr-case.fr-case input{width:auto;accent-color:var(--neon-cyan)}
+.fr-case.fr-case input{width:auto;accent-color:var(--neon-cyan)
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .code-settings-shell{display:grid;gap:14px;max-height:min(74vh,760px);overflow:auto;padding-right:4px}
 .code-settings-shell hr{width:100%;border:0;border-top:1px solid var(--color-border)}
 .settings-card{display:grid;gap:10px;border:1px solid rgba(0,246,255,.22);border-radius:12px;background:rgba(0,0,0,.28);padding:14px}
@@ -30,7 +32,8 @@ button,.button{font-family:var(--font-ui);cursor:pointer;border:none;transition:
 .settings-help{margin:0;color:var(--color-text-secondary);font-size:.85rem;line-height:1.45}
 .settings-title-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .settings-check.settings-check{display:flex;align-items:center;gap:8px;cursor:pointer}
-.settings-check.settings-check input{width:auto;accent-color:var(--neon-cyan)}
+.settings-check.settings-check input{width:auto;accent-color:var(--neon-cyan)
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .settings-grid{display:grid;gap:8px}.settings-grid.two{grid-template-columns:1fr auto}.settings-grid.three{grid-template-columns:2fr 90px 1fr}
 .ssh-profile-card{border:1px solid var(--color-border);border-radius:10px;padding:10px;margin-bottom:10px;display:grid;gap:8px;background:rgba(255,255,255,.025)}
 .ssh-empty{color:var(--color-text-tertiary);font-size:.9em}.ssh-profile-key{min-height:110px;resize:vertical}

@@ -20,5 +20,6 @@
   .profile-hero-card h1 {
     font-size: clamp(2.42rem, 11.4vw, 4rem);
     line-height: .9;
-  }
+  
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

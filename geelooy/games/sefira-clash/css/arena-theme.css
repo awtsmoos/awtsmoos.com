@@ -79,7 +79,8 @@
 .arenaThemeControl__actions button:disabled {
 	opacity: .55;
 	cursor: default;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .arenaThemeControl[data-state="owned"] {
 	border-color: #b59045;

@@ -14,7 +14,8 @@
 .settings-list select,
 .diagnostics-panel summary {
 	transition: transform var(--motion-fast) var(--ease-out), background var(--motion-fast) var(--ease-soft), border-color var(--motion-fast) var(--ease-soft), color var(--motion-fast) var(--ease-soft), box-shadow var(--motion-fast) var(--ease-soft);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .drawer-header button:focus-visible,
 .settings-list input:focus-visible,

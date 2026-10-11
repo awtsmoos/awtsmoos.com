@@ -53,7 +53,8 @@ button:focus-visible {
 button:disabled {
 	opacity: .55;
 	cursor: progress;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .workspace {
 	display: grid;
 	grid-template-columns: minmax(0, 1.5fr) minmax(320px, .8fr);

@@ -46,7 +46,8 @@
   text-overflow: ellipsis;
   text-transform: uppercase;
   white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .editor-mount,
 .workspace-mount,

@@ -35,7 +35,8 @@
 
 .awtsmoosDrop :where(.profile-trigger, .menu-wide, .aliasId, .profile-menu-actions a) {
 	transition: border-color 160ms ease, box-shadow 180ms ease, filter 160ms ease, transform 180ms ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (hover: hover) {
 	.awtsmoosDrop :where(.profile-trigger, .menu-wide, .aliasId, .profile-menu-actions a):hover {

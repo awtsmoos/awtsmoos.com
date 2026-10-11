@@ -62,7 +62,8 @@ body[data-comment-thread-page] .threadContextPanel > .awtsmoosDisclosure__body {
 
 body[data-comment-thread-page] .threadContextBody label {
 	min-inline-size: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-comment-thread-page] .threadContextBody :where(input, textarea, select) {
 	box-sizing: border-box;
@@ -81,7 +82,8 @@ body[data-comment-thread-page] .threadContextBody :where(input, textarea, select
 body[data-comment-thread-page] .threadContextBody textarea {
 	min-block-size: 5rem;
 	resize: vertical;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-comment-thread-page] .threadContextPanel :where(
 	.awtsmoosDisclosure__summary,

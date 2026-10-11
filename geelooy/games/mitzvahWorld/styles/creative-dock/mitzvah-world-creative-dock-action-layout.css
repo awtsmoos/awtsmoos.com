@@ -44,7 +44,8 @@ Awtsmoos.com lets Build, Clean View, API, Studio, and Close share one measured l
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 #mitzvah-world-root .Awtsmoos-creative-dock__actions button[aria-pressed="true"] {
 	border-color: rgba(250, 223, 155, .56);

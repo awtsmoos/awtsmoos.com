@@ -30,7 +30,8 @@ body[data-messaging-page] .messaging-voice-state strong {
 	font-size: .78rem;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-messaging-page] .messaging-voice-state time {
 	color: var(--msg-muted);
@@ -60,7 +61,8 @@ body[data-messaging-page] .messaging-voice-start {
 	border-color: rgba(121, 224, 183, .24);
 	background: linear-gradient(145deg, rgba(121, 224, 183, .12), rgba(73, 129, 145, .08));
 	transition: transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-messaging-page] .messaging-voice-actions button:focus-visible,
 body[data-messaging-page] .messaging-voice-start:focus-visible {
@@ -77,7 +79,8 @@ body[data-messaging-page] .messaging-voice-actions button:disabled,
 body[data-messaging-page] .messaging-voice-start:disabled {
 	cursor: not-allowed;
 	opacity: .52;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-messaging-page] .messaging-composer.is-voice-active .messaging-composer-row {
 	display: none;
@@ -100,5 +103,6 @@ body[data-messaging-page] .messaging-composer.is-voice-active .messaging-compose
 @media (prefers-reduced-motion: reduce) {
 	body[data-messaging-page] .messaging-voice-dot { animation: none; }
 	body[data-messaging-page] .messaging-voice-actions button,
-	body[data-messaging-page] .messaging-voice-start { transition-duration: .01ms; }
+	body[data-messaging-page] .messaging-voice-start { transition-duration: .01ms; 
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }

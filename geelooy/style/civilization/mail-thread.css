@@ -74,7 +74,8 @@
 	place-items: center;
 	text-align: center;
 }
-.void-logo :where(h2, p) { margin: 0; }
+.void-logo :where(h2, p) { margin: 0; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .void-atom,
 .chat-frequency-light,
 .time-scrubber,

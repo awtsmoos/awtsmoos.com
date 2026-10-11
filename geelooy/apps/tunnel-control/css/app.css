@@ -24,7 +24,8 @@
 	background: rgba(5, 20, 17, .92);
 	box-shadow: 0 30px 90px rgba(0, 0, 0, .5);
 }
-.awt-pairing-card h1 { margin: 12px 0; font-size: clamp(2rem, 6vw, 3.5rem); }
+.awt-pairing-card h1 { margin: 12px 0; font-size: clamp(2rem, 6vw, 3.5rem); 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .awt-pairing-card p { color: #b9d9cc; line-height: 1.65; }
 .awt-pairing-code {
 	margin: 28px 0;

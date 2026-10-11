@@ -15,7 +15,8 @@ body[data-geelooy-route="docs"] .hero h1 {
 	margin: 0;
 	font: 650 clamp(2.2rem, 6vw, 5.4rem)/.98 var(--font-serif);
 	letter-spacing: -.045em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-geelooy-route="docs"] .hero p {
 	max-width: 720px;
@@ -36,7 +37,8 @@ body[data-geelooy-route="docs"] .section-head {
 body[data-geelooy-route="docs"] .section-head h2 {
 	margin: 0;
 	font-size: 1.05rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-geelooy-route="docs"] .stat-strip {
 	display: grid;
@@ -51,7 +53,8 @@ body[data-geelooy-route="docs"] .stat-card {
 body[data-geelooy-route="docs"] .stat-card strong {
 	display: block;
 	font: 700 1.55rem var(--font-serif);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-geelooy-route="docs"] .stat-card span {
 	color: var(--muted);
@@ -61,7 +64,8 @@ body[data-geelooy-route="docs"] .stat-card span {
 body[data-geelooy-route="docs"] :where(.doc-card, .result-card) h3 {
 	margin: 8px 0 7px;
 	font-size: 1rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 body[data-geelooy-route="docs"] :where(.doc-card, .result-card) p {
 	margin: 0;

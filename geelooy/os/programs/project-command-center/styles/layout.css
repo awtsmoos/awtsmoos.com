@@ -21,7 +21,8 @@
 	max-width: 680px;
 	margin: 0;
 	font-size: .82rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .platformMetrics,
 .platformPillars {
@@ -76,7 +77,8 @@
 .platformMetric strong {
 	font-size: 1rem;
 	font-variant-numeric: tabular-nums;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .platformPillar {
 	display: grid;
@@ -88,7 +90,8 @@
 .platformPillar p {
 	margin: 0;
 	font-size: .82rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .platformAction {
 	justify-self: start;

@@ -34,7 +34,8 @@
   background: color-mix(in srgb, var(--provider-color), transparent 78%);
   box-shadow: 0 0 24px color-mix(in srgb, var(--provider-color), transparent 54%);
 }
-.awt-provider-card h4 { margin: 0; }
+.awt-provider-card h4 { margin: 0; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .awt-provider-card p { margin: 0; color: var(--awt-muted); }
 .awt-provider-status {
   width: max-content;

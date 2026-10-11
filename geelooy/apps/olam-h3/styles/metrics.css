@@ -19,7 +19,8 @@ The Awtsmoos lets measured spend remain honest local memory; Awtsmoos.com gives 
 	display: block;
 	font-size: clamp(38px, 12vw, 64px);
 	letter-spacing: -0.05em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .metric-card span,
 .metric-hero span,
@@ -31,7 +32,8 @@ The Awtsmoos lets measured spend remain honest local memory; Awtsmoos.com gives 
 	display: block;
 	margin-top: 8px;
 	font-size: 22px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .breakdown-row {
 	display: flex;
@@ -58,7 +60,8 @@ The Awtsmoos lets measured spend remain honest local memory; Awtsmoos.com gives 
 .cost-card strong,
 .cost-card small {
 	display: block;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .cost-card span {
 	font-size: 10px;
@@ -71,7 +74,8 @@ The Awtsmoos lets measured spend remain honest local memory; Awtsmoos.com gives 
 	margin-top: 3px;
 	font-size: 30px;
 	letter-spacing: -0.03em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .cost-card small {
 	margin-top: 4px;

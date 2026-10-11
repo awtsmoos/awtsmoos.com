@@ -28,11 +28,13 @@
 
 	.messaging-member-management .messaging-disclosure-copy strong {
 		font-size: 0.72rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.messaging-member-management .messaging-disclosure-copy small {
 		font-size: 0.6rem;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.messaging-member-management > .messaging-disclosure-body {
 		padding: 0 0.65rem 0.65rem;
@@ -59,7 +61,8 @@
 	.messaging-group-footer button {
 		width: 100%;
 		min-height: 46px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-width: 380px) {

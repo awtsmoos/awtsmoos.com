@@ -19,7 +19,8 @@
 		box-shadow 150ms ease,
 		opacity 150ms ease,
 		color 150ms ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .ohrbound-app .advanced-sheet {
 	transition:
 		transform 180ms cubic-bezier(.2, .8, .2, 1),

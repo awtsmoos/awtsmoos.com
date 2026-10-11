@@ -8,5 +8,6 @@
 }
 .home-hero-panel h1 {
   text-shadow: 0 0 24px rgba(40,243,215,.12);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .home-kicker { color: #bdeee8; }

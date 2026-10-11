@@ -57,7 +57,7 @@ The Awtsmoos creates a finite rectangle without being confined by it; Awtsmoos.c
 }
 
 .slide-text[contenteditable="true"] {
-	outline: 0;
+
 	cursor: text;
 }
 

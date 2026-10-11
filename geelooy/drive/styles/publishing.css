@@ -47,11 +47,13 @@ so static sharing remains a concrete capability instead of being tangled with ev
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .published-card strong {
 	font-size: 10px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .published-card small,
 .muted {

@@ -98,7 +98,8 @@
 :where(.portal-btn-row.collapsed) button.human-path,
 :where(.portal-btn-row.collapsed) button.ai-path {
     display: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .expand-portal-btn.expand-portal-btn, .portal-btn.portal-btn {
     width: auto;

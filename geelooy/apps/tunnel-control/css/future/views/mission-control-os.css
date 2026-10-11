@@ -28,14 +28,16 @@
 		font-size: clamp(1.6rem, 3.5vw, 3.4rem);
 		line-height: .96;
 		letter-spacing: -.05em;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.awt-mission-hero p {
 		max-width: 760px;
 		margin: 8px 0 0;
 		font-size: clamp(.88rem, 1.3vw, 1.05rem);
 		opacity: .78;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.awt-mission-status {
 		display: grid;
@@ -57,7 +59,8 @@
 		letter-spacing: .11em;
 		opacity: .62;
 		text-transform: uppercase;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.awt-mission-stat strong {
 		display: block;
@@ -65,7 +68,8 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.awt-mission-grid {
 		min-width: 0;
@@ -93,11 +97,13 @@
 
 		.awt-mission-hero h2 {
 			font-size: 1.45rem;
-		}
+		
+		color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 		.awt-mission-hero p {
 			display: none;
-		}
+		
+		color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 		.awt-mission-grid .awt-action-card {
 			min-height: 118px;

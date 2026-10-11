@@ -38,7 +38,8 @@
 	margin: 0;
 	font-size: clamp(1.55rem, 3vw, 2.25rem);
 	letter-spacing: -0.03em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .gameCount {
 	display: inline-flex;

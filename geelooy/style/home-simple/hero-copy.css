@@ -13,11 +13,13 @@ body[data-geelooy-route="home"] .shliach-home-caption {
  padding:clamp(.9rem,3vw,1.6rem); min-width:0;
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(body[data-geelooy-route="home"]) .shliach-home-caption strong { font-size:clamp(1.15rem,4.5vw,2rem); line-height:1.05; }
+:where(body[data-geelooy-route="home"]) .shliach-home-caption strong { font-size:clamp(1.15rem,4.5vw,2rem); line-height:1.05; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .shliach-home-caption small { color:var(--text-muted); font-size:clamp(.72rem,2.8vw,.95rem); }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
-:where(body[data-geelooy-route="home"]) .shliach-home-caption span { grid-column:2; grid-row:1 / span 2; align-self:center; font-size:1.5rem; }
+:where(body[data-geelooy-route="home"]) .shliach-home-caption span { grid-column:2; grid-row:1 / span 2; align-self:center; font-size:1.5rem; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) :where(.shliach-home-shell:hover) .shliach-home-banner-image, :where(body[data-geelooy-route="home"]) :where(.shliach-home-shell:focus-visible) .shliach-home-banner-image { filter:brightness(1.08) saturate(1.06); transform:scale(1.015); }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */

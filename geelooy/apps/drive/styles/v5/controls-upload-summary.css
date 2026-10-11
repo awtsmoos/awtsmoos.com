@@ -54,7 +54,8 @@
 	font-size: .75rem;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .drive-upload-summary small,
 .drive-upload-row small {

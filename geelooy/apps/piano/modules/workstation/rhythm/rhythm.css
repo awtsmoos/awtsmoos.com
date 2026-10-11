@@ -50,7 +50,8 @@
 .rhythm-transport button {
 	flex: 1;
 	min-height: 42px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .rhythm-field.rhythm-field {
 	display: grid;
 	grid-template-columns: 86px minmax(0, 1fr) 48px;
@@ -78,7 +79,8 @@
 }
 .rhythm-variation button {
 	flex: 1;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .rhythm-active,
 .rhythm-playing {
 	box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.75);
@@ -105,7 +107,8 @@
 	.rhythm-panel select,
 	.rhythm-panel input[type='number'] {
 		min-height: 44px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	.rhythm-field {
 		grid-template-columns: 82px minmax(0, 1fr) 44px;
 	}

@@ -39,7 +39,8 @@ awtsmoos-embed-actions {
 .embed-panel > summary span:first-child {
 	display: grid;
 	gap: .04rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .embed-panel > summary small,
 .embed-panel-body > p,

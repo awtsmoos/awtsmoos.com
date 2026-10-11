@@ -45,7 +45,8 @@
 	.aw-studio-layer-action-grid button,
 	.aw-studio-ai-preview-actions button {
 		min-height: 48px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.aw-studio-transform-grid {
 		grid-template-columns: 1fr 1fr;
@@ -53,7 +54,8 @@
 
 	.aw-studio-panel textarea {
 		min-height: 130px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 }
 
 @media (max-width: 560px) {
@@ -78,7 +80,8 @@
 @media (max-width: 430px) {
 	.aw-studio-project-title strong {
 		font-size: 11px;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 	.aw-studio-timecode {
 		font-size: 10px;

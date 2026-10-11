@@ -24,12 +24,14 @@
 	letter-spacing: 0.08em;
 	text-transform: uppercase;
 	opacity: 0.62;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-related-torah > :where(header) h3 {
 	margin: 0;
 	font-size: clamp(1rem, 2vw, 1.25rem);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-related-torah-list {
 	display: grid;
@@ -50,18 +52,21 @@
 
 .awtsmoos-related-torah-card strong {
 	line-height: 1.35;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-related-torah-card small {
 	opacity: 0.62;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-related-torah-card p,
 .awtsmoos-related-torah-message {
 	margin: 0;
 	line-height: 1.5;
 	opacity: 0.8;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-related-torah-card a {
 	justify-self: start;
@@ -69,7 +74,8 @@
 	display: inline-flex;
 	align-items: center;
 	font-weight: 700;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .awtsmoos-social-comment > .awtsmoos-related-torah {
 	margin: 0.8rem 0 0;

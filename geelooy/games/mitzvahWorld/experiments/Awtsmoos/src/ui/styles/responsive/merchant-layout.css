@@ -31,7 +31,8 @@
 .Awtsmoos-gameplay .Awtsmoos-merchant-heading small,
 .Awtsmoos-gameplay .Awtsmoos-merchant-copy :is(b, small) {
 	overflow-wrap: anywhere;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .Awtsmoos-gameplay .Awtsmoos-wallet {
 	display: flex;

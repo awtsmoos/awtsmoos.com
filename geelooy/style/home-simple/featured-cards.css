@@ -71,7 +71,8 @@ body[data-geelooy-route="home"] .featured-symbol {
 	margin: .35rem 0 .45rem;
 	font-size: 1.1rem;
 	letter-spacing: -.035em;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) .featured-card b {
 	color: rgba(var(--featured-accent), .9);

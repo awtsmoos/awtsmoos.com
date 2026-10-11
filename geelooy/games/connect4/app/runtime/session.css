@@ -29,7 +29,8 @@
 .connect4Result h2,
 .connect4Result p {
 	margin: 0 0 14px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .connect4ResultActions {
 	display: grid;
@@ -41,7 +42,8 @@
 	min-width: 0;
 	min-height: 48px;
 	box-sizing: border-box;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .connect4ResultActions button:focus-visible {
 	outline: 3px solid #fff;

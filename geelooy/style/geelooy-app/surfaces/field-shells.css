@@ -53,7 +53,8 @@
 
 .g-field-shell :where(input, textarea, select) {
 	margin: 0;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .g-field-shell[data-tone="error"] {
 	border-color: color-mix(in srgb, var(--g-danger) 68%, var(--g-line));
