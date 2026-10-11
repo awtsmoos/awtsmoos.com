@@ -10,7 +10,7 @@
  * unified destinations as one public covenant while request support remains bounded.
  */
 const aliases = require('./_awtsmoos.alias.js');
-const assets = require('./_awtsmoos.assets.js');
+const agent = require('./_awtsmoos.agent.js');const assets = require('./_awtsmoos.assets.js');
 const books = require('./_awtsmoos.books.js');
 const civilization = require('./_awtsmoos.civilization.js');
 const comments = require('./_awtsmoos.comments.js');
@@ -68,6 +68,7 @@ module.exports = async $i => {
 		...civilization(vessel),
 		...objects(vessel),
 		...aliases(vessel),
+		...agent(vessel),
 		...keys(vessel),
 		...graph(vessel),
 		...search(vessel),
