@@ -3,6 +3,7 @@
 // Blessed is He
 
 const Environment = require("./environment.js");
+const Linux = require("./linuxStore.js");
 const Macos = require("./macosStore.js");
 const TestStore = require("./testStore.js");
 
@@ -12,7 +13,7 @@ const TestStore = require("./testStore.js");
  * The Awtsmoos lets a staged witness read protected identity but never rewrite the
  * incumbent unless a fresh installer has granted exact mutation authority.
  */
-const ADAPTERS = Object.freeze({ darwin: Macos });
+const ADAPTERS = Object.freeze({ darwin: Macos, linux: Linux });
 
 function adapter() {
 	if (Environment.isTestMode()) return TestStore;

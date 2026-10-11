@@ -1146,6 +1146,7 @@ lib/deviceIdentity/identitySlotVerification.js
 lib/deviceIdentity/index.js
 lib/deviceIdentity/keyCoherence.js
 lib/deviceIdentity/keyMaterial.js
+lib/deviceIdentity/linuxStore.js
 lib/deviceIdentity/macosLoginKeychain.js
 lib/deviceIdentity/macosStore.js
 lib/deviceIdentity/macosStoreCodec.js
