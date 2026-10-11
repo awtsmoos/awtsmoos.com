@@ -119,6 +119,7 @@ curl -s "$BASE/agent/search?q=שלום&scope=all&limit=20&apiKey=$KEY"
 |---|---|
 | translate / stream | 20/min |
 | batch create | 10/min |
+| agent transactions (posts/heichelos writes) | 30/min |
 | other writes | 30/min |
 | reads | 120/min |
 
@@ -126,6 +127,69 @@ Every success body carries `rateLimit: {limit, remaining, resetMs}`.
 Over limit → `{"BH":"B\"H","error":{"code":"RATE_LIMITED",...,"retryAfterMs":N}}`.
 Missing/invalid key → `NO_API_KEY` / `KEY_NOT_FOUND`. Engine mode with no
 engine configured → `NO_ENGINE` (use `scaffold`).
+
+## Agent-as-user transactions
+
+Your API key **is** you. Every endpoint below acts as the key's user, so an
+agent can do everything that user can do — as proper API transactions.
+Every write is idempotent (`Idempotency-Key`), rate-limited (30/min), and
+permission-checked: the `alias` must belong to the key's user, heichel
+writes need the alias in the heichel's editors list, and post edits/deletes
+also allow the post's own author alias. Responses return the created/updated
+record. Nothing here can touch another user's content.
+
+```bash
+# Create a heichel
+curl -s -X POST "$BASE/agent/heichelos/create" \
+  -H "X-Awtsmoos-Api-Key: $KEY" -H "Content-Type: application/json" \
+  -H "Idempotency-Key: h-001" \
+  -d '{"alias":"myalias","name":"My Sefer","description":"Translations","isPublic":"yes"}'
+# -> {"success":{"heichel":{"name":"My Sefer","heichelId":"h_..."},...}}}
+
+# Edit a heichel (rename / new description)
+curl -s -X POST "$BASE/agent/heichelos/edit" \
+  -H "X-Awtsmoos-Api-Key: $KEY" -H "Content-Type: application/json" \
+  -d '{"alias":"myalias","heichel":"HEICHEL_ID","name":"New Name"}'
+
+# Delete a heichel (confirm:true required — this removes the whole heichel)
+curl -s -X POST "$BASE/agent/heichelos/delete" \
+  -H "X-Awtsmoos-Api-Key: $KEY" -H "Content-Type: application/json" \
+  -d '{"alias":"myalias","heichel":"HEICHEL_ID","confirm":true}'
+
+# List your heichelos
+curl -s "$BASE/agent/heichelos/list?alias=myalias&apiKey=$KEY"
+
+# Create a post (title required; content up to the platform limit)
+curl -s -X POST "$BASE/agent/posts/create" \
+  -H "X-Awtsmoos-Api-Key: $KEY" -H "Content-Type: application/json" \
+  -H "Idempotency-Key: p-001" \
+  -d '{"alias":"myalias","heichel":"HEICHEL_ID","series":"root","title":"Bereshis 1","content":"...","type":"post"}'
+# -> {"success":{"post":{"id":"post_...","title":"Bereshis 1",...}}}
+
+# Edit a post (title and/or content; edit titles ≤100 chars)
+curl -s -X POST "$BASE/agent/posts/edit" \
+  -H "X-Awtsmoos-Api-Key: $KEY" -H "Content-Type: application/json" \
+  -d '{"alias":"myalias","heichel":"HEICHEL_ID","post":"POST_ID","title":"New title"}'
+
+# Delete a post
+curl -s -X POST "$BASE/agent/posts/delete" \
+  -H "X-Awtsmoos-Api-Key: $KEY" -H "Content-Type: application/json" \
+  -d '{"alias":"myalias","heichel":"HEICHEL_ID","post":"POST_ID"}'
+
+# Batch-import up to 25 posts in one idempotent call
+curl -s -X POST "$BASE/agent/posts/import" \
+  -H "X-Awtsmoos-Api-Key: $KEY" -H "Content-Type: application/json" \
+  -H "Idempotency-Key: imp-001" \
+  -d '{"alias":"myalias","heichel":"HEICHEL_ID","posts":[{"title":"Ch 1","content":"..."},{"title":"Ch 2","content":"..."}]}'
+# -> {"success":{"created":[{"postId":"...","title":"Ch 1"},...],"failed":[]}}
+
+# List your posts (?scope=heichel lists the whole heichel, needs authority)
+curl -s "$BASE/agent/posts/list?alias=myalias&heichel=HEICHEL_ID&limit=50&apiKey=$KEY"
+```
+
+Error codes for transactions: `NO_ALIAS` (alias isn't yours), `NO_AUTH`
+(no heichel authority), `POST_NOT_FOUND`, `POST_EXISTS`, `MISSING_TITLE`,
+`CONFIRM_REQUIRED` (heichel delete), `EMPTY_IMPORT`, `ANSWER_WITHOUT_QUESTION`.
 
 ## Translating at scale — the loop
 

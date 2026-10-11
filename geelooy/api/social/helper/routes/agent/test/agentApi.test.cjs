@@ -11,7 +11,7 @@ function makeDb() {
 	return {
 		_map: map,
 		get: async p => {
-			if (!map.has(p)) throw new Error('not found: ' + p);
+			if (!map.has(p)) return null;
 			return map.get(p);
 		},
 		write: async (p, v) => {
@@ -217,7 +217,206 @@ async function main() {
 		console.log('ok 15 - engine mode honesty');
 	}
 
-	console.log('B"H all 15 agent API checks passed.');
+	// -- Agent-as-user transactions (16-25) ---------------------------------
+	const fs = require('node:fs');
+	const os = require('node:os');
+	const path = require('node:path');
+	const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'agent-tx-'));
+
+	function makeTxDb() {
+		const db = makeDb();
+		db.directory = tmpRoot; // packed JSONL mirrors land here, not in prod
+		db.syncKeyInObj = async (p, k) => {
+			const cur = await db.get(p).catch(() => null);
+			const obj = (cur && typeof cur === 'object') ? { ...cur } : {};
+			obj[k] = true;
+			await db.write(p, obj);
+		};
+		db.syncKeyInArray = async (p, v) => {
+			const cur = await db.get(p).catch(() => null);
+			const arr = Array.isArray(cur) ? [...cur] : [];
+			if (!arr.includes(v)) arr.push(v);
+			await db.write(p, arr);
+		};
+		db.removeElementFromArray = async (p, matcher) => {
+			const cur = await db.get(p).catch(() => null);
+			if (!Array.isArray(cur)) return;
+			const want = matcher && matcher.exact && matcher.exact.selfEquals;
+			await db.write(p, cur.filter(x => x !== want));
+		};
+		db.delete = async p => { db._map.delete(p); };
+		db.deleteEntry = async (p, key) => {
+			const cur = await db.get(p).catch(() => null);
+			if (cur && typeof cur === 'object' && !Array.isArray(cur)) {
+				const obj = { ...cur };
+				delete obj[key];
+				await db.write(p, obj);
+			} else {
+				db._map.delete(p + '/' + key);
+			}
+			return { ok: true };
+		};
+		db.updateEntry = async (p, { key, value }) => {
+			const cur = await db.get(p).catch(() => null);
+			const obj = (cur && typeof cur === 'object') ? { ...cur } : {};
+			obj[key] = value;
+			await db.write(p, obj);
+			return { ok: true };
+		};
+		const rawGet = db.get;
+		db.get = async (p, opts) => {
+			let val = await rawGet(p);
+			if ((val === null || val === undefined) && typeof p === 'string') {
+				// Production-faithful subtree read: assemble one level of children.
+				const prefix = p.endsWith('/') ? p : p + '/';
+				const out = {};
+				let found = false;
+				for (const k of db._map.keys()) {
+					if (k.startsWith(prefix)) {
+						const rest = k.slice(prefix.length);
+						const seg = rest.split('/')[0];
+						if (seg && !(seg in out)) { out[seg] = db._map.get(k); found = true; }
+					}
+				}
+				if (found) val = out;
+			}
+			if (opts && opts.propertyMap && val && typeof val === 'object') {
+				const out = {};
+				for (const k of Object.keys(opts.propertyMap)) if (k in val) out[k] = val[k];
+				return out;
+			}
+			return val;
+		};
+		return db;
+	}
+
+	const txDb = makeTxDb();
+	const txSecret = 'awt_test_' + crypto.randomBytes(12).toString('hex');
+	const txHash = crypto.createHash('sha256').update(txSecret).digest('hex');
+	await txDb.write('/social/apiKeys/byHash/' + txHash, { userId: 'agentTx', keyId: 'k9' });
+	await txDb.write('/social/users/agentTx/apiKeys/k9', { id: 'k9', hash: txHash, createdAt: Date.now(), revokedAt: null });
+	await txDb.write('/users/agentTx/aliases/alias1', { id: 'alias1', name: 'Agent Scribe' });
+
+	function makeTxI({ method = 'POST', get = {}, post = {}, headers = {} } = {}) {
+		const base = makeI(txDb, { method, get, post, headers });
+		base.fetchAwtsmoos = async () => ({});
+		base.utils = {
+			generateId: name => 'h_' + String(name || 'x').replace(/[^a-zA-Z0-9]/g, '').slice(0, 12),
+			verifyStrict: () => true
+		};
+		base.createJob = async () => ({ jobId: 'job_tx_test' });
+		return base;
+	}
+	const txAuthed = (extra = {}) => makeTxI({ method: extra.method || 'POST', post: { apiKey: txSecret, ...extra.post }, get: extra.get || {}, headers: extra.headers || {} });
+
+	let heichelId;
+	// 16. heichel create
+	{
+		const r = new AgentTranslateRoutes(txAuthed({ post: { alias: 'alias1', name: 'Agent Test Heichel', description: 'made by the agent api' } }));
+		const out = await r.routes()['/agent/heichelos/create']();
+		assert.ok(out.success && out.success.heichel, 'heichel created: ' + JSON.stringify(out).slice(0, 200));
+		heichelId = out.success.heichel.heichelId;
+		assert.ok(heichelId, 'heichelId returned');
+		const editors = await txDb.get('/social/heichelos/' + heichelId + '/editors');
+		assert.ok(Array.isArray(editors) && editors.includes('alias1'), 'creator is editor');
+		console.log('ok 16 - heichel create');
+	}
+
+	// 17. heichel create idempotency replay
+	{
+		const mk = () => new AgentTranslateRoutes(txAuthed({ post: { alias: 'alias1', name: 'Second Heichel', idempotencyKey: 'tx-idem-h1' } }));
+		const a = await mk().routes()['/agent/heichelos/create']();
+		const b = await mk().routes()['/agent/heichelos/create']();
+		assert.ok(a.success && !a.success.idempotentReplay, 'first not replay');
+		assert.ok(b.success && b.success.idempotentReplay === true, 'second is replay');
+		assert.equal(b.success.heichel.heichelId, a.success.heichel.heichelId, 'same heichel');
+		console.log('ok 17 - heichel create idempotency');
+	}
+
+	// 18. heichel create with someone else's alias -> NO_ALIAS
+	{
+		const r = new AgentTranslateRoutes(txAuthed({ post: { alias: 'aliasX', name: 'Sneaky Heichel' } }));
+		const out = await r.routes()['/agent/heichelos/create']();
+		assert.ok(out.error && out.error.code === 'NO_ALIAS', 'alias ownership enforced');
+		console.log('ok 18 - alias ownership');
+	}
+
+	// 19. heichel edit (rename)
+	{
+		const r = new AgentTranslateRoutes(txAuthed({ post: { alias: 'alias1', heichel: heichelId, name: 'Renamed Heichel' } }));
+		const out = await r.routes()['/agent/heichelos/edit']();
+		assert.ok(out.success, 'heichel edited: ' + JSON.stringify(out).slice(0, 160));
+		const info = await txDb.get('/social/heichelos/' + heichelId + '/info');
+		assert.equal(info.name, 'Renamed Heichel', 'name updated');
+		console.log('ok 19 - heichel edit');
+	}
+
+	let postId;
+	// 20. post create
+	{
+		const r = new AgentTranslateRoutes(txAuthed({ post: { alias: 'alias1', heichel: heichelId, title: 'First agent post', content: 'שלום עולם' } }));
+		const out = await r.routes()['/agent/posts/create']();
+		assert.ok(out.success && out.success.post, 'post created: ' + JSON.stringify(out).slice(0, 200));
+		postId = out.success.post.id || out.success.post.postId;
+		assert.ok(postId, 'postId returned');
+		assert.equal(out.success.post.aliasId, 'alias1', 'author alias set');
+		console.log('ok 20 - post create');
+	}
+
+	// 21. post create with duplicate postId -> POST_EXISTS
+	{
+		const r = new AgentTranslateRoutes(txAuthed({ post: { alias: 'alias1', heichel: heichelId, postId, title: 'Dup', content: 'x' } }));
+		const out = await r.routes()['/agent/posts/create']();
+		assert.ok(out.error && out.error.code === 'POST_EXISTS', 'duplicate postId refused');
+		console.log('ok 21 - duplicate postId refused');
+	}
+
+	// 22. post edit by author (seed the series copy the way production holds it)
+	{
+		const created = await txDb.get('/social/heichelos/' + heichelId + '/posts/' + postId + '.awtsmoosJSON');
+		await txDb.write('/social/heichelos/' + heichelId + '/series/root/posts', { [postId]: created });
+		const r = new AgentTranslateRoutes(txAuthed({ post: { alias: 'alias1', heichel: heichelId, post: postId, title: 'Edited title' } }));
+		const out = await r.routes()['/agent/posts/edit']();
+		assert.ok(out.success && out.success.wrote && out.success.wrote.title, 'post edited: ' + JSON.stringify(out).slice(0, 200));
+		console.log('ok 22 - post edit');
+	}
+
+	// 23. post list (mine)
+	{
+		const r = new AgentTranslateRoutes(makeTxI({ method: 'GET', get: { apiKey: txSecret, alias: 'alias1', heichel: heichelId } }));
+		const out = await r.routes()['/agent/posts/list']();
+		assert.ok(out.success && Array.isArray(out.success.posts), 'post list ok');
+		assert.ok(out.success.posts.some(p => p.postId === postId), 'created post listed');
+		console.log('ok 23 - post list');
+	}
+
+	// 24. batch import (2 items)
+	{
+		const r = new AgentTranslateRoutes(txAuthed({ post: { alias: 'alias1', heichel: heichelId, posts: [{ title: 'Batch one', content: 'א' }, { title: 'Batch two', content: 'ב' }] } }));
+		const out = await r.routes()['/agent/posts/import']();
+		assert.ok(out.success, 'import ok: ' + JSON.stringify(out).slice(0, 200));
+		assert.equal(out.success.created.length, 2, 'two created');
+		assert.equal(out.success.failed.length, 0, 'none failed');
+		console.log('ok 24 - post import');
+	}
+
+	// 25. post delete; heichel delete needs confirm; then confirmed delete
+	{
+		const del = new AgentTranslateRoutes(txAuthed({ post: { alias: 'alias1', heichel: heichelId, post: postId } }));
+		const delOut = await del.routes()['/agent/posts/delete']();
+		assert.ok(delOut.success, 'post deleted: ' + JSON.stringify(delOut).slice(0, 160));
+
+		const noConfirm = new AgentTranslateRoutes(txAuthed({ post: { alias: 'alias1', heichel: heichelId } }));
+		const ncOut = await noConfirm.routes()['/agent/heichelos/delete']();
+		assert.ok(ncOut.error && ncOut.error.code === 'CONFIRM_REQUIRED', 'heichel delete needs confirm');
+
+		const yesConfirm = new AgentTranslateRoutes(txAuthed({ post: { alias: 'alias1', heichel: heichelId, confirm: true } }));
+		const ycOut = await yesConfirm.routes()['/agent/heichelos/delete']();
+		assert.ok(ycOut.success && ycOut.success.deleted === true, 'heichel deleted');
+		console.log('ok 25 - post delete + heichel delete');
+	}
+
+	console.log('B"H all 25 agent API checks passed.');
 }
 
 main().catch(e => {

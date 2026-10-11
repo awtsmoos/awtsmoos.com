@@ -23,6 +23,7 @@ const { readPostRecord } = require('../../socialContent.js');
 const { postTranslations } = require('../../comments/translations/reader.js');
 const { requireMethod, requestValue, limitValue } = require('../packed/requestValues.js');
 const engine = require('./engine.js');
+const tx = require('./transactions.js');
 
 function requestHeader($i, name) {
 	const headers = $i?.request?.headers || $i?.headers || {};
@@ -78,7 +79,16 @@ class AgentTranslateRoutes {
 					'GET /agent/post',
 					'GET /agent/search',
 					'GET /agent/translation-status',
-					'GET /agent/glossary'
+					'GET /agent/glossary',
+					'POST /agent/posts/create',
+					'POST /agent/posts/edit',
+					'POST /agent/posts/delete',
+					'POST /agent/posts/import',
+					'GET /agent/posts/list',
+					'POST /agent/heichelos/create',
+					'POST /agent/heichelos/edit',
+					'POST /agent/heichelos/delete',
+					'GET /agent/heichelos/list'
 				],
 				auth: 'X-Awtsmoos-Api-Key header, Bearer token, or ?apiKey=',
 				limits: { translatePerMin: 20, batchPerMin: 10, writesPerMin: 30, readsPerMin: 120 }
@@ -299,6 +309,227 @@ class AgentTranslateRoutes {
 		return { success: withRateLimit({ version: engine.GLOSSARY.version, entries }, rl) };
 	}
 
+	// ------------------------------------------------------------------
+	// Agent-as-user transactions: everything the key's user can do.
+	// The API key IS the user; every write below is idempotent,
+	// rate-limited, and permission-checked (own alias + heichel authority,
+	// or the post's own author alias for edits/deletes).
+	// ------------------------------------------------------------------
+
+	/** Create a post in a heichel the alias may write to. */
+	async postCreate() {
+		const bad = requireMethod(this.$i, 'POST');
+		if (bad) return bad;
+		const auth = await requireAgent(this.$i);
+		if (!auth.ok) return auth.error;
+		const rl = engine.checkRateLimit(auth.credentialHash, 'write');
+		if (!rl.allowed) return rateLimited(rl);
+		const idemKey = requestHeader(this.$i, 'idempotency-key') || requestValue(this.$i, 'idempotencyKey', '');
+		const replay = await this.idem.lookup(idemKey);
+		if (replay) return { success: { ...replay.body, idempotentReplay: true } };
+		const res = await tx.agentCreatePost(this.$i, {
+			userId: auth.userId,
+			aliasId: requestValue(this.$i, 'alias', ''),
+			heichelId: requestValue(this.$i, 'heichel', ''),
+			seriesId: requestValue(this.$i, 'series', 'root'),
+			type: requestValue(this.$i, 'type', 'post'),
+			title: requestValue(this.$i, 'title', ''),
+			content: requestValue(this.$i, 'content', ''),
+			sections: this.$i.$_POST?.sections || [],
+			rootAssets: this.$i.$_POST?.rootAssets || [],
+			postId: requestValue(this.$i, 'postId', '') || null,
+			parentQuestionId: requestValue(this.$i, 'questionId', '')
+		});
+		if (res.error) return er(res.error);
+		const body = withRateLimit({ post: res.ok }, rl);
+		await this.idem.store(idemKey, body);
+		return { success: body };
+	}
+
+	/** Edit a post the alias authored or has heichel authority over. */
+	async postEdit() {
+		const bad = requireMethod(this.$i, 'POST');
+		if (bad) return bad;
+		const auth = await requireAgent(this.$i);
+		if (!auth.ok) return auth.error;
+		const rl = engine.checkRateLimit(auth.credentialHash, 'write');
+		if (!rl.allowed) return rateLimited(rl);
+		const idemKey = requestHeader(this.$i, 'idempotency-key') || requestValue(this.$i, 'idempotencyKey', '');
+		const replay = await this.idem.lookup(idemKey);
+		if (replay) return { success: { ...replay.body, idempotentReplay: true } };
+		const res = await tx.agentEditPost(this.$i, {
+			userId: auth.userId,
+			aliasId: requestValue(this.$i, 'alias', ''),
+			heichelId: requestValue(this.$i, 'heichel', ''),
+			seriesId: requestValue(this.$i, 'series', 'root'),
+			postId: requestValue(this.$i, 'post', requestValue(this.$i, 'postId', '')),
+			newTitle: requestValue(this.$i, 'title', requestValue(this.$i, 'newTitle', '')) || undefined,
+			newContent: requestValue(this.$i, 'content', requestValue(this.$i, 'newContent', '')) || undefined,
+			dayuh: this.$i.$_POST?.dayuh
+		});
+		if (res.error) return er(res.error);
+		const body = withRateLimit(res.ok, rl);
+		await this.idem.store(idemKey, body);
+		return { success: body };
+	}
+
+	/** Delete a post the alias authored or has heichel authority over. */
+	async postDelete() {
+		const bad = requireMethod(this.$i, 'POST');
+		if (bad) return bad;
+		const auth = await requireAgent(this.$i);
+		if (!auth.ok) return auth.error;
+		const rl = engine.checkRateLimit(auth.credentialHash, 'write');
+		if (!rl.allowed) return rateLimited(rl);
+		const idemKey = requestHeader(this.$i, 'idempotency-key') || requestValue(this.$i, 'idempotencyKey', '');
+		const replay = await this.idem.lookup(idemKey);
+		if (replay) return { success: { ...replay.body, idempotentReplay: true } };
+		const res = await tx.agentDeletePost(this.$i, {
+			userId: auth.userId,
+			aliasId: requestValue(this.$i, 'alias', ''),
+			heichelId: requestValue(this.$i, 'heichel', ''),
+			seriesId: requestValue(this.$i, 'series', 'root'),
+			postId: requestValue(this.$i, 'post', requestValue(this.$i, 'postId', ''))
+		});
+		if (res.error) return er(res.error);
+		const body = withRateLimit(res.ok, rl);
+		await this.idem.store(idemKey, body);
+		return { success: body };
+	}
+
+	/** Batch-import up to 25 posts in one idempotent transaction. */
+	async postImport() {
+		const bad = requireMethod(this.$i, 'POST');
+		if (bad) return bad;
+		const auth = await requireAgent(this.$i);
+		if (!auth.ok) return auth.error;
+		const rl = engine.checkRateLimit(auth.credentialHash, 'write');
+		if (!rl.allowed) return rateLimited(rl);
+		const idemKey = requestHeader(this.$i, 'idempotency-key') || requestValue(this.$i, 'idempotencyKey', '');
+		const replay = await this.idem.lookup(idemKey);
+		if (replay) return { success: { ...replay.body, idempotentReplay: true } };
+		const posts = this.$i.$_POST?.posts || [];
+		const res = await tx.agentImportPosts(this.$i, {
+			userId: auth.userId,
+			aliasId: requestValue(this.$i, 'alias', ''),
+			heichelId: requestValue(this.$i, 'heichel', ''),
+			seriesId: requestValue(this.$i, 'series', 'root'),
+			posts: Array.isArray(posts) ? posts : []
+		});
+		if (res.error) return er(res.error);
+		const body = withRateLimit(res.ok, rl);
+		await this.idem.store(idemKey, body);
+		return { success: body };
+	}
+
+	/** List the alias's own posts (scope=heichel lists the whole heichel). */
+	async postList() {
+		const bad = requireMethod(this.$i, 'GET');
+		if (bad) return bad;
+		const auth = await requireAgent(this.$i);
+		if (!auth.ok) return auth.error;
+		const rl = engine.checkRateLimit(auth.credentialHash, 'read');
+		if (!rl.allowed) return rateLimited(rl);
+		const res = await tx.agentListPosts(this.$i, {
+			userId: auth.userId,
+			aliasId: requestValue(this.$i, 'alias', ''),
+			heichelId: requestValue(this.$i, 'heichel', ''),
+			scope: requestValue(this.$i, 'scope', 'mine'),
+			limit: limitValue(requestValue(this.$i, 'limit'), 50)
+		});
+		if (res.error) return er(res.error);
+		return { success: withRateLimit(res.ok, rl) };
+	}
+
+	/** Create a heichel owned by the alias. */
+	async heichelCreate() {
+		const bad = requireMethod(this.$i, 'POST');
+		if (bad) return bad;
+		const auth = await requireAgent(this.$i);
+		if (!auth.ok) return auth.error;
+		const rl = engine.checkRateLimit(auth.credentialHash, 'write');
+		if (!rl.allowed) return rateLimited(rl);
+		const idemKey = requestHeader(this.$i, 'idempotency-key') || requestValue(this.$i, 'idempotencyKey', '');
+		const replay = await this.idem.lookup(idemKey);
+		if (replay) return { success: { ...replay.body, idempotentReplay: true } };
+		const res = await tx.agentCreateHeichel(this.$i, {
+			userId: auth.userId,
+			aliasId: requestValue(this.$i, 'alias', ''),
+			name: requestValue(this.$i, 'name', ''),
+			description: requestValue(this.$i, 'description', ''),
+			isPublic: requestValue(this.$i, 'isPublic', 'yes')
+		});
+		if (res.error) return er(res.error);
+		const body = withRateLimit({ heichel: res.ok }, rl);
+		await this.idem.store(idemKey, body);
+		return { success: body };
+	}
+
+	/** Edit a heichel the alias has authority over. */
+	async heichelEdit() {
+		const bad = requireMethod(this.$i, 'POST');
+		if (bad) return bad;
+		const auth = await requireAgent(this.$i);
+		if (!auth.ok) return auth.error;
+		const rl = engine.checkRateLimit(auth.credentialHash, 'write');
+		if (!rl.allowed) return rateLimited(rl);
+		const idemKey = requestHeader(this.$i, 'idempotency-key') || requestValue(this.$i, 'idempotencyKey', '');
+		const replay = await this.idem.lookup(idemKey);
+		if (replay) return { success: { ...replay.body, idempotentReplay: true } };
+		const res = await tx.agentEditHeichel(this.$i, {
+			userId: auth.userId,
+			aliasId: requestValue(this.$i, 'alias', ''),
+			heichelId: requestValue(this.$i, 'heichel', ''),
+			name: requestValue(this.$i, 'name', '') || undefined,
+			description: requestValue(this.$i, 'description', '') || undefined,
+			dayuh: this.$i.$_POST?.dayuh
+		});
+		if (res.error) return er(res.error);
+		const body = withRateLimit(res.ok, rl);
+		await this.idem.store(idemKey, body);
+		return { success: body };
+	}
+
+	/** Delete a heichel the alias has authority over (confirm:true required). */
+	async heichelDelete() {
+		const bad = requireMethod(this.$i, 'POST');
+		if (bad) return bad;
+		const auth = await requireAgent(this.$i);
+		if (!auth.ok) return auth.error;
+		const rl = engine.checkRateLimit(auth.credentialHash, 'write');
+		if (!rl.allowed) return rateLimited(rl);
+		const idemKey = requestHeader(this.$i, 'idempotency-key') || requestValue(this.$i, 'idempotencyKey', '');
+		const replay = await this.idem.lookup(idemKey);
+		if (replay) return { success: { ...replay.body, idempotentReplay: true } };
+		const confirmRaw = requestValue(this.$i, 'confirm', this.$i.$_POST?.confirm);
+		const res = await tx.agentDeleteHeichel(this.$i, {
+			userId: auth.userId,
+			aliasId: requestValue(this.$i, 'alias', ''),
+			heichelId: requestValue(this.$i, 'heichel', ''),
+			confirm: confirmRaw === true || confirmRaw === 'true'
+		});
+		if (res.error) return er(res.error);
+		const body = withRateLimit(res.ok, rl);
+		await this.idem.store(idemKey, body);
+		return { success: body };
+	}
+
+	/** List heichelos created by the alias. */
+	async heichelList() {
+		const bad = requireMethod(this.$i, 'GET');
+		if (bad) return bad;
+		const auth = await requireAgent(this.$i);
+		if (!auth.ok) return auth.error;
+		const rl = engine.checkRateLimit(auth.credentialHash, 'read');
+		if (!rl.allowed) return rateLimited(rl);
+		const res = await tx.agentListHeichelos(this.$i, {
+			userId: auth.userId,
+			aliasId: requestValue(this.$i, 'alias', '')
+		});
+		if (res.error) return er(res.error);
+		return { success: withRateLimit({ heichelos: res.ok }, rl) };
+	}
+
 	routes() {
 		return {
 			'/agent/health': this.health.bind(this),
@@ -311,7 +542,16 @@ class AgentTranslateRoutes {
 			'/agent/post': this.post.bind(this),
 			'/agent/search': this.search.bind(this),
 			'/agent/translation-status': this.translationStatus.bind(this),
-			'/agent/glossary': this.glossary.bind(this)
+			'/agent/glossary': this.glossary.bind(this),
+			'/agent/posts/create': this.postCreate.bind(this),
+			'/agent/posts/edit': this.postEdit.bind(this),
+			'/agent/posts/delete': this.postDelete.bind(this),
+			'/agent/posts/import': this.postImport.bind(this),
+			'/agent/posts/list': this.postList.bind(this),
+			'/agent/heichelos/create': this.heichelCreate.bind(this),
+			'/agent/heichelos/edit': this.heichelEdit.bind(this),
+			'/agent/heichelos/delete': this.heichelDelete.bind(this),
+			'/agent/heichelos/list': this.heichelList.bind(this)
 		};
 	}
 }
