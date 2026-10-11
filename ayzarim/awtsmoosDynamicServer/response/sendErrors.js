@@ -14,9 +14,18 @@ function routeEngineCrash(e) {
 }
 
 function routeComputationError(didThisPathAlready, context) {
+  // B"H 2026-10-11 (Yaakov standing rule: meaningful API errors, not bare
+  // BAD_RESPONSE). Surface the underlying exception's MESSAGE publicly so a
+  // 500 is diagnosable from the client. Stacks, route attempts, and logs
+  // stay private in `error`/`more` (stripped by the public boundary).
+  var inner = didThisPathAlready && didThisPathAlready.error;
+  var detail = "";
+  try {
+    detail = String((inner && inner.message) || inner || "").slice(0, 300);
+  } catch (_) { detail = ""; }
   return {
     statusCode: 500,
-    message: "actual error in route computation!",
+    message: detail ? "Route error: " + detail : "actual error in route computation!",
     code: "ROUTE_ERROR",
     error: didThisPathAlready.error,
     more: {
