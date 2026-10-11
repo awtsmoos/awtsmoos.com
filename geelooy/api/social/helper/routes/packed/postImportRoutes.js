@@ -49,6 +49,7 @@ const { execFile } = require('child_process');
 const { requireMethod, requestValue } = require('./requestValues.js');
 const { mirrorPost, readPacked } = require('../../packed/socialPacked.js');
 const { logicalKey } = require('../../packed/shardPaths.js');
+const importSign = require('./importSign.js');
 
 // ---------------------------------------------------------------------------
 // Job registry (in-process; survives as long as the server process lives).
@@ -213,14 +214,17 @@ class PackedPostImportRoutes {
 	}
 
 	// -- authorization -------------------------------------------------------
-	// Fail-closed operator key: the request must carry operatorKey matching
-	// process.env.AWTSMOOS_IMPORT_KEY. When the env var is unset, every call
-	// is rejected — never an open import door. Separate key from the
-	// comment-import and deploy keys so each lane can be rotated alone.
+	// Signature-first, operator-key fallback. Ed25519 signature auth (see
+	// importSign.js) survives production restarts; the operator-key env var
+	// (AWTSMOOS_IMPORT_KEY) is transient and may be unset. Fail closed.
 	checkAuth() {
+		const sigResult = this.checkSignatureAuth();
+		if (sigResult === null) return null; // valid signature
+		if (sigResult !== 'NO_ATTEMPT') return sigResult; // bad signature: fail closed
+		// No signature fields: try the operator key.
 		const expected = process.env.AWTSMOOS_IMPORT_KEY;
 		if (!expected) {
-			return { success: false, error: 'IMPORT_NOT_CONFIGURED', message: 'Post import operator key is not configured on this server.' };
+			return { success: false, error: 'IMPORT_NOT_CONFIGURED', message: 'Post import is not configured on this server (no operator key and no valid signature).' };
 		}
 		const given = requestValue(this.$i, 'operatorKey') || this.$i?.body?.operatorKey || '';
 		if (!given) return { success: false, error: 'FORBIDDEN', message: 'operatorKey is required.' };
@@ -228,6 +232,53 @@ class PackedPostImportRoutes {
 		const b = Buffer.from(String(expected));
 		if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) {
 			return { success: false, error: 'FORBIDDEN', message: 'Invalid operatorKey.' };
+		}
+		return null;
+	}
+
+	// -- Ed25519 signature authorization --------------------------------------
+	// Verifies the request signature per importSign.js. The signature covers
+	// { v, ts, op, heichelId, payloadHash }; payloadHash binds the payload:
+	//   posts/start (staged): sha256hex(uploadId)
+	//   posts/start (inline): sha256hex(JSON.stringify(posts))
+	//   posts/status|cancel:  sha256hex('job:' + job)
+	//   posts/jobs:           sha256hex('jobs')
+	// Returns null when the signature is valid, 'NO_ATTEMPT' when no
+	// signature fields are present, or an error object on any failure.
+	checkSignatureAuth() {
+		const sig = requestValue(this.$i, 'sig');
+		if (!sig) return 'NO_ATTEMPT';
+		const ts = requestValue(this.$i, 'ts');
+		const op = String(requestValue(this.$i, 'op') || '');
+		const heichelId = String(requestValue(this.$i, 'heichelId') || '');
+		const payloadHash = String(requestValue(this.$i, 'payloadHash') || '');
+		const tsCheck = importSign.checkTimestamp(ts);
+		if (!tsCheck.ok) return { success: false, error: 'SIG_' + tsCheck.error, message: 'Signature timestamp invalid or stale.' };
+		const replayCheck = importSign.checkReplay(String(sig), ts);
+		if (!replayCheck.ok) return { success: false, error: 'SIG_' + replayCheck.error, message: 'Signature replay detected.' };
+		let expectedHash = '';
+		if (op === 'posts/start') {
+			const body = this.$i?.body || {};
+			const uploadId = body.uploadId || requestValue(this.$i, 'uploadId');
+			if (uploadId) {
+				expectedHash = importSign.sha256hex(String(uploadId));
+			} else {
+				const postsVal = this.$i?.$_POST?.posts ?? body.posts;
+				expectedHash = importSign.sha256hex(JSON.stringify(postsVal));
+			}
+		} else if (op === 'posts/status' || op === 'posts/cancel') {
+			expectedHash = importSign.sha256hex('job:' + String(requestValue(this.$i, 'job') || ''));
+		} else if (op === 'posts/jobs') {
+			expectedHash = importSign.sha256hex('jobs');
+		} else {
+			return { success: false, error: 'SIG_BAD_OP', message: 'Unknown signed operation: ' + op };
+		}
+		if (payloadHash !== expectedHash) {
+			return { success: false, error: 'SIG_PAYLOAD_MISMATCH', message: 'Signature payload hash does not match the request payload.' };
+		}
+		const sigCheck = importSign.verifySignature({ ts, op, heichelId, payloadHash }, String(sig));
+		if (!sigCheck.ok) {
+			return { success: false, error: 'SIG_' + sigCheck.error, message: 'Invalid import signature.' };
 		}
 		return null;
 	}
@@ -257,8 +308,32 @@ class PackedPostImportRoutes {
 		return mirrorPost({ $i, post });
 	}
 
+	// Resolve one spec item to a raw post document. Inline items are already
+	// parsed objects; staged items are { file, postId?, heichelId? } entries
+	// parsed lazily here — exactly one file in memory at a time.
+	readSpecPost(spec, item) {
+		if (spec.source && spec.source.startsWith('upload:') && item && typeof item.file === 'string') {
+			const full = path.join(spec.stagedDir, item.file);
+			let parsed;
+			try {
+				parsed = JSON.parse(fs.readFileSync(full, 'utf8'));
+			} catch (e) {
+				throw new Error('STAGED_FILE_UNPARSEABLE: ' + item.file + ': ' + e.message);
+			}
+			if (item.postId && !parsed.postId && !parsed.id) parsed.postId = item.postId;
+			if (item.heichelId && !parsed.heichelId) parsed.heichelId = item.heichelId;
+			return parsed;
+		}
+		return item;
+	}
+
 	// -- job runner ------------------------------------------------------------
 	async runJob($i, job) {
+		// Yield immediately so the HTTP response is sent before we do any
+		// synchronous work (file reads, JSON.parse, disk writes). Without
+		// this, the first posts block the event loop and the client sees
+		// a 502/504.
+		await yieldTick();
 		const spec = job.spec;
 		job.status = 'running';
 		job.startedAt = Date.now();
@@ -278,7 +353,14 @@ class PackedPostImportRoutes {
 					job.status = 'paused';
 					break;
 				}
-				const raw = spec.posts[n];
+				let raw;
+				try {
+					raw = this.readSpecPost(spec, spec.posts[n]);
+				} catch (e) {
+					job.failed++;
+					job.errors.push({ postId: String((spec.posts[n] && spec.posts[n].postId) || ('#' + n)), message: e.message });
+					continue;
+				}
 				let post;
 				try {
 					const verr = validatePost(raw, n);
@@ -366,7 +448,10 @@ class PackedPostImportRoutes {
 		if (!files.length) {
 			return { error: { success: false, error: 'MANIFEST_EMPTY', message: 'No post files listed in manifest.json' } };
 		}
-		const posts = [];
+		// STREAMING: never parse post files here. Return lightweight entries;
+		// runJob reads + parses exactly one file at a time. Holding all parsed
+		// posts would spike heap by ~3-5x the tarball size (OOM risk).
+		const entries = [];
 		for (const f of files) {
 			const name = f && f.file;
 			if (!name || typeof name !== 'string' || name.includes('/') || name.includes('\\') || name.includes('..') || !name.endsWith('.json')) {
@@ -379,20 +464,9 @@ class PackedPostImportRoutes {
 			if (!st.isFile() || st.size > PER_POST_MAX_BYTES) {
 				return { error: { success: false, error: 'STAGED_FILE_TOO_LARGE', message: name } };
 			}
-			let parsed;
-			try {
-				parsed = JSON.parse(fs.readFileSync(full, 'utf8'));
-			} catch (e) {
-				return { error: { success: false, error: 'STAGED_FILE_UNPARSEABLE', message: name + ': ' + e.message } };
-			}
-			// Manifest may carry identity overrides; the document wins.
-			if (f.postId && !parsed.postId && !parsed.id) parsed.postId = f.postId;
-			if (f.heichelId && !parsed.heichelId) parsed.heichelId = f.heichelId;
-			posts.push(parsed);
-			// Never hold more parsed posts than we stream: parse is bounded
-			// per file above; the loop streams one write per post in runJob.
+			entries.push({ file: name, postId: f.postId || null, heichelId: f.heichelId || null });
 		}
-		return { posts, source: 'upload:' + uploadId };
+		return { entries, dest, source: 'upload:' + uploadId };
 	}
 
 	// -- routes ------------------------------------------------------------------
@@ -419,11 +493,15 @@ class PackedPostImportRoutes {
 		);
 		let posts;
 		let source;
-		if (body.uploadId) {
-			const loaded = await this.loadStagedPosts(this.$i, String(body.uploadId));
+		let stagedDir = null;
+		// NOTE: the framework populates $i.$_POST for JSON bodies, not $i.body.
+		const uploadId = body.uploadId || requestValue(this.$i, 'uploadId');
+		if (uploadId) {
+			const loaded = await this.loadStagedPosts(this.$i, String(uploadId));
 			if (loaded.error) return loaded.error;
-			posts = loaded.posts;
+			posts = loaded.entries;
 			source = loaded.source;
+			stagedDir = loaded.dest;
 		} else {
 			const inline = body.posts ?? requestValue(this.$i, 'posts');
 			if (!Array.isArray(inline) || inline.length === 0) {
@@ -461,7 +539,7 @@ class PackedPostImportRoutes {
 		if (busy) return { success: false, error: 'JOB_ALREADY_RUNNING', jobId: busy.id };
 		const job = {
 			id: newJobId(), status: 'queued', dryRun,
-			spec: { heichelId, posts, source },
+			spec: { heichelId, posts, source, stagedDir },
 			timeBudgetMs,
 			totalPosts: posts.length,
 			postsDone: 0, wrote: 0, updated: 0, skipped: 0, failed: 0,
@@ -472,6 +550,8 @@ class PackedPostImportRoutes {
 		};
 		setJob(job);
 		// Fire and forget — the job updates its own record; poll via status.
+		// runJob yields to the event loop first (await yieldTick), so the
+		// HTTP response is sent before any heavy synchronous work begins.
 		this.runJob(this.$i, job).catch(() => {});
 		return { success: { jobId: job.id, status: job.status, dryRun, totalPosts: posts.length, source } };
 	}
