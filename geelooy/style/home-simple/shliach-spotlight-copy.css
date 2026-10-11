@@ -10,6 +10,10 @@ Awtsmoos.com keeps title, trust, and mission readable on every screen throughout
 	letter-spacing: -.035em;
 	line-height: 1;
 	margin: 0;
+	color: #f4f1e8;
+}
+[data-theme="dark"] .shliach-spotlight-copy h2 {
+	color: #f4f1e8;
 }
 
 .shliach-spotlight-eyebrow {

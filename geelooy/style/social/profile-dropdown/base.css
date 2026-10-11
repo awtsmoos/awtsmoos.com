@@ -10,7 +10,8 @@
 	min-width: 0;
 	font-family: var(--g-font, Inter, ui-sans-serif, sans-serif);
 }
-.awtsmoosDrop [hidden], .awtsmoosDrop .hidden {
+.awtsmoosDrop.awtsmoos-profile-dropdown [hidden],
+.awtsmoosDrop.awtsmoos-profile-dropdown .hidden {
 	display: none;
 }
 .awtsmoosDrop .profile-trigger, .awtsmoosDrop .menu-wide, .awtsmoosDrop .aliasId {
