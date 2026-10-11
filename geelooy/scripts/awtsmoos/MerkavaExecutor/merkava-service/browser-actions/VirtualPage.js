@@ -43,8 +43,24 @@ export class VirtualPage {
   async selectOption(selector, value) { const el = this.element(selector); el.value = String(value ?? ''); for (const option of el.querySelectorAll('option')) option.selected = option.value === el.value || option.getAttribute('value') === el.value; this.emitInput(el, el.value); return el.value; }
   async wait(ms = 0) { await new Promise(resolve => setTimeout(resolve, Number(ms || 0))); return true; }
 
+  /**
+   * B"H
+   * Merkava's synthetic DOM has no layout engine and no real input pipeline.
+   * Key semantics that need CDP (keydown/keyup/keypress with key+code, explicit
+   * modifiers) refuse honestly as chrome-only instead of faking events.
+   */
+  assertChromeOnly(step = {}, op = '') {
+    if (op === 'keydown' || op === 'keyup' || op === 'keypress') {
+      throw new Error(`chrome-only interaction: keyboard.${op} requires CDP Input.dispatchKeyEvent. Use mode=chrome-if-available on a Chrome vessel.`);
+    }
+    if (step.code != null || step.modifiers != null || step.modifier != null) {
+      throw new Error(`chrome-only interaction: keyboard with explicit code/modifiers requires CDP Input.dispatchKeyEvent. Use mode=chrome-if-available on a Chrome vessel.`);
+    }
+  }
+
   async keyboardAction(step = {}) {
     const op = step.keyboardAction || step.subaction || step.method || step.keyAction || (step.text != null ? 'type' : 'press');
+    this.assertChromeOnly(step, op);
     if (op === 'type') { this.keyboard.type(String(step.text ?? step.value ?? '')); return this.window.keyboard.toJSON(); }
     if (op === 'down') { this.keyboard.down(String(step.key ?? step.value ?? '')); return this.window.keyboard.toJSON(); }
     if (op === 'up') { this.keyboard.up(String(step.key ?? step.value ?? '')); return this.window.keyboard.toJSON(); }
@@ -52,8 +68,20 @@ export class VirtualPage {
     return this.window.keyboard.toJSON();
   }
 
+  /**
+   * B"H
+   * Coordinate clicks, coordinate hover, and wheel scrolling need real page
+   * layout + a real input pipeline, which Merkava's synthetic DOM cannot
+   * provide. They fail loudly as chrome-only; selector clicks keep working.
+   */
   async mouseAction(step = {}) {
     const op = step.mouseAction || step.subaction || step.method || (step.selector ? 'click' : 'move');
+    if (op === 'scroll') {
+      throw new Error(`chrome-only interaction: mouse.scroll (mouseWheel) requires a real browser page. Use mode=chrome-if-available on a Chrome vessel.`);
+    }
+    if (step.x != null || step.y != null) {
+      throw new Error(`chrome-only interaction: mouse.${op} at coordinates (${step.x},${step.y}) requires page layout from a real browser. Use mode=chrome-if-available on a Chrome vessel.`);
+    }
     if (op === 'move') { this.mouse.move(Number(step.x || 0), Number(step.y || 0)); return this.window.mouse.toJSON(); }
     if (op === 'down') { this.mouse.down(); return this.window.mouse.toJSON(); }
     if (op === 'up') { this.mouse.up(); return this.window.mouse.toJSON(); }
@@ -91,6 +119,13 @@ export class VirtualPage {
     if (['content', 'title', 'url', 'reload', 'screenshot', 'snapshot'].includes(step.action)) return await this[step.action]();
     if (step.action === 'keyboard') return await this.keyboardAction(step);
     if (step.action === 'mouse') return await this.mouseAction(step);
+    if (step.action === 'scroll') throw new Error(`chrome-only interaction: scroll requires a real browser page (wheel events or layout). Use mode=chrome-if-available on a Chrome vessel.`);
+    if (step.action === 'click' && (step.x != null || step.y != null)) {
+      throw new Error(`chrome-only interaction: click at coordinates (${step.x},${step.y}) requires page layout from a real browser. Use mode=chrome-if-available on a Chrome vessel.`);
+    }
+    if (step.action === 'hover' && (step.x != null || step.y != null)) {
+      throw new Error(`chrome-only interaction: hover at coordinates (${step.x},${step.y}) requires page layout from a real browser. Use mode=chrome-if-available on a Chrome vessel.`);
+    }
     const method = this[step.action];
     if (typeof method !== 'function') throw new Error(`Unsupported browser action: ${step.action}`);
     if (step.action === 'goto') return await method.call(this, step.url || step.href || args[0]);

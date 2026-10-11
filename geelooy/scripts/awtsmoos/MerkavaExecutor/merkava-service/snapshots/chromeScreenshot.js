@@ -15,6 +15,11 @@ import { dataUrlFromPng } from "./pngTools.js";
 const CANDIDATES = [
   process.env.CHROME_PATH,
   process.env.CHROMIUM_PATH,
+  "/opt/meta-chromium/chrome",
+  "/opt/chromium/chrome",
+  "/usr/bin/google-chrome",
+  "/usr/bin/chromium-browser",
+  "/usr/bin/chromium",
   "chromium-browser",
   "chromium",
   "google-chrome",

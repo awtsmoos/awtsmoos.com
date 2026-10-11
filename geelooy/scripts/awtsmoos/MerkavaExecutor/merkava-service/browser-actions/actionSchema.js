@@ -17,7 +17,9 @@ export const ACTION_ALIASES = Object.freeze({
   wait: 'wait', waitForTimeout: 'wait', waitForSelector: 'waitForSelector', waitForFunction: 'waitForFunction',
   locator: 'locator', '$': '$', '$$': '$$', query: '$', queryAll: '$$', content: 'content', title: 'title', pageTitle: 'title',
   keyboard: 'keyboard', 'page.keyboard': 'keyboard', 'keyboard.type': 'keyboard', 'keyboard.press': 'keyboard', 'keyboard.down': 'keyboard', 'keyboard.up': 'keyboard',
-  mouse: 'mouse', 'page.mouse': 'mouse', 'mouse.click': 'mouse', 'mouse.move': 'mouse', 'mouse.down': 'mouse', 'mouse.up': 'mouse', 'mouse.hover': 'mouse',
+  keydown: 'keyboard', keyDown: 'keyboard', keyup: 'keyboard', keyUp: 'keyboard', keypress: 'keyboard', pressKey: 'keyboard',
+  mouse: 'mouse', 'page.mouse': 'mouse', 'mouse.click': 'mouse', 'mouse.move': 'mouse', 'mouse.down': 'mouse', 'mouse.up': 'mouse', 'mouse.hover': 'mouse', 'mouse.scroll': 'mouse',
+  wheel: 'mouse', scroll: 'scroll', scrollTo: 'scroll', scrollBy: 'scroll',
   assertText: 'assertText', expectText: 'assertText', assertExists: 'assertExists', expectExists: 'assertExists',
   assertValue: 'assertValue', expectValue: 'assertValue', assertChecked: 'assertChecked', assertUrl: 'assertUrl', assertEval: 'assertEval',
   evaluate: 'evaluate', eval: 'evaluate', script: 'evaluate', screenshot: 'screenshot', snapshot: 'snapshot'
@@ -51,6 +53,26 @@ function dottedIntent(raw, verb) {
   return {};
 }
 
+const VERB_SUBACTIONS = Object.freeze({
+  keydown: { keyboardAction: 'keydown' }, keyDown: { keyboardAction: 'keydown' },
+  keyup: { keyboardAction: 'keyup' }, keyUp: { keyboardAction: 'keyup' },
+  keypress: { keyboardAction: 'keypress' }, pressKey: { keyboardAction: 'press' },
+  wheel: { mouseAction: 'scroll' }
+});
+
+/**
+ * B"H
+ * Bare verbs like keydown/keyup/keypress/wheel canonicalize to keyboard/mouse
+ * but carry their subaction intent so the runner dispatches faithfully.
+ */
+function verbIntent(raw, verb) {
+  const intent = VERB_SUBACTIONS[verb];
+  if (!intent) return {};
+  if (intent.keyboardAction) return { keyboardAction: raw.keyboardAction || raw.subaction || raw.method || intent.keyboardAction };
+  if (intent.mouseAction) return { mouseAction: raw.mouseAction || raw.subaction || raw.method || intent.mouseAction };
+  return {};
+}
+
 /**
  * B"H
  * Normalize one user action without erasing its raw intent.
@@ -63,7 +85,7 @@ export function normalizeBrowserAction(step, index = 0) {
   const raw = typeof step === 'string' ? { action: step } : { ...(step || {}) };
   const verb = raw.action || raw.op || raw.method || raw.type;
   const action = ACTION_ALIASES[verb] || verb;
-  return { id: raw.id || `step-${index + 1}`, ...raw, ...dottedIntent(raw, verb), action };
+  return { id: raw.id || `step-${index + 1}`, ...raw, ...dottedIntent(raw, verb), ...verbIntent(raw, verb), action };
 }
 
 /**

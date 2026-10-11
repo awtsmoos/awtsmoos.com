@@ -1,5 +1,6 @@
 // B"H
 import { simulateRuntime } from "../core/simulateRuntime.js";
+import { runChromeHeadless } from "../browser-actions/chromeHeadless.js";
 
 const DEFAULT_MODES = ["merkava", "merkava-image", "chrome-if-available"];
 
@@ -34,6 +35,18 @@ export async function runRenderMode(mode = "merkava", options = {}) {
   const name = String(mode || "merkava").toLowerCase();
   const screenshot = name.includes("image") || name.includes("chrome") || name.includes("screenshot");
   const chrome = name.includes("chrome");
+  if (chrome) {
+    // Full JS evaluation + real input events are ONLY possible through a real
+    // Chrome. If the vessel has one, run it; otherwise fall back honestly to
+    // Merkava's static renderer with fallbackReason=chrome_not_found.
+    const chromeRun = await runChromeHeadless({
+      ...options,
+      html: options.html || options.content,
+      width: options.width || options.viewportWidth,
+      height: options.height || options.viewportHeight
+    });
+    if (!chromeRun.chromeNotFound) return decorateModeResult(name, chromeRunToSimulate(chromeRun, options));
+  }
   const run = await simulateRuntime({
     ...options,
     runtime: options.runtime || "browser",
@@ -43,6 +56,52 @@ export async function runRenderMode(mode = "merkava", options = {}) {
     screenshotBackend: chrome ? "chrome" : "merkava"
   });
   return decorateModeResult(name, run);
+}
+
+/**
+ * B"H
+ * Shape the Chrome headless run into the simulateRuntime-shaped object that
+ * decorateModeResult consumes. Backend attribution stays honest: every value,
+ * console entry, and pixel came from real Chrome, never from Merkava.
+ */
+function chromeRunToSimulate(chromeRun = {}, options = {}) {
+  const screenshot = chromeRun.screenshot || null;
+  return {
+    ok: chromeRun.ok !== false,
+    engine: chromeRun.engine || "chrome-headless-cdp",
+    runtime: "browser",
+    browserRuntime: true,
+    score: chromeRun.ok === false ? 40 : 100,
+    errors: chromeRun.errors || [],
+    exceptions: chromeRun.exceptions || [],
+    console: chromeRun.console || [],
+    values: chromeRun.values || {},
+    valueErrors: chromeRun.valueErrors || {},
+    interactions: chromeRun.interactions || [],
+    interactionLog: chromeRun.interactionLog || [],
+    browserActionLog: chromeRun.interactionLog || [],
+    target: chromeRun.target || null,
+    snapshot: {
+      format: "png",
+      fullPage: false,
+      html: null,
+      text: null,
+      dom: chromeRun.dom || null,
+      values: chromeRun.values || {},
+      console: chromeRun.console || [],
+      errors: chromeRun.errors || [],
+      image: screenshot ? {
+        backend: screenshot.backend,
+        mimeType: screenshot.mimeType || "image/png",
+        width: screenshot.width,
+        height: screenshot.height,
+        bytes: screenshot.bytes,
+        dataUrl: screenshot.dataUrl,
+        proof: screenshot.proof || null,
+        fallbackReason: screenshot.fallbackReason || null
+      } : null
+    }
+  };
 }
 
 function normalizeBaseOptions(options = {}) {
@@ -79,6 +138,9 @@ function decorateModeResult(mode, run = {}) {
     errors: run.errors || [],
     console: run.console || [],
     values: run.values || {},
+    valueErrors: run.valueErrors || {},
+    interactions: run.interactions || [],
+    interactionLog: run.interactionLog || run.browserActionLog || [],
     domSummary: summarizeDom(dom),
     screenshot: image ? { backend: image.backend, width: image.width, height: image.height, bytes: image.bytes, dataUrl: image.dataUrl, proof: image.proof, fallbackReason: image.fallbackReason || null } : null,
     rawKeys: Object.keys(run || {}).slice(0, 40)
