@@ -28,6 +28,7 @@ export function renderHostingConfigs(options = {}) {
 	const acmeRoot = normalizeAcmeRoot(options.acmeRoot || DEFAULT_ACME_ROOT);
 	return Object.freeze({
 		platform: platformVhost(upstream),
+		subdomains: subdomainVhosts(upstream),
 		tenantHttp: tenantHttpVhost(upstream, acmeRoot)
 	});
 }
@@ -82,6 +83,29 @@ function tenantHttpVhost(upstream, acmeRoot) {
 	location ^~ /.well-known/acme-challenge/ {
 		root ${acmeRoot};
 	}
+	${proxyLocation(upstream)}
+}
+`;
+}
+
+// B"H — first-party subdomains (meluket + ikar readers). The platform serves
+// the same Node upstream; the app routes by Host header. TLS uses one SAN
+// cert at /etc/letsencrypt/live/awtsmoos-subdomains/ (see ops notes).
+function subdomainVhosts(upstream) {
+	return `server {
+	listen 80;
+	listen [::]:80;
+	server_name meluket.awtsmoos.com ikar.awtsmoos.com;
+	return 301 https://$host$request_uri;
+}
+
+server {
+	listen 443 ssl;
+	listen [::]:443 ssl;
+	server_name meluket.awtsmoos.com ikar.awtsmoos.com;
+	ssl_certificate /etc/letsencrypt/live/awtsmoos-subdomains/fullchain.pem;
+	ssl_certificate_key /etc/letsencrypt/live/awtsmoos-subdomains/privkey.pem;
+	${PLATFORM_HEADERS.join('\n\t')}
 	${proxyLocation(upstream)}
 }
 `;

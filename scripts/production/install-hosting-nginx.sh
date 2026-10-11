@@ -8,6 +8,7 @@ set -Eeuo pipefail
 repo="${AWTSMOOS_PRODUCTION_REPO:-/mnt/HC_Volume_102267213/git/awtsmoos.com}"
 enabled="${AWTSMOOS_NGINX_ENABLED_DIR:-/etc/nginx/sites-enabled}"
 platform="$enabled/awtsmoos.com"
+subdomains="$enabled/awtsmoos-subdomains"
 tenant="$enabled/awtsmoos-custom-domains-http"
 default="$enabled/default"
 renderer="$repo/scripts/production/render-hosting-nginx.mjs"
@@ -42,6 +43,7 @@ rollback() {
 	[ "$armed" -eq 1 ] || return 0
 	[ "$committed" -eq 0 ] || return 0
 	restore_path "$platform" platform
+	restore_path "$subdomains" subdomains
 	restore_path "$tenant" tenant
 	restore_path "$default" default
 	nginx -t >/dev/null 2>&1 || true
@@ -53,19 +55,23 @@ trap 'rollback; cleanup' EXIT
 mkdir -p "$backup" "$rendered" "$enabled"
 node "$renderer" "$rendered"
 [ -s "$rendered/awtsmoos.com" ] || exit 1
+[ -s "$rendered/awtsmoos-subdomains" ] || exit 1
 [ -s "$rendered/awtsmoos-custom-domains-http" ] || exit 1
 
 if [ "${AWTSMOOS_NGINX_RENDER_ONLY:-0}" = "1" ]; then
 	cat "$rendered/awtsmoos.com"
+	cat "$rendered/awtsmoos-subdomains"
 	cat "$rendered/awtsmoos-custom-domains-http"
 	exit 0
 fi
 
 backup_path "$platform" platform
+backup_path "$subdomains" subdomains
 backup_path "$tenant" tenant
 backup_path "$default" default
 armed=1
 install -m 0644 "$rendered/awtsmoos.com" "$platform"
+install -m 0644 "$rendered/awtsmoos-subdomains" "$subdomains"
 install -m 0644 "$rendered/awtsmoos-custom-domains-http" "$tenant"
 rm -f "$default"
 nginx -t
@@ -73,4 +79,4 @@ if [ "${AWTSMOOS_NGINX_SKIP_RELOAD:-0}" != "1" ]; then
 	systemctl reload nginx
 fi
 committed=1
-printf 'B"H HOSTING_NGINX_INSTALLED platform=%s tenant=%s\n' "$platform" "$tenant"
+printf 'B"H HOSTING_NGINX_INSTALLED platform=%s subdomains=%s tenant=%s\n' "$platform" "$subdomains" "$tenant"

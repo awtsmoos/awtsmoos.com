@@ -17,6 +17,7 @@ const configs = renderHostingConfigs({
 await fs.mkdir(outputDirectory, { recursive: true });
 await Promise.all([
 	writeCompleteFile('awtsmoos.com', configs.platform),
+	writeCompleteFile('awtsmoos-subdomains', configs.subdomains),
 	writeCompleteFile('awtsmoos-custom-domains-http', configs.tenantHttp)
 ]);
 console.log(`B"H HOSTING_NGINX_RENDERED dir=${outputDirectory}`);
