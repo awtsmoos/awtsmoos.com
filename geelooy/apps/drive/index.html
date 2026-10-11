@@ -10,10 +10,26 @@
 	<meta name="theme-color" content="#07110f">
 	<title>Awtsmoos Drive</title>
 	<link rel="stylesheet" href="./styles/drive-v5.css">
+	<style>
+		/* B"H — First-paint critical styles: the Drive v5 cascade loads through an
+		   @import chain and the app shell mounts via JS modules, so paint the dark
+		   Drive vessel immediately. Colors match drive-v5-tokens.css tokens. */
+		html { background: #040a09; }
+		body[data-awtsmoos-drive] { background: #07110f; color: #f5faf8; margin: 0; }
+		.drive-boot-hint {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			min-height: 100vh;
+			margin: 0;
+			color: #a8bfb8;
+			font: 500 1rem/1.5 Inter, ui-sans-serif, system-ui, sans-serif;
+		}
+	</style>
 </head>
 <body data-awtsmoos-drive data-drive-view="home">
 	<a class="drive-skip-link" href="#drive-browser">Skip to files</a>
-	<div id="drive-root"></div>
+	<div id="drive-root"><p class="drive-boot-hint">Loading Awtsmoos Drive&hellip;</p></div>
 	<script type="module" src="./js/app.js"></script>
 </body>
 </html>
