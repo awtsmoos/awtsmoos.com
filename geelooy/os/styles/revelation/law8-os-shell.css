@@ -213,7 +213,96 @@ body.shell-calm .law8-particles .lp {
 	outline-offset: 2px;
 }
 
-/* ---------- 6. Start menu glass to match the reference depth ---------- */
+/* ---------- 7. Topbar search — the reference's centered glass search pill ---------- */
+.shell-topbar-search {
+	display: flex;
+	align-items: center;
+	gap: var(--geo-space-2);
+	flex: 1 1 auto;
+	min-width: 120px;
+	max-width: 460px;
+	min-height: var(--geo-control-md);
+	margin-inline: auto;
+	padding: var(--geo-space-2) var(--geo-space-4);
+	border: 1px solid var(--geo-border-soft);
+	border-radius: var(--geo-radius-pill);
+	color: var(--geo-text-muted);
+	background:
+		linear-gradient(180deg, rgb(255 255 255 / 7%), rgb(255 255 255 / 2%)),
+		rgb(4 8 20 / 55%);
+	box-shadow: inset 0 1px rgb(255 255 255 / 10%), 0 8px 24px rgb(0 0 0 / 30%);
+	backdrop-filter: blur(20px) saturate(150%);
+	cursor: pointer;
+	font: 500 14px/1.4 var(--geo-font-ui);
+	transition:
+		border-color var(--geo-fast) var(--geo-ease),
+		box-shadow var(--geo-fast) var(--geo-ease),
+		color var(--geo-fast) var(--geo-ease),
+		transform var(--geo-fast) var(--geo-ease);
+}
+.shell-topbar-search-icon {
+	display: grid;
+	place-items: center;
+	color: var(--geo-cyan);
+	font-size: 17px;
+}
+.shell-topbar-search-hint {
+	flex: 1 1 auto;
+	text-align: start;
+	color: var(--geo-text-subtle);
+}
+.shell-topbar-search-kbd {
+	padding: 3px 8px;
+	border: 1px solid var(--geo-border-soft);
+	border-radius: 7px;
+	color: var(--geo-text-subtle);
+	background: rgb(255 255 255 / 5%);
+	font: 600 11px/1.4 var(--geo-font-ui);
+}
+.shell-topbar-search:hover {
+	border-color: var(--geo-border-bright);
+	color: var(--geo-text);
+	box-shadow:
+		inset 0 1px rgb(255 255 255 / 14%),
+		0 8px 28px rgb(0 0 0 / 34%),
+		0 0 30px rgb(101 239 226 / 16%);
+}
+.shell-topbar-search:hover .shell-topbar-search-hint {
+	color: var(--geo-text-muted);
+}
+.shell-topbar-search:active {
+	transform: scale(.985);
+	border-color: var(--geo-gold);
+	box-shadow:
+		inset 0 1px rgb(255 255 255 / 10%),
+		0 4px 18px rgb(0 0 0 / 32%),
+		0 0 26px rgb(255 218 120 / 20%);
+}
+.shell-topbar-search:focus-visible {
+	outline: none;
+	border-color: var(--geo-border-bright);
+	box-shadow:
+		inset 0 1px rgb(255 255 255 / 12%),
+		0 0 0 3px rgb(101 239 226 / 28%),
+		0 0 34px rgb(101 239 226 / 18%);
+}
+:root:not([data-theme="dark"]) .shell-topbar-search {
+	color: var(--geo-text-light);
+	background:
+		linear-gradient(180deg, rgb(255 255 255 / 72%), rgb(255 255 255 / 46%)),
+		var(--geo-surface-light);
+	border-color: var(--geo-border-light);
+}
+:root:not([data-theme="dark"]) .shell-topbar-search-hint,
+:root:not([data-theme="dark"]) .shell-topbar-search-kbd {
+	color: var(--geo-text-muted-light);
+}
+@media (max-width: 760px) {
+	.shell-topbar-search-kbd { display: none; }
+	.shell-topbar-search { max-width: 220px; }
+}
+
+/* ---------- 8. Start menu glass to match the reference depth ---------- */
 #start-menu {
 	border: 1px solid var(--geo-border);
 	border-radius: var(--geo-radius-lg);

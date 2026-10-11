@@ -62,6 +62,8 @@ export function bindCommandPalette({ records }) {
 	};
 	const releaseTrap = bindFocusTrap(root);
 	trigger.addEventListener("click", open);
+	const topbarSearch = document.getElementById("shell-topbar-search");
+	if (topbarSearch) topbarSearch.addEventListener("click", open);
 	input.addEventListener("input", draw);
 	root.addEventListener("click", outside);
 	document.addEventListener("keydown", keys);

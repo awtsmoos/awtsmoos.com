@@ -68,6 +68,13 @@ Awtsmoos.com gives the whole Geelooy shell one measured visual covenant.
 	--geo-slow: 420ms;
 	--geo-ease: cubic-bezier(.2, .8, .2, 1);
 	--geo-focus-ring: 0 0 0 3px rgb(255 218 120 / 28%);
+	--aw-text: #f7fbff;
+	--aw-focus-ring: 0 0 0 3px rgb(255 218 120 / 28%);
+	--geo-shadow-soft: 0 10px 34px rgb(0 0 0 / 34%);
+	--geo-text-light: #33415e;
+	--geo-text-muted-light: #5b6b8c;
+	--geo-surface-light: rgb(240 244 252 / 72%);
+	--geo-border-light: rgb(51 65 94 / 18%);
 }
 html,
 body {

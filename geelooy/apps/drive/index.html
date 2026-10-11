@@ -17,20 +17,87 @@
 		   Drive vessel immediately. Colors match drive-v5-tokens.css tokens. */
 		html { background: #040a09; }
 		body[data-awtsmoos-drive] { background: #07110f; color: #f5faf8; margin: 0; }
-		.drive-boot-hint {
+		.drive-boot {
 			display: flex;
+			flex-direction: column;
 			align-items: center;
 			justify-content: center;
+			gap: 1.1rem;
 			min-height: 100vh;
 			margin: 0;
+			background:
+				radial-gradient(circle at 80% -10%, rgba(55, 217, 208, 0.09), transparent 34rem),
+				linear-gradient(180deg, #091512 0%, #07110f 42%, #040a09 100%);
 			color: #a8bfb8;
 			font: 500 1rem/1.5 Inter, ui-sans-serif, system-ui, sans-serif;
+			text-align: center;
+		}
+		.drive-boot-mark {
+			display: grid;
+			place-items: center;
+			width: 76px;
+			height: 76px;
+			border-radius: 24px;
+			border: 1px solid rgba(168, 255, 225, 0.22);
+			background: linear-gradient(150deg, rgba(20, 38, 34, 0.9), rgba(9, 21, 18, 0.9));
+			box-shadow: 0 22px 70px rgba(0, 0, 0, 0.4), 0 0 44px rgba(84, 237, 187, 0.14), inset 0 1px rgba(255, 255, 255, 0.12);
+			font-size: 38px;
+			color: #54edbb;
+			animation: drive-boot-float 3.2s ease-in-out infinite;
+		}
+		.drive-boot-word {
+			margin: 0;
+			font-size: 1.35rem;
+			font-weight: 800;
+			letter-spacing: -0.01em;
+			color: #f5faf8;
+		}
+		.drive-boot-word strong { color: #54edbb; font-weight: 800; }
+		.drive-boot-hint {
+			margin: 0;
+			color: #a8bfb8;
+			font-size: 0.95rem;
+		}
+		.drive-boot-bar {
+			width: 210px;
+			height: 5px;
+			border-radius: 999px;
+			background: rgba(168, 255, 225, 0.12);
+			overflow: hidden;
+		}
+		.drive-boot-bar::after {
+			content: "";
+			display: block;
+			width: 40%;
+			height: 100%;
+			border-radius: inherit;
+			background: linear-gradient(90deg, #37d9d0, #54edbb);
+			box-shadow: 0 0 18px rgba(84, 237, 187, 0.55);
+			animation: drive-boot-slide 1.4s ease-in-out infinite;
+		}
+		@keyframes drive-boot-float {
+			0%, 100% { transform: translateY(0); }
+			50% { transform: translateY(-7px); }
+		}
+		@keyframes drive-boot-slide {
+			0% { transform: translateX(-110%); }
+			100% { transform: translateX(280%); }
+		}
+		@media (prefers-reduced-motion: reduce) {
+			.drive-boot-mark, .drive-boot-bar::after { animation: none; }
 		}
 	</style>
 </head>
 <body data-awtsmoos-drive data-drive-view="home">
 	<a class="drive-skip-link" href="#drive-browser">Skip to files</a>
-	<div id="drive-root"><p class="drive-boot-hint">Loading Awtsmoos Drive&hellip;</p></div>
+	<div id="drive-root">
+		<div class="drive-boot" role="status" aria-live="polite">
+			<div class="drive-boot-mark" aria-hidden="true">✦</div>
+			<p class="drive-boot-word">Awtsmoos <strong>Drive</strong></p>
+			<div class="drive-boot-bar" aria-hidden="true"></div>
+			<p class="drive-boot-hint">Loading Awtsmoos Drive…</p>
+		</div>
+	</div>
 	<script type="module" src="./js/app.js"></script>
 </body>
 </html>

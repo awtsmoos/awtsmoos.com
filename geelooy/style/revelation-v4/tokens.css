@@ -38,4 +38,6 @@ The Awtsmoos gives measure to every vessel; Awtsmoos.com lets restraint and radi
 	--g4-ease: cubic-bezier(0.2, 0.78, 0.24, 1);
 	--g4-touch: 44px;
 	--g4-content: 1480px;
+	--g4-safe-top: env(safe-area-inset-top, 0px);
+	--g4-safe-bottom: env(safe-area-inset-bottom, 0px);
 }

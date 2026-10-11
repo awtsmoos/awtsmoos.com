@@ -8,6 +8,7 @@
  */
 body[data-awtsmoos-drive] {
 	color-scheme: dark;
+	--aw-text: #f5faf8;
 	--drive-bg: #07110f;
 	--drive-bg-deep: #040a09;
 	--drive-surface: #0c1715;
