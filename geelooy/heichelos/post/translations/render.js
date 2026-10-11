@@ -6,6 +6,12 @@
  * @description
  * The Awtsmoos places English beneath the exact original phrase without mutation.
  * Awtsmoos.com keeps every translation read-only, visible, and phone-friendly.
+ *
+ * B"H — Yaakov (2026-10-11): the per-block "English" kicker repeated before
+ * every English paragraph. The language indicator now appears exactly ONCE —
+ * on the first mounted block — and the toolbar status line already names the
+ * language for the whole report. Typography (lang="en", dir="ltr", the Latin
+ * serif vessel) distinguishes every other block. Never repeated per phrase.
  */
 import { groupTranslationRows, translationText } from "./alignment.js";
 
@@ -71,17 +77,27 @@ function targetFor(viewport, verse, domSub) {
 		|| viewport.querySelector(`.section[data-awtsmoos-idx="${verse}"] > .toichen`);
 }
 
-function makeBlock(group) {
+/**
+ * B"H — builds one English block. The "English" language indicator is added
+ * only when `showKicker` is true; the caller passes true exactly once (the
+ * first mounted block), so the label never repeats per phrase.
+ * @param {object} group Grouped translation rows.
+ * @param {boolean} showKicker Whether this block carries the one language label.
+ * @returns {HTMLElement} The translation block.
+ */
+function makeBlock(group, showKicker) {
 	const block = document.createElement("aside");
 	block.className = "awtsmoos-translation-block";
 	block.dataset.translationVerse = String(group.verse);
 	block.dataset.translationSub = String(group.domSub);
 	block.lang = "en";
 	block.dir = "ltr";
-	const kicker = document.createElement("span");
-	kicker.className = "awtsmoos-translation-kicker";
-	kicker.textContent = "English";
-	block.appendChild(kicker);
+	if (showKicker) {
+		const kicker = document.createElement("span");
+		kicker.className = "awtsmoos-translation-kicker";
+		kicker.textContent = "English";
+		block.appendChild(kicker);
+	}
 	for (const row of group.rows) {
 		const paragraph = document.createElement("p");
 		paragraph.textContent = translationText(row);
@@ -96,13 +112,18 @@ export function renderTranslationReport(viewport, report) {
 	mountToolbar(viewport, report);
 	let mounted = 0;
 	let missingTargets = 0;
+	let kickerShown = false;
 	for (const group of groupTranslationRows(report?.rows || [])) {
 		const target = targetFor(viewport, group.verse, group.domSub);
 		if (!target) {
 			missingTargets++;
 			continue;
 		}
-		target.insertAdjacentElement("afterend", makeBlock(group));
+		// B"H — Yaakov: the language indicator appears once, on the first
+		// mounted block only. Never repeated per phrase.
+		const showKicker = !kickerShown;
+		target.insertAdjacentElement("afterend", makeBlock(group, showKicker));
+		if (showKicker) kickerShown = true;
 		mounted++;
 	}
 	return { mounted, missingTargets };

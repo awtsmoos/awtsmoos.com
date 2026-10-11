@@ -100,6 +100,8 @@ export async function bootApplication() {
 
         // B"H — Meluket sefer restructuring: bilingual warm sections for enriched posts.
         // B"H — Sources button must work on ALL posts, not just Meluket.
+        // B"H (2026-10-11): the TEMP DEBUG page banners are removed — diagnostics
+        // stay in the console; nothing debug may ever paint over the reader.
         try {
             const { awakenMeluketSeferReader, wireSourcesButton } = await import("../scribe/MeluketSeferReader.js");
             const seferResult = awakenMeluketSeferReader(post);
@@ -108,19 +110,8 @@ export async function bootApplication() {
                 wireSourcesButton(post, null);
             }
             console.log("B\"H meluket sefer reader result:", seferResult, "phrases:", post?.enrichment?.hebrew_phrases?.length);
-            // TEMP DEBUG: show result on page
-            const dbg = document.createElement('div');
-            dbg.id = 'sefer-debug';
-            dbg.style.cssText = 'position:fixed;top:0;left:0;background:yellow;color:black;padding:10px;z-index:99999;font-size:16px;';
-            dbg.textContent = `Sefer reader result: ${seferResult}, phrases: ${post?.enrichment?.hebrew_phrases?.length}, hasRealPost: ${!!document.getElementById('realPost')}`;
-            document.body.appendChild(dbg);
         } catch (seferError) {
             console.error("B\"H meluket sefer reader FAILED", seferError);
-            const dbg = document.createElement('div');
-            dbg.id = 'sefer-debug-error';
-            dbg.style.cssText = 'position:fixed;top:0;left:0;background:red;color:white;padding:10px;z-index:99999;font-size:16px;';
-            dbg.textContent = `Sefer reader ERROR: ${seferError.message}`;
-            document.body.appendChild(dbg);
         }
 
         appendFooterNavigation(viewport, post, series, pIdx);

@@ -270,7 +270,8 @@
 
 .meluket-sefer-active .meluket-hebrew p {
 	margin: 0 0 0.9em;
-}
+
+  color: var(--sefer-ink); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .meluket-sefer-active .meluket-hebrew sup {
 	color: var(--sefer-accent);
@@ -301,11 +302,13 @@
 
 .meluket-sefer-active .meluket-english p {
 	margin: 0 0 0.8em;
-}
+
+  color: var(--sefer-ink); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 :where(.meluket-sefer-active) .meluket-english p:last-child {
 	margin-bottom: 0;
-}
+
+  color: var(--sefer-ink); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 /* ---------- Language modes ---------- */
 :where(.meluket-sefer-active) :where(.meluket-sefer-section[data-lang-mode="hebrew"]) .meluket-english,
@@ -375,7 +378,8 @@
 .meluket-sefer-active .meluket-summary p,
 .meluket-sefer-active .meluket-post-summary p {
 	margin: 0;
-}
+
+  color: var(--sefer-ink); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 /* ---------- Q&A ---------- */
 .meluket-sefer-active .meluket-qa {
