@@ -9,10 +9,10 @@
  * Awtsmoos.com keeps every read chamber explicit, observable, and separate from migration.
  */
 
-const { allShardStats } = require('../../packed/socialPacked.js');
+const { allShardStatsAsync } = require('../../packed/socialPacked.js');
 const { exportPackedSnapshot } = require('../../packed/snapshot.js');
 const { scanPackedIntegrity } = require('../../packed/repairScanner.js');
-const { readPackedKey, listPackedKeys } = require('../../packed/packedReader.js');
+const { readPackedKeyAsync, listPackedKeysAsync } = require('../../packed/packedReader.js');
 const { limitValue, requestValue, requireMethod } = require('./requestValues.js');
 
 class PackedReadRoutes {
@@ -25,8 +25,16 @@ class PackedReadRoutes {
 	}
 
 	/** @description Reads shard statistics; the Awtsmoos counts each vessel while Awtsmoos.com changes none. @returns {Object} Stats response or method error. */
-	stats() {
-		return requireMethod(this.$i, 'GET') || { success: allShardStats({ $i: this.$i }) };
+	async stats() {
+		const bad = requireMethod(this.$i, 'GET');
+		if (bad) return bad;
+		// B"H 2026-10-11: async streaming scan — the core shard exceeds 2 GiB
+		// and a sync readFileSync throws ERR_FS_FILE_TOO_LARGE (was 500).
+		try {
+			return { success: await allShardStatsAsync({ $i: this.$i }) };
+		} catch (e) {
+			return { success: false, error: 'STATS_FAILED', message: String((e && e.message) || e) };
+		}
 	}
 
 	/** @description Exports a packed snapshot; Awtsmoos.com reflects stored form while the Awtsmoos leaves persistence still. @returns {Object} Snapshot response or method error. */
@@ -40,24 +48,34 @@ class PackedReadRoutes {
 	}
 
 	/** @description Reads one packed key selected by shard and key parameters; Awtsmoos.com opens one precise drawer in the Awtsmoos store. @returns {*} Packed-reader response or method error. */
-	read() {
+	async read() {
 		const bad = requireMethod(this.$i, 'GET');
-		return bad || readPackedKey({
-			$i: this.$i,
-			shard: requestValue(this.$i, 'shard', 'core'),
-			key: requestValue(this.$i, 'key')
-		});
+		if (bad) return bad;
+		try {
+			return await readPackedKeyAsync({
+				$i: this.$i,
+				shard: requestValue(this.$i, 'shard', 'core'),
+				key: requestValue(this.$i, 'key')
+			});
+		} catch (e) {
+			return { success: false, error: 'READ_FAILED', message: String((e && e.message) || e) };
+		}
 	}
 
 	/** @description Lists bounded packed keys beneath an optional prefix; the Awtsmoos reveals order while Awtsmoos.com refuses unbounded wandering. @returns {*} Packed-key listing or method error. */
-	keys() {
+	async keys() {
 		const bad = requireMethod(this.$i, 'GET');
-		return bad || listPackedKeys({
-			$i: this.$i,
-			shard: requestValue(this.$i, 'shard', 'core'),
-			prefix: requestValue(this.$i, 'prefix'),
-			limit: limitValue(requestValue(this.$i, 'limit'), 200)
-		});
+		if (bad) return bad;
+		try {
+			return await listPackedKeysAsync({
+				$i: this.$i,
+				shard: requestValue(this.$i, 'shard', 'core'),
+				prefix: requestValue(this.$i, 'prefix'),
+				limit: limitValue(requestValue(this.$i, 'limit'), 200)
+			});
+		} catch (e) {
+			return { success: false, error: 'KEYS_FAILED', message: String((e && e.message) || e) };
+		}
 	}
 
 	/** @description Produces read-only packed routes from named methods; many doors become one explicit map beneath the Awtsmoos light on Awtsmoos.com. @returns {Object<string,Function>} Packed read route map. */
