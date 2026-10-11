@@ -1,0 +1,741 @@
+{
+  "agentMetadata": {
+    "generator": "MovieProceduralSequenceGenerator",
+    "moods": [
+      "night-fireflies",
+      "sunrise-gold",
+      "forest-pool",
+      "oasis-night"
+    ],
+    "theme": "dream-hangout"
+  },
+  "authoring3d": {
+    "geometryGraphs": [],
+    "models": [],
+    "modifierStacks": [],
+    "motions": [],
+    "sculptLayers": [],
+    "shaderGraphs": [],
+    "textures": [],
+    "version": 1,
+    "vertexGroups": []
+  },
+  "cameraRigs": [],
+  "characters": [
+    {
+      "id": "chossid",
+      "name": "The Chossid",
+      "role": "protagonist"
+    }
+  ],
+  "compiled": {
+    "cameraRigCount": 4,
+    "materialPresets": {},
+    "sequenceCount": 0,
+    "sourceTrackCount": 6
+  },
+  "compositions": [],
+  "duration": 64,
+  "fps": 24,
+  "graphs": [
+    {
+      "edges": [],
+      "id": "particles-fireflies-1",
+      "kind": "particle",
+      "label": "Fireflies",
+      "nodes": [
+        {
+          "id": "particles-fireflies-1-output",
+          "type": "output",
+          "value": {
+            "colors": [
+              "#ffd978",
+              "#fff2b0"
+            ],
+            "count": 180,
+            "mode": "fireflies",
+            "seed": 20261011,
+            "size": 5,
+            "speed": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "markers": [],
+  "materialGraphs": [],
+  "materialPresets": {},
+  "media": [],
+  "mediaWorkspace": {
+    "savedSearches": [],
+    "source": {
+      "inPoint": 0,
+      "mediaId": null,
+      "outPoint": 0
+    },
+    "version": 1
+  },
+  "metadata": {
+    "generator": "MovieProceduralSequenceGenerator",
+    "moods": [
+      "night-fireflies",
+      "sunrise-gold",
+      "forest-pool",
+      "oasis-night"
+    ],
+    "theme": "dream-hangout"
+  },
+  "nle": {
+    "assets": [
+      {
+        "id": "cinematic-generated-world",
+        "kind": "cinematic-world",
+        "label": "Generated cinematic world",
+        "particleGraphIds": [
+          "particles-fireflies-1"
+        ],
+        "world": {
+          "atmosphere": {
+            "ground": "meadow",
+            "sky": "golden-hour"
+          },
+          "character": null,
+          "existingWorld": null,
+          "houses": [],
+          "lamps": [],
+          "objects": [],
+          "paths": [],
+          "trees": []
+        }
+      }
+    ],
+    "version": 3
+  },
+  "performance": {
+    "aids": [],
+    "cues": [],
+    "performers": [],
+    "preferences": {
+      "actionAssignments": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "activeLoop": 1,
+      "bindings": {
+        "action": [
+          "KeyF"
+        ],
+        "action1": [
+          "Digit1"
+        ],
+        "action2": [
+          "Digit2"
+        ],
+        "action3": [
+          "Digit3"
+        ],
+        "action4": [
+          "Digit4"
+        ],
+        "action5": [
+          "Digit5"
+        ],
+        "action6": [
+          "Digit6"
+        ],
+        "action7": [
+          "Digit7"
+        ],
+        "action8": [
+          "Digit8"
+        ],
+        "action9": [
+          "Digit9"
+        ],
+        "backward": [
+          "KeyS",
+          "ArrowDown"
+        ],
+        "cancel": [
+          "Escape"
+        ],
+        "crouch": [
+          "KeyC",
+          "ControlLeft",
+          "ControlRight"
+        ],
+        "forward": [
+          "KeyW",
+          "ArrowUp"
+        ],
+        "jump": [
+          "Space"
+        ],
+        "record": [
+          "KeyR"
+        ],
+        "run": [
+          "ShiftLeft",
+          "ShiftRight"
+        ],
+        "strafeLeft": [
+          "KeyA",
+          "ArrowLeft"
+        ],
+        "strafeRight": [
+          "KeyD",
+          "ArrowRight"
+        ],
+        "turnLeft": [
+          "KeyQ"
+        ],
+        "turnRight": [
+          "KeyE"
+        ]
+      },
+      "camera": {
+        "collisionAvoidance": false,
+        "damping": 0.14,
+        "distance": 6.5,
+        "eyeOffset": 0,
+        "height": 2.2,
+        "invertY": false,
+        "lookSensitivity": 0.003,
+        "shoulderOffset": 0.7
+      },
+      "cameraMode": "director",
+      "countIn": 3,
+      "jumpEnabled": true,
+      "loopCount": 1,
+      "metronome": false,
+      "movementReference": "camera",
+      "overlay": true,
+      "postRoll": 0,
+      "preRoll": 0,
+      "punchIn": null,
+      "punchOut": null,
+      "recordAudio": false,
+      "recordCamera": false,
+      "runSpeed": 7.2,
+      "sampleRate": 30,
+      "turnSpeed": 2.35,
+      "walkSpeed": 4.2
+    },
+    "recovery": [],
+    "takes": [],
+    "version": 1
+  },
+  "render": {},
+  "resolution": {
+    "height": 720,
+    "width": 1280
+  },
+  "seed": 20261011,
+  "sequences": [],
+  "title": "Dream Hangout",
+  "tracks": [
+    {
+      "clips": [
+        {
+          "duration": 16,
+          "easing": "linear",
+          "grade": "#c7d8ff",
+          "id": "shot-1",
+          "label": "Fireflies Night",
+          "start": 0,
+          "transition": "fade",
+          "world": {
+            "assets": [],
+            "atmosphere": {
+              "ambience": "forest",
+              "mood": "wonder",
+              "timeOfDay": "night",
+              "weather": "clear"
+            },
+            "camera": {
+              "energy": "measured",
+              "preferredRigs": [
+                "dollyIn",
+                "orbitLeft",
+                "sideTrack"
+              ],
+              "shotScale": "cinematic"
+            },
+            "id": "lower-meadow:forest-clearing:20261011",
+            "kind": "awtsmoos.movie.world-spec",
+            "label": "Fireflies Night",
+            "packageId": "lower-meadow",
+            "population": {
+              "crowd": 0,
+              "enemies": 0,
+              "npcs": 4,
+              "vegetation": "native"
+            },
+            "prompt": "",
+            "quest": null,
+            "regionId": "forest-clearing",
+            "seed": 20261011,
+            "version": 2
+          }
+        },
+        {
+          "duration": 16,
+          "easing": "linear",
+          "grade": "#ffd9a0",
+          "id": "shot-2",
+          "label": "Sunrise Circle",
+          "start": 16,
+          "transition": "crossfade",
+          "world": {
+            "assets": [],
+            "atmosphere": {
+              "ambience": "wind",
+              "mood": "hopeful",
+              "timeOfDay": "sunrise",
+              "weather": "clear"
+            },
+            "camera": {
+              "energy": "measured",
+              "preferredRigs": [
+                "craneReveal",
+                "dollyIn",
+                "aerialPullback"
+              ],
+              "shotScale": "cinematic"
+            },
+            "id": "lower-meadow:ridge-overlook:20268930",
+            "kind": "awtsmoos.movie.world-spec",
+            "label": "Sunrise Circle",
+            "packageId": "lower-meadow",
+            "population": {
+              "crowd": 0,
+              "enemies": 0,
+              "npcs": 4,
+              "vegetation": "native"
+            },
+            "prompt": "",
+            "quest": null,
+            "regionId": "ridge-overlook",
+            "seed": 20268930,
+            "version": 2
+          }
+        },
+        {
+          "duration": 16,
+          "easing": "linear",
+          "grade": "#d8f0e0",
+          "id": "shot-3",
+          "label": "Forest Pool",
+          "start": 32,
+          "transition": "crossfade",
+          "world": {
+            "assets": [],
+            "atmosphere": {
+              "ambience": "water",
+              "mood": "peaceful",
+              "timeOfDay": "day",
+              "weather": "clear"
+            },
+            "camera": {
+              "energy": "measured",
+              "preferredRigs": [
+                "orbitRight",
+                "sideTrack",
+                "dollyIn"
+              ],
+              "shotScale": "cinematic"
+            },
+            "id": "lower-meadow:forest-pool:20276849",
+            "kind": "awtsmoos.movie.world-spec",
+            "label": "Forest Pool",
+            "packageId": "lower-meadow",
+            "population": {
+              "crowd": 0,
+              "enemies": 0,
+              "npcs": 4,
+              "vegetation": "native"
+            },
+            "prompt": "",
+            "quest": null,
+            "regionId": "forest-pool",
+            "seed": 20276849,
+            "version": 2
+          }
+        },
+        {
+          "duration": 16,
+          "easing": "linear",
+          "grade": "#c7d8ff",
+          "id": "shot-4",
+          "label": "Oasis Night",
+          "start": 48,
+          "transition": "crossfade",
+          "world": {
+            "assets": [],
+            "atmosphere": {
+              "ambience": "water",
+              "mood": "wonder",
+              "timeOfDay": "night",
+              "weather": "clear"
+            },
+            "camera": {
+              "energy": "measured",
+              "preferredRigs": [
+                "aerialPullback",
+                "orbitLeft",
+                "craneReveal"
+              ],
+              "shotScale": "cinematic"
+            },
+            "id": "lower-meadow:desert-oasis:20284768",
+            "kind": "awtsmoos.movie.world-spec",
+            "label": "Oasis Night",
+            "packageId": "lower-meadow",
+            "population": {
+              "crowd": 0,
+              "enemies": 0,
+              "npcs": 4,
+              "vegetation": "native"
+            },
+            "prompt": "",
+            "quest": null,
+            "regionId": "desert-oasis",
+            "seed": 20284768,
+            "version": 2
+          }
+        }
+      ],
+      "id": "agent-scenes",
+      "target": null,
+      "type": "scene"
+    },
+    {
+      "clips": [
+        {
+          "duration": 16,
+          "easing": "linear",
+          "from": {
+            "position": {
+              "x": 0,
+              "y": 4,
+              "z": 18
+            },
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          "id": "shot-1-camera",
+          "rig": "dollyIn",
+          "shot": "dollyIn",
+          "start": 0,
+          "to": {
+            "position": {
+              "x": 0,
+              "y": 3.2,
+              "z": 7
+            },
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          }
+        },
+        {
+          "duration": 16,
+          "easing": "linear",
+          "from": {
+            "position": {
+              "x": -12,
+              "y": 4,
+              "z": 18
+            },
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          "id": "shot-2-camera",
+          "rig": "craneReveal",
+          "shot": "craneReveal",
+          "start": 16,
+          "to": {
+            "position": {
+              "x": -5,
+              "y": 24,
+              "z": 30
+            },
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          }
+        },
+        {
+          "duration": 16,
+          "easing": "linear",
+          "from": {
+            "position": {
+              "x": 16,
+              "y": 5,
+              "z": 0
+            },
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          "id": "shot-3-camera",
+          "rig": "orbitLeft",
+          "shot": "orbitLeft",
+          "start": 32,
+          "to": {
+            "position": {
+              "x": 0,
+              "y": 5,
+              "z": -16
+            },
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          }
+        },
+        {
+          "duration": 16,
+          "easing": "linear",
+          "from": {
+            "position": {
+              "x": 0,
+              "y": 18,
+              "z": 18
+            },
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          "id": "shot-4-camera",
+          "rig": "aerialPullback",
+          "shot": "aerialPullback",
+          "start": 48,
+          "to": {
+            "position": {
+              "x": 0,
+              "y": 42,
+              "z": 48
+            },
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          }
+        }
+      ],
+      "id": "agent-camera-global",
+      "target": null,
+      "type": "camera"
+    },
+    {
+      "clips": [
+        {
+          "action": "stand",
+          "duration": 11.2,
+          "easing": "linear",
+          "id": "shot-1-actor",
+          "start": 2.4
+        },
+        {
+          "action": "pray",
+          "duration": 11.2,
+          "easing": "linear",
+          "id": "shot-2-actor",
+          "start": 18.4
+        },
+        {
+          "action": "stand",
+          "duration": 11.2,
+          "easing": "linear",
+          "id": "shot-3-actor",
+          "start": 34.4
+        },
+        {
+          "action": "wave",
+          "duration": 11.2,
+          "easing": "linear",
+          "id": "shot-4-actor",
+          "start": 50.4
+        }
+      ],
+      "id": "agent-actor-chossid",
+      "target": "chossid",
+      "type": "actor"
+    },
+    {
+      "clips": [
+        {
+          "duration": 8,
+          "easing": "linear",
+          "id": "shot-1-dialogue",
+          "speaker": "The Chossid",
+          "start": 1,
+          "text": "The night is full of lights, and every one of them is a promise."
+        },
+        {
+          "duration": 8,
+          "easing": "linear",
+          "id": "shot-2-dialogue",
+          "speaker": "The Chossid",
+          "start": 17,
+          "text": "Modeh ani — I thank You for returning my soul to me this morning."
+        },
+        {
+          "duration": 8,
+          "easing": "linear",
+          "id": "shot-3-dialogue",
+          "speaker": "The Chossid",
+          "start": 33,
+          "text": "Still water shows the sky back to itself."
+        },
+        {
+          "duration": 8,
+          "easing": "linear",
+          "id": "shot-4-dialogue",
+          "speaker": "The Chossid",
+          "start": 49,
+          "text": "Come and sit — there is room for everyone beside this water."
+        }
+      ],
+      "id": "agent-dialogue-global",
+      "target": null,
+      "type": "dialogue"
+    },
+    {
+      "clips": [
+        {
+          "duration": 16,
+          "easing": "linear",
+          "id": "shot-1-audio-1",
+          "kind": "forest",
+          "start": 0,
+          "volume": 0.22
+        },
+        {
+          "duration": 16,
+          "easing": "linear",
+          "id": "shot-1-audio-2",
+          "kind": "hearth",
+          "start": 0,
+          "volume": 0.14
+        },
+        {
+          "duration": 16,
+          "easing": "linear",
+          "id": "shot-2-audio-1",
+          "kind": "wind",
+          "start": 16,
+          "volume": 0.2
+        },
+        {
+          "duration": 16,
+          "easing": "linear",
+          "id": "shot-3-audio-1",
+          "kind": "water",
+          "start": 32,
+          "volume": 0.25
+        },
+        {
+          "duration": 16,
+          "easing": "linear",
+          "id": "shot-4-audio-1",
+          "kind": "water",
+          "start": 48,
+          "volume": 0.2
+        },
+        {
+          "duration": 16,
+          "easing": "linear",
+          "id": "shot-4-audio-2",
+          "kind": "forest",
+          "start": 48,
+          "volume": 0.12
+        }
+      ],
+      "id": "agent-audio-global",
+      "target": null,
+      "type": "audio"
+    },
+    {
+      "clips": [
+        {
+          "duration": 0.001,
+          "easing": "linear",
+          "id": "shot-1-event",
+          "name": "movie:procedural-sequence",
+          "payload": {
+            "mood": "night-fireflies",
+            "rig": "dollyIn",
+            "seed": 1012135967
+          },
+          "start": 0
+        },
+        {
+          "duration": 0.001,
+          "easing": "linear",
+          "id": "shot-2-event",
+          "name": "movie:procedural-sequence",
+          "payload": {
+            "mood": "sunrise-gold",
+            "rig": "craneReveal",
+            "seed": 1012135967
+          },
+          "start": 16
+        },
+        {
+          "duration": 0.001,
+          "easing": "linear",
+          "id": "shot-3-event",
+          "name": "movie:procedural-sequence",
+          "payload": {
+            "mood": "forest-pool",
+            "rig": "orbitLeft",
+            "seed": 1012135967
+          },
+          "start": 32
+        },
+        {
+          "duration": 0.001,
+          "easing": "linear",
+          "id": "shot-4-event",
+          "name": "movie:procedural-sequence",
+          "payload": {
+            "mood": "oasis-night",
+            "rig": "aerialPullback",
+            "seed": 1012135967
+          },
+          "start": 48
+        }
+      ],
+      "id": "agent-event-global",
+      "target": null,
+      "type": "event"
+    }
+  ],
+  "version": 1,
+  "viewMode": "legacy"
+}
