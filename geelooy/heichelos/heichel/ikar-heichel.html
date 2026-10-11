@@ -1,0 +1,129 @@
+<!doctype html>
+<!-- B"H
+Ikar Heichel — full interactive layout, LAW 8.
+Built from the seven intense heichel art plates in
+geelooy/design-refs/law8/ikar-heichel/*.webp.
+
+This page works as an authenticated user: sign in, then edit every title,
+description and text in place, publish/unpublish shelves, add new shelves,
+delete them, and reset the page — all persisted to localStorage. Every
+control performs a real transaction; nothing is decorative.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#04060f">
+<title>Ikar · The Entire Torah — Awtsmoos</title>
+<link rel="stylesheet" href="./styles/ikar-heichel-layout.css">
+<link rel="design-reference" href="https://awtsmoos.com/design-refs/law8/ikar-heichel/hero-intense.webp">
+</head>
+<body class="ikar-heichel" data-theme="dark">
+<div class="ikar-topbar">
+	<div class="ikar-wrap ikar-topbar-inner">
+		<a class="ikar-brand" href="/heichelos/ikar/" aria-label="Ikar home">
+			<span class="ikar-brand-seal" aria-hidden="true">א</span>
+			<span class="ikar-brand-name">Ikar</span>
+		</a>
+		<div class="ikar-topbar-actions">
+			<button type="button" class="ikar-icon-btn" id="ikarThemeBtn" aria-label="Toggle light and dark theme" title="Toggle theme">
+				<span class="ikar-icon-moon" aria-hidden="true">☾</span>
+				<span class="ikar-icon-sun" aria-hidden="true">☀</span>
+			</button>
+			<button type="button" class="ikar-btn ikar-btn-ghost ikar-btn-small ikar-edit-toggle" id="ikarEditToggle" hidden>Edit page</button>
+			<div class="ikar-auth" id="ikarAuth"></div>
+		</div>
+	</div>
+</div>
+
+<header class="ikar-hero">
+	<img class="ikar-hero-art" src="../../design-refs/law8/ikar-heichel/hero-intense.webp" alt="Cosmic hall of golden light with floating Hebrew letters" fetchpriority="high">
+	<div class="ikar-hero-veil" aria-hidden="true"></div>
+	<div class="ikar-wrap ikar-hero-inner">
+		<p class="ikar-kicker" data-edit="hero.kicker">ב״ה · The Ikar Heichel</p>
+		<h1 class="ikar-hero-title">
+			<span class="ikar-title-he" data-edit="hero.titleHe" lang="he">אוצר התורה כולה</span>
+			<span data-edit="hero.titleEn">The Entire Torah</span>
+		</h1>
+		<p class="ikar-hero-sub" data-edit="hero.sub">Torah, translations, series and sefarim — one living library, in Hebrew and English.</p>
+		<div class="ikar-hero-ctas">
+			<a class="ikar-btn ikar-btn-primary" href="/heichelos/ikar/">Enter the Library</a>
+			<a class="ikar-btn ikar-btn-ghost" href="/heichelos/parsha-index/">Browse by Parsha</a>
+		</div>
+	</div>
+</header>
+
+<main>
+	<section class="ikar-shelves" aria-labelledby="ikarShelvesTitle">
+		<div class="ikar-wrap">
+			<div class="ikar-section-head">
+				<h2 class="ikar-section-title" id="ikarShelvesTitle">
+					<span class="ikar-title-he" lang="he">המדפים</span>
+					The Shelves
+				</h2>
+				<p class="ikar-section-lede" data-edit="shelves.lede">Every sefer has its room. Open a shelf to walk inside.</p>
+				<div class="ikar-editbar" id="ikarEditbar" hidden>
+					<button type="button" class="ikar-btn ikar-btn-primary ikar-btn-small" id="ikarAddShelf">+ Add a shelf</button>
+					<button type="button" class="ikar-btn ikar-btn-ghost ikar-btn-small" id="ikarResetPage">Reset page</button>
+				</div>
+			</div>
+			<ul class="ikar-shelf-grid" id="ikarShelfGrid"></ul>
+		</div>
+	</section>
+
+	<section class="ikar-postview" aria-labelledby="ikarPostviewTitle">
+		<div class="ikar-wrap">
+			<div class="ikar-section-head">
+				<h2 class="ikar-section-title" id="ikarPostviewTitle">
+					<span class="ikar-title-he" lang="he">מבפנים</span>
+					Inside a Post
+				</h2>
+				<p class="ikar-section-lede" data-edit="postview.lede">Every post reads like a sefer: Hebrew and English, phrase by phrase, with footnotes at a tap.</p>
+			</div>
+			<div class="ikar-postview-banner">
+				<img class="ikar-postview-art" src="../../design-refs/law8/ikar-heichel/post-view-intense.webp" alt="Glowing manuscript page with letters of fire rising into the night sky" loading="lazy">
+				<div class="ikar-postview-veil" aria-hidden="true"></div>
+				<div class="ikar-postview-caption">
+					<p class="ikar-postview-eyebrow" data-edit="postview.eyebrow">Post view</p>
+					<h3 class="ikar-postview-title" data-edit="postview.title">A page that reads like a sefer</h3>
+					<div class="ikar-postview-sample" lang="he">
+						<p class="ikar-sample-he" data-edit="postview.sampleHe">בְּרֵאשִׁית בָּרָא אֱלֹקִים אֵת הַשָּׁמַיִם וְאֵת הָאָרֶץ<sup class="ikar-fn">1</sup></p>
+						<p class="ikar-sample-en" data-edit="postview.sampleEn" lang="en" dir="ltr">In the beginning Elokim created the heavens and the earth.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="ikar-stats" aria-label="Library statistics">
+		<div class="ikar-wrap">
+			<ul class="ikar-stats-list">
+				<li class="ikar-stat"><span class="ikar-stat-num" data-edit="stats.posts">21,211</span><span class="ikar-stat-label">Posts live</span></li>
+				<li class="ikar-stat"><span class="ikar-stat-num" data-edit="stats.translated">9,490</span><span class="ikar-stat-label">Translated</span></li>
+				<li class="ikar-stat"><span class="ikar-stat-num" data-edit="stats.hebrew">11,721</span><span class="ikar-stat-label">Hebrew</span></li>
+				<li class="ikar-stat"><span class="ikar-stat-num" data-edit="stats.shelves">5</span><span class="ikar-stat-label">Shelves</span></li>
+			</ul>
+		</div>
+	</section>
+</main>
+
+<footer class="ikar-footer">
+	<div class="ikar-wrap">
+		<p class="ikar-footer-he" lang="he">ב״ה · יקר — אוצר התורה</p>
+		<p>Ikar — the Torah library of Awtsmoos.</p>
+	</div>
+</footer>
+
+<div class="ikar-dialog-backdrop" id="ikarDialogBackdrop" hidden>
+	<div class="ikar-dialog" role="dialog" aria-modal="true" aria-labelledby="ikarDialogTitle" id="ikarDialog">
+		<h3 class="ikar-dialog-title" id="ikarDialogTitle">Sign in</h3>
+		<div class="ikar-dialog-body" id="ikarDialogBody"></div>
+		<div class="ikar-dialog-actions" id="ikarDialogActions"></div>
+	</div>
+</div>
+
+<div class="ikar-toast-region" id="ikarToastRegion" aria-live="polite"></div>
+
+<script src="./logic/ikar-heichel-layout.js"></script>
+</body>
+</html>

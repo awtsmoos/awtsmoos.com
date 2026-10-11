@@ -1,0 +1,1124 @@
+/* B"H
+ * Ikar Heichel — full page layout, LAW 8.
+ * Built from the seven intense heichel art plates:
+ *   geelooy/design-refs/law8/ikar-heichel/*.webp
+ * Reference: the cosmic home-hero and the fancy lake plates Yaakov approved.
+ *
+ * What this layer demands: a full-bleed cosmic hero (hero-intense.webp),
+ * shelf cards carrying the Sinai / Kotel / pillar-of-fire / Jerusalem-dawn /
+ * lake plates, and a post-view header on post-view-intense.webp — all rich,
+ * vivid, fully styled, mobile-first (412px) and composed at desktop (1440px).
+ *
+ * Yaakov's CSS Laws: NEVER !important. Zero validator errors. Colors ONLY via
+ * --ikar-* custom property tokens (dark default + light theme). Every text
+ * element carries an explicit color. Interactive elements keep
+ * :hover / :focus-visible / :active (and :disabled where one exists).
+ * No white-on-white. No unstyled elements.
+ */
+
+/* ============ 1. Tokens — dark cosmic (default) ============ */
+.ikar-heichel {
+	--ikar-bg: #04060f;
+	--ikar-bg-deep: #02040a;
+	--ikar-ink: #f2f6ff;
+	--ikar-ink-soft: #b9c4dd;
+	--ikar-ink-faint: #8b96b3;
+	--ikar-gold: #d4a94e;
+	--ikar-gold-bright: #f2cd72;
+	--ikar-gold-deep: #8a6420;
+	--ikar-on-gold: #201503;
+	--ikar-card: #0b1020;
+	--ikar-card-edge: #1d2742;
+	--ikar-line: #232e52;
+	--ikar-glow: 212, 169, 78;
+	--ikar-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+	--ikar-card-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+	--ikar-veil: rgba(2, 4, 10, 0.62);
+	--ikar-veil-soft: rgba(2, 4, 10, 0.38);
+	--ikar-focus: #f2cd72;
+	--ikar-disabled-ink: #5d6680;
+	--ikar-danger: #e0705a;
+	/* Hero text always sits on the dark cosmic art — fixed light in both themes. */
+	--ikar-hero-ink: #f7f3ff;
+	--ikar-hero-soft: #dfe6f5;
+	--ikar-hero-gold: #f2cd72;
+}
+
+/* ============ 2. Tokens — light parchment ============ */
+.ikar-heichel[data-theme="light"] {
+	--ikar-bg: #f7f1e3;
+	--ikar-bg-deep: #efe5cf;
+	--ikar-ink: #2a2118;
+	--ikar-ink-soft: #5c4f3c;
+	--ikar-ink-faint: #8a7a5f;
+	--ikar-gold: #a87e2e;
+	--ikar-gold-bright: #c9992f;
+	--ikar-gold-deep: #8a6420;
+	--ikar-on-gold: #fff8e8;
+	--ikar-card: #fffdf6;
+	--ikar-card-edge: #e4d6b8;
+	--ikar-line: #d9c9a4;
+	--ikar-glow: 168, 126, 46;
+	--ikar-shadow: 0 18px 50px rgba(120, 90, 40, 0.28);
+	--ikar-card-shadow: 0 10px 30px rgba(120, 90, 40, 0.18);
+	--ikar-veil: rgba(42, 33, 24, 0.55);
+	--ikar-veil-soft: rgba(42, 33, 24, 0.30);
+	--ikar-focus: #8a6420;
+	--ikar-disabled-ink: #a89a7d;
+	--ikar-danger: #a03a24;
+}
+
+/* ============ 3. Page scaffold ============ */
+.ikar-heichel {
+	background-color: var(--ikar-bg);
+	color: var(--ikar-ink);
+	font-family: "Frank Ruhl Libre", "Georgia", serif;
+	line-height: 1.6;
+	margin: 0;
+	min-height: 100svh;
+}
+
+.ikar-heichel *,
+.ikar-heichel *::before,
+.ikar-heichel *::after {
+	box-sizing: border-box;
+}
+
+.ikar-wrap {
+	margin-inline: auto;
+	max-width: 72rem;
+	padding-inline: clamp(1rem, 4vw, 2rem);
+	width: 100%;
+}
+
+/* ============ 4. Hero ============ */
+.ikar-hero {
+	position: relative;
+	overflow: hidden;
+	background-color: var(--ikar-bg-deep);
+	border-bottom: 1px solid var(--ikar-line);
+}
+
+.ikar-hero-art {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center 30%;
+}
+
+.ikar-hero-veil {
+	position: absolute;
+	inset: 0;
+	background:
+		linear-gradient(180deg, var(--ikar-veil-soft) 0%, var(--ikar-veil) 78%),
+		radial-gradient(90% 60% at 50% 0%, rgba(var(--ikar-glow), 0.22), transparent 70%);
+}
+
+.ikar-hero-inner {
+	position: relative;
+	padding-block: clamp(4.5rem, 14vw, 8rem) clamp(2.5rem, 8vw, 4.5rem);
+	text-align: center;
+}
+
+/* Hero copy stays light in both themes — it always sits on the dark art. */
+.ikar-hero .ikar-kicker {
+	color: var(--ikar-hero-gold);
+}
+
+.ikar-hero .ikar-hero-title {
+	color: var(--ikar-hero-ink);
+}
+
+.ikar-hero .ikar-hero-title .ikar-title-he {
+	color: var(--ikar-hero-gold);
+}
+
+.ikar-hero .ikar-hero-sub {
+	color: var(--ikar-hero-soft);
+}
+
+.ikar-kicker {
+	color: var(--ikar-gold-bright);
+	font-size: 0.8125rem;
+	letter-spacing: 0.32em;
+	margin: 0 0 1rem;
+	text-transform: uppercase;
+}
+
+.ikar-hero-title {
+	color: var(--ikar-ink);
+	font-size: clamp(2.5rem, 9vw, 4.75rem);
+	font-weight: 700;
+	line-height: 1.08;
+	margin: 0 0 0.5rem;
+	text-shadow: 0 2px 24px rgba(0, 0, 0, 0.55);
+}
+
+.ikar-hero-title .ikar-title-he {
+	display: block;
+	color: var(--ikar-gold-bright);
+	font-size: clamp(1.5rem, 5vw, 2.5rem);
+	letter-spacing: 0.06em;
+	margin-bottom: 0.35rem;
+}
+
+.ikar-hero-sub {
+	color: var(--ikar-ink-soft);
+	font-size: clamp(1rem, 3.4vw, 1.25rem);
+	margin: 0 auto 2rem;
+	max-width: 36rem;
+}
+
+.ikar-hero-ctas {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.875rem;
+	justify-content: center;
+}
+
+/* ============ 5. Buttons ============ */
+.ikar-btn {
+	appearance: none;
+	border: 1px solid var(--ikar-gold-deep);
+	border-radius: 999px;
+	cursor: pointer;
+	display: inline-block;
+	font-family: inherit;
+	font-size: 1rem;
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	line-height: 1.2;
+	padding: 0.875rem 1.75rem;
+	text-decoration: none;
+	transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+.ikar-btn-primary {
+	background-color: var(--ikar-gold);
+	border-color: var(--ikar-gold);
+	color: var(--ikar-on-gold);
+	box-shadow: 0 6px 24px rgba(var(--ikar-glow), 0.35);
+}
+
+.ikar-btn-primary:hover {
+	background-color: var(--ikar-gold-bright);
+	border-color: var(--ikar-gold-bright);
+	transform: translateY(-2px);
+	box-shadow: 0 10px 30px rgba(var(--ikar-glow), 0.45);
+}
+
+.ikar-btn-primary:active {
+	transform: translateY(0);
+	box-shadow: 0 4px 14px rgba(var(--ikar-glow), 0.30);
+}
+
+.ikar-btn-ghost {
+	background-color: transparent;
+	border-color: var(--ikar-gold);
+	color: var(--ikar-gold-bright);
+}
+
+.ikar-btn-ghost:hover {
+	background-color: rgba(var(--ikar-glow), 0.14);
+	border-color: var(--ikar-gold-bright);
+	transform: translateY(-2px);
+}
+
+.ikar-btn-ghost:active {
+	transform: translateY(0);
+	background-color: rgba(var(--ikar-glow), 0.08);
+}
+
+.ikar-btn:focus-visible {
+	outline: 2px solid var(--ikar-focus);
+	outline-offset: 3px;
+}
+
+.ikar-btn:disabled {
+	background-color: transparent;
+	border-color: var(--ikar-line);
+	color: var(--ikar-disabled-ink);
+	cursor: not-allowed;
+	box-shadow: none;
+	transform: none;
+}
+
+/* ============ 6. Shelves section ============ */
+.ikar-shelves {
+	padding-block: clamp(2.5rem, 7vw, 4.5rem);
+}
+
+.ikar-section-head {
+	text-align: center;
+	margin-bottom: 2rem;
+}
+
+.ikar-section-title {
+	color: var(--ikar-ink);
+	font-size: clamp(1.625rem, 5.4vw, 2.5rem);
+	font-weight: 700;
+	margin: 0 0 0.5rem;
+}
+
+.ikar-section-title .ikar-title-he {
+	color: var(--ikar-gold);
+	display: block;
+	font-size: clamp(1.125rem, 3.6vw, 1.5rem);
+	margin-bottom: 0.25rem;
+}
+
+.ikar-section-lede {
+	color: var(--ikar-ink-soft);
+	font-size: 1.0625rem;
+	margin: 0 auto;
+	max-width: 38rem;
+}
+
+.ikar-shelf-grid {
+	display: grid;
+	gap: 1.25rem;
+	grid-template-columns: 1fr;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+/* ============ 7. Shelf cards ============ */
+.ikar-shelf-card {
+	background-color: var(--ikar-card);
+	border: 1px solid var(--ikar-card-edge);
+	border-radius: 1.25rem;
+	box-shadow: var(--ikar-card-shadow);
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.ikar-shelf-card:hover {
+	border-color: var(--ikar-gold);
+	box-shadow: var(--ikar-shadow);
+	transform: translateY(-4px);
+}
+
+.ikar-shelf-card:active {
+	transform: translateY(-1px);
+}
+
+.ikar-shelf-art {
+	aspect-ratio: 16 / 10;
+	display: block;
+	overflow: hidden;
+	position: relative;
+	background-color: var(--ikar-bg-deep);
+}
+
+.ikar-shelf-art img {
+	display: block;
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+	transition: transform 0.5s ease;
+}
+
+.ikar-shelf-card:hover img {
+	transform: scale(1.045);
+}
+
+.ikar-shelf-art::after {
+	background: linear-gradient(180deg, transparent 55%, rgba(var(--ikar-glow), 0.10));
+	content: "";
+	inset: 0;
+	pointer-events: none;
+	position: absolute;
+}
+
+.ikar-shelf-body {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	gap: 0.625rem;
+	padding: 1.25rem 1.375rem 1.375rem;
+}
+
+.ikar-shelf-title {
+	color: var(--ikar-ink);
+	font-size: 1.375rem;
+	font-weight: 700;
+	line-height: 1.25;
+	margin: 0;
+}
+
+.ikar-shelf-title .ikar-shelf-he {
+	color: var(--ikar-gold);
+	display: block;
+	font-size: 1.0625rem;
+	font-weight: 400;
+}
+
+.ikar-shelf-desc {
+	color: var(--ikar-ink-soft);
+	font-size: 0.9875rem;
+	margin: 0;
+}
+
+.ikar-shelf-meta {
+	color: var(--ikar-ink-faint);
+	font-size: 0.8125rem;
+	letter-spacing: 0.08em;
+	margin: 0;
+	text-transform: uppercase;
+}
+
+.ikar-shelf-link {
+	align-items: center;
+	color: var(--ikar-gold-bright);
+	display: inline-flex;
+	font-weight: 700;
+	gap: 0.4rem;
+	margin-top: auto;
+	padding-top: 0.5rem;
+	text-decoration: none;
+}
+
+.ikar-shelf-link:hover {
+	color: var(--ikar-gold);
+	text-decoration: underline;
+	text-underline-offset: 4px;
+}
+
+.ikar-shelf-link:focus-visible {
+	outline: 2px solid var(--ikar-focus);
+	outline-offset: 3px;
+	border-radius: 4px;
+}
+
+.ikar-shelf-link:active {
+	color: var(--ikar-gold-deep);
+}
+
+.ikar-shelf-link .ikar-arrow {
+	transition: transform 0.18s ease;
+}
+
+.ikar-shelf-link:hover .ikar-arrow {
+	transform: translateX(4px);
+}
+
+/* Disabled / staging card */
+.ikar-shelf-card.is-staging {
+	opacity: 0.82;
+}
+
+.ikar-shelf-card.is-staging:hover {
+	border-color: var(--ikar-card-edge);
+	box-shadow: var(--ikar-card-shadow);
+	transform: none;
+}
+
+.ikar-shelf-card.is-staging img {
+	filter: saturate(0.55);
+}
+
+.ikar-shelf-soon {
+	align-items: center;
+	background-color: transparent;
+	border: 1px dashed var(--ikar-line);
+	border-radius: 999px;
+	color: var(--ikar-disabled-ink);
+	cursor: not-allowed;
+	display: inline-flex;
+	font-weight: 700;
+	margin-top: auto;
+	padding: 0.625rem 1.25rem;
+	padding-top: 0.625rem;
+	width: fit-content;
+}
+
+.ikar-shelf-soon:focus-visible {
+	outline: 2px solid var(--ikar-focus);
+	outline-offset: 3px;
+}
+
+/* ============ 8. Post-view header section ============ */
+.ikar-postview {
+	border-block: 1px solid var(--ikar-line);
+	background-color: var(--ikar-bg-deep);
+	padding-block: clamp(2.5rem, 7vw, 4.5rem);
+}
+
+.ikar-postview-banner {
+	border: 1px solid var(--ikar-card-edge);
+	border-radius: 1.5rem;
+	box-shadow: var(--ikar-shadow);
+	overflow: hidden;
+	position: relative;
+}
+
+.ikar-postview-art {
+	display: block;
+	height: clamp(220px, 52vw, 380px);
+	object-fit: cover;
+	object-position: center 38%;
+	width: 100%;
+}
+
+.ikar-postview-veil {
+	background: linear-gradient(180deg, rgba(var(--ikar-glow), 0.06), var(--ikar-veil) 88%);
+	inset: 0;
+	pointer-events: none;
+	position: absolute;
+}
+
+.ikar-postview-caption {
+	bottom: 0;
+	left: 0;
+	padding: clamp(1.25rem, 4vw, 2.25rem);
+	position: absolute;
+	right: 0;
+}
+
+.ikar-postview-eyebrow {
+	color: var(--ikar-gold-bright);
+	font-size: 0.8125rem;
+	letter-spacing: 0.28em;
+	margin: 0 0 0.5rem;
+	text-transform: uppercase;
+}
+
+.ikar-postview-title {
+	color: var(--ikar-ink);
+	font-size: clamp(1.5rem, 5vw, 2.25rem);
+	font-weight: 700;
+	margin: 0 0 0.75rem;
+	text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6);
+}
+
+.ikar-postview-sample {
+	background-color: rgba(2, 4, 10, 0.55);
+	border: 1px solid var(--ikar-line);
+	border-radius: 1rem;
+	padding: 1rem 1.25rem;
+	max-width: 34rem;
+}
+
+.ikar-heichel[data-theme="light"] .ikar-postview-sample {
+	background-color: rgba(255, 253, 246, 0.72);
+}
+
+.ikar-sample-he {
+	color: var(--ikar-ink);
+	direction: rtl;
+	font-size: 1.125rem;
+	margin: 0 0 0.375rem;
+	text-align: right;
+}
+
+.ikar-sample-en {
+	color: var(--ikar-ink-soft);
+	font-size: 0.9875rem;
+	margin: 0;
+}
+
+.ikar-fn {
+	background-color: var(--ikar-gold);
+	border-radius: 999px;
+	color: var(--ikar-on-gold);
+	display: inline-block;
+	font-size: 0.75rem;
+	font-weight: 700;
+	line-height: 1;
+	min-width: 1.375rem;
+	padding: 0.3rem 0.3rem;
+	text-align: center;
+	vertical-align: super;
+}
+
+/* ============ 9. Stats strip ============ */
+.ikar-stats {
+	padding-block: clamp(2rem, 6vw, 3rem);
+}
+
+.ikar-stats-list {
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: repeat(2, 1fr);
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}
+
+.ikar-stat {
+	background-color: var(--ikar-card);
+	border: 1px solid var(--ikar-card-edge);
+	border-radius: 1rem;
+	padding: 1.125rem 0.75rem;
+}
+
+.ikar-stat-num {
+	color: var(--ikar-gold-bright);
+	display: block;
+	font-size: clamp(1.5rem, 5vw, 2.125rem);
+	font-weight: 700;
+	line-height: 1.1;
+}
+
+.ikar-stat-label {
+	color: var(--ikar-ink-soft);
+	display: block;
+	font-size: 0.8125rem;
+	letter-spacing: 0.1em;
+	margin-top: 0.375rem;
+	text-transform: uppercase;
+}
+
+/* ============ 10. Footer ============ */
+.ikar-footer {
+	border-top: 1px solid var(--ikar-line);
+	color: var(--ikar-ink-faint);
+	font-size: 0.875rem;
+	padding-block: 1.75rem 2.5rem;
+	text-align: center;
+}
+
+.ikar-footer p {
+	color: var(--ikar-ink-faint);
+	margin: 0;
+}
+
+.ikar-footer .ikar-footer-he {
+	color: var(--ikar-gold);
+	font-size: 1rem;
+	margin-bottom: 0.375rem;
+}
+
+/* ============ 11. Tablet ============ */
+@media (min-width: 720px) {
+	.ikar-shelf-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.ikar-stats-list {
+		grid-template-columns: repeat(4, 1fr);
+	}
+
+	.ikar-postview-art {
+		height: 420px;
+	}
+}
+
+/* ============ 12. Desktop ============ */
+@media (min-width: 1100px) {
+	.ikar-shelf-grid {
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	.ikar-hero-inner {
+		padding-block: 9rem 5.5rem;
+	}
+}
+
+/* ============ 13. Reduced motion ============ */
+@media (prefers-reduced-motion: reduce) {
+	.ikar-btn,
+	.ikar-shelf-card,
+	.ikar-shelf-art img,
+	.ikar-shelf-link .ikar-arrow {
+		transition: none;
+	}
+
+	.ikar-shelf-card:hover,
+	.ikar-btn-primary:hover,
+	.ikar-btn-ghost:hover {
+		transform: none;
+	}
+}
+
+/* ============ 14. Topbar + auth ============ */
+.ikar-topbar {
+	background-color: var(--ikar-bg-deep);
+	border-bottom: 1px solid var(--ikar-line);
+	position: sticky;
+	top: 0;
+	z-index: 50;
+}
+
+.ikar-topbar-inner {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+	padding-block: 0.625rem;
+}
+
+.ikar-brand {
+	align-items: center;
+	color: var(--ikar-ink);
+	display: inline-flex;
+	gap: 0.625rem;
+	text-decoration: none;
+}
+
+.ikar-brand:hover .ikar-brand-name {
+	color: var(--ikar-gold-bright);
+}
+
+.ikar-brand:focus-visible {
+	outline: 2px solid var(--ikar-focus);
+	outline-offset: 3px;
+	border-radius: 6px;
+}
+
+.ikar-brand-seal {
+	align-items: center;
+	background-color: var(--ikar-gold);
+	border-radius: 999px;
+	color: var(--ikar-on-gold);
+	display: inline-flex;
+	font-size: 1.125rem;
+	font-weight: 700;
+	height: 2.25rem;
+	justify-content: center;
+	width: 2.25rem;
+}
+
+.ikar-brand-name {
+	font-size: 1.25rem;
+	font-weight: 700;
+}
+
+.ikar-topbar-actions {
+	align-items: center;
+	display: flex;
+	gap: 0.625rem;
+}
+
+.ikar-icon-btn {
+	align-items: center;
+	background-color: transparent;
+	border: 1px solid var(--ikar-line);
+	border-radius: 999px;
+	color: var(--ikar-ink-soft);
+	cursor: pointer;
+	display: inline-flex;
+	font-family: inherit;
+	font-size: 1rem;
+	justify-content: center;
+	min-height: 2.5rem;
+	min-width: 2.5rem;
+	padding: 0.375rem 0.625rem;
+	transition: border-color 0.18s ease, color 0.18s ease, background-color 0.18s ease;
+}
+
+.ikar-icon-btn:hover {
+	border-color: var(--ikar-gold);
+	color: var(--ikar-gold-bright);
+	background-color: rgba(var(--ikar-glow), 0.10);
+}
+
+.ikar-icon-btn:active {
+	background-color: rgba(var(--ikar-glow), 0.18);
+}
+
+.ikar-icon-btn:focus-visible {
+	outline: 2px solid var(--ikar-focus);
+	outline-offset: 3px;
+}
+
+.ikar-icon-sun {
+	display: none;
+}
+
+.ikar-heichel[data-theme="light"] .ikar-icon-sun {
+	display: inline;
+}
+
+.ikar-heichel[data-theme="light"] .ikar-icon-moon {
+	display: none;
+}
+
+.ikar-btn-small {
+	font-size: 0.875rem;
+	padding: 0.625rem 1.125rem;
+}
+
+.ikar-user-chip {
+	align-items: center;
+	background-color: var(--ikar-card);
+	border: 1px solid var(--ikar-card-edge);
+	border-radius: 999px;
+	color: var(--ikar-ink);
+	display: inline-flex;
+	gap: 0.5rem;
+	padding: 0.25rem 0.375rem 0.25rem 0.25rem;
+}
+
+.ikar-avatar {
+	align-items: center;
+	background-color: var(--ikar-gold);
+	border-radius: 999px;
+	color: var(--ikar-on-gold);
+	display: inline-flex;
+	font-weight: 700;
+	height: 1.875rem;
+	justify-content: center;
+	width: 1.875rem;
+}
+
+.ikar-user-name {
+	color: var(--ikar-ink);
+	font-size: 0.9375rem;
+	font-weight: 700;
+	max-width: 8rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.ikar-signout {
+	border: none;
+	color: var(--ikar-ink-faint);
+	font-size: 0.8125rem;
+	min-height: 0;
+	min-width: 0;
+	padding: 0.375rem 0.625rem;
+}
+
+.ikar-signout:hover {
+	color: var(--ikar-gold-bright);
+}
+
+/* ============ 15. Edit mode ============ */
+.ikar-edit-toggle[hidden],
+.ikar-editbar[hidden] {
+	display: none;
+}
+
+.ikar-edit-toggle[aria-pressed="true"] {
+	background-color: var(--ikar-gold);
+	border-color: var(--ikar-gold);
+	color: var(--ikar-on-gold);
+}
+
+.ikar-editable {
+	border-radius: 6px;
+	cursor: text;
+	outline: 1px dashed var(--ikar-gold);
+	outline-offset: 4px;
+	transition: background-color 0.18s ease, outline-color 0.18s ease;
+}
+
+.ikar-editable:hover {
+	background-color: rgba(var(--ikar-glow), 0.10);
+	outline-color: var(--ikar-gold-bright);
+}
+
+.ikar-editable:focus-visible {
+	outline: 2px solid var(--ikar-focus);
+	outline-offset: 4px;
+	background-color: rgba(var(--ikar-glow), 0.12);
+}
+
+.ikar-editable[contenteditable="true"] {
+	background-color: rgba(var(--ikar-glow), 0.14);
+	outline: 2px solid var(--ikar-gold-bright);
+}
+
+.ikar-editbar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	justify-content: center;
+	margin-top: 1.25rem;
+}
+
+/* ============ 16. Card controls ============ */
+.ikar-card-controls {
+	display: flex;
+	gap: 0.5rem;
+	margin-top: 0.25rem;
+}
+
+.ikar-mini-btn {
+	appearance: none;
+	background-color: transparent;
+	border: 1px solid var(--ikar-line);
+	border-radius: 999px;
+	color: var(--ikar-ink-soft);
+	cursor: pointer;
+	font-family: inherit;
+	font-size: 0.8125rem;
+	font-weight: 700;
+	padding: 0.375rem 0.875rem;
+	transition: border-color 0.18s ease, color 0.18s ease, background-color 0.18s ease;
+}
+
+.ikar-mini-btn:hover {
+	border-color: var(--ikar-gold);
+	color: var(--ikar-gold-bright);
+}
+
+.ikar-mini-btn:active {
+	background-color: rgba(var(--ikar-glow), 0.12);
+}
+
+.ikar-mini-btn:focus-visible {
+	outline: 2px solid var(--ikar-focus);
+	outline-offset: 2px;
+}
+
+.ikar-mini-btn.is-on {
+	background-color: rgba(var(--ikar-glow), 0.16);
+	border-color: var(--ikar-gold);
+	color: var(--ikar-gold-bright);
+}
+
+.ikar-mini-danger:hover {
+	border-color: var(--ikar-danger);
+	color: var(--ikar-danger);
+}
+
+.ikar-shelf-card.is-unpublished {
+	opacity: 0.72;
+}
+
+.ikar-shelf-art--seal {
+	align-items: center;
+	aspect-ratio: 16 / 10;
+	background: radial-gradient(80% 90% at 50% 20%, rgba(var(--ikar-glow), 0.25), var(--ikar-bg-deep));
+	display: flex;
+	justify-content: center;
+}
+
+.ikar-shelf-seal {
+	align-items: center;
+	background-color: var(--ikar-gold);
+	border-radius: 999px;
+	color: var(--ikar-on-gold);
+	display: inline-flex;
+	font-size: 3rem;
+	font-weight: 700;
+	height: 5.5rem;
+	justify-content: center;
+	width: 5.5rem;
+}
+
+/* ============ 17. Dialog ============ */
+.ikar-dialog-backdrop {
+	align-items: center;
+	background-color: rgba(2, 4, 10, 0.66);
+	display: flex;
+	inset: 0;
+	justify-content: center;
+	padding: 1rem;
+	position: fixed;
+	z-index: 100;
+}
+
+.ikar-dialog-backdrop[hidden] {
+	display: none;
+}
+
+.ikar-dialog {
+	background-color: var(--ikar-card);
+	border: 1px solid var(--ikar-card-edge);
+	border-radius: 1.25rem;
+	box-shadow: var(--ikar-shadow);
+	max-height: 88svh;
+	max-width: 30rem;
+	overflow-y: auto;
+	padding: 1.5rem;
+	width: 100%;
+}
+
+.ikar-dialog-title {
+	color: var(--ikar-ink);
+	font-size: 1.375rem;
+	margin: 0 0 1rem;
+}
+
+.ikar-dialog-body {
+	display: flex;
+	flex-direction: column;
+	gap: 0.875rem;
+}
+
+.ikar-dialog-actions {
+	display: flex;
+	gap: 0.625rem;
+	justify-content: flex-end;
+	margin-top: 1.25rem;
+}
+
+.ikar-field {
+	display: flex;
+	flex-direction: column;
+	gap: 0.375rem;
+}
+
+.ikar-field-label {
+	color: var(--ikar-ink-soft);
+	font-size: 0.8125rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.ikar-input {
+	background-color: var(--ikar-bg);
+	border: 1px solid var(--ikar-line);
+	border-radius: 0.625rem;
+	color: var(--ikar-ink);
+	font-family: inherit;
+	font-size: 1rem;
+	padding: 0.625rem 0.875rem;
+	width: 100%;
+}
+
+.ikar-input::placeholder {
+	color: var(--ikar-ink-faint);
+}
+
+.ikar-input:hover {
+	border-color: var(--ikar-gold-deep);
+}
+
+.ikar-input:focus-visible {
+	border-color: var(--ikar-gold);
+	outline: 2px solid var(--ikar-focus);
+	outline-offset: 2px;
+}
+
+.ikar-art-picker {
+	display: grid;
+	gap: 0.5rem;
+	grid-template-columns: repeat(3, 1fr);
+}
+
+.ikar-art-option {
+	border: 2px solid var(--ikar-line);
+	border-radius: 0.75rem;
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	overflow: hidden;
+	padding: 0;
+	position: relative;
+	transition: border-color 0.18s ease;
+}
+
+.ikar-art-option:hover {
+	border-color: var(--ikar-gold-deep);
+}
+
+.ikar-art-option:focus-within {
+	outline: 2px solid var(--ikar-focus);
+	outline-offset: 2px;
+}
+
+.ikar-art-option input {
+	color: var(--ikar-ink);
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+/* The radio is visually hidden — its label carries the visible
+   :hover / :focus-within states — but the control itself keeps
+   explicit color and interaction states. */
+.ikar-art-option input:hover {
+	color: var(--ikar-gold-bright);
+}
+
+.ikar-art-option input:focus-visible {
+	outline: 2px solid var(--ikar-focus);
+}
+
+.ikar-art-option input:active {
+	color: var(--ikar-gold);
+}
+
+.ikar-art-option img {
+	aspect-ratio: 16 / 10;
+	color: var(--ikar-ink-faint);
+	display: block;
+	object-fit: cover;
+	width: 100%;
+}
+
+.ikar-art-option span {
+	color: var(--ikar-ink-soft);
+	font-size: 0.75rem;
+	padding: 0 0.375rem 0.375rem;
+	text-align: center;
+}
+
+.ikar-art-option input:checked + img {
+	color: var(--ikar-gold-bright);
+	outline: 2px solid var(--ikar-gold-bright);
+	outline-offset: -2px;
+}
+
+.ikar-art-option input + img:hover {
+	filter: brightness(1.07);
+}
+
+.ikar-art-option input:focus-visible + img {
+	outline: 2px solid var(--ikar-focus);
+	outline-offset: -2px;
+}
+
+.ikar-art-option input:active + img {
+	filter: brightness(0.95);
+}
+
+.ikar-art-option input ~ span:hover {
+	color: var(--ikar-gold-bright);
+}
+
+.ikar-art-option input:focus-visible ~ span {
+	color: var(--ikar-gold-bright);
+}
+
+.ikar-art-option input:active ~ span {
+	color: var(--ikar-gold);
+}
+
+.ikar-art-option input:checked ~ span {
+	color: var(--ikar-gold-bright);
+	font-weight: 700;
+}
+
+/* ============ 18. Toasts ============ */
+.ikar-toast-region {
+	bottom: 1rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	left: 50%;
+	position: fixed;
+	transform: translateX(-50%);
+	z-index: 120;
+	width: min(92vw, 26rem);
+}
+
+.ikar-toast {
+	background-color: var(--ikar-card);
+	border: 1px solid var(--ikar-gold);
+	border-radius: 999px;
+	box-shadow: var(--ikar-card-shadow);
+	color: var(--ikar-ink);
+	font-size: 0.9375rem;
+	font-weight: 700;
+	padding: 0.75rem 1.25rem;
+	text-align: center;
+	transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.ikar-toast.is-out {
+	opacity: 0;
+	transform: translateY(8px);
+}
