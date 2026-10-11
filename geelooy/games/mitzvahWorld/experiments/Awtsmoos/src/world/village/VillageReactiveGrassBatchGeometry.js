@@ -12,6 +12,7 @@
 import { appendYardGrassTuft } from '../grass/YardGrassMeshBuilder.js';
 import { createEcologicalYardGrassTuft } from '../grass/EcologicalYardGrassTuft.js';
 import { createVillageGrassEcologyPlan } from '../grass/VillageGrassEcologyPlan.js';
+import { planGrassClusters, GRASS_BLADE_TEXTURE_SIZE, GRASS_MATERIAL_ID } from '../../app/MitzvahWorldGrassMaterial.js';
 import { natureQualityBudget } from '../nature/NatureQualityBudget.js';
 import { sharedWindEvidence } from '../nature/SharedWindField.js';
 
@@ -23,20 +24,37 @@ export function createVillageReactiveGrassBatchDefinition(groundSampler, quality
 	let bladeCount = 0;
 	let flowerCount = 0;
 	let seedHeadCount = 0;
-	for (const [index, placement] of plan.placements.entries()) {
-		const tuft = createEcologicalYardGrassTuft(index + 613, placement);
-		const counts = appendYardGrassTuft(mesh, tuft);
-		species.add(tuft.speciesId);
-		bladeCount += counts.bladeCount;
-		flowerCount += counts.flowerCount;
-		seedHeadCount += counts.seedHeadCount;
+	// Clustered layout: tufts stay seed-identical (seed = original placement
+	// index), but vertices group into contiguous per-cluster ranges so the
+	// renderer can fade whole clusters by distance into the terrain detail.
+	const clusters = planGrassClusters(plan.placements);
+	const clusterRanges = [];
+	for (const cluster of clusters) {
+		const vertexStart = mesh.vertices.length;
+		for (const placementIndex of cluster.placementIndices) {
+			const placement = plan.placements[placementIndex];
+			const tuft = createEcologicalYardGrassTuft(placementIndex + 613, placement);
+			const counts = appendYardGrassTuft(mesh, tuft);
+			species.add(tuft.speciesId);
+			bladeCount += counts.bladeCount;
+			flowerCount += counts.flowerCount;
+			seedHeadCount += counts.seedHeadCount;
+		}
+		clusterRanges.push(Object.freeze({
+			center: cluster.center,
+			id: cluster.id,
+			tuftCount: cluster.tuftCount,
+			vertexEnd: mesh.vertices.length,
+			vertexStart
+		}));
 	}
 	return definition(mesh, budget, quality, plan, {
 		bladeCount,
 		flowerCount,
 		seedHeadCount,
 		species: [...species],
-		tuftCount: plan.placements.length
+		tuftCount: plan.placements.length,
+		clusterRanges
 	});
 }
 
@@ -62,6 +80,13 @@ function definition(mesh, budget, quality, plan, counts) {
 				fadeStart: budget.fadeStart
 			},
 			AwtsmoosWind: sharedWindEvidence(quality, 'advected-gpu-ecological-grass'),
+			AwtsmoosGrassClusters: Object.freeze(counts.clusterRanges || []),
+			AwtsmoosSharedGrassMaterial: Object.freeze({
+				bladeAlphaTexture: 'MitzvahWorldGrassMaterial.generateGrassBladeAlpha',
+				bladeTextureSize: GRASS_BLADE_TEXTURE_SIZE,
+				materialId: GRASS_MATERIAL_ID,
+				singleMaterial: true
+			}),
 			AwtsmoosYardGrass: {
 				...counts,
 				meadowCount: plan.meadow.placements.length,
