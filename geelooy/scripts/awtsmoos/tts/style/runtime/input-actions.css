@@ -72,7 +72,7 @@ textarea {
     color: black;
     box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
 }
-.ignite-btn:disabled { border-color: #444; color: #444; background: transparent; cursor: not-allowed; box-shadow: none; }
+.ignite-btn:disabled { border-color: #444; color: #666; /* B"H contrast fix: #444 text was 2.0:1, still dimmed */ background: transparent; cursor: not-allowed; box-shadow: none; }
 .btn-content { display: flex; align-items: center; justify-content: center; gap: 15px; }
 .spinner {
     width: 20px; height: 20px;

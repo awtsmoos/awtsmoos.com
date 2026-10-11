@@ -151,7 +151,8 @@ body, html {
     margin: 5px 0;
     padding-top: 5px;
     border-top: 1px dashed #555;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .nested-menu { 
     border-top: 1px solid #555; 
@@ -189,14 +190,16 @@ body, html {
 .settings-content button { 
     background-color: var(--primary-color); 
     transition: background-color 0.2s;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .settings-content button:hover { background-color: #0056b3; }
 #record-button.recording, #mic-button.mic-active { background-color: #dc3545; }
 .settings-content input[type="checkbox"] { 
     width: 16px; 
     height: 16px; 
     accent-color: var(--primary-color);
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .hidden-ui.hidden-ui { display: none; }
 
 /* --- SCROLLBAR --- */
@@ -287,7 +290,7 @@ body, html {
     bottom: 35px; /* Above note name */
     font-size: 0.8em;
     opacity: 0.7;
-    color: #007bff;
+    color: #0056b3; /* B"H contrast fix: #007bff on white chip was 1.97:1 */
     pointer-events: none;
     font-weight: normal;
     background: rgba(255,255,255,0.7);

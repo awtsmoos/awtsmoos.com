@@ -42,7 +42,8 @@ mitzvah-world-mobile-integration-001.css reveals localized style through the Awt
 		min-width: 44px;
 		min-height: 44px;
 		touch-action: manipulation;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	#mitzvah-world-root#mitzvah-world-root #gameRail {
 		top: max(72px, calc(var(--safe-t) + 64px));
 		right: var(--safe-r);
@@ -65,10 +66,12 @@ mitzvah-world-mobile-integration-001.css reveals localized style through the Awt
 		padding: 3px;
 		pointer-events: auto;
 		user-select: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	#mitzvah-world-root#mitzvah-world-root .Awtsmoos-game-rail button > * {
 		pointer-events: none;
-	}
+	
+	color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 	#mitzvah-world-root#mitzvah-world-root .Awtsmoos-game-rail [data-rail-secondary] {
 		grid-column: 1 / -1;
 		display: grid;
@@ -79,7 +82,7 @@ mitzvah-world-mobile-integration-001.css reveals localized style through the Awt
 	#mitzvah-world-root#mitzvah-world-root .Awtsmoos-game-rail[data-collapsed="true"] > [data-mode-toggle], #mitzvah-world-root .Awtsmoos-game-rail[data-collapsed="true"] > [data-rail-collapse] {
 		display: grid;
 	}
-	#mitzvah-world-root .Awtsmoos-game-rail[data-collapsed="true"] [data-rail-secondary], #mitzvah-world-root .Awtsmoos-game-rail [data-rail-secondary][hidden][hidden] {
+	#mitzvah-world-root .Awtsmoos-game-rail[data-collapsed="true"] [data-rail-secondary], #mitzvah-world-root#mitzvah-world-root .Awtsmoos-game-rail [data-rail-secondary][hidden][hidden] {
 		display: none;
 	}
 	#mitzvah-world-root#mitzvah-world-root .Awtsmoos-inventory-shell {

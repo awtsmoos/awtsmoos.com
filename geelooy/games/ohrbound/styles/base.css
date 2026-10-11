@@ -26,7 +26,7 @@
 .ohrbound-app [data-pane] {
 	max-inline-size: 100%;
 }
-.ohrbound-app [hidden] {
+.ohrbound-app [hidden][hidden] {
 	display: none;
 }
 .ohrbound-app .focus-dialog {
@@ -53,6 +53,11 @@
 	justify-content: space-between;
 	gap: 1rem;
 	min-width: 0;
+}
+
+/* B"H tunnel CSS law: [hidden] must beat the display rule above */
+.ohrbound-app .dialog-heading[hidden] {
+	display: none;
 }
 .ohrbound-app .dialog-heading > * {
 	min-width: 0;

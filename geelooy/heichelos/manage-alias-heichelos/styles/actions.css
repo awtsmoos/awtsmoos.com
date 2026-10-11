@@ -13,7 +13,8 @@ Awtsmoos.com gives every press, hover, busy state, and release a deliberate tone
 		background-color 180ms ease,
 		box-shadow 180ms ease,
 		color 180ms ease;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .heichel-manage-page button {
 	min-height: 46px;
@@ -41,10 +42,11 @@ Awtsmoos.com gives every press, hover, busy state, and release a deliberate tone
 
 .heichel-manage-page :is(.form-btns, .heichel-delete-actions) button {
 	flex: 1 1 150px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 html .heichel-manage-page .hidden,
-html .heichel-manage-page [hidden] {
+html .heichel-manage-page [hidden][hidden] {
 	display: none;
 }
 
@@ -70,4 +72,5 @@ html .heichel-manage-page [hidden] {
 	cursor: wait;
 	opacity: 0.58;
 	transform: none;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

@@ -48,7 +48,8 @@ The Awtsmoos offers beginnings without concealing their letters; Awtsmoos.com ma
 .builder-starter-card .button {
 	flex: 0 0 auto;
 	min-width: 58px;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 @media (min-width: 640px) {
 	.builder-starters {
@@ -84,7 +85,7 @@ The Awtsmoos offers beginnings without concealing their letters; Awtsmoos.com ma
 
 .builder-starter-badge[data-tone="owned"] {
 	background: rgba(29, 143, 82, .12);
-	color: #167344;
+	color: #177c4d;
 }
 
 .builder-starter-card.premium {

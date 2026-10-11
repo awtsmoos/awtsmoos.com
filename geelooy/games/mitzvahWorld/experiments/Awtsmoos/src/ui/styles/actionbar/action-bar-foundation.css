@@ -25,7 +25,7 @@
 	contain: layout style;
 }
 
-.Mitzvah-combat-host [hidden] {
+.Mitzvah-combat-host [hidden][hidden] {
 	display: none;
 }
 
@@ -43,10 +43,20 @@
 	pointer-events: auto;
 }
 
+/* B"H tunnel CSS law: [hidden] must beat the display rule above */
+.Mitzvah-combat-host .Mitzvah-combat-frame[hidden] {
+	display: none;
+}
+
 .Mitzvah-combat-host .Mitzvah-action-grid {
 	display: grid;
 	grid-template-columns: repeat(12, minmax(0, 1fr));
 	gap: 5px;
+}
+
+/* B"H tunnel CSS law: [hidden] must beat the display rule above */
+.Mitzvah-combat-host .Mitzvah-action-grid[hidden] {
+	display: none;
 }
 
 .Mitzvah-combat-host .Mitzvah-action-grid[data-rows="2"] {
@@ -59,6 +69,11 @@
 	align-items: center;
 	gap: 8px;
 	min-height: 15px;
+}
+
+/* B"H tunnel CSS law: [hidden] must beat the display rule above */
+.Mitzvah-combat-host .Mitzvah-action-meta[hidden] {
+	display: none;
 }
 
 .Mitzvah-combat-host .Mitzvah-focus-track {

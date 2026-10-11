@@ -63,7 +63,7 @@
     width: 100%;
     background: transparent;
     border: none;
-    color: transparent; 
+    color: var(--aw-text); /* B"H contrast fix: transparent text unreadable; real theme-safe text color */ 
     caret-color: white; 
     outline: none;
     resize: none;

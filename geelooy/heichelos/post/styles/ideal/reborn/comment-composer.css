@@ -245,9 +245,9 @@
     color: var(--sefer-on-accent);
 }
 
-:is(.post-reader-localized-context.awtsmoos-reader-vision) [hidden][hidden][hidden][hidden][hidden][hidden][hidden][hidden],
-:is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-entry-monolith [hidden][hidden][hidden][hidden][hidden][hidden][hidden][hidden],
-:is(.post-reader-localized-context.awtsmoos-reader-vision) :is(.awtsmoos-comment-entry-monolith.is-compact-altar) [hidden][hidden][hidden][hidden][hidden][hidden][hidden][hidden]{
+:is(.post-reader-localized-context.awtsmoos-reader-vision) [hidden][hidden][hidden][hidden][hidden][hidden][hidden][hidden][hidden][hidden][hidden][hidden],
+:is(.post-reader-localized-context.awtsmoos-reader-vision) .awtsmoos-comment-entry-monolith [hidden][hidden][hidden][hidden][hidden][hidden][hidden][hidden][hidden][hidden][hidden][hidden],
+:is(.post-reader-localized-context.awtsmoos-reader-vision) :is(.awtsmoos-comment-entry-monolith.is-compact-altar) [hidden][hidden][hidden][hidden][hidden][hidden][hidden][hidden][hidden][hidden][hidden][hidden]{
     display: none;
 }
 

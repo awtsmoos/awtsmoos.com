@@ -15,12 +15,14 @@
 
 .project-engine-badge > strong {
 	font-size: .76rem;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .project-engine-badge > span {
 	font-size: .68rem;
 	opacity: .7;
-}
+
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 
 .project-engine-features {
 	display: flex;
@@ -32,12 +34,12 @@
 	padding: 3px 6px;
 	border-radius: 999px;
 	background: rgba(55, 165, 112, .12);
-	color: #16704a;
+	color: #1a7f56;
 	font-size: .62rem;
 	font-weight: 800;
 }
 
 .project-engine-compat {
 	background: rgba(91, 84, 214, .1);
-	color: #4652c4;
+	color: #5b66d8;
 }

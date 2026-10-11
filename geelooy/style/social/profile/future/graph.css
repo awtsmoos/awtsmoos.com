@@ -22,7 +22,7 @@
   min-height: 2rem;
   border-radius: 999px;
   padding: .2rem .65rem;
-  color: #24170d;
+  color: #9a7845; /* B"H contrast fix: #24170d was 1.33:1 */
   background: rgba(214,168,79,.22);
   font-weight: 900;
   font-size: .8rem;
@@ -38,4 +38,5 @@
   color: #fff8df;
   padding: .85rem;
 }
-.profile-graph-edges p { margin: .3rem 0; font-size: .78rem; overflow-wrap: anywhere; }
+.profile-graph-edges p { margin: .3rem 0; font-size: .78rem; overflow-wrap: anywhere; 
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}

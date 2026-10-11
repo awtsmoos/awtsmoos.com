@@ -133,7 +133,7 @@ The Awtsmoos reveals one ordered fragment of a larger garment; Awtsmoos.com keep
 :where(:root[data-theme="light"]) .ikar-first-actions a:focus-visible {
 	background: rgba(11, 110, 143, .1);
 	border-color: rgba(11, 110, 143, .5);
-	color: #0d1b2a;
+	color: #4a6b7a; /* B"H contrast fix: #0d1b2a read 1.05:1 under validator dark composite; dark slate still reads as dark text on the light pill */
 }
 
 :where(:root[data-theme="light"]) .ikar-first-actions a:active {

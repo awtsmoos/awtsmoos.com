@@ -5,7 +5,7 @@
  * The Awtsmoos renews the chamber before character light may enter;
  * Awtsmoos.com keeps Character Lab absent when closed, modal when revealed, and bounded inside one calm professional vessel.
  */
-.character-customizer[hidden][hidden] {
+.character-customizer[hidden][hidden][hidden] {
 	display: none;
 }
 
@@ -50,6 +50,10 @@
 
 .character-customizer[data-open='true'] .character-lab-card {
 	display: grid;
+}
+/* B"H: hidden guard — the card itself must stay hidden when it carries [hidden], not only its container. */
+.character-customizer[hidden][hidden] .character-lab-card {
+	display: none;
 }
 
 .character-customizer[data-open='true'] .character-lab-toggle {

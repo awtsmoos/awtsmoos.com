@@ -21,13 +21,16 @@
 .hex-line{position:absolute;left:0;right:0;display:flex;white-space:pre;padding:0 16px;height:var(--line-height);line-height:var(--line-height)}
 .hex-offset{color:var(--color-text-tertiary);width:10ch;user-select:none}
 .hex-bytes{width:calc(16 * 3ch);color:var(--color-text-primary)}
-.hex-bytes span{display:inline-block;width:3ch;text-align:left;cursor:pointer;border-radius:2px}
+.hex-bytes span{display:inline-block;width:3ch;text-align:left;cursor:pointer;border-radius:2px
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 .hex-ascii{width:18ch;padding-left:1ch;border-left:1px solid var(--color-border);user-select:none}
-.hex-ascii span{display:inline-block;width:1ch;text-align:center;cursor:pointer;border-radius:2px}
-.hex-bytes span.selected,.hex-ascii span.selected{background-color:var(--neon-cyan);color:var(--color-bg-deep);outline:none;animation:nexus-glow 1.5s infinite}
+.hex-ascii span{display:inline-block;width:1ch;text-align:center;cursor:pointer;border-radius:2px
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.hex-bytes span.selected,.hex-ascii span.selected{background-color:var(--neon-cyan);color:var(--color-bg-deep);animation:nexus-glow 1.5s infinite}
 .hex-bytes span.dirty,.hex-ascii span.dirty{color:var(--neon-lime)}
-.hex-bytes span.search-result,.hex-ascii span.search-result{background-color:rgba(255,0,255,0.4)}
-.hex-input-handler{position:absolute;background:transparent;border:none;outline:none;padding:0;margin:0;font:inherit;color:transparent;text-align:center;caret-color:var(--neon-magenta);resize:none;opacity:0.5;z-index:10;width:1ch;left:-9999px}
+.hex-bytes span.search-result,.hex-ascii span.search-result{background-color:rgba(255,0,255,0.4)
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.hex-input-handler{position:absolute;background:transparent;border:none;outline:none;padding:0;margin:0;font:inherit;color:var(--aw-text); /* B"H contrast fix: transparent text unreadable */text-align:center;caret-color:var(--neon-magenta);resize:none;opacity:0.5;z-index:10;width:1ch;left:-9999px}
 .hex-search-bar { position: absolute; bottom: 0; left: 0; right: 0; display: flex; gap: 8px; padding: 8px 16px; background: var(--color-bg-secondary); border-top: 1px solid var(--color-border); z-index: 100; }
 .hex-search-input { flex-grow: 1; }
 .hex-search-bar button, .hex-search-bar select { background-color: var(--color-bg-tertiary); border: 1px solid var(--color-border); color: var(--color-text-secondary); border-radius: var(--radius-sm); padding: 0 12px; font-weight: 600; }
@@ -44,7 +47,11 @@
 .hex-nav-pad.visible{display:grid}
 .hex-nav-pad button{width:44px;height:44px;background-color:var(--color-bg-secondary);color:var(--color-text-secondary);border:1px solid var(--color-border);border-radius:50%;font-size:1.5em;line-height:1}
 .hex-nav-pad button:hover{background-color:var(--color-border);color:var(--neon-cyan)}
-.hex-nav-pad button[data-action=up]{grid-area:up} .hex-nav-pad button[data-action=down]{grid-area:down} .hex-nav-pad button[data-action=left]{grid-area:left} .hex-nav-pad button[data-action=right]{grid-area:right}
+.hex-nav-pad button[data-action=up]{grid-area:up
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} .hex-nav-pad button[data-action=down]{grid-area:down
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} .hex-nav-pad button[data-action=left]{grid-area:left
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */} .hex-nav-pad button[data-action=right]{grid-area:right
+  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
 @media (min-width:769px){.hex-nav-pad.hex-nav-pad{display:none }}
 
 /* DATA ALTAR */

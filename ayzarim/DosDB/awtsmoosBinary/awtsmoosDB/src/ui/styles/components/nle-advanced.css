@@ -55,7 +55,7 @@
   padding: 0 1rem;
   font-size: 0.65rem;
   font-weight: 900;
-  color: #555;
+  color: var(--aw-text-soft); /* B"H contrast fix: #555 on #08080c was 2.68:1 */
   position: sticky;
   left: 0;
   z-index: 10;

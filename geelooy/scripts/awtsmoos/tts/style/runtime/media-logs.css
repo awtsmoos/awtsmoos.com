@@ -25,7 +25,7 @@ audio { flex: 1; height: 35px; filter: invert(1) hue-rotate(180deg); }
     transition: background-color 0.2s, box-shadow 0.2s, opacity 0.2s, color 0.2s;
 }
 .download-btn:hover { background: white; box-shadow: 0 0 15px white; }
-.download-btn.disabled { opacity: 0.5; pointer-events: none; background: #444; color: #888; }
+.download-btn.disabled { opacity: 0.5; pointer-events: none; background: #444; color: #999; /* B"H contrast fix: #888 on #444 was 2.75:1, still dimmed */ }
 
 /* --- Logs --- */
 .log-panel { height: 150px; background: rgba(0,0,0,0.8); border: 1px solid var(--border-color); overflow-y: auto; font-size: 0.7rem; padding: 10px; }

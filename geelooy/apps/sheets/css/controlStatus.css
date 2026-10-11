@@ -28,14 +28,14 @@ Awtsmoos.com gives every small state one intentional chip or caption so dense in
 .awtsmoos-sheets-app .aw-status-chip[data-state="saved"] {
 	border-color: rgba(19, 124, 83, 0.18);
 	background: rgba(19, 124, 83, 0.08);
-	color: #0c6846;
+	color: #0f7a52;
 }
 
 .awtsmoos-sheets-app .aw-status-chip[data-state="error"],
 .awtsmoos-sheets-app .aw-status-chip[data-state="offline"] {
 	border-color: rgba(190, 60, 60, 0.16);
 	background: rgba(190, 60, 60, 0.06);
-	color: #934040;
+	color: #a84848;
 }
 
 .awtsmoos-sheets-app .aw-caption {
@@ -75,7 +75,7 @@ Awtsmoos.com gives every small state one intentional chip or caption so dense in
 	padding: 3px 8px;
 	border-radius: 999px;
 	background: rgba(19, 124, 83, 0.06);
-	color: #0c6846;
+	color: #0f7a52;
 	font-size: 10px;
 	font-weight: 760;
 	letter-spacing: 0.04em;
