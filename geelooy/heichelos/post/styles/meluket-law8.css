@@ -1,0 +1,181 @@
+/* B"H
+ * Meluket Sefer Reader — LAW 8 reference layer.
+ * Driven by the hyperrealistic reference:
+ *   https://awtsmoos.com/design-refs/law8/meluket-reader-ref.webp
+ * (linked in _awtsmoos.post.html as <link rel="design-reference">)
+ *
+ * What the reference demands: warm parchment-cream page with a golden glow
+ * from above, faint glowing Hebrew letter particles drifting at the edges,
+ * a dark walnut TOC sidebar with gold-highlighted entries, gold verse-number
+ * discs, a slim toolbar, large Hebrew serif verses (RTL) with English beneath,
+ * and an ornate double-framed footnotes panel.
+ *
+ * This file is ADDITIVE ONLY. It never touches meluket-sefer.css or
+ * meluket-reader-overhaul.css; the canonical Meluket CSS baseline is preserved
+ * byte-for-byte. Everything here refines toward the reference.
+ *
+ * There is no TOC-sidebar DOM node in the sefer reader, so the reference's
+ * walnut sidebar is realized on the existing section navigator rail
+ * (.meluket-section-rail): dark walnut pill, gold dots, gold active marker.
+ *
+ * Yaakov's CSS Laws: NEVER !important. Zero validator errors. Colors ONLY via
+ * --law8-* custom property tokens (light + dark themes). Every text element
+ * carries an explicit color. Interactive elements keep :hover / :focus-visible /
+ * :active. No white-on-white. Specificity follows the established
+ * :root .post-reader-localized-context.meluket-sefer-active prefix pattern
+ * (the same prefix the overhaul layer uses to beat inline dream blocks
+ * without !important).
+ */
+
+/* ============ LAW 8 tokens — light (default) ============ */
+:root .post-reader-localized-context {
+	--law8-walnut: #2e1f12;
+	--law8-walnut-deep: #1f130a;
+	--law8-walnut-ink: #f3e6c8;
+	--law8-walnut-ink-soft: #cdb181;
+	--law8-gold: #c9992f;
+	--law8-gold-bright: #e8c26a;
+	--law8-gold-deep: #8a6420;
+	--law8-on-gold: #241a08;
+	--law8-glow: 201, 153, 47;
+	--law8-vignette: 94, 66, 30;
+	--law8-card-shadow: 0 2px 14px rgba(90, 70, 40, 0.10);
+	--law8-frame-line: #d9c9a8;
+	--law8-frame-deep: #efe4cd;
+	--law8-particles: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cg font-family='Frank Ruhl Libre,Georgia,serif' fill='%23c9992f'%3E%3Ctext x='36' y='52' font-size='24' fill-opacity='0.10'%3E%D7%90%3C/text%3E%3Ctext x='140' y='34' font-size='18' fill-opacity='0.08'%3E%D7%94%3C/text%3E%3Ctext x='238' y='70' font-size='30' fill-opacity='0.11'%3E%D7%91%3C/text%3E%3Ctext x='70' y='150' font-size='20' fill-opacity='0.09'%3E%D7%99%3C/text%3E%3Ctext x='190' y='140' font-size='26' fill-opacity='0.10'%3E%D7%A9%3C/text%3E%3Ctext x='262' y='190' font-size='18' fill-opacity='0.08'%3E%D7%9E%3C/text%3E%3Ctext x='40' y='250' font-size='28' fill-opacity='0.10'%3E%D7%9C%3C/text%3E%3Ctext x='150' y='240' font-size='20' fill-opacity='0.08'%3E%D7%93%3C/text%3E%3Ctext x='230' y='272' font-size='24' fill-opacity='0.09'%3E%D7%AA%3C/text%3E%3Ctext x='110' y='100' font-size='16' fill-opacity='0.07'%3E%D7%95%3C/text%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ============ LAW 8 tokens — dark (candlelit) ============ */
+:root[data-theme="dark"] .post-reader-localized-context {
+	--law8-walnut: #1c1108;
+	--law8-walnut-deep: #120b05;
+	--law8-walnut-ink: #f6ead0;
+	--law8-walnut-ink-soft: #d8bc7e;
+	--law8-gold: #d4a94e;
+	--law8-gold-bright: #f2cd72;
+	--law8-gold-deep: #a87e2e;
+	--law8-on-gold: #201503;
+	--law8-glow: 212, 169, 78;
+	--law8-vignette: 0, 0, 0;
+	--law8-card-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
+	--law8-frame-line: #4a3a22;
+	--law8-frame-deep: #100c06;
+}
+
+/* ============ 1. Parchment atmosphere — golden glow + letter particles ============
+   Reference: warm cream page lit from above, glowing Hebrew letters at the edges.
+   background-image layers over the canonical --sefer-paper color (longhand only,
+   so the canonical background-color stays intact). */
+:root .post-reader-localized-context.meluket-sefer-active .meluket-sefer {
+	background-image:
+		radial-gradient(120% 55% at 50% -8%, rgba(var(--law8-glow), 0.16), transparent 62%),
+		radial-gradient(42% 32% at 0% 18%, rgba(var(--law8-glow), 0.08), transparent 70%),
+		radial-gradient(42% 32% at 100% 26%, rgba(var(--law8-glow), 0.08), transparent 70%),
+		var(--law8-particles);
+	background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+	/* NOTE: no large-blur inset box-shadow here — Merkava's software renderer
+	   paints big inset blurs as a dark frame; the glow gradients above carry
+	   the warmth on every engine. */
+}
+
+/* ============ 2. Fixed particle veil over the reader ============
+   Reference: faint glowing Hebrew letters drift at the page edges. A fixed,
+   pointer-events-none veil; z-index sits above the overhaul dark vignette
+   (2000) and below the section rail (2500) and progress hairline (4000). */
+:root .post-reader-localized-context.meluket-sefer-active::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	z-index: 2100;
+	pointer-events: none;
+	background-image:
+		radial-gradient(90% 60% at 50% 0%, rgba(var(--law8-glow), 0.10), transparent 65%),
+		radial-gradient(135% 105% at 50% 50%, transparent 60%, rgba(var(--law8-vignette), 0.14) 100%),
+		var(--law8-particles);
+	background-repeat: no-repeat, no-repeat, repeat;
+}
+
+/* ============ 3. Walnut section rail — the reference's sidebar, distilled ============
+   The reference shows a dark walnut TOC sidebar with a gold-highlighted entry.
+   The reader has no sidebar DOM; the existing fixed section navigator rail
+   becomes the walnut-and-gold navigator instead. Full interactive states. */
+:root .post-reader-localized-context.meluket-sefer-active .meluket-section-rail {
+	background: linear-gradient(180deg, var(--law8-walnut), var(--law8-walnut-deep));
+	border: 1px solid var(--law8-gold-deep);
+	box-shadow:
+		0 8px 26px rgba(var(--law8-vignette), 0.40),
+		inset 0 0 0 1px rgba(var(--law8-glow), 0.14);
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-rail-dot {
+	color: var(--law8-walnut-ink-soft);
+	background: transparent;
+	border: 1px solid transparent;
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-rail-dot:hover {
+	color: var(--law8-gold-bright);
+	border-color: var(--law8-gold);
+	transform: scale(1.14);
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-rail-dot:focus-visible {
+	outline: 2px solid var(--law8-gold-bright);
+	outline-offset: 2px;
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-rail-dot:active {
+	transform: scale(0.92);
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-rail-dot.is-active {
+	background: var(--law8-gold);
+	border-color: var(--law8-gold);
+	color: var(--law8-on-gold);
+	box-shadow: 0 0 16px rgba(var(--law8-glow), 0.55);
+	transform: scale(1.1);
+}
+
+/* ============ 4. Gold verse discs ============
+   Reference: each verse carries a small gold disc with its letter (א ב ג ד).
+   The canonical siman becomes a gold disc with walnut lettering. */
+:root .post-reader-localized-context.meluket-sefer-active .meluket-section-number {
+	background: linear-gradient(160deg, var(--law8-gold-bright), var(--law8-gold) 58%, var(--law8-gold-deep));
+	border-color: var(--law8-gold-deep);
+	color: var(--law8-on-gold);
+	box-shadow:
+		0 4px 14px rgba(var(--law8-glow), 0.38),
+		inset 0 1px 0 rgba(var(--law8-glow), 0.35);
+}
+
+/* ============ 5. Title ornament — gold flourish rule ============
+   Reference: the big Hebrew title rests over a delicate gold flourish divider. */
+:root .post-reader-localized-context.meluket-sefer-active .meluket-sefer-title {
+	position: relative;
+}
+:root .post-reader-localized-context.meluket-sefer-active .meluket-sefer-title::after {
+	content: "";
+	display: block;
+	width: min(340px, 62%);
+	height: 16px;
+	margin: 1.6rem auto 0;
+	background:
+		radial-gradient(circle at 50% 50%, var(--law8-gold) 0 3px, transparent 4px),
+		linear-gradient(90deg, transparent, var(--law8-gold-deep) 22%, var(--law8-gold) 50%, var(--law8-gold-deep) 78%, transparent);
+	background-size: auto, 100% 2px;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+/* ============ 6. Footnotes shelf — ornate double frame ============
+   Reference: the הערות panel is a card with a fine double border. Inset
+   box-shadow rings frame it without touching the canonical border. */
+:root .post-reader-localized-context.meluket-sefer-active .meluket-footnotes-shelf {
+	border-radius: 12px;
+	box-shadow:
+		var(--law8-card-shadow),
+		inset 0 0 0 1px rgba(var(--law8-glow), 0.30),
+		inset 0 0 0 2px var(--law8-frame-line),
+		inset 0 0 0 7px var(--law8-frame-deep);
+}
+
+/* ============ 7. Section cards — warmer candlelit warmth ============
+   A breath of gold inside each card, echoing the reference's warm glow. */
+:root .post-reader-localized-context.meluket-sefer-active .meluket-sefer-section {
+	box-shadow: var(--law8-card-shadow), inset 0 1px 0 rgba(var(--law8-glow), 0.16);
+}
