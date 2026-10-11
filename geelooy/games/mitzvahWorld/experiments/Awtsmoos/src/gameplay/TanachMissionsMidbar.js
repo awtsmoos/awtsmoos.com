@@ -1038,7 +1038,7 @@ export const MIDBAR_MISSIONS = Object.freeze([
 		multiplayer: false
 	}),
 	Object.freeze({
-		id: "manna-omer-measure",
+		id: "midbar-omer-measure",
 		name: "The Omer's Measure",
 		title: "The Omer's Measure",
 		description: "An omer each, neither too much nor too little. Practice the measuring rite three times and bring Aharon the tally.",

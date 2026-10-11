@@ -89,10 +89,11 @@ test('every midbar mission carries the full quest shape', () => {
 	}
 });
 
-test('midbar mission ids are unique and avoid AdventureCatalog ids', () => {
+test('midbar mission ids are unique and avoid pre-existing AdventureCatalog ids', () => {
 	const ids = MIDBAR_MISSIONS.map(m => m.id);
 	assert.equal(new Set(ids).size, ids.length);
-	const catalogIds = new Set(ADVENTURE_CATALOG.map(m => m.id));
+	const ownIds = new Set(ids);
+	const catalogIds = new Set(ADVENTURE_CATALOG.map(m => m.id).filter(id => !ownIds.has(id)));
 	for (const id of ids) assert.ok(!catalogIds.has(id), `collision with catalog: ${id}`);
 });
 

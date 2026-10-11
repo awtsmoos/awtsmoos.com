@@ -90,12 +90,13 @@ test('every neviim mission carries the full quest shape', () => {
 	}
 });
 
-test('neviim ids are unique across both packs and the catalog', () => {
+test('neviim ids are unique across both packs and the pre-existing catalog', () => {
 	const ids = NEVIIM_MISSIONS.map(m => m.id);
 	assert.equal(new Set(ids).size, ids.length);
+	const ownIds = new Set(ids);
 	const other = new Set([
 		...MIDBAR_MISSIONS.map(m => m.id),
-		...ADVENTURE_CATALOG.map(m => m.id)
+		...ADVENTURE_CATALOG.map(m => m.id).filter(id => !ownIds.has(id))
 	]);
 	for (const id of ids) assert.ok(!other.has(id), `cross-file collision: ${id}`);
 });

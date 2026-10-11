@@ -11,10 +11,20 @@
 
 import { RIVER_CROSSING_SHLICHUS } from './RiverCrossingShlichus.js';
 import { VILLAGE_BRIDGE_ADVENTURES } from './VillageBridgeAdventures.js';
+import { BEREISHIS_MISSIONS } from './TanachMissionsBereishis.js';
+import { SHEMOS_MISSIONS } from './TanachMissionsShemos.js';
+import { MIDBAR_MISSIONS } from './TanachMissionsMidbar.js';
+import { NEVIIM_MISSIONS } from './TanachMissionsNeviim.js';
+import { BUILDING_MISSIONS } from './TanachMissionsBuilding.js';
 
 export const ADVENTURE_CATALOG = Object.freeze([
 	RIVER_CROSSING_SHLICHUS,
 	...VILLAGE_BRIDGE_ADVENTURES,
+	...BEREISHIS_MISSIONS,
+	...SHEMOS_MISSIONS,
+	...MIDBAR_MISSIONS,
+	...NEVIIM_MISSIONS,
+	...BUILDING_MISSIONS,
 	quest('sparks-at-east-gate', 'Sparks at the East Gate', 'Rabbi Dov Ber', 4, -44, [
 		objective('defeat', 'dybbuk-shade', 3, 'Disperse three shades.', 0, -140)
 	], reward(120, 3), true),
