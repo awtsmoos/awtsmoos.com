@@ -4,6 +4,7 @@
 
 const Response = require("./local-api-response.js");
 const ToolDispatch = require("./local-api-tool-dispatch.js");
+const ContentApi = require("./local-api-content.js");
 
 /**
  * @file Dispatches local tunnel deeds after compact capability resolution.
@@ -23,7 +24,8 @@ async function dispatchPayload(response, deps, payload) {
 		command: callCommand,
 		chrome: callChrome,
 		relay: callRelay,
-		streaming: callStreaming
+		streaming: callStreaming,
+		content: callContent
 	};
 	return (calls[payload.kind] || callFs)(response, deps, payload);
 }
@@ -72,8 +74,7 @@ async function streamingAction(response, deps, body, action) {
 	return callStreaming(response, deps, { ...body, action });
 }
 
-async function callStreamingBinary(request, response, deps, match, limit) {
-	const chunk = await Response.readBody(request, limit, false);
+async function callStreamingBinary(request, response, deps, match, limit) {	const chunk = await Response.readBody(request, limit, false);
 	return callStreaming(response, deps, {
 		action: "streamingHlsSegmentPush",
 		sessionId: match.sessionId,
@@ -85,9 +86,14 @@ async function callStreamingBinary(request, response, deps, match, limit) {
 	});
 }
 
+async function callContent(response, deps, body) {
+	return ContentApi.callContent(response, deps, body);
+}
+
 module.exports = {
 	callChrome,
 	callCommand,
+	callContent,
 	callContext,
 	callFs,
 	callJsonRelay,

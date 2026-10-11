@@ -121,6 +121,17 @@ module.exports = {
 
     info.setHeader("Access-Control-Allow-Origin", "*");
 
+    // Hetzner tunnel: secure command channel ON the production server itself
+    // (Yaakov 2026-10-11: tunnel is top priority — unblocks 502 diagnosis).
+    // No SSH from the VM; this is the server-access path.
+    try {
+      const { registerHetznerTunnel } = require("./hetzner/opsRoutes.js");
+      await registerHetznerTunnel(info);
+    } catch (e) {
+      // Tunnel registration must never break the other tunnel routes.
+      try { console.error("B\"H hetzner tunnel registration failed:", e.message); } catch {}
+    }
+
     await info.use("status", async () => {
       return sendJson({
         BH: "B\"H",

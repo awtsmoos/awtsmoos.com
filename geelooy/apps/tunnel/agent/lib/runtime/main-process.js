@@ -60,11 +60,12 @@ function createProcessRuntime(options = {}) {
 	function bindSignals() {
 		if (signalsBound) return;
 		signalsBound = true;
-		process.once("SIGINT", () => shutdown(true));
-		process.once("SIGTERM", () => shutdown(true));
+		// Yaakov 2026-10-11: Ctrl+C must cancel cleanly AND report exit code 130.
+		process.once("SIGINT", () => shutdown(true, 130));
+		process.once("SIGTERM", () => shutdown(true, 0));
 	}
 
-	function shutdown(exitProcess = false) {
+	function shutdown(exitProcess = false, exitCode = 0) {
 		try { options.stopWorkers?.("SIGTERM"); } catch {}
 		if (memoryTimer) clearInterval(memoryTimer);
 		memoryTimer = null;
@@ -73,7 +74,8 @@ function createProcessRuntime(options = {}) {
 		lease = null;
 		lifetimeResolve?.();
 		lifetimeResolve = null;
-		if (exitProcess) options.exitProcess?.(0);
+		try { options.log?.("info", `B"H tunnel agent shutting down (exit ${exitCode}).`); } catch {}
+		if (exitProcess) options.exitProcess?.(exitCode);
 	}
 
 	return {

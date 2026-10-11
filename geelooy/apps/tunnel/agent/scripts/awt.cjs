@@ -4,6 +4,7 @@
 // Blessed is He
 
 const path = require("node:path");
+const fs = require("node:fs");
 const Cli = require("../recovery/manualCli.js");
 
 /**
@@ -12,11 +13,78 @@ const Cli = require("../recovery/manualCli.js");
  * The Awtsmoos lets a frightened hand speak briefly while Awtsmoos.com answers with the
  * exact safe road: inspect, reconcile, replace, verify, and only widen authority by consent.
  */
+
+// --- Clever terminal presentation (Yaakov 2026-10-11: publish-ready CLI) ---
+const TTY = process.stderr.isTTY && process.env.NO_COLOR !== "1" && process.env.TERM !== "dumb";
+const C = TTY
+	? { bold: "\x1b[1m", dim: "\x1b[2m", gold: "\x1b[1;33m", green: "\x1b[1;32m", red: "\x1b[1;31m", cyan: "\x1b[1;36m", off: "\x1b[0m" }
+	: { bold: "", dim: "", gold: "", green: "", red: "", cyan: "", off: "" };
+
+function readVersion(root) {
+	try {
+		const state = fs.readFileSync(path.join(root, "install-state.txt"), "utf8").trim();
+		if (state) return state;
+	} catch {}
+	try {
+		const pkg = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8"));
+		if (pkg.version) return String(pkg.version);
+	} catch {}
+	return "unknown";
+}
+
+function printBanner(out = process.stdout) {
+	out.write(
+		`${C.gold}  ✦  ${C.bold}AWTSMOOS TUNNEL${C.off}${C.gold}  ✦${C.off}\n` +
+		`${C.dim}  ── secure doorway to your machines ──${C.off}\n`
+	);
+}
+
+const HELP_TOPICS = [
+	["status", "Show tunnel health, version, and supervised processes."],
+	["diagnose", "Inspect what is wrong and get the safe recovery recommendation."],
+	["doctor", "Deep diagnosis with repair guidance."],
+	["check", "Verify install integrity and the supervised child."],
+	["rescue", "Tiered rescue: restart the tunnel safely."],
+	["restart", "Restart the tunnel agent."],
+	["normal", "Return the tunnel to its normal tier."],
+	["identity", "Show this device's tunnel identity."],
+	["known-good", "Restore the last known-good verified release."],
+	["sealed-emergency", "Guarded manual sealed takeover (consent required)."],
+	["root-rebind", "Rebind the install root to a new location."],
+	["restore", "Restore a tier from recovery state."],
+];
+
+function printHelp(root) {
+	printBanner(process.stdout);
+	const out = process.stdout;
+	out.write(`${C.bold}Usage:${C.off}  awt ${C.cyan}<command>${C.off} [options]\n\n`);
+	out.write(`${C.bold}Commands:${C.off}\n`);
+	for (const [name, desc] of HELP_TOPICS) {
+		out.write(`  ${C.cyan}${name.padEnd(18)}${C.off}${C.dim}${desc}${C.off}\n`);
+	}
+	out.write(`\n${C.bold}Options:${C.off}\n`);
+	out.write(`  ${C.cyan}--version, -v${C.off}      Show the installed tunnel version.\n`);
+	out.write(`  ${C.cyan}--help, -h${C.off}         Show this help.\n`);
+	out.write(`  ${C.cyan}--json${C.off}             Emit machine-readable JSON.\n`);
+	out.write(`  ${C.cyan}--root=<path>${C.off}      Operate on a different install root.\n`);
+	out.write(`\n${C.dim}Install:${C.off}  curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash\n`);
+	out.write(`${C.dim}Cancel:${C.off}   Ctrl+C at any time cancels cleanly (exit 130).\n`);
+}
+
 async function main(argv = process.argv.slice(2)) {
 	const rootArg = argv.find(arg => arg.startsWith("--root="));
 	const root = rootArg
 		? path.resolve(rootArg.slice(rootArg.indexOf("=") + 1))
 		: path.resolve(__dirname, "..");
+	if (argv.includes("--version") || argv.includes("-v")) {
+		printBanner(process.stdout);
+		process.stdout.write(`  version ${C.green}${readVersion(root)}${C.off}\n`);
+		return { ok: true, command: "version" };
+	}
+	if (argv.includes("--help") || argv.includes("-h") || argv.length === 0 || (argv[0] === "help" && argv.length === 1)) {
+		printHelp(root);
+		return { ok: true, command: "help" };
+	}
 	const args = argv.filter(arg => !arg.startsWith("--root="));
 	const json = args.includes("--json");
 	const result = await Cli.run(root, args);

@@ -14,12 +14,34 @@ origin="${origin%/}"
 canonical_root="$HOME/.awtsmoos-tunnel"
 recovery_hint="${AWTSMOOS_RECOVERY_ROOT:-$HOME/.awtsmoos-tunnel-recovery}"
 
+# --- Clever terminal presentation (Yaakov 2026-10-11: the install command must look smart) ---
+if [ -t 2 ] && [ "${NO_COLOR:-}" != "1" ] && [ "${TERM:-}" != "dumb" ]; then
+	AWT_C_BOLD=$'\033[1m'; AWT_C_DIM=$'\033[2m'; AWT_C_GOLD=$'\033[1;33m'
+	AWT_C_GREEN=$'\033[1;32m'; AWT_C_RED=$'\033[1;31m'; AWT_C_CYAN=$'\033[1;36m'
+	AWT_C_OFF=$'\033[0m'
+else
+	AWT_C_BOLD=''; AWT_C_DIM=''; AWT_C_GOLD=''; AWT_C_GREEN=''; AWT_C_RED=''; AWT_C_CYAN=''; AWT_C_OFF=''
+fi
+
+awt_banner() {
+	cat >&2 <<EOF
+${AWT_C_GOLD}  ✦  ${AWT_C_BOLD}AWTSMOOS TUNNEL${AWT_C_OFF}${AWT_C_GOLD}  ✦${AWT_C_OFF}
+${AWT_C_DIM}  ── secure doorway to your machines ──${AWT_C_OFF}
+EOF
+}
+
+awt_step()  { printf '%s▸%s %s\n'   "$AWT_C_CYAN" "$AWT_C_OFF" "$1" >&2; }
+awt_ok()    { printf '%s✓%s %s\n'   "$AWT_C_GREEN" "$AWT_C_OFF" "$1" >&2; }
+awt_warn()  { printf '%s!%s %s\n'   "$AWT_C_GOLD" "$AWT_C_OFF" "$1" >&2; }
+awt_fail()  { printf '%s✕%s %s\n'   "$AWT_C_RED" "$AWT_C_OFF" "$1" >&2; }
+awt_dim()   { printf '%s%s%s\n'     "$AWT_C_DIM" "$1" "$AWT_C_OFF" >&2; }
+
 select_install_root() {
 	local explicit_primary="${AWTSMOOS_PRIMARY_INSTALL_ROOT:-}"
 	local inherited="${AWTSMOOS_INSTALL_ROOT:-$canonical_root}"
 	if [ -n "$explicit_primary" ]; then printf '%s\n' "$explicit_primary"; return 0; fi
 	if [ "${AWTSMOOS_EMERGENCY_MODE:-0}" = "1" ]; then
-		printf '[Awtsmoos][bootstrap][recovered] Emergency parent detected; targeting primary root.\n' >&2
+		awt_warn 'Emergency parent detected; targeting primary root.'
 		printf '%s\n' "$canonical_root"
 		return 0
 	fi
@@ -27,7 +49,7 @@ select_install_root() {
 		"$recovery_hint"/emergency-runtime/*|*/.awtsmoos-tunnel.candidate-*|*/.awtsmoos-tunnel.activation-rollback-*|\
 		*/.awtsmoos-tunnel.failed-*|*/.awtsmoos-tunnel.incomplete-*|*/.awtsmoos-tunnel.installer-runtime-*|\
 		*/.awtsmoos-tunnel.recovery-displaced-*)
-			printf '[Awtsmoos][bootstrap][recovered] Transient install root ignored: %s\n' "$inherited" >&2
+			awt_warn "Transient install root ignored: $inherited"
 			printf '%s\n' "$canonical_root"
 			;;
 		*) printf '%s\n' "$inherited" ;;
@@ -44,40 +66,65 @@ clear_emergency_parent_environment() {
 
 initial_fetch() {
 	local url="$1" destination="$2" label="$3"
-	local attempt=1 delay=1 temporary="${destination}.part" error_file="${destination}.error" code="" status=0
+	local attempt=1 delay=1 temporary="${destination}.part" error_file="${destination}.error" code_file="${destination}.code" code="" status=0
 	while [ "$attempt" -le 3 ]; do
-		rm -f "$temporary" "$error_file"
+		rm -f "$temporary" "$error_file" "$code_file"
 		set +e
-		code="$(curl -sS -L --connect-timeout 8 --max-time 45 --speed-time 20 --speed-limit 1024 \
-			-o "$temporary" -w '%{http_code}' "$url" 2>"$error_file")"
+		# Run curl in the background so a Ctrl+C trap can kill a hanging fetch at once.
+		curl -sS -L --connect-timeout 8 --max-time 45 --speed-time 20 --speed-limit 1024 \
+			-o "$temporary" -w '%{http_code}' "$url" >"$code_file" 2>"$error_file" &
+		AWT_FETCH_PID=$!
+		wait "$AWT_FETCH_PID"
 		status=$?
+		AWT_FETCH_PID=""
+		code="$(cat "$code_file" 2>/dev/null)"
 		set -e
 		if [ "$status" -eq 0 ] && [[ "$code" == 2?? ]]; then
-			mv -f "$temporary" "$destination"; rm -f "$error_file"; return 0
+			mv -f "$temporary" "$destination"; rm -f "$error_file" "$code_file"; return 0
 		fi
-		printf '[Awtsmoos][bootstrap][retry] %s HTTP=%s attempt=%d/3 wait=%ss\n' "$label" "${code:-000}" "$attempt" "$delay" >&2
-		rm -f "$temporary" "$error_file"
+		awt_warn "retry $label (HTTP=${code:-000}) attempt=$attempt/3 wait=${delay}s"
+		rm -f "$temporary" "$error_file" "$code_file"
 		[ "$attempt" -eq 3 ] && break
 		sleep "$delay"; delay=$((delay * 2)); attempt=$((attempt + 1))
 	done
 	return 1
 }
 
+# --- Graceful Ctrl+C: clean cancel, no leftovers, exit 130 (Yaakov 2026-10-11) ---
+AWT_FETCH_PID=""
+on_install_interrupt() {
+	printf '\n' >&2
+	awt_warn 'Cancelled by user (Ctrl+C).'
+	[ -n "$AWT_FETCH_PID" ] && kill -INT "$AWT_FETCH_PID" 2>/dev/null
+	awt_dim 'Cleaning up the installer workspace…'
+	rm -rf "${runtime_root:-}"
+	awt_ok 'Cleaned up. Nothing was installed or changed.'
+	exit 130
+}
+
+awt_banner
 install_root="$(select_install_root)"
 clear_emergency_parent_environment
 runtime_root="${install_root}.installer-runtime-$$"
 mkdir -p "$(dirname "$install_root")" "$runtime_root"
-command -v curl >/dev/null 2>&1 || { printf '[Awtsmoos][bootstrap][failed] curl was not found.\n' >&2; rm -rf "$runtime_root"; exit 1; }
+trap on_install_interrupt INT TERM
+if ! command -v curl >/dev/null 2>&1; then
+	awt_fail 'curl was not found; it is required to fetch the installer.'
+	rm -rf "$runtime_root"; exit 1
+fi
 export AWTSMOOS_INSTALL_ORIGIN="$origin" AWTSMOOS_INSTALL_ROOT="$install_root" AWTSMOOS_INSTALL_RUNTIME="$runtime_root"
 export AWTSMOOS_INSTALLER_COMPONENTS_SHA256="__AWTSMOOS_INSTALLER_COMPONENTS_SHA256__"
 fetch_policy="$runtime_root/unix-bootstrap-fetch.sh"
 run_script="$runtime_root/unix-bootstrap-run.sh"
+awt_step "Contacting $origin …"
 if ! initial_fetch "$origin/apps/tunnel/downloads/unix-bootstrap-fetch.sh" "$fetch_policy" "bootstrap fetch policy"; then
-	rm -rf "$runtime_root"; printf '[Awtsmoos][bootstrap][failed] Public installer source is temporarily unavailable; working runtime was left untouched.\n' >&2; exit 1
+	rm -rf "$runtime_root"; awt_fail 'Public installer source is temporarily unavailable; working runtime was left untouched.'; exit 1
 fi
 source "$fetch_policy"
 if ! bootstrap_fetch "$origin/apps/tunnel/downloads/unix-bootstrap-run.sh" "$run_script" "bootstrap engine"; then
-	rm -rf "$runtime_root"; printf '[Awtsmoos][bootstrap][failed] Could not fetch bootstrap engine; working runtime was left untouched.\n' >&2; exit 1
+	rm -rf "$runtime_root"; awt_fail 'Could not fetch bootstrap engine; working runtime was left untouched.'; exit 1
 fi
 chmod +x "$fetch_policy" "$run_script"
+awt_dim 'Handing off to the bootstrap engine — press Ctrl+C any time to cancel cleanly.'
+trap - INT TERM
 exec /bin/bash "$run_script"
