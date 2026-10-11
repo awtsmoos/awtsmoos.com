@@ -516,13 +516,20 @@ class PackedPostImportRoutes {
 			await $i.db.write(`/social/aliases/${aliasId}/profile`, { aliasId, name, bio: '', createdAt: now });
 		}
 		// Alias -> org(heichel) link (queryable both directions).
-		await $i.db.write(`/social/aliases/${aliasId}/heichelosContributedTo/${heichelId}`, true);
+		// B"H 2026-10-11: object value, not boolean true (see writeNativePost).
+		const now2 = Date.now();
+		await $i.db.write(`/social/aliases/${aliasId}/heichelosContributedTo/${heichelId}`,
+			{ aliasId, heichelId, linkedAt: now2, by: 'post-import-api' });
 	}
 
 	async writeNativePost($i, post) {
 		const h = post.heichelId, s = post.seriesId, pid = post.postId, aliasId = post.aliasId;
+		const now = Date.now();
 		await $i.db.write(`/social/heichelos/${h}/posts/${pid}`, post);
-		await $i.db.write(`/social/aliases/${aliasId}/postsSubmitted/inHeichel/${h}/inSeries/${s}/${pid}`, true);
+		// B"H 2026-10-11: backlink values must be objects, not boolean true —
+		// primitive values do not roundtrip through $i.db.get (ALIAS_LINK_MISSING).
+		await $i.db.write(`/social/aliases/${aliasId}/postsSubmitted/inHeichel/${h}/inSeries/${s}/${pid}`,
+			{ postId: pid, aliasId, heichelId: h, seriesId: s, linkedAt: now, by: 'post-import-api' });
 	}
 
 	// Series index entries accumulate in memory and flush in bulk (per
@@ -1176,16 +1183,24 @@ class PackedPostImportRoutes {
 						b.errors.push({ postId: String(entry.postId || ''), problem: 'NO_ALIAS_OR_POSTID' });
 					} else {
 						// 1. alias -> org(heichel) link (the queryable org/profile link).
+						// B"H 2026-10-11: value must be an object — boolean true
+						// does not roundtrip through $i.db.get.
 						const orgPath = `/social/aliases/${aliasId}/heichelosContributedTo/${h}`;
 						let orgLink = null;
 						try { orgLink = await $i.db.get(orgPath); } catch (_) { /* ignore */ }
-						if (!orgLink) { await $i.db.write(orgPath, true); b.written++; }
+						if (!orgLink) {
+							await $i.db.write(orgPath, { aliasId, heichelId: h, linkedAt: Date.now(), by: 'post-import-api' });
+							b.written++;
+						}
 						else b.skipped++;
 						// 2. alias -> post backlink.
 						const linkPath = `/social/aliases/${aliasId}/postsSubmitted/inHeichel/${h}/inSeries/${s}/${pid}`;
 						let link = null;
 						try { link = await $i.db.get(linkPath); } catch (_) { /* ignore */ }
-						if (!link) { await $i.db.write(linkPath, true); b.written++; }
+						if (!link) {
+							await $i.db.write(linkPath, { postId: pid, aliasId, heichelId: h, seriesId: s, linkedAt: Date.now(), by: 'post-import-api' });
+							b.written++;
+						}
 						else b.skipped++;
 					}
 				} catch (e) {
