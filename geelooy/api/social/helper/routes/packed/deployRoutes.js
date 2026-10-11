@@ -323,6 +323,17 @@ class PackedDeployRoutes {
 			errors: errors.map(e => ({ path: e.path, error: e.error })),
 		});
 
+		// B"H: keep the git index truthful — the release bundle builder reads
+		// membership from the index, so deployed files must be staged. A signed
+		// deploy is the deliberate gathering; never fail the deploy on git.
+		if (written.length) {
+			try {
+				execFileSync('git', ['-C', root, 'add', '--', ...written], { timeout: 60000 });
+			} catch (e) {
+				try { console.error('B"H deploy git-add failed:', e.message); } catch {}
+			}
+		}
+
 		if (errors.length && !written.length) {
 			return { success: false, error: 'ALL_FAILED', written: [], errors };
 		}
