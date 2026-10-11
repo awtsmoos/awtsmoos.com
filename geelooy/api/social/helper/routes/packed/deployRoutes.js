@@ -9,21 +9,23 @@
  *
  * WHY THIS EXISTS: the VM cannot SSH to production (egress proxy blocks port 22)
  * and has no GitHub credentials. This API lets the VM push files directly to
- * production over HTTPS, authenticated by a deploy key — no Mac, no GitHub.
+ * production over HTTPS, authenticated by Ed25519 request signatures — no Mac,
+ * no GitHub, no shared secrets.
  *
  * Routes (mounted under /api/social by the packed composer):
  *   POST /packed/deploy/push   — write files to the production working tree
  *   GET  /packed/deploy/status — check the API is live and configured
  *   POST /packed/deploy/restart — restart the production service (MAC-SEVERANCE)
  *
- * Push body: {
- *   operatorKey: string (must match AWTSMOOS_DEPLOY_KEY),
- *   message: string (deploy description, for logging),
- *   files: [{ path: string (repo-relative), content: string (base64) }]
- * }
+ * Push body (Ed25519 signature auth, MAC-SEVERANCE Phase 2):
+ *   { ts: <unix seconds>, message: <string>, files: [...], sig: <base64> }
+ *   sig = Ed25519(privateKey, canonical({v:1, ts, message, files})).
+ *   |now - ts| must be <= 300s; exact replays inside the window are rejected.
+ *   The old shared-secret operatorKey path is GONE — removed at cutover.
  *
  * Safety:
- * - Fail-closed operator key (timing-safe compare). Unset key = every call rejected.
+ * - Signature auth, fail-closed. Public key baked into deploySign.js:
+ *   survives restarts, auditable in git. Private key lives only on the VM.
  * - Path traversal rejected: paths must resolve inside the repo working tree.
  * - Blocked paths: .git/, node_modules/, secrets, env files, anything outside allowlist roots.
  * - Per-file size cap (5 MB) and per-request file cap (50 files).
@@ -34,11 +36,16 @@
  * templates are picked up on the next request without a restart.
  */
 
-const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const { execFileSync } = require('child_process');
 const { requireMethod, requestValue } = require('./requestValues.js');
+const {
+	DEPLOY_SIGN_PUBLIC_KEYS,
+	verifySignature,
+	checkTimestamp,
+	checkReplay,
+} = require('./deploySign.js');
 
 // ---------------------------------------------------------------------------
 // Configuration
@@ -124,21 +131,31 @@ class PackedDeployRoutes {
 	}
 
 	// -- authorization -------------------------------------------------------
-	// Fail-closed deploy key: the request must carry operatorKey matching
-	// process.env.AWTSMOOS_DEPLOY_KEY. When the env var is unset, every
-	// call is rejected — never an open deploy door.
+	// Ed25519 signature ONLY (MAC-SEVERANCE Phase 2, cutover complete).
+	// The shared-secret operatorKey path was removed: env-var secrets get
+	// wiped on restart, while the public key in deploySign.js survives every
+	// restart and is auditable in git. The private key lives only on the VM.
 	checkAuth() {
-		const expected = process.env.AWTSMOOS_DEPLOY_KEY;
-		if (!expected) {
-			return { success: false, error: 'DEPLOY_NOT_CONFIGURED', message: 'Deploy key is not configured on this server.' };
-		}
 		const body = this.$i?.body || {};
-		const given = body.operatorKey || requestValue(this.$i, 'operatorKey') || '';
-		if (!given) return { success: false, error: 'FORBIDDEN', message: 'operatorKey is required.' };
-		const a = Buffer.from(String(given));
-		const b = Buffer.from(String(expected));
-		if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) {
-			return { success: false, error: 'FORBIDDEN', message: 'Invalid operatorKey.' };
+		const files = body.files || this.$i?.$_POST?.files || [];
+		const message = String(body.message ?? this.$i?.$_POST?.message ?? '');
+
+		const sig = body.sig || requestValue(this.$i, 'sig') || '';
+		if (!sig) {
+			return { success: false, error: 'FORBIDDEN', message: 'Deploy auth required: Ed25519 sig.' };
+		}
+		const ts = body.ts ?? requestValue(this.$i, 'ts');
+		const tchk = checkTimestamp(ts);
+		if (!tchk.ok) {
+			return { success: false, error: 'FORBIDDEN', message: `Deploy signature rejected: ${tchk.error}.` };
+		}
+		const vchk = verifySignature({ ts, message, files }, sig);
+		if (!vchk.ok) {
+			return { success: false, error: 'FORBIDDEN', message: `Deploy signature rejected: ${vchk.error}.` };
+		}
+		const rchk = checkReplay(String(sig), ts);
+		if (!rchk.ok) {
+			return { success: false, error: 'FORBIDDEN', message: `Deploy signature rejected: ${rchk.error}.` };
 		}
 		return null;
 	}
@@ -179,10 +196,10 @@ class PackedDeployRoutes {
 	}
 
 	async status() {
-		const configured = !!process.env.AWTSMOOS_DEPLOY_KEY;
 		return {
 			success: true,
-			configured,
+			configured: DEPLOY_SIGN_PUBLIC_KEYS.length > 0,
+			auth: { signature: DEPLOY_SIGN_PUBLIC_KEYS.length > 0, sharedSecret: false },
 			repo: repoRoot(),
 			maxFileBytes: MAX_FILE_BYTES,
 			maxFiles: MAX_FILES_PER_PUSH,
