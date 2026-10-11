@@ -86,6 +86,25 @@ function mirrorPost({ $i, post }) {
   appendEvent({ $i, type: 'post.mirrored', actor: allPost.aliasId, entity: { kind: 'post', id: postId }, data: { heichelId: post.heichelId, contentType } });
   return write;
 }
+/**
+ * Bulk-optimized post writer for the import job (Yaakov 2026-10-11:
+ * bulk importer is #1 priority — reliable, reusable, fast).
+ * Same records as mirrorPost (core, allPosts mirror, entity manifest,
+ * search indexes) but WITHOUT the per-post audit event — the import job's
+ * own job log (post-import-jobs.log) is the audit trail for bulk runs.
+ * Callers yield to the event loop between posts; the JSONL appends here
+ * are individually fast.
+ */
+function mirrorPostBulk({ $i, post }) {
+  const postId = post.id || post.postId;
+  const contentType = post.contentType || post.postType || 'post';
+  const coreKey = logicalKey(['posts', post.heichelId, postId]);
+  const write = writePacked({ $i, shard: 'core', key: coreKey, value: post, meta: { kind: 'post', type: contentType } });
+  const allPost = mirrorAllPost({ $i, post }).value;
+  writeManifest({ $i, manifest: makeEntityManifest({ kind: 'post', id: postId, paths: { core: coreKey, allPosts: logicalKey(['allPosts', post.heichelId, postId]) }, indexes: { byHeichel: logicalKey(['indexes', 'postsByHeichel', post.heichelId, postId]) }, binaryRefs: { engine: fileRoot($i) ? 'JSONL' : 'AwtsmoosDB' }, stats: { sections: Array.isArray(post.sections) ? post.sections.length : 0 } }) });
+  indexPost({ $i, value: allPost });
+  return write;
+}
 function indexGraph({ $i, reference }) {
   const value = { id: reference.id, kind: reference.kind, from: reference.from, to: reference.to, updatedAt: Date.now() };
   writeIndex({ $i, key: logicalKey(['indexes', 'graphOut', reference.from?.type, reference.from?.id, reference.id]), value, meta: { index: 'graphOut', edgeKind: reference.kind } });
@@ -117,4 +136,4 @@ function shardStats({ $i, shard = 'core' }) {
 }
 function allShardStats({ $i } = {}) { return ['core', 'allPosts', 'meta', 'graph', 'notify', 'audit', 'search', 'feed'].map(shard => shardStats({ $i, shard })); }
 function writeMigrationManifest({ $i, manifest }) { return writePacked({ $i, shard: 'meta', key: logicalKey(['migrations', manifest.id]), value: manifest, type: RECORD_TYPES.migrationManifest, meta: { kind: 'migrationManifest', migrationType: manifest.type } }); }
-module.exports = { resolveDbRoot, writePacked, readPacked, listPackedRecords, writeManifest, writeIndex, appendEvent, mirrorPost, mirrorAllPost, mirrorGraphReference, mirrorNotification, writeMigrationManifest, shardStats, allShardStats, shardFileStats };
+module.exports = { resolveDbRoot, writePacked, readPacked, listPackedRecords, writeManifest, writeIndex, appendEvent, mirrorPost, mirrorPostBulk, mirrorAllPost, mirrorGraphReference, mirrorNotification, writeMigrationManifest, shardStats, allShardStats, shardFileStats };

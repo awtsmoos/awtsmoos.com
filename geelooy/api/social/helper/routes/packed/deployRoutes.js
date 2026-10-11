@@ -86,6 +86,32 @@ function appendDeployLog(entry) {
 	} catch {}
 }
 
+// ---------------------------------------------------------------------------
+// Import lock — never deploy or restart while a bulk-import finalize holds
+// the lock (Yaakov 2026-10-11: the 502 root cause was a restart mid-finalize).
+// Stale locks (>2h) are ignored so a crashed job can never wedge deploys.
+// The VM deploy client treats IMPORT_IN_PROGRESS as retryable.
+// ---------------------------------------------------------------------------
+function importLockActive() {
+	try {
+		const dir = process.env.AWTSMOOS_DBROOT || '/mnt/HC_Volume_102267213/dayuhChadash';
+		const raw = JSON.parse(fs.readFileSync(path.join(dir, 'socialPacked', 'import-in-progress.lock'), 'utf8'));
+		if (raw && raw.jobId && Date.now() - (raw.startedAt || 0) < 2 * 60 * 60 * 1000) return raw;
+	} catch {}
+	return null;
+}
+
+function importLockRejection() {
+	const lock = importLockActive();
+	if (!lock) return null;
+	return {
+		success: false,
+		error: 'IMPORT_IN_PROGRESS',
+		message: 'A bulk-import finalize is running (job ' + lock.jobId + '). Deploys/restarts are held until it finishes — retry shortly.',
+		jobId: lock.jobId,
+	};
+}
+
 /** Resolve the production repo working tree. */
 function repoRoot() {
 	// The systemd service sets WorkingDirectory to the repo.
@@ -200,6 +226,8 @@ class PackedDeployRoutes {
 		if (bad) return bad;
 		const auth = this.checkAuth();
 		if (auth) return auth;
+		const locked = importLockRejection();
+		if (locked) return locked;
 
 		try {
 			// Try systemd first (production), fall back gracefully
@@ -241,6 +269,8 @@ class PackedDeployRoutes {
 		if (bad) return bad;
 		const auth = this.checkAuth();
 		if (auth) return auth;
+		const locked = importLockRejection();
+		if (locked) return locked;
 
 		const body = this.$i?.body || {};
 		const files = body.files || this.$i?.$_POST?.files || [];
