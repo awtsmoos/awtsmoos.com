@@ -24,6 +24,22 @@ const MAX_FRAME_DELTA_SECONDS = 0.05;
 const BURST_COLORS = ['#ffd873', '#fff3c4', '#ffb347', '#ffffff', '#f6d86b'];
 const SPARKLE_COLORS = ['#fffbe8', '#ffe9a8', '#ffffff'];
 const MOTE_COLORS = ['#fff6d8', '#e8f4ff'];
+const FIREFLY_COLORS = ['#d8ff9a', '#ffe97a', '#fff6c0', '#e8ff70'];
+const POLLEN_COLORS = ['#fff8e0', '#f0e8c8', '#ffffff'];
+const LEAF_COLORS = ['#c98a3a', '#a8562e', '#d8b04a', '#7a8a3a'];
+const RIPPLE_COLORS = ['#d8ecff', '#ffffff', '#c0e0f8'];
+
+/**
+ * Per-type live caps for the beauty emitters. Bursts/sparkles/motes are unbounded
+ * beyond the global cap; beauty ambient types are individually budgeted so a dusk
+ * firefly field can never starve celebration bursts.
+ */
+export const BEAUTY_PARTICLE_TYPE_CAPS = Object.freeze({
+	firefly: 220,
+	pollen: 160,
+	leaf: 120,
+	ripple: 30
+});
 
 const PARTICLE_VERTEX_SHADER = `
 attribute vec3 aPosition;
@@ -196,6 +212,8 @@ export class MitzvahParticleLayer {
 		this.tick = 0;
 		this.nextId = 1;
 		this.ambient = null;
+		this.ambientFireflies = null;
+		this.typeCounts = {};
 		this.glState = null;
 		this.lastNow = 0;
 		this.lastArtifact = null;
@@ -276,6 +294,145 @@ export class MitzvahParticleLayer {
 		return this;
 	}
 
+	/** Golden-hour fireflies: slow-wandering, softly blinking gold-green motes. */
+	spawnFireflies(center, options = {}) {
+		const origin = finitePoint(center);
+		const count = Math.min(120, Math.max(2, Math.floor(Number(options.count) || 40)));
+		const spread = Number(options.spread) || 14;
+		for (let i = 0; i < count; i++) {
+			const rgb = hexToRgb(pick(this.rng, options.colors || FIREFLY_COLORS));
+			this.addParticle({
+				position: [
+					origin[0] + (this.rng() - 0.5) * spread,
+					origin[1] + 0.4 + this.rng() * (Number(options.height) || 3.2),
+					origin[2] + (this.rng() - 0.5) * spread
+				],
+				velocity: [
+					(this.rng() - 0.5) * 0.5,
+					(this.rng() - 0.5) * 0.25,
+					(this.rng() - 0.5) * 0.5
+				],
+				size: 1.6 + this.rng() * 1.6,
+				lifetime: 7 + this.rng() * 8,
+				gravity: 0,
+				drag: 0.25,
+				color: [rgb[0], rgb[1], rgb[2], 0.85],
+				fade: 'in-out',
+				blink: 1.6 + this.rng() * 2.4,
+				beautyType: 'firefly',
+				ambient: Boolean(options.ambient)
+			});
+		}
+		return this;
+	}
+
+	/** Daylight pollen/dust: bright drifting motes that catch the sun. */
+	spawnPollen(center, options = {}) {
+		const origin = finitePoint(center);
+		const count = Math.min(100, Math.max(2, Math.floor(Number(options.count) || 36)));
+		const spread = Number(options.spread) || 16;
+		for (let i = 0; i < count; i++) {
+			const rgb = hexToRgb(pick(this.rng, options.colors || POLLEN_COLORS));
+			this.addParticle({
+				position: [
+					origin[0] + (this.rng() - 0.5) * spread,
+					origin[1] + this.rng() * (Number(options.height) || 5),
+					origin[2] + (this.rng() - 0.5) * spread
+				],
+				velocity: [
+					0.25 + (this.rng() - 0.5) * 0.4,
+					0.05 + this.rng() * 0.12,
+					(this.rng() - 0.5) * 0.4
+				],
+				size: 1.0 + this.rng() * 1.2,
+				lifetime: 8 + this.rng() * 8,
+				gravity: 0,
+				drag: 0,
+				color: [rgb[0], rgb[1], rgb[2], 0.42],
+				fade: 'in-out',
+				beautyType: 'pollen',
+				ambient: Boolean(options.ambient)
+			});
+		}
+		return this;
+	}
+
+	/** Falling leaves: autumn colors, gentle gravity, sinusoidal sway while they fall. */
+	spawnLeaves(position, options = {}) {
+		const origin = finitePoint(position);
+		const count = Math.min(80, Math.max(2, Math.floor(Number(options.count) || 24)));
+		const spread = Number(options.spread) || 6;
+		for (let i = 0; i < count; i++) {
+			const rgb = hexToRgb(pick(this.rng, options.colors || LEAF_COLORS));
+			this.addParticle({
+				position: [
+					origin[0] + (this.rng() - 0.5) * spread,
+					origin[1] + 2.5 + this.rng() * 3.5,
+					origin[2] + (this.rng() - 0.5) * spread
+				],
+				velocity: [
+					(this.rng() - 0.5) * 0.6,
+					-0.55 - this.rng() * 0.7,
+					(this.rng() - 0.5) * 0.6
+				],
+				size: 2.2 + this.rng() * 1.8,
+				lifetime: 5 + this.rng() * 4,
+				gravity: -0.35,
+				drag: 0.9,
+				color: [rgb[0], rgb[1], rgb[2], 0.95],
+				fade: 'out',
+				swayAmp: 0.5 + this.rng() * 0.8,
+				swayFreq: 1.2 + this.rng() * 1.6,
+				beautyType: 'leaf'
+			});
+		}
+		return this;
+	}
+
+	/** Splash ripple: a ring of droplets racing outward, fading as the ring grows. */
+	spawnRipple(position, options = {}) {
+		const origin = finitePoint(position);
+		const count = Math.min(16, Math.max(6, Math.floor(Number(options.count) || 10)));
+		const speed = Number(options.speed) || 1.8;
+		for (let i = 0; i < count; i++) {
+			const theta = (i / count) * Math.PI * 2 + this.rng() * 0.3;
+			const rgb = hexToRgb(pick(this.rng, options.colors || RIPPLE_COLORS));
+			this.addParticle({
+				position: [origin[0], origin[1], origin[2]],
+				velocity: [
+					Math.cos(theta) * speed * (0.8 + this.rng() * 0.4),
+					0.25 + this.rng() * 0.35,
+					Math.sin(theta) * speed * (0.8 + this.rng() * 0.4)
+				],
+				size: 1.4 + this.rng() * 1.4,
+				lifetime: 0.9 + this.rng() * 0.5,
+				gravity: -1.1,
+				drag: 1.8,
+				color: [rgb[0], rgb[1], rgb[2], 0.75],
+				fade: 'out',
+				beautyType: 'ripple'
+			});
+		}
+		return this;
+	}
+
+	/** Starts ambient fireflies inside a bounding box; they respawn forever. */
+	startAmbientFireflies(bounds, count = 60) {
+		const safe = bounds || {};
+		this.ambientFireflies = {
+			min: finitePoint(safe.min, { x: -30, y: 0.5, z: -30 }),
+			max: finitePoint(safe.max, { x: 30, y: 4.5, z: 30 }),
+			target: Math.min(160, Math.max(0, Math.floor(Number(count) || 0)))
+		};
+		return this;
+	}
+
+	/** Stops ambient fireflies; existing ones fade out naturally. */
+	stopAmbientFireflies() {
+		if (this.ambientFireflies) this.ambientFireflies.target = 0;
+		return this;
+	}
+
 	/**
 	 * Advances simulation, packs the live system through the procedural core's
 	 * particle packer, and draws the artifact with the game's own WebGL context.
@@ -291,6 +448,7 @@ export class MitzvahParticleLayer {
 		this.lastNow = now;
 		this.tick += 1;
 		this.maintainAmbient(dt);
+		this.maintainAmbientFireflies(dt);
 		this.stepParticles(dt);
 		if (this.particles.length === 0) {
 			this.lastArtifact = null;
@@ -313,14 +471,24 @@ export class MitzvahParticleLayer {
 	diagnostics() {
 		return Object.freeze({
 			ambientTarget: this.ambient?.target || 0,
+			ambientFireflyTarget: this.ambientFireflies?.target || 0,
+			beautyCaps: BEAUTY_PARTICLE_TYPE_CAPS,
 			live: this.particles.length,
 			maxParticles: this.maxParticles,
 			systemId: this.systemId,
-			tick: this.tick
+			tick: this.tick,
+			typeCounts: Object.freeze({ ...this.typeCounts })
 		});
 	}
 
 	addParticle(spec) {
+		const beautyType = spec.beautyType || null;
+		if (beautyType && BEAUTY_PARTICLE_TYPE_CAPS[beautyType] !== undefined) {
+			const live = this.typeCounts[beautyType] || 0;
+			// Per-type cap: the emitter degrades gracefully instead of starving the pool.
+			if (live >= BEAUTY_PARTICLE_TYPE_CAPS[beautyType]) return null;
+			this.typeCounts[beautyType] = live + 1;
+		}
 		if (this.particles.length >= this.maxParticles) {
 			this.particles.shift();
 		}
@@ -337,6 +505,13 @@ export class MitzvahParticleLayer {
 			baseColor: [spec.color?.[0] ?? 1, spec.color?.[1] ?? 1, spec.color?.[2] ?? 1],
 			fade: spec.fade || 'out',
 			ambient: Boolean(spec.ambient),
+			beautyType,
+			blink: Number(spec.blink) || 0,
+			swayAmp: Number(spec.swayAmp) || 0,
+			swayFreq: Number(spec.swayFreq) || 0,
+			swayPhase: this.rng() * Math.PI * 2,
+			baseX: spec.position[0],
+			baseZ: spec.position[2],
 			attributes: {
 				color: [spec.color?.[0] ?? 1, spec.color?.[1] ?? 1, spec.color?.[2] ?? 1, spec.color?.[3] ?? 1],
 				previousPosition: [spec.position[0], spec.position[1], spec.position[2]]
@@ -350,11 +525,35 @@ export class MitzvahParticleLayer {
 		if (!this.ambient || this.ambient.target <= 0) return;
 		let ambientCount = 0;
 		for (const particle of this.particles) {
-			if (particle.ambient) ambientCount += 1;
+			// Beauty-typed ambient particles (fireflies) are maintained separately.
+			if (particle.ambient && !particle.beautyType) ambientCount += 1;
 		}
 		const missing = this.ambient.target - ambientCount;
 		for (let i = 0; i < missing; i++) {
 			this.spawnAmbientMote();
+		}
+	}
+
+	maintainAmbientFireflies(dt) {
+		const config = this.ambientFireflies;
+		if (!config || config.target <= 0) return;
+		const live = this.typeCounts.firefly || 0;
+		const missing = Math.min(config.target - live, 24);
+		for (let i = 0; i < missing; i++) {
+			const { min, max } = config;
+			this.spawnFireflies(
+				{
+					x: (min[0] + max[0]) / 2,
+					y: min[1],
+					z: (min[2] + max[2]) / 2
+				},
+				{
+					ambient: true,
+					count: 1,
+					height: max[1] - min[1],
+					spread: Math.max(max[0] - min[0], max[2] - min[2])
+				}
+			);
 		}
 	}
 
@@ -387,8 +586,18 @@ export class MitzvahParticleLayer {
 		for (const particle of this.particles) {
 			particle.age += dt;
 			if (particle.age >= particle.lifetime) {
-				if (particle.ambient && this.ambient && this.ambient.target > 0) {
+				if (particle.beautyType && this.typeCounts[particle.beautyType] > 0) {
+					this.typeCounts[particle.beautyType] -= 1;
+				}
+				if (particle.ambient && this.ambient && this.ambient.target > 0 && !particle.beautyType) {
 					this.spawnAmbientMote();
+				}
+				if (particle.ambient && particle.beautyType === 'firefly'
+					&& this.ambientFireflies && this.ambientFireflies.target > 0) {
+					this.spawnFireflies(
+						{ x: particle.baseX, y: particle.position[1], z: particle.baseZ },
+						{ ambient: true, count: 1, height: 3, spread: 4 }
+					);
 				}
 				continue;
 			}
@@ -403,10 +612,23 @@ export class MitzvahParticleLayer {
 			particle.position[0] += particle.velocity[0] * dt;
 			particle.position[1] += particle.velocity[1] * dt;
 			particle.position[2] += particle.velocity[2] * dt;
+			if (particle.swayAmp > 0) {
+				// Leaves flutter: sinusoidal wander around the drift line, no allocation.
+				particle.position[0] = particle.baseX
+					+ Math.sin(particle.age * particle.swayFreq + particle.swayPhase) * particle.swayAmp
+					+ particle.velocity[0] * particle.age * 0.35;
+				particle.position[2] = particle.baseZ
+					+ Math.cos(particle.age * particle.swayFreq * 0.8 + particle.swayPhase) * particle.swayAmp
+					+ particle.velocity[2] * particle.age * 0.35;
+			}
 			const age01 = particle.age / particle.lifetime;
-			const alpha = particle.fade === 'in-out'
+			let alpha = particle.fade === 'in-out'
 				? particle.baseAlpha * Math.sin(Math.PI * Math.min(1, age01))
 				: particle.baseAlpha * (1 - age01);
+			if (particle.blink > 0) {
+				// Firefly blink: gentle sinusoidal pulse on top of the fade envelope.
+				alpha *= 0.30 + 0.70 * (0.5 + 0.5 * Math.sin(particle.age * particle.blink + particle.swayPhase));
+			}
 			particle.attributes.color[3] = Math.max(0, Math.min(1, alpha));
 			alive.push(particle);
 		}
@@ -516,6 +738,12 @@ export function attachMitzvahParticles(gameContext = {}) {
 		sparkle: (position, colors, options) => layer.spawnSparkles(position, colors, options),
 		motes: (bounds, count) => layer.startAmbientMotes(bounds, count),
 		stopMotes: () => layer.stopAmbientMotes(),
+		fireflies: (center, options) => layer.spawnFireflies(center, options),
+		ambientFireflies: (bounds, count) => layer.startAmbientFireflies(bounds, count),
+		stopAmbientFireflies: () => layer.stopAmbientFireflies(),
+		pollen: (center, options) => layer.spawnPollen(center, options),
+		leaves: (position, options) => layer.spawnLeaves(position, options),
+		ripple: (position, options) => layer.spawnRipple(position, options),
 		update: (context, dtOverride) => layer.update(context || runtime, dtOverride),
 		diagnostics: () => layer.diagnostics()
 	});
