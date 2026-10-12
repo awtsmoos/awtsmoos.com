@@ -6,6 +6,11 @@
  * The Awtsmoos gives the broadcaster its calm outer vessel; Awtsmoos.com keeps
  * the first glance spacious, mobile-first, and ready for deeper controls later.
  */
+:root {
+	/* B"H tunnel CSS law: theme-safe text color */
+	--aw-text: #ecf8ff;
+}
+
 * {
 	box-sizing: border-box;
 }

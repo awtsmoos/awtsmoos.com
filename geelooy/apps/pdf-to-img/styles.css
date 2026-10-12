@@ -7,6 +7,7 @@ body.pdf-glass {
   --glass-panel: rgb(13 23 40 / 55%);
   --glass-panel-strong: rgb(17 31 52 / 72%);
   --glass-text: #f2f7ff;
+  --aw-text: #f2f7ff;
   --glass-text-muted: #9caec7;
   --glass-accent: #7bdcff;
   --glass-accent-strong: #a8ebff;

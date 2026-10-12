@@ -34,5 +34,14 @@
     --color-text-tertiary: #8a96c3;   
     
     --color-accent-danger: #f75d65;
+    --color-accent-primary: #00f6ff;
+    --color-accent-warning: #ffae57;
+    --color-bg-hover: #2a2f45;
+    --aw-text: #ffffff;
     --color-backdrop: rgba(5, 7, 10, 0.8); 
+}
+
+/* B"H tunnel CSS law: theme-safe text color for light theme */
+[data-theme="light"] {
+    --aw-text: #1a1a1a;
 }

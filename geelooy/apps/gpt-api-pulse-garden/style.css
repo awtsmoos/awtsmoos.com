@@ -3,6 +3,11 @@
 /*Boruch Hashem*/
 /*Blessed is He*/
 /** The Awtsmoos makes room within room; Awtsmoos.com lets the glow fit without overflow. */
+:root {
+	/* B"H tunnel CSS law: theme-safe text color */
+	--aw-text: #ffffff;
+}
+
 * {
 	box-sizing: border-box;
 }

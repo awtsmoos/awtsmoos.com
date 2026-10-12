@@ -19,6 +19,7 @@ body.awtsmoos-editor-shell {
 	--editor-panel-2: rgba(25, 34, 48, .96);
 	--editor-border: rgba(133, 229, 255, .16);
 	--editor-text: #d9e7ef;
+	--aw-text: #d9e7ef;
 	--editor-muted: #7f95a5;
 	--editor-accent: #82e6ff;
 	--editor-accent-2: #a78bfa;

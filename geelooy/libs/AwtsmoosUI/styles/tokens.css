@@ -9,6 +9,7 @@
 	--aw-ui-surface-2: #132334;
 	--aw-ui-line: rgba(255, 255, 255, 0.12);
 	--aw-ui-text: #f4f7fb;
+	--aw-text: #f4f7fb;
 	--aw-ui-muted: #9fb0c4;
 	--aw-ui-accent: #7be7c4;
 	--aw-ui-accent-2: #7ea8ff;
@@ -20,4 +21,9 @@
 	--aw-ui-shadow: 0 18px 50px rgba(0, 0, 0, 0.32);
 	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 	color-scheme: dark;
+}
+
+/* B"H tunnel CSS law: theme-safe text color for light theme consumers */
+[data-theme="light"] {
+	--aw-text: #1a1a1a;
 }
