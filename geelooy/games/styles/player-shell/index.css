@@ -12,3 +12,18 @@
 @import url('./disclosure.css?v=player-shell-003');
 @import url('./viewport.css?v=player-shell-003');
 @import url('./responsive.css?v=player-shell-003');
+
+/* B"H — Shared game text token.
+ * Many game stylesheets paint text with var(--aw-text), but no shared game
+ * cascade defined it, so those color declarations were silently dropped
+ * across games. Defined once here so every game loading the player shell
+ * resolves it, theme-safe for light and dark.
+ * LAW 8 design references: temple-runner-hud-ref, pong-panel-ref
+ * (light readable text on dark game surfaces).
+ */
+:root {
+	--aw-text: #f4f9ff;
+}
+[data-theme="light"] {
+	--aw-text: #1a1a1a;
+}
