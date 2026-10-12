@@ -74,7 +74,7 @@ The weapon rail rises clear above the action stack, so the finger reaches the sa
 	border: 1px solid rgb(222 242 238 / 42%);
 	color: #f0f7f4;
 	background: rgb(5 19 20 / 72%);
-	font: 700 0.68rem/1 var(--ohr-font-ui);
+	font: 700 0.68rem/1 var(--ohr-font);
 	letter-spacing: 0.09em;
 	pointer-events: auto;
 }
