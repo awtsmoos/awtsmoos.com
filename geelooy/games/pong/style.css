@@ -86,7 +86,7 @@ body {
 .pong-panel p {
 	margin-block: 0 14px;
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+  color: var(--pong-style-t1); /* B"H tunnel CSS law: explicit theme-safe text color; was var(--aw-text), undefined in this game's cascade. LAW8 ref: pong-panel-ref */}
 
 .pong-kicker {
 	font-size: 0.82rem;
@@ -124,7 +124,7 @@ body {
 	align-items: center;
 	margin-inline-start: 8px;
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+  color: var(--pong-style-t1); /* B"H tunnel CSS law: explicit theme-safe text color; was var(--aw-text), undefined in this game's cascade. LAW8 ref: pong-panel-ref */}
 
 button:focus-visible,
 a:focus-visible,
