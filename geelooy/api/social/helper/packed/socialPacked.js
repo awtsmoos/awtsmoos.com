@@ -408,15 +408,69 @@ function mirrorPost({ $i, post }) {
  * Callers yield to the event loop between posts; the JSONL appends here
  * are individually fast.
  */
-function mirrorPostBulk({ $i, post }) {
+/**
+ * B"H 2026-10-11 (import-speed): the exact shard records mirrorPostBulk
+ * writes for one post, as pure data (no I/O). This is the single
+ * construction site for both the single-post and the batched mirror
+ * writers, so the bytes can never drift between the two paths.
+ * Each entry: { shard, key, value, meta } — the writePacked arguments.
+ */
+function mirrorPostRecords({ $i, post }) {
   const postId = post.id || post.postId;
   const contentType = post.contentType || post.postType || 'post';
   const coreKey = logicalKey(['posts', post.heichelId, postId]);
-  const write = writePacked({ $i, shard: 'core', key: coreKey, value: post, meta: { kind: 'post', type: contentType } });
-  const allPost = mirrorAllPost({ $i, post }).value;
-  writeManifest({ $i, manifest: makeEntityManifest({ kind: 'post', id: postId, paths: { core: coreKey, allPosts: logicalKey(['allPosts', post.heichelId, postId]) }, indexes: { byHeichel: logicalKey(['indexes', 'postsByHeichel', post.heichelId, postId]) }, binaryRefs: { engine: fileRoot($i) ? 'JSONL' : 'AwtsmoosDB' }, stats: { sections: Array.isArray(post.sections) ? post.sections.length : 0 } }) });
-  indexPost({ $i, value: allPost });
-  return write;
+  const allPost = allPostValue(post);
+  const manifest = makeEntityManifest({ kind: 'post', id: postId, paths: { core: coreKey, allPosts: logicalKey(['allPosts', post.heichelId, postId]) }, indexes: { byHeichel: logicalKey(['indexes', 'postsByHeichel', post.heichelId, postId]) }, binaryRefs: { engine: fileRoot($i) ? 'JSONL' : 'AwtsmoosDB' }, stats: { sections: Array.isArray(post.sections) ? post.sections.length : 0 } });
+  const records = [
+    { shard: 'core', key: coreKey, value: post, meta: { kind: 'post', type: contentType } },
+    { shard: 'allPosts', key: logicalKey(['allPosts', allPost.heichelId, postId]), value: allPost, meta: { kind: 'allPost', aliasId: allPost.aliasId, heichelId: allPost.heichelId, seriesId: allPost.seriesId } },
+    { shard: 'meta', key: entityManifestKey(manifest), value: manifest, meta: { kind: 'entityManifest', entityKind: manifest.kind } },
+    { shard: 'search', key: logicalKey(['indexes', 'postsByHeichel', allPost.heichelId, postId]), value: allPost, meta: { kind: 'materializedIndex', index: 'postsByHeichel' } },
+  ];
+  if (allPost.aliasId) {
+    records.push({ shard: 'search', key: logicalKey(['indexes', 'postsByAlias', allPost.aliasId, postId]), value: allPost, meta: { kind: 'materializedIndex', index: 'postsByAlias' } });
+  }
+  records.push({ shard: 'search', key: logicalKey(['indexes', 'postsByType', allPost.type, postId]), value: allPost, meta: { kind: 'materializedIndex', index: 'postsByType' } });
+  return records;
+}
+function mirrorPostBulk({ $i, post }) {
+  let first = null;
+  for (const r of mirrorPostRecords({ $i, post })) {
+    const w = writePacked({ $i, shard: r.shard, key: r.key, value: r.value, meta: r.meta });
+    if (!first) first = w;
+  }
+  return first;
+}
+/**
+ * B"H 2026-10-11 (import-speed): batched packed-mirror write. Builds the
+ * exact envelopes mirrorPostBulk would write and appends ONE chunk per
+ * shard file — 4 appends per batch instead of 6 per post. File bytes are
+ * identical to the per-post path (same JSONL lines, same per-shard order);
+ * the append-only "last record wins" read contract is unchanged. Falls
+ * back to per-post writes when there is no file root (native-shard mode).
+ */
+function mirrorPostsBulk({ $i, posts }) {
+  const list = Array.isArray(posts) ? posts : [];
+  const root = fileRoot($i);
+  if (!root) {
+    for (const post of list) mirrorPostBulk({ $i, post });
+    return list.length;
+  }
+  const byShard = new Map();
+  for (const post of list) {
+    for (const r of mirrorPostRecords({ $i, post })) {
+      let lines = byShard.get(r.shard);
+      if (!lines) { lines = []; byShard.set(r.shard, lines); }
+      lines.push(JSON.stringify(envelope({ op: 'put', key: r.key, value: r.value, meta: r.meta })) + '\n');
+    }
+  }
+  for (const [shard, lines] of byShard) {
+    const file = fileFor(root, shard);
+    if (!file) continue;
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.appendFileSync(file, lines.join(''));
+  }
+  return list.length;
 }
 function indexGraph({ $i, reference }) {
   const value = { id: reference.id, kind: reference.kind, from: reference.from, to: reference.to, updatedAt: Date.now() };
@@ -490,4 +544,4 @@ async function allShardStatsAsync({ $i } = {}) {
   return out;
 }
 function writeMigrationManifest({ $i, manifest }) { return writePacked({ $i, shard: 'meta', key: logicalKey(['migrations', manifest.id]), value: manifest, type: RECORD_TYPES.migrationManifest, meta: { kind: 'migrationManifest', migrationType: manifest.type } }); }
-module.exports = { resolveDbRoot, fileRoot, writePacked, readPacked, readPackedAsync, listPackedRecords, forEachFileRecord, forEachFileRecordAsync, forEachLineFastAsync, forEachLineReverseAsync, listKeysReverseAsync, findKeyReverseAsync, fastKeyType, writeManifest, writeIndex, appendEvent, mirrorPost, mirrorPostBulk, mirrorAllPost, mirrorGraphReference, mirrorNotification, writeMigrationManifest, shardStats, shardStatsAsync, allShardStats, allShardStatsAsync, shardFileStats };
+module.exports = { resolveDbRoot, fileRoot, writePacked, readPacked, readPackedAsync, listPackedRecords, forEachFileRecord, forEachFileRecordAsync, forEachLineFastAsync, forEachLineReverseAsync, listKeysReverseAsync, findKeyReverseAsync, fastKeyType, writeManifest, writeIndex, appendEvent, mirrorPost, mirrorPostBulk, mirrorPostsBulk, mirrorPostRecords, mirrorAllPost, mirrorGraphReference, mirrorNotification, writeMigrationManifest, shardStats, shardStatsAsync, allShardStats, allShardStatsAsync, shardFileStats };

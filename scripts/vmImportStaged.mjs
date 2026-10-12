@@ -57,6 +57,11 @@ const KEY_FILE = process.env.AWTSMOOS_IMPORT_KEY_FILE || join(homedir(), '.awtsm
 const CHUNK_BYTES = 1024 * 1024; // 1 MB raw per chunk
 const POLL_MS = 15000;
 const OVERALL_TIMEOUT_MS = 12 * 60 * 60 * 1000;
+// B"H 2026-10-11 (import-speed): chunk uploads run in parallel — the
+// server's /stage route is idempotent per chunk (chunk-N.bin overwrite)
+// and explicitly safe for out-of-order arrival. Default 6; override with
+// --upload-concurrency N.
+const UPLOAD_CONCURRENCY = Math.max(1, Number(arg('--upload-concurrency')) || Number(process.env.AWTSMOOS_UPLOAD_CONCURRENCY) || 6);
 
 function loadPrivateKey() {
 	if (!existsSync(KEY_FILE)) { console.error(`B"H signing key not found: ${KEY_FILE}`); process.exit(1); }
@@ -159,9 +164,16 @@ async function main() {
 		writeFileSync(join(stageDir, 'manifest.json'), JSON.stringify({ files: manifestFiles, postCount: n }));
 		console.log(`B"H staged ${n} posts from ${files.length} files`);
 		const tarball = join(workRoot, `import-upload-${Date.now().toString(36)}.tar.gz`);
-		execFileSync('tar', ['-czf', tarball, '-C', stageDir, '.']);
+		// B"H 2026-10-11 (import-speed): pigz (parallel gzip) when
+		// available — same .tar.gz bytes format, multi-core compression.
+		// Falls back to tar's built-in serial gzip.
+		let usePigz = false;
+		try { execFileSync('pigz', ['--version'], { stdio: 'ignore' }); usePigz = true; } catch (_) { /* no pigz */ }
+		const tTar0 = Date.now();
+		if (usePigz) execFileSync('tar', ['-I', 'pigz', '-cf', tarball, '-C', stageDir, '.']);
+		else execFileSync('tar', ['-czf', tarball, '-C', stageDir, '.']);
 		const tarBytes = readFileSync(tarball);
-		console.log(`B"H tarball ${(tarBytes.length / 1024 / 1024).toFixed(1)} MB`);
+		console.log(`B"H tarball ${(tarBytes.length / 1024 / 1024).toFixed(1)} MB (${usePigz ? 'pigz' : 'gzip'}, ${((Date.now() - tTar0) / 1000).toFixed(1)}s)`);
 		state.stageDir = stageDir;
 		state.tarball = tarball;
 		state.totalChunks = Math.ceil(tarBytes.length / CHUNK_BYTES);
@@ -170,13 +182,23 @@ async function main() {
 	}
 
 	// ---- 2. Chunked signed upload (resume: skip ACKed chunks) ----
+	// B"H 2026-10-11 (import-speed): parallel chunk upload. Server-side
+	// chunks are idempotent (chunk-N.bin overwrite) and order-independent;
+	// the tarball is assembled only when the last chunk lands. A failed
+	// chunk aborts the pool; re-running with --upload-id resumes exactly
+	// at the missing chunks.
 	if (!verifyOnly && state.phase !== 'done' && state.phase !== 'verifying') {
 		const tarBytes = readFileSync(state.tarball);
 		const totalChunks = state.totalChunks;
 		const done = new Set(state.uploadedChunks || []);
-		console.log(`B"H uploading ${totalChunks} chunks as ${uploadId} (${done.size} already ACKed)`);
-		for (let i = 0; i < totalChunks; i++) {
-			if (done.has(i)) continue;
+		const pending = [];
+		for (let i = 0; i < totalChunks; i++) if (!done.has(i)) pending.push(i);
+		console.log(`B"H uploading ${totalChunks} chunks as ${uploadId} (${done.size} already ACKed, ${pending.length} to send, concurrency=${UPLOAD_CONCURRENCY})`);
+		let nextChunk = 0;
+		let failed = null;
+		let completed = 0;
+		const t0 = Date.now();
+		const uploadOne = async (i) => {
 			const chunk = tarBytes.subarray(i * CHUNK_BYTES, (i + 1) * CHUNK_BYTES);
 			const dataB64 = chunk.toString('base64');
 			const payloadHash = importSign.sha256hex(`${uploadId}:${i}:${dataB64}`);
@@ -184,20 +206,33 @@ async function main() {
 				`${API_BASE}/packed/import/bulk/stage`,
 				signedBody(privKey, 'bulk/stage', heichelId, payloadHash, { uploadId, chunkIndex: i, totalChunks, data: dataB64 })
 			);
-			if (!out.success) {
-				console.error(`B"H chunk ${i} FAILED:`, JSON.stringify(out).slice(0, 400));
-				console.error(`B"H state saved; re-run with --upload-id ${uploadId} to resume`);
-				process.exit(1);
-			}
+			if (!out.success) throw new Error(`chunk ${i} FAILED: ` + JSON.stringify(out).slice(0, 400));
 			done.add(i);
-			state.uploadedChunks = [...done].sort((a, b) => a - b);
-			if ((i + 1) % 10 === 0 || i === totalChunks - 1) {
-				console.log(`B"H chunk ${i + 1}/${totalChunks} ok (server: ${out.success.receivedChunks}/${out.success.totalChunks})`);
+			completed++;
+			if (completed % 10 === 0 || completed === pending.length) {
+				const el = ((Date.now() - t0) / 1000).toFixed(0);
+				console.log(`B"H chunk ${completed}/${pending.length} ok (${el}s, server: ${out.success.receivedChunks}/${out.success.totalChunks})`);
+				state.uploadedChunks = [...done].sort((a, b) => a - b);
 				saveState();
 			}
+		};
+		const uploader = async () => {
+			while (!failed) {
+				const i = pending[nextChunk++];
+				if (i === undefined) break;
+				try { await uploadOne(i); }
+				catch (e) { failed = e; break; }
+			}
+		};
+		await Promise.all(Array.from({ length: Math.min(UPLOAD_CONCURRENCY, pending.length) }, () => uploader()));
+		if (failed) {
+			console.error('B"H', failed.message);
+			console.error(`B"H state saved; re-run with --upload-id ${uploadId} to resume`);
+			process.exit(1);
 		}
+		state.uploadedChunks = [...done].sort((a, b) => a - b);
 		saveState();
-		console.log('B"H upload complete');
+		console.log(`B"H upload complete (${((Date.now() - t0) / 1000).toFixed(1)}s for ${pending.length} chunks)`);
 		state.phase = 'starting';
 		saveState();
 	}

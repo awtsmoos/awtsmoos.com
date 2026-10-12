@@ -65,7 +65,7 @@ const path = require('path');
 const { execFile } = require('child_process');
 
 const { requireMethod, requestValue } = require('./requestValues.js');
-const { mirrorPost, mirrorPostBulk, readPacked, listPackedRecords, fileRoot, forEachLineFastAsync, fastKeyType } = require('../../packed/socialPacked.js');
+const { mirrorPost, mirrorPostBulk, mirrorPostsBulk, readPacked, listPackedRecords, fileRoot, forEachLineFastAsync, fastKeyType } = require('../../packed/socialPacked.js');
 const { logicalKey } = require('../../packed/shardPaths.js');
 const importSign = require('./importSign.js');
 
@@ -134,7 +134,7 @@ function jobStateDir($i) {
 }
 
 function jobStateShape(job) {
-	const { spec, doneHashes, aliasCache, seriesAdds, ...rest } = job || {};
+	const { spec, doneHashes, aliasCache, seriesAdds, nativeBatch, pendingPosts, ...rest } = job || {};
 	// B"H 2026-10-11: spec may be absent on in-memory verify jobs (the disk
 	// copy gets spec via saveJobState's spread). Never throw here — a shape
 	// helper throwing turns every status poll into a 500 ROUTE_ERROR.
@@ -208,6 +208,14 @@ const INLINE_POSTS_MAX_BYTES = 2 * 1024 * 1024;   // ~2 MB wire estimate
 const PER_POST_MAX_BYTES = 5 * 1024 * 1024;        // 5 MB per post document
 const HEAP_GUARD_BYTES = 1200 * 1024 * 1024;       // refuse new jobs above 1.2 GB
 const UPLOAD_ID_RE = /^[A-Za-z0-9_-]{8,64}$/;
+// B"H 2026-10-11 (import-speed): bulk native write batching (design doc
+// §3.1). Workers stage each post's 2 native records; every
+// NATIVE_BATCH_POSTS posts the batch flushes via $i.db.writeMany — one fs
+// transaction per batch instead of 2 per post — then the packed mirror
+// lands as one append per shard. Native-first crash safety is preserved
+// at batch granularity.
+const NATIVE_BATCH_POSTS = 100;
+const NATIVE_BATCH_ENTRIES = NATIVE_BATCH_POSTS * 2;
 
 function heapTooHigh() {
 	try { return process.memoryUsage().heapUsed > HEAP_GUARD_BYTES; }
@@ -279,19 +287,63 @@ function normalizePost(raw, heichelId, now) {
 }
 
 /** Canonical bytes for the idempotency hash: stable key order, no whitespace. */
+// B"H 2026-10-11 (import-speed): no-clone canonical stringify. The old
+// version deep-cloned the whole post with sorted keys and then
+// JSON.stringified the clone (2x the allocation/GC). This emits the
+// identical bytes in one pass — key order, '[Circular]' shared-ref
+// handling, and undefined/function skipping all match JSON.stringify
+// semantics exactly (verified byte-identical on the staged corpora).
 function canonicalBytes(post) {
 	const seen = new Set();
-	function sortKeys(v) {
-		if (v === null || typeof v !== 'object') return v;
-		if (seen.has(v)) return '[Circular]';
+	const parts = [];
+	// Emit the canonical JSON of v into parts. Returns false only for
+	// values JSON.stringify would omit as object members
+	// (undefined/function/symbol) — the caller then skips the key. In
+	// arrays those become null, matching JSON.stringify exactly.
+	function emit(v) {
+		if (v === null) { parts.push('null'); return true; }
+		if (v === undefined) return false;
+		const t = typeof v;
+		if (t === 'string' || t === 'number' || t === 'boolean') { parts.push(JSON.stringify(v)); return true; }
+		if (t !== 'object') return false;
+		if (seen.has(v)) { parts.push('"[Circular]"'); return true; }
 		seen.add(v);
-		if (Array.isArray(v)) return v.map(sortKeys);
-		const out = {};
-		for (const k of Object.keys(v).sort()) out[k] = sortKeys(v[k]);
-		return out;
+		if (Array.isArray(v)) {
+			parts.push('[');
+			for (let i = 0; i < v.length; i++) {
+				if (i) parts.push(',');
+				if (!emit(v[i])) parts.push('null');
+			}
+			parts.push(']');
+		} else {
+			const keys = Object.keys(v).sort();
+			parts.push('{');
+			let first = true;
+			for (const k of keys) {
+				const kv = v[k];
+				if (kv === undefined || typeof kv === 'function' || typeof kv === 'symbol') continue;
+				if (!first) parts.push(',');
+				first = false;
+				parts.push(JSON.stringify(k), ':');
+				emit(kv);
+			}
+			parts.push('}');
+		}
+		return true;
 	}
-	const { importedAt, updatedAt, ...rest } = post;
-	return Buffer.from(JSON.stringify(sortKeys(rest)), 'utf8');
+	parts.push('{');
+	let first = true;
+	for (const k of Object.keys(post).sort()) {
+		if (k === 'importedAt' || k === 'updatedAt') continue;
+		const kv = post[k];
+		if (kv === undefined || typeof kv === 'function' || typeof kv === 'symbol') continue;
+		if (!first) parts.push(',');
+		first = false;
+		parts.push(JSON.stringify(k), ':');
+		emit(kv);
+	}
+	parts.push('}');
+	return Buffer.from(parts.join(''), 'utf8');
 }
 
 function contentHash(post) {
@@ -597,6 +649,86 @@ class PackedPostImportRoutes {
 		await yieldTick();
 	}
 
+	// B"H 2026-10-11 (import-speed): flush one staged batch of native
+	// writes. Snapshot+clear SYNCHRONOUSLY before any await (same pattern
+	// as flushSeriesAdds) so concurrent workers keep staging into fresh
+	// arrays while this flush is in flight.
+	//
+	// Order per batch: native writeMany FIRST, then the packed mirror +
+	// series index. The native-first crash-safety invariant is preserved
+	// at batch granularity: a crash mid-batch can only leave a native
+	// record without its mirror — which the airtight skip check re-writes
+	// idempotently on resume (same bytes, last-wins mirror).
+	//
+	// Per-post accounting (doneHashes / liveHashes / wrote / updated /
+	// postsDone) happens here, only for posts whose native write AND
+	// mirror both landed — exactly the old per-post semantics, batched.
+	async flushNativeBatch($i, job, liveHashes) {
+		if (!job.nativeBatch.length) return;
+		const entries = job.nativeBatch;
+		job.nativeBatch = [];
+		const pending = job.pendingPosts;
+		job.pendingPosts = [];
+		let results;
+		try {
+			results = await $i.db.writeMany(entries.map(e => ({ id: e.id, value: e.value })));
+		} catch (e) {
+			// Total flush failure (writeMany reports per entry, so this is
+			// unexpected): every staged post fails cleanly; resume retries
+			// them idempotently.
+			for (const ctx of pending) {
+				job.failed++;
+				job.errors.push({ postId: ctx.post.postId, message: 'BATCH_WRITE_FAILED: ' + (e.message || e) });
+			}
+			return;
+		}
+		for (let i = 0; i < results.length; i++) {
+			const r = results[i];
+			if (!r || !r.ok) {
+				const ctx = entries[i].ctx;
+				ctx.ok = false;
+				ctx.error = (r && r.error) || 'WRITE_FAILED';
+			}
+		}
+		const landed = [];
+		for (const ctx of pending) {
+			if (!ctx.ok) {
+				job.failed++;
+				job.errors.push({ postId: ctx.post.postId, message: ctx.error });
+				continue;
+			}
+			landed.push(ctx);
+		}
+		// Packed mirror for the whole flushed batch (one append per shard).
+		// A mirror failure marks the batch's posts failed WITHOUT touching
+		// doneHashes: resume re-writes them idempotently (native overwrite
+		// = same bytes; mirror re-append = last-wins, value-identical).
+		try {
+			if (landed.length) this.writePostsBulk($i, landed.map(c => c.post));
+		} catch (e) {
+			const msg = 'MIRROR_FAILED: ' + (e.message || e);
+			for (const ctx of landed) {
+				ctx.ok = false;
+				job.failed++;
+				job.errors.push({ postId: ctx.post.postId, message: msg });
+			}
+			landed.length = 0;
+		}
+		for (const ctx of landed) {
+			this.seriesAdd(job, ctx.post);
+			job.doneHashes[ctx.post.postId] = ctx.hash;
+			if (liveHashes) liveHashes.set(ctx.post.postId, ctx.hash);
+			job.postsDone++;
+			if (ctx.existed) job.updated++;
+			else job.wrote++;
+		}
+		job.updatedAt = Date.now();
+		setJob(job);
+		saveJobState($i, job);
+		await this.flushSeriesAdds($i, job);
+		await yieldTick();
+	}
+
 	// -- the per-post write ----------------------------------------------------
 	// mirrorPostBulk() is the bulk-optimized writer: core shard gets the
 	// full document, allPosts gets the compact mirror, plus manifest and
@@ -608,6 +740,12 @@ class PackedPostImportRoutes {
 
 	writeOnePostBulk($i, post) {
 		return mirrorPostBulk({ $i, post });
+	}
+
+	// B"H 2026-10-11 (import-speed): batched packed-mirror write — one
+	// append per shard for the whole batch instead of 6 appends per post.
+	writePostsBulk($i, posts) {
+		return mirrorPostsBulk({ $i, posts });
 	}
 
 	// Resolve one spec item to a raw post document. Inline items are already
@@ -671,7 +809,13 @@ class PackedPostImportRoutes {
 		// checkpoint) and snapshot+clear so concurrent adds are never lost.
 		const WORKERS = Math.max(1, Math.min(16, Number(process.env.AWTSMOOS_IMPORT_WORKERS) || 8));
 		let nextPost = 0;
-		let flushRunning = false;
+		// B"H 2026-10-11 (import-speed): bulk native-write staging (design
+		// doc §3.1). Workers append each post's 2 native records here;
+		// flushNativeBatch lands them via $i.db.writeMany, then mirrors +
+		// indexes the batch, then checkpoints.
+		job.nativeBatch = [];
+		job.pendingPosts = [];
+		job.nativeFlushRunning = false;
 		const processOnePost = async (n) => {
 			let raw;
 			try {
@@ -713,10 +857,12 @@ class PackedPostImportRoutes {
 				// two writes); a packed-hash match alone must not skip the
 				// native write. Verify the native record exists before
 				// skipping, otherwise fall through and re-write.
+				// B"H 2026-10-11 (import-speed): exists() — stat only, no
+				// value deserialization (the old get() here deserialized
+				// every skipped post).
 				let nativeOk = false;
 				try {
-					const existingNative = await $i.db.get(`/social/heichelos/${post.heichelId}/posts/${post.postId}`);
-					nativeOk = !!existingNative;
+					nativeOk = await $i.db.exists(`/social/heichelos/${post.heichelId}/posts/${post.postId}`);
 				} catch (_) { /* treat as missing -> re-write */ }
 				if (nativeOk) {
 					job.skipped++;
@@ -725,31 +871,39 @@ class PackedPostImportRoutes {
 				}
 			}
 			const existed = job.doneHashes[post.postId] !== undefined || liveHashes.has(post.postId);
-			if (!job.dryRun) {
+			if (job.dryRun) {
+				job.doneHashes[post.postId] = hash;
+				liveHashes.set(post.postId, hash);
+				job.postsDone++;
+				if (existed) job.updated++;
+				else job.wrote++;
+			} else {
 				try {
-					// B"H 2026-10-11: native FIRST (source of truth), packed
-					// mirror second. A crash between them now leaves a native
-					// record without a packed mirror — which the skip check
-					// above re-writes idempotently — instead of the reverse
-					// (packed without native), which used to skip forever.
-					await this.writeNativePost($i, post); // first-class native AwtsmoosDB record
+					// B"H 2026-10-11 (import-speed): stage the post's two
+					// native writes; flushNativeBatch lands them via
+					// $i.db.writeMany (one fs transaction per batch), then
+					// mirrors + indexes the batch. Native-first ordering is
+					// preserved at batch granularity (see flushNativeBatch).
 					await this.ensureAlias($i, job.aliasCache, post.aliasId, aliasName, spec.heichelId);
-					this.writeOnePostBulk($i, post); // packed mirror (readers' diagnostic)
-					this.seriesAdd(job, post);
+					const h = post.heichelId, s = post.seriesId, pid = post.postId;
+					const ctx = { post, hash, existed, ok: true, error: null };
+					job.pendingPosts.push(ctx);
+					job.nativeBatch.push({ id: `/social/heichelos/${h}/posts/${pid}`, value: post, ctx });
+					job.nativeBatch.push({ id: `/social/aliases/${post.aliasId}/postsSubmitted/inHeichel/${h}/inSeries/${s}/${pid}`,
+						value: { postId: pid, aliasId: post.aliasId, heichelId: h, seriesId: s, linkedAt: now, by: 'post-import-api' }, ctx });
+					if (job.nativeBatch.length >= NATIVE_BATCH_ENTRIES && !job.nativeFlushRunning) {
+						job.nativeFlushRunning = true;
+						try { await this.flushNativeBatch($i, job, liveHashes); }
+						finally { job.nativeFlushRunning = false; }
+					}
 				} catch (e) {
 					job.failed++;
-					job.errors.push({ postId: post.postId, message: 'WRITE_FAILED: ' + (e.message || e) });
+					job.errors.push({ postId: post.postId, message: 'STAGE_FAILED: ' + (e.message || e) });
 					return;
 				}
 			}
-			job.doneHashes[post.postId] = hash;
-			liveHashes.set(post.postId, hash);
-			job.postsDone++;
-			if (existed) job.updated++;
-			else job.wrote++;
-			// Yield after every post: a single post's writes can block the
-			// event loop for seconds on a network volume; without this the
-			// server 502s mid-import.
+			// Yield after every post: staging is CPU-heavy (validate +
+			// normalize + hash); without this the server 502s mid-import.
 			job.updatedAt = Date.now();
 			setJob(job);
 			await yieldTick();
@@ -767,18 +921,17 @@ class PackedPostImportRoutes {
 					const n = nextPost++;
 					if (n >= spec.posts.length) break;
 					await processOnePost(n);
-					if (job.postsDone % 25 === 0) {
-						saveJobState($i, job);
-						if (!job.dryRun && !flushRunning) {
-							flushRunning = true;
-							try { await this.flushSeriesAdds($i, job); }
-							finally { flushRunning = false; }
-						}
-					}
+					// B"H 2026-10-11 (import-speed): checkpoints (job-state
+					// save + series-index flush) ride on flushNativeBatch;
+					// nothing per-post here anymore.
 				}
 			};
 			appendJobLog($i, { jobId: job.id, event: 'workers', workers: WORKERS });
 			await Promise.all(Array.from({ length: WORKERS }, () => worker()));
+			// Land any staged remainder. This also runs on cancel/pause:
+			// staged posts were validated, and a resume would redo them
+			// idempotently anyway.
+			if (!job.dryRun) await this.flushNativeBatch($i, job, liveHashes);
 			if (!job.dryRun) await this.flushSeriesAdds($i, job);
 			if (job.status === 'running') job.status = 'done';
 		} catch (e) {
@@ -1141,40 +1294,24 @@ class PackedPostImportRoutes {
 		return { success: { verifyId: v.id, total: files.length, status: v.status } };
 	}
 
-	/** Stream the core JSONL shard once into {postId -> contentHash} for a heichel. O(1) memory. */
-	streamLiveHashes($i, heichelId) {
-		return new Promise((resolve) => {
-			const cache = new Map();
-			const prefix = '/posts/' + heichelId + '/';
-			const root = $i?.db?.directory || $i?.db?.root || process.env.AWTSMOOS_DBROOT || '/mnt/HC_Volume_102267213/dayuhChadash';
-			const { SHARDS, shardFile } = require('../../packed/shardPaths.js');
-			const file = SHARDS['core'] ? shardFile(root, 'core') : '';
-			if (!file || !fs.existsSync(file)) return resolve(cache);
-			const readline = require('readline');
-			const rl = readline.createInterface({ input: fs.createReadStream(file, 'utf8'), crlfDelay: Infinity });
-			rl.on('line', (line) => {
-				if (!line) return;
-				let rec;
-				try { rec = JSON.parse(line); } catch (_) { return; }
-				const key = rec && rec.key;
-				if (typeof key !== 'string' || !key.startsWith(prefix)) return;
-				try { cache.set(key.slice(prefix.length), contentHash(rec.value)); } catch (_) { /* ignore */ }
-			});
-			rl.on('close', () => resolve(cache));
-			rl.on('error', () => resolve(cache));
-		});
-	}
-
 	async runVerify($i, v, files) {
 		await yieldTick();
 		v.status = 'running';
 		v.startedAt = Date.now();
 		setJob(v);
 		try {
-			const liveHashes = await this.streamLiveHashes($i, v.heichelId);
+			// B"H 2026-10-11: unified with the import job's streaming
+			// prefix-filtered scan (buildLiveHashCacheAsync). This MUST stay
+			// an independent re-read of the mirror — reusing the import
+			// job's own hash map would make the packed check circular.
+			const liveHashes = await this.buildLiveHashCacheAsync($i, v.heichelId);
 			await yieldTick();
-			for (let n = 0; n < files.length; n++) {
-				const entry = files[n];
+			// B"H 2026-10-11 (import-speed): worker pool + the two native
+			// reads per post in parallel. Posts are independent; all
+			// mutations are synchronous (safe on one thread).
+			const VWORKERS = Math.max(1, Math.min(16, Number(process.env.AWTSMOOS_VERIFY_WORKERS) || 8));
+			let next = 0;
+			const verifyOnePost = async (entry) => {
 				const postId = String(entry.postId || '');
 				let problem = null;
 				let expectedHash = null;
@@ -1191,17 +1328,17 @@ class PackedPostImportRoutes {
 					if (liveHash !== expectedHash) {
 						problem = liveHash ? 'PACKED_HASH_MISMATCH' : 'PACKED_NOT_FOUND';
 					} else {
-						// 2. native first-class record check (byte-exact in AwtsmoosDB format).
-						let live = null;
-						try { live = await $i.db.get(`/social/heichelos/${h}/posts/${postId}`); } catch (_) { /* ignore */ }
+						// 2+3. native record + alias link checks. The two
+						// reads are independent — fire them together.
+						const nativePath = `/social/heichelos/${h}/posts/${postId}`;
+						const linkPath = `/social/aliases/${post.aliasId}/postsSubmitted/inHeichel/${h}/inSeries/${post.seriesId}/${postId}`;
+						const [live, link] = await Promise.all([
+							$i.db.get(nativePath).catch(() => null),
+							$i.db.get(linkPath).catch(() => null),
+						]);
 						if (!live) problem = 'NATIVE_NOT_FOUND';
 						else if (contentHash(live) !== expectedHash) problem = 'NATIVE_HASH_MISMATCH';
-						else {
-							// 3. alias link check (alias -> post, queryable).
-							let link = null;
-							try { link = await $i.db.get(`/social/aliases/${post.aliasId}/postsSubmitted/inHeichel/${h}/inSeries/${post.seriesId}/${postId}`); } catch (_) { /* ignore */ }
-							if (!link) problem = 'ALIAS_LINK_MISSING';
-						}
+						else if (!link) problem = 'ALIAS_LINK_MISSING';
 					}
 				} catch (e) {
 					problem = 'VERIFY_ERROR: ' + (e.message || e);
@@ -1209,12 +1346,20 @@ class PackedPostImportRoutes {
 				if (problem) v.mismatches.push({ postId, problem });
 				else v.ok++;
 				v.checked++;
-				if (n % 25 === 24) {
-					v.updatedAt = Date.now();
-					setJob(v);
-					await yieldTick();
+			};
+			const worker = async () => {
+				while (v.status === 'running') {
+					const n = next++;
+					if (n >= files.length) break;
+					await verifyOnePost(files[n]);
+					if (v.checked % 25 === 0) {
+						v.updatedAt = Date.now();
+						setJob(v);
+						await yieldTick();
+					}
 				}
-			}
+			};
+			await Promise.all(Array.from({ length: VWORKERS }, () => worker()));
 			v.status = 'done';
 		} catch (e) {
 			v.status = 'failed';
