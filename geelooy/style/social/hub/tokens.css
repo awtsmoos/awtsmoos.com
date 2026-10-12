@@ -9,6 +9,7 @@
 
 .social-hub-document,
 .social-hub-root {
+	--aw-text: #f4f7fb; /* B"H: shared text token; hub sheets paint with var(--aw-text) which was undefined. Matches --hub-text. LAW8 ref: social-hub-ref. */
 	--hub-bg: #070b12;
 	--hub-bg-soft: #0c121c;
 	--hub-panel: #111925;
