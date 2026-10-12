@@ -133,6 +133,10 @@ async function main() {
 		state = JSON.parse(readFileSync(statePath, 'utf8'));
 		console.log(`B"H resuming state ${uploadId}: phase=${state.phase} chunks=${(state.uploadedChunks || []).length}/${state.totalChunks} jobs=${(state.jobIds || []).length}`);
 	}
+	if (statePath && !state) {
+		console.error(`B"H --upload-id ${uploadId} has no state file at ${statePath} - refusing to mint a fresh uploadId; list ${workRoot}/import-state-*.json to find a valid id`);
+		process.exit(1);
+	}
 	if (!state) {
 		if (!postsDir) throw new Error('--posts-dir required for a new import (or pass --upload-id to resume)');
 		uploadId = 'upl_' + Date.now().toString(36) + '_' + crypto.randomBytes(4).toString('hex');
@@ -339,6 +343,7 @@ async function main() {
 			console.log(`B"H resuming verify job ${verifyId}`);
 		}
 		const t0 = Date.now();
+		let vrestarts = 0;
 		while (true) {
 			if (Date.now() - t0 > OVERALL_TIMEOUT_MS) { console.error('B"H VERIFY TIMEOUT — resume with --upload-id ' + uploadId); process.exit(1); }
 			const out = await verifyStatus(verifyId);
@@ -347,7 +352,19 @@ async function main() {
 			console.log(`[${el}s] verify ${s.status} checked=${s.checked}/${s.total} ok=${s.ok} mismatches=${s.mismatchCount}`);
 			state.verify = { verifyId, checked: s.checked || 0, ok: s.ok || 0, mismatches: s.mismatches || [] };
 			saveState();
-			if (s.status === 'done' || s.status === 'failed') break;
+			if (s.status === 'interrupted') {
+				console.log(`[${el}s] verify ${verifyId} interrupted — restarting verify (read-only, idempotent)`);
+				verifyId = await startVerify();
+				if (!verifyId) process.exit(1);
+				state.verify = { verifyId, checked: 0, ok: 0, mismatches: [] };
+				saveState();
+				if (++vrestarts > 50) { console.error('B"H too many verify restarts'); process.exit(1); }
+				continue;
+			}
+			if (s.status === 'done' || s.status === 'failed' || s.status === 'cancelled') {
+				if (s.status !== 'done') { console.error('B"H verify ended: ' + s.status); process.exit(1); }
+				break;
+			}
 			await sleep(POLL_MS);
 		}
 		const v = state.verify;
