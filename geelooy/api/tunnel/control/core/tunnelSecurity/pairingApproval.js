@@ -4,6 +4,7 @@
 
 const Audit = require("./audit.js");
 const Binding = require("./bindingStore.js");
+const Friendly = require("./pairingErrorMessages.js");
 const Id = require("./identifiers.js");
 const Provenance = require("./bindingProvenance.js");
 const Secrets = require("./secrets.js");
@@ -19,7 +20,11 @@ function approveInStore(store, accountId, userCode) {
 	const normalizedAccount = Id.accountId(accountId);
 	const pairing = matchingPairing(store, userCode);
 	if (!pairing || !normalizedAccount) {
-		return { ok: false, error: "pairing_not_found" };
+		return {
+			ok: false,
+			error: "pairing_not_found",
+			message: Friendly.messageFor("pairing_not_found")
+		};
 	}
 	const credential = Secrets.randomToken(48);
 	const ownershipVerifiedAt = new Date().toISOString();
@@ -73,7 +78,8 @@ function denied(store, pairing, accountId, error) {
 		result: "denied",
 		reason: publicError(error)
 	});
-	return { ok: false, error: publicError(error) };
+	const code = publicError(error);
+	return { ok: false, error: code, message: Friendly.messageFor(code) };
 }
 
 function publicError(error) {

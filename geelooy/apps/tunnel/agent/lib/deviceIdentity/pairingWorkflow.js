@@ -13,6 +13,12 @@ const Pending = require("./pairingPending.js");
 
 const MAXIMUM_REPAIR_ATTEMPTS = 0;
 
+/** Last-resort human guidance when a pairing error carries no friendly text. */
+function friendlyPairingMessage(error) {
+	const code = String(error?.code || error?.message || "unknown");
+	return `Pairing failed (${code}). Re-run the installer on your server for a fresh code.`;
+}
+
 /**
  * @file Pairs one coherent physical witness without silently erasing a wounded one.
  * @description
@@ -53,7 +59,8 @@ async function pairOnce(config, options) {
 	try {
 		approved = await Approval.wait(config, response, options);
 	} catch (error) {
-		if (error?.message === "pairing_expired") {
+		options.log?.("error", error?.userMessage || friendlyPairingMessage(error));
+		if (error?.message === "pairing_expired" || error?.code === "pairing_expired") {
 			Pending.clear(config, keys.metadata.deviceId);
 		}
 		throw error;

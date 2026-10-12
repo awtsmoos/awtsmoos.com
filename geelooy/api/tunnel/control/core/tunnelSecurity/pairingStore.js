@@ -4,10 +4,17 @@
 
 const { mutateStore } = require("../store.js");
 const Approval = require("./pairingApproval.js");
+const Friendly = require("./pairingErrorMessages.js");
 const Id = require("./identifiers.js");
 const Secrets = require("./secrets.js");
 
-const PAIRING_LIFETIME_MS = 10 * 60 * 1000;
+/**
+ * Pairing codes stay valid for 12 hours AND auto-refresh while the installer
+ * keeps polling, so a few minutes of human delay can never kill a pairing
+ * (Yaakov 2026-10-11 stability order). Codes are still one-shot: they die
+ * the moment pairing succeeds.
+ */
+const PAIRING_LIFETIME_MS = 12 * 60 * 60 * 1000;
 
 /**
  * @file Coordinates one-time backend-mediated native-device pairing.
@@ -24,6 +31,7 @@ function createPairingRequest(input = {}) {
 		return {
 			ok: false,
 			error: "invalid_device_public_key",
+			message: Friendly.messageFor("invalid_device_public_key"),
 			diagnostic: {
 				inputKeys: Object.keys(input || {}).sort().slice(0, 24),
 				publicKeyType: Buffer.isBuffer(publicKey) ? "buffer" : typeof publicKey,
@@ -39,7 +47,11 @@ function createPairingRequest(input = {}) {
 	const deviceId = Id.deviceId(input.deviceId);
 	const tunnelName = Id.tunnelName(input.tunnelName);
 	if (!deviceId || !tunnelName) {
-		return { ok: false, error: "invalid_device_identity" };
+		return {
+			ok: false,
+			error: "invalid_device_identity",
+			message: Friendly.messageFor("invalid_device_identity")
+		};
 	}
 	const pairingId = `pair_${Secrets.randomToken(18)}`;
 	const requestSecret = Secrets.randomToken(32);
@@ -66,7 +78,11 @@ function createPairingRequest(input = {}) {
 
 /** Approves one matching pending code for the verified account. */
 function approvePairing(accountId, userCode) {
-	let result = { ok: false, error: "pairing_not_found" };
+	let result = {
+		ok: false,
+		error: "pairing_not_found",
+		message: Friendly.messageFor("pairing_not_found")
+	};
 	mutateStore((store) => {
 		result = Approval.approveInStore(store, accountId, userCode);
 		return store;
@@ -76,7 +92,11 @@ function approvePairing(accountId, userCode) {
 
 /** Returns one encrypted credential envelope to the possessing device. */
 function consumePairing(pairingId, requestSecret) {
-	let result = { ok: false, error: "pairing_not_found" };
+	let result = {
+		ok: false,
+		error: "pairing_not_found",
+		message: Friendly.messageFor("pairing_not_found")
+	};
 	mutateStore((store) => {
 		const pairing = store.tunnelPairings[Id.normalizeIdentifier(pairingId)];
 		const supplied = Secrets.digest(requestSecret);
@@ -87,7 +107,12 @@ function consumePairing(pairingId, requestSecret) {
 			return store;
 		}
 		if (pairing.state !== "approved") {
-			result = { ok: true, state: pairing.state };
+			// Healthy candidate still polling: slide the expiry forward so the
+			// pairing code can never die while the installer is running.
+			if (pairing.state === "pending") {
+				pairing.expiresAt = Date.now() + PAIRING_LIFETIME_MS;
+			}
+			result = { ok: true, state: pairing.state, expiresAt: pairing.expiresAt };
 			return store;
 		}
 		pairing.state = "consumed";

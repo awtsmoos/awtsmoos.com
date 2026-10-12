@@ -46,7 +46,7 @@ function pairingOptions(dependencies) {
 	return {
 		log: dependencies.log,
 		openBrowser: process.env.AWTSMOOS_SKIP_PAIRING_BROWSER !== "1",
-		timeoutMs: Number(process.env.AWTSMOOS_PAIRING_TIMEOUT_MS || 10 * 60 * 1000)
+		timeoutMs: Number(process.env.AWTSMOOS_PAIRING_TIMEOUT_MS || 12 * 60 * 60 * 1000)
 	};
 }
 

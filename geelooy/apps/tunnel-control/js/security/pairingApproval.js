@@ -2,6 +2,25 @@
 
 import { getJson } from "../api/http.js";
 
+const INSTALL_COMMAND = "curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash";
+
+/** Human guidance for pairing failures — never leave anyone staring at a raw code. */
+const FRIENDLY_PAIRING_ERRORS = {
+	pairing_not_found: "This pairing code wasn't found — it probably expired or was already used. Re-run the installer on your server for a fresh code, then approve the new one.",
+	pairing_expired: "This pairing code expired before it was approved. Re-run the installer on your server for a fresh code.",
+	pairing_identity_conflict: "This device is already paired to a different account. Approve from the account it was paired with, or reset the device identity and pair fresh.",
+	pairing_binding_invalid: "Pairing couldn't be completed because of an identity mismatch. Re-run the installer for a fresh code."
+};
+
+/** Prefers the server's friendly message, falls back to the local map, then the raw code. */
+function pairingFailureText(result) {
+	if (result && typeof result.message === "string" && result.message.trim()) {
+		return result.message;
+	}
+	const code = String(result?.error || "unknown_error");
+	return FRIENDLY_PAIRING_ERRORS[code] || `Pairing failed: ${code}. Re-run the installer on your server for a fresh code.`;
+}
+
 /** Mounts an explicit, authenticated approval boundary for a local device. */
 export function showPairingApprovalIfRequested() {
 	const parameters = new URLSearchParams(location.search);
@@ -38,7 +57,7 @@ export function showPairingApprovalIfRequested() {
 		});
 		if (!result.ok) {
 			button.disabled = false;
-			status.textContent = `Pairing failed: ${result.error || "unknown_error"}`;
+			status.textContent = pairingFailureText(result);
 			return;
 		}
 		status.textContent = "Device approved. Waiting for the tunnel to register…";

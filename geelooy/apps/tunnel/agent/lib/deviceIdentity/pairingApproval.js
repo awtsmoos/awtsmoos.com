@@ -7,18 +7,43 @@ const PairingClient = require("./pairingClient.js");
 const POLL_INTERVAL_MS = 2000;
 
 /**
+ * How long the installer waits for a human to approve a pairing. Kept in
+ * sync with the server's PAIRING_LIFETIME_MS so the client never gives up
+ * before the code dies (Yaakov 2026-10-11 stability order). The server also
+ * auto-refreshes the expiry on every status poll, so a running installer
+ * keeps its code alive indefinitely; this cap is the backstop for a dead one.
+ */
+const MAX_PAIRING_WAIT_MS = 12 * 60 * 60 * 1000;
+
+const INSTALL_COMMAND = "curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash";
+
+const FRIENDLY_MESSAGES = Object.freeze({
+	pairing_expired: "This pairing code expired before it was approved. Re-run the installer on your server for a fresh code:\n" + INSTALL_COMMAND,
+	pairing_cancelled: "Pairing was cancelled. Re-run the installer whenever you're ready:\n" + INSTALL_COMMAND,
+	pairing_rejected: "Pairing was rejected on the approval page. If that was a mistake, re-run the installer for a fresh code:\n" + INSTALL_COMMAND
+});
+
+/** Wraps a machine pairing code in a human-actionable error. */
+function pairingFailure(code) {
+	const error = new Error(code);
+	error.code = code;
+	error.userMessage = FRIENDLY_MESSAGES[code] || `Pairing failed (${code}). Re-run the installer for a fresh code:\n${INSTALL_COMMAND}`;
+	return error;
+}
+
+/**
  * @file Polls one approved device pairing and prints shell-safe human guidance.
  * @description
  * The Awtsmoos separates a browser URL from every terminal instruction. Awtsmoos.com
  * never lets query-string ampersands become accidental shell operators when copied.
  */
 async function wait(config, response, options = {}) {
-	const deadline = Math.min(
+	let deadline = Math.min(
 		Number(response.expiresAt || 0),
-		Date.now() + Number(options.timeoutMs || 10 * 60 * 1000)
+		Date.now() + Number(options.timeoutMs || MAX_PAIRING_WAIT_MS)
 	);
 	while (Date.now() < deadline) {
-		if (options.signal?.aborted) throw new Error("pairing_cancelled");
+		if (options.signal?.aborted) throw pairingFailure("pairing_cancelled");
 		const status = await PairingClient.status(
 			config,
 			response.pairingId,
@@ -26,11 +51,15 @@ async function wait(config, response, options = {}) {
 		);
 		if (status.state === "approved" && status.credentialEnvelope) return status;
 		if (["expired", "cancelled", "rejected"].includes(status.state)) {
-			throw new Error(`pairing_${status.state}`);
+			throw pairingFailure(`pairing_${status.state}`);
 		}
+		// The server slides the expiry forward on every healthy poll; follow it
+		// so the installer never dies while it is alive and polling.
+		const refreshed = Number(status.expiresAt || 0);
+		if (refreshed > deadline) deadline = refreshed;
 		await delay(options.pollIntervalMs || POLL_INTERVAL_MS);
 	}
-	throw new Error("pairing_expired");
+	throw pairingFailure("pairing_expired");
 }
 
 function announce(log, response, approval) {
@@ -39,10 +68,11 @@ function announce(log, response, approval) {
 	log?.("info", approval);
 	log?.("info", "Leave this terminal running after approval.");
 	log?.("info", `Pairing expires: ${new Date(response.expiresAt).toISOString()}`);
+	log?.("info", "The code stays valid while this installer keeps running — take your time.");
 }
 
 function delay(milliseconds) {
 	return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
-module.exports = { POLL_INTERVAL_MS, announce, delay, wait };
+module.exports = { MAX_PAIRING_WAIT_MS, POLL_INTERVAL_MS, announce, delay, pairingFailure, wait };
