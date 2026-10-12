@@ -289,6 +289,36 @@ async function findKeyReverseAsync({ $i, shard = 'core', key }) {
   });
   return found;
 }
+/**
+ * B"H 2026-10-12 (FRONT-1 api-audit): postId fallback for /packed/read.
+ * Callers pass a bare postId (e.g. ?key=BH_RAMBAM_...); stored keys are
+ * logical (/posts/<heichel>/<postId>). Newest-first scan for the first key
+ * whose final segment equals postId, with per-key latest-wins tombstone
+ * semantics (a tombstoned key is skipped, older same-suffix keys still win).
+ */
+async function findKeySuffixReverseAsync({ $i, shard = 'core', postId }) {
+  const root = fileRoot($i);
+  if (!root || !postId || postId.includes('/')) return null;
+  const suffix = '/' + postId;
+  const seen = new Set();
+  let found = null;
+  await forEachLineReverseAsync(root, shard, (head, getFull) => {
+    if (!head || found) return;
+    const fast = fastKeyType(head);
+    let key = fast ? fast.key : null;
+    if (key && !key.endsWith(suffix)) return;
+    let rec;
+    try { rec = JSON.parse(getFull()); } catch (_) { return; }
+    key = rec && rec.key;
+    if (typeof key !== 'string' || !key.endsWith(suffix)) return;
+    if (seen.has(key)) return;
+    seen.add(key);
+    if (rec.op === 'del') return; // tombstoned: keep scanning for older keys
+    found = rec;
+    return false;
+  });
+  return found;
+}
 function writeFileRecord(root, shard, record) {
   const file = fileFor(root, shard);
   if (!file) return null;
@@ -544,4 +574,4 @@ async function allShardStatsAsync({ $i } = {}) {
   return out;
 }
 function writeMigrationManifest({ $i, manifest }) { return writePacked({ $i, shard: 'meta', key: logicalKey(['migrations', manifest.id]), value: manifest, type: RECORD_TYPES.migrationManifest, meta: { kind: 'migrationManifest', migrationType: manifest.type } }); }
-module.exports = { resolveDbRoot, fileRoot, writePacked, readPacked, readPackedAsync, listPackedRecords, forEachFileRecord, forEachFileRecordAsync, forEachLineFastAsync, forEachLineReverseAsync, listKeysReverseAsync, findKeyReverseAsync, fastKeyType, writeManifest, writeIndex, appendEvent, mirrorPost, mirrorPostBulk, mirrorPostsBulk, mirrorPostRecords, mirrorAllPost, mirrorGraphReference, mirrorNotification, writeMigrationManifest, shardStats, shardStatsAsync, allShardStats, allShardStatsAsync, shardFileStats };
+module.exports = { resolveDbRoot, fileRoot, writePacked, readPacked, readPackedAsync, listPackedRecords, forEachFileRecord, forEachFileRecordAsync, forEachLineFastAsync, forEachLineReverseAsync, listKeysReverseAsync, findKeyReverseAsync, findKeySuffixReverseAsync, fastKeyType, writeManifest, writeIndex, appendEvent, mirrorPost, mirrorPostBulk, mirrorPostsBulk, mirrorPostRecords, mirrorAllPost, mirrorGraphReference, mirrorNotification, writeMigrationManifest, shardStats, shardStatsAsync, allShardStats, allShardStatsAsync, shardFileStats };

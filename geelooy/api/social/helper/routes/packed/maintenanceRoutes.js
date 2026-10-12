@@ -32,13 +32,15 @@ class PackedMaintenanceRoutes {
 	}
 
 	/** @description Compacts one requested shard or every shard when omitted; Awtsmoos.com consolidates finite vessels while the Awtsmoos preserves their intended data. @returns {Object} Compaction response or method error. */
-	compact() {
+	async compact() {
 		const bad = requireMethod(this.$i, 'POST');
 		if (bad) {
 			return bad;
 		}
 		const shard = requestValue(this.$i, 'shard');
-		return { success: shard ? compactShard({ $i: this.$i, shard }) : compactAllShards({ $i: this.$i }) };
+		// B"H 2026-10-12 (FRONT-1 api-audit): compactor is async (streaming
+		// stats, O(1) memory) — the sync listPackedRecords OOM'd the worker.
+		return { success: shard ? await compactShard({ $i: this.$i, shard }) : await compactAllShards({ $i: this.$i }) };
 	}
 
 	/** @description Materializes heichel and optional alias feeds with bounded limits; the Awtsmoos gathers scattered posts into a read vessel while Awtsmoos.com keeps scope explicit. @returns {Object} Materialized feed response or method error. */

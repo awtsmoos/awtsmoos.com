@@ -4,25 +4,32 @@
  * @description Chapter 647: compaction became a truthful report over whichever
  * packed vessel the caller supplied. JSONL temp shards and AwtsmoosDB shards use
  * the same logical-key census without opening an unrelated default database.
+ *
+ * B"H 2026-10-12 (FRONT-1 api-audit): the old implementation called
+ * listPackedRecords() which materializes EVERY record (the 4.5 GB core shard
+ * OOM-killed the worker and the route 502'd). Now uses shardStatsAsync —
+ * O(1) memory streaming aggregates — so /packed/compact stays safe.
  */
-const { listPackedRecords, shardFileStats } = require('./socialPacked.js');
+const { shardStatsAsync } = require('./socialPacked.js');
 const SHARDS = ['core', 'graph', 'notify', 'audit', 'search', 'feed', 'allPosts', 'meta', 'objects', 'civilization'];
 
-function compactShard({ $i, shard = 'core' } = {}) {
-  const records = listPackedRecords({ $i, shard });
-  const logicalKeys = new Set(records.map(record => record.key).filter(Boolean));
-  const stats = shardFileStats({ $i, shard });
+async function compactShard({ $i, shard = 'core' } = {}) {
+  const stats = await shardStatsAsync({ $i, shard });
   return {
     shard,
-    before: records.length,
-    after: logicalKeys.size,
-    compacted: Math.max(0, records.length - logicalKeys.size),
-    engine: $i?.db?.directory ? 'JSONL' : 'AwtsmoosDB',
+    before: stats.records,
+    after: stats.logicalKeys,
+    compacted: Math.max(0, stats.records - stats.logicalKeys),
+    engine: stats.engine,
     skipped: true,
     reason: 'logical_key_report',
     files: stats.files,
     bytes: stats.bytes
   };
 }
-function compactAllShards({ $i } = {}) { return SHARDS.map(shard => compactShard({ $i, shard })); }
+async function compactAllShards({ $i } = {}) {
+  const out = [];
+  for (const shard of SHARDS) out.push(await compactShard({ $i, shard }));
+  return out;
+}
 module.exports = { compactShard, compactAllShards };

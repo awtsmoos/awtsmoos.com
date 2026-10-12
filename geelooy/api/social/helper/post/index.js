@@ -37,6 +37,27 @@ async function get(pth, $i, withOpts=true) {
 		})
 	}
 }
+// B"H 2026-10-12 (FRONT-1 api-audit): $i.db.get on a directory path does
+// NOT return an array — it returns an object keyed by child name (or
+// null), while $i.db.getObjectKeys returns the child-name array. The
+// postsMade routes treated any non-array as empty, so alias->post links
+// always resolved to {"success":[]} even when the backlinks existed.
+// Normalize every directory listing to a key array before iterating.
+// got is the UNWRAPPED value (may be null): arrays pass through, objects
+// yield their keys, otherwise we fall back to getObjectKeys.
+async function dirKeys($i, pth, got) {
+	var g = got;
+	if (Array.isArray(g)) return g;
+	if (g && typeof g === 'object') {
+		var ks = Object.keys(g);
+		if (ks.length) return ks;
+	}
+	try {
+		var listed = await $i.db.getObjectKeys(pth);
+		if (Array.isArray(listed)) return listed;
+	} catch (_) { /* fall through to empty */ }
+	return [];
+}
 
 async function getPostsOfCommentsInSeriesOfAlias({
 	$i,
@@ -108,10 +129,12 @@ async function getHeichelosOfPostsOfAlias({
 	}/postsSubmitted/inHeichel`
 	var g = await get(pth, $i);
 	if(g.error) return g;
-	if(g.success) g = g.success
+	g = g.success;
 	if(!withDetails)
 		return g;
-	if(!Array.isArray(g)) g = [];
+	// B"H 2026-10-12 (FRONT-1 api-audit): directory listings are objects,
+	// not arrays — normalize via dirKeys or every alias resolves empty.
+	g = await dirKeys($i, pth, g);
 	
 	var heichelos = [];
 	var hei;
@@ -131,6 +154,11 @@ async function getHeichelosOfPostsOfAlias({
 		if(det) {
 			det.id = hei;
 			heichelos.push(det)
+		} else {
+			// B"H 2026-10-12 (FRONT-1 api-audit): import-created heichels
+			// carry posts but no /info record — still list the id so the
+			// alias->post link resolves instead of vanishing.
+			heichelos.push({id: hei});
 		}
 	}
 
@@ -142,8 +170,9 @@ async function mapSeriesIDsToSeries({
 	seriesIDs,
 	heichelId
 }) {
+	// B"H 2026-10-12 (FRONT-1 api-audit): tolerate object-shaped listings.
 	if(!Array.isArray(seriesIDs)) {
-		seriesIDs = [];
+		seriesIDs = (seriesIDs && typeof seriesIDs === 'object') ? Object.keys(seriesIDs) : [];
 	}
 	var res = []
 	var ser;
@@ -180,8 +209,11 @@ async function getSeriesOfPostsOfAliasInHeichel({
 	}/inSeries`
 	var g = await get(pth, $i);
 	if(!withDetails) return g;
-	if(g.success) g = g.success;
 	if(g.error) return g;
+	g = g.success;
+	// B"H 2026-10-12 (FRONT-1 api-audit): directory listings are objects,
+	// not arrays — normalize via dirKeys or series resolve empty.
+	g = await dirKeys($i, pth, g);
 	return await mapSeriesIDsToSeries({
 		$i,
 		seriesIDs: g,

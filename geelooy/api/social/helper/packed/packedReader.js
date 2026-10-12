@@ -4,7 +4,7 @@
  * @description Chapter 646: logical-key reads now keep the caller's `$i`
  * vessel, so tests and requests see their own JSONL or AwtsmoosDB shard root.
  */
-const { readPacked, readPackedAsync, listPackedRecords, listPackedRecordsAsync, listKeysReverseAsync, findKeyReverseAsync } = require('./socialPacked.js');
+const { readPacked, readPackedAsync, listPackedRecords, listPackedRecordsAsync, listKeysReverseAsync, findKeyReverseAsync, findKeySuffixReverseAsync } = require('./socialPacked.js');
 function readPackedKey({ $i, shard = 'core', key }) {
   if (!key) return { error: { code: 'MISSING_KEY', message: 'key is required.' } };
   const record = readPacked({ $i, shard, key });
@@ -14,7 +14,13 @@ async function readPackedKeyAsync({ $i, shard = 'core', key }) {
   if (!key) return { error: { code: 'MISSING_KEY', message: 'key is required.' } };
   // B"H 2026-10-11: reverse scan — newest record first, stops at first hit;
   // never loads multi-GB shards (the forward scan OOMed the server).
-  const record = await findKeyReverseAsync({ $i, shard, key });
+  let record = await findKeyReverseAsync({ $i, shard, key });
+  // B"H 2026-10-12 (FRONT-1 api-audit): bare postIds (?key=<postId>) never
+  // match the stored logical keys (/posts/<heichel>/<postId>) — fall back
+  // to a final-segment suffix match so the read path finds records by postId.
+  if (!record && typeof key === 'string' && !key.includes('/')) {
+    record = await findKeySuffixReverseAsync({ $i, shard, postId: key });
+  }
   return record ? { success: record } : { error: { code: 'NOT_FOUND', message: 'Record key not found.' } };
 }
 function safePositive(value, fallback, ceiling) {
