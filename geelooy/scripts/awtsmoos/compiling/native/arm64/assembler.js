@@ -700,8 +700,10 @@ function parseDataValues(rawVals) {
 }
 
 /**
- * Parse ARM64 source into { builder, dataBlobs, dataLabels }.
+ * Parse ARM64 source into { builder, dataBlobs, dataLabels, externals }.
  * dataBlobs: [{ bytes: number[], label }] in emission order.
+ * externals: names declared `.extern` — branch targets that may stay
+ * undefined so the linker resolves them across objects or via PLT/GOT.
  */
 function parseSource(source) {
 	const b = new Arm64Builder();

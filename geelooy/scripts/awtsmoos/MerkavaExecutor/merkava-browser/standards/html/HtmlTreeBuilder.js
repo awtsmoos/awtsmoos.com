@@ -15,71 +15,25 @@
 	 * Canonical html/head/body vessels are preserved, attributes use first-wins
 	 * semantics, raw style text feeds our CSS engine, and malformed closes recover.
 	 *
-	 * Title text and node count are tracked during the single build pass —
-	 * no post-build querySelector/count walks.
-	 *
 	 * @param {object} document Executor-owned VirtualDocument instance.
 	 * @param {ReadonlyArray<object>} tokens Token stream from tokenizeHtml().
 	 * @returns {{nodes:number,ok:boolean,title:string}} Tree-construction summary.
 	 */
 	function buildHtmlTree(document, tokens) {
-		const state = createTreeState(document);
+		document.head.replaceChildren();
+		document.body.replaceChildren();
+		const state = {
+			document,
+			stack: [document.documentElement]
+		};
 		for (const token of tokens) {
 			consumeToken(state, token);
 		}
-		return finishTreeState(state);
-	}
-
-	/**
-	 * Streaming build: tokenizes source and constructs the tree in one pass.
-	 * No token array is materialized. Falls back to tokenizeHtml when the
-	 * tokenizer lacks streamHtmlTokens.
-	 *
-	 * @param {object} document Executor-owned VirtualDocument instance.
-	 * @param {string} source Raw HTML source.
-	 * @param {object} tokenizer Module exposing streamHtmlTokens/tokenizeHtml.
-	 * @returns {{nodes:number,ok:boolean,title:string,tokens:number}} Summary.
-	 */
-	function buildHtmlTreeStreaming(document, source, tokenizer) {
-		const state = createTreeState(document);
-		let tokenCount = 0;
-		if (tokenizer && typeof tokenizer.streamHtmlTokens === "function") {
-			tokenCount = tokenizer.streamHtmlTokens(source, token => consumeToken(state, token));
-		} else {
-			const tokens = tokenizer.tokenizeHtml(source);
-			tokenCount = tokens.length;
-			for (const token of tokens) {
-				consumeToken(state, token);
-			}
-		}
-		const result = finishTreeState(state);
-		result.tokens = tokenCount;
-		return result;
-	}
-
-	function createTreeState(document) {
-		document.head.replaceChildren();
-		document.body.replaceChildren();
-		// B"H (parse fast path): suppress per-mutation journal/Date.now/handle
-		// overhead while the initial tree is built; the first post-parse layout
-		// covers everything. Cleared in finishTreeState.
-		document.__suppressMutations = true;
+		support.applyHtmlDefaultDisplay(document.body);
 		return {
-			document,
-			nodeCount: 3, // documentElement + canonical head + body
-			stack: [document.documentElement],
-			titleElement: null,
-			titleText: ""
-		};
-	}
-
-	function finishTreeState(state) {
-		support.applyHtmlDefaultDisplay(state.document.body);
-		state.document.__suppressMutations = false;
-		return {
-			nodes: state.nodeCount,
+			nodes: support.countHtmlNodes(document.documentElement),
 			ok: true,
-			title: state.titleText
+			title: document.querySelector("title")?.textContent || ""
 		};
 	}
 
@@ -102,14 +56,8 @@
 		const element = canonical || state.document.createElement(token.name);
 		applyAttributes(element, token.attributes);
 		const parent = support.htmlInsertionParent(state, token.name);
-		if (!canonical) {
-			state.nodeCount += 1;
-			if (element.parentNode !== parent) {
-				parent.appendChild(element);
-			}
-			if (token.name === "title" && state.titleElement === null) {
-				state.titleElement = element;
-			}
+		if (!canonical && element.parentNode !== parent) {
+			parent.appendChild(element);
 		}
 		if (!token.selfClosing && !support.VOID_TAGS.has(token.name)) {
 			state.stack.push(element);
@@ -133,10 +81,6 @@
 		}
 		const parent = support.currentHtmlParent(state);
 		parent.appendChild(state.document.createTextNode(text));
-		state.nodeCount += 1;
-		if (parent === state.titleElement) {
-			state.titleText += text;
-		}
 		if (parent.localName === "style") {
 			state.document.cssEngine.parseStyleSheet(text);
 		}
@@ -170,10 +114,10 @@
 			if (seen[attribute.name]) {
 				continue;
 			}
-			seen[attribute.name] = 1;
+			seen.add(attribute.name);
 			element.setAttribute(attribute.name, attribute.value);
 		}
 	}
 
-	return { buildHtmlTree, buildHtmlTreeStreaming };
+	return { buildHtmlTree };
 });

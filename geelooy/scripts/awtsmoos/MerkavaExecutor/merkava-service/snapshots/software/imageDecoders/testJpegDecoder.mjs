@@ -84,6 +84,8 @@ test('truncated scan throws', () => {
 test('progressive (SOF2) is supported (no longer throws unsupported)', () => {
   const j = buildMinimalJpeg();
   j[72] = 0xC2; // SOF0 marker -> SOF2
+  // A single-scan SOF2 is technically valid progressive (one DC+AC scan).
+  // It should NOT throw "progressive unsupported".
   let threw = null;
   try { decodeJpeg(j); } catch (e) { threw = e; }
   assert(!threw || !/progressive.*unsupported/i.test(threw.message),
