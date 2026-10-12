@@ -28,6 +28,9 @@ const {
 const {
 	createSeriesPostRoutes
 } = require('../posts/seriesRoutes.js');
+const {
+	createNeedsWorkRoutes
+} = require('../posts/needsWorkRoutes.js');
 
 const SERIES_ROUTES = [
 	'/heichelos/:heichel/addNewSeries',
@@ -52,10 +55,13 @@ const POST_ROUTES = [
 	'/aliases/:alias/postsMade/heichel/:heichel/pathToSeries/:pathive',
 	'/aliases/:alias/postsMade/heichel/:heichel/series',
 	'/aliases/:alias/postsMade/heichelos',
+	'/aliases/:alias/postsMade/needsWork',
+	'/posts/needsWork',
 	'/heichelos/:heichel/series/:series/filterPostsBy/:propKey/:propVal',
 	'/heichelos/:heichel/series/:series/post/:post',
 	'/heichelos/:heichel/series/:series/post/:post/delete',
 	'/heichelos/:heichel/series/:series/posts',
+	'/heichelos/:heichel/series/:series/posts/bulk',
 	'/heichelos/:heichel/series/:series/posts/details',
 	'/heichelos/:heichel/submittedPosts',
 	'/heichelos/:heichel/submittedPosts/approve',
@@ -84,7 +90,8 @@ function routeKeys() {
 		posts: Object.keys({
 			...createAliasPostRoutes({ $i }),
 			...createPostSubmissionRoutes({ $i }),
-			...createSeriesPostRoutes({ $i, userid: 'contract' })
+			...createSeriesPostRoutes({ $i, userid: 'contract' }),
+			...createNeedsWorkRoutes({ $i, userid: 'contract' })
 		}).sort()
 	};
 }

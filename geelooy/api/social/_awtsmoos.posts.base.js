@@ -21,12 +21,16 @@ const {
 const {
 	createSeriesPostRoutes
 } = require('./helper/routes/posts/seriesRoutes.js');
+const {
+	createNeedsWorkRoutes
+} = require('./helper/routes/posts/needsWorkRoutes.js');
 
 module.exports = ({ $i, userid } = {}) => {
 	installSocialDbBridge($i);
 	return {
 		...createAliasPostRoutes({ $i }),
 		...createPostSubmissionRoutes({ $i }),
-		...createSeriesPostRoutes({ $i, userid })
+		...createSeriesPostRoutes({ $i, userid }),
+		...createNeedsWorkRoutes({ $i, userid })
 	};
 };

@@ -1,0 +1,142 @@
+<!-- B"H — Awtsmoos River benchmark harness. Reports API latency, card render
+     throughput, and scroll fps into the DOM and document.title. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>
+(function () {
+	try {
+		var t = localStorage.getItem('awtsmoos-theme');
+		document.documentElement.setAttribute('data-theme', (t === 'dark' || t === 'light') ? t : 'dark');
+	} catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feed Bench</title>
+<link rel="stylesheet" href="/style/awtsmoos-tokens.css">
+<link rel="stylesheet" href="/feed/css/feed.css?v=river-001">
+<style>
+.bench-wrap { max-width: 720px; margin: 0 auto; padding: 24px; color: var(--aw-text); }
+.bench-wrap h1 { color: var(--aw-text); font-size: 22px; }
+.bench-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+.bench-table th, .bench-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--aw-line); color: var(--aw-text); font-size: 14px; }
+.bench-table th { color: var(--aw-text-soft); font-weight: 600; }
+.bench-note { color: var(--aw-text-soft); font-size: 13px; }
+#bench-stage { position: absolute; left: -99999px; top: 0; width: 680px; }
+</style>
+</head>
+<body>
+<div class="bench-wrap">
+	<h1>River Benchmark</h1>
+	<p class="bench-note">Measuring live API + card render throughput…</p>
+	<table class="bench-table"><tbody id="bench-rows"></tbody></table>
+	<p class="bench-note" id="bench-done"></p>
+</div>
+<div id="bench-stage" aria-hidden="true"></div>
+<script type="module">
+import { renderFeedCard } from '/feed/js/cards.js?v=river-001';
+
+const rows = document.getElementById('bench-rows');
+const stage = document.getElementById('bench-stage');
+const results = {};
+
+function row(label, value) {
+	const tr = document.createElement('tr');
+	const th = document.createElement('th');
+	th.textContent = label;
+	th.scope = 'row';
+	const td = document.createElement('td');
+	td.textContent = value;
+	tr.append(th, td);
+	rows.append(tr);
+}
+
+async function apiBench(endpoint, n = 8) {
+	const times = [];
+	let bytes = 0;
+	for (let i = 0; i < n; i++) {
+		const t0 = performance.now();
+		const res = await fetch(`/api/social/feed/${endpoint}?limit=14&offset=${i * 14}`, { credentials: 'same-origin' });
+		times.push(performance.now() - t0);
+		bytes = Number(res.headers.get('content-length')) || bytes;
+		await res.json().catch(() => null);
+	}
+	times.sort((a, b) => a - b);
+	return { p50: times[Math.floor(times.length / 2)], max: times[times.length - 1], bytes };
+}
+
+async function cardBench(items) {
+	// Warm up.
+	for (let i = 0; i < 5; i++) renderFeedCard(items[i % items.length]);
+	const N = 100;
+	const t0 = performance.now();
+	const frag = document.createDocumentFragment();
+	for (let i = 0; i < N; i++) frag.append(renderFeedCard(items[i % items.length]));
+	const buildMs = performance.now() - t0;
+	const t1 = performance.now();
+	stage.append(frag);
+	// Force layout.
+	void stage.offsetHeight;
+	const layoutMs = performance.now() - t1;
+	stage.replaceChildren();
+	return { buildMs, layoutMs, perCardMs: buildMs / N };
+}
+
+function scrollBench() {
+	return new Promise((resolve) => {
+		let frames = 0;
+		const t0 = performance.now();
+		const startY = window.scrollY;
+		const target = document.body.scrollHeight - window.innerHeight;
+		function step() {
+			frames++;
+			const p = Math.min(1, (performance.now() - t0) / 1500);
+			window.scrollTo(0, startY + (target - startY) * p);
+			if (p < 1) requestAnimationFrame(step);
+			else {
+				const secs = (performance.now() - t0) / 1000;
+				resolve(Math.round(frames / secs));
+			}
+		}
+		requestAnimationFrame(step);
+	});
+}
+
+(async () => {
+	try {
+		const home = await apiBench('home');
+		results.api_home_p50_ms = +home.p50.toFixed(0);
+		results.api_home_max_ms = +home.max.toFixed(0);
+		results.api_payload_bytes = home.bytes;
+		row('feed/home p50 (8 runs)', results.api_home_p50_ms + ' ms');
+		row('feed/home max (8 runs)', results.api_home_max_ms + ' ms');
+
+		const res = await fetch('/api/social/feed/home?limit=20', { credentials: 'same-origin' });
+		const body = await res.json().catch(() => ({}));
+		const items = body?.success?.items || [];
+		if (items.length) {
+			const cb = await cardBench(items);
+			results.card_build_100_ms = +cb.buildMs.toFixed(1);
+			results.card_per_card_ms = +cb.perCardMs.toFixed(2);
+			results.card_layout_ms = +cb.layoutMs.toFixed(1);
+			row('100 cards build', results.card_build_100_ms + ' ms');
+			row('per card', results.card_per_card_ms + ' ms');
+			row('100 cards layout+paint', results.card_layout_ms + ' ms');
+		}
+
+		const fps = await scrollBench();
+		results.scroll_fps = fps;
+		row('programmatic scroll fps', fps + ' fps');
+
+		document.getElementById('bench-done').textContent = 'Done.';
+		document.title = 'BENCH ' + JSON.stringify(results);
+		console.log('[feed-bench]', JSON.stringify(results));
+	} catch (e) {
+		row('error', e.message);
+		document.title = 'BENCH_ERROR ' + e.message;
+	}
+})();
+</script>
+</body>
+</html>

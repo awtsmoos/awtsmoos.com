@@ -1,0 +1,81 @@
+<!-- B"H -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>
+/* B"H — set data-theme before any CSS paints (site convention). */
+(function () {
+	try {
+		var t = localStorage.getItem('awtsmoos-theme');
+		document.documentElement.setAttribute('data-theme', (t === 'dark' || t === 'light') ? t : 'dark');
+	} catch (e) {
+		document.documentElement.setAttribute('data-theme', 'dark');
+	}
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="The Awtsmoos River — a smart ranked social feed of Torah voices.">
+<meta name="theme-color" content="#0b0d12">
+<title>Awtsmoos River — Social Feed</title>
+<link rel="stylesheet" href="/style/awtsmoos-tokens.css">
+<link rel="stylesheet" href="/feed/css/feed.css?v=river-001">
+</head>
+<body>
+<div class="feed-stage" id="feed-stage">
+	<header class="feed-topbar">
+		<a class="feed-brand" href="/" aria-label="Awtsmoos home">
+			<svg class="feed-brand-mark" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+				<path d="M16 2v28M2 16h28M6 6l20 20M26 6 6 26" stroke-linecap="round"/>
+				<circle cx="16" cy="16" r="4.5" fill="currentColor" stroke="none"/>
+			</svg>
+			<span>Awtsmoos</span>
+		</a>
+		<label class="feed-search">
+			<svg class="feed-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+			<input type="search" id="feed-search-input" placeholder="Search posts, people, topics…" aria-label="Search the river">
+		</label>
+	</header>
+
+	<nav class="feed-tabs" id="feed-tabs" aria-label="Feed rivers"></nav>
+
+	<main class="feed-river" id="feed-river" aria-live="polite" aria-label="Social feed"></main>
+
+	<p class="feed-status" id="feed-status" role="status"></p>
+
+	<div class="feed-sentinel-wrap">
+		<button type="button" class="feed-sentinel" id="feed-sentinel">Load more live posts</button>
+	</div>
+</div>
+
+<script type="module">
+import { createFeedRiver } from '/feed/js/feed.js?v=river-001';
+
+const river = createFeedRiver({
+	river: document.getElementById('feed-river'),
+	sentinel: document.getElementById('feed-sentinel'),
+	tabsEl: document.getElementById('feed-tabs'),
+	statusEl: document.getElementById('feed-status')
+});
+river.attach();
+
+// Benchmark hook: ?bench=1 runs the perf ledger summary to console + title.
+if (new URLSearchParams(location.search).get('bench') === '1') {
+	const report = () => {
+		const s = river.perfLedger.summary();
+		console.log('[feed-bench]', JSON.stringify(s));
+		document.title = 'BENCH ' + JSON.stringify(s);
+	};
+	setInterval(report, 5000);
+	window.__feedBench = () => river.perfLedger.summary();
+}
+
+// Search jumps to the social search page.
+document.getElementById('feed-search-input').addEventListener('keydown', (event) => {
+	if (event.key === 'Enter' && event.target.value.trim()) {
+		location.href = '/social/?q=' + encodeURIComponent(event.target.value.trim());
+	}
+});
+</script>
+</body>
+</html>

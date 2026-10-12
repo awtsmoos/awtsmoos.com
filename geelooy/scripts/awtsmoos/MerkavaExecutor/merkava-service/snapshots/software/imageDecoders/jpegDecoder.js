@@ -233,21 +233,29 @@ function parseSOS(bytes, p, sof, dcH, acH, progressive){
     const c = sof.comps.find(x => x.id === cs);
     if (!c) throw new Error('SOS references unknown component');
     const td = tdta >> 4, ta = tdta & 15;
-    if (!dcH[td] || !acH[ta]) throw new Error('missing Huffman table');
-    comps.push({ ...c, dcT: dcH[td], acT: acH[ta] });
+    if (!dcH[td]) throw new Error('missing Huffman DC table ' + td);
+    comps.push({ ...c, dcT: dcH[td], _ta: ta });
   }
   const Ss = bytes[p], Se = bytes[p + 1], AhAl = bytes[p + 2];
   const Ah = AhAl >> 4, Al = AhAl & 15;
+  const isDC = (Ss === 0 && Se === 0);
   if (!progressive){
     if (Ss !== 0 || Se !== 63 || AhAl !== 0)
       throw new Error('unsupported JPEG scan (not baseline sequential)');
+    for (const c of comps){
+      if (!acH[c._ta]) throw new Error('missing Huffman AC table ' + c._ta);
+      c.acT = acH[c._ta];
+    }
   } else {
-    // Progressive scan validation per ITU-T T.81.
     if (Ss > 63 || Se > 63 || Ss > Se) throw new Error('bad progressive spectral selection');
     if (Ah > 13 || Al > 13) throw new Error('bad progressive successive approximation');
-    const isDC = (Ss === 0 && Se === 0);
     if (!isDC && ns !== 1) throw new Error('progressive AC scan must have exactly 1 component');
-    // DC scans may be interleaved; AC scans are not.
+    if (!isDC){
+      for (const c of comps){
+        if (!acH[c._ta]) throw new Error('missing Huffman AC table ' + c._ta);
+        c.acT = acH[c._ta];
+      }
+    }
   }
   return { comps, Ss, Se, Ah, Al };
 }
@@ -280,7 +288,8 @@ export function decodeJpeg(bytes){
   let p = 2;
   const qtbl = [null, null, null, null];
   const dcH = [null, null, null, null], acH = [null, null, null, null];
-  let sof = null, sos = null, sosEnd = 0, adobe = -1;
+  let sof = null, progressive = false, adobe = -1;
+  const scans = [];
   for (;;){
     if (p + 2 > bytes.length) throw new Error('truncated JPEG headers');
     if (bytes[p] !== 0xFF) throw new Error('expected JPEG marker at offset ' + p);
@@ -289,17 +298,26 @@ export function decodeJpeg(bytes){
       if (p >= bytes.length) throw new Error('truncated JPEG headers');
       m = bytes[p++];
     }
-    if (m === 0xD9) throw new Error('unexpected EOI before SOS');
+    if (m === 0xD9){
+      if (scans.length === 0) throw new Error('unexpected EOI before SOS');
+      break;
+    }
     if (m === 0xD8 || m === 0x01 || (m >= 0xD0 && m <= 0xD7)) continue; // standalone
     if (p + 2 > bytes.length) throw new Error('truncated JPEG headers');
     const len = u16at(p); p += 2;
     if (len < 2 || p + len - 2 > bytes.length) throw new Error('truncated JPEG segment');
     const end = p + len - 2;
-    if (m === 0xDA){ sos = parseSOS(bytes, p, sof, dcH, acH); sosEnd = end; break; }
+    if (m === 0xDA){
+      const sos = parseSOS(bytes, p, sof, dcH, acH, progressive);
+      const scan = extractScan(bytes, end);
+      scans.push({ sos, ...scan });
+      p = scan.endPos;
+      continue;
+    }
     switch (m){
       case 0xDB: parseDQT(bytes, p, end, qtbl); break;
-      case 0xC0: sof = parseSOF(bytes, p); break;
-      case 0xC2: throw new Error('progressive JPEG (SOF2) unsupported');
+      case 0xC0: sof = parseSOF(bytes, p); progressive = false; break;
+      case 0xC2: sof = parseSOF(bytes, p); progressive = true; break;
       case 0xC1: case 0xC3: case 0xC5: case 0xC6: case 0xC7:
       case 0xC9: case 0xCA: case 0xCB: case 0xCD: case 0xCE: case 0xCF:
         throw new Error('unsupported JPEG SOF marker');
@@ -314,11 +332,18 @@ export function decodeJpeg(bytes){
     }
     p = end;
   }
-  if (!sof) throw new Error('JPEG missing SOF0');
+  if (!sof) throw new Error('JPEG missing SOF');
   if (adobe === 0) throw new Error('unsupported JPEG colorspace (Adobe transform 0)');
+  if (scans.length === 0) throw new Error('JPEG has no scans');
 
-  const scan = extractScan(bytes, sosEnd);
-  const comps = sos.comps;
+  return progressive
+    ? decodeProgressiveScans(sof, qtbl, scans)
+    : decodeBaselineScan(bytes, sof, qtbl, scans[0]);
+}
+
+// Baseline sequential scan decode (SOF0).
+function decodeBaselineScan(bytes, sof, qtbl, scan){
+  const comps = scan.sos.comps;
   let maxH = 1, maxV = 1;
   for (const c of comps){
     maxH = Math.max(maxH, c.h); maxV = Math.max(maxV, c.v);
@@ -374,6 +399,208 @@ export function decodeJpeg(bytes){
   while (bytes[e] === 0xFF) e++;
   if (bytes[e] !== 0xD9) throw new Error('missing EOI');
 
+  return jpegPostProcess(sof, comps, mcuCols, mcuRows, maxH, maxV);
+}
+
+// --- Progressive (SOF2) decoding -------------------------------------------
+// Multiple SOS scans refine DCT coefficients:
+//  - DC first (Ss=0,Se=0,Ah=0): DC differences, stored << Al.
+//  - DC refine (Ss=0,Se=0,Ah>0): one bit per block -> bit Al of DC.
+//  - AC first (Ah=0): coefficients Ss..Se, stored << Al, with EOB runs.
+//  - AC refine (Ah>0): correct nonzeros in Ss..Se, code new ones, EOB runs.
+// Single-component AC scans use raster block order (not MCU order).
+
+function decodeProgDCRfirst(br, sos, mcuCols, mcuRows){
+  const { Al } = sos;
+  for (const c of sos.comps) c.pred = 0;
+  for (let my = 0; my < mcuRows; my++)
+    for (let mx = 0; mx < mcuCols; mx++)
+      for (const c of sos.comps){
+        const buf = c.buf;
+        for (let by = 0; by < c.v; by++) for (let bx = 0; bx < c.h; bx++){
+          const cat = huffDecode(br, c.dcT);
+          if (cat < 0 || cat > 16) throw new Error('bad progressive DC category');
+          let diff = 0;
+          if (cat !== 0){
+            diff = br.get(cat);
+            if (diff < (1 << (cat - 1))) diff += ((-1) << cat) + 1;
+          }
+          c.pred += diff;
+          const bi = ((my * c.v + by) * (mcuCols * c.h) + (mx * c.h + bx));
+          buf[bi * 64] = c.pred << Al;
+        }
+      }
+}
+
+function decodeProgDCRefine(br, sos, mcuCols, mcuRows){
+  const bit = 1 << sos.Al;
+  for (const c of sos.comps){
+    const buf = c.buf;
+    for (let my = 0; my < mcuRows; my++)
+      for (let mx = 0; mx < mcuCols; mx++)
+        for (let by = 0; by < c.v; by++) for (let bx = 0; bx < c.h; bx++){
+          const bi = ((my * c.v + by) * (mcuCols * c.h) + (mx * c.h + bx));
+          if (br.get(1)) buf[bi * 64] |= bit;
+        }
+  }
+}
+
+function decodeProgACFirst(br, sos, mcuCols, mcuRows){
+  const { Ss, Se, Al } = sos;
+  const c = sos.comps[0], buf = c.buf;
+  const bw = mcuCols * c.h, bh = mcuRows * c.v;
+  const total = bw * bh;
+  let eobRun = 0;
+  for (let bi = 0; bi < total; bi++){
+    const base = bi * 64;
+    if (eobRun > 0){ eobRun--; continue; }
+    let k = Ss;
+    while (k <= Se){
+      const rs = huffDecode(br, c.acT);
+      const r = rs >> 4, s = rs & 15;
+      if (s === 0){
+        if (r === 15){ k += 16; continue; }
+        eobRun = r > 0 ? (1 << r) + br.get(r) - 1 : 0;
+        break;
+      }
+      k += r;
+      if (k > Se) throw new Error('progressive AC overflow');
+      let v = br.get(s);
+      if (v < (1 << (s - 1))) v += ((-1) << s) + 1;
+      buf[base + ZZ[k]] = v << Al;
+      k++;
+    }
+  }
+}
+
+function decodeProgACRefine(br, sos, mcuCols, mcuRows){
+  const { Ss, Se, Al } = sos;
+  const c = sos.comps[0], buf = c.buf;
+  const bit = 1 << Al;
+  const bw = mcuCols * c.h, bh = mcuRows * c.v;
+  const total = bw * bh;
+  let eobRun = 0;
+  for (let bi = 0; bi < total; bi++){
+    const base = bi * 64;
+    let k = Ss;
+    if (eobRun > 0){
+      while (k <= Se){
+        const idx = base + ZZ[k];
+        if (buf[idx] !== 0 && br.get(1)) buf[idx] += (buf[idx] > 0 ? bit : -bit);
+        k++;
+      }
+      eobRun--;
+      continue;
+    }
+    while (k <= Se){
+      const idx = base + ZZ[k];
+      if (buf[idx] !== 0){
+        if (br.get(1)) buf[idx] += (buf[idx] > 0 ? bit : -bit);
+        k++;
+        continue;
+      }
+      const rs = huffDecode(br, c.acT);
+      const r = rs >> 4, s = rs & 15;
+      if (s === 0){
+        if (r === 15){ k += 16; continue; }
+        eobRun = r > 0 ? (1 << r) + br.get(r) - 1 : 0;
+        k++;
+        while (k <= Se){
+          const ridx = base + ZZ[k];
+          if (buf[ridx] !== 0 && br.get(1)) buf[ridx] += (buf[ridx] > 0 ? bit : -bit);
+          k++;
+        }
+        break;
+      }
+      let zerosSkipped = 0;
+      while (zerosSkipped < r){
+        const zidx = base + ZZ[k];
+        if (buf[zidx] !== 0){
+          if (br.get(1)) buf[zidx] += (buf[zidx] > 0 ? bit : -bit);
+        } else {
+          zerosSkipped++;
+        }
+        k++;
+        if (k > Se) throw new Error('progressive AC refine overflow');
+      }
+      const nidx = base + ZZ[k];
+      let v = br.get(s);
+      if (v < (1 << (s - 1))) v += ((-1) << s) + 1;
+      let nv = v << Al;
+      if (br.get(1)) nv += (nv > 0 ? bit : -bit);
+      buf[nidx] = nv;
+      k++;
+    }
+  }
+}
+
+function decodeProgressiveScans(sof, qtbl, scans){
+  let maxH = 1, maxV = 1;
+  for (const c of sof.comps){ maxH = Math.max(maxH, c.h); maxV = Math.max(maxV, c.v); }
+  const mcuCols = Math.ceil(sof.w / (maxH * 8)), mcuRows = Math.ceil(sof.h / (maxV * 8));
+
+  for (const c of sof.comps){
+    const qt = qtbl[c.tq];
+    if (!qt) throw new Error('missing quantization table ' + c.tq);
+    const dq = new Float64Array(64);
+    for (let i = 0; i < 64; i++) dq[i] = qt[i] * AAN[i >> 3] * AAN[i & 7] * 8;
+    c.dq = dq; c.pred = 0;
+    c.pw = mcuCols * c.h * 8; c.ph = mcuRows * c.v * 8;
+    c.plane = new Float32Array(c.pw * c.ph);
+    c.buf = new Int32Array(mcuCols * c.h * mcuRows * c.v * 64);
+  }
+  const compById = new Map(sof.comps.map(c => [c.id, c]));
+
+  for (const scan of scans){
+    const sos = scan.sos;
+    const active = sos.comps.map(sc => {
+      const c = compById.get(sc.id);
+      if (!c) throw new Error('SOS references unknown component');
+      return { ...c, dcT: sc.dcT, acT: sc.acT };
+    });
+    const aso = { ...sos, comps: active };
+    const br = new BitReader(scan.data);
+    if (sos.Ss === 0 && sos.Se === 0){
+      if (sos.Ah === 0) decodeProgDCRfirst(br, aso, mcuCols, mcuRows);
+      else decodeProgDCRefine(br, aso, mcuCols, mcuRows);
+    } else {
+      if (sos.Ah === 0) decodeProgACFirst(br, aso, mcuCols, mcuRows);
+      else decodeProgACRefine(br, aso, mcuCols, mcuRows);
+    }
+  }
+
+  const s = new Float64Array(64), d = new Float64Array(64);
+  for (const c of sof.comps){
+    const buf = c.buf, dq = c.dq, pl = c.plane, pw = c.pw;
+    const bw = mcuCols * c.h;
+    const totalBlocks = mcuRows * c.v * bw;
+    for (let bi = 0; bi < totalBlocks; bi++){
+      const base = bi * 64;
+      const x0 = (bi % bw) * 8, y0 = ((bi / bw) | 0) * 8;
+      let hasAC = false;
+      for (let i = 1; i < 64; i++) if (buf[base + i] !== 0){ hasAC = true; break; }
+      if (!hasAC){
+        const dcVal = buf[base] * dq[0] * 0.015625 + 128;
+        for (let y = 0; y < 8; y++){
+          const ro = (y0 + y) * pw + x0;
+          for (let x = 0; x < 8; x++) pl[ro + x] = dcVal;
+        }
+        continue;
+      }
+      for (let i = 0; i < 64; i++) s[i] = buf[base + i] * dq[i];
+      aanIDCT(s, d);
+      for (let y = 0; y < 8; y++){
+        const ro = (y0 + y) * pw + x0, so = y * 8;
+        for (let x = 0; x < 8; x++) pl[ro + x] = d[so + x] + 128;
+      }
+    }
+  }
+
+  return jpegPostProcess(sof, sof.comps, mcuCols, mcuRows, maxH, maxV);
+}
+
+// Shared final stage: chroma upsample + YCbCr->RGB.
+function jpegPostProcess(sof, comps, mcuCols, mcuRows, maxH, maxV){
   const fullW = mcuCols * maxH * 8, fullH = mcuRows * maxV * 8;
   const gray = comps.length === 1;
   const lum = comps[0].plane;

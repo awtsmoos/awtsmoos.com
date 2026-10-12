@@ -51,25 +51,15 @@
 		}, 0);
 	}
 
-	/**
-	 * Applies minimal user-agent display defaults after author CSS is parsed.
-	 * Iterative (explicit stack) instead of recursion: deep documents can exceed
-	 * the call stack, and this runs on every parse. Order-independent per node.
-	 */
-	function applyHtmlDefaultDisplay(root) {
-		const stack = [root];
-		while (stack.length > 0) {
-			const node = stack.pop();
-			const children = node.children || [];
-			for (let i = children.length - 1; i >= 0; i -= 1) {
-				const child = children[i];
-				const inlineDisplay = child.style.getPropertyValue?.("display");
-				const computedDisplay = child.ownerDocument?.cssEngine?.compute(child)?.display;
-				if (!inlineDisplay && !computedDisplay) {
-					child.style.setProperty?.("display", defaultHtmlDisplay(child.localName));
-				}
-				stack.push(child);
+	/** Applies minimal user-agent display defaults after author CSS is parsed. */
+	function applyHtmlDefaultDisplay(node) {
+		for (const child of node.children || []) {
+			const inlineDisplay = child.style.getPropertyValue?.("display");
+			const computedDisplay = child.ownerDocument?.cssEngine?.compute(child)?.display;
+			if (!inlineDisplay && !computedDisplay) {
+				child.style.setProperty?.("display", defaultHtmlDisplay(child.localName));
 			}
+			applyHtmlDefaultDisplay(child);
 		}
 	}
 

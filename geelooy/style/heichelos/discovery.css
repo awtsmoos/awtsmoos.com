@@ -14,3 +14,21 @@
 @import "./discovery-torah.css?v=torah-first-008";
 @import "./discovery-dream.css?v=torah-first-008";
 @import "./discovery-motion.css?v=torah-first-motion-001";
+
+/* B"H — Discovery motion tokens.
+ * discovery-cards.css animates .social-space-card with
+ * var(--motion-fast) var(--ease-out), but neither token was defined in this
+ * manifest's live cascade, so the whole card hover transition was silently
+ * dropped (cards snapped instead of lifting). Defined here so every sheet in
+ * this manifest resolves them. LAW 8 design reference:
+ * heichelos-discovery-cards-ref (futuristic glass cards, hover lift).
+ */
+:root {
+	--ease-out: cubic-bezier(.2, .8, .2, 1);
+	--motion-fast: 150ms;
+}
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--motion-fast: .01ms;
+	}
+}

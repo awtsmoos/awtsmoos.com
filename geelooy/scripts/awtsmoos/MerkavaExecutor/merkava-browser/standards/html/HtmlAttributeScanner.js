@@ -10,83 +10,68 @@
 		Object.assign(root.Merkava, factory(root.Merkava));
 	}
 })(typeof self !== "undefined" ? self : this, function(characterReferences) {
-	/**
-	 * Scans one attribute name/value pair starting at state.at (first name char).
-	 * Uses charCode classification instead of regex/sets, and native indexOf
-	 * for quoted values (the common case) instead of char-by-char walking.
-	 *
-	 * @param {object} state Tokenizer state ({source, at}).
-	 * @returns {{name:string,value:string,next:number}|null}
-	 */
-	function scanHtmlAttribute(state) {
-		const s = state.source;
-		const len = s.length;
-		let at = state.at;
-		// Read the attribute name: stop at space, /, >, =, quotes.
-		const nameStart = at;
-		while (at < len) {
-			const c = s.charCodeAt(at);
-			if (c === 0x20 || c === 0x09 || c === 0x0a || c === 0x0c || c === 0x0d || // space
-				c === 0x2f || c === 0x3e || // "/" ">"
-				c === 0x3d || c === 0x22 || c === 0x27) { // "=" '"' "'"
-				break;
-			}
-			at++;
-		}
-		if (at === nameStart) {
+	const decode = characterReferences.decodeHtmlCharacterReferences;
+
+	/** Reads one quoted or unquoted HTML attribute. */
+	function readHtmlAttribute(state) {
+		const name = readHtmlName(state).toLowerCase();
+		if (!name) {
 			return null;
 		}
-		const name = s.slice(nameStart, at).toLowerCase();
-		// Skip spaces between name and "=".
-		while (at < len) {
-			const c = s.charCodeAt(at);
-			if (c !== 0x20 && c !== 0x09 && c !== 0x0a && c !== 0x0c && c !== 0x0d) break;
-			at++;
+		skipHtmlSpace(state);
+		if (state.source[state.at] !== "=") {
+			return Object.freeze({ name, value: "" });
 		}
-		// Bare attribute (no "="): value is "".
-		if (at >= len || s.charCodeAt(at) !== 0x3d) { // "="
-			return { name, next: at, value: "" };
+		state.at += 1;
+		skipHtmlSpace(state);
+		const first = state.source[state.at];
+		const quote = first === '"' || first === "'" ? first : "";
+		if (quote) {
+			state.at += 1;
 		}
-		at++; // consume "="
-		while (at < len) {
-			const c = s.charCodeAt(at);
-			if (c !== 0x20 && c !== 0x09 && c !== 0x0a && c !== 0x0c && c !== 0x0d) break;
-			at++;
+		const start = state.at;
+		while (state.at < state.source.length && !attributeEnded(state.source[state.at], quote)) {
+			state.at += 1;
 		}
-		if (at >= len) {
-			return { name, next: at, value: "" };
+		const value = decode(state.source.slice(start, state.at));
+		if (quote && state.source[state.at] === quote) {
+			state.at += 1;
 		}
-		const quote = s.charCodeAt(at);
-		if (quote === 0x22 || quote === 0x27) { // '"' or "'"
-			// Native indexOf for the closing quote: the single biggest win for
-			// attribute-heavy markup (was: char-by-char loop).
-			const close = s.indexOf(s[at], at + 1);
-			const end = close < 0 ? len : close;
-			const raw = s.slice(at + 1, end);
-			return {
-				name,
-				next: close < 0 ? len : close + 1,
-				value: characterReferences.decodeHtmlCharacterReferences(raw)
-			};
-		}
-		// Unquoted value: read until whitespace or ">" (a "/" is part of the
-		// value per the HTML spec, e.g. <div a=b/> has value "b/").
-		const valueStart = at;
-		while (at < len) {
-			const c = s.charCodeAt(at);
-			if (c === 0x20 || c === 0x09 || c === 0x0a || c === 0x0c || c === 0x0d ||
-				c === 0x3e) {
-				break;
-			}
-			at++;
-		}
-		const raw = s.slice(valueStart, at);
-		return {
-			name,
-			next: at,
-			value: characterReferences.decodeHtmlCharacterReferences(raw)
-		};
+		return Object.freeze({ name, value });
 	}
 
-	return { scanHtmlAttribute };
+	/** Reads a tag or attribute name from the current scanner position. */
+	function readHtmlName(state) {
+		const start = state.at;
+		while (state.at < state.source.length && isNameCharacter(state.source[state.at])) {
+			state.at += 1;
+		}
+		return state.source.slice(start, state.at);
+	}
+
+	/** Skips HTML ASCII whitespace. */
+	function skipHtmlSpace(state) {
+		while (state.at < state.source.length && isHtmlSpace(state.source[state.at])) {
+			state.at += 1;
+		}
+	}
+
+	function isHtmlSpace(character) {
+		return " \t\r\n\f".includes(character);
+	}
+
+	function isNameCharacter(character) {
+		return Boolean(character) && !" \t\r\n\f/>=\"'".includes(character);
+	}
+
+	function attributeEnded(character, quote) {
+		return quote ? character === quote : !character || isHtmlSpace(character) || character === ">";
+	}
+
+	return {
+		isHtmlSpace,
+		readHtmlAttribute,
+		readHtmlName,
+		skipHtmlSpace
+	};
 });
