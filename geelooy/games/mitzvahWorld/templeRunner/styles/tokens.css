@@ -66,3 +66,14 @@
 		--glass-soft: rgba(20, 13, 10, 0.88);
 	}
 }
+
+/* B"H — Shared text token.
+ * base.css, controls and overlays paint text with var(--aw-text), but no sheet
+ * in this game's cascade defined it, so every one of those color declarations
+ * was silently dropped. Scoped to the route root so it inherits into
+ * #game-shell and every control. Value matches the game's ivory text.
+ * LAW 8 design reference: temple-runner-hud-ref (ivory text on dark glass).
+ */
+.temple-runner-route {
+	--aw-text: #fff9e8;
+}
