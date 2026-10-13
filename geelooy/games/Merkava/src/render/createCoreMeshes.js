@@ -4,6 +4,9 @@
 /**
  * Roads, coins, warning lines, soldiers, and the chariot arise from local primitives.
  * The Awtsmoos grants form its instant while Awtsmoos.com reveals raw WebGL vessels.
+ *
+ * B"H — Yaakov 2026-10-13: every mesh now carries box UVs so Drive textures
+ * have coordinates to land on. No more flat colors.
  */
 import {
 	cubeMesh,
@@ -15,24 +18,25 @@ import {
 	transformMesh
 } from '../../../../libs/awtsmoos-procedural/src/index.js';
 import { COLORS } from '../config/gameConfig.js';
+import { withBoxUVs } from './boxUVs.js';
 
 export function createCoreMeshes() {
 	return {
-		road: cubeMesh({ size: [11, 0.16, 120], color: COLORS.road }),
-		lane: cubeMesh({ size: [0.08, 0.035, 4.2], color: COLORS.lane }),
-		chariot: createChariot(),
-		soldier: createSoldier(),
-		shot: sphereMesh({ radius: 0.13, rings: 5, segments: 8, color: COLORS.shot }),
-		enemyShot: sphereMesh({ radius: 0.18, rings: 5, segments: 8, color: COLORS.negative }),
-		gate: createGate(),
-		spark: starMesh({ points: 6, outer: 0.45, inner: 0.2, height: 0.12, color: COLORS.spark }),
-		prutah: createCoin(COLORS.prutah),
-		goldenPrutah: createCoin(COLORS.goldenPrutah),
-		boss: createBoss(),
-		health: cubeMesh({ size: [1, 0.08, 0.08], color: COLORS.health }),
-		pillar: cylinderMesh({ radius: 0.24, height: 5.5, segments: 8, color: COLORS.scenery }),
-		particle: sphereMesh({ radius: 0.1, rings: 4, segments: 6, color: COLORS.spark }),
-		warning: cubeMesh({ size: [2.7, 0.04, 80], color: COLORS.warning })
+		road: withBoxUVs(cubeMesh({ size: [11, 0.16, 120], color: COLORS.road }), 0.08),
+		lane: withBoxUVs(cubeMesh({ size: [0.08, 0.035, 4.2], color: COLORS.lane }), 0.5),
+		chariot: withBoxUVs(createChariot(), 0.45),
+		soldier: withBoxUVs(createSoldier(), 0.6),
+		shot: withBoxUVs(sphereMesh({ radius: 0.13, rings: 5, segments: 8, color: COLORS.shot }), 0.8),
+		enemyShot: withBoxUVs(sphereMesh({ radius: 0.18, rings: 5, segments: 8, color: COLORS.negative }), 0.8),
+		gate: withBoxUVs(createGate(), 0.4),
+		spark: withBoxUVs(starMesh({ points: 6, outer: 0.45, inner: 0.2, height: 0.12, color: COLORS.spark }), 0.8),
+		prutah: withBoxUVs(createCoin(COLORS.prutah), 0.9),
+		goldenPrutah: withBoxUVs(createCoin(COLORS.goldenPrutah), 0.9),
+		boss: withBoxUVs(createBoss(), 0.25),
+		health: withBoxUVs(cubeMesh({ size: [1, 0.08, 0.08], color: COLORS.health }), 0.8),
+		pillar: withBoxUVs(cylinderMesh({ radius: 0.24, height: 5.5, segments: 8, color: COLORS.scenery }), 0.35),
+		particle: withBoxUVs(sphereMesh({ radius: 0.1, rings: 4, segments: 6, color: COLORS.spark }), 0.8),
+		warning: withBoxUVs(cubeMesh({ size: [2.7, 0.04, 80], color: COLORS.warning }), 0.12)
 	};
 }
 

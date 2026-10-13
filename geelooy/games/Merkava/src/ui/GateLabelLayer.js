@@ -13,13 +13,13 @@ export class GateLabelLayer {
 		this.labels = new Map();
 	}
 
-	sync(gates) {
+	sync(gates, playerX = 0) {
 		const activeIds = new Set();
 		for (const gate of gates) {
 			activeIds.add(gate.id);
 			const label = this.ensureLabel(gate);
 			this.updateContent(label, gate);
-			this.updatePosition(label, gate);
+			this.updatePosition(label, gate, playerX);
 		}
 		for (const [id, element] of this.labels) {
 			if (!activeIds.has(id)) {
@@ -48,8 +48,8 @@ export class GateLabelLayer {
 		label.classList.toggle('negative', gate.kind !== 'positive');
 	}
 
-	updatePosition(label, gate) {
-		const projected = projectPoint([gate.x, 3.35, gate.z]);
+	updatePosition(label, gate, playerX = 0) {
+		const projected = projectPoint([gate.x, 3.35, gate.z], undefined, playerX);
 		label.style.left = `${projected.x * 100}%`;
 		label.style.top = `${projected.y * 100}%`;
 		label.style.opacity = projected.visible ? '1' : '0';

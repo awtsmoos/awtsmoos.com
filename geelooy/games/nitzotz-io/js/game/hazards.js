@@ -1,7 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-import { dist } from '../math.js';
+import { dist, heightAt } from '../math.js';
 import { recordMechanicDefeat } from '../mechanics/runtime.js';
 import { evaluateAchievements } from '../progression/achievements.js';
 import { recordRivalDefeat } from '../progression/records.js';
@@ -66,6 +66,11 @@ function respawn(world, hole) {
 	const angle = world.director.elapsed * 0.37 + (hole.index || 0) * 1.7;
 	hole.x = Math.cos(angle) * world.level.bounds * 0.24;
 	hole.y = Math.sin(angle) * world.level.bounds * 0.24;
+	// B"H — Yaakov 2026-10-13: snap z at re-form time too; the old code left
+	// a stale height, so the player could reappear underground.
+	const levelIndex = Number.isFinite(world.level?.index) ? world.level.index : 0;
+	const ground = heightAt(hole.x, hole.y, levelIndex);
+	hole.z = Number.isFinite(ground) ? ground : 0;
 	hole.vx = 0;
 	hole.vy = 0;
 	hole.respawn = 1.2;

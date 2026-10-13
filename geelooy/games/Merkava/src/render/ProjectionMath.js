@@ -4,10 +4,14 @@
 /**
  * A world point becomes a readable screen word without leaving raw-WebGL truth.
  * The Awtsmoos is beyond projection while Awtsmoos.com reveals this finite shadow.
+ *
+ * B"H — Yaakov 2026-10-13: the camera chases the player's lane, so label
+ * projection takes playerX too and keys its cache on it.
  */
 import { createViewProjection } from './CameraProjection.js';
 
 let cachedAspect = 0;
+let cachedPlayerX = null;
 let cachedMatrix = null;
 
 /**
@@ -15,10 +19,11 @@ let cachedMatrix = null;
  *
  * @param {number[]} point - World-space x, y, and z coordinates.
  * @param {number} [aspect] - Optional viewport aspect for deterministic callers.
+ * @param {number} [playerX=0] - Player lane position for the chase camera.
  * @returns {{x: number, y: number, depth: number, scale: number, visible: boolean}}
  */
-export function projectPoint(point, aspect = currentAspect()) {
-	const matrix = projectionFor(aspect);
+export function projectPoint(point, aspect = currentAspect(), playerX = 0) {
+	const matrix = projectionFor(aspect, playerX);
 	const clip = transformPoint(matrix, point);
 	const safeW = Math.abs(clip.w) > 0.000001 ? clip.w : 0.000001;
 	const normalizedX = clip.x / safeW;
@@ -41,11 +46,13 @@ export function projectPoint(point, aspect = currentAspect()) {
 	};
 }
 
-function projectionFor(aspect) {
+function projectionFor(aspect, playerX) {
 	const safeAspect = Number.isFinite(aspect) && aspect > 0 ? aspect : 1;
-	if (!cachedMatrix || cachedAspect !== safeAspect) {
+	const safeX = Number.isFinite(playerX) ? playerX : 0;
+	if (!cachedMatrix || cachedAspect !== safeAspect || cachedPlayerX !== safeX) {
 		cachedAspect = safeAspect;
-		cachedMatrix = createViewProjection(safeAspect);
+		cachedPlayerX = safeX;
+		cachedMatrix = createViewProjection(safeAspect, safeX);
 	}
 	return cachedMatrix;
 }

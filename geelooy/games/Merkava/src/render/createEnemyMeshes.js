@@ -4,6 +4,8 @@
 /**
  * Distinct silhouettes give every shell readable identity before it attacks.
  * The Awtsmoos is beyond silhouette while Awtsmoos.com reveals these local meshes.
+ *
+ * B"H — Yaakov 2026-10-13: every enemy mesh carries box UVs for Drive textures.
  */
 import {
 	cubeMesh,
@@ -15,20 +17,21 @@ import {
 	transformMesh
 } from '../../../../libs/awtsmoos-procedural/src/index.js';
 import { COLORS } from '../config/gameConfig.js';
+import { withBoxUVs } from './boxUVs.js';
 
 export function createEnemyMeshes() {
 	return {
-		klipah: body(COLORS.klipah, 'sphere'),
-		golem: body(COLORS.golem, 'block'),
-		raven: raven(),
-		archer: archer(),
-		drainer: body([0.16, 0.72, 0.62, 1], 'ring'),
-		splitter: body([0.92, 0.38, 0.68, 1], 'double'),
-		summoner: body([0.35, 0.18, 0.75, 1], 'crown'),
-		corrupter: body([0.85, 0.1, 0.18, 1], 'ring'),
-		thief: body([0.92, 0.56, 0.08, 1], 'bag'),
-		elite: body([0.9, 0.18, 0.92, 1], 'crown'),
-		obstacle: cubeMesh({ size: [1.9, 2.2, 1.6], color: [0.32, 0.29, 0.36, 1] })
+		klipah: withBoxUVs(body(COLORS.klipah, 'sphere'), 0.5),
+		golem: withBoxUVs(body(COLORS.golem, 'block'), 0.5),
+		raven: withBoxUVs(raven(), 0.6),
+		archer: withBoxUVs(archer(), 0.6),
+		drainer: withBoxUVs(body([0.16, 0.72, 0.62, 1], 'ring'), 0.5),
+		splitter: withBoxUVs(body([0.92, 0.38, 0.68, 1], 'double'), 0.5),
+		summoner: withBoxUVs(body([0.35, 0.18, 0.75, 1], 'crown'), 0.5),
+		corrupter: withBoxUVs(body([0.85, 0.1, 0.18, 1], 'ring'), 0.5),
+		thief: withBoxUVs(body([0.92, 0.56, 0.08, 1], 'bag'), 0.5),
+		elite: withBoxUVs(body([0.9, 0.18, 0.92, 1], 'crown'), 0.5),
+		obstacle: withBoxUVs(cubeMesh({ size: [1.9, 2.2, 1.6], color: [0.32, 0.29, 0.36, 1] }), 0.4)
 	};
 }
 

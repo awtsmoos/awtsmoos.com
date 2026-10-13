@@ -166,7 +166,8 @@ export class WebGLRenderer {
   }
 
   clear() {
-    this.gl.clearColor(0.0, 0.0, 0.0, 1.0); 
+    // B"H — Yaakov 2026-10-13: no pure-black voids; deep cosmic blue instead.
+    this.gl.clearColor(0.05, 0.07, 0.16, 1.0);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
   }
 }

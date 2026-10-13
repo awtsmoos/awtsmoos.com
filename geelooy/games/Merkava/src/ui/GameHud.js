@@ -35,14 +35,40 @@ export class GameHud {
 		on('permanentButton', 'click', actions.permanent);
 		on('recordsButton', 'click', actions.records);
 		on('resetSaveButton', 'click', actions.resetSave);
+		on('abilityMini', 'click', actions.ability);
+		on('pauseMini', 'click', actions.pause);
 		on('volumeInput', 'input', actions.settings);
 		on('muteInput', 'change', actions.settings);
 		on('qualityInput', 'change', actions.settings);
+		// B"H — Yaakov 2026-10-13: HUD starts minimal; the toggle reveals the full HUD.
+		this.elements.hudToggle.addEventListener('click', () => {
+			const minimal = this.elements.hud.classList.toggle('minimal');
+			this.elements.hudToggle.setAttribute('aria-expanded', String(!minimal));
+		});
 	}
 
 	update(state, save) {
 		this.presenter.update(state, save);
+		this.syncMinimalHud();
 		this.consumeLatestEvent(state);
+	}
+
+	/**
+	 * Mirrors the two numbers that matter into the slim pill:
+	 * health bar fill and spark count. Never throws if a node is missing.
+	 */
+	syncMinimalHud() {
+		const e = this.elements;
+		try {
+			if (e.troopCountMini && e.troopCount) {
+				e.troopCountMini.textContent = e.troopCount.textContent;
+			}
+			if (e.healthFillMini && e.healthFill) {
+				e.healthFillMini.style.transform = e.healthFill.style.transform;
+			}
+		} catch (error) {
+			// The slim pill is decorative; the full HUD remains the source of truth.
+		}
 	}
 
 	enterGame() {

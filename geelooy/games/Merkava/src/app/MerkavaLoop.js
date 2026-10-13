@@ -72,9 +72,9 @@ export class MerkavaLoop {
 
 	render() {
 		const state = this.systems.state;
-		this.systems.renderer.beginFrame(state.elapsed, state.worldIndex + 1);
+		this.systems.renderer.beginFrame(state.elapsed, state.worldIndex + 1, state.playerX);
 		this.systems.scene.render(state);
-		this.labels.sync(state.gates);
+		this.labels.sync(state.gates, state.playerX);
 		this.hud.update(state, this.systems.save);
 	}
 }

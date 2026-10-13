@@ -20,8 +20,14 @@ import { cameraRelativeDirection } from './cameraRelativeDirection.js';
  */
 export function movePlayer(world, dt) {
 	const player = world.player;
+	// B"H — Yaakov 2026-10-13: defensive timestep clamp; the frame loop
+	// already clamps to 33ms, but debug/manual steppers must not tunnel.
+	const safeDt = Number.isFinite(dt) ? Math.min(Math.max(dt, 0), 0.05) : 0.016;
 	if (player.respawn > 0) {
-		return tickTimers(world, dt);
+		// B"H — Yaakov 2026-10-13: the ground snap must run even while
+		// re-forming, or the player sits at a stale height (underground).
+		snapToGround(world, player);
+		return tickTimers(world, safeDt);
 	}
 	const worldIntent = cameraRelativeDirection(
 		world.input,
@@ -41,24 +47,46 @@ export function movePlayer(world, dt) {
 		* magnitude
 		* ruleScale
 		* stunScale;
-	player.vx += direction.x * acceleration * dt;
-	player.vy += direction.y * acceleration * dt;
+	player.vx += direction.x * acceleration * safeDt;
+	player.vy += direction.y * acceleration * safeDt;
 	limitVelocity(player, maxSpeed);
-	const drag = Math.pow(0.0009, dt);
+	const drag = Math.pow(0.0009, safeDt);
 	player.vx *= drag;
 	player.vy *= drag;
 	player.x = clamp(
-		player.x + player.vx * dt,
+		player.x + player.vx * safeDt,
 		-world.level.bounds,
 		world.level.bounds
 	);
 	player.y = clamp(
-		player.y + player.vy * dt,
+		player.y + player.vy * safeDt,
 		-world.level.bounds,
 		world.level.bounds
 	);
-	player.z = heightAt(player.x, player.y, world.level.index);
-	tickTimers(world, dt);
+	snapToGround(world, player);
+	tickTimers(world, safeDt);
+}
+
+/**
+ * B"H — Yaakov 2026-10-13: the player may never sit under the terrain.
+ * Snaps z to the terrain height every frame. A non-finite height (bad
+ * level index) keeps the last good z instead of NaN-poisoning the player,
+ * and a z far below the surface is pulled back up (safety net).
+ */
+function snapToGround(world, player) {
+	const levelIndex = Number.isFinite(world.level?.index) ? world.level.index : 0;
+	const ground = heightAt(player.x, player.y, levelIndex);
+	if (!Number.isFinite(ground)) {
+		if (!Number.isFinite(player.z)) {
+			player.z = 0;
+		}
+		return;
+	}
+	if (!Number.isFinite(player.z) || player.z < ground - 60) {
+		player.z = ground;
+		return;
+	}
+	player.z = ground;
 }
 
 /** Keeps velocity within the same finite movement envelope used before camera-relative input. */

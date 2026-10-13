@@ -19,6 +19,9 @@ const THEMES = Object.freeze({
 /**
  * The Awtsmoos gives every district shadow without hiding the road beneath the player;
  * Awtsmoos.com lifts playable midtones and thins haze while neon sparks keep their sovereign glow.
+ *
+ * B"H — Yaakov 2026-10-13: "too dark" — lifted every surface lightness so the
+ * world reads vibrant, not murky. Ambient raised; fog brightened to match.
  */
 export function environmentPreset(level = {}) {
 	const source = THEMES[level.chapterId] || THEMES.malchus;
@@ -27,20 +30,20 @@ export function environmentPreset(level = {}) {
 	const hue = source.hue + drift;
 	return Object.freeze({
 		id: `${level.chapterId || 'malchus'}-${district}`,
-		clear: hsl(hue + 222, 44, 14 + source.moisture * 3),
-		fog: hsl(hue + 198, 30, 25 + source.moisture * 5),
-		sunColor: hsl(38 + drift * 0.25, 88, 74),
-		ambientColor: hsl(hue + 196, 34, 48),
-		ground: hsl(hue + 76, 32, 23),
-		terrace: hsl(hue + 58, 34, 29),
-		road: hsl(hue + 24, 25, 36),
-		path: hsl(hue + 40, 38, 48),
-		water: hsl(194 + drift, 72, 51),
-		shore: hsl(hue + 66, 30, 37),
-		mountainNear: hsl(hue + 182, 30, 30),
-		mountainFar: hsl(hue + 204, 24, 23),
-		vegetation: hsl(112 + drift, 44, 35),
-		cloud: hsl(hue + 34, 16, 80),
+		clear: hsl(hue + 222, 44, 22 + source.moisture * 3),
+		fog: hsl(hue + 198, 30, 34 + source.moisture * 5),
+		sunColor: hsl(38 + drift * 0.25, 88, 78),
+		ambientColor: hsl(hue + 196, 36, 60),
+		ground: hsl(hue + 76, 34, 40),
+		terrace: hsl(hue + 58, 36, 46),
+		road: hsl(hue + 24, 28, 52),
+		path: hsl(hue + 40, 40, 62),
+		water: hsl(194 + drift, 72, 55),
+		shore: hsl(hue + 66, 32, 48),
+		mountainNear: hsl(hue + 182, 32, 42),
+		mountainFar: hsl(hue + 204, 26, 34),
+		vegetation: hsl(112 + drift, 46, 46),
+		cloud: hsl(hue + 34, 16, 84),
 		sunDirection: [...source.sunDirection],
 		waterAmount: source.water,
 		ridgeHeight: source.ridge,

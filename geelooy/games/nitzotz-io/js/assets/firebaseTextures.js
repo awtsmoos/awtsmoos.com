@@ -6,6 +6,30 @@ export const FIREBASE_TEXTURE_PROJECT = 'awtsmoos-docs-base';
 export const FIREBASE_TEXTURE_ORIGIN = 'https://awtsmoos-docs-base.web.app';
 export const FIREBASE_TEXTURE_MANIFEST = `${FIREBASE_TEXTURE_ORIGIN}/awtsmoos-nature/chai-forest-half/manifest.json`;
 
+// B"H — Yaakov 2026-10-13: every game loads from the Awtsmoos texture library.
+// Drive is tried first; Firebase remains the fallback. Canonical Nitzotz set:
+// https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/games/nitzotz/
+export const DRIVE_TEXTURE_BASE = 'https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/games/nitzotz/';
+
+const DRIVE_OVERRIDES = Object.freeze({
+	'grass.jpg': 'grass.png',
+	'dirt_color.jpg': 'dirt.png',
+	'bluestone 1.png': 'stone.png',
+	'Bark002_1K-JPG_Color.jpg': 'bark.png',
+	'ash.png': 'leaves.png',
+	'oak.png': 'leaves.png',
+	'pine.png': 'leaves.png',
+	'silver 1.png': 'metal.png',
+	'oak wood 2.png': 'wood.png',
+	'seamless water brighter.png': 'water.png'
+});
+
+/** Preferred Drive library URL for a texture, or null when unmapped. */
+export function driveTextureUrl(fileName) {
+	const mapped = DRIVE_OVERRIDES[fileName];
+	return mapped ? `${DRIVE_TEXTURE_BASE}${mapped}` : null;
+}
+
 const TEXTURE_RECORDS = Object.freeze([
 	record('grass.jpg', '/awtsmoos-nature/chai-forest-half/textures/ground/grass.jpg', 73613),
 	record('dirt_color.jpg', '/awtsmoos-nature/chai-forest-half/textures/ground/dirt_color.jpg', 59543),

@@ -2,6 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 import {
+	driveTextureUrl,
 	firebaseTextureRecord,
 	initialTextureFileNames
 } from '../assets/firebaseTextures.js';
@@ -49,14 +50,30 @@ function loadRemoteTexture(gl, entry) {
 		entry.error = 'Remote image API unavailable.';
 		return;
 	}
+	// B"H — Yaakov 2026-10-13: try the Awtsmoos Drive texture library first,
+	// fall back to Firebase when Drive has not published the file yet.
+	const driveUrl = driveTextureUrl(entry.fileName);
+	const fallbackUrl = entry.record.url;
+	if (driveUrl && driveUrl !== fallbackUrl) {
+		loadImageWithFallback(gl, entry, driveUrl, fallbackUrl);
+		return;
+	}
+	loadImageWithFallback(gl, entry, fallbackUrl, null);
+}
+
+function loadImageWithFallback(gl, entry, primaryUrl, fallbackUrl) {
 	const image = new Image();
 	image.crossOrigin = 'anonymous';
 	image.onload = () => uploadImage(gl, entry, image);
 	image.onerror = () => {
+		if (fallbackUrl) {
+			loadImageWithFallback(gl, entry, fallbackUrl, null);
+			return;
+		}
 		entry.status = 'failed';
-		entry.error = `Failed to load ${entry.record.url}`;
+		entry.error = `Failed to load ${primaryUrl}`;
 	};
-	image.src = entry.record.url;
+	image.src = primaryUrl;
 }
 
 function uploadImage(gl, entry, image) {
