@@ -1,96 +1,141 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- * The Awtsmoos shines through each weekday without forcing social machinery into the gate;
- * Awtsmoos.com lets date, portion, and Torah reference arrive in one touch, compact and straight.
+/* B"H — Daily Chitas day cards.
+ * Each day is a quiet doorway: weekday name, Hebrew date, and portion,
+ * set in warm parchment with a gold touch for today.
  */
+
 .chitas-week-list {
-	display: flex;
-	gap: .55rem;
-	overflow-x: auto;
-	padding: .1rem .05rem .5rem;
-	scroll-snap-type: x mandatory;
+  display: flex;
+  gap: 0.9rem;
+  overflow-x: auto;
+  padding: 0.25rem 0.1rem 0.75rem;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border, #e5ddcc) transparent;
 }
 
 .chitas-day-row {
-	display: grid;
-	grid-template-columns: 1fr auto;
-	gap: .35rem .7rem;
-	flex: 0 0 min(230px, 76vw);
-	padding: .78rem;
-	border: 1px solid rgba(122, 145, 176, .18);
-	border-radius: .9rem;
-	background: rgba(8, 15, 28, .88);
-	color: #f7f9ff;
-	text-decoration: none;
-	scroll-snap-align: center;
-	transition: transform 150ms ease, border-color 150ms ease, background 150ms ease;
-}
-
-.chitas-day-row:hover,
-.chitas-day-row:focus-visible,
-.chitas-day-row.is-selected-day {
-	border-color: rgba(113, 232, 255, .58);
-	background: linear-gradient(145deg, rgba(44, 166, 200, .12), rgba(8, 15, 28, .95));
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto 1fr auto;
+  gap: 0.45rem 0.8rem;
+  flex: 0 0 min(250px, 78vw);
+  padding: 1.15rem 1.2rem;
+  border: 1px solid var(--border, #e5ddcc);
+  border-radius: 14px;
+  background: var(--card, #ffffff);
+  color: var(--text, #2c2416);
+  text-decoration: none;
+  scroll-snap-align: center;
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
 }
 
 .chitas-day-row:hover {
-	transform: translateY(-2px);
+  transform: translateY(-3px);
+  border-color: var(--accent, #b8860b);
+  box-shadow: 0 8px 24px rgba(120, 90, 20, 0.10);
+}
+
+.chitas-day-row:focus {
+  outline: 2px solid var(--accent, #b8860b);
+  outline-offset: 2px;
+}
+
+.chitas-day-row:focus-visible {
+  outline: 2px solid var(--accent, #b8860b);
+  outline-offset: 2px;
+}
+
+.chitas-day-row:active {
+  transform: translateY(-1px);
+}
+
+/* Selected day: gold crown */
+.chitas-day-row.is-selected-day {
+  border-color: var(--accent, #b8860b);
+  border-top: 3px solid var(--accent, #b8860b);
+  background: var(--surface, #faf8f3);
+  box-shadow: 0 6px 20px rgba(120, 90, 20, 0.12);
 }
 
 .chitas-day-date {
-	grid-column: 1 / -1;
-	color: #71e8ff;
-	font: 800 .62rem/1 ui-monospace, monospace;
+  grid-column: 1 / -1;
+  color: var(--accent, #b8860b);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .chitas-day-body {
-	display: grid;
-	gap: .24rem;
-	min-width: 0;
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+  align-content: start;
 }
 
 .chitas-day-body strong {
-	font-size: .9rem;
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--text, #2c2416);
+}
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.chitas-day-body strong[dir="rtl"],
+.chitas-day-body .chitas-day-title-he {
+  font-family: "Noto Serif Hebrew", "David Libre", David, "Times New Roman", serif;
+  font-size: 1.12rem;
+}
 
 .chitas-day-reference {
-	color: rgba(225, 235, 250, .64);
-	font-size: .68rem;
-	line-height: 1.35;
-	overflow-wrap: anywhere;
+  color: var(--text-muted, #6b5f4a);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
 .chitas-day-action {
-	align-self: end;
-	color: #9ef2ff;
-	font-size: .66rem;
-	font-weight: 800;
+  grid-row: 3;
+  grid-column: 1 / -1;
+  align-self: end;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--accent, #b8860b);
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
+.chitas-day-row:hover .chitas-day-action {
+  text-decoration: underline;
+}
+
+/* ---------- Dark theme (inherits panel overrides) ---------- */
+
+/* ---------- Responsive ---------- */
+
 @media (min-width: 720px) {
-	.chitas-week-list {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		overflow: visible;
-	}
-	.chitas-day-row {
-		flex: none;
-	}
+  .chitas-week-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    overflow: visible;
+  }
+  .chitas-day-row {
+    flex: none;
+  }
 }
 
 @media (min-width: 1060px) {
-	.chitas-week-list {
-		grid-template-columns: repeat(4, minmax(0, 1fr));
-	}
+  .chitas-week-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.chitas-day-row {
-		transition: none;
-	}
-	.chitas-day-row:hover {
-		transform: none;
-	}
+  .chitas-day-row {
+    transition: none;
+  }
+  .chitas-day-row:hover,
+  .chitas-day-row:active {
+    transform: none;
+  }
 }

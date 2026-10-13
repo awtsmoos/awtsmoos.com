@@ -42,7 +42,7 @@ function createDatePicker(selectedDate, language) {
 	return picker;
 }
 
-export function createChitasWeekHeader(items, selectedDate, language) {
+export function createChitasWeekHeader(items, selectedDate, language, parshaHe) {
 	const firstDate = items[0]?.date || '';
 	const lastDate = items.at(-1)?.date || '';
 	const header = document.createElement('header');
@@ -50,23 +50,31 @@ export function createChitasWeekHeader(items, selectedDate, language) {
 	header.dir = language === 'he' ? 'rtl' : 'ltr';
 	const eyebrow = document.createElement('p');
 	eyebrow.className = 'chitas-week-eyebrow';
-	eyebrow.textContent = language === 'he' ? 'חת״ת יומי · חומש' : 'DAILY CHITAS · CHUMASH';
+	eyebrow.textContent = language === 'he' ? 'חת״ת יומי' : 'Daily Chitas';
 	const title = document.createElement('h2');
 	title.textContent = firstDate && lastDate ? `${firstDate} — ${lastDate}` : 'Daily Chitas';
+	if (parshaHe && language !== 'he') {
+		const he = document.createElement('span');
+		he.className = 'chitas-week-header-h2-he';
+		he.dir = 'rtl';
+		he.lang = 'he';
+		he.textContent = ` · ${parshaHe}`;
+		title.append(he);
+	}
 	const source = document.createElement('p');
 	source.className = 'chitas-week-source';
 	source.textContent = language === 'he'
-		? 'עברית מקורית · תנ״ך איקר'
-		: 'Canonical Hebrew · Ikar · English changes the interface only';
+		? 'שבעה ימים של לימוד · בחר יום לפתיחת השיעור'
+		: 'Seven days of study · choose a day to open its portion';
 	const controls = document.createElement('div');
 	controls.className = 'chitas-week-controls';
 	controls.append(
-		createButton(language === 'he' ? 'שבוע קודם' : 'Previous', () => navigate(addLocalDays(selectedDate, -7), language)),
+		createButton(language === 'he' ? 'שבוע קודם' : '← Previous', () => navigate(addLocalDays(selectedDate, -7), language)),
 		createButton(language === 'he' ? 'היום' : 'Today', () => navigate(new Date(), language)),
 		createDatePicker(selectedDate, language),
-		createButton(language === 'he' ? 'שבוע הבא' : 'Next', () => navigate(addLocalDays(selectedDate, 7), language)),
+		createButton(language === 'he' ? 'שבוע הבא' : 'Next →', () => navigate(addLocalDays(selectedDate, 7), language)),
 		createButton('עברית', () => navigate(selectedDate, 'he'), language === 'he'),
-		createButton('English UI', () => navigate(selectedDate, 'en'), language === 'en')
+		createButton('English', () => navigate(selectedDate, 'en'), language === 'en')
 	);
 	header.append(eyebrow, title, source, controls);
 	return header;

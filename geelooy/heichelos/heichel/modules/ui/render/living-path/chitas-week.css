@@ -1,100 +1,206 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- * The Awtsmoos gathers seven days into one calm week whose source stays bright and whose chrome stays slight;
- * Awtsmoos.com gives navigation room to breathe without pushing Torah out of sight.
+/* B"H — Daily Chitas week navigation.
+ * A calm, sacred companion: warm parchment, gold accents, generous space.
+ * The week crown sits quietly beneath the day's study — never competing.
  */
-@import url('./chitas-week-days.css?v=native-chitas-004');
+@import url('./chitas-week-days.css?v=native-chitas-005');
 
 .chitas-week-panel {
-	display: grid;
-	gap: .8rem;
-	width: min(100%, 1120px);
-	margin-inline: auto;
+  display: grid;
+  gap: 2rem;
+  width: min(100%, 1120px);
+  margin-inline: auto;
 }
+
+/* ---------- Ornamental divider between study and week ---------- */
+
+.chitas-section-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0.5rem 0;
+  color: var(--text-muted, #6b5f4a);
+}
+
+.chitas-section-divider::before,
+.chitas-section-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--border, #e5ddcc),
+    transparent
+  );
+}
+
+.chitas-section-divider-mark {
+  font-size: 0.9rem;
+  color: var(--accent, #b8860b);
+  line-height: 1;
+}
+
+/* ---------- Week crown ---------- */
 
 .chitas-week-header {
-	display: grid;
-	gap: .48rem;
-	padding: .85rem;
-	border: 1px solid rgba(113, 232, 255, .22);
-	border-radius: 1rem;
-	background: linear-gradient(145deg, rgba(28, 152, 194, .08), rgba(7, 13, 25, .96));
-}
-
-.chitas-week-eyebrow,
-.chitas-week-source {
-	margin: 0;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.75rem;
+  border: 1px solid var(--border, #e5ddcc);
+  border-radius: 16px;
+  background: var(--surface, #faf8f3);
 }
 
 .chitas-week-eyebrow {
-	color: #71e8ff;
-	font-size: .69rem;
-	font-weight: 900;
-	letter-spacing: .12em;
+  margin: 0;
+  color: var(--accent, #b8860b);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }
 
 .chitas-week-header h2 {
-	margin: 0;
-	font-size: clamp(1.12rem, 4vw, 1.55rem);
+  margin: 0;
+  font-size: clamp(1.25rem, 4vw, 1.7rem);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--text, #2c2416);
+}
 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.chitas-week-header-h2-he {
+  font-family: "Noto Serif Hebrew", "David Libre", David, "Times New Roman", serif;
+  font-weight: 600;
+}
 
 .chitas-week-source {
-	color: rgba(225, 235, 250, .66);
-	font-size: .76rem;
+  margin: 0;
+  color: var(--text-muted, #6b5f4a);
+  font-size: 0.88rem;
+  font-style: italic;
 }
+
+/* ---------- Controls ---------- */
 
 .chitas-week-controls {
-	display: grid;
-	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: .4rem;
-}
-
-.chitas-week-control,
-.chitas-week-date {
-	box-sizing: border-box;
-	min-width: 0;
-	min-height: 44px;
-	border: 1px solid rgba(113, 232, 255, .2);
-	border-radius: .7rem;
-	background: rgba(10, 22, 39, .78);
-	color: #f7f9ff;
-	font: inherit;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+  margin-top: 0.35rem;
 }
 
 .chitas-week-control {
-	padding: .58rem;
-	cursor: pointer;
+  box-sizing: border-box;
+  min-height: 44px;
+  padding: 0.6rem 1.25rem;
+  border: 1px solid var(--border, #e5ddcc);
+  border-radius: 999px;
+  background: var(--card, #ffffff);
+  color: var(--text, #2c2416);
+  font-size: 0.92rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.chitas-week-control:hover {
+  border-color: var(--accent, #b8860b);
+  background: var(--surface-hover, #f5f0e6);
+}
+
+.chitas-week-control:active {
+  transform: translateY(1px);
+}
+
+.chitas-week-control:focus {
+  outline: 2px solid var(--accent, #b8860b);
+  outline-offset: 2px;
+}
+
+.chitas-week-control:focus-visible {
+  outline: 2px solid var(--accent, #b8860b);
+  outline-offset: 2px;
 }
 
 .chitas-week-control.is-active {
-	border-color: #71e8ff;
-	background: rgba(74, 195, 230, .12);
+  background: var(--accent, #b8860b);
+  border-color: var(--accent, #b8860b);
+  color: var(--on-accent, #ffffff);
+}
+
+.chitas-week-control:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 .chitas-week-date {
-	grid-column: 1 / -1;
-	padding: .55rem;
-	color-scheme: dark;
+  box-sizing: border-box;
+  min-height: 44px;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--border, #e5ddcc);
+  border-radius: 999px;
+  background: var(--card, #ffffff);
+  color: var(--text, #2c2416);
+  font-size: 0.92rem;
+  font-family: inherit;
+  cursor: pointer;
 }
 
-@media (min-width: 720px) {
-	.chitas-week-controls {
-		grid-template-columns: repeat(6, minmax(0, 1fr));
-	}
-	.chitas-week-date {
-		grid-column: auto;
-	}
+.chitas-week-date:hover {
+  border-color: var(--accent, #b8860b);
 }
 
-/* @tunnel-interactive-states: auto-generated by css-guarantee */
-.chitas-week-control:hover {
-	filter: brightness(1.08);
+.chitas-week-date:focus {
+  outline: 2px solid var(--accent, #b8860b);
+  outline-offset: 2px;
 }
-.chitas-week-control:active {
-	transform: scale(0.98);
+
+.chitas-week-date:focus-visible {
+  outline: 2px solid var(--accent, #b8860b);
+  outline-offset: 2px;
 }
-.chitas-week-control:focus-visible {
-	outline: 2px solid currentColor; outline-offset: 2px;
+
+/* ---------- Dark theme (variable overrides) ---------- */
+
+[data-theme="dark"] .chitas-week-panel {
+  --surface: #1a1610;
+  --surface-hover: #2e2820;
+  --card: #242019;
+  --border: #3a3226;
+  --text: #e8dfc8;
+  --text-muted: #a89a7c;
+  --on-accent: #ffffff;
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 600px) {
+  .chitas-week-panel {
+    gap: 1.5rem;
+  }
+
+  .chitas-week-header {
+    padding: 1.25rem;
+    border-radius: 12px;
+  }
+
+  .chitas-week-controls {
+    gap: 0.5rem;
+  }
+
+  .chitas-week-control,
+  .chitas-week-date {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chitas-week-control {
+    transition: none;
+  }
+  .chitas-week-control:active {
+    transform: none;
+  }
 }

@@ -15,8 +15,8 @@ import { createChitasDayRow } from './chitas-day-row.js?v=native-chitas-004';
 import { createChitasWeekHeader } from './chitas-week-header.js?v=native-chitas-004';
 import { createDailyStudySection } from './chitas-daily-study.js';
 
-const STYLE_HREF = '/heichelos/heichel/modules/ui/render/living-path/chitas-week.css?v=native-chitas-004';
-const DAILY_STYLE_HREF = '/heichelos/heichel/modules/ui/render/living-path/chitas-daily.css?v=native-chitas-001';
+const STYLE_HREF = '/heichelos/heichel/modules/ui/render/living-path/chitas-week.css?v=native-chitas-005';
+const DAILY_STYLE_HREF = '/heichelos/heichel/modules/ui/render/living-path/chitas-daily.css?v=native-chitas-002';
 
 function ensureStyle(href) {
 	if (document.querySelector(`link[href="${href}"]`)) {
@@ -47,9 +47,23 @@ export function renderChitasWeek(items, container, navigator, appState) {
 		} catch (e) {
 			console.warn('B"H — Daily study section failed:', e);
 		}
+		// Ornamental divider: a quiet breath between today's study and the week.
+		const divider = document.createElement('div');
+		divider.className = 'chitas-section-divider';
+		divider.setAttribute('aria-hidden', 'true');
+		const mark = document.createElement('span');
+		mark.className = 'chitas-section-divider-mark';
+		mark.textContent = '✦';
+		divider.append(mark);
+		shell.append(divider);
 	}
 	
-	shell.append(createChitasWeekHeader(items, selectedDate, language));
+	shell.append(createChitasWeekHeader(
+		items,
+		selectedDate,
+		language,
+		appState.currentSeriesData?.dailyStudy?.chumash?.parshaHe || ''
+	));
 	const list = document.createElement('div');
 	list.className = 'chitas-week-list';
 	for (const item of items) {
