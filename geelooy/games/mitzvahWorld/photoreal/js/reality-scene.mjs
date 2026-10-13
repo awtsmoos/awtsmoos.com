@@ -148,7 +148,7 @@ const TOD = {
     golden: 0.0, warm: 0.0,
   },
   golden: {
-    sunDir: [0.72, 0.30, 0.28], sunColor: 0xffd9a8, sunI: 2.45,
+    sunDir: [0.72, 0.30, 0.28], sunColor: 0xffd9a8, sunI: 2.35,
     hemiSky: 0xd8c4a8, hemiGround: 0x4e5a3a, hemiI: 0.70,
     fog: 0xaebf8e, fogNear: 60, fogFar: 270, exposure: 1.05,
     golden: 1.0, warm: 0.55,
@@ -317,16 +317,19 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const shaftTex = new THREE.CanvasTexture(sc); shaftTex.colorSpace = THREE.SRGBColorSpace;
     const shaftMat = new THREE.MeshBasicMaterial({
       map: shaftTex, transparent: true, blending: THREE.AdditiveBlending,
-      depthWrite: false, side: THREE.DoubleSide, fog: false, opacity: 0.20,
+      // B"H — dramatic sunbeams (Yaakov 2026-10-13 "Fix it"): bright enough
+      // to read against the canopy. Positioned to overlap tree edges where
+      // additive glow is visible (not in open sky).
+      depthWrite: false, side: THREE.DoubleSide, fog: false, opacity: 0.45,
     });
     const shaftGeo = new THREE.PlaneGeometry(4.5, 40);
     const q = new THREE.Quaternion().setFromUnitVectors(
       new THREE.Vector3(0, 1, 0), sunDir.clone().normalize());
-    for (let si = 0; si < 6; si++) {
-      const z = -48 + si * 9 + (srand() - 0.5) * 5;
-      const x = riverX(z) + (srand() - 0.5) * 24;
-      const y = groundHeight(x, z, noise) + 14;
-      const w = 3.5 + srand() * 2.5, l = 36 + srand() * 12;
+    for (let si = 0; si < 9; si++) {
+      const z = -60 + si * 8 + (srand() - 0.5) * 5;
+      const x = riverX(z) + (srand() - 0.5) * 20;
+      const y = groundHeight(x, z, noise) + 15;
+      const w = 5 + srand() * 4, l = 40 + srand() * 14;
       for (let k = 0; k < 2; k++) {
         const m = new THREE.Mesh(shaftGeo, shaftMat);
         m.position.set(x, y, z);
@@ -428,7 +431,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
      B"H reference match 2026-10-13: enclosed river corridor, denser forest. */
   const treeSpots = [];
   const CLEAR = {
-    forest: 12, river: 15, grassland: 26, particles: 15,
+    // B"H 2026-10-13 "Fix it": forest camera was buried in crown filler —
+    // filler reaches ~10 units past the trunk, so 12 was not enough.
+    forest: 18, river: 15, grassland: 26, particles: 15,
     'character-forest': 14, 'character-river': 14, 'character-sitting': 14,
     'character-portrait': 12, night: 14, 'character-older': 12,
   }[view] || 15;
@@ -441,6 +446,23 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     if (clearPts.some(([px, pz]) => Math.hypot(x - px, z - pz) < CLEAR)) continue;
     if (treeSpots.some(s => Math.hypot(s.x - x, s.z - z) < 8)) continue;
     treeSpots.push({ x, z });
+  }
+  /* B"H — river-corridor overhang trees (Yaakov 2026-10-13 "Fix it"): trees
+     planted at the bank edge whose crowns lean over the water, closing the
+     corridor like the reference. The lean is baked into placement (crownX) so
+     terrain shade + filler match. */
+  const overhangCount = fast ? 7 : 10;
+  let og = 0, ogGuard = 0;
+  while (og < overhangCount && ogGuard++ < 400) {
+    // B"H — keep the corridor zone AWAY from the camera (z=30): the overhang
+    // crowns are huge and would block the lens. Mid/far corridor only.
+    const z = -70 + rand() * 75;                     // z in [-70, 5]
+    const side = rand() < 0.5 ? -1 : 1;
+    const x = riverX(z) + side * (7.5 + rand() * 3.5);
+    if (clearPts.some(([px, pz]) => Math.hypot(x - px, z - pz) < CLEAR + 8)) continue;
+    if (treeSpots.some(s => Math.hypot(s.x - x, s.z - z) < 10)) continue;
+    treeSpots.push({ x, z, overhang: -side });
+    og++;
   }
   mark('tree-spots');
 
@@ -459,8 +481,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       // add macro variation, damp darkening, canopy shade and dappled light.
       const patch = noise(x * 0.03 + 40, z * 0.03) * 0.5 + 0.5;
       let r = 1.00 + patch * 0.08, g = 1.04 + patch * 0.10, b = 0.94 + patch * 0.08;
-      // damp darkening near the river
-      if (d < 9) { const t = 1 - d / 9, dk = 1 - t * 0.18; r *= dk; g *= dk; b *= dk; }
+      // B"H reference match 2026-10-13 "Fix it": MOSSY banks — bright
+      // yellow-green moss near the water like the reference, not damp-dark.
+      if (d < 9) { const t = 1 - d / 9; r *= (1 - t * 0.12); g *= (1 + t * 0.22); b *= (1 - t * 0.18); }
       // canopy shade + dappled sun flecks from REAL tree positions
       let minD2 = 1e9;
       for (let ti = 0; ti < treeSpots.length; ti++) {
@@ -598,7 +621,12 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   });
   const canopyMat = new THREE.MeshStandardMaterial({
     map: canopyTex, alphaTest: 0.30, side: THREE.DoubleSide,
-    roughness: 0.9, color: new THREE.Color(0.30, 0.45, 0.25),
+    // B"H — brightened 2026-10-13: the clipping fix (0.30/0.45/0.25) read as
+    // near-black shards on shadowed flat quads. (0.42/0.62/0.33) keeps sunlit
+    // leaves golden-green without re-clipping (sunI lowered to 2.35).
+    // Small green emissive lifts shadowed foliage from black to deep green.
+    roughness: 0.9, color: new THREE.Color(0.42, 0.62, 0.33),
+    emissive: new THREE.Color(0.05, 0.09, 0.035),
   });
   const ARCHETYPES = [
     ['Oak Large', 'oak-large'], ['Pine Large', 'pine-large'],
@@ -633,7 +661,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   // vertex colors bake real canopy shade + dappled light. Same rand order.
   for (const s of treeSpots) {
     const a = treeGeos[(rand() * treeGeos.length) | 0];
-    const sc = 0.85 + rand() * 0.75;
+    const sc = s.overhang ? (1.15 + rand() * 0.6) : (0.85 + rand() * 0.75);
     const y = groundHeight(s.x, s.z, noise);
     for (const [geo, mat] of [[a.bark, barkMat], [a.leaves, canopyMat]]) {
       const m = new THREE.Mesh(geo, mat);
@@ -647,7 +675,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     // Yaakov 2026-10-13: trees must have FULL dense canopies, no winter-bare look.
     // The baked leaf quads alone read sparse; these blobs fill the crown with
     // leaf mass. One instanced draw for all trees.
+    // Overhang trees lean their crowns over the river corridor (crownX).
     s.crownY = y + 8 * sc; s.crownR = 5.5 * sc;
+    s.crownX = s.x + (s.overhang ? s.overhang * s.crownR * 0.55 : 0);
   }
   scene.add(treeGroup);
   mark('trees-placed');
@@ -663,23 +693,30 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     crownGeo.computeVertexNormals();
     const crownMat = new THREE.MeshStandardMaterial({
       map: canopyTex, alphaTest: 0.30, side: THREE.DoubleSide,
-      roughness: 0.95, color: new THREE.Color(0.35, 0.50, 0.28),
+      roughness: 0.95, color: new THREE.Color(0.45, 0.65, 0.35),
+      // B"H — green emissive so shadowed crowns read as deep foliage, not
+      // black voids (the overhang canopy was a black blob from the camera).
+      emissive: new THREE.Color(0.06, 0.11, 0.045),
     });
-    const PER_TREE = fast ? 22 : 36;
+    const PER_TREE = fast ? 28 : 40;
     const COUNT = treeSpots.length * PER_TREE;
     const inst = new THREE.InstancedMesh(crownGeo, crownMat, COUNT);
     const dummy = new THREE.Object3D();
     let placed = 0;
     for (const s of treeSpots) {
+      // B"H — filler forms a TIGHT crown shell: smaller blobs hugging the
+      // crown volume (no camera intrusion, less overdraw). The baked tree
+      // provides structure; filler adds leaf mass, not reach.
+      const ccx = (s.crownX !== undefined ? s.crownX : s.x);
       for (let i = 0; i < PER_TREE; i++) {
         // distribute in a flattened sphere around the crown center
         const th = rand() * Math.PI * 2;
         const ph = Math.acos(2 * rand() - 1);
-        const rr = s.crownR * (0.25 + 0.75 * Math.cbrt(rand()));
-        const bx = s.x + rr * Math.sin(ph) * Math.cos(th);
-        const by = s.crownY + rr * Math.cos(ph) * 0.7;
+        const rr = s.crownR * (0.35 + 0.55 * Math.cbrt(rand()));
+        const bx = ccx + rr * Math.sin(ph) * Math.cos(th);
+        const by = s.crownY + rr * Math.cos(ph) * 0.55;
         const bz = s.z + rr * Math.sin(ph) * Math.sin(th);
-        const bs = 1.4 + rand() * 2.0;
+        const bs = 1.3 + rand() * 1.6;
         dummy.position.set(bx, by, bz);
         dummy.rotation.set(rand() * Math.PI, rand() * Math.PI * 2, 0);
         dummy.scale.set(bs, bs * 0.8, bs);
@@ -787,8 +824,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const blobMat = new THREE.MeshStandardMaterial({
       map: leafTex, alphaTest: 0.35, roughness: 1.0,
       color: new THREE.Color(0.38, 0.50, 0.33),
+      emissive: new THREE.Color(0.04, 0.07, 0.03),
     });
-    const COUNT = fast ? 120 : 240;
+    const COUNT = fast ? 100 : 240;
     const inst = new THREE.InstancedMesh(blobGeo, blobMat, COUNT);
     const dummy = new THREE.Object3D();
     let placed = 0, guard2 = 0;
@@ -841,7 +879,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       map: fernTex, alphaTest: 0.40, side: THREE.DoubleSide,
       roughness: 0.9, color: new THREE.Color(0.85, 1.05, 0.70),
     });
-    const COUNT = fast ? 150 : 320;
+    const COUNT = fast ? 120 : 320;
     const inst = new THREE.InstancedMesh(fernGeo, fernMat, COUNT);
     const dummy = new THREE.Object3D();
     let placed = 0, guard = 0;
@@ -921,6 +959,50 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     scene.add(inst);
   }
   mark('rocks');
+
+  /* B"H — moss mounds (Yaakov 2026-10-13 "Fix it"): bright mossy humps
+     carpeting the riverbanks like the reference. Instanced flattened blobs
+     with the moss photo, vivid yellow-green. One instanced draw. */
+  {
+    const moundGeo = new THREE.IcosahedronGeometry(1, 1);
+    const mp = moundGeo.attributes.position;
+    const mor = mulberry32(seed ^ 0xf055);
+    for (let i = 0; i < mp.count; i++) {
+      const s = 1 + 0.30 * Math.sin(mp.getX(i) * 4.3 + 2.0)
+                      * Math.sin(mp.getY(i) * 3.7 + 1.1)
+                      * Math.sin(mp.getZ(i) * 4.9 + 0.6);
+      mp.setXYZ(i, mp.getX(i) * s, mp.getY(i) * s * 0.45, mp.getZ(i) * s);
+    }
+    moundGeo.computeVertexNormals();
+    const moundMat = new THREE.MeshStandardMaterial({
+      map: mossGroundTex, roughness: 1,
+      // B"H — vivid moss: push past 1.0 so banks glow yellow-green like the ref
+      color: new THREE.Color(1.05, 1.35, 0.62),
+      emissive: new THREE.Color(0.10, 0.16, 0.04),
+    });
+    const COUNT = fast ? 110 : 200;
+    const inst = new THREE.InstancedMesh(moundGeo, moundMat, COUNT);
+    const dummy = new THREE.Object3D();
+    let placed = 0, g4 = 0;
+    while (placed < COUNT && g4++ < COUNT * 30) {
+      const z = (mor() - 0.5) * 200;
+      const side = mor() < 0.5 ? -1 : 1;
+      const x = riverX(z) + side * (6 + mor() * 9);
+      // B"H — keep mounds well clear of the camera: a bright mound at 4 units
+      // fills the lens. 10-unit exclusion around camera/character points.
+      if (clearPts.some(([px, pz]) => Math.hypot(x - px, z - pz) < 10)) continue;
+      const s = 0.5 + mor() * 1.1;
+      dummy.position.set(x, groundHeight(x, z, noise) + 0.02, z);
+      dummy.rotation.set(0, mor() * Math.PI * 2, 0);
+      dummy.scale.set(s * (0.9 + mor() * 0.8), s * 0.55, s * (0.9 + mor() * 0.8));
+      dummy.updateMatrix();
+      inst.setMatrixAt(placed++, dummy.matrix);
+    }
+    inst.count = placed;
+    inst.castShadow = false; inst.receiveShadow = true;
+    scene.add(inst);
+  }
+  mark('moss-mounds');
 
   /* B"H — rocks IN the shallows: small boulders poking through the water. */
   {
