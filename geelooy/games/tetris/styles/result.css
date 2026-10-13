@@ -21,6 +21,11 @@
 	padding: max(24px, env(safe-area-inset-top)) 18px max(24px, env(safe-area-inset-bottom));
 	background: rgba(2, 3, 6, .88);
 }
+/* B"H — the hidden attribute must win over the grid display above;
+ * without this the "Tikkun Complete" panel shows on first paint. */
+.result-panel[hidden] {
+	display: none;
+}
 .result-card {
 	display: grid;
 	width: min(100%, 460px);
