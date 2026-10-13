@@ -204,27 +204,43 @@ async function main() {
 	} catch (e) {
 		console.error(`B"H version stamp failed (continuing anyway): ${e.message}`);
 	}
-	// Retry loop: 502/503/504 (nginx/upstream blips) are retryable with
-	// exponential backoff. Anything else fails fast.
-	// B"H 2026-10-13: IMPORT_IN_PROGRESS is gone — the server no longer
-	// blocks deploys during imports (Yaakov's absolute law: imports never
-	// block anything). The retry entry is kept as a no-op guard in case an
-	// old server version is ever hit, but it should never trigger.
-	let data = null;
-	for (let attempt = 0; attempt < 8; attempt++) {
-		data = await signedPost('/packed/deploy/push', { message, files: payload });
-		const retryable = !data.success && (
-			data.error === 'IMPORT_IN_PROGRESS' || // legacy; server no longer sends this
-			(data.error === 'BAD_RESPONSE' && [502, 503, 504].includes(data.http))
-		);
-		if (!retryable) break;
-		const waitMs = Math.min(15000 * Math.pow(2, attempt), 120000);
-		console.log(`B"H deploy ${data.error} — retrying in ${Math.round(waitMs / 1000)}s (attempt ${attempt + 2}/8)...`);
-		await new Promise(r => setTimeout(r, waitMs));
+	// B"H 2026-10-13 (Yaakov: deploys must feel instant, never "little bits"):
+	// the API caps at 50 files per push. Split larger payloads into
+	// sequential 50-file chunks inside this one command — one invocation,
+	// no manual batching. The version stamp above already covered the whole
+	// payload, so every chunk carries the same build id.
+	const CHUNK = 50;
+	const chunks = [];
+	for (let i = 0; i < payload.length; i += CHUNK) chunks.push(payload.slice(i, i + CHUNK));
+	if (chunks.length > 1) console.log(`B"H payload has ${payload.length} files — pushing in ${chunks.length} chunks of up to ${CHUNK}...`);
+	let totalWritten = 0;
+	let chunkIdx = 0;
+	for (const files of chunks) {
+		chunkIdx++;
+		if (chunks.length > 1) console.log(`B"H pushing chunk ${chunkIdx}/${chunks.length} (${files.length} files)...`);
+		// Retry loop: 502/503/504 (nginx/upstream blips) are retryable with
+		// exponential backoff. Anything else fails fast.
+		// B"H 2026-10-13: IMPORT_IN_PROGRESS is gone — the server no longer
+		// blocks deploys during imports (Yaakov's absolute law: imports never
+		// block anything). The retry entry is kept as a no-op guard in case an
+		// old server version is ever hit, but it should never trigger.
+		let data = null;
+		for (let attempt = 0; attempt < 8; attempt++) {
+			data = await signedPost('/packed/deploy/push', { message, files });
+			const retryable = !data.success && (
+				data.error === 'IMPORT_IN_PROGRESS' || // legacy; server no longer sends this
+				(data.error === 'BAD_RESPONSE' && [502, 503, 504].includes(data.http))
+			);
+			if (!retryable) break;
+			const waitMs = Math.min(15000 * Math.pow(2, attempt), 120000);
+			console.log(`B"H deploy ${data.error} — retrying in ${Math.round(waitMs / 1000)}s (attempt ${attempt + 2}/8)...`);
+			await new Promise(r => setTimeout(r, waitMs));
+		}
+		console.log(JSON.stringify(data, null, 2));
+		if (!data.success) process.exit(1);
+		totalWritten += data.written || 0;
 	}
-	console.log(JSON.stringify(data, null, 2));
-	if (!data.success) process.exit(1);
-	console.log(`\nB"H deployed ${data.written} file(s) to production.`);
+	console.log(`\nB"H deployed ${totalWritten} file(s) to production.`);
 }
 
 main().catch(e => {
