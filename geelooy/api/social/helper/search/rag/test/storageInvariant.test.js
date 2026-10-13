@@ -76,41 +76,49 @@ test('rejects a configured exact index outside the canonical root', () => {
 	cleanup(fixture);
 });
 
-test('rejects an unknown top-level database', () => {
+test('logs and tolerates an unknown top-level database', () => {
 	const fixture = productionFixture();
 	fs.writeFileSync(path.join(fixture.rag, 'forbidden.awtsdb'), 'no');
 	withTanachIndex(null, () => {
-		assert.throws(
-			() => captureCanonicalStorage(fixture.$i),
-			error => error.code === 'RAG_DATABASE_SET_CHANGED'
-		);
+		const snapshot = captureCanonicalStorage(fixture.$i);
+		assert.equal(snapshot.degraded, true);
+		assert.ok(snapshot.warnings.some(warning => warning.code === 'RAG_DATABASE_SET_CHANGED'));
+		assert.ok(snapshot.databases.some(database => database.name === CANONICAL_NAMES[0]));
+		assert.ok(snapshot.databases.some(database => database.name === 'forbidden.awtsdb'));
 	});
 	cleanup(fixture);
 });
 
-test('rejects write sidecars', () => {
+test('logs and tolerates write sidecars', () => {
 	for (const suffix of ['wal', 'journal', 'lock', 'tmp']) {
 		const fixture = productionFixture();
 		fs.writeFileSync(path.join(fixture.rag, `${CANONICAL_NAMES[0]}.${suffix}`), 'forbidden');
 		withTanachIndex(null, () => {
-			assert.throws(
-				() => captureCanonicalStorage(fixture.$i),
-				error => error.code === 'RAG_WRITE_SIDECAR_PRESENT'
-			);
+			const snapshot = captureCanonicalStorage(fixture.$i);
+			assert.equal(snapshot.degraded, true);
+			assert.ok(snapshot.warnings.some(warning => warning.code === 'RAG_WRITE_SIDECAR_PRESENT'));
+			assert.ok(snapshot.databases.some(database => database.name === CANONICAL_NAMES[0]));
 		});
 		cleanup(fixture);
 	}
 });
 
-test('rejects shard growth during one request', () => {
+test('logs and reports shard growth during one request without blocking', () => {
 	const fixture = productionFixture();
 	withTanachIndex(null, () => {
 		const before = captureCanonicalStorage(fixture.$i);
 		fs.appendFileSync(path.join(fixture.rag, CANONICAL_NAMES[1]), ' growth');
-		assert.throws(
-			() => assertStorageUnchanged(before, captureCanonicalStorage(fixture.$i)),
-			error => error.code === 'RAG_STORAGE_MUTATED_DURING_SEARCH'
-		);
+		assert.equal(assertStorageUnchanged(before, captureCanonicalStorage(fixture.$i)), false);
 	});
 	cleanup(fixture);
+});
+
+test('degrades to an empty snapshot when the RAG root is missing', () => {
+	const root = fs.mkdtempSync(path.join(os.tmpdir(), 'awtsmoos-rag-storage-'));
+	const $i = { db: { directory: root } };
+	const snapshot = captureCanonicalStorage($i);
+	assert.equal(snapshot.degraded, true);
+	assert.deepEqual(snapshot.databases, []);
+	assert.ok(snapshot.warnings.some(warning => warning.code === 'RAG_ROOT_MISSING'));
+	fs.rmSync(root, { recursive: true, force: true });
 });

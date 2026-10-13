@@ -80,6 +80,15 @@ function resolveSpecifier(specifier, from = '', importMap = {}) {
   if (/^[a-z]+:/i.test(mapped)) return canonicalModulePath(new URL(mapped).pathname);
   if (mapped.startsWith('/')) return localImportAlias(mapped) || `/${canonicalModulePath(mapped).replace(/^\//, '')}`;
   if (!mapped.startsWith('.') && !mapped.startsWith('/')) return canonicalModulePath(mapped);
+  // B"H: when `from` is a full URL (engine module keys are absolute URLs),
+  // resolve with real URL semantics instead of path surgery — otherwise
+  // `https://host/dir/` + `./x.js` collapses into `/https:/host/dir/x.js`.
+  if (/^[a-z][a-z0-9+.-]*:\/\//i.test(from)) {
+    try {
+      const resolved = new URL(mapped, from);
+      return resolved.href;
+    } catch { /* fall through to path logic */ }
+  }
   const base = from && from.includes('/') ? from.split('/').slice(0, -1).join('/') : '';
   return `/${canonicalModulePath(base ? `${base}/${mapped}` : mapped).replace(/^\//, '')}`;
 }

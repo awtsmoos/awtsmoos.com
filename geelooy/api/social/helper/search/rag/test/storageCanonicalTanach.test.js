@@ -49,12 +49,12 @@ test('canonical exact Tanach filename is admitted when physically present', t =>
 	assert(names.includes(CANONICAL_EXACT_TANACH_NAME));
 });
 
-test('an unrelated exact-looking database remains forbidden', t => {
+test('an unrelated exact-looking database is logged but does not block search', t => {
 	const setup = fixture();
 	t.after(() => fs.rmSync(setup.root, { recursive: true, force: true }));
 	fs.writeFileSync(path.join(setup.rag, 'tanach.unreviewed.awtsdb'), 'no');
-	assert.throws(
-		() => captureCanonicalStorage(setup.$i),
-		error => error.code === 'RAG_DATABASE_SET_CHANGED'
-	);
+	const snapshot = captureCanonicalStorage(setup.$i);
+	assert.equal(snapshot.degraded, true);
+	assert.ok(snapshot.warnings.some(warning => warning.code === 'RAG_DATABASE_SET_CHANGED'));
+	assert.ok(snapshot.databases.some(database => database.name === 'tanach.unreviewed.awtsdb'));
 });

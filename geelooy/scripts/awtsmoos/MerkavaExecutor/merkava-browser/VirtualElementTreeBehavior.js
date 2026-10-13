@@ -19,6 +19,7 @@
 		prototype.after = after;
 		prototype.insertBefore = insertBefore;
 		prototype.removeChild = removeChild;
+		prototype.remove = remove;
 		prototype.replaceChild = replaceChild;
 		prototype.replaceChildren = replaceChildren;
 	}
@@ -81,6 +82,11 @@
 		child.parentNode = null;
 		this.__notify("childList", { addedNodes: [], removedNodes: [child.__handle?.() || {}] });
 		return child;
+	}
+
+	/** B"H: ChildNode.remove() — removes this node from its parent, if any. */
+	function remove() {
+		if (this.parentNode) this.parentNode.removeChild(this);
 	}
 
 	function replaceChild(newChild, oldChild) {

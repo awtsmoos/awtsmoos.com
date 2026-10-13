@@ -51,17 +51,19 @@ test('accepts the full twelve-part Sichos database publication', () => {
 	}
 });
 
-test('rejects every partial Sichos database publication', () => {
+test('logs and tolerates every partial Sichos database publication', () => {
 	for (const visibleParts of [1, 6, 11]) {
 		const value = fixture([
 			...CANONICAL_NAMES,
 			...SICHOS_NAMES.slice(0, visibleParts)
 		]);
 		try {
-			assert.throws(
-				() => captureCanonicalStorage(value.$i),
-				error => error.code === 'RAG_DATABASE_SET_CHANGED'
-			);
+			const snapshot = captureCanonicalStorage(value.$i);
+			assert.equal(snapshot.degraded, true);
+			assert.ok(snapshot.warnings.some(warning => warning.code === 'RAG_DATABASE_SET_CHANGED'));
+			for (const name of SICHOS_NAMES.slice(0, visibleParts)) {
+				assert.ok(snapshot.databases.some(database => database.name === name));
+			}
 		} finally {
 			cleanup(value);
 		}
