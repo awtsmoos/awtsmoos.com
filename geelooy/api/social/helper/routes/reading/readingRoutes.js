@@ -10,7 +10,7 @@
  * privacy enforcement. Awtsmoos.com never trusts client time blindly.
  */
 
-const readingStore = require('../reading/readingStore.js');
+const readingStore = require('../../reading/readingStore.js');
 const { badMethod, fail, getQuery, isMethod, ok } = require('../profile/values.js');
 
 /**
