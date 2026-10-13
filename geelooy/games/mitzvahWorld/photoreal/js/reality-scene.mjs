@@ -505,7 +505,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   /* textures (real photographs, Awtsmoos Drive) */
   const [grassTex, dirtTex, barkTex, canopyTex, leafTex,
          grassGroundTex, barkDetailTex, mossGroundTex, mossyBarkTex, fernTex,
-         leafClusterTex, denseCanopyTex, impostorTex1, impostorTex2, impostorTex3, impostorTex4] = await Promise.all([
+         leafClusterTex, denseCanopyTex, backlitCanopyTex, impostorTex1, impostorTex2, impostorTex3, impostorTex4] = await Promise.all([
     loadTexture(TEX + 'grass1.jpg', 30, 30),
     loadTexture(TEX + 'dirt1.jpg', 40, 3),
     loadTexture(TEX + 'bark1.webp', 1, 2),
@@ -514,17 +514,22 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     // B"H — reference-match texture set (Yaakov 2026-10-13)
     loadTexture(TEX + 'new/tex-grass-ground.webp', 36, 36),
     loadTexture(TEX + 'new/tex-bark-detail.webp', 1, 3),
-    loadTexture(TEX + 'new/tex-moss-ground.webp', 2, 2),
+    // B"H — Phase 5 (2026-10-13 sprint): v2 lumpy photoreal moss floor.
+    loadTexture(TEX + 'new/tex-moss-floor-v2.webp', 2, 2),
     // B"H — Phase 3 (2026-10-13 sprint): v2 mossy bark — photoreal 1024px,
     // must READ on trunks (old texture was invisible).
     loadTexture(TEX + 'new/tex-mossy-bark-v2.webp', 1, 2),
-    loadTexture(TEX + 'new/tex-fern-frond.png', 1, 1),
+    // B"H — Phase 5 (2026-10-13 sprint): v2 detailed fern frond, white-keyed
+    // to alpha (generated WebP has baked white background, no alpha channel).
+    makeLeafClusterAlpha(TEX + 'new/tex-fern-v2.webp'),
     // B"H — individual-leaf canopy texture (white keyed to alpha)
     // B"H 2026-10-13 iter6: tex-leaf-big = center-cropped for BIGGER leaves
     // at render scale. The full-cluster texture minified to mush.
     makeLeafClusterAlpha(TEX + 'new/tex-leaf-big.webp'),
     // B"H — 98% push: dense photoreal canopy (black keyed to alpha)
     makeDenseCanopyAlpha(TEX + 'tex-canopy-dense.webp'),
+    // B"H — Phase 2 (2026-10-13 sprint): backlit leaves for translucency glow.
+    makeLeafClusterAlpha(TEX + 'new/tex-canopy-backlit.webp'),
     // B"H — photoreal tree impostors: full trees on black, for dense forest walls.
     // Yaakov 2026-10-13: "do not stop until it's real" — these are the breakthrough.
     makeDenseCanopyAlpha(TEX + 'imp-tree-full-1.webp'),
@@ -1140,8 +1145,11 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const quadMat = new THREE.MeshStandardMaterial({
       map: denseCanopyTex, alphaTest: 0.30, side: THREE.DoubleSide,
       // B"H — Phase 2 (re-applied after branch v2 patch): deep green, not yellow.
+      // B"H — Phase 2 backlight (sprint): emissiveMap with backlit leaf photo
+      // for translucency glow where sun shines through.
       roughness: 0.9, color: new THREE.Color(0.30, 0.42, 0.22),
-      emissive: new THREE.Color(0.012, 0.022, 0.010),
+      emissive: new THREE.Color(0.35, 0.42, 0.20),
+      emissiveMap: backlitCanopyTex,
       depthWrite: true,
     });
     const PER_ANCHOR = fast ? 3 : 4;
