@@ -23,7 +23,7 @@ try {
 	const game = new OrosGame(host);
 	installDebugBridge(game, runtimeErrors);
 	// B"H: boot complete — dismiss the shared loading screen.
-	if (typeof window !== 'undefined' && window.AwtsmoosLoading) window.AwtsmoosLoading.done();
+	if (typeof window !== 'undefined' && window.AwtLoading) window.AwtLoading.ready();
 } catch (error) {
 	runtimeErrors.push(error.stack || String(error));
 	window.__OROS_HAKELIM__ = {

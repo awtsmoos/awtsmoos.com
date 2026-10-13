@@ -89,8 +89,8 @@ export function awakenMalchusOhrfrontBootstrap() {
 	// B"H: dismiss the shared loading screen once the module graph awakens.
 	if (result && typeof result.then === 'function') {
 		result.then(
-			() => { if (globalThis.window?.AwtsmoosLoading) globalThis.window.AwtsmoosLoading.done(); },
-			() => { if (globalThis.window?.AwtsmoosLoading) globalThis.window.AwtsmoosLoading.done(); }
+			() => { if (globalThis.window?.AwtLoading) globalThis.window.AwtLoading.ready(); },
+			() => { if (globalThis.window?.AwtLoading) globalThis.window.AwtLoading.ready(); }
 		);
 	}
 	return result;

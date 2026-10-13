@@ -24,7 +24,7 @@ function revealShemaStrike() {
 		globalThis.__SHEMA_STRIKE_BOOT_ERROR__ = null;
 		void yesodArena.reveal(shemaGame);
 		// B"H: boot complete — dismiss the shared loading screen.
-		if (typeof window !== 'undefined' && window.AwtsmoosLoading) window.AwtsmoosLoading.done();
+		if (typeof window !== 'undefined' && window.AwtLoading) window.AwtLoading.ready();
 	} catch (error) {
 		console.error('Shema Strike campaign boot failed.', error);
 		globalThis.__SHEMA_STRIKE_BOOT_ERROR__ = error;

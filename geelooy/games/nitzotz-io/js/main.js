@@ -46,7 +46,7 @@ let previous = performance.now();
 installDebugVessel(world, renderer, actions, step);
 requestAnimationFrame(frame);
 // B"H: boot complete — dismiss the shared loading screen.
-if (typeof window !== 'undefined' && window.AwtsmoosLoading) window.AwtsmoosLoading.done();
+if (typeof window !== 'undefined' && window.AwtLoading) window.AwtLoading.ready();
 
 function frame(now) {
 	const delta = Math.min(0.033, (now - previous) / 1000);

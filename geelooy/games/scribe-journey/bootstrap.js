@@ -13,7 +13,7 @@ async function awakenScribeJourney() {
 		revealScribeJourneyInterface();
 		await import('./js/main.js');
 		// B"H: boot complete — dismiss the shared loading screen.
-		if (typeof window !== 'undefined' && window.AwtsmoosLoading) window.AwtsmoosLoading.done();
+		if (typeof window !== 'undefined' && window.AwtLoading) window.AwtLoading.ready();
 	} catch (error) {
 		console.error("The Scribe's Journey could not awaken.", error);
 		revealAwakeningFailure(error);

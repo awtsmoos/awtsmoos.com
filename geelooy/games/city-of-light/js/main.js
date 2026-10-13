@@ -38,7 +38,7 @@ function awakenCity() {
 	};
 	game.start();
 	// B"H: boot complete — dismiss the shared loading screen.
-	if (typeof window !== 'undefined' && window.AwtsmoosLoading) window.AwtsmoosLoading.done();
+	if (typeof window !== 'undefined' && window.AwtLoading) window.AwtLoading.ready();
 }
 
 window.addEventListener('DOMContentLoaded', () => {
