@@ -1,0 +1,339 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * Alias Studio — cream/gold theme.
+ * Yaakov: this page must feel like part of the beautiful new profile, not a
+ * dark developer page. This sheet redefines the --g-* tokens to the
+ * profile-dream cream/gold palette, scoped to .alias-studio, and fixes the
+ * cramped form spacing. Loaded after all other alias-manage stylesheets.
+ * No !important. All interactive states from the base sheets keep working
+ * because they read the same tokens.
+ */
+
+/* Whole page background — the studio lives inside nav/page.html's body. */
+body:has(.alias-studio) {
+	background: #faf6ec;
+	background-image:
+		radial-gradient(42rem 22rem at 12% -4%, rgba(217, 169, 78, .14), transparent 60%),
+		radial-gradient(36rem 20rem at 88% 8%, rgba(217, 169, 78, .1), transparent 60%);
+	background-attachment: fixed;
+}
+
+.alias-studio {
+	--g-text: #2b2110;
+	--g-muted: #6b5d43;
+	--g-line: rgba(184, 134, 46, .3);
+	--g-line-strong: rgba(184, 134, 46, .5);
+	--g-surface: #fffdf7;
+	--g-surface-2: #f5eeda;
+	--g-surface-3: #eee2c6;
+	--g-bg-2: #f5eeda;
+	--g-cyan: #b8862e;
+	--g-success: #2e7d4f;
+	--g-danger: #b3374a;
+	--g-shadow-float: 0 .6rem 1.6rem rgba(90, 66, 20, .12);
+	--aw-text: #2b2110;
+	color: #2b2110;
+}
+
+/* Hebrew letter particles — soft gold on cream. */
+.alias-studio .law8-particles span {
+	color: rgba(184, 134, 46, .16);
+}
+
+/* ---- Header ---- */
+
+.alias-studio .alias-kicker {
+	color: #8a641f;
+}
+
+.alias-studio .alias-heading-copy h1 {
+	color: #2b2110;
+}
+
+.alias-studio .alias-heading-copy p {
+	color: #6b5d43;
+}
+
+.alias-studio .alias-back {
+	border-color: rgba(184, 134, 46, .35);
+	background: #fffdf7;
+	color: #5c4a26;
+}
+
+.alias-studio .alias-back:is(:hover, :focus-visible) {
+	border-color: #b8862e;
+	background: #f7efdc;
+	transform: translateY(-1px);
+}
+
+/* ---- Cards ---- */
+
+.alias-studio .alias-editor-card,
+.alias-studio .alias-preview-panel {
+	border-color: rgba(184, 134, 46, .28);
+	background: #fffdf7;
+	box-shadow: 0 .6rem 1.6rem rgba(90, 66, 20, .1);
+}
+
+.alias-studio .alias-section-title {
+	color: #2b2110;
+	font-size: 1.05rem;
+	letter-spacing: -.01em;
+}
+
+/* ---- Form spacing: generous air between every field ---- */
+
+.alias-studio #alias-form {
+	gap: 1.15rem;
+}
+
+.alias-studio .alias-field-shell {
+	gap: .6rem;
+	padding: 1rem 1.05rem 1.05rem;
+	border-color: rgba(184, 134, 46, .3);
+	background: #fffdf7;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 1px 3px rgba(90, 66, 20, .05);
+}
+
+.alias-studio .alias-field-shell:hover {
+	border-color: rgba(184, 134, 46, .55);
+}
+
+.alias-studio .alias-field-shell:focus-within {
+	border-color: #b8862e;
+	background: #fffdf7;
+	box-shadow: 0 0 0 3px rgba(184, 134, 46, .16);
+	transform: translateY(-1px);
+}
+
+.alias-studio .alias-field-caption {
+	display: block;
+	margin-bottom: .15rem;
+	color: #8a641f;
+	font-size: .7rem;
+	font-weight: 850;
+	letter-spacing: .09em;
+	text-transform: uppercase;
+}
+
+.alias-studio .alias-field-shell :is(input, textarea) {
+	color: #2b2110;
+}
+
+.alias-studio .alias-field-shell :is(input, textarea)::placeholder {
+	color: #a5946f;
+}
+
+.alias-studio .alias-field-helper,
+.alias-studio .alias-field-meta {
+	display: block;
+	margin-top: .35rem;
+	color: #8a755a;
+	font-size: .78rem;
+	line-height: 1.5;
+}
+
+/* ---- Advanced identity address: clean disclosure ---- */
+
+.alias-studio .alias-advanced {
+	border-color: rgba(184, 134, 46, .3);
+	background: #f8f1de;
+}
+
+.alias-studio .alias-advanced > summary {
+	gap: .75rem;
+	padding: .85rem 1rem;
+}
+
+.alias-studio .alias-advanced > summary::after {
+	content: "▾";
+	color: #8a641f;
+	font-size: .85rem;
+	transition: transform 160ms ease;
+}
+
+.alias-studio .alias-advanced[open] > summary::after {
+	transform: rotate(180deg);
+}
+
+.alias-studio .alias-advanced > summary:is(:hover, :focus-visible) {
+	background: rgba(184, 134, 46, .1);
+}
+
+.alias-studio .alias-advanced > summary span {
+	color: #2b2110;
+}
+
+.alias-studio .alias-advanced > summary small {
+	color: #8a755a;
+}
+
+.alias-studio .alias-advanced-body {
+	gap: .8rem;
+	padding: .25rem .9rem .95rem;
+}
+
+.alias-studio .alias-address-control {
+	color: #8a641f;
+}
+
+.alias-studio .alias-address-control input {
+	color: #2b2110;
+}
+
+.alias-studio .alias-validation,
+.alias-studio .alias-form-status {
+	color: #8a755a;
+}
+
+.alias-studio :is(.alias-validation, .alias-form-status)[data-tone="success"] {
+	color: #2e7d4f;
+}
+
+.alias-studio :is(.alias-validation, .alias-form-status)[data-tone="error"] {
+	color: #b3374a;
+}
+
+.alias-studio :is(.alias-validation, .alias-form-status)[data-tone="busy"] {
+	color: #8a641f;
+}
+
+/* ---- Command bar: prominent golden submit ---- */
+
+.alias-studio .alias-command-bar {
+	border-color: rgba(184, 134, 46, .3);
+	background: rgba(250, 246, 236, .94);
+	box-shadow: 0 12px 32px rgba(90, 66, 20, .14);
+}
+
+.alias-studio .form-btns button,
+.alias-studio .alias-delete-actions button {
+	border-color: rgba(184, 134, 46, .4);
+	background: #fffdf7;
+	color: #5c4a26;
+}
+
+.alias-studio :is(.form-btns, .alias-delete-actions) button:is(:hover, :focus-visible) {
+	border-color: #b8862e;
+	box-shadow: 0 0 0 3px rgba(184, 134, 46, .16);
+}
+
+.alias-studio .form-btns button[type="submit"] {
+	border-color: #8a641f;
+	background: linear-gradient(135deg, #d9a94e 0%, #b8862e 100%);
+	color: #241a06;
+	font-size: .92rem;
+	padding-inline: 1.4rem;
+	box-shadow: 0 4px 14px rgba(138, 100, 31, .35), inset 0 1px 0 rgba(255, 255, 255, .35);
+}
+
+.alias-studio .form-btns button[type="submit"]:is(:hover, :focus-visible) {
+	border-color: #8a641f;
+	background: linear-gradient(135deg, #e2b45c 0%, #c1912f 100%);
+	box-shadow: 0 6px 18px rgba(138, 100, 31, .45), 0 0 0 3px rgba(184, 134, 46, .2), inset 0 1px 0 rgba(255, 255, 255, .35);
+}
+
+.alias-studio .form-btns button[type="submit"]:active {
+	transform: translateY(1px) scale(.98);
+	box-shadow: 0 2px 8px rgba(138, 100, 31, .3), inset 0 1px 0 rgba(255, 255, 255, .25);
+}
+
+.alias-studio button.delete {
+	border-color: rgba(179, 55, 74, .5);
+	color: #b3374a;
+	background: #fffdf7;
+}
+
+.alias-studio .alias-delete-confirm {
+	border-color: rgba(179, 55, 74, .45);
+	background: #fdf3f0;
+}
+
+.alias-studio .alias-delete-confirm p {
+	color: #8a6555;
+}
+
+.alias-studio .alias-danger-mark {
+	background: rgba(179, 55, 74, .12);
+	color: #b3374a;
+}
+
+/* ---- Live preview panel: golden ---- */
+
+.alias-studio .alias-preview-disclosure > summary {
+	border-bottom-color: rgba(184, 134, 46, .22);
+}
+
+.alias-studio .alias-preview-disclosure > summary:is(:hover, :focus-visible) {
+	background: rgba(184, 134, 46, .08);
+}
+
+.alias-studio .alias-preview-disclosure > summary span {
+	color: #2b2110;
+}
+
+.alias-studio .alias-preview-disclosure > summary small {
+	color: #8a755a;
+}
+
+.alias-studio .alias-preview-card {
+	border-color: rgba(184, 134, 46, .4);
+	background: linear-gradient(145deg, #fbf3df, #f5eeda);
+}
+
+.alias-studio .alias-preview-avatar {
+	border-color: rgba(184, 134, 46, .55);
+	background: linear-gradient(135deg, #d9a94e, #b8862e);
+	color: #241a06;
+	box-shadow: 0 4px 12px rgba(138, 100, 31, .3);
+}
+
+.alias-studio .alias-preview-copy h2 {
+	color: #2b2110;
+}
+
+.alias-studio .alias-preview-copy p {
+	color: #8a755a;
+}
+
+.alias-studio .alias-preview-handle {
+	color: #8a641f;
+}
+
+.alias-studio .alias-rule-grid article {
+	background: #f5eeda;
+}
+
+.alias-studio .alias-rule-grid article strong {
+	color: #2b2110;
+}
+
+.alias-studio .alias-rule-grid article span {
+	color: #8a755a;
+}
+
+/* ---- Mobile: stack the advanced summary neatly ---- */
+
+@media (max-width: 46rem) {
+	.alias-studio .alias-advanced > summary {
+		flex-wrap: wrap;
+		row-gap: .3rem;
+	}
+
+	.alias-studio .alias-advanced > summary small {
+		flex-basis: 100%;
+		color: #8a755a;
+	}
+
+	.alias-studio #alias-form {
+		gap: 1rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.alias-studio .alias-advanced > summary::after {
+		transition: none;
+	}
+}
