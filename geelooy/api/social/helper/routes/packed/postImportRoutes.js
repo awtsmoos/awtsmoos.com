@@ -867,6 +867,10 @@ class PackedPostImportRoutes {
 				if (nativeOk) {
 					job.skipped++;
 					job.doneHashes[post.postId] = hash;
+					// B"H 2026-10-12: series index must populate even for
+					// idempotent skips — otherwise re-imports leave series
+					// pages empty (posts live but unlisted).
+					this.seriesAdd(job, post);
 					return;
 				}
 			}
