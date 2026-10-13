@@ -1,0 +1,154 @@
+/* B"H
+ * Awtsmoos context menu — the reader's own serving vessel.
+ * Appears on right-click / long-press inside the post reader.
+ * Theme-aware via the reader's data-theme; never uses !important.
+ */
+
+.awtsmoos-context-menu {
+	--ctx-bg: #fffdf8;
+	--ctx-ink: #2b2114;
+	--ctx-ink-soft: #6b5b3e;
+	--ctx-he: #7a5a00;
+	--ctx-border: #e6d9bd;
+	--ctx-hover: #f7efdb;
+	--ctx-accent: #d4a94e;
+	--ctx-shadow: 0 12px 40px rgba(60, 40, 5, 0.22), 0 2px 8px rgba(60, 40, 5, 0.12);
+
+	position: absolute;
+	z-index: 99990;
+	min-width: 248px;
+	max-width: min(320px, calc(100vw - 24px));
+	padding: 6px;
+	margin: 0;
+	border: 1px solid var(--ctx-border);
+	border-radius: 14px;
+	background: var(--ctx-bg);
+	color: var(--ctx-ink);
+	box-shadow: var(--ctx-shadow);
+	font-family: inherit;
+	animation: awtsmoos-ctx-in 140ms ease-out;
+}
+
+:where(:root[data-theme="dark"]) .awtsmoos-context-menu,
+.awtsmoos-context-menu[data-theme="dark"] {
+	--ctx-bg: #211a0e;
+	--ctx-ink: #f0e7d3;
+	--ctx-ink-soft: #bfa87a;
+	--ctx-he: #e8c56a;
+	--ctx-border: #4a3a22;
+	--ctx-hover: #2e2514;
+	--ctx-accent: #e8a34d;
+	--ctx-shadow: 0 12px 40px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+@keyframes awtsmoos-ctx-in {
+	from { opacity: 0; transform: translateY(6px) scale(0.98); }
+	to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-context-menu { animation: none; }
+}
+
+.awtsmoos-context-menu-item {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+	padding: 10px 12px;
+	border: 0;
+	border-radius: 10px;
+	background: transparent;
+	color: var(--ctx-ink);
+	font: inherit;
+	text-align: start;
+	cursor: pointer;
+}
+
+.awtsmoos-context-menu-item:hover,
+.awtsmoos-context-menu-item:focus-visible {
+	background: var(--ctx-hover);
+	outline: 2px solid var(--ctx-accent);
+	outline-offset: -2px;
+}
+
+.awtsmoos-context-menu-item:active {
+	background: var(--ctx-accent);
+	color: #1a1408;
+}
+
+.awtsmoos-context-menu-icon {
+	flex: 0 0 auto;
+	width: 22px;
+	text-align: center;
+	font-size: 1.05rem;
+	color: var(--ctx-accent);
+}
+
+.awtsmoos-context-menu-text {
+	display: flex;
+	flex-direction: column;
+	gap: 1px;
+	min-width: 0;
+}
+
+.awtsmoos-context-menu-en {
+	font-size: 0.95rem;
+	font-weight: 600;
+	line-height: 1.35;
+}
+
+.awtsmoos-context-menu-he {
+	font-size: 0.85rem;
+	line-height: 1.5;
+	color: var(--ctx-he);
+}
+
+.awtsmoos-context-menu-separator {
+	height: 1px;
+	margin: 6px 8px;
+	background: var(--ctx-border);
+}
+
+/* Toast — small confirmation vessel for copy actions. */
+.awtsmoos-toast {
+	position: fixed;
+	left: 50%;
+	bottom: 28px;
+	transform: translateX(-50%) translateY(12px);
+	z-index: 99995;
+	padding: 10px 18px;
+	border-radius: 999px;
+	background: #2b2114;
+	color: #f7efdb;
+	font-size: 0.9rem;
+	font-weight: 600;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 180ms ease, transform 180ms ease;
+	max-width: calc(100vw - 48px);
+	text-align: center;
+}
+
+:where(:root[data-theme="dark"]) .awtsmoos-toast {
+	background: #f0e7d3;
+	color: #211a0e;
+}
+
+.awtsmoos-toast.visible {
+	opacity: 1;
+	transform: translateX(-50%) translateY(0);
+}
+
+/* Mobile: roomier touch targets. */
+@media (max-width: 640px) {
+	.awtsmoos-context-menu {
+		min-width: 264px;
+	}
+	.awtsmoos-context-menu-item {
+		padding: 13px 14px;
+	}
+	.awtsmoos-context-menu-en {
+		font-size: 1rem;
+	}
+}

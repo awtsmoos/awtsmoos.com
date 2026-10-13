@@ -23,6 +23,7 @@ import {
 import { loadRootComments, init as initComments } from "../commentLogic.js";
 import { setupUIListeners, setupHighlightingLogic, renderBookmarksPanel } from "./listeners.js";
 import { initSelectionPopover, loadAnnotations } from "./selection.js";
+import { initAwtsmoosContextMenu } from "./contextMenu.js";
 import { initCommandPalette, openCommandPalette } from "./commandPalette.js";
 import { setupScrollUnrollEffect, setupScribeLens, applyUserPreferences } from "./viewEffects.js";
 
@@ -253,6 +254,7 @@ const ignite = async () => {
     await new Promise(requestAnimationFrame);
     try {
         initSelectionPopover();
+        initAwtsmoosContextMenu();
         initCommandPalette();
         applyUserPreferences();
         setupUIListeners();
