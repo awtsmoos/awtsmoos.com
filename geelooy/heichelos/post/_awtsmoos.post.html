@@ -11,6 +11,41 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 	<meta http-equiv="Pragma" content="no-cache">
 	<meta http-equiv="Expires" content="0">
+	<!-- B"H 2026-10-13: modulepreload the critical boot chain to eliminate
+	     the ES module waterfall. These are fetched in parallel with the HTML
+	     parse, so postLogic.js's 68 transitive imports don't cascade. -->
+	<link rel="modulepreload" href="/heichelos/post/postLogic.js?v=738eb96c05">
+	<link rel="modulepreload" href="/shared/MeaningfulActivity.js">
+	<link rel="modulepreload" href="/heichelos/post/logic/initialization/bootstrap.js?v=reader-runtime-009">
+	<link rel="modulepreload" href="/heichelos/post/logic/initialization/ReaderBootState.js?v=reader-runtime-004">
+	<link rel="modulepreload" href="/heichelos/post/logic/initialization/ReaderEnhancementOrchestrator.js?v=reader-runtime-008">
+	<link rel="modulepreload" href="/heichelos/post/logic/initialization/ReaderShellControlsBoot.js?v=reader-runtime-005">
+	<link rel="modulepreload" href="/heichelos/post/logic/initialization/chitasLoader.js?v=chitas-loader-1">
+	<!-- B"H 2026-10-13: skeleton screen styles — instant perceived load.
+	     The content area shows shimmering placeholders until JS hydrates. -->
+	<style>
+		.awtsmoos-skeleton { display: block; }
+		.awtsmoos-skeleton .sk-line {
+			height: 1.1em; border-radius: 4px; margin: 0.7em 0;
+			background: linear-gradient(90deg,
+				var(--sk-bg, #e8e2d4) 25%,
+				var(--sk-hi, #f5f1e6) 50%,
+				var(--sk-bg, #e8e2d4) 75%);
+			background-size: 200% 100%;
+			animation: awtsmoos-sk-shimmer 1.4s infinite linear;
+		}
+		html[data-theme="dark"] .awtsmoos-skeleton .sk-line {
+			--sk-bg: #2a2419; --sk-hi: #3a3222;
+		}
+		@keyframes awtsmoos-sk-shimmer {
+			0% { background-position: 200% 0; }
+			100% { background-position: -200% 0; }
+		}
+		@media (prefers-reduced-motion: reduce) {
+			.awtsmoos-skeleton .sk-line { animation: none; }
+		}
+		.awtsmoos-skeleton[hidden] { display: none; }
+	</style>
 	<script>
 		/* B"H — ALWAYS set data-theme on <html> before any CSS paints.
 		   Defaults to light when no valid preference is stored. */
@@ -178,12 +213,12 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 	<meta name="theme-color" content="#071020">
 	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23071020'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-size='38' fill='%235bddff'%3E%D7%90%3C/text%3E%3C/svg%3E">
 	<link rel="stylesheet" href="/style/awtsmoos-scroll-sovereignty.css?v=125f73f805" type="text/css">
-	<link rel="stylesheet" href="/heichelos/post/styles/main.css?v=611651fde9" type="text/css">
+	<link rel="stylesheet" href="/heichelos/post/styles/main.css?v=46f5e32559" type="text/css">
 	<link rel="stylesheet" href="/heichelos/post/styles/meluket-reader-overhaul.css?v=5166c60e3f" type="text/css">
-	<link rel="stylesheet" href="/heichelos/post/styles/meluket-sefer.css?v=20035dab27" type="text/css">
+	<link rel="stylesheet" href="/heichelos/post/styles/meluket-sefer.css?v=4c304bc65c" type="text/css">
 	<!-- B"H — LAW 8 design reference: every page's CSS is driven by its reference image. -->
 	<link rel="design-reference" href="https://awtsmoos.com/design-refs/law8/meluket-reader-ref.webp" data-design-ref="https://awtsmoos.com/design-refs/law8/meluket-reader-ref.webp">
-	<link rel="stylesheet" href="/heichelos/post/styles/meluket-law8.css?v=7ba2343dce" type="text/css">
+	<link rel="stylesheet" href="/heichelos/post/styles/meluket-law8.css?v=15bd0ed91b" type="text/css">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-controls/critical-shell.css?v=aeac4c6fcb" type="text/css">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-controls/live-template.css?v=5627f3dda2" type="text/css">
 	<link rel="stylesheet" href="/heichelos/post/styles/reader-controls/mobile-reading.css?v=b07bbcf2e6" type="text/css">
