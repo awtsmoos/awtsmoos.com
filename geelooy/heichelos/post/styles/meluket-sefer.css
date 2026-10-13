@@ -265,10 +265,12 @@
 
 /* ---------- Server-rendered initial content ----------
    Yaakov's law applies here too: Hebrew must LOOK the same size as English.
-   Same 1.3 optical multiplier as the JS reader. */
+   Same 1.3 optical multiplier as the JS reader, on top of the shared
+   --sefer-phrase-size (not a hardcoded clamp) so Aa scaling keeps them
+   equal at every size. */
 .awtsmoos-initial-unit-he,
 .awtsmoos-initial-unit-en {
-	font-size: clamp(2.4rem, 6.2vw, 3.4rem);
+	font-size: var(--sefer-phrase-size, clamp(2.4rem, 6.2vw, 3.4rem));
 	line-height: 1.8;
 	overflow-wrap: break-word;
 	word-wrap: break-word;
@@ -277,7 +279,7 @@
 }
 .awtsmoos-initial-unit-he {
 	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
-	font-size: calc(clamp(2.4rem, 6.2vw, 3.4rem) * 1.3);
+	font-size: calc(var(--sefer-phrase-size, clamp(2.4rem, 6.2vw, 3.4rem)) * var(--hebrew-optical, 1.3));
 	font-weight: 700;
 	text-align: right;
 	direction: rtl;
@@ -992,13 +994,17 @@
 }
 .awtsmoos-fn-he {
   font-family: "Frank Ruhl Libre", "Taamey Frank CLM", "Noto Serif Hebrew", serif;
-  font-size: 1.3rem;
+  /* B"H (2026-10-13, Yaakov law): Hebrew must scale WITH the reader's Aa
+     size controls, not stay fixed. The 1.3x optical multiplier sits on top
+     of the dynamic --post-text-size so Hebrew and English stay visually
+     equal at every size. Falls back to 1rem outside the reader context. */
+  font-size: calc(var(--post-text-size, 1rem) * 1.3);
   line-height: 1.9;
   color: var(--sefer-ink, #2c2416);
   margin: 0 0 0.7rem 0;
 }
 .awtsmoos-fn-en {
-  font-size: 1rem;
+  font-size: var(--post-text-size, 1rem);
   line-height: 1.7;
   color: var(--sefer-ink-soft, #5a4f3a);
   margin: 0;
@@ -1009,4 +1015,425 @@
 }
 [data-theme="dark"] .awtsmoos-fn-overlay {
   background: rgba(0, 0, 0, 0.65);
+}
+
+/* ============================================================================
+ * B"H — Sources sheet (מקורות)
+ * Bottom sheet with sefer info, breadcrumb, section index, footnotes, comments.
+ * Tokenized colors, explicit light/dark, full interactive states. No !important.
+ * ========================================================================== */
+.awtsmoos-src-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 14, 8, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 90;
+}
+.awtsmoos-src-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.awtsmoos-src-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--sefer-paper, #fdfbf5);
+  border-radius: 1.25rem 1.25rem 0 0;
+  box-shadow: 0 -0.5rem 3rem rgba(0, 0, 0, 0.25);
+  transform: translateY(105%);
+  transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  z-index: 91;
+}
+.awtsmoos-src-sheet.is-open {
+  transform: translateY(0);
+}
+.awtsmoos-src-grab {
+  width: 2.5rem;
+  height: 0.25rem;
+  border-radius: 999px;
+  background: var(--sefer-line, #d8cba8);
+  margin: 0.6rem auto 0;
+  flex-shrink: 0;
+}
+.awtsmoos-src-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.25rem 0.7rem;
+  border-bottom: 1px solid var(--sefer-line, #e8dcc0);
+  flex-shrink: 0;
+}
+.awtsmoos-src-title {
+  font-family: "Noto Serif Hebrew", "David Libre", serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--sefer-ink, #2c2416);
+}
+.awtsmoos-src-close {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--sefer-line, #d8cba8);
+  background: var(--sefer-paper-deep, #f5efe0);
+  color: var(--sefer-ink-soft, #5a4f3a);
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.awtsmoos-src-close:hover {
+  background: var(--sefer-line, #e8dcc0);
+  transform: scale(1.05);
+}
+.awtsmoos-src-close:active {
+  transform: scale(0.95);
+}
+.awtsmoos-src-close:focus-visible {
+  outline: 2px solid var(--sefer-gold, #b8860b);
+  outline-offset: 2px;
+}
+/* Breadcrumb */
+.awtsmoos-src-crumb {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  padding: 0.7rem 1.25rem;
+  font-size: 0.85rem;
+  color: var(--sefer-ink-soft, #5a4f3a);
+  border-bottom: 1px solid var(--sefer-line, #e8dcc0);
+  flex-shrink: 0;
+}
+.awtsmoos-src-crumb a,
+.awtsmoos-src-crumb button {
+  color: var(--sefer-gold-deep, #8a6d1b);
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0.2rem 0.3rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  font-size: inherit;
+}
+.awtsmoos-src-crumb a:hover,
+.awtsmoos-src-crumb button:hover {
+  text-decoration: underline;
+  background: var(--sefer-paper-deep, #f5efe0);
+}
+.awtsmoos-src-crumb-sep {
+  color: var(--sefer-line, #d8cba8);
+}
+/* Meta card */
+.awtsmoos-src-meta {
+  padding: 0.9rem 1.25rem 0;
+  flex-shrink: 0;
+}
+.awtsmoos-src-card {
+  background: var(--sefer-paper-deep, #f5efe0);
+  border: 1px solid var(--sefer-line, #e8dcc0);
+  border-radius: 0.9rem;
+  padding: 0.9rem 1rem;
+}
+.awtsmoos-src-card-row {
+  display: flex;
+  gap: 0.8rem;
+  padding: 0.25rem 0;
+  font-size: 0.92rem;
+}
+.awtsmoos-src-card-label {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.75rem;
+  color: var(--sefer-gold-deep, #8a6d1b);
+  min-width: 4.5rem;
+  padding-top: 0.15rem;
+}
+.awtsmoos-src-card-value {
+  color: var(--sefer-ink, #2c2416);
+  flex: 1;
+}
+.awtsmoos-src-stats {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--sefer-line, #d8cba8);
+  font-size: 0.85rem;
+  color: var(--sefer-ink-soft, #5a4f3a);
+}
+/* Tabs */
+.awtsmoos-src-tabs {
+  display: flex;
+  gap: 0.3rem;
+  padding: 0.8rem 1.25rem 0;
+  flex-shrink: 0;
+}
+.awtsmoos-src-tab {
+  padding: 0.55rem 1rem;
+  border-radius: 0.7rem 0.7rem 0 0;
+  border: 1px solid transparent;
+  border-bottom: none;
+  background: transparent;
+  color: var(--sefer-ink-soft, #5a4f3a);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.awtsmoos-src-tab:hover {
+  background: var(--sefer-paper-deep, #f5efe0);
+  color: var(--sefer-ink, #2c2416);
+}
+.awtsmoos-src-tab[aria-selected="true"] {
+  background: var(--sefer-paper-deep, #f5efe0);
+  border-color: var(--sefer-line, #e8dcc0);
+  color: var(--sefer-ink, #2c2416);
+}
+.awtsmoos-src-tab:focus-visible {
+  outline: 2px solid var(--sefer-gold, #b8860b);
+  outline-offset: -2px;
+}
+/* List */
+.awtsmoos-src-list {
+  overflow-y: auto;
+  padding: 0.8rem 1.25rem 1.5rem;
+  flex: 1;
+  -webkit-overflow-scrolling: touch;
+}
+.awtsmoos-src-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--sefer-line, #e8dcc0);
+}
+.awtsmoos-src-item:last-child {
+  border-bottom: none;
+}
+.awtsmoos-src-goto {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 0.3rem;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  text-align: start;
+  transition: background 0.15s ease;
+  min-width: 0;
+}
+.awtsmoos-src-goto:hover {
+  background: var(--sefer-paper-deep, #f5efe0);
+}
+.awtsmoos-src-goto:focus-visible {
+  outline: 2px solid var(--sefer-gold, #b8860b);
+  outline-offset: 2px;
+}
+.awtsmoos-src-medaillon {
+  flex-shrink: 0;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--sefer-gold, #d4a017), var(--sefer-gold-deep, #8a6d1b));
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+.awtsmoos-src-preview {
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--sefer-ink, #2c2416);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.awtsmoos-src-comment-btn {
+  flex-shrink: 0;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--sefer-line, #d8cba8);
+  background: var(--sefer-paper, #fdfbf5);
+  color: var(--sefer-gold-deep, #8a6d1b);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.awtsmoos-src-comment-btn:hover {
+  background: var(--sefer-paper-deep, #f5efe0);
+}
+.awtsmoos-src-comment-btn:focus-visible {
+  outline: 2px solid var(--sefer-gold, #b8860b);
+  outline-offset: 2px;
+}
+/* Comment composer */
+.awtsmoos-src-composer {
+  width: 100%;
+  padding-top: 0.6rem;
+}
+.awtsmoos-src-composer[hidden] {
+  display: none;
+}
+.awtsmoos-src-textarea {
+  width: 100%;
+  min-height: 4.5rem;
+  padding: 0.7rem;
+  border-radius: 0.6rem;
+  border: 1px solid var(--sefer-line, #d8cba8);
+  background: var(--sefer-paper, #fdfbf5);
+  color: var(--sefer-ink, #2c2416);
+  font-size: 0.92rem;
+  font-family: inherit;
+  resize: vertical;
+}
+.awtsmoos-src-textarea:focus {
+  outline: 2px solid var(--sefer-gold, #b8860b);
+  outline-offset: -1px;
+  border-color: var(--sefer-gold, #b8860b);
+}
+.awtsmoos-src-composer-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.awtsmoos-src-send {
+  padding: 0.5rem 1.2rem;
+  border-radius: 999px;
+  border: none;
+  background: var(--sefer-gold, #b8860b);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+.awtsmoos-src-send:hover:not(:disabled) {
+  opacity: 0.9;
+}
+.awtsmoos-src-send:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+.awtsmoos-src-cancel {
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--sefer-line, #d8cba8);
+  background: transparent;
+  color: var(--sefer-ink-soft, #5a4f3a);
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+.awtsmoos-src-cancel:hover {
+  background: var(--sefer-paper-deep, #f5efe0);
+}
+.awtsmoos-src-notice {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  min-height: 1.2em;
+}
+.awtsmoos-src-notice.is-error {
+  color: #b3261e;
+}
+.awtsmoos-src-notice.is-ok {
+  color: #1b7a3d;
+}
+/* Footnotes list */
+.awtsmoos-src-fn-item {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  width: 100%;
+  text-align: start;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--sefer-line, #e8dcc0);
+  padding: 0.7rem 0.3rem;
+  cursor: pointer;
+  border-radius: 0.4rem;
+  transition: background 0.15s ease;
+}
+.awtsmoos-src-fn-item:hover {
+  background: var(--sefer-paper-deep, #f5efe0);
+}
+.awtsmoos-src-fn-num {
+  flex-shrink: 0;
+  font-weight: 700;
+  color: var(--sefer-gold-deep, #8a6d1b);
+  font-size: 0.9rem;
+  min-width: 2rem;
+}
+.awtsmoos-src-fn-text {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--sefer-ink, #2c2416);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+/* Comments list */
+.awtsmoos-src-comment {
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--sefer-line, #e8dcc0);
+}
+.awtsmoos-src-comment-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+}
+.awtsmoos-src-comment-author {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--sefer-gold-deep, #8a6d1b);
+}
+.awtsmoos-src-comment-time {
+  font-size: 0.78rem;
+  color: var(--sefer-ink-soft, #5a4f3a);
+}
+.awtsmoos-src-comment-body {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--sefer-ink, #2c2416);
+}
+.awtsmoos-src-empty {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--sefer-ink-soft, #5a4f3a);
+  font-size: 0.92rem;
+}
+/* Dark theme */
+[data-theme="dark"] .awtsmoos-src-sheet {
+  background: var(--sefer-paper, #1e1810);
+  box-shadow: 0 -0.5rem 3rem rgba(0, 0, 0, 0.6);
+}
+[data-theme="dark"] .awtsmoos-src-overlay {
+  background: rgba(0, 0, 0, 0.65);
+}
+[data-theme="dark"] .awtsmoos-src-notice.is-error {
+  color: #ff8a80;
+}
+[data-theme="dark"] .awtsmoos-src-notice.is-ok {
+  color: #81c784;
+}
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .awtsmoos-src-overlay,
+  .awtsmoos-src-sheet {
+    transition: none;
+  }
 }

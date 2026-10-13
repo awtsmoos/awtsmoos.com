@@ -100,6 +100,59 @@ function israelModeHint(currentIsrael) {
   return `Auto-detected: ${auto ? 'Israel' : 'Diaspora'} (by timezone)`;
 }
 
+/**
+ * B"H (2026-10-13, Yaakov law): text-size control for the Daily Chitas page.
+ * Adjusts ONE css variable (--chitas-base-size) on the study section.
+ * Hebrew derives via calc(var(--chitas-base-size) * var(--hebrew-optical))
+ * and English uses var(--chitas-base-size) directly, so the Aa +/− buttons
+ * scale both together and they always LOOK equal. Persisted per-device.
+ * @param {HTMLElement} section The .chitas-daily-study root.
+ * @returns {HTMLElement} The control bar element.
+ */
+const CHITAS_SIZE_KEY = 'chitasBaseSize';
+const CHITAS_SIZE_MIN = 0.8;
+const CHITAS_SIZE_MAX = 1.6;
+const CHITAS_SIZE_STEP = 0.1;
+
+function createChitasSizeControl(section) {
+  const bar = el('div', 'chitas-size-control');
+  bar.setAttribute('role', 'group');
+  bar.setAttribute('aria-label', 'Text size');
+
+  const dec = el('button', 'chitas-size-btn', '−');
+  dec.type = 'button';
+  dec.setAttribute('aria-label', 'Decrease text size');
+  const label = el('span', 'chitas-size-aa', 'Aa');
+  label.setAttribute('aria-hidden', 'true');
+  const inc = el('button', 'chitas-size-btn', '+');
+  inc.type = 'button';
+  inc.setAttribute('aria-label', 'Increase text size');
+
+  function currentSize() {
+    const raw = parseFloat(
+      getComputedStyle(section).getPropertyValue('--chitas-base-size')
+    );
+    return Number.isFinite(raw) ? raw : 1;
+  }
+  function applySize(v) {
+    const clamped = Math.min(CHITAS_SIZE_MAX, Math.max(CHITAS_SIZE_MIN, v));
+    const rounded = Math.round(clamped * 100) / 100;
+    section.style.setProperty('--chitas-base-size', `${rounded}rem`);
+    try { localStorage.setItem(CHITAS_SIZE_KEY, String(rounded)); } catch {}
+  }
+  dec.addEventListener('click', () => applySize(currentSize() - CHITAS_SIZE_STEP));
+  inc.addEventListener('click', () => applySize(currentSize() + CHITAS_SIZE_STEP));
+
+  // Restore the user's saved size, if any.
+  try {
+    const saved = parseFloat(localStorage.getItem(CHITAS_SIZE_KEY));
+    if (Number.isFinite(saved)) applySize(saved);
+  } catch {}
+
+  bar.append(dec, label, inc);
+  return bar;
+}
+
 function createIsraelToggle(currentIsrael, onChange) {
   const wrap = el('div', 'chitas-israel-toggle');
   wrap.setAttribute('role', 'group');
@@ -427,6 +480,11 @@ export function createDailyStudySection(dailyStudy, studyDate, heichelId) {
   header.append(heEl('p', 'chitas-daily-date-he', dailyStudy.hebrewDate));
   header.append(el('p', 'chitas-daily-date-he-en', dailyStudy.hebrewDateEn));
   section.append(header);
+
+  // B"H (2026-10-13, Yaakov law): text-size controls. One variable —
+  // --chitas-base-size — drives BOTH Hebrew (×1.3 optical) and English,
+  // so they always scale together and always LOOK equal.
+  section.append(createChitasSizeControl(section));
 
   // Israel toggle
   section.append(createIsraelToggle(dailyStudy.israel, reloadWithIsrael));
