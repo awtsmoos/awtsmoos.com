@@ -146,3 +146,31 @@ export function hebrewDateFromGregorian(date) {
 export function isHebrewLeapYear(gregorianDate) {
   return hebrewDateFromGregorian(gregorianDate).leap;
 }
+
+/**
+ * Is the given Hebrew year (AM) a leap year? (19-year cycle)
+ * @param {number} hebrewYear
+ * @returns {boolean}
+ */
+export function isLeapHebrewYear(hebrewYear) {
+  return isLeapYear(hebrewYear);
+}
+
+/**
+ * Yaakov's rule: the Tanya cycle starts 19 Kislev. The schedule (leap vs
+ * regular) for the ENTIRE active cycle is determined by whether the Hebrew
+ * year in which the cycle STARTED was a leap year — not by the current
+ * calendar year.
+ * @param {{year:number, month:number, day:number}} h Hebrew date (month 1-13, Kislev=9)
+ * @returns {number} The Hebrew year (AM) in which the active cycle started.
+ */
+export function tanyaCycleStartYear(h) {
+  // The Hebrew year runs Tishrei (7) -> Elul (6). 19 Kislev (month 9, day 19)
+  // falls early in the year. If today is in Tishrei/Cheshvan, or Kislev before
+  // the 19th, the most recent 19 Kislev was in the PREVIOUS Hebrew year.
+  // Otherwise (Kislev 19 onward through Elul), it was this Hebrew year.
+  if (h.month === 7 || h.month === 8 || (h.month === 9 && h.day < 19)) {
+    return h.year - 1;
+  }
+  return h.year;
+}

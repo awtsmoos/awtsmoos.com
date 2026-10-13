@@ -84,9 +84,10 @@ function reloadWithIsrael(israel) {
  * Renders the full daily study section.
  * @param {object} dailyStudy The dailyStudy object from virtual-series.
  * @param {Date} studyDate The selected date.
+ * @param {string} heichelId The heichel identity for study links.
  * @returns {HTMLElement}
  */
-export function createDailyStudySection(dailyStudy, studyDate) {
+export function createDailyStudySection(dailyStudy, studyDate, heichelId = 'ikar') {
   const section = el('section', 'chitas-daily-study');
   section.setAttribute('aria-label', 'Daily Chitas Study');
   
@@ -120,25 +121,36 @@ export function createDailyStudySection(dailyStudy, studyDate) {
     ));
   }
   
-  // 2. Tanya
+  // 2. Tanya — every day has a portion in the Chitas cycle (19 Kislev -> 18 Kislev)
   if (dailyStudy.tanya) {
     const t = dailyStudy.tanya;
     const count = t.postIds.length;
+    const p = t.portion;
     let body, bodyHe = null, link = null, linkText = null;
-    if (count > 0) {
-      body = `${count} section${count > 1 ? 's' : ''} · ${t.cycle}`;
-      // Link to the first Tanya post (they're in tanyaLikkuteiAmarim etc.)
-      // Use the post ID directly via the series
-      const postId = t.postIds[0];
-      const seriesId = postId.includes('la-') ? 'tanyaLikkuteiAmarim'
-        : postId.includes('sh-') ? 'tanyaShaarHaYichud'
-        : postId.includes('it-') ? 'tanyaIgeresHaTeshuvah'
-        : 'tanyaKuntresAcharon';
-      link = `/heichelos/ikar/series/${seriesId}/post/${postId}`;
-      linkText = 'Open Tanya →';
+    if (p) {
+      // Show the portion title (e.g., "Likkutei Amarim, Chapter 5" or
+      // "Igeres HaKodesh, Epistle 3"). Every date has one — no gaps.
+      body = `${p.title} · ${t.cycle}`;
+      bodyHe = p.seferHe ? `${p.seferHe}` : null;
+      if (count > 0) {
+        // Link to the first Tanya post (they're in tanyaLikkuteiAmarim etc.)
+        const postId = t.postIds[0];
+        const seriesId = postId.includes('la-') ? 'tanyaLikkuteiAmarim'
+          : postId.includes('sh-') ? 'tanyaShaarHaYichud'
+          : postId.includes('it-') ? 'tanyaIgeresHaTeshuvah'
+          : postId.includes('ka-') ? 'tanyaKuntresAcharon'
+          : null;
+        if (seriesId) {
+          link = `/heichelos/ikar/series/${seriesId}/post/${postId}`;
+          linkText = 'Open Tanya →';
+        }
+      }
+      // Igeres HaKodesh: portion is defined but the text posts are not yet
+      // imported — show the portion without a link rather than "no portion".
     } else {
-      body = 'No Tanya portion assigned for this date in the traditional cycle.';
-      bodyHe = 'אין שיעור תניא קבוע לתאריך זה';
+      // Fallback (should not happen — the cycle covers every date)
+      body = `${count} section${count > 1 ? 's' : ''} · ${t.cycle}`;
+      bodyHe = null;
     }
     grid.append(createStudyCard('Tanya', 'תניא', body, bodyHe, link, linkText));
   }
