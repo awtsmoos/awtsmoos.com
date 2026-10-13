@@ -60,6 +60,17 @@ function updateViewDisplay(total, formatted) {
 		el.textContent = `${formatted || total} views`;
 		el.dataset.viewCount = String(total);
 	});
+	// Inject into reader header if not present
+	if (!document.querySelector('[data-view-count]')) {
+		const header = document.querySelector('.meluket-sefer-header, .post-header, h1');
+		if (header && header.parentNode) {
+			const badge = document.createElement('div');
+			badge.setAttribute('data-view-count', String(total));
+			badge.textContent = `${formatted || total} views`;
+			badge.style.cssText = 'font-size:0.85rem;color:var(--awtsmoos-text-muted,#8a7a5a);margin-top:0.25rem;';
+			header.parentNode.insertBefore(badge, header.nextSibling);
+		}
+	}
 }
 
 /**
