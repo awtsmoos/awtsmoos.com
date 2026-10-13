@@ -53,7 +53,10 @@ export class NetzachUnderworldPlane {
 		const tiferesGeometry = new BufferGeometry();
 		tiferesGeometry.setAttribute("position", new BufferAttribute(tiferesPositions, 3));
 		tiferesGeometry.setAttribute("normal", new BufferAttribute(tiferesNormals, 3));
-		tiferesGeometry.setIndex(new BufferAttribute([0, 1, 2, 0, 2, 3], 1));
+		// B"H — Yaakov 2026-10-13 round 2: winding must be counter-clockwise
+		// seen from +z (the camera side). [0,1,2, 0,2,3] was clockwise, so the
+		// plane was back-facing and frustum-culled — the dead band stayed.
+		tiferesGeometry.setIndex(new BufferAttribute([0, 2, 1, 0, 3, 2], 1));
 		this.netzachMesh = new Mesh(
 			tiferesGeometry,
 			new MeshStandardMaterial({ color: NETZACH_EARTH_COLOR, roughness: 1 })
