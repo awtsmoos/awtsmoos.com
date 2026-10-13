@@ -143,10 +143,22 @@ async function main() {
 						f.content = readFileSync(abs).toString('base64');
 					} catch { /* file deleted? keep old */ }
 				}
-				// If bust touched any HTML files not already in payload, add them
+				// If bust touched any HTML files not already in payload, add them.
+				// B"H 2026-10-13: fixed path parsing — the old
+				// `.trim().slice(3)` ate the first path character for
+				// worktree-modified files (trim removed the X status char,
+				// shifting the XY prefix), silently deploying nothing.
+				// Slice the 3-char "XY " prefix FIRST, then trim.
 				const bustTouched = execSync('git status --porcelain', { cwd: REPO, encoding: 'utf8' })
 					.split('\n')
-					.map(l => l.trim().slice(3).trim())
+					.map(l => {
+						let p = l.slice(3);
+						const arrow = p.indexOf(' -> ');
+						if (arrow !== -1) p = p.slice(arrow + 4);
+						p = p.trim();
+						if (p.startsWith('"') && p.endsWith('"')) p = p.slice(1, -1);
+						return p;
+					})
 					.filter(l => l.endsWith('.html') && !payload.some(f => f.path === l));
 				for (const extra of bustTouched) {
 					try {
