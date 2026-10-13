@@ -183,3 +183,62 @@ body[data-awtsmoos-drive] .drive-details-actions button:first-child:focus-visibl
 	outline: 2px solid var(--law8-gold-bright);
 	outline-offset: 2px;
 }
+
+/* ============ ROUND 2 POLISH — upload ceremony, entry focus, empty calm (2026-10-13) ============ */
+/* B"H — Upload leads with gold: the primary action glows, lifts, and answers the press. */
+body[data-awtsmoos-drive] .drive-primary-action {
+	border: 1px solid var(--law8-gold-line);
+	background: linear-gradient(180deg, var(--law8-gold-bright), var(--law8-gold) 60%, var(--law8-gold-deep));
+	color: var(--law8-on-gold);
+	font-weight: 800;
+	box-shadow: 0 8px 22px var(--law8-gold-glow-soft), inset 0 1px 0 var(--law8-gold-sheen);
+	transition: filter 150ms ease, box-shadow 180ms ease, transform 120ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+	body[data-awtsmoos-drive] .drive-primary-action:hover {
+		filter: brightness(1.08);
+		box-shadow: 0 10px 28px var(--law8-gold-glow), inset 0 1px 0 var(--law8-gold-sheen);
+		transform: translateY(-1px);
+	}
+}
+body[data-awtsmoos-drive] .drive-primary-action:active {
+	transform: translateY(0) scale(0.98);
+}
+body[data-awtsmoos-drive] .drive-primary-action:focus-visible {
+	outline: 2px solid var(--law8-gold-bright);
+	outline-offset: 2px;
+}
+/* B"H — keyboard travelers get the same glow as the pointer: entries ring gold on focus-within. */
+body[data-awtsmoos-drive] .drive-entry-card:focus-within {
+	border-color: var(--law8-gold-line);
+	box-shadow: 0 0 0 3px var(--law8-gold-glow-soft), 0 12px 28px rgba(0, 0, 0, 0.4);
+}
+body[data-awtsmoos-drive] .drive-entry-row:focus-within {
+	border-color: var(--law8-gold-line);
+	background: var(--law8-nav-current);
+}
+/* B"H — file names read crisp; the meta line stays quiet. */
+body[data-awtsmoos-drive] .drive-entry-name {
+	color: var(--drive-text);
+}
+body[data-awtsmoos-drive] .drive-entry-row-name strong {
+	color: var(--drive-text);
+}
+/* B"H — empty folders breathe: a gold breath at the top, patient copy. */
+body[data-awtsmoos-drive] .drive-empty {
+	border-color: var(--law8-gold-line);
+	background:
+		radial-gradient(28rem 14rem at 50% 0%, var(--law8-gold-glow-soft), transparent 70%),
+		rgba(3, 15, 12, 0.28);
+	gap: 10px;
+	padding: 2.5rem 1.5rem;
+}
+@media (prefers-reduced-motion: reduce) {
+	body[data-awtsmoos-drive] .drive-primary-action {
+		transition: none;
+	}
+	body[data-awtsmoos-drive] .drive-primary-action:hover,
+	body[data-awtsmoos-drive] .drive-primary-action:active {
+		transform: none;
+	}
+}
