@@ -808,3 +808,23 @@
 		padding: 8px 10px;
 	}
 }
+
+/* ============ ROUND 2 POLISH — feed (2026-10-13) ============ */
+/* B"H — an empty status takes no space; a present one breathes. */
+.feed-status:empty {
+	min-height: 0;
+	padding: 0;
+}
+.feed-status:not(:empty) {
+	padding-bottom: 12px;
+}
+/* B"H — the river's cards settle in with a whisper of motion. */
+@media (prefers-reduced-motion: no-preference) {
+	.feed-river .feed-card {
+		animation: feed-card-settle 0.45s cubic-bezier(0.22, 0.9, 0.28, 1) both;
+	}
+}
+@keyframes feed-card-settle {
+	from { opacity: 0; transform: translateY(10px); }
+	to { opacity: 1; transform: translateY(0); }
+}

@@ -7,9 +7,71 @@
 <meta name="theme-color" content="#050914">
 <title>Donate · Awtsmoos</title>
 <meta http-equiv="refresh" content="0; url=https://www.paypal.com/donate/?hosted_button_id=DU277RDRDML2C">
-<link rel="stylesheet" href="../css/awp-polish.css?v=awp-001">
+<link rel="stylesheet" href="../css/awp-polish.css?v=ba0dcce2ee">
+<style>
+	/* B"H — donate redirect polish (2026-10-13): the panel breathes, the doorway glows gold. */
+	.donate-redirect {
+		--don-gold: #d9a94e;
+		--don-gold-hi: #f2d98c;
+		--don-ink: #241a08;
+		--don-focus: #f0c868;
+		--don-muted: #9fb4cc;
+	}
+	.donate-redirect .awp-panel {
+		text-align: center;
+		padding: 2.8rem 2.2rem;
+	}
+	.donate-redirect .awp-eyebrow,
+	.donate-redirect .awp-title-glow {
+		color: var(--don-gold-hi);
+	}
+	.donate-redirect .awp-title-glow {
+		margin: 0 0 .6rem;
+	}
+	.donate-redirect .awp-muted {
+		color: var(--don-muted);
+		margin: 0 0 1.6rem;
+	}
+	.donate-redirect a.awp-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 48px;
+		padding: .85rem 1.8rem;
+		border-radius: 999px;
+		background: linear-gradient(180deg, var(--don-gold-hi), var(--don-gold));
+		color: var(--don-ink);
+		font-weight: 800;
+		text-decoration: none;
+		box-shadow: 0 8px 22px rgba(217, 169, 78, .3), inset 0 1px 0 rgba(255, 255, 255, .35);
+		transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+	}
+	:where(.donate-redirect) a.awp-btn:hover {
+		filter: brightness(1.07);
+		transform: translateY(-2px);
+		box-shadow: 0 12px 28px rgba(217, 169, 78, .4), inset 0 1px 0 rgba(255, 255, 255, .35);
+	}
+	:where(.donate-redirect) a.awp-btn:focus-visible {
+		outline: 3px solid var(--don-focus);
+		outline-offset: 2px;
+	}
+	:where(.donate-redirect) a.awp-btn:active {
+		transform: scale(.98);
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.donate-redirect a.awp-btn {
+			color: var(--don-ink);
+			transition: none;
+		}
+		:where(.donate-redirect) a.awp-btn:hover,
+		:where(.donate-redirect) a.awp-btn:active {
+			color: var(--don-ink);
+			transform: none;
+		}
+	}
+</style>
 </head>
-<body class="awp-page awp-center">
+<body class="awp-page awp-center donate-redirect">
 <main class="awp-panel awp-entrance awp-narrow" style="--awp-d:.05s">
 <p class="awp-eyebrow">B"H · Support Awtsmoos</p>
 <h1 class="awp-title-glow">Donate</h1>

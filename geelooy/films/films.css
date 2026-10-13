@@ -675,3 +675,45 @@ body.films-modal-open {
 		display: none;
 	}
 }
+
+/* ============ ROUND 2 POLISH — films (2026-10-13) ============ */
+/* B"H — the poster breathes on hover; the title balances. */
+.film-card-poster {
+	transition: transform 0.35s ease;
+}
+.film-card:hover .film-card-poster {
+	transform: scale(1.045);
+}
+/* B"H — available films wear a living gold halo on the play button. */
+:where(.film-card)[data-available="true"] .film-card-play {
+	border-color: var(--films-gold);
+	box-shadow: 0 8px 30px var(--films-shadow), 0 0 26px var(--films-glow);
+}
+@media (prefers-reduced-motion: no-preference) {
+	:where(.film-card)[data-available="true"] .film-card-play {
+		animation: films-play-halo 2.8s ease-in-out infinite;
+	}
+}
+@keyframes films-play-halo {
+	0%, 100% { box-shadow: 0 8px 30px var(--films-shadow), 0 0 18px var(--films-glow); }
+	50% { box-shadow: 0 8px 30px var(--films-shadow), 0 0 34px var(--films-glow); }
+}
+/* B"H — kickers track a touch wider; titles balance across lines. */
+.film-card-kicker {
+	color: var(--films-gold-dim);
+	letter-spacing: 0.14em;
+}
+.film-card-title {
+	color: var(--films-ink);
+	text-wrap: balance;
+}
+@media (prefers-reduced-motion: reduce) {
+	.film-card-poster,
+	:where(.film-card)[data-available="true"] .film-card-play {
+		transition: none;
+		animation: none;
+	}
+	.film-card:hover .film-card-poster {
+		transform: none;
+	}
+}
