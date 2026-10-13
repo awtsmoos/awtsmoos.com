@@ -6,28 +6,17 @@ export const FIREBASE_TEXTURE_PROJECT = 'awtsmoos-docs-base';
 export const FIREBASE_TEXTURE_ORIGIN = 'https://awtsmoos-docs-base.web.app';
 export const FIREBASE_TEXTURE_MANIFEST = `${FIREBASE_TEXTURE_ORIGIN}/awtsmoos-nature/chai-forest-half/manifest.json`;
 
-// B"H — Yaakov 2026-10-13: every game loads from the Awtsmoos texture library.
-// Drive is tried first; Firebase remains the fallback. Canonical Nitzotz set:
-// https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/games/nitzotz/
-export const DRIVE_TEXTURE_BASE = 'https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/games/nitzotz/';
-
-const DRIVE_OVERRIDES = Object.freeze({
-	'grass.jpg': 'grass.png',
-	'dirt_color.jpg': 'dirt.png',
-	'bluestone 1.png': 'stone.png',
-	'Bark002_1K-JPG_Color.jpg': 'bark.png',
-	'ash.png': 'leaves.png',
-	'oak.png': 'leaves.png',
-	'pine.png': 'leaves.png',
-	'silver 1.png': 'metal.png',
-	'oak wood 2.png': 'wood.png',
-	'seamless water brighter.png': 'water.png'
-});
+// B"H — Yaakov 2026-10-13: FORENSICS VERDICT — nothing was ever deleted.
+// The 1,141-image original library is live in the Drive alias
+// firebase_drive_migration (all 200). Drive is tried first (same bytes as
+// Firebase, via Yaakov's own Drive); Firebase remains the fallback.
+const DRIVE_ORIGINAL_BASE = 'https://awtsmoos.com/api/social/drive/public/firebase_drive_migration';
 
 /** Preferred Drive library URL for a texture, or null when unmapped. */
 export function driveTextureUrl(fileName) {
-	const mapped = DRIVE_OVERRIDES[fileName];
-	return mapped ? `${DRIVE_TEXTURE_BASE}${mapped}` : null;
+	const record = firebaseTextureRecord(fileName);
+	if (!record) return null;
+	return `${DRIVE_ORIGINAL_BASE}${record.path}`;
 }
 
 const TEXTURE_RECORDS = Object.freeze([

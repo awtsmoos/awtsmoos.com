@@ -24,16 +24,21 @@ export function awtsmoosDriveTexturePathUrl(path) {
 
 /** @param {string} filename Canonical full-resolution filename. @returns {string} */
 export function awtsmoosDriveFullTextureUrl(filename) {
-	// B"H — Yaakov 2026-10-13: the old full-resolution/ Drive paths are gone
-	// (404). Resolve through the Awtsmoos games texture library instead.
-	return driveLibraryTextureUrl(filename);
+	// B"H — Yaakov 2026-10-13: FORENSICS VERDICT — nothing was ever deleted.
+	// The 1,141-image original library is live in the Drive alias
+	// firebase_drive_migration (exact catalog filenames, all 200).
+	// The /sites/ root never served; the awtsmoos-alias full-resolution/ never existed.
+	return `${ORIGINAL_LIBRARY_ROOT}full-resolution/${encodePath(cleanPath(filename))}`;
 }
 
 /** @param {string} filename Canonical tree filename. @returns {string} */
 export function awtsmoosDriveTreeTextureUrl(filename) {
-	// B"H — Yaakov 2026-10-13: same library migration as full-resolution.
-	return driveLibraryTextureUrl(filename);
+	// B"H — Yaakov 2026-10-13: same original-library restoration.
+	return `${ORIGINAL_LIBRARY_ROOT}awtsmoos-nature/ilanos/trees/${encodePath(cleanPath(filename))}`;
 }
+
+// B"H — the intact original texture library (1.4 GB, 1,141 images, all public).
+const ORIGINAL_LIBRARY_ROOT = "https://awtsmoos.com/api/social/drive/public/firebase_drive_migration/";
 
 /**
  * Resolves a canonical texture filename to real Awtsmoos Drive textures.

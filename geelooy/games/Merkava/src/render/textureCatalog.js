@@ -7,37 +7,40 @@
  * Meshes not listed here keep their flat vessel color (glowy things —
  * shots, sparks, gates — read better flat with bloom).
  *
- * Full library (1100+ textures any game may choose from):
- * https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/games/manifest.json
+ * B"H — FORENSICS VERDICT: nothing was ever deleted. These are Yaakov's
+ * original photographic textures (1.4 GB library, every URL verified 200),
+ * chosen to look exciting: cobblestone roads, marble pillars, granite war
+ * chariots, mossy golems.
  */
-const HERO_BASE = 'https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/games/heroes/';
+const LIB = 'https://awtsmoos.com/api/social/drive/public/firebase_drive_migration/full-resolution/';
+const VARIOUS = 'https://awtsmoos.com/api/social/drive/public/firebase_drive_migration/various/';
 
 export const MATERIAL_TEXTURES = Object.freeze({
-	road: HERO_BASE + 'hero-road-stone.png',
-	chariot: HERO_BASE + 'hero-chariot-gold.png',
-	soldier: HERO_BASE + 'hero-soldier-bronze.png',
-	pillar: HERO_BASE + 'hero-pillar-marble.png',
-	prutah: HERO_BASE + 'hero-coin-gold.png',
-	goldenPrutah: HERO_BASE + 'hero-coin-gold.png',
-	boss: HERO_BASE + 'hero-boss-void.png',
-	warning: HERO_BASE + 'hero-warning-hazard.png',
-	lane: HERO_BASE + 'hero-lane-light.png',
-	obstacle: HERO_BASE + 'hero-obsidian-dark.png',
-	golem: HERO_BASE + 'hero-moss-stone.png',
-	klipah: HERO_BASE + 'hero-boss-void.png',
-	// Shots, sparks, gates, particles: intentionally flat (glow carries them).
-	shot: null,
-	enemyShot: null,
-	spark: null,
-	particle: null,
-	gate: null,
-	health: null,
+	road: LIB + 'cobblestone.png',
+	chariot: LIB + 'polished%20granite%20Rock%201.png',
+	soldier: LIB + 'rusty%20iron.png',
+	pillar: LIB + 'marble%201.png',
+	prutah: LIB + 'marble%201.png',
+	goldenPrutah: LIB + 'marble%201.png',
+	boss: LIB + 'bluestone%201.png',
+	warning: LIB + 'red%20brick%201.png',
+	lane: null,
+	obstacle: LIB + 'bluestone%201.png',
+	golem: VARIOUS + 'Stone%20retaining%20wall%20masonry.png',
+	klipah: LIB + 'bluestone%201.png',
 	raven: null,
 	archer: null,
 	drainer: null,
 	splitter: null,
 	summoner: null,
 	corrupter: null,
-	thief: null,
-	elite: null
+	thief: VARIOUS + 'Rough%20weathered%20oak%20wood%20planks.png',
+	elite: LIB + 'polished%20granite%20Rock%201.png',
+	// Shots, sparks, gates, particles, lane: intentionally flat (glow carries them).
+	shot: null,
+	enemyShot: null,
+	spark: null,
+	particle: null,
+	gate: null,
+	health: null
 });

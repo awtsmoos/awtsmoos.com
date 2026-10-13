@@ -9,30 +9,18 @@ import { AWTSMOOS_REMOTE_MATERIAL_RECORDS } from './awtsmoosRemoteMaterialRecord
 export const AWTSMOOS_REMOTE_MATERIAL_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/';
 export const AWTSMOOS_MATERIAL_TRANSPORT = new RemoteMaterialTransport(AWTSMOOS_REMOTE_MATERIAL_ROOT);
 
-// B"H — Yaakov 2026-10-13: the firebase_drive_migration well ran dry (404).
-// Material roles now resolve through the Awtsmoos games texture library
-// (1100+ textures + canonical {category}-001.png files). The record's
-// coverage kind picks the category — never random.
-const DRIVE_GAMES_LIBRARY_BASE = 'https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/games/';
+// B"H — Yaakov 2026-10-13: FORENSICS VERDICT — nothing was ever deleted.
+// The 1,141-image original library is live in the Drive alias
+// firebase_drive_migration; record paths (full-resolution/..., various/...)
+// resolve there exactly (all 200). The /sites/ root never served.
+const ORIGINAL_LIBRARY_ROOT = 'https://awtsmoos.com/api/social/drive/public/firebase_drive_migration/';
 
-const COVERAGE_TO_LIBRARY = Object.freeze({
-	stone: 'stone',
-	plaster: 'stone',
-	timber: 'wood',
-	roof: 'brick',
-	cobble: 'stone',
-	cloth: 'fabric',
-	fur: 'fabric',
-	soil: 'ground',
-	bark: 'bark',
-	foliage: 'trees',
-	water: 'water',
-	generic: 'metal'
-});
+function encodeRecordPath(path) {
+	return String(path || '').split('/').map(encodeURIComponent).join('/');
+}
 
 function libraryUrlForRecord(source) {
-	const category = COVERAGE_TO_LIBRARY[source.coverage] || 'stone';
-	return `${DRIVE_GAMES_LIBRARY_BASE}${category}/${category}-001.png`;
+	return `${ORIGINAL_LIBRARY_ROOT}${encodeRecordPath(source.path)}`;
 }
 
 /**
