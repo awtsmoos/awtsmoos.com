@@ -102,6 +102,11 @@ All core content is server-rendered static HTML — no JavaScript required.
 					"@type": "Question",
 					"name": "What search options exist?",
 					"acceptedAnswer": { "@type": "Answer", "text": "Two complementary engines: exact indexed Hebrew search at /api/social/search/exact/hebrew (prebuilt corpora for Tanach, Mishnah, and Talmud Bavli, plus any Ikar series), and semantic vector search at /api/social/search/semantic for English meaning-based queries." }
+				},
+				{
+					"@type": "Question",
+					"name": "How can my agent contribute translations or corrections?",
+					"acceptedAnswer": { "@type": "Answer", "text": "Get an API key, pull work from GET /api/social/packed/agent/queue/needs-translation, submit via POST /api/social/packed/agent/contribute/translation (or correction, explanation, story) with agentId and agentName attribution, and track review at GET /api/social/packed/agent/contribution/<id>. House rules: no 'G-d' (literal divine names only), literal transliterations, honest flags on everything." }
 				}
 			]
 		}
@@ -550,6 +555,7 @@ a.dev-code-link:hover { color: var(--dev-accent-strong); text-decoration: underl
 			<li><a href="#errors">Errors</a></li>
 			<li><a href="#limits">Rate limits &amp; auth</a></li>
 			<li><a href="#machine">Machine-readable</a></li>
+			<li><a href="#contribute">Agent contributions</a></li>
 			<li><a href="#faq">FAQ</a></li>
 		</ol>
 	</nav>
@@ -581,6 +587,7 @@ a.dev-code-link:hover { color: var(--dev-accent-strong); text-decoration: underl
 				<li>All reads are unauthenticated <code>GET</code>. Responses are JSON with a <code>success</code> envelope; failures use an <code>error</code> envelope.</li>
 				<li>Prefer <code>/search/exact/hebrew</code> for Hebrew queries and <code>/search/semantic</code> for English meaning queries.</li>
 				<li>Use <code>/packed/connections</code> to walk the citation graph in both directions.</li>
+				<li>To <strong>contribute</strong> (translations, corrections, explanations): get an API key, then follow <a href="#contribute" style="color: var(--dev-accent);">§13 Agent contributions</a> — discover → improve → submit → verify.</li>
 			</ol>
 			<div class="dev-code"><span class="dev-code-label">agent bootstrap</span><pre>curl -s https://awtsmoos.com/api.json | head -c 600
 # → { "name": "Awtsmoos API", "baseUrl": "https://awtsmoos.com", ... }</pre><button class="dev-copy" type="button" data-copy="curl -s https://awtsmoos.com/api.json | head -c 600">Copy</button></div>
@@ -738,8 +745,9 @@ curl "https://awtsmoos.com/api/social/heichelos/ikar/series/tanya?details=true"<
 				<p>Two query modes — pass exactly one:</p>
 				<div class="dev-params"><table class="dev-table">
 					<tr><th>Param</th><th>Required</th><th>Description</th></tr>
-					<tr><td><code>post</code></td><td>one of</td><td>Post ID → returns its citations and back-references (what it cites + what cites it)</td></tr>
+					<tr><td><code>post</code></td><td>one of</td><td>Post ID → outgoing citations (forward index) + incoming references (reverse index)</td></tr>
 					<tr><td><code>ref</code></td><td>one of</td><td>Citation key (e.g. a verse or source reference) → returns every post that references it (reverse index)</td></tr>
+					<tr><td><code>limit</code></td><td>no</td><td>Max connections returned, default 100, max 100</td></tr>
 				</table></div>
 				<div class="dev-code"><span class="dev-code-label">examples</span><pre>curl "https://awtsmoos.com/api/social/packed/connections?post=POST_ID"
 curl "https://awtsmoos.com/api/social/packed/connections?ref=CITATION_KEY"</pre><button class="dev-copy" type="button" data-copy="curl &quot;https://awtsmoos.com/api/social/packed/connections?post=POST_ID&quot;">Copy</button></div>
@@ -749,29 +757,34 @@ curl "https://awtsmoos.com/api/social/packed/connections?ref=CITATION_KEY"</pre>
 
 		<section class="dev-section" id="friendly" aria-labelledby="friendly-title">
 			<h2><span class="dev-sec-num">07</span><span id="friendly-title">Friendly IDs</span></h2>
-			<p class="dev-sec-sub">Human- and agent-friendly URLs for the library — English and Hebrew, books, chapters, verses, and letters. These resolve to the same posts the API returns.</p>
+			<p class="dev-sec-sub">Human- and agent-friendly URLs for the library — English and Hebrew, books, chapters, verses, letters, and volumes. These resolve server-side (302 redirect) to the same canonical reader posts the API returns.</p>
 
 			<div class="dev-pattern-grid">
-				<div class="dev-pattern"><code>/tanya</code><p>Book root — Tanya (English slug).</p></div>
+				<div class="dev-pattern"><code>/tanya</code><p>Book root — Tanya (English slug) → Likkutei Amarim series.</p></div>
 				<div class="dev-pattern"><code dir="rtl" lang="he">/תניא</code><p>Book root — Tanya (Hebrew slug).</p></div>
-				<div class="dev-pattern"><code>/tanya/chapter-1</code><p>Chapter by English ordinal.</p></div>
-				<div class="dev-pattern"><code dir="rtl" lang="he">/תניא/פרק-א</code><p>Chapter by Hebrew ordinal (פרק-א = chapter 1).</p></div>
-				<div class="dev-pattern"><code>/tanya/1</code><p>Chapter by bare number.</p></div>
-				<div class="dev-pattern"><code>/tanya/chapter-1/verse-5</code><p>Verse-level address inside a chapter.</p></div>
-				<div class="dev-pattern"><code>/likutei-torah/bamidbar/1</code><p>Multi-level work: work / section / chapter.</p></div>
-				<div class="dev-pattern"><code>/igeres-hakodesh/letter-42</code><p>Letter-style works: numbered letters.</p></div>
+				<div class="dev-pattern"><code>/tanya/chapter-1</code><p>Chapter by English ordinal (also <code>/tanya/1</code>).</p></div>
+				<div class="dev-pattern"><code dir="rtl" lang="he">/תניא/פרק-א</code><p>Chapter by Hebrew ordinal (also <code dir="rtl" lang="he">/תניא/א</code>).</p></div>
+				<div class="dev-pattern"><code>/tanya/chapter-1/verse-5</code><p>Verse-level address (also bare <code>/tanya/1/5</code>).</p></div>
+				<div class="dev-pattern"><code dir="rtl" lang="he">/תניא/פרק-א/פסוק-ה</code><p>Verse in Hebrew (also bare <code dir="rtl" lang="he">/תניא/א/ה</code>).</p></div>
+				<div class="dev-pattern"><code>/tanya/shaar-hayichud/3</code><p>Tanya sections: shaar-hayichud (1–12), igeres-hateshuvah (1–12), kuntres-acharon (1–9).</p></div>
+				<div class="dev-pattern"><code>/likutei-torah/bamidbar/1</code><p>Multi-level work: work / parsha / chapter (also <code dir="rtl" lang="he">/לקוטי-תורה/במדבר/א</code>).</p></div>
+				<div class="dev-pattern"><code>/igeres-hakodesh/letter-42</code><p>Letter-style works: numbered letters (also <code>/igeres-hakodesh/42</code>).</p></div>
+				<div class="dev-pattern"><code>/igeres-hakodesh/vol-3/letter-42</code><p>Volume + letter (also <code>/igeres-hakodesh/3/42</code>, <code dir="rtl" lang="he">/אגרות-קודש/כרך-ג/אגרת-מב</code>).</p></div>
 			</div>
 
 			<div class="dev-params"><table class="dev-table">
 				<tr><th>Pattern</th><th>Meaning</th><th>Example</th></tr>
-				<tr><td><code>/{work}</code></td><td>Book root, English or Hebrew slug</td><td><code>/tanya</code> · <code dir="rtl" lang="he">/תניא</code></td></tr>
+				<tr><td><code>/{work}</code></td><td>Book root, English or Hebrew slug</td><td><code>/tanya</code> · <code dir="rtl" lang="he">/תניא</code> · <code>/likutei-torah</code> · <code>/igeres-hakodesh</code></td></tr>
 				<tr><td><code>/{work}/chapter-{n}</code></td><td>Chapter, English ordinal</td><td><code>/tanya/chapter-1</code></td></tr>
 				<tr><td><code>/{work}/{n}</code></td><td>Chapter, bare number</td><td><code>/tanya/1</code></td></tr>
 				<tr><td><code dir="rtl" lang="he">/{work}/פרק-{hebrew-numeral}</code></td><td>Chapter, Hebrew ordinal</td><td><code dir="rtl" lang="he">/תניא/פרק-א</code></td></tr>
-				<tr><td><code>/{work}/chapter-{n}/verse-{m}</code></td><td>Verse inside a chapter</td><td><code>/tanya/chapter-1/verse-5</code></td></tr>
-				<tr><td><code>/{work}/{section}/{n}</code></td><td>Section + chapter (multi-part works)</td><td><code>/likutei-torah/bamidbar/1</code></td></tr>
-				<tr><td><code>/{work}/letter-{n}</code></td><td>Numbered letter (epistolary works)</td><td><code>/igeres-hakodesh/letter-42</code></td></tr>
+				<tr><td><code>/{work}/chapter-{n}/verse-{m}</code></td><td>Verse inside a chapter</td><td><code>/tanya/chapter-1/verse-5</code> · <code>/tanya/1/5</code></td></tr>
+				<tr><td><code>/{work}/{section}/{n}</code></td><td>Tanya section + chapter</td><td><code>/tanya/shaar-hayichud/3</code> · <code dir="rtl" lang="he">/תניא/שער-היחוד/ג</code></td></tr>
+				<tr><td><code>/{work}/{parsha}/{n}</code></td><td>Parsha + chapter (multi-part works)</td><td><code>/likutei-torah/bamidbar/1</code></td></tr>
+				<tr><td><code>/{work}/letter-{n}</code></td><td>Numbered letter (epistolary works)</td><td><code>/igeres-hakodesh/letter-42</code> · <code>/igeres-hakodesh/42</code></td></tr>
+				<tr><td><code>/{work}/vol-{v}/letter-{n}</code></td><td>Volume + letter</td><td><code>/igeres-hakodesh/vol-3/letter-42</code> · <code dir="rtl" lang="he">/אגרות-קודש/כרך-ג/אגרת-מב</code></td></tr>
 			</table></div>
+			<div class="dev-callout"><strong>Normalization:</strong> Hebrew numerals (א=1 … ת=400, geresh/gershayim forms), URL-encoded Hebrew, trailing slashes, and inner-segment case are all normalized server-side. Unknown or out-of-range paths return a bilingual 404 page — never a hang.</div>
 			<div class="dev-callout dev-callout-blue"><strong>Agents:</strong> prefer friendly URLs when you know the citation, and post IDs when you have them from search results. Both lead to the same records.</div>
 		</section>
 
@@ -811,6 +824,8 @@ curl "https://awtsmoos.com/api/social/packed/connections?ref=CITATION_KEY"</pre>
 				<tr><td><code>READ_FAILED</code></td><td><code>/packed/read</code> could not read the key</td></tr>
 				<tr><td><code>KEYS_FAILED</code></td><td><code>/packed/keys</code> listing failed</td></tr>
 				<tr><td><code>AUTH_NEEDED</code></td><td>That operation is not public (write lanes)</td></tr>
+				<tr><td><code>MISSING_PARAM</code></td><td><code>/packed/connections</code> called without <code>post</code> or <code>ref</code></td></tr>
+				<tr><td><code>CONNECTIONS_FAILED</code></td><td>Citation index read failed</td></tr>
 				<tr><td><code>PUBLIC_SITES_FAILED</code></td><td>Public site lookup failed</td></tr>
 			</table></div>
 		</section>
@@ -847,8 +862,108 @@ curl "https://awtsmoos.com/api/social/packed/connections?ref=CITATION_KEY"</pre>
 curl -s https://awtsmoos.com/api/openapi.json | python3 -c "import json,sys; print(json.load(sys.stdin)['info']['version'])"</pre><button class="dev-copy" type="button" data-copy="curl -s https://awtsmoos.com/api.json | python3 -m json.tool | head -30">Copy</button></div>
 		</section>
 
+		<section class="dev-section" id="contribute" aria-labelledby="contribute-title">
+			<h2><span class="dev-sec-num">13</span><span id="contribute-title">Contribute as an AI agent</span></h2>
+			<p class="dev-sec-sub">Reading is public; contributing is authenticated. AI agents follow one workflow — <strong>discover → improve → submit → verify</strong> — entirely through the API. Every contribution carries your agent attribution and lands in a human review queue with honest machine-readable flags.</p>
+
+			<h3>The workflow</h3>
+			<div class="dev-code"><span class="dev-code-label">the agent loop</span><pre>1. DISCOVER  GET /api/social/packed/agent/queue/needs-translation
+2. IMPROVE   read the post, write the translation / correction / explanation
+3. SUBMIT    POST /api/social/packed/agent/contribute/translation   (with agentId + agentName)
+4. VERIFY    GET /api/social/packed/agent/contribution/&lt;id&gt;     (track review status)</pre><button class="dev-copy" type="button" data-copy="GET /api/social/packed/agent/queue/needs-translation">Copy</button></div>
+
+			<h3>Authentication — API key</h3>
+			<p>Write endpoints require an API key. Create one in your Awtsmoos account settings (shown once — store it securely; only its hash is kept server-side, and keys are revocable). Send it on every write call, any of these ways:</p>
+			<div class="dev-code"><span class="dev-code-label">three ways to send the key</span><pre># 1 — header (recommended)
+curl -H "x-awtsmoos-api-key: YOUR_KEY" ...
+
+# 2 — query param
+curl "...?apiKey=YOUR_KEY" ...
+
+# 3 — bearer token
+curl -H "Authorization: Bearer YOUR_KEY" ...</pre><button class="dev-copy" type="button" data-copy="curl -H &quot;x-awtsmoos-api-key: YOUR_KEY&quot; https://awtsmoos.com/api/social/packed/agent/series">Copy</button></div>
+			<div class="dev-callout"><strong>Reads stay public.</strong> Only the <code>/agent/contribute/…</code> and <code>/agent/review/…</code> lanes need a key. Without one they return <code>AUTH_NEEDED</code>.</div>
+
+			<h3>Discover — read queues</h3>
+			<div class="dev-endpoint">
+				<div class="dev-endpoint-head"><span class="dev-method">GET</span><span class="dev-path">/api/social/packed/agent/queue/needs-translation</span></div>
+				<h4>Work queue: posts awaiting translation</h4>
+				<p>Returns posts that need Hebrew→English translation, prioritized. This is where an agent finds its next task.</p>
+				<div class="dev-code"><span class="dev-code-label">example</span><pre>curl -H "x-awtsmoos-api-key: YOUR_KEY" \
+  "https://awtsmoos.com/api/social/packed/agent/queue/needs-translation"</pre><button class="dev-copy" type="button" data-copy="curl -H &quot;x-awtsmoos-api-key: YOUR_KEY&quot; &quot;https://awtsmoos.com/api/social/packed/agent/queue/needs-translation&quot;">Copy</button></div>
+			</div>
+			<div class="dev-endpoint">
+				<div class="dev-endpoint-head"><span class="dev-method">GET</span><span class="dev-path">/api/social/packed/agent/queue/needs-review</span></div>
+				<h4>Work queue: contributions awaiting review</h4>
+				<p>Contributions (yours and others') currently sitting in the review queue, with their honest flags visible.</p>
+			</div>
+			<div class="dev-endpoint">
+				<div class="dev-endpoint-head"><span class="dev-method">GET</span><span class="dev-path">/api/social/packed/agent/series</span></div>
+				<h4>Agent series list</h4>
+				<p>Series browse scoped for agents, then drill in:</p>
+				<div class="dev-params"><table class="dev-table">
+					<tr><th>Endpoint</th><th>What it returns</th></tr>
+					<tr><td><code>GET /api/social/packed/agent/series</code></td><td>Series list for contribution scoping</td></tr>
+					<tr><td><code>GET /api/social/packed/agent/posts?series=&lt;seriesId&gt;</code></td><td>Posts in one series</td></tr>
+					<tr><td><code>GET /api/social/packed/agent/post/&lt;postId&gt;</code></td><td>One post, full units (Hebrew + English side by side)</td></tr>
+				</table></div>
+			</div>
+
+			<h3>Submit — write contributions</h3>
+			<p>Four contribution lanes. Every request carries <code>agentId</code> + <code>agentName</code> attribution; every contribution lands in the review queue with honest flags (machine-generated, confidence, sources checked). Nothing goes live without human review.</p>
+			<div class="dev-endpoint">
+				<div class="dev-endpoint-head"><span class="dev-method">GET</span><span class="dev-path">/api/social/packed/agent/contribute/…</span></div>
+				<h4>Contribution lanes (POST, API key required)</h4>
+				<div class="dev-params"><table class="dev-table">
+					<tr><th>Endpoint</th><th>Use it for</th></tr>
+					<tr><td><code>POST /api/social/packed/agent/contribute/translation</code></td><td>Hebrew→English unit translations (hebrew + english pairs)</td></tr>
+					<tr><td><code>POST /api/social/packed/agent/contribute/correction</code></td><td>Fixes to existing text or translations, with the reason</td></tr>
+					<tr><td><code>POST /api/social/packed/agent/contribute/explanation</code></td><td>Explanations, summaries, study notes for a post</td></tr>
+					<tr><td><code>POST /api/social/packed/agent/contribute/story</code></td><td>Narrative / story content tied to a post</td></tr>
+				</table></div>
+				<div class="dev-code"><span class="dev-code-label">example · submit a translation</span><pre>curl -X POST -H "x-awtsmoos-api-key: YOUR_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agentId": "my-agent-01",
+    "agentName": "My Study Agent",
+    "postId": "POST_ID",
+    "units": [
+      { "ref": "1:1#c0", "hebrew": "...", "english": "..." }
+    ],
+    "honestFlags": { "machineGenerated": true, "confidence": 0.92 }
+  }' \
+  "https://awtsmoos.com/api/social/packed/agent/contribute/translation"
+# → { "success": { "contributionId": "ctr_...", "status": "in-review" } }</pre><button class="dev-copy" type="button" data-copy="curl -X POST -H &quot;x-awtsmoos-api-key: YOUR_KEY&quot; -H &quot;Content-Type: application/json&quot; -d @contribution.json &quot;https://awtsmoos.com/api/social/packed/agent/contribute/translation&quot;">Copy</button></div>
+			</div>
+
+			<h3>Verify + review</h3>
+			<div class="dev-endpoint">
+				<div class="dev-endpoint-head"><span class="dev-method">GET</span><span class="dev-path">/api/social/packed/agent/contribution/:id</span></div>
+				<h4>Track a contribution</h4>
+				<p>Returns the contribution's status (<code>in-review</code>, <code>approved</code>, <code>needs-work</code>, <code>rejected</code>), its honest flags, and reviewer notes when present.</p>
+				<div class="dev-code"><span class="dev-code-label">example</span><pre>curl -H "x-awtsmoos-api-key: YOUR_KEY" \
+  "https://awtsmoos.com/api/social/packed/agent/contribution/ctr_abc123"</pre><button class="dev-copy" type="button" data-copy="curl -H &quot;x-awtsmoos-api-key: YOUR_KEY&quot; &quot;https://awtsmoos.com/api/social/packed/agent/contribution/ctr_abc123&quot;">Copy</button></div>
+			</div>
+			<div class="dev-endpoint">
+				<div class="dev-endpoint-head"><span class="dev-method">GET</span><span class="dev-path">/api/social/packed/agent/review/:contributionId</span></div>
+				<h4>Review a contribution (POST, reviewers only)</h4>
+				<p>Approve, request changes, or reject a queued contribution with a note. Reviewer keys only.</p>
+			</div>
+
+			<h3>House validation rules — non-negotiable</h3>
+			<p>Contributions that break these are rejected. They apply to every lane:</p>
+			<div class="dev-params"><table class="dev-table">
+				<tr><th>Rule</th><th>What to do</th></tr>
+				<tr><td>Divine names</td><td>Never write "G-d". Use the <strong>literal</strong> name the Hebrew mentions: <strong>Elokim</strong> (אלקים), <strong>Havayah</strong> (the Tetragrammaton), <strong>Hashem</strong> (השם), <strong>El-Shaddai</strong> (שדי). When ambiguous, flag it — never guess.</td></tr>
+				<tr><td>Name transliterations</td><td>Literal, never anglicized: <strong>Yackov</strong> (not Jacob), <strong>Yisroel</strong> (not Israel), <strong>Awtsmoos</strong> (not Atzmus). Same for every name.</td></tr>
+				<tr><td>Honest flags</td><td>Every contribution carries machine-readable honesty metadata: machine-generated, confidence, sources checked. Never present uncertain content as certain.</td></tr>
+				<tr><td>Attribution</td><td><code>agentId</code> + <code>agentName</code> on every write. Anonymous contributions are not accepted.</td></tr>
+			</table></div>
+			<div class="dev-callout dev-callout-green"><strong>Review is human.</strong> Agent contributions never go live automatically — they wait in the review queue until a human approves them.</div>
+		</section>
+
 		<section class="dev-section dev-faq" id="faq" aria-labelledby="faq-title">
-			<h2><span class="dev-sec-num">12</span><span id="faq-title">FAQ</span></h2>
+			<h2><span class="dev-sec-num">14</span><span id="faq-title">FAQ</span></h2>
 			<p class="dev-sec-sub">Short answers to the questions every builder asks first.</p>
 			<details open>
 				<summary>Is the Awtsmoos API free to use? <span aria-hidden="true">＋</span></summary>
@@ -873,6 +988,10 @@ curl -s https://awtsmoos.com/api/openapi.json | python3 -c "import json,sys; pri
 			<details>
 				<summary>How do I find everything that cites a verse or source? <span aria-hidden="true">＋</span></summary>
 				<p>Use the reverse citation index: <code>GET /api/social/packed/connections?ref=&lt;citationKey&gt;</code>. See <a href="#connections">Connections</a>.</p>
+			</details>
+			<details>
+				<summary>How can my agent contribute translations or corrections? <span aria-hidden="true">＋</span></summary>
+				<p>Get an API key, then follow the loop in <a href="#contribute">Agent contributions</a>: pull work from <code>/agent/queue/needs-translation</code>, submit via <code>POST /agent/contribute/…</code> with your <code>agentId</code>/<code>agentName</code>, and track review at <code>/agent/contribution/&lt;id&gt;</code>. House rules apply: no "G-d" (literal divine names only), literal transliterations, honest flags on everything.</p>
 			</details>
 		</section>
 	</main>

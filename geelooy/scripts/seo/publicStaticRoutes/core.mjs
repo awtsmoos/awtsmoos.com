@@ -14,6 +14,11 @@ export const CORE_PUBLIC_ROUTES = Object.freeze([
 	Object.freeze({ canonicalPath: '/about/' }),
 	Object.freeze({ canonicalPath: '/apps/' }),
 	Object.freeze({ canonicalPath: '/contact/' }),
+	Object.freeze({
+		canonicalPath: '/developers/',
+		fallbackDescription: 'Public Awtsmoos API documentation for developers and AI agents: post retrieval, series browse, exact Hebrew and semantic search, reverse citations, friendly URLs, OpenAPI spec, and the /api.json agent manifest.',
+		fallbackTitle: 'Awtsmoos API Documentation — Developers & AI Agents | Awtsmoos.com'
+	}),
 	Object.freeze({ canonicalPath: '/docs/' }),
 	Object.freeze({ canonicalPath: '/games/' }),
 	Object.freeze({ canonicalPath: '/social/' }),

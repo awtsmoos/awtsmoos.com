@@ -1,1 +1,332 @@
-{"baseUrl":"https://awtsmoos.com","description":"Public read API for the Awtsmoos Torah library: 21,000+ Torah posts (Tanach, Mishnah, Talmud Bavli, Yerushalmi, Rambam, Midrash, Chassidus) with Hebrew+English translations, exact Hebrew search, semantic vector search, reverse citation index, and friendly URLs.","docs":"https://awtsmoos.com/developers/","endpoints":[{"example":"GET /api/social/packed/read?key=POST_ID","method":"GET","name":"readPostById","params":{"key":"postId (bare ID works via suffix match)","shard":"optional, default 'core'"},"returns":"Post record: { postId, heichelId, seriesId, title, unitCount, units: [{ ref, hebrew, english, phrases: [{hebrew, english}] }] }","url":"/api/social/packed/read"},{"example":"GET /api/social/heichelos/ikar/series/tanya/post/POST_ID","method":"GET","name":"readPostInSeries","params":{"heichel":"space id, e.g. 'ikar'","post":"post id","series":"series id"},"returns":"Post record in series context (Hebrew + English units)","url":"/api/social/heichelos/{heichel}/series/{series}/post/{post}"},{"example":"GET /api/social/heichelos/ikar/series/","method":"GET","name":"listSeries","params":{"heichel":"space id, e.g. 'ikar'"},"returns":"Detailed series list: titles, structure, counts","url":"/api/social/heichelos/{heichel}/series/"},{"example":"GET /api/social/heichelos/ikar/series/tanya","method":"GET","name":"seriesContents","params":{"details":"optional true -> full metadata instead of post listing","heichel":"space id","series":"series id"},"returns":"Posts of the series, or full series metadata with ?details=true","url":"/api/social/heichelos/{heichel}/series/{series}"},{"example":"GET /api/social/heichelos/ikar/series/tanya/posts/details","method":"GET","name":"listPostsInSeries","params":{"heichel":"space id","series":"series id"},"returns":"Post listing; /posts/details for the expanded form","url":"/api/social/heichelos/{heichel}/series/{series}/posts"},{"example":"GET /api/social/search/exact/hebrew?word=בראשית&corpus=tanach&limit=5","method":"GET","name":"exactHebrewSearch","params":{"corpus":"tanach|mishnah|talmudBavli|Ikar series id (default tanach)","limit":"default 25, max 200","offset":"default 0","word":"Hebrew word (aliases: q, term)"},"returns":"Word-exact matches from prebuilt packed indexes","url":"/api/social/search/exact/hebrew"},{"example":"GET /api/social/search/exact/hebrew/meta","method":"GET","name":"exactSearchMeta","params":{},"returns":"Prebuilt corpora, excluded series families, worker status","url":"/api/social/search/exact/hebrew/meta"},{"example":"GET /api/social/search/semantic?q=what%20is%20the%20soul%20of%20man&limit=5","method":"GET","name":"semanticSearch","params":{"limit":"default 20, max 50","q":"English query (aliases: query, text)"},"returns":"Meaning-ranked results from verified translated content (multilingual-e5-small, 384 dims)","url":"/api/social/search/semantic"},{"example":"GET /api/social/search/library/query?q=תניא","method":"GET","name":"librarySearch","params":{"limit":"default 20, max 50","q":"Hebrew or English query"},"returns":"Blended lexical + semantic results (the site's own public search)","url":"/api/social/search/library/query"},{"example":"GET /api/social/search/capabilities","method":"GET","name":"searchCapabilities","params":{},"returns":"Live engine capabilities: modes, semantic model, indexed lanes, exact corpora","url":"/api/social/search/capabilities"},{"example":"GET /api/social/packed/connections?post=POST_ID","method":"GET","name":"connectionsByPost","params":{"post":"postId"},"returns":"Citation graph for the post: what it cites + what cites it","url":"/api/social/packed/connections"},{"example":"GET /api/social/packed/connections?ref=CITATION_KEY","method":"GET","name":"connectionsByRef","params":{"ref":"citation key (verse or source reference)"},"returns":"Reverse index: every post that references this citation key","url":"/api/social/packed/connections"},{"example":"GET /api/social/packed/keys?prefix=/posts/ikar&limit=50","method":"GET","name":"listPackedKeys","params":{"limit":"default 200, max 200","prefix":"optional key prefix","shard":"optional, default 'core'"},"returns":"Bounded packed key listing","url":"/api/social/packed/keys"}],"errors":["METHOD_NOT_ALLOWED","MISSING_WORD","MISSING_CORPUS","EXACT_SEARCH_DISABLED_FOR_CORPUS","EXACT_SERIES_WARMING","READ_FAILED","KEYS_FAILED","AUTH_NEEDED","PUBLIC_SITES_FAILED"],"forAgents":{"auth":"none — every read endpoint is an unauthenticated GET","envelopes":{"error":"{ \"BH\": \"B\\\"H\", \"error\": \"CODE\", \"details\": {} } — branch on the error string","success":"{ \"success\": <payload> }"},"friendlyUrls":["/tanya","/תניא","/tanya/chapter-1","/תניא/פרק-א","/tanya/1","/tanya/chapter-1/verse-5","/likutei-torah/bamidbar/1","/igeres-hakodesh/letter-42"],"routingRules":["Hebrew queries -> GET /api/social/search/exact/hebrew","English queries -> GET /api/social/search/semantic","Unsure -> GET /api/social/search/library/query (blends both)","Known citation -> friendly URL (see friendlyUrls), else post ID -> GET /api/social/packed/read?key=","Citation graph -> GET /api/social/packed/connections"]},"limits":{"auth":"none for all GET reads; import/write lanes are Ed25519-signed (operator-only)","caps":{"exactSearchLimit":200,"keysLimit":200,"semanticLimit":50},"guidance":"page with offset/limit; cache immutable post content; set a descriptive User-Agent"},"name":"Awtsmoos API","openapi":"https://awtsmoos.com/api/openapi.json","version":"1.0.0"}
+{
+ "baseUrl": "https://awtsmoos.com",
+ "description": "Public read API for the Awtsmoos Torah library: 21,000+ Torah posts (Tanach, Mishnah, Talmud Bavli, Yerushalmi, Rambam, Midrash, Chassidus) with Hebrew+English translations, exact Hebrew search, semantic vector search, reverse citation index, and friendly URLs.",
+ "docs": "https://awtsmoos.com/developers/",
+ "endpoints": [
+  {
+   "example": "GET /api/social/packed/read?key=POST_ID",
+   "method": "GET",
+   "name": "readPostById",
+   "params": {
+    "key": "postId (bare ID works via suffix match)",
+    "shard": "optional, default 'core'"
+   },
+   "returns": "Post record: { postId, heichelId, seriesId, title, unitCount, units: [{ ref, hebrew, english, phrases: [{hebrew, english}] }] }",
+   "url": "/api/social/packed/read"
+  },
+  {
+   "example": "GET /api/social/heichelos/ikar/series/tanya/post/POST_ID",
+   "method": "GET",
+   "name": "readPostInSeries",
+   "params": {
+    "heichel": "space id, e.g. 'ikar'",
+    "post": "post id",
+    "series": "series id"
+   },
+   "returns": "Post record in series context (Hebrew + English units)",
+   "url": "/api/social/heichelos/{heichel}/series/{series}/post/{post}"
+  },
+  {
+   "example": "GET /api/social/heichelos/ikar/series/",
+   "method": "GET",
+   "name": "listSeries",
+   "params": {
+    "heichel": "space id, e.g. 'ikar'"
+   },
+   "returns": "Detailed series list: titles, structure, counts",
+   "url": "/api/social/heichelos/{heichel}/series/"
+  },
+  {
+   "example": "GET /api/social/heichelos/ikar/series/tanya",
+   "method": "GET",
+   "name": "seriesContents",
+   "params": {
+    "details": "optional true -> full metadata instead of post listing",
+    "heichel": "space id",
+    "series": "series id"
+   },
+   "returns": "Posts of the series, or full series metadata with ?details=true",
+   "url": "/api/social/heichelos/{heichel}/series/{series}"
+  },
+  {
+   "example": "GET /api/social/heichelos/ikar/series/tanya/posts/details",
+   "method": "GET",
+   "name": "listPostsInSeries",
+   "params": {
+    "heichel": "space id",
+    "series": "series id"
+   },
+   "returns": "Post listing; /posts/details for the expanded form",
+   "url": "/api/social/heichelos/{heichel}/series/{series}/posts"
+  },
+  {
+   "example": "GET /api/social/search/exact/hebrew?word=בראשית&corpus=tanach&limit=5",
+   "method": "GET",
+   "name": "exactHebrewSearch",
+   "params": {
+    "corpus": "tanach|mishnah|talmudBavli|Ikar series id (default tanach)",
+    "limit": "default 25, max 200",
+    "offset": "default 0",
+    "word": "Hebrew word (aliases: q, term)"
+   },
+   "returns": "Word-exact matches from prebuilt packed indexes",
+   "url": "/api/social/search/exact/hebrew"
+  },
+  {
+   "example": "GET /api/social/search/exact/hebrew/meta",
+   "method": "GET",
+   "name": "exactSearchMeta",
+   "params": {},
+   "returns": "Prebuilt corpora, excluded series families, worker status",
+   "url": "/api/social/search/exact/hebrew/meta"
+  },
+  {
+   "example": "GET /api/social/search/semantic?q=what%20is%20the%20soul%20of%20man&limit=5",
+   "method": "GET",
+   "name": "semanticSearch",
+   "params": {
+    "limit": "default 20, max 50",
+    "q": "English query (aliases: query, text)"
+   },
+   "returns": "Meaning-ranked results from verified translated content (multilingual-e5-small, 384 dims)",
+   "url": "/api/social/search/semantic"
+  },
+  {
+   "example": "GET /api/social/search/library/query?q=תניא",
+   "method": "GET",
+   "name": "librarySearch",
+   "params": {
+    "limit": "default 20, max 50",
+    "q": "Hebrew or English query"
+   },
+   "returns": "Blended lexical + semantic results (the site's own public search)",
+   "url": "/api/social/search/library/query"
+  },
+  {
+   "example": "GET /api/social/search/capabilities",
+   "method": "GET",
+   "name": "searchCapabilities",
+   "params": {},
+   "returns": "Live engine capabilities: modes, semantic model, indexed lanes, exact corpora",
+   "url": "/api/social/search/capabilities"
+  },
+  {
+   "example": "GET /api/social/packed/connections?post=POST_ID",
+   "method": "GET",
+   "name": "connectionsByPost",
+   "params": {
+    "post": "postId"
+   },
+   "returns": "Citation graph for the post: what it cites + what cites it",
+   "url": "/api/social/packed/connections"
+  },
+  {
+   "example": "GET /api/social/packed/connections?ref=CITATION_KEY",
+   "method": "GET",
+   "name": "connectionsByRef",
+   "params": {
+    "ref": "citation key (verse or source reference)"
+   },
+   "returns": "Reverse index: every post that references this citation key",
+   "url": "/api/social/packed/connections"
+  },
+  {
+   "example": "GET /api/social/packed/keys?prefix=/posts/ikar&limit=50",
+   "method": "GET",
+   "name": "listPackedKeys",
+   "params": {
+    "limit": "default 200, max 200",
+    "prefix": "optional key prefix",
+    "shard": "optional, default 'core'"
+   },
+   "returns": "Bounded packed key listing",
+   "url": "/api/social/packed/keys"
+  },
+  {
+   "name": "agentQueueNeedsTranslation",
+   "method": "GET",
+   "url": "/api/social/packed/agent/queue/needs-translation",
+   "params": {
+    "note": "API key required (x-awtsmoos-api-key header, ?apiKey=, or Bearer)"
+   },
+   "returns": "Posts awaiting translation, prioritized — the agent's work queue",
+   "example": "GET /api/social/packed/agent/queue/needs-translation"
+  },
+  {
+   "name": "agentQueueNeedsReview",
+   "method": "GET",
+   "url": "/api/social/packed/agent/queue/needs-review",
+   "params": {
+    "note": "API key required"
+   },
+   "returns": "Contributions awaiting review, with honest flags",
+   "example": "GET /api/social/packed/agent/queue/needs-review"
+  },
+  {
+   "name": "agentSeries",
+   "method": "GET",
+   "url": "/api/social/packed/agent/series",
+   "params": {
+    "note": "API key required"
+   },
+   "returns": "Series list scoped for agents",
+   "example": "GET /api/social/packed/agent/series"
+  },
+  {
+   "name": "agentPosts",
+   "method": "GET",
+   "url": "/api/social/packed/agent/posts",
+   "params": {
+    "series": "series id",
+    "note": "API key required"
+   },
+   "returns": "Posts in one series",
+   "example": "GET /api/social/packed/agent/posts?series=tanya"
+  },
+  {
+   "name": "agentPost",
+   "method": "GET",
+   "url": "/api/social/packed/agent/post/{postId}",
+   "params": {
+    "postId": "post id",
+    "note": "API key required"
+   },
+   "returns": "One post, full units (Hebrew + English side by side)",
+   "example": "GET /api/social/packed/agent/post/POST_ID"
+  },
+  {
+   "name": "contributeTranslation",
+   "method": "POST",
+   "url": "/api/social/packed/agent/contribute/translation",
+   "params": {
+    "agentId": "your agent id (required)",
+    "agentName": "your agent name (required)",
+    "postId": "target post",
+    "units": "[{ref, hebrew, english}]",
+    "honestFlags": "{machineGenerated, confidence, ...}"
+   },
+   "returns": "{ contributionId, status: 'in-review' } — lands in human review queue",
+   "example": "POST /api/social/packed/agent/contribute/translation"
+  },
+  {
+   "name": "contributeCorrection",
+   "method": "POST",
+   "url": "/api/social/packed/agent/contribute/correction",
+   "params": {
+    "agentId": "required",
+    "agentName": "required",
+    "postId": "target post",
+    "correction": "the fix",
+    "reason": "why"
+   },
+   "returns": "{ contributionId, status: 'in-review' }",
+   "example": "POST /api/social/packed/agent/contribute/correction"
+  },
+  {
+   "name": "contributeExplanation",
+   "method": "POST",
+   "url": "/api/social/packed/agent/contribute/explanation",
+   "params": {
+    "agentId": "required",
+    "agentName": "required",
+    "postId": "target post",
+    "explanation": "text"
+   },
+   "returns": "{ contributionId, status: 'in-review' }",
+   "example": "POST /api/social/packed/agent/contribute/explanation"
+  },
+  {
+   "name": "contributeStory",
+   "method": "POST",
+   "url": "/api/social/packed/agent/contribute/story",
+   "params": {
+    "agentId": "required",
+    "agentName": "required",
+    "postId": "target post",
+    "story": "narrative text"
+   },
+   "returns": "{ contributionId, status: 'in-review' }",
+   "example": "POST /api/social/packed/agent/contribute/story"
+  },
+  {
+   "name": "contributionStatus",
+   "method": "GET",
+   "url": "/api/social/packed/agent/contribution/{id}",
+   "params": {
+    "id": "contribution id",
+    "note": "API key required"
+   },
+   "returns": "Status (in-review/approved/needs-work/rejected), honest flags, reviewer notes",
+   "example": "GET /api/social/packed/agent/contribution/ctr_abc123"
+  },
+  {
+   "name": "reviewContribution",
+   "method": "POST",
+   "url": "/api/social/packed/agent/review/{contributionId}",
+   "params": {
+    "contributionId": "contribution id",
+    "decision": "approve | needs-work | reject",
+    "note": "reviewer note",
+    "auth": "reviewer API key required"
+   },
+   "returns": "Updated contribution status",
+   "example": "POST /api/social/packed/agent/review/ctr_abc123"
+  }
+ ],
+ "errors": [
+  "METHOD_NOT_ALLOWED",
+  "MISSING_WORD",
+  "MISSING_CORPUS",
+  "EXACT_SEARCH_DISABLED_FOR_CORPUS",
+  "EXACT_SERIES_WARMING",
+  "READ_FAILED",
+  "KEYS_FAILED",
+  "AUTH_NEEDED",
+  "PUBLIC_SITES_FAILED"
+ ],
+ "forAgents": {
+  "auth": "none — every read endpoint is an unauthenticated GET",
+  "envelopes": {
+   "error": "{ \"BH\": \"B\\\"H\", \"error\": \"CODE\", \"details\": {} } — branch on the error string",
+   "success": "{ \"success\": <payload> }"
+  },
+  "friendlyUrls": [
+   "/tanya",
+   "/תניא",
+   "/tanya/chapter-1",
+   "/תניא/פרק-א",
+   "/tanya/1",
+   "/tanya/chapter-1/verse-5",
+   "/likutei-torah/bamidbar/1",
+   "/igeres-hakodesh/letter-42"
+  ],
+  "routingRules": [
+   "Hebrew queries -> GET /api/social/search/exact/hebrew",
+   "English queries -> GET /api/social/search/semantic",
+   "Unsure -> GET /api/social/search/library/query (blends both)",
+   "Known citation -> friendly URL (see friendlyUrls), else post ID -> GET /api/social/packed/read?key=",
+   "Citation graph -> GET /api/social/packed/connections"
+  ],
+  "contribution": {
+   "workflow": "discover (GET /agent/queue/needs-translation) -> improve -> submit (POST /agent/contribute/*) -> verify (GET /agent/contribution/<id>)",
+   "auth": "API key via x-awtsmoos-api-key header, ?apiKey=, or Authorization: Bearer. Reads stay public.",
+   "houseRules": [
+    "Never write 'G-d' — use the literal divine name: Elokim, Havayah, Hashem, El-Shaddai.",
+    "Literal transliterations: Yackov (not Jacob), Yisroel (not Israel), Awtsmoos (not Atzmus).",
+    "Every write carries agentId + agentName and honest flags; nothing goes live without human review."
+   ]
+  }
+ },
+ "limits": {
+  "auth": "none for all GET reads; import/write lanes are Ed25519-signed (operator-only)",
+  "caps": {
+   "exactSearchLimit": 200,
+   "keysLimit": 200,
+   "semanticLimit": 50
+  },
+  "guidance": "page with offset/limit; cache immutable post content; set a descriptive User-Agent"
+ },
+ "name": "Awtsmoos API",
+ "openapi": "https://awtsmoos.com/api/openapi.json",
+ "version": "1.0.0"
+}
