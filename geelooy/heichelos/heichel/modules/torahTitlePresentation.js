@@ -16,6 +16,10 @@ import {
 } from './torahTitleRegistry.js?v=torah-bilingual-004';
 import { titlePairByPattern } from './torahPatternTitleRegistry.js?v=torah-bilingual-004';
 import {
+	parshaTitleByHebrew,
+	parshaTitleById
+} from './torahParshaTitleRegistry.js?v=torah-parsha-001';
+import {
 	hasHebrewLetters,
 	transliterateTorahTitle
 } from './torahTitleTransliteration.js?v=torah-bilingual-002';
@@ -31,13 +35,16 @@ export function torahTitlePair(source = {}) {
 	const raw = String(record.name || record.title || '').trim();
 	const registered = titlePairById(key)
 		|| titlePairByPattern(key)
+		|| parshaTitleFromId(key)
 		|| titlePairByKnownName(raw)
-		|| titlePairByPattern(raw);
+		|| titlePairByPattern(raw)
+		|| parshaTitleFromId(raw)
+		|| parshaTitleByHebrew(raw);
 	const he = String(
 		record.titleHe
 		|| record.nameHe
 		|| registered?.he
-		|| (hasHebrewLetters(raw) ? raw : '')
+		|| (hasHebrewLetters(stripIdPrefix(raw)) ? stripIdPrefix(raw) : '')
 	).trim();
 	const explicitEnglish = String(
 		record.titleEn
@@ -46,16 +53,56 @@ export function torahTitlePair(source = {}) {
 		|| ''
 	).trim();
 	const curatedEnglish = he ? englishTitleForHebrew(he) : '';
-	const fallbackEnglish = humanizeTorahId(raw || key);
+	const fallbackEnglish = he ? '' : humanizeTorahId(stripIdPrefix(raw) || key);
 	const en = explicitEnglish
 		|| curatedEnglish
-		|| (he ? transliterateTorahTitle(he) : fallbackEnglish || 'Torah');
+		|| (he ? parshaEnglishForHebrew(he) || transliterateTorahTitle(he) : fallbackEnglish || 'Torah');
 	return {
 		he,
 		en,
 		display: bilingualDisplay(he, en),
 		englishKind: englishKind(explicitEnglish, curatedEnglish, registered, he)
 	};
+}
+
+/**
+ * B"H — Resolves BH-<work>-<parsha> IDs to canonical parsha names.
+ * Strips the work prefix and looks up the parsha fragment.
+ * Never leaks the raw ID into the display.
+ */
+function parshaTitleFromId(id = '') {
+	const clean = String(id).trim();
+	// BH-torahOhr-nch → nch → Noach
+	const bhMatch = clean.match(/^BH-[a-zA-Z]+-(.+)$/);
+	if (bhMatch) {
+		const fragment = stripIdPrefix(bhMatch[1]);
+		const pair = parshaTitleById(fragment) || parshaTitleByHebrew(fragment);
+		if (pair) return pair;
+	}
+	// Direct parsha fragment (e.g. "nch" alone)
+	const direct = parshaTitleById(clean);
+	if (direct) return direct;
+	return null;
+}
+
+/**
+ * B"H — Strips internal ID prefixes from a display string.
+ * "נח-BH-torahOhr" → "נח", "BH-torahOhr-nch" → "" (handled by parshaTitleFromId).
+ */
+function stripIdPrefix(value = '') {
+	return String(value)
+		.replace(/-?BH-[a-zA-Z0-9_-]+/g, '')
+		.replace(/^[-_\s]+|[-_\s]+$/g, '')
+		.trim();
+}
+
+/**
+ * B"H — Gets proper English for a Hebrew parsha name.
+ * Uses the canonical registry, not mechanical transliteration.
+ */
+function parshaEnglishForHebrew(hebrew = '') {
+	const pair = parshaTitleByHebrew(String(hebrew).trim());
+	return pair ? pair.en : '';
 }
 
 /** Projects a title pair into the fields consumed by navigation and cards. */
