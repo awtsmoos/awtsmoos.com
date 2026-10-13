@@ -409,7 +409,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
 
   /* textures (real photographs, Awtsmoos Drive) */
   const [grassTex, dirtTex, barkTex, canopyTex, leafTex,
-         grassGroundTex, barkDetailTex] = await Promise.all([
+         grassGroundTex, barkDetailTex, mossGroundTex, mossyBarkTex] = await Promise.all([
     loadTexture(TEX + 'grass1.jpg', 30, 30),
     loadTexture(TEX + 'dirt1.jpg', 40, 3),
     loadTexture(TEX + 'bark1.webp', 1, 2),
@@ -418,6 +418,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     // B"H — reference-match texture set (Yaakov 2026-10-13)
     loadTexture(TEX + 'new/tex-grass-ground.webp', 36, 36),
     loadTexture(TEX + 'new/tex-bark-detail.webp', 1, 3),
+    loadTexture(TEX + 'new/tex-moss-ground.webp', 2, 2),
+    loadTexture(TEX + 'new/tex-mossy-bark.webp', 1, 2),
   ]);
   mark('textures');
 
@@ -544,6 +546,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           float hC = hgt(p, t);
           return vec2(hgt(p+vec2(e,0.0),t)-hC, hgt(p+vec2(0.0,e),t)-hC)/e;
         }
+        float hash22(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
         void main(){
           vec2 p1 = vec2(vUv.x*8.0, vUv.y*60.0 - uTime*0.6);
           vec2 p2 = vec2(vUv.x*20.0 + 3.7, vUv.y*140.0 - uTime*1.4);
@@ -555,7 +558,20 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           float ripple = grad.x * 0.5 + grad.y * 0.5;
           // deep teal channel in the middle, brighter toward the banks
           float centerDepth = 1.0 - abs(vUv.x * 2.0 - 1.0);
+          // B"H — procedural pebble bed visible in the shallows (Yaakov 2026-10-13):
+          // rounded stones via jittered grid cells, refracted by the ripple.
+          vec2 gp = vec2(vUv.x * 30.0, vUv.y * 220.0) + grad * 2.0;
+          vec2 gid = floor(gp); vec2 gf = fract(gp);
+          vec2 pc = vec2(0.5) + (vec2(hash22(gid + 7.3), hash22(gid + 3.1)) - 0.5) * 0.55;
+          float pd = length((gf - pc) * vec2(1.0, 1.35));
+          float peb = smoothstep(0.46, 0.40, pd);
+          float prnd = hash22(gid + 1.7);
+          vec3 pebCol = mix(vec3(0.32, 0.30, 0.27), vec3(0.58, 0.55, 0.50), prnd);
+          pebCol *= 0.85 + 0.3 * hash22(gid + 9.2);
+          vec3 bed = mix(vec3(0.16, 0.15, 0.13), pebCol, peb);
+          float shallow = 1.0 - smoothstep(0.15, 0.65, centerDepth);
           vec3 col = mix(uShallow, uDeep, 0.30 + 0.50 * centerDepth);
+          col = mix(col, bed * vec3(0.75, 0.95, 0.90), shallow * 0.75);
           col = mix(col, uShallow, clamp(ripple * 0.6 + 0.2, 0.0, 1.0) * 0.45);
           col = mix(col, uSky, fres * 0.38);
           vec3 hv = normalize(viewDir + uSunDir);
@@ -576,8 +592,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
 
   /* trees — ez-tree-derived procedural generator, real bark + canopy photos */
   const barkMat = new THREE.MeshStandardMaterial({
-    map: barkDetailTex, roughness: 0.95,
-    color: new THREE.Color(1.45, 1.32, 1.18), // lift the dark bark photo
+    map: mossyBarkTex, roughness: 0.95,
+    color: new THREE.Color(0.85, 0.85, 0.80),
   });
   const canopyMat = new THREE.MeshStandardMaterial({
     map: canopyTex, alphaTest: 0.30, side: THREE.DoubleSide,
@@ -812,13 +828,15 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const cols = new Float32Array(rp.count * 3);
     for (let i = 0; i < rp.count; i++) {
       const moss = THREE.MathUtils.smoothstep(np.getY(i), 0.15, 0.75);
-      const g = 0.55 + ror() * 0.2;
-      cols[i * 3]     = 0.42 + (0.30 * g - 0.42) * moss;
-      cols[i * 3 + 1] = 0.40 + (0.52 * g - 0.40) * moss;
-      cols[i * 3 + 2] = 0.36 + (0.26 * g - 0.36) * moss;
+      const g = 0.75 + ror() * 0.25;
+      cols[i * 3]     = 0.42 + (0.38 * g - 0.42) * moss;
+      cols[i * 3 + 1] = 0.40 + (0.62 * g - 0.40) * moss;
+      cols[i * 3 + 2] = 0.36 + (0.28 * g - 0.36) * moss;
     }
     rockGeo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
-    const rockMat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 1 });
+    const rockMat = new THREE.MeshStandardMaterial({
+      map: mossGroundTex, vertexColors: true, roughness: 1,
+    });
     const COUNT = fast ? 90 : 160;
     const inst = new THREE.InstancedMesh(rockGeo, rockMat, COUNT);
     const dummy = new THREE.Object3D();
