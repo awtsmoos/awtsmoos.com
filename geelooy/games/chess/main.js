@@ -5,6 +5,7 @@
 // =================================================================
 
 import { teachingsNovel } from './teachings.js';
+import { drawChessPiece } from './pieces.js';
 document.addEventListener('DOMContentLoaded', () => {
 	// --- DOM Element References ---
 	const canvas = document.getElementById('chessCanvas');
@@ -497,6 +498,24 @@ aiWorker.onmessage = function(e) {
 			san // The complete and unambiguous SAN string
 		});
 
+		// --- B"H game feel: last-move highlight, check square, sounds, capture burst ---
+		gameState.lastMove = { from: [move.from[0], move.from[1]], to: [move.to[0], move.to[1]] };
+		gameState.checkSquare = null;
+		const fx = window.AwtsmoosFx;
+		if (capturedPiece) {
+			fx && fx.sfx('capture');
+			fx && fx.shake(canvas, 200, 7);
+		} else {
+			fx && fx.sfx('move', { depth: 0 });
+		}
+		if (san.endsWith('#')) {
+			gameState.checkSquare = opponentKingPos ? [opponentKingPos.r, opponentKingPos.c] : null;
+			fx && fx.sfx('win');
+		} else if (san.endsWith('+')) {
+			gameState.checkSquare = opponentKingPos ? [opponentKingPos.r, opponentKingPos.c] : null;
+			fx && fx.sfx('notify');
+		}
+
 		// --- Update UI and continue game flow ---
 		drawBoard();
 		drawCapturedPieces();
@@ -861,6 +880,22 @@ function drawAnalysisBoard() {
 	
 	            canvasContext.fillStyle = (r_idx + c_idx) % 2 === 0 ? '#f0d9b5' : '#b58863';
 	            canvasContext.fillRect(squareX, squareY, SQUARE_SIZE, SQUARE_SIZE);
+	            // B"H last-move trail: golden wash on from/to squares
+	            if (gameState.lastMove && (gameState.lastMove.from[0] === r && gameState.lastMove.from[1] === c ||
+	                gameState.lastMove.to[0] === r && gameState.lastMove.to[1] === c)) {
+	                canvasContext.fillStyle = 'rgba(232, 201, 92, 0.42)';
+	                canvasContext.fillRect(squareX, squareY, SQUARE_SIZE, SQUARE_SIZE);
+	            }
+	            // B"H check glow: radiant red ring on the checked king's square
+	            if (gameState.checkSquare && gameState.checkSquare[0] === r && gameState.checkSquare[1] === c) {
+	                const grd = canvasContext.createRadialGradient(
+	                    squareX + SQUARE_SIZE / 2, squareY + SQUARE_SIZE / 2, SQUARE_SIZE * 0.1,
+	                    squareX + SQUARE_SIZE / 2, squareY + SQUARE_SIZE / 2, SQUARE_SIZE * 0.7);
+	                grd.addColorStop(0, 'rgba(255, 60, 60, 0.55)');
+	                grd.addColorStop(1, 'rgba(255, 60, 60, 0)');
+	                canvasContext.fillStyle = grd;
+	                canvasContext.fillRect(squareX, squareY, SQUARE_SIZE, SQUARE_SIZE);
+	            }
 	            
 	            // Highlights and move dots (also offset)
 	            if (!isAnimating && gameState.selectedSquare && gameState.selectedSquare[0] === r && gameState.selectedSquare[1] === c) {
@@ -887,62 +922,9 @@ function drawAnalysisBoard() {
 	}
 
 	function renderPiece(ctx, piece, x, y, size) {
-	const isWhite = piece === piece.toUpperCase();
-	const emoji = PIECE_EMOJIS[piece.toUpperCase()];
-	const pieceType = piece.toLowerCase();
-
-	ctx.save();
-
-	let pieceFilter;
-
-	// Check if the piece is a pawn
-	if (pieceType === 'p') {
-		// Pawns get the original, full grayscale effect
-		if (isWhite) {
-			pieceFilter = 'grayscale(1) brightness(2.8)';
-		} else {
-			pieceFilter = 'grayscale(1) brightness(0.55)';
-		}
-	} else {
-		// All other pieces get a partial grayscale, retaining some color
-		if (isWhite) {
-			// 70% grayscale allows 50% of the color to show through
-			pieceFilter = 'grayscale(0.5) brightness(1.5)'; 
-		} else {
-			// A slightly different brightness for black pieces looks better with color
-			pieceFilter = 'grayscale(0.5) brightness(0.5)';
-		}
+		// B"H premium Staunton vector pieces (pieces.js) — no more emoji.
+		drawChessPiece(ctx, piece, x, y, size);
 	}
-	
-	ctx.filter = pieceFilter;
-
-	ctx.font = `${size * 0.8}px serif`;
-	ctx.textAlign = 'center';
-	ctx.textBaseline = 'middle';
-	
-	ctx.fillText(emoji, x, y);
-    
-    // The outline helps with clarity, especially with the subtle color
-	ctx.strokeStyle = isWhite ? 'black' : 'white';
-	ctx.lineWidth = 4;
-	ctx.strokeText(emoji, x, y);
-
-	ctx.restore();
-
-    // This code for the bishop's yamulka remains the same and will work as before
-	if (piece.toLowerCase() === 'b') {
-		const yamulkaRadius = size * 0.16;
-		const yamulkaY = y - size * 0.28;
-		ctx.save();
-		ctx.translate(x, yamulkaY);
-		ctx.scale(1.5, 1);
-		ctx.fillStyle = isWhite ? '#87CEEB' : '#00008B';
-		ctx.beginPath();
-		ctx.arc(0, 0, yamulkaRadius, Math.PI, 0);
-		ctx.fill();
-		ctx.restore();
-	}
-}
 
 	function drawCapturedPieces() {
 	const sortPieces = (a, b) => pieceOrder[a.toUpperCase()] - pieceOrder[b.toUpperCase()];
@@ -1027,8 +1009,11 @@ function drawAnalysisBoard() {
 		const endRow = isWhiteView ? move.to[0] : 7 - move.to[0],
 			endCol = isWhiteView ? move.to[1] : 7 - move.to[1];
 			
+		// B"H capture disintegration: remember the victim for the light-radiance burst
+		const victim = move.isEnPassant ? (gameState.turn === 'w' ? 'p' : 'P') : board[move.to[0]][move.to[1]];
 		animationState = {
 			piece: move.piece,
+			captured: victim || null,
 			pieceToAnimate: [move.from[0], move.from[1]],
 			startX: BOARD_PADDING + startCol * SQUARE_SIZE + SQUARE_SIZE / 2,
 			startY: BOARD_PADDING + startRow * SQUARE_SIZE + SQUARE_SIZE / 2,
@@ -1044,14 +1029,58 @@ function drawAnalysisBoard() {
 
 	function animationLoop(timestamp) {
 		const elapsed = timestamp - animationState.startTime;
-		const progress = Math.min(elapsed / animationState.duration, 1);
+		const raw = Math.min(elapsed / animationState.duration, 1);
+		// easeInOutCubic for a premium glide
+		const progress = raw < 0.5 ? 4 * raw * raw * raw : 1 - Math.pow(-2 * raw + 2, 3) / 2;
 		drawBoard(true);
 		const currentX = animationState.startX + (animationState.endX - animationState.startX) * progress;
 		const currentY = animationState.startY + (animationState.endY - animationState.startY) * progress;
-		
+
+		// B"H capture disintegration: victim dissolves in a light-radiance burst
+		if (animationState.captured) {
+			const cx = animationState.endX, cy = animationState.endY;
+			const fade = 1 - raw;
+			canvasContext.save();
+			canvasContext.globalAlpha = Math.max(0, fade);
+			const shrink = 1 - raw * 0.45;
+			canvasContext.translate(cx, cy);
+			canvasContext.scale(shrink, shrink);
+			canvasContext.translate(-cx, -cy);
+			renderPiece(canvasContext, animationState.captured, cx, cy, SQUARE_SIZE);
+			canvasContext.restore();
+			// expanding radiance rings + sparks
+			for (let ring = 0; ring < 2; ring += 1) {
+				const rr = (raw * (1.1 + ring * 0.5) + 0.08) * SQUARE_SIZE * 0.62;
+				canvasContext.save();
+				canvasContext.globalAlpha = Math.max(0, (1 - raw) * (0.85 - ring * 0.35));
+				canvasContext.strokeStyle = '#ffe9a8';
+				canvasContext.lineWidth = 3 - ring;
+				canvasContext.shadowColor = '#f5d97e';
+				canvasContext.shadowBlur = 12;
+				canvasContext.beginPath();
+				canvasContext.arc(cx, cy, rr, 0, Math.PI * 2);
+				canvasContext.stroke();
+				canvasContext.restore();
+			}
+			for (let sIdx = 0; sIdx < 10; sIdx += 1) {
+				const ang = (sIdx / 10) * Math.PI * 2 + raw * 2;
+				const dist = raw * SQUARE_SIZE * 0.9;
+				const sx = cx + Math.cos(ang) * dist, sy = cy + Math.sin(ang) * dist;
+				canvasContext.save();
+				canvasContext.globalAlpha = Math.max(0, 1 - raw * 1.4);
+				canvasContext.fillStyle = '#fff3c4';
+				canvasContext.shadowColor = '#ffd75e';
+				canvasContext.shadowBlur = 8;
+				canvasContext.beginPath();
+				canvasContext.arc(sx, sy, 2.6, 0, Math.PI * 2);
+				canvasContext.fill();
+				canvasContext.restore();
+			}
+		}
+
 		renderPiece(canvasContext, animationState.piece, currentX, currentY, SQUARE_SIZE);
-		
-		if (progress < 1) {
+
+		if (raw < 1) {
 			requestAnimationFrame(animationLoop);
 		} else {
 			gameState.isAnimating = false;
