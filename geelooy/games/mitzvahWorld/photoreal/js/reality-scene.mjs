@@ -772,54 +772,129 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   scene.add(treeGroup);
   mark('trees-placed');
 
-  /* canopy crown filler — instanced INDIVIDUAL-LEAF quads in each tree's crown.
-     B"H 2026-10-13 leaves-fix: was icosahedron blobs with the whole 512px
-     canopy photo smeared per blob — fine detail minified to flat green
-     plastic (Yaakov: "leaves have no texture at all"). Now PlaneGeometry
-     quads with the white-keyed leaf-cluster photo: every quad shows distinct
-     leaf shapes. Quads face OUTWARD from the crown center (never edge-on),
-     get a random in-plane spin + per-instance color tint for variety.
-     Dark branch limbs run through the crown for structure. */
+  /* B"H — branch-skeleton-first foliage (Yaakov 2026-10-13: "leaves are just
+     floating on nothing with no branches").
+     Every leaf quad is clustered around a real twig tip. Pipeline:
+       1. per tree, grow 7-9 primary limbs from the crown base
+       2. each limb splits into 2-3 secondary twigs; record every twig tip
+       3. draw ALL segments (primary + twigs) as instanced tapered cylinders
+       4. place leaf quads only within ~1.2u of a twig tip — no floating foliage */
   {
+    const up = new THREE.Vector3(0, 1, 0);
+    const dir = new THREE.Vector3();
+    const dummy = new THREE.Object3D();
+    // collect per-tree branch segments + twig tips first
+    const segs = []; // {ax,ay,az, bx,by,bz, r0, r1}
+    const tips = []; // {x,y,z, tree}
+    for (const s of treeSpots) {
+      const ccx = (s.crownX !== undefined ? s.crownX : s.x);
+      const baseY = s.crownY - s.crownR * 0.45;
+      const primN = 7 + ((rand() * 3) | 0);
+      for (let i = 0; i < primN; i++) {
+        const th = (i / primN) * Math.PI * 2 + rand() * 0.6;
+        const tilt = 0.45 + rand() * 0.60; // outward lean from vertical
+        const ls = (0.85 + rand() * 0.65) * s.crownR * 0.42;
+        dir.set(Math.cos(th) * Math.sin(tilt), Math.cos(tilt), Math.sin(th) * Math.sin(tilt)).normalize();
+        const ex = ccx + dir.x * ls, ey = baseY + dir.y * ls, ez = s.z + dir.z * ls;
+        const r0 = 0.16 * (0.8 + rand() * 0.4), r1 = 0.07;
+        segs.push({ ax: ccx, ay: baseY, az: s.z, bx: ex, by: ey, bz: ez, r0, r1, tree: s });
+        // secondary twigs from 55-85% along the limb
+        const twigN = 2 + ((rand() * 2) | 0);
+        for (let k = 0; k < twigN; k++) {
+          const t = 0.55 + rand() * 0.30;
+          const px = ccx + dir.x * ls * t, py = baseY + dir.y * ls * t, pz = s.z + dir.z * ls * t;
+          const th2 = th + (rand() - 0.5) * 1.6;
+          const tilt2 = tilt + (rand() - 0.5) * 0.9;
+          const ls2 = ls * (0.35 + rand() * 0.30);
+          const d2x = Math.cos(th2) * Math.sin(tilt2), d2y = Math.cos(tilt2), d2z = Math.sin(th2) * Math.sin(tilt2);
+          const tx = px + d2x * ls2, ty = py + d2y * ls2, tz = pz + d2z * ls2;
+          segs.push({ ax: px, ay: py, az: pz, bx: tx, by: ty, bz: tz, r0: 0.06, r1: 0.02, tree: s });
+          tips.push({ x: tx, y: ty, z: tz, tree: s });
+        }
+        // primary tip also gets foliage
+        tips.push({ x: ex, y: ey, z: ez, tree: s });
+      }
+    }
+    // draw every segment as an instanced tapered cylinder
+    const segGeo = new THREE.CylinderGeometry(1, 1, 1, 5);
+    segGeo.translate(0, 0.5, 0); // base at origin, grows +Y, unit height
+    const segMat = new THREE.MeshStandardMaterial({
+      map: mossyBarkTex, roughness: 1.0,
+      color: new THREE.Color(0.50, 0.42, 0.34),
+    });
+    const segInst = new THREE.InstancedMesh(segGeo, segMat, segs.length);
+    const sv = new THREE.Vector3(), sq = new THREE.Quaternion(), ss = new THREE.Vector3();
+    let sp = 0;
+    for (const g of segs) {
+      sv.set(g.bx - g.ax, g.by - g.ay, g.bz - g.az);
+      const len = sv.length();
+      sq.setFromUnitVectors(up, sv.clone().normalize());
+      // taper: scale x/z from r0 (base) to r1 (tip) — approximate with avg;
+      // true taper needs custom geo, so bake radius into x/z and accept slight uniform look
+      dummy.position.set(g.ax, g.ay, g.az);
+      dummy.quaternion.copy(sq);
+      dummy.scale.set((g.r0 + g.r1) / 2, len, (g.r0 + g.r1) / 2);
+      dummy.updateMatrix();
+      segInst.setMatrixAt(sp++, dummy.matrix);
+    }
+    segInst.count = sp;
+    segInst.castShadow = true;
+    scene.add(segInst);
+    mark('branch-skeleton');
+
+    /* leaf quads — clustered ALONG every branch segment (not just tips) plus
+       around twig tips. Foliage hugs the wood: quads sit at multiple points
+       along each segment's length with small jitter, so no leaf floats in
+       empty space and the crown interior stays full. */
     const quadGeo = new THREE.PlaneGeometry(1.7, 1.7);
     const quadMat = new THREE.MeshStandardMaterial({
       map: leafClusterTex, alphaTest: 0.35, side: THREE.DoubleSide,
       roughness: 0.9, color: new THREE.Color(0.58, 0.66, 0.55),
       emissive: new THREE.Color(0.028, 0.05, 0.02),
     });
-    const PER_TREE = fast ? 64 : 90;
-    const COUNT = treeSpots.length * PER_TREE;
-    const inst = new THREE.InstancedMesh(quadGeo, quadMat, COUNT);
-    const dummy = new THREE.Object3D();
+    // anchor points: along-segment points + tips
+    const anchors = [];
+    for (const g of segs) {
+      const along = 3; // quads stations per segment
+      for (let k = 1; k <= along; k++) {
+        const t = k / (along + 1);
+        anchors.push({
+          x: g.ax + (g.bx - g.ax) * t,
+          y: g.ay + (g.by - g.ay) * t,
+          z: g.az + (g.bz - g.az) * t,
+        });
+      }
+    }
+    for (const tp of tips) anchors.push({ x: tp.x, y: tp.y, z: tp.z });
+    const PER_ANCHOR = fast ? 2 : 3;
+    const inst = new THREE.InstancedMesh(quadGeo, quadMat, anchors.length * PER_ANCHOR);
     const out = new THREE.Vector3();
     const tint = new THREE.Color();
     let placed = 0;
-    for (const s of treeSpots) {
-      const ccx = (s.crownX !== undefined ? s.crownX : s.x);
-      for (let i = 0; i < PER_TREE; i++) {
-        // distribute in a flattened sphere around the crown center
-        const th = rand() * Math.PI * 2;
-        const ph = Math.acos(2 * rand() - 1);
-        const rr = s.crownR * (0.30 + 0.60 * Math.cbrt(rand()));
-        const bx = ccx + rr * Math.sin(ph) * Math.cos(th);
-        const by = s.crownY + rr * Math.cos(ph) * 0.55;
-        const bz = s.z + rr * Math.sin(ph) * Math.sin(th);
-        const bs = 1.1 + rand() * 1.3;
+    for (const an of anchors) {
+      for (let i = 0; i < PER_ANCHOR; i++) {
+        // jitter within a small ball around the anchor — foliage hugs the branch
+        const jth = rand() * Math.PI * 2;
+        const jph = Math.acos(2 * rand() - 1);
+        const jr = 1.3 * Math.cbrt(rand());
+        const bx = an.x + jr * Math.sin(jph) * Math.cos(jth);
+        const by = an.y + jr * Math.cos(jph) * 0.7;
+        const bz = an.z + jr * Math.sin(jph) * Math.sin(jth);
+        const bs = 1.0 + rand() * 1.2;
         dummy.position.set(bx, by, bz);
-        // face outward from crown center, then random in-plane spin
-        out.set(bx - ccx, (by - s.crownY) * 1.4, bz - s.z).normalize();
+        // face away from the anchor so quads fan outward, never edge-on clumps
+        out.set(bx - an.x, (by - an.y) * 1.2 + 0.15, bz - an.z);
+        if (out.lengthSq() < 1e-6) out.set(0, 1, 0);
+        out.normalize();
         dummy.lookAt(bx + out.x, by + out.y, bz + out.z);
         dummy.rotateZ(rand() * Math.PI * 2);
         dummy.scale.set(bs, bs, 1);
         dummy.updateMatrix();
-        if (placed < COUNT) {
-          inst.setMatrixAt(placed, dummy.matrix);
-          // per-instance tint: hue/brightness variety, no tiled look
-          const v = 0.82 + rand() * 0.30;
-          tint.setRGB(v * (0.94 + rand() * 0.08), v, v * (0.90 + rand() * 0.08));
-          inst.setColorAt(placed, tint);
-          placed++;
-        }
+        inst.setMatrixAt(placed, dummy.matrix);
+        const v = 0.82 + rand() * 0.30;
+        tint.setRGB(v * (0.94 + rand() * 0.08), v, v * (0.90 + rand() * 0.08));
+        inst.setColorAt(placed, tint);
+        placed++;
       }
     }
     inst.count = placed;
@@ -828,42 +903,6 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     scene.add(inst);
   }
   mark('crown-filler');
-
-  /* branch limbs — dark tapered limbs running through each crown so foliage
-     has visible structure (Yaakov 2026-10-13 leaves-fix). One instanced draw. */
-  {
-    const limbGeo = new THREE.CylinderGeometry(0.05, 0.17, 3.4, 5);
-    limbGeo.translate(0, 1.7, 0); // base at origin, grows +Y
-    const limbMat = new THREE.MeshStandardMaterial({
-      map: mossyBarkTex, roughness: 1.0,
-      color: new THREE.Color(0.55, 0.47, 0.38),
-    });
-    const PER_TREE = 6;
-    const COUNT = treeSpots.length * PER_TREE;
-    const inst = new THREE.InstancedMesh(limbGeo, limbMat, COUNT);
-    const dummy = new THREE.Object3D();
-    const up = new THREE.Vector3(0, 1, 0);
-    const dir = new THREE.Vector3();
-    let placed = 0;
-    for (const s of treeSpots) {
-      const ccx = (s.crownX !== undefined ? s.crownX : s.x);
-      const baseY = s.crownY - s.crownR * 0.45;
-      for (let i = 0; i < PER_TREE; i++) {
-        const th = (i / PER_TREE) * Math.PI * 2 + rand() * 0.5;
-        const tilt = 0.5 + rand() * 0.55; // outward lean
-        dummy.position.set(ccx, baseY, s.z);
-        dir.set(Math.cos(th) * Math.sin(tilt), Math.cos(tilt), Math.sin(th) * Math.sin(tilt)).normalize();
-        dummy.quaternion.setFromUnitVectors(up, dir);
-        const ls = 0.8 + rand() * 0.7;
-        dummy.scale.set(ls, ls * (0.9 + rand() * 0.5), ls);
-        dummy.updateMatrix();
-        if (placed < COUNT) inst.setMatrixAt(placed++, dummy.matrix);
-      }
-    }
-    inst.count = placed;
-    inst.castShadow = true;
-    scene.add(inst);
-  }
   mark('crown-limbs');
 
   /* distant tree-line — procedural billboard trees at the world rim, hazed by fog.
