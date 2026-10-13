@@ -7,8 +7,16 @@
  * The Awtsmoos lets a learner carry the whole maamar as a beautiful PDF:
  * big Hebrew phrases each followed by its English translation, the overview,
  * section summaries, Q&A, and footnotes. Awtsmoos.com builds a print-perfect
- * document from the live reader DOM and opens the browser print flow so the
- * learner chooses "Save as PDF". No libraries, no server round-trip, full RTL.
+ * document and opens it in a new tab so the learner chooses "Save as PDF".
+ * No libraries, no server round-trip, full RTL.
+ *
+ * Content sources, in priority order:
+ *  1. JS-mounted sefer (`.meluket-sefer-section` / `.meluket-phrase-pair`) — richest.
+ *  2. Server-rendered initial units (`.awtsmoos-initial-unit` with
+ *     `.awtsmoos-initial-unit-he` / `-en`) — always in the HTML, no JS needed.
+ *  3. Generic reader (`#realPost .section`).
+ * Never opens a blank document: if nothing readable is found, it throws a
+ * clear error instead of showing an empty print preview.
  */
 
 const HEBREW_RE = /[\u0590-\u05FF]/u;
@@ -61,6 +69,7 @@ function readHeading() {
 	const sefer = document.querySelector('.meluket-sefer');
 	const titleHe = sefer?.querySelector('.meluket-sefer-title-he')?.textContent?.trim()
 		|| document.querySelector('.meluket-sefer-title-he')?.textContent?.trim()
+		|| document.querySelector('.awtsmoos-initial-post h1')?.textContent?.trim()
 		|| '';
 	const title = titleHe || (window.post?.title || window.post?.name || '').trim();
 	const series = (window.series?.prateem?.name || window.series?.name || '').trim();
@@ -106,6 +115,24 @@ function readMeluketSections() {
 		}
 	});
 	return sections;
+}
+
+/**
+ * Reads the server-rendered initial units. These are in the raw HTML of
+ * every post (`<section class="awtsmoos-initial-unit">` with
+ * `.awtsmoos-initial-unit-he` / `.awtsmoos-initial-unit-en`), so they work
+ * even when the JS sefer mount never ran or was aborted.
+ */
+function readInitialUnits() {
+	const pairs = [];
+	document.querySelectorAll('.awtsmoos-initial-unit').forEach(unit => {
+		const he = unit.querySelector('.awtsmoos-initial-unit-he');
+		const en = unit.querySelector('.awtsmoos-initial-unit-en');
+		const heHtml = he ? inlineToHtml(he).trim() : '';
+		const enHtml = en ? inlineToHtml(en).trim() : '';
+		if (heHtml || enHtml) pairs.push({ heHtml, enHtml });
+	});
+	return pairs;
 }
 
 /** Reads generic reader sections for non-Meluket posts. */
@@ -280,14 +307,27 @@ function printCss() {
 	`;
 }
 
+function pairHtml(pair) {
+	let out = `<div class="pdf-pair">`;
+	if (pair.heHtml) out += `<p class="pdf-he" dir="rtl" lang="he">${pair.heHtml}</p>`;
+	if (pair.enHtml) out += `<p class="pdf-en" dir="ltr" lang="en">${pair.enHtml}</p>`;
+	out += `</div>`;
+	return out;
+}
+
 function buildDocument() {
 	const { title, series } = readHeading();
 	const overview = readOverview();
 	const meluketSections = readMeluketSections();
 	const genericSections = meluketSections.length ? [] : readGenericSections();
+	// B"H — server-rendered initial units are always in the HTML, even when
+	// the JS sefer mount never ran. They guarantee the PDF is never empty.
+	const initialUnits = (meluketSections.length || genericSections.length) ? [] : readInitialUnits();
 	const qa = readQa();
 	const footnotes = readFootnotes();
 	const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+	const hasContent = meluketSections.length > 0 || genericSections.length > 0
+		|| initialUnits.length > 0 || qa.length > 0 || footnotes.length > 0 || !!overview;
 
 	let html = '';
 	html += `<header>`;
@@ -307,12 +347,7 @@ function buildDocument() {
 	meluketSections.forEach(section => {
 		html += `<section class="pdf-section">`;
 		html += `<div class="pdf-section-head"><span class="pdf-section-num">${section.number}</span><span class="pdf-section-rule"></span></div>`;
-		section.pairs.forEach(pair => {
-			html += `<div class="pdf-pair">`;
-			if (pair.heHtml) html += `<p class="pdf-he" dir="rtl" lang="he">${pair.heHtml}</p>`;
-			if (pair.enHtml) html += `<p class="pdf-en" dir="ltr" lang="en">${pair.enHtml}</p>`;
-			html += `</div>`;
-		});
+		section.pairs.forEach(pair => { html += pairHtml(pair); });
 		section.englishFallback.forEach(paraHtml => {
 			html += `<p class="pdf-en" dir="ltr" lang="en">${paraHtml}</p>`;
 		});
@@ -321,6 +356,12 @@ function buildDocument() {
 		}
 		html += `</section>`;
 	});
+
+	if (initialUnits.length) {
+		html += `<section class="pdf-section">`;
+		initialUnits.forEach(pair => { html += pairHtml(pair); });
+		html += `</section>`;
+	}
 
 	genericSections.forEach(section => {
 		html += `<section class="pdf-section">`;
@@ -354,32 +395,55 @@ function buildDocument() {
 	}
 
 	html += `<div class="pdf-colophon" dir="ltr">B"H · Learned with love from awtsmoos.com</div>`;
-	return { title, html };
+	return { title, html, hasContent };
 }
 
 /**
- * Opens the maamar as a beautiful print document and raises the print dialog
- * so the learner saves it as PDF. Synchronous window.open keeps popup
- * blockers quiet because this runs inside the menu click gesture.
+ * Opens the maamar as a beautiful print document in a new tab and raises
+ * the print dialog so the learner saves it as PDF.
+ *
+ * Delivery notes (learned the hard way):
+ * - Uses a Blob URL, never document.write: reliable on mobile Chrome where
+ *   document.write into a fresh window is flaky.
+ * - Waits for document.fonts.ready before auto-printing so the print
+ *   preview never renders blank.
+ * - Never opens an empty document: throws a clear error instead.
+ * - Synchronous window.open keeps popup blockers quiet because this runs
+ *   inside the menu tap gesture.
  */
 export function downloadMaamarPdf() {
-	const { title, html } = buildDocument();
-	const printWindow = window.open('', '_blank', 'noopener');
-	if (!printWindow) {
-		throw new Error('Popup blocked — allow popups for awtsmoos.com to download the PDF.');
+	const { title, html, hasContent } = buildDocument();
+	if (!hasContent) {
+		throw new Error('No readable content found on this page for the PDF.');
 	}
 	const docTitle = `${title || 'Maamar'} — awtsmoos.com`;
-	printWindow.document.write(
-		`<!DOCTYPE html><html lang="he" dir="ltr"><head><meta charset="utf-8">` +
+	const doc = `<!DOCTYPE html><html lang="he" dir="ltr"><head><meta charset="utf-8">` +
 		`<meta name="viewport" content="width=device-width, initial-scale=1">` +
 		`<title>${escapeHtml(docTitle)}</title><style>${printCss()}</style></head><body>` +
 		`<div class="pdf-toolbar"><p dir="ltr">Choose <strong>“Save as PDF”</strong> as the destination, then print.</p>` +
 		`<button type="button" class="pdf-print-btn">Save as PDF</button></div>` +
 		`<article class="maamar-pdf">${html}</article>` +
-		`<script>document.querySelector('.pdf-print-btn').addEventListener('click', function(){ window.print(); });` +
-		`window.addEventListener('load', function(){ setTimeout(function(){ window.print(); }, 450); });<\/script>` +
-		`</body></html>`
-	);
-	printWindow.document.close();
+		`<script>(function(){` +
+		`function doPrint(){ try { window.print(); } catch (e) {} }` +
+		`var btn = document.querySelector('.pdf-print-btn');` +
+		`if (btn) btn.addEventListener('click', doPrint);` +
+		`function ready(fn){` +
+		`  if (document.fonts && document.fonts.ready) {` +
+		`    document.fonts.ready.then(function(){ requestAnimationFrame(function(){ setTimeout(fn, 400); }); });` +
+		`  } else if (document.readyState === 'complete') { setTimeout(fn, 600); }` +
+		`  else { window.addEventListener('load', function(){ setTimeout(fn, 600); }); }` +
+		`}` +
+		`ready(doPrint);` +
+		`})();<\/script>` +
+		`</body></html>`;
+	const blob = new Blob([doc], { type: 'text/html;charset=utf-8' });
+	const url = URL.createObjectURL(blob);
+	// B"H — release the blob URL after a few minutes; the tab holds its own copy.
+	setTimeout(() => { try { URL.revokeObjectURL(url); } catch (e) {} }, 5 * 60 * 1000);
+	const printWindow = window.open(url, '_blank', 'noopener');
+	if (!printWindow) {
+		try { URL.revokeObjectURL(url); } catch (e) {}
+		throw new Error('Popup blocked — allow popups for awtsmoos.com to download the PDF.');
+	}
 	printWindow.focus();
 }
