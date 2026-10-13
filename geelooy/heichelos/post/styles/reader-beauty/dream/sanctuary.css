@@ -1,0 +1,349 @@
+/* B"H Dream Reader — Sanctuary.
+ * The dark cinematic vision raised beyond the visions themselves: deep sacred
+ * night, light rays breathing from above, a field of faint stars, Hebrew
+ * glowing from within like a pillar of fire, verses igniting as you read.
+ * Scoped under [data-dream="sanctuary"]; beauty serves readability.
+ * Yaakov's bar: make them gasp. */
+
+/* ---- chamber: sacred night, layered depth ---- */
+[data-dream="sanctuary"] .post-reader-localized-context {
+	color: var(--dream-ink);
+	background-color: var(--dream-bg);
+	background-image:
+		radial-gradient(130% 55% at 50% -12%, rgba(46, 64, 116, 0.60) 0%, rgba(20, 30, 64, 0.22) 42%, rgba(6, 10, 20, 0) 68%),
+		radial-gradient(60% 40% at 12% 30%, rgba(64, 48, 120, 0.16) 0%, transparent 70%),
+		radial-gradient(60% 40% at 88% 62%, rgba(30, 70, 110, 0.14) 0%, transparent 70%),
+		linear-gradient(180deg, var(--dream-bg-lift) 0%, var(--dream-bg) 30%, var(--dream-bg-deep) 100%);
+}
+
+/* light rays breathing from above */
+[data-dream="sanctuary"] .post-reader-localized-context::before {
+	content: "";
+	position: fixed;
+	inset: -4% 0 0 0;
+	pointer-events: none;
+	z-index: 0;
+	background-image:
+		conic-gradient(from 180deg at 50% -22%, transparent 0deg, var(--dream-ray) 7deg, transparent 14deg, transparent 22deg, var(--dream-ray) 29deg, transparent 36deg, transparent 46deg, var(--dream-ray) 53deg, transparent 60deg, transparent 70deg, var(--dream-ray) 76deg, transparent 84deg),
+		radial-gradient(95% 48% at 50% 0%, rgba(248, 224, 164, 0.10) 0%, transparent 70%);
+	animation: dream-ray-drift 24s ease-in-out infinite alternate;
+}
+
+@keyframes dream-ray-drift {
+	from { opacity: 0.65; transform: translateX(-1.6%) scaleX(0.99); }
+	to { opacity: 1; transform: translateX(1.6%) scaleX(1.02); }
+}
+
+/* faint starfield — one element, many tiny lights */
+[data-dream="sanctuary"] .post-reader-localized-context::after {
+	content: "";
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	z-index: 0;
+	width: 2px;
+	height: 2px;
+	border-radius: 50%;
+	background: transparent;
+	box-shadow:
+		8vw 12vh 0 rgba(248, 224, 164, 0.5), 22vw 6vh 0 rgba(255, 255, 255, 0.35),
+		37vw 18vh 0 rgba(248, 224, 164, 0.4), 51vw 8vh 0 rgba(255, 255, 255, 0.28),
+		66vw 14vh 0 rgba(248, 224, 164, 0.45), 79vw 5vh 0 rgba(255, 255, 255, 0.32),
+		92vw 20vh 0 rgba(248, 224, 164, 0.38), 14vw 34vh 0 rgba(255, 255, 255, 0.22),
+		30vw 42vh 0 rgba(248, 224, 164, 0.3), 58vw 38vh 0 rgba(255, 255, 255, 0.2),
+		74vw 44vh 0 rgba(248, 224, 164, 0.32), 88vw 36vh 0 rgba(255, 255, 255, 0.24),
+		6vw 58vh 0 rgba(248, 224, 164, 0.28), 26vw 66vh 0 rgba(255, 255, 255, 0.18),
+		44vw 58vh 0 rgba(248, 224, 164, 0.26), 62vw 68vh 0 rgba(255, 255, 255, 0.2),
+		82vw 60vh 0 rgba(248, 224, 164, 0.3), 95vw 72vh 0 rgba(255, 255, 255, 0.16),
+		18vw 84vh 0 rgba(248, 224, 164, 0.24), 48vw 88vh 0 rgba(255, 255, 255, 0.18),
+		70vw 82vh 0 rgba(248, 224, 164, 0.26), 90vw 90vh 0 rgba(255, 255, 255, 0.14);
+	animation: dream-star-twinkle 7s ease-in-out infinite alternate;
+}
+
+@keyframes dream-star-twinkle {
+	from { opacity: 0.55; }
+	to { opacity: 1; }
+}
+
+/* keep content above the atmosphere */
+[data-dream="sanctuary"] .post-reader-localized-context > * {
+	position: relative;
+	z-index: 1;
+}
+
+/* ---- sacred type: Hebrew glowing from within ---- */
+[data-dream="sanctuary"] .dream-glow-title {
+	color: var(--dream-gold-bright);
+	text-shadow:
+		0 0 12px rgba(248, 224, 164, 0.65),
+		0 0 34px var(--dream-glow-soft),
+		0 0 90px var(--dream-glow-wide);
+	letter-spacing: 0.015em;
+	line-height: 1.5;
+	animation: dream-title-breathe 6s ease-in-out infinite alternate;
+}
+
+@keyframes dream-title-breathe {
+	from { text-shadow: 0 0 10px rgba(248, 224, 164, 0.5), 0 0 30px var(--dream-glow-soft), 0 0 80px var(--dream-glow-wide); }
+	to { text-shadow: 0 0 16px rgba(248, 224, 164, 0.8), 0 0 44px var(--dream-glow-soft), 0 0 110px var(--dream-glow-wide); }
+}
+
+[data-dream="sanctuary"] .post-reader-localized-context p,
+[data-dream="sanctuary"] .post-reader-localized-context li,
+[data-dream="sanctuary"] .post-reader-localized-context blockquote,
+[data-dream="sanctuary"] .post-reader-localized-context span,
+[data-dream="sanctuary"] .post-reader-localized-context div {
+	color: var(--dream-ink);
+	line-height: 1.9;
+}
+
+/* the gorgeous Hebrew: generous, luminous, alive */
+[data-dream="sanctuary"] :lang(he) {
+	color: var(--dream-hebrew);
+	line-height: 2.15;
+	letter-spacing: 0.02em;
+	font-feature-settings: "kern" 1;
+	text-shadow:
+		0 0 8px rgba(250, 230, 170, 0.55),
+		0 0 22px var(--dream-glow-soft),
+		0 0 64px var(--dream-glow-wide);
+}
+
+/* ---- verse vessels: glass that ignites ---- */
+[data-dream="sanctuary"] .dream-verse {
+	background: var(--dream-panel);
+	backdrop-filter: blur(16px);
+	-webkit-backdrop-filter: blur(16px);
+	border: 1px solid var(--dream-gold-line);
+	border-radius: 16px;
+	box-shadow:
+		0 20px 55px var(--dream-shadow),
+		inset 0 1px 0 rgba(248, 224, 164, 0.09);
+	opacity: 0.55;
+	transform: translateY(14px);
+	transition: opacity 1s ease, transform 1s ease, border-color 1s ease, box-shadow 1s ease;
+}
+
+[data-dream="sanctuary"] .dream-verse:hover {
+	background: var(--dream-panel);
+	border-color: var(--dream-gold);
+	box-shadow:
+		0 20px 55px var(--dream-shadow),
+		0 0 26px var(--dream-glow-wide),
+		inset 0 1px 0 rgba(248, 224, 164, 0.14);
+	transform: translateY(-2px);
+}
+
+[data-dream="sanctuary"] .dream-verse.dream-verse-lit {
+	opacity: 1;
+	transform: translateY(0);
+	border-color: var(--dream-gold-line);
+	box-shadow:
+		0 20px 55px var(--dream-shadow),
+		0 0 40px var(--dream-glow-wide),
+		inset 0 1px 0 rgba(248, 224, 164, 0.13);
+	animation: dream-verse-ignite 1.4s ease-out;
+}
+
+@keyframes dream-verse-ignite {
+	0% { box-shadow: 0 20px 55px var(--dream-shadow), 0 0 0 var(--dream-glow-wide); }
+	35% { box-shadow: 0 20px 55px var(--dream-shadow), 0 0 70px var(--dream-glow-soft), inset 0 1px 0 rgba(248, 224, 164, 0.2); }
+	100% { box-shadow: 0 20px 55px var(--dream-shadow), 0 0 40px var(--dream-glow-wide), inset 0 1px 0 rgba(248, 224, 164, 0.13); }
+}
+
+[data-dream="sanctuary"] .dream-verse.dream-verse-lit::before {
+	content: "";
+	position: absolute;
+	inset-inline-start: 0;
+	top: 16px;
+	bottom: 16px;
+	width: 3px;
+	border-radius: 3px;
+	background: linear-gradient(180deg, var(--dream-gold-bright), var(--dream-gold-deep));
+	box-shadow: 0 0 18px var(--dream-glow-soft), 0 0 44px var(--dream-glow-wide);
+}
+
+/* verse numbers: small gold seals */
+[data-dream="sanctuary"] .awtsmoos-verse-number {
+	color: var(--dream-gold);
+	font-weight: 900;
+	text-shadow: 0 0 14px var(--dream-glow-soft);
+}
+
+/* ---- filigree frame for the title vessel ---- */
+[data-dream="sanctuary"] .awtsmoos-reader-title-shell {
+	color: var(--dream-ink);
+	border: 1px solid var(--dream-gold-line);
+	border-radius: 20px;
+	padding: 2.6rem 2.2rem 2.1rem;
+	background:
+		radial-gradient(80% 60% at 50% 0%, rgba(233, 196, 106, 0.10) 0%, transparent 70%),
+		linear-gradient(180deg, rgba(233, 196, 106, 0.07), rgba(233, 196, 106, 0.015)),
+		var(--dream-panel);
+	backdrop-filter: blur(16px);
+	-webkit-backdrop-filter: blur(16px);
+	box-shadow:
+		0 30px 80px var(--dream-shadow),
+		0 0 60px var(--dream-glow-wide),
+		inset 0 1px 0 rgba(248, 224, 164, 0.12);
+	position: relative;
+}
+
+[data-dream="sanctuary"] .awtsmoos-reader-title-shell::after {
+	content: "";
+	position: absolute;
+	inset: 8px;
+	border: 1px solid rgba(233, 196, 106, 0.16);
+	border-radius: 13px;
+	pointer-events: none;
+}
+
+/* ---- controls: glass pills with gold breath ---- */
+[data-dream="sanctuary"] .dream-control {
+	color: var(--dream-control-ink);
+	background: var(--dream-control-bg);
+	border: 1px solid var(--dream-control-line);
+	border-radius: 999px;
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	position: relative;
+	overflow: hidden;
+	transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+[data-dream="sanctuary"] .dream-control::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(105deg, transparent 40%, rgba(248, 224, 164, 0.22) 50%, transparent 60%);
+	transform: translateX(-120%);
+	transition: transform 0.7s ease;
+	pointer-events: none;
+}
+
+[data-dream="sanctuary"] .dream-control:hover {
+	border-color: var(--dream-gold);
+	box-shadow: 0 0 24px var(--dream-glow-wide), 0 0 60px rgba(233, 196, 106, 0.08);
+	transform: translateY(-1px);
+}
+
+[data-dream="sanctuary"] .dream-control:hover::after {
+	transform: translateX(120%);
+}
+
+[data-dream="sanctuary"] .dream-control:focus-visible {
+	outline: 2px solid var(--dream-gold);
+	outline-offset: 2px;
+	box-shadow: 0 0 22px var(--dream-glow-soft);
+}
+
+[data-dream="sanctuary"] .dream-control:active {
+	transform: translateY(0);
+}
+
+[data-dream="sanctuary"] .dream-link {
+	color: var(--dream-gold-bright);
+	text-decoration-color: var(--dream-gold-line);
+}
+
+[data-dream="sanctuary"] .dream-link:hover {
+	color: var(--dream-gold-bright);
+	text-shadow: 0 0 16px var(--dream-glow-soft);
+}
+
+[data-dream="sanctuary"] .dream-link:focus-visible {
+	outline: 2px solid var(--dream-gold);
+	outline-offset: 2px;
+}
+
+/* Scribe's Lens panel: dark glass vessel */
+[data-dream="sanctuary"] .typography-details {
+	color: var(--dream-ink);
+	background: rgba(8, 13, 26, 0.94);
+	border: 1px solid var(--dream-gold-line);
+	border-radius: 20px;
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	box-shadow: 0 34px 90px var(--dream-shadow), 0 0 50px var(--dream-glow-wide);
+}
+
+[data-dream="sanctuary"] .typography-details .control-label {
+	color: var(--dream-gold-bright);
+}
+
+[data-dream="sanctuary"] .dream-field {
+	color: var(--dream-control-ink);
+	background: var(--dream-control-bg);
+	border: 1px solid var(--dream-control-line);
+	border-radius: 10px;
+}
+
+[data-dream="sanctuary"] .dream-field:focus-visible {
+	outline: 2px solid var(--dream-gold);
+	outline-offset: 2px;
+}
+
+/* the night owns the whole viewport */
+:root[data-dream="sanctuary"] body {
+	background-color: var(--dream-bg-deep);
+	color: var(--dream-ink);
+}
+
+/* ---- the awakening: a cinematic bloom when the dream turns on ---- */
+.dream-awakening-veil {
+	position: fixed;
+	inset: 0;
+	z-index: 2147483000;
+	pointer-events: none;
+	opacity: 0;
+	background: radial-gradient(60% 60% at 50% 50%, rgba(248, 224, 164, 0.9) 0%, rgba(233, 196, 106, 0.45) 34%, rgba(233, 196, 106, 0) 70%);
+}
+
+.dream-awakening-veil.dream-awakening-veil--bloom {
+	animation: dream-veil-bloom 0.7s ease-out forwards;
+}
+
+@keyframes dream-veil-bloom {
+	from { opacity: 0; transform: scale(0.6); }
+	to { opacity: 1; transform: scale(1.35); }
+}
+
+.dream-awakening-veil.dream-awakening-veil--reveal {
+	animation: dream-veil-reveal 1s ease-in forwards;
+}
+
+@keyframes dream-veil-reveal {
+	from { opacity: 1; transform: scale(1.35); }
+	to { opacity: 0; transform: scale(1.8); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	[data-dream="sanctuary"] .post-reader-localized-context::before,
+	[data-dream="sanctuary"] .post-reader-localized-context::after {
+		animation: none;
+	}
+	[data-dream="sanctuary"] .dream-glow-title {
+		color: var(--dream-gold-bright);
+		animation: none;
+	}
+	[data-dream="sanctuary"] .dream-verse {
+		transition: none;
+		opacity: 1;
+		transform: none;
+	}
+	[data-dream="sanctuary"] .dream-verse.dream-verse-lit {
+		animation: none;
+	}
+	.dream-awakening-veil.dream-awakening-veil--bloom,
+	.dream-awakening-veil.dream-awakening-veil--reveal {
+		animation: none;
+		opacity: 0;
+	}
+}
+
+@media (max-width: 640px) {
+	[data-dream="sanctuary"] .post-reader-localized-context::before,
+	[data-dream="sanctuary"] .post-reader-localized-context::after {
+		animation-duration: 40s;
+	}
+}

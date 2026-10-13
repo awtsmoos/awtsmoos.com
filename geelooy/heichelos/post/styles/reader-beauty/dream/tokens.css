@@ -1,0 +1,56 @@
+/* B"H Dream Reader design tokens.
+ * The Awtsmoos lets the sanctuary and the dawn each keep their own vessels;
+ * Awtsmoos.com scopes every dream token under [data-dream] so the ordinary
+ * reader never pays for the vision until Yaakov awakens it. */
+
+/* Sanctuary — dark cinematic (visions 1 + 6): deep night, glowing gold. */
+:where([data-dream="sanctuary"]) {
+	--dream-bg-deep: #030509;
+	--dream-bg: #060a14;
+	--dream-bg-lift: #0b1224;
+	--dream-panel: rgba(10, 16, 30, 0.62);
+	--dream-panel-solid: #0a1020;
+	--dream-gold: #e9c46a;
+	--dream-gold-bright: #f8e0a4;
+	--dream-gold-deep: #a87c2a;
+	--dream-gold-faint: rgba(233, 196, 106, 0.16);
+	--dream-gold-line: rgba(233, 196, 106, 0.28);
+	--dream-ink: #f3e8cf;
+	--dream-ink-dim: #c9b98f;
+	--dream-ink-faint: #8f8265;
+	--dream-hebrew: #f2d79b;
+	--dream-glow-soft: rgba(233, 196, 106, 0.42);
+	--dream-glow-wide: rgba(233, 196, 106, 0.14);
+	--dream-ray: rgba(248, 224, 164, 0.055);
+	--dream-shadow: rgba(0, 0, 0, 0.55);
+	--dream-control-bg: rgba(14, 22, 40, 0.78);
+	--dream-control-ink: #f3e8cf;
+	--dream-control-line: rgba(233, 196, 106, 0.32);
+	--dream-verse-lit-bar: #e9c46a;
+}
+
+/* Dawn — warm sunrise (vision 7): paper, rose-gold light, morning calm. */
+:where([data-dream="dawn"]) {
+	--dream-bg-deep: #f7ecd6;
+	--dream-bg: #fbf5e8;
+	--dream-bg-lift: #fffdf6;
+	--dream-panel: rgba(255, 253, 246, 0.72);
+	--dream-panel-solid: #fffdf6;
+	--dream-gold: #9a6a1e;
+	--dream-gold-bright: #c08f2e;
+	--dream-gold-deep: #7a5212;
+	--dream-gold-faint: rgba(154, 106, 30, 0.10);
+	--dream-gold-line: rgba(154, 106, 30, 0.30);
+	--dream-ink: #3a2a15;
+	--dream-ink-dim: #6b5636;
+	--dream-ink-faint: #9a8668;
+	--dream-hebrew: #7a5212;
+	--dream-glow-soft: rgba(192, 143, 46, 0.30);
+	--dream-glow-wide: rgba(232, 150, 90, 0.12);
+	--dream-ray: rgba(255, 190, 120, 0.10);
+	--dream-shadow: rgba(90, 60, 20, 0.18);
+	--dream-control-bg: rgba(255, 253, 246, 0.88);
+	--dream-control-ink: #3a2a15;
+	--dream-control-line: rgba(154, 106, 30, 0.34);
+	--dream-verse-lit-bar: #c08f2e;
+}

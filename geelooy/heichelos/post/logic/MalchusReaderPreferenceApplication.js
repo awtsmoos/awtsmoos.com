@@ -11,6 +11,7 @@
 import { DaasReaderPreferenceStore } from "./DaasReaderPreferenceStore.js";
 import { YesodReaderFontController } from "./YesodReaderFontController.js";
 import { TiferesReaderThemeController } from "./TiferesReaderThemeController.js";
+import { DreamReaderController } from "./DreamReaderController.js";
 
 /**
  * @class MalchusReaderPreferenceApplication
@@ -22,12 +23,14 @@ export class MalchusReaderPreferenceApplication {
 		this.daasStore = new DaasReaderPreferenceStore(storageKli);
 		this.yesodFont = new YesodReaderFontController({ store: this.daasStore });
 		this.tiferesTheme = new TiferesReaderThemeController({ store: this.daasStore });
+		this.dreamReader = new DreamReaderController({ store: this.daasStore });
 	}
 
 	/** @returns {void} Restores and binds every preference controller; each controller guards duplicate listeners. */
 	mount() {
 		this.yesodFont.mount();
 		this.tiferesTheme.mount();
+		this.dreamReader.mount();
 	}
 }
 

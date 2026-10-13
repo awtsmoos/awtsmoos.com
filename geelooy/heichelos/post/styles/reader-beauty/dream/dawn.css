@@ -1,0 +1,273 @@
+/* B"H Dream Reader — Dawn, raised.
+ * The warm sunrise vision beyond the vision: paper drinking morning light,
+ * bronze Hebrew glowing softly, verses warming as you read, the calm of
+ * a study ritual at sunrise. Scoped under [data-dream="dawn"]. */
+
+/* ---- chamber: sunrise washing over warm paper ---- */
+[data-dream="dawn"] .post-reader-localized-context {
+	color: var(--dream-ink);
+	background-color: var(--dream-bg);
+	background-image:
+		radial-gradient(115% 44% at 50% -8%, rgba(255, 188, 118, 0.42) 0%, rgba(244, 168, 148, 0.16) 46%, rgba(251, 245, 232, 0) 74%),
+		radial-gradient(65% 32% at 84% 6%, rgba(255, 216, 152, 0.26) 0%, transparent 70%),
+		radial-gradient(50% 30% at 10% 22%, rgba(255, 170, 160, 0.14) 0%, transparent 70%),
+		linear-gradient(180deg, var(--dream-bg-lift) 0%, var(--dream-bg) 42%, var(--dream-bg-deep) 100%);
+}
+
+[data-dream="dawn"] .post-reader-localized-context::before {
+	content: "";
+	position: fixed;
+	inset: -4% 0 0 0;
+	pointer-events: none;
+	z-index: 0;
+	background-image:
+		conic-gradient(from 180deg at 50% -22%, transparent 0deg, var(--dream-ray) 9deg, transparent 18deg, transparent 28deg, var(--dream-ray) 37deg, transparent 46deg, transparent 58deg, var(--dream-ray) 66deg, transparent 76deg),
+		radial-gradient(85% 38% at 50% 0%, rgba(255, 202, 132, 0.22) 0%, transparent 70%);
+	animation: dream-dawn-breathe 28s ease-in-out infinite alternate;
+}
+
+@keyframes dream-dawn-breathe {
+	from { opacity: 0.65; transform: translateX(-1.2%); }
+	to { opacity: 1; transform: translateX(1.2%); }
+}
+
+[data-dream="dawn"] .post-reader-localized-context > * {
+	position: relative;
+	z-index: 1;
+}
+
+/* ---- sacred type: bronze Hebrew in morning light ---- */
+[data-dream="dawn"] .dream-glow-title {
+	color: var(--dream-gold-deep);
+	text-shadow:
+		0 1px 0 rgba(255, 255, 255, 0.75),
+		0 0 30px var(--dream-glow-wide);
+	letter-spacing: 0.015em;
+	line-height: 1.5;
+	animation: dream-dawn-title 7s ease-in-out infinite alternate;
+}
+
+@keyframes dream-dawn-title {
+	from { text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7), 0 0 22px var(--dream-glow-wide); }
+	to { text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85), 0 0 40px var(--dream-glow-soft); }
+}
+
+[data-dream="dawn"] .post-reader-localized-context p,
+[data-dream="dawn"] .post-reader-localized-context li,
+[data-dream="dawn"] .post-reader-localized-context blockquote,
+[data-dream="dawn"] .post-reader-localized-context span,
+[data-dream="dawn"] .post-reader-localized-context div {
+	color: var(--dream-ink);
+	line-height: 1.9;
+}
+
+[data-dream="dawn"] :lang(he) {
+	color: var(--dream-hebrew);
+	line-height: 2.15;
+	letter-spacing: 0.02em;
+	font-feature-settings: "kern" 1;
+	text-shadow:
+		0 1px 0 rgba(255, 255, 255, 0.7),
+		0 0 24px var(--dream-glow-wide);
+}
+
+/* ---- verse vessels: warm glass that warms further ---- */
+[data-dream="dawn"] .dream-verse {
+	background: var(--dream-panel);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	border: 1px solid var(--dream-gold-line);
+	border-radius: 16px;
+	box-shadow:
+		0 16px 44px var(--dream-shadow),
+		inset 0 1px 0 rgba(255, 255, 255, 0.8);
+	opacity: 0.6;
+	transform: translateY(14px);
+	transition: opacity 1s ease, transform 1s ease, border-color 1s ease, box-shadow 1s ease;
+}
+
+[data-dream="dawn"] .dream-verse:hover {
+	background: var(--dream-panel);
+	border-color: var(--dream-gold);
+	box-shadow:
+		0 16px 44px var(--dream-shadow),
+		0 0 24px var(--dream-glow-wide),
+		inset 0 1px 0 rgba(255, 255, 255, 0.85);
+	transform: translateY(-2px);
+}
+
+[data-dream="dawn"] .dream-verse.dream-verse-lit {
+	opacity: 1;
+	transform: translateY(0);
+	border-color: var(--dream-gold-line);
+	box-shadow:
+		0 16px 44px var(--dream-shadow),
+		0 0 36px var(--dream-glow-wide),
+		inset 0 1px 0 rgba(255, 255, 255, 0.85);
+	animation: dream-dawn-ignite 1.4s ease-out;
+}
+
+@keyframes dream-dawn-ignite {
+	0% { box-shadow: 0 16px 44px var(--dream-shadow), 0 0 0 var(--dream-glow-wide); }
+	35% { box-shadow: 0 16px 44px var(--dream-shadow), 0 0 60px var(--dream-glow-soft), inset 0 1px 0 rgba(255, 255, 255, 0.9); }
+	100% { box-shadow: 0 16px 44px var(--dream-shadow), 0 0 36px var(--dream-glow-wide), inset 0 1px 0 rgba(255, 255, 255, 0.85); }
+}
+
+[data-dream="dawn"] .dream-verse.dream-verse-lit::before {
+	content: "";
+	position: absolute;
+	inset-inline-start: 0;
+	top: 16px;
+	bottom: 16px;
+	width: 3px;
+	border-radius: 3px;
+	background: linear-gradient(180deg, var(--dream-gold-bright), var(--dream-gold-deep));
+	box-shadow: 0 0 16px var(--dream-glow-soft);
+}
+
+[data-dream="dawn"] .awtsmoos-verse-number {
+	color: var(--dream-gold);
+	font-weight: 900;
+}
+
+/* ---- title frame: morning light vessel ---- */
+[data-dream="dawn"] .awtsmoos-reader-title-shell {
+	color: var(--dream-ink);
+	border: 1px solid var(--dream-gold-line);
+	border-radius: 20px;
+	padding: 2.6rem 2.2rem 2.1rem;
+	background:
+		radial-gradient(80% 60% at 50% 0%, rgba(255, 196, 120, 0.22) 0%, transparent 70%),
+		linear-gradient(180deg, rgba(192, 143, 46, 0.10), rgba(192, 143, 46, 0.03)),
+		var(--dream-panel);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	box-shadow:
+		0 20px 55px var(--dream-shadow),
+		0 0 50px var(--dream-glow-wide),
+		inset 0 1px 0 rgba(255, 255, 255, 0.85);
+	position: relative;
+}
+
+[data-dream="dawn"] .awtsmoos-reader-title-shell::after {
+	content: "";
+	position: absolute;
+	inset: 8px;
+	border: 1px solid rgba(154, 106, 30, 0.18);
+	border-radius: 13px;
+	pointer-events: none;
+}
+
+/* ---- controls: warm paper pills ---- */
+[data-dream="dawn"] .dream-control {
+	color: var(--dream-control-ink);
+	background: var(--dream-control-bg);
+	border: 1px solid var(--dream-control-line);
+	border-radius: 999px;
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	box-shadow: 0 8px 22px var(--dream-shadow);
+	position: relative;
+	overflow: hidden;
+	transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+[data-dream="dawn"] .dream-control::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(105deg, transparent 40%, rgba(192, 143, 46, 0.20) 50%, transparent 60%);
+	transform: translateX(-120%);
+	transition: transform 0.7s ease;
+	pointer-events: none;
+}
+
+[data-dream="dawn"] .dream-control:hover {
+	border-color: var(--dream-gold);
+	box-shadow: 0 10px 28px var(--dream-shadow), 0 0 20px var(--dream-glow-wide);
+	transform: translateY(-1px);
+}
+
+[data-dream="dawn"] .dream-control:hover::after {
+	transform: translateX(120%);
+}
+
+[data-dream="dawn"] .dream-control:focus-visible {
+	outline: 2px solid var(--dream-gold);
+	outline-offset: 2px;
+	box-shadow: 0 0 18px var(--dream-glow-soft);
+}
+
+[data-dream="dawn"] .dream-control:active {
+	transform: translateY(0);
+}
+
+[data-dream="dawn"] .dream-link {
+	color: var(--dream-gold-deep);
+	text-decoration-color: var(--dream-gold-line);
+}
+
+[data-dream="dawn"] .dream-link:hover {
+	color: var(--dream-gold-bright);
+}
+
+[data-dream="dawn"] .dream-link:focus-visible {
+	outline: 2px solid var(--dream-gold);
+	outline-offset: 2px;
+}
+
+[data-dream="dawn"] .typography-details {
+	color: var(--dream-ink);
+	background: rgba(255, 253, 246, 0.96);
+	border: 1px solid var(--dream-gold-line);
+	border-radius: 20px;
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	box-shadow: 0 28px 70px var(--dream-shadow), 0 0 44px var(--dream-glow-wide);
+}
+
+[data-dream="dawn"] .typography-details .control-label {
+	color: var(--dream-gold-deep);
+}
+
+[data-dream="dawn"] .dream-field {
+	color: var(--dream-control-ink);
+	background: var(--dream-control-bg);
+	border: 1px solid var(--dream-control-line);
+	border-radius: 10px;
+}
+
+[data-dream="dawn"] .dream-field:focus-visible {
+	outline: 2px solid var(--dream-gold);
+	outline-offset: 2px;
+}
+
+/* the morning owns the whole viewport */
+:root[data-dream="dawn"] body {
+	background-color: var(--dream-bg);
+	color: var(--dream-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	[data-dream="dawn"] .post-reader-localized-context::before {
+		animation: none;
+	}
+	[data-dream="dawn"] .dream-glow-title {
+		color: var(--dream-gold-deep);
+		animation: none;
+	}
+	[data-dream="dawn"] .dream-verse {
+		transition: none;
+		opacity: 1;
+		transform: none;
+	}
+	[data-dream="dawn"] .dream-verse.dream-verse-lit {
+		animation: none;
+	}
+}
+
+@media (max-width: 640px) {
+	[data-dream="dawn"] .post-reader-localized-context::before {
+		animation-duration: 44s;
+	}
+}
