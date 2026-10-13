@@ -9,6 +9,7 @@
 
 import {
 	CAMERA_CONFIG,
+	OLAM_CONFIG,
 	RUNNER_CONFIG
 } from "../config.js";
 import { BinahCameraFraming } from "./CameraFraming.js";
@@ -48,6 +49,22 @@ export class ChochmahCameraPoseDynamics {
 			z: this.framing.zTarget(dynamicSpeed, aspect),
 			fov: this.framing.fovTarget(dynamicSpeed, aspect),
 			speedRatio
+		});
+	}
+
+	/**
+	 * @description Computes the native-renderer look target tracking the runner.
+	 * The native view matrix is built from camera.target (tiny-camera-view-matrix.js),
+	 * so this keeps the lens aimed at the player instead of a fixed world point.
+	 * @returns {Readonly<object>} World-space look-target point.
+	 */
+	targetPoint() {
+		const wrapperX = this.runner.character.wrapper.position.x;
+		return Object.freeze({
+			x: wrapperX * CAMERA_CONFIG.targetLateralFollow,
+			y: CAMERA_CONFIG.targetHeight
+				+ Math.max(0, this.runner.verticalY) * CAMERA_CONFIG.targetJumpFollow,
+			z: OLAM_CONFIG.runnerZ - CAMERA_CONFIG.targetAhead
 		});
 	}
 

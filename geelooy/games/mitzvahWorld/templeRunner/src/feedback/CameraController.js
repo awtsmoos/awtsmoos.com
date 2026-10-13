@@ -39,6 +39,7 @@ export class AyinCameraController {
 		this.camera.position.set(target.x, target.y, target.z);
 		this.camera.fov = target.fov;
 		this.camera.updateProjectionMatrix?.();
+		this.applyTarget();
 		this.applyRotation();
 		this.lastTarget = target;
 	}
@@ -55,6 +56,7 @@ export class AyinCameraController {
 		const target = this.currentTarget();
 		this.easePosition(target, safeDelta);
 		this.easeFov(target.fov, safeDelta);
+		this.applyTarget();
 		this.applyRotation();
 		this.lastTarget = target;
 	}
@@ -83,6 +85,12 @@ export class AyinCameraController {
 		const previous = this.camera.fov;
 		this.camera.fov += (targetFov - previous) * blend;
 		if (Math.abs(this.camera.fov - previous) > 0.0005) this.camera.updateProjectionMatrix?.();
+	}
+
+	/** @private */
+	applyTarget() {
+		const t = this.dynamics.targetPoint();
+		this.camera.target = [t.x, t.y, t.z];
 	}
 
 	/** @private */

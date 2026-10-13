@@ -31,7 +31,7 @@ export const CAMERA_CONFIG = Object.freeze({
 	baseZ: 4.5,
 	pitch: -0.20,
 	laneFollow: 0.46,
-	portraitLaneBoost: 0.08,
+	portraitLaneBoost: 0.46,
 	wideLaneReduction: 0.05,
 	laneDeadZone: 0.06,
 	jumpThreshold: 0.24,
@@ -55,7 +55,16 @@ export const CAMERA_CONFIG = Object.freeze({
 	wideFov: -0.45,
 	minAspect: 0.58,
 	maxAspect: 2.2,
-	turnYaw: Math.PI / 2
+	turnYaw: Math.PI / 2,
+	// B"H — Yaakov 2026-10-13: the native renderer builds its view matrix from
+	// camera.target (see tiny-camera-view-matrix.js), NOT from the camera
+	// quaternion, so setRotation(pitch) was silently ignored and the camera
+	// stared at the default target (0,0,4) — hiding the player once the camera
+	// moved close. The target now tracks the runner every frame.
+	targetHeight: 1.0,
+	targetAhead: 3.0,
+	targetLateralFollow: 1.0,
+	targetJumpFollow: 0.35
 });
 
 export const FEEDBACK_CONFIG = Object.freeze({
