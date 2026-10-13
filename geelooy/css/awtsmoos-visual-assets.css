@@ -1,0 +1,197 @@
+/* B"H — Awtsmoos Visual Assets (Yaakov 2026-10-13)
+ * Shared covers, particle backgrounds, parchment textures, and animated icons.
+ * Each main page gets: hero cover header + particle background + textures.
+ * Mobile-first. No !important. Token-driven. All assets on Awtsmoos Drive.
+ */
+
+:root {
+  /* Covers */
+  --cover-homepage: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/homepage.webp");
+  --cover-reader: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/reader.webp");
+  --cover-profile: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/profile.webp");
+  --cover-games: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/games.webp");
+  --cover-email: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/email.webp");
+  --cover-apps: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/apps.webp");
+  --cover-social: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/social.webp");
+  --cover-social-mobile: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/cover-social-mobile.webp");
+  --cover-social-desktop: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/cover-social-desktop.webp");
+  --cover-drive: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/drive.webp");
+  --cover-heichelos: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/heichelos.webp");
+
+  /* Particle backgrounds (tileable) */
+  --bg-reader-particles: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/backgrounds/bg-reader-particles-0-8389b760-24e1-45a8-a50a-406066eb1e47.webp");
+  --bg-profile-particles: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/backgrounds/bg-profile-particles-0-65e30bba-0c0b-4109-a0dc-4a0e5079d32e.webp");
+  --bg-email-particles: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/backgrounds/bg-email-particles-0-4201fae6-bd31-457d-8fa9-6551a54b93d1.webp");
+  --bg-games-particles: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/backgrounds/bg-games-particles-0-1a71bf9b-654a-4240-a64f-da5cdbb434ce.webp");
+
+  /* Parchment textures (reusable) */
+  --texture-parchment: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/texture-parchment.webp");
+  --texture-parchment-dark: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/texture-parchment-2-dark.webp");
+
+  /* Animated icon transitions (low-res, transparent-ready) */
+  --anim-bell-ring: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/animated/anim-bell-ring.mp4");
+  --anim-heart-beat: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/animated/anim-heart-beat.mp4");
+  --anim-mail-open: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/animated/anim-mail-open.mp4");
+  --anim-play-pulse: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/animated/anim-play-pulse.mp4");
+  --anim-search-sparkle: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/animated/anim-search-sparkle.mp4");
+  --anim-star-twinkle: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/animated/anim-star-twinkle.mp4");
+
+  /* Hero sizing */
+  --hero-height-mobile: 220px;
+  --hero-height-desktop: 340px;
+  --hero-radius: 18px;
+}
+
+/* ============ HERO HEADERS ============
+ * Add class="awtsmoos-hero awtsmoos-hero--{page}" to a header div.
+ * The cover shows as a cinematic banner with gradient fade at bottom.
+ */
+.awtsmoos-hero {
+  position: relative;
+  width: 100%;
+  height: var(--hero-height-mobile);
+  border-radius: var(--hero-radius);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+}
+
+.awtsmoos-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(0, 0, 0, 0.45) 100%);
+  pointer-events: none;
+}
+
+.awtsmoos-hero--homepage { background-image: var(--cover-homepage); }
+.awtsmoos-hero--reader { background-image: var(--cover-reader); }
+.awtsmoos-hero--profile { background-image: var(--cover-profile); }
+.awtsmoos-hero--games { background-image: var(--cover-games); }
+.awtsmoos-hero--email { background-image: var(--cover-email); }
+.awtsmoos-hero--apps { background-image: var(--cover-apps); }
+.awtsmoos-hero--social { background-image: var(--cover-social-mobile); }
+.awtsmoos-hero--drive { background-image: var(--cover-drive); }
+.awtsmoos-hero--heichelos { background-image: var(--cover-heichelos); }
+
+@media (min-width: 768px) {
+  .awtsmoos-hero {
+    height: var(--hero-height-desktop);
+  }
+  .awtsmoos-hero--social { background-image: var(--cover-social-desktop); }
+}
+
+/* Hero title overlay */
+.awtsmoos-hero-title {
+  position: absolute;
+  bottom: 1rem;
+  left: 1.25rem;
+  right: 1.25rem;
+  color: #fff;
+  font-size: 1.75rem;
+  font-weight: 700;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+  margin: 0;
+  z-index: 1;
+}
+
+.awtsmoos-hero-subtitle {
+  position: absolute;
+  bottom: 3.25rem;
+  left: 1.25rem;
+  right: 1.25rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.95rem;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+  margin: 0;
+  z-index: 1;
+}
+
+/* ============ PARTICLE BACKGROUNDS ============
+ * Apply to body or main container. Tileable, subtle.
+ */
+.awtsmoos-bg-reader {
+  background-image: var(--bg-reader-particles);
+  background-repeat: repeat;
+  background-size: 400px 400px;
+}
+
+.awtsmoos-bg-profile {
+  background-image: var(--bg-profile-particles);
+  background-repeat: repeat;
+  background-size: 400px 400px;
+}
+
+.awtsmoos-bg-email {
+  background-image: var(--bg-email-particles);
+  background-repeat: repeat;
+  background-size: 400px 400px;
+}
+
+.awtsmoos-bg-games {
+  background-image: var(--bg-games-particles);
+  background-repeat: repeat;
+  background-size: 400px 400px;
+}
+
+/* ============ PARCHMENT TEXTURES ============ */
+.awtsmoos-parchment {
+  background-image: var(--texture-parchment);
+  background-repeat: repeat;
+  background-size: 512px 512px;
+}
+
+.awtsmoos-parchment-dark {
+  background-image: var(--texture-parchment-dark);
+  background-repeat: repeat;
+  background-size: 512px 512px;
+}
+
+/* ============ ANIMATED ICON HOVER ============
+ * Wrap icon in .awtsmoos-anim-icon with data-anim="bell|heart|mail|play|search|star".
+ * On hover, swaps static img for the looping video transition.
+ */
+.awtsmoos-anim-icon {
+  position: relative;
+  display: inline-block;
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.awtsmoos-anim-icon img,
+.awtsmoos-anim-icon video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+.awtsmoos-anim-icon video {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.awtsmoos-anim-icon:hover video,
+.awtsmoos-anim-icon:focus-visible video {
+  opacity: 1;
+}
+
+.awtsmoos-anim-icon:hover img,
+.awtsmoos-anim-icon:focus-visible img {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .awtsmoos-anim-icon video {
+    display: none;
+  }
+  .awtsmoos-anim-icon:hover img,
+  .awtsmoos-anim-icon:focus-visible img {
+    opacity: 1;
+  }
+}
