@@ -10,8 +10,8 @@
 	<link rel="stylesheet" href="/css/awp-polish.css?v=ba0dcce2ee">
 	<link rel="stylesheet" href="/style/civilization/core-tokens.css?v=f731a87bdb">
 	<link rel="stylesheet" href="/style/civilization/core-base.css?v=632fba31fa">
-	<link rel="stylesheet" href="/profile/styles/profile-dream.css?v=6e7e47e8dd">
-	<link rel="stylesheet" href="/css/golden-icons.css?v=40a45b0b5d">
+	<link rel="stylesheet" href="/profile/styles/profile-dream.css?v=0c8abb1691">
+	<link rel="stylesheet" href="/css/golden-icons.css?v=7c62c1d746">
 	<link rel="stylesheet" href="/css/awtsmoos-visual-assets.css?v=7e62292b8d">
 	<link rel="stylesheet" href="/css/video-loader.css?v=fccafca785">
 	<link rel="stylesheet" href="/profile/styles/reading-stats.css?v=9b110138a6">
@@ -46,17 +46,17 @@
 	<main class="geelooy-profile-shell profile-dream" data-profile>
 		<header class="pd-topbar">
 			<a class="pd-topbar-btn" href="/" aria-label="Back home">
-				<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
+				<img class="gicon gicon--sm gicon--back" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-back-0-1af40db7-998c-4306-992c-7e6a5cd8b27c.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="24" height="24">
 			</a>
 			<h1 class="pd-topbar-title">Profile</h1>
 			<button type="button" class="pd-topbar-btn" data-profile-action="settings" aria-label="Profile settings" aria-expanded="false">
-				<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M19 12a7 7 0 0 0-.14-1.4l2-1.55-2-3.46-2.36.95a7 7 0 0 0-2.42-1.4L13.7 2.6h-3.4l-.38 2.54a7 7 0 0 0-2.42 1.4l-2.36-.95-2 3.46 2 1.55a7 7 0 0 0 0 2.8l-2 1.55 2 3.46 2.36-.95a7 7 0 0 0 2.42 1.4l.38 2.54h3.4l.38-2.54a7 7 0 0 0 2.42-1.4l2.36.95 2-3.46-2-1.55c.1-.46.14-.92.14-1.4Z"/></svg>
+				<img class="gicon gicon--sm gicon--settings" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-settings-0-58aad987-88b3-4631-ad89-80f9a2f61148.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" width="24" height="24">
 			</button>
 		</header>
 
 		<section class="pd-hero" aria-labelledby="profile-title">
 			<div class="pd-cover awtsmoos-hero--profile" data-profile-cover style="background-image: url('https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/cover-profile.webp?v=ce9a8729ad'); background-size: cover; background-position: center;" aria-hidden="true">
-				<button type="button" class="pd-cover-edit" data-cover-edit aria-label="Change cover image" title="Change cover image" style="position:absolute;right:12px;bottom:12px;">Change cover</button>
+				<button type="button" class="pd-cover-edit" data-cover-edit aria-label="Change cover image" title="Change cover image" style="position:absolute;right:12px;bottom:12px;"><img class="gicon gicon--xs gicon--camera" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-camera.webp?v=842c9ce328" alt="" aria-hidden="true" loading="lazy" decoding="async" width="18" height="18"><span>Change cover</span></button>
 				<span style="--x:8%;--y:22%;--s:2.6rem;--o:.14;--r:-8deg">א</span>
 				<span style="--x:24%;--y:58%;--s:2rem;--o:.1;--r:6deg">ש</span>
 				<span style="--x:68%;--y:18%;--s:3rem;--o:.13;--r:10deg">ת</span>
@@ -83,8 +83,8 @@
 				</button>
 			</div>
 			<div class="pd-actions">
-				<a class="pd-btn pd-btn-primary" href="./alias-manage/">Create alias</a>
-				<button type="button" class="pd-btn pd-btn-ghost" data-profile-action="heichel">New heichel</button>
+				<a class="pd-btn pd-btn-primary" href="./alias-manage/"><img class="gicon gicon--xs gicon--plus" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-plus-0-d374e76f-81c4-4652-9761-2566142effc7.webp?v=aec2d6678c" alt="" aria-hidden="true" loading="lazy" decoding="async" width="18" height="18"><span>Create alias</span></a>
+				<button type="button" class="pd-btn pd-btn-ghost" data-profile-action="heichel"><img class="gicon gicon--xs gicon--torah" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-torah-active-0-7cccc6e3-c14e-4edd-a9e4-e0dc2c164897.webp?v=a719dbe30f" alt="" aria-hidden="true" loading="lazy" decoding="async" width="18" height="18"><span>New heichel</span></button>
 			</div>
 			<p class="pd-status" data-profile-status="loading" aria-live="polite">Loading profile…</p>
 		</section>
@@ -101,13 +101,13 @@
 
 		<div class="pd-tabs-wrap" data-profile-tabs-wrap>
 			<nav class="pd-tabs" role="tablist" aria-label="Profile sections">
-				<button type="button" role="tab" id="profile-tab-posts" class="pd-tab active" aria-selected="true" data-profile-tab="posts">Posts</button>
-				<button type="button" role="tab" id="profile-tab-comments" class="pd-tab" aria-selected="false" tabindex="-1" data-profile-tab="comments">Comments</button>
-				<button type="button" role="tab" id="profile-tab-series" class="pd-tab" aria-selected="false" tabindex="-1" data-profile-tab="series">Series</button>
-				<button type="button" role="tab" id="profile-tab-aliases" class="pd-tab" aria-selected="false" tabindex="-1" data-profile-tab="aliases">Aliases</button>
-				<button type="button" role="tab" id="profile-tab-heichelos" class="pd-tab" aria-selected="false" tabindex="-1" data-profile-tab="heichelos">Heichelos</button>
-				<button type="button" role="tab" id="profile-tab-about" class="pd-tab" aria-selected="false" tabindex="-1" data-profile-tab="about">About</button>
-				<button type="button" role="tab" id="profile-tab-reading" class="pd-tab" aria-selected="false" tabindex="-1" data-profile-tab="reading">Reading</button>
+				<button type="button" role="tab" id="profile-tab-posts" class="pd-tab active" aria-selected="true" data-profile-tab="posts"><img class="gicon gicon--xs gicon--edit" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-edit.webp?v=4a58469fca" alt="" aria-hidden="true" loading="lazy" decoding="async" width="18" height="18">Posts</button>
+				<button type="button" role="tab" id="profile-tab-comments" class="pd-tab" aria-selected="false" tabindex="-1" data-profile-tab="comments"><img class="gicon gicon--xs gicon--comment" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-comment.webp?v=c5d6b22649" alt="" aria-hidden="true" loading="lazy" decoding="async" width="18" height="18">Comments</button>
+				<button type="button" role="tab" id="profile-tab-series" class="pd-tab" aria-selected="false" tabindex="-1" data-profile-tab="series"><img class="gicon gicon--xs gicon--layers" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-layers.webp?v=0aeef9a4c9" alt="" aria-hidden="true" loading="lazy" decoding="async" width="18" height="18">Series</button>
+				<button type="button" role="tab" id="profile-tab-aliases" class="pd-tab" aria-selected="false" tabindex="-1" data-profile-tab="aliases"><img class="gicon gicon--xs gicon--users" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-users.webp?v=a99ebb2312" alt="" aria-hidden="true" loading="lazy" decoding="async" width="18" height="18">Aliases</button>
+				<button type="button" role="tab" id="profile-tab-heichelos" class="pd-tab" aria-selected="false" tabindex="-1" data-profile-tab="heichelos"><img class="gicon gicon--xs gicon--torah" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-torah-active-0-7cccc6e3-c14e-4edd-a9e4-e0dc2c164897.webp?v=a719dbe30f" alt="" aria-hidden="true" loading="lazy" decoding="async" width="18" height="18">Heichelos</button>
+				<button type="button" role="tab" id="profile-tab-about" class="pd-tab" aria-selected="false" tabindex="-1" data-profile-tab="about"><img class="gicon gicon--xs gicon--info" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-info.webp?v=cbdd4bfb28" alt="" aria-hidden="true" loading="lazy" decoding="async" width="18" height="18">About</button>
+				<button type="button" role="tab" id="profile-tab-reading" class="pd-tab" aria-selected="false" tabindex="-1" data-profile-tab="reading"><img class="gicon gicon--xs gicon--book" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-book.webp?v=89fce054b2" alt="" aria-hidden="true" loading="lazy" decoding="async" width="18" height="18">Reading</button>
 			</nav>
 		</div>
 

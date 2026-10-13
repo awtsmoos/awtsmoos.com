@@ -66,8 +66,10 @@
 .profile-dream .pd-topbar-btn {
 	display: grid;
 	place-items: center;
-	width: 2.6rem;
-	height: 2.6rem;
+	width: 2.75rem;
+	height: 2.75rem;
+	min-width: 2.75rem;
+	min-height: 2.75rem;
 	border: 1px solid var(--pd-line-soft);
 	border-radius: 50%;
 	background: var(--pd-card);
@@ -135,6 +137,38 @@
 	opacity: var(--o, .12);
 	transform: rotate(var(--r, 0deg));
 	user-select: none;
+}
+/* B"H 2026-10-13 (icon round 2): cover edit is an icon-led 44px button. */
+.profile-dream .pd-cover-edit {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+	min-height: 2.75rem;
+	pointer-events: auto;
+	padding: 0.55rem 1rem;
+	border: 1px solid var(--pd-line-soft);
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--pd-card) 88%, transparent);
+	color: var(--pd-ink);
+	font-size: 0.85rem;
+	font-weight: 700;
+	cursor: pointer;
+	transition: border-color 160ms ease, background 160ms ease, transform 140ms ease;
+}
+.profile-dream .pd-cover-edit:hover {
+	border-color: var(--pd-gold);
+	background: var(--pd-cream-2);
+}
+.profile-dream .pd-cover-edit:active {
+	transform: scale(0.96);
+}
+.profile-dream .pd-cover-edit:focus-visible {
+	outline: 2px solid var(--pd-gold);
+	outline-offset: 2px;
+}
+.profile-dream .pd-cover-edit:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
 }
 .profile-dream .pd-avatar {
 	position: relative;
@@ -247,6 +281,7 @@
 }
 .profile-dream .pd-btn {
 	display: inline-flex;
+	gap: 0.5rem;
 	min-height: 2.9rem;
 	align-items: center;
 	justify-content: center;
@@ -364,8 +399,12 @@
 	display: none;
 }
 .profile-dream .pd-tab {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
 	flex: none;
 	padding: .6rem 1.1rem;
+	min-height: 2.75rem;
 	border: 1px solid transparent;
 	border-radius: 999px;
 	background: transparent;
