@@ -237,20 +237,20 @@ Awtsmoos.com reveals exact pasuk identity immediately while generic teachings re
 	var heichelName = toPlainText(resolvedHeichel.name || resolvedHeichel.title);
 	var authorName = toPlainText(resolvedAlias.name || resolvedAlias.aliasId);
 	var context = [heichelName, authorName ? "By " + authorName : ""].filter(Boolean).join(" · ");
-	var bodyMarkup = structuredMarkup || unitsMarkup || renderParagraphs(body);
-	var awaitingText = bodyMarkup ? "" : " data-awtsmoos-awaiting-text=\"true\"";
+	// B"H 2026-10-13 — Yaakov's law: NEVER generate 279KB of HTML server-side.
+	// Server sends title + empty body shell; client fetches post JSON and renders
+	// phrases via MeluketSeferReader (it already does this — server HTML was redundant).
+	// Title stays server-rendered for SEO/zero-JS correctness.
+	var bodyMarkup = "";
+	var awaitingText = " data-awtsmoos-awaiting-text=\"true\"";
 	var articleLangAttrs = (unitLanguages.he && !unitLanguages.en)
 		? " lang=\"he\" dir=\"rtl\""
 		: ((unitLanguages.en && !unitLanguages.he) ? " lang=\"en\" dir=\"ltr\"" : " dir=\"auto\"");
-	var enhancementStatus = bodyMarkup
-		? "<p class=\"awtsmoos-reader-enhancement-status\" role=\"status\">"
-			+ "Interactive reader tools are loading; the Torah text above is ready now."
-			+ "</p>"
-		: "";
+	var enhancementStatus = "";
 	return "<article class=\"awtsmoos-initial-post\" data-awtsmoos-initial-post" + awaitingText + articleLangAttrs + ">"
 		+ (context ? "<p class=\"awtsmoos-initial-post-context\">" + escapeHtml(context) + "</p>" : "")
 		+ titleMarkup
-		+ "<div class=\"awtsmoos-initial-post-body\">" + bodyMarkup + "</div>"
+		+ "<div class=\"awtsmoos-initial-post-body\" data-awtsmoos-client-render></div>"
 		+ enhancementStatus
 		+ "</article>";
 </script>?>
