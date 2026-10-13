@@ -25,6 +25,7 @@
 	--awt-line: rgb(191 203 226 / 14%);
 	--awt-line-hot: rgb(247 205 112 / 48%);
 	--awt-text: #f8fbff;
+	--aw-text: #f8fbff; /* B"H 2026-10-13: alias — 58 files use var(--aw-text) */
 	--awt-muted: #c4cce0;
 	--awt-dim: #8792aa;
 	--awt-gold: #f6c96c;
