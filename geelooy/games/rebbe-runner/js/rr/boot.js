@@ -12,6 +12,12 @@ const TIPS = [
 
 const $ = (id) => document.getElementById(id);
 
+// Virtual-DOM-safe hide (some renderers expose style as getter-only).
+function hideEl(el) {
+	try { el.style.display = 'none'; }
+	catch (_) { try { el.hidden = true; } catch (_) {} }
+}
+
 async function boot() {
 	const fill = $('rr-loading-fill');
 	const tipEl = $('rr-loading-tip');
@@ -34,7 +40,7 @@ async function boot() {
 		setTip('Ready!');
 		startBtn.hidden = false;
 		startBtn.addEventListener('click', () => {
-			$('rr-loading').style.display = 'none';
+			hideEl($('rr-loading'));
 			game.begin();
 		}, { once: true });
 	} catch (err) {
