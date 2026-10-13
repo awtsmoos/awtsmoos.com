@@ -98,6 +98,7 @@ export function renderMenu(x, y, actions) {
 	bindDismissalGates(menu);
 	if (isMobile) menu.classList.add('awtsmoos-mobile-sheet');
 	document.body.append(menu);
-	gevurahPortalPositionGate.place(menu, x, y);
+	// B"H — smart placement: the menu must never cover the user's selection.
+	gevurahPortalPositionGate.placeClearOfSelection(menu, x, y);
 	menu.querySelector('[role="menuitem"]')?.focus({ preventScroll: true });
 }
