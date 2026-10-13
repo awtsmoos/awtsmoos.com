@@ -10,7 +10,7 @@
  * instead of quietly adding independent timeout windows after one another.
  */
 
-const BASELINE_DEADLINE_MS = 6000;
+const BASELINE_DEADLINE_MS = 3500;
 const BASELINE_TEXT_ROWS = 4000;
 const BASELINE_SCAN_MS = 3500;
 const CANONICAL_CATALOG_WAIT_MS = 350;

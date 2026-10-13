@@ -5070,20 +5070,27 @@ body[data-geelooy-route="home"] .header-rail {
 	-webkit-backdrop-filter: blur(20px) saturate(1.25);
 }
 /* ============ GLOWING GOLD WORDMARK ============ */
+/* B"H 2026-10-13 — Yaakov: the gold "Awtsmoos" wordmark was unreadable on the
+   busy hyperreal hero artwork. A dark glyph outline plus deep halo shadows carve
+   the wordmark out of the background; the artwork itself stays untouched. */
 body[data-geelooy-route="home"] .home-hero-title {
 	color: var(--law8-gold-hi);
+	-webkit-text-stroke: 1.5px rgba(26, 16, 4, 0.9);
+	paint-order: stroke fill;
 	text-shadow:
-		0 1px 2px rgba(0, 0, 0, 0.92),
-		0 2px 10px rgba(0, 0, 0, 0.78),
-		0 0 16px var(--law8-title-glow),
-		0 0 52px var(--law8-gold-glow),
-		0 2px 22px var(--law8-title-shadow);
+		0 2px 3px rgba(0, 0, 0, 0.95),
+		0 4px 14px rgba(0, 0, 0, 0.9),
+		0 8px 34px rgba(0, 0, 0, 0.85),
+		0 0 18px var(--law8-title-glow),
+		0 0 54px var(--law8-gold-glow);
 }
 body[data-geelooy-route="home"] .home-hero-sub {
 	color: var(--law8-sub-ink);
+	-webkit-text-stroke: 0.75px rgba(26, 16, 4, 0.85);
+	paint-order: stroke fill;
 	text-shadow:
-		0 1px 2px rgba(0, 0, 0, 0.92),
-		0 1px 8px rgba(0, 0, 0, 0.78);
+		0 1px 3px rgba(0, 0, 0, 0.95),
+		0 2px 10px rgba(0, 0, 0, 0.85);
 }
 /* B"H — the hero card floats on the cosmos; the Shliach artwork stays full-bleed. */
 body[data-geelooy-route="home"] .shliach-hero-card {
@@ -6011,7 +6018,7 @@ body[data-geelooy-route="home"] .shliach-hero-image[data-loaded="true"]{opacity:
 		<section class="hero hero-shliach" aria-label="Awtsmoos Shliach">
 			<div class="shliach-hero-card">
 				<div class="shliach-hero-media" data-parallax>
-					<img class="shliach-hero-image" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png" alt="Awtsmoos Shliach — glowing Aleph, worlds, code and creation" width="1024" height="1024" decoding="async" onload="this.setAttribute('data-loaded','true')" onerror="this.setAttribute('data-loaded','true')">
+					<img class="shliach-hero-image" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png?v=981c892e57" alt="Awtsmoos Shliach — glowing Aleph, worlds, code and creation" width="1024" height="1024" decoding="async" onload="this.setAttribute('data-loaded','true')" onerror="this.setAttribute('data-loaded','true')">
 					<div class="shliach-hero-scrim" aria-hidden="true"></div>
 				</div>
 				<div class="shliach-hero-content" data-reveal>
