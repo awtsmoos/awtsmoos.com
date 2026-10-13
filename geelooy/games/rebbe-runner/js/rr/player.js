@@ -1,4 +1,4 @@
-/* B"H — The runner: GLB chossid if it loads, procedural chassid fallback otherwise. */
+/* B"H — The runner: procedural chassid instantly, GLB chossid swaps in when ready. */
 import * as THREE from '/games/scripts/build/three.module.js';
 import { GLTFLoader } from '/games/scripts/jsm/loaders/GLTFLoader.js';
 
@@ -44,40 +44,45 @@ function buildFallbackChassid() {
 	return { group: g, legL, legR, armL, armR, procedural: true };
 }
 
-export async function createPlayer(scene, onProgress) {
+export function createPlayer(scene, onProgress) {
 	const root = new THREE.Group();
 	scene.add(root);
+
+	// Procedural chassid shows INSTANTLY — no waiting on network.
+	const parts = buildFallbackChassid();
+	root.add(parts.group);
+
 	let model = null;
 	let mixer = null;
-	let parts = null;
+	let glbReady = false;
 
-	try {
-		const loader = new GLTFLoader();
-		const gltf = await new Promise((resolve, reject) => {
-			const timer = setTimeout(() => reject(new Error('GLB load timeout')), 9000);
-			loader.load(GLB_URL, (g) => { clearTimeout(timer); resolve(g); }, (e) => {
-				if (e && e.loaded && e.total) { try { onProgress && onProgress(e.loaded / e.total); } catch (_) {} }
-			}, (err) => { clearTimeout(timer); reject(err); });
-		});
-		model = gltf.scene;
-		// normalize scale to ~1.8m tall
-		const box = new THREE.Box3().setFromObject(model);
-		const size = new THREE.Vector3(); box.getSize(size);
-		const s = 1.8 / Math.max(size.y, .001);
-		model.scale.setScalar(s);
-		// face away from camera (running into -z)
-		model.rotation.y = Math.PI;
-		root.add(model);
-		if (gltf.animations && gltf.animations.length) {
-			mixer = new THREE.AnimationMixer(model);
-			const clip = gltf.animations.find(a => /run|walk|move/i.test(a.name)) || gltf.animations[0];
-			mixer.clipAction(clip).play();
+	// GLB upgrades the character in the background when it arrives.
+	(async () => {
+		try {
+			const loader = new GLTFLoader();
+			const gltf = await new Promise((resolve, reject) => {
+				const timer = setTimeout(() => reject(new Error('GLB load timeout')), 20000);
+				loader.load(GLB_URL, (g) => { clearTimeout(timer); resolve(g); }, (e) => {
+					if (e && e.loaded && e.total) { try { onProgress && onProgress(e.loaded / e.total); } catch (_) {} }
+				}, (err) => { clearTimeout(timer); reject(err); });
+			});
+			model = gltf.scene;
+			const box = new THREE.Box3().setFromObject(model);
+			const size = new THREE.Vector3(); box.getSize(size);
+			model.scale.setScalar(1.8 / Math.max(size.y, .001));
+			model.rotation.y = Math.PI; // face away from camera
+			root.remove(parts.group);
+			root.add(model);
+			if (gltf.animations && gltf.animations.length) {
+				mixer = new THREE.AnimationMixer(model);
+				const clip = gltf.animations.find(a => /run|walk|move/i.test(a.name)) || gltf.animations[0];
+				mixer.clipAction(clip).play();
+			}
+			glbReady = true;
+		} catch (err) {
+			console.warn('[rebbe-runner] GLB unavailable, keeping procedural chassid:', err && err.message);
 		}
-	} catch (err) {
-		console.warn('[rebbe-runner] GLB failed, using procedural chassid:', err);
-		parts = buildFallbackChassid();
-		root.add(parts.group);
-	}
+	})();
 
 	// blob shadow
 	const shadow = new THREE.Mesh(
@@ -103,12 +108,14 @@ export async function createPlayer(scene, onProgress) {
 	return {
 		state,
 		root,
+		get glbReady() { return glbReady; },
 		reset() {
 			state.lane = 0; state.x = 0; state.y = 0; state.vy = 0;
 			state.sliding = 0; state.jumping = false; state.invuln = 0;
 			root.position.set(0, 0, 0);
 			root.rotation.set(0, 0, 0);
 			root.scale.set(1, 1, 1);
+			root.visible = true;
 		},
 		moveLane(dir) {
 			state.lane = Math.max(-1, Math.min(1, state.lane + dir));
@@ -155,7 +162,7 @@ export async function createPlayer(scene, onProgress) {
 
 			// run animation
 			state.runPhase += dt * 11;
-			if (parts && parts.procedural) {
+			if (!glbReady) {
 				const p = state.runPhase;
 				const amp = state.jumping ? .15 : 1;
 				parts.legL.rotation.x = Math.sin(p) * .85 * amp;

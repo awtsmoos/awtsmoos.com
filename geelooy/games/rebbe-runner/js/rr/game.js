@@ -121,7 +121,7 @@ function makeVan() {
 	return grp;
 }
 
-export async function startGame(env) {
+export function startGame(env) {
 	const { canvas, loadingFill, setTip } = env;
 	const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 	renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
@@ -131,10 +131,8 @@ export async function startGame(env) {
 
 	const world = createWorld(scene);
 	const setLoad = (p) => { try { if (loadingFill) loadingFill.style.width = `${Math.round(p * 100)}%`; } catch (_) {} };
-	setLoad(.15); setTip('Loading the chossid…');
-	const player = await createPlayer(scene, (p) => setLoad(.15 + p * .55));
-	setLoad(.75); setTip('Building Brooklyn…');
-	await new Promise(r => setTimeout(r, 30));
+	setLoad(.55); setTip('Waking the chossid…');
+	const player = createPlayer(scene, (p) => setLoad(.85 + p * .15));
 	setLoad(1);
 
 	const bannerTex = bannerTexture();
