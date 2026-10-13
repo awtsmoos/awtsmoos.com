@@ -269,3 +269,80 @@
 	font-size-adjust: 0.5 !important;
 	line-height: 1.6 !important;
 }
+
+/* B"H — Yaakov reader UX fixes 2026-10-13.
+   Lives here because the CSS bundler only serves the first file per bundle;
+   meluket-law8.css is bundle 2's first file and reliably reaches the browser. */
+
+/* FIX 1: CLEAN MOBILE PADDING — even, minimal, consistent. No more
+   stacked padding from wrapper + content + sections. */
+@media (max-width: 48rem) {
+	.post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper {
+		padding-inline: 0.75rem !important;
+		padding-block-start: 1rem !important;
+	}
+	.post-reader-localized-context.awtsmoos-reader-vision .content,
+	.post-reader-localized-context.awtsmoos-reader-vision #realPost {
+		padding-inline: 0 !important;
+		margin-inline: 0 !important;
+		max-inline-size: 100% !important;
+	}
+	.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit {
+		padding-inline: 0 !important;
+		margin-inline: 0 !important;
+		max-inline-size: 100% !important;
+	}
+}
+
+/* FIX 2: SCROLL STICKING — the reading container must NEVER smooth-scroll.
+   scroll-behavior:smooth on a touch-scroll container fights the user's finger
+   and makes scrolling feel stuck/catchy. Programmatic scrolls use JS instead. */
+.post-reader-localized-context.awtsmoos-reader-vision #realPost,
+.post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper,
+.post-reader-localized-context.awtsmoos-reader-vision .content,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit {
+	scroll-behavior: auto !important;
+}
+.post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper {
+	touch-action: pan-y !important;
+	-webkit-overflow-scrolling: touch !important;
+}
+
+/* FIX 3: AUTO-HIGHLIGHT current section while reading.
+   JS (ReaderSectionHighlight.js) adds .is-reading via IntersectionObserver. */
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit.is-reading {
+	background: rgb(255 215 0 / 0.07);
+	border-radius: 0.5rem;
+	transition: background 300ms ease;
+}
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit {
+	transition: background 300ms ease;
+}
+
+/* FIX 5: LARGE TEXT safeguards — words wrap whole, containers expand,
+   never clip or overlap at max size. */
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-he,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-en,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-he p,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-en p {
+	overflow-wrap: break-word !important;
+	word-break: normal !important;
+	hyphens: auto !important;
+	max-inline-size: 100% !important;
+	min-inline-size: 0 !important;
+}
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit {
+	block-size: auto !important;
+	min-block-size: 0 !important;
+	overflow: visible !important;
+}
+
+/* FIX 4+5: Connect Hebrew/English size to the Aa --post-text-size variable
+   so +/- buttons actually scale the article text (they set the variable on
+   .post-reader-localized-context). font-size-adjust keeps them visually equal. */
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-he,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-he p,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-en,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-initial-unit-en p {
+	font-size: var(--post-text-size, clamp(2.4rem, 6.2vw, 3.4rem)) !important;
+}

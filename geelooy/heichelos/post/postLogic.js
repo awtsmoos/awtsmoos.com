@@ -21,6 +21,7 @@ import { tiferesReaderBootState } from './logic/initialization/ReaderBootState.j
 import { tiferesReaderEnhancements } from './logic/initialization/ReaderEnhancementOrchestrator.js?v=reader-runtime-008';
 import { awakenReaderShellControls } from './logic/initialization/ReaderShellControlsBoot.js?v=reader-runtime-005';
 import { chitasLoaderBoot, dismissChitasLoader } from './logic/initialization/chitasLoader.js?v=chitas-loader-1';
+import './logic/initialization/ReaderSectionHighlight.js?v=reader-runtime-016';
 
 let readerBootPromise = null;
 

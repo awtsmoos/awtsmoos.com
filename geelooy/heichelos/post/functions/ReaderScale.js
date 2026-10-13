@@ -47,6 +47,10 @@ export class GevurahReaderScale {
 	 * @returns {string} Applied main CSS pixel size.
 	 */
 	apply(ohrSize) {
+		// B"H — Yaakov 2026-10-13: keep the reader's place when text size
+		// changes. Capture the scroll anchor BEFORE resizing, restore after.
+		const scrollAnchor = this.captureScrollAnchor();
+
 		const malchusRoot = this.resolveMalchusRoot();
 		const tiferesScale = this.policy.buildScale(ohrSize);
 		const mainSize = tiferesScale['--post-text-size'];
@@ -58,6 +62,7 @@ export class GevurahReaderScale {
 		this.applySeferScale(mainSize);
 
 		if (!malchusRoot) {
+			this.restoreScrollAnchor(scrollAnchor);
 			return mainSize;
 		}
 
@@ -68,7 +73,80 @@ export class GevurahReaderScale {
 		this.storage.setItem('currentPostFontSize', mainSize);
 		this.display.reveal(mainSize);
 		this.runtime.announce(mainSize, tiferesScale);
+		this.restoreScrollAnchor(scrollAnchor);
 		return mainSize;
+	}
+
+	/**
+	 * Captures where the reader is before a size change, so the page
+	 * can return to the same reading position after layout shifts.
+	 * Uses the element under the viewport's reading point (upper third)
+	 * plus a proportional fallback.
+	 * @returns {object} Opaque scroll anchor.
+	 */
+	captureScrollAnchor() {
+		try {
+			const doc = this.document?.documentElement;
+			const win = this.document?.defaultView ?? globalThis;
+			const scrollY = win?.scrollY ?? 0;
+			const max = doc ? Math.max(0, doc.scrollHeight - win.innerHeight) : 0;
+			const anchor = {
+				ratio: max > 0 ? scrollY / max : 0,
+				element: null,
+				elementTop: 0
+			};
+			// Element-based anchor: what is the reader looking at?
+			if (this.document?.elementFromPoint) {
+				const x = (win.innerWidth || 400) / 2;
+				const y = (win.innerHeight || 800) * 0.25;
+				const el = this.document.elementFromPoint(x, y);
+				if (el) {
+					anchor.element = el;
+					anchor.elementTop = el.getBoundingClientRect().top;
+				}
+			}
+			return anchor;
+		} catch (e) {
+			return { ratio: 0, element: null, elementTop: 0 };
+		}
+	}
+
+	/**
+	 * Restores the reading position captured before a size change.
+	 * Prefers the element anchor (exact), falls back to proportional.
+	 * @param {object} anchor Anchor from captureScrollAnchor.
+	 * @returns {void}
+	 */
+	restoreScrollAnchor(anchor) {
+		try {
+			if (!anchor) return;
+			const win = this.document?.defaultView ?? globalThis;
+			const doRestore = () => {
+				try {
+					// 1. Element anchor: put the same element back where it was.
+					if (anchor.element && anchor.element.isConnected) {
+						const nowTop = anchor.element.getBoundingClientRect().top;
+						const delta = nowTop - anchor.elementTop;
+						if (Math.abs(delta) > 1) {
+							win.scrollBy(0, delta);
+							return;
+						}
+					}
+					// 2. Proportional fallback: same fraction down the page.
+					const doc = this.document?.documentElement;
+					if (doc) {
+						const max = Math.max(0, doc.scrollHeight - win.innerHeight);
+						win.scrollTo(0, anchor.ratio * max);
+					}
+				} catch (e) { /* never break */ }
+			};
+			// Wait a frame so the new layout is measured, not the old one.
+			if (win?.requestAnimationFrame) {
+				win.requestAnimationFrame(() => win.requestAnimationFrame(doRestore));
+			} else {
+				doRestore();
+			}
+		} catch (e) { /* never break the reader */ }
 	}
 
 	/**
