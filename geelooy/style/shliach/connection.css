@@ -116,3 +116,91 @@ Awtsmoos.com shows the living route so a first-time traveler knows what to do.
 .shliach-mode-tab:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
+
+/* B"H — Yaakov 2026-10-13: prominent tunnel install + agent prompt blocks */
+
+.shliach-install-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	gap: 18px;
+	margin-top: 20px;
+}
+
+.shliach-install-card {
+	padding: 22px;
+	border: 1px solid rgba(242, 196, 94, 0.22);
+	border-radius: 22px;
+	background: rgba(10, 12, 30, 0.72);
+	box-shadow: 0 18px 60px rgba(0, 0, 0, 0.25);
+}
+
+.shliach-install-card h3 {
+	margin: 0 0 14px;
+	color: #fff0c4;
+	font-size: 1rem;
+	font-weight: 800;
+}
+
+.shliach-code-block {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 14px 16px;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 14px;
+	background: rgba(3, 6, 18, 0.9);
+}
+
+.shliach-code-block code {
+	flex: 1;
+	min-width: 0;
+	color: #62d8ff;
+	font: 500 0.85rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+	word-break: break-all;
+	overflow-wrap: anywhere;
+}
+
+.shliach-prompt-block {
+	margin-top: 20px;
+	align-items: flex-start;
+}
+
+.shliach-prompt-block code {
+	color: #e9e7ff;
+	font-size: 0.88rem;
+	line-height: 1.6;
+}
+
+.shliach-copy-btn {
+	flex-shrink: 0;
+	padding: 10px 18px;
+	border: 1px solid rgba(242, 196, 94, 0.5);
+	border-radius: 999px;
+	background: rgba(242, 196, 94, 0.12);
+	color: #fff0c4;
+	font: inherit;
+	font-size: 0.85rem;
+	font-weight: 800;
+	cursor: pointer;
+	white-space: nowrap;
+	transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.shliach-copy-btn:hover {
+	background: rgba(242, 196, 94, 0.25);
+}
+
+.shliach-copy-btn:active {
+	transform: scale(0.96);
+}
+
+.shliach-copy-btn:focus-visible {
+	outline: 2px solid #f5c86b;
+	outline-offset: 2px;
+}
+
+.shliach-copy-btn[data-copied] {
+	background: rgba(98, 230, 173, 0.18);
+	border-color: rgba(98, 230, 173, 0.5);
+	color: #b8f5d8;
+}

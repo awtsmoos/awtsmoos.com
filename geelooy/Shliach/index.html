@@ -13,9 +13,9 @@
 	<link rel="canonical" href="https://awtsmoos.com/Shliach/">
 	<meta property="og:title" content="Awtsmoos Shliach — AI Agent & Project Builder">
 	<meta property="og:image" content="https://awtsmoos.com/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png">
-	<link rel="stylesheet" href="/style/shliach/index.css">
-	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=shared-shell-002">
-	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=shared-shell-002"></script>
+	<link rel="stylesheet" href="/style/shliach/index.css?v=17d0cd712b">
+	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=27fe7b4829">
+	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=de5da830c1"></script>
 </head>
 <body>
 	<a class="shliach-skip" href="#main">Skip to Shliach</a>
@@ -47,6 +47,40 @@
 				<div class="shliach-logo-stage" data-reveal>
 					<img class="shliach-logo" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png" alt="Awtsmoos Shliach custom GPT logo" width="1024" height="1024">
 				</div>
+			</div>
+		</section>
+		<section class="shliach-section shliach-shell" data-reveal>
+			<div class="shliach-section-head">
+				<p class="shliach-kicker">Step 1 · Install</p>
+				<h2>Install the tunnel.</h2>
+				<p>One command opens the secure doorway between your machine and Awtsmoos. Running it again refreshes or restarts the tunnel — your identity is preserved.</p>
+			</div>
+			<div class="shliach-install-grid">
+				<article class="shliach-install-card">
+					<h3>macOS / Linux</h3>
+					<div class="shliach-code-block">
+						<code id="shliach-install-unix">curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash</code>
+						<button class="shliach-copy-btn" type="button" data-copy-target="shliach-install-unix">Copy</button>
+					</div>
+				</article>
+				<article class="shliach-install-card">
+					<h3>Windows PowerShell</h3>
+					<div class="shliach-code-block">
+						<code id="shliach-install-win">irm https://awtsmoos.com/api/tunnel/install/windows | iex</code>
+						<button class="shliach-copy-btn" type="button" data-copy-target="shliach-install-win">Copy</button>
+					</div>
+				</article>
+			</div>
+		</section>
+		<section class="shliach-section shliach-shell" data-reveal>
+			<div class="shliach-section-head">
+				<p class="shliach-kicker">Step 2 · Connect</p>
+				<h2>Give this prompt to your AI.</h2>
+				<p>Paste it into Muse, Claude, Gemini or any capable AI. It authenticates, finds your live tunnel, and starts working with real tools.</p>
+			</div>
+			<div class="shliach-code-block shliach-prompt-block">
+				<code id="shliach-agent-prompt">Connect to my Awtsmoos account through the live tunnel. First authenticate, then call my-device to find the active tunnel route. Inspect missionVisibilityList to see current work, register your mission before starting, and publish your three operational planning passes (1: reveal the reality, 2: narrow the work, 3: commit the contract) into the tunnel mission registry. Work only with real inspected files — never assume. Verify everything in the browser before declaring done.</code>
+				<button class="shliach-copy-btn" type="button" data-copy-target="shliach-agent-prompt">Copy prompt</button>
 			</div>
 		</section>
 		<section class="shliach-section shliach-shell" data-reveal>
@@ -111,6 +145,6 @@
 			</div>
 		</section>
 	</main>
-	<script type="module" src="/scripts/shliach/index.js"></script>
+	<script type="module" src="/scripts/shliach/index.js?v=ac3ff824bf"></script>
 </body>
 </html>

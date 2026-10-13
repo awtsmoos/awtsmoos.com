@@ -12,6 +12,7 @@ import { ChesedRevealOrchestrator } from "./ChesedRevealOrchestrator.js";
 import { OhrExternalAiGuide } from "./OhrExternalAiGuide.js";
 import { OhrInteractionField } from "./OhrInteractionField.js";
 import { renderExternalAiPanel } from "./ExternalAiPanel.js";
+import { ShliachCopyButtons } from "./ShliachCopyButtons.js";
 
 /**
  * Connects every Shliach prompt portal, reveal vessel, external-AI guide, and fine-pointer field.
@@ -33,6 +34,7 @@ function revealShliachWorld(documentRoot = document) {
 	new OhrExternalAiGuide(documentRoot).connect();
 	new ChesedRevealOrchestrator(documentRoot).connect();
 	new OhrInteractionField(documentRoot).connect();
+	new ShliachCopyButtons(documentRoot).connect();
 }
 
 revealShliachWorld();
