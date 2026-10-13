@@ -46,6 +46,33 @@ function publishContext({ post, series, hId, pIdx, breadcrumb = [] }) {
 	return { post, series, hId, pIdx };
 }
 
+/**
+ * B"H — Resilient fetch with retry (Yaakov 2026-10-13).
+ * "Sometimes it loads, sometimes it doesn't" — transient network failures
+ * should retry, not fail the whole page load.
+ */
+async function resilientFetch(url, options = {}, retries = 2) {
+	let lastError = null;
+	for (let attempt = 0; attempt <= retries; attempt++) {
+		try {
+			const response = await fetch(url, options);
+			if (response.ok) return response;
+			// Don't retry 4xx (client errors)
+			if (response.status >= 400 && response.status < 500) {
+				throw new Error(`Request failed: ${response.status}`);
+			}
+			lastError = new Error(`Server error: ${response.status}`);
+		} catch (error) {
+			lastError = error;
+		}
+		if (attempt < retries) {
+			// Exponential backoff: 500ms, 1000ms
+			await new Promise(r => setTimeout(r, 500 * (attempt + 1)));
+		}
+	}
+	throw lastError;
+}
+
 async function loadDynamicContext({ hId, sId, pCoord, explicitPostMarker }) {
 	const dynamic = await loadDynamicChitasPost(hId, pCoord);
 	if (!explicitPostMarker) {
@@ -60,7 +87,7 @@ export async function loadInitial() {
 	const { hId, sId, pCoord, explicitPostMarker } = parsed;
 	if (!hId) throw new Error('Manifestation Void: Heichel identity is hidden.');
 	if (isDynamicChitasRequest(sId, pCoord)) return loadDynamicContext(parsed);
-	const seriesResponse = await fetch(constructSeriesDetailsUrl(hId, sId));
+	const seriesResponse = await resilientFetch(constructSeriesDetailsUrl(hId, sId));
 	if (!seriesResponse.ok) throw new Error(`Series Gateway Error: ${seriesResponse.status}`);
 	const rawSeries = await seriesResponse.json();
 	const unrolled = unrollApiResponse(rawSeries);
@@ -75,7 +102,7 @@ export async function loadInitial() {
 		series.prateem.name = purifyAwtsmoosString(series.prateem.name);
 		series.prateem.description = purifyAwtsmoosString(series.prateem.description);
 	}
-	const postResponse = await fetch(constructPostUrl(hId, sId, pId));
+	const postResponse = await resilientFetch(constructPostUrl(hId, sId, pId));
 	if (!postResponse.ok) throw new Error(`Post Gateway Error: ${postResponse.status}`);
 	const postData = await postResponse.json();
 	const post = postData?.success || postData;
