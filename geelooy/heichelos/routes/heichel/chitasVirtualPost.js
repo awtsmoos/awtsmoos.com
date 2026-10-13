@@ -187,6 +187,18 @@ async function buildChitasVirtualPost(postId, { israel = false } = {}) {
 		weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
 	});
 
+	// B"H — structured range for the client commentary layer (Rashi default):
+	// the browser fetches commentary per chapter from the live tanach API.
+	const startParsed = parseVerseRef(aliyah.start);
+	const endParsed = parseVerseRef(aliyah.end);
+	const chumashRange = (startParsed && endParsed && startParsed.book === endParsed.book) ? {
+		book: startParsed.book,
+		startChapter: Number(startParsed.chapter),
+		startVerse: startParsed.verse,
+		endChapter: Number(endParsed.chapter),
+		endVerse: endParsed.verse,
+	} : null;
+
 	return {
 		id: postId,
 		postId,
@@ -204,9 +216,10 @@ async function buildChitasVirtualPost(postId, { israel = false } = {}) {
 			parsha: parsha.title,
 			aliyah: aliyah.n,
 			verseRange: `${aliyah.start} – ${aliyah.end}`,
+			chumashRange,
 			israel,
 		},
-		units: verses.map(v => ({ he: v.he, english: v.english })),
+		units: verses.map(v => ({ he: v.he, english: v.english, ref: v.ref })),
 	};
 }
 

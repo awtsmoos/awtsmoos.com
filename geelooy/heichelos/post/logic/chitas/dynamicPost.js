@@ -12,6 +12,7 @@ import { fetchHebcalCalendar, readIsraelMode } from '/heichelos/heichel/modules/
 import { buildStudyCards, findNextParsha } from '/heichelos/heichel/modules/chitas/schedule.js?v=native-chitas-005';
 import { resolvePostRange } from '../reference-posts/rangeResolver.js?v=native-reference-post-001';
 import { parseChitasRange } from './rangeParser.js?v=native-chitas-005';
+import { initChitasPostCommentary } from '/heichelos/heichel/modules/chitas/commentary.js?v=chitas-commentary-001';
 
 const POST_PATTERN = /^chitas-(\d{4})-(\d{2})-(\d{2})$/;
 
@@ -103,6 +104,9 @@ export async function loadDynamicChitasPost(heichelId, postId) {
 			}
 		}
 	};
+	// B"H — Rashi under every verse (default) + Ramban / Ibn Ezra toggle.
+	// Self-scheduling and failure-safe: verses always render first.
+	initChitasPostCommentary(post);
 	return {
 		post,
 		series: seriesFor(cards, parsha),
