@@ -69,9 +69,11 @@ function readHeading() {
 	const sefer = document.querySelector('.meluket-sefer');
 	const titleHe = sefer?.querySelector('.meluket-sefer-title-he')?.textContent?.trim()
 		|| document.querySelector('.meluket-sefer-title-he')?.textContent?.trim()
+		|| '';
+	const title = titleHe
+		|| (window.post?.title || window.post?.name || '').trim()
 		|| document.querySelector('.awtsmoos-initial-post h1')?.textContent?.trim()
 		|| '';
-	const title = titleHe || (window.post?.title || window.post?.name || '').trim();
 	const series = (window.series?.prateem?.name || window.series?.name || '').trim();
 	return { title, series };
 }
