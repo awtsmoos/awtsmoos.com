@@ -429,9 +429,11 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const id = cx.getImageData(0, 0, S, S);
     const d = id.data;
     for (let i = 0; i < d.length; i += 4) {
-      // white key with soft edge: lum>=245 → transparent, <=205 → opaque
+      // white key with soft edge: lum>=230 → transparent, <=190 → opaque
+      // B"H 2026-10-13 iter8: was 245/205 — near-white edge pixels survived as
+      // white flakes (the flashing Yaakov saw). Aggressive key kills them.
       const lum = (d[i] + d[i + 1] + d[i + 2]) / 3;
-      const a = Math.max(0, Math.min(1, (245 - lum) / 40));
+      const a = Math.max(0, Math.min(1, (230 - lum) / 40));
       d[i + 3] = Math.round(a * 255);
     }
     cx.putImageData(id, 0, 0);
@@ -720,7 +722,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     // the rich leaf photo to flat paper. Deep forest tint lets real leaf detail
     // show. depthWrite kills alpha-test flicker.
     map: leafClusterTex, alphaTest: 0.35, side: THREE.DoubleSide,
-    roughness: 0.9, color: new THREE.Color(0.32, 0.40, 0.30),
+    roughness: 0.9, color: new THREE.Color(0.42, 0.50, 0.38),
     emissive: new THREE.Color(0.012, 0.022, 0.010),
     depthWrite: true,
   });
@@ -855,7 +857,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const quadGeo = new THREE.PlaneGeometry(2.6, 2.6);
     const quadMat = new THREE.MeshStandardMaterial({
       map: leafClusterTex, alphaTest: 0.35, side: THREE.DoubleSide,
-      roughness: 0.9, color: new THREE.Color(0.32, 0.40, 0.30),
+      roughness: 0.9, color: new THREE.Color(0.42, 0.50, 0.38),
       emissive: new THREE.Color(0.012, 0.022, 0.010),
       depthWrite: true,
     });
