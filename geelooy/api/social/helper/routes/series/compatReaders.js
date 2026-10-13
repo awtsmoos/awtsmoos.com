@@ -12,6 +12,7 @@
 const { getSeries, getSubSeries } = require('../../index.js');
 const { idsForSeries } = require('../../post/meluketSeriesMap.js');
 const { getAlternateGroups } = require('../../series/virtualSeries.js');
+const { readMergedSeriesPosts } = require('./seriesPostMerge.js');
 const {
 	readSubSeriesSummaries
 } = require('./subSeriesSummaries.js');
@@ -30,6 +31,13 @@ async function compatibilitySeriesDetails($i, heichelId, seriesId = 'root') {
 		seriesId,
 		withDetails: true
 	});
+	if (result && !result.error) {
+		// B"H 2026-10-12 (api-hardening): import-lane posts live in the
+		// packed shard; merge them before the meluket overlay decides.
+		try {
+			result.posts = await readMergedSeriesPosts({ $i, heichelId, seriesId, legacy: result.posts });
+		} catch (_error) { /* legacy listing stands on merge failure */ }
+	}
 	const mappedIds = idsForSeries($i, seriesId);
 	if (mappedIds.length && result && !result.error) {
 		result.posts = mappedIds;

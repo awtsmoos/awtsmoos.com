@@ -70,7 +70,15 @@ function sharedSeriesDb(file) {
 
 /** Reads the raw metadata bytes without deciding whether their meaning is healthy. */
 function readPrateemBuffer($i, heichelId, seriesId) {
-	const db = sharedSeriesDb(seriesDbFile($i, heichelId));
+	let db = null;
+	try {
+		db = sharedSeriesDb(seriesDbFile($i, heichelId));
+	} catch (error) {
+		// B"H 2026-10-12 (api-hardening): no series vessel for this heichel
+		// is "not found", not a crash — the legacy fallback still decides.
+		if (error && error.code === 'ENOENT') return null;
+		throw error;
+	}
 	const filePath = `/social/heichelos/${heichelId}/series/${seriesId}/prateem.awtsmoosJSON`;
 	try {
 		const value = db.fs.cat(filePath);

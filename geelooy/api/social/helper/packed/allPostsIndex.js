@@ -25,6 +25,40 @@ function writeAllPost({ $i, post }) {
 function readAllPost({ $i, heichelId, postId }) {
   return readPacked({ $i, shard: 'allPosts', key: allPostKey({ heichelId, postId }) });
 }
+/**
+ * B"H 2026-10-12 (api-hardening): single-scan partition of packed posts by
+ * series. Series browse pages list children summaries (up to dozens); calling
+ * allPosts() per child would re-scan the whole allPosts shard per child.
+ * This scans once and groups compact posts by every series identity they
+ * claim (seriesId and parentSeriesId), so one pass serves the whole page.
+ * Tombstoned (op:'del') records are skipped — a deleted post must not haunt
+ * a series listing.
+ * @returns {Map<string, Array<object>>} seriesId -> compact posts (newest first)
+ */
+function allPostsGrouped({ $i, heichelId = '', seriesIds = [] } = {}) {
+  const wanted = new Set(seriesIds.map(String));
+  const groups = new Map();
+  const seen = new Set();
+  const records = listPackedRecords({ $i, shard: 'allPosts' }).slice().reverse();
+  for (const record of records) {
+    if (!record || record.op === 'del') continue;
+    const value = record.value || {};
+    const k = allPostKey({ heichelId: value.heichelId, postId: postIdOf(value) });
+    if (!k || seen.has(k)) continue;
+    if (heichelId && value.heichelId !== heichelId) continue;
+    seen.add(k);
+    const claimed = new Set(
+      [value.seriesId, value.parentSeriesId].map(v => String(v || '')).filter(Boolean)
+    );
+    if (!claimed.size) claimed.add('root');
+    for (const sid of claimed) {
+      if (wanted.size && !wanted.has(sid)) continue;
+      if (!groups.has(sid)) groups.set(sid, []);
+      groups.get(sid).push(compactPost(value));
+    }
+  }
+  return groups;
+}
 function allPosts({ $i, aliasId = '', heichelId = '', seriesId = '', limit = 500 } = {}) {
   const seen = new Set();
   const output = [];
@@ -42,4 +76,4 @@ function allPosts({ $i, aliasId = '', heichelId = '', seriesId = '', limit = 500
   }
   return output;
 }
-module.exports = { allPostKey, postIdOf, compactPost, fullAllPost, writeAllPost, readAllPost, allPosts };
+module.exports = { allPostKey, postIdOf, compactPost, fullAllPost, writeAllPost, readAllPost, allPosts, allPostsGrouped };

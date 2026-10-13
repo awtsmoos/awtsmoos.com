@@ -11,6 +11,8 @@
 
 const { getSeries, getSubSeries } = require('../../index.js');
 const { recoverSeriesPrateem } = require('../../series/seriesPrateemRecovery.js');
+const { allPostsGrouped } = require('../../packed/allPostsIndex.js');
+const { mergePostObjects } = require('./seriesPostMerge.js');
 
 const MAX_PARALLEL_SUMMARIES = 6;
 
@@ -46,7 +48,7 @@ function summarize(detail, requestedId) {
 }
 
 /** Reads child detail vessels with finite parallelism while preserving ID order. */
-async function readSummaries({ $i, heichelId, ids }) {
+async function readSummaries({ $i, heichelId, ids, packedPostsBySeries }) {
 	const results = new Array(ids.length);
 	let cursor = 0;
 	async function worker() {
@@ -60,7 +62,14 @@ async function readSummaries({ $i, heichelId, ids }) {
 					seriesId,
 					withDetails: true
 				});
-				results[index] = summarize(detail, seriesId);
+				// B"H 2026-10-12 (api-hardening): merge packed-shard posts into
+				// the legacy listing before summarizing, so import-lane posts
+				// count on child cards. summarize() stays a pure sync vessel.
+				const packed = packedPostsBySeries ? packedPostsBySeries.get(String(seriesId)) : null;
+				const merged = packed && packed.length
+					? { ...detail, posts: mergePostObjects(detail && detail.posts, packed) }
+					: detail;
+				results[index] = summarize(merged, seriesId);
 			} catch (_error) {
 				results[index] = summarize(null, seriesId);
 			}
@@ -80,7 +89,15 @@ async function readSubSeriesSummaries({ $i, heichelId, parentSeriesId }) {
 		withDetails: false
 	});
 	if (!Array.isArray(ids) || !ids.length) return [];
-	return readSummaries({ $i, heichelId, ids });
+	// B"H 2026-10-12 (api-hardening): ONE packed scan for the whole page,
+	// partitioned by series — never one scan per child.
+	let packedPostsBySeries = null;
+	try {
+		packedPostsBySeries = allPostsGrouped({ $i, heichelId, seriesIds: ids.map(String) });
+	} catch (_error) {
+		packedPostsBySeries = null;
+	}
+	return readSummaries({ $i, heichelId, ids, packedPostsBySeries });
 }
 
 module.exports = {

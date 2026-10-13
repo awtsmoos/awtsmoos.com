@@ -9,6 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const { StringDecoder } = require('string_decoder');
 const { SHARDS, logicalKey, shardFile, packedRoot } = require('./shardPaths.js');
+const { noteWrite, findIndexed, findIndexedBySuffix, listIndexed } = require('./keyIndex.js');
 const { RECORD_TYPES, makeEnvelope } = require('./recordEnvelope.js');
 const { makeEntityManifest, entityManifestKey } = require('./entityManifest.js');
 const store = require('../awtsmoosDb/shardStore.js');
@@ -247,6 +248,14 @@ async function listKeysReverseAsync({ $i, shard = 'core', prefix = '', limit = 2
     } catch (_) { /* ignore */ }
     return keys;
   }
+  // B"H 2026-10-12 (api-hardening): serve listings from the key index —
+  // newest-first, latest-wins exact, without scanning the shard.
+  try {
+    const indexed = await listIndexed(fileFor(root, shard), prefix, limit);
+    if (indexed) return indexed;
+  } catch (error) {
+    if (typeof console !== 'undefined') console.error('B"H packed list index failed, falling back to scan:', (error && error.message) || error);
+  }
   await forEachLineReverseAsync(root, shard, (head, getFull) => {
     if (!head) return;
     const fast = fastKeyType(head);
@@ -270,24 +279,20 @@ async function listKeysReverseAsync({ $i, shard = 'core', prefix = '', limit = 2
   });
   return keys;
 }
-/** Single-key read via reverse scan: stops at the first (latest) hit. */
+/** Single-key read via the key-offset index (exact, no full scan). */
 async function findKeyReverseAsync({ $i, shard = 'core', key }) {
   const root = fileRoot($i);
   if (!root) {
     try { return store.get({ shard, parts: ['records', key] })?.value || null; } catch { return null; }
   }
-  let found = null;
-  let done = false;
-  await forEachLineReverseAsync(root, shard, (head, getFull) => {
-    if (!head || done) return;
-    // Fast path: compare keys without parsing 300 KB lines.
-    const fast = fastKeyType(head);
-    if (fast && fast.key !== key) return;
-    let rec;
-    try { rec = JSON.parse(getFull()); } catch (_) { return; }
-    if (rec && rec.key === key) { found = rec.op === 'del' ? null : rec; done = true; return false; }
-  });
-  return found;
+  // B"H 2026-10-12 (api-hardening): the index answers hits AND misses
+  // exactly — a missing key no longer reverse-scans multi-GB shards.
+  try {
+    return await findIndexed(fileFor(root, shard), key);
+  } catch (error) {
+    if (typeof console !== 'undefined') console.error('B"H packed key index read failed, failing closed:', (error && error.message) || error);
+    return null;
+  }
 }
 /**
  * B"H 2026-10-12 (FRONT-1 api-audit): postId fallback for /packed/read.
@@ -299,31 +304,25 @@ async function findKeyReverseAsync({ $i, shard = 'core', key }) {
 async function findKeySuffixReverseAsync({ $i, shard = 'core', postId }) {
   const root = fileRoot($i);
   if (!root || !postId || postId.includes('/')) return null;
-  const suffix = '/' + postId;
-  const seen = new Set();
-  let found = null;
-  await forEachLineReverseAsync(root, shard, (head, getFull) => {
-    if (!head || found) return;
-    const fast = fastKeyType(head);
-    let key = fast ? fast.key : null;
-    if (key && !key.endsWith(suffix)) return;
-    let rec;
-    try { rec = JSON.parse(getFull()); } catch (_) { return; }
-    key = rec && rec.key;
-    if (typeof key !== 'string' || !key.endsWith(suffix)) return;
-    if (seen.has(key)) return;
-    seen.add(key);
-    if (rec.op === 'del') return; // tombstoned: keep scanning for older keys
-    found = rec;
-    return false;
-  });
-  return found;
+  // B"H 2026-10-12 (api-hardening): suffix reads ride the same key index —
+  // a missing postId no longer scans the shard to prove its absence.
+  try {
+    return await findIndexedBySuffix(fileFor(root, shard), postId);
+  } catch (error) {
+    if (typeof console !== 'undefined') console.error('B"H packed suffix index read failed, failing closed:', (error && error.message) || error);
+    return null;
+  }
 }
 function writeFileRecord(root, shard, record) {
   const file = fileFor(root, shard);
   if (!file) return null;
   fs.mkdirSync(path.dirname(file), { recursive: true });
+  // B"H 2026-10-12 (api-hardening): record the byte offset before appending
+  // so the key-offset index can serve exact reads without scanning.
+  let offset = 0;
+  try { offset = fs.statSync(file).size; } catch { offset = 0; }
   fs.appendFileSync(file, JSON.stringify(record) + '\n');
+  if (record && record.key) noteWrite(file, offset, record.key);
   return record;
 }
 function latestFileRecords(root, shard) {
