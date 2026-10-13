@@ -14,7 +14,21 @@ import { actionButton, createElement, replaceChildren } from "./dom.js";
 export function createDeviceRailView(actions) {
 	const eyebrow = createElement("span", { className: "eyebrow", text: "Your computer" });
 	const title = createElement("h2", { text: "Devices" });
-	const reconnect = actionButton("↻", actions.reconnect, { className: "icon-button", ariaLabel: "Reconnect devices" });
+	const reconnectIcon = document.createElement("img");
+	reconnectIcon.className = "gicon gicon--sm gicon--refresh";
+	reconnectIcon.src = "https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-refresh.webp?v=a462dbedff";
+	reconnectIcon.alt = "";
+	reconnectIcon.setAttribute("aria-hidden", "true");
+	reconnectIcon.loading = "lazy";
+	reconnectIcon.decoding = "async";
+	reconnectIcon.width = 24;
+	reconnectIcon.height = 24;
+	const reconnect = createElement("button", {
+		className: "icon-button",
+		attributes: { type: "button", "aria-label": "Reconnect devices", title: "Reconnect devices" },
+		events: { click: actions.reconnect },
+		children: [reconnectIcon]
+	});
 	const list = createElement("div", { className: "device-list", attributes: { role: "list" } });
 	const help = createElement("a", {
 		className: "rail-help",

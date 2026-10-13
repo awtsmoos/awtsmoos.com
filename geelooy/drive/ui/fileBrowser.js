@@ -6,6 +6,66 @@ import { canMutateWorkspace } from "../core/accessState.js";
 import { parentWorkspacePath, workspaceBreadcrumbs } from "../core/path.js";
 import { actionButton, createElement, replaceChildren } from "./dom.js";
 
+const GICON_BASE = "https://awtsmoos.com/api/social/drive/public/awtsmoos/icons";
+/** Golden file-type icon vessels (B"H 2026-10-13, icon round 2). */
+const FILE_GICONS = Object.freeze({
+	directory: { cls: "gicon--folder", url: `${GICON_BASE}/gicon-folder.webp?v=9bbd4c839f` },
+	pdf: { cls: "gicon--file-pdf", url: `${GICON_BASE}/gicon-file-pdf.webp?v=c1eb0f6ebe` },
+	image: { cls: "gicon--file-image", url: `${GICON_BASE}/gicon-file-image.webp?v=708a41a543` },
+	video: { cls: "gicon--file-video", url: `${GICON_BASE}/gicon-file-video.webp?v=c60dc1ef95` },
+	audio: { cls: "gicon--file-audio", url: `${GICON_BASE}/gicon-file-audio.webp?v=d7b71f52d3` },
+	text: { cls: "gicon--file-text", url: `${GICON_BASE}/gicon-file-text.webp?v=14f932f618` },
+	archive: { cls: "gicon--file-zip", url: `${GICON_BASE}/gicon-file-zip.webp?v=adb96e8f4e` },
+	file: { cls: "gicon--file", url: `${GICON_BASE}/gicon-file.webp?v=a4ac35335f` },
+	up: { cls: "gicon--up", url: `${GICON_BASE}/gicon-up.webp?v=ea93ec9bf1` },
+	newfolder: { cls: "gicon--newfolder", url: `${GICON_BASE}/gicon-newfolder.webp?v=c1d4557b60` }
+});
+
+const EXT_KIND = Object.freeze({
+	pdf: "pdf",
+	png: "image", jpg: "image", jpeg: "image", gif: "image", webp: "image", svg: "image", ico: "image",
+	mp4: "video", webm: "video", mov: "video", mkv: "video",
+	mp3: "audio", wav: "audio", ogg: "audio", flac: "audio", m4a: "audio",
+	txt: "text", md: "text", json: "text", js: "text", mjs: "text", css: "text", html: "text", csv: "text", log: "text",
+	zip: "archive", tar: "archive", gz: "archive", rar: "archive", "7z": "archive"
+});
+
+/** Builds one decorative golden icon img. */
+function giconImg(vessel, sizeClass = "gicon--sm") {
+	const img = document.createElement("img");
+	img.className = `gicon ${sizeClass} ${vessel.cls}`;
+	img.src = vessel.url;
+	img.alt = "";
+	img.setAttribute("aria-hidden", "true");
+	img.loading = "lazy";
+	img.decoding = "async";
+	img.width = 24;
+	img.height = 24;
+	return img;
+}
+
+/** Picks the golden file-type icon for a browser entry. */
+function fileGiconFor(entry) {
+	if (entry.type === "directory") return FILE_GICONS.directory;
+	const ext = String(entry.name || "").split(".").pop().toLowerCase();
+	return FILE_GICONS[EXT_KIND[ext] || "file"];
+}
+
+/** Builds an icon-led action button (icon + text) with full button semantics. */
+function iconActionButton(vessel, label, onClick, options = {}) {
+	const img = giconImg(vessel, "gicon--xs");
+	img.width = 18;
+	img.height = 18;
+	return createElement("button", {
+		className: options.className || "button",
+		title: options.title,
+		disabled: options.disabled,
+		attributes: { type: "button", "aria-label": options.ariaLabel || label },
+		events: { click: onClick },
+		children: [img, document.createTextNode(label)]
+	});
+}
+
 /**
  * @file Malchus file browser for Geelooy Drive.
  * @description
@@ -17,14 +77,20 @@ export function createFileBrowserView(actions) {
 	const breadcrumbs = createElement("nav", { className: "breadcrumbs", attributes: { "aria-label": "Folder path" } });
 	const list = createElement("div", { className: "file-list", attributes: { role: "list", "aria-label": "Files and folders" } });
 	const count = createElement("span", { className: "file-count" });
-	const newFile = actionButton("+ File", actions.newFile, { className: "button quiet" });
-	const newFolder = actionButton("+ Folder", actions.newFolder, { className: "button quiet" });
-	const publish = actionButton("Publish", actions.publish, { className: "button primary" });
+	const newFile = iconActionButton(FILE_GICONS.file, " File", actions.newFile, { className: "button quiet", ariaLabel: "New file" });
+	const newFolder = iconActionButton(FILE_GICONS.newfolder, " Folder", actions.newFolder, { className: "button quiet", ariaLabel: "New folder" });
+	const publish = iconActionButton(FILE_GICONS.up, "Publish", actions.publish, { className: "button primary", ariaLabel: "Publish" });
+	const navigateUp = createElement("button", {
+		className: "icon-button",
+		attributes: { type: "button", "aria-label": "Go to parent folder", title: "Go to parent folder" },
+		events: { click: actions.navigateUp },
+		children: [giconImg(FILE_GICONS.up)]
+	});
 	const element = createElement("section", {
 		className: "file-browser panel",
 		children: [
 			createElement("div", { className: "browser-toolbar", children: [
-				actionButton("↑", actions.navigateUp, { className: "icon-button", ariaLabel: "Go to parent folder" }),
+				navigateUp,
 				breadcrumbs,
 				createElement("div", { className: "browser-actions", children: [newFile, newFolder, publish] })
 			] }),
@@ -72,7 +138,7 @@ function fileRow(entry, state, actions) {
 		attributes: { type: "button", role: "listitem" },
 		events: { click: () => actions.openEntry(entry) },
 		children: [
-			createElement("span", { className: `file-icon ${entry.type}`, text: entry.type === "directory" ? "▰" : "◇", attributes: { "aria-hidden": "true" } }),
+			createElement("span", { className: `file-icon ${entry.type}`, attributes: { "aria-hidden": "true" }, children: [giconImg(fileGiconFor(entry))] }),
 			createElement("span", { className: "file-name", text: entry.name }),
 			createElement("span", { className: "file-kind", text: entry.type === "directory" ? "Folder" : formatBytes(entry.size) })
 		]

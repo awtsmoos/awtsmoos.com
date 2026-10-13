@@ -74,6 +74,29 @@ so the file list may evolve toward grids, details, drag-and-drop, and history wi
 	color: var(--accent);
 }
 
+/* B"H 2026-10-13 (icon round 2): golden file-type icons. */
+.file-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	flex: 0 0 32px;
+}
+.file-icon .gicon {
+	width: 28px;
+	height: 28px;
+}
+.browser-toolbar .icon-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+.browser-toolbar .icon-button .gicon {
+	width: 24px;
+	height: 24px;
+}
+
 .file-name {
 	overflow: hidden;
 	text-overflow: ellipsis;
