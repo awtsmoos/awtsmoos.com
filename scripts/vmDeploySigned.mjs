@@ -149,6 +149,9 @@ async function main() {
 				// worktree-modified files (trim removed the X status char,
 				// shifting the XY prefix), silently deploying nothing.
 				// Slice the 3-char "XY " prefix FIRST, then trim.
+				// B"H 2026-10-13: only auto-add BUST-ONLY files — every
+				// changed line must be a ?v= hash rewrite. Never sweep a
+				// sibling's WIP into production on the back of a bust.
 				const bustTouched = execSync('git status --porcelain', { cwd: REPO, encoding: 'utf8' })
 					.split('\n')
 					.map(l => {
@@ -159,7 +162,14 @@ async function main() {
 						if (p.startsWith('"') && p.endsWith('"')) p = p.slice(1, -1);
 						return p;
 					})
-					.filter(l => l.endsWith('.html') && !payload.some(f => f.path === l));
+					.filter(l => l.endsWith('.html') && !payload.some(f => f.path === l))
+					.filter(l => {
+						try {
+							const d = execSync(`git diff HEAD -- ${JSON.stringify(l)}`, { cwd: REPO, encoding: 'utf8' });
+							const changed = d.split('\n').filter(x => (x.startsWith('+') || x.startsWith('-')) && !x.startsWith('+++') && !x.startsWith('---'));
+							return changed.length > 0 && changed.every(x => x.includes('?v='));
+						} catch { return false; }
+					});
 				for (const extra of bustTouched) {
 					try {
 						const abs = resolve(REPO, extra);
