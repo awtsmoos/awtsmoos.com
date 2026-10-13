@@ -790,3 +790,20 @@
 .profile-dream .pd-stat-btn:active {
 	transform: scale(.96);
 }
+
+/* B"H — Yaakov 2026-10-13: buttons must NEVER trigger text selection on tap.
+   Every interactive element gets proper touch treatment. */
+.profile-dream button,
+.profile-dream a,
+.profile-dream [role="button"],
+.profile-dream [role="tab"],
+.profile-dream .pd-tab,
+.profile-dream .pd-stat,
+.profile-dream .pd-btn,
+.profile-dream .pd-topbar-btn {
+	-webkit-user-select: none;
+	user-select: none;
+	-webkit-tap-highlight-color: transparent;
+	touch-action: manipulation;
+	-webkit-touch-callout: none;
+}
