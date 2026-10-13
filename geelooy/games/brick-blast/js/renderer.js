@@ -210,12 +210,25 @@ export class Renderer {
         ctx.fill();
         ctx.stroke();
         
-        // Draw bounce counter
+        // Draw golem sigil + bounce counter (B"H: drawn mark, not emoji)
+        ctx.save();
+        ctx.translate(golem.x - 14, golem.y);
+        ctx.fillStyle = '#e8d5ff';
+        ctx.strokeStyle = '#4a1a6a';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        if (ctx.roundRect) ctx.roundRect(-7, -7, 14, 14, 3); else ctx.rect(-7, -7, 14, 14);
+        ctx.fill(); ctx.stroke();
+        ctx.fillStyle = '#4a1a6a';
+        ctx.beginPath(); ctx.arc(-3, -1, 1.8, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(3, -1, 1.8, 0, Math.PI * 2); ctx.fill();
+        ctx.fillRect(-4, 3.5, 8, 2);
+        ctx.restore();
         ctx.fillStyle = 'white';
         ctx.font = 'bold 12px Inter';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(`🤖 ${golem.bouncesLeft}`, golem.x, golem.y);
+        ctx.fillText(String(golem.bouncesLeft), golem.x + 8, golem.y);
         
         ctx.globalAlpha = 1.0;
     }

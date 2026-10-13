@@ -25,7 +25,15 @@ export function rebuildStars() {
 }
 
 export function drawBackground(timeScale = 1) {
-	context.fillStyle = "#070a12";
+	// B"H textured cosmos: violet nebula gradient, never flat.
+	const bg = context.createRadialGradient(
+		dom.canvas.width / 2, dom.canvas.height * 0.35, 60,
+		dom.canvas.width / 2, dom.canvas.height / 2, Math.max(dom.canvas.width, dom.canvas.height) * 0.75
+	);
+	bg.addColorStop(0, '#1a1440');
+	bg.addColorStop(0.5, '#0d0a24');
+	bg.addColorStop(1, '#050510');
+	context.fillStyle = bg;
 	context.fillRect(0, 0, dom.canvas.width, dom.canvas.height);
 
 	if (state.webcamActive && state.showWebcamInBackground && dom.webcamFeed.readyState >= 2) {

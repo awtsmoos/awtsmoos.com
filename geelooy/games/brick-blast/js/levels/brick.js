@@ -111,12 +111,29 @@ export class Brick {
         const centerY = this.y + this.height / 2;
 
         if (this.type === 'bomb') {
-            ctx.font = '24px Inter';
+            // B"H drawn bomb: iron sphere, highlight, fuse, live spark.
+            const br = Math.min(this.width, this.height) * 0.22;
+            ctx.save();
+            ctx.translate(centerX, centerY - 4);
+            const bg = ctx.createRadialGradient(-br * 0.3, -br * 0.35, br * 0.1, 0, 0, br);
+            bg.addColorStop(0, '#6a7280');
+            bg.addColorStop(0.6, '#2a2e38');
+            bg.addColorStop(1, '#101218');
+            ctx.fillStyle = bg;
+            ctx.beginPath(); ctx.arc(0, 0, br, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = 'rgba(255,255,255,0.55)';
+            ctx.beginPath(); ctx.arc(-br * 0.32, -br * 0.36, br * 0.22, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = '#8a6a3a';
+            ctx.lineWidth = 3;
+            ctx.beginPath(); ctx.moveTo(br * 0.4, -br * 0.75); ctx.quadraticCurveTo(br * 0.9, -br * 1.4, br * 0.5, -br * 1.7); ctx.stroke();
+            const flick = 2 + Math.sin(Date.now() / 90) * 1.2;
+            ctx.fillStyle = '#ffd75e';
+            ctx.shadowColor = '#ff9a2e'; ctx.shadowBlur = 10;
+            ctx.beginPath(); ctx.arc(br * 0.5, -br * 1.7, flick + 1.5, 0, Math.PI * 2); ctx.fill();
+            ctx.restore();
+            ctx.font = 'bold 10px Inter';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText('💣', centerX, centerY);
-            
-            ctx.font = 'bold 10px Inter';
             ctx.fillStyle = 'white';
             ctx.fillText(formatHealth(this.health), centerX, centerY + 14);
         } else {
@@ -182,12 +199,21 @@ export class Brick {
         ctx.fill();
         ctx.stroke();
         
-        // Inner core
-        ctx.fillStyle = 'white';
-        ctx.font = '16px Inter';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('⚡', centerX, centerY + 2);
+        // Inner core: drawn lightning bolt
+        ctx.save();
+        ctx.translate(centerX, centerY + 2);
+        ctx.shadowColor = '#f5d97e'; ctx.shadowBlur = 12;
+        ctx.fillStyle = '#ffe9a8';
+        const bs = size * 0.42;
+        ctx.beginPath();
+        ctx.moveTo(bs * 0.15, -bs);
+        ctx.lineTo(-bs * 0.35, bs * 0.15);
+        ctx.lineTo(-bs * 0.02, bs * 0.15);
+        ctx.lineTo(-bs * 0.15, bs);
+        ctx.lineTo(bs * 0.35, -bs * 0.15);
+        ctx.lineTo(bs * 0.02, -bs * 0.15);
+        ctx.closePath(); ctx.fill();
+        ctx.restore();
     }
 }
 

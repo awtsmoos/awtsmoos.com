@@ -62,13 +62,16 @@ export class TetrisRenderer {
 	}
 
 	draw(game) {
-		this.context.fillStyle = '#020202';
-		this.context.fillRect(
-			0,
-			0,
-			this.canvas.width,
-			this.canvas.height
+		// B"H textured deep-space: nebula gradient, never flat black.
+		const bg = this.context.createRadialGradient(
+			this.canvas.width / 2, this.canvas.height * 0.3, 40,
+			this.canvas.width / 2, this.canvas.height / 2, Math.max(this.canvas.width, this.canvas.height) * 0.75
 		);
+		bg.addColorStop(0, '#141b3d');
+		bg.addColorStop(0.5, '#0a0e24');
+		bg.addColorStop(1, '#020204');
+		this.context.fillStyle = bg;
+		this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 		this.starfield.draw();
 		drawGrid(this);
 		drawSettledBoard(this, game.board);
