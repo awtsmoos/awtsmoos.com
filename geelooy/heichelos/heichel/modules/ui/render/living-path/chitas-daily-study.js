@@ -14,8 +14,40 @@
  * (first verses of the day's portion) as the small chapter files load.
  */
 
-import { resolveIsraelMode, setStoredIsraelMode, detectIsraelByTimezone } from '../../../chitas/israel-mode.js';
+import { resolveIsraelMode, setStoredIsraelMode, getStoredIsraelMode, detectIsraelByTimezone } from '../../../chitas/israel-mode.js';
 import { versesForRange, psalmPreview } from '../../../chitas/verses.js';
+
+/**
+ * Number -> Hebrew numeral (e.g. 25 -> כ״ה), with proper geresh/gershayim.
+ */
+function hebrewNumeral(n) {
+  if (typeof n !== 'number' || n < 1 || n > 999) return '';
+  if (n === 15) return 'ט״ו';
+  if (n === 16) return 'ט״ז';
+  const vals = [[400, 'ת'], [300, 'ש'], [200, 'ר'], [100, 'ק'], [90, 'צ'], [80, 'פ'], [70, 'ע'], [60, 'ס'], [50, 'נ'], [40, 'מ'], [30, 'ל'], [20, 'כ'], [10, 'י'], [9, 'ט'], [8, 'ח'], [7, 'ז'], [6, 'ו'], [5, 'ה'], [4, 'ד'], [3, 'ג'], [2, 'ב'], [1, 'א']];
+  let out = '';
+  let rest = n;
+  for (const [v, ch] of vals) {
+    while (rest >= v) { out += ch; rest -= v; }
+  }
+  if (out.length === 1) return out + '׳';
+  return out.slice(0, -1) + '״' + out.slice(-1);
+}
+
+/**
+ * Builds a fully-Hebrew portion title from structured portion metadata,
+ * e.g. "אגרת הקודש, אמצע אגרת כ״ה". Never mixes English into the Hebrew line.
+ */
+function portionTitleHe(p) {
+  if (!p) return '';
+  const seferHe = p.seferHe || '';
+  const num = hebrewNumeral(p.unit);
+  const continued = /\(continued\)/i.test(p.title || '') ? ' (המשך)' : '';
+  const partHe = { beginning: 'תחילת', middle: 'אמצע', end: 'סוף' }[p.portion] || '';
+  const unitWord = p.unitType === 'epistle' ? 'אגרת' : 'פרק';
+  const unitPart = ([partHe, unitWord, num].filter(Boolean).join(' ') + continued).trim();
+  return [seferHe, unitPart].filter(Boolean).join(', ');
+}
 
 const TANYA_SERIES_FOR_PREFIX = {
   'la': 'tanyaLikkuteiAmarim',
@@ -38,6 +70,27 @@ function heEl(tag, className, text) {
   return e;
 }
 
+/**
+ * Hint text for the Israel/Diaspora toggle. Always names the EFFECTIVE mode
+ * and its source (shared link > saved choice > auto-detect) so the hint can
+ * never contradict the active pill.
+ */
+function israelModeHint(currentIsrael) {
+  const mode = currentIsrael ? 'Israel' : 'Diaspora';
+  try {
+    const param = new URLSearchParams(location.search).get('chitasIsrael');
+    if (param === '1' || param === '0') {
+      return `Schedule: ${mode} (set by shared link)`;
+    }
+  } catch { /* ignore */ }
+  const stored = getStoredIsraelMode();
+  if (stored !== null) {
+    return `Schedule: ${mode} (your saved choice)`;
+  }
+  const auto = detectIsraelByTimezone();
+  return `Auto-detected: ${auto ? 'Israel' : 'Diaspora'} (by timezone)`;
+}
+
 function createIsraelToggle(currentIsrael, onChange) {
   const wrap = el('div', 'chitas-israel-toggle');
   wrap.setAttribute('role', 'group');
@@ -49,9 +102,9 @@ function createIsraelToggle(currentIsrael, onChange) {
   btnIL.setAttribute('aria-pressed', currentIsrael ? 'true' : 'false');
   btnDI.setAttribute('aria-pressed', !currentIsrael ? 'true' : 'false');
 
-  const auto = detectIsraelByTimezone();
-  const hint = el('span', 'chitas-israel-hint',
-    `Auto-detected: ${auto ? 'Israel' : 'Diaspora'} (by timezone)`);
+  // Hint names the EFFECTIVE mode and where it came from, so the pill and
+  // the hint can never disagree: link param > saved choice > auto-detect.
+  const hint = el('span', 'chitas-israel-hint', israelModeHint(currentIsrael));
 
   btnIL.addEventListener('click', () => {
     setStoredIsraelMode(true);
@@ -83,7 +136,7 @@ function appendRef(card, text, textHe) {
 }
 
 function appendLoading(card) {
-  const loading = el('p', 'chitas-daily-card-loading', 'Loading text…');
+  const loading = el('p', 'chitas-daily-card-loading', 'Loading text… · טוען טקסט…');
   loading.setAttribute('aria-live', 'polite');
   card.textWrap.append(loading);
   return loading;
@@ -176,19 +229,21 @@ async function hydrateCardTexts(dailyStudy, cards) {
         }
       } else if (t.portion) {
         // Igeres HaKodesh portions: posts not yet imported — show the
-        // bilingual portion reference.
+        // bilingual portion reference. English title already contains the
+        // sefer name (no duplication); Hebrew line is built fully in Hebrew.
         cards.tanya.loading?.remove();
         const p = t.portion;
-        if (p.seferHe || p.title) {
-          cards.tanya.textWrap.append(heEl('p', 'chitas-daily-card-subtitle-he',
-            [p.seferHe, p.title].filter(Boolean).join(' · ')));
+        const heTitle = portionTitleHe(p);
+        if (heTitle) {
+          cards.tanya.textWrap.append(heEl('p', 'chitas-daily-card-subtitle-he', heTitle));
         }
-        if (p.seferEn || p.title) {
-          cards.tanya.textWrap.append(el('p', 'chitas-daily-card-subtitle',
-            [p.seferEn, p.title].filter(Boolean).join(' · ')));
+        if (p.title) {
+          cards.tanya.textWrap.append(el('p', 'chitas-daily-card-subtitle', p.title));
         }
         cards.tanya.textWrap.append(el('p', 'chitas-daily-card-note',
           'Full text coming soon.'));
+        cards.tanya.textWrap.append(heEl('p', 'chitas-daily-card-note-he',
+          'הטקסט המלא יעלה בקרוב.'));
       }
     } catch (e) {
       cards.tanya.loading?.remove();
@@ -257,12 +312,13 @@ export function createDailyStudySection(dailyStudy, studyDate) {
     const t = dailyStudy.tanya;
     const built = createStudyCard('Tanya', 'תניא');
     const count = t.postIds.length;
+    const cycleHe = t.leap ? 'שנה מעוברת' : 'שנה פשוטה';
     if (count > 0) {
       appendRef(built,
         `${count} section${count > 1 ? 's' : ''} · ${t.cycle}`,
-        null);
+        `${hebrewNumeral(count)} ${count > 1 ? 'חלקים' : 'חלק'} · ${cycleHe}`);
     } else if (t.portion) {
-      appendRef(built, t.cycle, null);
+      appendRef(built, t.cycle, cycleHe);
     }
     built.loading = appendLoading(built);
     cards.tanya = built;

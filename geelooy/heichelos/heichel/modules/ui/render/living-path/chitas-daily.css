@@ -213,6 +213,14 @@
   margin: 0.5rem 0 0 0;
 }
 
+.chitas-daily-card-note-he {
+  font-family: "Noto Serif Hebrew", "David Libre", David, "Times New Roman", serif;
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--text-muted, #6b5f4a);
+  margin: 0.25rem 0 0 0;
+}
+
 .chitas-daily-card-loading {
   font-size: 0.9rem;
   font-style: italic;
