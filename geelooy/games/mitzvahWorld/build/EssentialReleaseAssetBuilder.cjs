@@ -20,14 +20,14 @@ const ASSETS = Object.freeze({
 		fileName: `${CHOSSID_SHA}/chossid.glb`,
 		publicUrl: `/games/mitzvahWorld/build/generated/assets/${CHOSSID_SHA}/chossid.glb`,
 		sha256: CHOSSID_SHA,
-		sourceUrl: `https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/models/player/${CHOSSID_SHA}/chossid.glb`
+		sourceUrl: `https://awtsmoos.com/games/mitzvahWorld/build/generated/assets/${CHOSSID_SHA}/chossid.glb`
 	}),
 	essentialGrass: Object.freeze({
 		bytes: 322486,
 		fileName: 'essential-grass.jpg',
 		publicUrl: '/games/mitzvahWorld/build/generated/assets/essential-grass.jpg',
 		sha256: '632d94c4225546aa57db7b75b3f6819c4cc95343b4b7add5ada44688f8722942',
-		sourceUrl: 'https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/chai-forest/textures/ground/grass.jpg'
+		sourceUrl: 'https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/essential-grass.jpg'
 	})
 });
 

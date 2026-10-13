@@ -14,7 +14,7 @@ import { exactMaterialUrl } from './PublicMaterialResolver.js';
 const CHAI_FOREST = 'awtsmoos-nature/chai-forest';
 
 const PREFERRED_SOURCE_DEFINITIONS = Object.freeze([
-	['terrain.grass', 'Chai Forest grass', `${CHAI_FOREST}/textures/ground/grass.jpg`],
+	['terrain.grass', 'Essential grass', 'textures/essential-grass.jpg'],
 	['terrain.dirtMix', 'Chai Forest dirt', `${CHAI_FOREST}/textures/ground/dirt_color.jpg`],
 	['forest.bark', 'Chai Forest bark', `${CHAI_FOREST}/textures/bark/Bark001_1K-JPG/Bark001_1K-JPG_Color.jpg`],
 	['forest.chaiOak', 'Chai oak leaf', `${CHAI_FOREST}/textures/leaves/oak.png`],

@@ -7,7 +7,7 @@ import { publicMaterialUrl } from './PublicMaterialOrigin.js';
 
 const HALF_QUALITY = new Set(['low', 'medium', 'half']);
 const FULL_SOURCE_ALIASES = Object.freeze({
-	'grass 6': 'awtsmoos-nature/chai-forest/textures/ground/grass.jpg',
+	'grass 6': 'textures/essential-grass.jpg',
 	'mud': 'awtsmoos-nature/chai-forest/textures/ground/dirt_color.jpg',
 	'oak wood 2': 'full-resolution/oak wood 3.png',
 	'stone floor': 'full-resolution/stone floor 2.png'

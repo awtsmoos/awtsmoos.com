@@ -21,7 +21,7 @@ function chaiForestSource(path) {
 }
 
 export const HIGHEST_RESOLUTION_SURFACES = Object.freeze({
-	baseGrass: chaiForestSource('textures/ground/grass.jpg'),
+	baseGrass: verified(exactMaterialUrl('textures/essential-grass.jpg'), 'essential grass'),
 	dirt: chaiForestSource('textures/ground/dirt_color.jpg'),
 	dryGrass: verified(TEXTURE_URLS.terrain.dirt1, 'dry meadow substrate'),
 	forestFloor: verified(TEXTURE_URLS.terrain.darkForestFloor, 'forestFloor'),

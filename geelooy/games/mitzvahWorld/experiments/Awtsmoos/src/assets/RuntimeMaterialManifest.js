@@ -42,7 +42,7 @@ function sourceRole(role, label, path, options = {}) {
 const CHAI_FOREST = 'awtsmoos-nature/chai-forest';
 
 export const RUNTIME_MATERIALS = Object.freeze([
-	sourceRole('terrain.grass', 'canonical Chai Forest grass', `${CHAI_FOREST}/textures/ground/grass.jpg`, {
+	sourceRole('terrain.grass', 'essential grass', 'textures/essential-grass.jpg', {
 		fallbackUrls: [fullMaterialUrl('grass 1')],
 		repeat: [18, 18]
 	}),
