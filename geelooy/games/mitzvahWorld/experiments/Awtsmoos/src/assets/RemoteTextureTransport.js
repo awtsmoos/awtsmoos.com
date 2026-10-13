@@ -27,12 +27,44 @@ export function remoteTexturePathUrl(path) {
 
 /** Builds a full-resolution texture URL. */
 export function fullResolutionTextureUrl(filename) {
-	return remoteTexturePathUrl(`full-resolution/${cleanRemotePath(filename)}`);
+	// B"H — Yaakov 2026-10-13: the old full-resolution/ Drive paths are gone
+	// (404). Resolve through the Awtsmoos games texture library instead —
+	// real, exciting textures, categorized by material.
+	return driveLibraryTextureUrl(filename);
 }
 
 /** Builds a documented tree-texture URL. */
 export function treeTextureUrl(filename) {
-	return remoteTexturePathUrl(`awtsmoos-nature/ilanos/trees/${cleanRemotePath(filename)}`);
+	// B"H — Yaakov 2026-10-13: same library migration as full-resolution.
+	return driveLibraryTextureUrl(filename);
+}
+
+/**
+ * Resolves a canonical texture filename to the Awtsmoos games texture
+ * library (https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/games/).
+ * The library holds 1100+ textures plus canonical {category}-001.png files;
+ * the filename's material keywords pick the right category — never random.
+ */
+export function driveLibraryTextureUrl(filename) {
+	const category = libraryCategoryFor(String(filename || ''));
+	return `${DRIVE_GAMES_LIBRARY_BASE}${category}/${category}-001.png`;
+}
+
+const DRIVE_GAMES_LIBRARY_BASE = 'https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/games/';
+
+function libraryCategoryFor(filename) {
+	const n = filename.toLowerCase();
+	if (/bark/.test(n)) return 'bark';
+	if (/leaf|foliage|flower|moss|fern|grass|bush|shrub/.test(n)) return 'trees';
+	if (/brick/.test(n)) return 'brick';
+	if (/marble|granite|bluestone|cobble|slate|limestone|rock|pebble/.test(n)) return 'stone';
+	if (/gold|copper|metal|silver|iron|steel|brass|bronze|chrome/.test(n)) return 'metal';
+	if (/wood|plank|timber|log/.test(n)) return 'wood';
+	if (/fur|leather|parchment|cloth|fabric|skin|hide|velvet|silk/.test(n)) return 'fabric';
+	if (/water|river|ocean|lake|pond/.test(n)) return 'water';
+	if (/dirt|ground|floor|earth|sand|mud|soil|clay/.test(n)) return 'ground';
+	if (/sky|cloud/.test(n)) return 'sky';
+	return 'stone';
 }
 
 /** Reports whether a value is a safe non-model path beneath the migration root. */

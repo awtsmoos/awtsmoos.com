@@ -9,6 +9,32 @@ import { AWTSMOOS_REMOTE_MATERIAL_RECORDS } from './awtsmoosRemoteMaterialRecord
 export const AWTSMOOS_REMOTE_MATERIAL_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/';
 export const AWTSMOOS_MATERIAL_TRANSPORT = new RemoteMaterialTransport(AWTSMOOS_REMOTE_MATERIAL_ROOT);
 
+// B"H — Yaakov 2026-10-13: the firebase_drive_migration well ran dry (404).
+// Material roles now resolve through the Awtsmoos games texture library
+// (1100+ textures + canonical {category}-001.png files). The record's
+// coverage kind picks the category — never random.
+const DRIVE_GAMES_LIBRARY_BASE = 'https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/games/';
+
+const COVERAGE_TO_LIBRARY = Object.freeze({
+	stone: 'stone',
+	plaster: 'stone',
+	timber: 'wood',
+	roof: 'brick',
+	cobble: 'stone',
+	cloth: 'fabric',
+	fur: 'fabric',
+	soil: 'ground',
+	bark: 'bark',
+	foliage: 'trees',
+	water: 'water',
+	generic: 'metal'
+});
+
+function libraryUrlForRecord(source) {
+	const category = COVERAGE_TO_LIBRARY[source.coverage] || 'stone';
+	return `${DRIVE_GAMES_LIBRARY_BASE}${category}/${category}-001.png`;
+}
+
 /**
  * @file awtsmoosRemoteMaterials.js
  * @description
@@ -17,13 +43,16 @@ export const AWTSMOOS_MATERIAL_TRANSPORT = new RemoteMaterialTransport(AWTSMOOS_
  * This preset owns production identity only; loading, caching, frame pacing, and renderer realization remain separate vessels.
  */
 export const AWTSMOOS_MATERIAL_REGISTRY = new MaterialRoleRegistry(
-	AWTSMOOS_REMOTE_MATERIAL_RECORDS.map(source => ({
-		...source,
-		paths: {
-			full: AWTSMOOS_MATERIAL_TRANSPORT.url(source.path),
-			source: AWTSMOOS_MATERIAL_TRANSPORT.url(source.path)
-		}
-	}))
+	AWTSMOOS_REMOTE_MATERIAL_RECORDS.map(source => {
+		const libraryUrl = libraryUrlForRecord(source);
+		return {
+			...source,
+			paths: {
+				full: libraryUrl,
+				source: libraryUrl
+			}
+		};
+	})
 );
 
 /** @param {string} role Semantic role or alias. @returns {object|null} Shared material record. */

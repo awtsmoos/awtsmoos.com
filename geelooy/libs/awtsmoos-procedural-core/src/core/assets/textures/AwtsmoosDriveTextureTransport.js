@@ -24,12 +24,42 @@ export function awtsmoosDriveTexturePathUrl(path) {
 
 /** @param {string} filename Canonical full-resolution filename. @returns {string} */
 export function awtsmoosDriveFullTextureUrl(filename) {
-	return awtsmoosDriveTexturePathUrl(`full-resolution/${cleanPath(filename)}`);
+	// B"H — Yaakov 2026-10-13: the old full-resolution/ Drive paths are gone
+	// (404). Resolve through the Awtsmoos games texture library instead.
+	return driveLibraryTextureUrl(filename);
 }
 
 /** @param {string} filename Canonical tree filename. @returns {string} */
 export function awtsmoosDriveTreeTextureUrl(filename) {
-	return awtsmoosDriveTexturePathUrl(`awtsmoos-nature/ilanos/trees/${cleanPath(filename)}`);
+	// B"H — Yaakov 2026-10-13: same library migration as full-resolution.
+	return driveLibraryTextureUrl(filename);
+}
+
+/**
+ * Resolves a canonical texture filename to the Awtsmoos games texture
+ * library (1100+ textures + canonical {category}-001.png files).
+ * Material keywords pick the category — never random.
+ */
+export function driveLibraryTextureUrl(filename) {
+	const category = libraryCategoryFor(String(filename || ""));
+	return `${DRIVE_GAMES_LIBRARY_BASE}${category}/${category}-001.png`;
+}
+
+const DRIVE_GAMES_LIBRARY_BASE = "https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/games/";
+
+function libraryCategoryFor(filename) {
+	const n = filename.toLowerCase();
+	if (/bark/.test(n)) return "bark";
+	if (/leaf|foliage|flower|moss|fern|grass|bush|shrub/.test(n)) return "trees";
+	if (/brick/.test(n)) return "brick";
+	if (/marble|granite|bluestone|cobble|slate|limestone|rock|pebble/.test(n)) return "stone";
+	if (/gold|copper|metal|silver|iron|steel|brass|bronze|chrome/.test(n)) return "metal";
+	if (/wood|plank|timber|log/.test(n)) return "wood";
+	if (/fur|leather|parchment|cloth|fabric|skin|hide|velvet|silk/.test(n)) return "fabric";
+	if (/water|river|ocean|lake|pond/.test(n)) return "water";
+	if (/dirt|ground|floor|earth|sand|mud|soil|clay/.test(n)) return "ground";
+	if (/sky|cloud/.test(n)) return "sky";
+	return "stone";
 }
 
 /** @param {unknown} value URL candidate. @returns {boolean} Whether the URL belongs to the trusted texture root. */
