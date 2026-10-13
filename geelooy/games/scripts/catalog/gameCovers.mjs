@@ -12,7 +12,7 @@ const COVER_BASE = "https://awtsmoos.com/api/social/drive/public/awtsmoos/covers
 // B"H (2026-10-13): COVER_V is AUTO-MANAGED by scripts/bustDriveCaches.mjs.
 // It rewrites this to a deploy-bust hash (changes iff any Drive content
 // changed). DO NOT hand-edit — it will be overwritten on the next deploy.
-const COVER_V = "?v=56bfed31c5";
+const COVER_V = "?v=912121ccad";
 
 const GAME_COVERS = {
 	"temple-runner": "game-temple-runner.webp",
@@ -71,5 +71,5 @@ export function renderGameCover(gameId, title) {
 	const url = getGameCoverUrl(gameId);
 	if (!url) return "";
 	const safeTitle = String(title || "").replace(/"/g, "&quot;").replace(/</g, "&lt;");
-	return `<span class="gameCover"><img src="${url}" alt="${safeTitle} cover art" loading="lazy" decoding="async"></span>`;
+	return `<span class="gameCover"><img src="${url}" alt="${safeTitle} cover art" loading="lazy" decoding="async" draggable="false"></span>`;
 }

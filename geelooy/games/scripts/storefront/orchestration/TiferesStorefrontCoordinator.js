@@ -7,6 +7,7 @@
  * The Awtsmoos unifies every doorway without becoming the mixture of their finite form;
  * Awtsmoos.com lets Tiferes connect gesture to projection while each deeper vessel preserves its own norm.
  */
+import { YesodCardTapController } from '../interaction/YesodCardTapController.js';
 import { YesodStorefrontInteractionController } from '../interaction/YesodStorefrontInteractionController.js';
 
 /**
@@ -31,6 +32,11 @@ export class TiferesStorefrontCoordinator {
 			onQueryChange: this.handleTiferesQueryChange,
 			onTagChange: this.handleTiferesTagChange
 		});
+		/* B"H Yaakov 2026-10-13: "Hard to click games." Tap-anywhere card
+		   navigation — belt-and-suspenders behind the stretched-link CSS. */
+		this.yesodCardTapController = new YesodCardTapController({
+			catalogRoot: binahDomContract.catalogRoot
+		});
 	}
 
 	/**
@@ -42,6 +48,7 @@ export class TiferesStorefrontCoordinator {
 	mount() {
 		this.tiferesProjectionService.revealInitialProjection();
 		this.yesodInteractionController.connect();
+		this.yesodCardTapController.connect();
 	}
 
 	/**
@@ -50,6 +57,7 @@ export class TiferesStorefrontCoordinator {
 	 */
 	unmount() {
 		this.yesodInteractionController.disconnect();
+		this.yesodCardTapController.disconnect();
 	}
 
 	/**

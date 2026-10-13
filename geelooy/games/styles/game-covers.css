@@ -197,3 +197,84 @@
 		transform: none;
 	}
 }
+
+/* B"H Yaakov 2026-10-13: "Hard to click games" + "make it beautiful and inviting."
+   Glowing Play overlay on every cover — the card screams "tap me".
+   Decorative only (pointer-events: none) so it never blocks the stretched link. */
+.gameCard .gameCover {
+	position: relative;
+	cursor: pointer;
+}
+.gameCard .gameCover::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 56px;
+	height: 56px;
+	transform: translate(-50%, -50%) scale(0.92);
+	border-radius: 50%;
+	background: rgba(9, 7, 17, 0.55);
+	border: 2px solid rgba(255, 224, 130, 0.9);
+	box-shadow: 0 0 24px rgba(255, 200, 92, 0.45), inset 0 0 12px rgba(255, 200, 92, 0.2);
+	pointer-events: none;
+	transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+	/* Play triangle drawn with borders (no emoji, no image dependency). */
+}
+.gameCard .gameCover::before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-38%, -50%);
+	border-top: 11px solid transparent;
+	border-bottom: 11px solid transparent;
+	border-left: 18px solid #ffe082;
+	pointer-events: none;
+	z-index: 1;
+	transition: transform 180ms ease;
+}
+/* Touch devices: always show a subtle play affordance. */
+@media (hover: none) {
+	.gameCard .gameCover::after {
+		opacity: 0.92;
+	}
+}
+/* Hover/focus: the play button pops. */
+@media (hover: hover) and (pointer: fine) {
+	.gameCard .gameCover::after {
+		opacity: 0;
+	}
+	.gameCard:hover .gameCover::after,
+	.gameCard:focus-within .gameCover::after {
+		opacity: 1;
+		transform: translate(-50%, -50%) scale(1);
+		box-shadow: 0 0 34px rgba(255, 200, 92, 0.65), inset 0 0 14px rgba(255, 200, 92, 0.3);
+		background: rgba(9, 7, 17, 0.35);
+	}
+	.gameCard:hover .gameCover::before,
+	.gameCard:focus-within .gameCover::before {
+		transform: translate(-38%, -50%) scale(1.08);
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.gameCard .gameCover::after,
+	.gameCard .gameCover::before {
+		transition: none;
+	}
+}
+
+/* B"H Yaakov 2026-10-13: cover bleeds to the card's top edges — modern
+   game-store look, bigger visual target, more inviting. */
+.gameCard .gameCover {
+	margin: -18px -18px 0 -18px;
+	width: calc(100% + 36px);
+	border-radius: 22px 22px 0 0;
+}
+@media (max-width: 700px) {
+	.gameCard .gameCover {
+		margin: -14px -14px 0 -14px;
+		width: calc(100% + 28px);
+		border-radius: 18px 18px 0 0;
+	}
+}
