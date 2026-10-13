@@ -1161,3 +1161,81 @@ button.library-recent-search:focus-visible,
 		padding: 1rem;
 	}
 }
+
+/* ============ ROUND 2 POLISH — result cards, marks, empty states (2026-10-13) ============ */
+/* B"H — cards lift with a gold edge on hover; keyboard focus lands the same ring. */
+.result {
+	position: relative;
+}
+.result::before {
+	content: "";
+	position: absolute;
+	inset: 0 auto 0 0;
+	width: 3px;
+	border-radius: var(--srch-radius) 0 0 var(--srch-radius);
+	background: linear-gradient(180deg, var(--srch-gold), transparent);
+	opacity: 0;
+	transition: opacity 0.18s ease;
+	color: var(--srch-gold);
+}
+.result:hover {
+	border-color: var(--srch-gold-deep);
+	transform: translateY(-2px);
+	box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35), 0 0 22px rgba(217, 169, 78, 0.10);
+}
+.result:hover::before {
+	opacity: 1;
+}
+.result:focus-within {
+	border-color: var(--srch-gold);
+	box-shadow: 0 0 0 3px var(--srch-gold-soft);
+}
+/* B"H — the highlight mark must read on dark: deeper wash, brighter gold, semibold. */
+.rangePreview mark,
+.result mark {
+	background-color: rgba(217, 169, 78, 0.30);
+	color: #f6d98c;
+	font-weight: 600;
+	padding: 0.05em 0.2em;
+}
+/* B"H — Hebrew previews breathe: larger, roomier. */
+.rangePreview[dir="rtl"],
+.result p[dir="rtl"] {
+	color: var(--srch-ink-soft);
+	line-height: 1.85;
+	font-size: 1.04rem;
+}
+/* B"H — grouped-result headings carry a quiet gold rule. */
+.library-result-group-heading {
+	padding-bottom: 0.5rem;
+	border-bottom: 1px solid var(--srch-card-edge);
+}
+/* B"H — empty state: a calmer vessel; the glyph floats, the path forward is gold. */
+.library-empty {
+	padding: 3rem 1.75rem;
+	gap: 0.7rem;
+	border-color: rgba(217, 169, 78, 0.28);
+	background:
+		radial-gradient(24rem 12rem at 50% 0%, rgba(217, 169, 78, 0.07), transparent 70%),
+		var(--srch-bg-soft);
+}
+.library-empty span[aria-hidden="true"] {
+	font-size: 2.4rem;
+	line-height: 1;
+	color: var(--srch-gold);
+	text-shadow: 0 0 18px rgba(217, 169, 78, 0.35);
+}
+.library-empty strong {
+	font-size: 1.12rem;
+	letter-spacing: 0.01em;
+	color: var(--srch-ink);
+}
+@media (prefers-reduced-motion: reduce) {
+	.result,
+	.result::before {
+		transition: none;
+	}
+	.result:hover {
+		transform: none;
+	}
+}
