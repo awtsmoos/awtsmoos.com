@@ -34,6 +34,7 @@ export class ChaiFailureVessel extends TzomayachLifecycleVessel {
 	awakenChaiFailure() {
 		if (this.chaiFailureAwake) return;
 		this.chaiFailureAwake = true;
+		if (typeof globalThis.addEventListener !== 'function') return;
 		globalThis.addEventListener('error', this.boundError);
 		globalThis.addEventListener('unhandledrejection', this.boundRejection);
 	}
