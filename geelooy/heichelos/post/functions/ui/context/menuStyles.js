@@ -1,0 +1,110 @@
+//B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @fileoverview Self-delivering styles for the reader context menu.
+ *
+ * The Awtsmoos lets the menu carry its own garment; Awtsmoos.com never
+ * leaves a portal unstyled because a stylesheet bundle dropped its @import
+ * chain. If the menu's CSS is not already present, it is injected once.
+ */
+
+const STYLE_ID = 'awtsmoos-context-menu-styles';
+
+const MENU_CSS = `
+.awtsmoos-reader-portal-surface {
+	position: fixed;
+	z-index: 9999;
+	box-sizing: border-box;
+	inline-size: min(92dvi, 380px);
+	max-inline-size: calc(100dvi - 24px);
+	max-block-size: min(76dvh, 32rem);
+	padding: 9px;
+	border: 1px solid rgba(244, 197, 107, .2);
+	border-radius: 18px;
+	color: #f7f1df;
+	background: rgba(7, 11, 24, .97);
+	box-shadow: 0 22px 72px rgba(0, 0, 0, .46);
+	backdrop-filter: blur(20px) saturate(1.15);
+	-webkit-backdrop-filter: blur(20px) saturate(1.15);
+	font-family: var(--awtsmoos-reader-portal-font, system-ui, sans-serif);
+	overflow-x: hidden;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+}
+.awtsmoos-reader-portal-surface .awtsmoos-context-crown {
+	padding: 7px 10px 9px;
+	color: #f6c96c;
+	font-size: .72rem;
+	font-weight: 850;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+:where(.awtsmoos-reader-portal-surface) .awtsmoos-context-menu-item,
+:where(.awtsmoos-reader-portal-surface) .awtsmoos-context-more {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	inline-size: 100%;
+	min-block-size: 44px;
+	padding: 9px 10px;
+	border: 1px solid transparent;
+	border-radius: 12px;
+	color: inherit;
+	background: transparent;
+	font: inherit;
+	text-align: start;
+	cursor: pointer;
+	transition: background 150ms ease, border-color 150ms ease, transform 120ms ease;
+}
+:where(.awtsmoos-reader-portal-surface) .awtsmoos-context-menu-item + .awtsmoos-context-menu-item { margin-block-start: 2px; }
+.awtsmoos-reader-portal-surface .awtsmoos-context-icon { flex: 0 0 auto; inline-size: 1.4em; color: #7ddcff; text-align: center; }
+.awtsmoos-reader-portal-surface .awtsmoos-context-label { min-inline-size: 0; line-height: 1.25; }
+:where(.awtsmoos-reader-portal-surface) .awtsmoos-context-more {
+	margin-block-start: 5px;
+	border-top-color: rgba(255,255,255,.07);
+	border-radius: 8px;
+	color: rgba(247,241,223,.7);
+	font-size: .84rem;
+}
+:where(.awtsmoos-reader-portal-surface) .awtsmoos-context-more .awtsmoos-context-icon { color: currentColor; }
+.awtsmoos-reader-portal-surface .awtsmoos-context-secondary { padding-block-start: 3px; }
+:where(.awtsmoos-reader-portal-surface) .awtsmoos-context-secondary .awtsmoos-context-menu-item { min-block-size: 40px; color: rgba(247,241,223,.82); font-size: .9rem; }
+@media (hover: hover) {
+	:where(.awtsmoos-reader-portal-surface) .awtsmoos-context-menu-item:hover,
+	:where(.awtsmoos-reader-portal-surface) .awtsmoos-context-more:hover { border-color: rgba(244,197,107,.2); background: rgba(244,197,107,.08); }
+}
+.awtsmoos-reader-portal-surface button:active { transform: scale(.985); }
+.awtsmoos-reader-portal-surface button:focus-visible { outline: 3px solid rgba(91,209,255,.5); outline-offset: 1px; }
+@media (max-width: 700px) {
+	.awtsmoos-reader-portal-surface { inline-size: calc(100dvi - 16px); max-inline-size: none; max-block-size: min(70dvh, 30rem); border-radius: 20px; }
+}
+@media (prefers-reduced-motion: reduce) { .awtsmoos-reader-portal-surface, .awtsmoos-reader-portal-surface * { transition: none; } }
+:where(.awtsmoos-reader-portal-surface) .awtsmoos-context-menu-item:active {
+	transform: scale(0.98);
+}
+:where(.awtsmoos-reader-portal-surface) .awtsmoos-context-more:active {
+	transform: scale(0.98);
+}
+`;
+
+/** Injects the menu stylesheet once, unless the cascade already provides it. */
+export function ensureMenuStyles() {
+	if (typeof document === 'undefined') return;
+	if (document.getElementById(STYLE_ID)) return;
+	// If the full stylesheet already arrived via <link>/@import, do not duplicate.
+	try {
+		for (const sheet of document.styleSheets) {
+			const rules = sheet.cssRules;
+			if (!rules) continue;
+			for (const rule of rules) {
+				if (rule.selectorText && rule.selectorText.includes('awtsmoos-reader-portal-surface')) return;
+			}
+		}
+	} catch (e) { /* cross-origin sheets: fall through and inject */ }
+	const style = document.createElement('style');
+	style.id = STYLE_ID;
+	style.textContent = MENU_CSS;
+	document.head.appendChild(style);
+}

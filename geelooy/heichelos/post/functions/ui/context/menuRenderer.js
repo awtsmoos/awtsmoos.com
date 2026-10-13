@@ -6,6 +6,11 @@ import { malchusContextMenuDomFactory } from './MenuDomFactory.js';
 import { tiferesContextMenuKeyboardGate } from './MenuKeyboardGate.js';
 import { gevurahPortalPositionGate } from './PortalPositionGate.js';
 import { malchusReaderPortalSurface } from './ReaderPortalSurface.js';
+import { ensureMenuStyles } from './menuStyles.js';
+
+// B"H — the menu carries its own styles; the CSS bundle drops the @import
+// chain, so without this the menu renders unstyled and invisible.
+ensureMenuStyles();
 
 /**
  * @fileoverview Renders a prioritized reader sheet with secondary deeds behind one disclosure.
