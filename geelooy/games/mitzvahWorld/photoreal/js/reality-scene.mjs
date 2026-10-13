@@ -506,7 +506,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   const [grassTex, dirtTex, barkTex, canopyTex, leafTex,
          grassGroundTex, barkDetailTex, mossGroundTex, mossyBarkTex, fernTex,
          leafClusterTex, denseCanopyTex, backlitCanopyTex, impostorTex1, impostorTex2, impostorTex3, impostorTex4,
-         pebbleTex] = await Promise.all([
+         pebbleTex, fallenLogTex, leafLitterTex] = await Promise.all([
     loadTexture(TEX + 'grass1.jpg', 30, 30),
     loadTexture(TEX + 'dirt1.jpg', 40, 3),
     loadTexture(TEX + 'bark1.webp', 1, 2),
@@ -539,6 +539,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     makeDenseCanopyAlpha(TEX + 'imp-tree-full-4.webp'),
     // B"H — 99% push: photoreal pebble riverbed, visible through clear water.
     loadTexture(TEX + 'new/tex-pebbles.webp', 8, 8),
+    // B"H — 99% push: fallen mossy log + leaf litter for foreground detail.
+    loadTexture(TEX + 'new/tex-fallen-log.webp', 2, 1),
+    loadTexture(TEX + 'new/tex-leaf-litter.webp', 6, 6),
   ]);
   mark('textures');
 
@@ -1622,6 +1625,69 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     scene.add(inst);
   }
   mark('moss-mounds');
+
+  /* fallen log + leaf litter — foreground detail (Yaakov 2026-10-13: 99% push).
+     The reference has a prominent mossy log in the foreground left and
+     scattered dead leaves on the ground. These ground the scene in reality.
+     60fps: 2 instanced draws. */
+  {
+    // Fallen log: horizontal cylinder with mossy log texture
+    const logGeo = new THREE.CylinderGeometry(0.35, 0.45, 6, 10);
+    logGeo.rotateZ(Math.PI / 2); // lay horizontal
+    const logMat = new THREE.MeshStandardMaterial({
+      map: fallenLogTex, roughness: 0.95,
+      color: new THREE.Color(0.9, 0.95, 0.85),
+    });
+    const LOG_COUNT = 3;
+    const logInst = new THREE.InstancedMesh(logGeo, logMat, LOG_COUNT);
+    const ld = new THREE.Object3D();
+    const lr = mulberry32(seed ^ 0x106);
+    const camX = VIEWS.forest.pos[0], camZ = VIEWS.forest.pos[2];
+    for (let i = 0; i < LOG_COUNT; i++) {
+      // Place logs near camera on the banks (foreground detail)
+      const side = i % 2 === 0 ? -1 : 1;
+      const lz = camZ - 5 - i * 12 + (lr() - 0.5) * 6;
+      const lx = riverX(lz) + side * (8 + lr() * 4);
+      ld.position.set(lx, groundHeight(lx, lz, noise) + 0.25, lz);
+      ld.rotation.set(0, (lr() - 0.5) * 0.8 + (side > 0 ? 0.3 : -0.3), 0);
+      const ls = 0.8 + lr() * 0.6;
+      ld.scale.set(ls, ls, ls);
+      ld.updateMatrix();
+      logInst.setMatrixAt(i, ld.matrix);
+    }
+    logInst.castShadow = true; logInst.receiveShadow = true;
+    scene.add(logInst);
+
+    // Leaf litter: scattered dead leaves on the ground
+    const litterGeo = new THREE.PlaneGeometry(0.3, 0.3);
+    litterGeo.rotateX(-Math.PI / 2); // lay flat
+    const litterMat = new THREE.MeshStandardMaterial({
+      map: leafLitterTex, alphaTest: 0.4, side: THREE.DoubleSide, roughness: 1,
+      color: new THREE.Color(0.85, 0.80, 0.70),
+    });
+    const LITTER_COUNT = fast ? 400 : 800;
+    const litterInst = new THREE.InstancedMesh(litterGeo, litterMat, LITTER_COUNT);
+    let litPlaced = 0, litGuard = 0;
+    while (litPlaced < LITTER_COUNT && litGuard++ < LITTER_COUNT * 10) {
+      const lz = (lr() - 0.5) * 180;
+      const side = lr() < 0.5 ? -1 : 1;
+      const lx = riverX(lz) + side * (7 + lr() * 15);
+      if (Math.abs(lx - riverX(lz)) < 6.8) continue;
+      litterInst.setMatrixAt(litPlaced, (() => {
+        ld.position.set(lx, groundHeight(lx, lz, noise) + 0.03, lz);
+        ld.rotation.set(0, lr() * Math.PI * 2, 0);
+        const ls = 0.7 + lr() * 0.8;
+        ld.scale.set(ls, 1, ls);
+        ld.updateMatrix();
+        return ld.matrix;
+      })());
+      litPlaced++;
+    }
+    litterInst.count = litPlaced;
+    litterInst.receiveShadow = true;
+    scene.add(litterInst);
+  }
+  mark('forest-floor-props');
 
   /* B"H — rocks IN the shallows: small boulders poking through the water. */
   {
