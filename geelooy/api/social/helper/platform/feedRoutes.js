@@ -15,13 +15,16 @@ const { list } = require('./platformStore.js');
 const { listRelationships } = require('./follow.js');
 
 const CACHE_TTL_MS = 25000;
+/* B"H 2026-10-13: global feeds (latest/popular) are identical for every user,
+ * so they get a longer TTL to avoid the expensive full-shard scan. */
+const GLOBAL_CACHE_TTL_MS = 120000;
 const rankCache = new Map();
 
 const TEST_ID_RE = /(smoke|test|fixture|sample)/i;
 
-function cacheGet(key) {
+function cacheGet(key, ttlMs = CACHE_TTL_MS) {
 	const hit = rankCache.get(key);
-	if (hit && Date.now() - hit.at < CACHE_TTL_MS) return hit.value;
+	if (hit && Date.now() - hit.at < ttlMs) return hit.value;
 	rankCache.delete(key);
 	return null;
 }
@@ -286,7 +289,7 @@ function buildAffinity(userId) {
 function feedLatest({ $i, limit = 50, offset = 0 }) {
 	const lim = Math.min(100, Math.max(1, Number(limit) || 50));
 	const cacheKey = `latest:${lim}:${offset}`;
-	const cached = cacheGet(cacheKey);
+	const cached = cacheGet(cacheKey, GLOBAL_CACHE_TTL_MS);
 	if (cached) return cached;
 	const posts = postsFromIndex($i)
 		.filter(p => !TEST_ID_RE.test(String(p.postId || p.id || '')))
@@ -301,7 +304,7 @@ function feedLatest({ $i, limit = 50, offset = 0 }) {
 function feedPopular({ $i, limit = 50, offset = 0 }) {
 	const lim = Math.min(100, Math.max(1, Number(limit) || 50));
 	const cacheKey = `popular:${lim}:${offset}`;
-	const cached = cacheGet(cacheKey);
+	const cached = cacheGet(cacheKey, GLOBAL_CACHE_TTL_MS);
 	if (cached) return cached;
 	const now = Date.now();
 	const posts = postsFromIndex($i).filter(p => !TEST_ID_RE.test(String(p.postId || p.id || '')));
