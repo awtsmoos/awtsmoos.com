@@ -81,6 +81,7 @@ export {
 } from '../core/materials/hydration/MaterialWritableBoundary.js';
 export { hydrateLayeredMaterialImages } from '../core/materials/hydration/LayeredMaterialHydrator.js';
 export {
+	AWTSMOOS_MATERIAL_LIBRARY_ROOT,
 	AWTSMOOS_MATERIAL_REGISTRY,
 	AWTSMOOS_MATERIAL_TRANSPORT,
 	AWTSMOOS_REMOTE_MATERIAL_ROOT,

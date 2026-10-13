@@ -7,13 +7,18 @@ import { RemoteMaterialTransport } from '../RemoteMaterialTransport.js';
 import { AWTSMOOS_REMOTE_MATERIAL_RECORDS } from './awtsmoosRemoteMaterialRecords.js';
 
 export const AWTSMOOS_REMOTE_MATERIAL_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/';
-export const AWTSMOOS_MATERIAL_TRANSPORT = new RemoteMaterialTransport(AWTSMOOS_REMOTE_MATERIAL_ROOT);
+
+// B"H — 2026-10-13: the /sites/ root never served (404). The real, verified
+// working root for the 1,141-image Drive-alias library is the api/social one
+// (all 200 on production). All runtime URL building must use it.
+export const AWTSMOOS_MATERIAL_LIBRARY_ROOT = 'https://awtsmoos.com/api/social/drive/public/firebase_drive_migration/';
+export const AWTSMOOS_MATERIAL_TRANSPORT = new RemoteMaterialTransport(AWTSMOOS_MATERIAL_LIBRARY_ROOT);
 
 // B"H — Yaakov 2026-10-13: FORENSICS VERDICT — nothing was ever deleted.
 // The 1,141-image original library is live in the Drive alias
 // firebase_drive_migration; record paths (full-resolution/..., various/...)
 // resolve there exactly (all 200). The /sites/ root never served.
-const ORIGINAL_LIBRARY_ROOT = 'https://awtsmoos.com/api/social/drive/public/firebase_drive_migration/';
+const ORIGINAL_LIBRARY_ROOT = AWTSMOOS_MATERIAL_LIBRARY_ROOT;
 
 function encodeRecordPath(path) {
 	return String(path || '').split('/').map(encodeURIComponent).join('/');
