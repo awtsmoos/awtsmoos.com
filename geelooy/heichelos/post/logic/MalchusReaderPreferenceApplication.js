@@ -31,6 +31,14 @@ export class MalchusReaderPreferenceApplication {
 		this.yesodFont.mount();
 		this.tiferesTheme.mount();
 		this.dreamReader.mount();
+		// A ?dream= link is a shareable vision: pair it with its matching theme
+		// so the sanctuary arrives dark and the dawn arrives light.
+		const urlDream = this.dreamReader.dreamFromUrl();
+		if (urlDream === "sanctuary") {
+			this.tiferesTheme.applyTheme("dark");
+		} else if (urlDream === "dawn") {
+			this.tiferesTheme.applyTheme("light");
+		}
 	}
 }
 
