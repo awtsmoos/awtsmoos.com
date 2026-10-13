@@ -628,9 +628,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
         alphaTest: 0.35,
         side: THREE.DoubleSide,
       });
-      // B"H — slight fog-friendly tint: basic material is unlit, so bake a
-      // subtle brightness lift to match the sunlit reference palette.
-      mat.color.setRGB(1.05, 1.05, 1.0);
+      // B"H — Phase 2 (2026-10-13): grade impostors toward the reference's
+      // deep-green palette. Unlit (baked photo lighting), color-matched.
+      mat.color.setRGB(0.92, 1.0, 0.88);
       const inst = new THREE.InstancedMesh(geo, mat, spots.length);
       let placed = 0;
       for (const s of spots) {
@@ -743,8 +743,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       uTime: { value: 0 },
       uSunDir: { value: sunDir },
       uGlitterDir: { value: new THREE.Vector3(-0.18, 0.16, -0.97).normalize() },
-      uDeep: { value: new THREE.Color(0x0d3f3c) },
-      uShallow: { value: new THREE.Color(0x3f9a86) },
+      uDeep: { value: new THREE.Color(0x1a4a48) },
+      uShallow: { value: new THREE.Color(0x5aa898) },
       uSky: { value: new THREE.Color(0xcfe4ea) },
       uFogColor: { value: new THREE.Color(T.fog) },
       uFogNear: { value: T.fogNear },
@@ -766,9 +766,11 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
         uniform vec3 uSunDir, uGlitterDir, uDeep, uShallow, uSky, uFogColor;
         // world-ish coords: u spans 19.5 units across, v spans 24 tiles of ~8.33
         float hgt(vec2 p, float t){
-          return sin(p.x*1.9 + t*1.2)*0.30 + sin(p.y*2.1 - t*1.5)*0.28
-               + sin(p.x*1.3 + p.y*1.7 + t*2.1)*0.20
-               + sin(p.x*4.7 - t*2.6)*sin(p.y*4.3 + t*2.2)*0.14;
+          // B"H — Phase 4 (2026-10-13): directional flow — stretched along
+          // downstream (y), choppier across (x). Current streaks, not uniform.
+          return sin(p.x*2.6 + t*1.2)*0.30 + sin(p.y*0.9 - t*1.5)*0.28
+               + sin(p.x*1.8 + p.y*0.7 + t*2.1)*0.20
+               + sin(p.x*6.2 - t*2.6)*sin(p.y*1.8 + t*2.2)*0.14;
         }
         vec2 slopeAt(vec2 p, float t){
           float e = 0.22;
@@ -804,7 +806,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           vec3 bed = mix(vec3(0.15,0.14,0.12), pebCol, peb);
           float shallow = 1.0 - smoothstep(0.10, 0.55, centerDepth);
           vec3 col = mix(uShallow, uDeep, 0.25 + 0.55*centerDepth);
-          col = mix(col, bed*vec3(0.72,0.95,0.88), shallow*0.8);
+          // B"H — Phase 4 (2026-10-13): pebble bed more visible (0.8→0.95),
+          // water more transparent so the bed reads like the reference.
+          col = mix(col, bed*vec3(0.72,0.95,0.88), shallow*0.95);
           col = mix(col, uSky, fres*0.28);
           // glitter path on the water + faint real-sun sparkle
           // B"H 2026-10-13 photoreal: boosted for the reference's bright glitter path
@@ -819,7 +823,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           float lap = 0.5 + 0.5*sin(uTime*1.6 + pw.y*1.8 + fn*6.28);
           float foam = band * smoothstep(0.45, 0.85, fn*0.6 + lap*0.45) * 0.65;
           col = mix(col, vec3(0.90,0.95,0.93), clamp(foam, 0.0, 1.0));
-          float alpha = mix(0.0, 0.88, edge) + foam*0.12;
+          float alpha = mix(0.0, 0.75, edge) + foam*0.12;
           // manual fog: the river winds away into the mist like the reference
           float fd = distance(cameraPosition, vPos);
           float f2 = smoothstep(uFogNear, uFogFar, fd);
@@ -1003,7 +1007,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const quadGeo = new THREE.PlaneGeometry(1.4, 1.4);
     const quadMat = new THREE.MeshStandardMaterial({
       map: denseCanopyTex, alphaTest: 0.30, side: THREE.DoubleSide,
-      roughness: 0.9, color: new THREE.Color(0.75, 0.82, 0.60),
+      // B"H — Phase 2 (2026-10-13): darker base per plan (0.75,0.82,0.60 →
+      // 0.30,0.42,0.22). Reference canopy is deep green, not yellow-green.
+      roughness: 0.9, color: new THREE.Color(0.30, 0.42, 0.22),
       emissive: new THREE.Color(0.012, 0.022, 0.010),
       depthWrite: true,
     });
@@ -1583,16 +1589,17 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           cx2.fillRect(0, 0, W, H);
         }
         mark('vignette');
-        // B"H — reference-matched grade: sampled from the lush forest reference.
-        // Warm golden highlights, rich green midtones, deep warm shadows.
-        // All in 2D, essentially free on GPU.
+        // B"H — reference-matched grade (2026-10-13 Phase 7): sampled from the
+        // NEW mossy-forest reference (1000154884_15_0jsd.webp). Deep natural
+        // greens, warm-white dappled highlights, cool green-blue shadows.
+        // Less golden than the old grade — restraint.
         {
           cx2.globalCompositeOperation = 'overlay';
           const gg = cx2.createLinearGradient(0, 0, 0, H);
-          gg.addColorStop(0, 'rgba(255,220,150,0.22)');
-          gg.addColorStop(0.35, 'rgba(255,210,140,0.08)');
-          gg.addColorStop(0.65, 'rgba(120,140,60,0.06)');
-          gg.addColorStop(1, 'rgba(40,50,20,0.18)');
+          gg.addColorStop(0, 'rgba(255,242,205,0.12)');
+          gg.addColorStop(0.35, 'rgba(180,200,130,0.06)');
+          gg.addColorStop(0.65, 'rgba(60,100,50,0.08)');
+          gg.addColorStop(1, 'rgba(18,32,24,0.22)');
           cx2.fillStyle = gg;
           cx2.fillRect(0, 0, W, H);
           cx2.globalCompositeOperation = 'source-over';
