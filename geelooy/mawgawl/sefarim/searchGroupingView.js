@@ -40,6 +40,34 @@ export function presentationSwitch(search, mode, onChange) {
 	return nav;
 }
 
+/** Golden result-type icons keyed by backend category id (B"H 2026-10-13, icon round 2). */
+const CATEGORY_GICONS = Object.freeze({
+	sources: { cls: 'gicon--book', url: 'https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-book.webp?v=89fce054b2' },
+	heichelos: { cls: 'gicon--torah', url: 'https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-torah-active-0-7cccc6e3-c14e-4edd-a9e4-e0dc2c164897.webp' },
+	posts: { cls: 'gicon--edit', url: 'https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-edit.webp?v=4a58469fca' },
+	aliases: { cls: 'gicon--users', url: 'https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-users.webp?v=a99ebb2312' },
+	series: { cls: 'gicon--layers', url: 'https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-layers.webp?v=0aeef9a4c9' }
+});
+const FALLBACK_GICON = Object.freeze({
+	cls: 'gicon--search',
+	url: 'https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-search-0-2d839271-ea0a-46bb-a647-16fc27971baa.webp'
+});
+
+/** Builds one decorative result-type icon for a category heading. */
+function categoryGicon(documentValue, categoryId) {
+	const vessel = CATEGORY_GICONS[String(categoryId || '').toLowerCase()] || FALLBACK_GICON;
+	const img = documentValue.createElement('img');
+	img.className = `gicon gicon--xs ${vessel.cls}`;
+	img.src = vessel.url;
+	img.alt = '';
+	img.setAttribute('aria-hidden', 'true');
+	img.loading = 'lazy';
+	img.decoding = 'async';
+	img.width = 18;
+	img.height = 18;
+	return img;
+}
+
 /** Renders category sections with backend relevance ordering preserved inside. */
 export function renderCategoryGroups(container, search, hits, cardFactory) {
 	const groups = groupedHits(search, hits);
@@ -55,7 +83,7 @@ export function renderCategoryGroups(container, search, hits, cardFactory) {
 		const count = document.createElement('span');
 		count.textContent = `${group.hits.length}`;
 		count.setAttribute('aria-label', `${group.hits.length} results`);
-		heading.append(title, count);
+		heading.append(categoryGicon(container.ownerDocument, group.category.id), title, count);
 		section.append(heading);
 		const firstCommentIndex = group.hits.findIndex(hit => {
 			return Array.isArray(hit?.comments) && hit.comments.length > 0;
