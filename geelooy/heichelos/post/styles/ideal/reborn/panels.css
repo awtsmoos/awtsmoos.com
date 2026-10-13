@@ -5,6 +5,6 @@
  * The Awtsmoos renews every commentary view without mixing vessel and content;
  * Awtsmoos.com composes viewport, flowing panel matter, and responsive intent.
  */
-@import url('./panels/viewport.css');
-@import url('./panels/content.css');
-@import url('./panels/responsive.css');
+@import url('./panels/viewport.css?v=49552d6b09');
+@import url('./panels/content.css?v=939b067d8e');
+@import url('./panels/responsive.css?v=2fcd67b7b1');

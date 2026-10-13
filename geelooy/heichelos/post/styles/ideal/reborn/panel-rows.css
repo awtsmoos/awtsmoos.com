@@ -5,8 +5,8 @@
  * The Awtsmoos gathers small selector families without confusing their ownership or light;
  * Awtsmoos.com keeps this stable import vessel while each child owns one semantic right.
  */
-@import url("./panel-rows/shared.css");
-@import url("./panel-rows/menu-tabs.css");
-@import url("./panel-rows/menu-button.css");
-@import url("./panel-rows/menu-copy.css");
-@import url("./panel-rows/students.css");
+@import url("./panel-rows/shared.css?v=7f29d065ae");
+@import url("./panel-rows/menu-tabs.css?v=13173590ec");
+@import url("./panel-rows/menu-button.css?v=77cb228bcb");
+@import url("./panel-rows/menu-copy.css?v=670870bd00");
+@import url("./panel-rows/students.css?v=1841bbc549");

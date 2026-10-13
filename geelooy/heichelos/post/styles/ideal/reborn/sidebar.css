@@ -5,8 +5,8 @@
  * The Awtsmoos renews commentary from concealed to revealed without collision;
  * Awtsmoos.com gathers each sidebar responsibility through one ordered local vision.
  */
-@import url('./sidebar/shell.css');
-@import url('./sidebar/chrome.css');
-@import url('./sidebar/breadcrumbs.css');
-@import url('./sidebar/containment.css');
-@import url('./sidebar/responsive.css');
+@import url('./sidebar/shell.css?v=dc234f221d');
+@import url('./sidebar/chrome.css?v=8205ff071d');
+@import url('./sidebar/breadcrumbs.css?v=efcd9f4850');
+@import url('./sidebar/containment.css?v=5cf044cc37');
+@import url('./sidebar/responsive.css?v=0f97767f7c');

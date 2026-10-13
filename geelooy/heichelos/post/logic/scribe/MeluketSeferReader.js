@@ -688,39 +688,57 @@ function ensureFootnoteModal() {
 }
 
 function openFootnotePopup(fnNum, marker, sefer) {
-	const note = sefer.querySelector(`.meluket-footnote[data-fn="${fnNum}"]`);
-	if (!note) return;
+	// B"H — Yaakov (2026-10-13): tapping a footnote marker must ALWAYS do
+	// something. Search the sefer first, then the whole document; if the
+	// note truly doesn't exist, show the number with an honest message
+	// instead of silently doing nothing.
+	let note = null;
+	try {
+		note = sefer && sefer.querySelector ? sefer.querySelector(`.meluket-footnote[data-fn="${fnNum}"]`) : null;
+	} catch (_) { /* invalid selector chars */ }
+	if (!note) {
+		try {
+			note = document.querySelector(`.meluket-footnote[data-fn="${fnNum}"], #meluket-fn-${fnNum}`);
+		} catch (_) { /* invalid selector chars */ }
+	}
 	ensureFootnoteModal();
 	fnNumEl.textContent = fnNum;
 	fnBodyEl.innerHTML = '';
-	const he = note.querySelector('.meluket-footnote-he');
-	const en = note.querySelector('.meluket-footnote-en');
-	if (he) {
-		const h = el('div', 'awtsmoos-fn-he');
-		h.setAttribute('dir', 'rtl');
-		h.setAttribute('lang', 'he');
-		// B"H: the shelf is already sanitized; re-decode defensively so the
-		// popup never shows literal &lt;b&gt; / [cup] text.
-		setFootnoteBodyHtml(h, he.innerHTML);
-		fnBodyEl.appendChild(h);
-	}
-	if (en) {
-		const e = el('div', 'awtsmoos-fn-en');
-		e.setAttribute('dir', 'ltr');
-		e.setAttribute('lang', 'en');
-		e.textContent = en.textContent;
-		fnBodyEl.appendChild(e);
-	}
-	if (!he && !en) {
+	if (!note) {
 		const f = el('div', 'awtsmoos-fn-en');
 		f.setAttribute('dir', 'auto');
-		f.textContent = note.textContent.trim();
+		f.textContent = `Footnote ${fnNum} — content not available for this post yet.`;
 		fnBodyEl.appendChild(f);
+	} else {
+		const he = note.querySelector('.meluket-footnote-he');
+		const en = note.querySelector('.meluket-footnote-en');
+		if (he) {
+			const h = el('div', 'awtsmoos-fn-he');
+			h.setAttribute('dir', 'rtl');
+			h.setAttribute('lang', 'he');
+			// B"H: the shelf is already sanitized; re-decode defensively so the
+			// popup never shows literal &lt;b&gt; / [cup] text.
+			setFootnoteBodyHtml(h, he.innerHTML);
+			fnBodyEl.appendChild(h);
+		}
+		if (en) {
+			const e = el('div', 'awtsmoos-fn-en');
+			e.setAttribute('dir', 'ltr');
+			e.setAttribute('lang', 'en');
+			e.textContent = en.textContent;
+			fnBodyEl.appendChild(e);
+		}
+		if (!he && !en) {
+			const f = el('div', 'awtsmoos-fn-en');
+			f.setAttribute('dir', 'auto');
+			f.textContent = note.textContent.trim();
+			fnBodyEl.appendChild(f);
+		}
 	}
 	fnLastMarker = marker || null;
 	fnOverlayEl.classList.add('is-open');
 	fnModalEl.classList.add('is-open');
-	fnCloseEl.focus({ preventScroll: true });
+	try { fnCloseEl.focus({ preventScroll: true }); } catch (_) { /* focus optional */ }
 }
 
 function closeFootnotePopup() {
@@ -1251,8 +1269,27 @@ function finalizeSeferMount(sefer, post) {
 		const fnNum = marker.getAttribute('data-fn');
 		if (!fnNum) return;
 		e.preventDefault();
+		e.stopPropagation();
 		openFootnotePopup(fnNum, marker, sefer);
 	});
+
+	// B"H (2026-10-13, Yaakov): document-level safety net. If a footnote
+	// marker lives outside the sefer root, or the sefer handler missed it,
+	// this still opens the popup. Capture phase runs before bubble handlers.
+	if (!window.__awtsmoosFnDocHandler) {
+		window.__awtsmoosFnDocHandler = true;
+		document.addEventListener('click', (e) => {
+			const marker = e.target && e.target.closest ? e.target.closest('sup.meluket-fn-marker[data-fn], sup[data-fn]') : null;
+			if (!marker || marker.closest('.meluket-footnotes-shelf')) return;
+			const fnNum = marker.getAttribute('data-fn');
+			if (!fnNum) return;
+			// If the sefer handler already opened the popup, don't double-fire.
+			if (isFootnotePopupOpen()) return;
+			e.preventDefault();
+			const root = marker.closest('.meluket-sefer') || document;
+			openFootnotePopup(fnNum, marker, root);
+		}, true);
+	}
 
 	// Keyboard activation for <sup role="button"> footnote markers.
 	sefer.addEventListener('keydown', (e) => {

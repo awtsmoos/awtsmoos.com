@@ -5,9 +5,9 @@
  * small, and exact, so the violet-gold mobile vision can hold without chaos.
  */
 
-@import url("./inline-comments/frame.css");
-@import url("./inline-comments/gateway.css");
-@import url("./inline-comments/card.css");
+@import url("./inline-comments/frame.css?v=4c4579ff72");
+@import url("./inline-comments/gateway.css?v=2939a2f4f2");
+@import url("./inline-comments/card.css?v=5e18c35ec9");
 /* B"H
  * Chapter 281: Local polish proof.
  * This file owns one small, concrete smoothness rule so the polish is local,

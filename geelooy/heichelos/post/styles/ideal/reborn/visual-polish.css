@@ -3,10 +3,10 @@
  * Blessed is He
  * Compatibility wrapper for the existing modular post reader styles.
  */
-@import url("../../reader-foundation/index.css");
-@import url("../../reader-content/index.css");
-@import url("../../reader-controls/index.css");
-@import url("../../reader-settings/index.css");
-@import url("../../reader-sidebar/index.css");
-@import url("../../reader-overlays/index.css");
-@import url("../../reader-responsive/index.css");
+@import url("../../reader-foundation/index.css?v=1861ea0b5e");
+@import url("../../reader-content/index.css?v=d9a5d4bad6");
+@import url("../../reader-controls/index.css?v=9a20c31ce1");
+@import url("../../reader-settings/index.css?v=30951bc1d2");
+@import url("../../reader-sidebar/index.css?v=460ae6e655");
+@import url("../../reader-overlays/index.css?v=c4f8141493");
+@import url("../../reader-responsive/index.css?v=e5bd86524c");

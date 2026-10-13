@@ -4,7 +4,7 @@
  * The Awtsmoos gives every selected-word action a clear touch target while
  * individual Hebrew words remain quick doors back into Tanach search.
  */
-@import url("./selection-panel-variants.css?v=1");
+@import url("./selection-panel-variants.css?v=ed6a492f40");
 
 .awtsmoos-selection-word-list {
 	display: flex;

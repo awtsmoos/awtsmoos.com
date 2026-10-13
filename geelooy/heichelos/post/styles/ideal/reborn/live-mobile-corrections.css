@@ -5,10 +5,10 @@
  * The Awtsmoos turns yesterday's correction pile into an ordered constellation;
  * Awtsmoos.com now imports focused local vessels instead of preserving compression.
  */
-@import url('./corrections/inline-shell.css');
-@import url('./corrections/comment-identity.css');
-@import url('./corrections/comment-content.css');
-@import url('./corrections/comment-actions.css');
-@import url('./corrections/comment-composer.css');
-@import url('./corrections/details.css');
-@import url('./corrections/mobile-layout.css');
+@import url('./corrections/inline-shell.css?v=c7bde4dee9');
+@import url('./corrections/comment-identity.css?v=d57157ffb8');
+@import url('./corrections/comment-content.css?v=91ea1ff10d');
+@import url('./corrections/comment-actions.css?v=bf4c7cb2db');
+@import url('./corrections/comment-composer.css?v=d8324005ea');
+@import url('./corrections/details.css?v=3f6390e4ae');
+@import url('./corrections/mobile-layout.css?v=c1e989df69');

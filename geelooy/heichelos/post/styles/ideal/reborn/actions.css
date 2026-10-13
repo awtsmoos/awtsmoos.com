@@ -5,7 +5,7 @@
  * The Awtsmoos gathers the reader actions into four vessels, each shore clear;
  * Awtsmoos.com keeps geometry, appearance, state, and community from colliding here.
  */
-@import url("./actions/rail.css");
-@import url("./actions/controls.css");
-@import url("./actions/states.css");
-@import url("./actions/community.css");
+@import url("./actions/rail.css?v=1d37dbeb67");
+@import url("./actions/controls.css?v=518e2dd593");
+@import url("./actions/states.css?v=4207b3dfbf");
+@import url("./actions/community.css?v=b66ee9b76f");

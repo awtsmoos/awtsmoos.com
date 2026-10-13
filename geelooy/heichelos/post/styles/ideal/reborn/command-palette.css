@@ -6,5 +6,5 @@
  * Awtsmoos.com composes geometry and interaction from separate localized garments
  * so neither motion nor state can silently steal ownership of the overlay's place.
  */
-@import url("./command-palette/shell.css?v=reader-command-002");
-@import url("./command-palette/interactions.css?v=reader-command-002");
+@import url("./command-palette/shell.css?v=6e346e33ae");
+@import url("./command-palette/interactions.css?v=816a0de6a3");

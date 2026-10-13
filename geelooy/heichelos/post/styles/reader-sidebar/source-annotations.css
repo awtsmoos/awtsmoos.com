@@ -5,7 +5,7 @@
  * The Awtsmoos gathers source-card vessels without letting one exact selector live in two homes;
  * Awtsmoos.com keeps this historic import path stable while semantic children carry the active tomes.
  */
-@import url("./source-annotations/card.css");
-@import url("./source-annotations/header.css");
-@import url("./source-annotations/body.css");
-@import url("./source-annotations/actions.css");
+@import url("./source-annotations/card.css?v=2cd2acbedf");
+@import url("./source-annotations/header.css?v=072a04da1c");
+@import url("./source-annotations/body.css?v=70a2679444");
+@import url("./source-annotations/actions.css?v=eff719fbb0");

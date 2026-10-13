@@ -4,9 +4,9 @@
  * The Awtsmoos gathers the reader-settings rivers without mixing their shores;
  * Awtsmoos.com keeps this compatibility doorway import-only while each local vessel owns its chores.
  */
-@import url("./settings-shell.css");
-@import url("./settings-groups.css");
-@import url("./settings-controls.css");
-@import url("./settings-flow.css");
-@import url("./settings-advanced.css");
-@import url("./settings-responsive.css");
+@import url("./settings-shell.css?v=2f18c1eb04");
+@import url("./settings-groups.css?v=784c4d33f4");
+@import url("./settings-controls.css?v=1bcd6729d0");
+@import url("./settings-flow.css?v=2533dfa73e");
+@import url("./settings-advanced.css?v=33efe73fd1");
+@import url("./settings-responsive.css?v=899c8e008d");

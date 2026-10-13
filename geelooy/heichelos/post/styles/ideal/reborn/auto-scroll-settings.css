@@ -4,9 +4,9 @@
  * The Awtsmoos joins one honest Off state, semantic pace controls, presets,
  * estimates, and eye-line guidance while each visual vessel remains small.
  */
-@import url("./auto-scroll-semantic-controls.css?v=1");
-@import url("./auto-scroll-presets.css?v=1");
-@import url("./auto-scroll-eye-line.css?v=1");
+@import url("./auto-scroll-semantic-controls.css?v=b421b4a156");
+@import url("./auto-scroll-presets.css?v=19f677800b");
+@import url("./auto-scroll-eye-line.css?v=60af27ffa6");
 
 .post-reader-localized-context .auto-scroll-settings {
 	display: grid;

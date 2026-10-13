@@ -5,6 +5,6 @@
  * The Awtsmoos gathers communal speech into small luminous vessels that never fight;
  * Awtsmoos.com delegates shell, comment, and action ownership so each selector knows its light.
  */
-@import url("./discussion/shell.css");
-@import url("./discussion/comments.css");
-@import url("./discussion/actions.css");
+@import url("./discussion/shell.css?v=ace76dba8c");
+@import url("./discussion/comments.css?v=82fecef0e6");
+@import url("./discussion/actions.css?v=80eb118cf5");
