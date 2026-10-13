@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="/style/civilization/core-tokens.css?v=f731a87bdb">
 	<link rel="stylesheet" href="/style/civilization/core-base.css?v=632fba31fa">
 	<link rel="stylesheet" href="/profile/styles/profile-dream.css?v=6e7e47e8dd">
-	<link rel="stylesheet" href="/css/golden-icons.css?v=c462a12509">
+	<link rel="stylesheet" href="/css/golden-icons.css?v=40a45b0b5d">
 	<link rel="stylesheet" href="/css/awtsmoos-visual-assets.css?v=7e62292b8d">
 	<link rel="stylesheet" href="/css/video-loader.css?v=fccafca785">
 	<link rel="stylesheet" href="/profile/styles/reading-stats.css?v=9b110138a6">
@@ -49,9 +49,9 @@
 				<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
 			</a>
 			<h1 class="pd-topbar-title">Profile</h1>
-			<a class="pd-topbar-btn" href="./alias-manage/" aria-label="Profile settings">
+			<button type="button" class="pd-topbar-btn" data-profile-action="settings" aria-label="Profile settings" aria-expanded="false">
 				<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M19 12a7 7 0 0 0-.14-1.4l2-1.55-2-3.46-2.36.95a7 7 0 0 0-2.42-1.4L13.7 2.6h-3.4l-.38 2.54a7 7 0 0 0-2.42 1.4l-2.36-.95-2 3.46 2 1.55a7 7 0 0 0 0 2.8l-2 1.55 2 3.46 2.36-.95a7 7 0 0 0 2.42 1.4l.38 2.54h3.4l.38-2.54a7 7 0 0 0 2.42-1.4l2.36.95 2-3.46-2-1.55c.1-.46.14-.92.14-1.4Z"/></svg>
-			</a>
+			</button>
 		</header>
 
 		<section class="pd-hero" aria-labelledby="profile-title">
@@ -95,7 +95,7 @@
 				<h2 id="pd-signedout-title">Sign in to see your profile</h2>
 				<p>Your posts, comments, series and aliases live here once you're signed in.</p>
 				<a class="pd-btn pd-btn-primary" href="/login">Sign in</a>
-				<a class="pd-btn pd-btn-ghost" href="/signup">Create account</a>
+				<a class="pd-btn pd-btn-ghost" href="/register">Create account</a>
 			</div>
 		</section>
 
@@ -174,7 +174,7 @@
 		}, 20000);
 	})();
 	</script>
-	<script type="module" src="./script.js?v=ccbe4fa399"></script>
+	<script type="module" src="./script.js?v=c9227e2f52"></script>
 	<script type="module" src="./modules/readingStats.js?v=68ce244b4e"></script>
 	<script>
 	/* B"H — Initialize reading stats and privacy on profile load. */
@@ -208,7 +208,7 @@
 	});
 	</script>
 	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=de5da830c1"></script>
-<script src="/scripts/sw-register.js?v=8de8a97557"></script>
+<script src="/scripts/sw-register.js?v=fd64f071cd"></script>
 <script src="/js/awtsmoos-media-kit.js?v=93aa9d8eb6"></script>
 <script>
 /* B"H — Profile cover tap-to-upload via Awtsmoos Media Kit. */

@@ -16,6 +16,8 @@ export function actionTitle(kind) {
 			return 'Notification preview';
 		case 'message':
 			return 'Message alias';
+		case 'settings':
+			return 'Profile settings';
 		default:
 			return 'Heichel shortcut';
 	}
