@@ -1253,7 +1253,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       const side = srand() < 0.5 ? -1 : 1;
       const x = riverX(z) + side * (1.8 + srand() * 3.2);
       const s = 0.28 + srand() * 0.55;
-      dummy.position.set(x, WATER_Y + 0.02, z);
+      dummy.position.set(x, WATER_Y - 0.15, z);
       dummy.rotation.set(0, wor() * Math.PI * 2, 0);
       dummy.scale.set(s * (0.8 + wor() * 0.5), s * 0.7, s * (0.8 + wor() * 0.5));
       dummy.updateMatrix();
