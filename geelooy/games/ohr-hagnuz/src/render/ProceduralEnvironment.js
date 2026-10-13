@@ -13,9 +13,17 @@ import { CactusWeaver } from '../graphics/render/flora/CactusWeaver.js';
 import { OakWeaver } from '../graphics/render/flora/OakWeaver.js';
 import { PalmWeaver } from '../graphics/render/flora/PalmWeaver.js';
 import { PineWeaver } from '../graphics/render/flora/PineWeaver.js';
+import { ChibiArt } from '../yesod/ChibiArtLibrary.js';
 
 export class ProceduralEnvironment {
 	static drawTree(context, x, y, size, type = 'OAK', theme) {
+		// B"H: real chibi tree art when loaded — canopy overhangs the tile slightly.
+		const art = ChibiArt.get('tree');
+		if (art && (type === 'OAK' || type === 'GOLD')) {
+			const s = size * 1.35;
+			context.drawImage(art, x + size / 2 - s / 2, y + size - s * 0.92, s, s);
+			return;
+		}
 		context.save();
 		context.translate(x + size / 2, y + size / 2);
 		const drawers = {

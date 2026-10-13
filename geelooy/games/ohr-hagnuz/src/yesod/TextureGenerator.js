@@ -1,4 +1,6 @@
 
+import { ChibiArt } from './ChibiArtLibrary.js';
+
 /**
  * B"H
  * @class TextureGenerator
@@ -11,12 +13,19 @@
 export class TextureGenerator {
     
     /**
-     * @description Paints multi-layered, dimensional grass.
+     * @description Paints multi-layered, dimensional grass — real chibi art tile
+     * when loaded, procedural painting as the fallback.
      */
     static drawGrass(ctx, x, y, size, seed, isDetailed) {
         const fx = Math.floor(x);
         const fy = Math.floor(y);
         const fSize = Math.ceil(size) + 1; // Crush the anti-aliasing seams
+        // B"H: real art first — the generated chibi grass tile from Drive.
+        const art = ChibiArt.get('grass');
+        if (art) {
+            ctx.drawImage(art, fx, fy, fSize, fSize);
+            return;
+        }
         const s = Math.abs(seed);
 
         // Level 1: Soil Base

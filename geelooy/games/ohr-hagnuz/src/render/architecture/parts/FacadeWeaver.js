@@ -1,5 +1,6 @@
 
 import { StateRegister } from '../../../binah/StateRegister.js';
+import { ChibiArt } from '../../../yesod/ChibiArtLibrary.js';
 
 /**
  * B"H
@@ -11,9 +12,28 @@ import { StateRegister } from '../../../binah/StateRegister.js';
  */
 export class FacadeWeaver {
     static draw(ctx, size, palette, seed, hasWindow = false) {
-        // Base Foundation
-        ctx.fillStyle = palette.base;
-        ctx.fillRect(0, 0, size, size);
+        // B"H: real chibi stone-wall art as the facade base when loaded —
+        // cover-fit so the square tile reads as rich stonework.
+        const wall = ChibiArt.get('wall');
+        const artBase = !!wall;
+        if (wall) {
+            const iw = wall.width, ih = wall.height;
+            const scale = Math.max(size / iw, size / ih);
+            const dw = iw * scale, dh = ih * scale;
+            ctx.drawImage(wall, (size - dw) / 2, size - dh, dw, dh);
+        } else {
+            ctx.fillStyle = palette.base;
+            ctx.fillRect(0, 0, size, size);
+        }
+
+        // B"H: skip procedural brickwork when real stone art carries the facade.
+        if (artBase) {
+            // Window Weaving
+            if (hasWindow) {
+                this._drawWindow(ctx, size);
+            }
+            return;
+        }
 
         // Brick Jitter
         ctx.globalAlpha = 0.15;

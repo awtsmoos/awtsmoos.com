@@ -1,6 +1,7 @@
 
 import { Understanding } from '../binah/Understanding.js';
 import { HumanGenerator } from '../render/HumanGenerator.js';
+import { ChibiArt } from '../yesod/ChibiArtLibrary.js';
 import { ArchitecturalManifest } from '../render/ArchitecturalManifest.js';
 import { DialogueEngine } from '../graphics/DialogueEngine.js';
 
@@ -113,6 +114,17 @@ export class Beauty {
     }
 
     static drawTree(ctx, x, y, size) {
+        // B"H: real chibi tree/bush art for borders when loaded; alternate by
+        // position so the border reads as varied woodland, not a wall of clones.
+        const tree = ChibiArt.get('tree');
+        const bush = ChibiArt.get('bush');
+        const pickBush = bush && (Math.abs(x * 31 + y * 17) % 3 === 0);
+        const art = pickBush ? bush : tree;
+        if (art) {
+            const s = size * (pickBush ? 1.1 : 1.35);
+            ctx.drawImage(art, x + size / 2 - s / 2, y + size - s * 0.92, s, s);
+            return;
+        }
         ctx.save();
         ctx.translate(x + size/2, y + size/2);
         // Trunk

@@ -2,6 +2,7 @@
 import { StateRegistry } from '../binah/StateRegistry.js';
 import { WorldMapAssembler } from '../asiyah/WorldMapAssembler.js';
 import { TextureGenerator } from '../yesod/TextureGenerator.js';
+import { ChibiArt } from '../yesod/ChibiArtLibrary.js';
 import { HumanGenerator } from '../render/HumanGenerator.js';
 import { ArchitecturalManifest } from '../render/ArchitecturalManifest.js';
 
@@ -99,8 +100,14 @@ export class RealityProjector {
         const seed = tile.x * 13 + tile.y * 7;
         if (tile.t === 'G_DIRT_PATH') {
             const fx = Math.floor(x); const fy = Math.floor(y);
-            ctx.fillStyle = '#8d6e63';
-            ctx.fillRect(fx, fy, size + 1, size + 1);
+            // B"H: real dirt-path art tile when loaded; flat fill only as fallback.
+            const dirt = ChibiArt.get('dirt');
+            if (dirt) {
+                ctx.drawImage(dirt, fx, fy, size + 1, size + 1);
+            } else {
+                ctx.fillStyle = '#8d6e63';
+                ctx.fillRect(fx, fy, size + 1, size + 1);
+            }
         } else {
             TextureGenerator.drawGrass(ctx, x, y, size, seed, tile.encounter);
         }
