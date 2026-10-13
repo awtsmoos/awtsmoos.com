@@ -10,16 +10,17 @@
  *                             actions: 'shot;assert:visible:body' });
  *   // r.png -> Buffer, r.consoleLogs -> [], r.jsErrors -> [], ...
  *
- * NOTE: the software renderer now executes page <script>s through the real
- * Merkava JS VM before layout (executeJs, default true). consoleLogs/jsErrors
- * carry the VM's captured output. ES module scripts are reported as skipped
- * (import/export not yet supported by the VM).
+ * NOTE: the software renderer executes page <script>s through the real
+ * Merkava browser engine (virtual DOM + fetch) before layout (executeJs,
+ * default true). consoleLogs/jsErrors carry the engine's captured output,
+ * and the screenshot reflects the post-JS DOM.
  */
 
 import { VerifySession, VIEWPORT_PRESETS, parseInteract } from "./snapshots/verifySession.js";
 import { runJs } from "./merkavaJsCore.mjs";
+import { runPageWithJs } from "./snapshots/jsPageRunner.js";
 
-export const VERSION = "1.1.0";
+export const VERSION = "1.2.0";
 export { VIEWPORT_PRESETS };
 
 const DEFAULT_TIMEOUT_MS = 30000;
@@ -55,7 +56,7 @@ function injectCss(html, css) {
   return tag + html;
 }
 
-function finalDomState(sess, html) {
+function finalDomState(sess, html, jsExecuted) {
   // Lightweight, honest snapshot of what the renderer actually parsed.
   const dom = sess._dom || null;
   let textLength = 0;
@@ -78,7 +79,7 @@ function finalDomState(sess, html) {
     const m = String(html || "").match(/<title[^>]*>([\s\S]{0,200})<\/title>/i);
     if (m) title = m[1].replace(/<[^>]*>/g, "").trim();
   } catch { /* ignore */ }
-  return { title, textLength, nodeCount, jsExecuted: false };
+  return { title, textLength, nodeCount, jsExecuted: !!jsExecuted };
 }
 
 /**
@@ -88,7 +89,8 @@ function finalDomState(sess, html) {
  * @param {string} [opts.html]      raw HTML (one of html/url required)
  * @param {string} [opts.url]       fetch HTML from URL
  * @param {string} [opts.css]       extra CSS injected as a <style> block
- * @param {string} [opts.js]        accepted but NOT executed (future: JS engine)
+ * @param {string} [opts.js]        raw JS snippet (runs via bytecode VM when no html/url)
+ * @param {number} [opts.waitMs]    post-script settle time for page runs (default 2500)
  * @param {string} [opts.device]    viewport preset (iphone14, pixel8, desktop, ...)
  * @param {string} [opts.viewport]  "WxH" custom viewport, overrides device size
  * @param {string|string[]} [opts.actions] interact script ("shot;click:.x") or steps
@@ -107,17 +109,28 @@ export async function runPage(opts = {}) {
   if (!html) throw new Error("runPage: need html or url");
   html = injectCss(html, opts.css);
 
-  // B"H: genuinely run the page — execute inline scripts through the real
-  // Merkava VM before layout, so JS-driven DOM updates render.
+  // B"H: genuinely run the page — execute scripts through the real Merkava
+  // browser engine (virtual DOM + fetch) before layout, so JS-driven DOM
+  // updates actually render. Falls back to the bytecode VM for raw snippets.
   let jsResult = null;
   if (opts.executeJs !== false) {
     try {
-      jsResult = await runJs({
-        html,
-        url: opts.url || undefined,
-        timeoutMs: Math.min(timeoutMs, 15000),
-        maxSteps: 30000,
-      });
+      if (opts.js && !html) {
+        // Raw JS snippet: fast bytecode VM path.
+        jsResult = await runJs({ js: opts.js, timeoutMs: Math.min(timeoutMs, 15000), maxSteps: 30000 });
+      } else {
+        // Real page: full browser engine with DOM + network.
+        jsResult = await runPageWithJs({
+          html,
+          url: opts.url || undefined,
+          waitMs: Math.min(opts.waitMs || 2500, 15000),
+          fetchTimeoutMs: Math.min(timeoutMs, 15000),
+        });
+        // Render the POST-JS DOM — this is what makes JS apps screenshot correctly.
+        if (jsResult.finalHtml && jsResult.finalHtml.length > html.length / 2) {
+          html = injectCss(jsResult.finalHtml, opts.css);
+        }
+      }
     } catch (e) {
       jsResult = { ok: false, consoleLogs: [], jsErrors: [{ kind: "harness", name: "JsHarnessError", message: String((e && e.message) || e).slice(0, 200), file: "<harness>", line: 0, estimated: true }], status: "HARNESS_ERROR", steps: 0, wallMs: 0, scriptsRun: 0 };
     }
@@ -152,7 +165,7 @@ export async function runPage(opts = {}) {
     consoleLogs: jsResult ? jsResult.consoleLogs : [],
     jsErrors: jsResult ? jsResult.jsErrors : [],
     jsStatus: jsResult ? jsResult.status : "SKIPPED",
-    finalDom: finalDomState(sess, html),
+    finalDom: finalDomState(sess, html, jsResult && jsResult.status !== "SKIPPED"),
     assertions: report.steps.map((s) => ({
       op: s.op, arg: s.arg || "", ok: !!s.ok, ms: s.ms || 0, detail: String(s.detail || "").slice(0, 300),
     })),

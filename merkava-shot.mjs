@@ -98,10 +98,9 @@ function printReport(report) {
 
 export async function main() {
   // B"H — flagship: `merkava-shot run-js <url|--html|--js>`: execute page JS
-  // with the real Merkava VM, print console output + runtime errors.
+  // with the real Merkava browser engine, print console output + runtime errors.
   const sub = process.argv[2];
   if (sub === "run-js") {
-    const { runJs } = await import('./geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-service/merkavaJsCore.mjs');
     const target = process.argv[3];
     const jsArg = arg('--js');
     const jsFile = arg('--js-file');
@@ -118,10 +117,26 @@ export async function main() {
       console.error('Usage: merkava-shot run-js <url> [--js "code"] [--js-file f.js] [--html "<...>"] [--file page.html]');
       process.exit(1);
     }
-    const r = await runJs({ js: js || undefined, html: html || undefined, url: url || undefined, file: url || fileArg || '<inline>' });
+    let r;
+    if (js && !html && !url) {
+      // Raw snippet: fast bytecode VM.
+      const { runJs } = await import('./geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-service/merkavaJsCore.mjs');
+      r = await runJs({ js, file: jsFile || '<inline>' });
+    } else {
+      // Real page: full browser engine (DOM + fetch + errors).
+      const { runPageWithJs } = await import('./geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-service/snapshots/jsPageRunner.js');
+      const pr = await runPageWithJs({ html: html || undefined, url: url || undefined, waitMs: 4000 });
+      r = {
+        consoleLogs: pr.consoleLogs,
+        jsErrors: pr.jsErrors,
+        scriptsRun: pr.scriptsRun,
+        wallMs: pr.wallMs,
+      };
+      console.log(`page: ${url || fileArg || '<html>'} — ${pr.scriptsFetched} external script(s) fetched, ${pr.scriptsRun} script step(s)`);
+    }
     for (const l of r.consoleLogs) console.log(`[${l.level}] ${l.text}`);
     if (!r.jsErrors.length) {
-      console.log(`OK: ${r.scriptsRun} script(s), ${r.steps} steps, ${r.wallMs}ms — no errors`);
+      console.log(`OK: ${r.scriptsRun} script(s), ${r.wallMs}ms — no errors`);
     } else {
       for (const e of r.jsErrors) {
         const line = e.line ? `:${e.line}` : '';

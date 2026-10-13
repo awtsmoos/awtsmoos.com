@@ -8,9 +8,9 @@
  * viewport|device, actions} and get back {screenshot_png (base64),
  * console_logs, js_errors, final_dom_state, assertions, timings}.
  *
- * The software renderer executes no page JS (wiring the JS engine in is a
- * separate future task), so console_logs/js_errors are always empty — they
- * exist so the interface is stable when JS execution lands.
+ * Page scripts genuinely execute through the Merkava browser engine
+ * (virtual DOM + fetch) before rendering: console_logs/js_errors carry
+ * real runtime results, and the screenshot reflects the post-JS DOM.
  *
  * Safety: per-IP rate limit, hard caps on input sizes, and a bounded
  * renderer timeout so one request cannot hold the server.
@@ -77,6 +77,20 @@ function loadJsCore() {
 	return jsCorePromise;
 }
 
+// B"H — real page runner: virtual DOM + fetch + script execution.
+let pageRunnerPromise = null;
+function loadPageRunner() {
+	if (!pageRunnerPromise) {
+		const prPath = path.join(
+			process.env.__awtsdir || process.cwd(),
+			"geelooy", "scripts", "awtsmoos", "MerkavaExecutor",
+			"merkava-service", "snapshots", "jsPageRunner.js"
+		);
+		pageRunnerPromise = import("file://" + prPath);
+	}
+	return pageRunnerPromise;
+}
+
 async function crownMerkavaRoutes($i) {
 	await $i.use({
 		"/": async () => ({ ok: true, service: "Merkava page-run API", BH: 'B"H', version: "1.0.0" }),
@@ -84,9 +98,9 @@ async function crownMerkavaRoutes($i) {
 			const { VIEWPORT_PRESETS } = await loadCore();
 			return { ok: true, devices: VIEWPORT_PRESETS };
 		},
-		// B"H — FLAGSHIP: execute page JS with the real Merkava VM and
-		// instantly return runtime errors (console, uncaught exceptions with
-		// file/line, failed loads). No browser needed.
+		// B"H — FLAGSHIP: execute page JS with the real Merkava browser engine
+		// and instantly return runtime errors (console, uncaught exceptions
+		// with file/line, failed loads). No browser needed.
 		"/run-js": async () => {
 			if ($i.request.method !== "POST") {
 				return { ok: false, error: "use POST", status: 405 };
@@ -111,22 +125,41 @@ async function crownMerkavaRoutes($i) {
 				MAX_TIMEOUT_MS
 			);
 			try {
-				const { runJs } = await loadJsCore();
-				const r = await runJs({
-					js: js || undefined,
+				if (js && !html && !url) {
+					// Raw snippet: fast bytecode VM.
+					const { runJs } = await loadJsCore();
+					const r = await runJs({
+						js,
+						file: cleanStr(body.file, 200) || undefined,
+						maxSteps: Math.min(Number(body.maxSteps) || 50000, 500000),
+						timeoutMs,
+					});
+					return {
+						ok: r.ok,
+						status: r.status,
+						console_logs: r.consoleLogs,
+						js_errors: r.jsErrors,
+						scripts_run: r.scriptsRun,
+						steps: r.steps,
+						timings_ms: { total: r.wallMs },
+						version: r.version,
+					};
+				}
+				// Real page: full browser engine (DOM + fetch + errors).
+				const { runPageWithJs } = await loadPageRunner();
+				const r = await runPageWithJs({
 					html: html || undefined,
 					url: url || undefined,
-					file: cleanStr(body.file, 200) || undefined,
-					maxSteps: Math.min(Number(body.maxSteps) || 50000, 500000),
-					timeoutMs,
+					waitMs: Math.min(Number(body.waitMs) || 4000, 20000),
+					fetchTimeoutMs: Math.min(timeoutMs, 30000),
 				});
 				return {
 					ok: r.ok,
-					status: r.status,
+					status: r.ok ? "COMPLETED" : "ERRORS",
 					console_logs: r.consoleLogs,
 					js_errors: r.jsErrors,
 					scripts_run: r.scriptsRun,
-					steps: r.steps,
+					scripts_fetched: r.scriptsFetched,
 					timings_ms: { total: r.wallMs },
 					version: r.version,
 				};
@@ -176,31 +209,17 @@ async function crownMerkavaRoutes($i) {
 					timeoutMs,
 					pngLevel: 1,
 				});
-				// If JS was supplied (or execution requested), run it through
-				// the real VM and return console + runtime errors too.
-				let jsResult = null;
-				if ((cleanStr(body.js, MAX_JS) || body.executeJs) && (html || url)) {
-					try {
-						const { runJs } = await loadJsCore();
-						jsResult = await runJs({
-							js: cleanStr(body.js, MAX_JS) || undefined,
-							html: html || undefined,
-							url: url || undefined,
-							timeoutMs: Math.min(timeoutMs, 30000),
-						});
-					} catch (je) {
-						jsResult = { ok: false, error: String((je && je.message) || je).slice(0, 200) };
-					}
-				}
+				// runPage genuinely executes page JS (browser engine) and returns
+				// console + errors itself — no second pass needed.
 				return {
-					ok: r.ok && (!jsResult || jsResult.ok !== false || !jsResult.jsErrors),
+					ok: r.ok,
 					screenshot_png: r.png.toString("base64"),
 					width: r.width,
 					height: r.height,
 					dpr: r.dpr,
-					console_logs: jsResult ? jsResult.consoleLogs || [] : [],
-					js_errors: jsResult ? jsResult.jsErrors || [] : [],
-					js_status: jsResult ? jsResult.status : undefined,
+					console_logs: r.consoleLogs || [],
+					js_errors: r.jsErrors || [],
+					js_status: r.jsStatus,
 					final_dom_state: r.finalDom,
 					assertions: r.assertions,
 					timings_ms: r.timingsMs,
