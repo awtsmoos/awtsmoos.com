@@ -42,8 +42,32 @@ const state = {
 	loading: false,
 	done: false,
 	liked: new Set(),
-	saved: new Set()
+	saved: new Set(),
+	maamarLinks: null,
+	maamarLinksLoading: false
 };
+
+// B"H — Load the social-post -> source-maamar link mapping (built from the
+// 195-batch Sefer HaMaamarim import). Cached in state; fetched once.
+async function loadMaamarLinks() {
+	if (state.maamarLinks || state.maamarLinksLoading) return;
+	state.maamarLinksLoading = true;
+	try {
+		const res = await fetch('/data/shm-maamar-links.json', { credentials: 'same-origin' });
+		if (res.ok) state.maamarLinks = await res.json();
+	} catch (_) { /* link simply won't render */ }
+	state.maamarLinksLoading = false;
+}
+
+// B"H — "Read the full maamar →" link for social posts derived from a maamar.
+function maamarLinkHtml(post) {
+	const base = post.basePostId || post.base_post_id || '';
+	if (!base || !state.maamarLinks) return '';
+	const entry = state.maamarLinks[base];
+	if (!entry || !entry.url) return '';
+	const label = entry.title ? `Read the full maamar: ${esc(entry.title)}` : 'Read the full maamar';
+	return `<a class="feed-card__maamar-link" href="${esc(entry.url)}" aria-label="${esc(label)}"><span aria-hidden="true">📖</span> Read the full maamar <span aria-hidden="true">→</span></a>`;
+}
 
 function esc(s) {
 	return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -104,6 +128,7 @@ function cardHtml(post, index = 0) {
 			${qBadge}
 			<h2 class="feed-card__title"><a href="${esc(postUrl(post))}">${title}</a></h2>
 			${excerpt ? `<p class="feed-card__excerpt">${excerpt}</p>` : ''}
+			${maamarLinkHtml(post)}
 			${why ? `<span class="feed-card__why">✦ ${why}</span>` : ''}
 			<div class="feed-card__meta">
 				<span class="feed-card__avatar" aria-hidden="true">${esc(initial)}</span>
@@ -352,5 +377,13 @@ export function initFeedRiver() {
 
 	initPullToRefresh();
 	initInfiniteScroll();
+	// B"H — fetch maamar links in background; re-render cards once loaded so
+	// "Read the full maamar →" appears without blocking the feed.
+	loadMaamarLinks().then(() => {
+		if (!state.maamarLinks) return;
+		const river = document.getElementById('feed-river');
+		if (!river || !state.items.length) return;
+		river.innerHTML = state.items.map((post, i) => cardHtml(post, i)).join('');
+	});
 	fetchPage();
 }
