@@ -110,7 +110,7 @@ function bufferGeometryFromStream(stream, leafShrink = 0) {
 }
 
 const VIEWS = {
-  forest:    { pos: [19, 6.5, 36],  look: [-8, 7.5, -8] },
+  forest:    { pos: [riverX(30) + 10, 3.4, 30],  look: [riverX(-30) - 2, 5.0, -30] },
   river:     { pos: [riverX(34) + 7, 3.4, 34], look: [riverX(-30) - 2, 0.5, -30] },
   grassland: { pos: [-34, 10, 46],  look: [10, 2, -10] },
   particles: { pos: [7, 2.4, 13],   look: [-8, 3.5, -12] },
@@ -161,7 +161,7 @@ const TOD = {
   },
 };
 
-export async function buildRealityScene(container, { view = 'forest', seed = 20261011, fast = false, tod = 'midday' } = {}) {
+export async function buildRealityScene(container, { view = 'forest', seed = 20261011, fast = false, tod = 'golden' } = {}) {
   // B"H — render-bar instrumentation: per-phase timings for the speed mission.
   const _t0 = (typeof performance !== 'undefined' ? performance.now() : Date.now());
   try { window.__buildStartEpoch = Date.now(); window.__navStartEpoch = Math.round(performance.timeOrigin); } catch {}
@@ -295,6 +295,50 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     scene.add(glow);
   }
 
+  /* B"H — volumetric god-ray shafts: crossed additive planes tilted along the
+     sun direction, standing in the river corridor where the reference shows
+     sunbeams piercing the canopy. Own RNG (srand) keeps the main deterministic
+     layout sequence untouched. */
+  const srand = mulberry32(seed ^ 0x5aa5);
+  if (!night) {
+    const sc = document.createElement('canvas'); sc.width = 128; sc.height = 256;
+    const sx = sc.getContext('2d');
+    const grad = sx.createLinearGradient(0, 0, 0, 256);
+    grad.addColorStop(0, 'rgba(255,236,200,0.55)');
+    grad.addColorStop(0.55, 'rgba(255,228,180,0.20)');
+    grad.addColorStop(1, 'rgba(255,220,160,0)');
+    sx.fillStyle = grad; sx.fillRect(0, 0, 128, 256);
+    sx.globalCompositeOperation = 'destination-in';
+    const hg = sx.createLinearGradient(0, 0, 128, 0);
+    hg.addColorStop(0, 'rgba(0,0,0,0)');
+    hg.addColorStop(0.5, 'rgba(0,0,0,1)');
+    hg.addColorStop(1, 'rgba(0,0,0,0)');
+    sx.fillStyle = hg; sx.fillRect(0, 0, 128, 256);
+    const shaftTex = new THREE.CanvasTexture(sc); shaftTex.colorSpace = THREE.SRGBColorSpace;
+    const shaftMat = new THREE.MeshBasicMaterial({
+      map: shaftTex, transparent: true, blending: THREE.AdditiveBlending,
+      depthWrite: false, side: THREE.DoubleSide, fog: false, opacity: 0.42,
+    });
+    const shaftGeo = new THREE.PlaneGeometry(7, 46);
+    const q = new THREE.Quaternion().setFromUnitVectors(
+      new THREE.Vector3(0, 1, 0), sunDir.clone().normalize());
+    for (let si = 0; si < 9; si++) {
+      const z = -38 + si * 7 + (srand() - 0.5) * 5;
+      const x = riverX(z) + (srand() - 0.5) * 26;
+      const y = groundHeight(x, z, noise) + 15;
+      const w = 5 + srand() * 4, l = 40 + srand() * 16;
+      for (let k = 0; k < 2; k++) {
+        const m = new THREE.Mesh(shaftGeo, shaftMat);
+        m.position.set(x, y, z);
+        m.quaternion.copy(q);
+        m.rotateY(srand() * Math.PI + k * Math.PI / 2);
+        m.scale.set(w / 7, l / 46, 1);
+        scene.add(m);
+      }
+    }
+    mark('shafts');
+  }
+
   /* lights */
   if (night) {
     const moon = new THREE.DirectionalLight(0x9db8e8, 0.62);
@@ -364,14 +408,38 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   }
 
   /* textures (real photographs, Awtsmoos Drive) */
-  const [grassTex, dirtTex, barkTex, canopyTex, leafTex] = await Promise.all([
+  const [grassTex, dirtTex, barkTex, canopyTex, leafTex,
+         grassGroundTex, barkDetailTex] = await Promise.all([
     loadTexture(TEX + 'grass1.jpg', 30, 30),
     loadTexture(TEX + 'dirt1.jpg', 40, 3),
     loadTexture(TEX + 'bark1.webp', 1, 2),
     makeCanopyCutout(TEX + 'leaves1.png'),
     loadTexture(TEX + 'leaf1.jpg', 1, 1),
+    // B"H — reference-match texture set (Yaakov 2026-10-13)
+    loadTexture(TEX + 'new/tex-grass-ground.webp', 36, 36),
+    loadTexture(TEX + 'new/tex-bark-detail.webp', 1, 3),
   ]);
   mark('textures');
+
+  /* tree placement — BEFORE terrain so canopy shade bakes into vertex colors.
+     B"H reference match 2026-10-13: enclosed river corridor, denser forest. */
+  const treeSpots = [];
+  const CLEAR = {
+    forest: 12, river: 15, grassland: 26, particles: 15,
+    'character-forest': 14, 'character-river': 14, 'character-sitting': 14,
+    'character-portrait': 12, night: 14, 'character-older': 12,
+  }[view] || 15;
+  const clearPts = [[VIEWS[view].pos[0], VIEWS[view].pos[2]]];
+  if (vc) clearPts.push(vc.at);
+  let guard = 0;
+  while (treeSpots.length < (fast ? 24 : 40) && guard++ < 6000) {
+    const x = (rand() - 0.5) * 200, z = (rand() - 0.5) * 200;
+    if (Math.abs(x - riverX(z)) < 11) continue;                       // keep river clear
+    if (clearPts.some(([px, pz]) => Math.hypot(x - px, z - pz) < CLEAR)) continue;
+    if (treeSpots.some(s => Math.hypot(s.x - x, s.z - z) < 8)) continue;
+    treeSpots.push({ x, z });
+  }
+  mark('tree-spots');
 
   /* terrain */
   const terrGeo = new THREE.PlaneGeometry(WORLD, WORLD, 120, 120);
@@ -384,20 +452,32 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       const h = groundHeight(x, z, noise);
       p.setY(i, h);
       const d = Math.abs(x - riverX(z));
-      // macro color variation: meadow patches
+      // B"H reference match: vivid grass photo carries the green; vertex colors
+      // add macro variation, damp darkening, canopy shade and dappled light.
       const patch = noise(x * 0.03 + 40, z * 0.03) * 0.5 + 0.5;
-      let r = 0.92 + patch * 0.16, g = 0.95 + patch * 0.10, b = 0.82 + patch * 0.10;
-      // sandy blend near river banks
-      if (d < 10) { const t = 1 - d / 10; r = r + (1.02 - r) * t * 0.7; g = g + (0.88 - g) * t * 0.7; b = b + (0.66 - b) * t * 0.7; }
+      let r = 1.00 + patch * 0.08, g = 1.04 + patch * 0.10, b = 0.94 + patch * 0.08;
+      // damp darkening near the river
+      if (d < 9) { const t = 1 - d / 9, dk = 1 - t * 0.18; r *= dk; g *= dk; b *= dk; }
+      // canopy shade + dappled sun flecks from REAL tree positions
+      let minD2 = 1e9;
+      for (let ti = 0; ti < treeSpots.length; ti++) {
+        const s = treeSpots[ti];
+        const dx = x - s.x, dz = z - s.z, dd = dx * dx + dz * dz;
+        if (dd < minD2) minD2 = dd;
+      }
+      const gap = THREE.MathUtils.smoothstep(Math.sqrt(minD2), 5, 16);
+      const dappleN = noise(x * 0.45 + 7, z * 0.45 + 3) * 0.5 + 0.5;
+      const light = (0.88 + 0.34 * gap) * (0.90 + 0.20 * dappleN);
       // darken hollows
       const shade = THREE.MathUtils.clamp(1 + h * 0.05, 0.82, 1.06);
-      colors[i * 3] = r * shade; colors[i * 3 + 1] = g * shade; colors[i * 3 + 2] = b * shade;
+      const m = light * shade;
+      colors[i * 3] = r * m; colors[i * 3 + 1] = g * m; colors[i * 3 + 2] = b * m;
     }
     terrGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
     terrGeo.computeVertexNormals();
   }
   const terrain = new THREE.Mesh(terrGeo, new THREE.MeshStandardMaterial({
-    map: grassTex, vertexColors: true, roughness: 1.0, metalness: 0.0,
+    map: grassGroundTex, vertexColors: true, roughness: 1.0, metalness: 0.0,
   }));
   terrain.receiveShadow = true;
   scene.add(terrain);
@@ -435,8 +515,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     {
       uTime: { value: 0 },
       uSunDir: { value: sunDir },
-      uDeep: { value: new THREE.Color(0x1d4e5f) },
-      uShallow: { value: new THREE.Color(0x5fa8a0) },
+      uDeep: { value: new THREE.Color(0x14504a) },
+      uShallow: { value: new THREE.Color(0x4fa08e) },
       uSky: { value: new THREE.Color(0xbfe0ee) },
     },
   ]);
@@ -452,37 +532,53 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
       fragmentShader: `varying vec2 vUv; varying vec3 vPos;
         uniform float uTime; uniform vec3 uSunDir, uDeep, uShallow, uSky;
-        float wave(vec2 p){ return sin(p.x*1.3 + uTime*0.9) * sin(p.y*2.1 - uTime*0.7)
-          + 0.3*sin(p.x*3.9 - uTime*1.4) * sin(p.y*4.7 + uTime*1.1); }
+        // B"H — analytic ripple normals: two scrolling height fields with
+        // finite-difference normals. Fully controlled, tileable, no texture.
+        float hgt(vec2 p, float t){
+          return sin(p.x*1.7 + t*1.1)*0.35 + sin(p.y*2.3 - t*0.9)*0.30
+               + sin((p.x+p.y)*4.1 + t*1.7)*0.18
+               + sin(p.x*7.3 - t*2.2)*sin(p.y*6.1 + t*1.9)*0.12;
+        }
+        vec2 slopeAt(vec2 p, float t){
+          float e = 0.35;
+          float hC = hgt(p, t);
+          return vec2(hgt(p+vec2(e,0.0),t)-hC, hgt(p+vec2(0.0,e),t)-hC)/e;
+        }
         void main(){
-          // B"H — finer ripple field: kills the concentric-banding look.
-          vec2 p = vec2(vUv.x * 10.0, vUv.y * 150.0);
-          float w = wave(p);
-          float w2 = wave(p * 2.3 + 7.0);
-          float w3 = wave(p * 5.1 + 3.0);
-          vec3 n = normalize(vec3(w * 0.05, 1.0, w2 * 0.05));
+          vec2 p1 = vec2(vUv.x*8.0, vUv.y*60.0 - uTime*0.6);
+          vec2 p2 = vec2(vUv.x*20.0 + 3.7, vUv.y*140.0 - uTime*1.4);
+          vec2 grad = slopeAt(p1, uTime)*0.32 + slopeAt(p2, uTime*1.3)*0.16;
+          // B"H — strong facet tilt so the low golden sun catches sparkle
+          vec3 n = normalize(vec3(-grad.x*0.8, 1.0, -grad.y*0.8));
           vec3 viewDir = normalize(cameraPosition - vPos);
           float fres = pow(1.0 - max(dot(n, viewDir), 0.0), 2.2);
-          vec3 col = mix(uDeep, uShallow, 0.30 + 0.22 * w + 0.10 * w3);
-          col = mix(col, uSky, fres * 0.55);
+          float ripple = grad.x * 0.5 + grad.y * 0.5;
+          // deep teal channel in the middle, brighter toward the banks
+          float centerDepth = 1.0 - abs(vUv.x * 2.0 - 1.0);
+          vec3 col = mix(uShallow, uDeep, 0.30 + 0.50 * centerDepth);
+          col = mix(col, uShallow, clamp(ripple * 0.6 + 0.2, 0.0, 1.0) * 0.45);
+          col = mix(col, uSky, fres * 0.38);
           vec3 hv = normalize(viewDir + uSunDir);
-          float spec = pow(max(dot(n, hv), 0.0), 220.0) * 1.6;
-          // tight sun glints dancing on the ripple field
-          float glint = pow(max(dot(normalize(vec3(w3 * 0.35, 1.0, w * 0.35)), hv), 0.0), 700.0) * 3.2;
-          col += vec3(1.0, 0.97, 0.9) * (spec + glint);
+          // broad sun sheen + tight glints on the tilted facets
+          float sheen = pow(max(dot(n, hv), 0.0), 24.0) * 0.45;
+          float glint = pow(max(dot(n, hv), 0.0), 90.0) * 2.0;
+          col += vec3(1.0, 0.97, 0.9) * (sheen + glint);
           float edge = smoothstep(0.0, 0.10, vUv.x) * smoothstep(1.0, 0.90, vUv.x);
           // soft foam lapping at the banks
           float foamBand = (1.0 - edge);
-          float foam = foamBand * smoothstep(0.25, 0.9, 0.5 + 0.5 * w2) * 0.55;
+          float foam = foamBand * smoothstep(0.25, 0.9, 0.5 + ripple) * 0.55;
           col = mix(col, vec3(0.88, 0.94, 0.92), foam);
-          gl_FragColor = vec4(col, 0.90 * (0.35 + 0.65 * edge) + foam * 0.1); }`
+          gl_FragColor = vec4(col, 0.82 * (0.30 + 0.70 * edge) + foam * 0.1); }`
     })
   );
   scene.add(water);
   mark('water');
 
   /* trees — ez-tree-derived procedural generator, real bark + canopy photos */
-  const barkMat = new THREE.MeshStandardMaterial({ map: barkTex, roughness: 0.92 });
+  const barkMat = new THREE.MeshStandardMaterial({
+    map: barkDetailTex, roughness: 0.95,
+    color: new THREE.Color(1.45, 1.32, 1.18), // lift the dark bark photo
+  });
   const canopyMat = new THREE.MeshStandardMaterial({
     map: canopyTex, alphaTest: 0.30, side: THREE.DoubleSide,
     roughness: 0.9, color: new THREE.Color(0.55, 0.85, 0.50),
@@ -516,22 +612,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   const treeGeos = await loadTreeGeos();
   mark('tree-gen');
   const treeGroup = new THREE.Group();
-  const treeSpots = [];
-  const CLEAR = {
-    forest: 26, river: 15, grassland: 26, particles: 15,
-    'character-forest': 14, 'character-river': 14, 'character-sitting': 14,
-    'character-portrait': 12, night: 14, 'character-older': 12,
-  }[view] || 15;
-  const clearPts = [[VIEWS[view].pos[0], VIEWS[view].pos[2]]];
-  if (vc) clearPts.push(vc.at);
-  let guard = 0;
-  while (treeSpots.length < (fast ? 16 : 30) && guard++ < 4000) {
-    const x = (rand() - 0.5) * 200, z = (rand() - 0.5) * 200;
-    if (Math.abs(x - riverX(z)) < 11) continue;                       // keep river clear
-    if (clearPts.some(([px, pz]) => Math.hypot(x - px, z - pz) < CLEAR)) continue;
-    if (treeSpots.some(s => Math.hypot(s.x - x, s.z - z) < 9)) continue;
-    treeSpots.push({ x, z });
-  }
+  // B"H — treeSpots computed BEFORE terrain (moved 2026-10-13) so terrain
+  // vertex colors bake real canopy shade + dappled light. Same rand order.
   for (const s of treeSpots) {
     const a = treeGeos[(rand() * treeGeos.length) | 0];
     const sc = 0.85 + rand() * 0.75;
@@ -713,6 +795,94 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   }
   mark('underbrush');
 
+  /* B"H — mossy riverbank rocks: instanced displaced icosahedrons, moss-green
+     tops keyed by normal.y, scattered along the banks like the reference. */
+  {
+    const rockGeo = new THREE.IcosahedronGeometry(1, 1);
+    const rp = rockGeo.attributes.position;
+    const ror = mulberry32(seed ^ 0x60cc);
+    for (let i = 0; i < rp.count; i++) {
+      const s = 1 + 0.35 * Math.sin(rp.getX(i) * 3.7 + 1.1)
+                      * Math.sin(rp.getY(i) * 4.3 + 0.5)
+                      * Math.sin(rp.getZ(i) * 3.1 + 2.2);
+      rp.setXYZ(i, rp.getX(i) * s, rp.getY(i) * s * 0.72, rp.getZ(i) * s);
+    }
+    rockGeo.computeVertexNormals();
+    const np = rockGeo.attributes.normal;
+    const cols = new Float32Array(rp.count * 3);
+    for (let i = 0; i < rp.count; i++) {
+      const moss = THREE.MathUtils.smoothstep(np.getY(i), 0.15, 0.75);
+      const g = 0.55 + ror() * 0.2;
+      cols[i * 3]     = 0.42 + (0.30 * g - 0.42) * moss;
+      cols[i * 3 + 1] = 0.40 + (0.52 * g - 0.40) * moss;
+      cols[i * 3 + 2] = 0.36 + (0.26 * g - 0.36) * moss;
+    }
+    rockGeo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
+    const rockMat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 1 });
+    const COUNT = fast ? 90 : 160;
+    const inst = new THREE.InstancedMesh(rockGeo, rockMat, COUNT);
+    const dummy = new THREE.Object3D();
+    let placed = 0, g2 = 0;
+    while (placed < COUNT && g2++ < COUNT * 30) {
+      const z = (srand() - 0.5) * 200;
+      const side = srand() < 0.5 ? -1 : 1;
+      const x = riverX(z) + side * (5.5 + srand() * 6);
+      const s = 0.35 + srand() * 1.1;
+      dummy.position.set(x, groundHeight(x, z, noise) + 0.05, z);
+      dummy.rotation.set(0, srand() * Math.PI * 2, 0);
+      dummy.scale.set(s * (0.8 + srand() * 0.6), s * 0.75, s * (0.8 + srand() * 0.6));
+      dummy.updateMatrix();
+      inst.setMatrixAt(placed++, dummy.matrix);
+    }
+    inst.count = placed;
+    inst.castShadow = true; inst.receiveShadow = true;
+    scene.add(inst);
+  }
+  mark('rocks');
+
+  /* B"H — rocks IN the shallows: small boulders poking through the water. */
+  {
+    const wrockGeo = new THREE.IcosahedronGeometry(1, 1);
+    const wp = wrockGeo.attributes.position;
+    const wor = mulberry32(seed ^ 0x70cc);
+    for (let i = 0; i < wp.count; i++) {
+      const s = 1 + 0.30 * Math.sin(wp.getX(i) * 4.1 + 0.7)
+                      * Math.sin(wp.getY(i) * 3.3 + 1.9)
+                      * Math.sin(wp.getZ(i) * 4.7 + 0.3);
+      wp.setXYZ(i, wp.getX(i) * s, wp.getY(i) * s * 0.62, wp.getZ(i) * s);
+    }
+    wrockGeo.computeVertexNormals();
+    const wn = wrockGeo.attributes.normal;
+    const wcols = new Float32Array(wp.count * 3);
+    for (let i = 0; i < wp.count; i++) {
+      const moss = THREE.MathUtils.smoothstep(wn.getY(i), 0.3, 0.85);
+      wcols[i * 3]     = 0.30 + 0.10 * moss;
+      wcols[i * 3 + 1] = 0.32 + 0.16 * moss;
+      wcols[i * 3 + 2] = 0.30 + 0.06 * moss;
+    }
+    wrockGeo.setAttribute('color', new THREE.BufferAttribute(wcols, 3));
+    const COUNT = fast ? 30 : 55;
+    const inst = new THREE.InstancedMesh(wrockGeo,
+      new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.85 }), COUNT);
+    const dummy = new THREE.Object3D();
+    let placed = 0, g3 = 0;
+    while (placed < COUNT && g3++ < COUNT * 40) {
+      const z = (srand() - 0.5) * 200;
+      const side = srand() < 0.5 ? -1 : 1;
+      const x = riverX(z) + side * (1.8 + srand() * 3.2);
+      const s = 0.28 + srand() * 0.55;
+      dummy.position.set(x, WATER_Y + 0.02, z);
+      dummy.rotation.set(0, wor() * Math.PI * 2, 0);
+      dummy.scale.set(s * (0.8 + wor() * 0.5), s * 0.7, s * (0.8 + wor() * 0.5));
+      dummy.updateMatrix();
+      inst.setMatrixAt(placed++, dummy.matrix);
+    }
+    inst.count = placed;
+    inst.castShadow = true; inst.receiveShadow = true;
+    scene.add(inst);
+  }
+  mark('water-rocks');
+
   /* grass tufts — instanced tapered blades, vertex-color gradient.
      Yaakov 2026-10-13: LUSH grass — dense, tall, vibrant. Speed is secondary. */
   {
@@ -723,9 +893,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       const t = bp.getY(i) / 0.65;
       bp.setX(i, bp.getX(i) * (1 - t * 0.92));              // taper to tip
       bp.setZ(i, t * t * 0.18);                            // gentle arc
-      // vibrant meadow green: dark base → bright yellow-green tips
-      const shade = 0.55 + t * 1.1;
-      bc.push(0.32 * shade, 0.62 * shade, 0.18 * shade);
+      // natural meadow green: dark base → bright tips (kept off yellow)
+      const shade = 0.50 + t * 0.95;
+      bc.push(0.30 * shade, 0.60 * shade, 0.20 * shade);
     }
     blade.setAttribute('color', new THREE.BufferAttribute(new Float32Array(bc), 3));
     // cross THREE blades for full tufts (was two)
@@ -751,15 +921,22 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const inst = new THREE.InstancedMesh(tuftGeo, tuftMat, COUNT);
     const dummy = new THREE.Object3D();
     let placed = 0; guard = 0;
-    while (placed < COUNT && guard++ < COUNT * 12) {
-      const x = (rand() - 0.5) * 190, z = (rand() - 0.5) * 190;
+    while (placed < COUNT && guard++ < COUNT * 14) {
+      // B"H reference match: lush banks — 62% of tufts hug the river corridor
+      let x, z;
+      if (rand() < 0.62) {
+        z = (rand() - 0.5) * 190;
+        x = riverX(z) + (rand() < 0.5 ? -1 : 1) * (8.5 + rand() * 17);
+      } else {
+        x = (rand() - 0.5) * 190; z = (rand() - 0.5) * 190;
+      }
       if (Math.abs(x - riverX(z)) < 8.5) continue;
       dummy.position.set(x, groundHeight(x, z, noise), z);
       dummy.rotation.y = rand() * Math.PI * 2;
       // natural lean: slight random tilt
       dummy.rotation.x = (rand() - 0.5) * 0.25;
       dummy.rotation.z = (rand() - 0.5) * 0.25;
-      const s = 0.8 + rand() * 1.4;
+      const s = 0.85 + rand() * 1.1;
       dummy.scale.set(s, s * (0.85 + rand() * 0.6), s);
       dummy.updateMatrix();
       inst.setMatrixAt(placed++, dummy.matrix);

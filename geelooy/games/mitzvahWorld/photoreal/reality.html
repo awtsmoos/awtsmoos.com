@@ -19,8 +19,8 @@
 import { buildRealityScene } from './js/reality-scene.mjs';
 const params = new URLSearchParams(location.search);
 const view = params.get('view') || 'forest';
-const tod = params.get('tod') || 'midday';
-document.getElementById('viewname').textContent = view + (tod !== 'midday' ? ' · ' + tod : '');
+const tod = params.get('tod') || 'golden';
+document.getElementById('viewname').textContent = view + (tod !== 'golden' ? ' · ' + tod : '');
 try {
   await buildRealityScene(document.getElementById('app'), { view, fast: params.get('fast') === '1', tod });
   window.__realityReady = true;
