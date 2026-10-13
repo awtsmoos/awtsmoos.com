@@ -136,6 +136,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// --- AI Worker ---
 	const aiWorker = new Worker('awtsmoos_chess_engine.js');
+	// B"H boot watchdog state (declared early: onmessage references it).
+	const engineBoot = { done: false };
 	
     
 
@@ -165,10 +167,22 @@ aiWorker.onmessage = function(e) {
             break;
 
         case 'initialization_complete':
+            engineBoot.done = true;
             const loadingScreen = document.getElementById('loadingScreen');
             const mainMenu = document.getElementById('mainMenu');
             if (loadingScreen) loadingScreen.style.display = 'none';
             if (mainMenu) mainMenu.style.display = 'flex';
+            break;
+
+        case 'initialization_failed':
+            engineBoot.done = true;
+            const lt = document.getElementById('loadingText');
+            if (lt) lt.textContent = 'Engine failed to start — tap to retry.';
+            const ls = document.getElementById('loadingScreen');
+            if (ls) ls.addEventListener('click', () => {
+                if (lt) lt.textContent = 'Forging Universe... retrying';
+                aiWorker.postMessage({ command: 'initialize' });
+            }, { once: true });
             break;
 
         // --- Game Play Messages ---
@@ -1521,7 +1535,21 @@ pgnFileInput.onchange = (event) => {
 	};
 
 	// --- INITIATE ENGINE LOADING ON STARTUP ---
+	// B"H watchdog: the worker self-initializes on load, but if no
+	// initialization_complete arrives in 12s, re-poke it and surface retry.
 	resetGameState();
 	aiWorker.postMessage({ command: 'initialize' });
+	setTimeout(() => {
+		if (engineBoot.done) return;
+		const lt = document.getElementById('loadingText');
+		if (lt) lt.textContent = 'Still forging… poking the engine.';
+		try { aiWorker.postMessage({ command: 'initialize' }); } catch {}
+		setTimeout(() => {
+			if (engineBoot.done) return;
+			if (lt) lt.textContent = 'Engine is not responding — tap to retry.';
+			const ls = document.getElementById('loadingScreen');
+			if (ls) ls.addEventListener('click', () => window.location.reload(), { once: true });
+		}, 8000);
+	}, 12000);
 window.dispatchEvent(new CustomEvent('awtsmoos:game-ready'));
 });

@@ -857,3 +857,13 @@ self.onmessage = function(e) {
         postMessage({ type: 'move_result', bestMove: null });
     }
 };
+
+// B"H — self-initialize on worker load so the engine can never get stuck
+// waiting for an 'initialize' command that a crashed main thread never sends.
+// initializeEngine() is idempotent (returns early if already initialized).
+try {
+	initializeEngine();
+} catch (err) {
+	Scribe.error("SELF-INIT FAILED", err);
+	postMessage({ type: 'initialization_failed', error: String(err && err.message || err) });
+}
