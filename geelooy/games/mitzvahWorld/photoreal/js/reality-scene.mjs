@@ -967,10 +967,13 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           // Water body color: depth-graded, NOT uniform teal
           vec3 col = mix(uShallow, uDeep, smoothstep(0.0, 0.9, depth));
           // Bed shows through: strong in shallows, faint in deep center
-          float bedVisibility = mix(0.95, 0.25, smoothstep(0.1, 0.8, depth));
+          // B"H 2026-10-13: was milky (sky reflection dominated at grazing
+          // angle). Reference is a CLEAR shallow stream — pebbles visible.
+          float bedVisibility = mix(0.98, 0.60, smoothstep(0.1, 0.8, depth));
           col = mix(col, bed, bedVisibility);
           // Sky reflection via fresnel (stronger at grazing = far water)
-          col = mix(col, uSky, fres*0.35);
+          // B"H 2026-10-13: 0.35→0.16, was washing out to milk at low camera.
+          col = mix(col, uSky, fres*0.16);
           // Sun glitter: sharp, sparse, on crests — not milky wash
           float sdot = max(dot(r, uSunDir), 0.0);
           col += vec3(1.0,0.97,0.90) * glint * 8.0 * tw * (0.3 + 0.7*depth);
