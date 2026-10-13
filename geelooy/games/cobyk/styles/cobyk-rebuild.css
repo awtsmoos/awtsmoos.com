@@ -111,6 +111,7 @@ body.cobyk-booted .cobyk-loading {
 	height: 100%;
 	width: 38%;
 	border-radius: 999px;
+	color: #ffd84d;
 	background: linear-gradient(90deg, #ffd84d, #ff9d4d, #ffd84d);
 	background-size: 200% 100%;
 	animation: cobyk-shimmer 1.4s linear infinite;
@@ -142,16 +143,229 @@ body.cobyk-booted .cobyk-loading {
 	50% { transform: translateY(-10px); }
 }
 
+/* ---------- Custom UI button images ---------- */
+/* B"H — Yaakov 2026-10-13: custom designed game buttons, not generic CSS. */
+.cobyk-action--jump {
+	background-image: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/awtsmoos/ui/cobyk/jump-button.webp?v=ba8a39fcc4");
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: transparent;
+	border: none;
+	/* B"H: image button — text hidden visually, kept for screen readers. */
+	color: #ffe9a8;
+	text-indent: -9999px;
+	overflow: hidden;
+	white-space: nowrap;
+	width: 5.2rem;
+	height: 5.2rem;
+}
+
+.cobyk-action--jump:hover {
+	filter: brightness(1.15) drop-shadow(0 0 12px rgba(255, 200, 80, 0.5));
+}
+
+.cobyk-action--jump:active {
+	transform: scale(0.92);
+	filter: brightness(1.25);
+}
+
+.cobyk-joystick__knob {
+	background-image: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/awtsmoos/ui/cobyk/joystick-knob.webp?v=bcff63ec33");
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: transparent;
+	border: none;
+}
+
+.cobyk-hud__menu {
+	background-image: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/awtsmoos/ui/cobyk/menu-button.png?v=08202e95d8");
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: transparent;
+	border: none;
+	/* B"H: image button — text hidden visually, kept for screen readers. */
+	color: #ffe9a8;
+	text-indent: -9999px;
+	overflow: hidden;
+	white-space: nowrap;
+	width: 2.6rem;
+	height: 2.6rem;
+}
+
+.cobyk-menu__level {
+	background-image: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/awtsmoos/ui/cobyk/level-card-bg.webp?v=a6001c559f");
+	background-size: cover;
+	background-position: center;
+}
+
+/* ---------- Level-select menu screen ---------- */
+/* B"H — Yaakov 2026-10-13: level select is a SEPARATE menu screen.
+   It never appears inside the game view. */
+.cobyk-menu {
+	position: fixed;
+	inset: 0;
+	z-index: 90;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background:
+		radial-gradient(110% 80% at 50% 10%, #232c63 0%, #10163a 45%, #04060d 100%);
+	transition: opacity 0.5s ease, visibility 0.5s ease;
+	overflow-y: auto;
+}
+
+.cobyk-menu--hidden {
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+}
+
+.cobyk-menu__inner {
+	text-align: center;
+	padding: 2rem 1.2rem;
+	max-width: 30rem;
+	width: 100%;
+}
+
+.cobyk-menu__sigil {
+	font-size: 3.2rem;
+	line-height: 1;
+	margin-bottom: 0.8rem;
+	filter: drop-shadow(0 0 18px rgba(255, 216, 77, 0.65));
+	animation: cobyk-sigil-float 3.2s ease-in-out infinite;
+}
+
+.cobyk-menu__title {
+	margin: 0 0 0.3rem;
+	font-size: 2rem;
+	letter-spacing: 0.28em;
+	color: #ffe9a8;
+	text-shadow: 0 0 24px rgba(255, 200, 80, 0.45);
+	font-weight: 700;
+}
+
+.cobyk-menu__subtitle {
+	margin: 0 0 1.6rem;
+	color: #9fb2d8;
+	font-size: 0.95rem;
+	letter-spacing: 0.12em;
+}
+
+.cobyk-menu__levels {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 0.8rem;
+}
+
+.cobyk-menu__level {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.3rem;
+	padding: 1.1rem 0.8rem;
+	border: 1px solid rgba(120, 150, 220, 0.3);
+	border-radius: 1rem;
+	background: linear-gradient(180deg, rgba(35, 45, 90, 0.85), rgba(16, 22, 58, 0.9));
+	color: #dfe7ff;
+	cursor: pointer;
+	transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+	-webkit-tap-highlight-color: transparent;
+	touch-action: manipulation;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+.cobyk-menu__level:hover {
+	transform: translateY(-2px);
+	border-color: rgba(255, 216, 77, 0.6);
+	box-shadow: 0 6px 24px rgba(255, 200, 80, 0.2);
+}
+
+.cobyk-menu__level:active {
+	transform: translateY(0) scale(0.98);
+}
+
+.cobyk-menu__level:focus-visible {
+	outline: 2px solid #ffd84d;
+	outline-offset: 2px;
+}
+
+.cobyk-menu__level-num {
+	font-size: 1.6rem;
+	font-weight: 700;
+	color: #ffd84d;
+	letter-spacing: 0.1em;
+}
+
+.cobyk-menu__level-title {
+	font-size: 0.82rem;
+	color: #9fb2d8;
+	letter-spacing: 0.04em;
+}
+
+.cobyk-menu__level[data-complete="true"] {
+	border-color: rgba(120, 220, 150, 0.45);
+}
+
+.cobyk-menu__level[data-complete="true"] .cobyk-menu__level-num {
+	color: #8fe3a8;
+}
+
+.cobyk-menu__level[data-active="true"] {
+	border-color: rgba(255, 216, 77, 0.7);
+	box-shadow: 0 0 20px rgba(255, 200, 80, 0.3);
+}
+
+/* HUD menu button */
+.cobyk-hud__menu {
+	background: rgba(255, 255, 255, 0.08);
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	color: #ffe9a8;
+	border-radius: 0.6rem;
+	width: 2.2rem;
+	height: 2.2rem;
+	font-size: 1.1rem;
+	cursor: pointer;
+	margin-right: 0.5rem;
+	-webkit-tap-highlight-color: transparent;
+	touch-action: manipulation;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+.cobyk-hud__menu:hover {
+	background: rgba(255, 216, 77, 0.15);
+	border-color: rgba(255, 216, 77, 0.5);
+}
+
+.cobyk-hud__menu:active {
+	transform: scale(0.94);
+}
+
+.cobyk-hud__menu:focus-visible {
+	outline: 2px solid #ffd84d;
+	outline-offset: 2px;
+}
+
 /* ---------- In-game UI cleanup ---------- */
-/* Yaakov: level select buttons do not belong inside the game view. */
+/* Yaakov: level select buttons do not belong inside the game view.
+   The nav was removed from index.html; these rules are a safety net
+   for browsers holding a cached copy of the old HTML. */
+.cobyk-campaign,
 .cobyk-campaign__levels {
 	display: none;
 }
 
 .cobyk-campaign {
-	display: flex;
-	justify-content: center;
-	padding: 0.4rem;
+	display: none;
+	visibility: hidden;
+	height: 0;
+	overflow: hidden;
+	padding: 0;
+	margin: 0;
 }
 
 /* Next-level pill: only visible when a level is complete and enabled. */

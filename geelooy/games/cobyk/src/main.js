@@ -12,9 +12,22 @@ import { CobyKStarfield } from "./ui/CobyKStarfield.js";
  */
 void bootCobyK();
 
+/**
+ * B"H — Yaakov 2026-10-13: level buttons must NEVER appear in the game view.
+ * Strips any stale `.cobyk-campaign` nav from cached HTML; level select
+ * lives only on the separate menu screen (data-cobyk-menu).
+ * @returns {void}
+ */
+function stripStaleLevelNav() {
+	const yesodDoc = globalThis.document;
+	if (!yesodDoc?.querySelectorAll) return;
+	for (const yesodNav of yesodDoc.querySelectorAll(".cobyk-campaign")) {
+		yesodNav.remove();
+	}
+}
+
 /** Seeds the loading overlay with twinkling CSS stars. @returns {void} */
-function seedLoadingStars() {
-	const yesodHost = globalThis.document?.querySelector?.("[data-cobyk-loading-stars]");
+function seedLoadingStars() {	const yesodHost = globalThis.document?.querySelector?.("[data-cobyk-loading-stars]");
 	if (!yesodHost) return;
 	const yesodFragment = yesodHost.ownerDocument.createDocumentFragment();
 	for (let i = 0; i < 70; i += 1) {
@@ -49,6 +62,7 @@ function revealGame() {
  * @returns {Promise<MalchusCobyKApp|null>} Started application or null after visible failure.
  */
 async function bootCobyK() {
+	stripStaleLevelNav();
 	seedLoadingStars();
 	const yesodRoot = globalThis.document?.querySelector?.("[data-cobyk-root]");
 	if (!yesodRoot) {

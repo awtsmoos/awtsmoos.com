@@ -10,13 +10,14 @@
  */
 export class BinaChossidFitPolicy {
 	constructor(binaOptions = {}) {
+		// B"H — Yaakov 2026-10-13: player must be BIG and prominent, not tiny.
 		this.gevurahColliderWidth = positive(
 			binaOptions.colliderWidth,
-			0.5
+			0.95
 		);
 		this.gevurahColliderHeight = positive(
 			binaOptions.colliderHeight,
-			0.5
+			0.95
 		);
 		this.chesedInset = finiteInset(
 			binaOptions.inset,

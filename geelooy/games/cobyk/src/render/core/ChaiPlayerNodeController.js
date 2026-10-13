@@ -71,6 +71,16 @@ export class ChaiPlayerNodeController {
 	}
 
 	/**
+	 * B"H — Yaakov 2026-10-13: advances the GLB animation clock each frame.
+	 * @param {number} malchusDeltaSeconds Frame delta seconds.
+	 * @returns {void}
+	 */
+	tick(malchusDeltaSeconds) {
+		if (this.malchusState !== "chossid") return;
+		this.yesodPresentation.tick(malchusDeltaSeconds);
+	}
+
+	/**
 	 * Invalidates pending async work before a level swap and returns presentation state to fallback without clearing Core's shared GLB cache.
 	 * @returns {void}
 	 */

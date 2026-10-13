@@ -13,7 +13,7 @@
 	<meta name="theme-color" content="#0d1230">
 	<title>CobyK · Awtsmoos</title>
 	<link rel="stylesheet" href="./styles/cobyk.css?v=d9bba8e4f7">
-	<link rel="stylesheet" href="./styles/cobyk-rebuild.css?v=5d8b5eb5ed">
+	<link rel="stylesheet" href="./styles/cobyk-rebuild.css?v=4d8771b4cc">
 	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=6c6d50d989">
 </head>
 <body>
@@ -28,11 +28,22 @@
 		</div>
 	</div>
 	<main class="cobyk-app" data-cobyk-root>
+		<!-- B"H — Yaakov 2026-10-13: level select is a SEPARATE menu screen, never inside the game view. -->
+		<div class="cobyk-menu" data-cobyk-menu aria-hidden="false">
+			<div class="cobyk-menu__stars" aria-hidden="true"></div>
+			<div class="cobyk-menu__inner">
+				<div class="cobyk-menu__sigil" aria-hidden="true">✦</div>
+				<h1 class="cobyk-menu__title">COBYK</h1>
+				<p class="cobyk-menu__subtitle">Choose your journey</p>
+				<nav class="cobyk-menu__levels" data-cobyk-menu-levels aria-label="Choose a level"></nav>
+			</div>
+		</div>
 		<section class="cobyk-stage-shell" aria-label="CobyK game">
 			<canvas class="cobyk-starfield" data-cobyk-starfield aria-hidden="true"></canvas>
 			<canvas class="cobyk-stage" data-cobyk-canvas aria-label="CobyK world"></canvas>
 			<header class="cobyk-hud" aria-live="polite">
 				<div class="cobyk-hud__identity">
+					<button class="cobyk-hud__menu" data-cobyk-menu-button type="button" aria-label="Choose level">☰</button>
 					<strong class="cobyk-hud__level" data-cobyk-level>CobyK</strong>
 					<span class="cobyk-hud__state" data-cobyk-state data-state="ready">ready</span>
 				</div>
@@ -41,10 +52,9 @@
 					<span><b data-cobyk-attempts>1</b> run</span>
 				</div>
 			</header>
-			<nav class="cobyk-campaign" aria-label="Original CobyK levels">
-				<div class="cobyk-campaign__levels" data-cobyk-levels></div>
-				<button class="cobyk-button cobyk-button--next" data-cobyk-next type="button" disabled>Next level →</button>
-			</nav>
+			<!-- B"H — Yaakov 2026-10-13: level buttons REMOVED from game view entirely.
+			     Level selection lives only on the menu screen (data-cobyk-menu).
+			     This nav is kept out of the DOM; JS also strips any stale copies. -->
 			<div class="cobyk-mobile-controls" aria-label="Touch controls">
 				<div class="cobyk-joystick" data-cobyk-joystick role="group" aria-label="Move">
 					<span class="cobyk-joystick__ring"></span>
@@ -80,7 +90,7 @@
 		</section>
 	</main>
 	<script type="module" src="/games/scripts/runtime/index.js?v=6fd9ae91f1"></script>
-	<script type="module" src="./src/main.js?v=687ec9c797"></script>
+	<script type="module" src="./src/main.js?v=ad208db790"></script>
 	<script type="module" async src="/games/scripts/player-shell/index.js?v=0ee3e8dd31"></script>
 </body>
 </html>

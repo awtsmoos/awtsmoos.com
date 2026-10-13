@@ -34,6 +34,10 @@ export class YesodRenderFramePipeline {
 		this.resize(tiferesBudget, netzachFrame.devicePixelRatio);
 		const binaPlan = this.binaCompiler.reveal(malchusSession);
 		this.reconcileWorld(binaPlan, tiferesBudget);
+		// B"H — Yaakov 2026-10-13: advance the chossid's walk/run animation.
+		if (netzachFrame.intervalMs !== null) {
+			this.malchusWorld.tickAnimations?.(netzachFrame.intervalMs / 1000);
+		}
 		this.chesedBudgetTransition.observe(
 			tiferesBudget,
 			this.malchusWorld

@@ -5,9 +5,21 @@
 import {
 	Group
 } from "/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js?compact=true";
+import {
+	createNativeAnimationPlayer
+} from "/libs/awtsmoos-procedural-core/src/adapters/native/modelAssets.js?compact=true";
 import { COBYK_CHOSSID_IDENTITY } from "../assets/CobyKChossidIdentity.js";
 import { BinaChossidFitCache } from "./BinaChossidFitCache.js";
 import { TiferesChossidPosePolicy } from "./TiferesChossidPosePolicy.js";
+
+// B"H — Yaakov 2026-10-13: play the chossid.glb built-in animations.
+// Side-view platformer: walk when moving, run when fast, jump/fall when airborne.
+const CHOSSID_ANIM_WALK = "walk_Armature";
+const CHOSSID_ANIM_RUN = "run_Armature";
+const CHOSSID_ANIM_JUMP = "jump_Armature";
+const CHOSSID_ANIM_FALL = "falling_Armature";
+const CHOSSID_ANIM_IDLE = "stand_Armature";
+const CHOSSID_RUN_SPEED = 6.0;
 
 /**
  * @file YesodChossidPresentation.js
@@ -24,6 +36,9 @@ export class YesodChossidPresentation {
 		this.chaiModelRoot = null;
 		this.malchusFit = null;
 		this.gevurahError = null;
+		// B"H — Yaakov 2026-10-13: GLB animation player for walk/run/jump.
+		this.chaiAnimPlayer = null;
+		this.malchusAnimName = null;
 	}
 
 	/**
@@ -46,6 +61,8 @@ export class YesodChossidPresentation {
 			this.yesodPoseGroup = new Group();
 			this.yesodPoseGroup.name = "cobyk-chossid-pose";
 			this.yesodPoseGroup.add(this.yesodFitGroup);
+			// B"H — Yaakov 2026-10-13: hook the GLB's built-in animations.
+			this.revealAnimationPlayer(chaiInstance, chaiRoot);
 			this.gevurahError = null;
 			this.update({ vx: 0 });
 			return this.yesodPoseGroup;
@@ -80,6 +97,7 @@ export class YesodChossidPresentation {
 
 	/**
 	 * Updates only side-view yaw; fit scale/centering remain untouched so movement has no hidden geometry or allocation cost.
+	 * Also selects the matching GLB animation (walk/run/jump/fall/idle).
 	 * @param {object} malchusPlayer Player snapshot or visual-record velocity owner.
 	 * @returns {object|null} Frozen pose intent or null before binding.
 	 */
@@ -93,7 +111,76 @@ export class YesodChossidPresentation {
 			0,
 			Math.cos(chochmahHalfYaw)
 		);
+		this.revealAnimationFor(malchusPlayer);
 		return tiferesPose;
+	}
+
+	/**
+	 * B"H — Yaakov 2026-10-13: creates the GLB animation player from the
+	 * instance's built-in clips (walk_Armature, run_Armature, etc.).
+	 * @param {object} chaiInstance Core `loadIsolated()` result.
+	 * @param {object} chaiRoot Core-native scene root.
+	 * @returns {void}
+	 */
+	revealAnimationPlayer(chaiInstance, chaiRoot) {
+		this.chaiAnimPlayer = null;
+		this.malchusAnimName = null;
+		try {
+			const chochmahClips = chaiInstance?.animations
+				|| chaiRoot?.userData?.animations
+				|| [];
+			if (!chochmahClips.length) return;
+			this.chaiAnimPlayer = createNativeAnimationPlayer(chaiRoot, chochmahClips);
+		} catch (gevurahError) {
+			this.chaiAnimPlayer = null;
+		}
+	}
+
+	/**
+	 * B"H — Yaakov 2026-10-13: picks walk/run/jump/fall/idle from velocity.
+	 * @param {object} malchusPlayer Player snapshot with vx/vy.
+	 * @returns {void}
+	 */
+	revealAnimationFor(malchusPlayer = {}) {
+		if (!this.chaiAnimPlayer) return;
+		const netzachVx = Math.abs(Number(
+			malchusPlayer.vx ?? malchusPlayer.velocity?.x
+		) || 0);
+		const netzachVy = Number(
+			malchusPlayer.vy ?? malchusPlayer.velocity?.y
+		) || 0;
+		let tiferesAnim = CHOSSID_ANIM_IDLE;
+		if (netzachVy > 0.5) {
+			tiferesAnim = CHOSSID_ANIM_JUMP;
+		} else if (netzachVy < -0.5) {
+			tiferesAnim = CHOSSID_ANIM_FALL;
+		} else if (netzachVx >= CHOSSID_RUN_SPEED) {
+			tiferesAnim = CHOSSID_ANIM_RUN;
+		} else if (netzachVx > 0.15) {
+			tiferesAnim = CHOSSID_ANIM_WALK;
+		}
+		if (tiferesAnim !== this.malchusAnimName) {
+			try {
+				this.chaiAnimPlayer.play(tiferesAnim);
+				this.malchusAnimName = tiferesAnim;
+			} catch (gevurahError) {
+				this.malchusAnimName = tiferesAnim;
+			}
+		}
+	}
+
+	/**
+	 * B"H — Yaakov 2026-10-13: advances the GLB animation clock.
+	 * Call once per frame with delta seconds.
+	 * @param {number} malchusDeltaSeconds Frame delta.
+	 * @returns {void}
+	 */
+	tick(malchusDeltaSeconds) {
+		try {
+			this.chaiAnimPlayer?.update?.(malchusDeltaSeconds);
+		} catch (gevurahError) {
+			// Animation is decorative; never break the frame.
+		}
 	}
 
 	/** @returns {object} Frozen model/containment diagnostics for browser probes. */
@@ -112,5 +199,7 @@ export class YesodChossidPresentation {
 		this.yesodFitGroup = null;
 		this.chaiModelRoot = null;
 		this.malchusFit = null;
+		this.chaiAnimPlayer = null;
+		this.malchusAnimName = null;
 	}
 }

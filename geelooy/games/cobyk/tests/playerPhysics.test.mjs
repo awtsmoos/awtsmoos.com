@@ -83,6 +83,7 @@ test("horizontal collision stops motion at the wall face without penetration", (
 	malchusPlayer.vx = 2;
 	const binaContact = gevurahCollision.step(malchusPlayer, [yesodWall]);
 	assert.equal(binaContact.wallRight, true);
-	assert.equal(malchusPlayer.x, 0.5);
+	// B"H — Yaakov 2026-10-13: player is 0.95 wide now (was 0.5).
+	assert.ok(Math.abs(malchusPlayer.x - 0.05) < 1e-9);
 	assert.equal(malchusPlayer.vx, 0);
 });

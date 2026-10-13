@@ -10,8 +10,9 @@
  */
 export const COBYK_PHYSICS_RULES = Object.freeze({
 	fixedStep: 1 / 60,
-	playerWidth: 0.5,
-	playerHeight: 0.5,
+	// B"H — Yaakov 2026-10-13: player is bigger and more prominent.
+	playerWidth: 0.95,
+	playerHeight: 0.95,
 	maxRunSpeed: 4.8,
 	groundAcceleration: 36,
 	airAcceleration: 24,

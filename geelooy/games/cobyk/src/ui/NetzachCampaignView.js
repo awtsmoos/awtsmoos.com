@@ -12,10 +12,16 @@ import { COBYK_ORIGINAL_LEVELS } from "../levels/CobyKOriginalLevels.js";
  */
 export class NetzachCampaignView {
 	constructor(yesodRoot, binaOptions = {}) {
-		this.yesodList = yesodRoot.querySelector("[data-cobyk-levels]");
+		// B"H — Yaakov 2026-10-13: level buttons live ONLY on the separate menu
+		// screen (data-cobyk-menu-levels), never inside the game view.
+		// Fall back to legacy [data-cobyk-levels] only if the menu is absent.
+		this.yesodList = yesodRoot.querySelector("[data-cobyk-menu-levels]")
+			|| yesodRoot.querySelector("[data-cobyk-levels]");
+		this.yesodMenu = yesodRoot.querySelector("[data-cobyk-menu]");
 		this.yesodNext = yesodRoot.querySelector("[data-cobyk-next]");
 		this.netzachOpen = binaOptions.onOpen || (() => {});
 		this.netzachNext = binaOptions.onNext || (() => {});
+		this.netzachShowMenu = binaOptions.onShowMenu || (() => {});
 		this.malchusButtons = [];
 		this.build();
 	}
@@ -30,17 +36,42 @@ export class NetzachCampaignView {
 		this.malchusButtons = COBYK_ORIGINAL_LEVELS.map((malchusLevel, chochmahIndex) => {
 			const yesodButton = this.yesodList.ownerDocument.createElement("button");
 			yesodButton.type = "button";
-			yesodButton.className = "cobyk-level-button";
+			// B"H — Yaakov 2026-10-13: menu cards, not in-game ribbon buttons.
+			yesodButton.className = "cobyk-menu__level";
 			yesodButton.dataset.levelIndex = String(chochmahIndex);
-			yesodButton.textContent = String(chochmahIndex + 1).padStart(2, "0");
+			const yesodNum = this.yesodList.ownerDocument.createElement("span");
+			yesodNum.className = "cobyk-menu__level-num";
+			yesodNum.textContent = String(chochmahIndex + 1).padStart(2, "0");
+			const yesodTitle = this.yesodList.ownerDocument.createElement("span");
+			yesodTitle.className = "cobyk-menu__level-title";
+			yesodTitle.textContent = malchusLevel.title;
+			yesodButton.append(yesodNum, yesodTitle);
 			yesodButton.title = malchusLevel.title;
 			yesodButton.setAttribute("aria-label", `Open level ${chochmahIndex + 1}: ${malchusLevel.title}`);
-			yesodButton.addEventListener("click", () => this.netzachOpen(chochmahIndex));
+			yesodButton.addEventListener("click", () => {
+				this.netzachOpen(chochmahIndex);
+				this.hideMenu();
+			});
 			yesodFragment.append(yesodButton);
 			return yesodButton;
 		});
 		this.yesodList.replaceChildren(yesodFragment);
 		this.yesodNext?.addEventListener("click", () => this.netzachNext());
+	}
+
+	/** Hides the menu screen once a level is chosen. @returns {void} */
+	hideMenu() {
+		if (!this.yesodMenu) return;
+		this.yesodMenu.setAttribute("aria-hidden", "true");
+		this.yesodMenu.classList.add("cobyk-menu--hidden");
+	}
+
+	/** Shows the menu screen (e.g. from a HUD menu button). @returns {void} */
+	showMenu() {
+		if (!this.yesodMenu) return;
+		this.yesodMenu.setAttribute("aria-hidden", "false");
+		this.yesodMenu.classList.remove("cobyk-menu--hidden");
+		this.netzachShowMenu();
 	}
 
 	/**

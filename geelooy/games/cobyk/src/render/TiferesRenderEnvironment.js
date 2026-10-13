@@ -11,16 +11,16 @@
 export class TiferesRenderEnvironment {
 	constructor(binaOptions = {}) {
 		// B"H — Yaakov 2026-10-13: transparent clear so the living starfield
-		// behind the canvas becomes the sky; lifted ambient for vibrancy.
+		// behind the canvas becomes the sky; BRIGHT ambient — no more darkness.
 		this.tiferesClear = binaOptions.clearColor || [0.0, 0.0, 0.0, 0];
 		this.chesedEnvironment = Object.freeze({
-			ambient: binaOptions.ambient || [0.62, 0.68, 0.8],
+			ambient: binaOptions.ambient || [1.0, 1.05, 1.18],
 			sunDirection: binaOptions.sunDirection || [-0.45, 0.82, 0.38],
-			sunColor: binaOptions.sunColor || [1, 0.92, 0.8],
-			fogColor: binaOptions.fogColor || [0.055, 0.09, 0.13],
-			fogNear: Number(binaOptions.fogNear) || 18,
-			fogFar: Number(binaOptions.fogFar) || 54,
-			exposure: Number(binaOptions.exposure) || 1.08
+			sunColor: binaOptions.sunColor || [1.15, 1.08, 0.95],
+			fogColor: binaOptions.fogColor || [0.12, 0.16, 0.24],
+			fogNear: Number(binaOptions.fogNear) || 22,
+			fogFar: Number(binaOptions.fogFar) || 64,
+			exposure: Number(binaOptions.exposure) || 1.55
 		});
 	}
 

@@ -19,8 +19,11 @@ export class MalchusShellView {
 		this.hodAdvanced = new HodAdvancedView(yesodRoot);
 		this.netzachCampaign = new NetzachCampaignView(yesodRoot, {
 			onOpen: binaActions.openLevel,
-			onNext: binaActions.advance
+			onNext: binaActions.advance,
+			onShowMenu: () => {}
 		});
+		this.yesodMenuButton = yesodRoot.querySelector("[data-cobyk-menu-button]");
+		this.yesodMenuButton?.addEventListener("click", () => this.netzachCampaign.showMenu());
 		this.yesodRestart = yesodRoot.querySelector("[data-cobyk-restart]");
 		this.yesodQuality = yesodRoot.querySelector("[data-cobyk-quality]");
 		this.yesodStatus = yesodRoot.querySelector("[data-cobyk-status]");

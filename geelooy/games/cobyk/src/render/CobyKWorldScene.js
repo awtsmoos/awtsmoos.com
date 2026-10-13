@@ -106,6 +106,15 @@ export class MalchusCobyKWorldScene {
 		this.revealEmptyScene();
 	}
 
+	/**
+	 * B"H — Yaakov 2026-10-13: advances the player's GLB animation clock.
+	 * @param {number} malchusDeltaSeconds Frame delta seconds.
+	 * @returns {void}
+	 */
+	tickAnimations(malchusDeltaSeconds) {
+		this.chaiPlayer.tick(malchusDeltaSeconds);
+	}
+
 	/** @returns {void} Installs canonical static/dynamic Core roots from the dedicated Malchus root factory. */
 	revealEmptyScene() {
 		Object.assign(this, revealCobyKWorldSceneRoots());
