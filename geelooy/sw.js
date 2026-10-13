@@ -8,37 +8,39 @@
  * Yaakov's law (2026-10-13): "Users should NEVER need to hard refresh."
  *
  * This service worker ensures users ALWAYS get the latest version:
- * 1. On every navigation, checks if the HTML has changed (via ETag)
- * 2. If new version available, updates cache and shows a toast
- * 3. NEVER serves stale HTML — always revalidates
- * 4. Static assets (CSS/JS/images) are cached aggressively BUT only
- *    when they have content-hash versions (?v=hash)
+ * 1. Activates immediately on install (skipWaiting) and takes control (clients.claim)
+ * 2. On activate, deletes EVERY old cache except the two current ones
+ * 3. HTML: network-first, ALWAYS revalidate — never serves stale HTML
+ * 4. Hashed assets (?v=hash): cache-first (immutable, safe)
+ * 5. Unhashed assets: network-first; only successful responses are cached
+ * 6. Drive images without a hash: never cached in the SW (network-only)
  *
- * Cache strategy:
- * - HTML: Network-first, ALWAYS revalidate (never serve stale)
- * - Hashed assets (?v=hash): Cache-first (immutable, safe)
- * - Unhashed assets: Network-first with short cache
- * - Drive images: Cache-first with version check
+ * Companion: sw-register.js polls /version.json so long-lived tabs
+ * (the app shell SPA) reload gently when a deploy ships new code.
  */
 
-const CACHE_NAME = 'awtsmoos-v2';
-const HTML_CACHE = 'awtsmoos-html-v2';
+const CACHE_NAME = 'awtsmoos-v3';
+const HTML_CACHE = 'awtsmoos-html-v3';
 
 // Install — skip waiting to activate immediately
 self.addEventListener('install', (event) => {
-	self.skipWaiting();
+	event.waitUntil(self.skipWaiting());
 });
 
-// Activate — clean up old caches, take control immediately
+// Activate — nuke every stale cache, then take control immediately.
+// B"H 2026-10-13 (Yaakov: "fix cache busting way better"): previously only
+// caches with the awtsmoos- prefix were cleaned. Now anything that is not
+// one of the two current caches is deleted, so no stale bucket can survive
+// an update.
 self.addEventListener('activate', (event) => {
 	event.waitUntil(
-		caches.keys().then((keys) => {
-			return Promise.all(
+		caches.keys()
+			.then((keys) => Promise.all(
 				keys
-					.filter((key) => key.startsWith('awtsmoos-') && key !== CACHE_NAME && key !== HTML_CACHE)
+					.filter((key) => key !== CACHE_NAME && key !== HTML_CACHE)
 					.map((key) => caches.delete(key))
-			);
-		}).then(() => self.clients.claim())
+			))
+			.then(() => self.clients.claim())
 	);
 });
 
@@ -71,9 +73,11 @@ self.addEventListener('fetch', (event) => {
 		event.respondWith(
 			fetch(request)
 				.then((response) => {
-					// Cache the fresh HTML
-					const clone = response.clone();
-					caches.open(HTML_CACHE).then((cache) => cache.put(request, clone));
+					// Cache the fresh HTML — but never cache error pages
+					if (response.ok) {
+						const clone = response.clone();
+						caches.open(HTML_CACHE).then((cache) => cache.put(request, clone));
+					}
 					return response;
 				})
 				.catch(() => {
@@ -90,8 +94,10 @@ self.addEventListener('fetch', (event) => {
 			caches.match(request).then((cached) => {
 				if (cached) return cached;
 				return fetch(request).then((response) => {
-					const clone = response.clone();
-					caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+					if (response.ok) {
+						const clone = response.clone();
+						caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+					}
 					return response;
 				});
 			})
@@ -109,20 +115,28 @@ self.addEventListener('fetch', (event) => {
 		return;
 	}
 
-	// Everything else: network first, short cache
+	// Everything else: network first, short cache (successful responses only)
 	event.respondWith(
 		fetch(request)
 			.then((response) => {
-				const clone = response.clone();
-				caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+				if (response.ok) {
+					const clone = response.clone();
+					caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+				}
 				return response;
 			})
 			.catch(() => caches.match(request))
 	);
 });
 
-// Listen for "check for updates" messages from pages
 self.addEventListener('message', (event) => {
+	// B"H 2026-10-13: sw-register.js posts SKIP_WAITING when a new worker is
+	// waiting. Previously no handler existed, so the message was dropped and
+	// the new worker sat in "waiting" until every tab closed. Handle it.
+	if (event.data?.type === 'SKIP_WAITING') {
+		event.waitUntil(self.skipWaiting());
+		return;
+	}
 	if (event.data?.type === 'CHECK_UPDATE') {
 		// Force revalidation of current page
 		event.waitUntil(

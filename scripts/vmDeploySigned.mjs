@@ -24,7 +24,7 @@
  *   AWTSMOOS_DEPLOY_API       — API base (default https://awtsmoos.com/api/social)
  */
 
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, writeFileSync } from 'node:fs';
 import { resolve, relative, join } from 'node:path';
 import { execSync, execFileSync } from 'node:child_process';
 import { homedir } from 'node:os';
@@ -162,6 +162,26 @@ async function main() {
 	}
 
 	console.log(`B"H pushing ${payload.length} file(s) to production (Ed25519-signed)...`);
+	// B"H (2026-10-13, Yaakov: "fix cache busting way better").
+	// Bulletproof staleness guard: EVERY deploy stamps a fresh build id into
+	// geelooy/version.json. Open tabs poll it (sw-register.js) and gently
+	// reload when it changes, so a long-lived app-shell tab can never run
+	// stale code for hours after a deploy. Runs on every deploy, not just
+	// asset touches — any file can change behavior.
+	try {
+		const sha = execSync('git rev-parse --short HEAD', { cwd: REPO, encoding: 'utf8' }).trim();
+		const buildId = `${sha}-${Date.now().toString(36)}`;
+		const vPath = join(REPO, 'geelooy', 'version.json');
+		const vContent = JSON.stringify({ build: buildId, time: new Date().toISOString() }) + '\n';
+		writeFileSync(vPath, vContent);
+		const vB64 = Buffer.from(vContent).toString('base64');
+		const existing = payload.find(f => f.path === 'geelooy/version.json');
+		if (existing) existing.content = vB64;
+		else payload.push({ path: 'geelooy/version.json', content: vB64 });
+		console.log(`B"H build version stamped: ${buildId}`);
+	} catch (e) {
+		console.error(`B"H version stamp failed (continuing anyway): ${e.message}`);
+	}
 	// Retry loop: 502/503/504 (nginx/upstream blips) are retryable with
 	// exponential backoff. Anything else fails fast.
 	// B"H 2026-10-13: IMPORT_IN_PROGRESS is gone — the server no longer
