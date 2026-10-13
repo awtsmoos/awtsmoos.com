@@ -496,7 +496,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   /* textures (real photographs, Awtsmoos Drive) */
   const [grassTex, dirtTex, barkTex, canopyTex, leafTex,
          grassGroundTex, barkDetailTex, mossGroundTex, mossyBarkTex, fernTex,
-         leafClusterTex, denseCanopyTex, impostorTex1, impostorTex2] = await Promise.all([
+         leafClusterTex, denseCanopyTex, impostorTex1, impostorTex2, impostorTex3, impostorTex4] = await Promise.all([
     loadTexture(TEX + 'grass1.jpg', 30, 30),
     loadTexture(TEX + 'dirt1.jpg', 40, 3),
     loadTexture(TEX + 'bark1.webp', 1, 2),
@@ -518,6 +518,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     // Yaakov 2026-10-13: "do not stop until it's real" — these are the breakthrough.
     makeDenseCanopyAlpha(TEX + 'imp-tree-full-1.webp'),
     makeDenseCanopyAlpha(TEX + 'imp-tree-full-2.webp'),
+    makeDenseCanopyAlpha(TEX + 'imp-tree-full-3.webp'),
+    makeDenseCanopyAlpha(TEX + 'imp-tree-full-4.webp'),
   ]);
   mark('textures');
 
@@ -572,7 +574,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
      Camera is fixed per view, so cylindrical billboards (Y-rotation only) are exact. */
   {
     const camPos = VIEWS[view] ? VIEWS[view].pos : [0, 3.4, 30];
-    const impostorTexes = [impostorTex1, impostorTex2];
+    const impostorTexes = [impostorTex1, impostorTex2, impostorTex3, impostorTex4];
     // aspect of the impostor images (1120x2240 portrait)
     const IMP_ASPECT = 1120 / 2240;
     const walls = [];
@@ -600,22 +602,14 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       const z = -85 - rand() * 25;
       walls.push({ x, z, side: 0 });
     }
-    // B"H 2026-10-13 photoreal: bank-edge impostors for the overhead tunnel.
-    // The reference has trees arching over the river. These are placed RIGHT
-    // at the bank (10-12u) so their 22u-tall crowns extend over the water.
-    const bankCount = fast ? 16 : 24;
-    for (let i = 0; i < bankCount; i++) {
-      const z = -60 + (80 * i) / bankCount + (rand() - 0.5) * 4;
-      const side = i % 2 === 0 ? -1 : 1;
-      const x = riverX(z) + side * (10 + rand() * 2.5);
-      if (Math.hypot(x - camPos[0], z - camPos[2]) < 12) continue;
-      walls.push({ x, z, side, bankEdge: true });
-    }
+    // B"H 2026-10-13: bank-edge impostors REMOVED — they created dark canopy
+    // blobs filling the top of the frame when the camera got inside them.
+    // The regular walls + procedural overhang trees provide enough enclosure.
     mark('impostor-spots:' + walls.length);
     const dummy = new THREE.Object3D();
-    // group impostors by texture for 2 draw calls
-    for (let ti = 0; ti < 2; ti++) {
-      const spots = walls.filter((_, idx) => idx % 2 === ti);
+    // group impostors by texture for 4 draw calls
+    for (let ti = 0; ti < 4; ti++) {
+      const spots = walls.filter((_, idx) => idx % 4 === ti);
       if (!spots.length) continue;
       // tree is ~2:1 portrait; height 18-30 units for forest giants
       const h = 22;
@@ -634,8 +628,10 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       for (const s of spots) {
         const gy = groundHeight(s.x, s.z, noise);
         const scale = 0.8 + rand() * 0.7;
-        // base of tree (roots) slightly below ground
-        dummy.position.set(s.x, gy + (h * scale) / 2 - 1.5, s.z);
+        // base of tree (roots) below ground — deeper sink for varied root structures
+        // B"H 2026-10-13: -1.5→-2.5, some impostors floated visibly
+        const sink = s.bankEdge ? 3.0 : 2.5;
+        dummy.position.set(s.x, gy + (h * scale) / 2 - sink, s.z);
         // cylindrical billboard: rotate Y to face camera
         const ang = Math.atan2(camPos[0] - s.x, camPos[2] - s.z);
         dummy.rotation.set(0, ang, 0);
