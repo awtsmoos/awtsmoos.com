@@ -14,7 +14,7 @@ export class GevurahReaderScalePolicy {
 	constructor() {
 		this.defaultSize = 42;
 		this.minimumSize = 18;
-		this.maximumSize = 120;
+		this.maximumSize = 72;
 		this.stepSize = 4;
 	}
 
