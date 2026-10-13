@@ -629,6 +629,19 @@ class PackedPostImportRoutes {
 		job.startedAt = Date.now();
 		setJob(job);
 		saveJobState($i, job);
+		// B"H Yaakov's absolute law (2026-10-13): 6-SECOND HARD KILL SWITCH.
+		// A watchdog timer enforces this even if the worker loop is stuck in
+		// a long sync operation. Exceeding 6s = ABSOLUTE FAILURE.
+		const HARD_LIMIT_MS = 6000;
+		job._killTimer = setTimeout(() => {
+			if (job.status === 'running') {
+				job.status = 'absolute-failure';
+				job.errors.push({ message: 'ABSOLUTE FAILURE: watchdog killed import exceeding Yaakov\'s 6-second limit.' });
+				setJob(job);
+				saveJobState($i, job);
+			}
+		}, HARD_LIMIT_MS);
+		if (job._killTimer.unref) job._killTimer.unref();
 		// B"H 2026-10-13: no import lock — imports never block deploys/restarts.
 		try {
 		// One-time scan of the live core shard into {postId -> contentHash}.
@@ -784,7 +797,14 @@ class PackedPostImportRoutes {
 			const worker = async () => {
 				while (job.status === 'running') {
 					if (job.cancelRequested) { job.status = 'cancelled'; break; }
-					if (Date.now() - job.startedAt > job.timeBudgetMs) { job.status = 'paused'; break; }
+					// B"H Yaakov's absolute law (2026-10-13): 6-SECOND HARD LIMIT.
+					// Exceeding it is an ABSOLUTE FAILURE, not a pause. Split into
+					// smaller batches.
+					if (Date.now() - job.startedAt > job.timeBudgetMs) {
+						job.status = 'absolute-failure';
+						job.errors.push({ message: 'ABSOLUTE FAILURE: import exceeded Yaakov\'s 6-second limit. Split into smaller batches.' });
+						break;
+					}
 					if (heapTooHigh()) {
 						job.errors.push({ message: 'PAUSED_MEMORY: heap exceeded safe threshold; resume to continue.' });
 						job.status = 'paused';
@@ -821,6 +841,8 @@ class PackedPostImportRoutes {
 			job.status = 'failed';
 			job.errors.push({ message: e.message, stack: e.stack });
 		}
+		// Clear the 6s watchdog — job finished (or failed) within limit
+		if (job._killTimer) { clearTimeout(job._killTimer); job._killTimer = null; }
 		job.finishedAt = Date.now();
 		job.durationMs = job.finishedAt - job.startedAt;
 		setJob(job);
@@ -903,9 +925,11 @@ class PackedPostImportRoutes {
 		// Job-level alias fallback for posts without a commentator.
 		const jobAliasId = String(body.aliasId || requestValue(this.$i, 'aliasId') || (heichelId + '-import'));
 		const jobAliasName = String(body.aliasName || requestValue(this.$i, 'aliasName') || (heichelId + ' Import'));
+		// B"H Yaakov's absolute law (2026-10-13): NO import may EVER exceed 6 seconds.
+		// Anything taking longer is cancelled immediately and labeled ABSOLUTE FAILURE.
 		const timeBudgetMs = Math.min(
-			Number(body.timeBudgetMs) > 0 ? Math.floor(Number(body.timeBudgetMs)) : 20 * 60 * 1000,
-			60 * 60 * 1000
+			Number(body.timeBudgetMs) > 0 ? Math.floor(Number(body.timeBudgetMs)) : 6000,
+			6000
 		);
 		// B"H 2026-10-13 (import-speed): skipLiveCheck skips the full core-shard
 		// scan at job start. Use when the client guarantees the posts are new
