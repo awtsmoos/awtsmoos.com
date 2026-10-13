@@ -8,7 +8,7 @@
  * inside <body>, synchronously, with data- config:
  *
  * <script src="/games/shared/awt-loading-screen.js"
- *   data-cover="https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/games/game-dove.webp"
+ *   data-cover="https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/games/game-dove.webp?v=a1b4445e6f"
  *   data-title="Noah's Dove Jump"
  *   data-kicker="B&quot;H · Awtsmoos Games"
  *   data-tips="Tip one|Tip two|Tip three"

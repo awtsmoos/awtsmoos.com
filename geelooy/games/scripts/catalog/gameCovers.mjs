@@ -9,7 +9,10 @@
  */
 
 const COVER_BASE = "https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/games";
-const COVER_V = "?v=20261013c";
+// B"H (2026-10-13): COVER_V is AUTO-MANAGED by scripts/bustDriveCaches.mjs.
+// It rewrites this to a deploy-bust hash (changes iff any Drive content
+// changed). DO NOT hand-edit — it will be overwritten on the next deploy.
+const COVER_V = "?v=56bfed31c5";
 
 const GAME_COVERS = {
 	"temple-runner": "game-temple-runner.webp",

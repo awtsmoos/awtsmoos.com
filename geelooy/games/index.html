@@ -17,17 +17,18 @@ Awtsmoos.com lets every card remain a true route while Temple Runner leads with 
 	<link rel="stylesheet" href="./styles/integrity.css?v=c826eb8a3c">
 	<link rel="stylesheet" href="./styles/awp-polish.css?v=7e4564d6d5">
 	<link rel="stylesheet" href="/css/golden-icons.css?v=c462a12509">
-	<link rel="stylesheet" href="/css/awtsmoos-visual-assets.css?v=28fee09ee1">
+	<link rel="stylesheet" href="/css/awtsmoos-visual-assets.css?v=7e62292b8d">
 	<link rel="stylesheet" href="/css/video-loader.css?v=fccafca785">
-	<link rel="stylesheet" href="./styles/game-covers.css?v=gcovers-001">
+	<link rel="stylesheet" href="./styles/game-covers.css?v=1027c11a1d">
 	<script type="module" src="/games/scripts/runtime/index.js?v=6fd9ae91f1"></script>
 	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=de5da830c1"></script>
+	<link rel="stylesheet" href="/games/css/awtsmoos-game-base.css?v=128b430115">
 </head>
 <body data-geelooy-route="games" data-geelooy-nav="games" data-future-page="games" class="awtsmoos-bg-games">
 	<!-- B"H — Video loading screen: deep space golden particles -->
 	<div class="awtsmoos-video-loader" id="awtsmoos-video-loader" style="background:#02000f" role="status" aria-label="Loading games">
 		<video autoplay loop muted playsinline preload="auto" aria-hidden="true">
-			<source src="https://awtsmoos.com/api/social/drive/public/awtsmoos/videos/loaders/loader-games.mp4?v=20261013a" type="video/mp4">
+			<source src="https://awtsmoos.com/api/social/drive/public/awtsmoos/videos/loaders/loader-games.mp4?v=1f73e9273c" type="video/mp4">
 		</video>
 	</div>
 	<script>
@@ -141,7 +142,7 @@ Awtsmoos.com lets every card remain a true route while Temple Runner leads with 
 				var html = GAMES.map(function(g) {
 					var t = g[0].replace(/</g,'&lt;').replace(/>/g,'&gt;');
 					var h = g[1].replace(/"/g,'&quot;');
-					var c = COVER_BASE + '/' + g[2] + '?v=20261013b';
+					var c = COVER_BASE + '/' + g[2] + '?v=56bfed31c5';
 					return '<a class="gameCard gameCard--fallback" href="'+h+'"><span class="gameCover"><img src="'+c+'" alt="'+t+' cover art" loading="lazy"></span><strong>'+t+'</strong></a>';
 				}).join('');
 				section.innerHTML = html;
@@ -168,6 +169,6 @@ Awtsmoos.com lets every card remain a true route while Temple Runner leads with 
 	</main>
 	<script type="module" src="./scripts/games-index.js?v=b4ee7ed56e"></script>
 	<script type="module" src="/scripts/future-system/index.js?v=8049a33b13"></script>
-<script src="/scripts/sw-register.js?v=ea8654e790"></script>
+<script src="/scripts/sw-register.js?v=8de8a97557"></script>
 </body>
 </html>

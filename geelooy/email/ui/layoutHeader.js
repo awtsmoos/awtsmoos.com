@@ -36,7 +36,7 @@ function brandDescriptor() {
 						tag: 'img',
 						classList: ['gicon', 'gicon--mail'],
 						attributes: {
-							src: 'https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-mail-regular-0-e8ff743a-c987-452f-b549-64e23af957fc.webp',
+							src: 'https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-mail-regular-0-e8ff743a-c987-452f-b549-64e23af957fc.webp?v=598295a35f',
 							alt: '',
 							'aria-hidden': 'true',
 							width: '28',

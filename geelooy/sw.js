@@ -21,8 +21,8 @@
  * - Drive images: Cache-first with version check
  */
 
-const CACHE_NAME = 'awtsmoos-v1';
-const HTML_CACHE = 'awtsmoos-html-v1';
+const CACHE_NAME = 'awtsmoos-v2';
+const HTML_CACHE = 'awtsmoos-html-v2';
 
 // Install — skip waiting to activate immediately
 self.addEventListener('install', (event) => {
@@ -45,6 +45,11 @@ self.addEventListener('activate', (event) => {
 // Check if a URL has a content hash version
 function hasHashVersion(url) {
 	return /[?&]v=[a-f0-9]{6,}/.test(url);
+}
+
+// Check if this is a Drive public URL
+function isDriveUrl(url) {
+	return url.includes('/api/social/drive/public/');
 }
 
 // Check if this is an HTML page request
@@ -91,6 +96,16 @@ self.addEventListener('fetch', (event) => {
 				});
 			})
 		);
+		return;
+	}
+
+	// Drive URLs WITHOUT a hash version: NEVER cache in the SW.
+	// They are served with immutable 1-year cache headers; if the file is
+	// replaced in-place, the SW cache would serve the stale copy forever.
+	// Let the browser HTTP cache handle them (it respects the version param
+	// once bustDriveCaches.mjs adds it). Network-only, no SW caching.
+	if (isDriveUrl(url.href) && !hasHashVersion(url.href)) {
+		event.respondWith(fetch(request));
 		return;
 	}
 

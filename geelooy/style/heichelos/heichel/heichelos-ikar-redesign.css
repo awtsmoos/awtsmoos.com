@@ -51,14 +51,14 @@
 	background-color: var(--ikar-body-bg);
 	background-image:
 		radial-gradient(ellipse 80% 50% at 50% -10%, var(--ikar-gold-glow), transparent 70%),
-		url("https://awtsmoos.com/api/social/drive/public/awtsmoos/backgrounds/bg-reader-particles-0-8389b760-24e1-45a8-a50a-406066eb1e47.webp");
+		url("https://awtsmoos.com/api/social/drive/public/awtsmoos/backgrounds/bg-reader-particles-0-8389b760-24e1-45a8-a50a-406066eb1e47.webp?v=1035a6304b");
 	background-attachment: fixed;
 	color: var(--ikar-ink);
 }
 :root[data-theme="dark"].heichel-os-document body {
 	background-image:
 		radial-gradient(ellipse 80% 50% at 50% -10%, rgba(212, 169, 78, 0.12), transparent 70%),
-		url("https://awtsmoos.com/api/social/drive/public/awtsmoos/backgrounds/bg-email-particles-0-4201fae6-bd31-457d-8fa9-6551a54b93d1.webp");
+		url("https://awtsmoos.com/api/social/drive/public/awtsmoos/backgrounds/bg-email-particles-0-4201fae6-bd31-457d-8fa9-6551a54b93d1.webp?v=5ccc6b9244");
 }
 
 /* ---------- hero: seven halls cover, title over the art ---------- */
@@ -70,7 +70,7 @@
 	border-radius: 1.5rem;
 	overflow: hidden;
 	background-color: var(--ikar-night);
-	background-image: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/heichelos.webp");
+	background-image: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/heichelos.webp?v=d11b4015ae");
 	background-size: cover;
 	background-position: center;
 	isolation: isolate;
@@ -134,7 +134,7 @@
 	padding: 0.9rem 1.25rem 0.9rem 3rem;
 	width: 100%;
 	box-shadow: var(--ikar-shadow-card);
-	background-image: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-search-0-2d839271-ea0a-46bb-a647-16fc27971baa.webp");
+	background-image: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-search-0-2d839271-ea0a-46bb-a647-16fc27971baa.webp?v=998889ed78");
 	background-repeat: no-repeat;
 	background-position: 1rem center;
 	background-size: 1.4rem 1.4rem;

@@ -85,12 +85,9 @@
 		});
 		document.body.appendChild(toast);
 
-		// Auto-update after 10 seconds if user doesn't tap
-		setTimeout(() => {
-			if (document.body.contains(toast)) {
-				toast.remove();
-				onUpdate();
-			}
-		}, 10000);
+		// B"H (2026-10-13): NO auto-reload timer. Yaakov reported "weird
+		// loading" — yanking the page after 10s while the user is reading
+		// is worse than waiting for their tap. The toast stays until tapped
+		// or dismissed; any navigation picks up the new version anyway.
 	}
 })();

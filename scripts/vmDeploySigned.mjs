@@ -131,6 +131,11 @@ async function main() {
 			console.log('B"H busting all caches (content-hash versions)...');
 			try {
 				execFileSync('node', [join(REPO, 'scripts', 'bustAllCaches.mjs'), '--write'], { cwd: REPO, stdio: 'inherit' });
+				// B"H (2026-10-13): Drive images are served immutable/1-year.
+				// bustAllCaches.mjs skips them — bustDriveCaches.mjs versions
+				// every Drive URL from its live ETag content hash.
+				console.log('B"H busting Drive image caches (ETag content hashes)...');
+				execFileSync('node', [join(REPO, 'scripts', 'bustDriveCaches.mjs'), '--write'], { cwd: REPO, stdio: 'inherit' });
 				// Re-read any payload files that the bust just modified
 				for (const f of payload) {
 					try {
