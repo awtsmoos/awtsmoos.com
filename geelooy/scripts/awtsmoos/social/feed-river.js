@@ -16,11 +16,15 @@
 
 const ICON_BASE = 'https://awtsmoos.com/api/social/drive/public/awtsmoos/icons';
 const ICONS = {
-	heart: ICON_BASE + '/media-generation-icon-heart-0-5629aacd-4b69-455b-b1b1-f86479475807.webp',
-	comment: ICON_BASE + '/media-generation-icon-mail-regular-0-e8ff743a-c987-452f-b549-64e23af957fc.webp',
-	share: ICON_BASE + '/media-generation-icon-share-0-5961f07f-21a6-4ff0-abb1-31888cabdd28.webp',
-	bookmark: ICON_BASE + '/media-generation-icon-bookmark-0-03bd3c64-fec6-49ab-a919-902a42f29850.webp'
+	heart: { cls: 'gicon--heart', url: ICON_BASE + '/media-generation-icon-heart-0-5629aacd-4b69-455b-b1b1-f86479475807.webp' },
+	comment: { cls: 'gicon--comment', url: ICON_BASE + '/gicon-comment.webp?v=c5d6b22649' },
+	share: { cls: 'gicon--share', url: ICON_BASE + '/media-generation-icon-share-0-5961f07f-21a6-4ff0-abb1-31888cabdd28.webp' },
+	bookmark: { cls: 'gicon--bookmark', url: ICON_BASE + '/media-generation-icon-bookmark-0-03bd3c64-fec6-49ab-a919-902a42f29850.webp' }
 };
+/** One golden action icon img with the shared gicon states. */
+function actionIcon(vessel) {
+	return `<img class="gicon ${vessel.cls}" src="${vessel.url}" alt="" aria-hidden="true" loading="lazy" decoding="async" width="22" height="22">`;
+}
 const COVER_BASE = 'https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/series';
 
 const MODES = [
@@ -106,17 +110,17 @@ function cardHtml(post, index = 0) {
 				<span>${author}</span>
 			</div>
 			<div class="feed-card__actions">
-				<button class="feed-action ${liked ? 'feed-action--liked' : ''}" data-action="like" data-post="${id}" aria-pressed="${liked}">
-					<img src="${ICONS.heart}" alt="" loading="lazy"><span>${likes || 'Like'}</span>
+				<button class="feed-action ${liked ? 'feed-action--liked' : ''}" data-action="like" data-post="${id}" aria-pressed="${liked}" aria-label="${liked ? 'Unlike' : 'Like'} this post">
+					${actionIcon(ICONS.heart)}<span>${likes || 'Like'}</span>
 				</button>
-				<button class="feed-action" data-action="comment" data-post="${id}">
-					<img src="${ICONS.comment}" alt="" loading="lazy"><span>${comments || 'Comment'}</span>
+				<button class="feed-action" data-action="comment" data-post="${id}" aria-label="Comment on this post">
+					${actionIcon(ICONS.comment)}<span>${comments || 'Comment'}</span>
 				</button>
-				<button class="feed-action" data-action="share" data-post="${id}">
-					<img src="${ICONS.share}" alt="" loading="lazy"><span>Share</span>
+				<button class="feed-action" data-action="share" data-post="${id}" aria-label="Share this post">
+					${actionIcon(ICONS.share)}<span>Share</span>
 				</button>
-				<button class="feed-action" data-action="save" data-post="${id}" aria-pressed="${state.saved.has(id)}">
-					<img src="${ICONS.bookmark}" alt="" loading="lazy"><span>Save</span>
+				<button class="feed-action" data-action="save" data-post="${id}" aria-pressed="${state.saved.has(id)}" aria-label="${state.saved.has(id) ? 'Unsave' : 'Save'} this post">
+					${actionIcon(ICONS.bookmark)}<span>Save</span>
 				</button>
 			</div>
 		</div>
