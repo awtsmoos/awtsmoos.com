@@ -10,7 +10,7 @@
  */
 
 import { mountDiscussion } from '/heichelos/post/social/discussion.js?v=social-reborn-003';
-import { mountPostTranslations } from '/heichelos/post/translations/controller.js?v=translation-reader-003';
+import { mountPostTranslations } from '/heichelos/post/translations/controller.js?v=translation-reader-004';
 
 /**
  * Starts optional discussion and records its independent runtime state.
