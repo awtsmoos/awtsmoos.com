@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מפתח מאמרי אדמו״ר האמצעי · Mittler Rebbe Maamar Index</title>
+<style>
+:root{
+  --bg:#faf7f0; --card:#fffdf8; --ink:#2b2620; --muted:#8a7f6d;
+  --accent:#7a5c14; --accent-soft:#f3e9cf; --line:#e7ddc8;
+  --badge:#eef3e6; --badge-ink:#4a5d23; --link:#1d5fa8;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#141210; --card:#1d1a16; --ink:#e8e0d2; --muted:#a89c86;
+    --accent:#d9b64a; --accent-soft:#2c2517; --line:#3a332a;
+    --badge:#24301a; --badge-ink:#b9d18a; --link:#7db8f0;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Segoe UI","Noto Sans Hebrew",Arial,sans-serif;line-height:1.6}
+header{position:sticky;top:0;z-index:10;background:var(--card);
+  border-bottom:1px solid var(--line);padding:14px 22px}
+header h1{margin:0;font-size:1.35rem;color:var(--accent)}
+header p{margin:2px 0 0;color:var(--muted);font-size:.85rem}
+.nav{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.nav a{border:1px solid var(--line);background:var(--bg);color:var(--ink);
+  border-radius:999px;padding:6px 16px;font-size:.85rem;text-decoration:none}
+.nav a:hover{background:var(--accent-soft)}
+.searchrow{margin-top:10px;display:flex;gap:8px}
+.searchrow input{flex:1;padding:9px 14px;border:1px solid var(--line);
+  border-radius:8px;font-size:1rem;background:var(--card);color:var(--ink)}
+.searchrow input:focus{outline:2px solid var(--accent);border-color:var(--accent)}
+main{max-width:1100px;margin:0 auto;padding:18px 22px 60px}
+.sefer{border:1px solid var(--line);border-radius:12px;background:var(--card);
+  margin-bottom:12px;overflow:hidden}
+.sefer>summary{cursor:pointer;padding:12px 18px;font-weight:700;list-style:none}
+.sefer>summary:hover{background:var(--accent-soft)}
+.sefer>summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.sefer>summary .count{background:var(--accent-soft);color:var(--accent);
+  border-radius:999px;padding:1px 12px;font-size:.85rem;font-weight:400}
+.sefer>summary .he{color:var(--accent)}
+.sefer .body{border-top:1px solid var(--line);padding:10px 18px 14px}
+.overview{display:block;margin:4px 0 10px;font-size:.88rem;color:var(--link);text-decoration:none}
+.overview:hover{text-decoration:underline}
+.volhead{font-weight:800;color:var(--accent);margin:12px 0 4px;font-size:1rem}
+.volhead .org{color:var(--muted);font-weight:400;font-size:.82rem}
+.post{display:flex;gap:10px;align-items:baseline;padding:8px 4px;
+  border-bottom:1px solid var(--line);text-decoration:none;color:inherit}
+.post:last-child{border-bottom:none}
+.post:hover{background:var(--accent-soft)}
+.post .t{flex:1}
+.post .title{font-weight:600}
+.post .meta{font-size:.8rem;color:var(--muted)}
+.badge{display:inline-block;background:var(--badge);color:var(--badge-ink);
+  border-radius:6px;padding:0 8px;font-size:.78rem;margin-inline-start:8px}
+.open{font-size:.8rem;color:var(--link);white-space:nowrap}
+.loading,.empty{text-align:center;color:var(--muted);padding:40px}
+footer{text-align:center;color:var(--muted);font-size:.8rem;padding:20px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<header>
+  <h1>מפתח מאמרי אדמו״ר האמצעי</h1>
+  <p id="stats">Mittler Rebbe Maamar Index · טוען…</p>
+  <div class="nav">
+    <a href="/heichelos/chassidus/series/mittler-rebbe-encyclopedia">אנציקלופדיה · Encyclopedia (79)</a>
+    <a href="/heichelos/chassidus/series/admur-encyclopedia">אנציקלופדיה כללית · General Encyclopedia</a>
+    <a href="/heichelos/mittler-rebbe-novels/">רומנים · Theme-Novels (951)</a>
+    <a href="/feed/">פיד · Feed</a>
+  </div>
+  <div class="searchrow">
+    <input id="q" type="search" placeholder="חיפוש מאמר / פרשה…  (search maamar or parsha)">
+  </div>
+</header>
+<main id="main"><div class="loading">טוען את המפתח…</div></main>
+<footer>מפתח מאמרי אדמו״ר האמצעי · 282 מאמרים · Awtsmoos.com</footer>
+<script>
+var DATA=null;
+var main=document.getElementById('main'), q=document.getElementById('q'),
+    stats=document.getElementById('stats');
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function row(m){
+  var meta='פרשת '+esc(m.parsha)+' · עמ׳ '+esc(m.hebrew_pages)+' · '+m.paragraphs+' פסקאות';
+  return '<a class="post" data-title="'+esc(m.hebrew_name+' '+m.parsha+' '+m.postId)+'" href="'+esc(m.url)+'">'+
+    '<span class="t"><span class="title">'+esc(m.hebrew_name)+'</span>'+
+    '<span class="badge">'+esc(m.postId)+'</span><br>'+
+    '<span class="meta">'+meta+'</span></span>'+
+    '<span class="open">פתח ←</span></a>';
+}
+function render(filter){
+  var f=(filter||'').trim(), html='', total=0, shown=0;
+  DATA.sefarim.forEach(function(s){
+    var vols={}, volOrder=[];
+    s.maamarim.forEach(function(m){
+      if(f && (m.hebrew_name+' '+m.parsha+' '+m.postId).indexOf(f)===-1) return;
+      shown++; total++;
+      if(!vols[m.volume]){vols[m.volume]=[];volOrder.push(m.volume);}
+      vols[m.volume].push(m);
+    });
+    if(!volOrder.length) return;
+    html+='<details class="sefer"'+(f?' open':'')+'><summary>'+
+      '<span class="he">'+esc(s.sefer_he)+'</span> · '+esc(s.sefer)+
+      ' <span class="count">'+volOrder.reduce(function(a,v){return a+vols[v].length;},0)+'</span></summary>'+
+      '<div class="body">'+
+      '<a class="overview" href="'+esc(s.overview_url)+'">← סקירת הספר · Sefer overview (volumes '+esc(s.volumes.join(', '))+')</a>';
+    volOrder.sort().forEach(function(v){
+      html+='<div class="volhead">כרך '+esc(v)+' <span class="org">Hebrewbooks.org/'+esc(v)+'</span></div>';
+      vols[v].forEach(function(m){ html+=row(m); });
+    });
+    html+='</div></details>';
+  });
+  main.innerHTML=html||'<div class="empty">לא נמצאו מאמרים.</div>';
+  stats.textContent='Mittler Rebbe Maamar Index · '+DATA.total+' מאמרים · מוצגים: '+shown;
+}
+fetch('index.json',{credentials:'same-origin'}).then(function(r){
+  if(!r.ok) throw new Error('HTTP '+r.status);
+  return r.json();
+}).then(function(d){
+  DATA=d;
+  render('');
+  q.addEventListener('input',function(){render(q.value);});
+}).catch(function(e){
+  main.innerHTML='<div class="empty">שגיאה בטעינת המפתח. נסו לרענן.</div>';
+});
+</script>
+</body>
+</html>
