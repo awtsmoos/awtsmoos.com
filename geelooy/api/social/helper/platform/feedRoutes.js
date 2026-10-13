@@ -179,4 +179,200 @@ async function feedDiscover({ $i, limit = 50, offset = 0 }) {
 	return { kind: 'discover', generatedAt: Date.now(), rotation: 'daily', ...page };
 }
 
-module.exports = { feedHome, feedHeichel, feedTrending, feedDiscover };
+/* ============================================================
+ * B"H — Personalized feed ("For You").
+ * Yaakov 2026-10-13: rank feed content from reading history.
+ *
+ * Signals (from reading analytics, server-side):
+ *  - activeSeconds per post (real reading time, idle excluded)
+ *  - maxScrollPercent (completion depth)
+ *  - seriesId per session (series affinity)
+ *
+ * Scoring:
+ *  - Series affinity: posts from heavily-read series score higher.
+ *  - Related series: "related but still similar" — a Likkutei Sichos
+ *    reader gets more Chassidus, not only Likkutei Sichos.
+ *  - Deep reads: series where the user scrolled 80%+ get extra weight.
+ *  - Already-read posts are demoted (not hidden — user may revisit).
+ *  - Recency decay keeps the river fresh; engagement adds social proof.
+ *  - Greedy diversity so one series never floods the feed.
+ * New users (no history) fall back to the home ranking.
+ * ============================================================ */
+
+/** Series families for "related but still similar" expansion. */
+const SERIES_FAMILIES = {
+	chassidus: new Set([
+		'chassidus', 'likkuteiSichos', 'likkuteiSichosVolume35', 'torahOhr',
+		'torah-ohr-v6-rest', 'seferHatanya', 'likkuteiTorah', 'meluket',
+		'sichosKodesh', 'derechMitzvosecha', 'seferHaMaamarim'
+	]),
+	tanach: new Set([
+		'theWrittenTorah', 'tehillim', 'chumash', 'bereishis', 'shemos',
+		'vayikra', 'bamidbar', 'devarim', 'neviim', 'kesuvim',
+		'yehoshua', 'shoftim', 'shmuelAleph', 'shmuelBeis', 'melachimAleph',
+		'melachimBeis', 'yeshayahu', 'yirmiyahu', 'yechezkel'
+	]),
+	oralTorah: new Set([
+		'theOralTorah', 'mishnah', 'talmudBavli', 'mishnehTorah', 'yerushalmi',
+		'halachah', 'midrash'
+	])
+};
+
+/** Map a seriesId to its family name, or null. */
+function seriesFamily(seriesId) {
+	const s = String(seriesId || '');
+	for (const [family, members] of Object.entries(SERIES_FAMILIES)) {
+		if (members.has(s)) return family;
+	}
+	return null;
+}
+
+/**
+ * Builds normalized affinity weights from reading history.
+ * Returns { seriesWeight: Map(seriesId -> 0..1), familyWeight: Map(family -> 0..1), readPostIds: Set }.
+ */
+function buildAffinity(userId) {
+	const seriesWeight = new Map();
+	const familyWeight = new Map();
+	const readPostIds = new Set();
+	const deepReadSeries = new Set();
+
+	try {
+		const readingStore = require('../../reading/readingStore.js');
+
+		// Recent sessions carry per-post signals.
+		const sessions = readingStore.getRecentReads(userId, 50) || [];
+		for (const s of sessions) {
+			const postId = String(s.postId || '');
+			if (postId) readPostIds.add(postId);
+			const secs = Number(s.activeSeconds) || 0;
+			const scroll = Number(s.maxScrollPercent) || 0;
+			const sid = String(s.seriesId || '');
+			if (!sid) continue;
+			// Engagement weight: real seconds + completion bonus.
+			const w = Math.log1p(secs / 30) + (scroll >= 80 ? 1.2 : scroll >= 50 ? 0.5 : 0);
+			seriesWeight.set(sid, (seriesWeight.get(sid) || 0) + w);
+			if (scroll >= 80) deepReadSeries.add(sid);
+			const fam = seriesFamily(sid);
+			if (fam) familyWeight.set(fam, (familyWeight.get(fam) || 0) + w * 0.6);
+		}
+
+		// Lifetime stats add durable series preference.
+		const stats = readingStore.getStats(userId);
+		const counts = (stats && stats.seriesCounts) || {};
+		for (const [sid, count] of Object.entries(counts)) {
+			const w = Math.log1p(Number(count) || 0) * 0.5;
+			seriesWeight.set(sid, (seriesWeight.get(sid) || 0) + w);
+			const fam = seriesFamily(sid);
+			if (fam) familyWeight.set(fam, (familyWeight.get(fam) || 0) + w * 0.6);
+			if (deepReadSeries.has(sid)) seriesWeight.set(sid, seriesWeight.get(sid) * 1.4);
+		}
+	} catch (_) {
+		// No history or store unavailable — caller falls back to home ranking.
+	}
+
+	// Normalize to 0..1.
+	const norm = (map) => {
+		let max = 0;
+		for (const v of map.values()) if (v > max) max = v;
+		if (max <= 0) return map;
+		for (const [k, v] of map) map.set(k, v / max);
+		return map;
+	};
+	return { seriesWeight: norm(seriesWeight), familyWeight: norm(familyWeight), readPostIds };
+}
+
+/** Latest feed: pure reverse-chronological, no ranking. */
+function feedLatest({ $i, limit = 50, offset = 0 }) {
+	const lim = Math.min(100, Math.max(1, Number(limit) || 50));
+	const posts = postsFromIndex($i)
+		.filter(p => !TEST_ID_RE.test(String(p.postId || p.id || '')))
+		.sort((a, b) => Number(b.updatedAt || b.createdAt || 0) - Number(a.updatedAt || a.createdAt || 0));
+	const page = paginate(posts, lim, offset);
+	return { kind: 'latest', generatedAt: Date.now(), ranking: 'chronological', ...page };
+}
+
+/** Popular feed: engagement-ranked, no personalization. */
+function feedPopular({ $i, limit = 50, offset = 0 }) {
+	const lim = Math.min(100, Math.max(1, Number(limit) || 50));
+	const now = Date.now();
+	const posts = postsFromIndex($i).filter(p => !TEST_ID_RE.test(String(p.postId || p.id || '')));
+	const scored = posts
+		.map(post => ({ post, score: 0.65 * engagementScore(post) + 0.35 * recencyScore(post.updatedAt || post.createdAt, now) }))
+		.sort((a, b) => b.score - a.score);
+	const ranked = diversify(scored, 400);
+	const page = paginate(ranked.map(r => ({ ...r.post, _rankScore: +r.rankedScore.toFixed(4) })), lim, offset);
+	return { kind: 'popular', generatedAt: now, ranking: 'engagement', ...page };
+}
+
+/**
+ * Personalized "For You" feed.
+ * Falls back to home ranking when the user has no reading history.
+ */
+async function feedPersonalized({ $i, userId = '', aliasId = '', limit = 50, offset = 0 }) {
+	const lim = Math.min(100, Math.max(1, Number(limit) || 50));
+	const cacheKey = `personal:${userId || aliasId || 'anon'}:${lim}:${offset}`;
+	const cached = cacheGet(cacheKey);
+	if (cached) return cached;
+
+	const now = Date.now();
+	const { seriesWeight, familyWeight, readPostIds } = buildAffinity(userId);
+
+	// No history → fall back to the standard home ranking.
+	if (seriesWeight.size === 0 && familyWeight.size === 0) {
+		const home = await feedHome({ $i, aliasId, limit: lim, offset });
+		const out = { ...home, kind: 'personalized', ranking: home.ranking + '+fallback-no-history' };
+		cacheSet(cacheKey, out);
+		return out;
+	}
+
+	const followed = followedAliasSet($i, aliasId);
+	const posts = postsFromIndex($i).filter(p => !TEST_ID_RE.test(String(p.postId || p.id || '')));
+
+	const scored = posts.map(post => {
+		const postId = String(post.postId || post.id || '');
+		const sid = String(post.seriesId || post.series || '');
+
+		// Base: recency + engagement + follow affinity (same as home).
+		let score = baseScore(post, followed, now);
+
+		// Series affinity: direct preference.
+		const sw = seriesWeight.get(sid) || 0;
+		// Related-family: "related but still similar" expansion.
+		const fam = seriesFamily(sid);
+		const fw = (fam && !seriesWeight.has(sid)) ? (familyWeight.get(fam) || 0) * 0.55 : 0;
+
+		score += 0.45 * sw + 0.25 * fw;
+
+		// Demote (don't hide) already-read posts.
+		if (readPostIds.has(postId)) score *= 0.35;
+
+		return { post, score };
+	}).sort((a, b) => b.score - a.score);
+
+	// Diversity across series (not just alias) so one series never floods.
+	const picked = [];
+	const recentSeries = [];
+	for (const entry of scored) {
+		if (picked.length >= 400) break;
+		const sid = String(entry.post.seriesId || entry.post.series || '');
+		const repeats = recentSeries.filter(s => s === sid).length;
+		const dampened = entry.score * Math.pow(0.5, repeats);
+		picked.push({ post: entry.post, score: entry.score, rankedScore: dampened });
+		recentSeries.push(sid);
+		if (recentSeries.length > 5) recentSeries.shift();
+	}
+	picked.sort((a, b) => b.rankedScore - a.rankedScore);
+
+	const page = paginate(picked.map(r => ({ ...r.post, _rankScore: +r.rankedScore.toFixed(4) })), lim, offset);
+	const out = {
+		kind: 'personalized', userId: userId || null, generatedAt: now,
+		ranking: 'reading-history+series-affinity+related-family+diversity',
+		signals: { series: seriesWeight.size, families: familyWeight.size, readPosts: readPostIds.size },
+		...page
+	};
+	cacheSet(cacheKey, out);
+	return out;
+}
+
+module.exports = { feedHome, feedHeichel, feedTrending, feedDiscover, feedLatest, feedPopular, feedPersonalized };

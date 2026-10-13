@@ -11,13 +11,14 @@ The Awtsmoos creates the social river before any script names it; Awtsmoos.com t
 	<meta name="description" content="Explore Geelooy social state safely, inspect feeds, profiles, graph, presence, governance, and choose mutations deliberately.">
 	<meta name="theme-color" content="#070b12">
 	<title>Awtsmoos Social Observatory</title>
-	<link rel="stylesheet" href="/style/social/hub/index.css?v=social-hub-003">
-	<link rel="stylesheet" href="/style/social/live/presence.css?v=social-hub-003">
-	<link rel="modulepreload" href="/scripts/awtsmoos/social/hub/render.js">
-	<link rel="modulepreload" href="/scripts/awtsmoos/social/hub/requestPlan.js">
-	<link rel="stylesheet" href="/css/golden-icons.css?v=gicon-002">
-	<link rel="stylesheet" href="/css/awtsmoos-visual-assets.css?v=ava-001">
-	<link rel="stylesheet" href="/css/video-loader.css?v=vl-001">
+	<link rel="stylesheet" href="/style/social/hub/index.css?v=e58ca2330d">
+	<link rel="stylesheet" href="/style/social/live/presence.css?v=2a49ec535f">
+	<link rel="modulepreload" href="/scripts/awtsmoos/social/hub/render.js?v=61d8ea1fca">
+	<link rel="modulepreload" href="/scripts/awtsmoos/social/hub/requestPlan.js?v=6514d566b5">
+	<link rel="stylesheet" href="/css/golden-icons.css?v=c462a12509">
+	<link rel="stylesheet" href="/css/awtsmoos-visual-assets.css?v=28fee09ee1">
+	<link rel="stylesheet" href="/css/video-loader.css?v=fccafca785">
+	<link rel="stylesheet" href="/style/social/feed-river.css?v=bdab72c11c">
 </head>
 <body class="social-hub-document">
 	<!-- B"H — Video loading screen: warm light network particles -->
@@ -47,6 +48,16 @@ The Awtsmoos creates the social river before any script names it; Awtsmoos.com t
 		<p class="awtsmoos-hero-subtitle">Connect & Share</p>
 		<h1 class="awtsmoos-hero-title">Awtsmoos Social</h1>
 	</div>
+	<!-- B"H — Premium feed river: For You / Latest / Popular -->
+	<div id="feed-river-mount"></div>
+	<script type="module">
+		import { initFeedRiver } from '/scripts/awtsmoos/social/feed-river.js';
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', initFeedRiver);
+		} else {
+			initFeedRiver();
+		}
+	</script>
 	<div id="BH_SOCIAL_HUB" class="social-hub-root">
 		<main class="hub-preboot" aria-labelledby="social-preboot-title">
 			<p class="hub-kicker">B"H · Social observatory</p>
@@ -78,6 +89,6 @@ The Awtsmoos creates the social river before any script names it; Awtsmoos.com t
 			</noscript>
 		</main>
 	</div>
-	<script type="module" src="/scripts/awtsmoos/social/hub/index.js?v=social-hub-003"></script>
+	<script type="module" src="/scripts/awtsmoos/social/hub/index.js?v=3002f2b9d7"></script>
 </body>
 </html>
