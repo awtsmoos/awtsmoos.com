@@ -27,16 +27,35 @@ export function startPostReadingIntelligence(viewport, post = window.post) {
 		dwellMs: 5000,
 		threshold: 0.55,
 		onMeaningful: async () => {
-			view.loading();
+			view.loading(() => startPostReadingIntelligence(viewport, post));
 			try {
-				view.render(await search.search(context));
+				// B"H — the search may hang without ever settling (dropped
+				// socket, stalled connection). Race it against a timeout so
+				// the loader can never spin forever.
+				const sources = await withTimeout(search.search(context), 12000);
+				view.render(sources || []);
 			} catch (error) {
-				view.error(error?.message);
+				view.error(error?.message || "Related Torah is unavailable right now.");
 			}
 		}
 	});
 	observer.start();
 	return observer;
+}
+
+/**
+ * B"H — races a promise against a timeout. Rejects with a timeout error
+ * if the promise does not settle in time, guaranteeing the caller always
+ * gets a resolution.
+ */
+function withTimeout(promise, ms) {
+	let timer = null;
+	const timeout = new Promise((_, reject) => {
+		timer = setTimeout(() => reject(new Error("Related Torah search timed out.")), ms);
+	});
+	return Promise.race([promise, timeout]).finally(() => {
+		if (timer) clearTimeout(timer);
+	});
 }
 
 function readingTarget(viewport) {

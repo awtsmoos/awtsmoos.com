@@ -88,9 +88,57 @@ function enhanceDiscovery(root, discovery) {
 	const items = [...discovery.querySelectorAll('li')];
 	updateReadyStatus(root, items.length);
 
+	// B"H — resolve raw post IDs (e.g. "BH_POST_...") into human-readable
+	// titles. Runs async after paint; never blocks rendering.
+	resolvePostTitles(discovery, items);
+
 	if (items.length >= 8) {
 		installIkarSearch(root, discovery, items);
 	}
+}
+
+/**
+ * B"H — replaces raw post-ID labels with real titles.
+ * Server-rendered series lists sometimes carry the post ID as the link text;
+ * this upgrades them to human-readable titles without blocking first paint.
+ */
+function resolvePostTitles(discovery, items) {
+	const links = items
+		.map(li => li.querySelector('a'))
+		.filter(a => a && /^BH_POST_[A-Za-z0-9_]+$/.test(a.textContent.trim()));
+	if (!links.length) return;
+
+	// Instant fallback: derive a readable label from the post ID so the user
+	// never stares at a raw ID, even if the title fetch fails.
+	for (const a of links) {
+		const id = a.textContent.trim();
+		const seq = id.match(/_(\d+)$/);
+		a.textContent = seq ? `Teaching ${seq[1]}` : 'Teaching';
+		a.dataset.rawPostId = id;
+	}
+
+	// Upgrade to real titles when the API responds.
+	const pathParts = location.pathname.split('/').filter(Boolean);
+	const seriesIdx = pathParts.indexOf('series');
+	const seriesId = seriesIdx >= 0 ? decodeURIComponent(pathParts[seriesIdx + 1]) : null;
+	const heichelIdx = pathParts.indexOf('heichelos');
+	const heichelId = heichelIdx >= 0 ? decodeURIComponent(pathParts[heichelIdx + 1]) : 'ikar';
+	if (!seriesId) return;
+
+	fetch(`/api/social/heichelos/${encodeURIComponent(heichelId)}/series/${encodeURIComponent(seriesId)}/posts`, { cache: 'force-cache' })
+		.then(r => r.ok ? r.json() : null)
+		.then(data => {
+			if (!data) return;
+			const byId = Array.isArray(data)
+				? Object.fromEntries(data.map(p => [p.postId || p.id, p]))
+				: data;
+			for (const a of links) {
+				const id = a.dataset.rawPostId;
+				const title = byId?.[id]?.title;
+				if (title && title !== id) a.textContent = title;
+			}
+		})
+		.catch(() => { /* fallback labels already in place */ });
 }
 
 /** Replaces transitional language with a truthful count from server-rendered links. */

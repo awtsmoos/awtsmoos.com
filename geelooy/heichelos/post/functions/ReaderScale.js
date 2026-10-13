@@ -51,6 +51,12 @@ export class GevurahReaderScale {
 		const tiferesScale = this.policy.buildScale(ohrSize);
 		const mainSize = tiferesScale['--post-text-size'];
 
+		// B"H — always scale the sefer vessel, even when the localized
+		// reader root is absent (Meluket posts use .meluket-sefer, not
+		// .post-reader-localized-context). Previously the early return
+		// below skipped this, so the buttons changed a variable nothing rendered.
+		this.applySeferScale(mainSize);
+
 		if (!malchusRoot) {
 			return mainSize;
 		}
@@ -63,6 +69,28 @@ export class GevurahReaderScale {
 		this.display.reveal(mainSize);
 		this.runtime.announce(mainSize, tiferesScale);
 		return mainSize;
+	}
+
+	/**
+	 * Scales the Meluket sefer reading vessel proportionally.
+	 *
+	 * B"H — the enriched-post sefer sizes its Hebrew/English text with
+	 * rem-based clamp() rules that never consume --post-text-size, so the
+	 * + / − buttons changed a variable nothing rendered. A proportional zoom
+	 * on the sefer container resizes its Hebrew and English together, live,
+	 * without touching any stylesheet.
+	 * @param {string} mainSize Applied main CSS pixel size.
+	 * @returns {void}
+	 */
+	applySeferScale(mainSize) {
+		const sefer = this.document?.querySelector?.('.meluket-sefer');
+		if (!sefer) {
+			return;
+		}
+		const factor = Number.parseFloat(mainSize) / this.policy.defaultSize;
+		if (Number.isFinite(factor) && factor > 0) {
+			sefer.style.zoom = String(Math.round(factor * 1000) / 1000);
+		}
 	}
 
 	/**

@@ -26,14 +26,30 @@ export function startCommentReadingIntelligence(card, comment, visibleText) {
 		dwellMs: 3000,
 		threshold: 0.65,
 		onMeaningful: async () => {
-			view.loading();
+			view.loading(() => startCommentReadingIntelligence(card, comment, visibleText));
 			try {
-				view.render(await search.search(context));
+				// B"H — race the search against a timeout so the loader
+				// can never spin forever on a stalled connection.
+				const sources = await withTimeout(search.search(context), 12000);
+				view.render(sources || []);
 			} catch (error) {
-				view.error(error?.message);
+				view.error(error?.message || "Related Torah is unavailable right now.");
 			}
 		}
 	});
 	observer.start();
 	return observer;
+}
+
+/**
+ * B"H — races a promise against a timeout, guaranteeing resolution.
+ */
+function withTimeout(promise, ms) {
+	let timer = null;
+	const timeout = new Promise((_, reject) => {
+		timer = setTimeout(() => reject(new Error("Related Torah search timed out.")), ms);
+	});
+	return Promise.race([promise, timeout]).finally(() => {
+		if (timer) clearTimeout(timer);
+	});
 }
