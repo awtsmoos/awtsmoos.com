@@ -10,6 +10,14 @@ import { MaagalDegreeRing } from "./degree-ring.js";
 import { OhrHaChamahMotion } from "./motion.js";
 import { createSunScene, resizeSunScene } from "./scene.js";
 
+// B"H: shared WebGL help gate (Yaakov 2026-10-13). When WebGL is unavailable the
+// shared overlay explains + offers Try Again; halt boot here (module top-level
+// return is illegal, so throw the equivalent halt).
+if (globalThis.AwtsmoosWebGL && !globalThis.AwtsmoosWebGL.ensure({ gameName: 'Rambam · Kiddush HaChodesh' })) {
+	throw new Error('[Rambam Kiddush HaChodesh] WebGL unavailable — help overlay shown');
+}
+if (globalThis.AwtLoading) globalThis.AwtLoading.ready();
+
 const sceneRoot = document.querySelector("#scene-root");
 const vessel = createSunScene(sceneRoot);
 const degreeRing = new MaagalDegreeRing(vessel.scene);
