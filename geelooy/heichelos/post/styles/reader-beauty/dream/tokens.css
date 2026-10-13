@@ -27,6 +27,16 @@
 	--dream-control-ink: #f3e8cf;
 	--dream-control-line: rgba(233, 196, 106, 0.32);
 	--dream-verse-lit-bar: #e9c46a;
+	--dream-ember: #ff9a3c;
+	--dream-ember-deep: #ff5e1a;
+	--dream-ember-glow: rgba(255, 154, 60, 0.55);
+	--dream-radiance: rgba(248, 224, 164, 0.10);
+	--dream-geometry: rgba(233, 196, 106, 0.055);
+	--dream-geometry-bright: rgba(248, 224, 164, 0.09);
+	--dream-pillar: rgba(233, 196, 106, 0.10);
+	--dream-aura: rgba(233, 196, 106, 0.20);
+	--dream-aura-core: rgba(248, 224, 164, 0.34);
+	--dream-hebrew-glow: 0 0 8px rgba(250, 230, 170, 0.55), 0 0 22px var(--dream-glow-soft), 0 0 64px var(--dream-glow-wide);
 }
 
 /* Dawn — warm sunrise (vision 7): paper, rose-gold light, morning calm. */
@@ -53,4 +63,14 @@
 	--dream-control-ink: #3a2a15;
 	--dream-control-line: rgba(154, 106, 30, 0.34);
 	--dream-verse-lit-bar: #c08f2e;
+	--dream-ember: #d97b2b;
+	--dream-ember-deep: #b85c1a;
+	--dream-ember-glow: rgba(217, 123, 43, 0.40);
+	--dream-radiance: rgba(255, 196, 120, 0.16);
+	--dream-geometry: rgba(154, 106, 30, 0.05);
+	--dream-geometry-bright: rgba(192, 143, 46, 0.08);
+	--dream-pillar: rgba(192, 143, 46, 0.10);
+	--dream-aura: rgba(192, 143, 46, 0.16);
+	--dream-aura-core: rgba(220, 170, 80, 0.28);
+	--dream-hebrew-glow: 0 1px 0 rgba(255, 255, 255, 0.7), 0 0 24px var(--dream-glow-wide);
 }

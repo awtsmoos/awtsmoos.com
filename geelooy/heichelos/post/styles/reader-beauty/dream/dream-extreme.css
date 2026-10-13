@@ -1,0 +1,544 @@
+/* B"H Dream Reader — EXTREME.
+ * Yaakov: "even more intense." The final push, no restraint.
+ * When a post opens, it should feel like stepping into the Beis HaMikdash:
+ * verses ignite letter by letter like embers catching, sacred geometry turns
+ * imperceptibly in the deep, candlelight breathes over the whole page, divine
+ * radiance pours from above, twin pillars of light stand at the margins, a
+ * reading aura follows the verse you are on, and every crown shimmers.
+ *
+ * Performance law: every INFINITE animation is transform/opacity only (the
+ * compositor's native tongue). text-shadow/box-shadow keyframes appear ONLY
+ * in one-shot ignition animations on bounded elements. Zero new assets,
+ * zero webfonts, zero layout. Scoped under [data-dream]; imported last so
+ * it crowns the other dream layers. */
+
+/* B"H The halo's slow turning — registered so it can animate smoothly. */
+@property --dream-halo-angle {
+	syntax: "<angle>";
+	inherits: false;
+	initial-value: 0deg;
+}
+
+/* ============ ember ignition: Hebrew catches fire, then settles ============
+ * One-shot. The flare blooms ember-orange, then the keyframes release and
+ * the text settles back into its theme glow while the long breathing begins. */
+@keyframes dream-ember-flare {
+	0% {
+		text-shadow: 0 0 4px var(--dream-ember-glow);
+	}
+	35% {
+		text-shadow:
+			0 0 22px var(--dream-ember),
+			0 0 60px var(--dream-ember-glow),
+			0 0 110px var(--dream-ember-deep);
+	}
+}
+
+@keyframes dream-hebrew-breathe {
+	from {
+		text-shadow: var(--dream-hebrew-glow);
+	}
+	to {
+		text-shadow:
+			0 0 14px var(--dream-ember-glow),
+			0 0 34px var(--dream-glow-soft),
+			0 0 80px var(--dream-glow-wide);
+	}
+}
+
+[data-dream] .dream-verse-lit :lang(he) {
+	animation:
+		dream-ember-flare 1.9s ease-out,
+		dream-hebrew-breathe 9s ease-in-out 2s infinite alternate;
+}
+
+/* ============ flame spread: the verse kindles child by child ============
+ * The controller already staggers verses 120ms apart; inside each verse the
+ * lines rise one after another like a flame spreading. One-shot, bounded. */
+@keyframes dream-ember-rise {
+	from {
+		opacity: 0.25;
+		transform: translateY(10px);
+	}
+}
+
+[data-dream] .dream-verse-lit > * {
+	animation: dream-ember-rise 0.7s ease-out backwards;
+}
+
+[data-dream] .dream-verse-lit > *:nth-child(2) { animation-delay: 0.09s; }
+[data-dream] .dream-verse-lit > *:nth-child(3) { animation-delay: 0.18s; }
+[data-dream] .dream-verse-lit > *:nth-child(4) { animation-delay: 0.27s; }
+[data-dream] .dream-verse-lit > *:nth-child(5) { animation-delay: 0.36s; }
+[data-dream] .dream-verse-lit > *:nth-child(6) { animation-delay: 0.45s; }
+[data-dream] .dream-verse-lit > *:nth-child(7) { animation-delay: 0.54s; }
+[data-dream] .dream-verse-lit > *:nth-child(8) { animation-delay: 0.63s; }
+
+/* ============ rising embers: sparks lift off the lit bar ============
+ * One-shot. Six ember dots break from the verse's gold bar and rise,
+ * fading — the breath of the flame, seen once per ignition. */
+@keyframes dream-embers-rise {
+	0% {
+		opacity: 0;
+		transform: translateY(0);
+	}
+	25% {
+		opacity: 0.9;
+	}
+	100% {
+		opacity: 0;
+		transform: translateY(-64px);
+	}
+}
+
+[data-dream] .dream-verse-lit::after {
+	content: "";
+	position: absolute;
+	inset-inline-start: 14px;
+	bottom: 20px;
+	width: 4px;
+	height: 4px;
+	border-radius: 50%;
+	background: transparent;
+	box-shadow:
+		0 0 6px 2px var(--dream-ember),
+		16px 6px 0 1px var(--dream-ember-glow),
+		-10px 10px 0 1px var(--dream-ember-glow),
+		28px 14px 0 0 var(--dream-ember-deep),
+		6px 20px 0 1px var(--dream-ember-glow),
+		-18px 22px 0 0 var(--dream-ember-deep);
+	opacity: 0;
+	pointer-events: none;
+	animation: dream-embers-rise 2.1s ease-out 0.25s;
+}
+
+/* ============ sacred geometry: the deep turns, imperceptibly ============
+ * The Seed of Life drawn in light at the farthest depth — seven rings —
+ * turning once every seven minutes, with a counter-turning rayed seal.
+ * The parallax wrapper drifts at 0.03x; the geometry itself only rotates. */
+.dream-parallax-deep {
+	position: fixed;
+	inset: -18% 0;
+	z-index: 0;
+	pointer-events: none;
+	will-change: transform;
+}
+
+@keyframes dream-geometry-spin {
+	from {
+		transform: translate(-50%, -50%) rotate(0deg);
+	}
+	to {
+		transform: translate(-50%, -50%) rotate(360deg);
+	}
+}
+
+@keyframes dream-geometry-spin-rev {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(-360deg);
+	}
+}
+
+.dream-geometry {
+	position: absolute;
+	left: 50%;
+	top: 42%;
+	width: 130vmax;
+	height: 130vmax;
+	transform: translate(-50%, -50%);
+	opacity: 0.55;
+	animation: dream-geometry-spin 420s linear infinite;
+	background-image:
+		radial-gradient(circle, transparent 0 8.4vmax, var(--dream-geometry) 8.4vmax 8.58vmax, transparent 8.58vmax),
+		radial-gradient(circle, transparent 0 8.4vmax, var(--dream-geometry) 8.4vmax 8.58vmax, transparent 8.58vmax),
+		radial-gradient(circle, transparent 0 8.4vmax, var(--dream-geometry) 8.4vmax 8.58vmax, transparent 8.58vmax),
+		radial-gradient(circle, transparent 0 8.4vmax, var(--dream-geometry) 8.4vmax 8.58vmax, transparent 8.58vmax),
+		radial-gradient(circle, transparent 0 8.4vmax, var(--dream-geometry) 8.4vmax 8.58vmax, transparent 8.58vmax),
+		radial-gradient(circle, transparent 0 8.4vmax, var(--dream-geometry) 8.4vmax 8.58vmax, transparent 8.58vmax),
+		radial-gradient(circle, transparent 0 8.4vmax, var(--dream-geometry) 8.4vmax 8.58vmax, transparent 8.58vmax);
+	background-size: 60vmax 60vmax;
+	background-repeat: no-repeat;
+	background-position:
+		50% 50%,
+		calc(50% - 8.5vmax) 50%,
+		calc(50% + 8.5vmax) 50%,
+		calc(50% - 4.25vmax) calc(50% - 7.36vmax),
+		calc(50% + 4.25vmax) calc(50% - 7.36vmax),
+		calc(50% - 4.25vmax) calc(50% + 7.36vmax),
+		calc(50% + 4.25vmax) calc(50% + 7.36vmax);
+}
+
+.dream-geometry::before {
+	content: "";
+	position: absolute;
+	inset: 18vmax;
+	border-radius: 50%;
+	border: 1px solid var(--dream-geometry-bright);
+	background: repeating-conic-gradient(from 0deg, var(--dream-geometry) 0deg 0.8deg, transparent 0.8deg 15deg);
+	-webkit-mask: radial-gradient(circle, transparent 0 62%, #000 62.5% 78%, transparent 78.5%);
+	mask: radial-gradient(circle, transparent 0 62%, #000 62.5% 78%, transparent 78.5%);
+	animation: dream-geometry-spin-rev 560s linear infinite;
+}
+
+/* ============ near bokeh: the foreground breathes past ============
+ * Great soft orbs of gold drift faster than the page (0.28x) — the sense
+ * of depth you feel, not see. Behind the text, always. */
+.dream-parallax-near {
+	position: fixed;
+	inset: -14% 0;
+	z-index: 0;
+	pointer-events: none;
+	will-change: transform;
+	opacity: 0.5;
+	background-image:
+		radial-gradient(22vmax 22vmax at 12% 78%, var(--dream-glow-wide) 0%, transparent 70%),
+		radial-gradient(28vmax 28vmax at 88% 22%, var(--dream-glow-wide) 0%, transparent 70%),
+		radial-gradient(16vmax 16vmax at 72% 88%, var(--dream-glow-soft) 0%, transparent 70%),
+		radial-gradient(20vmax 20vmax at 30% 12%, var(--dream-glow-wide) 0%, transparent 70%);
+}
+
+/* ============ candle flicker: the whole room breathes ============
+ * Warm light washes the page from below and cool radiance from above,
+ * flickering like real candlelight — irregular, alive, never distracting.
+ * Opacity only, always. */
+@keyframes dream-flicker {
+	0%, 100% { opacity: 0.62; }
+	8% { opacity: 0.74; }
+	16% { opacity: 0.66; }
+	27% { opacity: 0.8; }
+	38% { opacity: 0.68; }
+	52% { opacity: 0.78; }
+	63% { opacity: 0.64; }
+	74% { opacity: 0.76; }
+	86% { opacity: 0.68; }
+}
+
+.dream-flicker {
+	position: fixed;
+	inset: 0;
+	z-index: 2;
+	pointer-events: none;
+	opacity: 0.7;
+	background:
+		radial-gradient(120% 70% at 50% 115%, var(--dream-pillar) 0%, transparent 60%),
+		radial-gradient(90% 50% at 50% -10%, var(--dream-radiance) 0%, transparent 55%);
+	animation: dream-flicker 7s ease-in-out infinite;
+}
+
+/* ============ twin pillars: light standing at the margins ============
+ * On wide screens, two pillars of gold stand guard at the reading column's
+ * flanks — the ulam's pillars, breathing almost too slowly to notice. */
+@keyframes dream-pillar-breathe {
+	from { opacity: 0.55; }
+	to { opacity: 1; }
+}
+
+@media (min-width: 1100px) {
+	.dream-flicker::before,
+	.dream-flicker::after {
+		content: "";
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		width: 110px;
+		pointer-events: none;
+		animation: dream-pillar-breathe 9s ease-in-out infinite alternate;
+	}
+	.dream-flicker::before {
+		left: max(6px, calc(50% - 600px));
+		background: linear-gradient(90deg, transparent 0%, var(--dream-pillar) 60%, var(--dream-gold-faint) 100%);
+	}
+	.dream-flicker::after {
+		right: max(6px, calc(50% - 600px));
+		background: linear-gradient(270deg, transparent 0%, var(--dream-pillar) 60%, var(--dream-gold-faint) 100%);
+	}
+}
+
+/* ============ divine radiance: light pouring from above ============
+ * A great slow-turning crown of rays around the top center, with a holy
+ * glow that swells and recedes — the sense of standing beneath an open sky. */
+@keyframes dream-radiance-spin {
+	from {
+		transform: translateX(-50%) rotate(0deg);
+	}
+	to {
+		transform: translateX(-50%) rotate(360deg);
+	}
+}
+
+@keyframes dream-radiance-pulse {
+	from { opacity: 0.5; }
+	to { opacity: 1; }
+}
+
+.dream-radiance {
+	position: fixed;
+	left: 50%;
+	top: -32vmax;
+	width: 110vmax;
+	height: 64vmax;
+	z-index: 0;
+	pointer-events: none;
+	opacity: 0.55;
+	transform: translateX(-50%);
+	transform-origin: 50% 0;
+	animation: dream-radiance-spin 160s linear infinite;
+	background:
+		conic-gradient(from 0deg at 50% 0%,
+			transparent 0deg, var(--dream-radiance) 6deg, transparent 12deg,
+			transparent 24deg, var(--dream-radiance) 30deg, transparent 36deg,
+			transparent 48deg, var(--dream-radiance) 54deg, transparent 60deg,
+			transparent 72deg, var(--dream-radiance) 78deg, transparent 84deg,
+			transparent 96deg, var(--dream-radiance) 102deg, transparent 108deg,
+			transparent 120deg, var(--dream-radiance) 126deg, transparent 132deg,
+			transparent 144deg, var(--dream-radiance) 150deg, transparent 156deg,
+			transparent 168deg, var(--dream-radiance) 174deg, transparent 180deg,
+			transparent 192deg, var(--dream-radiance) 198deg, transparent 204deg,
+			transparent 216deg, var(--dream-radiance) 222deg, transparent 228deg,
+			transparent 240deg, var(--dream-radiance) 246deg, transparent 252deg,
+			transparent 264deg, var(--dream-radiance) 270deg, transparent 276deg,
+			transparent 288deg, var(--dream-radiance) 294deg, transparent 300deg,
+			transparent 312deg, var(--dream-radiance) 318deg, transparent 324deg,
+			transparent 336deg, var(--dream-radiance) 342deg, transparent 348deg),
+		radial-gradient(60% 100% at 50% 0%, var(--dream-radiance) 0%, transparent 70%);
+}
+
+.dream-radiance::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(42% 70% at 50% 0%, var(--dream-glow-soft) 0%, transparent 70%);
+	animation: dream-radiance-pulse 11s ease-in-out infinite alternate;
+}
+
+/* ============ reading aura: a spotlight of attention ============
+ * A soft radial glow that glides to the verse being read and breathes
+ * there — the light of attention made visible. The controller anchors it
+ * with transform only, once per scroll frame. */
+@keyframes dream-aura-breathe {
+	from { opacity: 0.75; }
+	to { opacity: 1; }
+}
+
+.dream-aura {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: min(78vmin, 620px);
+	height: min(78vmin, 620px);
+	z-index: 0;
+	pointer-events: none;
+	opacity: 0;
+	will-change: transform, opacity;
+	background: radial-gradient(circle, var(--dream-aura-core) 0%, var(--dream-aura) 38%, transparent 68%);
+	transition: opacity 0.9s ease;
+}
+
+.dream-aura.dream-aura-on {
+	opacity: 1;
+	animation: dream-aura-breathe 5.5s ease-in-out infinite alternate;
+}
+
+/* ============ letter crowns: tagin that shimmer ============
+ * Above every ignited verse's seal, three small strokes — the crowns of
+ * the letters — shimmering like heat over flame. */
+@keyframes dream-crown-shimmer {
+	0%, 100% { opacity: 0.45; }
+	50% { opacity: 1; }
+}
+
+[data-dream="sanctuary"] .dream-verse-lit .awtsmoos-verse-number,
+[data-dream="dawn"] .dream-verse-lit .awtsmoos-verse-number {
+	position: relative;
+	color: var(--dream-gold);
+}
+
+[data-dream="sanctuary"] .dream-verse-lit .awtsmoos-verse-number::before,
+[data-dream="dawn"] .dream-verse-lit .awtsmoos-verse-number::before {
+	content: "";
+	position: absolute;
+	bottom: calc(100% + 3px);
+	left: 50%;
+	transform: translateX(-50%);
+	width: 26px;
+	height: 7px;
+	background-image:
+		linear-gradient(var(--dream-gold-bright), var(--dream-gold-bright)),
+		linear-gradient(var(--dream-gold-bright), var(--dream-gold-bright)),
+		linear-gradient(var(--dream-gold-bright), var(--dream-gold-bright));
+	background-size: 3px 7px, 3px 5px, 3px 7px;
+	background-position: 2px 0, 11.5px 2px, 21px 0;
+	background-repeat: no-repeat;
+	filter: drop-shadow(0 0 4px var(--dream-glow-soft));
+	animation: dream-crown-shimmer 3.2s ease-in-out infinite;
+	pointer-events: none;
+}
+
+/* ============ title halo: a turning crown of light ============
+ * The title vessel wears a thin ring of turning light — barely there,
+ * utterly regal. The shell already owns ::after; the halo takes ::before. */
+@keyframes dream-halo-angle-spin {
+	to {
+		--dream-halo-angle: 360deg;
+	}
+}
+
+[data-dream="sanctuary"] .awtsmoos-reader-title-shell::before,
+[data-dream="dawn"] .awtsmoos-reader-title-shell::before {
+	content: "";
+	position: absolute;
+	inset: -14px;
+	border-radius: 30px;
+	pointer-events: none;
+	padding: 2px;
+	background: conic-gradient(from var(--dream-halo-angle),
+		transparent 0deg,
+		var(--dream-gold-faint) 40deg,
+		var(--dream-glow-soft) 90deg,
+		transparent 140deg,
+		transparent 220deg,
+		var(--dream-gold-faint) 280deg,
+		transparent 330deg);
+	-webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+	-webkit-mask-composite: xor;
+	mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+	mask-composite: exclude;
+	animation: dream-halo-angle-spin 90s linear infinite;
+	opacity: 0.7;
+}
+
+/* ============ micro-interactions: everything answers the touch ============ */
+[data-dream="sanctuary"] ::selection {
+	color: var(--dream-panel-solid);
+	background: var(--dream-gold);
+}
+
+[data-dream="dawn"] ::selection {
+	color: var(--dream-panel-solid);
+	background: var(--dream-gold-deep);
+}
+
+[data-dream="sanctuary"] .dream-link,
+[data-dream="dawn"] .dream-link {
+	text-decoration: none;
+	background-image: linear-gradient(var(--dream-gold), var(--dream-gold));
+	background-size: 0% 1px;
+	background-repeat: no-repeat;
+	background-position: 0 100%;
+	transition: background-size 0.45s ease, color 0.3s ease, text-shadow 0.3s ease;
+}
+
+[data-dream="sanctuary"] .dream-link {
+	color: var(--dream-gold-bright);
+}
+
+[data-dream="dawn"] .dream-link {
+	color: var(--dream-gold-deep);
+}
+
+[data-dream="sanctuary"] .dream-link:hover,
+[data-dream="sanctuary"] .dream-link:focus-visible,
+[data-dream="dawn"] .dream-link:hover,
+[data-dream="dawn"] .dream-link:focus-visible {
+	background-size: 100% 1px;
+}
+
+[data-dream="sanctuary"] .dream-link:active,
+[data-dream="dawn"] .dream-link:active {
+	background-size: 100% 1px;
+}
+
+[data-dream="sanctuary"] .awtsmoos-verse-number,
+[data-dream="dawn"] .awtsmoos-verse-number {
+	display: inline-block;
+	color: var(--dream-gold);
+	transition: transform 0.35s ease, text-shadow 0.35s ease;
+}
+
+[data-dream="sanctuary"] .awtsmoos-verse-number:hover,
+[data-dream="dawn"] .awtsmoos-verse-number:hover {
+	transform: rotate(-8deg) scale(1.15);
+}
+
+[data-dream="sanctuary"] .dream-control:active,
+[data-dream="dawn"] .dream-control:active {
+	transform: translateY(1px) scale(0.97);
+}
+
+/* gold scrollbar: even the chrome dreams */
+:root[data-dream] ::-webkit-scrollbar {
+	width: 10px;
+}
+
+:root[data-dream] ::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+:root[data-dream] ::-webkit-scrollbar-thumb {
+	background: linear-gradient(var(--dream-gold-deep), var(--dream-gold));
+	border-radius: 8px;
+	border: 2px solid transparent;
+	background-clip: padding-box;
+}
+
+/* ============ small screens: intensity, distilled ============ */
+@media (max-width: 640px) {
+	.dream-geometry {
+		width: 170vmax;
+		height: 170vmax;
+		opacity: 0.4;
+	}
+	.dream-radiance {
+		opacity: 0.4;
+	}
+	.dream-aura {
+		width: min(92vmin, 420px);
+		height: min(92vmin, 420px);
+	}
+	.dream-flicker {
+		animation-duration: 11s;
+	}
+	[data-dream="sanctuary"] .awtsmoos-reader-title-shell::before,
+	[data-dream="dawn"] .awtsmoos-reader-title-shell::before {
+		animation-duration: 150s;
+		inset: -8px;
+		border-radius: 22px;
+	}
+}
+
+/* ============ reduced motion: the beauty stands still, never vanishes ============ */
+@media (prefers-reduced-motion: reduce) {
+	.dream-geometry,
+	.dream-geometry::before,
+	.dream-radiance,
+	.dream-radiance::after,
+	.dream-flicker,
+	.dream-flicker::before,
+	.dream-flicker::after,
+	.dream-aura.dream-aura-on,
+	[data-dream] .dream-verse-lit :lang(he),
+	[data-dream] .dream-verse-lit > *,
+	[data-dream] .dream-verse-lit::after,
+	[data-dream="sanctuary"] .dream-verse-lit .awtsmoos-verse-number::before,
+	[data-dream="dawn"] .dream-verse-lit .awtsmoos-verse-number::before,
+	[data-dream="sanctuary"] .awtsmoos-reader-title-shell::before,
+	[data-dream="dawn"] .awtsmoos-reader-title-shell::before {
+		animation: none;
+	}
+	.dream-flicker {
+		opacity: 0.35;
+	}
+	.dream-flicker::before,
+	.dream-flicker::after {
+		opacity: 0.6;
+	}
+	[data-dream] .dream-verse-lit::after {
+		opacity: 0;
+	}
+	.dream-aura {
+		opacity: 0;
+	}
+}

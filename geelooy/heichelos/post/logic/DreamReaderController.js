@@ -21,6 +21,16 @@
  * reading now. Every effect is transform/opacity only; the scroll loop is a
  * single rAF-throttled listener that sleeps when the dream is off.
  *
+ * EXTREME layer (Yaakov: "even more intense"): ember ignition on Hebrew
+ * letters, flame-spread stagger inside verses, rising ember sparks, a
+ * counter-turning Seed of Life at the farthest depth, near-field gold bokeh,
+ * candle-flicker over the whole room, divine radiance pouring from above,
+ * twin pillars of light on wide screens, a reading aura that glides to the
+ * verse being read, shimmering tagin crowns on verse seals, a turning halo
+ * on the title, and micro-interactions on every element. Infinite motion
+ * stays transform/opacity-only; text-shadow keyframes are one-shot and
+ * bounded.
+ *
  * Time-aware greeting: with no stored choice and no ?dream= link, the day
  * (05:00–17:00) opens in Dawn and the night in Sanctuary — never persisted,
  * so the greeting stays fresh until the reader chooses.
@@ -40,6 +50,8 @@ const KINDLE_MAX = 14;
 const KINDLE_SCAN_CAP = 48;
 const PARALLAX_FAR_FACTOR = 0.06;
 const PARALLAX_MID_FACTOR = 0.16;
+const PARALLAX_DEEP_FACTOR = 0.03;
+const PARALLAX_NEAR_FACTOR = 0.28;
 const DAWN_START_HOUR = 5;
 const DAWN_END_HOUR = 17;
 
@@ -58,6 +70,12 @@ export class DreamReaderController extends KliReaderPreferenceController {
 		this.contentWatcher = null;
 		this.parallaxFar = null;
 		this.parallaxMid = null;
+		this.parallaxDeep = null;
+		this.parallaxNear = null;
+		this.flickerEl = null;
+		this.radianceEl = null;
+		this.auraEl = null;
+		this.nowVerse = null;
 		this.threadEl = null;
 		this.onDreamScroll = null;
 		this.onDreamResize = null;
@@ -283,6 +301,9 @@ export class DreamReaderController extends KliReaderPreferenceController {
 					}
 				});
 				best.classList.add(NOW_CLASS);
+				// B"H The reading aura glides to the verse being read.
+				this.nowVerse = best;
+				this.anchorAura();
 			}
 		}, { root: null, rootMargin: "-38% 0px -38% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] });
 		const syncDreamDom = () => {
@@ -342,6 +363,10 @@ export class DreamReaderController extends KliReaderPreferenceController {
 		if (root) {
 			root.querySelectorAll(`.${LIT_CLASS},.${NOW_CLASS}`).forEach(verse => verse.classList.remove(LIT_CLASS, NOW_CLASS));
 		}
+		this.nowVerse = null;
+		if (this.auraEl) {
+			this.auraEl.classList.remove("dream-aura-on");
+		}
 	}
 
 	/**
@@ -376,9 +401,19 @@ export class DreamReaderController extends KliReaderPreferenceController {
 		this.threadEl.appendChild(threadLine);
 		document.body.appendChild(this.threadEl);
 		if (!this.reduceMotion()) {
+			this.parallaxDeep = this.makeParallaxLayer("dream-parallax-deep");
+			const geometry = document.createElement("div");
+			geometry.className = "dream-geometry";
+			geometry.setAttribute("aria-hidden", "true");
+			this.parallaxDeep.appendChild(geometry);
 			this.parallaxFar = this.makeParallaxLayer("dream-parallax-far");
 			this.parallaxMid = this.makeParallaxLayer("dream-parallax-mid");
+			this.parallaxNear = this.makeParallaxLayer("dream-parallax-near");
 		}
+		// B"H The room itself breathes: candle-flicker, radiance, reading aura.
+		this.flickerEl = this.makeParallaxLayer("dream-flicker");
+		this.radianceEl = this.makeParallaxLayer("dream-radiance");
+		this.auraEl = this.makeParallaxLayer("dream-aura");
 		// B"H The sun and moon keep halachic time above the dream.
 		this.celestial = new DreamCelestial();
 		this.celestial.mount();
@@ -424,6 +459,14 @@ export class DreamReaderController extends KliReaderPreferenceController {
 		if (this.parallaxMid) {
 			this.parallaxMid.style.transform = `translate3d(0,${(y * PARALLAX_MID_FACTOR).toFixed(1)}px,0)`;
 		}
+		if (this.parallaxDeep) {
+			this.parallaxDeep.style.transform = `translate3d(0,${(y * PARALLAX_DEEP_FACTOR).toFixed(1)}px,0)`;
+		}
+		if (this.parallaxNear) {
+			this.parallaxNear.style.transform = `translate3d(0,${(y * PARALLAX_NEAR_FACTOR).toFixed(1)}px,0)`;
+		}
+		// B"H Keep the aura glued to the verse being read, one frame at a time.
+		this.anchorAura();
 		this.dreamFrame += 1;
 		if (this.dreamFrame % 60 === 0) {
 			this.maxScroll = this.computeMaxScroll();
@@ -432,6 +475,39 @@ export class DreamReaderController extends KliReaderPreferenceController {
 		if (this.threadEl) {
 			this.threadEl.style.setProperty("--dream-thread-p", progress.toFixed(4));
 		}
+	}
+
+	/**
+	 * Anchors the reading aura to the verse being read — transform only,
+	 * once per scroll frame. The aura glides because scroll itself glides.
+	 * @returns {void}
+	 */
+	anchorAura() {
+		if (!this.auraEl) {
+			return;
+		}
+		const verse = this.nowVerse;
+		if (!verse || !verse.isConnected) {
+			this.auraEl.classList.remove("dream-aura-on");
+			return;
+		}
+		let rect = null;
+		try {
+			rect = verse.getBoundingClientRect();
+		} catch {
+			rect = null;
+		}
+		const vh = (typeof window !== "undefined" && window.innerHeight) || 800;
+		if (!rect || rect.width <= 0 || rect.bottom < -40 || rect.top > vh + 40) {
+			this.auraEl.classList.remove("dream-aura-on");
+			return;
+		}
+		const cx = rect.left + rect.width / 2;
+		const cy = rect.top + Math.min(rect.height, vh * 0.6) / 2;
+		const s = Math.min(1.7, Math.max(0.7, rect.height / 320));
+		this.auraEl.style.transform =
+			`translate3d(${cx.toFixed(1)}px,${cy.toFixed(1)}px,0) translate(-50%,-50%) scale(${s.toFixed(3)})`;
+		this.auraEl.classList.add("dream-aura-on");
 	}
 
 	/** @returns {void} Removes parallax layers, the golden thread, and the scroll loop. */
@@ -446,7 +522,7 @@ export class DreamReaderController extends KliReaderPreferenceController {
 				this.onDreamResize = null;
 			}
 		}
-		for (const el of [this.parallaxFar, this.parallaxMid, this.threadEl]) {
+		for (const el of [this.parallaxDeep, this.parallaxFar, this.parallaxMid, this.parallaxNear, this.flickerEl, this.radianceEl, this.auraEl, this.threadEl]) {
 			if (el && el.parentNode) {
 				el.parentNode.removeChild(el);
 			}
@@ -455,8 +531,14 @@ export class DreamReaderController extends KliReaderPreferenceController {
 			this.celestial.unmount();
 			this.celestial = null;
 		}
+		this.parallaxDeep = null;
 		this.parallaxFar = null;
 		this.parallaxMid = null;
+		this.parallaxNear = null;
+		this.flickerEl = null;
+		this.radianceEl = null;
+		this.auraEl = null;
+		this.nowVerse = null;
 		this.threadEl = null;
 		this.dreamTicking = false;
 	}
