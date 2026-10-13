@@ -1200,7 +1200,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const quadGeo = new THREE.PlaneGeometry(1.4, 1.4);
     const quadMat = new THREE.MeshStandardMaterial({
       map: denseCanopyTex, alphaTest: 0.30, side: THREE.DoubleSide,
-      roughness: 0.9, color: new THREE.Color(0.30, 0.42, 0.22),
+      roughness: 0.9, color: new THREE.Color(0.24, 0.38, 0.18),
       emissive: new THREE.Color(0.35, 0.42, 0.20),
       emissiveMap: backlitCanopyTex,
       depthWrite: true,
@@ -1581,9 +1581,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       // New growth: yellow-green. Old moss: deep olive.
       const newness = upness;
       mc.push(
-        (0.35 + newness*0.45) * brightness,
-        (0.55 + newness*0.35) * brightness,
-        (0.15 + newness*0.10) * brightness
+        (0.28 + newness*0.38) * brightness,
+        (0.50 + newness*0.32) * brightness,
+        (0.14 + newness*0.08) * brightness
       );
     }
     tuftGeo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(mc), 3));
@@ -1754,10 +1754,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       bp.setX(i, bp.getX(i) * width);
       // Growth-rule curve: quadratic bend (stiff base, floppy tip)
       bp.setZ(i, t * t * 0.22);
-      // Growth-rule color: dark moist base → rich green → sunlit tip
-      const shade = 0.35 + t * 1.1;
-      // Per-vertex hue shift: base is bluer (shadow), tip is yellower (sun)
-      bc.push(0.28 * shade * (0.8 + t*0.4), 0.58 * shade, 0.18 * shade * (1.1 - t*0.3));
+      // Growth-rule color: dark moist base → deep forest green → sunlit tip
+      const shade = 0.32 + t * 1.0;
+      bc.push(0.22 * shade * (0.8 + t*0.35), 0.52 * shade, 0.16 * shade * (1.1 - t*0.3));
     }
     bladeGeo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(bc), 3));
     bladeGeo.computeVertexNormals();
