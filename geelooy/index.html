@@ -5173,6 +5173,93 @@ body[data-geelooy-route="home"] .films-teaser {
 	}
 }
 
+/* ============ ROUND 2 POLISH — hero hierarchy, rhythm, CTA clarity (2026-10-13) ============ */
+/* B"H — the hero needed one breath of hierarchy: an eyebrow above the wordmark,
+   quiet doorway links beneath the search, and a labeled beat before the portals.
+   @tunnel-specificity: :where() wrappers keep state selectors inside the (0,3,0) budget. */
+body[data-geelooy-route="home"] .home-hero-eyebrow {
+	margin: 0 0 .65rem;
+	font-size: .72rem;
+	font-weight: 800;
+	letter-spacing: .3em;
+	text-transform: uppercase;
+	color: var(--law8-gold-soft);
+	text-shadow:
+		0 1px 3px rgba(0, 0, 0, .9),
+		0 0 16px var(--law8-title-glow);
+}
+body[data-geelooy-route="home"] .home-hero-quicklinks {
+	margin: 1.1rem 0 0;
+	font-size: .86rem;
+	color: var(--law8-sub-ink);
+	text-align: center;
+	text-shadow: 0 1px 6px rgba(0, 0, 0, .85);
+}
+:where(body[data-geelooy-route="home"]) .home-hero-quicklinks a {
+	display: inline-block;
+	min-height: 2.75rem;
+	padding: .6rem .4rem;
+	border-radius: .5rem;
+	color: var(--law8-gold-hi);
+	font-weight: 700;
+	text-decoration: none;
+	border-bottom: 1px solid transparent;
+}
+@media (hover: hover) and (pointer: fine) {
+	:where(body[data-geelooy-route="home"]) .home-hero-quicklinks a:hover {
+		color: var(--law8-gold-hi);
+		border-bottom-color: var(--law8-gold-hi);
+	}
+}
+:where(body[data-geelooy-route="home"]) .home-hero-quicklinks a:focus-visible {
+	outline: 3px solid var(--law8-focus);
+	outline-offset: 2px;
+}
+:where(body[data-geelooy-route="home"]) .home-hero-quicklinks a:active {
+	transform: translateY(1px);
+}
+/* B"H — a labeled beat between hero and portals: the eye lands, then chooses. */
+body[data-geelooy-route="home"] .portal-shortcuts-label {
+	grid-column: 1 / -1;
+	margin: .4rem 0 .1rem;
+	text-align: center;
+	font-size: .72rem;
+	font-weight: 800;
+	letter-spacing: .3em;
+	text-transform: uppercase;
+	color: var(--law8-gold-soft);
+}
+:where(body[data-geelooy-route="home"]) .portal-shortcuts-label span {
+	display: inline-flex;
+	align-items: center;
+	gap: .9rem;
+	color: var(--law8-gold-soft);
+}
+:where(body[data-geelooy-route="home"]) .portal-shortcuts-label span::before,
+:where(body[data-geelooy-route="home"]) .portal-shortcuts-label span::after {
+	content: "";
+	width: 3.2rem;
+	height: 1px;
+	color: var(--law8-gold-soft);
+	background: linear-gradient(90deg, transparent, var(--law8-glass-border));
+}
+:where(body[data-geelooy-route="home"]) .portal-shortcuts-label span::after {
+	color: var(--law8-gold-soft);
+	background: linear-gradient(90deg, var(--law8-glass-border), transparent);
+}
+/* B"H — rhythm: the hero breathes before the portals; the search vessel glows on focus. */
+body[data-geelooy-route="home"] .hero-shliach {
+	margin-bottom: .4rem;
+}
+:where(body[data-geelooy-route="home"]) .search:focus-within {
+	border-color: var(--law8-gold-hi);
+	box-shadow:
+		0 0 0 3px var(--law8-search-ring),
+		0 0 44px var(--law8-gold-glow),
+		0 18px 46px var(--law8-card-shadow),
+		inset 0 1px 0 var(--law8-glass-hi);
+}
+
 
 /* ===== geelooy/style/home-simple/home-polish-law8.css ===== */
 /* B"H
@@ -6022,6 +6109,7 @@ body[data-geelooy-route="home"] .shliach-hero-image[data-loaded="true"]{opacity:
 					<div class="shliach-hero-scrim" aria-hidden="true"></div>
 				</div>
 				<div class="shliach-hero-content" data-reveal>
+					<p class="home-hero-eyebrow">B"H · The living Torah platform</p>
 					<h1 class="home-hero-title">Awtsmoos</h1>
 					<p class="home-hero-sub">Torah &middot; Create &middot; Give &middot; Build</p>
 					<div class="search-shell" data-omnibox-root>
@@ -6038,10 +6126,11 @@ body[data-geelooy-route="home"] .shliach-hero-image[data-loaded="true"]{opacity:
 						</section>
 						<p class="sr-only" data-omnibox-status aria-live="polite"></p>
 					</div>
-					
+					<p class="home-hero-quicklinks">Continue to <a href="/heichelos/ikar">Torah Library</a><span aria-hidden="true"> · </span><a href="/games/">Games</a><span aria-hidden="true"> · </span><a href="/films/">Films</a></p>
 				</div>
 			</div>
 			<nav class="portal-shortcuts" aria-label="Primary Awtsmoos products" data-reveal>
+				<p class="portal-shortcuts-label" aria-hidden="true"><span>Begin anywhere</span></p>
 				<a class="portal-shortcut-link" data-world-id="torah" href="/heichelos/ikar"><span aria-hidden="true" class="portal-shortcut-icon"><img class="gicon gicon--torah" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-torah-active-0-7cccc6e3-c14e-4edd-a9e4-e0dc2c164897.webp?v=a719dbe30f" alt="" width="28" height="28"></span><strong>Torah</strong><small>Living sources and teachings</small></a>
 				<a class="portal-shortcut-link" data-world-id="encyclopedia" href="/encyclopedia/"><span aria-hidden="true" class="portal-shortcut-icon"><img class="gicon gicon--torah" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-torah-active-0-7cccc6e3-c14e-4edd-a9e4-e0dc2c164897.webp?v=a719dbe30f" alt="" width="28" height="28"></span><strong>Encyclopedia</strong><small>Torah knowledge, A to Z</small></a>
 				<a class="portal-shortcut-link" data-world-id="games" href="/games/"><span aria-hidden="true" class="portal-shortcut-icon"><img class="gicon gicon--games" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-games-active-0-0b3b0c3a-0a12-44bc-bb4c-49690a5e60f5.webp?v=b90c7a6de5" alt="" width="28" height="28"></span><strong>Games</strong><small>Original playable worlds</small></a>
