@@ -265,7 +265,7 @@ function serializeFinalDom(runtime) {
  * @param {string} [opts.html]      raw HTML (scripts resolved against opts.url or merkava://local/)
  * @param {number} [opts.waitMs]    settle time after scripts (default 2500)
  * @param {number} [opts.fetchTimeoutMs] per-request timeout (default 15000)
- * @returns {Promise<{ok, jsErrors[], consoleLogs[], finalHtml, scriptsFetched, scriptsRun, wallMs, version}>}
+ * @returns {Promise<{ok, jsErrors[], consoleLogs[], finalHtml, canvasSnapshot, scriptsFetched, scriptsRun, wallMs, version}>}
  */
 export async function runPageWithJs(opts = {}) {
   const t0 = Date.now();
@@ -367,6 +367,7 @@ export async function runPageWithJs(opts = {}) {
       jsErrors: [{ kind: "harness", name: "EngineError", message: String((e && e.message) || e).slice(0, 800), file: "<engine>", line: 0, stack: String((e && e.stack) || "").slice(0, 2000) }],
       consoleLogs: [],
       finalHtml: html,
+      canvasSnapshot: null,
       scriptsFetched,
       scriptsRun: 0,
       wallMs: Date.now() - t0,
@@ -379,6 +380,14 @@ export async function runPageWithJs(opts = {}) {
   const consoleLogs = normalizeConsole(out?.console);
   const finalHtml = serializeFinalDom(out?.runtime) || html;
 
+  // B"H 2026-10-13: capture the document's texture arena so the shot path
+  // can paint real canvas pixels (2D command replay + WebGL glPixels).
+  let canvasSnapshot = null;
+  try {
+    const arena = out?.runtime?.window?.document?.textureArena;
+    if (arena && typeof arena.snapshot === 'function') canvasSnapshot = arena.snapshot();
+  } catch { /* arena unavailable: screenshots fall back to DOM-only */ }
+
   // Count executed steps from the assembly execution plan.
   let scriptsRun = 0;
   try {
@@ -390,6 +399,7 @@ export async function runPageWithJs(opts = {}) {
     jsErrors,
     consoleLogs,
     finalHtml,
+    canvasSnapshot,
     scriptsFetched,
     scriptsRun,
     wallMs: Date.now() - t0,

@@ -25,7 +25,10 @@
             this.commands.push({ texture: texture?.id ?? null, ...entry });
             return entry;
         }
-        snapshot() { return { textures: this.textures.map(t => ({ id: t.id, kind: t.kind, ownerTag: t.ownerTag, width: t.width, height: t.height, commands: t.commands })), commands: this.commands }; }
+        // B"H 2026-10-13: include glPixels so the software shot path can blit
+        // real WebGL pixels (paintWebgl prefers glPixels over the badge).
+        // The data is a live view of the drawing buffer at snapshot time.
+        snapshot() { return { textures: this.textures.map(t => ({ id: t.id, kind: t.kind, ownerTag: t.ownerTag, width: t.width, height: t.height, commands: t.commands, glPixels: t.glPixels ? { width: t.glPixels.width, height: t.glPixels.height, data: t.glPixels.data } : null })), commands: this.commands }; }
     }
     return { VirtualWebGLTextureArena };
 });

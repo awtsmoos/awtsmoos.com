@@ -23,13 +23,19 @@ export function paintWebgl(fb, texture, box) {
 }
 
 function blitPixels(fb, px, box) {
+  // B"H 2026-10-13: the page surface is usually a ScaledFramebuffer (no
+  // setPixel) — resolve the raw base and paint in device px like paint2d.
+  const scale = (fb.scale && fb.base) ? fb.scale : 1;
+  const target = (fb.base && fb.scale) ? fb.base : fb;
   const sw = px.width, sh = px.height, data = px.data;
-  for (let y = 0; y < box.h; y++) {
-    const sy = Math.min(sh - 1, (y * sh / Math.max(1, box.h)) | 0);
-    for (let x = 0; x < box.w; x++) {
-      const sx = Math.min(sw - 1, (x * sw / Math.max(1, box.w)) | 0);
+  const bx = Math.round(box.x * scale), by = Math.round(box.y * scale);
+  const bw = Math.max(1, Math.round(box.w * scale)), bh = Math.max(1, Math.round(box.h * scale));
+  for (let y = 0; y < bh; y++) {
+    const sy = Math.min(sh - 1, (y * sh / Math.max(1, bh)) | 0);
+    for (let x = 0; x < bw; x++) {
+      const sx = Math.min(sw - 1, (x * sw / Math.max(1, bw)) | 0);
       const i = (sy * sw + sx) * 4;
-      fb.setPixel(box.x + x, box.y + y, [data[i], data[i + 1], data[i + 2], data[i + 3]]);
+      target.setPixel(bx + x, by + y, [data[i], data[i + 1], data[i + 2], data[i + 3]]);
     }
   }
 }

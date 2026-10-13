@@ -205,20 +205,25 @@ export async function main() {
   const fullPage = has('--full');
   const t0 = Date.now();
   let shotHtml = html;
+  let canvasSnapshot = null;
   let jsInfo = '';
   if (!has('--no-js')) {
     try {
       const { runPageWithJs } = await import('./geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-service/snapshots/jsPageRunner.js');
       const pr = await runPageWithJs({ html, url: arg('--url') || undefined, waitMs: 3000 });
       if (pr.finalHtml && pr.finalHtml.length > 100) shotHtml = pr.finalHtml;
-      jsInfo = ` JS:${pr.jsErrors.length}err`;
+      // B"H 2026-10-13: wire the texture arena into the shot so canvas
+      // games paint real pixels (2D replay / WebGL glPixels blit).
+      canvasSnapshot = pr.canvasSnapshot || null;
+      const nTex = canvasSnapshot?.textures?.length || 0;
+      jsInfo = ` JS:${pr.jsErrors.length}err canvas:${nTex}tex`;
       for (const e of pr.jsErrors.slice(0, 3))
         console.log(`  js-error [${e.kind}] ${e.name}: ${String(e.message).slice(0, 100)} @ ${e.file}${e.line ? ':' + e.line : ''}`);
     } catch (e) {
       console.log(`  (JS execution skipped: ${e.message.slice(0, 80)})`);
     }
   }
-  const result = renderVirtualSnapshotPng({ html: shotHtml }, { width, height, fullPage });
+  const result = renderVirtualSnapshotPng({ html: shotHtml, canvas: canvasSnapshot }, { width, height, fullPage });
   const ms = Date.now() - t0;
   const png = Buffer.from(result.dataUrl.split(',')[1], 'base64');
   writeFileSync(out, png);
