@@ -9,7 +9,7 @@
  */
 
 const COVER_BASE = "https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/games";
-const COVER_V = "?v=20261013b";
+const COVER_V = "?v=20261013c";
 
 const GAME_COVERS = {
 	"temple-runner": "game-temple-runner.webp",
