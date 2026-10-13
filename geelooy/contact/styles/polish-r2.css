@@ -1,0 +1,37 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+Contact round-2 polish (2026-10-13) — UI/UX lane.
+Additive only; every token lives under .contact-page; no !important.
+*/
+/* B"H — the label brightens when its field is awake. */
+.contact-page__field {
+	letter-spacing: .03em;
+}
+.contact-page__field:focus-within {
+	color: var(--contact-text);
+}
+/* B"H — the send arrow leans forward on hover. */
+.contact-page__submit span:last-child {
+	display: inline-block;
+	color: var(--contact-submit-ink);
+	transition: transform var(--contact-fast);
+}
+:where(.contact-page__submit):hover span:last-child {
+	color: var(--contact-submit-ink);
+	transform: translateX(4px);
+}
+/* B"H — selection carries the accent. */
+.contact-page ::selection {
+	background: rgba(132, 216, 255, .25);
+	color: var(--contact-text);
+}
+@media (prefers-reduced-motion: reduce) {
+	.contact-page__submit span:last-child {
+		color: var(--contact-submit-ink);
+		transition: none;
+	}
+	:where(.contact-page__submit):hover span:last-child {
+		transform: none;
+	}
+}

@@ -1,0 +1,45 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+About round-2 polish (2026-10-13) — UI/UX lane.
+Additive only; every token lives under .about-page; no !important.
+*/
+/* B"H — the chapter number becomes a small instrument badge. */
+.about-page__chapter summary > span:first-child {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 2.5rem;
+	min-height: 2.5rem;
+	padding: 0 .5rem;
+	border: 1px solid rgba(156, 221, 255, .3);
+	border-radius: .8rem;
+	background: rgba(156, 221, 255, .07);
+	color: var(--about-accent);
+	font-variant-numeric: tabular-nums;
+}
+/* B"H — eyebrows breathe wider; the intro heading carries a faint glow. */
+.about-page__eyebrow {
+	letter-spacing: .2em;
+}
+.about-page__intro h2 {
+	color: var(--about-text);
+	text-shadow: 0 0 26px rgba(156, 221, 255, .16);
+}
+/* B"H — selection carries the accent. */
+.about-page ::selection {
+	background: rgba(156, 221, 255, .28);
+	color: var(--about-text-bright);
+}
+/* B"H — reduced motion keeps the chapters still. */
+@media (prefers-reduced-motion: reduce) {
+	.about-page__chapter,
+	.about-page__chapter summary,
+	.about-page__chapter summary > span:last-child {
+		color: inherit;
+		transition: none;
+	}
+	.about-page__chapter:hover {
+		transform: none;
+	}
+}
