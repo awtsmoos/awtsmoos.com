@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const canvas = document.getElementById('chessCanvas');
 	const canvasContext = canvas.getContext('2d');
 	
-	const declareDrawButton = document.getElementById('declareDrawButton');
+	const drawButton = document.getElementById('drawButton');
 	const runAnalysisButton = document.getElementById('runAnalysisButton');
 	
 	const capturedByBlackCanvas = document.getElementById('capturedByBlackCanvas');
@@ -29,8 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	const replayButton = document.getElementById('replayButton');
 	const downloadButton = document.getElementById('downloadButton');
 	const colorSelectionMenu = document.getElementById('colorSelectionMenu');
-	const capturedByBlackDiv = document.getElementById('capturedByBlack');
-	const capturedByWhiteDiv = document.getElementById('capturedByWhite');
 	const playVsAiButton = document.getElementById('playVsAiButton');
 	const playVsPlayerButton = document.getElementById('playVsPlayerButton');
 	const aiVsAiButton = document.getElementById('aiVsAiButton');
