@@ -66,6 +66,7 @@ export class TzomayachLifecycleVessel extends DomemRuntimeVessel {
 	 * @returns {void}
 	 */
 	bindYesodSignal(yesodTarget, hodType, chaiListener) {
+		if (!yesodTarget || typeof yesodTarget.addEventListener !== 'function') return;
 		yesodTarget.addEventListener(hodType, chaiListener);
 		this.chesedBindings.push({
 			target: yesodTarget,
