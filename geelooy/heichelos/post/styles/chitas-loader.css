@@ -128,22 +128,26 @@
   50% { opacity: 1; }
 }
 
-/* ---------- Text ---------- */
+/* ---------- Text (Yaakov 2026-10-13: must be readable) ---------- */
 
 .chitas-loader-he {
   font-family: "Noto Serif Hebrew", "David Libre", David, "Times New Roman", serif;
   font-size: 1.5rem;
-  color: #e8d9a8;
+  font-weight: 700;
+  color: #f5e9c4;
   margin: 0;
   letter-spacing: 0.02em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.65), 0 0 32px rgba(201, 162, 39, 0.35);
 }
 
 .chitas-loader-en {
   font-family: "Source Serif 4", Georgia, serif;
   font-size: 1rem;
   font-style: italic;
-  color: rgba(232, 217, 168, 0.72);
+  font-weight: 600;
+  color: #f5e9c4;
   margin: 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
 }
 
 .chitas-loader-shimmer {
@@ -208,22 +212,40 @@
   }
 }
 
-/* B"H — Video loading background: fills the overlay seamlessly */
-.chitas-loader-video {
+/* B"H — CSS animated background (Yaakov 2026-10-13).
+ * Replaces the old blurry stretched video. Layered radial gradients in warm
+ * gold/cream drift slowly — crisp at every size, never stretched, never blurry.
+ * GPU-cheap: background-position animation only.
+ */
+.chitas-loader-bg {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
+  inset: -10%;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 45% 32% at 22% 28%, rgba(201, 162, 39, 0.22), transparent 70%),
+    radial-gradient(ellipse 38% 28% at 78% 72%, rgba(160, 120, 40, 0.16), transparent 70%),
+    radial-gradient(ellipse 55% 40% at 55% 50%, rgba(232, 217, 168, 0.12), transparent 70%),
+    radial-gradient(ellipse 30% 22% at 85% 18%, rgba(201, 162, 39, 0.14), transparent 70%);
+  background-size: 120% 120%, 130% 130%, 110% 110%, 140% 140%;
+  animation: chitas-bg-drift 18s ease-in-out infinite alternate;
+  pointer-events: none;
 }
 
-.chitas-loader-overlay {
-  position: fixed;
-  overflow: hidden;
+@keyframes chitas-bg-drift {
+  0% { background-position: 0% 0%, 100% 100%, 50% 30%, 80% 10%; }
+  50% { background-position: 30% 20%, 70% 80%, 60% 60%, 60% 30%; }
+  100% { background-position: 60% 40%, 40% 60%, 40% 40%, 40% 50%; }
 }
 
-/* Keep medallion and text above the video */
+[data-theme="light"] .chitas-loader-bg {
+  background:
+    radial-gradient(ellipse 45% 32% at 22% 28%, rgba(160, 120, 40, 0.14), transparent 70%),
+    radial-gradient(ellipse 38% 28% at 78% 72%, rgba(201, 162, 39, 0.10), transparent 70%),
+    radial-gradient(ellipse 55% 40% at 55% 50%, rgba(232, 217, 168, 0.20), transparent 70%);
+  background-size: 120% 120%, 130% 130%, 110% 110%;
+}
+
+/* Keep medallion and text above the animated background */
 .chitas-loader-medallion,
 .chitas-loader-he,
 .chitas-loader-en {
@@ -232,7 +254,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .chitas-loader-video {
-    display: none;
+  .chitas-loader-bg {
+    animation: none;
   }
 }
