@@ -32,7 +32,9 @@ export class TiferesCameraFramingPolicy {
 		const netzachLookAhead = this.revealLookAhead(malchusPlayer.vx);
 		const hodVerticalBias = this.revealVerticalBias(malchusPlayer.vy);
 		let tiferesFocusX = yesodCenterX + netzachLookAhead;
-		let tiferesFocusY = yesodCenterY + hodVerticalBias;
+		// B"H — Yaakov 2026-10-13: camera focuses slightly ABOVE the player so the
+		// player renders just below screen center — prominent, never dead-center.
+		let tiferesFocusY = yesodCenterY + hodVerticalBias + (this.gevurahRules.focusUpwardOffset || 0);
 		if (tiferesCurrent) {
 			tiferesFocusX = this.applyDeadZone(
 				tiferesCurrent.focusX,
