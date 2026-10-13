@@ -100,6 +100,18 @@ function runningJob(heichelId) {
 	return null;
 }
 
+// B"H 2026-10-13 (import-speed): count running jobs per heichel for the
+// 4-concurrent limit. Returns the array of running jobs (for JOB_ALREADY_RUNNING
+// diagnostics) — empty array means none running.
+function runningJobsForHeichel(heichelId) {
+	const out = [];
+	for (const j of jobs.values()) {
+		if (j.status !== 'running' && j.status !== 'queued') continue;
+		if (!heichelId || j.spec.heichelId === heichelId) out.push(j);
+	}
+	return out;
+}
+
 function yieldTick() { return new Promise(resolve => setImmediate(resolve)); }
 
 // ---------------------------------------------------------------------------
@@ -195,12 +207,38 @@ function getJobView($i, id) {
 // ---------------------------------------------------------------------------
 // Bounds (mirrors the comment-import OOM guards: inline payloads are for
 // SMALL batches only; large corpora must use the chunked /stage upload).
+// B"H 2026-10-13 (import-speed): raised for fast imports — 20MB inline cap,
+// 500 posts max. The 6-second job watchdog still bounds actual work; the
+// importer sizes batches to complete within it.
 // ---------------------------------------------------------------------------
-const INLINE_POSTS_MAX_COUNT = 100;
-const INLINE_POSTS_MAX_BYTES = 2 * 1024 * 1024;   // ~2 MB wire estimate
+const INLINE_POSTS_MAX_COUNT = 500;
+const INLINE_POSTS_MAX_BYTES = 20 * 1024 * 1024;  // ~20 MB wire estimate
 const PER_POST_MAX_BYTES = 5 * 1024 * 1024;        // 5 MB per post document
 const HEAP_GUARD_BYTES = 1200 * 1024 * 1024;       // refuse new jobs above 1.2 GB
 const UPLOAD_ID_RE = /^[A-Za-z0-9_-]{8,64}$/;
+
+// B"H 2026-10-13 (import-speed): max concurrent import jobs per heichel.
+// Was 1 (JOB_ALREADY_RUNNING); now 4. Different heichels were already
+// concurrent. Series-index flushes are mutex-guarded per series key.
+const MAX_CONCURRENT_PER_HEICHEL = 4;
+
+// B"H 2026-10-13 (import-speed): per-series mutex for concurrent jobs.
+// Multiple jobs importing to the same heichel flush their series indexes
+// independently; without a mutex, interleaved read-modify-write loses updates.
+const seriesLocks = new Map();
+
+async function acquireSeriesLock(key) {
+	while (seriesLocks.has(key)) {
+		try { await seriesLocks.get(key); } catch (_) { /* ignore */ }
+	}
+	let release;
+	const p = new Promise(resolve => { release = resolve; });
+	seriesLocks.set(key, p);
+	return () => {
+		if (seriesLocks.get(key) === p) seriesLocks.delete(key);
+		try { release(); } catch (_) { /* ignore */ }
+	};
+}
 
 function heapTooHigh() {
 	try { return process.memoryUsage().heapUsed > HEAP_GUARD_BYTES; }
@@ -569,22 +607,31 @@ class PackedPostImportRoutes {
 	async flushSeriesAdds($i, job) {
 		for (const [key, adds] of job.seriesAdds) {
 			if (!adds.size) continue;
-			// B"H 2026-10-11: snapshot + clear SYNCHRONOUSLY before any await,
-			// so series adds made by concurrent import workers while this
-			// flush is in flight are never wiped by the clear().
-			const snapshot = new Map(adds);
-			adds.clear();
-			const [h, s] = JSON.parse(key);
-			const p = `/social/heichelos/${h}/series/${s}/posts`;
-			let obj = {};
-			try { obj = await $i.db.get(p) || {}; } catch (_) { /* ignore */ }
-			let changed = false;
-			for (const [pid, entry] of snapshot) {
-				if (!obj[pid] || obj[pid].author !== entry.author) { obj[pid] = entry; changed = true; }
-			}
-			if (changed) {
-				try { await $i.db.write(p, obj); }
-				catch (e) { job.errors.push({ message: 'SERIES_INDEX_FAILED: ' + s + ': ' + (e.message || e) }); }
+			// B"H 2026-10-13 (import-speed): per-series mutex. Multiple jobs
+			// may flush the same series concurrently; the read-modify-write
+			// below must not interleave. Snapshot+clear happens inside the
+			// lock so adds made during the flush are never lost.
+			const release = await acquireSeriesLock(key);
+			try {
+				// B"H 2026-10-11: snapshot + clear SYNCHRONOUSLY before any await,
+				// so series adds made by concurrent import workers while this
+				// flush is in flight are never wiped by the clear().
+				const snapshot = new Map(adds);
+				adds.clear();
+				const [h, s] = JSON.parse(key);
+				const p = `/social/heichelos/${h}/series/${s}/posts`;
+				let obj = {};
+				try { obj = await $i.db.get(p) || {}; } catch (_) { /* ignore */ }
+				let changed = false;
+				for (const [pid, entry] of snapshot) {
+					if (!obj[pid] || obj[pid].author !== entry.author) { obj[pid] = entry; changed = true; }
+				}
+				if (changed) {
+					try { await $i.db.write(p, obj); }
+					catch (e) { job.errors.push({ message: 'SERIES_INDEX_FAILED: ' + s + ': ' + (e.message || e) }); }
+				}
+			} finally {
+				release();
 			}
 		}
 		await yieldTick();
@@ -911,7 +958,7 @@ class PackedPostImportRoutes {
 	/**
 	 * POST /packed/import/posts/start
 	 * Body: { operatorKey, heichelId?, dryRun?, timeBudgetMs?,
-	 *         posts?: [...] }  — inline, ≤100 posts and ~2 MB
+	 *         posts?: [...] }  — inline, ≤500 posts and ~20 MB
 	 *     or  { operatorKey, uploadId, timeBudgetMs? } — staged tarball via /packed/import/bulk/stage
 	 */
 	async start() {
@@ -971,7 +1018,7 @@ class PackedPostImportRoutes {
 				if (approxBytes > INLINE_POSTS_MAX_BYTES) {
 					return {
 						success: false, error: 'INLINE_TOO_LARGE',
-						message: 'Inline payload exceeds ~2 MB. Use POST /packed/import/bulk/stage (chunked upload), then pass uploadId.',
+						message: 'Inline payload exceeds ~20 MB. Use POST /packed/import/bulk/stage (chunked upload), then pass uploadId.',
 					};
 				}
 			}
@@ -986,8 +1033,17 @@ class PackedPostImportRoutes {
 		if (!identityOk) {
 			return { success: false, error: 'NO_VALID_POSTS', message: 'No post in the batch carries a postId.' };
 		}
-		const busy = runningJob(heichelId);
-		if (busy) return { success: false, error: 'JOB_ALREADY_RUNNING', jobId: busy.id, scope: 'heichel', heichelId };
+		const busy = runningJobsForHeichel(heichelId);
+		// B"H 2026-10-13 (import-speed): allow up to MAX_CONCURRENT_PER_HEICHEL
+		// concurrent jobs per heichel (was 1). Series-index flushes are
+		// mutex-guarded; native writes are per-post keys (no races).
+		if (busy.length >= MAX_CONCURRENT_PER_HEICHEL) {
+			return {
+				success: false, error: 'JOB_ALREADY_RUNNING',
+				jobId: busy[0].id, scope: 'heichel', heichelId,
+				running: busy.length, maxConcurrent: MAX_CONCURRENT_PER_HEICHEL,
+			};
+		}
 		const job = {
 			id: newJobId(), status: 'queued', dryRun,
 			spec: { heichelId, posts, source, stagedDir, aliasId: jobAliasId, aliasName: jobAliasName },
@@ -1010,13 +1066,37 @@ class PackedPostImportRoutes {
 		return { success: { jobId: job.id, status: job.status, dryRun, totalPosts: posts.length, source } };
 	}
 
-	/** GET /packed/import/posts/status?job=<id> */
+	/** GET /packed/import/posts/status?job=<id>[&wait=1&waitMs=1000]
+	 *
+	 * B"H 2026-10-13 (import-speed): long-poll support. Pass wait=1 to hold
+	 * the request until the job reaches a terminal state or waitMs elapses
+	 * (default 1000ms, max 5000ms). This eliminates the client's fixed 5s
+	 * poll interval — the server notifies immediately on completion.
+	 * Without wait=1, behaves as before (immediate return).
+	 */
 	async status() {
 		const bad = requireMethod(this.$i, 'GET');
 		if (bad) return bad;
 		const auth = this.checkAuth();
 		if (auth) return auth;
 		const jobId = requestValue(this.$i, 'job');
+		// B"H 2026-10-13 (import-speed): long-poll parameters.
+		const waitRaw = requestValue(this.$i, 'wait');
+		const wait = waitRaw === '1' || waitRaw === 'true';
+		const waitMs = wait
+			? Math.min(Math.max(parseInt(requestValue(this.$i, 'waitMs'), 10) || 1000, 100), 5000)
+			: 0;
+		const TERMINAL = new Set(['done', 'failed', 'cancelled', 'absolute-failure', 'interrupted', 'paused']);
+		if (wait && waitMs > 0) {
+			const start = Date.now();
+			while (Date.now() - start < waitMs) {
+				const found = getJobView(this.$i, jobId);
+				if (!found) break; // JOB_NOT_FOUND — return immediately
+				if (TERMINAL.has(found.view.status)) break;
+				// Wait 100ms before re-checking. Non-blocking.
+				await new Promise(resolve => setTimeout(resolve, 100));
+			}
+		}
 		const found = getJobView(this.$i, jobId);
 		if (!found) return { success: false, error: 'JOB_NOT_FOUND', jobId };
 		const v = found.view;
