@@ -24,7 +24,7 @@
 
 const { loadConnectionsData } = require('../../packed/connectionsIndex.js');
 const { findIncomingCitations } = require('../../packed/connectionsMatch.js');
-const { resolvePostRef } = require('../../packed/connectionsPosts.js');
+const { resolveTitle } = require('../../packed/connectionsTitles.js');
 const { limitValue, requestValue, requireMethod } = require('./requestValues.js');
 const { er } = require('../../general.js');
 
@@ -44,7 +44,7 @@ class PackedConnectionsRoutes {
 		const slice = entries.slice(0, limit);
 		const out = [];
 		for (const entry of slice) {
-			const ref = await resolvePostRef(this.$i, entry.post);
+			const ref = await resolveTitle(this.$i, entry.post);
 			out.push({
 				post: entry.post,
 				postTitle: ref.postTitle,

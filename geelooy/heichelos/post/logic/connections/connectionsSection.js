@@ -17,7 +17,7 @@
 
 const SECTION_ID = 'awtsmoos-connections';
 const STYLE_ID = 'awtsmoos-connections-styles';
-const FETCH_TIMEOUT_MS = 8000;
+const FETCH_TIMEOUT_MS = 30000;
 const KIND_LABELS = {
 	verse: 'Verse',
 	chumash: 'Chumash',
