@@ -323,3 +323,39 @@
 		transform: translateY(0) scale(1);
 	}
 }
+
+/* B"H — Yaakov 2026-10-13: wardrobe lives in the TOP bar now.
+   Bottom is controls only (joystick + jump), nothing else. */
+.cobyk-app .cobyk-hud__wardrobe {
+	flex: 0 0 auto;
+	width: 2.2rem;
+	height: 2.2rem;
+	min-width: 44px;
+	min-height: 44px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid rgba(255, 216, 77, 0.35);
+	border-radius: 0.6rem;
+	background: rgba(255, 216, 77, 0.1);
+	color: #ffd84d;
+	cursor: pointer;
+	touch-action: manipulation;
+	user-select: none;
+	-webkit-user-select: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.cobyk-app .cobyk-hud__wardrobe:hover {
+	background: rgba(255, 216, 77, 0.22);
+	border-color: rgba(255, 216, 77, 0.65);
+}
+
+.cobyk-app .cobyk-hud__wardrobe:active {
+	transform: scale(0.94);
+}
+
+.cobyk-app .cobyk-hud__wardrobe:focus-visible {
+	outline: 2px solid #ffd84d;
+	outline-offset: 2px;
+}

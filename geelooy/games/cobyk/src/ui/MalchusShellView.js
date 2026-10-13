@@ -34,8 +34,9 @@ export class MalchusShellView {
 		this.yesodQuality = yesodRoot.querySelector("[data-cobyk-quality]");
 		this.yesodStatus = yesodRoot.querySelector("[data-cobyk-status]");
 		this.yesodRestart?.addEventListener("click", () => binaActions.restart?.());
-		// B"H — Yaakov 2026-10-13: wardrobe button next to jump, wired directly.
-		// Lazy-imports the wardrobe UI so a wardrobe failure can never break boot.
+		// B"H — Yaakov 2026-10-13: wardrobe button in the TOP bar (bottom is
+		// controls only). Lazy-imports the wardrobe UI so a wardrobe failure
+		// can never break boot.
 		this.yesodWardrobe = yesodRoot.querySelector("[data-cobyk-wardrobe]");
 		this.yesodWardrobe?.addEventListener("click", () => {
 			import("/games/scripts/wardrobe/ChossidWardrobeUI.js")

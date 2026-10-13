@@ -141,33 +141,15 @@
 	min-height: 76px;
 	border-color: rgba(255, 217, 120, 0.48);
 	background: radial-gradient(circle at 40% 30%, rgba(255, 224, 139, 0.23), rgba(8, 27, 46, 0.84));
+	/* B"H — Yaakov 2026-10-13: jump is an icon now, keep it centered. */
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: #ffe9a8;
 }
 
-/* B"H — Yaakov 2026-10-13: wardrobe button next to jump. Golden shirt button. */
-.cobyk-app .cobyk-action--wardrobe {
-	min-width: 58px;
-	min-height: 58px;
-	font-size: 1.5rem;
-	border-color: rgba(255, 217, 120, 0.55);
-	background: radial-gradient(circle at 40% 30%, rgba(255, 224, 139, 0.3), rgba(60, 42, 10, 0.88));
-	text-indent: 0;
-}
-
-.cobyk-app .cobyk-action--wardrobe:hover {
-	filter: brightness(1.18);
-	border-color: rgba(255, 217, 120, 0.85);
-	box-shadow: 0 0 20px rgba(255, 200, 80, 0.45), 0 12px 34px rgba(0, 0, 0, 0.32);
-}
-
-.cobyk-app .cobyk-action--wardrobe:active {
-	transform: scale(0.9);
-	filter: brightness(1.3);
-}
-
-.cobyk-app .cobyk-action--wardrobe:focus-visible {
-	outline: 2px solid #ffd84d;
-	outline-offset: 2px;
-}
+/* B"H — Yaakov 2026-10-13: wardrobe moved to the TOP bar (see hud.css).
+   Bottom is controls only (joystick + jump), nothing else. */
 
 /* B"H — Yaakov 2026-10-13: jump button needs DISTINCT states, not subtle filters.
    Normal: golden ring. Hover: bright glow. Active: pressed + hot. */

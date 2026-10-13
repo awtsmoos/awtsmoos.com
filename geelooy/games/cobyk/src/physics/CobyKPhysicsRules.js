@@ -33,7 +33,12 @@ export const COBYK_PHYSICS_RULES = Object.freeze({
 	shrinkerWaitSeconds: 8 / 60,
 	shrinkerFadeSeconds: 100 / 60,
 	shrinkerRespawnSeconds: 100 / 60,
-	collisionEpsilon: 0.0001
+	collisionEpsilon: 0.0001,
+	// B"H — Yaakov 2026-10-13: collision precision. Sub-step cap (tiles) so no
+	// substep outruns thin platforms; seam epsilon (tiles) so adjacent floor
+	// tiles never snag a sprint.
+	collisionSubstepMax: 0.25,
+	wallSeamEpsilon: 0.02
 });
 
 /**

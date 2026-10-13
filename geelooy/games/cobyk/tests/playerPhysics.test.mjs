@@ -87,3 +87,43 @@ test("horizontal collision stops motion at the wall face without penetration", (
 	assert.ok(Math.abs(malchusPlayer.x - 0.05) < 1e-9);
 	assert.equal(malchusPlayer.vx, 0);
 });
+
+test("sub-stepped integration never tunnels through a thin platform at extreme fall speed", () => {
+	const gevurahRules = revealTestRules();
+	const malchusPlayer = revealPlayer(gevurahRules);
+	const gevurahCollision = new GevurahCobyKSolidCollisionAuthority(gevurahRules);
+	const yesodThin = revealEntity({
+		id: "brick:0:0",
+		x: 0,
+		y: 0,
+		width: 2,
+		height: 0.3,
+		solid: true
+	});
+	// Fall far faster than any sane speed: 30 tiles/s over a 0.1s test step
+	// travels 3 full tiles — a single-step integrator would blow straight through.
+	malchusPlayer.x = 0.5;
+	malchusPlayer.y = 2.5;
+	malchusPlayer.vy = -30;
+	const binaContact = gevurahCollision.step(malchusPlayer, [yesodThin]);
+	assert.equal(binaContact.grounded, true);
+	assert.ok(Math.abs(malchusPlayer.y - 0.3) < 1e-9);
+	assert.equal(malchusPlayer.vy, 0);
+});
+
+test("sprinting across adjacent floor tiles never snags on the seam", () => {
+	const gevurahRules = revealTestRules();
+	const malchusPlayer = revealPlayer(gevurahRules);
+	const gevurahCollision = new GevurahCobyKSolidCollisionAuthority(gevurahRules);
+	const yesodLeft = revealEntity({ id: "brick:0:0", x: 0, y: 0, solid: true });
+	const yesodRight = revealEntity({ id: "brick:1:0", x: 1, y: 0, solid: true });
+	// Standing exactly on the floor, sprinting right into the next tile's edge.
+	malchusPlayer.x = 0.9;
+	malchusPlayer.y = 1;
+	malchusPlayer.vx = 4;
+	malchusPlayer.vy = 0;
+	const binaContact = gevurahCollision.step(malchusPlayer, [yesodLeft, yesodRight]);
+	assert.equal(binaContact.wallRight, false);
+	assert.ok(malchusPlayer.vx > 0);
+	assert.ok(malchusPlayer.x > 0.9);
+});

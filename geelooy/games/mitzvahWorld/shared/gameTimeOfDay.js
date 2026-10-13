@@ -12,7 +12,9 @@
  * based on the location of the user at that time."
  */
 
-import { ChochmahSolarEvents } from "../../zmanim/js/domain/solar-events.js";
+// B"H — fixed 2026-10-13: path was ../../zmanim (resolved to geelooy/games/zmanim,
+// missing). From geelooy/games/mitzvahWorld/shared/ the zmanim domain is ../../../zmanim.
+import { ChochmahSolarEvents } from "../../../zmanim/js/domain/solar-events.js";
 
 /** Default location (Yerushalayim) when geolocation is unavailable. */
 const FALLBACK_LOCATION = { latitude: 31.7683, longitude: 35.2137, label: "Yerushalayim" };
@@ -58,8 +60,10 @@ export function getUserLocation() {
  */
 export function getSolarAnchors(latitude, longitude, now = new Date()) {
 	const isoDate = now.toISOString().slice(0, 10);
-	const sunrise = ChochmahSolarEvents.eventAt(isoDate, latitude, longitude, -0.833, "rising");
-	const sunset = ChochmahSolarEvents.eventAt(isoDate, latitude, longitude, -0.833, "setting");
+	// B"H — fixed 2026-10-13: the API takes "morning"/"evening", not
+	// "rising"/"setting" (anything else silently meant evening).
+	const sunrise = ChochmahSolarEvents.eventAt(isoDate, latitude, longitude, -0.833, "morning");
+	const sunset = ChochmahSolarEvents.eventAt(isoDate, latitude, longitude, -0.833, "evening");
 	const solarNoon = ChochmahSolarEvents.solarNoon(isoDate, longitude);
 	return { sunrise, sunset, solarNoon, now };
 }

@@ -19,6 +19,10 @@ export class CobyKStarfield {
 		this.nezachShootingEveryMs = Number(binaOptions.shootingEveryMs) || 7000;
 		// B"H — Yaakov 2026-10-13: day/night sky cycle. Starts on day.
 		this.malchusMode = binaOptions.mode === "night" ? "night" : "day";
+		// B"H — Yaakov 2026-10-13: zmanim time-of-day overrides (palette + true
+		// sun position). Null until applyTimeOfDay() runs.
+		this.malchusPalette = null;
+		this.malchusSunState = null;
 		this.malchusStars = [];
 		this.malchusNebulae = [];
 		this.malchusClouds = [];
@@ -49,6 +53,59 @@ export class CobyKStarfield {
 	/** @returns {string} Current sky mode. */
 	revealMode() {
 		return this.malchusMode;
+	}
+
+	/**
+	 * Applies a zmanim time-of-day state (Yaakov 2026-10-13): the sky matches
+	 * the REAL time of day at the user's location. Dawn/morning/midday/
+	 * afternoon/sunset paint the day scene with the phase palette and the sun
+	 * placed from its true altitude/azimuth; night/dusk use the starry sky.
+	 * Safe to call before start(); re-seeds on mode change like setMode.
+	 * @param {{phase:string, sky:{top:string,horizon:string,sun:string,ambient:number}, sun:{altitude:number,azimuth:number,isDay:boolean}}} binaTimeOfDay
+	 * @returns {void}
+	 */
+	applyTimeOfDay(binaTimeOfDay) {
+		if (!binaTimeOfDay) return;
+		const tiferesPhase = String(binaTimeOfDay.phase || "");
+		const tiferesNight = tiferesPhase === "night" || tiferesPhase === "dusk";
+		this.malchusPalette = binaTimeOfDay.sky || null;
+		this.malchusSunState = binaTimeOfDay.sun || null;
+		const tiferesMode = tiferesNight ? "night" : "day";
+		if (tiferesMode !== this.malchusMode) {
+			this.setMode(tiferesMode);
+		} else if (this.yesodCanvas && this.yesodCanvas.width > 0) {
+			// Same mode but fresh zmanim state (e.g. boot day → zmanim day):
+			// re-seed so the phase palette and true sun position take effect.
+			this.malchusShooting = null;
+			this.seed();
+		}
+	}
+
+	/**
+	 * Mixes two #rrggbb colors.
+	 * @param {string} tiferesA First hex color.
+	 * @param {string} tiferesB Second hex color.
+	 * @param {number} binaAmount 0 = all A, 1 = all B.
+	 * @returns {string} rgb() color string.
+	 */
+	static mixHex(tiferesA, tiferesB, binaAmount) {
+		const chochmahParse = tiferesHex => {
+			const tiferesClean = String(tiferesHex || "#000000").replace("#", "");
+			const tiferesFull = tiferesClean.length === 3
+				? tiferesClean.split("").map(c => c + c).join("")
+				: tiferesClean.padEnd(6, "0").slice(0, 6);
+			return [
+				parseInt(tiferesFull.slice(0, 2), 16) || 0,
+				parseInt(tiferesFull.slice(2, 4), 16) || 0,
+				parseInt(tiferesFull.slice(4, 6), 16) || 0
+			];
+		};
+		const binaA = chochmahParse(tiferesA);
+		const binaB = chochmahParse(tiferesB);
+		const binaT = Math.max(0, Math.min(1, Number(binaAmount) || 0));
+		const tiferesMixed = binaA.map((binaValue, binaIndex) =>
+			Math.round(binaValue + (binaB[binaIndex] - binaValue) * binaT));
+		return `rgb(${tiferesMixed[0]},${tiferesMixed[1]},${tiferesMixed[2]})`;
 	}
 
 	/** @returns {boolean} Whether the 2D backdrop could start. */
@@ -118,12 +175,27 @@ export class CobyKStarfield {
 	seedDay(binaWidth, binaHeight) {
 		this.malchusStars = [];
 		this.malchusNebulae = [];
-		// Sun high in the sky with a warm glow.
-		this.malchusSun = {
-			x: binaWidth * (0.2 + Math.random() * 0.6),
-			y: binaHeight * (0.08 + Math.random() * 0.15),
-			radius: Math.min(binaWidth, binaHeight) * 0.055
-		};
+		// Sun: from true zmanim altitude/azimuth when available, else high and warm.
+		// Altitude 0..65° maps low-horizon → high sky; azimuth 90°(east)→270°(west)
+		// sweeps right → left so sunrise sits east and sunset sits west.
+		const tiferesSunState = this.malchusSunState;
+		// B"H — Yaakov 2026-10-13: at dawn/sunset the sun sits on the horizon
+		// (altitude clamps to 0), which is exactly right for those phases.
+		if (tiferesSunState) {
+			const tiferesAlt = Math.max(0, Math.min(65, Number(tiferesSunState.altitude) || 0));
+			const tiferesProg = Math.max(0, Math.min(1, (Number(tiferesSunState.azimuth) - 90) / 180));
+			this.malchusSun = {
+				x: binaWidth * (0.85 - tiferesProg * 0.7),
+				y: binaHeight * (0.78 - (tiferesAlt / 65) * 0.68),
+				radius: Math.min(binaWidth, binaHeight) * 0.055
+			};
+		} else {
+			this.malchusSun = {
+				x: binaWidth * (0.2 + Math.random() * 0.6),
+				y: binaHeight * (0.08 + Math.random() * 0.15),
+				radius: Math.min(binaWidth, binaHeight) * 0.055
+			};
+		}
 		// Fluffy 3D clouds: clusters of puffs with depth, drift, and parallax.
 		this.malchusClouds = [];
 		const binaCloudCount = 7;
@@ -149,27 +221,9 @@ export class CobyKStarfield {
 				alpha: 0.55 + tiferesDepth * 0.45
 			});
 		}
-		// Two mountain ranges: far (pale blue-violet) and near (deeper blue-green).
-		this.malchusMountains = [
-			this.seedMountainRange(binaWidth, binaHeight, 0.62, 0.22, [126, 148, 196]),
-			this.seedMountainRange(binaWidth, binaHeight, 0.74, 0.30, [74, 104, 148])
-		];
-	}
-
-	/**
-	 * Seeds one jagged mountain silhouette range.
-	 * @returns {object} Mountain range record.
-	 */
-	seedMountainRange(binaWidth, binaHeight, binaBaseY, binaHeightFrac, binaColor) {
-		const tiferesPeaks = [];
-		const binaCount = 9 + Math.floor(Math.random() * 5);
-		for (let i = 0; i <= binaCount; i += 1) {
-			tiferesPeaks.push({
-				x: (i / binaCount) * binaWidth,
-				y: binaBaseY - Math.random() * binaHeightFrac
-			});
-		}
-		return { peaks: tiferesPeaks, baseY: binaBaseY, color: binaColor };
+		// B"H — Yaakov 2026-10-13: mountains are REAL 3D WebGL now
+		// (NetzachMountainBackdrop) — the flat 2D canvas triangles are gone.
+		this.malchusMountains = [];
 	}
 
 	/** @returns {void} Seeds the bright night sky: stars, nebulae, shooting stars. */
@@ -238,18 +292,27 @@ export class CobyKStarfield {
 		const binaHeight = this.yesodCanvas.height;
 		const tiferesTime = (chochmahNow - this.chochmahStart) / 1000;
 
-		// Bright blue sky gradient: deep azure top → pale horizon.
+		// Sky gradient: zmanim phase palette when present, else bright blue day.
+		const tiferesPalette = this.malchusPalette;
 		const chochmahSky = yesodCtx.createLinearGradient(0, 0, 0, binaHeight);
-		chochmahSky.addColorStop(0, "#2f7fe0");
-		chochmahSky.addColorStop(0.55, "#6db3f2");
-		chochmahSky.addColorStop(0.85, "#cfe9ff");
-		chochmahSky.addColorStop(1, "#eef8ff");
+		if (tiferesPalette) {
+			chochmahSky.addColorStop(0, tiferesPalette.top);
+			chochmahSky.addColorStop(0.55, CobyKStarfield.mixHex(tiferesPalette.top, tiferesPalette.horizon, 0.5));
+			chochmahSky.addColorStop(0.85, tiferesPalette.horizon);
+			chochmahSky.addColorStop(1, CobyKStarfield.mixHex(tiferesPalette.horizon, "#ffffff", 0.35));
+		} else {
+			chochmahSky.addColorStop(0, "#2f7fe0");
+			chochmahSky.addColorStop(0.55, "#6db3f2");
+			chochmahSky.addColorStop(0.85, "#cfe9ff");
+			chochmahSky.addColorStop(1, "#eef8ff");
+		}
 		yesodCtx.fillStyle = chochmahSky;
 		yesodCtx.fillRect(0, 0, binaWidth, binaHeight);
 
-		// Sun with warm glow.
+		// Sun with warm glow — disc color follows the zmanim phase palette.
 		if (this.malchusSun) {
 			const tiferesSun = this.malchusSun;
+			const tiferesDisc = this.malchusPalette?.sun || "#fff7d6";
 			const chochmahGlow = yesodCtx.createRadialGradient(
 				tiferesSun.x, tiferesSun.y, 0,
 				tiferesSun.x, tiferesSun.y, tiferesSun.radius * 4
@@ -266,36 +329,8 @@ export class CobyKStarfield {
 			);
 			yesodCtx.beginPath();
 			yesodCtx.arc(tiferesSun.x, tiferesSun.y, tiferesSun.radius, 0, Math.PI * 2);
-			yesodCtx.fillStyle = "#fff7d6";
+			yesodCtx.fillStyle = tiferesDisc;
 			yesodCtx.fill();
-		}
-
-		// Mountain ranges, far to near.
-		for (const malchusRange of this.malchusMountains) {
-			yesodCtx.beginPath();
-			yesodCtx.moveTo(-4, binaHeight);
-			for (const tiferesPeak of malchusRange.peaks) {
-				yesodCtx.lineTo(tiferesPeak.x, tiferesPeak.y * binaHeight);
-			}
-			yesodCtx.lineTo(binaWidth + 4, binaHeight);
-			yesodCtx.closePath();
-			const [r, g, b] = malchusRange.color;
-			yesodCtx.fillStyle = `rgb(${r},${g},${b})`;
-			yesodCtx.fill();
-			// Snow caps on the tallest peaks for depth.
-			yesodCtx.fillStyle = "rgba(255,255,255,0.75)";
-			for (const tiferesPeak of malchusRange.peaks) {
-				const tiferesPeakY = tiferesPeak.y * binaHeight;
-				const tiferesSnowH = Math.min(binaHeight * 0.05, (malchusRange.baseY * binaHeight - tiferesPeakY) * 0.35);
-				if (tiferesSnowH > binaHeight * 0.012) {
-					yesodCtx.beginPath();
-					yesodCtx.moveTo(tiferesPeak.x - tiferesSnowH * 1.4, tiferesPeakY + tiferesSnowH);
-					yesodCtx.lineTo(tiferesPeak.x, tiferesPeakY);
-					yesodCtx.lineTo(tiferesPeak.x + tiferesSnowH * 1.4, tiferesPeakY + tiferesSnowH);
-					yesodCtx.closePath();
-					yesodCtx.fill();
-				}
-			}
 		}
 
 		// Fluffy 3D clouds: soft shadow base, bright white puffs, lit tops.
@@ -343,6 +378,13 @@ export class CobyKStarfield {
 				yesodCtx.fill();
 			}
 			yesodCtx.restore();
+		}
+		// B"H — Yaakov 2026-10-13: zmanim ambient dims the day scene toward
+		// dawn/dusk/sunset so the light honestly matches the hour.
+		const tiferesAmbient = this.malchusPalette ? Number(this.malchusPalette.ambient) : 1;
+		if (tiferesAmbient < 1) {
+			yesodCtx.fillStyle = `rgba(4,6,24,${((1 - tiferesAmbient) * 0.35).toFixed(3)})`;
+			yesodCtx.fillRect(0, 0, binaWidth, binaHeight);
 		}
 	}
 

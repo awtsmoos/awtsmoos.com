@@ -4,10 +4,11 @@
 
 import { MalchusCobyKApp } from "./app/MalchusCobyKApp.js";
 import { CobyKStarfield } from "./ui/CobyKStarfield.js";
-import { attachWardrobeButton } from "/games/scripts/wardrobe/ChossidWardrobeUI.js";
+// B"H — fixed 2026-10-13: from src/ the shared module is ../../mitzvahWorld.
+import { getGameTimeOfDay } from "../../mitzvahWorld/shared/gameTimeOfDay.js";
 
-// B"H — unified wardrobe: floating button to dress your chossid.
-try { attachWardrobeButton(); } catch (_) { /* wardrobe UI is decorative */ }
+// B"H — Yaakov 2026-10-13: wardrobe has one canonical home — the top HUD bar
+// (data-cobyk-wardrobe). No floating button; bottom is controls only.
 
 /**
  * @file main.js
@@ -99,31 +100,21 @@ async function bootCobyK() {
 	try {
 		setLoadingHint("Kindling the world…");
 		const malchusApp = await MalchusCobyKApp.create(yesodRoot);
-		// B"H — Yaakov 2026-10-13: day/night sky cycle — even levels get the
-		// bright daytime sky (clouds + mountains), odd levels get starry night.
-		const tiferesOriginalOpenLevel = malchusApp.openLevel.bind(malchusApp);
-		const tiferesOriginalAdvance = malchusApp.advance.bind(malchusApp);
-		const hodApplySkyForLevel = chochmahIndex => {
-			try {
-				yesodStarfield?.setMode(Number(chochmahIndex) % 2 === 0 ? "day" : "night");
-			} catch (_) { /* decorative */ }
-		};
-		malchusApp.openLevel = chochmahIndex => {
-			const tiferesSnapshot = tiferesOriginalOpenLevel(chochmahIndex);
-			hodApplySkyForLevel(chochmahIndex);
-			return tiferesSnapshot;
-		};
-		malchusApp.advance = () => {
-			const tiferesAdvanced = tiferesOriginalAdvance();
-			if (tiferesAdvanced) {
-				try {
-					const tiferesIndex = malchusApp.malchusCampaign?.chochmahIndex ?? 0;
-					hodApplySkyForLevel(tiferesIndex);
-				} catch (_) { /* decorative */ }
-			}
-			return tiferesAdvanced;
-		};
-		hodApplySkyForLevel(0);
+		// B"H — Yaakov 2026-10-13: zmanim owns the sky. The backdrop matches the
+		// REAL time of day at the user's location (geolocation + solar zmanim).
+		// Bright day is only the boot placeholder until the async state resolves.
+		try {
+			yesodStarfield?.setMode("day");
+		} catch (_) { /* decorative */ }
+		try {
+			getGameTimeOfDay()
+				.then(binaTimeOfDay => {
+					try {
+						yesodStarfield?.applyTimeOfDay(binaTimeOfDay);
+					} catch (_) { /* decorative */ }
+				})
+				.catch(() => { /* decorative: placeholder sky remains */ });
+		} catch (_) { /* decorative */ }
 		setLoadingHint("Opening the gates…");
 		malchusApp.start();
 		revealGame();
