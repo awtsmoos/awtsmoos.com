@@ -55,7 +55,8 @@
 		</header>
 
 		<section class="pd-hero" aria-labelledby="profile-title">
-			<div class="pd-cover awtsmoos-hero--profile" style="background-image: url('https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/cover-profile.webp'); background-size: cover; background-position: center;" aria-hidden="true">
+			<div class="pd-cover awtsmoos-hero--profile" data-profile-cover style="background-image: url('https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/cover-profile.webp'); background-size: cover; background-position: center;" aria-hidden="true">
+				<button type="button" class="pd-cover-edit" data-cover-edit aria-label="Change cover image" title="Change cover image" style="position:absolute;right:12px;bottom:12px;">Change cover</button>
 				<span style="--x:8%;--y:22%;--s:2.6rem;--o:.14;--r:-8deg">א</span>
 				<span style="--x:24%;--y:58%;--s:2rem;--o:.1;--r:6deg">ש</span>
 				<span style="--x:68%;--y:18%;--s:3rem;--o:.13;--r:10deg">ת</span>
@@ -208,8 +209,45 @@
 	</script>
 	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=de5da830c1"></script>
 <script src="/scripts/sw-register.js?v=ea8654e790"></script>
-<script src="/js/awtsmoos-media-kit.js"></script>
+<script src="/js/awtsmoos-media-kit.js?v=93aa9d8eb6"></script>
 <script>
+/* B"H — Profile cover tap-to-upload via Awtsmoos Media Kit. */
+document.addEventListener('DOMContentLoaded', () => {
+	if (!window.AwtsmoosMediaKit) return;
+	AwtsmoosMediaKit.ready().then(() => {
+		const coverEl = document.querySelector('[data-profile-cover]');
+		const editBtn = document.querySelector('[data-cover-edit]');
+		if (!coverEl || !editBtn) return;
+		const openCoverDialog = () => {
+			const bg = coverEl.style.backgroundImage || '';
+			const m = bg.match(/url\(["']?([^"')]+)["']?\)/);
+			AwtsmoosMediaKit.pictureUploadDialog({
+				title: 'Update cover image',
+				currentUrl: m ? m[1] : null,
+				onSave: async (publicUrl) => {
+					try {
+						let aliasId = null;
+						try {
+							const meRes = await fetch('/api/social/alias/default', { credentials: 'include' });
+							const meData = await meRes.json();
+							const a = meData?.alias || meData?.data || meData;
+							aliasId = a?.aliasId || a?.id || a?.alias;
+						} catch (e) { /* silent */ }
+						if (!aliasId) return;
+						const res = await fetch('/api/social/alias/' + encodeURIComponent(aliasId), {
+							method: 'PUT',
+							headers: { 'Content-Type': 'application/json' },
+							credentials: 'include',
+							body: JSON.stringify({ coverUrl: publicUrl })
+						});
+						if (res.ok) coverEl.style.backgroundImage = "url('" + publicUrl + "')";
+					} catch (e) { /* silent */ }
+				}
+			});
+		};
+		editBtn.addEventListener('click', (e) => { e.stopPropagation(); openCoverDialog(); });
+	}).catch(() => {});
+});
 /* B"H — Profile avatar tap-to-upload via Awtsmoos Media Kit. */
 document.addEventListener('DOMContentLoaded', () => {
 	if (!window.AwtsmoosMediaKit) return;
@@ -229,7 +267,16 @@ document.addEventListener('DOMContentLoaded', () => {
 				currentUrl,
 				onSave: async (publicUrl) => {
 					try {
-						const res = await fetch('/api/social/me/avatar', {
+						// B"H fixed: resolve default alias, then PUT avatarUrl to the real alias endpoint
+						let aliasId = null;
+						try {
+							const meRes = await fetch('/api/social/alias/default', { credentials: 'include' });
+							const meData = await meRes.json();
+							const a = meData?.alias || meData?.data || meData;
+							aliasId = a?.aliasId || a?.id || a?.alias;
+						} catch (e) { /* silent */ }
+						if (!aliasId) return;
+						const res = await fetch('/api/social/alias/' + encodeURIComponent(aliasId), {
 							method: 'PUT',
 							headers: { 'Content-Type': 'application/json' },
 							credentials: 'include',
