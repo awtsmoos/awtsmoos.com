@@ -320,14 +320,16 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       // B"H — dramatic sunbeams (Yaakov 2026-10-13 "Fix it"): bright enough
       // to read against the canopy. Positioned to overlap tree edges where
       // additive glow is visible (not in open sky).
-      depthWrite: false, side: THREE.DoubleSide, fog: false, opacity: 0.22,
+      // B"H 2026-10-13 photoreal: 0.22→0.38 for the reference's dramatic beams.
+      depthWrite: false, side: THREE.DoubleSide, fog: false, opacity: 0.38,
     });
     const shaftGeo = new THREE.PlaneGeometry(4.5, 40);
     const q = new THREE.Quaternion().setFromUnitVectors(
       new THREE.Vector3(0, 1, 0), sunDir.clone().normalize());
-    for (let si = 0; si < 9; si++) {
-      const z = -60 + si * 8 + (srand() - 0.5) * 5;
-      const x = riverX(z) + (srand() - 0.5) * 20;
+    // B"H 2026-10-13 photoreal: 9→14 shafts for denser god-ray coverage.
+    for (let si = 0; si < 14; si++) {
+      const z = -70 + si * 7 + (srand() - 0.5) * 5;
+      const x = riverX(z) + (srand() - 0.5) * 24;
       const y = groundHeight(x, z, noise) + 15;
       const w = 5 + srand() * 4, l = 40 + srand() * 14;
       for (let k = 0; k < 2; k++) {
@@ -364,6 +366,17 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     sun.shadow.camera.far = 320; sun.shadow.bias = -0.0006;
     scene.add(sun);
     scene.add(new THREE.HemisphereLight(T.hemiSky, T.hemiGround, T.hemiI));
+    // B"H — 2026-10-13 photoreal: camera-facing fill light. The sun is behind
+    // the foreground trunks from the camera's view, so they go black. This
+    // soft fill lifts them to readable bark without washing the mood.
+    // Only for the forest view where near trunks dominate the foreground.
+    if (view === 'forest') {
+      const vpos = VIEWS.forest.pos;
+      const fill = new THREE.DirectionalLight(0xfff2dd, 0.65);
+      fill.position.set(vpos[0], vpos[1] + 4, vpos[2]);
+      fill.target.position.set(vpos[0] - 8, 2, vpos[2] - 20);
+      scene.add(fill); scene.add(fill.target);
+    }
   }
 
   /* B"H — canopy cutout: leaves1.png is RGB (no alpha channel), so the
