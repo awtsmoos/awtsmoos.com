@@ -56,7 +56,32 @@ export async function renderProfilePosts() {
 	const list = one(".profile-posts-list");
 	if (!list) return;
 	replaceWith(list, emptyCard("Loading posts…", "loading"));
-	const groups = await Promise.all(state.aliases.map(loadPostsForAlias));
+	// B"H: never leave the UI stuck on "Loading posts…". Race the fetch
+	// against an overall deadline; on failure show a retry instead of silence.
+	const OVERALL_TIMEOUT_MS = 20000;
+	let groups;
+	try {
+		groups = await Promise.race([
+			Promise.all(state.aliases.map(loadPostsForAlias)),
+			new Promise((_, reject) => setTimeout(
+				() => reject(new Error("Loading posts took too long.")),
+				OVERALL_TIMEOUT_MS
+			))
+		]);
+	} catch (error) {
+		const retry = emptyCard(
+			(error && error.message) || "Posts could not load. Check your connection and try again.",
+			"error"
+		);
+		const btn = document.createElement("button");
+		btn.type = "button";
+		btn.className = "g-button";
+		btn.textContent = "Retry";
+		btn.addEventListener("click", () => { renderProfilePosts().catch(() => {}); });
+		retry.append(btn);
+		replaceWith(list, retry);
+		return;
+	}
 	const items = groups.flat();
 	setStat('posts', String(items.length));
 	if (!items.length) {

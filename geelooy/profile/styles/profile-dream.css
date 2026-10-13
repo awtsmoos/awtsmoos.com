@@ -687,3 +687,58 @@
 		transform: none;
 	}
 }
+
+/* B"H — Profile tablist: the HTML uses .profile-tabs with [role="tab"] buttons.
+ * These rules match the actual markup (the .pd-tabs rules above target a
+ * different class that the HTML does not use). Horizontal scroll on mobile,
+ * never wrap, never overlap. */
+.profile-dream .profile-tabs {
+	display: flex;
+	gap: .35rem;
+	overflow-x: auto;
+	overflow-y: hidden;
+	padding: .55rem .9rem;
+	scrollbar-width: none;
+	-webkit-overflow-scrolling: touch;
+	flex-wrap: nowrap;
+}
+.profile-dream .profile-tabs::-webkit-scrollbar {
+	display: none;
+}
+.profile-dream .profile-tabs [role="tab"] {
+	flex: none;
+	flex-shrink: 0;
+	padding: .6rem 1.1rem;
+	border: 1px solid transparent;
+	border-radius: 999px;
+	background: transparent;
+	color: var(--pd-ink-soft, #6b5f45);
+	font-size: .92rem;
+	font-weight: 700;
+	white-space: nowrap;
+	cursor: pointer;
+	transition: color 160ms ease, background 160ms ease, border-color 160ms ease;
+}
+.profile-dream .profile-tabs [role="tab"]:hover {
+	background: rgba(217, 169, 78, .14);
+	color: var(--pd-gold-deep, #8a641f);
+}
+.profile-dream .profile-tabs [role="tab"]:active {
+	transform: scale(.96);
+}
+.profile-dream .profile-tabs [role="tab"]:focus-visible {
+	outline: 2px solid var(--pd-gold, #d9a94e);
+	outline-offset: 2px;
+}
+.profile-dream .profile-tabs [role="tab"].active,
+.profile-dream .profile-tabs [role="tab"][aria-selected="true"] {
+	background: linear-gradient(180deg, var(--pd-gold-bright, #f7d98c), var(--pd-gold, #d9a94e));
+	border-color: rgba(138, 100, 31, .35);
+	color: #fffdf7;
+	box-shadow: 0 .3rem .8rem rgba(184, 134, 46, .3);
+}
+.profile-dream .profile-tabs [role="tab"]:disabled,
+.profile-dream .profile-tabs [role="tab"][aria-disabled="true"] {
+	opacity: .55;
+	cursor: not-allowed;
+}

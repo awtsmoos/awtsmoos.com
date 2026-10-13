@@ -127,6 +127,10 @@ function decodeSnippetEntities(str) {
 export function plainTextSnippet(value, maxLen = 112) {
     if (value == null) return '';
     let text = decodeSnippetEntities(String(value));
+    // B"H: strip <style> and <script> BLOCKS first — their inner CSS/JS text
+    // is not a tag and would otherwise leak into previews as raw code.
+    text = text.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, ' ');
+    text = text.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, ' ');
     text = text.replace(/<[^>]*>/g, '');
     text = text.replace(/\s+/g, ' ').trim();
     if (text.length > maxLen) text = text.slice(0, maxLen).trimEnd();
