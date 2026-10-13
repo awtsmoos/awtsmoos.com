@@ -3,6 +3,7 @@
 import { TILE_SIZE } from '../data/database.js';
 import { resolveTileVisual } from './tileVisualResolver.js';
 import { EMOJI_FONT, stableHash, WORLD_THEME } from './theme.js';
+import { tileTexture } from './textureTiles.js';
 
 function surfaceFor(tile) {
 	if (/🌊|💧|🧊/.test(tile)) return WORLD_THEME.water;
@@ -11,6 +12,16 @@ function surfaceFor(tile) {
 	if (/✨|🔯|📜|📚|💎/.test(tile)) return WORLD_THEME.mystic;
 	if (/🌱|🌿|🌳|🌲|🍄/.test(tile)) return WORLD_THEME.grass;
 	return WORLD_THEME.path;
+}
+
+/** B"H: maps a tile to its real ground-texture key (parallel to surfaceFor). */
+function surfaceKeyFor(tile) {
+	if (/🌊|💧|🧊/.test(tile)) return 'water';
+	if (/🌵|🐪|🏜️/.test(tile)) return 'sand';
+	if (/🪨|⛰️|🧱|⬛/.test(tile)) return 'stone';
+	if (/✨|🔯|📜|📚|💎/.test(tile)) return 'mystic';
+	if (/🌱|🌿|🌳|🌲|🍄/.test(tile)) return 'grass';
+	return 'path';
 }
 
 function visibleBounds(map, camera) {
@@ -40,10 +51,23 @@ function drawLayer(ctx, map, layer, camera, overlay) {
 			const screenY = y * TILE_SIZE + camera.y;
 
 			if (!overlay) {
-				const variation = stableHash(`${x}:${y}:${rawTile}`) % 11;
-				ctx.fillStyle = surfaceFor(tile);
-				ctx.globalAlpha = 0.82 + variation / 60;
-				ctx.fillRect(screenX, screenY, TILE_SIZE + 1, TILE_SIZE + 1);
+				const surface = surfaceKeyFor(tile);
+				const tex = tileTexture(surface);
+				if (tex) {
+					// B"H: real textured ground; mystic tiles get their violet veil over stone.
+					ctx.globalAlpha = 1;
+					ctx.drawImage(tex, screenX, screenY, TILE_SIZE + 1, TILE_SIZE + 1);
+					if (surface === 'mystic') {
+						ctx.globalAlpha = 0.45;
+						ctx.fillStyle = WORLD_THEME.mystic;
+						ctx.fillRect(screenX, screenY, TILE_SIZE + 1, TILE_SIZE + 1);
+					}
+				} else {
+					const variation = stableHash(`${x}:${y}:${rawTile}`) % 11;
+					ctx.fillStyle = surfaceFor(tile);
+					ctx.globalAlpha = 0.82 + variation / 60;
+					ctx.fillRect(screenX, screenY, TILE_SIZE + 1, TILE_SIZE + 1);
+				}
 				ctx.globalAlpha = 0.12;
 				ctx.strokeStyle = '#ffffff';
 				ctx.strokeRect(screenX + 0.5, screenY + 0.5, TILE_SIZE - 1, TILE_SIZE - 1);
