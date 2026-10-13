@@ -26,7 +26,7 @@
 
 import { readFileSync, existsSync } from 'node:fs';
 import { resolve, relative, join } from 'node:path';
-import { execSync } from 'node:child_process';
+import { execSync, execFileSync } from 'node:child_process';
 import { homedir } from 'node:os';
 import deploySign from '../geelooy/api/social/helper/routes/packed/deploySign.js';
 
@@ -117,6 +117,43 @@ async function main() {
 		console.error('Usage: node scripts/vmDeploySigned.mjs [--message "desc"] <file1> [file2 ...]');
 		console.error('   or: node scripts/vmDeploySigned.mjs --diff [--message "desc"]');
 		process.exit(1);
+	}
+
+	// B"H (2026-10-13, Yaakov's law): bust cache on every deploy. If any
+	// reader CSS/JS changed, rewrite its ?v= to the content hash BEFORE
+	// pushing, so browsers fetch the new copy immediately. Runs automatically
+	// unless --no-bust is passed.
+	if (!args.includes('--no-bust')) {
+		const touchesReader = payload.some(f =>
+			f.path.includes('heichelos/post/') &&
+			(f.path.endsWith('.css') || f.path.endsWith('.js') || f.path.endsWith('.html'))
+		);
+		if (touchesReader) {
+			console.log('B"H busting reader cache (content-hash versions)...');
+			try {
+				execFileSync('node', [join(REPO, 'scripts', 'bustReaderCache.mjs'), '--write'], { cwd: REPO, stdio: 'inherit' });
+				// Re-read any payload files that the bust just modified
+				for (const f of payload) {
+					try {
+						const abs = resolve(REPO, f.path);
+						f.content = readFileSync(abs).toString('base64');
+					} catch { /* file deleted? keep old */ }
+				}
+				// If bust touched _awtsmoos.post.html or main.css and they're
+				// not already in the payload, add them — the version refs changed.
+				for (const extra of ['geelooy/heichelos/post/_awtsmoos.post.html', 'geelooy/heichelos/post/styles/main.css']) {
+					if (!payload.some(f => f.path === extra)) {
+						try {
+							const abs = resolve(REPO, extra);
+							payload.push({ path: extra, content: readFileSync(abs).toString('base64') });
+							console.log(`B"H auto-added cache-busted ref file: ${extra}`);
+						} catch { /* skip */ }
+					}
+				}
+			} catch (e) {
+				console.error(`B"H cache-bust failed (continuing anyway): ${e.message}`);
+			}
+		}
 	}
 
 	console.log(`B"H pushing ${payload.length} file(s) to production (Ed25519-signed)...`);
