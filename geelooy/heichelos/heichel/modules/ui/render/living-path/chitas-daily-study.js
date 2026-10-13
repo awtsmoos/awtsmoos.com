@@ -146,10 +146,13 @@ export function createDailyStudySection(dailyStudy, studyDate) {
   // 3. Tehillim
   if (dailyStudy.tehillim) {
     const th = dailyStudy.tehillim;
+    const link = th.postIds.length > 0
+      ? `/heichelos/ikar/series/tehillim/post/${th.postIds[0]}`
+      : null;
     grid.append(createStudyCard(
       'Tehillim', 'תהלים',
       th.label, th.labelHe,
-      null, null
+      link, link ? 'Open Tehillim →' : null
     ));
   }
   

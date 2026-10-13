@@ -10,20 +10,27 @@
  */
 
 import { TEHILLIM_MONTHLY } from './tehillim-data.js';
+import { TEHILLIM_POSTS } from './tehillim-posts-data.js';
 import { hebrewDateFromGregorian } from './hebrew-date.js';
 
 /**
  * @param {Date} date Local civil date.
- * @returns {{start: number, end: number, hebrewDay: number}}
+ * @returns {{start: number, end: number, hebrewDay: number, postIds: string[]}}
  */
 export function tehillimForDate(date) {
   const h = hebrewDateFromGregorian(date);
   const day = Math.min(h.day, 30);
   const range = TEHILLIM_MONTHLY[String(day)] || TEHILLIM_MONTHLY['1'];
+  const postIds = [];
+  for (let c = range[0]; c <= range[1]; c++) {
+    const pid = TEHILLIM_POSTS[String(c)];
+    if (pid) postIds.push(pid);
+  }
   return {
     start: range[0],
     end: range[1],
     hebrewDay: h.day,
+    postIds,
     label: range[0] === range[1] ? `Chapter ${range[0]}` : `Chapters ${range[0]}–${range[1]}`,
     labelHe: range[0] === range[1] ? `פרק ${range[0]}` : `פרקים ${range[0]}–${range[1]}`,
   };
