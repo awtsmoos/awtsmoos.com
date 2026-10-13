@@ -19,6 +19,9 @@ function hideEl(el) {
 }
 
 async function boot() {
+	// B"H: shared WebGL help gate (Yaakov 2026-10-13). When WebGL is unavailable
+	// the shared overlay explains + offers Try Again; stop the 3D boot here.
+	if (!window.AwtsmoosWebGL.ensure({ gameName: "The Rebbe's Runner" })) return;
 	const fill = $('rr-loading-fill');
 	const tipEl = $('rr-loading-tip');
 	const startBtn = $('rr-start');
