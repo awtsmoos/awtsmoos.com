@@ -1451,3 +1451,109 @@
 @media (prefers-reduced-motion: reduce) {
   .awtsmoos-fn-flash { animation: none; }
 }
+
+/* ============================================================================
+ * B"H — Sources sheet BEAUTY PASS (Yaakov: excellence, not just functional)
+ * Sanctuary aesthetic: deep warm tones, luminous gold, candle-light glow.
+ * ========================================================================== */
+/* Luminous medallions — candle-lit gold */
+.awtsmoos-src-medaillon {
+  position: relative;
+  background: linear-gradient(135deg, #e8b923 0%, #c9960f 45%, #a67c0a 100%);
+  box-shadow:
+    0 0 0 1px rgba(232, 185, 35, 0.35),
+    0 2px 8px rgba(0, 0, 0, 0.22),
+    0 0 16px rgba(232, 185, 35, 0.25);
+}
+.awtsmoos-src-goto:hover .awtsmoos-src-medaillon {
+  box-shadow:
+    0 0 0 1px rgba(232, 185, 35, 0.55),
+    0 2px 10px rgba(0, 0, 0, 0.25),
+    0 0 24px rgba(232, 185, 35, 0.4);
+}
+/* Sheet top glow — sanctuary light bleeding in */
+.awtsmoos-src-sheet::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(232, 185, 35, 0.7), transparent);
+  pointer-events: none;
+}
+/* Head with luminous Hebrew title */
+.awtsmoos-src-title {
+  background: linear-gradient(180deg, var(--sefer-ink, #2c2416), var(--sefer-gold-deep, #6b5510));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 0.01em;
+}
+[data-theme="dark"] .awtsmoos-src-title {
+  background: linear-gradient(180deg, #f5e6c4, #d4a017);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+/* Section items: warm hover bloom */
+.awtsmoos-src-item {
+  border-radius: 0.8rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+.awtsmoos-src-item:hover {
+  background: linear-gradient(180deg, rgba(232, 185, 35, 0.07), rgba(232, 185, 35, 0.03));
+  box-shadow: inset 0 0 0 1px rgba(232, 185, 35, 0.14);
+}
+/* Tabs: candle-tab glow when active */
+.awtsmoos-src-tab[aria-selected="true"] {
+  box-shadow: inset 0 2px 0 var(--sefer-gold, #b8860b);
+  background: linear-gradient(180deg, var(--sefer-paper-deep, #f5efe0), transparent);
+}
+/* Card: vellum warmth */
+.awtsmoos-src-card {
+  background:
+    linear-gradient(180deg, rgba(232, 185, 35, 0.06), transparent 40%),
+    var(--sefer-paper-deep, #f5efe0);
+  box-shadow: 0 1px 4px rgba(60, 40, 10, 0.08);
+}
+/* Breadcrumb: golden separators */
+.awtsmoos-src-crumb-sep {
+  color: var(--sefer-gold, #b8860b);
+  font-weight: 700;
+}
+/* Close button: soft sanctuary ring */
+.awtsmoos-src-close {
+  box-shadow: 0 1px 4px rgba(60, 40, 10, 0.12);
+}
+/* Comment button: pill with gold soul */
+.awtsmoos-src-comment-btn {
+  box-shadow: inset 0 0 0 1px rgba(184, 134, 11, 0.25);
+}
+.awtsmoos-src-comment-btn:hover {
+  box-shadow: inset 0 0 0 1px rgba(184, 134, 11, 0.45), 0 0 12px rgba(232, 185, 35, 0.15);
+}
+/* Send button: candle-flame gradient */
+.awtsmoos-src-send {
+  background: linear-gradient(135deg, #d4a017, #b8860b);
+  box-shadow: 0 2px 8px rgba(184, 134, 11, 0.35);
+  color: #2c2416;
+}
+.awtsmoos-src-send:hover:not(:disabled) {
+  box-shadow: 0 2px 12px rgba(184, 134, 11, 0.5);
+  opacity: 1;
+}
+/* Footnote items: hover warmth */
+.awtsmoos-src-fn-item:hover {
+  background: linear-gradient(180deg, rgba(232, 185, 35, 0.07), transparent);
+}
+/* Sheet entrance: gentle sanctuary rise */
+.awtsmoos-src-sheet {
+  box-shadow:
+    0 -0.5rem 3rem rgba(0, 0, 0, 0.25),
+    0 0 60px rgba(232, 185, 35, 0.06);
+}
