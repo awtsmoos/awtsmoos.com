@@ -11,7 +11,7 @@
  */
 
 const readingStore = require('../reading/readingStore.js');
-const { badMethod, fail, getQuery, isMethod, ok } = require('../routes/profile/values.js');
+const { badMethod, fail, getQuery, isMethod, ok } = require('../profile/values.js');
 
 /**
  * Extracts JSON body from the request.
