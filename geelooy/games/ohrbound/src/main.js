@@ -35,6 +35,14 @@ import { OhrboundApp } from "./app/OhrboundApp.js";
 import { OhrboundBrowserBindings } from "./app/OhrboundBrowserBindings.js";
 import { MalchusBrowserVessel } from "./app/browser/MalchusBrowserVessel.js";
 
+// B"H WebGL gate: Ohrbound renders through WebGL. If unavailable, show
+// Yaakov's helpful overlay (restart browser, common causes, Try Again)
+// instead of a black screen, and stop boot here.
+if (typeof window !== 'undefined' && window.AwtsmoosWebGL &&
+	!window.AwtsmoosWebGL.ensure({ gameName: 'Ohrbound' })) {
+	throw new Error('Ohrbound requires WebGL.');
+}
+
 const malchusBrowser = new MalchusBrowserVessel(document);
 const yesodHttpClient = new HttpClient();
 const yesodCloudRepository = new OhrboundCloudRepository(yesodHttpClient);

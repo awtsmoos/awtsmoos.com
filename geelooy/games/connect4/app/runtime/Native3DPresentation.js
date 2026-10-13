@@ -66,6 +66,12 @@ export class Connect4Native3DPresentation {
 
 	/** Switch projection while leaving the active Worker match untouched. */
 	setActive(active) {
+		// B"H WebGL gate: 3D is opt-in; without WebGL show the helpful overlay
+		// and stay on the 2D board instead of failing silently.
+		if (active && typeof window !== 'undefined' && window.AwtsmoosWebGL &&
+			!window.AwtsmoosWebGL.ensure({ gameName: 'Connect 4 3D' })) {
+			return;
+		}
 		applyConnect4Native3DMode(this, active);
 	}
 
