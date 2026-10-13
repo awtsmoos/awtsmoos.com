@@ -12,12 +12,14 @@ export const COBYK_CAMERA_RULES = Object.freeze({
 	portraitAspectMax: 0.82,
 	compactAspectMax: 1.25,
 	ultrawideAspectMin: 1.95,
-	portraitVisibleWidth: 7.5,
-	compactVisibleWidth: 12,
-	desktopVisibleWidth: 18,
-	ultrawideVisibleWidth: 21.5,
-	minimumVisibleHeight: 7.25,
-	maximumVisibleHeight: 18,
+	// B"H — Yaakov 2026-10-13: camera ZOOMED IN so player is big and clear.
+	// Was 7.5 (player was 5.8% of screen height — tiny). Now 3.2.
+	portraitVisibleWidth: 3.2,
+	compactVisibleWidth: 8,
+	desktopVisibleWidth: 14,
+	ultrawideVisibleWidth: 17,
+	minimumVisibleHeight: 5.0,
+	maximumVisibleHeight: 14,
 	// B"H — Yaakov 2026-10-13: camera must track the player tightly.
 	// Dead zones shrunk to near-zero so the camera never feels disconnected.
 	horizontalDeadZoneFraction: 0.02,
