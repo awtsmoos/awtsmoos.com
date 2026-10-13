@@ -110,7 +110,7 @@ function bufferGeometryFromStream(stream, leafShrink = 0) {
 }
 
 const VIEWS = {
-  forest:    { pos: [riverX(30) + 10, 3.4, 30],  look: [riverX(-30) - 2, 5.0, -30] },
+  forest:    { pos: [riverX(18) + 4.5, 1.9, 18],  look: [riverX(-25) - 1, 1.2, -25] },
   river:     { pos: [riverX(34) + 7, 3.4, 34], look: [riverX(-30) - 2, 0.5, -30] },
   grassland: { pos: [-34, 10, 46],  look: [10, 2, -10] },
   particles: { pos: [7, 2.4, 13],   look: [-8, 3.5, -12] },
@@ -505,7 +505,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   /* textures (real photographs, Awtsmoos Drive) */
   const [grassTex, dirtTex, barkTex, canopyTex, leafTex,
          grassGroundTex, barkDetailTex, mossGroundTex, mossyBarkTex, fernTex,
-         leafClusterTex, denseCanopyTex, backlitCanopyTex, impostorTex1, impostorTex2, impostorTex3, impostorTex4] = await Promise.all([
+         leafClusterTex, denseCanopyTex, backlitCanopyTex, impostorTex1, impostorTex2, impostorTex3, impostorTex4,
+         pebbleTex] = await Promise.all([
     loadTexture(TEX + 'grass1.jpg', 30, 30),
     loadTexture(TEX + 'dirt1.jpg', 40, 3),
     loadTexture(TEX + 'bark1.webp', 1, 2),
@@ -536,6 +537,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     makeDenseCanopyAlpha(TEX + 'imp-tree-full-2.webp'),
     makeDenseCanopyAlpha(TEX + 'imp-tree-full-3.webp'),
     makeDenseCanopyAlpha(TEX + 'imp-tree-full-4.webp'),
+    // B"H — 99% push: photoreal pebble riverbed, visible through clear water.
+    loadTexture(TEX + 'new/tex-pebbles.webp', 8, 8),
   ]);
   mark('textures');
 
@@ -727,7 +730,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   }
   const riverbed = new THREE.Mesh(
     ribbon(21, (x, z) => groundHeight(x, z, noise) - 0.12, 24),
-    new THREE.MeshStandardMaterial({ map: dirtTex, roughness: 1 })
+    new THREE.MeshStandardMaterial({ map: pebbleTex, roughness: 0.7 })
   );
   riverbed.receiveShadow = true;
   scene.add(riverbed);
@@ -751,8 +754,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       uTime: { value: 0 },
       uSunDir: { value: sunDir },
       uGlitterDir: { value: new THREE.Vector3(-0.18, 0.16, -0.97).normalize() },
-      uDeep: { value: new THREE.Color(0x1a4a48) },
-      uShallow: { value: new THREE.Color(0x5aa898) },
+      uDeep: { value: new THREE.Color(0x2a5a55) },
+      uShallow: { value: new THREE.Color(0x7ab8a8) },
       uSky: { value: new THREE.Color(0xcfe4ea) },
       uFogColor: { value: new THREE.Color(T.fog) },
       uFogNear: { value: T.fogNear },
@@ -816,7 +819,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           vec3 col = mix(uShallow, uDeep, 0.25 + 0.55*centerDepth);
           // B"H — Phase 4 (2026-10-13): pebble bed more visible (0.8→0.95),
           // water more transparent so the bed reads like the reference.
-          col = mix(col, bed*vec3(0.72,0.95,0.88), shallow*0.95);
+          col = mix(col, bed*vec3(0.85,1.0,0.95), shallow*1.0);
           col = mix(col, uSky, fres*0.28);
           // glitter path on the water + faint real-sun sparkle
           // B"H 2026-10-13 photoreal: boosted for the reference's bright glitter path
@@ -831,7 +834,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           float lap = 0.5 + 0.5*sin(uTime*1.6 + pw.y*1.8 + fn*6.28);
           float foam = band * smoothstep(0.45, 0.85, fn*0.6 + lap*0.45) * 0.65;
           col = mix(col, vec3(0.90,0.95,0.93), clamp(foam, 0.0, 1.0));
-          float alpha = mix(0.0, 0.75, edge) + foam*0.12;
+          float alpha = mix(0.0, 0.45, edge) + foam*0.12;
           // manual fog: the river winds away into the mist like the reference
           float fd = distance(cameraPosition, vPos);
           float f2 = smoothstep(uFogNear, uFogFar, fd);
