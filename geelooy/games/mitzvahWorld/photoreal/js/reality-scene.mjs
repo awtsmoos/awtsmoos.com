@@ -148,10 +148,13 @@ const TOD = {
     golden: 0.0, warm: 0.0,
   },
   golden: {
-    sunDir: [0.72, 0.30, 0.28], sunColor: 0xffe0b0, sunI: 3.2,
-    hemiSky: 0xe8d4a8, hemiGround: 0x5a6a42, hemiI: 0.85,
-    fog: 0x9aaa7a, fogNear: 60, fogFar: 270, exposure: 1.25,
-    golden: 1.0, warm: 0.55,
+    // B"H — 2026-10-13 Phase 1 lighting rebuild: warm white sun (~5500K, not
+    // yellow), cool green-blue ambient (reference shadows are cool), exposure
+    // 1.0. The reference is softly lit — restraint, not blowout.
+    sunDir: [0.72, 0.30, 0.28], sunColor: 0xfff6e8, sunI: 2.4,
+    hemiSky: 0xa8c8d8, hemiGround: 0x4a5a3a, hemiI: 0.7,
+    fog: 0x9aaa7a, fogNear: 60, fogFar: 270, exposure: 1.0,
+    golden: 1.0, warm: 0.25,
   },
   dusk: {
     sunDir: [0.78, 0.13, 0.18], sunColor: 0xff9e5e, sunI: 2.3,
@@ -288,10 +291,12 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const gtex = new THREE.CanvasTexture(cv); gtex.colorSpace = THREE.SRGBColorSpace;
     const glow = new THREE.Sprite(new THREE.SpriteMaterial({
       map: gtex, transparent: true, depthWrite: false,
-      blending: THREE.AdditiveBlending, fog: false, opacity: 0.85 + warm * 0.15,
+      // B"H — Phase 1 (2026-10-13): 0.85→0.35. The sun glow was a major
+      // blowout source. Soft presence, not a flare.
+      blending: THREE.AdditiveBlending, fog: false, opacity: 0.35,
     }));
     glow.position.copy(sunDir).multiplyScalar(420);
-    glow.scale.setScalar(150 + warm * 60);
+    glow.scale.setScalar(90 + warm * 30);
     scene.add(glow);
   }
 
@@ -320,14 +325,15 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       // B"H — dramatic sunbeams (Yaakov 2026-10-13 "Fix it"): bright enough
       // to read against the canopy. Positioned to overlap tree edges where
       // additive glow is visible (not in open sky).
-      // B"H 2026-10-13 photoreal: 0.22→0.38 for the reference's dramatic beams.
-      depthWrite: false, side: THREE.DoubleSide, fog: false, opacity: 0.38,
+      // B"H — Phase 1 lighting rebuild (2026-10-13): 0.38→0.05. The reference
+      // has whisper-soft rays, not beams. Restraint.
+      depthWrite: false, side: THREE.DoubleSide, fog: false, opacity: 0.05,
     });
     const shaftGeo = new THREE.PlaneGeometry(4.5, 40);
     const q = new THREE.Quaternion().setFromUnitVectors(
       new THREE.Vector3(0, 1, 0), sunDir.clone().normalize());
-    // B"H 2026-10-13 photoreal: 9→14 shafts for denser god-ray coverage.
-    for (let si = 0; si < 14; si++) {
+    // B"H 2026-10-13 Phase 1: 14→10 shafts, whisper-soft per plan.
+    for (let si = 0; si < 10; si++) {
       const z = -70 + si * 7 + (srand() - 0.5) * 5;
       const x = riverX(z) + (srand() - 0.5) * 24;
       const y = groundHeight(x, z, noise) + 15;
@@ -372,7 +378,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     // Only for the forest view where near trunks dominate the foreground.
     if (view === 'forest') {
       const vpos = VIEWS.forest.pos;
-      const fill = new THREE.DirectionalLight(0xfff2dd, 0.65);
+      // B"H — Phase 1 (2026-10-13): cooler + dimmer fill (0xfff2dd 0.65 →
+      // 0xd8e8e8 0.35). Reference shadows are cool, not warm.
+      const fill = new THREE.DirectionalLight(0xd8e8e8, 0.35);
       fill.position.set(vpos[0], vpos[1] + 4, vpos[2]);
       fill.target.position.set(vpos[0] - 8, 2, vpos[2] - 20);
       scene.add(fill); scene.add(fill.target);
