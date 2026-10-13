@@ -12,10 +12,22 @@
 
 import { keyOf } from '../world/GridPathfinder.js';
 import { tileBounds, visibleTileRange } from './RenderTransform.js';
+import { textureLibrary } from './TextureLibrary.js';
 
 export class TerrainRenderer {
 	constructor(context) {
 		this.context = context;
+		// B"H — Yaakov 2026-10-13: real Jerusalem stone textures, never flat colors.
+		textureLibrary.load().catch(() => {});
+	}
+
+	wallFill(theme) {
+		return textureLibrary.pattern(this.context, 'wall', 0.16) || theme.wall;
+	}
+
+	floorFill(theme, raised) {
+		if (raised) return textureLibrary.pattern(this.context, 'floor', 0.16) || lighten(theme.floor, 28);
+		return textureLibrary.pattern(this.context, 'floor', 0.16) || theme.floor;
 	}
 
 	draw(level, canvas, camera) {
@@ -35,7 +47,7 @@ export class TerrainRenderer {
 
 	drawWall(bounds, theme) {
 		const context = this.context;
-		context.fillStyle = theme.wall;
+		context.fillStyle = this.wallFill(theme);
 		context.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
 		context.fillStyle = 'rgba(255,255,255,0.06)';
 		context.fillRect(bounds.x, bounds.y, bounds.width, Math.max(2, bounds.height * 0.12));
@@ -45,7 +57,7 @@ export class TerrainRenderer {
 
 	drawFloor(bounds, theme, raised, ramp) {
 		const context = this.context;
-		context.fillStyle = raised ? lighten(theme.floor, 28) : theme.floor;
+		context.fillStyle = this.floorFill(theme, raised);
 		context.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
 		context.strokeStyle = raised ? `${theme.glow}55` : 'rgba(255,255,255,0.035)';
 		context.lineWidth = raised ? 2 : 1;
