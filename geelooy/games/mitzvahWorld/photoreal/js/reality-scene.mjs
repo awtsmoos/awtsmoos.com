@@ -67,6 +67,105 @@ function loadTexture(url, repeatX = 1, repeatY = 1) {
     }, undefined, reject);
   });
 }
+// B"H — PROCEDURAL BARK SHADER (Yaakov 2026-10-13: "massively improved
+// algorithms", "better math"). Fundamental rethink of bark shading:
+// the old approach (bark photo texture on baked UVs) rendered trunks as
+// flat brown slabs — the texture never read. This replaces albedo with
+// UV-INDEPENDENT procedural bark in the fragment shader:
+//   - FISSURES: ridged FBM noise stretched vertically (bark cracks run
+//     along the trunk). Infinite detail at any zoom, zero texture fetch.
+//   - PLATES: large-scale mottling between fissures (bark plate variation).
+//   - MOSS: world-normal-driven (up-facing = mossy) × noise breakup ×
+//     height falloff (moss hugs the lower trunk). Physically motivated.
+//   - CREVICE AO: deep fissures darken (cheap ambient occlusion).
+// Works on regular Mesh AND InstancedMesh (ifdef handles instanceMatrix).
+// The Sobel-derived normalMap stays for micro-surface detail — math for
+// large structure, texture for micro. 60fps: ~15 ALU in fragment.
+function applyProceduralBark(mat) {
+  mat.onBeforeCompile = (shader) => {
+    shader.vertexShader = shader.vertexShader
+      .replace('#include <common>', `#include <common>
+        varying vec3 vBarkWPos; varying vec3 vBarkWNormal;`)
+      .replace('#include <worldpos_vertex>', `#include <worldpos_vertex>
+        {
+          vec4 bwp4 = vec4(transformed, 1.0);
+          vec3 bwn3 = objectNormal;
+          #ifdef USE_INSTANCING
+            bwp4 = instanceMatrix * bwp4;
+            bwn3 = mat3(instanceMatrix) * bwn3;
+          #endif
+          bwp4 = modelMatrix * bwp4;
+          vBarkWPos = bwp4.xyz;
+          vBarkWNormal = normalize(mat3(modelMatrix) * bwn3);
+        }`);
+    shader.fragmentShader = shader.fragmentShader
+      .replace('#include <common>', `#include <common>
+        varying vec3 vBarkWPos; varying vec3 vBarkWNormal;
+        float bh_hash(vec2 p) {
+          p = fract(p * vec2(234.34, 435.345));
+          p += dot(p, p + 34.23);
+          return fract(p.x * p.y);
+        }
+        float bh_noise(vec2 p) {
+          vec2 i = floor(p), f = fract(p);
+          vec2 u = f * f * (3.0 - 2.0 * f);
+          float a = bh_hash(i), b = bh_hash(i + vec2(1.0, 0.0));
+          float c = bh_hash(i + vec2(0.0, 1.0)), d = bh_hash(i + vec2(1.0, 1.0));
+          return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
+        }
+        float bh_fbm(vec2 p) {
+          float v = 0.0, a = 0.5;
+          for (int k = 0; k < 4; k++) { v += a * bh_noise(p); p *= 2.03; a *= 0.5; }
+          return v;
+        }`)
+      .replace('#include <map_fragment>', `{
+          vec3 bwp = vBarkWPos;
+          vec3 bwn = normalize(vBarkWNormal);
+          // vertical fissures: ridged FBM stretched along trunk axis
+          float g1 = bh_fbm(vec2((bwp.x + bwp.z) * 5.0, bwp.y * 1.1));
+          float g2 = bh_fbm(vec2((bwp.x - bwp.z) * 11.0 + 7.3, bwp.y * 2.6));
+          float ridge = clamp(1.0 - abs(g1 * 0.65 + g2 * 0.35) * 2.0, 0.0, 1.0);
+          float fiss = pow(ridge, 2.5);
+          // bark plates: large mottling between fissures
+          float plate = bh_fbm(vec2((bwp.x + bwp.z) * 2.2, bwp.y * 0.5));
+          vec3 barkCol = mix(vec3(0.13, 0.09, 0.06), vec3(0.30, 0.23, 0.16),
+                              clamp(fiss * 0.7 + plate * 0.5, 0.0, 1.0));
+          // moss: up-facing + noise breakup, concentrated low on trunk
+          float mossN = bh_fbm(bwp.xz * 2.0 + 3.1);
+          float upFace = clamp(bwn.y * 0.5 + 0.5, 0.0, 1.0);
+          float mossMask = smoothstep(0.45, 0.8, upFace * 0.6 + mossN * 0.55);
+          mossMask *= 1.0 - smoothstep(2.0, 7.0, bwp.y);
+          vec3 mossCol = mix(vec3(0.10, 0.20, 0.05), vec3(0.30, 0.44, 0.15), mossN);
+          vec3 col = mix(barkCol, mossCol, clamp(mossMask, 0.0, 1.0));
+          col *= 0.72 + 0.45 * fiss; // crevice AO
+          // B"H — preserve per-instance tint (branch wood uses instanceColor
+          // for bark/moss variation); color_fragment already multiplied it
+          // into diffuseColor, so re-apply here after override.
+          #ifdef USE_INSTANCING_COLOR
+            col *= vColor;
+          #endif
+          diffuseColor.rgb = col;
+        }`);
+  };
+  // B"H — distinct program cache key: three.js caches compiled programs by
+  // onBeforeCompile.toString(); the closure is identical per call, so set a
+  // customProgramCacheKey to avoid collisions with non-bark materials.
+  mat.customProgramCacheKey = () => 'procedural-bark-v1';
+}
+// B"H — normal maps must stay LINEAR (NoColorSpace). sRGB-decoding a normal
+// map corrupts the vectors (Yaakov 2026-10-13: "never enough textures,
+// including normals").
+function loadNormalTexture(url, repeatX = 1, repeatY = 1) {
+  return new Promise((resolve, reject) => {
+    new THREE.TextureLoader().load(url, tex => {
+      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(repeatX, repeatY);
+      tex.anisotropy = 8;
+      tex.colorSpace = THREE.NoColorSpace;
+      resolve(tex);
+    }, undefined, reject);
+  });
+}
 
 function bufferGeometryFromStream(stream, leafShrink = 0) {
   let positions = stream.positions;
@@ -505,7 +604,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   const [grassTex, dirtTex, barkTex, canopyTex, leafTex,
          grassGroundTex, barkDetailTex, mossGroundTex, mossyBarkTex, fernTex,
          leafClusterTex, denseCanopyTex, backlitCanopyTex, impostorTex1, impostorTex2, impostorTex3, impostorTex4,
-         pebbleTex, fallenLogTex, leafLitterTex] = await Promise.all([
+         pebbleTex, fallenLogTex, leafLitterTex,
+         barkNormalTex, mossNormalTex, pebbleNormalTex, wetRockNormalTex,
+         waterRippleNormalTex, leafVeinNormalTex] = await Promise.all([
     loadTexture(TEX + 'grass1.jpg', 30, 30),
     loadTexture(TEX + 'dirt1.jpg', 40, 3),
     loadTexture(TEX + 'bark1.webp', 1, 2),
@@ -541,6 +642,16 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     // B"H — 99% push: fallen mossy log + leaf litter for foreground detail.
     loadTexture(TEX + 'new/tex-fallen-log.webp', 2, 1),
     loadTexture(TEX + 'new/tex-leaf-litter.webp', 6, 6),
+    // B"H — normal maps (Yaakov 2026-10-13: "never enough textures, including
+    // normals"). Bark/moss/pebble/wet-rock derived geometrically via Sobel
+    // from height maps (better math); water ripple + leaf vein AI-generated.
+    // Repeats match their albedo counterparts so relief aligns with color.
+    loadNormalTexture(TEX + 'new/tex-mossy-bark-v2-normal.webp', 1, 2),
+    loadNormalTexture(TEX + 'new/tex-moss-floor-v2-normal.webp', 36, 36),
+    loadNormalTexture(TEX + 'new/tex-pebbles-normal.webp', 8, 8),
+    loadNormalTexture(TEX + 'new/tex-wet-rock-normal.webp', 1, 1),
+    loadNormalTexture(TEX + 'new/tex-water-ripple-normal.webp', 24, 24),
+    loadNormalTexture(TEX + 'new/tex-leaf-vein-normal.webp', 1, 1),
   ]);
   mark('textures');
 
@@ -550,9 +661,10 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   const CLEAR = {
     // B"H 2026-10-13 "Fix it": forest camera was buried in crown filler —
     // filler reaches ~10 units past the trunk, so 12 was not enough.
-    // B"H 2026-10-13 photoreal: procedural trees stay FURTHER from camera
-    // (impostors carry the midground now). 18→22 for forest.
-    forest: 22, river: 15, grassland: 26, particles: 15,
+    // B"H 2026-10-13 rethink: procedural bark is now GOOD (FBM fissures in
+    // shader), so procedural trees OWN the foreground. 22→14; impostors
+    // pushed to 48u+ background. Foreground = real 3D bark, not billboards.
+    forest: 14, river: 15, grassland: 26, particles: 15,
     'character-forest': 14, 'character-river': 14, 'character-sitting': 14,
     'character-portrait': 12, night: 14, 'character-older': 12,
   }[view] || 15;
@@ -608,10 +720,14 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       for (const side of [-1, 1]) {
         // stagger: alternate sides slightly to avoid perfect symmetry
         if ((i + (side > 0 ? 1 : 0)) % 2 === 1 && rand() < 0.2) continue;
-        const dist = 15 + rand() * 18; // 15-33 units — dense but with depth
+        // B"H 2026-10-13: 15-33u put impostor quads in the FOREGROUND where
+        // their flat photo trunks hid the procedural bark. 30-52u still too
+        // close (22u-tall quads subtend 40° at 30u). 48-78u = true background
+        // mass; procedural trees own the foreground/midground.
+        const dist = 48 + rand() * 30; // 48-78 units — background mass only
         const x = riverX(z) + side * dist;
         // don't block the camera
-        if (Math.hypot(x - camPos[0], z - camPos[2]) < 12) continue;
+        if (Math.hypot(x - camPos[0], z - camPos[2]) < 30) continue;
         // don't collide with procedural trees (they're in front)
         if (treeSpots.some(s => Math.hypot(s.x - x, s.z - z) < 5)) continue;
         walls.push({ x, z, side });
@@ -706,6 +822,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   }
   const terrain = new THREE.Mesh(terrGeo, new THREE.MeshStandardMaterial({
     map: grassGroundTex, vertexColors: true, roughness: 1.0, metalness: 0.0,
+    // B"H — moss relief normals: ground stops being a flat plane under sun.
+    normalMap: mossNormalTex, normalScale: new THREE.Vector2(0.9, 0.9),
   }));
   terrain.receiveShadow = true;
   scene.add(terrain);
@@ -732,7 +850,11 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   }
   const riverbed = new THREE.Mesh(
     ribbon(21, (x, z) => groundHeight(x, z, noise) - 0.12, 24),
-    new THREE.MeshStandardMaterial({ map: pebbleTex, roughness: 0.7 })
+    new THREE.MeshStandardMaterial({
+      map: pebbleTex, roughness: 0.7,
+      // B"H — rounded pebble normals: stones read 3D through clear water.
+      normalMap: pebbleNormalTex, normalScale: new THREE.Vector2(1.0, 1.0),
+    })
   );
   riverbed.receiveShadow = true;
   scene.add(riverbed);
@@ -919,17 +1041,27 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
 
 /* trees — ez-tree-derived procedural generator, real bark + canopy photos */
   const barkMat = new THREE.MeshStandardMaterial({
-    map: mossyBarkTex, roughness: 0.95,
+    roughness: 0.95,
+    // B"H — albedo is FULLY procedural (applyProceduralBark): UV-independent
+    // FBM fissures + world-normal moss. Sobel normalMap stays for micro detail.
+    normalMap: barkNormalTex, normalScale: new THREE.Vector2(1.6, 1.6),
     color: new THREE.Color(0.95, 0.90, 0.82),
     emissive: new THREE.Color(0.04, 0.03, 0.02),
   });
+  applyProceduralBark(barkMat);
+  // B"H DIAGNOSTIC — wireframe if trunks are barkMat (remove after test)
+  // barkMat.wireframe = true;
   const canopyMat = new THREE.MeshStandardMaterial({
     // B"H 2026-10-13 texture-detail: was pale sage tint (0.58,0.66,0.55) washing
     // the rich leaf photo to flat paper. Deep forest tint lets real leaf detail
     // show. depthWrite kills alpha-test flicker.
+    // B"H 2026-10-13 leaf audit: shadow-side baked leaves went BLACK (the dark
+    // canopy blob). Emissive lift keeps transmitted light on the shadow side —
+    // real leaves are translucent, never pure black.
     map: leafClusterTex, alphaTest: 0.35, side: THREE.DoubleSide,
     roughness: 0.9, color: new THREE.Color(0.42, 0.50, 0.38),
-    emissive: new THREE.Color(0.012, 0.022, 0.010),
+    emissive: new THREE.Color(0.10, 0.13, 0.05),
+    emissiveMap: backlitCanopyTex,
     depthWrite: true,
   });
   const ARCHETYPES = [
@@ -951,10 +1083,24 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
         if (r.ok) baked = await r.json();
       } catch {}
       const t = baked || generateTreeProceduralData(name, { detail: 'balanced' });
-      out.push({
-        bark: bufferGeometryFromStream(t.bark || t.branches),
-        leaves: bufferGeometryFromStream(t.leaves, 0.85),
-      });
+      const barkG = bufferGeometryFromStream(t.bark || t.branches);
+      const leavesG = bufferGeometryFromStream(t.leaves, 0.85);
+      // B"H 2026-10-13: baked JSONs are GIGANTIC (oak bark spans 124u!).
+      // Normalize to real tree height (16-22u) or trunks fill the frame as
+      // flat columns. Scale baked into geometry so all downstream systems
+      // (crown filler, shells, roots) use correct proportions.
+      for (const g of [barkG, leavesG]) {
+        g.computeBoundingBox();
+        const bb = g.boundingBox;
+        const h = Math.max(1, bb.max.y - bb.min.y);
+        const targetH = 16 + rand() * 6; // 16-22u tall trees
+        const s = targetH / h;
+        g.scale(s, s, s);
+        // recenter so base sits at y=0
+        g.computeBoundingBox();
+        g.translate(0, -g.boundingBox.min.y, 0);
+      }
+      out.push({ bark: barkG, leaves: leavesG });
     }
     return out;
   }
@@ -985,6 +1131,43 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   }
   scene.add(treeGroup);
   mark('trees-placed');
+
+  /* B"H — ROOT FLARE (Yaakov 2026-10-13: audit every tree algorithm).
+     Fundamental gap: trunks met the ground as straight cylinders — real
+     trees flare into buttress roots. New geometry: 6-8 tapered roots per
+     tree radiate from the trunk base, arcing slightly down into the soil.
+     Procedural bark shader applies automatically (world-normal moss lands
+     on the up-facing root tops, like the reference). One instanced draw. */
+  {
+    const rootGeo = new THREE.CylinderGeometry(0.09, 0.42, 2.6, 6);
+    rootGeo.translate(0, 1.3, 0); // base at origin, extends +Y
+    const PER_TREE = 7;
+    const rootInst = new THREE.InstancedMesh(rootGeo, barkMat, treeSpots.length * PER_TREE);
+    const rdummy = new THREE.Object3D();
+    const rdir = new THREE.Vector3();
+    const rup = new THREE.Vector3(0, 1, 0);
+    let rp = 0;
+    for (const s of treeSpots) {
+      const sc = s.overhang ? 1.35 : 1.0;
+      const y = groundHeight(s.x, s.z, noise);
+      const n = 6 + ((rand() * 3) | 0);
+      for (let i = 0; i < n && rp < treeSpots.length * PER_TREE; i++) {
+        const a = (i / n) * Math.PI * 2 + rand() * 0.4;
+        // root arcs outward and slightly down into the soil
+        rdir.set(Math.cos(a), -0.38 - rand() * 0.15, Math.sin(a)).normalize();
+        rdummy.position.set(s.x + Math.cos(a) * 0.35 * sc, y + 0.25, s.z + Math.sin(a) * 0.35 * sc);
+        rdummy.quaternion.setFromUnitVectors(rup, rdir);
+        const rl = (1.4 + rand() * 1.2) * sc;
+        rdummy.scale.set(sc * (0.8 + rand() * 0.4), rl, sc * (0.8 + rand() * 0.4));
+        rdummy.updateMatrix();
+        rootInst.setMatrixAt(rp++, rdummy.matrix);
+      }
+    }
+    rootInst.count = rp;
+    rootInst.castShadow = true; rootInst.receiveShadow = true;
+    scene.add(rootInst);
+  }
+  mark('root-flare');
 
   /* B"H — branch-skeleton v2 (Yaakov 2026-10-13, "refine algorithms" sprint).
      DROP-IN REPLACEMENT for lines 929-1061 (the old straight 2-level
@@ -1135,9 +1318,13 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const segGeo = new THREE.CylinderGeometry(1, 0.62, 1, 5, 1, true);
     segGeo.translate(0, 0.5, 0); // base at origin, grows +Y, unit height
     const segMat = new THREE.MeshStandardMaterial({
-      map: mossyBarkTex, roughness: 1.0,
+      roughness: 1.0,
+      // B"H — procedural bark albedo (UV-independent); per-instance colors
+      // preserved via vColor in the shader. normalMap adds micro relief.
+      normalMap: barkNormalTex, normalScale: new THREE.Vector2(1.0, 1.0),
       color: new THREE.Color(0xffffff), // per-instance colors carry bark/moss tint
     });
+    applyProceduralBark(segMat);
     const segInst = new THREE.InstancedMesh(segGeo, segMat, segs.length);
     const sv = new THREE.Vector3(), sq = new THREE.Quaternion(), ss = new THREE.Vector3();
     const _tint = new THREE.Color();
@@ -1251,11 +1438,17 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
         // (growth rule: light determines chlorophyll density)
         const brightness = 1.05 - layerDepth * 0.45;
         const v = brightness * (0.88 + rand() * 0.24);
+        // B"H — BACKLIT TRANSLUCENCY (Yaakov: leaves glow where sun shines
+        // THROUGH). Quads facing away from the sun show their shadow side —
+        // real leaves transmit warm light there. Baked per-instance into
+        // instanceColor: zero shader cost, 60fps-safe.
+        const backlit = Math.max(0, -out.dot(sunDirN));
+        const glow = 1 + 0.55 * Math.pow(backlit, 1.5);
         // Outer leaves slightly yellow-green (sun-bleached), inner deep green
         tint.setRGB(
-          v * (0.96 + layerDepth * -0.06 + rand() * 0.06),
-          v * (1.00 + rand() * 0.04),
-          v * (0.88 + layerDepth * 0.06 + rand() * 0.04)
+          v * (0.96 + layerDepth * -0.06 + rand() * 0.06) * glow * (1 + 0.18 * backlit),
+          v * (1.00 + rand() * 0.04) * glow,
+          v * (0.88 + layerDepth * 0.06 + rand() * 0.04) * (1 + 0.05 * backlit)
         );
         inst.setColorAt(placed, tint);
         placed++;
@@ -1265,6 +1458,102 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     if (inst.instanceColor) inst.instanceColor.needsUpdate = true;
     inst.castShadow = true; inst.receiveShadow = true;
     scene.add(inst);
+
+    // ---- individual 3D leaves — near-canopy detail (Yaakov 2026-10-13:
+    // "better leaf system": individual leaves visible at canopy edges).
+    // Small leaf quads (not billboards) hang from every L3+ twig tip with
+    // petiole-style orientation: droop below horizontal + golden-angle
+    // azimuth (phyllotaxis continues to the leaf stem). Leaf-vein normals
+    // give each leaf light response; backlit tint glows against the sun.
+    // One instanced draw call.
+    if (tips.length > 0) {
+      const leafGeo = new THREE.PlaneGeometry(0.34, 0.44);
+      const leafMat = new THREE.MeshStandardMaterial({
+        map: leafClusterTex, alphaTest: 0.35, side: THREE.DoubleSide,
+        roughness: 0.85, color: new THREE.Color(0.50, 0.58, 0.42),
+        normalMap: leafVeinNormalTex, normalScale: new THREE.Vector2(0.7, 0.7),
+        depthWrite: true,
+      });
+      const PER_TIP = fast ? 3 : 5;
+      const leafInst = new THREE.InstancedMesh(leafGeo, leafMat, tips.length * PER_TIP);
+      const ldir = new THREE.Vector3();
+      let lp = 0;
+      for (const tp of tips) {
+        for (let k = 0; k < PER_TIP && lp < tips.length * PER_TIP; k++) {
+          // Phyllotactic azimuth + natural droop (leaves hang, not stick out)
+          const az = k * GOLDEN_ANGLE + rand() * 0.5;
+          const droop = 0.35 + rand() * 0.55; // radians below horizontal
+          const cd = Math.cos(droop), sd = Math.sin(droop);
+          ldir.set(Math.cos(az) * cd, -sd, Math.sin(az) * cd).normalize();
+          const lx = tp.x + ldir.x * (0.12 + rand() * 0.22);
+          const ly = tp.y + ldir.y * (0.12 + rand() * 0.22);
+          const lz = tp.z + ldir.z * (0.12 + rand() * 0.22);
+          dummy.position.set(lx, ly, lz);
+          dummy.lookAt(lx + ldir.x, ly + ldir.y, lz + ldir.z);
+          dummy.rotateZ(rand() * Math.PI * 2); // blade roll variety
+          const ls = 0.8 + rand() * 0.6;
+          dummy.scale.set(ls, ls, 1);
+          dummy.updateMatrix();
+          leafInst.setMatrixAt(lp, dummy.matrix);
+          // Backlit translucency: leaves glow when sun is behind them
+          const lb = Math.max(0, -ldir.dot(sunDirN));
+          const lg = 1 + 0.6 * Math.pow(lb, 1.5);
+          const lv = 0.9 + rand() * 0.25;
+          tint.setRGB(
+            lv * lg * (1 + 0.20 * lb),
+            lv * lg,
+            lv * (0.92 + rand() * 0.06)
+          );
+          leafInst.setColorAt(lp, tint);
+          lp++;
+        }
+      }
+      leafInst.count = lp;
+      if (leafInst.instanceColor) leafInst.instanceColor.needsUpdate = true;
+      leafInst.castShadow = false; leafInst.receiveShadow = true;
+      scene.add(leafInst);
+    }
+    mark('individual-leaves');
+
+    // ---- canopy shells: nested depth layers (Yaakov 2026-10-13 leaf system).
+    // Two icosahedron shells per tree (0.55x / 0.78x crown radius) — INTERIOR
+    // density only. Earlier versions at 0.70x/0.95x poked through the crown
+    // silhouette and rendered as dark blobs (shells show their shadow side).
+    // Interior shells read as deep canopy mass; the outer surface belongs to
+    // individual leaves + crown quads. 1 instanced draw.
+    {
+      const shellGeo = new THREE.IcosahedronGeometry(1, 1);
+      const shellMat = new THREE.MeshStandardMaterial({
+        // B"H — alphaTest 0.5: shells read as BROKEN leaf clusters with sky
+        // gaps, not solid blobs (0.22 rendered as a dark fake ball).
+        map: denseCanopyTex, alphaTest: 0.5, side: THREE.DoubleSide,
+        roughness: 0.95, color: new THREE.Color(0.38, 0.50, 0.28),
+        depthWrite: true,
+      });
+      const shellInst = new THREE.InstancedMesh(shellGeo, shellMat, treeSpots.length * 2);
+      let sp = 0;
+      for (const s of treeSpots) {
+        const ccx = (s.crownX !== undefined ? s.crownX : s.x);
+        for (const f of [0.55, 0.78]) {
+          dummy.position.set(ccx, s.crownY, s.z);
+          dummy.quaternion.identity();
+          dummy.rotateY(rand() * Math.PI * 2);
+          const sr = s.crownR * f * (0.92 + rand() * 0.16);
+          dummy.scale.set(sr, sr * 0.75, sr); // flattened — canopy spread
+          dummy.updateMatrix();
+          shellInst.setMatrixAt(sp, dummy.matrix);
+          const sv = 0.85 + rand() * 0.3;
+          tint.setRGB(sv, sv, sv * 0.95);
+          shellInst.setColorAt(sp, tint);
+          sp++;
+        }
+      }
+      shellInst.count = sp;
+      if (shellInst.instanceColor) shellInst.instanceColor.needsUpdate = true;
+      shellInst.castShadow = true; shellInst.receiveShadow = true;
+      scene.add(shellInst);
+    }
+    mark('canopy-shells');
   }
   mark('crown-filler');
 
@@ -1525,7 +1814,10 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     }
     rockGeo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
     const rockMat = new THREE.MeshStandardMaterial({
-      map: mossGroundTex, vertexColors: true, roughness: 1,
+      // B"H — mossGroundTex was never loaded (undefined map = untextured rocks).
+      // Wet-rock normals give bank stones real surface; vertexColors carry tint.
+      vertexColors: true, roughness: 0.85,
+      normalMap: wetRockNormalTex, normalScale: new THREE.Vector2(1.1, 1.1),
     });
     const COUNT = fast ? 90 : 160;
     const inst = new THREE.InstancedMesh(rockGeo, rockMat, COUNT);
@@ -1590,6 +1882,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const moundMat = new THREE.MeshStandardMaterial({
       vertexColors: true, roughness: 1.0,
       emissive: new THREE.Color(0.06, 0.10, 0.02),
+      // B"H — lumpy moss normals on the moss mounds: relief in every tuft.
+      normalMap: mossNormalTex, normalScale: new THREE.Vector2(0.8, 0.8),
     });
     const COUNT = fast ? 150 : 280;
     const inst = new THREE.InstancedMesh(tuftGeo, moundMat, COUNT);
@@ -1764,9 +2058,21 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       vertexColors: true, side: THREE.DoubleSide, roughness: 0.9,
     });
     // 60fps: one instanced draw call for all blades
-    const BLADES_PER_TUFT = 7;
+    // B"H — PATCH-BASED distribution (Yaakov 2026-10-13: "grass grows in
+    // PATCHES in the real image"). Two-scale value noise defines patch
+    // centers: large patches (~22u) modulated by small patches (~9u), so
+    // patches vary in size and shape. Dense tufts inside patches, sparse
+    // strays outside — bare moss/soil shows between, like the reference.
+    const patchNoise = makeNoise2D(mulberry32(seed ^ 0x9a7c));
+    function patchMask(x, z) {
+      const n1 = patchNoise(x * 0.045 + 31.7, z * 0.045 - 12.3);
+      const n2 = patchNoise(x * 0.11 - 7.1, z * 0.11 + 5.9);
+      const m = n1 * 0.65 + n2 * 0.35; // ~[-1,1]
+      return THREE.MathUtils.smoothstep(m, 0.02, 0.55); // 0=bare, 1=patch heart
+    }
+    const MAX_BLADES = 9;
     const TUFTS = fast ? 500 : 900;
-    const COUNT = TUFTS * BLADES_PER_TUFT;
+    const COUNT = TUFTS * MAX_BLADES;
     const inst = new THREE.InstancedMesh(bladeGeo, bladeMat, COUNT);
     const dummy = new THREE.Object3D();
     const tint = new THREE.Color();
@@ -1784,6 +2090,11 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       }
       if (Math.abs(cx - riverX(cz)) < 6.8) continue;
       if (clearPts.some(([px, pz]) => Math.hypot(cx - px, cz - pz) < 3)) continue;
+      // Patch gate: tufts concentrate in patches; ~10% strays survive outside
+      const pm = patchMask(cx, cz);
+      if (gr() > 0.10 + 0.90 * pm) continue;
+      // Blades per tuft scale with patch density: 3 at patch edge → 9 in heart
+      const bladesHere = 3 + Math.round(pm * 6);
       const gy = groundHeight(cx, cz, noise);
 
       // Tuft growth rules: dominant wind direction for this tuft
@@ -1793,7 +2104,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       const tuftHue = 0.85 + gr() * 0.3;
 
       // Place blades in a tight cluster around center
-      for (let b = 0; b < BLADES_PER_TUFT && placed < COUNT; b++) {
+      for (let b = 0; b < bladesHere && placed < COUNT; b++) {
         // Blade position: Gaussian-ish falloff from tuft center
         const ang = gr() * Math.PI * 2;
         const rad = Math.pow(gr(), 0.6) * 0.35; // denser at center
@@ -1801,7 +2112,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
         const z = cz + Math.sin(ang) * rad;
         // Outer blades shorter (growth rule: edge blades get trampled/grazed)
         const edgeFactor = rad / 0.35; // 0=center, 1=edge
-        const heightScale = (1.0 - edgeFactor * 0.35) * (0.7 + gr() * 0.7);
+        // Patch-heart tufts grow taller and lusher; edge tufts stay short
+        const heightScale = (1.0 - edgeFactor * 0.35) * (0.7 + gr() * 0.7) * (0.75 + 0.5 * pm);
 
         dummy.position.set(x, groundHeight(x, z, noise), z);
         // Blade orientation: random Y rotation + tuft lean direction
