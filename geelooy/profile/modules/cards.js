@@ -62,7 +62,7 @@ export function aliasCard(alias = {}) {
 	const encoded = encodeURIComponent(id);
 	const card = document.createElement('article');
 	card.className = `social-alias-card alias-command-card ${alias.default ? 'default' : ''}`.trim();
-	const primary = profileCardLink(document, 'Public profile', `/@${encoded}`, 'Posts, answers and activity', true);
+	const primary = profileCardLink(document, 'Public profile', `/profile/alias/?alias=${encoded}`, 'Posts, answers and activity', true);
 	const tools = profileCardDisclosure(document, 'Identity controls', `@${id}`, [
 		profileCardLink(document, 'Create', `/social-composer?alias=${encoded}`, 'Publish from this identity'),
 		profileCardLink(document, 'Mail', `/email?alias=${encoded}`, 'Open this alias mailbox'),

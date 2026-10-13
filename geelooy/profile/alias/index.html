@@ -1,0 +1,161 @@
+<!-- B"H — Alias Profile Page: each alias gets its own full profile -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Alias Profile — Awtsmoos</title>
+<link rel="stylesheet" href="/css/awtsmoos-visual-assets.css?v=20261013a">
+<link rel="stylesheet" href="/css/video-loader.css?v=vl-002">
+<link rel="stylesheet" href="../styles/profile-dream.css?v=pd-003">
+<link rel="stylesheet" href="/css/golden-icons.css?v=gicon-003">
+<style>
+/* B"H — Alias profile specific styles */
+.alias-profile .pd-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.alias-profile .pd-cover-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.follow-row { display: flex; gap: .75rem; justify-content: center; margin: 1rem 0; }
+.follow-count { display: flex; flex-direction: column; align-items: center; padding: .5rem 1rem; border-radius: .75rem; background: rgba(217,169,78,.08); }
+.follow-count strong { font-size: 1.2rem; color: var(--pd-gold-deep); }
+.follow-count span { font-size: .75rem; color: var(--pd-ink-soft); }
+.alias-profile button, .alias-profile a { -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+</style>
+</head>
+<body>
+<div class="awtsmoos-video-loader" id="awtsmoos-video-loader" style="background:#f4ebe2" role="status" aria-label="Loading alias profile">
+<video autoplay loop muted playsinline preload="auto" aria-hidden="true">
+<source src="https://awtsmoos.com/api/social/drive/public/awtsmoos/videos/loaders/loader-profile.mp4" type="video/mp4">
+</video>
+</div>
+<script>
+(function(){
+function hideLoader(){var el=document.getElementById('awtsmoos-video-loader');if(!el||el.getAttribute('data-hidden')==='true')return;el.setAttribute('data-hidden','true');setTimeout(function(){el.remove();},800);}
+window.addEventListener('load',function(){setTimeout(hideLoader,2000);});
+setTimeout(hideLoader,8000);
+window.__hideAliasLoader=hideLoader;
+})();
+</script>
+
+<main class="geelooy-profile-shell profile-dream alias-profile" data-alias-profile>
+<header class="pd-topbar">
+<a class="pd-topbar-btn" href="../" aria-label="Back to profile"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2"/></svg></a>
+<h1 class="pd-topbar-title" data-alias-name>Alias</h1>
+<span class="pd-topbar-btn" style="visibility:hidden"></span>
+</header>
+
+<section class="pd-hero" aria-labelledby="alias-title">
+<div class="pd-cover" aria-hidden="true">
+<img class="pd-cover-img" data-alias-cover alt="" style="display:none">
+<span style="--x:8%;--y:22%;--s:2.6rem;--o:.14;--r:-8deg">א</span>
+</div>
+<div class="pd-avatar" data-alias-avatar>A</div>
+<p class="pd-kicker">ALIAS PROFILE</p>
+<h2 class="pd-name" id="alias-title" data-alias-display>Loading…</h2>
+<p class="pd-handle" data-alias-handle>@alias</p>
+<p class="pd-bio" data-alias-bio style="text-align:center;max-width:28rem;margin:.5rem auto;color:var(--pd-ink-soft)"></p>
+
+<div class="follow-row">
+<div class="follow-count"><strong data-followers-count>0</strong><span>Followers</span></div>
+<div class="follow-count"><strong data-following-count>0</strong><span>Following</span></div>
+</div>
+
+<div class="pd-actions">
+<button type="button" class="pd-btn pd-btn-primary" data-follow-btn>Follow</button>
+<a class="pd-btn pd-btn-ghost" href="../">My Profile</a>
+</div>
+<p class="pd-status" data-alias-status>Loading alias…</p>
+</section>
+
+<div class="pd-tabs-wrap">
+<div class="pd-tabs" role="tablist" aria-label="Alias content">
+<button type="button" role="tab" class="pd-tab active" aria-selected="true" data-alias-tab="posts">Posts</button>
+<button type="button" role="tab" class="pd-tab" aria-selected="false" tabindex="-1" data-alias-tab="series">Series</button>
+<button type="button" role="tab" class="pd-tab" aria-selected="false" tabindex="-1" data-alias-tab="about">About</button>
+</div>
+</div>
+
+<section class="pd-panels">
+<div class="pd-panel" data-alias-panel="posts" role="tabpanel"><h3>Posts</h3><div data-alias-posts><p class="pd-empty">Loading posts…</p></div></div>
+<div class="pd-panel hidden" data-alias-panel="series" role="tabpanel" hidden><h3>Series</h3><div data-alias-series><p class="pd-empty">Loading series…</p></div></div>
+<div class="pd-panel hidden" data-alias-panel="about" role="tabpanel" hidden><h3>About</h3><div data-alias-about><p class="pd-empty">Loading…</p></div></div>
+</section>
+</main>
+
+<script type="module">
+/* B"H — Alias profile logic */
+const qs = new URLSearchParams(location.search);
+const aliasId = qs.get('alias') || qs.get('id') || location.pathname.split('/').filter(Boolean).pop();
+const $ = s => document.querySelector(s);
+
+async function apiJson(url, opts={}) {
+  const r = await fetch(url, { ...opts, headers: { 'Accept': 'application/json', ...(opts.headers||{}) } });
+  const t = await r.text();
+  try { return JSON.parse(t); } catch { return { _raw: t }; }
+}
+function listFrom(d){ if(Array.isArray(d))return d; if(Array.isArray(d?.success))return d.success; if(Array.isArray(d?.data))return d.data; return []; }
+
+async function loadAlias(){
+  const status = $('[data-alias-status]');
+  if(!aliasId){ status.textContent='No alias specified.'; window.__hideAliasLoader(); return; }
+  try {
+    const data = await apiJson('/api/social/alias/' + encodeURIComponent(aliasId));
+    const a = data?.alias || data?.data || data;
+    if(!a || a?.error){ status.textContent = 'Alias not found.'; window.__hideAliasLoader(); return; }
+    // Fill profile
+    const name = a.displayName || a.name || aliasId;
+    $('[data-alias-name]').textContent = name;
+    $('[data-alias-display]').textContent = name;
+    $('[data-alias-handle]').textContent = '@' + aliasId;
+    const av = $('[data-alias-avatar]');
+    if(a.avatarUrl){ av.innerHTML=''; const img=document.createElement('img'); img.src=a.avatarUrl; img.alt=name; av.appendChild(img); }
+    else { av.textContent = (name[0]||'A').toUpperCase(); }
+    if(a.description){ $('[data-alias-bio]').textContent = a.description; }
+    const cover = $('[data-alias-cover]');
+    if(a.coverUrl || a.headerUrl){ cover.src = a.coverUrl || a.headerUrl; cover.style.display=''; }
+    status.textContent = '';
+    // Followers/following
+    try {
+      const f = await apiJson('/api/social/alias/' + encodeURIComponent(aliasId) + '/followers');
+      const followers = listFrom(f);
+      $('[data-followers-count]').textContent = f?.count ?? followers.length;
+    } catch {}
+    try {
+      const f = await apiJson('/api/social/alias/' + encodeURIComponent(aliasId) + '/following');
+      const following = listFrom(f);
+      $('[data-following-count]').textContent = f?.count ?? following.length;
+    } catch {}
+    // About
+    $('[data-alias-about]').innerHTML = '<p>' + (a.description || 'No description yet.') + '</p>';
+    // Follow button
+    const fb = $('[data-follow-btn]');
+    fb.addEventListener('click', async () => {
+      fb.disabled = true; fb.textContent = '…';
+      try {
+        const r = await apiJson('/api/social/follow', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'alias', id: aliasId }) });
+        fb.textContent = r?.following === false ? 'Follow' : 'Following';
+      } catch { fb.textContent = 'Follow'; }
+      fb.disabled = false;
+    });
+    // Posts
+    try {
+      const p = await apiJson('/api/social/alias/' + encodeURIComponent(aliasId) + '/posts');
+      const posts = listFrom(p);
+      $('[data-alias-posts]').innerHTML = posts.length
+        ? posts.slice(0,20).map(x=>'<a class="pd-card" href="/heichelos/ikar/post/'+encodeURIComponent(x.id||x.postId||'')+'"><strong>'+(x.title||x.id||'Post')+'</strong></a>').join('')
+        : '<p class="pd-empty">No posts yet.</p>';
+    } catch { $('[data-alias-posts]').innerHTML = '<p class="pd-empty">Could not load posts.</p>'; }
+  } catch(e){ status.textContent = 'Could not load alias.'; }
+  window.__hideAliasLoader();
+}
+
+// Tabs
+document.querySelectorAll('[data-alias-tab]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('[data-alias-tab]').forEach(t=>{ t.classList.toggle('active', t===btn); t.setAttribute('aria-selected', String(t===btn)); t.tabIndex = t===btn ? 0 : -1; });
+    document.querySelectorAll('[data-alias-panel]').forEach(p=>{ const on = p.dataset.aliasPanel===btn.dataset.aliasTab; p.classList.toggle('hidden', !on); p.hidden = !on; });
+  });
+});
+
+loadAlias();
+</script>
+</body>
+</html>

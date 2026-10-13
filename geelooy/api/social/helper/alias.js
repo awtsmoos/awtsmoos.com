@@ -199,6 +199,8 @@ async function updateAlias({
 		$i.$_PUT.name;
 	var desc = $i.$_PUT.description || 
 		$i.$_PUT.newDescription;
+	var avatarUrl = $i.$_PUT.avatarUrl || $i.$_PUT.newAvatarUrl;
+	var coverUrl = $i.$_PUT.coverUrl || $i.$_PUT.newCoverUrl || $i.$_PUT.headerUrl;
 	
 	if (!aliasId) {
 		return er({
@@ -264,13 +266,21 @@ async function updateAlias({
 		if(desc) {
 			aliasUserData.description = desc;
 		}
+		if(avatarUrl && typeof avatarUrl === 'string' && avatarUrl.length < 2000) {
+			aliasUserData.avatarUrl = avatarUrl;
+		}
+		if(coverUrl && typeof coverUrl === 'string' && coverUrl.length < 2000) {
+			aliasUserData.coverUrl = coverUrl;
+		}
 			
 
 		// Write the updated data back without destroying public owner metadata.
 		var publicAliasData = {
 			...aliasData,
 			...(newAliasName ? { name: newAliasName } : {}),
-			...(desc ? { description: desc } : {})
+			...(desc ? { description: desc } : {}),
+			...(avatarUrl ? { avatarUrl } : {}),
+			...(coverUrl ? { coverUrl } : {})
 		};
 		await $i.db.write(sp + `/aliases/${aliasId}/info`, publicAliasData);
 		// Also update the alias name in user's aliases list
