@@ -19,6 +19,71 @@ export class TiferesCameraRig {
 		this.netzachResponse = binaOptions.response || new NetzachCameraResponsePolicy(this.gevurahRules);
 		this.malchusState = null;
 		this.tiferesTarget = null;
+		// B"H — Yaakov 2026-10-13: user-adjustable zoom. 1.0 = default framing,
+		// <1 zooms in (tighter), >1 zooms out (wider). Persisted per device.
+		this.malchusZoom = this.revealStoredZoom();
+	}
+
+	/** @returns {number} Zoom multiplier restored from device storage, or 1. */
+	revealStoredZoom() {
+		try {
+			const tiferesStored = globalThis.localStorage?.getItem("cobyk-camera-zoom");
+			const tiferesZoom = Number(tiferesStored);
+			if (Number.isFinite(tiferesZoom) && tiferesZoom >= 0.4 && tiferesZoom <= 3) {
+				return tiferesZoom;
+			}
+		} catch (_) { /* storage unavailable */ }
+		return 1;
+	}
+
+	/** Persists the current zoom multiplier. @returns {void} */
+	persistZoom() {
+		try {
+			globalThis.localStorage?.setItem("cobyk-camera-zoom", String(this.malchusZoom));
+		} catch (_) { /* storage unavailable */ }
+	}
+
+	/**
+	 * Adjusts the zoom multiplier and persists it.
+	 * @param {number} chochmahFactor Multiplicative factor (e.g. 1.25 to zoom out).
+	 * @returns {number} New zoom multiplier.
+	 */
+	zoomBy(chochmahFactor) {
+		const tiferesFactor = Number(chochmahFactor);
+		if (!Number.isFinite(tiferesFactor) || tiferesFactor <= 0) return this.malchusZoom;
+		this.malchusZoom = Math.max(0.4, Math.min(3, this.malchusZoom * tiferesFactor));
+		this.persistZoom();
+		return this.malchusZoom;
+	}
+
+	/** @returns {number} Current zoom multiplier. */
+	revealZoom() {
+		return this.malchusZoom;
+	}
+
+	/**
+	 * Scales a framing target by the user zoom, re-clamping focus to level bounds
+	 * for the new span so zooming out never shows beyond the world edge.
+	 * @param {object} tiferesTarget Unscaled framing target.
+	 * @param {object} binaBounds Parsed level bounds.
+	 * @returns {object} Frozen zoom-adjusted framing target.
+	 */
+	applyZoom(tiferesTarget, binaBounds) {
+		if (!tiferesTarget || this.malchusZoom === 1) return tiferesTarget;
+		const tiferesWidth = tiferesTarget.visibleWidth * this.malchusZoom;
+		const tiferesHeight = tiferesTarget.visibleHeight * this.malchusZoom;
+		const chochmahViewport = this.tiferesFraming.chochmahViewport;
+		return Object.freeze({
+			...tiferesTarget,
+			focusX: chochmahViewport.clampFocus(
+				tiferesTarget.focusX, binaBounds.minX, binaBounds.maxX, tiferesWidth
+			),
+			focusY: chochmahViewport.clampFocus(
+				tiferesTarget.focusY, binaBounds.minY, binaBounds.maxY, tiferesHeight
+			),
+			visibleWidth: tiferesWidth,
+			visibleHeight: tiferesHeight
+		});
 	}
 
 	/**
@@ -44,11 +109,14 @@ export class TiferesCameraRig {
 	 * @returns {object} Frozen snapped camera snapshot.
 	 */
 	snap(malchusPlayer, binaBounds, chochmahViewport) {
-		this.tiferesTarget = this.tiferesFraming.reveal(
-			malchusPlayer,
-			binaBounds,
-			chochmahViewport,
-			null
+		this.tiferesTarget = this.applyZoom(
+			this.tiferesFraming.reveal(
+				malchusPlayer,
+				binaBounds,
+				chochmahViewport,
+				null
+			),
+			binaBounds
 		);
 		this.malchusState = Object.freeze({
 			...this.tiferesTarget,
@@ -69,11 +137,14 @@ export class TiferesCameraRig {
 		if (!this.malchusState) {
 			return this.load(malchusPlayer, binaBounds, chochmahViewport);
 		}
-		this.tiferesTarget = this.tiferesFraming.reveal(
-			malchusPlayer,
-			binaBounds,
-			chochmahViewport,
-			this.malchusState
+		this.tiferesTarget = this.applyZoom(
+			this.tiferesFraming.reveal(
+				malchusPlayer,
+				binaBounds,
+				chochmahViewport,
+				this.malchusState
+			),
+			binaBounds
 		);
 		if (this.netzachResponse.shouldSnap(this.malchusState, this.tiferesTarget)) {
 			this.malchusState = Object.freeze({
@@ -99,6 +170,7 @@ export class TiferesCameraRig {
 		if (!this.malchusState) return null;
 		return Object.freeze({
 			...this.malchusState,
+			zoom: this.malchusZoom,
 			targetFocusX: this.tiferesTarget?.focusX ?? this.malchusState.focusX,
 			targetFocusY: this.tiferesTarget?.focusY ?? this.malchusState.focusY,
 			targetVisibleWidth: this.tiferesTarget?.visibleWidth ?? this.malchusState.visibleWidth,

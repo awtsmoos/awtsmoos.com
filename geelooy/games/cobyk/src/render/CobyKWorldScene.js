@@ -9,6 +9,7 @@ import { GevurahWorldNodePruner } from "./GevurahWorldNodePruner.js";
 import { HodWorldSceneDiagnostics } from "./HodWorldSceneDiagnostics.js";
 import { revealCobyKWorldSceneRoots } from "./MalchusWorldSceneRoots.js";
 import { TiferesWorldPlanReconciler } from "./TiferesWorldPlanReconciler.js";
+import { NetzachDeathExplosion } from "./NetzachDeathExplosion.js";
 
 /**
  * @file CobyKWorldScene.js
@@ -28,6 +29,8 @@ export class MalchusCobyKWorldScene {
 		this.gevurahPruner = binaOptions.pruner || new GevurahWorldNodePruner();
 		this.tiferesReconciler = binaOptions.reconciler || new TiferesWorldPlanReconciler();
 		this.hodDiagnostics = binaOptions.diagnostics || new HodWorldSceneDiagnostics();
+		// B"H — Yaakov 2026-10-13: dramatic death explosion vessel.
+		this.netzachExplosion = binaOptions.explosion || new NetzachDeathExplosion();
 		this.chochmahNodes = new Map();
 		this.malchusPlan = null;
 		this.revealEmptyScene();
@@ -101,6 +104,7 @@ export class MalchusCobyKWorldScene {
 	/** @returns {void} Invalidates player async work and reconstructs only empty structural scene roots. */
 	clear() {
 		this.chaiPlayer.reset();
+		this.netzachExplosion.clear();
 		this.chochmahNodes.clear();
 		this.malchusPlan = null;
 		this.revealEmptyScene();
@@ -118,6 +122,38 @@ export class MalchusCobyKWorldScene {
 	/** @returns {void} Installs canonical static/dynamic Core roots from the dedicated Malchus root factory. */
 	revealEmptyScene() {
 		Object.assign(this, revealCobyKWorldSceneRoots());
+		// The explosion group lives at scene root so shards render above the world.
+		if (this.netzachExplosion && !this.netzachExplosion.revealGroup().parent) {
+			this.malchusScene.add(this.netzachExplosion.revealGroup());
+		}
+	}
+
+	/**
+	 * B"H — Yaakov 2026-10-13: hides the player and bursts the chossid into shards.
+	 * @param {number} chochmahX World x of death.
+	 * @param {number} chochmahY World y of death.
+	 * @returns {void}
+	 */
+	beginDeathExplosion(chochmahX, chochmahY) {
+		const yesodPlayer = this.chochmahNodes.get("player");
+		if (yesodPlayer) yesodPlayer.visible = false;
+		this.netzachExplosion.begin(chochmahX, chochmahY);
+	}
+
+	/**
+	 * Advances the death explosion one frame.
+	 * @param {number} chochmahDeltaSeconds Frame delta seconds.
+	 * @returns {boolean} False when the explosion has finished.
+	 */
+	tickExplosion(chochmahDeltaSeconds) {
+		return this.netzachExplosion.tick(chochmahDeltaSeconds);
+	}
+
+	/** @returns {void} Clears explosion particles and restores the player node. */
+	clearExplosion() {
+		this.netzachExplosion.clear();
+		const yesodPlayer = this.chochmahNodes.get("player");
+		if (yesodPlayer) yesodPlayer.visible = true;
 	}
 
 	/** @returns {object} Frozen scene/resource/model diagnostics assembled outside reconciliation. */

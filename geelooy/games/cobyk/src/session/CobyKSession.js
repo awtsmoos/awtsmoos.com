@@ -21,7 +21,18 @@ export class MalchusCobyKSession {
 		this.chochmahFixedTicks = 0;
 		this.hodLastRestartReason = "initial";
 		this.malchusState = "playing";
+		// B"H — Yaakov 2026-10-13: dramatic death. On death the session enters
+		// "dying" for a fixed number of ticks while the renderer plays the
+		// chossid explosion, THEN restarts. Death position is frozen for the blast.
+		this.gevurahDeathTicksRemaining = 0;
+		this.hodDeathPosition = null;
+		this.hodDeathReason = null;
 		this.revealFreshRuntime();
+	}
+
+	/** @returns {number} Fixed 1/60 ticks the death explosion plays before restart. */
+	static get DEATH_TICKS() {
+		return 75;
 	}
 
 	/**
@@ -34,16 +45,42 @@ export class MalchusCobyKSession {
 			this.restart("manual");
 			return this.snapshot();
 		}
+		// B"H — Yaakov 2026-10-13: while dying, the explosion plays out;
+		// the world freezes and the restart lands only when the blast ends.
+		if (this.malchusState === "dying") {
+			this.gevurahDeathTicksRemaining -= 1;
+			this.chochmahFixedTicks += 1;
+			if (this.gevurahDeathTicksRemaining <= 0) {
+				this.restart(this.hodDeathReason || "hazard");
+			}
+			return this.snapshot();
+		}
 		if (this.malchusState !== "playing") return this.snapshot();
 		const binaResult = this.malchusRuntime.step(netzachIntent);
 		this.chochmahFixedTicks += 1;
 		if (binaResult.outcome === "dead") {
 			this.gevurahDeaths += 1;
-			this.restart(binaResult.events.hazardId ? "hazard" : "fall");
+			this.beginDying(binaResult.events.hazardId ? "hazard" : "fall");
 		} else if (binaResult.outcome === "completed") {
 			this.malchusState = "completed";
 		}
 		return this.snapshot();
+	}
+
+	/**
+	 * Enters the dramatic death beat: freezes the death position for the
+	 * explosion renderer and counts down to the restart.
+	 * @param {string} hodReason "hazard" or "fall".
+	 * @returns {void}
+	 */
+	beginDying(hodReason) {
+		const malchusPlayer = this.malchusRuntime?.malchusPlayer;
+		this.hodDeathPosition = malchusPlayer
+			? Object.freeze({ x: malchusPlayer.x, y: malchusPlayer.y })
+			: null;
+		this.hodDeathReason = hodReason;
+		this.malchusState = "dying";
+		this.gevurahDeathTicksRemaining = MalchusCobyKSession.DEATH_TICKS;
 	}
 
 	/**
@@ -56,6 +93,9 @@ export class MalchusCobyKSession {
 		this.netzachRestarts += 1;
 		this.hodLastRestartReason = hodReason;
 		this.malchusState = "playing";
+		this.gevurahDeathTicksRemaining = 0;
+		this.hodDeathPosition = null;
+		this.hodDeathReason = null;
 		this.revealFreshRuntime();
 	}
 
@@ -82,6 +122,10 @@ export class MalchusCobyKSession {
 			restarts: this.netzachRestarts,
 			fixedTicks: this.chochmahFixedTicks,
 			lastRestartReason: this.hodLastRestartReason,
+			// B"H — Yaakov 2026-10-13: death beat evidence for the explosion renderer.
+			deathPosition: this.hodDeathPosition,
+			deathTicksRemaining: this.gevurahDeathTicksRemaining,
+			deathTicksTotal: MalchusCobyKSession.DEATH_TICKS,
 			runtime: this.malchusRuntime.snapshot()
 		});
 	}

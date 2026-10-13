@@ -93,6 +93,30 @@ export class MalchusCobyKWorldRenderer {
 		}, gevurahSampleGlError);
 	}
 
+	/**
+	 * B"H — Yaakov 2026-10-13: dramatic death explosion controls.
+	 * @param {number} chochmahX World x of death.
+	 * @param {number} chochmahY World y of death.
+	 * @returns {void}
+	 */
+	beginDeathExplosion(chochmahX, chochmahY) {
+		this.malchusWorld.beginDeathExplosion(chochmahX, chochmahY);
+	}
+
+	/**
+	 * Advances the death explosion one frame.
+	 * @param {number} chochmahDeltaSeconds Frame delta seconds.
+	 * @returns {boolean} False when the explosion has finished.
+	 */
+	tickExplosion(chochmahDeltaSeconds) {
+		return this.malchusWorld.tickExplosion(chochmahDeltaSeconds);
+	}
+
+	/** @returns {void} Clears explosion particles and restores the player node. */
+	clearExplosion() {
+		this.malchusWorld.clearExplosion();
+	}
+
 	/** @returns {void} Releases Core GPU resources and resets renderer-owned presentation continuity only. */
 	dispose() {
 		this.yesodPipeline.reset();

@@ -54,6 +54,9 @@
 					<span><b data-cobyk-attempts>1</b> run</span>
 					<!-- B"H — Yaakov 2026-10-13: restart lives in the TOP bar now, not buried at the bottom. -->
 					<button class="cobyk-hud__restart" data-cobyk-touch-restart type="button" aria-label="Restart run">↻</button>
+					<!-- B"H — Yaakov 2026-10-13: user zoom controls. -->
+					<button class="cobyk-hud__zoom" data-cobyk-zoom-in type="button" aria-label="Zoom in">+</button>
+					<button class="cobyk-hud__zoom" data-cobyk-zoom-out type="button" aria-label="Zoom out">−</button>
 				</div>
 			</header>
 			<!-- B"H — Yaakov 2026-10-13: level buttons REMOVED from game view entirely.
@@ -69,6 +72,32 @@
 				</div>
 			</div>
 			<output class="cobyk-status" data-cobyk-status data-state="loading">Loading CobyK…</output>
+			<!-- B"H — Yaakov 2026-10-13: pretty level-complete celebration overlay. -->
+			<div class="cobyk-victory" data-cobyk-victory hidden aria-hidden="true">
+				<div class="cobyk-victory__card" role="dialog" aria-label="Level complete">
+					<div class="cobyk-victory__burst" aria-hidden="true">✦</div>
+					<h2 class="cobyk-victory__title">Level Complete!</h2>
+					<div class="cobyk-victory__stars" data-cobyk-victory-stars aria-label="Star rating">★★★</div>
+					<dl class="cobyk-victory__stats">
+						<div>
+							<dt>Light</dt>
+							<dd data-cobyk-victory-coins>0/0</dd>
+						</div>
+						<div>
+							<dt>Time</dt>
+							<dd data-cobyk-victory-time>0:00</dd>
+						</div>
+						<div>
+							<dt>Falls</dt>
+							<dd data-cobyk-victory-deaths>0</dd>
+						</div>
+					</dl>
+					<div class="cobyk-victory__actions">
+						<button class="cobyk-victory__replay" data-cobyk-victory-replay type="button">↻ Replay</button>
+						<button class="cobyk-victory__next" data-cobyk-victory-next type="button">Next →</button>
+					</div>
+				</div>
+			</div>
 		</section>
 	</main>
 	<script type="module" src="/games/scripts/runtime/index.js?v=6fd9ae91f1"></script>

@@ -57,8 +57,17 @@ test("hazard death increments death history and rebuilds a playing attempt", () 
 	malchusSession.malchusRuntime.malchusPlayer.x = gevurahSpike.x + 0.1;
 	malchusSession.malchusRuntime.malchusPlayer.y = gevurahSpike.y + 0.1;
 	malchusSession.step({});
-	const binaSnapshot = malchusSession.snapshot();
+	// B"H — Yaakov 2026-10-13: dramatic death beat. The session enters "dying"
+	// while the explosion plays, then rebuilds a fresh playing attempt.
+	let binaSnapshot = malchusSession.snapshot();
 	assert.equal(binaSnapshot.deaths, 1);
+	assert.equal(binaSnapshot.state, "dying");
+	assert.ok(binaSnapshot.deathPosition);
+	// Run through the full death beat.
+	for (let i = 0; i < MalchusCobyKSession.DEATH_TICKS; i += 1) {
+		malchusSession.step({});
+	}
+	binaSnapshot = malchusSession.snapshot();
 	assert.equal(binaSnapshot.currentAttempt, 2);
 	assert.equal(binaSnapshot.lastRestartReason, "hazard");
 	assert.equal(binaSnapshot.state, "playing");

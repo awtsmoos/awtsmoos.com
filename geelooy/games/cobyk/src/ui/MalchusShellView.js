@@ -5,6 +5,7 @@
 import { ChesedHudView } from "./ChesedHudView.js";
 import { HodAdvancedView } from "./HodAdvancedView.js";
 import { NetzachCampaignView } from "./NetzachCampaignView.js";
+import { TiferesVictoryView } from "./TiferesVictoryView.js";
 
 /**
  * @file MalchusShellView.js
@@ -24,10 +25,17 @@ export class MalchusShellView {
 		});
 		this.yesodMenuButton = yesodRoot.querySelector("[data-cobyk-menu-button]");
 		this.yesodMenuButton?.addEventListener("click", () => this.netzachCampaign.showMenu());
+		// B"H — Yaakov 2026-10-13: user zoom controls.
+		this.yesodZoomIn = yesodRoot.querySelector("[data-cobyk-zoom-in]");
+		this.yesodZoomOut = yesodRoot.querySelector("[data-cobyk-zoom-out]");
+		this.yesodZoomIn?.addEventListener("click", () => binaActions.zoomBy?.(1 / 1.25));
+		this.yesodZoomOut?.addEventListener("click", () => binaActions.zoomBy?.(1.25));
 		this.yesodRestart = yesodRoot.querySelector("[data-cobyk-restart]");
 		this.yesodQuality = yesodRoot.querySelector("[data-cobyk-quality]");
 		this.yesodStatus = yesodRoot.querySelector("[data-cobyk-status]");
 		this.yesodRestart?.addEventListener("click", () => binaActions.restart?.());
+		// B"H — Yaakov 2026-10-13: pretty level-complete celebration overlay.
+		this.tiferesVictory = new TiferesVictoryView(yesodRoot, binaActions);
 		this.yesodQuality?.addEventListener("change", event => {
 			binaActions.setQuality?.(event.currentTarget.value);
 		});
@@ -41,6 +49,12 @@ export class MalchusShellView {
 	renderCampaign(malchusCampaign) {
 		this.chesedHud.render(malchusCampaign);
 		this.netzachCampaign.render(malchusCampaign);
+		// B"H — Yaakov 2026-10-13: celebration overlay on level completion.
+		this.tiferesVictory.render(
+			malchusCampaign,
+			malchusCampaign?.levelCount,
+			malchusCampaign?.index
+		);
 	}
 
 	/**

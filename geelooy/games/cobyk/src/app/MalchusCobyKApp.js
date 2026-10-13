@@ -43,7 +43,8 @@ export class MalchusCobyKApp {
 			openLevel: index => this.openLevel(index),
 			advance: () => this.advance(),
 			restart: () => this.restart(),
-			setQuality: quality => this.setQuality(quality)
+			setQuality: quality => this.setQuality(quality),
+			zoomBy: factor => this.tiferesCamera?.zoomBy?.(factor)
 		});
 		this.tiferesLoop = binaOptions.loop || new TiferesCobyKGameLoop({
 			...vessels,

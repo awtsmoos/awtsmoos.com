@@ -20,6 +20,8 @@ export class TiferesCobyKGameLoop {
 		// position from the last completed physics step and blend toward the newest
 		// using the clock's accumulator alpha, so motion is buttery on any display.
 		this.hodPreviousPlayerXY = null;
+		// B"H — Yaakov 2026-10-13: death explosion continuity.
+		this.hodDeathExplosionActive = false;
 		this.netzachFrame = netzachNowMs => this.frame(netzachNowMs);
 	}
 
@@ -72,6 +74,9 @@ export class TiferesCobyKGameLoop {
 		// glitch while running/jumping). Deterministic simulation is untouched —
 		// only presentation blends.
 		const tiferesPresentation = this.revealPresentationCampaign(chochmahTiming.alpha);
+		// B"H — Yaakov 2026-10-13: dramatic death — when the session enters
+		// "dying", hide the player and play the explosion; clear it on restart.
+		this.synchronizeDeathExplosion(tiferesPresentation, chochmahTiming.frameSeconds);
 		const tiferesCamera = this.tiferesCameraPresentation.reveal(
 			tiferesPresentation,
 			chochmahTiming.frameSeconds
@@ -108,6 +113,34 @@ export class TiferesCobyKGameLoop {
 			this.malchusLastCampaign = this.malchusCampaign.snapshot();
 		}
 		return this.malchusLastCampaign;
+	}
+
+	/**
+	 * Keeps the WebGL death explosion in sync with the session's dying beat.
+	 * @param {object} tiferesPresentation Presentation campaign snapshot.
+	 * @param {number} chochmahFrameSeconds Presentation delta seconds.
+	 * @returns {void}
+	 */
+	synchronizeDeathExplosion(tiferesPresentation, chochmahFrameSeconds) {
+		const tiferesLevel = tiferesPresentation?.level;
+		const tiferesDying = tiferesLevel?.state === "dying";
+		if (tiferesDying && !this.hodDeathExplosionActive) {
+			const tiferesDeath = tiferesLevel.deathPosition || { x: 0, y: 0 };
+			try {
+				this.malchusRenderer?.beginDeathExplosion?.(tiferesDeath.x, tiferesDeath.y);
+			} catch (_) { /* decorative */ }
+			this.hodDeathExplosionActive = true;
+		} else if (!tiferesDying && this.hodDeathExplosionActive) {
+			try {
+				this.malchusRenderer?.clearExplosion?.();
+			} catch (_) { /* decorative */ }
+			this.hodDeathExplosionActive = false;
+		}
+		if (this.hodDeathExplosionActive) {
+			try {
+				this.malchusRenderer?.tickExplosion?.(chochmahFrameSeconds);
+			} catch (_) { /* decorative */ }
+		}
 	}
 
 	/**
@@ -173,6 +206,10 @@ export class TiferesCobyKGameLoop {
 		this.hodCadence.reset();
 		this.tiferesCameraPresentation.reset();
 		this.hodPreviousPlayerXY = null;
+		this.hodDeathExplosionActive = false;
+		try {
+			this.malchusRenderer?.clearExplosion?.();
+		} catch (_) { /* decorative */ }
 		this.malchusLastCampaign = this.malchusCampaign.snapshot();
 	}
 

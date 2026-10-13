@@ -13,14 +13,19 @@ import { TiferesAabb } from "../geometry/TiferesAabb.js";
 export class GevurahHazardAuthority {
 	/**
 	 * Reveals the first currently overlapping hazard so callers can attach diagnostics without duplicating geometry law.
+	 * B"H — Yaakov 2026-10-13: FORGIVING hitboxes. The chossid model is not a full
+	 * square, and spikes are pyramids — so both sides shrink before overlap is
+	 * tested. Near-misses no longer kill.
 	 * @param {object} malchusPlayer Player body or snapshot.
 	 * @param {object[]} gevurahHazards Static plus moving hazard snapshots.
 	 * @returns {object|null} First overlapping hazard or null.
 	 */
 	revealHit(malchusPlayer, gevurahHazards) {
+		const tiferesPlayerHitbox = TiferesAabb.shrink(malchusPlayer, 0.22);
 		for (const gevurahHazard of gevurahHazards) {
 			if (!gevurahHazard.visible && gevurahHazard.visible !== undefined) continue;
-			if (TiferesAabb.overlaps(malchusPlayer, gevurahHazard)) {
+			const tiferesHazardHitbox = TiferesAabb.shrink(gevurahHazard, 0.18);
+			if (TiferesAabb.overlaps(tiferesPlayerHitbox, tiferesHazardHitbox)) {
 				return gevurahHazard;
 			}
 		}

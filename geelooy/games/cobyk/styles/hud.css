@@ -74,6 +74,195 @@
 	outline-offset: 2px;
 }
 
+/* B"H — Yaakov 2026-10-13: user zoom controls in the top bar. */
+.cobyk-app .cobyk-hud__zoom {
+	flex: 0 0 auto;
+	width: 2.2rem;
+	height: 2.2rem;
+	min-width: 44px;
+	min-height: 44px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	border-radius: 0.6rem;
+	background: rgba(255, 255, 255, 0.08);
+	color: #ffe9a8;
+	font-size: 1.3rem;
+	font-weight: 700;
+	line-height: 1;
+	cursor: pointer;
+	touch-action: manipulation;
+	user-select: none;
+	-webkit-user-select: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.cobyk-app .cobyk-hud__zoom:hover {
+	background: rgba(255, 216, 77, 0.15);
+	border-color: rgba(255, 216, 77, 0.5);
+}
+
+.cobyk-app .cobyk-hud__zoom:active {
+	transform: scale(0.94);
+}
+
+.cobyk-app .cobyk-hud__zoom:focus-visible {
+	outline: 2px solid #ffd84d;
+	outline-offset: 2px;
+}
+
+/* B"H — Yaakov 2026-10-13: pretty level-complete celebration overlay. */
+.cobyk-app .cobyk-victory {
+	position: absolute;
+	inset: 0;
+	z-index: 40;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: calc(20px + env(safe-area-inset-top, 0px)) max(20px, env(safe-area-inset-right, 0px)) calc(20px + env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px));
+	background: rgba(3, 8, 16, 0.55);
+	backdrop-filter: blur(6px);
+	animation: cobyk-victory-arrive 380ms cubic-bezier(.2, .9, .25, 1.2) both;
+}
+
+.cobyk-app .cobyk-victory[hidden] {
+	display: none;
+}
+
+.cobyk-app .cobyk-victory__card {
+	width: min(340px, 86vw);
+	padding: 28px 24px 24px;
+	border: 1px solid rgba(255, 216, 77, 0.4);
+	border-radius: 24px;
+	background: linear-gradient(150deg, rgba(14, 32, 54, 0.96), rgba(8, 18, 32, 0.96));
+	box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5), 0 0 44px rgba(255, 216, 77, 0.12), inset 0 1px rgba(255, 255, 255, 0.08);
+	text-align: center;
+}
+
+.cobyk-app .cobyk-victory__burst {
+	font-size: 44px;
+	color: #ffd84d;
+	text-shadow: 0 0 24px rgba(255, 216, 77, 0.8);
+	animation: cobyk-victory-twinkle 1.6s ease-in-out infinite;
+}
+
+.cobyk-app .cobyk-victory__title {
+	margin: 8px 0 4px;
+	color: #effcff;
+	font-size: 26px;
+	font-weight: 800;
+	letter-spacing: 0.02em;
+}
+
+.cobyk-app .cobyk-victory__stars {
+	font-size: 34px;
+	letter-spacing: 0.14em;
+	color: #ffd84d;
+	text-shadow: 0 0 18px rgba(255, 216, 77, 0.65);
+}
+
+.cobyk-app .cobyk-victory__stats {
+	display: flex;
+	justify-content: center;
+	gap: 22px;
+	margin: 16px 0 20px;
+	padding: 0;
+}
+
+.cobyk-app .cobyk-victory__stats > div {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.cobyk-app .cobyk-victory__stats dt {
+	color: #9eb9c6;
+	font-size: 10px;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.cobyk-app .cobyk-victory__stats dd {
+	margin: 0;
+	color: #effcff;
+	font-size: 20px;
+	font-weight: 760;
+}
+
+.cobyk-app .cobyk-victory__actions {
+	display: flex;
+	gap: 10px;
+	justify-content: center;
+}
+
+.cobyk-app .cobyk-victory__replay,
+.cobyk-app .cobyk-victory__next {
+	min-height: 48px;
+	padding: 12px 22px;
+	border-radius: 14px;
+	font-size: 16px;
+	font-weight: 700;
+	cursor: pointer;
+	touch-action: manipulation;
+	user-select: none;
+	-webkit-user-select: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.cobyk-app .cobyk-victory__replay {
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	background: rgba(255, 255, 255, 0.08);
+	color: #effcff;
+}
+
+.cobyk-app .cobyk-victory__next {
+	border: 1px solid rgba(255, 216, 77, 0.55);
+	background: linear-gradient(135deg, #ffd84d, #f0a92e);
+	color: #231603;
+	box-shadow: 0 8px 26px rgba(255, 200, 80, 0.35);
+}
+
+.cobyk-app .cobyk-victory__replay:active,
+.cobyk-app .cobyk-victory__next:active {
+	transform: scale(0.96);
+}
+
+.cobyk-app .cobyk-victory__card {
+	animation: cobyk-victory-card-pop 420ms cubic-bezier(.2, .9, .25, 1.25) both;
+}
+
+@keyframes cobyk-victory-arrive {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes cobyk-victory-card-pop {
+	from {
+		opacity: 0;
+		transform: scale(0.82) translateY(18px);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1) translateY(0);
+	}
+}
+
+@keyframes cobyk-victory-twinkle {
+	0%, 100% {
+		transform: scale(1) rotate(0deg);
+		opacity: 1;
+	}
+	50% {
+		transform: scale(1.18) rotate(18deg);
+		opacity: 0.85;
+	}
+}
+
 .cobyk-app .cobyk-hud__identity {
 	display: flex;
 	align-items: center;

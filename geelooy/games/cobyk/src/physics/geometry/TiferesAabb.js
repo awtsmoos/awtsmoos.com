@@ -37,6 +37,25 @@ export class TiferesAabb {
 	}
 
 	/**
+	 * Shrinks a rectangle symmetrically by a fraction of its smallest dimension,
+	 * keeping it centered. Used for forgiving hitboxes.
+	 * @param {object} malchusBody Body-like source with x, y, width, height.
+	 * @param {number} gevurahFraction Fraction (0..0.5) to shave off each side.
+	 * @returns {object} Frozen shrunken rectangle.
+	 */
+	static shrink(malchusBody, gevurahFraction = 0.2) {
+		const tiferesBase = TiferesAabb.reveal(malchusBody);
+		const tiferesMargin = Math.min(tiferesBase.width, tiferesBase.height) *
+			Math.max(0, Math.min(0.45, Number(gevurahFraction) || 0));
+		return Object.freeze({
+			x: tiferesBase.x + tiferesMargin,
+			y: tiferesBase.y + tiferesMargin,
+			width: Math.max(0.01, tiferesBase.width - tiferesMargin * 2),
+			height: Math.max(0.01, tiferesBase.height - tiferesMargin * 2)
+		});
+	}
+
+	/**
 	 * Tests overlap after expanding both axes by a tiny epsilon, useful for stable grounded/support queries.
 	 * @param {object} tiferesA First rectangle.
 	 * @param {object} tiferesB Second rectangle.
