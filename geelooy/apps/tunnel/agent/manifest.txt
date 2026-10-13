@@ -1218,6 +1218,7 @@ lib/instructions/hybridService.js
 lib/instructions/pack.js
 lib/instructions/pluginSkillResources.js
 lib/instructions/pluginSkills/index.json
+lib/instructions/pluginSkills/skills/drive-tunnel-upload/SKILL.md
 lib/instructions/pluginSkills/skills/instructions/agents/openai.yaml
 lib/instructions/pluginSkills/skills/instructions/lookup/knowledge-index.json
 lib/instructions/pluginSkills/skills/instructions/references/01_PROJECT_REVELATION_ENGINE.md
