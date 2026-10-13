@@ -9,6 +9,8 @@
 
  * savage beauty of a universe in constant, violent formation.
  */
+import { paintFelt, paintVignette } from '../../../scripts/player-shell/fx/game-textures.js';
+
 export class Renderer {
     /**
      * The Forge is lit. The Anvil is prepared. The Artificer claims its tools and
@@ -79,14 +81,9 @@ drawGame(players, revealDealer = false) {
      * This is called by the Master Ritual and by the Spark Engine's animation loop.
      */
     _forgeStaticWorld() {
-        // Lay the Abyssal Foundation: a textured, light-absorbing void.
-        this.ctx.fillStyle = '#010101';
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        const grad = this.ctx.createRadialGradient(this.canvas.width/2, this.canvas.height/2, 100, this.canvas.width/2, this.canvas.height/2, this.canvas.width * 0.8);
-        grad.addColorStop(0, '#001a00');
-        grad.addColorStop(1, '#000000');
-        this.ctx.fillStyle = grad;
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        // B"H premium felt table: woven texture, vignette to seat the scene.
+        paintFelt(this.ctx, 0, 0, this.canvas.width, this.canvas.height, { base: '#0e6b3a', dark: '#063a1f', seed: 11 });
+        paintVignette(this.ctx, this.canvas.width, this.canvas.height, 0.5);
 
         // Hammer the souls into place upon the Anvil.
         const human = this.lastKnownPlayers.find(p => !p.isAI && !p.isDealer);

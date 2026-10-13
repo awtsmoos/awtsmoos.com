@@ -160,37 +160,37 @@ export function paintVignette(ctx, w, h, strength = 0.42) {
 	ctx.fillRect(0, 0, w, h);
 }
 
-/** Glossy beveled block — the premium tetromino / brick / disc look. */
+/** Glossy beveled block — the premium tetromino / brick / disc look. h defaults to s (square). */
 export function paintGlossBlock(ctx, x, y, s, color, opts = {}) {
-	const { radius = 4, seed = 3 } = opts;
+	const { radius = 4, seed = 3, h = s } = opts;
 	const rnd = seeded(seed + Math.round(x) + Math.round(y));
 	ctx.save();
 	// base with vertical gradient
-	const g = ctx.createLinearGradient(x, y, x, y + s);
+	const g = ctx.createLinearGradient(x, y, x, y + h);
 	g.addColorStop(0, color.hi); g.addColorStop(0.55, color.base); g.addColorStop(1, color.dark);
 	ctx.fillStyle = g;
 	ctx.beginPath();
-	if (ctx.roundRect) ctx.roundRect(x, y, s, s, radius); else ctx.rect(x, y, s, s);
+	if (ctx.roundRect) ctx.roundRect(x, y, s, h, radius); else ctx.rect(x, y, s, h);
 	ctx.fill();
 	ctx.save();
 	ctx.clip();
 	// top gloss
-	const gloss = ctx.createLinearGradient(x, y, x, y + s * 0.5);
+	const gloss = ctx.createLinearGradient(x, y, x, y + h * 0.5);
 	gloss.addColorStop(0, 'rgba(255,255,255,0.42)');
 	gloss.addColorStop(1, 'rgba(255,255,255,0)');
 	ctx.fillStyle = gloss;
-	ctx.fillRect(x, y, s, s * 0.5);
+	ctx.fillRect(x, y, s, h * 0.5);
 	// inner texture speckle
 	for (let i = 0; i < 8; i += 1) {
 		ctx.fillStyle = rnd() > 0.5 ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.08)';
-		ctx.fillRect(x + rnd() * s, y + rnd() * s, 1.8, 1.8);
+		ctx.fillRect(x + rnd() * s, y + rnd() * h, 1.8, 1.8);
 	}
 	ctx.restore();
 	// bevel edge
 	ctx.strokeStyle = 'rgba(0,0,0,0.35)';
 	ctx.lineWidth = 1.5;
 	ctx.beginPath();
-	if (ctx.roundRect) ctx.roundRect(x + 0.75, y + 0.75, s - 1.5, s - 1.5, radius); else ctx.rect(x + 0.75, y + 0.75, s - 1.5, s - 1.5);
+	if (ctx.roundRect) ctx.roundRect(x + 0.75, y + 0.75, s - 1.5, h - 1.5, radius); else ctx.rect(x + 0.75, y + 0.75, s - 1.5, h - 1.5);
 	ctx.stroke();
 	ctx.strokeStyle = 'rgba(255,255,255,0.28)';
 	ctx.lineWidth = 1;

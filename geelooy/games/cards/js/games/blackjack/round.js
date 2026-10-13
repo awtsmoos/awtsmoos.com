@@ -82,6 +82,7 @@ export class BlackjackRound {
 	deal(player) {
 		const card = this.shoe.draw();
 		if (card) player.hand.push(card);
+		if (card && typeof window !== 'undefined' && window.AwtsmoosFx) window.AwtsmoosFx.sfx('deal');
 		return card;
 	}
 
@@ -92,6 +93,13 @@ export class BlackjackRound {
 		this.phase = 'complete';
 		this.render(true);
 		const result = this.result(evaluation, delta);
+		if (typeof window !== 'undefined' && window.AwtsmoosFx) {
+			const fx = window.AwtsmoosFx;
+			if (evaluation.outcome === 'blackjack') fx.sfx('blackjack');
+			else if (evaluation.outcome === 'win') { fx.sfx('win'); fx.sfx('chip'); }
+			else if (evaluation.outcome === 'push') fx.sfx('push');
+			else fx.sfx('concede');
+		}
 		this.view.showRoundResult(result, this.bankroll.balance, this.bankroll.canWager(this.baseStake));
 		this.onComplete?.(result);
 		return true;

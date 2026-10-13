@@ -1,6 +1,7 @@
 // B"H
 
 import { convertToGematria } from "../gematria.js";
+import { paintGlossBlock } from "../../../scripts/player-shell/fx/game-textures.js";
 
 const BRICK_COLORS = {
   1: '#22d3ee',   // Cyan
@@ -103,15 +104,8 @@ export class Brick {
             return;
         }
         
-        ctx.fillStyle = this.color;
-        ctx.strokeStyle = '#082f49';
-        ctx.lineWidth = 3;
-        const brickRadius = 4;
-
-        ctx.beginPath();
-        ctx.roundRect(this.x, this.y, this.width, this.height, [brickRadius]);
-        ctx.fill();
-        ctx.stroke();
+        // B"H glossy brick: gradient + top gloss + speckle, no flat colors.
+        paintGlossBlock(ctx, this.x, this.y, this.width, brickTones(this.color), { h: this.height, radius: 4, seed: Math.round(this.x + this.y) });
 
         const centerX = this.x + this.width / 2;
         const centerY = this.y + this.height / 2;
@@ -195,4 +189,15 @@ export class Brick {
         ctx.textBaseline = 'middle';
         ctx.fillText('⚡', centerX, centerY + 2);
     }
+}
+
+/** Derive hi/base/dark tones from a brick hex color. */
+function brickTones(hex) {
+	const shade = (h, amt) => {
+		const n = parseInt(h.slice(1), 16);
+		const f = (c) => Math.max(0, Math.min(255, Math.round(c + amt)));
+		const r = f((n >> 16) & 255), g = f((n >> 8) & 255), b = f(n & 255);
+		return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+	};
+	return { hi: shade(hex, 60), base: hex, dark: shade(hex, -60) };
 }
