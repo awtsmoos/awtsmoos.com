@@ -410,9 +410,42 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     return tex;
   }
 
+  /* B"H — leaf-cluster alpha: tex-leaf-cluster.webp is sunlit leaves on WHITE.
+     Key out near-white → real alpha, so canopy quads show INDIVIDUAL LEAVES
+     with true shapes instead of flat green blobs (Yaakov 2026-10-13: "leaves
+     have no texture at all"). One 512px canvas composite at build; zero
+     per-frame cost. */
+  async function makeLeafClusterAlpha(url) {
+    const photo = await new Promise((res, rej) => {
+      const img = new Image();
+      img.onload = () => res(img);
+      img.onerror = rej;
+      img.src = url;
+    });
+    const S = 512;
+    const cv = document.createElement('canvas'); cv.width = cv.height = S;
+    const cx = cv.getContext('2d');
+    cx.drawImage(photo, 0, 0, S, S);
+    const id = cx.getImageData(0, 0, S, S);
+    const d = id.data;
+    for (let i = 0; i < d.length; i += 4) {
+      // white key with soft edge: lum>=245 → transparent, <=205 → opaque
+      const lum = (d[i] + d[i + 1] + d[i + 2]) / 3;
+      const a = Math.max(0, Math.min(1, (245 - lum) / 40));
+      d[i + 3] = Math.round(a * 255);
+    }
+    cx.putImageData(id, 0, 0);
+    const tex = new THREE.CanvasTexture(cv);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
+    tex.anisotropy = 4;
+    return tex;
+  }
+
   /* textures (real photographs, Awtsmoos Drive) */
   const [grassTex, dirtTex, barkTex, canopyTex, leafTex,
-         grassGroundTex, barkDetailTex, mossGroundTex, mossyBarkTex, fernTex] = await Promise.all([
+         grassGroundTex, barkDetailTex, mossGroundTex, mossyBarkTex, fernTex,
+         leafClusterTex] = await Promise.all([
     loadTexture(TEX + 'grass1.jpg', 30, 30),
     loadTexture(TEX + 'dirt1.jpg', 40, 3),
     loadTexture(TEX + 'bark1.webp', 1, 2),
@@ -424,6 +457,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     loadTexture(TEX + 'new/tex-moss-ground.webp', 2, 2),
     loadTexture(TEX + 'new/tex-mossy-bark.webp', 1, 2),
     loadTexture(TEX + 'new/tex-fern-frond.png', 1, 1),
+    // B"H — individual-leaf canopy texture (white keyed to alpha)
+    makeLeafClusterAlpha(TEX + 'new/tex-leaf-cluster.webp'),
   ]);
   mark('textures');
 
@@ -458,7 +493,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     // crowns are huge and would block the lens. Mid/far corridor only.
     const z = -70 + rand() * 75;                     // z in [-70, 5]
     const side = rand() < 0.5 ? -1 : 1;
-    const x = riverX(z) + side * (7.5 + rand() * 3.5);
+    const x = riverX(z) + side * (10.5 + rand() * 3.5); // B"H 2026-10-13: trunks on banks, crowns lean over water
     if (clearPts.some(([px, pz]) => Math.hypot(x - px, z - pz) < CLEAR + 8)) continue;
     if (treeSpots.some(s => Math.hypot(s.x - x, s.z - z) < 10)) continue;
     treeSpots.push({ x, z, overhang: -side });
@@ -529,104 +564,159 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     return g;
   }
   const riverbed = new THREE.Mesh(
-    ribbon(13.5, (x, z) => groundHeight(x, z, noise) - 0.12, 24),
+    ribbon(21, (x, z) => groundHeight(x, z, noise) - 0.12, 24),
     new THREE.MeshStandardMaterial({ map: dirtTex, roughness: 1 })
   );
   riverbed.receiveShadow = true;
   scene.add(riverbed);
 
-  /* water — animated shader */
+    /* water — animated shader.
+     B"H river rebuild 2026-10-13 (Yaakov: "River looks terrible"):
+     - water ribbon widened 11 -> 19.5 so it actually reaches the banks
+       (waterline sits at d~9.5 from center; the old 11-wide ribbon left a
+       stripe of bare dirt between water edge and bank)
+     - world-space isotropic ripples (the old vUv-stretched fields made
+       visible horizontal bands); two layers scroll downstream
+     - dedicated low glitter sun toward -z so the camera looking down-river
+       sees a sparkling glitter path like the reference (the scene sun sits
+       side-on and its specular never reaches this camera)
+     - twinkling high-power glints, fresnel sky reflection, pebble bed in
+       the shallows, noise-broken foam lapping at the waterline, alpha fade
+       to zero at the banks, manual fog so the river melts into the mist */
   const waterUniforms = THREE.UniformsUtils.merge([
     THREE.UniformsLib.fog,
     {
       uTime: { value: 0 },
       uSunDir: { value: sunDir },
-      uDeep: { value: new THREE.Color(0x14504a) },
-      uShallow: { value: new THREE.Color(0x4fa08e) },
-      uSky: { value: new THREE.Color(0xbfe0ee) },
+      uGlitterDir: { value: new THREE.Vector3(-0.18, 0.16, -0.97).normalize() },
+      uDeep: { value: new THREE.Color(0x0d3f3c) },
+      uShallow: { value: new THREE.Color(0x3f9a86) },
+      uSky: { value: new THREE.Color(0xcfe4ea) },
+      uFogColor: { value: new THREE.Color(T.fog) },
+      uFogNear: { value: T.fogNear },
+      uFogFar: { value: T.fogFar },
     },
   ]);
   // UniformsUtils.merge clones — restore live references
   waterUniforms.uSunDir.value = sunDir;
   const water = new THREE.Mesh(
-    ribbon(11, () => WATER_Y, 24),
+    ribbon(19.5, () => WATER_Y, 24),
     new THREE.ShaderMaterial({
       transparent: true, uniforms: waterUniforms, fog: false,
-      side: THREE.DoubleSide,
+      side: THREE.DoubleSide, depthWrite: false,
       vertexShader: `varying vec2 vUv; varying vec3 vPos;
         void main(){ vUv = uv; vPos = position;
           gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
       fragmentShader: `varying vec2 vUv; varying vec3 vPos;
-        uniform float uTime; uniform vec3 uSunDir, uDeep, uShallow, uSky;
-        // B"H — analytic ripple normals: two scrolling height fields with
-        // finite-difference normals. Fully controlled, tileable, no texture.
+        uniform float uTime, uFogNear, uFogFar;
+        uniform vec3 uSunDir, uGlitterDir, uDeep, uShallow, uSky, uFogColor;
+        // world-ish coords: u spans 19.5 units across, v spans 24 tiles of ~8.33
         float hgt(vec2 p, float t){
-          return sin(p.x*1.7 + t*1.1)*0.35 + sin(p.y*2.3 - t*0.9)*0.30
-               + sin((p.x+p.y)*4.1 + t*1.7)*0.18
-               + sin(p.x*7.3 - t*2.2)*sin(p.y*6.1 + t*1.9)*0.12;
+          return sin(p.x*1.9 + t*1.2)*0.30 + sin(p.y*2.1 - t*1.5)*0.28
+               + sin(p.x*1.3 + p.y*1.7 + t*2.1)*0.20
+               + sin(p.x*4.7 - t*2.6)*sin(p.y*4.3 + t*2.2)*0.14;
         }
         vec2 slopeAt(vec2 p, float t){
-          float e = 0.35;
+          float e = 0.22;
           float hC = hgt(p, t);
           return vec2(hgt(p+vec2(e,0.0),t)-hC, hgt(p+vec2(0.0,e),t)-hC)/e;
         }
         float hash22(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
         void main(){
-          vec2 p1 = vec2(vUv.x*8.0, vUv.y*60.0 - uTime*0.6);
-          vec2 p2 = vec2(vUv.x*20.0 + 3.7, vUv.y*140.0 - uTime*1.4);
-          vec2 grad = slopeAt(p1, uTime)*0.32 + slopeAt(p2, uTime*1.3)*0.16;
-          // B"H — strong facet tilt so the low golden sun catches sparkle
-          vec3 n = normalize(vec3(-grad.x*0.8, 1.0, -grad.y*0.8));
+          vec2 pw = vec2(vUv.x*19.5, vUv.y*8.33);
+          // two ripple layers drifting downstream (-v), different speeds
+          vec2 p1 = pw + vec2(uTime*0.22, -uTime*1.05);
+          vec2 p2 = pw*2.3 + vec2(-uTime*0.45, -uTime*2.1) + 7.3;
+          vec2 grad = slopeAt(p1, uTime)*0.55 + slopeAt(p2, uTime*1.35)*0.30;
+          vec3 n = normalize(vec3(-grad.x, 1.0, -grad.y));
           vec3 viewDir = normalize(cameraPosition - vPos);
-          float fres = pow(1.0 - max(dot(n, viewDir), 0.0), 2.2);
-          float ripple = grad.x * 0.5 + grad.y * 0.5;
-          // deep teal channel in the middle, brighter toward the banks
-          float centerDepth = 1.0 - abs(vUv.x * 2.0 - 1.0);
-          // B"H — procedural pebble bed visible in the shallows (Yaakov 2026-10-13):
-          // rounded stones via jittered grid cells, refracted by the ripple.
-          vec2 gp = vec2(vUv.x * 30.0, vUv.y * 220.0) + grad * 2.0;
+          float fres = pow(1.0 - max(dot(n, viewDir), 0.0), 3.0);
+          vec3 r = reflect(-viewDir, n);
+          float gdot = max(dot(r, uGlitterDir), 0.0);
+          float sheen = pow(gdot, 48.0);
+          float glint = pow(gdot, 700.0);
+          // twinkle: each sparkle cell shimmers on its own phase
+          float tw = 0.45 + 0.55*(0.5 + 0.5*sin(uTime*7.0 + hash22(floor(pw*7.0))*43.0));
+          float centerDepth = 1.0 - abs(vUv.x*2.0 - 1.0);
+          // pebble bed in the shallows, refracted by the ripple
+          vec2 gp = pw*3.4 + grad*1.5;
           vec2 gid = floor(gp); vec2 gf = fract(gp);
-          vec2 pc = vec2(0.5) + (vec2(hash22(gid + 7.3), hash22(gid + 3.1)) - 0.5) * 0.55;
-          float pd = length((gf - pc) * vec2(1.0, 1.35));
-          float peb = smoothstep(0.46, 0.40, pd);
-          float prnd = hash22(gid + 1.7);
-          vec3 pebCol = mix(vec3(0.32, 0.30, 0.27), vec3(0.58, 0.55, 0.50), prnd);
-          pebCol *= 0.85 + 0.3 * hash22(gid + 9.2);
-          vec3 bed = mix(vec3(0.16, 0.15, 0.13), pebCol, peb);
-          float shallow = 1.0 - smoothstep(0.15, 0.65, centerDepth);
-          vec3 col = mix(uShallow, uDeep, 0.30 + 0.50 * centerDepth);
-          col = mix(col, bed * vec3(0.75, 0.95, 0.90), shallow * 0.75);
-          col = mix(col, uShallow, clamp(ripple * 0.6 + 0.2, 0.0, 1.0) * 0.45);
-          col = mix(col, uSky, fres * 0.38);
-          vec3 hv = normalize(viewDir + uSunDir);
-          // broad sun sheen + tight glints on the tilted facets
-          float sheen = pow(max(dot(n, hv), 0.0), 24.0) * 0.45;
-          float glint = pow(max(dot(n, hv), 0.0), 90.0) * 2.0;
-          col += vec3(1.0, 0.97, 0.9) * (sheen + glint);
-          float edge = smoothstep(0.0, 0.10, vUv.x) * smoothstep(1.0, 0.90, vUv.x);
-          // soft foam lapping at the banks
-          float foamBand = (1.0 - edge);
-          float foam = foamBand * smoothstep(0.25, 0.9, 0.5 + ripple) * 0.55;
-          col = mix(col, vec3(0.88, 0.94, 0.92), foam);
-          gl_FragColor = vec4(col, 0.82 * (0.30 + 0.70 * edge) + foam * 0.1); }`
+          vec2 pc = vec2(0.5) + (vec2(hash22(gid+7.3), hash22(gid+3.1))-0.5)*0.55;
+          float pd = length((gf-pc)*vec2(1.0,1.3));
+          float peb = smoothstep(0.44, 0.37, pd);
+          float prnd = hash22(gid+1.7);
+          vec3 pebCol = mix(vec3(0.22,0.21,0.19), vec3(0.42,0.40,0.36), prnd);
+          pebCol *= 0.85 + 0.3*hash22(gid+9.2);
+          vec3 bed = mix(vec3(0.15,0.14,0.12), pebCol, peb);
+          float shallow = 1.0 - smoothstep(0.10, 0.55, centerDepth);
+          vec3 col = mix(uShallow, uDeep, 0.25 + 0.55*centerDepth);
+          col = mix(col, bed*vec3(0.72,0.95,0.88), shallow*0.8);
+          col = mix(col, uSky, fres*0.28);
+          // glitter path on the water + faint real-sun sparkle
+          float sdot = max(dot(r, uSunDir), 0.0);
+          col += vec3(1.0,0.96,0.88)*(sheen*0.28 + glint*2.6*tw)
+               + vec3(1.0,0.93,0.80)*pow(sdot, 120.0)*0.5;
+          // soft alpha fade at the banks — no hard waterline
+          float edge = smoothstep(0.0, 0.10, vUv.x)*smoothstep(1.0, 0.90, vUv.x);
+          // foam lapping at the waterline, broken up by noise
+          float band = 1.0 - smoothstep(0.0, 0.085, vUv.x)*smoothstep(1.0, 0.915, vUv.x);
+          float fn = hash22(floor(pw*vec2(3.0, 9.0)));
+          float lap = 0.5 + 0.5*sin(uTime*1.6 + pw.y*1.8 + fn*6.28);
+          float foam = band * smoothstep(0.45, 0.85, fn*0.6 + lap*0.45) * 0.65;
+          col = mix(col, vec3(0.90,0.95,0.93), clamp(foam, 0.0, 1.0));
+          float alpha = mix(0.0, 0.88, edge) + foam*0.12;
+          // manual fog: the river winds away into the mist like the reference
+          float fd = distance(cameraPosition, vPos);
+          float f2 = smoothstep(uFogNear, uFogFar, fd);
+          col = mix(col, uFogColor, f2);
+          alpha = mix(alpha, 1.0, f2*0.85);
+          gl_FragColor = vec4(col, clamp(alpha, 0.0, 0.96)); }`
     })
   );
   scene.add(water);
   mark('water');
 
-  /* trees — ez-tree-derived procedural generator, real bark + canopy photos */
+  /* wet-bank shore: dark damp ribbon hugging the terrain at the waterline,
+     softens the water-to-land transition (no hard edge) */
+  const shore = new THREE.Mesh(
+    ribbon(25, (x, z) => groundHeight(x, z, noise) + 0.07, 24),
+    new THREE.ShaderMaterial({
+      transparent: true, depthWrite: false, fog: false,
+      uniforms: { uFogColor: { value: new THREE.Color(T.fog) },
+                  uFogNear: { value: T.fogNear }, uFogFar: { value: T.fogFar } },
+      vertexShader: `varying vec2 vUv; varying vec3 vPos;
+        void main(){ vUv = uv; vPos = position;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+      fragmentShader: `varying vec2 vUv; varying vec3 vPos;
+        uniform vec3 uFogColor; uniform float uFogNear, uFogFar;
+        void main(){
+          // damp band hugging the waterline (edges of the ribbon), fading out
+          float dEdge = min(vUv.x, 1.0 - vUv.x);
+          float wet = smoothstep(0.30, 0.06, dEdge) * smoothstep(0.0, 0.045, dEdge);
+          vec3 col = vec3(0.16, 0.19, 0.12);
+          float fd = distance(cameraPosition, vPos);
+          col = mix(col, uFogColor, smoothstep(uFogNear, uFogFar, fd));
+          gl_FragColor = vec4(col, wet*0.55); }`
+    })
+  );
+  shore.renderOrder = 1;
+  scene.add(shore);
+  mark('shore');
+
+/* trees — ez-tree-derived procedural generator, real bark + canopy photos */
   const barkMat = new THREE.MeshStandardMaterial({
     map: mossyBarkTex, roughness: 0.95,
     color: new THREE.Color(0.85, 0.85, 0.80),
   });
   const canopyMat = new THREE.MeshStandardMaterial({
-    map: canopyTex, alphaTest: 0.30, side: THREE.DoubleSide,
-    // B"H — brightened 2026-10-13: the clipping fix (0.30/0.45/0.25) read as
-    // near-black shards on shadowed flat quads. (0.42/0.62/0.33) keeps sunlit
-    // leaves golden-green without re-clipping (sunI lowered to 2.35).
-    // Small green emissive lifts shadowed foliage from black to deep green.
-    roughness: 0.9, color: new THREE.Color(0.42, 0.62, 0.33),
-    emissive: new THREE.Color(0.05, 0.09, 0.035),
+    // B"H 2026-10-13 leaves-fix: was canopyTex (fine-grain photo that minified
+    // to flat green on every quad). Now leafClusterTex — big INDIVIDUAL LEAVES
+    // with real alpha, so every baked quad reads as foliage. Muted tint keeps
+    // the sunlit photo from bleaching to pale; small emissive keeps shadowed
+    // leaves deep green instead of black.
+    map: leafClusterTex, alphaTest: 0.35, side: THREE.DoubleSide,
+    roughness: 0.9, color: new THREE.Color(0.72, 0.80, 0.68),
+    emissive: new THREE.Color(0.035, 0.06, 0.025),
   });
   const ARCHETYPES = [
     ['Oak Large', 'oak-large'], ['Pine Large', 'pine-large'],
@@ -682,53 +772,99 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   scene.add(treeGroup);
   mark('trees-placed');
 
-  /* canopy crown filler — dense instanced foliage blobs in each tree's crown */
+  /* canopy crown filler — instanced INDIVIDUAL-LEAF quads in each tree's crown.
+     B"H 2026-10-13 leaves-fix: was icosahedron blobs with the whole 512px
+     canopy photo smeared per blob — fine detail minified to flat green
+     plastic (Yaakov: "leaves have no texture at all"). Now PlaneGeometry
+     quads with the white-keyed leaf-cluster photo: every quad shows distinct
+     leaf shapes. Quads face OUTWARD from the crown center (never edge-on),
+     get a random in-plane spin + per-instance color tint for variety.
+     Dark branch limbs run through the crown for structure. */
   {
-    const crownGeo = new THREE.IcosahedronGeometry(1, 1);
-    const cp = crownGeo.attributes.position;
-    for (let i = 0; i < cp.count; i++) {
-      const s = 1 + 0.3 * Math.sin(cp.getX(i) * 4.7 + 2.1) * Math.sin(cp.getZ(i) * 5.3 + 0.9);
-      cp.setXYZ(i, cp.getX(i) * s, cp.getY(i) * s * 0.75, cp.getZ(i) * s);
-    }
-    crownGeo.computeVertexNormals();
-    const crownMat = new THREE.MeshStandardMaterial({
-      map: canopyTex, alphaTest: 0.30, side: THREE.DoubleSide,
-      roughness: 0.95, color: new THREE.Color(0.45, 0.65, 0.35),
-      // B"H — green emissive so shadowed crowns read as deep foliage, not
-      // black voids (the overhang canopy was a black blob from the camera).
-      emissive: new THREE.Color(0.06, 0.11, 0.045),
+    const quadGeo = new THREE.PlaneGeometry(1.7, 1.7);
+    const quadMat = new THREE.MeshStandardMaterial({
+      map: leafClusterTex, alphaTest: 0.35, side: THREE.DoubleSide,
+      roughness: 0.9, color: new THREE.Color(0.72, 0.80, 0.68),
+      emissive: new THREE.Color(0.035, 0.06, 0.025),
     });
-    const PER_TREE = fast ? 28 : 40;
+    const PER_TREE = fast ? 64 : 90;
     const COUNT = treeSpots.length * PER_TREE;
-    const inst = new THREE.InstancedMesh(crownGeo, crownMat, COUNT);
+    const inst = new THREE.InstancedMesh(quadGeo, quadMat, COUNT);
     const dummy = new THREE.Object3D();
+    const out = new THREE.Vector3();
+    const tint = new THREE.Color();
     let placed = 0;
     for (const s of treeSpots) {
-      // B"H — filler forms a TIGHT crown shell: smaller blobs hugging the
-      // crown volume (no camera intrusion, less overdraw). The baked tree
-      // provides structure; filler adds leaf mass, not reach.
       const ccx = (s.crownX !== undefined ? s.crownX : s.x);
       for (let i = 0; i < PER_TREE; i++) {
         // distribute in a flattened sphere around the crown center
         const th = rand() * Math.PI * 2;
         const ph = Math.acos(2 * rand() - 1);
-        const rr = s.crownR * (0.35 + 0.55 * Math.cbrt(rand()));
+        const rr = s.crownR * (0.30 + 0.60 * Math.cbrt(rand()));
         const bx = ccx + rr * Math.sin(ph) * Math.cos(th);
         const by = s.crownY + rr * Math.cos(ph) * 0.55;
         const bz = s.z + rr * Math.sin(ph) * Math.sin(th);
-        const bs = 1.3 + rand() * 1.6;
+        const bs = 1.1 + rand() * 1.3;
         dummy.position.set(bx, by, bz);
-        dummy.rotation.set(rand() * Math.PI, rand() * Math.PI * 2, 0);
-        dummy.scale.set(bs, bs * 0.8, bs);
+        // face outward from crown center, then random in-plane spin
+        out.set(bx - ccx, (by - s.crownY) * 1.4, bz - s.z).normalize();
+        dummy.lookAt(bx + out.x, by + out.y, bz + out.z);
+        dummy.rotateZ(rand() * Math.PI * 2);
+        dummy.scale.set(bs, bs, 1);
+        dummy.updateMatrix();
+        if (placed < COUNT) {
+          inst.setMatrixAt(placed, dummy.matrix);
+          // per-instance tint: hue/brightness variety, no tiled look
+          const v = 0.82 + rand() * 0.30;
+          tint.setRGB(v * (0.94 + rand() * 0.08), v, v * (0.90 + rand() * 0.08));
+          inst.setColorAt(placed, tint);
+          placed++;
+        }
+      }
+    }
+    inst.count = placed;
+    if (inst.instanceColor) inst.instanceColor.needsUpdate = true;
+    inst.castShadow = true; inst.receiveShadow = true;
+    scene.add(inst);
+  }
+  mark('crown-filler');
+
+  /* branch limbs — dark tapered limbs running through each crown so foliage
+     has visible structure (Yaakov 2026-10-13 leaves-fix). One instanced draw. */
+  {
+    const limbGeo = new THREE.CylinderGeometry(0.05, 0.17, 3.4, 5);
+    limbGeo.translate(0, 1.7, 0); // base at origin, grows +Y
+    const limbMat = new THREE.MeshStandardMaterial({
+      map: mossyBarkTex, roughness: 1.0,
+      color: new THREE.Color(0.55, 0.47, 0.38),
+    });
+    const PER_TREE = 6;
+    const COUNT = treeSpots.length * PER_TREE;
+    const inst = new THREE.InstancedMesh(limbGeo, limbMat, COUNT);
+    const dummy = new THREE.Object3D();
+    const up = new THREE.Vector3(0, 1, 0);
+    const dir = new THREE.Vector3();
+    let placed = 0;
+    for (const s of treeSpots) {
+      const ccx = (s.crownX !== undefined ? s.crownX : s.x);
+      const baseY = s.crownY - s.crownR * 0.45;
+      for (let i = 0; i < PER_TREE; i++) {
+        const th = (i / PER_TREE) * Math.PI * 2 + rand() * 0.5;
+        const tilt = 0.5 + rand() * 0.55; // outward lean
+        dummy.position.set(ccx, baseY, s.z);
+        dir.set(Math.cos(th) * Math.sin(tilt), Math.cos(tilt), Math.sin(th) * Math.sin(tilt)).normalize();
+        dummy.quaternion.setFromUnitVectors(up, dir);
+        const ls = 0.8 + rand() * 0.7;
+        dummy.scale.set(ls, ls * (0.9 + rand() * 0.5), ls);
         dummy.updateMatrix();
         if (placed < COUNT) inst.setMatrixAt(placed++, dummy.matrix);
       }
     }
     inst.count = placed;
-    inst.castShadow = true; inst.receiveShadow = true;
+    inst.castShadow = true;
     scene.add(inst);
   }
-  mark('crown-filler');
+  mark('crown-limbs');
 
   /* distant tree-line — procedural billboard trees at the world rim, hazed by fog.
      Two staggered rings with gaps. The silhouette texture is painted on a canvas
@@ -835,7 +971,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       if (!t) break;
       const a = rand() * Math.PI * 2, r = 2.5 + rand() * 9;
       const x = t.x + Math.cos(a) * r, z = t.z + Math.sin(a) * r;
-      if (Math.abs(x - riverX(z)) < 8.5) continue;
+      if (Math.abs(x - riverX(z)) < 10.2) continue; // B"H 2026-10-13: clear of widened water
       if (clearPts.some(([px, pz]) => Math.hypot(x - px, z - pz) < 4)) continue;
       const s = 0.35 + rand() * 0.75;
       dummy.position.set(x, groundHeight(x, z, noise) + 0.12 * s, z);
@@ -889,14 +1025,14 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       if (rand() < 0.6) {
         z = (rand() - 0.5) * 190;
         const side = rand() < 0.5 ? -1 : 1;
-        x = riverX(z) + side * (4.5 + rand() * 7);
+        x = riverX(z) + side * (10.5 + rand() * 7); // B"H 2026-10-13: at the banks
       } else {
         const t = treeSpots[(rand() * treeSpots.length) | 0];
         if (!t) continue;
         const a = rand() * Math.PI * 2, r = 2 + rand() * 6;
         x = t.x + Math.cos(a) * r; z = t.z + Math.sin(a) * r;
       }
-      if (Math.abs(x - riverX(z)) < 3.8) continue; // not in the water
+      if (Math.abs(x - riverX(z)) < 10.2) continue; // B"H 2026-10-13: not in the widened water
       if (clearPts.some(([px, pz]) => Math.hypot(x - px, z - pz) < 3)) continue;
       const s = 0.9 + rand() * 1.3;
       dummy.position.set(x, groundHeight(x, z, noise), z);
@@ -946,7 +1082,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     while (placed < COUNT && g2++ < COUNT * 30) {
       const z = (srand() - 0.5) * 200;
       const side = srand() < 0.5 ? -1 : 1;
-      const x = riverX(z) + side * (5.5 + srand() * 6);
+      const x = riverX(z) + side * (10.5 + srand() * 6); // B"H 2026-10-13: banks, not in the widened water
       const s = 0.35 + srand() * 1.1;
       dummy.position.set(x, groundHeight(x, z, noise) + 0.05, z);
       dummy.rotation.set(0, srand() * Math.PI * 2, 0);
@@ -987,7 +1123,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     while (placed < COUNT && g4++ < COUNT * 30) {
       const z = (mor() - 0.5) * 200;
       const side = mor() < 0.5 ? -1 : 1;
-      const x = riverX(z) + side * (6 + mor() * 9);
+      const x = riverX(z) + side * (10.5 + mor() * 9); // B"H 2026-10-13: banks, not in the widened water
       // B"H — keep mounds well clear of the camera: a bright mound at 4 units
       // fills the lens. 10-unit exclusion around camera/character points.
       if (clearPts.some(([px, pz]) => Math.hypot(x - px, z - pz) < 10)) continue;
@@ -1090,11 +1226,11 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       let x, z;
       if (rand() < 0.62) {
         z = (rand() - 0.5) * 190;
-        x = riverX(z) + (rand() < 0.5 ? -1 : 1) * (8.5 + rand() * 17);
+        x = riverX(z) + (rand() < 0.5 ? -1 : 1) * (10.5 + rand() * 17); // B"H 2026-10-13: banks
       } else {
         x = (rand() - 0.5) * 190; z = (rand() - 0.5) * 190;
       }
-      if (Math.abs(x - riverX(z)) < 8.5) continue;
+      if (Math.abs(x - riverX(z)) < 10.2) continue; // B"H 2026-10-13: clear of widened water
       dummy.position.set(x, groundHeight(x, z, noise), z);
       dummy.rotation.y = rand() * Math.PI * 2;
       // natural lean: slight random tilt
