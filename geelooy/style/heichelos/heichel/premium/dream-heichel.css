@@ -1,0 +1,449 @@
+/* B"H
+ * Dream Heichel — the Ikar library as a sanctuary of light.
+ * Built from Yaakov's five dream visions (sanctuary gold, dawn parchment,
+ * manuscript filigree, depth, midnight). NOT 3D — pure CSS atmosphere.
+ *
+ * Yaakov's CSS Laws: NEVER !important. Zero validator errors. Colors ONLY via
+ * --dream-heichel-* tokens (dark sanctuary default + light dawn theme).
+ * Every text element carries an explicit color. Interactive elements keep
+ * :hover / :focus-visible / :active. No white-on-white. No round menorahs.
+ * Specificity kept under (0,3,0) via :where() wrappers; this sheet loads last
+ * so it wins ties against the ikar-first parts.
+ */
+
+/* ============ 1. Tokens — dark sanctuary (default) ============ */
+:where(.heichel-semantic-fallback[data-ikar-root]) {
+	--dream-heichel-bg: #0b0805;
+	--dream-heichel-bg-deep: #060402;
+	--dream-heichel-ink: #f7ecd4;
+	--dream-heichel-ink-soft: #d9c69a;
+	--dream-heichel-ink-faint: #9a865e;
+	--dream-heichel-gold: #d4a94e;
+	--dream-heichel-gold-bright: #f6d47c;
+	--dream-heichel-gold-deep: #8a6420;
+	--dream-heichel-card: rgba(24, 17, 8, 0.72);
+	--dream-heichel-card-edge: rgba(212, 169, 78, 0.38);
+	--dream-heichel-card-edge-bright: rgba(246, 212, 124, 0.75);
+	--dream-heichel-search-bg: rgba(20, 14, 6, 0.82);
+	--dream-heichel-glow: 212, 169, 78;
+	--dream-heichel-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+	--dream-heichel-focus: #f6d47c;
+	--dream-heichel-glyph: rgba(212, 169, 78, 0.10);
+	color: var(--dream-heichel-ink);
+}
+
+/* ============ 2. Tokens — light dawn ============ */
+:where(html[data-theme="light"]) :where(.heichel-semantic-fallback[data-ikar-root]) {
+	--dream-heichel-bg: #f8f2e4;
+	--dream-heichel-bg-deep: #efe4cc;
+	--dream-heichel-ink: #2c2214;
+	--dream-heichel-ink-soft: #5d4e36;
+	--dream-heichel-ink-faint: #8d7c5c;
+	--dream-heichel-gold: #a87e2e;
+	--dream-heichel-gold-bright: #c9992f;
+	--dream-heichel-gold-deep: #7a5a1e;
+	--dream-heichel-card: rgba(255, 253, 246, 0.86);
+	--dream-heichel-card-edge: rgba(168, 126, 46, 0.42);
+	--dream-heichel-card-edge-bright: rgba(168, 126, 46, 0.8);
+	--dream-heichel-search-bg: rgba(255, 253, 246, 0.92);
+	--dream-heichel-glow: 168, 126, 46;
+	--dream-heichel-shadow: 0 18px 50px rgba(120, 90, 40, 0.22);
+	--dream-heichel-focus: #7a5a1e;
+	--dream-heichel-glyph: rgba(168, 126, 46, 0.12);
+	color: var(--dream-heichel-ink);
+}
+
+/* ============ 3. Sanctuary vessel ============ */
+:where(.heichel-semantic-fallback[data-ikar-root]) {
+	position: relative;
+	background:
+		radial-gradient(ellipse 90% 42% at 50% -6%, rgba(var(--dream-heichel-glow), 0.16), transparent 70%),
+		radial-gradient(ellipse 70% 50% at 50% 115%, rgba(var(--dream-heichel-glow), 0.10), transparent 70%),
+		linear-gradient(180deg, var(--dream-heichel-bg) 0%, var(--dream-heichel-bg-deep) 100%);
+	border-radius: 1.25rem;
+	overflow: hidden;
+	padding: clamp(1.75rem, 5vw, 3.5rem) clamp(1rem, 4vw, 2.5rem) clamp(2.5rem, 6vw, 4rem);
+	color: var(--dream-heichel-ink);
+}
+
+/* Floating Hebrew letters — the starfield of the visions. Pure CSS, no assets. */
+:where(.heichel-semantic-fallback[data-ikar-root])::before {
+	content: "א ב ג ד ה ו ז ח ט י כ ל מ נ ס ע פ צ ק ר ש ת";
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
+	pointer-events: none;
+	color: var(--dream-heichel-glyph);
+	font-size: clamp(4rem, 12vw, 9rem);
+	line-height: 2.6;
+	letter-spacing: 0.35em;
+	text-align: center;
+	white-space: normal;
+	word-spacing: 0.5em;
+	mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 75%);
+	-webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 75%);
+}
+
+/* ============ 4. Hero ============ */
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-hero) {
+	position: relative;
+	text-align: center;
+	max-width: 44rem;
+	margin: 0 auto clamp(1.5rem, 4vw, 2.5rem);
+	color: var(--dream-heichel-ink);
+}
+
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-context) {
+	color: var(--dream-heichel-gold);
+	font-size: 0.78rem;
+	letter-spacing: 0.32em;
+	text-transform: uppercase;
+	margin: 0 0 0.9rem;
+}
+
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-hero) h1 {
+	color: var(--dream-heichel-ink);
+	font-size: clamp(2.4rem, 7vw, 4.2rem);
+	line-height: 1.08;
+	margin: 0 0 0.7rem;
+	font-weight: 700;
+	text-shadow: 0 0 42px rgba(var(--dream-heichel-glow), 0.45);
+}
+
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-description) {
+	color: var(--dream-heichel-ink-soft);
+	font-size: clamp(1rem, 2.4vw, 1.18rem);
+	line-height: 1.65;
+	margin: 0 auto;
+	max-width: 36rem;
+}
+
+/* ============ 5. Discovery heading ============ */
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-discovery) {
+	position: relative;
+	margin-top: clamp(1.5rem, 4vw, 2.5rem);
+	color: var(--dream-heichel-ink);
+}
+
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-discovery) h2 {
+	color: var(--dream-heichel-gold-bright);
+	font-size: clamp(1.3rem, 3.4vw, 1.8rem);
+	text-align: center;
+	margin: 0 0 clamp(1.25rem, 3vw, 2rem);
+	font-weight: 600;
+}
+
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-discovery) h2::after {
+	display: none;
+	color: var(--dream-heichel-gold-bright);
+}
+
+/* ============ 6. Dream cards ============ */
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-discovery) ul {
+	list-style: none;
+	margin: 0 auto;
+	padding: 0;
+	max-width: 46rem;
+	display: grid;
+	gap: clamp(0.85rem, 2.4vw, 1.25rem);
+	color: var(--dream-heichel-ink);
+}
+
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-discovery) li {
+	margin: 0;
+	padding: 0;
+	color: var(--dream-heichel-ink);
+}
+
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-discovery) a {
+	position: relative;
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	grid-template-areas: "icon titles chevron" "icon desc chevron";
+	column-gap: 1.1rem;
+	align-items: center;
+	background:
+		linear-gradient(90deg, transparent 8%, var(--dream-heichel-card-edge-bright) 50%, transparent 92%) top / 100% 1px no-repeat,
+		var(--dream-heichel-card);
+	border: 1px solid var(--dream-heichel-card-edge);
+	border-radius: 1.1rem;
+	padding: clamp(1.1rem, 3vw, 1.5rem) clamp(1.1rem, 3vw, 1.6rem);
+	color: var(--dream-heichel-ink);
+	text-decoration: none;
+	backdrop-filter: blur(14px);
+	-webkit-backdrop-filter: blur(14px);
+	box-shadow: var(--dream-heichel-shadow), inset 0 1px 0 rgba(var(--dream-heichel-glow), 0.12);
+	transition:
+		border-color 0.25s ease,
+		box-shadow 0.3s ease,
+		transform 0.25s ease,
+		background 0.25s ease;
+	overflow: hidden;
+}
+
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-discovery) a:hover {
+	border-color: var(--dream-heichel-card-edge-bright);
+	color: var(--dream-heichel-ink);
+	box-shadow:
+		var(--dream-heichel-shadow),
+		0 0 2.2rem rgba(var(--dream-heichel-glow), 0.28),
+		inset 0 1px 0 rgba(var(--dream-heichel-glow), 0.22);
+	transform: translateY(-2px);
+}
+
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-discovery) a:focus {
+	border-color: var(--dream-heichel-card-edge-bright);
+	color: var(--dream-heichel-ink);
+	outline: 2px solid var(--dream-heichel-focus);
+	outline-offset: 3px;
+}
+
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-discovery) a:focus-visible {
+	border-color: var(--dream-heichel-card-edge-bright);
+	color: var(--dream-heichel-ink);
+	outline: 2px solid var(--dream-heichel-focus);
+	outline-offset: 3px;
+	box-shadow:
+		var(--dream-heichel-shadow),
+		0 0 2.2rem rgba(var(--dream-heichel-glow), 0.28),
+		inset 0 1px 0 rgba(var(--dream-heichel-glow), 0.22);
+}
+
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-discovery) a:active {
+	transform: translateY(0) scale(0.99);
+	color: var(--dream-heichel-ink);
+	box-shadow: var(--dream-heichel-shadow);
+}
+
+/* Category icon vessel */
+:where(.dream-heichel-icon) {
+	grid-area: icon;
+	width: clamp(3rem, 9vw, 3.9rem);
+	height: clamp(3rem, 9vw, 3.9rem);
+	border-radius: 50%;
+	border: 1px solid var(--dream-heichel-card-edge);
+	background: radial-gradient(circle at 35% 30%, rgba(var(--dream-heichel-glow), 0.22), rgba(var(--dream-heichel-glow), 0.05));
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	color: var(--dream-heichel-gold-bright);
+}
+
+:where(.dream-heichel-icon) svg {
+	width: 58%;
+	height: 58%;
+	stroke: var(--dream-heichel-gold-bright);
+	fill: none;
+	stroke-width: 1.6;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	color: var(--dream-heichel-gold-bright);
+}
+
+/* Titles: luminous Hebrew over elegant English */
+:where(.dream-heichel-titles) {
+	grid-area: titles;
+	display: flex;
+	flex-direction: column;
+	gap: 0.15rem;
+	min-width: 0;
+	color: var(--dream-heichel-ink);
+}
+
+:where(.dream-heichel-he) {
+	color: var(--dream-heichel-gold-bright);
+	font-size: clamp(1.45rem, 4.6vw, 1.9rem);
+	font-weight: 700;
+	line-height: 1.25;
+	text-shadow: 0 0 26px rgba(var(--dream-heichel-glow), 0.5);
+}
+
+:where(.dream-heichel-en) {
+	color: var(--dream-heichel-ink);
+	font-size: clamp(1.02rem, 2.8vw, 1.18rem);
+	font-weight: 600;
+	line-height: 1.35;
+}
+
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-discovery-description) {
+	grid-area: desc;
+	color: var(--dream-heichel-ink-soft);
+	font-size: clamp(0.88rem, 2.4vw, 0.98rem);
+	line-height: 1.55;
+	margin: 0.3rem 0 0;
+}
+
+/* Chevron */
+:where(.dream-heichel-chevron) {
+	grid-area: chevron;
+	color: var(--dream-heichel-gold);
+	font-size: 1.4rem;
+	line-height: 1;
+	opacity: 0.75;
+	transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-discovery) a:hover :where(.dream-heichel-chevron) {
+	transform: translateX(4px);
+	opacity: 1;
+	color: var(--dream-heichel-gold-bright);
+}
+
+/* ============ 7. Search vessel ============ */
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.ikar-first-search) {
+	position: relative;
+	display: block;
+	max-width: 46rem;
+	margin: 0 auto clamp(1.5rem, 4vw, 2.25rem);
+	background: var(--dream-heichel-search-bg);
+	border: 1px solid var(--dream-heichel-card-edge);
+	border-radius: 999px;
+	backdrop-filter: blur(14px);
+	-webkit-backdrop-filter: blur(14px);
+	box-shadow: var(--dream-heichel-shadow), inset 0 1px 0 rgba(var(--dream-heichel-glow), 0.12);
+	transition: border-color 0.25s ease, box-shadow 0.3s ease;
+	color: var(--dream-heichel-ink);
+}
+
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.ikar-first-search):hover {
+	border-color: var(--dream-heichel-card-edge-bright);
+}
+
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.ikar-first-search):focus-within {
+	border-color: var(--dream-heichel-card-edge-bright);
+	box-shadow:
+		var(--dream-heichel-shadow),
+		0 0 2rem rgba(var(--dream-heichel-glow), 0.3),
+		inset 0 1px 0 rgba(var(--dream-heichel-glow), 0.2);
+}
+
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.ikar-first-search) input {
+	background: transparent;
+	border: none;
+	color: var(--dream-heichel-ink);
+	font-size: clamp(1rem, 2.8vw, 1.12rem);
+	padding: 1rem 1.4rem 1rem 3.4rem;
+	width: 100%;
+	border-radius: 999px;
+}
+
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.ikar-first-search) input:placeholder {
+	color: var(--dream-heichel-ink-faint);
+}
+
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.ikar-first-search) input:hover {
+	background: rgba(var(--dream-heichel-glow), 0.04);
+	color: var(--dream-heichel-ink);
+}
+
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.ikar-first-search) input:focus {
+	outline: none;
+	background: rgba(var(--dream-heichel-glow), 0.05);
+	color: var(--dream-heichel-ink);
+	box-shadow: inset 0 0 0 2px var(--dream-heichel-focus);
+}
+
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.ikar-first-search) input:active {
+	background: rgba(var(--dream-heichel-glow), 0.06);
+	color: var(--dream-heichel-ink);
+}
+
+/* The server span becomes a screen-reader label; the placeholder carries the visible hint. */
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.ikar-first-search) > span {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	color: var(--dream-heichel-ink);
+}
+
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.ikar-first-search) > small {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	color: var(--dream-heichel-ink);
+}
+
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.ikar-first-search)::before {
+	content: "";
+	position: absolute;
+	left: 1.25rem;
+	top: 50%;
+	width: 1.15rem;
+	height: 1.15rem;
+	transform: translateY(-50%);
+	border: 2px solid var(--dream-heichel-gold);
+	border-radius: 50%;
+	pointer-events: none;
+	color: var(--dream-heichel-gold);
+}
+
+:where(.heichel-semantic-fallback[data-ikar-root]) :where(.ikar-first-search)::after {
+	content: "";
+	position: absolute;
+	left: 2.12rem;
+	top: calc(50% + 0.42rem);
+	width: 0.62rem;
+	height: 2px;
+	background: var(--dream-heichel-gold);
+	transform: rotate(45deg);
+	border-radius: 2px;
+	pointer-events: none;
+	color: var(--dream-heichel-gold);
+}
+
+/* ============ 8. Entrance choreography ============ */
+@media (prefers-reduced-motion: no-preference) {
+	:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-discovery) li {
+		animation: dreamHeichelRise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+		color: var(--dream-heichel-ink);
+	}
+	:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-discovery) li:nth-child(2) { animation-delay: 0.07s; color: var(--dream-heichel-ink); }
+	:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-discovery) li:nth-child(3) { animation-delay: 0.14s; color: var(--dream-heichel-ink); }
+	:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-discovery) li:nth-child(4) { animation-delay: 0.21s; color: var(--dream-heichel-ink); }
+	:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-discovery) li:nth-child(5) { animation-delay: 0.28s; color: var(--dream-heichel-ink); }
+	:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-discovery) li:nth-child(6) { animation-delay: 0.35s; color: var(--dream-heichel-ink); }
+	:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-discovery) li:nth-child(7) { animation-delay: 0.42s; color: var(--dream-heichel-ink); }
+	:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-discovery) li:nth-child(8) { animation-delay: 0.49s; color: var(--dream-heichel-ink); }
+	:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-discovery) li:nth-child(9) { animation-delay: 0.56s; color: var(--dream-heichel-ink); }
+	:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-discovery) li:nth-child(10) { animation-delay: 0.63s; color: var(--dream-heichel-ink); }
+}
+
+@keyframes dreamHeichelRise {
+	from {
+		opacity: 0;
+		transform: translateY(22px);
+		color: inherit;
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+		color: inherit;
+	}
+}
+
+/* ============ 9. Mobile refinement ============ */
+@media (max-width: 560px) {
+	:where(.heichel-semantic-fallback[data-ikar-root]) {
+		border-radius: 1rem;
+		color: var(--dream-heichel-ink);
+	}
+	:where(.heichel-semantic-fallback[data-ikar-root]) :where(.heichel-semantic-discovery) a {
+		column-gap: 0.85rem;
+		color: var(--dream-heichel-ink);
+	}
+}
+
+/* ============ 10. Readiness status ============ */
+:where(.heichel-semantic-fallback[data-ikar-root]) :where([role="status"]) {
+	color: var(--dream-heichel-ink-faint);
+	text-align: center;
+	font-size: 0.85rem;
+	margin-top: 1.75rem;
+}

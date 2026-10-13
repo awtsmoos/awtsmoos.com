@@ -142,12 +142,83 @@ function enhanceDiscovery(root, discovery) {
 	const items = [...discovery.querySelectorAll('li')];
 	updateReadyStatus(root, items.length);
 
+	// B"H — dream heichel: split bilingual titles, add category icons.
+	if (location.pathname === IKAR_ROOT) {
+		enhanceDreamCards(discovery, items);
+	}
+
 	// B"H — resolve raw post IDs (e.g. "BH_POST_...") into human-readable
 	// titles. Runs async after paint; never blocks rendering.
 	resolvePostTitles(discovery, items);
 
 	if (items.length >= 8) {
 		installIkarSearch(root, discovery, items);
+	}
+}
+
+/**
+ * B"H — Dream heichel card enhancement (Ikar root only).
+ * Splits "עברית · English" link labels into luminous Hebrew + English spans,
+ * and prefixes each card with its category icon. Icons are simple line SVGs;
+ * never a menorah.
+ */
+function enhanceDreamCards(discovery, items) {
+	const icons = {
+		theWrittenTorah: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6"/><path d="M6 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2"/><path d="M9 8h7M9 12h7M9 16h5"/></svg>',
+		theOralTorah: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V6a2 2 0 0 1 2-2h13v13H6a2 2 0 0 0-2 2Z"/><path d="M4 19a2 2 0 0 0 2 2h13"/><path d="M9 8h7"/></svg>',
+		chassidus: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c1 3-2 4.5-2 7a4 4 0 0 0 8 .5C18.5 7 14 6 12 3Z"/><path d="M12 21a7 7 0 0 1-7-7c0-2 1-3.5 2-5 .5 1.5 1.5 2 2.5 2C9 9 9 7 10 5c2 2 6 4.5 6 9a7 7 0 0 1-4 7Z"/></svg>',
+		halacha: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18"/><path d="M5 7h14"/><path d="M5 7l-2.5 6a3 3 0 0 0 5 0L5 7Z"/><path d="M19 7l-2.5 6a3 3 0 0 0 5 0L19 7Z"/><path d="M8 21h8"/></svg>',
+		midrash: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6c-2-1.5-5-2-8-2v14c3 0 6 .5 8 2 2-1.5 5-2 8-2V4c-3 0-6 .5-8 2Z"/><path d="M12 6v14"/></svg>',
+		kabbalah: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8Z"/><path d="M19 16l.9 2.1L22 19l-2.1.9L19 22l-.9-2.1L16 19l2.1-.9Z"/></svg>',
+		mussar: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9Z"/></svg>',
+		'torah-language-tools': '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h9M8.5 3v2c0 3-2 5.5-4.5 7"/><path d="M6 9c1 2.5 3 4.5 5.5 5.5"/><path d="M13 21l4.5-10L22 21M14.8 17h5.4"/></svg>',
+		'daily-chitas': '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'
+	};
+	const fallbackIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2Z"/><path d="M4 19a2 2 0 0 0 2 2h13"/></svg>';
+
+	for (const li of items) {
+		const link = li.querySelector('a');
+		if (!link || link.dataset.dreamEnhanced) continue;
+		link.dataset.dreamEnhanced = 'true';
+
+		// Split "עברית · English" into two spans.
+		const raw = link.textContent.trim();
+		const parts = raw.split(/\s*[·•|]\s*/);
+		const titles = document.createElement('span');
+		titles.className = 'dream-heichel-titles';
+		if (parts.length >= 2) {
+			const he = document.createElement('span');
+			he.className = 'dream-heichel-he';
+			he.lang = 'he';
+			he.dir = 'rtl';
+			he.textContent = parts[0];
+			const en = document.createElement('span');
+			en.className = 'dream-heichel-en';
+			en.textContent = parts.slice(1).join(' · ');
+			titles.append(he, en);
+		} else {
+			const en = document.createElement('span');
+			en.className = 'dream-heichel-en';
+			en.textContent = raw;
+			titles.append(en);
+		}
+		link.textContent = '';
+		link.append(titles);
+
+		// Category icon from the href.
+		const key = Object.keys(icons).find(k => link.getAttribute('href')?.includes(k));
+		const icon = document.createElement('span');
+		icon.className = 'dream-heichel-icon';
+		icon.setAttribute('aria-hidden', 'true');
+		icon.innerHTML = icons[key] || fallbackIcon;
+		link.prepend(icon);
+
+		// Chevron.
+		const chevron = document.createElement('span');
+		chevron.className = 'dream-heichel-chevron';
+		chevron.setAttribute('aria-hidden', 'true');
+		chevron.textContent = '›';
+		link.append(chevron);
 	}
 }
 
