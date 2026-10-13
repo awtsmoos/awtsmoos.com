@@ -1,0 +1,187 @@
+/* B"H — Daily Chitas study section styles */
+
+.chitas-daily-study {
+  margin: 0 0 2rem 0;
+  padding: 1.5rem;
+  background: var(--surface, #faf8f3);
+  border: 1px solid var(--border, #e5ddcc);
+  border-radius: 12px;
+}
+
+.chitas-daily-date-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border, #e5ddcc);
+}
+
+.chitas-daily-date-en {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text, #2c2416);
+  margin: 0 0 0.5rem 0;
+}
+
+.chitas-daily-date-he {
+  font-size: 1.5rem;
+  color: var(--text, #2c2416);
+  margin: 0 0 0.25rem 0;
+}
+
+.chitas-daily-date-he-en {
+  font-size: 0.95rem;
+  color: var(--text-muted, #6b5f4a);
+  margin: 0;
+}
+
+.chitas-israel-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.chitas-israel-label {
+  font-size: 0.9rem;
+  color: var(--text-muted, #6b5f4a);
+}
+
+.chitas-israel-btn {
+  padding: 0.4rem 1rem;
+  border: 1px solid var(--border, #e5ddcc);
+  border-radius: 20px;
+  background: var(--surface, #ffffff);
+  color: var(--text, #2c2416);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chitas-israel-btn:hover {
+  border-color: var(--accent, #b8860b);
+  background: var(--surface-hover, #f5f0e6);
+}
+
+.chitas-israel-btn:focus {
+  outline: 2px solid var(--accent, #b8860b);
+  outline-offset: 2px;
+}
+
+.chitas-israel-btn.is-active {
+  background: var(--accent, #b8860b);
+  color: var(--on-accent, #ffffff);
+  border-color: var(--accent, #b8860b);
+}
+
+.chitas-israel-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted, #6b5f4a);
+  width: 100%;
+  text-align: center;
+}
+
+.chitas-daily-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.chitas-daily-card {
+  padding: 1.25rem;
+  background: var(--card, #ffffff);
+  border: 1px solid var(--border, #e5ddcc);
+  border-radius: 8px;
+}
+
+.chitas-daily-card-header {
+  margin-bottom: 0.75rem;
+}
+
+.chitas-daily-card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text, #2c2416);
+  margin: 0;
+}
+
+.chitas-daily-card-title-he {
+  font-size: 1.3rem;
+  color: var(--text, #2c2416);
+  margin: 0.25rem 0 0 0;
+}
+
+.chitas-daily-card-body {
+  font-size: 0.95rem;
+  color: var(--text, #2c2416);
+  line-height: 1.5;
+  white-space: pre-line;
+  margin-bottom: 0.5rem;
+}
+
+.chitas-daily-card-body-he {
+  font-size: 1.05rem;
+  color: var(--text, #2c2416);
+  line-height: 1.6;
+  white-space: pre-line;
+  margin-bottom: 0.5rem;
+}
+
+.chitas-daily-card-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: var(--accent, #b8860b);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.chitas-daily-card-link:hover {
+  text-decoration: underline;
+}
+
+.chitas-daily-card-link:focus {
+  outline: 2px solid var(--accent, #b8860b);
+  outline-offset: 2px;
+}
+
+/* Dark theme */
+[data-theme="dark"] .chitas-daily-study {
+  background: var(--surface-dark, #1a1610);
+  border-color: var(--border-dark, #3a3226);
+}
+
+[data-theme="dark"] .chitas-daily-date-en,
+[data-theme="dark"] .chitas-daily-date-he,
+[data-theme="dark"] .chitas-daily-card-title,
+[data-theme="dark"] .chitas-daily-card-title-he,
+[data-theme="dark"] .chitas-daily-card-body,
+[data-theme="dark"] .chitas-daily-card-body-he {
+  color: var(--text-dark, #e8dfc8);
+}
+
+[data-theme="dark"] .chitas-daily-card {
+  background: var(--card-dark, #242019);
+  border-color: var(--border-dark, #3a3226);
+}
+
+[data-theme="dark"] .chitas-israel-btn {
+  background: var(--surface-dark, #242019);
+  color: var(--text-dark, #e8dfc8);
+  border-color: var(--border-dark, #3a3226);
+}
+
+[data-theme="dark"] .chitas-israel-btn.is-active {
+  color: var(--on-accent-dark, #ffffff);
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .chitas-daily-study {
+    padding: 1rem;
+    margin: 0 0 1.5rem 0;
+  }
+  .chitas-daily-grid {
+    grid-template-columns: 1fr;
+  }
+}
