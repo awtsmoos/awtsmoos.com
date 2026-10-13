@@ -115,4 +115,5 @@ globalThis.__ADVENTURE__ = Object.freeze({
 	restart: () => adventureRuntime.restart()
 });
 adventureRuntime.start();
+window.dispatchEvent(new CustomEvent('awt:game-ready'));
 window.dispatchEvent(new CustomEvent('awtsmoos:game-ready'));

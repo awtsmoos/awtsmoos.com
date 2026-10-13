@@ -14,9 +14,6 @@ import * as C from './constants.js';
 export let y = C.DOVE_START_Y();
 export let velocity = 0;
 
-const doveImage = new Image();
-doveImage.src = 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕊️</text></svg>';
-
 let flapAge = 999; // frames since last flap — drives the squash-stretch
 let bobPhase = 0;
 const trail = []; // recent positions for the motion ribbon
@@ -88,6 +85,78 @@ export function draw(context) {
 	context.beginPath();
 	context.arc(0, 0, C.DOVE_RADIUS * 1.9, 0, Math.PI * 2);
 	context.fill();
-	context.drawImage(doveImage, -C.DOVE_WIDTH / 2, -C.DOVE_HEIGHT / 2, C.DOVE_WIDTH, C.DOVE_HEIGHT);
+	drawDoveBody(context, flapAge, bobPhase);
 	context.restore();
+}
+
+/**
+ * Draws the dove as pure vector art facing right: white body, head, amber beak,
+ * folded tail fan, and one flapping wing driven by flapAge (fresh flap = wing up).
+ * Geometry stays inside DOVE_WIDTH/DOVE_HEIGHT so collision (DOVE_RADIUS) is unchanged.
+ */
+function drawDoveBody(context, flapAge, bobPhase) {
+	const R = C.DOVE_RADIUS; // 20
+	const k = Math.min(1, flapAge / 14); // 0 = just flapped, 1 = gliding
+	// body: plump white ellipse facing right
+	const bodyGrad = context.createLinearGradient(0, -R * 0.6, 0, R * 0.6);
+	bodyGrad.addColorStop(0, '#ffffff');
+	bodyGrad.addColorStop(0.7, '#eef3f8');
+	bodyGrad.addColorStop(1, '#d7e2ec');
+	context.fillStyle = bodyGrad;
+	context.beginPath();
+	context.ellipse(0, 0, R, R * 0.62, 0, 0, Math.PI * 2);
+	context.fill();
+	// tail fan: three feathers fanning left
+	context.fillStyle = '#e3ebf3';
+	for (let i = -1; i <= 1; i++) {
+		context.save();
+		context.translate(-R * 0.85, 0);
+		context.rotate(i * 0.38 + 0.1);
+		context.beginPath();
+		context.moveTo(0, -4);
+		context.lineTo(-R * 0.75, -7);
+		context.lineTo(-R * 0.75, 7);
+		context.lineTo(0, 4);
+		context.closePath();
+		context.fill();
+		context.restore();
+	}
+	// wing: arcs upward on a fresh flap, settles folded while gliding
+	const wingLift = (1 - k) * 1.15 + Math.sin(bobPhase * 2) * 0.1;
+	context.save();
+	context.translate(-R * 0.15, -R * 0.28);
+	context.rotate(-wingLift);
+	const wingGrad = context.createLinearGradient(0, 0, 0, -R * 1.1);
+	wingGrad.addColorStop(0, '#f7fafc');
+	wingGrad.addColorStop(1, '#cdd9e4');
+	context.fillStyle = wingGrad;
+	context.beginPath();
+	context.ellipse(0, -R * 0.42, R * 0.52, R * 0.66, 0.35, 0, Math.PI * 2);
+	context.fill();
+	context.strokeStyle = 'rgba(150,170,190,0.6)';
+	context.lineWidth = 1.5;
+	context.stroke();
+	context.restore();
+	// head
+	context.fillStyle = '#ffffff';
+	context.beginPath();
+	context.arc(R * 0.72, -R * 0.34, R * 0.44, 0, Math.PI * 2);
+	context.fill();
+	// beak: small amber triangle
+	context.fillStyle = '#f0a832';
+	context.beginPath();
+	context.moveTo(R * 1.08, -R * 0.44);
+	context.lineTo(R * 1.38, -R * 0.3);
+	context.lineTo(R * 1.08, -R * 0.18);
+	context.closePath();
+	context.fill();
+	// eye
+	context.fillStyle = '#1c2733';
+	context.beginPath();
+	context.arc(R * 0.82, -R * 0.42, R * 0.09, 0, Math.PI * 2);
+	context.fill();
+	context.fillStyle = 'rgba(255,255,255,0.9)';
+	context.beginPath();
+	context.arc(R * 0.85, -R * 0.45, R * 0.035, 0, Math.PI * 2);
+	context.fill();
 }

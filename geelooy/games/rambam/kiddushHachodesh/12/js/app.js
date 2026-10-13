@@ -94,3 +94,6 @@ document.addEventListener("visibilitychange", () => {
 
 renderCurrent();
 synchronizeMotion();
+// B"H: tell both loading screens the sim is interactive.
+window.dispatchEvent(new CustomEvent('awt:game-ready'));
+window.dispatchEvent(new CustomEvent('awtsmoos:game-ready'));

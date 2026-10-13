@@ -125,10 +125,47 @@ function drawOceanActors(context, state) {
 	context.font = '20px Arial';
 	context.textAlign = 'center';
 	for (const letter of state.letters) context.fillText(letter.char, letter.x, letter.y);
-	for (const creature of state.creatures) {
-		context.font = `${creature.size}px Arial`;
-		context.fillText(creature.emoji, creature.x, creature.y);
-	}
+	for (const creature of state.creatures) drawFish(context, creature);
+}
+
+/**
+ * Draws one small vector fish swimming right: rounded body, forked tail, dorsal
+ * fin, and a dark eye. Hue varies per creature so the school reads as alive.
+ */
+function drawFish(context, creature) {
+	const s = creature.size / 2;
+	const hue = creature.hue || 200;
+	context.save();
+	context.translate(creature.x, creature.y);
+	// body
+	const grad = context.createLinearGradient(0, -s * 0.5, 0, s * 0.5);
+	grad.addColorStop(0, `hsl(${hue}, 70%, 68%)`);
+	grad.addColorStop(1, `hsl(${hue}, 65%, 42%)`);
+	context.fillStyle = grad;
+	context.beginPath();
+	context.ellipse(0, 0, s, s * 0.45, 0, 0, Math.PI * 2);
+	context.fill();
+	// tail
+	context.fillStyle = `hsl(${hue}, 65%, 48%)`;
+	context.beginPath();
+	context.moveTo(-s * 0.85, 0);
+	context.lineTo(-s * 1.5, -s * 0.45);
+	context.lineTo(-s * 1.5, s * 0.45);
+	context.closePath();
+	context.fill();
+	// dorsal fin
+	context.beginPath();
+	context.moveTo(-s * 0.2, -s * 0.4);
+	context.lineTo(s * 0.25, -s * 0.4);
+	context.lineTo(s * 0.05, -s * 0.85);
+	context.closePath();
+	context.fill();
+	// eye
+	context.fillStyle = '#0b1620';
+	context.beginPath();
+	context.arc(s * 0.55, -s * 0.08, s * 0.1, 0, Math.PI * 2);
+	context.fill();
+	context.restore();
 }
 
 function drawWave(context, state, width, wave) {

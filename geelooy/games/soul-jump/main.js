@@ -36,3 +36,6 @@ sessionUi = new SessionUi(document, {
 });
 
 runtime.start();
+// B"H: run started — tell both loading screens the game is interactive.
+window.dispatchEvent(new CustomEvent('awt:game-ready'));
+window.dispatchEvent(new CustomEvent('awtsmoos:game-ready'));

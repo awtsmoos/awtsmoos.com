@@ -100,3 +100,6 @@ window.addEventListener('keydown', event => {
 
 view.showMenu();
 gameLoop();
+// B"H: menu is live — tell both loading screens the game is interactive.
+window.dispatchEvent(new CustomEvent('awt:game-ready'));
+window.dispatchEvent(new CustomEvent('awtsmoos:game-ready'));

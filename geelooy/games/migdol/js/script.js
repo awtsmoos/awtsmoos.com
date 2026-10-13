@@ -24,6 +24,9 @@ let selection = null;
 
 populateMaps();
 view.showMenu();
+// B"H: menu is live — tell both loading screens the game is interactive.
+window.dispatchEvent(new CustomEvent('awt:game-ready'));
+window.dispatchEvent(new CustomEvent('awtsmoos:game-ready'));
 
 document.getElementById('start-game').addEventListener('click', () => startSelection());
 view.nextWave.addEventListener('click', () => session?.game.startNextWave());

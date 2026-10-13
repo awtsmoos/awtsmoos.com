@@ -24,7 +24,6 @@ export function spawn() {
 		x: -C.OBSTACLE_WIDTH,
 		topHeight,
 		bottomY: topHeight + C.OBSTACLE_GAP,
-		emoji: C.OBSTACLE_EMOJIS[Math.floor(Math.random() * C.OBSTACLE_EMOJIS.length)],
 		passed: false
 	});
 }

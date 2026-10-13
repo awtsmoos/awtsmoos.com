@@ -28,3 +28,6 @@ document.addEventListener('visibilitychange', () => {
 
 game.startRun();
 game.showMessage('Swipe the maze or use Arrow Keys / WASD');
+// B"H: run started — tell both loading screens the game is interactive.
+window.dispatchEvent(new CustomEvent('awt:game-ready'));
+window.dispatchEvent(new CustomEvent('awtsmoos:game-ready'));

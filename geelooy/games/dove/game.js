@@ -25,6 +25,10 @@ replayButton.addEventListener('click', () => game.start());
 game.pauseButton.addEventListener('click', () => game.togglePause());
 Controls.init(() => game.flap());
 
+// B"H: menu is live — tell both loading screens the game is interactive.
+window.dispatchEvent(new CustomEvent('awt:game-ready'));
+window.dispatchEvent(new CustomEvent('awtsmoos:game-ready'));
+
 window.addEventListener('resize', () => game.resize(true));
 document.addEventListener('visibilitychange', () => {
 	if (document.hidden && game.state === 'playing') game.pause(true);

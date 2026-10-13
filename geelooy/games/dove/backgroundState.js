@@ -8,7 +8,6 @@
  * The Awtsmoos renews cloud, letter, and creature without binding their life to one canvas size.
  */
 const HEBREW_LETTERS = Array.from("אבגדהוזחטיכךלמםנןסעפףצץקרשת");
-const SEA_CREATURES = Array.from("🐠🐟🦦🦈🐡🐳🐋🐬🦭🪼🐙🐚🐧");
 
 /** Creates a fresh ambient state for the supplied viewport. */
 export function createBackgroundState(width, height) {
@@ -58,7 +57,7 @@ function createLetter(width, height, oceanTop) {
 function createCreature(width, height, oceanTop) {
 	const baseY = oceanTop + 12 + Math.random() * Math.max(20, height - oceanTop - 24);
 	return {
-		emoji: SEA_CREATURES[Math.floor(Math.random() * SEA_CREATURES.length)],
+		hue: Math.floor(Math.random() * 360),
 		x: Math.random() * width,
 		y: baseY,
 		baseY,

@@ -28,6 +28,5 @@ export const OBSTACLE_WIDTH = 60;
 export const OBSTACLE_GAP = 200;
 export const OBSTACLE_SPEED = 2;
 export const OBSTACLE_SPAWN_RATE = 200;
-export const OBSTACLE_EMOJIS = Array.from("🪟🧱🎇🟥🟧🟨🟩🟦🟪🟫");
 export const POWERUP_SPAWN_RATE = 350;
 export const POWERUP_DURATION = 300;

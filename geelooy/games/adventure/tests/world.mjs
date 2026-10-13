@@ -73,7 +73,7 @@ function verifyStageAdvanceAndVictory() {
 		assert.equal(world.advanceStage(), true);
 	}
 	assert.equal(world.status, 'victory');
-	assert.equal(world.stageIndex, 2);
+	assert.equal(world.stageIndex, world.levels.length - 1);
 	assert.ok(world.score >= world.config.victoryBonus);
 	return { test: 'world-stage-victory', snapshot: world.snapshot() };
 }

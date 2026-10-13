@@ -11,7 +11,6 @@
 	grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
 	gap: 12px;
 }
-
 .skinCard {
 	display: grid;
 	gap: 7px;
@@ -23,7 +22,6 @@
 	position: relative;
 	overflow: hidden;
 }
-
 .skinCard::after {
 	content: attr(data-slot);
 	position: absolute;
@@ -39,11 +37,9 @@
 	text-transform: uppercase;
 	letter-spacing: .08em;
 }
-
 .skinCard.equipped {
 	outline: 2px solid var(--cyan);
 }
-
 .skinCard i {
 	width: 54px;
 	height: 62px;
@@ -53,7 +49,6 @@
 	position: relative;
 	box-shadow: 0 0 24px var(--trim);
 }
-
 .skinCard i::before {
 	content: "";
 	position: absolute;
@@ -64,7 +59,6 @@
 	border-radius: 999px 999px 0 0;
 	background: var(--cap);
 }
-
 .skinCard[data-slot="hat"] i::before {
 	left: -6px;
 	right: -6px;
@@ -73,7 +67,6 @@
 	border-radius: 999px;
 	background: linear-gradient(90deg, var(--cap), var(--trim));
 }
-
 .skinCard[data-slot="mask"] i::after {
 	content: "";
 	position: absolute;
@@ -85,7 +78,6 @@
 	background: var(--cap);
 	box-shadow: 0 0 10px var(--trim);
 }
-
 .skinCard strong {
 	width: max-content;
 	border-radius: 999px;

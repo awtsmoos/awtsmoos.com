@@ -1,0 +1,110 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @file interactive.css
+ * @description Owns Migdol's interactive feedback and compact-density touch layer.
+ * The Awtsmoos answers every tap before the eye can doubt it; Awtsmoos.com keeps
+ * canvas focus, touch targets, and pressed states honest on every screen size.
+ * Compact mode (?compact=true): tightens HUD and control geometry without
+ * shrinking any interactive target below 44px.
+ * Theme note: Migdol is a dark battlefield page; --mi-text/--mi-danger carry
+ * explicit values with fallbacks so text never inherits unpredictably.
+ */
+
+:root {
+	--mi-interactive-ring: #ffd75e;
+	--mi-pressed: rgba(255, 255, 255, 0.14);
+	--mi-text: #f4f7f9;
+	--mi-danger: #e53935;
+}
+
+/* The battlefield canvas is the primary interactive surface. */
+#gameCanvas {
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+}
+#gameCanvas:focus-visible {
+	outline: 3px solid var(--mi-interactive-ring);
+	outline-offset: 4px;
+}
+
+/* Compact density: keep targets generous even when space is tight. */
+#play-controls button,
+#sheet-actions button,
+#context-sheet button {
+	min-height: 44px;
+	min-width: 44px;
+	color: var(--mi-text);
+}
+#sheet-actions button {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	touch-action: manipulation;
+	color: var(--mi-text);
+}
+#sheet-actions button:hover {
+	filter: brightness(1.1);
+}
+#sheet-actions button:active {
+	transform: scale(0.97);
+	background-color: var(--mi-pressed);
+}
+#sheet-actions button:focus-visible {
+	outline: 3px solid var(--mi-interactive-ring);
+	outline-offset: 2px;
+}
+
+/* Disabled transport states stay legible, not invisible. */
+#start-wave:disabled,
+#pause-button:disabled,
+#speed-button:disabled {
+	opacity: 0.5;
+	cursor: default;
+	color: var(--mi-text);
+}
+#start-wave:disabled:hover,
+#pause-button:disabled:hover,
+#speed-button:disabled:hover {
+	filter: none;
+	transform: none;
+}
+
+/* Paused state is announced visually as well as through aria-pressed. */
+#pause-button[aria-pressed="true"] {
+	background: var(--mi-danger);
+	color: var(--mi-text);
+}
+
+/* Coarse pointers get larger, thumb-first targets. */
+@media (pointer: coarse) {
+	#play-controls button {
+		min-width: 104px;
+		min-height: 52px;
+		color: var(--mi-text);
+	}
+	#sheet-close {
+		width: 52px;
+		height: 52px;
+		color: var(--mi-text);
+	}
+}
+
+/* Short screens keep the whole battlefield reachable. */
+@media (max-height: 560px) {
+	#game-container {
+		padding-top: 52px;
+		padding-bottom: 68px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#play-controls button,
+	#sheet-actions button {
+		transition: none;
+		transform: none;
+		color: var(--mi-text);
+	}
+}

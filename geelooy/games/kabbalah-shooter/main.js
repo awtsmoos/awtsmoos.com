@@ -111,6 +111,9 @@ function loop(timestamp) {
 }
 
 requestAnimationFrame(loop);
+// B"H: menu is live — tell both loading screens the game is interactive.
+window.dispatchEvent(new CustomEvent('awt:game-ready'));
+window.dispatchEvent(new CustomEvent('awtsmoos:game-ready'));
 dom.startButton?.addEventListener('click', startRun);
 dom.pauseButton?.addEventListener('click', () => togglePause());
 dom.resumeButton?.addEventListener('click', () => togglePause(false));
