@@ -149,7 +149,7 @@ const TOD = {
   },
   golden: {
     sunDir: [0.72, 0.30, 0.28], sunColor: 0xffd9a8, sunI: 2.35,
-    hemiSky: 0xd8c4a8, hemiGround: 0x4e5a3a, hemiI: 0.50,
+    hemiSky: 0xd8c4a8, hemiGround: 0x54603e, hemiI: 0.62,
     fog: 0xaebf8e, fogNear: 60, fogFar: 270, exposure: 1.05,
     golden: 1.0, warm: 0.55,
   },
@@ -490,14 +490,15 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
      planted at the bank edge whose crowns lean over the water, closing the
      corridor like the reference. The lean is baked into placement (crownX) so
      terrain shade + filler match. */
-  const overhangCount = fast ? 7 : 10;
+  const overhangCount = fast ? 10 : 14;
   let og = 0, ogGuard = 0;
   while (og < overhangCount && ogGuard++ < 400) {
-    // B"H — keep the corridor zone AWAY from the camera (z=30): the overhang
-    // crowns are huge and would block the lens. Mid/far corridor only.
-    const z = -70 + rand() * 75;                     // z in [-70, 5]
+    // B"H 2026-10-13 enclosure: crowns reach 85% over the river for the
+    // reference's tunnel feel. A few near-camera (z up to 20) arch HIGH over
+    // the lens instead of blocking it.
+    const z = -70 + rand() * 90;                     // z in [-70, 20]
     const side = rand() < 0.5 ? -1 : 1;
-    const x = riverX(z) + side * (10.5 + rand() * 3.5); // B"H 2026-10-13: trunks on banks, crowns lean over water
+    const x = riverX(z) + side * (10.5 + rand() * 3.5);
     if (clearPts.some(([px, pz]) => Math.hypot(x - px, z - pz) < CLEAR + 8)) continue;
     if (treeSpots.some(s => Math.hypot(s.x - x, s.z - z) < 10)) continue;
     treeSpots.push({ x, z, overhang: -side });
@@ -770,7 +771,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     // leaf mass. One instanced draw for all trees.
     // Overhang trees lean their crowns over the river corridor (crownX).
     s.crownY = y + 8 * sc; s.crownR = 5.5 * sc;
-    s.crownX = s.x + (s.overhang ? s.overhang * s.crownR * 0.55 : 0);
+    s.crownX = s.x + (s.overhang ? s.overhang * s.crownR * 0.85 : 0);
   }
   scene.add(treeGroup);
   mark('trees-placed');
