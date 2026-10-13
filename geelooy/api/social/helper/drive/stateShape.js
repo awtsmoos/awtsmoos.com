@@ -55,7 +55,19 @@ function normalizeDriveState(value = {}) {
 		serviceCredentials: objectOrEmpty(value.serviceCredentials),
 		idempotencyRecords: objectOrEmpty(value.idempotencyRecords),
 		events: Array.isArray(value.events) ? value.events.slice(-500) : [],
-		auditSequence: safeCount(value.auditSequence)
+		auditSequence: safeCount(value.auditSequence),
+		perutaPurse: normalizePurse(value.perutaPurse)
+	};
+}
+
+function normalizePurse(value) {
+	const v = value && typeof value === 'object' ? value : {};
+	return {
+		balance: safeCount(v.balance),
+		tier: typeof v.tier === 'string' ? v.tier : 'chinam',
+		tierSince: v.tierSince || null,
+		lastGrantMonth: typeof v.lastGrantMonth === 'string' ? v.lastGrantMonth : '',
+		ledger: Array.isArray(v.ledger) ? v.ledger.slice(-500) : []
 	};
 }
 
