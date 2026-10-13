@@ -12,21 +12,21 @@ Awtsmoos.com lets every card remain a true route while Temple Runner leads with 
 	<meta name="description" content="Browse playable Awtsmoos games, from native original campaigns and procedural runners to quick classics and Party Challenge.">
 	<meta name="theme-color" content="#090711">
 	<title>Awtsmoos Games — Playable Worlds</title>
-	<link rel="stylesheet" href="./style.css?v=games-storefront-010&compact=true">
-	<link rel="stylesheet" href="/style/future-system/index.css?v=future-004&compact=true">
-	<link rel="stylesheet" href="./styles/integrity.css?v=games-storefront-010&compact=true">
-	<link rel="stylesheet" href="./styles/awp-polish.css?v=awp-001">
-	<link rel="stylesheet" href="/css/golden-icons.css?v=gicon-002">
-	<link rel="stylesheet" href="/css/awtsmoos-visual-assets.css?v=ava-001">
-	<link rel="stylesheet" href="/css/video-loader.css?v=vl-001">
-	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
-	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=shared-shell-002&compact=true"></script>
+	<link rel="stylesheet" href="./style.css?v=games-storefront-012&compact=true">
+	<link rel="stylesheet" href="/style/future-system/index.css?v=future-005&compact=true">
+	<link rel="stylesheet" href="./styles/integrity.css?v=games-storefront-012&compact=true">
+	<link rel="stylesheet" href="./styles/awp-polish.css?v=awp-002">
+	<link rel="stylesheet" href="/css/golden-icons.css?v=gicon-003">
+	<link rel="stylesheet" href="/css/awtsmoos-visual-assets.css?v=ava-002">
+	<link rel="stylesheet" href="/css/video-loader.css?v=vl-002">
+	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-002"></script>
+	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=shared-shell-003&compact=true"></script>
 </head>
 <body data-geelooy-route="games" data-geelooy-nav="games" data-future-page="games" class="awtsmoos-bg-games">
 	<!-- B"H — Video loading screen: deep space golden particles -->
 	<div class="awtsmoos-video-loader" id="awtsmoos-video-loader" style="background:#02000f" role="status" aria-label="Loading games">
 		<video autoplay loop muted playsinline preload="auto" aria-hidden="true">
-			<source src="https://awtsmoos.com/api/social/drive/public/awtsmoos/videos/loaders/loader-games.mp4" type="video/mp4">
+			<source src="https://awtsmoos.com/api/social/drive/public/awtsmoos/videos/loaders/loader-games.mp4?v=20261013a" type="video/mp4">
 		</video>
 	</div>
 	<script>
@@ -108,6 +108,49 @@ Awtsmoos.com lets every card remain a true route while Temple Runner leads with 
 		<section class="gamesCatalog awp-catalog" id="gamesCatalog" aria-label="Awtsmoos game catalog" data-future-reveal>
 			<p class="loadingState">Opening the game doorways…</p>
 		</section>
+		<script>
+		/* B"H — Yaakov's absolute law: this page NEVER stays on loading.
+		   If the module catalog hasn't rendered in 5 seconds, inject a
+		   hardcoded game list. Zero dependencies, zero imports, pure DOM. */
+		(function() {
+			var GAMES = [
+				["Temple Runner","./mitzvahWorld/templeRunner/"],["CobyK","./cobyk/"],
+				["Merkava — War of the Sparks","./Merkava/"],["Ohrfront: Aleph Vanguard","./ohrfront/"],
+				["Sefira Clash","./sefira-clash/"],["Nitzotz.io","./nitzotz-io/"],
+				["Shema Strike","./shema-strike/"],["Oros HaKelim","./oros-ha-kelim/"],
+				["Awtsmoos Bounce: Orbit Run","./awtsmoos-bounce/"],["Seven Mitzvos","./seven-mitzvos/"],
+				["City of Light","./city-of-light/"],["Ohr HaGnuz","./ohr-hagnuz/"],
+				["The Scribe's Journey","./scribe-journey/"],["Mitzvah World","./mitzvahWorld/"],
+				["Rambam · Kiddush HaChodesh","./rambam/"],["Sulam HaSod","./sulam-ha-sod/"],
+				["KAVANAH","./KAVANAH/"],["Neshama Quest","./neshama-quest/"],
+				["Kabbalah Shooter","./kabbalah-shooter/"],["Migdol","./migdol/"],
+				["Soul Jump","./soul-jump/"],["Noah's Dove Jump","./dove/"],
+				["The Rebbe's Runner","./rebbe-runner/"],["Adventure","./adventure/"],
+				["Ohrbound","./ohrbound/"],["Nachash","./Nachash/"],
+				["Brick Blast","./brick-blast/"],["Chess","./chess/"],
+				["Tetris","./tetris/"],["Connect 4","./connect4/"],
+				["Pong","./pong/"],["Cards","./cards/"],["Emojis","./emojis/"]
+			];
+			setTimeout(function() {
+				var section = document.getElementById('gamesCatalog');
+				if (!section) return;
+				/* If the real catalog rendered, do nothing */
+				if (section.querySelector('.gameCard, [data-game-card], a[href*="templeRunner"]')) return;
+				var html = GAMES.map(function(g) {
+					var t = g[0].replace(/</g,'&lt;').replace(/>/g,'&gt;');
+					var h = g[1].replace(/"/g,'&quot;');
+					return '<a class="gameCard" href="'+h+'"><strong>'+t+'</strong></a>';
+				}).join('');
+				section.innerHTML = html;
+				var count = document.getElementById('gameCount');
+				if (count) count.textContent = GAMES.length + ' of ' + GAMES.length + ' worlds';
+				var status = document.getElementById('catalogStatus');
+				if (status) status.textContent = '';
+				var totals = document.querySelectorAll('[data-catalog-total]');
+				for (var i = 0; i < totals.length; i++) totals[i].textContent = GAMES.length;
+			}, 5000);
+		})();
+		</script>
 		<footer class="gamesFooter" data-future-reveal>
 			<div>
 				<strong>Keep exploring.</strong>
@@ -120,7 +163,7 @@ Awtsmoos.com lets every card remain a true route while Temple Runner leads with 
 			</nav>
 		</footer>
 	</main>
-	<script type="module" src="./scripts/games-index.js?v=games-storefront-011&compact=true"></script>
-	<script type="module" src="/scripts/future-system/index.js?v=future-002&compact=true"></script>
+	<script type="module" src="./scripts/games-index.js?v=games-storefront-013&compact=true"></script>
+	<script type="module" src="/scripts/future-system/index.js?v=future-003&compact=true"></script>
 </body>
 </html>

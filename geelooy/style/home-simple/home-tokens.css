@@ -45,7 +45,7 @@ html[data-geelooy-route="home"] {
 	--home-wash: rgba(138, 109, 59, 0.07);
 	--home-line-soft: rgba(138, 109, 59, 0.18);
 	--home-input-background: #fffdf6;
-	--home-placeholder: #9a8a70;
+	--home-placeholder: #6b5a3f;
 	--home-veil: rgba(31, 23, 18, 0.45);
 	--home-hero-ink: #fffdf6;
 	--home-hero-ink-soft: #f3e9d2;
@@ -135,7 +135,7 @@ html[data-geelooy-route="home"][data-theme="dark"] {
 	--home-wash: rgba(212, 169, 78, 0.08);
 	--home-line-soft: rgba(212, 169, 78, 0.24);
 	--home-input-background: #201a10;
-	--home-placeholder: #7d6f57;
+	--home-placeholder: #cdbb92;
 	--home-veil: rgba(16, 12, 6, 0.62);
 	--home-hero-ink: #faf3e2;
 	--home-hero-ink-soft: #e6d9b8;

@@ -6,35 +6,35 @@
 
 :root {
   /* Covers */
-  --cover-homepage: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/cover-homepage.webp");
-  --cover-reader: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/cover-reader.webp");
-  --cover-profile: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/cover-profile.webp");
-  --cover-games: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/cover-games.webp");
-  --cover-email: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/email.webp");
-  --cover-apps: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/apps.webp");
-  --cover-social: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/social.webp");
-  --cover-social-mobile: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/cover-social-mobile.webp");
-  --cover-social-desktop: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/cover-social-desktop.webp");
-  --cover-drive: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/drive.webp");
-  --cover-heichelos: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/heichelos.webp");
+  --cover-homepage: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/cover-homepage.webp?v=20261013a");
+  --cover-reader: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/cover-reader.webp?v=20261013a");
+  --cover-profile: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/cover-profile.webp?v=20261013a");
+  --cover-games: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/cover-games.webp?v=20261013a");
+  --cover-email: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/email.webp?v=20261013a");
+  --cover-apps: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/apps.webp?v=20261013a");
+  --cover-social: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/social.webp?v=20261013a");
+  --cover-social-mobile: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/cover-social-mobile.webp?v=20261013a");
+  --cover-social-desktop: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/cover-social-desktop.webp?v=20261013a");
+  --cover-drive: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/drive.webp?v=20261013a");
+  --cover-heichelos: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/heichelos.webp?v=20261013a");
 
   /* Particle backgrounds (tileable) */
-  --bg-reader-particles: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/backgrounds/bg-reader-particles-0-8389b760-24e1-45a8-a50a-406066eb1e47.webp");
-  --bg-profile-particles: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/backgrounds/bg-profile-particles-0-65e30bba-0c0b-4109-a0dc-4a0e5079d32e.webp");
-  --bg-email-particles: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/backgrounds/bg-email-particles-0-4201fae6-bd31-457d-8fa9-6551a54b93d1.webp");
-  --bg-games-particles: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/backgrounds/bg-games-particles-0-1a71bf9b-654a-4240-a64f-da5cdbb434ce.webp");
+  --bg-reader-particles: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/backgrounds/bg-reader-particles-0-8389b760-24e1-45a8-a50a-406066eb1e47.webp?v=20261013a");
+  --bg-profile-particles: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/backgrounds/bg-profile-particles-0-65e30bba-0c0b-4109-a0dc-4a0e5079d32e.webp?v=20261013a");
+  --bg-email-particles: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/backgrounds/bg-email-particles-0-4201fae6-bd31-457d-8fa9-6551a54b93d1.webp?v=20261013a");
+  --bg-games-particles: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/backgrounds/bg-games-particles-0-1a71bf9b-654a-4240-a64f-da5cdbb434ce.webp?v=20261013a");
 
   /* Parchment textures (reusable) */
-  --texture-parchment: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/texture-parchment.webp");
-  --texture-parchment-dark: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/texture-parchment-2-dark.webp");
+  --texture-parchment: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/texture-parchment.webp?v=20261013a");
+  --texture-parchment-dark: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/texture-parchment-2-dark.webp?v=20261013a");
 
   /* Animated icon transitions (low-res, transparent-ready) */
-  --anim-bell-ring: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/animated/anim-bell-ring.mp4");
-  --anim-heart-beat: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/animated/anim-heart-beat.mp4");
-  --anim-mail-open: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/animated/anim-mail-open.mp4");
-  --anim-play-pulse: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/animated/anim-play-pulse.mp4");
-  --anim-search-sparkle: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/animated/anim-search-sparkle.mp4");
-  --anim-star-twinkle: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/animated/anim-star-twinkle.mp4");
+  --anim-bell-ring: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/animated/anim-bell-ring.mp4?v=20261013a");
+  --anim-heart-beat: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/animated/anim-heart-beat.mp4?v=20261013a");
+  --anim-mail-open: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/animated/anim-mail-open.mp4?v=20261013a");
+  --anim-play-pulse: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/animated/anim-play-pulse.mp4?v=20261013a");
+  --anim-search-sparkle: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/animated/anim-search-sparkle.mp4?v=20261013a");
+  --anim-star-twinkle: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/animated/anim-star-twinkle.mp4?v=20261013a");
 
   /* Hero sizing */
   --hero-height-mobile: 220px;

@@ -96,7 +96,7 @@ body[data-geelooy-route="home"] .search-symbol {
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) :where(.search) :where(textarea):focus::placeholder {
-	color: var(--text-faint);
+	color: var(--home-placeholder);
 }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) :where(.search) :where(textarea):disabled {
