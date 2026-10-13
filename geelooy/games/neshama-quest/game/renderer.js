@@ -20,11 +20,31 @@
 
 	/** Paints only blocked maze cells, leaving open corridors transparent for the playfield background. */
 	function drawMaze(game) {
-		game.ctx.fillStyle = 'blue';
+		// B"H 2026-10-13: textured stone walls — bevel, highlight, mortar joints.
 		for (let y = 0; y < MAZE_HEIGHT; y += 1) {
 			for (let x = 0; x < MAZE_WIDTH; x += 1) {
 				if (game.maze[y][x] !== 1) continue;
-				game.ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+				const px = x * TILE_SIZE;
+				const py = y * TILE_SIZE;
+				const g = game.ctx.createLinearGradient(px, py, px, py + TILE_SIZE);
+				g.addColorStop(0, '#3d5a99');
+				g.addColorStop(0.5, '#2c4478');
+				g.addColorStop(1, '#1b2c52');
+				game.ctx.fillStyle = g;
+				game.ctx.fillRect(px, py, TILE_SIZE, TILE_SIZE);
+				// top bevel highlight
+				game.ctx.fillStyle = 'rgba(160,190,255,0.35)';
+				game.ctx.fillRect(px, py, TILE_SIZE, 2);
+				game.ctx.fillRect(px, py, 2, TILE_SIZE);
+				// bottom shadow
+				game.ctx.fillStyle = 'rgba(0,0,0,0.35)';
+				game.ctx.fillRect(px, py + TILE_SIZE - 2, TILE_SIZE, 2);
+				game.ctx.fillRect(px + TILE_SIZE - 2, py, 2, TILE_SIZE);
+				// mortar dot for stone texture
+				if ((x + y) % 3 === 0) {
+					game.ctx.fillStyle = 'rgba(255,255,255,0.08)';
+					game.ctx.fillRect(px + TILE_SIZE / 2 - 1, py + TILE_SIZE / 2 - 1, 2, 2);
+				}
 			}
 		}
 	}

@@ -88,9 +88,21 @@ export default class Tower {
     }
 
     draw(ctx) {
-        ctx.font = `${TILE_SIZE * 0.8}px Arial`;
+        // B"H 2026-10-13: textured stone plinth beneath the tower glyph.
+        const s = TILE_SIZE;
+        const g = ctx.createLinearGradient(this.x - s / 2, this.y, this.x + s / 2, this.y);
+        g.addColorStop(0, '#5a5a6e');
+        g.addColorStop(0.5, '#7a7a92');
+        g.addColorStop(1, '#4a4a5e');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.roundRect(this.x - s / 2, this.y + s * 0.18, s, s * 0.32, 4);
+        ctx.fill();
+        ctx.fillStyle = 'rgba(255,255,255,0.25)';
+        ctx.fillRect(this.x - s / 2 + 3, this.y + s * 0.18 + 2, s - 6, 2);
+        ctx.font = `${s * 0.8}px Arial`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(this.emoji, this.x, this.y);
+        ctx.fillText(this.emoji, this.x, this.y - s * 0.05);
     }
 }

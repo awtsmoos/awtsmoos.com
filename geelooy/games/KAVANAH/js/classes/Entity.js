@@ -96,14 +96,19 @@ export class Tzomeach extends Entity {
     }
 
     draw(ctx) {
-        // Draw the stem
-        ctx.fillStyle = '#2C5E1A';
-        ctx.fillRect(this.x - 4, this.y, 8, -this.height);
+        // B"H 2026-10-13: stems sway and get a gradient — alive, not flat.
+        const sway = Math.sin(Date.now() * 0.002 + this.x * 0.05) * 3;
+        const g = ctx.createLinearGradient(this.x - 4, this.y, this.x + 4, this.y);
+        g.addColorStop(0, '#1d4012');
+        g.addColorStop(0.5, '#3f7d26');
+        g.addColorStop(1, '#1d4012');
+        ctx.fillStyle = g;
+        ctx.fillRect(this.x - 4 + sway * 0.3, this.y, 8, -this.height);
         // Draw the emoji on top
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.font = `${this.size}px Arial`;
-        ctx.fillText(this.emoji, this.x, this.y - this.height);
+        ctx.fillText(this.emoji, this.x + sway, this.y - this.height);
     }
 
     // Custom, more accurate collision for plants
@@ -158,9 +163,19 @@ export class Chai extends Entity {
     }
 
     draw(ctx) {
+        // B"H 2026-10-13: enemies throb with menace — glow, pulse, wobble.
+        const pulse = 1 + Math.sin(this.bobbleAngle * 2) * 0.1;
+        const wobble = Math.sin(this.bobbleAngle * 1.3) * 0.12;
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(wobble);
+        ctx.scale(pulse, pulse);
+        ctx.shadowColor = '#ff2f4f';
+        ctx.shadowBlur = 16;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.font = `${this.size}px Arial`;
-        ctx.fillText(this.emoji, this.x, this.y);
+        ctx.fillText(this.emoji, 0, 0);
+        ctx.restore();
     }
 }

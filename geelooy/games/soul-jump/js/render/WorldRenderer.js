@@ -56,19 +56,53 @@ export class WorldRenderer {
 	}
 
 	drawPlatform(platform) {
+		// B"H 2026-10-13: textured platform — gradient stone slab beneath the glyphs.
+		const w = platform.width || 120;
+		const h = platform.height || 20;
+		const g = this.context.createLinearGradient(0, platform.y, 0, platform.y + h);
+		if (platform.type === 'bountiful') {
+			g.addColorStop(0, '#6b5a2e');
+			g.addColorStop(0.5, '#4a3f22');
+			g.addColorStop(1, '#2c2515');
+		} else {
+			g.addColorStop(0, '#3a5a78');
+			g.addColorStop(0.5, '#28425c');
+			g.addColorStop(1, '#16283a');
+		}
 		this.context.save();
+		this.context.fillStyle = g;
+		this.context.beginPath();
+		this.context.roundRect(platform.x, platform.y, w, h, 7);
+		this.context.fill();
+		this.context.strokeStyle = platform.type === 'bountiful' ? '#ffe89a' : '#62c9ff';
+		this.context.lineWidth = 2;
+		this.context.stroke();
+		// top highlight for depth
+		this.context.fillStyle = 'rgba(255,255,255,0.18)';
+		this.context.fillRect(platform.x + 6, platform.y + 2, w - 12, 3);
 		this.context.shadowColor = platform.type === 'bountiful' ? '#ffe89a' : '#62c9ff';
 		this.context.shadowBlur = platform.type === 'stable' ? 5 : 12;
-		this.context.font = `${platform.height}px system-ui`;
+		this.context.font = `${h}px system-ui`;
 		this.context.textAlign = 'left';
-		this.context.fillText(this.glyphs[platform.type].repeat(4), platform.x, platform.y + platform.height);
+		this.context.fillText(this.glyphs[platform.type].repeat(4), platform.x, platform.y + h);
 		this.context.restore();
 	}
 
 	drawEnemy(enemy) {
+		// B"H 2026-10-13: enemies pulse and sway — never frozen.
+		const t = (typeof performance !== 'undefined' ? performance.now() : 0) / 1000;
+		const pulse = 1 + Math.sin(t * 4 + enemy.x * 0.05) * 0.08;
+		const sway = Math.sin(t * 2.2 + enemy.y * 0.03) * 4;
+		this.context.save();
+		this.context.translate(enemy.x + sway, enemy.y);
+		this.context.scale(pulse, pulse);
+		this.context.shadowColor = '#ff3b5c';
+		this.context.shadowBlur = 12;
 		this.context.font = `${enemy.size}px system-ui`;
 		this.context.textAlign = 'center';
-		this.context.fillText(enemy.glyph, enemy.x, enemy.y);
+		this.context.textBaseline = 'middle';
+		this.context.fillText(enemy.glyph, 0, 0);
+		this.context.restore();
 	}
 
 	drawPowerup(powerup) {

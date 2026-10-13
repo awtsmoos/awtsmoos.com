@@ -28,7 +28,23 @@ function brandDescriptor() {
 			'aria-label': 'Return to Awtsmoos home'
 		},
 		children: [
-			{ tag: 'span', classList: ['mail-brand-mark'], textContent: 'א' },
+			{
+				tag: 'span',
+				classList: ['mail-brand-mark'],
+				children: [
+					{
+						tag: 'img',
+						classList: ['gicon', 'gicon--mail'],
+						attributes: {
+							src: 'https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-mail-regular-0-e8ff743a-c987-452f-b549-64e23af957fc.webp',
+							alt: '',
+							'aria-hidden': 'true',
+							width: '28',
+							height: '28'
+						}
+					}
+				]
+			},
 			{
 				tag: 'span',
 				children: [
