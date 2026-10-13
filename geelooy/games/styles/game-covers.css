@@ -26,6 +26,15 @@
 	border: 1px solid rgba(255,215,0,0.15);
 	border-radius: 0.75rem;
 	overflow: hidden;
+	/* B"H 2026-10-13: Yaakov — "weird sticky clicks" on game cards.
+	   touch-action: manipulation kills the 300ms tap delay on mobile;
+	   user-select none stops text-selection interference on tap. */
+	touch-action: manipulation;
+	-webkit-tap-highlight-color: transparent;
+	user-select: none;
+	-webkit-user-select: none;
+	-webkit-touch-callout: none;
+	cursor: pointer;
 }
 .gameCard--fallback strong {
 	display: block;

@@ -46,9 +46,23 @@
 		});
 
 	// Auto-reload when the SW takes control (new version activated)
+	// B"H 2026-10-13: Yaakov — tapping a game card was refreshing the page
+	// instead of navigating. Root cause: controllerchange fired mid-navigation
+	// and location.reload() cancelled the user's tap. Never reload while the
+	// user is navigating away or actively interacting.
 	let refreshing = false;
+	let userNavigating = false;
+	// Mark navigation intent: any link tap or form submit means "don't reload me"
+	document.addEventListener('click', (event) => {
+		if (event.target && event.target.closest && event.target.closest('a[href], button[type="submit"]')) {
+			userNavigating = true;
+		}
+	}, true);
+	window.addEventListener('beforeunload', () => { userNavigating = true; });
 	navigator.serviceWorker.addEventListener('controllerchange', () => {
-		if (refreshing) return;
+		if (refreshing || userNavigating) return;
+		// Only reload if the page is visible and the user is idle (no recent interaction)
+		if (document.visibilityState !== 'visible') return;
 		refreshing = true;
 		window.location.reload();
 	});

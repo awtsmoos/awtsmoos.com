@@ -20,6 +20,10 @@
 	background: linear-gradient(165deg, rgba(20, 17, 36, 0.97), rgba(8, 9, 20, 0.99));
 	box-shadow: var(--games-shadow-sm);
 	transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+	/* B"H 2026-10-13: Yaakov — "weird sticky clicks" on game cards.
+	   touch-action: manipulation kills the 300ms tap delay on mobile. */
+	touch-action: manipulation;
+	-webkit-tap-highlight-color: transparent;
 }
 
 .gameCard::after {
@@ -35,6 +39,21 @@
 	border-color: hsla(var(--game-hue), 80%, 70%, 0.48);
 	box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3), 0 0 30px hsla(var(--game-hue), 80%, 70%, 0.06);
 	transform: translateY(-2px);
+}
+
+/* B"H 2026-10-13: Yaakov — tapping the card body did nothing (only the
+   title link and Play button navigated). Stretched-link pattern: the
+   title link now covers the whole card so any tap navigates. Action
+   buttons stay above via z-index so they remain independently tappable. */
+.gameTitleLink::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+}
+.gameActions {
+	position: relative;
+	z-index: 2;
 }
 
 .gameCard--featured {
