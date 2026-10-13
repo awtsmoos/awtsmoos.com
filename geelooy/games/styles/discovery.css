@@ -108,3 +108,20 @@
 	color: var(--games-muted);
 	font-size: 0.74rem;
 }
+
+/* === Round 2 polish — discovery header + search affordances (2026-10-13) === */
+/* B"H — the count pill reads like an instrument; the search icon glows cyan. */
+.gameCount {
+	font-variant-numeric: tabular-nums;
+	letter-spacing: 0.04em;
+}
+.searchWrap [data-future-icon] {
+	color: rgba(140, 247, 255, 0.75);
+}
+.searchWrap input::placeholder {
+	color: var(--games-muted);
+	opacity: 0.85;
+}
+.discoveryHeading h2 {
+	text-shadow: 0 0 24px rgba(117, 222, 255, 0.18);
+}

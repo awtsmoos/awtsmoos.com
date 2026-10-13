@@ -69,3 +69,28 @@
 		transform: none;
 	}
 }
+
+/* === Round 2 polish — filter disclosure chevron (2026-10-13) === */
+/* B"H — one quiet glyph tells whether the chamber is open. */
+.filterDisclosure summary > span {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	color: var(--games-text);
+}
+.filterDisclosure summary > span::after {
+	content: "▾";
+	color: var(--games-muted);
+	font-size: 0.75rem;
+	line-height: 1;
+	transition: transform 160ms ease, color 160ms ease;
+}
+.filterDisclosure[open] summary > span::after {
+	transform: rotate(180deg);
+	color: rgba(140, 247, 255, 0.85);
+}
+@media (prefers-reduced-motion: reduce) {
+	.filterDisclosure summary > span::after {
+		transition: none;
+	}
+}

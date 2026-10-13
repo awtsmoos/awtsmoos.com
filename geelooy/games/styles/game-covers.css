@@ -158,3 +158,42 @@
 	.gameCover img { transition: none; }
 	.gamesShell::before { display: none; }
 }
+
+/* === Round 2 polish — fallback game cards (2026-10-13) === */
+/* B"H — the safety-net catalog gets the same ceremony as the real one. */
+.gameCard--fallback {
+	transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+	.gameCard--fallback:hover {
+		transform: translateY(-4px);
+		border-color: rgba(255, 215, 0, 0.45);
+		box-shadow: 0 18px 44px rgba(0, 0, 0, 0.5), 0 0 28px rgba(255, 215, 0, 0.12);
+	}
+	.gameCard--fallback:hover img {
+		transform: scale(1.06);
+	}
+}
+.gameCard--fallback:focus-visible {
+	outline: 3px solid #7bdcff;
+	outline-offset: 2px;
+	border-color: rgba(255, 215, 0, 0.45);
+}
+.gameCard--fallback:active {
+	transform: translateY(0) scale(0.99);
+}
+.gamesCatalog:has(> .gameCard--fallback) {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+	gap: 0.9rem;
+}
+@media (prefers-reduced-motion: reduce) {
+	.gameCard--fallback,
+	.gameCover img {
+		transition: none;
+	}
+	.gameCard--fallback:hover,
+	.gameCard--fallback:active {
+		transform: none;
+	}
+}
