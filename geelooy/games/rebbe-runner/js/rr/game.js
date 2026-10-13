@@ -140,7 +140,8 @@ export function startGame(env) {
 	const obstacles = [];
 	let running = false, paused = false, over = false;
 	let speed = 11, dist = 0, score = 0, torahCount = 0, hearts = 3;
-	let best = +(localStorage.getItem('rr_best') || 0);
+	let best = 0;
+	try { best = +(localStorage.getItem('rr_best') || 0); } catch (_) {}
 	let spawnIn = 30; // distance until next pattern
 	let elapsed = 0;
 
@@ -177,7 +178,10 @@ export function startGame(env) {
 
 	function gameOver() {
 		over = true; running = false;
-		if (score > best) { best = Math.floor(score); localStorage.setItem('rr_best', best); }
+		if (score > best) {
+			best = Math.floor(score);
+			try { localStorage.setItem('rr_best', best); } catch (_) {}
+		}
 		$('rr-card-title').textContent = 'Run Complete';
 		$('rr-card-sub').textContent = 'Baruch Hashem — run again with kavanah.';
 		$('rr-final-score').textContent = Math.floor(score);
