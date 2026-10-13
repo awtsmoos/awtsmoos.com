@@ -62,22 +62,40 @@ const Connect4Render = {
 		}
 	},
 
-	/** Draw keyboard/pointer preview for the currently legal human column. */
+	/** Draw keyboard/pointer preview: arrow at top plus a ghost disc where the piece will land. */
 	drawHover(state, geometry) {
 		if (state.hoverColumn < 0 || state.animatedPiece || !state.isPlayerTurn || state.gameOver) return;
 		const { cellWidth, cellHeight, radius } = geometry;
+		const cx = state.hoverColumn * cellWidth + cellWidth / 2;
+		const color = state.currentPlayer === 1 ? '255, 77, 77' : '255, 255, 77';
+		// Top arrow indicator
+		state.context.save();
+		state.context.fillStyle = `rgba(${color},0.85)`;
 		state.context.beginPath();
-		state.context.arc(
-			state.hoverColumn * cellWidth + cellWidth / 2,
-			cellHeight / 2,
-			radius,
-			0,
-			Math.PI * 2
-		);
-		state.context.fillStyle = state.currentPlayer === 1
-			? 'rgba(255, 77, 77, 0.5)'
-			: 'rgba(255, 255, 77, 0.5)';
+		state.context.moveTo(cx, 6);
+		state.context.lineTo(cx - 9, 20);
+		state.context.lineTo(cx + 9, 20);
+		state.context.closePath();
 		state.context.fill();
+		state.context.restore();
+		// Ghost disc at the true landing row
+		const targetRow = Connect4Rules.getTargetRow(state.board, state.hoverColumn);
+		if (targetRow < 0) return;
+		const cy = targetRow * cellHeight + cellHeight / 2;
+		const pulse = 0.35 + 0.2 * Math.sin(performance.now() / 280);
+		state.context.save();
+		state.context.setLineDash([7, 5]);
+		state.context.lineWidth = 3;
+		state.context.strokeStyle = `rgba(${color},${pulse + 0.35})`;
+		state.context.beginPath();
+		state.context.arc(cx, cy, radius, 0, Math.PI * 2);
+		state.context.stroke();
+		state.context.setLineDash([]);
+		state.context.fillStyle = `rgba(${color},${pulse * 0.55})`;
+		state.context.beginPath();
+		state.context.arc(cx, cy, radius, 0, Math.PI * 2);
+		state.context.fill();
+		state.context.restore();
 	},
 
 	/** Draw the one falling disc animation without yet mutating board truth. */

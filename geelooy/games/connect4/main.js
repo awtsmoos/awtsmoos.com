@@ -18,13 +18,30 @@ const ui = new Connect4Ui();
 const resignButton = document.getElementById('resign-btn');
 const native3d = new Connect4Native3DPresentation();
 const workerSession = new WorkerSession({
-	onResult: message => ui.showResult(message),
+	onResult: message => {
+		ui.showResult(message);
+		const outcome = message?.humanOutcome || message?.outcome;
+		if (outcome === 'win') {
+			window.AwtsmoosFx?.sfx('win');
+			const board = document.getElementById('game-canvas');
+			if (board) window.AwtsmoosFx?.burst(board.clientWidth / 2, board.clientHeight / 3, board.parentElement, { count: 26 });
+		} else if (outcome === 'loss') {
+			window.AwtsmoosFx?.sfx('gameover');
+		} else {
+			window.AwtsmoosFx?.sfx('push');
+		}
+	},
 	onState: message => native3d.update(message.board),
 	onError: () => handleWorkerError()
 });
 const board = new BoardCanvas(ui.screens.game, resignButton, {
 	onResize: size => workerSession.resize(size),
-	onDrop: column => workerSession.drop(column),
+	onDrop: column => {
+		document.querySelector('.connect4-tutorial')?.setAttribute('hidden', '');
+		try { localStorage.setItem('connect4-drop-tutorial-seen', '1'); } catch {}
+		window.AwtsmoosFx?.sfx('drop', { depth: 0 });
+		workerSession.drop(column);
+	},
 	onHover: column => workerSession.hover(column),
 	onLeave: () => workerSession.leave()
 });

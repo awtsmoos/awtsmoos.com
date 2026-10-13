@@ -39,9 +39,10 @@ function createColumnButton(column) {
 	button.type = 'button';
 	button.className = 'columnButton';
 	button.dataset.column = String(column);
-	button.textContent = String(column + 1);
+	button.textContent = '▼';
 	button.disabled = true;
 	button.setAttribute('aria-label', `Drop disc in column ${column + 1}`);
+	button.title = `Drop in column ${column + 1}`;
 	button.addEventListener('click', () => requestColumn(column, 'drop'));
 	button.addEventListener('focus', () => {
 		activeColumn = column;
@@ -52,9 +53,32 @@ function createColumnButton(column) {
 
 /** Dispatch one semantic request for the browser Worker session. */
 function requestColumn(column, kind) {
+	if (kind === 'drop') dismissTutorial();
 	window.dispatchEvent(new CustomEvent('awtsmoos:connect4-column-request', {
 		detail: { column, kind }
 	}));
+}
+
+/** First-play coach mark: "Tap a column to drop your piece." Shown once. */
+const TUTORIAL_KEY = 'connect4-drop-tutorial-seen';
+const tutorial = document.createElement('div');
+tutorial.className = 'connect4-tutorial';
+tutorial.hidden = true;
+tutorial.innerHTML = '<div class="connect4-tutorial-arrow">▼</div><div>Tap a column to drop your piece</div>';
+gameContainer.append(tutorial);
+
+function maybeShowTutorial() {
+	try {
+		if (localStorage.getItem(TUTORIAL_KEY)) return;
+	} catch { return; }
+	if (!document.getElementById('game-canvas')) return;
+	tutorial.hidden = false;
+}
+
+function dismissTutorial() {
+	if (tutorial.hidden) return;
+	tutorial.hidden = true;
+	try { localStorage.setItem(TUTORIAL_KEY, '1'); } catch { /* private mode */ }
 }
 
 /** Enable or disable all semantic columns as one authoritative input surface. */
@@ -101,6 +125,9 @@ controls.addEventListener('keydown', event => {
 });
 
 new MutationObserver(() => {
-	controls.hidden = !document.getElementById('game-canvas');
+	const playing = Boolean(document.getElementById('game-canvas'));
+	controls.hidden = !playing;
+	if (playing) maybeShowTutorial();
+	else tutorial.hidden = true;
 }).observe(gameContainer, { childList: true });
 controls.hidden = true;

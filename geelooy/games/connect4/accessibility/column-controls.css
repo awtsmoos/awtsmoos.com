@@ -29,11 +29,75 @@
 	padding: 6px;
 	border-radius: 10px;
 	font-size: 1rem;
+	border: 2px solid rgba(245, 217, 126, 0.45);
+	background: rgba(10, 14, 28, 0.72);
+	color: #f5d97e;
+	cursor: pointer;
+	transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+}
+
+.columnButton:hover:not(:disabled) {
+	border-color: #f5d97e;
+	color: #ffe9a8;
+	box-shadow: 0 0 14px rgba(245, 217, 126, 0.55);
+	transform: translateY(2px);
+}
+
+.columnButton:active:not(:disabled) {
+	transform: translateY(4px) scale(0.96);
+}
+
+.columnButton:disabled {
+	opacity: 0.35;
+	cursor: default;
 }
 
 .columnButton:focus-visible {
 	outline: 3px solid #fff;
 	outline-offset: 2px;
+}
+
+/* First-play tutorial: "tap a column" coach mark with a bouncing arrow. */
+.connect4-tutorial {
+	position: absolute;
+	top: max(120px, calc(env(safe-area-inset-top) + 108px));
+	left: 50%;
+	z-index: 6;
+	transform: translateX(-50%);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+	padding: 12px 20px;
+	border-radius: 14px;
+	border: 1px solid rgba(245, 217, 126, 0.6);
+	background: rgba(8, 12, 24, 0.92);
+	color: #ffe9a8;
+	font-weight: 700;
+	text-align: center;
+	pointer-events: none;
+	animation: connect4-tutorial-in 0.4s ease;
+}
+.connect4-tutorial[hidden] {
+	display: none;
+}
+.connect4-tutorial .connect4-tutorial-arrow {
+	font-size: 1.8rem;
+	color: #f5d97e;
+	animation: connect4-tutorial-bounce 0.9s ease-in-out infinite;
+}
+@keyframes connect4-tutorial-bounce {
+	0%, 100% { transform: translateY(-4px); }
+	50% { transform: translateY(6px); }
+}
+@keyframes connect4-tutorial-in {
+	from { opacity: 0; transform: translateX(-50%) translateY(-8px); }
+	to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+	.connect4-tutorial .connect4-tutorial-arrow {
+		animation: none;
+	}
 }
 
 .srOnly {
