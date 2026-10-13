@@ -7,6 +7,13 @@ import { KabbalahSession } from './js/runtime/KabbalahSession.js';
 import { KabbalahRuntimeView } from './js/runtime/view.js';
 import { TutorialController } from './js/tutorial.js';
 
+// B"H: shared WebGL help gate (Yaakov 2026-10-13). When WebGL is unavailable the
+// shared overlay explains + offers Try Again; halt boot here (module top-level
+// return is illegal, so throw the equivalent halt).
+if (globalThis.AwtsmoosWebGL && !globalThis.AwtsmoosWebGL.ensure({ gameName: 'Kabbalah Shooter' })) {
+	throw new Error('[Kabbalah Shooter] WebGL unavailable — help overlay shown');
+}
+
 /**
  * @file main.js
  * @description Composes one restartable Kabbalah Shooter session around explicit boot, lifecycle, result, and failure boundaries.
