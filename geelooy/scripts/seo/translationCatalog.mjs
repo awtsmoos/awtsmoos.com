@@ -17,18 +17,25 @@ function decodeSegment(value) {
 	}
 }
 
-/** @description Converts canonical translation paths into semantic catalog records. */
-export function translationEntries(paths) {
-	return paths.map(path => {
+/** @description Converts canonical translation records into semantic catalog records. */
+export function translationEntries(records) {
+	return records.map(record => {
+		const path = typeof record === 'string' ? record : record.path;
+		const givenTitle = typeof record === 'string' ? '' : String(record.title || '');
 		const parts = path.split('/').filter(Boolean);
 		const seriesIndex = parts.indexOf('series');
 		const postIndex = parts.indexOf('post');
 		const seriesId = decodeSegment(parts[seriesIndex + 1] || 'Ikar');
 		const postId = decodeSegment(parts[postIndex + 1] || 'teaching');
+		const translationPage = parts[parts.length - 1] === 'translations';
+		const title = givenTitle || `English translation — ${postId}`;
+		const description = translationPage
+			? `Public English translation for ${postId} in ${seriesId}, with Hebrew source context on Awtsmoos.com.`
+			: `Public English translation of ${givenTitle || postId} in ${seriesId}, with Hebrew source on Awtsmoos.com.`;
 		return {
 			id: postId,
-			title: `English translation — ${postId}`,
-			description: `Public English translation for ${postId} in ${seriesId}, with Hebrew source context on Awtsmoos.com.`,
+			title,
+			description,
 			href: path
 		};
 	});

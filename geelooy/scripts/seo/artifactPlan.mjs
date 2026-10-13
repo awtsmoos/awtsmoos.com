@@ -16,7 +16,7 @@ import { renderCatalogPage } from './catalogHtml.mjs';
 import { CORE_PUBLIC_PATHS } from './corePaths.mjs';
 import { numberedPaths, shard } from './shards.mjs';
 import { translationEntries } from './translationCatalog.mjs';
-import { translationPaths } from './translationPaths.mjs';
+import { translationRecords } from './translationPaths.mjs';
 
 const require = createRequire(import.meta.url);
 const { renderSitemapIndex, renderUrlSet } = require('../../seo/xml.js');
@@ -47,14 +47,14 @@ function robotsText() {
 	].join('\n');
 }
 
-function translationArtifacts(paths) {
+function translationArtifacts(records) {
 	const artifacts = {};
-	const sitemapPages = shard(paths, TRANSLATION_SITEMAP_SIZE);
+	const sitemapPages = shard(records, TRANSLATION_SITEMAP_SIZE);
 	const sitemapPaths = numberedPaths('/translations/sitemap-', sitemapPages.length, '.xml');
 	sitemapPages.forEach((page, index) => {
-		artifacts[`translations/sitemap-${index + 1}.xml`] = renderUrlSet(page);
+		artifacts[`translations/sitemap-${index + 1}.xml`] = renderUrlSet(page.map(record => record.path));
 	});
-	const entries = translationEntries(paths);
+	const entries = translationEntries(records);
 	const catalogPages = shard(entries, TRANSLATION_CATALOG_SIZE);
 	const catalogPaths = numberedPaths('/translations/catalog-', catalogPages.length, '.html');
 	catalogPages.forEach((page, index) => {
@@ -85,7 +85,7 @@ function translationArtifacts(paths) {
 
 export function buildArtifactPlan({ geelooyRoot, apps, games }) {
 	const importedRoot = path.join(geelooyRoot, 'api/social/helper/comments/imported/data');
-	const translations = translationPaths(importedRoot);
+	const translations = translationRecords(importedRoot);
 	const publicApps = applicationEntries(apps);
 	const appPaths = ['/apps/catalog.html', ...catalogPaths(publicApps, '/apps/')];
 	const gamePaths = ['/games/catalog.html', ...catalogPaths(games, '/games/')];

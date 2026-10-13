@@ -9,6 +9,13 @@
 
 module.exports = [
 	{
+		canonicalPath: "/games/rebbe-runner/",
+		description: "Run forward with joy, speed, timing, and a distinctly Awtsmoos arcade spirit.",
+		filePath: "games/rebbe-runner/index.html",
+		kind: "game",
+		title: "The Rebbe's Runner"
+	},
+	{
 		canonicalPath: "/games/scribe-journey/",
 		description: "Letters, ink, combat, quests, saves, and a campaign road shaped around the life of a scribe.",
 		filePath: "games/scribe-journey/index.html",
@@ -70,12 +77,5 @@ module.exports = [
 		filePath: "legal/privacy/index.html",
 		kind: "public-information",
 		title: "Awtsmoos.com Privacy Policy"
-	},
-	{
-		canonicalPath: "/legal/terms/",
-		description: "Read the Awtsmoos.com terms for using the site, its public tools, creative experiences, and connected services.",
-		filePath: "legal/terms/index.html",
-		kind: "public-information",
-		title: "Awtsmoos.com Terms of Use"
 	}
 ];

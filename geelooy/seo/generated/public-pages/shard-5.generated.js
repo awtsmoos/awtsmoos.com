@@ -23,6 +23,13 @@ module.exports = [
 		title: "Watermark Remover"
 	},
 	{
+		canonicalPath: "/apps/workos/",
+		description: "Persistent missions, work items, rooms, decisions, files, and provenance for accountable collaborative work.",
+		filePath: "apps/workos/index.html",
+		kind: "app",
+		title: "WorkOS"
+	},
+	{
 		canonicalPath: "/awtai-db/",
 		description: "Explore the Awtsmoos.com AwtAI database interface and its public data tools.",
 		filePath: "awtai-db/index.html",
@@ -70,12 +77,5 @@ module.exports = [
 		filePath: "drive/index.html",
 		kind: "public-information",
 		title: "Awtsmoos Drive"
-	},
-	{
-		canonicalPath: "/email/",
-		description: "Read, compose, and manage correspondence through the advanced Awtsmoos mail interface.",
-		filePath: "email/index.html",
-		kind: "app",
-		title: "Awtsmoos Quantum Mail"
 	}
 ];

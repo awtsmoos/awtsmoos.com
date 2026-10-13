@@ -9,6 +9,13 @@
 
 module.exports = [
 	{
+		canonicalPath: "/games/emojis/",
+		description: "A colorful emoji playground built for playful, lightweight sessions.",
+		filePath: "games/emojis/index.html",
+		kind: "game",
+		title: "Emojis"
+	},
+	{
 		canonicalPath: "/games/",
 		description: "Browse playable Awtsmoos games, from native original campaigns and procedural runners to quick classics and Party Challenge.",
 		filePath: "games/index.html",
@@ -70,12 +77,5 @@ module.exports = [
 		filePath: "games/Nachash/index.html",
 		kind: "game",
 		title: "Nachash"
-	},
-	{
-		canonicalPath: "/games/neshama-quest/",
-		description: "Move through soul-world challenges in an original quest-driven adventure.",
-		filePath: "games/neshama-quest/index.html",
-		kind: "game",
-		title: "Neshama Quest"
 	}
 ];

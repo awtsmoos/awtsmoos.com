@@ -9,6 +9,13 @@
 
 module.exports = [
 	{
+		canonicalPath: "/games/neshama-quest/",
+		description: "Move through soul-world challenges in an original quest-driven adventure.",
+		filePath: "games/neshama-quest/index.html",
+		kind: "game",
+		title: "Neshama Quest"
+	},
+	{
 		canonicalPath: "/games/nitzotz-io/",
 		description: "Reveal hidden sparks, grow the vessel, and move through a raw WebGL social arena.",
 		filePath: "games/nitzotz-io/index.html",
@@ -70,12 +77,5 @@ module.exports = [
 		filePath: "games/rambam/kiddushHachodesh/12/index.html",
 		kind: "public-information",
 		title: "Kiddush HaChodesh · Movement of the Sun"
-	},
-	{
-		canonicalPath: "/games/rebbe-runner/",
-		description: "Run forward with joy, speed, timing, and a distinctly Awtsmoos arcade spirit.",
-		filePath: "games/rebbe-runner/index.html",
-		kind: "game",
-		title: "The Rebbe's Runner"
 	}
 ];

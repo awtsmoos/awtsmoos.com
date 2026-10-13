@@ -9,6 +9,13 @@
 
 module.exports = [
 	{
+		canonicalPath: "/showcase/unified-movie-180/",
+		description: "Explore the Unified Movie 180 public showcase experience on Awtsmoos.com.",
+		filePath: "showcase/unified-movie-180/index.html",
+		kind: "public-information",
+		title: "Awtsmoos Unified Movie · 180 Second Proof"
+	},
+	{
 		canonicalPath: "/social-composer/",
 		description: "Author structured posts and questions with media, destinations, drafts, preview, scheduling, and publishing.",
 		filePath: "social-composer/index.html",

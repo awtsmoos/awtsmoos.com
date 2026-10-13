@@ -9,6 +9,13 @@
 
 module.exports = [
 	{
+		canonicalPath: "/legal/terms/",
+		description: "Read the Awtsmoos.com terms for using the site, its public tools, creative experiences, and connected services.",
+		filePath: "legal/terms/index.html",
+		kind: "public-information",
+		title: "Awtsmoos.com Terms of Use"
+	},
+	{
 		canonicalPath: "/mawgawl/sefarim/",
 		description: "Search indexed Torah source text, Tanach phrases, and exact Hebrew words with provenance.",
 		filePath: "mawgawl/sefarim/index.html",
@@ -70,12 +77,5 @@ module.exports = [
 		filePath: "reeyuh/index.html",
 		kind: "public-information",
 		title: "Reeyuh · Shulchan Aruch Reader"
-	},
-	{
-		canonicalPath: "/showcase/unified-movie-180/",
-		description: "Explore the Unified Movie 180 public showcase experience on Awtsmoos.com.",
-		filePath: "showcase/unified-movie-180/index.html",
-		kind: "public-information",
-		title: "Awtsmoos Unified Movie · 180 Second Proof"
 	}
 ];

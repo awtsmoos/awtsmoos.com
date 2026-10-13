@@ -9,6 +9,13 @@
 
 module.exports = [
 	{
+		canonicalPath: "/email/",
+		description: "Read, compose, and manage correspondence through the advanced Awtsmoos mail interface.",
+		filePath: "email/index.html",
+		kind: "app",
+		title: "Awtsmoos Quantum Mail"
+	},
+	{
 		canonicalPath: "/games/adventure/",
 		description: "Collect coins and a key through a compact field built for keyboard and touch movement.",
 		filePath: "games/adventure/index.html",
@@ -70,12 +77,5 @@ module.exports = [
 		filePath: "games/dove/index.html",
 		kind: "game",
 		title: "Noah's Dove Jump"
-	},
-	{
-		canonicalPath: "/games/emojis/",
-		description: "A colorful emoji playground built for playful, lightweight sessions.",
-		filePath: "games/emojis/index.html",
-		kind: "game",
-		title: "Emojis"
 	}
 ];
