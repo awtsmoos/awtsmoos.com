@@ -200,11 +200,16 @@
 	margin-bottom: 0;
 }
 
-/* Hebrew phrase : the ikar. RTL, nikkud-safe, visually dominant — Hebrew
-   glyphs render smaller than Latin at the same em, so Hebrew runs larger. */
+/* Hebrew phrase : the ikar. RTL, nikkud-safe.
+   Yaakov's law: Hebrew and English render at EXACTLY the same size, always.
+   Both use the single shared --sefer-phrase-size so they can never differ,
+   at any text-scale setting. */
+.meluket-sefer-active {
+	--sefer-phrase-size: clamp(2.4rem, 6.2vw, 3.4rem);
+}
 .meluket-sefer-active .meluket-phrase--he {
 	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
-	font-size: clamp(3.2rem, 9vw, 5.2rem);
+	font-size: var(--sefer-phrase-size);
 	font-weight: 700;
 	line-height: 1.9;
 	color: var(--sefer-ink);
@@ -220,10 +225,11 @@
 	min-width: 0;
 }
 
-/* English phrase : directly beneath its Hebrew, dashed rule between. */
+/* English phrase : directly beneath its Hebrew, dashed rule between.
+   Same --sefer-phrase-size as the Hebrew — exactly equal, always. */
 .meluket-sefer-active .meluket-phrase--en {
 	font-family: "Source Serif 4", Georgia, serif;
-	font-size: clamp(2rem, 5.2vw, 2.8rem);
+	font-size: var(--sefer-phrase-size);
 	line-height: 1.7;
 	color: var(--sefer-ink-soft);
 	border-top: 2px dashed var(--sefer-rule);
@@ -243,6 +249,30 @@
 	font-weight: 700;
 	margin-inline-start: 0.15em;
 	cursor: pointer;
+}
+
+/* ---------- Server-rendered initial content ----------
+   Yaakov's law applies here too: Hebrew == English, exactly.
+   These classes had no styling at all — now they match the JS reader. */
+.awtsmoos-initial-unit-he,
+.awtsmoos-initial-unit-en {
+	font-size: clamp(2.4rem, 6.2vw, 3.4rem);
+	line-height: 1.8;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	min-width: 0;
+}
+.awtsmoos-initial-unit-he {
+	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
+	font-weight: 700;
+	text-align: right;
+	direction: rtl;
+	color: var(--sefer-ink, #1a1a1a);
+}
+.awtsmoos-initial-unit-en {
+	font-family: "Source Serif 4", Georgia, serif;
+	direction: ltr;
+	color: var(--sefer-ink-soft, #4a4a4a);
 }
 
 /* [cup] markers become bold — the dibur hamatchil. */
