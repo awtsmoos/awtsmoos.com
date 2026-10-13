@@ -29,7 +29,7 @@ export class ArmWeaver {
         const armWidth = size / 7.5;
         
         // If it's a side view, the back arm is slightly dimmed to represent depth (Tzimtzum)
-        if (isSide &amp;&amp; isBackArm) {
+        if (isSide && isBackArm) {
             ctx.globalAlpha = 0.5;
         }
 

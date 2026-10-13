@@ -51,10 +51,10 @@ export class RoadPainter {
         
         // Neighbors logic (including abyss road extensions)
         const n = mockNeighbors || {
-            u: registry.some(t => t.x === tile.x &amp;&amp; t.y === tile.y - 1 &amp;&amp; (t.t === 'G_DIRT_PATH' || t.isPortal)),
-            d: registry.some(t => t.x === tile.x &amp;&amp; t.y === tile.y + 1 &amp;&amp; (t.t === 'G_DIRT_PATH' || t.isPortal)),
-            l: registry.some(t => t.x === tile.x - 1 &amp;&amp; t.y === tile.y &amp;&amp; (t.t === 'G_DIRT_PATH' || t.isPortal)),
-            r: registry.some(t => t.x === tile.x + 1 &amp;&amp; t.y === tile.y &amp;&amp; (t.t === 'G_DIRT_PATH' || t.isPortal))
+            u: registry.some(t => t.x === tile.x && t.y === tile.y - 1 && (t.t === 'G_DIRT_PATH' || t.isPortal)),
+            d: registry.some(t => t.x === tile.x && t.y === tile.y + 1 && (t.t === 'G_DIRT_PATH' || t.isPortal)),
+            l: registry.some(t => t.x === tile.x - 1 && t.y === tile.y && (t.t === 'G_DIRT_PATH' || t.isPortal)),
+            r: registry.some(t => t.x === tile.x + 1 && t.y === tile.y && (t.t === 'G_DIRT_PATH' || t.isPortal))
         };
 
         // Dark grass shadow at the edge of the path
