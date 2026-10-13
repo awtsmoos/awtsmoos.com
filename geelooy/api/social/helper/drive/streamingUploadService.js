@@ -14,6 +14,7 @@ const { createWriteReservation, releaseReservation } = require('./reservationPol
 const { beginDriveRequest, finishDriveRequest, abortDriveRequest } = require('./usageService.js');
 const { streamRequestObject } = require('./streamingObjectWriter.js');
 const { commitStreamingUpload } = require('./streamingCommit.js');
+const { quotaOptionsFor } = require('./quotaBypass.js');
 
 async function uploadDriveStream(options) {
 	const logicalPath = normalizeDrivePath(options.path);
@@ -27,7 +28,7 @@ async function uploadDriveStream(options) {
 	let object;
 	try {
 		reservation = await mutateDriveState(options.aliasId, options.$i, state => {
-			return createWriteReservation(state, logicalPath, options.bytes);
+			return createWriteReservation(state, logicalPath, options.bytes, quotaOptionsFor(options));
 		});
 		object = await streamRequestObject(
 			options.aliasId,

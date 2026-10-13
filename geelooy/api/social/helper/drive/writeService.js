@@ -33,7 +33,7 @@ async function writeDriveFile(options) {
 	let reservation;
 	try {
 		reservation = await mutateDriveState(options.aliasId, options.$i, state => {
-			return createWriteReservation(state, logicalPath, content.length);
+			return createWriteReservation(state, logicalPath, content.length, quotaOptionsFor(options));
 		});
 		const object = await putObject(options.aliasId, content, options.$i);
 		const result = await commitWrite(options, logicalPath, reservation.id, object);

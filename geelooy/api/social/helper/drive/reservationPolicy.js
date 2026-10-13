@@ -11,11 +11,12 @@
  */
 
 const crypto = require('crypto');
-const { mergedQuota, assertSingleFile, quotaError } = require('./quotaPolicy.js');
+const { mergedQuota, effectiveQuota, assertSingleFile, quotaError } = require('./quotaPolicy.js');
+const { quotaOptionsFor } = require('./quotaBypass.js');
 
 const RESERVATION_LIFETIME_MS = 15 * 60 * 1000;
 
-function createWriteReservation(state, logicalPath, bytes) {
+function createWriteReservation(state, logicalPath, bytes, quotaOptions = {}) {
 	removeExpiredReservations(state);
 	assertSingleFile(state, bytes);
 	if (Object.values(state.reservations).some(item => item.path === logicalPath)) {
@@ -27,7 +28,7 @@ function createWriteReservation(state, logicalPath, bytes) {
 	const byteDelta = bytes - oldBytes;
 	const fileDelta = existing?.type === 'file' ? 0 : 1;
 	const reserved = reservedTotals(state);
-	const quota = mergedQuota(state.quota);
+	const quota = quotaOptions.isAdmin ? effectiveQuota(state, { isAdmin: true }) : mergedQuota(state.quota);
 	if (state.usage.storedBytes + reserved.bytes + Math.max(0, byteDelta) > quota.storageBytes) {
 		throw quotaError('STORAGE_QUOTA_EXCEEDED');
 	}
