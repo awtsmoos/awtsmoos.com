@@ -46,10 +46,13 @@ export class GevurahReaderScale {
 	 * @param {unknown} ohrSize Candidate reader size.
 	 * @returns {string} Applied main CSS pixel size.
 	 */
-	apply(ohrSize) {
+	apply(ohrSize, options = {}) {
 		// B"H — Yaakov 2026-10-13: keep the reader's place when text size
 		// changes. Capture the scroll anchor BEFORE resizing, restore after.
-		const scrollAnchor = this.captureScrollAnchor();
+		// keepScroll=false on boot (load): nothing to preserve, and a delayed
+		// restore would yank the page while the learner is already scrolling.
+		const keepScroll = options.keepScroll !== false;
+		const scrollAnchor = keepScroll ? this.captureScrollAnchor() : null;
 
 		const malchusRoot = this.resolveMalchusRoot();
 		const tiferesScale = this.policy.buildScale(ohrSize);
@@ -78,6 +81,17 @@ export class GevurahReaderScale {
 	}
 
 	/**
+	 * Applies one bounded scale without touching scroll position.
+	 * Used at boot (load): the learner hasn't started reading yet, so there
+	 * is no place to keep — and a delayed restore would fight their finger.
+	 * @param {unknown} ohrSize Candidate reader size.
+	 * @returns {string} Applied main CSS pixel size.
+	 */
+	applyWithoutScroll(ohrSize) {
+		return this.apply(ohrSize, { keepScroll: false });
+	}
+
+	/**
 	 * Captures where the reader is before a size change, so the page
 	 * can return to the same reading position after layout shifts.
 	 * Uses the element under the viewport's reading point (upper third)
@@ -92,6 +106,7 @@ export class GevurahReaderScale {
 			const max = doc ? Math.max(0, doc.scrollHeight - win.innerHeight) : 0;
 			const anchor = {
 				ratio: max > 0 ? scrollY / max : 0,
+				scrollY,
 				element: null,
 				elementTop: 0
 			};
@@ -123,6 +138,11 @@ export class GevurahReaderScale {
 			const win = this.document?.defaultView ?? globalThis;
 			const doRestore = () => {
 				try {
+					// B"H — Yaakov 2026-10-13: never fight the learner's finger.
+					// If they scrolled significantly between capture and restore
+					// (the rAF delay), they are actively reading — abort.
+					const nowY = win?.scrollY ?? 0;
+					if (Math.abs(nowY - (anchor.scrollY ?? 0)) > 60) return;
 					// 1. Element anchor: put the same element back where it was.
 					if (anchor.element && anchor.element.isConnected) {
 						const nowTop = anchor.element.getBoundingClientRect().top;
@@ -191,7 +211,7 @@ export class GevurahReaderScale {
 	 */
 	load() {
 		const rememberedOhr = this.storage.getItem('currentPostFontSize');
-		return this.apply(rememberedOhr ?? this.policy.defaultSize);
+		return this.applyWithoutScroll(rememberedOhr ?? this.policy.defaultSize);
 	}
 }
 

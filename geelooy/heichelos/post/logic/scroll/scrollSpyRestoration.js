@@ -166,6 +166,11 @@ export function restoreScrollPosition() {
   const attempt = (triesLeft) => {
     const target = document.querySelector(`#realPost .scroll-chunk[data-chunk-id="${chunkId}"]`);
     if (target) {
+      // B"H — Yaakov 2026-10-13: never yank a learner who already started
+      // scrolling. Restoration is only for a fresh load sitting at top.
+      try {
+        if ((window.scrollY || 0) > 40) return true;
+      } catch {}
       target.scrollIntoView({ block: 'start', behavior: 'auto' });
       target.classList.add(SPY_CLASS, RESTORED_CLASS);
       // Remove the restored flash after 2.5s, keep the spy highlight.
