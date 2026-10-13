@@ -1,0 +1,192 @@
+/*B"H*/
+/*CobyK rebuild styles — Yaakov 2026-10-13:
+  beautiful loading screen, cosmic starfield backdrop, clean in-game UI
+  (level buttons hidden during play; Next pill only on completion).*/
+
+/* ---------- Cosmic stage backdrop ---------- */
+.cobyk-stage-shell {
+	position: relative;
+	background:
+		radial-gradient(120% 90% at 50% 0%, #1b2450 0%, #0d1230 42%, #05070f 100%);
+	overflow: hidden;
+}
+
+/* Starfield canvas sits directly behind the WebGL game canvas. */
+.cobyk-starfield {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+	pointer-events: none;
+}
+
+.cobyk-stage {
+	position: relative;
+	z-index: 1;
+}
+
+/* HUD + controls float above the starfield. */
+.cobyk-hud,
+.cobyk-mobile-controls,
+.cobyk-advanced,
+.cobyk-status {
+	position: relative;
+	z-index: 2;
+}
+
+/* ---------- Loading overlay ---------- */
+.cobyk-loading {
+	position: fixed;
+	inset: 0;
+	z-index: 100;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background:
+		radial-gradient(110% 80% at 50% 10%, #232c63 0%, #10163a 45%, #04060d 100%);
+	transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+
+body.cobyk-booted .cobyk-loading {
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+}
+
+.cobyk-loading__inner {
+	text-align: center;
+	padding: 2rem;
+	max-width: 26rem;
+}
+
+.cobyk-loading__stars {
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+.cobyk-loading__stars i {
+	position: absolute;
+	border-radius: 50%;
+	background: #fff;
+	animation: cobyk-twinkle 2.6s ease-in-out infinite;
+}
+
+.cobyk-loading__sigil {
+	font-size: 4rem;
+	line-height: 1;
+	margin-bottom: 1rem;
+	filter: drop-shadow(0 0 18px rgba(255, 216, 77, 0.65));
+	animation: cobyk-sigil-float 3.2s ease-in-out infinite;
+}
+
+.cobyk-loading__title {
+	margin: 0 0 0.35rem;
+	font-size: 2.2rem;
+	letter-spacing: 0.28em;
+	color: #ffe9a8;
+	text-shadow: 0 0 24px rgba(255, 200, 80, 0.45);
+	font-weight: 700;
+}
+
+.cobyk-loading__subtitle {
+	margin: 0 0 1.6rem;
+	color: #9fb2d8;
+	font-size: 0.95rem;
+	letter-spacing: 0.12em;
+}
+
+.cobyk-loading__bar {
+	height: 6px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.12);
+	overflow: hidden;
+	margin-bottom: 1rem;
+}
+
+.cobyk-loading__bar span {
+	display: block;
+	height: 100%;
+	width: 38%;
+	border-radius: 999px;
+	background: linear-gradient(90deg, #ffd84d, #ff9d4d, #ffd84d);
+	background-size: 200% 100%;
+	animation: cobyk-shimmer 1.4s linear infinite;
+}
+
+.cobyk-loading__hint {
+	color: #7d90b8;
+	font-size: 0.8rem;
+	letter-spacing: 0.06em;
+	min-height: 1.2em;
+}
+
+.cobyk-loading__hint[data-state="error"] {
+	color: #ff9d8a;
+}
+
+@keyframes cobyk-twinkle {
+	0%, 100% { opacity: 0.25; transform: scale(0.8); }
+	50% { opacity: 1; transform: scale(1.15); }
+}
+
+@keyframes cobyk-shimmer {
+	0% { background-position: 200% 0; transform: translateX(-100%); }
+	100% { background-position: -200% 0; transform: translateX(280%); }
+}
+
+@keyframes cobyk-sigil-float {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(-10px); }
+}
+
+/* ---------- In-game UI cleanup ---------- */
+/* Yaakov: level select buttons do not belong inside the game view. */
+.cobyk-campaign__levels {
+	display: none;
+}
+
+.cobyk-campaign {
+	display: flex;
+	justify-content: center;
+	padding: 0.4rem;
+}
+
+/* Next-level pill: only visible when a level is complete and enabled. */
+.cobyk-button--next {
+	border: 1px solid rgba(255, 216, 77, 0.55);
+	background: linear-gradient(180deg, rgba(60, 48, 12, 0.92), rgba(30, 24, 8, 0.92));
+	color: #ffe9a8;
+	border-radius: 999px;
+	padding: 0.55rem 1.6rem;
+	font-size: 0.95rem;
+	letter-spacing: 0.08em;
+	cursor: pointer;
+	box-shadow: 0 0 18px rgba(255, 200, 80, 0.25);
+}
+
+.cobyk-button--next:disabled {
+	display: none;
+}
+
+.cobyk-button--next:not(:disabled):hover {
+	box-shadow: 0 0 26px rgba(255, 200, 80, 0.5);
+}
+
+.cobyk-button--next:focus-visible {
+	outline: 2px solid #ffd84d;
+	outline-offset: 2px;
+}
+
+/* Hide the debug-ish status pill once the game is live; keep it for errors. */
+.cobyk-booted .cobyk-status[data-state="ready"],
+.cobyk-booted .cobyk-status[data-state="loading"] {
+	display: none;
+}
+
+.cobyk-status[data-state="error"] {
+	display: block;
+	color: #ff9d8a;
+}

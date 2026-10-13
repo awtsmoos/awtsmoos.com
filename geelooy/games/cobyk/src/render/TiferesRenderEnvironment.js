@@ -10,10 +10,11 @@
  */
 export class TiferesRenderEnvironment {
 	constructor(binaOptions = {}) {
-		// B"H — Yaakov 2026-10-13: lifted from near-black; the world must read vibrant.
-		this.tiferesClear = binaOptions.clearColor || [0.10, 0.14, 0.24, 1];
+		// B"H — Yaakov 2026-10-13: transparent clear so the living starfield
+		// behind the canvas becomes the sky; lifted ambient for vibrancy.
+		this.tiferesClear = binaOptions.clearColor || [0.0, 0.0, 0.0, 0];
 		this.chesedEnvironment = Object.freeze({
-			ambient: binaOptions.ambient || [0.52, 0.59, 0.7],
+			ambient: binaOptions.ambient || [0.62, 0.68, 0.8],
 			sunDirection: binaOptions.sunDirection || [-0.45, 0.82, 0.38],
 			sunColor: binaOptions.sunColor || [1, 0.92, 0.8],
 			fogColor: binaOptions.fogColor || [0.055, 0.09, 0.13],

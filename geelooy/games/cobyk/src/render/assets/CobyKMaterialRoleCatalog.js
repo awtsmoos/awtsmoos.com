@@ -8,19 +8,20 @@
  * The Awtsmoos renews stone, metal, fire, and gold before texture can claim the garment of a thing;
  * Awtsmoos.com lets this Bina catalog layer finite beauty safely, so missing networks never leave CobyK dim or unstyled within.
  */
-const MALCHUS_TEXTURE_ROOT = "/games/cobyk/assets/textures/";
+// B"H — Yaakov 2026-10-13: textures live on Drive; every surface gets real garments.
+const MALCHUS_TEXTURE_ROOT = "https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/cobyk/";
 
 const binaRoles = Object.freeze({
-	brick: revealRole("#746a63", "brick.png", "cobblestone.png", 0.86, 0.12),
-	hazard: revealRole("#d63b2f", "fire.jpg", "rusty iron.png", 0.34, 0.2),
-	movingHazard: revealRole("#ef5b38", "lava.jpg", "rusty iron.png", 0.28, 0.24),
-	coin: revealRole("#ffd84d", "coin.png", "gold 2.png", 0.18, 0.72),
-	finisherLocked: revealRole("#e7a73e", "finisher.png", "polished granite Rock 1.png", 0.34, 0.45),
-	finisherUnlocked: revealRole("#64f4ab", "finisher.png", "gold 2.png", 0.18, 0.72),
-	elevator: revealRole("#ff6fb8", "elevator.png", "copper 1.png", 0.46, 0.32),
-	shrinker: revealRole("#a97cf6", "shrinker.png", "silver 1.png", 0.26, 0.58),
-	force: revealRole("#4aa9ff", "rightArrow.png", "stone floor 2.png", 0.54, 0.18),
-	player: revealRole("#f6f1e7", "player.png", null, 0.68, 0.06)
+	brick: revealRole("#746a63", "cobyk-platform.jpg", "cobblestone.png", 0.86, 0.12),
+	hazard: revealRole("#d63b2f", "cobyk-hazard-fire.jpg", "rusty iron.png", 0.34, 0.2),
+	movingHazard: revealRole("#ef5b38", "cobyk-hazard-fire.jpg", "rusty iron.png", 0.28, 0.24),
+	coin: revealRole("#ffd84d", "cobyk-coin.jpg", "gold 2.png", 0.18, 0.72),
+	finisherLocked: revealRole("#e7a73e", "cobyk-portal.jpg", "polished granite Rock 1.png", 0.34, 0.45),
+	finisherUnlocked: revealRole("#64f4ab", "cobyk-portal.jpg", "gold 2.png", 0.18, 0.72),
+	elevator: revealRole("#ff6fb8", "cobyk-platform.jpg", "copper 1.png", 0.46, 0.32),
+	shrinker: revealRole("#a97cf6", "cobyk-platform.jpg", "silver 1.png", 0.26, 0.58),
+	force: revealRole("#4aa9ff", "cobyk-platform.jpg", "stone floor 2.png", 0.54, 0.18),
+	player: revealRole("#f6f1e7", "cobyk-coin.jpg", null, 0.68, 0.06)
 });
 
 /**
@@ -67,11 +68,11 @@ export function revealCobyKMaterialRole(malchusRole) {
  */
 function revealForceRole(malchusSymbol) {
 	const malchusArrowFilename = Object.freeze({
-		"<": "leftArrow.png",
-		">": "rightArrow.png",
-		"^": "upArrow.png",
-		"v": "downArrow.png"
-	})[malchusSymbol] || "rightArrow.png";
+		"<": "cobyk-coin.jpg",
+		">": "cobyk-coin.jpg",
+		"^": "cobyk-coin.jpg",
+		"v": "cobyk-coin.jpg"
+	})[malchusSymbol] || "cobyk-coin.jpg";
 	return Object.freeze({
 		...binaRoles.force,
 		localTextureUrl: `${MALCHUS_TEXTURE_ROOT}${malchusArrowFilename}`
