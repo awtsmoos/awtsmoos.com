@@ -90,16 +90,6 @@ function setJob(job) {
 
 function getJob(id) { return jobs.get(id) || null; }
 
-function runningJob(heichelId) {
-	// B"H Yaakov 2026-10-13: heichel-scoped — different heichels import concurrently,
-	// same heichel never has two running jobs (prevents write races within one corpus).
-	for (const j of jobs.values()) {
-		if (j.status !== 'running') continue;
-		if (!heichelId || j.spec.heichelId === heichelId) return j;
-	}
-	return null;
-}
-
 // B"H 2026-10-13 (import-speed): count running jobs per heichel for the
 // 4-concurrent limit. Returns the array of running jobs (for JOB_ALREADY_RUNNING
 // diagnostics) — empty array means none running.
