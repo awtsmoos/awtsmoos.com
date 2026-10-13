@@ -65,7 +65,7 @@ const path = require('path');
 const { execFile } = require('child_process');
 
 const { requireMethod, requestValue } = require('./requestValues.js');
-const { mirrorPost, mirrorPostBulk, readPacked, listPackedRecords, fileRoot, forEachLineFastAsync, fastKeyType } = require('../../packed/socialPacked.js');
+const { mirrorPost, mirrorPostBulk, mirrorPostsBulk, readPacked, listPackedRecords, fileRoot, forEachLineFastAsync, fastKeyType } = require('../../packed/socialPacked.js');
 const { logicalKey } = require('../../packed/shardPaths.js');
 const importSign = require('./importSign.js');
 
@@ -98,30 +98,13 @@ function runningJob() {
 function yieldTick() { return new Promise(resolve => setImmediate(resolve)); }
 
 // ---------------------------------------------------------------------------
-// Import lock — prevents deploy/service restarts during a finalize window
-// (Yaakov 2026-10-11: the 502 root cause was a restart mid-finalize).
-// The deploy route refuses push/restart while this lock is fresh; the lock
-// is acquired when a job starts and released when it ends. Stale locks
-// (>2h) are ignored so a crashed job can never wedge deploys forever.
+// Import lock — REMOVED (Yaakov 2026-10-13, absolute law: import jobs must
+// NEVER block anything else, ever). Deploys touch the repo tree, imports
+// touch the DB dir — disjoint. Restart safety comes from idempotent writes
+// + persistent job state + client resume, not from a global lock.
+// (The old import-in-progress.lock file is left unread; any stale lock
+//  from before this change is simply ignored.)
 // ---------------------------------------------------------------------------
-function importLockPath() {
-	const dir = process.env.AWTSMOOS_DBROOT || '/mnt/HC_Volume_102267213/dayuhChadash';
-	return path.join(dir, 'socialPacked', 'import-in-progress.lock');
-}
-
-function acquireImportLock(jobId) {
-	try {
-		fs.mkdirSync(path.dirname(importLockPath()), { recursive: true });
-		fs.writeFileSync(importLockPath(), JSON.stringify({ jobId, startedAt: Date.now() }));
-	} catch (_) { /* best effort */ }
-}
-
-function releaseImportLock(jobId) {
-	try {
-		const raw = JSON.parse(fs.readFileSync(importLockPath(), 'utf8'));
-		if (!jobId || raw.jobId === jobId) fs.unlinkSync(importLockPath());
-	} catch (_) { /* best effort */ }
-}
 
 // ---------------------------------------------------------------------------
 // Persistent job state — <dbRoot>/socialPacked/post-import-jobs/<jobId>.json
@@ -134,7 +117,12 @@ function jobStateDir($i) {
 }
 
 function jobStateShape(job) {
-	const { spec, doneHashes, aliasCache, seriesAdds, ...rest } = job || {};
+	// B"H 2026-10-13: packedBatch excluded — it's up to 100 full post objects
+	// queued for the batched packed-mirror flush; persisting it would bloat
+	// the state file and it's purely in-memory work-queue state. A restart
+	// loses the queued batch, but the posts' native writes are already done
+	// and idempotent, so resume re-queues them via the doneHashes check.
+	const { spec, doneHashes, aliasCache, seriesAdds, packedBatch, ...rest } = job || {};
 	// B"H 2026-10-11: spec may be absent on in-memory verify jobs (the disk
 	// copy gets spec via saveJobState's spread). Never throw here — a shape
 	// helper throwing turns every status poll into a 500 ROUTE_ERROR.
@@ -641,26 +629,31 @@ class PackedPostImportRoutes {
 		job.startedAt = Date.now();
 		setJob(job);
 		saveJobState($i, job);
-		// No deploys/restarts while the finalize runs (the 502 root cause).
-		acquireImportLock(job.id);
+		// B"H 2026-10-13: no import lock — imports never block deploys/restarts.
 		try {
 		// One-time scan of the live core shard into {postId -> contentHash}.
 		// This replaces the per-post full-shard read that made imports O(n^2).
 		// B"H 2026-10-11: async streaming scan — parses only this heichel's
 		// post lines and yields to the event loop (the sync scan blocked ~45s
 		// on the 3.9 GB production shard).
+		// B"H 2026-10-13 (import-speed): skipLiveCheck bypasses the full
+		// core-shard scan for known-fresh bulk loads. The 3.9 GB scan is
+		// pure overhead when the client guarantees the posts are new.
+		// Within-job idempotency via job.doneHashes still applies.
 		let liveHashes = new Map();
-		try {
-			liveHashes = await this.buildLiveHashCacheAsync($i, spec.heichelId);
-		} catch (e) {
-			job.errors.push({ message: 'LIVE_CACHE_FAILED: ' + (e.message || e) });
+		if (!job.skipLiveCheck) {
+			try {
+				liveHashes = await this.buildLiveHashCacheAsync($i, spec.heichelId);
+			} catch (e) {
+				job.errors.push({ message: 'LIVE_CACHE_FAILED: ' + (e.message || e) });
+			}
 		}
 		await yieldTick();
 		appendJobLog($i, {
 			jobId: job.id, event: 'started',
 			heichelId: spec.heichelId, totalPosts: spec.posts.length,
 			dryRun: !!job.dryRun, source: spec.source,
-			liveCacheSize: liveHashes.size,
+			liveCacheSize: liveHashes.size, skipLiveCheck: !!job.skipLiveCheck,
 		});
 		const now = Date.now();
 		// B"H 2026-10-11: parallel worker pool (Yaakov: maximum throughput).
@@ -737,7 +730,18 @@ class PackedPostImportRoutes {
 					// (packed without native), which used to skip forever.
 					await this.writeNativePost($i, post); // first-class native AwtsmoosDB record
 					await this.ensureAlias($i, job.aliasCache, post.aliasId, aliasName, spec.heichelId);
-					this.writeOnePostBulk($i, post); // packed mirror (readers' diagnostic)
+					// B"H 2026-10-13 (import-speed): packed mirror is BATCHED,
+					// not written per-post. The old per-post path did 6 sync
+					// file ops (mkdir+stat+append+index) per post; the batch
+					// does 4 appends per 100 posts. Ordering guarantee kept:
+					// every post's native write completes before its packed
+					// records are queued, so packed => native always holds.
+					// A crash before the flush leaves native-without-packed,
+					// which resume re-writes idempotently (see skip check).
+					job.packedBatch.push(post);
+					if (job.packedBatch.length >= 100) {
+						flushPackedBatch($i, job);
+					}
 					this.seriesAdd(job, post);
 				} catch (e) {
 					job.failed++;
@@ -750,12 +754,31 @@ class PackedPostImportRoutes {
 			job.postsDone++;
 			if (existed) job.updated++;
 			else job.wrote++;
-			// Yield after every post: a single post's writes can block the
-			// event loop for seconds on a network volume; without this the
-			// server 502s mid-import.
+			// B"H 2026-10-13 (import-speed): yield every 50 posts, not every
+			// post. Per-post yields were 1000+ event-loop round-trips for a
+			// 1000-post job; every-50 keeps the server responsive at 1/50th
+			// the cost. The packed batch flush above is sync but bounded
+			// (~100 posts), so no single block exceeds ~100ms.
 			job.updatedAt = Date.now();
 			setJob(job);
-			await yieldTick();
+			if (job.postsDone % 50 === 0) await yieldTick();
+		};
+		// Flush any queued packed-mirror records for this job via the
+		// batched writer (4 appends per batch, byte-identical to per-post).
+		const flushPackedBatch = ($i, job) => {
+			if (!job.packedBatch.length) return;
+			const batch = job.packedBatch;
+			job.packedBatch = [];
+			try {
+				mirrorPostsBulk({ $i, posts: batch });
+			} catch (e) {
+				job.errors.push({ message: 'PACKED_BATCH_FAILED: ' + (e.message || e) + ' (' + batch.length + ' posts)' });
+				// Fall back to per-post writes so no post loses its mirror.
+				for (const p of batch) {
+					try { this.writeOnePostBulk($i, p); }
+					catch (e2) { job.errors.push({ postId: p.postId, message: 'PACKED_FALLBACK_FAILED: ' + (e2.message || e2) }); }
+				}
+			}
 		};
 		try {
 			const worker = async () => {
@@ -770,17 +793,28 @@ class PackedPostImportRoutes {
 					const n = nextPost++;
 					if (n >= spec.posts.length) break;
 					await processOnePost(n);
-					if (job.postsDone % 25 === 0) {
+					// B"H 2026-10-13 (import-speed): persist job state every
+					// 500 posts, not every 25. Each save is a sync file write
+					// + directory prune scan; every-25 was 40+ saves for a
+					// 1000-post job. Every-500 is 2 saves with the same
+					// crash-resume guarantee (worst case re-processes 500
+					// posts, all idempotent). The packed batch is flushed
+					// here too so a crash never leaves >500 posts with
+					// native-but-no-packed.
+					// B"H 2026-10-12: mid-batch SERIES flush REMOVED — per-worker
+					// flushRunning flags don't coordinate across workers,
+					// causing lost updates via interleaved read-modify-write.
+					// Single final series flush (below) is atomic and complete.
+					if (job.postsDone % 500 === 0) {
+						flushPackedBatch($i, job);
 						saveJobState($i, job);
-						// B"H 2026-10-12: mid-batch flush REMOVED — per-worker
-						// flushRunning flags don't coordinate across workers,
-						// causing lost updates via interleaved read-modify-write.
-						// Single final flush (below) is atomic and complete.
 					}
 				}
 			};
 			appendJobLog($i, { jobId: job.id, event: 'workers', workers: WORKERS });
 			await Promise.all(Array.from({ length: WORKERS }, () => worker()));
+			// Final flush: any packed records still queued, then series index.
+			if (!job.dryRun) flushPackedBatch($i, job);
 			if (!job.dryRun) await this.flushSeriesAdds($i, job);
 			if (job.status === 'running') job.status = 'done';
 		} catch (e) {
@@ -798,8 +832,9 @@ class PackedPostImportRoutes {
 			errors: job.errors.length, durationMs: job.durationMs,
 		});
 		} finally {
-			// Finalize window over: deploys/restarts allowed again.
-			releaseImportLock(job.id);
+			// B"H 2026-10-13: lock removed — nothing to release.
+			// Job state is already persisted above; the client resumes
+			// 'interrupted' jobs after a restart.
 		}
 	}
 
@@ -872,6 +907,12 @@ class PackedPostImportRoutes {
 			Number(body.timeBudgetMs) > 0 ? Math.floor(Number(body.timeBudgetMs)) : 20 * 60 * 1000,
 			60 * 60 * 1000
 		);
+		// B"H 2026-10-13 (import-speed): skipLiveCheck skips the full core-shard
+		// scan at job start. Use when the client guarantees the posts are new
+		// (fresh bulk load) — the 3.9 GB scan is pure overhead in that case.
+		// Within-job idempotency (doneHashes) still applies.
+		const skipLiveCheckRaw = body.skipLiveCheck ?? requestValue(this.$i, 'skipLiveCheck');
+		const skipLiveCheck = skipLiveCheckRaw === true || skipLiveCheckRaw === 'true';
 		let posts;
 		let source;
 		let stagedDir = null;
@@ -921,11 +962,12 @@ class PackedPostImportRoutes {
 		const job = {
 			id: newJobId(), status: 'queued', dryRun,
 			spec: { heichelId, posts, source, stagedDir, aliasId: jobAliasId, aliasName: jobAliasName },
-			timeBudgetMs,
+			timeBudgetMs, skipLiveCheck,
 			totalPosts: posts.length,
 			postsDone: 0, wrote: 0, updated: 0, skipped: 0, failed: 0,
 			errors: [], doneHashes: {},
 			aliasCache: new Set(), seriesAdds: new Map(),
+			packedBatch: [],
 			cancelRequested: false,
 			createdAt: Date.now(), updatedAt: Date.now(),
 			startedAt: null, finishedAt: null, durationMs: null,

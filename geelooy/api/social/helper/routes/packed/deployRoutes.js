@@ -87,30 +87,24 @@ function appendDeployLog(entry) {
 }
 
 // ---------------------------------------------------------------------------
-// Import lock — never deploy or restart while a bulk-import finalize holds
-// the lock (Yaakov 2026-10-11: the 502 root cause was a restart mid-finalize).
-// Stale locks (>2h) are ignored so a crashed job can never wedge deploys.
-// The VM deploy client treats IMPORT_IN_PROGRESS as retryable.
+// Import lock — REMOVED (Yaakov 2026-10-13, absolute law: import jobs must
+// NEVER block anything else, ever — not deploys, not restarts, not searches).
+//
+// WHY REMOVAL IS SAFE:
+// - Deploys write to the repo working tree (geelooy/, scripts/, ops/).
+//   Imports write to the DB directory ($AWTSMOOS_DBROOT/socialPacked/).
+//   These are completely disjoint file trees — a push can never corrupt
+//   import data, and an import can never corrupt deployed code.
+// - Restart safety comes from the import job's own design, not from a lock:
+//   every write is idempotent by content hash, job state is persisted to
+//   disk at checkpoints, and a job interrupted by a restart is honestly
+//   reported as 'interrupted' so the client resumes it. The packed JSONL
+//   format is append-only and crash-safe (partial trailing lines are
+//   skipped on read).
+// - The 2026-10-11 "502 mid-finalize" incident was a restart killing
+//   in-flight requests — a momentary 502 that any restart causes, not
+//   data corruption. The fix is fast imports (<5s), not a global lock.
 // ---------------------------------------------------------------------------
-function importLockActive() {
-	try {
-		const dir = process.env.AWTSMOOS_DBROOT || '/mnt/HC_Volume_102267213/dayuhChadash';
-		const raw = JSON.parse(fs.readFileSync(path.join(dir, 'socialPacked', 'import-in-progress.lock'), 'utf8'));
-		if (raw && raw.jobId && Date.now() - (raw.startedAt || 0) < 2 * 60 * 60 * 1000) return raw;
-	} catch {}
-	return null;
-}
-
-function importLockRejection() {
-	const lock = importLockActive();
-	if (!lock) return null;
-	return {
-		success: false,
-		error: 'IMPORT_IN_PROGRESS',
-		message: 'A bulk-import finalize is running (job ' + lock.jobId + '). Deploys/restarts are held until it finishes — retry shortly.',
-		jobId: lock.jobId,
-	};
-}
 
 /** Resolve the production repo working tree. */
 function repoRoot() {
@@ -226,8 +220,9 @@ class PackedDeployRoutes {
 		if (bad) return bad;
 		const auth = this.checkAuth();
 		if (auth) return auth;
-		const locked = importLockRejection();
-		if (locked) return locked;
+		// B"H 2026-10-13: no import lock — import jobs never block restarts.
+		// A restart mid-import just marks the job 'interrupted'; the client
+		// resumes it and idempotent writes make the resume safe.
 
 		try {
 			// Try systemd first (production), fall back gracefully
@@ -269,8 +264,8 @@ class PackedDeployRoutes {
 		if (bad) return bad;
 		const auth = this.checkAuth();
 		if (auth) return auth;
-		const locked = importLockRejection();
-		if (locked) return locked;
+		// B"H 2026-10-13: no import lock — deploys write to the repo tree,
+		// imports write to the DB dir. Disjoint; never block each other.
 
 		const body = this.$i?.body || {};
 		const files = body.files || this.$i?.$_POST?.files || [];

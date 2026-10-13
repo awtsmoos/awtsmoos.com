@@ -157,14 +157,17 @@ async function main() {
 	}
 
 	console.log(`B"H pushing ${payload.length} file(s) to production (Ed25519-signed)...`);
-	// Retry loop: 502/503/504 (nginx/upstream blips) and IMPORT_IN_PROGRESS
-	// (a bulk-import finalize holds the deploy lock) are retryable with
+	// Retry loop: 502/503/504 (nginx/upstream blips) are retryable with
 	// exponential backoff. Anything else fails fast.
+	// B"H 2026-10-13: IMPORT_IN_PROGRESS is gone — the server no longer
+	// blocks deploys during imports (Yaakov's absolute law: imports never
+	// block anything). The retry entry is kept as a no-op guard in case an
+	// old server version is ever hit, but it should never trigger.
 	let data = null;
 	for (let attempt = 0; attempt < 8; attempt++) {
 		data = await signedPost('/packed/deploy/push', { message, files: payload });
 		const retryable = !data.success && (
-			data.error === 'IMPORT_IN_PROGRESS' ||
+			data.error === 'IMPORT_IN_PROGRESS' || // legacy; server no longer sends this
 			(data.error === 'BAD_RESPONSE' && [502, 503, 504].includes(data.http))
 		);
 		if (!retryable) break;
