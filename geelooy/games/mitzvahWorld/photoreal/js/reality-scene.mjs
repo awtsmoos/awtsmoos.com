@@ -410,6 +410,38 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     return tex;
   }
 
+  /* B"H — dense-canopy alpha: tex-canopy-dense.webp is photoreal leaves on BLACK.
+     Key out near-black → real alpha. The dense leaf detail survives at render
+     scale for true photoreal canopy (Yaakov 2026-10-13 98% push). */
+  async function makeDenseCanopyAlpha(url) {
+    const photo = await new Promise((res, rej) => {
+      const img = new Image();
+      img.onload = () => res(img);
+      img.onerror = rej;
+      img.src = url;
+    });
+    const S = 1024;
+    const cv = document.createElement('canvas'); cv.width = cv.height = S;
+    const cx = cv.getContext('2d');
+    cx.drawImage(photo, 0, 0, S, S);
+    const id = cx.getImageData(0, 0, S, S);
+    const d = id.data;
+    for (let i = 0; i < d.length; i += 4) {
+      // black key with soft edge: lum<=25 → transparent, >=60 → opaque
+      const lum = (d[i] + d[i + 1] + d[i + 2]) / 3;
+      const a = Math.max(0, Math.min(1, (lum - 25) / 35));
+      d[i + 3] = Math.round(a * 255);
+    }
+    cx.putImageData(id, 0, 0);
+    const tex = new THREE.CanvasTexture(cv);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
+    tex.anisotropy = 8;
+    tex.generateMipmaps = false;
+    tex.minFilter = THREE.LinearFilter;
+    return tex;
+  }
+
   /* B"H — leaf-cluster alpha: tex-leaf-cluster.webp is sunlit leaves on WHITE.
      Key out near-white → real alpha, so canopy quads show INDIVIDUAL LEAVES
      with true shapes instead of flat green blobs (Yaakov 2026-10-13: "leaves
@@ -451,7 +483,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   /* textures (real photographs, Awtsmoos Drive) */
   const [grassTex, dirtTex, barkTex, canopyTex, leafTex,
          grassGroundTex, barkDetailTex, mossGroundTex, mossyBarkTex, fernTex,
-         leafClusterTex] = await Promise.all([
+         leafClusterTex, denseCanopyTex] = await Promise.all([
     loadTexture(TEX + 'grass1.jpg', 30, 30),
     loadTexture(TEX + 'dirt1.jpg', 40, 3),
     loadTexture(TEX + 'bark1.webp', 1, 2),
@@ -467,6 +499,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     // B"H 2026-10-13 iter6: tex-leaf-big = center-cropped for BIGGER leaves
     // at render scale. The full-cluster texture minified to mush.
     makeLeafClusterAlpha(TEX + 'new/tex-leaf-big.webp'),
+    // B"H — 98% push: dense photoreal canopy (black keyed to alpha)
+    makeDenseCanopyAlpha(TEX + 'tex-canopy-dense.webp'),
   ]);
   mark('textures');
 
@@ -854,17 +888,17 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
        around twig tips. Foliage hugs the wood: quads sit at multiple points
        along each segment's length with small jitter, so no leaf floats in
        empty space and the crown interior stays full. */
-    const quadGeo = new THREE.PlaneGeometry(2.6, 2.6);
+    const quadGeo = new THREE.PlaneGeometry(1.4, 1.4);
     const quadMat = new THREE.MeshStandardMaterial({
-      map: leafClusterTex, alphaTest: 0.35, side: THREE.DoubleSide,
-      roughness: 0.9, color: new THREE.Color(0.35, 0.42, 0.22),
+      map: denseCanopyTex, alphaTest: 0.30, side: THREE.DoubleSide,
+      roughness: 0.9, color: new THREE.Color(0.45, 0.52, 0.32),
       emissive: new THREE.Color(0.012, 0.022, 0.010),
       depthWrite: true,
     });
     // anchor points: along-segment points + tips
     const anchors = [];
     for (const g of segs) {
-      const along = 3; // quads stations per segment
+      const along = 5; // quads stations per segment (denser for photoreal)
       for (let k = 1; k <= along; k++) {
         const t = k / (along + 1);
         anchors.push({
