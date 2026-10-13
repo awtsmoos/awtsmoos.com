@@ -85,18 +85,24 @@ function bustFile(relPath) {
 	const report = [];
 
 	// Match: href="...", src="...", @import url(...), import("..."), url(...)
-	const re = /((?:href|src)\s*=\s*["']|@import\s+url\(\s*["']?|(?:await\s+)?import\s*\(\s*["']|url\(\s*["']?)([^"'()\s]+\.(?:css|js|webp|png|jpg|jpeg|gif|svg|mp4|webm|woff2?))(\?v=[^"'()\s]*)?(["']?\s*\)?)/gi;
+	// B"H — the query capture keeps the full query so the compact-prewarm
+	// covenant (?compact=true) survives cache busting instead of being
+	// stripped on every deploy.
+	const re = /((?:href|src)\s*=\s*["']|@import\s+url\(\s*["']?|(?:await\s+)?import\s*\(\s*["']|url\(\s*["']?)([^"'()\s]+\.(?:css|js|webp|png|jpg|jpeg|gif|svg|mp4|webm|woff2?))(\?[^"'()\s]*)?(["']?\s*\)?)/gi;
 
-	const out = text.replace(re, (m, prefix, url, vParam, suffix) => {
+	const out = text.replace(re, (m, prefix, url, queryParam, suffix) => {
 		const resolved = resolveAsset(url, relPath);
 		if (!resolved) return m;
+
+		// B"H — preserve the compact-prewarm covenant across busts.
+		const keepCompact = /(?:^|[?&])compact=true(?:&|$)/.test(queryParam || '');
 
 		let hash;
 		if (resolved.drive) {
 			// For Drive URLs, we can't hash the remote file cheaply.
 			// Use a timestamp-based bust ONLY if the URL doesn't already have a hash-like v param.
 			// Better: the upload script should provide hashes. For now, skip if already versioned.
-			if (vParam && /^(\?v=[a-f0-9]{6,})$/.test(vParam)) return m;
+			if (queryParam && /[?&]v=[a-f0-9]{6,}/.test(queryParam)) return m;
 			return m; // Don't touch Drive URLs without local hash info
 		} else {
 			try {
@@ -107,12 +113,14 @@ function bustFile(relPath) {
 		}
 
 		const base = url.split('?')[0];
-		const current = vParam || '';
-		if (current === `?v=${hash}`) return m;
+		const freshQuery = `?v=${hash}${keepCompact ? '&compact=true' : ''}`;
+		// Idempotent: the only queries we ever write are ?v=<hash> and
+		// ?v=<hash>&compact=true, so an exact match means nothing to do.
+		if (queryParam === freshQuery) return m;
 
 		changed++;
-		report.push(`  ${resolved.local || resolved.url}: ${current || '(none)'} -> ?v=${hash}`);
-		return `${prefix}${base}?v=${hash}${suffix}`;
+		report.push(`  ${resolved.local || resolved.url}: ${queryParam || '(none)'} -> ${freshQuery}`);
+		return `${prefix}${base}${freshQuery}${suffix}`;
 	});
 
 	if (changed > 0 && WRITE) {

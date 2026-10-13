@@ -11,7 +11,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { EXPEDITION_BOSSES } from '../../js/data/expedition/bossCatalog.js';
-import { ADVENTURE_MAPS } from '../../js/data/maps.js';
+import { ADVENTURE_MAPS } from '../../js/data/adventure/adventureLevels.js';
 import {
 	initializeExpeditionBoss,
 	stepExpeditionBoss

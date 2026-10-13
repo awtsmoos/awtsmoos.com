@@ -8,7 +8,22 @@
  * named gear receives a visible aura that never alters collision or authoritative force.
  */
 
-import { drawExpeditionWeaponAura } from './ExpeditionWeaponAura.js';
+// B"H — the expedition weapon aura (and its gear catalog) stays out of the
+// boot graph. Only expedition weapons carry expeditionGearId, so the aura
+// loads on first expedition entry; the call site self-heals with a
+// fire-and-forget import if such a weapon appears before the preload lands.
+let drawExpeditionWeaponAuraImpl = null;
+let expeditionWeaponAuraPromise = null;
+
+/** Preloads the expedition weapon aura painter; safe to call repeatedly. */
+export function ensureExpeditionWeaponAura() {
+	if (!expeditionWeaponAuraPromise) {
+		expeditionWeaponAuraPromise = import('./ExpeditionWeaponAura.js').then(mod => {
+			drawExpeditionWeaponAuraImpl = mod.drawExpeditionWeaponAura;
+		});
+	}
+	return expeditionWeaponAuraPromise;
+}
 
 export function drawWeapons(ctx, weapons) {
 	for (const weapon of weapons) {
@@ -39,7 +54,8 @@ function drawWeapon(ctx, weapon, x, y, face, spin) {
 	ctx.save();
 	ctx.translate(x, y);
 	ctx.rotate(spin * 0.2);
-	drawExpeditionWeaponAura(ctx, weapon, face);
+	if (weapon.expeditionGearId && !drawExpeditionWeaponAuraImpl) void ensureExpeditionWeaponAura();
+	if (drawExpeditionWeaponAuraImpl) drawExpeditionWeaponAuraImpl(ctx, weapon, face);
 	ctx.strokeStyle = weapon.color;
 	ctx.fillStyle = weapon.color;
 	ctx.lineWidth = 4;

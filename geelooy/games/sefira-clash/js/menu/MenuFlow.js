@@ -21,6 +21,7 @@ import {
 	revealCustomization
 } from './menuUtilityFlow.js';
 import { refreshVsLobby, showVsArena, showVsMenu } from './VsMenuFlow.js';
+import { installMenuFlowExpedition } from './MenuFlowExpedition.js';
 
 export class MenuFlow {
 	constructor(options) {
@@ -37,32 +38,6 @@ export class MenuFlow {
 		this.currentView = 'mode';
 		// Lazy: created on first expedition access.
 		this.expeditionSync = null;
-	}
-
-	/**
-	 * Loads the expedition sync coordinator on first use.
-	 * Requires the expedition model to be prepared via model.ensureExpedition().
-	 */
-	async ensureExpeditionSync() {
-		if (!this.expeditionSync) {
-			await this.model.ensureExpedition();
-			const { ExpeditionSyncCoordinator } = await import(
-				'../expedition/ExpeditionSyncCoordinator.js'
-			);
-			this.expeditionSync = new ExpeditionSyncCoordinator(
-				this.model.expedition
-			);
-		}
-		return this.expeditionSync;
-	}
-
-	/** Safely closes expedition sync if it was ever created. */
-	closeExpeditionSync() {
-		try {
-			this.expeditionSync?.close();
-		} catch {
-			/* never block unload */
-		}
 	}
 
 	showCustomize() {
@@ -107,19 +82,6 @@ export class MenuFlow {
 		showAdventureMenu(this);
 	}
 
-	async showExpedition() {
-		this.status.textContent = 'Charting the expedition road…';
-		await this.ensureExpeditionSync();
-		const { showExpeditionMenu } = await import('./JourneyMenuFlow.js');
-		showExpeditionMenu(this);
-	}
-
-	async refreshExpedition() {
-		await this.ensureExpeditionSync();
-		const { refreshExpeditionMenu } = await import('./JourneyMenuFlow.js');
-		refreshExpeditionMenu(this);
-	}
-
 	showCoop() {
 		globalThis.location?.assign?.('./coop.html');
 	}
@@ -146,3 +108,5 @@ export class MenuFlow {
 		this.status.textContent = message;
 	}
 }
+
+installMenuFlowExpedition(MenuFlow);

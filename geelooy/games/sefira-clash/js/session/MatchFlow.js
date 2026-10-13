@@ -8,7 +8,7 @@
  * journey behavior without obscuring local VS roster law.
  */
 
-import { adventureStatusLine } from '../adventure/adventureRun.js';
+import { adventureRunStatusLine as adventureStatusLine } from '../adventure/AdventureStatus.js';
 import { showCountdown } from '../menu/menuViews.js';
 import { enterMatchVictory } from './MatchVictory.js';
 import { isJourneyMode, journeyStatus, noopSceneChange } from './modeHelpers.js';

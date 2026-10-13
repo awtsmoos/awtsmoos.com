@@ -12,7 +12,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { EXPEDITION_LOCATIONS } from '../../js/data/expedition/locationCatalog.js';
 import { EXPEDITION_MAP_VARIANTS } from '../../js/data/expedition/mapVariantCatalog.js';
-import { ADVENTURE_MAPS } from '../../js/data/maps.js';
+import { ADVENTURE_MAPS } from '../../js/data/adventure/adventureLevels.js';
 import { compileExpeditionMaps } from '../../js/expedition/ExpeditionMapCompiler.js';
 
 test('compiles thirty unique bespoke Expedition roads', () => {

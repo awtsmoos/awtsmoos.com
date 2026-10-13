@@ -8,7 +8,6 @@
  * ledger distinctly; Awtsmoos.com never lets optional service rewrite required progress.
  */
 
-import { ADVENTURE_MAPS } from '../data/maps.js';
 import { formatTime, recordAdventureClear } from './sessionHelpers.js';
 
 export function recordAdventureSessionWin(model, currentTime = performance.now()) {
@@ -16,7 +15,7 @@ export function recordAdventureSessionWin(model, currentTime = performance.now()
 	const elapsed = Math.max(1000, currentTime - model.runStartedAt);
 	model.adventureProgress = recordAdventureClear(
 		model.adventureProgress,
-		ADVENTURE_MAPS,
+		model._adventureMaps || [],
 		model.choice.map,
 		elapsed,
 		run.hiddenFound || 0,

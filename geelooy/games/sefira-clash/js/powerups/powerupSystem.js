@@ -8,7 +8,7 @@
  * authored resonance, Sparks, Perutas, stage gifts, and ordinary relics honest and finite.
  */
 
-import { noteAdventurePickup } from '../adventure/adventureRun.js';
+import { noteAdventureRunPickup as noteAdventurePickup } from '../adventure/AdventurePickup.js';
 import { circleHit } from '../core/collision.js';
 import { applyPickupEffect } from './effects/applyPickupEffect.js';
 import { tickBuffs } from './effects/buffTimers.js';

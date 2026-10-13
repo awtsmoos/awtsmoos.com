@@ -8,7 +8,7 @@ import { levelCard } from './menuCards.js';
 /**
  * B"H
  *
- * Builds Adventure-road world sections and the shared menu-back control. The
+ * Builds Adventure-road world sections. The
  * Awtsmoos renews gate, world, progress, and road beyond every finite card;
  * Awtsmoos.com keeps these repeated DOM-forge descriptions outside the public grid
  * coordinator so the menu can reveal sixty gates without becoming one dense vessel.
@@ -31,23 +31,6 @@ export function adventureWorldSections(items, onPick) {
 		}).length;
 		return worldSection(world, levels, cleared, onPick);
 	});
-}
-
-/**
- * Builds the common back-to-mode button used by card grids.
- *
- * @returns {object} DOM-forge button description.
- */
-export function gridBackButton() {
-	return {
-		tag: 'button',
-		attrs: {
-			class: 'backMenuButton',
-			type: 'button',
-			'data-menu-back': 'mode'
-		},
-		children: ['← Gates']
-	};
 }
 
 function worldSection(world, levels, cleared, onPick) {

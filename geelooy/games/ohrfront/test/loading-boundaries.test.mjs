@@ -29,9 +29,9 @@ test("HTML renders first-paint status before dependency-free bootstrap execution
 	assert.match(hodHtml, /ohr-startup__message/);
 });
 
-test("HTML requests compact CSS while loading only the tiny bootstrap module directly", async () => {
+test("HTML requests versioned CSS while loading only the tiny bootstrap module directly", async () => {
 	const hodHtml = await readHodOhrfrontSource("index.html");
-	assert.match(hodHtml, /ohrfront\.css\?compact=true/);
+	assert.match(hodHtml, /ohrfront\.css\?v=[0-9a-f]+(&compact=true)?/);
 	assert.match(hodHtml, /src\/loading\/MalchusOhrfrontBootstrap\.js/);
 	assert.doesNotMatch(hodHtml, /script[^>]+src="\.\/src\/OhrfrontEntry\.js/);
 });

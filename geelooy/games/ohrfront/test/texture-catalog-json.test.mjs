@@ -31,7 +31,7 @@ test("machine-readable texture catalog mirrors canonical Mitzvah records exactly
 	const catalog = JSON.parse(await readFile(CATALOG_URL, "utf8"));
 	const canonical = remoteTextureRecords();
 	assert.equal(catalog.BH, 'B"H');
-	assert.equal(catalog.productionRoot, "https://awtsmoos.com/sites/firebase_drive_migration/");
+	assert.equal(catalog.productionRoot, "https://awtsmoos.com/api/social/drive/public/firebase_drive_migration/");
 	assert.equal(catalog.count, 125);
 	assert.deepEqual(catalog.families, EXPECTED_FAMILIES);
 	assert.equal(catalog.entries.length, canonical.length);

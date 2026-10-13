@@ -12,8 +12,8 @@
 	<meta name="theme-color" content="#050b16">
 	<meta name="color-scheme" content="dark">
 	<title>Ohrbound: Gates of Asiyah</title>
-	<link rel="stylesheet" href="./styles/index.css?v=f9bc72280e">
-	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=6c6d50d989">
+	<link rel="stylesheet" href="./styles/index.css?v=f9bc72280e&compact=true">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=6c6d50d989&compact=true">
 </head>
 <body class="ohrbound-app" data-mode="menu">
 	<!-- B"H Awtsmoos game loading screen: static shell paints on first paint; player-shell hydrates progress/tips/fade. -->
@@ -88,9 +88,9 @@
 	<div class="toast" data-toast role="status" aria-live="polite" hidden></div>
 	<dialog id="character-dialog" class="focus-dialog"><div class="dialog-heading"><div><small>Character vessel</small><h2>Choose your light</h2></div><button type="button" data-character-close aria-label="Close character choices">×</button></div><p>Cosmetic only. Every vessel keeps the exact same hitbox and movement.</p><div class="character-grid" data-character-grid></div></dialog>
 	<dialog id="account-dialog" class="focus-dialog"><form method="dialog"><div class="dialog-heading"><div><small>Awtsmoos account</small><h2>Continue your journey</h2></div><button type="button" data-login-close aria-label="Close sign in">×</button></div><label>Username<input name="username" autocomplete="username" required></label><label>Password<input name="password" type="password" autocomplete="current-password" required></label><button class="primary-button" type="submit">Sign in</button><p data-login-status></p></form></dialog>
-	<script type="module" src="/games/scripts/runtime/index.js?v=6fd9ae91f1"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?v=6fd9ae91f1&compact=true"></script>
 	<script src="/games/js/awtsmoos-webgl-check.js?v=6498bdf075"></script>
-	<script type="module" src="./src/main.js?v=bf657fb061"></script>
-	<script type="module" async src="/games/scripts/player-shell/index.js?v=0ee3e8dd31"></script>
+	<script type="module" src="./src/main.js?v=bf657fb061&compact=true"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=0ee3e8dd31&compact=true"></script>
 </body>
 </html>

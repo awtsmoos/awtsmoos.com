@@ -12,7 +12,7 @@ import { projectPoint } from '../src/render/ProjectionMath.js';
 const ASPECT = 16 / 9;
 
 test('camera target projects to the center of the screen', () => {
-	const projected = projectPoint([0, 1.25, -25], ASPECT);
+	const projected = projectPoint([0, 0.9, -8], ASPECT);
 	assert.ok(Math.abs(projected.x - 0.5) < 0.0001);
 	assert.ok(Math.abs(projected.y - 0.5) < 0.0001);
 	assert.equal(projected.visible, true);

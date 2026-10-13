@@ -10,7 +10,7 @@
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { ADVENTURE_MAPS } from '../../js/data/maps.js';
+import { ADVENTURE_MAPS } from '../../js/data/adventure/adventureLevels.js';
 import { WEAPON_IDS } from '../../js/data/weapons.js';
 import { EXPEDITION_GEAR } from '../../js/data/expedition/gearCatalog.js';
 import { EXPEDITION_LOCATIONS } from '../../js/data/expedition/locationCatalog.js';

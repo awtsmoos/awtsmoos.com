@@ -8,7 +8,7 @@
  * while item and resonance policy enter factories through an explicit immutable snapshot.
  */
 
-import { createAdventureRun } from '../adventure/adventureRun.js';
+import { createAdventureRunState as createAdventureRun } from '../adventure/AdventureRunState.js';
 import { createCombatDiagnostics } from '../combat/comboSystem.js';
 import { createMapPowerups } from '../powerups/powerupFactory.js';
 import { createStageDirector } from '../stage/events/stageDirector.js';

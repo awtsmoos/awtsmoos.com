@@ -37,7 +37,10 @@ function classTokens(malchusMarkup) {
 
 test("tiny host delegates game UI locally while integrating the shared player shell once", async () => {
 	const hodHost = await readFile(new URL("index.html", ROOT), "utf8");
-	assert.ok(hodHost.split("\n").length <= 40);
+	// B"H — 2026-10-13: 40 -> 48. The shared loading-screen integration
+	// (awt-loading-screen.js + awtsmoos-loading.js + awtsmoos-game-base.css)
+	// keeps the host thin; the covenant is "thin host", not a frozen count.
+	assert.ok(hodHost.split("\n").length <= 48);
 	assert.match(hodHost, /id="ohrfront-shell" class="ohrfront-app"/);
 	assert.doesNotMatch(hodHost, /id="hud"|id="launch-overlay"/);
 	assert.equal((hodHost.match(/\/games\/styles\/player-shell\/index\.css/g) || []).length, 1);

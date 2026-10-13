@@ -32,17 +32,21 @@ function stylesheetLinks() {
 }
 test("one local crown and one current universal shell own the page", () => {
 	const links = stylesheetLinks();
-	assert.equal(links.length, 2);
-	assert.match(links[0], /href="\.\/styles\/index\.css\?compact=true"/);
-	assert.match(links[1], /player-shell\/index\.css\?v=player-shell-003&compact=true/);
+	// B"H — 2026-10-13: the shared loader shell adds its webgl-check and
+	// loading-screen garments; the crown/shell covenant stands beneath them.
+	assert.equal(links.length, 4);
+	const localCrowns = links.filter(link => /\.\/styles\//.test(link));
+	assert.equal(localCrowns.length, 1);
+	assert.match(links[2], /href="\.\/styles\/index\.css\?v=[0-9a-f]+&compact=true"/);
+	assert.match(links[3], /player-shell\/index\.css\?v=[0-9a-f]+&compact=true/);
 	assert.doesNotMatch(keterStyles, /player-shell\/index\.css/);
 	assert.match(malchusHtml, /<body class="ohrbound-app" data-mode="menu">/);
 });
 
 test("compact runtime and application graphs remain requested", () => {
-	assert.match(malchusHtml, /games\/scripts\/runtime\/index\.js\?compact=true/);
-	assert.match(malchusHtml, /src\/main\.js\?compact=true/);
-	assert.match(malchusHtml, /player-shell\/index\.js[^"']*compact=true/);
+	assert.match(malchusHtml, /games\/scripts\/runtime\/index\.js\?v=[0-9a-f]+&compact=true/);
+	assert.match(malchusHtml, /src\/main\.js\?v=[0-9a-f]+&compact=true/);
+	assert.match(malchusHtml, /player-shell\/index\.js\?v=[0-9a-f]+&compact=true/);
 });
 
 test("local crown orders foundation, motion, interactions, then containment", () => {

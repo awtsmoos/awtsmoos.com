@@ -27,6 +27,7 @@
 	--merkava-layer-canvas: 0;
 	--merkava-layer-labels: 20;
 	--merkava-layer-hud: 30;
+	--merkava-layer-hud-toggle: 31;
 	--merkava-layer-overlay: 40;
 	--merkava-layer-notice: 50;
 	--merkava-layer-fatal: 60;

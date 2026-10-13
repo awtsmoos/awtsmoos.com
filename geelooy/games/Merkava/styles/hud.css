@@ -172,7 +172,7 @@
 	position: absolute;
 	top: max(0.65rem, env(safe-area-inset-top));
 	right: 0.7rem;
-	z-index: calc(var(--merkava-layer-hud) + 1);
+	z-index: var(--merkava-layer-hud-toggle);
 	inline-size: 2.4rem;
 	block-size: 2.4rem;
 	border-radius: 999px;

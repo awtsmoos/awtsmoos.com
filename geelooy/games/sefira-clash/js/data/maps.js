@@ -11,6 +11,7 @@
  * B"H
  * Legacy map export bridge.
  *
- * Chapter 307: one doorway now exports both VS arenas and Adventure levels.
+ * VS arenas ride the boot graph; Adventure levels load lazily on mode entry
+ * via js/data/adventure/adventureLevels.js.
  */
-export { ADVENTURE_MAPS, MAPS } from './maps/index.js';
+export { MAPS } from './maps/index.js';

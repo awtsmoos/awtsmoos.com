@@ -30,7 +30,6 @@ import { tiferesBattlefieldVast } from './tiferesBattlefieldVast.js';
 import { treeOfLifeArena } from './treeOfLifeArena.js';
 import { upgradeLevel } from './upgradeLevels.js';
 import { yesodMoonEngine } from './yesodMoonEngine.js';
-import { ADVENTURE_MAPS } from '../adventure/adventureLevels.js';
 
 /** B"H — Map registry with VS arenas and fifty Adventure gates. */
 const RAW_MAPS = [
@@ -59,4 +58,3 @@ const RAW_MAPS = [
 ];
 
 export const MAPS = RAW_MAPS.map(upgradeLevel);
-export { ADVENTURE_MAPS };

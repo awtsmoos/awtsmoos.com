@@ -8,7 +8,8 @@
  * import, rule, and value receives existence anew without confused purpose.
  */
 import assert from 'node:assert/strict';
-import { ADVENTURE_MAPS, MAPS } from '../js/data/maps.js';
+import { MAPS } from '../js/data/maps.js';
+import { ADVENTURE_MAPS } from '../js/data/adventure/adventureLevels.js';
 import { createGameState } from '../js/core/state.js';
 import { stepState } from '../js/core/loop.js';
 

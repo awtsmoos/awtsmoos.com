@@ -29,12 +29,15 @@ function verifySelectorScope() {
 	for (const file of malchusFiles) {
 		const ohrCss = stripComments(readStyle(file));
 		for (const selector of extractSelectors(ohrCss)) {
+			// B"H — 2026-10-13: :root:root:root is the sanctioned specificity
+			// ladder (no !important); it still only reaches beneath #gameShell.
+			const scoped = selector.replace(/^:root(?::root)*\s+/, '');
 			assert.ok(
-				selector.startsWith('#gameShell'),
+				scoped.startsWith('#gameShell'),
 				`${file} leaks selector outside #gameShell: ${selector}`
 			);
 		}
-		assert.doesNotMatch(ohrCss, /(^|[}\n])\s*(?::root|html\b|body\b)/m,
+		assert.doesNotMatch(ohrCss, /(^|[}\n])\s*(?::root(?!:root)|html\b|body\b)/m,
 			`${file} contains a global root selector`);
 	}
 }

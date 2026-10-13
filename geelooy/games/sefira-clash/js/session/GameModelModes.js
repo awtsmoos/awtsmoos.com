@@ -3,7 +3,7 @@
 //Blessed is He
 
 import { characterById } from '../data/characters.js';
-import { ADVENTURE_MAPS, MAPS } from '../data/maps.js';
+import { MAPS } from '../data/maps.js';
 import { nextStage } from './sessionHelpers.js';
 
 /**
@@ -61,8 +61,9 @@ export function nextModelMap(model) {
 	if (model.choice.mode === 'expedition') {
 		return model.expedition.nextMap(model.choice.map.id);
 	}
+	// B"H — adventure maps arrive with the ensured journey model, never the boot graph.
 	const list = model.choice.mode === 'adventure'
-		? ADVENTURE_MAPS
+		? model._adventureMaps || []
 		: MAPS;
 	return nextStage(list, model.choice.map);
 }

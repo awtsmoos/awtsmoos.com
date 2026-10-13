@@ -4,10 +4,7 @@
 
 import { reveal } from './domForge.js';
 import { arenaCard } from './menuCards.js';
-import {
-	adventureWorldSections,
-	gridBackButton
-} from './adventureGridParts.js';
+import { gridBackButton } from './menuBackButton.js';
 
 /**
  * B"H
@@ -67,7 +64,10 @@ export function showCardGrid(host, config) {
  * @param {object} config Adventure grid configuration.
  * @returns {void}
  */
-export function showAdventureGrid(host, config) {
+export async function showAdventureGrid(host, config) {
+	// B"H — the adventure world sections (and their level data) stay out of the
+	// boot graph; this screen already awaits the lazy adventure model upstream.
+	const { adventureWorldSections } = await import('./adventureGridParts.js');
 	const cleared = config.items.filter((item) => {
 		return item.adventureUi?.cleared;
 	}).length;

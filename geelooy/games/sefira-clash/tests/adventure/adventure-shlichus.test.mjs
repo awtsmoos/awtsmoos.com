@@ -18,7 +18,7 @@ import {
 	decorateAdventureShlichusMaps,
 	recordAdventureShlichusClear
 } from '../../js/adventure/AdventureShlichusProgress.js';
-import { ADVENTURE_MAPS } from '../../js/data/maps.js';
+import { ADVENTURE_MAPS } from '../../js/data/adventure/adventureLevels.js';
 
 installStorage();
 

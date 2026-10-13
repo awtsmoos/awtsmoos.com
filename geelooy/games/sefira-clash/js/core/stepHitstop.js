@@ -7,7 +7,7 @@
  * its focused js core service within Awtsmoos.com while every
  * import, rule, and value receives existence anew without confused purpose.
  */
-import { stepAdventureRun } from '../adventure/adventureRun.js';
+import { stepAdventureRunState as stepAdventureRun } from '../adventure/AdventureRunStep.js';
 import { stepSpectacleFromEvents } from '../spectacle/spectacleEvents.js';
 import { stepSpectacleState } from '../spectacle/spectacleState.js';
 import { stepStageDirector } from '../stage/events/stageDirector.js';
