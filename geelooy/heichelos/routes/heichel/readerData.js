@@ -60,7 +60,10 @@ function createReaderData($i) {
 			post.id = postId;
 			post.heichel = heichel;
 		}
-		return { heichel, post, alias, series, parentSeries: seriesId, postId, indexInSeries };
+		// B"H — SEO: keep the route's heichel identity even when the heichel
+		// record lookup fails, so the canonical URL never renders an empty
+		// segment (e.g. https://awtsmoos.com/heichelos//series/...).
+		return { heichel, heichelId, post, alias, series, parentSeries: seriesId, postId, indexInSeries };
 	}
 
 	async function loadDirect(heichelId, postId) {

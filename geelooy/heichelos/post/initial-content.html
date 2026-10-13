@@ -87,6 +87,67 @@ Awtsmoos.com reveals exact pasuk identity immediately while generic teachings re
 		}).filter(Boolean).join("\n");
 	}
 
+	// B"H — SEO: server-render every translated unit so crawlers read the
+	// English without JavaScript. Hebrew and English each carry their own
+	// lang/dir vessel; units never share one anonymous block.
+	function unitField(unit, names) {
+		if (!unit || typeof unit !== "object") {
+			return "";
+		}
+		for (var index = 0; index < names.length; index++) {
+			var value = unit[names[index]];
+			if (value != null && String(value).trim() !== "") {
+				return toPlainText(value);
+			}
+		}
+		return "";
+	}
+
+	function unitLanguagesPresent(units) {
+		var found = { he: false, en: false };
+		if (!Array.isArray(units)) {
+			return found;
+		}
+		for (var index = 0; index < units.length; index++) {
+			if (!found.he && unitField(units[index], ["he", "hebrew"])) {
+				found.he = true;
+			}
+			if (!found.en && unitField(units[index], ["en", "english"])) {
+				found.en = true;
+			}
+			if (found.he && found.en) {
+				break;
+			}
+		}
+		return found;
+	}
+
+	function renderPostUnits(units) {
+		if (!Array.isArray(units) || !units.length) {
+			return "";
+		}
+		return units.map(function (unit, index) {
+			var hebrew = unitField(unit, ["he", "hebrew"]);
+			var english = unitField(unit, ["en", "english"]);
+			if (!hebrew && !english) {
+				return "";
+			}
+			var number = index + 1;
+			var parts = [];
+			if (hebrew) {
+				parts.push("<div class=\"awtsmoos-initial-unit-he\" lang=\"he\" dir=\"rtl\">"
+					+ renderParagraphs(hebrew) + "</div>");
+			}
+			if (english) {
+				parts.push("<div class=\"awtsmoos-initial-unit-en\" lang=\"en\" dir=\"ltr\">"
+					+ renderParagraphs(english) + "</div>");
+			}
+			return "<section class=\"awtsmoos-initial-unit\" id=\"unit-" + number + "\""
+				+ " data-awtsmoos-unit data-unit=\"" + number + "\">"
+				+ parts.join("\n") + "</section>";
+		}).filter(Boolean).join("\n");
+	}
+
 	function renderCanonicalSections(sections, meta) {
 		if (!Array.isArray(sections) || !meta || meta.canonicalHebrew !== true) {
 			return "";
@@ -121,21 +182,43 @@ Awtsmoos.com reveals exact pasuk identity immediately while generic teachings re
 	var resolvedAlias = typeof alias === "object" && alias ? alias : {};
 	var dayuh = typeof resolvedPost.dayuh === "object" && resolvedPost.dayuh ? resolvedPost.dayuh : {};
 	var structuredMarkup = renderCanonicalSections(dayuh.sections, dayuh.meta || {});
-	var bodySource = resolvedPost.content || dayuh.content || dayuh;
-	var body = structuredMarkup ? "" : collectReadableText(bodySource, 0);
+	// B"H — try every vessel a post can carry its text in before giving up;
+	// when nothing is recoverable, keep an honest empty vessel marked
+	// data-awtsmoos-awaiting-text so client hydration can fill it — never a
+	// permanent "preparing" promise printed as if loading were in progress.
+	var unitsMarkup = structuredMarkup ? "" : renderPostUnits(resolvedPost.units);
+	var unitLanguages = structuredMarkup ? { he: true, en: false } : unitLanguagesPresent(resolvedPost.units);
+	var bodySource = resolvedPost.content || resolvedPost.body || resolvedPost.text || resolvedPost.sections
+		|| dayuh.content || dayuh;
+	var body = (structuredMarkup || unitsMarkup) ? "" : collectReadableText(bodySource, 0);
 	var title = toPlainText(resolvedPost.title) || "Torah Revelation";
+	var titleHe = toPlainText(resolvedPost.heTitle);
+	var titleMarkup;
+	if (titleHe && title !== "Torah Revelation" && titleHe !== title) {
+		titleMarkup = "<h1><span lang=\"he\" dir=\"rtl\">" + escapeHtml(titleHe) + "</span>"
+			+ " <span lang=\"en\">" + escapeHtml(title) + "</span></h1>";
+	} else if (titleHe) {
+		titleMarkup = "<h1 lang=\"he\" dir=\"rtl\">" + escapeHtml(titleHe) + "</h1>";
+	} else {
+		titleMarkup = "<h1>" + escapeHtml(title) + "</h1>";
+	}
 	var heichelName = toPlainText(resolvedHeichel.name || resolvedHeichel.title);
 	var authorName = toPlainText(resolvedAlias.name || resolvedAlias.aliasId);
 	var context = [heichelName, authorName ? "By " + authorName : ""].filter(Boolean).join(" · ");
-	var bodyMarkup = structuredMarkup
-		|| renderParagraphs(body)
-		|| "<p>The Torah text is preparing for the interactive reader.</p>";
-	return "<article class=\"awtsmoos-initial-post\" data-awtsmoos-initial-post dir=\"auto\">"
+	var bodyMarkup = structuredMarkup || unitsMarkup || renderParagraphs(body);
+	var awaitingText = bodyMarkup ? "" : " data-awtsmoos-awaiting-text=\"true\"";
+	var articleLangAttrs = (unitLanguages.he && !unitLanguages.en)
+		? " lang=\"he\" dir=\"rtl\""
+		: ((unitLanguages.en && !unitLanguages.he) ? " lang=\"en\" dir=\"ltr\"" : " dir=\"auto\"");
+	var enhancementStatus = bodyMarkup
+		? "<p class=\"awtsmoos-reader-enhancement-status\" role=\"status\">"
+			+ "Interactive reader tools are loading; the Torah text above is ready now."
+			+ "</p>"
+		: "";
+	return "<article class=\"awtsmoos-initial-post\" data-awtsmoos-initial-post" + awaitingText + articleLangAttrs + ">"
 		+ (context ? "<p class=\"awtsmoos-initial-post-context\">" + escapeHtml(context) + "</p>" : "")
-		+ "<h1>" + escapeHtml(title) + "</h1>"
+		+ titleMarkup
 		+ "<div class=\"awtsmoos-initial-post-body\">" + bodyMarkup + "</div>"
-		+ "<p class=\"awtsmoos-reader-enhancement-status\" role=\"status\">"
-		+ "Interactive reader tools are loading; the Torah text above is ready now."
-		+ "</p>"
+		+ enhancementStatus
 		+ "</article>";
 </script>?>

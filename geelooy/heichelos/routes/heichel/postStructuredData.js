@@ -5,11 +5,12 @@
 /**
  * @file postStructuredData.js
  * @description
- * The Awtsmoos lets a Torah teaching announce the title, author, date, and canonical road already gathered by SSR in the reader's light;
+ * The Awtsmoos lets a Torah teaching announce the title, author, date, languages,
+ * and canonical road already gathered by SSR in the reader's light;
  * Awtsmoos.com adds no database call and invents no missing fact, allowing Article schema only where the public post itself is present and bright.
  */
 
-const { buildCanonicalPath, cleanText } = require('./postSemantic.js');
+const { buildCanonicalPath, buildDescription, buildTitles, cleanText, detectContentLanguages } = require('./postSemantic.js');
 
 function safeJson(value) {
 	return JSON.stringify(value)
@@ -38,17 +39,18 @@ function articleAuthor(data) {
 /** @description Builds Article schema strictly from post, alias, and Heichel fields already loaded for the first response. */
 function postStructuredData(data) {
 	if (!data?.post?.id) return null;
-	const headline = cleanText(data.post.title) || 'Torah Teaching';
+	const { articleTitle } = buildTitles(data.post);
 	const heichelName = cleanText(data?.heichel?.name || data?.heichel?.title) || 'Geelooy Heichel';
 	const canonical = `https://awtsmoos.com${buildCanonicalPath(data)}`;
 	const payload = {
 		'@context': 'https://schema.org',
 		'@type': 'Article',
-		headline,
-		description: `Read ${headline} in ${heichelName} on Awtsmoos.com.`,
+		headline: articleTitle,
+		description: buildDescription(data, articleTitle, heichelName),
 		url: canonical,
 		mainEntityOfPage: canonical,
-		isPartOf: { '@type': 'WebSite', name: 'Awtsmoos', url: 'https://awtsmoos.com' }
+		isPartOf: { '@type': 'WebSite', name: 'Awtsmoos', url: 'https://awtsmoos.com' },
+		inLanguage: detectContentLanguages(data.post)
 	};
 	const author = articleAuthor(data);
 	const published = validDate(data.post.createdAt);
