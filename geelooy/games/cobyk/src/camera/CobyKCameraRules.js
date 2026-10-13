@@ -22,9 +22,15 @@ export const COBYK_CAMERA_RULES = Object.freeze({
 	maximumVisibleHeight: 14,
 	// B"H — Yaakov 2026-10-13: camera must track the player tightly.
 	// Dead zones shrunk to near-zero so the camera never feels disconnected.
-	// B"H — Yaakov 2026-10-13: player sits slightly below center (not dead-center),
-	// so more of the world ahead stays visible above.
-	focusUpwardOffset: 0.45,
+	// B"H — Yaakov 2026-10-13: "Make more center." The player was pinned to the
+	// very bottom of the screen (behind the touch controls) because the Y clamp
+	// refused to show below the level floor. cameraFloorPadding lets the camera
+	// dip below the floor so the player stays centered and visible.
+	cameraFloorPadding: 2.4,
+	// B"H — Yaakov 2026-10-13: "Make more center." Reduced from 0.45 — the old
+	// offset shoved the player toward the bottom edge. 0.15 keeps the player
+	// near vertical center with just a breath of world visible above.
+	focusUpwardOffset: 0.15,
 	horizontalDeadZoneFraction: 0.02,
 	verticalDeadZoneFraction: 0.02,
 	lookAheadSeconds: 0.18,

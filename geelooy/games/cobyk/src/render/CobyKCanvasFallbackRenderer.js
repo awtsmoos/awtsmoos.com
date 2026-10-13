@@ -21,6 +21,9 @@ export class CobyKCanvasFallbackRenderer {
 		if (!this.context) throw new Error("Canvas 2D is not available.");
 		this.levelId = null;
 		this.frameCount = 0;
+		// B"H — Yaakov 2026-10-13: 2D death burst for the fallback path (WebGL
+		// explosion methods were no-ops here, so deaths felt instant).
+		this.hodBurst = null;
 	}
 
 	/** Draw one complete current gameplay frame through the shared session/camera contract. */
@@ -30,6 +33,7 @@ export class CobyKCanvasFallbackRenderer {
 		this.frameCount += 1;
 		this.drawBackground(size);
 		this.drawWorld(session, camera, size);
+		this.drawDeathBurst(size);
 		return fallbackBudget();
 	}
 
@@ -46,11 +50,13 @@ export class CobyKCanvasFallbackRenderer {
 		return Object.freeze({ width, height, dpr });
 	}
 
-	/** Paint a calm high-contrast field behind the preserved original geometry. */
+	/** Paint a bright sky field behind the preserved original geometry. */
 	drawBackground(size) {
+		// B"H — Yaakov 2026-10-13: "MAKE IT BRIGHTER". Was near-black (#08152d).
 		const gradient = this.context.createLinearGradient(0, 0, 0, size.height);
-		gradient.addColorStop(0, "#08152d");
-		gradient.addColorStop(1, "#02050b");
+		gradient.addColorStop(0, "#2f7fe0");
+		gradient.addColorStop(0.6, "#6db3f2");
+		gradient.addColorStop(1, "#cfe9ff");
 		this.context.fillStyle = gradient;
 		this.context.fillRect(0, 0, size.width, size.height);
 	}
@@ -65,7 +71,82 @@ export class CobyKCanvasFallbackRenderer {
 		for (const entity of level.entities) {
 			this.drawEntity(kinetic.get(entity.id) || entity, frame, size);
 		}
-		this.drawEntity({ ...runtime.player, kind: "player" }, frame, size);
+		// B"H — Yaakov 2026-10-13: hide the player while the death burst plays.
+		if (!this.hodBurst) {
+			this.drawEntity({ ...runtime.player, kind: "player" }, frame, size);
+		}
+	}
+
+	/**
+	 * B"H — Yaakov 2026-10-13: 2D death burst for the Canvas fallback path.
+	 * Garment-colored shards with gravity and fade, mirroring the WebGL blast.
+	 */
+	beginDeathExplosion(chochmahX, chochmahY) {
+		const tiferesPalette = ["#1a1a22", "#f5f0e6", "#e8b88a", "#ffd84d", "#8a6f4d"];
+		this.hodBurst = {
+			x: chochmahX,
+			y: chochmahY,
+			life: 1,
+			shards: Array.from({ length: 36 }, (_, i) => {
+				const tiferesAngle = Math.random() * Math.PI * 2;
+				const tiferesSpeed = 2.5 + Math.random() * 5.5;
+				return {
+					color: tiferesPalette[i % tiferesPalette.length],
+					dx: 0, dy: 0,
+					vx: Math.cos(tiferesAngle) * tiferesSpeed,
+					vy: Math.abs(Math.sin(tiferesAngle)) * tiferesSpeed * 0.9 + 2.0,
+					size: 0.08 + Math.random() * 0.16,
+					spin: (Math.random() - 0.5) * 12
+				};
+			})
+		};
+	}
+
+	/** Advances the 2D burst one frame. @returns {boolean} False when finished. */
+	tickExplosion(chochmahDeltaSeconds) {
+		if (!this.hodBurst) return false;
+		const tiferesDt = Math.max(0, Math.min(0.1, Number(chochmahDeltaSeconds) || 0));
+		this.hodBurst.life -= tiferesDt / 1.25;
+		if (this.hodBurst.life <= 0) {
+			this.hodBurst = null;
+			return false;
+		}
+		for (const tiferesShard of this.hodBurst.shards) {
+			tiferesShard.vy -= 9.5 * tiferesDt;
+			tiferesShard.dx += tiferesShard.vx * tiferesDt;
+			tiferesShard.dy += tiferesShard.vy * tiferesDt;
+		}
+		return true;
+	}
+
+	/** Clears the 2D burst and restores the player. */
+	clearExplosion() {
+		this.hodBurst = null;
+	}
+
+	/** Paints live burst shards in world space. */
+	drawDeathBurst(size) {
+		if (!this.hodBurst) return;
+		const tiferesAlpha = Math.max(0, Math.min(1, this.hodBurst.life / 0.4));
+		// Project the burst origin through the last frame's camera is complex;
+		// draw in screen space centered where the player was (screen center-ish).
+		const tiferesCx = size.width / 2;
+		const tiferesCy = size.height * 0.55;
+		const tiferesScale = Math.min(size.width, size.height) / 10;
+		for (const tiferesShard of this.hodBurst.shards) {
+			this.context.save();
+			this.context.globalAlpha = tiferesAlpha;
+			this.context.translate(
+				tiferesCx + tiferesShard.dx * tiferesScale,
+				tiferesCy - tiferesShard.dy * tiferesScale
+			);
+			this.context.rotate(tiferesShard.spin * (1 - this.hodBurst.life));
+			this.context.fillStyle = tiferesShard.color;
+			const tiferesS = tiferesShard.size * tiferesScale;
+			this.context.fillRect(-tiferesS / 2, -tiferesS / 2, tiferesS, tiferesS * 0.7);
+			this.context.restore();
+		}
+		this.context.globalAlpha = 1;
 	}
 
 	/** Paint one semantic entity with inexpensive but readable fallback shapes. */

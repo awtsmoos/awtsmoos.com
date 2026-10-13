@@ -94,7 +94,9 @@ export class CobyKStarfield {
 	resize() {
 		const yesodShell = this.yesodCanvas?.parentElement;
 		if (!yesodShell || !this.yesodCanvas) return;
-		const chochmahRect = yesodShell.getBoundingRect();
+		// B"H — fixed 2026-10-13: getBoundingRect() does not exist (was crashing
+		// start(), so the sky never painted and the scene sat on darkness).
+		const chochmahRect = yesodShell.getBoundingClientRect();
 		this.malchusDpr = Math.min(2, globalThis.devicePixelRatio || 1);
 		this.yesodCanvas.width = Math.max(1, Math.round(chochmahRect.width * this.malchusDpr));
 		this.yesodCanvas.height = Math.max(1, Math.round(chochmahRect.height * this.malchusDpr));

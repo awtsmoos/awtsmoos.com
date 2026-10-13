@@ -47,6 +47,16 @@ export class TiferesCameraFramingPolicy {
 				binaSpan.visibleHeight * this.gevurahRules.verticalDeadZoneFraction
 			);
 		}
+		// B"H — Yaakov 2026-10-13: "Make more center." The Y clamp used the raw
+		// level floor, so near the ground the camera pinned and the player sat at
+		// the screen's bottom edge behind the touch controls. Padding the floor
+		// lets the camera dip below the level so the player stays centered.
+		// Tiny levels (shorter than the visible span) still center on true bounds.
+		const tiferesFloorPadding = Number(this.gevurahRules.cameraFloorPadding) || 0;
+		const tiferesLevelHeight = binaBounds.maxY - binaBounds.minY;
+		const tiferesPaddedMinY = tiferesLevelHeight > binaSpan.visibleHeight
+			? binaBounds.minY - tiferesFloorPadding
+			: binaBounds.minY;
 		return Object.freeze({
 			focusX: this.chochmahViewport.clampFocus(
 				tiferesFocusX,
@@ -56,7 +66,7 @@ export class TiferesCameraFramingPolicy {
 			),
 			focusY: this.chochmahViewport.clampFocus(
 				tiferesFocusY,
-				binaBounds.minY,
+				tiferesPaddedMinY,
 				binaBounds.maxY,
 				binaSpan.visibleHeight
 			),
