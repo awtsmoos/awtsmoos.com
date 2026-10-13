@@ -896,3 +896,117 @@
 		padding: 0.75rem 0.9rem;
 	}
 }
+
+/* ---------- Footnote popup (B"H 2026-10-13, Yaakov: tapping a footnote
+   marker must ALWAYS show something — these styles were missing entirely,
+   so the popup opened invisibly) ---------- */
+.awtsmoos-fn-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 14, 6, 0.55);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.22s ease, visibility 0.22s ease;
+  z-index: 9000;
+}
+.awtsmoos-fn-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+.awtsmoos-fn-modal {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -48%) scale(0.97);
+  width: min(34rem, calc(100vw - 2.5rem));
+  max-height: min(80vh, 40rem);
+  display: flex;
+  flex-direction: column;
+  background: var(--sefer-paper, #fffdf6);
+  color: var(--sefer-ink, #2c2416);
+  border: 1px solid var(--sefer-accent-soft, #d4a94e);
+  border-radius: 1rem;
+  box-shadow: 0 1.5rem 4rem rgba(20, 14, 6, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.22s ease, visibility 0.22s ease, transform 0.22s ease;
+  z-index: 9001;
+  overflow: hidden;
+}
+.awtsmoos-fn-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+.awtsmoos-fn-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--sefer-rule, #e5ddcc);
+  background: var(--sefer-gold-wash, #faf3df);
+}
+.awtsmoos-fn-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.9rem;
+  height: 1.9rem;
+  padding: 0 0.45rem;
+  border-radius: 999px;
+  background: var(--sefer-accent, #b8860b);
+  color: #fffdf6;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.awtsmoos-fn-title {
+  flex: 1;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--sefer-ink, #2c2416);
+}
+.awtsmoos-fn-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 999px;
+  border: 1px solid var(--sefer-rule, #e5ddcc);
+  background: transparent;
+  color: var(--sefer-ink, #2c2416);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+.awtsmoos-fn-close:hover {
+  background: var(--sefer-gold-wash, #faf3df);
+}
+.awtsmoos-fn-close:focus-visible {
+  outline: 2px solid var(--sefer-focus, #b8860b);
+  outline-offset: 2px;
+}
+.awtsmoos-fn-body {
+  padding: 1.1rem 1.25rem 1.35rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.awtsmoos-fn-he {
+  font-family: "Frank Ruhl Libre", "Taamey Frank CLM", "Noto Serif Hebrew", serif;
+  font-size: 1.3rem;
+  line-height: 1.9;
+  color: var(--sefer-ink, #2c2416);
+  margin: 0 0 0.7rem 0;
+}
+.awtsmoos-fn-en {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--sefer-ink-soft, #5a4f3a);
+  margin: 0;
+}
+[data-theme="dark"] .awtsmoos-fn-modal {
+  background: var(--sefer-paper, #1e1810);
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.6);
+}
+[data-theme="dark"] .awtsmoos-fn-overlay {
+  background: rgba(0, 0, 0, 0.65);
+}

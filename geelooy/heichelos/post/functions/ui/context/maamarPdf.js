@@ -399,51 +399,51 @@ function buildDocument() {
 }
 
 /**
- * Opens the maamar as a beautiful print document in a new tab and raises
- * the print dialog so the learner saves it as PDF.
+ * Prints the maamar as a beautiful PDF via the browser's own print-to-PDF.
  *
- * Delivery notes (learned the hard way):
- * - Uses a Blob URL, never document.write: reliable on mobile Chrome where
- *   document.write into a fresh window is flaky.
- * - Waits for document.fonts.ready before auto-printing so the print
- *   preview never renders blank.
- * - Never opens an empty document: throws a clear error instead.
- * - Synchronous window.open keeps popup blockers quiet because this runs
- *   inside the menu tap gesture.
+ * B"H (2026-10-13, Yaakov): the old window.open + blob URL approach opened
+ * about:blank on mobile. This renders the print document inline in the
+ * current page (hidden until print) and calls window.print() directly —
+ * reliable on desktop and mobile, no popup, no blank tab.
  */
+const INLINE_PRINT_CSS_ID = 'awtsmoos-maamar-inline-print-css';
+const INLINE_PRINT_SHEET_CLASS = 'awtsmoos-maamar-print-sheet';
+
+function ensureInlinePrintCss() {
+	if (document.getElementById(INLINE_PRINT_CSS_ID)) return;
+	const style = document.createElement('style');
+	style.id = INLINE_PRINT_CSS_ID;
+	style.textContent =
+		'@media print {\n' +
+		'  body.awtsmoos-maamar-printing > *:not(.' + INLINE_PRINT_SHEET_CLASS + ') { display: none !important; }\n' +
+		'  .' + INLINE_PRINT_SHEET_CLASS + ' { display: block !important; }\n' +
+		'}\n' +
+		'.' + INLINE_PRINT_SHEET_CLASS + ' { display: none; }\n' +
+		printCss();
+	document.head.appendChild(style);
+}
+
 export function downloadMaamarPdf() {
 	const { title, html, hasContent } = buildDocument();
 	if (!hasContent) {
 		throw new Error('No readable content found on this page for the PDF.');
 	}
-	const docTitle = `${title || 'Maamar'} — awtsmoos.com`;
-	const doc = `<!DOCTYPE html><html lang="he" dir="ltr"><head><meta charset="utf-8">` +
-		`<meta name="viewport" content="width=device-width, initial-scale=1">` +
-		`<title>${escapeHtml(docTitle)}</title><style>${printCss()}</style></head><body>` +
-		`<div class="pdf-toolbar"><p dir="ltr">Choose <strong>“Save as PDF”</strong> as the destination, then print.</p>` +
-		`<button type="button" class="pdf-print-btn">Save as PDF</button></div>` +
-		`<article class="maamar-pdf">${html}</article>` +
-		`<script>(function(){` +
-		`function doPrint(){ try { window.print(); } catch (e) {} }` +
-		`var btn = document.querySelector('.pdf-print-btn');` +
-		`if (btn) btn.addEventListener('click', doPrint);` +
-		`function ready(fn){` +
-		`  if (document.fonts && document.fonts.ready) {` +
-		`    document.fonts.ready.then(function(){ requestAnimationFrame(function(){ setTimeout(fn, 400); }); });` +
-		`  } else if (document.readyState === 'complete') { setTimeout(fn, 600); }` +
-		`  else { window.addEventListener('load', function(){ setTimeout(fn, 600); }); }` +
-		`}` +
-		`ready(doPrint);` +
-		`})();<\/script>` +
-		`</body></html>`;
-	const blob = new Blob([doc], { type: 'text/html;charset=utf-8' });
-	const url = URL.createObjectURL(blob);
-	// B"H — release the blob URL after a few minutes; the tab holds its own copy.
-	setTimeout(() => { try { URL.revokeObjectURL(url); } catch (e) {} }, 5 * 60 * 1000);
-	const printWindow = window.open(url, '_blank', 'noopener');
-	if (!printWindow) {
-		try { URL.revokeObjectURL(url); } catch (e) {}
-		throw new Error('Popup blocked — allow popups for awtsmoos.com to download the PDF.');
+	ensureInlinePrintCss();
+	// Remove any stale sheet from a previous print.
+	document.querySelectorAll('.' + INLINE_PRINT_SHEET_CLASS).forEach(n => n.remove());
+	const sheet = document.createElement('div');
+	sheet.className = INLINE_PRINT_SHEET_CLASS;
+	sheet.setAttribute('aria-hidden', 'true');
+	sheet.innerHTML = '<article class="maamar-pdf">' + html + '</article>';
+	document.body.appendChild(sheet);
+	document.body.classList.add('awtsmoos-maamar-printing');
+	try {
+		window.print();
+	} finally {
+		// Clean up after the print dialog closes (or fails to open).
+		setTimeout(() => {
+			document.body.classList.remove('awtsmoos-maamar-printing');
+			sheet.remove();
+		}, 800);
 	}
-	printWindow.focus();
 }
