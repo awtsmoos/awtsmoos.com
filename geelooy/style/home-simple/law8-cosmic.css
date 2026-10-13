@@ -15,12 +15,12 @@ html[data-geelooy-route="home"] {
 	--law8-nebula-indigo: rgba(99, 91, 199, 0.22);
 	--law8-nebula-violet: rgba(139, 109, 226, 0.20);
 	--law8-nebula-gold: rgba(202, 161, 74, 0.20);
-	--law8-gold-hi: #8a6d3b;
+	--law8-gold-hi: #f2d98c;
 	--law8-gold-soft: #a5854a;
 	--law8-gold-glow: rgba(138, 109, 59, 0.16);
 	--law8-title-glow: rgba(138, 109, 59, 0.28);
-	--law8-title-shadow: rgba(90, 70, 40, 0.14);
-	--law8-sub-ink: #6b5a3e;
+	--law8-title-shadow: rgba(0, 0, 0, 0.7);
+	--law8-sub-ink: #f0e4c4;
 	--law8-glass: rgba(255, 255, 255, 0.58);
 	--law8-glass-hi: rgba(255, 255, 255, 0.72);
 	--law8-glass-border: rgba(99, 91, 199, 0.30);
@@ -138,12 +138,17 @@ body[data-geelooy-route="home"] .header-rail {
 body[data-geelooy-route="home"] .home-hero-title {
 	color: var(--law8-gold-hi);
 	text-shadow:
+		0 1px 2px rgba(0, 0, 0, 0.92),
+		0 2px 10px rgba(0, 0, 0, 0.78),
 		0 0 16px var(--law8-title-glow),
 		0 0 52px var(--law8-gold-glow),
 		0 2px 22px var(--law8-title-shadow);
 }
 body[data-geelooy-route="home"] .home-hero-sub {
 	color: var(--law8-sub-ink);
+	text-shadow:
+		0 1px 2px rgba(0, 0, 0, 0.92),
+		0 1px 8px rgba(0, 0, 0, 0.78);
 }
 /* B"H — the hero card floats on the cosmos; the Shliach artwork stays full-bleed. */
 body[data-geelooy-route="home"] .shliach-hero-card {
