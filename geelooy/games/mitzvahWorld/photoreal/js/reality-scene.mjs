@@ -1262,6 +1262,55 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   }
   mark('crown-filler');
 
+  /* overhead canopy — enclosing leaf layer (Yaakov 2026-10-13: 99% push).
+     The reference has dense canopy closing over the top of frame. This is a
+     dedicated layer of large leaf quads positioned above the camera (y 8-16),
+     angled downward, creating the enclosed forest-tunnel feel. The quads use
+     the backlit canopy texture so sun glows through from above.
+     60fps: single instanced draw, ~120 quads. */
+  if (view === 'forest') {
+    const ohGeo = new THREE.PlaneGeometry(6, 6);
+    const ohMat = new THREE.MeshStandardMaterial({
+      map: denseCanopyTex, alphaTest: 0.28, side: THREE.DoubleSide,
+      roughness: 0.9, color: new THREE.Color(0.35, 0.48, 0.25),
+      emissive: new THREE.Color(0.28, 0.36, 0.16),
+      emissiveMap: backlitCanopyTex,
+      depthWrite: true,
+    });
+    const OH_COUNT = fast ? 60 : 120;
+    const ohInst = new THREE.InstancedMesh(ohGeo, ohMat, OH_COUNT);
+    const ohDummy = new THREE.Object3D();
+    const ohTint = new THREE.Color();
+    const camX = VIEWS.forest.pos[0], camZ = VIEWS.forest.pos[2];
+    let ohPlaced = 0, ohGuard = 0;
+    const ohr = mulberry32(seed ^ 0x0c4);
+    while (ohPlaced < OH_COUNT && ohGuard++ < OH_COUNT * 10) {
+      // Cover the sky above and ahead of the camera
+      const x = camX + (ohr() - 0.5) * 60;
+      const z = camZ - 10 - ohr() * 70; // ahead of camera (looking -z)
+      const y = 9 + ohr() * 8;
+      ohDummy.position.set(x, y, z);
+      // Angle downward toward camera (like real overhanging branches)
+      ohDummy.rotation.set(
+        -Math.PI/2 + (ohr() - 0.5) * 0.9, // mostly facing down
+        ohr() * Math.PI * 2,
+        (ohr() - 0.5) * 0.5
+      );
+      const os = 0.8 + ohr() * 1.2;
+      ohDummy.scale.set(os, os, 1);
+      ohDummy.updateMatrix();
+      ohInst.setMatrixAt(ohPlaced, ohDummy.matrix);
+      const ov = 0.75 + ohr() * 0.4;
+      ohTint.setRGB(ov, ov * (0.95 + ohr()*0.1), ov * 0.85);
+      ohInst.setColorAt(ohPlaced, ohTint);
+      ohPlaced++;
+    }
+    ohInst.count = ohPlaced;
+    if (ohInst.instanceColor) ohInst.instanceColor.needsUpdate = true;
+    scene.add(ohInst);
+  }
+  mark('overhead-canopy');
+
 
   /* distant tree-line — procedural billboard trees at the world rim, hazed by fog.
      Two staggered rings with gaps. The silhouette texture is painted on a canvas
