@@ -10,7 +10,7 @@ import { bindReaderWheelBridge } from '../scroll/ReaderWheelBridge.js';
 import { repairReaderScrollVessel } from '../scroll/ReaderScrollRepair.js';
 import { resetScrollBlockerCache } from '../visual/scrollBlockerDetector.js';
 import { runReaderVisualDiagnostics } from '../visual/index.js';
-import { startConnectionsSection } from '../../connections/connectionsSection.js?v=connections-001';
+import { startConnectionsSection } from '../connections/connectionsSection.js?v=connections-001';
 
 /**
  * @fileoverview Tiferes orchestrator for non-canonical post-ready enhancement.
