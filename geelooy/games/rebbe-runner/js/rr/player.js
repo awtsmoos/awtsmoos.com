@@ -54,9 +54,10 @@ export async function createPlayer(scene, onProgress) {
 	try {
 		const loader = new GLTFLoader();
 		const gltf = await new Promise((resolve, reject) => {
-			loader.load(GLB_URL, resolve, (e) => {
-				if (e && e.loaded && e.total) onProgress && onProgress(e.loaded / e.total);
-			}, reject);
+			const timer = setTimeout(() => reject(new Error('GLB load timeout')), 9000);
+			loader.load(GLB_URL, (g) => { clearTimeout(timer); resolve(g); }, (e) => {
+				if (e && e.loaded && e.total) { try { onProgress && onProgress(e.loaded / e.total); } catch (_) {} }
+			}, (err) => { clearTimeout(timer); reject(err); });
 		});
 		model = gltf.scene;
 		// normalize scale to ~1.8m tall

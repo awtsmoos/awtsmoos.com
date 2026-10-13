@@ -130,7 +130,7 @@ export async function startGame(env) {
 	camera.position.set(0, 4.4, 8.2);
 
 	const world = createWorld(scene);
-	const setLoad = (p) => { if (loadingFill) loadingFill.style.width = `${Math.round(p * 100)}%`; };
+	const setLoad = (p) => { try { if (loadingFill) loadingFill.style.width = `${Math.round(p * 100)}%`; } catch (_) {} };
 	setLoad(.15); setTip('Loading the chossid…');
 	const player = await createPlayer(scene, (p) => setLoad(.15 + p * .55));
 	setLoad(.75); setTip('Building Brooklyn…');
@@ -302,7 +302,7 @@ export async function startGame(env) {
 		player.update(dt);
 
 		spawnIn -= dz;
-		if (spawnIn <= 0) { spawnPattern(); spawnIn = 260 / speed * (14 + Math.random() * 8); }
+		if (spawnIn <= 0) { spawnPattern(); spawnIn = 42 + Math.random() * 26; }
 
 		for (let i = obstacles.length - 1; i >= 0; i--) {
 			const o = obstacles[i];
