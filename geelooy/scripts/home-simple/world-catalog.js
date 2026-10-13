@@ -24,7 +24,8 @@ export const WORLD_CATALOG = Object.freeze([
 	createWorld("spaces", "Spaces", "Explore all Heichelos", "/heichelos", "∞", ["heichel", "worlds", "rooms"]),
 	createWorld("profile", "Profile", "Your living identity", "/profile", "●", ["account", "identity", "alias"], false),
 	createWorld("about", "About", "What is Awtsmoos?", "/about", "?", ["mission", "information", "awtsmoos"]),
-	createWorld("contact", "Contact", "Send a signal", "/contact/", "↗", ["message", "help", "signal"], false)
+	createWorld("contact", "Contact", "Send a signal", "/contact/", "↗", ["message", "help", "signal"], false),
+	createWorld("developers", "Developers", "API docs for people & AI agents", "/developers/", "{ }", ["api", "docs", "documentation", "developer", "agent", "openapi"])
 ]);
 
 export const POPULAR_TORAH_SEARCHES = Object.freeze([

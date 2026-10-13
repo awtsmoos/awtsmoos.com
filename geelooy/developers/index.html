@@ -1,0 +1,956 @@
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!--
+The Awtsmoos opens its gates to builders: this page is the public doorway
+for people and AI agents to read the living Torah library through the API.
+All core content is server-rendered static HTML — no JavaScript required.
+-->
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<script>
+/* B"H — set data-theme before any CSS paints (matches site convention). */
+(function () {
+	try {
+		var t = localStorage.getItem('awtsmoos-theme');
+		document.documentElement.setAttribute('data-theme', (t === 'dark' || t === 'light') ? t : 'light');
+	} catch (e) {
+		document.documentElement.setAttribute('data-theme', 'light');
+	}
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Awtsmoos API Documentation — Torah Library API for Developers &amp; AI Agents</title>
+<meta name="description" content="The public Awtsmoos API: read 21,000+ Torah posts, browse series, run exact Hebrew and semantic vector search, follow reverse citations, and resolve friendly URLs — with machine-readable OpenAPI and an AI-agent manifest.">
+<link rel="canonical" href="https://awtsmoos.com/developers/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f1e3">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0e14">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Awtsmoos">
+<meta property="og:title" content="Awtsmoos API Documentation — Torah Library API for Developers &amp; AI Agents">
+<meta property="og:description" content="Read 21,000+ Torah posts, browse series, exact Hebrew + semantic vector search, reverse citations, friendly URLs. Machine-readable: /api.json and /api/openapi.json.">
+<meta property="og:url" content="https://awtsmoos.com/developers/">
+<meta property="og:image" content="https://awtsmoos.com/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png">
+<meta property="og:image:alt" content="Awtsmoos — glowing Aleph over living worlds">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Awtsmoos API Documentation — Torah Library API for Developers &amp; AI Agents">
+<meta name="twitter:description" content="Public API for the Awtsmoos Torah library: posts, series, exact Hebrew + semantic search, reverse citations, friendly URLs. Agent-ready: /api.json.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2715%27 fill=%27%23071020%27/%3E%3Ctext x=%2732%27 y=%2744%27 text-anchor=%27middle%27 font-size=%2738%27 fill=%27%237fdcff%27%3E%D7%90%3C/text%3E%3C/svg%3E">
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "WebPage",
+			"@id": "https://awtsmoos.com/developers/#webpage",
+			"name": "Awtsmoos API Documentation",
+			"url": "https://awtsmoos.com/developers/",
+			"description": "Public API documentation for the Awtsmoos Torah library: post retrieval, series browse, exact Hebrew and semantic vector search, reverse citations, and friendly URLs — for people and AI agents.",
+			"inLanguage": "en",
+			"isPartOf": { "@type": "WebSite", "@id": "https://awtsmoos.com/#website", "name": "Awtsmoos", "url": "https://awtsmoos.com/" },
+			"breadcrumb": { "@id": "https://awtsmoos.com/developers/#breadcrumb" },
+			"mainEntity": { "@id": "https://awtsmoos.com/developers/#techarticle" }
+		},
+		{
+			"@type": "BreadcrumbList",
+			"@id": "https://awtsmoos.com/developers/#breadcrumb",
+			"itemListElement": [
+				{ "@type": "ListItem", "position": 1, "name": "Awtsmoos", "item": "https://awtsmoos.com/" },
+				{ "@type": "ListItem", "position": 2, "name": "Developers", "item": "https://awtsmoos.com/developers/" }
+			]
+		},
+		{
+			"@type": "TechArticle",
+			"@id": "https://awtsmoos.com/developers/#techarticle",
+			"headline": "Awtsmoos API Documentation",
+			"description": "How to read the Awtsmoos Torah library programmatically: posts, series, search, citations, friendly URLs.",
+			"proficiencyLevel": "Beginner",
+			"programmingLanguage": ["HTTP", "JSON", "curl"],
+			"subjectOf": [
+				{ "@type": "DigitalDocument", "name": "AI agent manifest", "url": "https://awtsmoos.com/api.json", "encodingFormat": "application/json" },
+				{ "@type": "DigitalDocument", "name": "OpenAPI 3 specification", "url": "https://awtsmoos.com/api/openapi.json", "encodingFormat": "application/json" }
+			]
+		},
+		{
+			"@type": "FAQPage",
+			"@id": "https://awtsmoos.com/developers/#faq",
+			"mainEntity": [
+				{
+					"@type": "Question",
+					"name": "Is the Awtsmoos API free to use?",
+					"acceptedAnswer": { "@type": "Answer", "text": "Yes. All read endpoints are public and free: no API key, no signup, no token. Open https://awtsmoos.com/developers/ and start with GET requests." }
+				},
+				{
+					"@type": "Question",
+					"name": "Do I need an API key or authentication?",
+					"acceptedAnswer": { "@type": "Answer", "text": "No. Every read endpoint documented here is public and requires no authentication. Only internal write/import lanes use Ed25519-signed operations." }
+				},
+				{
+					"@type": "Question",
+					"name": "Can AI agents use the Awtsmoos API?",
+					"acceptedAnswer": { "@type": "Answer", "text": "Yes — the API is designed for agents. Fetch https://awtsmoos.com/api.json for a concise machine-readable endpoint index, and https://awtsmoos.com/api/openapi.json for the full OpenAPI 3 specification." }
+				},
+				{
+					"@type": "Question",
+					"name": "How do I get English translations alongside the Hebrew?",
+					"acceptedAnswer": { "@type": "Answer", "text": "Translated posts return units with hebrew and english fields side by side, plus phrase-level hebrew/english pairs. Read any post with the post endpoints and both languages come together." }
+				},
+				{
+					"@type": "Question",
+					"name": "What search options exist?",
+					"acceptedAnswer": { "@type": "Answer", "text": "Two complementary engines: exact indexed Hebrew search at /api/social/search/exact/hebrew (prebuilt corpora for Tanach, Mishnah, and Talmud Bavli, plus any Ikar series), and semantic vector search at /api/social/search/semantic for English meaning-based queries." }
+				}
+			]
+		}
+	]
+}
+</script>
+<style>
+/* ============ B"H — Awtsmoos Developers docs tokens (no !important anywhere) ============ */
+:root {
+	--dev-bg: #0b0e14;
+	--dev-bg-soft: #10141d;
+	--dev-surface: #141924;
+	--dev-surface-2: #1a2130;
+	--dev-line: #263044;
+	--dev-text: #eef2f9;
+	--dev-text-soft: #a9b4c7;
+	--dev-text-faint: #7d889c;
+	--dev-accent: #6ea8ff;
+	--dev-accent-strong: #3b82f6;
+	--dev-accent-ink: #dbe9ff;
+	--dev-gold: #d4a94e;
+	--dev-gold-soft: #f5ca70;
+	--dev-green: #34d399;
+	--dev-green-bg: rgba(52, 211, 153, 0.10);
+	--dev-violet: #c084fc;
+	--dev-code-bg: #0e1320;
+	--dev-code-text: #d7e3f8;
+	--dev-code-key: #7fdcff;
+	--dev-code-str: #a7f3d0;
+	--dev-card-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+	--dev-hero-glow-a: rgba(110, 168, 255, 0.16);
+	--dev-hero-glow-b: rgba(212, 169, 78, 0.12);
+	--dev-radius: 14px;
+	--dev-radius-sm: 9px;
+	--dev-max: 1180px;
+	--dev-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+	--dev-on-accent: #ffffff;
+	--dev-secnum-ink: #dbe9ff;
+	--dev-top-bg: rgba(11, 14, 20, 0.82);
+	--dev-chip-bg: rgba(110, 168, 255, 0.10);
+	--dev-method-border: rgba(52, 211, 153, 0.40);
+	--dev-agent-bg: linear-gradient(160deg, rgba(110, 168, 255, 0.09), #141924);
+}
+html[data-theme="light"] {
+	--dev-bg: #f7f1e3;
+	--dev-bg-soft: #fdf9f0;
+	--dev-surface: #fffdf7;
+	--dev-surface-2: #f4ecda;
+	--dev-line: #e3d7bd;
+	--dev-text: #1c2333;
+	--dev-text-soft: #4a5468;
+	--dev-text-faint: #7a8398;
+	--dev-accent: #1f5fd0;
+	--dev-accent-strong: #1a4fb4;
+	--dev-accent-ink: #123a7d;
+	--dev-gold: #9a6f1e;
+	--dev-gold-soft: #7a5a16;
+	--dev-green: #0d7a52;
+	--dev-green-bg: rgba(13, 122, 82, 0.08);
+	--dev-violet: #7c3aed;
+	--dev-code-bg: #141b2b;
+	--dev-code-text: #d7e3f8;
+	--dev-code-key: #7fdcff;
+	--dev-code-str: #a7f3d0;
+	--dev-card-shadow: 0 14px 40px rgba(60, 48, 20, 0.12);
+	--dev-hero-glow-a: rgba(31, 95, 208, 0.10);
+	--dev-hero-glow-b: rgba(154, 111, 30, 0.10);
+	--dev-on-accent: #ffffff;
+	--dev-secnum-ink: #ffffff;
+	--dev-top-bg: rgba(247, 241, 227, 0.82);
+	--dev-chip-bg: rgba(31, 95, 208, 0.10);
+	--dev-method-border: rgba(13, 122, 82, 0.40);
+	--dev-agent-bg: linear-gradient(160deg, rgba(31, 95, 208, 0.07), #fffdf7);
+}
+/* ============ base ============ */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+	margin: 0;
+	background: var(--dev-bg);
+	color: var(--dev-text);
+	font-family: "Inter", "SF Pro Text", -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	line-height: 1.65;
+	-webkit-font-smoothing: antialiased;
+}
+[dir="rtl"] { font-family: "David", "Frank Ruhl Libre", "Noto Serif Hebrew", serif; }
+a { color: var(--dev-accent); text-decoration: underline; text-underline-offset: 3px; }
+a:hover { color: var(--dev-accent-strong); }
+a:focus-visible, button:focus-visible, summary:focus-visible {
+	outline: 2px solid var(--dev-accent);
+	outline-offset: 3px;
+	border-radius: 6px;
+}
+.dev-skip {
+	position: absolute;
+	left: 12px;
+	top: -60px;
+	background: var(--dev-accent);
+	color: var(--dev-on-accent);
+	padding: 10px 16px;
+	border-radius: 8px;
+	z-index: 100;
+	transition: top 0.18s var(--dev-ease);
+}
+.dev-skip:focus { top: 12px; color: var(--dev-on-accent); }
+/* ============ top bar ============ */
+.dev-top {
+	position: sticky;
+	top: 0;
+	z-index: 50;
+	backdrop-filter: blur(14px);
+	-webkit-backdrop-filter: blur(14px);
+	background: var(--dev-top-bg);
+	border-bottom: 1px solid var(--dev-line);
+}
+.dev-top-inner {
+	max-width: var(--dev-max);
+	margin: 0 auto;
+	padding: 12px 24px;
+	display: flex;
+	align-items: center;
+	gap: 18px;
+}
+.dev-brand {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	text-decoration: none;
+	color: var(--dev-text);
+	font-weight: 700;
+	font-size: 1.05rem;
+}
+.dev-brand:hover { color: var(--dev-text); }
+.dev-brand-mark {
+	width: 34px;
+	height: 34px;
+	border-radius: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(135deg, var(--dev-accent), var(--dev-violet));
+	color: var(--dev-on-accent);
+	font-size: 1.2rem;
+	font-weight: 800;
+}
+.dev-top nav { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+.dev-top nav a {
+	color: var(--dev-text-soft);
+	text-decoration: none;
+	font-size: 0.92rem;
+	padding: 8px 12px;
+	border-radius: 8px;
+	flex-shrink: 0;
+	white-space: nowrap;
+}
+.dev-top nav a:hover { color: var(--dev-text); background: var(--dev-surface-2); }
+.dev-theme-btn {
+	display: inline-block;
+	border: 1px solid var(--dev-line);
+	background: var(--dev-surface);
+	color: var(--dev-text);
+	border-radius: 999px;
+	padding: 8px 14px;
+	font-size: 0.88rem;
+	cursor: pointer;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+.dev-theme-btn:hover { border-color: var(--dev-accent); color: var(--dev-accent); }
+.dev-theme-btn:active { transform: translateY(1px); }
+/* ============ layout ============ */
+.dev-layout {
+	max-width: var(--dev-max);
+	margin: 0 auto;
+	padding: 0 24px 80px;
+	display: grid;
+	grid-template-columns: 250px minmax(0, 1fr);
+	gap: 40px;
+}
+.dev-side { position: sticky; top: 76px; align-self: start; max-height: calc(100vh - 100px); overflow: auto; padding: 28px 0; }
+.dev-side h2 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--dev-text-faint); margin: 0 0 10px; }
+.dev-side ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.dev-side a {
+	display: block;
+	color: var(--dev-text-soft);
+	text-decoration: none;
+	font-size: 0.9rem;
+	padding: 7px 12px;
+	border-radius: 8px;
+	border-left: 2px solid transparent;
+}
+.dev-side a:hover { color: var(--dev-text); background: var(--dev-surface); }
+.dev-side a.dev-side-active { color: var(--dev-accent); border-left-color: var(--dev-accent); background: var(--dev-surface); }
+.dev-side a.dev-side-active:hover { color: var(--dev-accent); background: var(--dev-surface-2); }
+.dev-main { min-width: 0; }
+/* ============ hero ============ */
+.dev-hero {
+	position: relative;
+	margin: 32px 0 40px;
+	padding: 52px 44px;
+	border-radius: 22px;
+	border: 1px solid var(--dev-line);
+	background:
+		radial-gradient(700px 320px at 12% 0%, var(--dev-hero-glow-a), transparent 65%),
+		radial-gradient(620px 300px at 88% 100%, var(--dev-hero-glow-b), transparent 60%),
+		var(--dev-surface);
+	box-shadow: var(--dev-card-shadow);
+	overflow: hidden;
+}
+.dev-hero-eyebrow {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 0.8rem;
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--dev-gold);
+	margin: 0 0 14px;
+}
+.dev-hero h1 { font-size: clamp(2rem, 4.6vw, 3.1rem); line-height: 1.12; margin: 0 0 14px; letter-spacing: -0.02em; color: var(--dev-text); }
+.dev-hero h1 .dev-hi { color: var(--dev-accent); }
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+	.dev-hero h1 .dev-hi {
+		background: linear-gradient(100deg, var(--dev-accent), var(--dev-violet));
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+	}
+}
+.dev-hero p.dev-lede { font-size: 1.12rem; color: var(--dev-text-soft); max-width: 44rem; margin: 0 0 26px; }
+.dev-hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+.dev-btn {
+	display: inline-block;
+	padding: 12px 22px;
+	border-radius: 12px;
+	font-weight: 700;
+	font-size: 0.98rem;
+	text-decoration: none;
+	border: 1px solid var(--dev-line);
+	vertical-align: middle;
+	transition: transform 0.16s var(--dev-ease), box-shadow 0.16s var(--dev-ease), background 0.16s var(--dev-ease);
+}
+.dev-btn-primary { background: linear-gradient(135deg, var(--dev-accent-strong), var(--dev-violet)); color: var(--dev-on-accent); border-color: transparent; }
+.dev-btn-primary:hover { color: var(--dev-on-accent); transform: translateY(-2px); box-shadow: 0 12px 28px rgba(59, 130, 246, 0.35); }
+.dev-btn-ghost { background: var(--dev-surface); color: var(--dev-text); }
+.dev-btn-ghost:hover { border-color: var(--dev-accent); color: var(--dev-accent); transform: translateY(-2px); }
+.dev-hero-meta { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 26px; color: var(--dev-text-faint); font-size: 0.88rem; }
+.dev-hero-meta strong { color: var(--dev-text); }
+/* ============ sections ============ */
+.dev-section { margin: 0 0 56px; scroll-margin-top: 90px; }
+.dev-section > h2 { font-size: 1.7rem; letter-spacing: -0.015em; margin: 0 0 6px; display: flex; align-items: center; gap: 12px; color: var(--dev-text); }
+.dev-section > h2 .dev-sec-num {
+	font-size: 0.8rem;
+	font-weight: 800;
+	color: var(--dev-secnum-ink);
+	background: var(--dev-accent);
+	border-radius: 8px;
+	padding: 4px 10px;
+	letter-spacing: 0.06em;
+}
+.dev-section > p.dev-sec-sub { color: var(--dev-text-soft); margin: 0 0 22px; max-width: 50rem; }
+.dev-section h3 { font-size: 1.18rem; margin: 30px 0 10px; color: var(--dev-text); }
+/* ============ endpoint cards ============ */
+.dev-endpoint {
+	border: 1px solid var(--dev-line);
+	border-radius: var(--dev-radius);
+	background: var(--dev-surface);
+	margin: 0 0 18px;
+	overflow: hidden;
+}
+.dev-endpoint-head { padding: 18px 22px 0; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.dev-method {
+	font-size: 0.75rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	padding: 5px 12px;
+	border-radius: 7px;
+	background: var(--dev-green-bg);
+	color: var(--dev-green);
+	border: 1px solid var(--dev-method-border);
+}
+.dev-path { font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace; font-size: 0.95rem; color: var(--dev-text); word-break: break-all; }
+.dev-endpoint h4 { margin: 10px 22px 0; font-size: 1.05rem; color: var(--dev-text); }
+.dev-endpoint > p { margin: 8px 22px 16px; color: var(--dev-text-soft); font-size: 0.96rem; max-width: 54rem; }
+/* ============ code blocks ============ */
+.dev-code {
+	position: relative;
+	margin: 0 22px 20px;
+	border-radius: var(--dev-radius-sm);
+	background: var(--dev-code-bg);
+	border: 1px solid var(--dev-line);
+	overflow: hidden;
+}
+.dev-code pre {
+	margin: 0;
+	padding: 18px 20px;
+	overflow-x: auto;
+	color: var(--dev-code-text);
+	font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+	font-size: 0.86rem;
+	line-height: 1.6;
+}
+.dev-code .dev-copy {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	border: 1px solid var(--dev-line);
+	background: rgba(255, 255, 255, 0.06);
+	color: var(--dev-code-text);
+	border-radius: 8px;
+	padding: 6px 12px;
+	font-size: 0.78rem;
+	cursor: pointer;
+}
+.dev-code .dev-copy:hover { border-color: var(--dev-accent); color: var(--dev-code-key); }
+.dev-code .dev-copy:active { transform: translateY(1px); }
+.dev-code .dev-copy:disabled { opacity: 0.55; cursor: default; }
+.dev-code-label {
+	display: block;
+	padding: 8px 20px;
+	font-size: 0.72rem;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--dev-text-faint);
+	border-bottom: 1px solid var(--dev-line);
+	background: rgba(255, 255, 255, 0.02);
+}
+/* ============ params tables ============ */
+.dev-params { margin: 0 22px 20px; overflow-x: auto; }
+table.dev-table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+table.dev-table th, table.dev-table td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--dev-line); vertical-align: top; color: var(--dev-text-soft); }
+table.dev-table th { color: var(--dev-text-faint); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; }
+table.dev-table td code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.85rem; color: var(--dev-accent); background: var(--dev-chip-bg); padding: 2px 7px; border-radius: 6px; }
+table.dev-table tr:last-child td { border-bottom: none; color: var(--dev-text-soft); }
+/* ============ callouts ============ */
+.dev-callout {
+	border: 1px solid var(--dev-line);
+	border-left: 4px solid var(--dev-gold);
+	border-radius: 0 var(--dev-radius-sm) var(--dev-radius-sm) 0;
+	background: var(--dev-surface);
+	padding: 16px 20px;
+	margin: 0 0 20px;
+	color: var(--dev-text-soft);
+	font-size: 0.95rem;
+}
+.dev-callout strong { color: var(--dev-text); }
+.dev-callout.dev-callout-blue { border-left-color: var(--dev-accent); }
+.dev-callout.dev-callout-green { border-left-color: var(--dev-green); }
+/* Inline code-style links (the renderer drops nested <a><code>, so style the anchor directly). */
+a.dev-code-link, .dev-btn-code {
+	font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+	font-size: 0.85em;
+	color: var(--dev-accent);
+	background: var(--dev-chip-bg);
+	padding: 2px 8px;
+	border-radius: 6px;
+	text-decoration: none;
+	white-space: nowrap;
+}
+a.dev-code-link:hover { color: var(--dev-accent-strong); text-decoration: underline; }
+/* ============ agent box ============ */
+.dev-agent {
+	border: 1px solid var(--dev-accent);
+	border-radius: var(--dev-radius);
+	background: var(--dev-agent-bg);
+	padding: 26px 28px;
+	margin: 0 0 40px;
+}
+.dev-agent h2 { margin: 0 0 8px; font-size: 1.4rem; display: flex; align-items: center; gap: 10px; color: var(--dev-text); }
+.dev-agent p { color: var(--dev-text-soft); margin: 0 0 14px; max-width: 52rem; }
+.dev-agent ol { margin: 0 0 18px; padding-left: 22px; color: var(--dev-text-soft); }
+.dev-agent ol li { margin: 6px 0; color: var(--dev-text-soft); }
+.dev-agent ol code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.85rem; color: var(--dev-accent); }
+/* ============ pattern table ============ */
+.dev-pattern-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin: 0 0 20px; }
+.dev-pattern {
+	border: 1px solid var(--dev-line);
+	border-radius: var(--dev-radius-sm);
+	background: var(--dev-surface);
+	padding: 16px 18px;
+}
+.dev-pattern code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.88rem; color: var(--dev-violet); word-break: break-all; }
+.dev-pattern p { margin: 8px 0 0; font-size: 0.9rem; color: var(--dev-text-soft); }
+/* ============ faq ============ */
+.dev-faq details { border: 1px solid var(--dev-line); border-radius: var(--dev-radius-sm); background: var(--dev-surface); margin: 0 0 10px; }
+.dev-faq summary { padding: 16px 20px; cursor: pointer; font-weight: 700; list-style: none; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+.dev-faq summary::-webkit-details-marker { display: none; }
+.dev-faq summary:hover { color: var(--dev-accent); }
+.dev-faq details[open] summary { color: var(--dev-accent); }
+.dev-faq details p { padding: 0 20px 18px; margin: 0; color: var(--dev-text-soft); }
+/* ============ footer ============ */
+.dev-footer { border-top: 1px solid var(--dev-line); margin-top: 40px; }
+.dev-footer-inner { max-width: var(--dev-max); margin: 0 auto; padding: 32px 24px; display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; color: var(--dev-text-faint); font-size: 0.88rem; }
+.dev-footer-inner nav { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-left: auto; }
+.dev-footer-inner nav a { color: var(--dev-text-soft); text-decoration: none; }
+.dev-footer-inner nav a:hover { color: var(--dev-accent); }
+/* ============ responsive ============ */
+@media (max-width: 960px) {
+	.dev-layout { grid-template-columns: 1fr; }
+	.dev-side { display: none; }
+	.dev-hero { padding: 36px 26px; }
+	.dev-top-inner { padding: 10px 16px; }
+	.dev-top nav a.dev-top-hide-mobile { display: none; color: var(--dev-text-soft); }
+}
+@media (prefers-reduced-motion: reduce) {
+	html { scroll-behavior: auto; }
+	.dev-btn, .dev-skip { transition: none; }
+}
+</style>
+</head>
+<body>
+<a class="dev-skip" href="#dev-main">Skip to documentation</a>
+
+<header class="dev-top">
+	<div class="dev-top-inner">
+		<a class="dev-brand" href="/" aria-label="Awtsmoos home">
+			<span class="dev-brand-mark" aria-hidden="true">א</span>
+			<span>Awtsmoos <span style="color: var(--dev-text-faint); font-weight: 400;">/ Developers</span></span>
+		</a>
+		<nav aria-label="Documentation sections">
+			<a class="dev-top-hide-mobile" href="#quickstart">Quickstart</a>
+			<a class="dev-top-hide-mobile" href="#search">Search</a>
+			<a class="dev-top-hide-mobile" href="#friendly">Friendly URLs</a>
+			<a href="/api.json" title="Machine-readable API index">api.json</a>
+			<button class="dev-theme-btn" id="dev-theme-toggle" type="button" aria-label="Toggle light and dark theme">
+				<span id="dev-theme-icon" aria-hidden="true">☾</span> <span id="dev-theme-label">Dark</span>
+			</button>
+		</nav>
+	</div>
+</header>
+
+<div class="dev-layout">
+	<nav class="dev-side" aria-label="On this page">
+		<h2>On this page</h2>
+		<ol>
+			<li><a href="#agents">For AI agents</a></li>
+			<li><a href="#quickstart">Quickstart</a></li>
+			<li><a href="#basics">Base URL &amp; envelopes</a></li>
+			<li><a href="#posts">Post retrieval</a></li>
+			<li><a href="#series">Series browse</a></li>
+			<li><a href="#search">Search</a></li>
+			<li><a href="#connections">Connections &amp; citations</a></li>
+			<li><a href="#friendly">Friendly IDs</a></li>
+			<li><a href="#translations">Translations</a></li>
+			<li><a href="#errors">Errors</a></li>
+			<li><a href="#limits">Rate limits &amp; auth</a></li>
+			<li><a href="#machine">Machine-readable</a></li>
+			<li><a href="#faq">FAQ</a></li>
+		</ol>
+	</nav>
+
+	<main class="dev-main" id="dev-main">
+		<section class="dev-hero" aria-labelledby="dev-hero-title">
+			<p class="dev-hero-eyebrow">B&quot;H · Public API</p>
+			<h1 id="dev-hero-title">The Awtsmoos Torah library,<br><span class="dev-hi">as an API.</span></h1>
+			<p class="dev-lede">Read 21,000+ Torah posts — Tanach, Mishnah, Talmud Bavli, Yerushalmi, Rambam, Midrash, Chassidus — through simple public HTTP endpoints. Exact Hebrew search, semantic vector search, reverse citation lookup, and friendly URLs in English and Hebrew. No key. No signup. Built for people <em>and</em> AI agents.</p>
+			<div class="dev-hero-ctas">
+				<a class="dev-btn dev-btn-primary" href="#quickstart">Start building →</a>
+				<a class="dev-btn dev-btn-ghost" href="/api.json">🤖 Agent manifest <span class="dev-btn-code">/api.json</span></a>
+				<a class="dev-btn dev-btn-ghost" href="/api/openapi.json">OpenAPI 3 spec</a>
+			</div>
+			<div class="dev-hero-meta">
+				<span><strong>21,211+</strong> posts live</span>
+				<span><strong>38,584</strong> Hebrew–English units (Rambam)</span>
+				<span><strong>0</strong> auth required for reads</span>
+				<span><strong>2</strong> search engines</span>
+			</div>
+		</section>
+
+		<section class="dev-agent" id="agents" aria-labelledby="agents-title">
+			<h2 id="agents-title">🤖 For AI agents — start here</h2>
+			<p>If you are an AI agent, do not scrape HTML. Use this exact sequence:</p>
+			<ol>
+				<li>Fetch <code>GET https://awtsmoos.com/api.json</code> — the concise machine-readable endpoint index (name, URL, method, params, what each returns, examples).</li>
+				<li>For full schemas, fetch <code>GET https://awtsmoos.com/api/openapi.json</code> (OpenAPI 3.1).</li>
+				<li>All reads are unauthenticated <code>GET</code>. Responses are JSON with a <code>success</code> envelope; failures use an <code>error</code> envelope.</li>
+				<li>Prefer <code>/search/exact/hebrew</code> for Hebrew queries and <code>/search/semantic</code> for English meaning queries.</li>
+				<li>Use <code>/packed/connections</code> to walk the citation graph in both directions.</li>
+			</ol>
+			<div class="dev-code"><span class="dev-code-label">agent bootstrap</span><pre>curl -s https://awtsmoos.com/api.json | head -c 600
+# → { "name": "Awtsmoos API", "baseUrl": "https://awtsmoos.com", ... }</pre><button class="dev-copy" type="button" data-copy="curl -s https://awtsmoos.com/api.json | head -c 600">Copy</button></div>
+		</section>
+		<section class="dev-section" id="quickstart" aria-labelledby="quickstart-title">
+			<h2><span class="dev-sec-num">01</span><span id="quickstart-title">Quickstart</span></h2>
+			<p class="dev-sec-sub">Three calls that show the shape of everything. All public, all <code>GET</code>, all JSON.</p>
+
+			<div class="dev-code"><span class="dev-code-label">1 · read a post by its ID</span><pre>curl "https://awtsmoos.com/api/social/packed/read?key=POST_ID"</pre><button class="dev-copy" type="button" data-copy="curl &quot;https://awtsmoos.com/api/social/packed/read?key=POST_ID&quot;">Copy</button></div>
+
+			<div class="dev-code"><span class="dev-code-label">2 · exact Hebrew search</span><pre>curl "https://awtsmoos.com/api/social/search/exact/hebrew?word=%D7%91%D7%A8%D7%90%D7%A9%D7%99%D7%AA&amp;corpus=tanach&amp;limit=5"</pre><button class="dev-copy" type="button" data-copy="curl &quot;https://awtsmoos.com/api/social/search/exact/hebrew?word=%D7%91%D7%A8%D7%90%D7%A9%D7%99%D7%AA&corpus=tanach&limit=5&quot;">Copy</button></div>
+
+			<div class="dev-code"><span class="dev-code-label">3 · reverse citations for a post</span><pre>curl "https://awtsmoos.com/api/social/packed/connections?post=POST_ID"</pre><button class="dev-copy" type="button" data-copy="curl &quot;https://awtsmoos.com/api/social/packed/connections?post=POST_ID&quot;">Copy</button></div>
+		</section>
+
+		<section class="dev-section" id="basics" aria-labelledby="basics-title">
+			<h2><span class="dev-sec-num">02</span><span id="basics-title">Base URL &amp; response envelopes</span></h2>
+			<p class="dev-sec-sub">One base URL for everything. Two envelopes — success and error — used consistently across the API.</p>
+
+			<div class="dev-code"><span class="dev-code-label">base URL</span><pre>https://awtsmoos.com</pre><button class="dev-copy" type="button" data-copy="https://awtsmoos.com">Copy</button></div>
+
+			<h3>Success envelope</h3>
+			<p>Successful reads return HTTP 200 with the payload under <code>success</code>:</p>
+			<div class="dev-code"><span class="dev-code-label">GET /api/social/search/capabilities → 200</span><pre>{
+  "success": {
+    "version": 3,
+    "defaultMode": "library",
+    "modes": { "library": { "lexical": true, "semanticEnglish": true }, ... }
+  }
+}</pre></div>
+
+			<h3>Error envelope</h3>
+			<p>Failures return a stable error object — never an HTML page, never a bare string:</p>
+			<div class="dev-code"><span class="dev-code-label">error shape</span><pre>{
+  "BH": "B\"H",
+  "error": "MISSING_WORD",
+  "details": { "corpus": "tanach" }
+}</pre></div>
+			<div class="dev-callout dev-callout-blue"><strong>Agents:</strong> branch on the <code>error</code> string, not the HTTP status. The full code table is in <a href="#errors">Errors</a>.</div>
+		</section>
+
+		<section class="dev-section" id="posts" aria-labelledby="posts-title">
+			<h2><span class="dev-sec-num">03</span><span id="posts-title">Post retrieval</span></h2>
+			<p class="dev-sec-sub">Fetch one post by its ID, either through the packed store (fastest, works with a bare post ID) or through its series path (full context).</p>
+
+			<div class="dev-endpoint">
+				<div class="dev-endpoint-head"><span class="dev-method">GET</span><span class="dev-path">/api/social/packed/read</span></div>
+				<h4>Read a post by ID</h4>
+				<p>Pass <code>?key=&lt;postId&gt;</code> — a bare post ID is matched against the stored key suffix, so you do not need the full internal path. Optional <code>shard</code> selects the storage shard (default <code>core</code>).</p>
+				<div class="dev-params"><table class="dev-table">
+					<tr><th>Param</th><th>Required</th><th>Description</th></tr>
+					<tr><td><code>key</code></td><td>yes</td><td>Post ID (bare ID works; full packed key also works)</td></tr>
+					<tr><td><code>shard</code></td><td>no</td><td>Storage shard, default <code>core</code></td></tr>
+				</table></div>
+				<div class="dev-code"><span class="dev-code-label">example</span><pre>curl "https://awtsmoos.com/api/social/packed/read?key=POST_ID"</pre><button class="dev-copy" type="button" data-copy="curl &quot;https://awtsmoos.com/api/social/packed/read?key=POST_ID&quot;">Copy</button></div>
+			</div>
+
+			<div class="dev-endpoint">
+				<div class="dev-endpoint-head"><span class="dev-method">GET</span><span class="dev-path">/api/social/heichelos/:heichel/series/:series/post/:post</span></div>
+				<h4>Read a post in series context</h4>
+				<p>The same post, addressed by its library position — heichel (space), series, and post ID. The main Torah library lives in heichel <code>ikar</code>.</p>
+				<div class="dev-code"><span class="dev-code-label">example · a Rambam halachah</span><pre>curl "https://awtsmoos.com/api/social/heichelos/ikar/series/rambam-mishneh-torah/post/POST_ID"</pre><button class="dev-copy" type="button" data-copy="curl &quot;https://awtsmoos.com/api/social/heichelos/ikar/series/rambam-mishneh-torah/post/POST_ID&quot;">Copy</button></div>
+			</div>
+
+			<div class="dev-endpoint">
+				<div class="dev-endpoint-head"><span class="dev-method">GET</span><span class="dev-path">/api/social/packed/keys</span></div>
+				<h4>List packed keys</h4>
+				<p>Bounded key listing under an optional prefix — useful for discovering what lives in a shard.</p>
+				<div class="dev-params"><table class="dev-table">
+					<tr><th>Param</th><th>Required</th><th>Description</th></tr>
+					<tr><td><code>shard</code></td><td>no</td><td>Storage shard, default <code>core</code></td></tr>
+					<tr><td><code>prefix</code></td><td>no</td><td>Key prefix filter</td></tr>
+					<tr><td><code>limit</code></td><td>no</td><td>Max keys returned, default 200</td></tr>
+				</table></div>
+			</div>
+		</section>
+
+		<section class="dev-section" id="series" aria-labelledby="series-title">
+			<h2><span class="dev-sec-num">04</span><span id="series-title">Series browse</span></h2>
+			<p class="dev-sec-sub">Walk the library tree: heichel → series → posts. A <em>heichel</em> is a space (the main Torah library is <code>ikar</code>); a <em>series</em> is a book or collection inside it.</p>
+
+			<div class="dev-endpoint">
+				<div class="dev-endpoint-head"><span class="dev-method">GET</span><span class="dev-path">/api/social/heichelos/:heichel/series/</span></div>
+				<h4>List series in a heichel</h4>
+				<p>Returns the detailed series list for a space — titles, structure, and counts.</p>
+				<div class="dev-code"><span class="dev-code-label">example</span><pre>curl "https://awtsmoos.com/api/social/heichelos/ikar/series/"</pre><button class="dev-copy" type="button" data-copy="curl &quot;https://awtsmoos.com/api/social/heichelos/ikar/series/&quot;">Copy</button></div>
+			</div>
+
+			<div class="dev-endpoint">
+				<div class="dev-endpoint-head"><span class="dev-method">GET</span><span class="dev-path">/api/social/heichelos/:heichel/series/:series</span></div>
+				<h4>Series contents</h4>
+				<p>Returns the posts (prateem) of one series. Add <code>?details=true</code> for full series metadata instead of the compact listing.</p>
+				<div class="dev-params"><table class="dev-table">
+					<tr><th>Param</th><th>Required</th><th>Description</th></tr>
+					<tr><td><code>details</code></td><td>no</td><td><code>true</code> → full series metadata; omitted → post listing</td></tr>
+				</table></div>
+				<div class="dev-code"><span class="dev-code-label">examples</span><pre>curl "https://awtsmoos.com/api/social/heichelos/ikar/series/tanya"
+curl "https://awtsmoos.com/api/social/heichelos/ikar/series/tanya?details=true"</pre><button class="dev-copy" type="button" data-copy="curl &quot;https://awtsmoos.com/api/social/heichelos/ikar/series/tanya&quot;">Copy</button></div>
+			</div>
+
+			<div class="dev-endpoint">
+				<div class="dev-endpoint-head"><span class="dev-method">GET</span><span class="dev-path">/api/social/heichelos/:heichel/series/:series/posts</span></div>
+				<h4>List posts in a series</h4>
+				<p>Explicit post listing. Use <code>/posts/details</code> for the expanded per-post form.</p>
+				<div class="dev-code"><span class="dev-code-label">example</span><pre>curl "https://awtsmoos.com/api/social/heichelos/ikar/series/tanya/posts/details"</pre><button class="dev-copy" type="button" data-copy="curl &quot;https://awtsmoos.com/api/social/heichelos/ikar/series/tanya/posts/details&quot;">Copy</button></div>
+			</div>
+		</section>
+
+		<section class="dev-section" id="search" aria-labelledby="search-title">
+			<h2><span class="dev-sec-num">05</span><span id="search-title">Search — exact &amp; semantic</span></h2>
+			<p class="dev-sec-sub">Two complementary engines. Hebrew queries → exact indexed search. English queries → semantic vector search over verified translated content.</p>
+
+			<div class="dev-endpoint">
+				<div class="dev-endpoint-head"><span class="dev-method">GET</span><span class="dev-path">/api/social/search/exact/hebrew</span></div>
+				<h4>Exact indexed Hebrew search</h4>
+				<p>Word-exact search over prebuilt packed indexes. Prebuilt corpora: <code>tanach</code>, <code>mishnah</code>, <code>talmudBavli</code>. Any other value is treated as an Ikar series ID and searched live. A few series families (e.g. Likkutei Sichos transcripts) are excluded because source typos make exact matching unreliable — see <code>/search/exact/hebrew/meta</code>.</p>
+				<div class="dev-params"><table class="dev-table">
+					<tr><th>Param</th><th>Required</th><th>Description</th></tr>
+					<tr><td><code>word</code></td><td>yes</td><td>Hebrew word to find (aliases: <code>q</code>, <code>term</code>)</td></tr>
+					<tr><td><code>corpus</code></td><td>no</td><td><code>tanach</code> (default), <code>mishnah</code>, <code>talmudBavli</code>, or an Ikar series ID</td></tr>
+					<tr><td><code>limit</code></td><td>no</td><td>Results per page, default 25, max 200</td></tr>
+					<tr><td><code>offset</code></td><td>no</td><td>Pagination offset, default 0</td></tr>
+				</table></div>
+				<div class="dev-code"><span class="dev-code-label">example · בראשית in Tanach</span><pre>curl "https://awtsmoos.com/api/social/search/exact/hebrew?word=%D7%91%D7%A8%D7%90%D7%A9%D7%99%D7%AA&amp;corpus=tanach&amp;limit=5"</pre><button class="dev-copy" type="button" data-copy="curl &quot;https://awtsmoos.com/api/social/search/exact/hebrew?word=%D7%91%D7%A8%D7%90%D7%A9%D7%99%D7%AA&corpus=tanach&limit=5&quot;">Copy</button></div>
+			</div>
+
+			<div class="dev-endpoint">
+				<div class="dev-endpoint-head"><span class="dev-method">GET</span><span class="dev-path">/api/social/search/semantic</span></div>
+				<h4>Semantic vector search</h4>
+				<p>Meaning-based English search over verified translated + summarized content only (multilingual-e5-small, 384 dimensions, HNSW lanes). Forces vector ranking where vectors exist; lanes without vectors stay honestly text-only.</p>
+				<div class="dev-params"><table class="dev-table">
+					<tr><th>Param</th><th>Required</th><th>Description</th></tr>
+					<tr><td><code>q</code></td><td>yes</td><td>English query (aliases: <code>query</code>, <code>text</code>)</td></tr>
+					<tr><td><code>limit</code></td><td>no</td><td>Results per page, default 20, max 50</td></tr>
+				</table></div>
+				<div class="dev-code"><span class="dev-code-label">example</span><pre>curl "https://awtsmoos.com/api/social/search/semantic?q=what%20is%20the%20soul%20of%20man&amp;limit=5"</pre><button class="dev-copy" type="button" data-copy="curl &quot;https://awtsmoos.com/api/social/search/semantic?q=what%20is%20the%20soul%20of%20man&limit=5&quot;">Copy</button></div>
+			</div>
+
+			<div class="dev-endpoint">
+				<div class="dev-endpoint-head"><span class="dev-method">GET</span><span class="dev-path">/api/social/search/library/query</span></div>
+				<h4>Unified public library search</h4>
+				<p>The public search surface the site itself uses: blended lexical + semantic over the reviewed Torah library. Companion routes: <code>/search/library/browse</code> (browse shards), <code>/search/library/shards</code> (index inventory), <code>/search/capabilities</code> (live engine capabilities, models, indexed lanes).</p>
+				<div class="dev-code"><span class="dev-code-label">example</span><pre>curl "https://awtsmoos.com/api/social/search/library/query?q=%D7%AA%D7%A0%D7%99%D7%90"</pre><button class="dev-copy" type="button" data-copy="curl &quot;https://awtsmoos.com/api/social/search/library/query?q=%D7%AA%D7%A0%D7%99%D7%90&quot;">Copy</button></div>
+			</div>
+
+			<div class="dev-callout dev-callout-green"><strong>Rule of thumb:</strong> Hebrew in → <code>/search/exact/hebrew</code>. English in → <code>/search/semantic</code>. Not sure → <code>/search/library/query</code> blends both.</div>
+		</section>
+		<section class="dev-section" id="connections" aria-labelledby="connections-title">
+			<h2><span class="dev-sec-num">06</span><span id="connections-title">Connections &amp; reverse citations</span></h2>
+			<p class="dev-sec-sub">Walk the citation graph in both directions: everything a post cites, and everything that cites a given source.</p>
+
+			<div class="dev-endpoint">
+				<div class="dev-endpoint-head"><span class="dev-method">GET</span><span class="dev-path">/api/social/packed/connections</span></div>
+				<h4>Citation connections</h4>
+				<p>Two query modes — pass exactly one:</p>
+				<div class="dev-params"><table class="dev-table">
+					<tr><th>Param</th><th>Required</th><th>Description</th></tr>
+					<tr><td><code>post</code></td><td>one of</td><td>Post ID → returns its citations and back-references (what it cites + what cites it)</td></tr>
+					<tr><td><code>ref</code></td><td>one of</td><td>Citation key (e.g. a verse or source reference) → returns every post that references it (reverse index)</td></tr>
+				</table></div>
+				<div class="dev-code"><span class="dev-code-label">examples</span><pre>curl "https://awtsmoos.com/api/social/packed/connections?post=POST_ID"
+curl "https://awtsmoos.com/api/social/packed/connections?ref=CITATION_KEY"</pre><button class="dev-copy" type="button" data-copy="curl &quot;https://awtsmoos.com/api/social/packed/connections?post=POST_ID&quot;">Copy</button></div>
+				<div class="dev-callout"><strong>Reverse index:</strong> given any citation key, <code>?ref=</code> returns everything that references it — the reverse direction is built in, not bolted on.</div>
+			</div>
+		</section>
+
+		<section class="dev-section" id="friendly" aria-labelledby="friendly-title">
+			<h2><span class="dev-sec-num">07</span><span id="friendly-title">Friendly IDs</span></h2>
+			<p class="dev-sec-sub">Human- and agent-friendly URLs for the library — English and Hebrew, books, chapters, verses, and letters. These resolve to the same posts the API returns.</p>
+
+			<div class="dev-pattern-grid">
+				<div class="dev-pattern"><code>/tanya</code><p>Book root — Tanya (English slug).</p></div>
+				<div class="dev-pattern"><code dir="rtl" lang="he">/תניא</code><p>Book root — Tanya (Hebrew slug).</p></div>
+				<div class="dev-pattern"><code>/tanya/chapter-1</code><p>Chapter by English ordinal.</p></div>
+				<div class="dev-pattern"><code dir="rtl" lang="he">/תניא/פרק-א</code><p>Chapter by Hebrew ordinal (פרק-א = chapter 1).</p></div>
+				<div class="dev-pattern"><code>/tanya/1</code><p>Chapter by bare number.</p></div>
+				<div class="dev-pattern"><code>/tanya/chapter-1/verse-5</code><p>Verse-level address inside a chapter.</p></div>
+				<div class="dev-pattern"><code>/likutei-torah/bamidbar/1</code><p>Multi-level work: work / section / chapter.</p></div>
+				<div class="dev-pattern"><code>/igeres-hakodesh/letter-42</code><p>Letter-style works: numbered letters.</p></div>
+			</div>
+
+			<div class="dev-params"><table class="dev-table">
+				<tr><th>Pattern</th><th>Meaning</th><th>Example</th></tr>
+				<tr><td><code>/{work}</code></td><td>Book root, English or Hebrew slug</td><td><code>/tanya</code> · <code dir="rtl" lang="he">/תניא</code></td></tr>
+				<tr><td><code>/{work}/chapter-{n}</code></td><td>Chapter, English ordinal</td><td><code>/tanya/chapter-1</code></td></tr>
+				<tr><td><code>/{work}/{n}</code></td><td>Chapter, bare number</td><td><code>/tanya/1</code></td></tr>
+				<tr><td><code dir="rtl" lang="he">/{work}/פרק-{hebrew-numeral}</code></td><td>Chapter, Hebrew ordinal</td><td><code dir="rtl" lang="he">/תניא/פרק-א</code></td></tr>
+				<tr><td><code>/{work}/chapter-{n}/verse-{m}</code></td><td>Verse inside a chapter</td><td><code>/tanya/chapter-1/verse-5</code></td></tr>
+				<tr><td><code>/{work}/{section}/{n}</code></td><td>Section + chapter (multi-part works)</td><td><code>/likutei-torah/bamidbar/1</code></td></tr>
+				<tr><td><code>/{work}/letter-{n}</code></td><td>Numbered letter (epistolary works)</td><td><code>/igeres-hakodesh/letter-42</code></td></tr>
+			</table></div>
+			<div class="dev-callout dev-callout-blue"><strong>Agents:</strong> prefer friendly URLs when you know the citation, and post IDs when you have them from search results. Both lead to the same records.</div>
+		</section>
+
+		<section class="dev-section" id="translations" aria-labelledby="translations-title">
+			<h2><span class="dev-sec-num">08</span><span id="translations-title">Translations — Hebrew + English together</span></h2>
+			<p class="dev-sec-sub">There is no separate "translate" call. Translated posts carry both languages side by side in every unit — request the post once, get both.</p>
+
+			<div class="dev-code"><span class="dev-code-label">a translated unit (abbreviated)</span><pre>{
+  "postId": "...",
+  "title": "Abarbanel on Amos",
+  "unitCount": 42,
+  "units": [
+    {
+      "ref": "1:1#c0",
+      "hebrew": "הנבואה הראשונה תחלתה דברי עמוס...",
+      "english": "The first prophecy begins with 'the words of Amos,' ...",
+      "phrases": [
+        { "hebrew": "...", "english": "..." },
+        { "hebrew": "...", "english": "..." }
+      ]
+    }
+  ]
+}</pre></div>
+			<div class="dev-callout dev-callout-green"><strong>Rule:</strong> every post read returns <code>hebrew</code> and <code>english</code> together at both the unit and phrase level. Hebrew-only posts carry <code>hebrew</code> with no <code>english</code> field — check for the field's presence rather than assuming it.</div>
+		</section>
+
+		<section class="dev-section" id="errors" aria-labelledby="errors-title">
+			<h2><span class="dev-sec-num">09</span><span id="errors-title">Error codes</span></h2>
+			<p class="dev-sec-sub">All failures use the error envelope from <a href="#basics">§02</a>. Branch on the <code>error</code> string.</p>
+			<div class="dev-params"><table class="dev-table">
+				<tr><th>Code</th><th>Meaning</th></tr>
+				<tr><td><code>METHOD_NOT_ALLOWED</code></td><td>Wrong HTTP method — read routes are GET-only</td></tr>
+				<tr><td><code>MISSING_WORD</code></td><td><code>/search/exact/hebrew</code> called without <code>word</code>/<code>q</code>/<code>term</code></td></tr>
+				<tr><td><code>MISSING_CORPUS</code></td><td>Exact search needs a corpus or Ikar series ID</td></tr>
+				<tr><td><code>EXACT_SEARCH_DISABLED_FOR_CORPUS</code></td><td>This series family is excluded from exact search (see <code>/search/exact/hebrew/meta</code>)</td></tr>
+				<tr><td><code>EXACT_SERIES_WARMING</code></td><td>Series index is still warming — retry shortly</td></tr>
+				<tr><td><code>READ_FAILED</code></td><td><code>/packed/read</code> could not read the key</td></tr>
+				<tr><td><code>KEYS_FAILED</code></td><td><code>/packed/keys</code> listing failed</td></tr>
+				<tr><td><code>AUTH_NEEDED</code></td><td>That operation is not public (write lanes)</td></tr>
+				<tr><td><code>PUBLIC_SITES_FAILED</code></td><td>Public site lookup failed</td></tr>
+			</table></div>
+		</section>
+
+		<section class="dev-section" id="limits" aria-labelledby="limits-title">
+			<h2><span class="dev-sec-num">10</span><span id="limits-title">Rate limits &amp; authentication</span></h2>
+			<p class="dev-sec-sub">Reads are public and free. The limits below keep the shared library fast for everyone.</p>
+
+			<h3>Authentication</h3>
+			<div class="dev-params"><table class="dev-table">
+				<tr><th>Lane</th><th>Auth</th></tr>
+				<tr><td>Every <code>GET</code> endpoint on this page</td><td><strong>None.</strong> No key, no signup, no token.</td></tr>
+				<tr><td>Import / write lanes (<code>/packed/import/…</code>)</td><td>Ed25519-signed operations (operator-only; not part of the public API)</td></tr>
+			</table></div>
+
+			<h3>Bounded by design</h3>
+			<div class="dev-params"><table class="dev-table">
+				<tr><th>Endpoint</th><th>Cap</th></tr>
+				<tr><td><code>/search/exact/hebrew</code></td><td><code>limit</code> ≤ 200 (default 25)</td></tr>
+				<tr><td><code>/search/semantic</code>, <code>/search/library/query</code></td><td><code>limit</code> ≤ 50 (default 20)</td></tr>
+				<tr><td><code>/packed/keys</code></td><td><code>limit</code> ≤ 200</td></tr>
+			</table></div>
+			<div class="dev-callout"><strong>Fair use:</strong> page with <code>offset</code>/<code>limit</code> instead of hammering; cache aggressively (post content is immutable); set a descriptive <code>User-Agent</code> so we can reach you if something breaks. Bulk harvesting should use the bulk import lanes, not the read API.</div>
+		</section>
+
+		<section class="dev-section" id="machine" aria-labelledby="machine-title">
+			<h2><span class="dev-sec-num">11</span><span id="machine-title">Machine-readable discovery</span></h2>
+			<p class="dev-sec-sub">Two files, always current, for tooling and agents.</p>
+			<div class="dev-pattern-grid">
+				<div class="dev-pattern"><code>GET /api.json</code><p>Concise AI-agent manifest: every endpoint with name, method, params, what it returns, and an example. Start here if you are a machine.</p></div>
+				<div class="dev-pattern"><code>GET /api/openapi.json</code><p>Full OpenAPI 3.1 specification of the public read API — import it into any OpenAPI tooling.</p></div>
+			</div>
+			<div class="dev-code"><span class="dev-code-label">fetch both</span><pre>curl -s https://awtsmoos.com/api.json | python3 -m json.tool | head -30
+curl -s https://awtsmoos.com/api/openapi.json | python3 -c "import json,sys; print(json.load(sys.stdin)['info']['version'])"</pre><button class="dev-copy" type="button" data-copy="curl -s https://awtsmoos.com/api.json | python3 -m json.tool | head -30">Copy</button></div>
+		</section>
+
+		<section class="dev-section dev-faq" id="faq" aria-labelledby="faq-title">
+			<h2><span class="dev-sec-num">12</span><span id="faq-title">FAQ</span></h2>
+			<p class="dev-sec-sub">Short answers to the questions every builder asks first.</p>
+			<details open>
+				<summary>Is the Awtsmoos API free to use? <span aria-hidden="true">＋</span></summary>
+				<p>Yes. All read endpoints are public and free — no API key, no signup, no token. Open this page and start with <code>GET</code> requests.</p>
+			</details>
+			<details>
+				<summary>Do I need authentication? <span aria-hidden="true">＋</span></summary>
+				<p>No. Every read endpoint documented here is public. Only internal write/import lanes use Ed25519-signed operations, and those are operator-only.</p>
+			</details>
+			<details>
+				<summary>Can AI agents use this API? <span aria-hidden="true">＋</span></summary>
+				<p>Yes — it is designed for agents. Fetch <a class="dev-code-link" href="/api.json">/api.json</a> for the concise machine-readable endpoint index, and <a class="dev-code-link" href="/api/openapi.json">/api/openapi.json</a> for the full OpenAPI 3.1 spec.</p>
+			</details>
+			<details>
+				<summary>How do I get English translations alongside the Hebrew? <span aria-hidden="true">＋</span></summary>
+				<p>Translated posts return <code>hebrew</code> and <code>english</code> side by side in every unit and phrase. Read the post once — both languages come together. See <a href="#translations">Translations</a>.</p>
+			</details>
+			<details>
+				<summary>Which search should I use — exact or semantic? <span aria-hidden="true">＋</span></summary>
+				<p>Hebrew queries → <code>/search/exact/hebrew</code> (word-exact, indexed). English queries → <code>/search/semantic</code> (meaning-based vectors over verified translated content). Unsure → <code>/search/library/query</code> blends both.</p>
+			</details>
+			<details>
+				<summary>How do I find everything that cites a verse or source? <span aria-hidden="true">＋</span></summary>
+				<p>Use the reverse citation index: <code>GET /api/social/packed/connections?ref=&lt;citationKey&gt;</code>. See <a href="#connections">Connections</a>.</p>
+			</details>
+		</section>
+	</main>
+</div>
+
+<footer class="dev-footer">
+	<div class="dev-footer-inner">
+		<span>Awtsmoos.com — renewed every instant. B&quot;H</span>
+		<nav aria-label="Footer">
+			<a href="/">Home</a>
+			<a href="/mawgawl/sefarim/">Torah Library</a>
+			<a href="/about">About</a>
+			<a href="/contact/">Contact</a>
+			<a href="/api.json">api.json</a>
+			<a href="/api/openapi.json">OpenAPI</a>
+		</nav>
+	</div>
+</footer>
+
+<script>
+/* B"H — progressive enhancement only; the page is complete without JS. */
+(function () {
+	"use strict";
+	var root = document.documentElement;
+	var toggle = document.getElementById("dev-theme-toggle");
+	var icon = document.getElementById("dev-theme-icon");
+	var label = document.getElementById("dev-theme-label");
+	function paint() {
+		var dark = root.getAttribute("data-theme") === "dark";
+		if (icon) icon.textContent = dark ? "☀" : "☾";
+		if (label) label.textContent = dark ? "Light" : "Dark";
+	}
+	if (toggle) {
+		toggle.addEventListener("click", function () {
+			var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+			root.setAttribute("data-theme", next);
+			try { localStorage.setItem("awtsmoos-theme", next); } catch (e) {}
+			paint();
+		});
+	}
+	paint();
+	/* Copy buttons */
+	document.querySelectorAll("[data-copy]").forEach(function (btn) {
+		btn.addEventListener("click", function () {
+			var text = btn.getAttribute("data-copy") || "";
+			function done(ok) {
+				btn.textContent = ok ? "Copied ✓" : "Copy failed";
+				btn.disabled = true;
+				setTimeout(function () { btn.textContent = "Copy"; btn.disabled = false; }, 1600);
+			}
+			if (navigator.clipboard && navigator.clipboard.writeText) {
+				navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
+			} else {
+				var ta = document.createElement("textarea");
+				ta.value = text;
+				document.body.appendChild(ta);
+				ta.select();
+				try { done(document.execCommand("copy")); } catch (e) { done(false); }
+				document.body.removeChild(ta);
+			}
+		});
+	});
+	/* Sidebar active-section highlight */
+	var links = Array.prototype.slice.call(document.querySelectorAll(".dev-side a"));
+	var sections = links.map(function (a) { return document.querySelector(a.getAttribute("href")); }).filter(Boolean);
+	if ("IntersectionObserver" in window && sections.length) {
+		var obs = new IntersectionObserver(function (entries) {
+			entries.forEach(function (en) {
+				if (en.isIntersecting) {
+					links.forEach(function (a) {
+						a.classList.toggle("dev-side-active", a.getAttribute("href") === "#" + en.target.id);
+					});
+				}
+			});
+		}, { rootMargin: "-30% 0px -60% 0px" });
+		sections.forEach(function (s) { obs.observe(s); });
+	}
+})();
+</script>
+</body>
+</html>
