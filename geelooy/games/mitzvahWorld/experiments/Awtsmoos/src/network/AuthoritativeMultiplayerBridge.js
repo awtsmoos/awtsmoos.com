@@ -58,15 +58,24 @@ export class AuthoritativeMultiplayerBridge {
 			localPlayerId: this.client.playerId,
 			scene: this.runtime.scene
 		});
-		if (this.transport !== 'local-tab') {
-			installMultiplayerAuthorities(this);
-		}
+		// Shared presence subscribes before combat authorities install: remote
+		// travelers must keep rendering even when an authority fails to start.
 		this.unsubscribe = this.client.onWorld(world => {
 			this.applyWorld(world);
 		});
 		if (this.client.world
 			&& this.runtime.state.multiplayer !== this.client.world) {
 			this.applyWorld(this.client.world);
+		}
+		if (this.transport !== 'local-tab') {
+			try {
+				installMultiplayerAuthorities(this);
+			} catch (error) {
+				console.warn(
+					'[MitzvahWorld] Multiplayer authorities unavailable; shared presence continues.',
+					error
+				);
+			}
 		}
 		this.publishRuntimeState();
 		return multiplayerBridgeReceipt(this);

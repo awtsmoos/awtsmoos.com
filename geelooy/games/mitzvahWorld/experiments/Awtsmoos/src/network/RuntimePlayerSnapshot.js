@@ -27,10 +27,23 @@ export function runtimePlayerSnapshot(runtime) {
 }
 
 export function currentMovementIntent(runtime) {
-	const axis = runtime.input.axis();
+	const axis = runtime.input?.axis?.() || {};
 	const joystick = runtime.joystick?.vector || { x: 0, y: 0, magnitude: 0 };
-	const forward = -(axis.y + joystick.y * joystick.magnitude);
-	const strafe = -(axis.x + joystick.x * joystick.magnitude);
+	const magnitude = finite(joystick.magnitude);
+	let forward;
+	let strafe;
+	if (typeof axis.forward === 'number' || typeof axis.strafe === 'number') {
+		// Minimal-meadow axes already resolve keyboard intent; the joystick
+		// arrives through its own resolved fields.
+		forward = finite(axis.forward) + finite(axis.joystickForward);
+		strafe = finite(axis.strafe) + finite(axis.joystickStrafe);
+	} else {
+		// Eretz canonical axes: x is strafe-right, y is backward-positive.
+		// This matches directionalVector locally and applyPlayerInput on the
+		// server, where strafe > 0 moves right of facing (the E key).
+		forward = -(finite(axis.y) + finite(joystick.y) * magnitude);
+		strafe = finite(axis.x) + finite(joystick.x) * magnitude;
+	}
 	const length = Math.hypot(forward, strafe);
 	if (length <= 1) return { forward, strafe };
 	return { forward: forward / length, strafe: strafe / length };
