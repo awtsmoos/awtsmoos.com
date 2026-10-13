@@ -1,0 +1,230 @@
+/* B"H — Golden Icon System for Awtsmoos (Yaakov 2026-10-13)
+ * Shared icon states: normal / hover / active / focus.
+ * Every golden icon across the site uses these classes.
+ * Mobile-first. No !important. Token-driven.
+ */
+
+:root {
+  --gold-icon-glow: 0 0 12px rgba(212, 175, 55, 0.45);
+  --gold-icon-glow-strong: 0 0 20px rgba(212, 175, 55, 0.7);
+  --gold-icon-ring: 0 0 0 3px rgba(212, 175, 55, 0.55);
+  --gold-icon-transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease;
+}
+
+/* Base golden icon */
+.gicon {
+  display: inline-block;
+  width: 1.75rem;
+  height: 1.75rem;
+  object-fit: contain;
+  border-radius: 0.5rem;
+  transition: var(--gold-icon-transition);
+  vertical-align: middle;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Sizes */
+.gicon--xs { width: 1.125rem; height: 1.125rem; }
+.gicon--sm { width: 1.5rem; height: 1.5rem; }
+.gicon--md { width: 1.75rem; height: 1.75rem; }
+.gicon--lg { width: 2.5rem; height: 2.5rem; }
+.gicon--xl { width: 3.5rem; height: 3.5rem; }
+
+/* Icon button wrapper — the interactive surface */
+.gicon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 0.875rem;
+  background: transparent;
+  cursor: pointer;
+  transition: var(--gold-icon-transition);
+  color: inherit;
+  font: inherit;
+}
+
+/* Hover — unique glow + lift per icon family */
+.gicon-btn:hover .gicon,
+a:hover .gicon {
+  transform: translateY(-2px) scale(1.08);
+  filter: brightness(1.12) saturate(1.1);
+  box-shadow: var(--gold-icon-glow);
+}
+
+/* Active/pressed — deeper press */
+.gicon-btn:active .gicon,
+a:active .gicon {
+  transform: translateY(1px) scale(0.94);
+  filter: brightness(0.92) saturate(1.15);
+  box-shadow: 0 0 6px rgba(212, 175, 55, 0.35);
+}
+
+.gicon-btn:active {
+  background: rgba(212, 175, 55, 0.12);
+  border-color: rgba(212, 175, 55, 0.35);
+}
+
+/* Focus — visible keyboard ring */
+.gicon-btn:focus-visible,
+a:focus-visible .gicon {
+  outline: none;
+  box-shadow: var(--gold-icon-ring);
+}
+
+.gicon-btn:focus-visible .gicon {
+  transform: scale(1.05);
+}
+
+/* Disabled */
+.gicon-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.gicon-btn:disabled .gicon {
+  transform: none;
+  filter: grayscale(0.5);
+  box-shadow: none;
+}
+
+/* Nav variant — for bottom nav / docks */
+.gicon-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 1rem;
+  text-decoration: none;
+  color: inherit;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: var(--gold-icon-transition);
+  min-width: 3.5rem;
+}
+
+.gicon-nav .gicon {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.gicon-nav:hover {
+  background: rgba(212, 175, 55, 0.1);
+}
+.gicon-nav:hover .gicon {
+  transform: translateY(-2px) scale(1.12);
+  filter: brightness(1.15);
+  box-shadow: var(--gold-icon-glow);
+}
+.gicon-nav:active .gicon {
+  transform: scale(0.92);
+}
+.gicon-nav:focus-visible {
+  outline: none;
+  box-shadow: var(--gold-icon-ring);
+}
+.gicon-nav[aria-current="page"],
+.gicon-nav.is-active {
+  background: rgba(212, 175, 55, 0.16);
+  color: #d4af37;
+}
+.gicon-nav[aria-current="page"] .gicon,
+.gicon-nav.is-active .gicon {
+  filter: brightness(1.2) saturate(1.2);
+  box-shadow: var(--gold-icon-glow-strong);
+}
+
+/* Action row — social post actions */
+.gicon-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: inherit;
+  transition: var(--gold-icon-transition);
+}
+.gicon-action .gicon {
+  width: 1.375rem;
+  height: 1.375rem;
+}
+.gicon-action:hover {
+  background: rgba(212, 175, 55, 0.1);
+  border-color: rgba(212, 175, 55, 0.25);
+}
+.gicon-action:hover .gicon {
+  transform: scale(1.15) rotate(-4deg);
+  filter: brightness(1.15);
+  box-shadow: var(--gold-icon-glow);
+}
+.gicon-action:active .gicon {
+  transform: scale(0.9);
+}
+.gicon-action:focus-visible {
+  outline: none;
+  box-shadow: var(--gold-icon-ring);
+}
+.gicon-action.is-on {
+  color: #d4af37;
+}
+.gicon-action.is-on .gicon {
+  filter: brightness(1.25) saturate(1.3);
+  box-shadow: var(--gold-icon-glow);
+}
+
+/* Reader control variant */
+.gicon-reader {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: rgba(255, 251, 240, 0.9);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  cursor: pointer;
+  transition: var(--gold-icon-transition);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.gicon-reader .gicon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.gicon-reader:hover {
+  border-color: rgba(212, 175, 55, 0.6);
+  box-shadow: var(--gold-icon-glow-strong);
+}
+.gicon-reader:hover .gicon {
+  transform: scale(1.12);
+}
+.gicon-reader:active {
+  transform: scale(0.94);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+.gicon-reader:focus-visible {
+  outline: none;
+  box-shadow: var(--gold-icon-ring), var(--gold-icon-glow);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .gicon, .gicon-btn, .gicon-nav, .gicon-action, .gicon-reader,
+  .gicon-btn .gicon, .gicon-nav .gicon, .gicon-action .gicon, .gicon-reader .gicon {
+    transition: none;
+  }
+  .gicon-btn:hover .gicon, a:hover .gicon,
+  .gicon-nav:hover .gicon, .gicon-action:hover .gicon, .gicon-reader:hover .gicon {
+    transform: none;
+  }
+}
