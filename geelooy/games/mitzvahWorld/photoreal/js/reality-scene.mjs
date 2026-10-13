@@ -148,11 +148,10 @@ const TOD = {
     golden: 0.0, warm: 0.0,
   },
   golden: {
-    // B"H — 2026-10-13 Phase 1 lighting rebuild: warm white sun (~5500K, not
-    // yellow), cool green-blue ambient (reference shadows are cool), exposure
-    // 1.0. The reference is softly lit — restraint, not blowout.
-    sunDir: [0.72, 0.30, 0.28], sunColor: 0xfff6e8, sunI: 2.4,
-    hemiSky: 0xa8c8d8, hemiGround: 0x4a5a3a, hemiI: 0.7,
+    // B"H — 99% push: reference has DEEP shadows + BRIGHT highlights (contrast).
+    // Lower ambient for shadow depth, stronger sun for dappled highlights.
+    sunDir: [0.72, 0.30, 0.28], sunColor: 0xfff6e8, sunI: 2.8,
+    hemiSky: 0xa8c8d8, hemiGround: 0x4a5a3a, hemiI: 0.45,
     fog: 0x9aaa7a, fogNear: 60, fogFar: 270, exposure: 1.0,
     golden: 1.0, warm: 0.25,
   },
