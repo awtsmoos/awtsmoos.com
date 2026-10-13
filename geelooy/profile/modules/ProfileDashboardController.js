@@ -5,17 +5,26 @@
  * @module ProfileDashboardController
  * @description The Awtsmoos gathers alias identity, owned spaces, and social action into an ordered flow;
  * Awtsmoos.com keeps loading, failure, rendering, and launchpad concerns separate so future profile growth can glow.
+ * B"H 2026-10-13: tabs bind FIRST (before any network) so they always work; stats load eagerly in background.
  */
 import { announceProfile, one, setStat } from './dom.js';
-import { getAliasDetails, getDefaultAlias } from './api.js?v=profile-api-002';
+import { getAliasDetails, getDefaultAlias } from './api.js';
 import { renderAliases } from './aliases.js';
-import { renderProfileComments } from './comments.js';
-import { renderProfilePosts } from './posts.js';
-import { renderProfileSeries } from './series.js';
+import { renderProfileComments, loadCommentsForAlias } from './comments.js';
+import { renderProfilePosts, loadPostsForAlias } from './posts.js';
+import { renderProfileSeries, loadSeriesForAlias } from './series.js';
 import { emptyCard } from './cards.js';
 import { renderHeichelos } from './heichelos.js';
 import { renderTiferesSocialLaunchpad } from './SocialLaunchpad.js';
+import { bindTabs } from './tabs.js';
 import { setAliases, state } from './state.js';
+
+/** Tab keys with lazy content loaders. Loaded once per tab via the tabs module. */
+const TAB_LOADERS = {
+	posts: renderProfilePosts,
+	comments: renderProfileComments,
+	series: renderProfileSeries
+};
 
 export class ProfileDashboardController {
 	async start() {
@@ -29,17 +38,68 @@ export class ProfileDashboardController {
 	}
 
 	async load() {
+		// B"H: tabs bind FIRST — before any network — so they always switch panels
+		// and load content even if later boot steps fail.
+		this.bindContentTabs();
 		const [defaultAlias, aliases] = await Promise.all([
 			this.loadDefaultAlias(),
 			getAliasDetails()
 		]);
 		setAliases(aliases, defaultAlias);
 		this.personalizeHero();
-		renderTiferesSocialLaunchpad();
-		renderAliases();
-		await renderHeichelos();
-		// B"H: content tabs load lazily on first open — wire them here.
-		this.bindContentTabs();
+		// B"H: stats load eagerly in the background — real numbers, not 0s.
+		this.loadStatsEagerly();
+		try { renderTiferesSocialLaunchpad(); } catch { /* launchpad must never break boot */ }
+		try { renderAliases(); } catch { /* aliases must never break boot */ }
+		try { await renderHeichelos(); } catch { /* heichelos must never break boot */ }
+	}
+
+	/**
+	 * Binds tab switching + one-time lazy content loading through the single tabs module.
+	 * Safe to call once; the tabs module guards against double-binding.
+	 */
+	bindContentTabs() {
+		const loaded = new Set();
+		bindTabs({
+			onActivate: (key) => {
+				const load = TAB_LOADERS[key];
+				if (load && !loaded.has(key)) {
+					loaded.add(key);
+					load().catch(() => { loaded.delete(key); });
+				}
+			}
+		});
+	}
+
+	/**
+	 * Fetches real post/comment/series counts in the background so hero stats
+	 * show true numbers without waiting for tab clicks. Never throws, never blocks.
+	 */
+	async loadStatsEagerly() {
+		const aliases = state.aliases;
+		if (!aliases.length) return;
+		const STAT_TIMEOUT_MS = 10000;
+		const countAll = async (loader) => {
+			try {
+				const groups = await Promise.race([
+					Promise.all(aliases.map(loader)),
+					new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), STAT_TIMEOUT_MS))
+				]);
+				return groups.flat().length;
+			} catch {
+				return null;
+			}
+		};
+		try {
+			const [posts, comments, series] = await Promise.all([
+				countAll(loadPostsForAlias),
+				countAll(loadCommentsForAlias),
+				countAll(loadSeriesForAlias)
+			]);
+			if (posts != null) setStat('posts', String(posts));
+			if (comments != null) setStat('comments', String(comments));
+			if (series != null) setStat('series', String(series));
+		} catch { /* stats are best-effort; tabs set them on load too */ }
 	}
 
 	/** Fills the hero with the default alias identity (name, handle, avatar letter). */
@@ -71,25 +131,6 @@ export class ProfileDashboardController {
 			if (panel) panel.hidden = false;
 			announceProfile('You are not signed in.', 'info');
 		} catch { /* never throw from the failure path */ }
-	}
-
-	bindContentTabs() {
-		const loaded = new Set();
-		const loaders = {
-			posts: renderProfilePosts,
-			comments: renderProfileComments,
-			series: renderProfileSeries
-		};
-		document.querySelectorAll('[data-profile-tab]').forEach(tab => {
-			tab.addEventListener('click', () => {
-				const key = tab.dataset.profileTab;
-				const load = loaders[key];
-				if (load && !loaded.has(key)) {
-					loaded.add(key);
-					load().catch(() => { loaded.delete(key); });
-				}
-			});
-		});
 	}
 
 	async loadDefaultAlias() {

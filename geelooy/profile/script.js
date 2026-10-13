@@ -11,7 +11,6 @@ import { bindProfileInlineActions } from './modules/inlineActions.js';
 import { ProfileDashboardController } from './modules/ProfileDashboardController.js';
 import { ensureMalchusProfileStyles } from './modules/ProfileStyles.js';
 import { renderTiferesSocialLaunchpad } from './modules/SocialLaunchpad.js';
-import { bindTabs } from './modules/tabs.js';
 
 /**
  * Shows a visible boot failure instead of leaving the page stuck on "Loading…".
@@ -38,7 +37,7 @@ function showBootFailure(message) {
 export async function bootProfileSocialOs() {
 	installSocialExperience(document, { ambient: true });
 	ensureMalchusProfileStyles(document);
-	bindTabs();
+	// B"H: tab binding is owned by ProfileDashboardController (binds before any network).
 	bindProfileInlineActions();
 	bindStatShortcuts();
 	const controller = new ProfileDashboardController();

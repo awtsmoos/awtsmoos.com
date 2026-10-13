@@ -42,7 +42,8 @@ function postCard(post = {}) {
 	return card;
 }
 
-async function loadPostsForAlias(alias) {
+/** Loads one alias's posts; never throws — failures become empty lists. */
+export async function loadPostsForAlias(alias) {
 	try {
 		const data = await apiJson(`/api/social/profile/${encodeURIComponent(alias.id)}/posts`, { timeoutMs: 9000 });
 		return listFrom(data);
