@@ -43,7 +43,7 @@ export function renderChitasWeek(items, container, navigator, appState) {
 	const dailyStudy = appState.currentSeriesData?.dailyStudy;
 	if (dailyStudy) {
 		try {
-			shell.append(createDailyStudySection(dailyStudy, selectedDate));
+			shell.append(createDailyStudySection(dailyStudy, selectedDate, appState.heichelId));
 		} catch (e) {
 			console.warn('B"H — Daily study section failed:', e);
 		}

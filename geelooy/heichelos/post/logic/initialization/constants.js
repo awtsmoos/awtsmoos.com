@@ -44,3 +44,14 @@ export function constructPostUrl(heichelId, seriesId, postId) {
 export function constructBreadcrumbUrl(heichelId, seriesId) {
 	return `/api/social/heichelos/${encodeURIComponent(heichelId)}/series/${encodeURIComponent(seriesId)}/breadcrumb`;
 }
+
+/**
+ * Constructs the lightweight ordered post-ID listing URL for one series.
+ *
+ * @param {string} heichelId - The heichel identity.
+ * @param {string} seriesId - The series identity.
+ * @returns {string} The series posts listing API URL.
+ */
+export function constructSeriesPostsUrl(heichelId, seriesId) {
+	return `/api/social/heichelos/${encodeURIComponent(heichelId)}/series/${encodeURIComponent(seriesId)}/posts`;
+}

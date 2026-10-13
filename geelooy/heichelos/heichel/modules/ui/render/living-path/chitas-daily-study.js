@@ -114,10 +114,14 @@ export function createDailyStudySection(dailyStudy, studyDate, heichelId = 'ikar
     const body = `${c.parshaEn} · Aliyah ${c.n} (${c.en})`;
     const bodyHe = `${c.parshaHe} · עליה ${c.he}`;
     const verses = `${c.start} – ${c.end}`;
+    const dateKey = dailyStudy.dateKey || '';
+    const chumashLink = dateKey
+      ? `/heichelos/${encodeURIComponent(heichelId)}/series/daily-chitas/post/${encodeURIComponent(`chitas-${dateKey}`)}?chitasDate=${encodeURIComponent(dateKey)}&chitasLang=en`
+      : null;
     grid.append(createStudyCard(
       'Chumash', 'חומש',
       `${body}\n${verses}`, `${bodyHe}\n${c.start} – ${c.end}`,
-      null, null
+      chumashLink, chumashLink ? 'Open Chumash →' : null
     ));
   }
   
