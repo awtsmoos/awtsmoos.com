@@ -51,7 +51,8 @@ export class AdventureUi {
 
 	overlayContent(world) {
 		if (world.status === 'victory') {
-			return { kicker: 'Three chambers complete', title: 'Light returned', text: `Final score · ${world.score}` };
+			const n = world.levels.length;
+			return { kicker: `${n} chamber${n === 1 ? '' : 's'} complete`, title: 'Light returned', text: `Final score · ${world.score}` };
 		}
 		if (world.status === 'gameOver') {
 			return { kicker: 'Run ended', title: 'Begin again', text: `Score · ${world.score}` };

@@ -48,6 +48,8 @@ export class AdventureWorld {
 		this.hazards = level.hazards.map(cloneRect);
 		this.portal = cloneRect(level.portal);
 		this.graceFrames = this.config.graceFrames;
+		this.bursts = [];
+		this.damageFlash = 0;
 		this.message = 'Gather every spark.';
 	}
 
