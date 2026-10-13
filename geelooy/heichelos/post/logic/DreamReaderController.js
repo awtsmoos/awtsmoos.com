@@ -474,13 +474,19 @@ export class DreamReaderController extends KliReaderPreferenceController {
 	mount() {
 		const selectorKli = /** @type {HTMLSelectElement|null} */ (this.resolveKli("dreamSelector"));
 		const urlDream = this.dreamFromUrl();
-		const hasStored = this.hasStoredDream();
+		const storedDream = this.hasStoredDream()
+			? this.store.readAllowed(STORAGE_KEY, ALLOWED_DREAMS, DEFAULT_DREAM)
+			: DEFAULT_DREAM;
+		// B"H A stored "off" is not an explicit preference — it means "not right
+		// now", so the time-aware default still applies. Only a stored sanctuary
+		// or dawn blocks the time default.
+		const hasExplicitDream = storedDream === "sanctuary" || storedDream === "dawn";
 		const rememberedDream = urlDream
-			|| (hasStored ? this.store.readAllowed(STORAGE_KEY, ALLOWED_DREAMS, DEFAULT_DREAM) : this.timeDefaultDream());
+			|| (hasExplicitDream ? storedDream : this.timeDefaultDream());
 		if (selectorKli) {
 			selectorKli.value = rememberedDream;
 		}
-		this.applyDream(rememberedDream, { persist: urlDream ? true : hasStored });
+		this.applyDream(rememberedDream, { persist: urlDream ? true : hasExplicitDream });
 		if (!this.acquireBinding(selectorKli, "DreamReader")) {
 			return;
 		}
