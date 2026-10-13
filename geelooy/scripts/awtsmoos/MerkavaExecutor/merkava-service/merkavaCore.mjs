@@ -17,8 +17,8 @@
  */
 
 import { VerifySession, VIEWPORT_PRESETS, parseInteract } from "./snapshots/verifySession.js";
-import { runJs } from "./merkavaJsCore.mjs";
-import { runPageWithJs } from "./snapshots/jsPageRunner.js";
+// B"H: jsPageRunner and merkavaJsCore are imported lazily inside runPage()
+// (dynamic import) so a missing file can never break module load.
 
 export const VERSION = "1.2.0";
 export { VIEWPORT_PRESETS };
@@ -112,14 +112,17 @@ export async function runPage(opts = {}) {
   // B"H: genuinely run the page — execute scripts through the real Merkava
   // browser engine (virtual DOM + fetch) before layout, so JS-driven DOM
   // updates actually render. Falls back to the bytecode VM for raw snippets.
+  // (Lazy imports: a missing engine file degrades to static render, never a crash.)
   let jsResult = null;
   if (opts.executeJs !== false) {
     try {
       if (opts.js && !html) {
         // Raw JS snippet: fast bytecode VM path.
+        const { runJs } = await import("./merkavaJsCore.mjs");
         jsResult = await runJs({ js: opts.js, timeoutMs: Math.min(timeoutMs, 15000), maxSteps: 30000 });
       } else {
         // Real page: full browser engine with DOM + network.
+        const { runPageWithJs } = await import("./snapshots/jsPageRunner.js");
         jsResult = await runPageWithJs({
           html,
           url: opts.url || undefined,
