@@ -574,25 +574,26 @@ class PackedPostImportRoutes {
 	}
 
 	async flushSeriesAdds($i, job) {
+		// B"H 2026-10-12: diagnostic — record what we're flushing
+		job.errors.push({ message: 'SERIES_FLUSH_DIAG: seriesAdds keys=' + job.seriesAdds.size });
 		for (const [key, adds] of job.seriesAdds) {
 			if (!adds.size) continue;
-			// B"H 2026-10-11: snapshot + clear SYNCHRONOUSLY before any await,
-			// so series adds made by concurrent import workers while this
-			// flush is in flight are never wiped by the clear().
 			const snapshot = new Map(adds);
 			adds.clear();
 			const [h, s] = JSON.parse(key);
 			const p = `/social/heichelos/${h}/series/${s}/posts`;
 			let obj = {};
-			try { obj = await $i.db.get(p) || {}; } catch (_) { /* ignore */ }
+			let getErr = null;
+			try { obj = await $i.db.get(p) || {}; } catch (e) { getErr = e.message || String(e); }
 			let changed = false;
 			for (const [pid, entry] of snapshot) {
 				if (!obj[pid] || obj[pid].author !== entry.author) { obj[pid] = entry; changed = true; }
 			}
+			job.errors.push({ message: `SERIES_FLUSH_DIAG: ${s} snapshot=${snapshot.size} existing=${Object.keys(obj).length} changed=${changed} getErr=${getErr}` });
 			if (changed) {
-				try { await $i.db.write(p, obj); if (process.env.AWTSMOOS_DEBUG_SERIES) console.log('[flushSeriesAdds] wrote', p, 'keys:', Object.keys(obj).length); }
+				try { await $i.db.write(p, obj); job.errors.push({ message: `SERIES_FLUSH_DIAG: ${s} WRITE OK keys=${Object.keys(obj).length}` }); }
 				catch (e) { job.errors.push({ message: 'SERIES_INDEX_FAILED: ' + s + ': ' + (e.message || e) }); }
-			} else if (process.env.AWTSMOOS_DEBUG_SERIES) { console.log('[flushSeriesAdds] no change for', p); }
+			}
 		}
 		await yieldTick();
 	}
