@@ -31,11 +31,14 @@
 	--sefer-shadow: 0 2px 14px rgba(90, 70, 40, 0.10);
 }
 
-/* ---------- Sefer container : Heichal ---------- */
+/* ---------- Sefer container : Heichal ----------
+   Yaakov's law: content uses nearly the FULL viewport width.
+   Horizontal padding is minimal and never grows with text size —
+   at large text scales the words get the room, not the margins. */
 .meluket-sefer-active .meluket-sefer {
 	max-width: 1180px;
 	margin: 0 auto;
-	padding: clamp(1rem, 3vw, 2.5rem) clamp(0.75rem, 3vw, 2rem) 4rem;
+	padding: 1rem 0.5rem 4rem;
 	background: var(--sefer-paper);
 	color: var(--sefer-ink); /* Layer 15 completeness: explicit text color */
 	border-radius: 6px;
@@ -139,7 +142,9 @@
 	color: #fffdf6;
 }
 
-/* ---------- Section card : one teaching, dwelling in whitespace ---------- */
+/* ---------- Section card : one teaching, dwelling in whitespace ----------
+   Yaakov's law: minimal horizontal padding — the text breathes,
+   the margins don't eat it. */
 .meluket-sefer-active .meluket-sefer-section {
 	position: relative;
 	background: var(--sefer-card);
@@ -147,7 +152,7 @@
 	border-radius: 10px;
 	box-shadow: var(--sefer-shadow);
 	margin: 0 0 2rem;
-	padding: 2.25rem clamp(1rem, 3vw, 2.25rem) 2rem;
+	padding: 2rem 0.75rem;
 	overflow: hidden;
 }
 
@@ -201,15 +206,19 @@
 }
 
 /* Hebrew phrase : the ikar. RTL, nikkud-safe.
-   Yaakov's law: Hebrew and English render at EXACTLY the same size, always.
-   Both use the single shared --sefer-phrase-size so they can never differ,
-   at any text-scale setting. */
+   Yaakov's law: Hebrew and English must LOOK the same size, always.
+   Equal CSS px is NOT enough — Frank Ruhl Libre's Hebrew glyphs render
+   optically smaller than Source Serif 4's Latin at the same px (measured
+   1.30x difference on-device). The --hebrew-optical multiplier compensates
+   so they look identical. It sits on top of the shared --sefer-phrase-size,
+   so +/− scaling keeps them equal at every size. */
 .meluket-sefer-active {
 	--sefer-phrase-size: clamp(2.4rem, 6.2vw, 3.4rem);
+	--hebrew-optical: 1.3;
 }
 .meluket-sefer-active .meluket-phrase--he {
 	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
-	font-size: var(--sefer-phrase-size);
+	font-size: calc(var(--sefer-phrase-size) * var(--hebrew-optical));
 	font-weight: 700;
 	line-height: 1.9;
 	color: var(--sefer-ink);
@@ -219,9 +228,11 @@
 	text-align: right;
 	direction: rtl;
 	/* B"H — prevent RTL clipping on narrow screens: allow long words to
-	   break instead of overflowing the container's hidden overflow. */
+	   break instead of overflowing the container's hidden overflow.
+	   Never break-all: words wrap whole, letters never stack. */
 	overflow-wrap: break-word;
 	word-wrap: break-word;
+	word-break: normal;
 	min-width: 0;
 }
 
@@ -236,9 +247,10 @@
 	margin-top: 1em;
 	padding-top: 1em;
 	direction: ltr;
-	/* B"H — prevent clipping on narrow screens. */
+	/* B"H — prevent clipping on narrow screens. Words wrap whole. */
 	overflow-wrap: break-word;
 	word-wrap: break-word;
+	word-break: normal;
 	min-width: 0;
 }
 
@@ -252,18 +264,20 @@
 }
 
 /* ---------- Server-rendered initial content ----------
-   Yaakov's law applies here too: Hebrew == English, exactly.
-   These classes had no styling at all — now they match the JS reader. */
+   Yaakov's law applies here too: Hebrew must LOOK the same size as English.
+   Same 1.3 optical multiplier as the JS reader. */
 .awtsmoos-initial-unit-he,
 .awtsmoos-initial-unit-en {
 	font-size: clamp(2.4rem, 6.2vw, 3.4rem);
 	line-height: 1.8;
 	overflow-wrap: break-word;
 	word-wrap: break-word;
+	word-break: normal;
 	min-width: 0;
 }
 .awtsmoos-initial-unit-he {
 	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
+	font-size: calc(clamp(2.4rem, 6.2vw, 3.4rem) * 1.3);
 	font-weight: 700;
 	text-align: right;
 	direction: rtl;
@@ -285,12 +299,13 @@
    (Legacy container — kept for any non-interleaved render path.) */
 .meluket-sefer-active .meluket-hebrew {
 	font-family: "Frank Ruhl Libre", "Taamey Frank CLM", Cardo, Georgia, serif;
-	font-size: clamp(3.2rem, 9vw, 5.2rem);
+	font-size: calc(clamp(3.2rem, 9vw, 5.2rem) * 1.3);
 	line-height: 1.9;
 	color: var(--sefer-ink);
 	text-align: justify;
 	margin-bottom: 2rem;
 	direction: rtl;
+	word-break: normal;
 }
 
 /* Phrase blocks — split by Yaakov's punctuation rule (., ()[]). */
@@ -536,19 +551,29 @@
 	direction: ltr;
 }
 
-/* ---------- Mobile ---------- */
+/* ---------- Mobile ----------
+   Yaakov's law: on phones the content is nearly edge-to-edge.
+   Words may wrap — letters NEVER stack one-per-line. */
 @media (max-width: 640px) {
 	.meluket-sefer-active .meluket-sefer {
-		padding: 0.75rem 0.5rem 3rem;
+		padding: 0.5rem 0.25rem 3rem;
 		border-radius: 0;
 	}
 	.meluket-sefer-active .meluket-sefer-section {
 		border-radius: 8px;
-		padding: 1.4rem 1rem 1.2rem;
+		padding: 1rem 0.5rem;
 		margin-bottom: 1.25rem;
 	}
 	.meluket-sefer-active .meluket-hebrew {
 		text-align: right;
+	}
+	/* B"H — never break words letter-by-letter, at any size. */
+	.meluket-sefer-active .meluket-phrase--he,
+	.meluket-sefer-active .meluket-phrase--en,
+	.meluket-sefer-active .meluket-hebrew,
+	.meluket-sefer-active .meluket-english {
+		word-break: normal;
+		overflow-wrap: break-word;
 	}
 }
 

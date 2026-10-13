@@ -23,14 +23,14 @@
 	}
 
 	.awtsmoos-reader-vision .content {
-		padding-inline: clamp(.85rem, 4vw, 1.25rem);
+		padding-inline: .25rem;
 		padding-block-end: calc(5.25rem + env(safe-area-inset-bottom));
 	}
 
 	.awtsmoos-reader-vision .awtsmoos-initial-post {
 		max-inline-size: 44rem;
 		margin: 1.25rem auto;
-		padding: clamp(1rem, 4vw, 1.35rem);
+		padding: .5rem;
 		border: 1px solid rgb(112 225 255 / 18%);
 		border-radius: 1rem;
 		background: rgb(7 15 29 / 72%);
