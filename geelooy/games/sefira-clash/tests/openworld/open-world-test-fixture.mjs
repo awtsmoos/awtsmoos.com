@@ -23,8 +23,9 @@ export function installOpenWorldBrowserStubs() {
 	return memory;
 }
 
-export function createFundedOpenWorldModel() {
+export async function createFundedOpenWorldModel() {
 	const model = new GameModel();
+	await model.ensureExpedition();
 	model.expedition.replaceProfile({
 		...model.expedition.profile,
 		perutas: 500,

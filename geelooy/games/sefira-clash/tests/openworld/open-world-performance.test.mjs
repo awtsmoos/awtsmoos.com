@@ -19,8 +19,8 @@ import {
 
 installOpenWorldBrowserStubs();
 
-test('three-thousand fixed steps preserve every declared collection cap', () => {
-	const state = createFundedOpenWorldModel().createOpenWorld();
+test('three-thousand fixed steps preserve every declared collection cap', async () => {
+	const state = await (await createFundedOpenWorldModel()).createOpenWorld();
 	for (let index = 0; index < 3000; index += 1) {
 		pushOpenWorldDomainEvent(state, { type: 'test', targetId: `event-${index}` });
 		stepOpenWorldState(state, { bySlot: {} });

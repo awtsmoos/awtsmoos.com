@@ -1,18 +1,16 @@
 //B"H
 //Boruch Hashem
-//Blessed be He
+//Blessed is He
 
 /**
- * Browser bootstrap joins menu, devices, simulation, civic overlay, and rendering in
- * Awtsmoos.com. The Awtsmoos renews every local controller while Open World, Expedition,
- * Adventure, and VS enter explicit mode-honest flows through one tested runtime.
+ * Browser bootstrap joins menu, devices, simulation, civic overlay, and rendering.
+ * Open World overlay controller lazy-loads on first entry for fast boot.
  */
 
 import { createInput } from './controls/input.js';
 import { BrowserRuntime } from './core/BrowserRuntime.js';
 import { bindMainLifecycle, returnFromVictory } from './core/MainLifecycle.js';
 import { MenuFlow } from './menu/MenuFlow.js';
-import { OpenWorldOverlayController } from './menu/openworld/OpenWorldOverlayController.js';
 import { DeviceRegistry } from './multiplayer/DeviceRegistry.js';
 import { applyMobileProfile, mobileProfile } from './platform/mobileProfile.js';
 import { createRenderSurface } from './render/offscreenSurface.js';
@@ -45,12 +43,7 @@ const input = createInput(document, {
 });
 let runtime;
 let menuFlow;
-
-const openWorldOverlay = new OpenWorldOverlayController({
-	host: civicOverlay,
-	model,
-	status
-});
+let openWorldOverlay = null; // lazy: created on first open-world entry
 
 const matchFlow = new MatchFlow({
 	model,
@@ -72,7 +65,7 @@ menuFlow = new MenuFlow({
 	registry,
 	onBeginMatch: (map, mode) => matchFlow.beginCountdown(map, mode),
 	onBeginOpenWorld: beginOpenWorld,
-	onCloseOpenWorld: () => openWorldOverlay.closeForMenu()
+	onCloseOpenWorld: () => openWorldOverlay?.closeForMenu()
 });
 
 runtime = new BrowserRuntime({
@@ -82,7 +75,7 @@ runtime = new BrowserRuntime({
 	surface,
 	profile,
 	onStep: () => {
-		if (model.state.mode === 'openworld') openWorldOverlay.update();
+		if (model.state.mode === 'openworld') openWorldOverlay?.update();
 		else matchFlow.update();
 	}
 });
@@ -109,8 +102,15 @@ runtime.resize();
 model.choice.cosmetic.ready ? menuFlow.showMode() : menuFlow.showCustomize();
 runtime.start();
 
-function beginOpenWorld() {
-	model.createOpenWorld();
+/** Enters open-world mode, lazy-loading its controller and frame stepper. */
+async function beginOpenWorld() {
+	status.textContent = 'Entering the city…';
+	const [loopMod] = await Promise.all([import('./core/loop.js'), model.createOpenWorld()]);
+	void loopMod.preloadOpenWorldStepper();
+	if (!openWorldOverlay) {
+		const { OpenWorldOverlayController } = await import('./menu/openworld/OpenWorldOverlayController.js');
+		openWorldOverlay = new OpenWorldOverlayController({ host: civicOverlay, model, status });
+	}
 	overlay.classList.add('hidden');
 	input.clear();
 	runtime?.resetClock();

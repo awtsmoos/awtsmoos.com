@@ -81,6 +81,7 @@ async function synchronize(flow, action, refresh) {
 			? 'Pulling and merging remote Expedition.'
 			: 'Pushing Expedition profile.';
 	refresh();
+	await flow.ensureExpeditionSync();
 	const result = await flow.expeditionSync[action]();
 	flow.status.textContent = result.ok
 		? flow.expeditionSync.snapshot().message

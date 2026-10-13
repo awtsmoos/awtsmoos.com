@@ -33,9 +33,18 @@ export function showVsArenaScreen(config) {
 }
 
 /** Reveals the one-human Adventure progression gate. */
-export function showAdventureScreen(config) {
-	showAdventureGrid(config.host, {
-		items: config.model.adventureMaps(),
-		onPick: map => config.onBeginMatch(map, 'adventure')
-	});
+export async function showAdventureScreen(config) {
+	config.host.innerHTML =
+		'<p class="menu-loading">Unrolling the adventure scroll…</p>';
+	try {
+		const items = await config.model.adventureMaps();
+		showAdventureGrid(config.host, {
+			items,
+			onPick: map => config.onBeginMatch(map, 'adventure')
+		});
+	} catch (error) {
+		console.error('Adventure screen failed to load', error);
+		config.host.innerHTML =
+			'<p class="menu-error">The adventure scroll could not unroll.</p>';
+	}
 }

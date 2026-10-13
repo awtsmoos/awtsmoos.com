@@ -26,8 +26,8 @@ import {
 
 installOpenWorldBrowserStubs();
 
-test('all civic archetypes compile as ten physical doors and interiors', () => {
-	const state = createFundedOpenWorldModel().createOpenWorld();
+test('all civic archetypes compile as ten physical doors and interiors', async () => {
+	const state = await (await createFundedOpenWorldModel()).createOpenWorld();
 	assert.equal(state.mode, 'openworld');
 	assert.equal(state.phase, 'playing');
 	assert.equal(state.map.openWorld.doors.length, 10);
@@ -40,8 +40,8 @@ test('all civic archetypes compile as ten physical doors and interiors', () => {
 	}
 });
 
-test('one physical interaction edge enters and exits the exact training room', () => {
-	const state = createFundedOpenWorldModel().createOpenWorld();
+test('one physical interaction edge enters and exits the exact training room', async () => {
+	const state = await (await createFundedOpenWorldModel()).createOpenWorld();
 	const human = state.fighters.find(fighter => fighter.human);
 	const door = state.map.openWorld.doors.find(item => item.destination === 'training');
 	placeInside(human, door);

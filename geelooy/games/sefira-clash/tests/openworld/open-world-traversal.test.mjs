@@ -19,9 +19,9 @@ import {
 
 installOpenWorldBrowserStubs();
 
-test('patrol and clue nodes emit one unique evidence event', () => {
-	const model = createFundedOpenWorldModel();
-	const state = model.createOpenWorld();
+test('patrol and clue nodes emit one unique evidence event', async () => {
+	const model = await createFundedOpenWorldModel();
+	const state = await model.createOpenWorld();
 	const patrol = state.map.openWorld.traversalNodes.find(node => node.kind === 'patrol');
 	assert.equal(state.map.openWorld.traversalNodes.length, 7);
 	assert.equal(performOpenWorldTraversal(state, patrol).firstUse, true);
@@ -36,8 +36,8 @@ test('patrol and clue nodes emit one unique evidence event', () => {
 	assert.equal(persisted.profile.openWorld.patrols['malchus-citadel:city'], 1);
 });
 
-test('ladder moves only to its authored destination', () => {
-	const state = createFundedOpenWorldModel().createOpenWorld();
+test('ladder moves only to its authored destination', async () => {
+	const state = await (await createFundedOpenWorldModel()).createOpenWorld();
 	const human = state.fighters.find(fighter => fighter.human);
 	const ladder = state.map.openWorld.traversalNodes.find(node => node.kind === 'ladder');
 	performOpenWorldTraversal(state, ladder);

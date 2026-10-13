@@ -25,6 +25,7 @@ test('runs a persistent authored expedition from atlas to next road', async () =
 	installBrowserMemory();
 	const { GameModel } = await import('../../js/session/GameModel.js');
 	const model = new GameModel();
+	await model.ensureExpedition();
 	assert.equal(model.expedition.activateQuest('citadel-oath'), true);
 	const map = model.expedition.selectLocation('malchus-citadel');
 	assert.equal(map.id, 'adventure-01');

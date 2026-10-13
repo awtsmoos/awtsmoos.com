@@ -23,11 +23,12 @@ export function bindMainLifecycle(options) {
 	addEventListener('orientationchange', () => setTimeout(() => runtime.resize(), 140));
 	addEventListener('gamepadconnected', refreshDevices);
 	addEventListener('gamepaddisconnected', refreshDevices);
-	addEventListener('beforeunload', () => menuFlow.expeditionSync.close());
+	addEventListener('beforeunload', () => menuFlow.closeExpeditionSync());
 	globalThis.__sefiraClashDebug = Object.freeze({
-		expedition: () => model.expedition.snapshot(),
+		expedition: () =>
+			model.expeditionReady ? model.expedition.snapshot() : null,
 		openWorld: () => publicOpenWorld(model),
-		sync: () => menuFlow.expeditionSync.snapshot(),
+		sync: () => menuFlow.expeditionSync?.snapshot() ?? null,
 		mode: () => model.choice.mode,
 		phase: () => model.state.phase,
 		state: () => publicState(model.state)
@@ -42,7 +43,10 @@ export function bindMainLifecycle(options) {
 
 export function returnFromVictory(model, menuFlow) {
 	if (model.choice.mode === 'expedition') {
-		menuFlow.showExpedition();
+		void menuFlow.showExpedition().catch(error => {
+			console.error('Failed to return to expedition menu', error);
+			menuFlow.showMode();
+		});
 		return;
 	}
 	menuFlow.showMode();
@@ -57,6 +61,7 @@ function restartJourneyIfActive(model, flow) {
 
 function publicOpenWorld(model) {
 	const world = model.state.openWorld;
+	if (!model.expeditionReady) return null;
 	return structuredClone({
 		profile: model.expedition.profile.openWorld,
 		state: world

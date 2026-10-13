@@ -17,8 +17,8 @@ import { GameModel } from '../../js/session/GameModel.js';
 
 installBrowserStubs();
 
-test('Hands Covenant removes item state and ignores Open World ranks', () => {
-	const model = modelWithMasteredOpenWorld();
+test('Hands Covenant removes item state and ignores Open World ranks', async () => {
+	const model = await modelWithMasteredOpenWorld();
 	model.lobby.rules = createMatchRules(rulesForMatchMode('hands'));
 	model.createMatch(MAPS[0], 'vs', 0);
 	assert.equal(model.state.rules.handsOnly, true);
@@ -41,8 +41,9 @@ test('ordinary Duel remains distinct from Hands Covenant', () => {
 	assert.equal(model.state.rules.modeId, 'duel');
 });
 
-function modelWithMasteredOpenWorld() {
+async function modelWithMasteredOpenWorld() {
 	const model = new GameModel();
+	await model.ensureExpedition();
 	model.expedition.replaceProfile({
 		...model.expedition.profile,
 		openWorld: {

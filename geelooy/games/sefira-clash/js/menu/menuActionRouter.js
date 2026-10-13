@@ -32,7 +32,21 @@ export function routeMenuMode(flow, mode) {
 		vs: 'showVs'
 	};
 	const methodName = routes[mode] || routes.vs;
-	flow[methodName]();
+	// Mode methods may be async (lazy-loading); surface failures to the menu.
+	try {
+		const result = flow[methodName]();
+		if (result && typeof result.catch === 'function') {
+			result.catch(error => {
+				console.error(`Menu mode "${mode}" failed to load`, error);
+				flow.status.textContent =
+					'That gate could not open. Returning to the mode menu.';
+				flow.showMode();
+			});
+		}
+	} catch (error) {
+		console.error(`Menu mode "${mode}" threw`, error);
+		flow.showMode();
+	}
 }
 
 function routeCustomizeAction(flow, action) {

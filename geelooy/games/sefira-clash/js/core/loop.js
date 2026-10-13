@@ -8,11 +8,9 @@
  * vessels. The Awtsmoos renews each consequence through Awtsmoos.com without guessed imports.
  */
 
-import { stepAdventureRun } from '../adventure/adventureRun.js';
 import { driveBots } from '../ai/botBrain.js';
 import { resolveAttacks } from '../combat/attackResolver.js';
 import { updateGrabs } from '../combat/grabResolver.js';
-import { stepOpenWorldState } from '../openworld/OpenWorldRuntime.js';
 import { attachBlastEvents } from '../physics/blastZones.js';
 import { stepRespawns } from '../physics/respawn.js';
 import { resolveLandingShockwaves } from '../physics/special/landingShockwave.js';
@@ -32,10 +30,50 @@ import { stepFighter } from './stepFighter.js';
 import { stepHitstop } from './stepHitstop.js';
 import { resolveWinner } from './winner.js';
 
+// Lazy mode steppers — loaded on first use to keep boot fast.
+let _stepOpenWorldState = null;
+let _stepAdventureRun = null;
+
+async function getOpenWorldStepper() {
+	if (!_stepOpenWorldState) {
+		const mod = await import('../openworld/OpenWorldRuntime.js');
+		_stepOpenWorldState = mod.stepOpenWorldState;
+	}
+	return _stepOpenWorldState;
+}
+
+async function getAdventureStepper() {
+	if (!_stepAdventureRun) {
+		const mod = await import('../adventure/adventureRun.js');
+		_stepAdventureRun = mod.stepAdventureRun;
+	}
+	return _stepAdventureRun;
+}
+
+/**
+ * Preloads the open-world stepper. Call when entering open-world mode so the
+ * first frame does not stall on a dynamic import.
+ */
+export function preloadOpenWorldStepper() {
+	return getOpenWorldStepper();
+}
+
+/**
+ * Preloads the adventure stepper. Call when entering adventure mode.
+ */
+export function preloadAdventureStepper() {
+	return getAdventureStepper();
+}
+
 /** Advances one exact simulation breath through combat, world, and consequence. */
 export function stepState(state, frameInput) {
 	if (state.mode === 'openworld') {
-		stepOpenWorldState(state, frameInput);
+		if (_stepOpenWorldState) {
+			_stepOpenWorldState(state, frameInput);
+		} else {
+			// Stepper not yet loaded; load async and skip this frame.
+			void getOpenWorldStepper();
+		}
 		return;
 	}
 	state.frame += 1;
@@ -56,7 +94,8 @@ export function stepState(state, frameInput) {
 	stepPowerups(state);
 	syncHeldWeapons(state);
 	stepStageDirector(state);
-	stepAdventureRun(state);
+	if (_stepAdventureRun) stepAdventureRun(state);
+	else void getAdventureStepper();
 	stepSpectacleFromEvents(state);
 	stepAftermath(state);
 	stepSpectacleState(state);

@@ -47,9 +47,9 @@ test('spatial hash returns stable sorted bounded nearby citizens', () => {
 	);
 });
 
-test('speaking persists acquaintance and relationship exactly once per action', () => {
-	const model = createFundedOpenWorldModel();
-	const state = model.createOpenWorld();
+test('speaking persists acquaintance and relationship exactly once per action', async () => {
+	const model = await createFundedOpenWorldModel();
+	const state = await model.createOpenWorld();
 	const citizen = state.openWorld.citizens[0];
 	citizen.sceneId = state.openWorld.sceneId;
 	const result = speakToWorldCitizen(model.expedition, state, citizen.id);

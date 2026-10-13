@@ -18,9 +18,9 @@ import {
 
 installOpenWorldBrowserStubs();
 
-test('archive, clinic, council, and guesthouse emit bounded civic evidence', () => {
-	const model = createFundedOpenWorldModel();
-	const state = model.createOpenWorld();
+test('archive, clinic, council, and guesthouse emit bounded civic evidence', async () => {
+	const model = await createFundedOpenWorldModel();
+	const state = await model.createOpenWorld();
 	const archive = useOpenWorldCivicService(model.expedition.profile, state, 'archive');
 	assert.equal(archive.used, true);
 	assert.equal(archive.event.type, 'investigate');
@@ -37,9 +37,9 @@ test('archive, clinic, council, and guesthouse emit bounded civic evidence', () 
 	assert.equal(guesthouse.profile.openWorld.civicVisits.guesthouse, 1);
 });
 
-test('ferry and kitchen validate passage and currency before mutation', () => {
-	const model = createFundedOpenWorldModel();
-	const state = model.createOpenWorld();
+test('ferry and kitchen validate passage and currency before mutation', async () => {
+	const model = await createFundedOpenWorldModel();
+	const state = await model.createOpenWorld();
 	const denied = useOpenWorldCivicService(model.expedition.profile, state, 'ferry');
 	assert.equal(denied.used, false);
 	const profile = {
