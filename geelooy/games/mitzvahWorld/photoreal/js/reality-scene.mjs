@@ -149,7 +149,7 @@ const TOD = {
   },
   golden: {
     sunDir: [0.72, 0.30, 0.28], sunColor: 0xffd9a8, sunI: 2.35,
-    hemiSky: 0xd8c4a8, hemiGround: 0x4e5a3a, hemiI: 0.70,
+    hemiSky: 0xd8c4a8, hemiGround: 0x4e5a3a, hemiI: 0.50,
     fog: 0xaebf8e, fogNear: 60, fogFar: 270, exposure: 1.05,
     golden: 1.0, warm: 0.55,
   },
@@ -715,8 +715,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     // the sunlit photo from bleaching to pale; small emissive keeps shadowed
     // leaves deep green instead of black.
     map: leafClusterTex, alphaTest: 0.35, side: THREE.DoubleSide,
-    roughness: 0.9, color: new THREE.Color(0.72, 0.80, 0.68),
-    emissive: new THREE.Color(0.035, 0.06, 0.025),
+    roughness: 0.9, color: new THREE.Color(0.58, 0.66, 0.55),
+    emissive: new THREE.Color(0.028, 0.05, 0.02),
   });
   const ARCHETYPES = [
     ['Oak Large', 'oak-large'], ['Pine Large', 'pine-large'],
@@ -784,8 +784,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const quadGeo = new THREE.PlaneGeometry(1.7, 1.7);
     const quadMat = new THREE.MeshStandardMaterial({
       map: leafClusterTex, alphaTest: 0.35, side: THREE.DoubleSide,
-      roughness: 0.9, color: new THREE.Color(0.72, 0.80, 0.68),
-      emissive: new THREE.Color(0.035, 0.06, 0.025),
+      roughness: 0.9, color: new THREE.Color(0.58, 0.66, 0.55),
+      emissive: new THREE.Color(0.028, 0.05, 0.02),
     });
     const PER_TREE = fast ? 64 : 90;
     const COUNT = treeSpots.length * PER_TREE;
