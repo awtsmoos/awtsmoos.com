@@ -52,8 +52,17 @@ async function loadCommentsForAlias(alias) {
 export async function renderProfileComments() {
 	const list = one(".profile-comments-list");
 	if (!list) return;
-	replaceWith(list, emptyCard("Loading comments…", "loading"));
-	const groups = await Promise.all(state.aliases.map(loadCommentsForAlias));
+	list.innerHTML = '<div class="pd-skeleton-list" aria-hidden="true"><div class="pd-skeleton"></div><div class="pd-skeleton"></div></div>';
+	let groups;
+	try {
+		groups = await Promise.race([
+			Promise.all(state.aliases.map(loadCommentsForAlias)),
+			new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), 8000))
+		]);
+	} catch {
+		replaceWith(list, emptyCard("Comments could not load. Tap the tab again to retry.", "error"));
+		return;
+	}
 	const items = groups.flat();
 	setStat('comments', String(items.length));
 	if (!items.length) {

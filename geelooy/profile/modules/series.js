@@ -54,8 +54,17 @@ async function loadSeriesForAlias(alias) {
 export async function renderProfileSeries() {
 	const list = one(".profile-series-list");
 	if (!list) return;
-	replaceWith(list, emptyCard("Loading series…", "loading"));
-	const groups = await Promise.all(state.aliases.map(loadSeriesForAlias));
+	list.innerHTML = '<div class="pd-skeleton-list" aria-hidden="true"><div class="pd-skeleton"></div><div class="pd-skeleton"></div></div>';
+	let groups;
+	try {
+		groups = await Promise.race([
+			Promise.all(state.aliases.map(loadSeriesForAlias)),
+			new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), 8000))
+		]);
+	} catch {
+		replaceWith(list, emptyCard("Series could not load. Tap the tab again to retry.", "error"));
+		return;
+	}
 	const items = groups.flat();
 	setStat('series', String(items.length));
 	if (!items.length) {

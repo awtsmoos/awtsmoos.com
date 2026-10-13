@@ -3,8 +3,8 @@
  * Blessed is He
  * Awtsmoos Video Loader — shared full-screen video loading overlay.
  * Each page sets its own background color (matching its loader video) via
- * inline style or data attribute. The video fills the viewport with
- * object-fit: cover for a seamless edge-to-edge experience.
+ * inline style or data attribute. The video shows at its NATURAL aspect
+ * ratio, centered — never stretched, never distorted, never cropped.
  */
 .awtsmoos-video-loader {
   position: fixed;
@@ -25,11 +25,12 @@
 }
 
 .awtsmoos-video-loader video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  position: relative;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
   display: block;
 }
 

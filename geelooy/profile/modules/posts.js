@@ -55,10 +55,10 @@ async function loadPostsForAlias(alias) {
 export async function renderProfilePosts() {
 	const list = one(".profile-posts-list");
 	if (!list) return;
-	replaceWith(list, emptyCard("Loading posts…", "loading"));
-	// B"H: never leave the UI stuck on "Loading posts…". Race the fetch
-	// against an overall deadline; on failure show a retry instead of silence.
-	const OVERALL_TIMEOUT_MS = 20000;
+	// B"H: show a proper loading skeleton, not a confusing "Nothing here yet".
+	list.innerHTML = '<div class="pd-skeleton-list" aria-hidden="true"><div class="pd-skeleton"></div><div class="pd-skeleton"></div><div class="pd-skeleton"></div></div>';
+	// B"H: never leave the UI stuck loading. 8s overall deadline.
+	const OVERALL_TIMEOUT_MS = 8000;
 	let groups;
 	try {
 		groups = await Promise.race([
@@ -85,7 +85,7 @@ export async function renderProfilePosts() {
 	const items = groups.flat();
 	setStat('posts', String(items.length));
 	if (!items.length) {
-		replaceWith(list, emptyCard("No posts yet. Publish from the social composer to see them here."));
+		replaceWith(list, emptyCard("No posts yet. When you publish, they'll appear here."));
 		return;
 	}
 	replaceWith(list, ...items.map(postCard));

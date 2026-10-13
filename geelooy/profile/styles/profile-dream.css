@@ -742,3 +742,51 @@
 	opacity: .55;
 	cursor: not-allowed;
 }
+
+/* B"H — Yaakov 2026-10-13: skeleton loaders (never a confusing "Nothing here yet" while loading) */
+.profile-dream .pd-skeleton-list {
+	display: flex;
+	flex-direction: column;
+	gap: .6rem;
+	padding: .25rem 0;
+}
+.profile-dream .pd-skeleton {
+	height: 4.5rem;
+	border-radius: .9rem;
+	background: linear-gradient(100deg, rgba(217,169,78,.08) 40%, rgba(217,169,78,.22) 50%, rgba(217,169,78,.08) 60%);
+	background-size: 200% 100%;
+	animation: pd-skeleton-shimmer 1.4s ease-in-out infinite;
+}
+@keyframes pd-skeleton-shimmer {
+	0% { background-position: 200% 0; }
+	100% { background-position: -200% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.profile-dream .pd-skeleton { animation: none; }
+}
+
+/* B"H — Yaakov 2026-10-13: premium hero polish — tighter, more luminous */
+.profile-dream .pd-hero {
+	position: relative;
+	overflow: hidden;
+}
+.profile-dream .pd-hero::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(247,217,140,.35), transparent 70%);
+	pointer-events: none;
+}
+.profile-dream .pd-avatar-orb {
+	box-shadow: 0 0 0 3px rgba(247,217,140,.5), 0 .5rem 1.5rem rgba(184,134,46,.35);
+}
+.profile-dream .pd-stat-btn {
+	transition: transform .15s ease, box-shadow .15s ease;
+}
+.profile-dream .pd-stat-btn:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 .4rem 1rem rgba(184,134,46,.25);
+}
+.profile-dream .pd-stat-btn:active {
+	transform: scale(.96);
+}
