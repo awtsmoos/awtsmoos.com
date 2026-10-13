@@ -56,6 +56,7 @@ Live parshas: `bamidbar` (21 ch), `tzav` (12), `shabbat-shuvah` (3),
   `/אגרות-קודש/אגרת-מב`, `/אגרות-קודש/מב` → `.../post/igeres-he-v01-0042`
 - `/igeres-hakodesh/vol-3/letter-42`, `/igeres-hakodesh/3/42`,
   `/אגרות-קודש/כרך-ג/אגרת-מב` → `.../post/igeres-he-v03-0042`
+- `/igeres-hakodesh/vol-3`, `/אגרות-קודש/כרך-ג` → volume 3 series page
 
 ## Normalization rules
 

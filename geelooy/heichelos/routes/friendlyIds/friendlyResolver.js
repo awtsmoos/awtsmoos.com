@@ -281,6 +281,11 @@ function resolveIgeresHaKodesh(segments) {
 		if (letter && letter <= IGERES_VOLUME_LETTER_COUNTS[1]) {
 			return { status: 'redirect', url: postReaderUrl(igeresSeriesId(1), igeresPostId(1, letter)) };
 		}
+		// /igeres-hakodesh/<volume> -> that volume's series page
+		const volume = parsePrefixedCount(segments[0], VOLUME_PREFIXES);
+		if (volume && IGERES_VOLUME_LETTER_COUNTS[volume]) {
+			return { status: 'redirect', url: seriesReaderUrl(igeresSeriesId(volume)) };
+		}
 		return { status: 'notFound' };
 	}
 

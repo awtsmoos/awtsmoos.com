@@ -219,6 +219,14 @@ test('igeres hakodesh letters and volumes', () => {
 		urlFor('igeres-hakodesh', ['vol-28', 'letter-415']),
 		'/heichelos/ikar/series/igeresHaKodeshVolume28/post/igeres-he-v28-0415'
 	);
+	assert.equal(
+		urlFor('igeres-hakodesh', ['vol-3']),
+		'/heichelos/ikar/series/igeresHaKodeshVolume3'
+	);
+	assert.equal(
+		urlFor('igeres-hakodesh', ['כרך-ג']),
+		'/heichelos/ikar/series/igeresHaKodeshVolume3'
+	);
 });
 
 test('igeres hakodesh rejects out-of-range letters and volumes', () => {
