@@ -7,6 +7,19 @@ fallback before the browser wakes, so Torah text is present in the served docume
 The client script below only fills gaps the server could not know.
 -->
 <div class="heichel-semantic-fallback" id="heichel-semantic-fallback" data-heichel-semantic-fallback="true">
+	<?<script>
+	var s = typeof series === "object" && series ? series : null;
+	var cover = s && s.coverImage ? String(s.coverImage) : "";
+	var title = "";
+	try { title = s && (s.title || s.name || "") ? String(s.title || s.name) : ""; } catch (e) {}
+	// Escape for HTML attribute
+	cover = cover.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+	title = title.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+	if (cover) {
+		return '<div class="heichel-series-cover-hero"><img src="' + cover + '" alt="' + title + ' cover" loading="eager" fetchpriority="high"></div>';
+	}
+	return "";
+	</script>?>
 	<header class="heichel-semantic-hero">
 		<p class="heichel-semantic-context" id="heichel-boot-context">TORAH · LIVING LIBRARY</p>
 		<h1 id="heichel-boot-title"><?<script>
@@ -31,7 +44,13 @@ The client script below only fills gaps the server could not know.
 		if (!item || !item.path) return "";
 		var label = item.title || "Open";
 		var desc = item.description ? '<p class="heichel-discovery-description">' + item.description + "</p>" : "";
-		return '<li><a href="' + item.path + '">' + label + "</a>" + desc + "</li>";
+		var cover = "";
+		if (item.coverImage && item.kind === "series") {
+			var src = String(item.coverImage).replace(/"/g, "&quot;");
+			var alt = String(label).replace(/"/g, "&quot;").replace(/</g, "&lt;");
+			cover = '<span class="heichel-discovery-cover"><img src="' + src + '" alt="' + alt + '" loading="lazy"></span>';
+		}
+		return '<li class="heichel-discovery-item' + (item.kind === "series" ? " heichel-discovery-series" : "") + '">' + cover + '<span class="heichel-discovery-text"><a href="' + item.path + '">' + label + "</a>" + desc + "</span></li>";
 	}).join("");
 </script>?></ul>
 	</nav>

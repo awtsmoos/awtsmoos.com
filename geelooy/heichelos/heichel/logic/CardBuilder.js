@@ -11,6 +11,7 @@
 import { DOMManifestor } from "./DOMManifestor.js";
 import { StringPurifier } from "./StringPurifier.js";
 import { HeichelState } from "./HeichelState.js";
+import { getItemCover } from "./seriesCovers.js";
 
 function getItemDetails(item, type) {
     return type === "post" ? item : (item?.prateem || item || {});
@@ -49,22 +50,40 @@ export class CardBuilder {
 
     static planItem(item, type, sid, root, indexInSeries) {
         const url = type === "post" ? this.generatePostURL(root.id, indexInSeries) : this.generateSeriesURL(item.id);
+        const children = [];
+        // Series cards get a cover thumbnail
+        if (type === "series") {
+            const cover = getItemCover(item);
+            if (cover) {
+                children.push({
+                    tag: "span",
+                    className: "series-card-cover",
+                    children: [{
+                        tag: "img",
+                        src: cover,
+                        alt: "",
+                        loading: "lazy"
+                    }]
+                });
+            }
+        }
+        children.push(
+            {
+                tag: "h2",
+                className: `${type}-title`,
+                children: [{
+                    tag: "a",
+                    href: url,
+                    text: getCardTitle(item, type),
+                    ...(type !== "post" ? { onclick: event => { event.preventDefault(); window.goto(url); } } : {})
+                }]
+            },
+            { tag: "div", className: "post-preview", text: getCardPreview(item, type) }
+        );
         const plan = {
             tag: "div",
             className: `post-card ${type}`,
-            children: [
-                {
-                    tag: "h2",
-                    className: `${type}-title`,
-                    children: [{
-                        tag: "a",
-                        href: url,
-                        text: getCardTitle(item, type),
-                        ...(type !== "post" ? { onclick: event => { event.preventDefault(); window.goto(url); } } : {})
-                    }]
-                },
-                { tag: "div", className: "post-preview", text: getCardPreview(item, type) }
-            ]
+            children
         };
 
         if (type === "post") plan.children.push({ tag: "a", className: "post-link", href: url, text: "Read more" });

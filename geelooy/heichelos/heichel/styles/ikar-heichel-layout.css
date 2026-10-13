@@ -1122,3 +1122,76 @@
 	opacity: 0;
 	transform: translateY(8px);
 }
+
+/* B"H — Series cover images */
+/* Full-width high-res cover hero on series pages */
+.heichel-series-cover-hero {
+	margin: calc(-1 * clamp(1rem, 3vw, 2.75rem)) calc(-1 * clamp(1rem, 3vw, 2.75rem)) clamp(1.5rem, 4vw, 2.5rem);
+	max-height: 32rem;
+	overflow: hidden;
+	position: relative;
+}
+.heichel-series-cover-hero::after {
+	background: linear-gradient(to bottom, transparent 40%, rgba(2, 7, 19, 0.85) 100%);
+	content: "";
+	inset: 0;
+	pointer-events: none;
+	position: absolute;
+}
+.heichel-series-cover-hero img {
+	display: block;
+	height: auto;
+	max-height: 32rem;
+	object-fit: cover;
+	width: 100%;
+}
+@media (max-width: 640px) {
+	.heichel-series-cover-hero,
+	.heichel-series-cover-hero img {
+		max-height: 16rem;
+	}
+}
+/* Series card cover thumbnails */
+.series-card-cover {
+	border-radius: 0.75rem 0.75rem 0 0;
+	display: block;
+	margin: -1rem -1rem 1rem;
+	overflow: hidden;
+}
+.series-card-cover img {
+	aspect-ratio: 16 / 7;
+	display: block;
+	object-fit: cover;
+	transition: transform 0.4s ease;
+	width: 100%;
+}
+.series-card-cover img:hover {
+	transform: scale(1.04);
+}
+/* Discovery list cover thumbnails (server-rendered) */
+.heichel-discovery-item {
+	align-items: flex-start;
+	display: flex;
+	gap: 1rem;
+}
+.heichel-discovery-cover {
+	border-radius: 0.5rem;
+	flex-shrink: 0;
+	overflow: hidden;
+	width: 7rem;
+}
+.heichel-discovery-cover img {
+	aspect-ratio: 16 / 9;
+	display: block;
+	object-fit: cover;
+	width: 100%;
+}
+.heichel-discovery-text {
+	flex: 1;
+	min-width: 0;
+}
+@media (max-width: 640px) {
+	.heichel-discovery-cover {
+		width: 5rem;
+	}
+}

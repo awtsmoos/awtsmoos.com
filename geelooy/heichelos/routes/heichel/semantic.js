@@ -12,6 +12,7 @@
  */
 
 const { canonicalSeriesTitle } = require('./torahSemanticPresentation.js');
+const { getSeriesCover } = require('./seriesCovers.js');
 
 /**
  * Converts stored text or light markup into compact truthful plain text.
@@ -64,9 +65,11 @@ function normalizeSeries(response, seriesId) {
 	const source = response.prateem && typeof response.prateem === 'object'
 		? response.prateem
 		: response;
+	const id = source.id || response.id || seriesId;
 	return {
 		...source,
-		id: source.id || response.id || seriesId
+		id,
+		coverImage: source.coverImage || getSeriesCover(id)
 	};
 }
 

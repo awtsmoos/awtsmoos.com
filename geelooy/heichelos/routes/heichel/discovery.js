@@ -14,6 +14,7 @@
 const { escapeHtml, cleanText } = require('./postSemantic.js');
 const { orderTorahPosts } = require('./torahSemanticPolicy.js');
 const { prepareTorahSeriesItems } = require('./torahSemanticPresentation.js');
+const { getSeriesCover } = require('./seriesCovers.js');
 
 /** Encodes one route segment for a crawlable public path. */
 function encodeSegment(value) {
@@ -50,13 +51,17 @@ function postTitle(item, position) {
 }
 
 /** Builds one escaped semantic link model. */
-function makeLink(kind, title, path, description) {
-	return {
+function makeLink(kind, title, path, description, coverImage) {
+	const link = {
 		kind,
 		title: escapeHtml(cleanText(title) || (kind === 'series' ? 'Series' : 'Teaching')),
 		path: escapeHtml(path),
 		description: escapeHtml(cleanText(description) || '')
 	};
+	if (coverImage) {
+		link.coverImage = escapeHtml(String(coverImage));
+	}
+	return link;
 }
 
 /**
@@ -92,7 +97,8 @@ function createDiscovery($i) {
 			'series',
 			item.title || item.name || item.id,
 			`/heichelos/${encodeSegment(heichelId)}/series/${encodeSegment(item.id)}`,
-			item.description || ''
+			item.description || '',
+			item.coverImage || getSeriesCover(item.id)
 		));
 		const postLinks = posts.map((item, position) => {
 			const id = typeof item === 'string' ? item : item?.id || item?.postId;

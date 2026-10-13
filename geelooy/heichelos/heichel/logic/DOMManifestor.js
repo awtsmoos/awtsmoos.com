@@ -14,7 +14,10 @@ const ATTRIBUTE_MAP = {
     id: "id",
     title: "title",
     role: "role",
-    type: "type"
+    type: "type",
+    src: "src",
+    alt: "alt",
+    loading: "loading"
 };
 
 function setKnownAttributes(el, plan) {
