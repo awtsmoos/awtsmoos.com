@@ -23,6 +23,7 @@ const {
 	BASELINE_TEXT_ROWS,
 	CANONICAL_CATALOG_WAIT_MS,
 	DEFAULT_LIBRARY_DEADLINE_MS,
+	VECTOR_MAX_LIBRARY_DEADLINE_MS,
 	libraryDeadlineAt,
 	libraryDeadlineMs,
 	remainingLibraryMs,
@@ -88,6 +89,10 @@ test('multi-lane and cold-catalog waits are finite policy constants', () => {
 	assert.equal(libraryDeadlineMs(), 8000);
 	assert.equal(libraryDeadlineMs(10), 500);
 	assert.equal(libraryDeadlineMs(999999), 15000);
+	assert.equal(VECTOR_MAX_LIBRARY_DEADLINE_MS, 30000);
+	assert.equal(libraryDeadlineMs(999999, { strategy: 'vector' }), 30000);
+	assert.equal(libraryDeadlineMs(999999, { strategy: 'text' }), 15000);
+	assert.equal(libraryDeadlineAt({ strategy: 'vector', libraryMaxMs: 30000 }, 1000), 31000);
 	const startedAt = 1000;
 	const deadlineAt = libraryDeadlineAt({ libraryMaxMs: 8000 }, startedAt);
 	assert.equal(deadlineAt, 9000);

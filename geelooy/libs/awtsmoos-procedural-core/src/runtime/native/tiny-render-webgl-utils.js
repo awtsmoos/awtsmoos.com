@@ -12,6 +12,7 @@ export {
 	invalidateMaterialModeCode,
 	materialModeCode
 } from "./tiny-material-mode.js";
+import { normalizeMaterialColor } from "./tiny-geometry.js";
 
 export {
 	createProgram,
@@ -59,11 +60,13 @@ export function attributeType(gl, attribute) {
  * @returns {Float32Array} RGBA color.
  */
 export function materialColor(material) {
-	const color = material?.color || [0.75, 0.70, 0.62, 1];
+	// B"H: normalizeMaterialColor accepts arrays, hex numbers, and CSS hex strings,
+	// so plain material objects with hex colors render correctly too.
+	const color = normalizeMaterialColor(material?.color);
 	return new Float32Array([
-		color[0] ?? 0.75,
-		color[1] ?? 0.70,
-		color[2] ?? 0.62,
+		color[0],
+		color[1],
+		color[2],
 		material?.opacity ?? color[3] ?? 1
 	]);
 }

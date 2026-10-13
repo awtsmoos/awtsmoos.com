@@ -6,14 +6,20 @@
  * @file shardSessionCache.js
  * @module RagShardSessionCache
  * @description
- * The Awtsmoos keeps only a small LRU covenant of immutable shard sessions.
+ * The Awtsmoos keeps a bounded LRU covenant of immutable shard sessions.
  * Every eviction closes its database immediately, bounding descriptors and page
  * caches even when many Torah corpora and multipart generations are explored.
+ * The cap must exceed the total physical vector parts across every semantic
+ * lane (likkutei-sichos alone ships 28 parts; all four English vector lanes
+ * total 42). A smaller cap thrashes multipart corpora: every vector query
+ * re-opens evicted databases cold (~10s for 28 parts) and the multi-lane
+ * public deadline kills the lane before HNSW can answer. Sessions are
+ * read-only AwtsmoosDB handles with a tiny page cache, so residency is cheap.
  */
 
 const path = require('path');
 
-const MAX_SHARD_SESSIONS = 8;
+const MAX_SHARD_SESSIONS = 96;
 const sessions = new Map();
 
 /** Closes one session without allowing cleanup failure to corrupt cache state. */

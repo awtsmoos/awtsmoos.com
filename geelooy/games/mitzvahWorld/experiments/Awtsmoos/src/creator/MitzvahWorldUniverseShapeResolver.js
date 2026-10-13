@@ -144,7 +144,7 @@ const COMPOSERS = {
 	well: (size, color) => [
 		piece('cylinder', { x: size.x, y: size.y * 0.55, z: size.z }, color, { x: 0, y: -size.y * 0.22, z: 0 }),
 		piece('triPrism', { x: size.x * 1.25, y: size.y * 0.35, z: size.z * 1.25 }, shade(color, -20), {
-			x: 0, y: size.y * 0.32, z: 0
+			x: 0, y: size.y * 0.23, z: 0
 		})
 	],
 	arch: (size, color) => [
@@ -186,13 +186,23 @@ const COMPOSERS = {
 	],
 	animal: (size, color, part) => {
 		if (part.id === 'horse') {
-			return [
-				box(size.x, size.y * 0.5, size.z * 0.7, color, 0, -size.y * 0.05, -size.z * 0.1),
-				box(size.x * 0.45, size.y * 0.55, size.z * 0.3, shade(color, 10), 0, size.y * 0.12, size.z * 0.32),
-				piece('sphere', { x: size.x * 0.5, y: size.y * 0.32, z: size.z * 0.32 }, shade(color, 16), {
-					x: 0, y: size.y * 0.38, z: size.z * 0.42
-				}, { solid: false })
-			];
+			// Legs plant the body on the ground; neck and head stack on the body.
+			const legH = size.y * 0.3;
+			const bodyH = size.y * 0.42;
+			const bodyY = -size.y / 2 + legH + bodyH / 2;
+			const parts = [];
+			for (const [sx, sz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
+				parts.push(box(size.x * 0.22, legH, size.x * 0.22, shade(color, -10),
+					sx * size.x * 0.3, -size.y / 2 + legH / 2, sz * size.z * 0.26));
+			}
+			parts.push(box(size.x, bodyH, size.z * 0.7, color, 0, bodyY, -size.z * 0.1));
+			const neckH = size.y * 0.42;
+			const neckY = bodyY + bodyH / 2 + size.y * 0.15;
+			parts.push(box(size.x * 0.45, neckH, size.z * 0.3, shade(color, 10), 0, neckY, size.z * 0.32));
+			parts.push(piece('sphere', { x: size.x * 0.5, y: size.y * 0.28, z: size.z * 0.32 }, shade(color, 16), {
+				x: 0, y: neckY + size.y * 0.23, z: size.z * 0.42
+			}, { solid: false }));
+			return parts;
 		}
 		return [
 			box(size.x, size.y * 0.62, size.z, color, 0, -size.y * 0.12, 0),

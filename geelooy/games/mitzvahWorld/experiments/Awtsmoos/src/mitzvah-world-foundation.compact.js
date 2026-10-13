@@ -2940,7 +2940,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.BufferAttribute = BufferAttribute;
 	class MeshStandardMaterial {
 		constructor(parameters = {}) {
-			const color = parameters.color || [0.74, 0.68, 0.58, 1];
+			const color = normalizeMaterialColor(parameters.color);
 			const opacity = parameters.opacity ?? color[3] ?? 1;
 			const alphaMode = parameters.alphaMode || 'OPAQUE';
 			const autoTransparent = alphaMode === 'BLEND' || opacity < 1;
@@ -2954,7 +2954,39 @@ const __awtsmoosModule_0 = Object.create(null);
 		}
 	}
 
+
 	__exports.MeshStandardMaterial = MeshStandardMaterial;
+	/**
+	 * B"H: normalizes a material color to an [r,g,b,a] array with 0-1 components.
+	 * Accepts arrays (used as-is), hex numbers (0xRRGGBB), and CSS hex strings ('#RRGGBB').
+	 * Falls back to the warm default when the input is missing or unrecognized.
+	 */
+	function normalizeMaterialColor(input) {
+		const fallback = [0.74, 0.68, 0.58, 1];
+		if (input == null) return fallback.slice();
+		if (Array.isArray(input)) {
+			return [
+				Number(input[0]) ?? fallback[0],
+				Number(input[1]) ?? fallback[1],
+				Number(input[2]) ?? fallback[2],
+				Number(input[3] ?? 1)
+			];
+		}
+		if (typeof input === 'number' && Number.isFinite(input)) {
+			const v = Math.floor(input);
+			return [((v >> 16) & 255) / 255, ((v >> 8) & 255) / 255, (v & 255) / 255, 1];
+		}
+		if (typeof input === 'string') {
+			const m = input.trim().match(/^#?([0-9a-fA-F]{6})$/);
+			if (m) {
+				const v = parseInt(m[1], 16);
+				return [((v >> 16) & 255) / 255, ((v >> 8) & 255) / 255, (v & 255) / 255, 1];
+			}
+		}
+		return fallback.slice();
+	}
+
+	__exports.normalizeMaterialColor = normalizeMaterialColor;
 
 }
 
@@ -17223,7 +17255,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.BufferAttribute = BufferAttribute;
 	class MeshStandardMaterial {
 		constructor(parameters = {}) {
-			const color = parameters.color || [0.74, 0.68, 0.58, 1];
+			const color = normalizeMaterialColor(parameters.color);
 			const opacity = parameters.opacity ?? color[3] ?? 1;
 			const alphaMode = parameters.alphaMode || 'OPAQUE';
 			const autoTransparent = alphaMode === 'BLEND' || opacity < 1;
@@ -17237,7 +17269,39 @@ const __awtsmoosModule_0 = Object.create(null);
 		}
 	}
 
+
 	__exports.MeshStandardMaterial = MeshStandardMaterial;
+	/**
+	 * B"H: normalizes a material color to an [r,g,b,a] array with 0-1 components.
+	 * Accepts arrays (used as-is), hex numbers (0xRRGGBB), and CSS hex strings ('#RRGGBB').
+	 * Falls back to the warm default when the input is missing or unrecognized.
+	 */
+	function normalizeMaterialColor(input) {
+		const fallback = [0.74, 0.68, 0.58, 1];
+		if (input == null) return fallback.slice();
+		if (Array.isArray(input)) {
+			return [
+				Number(input[0]) ?? fallback[0],
+				Number(input[1]) ?? fallback[1],
+				Number(input[2]) ?? fallback[2],
+				Number(input[3] ?? 1)
+			];
+		}
+		if (typeof input === 'number' && Number.isFinite(input)) {
+			const v = Math.floor(input);
+			return [((v >> 16) & 255) / 255, ((v >> 8) & 255) / 255, (v & 255) / 255, 1];
+		}
+		if (typeof input === 'string') {
+			const m = input.trim().match(/^#?([0-9a-fA-F]{6})$/);
+			if (m) {
+				const v = parseInt(m[1], 16);
+				return [((v >> 16) & 255) / 255, ((v >> 8) & 255) / 255, (v & 255) / 255, 1];
+			}
+		}
+		return fallback.slice();
+	}
+
+	__exports.normalizeMaterialColor = normalizeMaterialColor;
 
 }
 
@@ -17849,7 +17913,15 @@ const __awtsmoosModule_0 = Object.create(null);
 
 
 	__exports.boundedCameraDistance = boundedCameraDistance;
+	/**
+	 * Bounds one value into [minimum, maximum]. Non-finite input (NaN, Infinity)
+	 * can never escape as NaN: it settles to the nearest bound so camera math
+	 * downstream never degenerates into impossible sight.
+	 */
 	function clamp(value, minimum, maximum) {
+		if (Number.isNaN(value)) return minimum;
+		if (value === Infinity) return maximum;
+		if (value === -Infinity) return minimum;
 		return Math.max(minimum, Math.min(maximum, value));
 	}
 
@@ -23208,6 +23280,8 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * foliage, light, sky, and layered earth once until a visible classification fact changes.
 	 */
 
+	const normalizeMaterialColor = __awtsmoosModule_193.normalizeMaterialColor;
+
 	const materialModeCache = new WeakMap();
 
 	function drawMode(gl, mode) {
@@ -23267,11 +23341,13 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	__exports.createProgram = createProgram;
 	function materialColor(material) {
-		const color = material?.color || [0.75, 0.70, 0.62, 1];
+		// B"H: normalizeMaterialColor accepts arrays, hex numbers, and CSS hex strings,
+		// so plain material objects with hex colors render correctly too.
+		const color = normalizeMaterialColor(material?.color);
 		return new Float32Array([
-			color[0] ?? 0.75,
-			color[1] ?? 0.70,
-			color[2] ?? 0.62,
+			color[0],
+			color[1],
+			color[2],
 			material?.opacity ?? color[3] ?? 1
 		]);
 	}
@@ -26935,8 +27011,8 @@ const __awtsmoosModule_0 = Object.create(null);
 			renderer._frameMatrixCache = {
 				aspect: Number.NaN,
 				far: Number.NaN,
-				fov: Number.NaN,
 				near: Number.NaN,
+				fov: Number.NaN,
 				projection: new Float32Array(16),
 				projectionView: new Float32Array(16),
 				view: new Float32Array(16)
@@ -27019,8 +27095,13 @@ const __awtsmoosModule_0 = Object.create(null);
 		gl.disable(gl.BLEND);
 		gl.depthMask(true);
 		for (const mesh of meshes) {
-			drawRenderMesh(renderer, mesh, projectionView, false);
-			renderer.stats.opaqueMeshes += 1;
+			// B"H: one bad mesh must never blank the whole world. Record and continue.
+			try {
+				drawRenderMesh(renderer, mesh, projectionView, false);
+				renderer.stats.opaqueMeshes += 1;
+			} catch (error) {
+				recordMeshDrawError(renderer, mesh, error);
+			}
 		}
 	}
 
@@ -27031,10 +27112,30 @@ const __awtsmoosModule_0 = Object.create(null);
 		gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 		gl.depthMask(false);
 		for (const mesh of meshes) {
-			drawRenderMesh(renderer, mesh, projectionView, true);
+			// B"H: one bad mesh must never blank the whole world. Record and continue.
+			try {
+				drawRenderMesh(renderer, mesh, projectionView, true);
+			} catch (error) {
+				recordMeshDrawError(renderer, mesh, error);
+			}
 		}
 		gl.depthMask(true);
 		gl.disable(gl.BLEND);
+	}
+
+	/**
+	 * B"H: records a per-mesh draw failure in frame stats without aborting the pass.
+	 * The world keeps rendering; the failure is visible in diagnostics, never silent.
+	 */
+	function recordMeshDrawError(renderer, mesh, error) {
+		const stats = renderer.stats;
+		stats.meshDrawErrors = (stats.meshDrawErrors || 0) + 1;
+		stats.lastMeshDrawError = {
+			mesh: mesh?.name || '(unnamed)',
+			message: error?.message || String(error)
+		};
+		renderer.errors = renderer.errors || [];
+		renderer.errors.push(stats.lastMeshDrawError);
 	}
 
 	function drawSkeletonPass(renderer, scene, projectionView) {
@@ -28573,7 +28674,7 @@ const __awtsmoosModule_0 = Object.create(null);
 			const height = sourceHeight(source);
 			const powerOfTwo = isPowerOfTwo(width) && isPowerOfTwo(height);
 			try {
-				this.upload(texture, source, powerOfTwo, material);
+				this.upload(texture, source, width, height, powerOfTwo, material);
 				this.cache.set(source, texture);
 				this.stats.uploads += 1;
 				recordGpuTextureUpload(this.stats, material, width, height, powerOfTwo);
@@ -28582,18 +28683,33 @@ const __awtsmoosModule_0 = Object.create(null);
 				this.stats.uploadFailures += 1;
 				this.stats.lastError = error?.message || String(error);
 				this.gl.deleteTexture?.(texture);
-				throw error;
+				// B"H: a bad texture must never kill the frame. Cache the fallback so we
+				// do not retry a doomed upload every frame.
+				this.cache.set(source, this.defaultTexture);
+				return this.defaultTexture;
 			}
 		}
 
-		upload(texture, source, powerOfTwo, material) {
+		upload(texture, source, width, height, powerOfTwo, material) {
 			const gl = this.gl;
 			this.activateUnit(0);
 			gl.bindTexture(gl.TEXTURE_2D, texture);
 			this.boundTextures.set(0, texture);
 			gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 			gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
-			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
+			const pixelData = resolvePixelData(source);
+			if (pixelData) {
+				// B"H: raw generated texture field {width,height,data} — use the sized-data
+				// overload. A plain object is not a valid TexImageSource for the 6-arg form.
+				gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, pixelData);
+			} else if (isUploadableSource(source)) {
+				gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
+			} else {
+				throw new TypeError(
+					'GpuTextureCache.upload: source is not uploadable ' +
+					`(width=${width}, height=${height}, hasData=${Boolean(source?.data)})`
+				);
+			}
 			if (powerOfTwo) gl.generateMipmap(gl.TEXTURE_2D);
 			setTextureParameters(
 				gl,
@@ -28621,7 +28737,36 @@ const __awtsmoosModule_0 = Object.create(null);
 		}
 	}
 
+
 	__exports.GpuTextureCache = GpuTextureCache;
+	/**
+	 * B"H: resolves a raw pixel field ({width,height,data}) to an uploadable typed array.
+	 * Returns null when the source carries no pixel data (DOM TexImageSource path).
+	 */
+	function resolvePixelData(source) {
+		const data = source?.data;
+		if (!data) return null;
+		if (ArrayBuffer.isView(data)) return data;
+		if (Array.isArray(data)) return new Uint8Array(data);
+		return null;
+	}
+
+	/**
+	 * B"H: true when the source is a DOM TexImageSource WebGL can consume directly.
+	 * Plain {width,height,data} fields are handled by resolvePixelData, not here.
+	 */
+	function isUploadableSource(source) {
+		if (!source || typeof source !== 'object') return false;
+		if (source.data) return false;
+		// DOM elements (canvas, image, video) and ImageBitmap/ImageData/VideoFrame.
+		if (typeof HTMLElement !== 'undefined' && source instanceof HTMLElement) return true;
+		if (typeof ImageBitmap !== 'undefined' && source instanceof ImageBitmap) return true;
+		if (typeof ImageData !== 'undefined' && source instanceof ImageData) return true;
+		if (typeof VideoFrame !== 'undefined' && source instanceof VideoFrame) return true;
+		// OffscreenCanvas or other canvas-like with getContext.
+		if (typeof source.getContext === 'function') return true;
+		return false;
+	}
 
 }
 

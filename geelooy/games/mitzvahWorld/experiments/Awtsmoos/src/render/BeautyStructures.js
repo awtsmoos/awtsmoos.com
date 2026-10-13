@@ -169,7 +169,9 @@ class BeautyMesh {
 			const j = (i + 1) % sides;
 			const a = yaw + (i + 0.5) * step;
 			const n = [Math.cos(a), 0, Math.sin(a)];
-			this.quad(lower[i], lower[j], upper[j], upper[i], n, color);
+			// Ring order is clockwise-from-above, so the side quad must list
+			// corners counter-clockwise (j before i) to match the outward normal.
+			this.quad(lower[j], lower[i], upper[i], upper[j], n, color);
 		}
 		// Cap the top.
 		const center = [cx, y1, cz];
@@ -193,7 +195,9 @@ class BeautyMesh {
 			const slope = radius / Math.max(height, 1e-4);
 			const inv = 1 / Math.sqrt(1 + slope * slope);
 			const n = [Math.cos(mid) * inv, slope * inv, Math.sin(mid) * inv];
-			this.tri(p0, p1, apex, n, color);
+			// p0 sits at the lower angle: list p1 first so the winding
+			// faces outward-up along n.
+			this.tri(p1, p0, apex, n, color);
 		}
 	}
 
@@ -321,10 +325,12 @@ export function buildLantern() {
 	}
 	mesh.box(0, gy - 0.27, 0, gs + 0.08, 0.07, gs + 0.08, [0, 0, 0], WOOD_DARK);
 	mesh.box(0, gy + 0.27, 0, gs + 0.08, 0.07, gs + 0.08, [0, 0, 0], WOOD_DARK);
-	mesh.quad([ -gs/2, gy-0.24, -gs/2], [gs/2, gy-0.24, -gs/2], [gs/2, gy+0.24, -gs/2], [-gs/2, gy+0.24, -gs/2], [0,0,-1], GLASS_WARM);
-	mesh.quad([ gs/2, gy-0.24, gs/2], [-gs/2, gy-0.24, gs/2], [-gs/2, gy+0.24, gs/2], [gs/2, gy+0.24, gs/2], [0,0,1], GLASS_WARM);
-	mesh.quad([ -gs/2, gy-0.24, gs/2], [-gs/2, gy-0.24, -gs/2], [-gs/2, gy+0.24, -gs/2], [-gs/2, gy+0.24, gs/2], [-1,0,0], GLASS_WARM);
-	mesh.quad([ gs/2, gy-0.24, -gs/2], [gs/2, gy-0.24, gs/2], [gs/2, gy+0.24, gs/2], [gs/2, gy+0.24, -gs/2], [1,0,0], GLASS_WARM);
+	// Glass panes: corner order is reversed (b before a) so each quad's
+	// counter-clockwise winding faces along its supplied outward normal.
+	mesh.quad([ gs/2, gy-0.24, -gs/2], [-gs/2, gy-0.24, -gs/2], [-gs/2, gy+0.24, -gs/2], [gs/2, gy+0.24, -gs/2], [0,0,-1], GLASS_WARM);
+	mesh.quad([ -gs/2, gy-0.24, gs/2], [gs/2, gy-0.24, gs/2], [gs/2, gy+0.24, gs/2], [-gs/2, gy+0.24, gs/2], [0,0,1], GLASS_WARM);
+	mesh.quad([ -gs/2, gy-0.24, -gs/2], [-gs/2, gy-0.24, gs/2], [-gs/2, gy+0.24, gs/2], [-gs/2, gy+0.24, -gs/2], [-1,0,0], GLASS_WARM);
+	mesh.quad([ gs/2, gy-0.24, gs/2], [gs/2, gy-0.24, -gs/2], [gs/2, gy+0.24, -gs/2], [gs/2, gy+0.24, gs/2], [1,0,0], GLASS_WARM);
 	// Peaked cap + finial ball.
 	mesh.pyramid(0, gy + 0.34, 0, 0.34, 0.30, 4, Math.PI / 4, WOOD_DARK);
 	mesh.prism(0, gy + 0.72, 0, 0.045, 0.045, 0.12, 8, 0, WOOD_MID);

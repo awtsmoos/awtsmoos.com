@@ -359,6 +359,33 @@ describe('BeautyStructures', () => {
 		}
 	});
 
+	it('face winding matches the supplied normals (no inside-out parts)', () => {
+		// Every face's geometric normal must agree with its vertex normal:
+		// with default CCW front-face culling, an inverted face is culled.
+		for (const id of ids) {
+			const geo = buildStructure(id);
+			for (let t = 0; t < geo.triangleCount; t++) {
+				const i0 = geo.indices[t * 3], i1 = geo.indices[t * 3 + 1], i2 = geo.indices[t * 3 + 2];
+				const px = [i0, i1, i2].map(i => [
+					geo.positions[i * 3], geo.positions[i * 3 + 1], geo.positions[i * 3 + 2]
+				]);
+				const n = [geo.normals[i0 * 3], geo.normals[i0 * 3 + 1], geo.normals[i0 * 3 + 2]];
+				const e1 = [px[1][0] - px[0][0], px[1][1] - px[0][1], px[1][2] - px[0][2]];
+				const e2 = [px[2][0] - px[0][0], px[2][1] - px[0][1], px[2][2] - px[0][2]];
+				const face = [
+					e1[1] * e2[2] - e1[2] * e2[1],
+					e1[2] * e2[0] - e1[0] * e2[2],
+					e1[0] * e2[1] - e1[1] * e2[0]
+				];
+				const faceLen = Math.hypot(face[0], face[1], face[2]);
+				const normalLen = Math.hypot(n[0], n[1], n[2]);
+				if (faceLen < 1e-9 || normalLen < 0.5) continue;
+				const cosine = (face[0] * n[0] + face[1] * n[1] + face[2] * n[2]) / (faceLen * normalLen);
+				assert.ok(cosine > 0, `${id} triangle ${t} winds against its normal`);
+			}
+		}
+	});
+
 	it('triangle counts respect the budgets', () => {
 		for (const id of ids) {
 			const geo = buildStructure(id);

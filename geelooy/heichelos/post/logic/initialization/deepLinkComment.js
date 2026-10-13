@@ -66,7 +66,7 @@ function reveal(node) {
 async function manifestAlias(alias) {
     if (!alias) return null;
     document.body.dataset.inlineAliasLoading = alias;
-    const { UnifiedOrchestrator } = await import("/heichelos/post/comments/inline/coordination/UnifiedOrchestrator.js");
+    const { UnifiedOrchestrator } = await import("/heichelos/post/comments/inline/coordination/UnifiedOrchestrator.js?v=99579b7185");
     UnifiedOrchestrator.resetManifestation(alias);
     const stats = await UnifiedOrchestrator.manifestSingle(alias);
     document.body.dataset.inlineAliasReady = alias;

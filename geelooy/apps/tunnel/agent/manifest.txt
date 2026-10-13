@@ -2046,6 +2046,7 @@ tools/fs/actionGroups/nodeDomActions.js
 tools/fs/actionGroups/osSurfaceActions.js
 tools/fs/actionGroups/planActions.js
 tools/fs/actionGroups/portActions.js
+tools/fs/actionGroups/postsActions.js
 tools/fs/actionGroups/previewActions.js
 tools/fs/actionGroups/previewLinkActions.js
 tools/fs/actionGroups/previewReceiptActions.js
@@ -2074,6 +2075,7 @@ tools/fs/actionGroups/scanWorkerActions.js
 tools/fs/actionGroups/schedulerEmergencyActions.js
 tools/fs/actionGroups/screenshotActions.js
 tools/fs/actionGroups/shareActions.js
+tools/fs/actionGroups/socialManagerActions.js
 tools/fs/actionGroups/staticServerActions.js
 tools/fs/actionGroups/systemHealthActions.js
 tools/fs/actionGroups/taskRuntimeActions.js

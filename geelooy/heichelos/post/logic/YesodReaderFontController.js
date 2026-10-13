@@ -23,7 +23,7 @@ const FONT_ALIASES = new Map([
  * @description Owns reader font persistence and the localized --font-manuscript variable.
  */
 export class YesodReaderFontController extends KliReaderPreferenceController {
-	/** @param {object} options Dependencies. @param {import("./DaasReaderPreferenceStore.js").DaasReaderPreferenceStore} options.store Preference store. */
+	/** @param {object} options Dependencies. @param {import("./DaasReaderPreferenceStore.js?v=6d853a2a25").DaasReaderPreferenceStore} options.store Preference store. */
 	constructor({ store, ...options }) {
 		super(options);
 		this.store = store;

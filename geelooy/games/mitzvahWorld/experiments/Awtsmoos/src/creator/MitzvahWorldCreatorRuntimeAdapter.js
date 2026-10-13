@@ -53,9 +53,42 @@ export class MitzvahWorldCreatorRuntimeAdapter {
 			meshMalchus.parent?.remove?.(meshMalchus);
 			throw errorOhr;
 		}
-		const receiptYesod = Object.freeze({ colliders: Object.freeze([...collidersGevurah]), id: definitionTiferes.id, mesh: meshMalchus });
+		const receiptYesod = Object.freeze({
+			colliders: Object.freeze([...collidersGevurah]),
+			definition: definitionTiferes,
+			id: definitionTiferes.id,
+			mesh: meshMalchus
+		});
 		this.mounts.set(definitionTiferes.id, receiptYesod);
 		return receiptYesod;
+	}
+
+	/**
+	 * Atomically regenerates one mounted definition's mesh and colliders.
+	 * Yaakov 2026-10-11: object updates (nudge/rotate/scale) must land on the
+	 * same runtime covenant the object transactions already assume — the prior
+	 * form is remounted when regeneration fails, so no stale collider or
+	 * duplicate mesh can survive a failed edit.
+	 * @param {object} definitionTiferes New definition with the same stable id.
+	 * @returns {Readonly<object>} New runtime receipt for the regenerated definition.
+	 */
+	updateDefinition(definitionTiferes) {
+		this.assertCapabilities();
+		const previousYesod = this.mounts.get(definitionTiferes.id);
+		if (!previousYesod) {
+			throw new Error(`CREATOR_OBJECT_NOT_FOUND:${definitionTiferes.id}`);
+		}
+		this.remove(definitionTiferes.id);
+		try {
+			return this.mount(definitionTiferes);
+		} catch (errorOhr) {
+			try {
+				this.mount(previousYesod.definition);
+			} catch {
+				// Rollback failed too; the original regeneration error stays authoritative.
+			}
+			throw errorOhr;
+		}
 	}
 
 	/** Removes the exact mesh and collider identities created during mount. */

@@ -28,6 +28,16 @@ test('declares sealed files and complete reviewed multipart publications', () =>
 		'meluket-english-comments-rag.awtsdb',
 		'sefer-hasichos-english-comments-rag.awtsdb',
 		'tanach-hebrew-verses-rag.awtsdb',
+		'admur-hazaken-english-rag.awtsdb',
+		'rambam-english-rag.awtsdb',
+		'bavli-english-rag.awtsdb',
+		'yerushalmi-english-rag.awtsdb',
+		'tanach-commentary-english-rag.awtsdb',
+		'tanach-english-rag.awtsdb',
+		'mishnah-english-rag.awtsdb',
+		'midrash-english-rag.awtsdb',
+		'likkutei-sichos-english-rag.awtsdb',
+		'hemshech5666-english-rag.awtsdb',
 		...WIKISOURCE_TORAH_FILES
 	]);
 	assert.equal(WIKISOURCE_TORAH_PUBLISHED_PARTS, 4);

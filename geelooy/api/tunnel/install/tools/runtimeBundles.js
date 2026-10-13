@@ -29,6 +29,11 @@ const BUNDLES = Object.freeze({
 		"scripts/awtsmoos/MerkavaASTParser",
 		"scripts/awtsmoos/compiling",
 	],
+	// Standalone merkava-shot distribution (Yaakov 2026-10-13): the
+	// self-contained screenshot bundle + installer + README. No repo needed.
+	"merkava-shot": [
+		"apps/tunnel/downloads/merkava-shot",
+	],
 	"ssh-server": ["../ayzarim/ssh"],
 	"awtsmoosdb": ["../ayzarim/DosDB/awtsmoosBinary"],
 	"chatgpt-sentinel": ["ai/js/chatgpt/sentinel"],

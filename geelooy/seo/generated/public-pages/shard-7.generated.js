@@ -9,6 +9,13 @@
 
 module.exports = [
 	{
+		canonicalPath: "/games/dove/",
+		description: "Leap with the dove through a flood of motion in a compact platform journey.",
+		filePath: "games/dove/index.html",
+		kind: "game",
+		title: "Noah's Dove Jump"
+	},
+	{
 		canonicalPath: "/games/emojis/",
 		description: "A colorful emoji playground built for playful, lightweight sessions.",
 		filePath: "games/emojis/index.html",
@@ -70,12 +77,5 @@ module.exports = [
 		filePath: "games/mitzvahWorld/templeRunner/index.html",
 		kind: "game",
 		title: "Temple Runner"
-	},
-	{
-		canonicalPath: "/games/Nachash/",
-		description: "The familiar snake loop reborn as Nachash with an Awtsmoos visual identity.",
-		filePath: "games/Nachash/index.html",
-		kind: "game",
-		title: "Nachash"
 	}
 ];

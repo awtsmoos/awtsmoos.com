@@ -171,6 +171,32 @@ Awtsmoos.com reveals exact pasuk identity immediately while generic teachings re
 		}).filter(Boolean).join("\n");
 	}
 
+	// B"H — Torah Ohr / Likkutei Sichos style posts carry their bilingual text in
+	// phraseTranslations ({sectionId, source:{hebrew}, en, phraseId}) instead of
+	// units. Server-render them too, so the page is never blank even with
+	// JavaScript disabled. Yaakov's law: no blank screens, ever.
+	function phrasesToUnits(phrases) {
+		if (!Array.isArray(phrases) || !phrases.length) {
+			return [];
+		}
+		var out = [];
+		for (var index = 0; index < phrases.length; index++) {
+			var phrase = phrases[index];
+			if (!phrase || typeof phrase !== "object") {
+				continue;
+			}
+			var hebrew = phrase.source && phrase.source.hebrew != null
+				? toPlainText(phrase.source.hebrew)
+				: "";
+			var english = phrase.en != null ? toPlainText(phrase.en) : "";
+			if (!hebrew && !english) {
+				continue;
+			}
+			out.push({ he: hebrew, en: english });
+		}
+		return out;
+	}
+
 	var resolvedPost = typeof post === "object" && post ? post : null;
 	if (!resolvedPost) {
 		return "<article class=\"awtsmoos-initial-post awtsmoos-initial-post-missing\" data-awtsmoos-initial-post dir=\"auto\">"
@@ -187,7 +213,13 @@ Awtsmoos.com reveals exact pasuk identity immediately while generic teachings re
 	// data-awtsmoos-awaiting-text so client hydration can fill it — never a
 	// permanent "preparing" promise printed as if loading were in progress.
 	var unitsMarkup = structuredMarkup ? "" : renderPostUnits(resolvedPost.units);
+	if (!unitsMarkup) {
+		unitsMarkup = renderPostUnits(phrasesToUnits(resolvedPost.phraseTranslations));
+	}
 	var unitLanguages = structuredMarkup ? { he: true, en: false } : unitLanguagesPresent(resolvedPost.units);
+	if (!unitsMarkup && !structuredMarkup) {
+		unitLanguages = unitLanguagesPresent(phrasesToUnits(resolvedPost.phraseTranslations));
+	}
 	var bodySource = resolvedPost.content || resolvedPost.body || resolvedPost.text || resolvedPost.sections
 		|| dayuh.content || dayuh;
 	var body = (structuredMarkup || unitsMarkup) ? "" : collectReadableText(bodySource, 0);

@@ -78,7 +78,7 @@ export async function interpretPostDayuh(post) {
     window.sections = Array.from(document.querySelectorAll(".section"));
     initializeFootnotes();
     
-    const inlineModule = await import("../comments/inline.js");
+    const inlineModule = await import("../comments/inline.js?v=0e584e5f9d");
     if (inlineModule.manifestCommentIndicators) {
         await inlineModule.manifestCommentIndicators();
     }

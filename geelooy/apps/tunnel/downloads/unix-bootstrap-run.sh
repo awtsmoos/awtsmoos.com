@@ -38,6 +38,25 @@ on_bootstrap_interrupt() {
 }
 trap on_bootstrap_interrupt INT TERM
 
+# --- Install mode (Yaakov 2026-10-12): announce + fast pre-checks ---
+AWT_INSTALL_MODE="${AWTSMOOS_INSTALL_MODE:-full}"
+case "$AWT_INSTALL_MODE" in
+	full|minimal|agent-only) ;;
+	*) AWT_INSTALL_MODE="full" ;;
+esac
+export AWTSMOOS_INSTALL_MODE="$AWT_INSTALL_MODE"
+if [ "$AWT_INSTALL_MODE" != "full" ]; then
+	printf '%sInstall mode: %s%s\n' "$BST_C_GOLD" "$AWT_INSTALL_MODE" "$BST_C_OFF" >&2
+	if ! command -v node >/dev/null 2>&1 || \
+	   ! node -e 'process.exit(Number(process.versions.node.split(".")[0]) >= 18 ? 0 : 1)' >/dev/null 2>&1; then
+		bst_fail "The '$AWT_INSTALL_MODE' mode needs your system Node.js 18+ and none was found."
+		printf 'Install Node.js 18+ first, or run again without --minimal/--agent-only for the full install.\n' >&2
+		rm -rf "$runtime_root"
+		exit 1
+	fi
+	printf '%sSystem Node.js 18+ found; continuing in %s mode.%s\n' "$BST_C_DIM" "$AWT_INSTALL_MODE" "$BST_C_OFF" >&2
+fi
+
 validate_absolute_path() {
 	local selected="$1"
 	case "$selected" in

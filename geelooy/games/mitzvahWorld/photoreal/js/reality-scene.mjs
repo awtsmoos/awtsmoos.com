@@ -117,8 +117,8 @@ const VIEWS = {
   // hero-character views — cameras are framed relative to the character's ground
   // (terrain height varies), so the hero is always in frame
   'character-forest': { pos: [0, 0, 0], look: [0, 0, 0],
-    frame: { dpos: [2.2, 3.1, 3.2], dlook: [0, 2.55, 0] },
-    character: { pose: 'stand', outfit: 'jacket', head: 'neutral', brim: 1, at: [4, 12], rotY: 0.60 } },
+    frame: { dpos: [1.55, 2.05, 2.35], dlook: [0, 1.42, 0] },
+    character: { pose: 'stand', outfit: 'jacket', head: 'neutral', brim: 1, at: [4, 12], rotY: 0.35 } },
   'character-river': { pos: [0, 0, 0], look: [0, 0, 0],
     frame: { dpos: [4.2, 3.9, 5.0], lookAbs: [riverX(-14), WATER_Y + 0.3, -14] },
     character: { pose: 'walk', outfit: 'openjacket', head: 'smile', brim: 1, at: [riverX(2) + 7.5, 2], rotY: Math.PI } },
@@ -136,11 +136,47 @@ const VIEWS = {
     character: { pose: 'stand', outfit: 'tshirt', head: 'older', brim: 0, at: [-12, 4], rotY: 0.25 } },
 };
 
-export async function buildRealityScene(container, { view = 'forest', seed = 20261011, fast = false } = {}) {
+/* ---------------- time-of-day presets (Phase 1 realism) ----------------
+   Each preset drives sun direction/color, sky-shader golden warmth, fog and
+   exposure. 'midday' reproduces the exact pre-Phase-1 lighting so the
+   renderer contract from Task 1 is unchanged unless a preset is chosen. */
+const TOD = {
+  midday: {
+    sunDir: [0.55, 0.62, 0.35], sunColor: 0xfff2dd, sunI: 2.6,
+    hemiSky: 0xbdd8ee, hemiGround: 0x5d6b46, hemiI: 0.85,
+    fog: 0xcfdfe8, fogNear: 70, fogFar: 300, exposure: 1.12,
+    golden: 0.0, warm: 0.0,
+  },
+  golden: {
+    sunDir: [0.72, 0.30, 0.28], sunColor: 0xffd9a8, sunI: 2.9,
+    hemiSky: 0xd8c4a8, hemiGround: 0x4e5a3a, hemiI: 0.70,
+    fog: 0xdccfb4, fogNear: 60, fogFar: 270, exposure: 1.18,
+    golden: 1.0, warm: 0.55,
+  },
+  dusk: {
+    sunDir: [0.78, 0.13, 0.18], sunColor: 0xff9e5e, sunI: 2.3,
+    hemiSky: 0x9a7a90, hemiGround: 0x333a28, hemiI: 0.55,
+    fog: 0xc9a48e, fogNear: 55, fogFar: 250, exposure: 1.15,
+    golden: 1.6, warm: 1.0,
+  },
+};
+
+export async function buildRealityScene(container, { view = 'forest', seed = 20261011, fast = false, tod = 'midday' } = {}) {
+  // B"H — render-bar instrumentation: per-phase timings for the speed mission.
+  const _t0 = (typeof performance !== 'undefined' ? performance.now() : Date.now());
+  try { window.__buildStartEpoch = Date.now(); window.__navStartEpoch = Math.round(performance.timeOrigin); } catch {}
+  const _marks = [];
+  const mark = (name) => {
+    const now = (typeof performance !== 'undefined' ? performance.now() : Date.now());
+    _marks.push([name, +((now - _t0) / 1000).toFixed(2)]);
+  };
+  const publishMarks = () => { try { window.__realityTimings = _marks; } catch {} };
+  mark('start');
   const rand = mulberry32(seed);
   const noise = makeNoise2D(mulberry32(seed ^ 0x9e37));
   const night = Boolean((VIEWS[view] || {}).night);
   const vc = (VIEWS[view] || {}).character || null;
+  const T = night ? null : (TOD[tod] || TOD.midday);
   // ground-relative camera framing for hero views (terrain height varies)
   if (vc && VIEWS[view].frame) {
     const gy = groundHeight(vc.at[0], vc.at[1], noise);
@@ -158,15 +194,15 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.12;
+  renderer.toneMappingExposure = night ? 1.12 : T.exposure;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   container.appendChild(renderer.domElement);
 
   const scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(0xcfdfe8, 70, 300);
+  scene.fog = new THREE.Fog(night ? 0xcfdfe8 : T.fog, night ? 70 : T.fogNear, night ? 300 : T.fogFar);
 
   /* sky dome */
-  const sunDir = new THREE.Vector3(0.55, 0.62, 0.35).normalize();
+  const sunDir = new THREE.Vector3(...(night ? [0.55, 0.62, 0.35] : T.sunDir)).normalize();
   const moonDir = new THREE.Vector3(-0.42, 0.30, -0.60).normalize();
   const sky = new THREE.Mesh(
     new THREE.SphereGeometry(500, 24, 16),
@@ -176,11 +212,21 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
         sunDir: { value: sunDir },
         uMoonDir: { value: moonDir },
         uNight: { value: night ? 1 : 0 },
+        uGolden: { value: night ? 0.0 : T.golden },
+        uCloudT: { value: 0 },
       },
       vertexShader: `varying vec3 vDir; void main(){ vDir = normalize(position);
         gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`,
-      fragmentShader: `varying vec3 vDir; uniform vec3 sunDir; uniform vec3 uMoonDir; uniform float uNight;
+      fragmentShader: `varying vec3 vDir; uniform vec3 sunDir; uniform vec3 uMoonDir;
+        uniform float uNight; uniform float uGolden; uniform float uCloudT;
         float hash13(vec3 p){ return fract(sin(dot(p, vec3(12.9898,78.233,37.719))) * 43758.5453); }
+        float hash21(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+        float vnoise(vec2 p){ vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
+          return mix(mix(hash21(i), hash21(i + vec2(1.0, 0.0)), f.x),
+                     mix(hash21(i + vec2(0.0, 1.0)), hash21(i + vec2(1.0, 1.0)), f.x), f.y); }
+        float fbm(vec2 p){ float v = 0.0, a = 0.5;
+          for (int i = 0; i < 5; i++) { v += a * vnoise(p); p = p * 2.03 + 11.7; a *= 0.5; }
+          return v; }
         void main(){
           float h = clamp(vDir.y, -0.1, 1.0);
           vec3 zen = vec3(0.19, 0.42, 0.72);
@@ -188,6 +234,17 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           vec3 col = mix(hor, zen, pow(max(h, 0.0), 0.55));
           float s = max(dot(normalize(vDir), sunDir), 0.0);
           col += vec3(1.0, 0.93, 0.78) * (pow(s, 900.0) * 1.4 + pow(s, 18.0) * 0.22);
+          // golden-hour warmth: warm tint blooms along the horizon near the sun
+          if (uGolden > 0.0) {
+            vec3 d2 = normalize(vDir);
+            float near = pow(max(dot(normalize(vec3(d2.x, 0.0, d2.z)),
+                                        normalize(vec3(sunDir.x, 0.0, sunDir.z))), 0.0), 3.0);
+            float horizBand = exp(-abs(h - 0.06) * 7.0);
+            col = mix(col, vec3(1.0, 0.62, 0.34), near * horizBand * 0.55 * uGolden);
+            col += vec3(1.0, 0.55, 0.25) * pow(s, 24.0) * 0.35 * uGolden;
+            // stretch the sun disc lower for dusk
+            col += vec3(1.0, 0.50, 0.22) * pow(s, 60.0) * 0.9 * uGolden;
+          }
           // night sky: deep gradient + stars + moon
           vec3 nzen = vec3(0.006, 0.012, 0.032);
           vec3 nhor = vec3(0.028, 0.052, 0.098);
@@ -197,12 +254,41 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           ncol += vec3(0.90, 0.93, 1.0) * st * smoothstep(0.02, 0.25, h);
           float m = max(dot(d, uMoonDir), 0.0);
           ncol += vec3(0.92, 0.95, 1.0) * (smoothstep(0.99850, 0.99950, m) * 1.6 + pow(m, 200.0) * 0.60);
+          // day clouds: fbm-projected, sun-warmed, kept off the horizon band
+          vec3 d2n = normalize(vDir);
+          vec2 cuv = d2n.xz / (abs(d2n.y) + 0.18);
+          float cl = fbm(cuv * 1.35 + vec2(uCloudT * 0.008, uCloudT * 0.0022));
+          float cover = smoothstep(0.46, 0.70, cl) * smoothstep(0.015, 0.22, h);
+          float shade = fbm(cuv * 2.6 + vec2(uCloudT * 0.011, 0.0) + 4.7);
+          vec3 cloudCol = mix(vec3(0.72, 0.76, 0.82), vec3(1.04, 1.0, 0.96), shade);
+          cloudCol = mix(cloudCol, vec3(1.05, 0.82, 0.62), uGolden * 0.45 * pow(s, 2.0));
+          col = mix(col, cloudCol, cover * 0.92);
           col = mix(col, ncol, uNight);
           gl_FragColor = vec4(col, 1.0);
         }`
     })
   );
   scene.add(sky);
+
+  /* sun glow billboard — cheap god-ray feel (1 extra draw call, no post chain) */
+  if (!night) {
+    const cv = document.createElement('canvas'); cv.width = cv.height = 128;
+    const cx = cv.getContext('2d');
+    const g = cx.createRadialGradient(64, 64, 4, 64, 64, 62);
+    const warm = T.warm;
+    g.addColorStop(0, `rgba(255,${232 - Math.round(warm * 40)},${205 - Math.round(warm * 90)},0.95)`);
+    g.addColorStop(0.35, `rgba(255,${215 - Math.round(warm * 55)},${170 - Math.round(warm * 80)},0.38)`);
+    g.addColorStop(1, 'rgba(255,190,120,0)');
+    cx.fillStyle = g; cx.fillRect(0, 0, 128, 128);
+    const gtex = new THREE.CanvasTexture(cv); gtex.colorSpace = THREE.SRGBColorSpace;
+    const glow = new THREE.Sprite(new THREE.SpriteMaterial({
+      map: gtex, transparent: true, depthWrite: false,
+      blending: THREE.AdditiveBlending, fog: false, opacity: 0.85 + warm * 0.15,
+    }));
+    glow.position.copy(sunDir).multiplyScalar(420);
+    glow.scale.setScalar(150 + warm * 60);
+    scene.add(glow);
+  }
 
   /* lights */
   if (night) {
@@ -217,7 +303,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     scene.add(new THREE.HemisphereLight(0x2a3a55, 0x141a14, 0.32));
     scene.fog.color.set(0x0a1322); scene.fog.near = 55; scene.fog.far = 240;
   } else {
-    const sun = new THREE.DirectionalLight(0xfff2dd, 2.6);
+    const sun = new THREE.DirectionalLight(T.sunColor, T.sunI);
     sun.position.copy(sunDir).multiplyScalar(120);
     sun.castShadow = true;
     sun.shadow.mapSize.set(SHADOW, SHADOW);
@@ -225,7 +311,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     sun.shadow.camera.top = 60; sun.shadow.camera.bottom = -60;
     sun.shadow.camera.far = 320; sun.shadow.bias = -0.0006;
     scene.add(sun);
-    scene.add(new THREE.HemisphereLight(0xbdd8ee, 0x5d6b46, 0.85));
+    scene.add(new THREE.HemisphereLight(T.hemiSky, T.hemiGround, T.hemiI));
   }
 
   /* textures (real photographs, Awtsmoos Drive) */
@@ -236,6 +322,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     loadTexture(TEX + 'leaves1.png', 1, 1),
     loadTexture(TEX + 'leaf1.jpg', 1, 1),
   ]);
+  mark('textures');
 
   /* terrain */
   const terrGeo = new THREE.PlaneGeometry(WORLD, WORLD, 120, 120);
@@ -265,6 +352,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   }));
   terrain.receiveShadow = true;
   scene.add(terrain);
+  mark('terrain');
 
   /* riverbed ribbon (dirt under water) */
   function ribbon(width, yFn, vRepeat) {
@@ -334,6 +422,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     })
   );
   scene.add(water);
+  mark('water');
 
   /* trees — ez-tree-derived procedural generator, real bark + canopy photos */
   const barkMat = new THREE.MeshStandardMaterial({ map: barkTex, roughness: 0.92 });
@@ -341,15 +430,35 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     map: canopyTex, alphaTest: 0.42, side: THREE.DoubleSide,
     roughness: 0.9, vertexColors: true, color: new THREE.Color(0.88, 1.0, 0.86),
   });
-  const ARCHETYPES = ['Oak Large', 'Pine Large', 'Birch Elegant', 'Willow Weeping'];
-  const treeGeos = ARCHETYPES.map(name => {
-    const t = generateTreeProceduralData(name, { detail: 'balanced' });
-    return { bark: bufferGeometryFromStream(t.branches), leaves: bufferGeometryFromStream(t.leaves, 0.55) };
-  });
+  const ARCHETYPES = [
+    ['Oak Large', 'oak-large'], ['Pine Large', 'pine-large'],
+    ['Birch Elegant', 'birch-elegant'], ['Willow Weeping', 'willow-weeping'],
+  ];
+  // B"H — baked tree geometries (assets/trees/*.json, see tools/bake-trees.mjs).
+  // Fully deterministic archetypes: baking removes ~1.5-9s of tree-gen JS from
+  // every render. Falls back to procedural generation if assets are missing.
+  async function loadTreeGeos() {
+    const out = [];
+    for (const [name, slug] of ARCHETYPES) {
+      let baked = null;
+      try {
+        const r = await fetch(`./assets/trees/${slug}.json`);
+        if (r.ok) baked = await r.json();
+      } catch {}
+      const t = baked || generateTreeProceduralData(name, { detail: 'balanced' });
+      out.push({
+        bark: bufferGeometryFromStream(t.bark || t.branches),
+        leaves: bufferGeometryFromStream(t.leaves, 0.55),
+      });
+    }
+    return out;
+  }
+  const treeGeos = await loadTreeGeos();
+  mark('tree-gen');
   const treeGroup = new THREE.Group();
   const treeSpots = [];
   const CLEAR = {
-    forest: 15, river: 15, grassland: 26, particles: 15,
+    forest: 26, river: 15, grassland: 26, particles: 15,
     'character-forest': 14, 'character-river': 14, 'character-sitting': 14,
     'character-portrait': 12, night: 14, 'character-older': 12,
   }[view] || 15;
@@ -377,6 +486,120 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     }
   }
   scene.add(treeGroup);
+  mark('trees-placed');
+
+  /* distant tree-line — procedural billboard trees at the world rim, hazed by fog.
+     Two staggered rings with gaps. The silhouette texture is painted on a canvas
+     (blobs + trunk, real alpha) so quads break into tree shapes — never slabs. */
+  function makeRimTreeTexture() {
+    const S = 256;
+    const cv = document.createElement('canvas'); cv.width = S; cv.height = S;
+    const cx = cv.getContext('2d');
+    const r = mulberry32(777);
+    cx.clearRect(0, 0, S, S);
+    // trunk
+    const tw = 10 + r() * 8;
+    const tg = cx.createLinearGradient(S / 2 - tw / 2, 0, S / 2 + tw / 2, 0);
+    tg.addColorStop(0, 'rgba(58,42,30,0)'); tg.addColorStop(0.25, 'rgba(58,42,30,1)');
+    tg.addColorStop(0.75, 'rgba(74,56,40,1)'); tg.addColorStop(1, 'rgba(58,42,30,0)');
+    cx.fillStyle = tg;
+    cx.fillRect(S / 2 - tw / 2, S * 0.42, tw, S * 0.58);
+    // canopy: layered soft blobs, denser toward the middle-top
+    for (let i = 0; i < 60; i++) {
+      const bx = S / 2 + (r() - 0.5) * S * 0.62;
+      const by = S * 0.30 + (r() - 0.5) * S * 0.42 - Math.abs(bx - S / 2) * 0.25;
+      const br = S * (0.05 + r() * 0.10);
+      const g2 = cx.createRadialGradient(bx, by, br * 0.15, bx, by, br);
+      const tone = 34 + r() * 26;
+      g2.addColorStop(0, `rgba(${tone},${tone + 26},${tone},0.98)`);
+      g2.addColorStop(0.7, `rgba(${tone},${tone + 22},${tone},0.75)`);
+      g2.addColorStop(1, `rgba(${tone},${tone + 20},${tone},0)`);
+      cx.fillStyle = g2;
+      cx.beginPath(); cx.arc(bx, by, br, 0, 6.283); cx.fill();
+    }
+    const tex = new THREE.CanvasTexture(cv);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    return tex;
+  }
+  {
+    const rimTex = makeRimTreeTexture();
+    const quads = [];
+    const pushQuad = (cx, y0, cz, w, h, rotY) => {
+      const hw = w / 2, c = Math.cos(rotY), s = Math.sin(rotY);
+      const corners = [[-hw, y0], [hw, y0], [hw, y0 + h], [-hw, y0 + h]];
+      const pts = corners.map(([lx, ly]) => [cx + lx * c, ly, cz - lx * s]);
+      const uvs = [[0, 0], [1, 0], [1, 1], [0, 1]];
+      const base = quads.length / 5;
+      for (let i = 0; i < 4; i++) quads.push(pts[i][0], pts[i][1], pts[i][2], uvs[i][0], uvs[i][1]);
+      return base;
+    };
+    const idx = [];
+    for (const [ringR, n, wMin, wMax, hMin, hMax] of [[132, 52, 10, 18, 22, 44], [162, 44, 14, 24, 30, 55]]) {
+      for (let i = 0; i < n; i++) {
+        if (rand() < 0.30) continue; // gaps — forest, not wall
+        const a = (i / n) * Math.PI * 2 + (rand() - 0.5) * 0.24;
+        const r = ringR + (rand() - 0.5) * 20;
+        const cx = Math.cos(a) * r, cz = Math.sin(a) * r;
+        if (Math.abs(cx - riverX(cz)) < 14) continue; // don't dam the river corridor
+        const w = wMin + rand() * (wMax - wMin), h = hMin + rand() * (hMax - hMin);
+        const b1 = pushQuad(cx, -2, cz, w, h, a + Math.PI / 2 + (rand() - 0.5) * 0.5);
+        idx.push(b1, b1 + 1, b1 + 2, b1, b1 + 2, b1 + 3);
+        const b2 = pushQuad(cx, -2, cz, w * 0.85, h * 0.92, a + (rand() - 0.5) * 0.5);
+        idx.push(b2, b2 + 1, b2 + 2, b2, b2 + 2, b2 + 3);
+      }
+    }
+    const g = new THREE.BufferGeometry();
+    const arr = new Float32Array(quads);
+    g.setAttribute('position', new THREE.BufferAttribute(arr.filter((_, i) => i % 5 < 3), 3));
+    g.setAttribute('uv', new THREE.BufferAttribute(arr.filter((_, i) => i % 5 >= 3), 2));
+    g.setIndex(idx);
+    g.computeVertexNormals();
+    const rim = new THREE.Mesh(g, new THREE.MeshStandardMaterial({
+      map: rimTex, alphaTest: 0.35, side: THREE.DoubleSide, roughness: 1,
+      color: new THREE.Color(0.85, 0.92, 0.85),
+    }));
+    rim.castShadow = false; rim.receiveShadow = false;
+    scene.add(rim);
+  }
+  mark('treeline');
+
+  /* underbrush — instanced foliage blobs clustered near tree bases.
+     Midground richness for almost no raster cost (one instanced draw). */
+  {
+    const blobGeo = new THREE.IcosahedronGeometry(1, 1);
+    const bp = blobGeo.attributes.position;
+    for (let i = 0; i < bp.count; i++) {
+      const s = 1 + 0.25 * Math.sin(bp.getX(i) * 5.1 + 1.3) * Math.sin(bp.getZ(i) * 4.3 + 0.7);
+      bp.setXYZ(i, bp.getX(i) * s, bp.getY(i) * s * 0.62, bp.getZ(i) * s);
+    }
+    blobGeo.computeVertexNormals();
+    const blobMat = new THREE.MeshStandardMaterial({
+      map: leafTex, alphaTest: 0.35, roughness: 1.0,
+      color: new THREE.Color(0.38, 0.50, 0.33),
+    });
+    const COUNT = fast ? 120 : 240;
+    const inst = new THREE.InstancedMesh(blobGeo, blobMat, COUNT);
+    const dummy = new THREE.Object3D();
+    let placed = 0, guard2 = 0;
+    while (placed < COUNT && guard2++ < COUNT * 20) {
+      const t = treeSpots[(rand() * treeSpots.length) | 0];
+      if (!t) break;
+      const a = rand() * Math.PI * 2, r = 2.5 + rand() * 9;
+      const x = t.x + Math.cos(a) * r, z = t.z + Math.sin(a) * r;
+      if (Math.abs(x - riverX(z)) < 8.5) continue;
+      if (clearPts.some(([px, pz]) => Math.hypot(x - px, z - pz) < 4)) continue;
+      const s = 0.35 + rand() * 0.75;
+      dummy.position.set(x, groundHeight(x, z, noise) + 0.12 * s, z);
+      dummy.rotation.y = rand() * Math.PI * 2;
+      dummy.scale.set(s * (0.8 + rand() * 0.5), s, s * (0.8 + rand() * 0.5));
+      dummy.updateMatrix();
+      inst.setMatrixAt(placed++, dummy.matrix);
+    }
+    inst.count = placed;
+    inst.castShadow = true; inst.receiveShadow = true;
+    scene.add(inst);
+  }
+  mark('underbrush');
 
   /* grass tufts — instanced tapered blades, vertex-color gradient */
   {
@@ -425,6 +648,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     inst.castShadow = false; inst.receiveShadow = true;
     scene.add(inst);
   }
+  mark('grass');
 
   /* hero character — Yaakov's avatar, posed in-scene */
   if (vc) {
@@ -461,6 +685,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     fill.target.position.set(cx, cy + 1.5, cz);
     scene.add(fill); scene.add(fill.target);
   }
+  mark('character');
 
   /* particles — per-view systems */
   const updaters = [];
@@ -473,10 +698,12 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     night: ['fireflies', 'embers'],
   }[view] || ['pollen'];
   const shaftDir = night ? moonDir : sunDir;
+  // wind gust strength keyed to time of day: golden hour and dusk carry the breeze
+  const gust = night ? 0.2 : (tod === 'midday' ? 0.25 : tod === 'golden' ? 0.9 : 1.3);
   for (const pset of PSETS) {
     if (pset === 'fireflies') addParticles(makeFireflies({ count: Math.round(240 * PQ), area: 70, seed: seed + 11 }));
-    else if (pset === 'pollen') addParticles(makePollen({ count: Math.round(300 * PQ), area: 80, seed: seed + 22 }));
-    else if (pset === 'leaves') addParticles(makeFallingLeaves(leafTex, (x, z) => groundHeight(x, z, noise), { count: Math.round(120 * PQ), area: 70, seed: seed + 33 }));
+    else if (pset === 'pollen') addParticles(makePollen({ count: Math.round(300 * PQ), area: 80, seed: seed + 22, gust }));
+    else if (pset === 'leaves') addParticles(makeFallingLeaves(leafTex, (x, z) => groundHeight(x, z, noise), { count: Math.round(120 * PQ), area: 70, seed: seed + 33, gust }));
     else if (pset === 'dust') addParticles(makeDustMotes(shaftDir, { count: Math.round(220 * PQ), seed: seed + 44 }));
     else if (pset === 'embers') addParticles(makeEmbers({ count: Math.round(100 * PQ), area: 44, seed: seed + 55 }));
   }
@@ -491,25 +718,95 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   const camera = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.1, 1200);
   camera.position.set(...v.pos);
   camera.lookAt(...v.look);
+  mark('particles+camera');
 
-  /* render loop (a few frames so water/particles settle, then hold) */
-  const clock = new THREE.Clock();
+  /* render loop — settle the simulation SYNCHRONOUSLY (no rAF waits).
+     B"H speed mission: in headless SwiftShader, requestAnimationFrame scheduling
+     between frames cost ~10s of wall time (compositor stalls), dwarfing actual
+     render cost. Settle frames just advance water/particle/cloud simulation time.
+     B"H realism era: rasterization is lazy until readback on SwiftShader, so the
+     intermediate canvas renders are dropped entirely — only the final
+     render-target capture rasterizes (shadow map bakes on that same pass). */
   const FRAMES = fast ? 4 : 10;
-  let frames = 0;
-  await new Promise(resolve => {
-    function tick() {
-      const dt = Math.min(clock.getDelta(), 0.05);
-      const t = clock.elapsedTime;
-      waterUniforms.uTime.value = t;
-      for (const u of updaters) u(t, dt);
-      renderer.render(scene, camera);
-      if (++frames >= FRAMES) resolve();
-      else requestAnimationFrame(tick);
+  const STEP_DT = 0.5; // simulated seconds per settle frame
+  renderer.shadowMap.autoUpdate = false;
+  renderer.shadowMap.needsUpdate = true; // one shadow pass, baked on the capture render
+  for (let f = 0; f < FRAMES; f++) {
+    const t = (f + 1) * STEP_DT;
+    waterUniforms.uTime.value = t;
+    sky.material.uniforms.uCloudT.value = t;
+    for (const u of updaters) u(t, STEP_DT);
+    mark('frame' + (f + 1));
+  }
+  mark('done');
+  publishMarks();
+  // B"H speed mission: deliver pixels directly — canvas.toBlob + POST to the
+  // capture harness. Bypasses Page.captureScreenshot, whose first capture in
+  // headless SwiftShader stalls 20s+ in the compositor. Same-task readback
+  // works with preserveDrawingBuffer:false.
+  //
+  // B"H realism-era upgrade: render-target readback. canvas.toBlob() on
+  // SwiftShader stalls 60-110s inside the page compositor's readback path.
+  // Rendering once more into an sRGB WebGLRenderTarget + readPixels + 2D-canvas
+  // PNG encode skips the compositor entirely. Color-identical: ACES lives in
+  // the material shaders and the target carries SRGBColorSpace, exactly like
+  // the canvas path. Falls back to canvas.toBlob on any failure.
+  try {
+    const qs = new URLSearchParams(location.search);
+    const signalPort = qs.get('signalPort');
+    const sp = qs.get('sp');
+    if (signalPort) {
+      mark('toblob-start');
+      let blob = null;
+      try {
+        const dbSize = new THREE.Vector2();
+        renderer.getDrawingBufferSize(dbSize);
+        const W = dbSize.x | 0, H = dbSize.y | 0;
+        const rt = new THREE.WebGLRenderTarget(W, H, { samples: fast ? 0 : 4, depthBuffer: true });
+        rt.texture.colorSpace = THREE.SRGBColorSpace;
+        renderer.setRenderTarget(rt);
+        renderer.render(scene, camera);
+        renderer.setRenderTarget(null);
+        mark('rt-render');
+        const buf = new Uint8Array(W * H * 4);
+        renderer.readRenderTargetPixels(rt, 0, 0, W, H, buf);
+        mark('readpixels');
+        const cv2 = document.createElement('canvas');
+        cv2.width = W; cv2.height = H;
+        const cx2 = cv2.getContext('2d');
+        const img = cx2.createImageData(W, H);
+        const rowBytes = W * 4;
+        for (let y = 0; y < H; y++) {
+          img.data.set(buf.subarray((H - 1 - y) * rowBytes, (H - y) * rowBytes), y * rowBytes);
+        }
+        cx2.putImageData(img, 0, 0);
+        mark('flip');
+        // B"H — cinematic vignette: gentle edge falloff, applied in 2D (free).
+        {
+          const vg = cx2.createRadialGradient(
+            W / 2, H / 2, Math.min(W, H) * 0.44,
+            W / 2, H / 2, Math.max(W, H) * 0.74);
+          vg.addColorStop(0, 'rgba(6,8,14,0)');
+          vg.addColorStop(1, 'rgba(6,8,14,0.30)');
+          cx2.fillStyle = vg;
+          cx2.fillRect(0, 0, W, H);
+        }
+        mark('vignette');
+        blob = await new Promise(res => cv2.toBlob(res, 'image/png'));
+        rt.dispose();
+      } catch (rtErr) {
+        mark('rt-fallback:' + String(rtErr && rtErr.message || rtErr).slice(0, 60));
+        blob = await new Promise(res => renderer.domElement.toBlob(res, 'image/png'));
+      }
+      mark('toblob-done');
+      if (blob) {
+        await fetch(`http://127.0.0.1:${signalPort}/png?view=${encodeURIComponent(view)}${sp ? `&sp=${encodeURIComponent(sp)}` : ''}&t=${encodeURIComponent(JSON.stringify(_marks))}`, {
+          method: 'POST', body: blob,
+        }).catch(() => {});
+        mark('fetch-done');
+      }
     }
-    tick();
-  });
-  // hold final frame
-  renderer.render(scene, camera);
+  } catch {}
   window.__realityDebug = { scene, camera, renderer, water, waterUniforms };
   return { renderer, scene, camera };
 }

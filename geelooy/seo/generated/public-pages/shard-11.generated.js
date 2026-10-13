@@ -9,6 +9,13 @@
 
 module.exports = [
 	{
+		canonicalPath: "/reeyuh/",
+		description: "Explore the Reeyuh visual experience on Awtsmoos.com.",
+		filePath: "reeyuh/index.html",
+		kind: "public-information",
+		title: "Reeyuh · Shulchan Aruch Reader"
+	},
+	{
 		canonicalPath: "/showcase/unified-movie-180/",
 		description: "Explore the Unified Movie 180 public showcase experience on Awtsmoos.com.",
 		filePath: "showcase/unified-movie-180/index.html",

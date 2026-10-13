@@ -23,6 +23,22 @@ else
 	AWT_C_BOLD=''; AWT_C_DIM=''; AWT_C_GOLD=''; AWT_C_GREEN=''; AWT_C_RED=''; AWT_C_CYAN=''; AWT_C_OFF=''
 fi
 
+awt_intro_box() {
+	local mode="${1:-full}"
+	if [ -n "$AWT_C_GOLD" ]; then
+		cat >&2 <<EOF
+
+${AWT_C_GOLD}  ╭──────────────────────────────────────────────────╮${AWT_C_OFF}
+${AWT_C_GOLD}  │${AWT_C_OFF}   ✦  ${AWT_C_BOLD}AWTSMOOS TUNNEL${AWT_C_OFF}  — installer                  ${AWT_C_GOLD}│${AWT_C_OFF}
+${AWT_C_GOLD}  │${AWT_C_OFF}      ${AWT_C_DIM}secure doorway to your machines${AWT_C_OFF}               ${AWT_C_GOLD}│${AWT_C_OFF}
+${AWT_C_GOLD}  │${AWT_C_OFF}      Mode: ${AWT_C_CYAN}${mode}${AWT_C_OFF} · Ctrl+C cancels cleanly        ${AWT_C_GOLD}│${AWT_C_OFF}
+${AWT_C_GOLD}  ╰──────────────────────────────────────────────────╯${AWT_C_OFF}
+EOF
+	else
+		printf '\n== AWTSMOOS TUNNEL installer (mode: %s) ==\nCtrl+C cancels cleanly.\n' "$mode" >&2
+	fi
+}
+
 awt_banner() {
 	cat >&2 <<EOF
 ${AWT_C_GOLD}  ✦  ${AWT_C_BOLD}AWTSMOOS TUNNEL${AWT_C_OFF}${AWT_C_GOLD}  ✦${AWT_C_OFF}
@@ -35,6 +51,104 @@ awt_ok()    { printf '%s✓%s %s\n'   "$AWT_C_GREEN" "$AWT_C_OFF" "$1" >&2; }
 awt_warn()  { printf '%s!%s %s\n'   "$AWT_C_GOLD" "$AWT_C_OFF" "$1" >&2; }
 awt_fail()  { printf '%s✕%s %s\n'   "$AWT_C_RED" "$AWT_C_OFF" "$1" >&2; }
 awt_dim()   { printf '%s%s%s\n'     "$AWT_C_DIM" "$1" "$AWT_C_OFF" >&2; }
+
+# --- Install modes (Yaakov 2026-10-12): full / minimal / agent-only ---
+# Backward compatible: no flags + non-interactive => full (today's behavior).
+AWTSMOOS_INSTALL_MODE="${AWTSMOOS_INSTALL_MODE:-}"
+AWT_ASSUME_YES=0
+
+print_installer_help() {
+	cat >&2 <<EOF
+${AWT_C_DIM}  ── secure doorway to your machines ──${AWT_C_OFF}
+
+Usage: curl -fsSL $origin/api/tunnel/install/unix | bash -s -- [options]
+
+Options:
+  --full            Complete tunnel: agent, guardian, recovery lanes, browser support (default)
+  --minimal         Agent + registration; uses your system Node.js 18+; no browser auto-open
+  --agent-only      Fastest headless install for servers; no browser, no recovery lanes
+  --mode=MODE       Same as --MODE (full, minimal, agent-only)
+  -y, --yes         Skip the interactive menu; install with the default/flag mode
+  --no-login        Skip the headless device login step
+  -h, --help        Show this help
+
+You can cancel any time with Ctrl+C — the installer cleans up after itself
+and never leaves a half-installed tunnel behind.
+EOF
+}
+
+prompt_install_mode() {
+	local choice=""
+	# Only prompt when a human is actually watching.
+	[ -t 2 ] || return 0
+	[ -r /dev/tty ] || return 0
+	printf '\n%sHow would you like to install?%s\n' "$AWT_C_BOLD" "$AWT_C_OFF" >&2
+	printf '  %s1)%s Full %s(recommended)%s — complete tunnel with browser support\n' \
+		"$AWT_C_CYAN" "$AWT_C_OFF" "$AWT_C_DIM" "$AWT_C_OFF" >&2
+	printf '  %s2)%s Minimal — agent + registration, uses your system Node.js\n' \
+		"$AWT_C_CYAN" "$AWT_C_OFF" >&2
+	printf '  %s3)%s Agent only — fastest, for headless servers\n' \
+		"$AWT_C_CYAN" "$AWT_C_OFF" >&2
+	printf '%sChoose [1-3] (default 1): %s' "$AWT_C_GOLD" "$AWT_C_OFF" >&2
+	if ! IFS= read -r choice </dev/tty; then
+		printf '\n' >&2
+		return 0
+	fi
+	case "$choice" in
+		2|minimal) AWTSMOOS_INSTALL_MODE="minimal" ;;
+		3|agent-only|agentonly) AWTSMOOS_INSTALL_MODE="agent-only" ;;
+		*) AWTSMOOS_INSTALL_MODE="full" ;;
+	esac
+}
+
+parse_installer_args() {
+	while [ $# -gt 0 ]; do
+		case "$1" in
+			--full)            AWTSMOOS_INSTALL_MODE="full" ;;
+			--minimal)         AWTSMOOS_INSTALL_MODE="minimal" ;;
+			--agent-only|--agentonly) AWTSMOOS_INSTALL_MODE="agent-only" ;;
+			--mode=*)          AWTSMOOS_INSTALL_MODE="${1#--mode=}" ;;
+			-y|--yes)          AWT_ASSUME_YES=1 ;;
+			--no-login)        AWTSMOOS_SKIP_DEVICE_LOGIN=1 ;;
+			-h|--help)         print_installer_help; exit 0 ;;
+			--)                shift; break ;;
+			-*)                awt_warn "Unknown option: $1 (ignored)" ;;
+			*)                 break ;;
+		esac
+		shift
+	done
+	case "$AWTSMOOS_INSTALL_MODE" in
+		""|full|minimal|agent-only) ;;
+		*) awt_warn "Unknown mode '$AWTSMOOS_INSTALL_MODE'; using 'full'."; AWTSMOOS_INSTALL_MODE="full" ;;
+	esac
+}
+
+print_install_plan() {
+	local mode="$1"
+	awt_dim "Install plan — $mode mode:"
+	case "$mode" in
+		full)
+			awt_dim "  1. Fetch the verified installer"
+			awt_dim "  2. Preserve your identity and browser state"
+			awt_dim "  3. Install and verify the tunnel agent"
+			awt_dim "  4. Register this machine and open the control page"
+			;;
+		minimal)
+			awt_dim "  1. Fetch the verified installer"
+			awt_dim "  2. Preserve your identity (uses your system Node.js 18+)"
+			awt_dim "  3. Install and verify the tunnel agent"
+			awt_dim "  4. Register this machine (control URL printed, not opened)"
+			;;
+		agent-only)
+			awt_dim "  1. Fetch the verified installer"
+			awt_dim "  2. Preserve your device identity (uses your system Node.js 18+)"
+			awt_dim "  3. Install and verify the tunnel agent"
+			awt_dim "  4. Register this machine — headless, nothing else touched"
+			awt_dim "  5. Log in with no browser (approve the code on your phone)"
+			;;
+	esac
+	awt_dim "Press Ctrl+C any time to cancel cleanly."
+}
 
 select_install_root() {
 	local explicit_primary="${AWTSMOOS_PRIMARY_INSTALL_ROOT:-}"
@@ -103,6 +217,15 @@ on_install_interrupt() {
 }
 
 awt_banner
+parse_installer_args "$@"
+if [ -z "$AWTSMOOS_INSTALL_MODE" ] && [ "$AWT_ASSUME_YES" != "1" ]; then
+	prompt_install_mode
+fi
+AWTSMOOS_INSTALL_MODE="${AWTSMOOS_INSTALL_MODE:-full}"
+export AWTSMOOS_INSTALL_MODE
+export AWTSMOOS_SKIP_DEVICE_LOGIN="${AWTSMOOS_SKIP_DEVICE_LOGIN:-}"
+print_install_plan "$AWTSMOOS_INSTALL_MODE"
+awt_intro_box "$AWTSMOOS_INSTALL_MODE"
 install_root="$(select_install_root)"
 clear_emergency_parent_environment
 runtime_root="${install_root}.installer-runtime-$$"

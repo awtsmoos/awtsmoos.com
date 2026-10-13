@@ -18,11 +18,36 @@ function resolve(repoRoot, version = "") {
 		return environment;
 	}
 	const repository = resolveRepository(repoRoot);
+	// B"H: file-deployed production trees may not be functional git checkouts
+	// (git add without commit, missing binary, etc.). The deploy writes the
+	// source SHA to geelooy/.awtsmoos-release-sha; prefer it over git.
+	const filed = resolveFile(repository);
+	if (filed) {
+		return filed;
+	}
 	const tagged = resolveTagged(repository, version);
 	if (tagged) {
 		return tagged;
 	}
 	return resolveHead(repository);
+}
+
+/**
+ * Reads the release SHA written by the deploy into geelooy/.awtsmoos-release-sha.
+ * Lets file-deployed servers prove provenance without a working git checkout.
+ * @param {string} repository Canonical repository root.
+ * @returns {string} Forty-character commit SHA, or an empty string when absent/invalid.
+ */
+function resolveFile(repository) {
+	try {
+		const fs = require("node:fs");
+		const sha = normalize(
+			fs.readFileSync(path.join(repository, "geelooy", ".awtsmoos-release-sha"), "utf8")
+		);
+		return valid(sha) ? sha : "";
+	} catch {
+		return "";
+	}
 }
 
 /**

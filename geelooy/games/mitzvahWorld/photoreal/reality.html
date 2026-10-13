@@ -19,14 +19,30 @@
 import { buildRealityScene } from './js/reality-scene.mjs';
 const params = new URLSearchParams(location.search);
 const view = params.get('view') || 'forest';
-document.getElementById('viewname').textContent = view;
+const tod = params.get('tod') || 'midday';
+document.getElementById('viewname').textContent = view + (tod !== 'midday' ? ' · ' + tod : '');
 try {
-  await buildRealityScene(document.getElementById('app'), { view, fast: params.get('fast') === '1' });
+  await buildRealityScene(document.getElementById('app'), { view, fast: params.get('fast') === '1', tod });
   window.__realityReady = true;
   window.__realityView = view;
+  // B"H speed mission: event-driven readiness signal (no CDP polling stalls).
+  const signalPort = params.get('signalPort');
+  if (signalPort) {
+    fetch(`http://127.0.0.1:${signalPort}/ready?view=${encodeURIComponent(view)}`).catch(() => {});
+  }
 } catch (err) {
   window.__realityError = String(err && err.stack || err);
   document.getElementById('hud').textContent = 'ERROR: ' + window.__realityError.slice(0, 300);
+  // report to the daemon/capture harness if present
+  try {
+    const qs = new URLSearchParams(location.search);
+    const signalPort = qs.get('signalPort'), sp = qs.get('sp');
+    if (signalPort) {
+      fetch(`http://127.0.0.1:${signalPort}/err?${sp ? `sp=${encodeURIComponent(sp)}` : ''}`, {
+        method: 'POST', body: window.__realityError.slice(0, 2000),
+      }).catch(() => {});
+    }
+  } catch {}
 }
 </script>
 </body>

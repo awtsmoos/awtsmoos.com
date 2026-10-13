@@ -15,6 +15,18 @@ import { mitzvahWorldCreatorPart } from './MitzvahWorldCreatorCatalog.js';
 const MAXIMUM_COORDINATE = 1000000;
 const MAXIMUM_DIMENSION = 1024;
 
+// Yaakov 2026-10-11: universe parts compose from these renderer-ready primitives
+// (see world/primitives/PrimitiveGeometryFactory.js). The codec must accept every
+// shape the renderer can mount, or saved universes could never reopen.
+const CREATOR_SUPPORTED_SHAPES = Object.freeze([
+	'box',
+	'cylinder',
+	'sphere',
+	'triPrism',
+	'diamond',
+	'doorway'
+]);
+
 export function parseCreatorWorld(sourceOhr) {
 	const documentMalchus = typeof sourceOhr === 'string'
 		? JSON.parse(sourceOhr)
@@ -64,8 +76,8 @@ function validateDefinition(definitionTiferes, expectedId) {
 	if (!Number.isFinite(definitionTiferes.rotation?.y)) {
 		throw new Error(`CREATOR_WORLD_ROTATION_INVALID:${expectedId}`);
 	}
-	if (definitionTiferes.shape !== 'box') {
-		throw new Error(`CREATOR_WORLD_SHAPE_UNSUPPORTED:${expectedId}`);
+	if (!CREATOR_SUPPORTED_SHAPES.includes(definitionTiferes.shape)) {
+		throw new Error(`CREATOR_WORLD_SHAPE_UNSUPPORTED:${expectedId}:${definitionTiferes.shape || 'missing'}`);
 	}
 	return structuredClone(definitionTiferes);
 }

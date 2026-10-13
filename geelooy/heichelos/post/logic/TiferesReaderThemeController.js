@@ -26,7 +26,7 @@ const DEFAULT_THEME = "light";
  * @description Owns normalized theme state on the localized reader dataset and one authoritative select control.
  */
 export class TiferesReaderThemeController extends KliReaderPreferenceController {
-	/** @param {object} options Dependencies. @param {import("./DaasReaderPreferenceStore.js").DaasReaderPreferenceStore} options.store Preference store. */
+	/** @param {object} options Dependencies. @param {import("./DaasReaderPreferenceStore.js?v=6d853a2a25").DaasReaderPreferenceStore} options.store Preference store. */
 	constructor({ store, ...options }) {
 		super(options);
 		this.store = store;

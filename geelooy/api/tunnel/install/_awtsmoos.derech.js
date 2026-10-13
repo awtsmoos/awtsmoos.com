@@ -27,6 +27,8 @@ module.exports = {
 		await registerScriptRoute($i, "emergency-known-good", "emergency-known-good.sh");
 		await registerScriptRoute($i, "emergency-diagnose", "emergency-diagnose.sh");
 		await registerScriptRoute($i, "emergency-repair", "emergency-repair.sh");
+		await registerScriptRoute($i, "merkava-shot", "merkava-shot/merkava-shot.sh");
+		await registerScriptRoute($i, "merkava-shot.bundle.mjs", "merkava-shot/merkava-shot.bundle.mjs");
 		await $i.use(
 			"installer-components.tar.gz",
 			async () => publishInstallerComponents($i)
@@ -78,15 +80,33 @@ function publishInstallerComponents($i) {
 
 /** Publishes release metadata for complete-agent consumers. */
 function publishDescriptor($i) {
-	const bundle = buildAgentBundle();
-	const descriptor = Descriptor.build(bundle);
-	$i.response.setHeader("X-Awtsmoos-Descriptor-Schema", "2");
-	$i.response.setHeader("X-Awtsmoos-Manifest-SHA256", bundle.manifestSha256);
-	return sendText(
-		$i,
-		JSON.stringify(descriptor),
-		"application/json; charset=utf-8"
-	);
+	try {
+		const bundle = buildAgentBundle();
+		const descriptor = Descriptor.build(bundle);
+		$i.response.setHeader("X-Awtsmoos-Descriptor-Schema", "2");
+		$i.response.setHeader("X-Awtsmoos-Manifest-SHA256", bundle.manifestSha256);
+		return sendText(
+			$i,
+			JSON.stringify(descriptor),
+			"application/json; charset=utf-8"
+		);
+	} catch (error) {
+		// B"H: surface the real build failure so a 500 here is debuggable
+		// without a code deploy. Message only — no stack traces.
+		$i.response.statusCode = 500;
+		return sendText(
+			$i,
+			JSON.stringify({
+				BH: "B\"H",
+				error: {
+					message: String((error && error.message) || error || "unknown").slice(0, 500),
+					code: "BUNDLE_MANIFEST_BUILD_FAILED",
+					statusCode: 500
+				}
+			}),
+			"application/json; charset=utf-8"
+		);
+	}
 }
 
 /** Publishes the full agent ZIP; rescue script requests never execute this path. */

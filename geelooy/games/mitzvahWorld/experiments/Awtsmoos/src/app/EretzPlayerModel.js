@@ -11,6 +11,8 @@
 
 import { TinyAnimationPlayer } from '../../../light-three-gltf/tiny-animation.js';
 import { alignModelFeetToGround } from '../world/GroundRay.js';
+import { applyVariant, enhanceRealism, variantNames, VARIANTS } from './CharacterVariants.js';
+import { canTalk, closeMouth, setMouthOpen, speakText } from './TalkingMouth.js';
 
 /** Creates one grounded canonical animated player or throws when a fallback identity enters this boundary. */
 export function createPlayerModel(playerGltf, scene) {
@@ -21,6 +23,9 @@ export function createPlayerModel(playerGltf, scene) {
 	model.scale.set(1.52, 1.52, 1.52);
 	model.position.set(0, 0, 4);
 	model.setBaseTransform();
+	// B"H: one base model, many characters. Realism first, then the default identity.
+	enhanceRealism(model);
+	applyVariant(model, 'classic');
 	scene.add(model);
 	const feet = alignModelFeetToGround(model, 0);
 	const footOffset = model.position.y;
@@ -30,6 +35,17 @@ export function createPlayerModel(playerGltf, scene) {
 	if (!defaultClip) throw new Error('Canonical Chossid GLB did not expose a playable animation clip.');
 	player.play(defaultClip);
 	model.userData.AwtsmoosCanonicalPlayer = playerEvidence(player, defaultClip);
+	// B"H: the living character API — variants, realism, and a talking mouth.
+	model.userData.AwtsmoosCharacter = Object.freeze({
+		variantNames,
+		variants: VARIANTS,
+		applyVariant: name => applyVariant(model, name),
+		enhanceRealism: () => enhanceRealism(model),
+		canTalk: () => canTalk(model),
+		speak: (text, opts) => speakText(model, text, opts),
+		setMouthOpen: amount => setMouthOpen(model, amount),
+		closeMouth: () => closeMouth(model)
+	});
 	return { clips, defaultClip, feet, footOffset, model, player };
 }
 

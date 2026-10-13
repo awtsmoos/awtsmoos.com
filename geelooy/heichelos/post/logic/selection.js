@@ -158,7 +158,7 @@ function handleAskAI() {
     if (window.awtsmoosAiModule?.openAIChat) {
         window.awtsmoosAiModule.openAIChat(options);
     } else {
-        import('../ai/chat.js').then(module => {
+        import('../ai/chat.js?v=46868354c5').then(module => {
             window.awtsmoosAiModule = module;
             module.openAIChat(options);
         });
@@ -186,7 +186,7 @@ function handleGematria() {
     if (window.awtsmoosAiModule?.openAIChat) {
         window.awtsmoosAiModule.openAIChat(options);
     } else {
-        import('../ai/chat.js').then(module => {
+        import('../ai/chat.js?v=46868354c5').then(module => {
             window.awtsmoosAiModule = module;
             module.openAIChat(options);
         });

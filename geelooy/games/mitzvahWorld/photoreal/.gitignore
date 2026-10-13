@@ -1,0 +1,3 @@
+# B"H — baked/generated runtime assets stay out of git (repo is code-only).
+# Canonical copies live in ~/workspace/reality-photorealism/assets/.
+assets/

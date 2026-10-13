@@ -9,6 +9,8 @@
  * foliage, light, sky, and layered earth once until a visible classification fact changes.
  */
 
+import { normalizeMaterialColor } from './tiny-geometry.js';
+
 const materialModeCache = new WeakMap();
 
 export function drawMode(gl, mode) {
@@ -60,11 +62,13 @@ export function createProgram(gl, vertexSource, fragmentSource, label, errors) {
 }
 
 export function materialColor(material) {
-	const color = material?.color || [0.75, 0.70, 0.62, 1];
+	// B"H: normalizeMaterialColor accepts arrays, hex numbers, and CSS hex strings,
+	// so plain material objects with hex colors render correctly too.
+	const color = normalizeMaterialColor(material?.color);
 	return new Float32Array([
-		color[0] ?? 0.75,
-		color[1] ?? 0.70,
-		color[2] ?? 0.62,
+		color[0],
+		color[1],
+		color[2],
 		material?.opacity ?? color[3] ?? 1
 	]);
 }

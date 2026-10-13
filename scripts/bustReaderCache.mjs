@@ -58,7 +58,7 @@ function bustFile(relPath) {
 	let changed = 0;
 	const report = [];
 
-	const re = /((?:href|src)\s*=\s*["']|@import\s+url\(\s*["']?)([^"'()\s]+\.(?:css|js))(\?v=[^"'()\s]*)?(["']?\s*\)?)/gi;
+	const re = /((?:href|src)\s*=\s*["']|@import\s+url\(\s*["']?|(?:await\s+)?import\s*\(\s*["'])([^"'()\s]+\.(?:css|js))(\?v=[^"'()\s]*)?(["']?\s*\)?)/gi;
 
 	const out = text.replace(re, (m, prefix, url, vParam, suffix) => {
 		const repoRel = resolveAsset(url, relPath);
@@ -85,14 +85,18 @@ function main() {
 	const write = process.argv.includes('--write');
 	const targets = [POST_HTML];
 
-	const walk = (dir) => {
+	const walk = (dir, ext) => {
 		for (const e of readdirSync(resolve(REPO, dir), { withFileTypes: true })) {
 			const p = `${dir}/${e.name}`;
-			if (e.isDirectory()) walk(p);
-			else if (e.name.endsWith('.css')) targets.push(p);
+			if (e.isDirectory()) walk(p, ext);
+			else if (e.name.endsWith(ext)) targets.push(p);
 		}
 	};
-	walk(STYLES_DIR);
+	walk(STYLES_DIR, '.css');
+	// B"H: JS dynamic imports (await import('...')) also need cache busting —
+	// browsers cache them without a ?v= param.
+	walk('geelooy/heichelos/post/logic', '.js');
+	walk('geelooy/heichelos/post/functions', '.js');
 
 	let totalChanged = 0;
 	const touched = [];

@@ -40,7 +40,7 @@ export async function awakenInlineSparks() {
             console.log(`%c B"H - [AutoInline] The URL Oracle commands the manifestation of marginalia! Awakening the Guardians...`, "color: #00ffff; font-weight: bold; text-shadow: 0 0 5px #00ffff;");
             
             // Dynamically summon the Inline Hub to avoid circular dependencies
-            const { manifestAllActiveInlines } = await import("/heichelos/post/comments/inline.js");
+            const { manifestAllActiveInlines } = await import("/heichelos/post/comments/inline.js?v=0e584e5f9d");
             
             // Command the Orchestrator to perform the unified manifestation
             await manifestAllActiveInlines();

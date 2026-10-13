@@ -16,6 +16,9 @@
  * Semantics are preserved: every block executes in the original order against the same module
  * objects; chunk A fully evaluates before chunk B's blocks run, exactly as in the single bundle.
  *
+ * The shared registry is a number-keyed object (not a positional array) so module lookup
+ * stays correct even if the compiler ever emits gapped module numbering.
+ *
  * Usage: node geelooy/games/mitzvahWorld/build/split-world-chunk.cjs
  * Re-run after every rebuild of the world chunk. Then regenerate .br/.gz with
  * GeneratedAssetCompression.cjs compressGeneratedAsset() for both chunk files.
@@ -94,7 +97,10 @@ function splitWorldChunk() {
 
 	// Choose the split point: latest block boundary with chunk A (header + blocks + registry export) under the cap,
 	// leaving chunk B (import preamble + aliases + rest + footer) also under the cap.
-	const registryExport = `\nexport const __awtsmoosSharedModules = [${allModules.map(n => '__awtsmoosModule_' + n).join(', ')}];\n`;
+	// The registry is keyed by module NUMBER, not by position, so gapped module
+	// numbering (or future compiler changes) can never shift an alias onto the
+	// wrong module the way a positional array would.
+	const registryExport = `\nexport const __awtsmoosSharedModules = {${allModules.map(n => `${n}:__awtsmoosModule_${n}`).join(',')}};\n`;
 	let splitAt = 0;
 	let sizeA = Buffer.byteLength(header, 'utf8');
 	for (let i = 0; i < blocks.length; i++) {

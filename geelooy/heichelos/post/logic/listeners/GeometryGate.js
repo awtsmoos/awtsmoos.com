@@ -45,7 +45,7 @@ export class NetzachGeometryGate {
 		this.defer = tiferesOptions.defer
 			?? bindChaiTimingMethod(chaiRuntime, 'setTimeout');
 		this.checkerLoader = tiferesOptions.checkerLoader
-			?? (() => import('../visuals/observer.js'));
+			?? (() => import('../visuals/observer.js?v=8b46268184'));
 		this.frameId = 0;
 		this.checkerPromise = null;
 	}

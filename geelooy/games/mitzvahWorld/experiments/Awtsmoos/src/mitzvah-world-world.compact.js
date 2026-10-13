@@ -514,6 +514,13 @@ const __awtsmoosModule_1670 = __awtsmoosSharedModules[1670];
 const __awtsmoosModule_1679 = __awtsmoosSharedModules[1679];
 const __awtsmoosModule_1680 = __awtsmoosSharedModules[1680];
 const __awtsmoosModule_1708 = __awtsmoosSharedModules[1708];
+const __awtsmoosModule_1709 = __awtsmoosSharedModules[1709];
+const __awtsmoosModule_1710 = __awtsmoosSharedModules[1710];
+const __awtsmoosModule_1711 = __awtsmoosSharedModules[1711];
+const __awtsmoosModule_1712 = __awtsmoosSharedModules[1712];
+const __awtsmoosModule_1713 = __awtsmoosSharedModules[1713];
+const __awtsmoosModule_1714 = __awtsmoosSharedModules[1714];
+const __awtsmoosModule_1715 = __awtsmoosSharedModules[1715];
 const __awtsmoosModule_1716 = __awtsmoosSharedModules[1716];
 const __awtsmoosModule_1717 = __awtsmoosSharedModules[1717];
 const __awtsmoosModule_1718 = __awtsmoosSharedModules[1718];
@@ -1671,6 +1678,374 @@ const __awtsmoosModule_2869 = __awtsmoosSharedModules[2869];
 const __awtsmoosModule_2870 = __awtsmoosSharedModules[2870];
 const __awtsmoosModule_2871 = __awtsmoosSharedModules[2871];
 const __awtsmoosModule_2872 = __awtsmoosSharedModules[2872];
+// ---- libs/awtsmoos-procedural-core/src/core/animalMesh/creature/skin/SemanticSkinBinder.js ----
+{
+	const __exports = __awtsmoosModule_1710;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file SemanticSkinBinder.js
+	 * @description Orchestrates anatomy-first candidates, typed semantic weights, lineage, and post-bind quality evidence.
+	 * The Awtsmoos lets each finite surface remember its source before distance is allowed to speak;
+	 * Awtsmoos.com keeps orchestration separate from weighting so Creator skinning stays readable, deterministic, and renderer-neutral.
+	 */
+
+	const createCreatureId = __awtsmoosModule_1711.createCreatureId;
+	const hashCreatureValue = __awtsmoosModule_1711.hashCreatureValue;
+	const selectSkinInfluenceCandidates = __awtsmoosModule_1712.selectSkinInfluenceCandidates;
+	const analyzeSemanticSkinQuality = __awtsmoosModule_1713.analyzeSemanticSkinQuality;
+	const createSemanticSkinWeights = __awtsmoosModule_1714.createSemanticSkinWeights;
+
+	__exports.validateSemanticSkin = __awtsmoosModule_1715.validateSemanticSkin;
+
+	/** Binds deterministic semantic weights while preserving the typed-array renderer contract. */
+	function bindSemanticSkin(mesh, rig, options = {}) {
+		const maximumInfluences = clampInfluenceCount(options.maximumInfluences);
+		const candidates = selectSkinInfluenceCandidates(mesh, rig);
+		const weighted = createSemanticSkinWeights(
+			mesh.positions,
+			candidates,
+			maximumInfluences,
+			options
+		);
+		const content = createBindingContent(mesh, rig, maximumInfluences);
+		const binding = createBinding(
+			content,
+			weighted,
+			candidates,
+			mesh,
+			rig
+		);
+		binding.quality = analyzeSemanticSkinQuality(binding);
+		return Object.freeze(binding);
+	}
+
+
+	__exports.bindSemanticSkin = bindSemanticSkin;
+	function createBindingContent(mesh, rig, maximumInfluences) {
+		return {
+			maximumInfluences,
+			sourceMeshHash: mesh.contentHash || null,
+			sourceMeshId: mesh.id || null,
+			sourceRigHash: rig.contentHash
+		};
+	}
+
+	function createBinding(content, weighted, candidates, mesh, rig) {
+		return {
+			boneCount: rig.bones.length,
+			contentHash: hashCreatureValue(content),
+			coverage: createCoverage(candidates, mesh),
+			dualQuaternionCompatible: true,
+			id: createCreatureId('skin-binding', content),
+			jointIndices: weighted.jointIndices,
+			jointWeights: weighted.jointWeights,
+			maximumInfluences: content.maximumInfluences,
+			sourceMeshHash: mesh.contentHash || null,
+			sourceRigHash: rig.contentHash,
+			type: 'semantic-skin-binding',
+			version: '2.2.0',
+			weightingAdapter: 'semantic-capsule-hierarchy'
+		};
+	}
+
+	function createCoverage(candidates, mesh) {
+		return Object.freeze({
+			candidateCount: candidates.length,
+			fallbackUsed: candidates.every(entry => entry.relationship === 'fallback'),
+			semanticRegionCount: mesh.semanticRegionIds?.length || 0
+		});
+	}
+
+	function clampInfluenceCount(value) {
+		return Math.max(1, Math.min(8, Number(value || 4)));
+	}
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/animalMesh/creature/skin/creatureSkinning.js ----
+{
+	const __exports = __awtsmoosModule_1709;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file creatureSkinning.js
+	 * @description Adapts canonical semantic bindings and quality evidence into the stable multi-part Creator contract.
+	 * The Awtsmoos joins every generated surface to its Yetzirah lineage; Awtsmoos.com keeps four-influence renderer vessels,
+	 * exact normalization, topology lineage, and measurable binding quality while distant limbs remain outside another limb's flesh.
+	 */
+
+	const bindSemanticSkin = __awtsmoosModule_1710.bindSemanticSkin;
+	const validateSemanticSkin = __awtsmoosModule_1710.validateSemanticSkin;
+
+	/** Binds every renderer-neutral mesh part through one canonical semantic capsule solver. */
+	function bindCreatureSkin(meshParts, rig, options = {}) {
+		const maximumInfluences = Math.max(1, Math.min(4, Number(options.maximumInfluences || 4)));
+		const parts = meshParts.map(part => bindPart(part, rig, maximumInfluences, options));
+		return Object.freeze({
+			boneCount: rig.bones.length,
+			dualQuaternionCompatible: true,
+			lineage: Object.freeze({
+				sourceRigHash: rig.contentHash,
+				topologyRemapRequired: false
+			}),
+			maximumInfluences,
+			method: 'semantic-capsule-hierarchy',
+			normalization: 'unit-sum',
+			parts: Object.freeze(parts),
+			smoothing: options.smoothing || 'hierarchy-continuous'
+		});
+	}
+
+
+	__exports.bindCreatureSkin = bindCreatureSkin;
+	/** Rebinds after topology change while preserving previous rig identity for remap diagnostics. */
+	function rebindCreatureSkin(meshParts, rig, previousSkinning, options = {}) {
+		const result = bindCreatureSkin(meshParts, rig, options);
+		return Object.freeze({
+			...result,
+			lineage: Object.freeze({
+				...result.lineage,
+				previousRigHash: previousSkinning?.lineage?.sourceRigHash || null,
+				topologyRemapRequired: true
+			})
+		});
+	}
+
+
+	__exports.rebindCreatureSkin = rebindCreatureSkin;
+	/** Validates normalized finite weights, maximum influence budgets, and safe joint indices. */
+	function validateCreatureSkin(skinning, tolerance = 1e-4) {
+		const diagnostics = [];
+		for (const part of skinning.parts || []) {
+			diagnostics.push(...validatePart(part, skinning, tolerance));
+		}
+		return Object.freeze({
+			diagnostics: Object.freeze(diagnostics),
+			ok: diagnostics.length === 0,
+			partCount: skinning.parts?.length || 0
+		});
+	}
+
+	function bindPart(part, rig, maximumInfluences, options) {
+		const binding = bindSemanticSkin(part, rig, {
+			falloff: options.falloff,
+			maximumInfluences,
+			quality: options.quality || options.skinQuality || 'balanced'
+		});
+		const validation = validateSemanticSkin(binding);
+		return Object.freeze({
+			...part,
+			skinIndices: binding.jointIndices,
+			skinWeights: binding.jointWeights,
+			skinningBindingId: binding.id,
+			skinningDiagnostics: Object.freeze({
+				...binding.coverage,
+				quality: binding.quality,
+				valid: validation.valid,
+				warningCount: validation.warnings.length
+			}),
+			skinningLineage: Object.freeze({
+				rigHash: rig.contentHash,
+				sourceRegionIds: Object.freeze([...(part.semanticRegionIds || [])]),
+				weightingAdapter: binding.weightingAdapter
+			})
+		});
+	}
+
+	function validatePart(part, skinning, tolerance) {
+		const diagnostics = [];
+		const stride = skinning.maximumInfluences;
+		for (let offset = 0; offset < part.skinWeights.length; offset += stride) {
+			let sum = 0;
+			for (let influence = 0; influence < stride; influence += 1) {
+				const weight = part.skinWeights[offset + influence];
+				const joint = part.skinIndices[offset + influence];
+				if (!Number.isFinite(weight) || weight < 0) diagnostics.push(issue('SKIN.WEIGHT_INVALID', part.id, offset, stride, weight));
+				if (joint >= skinning.boneCount) diagnostics.push(issue('SKIN.JOINT_RANGE', part.id, offset, stride, joint));
+				sum += Number.isFinite(weight) ? weight : 0;
+			}
+			if (Math.abs(sum - 1) > tolerance) diagnostics.push(issue('SKIN.WEIGHT_SUM', part.id, offset, stride, sum));
+		}
+		return diagnostics;
+	}
+
+	function issue(code, partId, offset, stride, value) {
+		return Object.freeze({ code, partId, severity: 'error', value, vertex: offset / stride });
+	}
+
+	__exports.validateCreatureSkin = validateCreatureSkin;
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/animalMesh/creature/skinCompiler.js ----
+{
+	const __exports = __awtsmoosModule_1708;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+	/**
+	 * Yetzirah bones meet Asiyah vertices through the existing automatic solver.
+	 * The Awtsmoos unites formation and surface; Awtsmoos.com derives segment heads
+	 * only as a compatibility frame, never as a second skeleton authority.
+	 */
+	const bindExistingSkin = __awtsmoosModule_1709.bindCreatureSkin;
+	const validateCreatureSkin = __awtsmoosModule_1709.validateCreatureSkin;function createPositionedCreatureRig(rig) {
+		const positioned = new Map();
+		const bones = rig.bones.map((bone) => {
+			const parent = positioned.get(bone.parentBoneId);
+			const translation = bone.restTransform?.translation || [0, 0, 0];
+			const explicit = translation.some((value) => Math.abs(value) > 1e-9);
+			const head = explicit ? [...translation] : [...(parent?.tail || [0, 0, 0])];
+			const direction = bone.semanticRole.includes("support") ? [0, -1, 0] : [1, 0, 0];
+			const tail = head.map((value, axis) => value + direction[axis] * Math.max(0.001, bone.length || 0.001));
+			const next = { ...bone, head, tail };
+			positioned.set(bone.id, next);
+			return next;
+		});
+		return { ...rig, bones };
+	}
+
+	function flatten(parts, property, Constructor) {
+		const values = [];
+		for (const part of parts) {
+			values.push(...part[property]);
+		}
+		return new Constructor(values);
+	}
+	function normalizeSkinWeights(skin) {
+		const stride = Math.max(1, Number(skin.maximumInfluences || 4));
+		const weights = new Float32Array(skin.jointWeights || []);
+		for (let index = 0; index < weights.length; index += stride) {
+			let total = 0;
+			for (let influence = 0; influence < stride; influence += 1) {
+				total += weights[index + influence] || 0;
+			}
+			if (total <= 1e-9) {
+				weights[index] = 1;
+				continue;
+			}
+			for (let influence = 0; influence < stride; influence += 1) {
+				weights[index + influence] /= total;
+			}
+		}
+		return { ...skin, jointWeights: weights, normalization: "unit-sum" };
+	}
+	function bindCreatureSkin(mesh, rig, options = {}) {
+		const preparedRig = createPositionedCreatureRig(rig);
+		const bound = bindExistingSkin(mesh.parts || [mesh], preparedRig, options);
+		return normalizeSkinWeights({
+			type: "creature-skin-weights",
+			rigId: rig.id,
+			maximumInfluences: bound.maximumInfluences,
+			jointIndices: flatten(bound.parts, "skinIndices", Uint16Array),
+			jointWeights: flatten(bound.parts, "skinWeights", Float32Array),
+			parts: bound.parts,
+			diagnostics: { generated: true, sourceRigHash: rig.contentHash }
+		});
+	}
+	function validateSkinWeights(skin, tolerance = 1e-4) {
+		const report = validateCreatureSkin({
+			maximumInfluences: skin.maximumInfluences,
+			parts: skin.parts || []
+		}, tolerance);
+		return {
+			valid: report.ok,
+			errors: report.diagnostics,
+			warnings: [],
+			metrics: { parts: report.partCount, influences: skin.jointWeights?.length || 0 }
+		};
+	}
+
+	__exports.createPositionedCreatureRig = createPositionedCreatureRig;
+	__exports.normalizeSkinWeights = normalizeSkinWeights;
+	__exports.bindCreatureSkin = bindCreatureSkin;
+	__exports.validateSkinWeights = validateSkinWeights;
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/animalMesh/creature/compile/createCollisionShapes.js ----
+{
+	const __exports = __awtsmoosModule_1716;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+	/**
+	 * Collision is a bounded physical shadow of semantic anatomy. The Awtsmoos
+	 * lets Awtsmoos.com derive capsules without making those capsules authoritative.
+	 */
+
+	/** Derives one capsule per semantic bone with stable collision identity. */
+	function createCreatureCollisionShapes(rig, creature) {
+		return rig.bones.map((bone) => {
+			const sourceLimb = creature.limbs.find(
+				(limb) => limb.segments.some(
+					(segment) => segment.id === bone.sourceAnatomyId
+				)
+			);
+			return {
+				id: `collision:${bone.id}`,
+				type: "capsule",
+				boneId: bone.id,
+				head: [...bone.head],
+				tail: [...bone.tail],
+				radius: bone.radius,
+				exclusions: [...(sourceLimb?.collisionExclusions || [])]
+			};
+		});
+	}
+
+	__exports.createCreatureCollisionShapes = createCreatureCollisionShapes;
+
+}
+
+// ---- libs/awtsmoos-procedural-core/src/core/animalMesh/creature/compile/createMemoryReport.js ----
+{
+	const __exports = __awtsmoosModule_1717;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+	/**
+	 * Memory is counted honestly as one more finite vessel. The Awtsmoos gives
+	 * Awtsmoos.com exact typed-array bytes without contaminating deterministic IDs.
+	 */
+
+	function partBytes(part) {
+		return (part.positions?.byteLength || 0)
+			+ (part.normals?.byteLength || 0)
+			+ (part.indices?.byteLength || 0)
+			+ (part.uvs?.byteLength || 0);
+	}
+
+	/** Reports geometry, skin, texture, temporary, and optional compile time cost. */
+	function createCreatureMemoryReport(parts, startedAt, deterministic) {
+		const geometryBytes = parts.reduce(
+			(sum, part) => sum + partBytes(part),
+			0
+		);
+		const skinBytes = parts.reduce(
+			(sum, part) => sum
+				+ (part.skinIndices?.byteLength || 0)
+				+ (part.skinWeights?.byteLength || 0),
+			0
+		);
+		return Object.freeze({
+			geometryBytes,
+			skinBytes,
+			textureBytes: 0,
+			temporaryBytes: geometryBytes,
+			compileMilliseconds: deterministic
+				? 0
+				: Math.max(0, Date.now() - startedAt)
+		});
+	}
+
+	__exports.createCreatureMemoryReport = createCreatureMemoryReport;
+
+}
+
 // ---- libs/awtsmoos-procedural-core/src/core/animalMesh/creature/worlds/AsiyahCreatureArtifacts.js ----
 {
 	const __exports = __awtsmoosModule_1718;
@@ -48344,6 +48719,18 @@ const __awtsmoosModule_2872 = __awtsmoosSharedModules[2872];
 	const MAXIMUM_COORDINATE = 1000000;
 	const MAXIMUM_DIMENSION = 1024;
 
+	// Yaakov 2026-10-11: universe parts compose from these renderer-ready primitives
+	// (see world/primitives/PrimitiveGeometryFactory.js). The codec must accept every
+	// shape the renderer can mount, or saved universes could never reopen.
+	const CREATOR_SUPPORTED_SHAPES = Object.freeze([
+		'box',
+		'cylinder',
+		'sphere',
+		'triPrism',
+		'diamond',
+		'doorway'
+	]);
+
 	function parseCreatorWorld(sourceOhr) {
 		const documentMalchus = typeof sourceOhr === 'string'
 			? JSON.parse(sourceOhr)
@@ -48399,8 +48786,8 @@ const __awtsmoosModule_2872 = __awtsmoosSharedModules[2872];
 		if (!Number.isFinite(definitionTiferes.rotation?.y)) {
 			throw new Error(`CREATOR_WORLD_ROTATION_INVALID:${expectedId}`);
 		}
-		if (definitionTiferes.shape !== 'box') {
-			throw new Error(`CREATOR_WORLD_SHAPE_UNSUPPORTED:${expectedId}`);
+		if (!CREATOR_SUPPORTED_SHAPES.includes(definitionTiferes.shape)) {
+			throw new Error(`CREATOR_WORLD_SHAPE_UNSUPPORTED:${expectedId}:${definitionTiferes.shape || 'missing'}`);
 		}
 		return structuredClone(definitionTiferes);
 	}
@@ -57436,9 +57823,42 @@ const __awtsmoosModule_2872 = __awtsmoosSharedModules[2872];
 				meshMalchus.parent?.remove?.(meshMalchus);
 				throw errorOhr;
 			}
-			const receiptYesod = Object.freeze({ colliders: Object.freeze([...collidersGevurah]), id: definitionTiferes.id, mesh: meshMalchus });
+			const receiptYesod = Object.freeze({
+				colliders: Object.freeze([...collidersGevurah]),
+				definition: definitionTiferes,
+				id: definitionTiferes.id,
+				mesh: meshMalchus
+			});
 			this.mounts.set(definitionTiferes.id, receiptYesod);
 			return receiptYesod;
+		}
+
+		/**
+		 * Atomically regenerates one mounted definition's mesh and colliders.
+		 * Yaakov 2026-10-11: object updates (nudge/rotate/scale) must land on the
+		 * same runtime covenant the object transactions already assume — the prior
+		 * form is remounted when regeneration fails, so no stale collider or
+		 * duplicate mesh can survive a failed edit.
+		 * @param {object} definitionTiferes New definition with the same stable id.
+		 * @returns {Readonly<object>} New runtime receipt for the regenerated definition.
+		 */
+		updateDefinition(definitionTiferes) {
+			this.assertCapabilities();
+			const previousYesod = this.mounts.get(definitionTiferes.id);
+			if (!previousYesod) {
+				throw new Error(`CREATOR_OBJECT_NOT_FOUND:${definitionTiferes.id}`);
+			}
+			this.remove(definitionTiferes.id);
+			try {
+				return this.mount(definitionTiferes);
+			} catch (errorOhr) {
+				try {
+					this.mount(previousYesod.definition);
+				} catch {
+					// Rollback failed too; the original regeneration error stays authoritative.
+				}
+				throw errorOhr;
+			}
 		}
 
 		/** Removes the exact mesh and collider identities created during mount. */
@@ -57525,14 +57945,19 @@ const __awtsmoosModule_2872 = __awtsmoosSharedModules[2872];
 	 *  document, runtime, inventory, and history. Yaakov 2026-10-11: a house, a tree,
 	 *  a chossid each land as one creative deed — or not at all. */
 	async function commitUniversePlacement(sessionTiferes, catalogBinah, definitionsOros) {
+		if (!Array.isArray(definitionsOros) || definitionsOros.length === 0) {
+			throw new Error('UNIVERSE_PLACEMENT_EMPTY');
+		}
 		assertMaterial(sessionTiferes.inventory, catalogBinah);
 		const committedOros = [];
 		let chargedOhr = false;
 		try {
 			for (const definitionMalchus of definitionsOros) {
 				await sessionTiferes.documentStore.createPart(catalogBinah, definitionMalchus);
-				sessionTiferes.runtimeAdapter.mount(definitionMalchus);
+				// Recorded before mount: when mount fails, the document part already
+				// exists and must be compensated too — no ghost records allowed.
 				committedOros.push(definitionMalchus);
+				sessionTiferes.runtimeAdapter.mount(definitionMalchus);
 			}
 			sessionTiferes.inventory.remove(catalogBinah.itemId, catalogBinah.cost);
 			chargedOhr = true;
@@ -57557,20 +57982,23 @@ const __awtsmoosModule_2872 = __awtsmoosSharedModules[2872];
 
 
 	__exports.commitUniversePlacement = commitUniversePlacement;
-	/** Removes the latest placement and refunds its exact material cost. */
+	/** Removes the latest placement — one composed universe or one primitive — and refunds its exact material cost. */
 	async function undoCreatorPlacement(sessionTiferes) {
 		const receiptYesod = sessionTiferes.history.takeUndo();
 		if (!receiptYesod) {
 			return null;
 		}
 		const catalogBinah = sessionTiferes.catalogPart(receiptYesod.catalogId);
+		const definitionsOros = receiptDefinitions(receiptYesod);
 		try {
-			sessionTiferes.runtimeAdapter.remove(receiptYesod.definition.id);
-			await sessionTiferes.documentStore.deletePart(receiptYesod.definition.id);
+			for (const definitionMalchus of [...definitionsOros].reverse()) {
+				sessionTiferes.runtimeAdapter.remove(definitionMalchus.id);
+				await sessionTiferes.documentStore.deletePart(definitionMalchus.id);
+			}
 			sessionTiferes.inventory.add(catalogBinah.itemId, catalogBinah.cost);
 			return receiptYesod;
 		} catch (errorOhr) {
-			await restoreCommitted(sessionTiferes, catalogBinah, receiptYesod.definition);
+			await restoreCommitted(sessionTiferes, catalogBinah, definitionsOros);
 			sessionTiferes.history.restoreUndo(receiptYesod);
 			throw errorOhr;
 		}
@@ -57578,22 +58006,30 @@ const __awtsmoosModule_2872 = __awtsmoosSharedModules[2872];
 
 
 	__exports.undoCreatorPlacement = undoCreatorPlacement;
-	/** Reapplies the latest undone placement after re-validating material ownership. */
+	/** Reapplies the latest undone placement — one composed universe or one primitive — after re-validating material ownership. */
 	async function redoCreatorPlacement(sessionTiferes) {
 		const receiptYesod = sessionTiferes.history.takeRedo();
 		if (!receiptYesod) {
 			return null;
 		}
 		const catalogBinah = sessionTiferes.catalogPart(receiptYesod.catalogId);
+		const definitionsOros = receiptDefinitions(receiptYesod);
+		const createdOros = [];
 		try {
 			assertMaterial(sessionTiferes.inventory, catalogBinah);
-			await sessionTiferes.documentStore.createPart(catalogBinah, receiptYesod.definition);
-			sessionTiferes.runtimeAdapter.mount(receiptYesod.definition);
+			for (const definitionMalchus of definitionsOros) {
+				await sessionTiferes.documentStore.createPart(catalogBinah, definitionMalchus);
+				createdOros.push(definitionMalchus);
+				sessionTiferes.runtimeAdapter.mount(definitionMalchus);
+			}
 			sessionTiferes.inventory.remove(catalogBinah.itemId, catalogBinah.cost);
 			return receiptYesod;
 		} catch (errorOhr) {
-			sessionTiferes.runtimeAdapter.remove(receiptYesod.definition.id);
-			await safeDelete(sessionTiferes.documentStore, receiptYesod.definition.id);
+			// Compensate only what this attempt created; never delete pre-existing parts.
+			for (const definitionMalchus of createdOros.reverse()) {
+				try { sessionTiferes.runtimeAdapter.remove(definitionMalchus.id); } catch { /* best-effort */ }
+				await safeDelete(sessionTiferes.documentStore, definitionMalchus.id);
+			}
 			sessionTiferes.history.restoreRedo(receiptYesod);
 			throw errorOhr;
 		}
@@ -57618,17 +58054,27 @@ const __awtsmoosModule_2872 = __awtsmoosSharedModules[2872];
 		return true;
 	}
 
-	/** Restores runtime/document state when an undo operation fails midway. */
-	async function restoreCommitted(sessionTiferes, catalogBinah, definitionMalchus) {
-		try {
-			await sessionTiferes.documentStore.createPart(catalogBinah, definitionMalchus);
-		} catch {
-			// The document may still contain the resource when deletion itself failed.
+	/** Returns every committed definition in one receipt: a composed universe or a single primitive. */
+	function receiptDefinitions(receiptYesod) {
+		if (Array.isArray(receiptYesod.definitions)) {
+			return receiptYesod.definitions;
 		}
-		try {
-			sessionTiferes.runtimeAdapter.mount(definitionMalchus);
-		} catch {
-			// The runtime may still contain the mesh when removal itself failed.
+		return [receiptYesod.definition];
+	}
+
+	/** Restores runtime/document state when an undo operation fails midway. */
+	async function restoreCommitted(sessionTiferes, catalogBinah, definitionsOros) {
+		for (const definitionMalchus of definitionsOros) {
+			try {
+				await sessionTiferes.documentStore.createPart(catalogBinah, definitionMalchus);
+			} catch {
+				// The document may still contain the resource when deletion itself failed.
+			}
+			try {
+				sessionTiferes.runtimeAdapter.mount(definitionMalchus);
+			} catch {
+				// The runtime may still contain the mesh when removal itself failed.
+			}
 		}
 	}
 

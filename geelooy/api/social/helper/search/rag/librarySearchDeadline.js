@@ -18,14 +18,25 @@ const DEFAULT_LIBRARY_DEADLINE_MS = 8000;
 const LEXICAL_ENRICHMENT_SLICE_MS = 1200;
 const MIN_LIBRARY_DEADLINE_MS = 500;
 const MAX_LIBRARY_DEADLINE_MS = 15000;
+// Vector strategy walks multipart persisted HNSW indexes (28 parts for
+// likkutei-sichos) after embedding the query; the search UI already waits
+// 45s for semantic answers, so the vector lane owns a larger bounded clock.
+const VECTOR_MAX_LIBRARY_DEADLINE_MS = 30000;
+
+/** Returns the deadline ceiling for one request strategy. */
+function maxDeadlineFor(options = {}) {
+	return String(options.strategy || '').toLowerCase() === 'vector'
+		? VECTOR_MAX_LIBRARY_DEADLINE_MS
+		: MAX_LIBRARY_DEADLINE_MS;
+}
 
 /** Resolves one bounded request deadline without accepting infinite callers. */
-function libraryDeadlineMs(value) {
+function libraryDeadlineMs(value, options = {}) {
 	const number = Number(value);
 	if (!Number.isFinite(number) || number <= 0) return DEFAULT_LIBRARY_DEADLINE_MS;
 	return Math.max(
 		MIN_LIBRARY_DEADLINE_MS,
-		Math.min(MAX_LIBRARY_DEADLINE_MS, Math.floor(number))
+		Math.min(maxDeadlineFor(options), Math.floor(number))
 	);
 }
 
@@ -33,7 +44,7 @@ function libraryDeadlineMs(value) {
 function libraryDeadlineAt(options = {}, startedAt = Date.now()) {
 	const supplied = Number(options.libraryDeadlineAt);
 	if (Number.isFinite(supplied) && supplied > 0) return supplied;
-	return startedAt + libraryDeadlineMs(options.libraryMaxMs);
+	return startedAt + libraryDeadlineMs(options.libraryMaxMs, options);
 }
 
 /** Returns only time still owned by the request; exhausted phases receive zero. */
@@ -68,6 +79,7 @@ module.exports = {
 	DEFAULT_LIBRARY_DEADLINE_MS,
 	LEXICAL_ENRICHMENT_SLICE_MS,
 	MIN_LIBRARY_DEADLINE_MS,
+	VECTOR_MAX_LIBRARY_DEADLINE_MS,
 	libraryDeadlineAt,
 	libraryDeadlineMs,
 	remainingLibraryMs,

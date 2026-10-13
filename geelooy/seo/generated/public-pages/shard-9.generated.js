@@ -9,6 +9,13 @@
 
 module.exports = [
 	{
+		canonicalPath: "/games/rambam/kiddushHachodesh/12/",
+		description: "Explore an interactive Awtsmoos.com learning experience for chapter 12 of Rambam Hilchos Kiddush HaChodesh.",
+		filePath: "games/rambam/kiddushHachodesh/12/index.html",
+		kind: "public-information",
+		title: "Kiddush HaChodesh · Movement of the Sun"
+	},
+	{
 		canonicalPath: "/games/rebbe-runner/",
 		description: "Run forward with joy, speed, timing, and a distinctly Awtsmoos arcade spirit.",
 		filePath: "games/rebbe-runner/index.html",
@@ -70,12 +77,5 @@ module.exports = [
 		filePath: "index.html",
 		kind: "public-information",
 		title: "Awtsmoos — Torah, Creation & Living Worlds"
-	},
-	{
-		canonicalPath: "/legal/privacy/",
-		description: "Read the Awtsmoos.com privacy policy and understand how the site handles information and public web experiences.",
-		filePath: "legal/privacy/index.html",
-		kind: "public-information",
-		title: "Awtsmoos.com Privacy Policy"
 	}
 ];

@@ -42,11 +42,18 @@ NODE
 }
 
 # Records one terminal failure receipt before returning a nonzero process status.
+# Round 2: renders the specific error card (what / why / fix / log) when the
+# errors module is loaded; never a bare generic failure.
 install_fail() {
 	local phase="$1"
 	local message="$2"
 	local detail="${3:-}"
 
 	install_event "$phase" "failed" "$message" "$detail"
+	if declare -F print_install_error_card >/dev/null 2>&1; then
+		print_install_error_card "$phase" "$message" "$detail"
+	else
+		printf 'INSTALLATION FAILED [%s]: %s (%s)\n' "$phase" "$message" "$detail" >&2
+	fi
 	exit 1
 }

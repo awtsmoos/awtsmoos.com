@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!-- B"H — Proof page: Chossid character variants + talking mouth. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Chossid Variants Proof</title>
+<style>
+  body { background: #101318; color: #e8ecf2; font-family: system-ui, sans-serif; margin: 0; padding: 24px; }
+  h1 { font-size: 22px; }
+  .shot { margin: 28px 0; }
+  .shot h2 { font-size: 16px; margin: 0 0 8px; color: #9fd8ff; }
+  canvas { background: #1a1f28; border-radius: 10px; display: block; }
+  #status { position: fixed; top: 12px; right: 16px; background: #0c2; color: #041; padding: 6px 12px; border-radius: 8px; font-weight: 700; display: none; }
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "three": "file:///home/hatch/workspace/mw-repo/geelooy/games/scripts/build/three.module.js",
+    "three/addons/": "file:///home/hatch/workspace/mw-repo/geelooy/games/scripts/jsm/",
+    "file:///games/": "file:///home/hatch/workspace/mw-repo/geelooy/games/"
+  }
+}
+</script>
+</head>
+<body>
+<h1>B"H — Chossid character variants + talking mouth proof</h1>
+<div id="status">READY</div>
+<div id="shots"></div>
+<script type="module">
+import * as THREE from "three";
+import { createChossidVariant, applyRealismPass } from "../shared/chossidVariants.js";
+import { attachTalk } from "../shared/chossidTalk.js";
+
+const shotsEl = document.getElementById("shots");
+const rendered = [];
+
+function addShot(title, w, h) {
+  const div = document.createElement("div");
+  div.className = "shot";
+  const h2 = document.createElement("h2");
+  h2.textContent = title;
+  const canvas = document.createElement("canvas");
+  canvas.width = w; canvas.height = h;
+  div.appendChild(h2); div.appendChild(canvas);
+  shotsEl.appendChild(div);
+  return canvas;
+}
+
+function makeScene() {
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x1a1f28);
+  scene.fog = new THREE.Fog(0x1a1f28, 8, 18);
+  return scene;
+}
+
+function frameCharacter(group, canvas, camPos, lookAt, jawOpen = 0) {
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  renderer.setPixelRatio(1);
+  renderer.setSize(canvas.width, canvas.height, false);
+  const scene = makeScene();
+  applyRealismPass(renderer, scene, { groundY: 0 });
+  scene.add(group);
+  const cam = new THREE.PerspectiveCamera(38, canvas.width / canvas.height, 0.05, 60);
+  cam.position.set(...camPos);
+  cam.lookAt(...lookAt);
+  // settle a few frames then capture state
+  for (let i = 0; i < 6; i++) renderer.render(scene, cam);
+  rendered.push({ renderer, scene, cam, canvas });
+  return { renderer, scene, cam };
+}
+
+const FULL_CAM = [0, 1.05, 3.4];
+const FULL_LOOK = [0, 0.95, 0];
+const FACE_CAM = [0.02, 1.47, 0.95];
+const FACE_LOOK = [0, 1.44, 0.06];
+
+const variants = [
+  { title: "A — beard, glasses, top hat, classic outfit", opts: { beard: true, glasses: true, hat: "tophat", outfit: "classic" }, cam: FULL_CAM, look: FULL_LOOK },
+  { title: "B — no beard, glasses, yarmulke, navy outfit", opts: { beard: false, glasses: true, hat: "yarmulke", outfit: "navy" }, cam: FULL_CAM, look: FULL_LOOK },
+  { title: "C — beard, no glasses, top hat, chestnut outfit", opts: { beard: true, glasses: false, hat: "tophat", outfit: "chestnut" }, cam: FULL_CAM, look: FULL_LOOK },
+  { title: "D — no beard, no glasses, no hat, slate outfit", opts: { beard: false, glasses: false, hat: "none", outfit: "slate" }, cam: FULL_CAM, look: FULL_LOOK },
+];
+
+let talkRef = null;
+try {
+  for (const v of variants) {
+    const { group, nodes } = await createChossidVariant(v.opts);
+    const canvas = addShot(v.title, 480, 640);
+    frameCharacter(group, canvas, v.cam, v.look);
+  }
+  // Face close-ups with the talking mouth (no beard so the mouth is visible).
+  const { group: faceGroup, nodes } = await createChossidVariant({ beard: false, glasses: true, hat: "yarmulke", outfit: "navy" });
+  const talk = attachTalk(nodes);
+  talkRef = talk;
+
+  const c0 = addShot("Mouth CLOSED", 480, 480);
+  talk.setOpen(0);
+  frameCharacter(faceGroup, c0, FACE_CAM, FACE_LOOK);
+
+  const { group: faceGroup2, nodes: nodes2 } = await createChossidVariant({ beard: false, glasses: true, hat: "yarmulke", outfit: "navy" });
+  const talk2 = attachTalk(nodes2);
+  const c1 = addShot("Mouth OPEN — teeth visible", 480, 480);
+  talk2.setOpen(1);
+  frameCharacter(faceGroup2, c1, FACE_CAM, FACE_LOOK);
+
+  const { group: faceGroup3, nodes: nodes3 } = await createChossidVariant({ beard: true, glasses: false, hat: "tophat", outfit: "classic" });
+  const talk3 = attachTalk(nodes3);
+  const c2 = addShot("MID-SPEECH with beard (jaw half-open)", 480, 480);
+  talk3.setOpen(0.55);
+  frameCharacter(faceGroup3, c2, FACE_CAM, FACE_LOOK);
+
+  window.__talkApi = { setOpen: (n) => talk2.setOpen(n) };
+  window.__proofReady = true;
+  document.getElementById("status").style.display = "block";
+} catch (e) {
+  const pre = document.createElement("pre");
+  pre.textContent = "PROOF FAILED: " + (e && e.stack || e);
+  pre.style.color = "#f66";
+  document.body.appendChild(pre);
+  window.__proofError = String(e && e.stack || e);
+}
+</script>
+</body>
+</html>

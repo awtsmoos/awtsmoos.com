@@ -72,8 +72,8 @@ function frameMatrixCache(renderer) {
 		renderer._frameMatrixCache = {
 			aspect: Number.NaN,
 			far: Number.NaN,
-			fov: Number.NaN,
 			near: Number.NaN,
+			fov: Number.NaN,
 			projection: new Float32Array(16),
 			projectionView: new Float32Array(16),
 			view: new Float32Array(16)
@@ -156,8 +156,13 @@ function drawOpaquePass(renderer, meshes, projectionView) {
 	gl.disable(gl.BLEND);
 	gl.depthMask(true);
 	for (const mesh of meshes) {
-		drawRenderMesh(renderer, mesh, projectionView, false);
-		renderer.stats.opaqueMeshes += 1;
+		// B"H: one bad mesh must never blank the whole world. Record and continue.
+		try {
+			drawRenderMesh(renderer, mesh, projectionView, false);
+			renderer.stats.opaqueMeshes += 1;
+		} catch (error) {
+			recordMeshDrawError(renderer, mesh, error);
+		}
 	}
 }
 
@@ -168,10 +173,30 @@ function drawTransparentPass(renderer, meshes, projectionView) {
 	gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 	gl.depthMask(false);
 	for (const mesh of meshes) {
-		drawRenderMesh(renderer, mesh, projectionView, true);
+		// B"H: one bad mesh must never blank the whole world. Record and continue.
+		try {
+			drawRenderMesh(renderer, mesh, projectionView, true);
+		} catch (error) {
+			recordMeshDrawError(renderer, mesh, error);
+		}
 	}
 	gl.depthMask(true);
 	gl.disable(gl.BLEND);
+}
+
+/**
+ * B"H: records a per-mesh draw failure in frame stats without aborting the pass.
+ * The world keeps rendering; the failure is visible in diagnostics, never silent.
+ */
+function recordMeshDrawError(renderer, mesh, error) {
+	const stats = renderer.stats;
+	stats.meshDrawErrors = (stats.meshDrawErrors || 0) + 1;
+	stats.lastMeshDrawError = {
+		mesh: mesh?.name || '(unnamed)',
+		message: error?.message || String(error)
+	};
+	renderer.errors = renderer.errors || [];
+	renderer.errors.push(stats.lastMeshDrawError);
 }
 
 function drawSkeletonPass(renderer, scene, projectionView) {

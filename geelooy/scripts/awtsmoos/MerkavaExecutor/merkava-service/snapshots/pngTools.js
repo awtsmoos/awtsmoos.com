@@ -93,7 +93,7 @@ export function rgbPngFromRgba(rgba, width, height, opts = {}) {
 // B"H 2026-10-09 (speed): downsample a 2x/3x/4x supersampled RGBA buffer to
 // width×height RGB rows with box averaging — no per-pixel closures, no
 // intermediate arrays. Used by the supersampled PNG path.
-export function rgbPngDownsampled(rgba, srcWidth, scale, width, height) {
+export function rgbPngDownsampled(rgba, srcWidth, scale, width, height, level) {
   const rowSize = width * 3 + 1;
   const raw = Buffer.allocUnsafe(rowSize * height);
   const total = scale * scale;
@@ -115,7 +115,7 @@ export function rgbPngDownsampled(rgba, srcWidth, scale, width, height) {
       raw[o++] = Math.round(b / total);
     }
   }
-  return pngFromRaw(raw, width, height);
+  return pngFromRaw(raw, width, height, level);
 }
 
 function pngFromRaw(raw, width, height, level) {

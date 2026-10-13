@@ -58,6 +58,21 @@ export class TiferesReaderBootState {
 	}
 
 	/**
+	 * Records honest fallback completion after the plain bilingual safety net
+	 * rendered. Never claims canonical readiness; the fallback dataset marker
+	 * is the evidence, not a completion badge.
+	 * @returns {void}
+	 */
+	completeFallback() {
+		const malchusData = this.#dataset();
+		if (!malchusData) {
+			return;
+		}
+		delete malchusData.readerBootCompleted;
+		malchusData.readerFallbackReady = 'true';
+	}
+
+	/**
 	 * Records terminal failure and removes any contradictory completion evidence.
 	 * @param {unknown} ohrError Failure value from the boot pipeline.
 	 * @returns {void}

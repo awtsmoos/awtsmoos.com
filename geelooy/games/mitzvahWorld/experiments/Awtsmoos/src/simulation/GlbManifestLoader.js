@@ -14,6 +14,7 @@ import {
 	remoteModelRecord
 } from '../assets/RemoteModelCatalog.js';
 import { REMOTE_MODEL_RECORDS } from '../assets/RemoteModelRecords.js';
+import { isTrustedReleaseModelUrl } from '../assets/ReleaseModelCatalog.js';
 import {
 	canonicalChossidSimulationManifest
 } from './CanonicalChossidSimulationManifest.js';
@@ -22,6 +23,13 @@ const GLB_MAGIC = 0x46546c67;
 const JSON_CHUNK = 0x4e4f534a;
 
 export async function loadGlbManifest(source) {
+	// The canonical Chossid release URL is content-addressed (sha256) and catalog-derived;
+	// it resolves to the semantic manifest without fetching any bytes, so the headless
+	// simulation runner works with its own default model path. Every other model still
+	// requires a trusted remote Drive URL beneath this line.
+	if (isTrustedReleaseModelUrl(source)) {
+		return canonicalChossidSimulationManifest(source);
+	}
 	if (!isTrustedRemoteModelUrl(source)) {
 		throw new Error(`GLB simulation requires a verified model URL: ${source}`);
 	}

@@ -17,6 +17,13 @@ function stripQuery(value = '') { return String(value || '').split(/[?#]/)[0]; }
 
 function canonicalModulePath(value = '') {
   const raw = stripQuery(value).replace(/\\/g, '/');
+  // B"H: preserve full URLs — path.posix.normalize collapses https:// to https:/
+  const urlM = raw.match(/^([a-z][a-z0-9+.-]*:\/\/)(.*)$/i);
+  if (urlM) {
+    const normalized = path.posix.normalize(urlM[2] || '.');
+    const cleaned = normalized === '.' ? '' : normalized.replace(/^\.\//, '');
+    return `${urlM[1]}${cleaned.replace(/^\//, '')}`;
+  }
   const absolute = raw.startsWith('/');
   const normalized = path.posix.normalize(raw || '.');
   const cleaned = normalized === '.' ? '' : normalized.replace(/^\.\//, '');
@@ -207,7 +214,19 @@ function findStatementEnd(source, i) {
     }
     if (ch === '"' || ch === "'" || ch === '`') { quote = ch; continue; }
     if (ch === ';') return j + 1;
-    if (ch === '\n' && source.slice(i, j).includes('from')) return j;
+    // B"H: ASI — a newline ends the import only if the from-specifier is
+    // complete (we've seen from + opening quote). A newline right after
+    // `from` (specifier on next line) does NOT end the statement.
+    if (ch === '\n') {
+      const head = source.slice(i, j);
+      const fromIdx = head.search(/\bfrom\b/);
+      if (fromIdx >= 0) {
+        const afterFrom = head.slice(fromIdx + 4);
+        // If there's a quote after `from`, the specifier started — newline ends it.
+        // If not, the specifier is on the next line — keep scanning.
+        if (/['"`]/.test(afterFrom)) return j;
+      }
+    }
   }
   return source.length;
 }

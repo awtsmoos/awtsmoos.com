@@ -51,7 +51,7 @@ function messageFrom(data, response) {
 }
 
 /** Extracts list-shaped API payloads without inventing records. */
-function listFrom(data) {
+export function listFrom(data) {
 	if (Array.isArray(data)) return data;
 	if (Array.isArray(data?.success)) return data.success;
 	if (Array.isArray(data?.data)) return data.data;

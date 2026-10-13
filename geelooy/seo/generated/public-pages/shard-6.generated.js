@@ -9,6 +9,13 @@
 
 module.exports = [
 	{
+		canonicalPath: "/drive/",
+		description: "Awtsmoos Drive — browse real files, upload, organize, share, and open the Builder when creation needs a deeper workspace.",
+		filePath: "drive/index.html",
+		kind: "public-information",
+		title: "Awtsmoos Drive"
+	},
+	{
 		canonicalPath: "/email/",
 		description: "Read, compose, and manage correspondence through the advanced Awtsmoos mail interface.",
 		filePath: "email/index.html",
@@ -70,12 +77,5 @@ module.exports = [
 		filePath: "games/connect4/index.html",
 		kind: "game",
 		title: "Connect 4"
-	},
-	{
-		canonicalPath: "/games/dove/",
-		description: "Leap with the dove through a flood of motion in a compact platform journey.",
-		filePath: "games/dove/index.html",
-		kind: "game",
-		title: "Noah's Dove Jump"
 	}
 ];

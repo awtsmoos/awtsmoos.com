@@ -9,6 +9,7 @@
  */
 
 import fs from 'fs';
+import path from 'path';
 
 export function walSize(filePath) {
 	return fs.existsSync(filePath) ? fs.statSync(filePath).size : null;
@@ -26,6 +27,7 @@ export function readJsonLines(filePath, validate) {
 }
 
 export function removeShardArtifacts(shardPath) {
+	fs.mkdirSync(path.dirname(shardPath), { recursive: true });
 	for (const suffix of ['', '.wal', '.lock', '.readers']) {
 		fs.rmSync(`${shardPath}${suffix}`, { force: true, recursive: true });
 	}

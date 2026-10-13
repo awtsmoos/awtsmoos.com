@@ -33,7 +33,13 @@ export function createGroundSampler({ terrainHeightAt, octree = null, top = 96 }
       return { x: p.x, y: sample.y, z: p.z, sample };
     },
     samplePath(points, options = {}) {
-      return points.map(point => ({ ...point, sample: api.heightAt(point.x, point.z, options), y: api.heightAt(point.x, point.z, options).y }));
+      // One sample per point: the previous implementation called heightAt twice
+      // per point (once for sample, once for y), doubling raycast cost and
+      // risking inconsistent answers between the two calls.
+      return points.map(point => {
+        const sample = api.heightAt(point.x, point.z, options);
+        return { ...point, sample, y: sample.y };
+      });
     },
     withOctree(nextOctree) { return createGroundSampler({ terrainHeightAt, octree: nextOctree, top }); },
     stats() { return { mode: octree ? 'terrain-height/raycast' : 'terrain-height-phase-one', hasOctree: !!octree, top }; }

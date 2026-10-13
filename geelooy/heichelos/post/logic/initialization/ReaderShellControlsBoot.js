@@ -72,7 +72,7 @@ export class KeterReaderShellControlsBoot {
 				return;
 			}
 			ohrEvent.preventDefault();
-			import('../listeners/TiferesTypographyGate.js').then(({ tiferesTypographyGate }) => {
+			import('../listeners/TiferesTypographyGate.js?v=d8b8b5c6e1').then(({ tiferesTypographyGate }) => {
 				tiferesTypographyGate.toggle();
 				console.log('B"H typography fallback toggle applied, open:', tiferesTypographyGate.isOpen());
 			}).catch((ohrError) => {

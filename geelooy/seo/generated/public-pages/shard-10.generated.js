@@ -9,6 +9,13 @@
 
 module.exports = [
 	{
+		canonicalPath: "/legal/privacy/",
+		description: "Read the Awtsmoos.com privacy policy and understand how the site handles information and public web experiences.",
+		filePath: "legal/privacy/index.html",
+		kind: "public-information",
+		title: "Awtsmoos.com Privacy Policy"
+	},
+	{
 		canonicalPath: "/legal/terms/",
 		description: "Read the Awtsmoos.com terms for using the site, its public tools, creative experiences, and connected services.",
 		filePath: "legal/terms/index.html",
@@ -70,12 +77,5 @@ module.exports = [
 		filePath: "recorder/index.html",
 		kind: "app",
 		title: "Local Recorder"
-	},
-	{
-		canonicalPath: "/reeyuh/",
-		description: "Explore the Reeyuh visual experience on Awtsmoos.com.",
-		filePath: "reeyuh/index.html",
-		kind: "public-information",
-		title: "Reeyuh · Shulchan Aruch Reader"
 	}
 ];

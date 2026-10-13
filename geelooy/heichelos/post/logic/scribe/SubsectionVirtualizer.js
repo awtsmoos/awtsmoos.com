@@ -27,7 +27,7 @@ function scheduleInlineRefresh() {
     clearTimeout(pendingInline);
     pendingInline = setTimeout(async () => {
         try {
-            const { manifestAllActiveInlines } = await import("../../comments/inline.js");
+            const { manifestAllActiveInlines } = await import("../../comments/inline.js?v=0e584e5f9d");
             await manifestAllActiveInlines();
         } catch (error) {
             if (window.__awtsmoosInlineDebug) console.warn("B\"H inline remanifest resisted", error);

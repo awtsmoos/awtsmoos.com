@@ -75,7 +75,7 @@ export function makeFireflies({ count = 220, area = 60, yMax = 7, seed = 4242 } 
 }
 
 /* ---------------- pollen: soft drifting motes, day ---------------- */
-export function makePollen({ count = 320, area = 80, seed = 5150 } = {}) {
+export function makePollen({ count = 320, area = 80, seed = 5150, gust = 0 } = {}) {
   const rand = mulberry32(seed);
   const pos = new Float32Array(count * 3);
   const drift = [];
@@ -95,10 +95,12 @@ export function makePollen({ count = 320, area = 80, seed = 5150 } = {}) {
     const p = g.attributes.position;
     for (let i = 0; i < count; i++) {
       const d = drift[i];
+      // wind gust: slow global swell sweeps the field, per-particle phase offset
+      const gs = 1 + gust * (0.5 + 0.5 * Math.sin(t * 0.45 + d.ph * 0.31));
       p.setXYZ(i,
-        d.x + Math.sin(t * d.sp + d.ph) * 2.0 + t * d.wx * 0.15,
+        d.x + Math.sin(t * d.sp + d.ph) * 2.0 * gs + t * d.wx * (0.15 + gust * 0.55),
         d.y + Math.sin(t * d.sp * 0.6 + d.ph * 2.0) * 0.5,
-        d.z + Math.cos(t * d.sp * 0.8 + d.ph) * 2.0);
+        d.z + Math.cos(t * d.sp * 0.8 + d.ph) * 2.0 * gs);
     }
     p.needsUpdate = true;
   };
@@ -106,7 +108,7 @@ export function makePollen({ count = 320, area = 80, seed = 5150 } = {}) {
 }
 
 /* ---------------- falling leaves: autumn gust, instanced textured quads ---------------- */
-export function makeFallingLeaves(leafTex, groundY, { count = 130, area = 70, seed = 6161 } = {}) {
+export function makeFallingLeaves(leafTex, groundY, { count = 130, area = 70, seed = 6161, gust = 0 } = {}) {
   const rand = mulberry32(seed);
   const geo = new THREE.PlaneGeometry(0.16, 0.20);
   const m = new THREE.MeshStandardMaterial({
@@ -129,10 +131,12 @@ export function makeFallingLeaves(leafTex, groundY, { count = 130, area = 70, se
       const l = L[i];
       l.y -= l.vy * dt;
       if (l.y < groundY(l.x, l.z) + 0.05) { l.y = 9 + rand() * 4; l.x = (rand() - 0.5) * area; l.z = (rand() - 0.5) * area; }
+      // wind gust: swell pushes leaves sideways and spins them harder
+      const gs = 1 + gust * (0.5 + 0.5 * Math.sin(t * 0.5 + l.ph * 0.27));
       dummy.position.set(
-        l.x + Math.sin(t * l.sp + l.ph) * l.sway,
+        l.x + Math.sin(t * l.sp + l.ph) * l.sway * gs + t * gust * 0.35,
         l.y,
-        l.z + Math.cos(t * l.sp * 0.7 + l.ph) * l.sway * 0.7);
+        l.z + Math.cos(t * l.sp * 0.7 + l.ph) * l.sway * 0.7 * gs);
       dummy.rotation.set(l.rx + t * l.sp * 0.5, l.ph, l.rz + t * l.sp * 0.35);
       dummy.updateMatrix();
       inst.setMatrixAt(i, dummy.matrix);

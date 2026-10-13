@@ -54,8 +54,18 @@ function requestedStrategy(values = {}) {
 	return boolValue(values.requireIndexed, false) ? 'vector' : 'text';
 }
 
+// Vector lanes open multipart HNSW indexes and embed the query before the
+// first byte of ranking; the 8s default public deadline deterministically
+// killed the two largest English semantic lanes in multi-lane fan-out.
+// Vector strategy therefore owns a larger bounded public clock (30s max);
+// the search UI already waits 45s for semantic answers.
+const VECTOR_LIBRARY_MAX_MS = 30000;
+
 function libraryOptions(context, overrides = {}) {
 	const values = data(context);
+	const strategy = String(
+		overrides.strategy != null ? overrides.strategy : requestedStrategy(values)
+	).toLowerCase();
 	return {
 		$i: requestInterface(context),
 		lane: values.shard || values.lane || values.corpus,
@@ -66,6 +76,7 @@ function libraryOptions(context, overrides = {}) {
 		autoInstall: boolValue(values.autoInstall, false),
 		strategy: requestedStrategy(values),
 		requireIndexed: boolValue(values.requireIndexed, false),
+		libraryMaxMs: strategy === 'vector' ? VECTOR_LIBRARY_MAX_MS : undefined,
 		...overrides
 	};
 }

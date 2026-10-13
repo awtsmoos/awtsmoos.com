@@ -65,8 +65,8 @@ async function awakenTargetChunk(idx) {
     if (!Number.isFinite(numericIdx)) return;
     try {
         const [{ ScribeScaffold }, scribe] = await Promise.all([
-            import("../../logic/scribe/Scaffold.js"),
-            import("../../logic/scribe.js")
+            import("../../logic/scribe/Scaffold.js?v=9935c7dc6e"),
+            import("../../logic/scribe.js?v=bfbe2093c7")
         ]);
         if (typeof scribe.renderChunk === "function") {
             await scribe.renderChunk(ScribeScaffold.findChunkByItemIndex(numericIdx));

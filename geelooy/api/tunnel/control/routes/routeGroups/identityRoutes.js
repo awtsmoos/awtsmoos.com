@@ -21,6 +21,18 @@ const {
 	grantCreate,
 	grantRevoke
 } = require("../tunnelAccess.js");
+const {
+	inviteCreate,
+	inviteDescribe,
+	inviteRedeem
+} = require("../externalAgent.js");
+const {
+	deviceLoginCode,
+	deviceLoginStatus,
+	deviceLoginDescribe,
+	deviceLoginApprove,
+	deviceLoginDeny
+} = require("../deviceLogin.js");
 
 /**
  * @file Identity, device, pairing, credential, and sharing routes.
@@ -42,6 +54,14 @@ const identityRoutes = Object.freeze({
 	"pairing/request": pairingRequest,
 	"pairing/approve": pairingApprove,
 	"pairing/status": pairingStatus,
+	"external-agent/invite/create": inviteCreate,
+	"external-agent/invite/describe": inviteDescribe,
+	"external-agent/invite/redeem": inviteRedeem,
+	"device-login/code": deviceLoginCode,
+	"device-login/status": deviceLoginStatus,
+	"device-login/describe": deviceLoginDescribe,
+	"device-login/approve": deviceLoginApprove,
+	"device-login/deny": deviceLoginDeny,
 	"tunnels/access": accessList,
 	"tunnels/grants/create": grantCreate,
 	"tunnels/grants/revoke": grantRevoke,

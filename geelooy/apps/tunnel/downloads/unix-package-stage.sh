@@ -22,7 +22,8 @@ stage_release_candidate() {
 	assert_free_space "$BUNDLE_BYTES"
 	install_progress 38 "Downloading verified runtime bundle"
 	bundle_full_url="$(release_bundle_url)"
-	curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 		--speed-time 30 --speed-limit 1024 "$bundle_full_url" -o "$bundle_path"
+	curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 --max-time 600 \
+		--speed-time 30 --speed-limit 1024 "$bundle_full_url" -o "$bundle_path"
 	actual_bundle_sha="$(sha256_file "$bundle_path")"
 	[ "$actual_bundle_sha" = "$BUNDLE_SHA" ] || install_fail 		"verify" "Downloaded bundle checksum mismatch." 		"expected=$BUNDLE_SHA actual=$actual_bundle_sha"
 	install_progress 50 "Bundle checksum verified"

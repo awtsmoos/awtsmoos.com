@@ -198,7 +198,7 @@ async function startItAll() {
                         }));
                         
                         actionsArea.appendChild(createHeroBtn("Awtsmoos AI", "✨", async () => {
-                             const { openAIChat } = await import("../ai/chat.js");
+                             const { openAIChat } = await import("../ai/chat.js?v=46868354c5");
                              openAIChat();
                         }));
 

@@ -23,7 +23,8 @@ migrate_dynamic_state() {
 	mkdir -p "$state_root"
 	backup_device_identity
 	mkdir -p "$state_root/device-state"
-	if [ -d "$legacy_profile" ]; then
+	# Agent-only mode is headless: no browser, so no Chrome profile to preserve.
+	if [ -d "$legacy_profile" ] && mode_preserves_chrome_profile; then
 		stopped="$(stop_legacy_profile_chrome "$legacy_profile")"
 		if [ ! -e "$profile" ]; then
 			mv "$legacy_profile" "$profile"

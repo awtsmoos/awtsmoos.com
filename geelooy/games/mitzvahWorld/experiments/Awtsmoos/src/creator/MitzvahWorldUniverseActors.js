@@ -48,7 +48,6 @@ export function createUniverseActorDirector(options = {}) {
 	function animateActor(actor, t) {
 		const mesh = actor.mesh;
 		if (!mesh?.position) return;
-		const sway = Math.sin(t * actor.speed + actor.phase);
 		if (actor.kind === 'npc') {
 			// Gentle idle: breathe vertically, sway facing slightly.
 			mesh.position.y = actor.baseY + Math.sin(t * 1.4 + actor.phase) * 0.03;
@@ -61,7 +60,6 @@ export function createUniverseActorDirector(options = {}) {
 			mesh.position.y = actor.baseY + Math.abs(Math.sin(t * 2.2 + actor.phase)) * 0.05;
 			if (mesh.rotation) mesh.rotation.y = -angle;
 		}
-		void sway;
 	}
 
 	function frame(timestamp) {

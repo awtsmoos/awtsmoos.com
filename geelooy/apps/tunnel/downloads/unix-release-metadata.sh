@@ -24,11 +24,11 @@ load_release_metadata() {
 	rm -rf "$RELEASE_METADATA_ROOT"
 	mkdir -p "$RELEASE_METADATA_ROOT"
 	install_progress 22 "Checking published tunnel release"
-	if ! curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 		--speed-time 30 --speed-limit 1024 		"$origin/api/tunnel/install/bundle-manifest" -o "$RELEASE_DESCRIPTOR_PATH"; then
+	if ! curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 --max-time 120 --speed-time 30 --speed-limit 1024 		"$origin/api/tunnel/install/bundle-manifest" -o "$RELEASE_DESCRIPTOR_PATH"; then
 		rm -rf "$RELEASE_METADATA_ROOT"
 		return 1
 	fi
-	if ! curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 		--speed-time 30 --speed-limit 1024 		"$origin/apps/tunnel/agent/manifest.txt" -o "$RELEASE_MANIFEST_PATH"; then
+	if ! curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 --max-time 120 --speed-time 30 --speed-limit 1024 		"$origin/apps/tunnel/agent/manifest.txt" -o "$RELEASE_MANIFEST_PATH"; then
 		rm -rf "$RELEASE_METADATA_ROOT"
 		return 1
 	fi

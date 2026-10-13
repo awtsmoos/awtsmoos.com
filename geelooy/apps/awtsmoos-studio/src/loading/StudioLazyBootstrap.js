@@ -56,9 +56,12 @@ function startBoot(root, loadingScreen, state) {
 async function awakenStudio(root, loadingScreen, state) {
 	try {
 		loadingScreen.phase('Opening creative workspace…');
+		// B"H — start the runtime fetch in parallel with the paint wait so the
+		// compact bundle downloads while the browser paints first light.
+		const runtimePromise = preloadRuntime();
 		await nextPaint();
 		loadingScreen.phase('Preparing movie tools…');
-		const runtime = await preloadRuntime();
+		const runtime = await runtimePromise;
 		state.app?.destroy?.();
 		root?.replaceChildren();
 		const app = runtime.initializeStudioRuntime(root);

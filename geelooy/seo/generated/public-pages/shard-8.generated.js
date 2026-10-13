@@ -9,6 +9,13 @@
 
 module.exports = [
 	{
+		canonicalPath: "/games/Nachash/",
+		description: "The familiar snake loop reborn as Nachash with an Awtsmoos visual identity.",
+		filePath: "games/Nachash/index.html",
+		kind: "game",
+		title: "Nachash"
+	},
+	{
 		canonicalPath: "/games/neshama-quest/",
 		description: "Move through soul-world challenges in an original quest-driven adventure.",
 		filePath: "games/neshama-quest/index.html",
@@ -70,12 +77,5 @@ module.exports = [
 		filePath: "games/rambam/index.html",
 		kind: "public-information",
 		title: "Rambam · Kiddush HaChodesh"
-	},
-	{
-		canonicalPath: "/games/rambam/kiddushHachodesh/12/",
-		description: "Explore an interactive Awtsmoos.com learning experience for chapter 12 of Rambam Hilchos Kiddush HaChodesh.",
-		filePath: "games/rambam/kiddushHachodesh/12/index.html",
-		kind: "public-information",
-		title: "Kiddush HaChodesh · Movement of the Sun"
 	}
 ];

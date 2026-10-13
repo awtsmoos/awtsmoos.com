@@ -172,7 +172,7 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 			perfLedger.markRender(performance.now() - t0, ranked.length);
 			rememberSeen(ranked);
 			state.nextOffset = nextOffset ?? (state.nextOffset + ranked.length);
-			if (nextOffset === null || nextOffset === undefined) state.done = nextOffset === null && ranked.length < PAGE_SIZE;
+			if (nextOffset === null || ranked.length < PAGE_SIZE) state.done = true;
 			setStatus(state.done ? 'You are caught up' : 'Scroll for more', false);
 			// Prefetch one page ahead while idle.
 			if (!state.done && 'requestIdleCallback' in window) {

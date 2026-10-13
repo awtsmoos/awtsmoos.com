@@ -643,6 +643,8 @@ export class MitzvahParticleLayer {
 		try {
 			const state = this.glStateFor(gl);
 			const { program, locations } = state;
+			const previousBlendSrc = gl.getParameter(gl.BLEND_SRC_RGB);
+			const previousBlendDst = gl.getParameter(gl.BLEND_DST_RGB);
 			gl.useProgram(program);
 			gl.uniformMatrix4fv(locations.projectionView, false, projectionViewMatrix(runtime?.camera));
 			const height = gl.drawingBufferHeight || gl.canvas?.height || 600;
@@ -656,6 +658,7 @@ export class MitzvahParticleLayer {
 			gl.drawArrays(gl.POINTS, 0, count);
 			gl.depthMask(true);
 			gl.disable(gl.BLEND);
+			gl.blendFunc(previousBlendSrc, previousBlendDst);
 			for (const location of [locations.position, locations.color, locations.size]) {
 				if (location >= 0) gl.disableVertexAttribArray(location);
 			}

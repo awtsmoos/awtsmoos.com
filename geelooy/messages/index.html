@@ -1,0 +1,72 @@
+<!-- B"H -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>
+/* B"H — set data-theme before any CSS paints (site convention). */
+(function () {
+	try {
+		var t = localStorage.getItem('awtsmoos-theme');
+		document.documentElement.setAttribute('data-theme', (t === 'dark' || t === 'light') ? t : 'dark');
+	} catch (e) {
+		document.documentElement.setAttribute('data-theme', 'dark');
+	}
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Awtsmoos messages — private conversations between Torah voices.">
+<meta name="theme-color" content="#0b0d12">
+<title>Messages | Awtsmoos</title>
+<link rel="stylesheet" href="/style/awtsmoos-tokens.css">
+<link rel="stylesheet" href="/messages/css/messages.css?v=msg-001">
+</head>
+<body>
+<div class="msg-stage" id="msg-stage">
+	<header class="msg-topbar">
+		<a class="msg-brand" href="/" aria-label="Awtsmoos home">
+			<span>Awtsmoos</span>
+		</a>
+		<h1>Messages</h1>
+		<button type="button" class="msg-compose-btn" id="msg-compose-btn">New message</button>
+	</header>
+	<div class="msg-layout">
+		<aside class="msg-inbox" aria-label="Inbox">
+			<div class="msg-inbox-head">
+				<label class="msg-alias-label">Identity
+					<select id="msg-alias-select" aria-label="Choose sending identity"></select>
+				</label>
+			</div>
+			<ul class="msg-thread-list" id="msg-thread-list" aria-live="polite"></ul>
+			<p class="msg-status" id="msg-status" role="status"></p>
+		</aside>
+		<main class="msg-thread" aria-label="Conversation">
+			<div class="msg-thread-head" id="msg-thread-head">
+				<h2 id="msg-thread-title">Select a conversation</h2>
+			</div>
+			<div class="msg-messages" id="msg-messages" aria-live="polite"></div>
+			<form class="msg-composer" id="msg-composer" hidden>
+				<input type="text" id="msg-to" placeholder="To (alias)" aria-label="Recipient alias" autocomplete="off">
+				<textarea id="msg-body" placeholder="Write a message…" aria-label="Message text" rows="3"></textarea>
+				<button type="submit">Send</button>
+			</form>
+		</main>
+	</div>
+</div>
+<div class="msg-compose-modal" id="msg-compose-modal" hidden>
+	<div class="msg-compose-card" role="dialog" aria-label="New message">
+		<h2>New message</h2>
+		<label>To (alias)<input type="text" id="msg-new-to" autocomplete="off"></label>
+		<label>Message<textarea id="msg-new-body" rows="4"></textarea></label>
+		<div class="msg-compose-actions">
+			<button type="button" id="msg-new-cancel">Cancel</button>
+			<button type="button" id="msg-new-send">Send</button>
+		</div>
+	</div>
+</div>
+<script type="module">
+import { bootMessages } from '/messages/js/messages.js?v=msg-001';
+bootMessages();
+</script>
+</body>
+</html>

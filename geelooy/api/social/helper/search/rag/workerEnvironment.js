@@ -10,6 +10,7 @@
  */
 
 const { modelPath } = require('./multilingualRuntime.js');
+const { modelPath: bgeModelPath } = require('./bgeRuntime.js');
 
 function semanticWorkerEnvironment(environment = process.env) {
 	return {
@@ -23,6 +24,20 @@ function semanticWorkerEnvironment(environment = process.env) {
 	};
 }
 
+/** Binds the BGE GGUF path for the persistent BGE query worker. */
+function bgeWorkerEnvironment(environment = process.env) {
+	return {
+		...environment,
+		AWTSMOOS_BGE_MODEL_PATH: bgeModelPath(),
+		TOKENIZERS_PARALLELISM: 'false',
+		OMP_NUM_THREADS: '1',
+		MKL_NUM_THREADS: '1',
+		OPENBLAS_NUM_THREADS: '1',
+		NUMEXPR_NUM_THREADS: '1'
+	};
+}
+
 module.exports = {
+	bgeWorkerEnvironment,
 	semanticWorkerEnvironment
 };

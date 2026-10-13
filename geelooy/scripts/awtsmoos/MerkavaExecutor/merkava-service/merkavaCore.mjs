@@ -89,7 +89,7 @@ function finalDomState(sess, html, jsExecuted) {
  * @param {string} [opts.html]      raw HTML (one of html/url required)
  * @param {string} [opts.url]       fetch HTML from URL
  * @param {string} [opts.css]       extra CSS injected as a <style> block
- * @param {string} [opts.js]        raw JS snippet (runs via bytecode VM when no html/url)
+ * @param {string} [opts.js]        raw JS snippet (wrapped in a minimal page, run via engine)
  * @param {number} [opts.waitMs]    post-script settle time for page runs (default 2500)
  * @param {string} [opts.device]    viewport preset (iphone14, pixel8, desktop, ...)
  * @param {string} [opts.viewport]  "WxH" custom viewport, overrides device size
@@ -111,28 +111,25 @@ export async function runPage(opts = {}) {
 
   // B"H: genuinely run the page — execute scripts through the real Merkava
   // browser engine (virtual DOM + fetch) before layout, so JS-driven DOM
-  // updates actually render. Falls back to the bytecode VM for raw snippets.
-  // (Lazy imports: a missing engine file degrades to static render, never a crash.)
+  // updates actually render. Raw JS snippets are wrapped in a minimal page.
+  // (Lazy import: a missing engine file degrades to static render, never a crash.)
   let jsResult = null;
   if (opts.executeJs !== false) {
     try {
-      if (opts.js && !html) {
-        // Raw JS snippet: fast bytecode VM path.
-        const { runJs } = await import("./merkavaJsCore.mjs");
-        jsResult = await runJs({ js: opts.js, timeoutMs: Math.min(timeoutMs, 15000), maxSteps: 30000 });
-      } else {
-        // Real page: full browser engine with DOM + network.
-        const { runPageWithJs } = await import("./snapshots/jsPageRunner.js");
-        jsResult = await runPageWithJs({
-          html,
-          url: opts.url || undefined,
-          waitMs: Math.min(opts.waitMs || 2500, 15000),
-          fetchTimeoutMs: Math.min(timeoutMs, 15000),
-        });
-        // Render the POST-JS DOM — this is what makes JS apps screenshot correctly.
-        if (jsResult.finalHtml && jsResult.finalHtml.length > html.length / 2) {
-          html = injectCss(jsResult.finalHtml, opts.css);
-        }
+      const { runPageWithJs } = await import("./snapshots/jsPageRunner.js");
+      let pageHtml = html;
+      if (opts.js && !html && !opts.url) {
+        pageHtml = `<!DOCTYPE html><html><body><script>${opts.js}</script></body></html>`;
+      }
+      jsResult = await runPageWithJs({
+        html: pageHtml || undefined,
+        url: opts.url || undefined,
+        waitMs: Math.min(opts.waitMs || 2500, 15000),
+        fetchTimeoutMs: Math.min(timeoutMs, 15000),
+      });
+      // Render the POST-JS DOM — this is what makes JS apps screenshot correctly.
+      if (!opts.js && jsResult.finalHtml && jsResult.finalHtml.length > html.length / 2) {
+        html = injectCss(jsResult.finalHtml, opts.css);
       }
     } catch (e) {
       jsResult = { ok: false, consoleLogs: [], jsErrors: [{ kind: "harness", name: "JsHarnessError", message: String((e && e.message) || e).slice(0, 200), file: "<harness>", line: 0, estimated: true }], status: "HARNESS_ERROR", steps: 0, wallMs: 0, scriptsRun: 0 };

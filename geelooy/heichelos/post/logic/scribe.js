@@ -22,7 +22,7 @@ let chunkMap = new Map();
 let streamContainer = null;
 
 async function manifestInlineOnce(label) {
-	const { manifestAllActiveInlines } = await import("../comments/inline.js");
+	const { manifestAllActiveInlines } = await import("../comments/inline.js?v=0e584e5f9d");
 	const result = await manifestAllActiveInlines();
 	window.__awtsmoosInlineAfterAllDom = { label, at: Date.now(), result };
 	return result;

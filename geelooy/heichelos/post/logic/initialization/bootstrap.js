@@ -22,6 +22,9 @@ import {
 	beginDiscussion,
 	beginTranslation
 } from '/heichelos/post/logic/initialization/ReaderOptionalStreams.js?v=reader-runtime-004';
+import {
+	renderPlainBilingualFallback
+} from '/heichelos/post/logic/initialization/ReaderPlainFallback.js?v=reader-runtime-001';
 
 /**
  * Manifests the authoritative post and returns the canonical context needed by optional streams.
@@ -49,10 +52,63 @@ async function manifestCanonicalReader(viewport, sidebar) {
 }
 
 /**
+ * Reports a client-side boot failure through the inline error reporter when
+ * present (it POSTs to /api/client-errors/). Never throws.
+ * @param {unknown} ohrError Failure value.
+ * @param {string} ohrContext Where the failure happened.
+ * @returns {void}
+ */
+function reportBootFailure(ohrError, ohrContext) {
+	try {
+		const reporter = typeof window !== 'undefined' && window.__awtsmoosReportClientError;
+		if (typeof reporter === 'function') {
+			const err = ohrError instanceof Error ? ohrError : new Error(String(ohrError));
+			reporter({
+				message: 'reader boot failure [' + ohrContext + ']: ' + err.message,
+				file: '',
+				line: 0,
+				col: 0,
+				stack: err.stack || '',
+				kind: 'boot-failure'
+			});
+		}
+	} catch (reportError) {
+		// Reporting must never break the fallback path.
+	}
+	console.error('B"H reader boot failure [' + ohrContext + ']', ohrError);
+}
+
+/**
  * Ignites canonical reading before optional translation and community streams.
- * @returns {Promise<void>} Resolves only after canonical reader settlement.
+ *
+ * B"H — standing law: no single JS failure may ever blank the reader. The
+ * entire boot runs inside try/catch; on any exception we log it, report it,
+ * and render the post as plain bilingual text. This function NEVER throws.
+ *
+ * @returns {Promise<void>} Resolves after boot or after the plain fallback rendered.
  */
 export async function ignite() {
+	try {
+		await igniteInner();
+	} catch (ohrError) {
+		reportBootFailure(ohrError, 'ignite');
+		try {
+			const malchusViewport = typeof document !== 'undefined'
+				? document.getElementById('realPost')
+				: null;
+			const post = (typeof window !== 'undefined' && window.post) || null;
+			renderPlainBilingualFallback(post, malchusViewport, ohrError);
+		} catch (fallbackError) {
+			reportBootFailure(fallbackError, 'ignite-fallback');
+		}
+	}
+}
+
+/**
+ * Inner canonical boot. May throw; the exported ignite() contains it.
+ * @returns {Promise<void>} Resolves only after canonical reader settlement.
+ */
+async function igniteInner() {
 	console.log(
 		'%c B"H - Commencing Social Reader',
 		'color: #ccff00; font-weight: 900;'
@@ -76,7 +132,7 @@ export async function ignite() {
 	// B"H — Torah Ohr / Likkutei Sichos style posts carry phraseTranslations
 	// (no enrichment.hebrew_phrases); render them as a bilingual sefer too.
 	try {
-		const { awakenMeluketSeferReader, awakenPhraseTranslationReader } = await import('../scribe/MeluketSeferReader.js');
+		const { awakenMeluketSeferReader, awakenPhraseTranslationReader } = await import('../scribe/MeluketSeferReader.js?v=9785f9ec23');
 		const seferResult = awakenMeluketSeferReader(tiferesCanonical.post);
 		if (!seferResult) {
 			const phraseResult = awakenPhraseTranslationReader(tiferesCanonical.post);

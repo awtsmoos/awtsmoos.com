@@ -13,7 +13,13 @@
 
 const BaseAwtsmoosDB = require('../../../../../../ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/database.js');
 
-const MAX_CACHED_PAGES = 8;
+// 64KB pages: 128 pages = 8MB per open search database. The persisted HNSW
+// graph walk touches hundreds of random pages per query; with only 8 cached
+// pages every node visit re-issued a page read and the 28-part
+// likkutei-sichos lane could never finish inside the public deadline.
+// Read-only search databases never hold dirty pages, so a larger clean-page
+// cache is pure read acceleration bounded by the shard session LRU.
+const MAX_CACHED_PAGES = 128;
 
 class SearchDatabase extends BaseAwtsmoosDB {
 	constructor(filePath) {

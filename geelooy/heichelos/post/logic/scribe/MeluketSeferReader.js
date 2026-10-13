@@ -953,7 +953,7 @@ async function submitSectionComment({ post, sectionId, sectionIndex, textarea, s
 		notice.textContent = 'Posted. Thank you for learning together.';
 		notice.classList.add('is-ok');
 		try {
-			const bus = await import('/heichelos/post/comments/state/eventBus.js');
+			const bus = await import('/heichelos/post/comments/state/eventBus.js?v=8d6430ca53');
 			bus.emitAwtsmoosEvent && bus.emitAwtsmoosEvent('comment:submitted', {
 				aliasId: alias,
 				verseSection: String(sectionId),
@@ -1238,7 +1238,7 @@ function finalizeSeferMount(sefer, post) {
 			const found = window.series.posts.indexOf(post.id);
 			pIdx = found >= 0 ? found : 0;
 		}
-		import('../../functions/ui/nav.js').then(({ makeNavBars }) => {
+		import('../../functions/ui/nav.js?v=5da53e96f2').then(({ makeNavBars }) => {
 			try {
 				const nav = makeNavBars(post, window.series, pIdx);
 				if (nav && nav.nodeType === 1) realPost.appendChild(nav);

@@ -62,7 +62,7 @@ function contextualActions(event) {
 			label: 'View Commentary',
 			icon: '☷',
 			action: async () => {
-				const module = await import('/heichelos/post/comments/inline.js');
+				const module = await import('/heichelos/post/comments/inline.js?v=0e584e5f9d');
 				return module.showSectionCommentaryInline(index, subIndex, container);
 			}
 		}),

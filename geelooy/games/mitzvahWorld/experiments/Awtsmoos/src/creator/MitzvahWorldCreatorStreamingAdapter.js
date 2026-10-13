@@ -48,6 +48,16 @@ export class MitzvahWorldCreatorStreamingAdapter {
 		return liveRemoved || indexedRemoved;
 	}
 
+	/**
+	 * Returns the live mesh for one mounted definition id, or null when the
+	 * definition is indexed but its cell is not nearby. Yaakov 2026-10-11:
+	 * universe actor tracking asks the session adapter for meshes — without
+	 * this delegation NPCs and animals would never come alive.
+	 */
+	meshFor(idOhr) {
+		return this.live.meshFor(idOhr);
+	}
+
 	replace(definitionsOros, positionOhr = this.runtime.model?.position || this.runtime.state) {
 		this.live.clear();
 		this.index.replace(definitionsOros);

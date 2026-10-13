@@ -25,8 +25,94 @@ function databaseDirectory($i) {
 }
 
 /**
- * Warms the publication catalog through a physically isolated worker thread.
- * Native search database sessions remain deferred to request-time reuse.
+ * Runs one synthetic nearest-neighbor probe against an open vector session
+ * so its hot graph pages and upper-layer nodes are cached before real
+ * traffic arrives. Uses a deterministic unit vector; results are discarded.
+ * Never throws: probe failure must not break session warmup.
+ */
+function probeVectorIndex(session, part = {}, lane = {}) {
+	try {
+		const database = session && session.database;
+		const list = session && session.list;
+		if (!database || !database.vector || !list) return false;
+		const dimensions = Number(part.dimensions || lane.dimensions || 0);
+		if (!Number.isFinite(dimensions) || dimensions <= 0) return false;
+		const scale = 1 / Math.sqrt(dimensions);
+		const probe = new Array(dimensions).fill(scale);
+		database.vector.nearestIndexed(list, probe, 5);
+		return true;
+	} catch {
+		return false;
+	}
+}
+
+/**
+ * Opens native vector sessions for every complete vector lane in the
+ * background, without blocking the caller. Multipart HNSW corpora cost ~10s
+ * to open cold (likkutei-sichos ships 28 parts); without this warmup the
+ * first semantic queries after a restart always exceed the multi-lane public
+ * deadline, so the two largest English vector lanes silently drop out of
+ * every semantic answer. Failures only log; startup never waits for this.
+ */
+function warmVectorSessions($i, dependencies = {}) {
+	const describeShards = dependencies.describedShards
+		|| require('./shards.js').describedShards;
+	const groupLanes = dependencies.groupedLanes
+		|| require('./shards.js').grouped;
+	const openSession = dependencies.openShardSession
+		|| require('./shardStore.js').openShardSession;
+	const beginSemantic = dependencies.beginSemanticWarmup
+		|| require('./ragStartupWarmup.js').beginSemanticWarmup;
+	const startedAt = Date.now();
+	// The multilingual embedding worker (e5) also loads its model lazily;
+	// start it now so likkutei-sichos vector queries don't hit a cold worker.
+	try {
+		beginSemantic();
+	} catch (error) {
+		console.error(`B"H semantic worker warmup start failed message=${error && error.message}`);
+	}
+	Promise.resolve()
+		.then(() => describeShards($i))
+		.then(shards => {
+			let opened = 0;
+			let probed = 0;
+			const failures = [];
+			for (const lane of groupLanes(shards || [])) {
+				if (lane.vectorEnabled !== true) continue;
+				const parts = lane.parts || [lane];
+				for (const part of parts) {
+					if (!part || !part.file) continue;
+					try {
+						const session = openSession(part);
+						opened += 1;
+						// One synthetic probe query per part pulls the hot HNSW
+						// graph pages into the page cache and the upper-layer
+						// nodes into the registry node cache, so the first real
+						// semantic query doesn't pay the cold-walk cost.
+						probeVectorIndex(session, part, lane);
+						probed += 1;
+					} catch (error) {
+						failures.push({ lane: lane.id, message: error && error.message });
+					}
+				}
+			}
+			console.error(
+				`B"H vector session warmup opened=${opened} probed=${probed} ` +
+				`failures=${failures.length} elapsedMs=${Date.now() - startedAt}`
+			);
+			return { opened, probed, failures };
+		})
+		.catch(error => {
+			console.error(`B"H vector session warmup failed message=${error && error.message}`);
+			return { opened: 0, failed: true };
+		});
+	return { started: true };
+}
+
+/**
+ * Warms the publication catalog through a physically isolated worker thread,
+ * then opens native vector sessions for semantic lanes in the background.
+ * The vector open never blocks this function's resolution.
  */
 async function warmSearchCaches($i, dependencies = {}) {
 	const directory = databaseDirectory($i);
@@ -61,6 +147,8 @@ async function warmSearchCaches($i, dependencies = {}) {
 			message: 'Publication changed while the warm worker was decoding it.'
 		};
 	}
+	const vectorWarm = dependencies.warmVectorSessions || warmVectorSessions;
+	const vectorWarmup = vectorWarm($i, dependencies);
 	return {
 		ok: true,
 		worker: 'thread',
@@ -68,11 +156,13 @@ async function warmSearchCaches($i, dependencies = {}) {
 		generation: String(worker.result?.generation || ''),
 		publicationCount: primed.count,
 		catalog: cacheStatus(),
-		sessionWarmup: 'deferred-native-open'
+		sessionWarmup: 'background-vector-open',
+		vectorWarmup
 	};
 }
 
 module.exports = {
 	databaseDirectory,
-	warmSearchCaches
+	warmSearchCaches,
+	warmVectorSessions
 };

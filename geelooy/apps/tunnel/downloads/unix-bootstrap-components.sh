@@ -7,7 +7,9 @@
 # Awtsmoos.com keeps every independent recovery lane declared so no release forgets a road home.
 helpers=(
 	unix-install-core.sh unix-install-custody.cjs unix-install-sources.sh unix-cleanup.sh
-	unix-install-log.sh unix-install-progress.sh unix-install-browser.sh
+	unix-install-modes.sh
+	unix-install-log.sh unix-install-progress.sh unix-install-errors.sh unix-install-browser.sh
+	unix-device-login.sh
 	unix-install-lock.sh unix-install-lock-owner.cjs unix-log-retention.sh
 	unix-device-identity-state.sh unix-state-migration.sh unix-chrome-profile-process.cjs
 	unix-displaced-cleanup.sh unix-package-io.sh unix-release-metadata.sh

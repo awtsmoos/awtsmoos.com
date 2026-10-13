@@ -19,6 +19,7 @@ const { buildMerkavaDevtoolsActions } = require("../actionGroups/merkavaDevtools
 const { buildAiAgentActions } = require("../actionGroups/aiAgentActions.js");
 const { buildMerkavaAppActions } = require("../actionGroups/merkavaAppActions.js");
 const { buildPostsActions } = require("../actionGroups/postsActions.js");
+const { buildSocialManagerActions } = require("../actionGroups/socialManagerActions.js");
 
 /**
  * @file Composes browser, ChatGPT, website-agent, desktop, and late override action surfaces.
@@ -55,7 +56,8 @@ function buildSpecializedActions(context, buildActions) {
 		...buildMerkavaDevtoolsActions(context),
 		...buildAiAgentActions(context),
 		...buildMerkavaAppActions(context),
-		...buildPostsActions(context)
+		...buildPostsActions(context),
+		...buildSocialManagerActions(context)
 	};
 }
 

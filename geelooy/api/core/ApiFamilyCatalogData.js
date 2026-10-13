@@ -25,6 +25,7 @@ const CHOCHMAH_API_FAMILIES = Object.freeze([
 	['oauth', '/api/oauth', 'OAuth sign-in and authorization flows.'],
 	['ohr-hagnuz', '/api/ohr-hagnuz', 'Ohr Hagnuz domain operations.'],
 	['ohrbound', '/api/ohrbound', 'Ohrbound domain operations.'],
+	['merkava', '/api/merkava', 'Merkava page-run API: screenshot + scripted interaction.'],
 	['perutas', '/api/perutas', 'Peruta-related domain operations.'],
 	['portal', '/api/portal', 'Universal typed-resource discovery, schemas, capabilities, and compatibility adapters.'],
 	['projectHosting', '/api/projectHosting', 'Project hosting and publication operations.'],

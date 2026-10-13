@@ -59,11 +59,13 @@ export class ScaledFramebuffer {
   }
 }
 
-export function downsampleToPng(base, scale, width, height) {
+export function downsampleToPng(base, scale, width, height, level) {
   // B"H 2026-10-09 (speed): scale=1 copies the RGBA buffer straight to PNG;
   // scale>1 averages from the raw buffer. No per-pixel closures either way.
-  if (scale === 1) return rgbPngFromRgba(base.data, width, height);
-  return rgbPngDownsampled(base.data, base.width, scale, width, height);
+  // B"H 2026-10-12: optional zlib `level` (0-9) — level 1 is ~2-3x faster
+  // than default for screenshots where size doesn't matter.
+  if (scale === 1) return rgbPngFromRgba(base.data, width, height, level == null ? {} : { level });
+  return rgbPngDownsampled(base.data, base.width, scale, width, height, level);
 }
 
 // B"H 2026-10-09: scale per-corner radii {tl:[x,y],...} by the supersample

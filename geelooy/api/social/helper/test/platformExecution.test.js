@@ -39,11 +39,11 @@ function makeDb(directory) {
   assert.equal(goodTx.success.status, 'committed');
   assert.equal(graphTx.listGraphTransactions({ $i }).success.length, 2);
 
-  const feed = feeds.feedHeichel({ $i, heichelId: 'h1' });
+  const feed = await feeds.feedHeichel({ $i, heichelId: 'h1' });
   assert.equal(feed.items.length, 2);
-  assert.ok(feeds.feedHome({ $i, aliasId: 'alice' }).items.length >= 2);
-  assert.ok(Array.isArray(feeds.feedTrending({ $i }).items));
-  assert.ok(feeds.feedDiscover({ $i }).items.length >= 2);
+  assert.ok((await feeds.feedHome({ $i, aliasId: 'alice' })).items.length >= 2);
+  assert.ok(Array.isArray((await feeds.feedTrending({ $i })).items));
+  assert.ok((await feeds.feedDiscover({ $i })).items.length >= 2);
 
   ops.cacheSet({ $i, key: 'k1', value: { ok: true }, ttlMs: 60000 });
   assert.equal(cacheSync.cacheGet({ $i, key: 'k1' }).success.value.ok, true);

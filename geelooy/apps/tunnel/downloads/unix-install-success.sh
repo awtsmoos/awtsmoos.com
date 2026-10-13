@@ -26,21 +26,25 @@ print_install_success_card() {
 	local project_root="$4"
 	local workspace_status="$5"
 	local control_url="$6"
-	printf '\n%s\n' '============================================================'
-	printf '%s\n' 'B"H  AWTSMOOS TUNNEL VERIFIED, GUARDED, AND CONNECTED'
-	printf '%s\n' '============================================================'
-	printf 'Tunnel name : %s\n' "$tunnel_name"
+	local B="" G="" D="" O=""
+	if [ "${PRG_TTY:-0}" = "1" ]; then
+		B="$PRG_C_BOLD"; G="$PRG_C_GREEN"; D="$PRG_C_DIM"; O="$PRG_C_OFF"
+	fi
+	printf '\n%s\n' "${G}============================================================${O}"
+	printf '%s\n' "${B}B\"H  AWTSMOOS TUNNEL VERIFIED, GUARDED, AND CONNECTED${O}"
+	printf '%s\n' "${G}============================================================${O}"
+	printf 'Tunnel name : %s%s%s\n' "$B" "$tunnel_name" "$O"
 	printf 'Tunnel ID   : %s\n' "$tunnel_id"
 	printf 'Workspace   : %s\n' "$project_root"
 	printf 'Workspace   : %s\n' "$workspace_status"
 	printf 'Guardian    : %s\n' "$(service_health_summary)"
 	printf 'Version     : %s\n' "$version"
 	printf 'Control     : %s\n\n' "$control_url"
-	printf '%s\n' 'Durable local repair:'
+	printf '%s\n' "${D}Durable local repair:${O}"
 	printf '%s\n' "$ROOT/awtsmoos-tunnel-service.sh repair"
-	printf '%s\n' 'Universal self-healing reinstall or upgrade:'
+	printf '%s\n' "${D}Universal self-healing reinstall or upgrade:${O}"
 	printf '%s\n' 'curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | AWTSMOOS_RESTART=1 bash'
-	printf '%s\n' '============================================================'
+	printf '%s\n' "${G}============================================================${O}"
 }
 
 print_skip_start_card() {
@@ -88,18 +92,34 @@ complete_install_experience() {
 			"Durable guardian did not remain singular at final display." \
 			"pid=$agent_pid $(service_health_summary)"
 	fi
-	if ! activate_local_recovery_lanes; then
-		install_fail "complete" \
-			"Independent recovery protection could not be materialized." \
-			"pid=$agent_pid root=$ROOT recovery=$RECOVERY_ROOT"
+	if mode_builds_recovery_lanes; then
+		if ! activate_local_recovery_lanes; then
+			install_fail "complete" \
+				"Independent recovery protection could not be materialized." \
+				"pid=$agent_pid root=$ROOT recovery=$RECOVERY_ROOT"
+		fi
+	else
+		install_event "complete" "passed" \
+			"Recovery lanes skipped by install mode." \
+			"mode=$(install_mode) pid=$agent_pid root=$ROOT"
 	fi
 	workspace_status="$(workspace_status_label "$agent_pid")"
 	install_progress 100 "Awtsmoos Tunnel is fully verified and guarded"
-	finish_install_progress_line
+	install_finish_step "Awtsmoos Tunnel is fully verified and guarded"
 	install_event "complete" "passed" \
 		"Installation ended with relay, guardian, and recovery-lane readiness." \
 		"version=$version phase=$phase pid=$agent_pid tunnelId=$tunnel_id workspace=$workspace_status"
 	print_install_success_card "$version" "$tunnel_name" "$tunnel_id" \
 		"$project_root" "$workspace_status" "$control_url"
-	open_tunnel_control "$control_url"
+	if mode_opens_browser; then
+		open_tunnel_control "$control_url"
+	else
+		prg_ok "Control page ready (not auto-opened in $(install_mode) mode)"
+		printf '\nOpen this page to manage your tunnel:\n  %s\n\n' "$control_url"
+	fi
+	# Headless login (Yaakov 2026-10-12): no browser needed — approve on your phone.
+	# Best-effort; the tunnel works fine without it.
+	if device_login_needed; then
+		run_device_login
+	fi
 }

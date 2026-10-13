@@ -65,17 +65,17 @@ module.exports = [
 		title: "Contact — Awtsmoos"
 	},
 	{
+		canonicalPath: "/developers/",
+		description: "The public Awtsmoos API: read 21,000+ Torah posts, browse series, run exact Hebrew and semantic vector search, follow reverse citations, and resolve friendly URLs — with machine-readable OpenAPI and an AI-agent manifest.",
+		filePath: "developers/index.html",
+		kind: "public-information",
+		title: "Awtsmoos API Documentation — Torah Library API for Developers & AI Agents"
+	},
+	{
 		canonicalPath: "/docs/",
 		description: "B'H — Learn, search, explore every API, project boundary, and Data/Security/Realtime system in Awtsmoos.com.",
 		filePath: "docs/index.html",
 		kind: "public-information",
 		title: "Awtsmoos Documentation"
-	},
-	{
-		canonicalPath: "/drive/",
-		description: "Awtsmoos Drive — browse real files, upload, organize, share, and open the Builder when creation needs a deeper workspace.",
-		filePath: "drive/index.html",
-		kind: "public-information",
-		title: "Awtsmoos Drive"
 	}
 ];

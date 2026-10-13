@@ -16,6 +16,7 @@
 		prototype.getAttribute = getAttribute;
 		prototype.hasAttribute = hasAttribute;
 		prototype.removeAttribute = removeAttribute;
+		prototype.toggleAttribute = toggleAttribute;
 		prototype.__setParsedAttributes = __setParsedAttributes;
 	}
 
@@ -60,6 +61,23 @@
 	}
 
 	/** Removes one attribute and restores canvas defaults where required. */
+	/** B"H: Element.toggleAttribute(name[, force]) — standard DOM API. */
+	function toggleAttribute(name, force) {
+		const key = String(name).toLowerCase();
+		const has = Object.prototype.hasOwnProperty.call(this.attributes, key);
+		if (force === undefined) {
+			if (has) { this.removeAttribute(key); return false; }
+			this.setAttribute(key, "");
+			return true;
+		}
+		if (force) {
+			if (!has) this.setAttribute(key, "");
+			return true;
+		}
+		if (has) this.removeAttribute(key);
+		return false;
+	}
+
 	function removeAttribute(name) {
 		const key = String(name).toLowerCase();
 		const oldValue = this.attributes[key] ?? null;

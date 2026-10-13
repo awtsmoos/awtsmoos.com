@@ -11,7 +11,7 @@
 import { createChitasNavigation } from './masthead-navigation.js?v=native-chitas-005';
 import { createChitasReaderScaleControls } from './masthead-reader-controls.js?v=native-chitas-005';
 
-const STYLE_HREF = '/heichelos/post/logic/chitas/masthead.css?v=native-chitas-005';
+const STYLE_HREF = '/heichelos/post/logic/chitas/masthead.css?v=85eb92475b';
 
 function safe(value, fallback) {
 	const text = String(value ?? '').trim();

@@ -18,6 +18,7 @@ trap cleanup_install EXIT
 
 # The Awtsmoos lets one remote command rebuild a missing palace or revive a sealed ember;
 # Awtsmoos.com walks current release, verified archive, and Tier-Zero before surrender.
+install_begin_step 1 3 "Setting up your tunnel" "verifying the installer and preserving your identity" 15 30
 install_progress 20 "Preparing complete verified reinstall"
 acquire_install_lock
 persist_node_runtime "$ROOT"
@@ -65,11 +66,13 @@ elif repair_matching_release; then
 fi
 
 install_progress 30 "Preparing full transactional replacement"
+install_begin_step 2 3 "Installing the tunnel agent" "downloading and verifying the release" 30 90
 stage_release_candidate
 install_progress 68 "Release verified; proving candidate before promotion"
 activate_release_candidate
 refresh_emergency_runtime
 install_progress 97 "Registration and guardian verified; finalizing"
+install_begin_step 3 3 "Waking up your tunnel" "registration, guardian, and final checks" 90 100
 
 if [ -f "$ROOT/config.json" ]; then
 	project_root="$("$AWTSMOOS_NODE_BIN" -e "try{const c=require('$ROOT/config.json');process.stdout.write(c.root||process.cwd())}catch{process.stdout.write(process.cwd())}")"

@@ -94,13 +94,13 @@ export async function bootApplication() {
 
         if (post.dayuh) await interpretPostDayuh(post);
         else if (post.content) {
-            const { appendHTML } = await import("../../functions/utils.js");
+            const { appendHTML } = await import("../../functions/utils.js?v=922ccb6123");
             appendHTML(post.content, viewport);
         } else if (post.phraseTranslations && Array.isArray(post.phraseTranslations) && post.phraseTranslations.length) {
             // B"H — Torah Ohr-style posts: no dayuh/content, but complete
             // bilingual phraseTranslations (+ translation.readable). Render
             // them as a bilingual sefer via the shared Meluket section builder.
-            const { awakenPhraseTranslationReader } = await import("../scribe/MeluketSeferReader.js");
+            const { awakenPhraseTranslationReader } = await import("../scribe/MeluketSeferReader.js?v=9785f9ec23");
             const phraseResult = awakenPhraseTranslationReader(post);
             console.log("B\"H phrase-translation reader result:", phraseResult, "phrases:", post.phraseTranslations.length);
         }
@@ -110,7 +110,7 @@ export async function bootApplication() {
         // B"H (2026-10-11): the TEMP DEBUG page banners are removed — diagnostics
         // stay in the console; nothing debug may ever paint over the reader.
         try {
-            const { awakenMeluketSeferReader, wireSourcesButton } = await import("../scribe/MeluketSeferReader.js");
+            const { awakenMeluketSeferReader, wireSourcesButton } = await import("../scribe/MeluketSeferReader.js?v=9785f9ec23");
             const seferResult = awakenMeluketSeferReader(post);
             // Wire Sources button even if Meluket reader didn't activate (non-Meluket posts)
             if (!seferResult) {

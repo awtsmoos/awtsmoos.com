@@ -13,6 +13,7 @@
 const { performance } = require('node:perf_hooks');
 const { warmImmutableRagCorpus } = require('./immutableRagWarmup.js');
 const { startWorker, workerStatus } = require('./multilingualWorkerClient.js');
+const { startWorker: startBgeWorker, workerStatus: bgeWorkerStatus } = require('./bgeWorkerClient.js');
 const {
 	CONFIGURATION_FILE,
 	REPOSITORY_ROOT,
@@ -22,6 +23,7 @@ const {
 
 let startupState = null;
 let semanticWarmup = null;
+let bgeWarmup = null;
 
 /** Starts the reusable multilingual worker once without coupling it to storage readiness. */
 function beginSemanticWarmup() {
@@ -40,6 +42,23 @@ function beginSemanticWarmup() {
 	return semanticWarmup;
 }
 
+/** Starts the reusable BGE query worker once; a missing GGUF never blocks the e5 lane. */
+function beginBgeWarmup() {
+	if (process.env.AWTS_RAG_SEMANTIC_WARMUP === '0') return null;
+	if (bgeWarmup) return bgeWarmup;
+	bgeWarmup = startBgeWorker()
+		.then(status => {
+			console.error(`B"H bge worker warm model=${status.model} dimension=${status.dimension}`);
+			return status;
+		})
+		.catch(error => {
+			bgeWarmup = null;
+			console.error(`B"H bge worker warm failed code=${error.code || 'ERROR'} message=${error.message}`);
+			return null;
+		});
+	return bgeWarmup;
+}
+
 /** Proves native corpus readiness and then begins optional semantic model warmup. */
 function warmRagCorpus($i = null) {
 	if (process.env.AWTS_RAG_STARTUP_WARMUP === '0') {
@@ -56,7 +75,8 @@ function warmRagCorpus($i = null) {
 		elapsedMs: Number((performance.now() - started).toFixed(3))
 	};
 	beginSemanticWarmup();
-	return { ...startupState, semantic: workerStatus() };
+	beginBgeWarmup();
+	return { ...startupState, semantic: workerStatus(), bge: bgeWorkerStatus() };
 }
 
 /** Preserves the historic caller name while warming native publication truth. */
@@ -68,11 +88,13 @@ function warmRagCommentSource($i = null) {
 function resetRagStartupWarmup() {
 	startupState = null;
 	semanticWarmup = null;
+	bgeWarmup = null;
 }
 
 module.exports = {
 	CONFIGURATION_FILE,
 	REPOSITORY_ROOT,
+	beginBgeWarmup,
 	beginSemanticWarmup,
 	configuredRoot,
 	resetRagStartupWarmup,

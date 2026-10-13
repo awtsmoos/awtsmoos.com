@@ -49,6 +49,14 @@ export function boundedCameraDistance(value, minimum, maximum) {
 	return clamp(Number(value), Number(minimum), Number(maximum));
 }
 
+/**
+ * Bounds one value into [minimum, maximum]. Non-finite input (NaN, Infinity)
+ * can never escape as NaN: it settles to the nearest bound so camera math
+ * downstream never degenerates into impossible sight.
+ */
 function clamp(value, minimum, maximum) {
+	if (Number.isNaN(value)) return minimum;
+	if (value === Infinity) return maximum;
+	if (value === -Infinity) return minimum;
 	return Math.max(minimum, Math.min(maximum, value));
 }

@@ -9,6 +9,7 @@
  */
 
 import { createStudioShowcaseMovie } from '../StudioShowcaseMovie.js';
+import { applyArtStyleToMovie } from '../movie/StudioArtStyle.js';
 import { applyStudioPromptContent } from './StudioPromptContentPolicy.js';
 import { createStudioPromptLayers } from './StudioPromptLayerPolicy.js';
 import { createStudioPromptNarrative } from './StudioPromptNarrative.js';
@@ -23,7 +24,7 @@ export function planStudioMovieFromPrompt(prompt, options = {}) {
 		return createPromptScene(template.scenes, intent, index, sceneCount);
 	});
 	const subject = createStudioPromptNarrative(intent.prompt, 0, sceneCount).subject;
-	return {
+	const planned = {
 		...structuredClone(template),
 		id: options.id || `studio-prompt-${stablePromptId(intent.prompt)}`,
 		title: options.title || subject,
@@ -38,6 +39,11 @@ export function planStudioMovieFromPrompt(prompt, options = {}) {
 		},
 		scenes
 	};
+	// B"H: stamp the chosen art style onto the whole movie so every scene stays consistent.
+	if (options.artStyleId) {
+		return applyArtStyleToMovie(planned, options.artStyleId);
+	}
+	return planned;
 }
 
 function createPromptScene(sourceScenes, intent, index, sceneCount) {

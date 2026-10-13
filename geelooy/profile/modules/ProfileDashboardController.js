@@ -9,6 +9,9 @@
 import { announceProfile, one, setStat } from './dom.js';
 import { getAliasDetails, getDefaultAlias } from './api.js?v=profile-api-002';
 import { renderAliases } from './aliases.js';
+import { renderProfileComments } from './comments.js';
+import { renderProfilePosts } from './posts.js';
+import { renderProfileSeries } from './series.js';
 import { emptyCard } from './cards.js';
 import { renderHeichelos } from './heichelos.js';
 import { renderTiferesSocialLaunchpad } from './SocialLaunchpad.js';
@@ -36,6 +39,27 @@ export class ProfileDashboardController {
 		renderTiferesSocialLaunchpad();
 		renderAliases();
 		await renderHeichelos();
+		// B"H: content tabs load lazily on first open — wire them here.
+		this.bindContentTabs();
+	}
+
+	bindContentTabs() {
+		const loaded = new Set();
+		const loaders = {
+			posts: renderProfilePosts,
+			comments: renderProfileComments,
+			series: renderProfileSeries
+		};
+		document.querySelectorAll('[data-profile-tab]').forEach(tab => {
+			tab.addEventListener('click', () => {
+				const key = tab.dataset.profileTab;
+				const load = loaders[key];
+				if (load && !loaded.has(key)) {
+					loaded.add(key);
+					load().catch(() => { loaded.delete(key); });
+				}
+			});
+		});
 	}
 
 	async loadDefaultAlias() {

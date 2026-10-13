@@ -3951,7 +3951,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.BufferAttribute = BufferAttribute;
 	class MeshStandardMaterial {
 		constructor(parameters = {}) {
-			const color = parameters.color || [0.74, 0.68, 0.58, 1];
+			const color = normalizeMaterialColor(parameters.color);
 			const opacity = parameters.opacity ?? color[3] ?? 1;
 			const alphaMode = parameters.alphaMode || 'OPAQUE';
 			const autoTransparent = alphaMode === 'BLEND' || opacity < 1;
@@ -3965,7 +3965,39 @@ const __awtsmoosModule_0 = Object.create(null);
 		}
 	}
 
+
 	__exports.MeshStandardMaterial = MeshStandardMaterial;
+	/**
+	 * B"H: normalizes a material color to an [r,g,b,a] array with 0-1 components.
+	 * Accepts arrays (used as-is), hex numbers (0xRRGGBB), and CSS hex strings ('#RRGGBB').
+	 * Falls back to the warm default when the input is missing or unrecognized.
+	 */
+	function normalizeMaterialColor(input) {
+		const fallback = [0.74, 0.68, 0.58, 1];
+		if (input == null) return fallback.slice();
+		if (Array.isArray(input)) {
+			return [
+				Number(input[0]) ?? fallback[0],
+				Number(input[1]) ?? fallback[1],
+				Number(input[2]) ?? fallback[2],
+				Number(input[3] ?? 1)
+			];
+		}
+		if (typeof input === 'number' && Number.isFinite(input)) {
+			const v = Math.floor(input);
+			return [((v >> 16) & 255) / 255, ((v >> 8) & 255) / 255, (v & 255) / 255, 1];
+		}
+		if (typeof input === 'string') {
+			const m = input.trim().match(/^#?([0-9a-fA-F]{6})$/);
+			if (m) {
+				const v = parseInt(m[1], 16);
+				return [((v >> 16) & 255) / 255, ((v >> 8) & 255) / 255, (v & 255) / 255, 1];
+			}
+		}
+		return fallback.slice();
+	}
+
+	__exports.normalizeMaterialColor = normalizeMaterialColor;
 
 }
 
@@ -20099,7 +20131,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.BufferAttribute = BufferAttribute;
 	class MeshStandardMaterial {
 		constructor(parameters = {}) {
-			const color = parameters.color || [0.74, 0.68, 0.58, 1];
+			const color = normalizeMaterialColor(parameters.color);
 			const opacity = parameters.opacity ?? color[3] ?? 1;
 			const alphaMode = parameters.alphaMode || 'OPAQUE';
 			const autoTransparent = alphaMode === 'BLEND' || opacity < 1;
@@ -20113,7 +20145,39 @@ const __awtsmoosModule_0 = Object.create(null);
 		}
 	}
 
+
 	__exports.MeshStandardMaterial = MeshStandardMaterial;
+	/**
+	 * B"H: normalizes a material color to an [r,g,b,a] array with 0-1 components.
+	 * Accepts arrays (used as-is), hex numbers (0xRRGGBB), and CSS hex strings ('#RRGGBB').
+	 * Falls back to the warm default when the input is missing or unrecognized.
+	 */
+	function normalizeMaterialColor(input) {
+		const fallback = [0.74, 0.68, 0.58, 1];
+		if (input == null) return fallback.slice();
+		if (Array.isArray(input)) {
+			return [
+				Number(input[0]) ?? fallback[0],
+				Number(input[1]) ?? fallback[1],
+				Number(input[2]) ?? fallback[2],
+				Number(input[3] ?? 1)
+			];
+		}
+		if (typeof input === 'number' && Number.isFinite(input)) {
+			const v = Math.floor(input);
+			return [((v >> 16) & 255) / 255, ((v >> 8) & 255) / 255, (v & 255) / 255, 1];
+		}
+		if (typeof input === 'string') {
+			const m = input.trim().match(/^#?([0-9a-fA-F]{6})$/);
+			if (m) {
+				const v = parseInt(m[1], 16);
+				return [((v >> 16) & 255) / 255, ((v >> 8) & 255) / 255, (v & 255) / 255, 1];
+			}
+		}
+		return fallback.slice();
+	}
+
+	__exports.normalizeMaterialColor = normalizeMaterialColor;
 
 }
 

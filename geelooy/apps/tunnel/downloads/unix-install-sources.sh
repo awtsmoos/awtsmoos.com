@@ -7,10 +7,13 @@
 # Awtsmoos.com sources identity, health, authority, archives, and continuity before danger can bare.
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-node-runtime.sh"
 activate_node_runtime "$ROOT" || exit 1
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-modes.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-cleanup.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-log.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-progress.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-errors.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-browser.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-device-login.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-lock.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-log-retention.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-device-identity-state.sh"

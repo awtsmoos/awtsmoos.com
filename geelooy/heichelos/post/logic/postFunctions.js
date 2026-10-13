@@ -29,7 +29,7 @@ document.addEventListener("contextmenu", event => {
     if (!context) return;
     event.preventDefault();
     closeFloatingMenus();
-    import("../functions/ui.js").then(module => module.showCustomContextMenu(event.clientX, event.clientY, event));
+    import("../functions/ui.js?v=a270152a33").then(module => module.showCustomContextMenu(event.clientX, event.clientY, event));
 });
 
 document.addEventListener("click", event => {
