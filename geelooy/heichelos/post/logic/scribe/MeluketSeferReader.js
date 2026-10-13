@@ -19,6 +19,7 @@
  */
 
 import { refreshTranslationStatus } from '../../translations/render.js';
+import { loadFontSize } from '../../functions/ui/Dimensionality.js';
 
 /** Natural sort for phraseIds like segment_0_0, segment_0_10, segment_1_2. */
 function phraseIdKey(phraseId) {
@@ -517,7 +518,11 @@ function enhanceScribeLensPanel() {
 	}
 	panel.dataset.lensEnhanced = '1';
 	const closeBtn = document.getElementById('scribeLensClose');
-	if (closeBtn) {
+	// B"H — core listeners (ControlBindings.setupSheetCloseButton) already bind
+	// this through the typography gate on every post; only bind here as a
+	// fallback so the handler never doubles.
+	if (closeBtn && closeBtn.dataset.awtsmoosCloseBound !== 'true') {
+		closeBtn.dataset.awtsmoosCloseBound = 'true';
 		closeBtn.addEventListener('click', (e) => {
 			e.preventDefault();
 			e.stopPropagation();
@@ -1125,6 +1130,11 @@ export function awakenMeluketSeferReader(post) {
 	// Mark the reader root so sefer styles apply.
 	const root = document.querySelector('.post-reader-localized-context');
 	if (root) root.classList.add('meluket-sefer-active');
+
+	// B"H — the sefer mounts after boot restored the reader scale, so re-apply
+	// the remembered size now: this lands the proportional sefer zoom (see
+	// ReaderScale.applySeferScale) on the freshly mounted Hebrew/English text.
+	try { loadFontSize(); } catch (_) { /* scale restore is optional */ }
 
 	// B"H: the sefer mounted its own English — refresh the generic translation
 	// toolbar (if it mounted earlier with an empty report) so its status label

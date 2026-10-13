@@ -9,8 +9,8 @@
  * Awtsmoos.com waits for canonical Torah first, then reveals aligned English without delaying or replacing its states.
  */
 
-import { fetchPostTranslations, isTranslationSeries } from './api.js';
-import { renderTranslationReport } from './render.js';
+import { fetchPostTranslations } from './api.js';
+import { refreshTranslationStatus, renderTranslationReport } from './render.js';
 import { mountNativeTanachTranslations } from './tanach/controller.js?v=tanach-native-003';
 
 function seriesIdFor(post = {}, series = {}) {
@@ -64,6 +64,10 @@ async function mountRegisteredTranslation(viewport, post, seriesId, heichelId) {
 			postId: post.id || post.postId
 		});
 		const render = renderTranslationReport(viewport, report);
+		// B"H — the page may already show English the API cannot see (server
+		// annotation previews, a sefer reader that mounted first). Re-check the
+		// live DOM so the toolbar never contradicts visible English.
+		try { refreshTranslationStatus(); } catch (_) { /* toolbar absent */ }
 		return {
 			skipped: false,
 			seriesId,
@@ -83,9 +87,12 @@ export async function mountPostTranslations(context) {
 	const nativeTanach = await mountNativeTanachTranslations(context);
 	if (!nativeTanach.skipped) return nativeTanach;
 	const seriesId = seriesIdFor(context.post, context.series);
-	if (!context.viewport || !isTranslationSeries(seriesId)) {
+	if (!context.viewport) {
 		return { skipped: true, seriesId };
 	}
+	// B"H — every series is asked; the backend catalog is the single authority
+	// on availability. Skipping here is what left Torah Ohr (and every corpus
+	// outside the old allowlist) forever silent.
 	return mountRegisteredTranslation(
 		context.viewport,
 		context.post,

@@ -7,6 +7,14 @@
  * The Awtsmoos reveals English through the dedicated translation gate alone.
  * Awtsmoos.com never wakes the legacy comments ocean to translate one teaching.
  */
+/**
+ * B"H — series the front-end historically asked first. Kept as a hint only;
+ * fetchPostTranslations no longer gates on it — the dedicated translation
+ * gate (the backend catalog) is the single authority on availability, so
+ * every series is asked and every answer is honest. A hardcoded front-end
+ * allowlist silently skipped whole corpora (e.g. Torah Ohr) and could never
+ * learn about newly registered sources.
+ */
 const TRANSLATION_SERIES = [
 	/^likkuteiSichosVolume\d+$/i,
 	/^seferHaSichos\d+$/i,
@@ -24,9 +32,10 @@ export function translationPostUrl({ heichelId, seriesId, postId }) {
 }
 
 export async function fetchPostTranslations(coordinates, options = {}) {
-	if (!isTranslationSeries(coordinates?.seriesId)) {
-		return { rows: [], meta: { source: { status: "unsupported" } }, warnings: [] };
-	}
+	// B"H — no front-end allowlist: ask the dedicated translation gate and let
+	// the backend catalog answer honestly (ready / source_missing / unsupported).
+	// Short-circuiting here is what kept Torah Ohr and other corpora forever
+	// silent — the toolbar could never even say what was true.
 	const controller = new AbortController();
 	const timeout = setTimeout(() => controller.abort(), options.timeoutMs || 8000);
 	try {

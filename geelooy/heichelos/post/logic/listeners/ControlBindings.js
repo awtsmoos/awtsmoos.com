@@ -9,6 +9,7 @@
 import { resetAutoScrollDownPreferences } from '../../actions/AutoScrollDown.js';
 import { adjustFontSize } from '../../functions/utils.js';
 import { scrollToActiveEl } from '../../functions/interaction/scrolling.js';
+import { tiferesTypographyGate } from './TiferesTypographyGate.js';
 
 const APPEARANCE_KEYS = [
 	'awtsmoos-theme',
@@ -62,6 +63,25 @@ export function setupFontControls() {
 	bindFontButton('fontIncreaseBtn', 'increase');
 	bindFontButton('fontDecreaseBtn', 'decrease');
 	updateDisplay();
+}
+
+/**
+ * B"H — binds the Scribe's Lens ✕ close button on EVERY post type through the
+ * typography gate (keeps aria + trigger state in sync). Previously this button
+ * was only bound inside the Meluket sefer reader, so it did nothing on all
+ * other posts.
+ */
+export function setupSheetCloseButton() {
+	const button = document.getElementById('scribeLensClose');
+	if (!button || button.dataset.awtsmoosCloseBound === 'true') {
+		return;
+	}
+	button.dataset.awtsmoosCloseBound = 'true';
+	button.addEventListener('click', event => {
+		event.preventDefault();
+		event.stopPropagation();
+		tiferesTypographyGate.close();
+	});
 }
 
 function storageKey(cssVariable) {

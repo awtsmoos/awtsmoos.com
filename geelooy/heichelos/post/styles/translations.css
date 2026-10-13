@@ -109,7 +109,8 @@
 
 .post-reader-localized-context .awtsmoos-translation-block.awtsmoos-translation-block p {
 	margin: .45rem 0 0;
-	font-size: clamp(1.02rem, 4.2vw, 1.2rem);
+	/* B"H — Yaakov 2026-10-12: English rides BIG beneath the original. */
+	font-size: clamp(1.15rem, 4.8vw, 1.45rem);
 	line-height: 1.58;
 	color: var(--sefer-ink, #2b2118);
 	text-align: left;
@@ -122,6 +123,22 @@
 /* B"H — Hidden translations: :root prefix (0,2,0+) hides without. */
 :root .post-reader-localized-context.awtsmoos-translations-hidden .awtsmoos-translation-block {
 	display: none;
+}
+
+/* B"H — Yaakov 2026-10-12: ONE bilingual typographic system for every post
+ * type. Hebrew/Yiddish originals already ride at var(--post-text-size) via
+ * the reborn reader rules; this layer only guarantees nikkud-safe rhythm
+ * and clean stacked spacing, so Torah Ohr, Likkutei Sichos, maamarim, and
+ * Tanya all read the same. No color fights: the theme system owns ink. */
+.post-reader-localized-context #realPost .toichen .sub-awtsmoos.heb,
+.post-reader-localized-context #realPost .section.heb .toichen {
+	line-height: 1.9;
+}
+/* B"H — translation blocks always stack below their Hebrew anchor with
+ * breathing room, in every post type. */
+.post-reader-localized-context #realPost .awtsmoos-translation-block.awtsmoos-translation-block {
+	margin-top: 1rem;
+	margin-bottom: 1.75rem;
 }
 
 @media (max-width: 520px) {

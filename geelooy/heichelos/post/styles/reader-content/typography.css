@@ -1,7 +1,38 @@
-/* B"H Reader typography: living rhythm. */
+/* B"H — Reader typography: living rhythm.
+ * B"H — Yaakov 2026-10-12: one clean typographic system for every post type.
+ * Original Hebrew/Yiddish vessels and English vessels share one scale so a
+ * reader moving between Torah Ohr, Likkutei Sichos, maamarim, and Tanya
+ * always meets the same big, calm type.
+ */
 .awtsmoos-reader-content {
 background-image: radial-gradient(circle at 8% 12%, rgba(214,168,79,.08) 0 1px, transparent 2px); background-size: 4.4rem 4.4rem;
-font-size: clamp(1.05rem, 1vw + .85rem, 1.28rem); line-height: 1.78;
+font-size: clamp(1.25rem, 1vw + 1.05rem, 1.5rem); line-height: 1.78;
 }
 .awtsmoos-reader-content p { margin-block: 1.05em; text-wrap: pretty; 
   color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+
+/* B"H — server-first initial body: big type from the first paint, RTL-aware.
+ * Hebrew/Yiddish originals read right-to-left; the dir attribute on the
+ * article (or per-section dir="rtl") drives alignment, never a guess. */
+.post-reader-localized-context .awtsmoos-initial-post-body {
+	font-size: var(--post-text-size, 28px);
+	line-height: 1.85;
+	color: var(--sefer-ink, #2b2118);
+}
+:root[data-theme="dark"] .post-reader-localized-context .awtsmoos-initial-post-body {
+	color: var(--sefer-ink, #f0e7d3);
+}
+.post-reader-localized-context .awtsmoos-initial-post-body p {
+	margin-block: 1em;
+	text-wrap: pretty;
+}
+.post-reader-localized-context .awtsmoos-initial-post-body [dir="rtl"],
+.post-reader-localized-context .awtsmoos-initial-post-body:dir(rtl) {
+	font-family: var(--font-sacred, "Frank Ruhl Libre", serif);
+	line-height: 2;
+}
+/* B"H — awaiting-text vessels stay honest: no fake loading paragraph,
+ * just calm space the client hydration fills. */
+.post-reader-localized-context .awtsmoos-initial-post[data-awtsmoos-awaiting-text="true"] .awtsmoos-initial-post-body:empty {
+	min-height: 6rem;
+}

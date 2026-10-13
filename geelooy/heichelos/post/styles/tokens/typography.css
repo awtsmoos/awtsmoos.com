@@ -6,7 +6,10 @@
     --font-manuscript: 'Cardo', 'Crimson Pro', serif;
     --font-sacred: 'Frank Ruhl Libre', serif;
     --font-content: var(--font-manuscript);
-    --post-text-size: 24px;
+    /* B"H — Yaakov 2026-10-12: default reading size raised so every post
+       type opens with big, readable type. The reader-scale pipeline still
+       overrides this per-user; this is the floor everyone starts from. */
+    --post-text-size: 28px;
 }
 .post-reader-localized-context .heb {
     font-family: var(--font-sacred);

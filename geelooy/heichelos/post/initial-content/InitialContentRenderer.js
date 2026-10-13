@@ -78,6 +78,12 @@ function renderMissingPost() {
 
 /**
 	* Renders the complete server-first public Reader body.
+	* B"H — the body recovery chain tries every vessel a post can carry its
+	* text in (flat content, body/text/sections fields, or the whole dayuh
+	* map). When nothing is recoverable the article keeps an honest empty
+	* vessel marked data-awtsmoos-awaiting-text so client hydration can fill
+	* it — it never prints a permanent "preparing" promise as if loading were
+	* still in progress.
 	* @param {object} context Resolved post, Heichel, and author alias vessels.
 	* @returns {string} Safe meaningful HTML available before client hydration.
 	*/
@@ -87,7 +93,8 @@ function renderInitialContent({ post, heichel = {}, alias = {} }) {
 	}
 	const dayuh = post.dayuh && typeof post.dayuh === "object" ? post.dayuh : {};
 	const structuredMarkup = renderCanonicalSections(dayuh.sections, dayuh.meta || {});
-	const bodySource = post.content || dayuh.content || dayuh;
+	const bodySource = post.content || post.body || post.text || post.sections
+		|| dayuh.content || dayuh;
 	const body = structuredMarkup ? "" : collectReadableText(bodySource);
 	const title = toPlainText(post.title) || "Torah Revelation";
 	const heichelName = toPlainText(heichel.name || heichel.title);
@@ -95,16 +102,21 @@ function renderInitialContent({ post, heichel = {}, alias = {} }) {
 	const contextText = [heichelName, authorName ? `By ${authorName}` : ""]
 		.filter(Boolean)
 		.join(" · ");
-	const bodyMarkup = structuredMarkup
-		|| renderParagraphs(body)
-		|| "<p>The Torah text is preparing for the interactive reader.</p>";
-	return `<article class="awtsmoos-initial-post" data-awtsmoos-initial-post dir="auto">`
+	const bodyMarkup = structuredMarkup || renderParagraphs(body);
+	const awaitingText = bodyMarkup
+		? ""
+		: ` data-awtsmoos-awaiting-text="true"`;
+	const enhancementStatus = bodyMarkup
+		? `<p class="awtsmoos-reader-enhancement-status" role="status">`
+			+ `Interactive reader tools are loading; the Torah text above is ready now.`
+			+ `</p>`
+		: "";
+	return `<article class="awtsmoos-initial-post" data-awtsmoos-initial-post${awaitingText} dir="auto">`
 		+ (contextText ? `<p class="awtsmoos-initial-post-context">${escapeHtml(contextText)}</p>` : "")
 		+ `<h1>${escapeHtml(title)}</h1>`
 		+ `<div class="awtsmoos-initial-post-body">${bodyMarkup}</div>`
-		+ `<p class="awtsmoos-reader-enhancement-status" role="status">`
-		+ `Interactive reader tools are loading; the Torah text above is ready now.`
-		+ `</p></article>`;
+		+ enhancementStatus
+		+ `</article>`;
 }
 
 module.exports = {

@@ -36,6 +36,19 @@ function normalizeList(value, keys = []) {
 	return [];
 }
 
+/**
+ * Resolves a human teaching title without ever exposing a storage identity.
+ * Imported posts keep their canonical title under identity.title; when no
+ * title exists anywhere, falls back to a numbered teaching label.
+ */
+function postTitle(item, position) {
+	if (item && typeof item === 'object') {
+		const direct = cleanText(item.title || item.identity?.title || item.name || '');
+		if (direct) return direct;
+	}
+	return `Teaching ${position + 1}`;
+}
+
 /** Builds one escaped semantic link model. */
 function makeLink(kind, title, path, description) {
 	return {
@@ -66,7 +79,7 @@ function createDiscovery($i) {
 	async function getDiscovery(heichelId, seriesId = '') {
 		const activeSeries = seriesId || 'root';
 		const base = `/api/social/heichelos/${encodeSegment(heichelId)}/series/${encodeSegment(activeSeries)}`;
-		const properties = encodeURIComponent(JSON.stringify({ id: true, title: true, postId: true }));
+		const properties = encodeURIComponent(JSON.stringify({ id: true, title: true, postId: true, identity: true }));
 		const [subSeriesResponse, postsResponse] = await Promise.all([
 			safeFetch(`${base}/subSeries?details=true`),
 			safeFetch(`${base}/posts/details?properties=${properties}`)
@@ -81,14 +94,14 @@ function createDiscovery($i) {
 			`/heichelos/${encodeSegment(heichelId)}/series/${encodeSegment(item.id)}`,
 			item.description || ''
 		));
-		const postLinks = posts.map(item => {
+		const postLinks = posts.map((item, position) => {
 			const id = typeof item === 'string' ? item : item?.id || item?.postId;
-			const title = typeof item === 'string' ? item : item?.title || id;
-			return id ? makeLink(
+			if (!id) return null;
+			return makeLink(
 				'post',
-				title,
+				postTitle(item, position),
 				`/heichelos/${encodeSegment(heichelId)}/series/${encodeSegment(activeSeries)}/post/${encodeSegment(id)}`
-			) : null;
+			);
 		}).filter(Boolean);
 		return { links: [...seriesLinks, ...postLinks] };
 	}

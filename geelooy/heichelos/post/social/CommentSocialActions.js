@@ -16,15 +16,40 @@ const REQUESTS = [
 
 /** Returns a compact disclosure menu whose mutations still pass through the existing private bridge and server policies. */
 export function createCommentSocialActions(authorAlias) {
-	const currentAlias = String(window.curAlias || "").trim();
-	const alias = String(authorAlias || "").trim();
-	if (!alias || alias === currentAlias || alias === "anonymous") {
+	const { group, status } = connectRequestParts(authorAlias) || {};
+	if (!group) {
 		return null;
 	}
 	const disclosure = document.createElement("details");
 	disclosure.className = "awtsmoos-comment-connect";
 	const summary = document.createElement("summary");
 	summary.textContent = "Connect";
+	disclosure.append(summary, group, status);
+	return disclosure;
+}
+
+/**
+ * Returns the whisper/chat/friend request buttons as a plain group with no disclosure
+ * wrapper, so a compact ⋯ menu can host them. Consent-first behavior is unchanged:
+ * each tap is still only a request through the existing private bridge.
+ */
+export function createConnectRequestGroup(authorAlias) {
+	const parts = connectRequestParts(authorAlias);
+	if (!parts) {
+		return null;
+	}
+	const wrap = document.createElement("div");
+	wrap.className = "awtsmoos-social-more-connect";
+	wrap.append(parts.group, parts.status);
+	return wrap;
+}
+
+function connectRequestParts(authorAlias) {
+	const currentAlias = String(window.curAlias || "").trim();
+	const alias = String(authorAlias || "").trim();
+	if (!alias || alias === currentAlias || alias === "anonymous") {
+		return null;
+	}
 	const actions = document.createElement("div");
 	actions.className = "awtsmoos-comment-connect-actions";
 	const status = document.createElement("span");
@@ -33,8 +58,7 @@ export function createCommentSocialActions(authorAlias) {
 	for (const request of REQUESTS) {
 		actions.appendChild(requestButton(alias, request, status));
 	}
-	disclosure.append(summary, actions, status);
-	return disclosure;
+	return { group: actions, status };
 }
 
 function requestButton(alias, request, status) {

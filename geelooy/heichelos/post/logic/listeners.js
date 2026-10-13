@@ -14,7 +14,8 @@ import { renderBookmarksPanel } from './listeners/BookmarksPanel.js';
 import {
 	setupColorControls,
 	setupFontControls,
-	setupResetButton
+	setupResetButton,
+	setupSheetCloseButton
 } from './listeners/ControlBindings.js';
 import { setupHebrewWordActions } from './listeners/HebrewWordActions.js';
 import { setupGlobalClicks } from './listeners/PopoverGate.js';
@@ -33,6 +34,7 @@ export function setupUIListeners() {
 	setupAutoScrollControls();
 	setupSidebarResizeHandle();
 	setupFontControls();
+	setupSheetCloseButton();
 	setupGlobalClicks(toggleSidebar);
 	setupColorControls();
 	setupResetButton();
