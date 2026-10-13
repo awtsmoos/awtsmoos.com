@@ -27,8 +27,8 @@ function getRandomEmoji() {
 const player = createPaddle(0, 0, paddleWidth, paddleHeight, '#fff');
 const ai = createPaddle(0, 0, paddleWidth, paddleHeight, '#fff', true);
 const ball = createBall(canvas, getRandomEmoji());
-const match = createPongUpdater({ canvas, player, ai, ball, getRandomEmoji });
 const court = createPongCourt({ canvas, context, player, ai, ball });
+const match = createPongUpdater({ canvas, player, ai, ball, getRandomEmoji, court });
 let lifecycle = null;
 const ui = createPongSessionUi({
 	onStart: () => lifecycle.start(),
@@ -87,6 +87,8 @@ function runFrame() {
 			match.elapsedMs()
 		);
 		ui.showResult({ ...result, elapsedLabel: court.formatElapsed(result.elapsedMs) });
+		window.AwtsmoosFx?.sfx(result.playerWon ? 'win' : 'gameover');
+		court.scorePulse(result.playerWon ? '#ffd75e' : '#ff7b9c');
 		return false;
 	}
 	match.update();

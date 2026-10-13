@@ -4,7 +4,7 @@
 
 /**
  * @file match-update.js
- * @description Owns Pong physics, score production, and an active-play clock that excludes deliberate/background pauses.
+ * @description Owns Pong physics, score production, power-ups, and an active-play clock that excludes deliberate/background pauses.
  * The Awtsmoos renews ball, paddle, collision, and passing time beyond each frame; Awtsmoos.com keeps score production separate from terminal rewards and lifecycle chrome.
  *
  * Invariants:
@@ -13,12 +13,13 @@
  * - `reset()` starts one fresh active clock without replacing actor identity.
  */
 function createPongUpdater(options) {
-	const { canvas, player, ai, ball, getRandomEmoji } = options;
+	const { canvas, player, ai, ball, getRandomEmoji, court } = options;
 	const now = options.now || (() => performance.now());
 	let startedAt = now();
 	let pausedAt = null;
 	let pausedMs = 0;
 	let lastSpeedIncreaseTime = 0;
+	const fx = () => window.AwtsmoosFx;
 
 	/** Reset active timing for one fresh match. */
 	function reset() {
@@ -26,6 +27,7 @@ function createPongUpdater(options) {
 		pausedAt = null;
 		pausedMs = 0;
 		lastSpeedIncreaseTime = 0;
+		if (typeof resetPowerups === 'function') resetPowerups();
 	}
 
 	/** Suspend active timing exactly once for the current pause interval. */
@@ -53,6 +55,7 @@ function createPongUpdater(options) {
 		player.update(canvas);
 		ai.update(canvas, ball);
 		ball.update(canvas);
+		if (typeof updatePowerups === 'function') updatePowerups(canvas, player, ai, ball, { tip: (t) => court?.tip(t) });
 		handlePossiblePaddleCollision();
 		handlePossibleScore();
 	}
@@ -83,15 +86,23 @@ function createPongUpdater(options) {
 		ball.rotationSpeed = collidePoint * 0.15 * direction;
 		ball.speed += 0.1;
 		ai.speed = ball.speed * 0.5;
+		// Rising hit pitch with rally speed — the rally sings higher as it quickens.
+		fx()?.sfx('hit', { freq: 200 + Math.min(500, ball.speed * 40) });
 	}
 
 	/** Award a point only after the ball fully clears one edge, then serve again. */
 	function handlePossibleScore() {
 		if (ball.x + ball.size < 0) {
 			ai.score += 1;
+			court?.scorePulse('#ff7b9c');
+			fx()?.sfx('concede');
+			fx()?.shake(canvas, 260, 9);
 			ball.reset(getRandomEmoji());
 		} else if (ball.x - ball.size > canvas.width) {
 			player.score += 1;
+			court?.scorePulse('#ffd75e');
+			fx()?.sfx('score');
+			fx()?.shake(canvas, 200, 7);
 			ball.reset(getRandomEmoji());
 		}
 	}
