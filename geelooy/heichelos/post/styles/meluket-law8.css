@@ -239,15 +239,18 @@
 	transform: scale(0.90);
 }
 
-/* B"H — Hebrew optical size: Hebrew glyphs render smaller than Latin at same px.
-   1.3x multiplier measured on-device. Lives here (not meluket-sefer.css) because
-   the CSS bundler drops meluket-sefer.css content. Yaakov law: Hebrew == English visually. */
-.awtsmoos-initial-unit-he {
-	font-size: calc(clamp(2.4rem, 6.2vw, 3.4rem) * 1.3) !important;
+/* B"H — Hebrew optical size: Yaakov says go EXTREME. Hebrew must NEVER look
+   smaller than English. 2x multiplier, targets div AND inner p. Lives here because
+   the CSS bundler drops meluket-sefer.css content. */
+.awtsmoos-initial-unit-he,
+.awtsmoos-initial-unit-he p {
+	font-size: calc(clamp(2.4rem, 6.2vw, 3.4rem) * 2) !important;
+	line-height: 1.6 !important;
 }
-.meluket-phrase--he {
-	font-size: calc(var(--sefer-phrase-size, 1.25rem) * 1.3) !important;
-}
-.meluket-hebrew {
-	font-size: calc(var(--sefer-phrase-size, 1.25rem) * 1.3) !important;
+.meluket-phrase--he,
+.meluket-phrase--he p,
+.meluket-hebrew,
+.meluket-hebrew p {
+	font-size: calc(var(--sefer-phrase-size, 1.25rem) * 2) !important;
+	line-height: 1.6 !important;
 }
