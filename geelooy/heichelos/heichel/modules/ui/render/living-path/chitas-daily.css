@@ -1,31 +1,38 @@
-/* B"H — Daily Chitas study section styles */
+/* B"H — Daily Chitas study section styles.
+ * A dignified daily study companion: generous whitespace, Hebrew serif
+ * for sacred text, clear bilingual hierarchy, comfortable on phones.
+ */
 
 .chitas-daily-study {
-  margin: 0 0 2rem 0;
-  padding: 1.5rem;
+  margin: 0 0 2.5rem 0;
+  padding: 2rem 1.75rem;
   background: var(--surface, #faf8f3);
   border: 1px solid var(--border, #e5ddcc);
-  border-radius: 12px;
+  border-radius: 16px;
 }
+
+/* ---------- Date header ---------- */
 
 .chitas-daily-date-header {
   text-align: center;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.5rem;
   border-bottom: 1px solid var(--border, #e5ddcc);
 }
 
 .chitas-daily-date-en {
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-weight: 600;
+  letter-spacing: 0.01em;
   color: var(--text, #2c2416);
   margin: 0 0 0.5rem 0;
 }
 
 .chitas-daily-date-he {
-  font-size: 1.5rem;
+  font-family: "Noto Serif Hebrew", "David Libre", David, "Times New Roman", serif;
+  font-size: 1.7rem;
   color: var(--text, #2c2416);
-  margin: 0 0 0.25rem 0;
+  margin: 0 0 0.35rem 0;
 }
 
 .chitas-daily-date-he-en {
@@ -34,29 +41,34 @@
   margin: 0;
 }
 
+/* ---------- Israel / Diaspora toggle ---------- */
+
 .chitas-israel-toggle {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  gap: 0.6rem;
+  margin-bottom: 2rem;
   flex-wrap: wrap;
 }
 
 .chitas-israel-label {
-  font-size: 0.9rem;
+  font-size: 0.92rem;
+  font-weight: 500;
   color: var(--text-muted, #6b5f4a);
 }
 
 .chitas-israel-btn {
-  padding: 0.4rem 1rem;
+  min-height: 44px;
+  padding: 0.55rem 1.4rem;
   border: 1px solid var(--border, #e5ddcc);
-  border-radius: 20px;
-  background: var(--surface, #ffffff);
+  border-radius: 999px;
+  background: var(--card, #ffffff);
   color: var(--text, #2c2416);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .chitas-israel-btn:hover {
@@ -64,7 +76,16 @@
   background: var(--surface-hover, #f5f0e6);
 }
 
+.chitas-israel-btn:active {
+  transform: translateY(1px);
+}
+
 .chitas-israel-btn:focus {
+  outline: 2px solid var(--accent, #b8860b);
+  outline-offset: 2px;
+}
+
+.chitas-israel-btn:focus-visible {
   outline: 2px solid var(--accent, #b8860b);
   outline-offset: 2px;
 }
@@ -75,113 +96,228 @@
   border-color: var(--accent, #b8860b);
 }
 
+.chitas-israel-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 .chitas-israel-hint {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: var(--text-muted, #6b5f4a);
   width: 100%;
   text-align: center;
 }
 
+/* ---------- Study cards ---------- */
+
 .chitas-daily-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.25rem;
 }
 
 .chitas-daily-card {
-  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
   background: var(--card, #ffffff);
   border: 1px solid var(--border, #e5ddcc);
-  border-radius: 8px;
+  border-radius: 12px;
+  border-top: 3px solid var(--accent, #b8860b);
 }
 
 .chitas-daily-card-header {
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border, #e5ddcc);
 }
 
 .chitas-daily-card-title {
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   color: var(--text, #2c2416);
   margin: 0;
 }
 
 .chitas-daily-card-title-he {
-  font-size: 1.3rem;
+  font-family: "Noto Serif Hebrew", "David Libre", David, "Times New Roman", serif;
+  font-size: 1.45rem;
+  font-weight: 600;
   color: var(--text, #2c2416);
-  margin: 0.25rem 0 0 0;
+  margin: 0.3rem 0 0 0;
 }
 
-.chitas-daily-card-body {
+.chitas-daily-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex: 1;
+}
+
+.chitas-daily-card-ref {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text, #2c2416);
+  margin: 0 0 0.15rem 0;
+}
+
+.chitas-daily-card-ref-he {
+  font-family: "Noto Serif Hebrew", "David Libre", David, "Times New Roman", serif;
+  font-size: 1.15rem;
+  color: var(--text, #2c2416);
+  margin: 0 0 0.35rem 0;
+}
+
+.chitas-daily-card-verses {
+  font-size: 0.88rem;
+  color: var(--text-muted, #6b5f4a);
+  margin: 0 0 0.75rem 0;
+}
+
+.chitas-daily-card-subtitle {
   font-size: 0.95rem;
+  font-weight: 600;
   color: var(--text, #2c2416);
-  line-height: 1.5;
-  white-space: pre-line;
-  margin-bottom: 0.5rem;
+  margin: 0 0 0.5rem 0;
 }
 
-.chitas-daily-card-body-he {
-  font-size: 1.05rem;
+.chitas-daily-card-subtitle-he {
+  font-family: "Noto Serif Hebrew", "David Libre", David, "Times New Roman", serif;
+  font-size: 1.1rem;
+  font-weight: 600;
   color: var(--text, #2c2416);
-  line-height: 1.6;
-  white-space: pre-line;
-  margin-bottom: 0.5rem;
+  margin: 0 0 0.5rem 0;
 }
+
+.chitas-daily-card-note {
+  font-size: 0.88rem;
+  font-style: italic;
+  color: var(--text-muted, #6b5f4a);
+  margin: 0.5rem 0 0 0;
+}
+
+.chitas-daily-card-loading {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--text-muted, #6b5f4a);
+  margin: 0.75rem 0;
+}
+
+/* ---------- Bilingual verses ---------- */
+
+.chitas-verse {
+  margin: 0 0 1rem 0;
+  padding: 0 0 1rem 0;
+  border-bottom: 1px dashed var(--border, #e5ddcc);
+}
+
+.chitas-verse:last-child {
+  border-bottom: none;
+  margin-bottom: 0.25rem;
+  padding-bottom: 0;
+}
+
+.chitas-verse-he {
+  font-family: "Noto Serif Hebrew", "David Libre", David, "Times New Roman", serif;
+  font-size: 1.18rem;
+  line-height: 1.9;
+  color: var(--text, #2c2416);
+  margin: 0 0 0.45rem 0;
+}
+
+.chitas-verse-en {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text-muted, #6b5f4a);
+  margin: 0;
+}
+
+/* ---------- Card links ---------- */
 
 .chitas-daily-card-link {
-  display: inline-block;
-  margin-top: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 0.75rem;
   color: var(--accent, #b8860b);
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 0.95rem;
+  align-self: flex-start;
 }
 
 .chitas-daily-card-link:hover {
   text-decoration: underline;
 }
 
+.chitas-daily-card-link:active {
+  transform: translateY(1px);
+}
+
 .chitas-daily-card-link:focus {
   outline: 2px solid var(--accent, #b8860b);
   outline-offset: 2px;
+  border-radius: 4px;
 }
 
-/* Dark theme */
-[data-theme="dark"] .chitas-daily-study {
-  background: var(--surface-dark, #1a1610);
-  border-color: var(--border-dark, #3a3226);
+.chitas-daily-card-link:focus-visible {
+  outline: 2px solid var(--accent, #b8860b);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
-[data-theme="dark"] .chitas-daily-date-en,
-[data-theme="dark"] .chitas-daily-date-he,
-[data-theme="dark"] .chitas-daily-card-title,
-[data-theme="dark"] .chitas-daily-card-title-he,
-[data-theme="dark"] .chitas-daily-card-body,
-[data-theme="dark"] .chitas-daily-card-body-he {
-  color: var(--text-dark, #e8dfc8);
+/* ---------- Dark theme ----------
+ * Implemented purely as variable overrides so the base selectors above
+ * automatically render dark values with no specificity escalation. */
+
+[data-theme="dark"] {
+  --surface: #1a1610;
+  --surface-hover: #2e2820;
+  --card: #242019;
+  --border: #3a3226;
+  --text: #e8dfc8;
+  --text-muted: #a89a7c;
+  --on-accent: #ffffff;
 }
 
-[data-theme="dark"] .chitas-daily-card {
-  background: var(--card-dark, #242019);
-  border-color: var(--border-dark, #3a3226);
-}
+/* ---------- Mobile ---------- */
 
-[data-theme="dark"] .chitas-israel-btn {
-  background: var(--surface-dark, #242019);
-  color: var(--text-dark, #e8dfc8);
-  border-color: var(--border-dark, #3a3226);
-}
-
-[data-theme="dark"] .chitas-israel-btn.is-active {
-  color: var(--on-accent-dark, #ffffff);
-}
-
-/* Mobile */
 @media (max-width: 600px) {
   .chitas-daily-study {
-    padding: 1rem;
-    margin: 0 0 1.5rem 0;
+    padding: 1.25rem 1rem;
+    margin: 0 0 1.75rem 0;
+    border-radius: 12px;
   }
+
+  .chitas-daily-date-en {
+    font-size: 1.15rem;
+  }
+
+  .chitas-daily-date-he {
+    font-size: 1.45rem;
+  }
+
   .chitas-daily-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .chitas-daily-card {
+    padding: 1.25rem;
+  }
+
+  .chitas-verse-he {
+    font-size: 1.12rem;
+    line-height: 1.85;
+  }
+
+  .chitas-verse-en {
+    font-size: 0.92rem;
+  }
+
+  .chitas-israel-toggle {
+    gap: 0.5rem;
   }
 }
