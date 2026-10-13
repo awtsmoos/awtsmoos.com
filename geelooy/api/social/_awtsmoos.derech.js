@@ -39,6 +39,7 @@ const posts = require('./_awtsmoos.posts.js');
 const profile = require('./_awtsmoos.profile.js');
 const publicDiscovery = require('./_awtsmoos.publicDiscovery.js');
 const reactions = require('./_awtsmoos.reactions.js');
+const reading = require('./_awtsmoos.reading.js');
 const search = require('./_awtsmoos.search.js');
 const series = require('./_awtsmoos.series.js');
 const socialKernel = require('./_awtsmoos.socialKernel.js');
@@ -93,6 +94,7 @@ module.exports = async $i => {
 		...fileSystem({ $i }),
 		...optionalNodeOs(vessel),
 		...reactions(vessel),
+		...reading(vessel),
 		...comments(vessel),
 		...series(vessel),
 		...books(vessel)

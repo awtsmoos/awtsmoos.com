@@ -14,6 +14,7 @@
 	<link rel="stylesheet" href="/css/golden-icons.css?v=gicon-002">
 	<link rel="stylesheet" href="/css/awtsmoos-visual-assets.css?v=ava-001">
 	<link rel="stylesheet" href="/css/video-loader.css?v=vl-001">
+	<link rel="stylesheet" href="/profile/styles/reading-stats.css?v=reading-001">
 </head>
 <body data-geelooy-route="profile" class="awtsmoos-bg-profile">
 	<!-- B"H — Video loading screen: warm cream golden light -->
@@ -105,6 +106,7 @@
 				<button type="button" role="tab" id="profile-tab-aliases" class="pd-tab" aria-selected="false" tabindex="-1" data-profile-tab="aliases">Aliases</button>
 				<button type="button" role="tab" id="profile-tab-heichelos" class="pd-tab" aria-selected="false" tabindex="-1" data-profile-tab="heichelos">Heichelos</button>
 				<button type="button" role="tab" id="profile-tab-about" class="pd-tab" aria-selected="false" tabindex="-1" data-profile-tab="about">About</button>
+				<button type="button" role="tab" id="profile-tab-reading" class="pd-tab" aria-selected="false" tabindex="-1" data-profile-tab="reading">Reading</button>
 			</nav>
 		</div>
 
@@ -135,6 +137,11 @@
 					<article class="pd-about-card"><h4>Identity</h4><p>Your public aliases and communities live here.</p></article>
 					<article class="pd-about-card"><h4>Heichelos</h4><p>Spaces you own or steward across Awtsmoos.</p></article>
 				</div>
+				<div id="reading-privacy-container"></div>
+			</section>
+			<section id="profile-panel-reading" class="pd-panel" role="tabpanel" aria-labelledby="profile-tab-reading" data-profile-panel="reading" hidden>
+				<div class="pd-panel-head"><h3>Reading</h3></div>
+				<div id="reading-stats-container" class="pd-reading-section"></div>
 			</section>
 		</div>
 
@@ -167,6 +174,38 @@
 	})();
 	</script>
 	<script type="module" src="./script.js?v=profile-dream-001"></script>
+	<script type="module" src="./modules/readingStats.js?v=reading-001"></script>
+	<script>
+	/* B"H — Initialize reading stats and privacy on profile load. */
+	document.addEventListener('DOMContentLoaded', () => {
+		// Get user ID from profile data
+		const userId = document.querySelector('[data-profile-handle]')?.textContent?.replace('@', '').trim() || null;
+		if (!userId) return;
+
+		// Initialize reading stats when Reading tab is clicked
+		const readingTab = document.querySelector('[data-profile-tab="reading"]');
+		const statsContainer = document.getElementById('reading-stats-container');
+		let statsLoaded = false;
+
+		if (readingTab && statsContainer && window.ProfileReadingStats) {
+			readingTab.addEventListener('click', () => {
+				if (statsLoaded) return;
+				statsLoaded = true;
+				const viewerId = userId; // Own profile for now
+				new window.ProfileReadingStats({
+					container: statsContainer,
+					userId, viewerId
+				}).load();
+			});
+		}
+
+		// Initialize privacy settings in About tab
+		const privacyContainer = document.getElementById('reading-privacy-container');
+		if (privacyContainer && window.ReadingPrivacySettings) {
+			new window.ReadingPrivacySettings({ container: privacyContainer }).load();
+		}
+	});
+	</script>
 	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=shared-shell-003"></script>
 </body>
 </html>

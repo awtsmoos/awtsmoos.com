@@ -22,6 +22,7 @@ import { tiferesReaderEnhancements } from './logic/initialization/ReaderEnhancem
 import { awakenReaderShellControls } from './logic/initialization/ReaderShellControlsBoot.js?v=reader-runtime-005';
 import { chitasLoaderBoot, dismissChitasLoader } from './logic/initialization/chitasLoader.js?v=chitas-loader-1';
 import './logic/initialization/ReaderSectionHighlight.js?v=reader-runtime-016';
+import './logic/analytics/ReaderAnalytics.js?v=reading-001';
 
 let readerBootPromise = null;
 
@@ -115,6 +116,18 @@ async function performReaderBoot() {
 		}
 	});
 	safeSubsystem('record-post-view', () => recordPostView(typeof window !== 'undefined' ? window.post : null));
+	safeSubsystem('reading-analytics', () => {
+		try {
+			const post = typeof window !== 'undefined' ? window.post : null;
+			const postId = post?.id || post?.postId || document.body?.dataset?.postId || null;
+			const seriesId = post?.seriesId || post?.series || document.body?.dataset?.seriesId || null;
+			if (postId && window.ReaderAnalytics) {
+				const tracker = new window.ReaderAnalytics({ postId, seriesId });
+				setTimeout(() => tracker.start(), 3000);
+				window.__readerAnalytics = tracker;
+			}
+		} catch { /* analytics never breaks reading */ }
+	});
 	safeSubsystem('reading-intelligence', () => tiferesReaderEnhancements.startReadingIntelligence());
 	safeSubsystem('connections', () => tiferesReaderEnhancements.startConnections());
 	safeSubsystem('enhancement-repair-soon-2', () => tiferesReaderEnhancements.repairSoon());
