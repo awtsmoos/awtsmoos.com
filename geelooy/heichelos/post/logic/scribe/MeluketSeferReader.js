@@ -1174,12 +1174,40 @@ function finalizeSeferMount(sefer, post) {
 		console.log("B\"H sefer mount skipped: no #realPost element");
 		return;
 	}
+	// B"H — Yaakov's law: Hebrew in the DOM must stay visible. NEVER wipe
+	// server-rendered Hebrew to mount a sefer that has no Hebrew.
+	// Fail-safe: if the sefer carries no visible Hebrew but the current
+	// #realPost does (server-rendered .awtsmoos-initial-unit-he), abort the
+	// mount and keep the server content.
+	const seferHebrew = Array.from(sefer.querySelectorAll('.meluket-phrase--he'))
+		.filter(n => (n.textContent || '').replace(/\s+/g, '').length > 0);
+	const serverHebrew = realPost.querySelector('.awtsmoos-initial-unit-he');
+	if (!seferHebrew.length && serverHebrew) {
+		console.error("B\"H sefer mount ABORTED: sefer has no Hebrew but server content does — keeping server Hebrew visible");
+		try {
+			if (window.__awtsmoosReportClientError) {
+				window.__awtsmoosReportClientError({
+					kind: 'sefer-mount-aborted',
+					message: 'sefer had no Hebrew blocks; server Hebrew preserved',
+					file: 'MeluketSeferReader.js', line: 0, col: 0, stack: ''
+				});
+			}
+		} catch (_) { /* reporting is optional */ }
+		return;
+	}
 	// Replace the single-block rendering with the sefer.
 	// Preserve the post-title header if present (first child).
 	const existingTitle = realPost.querySelector('.post-title');
 	realPost.innerHTML = '';
 	if (existingTitle) realPost.appendChild(existingTitle);
 	realPost.appendChild(sefer);
+	// B"H — diagnostic: log what actually mounted, so invisible-Hebrew
+	// reports can be traced to the exact render outcome.
+	try {
+		const mountedHe = sefer.querySelectorAll('.meluket-phrase--he').length;
+		const mountedEn = sefer.querySelectorAll('.meluket-phrase--en').length;
+		console.log("B\"H sefer mounted: " + mountedHe + " Hebrew blocks, " + mountedEn + " English blocks, langMode=" + sefer.dataset.langMode);
+	} catch (_) { /* diagnostics never break the mount */ }
 	// Store reference to preserved title for language mode toggling
 	if (existingTitle) sefer._preservedTitle = existingTitle;
 
