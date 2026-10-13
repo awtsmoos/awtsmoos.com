@@ -1,23 +1,38 @@
 /* B"H — Shema Strike player: procedural chassid instantly, chossid.glb swaps in, side view. */
 import * as THREE from '/games/scripts/build/three.module.js';
 import { GLTFLoader } from '/games/scripts/jsm/loaders/GLTFLoader.js';
+import {
+	loadWardrobe,
+	applyWardrobe,
+	applyWardrobeToFallback,
+	subscribeWardrobe
+} from '/games/scripts/wardrobe/ChossidWardrobe.js';
 
 const GLB_URL = '/games/mitzvahWorld/build/generated/assets/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb';
 
+function tagSlot(material, slot) {
+	material.userData = material.userData || {};
+	material.userData.wardrobeSlot = slot;
+	return material;
+}
+
 function buildFallbackChassid() {
 	const g = new THREE.Group();
-	const skin = new THREE.MeshStandardMaterial({ color: 0xe8b88a, roughness: .8 });
-	const black = new THREE.MeshStandardMaterial({ color: 0x14161c, roughness: .85 });
-	const white = new THREE.MeshStandardMaterial({ color: 0xf2ede0, roughness: .9 });
+	const skin = tagSlot(new THREE.MeshStandardMaterial({ color: 0xe8b88a, roughness: .8 }), 'skin');
+	const black = tagSlot(new THREE.MeshStandardMaterial({ color: 0x14161c, roughness: .85 }), 'jacket');
+	const hatBlack = tagSlot(new THREE.MeshStandardMaterial({ color: 0x14161c, roughness: .85 }), 'tophat');
+	const white = tagSlot(new THREE.MeshStandardMaterial({ color: 0xf2ede0, roughness: .9 }), 'shirt');
+	const pantsBlack = tagSlot(new THREE.MeshStandardMaterial({ color: 0x14161c, roughness: .85 }), 'pants');
+	const shoeBlack = tagSlot(new THREE.MeshStandardMaterial({ color: 0x14161c, roughness: .85 }), 'shoes');
+	const beardMat = tagSlot(new THREE.MeshStandardMaterial({ color: 0x4a2f1a, roughness: 1 }), 'hair');
 
 	const head = new THREE.Mesh(new THREE.SphereGeometry(.22, 12, 10), skin);
 	head.position.y = 1.52; g.add(head);
-	const beard = new THREE.Mesh(new THREE.ConeGeometry(.13, .3, 8),
-		new THREE.MeshStandardMaterial({ color: 0x4a2f1a, roughness: 1 }));
+	const beard = new THREE.Mesh(new THREE.ConeGeometry(.13, .3, 8), beardMat);
 	beard.position.set(.14, 1.34, 0); beard.rotation.z = -Math.PI / 2; g.add(beard);
-	const hatTop = new THREE.Mesh(new THREE.CylinderGeometry(.2, .2, .22, 12), black);
+	const hatTop = new THREE.Mesh(new THREE.CylinderGeometry(.2, .2, .22, 12), hatBlack);
 	hatTop.position.y = 1.78; g.add(hatTop);
-	const hatBrim = new THREE.Mesh(new THREE.CylinderGeometry(.32, .32, .04, 14), black);
+	const hatBrim = new THREE.Mesh(new THREE.CylinderGeometry(.32, .32, .04, 14), hatBlack);
 	hatBrim.position.y = 1.68; g.add(hatBrim);
 	const coat = new THREE.Mesh(new THREE.CylinderGeometry(.24, .34, .85, 10), black);
 	coat.position.y = .95; g.add(coat);
@@ -26,9 +41,9 @@ function buildFallbackChassid() {
 
 	const legL = new THREE.Group(), legR = new THREE.Group();
 	for (const [leg, z] of [[legL, -.11], [legR, .11]]) {
-		const thigh = new THREE.Mesh(new THREE.CylinderGeometry(.09, .08, .5, 8), black);
+		const thigh = new THREE.Mesh(new THREE.CylinderGeometry(.09, .08, .5, 8), pantsBlack);
 		thigh.position.y = -.25; leg.add(thigh);
-		const shoe = new THREE.Mesh(new THREE.BoxGeometry(.3, .1, .14), black);
+		const shoe = new THREE.Mesh(new THREE.BoxGeometry(.3, .1, .14), shoeBlack);
 		shoe.position.set(.06, -.52, 0); leg.add(shoe);
 		leg.position.set(0, .62, z);
 		g.add(leg);
@@ -49,8 +64,18 @@ export function createPlayer(scene, onProgress) {
 
 	const parts = buildFallbackChassid();
 	root.add(parts.group);
+	// B"H — unified wardrobe: the fallback wears the user's look too.
+	applyWardrobeToFallback(parts);
 
 	let model = null, mixer = null, glbReady = false;
+
+	// Live wardrobe updates: re-apply to whichever body is showing.
+	const unsubscribeWardrobe = subscribeWardrobe((cfg) => {
+		try {
+			if (model) applyWardrobe(model, cfg);
+			else applyWardrobeToFallback(parts, cfg);
+		} catch (_) { /* never breaks gameplay */ }
+	});
 
 	(async () => {
 		try {
@@ -63,6 +88,8 @@ export function createPlayer(scene, onProgress) {
 					(err) => { clearTimeout(timer); reject(err); });
 			});
 			model = gltf.scene;
+			// B"H — unified wardrobe: the GLB wears the user's saved look on boot.
+			applyWardrobe(model, loadWardrobe());
 			const box = new THREE.Box3().setFromObject(model);
 			const size = new THREE.Vector3(); box.getSize(size);
 			model.scale.setScalar(1.8 / Math.max(size.y, .001));
@@ -126,6 +153,18 @@ export function createPlayer(scene, onProgress) {
 		state,
 		root,
 		get glbReady() { return glbReady; },
+		/** Re-applies the current wardrobe (e.g. after returning to the game). */
+		refreshWardrobe() {
+			try {
+				const cfg = loadWardrobe();
+				if (model) applyWardrobe(model, cfg);
+				else applyWardrobeToFallback(parts, cfg);
+			} catch (_) { /* never breaks gameplay */ }
+		},
+		/** Cleans up the wardrobe subscription. */
+		destroy() {
+			try { if (unsubscribeWardrobe) unsubscribeWardrobe(); } catch (_) { /* ignore */ }
+		},
 		reset(x, y) {
 			state.x = x; state.y = y; state.vx = 0; state.vy = 0;
 			state.dir = 0; state.facing = 1; state.grounded = false;

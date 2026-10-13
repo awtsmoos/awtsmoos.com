@@ -23,6 +23,11 @@ import {
 	getTempleModelAssetService
 } from "./TempleModelAssetService.js";
 import { NetzachTempleModelLoadAttempt } from "./TempleModelLoadAttempt.js";
+import {
+	loadWardrobe,
+	applyWardrobe,
+	subscribeWardrobe
+} from "../../../../scripts/wardrobe/ChossidWardrobe.js";
 
 export class NativeChossidLoader {
 	/**
@@ -44,6 +49,16 @@ export class NativeChossidLoader {
 		const netzachAttempt = new NetzachTempleModelLoadAttempt(yesodModelAssets);
 		const loaded = await netzachAttempt.load(yesodChossid.remoteUrl, "TempleRunnerChossid");
 		const gltf = loaded.model;
+		// B"H — unified wardrobe: the chossid wears the user's saved look on boot,
+		// and live-updates when the wardrobe changes in any game.
+		try {
+			applyWardrobe(gltf.scene, loadWardrobe());
+			if (!this.chochmahWardrobeUnsubscribe) {
+				this.chochmahWardrobeUnsubscribe = subscribeWardrobe((cfg) => {
+					try { if (gltf.scene) applyWardrobe(gltf.scene, cfg); } catch (_) { /* ignore */ }
+				});
+			}
+		} catch (_) { /* wardrobe never breaks gameplay */ }
 		const wrapped = this.createWrapper(gltf.scene);
 		const animation = await createTempleAnimationPlayer(gltf.scene, gltf.animations || []);
 		this.playRunningClip(animation);

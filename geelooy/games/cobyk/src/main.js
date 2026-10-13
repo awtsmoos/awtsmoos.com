@@ -4,6 +4,10 @@
 
 import { MalchusCobyKApp } from "./app/MalchusCobyKApp.js";
 import { CobyKStarfield } from "./ui/CobyKStarfield.js";
+import { attachWardrobeButton } from "/games/scripts/wardrobe/ChossidWardrobeUI.js";
+
+// B"H — unified wardrobe: floating button to dress your chossid.
+try { attachWardrobeButton(); } catch (_) { /* wardrobe UI is decorative */ }
 
 /**
  * @file main.js

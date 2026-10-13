@@ -1,0 +1,360 @@
+/* B"H — Chossid wardrobe panel styles. */
+
+.aw-wardrobe {
+	--aw-wardrobe-bg: #fffdf7;
+	--aw-wardrobe-ink: #2b2118;
+	--aw-wardrobe-muted: #8a7a63;
+	--aw-wardrobe-gold: #b98a2f;
+	--aw-wardrobe-gold-deep: #8a6420;
+	--aw-wardrobe-line: #e8dcc4;
+	--aw-wardrobe-chip: #f7f0df;
+	background: var(--aw-wardrobe-bg);
+	color: var(--aw-wardrobe-ink);
+	border: 1px solid var(--aw-wardrobe-line);
+	border-radius: 16px;
+	padding: 20px;
+	max-width: 420px;
+	width: 100%;
+	box-sizing: border-box;
+	font-family: inherit;
+}
+
+.aw-wardrobe-header {
+	margin-bottom: 12px;
+}
+
+.aw-wardrobe-title {
+	margin: 0 0 4px;
+	font-size: 20px;
+	color: var(--aw-wardrobe-ink);
+}
+
+.aw-wardrobe-subtitle {
+	margin: 0;
+	font-size: 13px;
+	color: var(--aw-wardrobe-muted);
+}
+
+.aw-wardrobe-body {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	max-height: 60vh;
+	overflow-y: auto;
+	padding-right: 4px;
+}
+
+.aw-wardrobe-row {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.aw-wardrobe-row-label {
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--aw-wardrobe-ink);
+}
+
+.aw-wardrobe-swatches {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+}
+
+.aw-wardrobe-swatch {
+	width: 34px;
+	height: 34px;
+	min-width: 34px;
+	min-height: 34px;
+	border-radius: 50%;
+	border: 2px solid var(--aw-wardrobe-line);
+	background: var(--swatch-color, #888);
+	cursor: pointer;
+	padding: 0;
+	transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+	touch-action: manipulation;
+}
+
+.aw-wardrobe-swatch:hover {
+	transform: scale(1.12);
+	border-color: var(--aw-wardrobe-gold);
+}
+
+.aw-wardrobe-swatch:focus-visible {
+	outline: 2px solid var(--aw-wardrobe-gold);
+	outline-offset: 2px;
+}
+
+.aw-wardrobe-swatch:active {
+	transform: scale(1.05);
+}
+
+.aw-wardrobe-swatch--selected {
+	border-color: var(--aw-wardrobe-gold-deep);
+	box-shadow: 0 0 0 2px var(--aw-wardrobe-bg), 0 0 0 4px var(--aw-wardrobe-gold);
+}
+
+.aw-wardrobe-custom {
+	width: 34px;
+	height: 34px;
+	min-width: 34px;
+	min-height: 34px;
+	border-radius: 50%;
+	border: 2px dashed var(--aw-wardrobe-line);
+	background: transparent;
+	cursor: pointer;
+	padding: 2px;
+	touch-action: manipulation;
+}
+
+.aw-wardrobe-custom:hover {
+	border-color: var(--aw-wardrobe-gold);
+}
+
+.aw-wardrobe-choices {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.aw-wardrobe-choice {
+	border: 1px solid var(--aw-wardrobe-line);
+	background: var(--aw-wardrobe-chip);
+	color: var(--aw-wardrobe-ink);
+	border-radius: 999px;
+	padding: 8px 16px;
+	font-size: 14px;
+	min-height: 40px;
+	cursor: pointer;
+	transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
+	touch-action: manipulation;
+}
+
+.aw-wardrobe-choice:hover {
+	border-color: var(--aw-wardrobe-gold);
+}
+
+.aw-wardrobe-choice:focus-visible {
+	outline: 2px solid var(--aw-wardrobe-gold);
+	outline-offset: 2px;
+}
+
+.aw-wardrobe-choice:active {
+	transform: scale(0.97);
+}
+
+.aw-wardrobe-choice--selected {
+	background: var(--aw-wardrobe-gold);
+	border-color: var(--aw-wardrobe-gold-deep);
+	color: #fffdf7;
+	font-weight: 600;
+}
+
+.aw-wardrobe-toggles {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+}
+
+.aw-wardrobe-toggle {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	border: 1px solid var(--aw-wardrobe-line);
+	background: var(--aw-wardrobe-chip);
+	color: var(--aw-wardrobe-ink);
+	border-radius: 12px;
+	padding: 10px 12px;
+	min-height: 48px;
+	cursor: pointer;
+	font-size: 14px;
+	transition: border-color 120ms ease, background 120ms ease;
+	touch-action: manipulation;
+}
+
+.aw-wardrobe-toggle:hover {
+	border-color: var(--aw-wardrobe-gold);
+}
+
+.aw-wardrobe-toggle:focus-visible {
+	outline: 2px solid var(--aw-wardrobe-gold);
+	outline-offset: 2px;
+}
+
+.aw-wardrobe-toggle:active {
+	transform: scale(0.98);
+}
+
+.aw-wardrobe-toggle-label {
+	font-weight: 600;
+}
+
+.aw-wardrobe-pill {
+	width: 44px;
+	height: 24px;
+	min-width: 44px;
+	border-radius: 999px;
+	background: #d8cba8;
+	position: relative;
+	transition: background 150ms ease;
+}
+
+.aw-wardrobe-pill-knob {
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: #fffdf7;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+	transition: left 150ms ease;
+}
+
+.aw-wardrobe-toggle--on .aw-wardrobe-pill {
+	background: var(--aw-wardrobe-gold);
+}
+
+.aw-wardrobe-toggle--on .aw-wardrobe-pill-knob {
+	left: 22px;
+}
+
+.aw-wardrobe-footer {
+	margin-top: 14px;
+	display: flex;
+	justify-content: center;
+}
+
+.aw-wardrobe-reset {
+	border: 1px solid var(--aw-wardrobe-line);
+	background: transparent;
+	color: var(--aw-wardrobe-muted);
+	border-radius: 999px;
+	padding: 8px 18px;
+	font-size: 13px;
+	min-height: 40px;
+	cursor: pointer;
+	transition: color 120ms ease, border-color 120ms ease;
+	touch-action: manipulation;
+}
+
+.aw-wardrobe-reset:hover {
+	color: var(--aw-wardrobe-ink);
+	border-color: var(--aw-wardrobe-gold);
+}
+
+.aw-wardrobe-reset:focus-visible {
+	outline: 2px solid var(--aw-wardrobe-gold);
+	outline-offset: 2px;
+}
+
+.aw-wardrobe-reset:active {
+	transform: scale(0.97);
+}
+
+/* Floating action button + dialog */
+
+.aw-wardrobe-fab {
+	position: fixed;
+	right: 16px;
+	bottom: 88px;
+	z-index: 60;
+	width: 52px;
+	height: 52px;
+	min-width: 52px;
+	min-height: 52px;
+	border-radius: 50%;
+	border: 1px solid var(--aw-wardrobe-gold-deep);
+	background: var(--aw-wardrobe-gold);
+	color: #fffdf7;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 4px 14px rgba(138, 100, 32, 0.35);
+	transition: transform 120ms ease, box-shadow 120ms ease;
+	touch-action: manipulation;
+}
+
+.aw-wardrobe-fab:hover {
+	transform: scale(1.08);
+	box-shadow: 0 6px 18px rgba(138, 100, 32, 0.45);
+}
+
+.aw-wardrobe-fab:focus-visible {
+	outline: 2px solid var(--aw-wardrobe-gold-deep);
+	outline-offset: 2px;
+}
+
+.aw-wardrobe-fab:active {
+	transform: scale(1.02);
+}
+
+.aw-wardrobe-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 100;
+	background: rgba(43, 33, 24, 0.55);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 16px;
+	box-sizing: border-box;
+}
+
+.aw-wardrobe-dialog {
+	position: relative;
+	width: 100%;
+	max-width: 440px;
+	max-height: 88vh;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
+
+.aw-wardrobe-dialog .aw-wardrobe {
+	max-width: none;
+}
+
+.aw-wardrobe-close {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	z-index: 2;
+	width: 40px;
+	height: 40px;
+	min-width: 40px;
+	min-height: 40px;
+	border-radius: 50%;
+	border: 1px solid var(--aw-wardrobe-line);
+	background: var(--aw-wardrobe-chip);
+	color: var(--aw-wardrobe-ink);
+	font-size: 22px;
+	line-height: 1;
+	cursor: pointer;
+	touch-action: manipulation;
+}
+
+.aw-wardrobe-close:hover {
+	border-color: var(--aw-wardrobe-gold);
+}
+
+.aw-wardrobe-close:focus-visible {
+	outline: 2px solid var(--aw-wardrobe-gold);
+	outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.aw-wardrobe-swatch,
+	.aw-wardrobe-choice,
+	.aw-wardrobe-toggle,
+	.aw-wardrobe-reset,
+	.aw-wardrobe-fab,
+	.aw-wardrobe-pill,
+	.aw-wardrobe-pill-knob {
+		transition: none;
+	}
+}

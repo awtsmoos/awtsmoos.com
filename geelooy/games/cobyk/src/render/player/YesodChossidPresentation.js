@@ -11,6 +11,11 @@ import {
 import { COBYK_CHOSSID_IDENTITY } from "../assets/CobyKChossidIdentity.js";
 import { BinaChossidFitCache } from "./BinaChossidFitCache.js";
 import { TiferesChossidPosePolicy } from "./TiferesChossidPosePolicy.js";
+import {
+	loadWardrobe,
+	applyWardrobe,
+	subscribeWardrobe
+} from "/games/scripts/wardrobe/ChossidWardrobe.js";
 
 // B"H — Yaakov 2026-10-13: play the chossid.glb built-in animations.
 // Side-view platformer: walk when moving, run when fast, jump/fall when airborne.
@@ -63,6 +68,9 @@ export class YesodChossidPresentation {
 			this.yesodPoseGroup.add(this.yesodFitGroup);
 			// B"H — Yaakov 2026-10-13: hook the GLB's built-in animations.
 			this.revealAnimationPlayer(chaiInstance, chaiRoot);
+			// B"H — unified wardrobe: the chossid wears the user's saved look on boot,
+			// and live-updates when the wardrobe changes in any game.
+			this.revealWardrobe(chaiRoot);
 			this.gevurahError = null;
 			this.update({ vx: 0 });
 			return this.yesodPoseGroup;
@@ -71,6 +79,36 @@ export class YesodChossidPresentation {
 			this.clear();
 			return null;
 		}
+	}
+
+	/**
+	 * B"H — unified wardrobe: applies the saved look and subscribes for
+	 * live updates from any game. Idempotent per presentation instance.
+	 * @param {object} chaiRoot Core-native Chossid scene.
+	 * @returns {void}
+	 */
+	revealWardrobe(chaiRoot) {
+		try {
+			applyWardrobe(chaiRoot, loadWardrobe());
+		} catch (_) { /* wardrobe never breaks gameplay */ }
+		if (this.chochmahWardrobeUnsubscribe) return;
+		try {
+			this.chochmahWardrobeUnsubscribe = subscribeWardrobe((cfg) => {
+				try {
+					if (this.chaiModelRoot) applyWardrobe(this.chaiModelRoot, cfg);
+				} catch (_) { /* ignore */ }
+			});
+		} catch (_) { /* ignore */ }
+	}
+
+	/**
+	 * Re-applies the current wardrobe (e.g. after returning to the game).
+	 * @returns {void}
+	 */
+	refreshWardrobe() {
+		try {
+			if (this.chaiModelRoot) applyWardrobe(this.chaiModelRoot, loadWardrobe());
+		} catch (_) { /* wardrobe never breaks gameplay */ }
 	}
 
 	/**
@@ -201,5 +239,9 @@ export class YesodChossidPresentation {
 		this.malchusFit = null;
 		this.chaiAnimPlayer = null;
 		this.malchusAnimName = null;
+		try {
+			if (this.chochmahWardrobeUnsubscribe) this.chochmahWardrobeUnsubscribe();
+		} catch (_) { /* ignore */ }
+		this.chochmahWardrobeUnsubscribe = null;
 	}
 }

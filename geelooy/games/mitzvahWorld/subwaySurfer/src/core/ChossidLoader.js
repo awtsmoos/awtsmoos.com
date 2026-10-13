@@ -9,6 +9,11 @@
  */
 
 import { ASSET_PATHS, CHAI_CONFIG } from "../config.js";
+import {
+	loadWardrobe,
+	applyWardrobe,
+	subscribeWardrobe
+} from "../../../../scripts/wardrobe/ChossidWardrobe.js";
 
 export class ChaiChossidLoader {
 	/**
@@ -37,6 +42,16 @@ export class ChaiChossidLoader {
 		const malchusRaw = chochmahGltf.scene;
 		const netzachClips = chochmahGltf.animations || [];
 		this.normalize(malchusRaw);
+		// B"H — unified wardrobe: the chossid wears the user's saved look on boot,
+		// and live-updates when the wardrobe changes in any game.
+		try {
+			applyWardrobe(malchusRaw, loadWardrobe());
+			if (!this.chochmahWardrobeUnsubscribe) {
+				this.chochmahWardrobeUnsubscribe = subscribeWardrobe((cfg) => {
+					try { applyWardrobe(malchusRaw, cfg); } catch (_) { /* ignore */ }
+				});
+			}
+		} catch (_) { /* wardrobe never breaks gameplay */ }
 		malchusWrapper.add(malchusRaw);
 		malchusWrapper.name = "ChossidRunner";
 		malchusWrapper.userData.awtsmoosCharacter = true;

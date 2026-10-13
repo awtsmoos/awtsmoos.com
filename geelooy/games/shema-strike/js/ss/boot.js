@@ -1,5 +1,6 @@
 /* B"H — Boot: loading screen, tips, error handling, game start. */
 import { startGame } from './game.js';
+import { attachWardrobeButton } from '/games/scripts/wardrobe/ChossidWardrobeUI.js';
 
 const TIPS = [
 	'Arrow keys or swipe to move — jump the gaps',
@@ -60,3 +61,6 @@ if (document.readyState === 'loading') {
 } else {
 	boot();
 }
+
+// B"H — unified wardrobe: floating button to dress your chossid.
+try { attachWardrobeButton(); } catch (_) { /* wardrobe UI is decorative */ }

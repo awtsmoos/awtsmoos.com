@@ -9,8 +9,12 @@
  */
 
 import { TempleGameBootstrap } from "./app/TempleGameBootstrap.js?compact=true";
+import { attachWardrobeButton } from "/games/scripts/wardrobe/ChossidWardrobeUI.js";
 
 const kesserBootstrap = new TempleGameBootstrap(document);
+
+// B"H — unified wardrobe: floating button to dress your chossid.
+try { attachWardrobeButton(); } catch (_) { /* wardrobe UI is decorative */ }
 
 kesserBootstrap.start()
 	.then((kesserApi) => {
