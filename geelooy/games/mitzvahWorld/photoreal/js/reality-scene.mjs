@@ -320,7 +320,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       // B"H — dramatic sunbeams (Yaakov 2026-10-13 "Fix it"): bright enough
       // to read against the canopy. Positioned to overlap tree edges where
       // additive glow is visible (not in open sky).
-      depthWrite: false, side: THREE.DoubleSide, fog: false, opacity: 0.45,
+      depthWrite: false, side: THREE.DoubleSide, fog: false, opacity: 0.22,
     });
     const shaftGeo = new THREE.PlaneGeometry(4.5, 40);
     const q = new THREE.Quaternion().setFromUnitVectors(
@@ -439,6 +439,10 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     tex.colorSpace = THREE.SRGBColorSpace;
     tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
     tex.anisotropy = 4;
+    // B"H 2026-10-13 texture-detail: no mipmaps on foliage — mip chains blur
+    // the individual-leaf detail to mush at render distance. Crisp always.
+    tex.generateMipmaps = false;
+    tex.minFilter = THREE.LinearFilter;
     return tex;
   }
 
@@ -709,14 +713,13 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     color: new THREE.Color(0.85, 0.85, 0.80),
   });
   const canopyMat = new THREE.MeshStandardMaterial({
-    // B"H 2026-10-13 leaves-fix: was canopyTex (fine-grain photo that minified
-    // to flat green on every quad). Now leafClusterTex — big INDIVIDUAL LEAVES
-    // with real alpha, so every baked quad reads as foliage. Muted tint keeps
-    // the sunlit photo from bleaching to pale; small emissive keeps shadowed
-    // leaves deep green instead of black.
+    // B"H 2026-10-13 texture-detail: was pale sage tint (0.58,0.66,0.55) washing
+    // the rich leaf photo to flat paper. Deep forest tint lets real leaf detail
+    // show. depthWrite kills alpha-test flicker.
     map: leafClusterTex, alphaTest: 0.35, side: THREE.DoubleSide,
-    roughness: 0.9, color: new THREE.Color(0.58, 0.66, 0.55),
-    emissive: new THREE.Color(0.028, 0.05, 0.02),
+    roughness: 0.9, color: new THREE.Color(0.32, 0.40, 0.30),
+    emissive: new THREE.Color(0.012, 0.022, 0.010),
+    depthWrite: true,
   });
   const ARCHETYPES = [
     ['Oak Large', 'oak-large'], ['Pine Large', 'pine-large'],
@@ -846,11 +849,12 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
        around twig tips. Foliage hugs the wood: quads sit at multiple points
        along each segment's length with small jitter, so no leaf floats in
        empty space and the crown interior stays full. */
-    const quadGeo = new THREE.PlaneGeometry(1.7, 1.7);
+    const quadGeo = new THREE.PlaneGeometry(2.6, 2.6);
     const quadMat = new THREE.MeshStandardMaterial({
       map: leafClusterTex, alphaTest: 0.35, side: THREE.DoubleSide,
-      roughness: 0.9, color: new THREE.Color(0.58, 0.66, 0.55),
-      emissive: new THREE.Color(0.028, 0.05, 0.02),
+      roughness: 0.9, color: new THREE.Color(0.32, 0.40, 0.30),
+      emissive: new THREE.Color(0.012, 0.022, 0.010),
+      depthWrite: true,
     });
     // anchor points: along-segment points + tips
     const anchors = [];
@@ -866,7 +870,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       }
     }
     for (const tp of tips) anchors.push({ x: tp.x, y: tp.y, z: tp.z });
-    const PER_ANCHOR = fast ? 2 : 3;
+    const PER_ANCHOR = fast ? 3 : 4;
     const inst = new THREE.InstancedMesh(quadGeo, quadMat, anchors.length * PER_ANCHOR);
     const out = new THREE.Vector3();
     const tint = new THREE.Color();
