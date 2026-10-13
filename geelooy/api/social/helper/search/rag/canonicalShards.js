@@ -51,6 +51,7 @@ const CANONICAL_SHARD_FILES = Object.freeze([
 	'likkutei-sichos-english-rag.awtsdb',
 	'hemshech5666-english-rag.awtsdb',
 	'sefer-hamaamarim-english-rag.awtsdb',
+	'mittler-rebbe-rag.awtsdb',
 	...WIKISOURCE_TORAH_FILES
 ]);
 
