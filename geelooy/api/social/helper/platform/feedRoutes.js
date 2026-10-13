@@ -13,8 +13,8 @@
  */
 const { list } = require('./platformStore.js');
 const { listRelationships } = require('./follow.js');
-const { readAllPost } = require('../packed/allPostsIndex.js');
-const { excerptOf } = require('../packed/socialPacked.js');
+const { readPacked, excerptOf } = require('../packed/socialPacked.js');
+const { logicalKey } = require('../packed/shardPaths.js');
 
 const CACHE_TTL_MS = 25000;
 const rankCache = new Map();
@@ -287,15 +287,17 @@ function buildAffinity(userId) {
 /**
  * B"H 2026-10-13 (social-feed-audit): backfill excerpts at feed time.
  * Posts indexed before the excerptOf fix carry excerpt:"" — for those, read
- * the full post from the allPosts shard once and compute. Results ride the
+ * the full post from the core shard once and compute. Results ride the
  * normal 25s rank cache, so this costs at most ~12 sync reads per cache miss.
  */
 function enrichExcerpts($i, items) {
 	for (const item of items) {
 		if (item && !item.excerpt) {
 			try {
-				const full = readAllPost({ $i, heichelId: item.heichelId || '', postId: item.postId || item.id || '' });
-				const ex = full && excerptOf(full.value || full);
+				const key = logicalKey(['posts', item.heichelId || '', item.postId || item.id || '']);
+				const rec = readPacked({ $i, shard: 'core', key });
+				const full = rec && (rec.value || rec);
+				const ex = full && excerptOf(full);
 				if (ex) item.excerpt = ex;
 			} catch (_) { /* leave bare */ }
 		}
