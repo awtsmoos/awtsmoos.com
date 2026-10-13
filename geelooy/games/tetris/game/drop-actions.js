@@ -56,6 +56,7 @@ export function hardDrop(game) {
 		distance += 1;
 	}
 	game.state.addDropPoints(distance * 2);
+	if (typeof window !== 'undefined' && window.AwtsmoosFx) window.AwtsmoosFx.sfx('harddrop');
 	lockPiece(game);
 	return true;
 }

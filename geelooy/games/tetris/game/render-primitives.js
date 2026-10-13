@@ -8,6 +8,19 @@ import {
 	HIDDEN_ROWS,
 	VISIBLE_ROWS
 } from '../constants.js';
+import { paintGlossBlock } from '../../scripts/player-shell/fx/game-textures.js';
+
+/** Derive hi/base/dark shades from one hex for the glossy block painter. */
+function shade(hex, amt) {
+	const n = parseInt(hex.slice(1), 16);
+	const f = (c) => Math.max(0, Math.min(255, Math.round(c + amt)));
+	const r = f((n >> 16) & 255), g = f((n >> 8) & 255), b = f(n & 255);
+	return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+}
+const BLOCK_TONES = {};
+for (const [id, hex] of Object.entries(COLORS)) {
+	BLOCK_TONES[id] = { hi: shade(hex, 70), base: hex, dark: shade(hex, -70) };
+}
 
 /**
  * @file render-primitives.js
@@ -82,15 +95,12 @@ function drawBrick(renderer, boardX, boardY, typeId, alpha) {
 	const y = renderer.offsetY + (boardY - HIDDEN_ROWS) * renderer.blockSize;
 	const padding = Math.max(1, renderer.blockSize * 0.08);
 	const context = renderer.context;
+	const s = renderer.blockSize - padding * 2;
 	context.globalAlpha = alpha;
-	context.fillStyle = '#000000';
-	context.fillRect(x, y, renderer.blockSize, renderer.blockSize);
-	context.fillStyle = COLORS[typeId];
-	context.fillRect(
-		x + padding,
-		y + padding,
-		renderer.blockSize - padding * 2,
-		renderer.blockSize - padding * 2
-	);
+	// B"H glossy beveled block: gradient, top gloss, speckle, bevel edge.
+	paintGlossBlock(context, x + padding, y + padding, s, BLOCK_TONES[typeId] || BLOCK_TONES[1], {
+		radius: Math.max(2, s * 0.12),
+		seed: boardX * 31 + boardY * 17
+	});
 	context.globalAlpha = 1;
 }

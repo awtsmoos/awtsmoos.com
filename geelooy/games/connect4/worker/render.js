@@ -36,30 +36,81 @@ const Connect4Render = {
 		};
 	},
 
-	/** Draw every board cell and accepted disc. */
+	/** Draw every board cell and accepted disc: deep-ocean lacquer + glossy discs. */
 	drawBoard(state, geometry) {
 		const { cellWidth, cellHeight, radius } = geometry;
+		const ctx = state.context;
+		const W = state.canvas.width, H = state.canvas.height;
+		// B"H lacquered board: deep blue gradient with subtle wave texture.
+		const bg = ctx.createLinearGradient(0, 0, 0, H);
+		bg.addColorStop(0, '#1565c0');
+		bg.addColorStop(0.5, '#0d47a1');
+		bg.addColorStop(1, '#082c6c');
+		ctx.fillStyle = bg;
+		ctx.fillRect(0, 0, W, H);
+		ctx.save();
+		ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.clip();
+		ctx.strokeStyle = 'rgba(255,255,255,0.045)';
+		ctx.lineWidth = 1.4;
+		for (let i = 0; i < 26; i += 1) {
+			const wy = (i / 26) * H + Math.sin(i * 2.3) * 6;
+			ctx.beginPath();
+			ctx.moveTo(0, wy);
+			ctx.bezierCurveTo(W * 0.3, wy + 8, W * 0.7, wy - 8, W, wy);
+			ctx.stroke();
+		}
+		ctx.restore();
 		for (let row = 0; row < Connect4Rules.rows; row += 1) {
 			for (let column = 0; column < Connect4Rules.columns; column += 1) {
-				state.context.fillStyle = '#0d47a1';
-				state.context.fillRect(
-					column * cellWidth,
-					row * cellHeight,
-					cellWidth,
-					cellHeight
-				);
-				state.context.beginPath();
-				state.context.arc(
-					column * cellWidth + cellWidth / 2,
-					row * cellHeight + cellHeight / 2,
-					radius,
-					0,
-					Math.PI * 2
-				);
-				state.context.fillStyle = this.discColor(state.board[row][column]);
-				state.context.fill();
+				const cx = column * cellWidth + cellWidth / 2;
+				const cy = row * cellHeight + cellHeight / 2;
+				// socket shadow
+				ctx.save();
+				ctx.fillStyle = 'rgba(0,0,0,0.45)';
+				ctx.beginPath();
+				ctx.arc(cx + 2, cy + 3, radius, 0, Math.PI * 2);
+				ctx.fill();
+				ctx.restore();
+				const piece = state.board[row][column];
+				if (piece) this.drawGlossDisc(ctx, cx, cy, radius, piece);
+				else {
+					// empty socket: dark inset
+					const sg = ctx.createRadialGradient(cx - radius * 0.3, cy - radius * 0.3, radius * 0.2, cx, cy, radius);
+					sg.addColorStop(0, '#061a3a');
+					sg.addColorStop(1, '#0a2f66');
+					ctx.fillStyle = sg;
+					ctx.beginPath();
+					ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+					ctx.fill();
+				}
 			}
 		}
+	},
+
+	/** Glossy 3D disc with specular highlight. player 1 = ruby, player 2 = gold. */
+	drawGlossDisc(ctx, cx, cy, radius, player) {
+		const tones = player === 1
+			? { hi: '#ff8a8a', base: '#e53232', dark: '#8f1010' }
+			: { hi: '#ffe9a8', base: '#f5c542', dark: '#9a6f10' };
+		const g = ctx.createRadialGradient(cx - radius * 0.35, cy - radius * 0.4, radius * 0.1, cx, cy, radius);
+		g.addColorStop(0, tones.hi);
+		g.addColorStop(0.55, tones.base);
+		g.addColorStop(1, tones.dark);
+		ctx.fillStyle = g;
+		ctx.beginPath();
+		ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+		ctx.fill();
+		// specular
+		ctx.fillStyle = 'rgba(255,255,255,0.5)';
+		ctx.beginPath();
+		ctx.ellipse(cx - radius * 0.32, cy - radius * 0.38, radius * 0.28, radius * 0.16, -0.5, 0, Math.PI * 2);
+		ctx.fill();
+		// rim
+		ctx.strokeStyle = 'rgba(0,0,0,0.4)';
+		ctx.lineWidth = 2;
+		ctx.beginPath();
+		ctx.arc(cx, cy, radius - 1, 0, Math.PI * 2);
+		ctx.stroke();
 	},
 
 	/** Draw keyboard/pointer preview: arrow at top plus a ghost disc where the piece will land. */
@@ -102,16 +153,13 @@ const Connect4Render = {
 	drawAnimatedPiece(state, geometry) {
 		if (!state.animatedPiece) return;
 		const { cellWidth, cellHeight, radius } = geometry;
-		state.context.beginPath();
-		state.context.arc(
+		this.drawGlossDisc(
+			state.context,
 			state.animatedPiece.column * cellWidth + cellWidth / 2,
 			state.animatedPiece.y + cellHeight / 2,
 			radius,
-			0,
-			Math.PI * 2
+			state.animatedPiece.player
 		);
-		state.context.fillStyle = this.discColor(state.animatedPiece.player);
-		state.context.fill();
 	},
 
 	/** Draw a noninteractive terminal veil; semantic result actions live in DOM. */

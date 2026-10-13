@@ -6,6 +6,7 @@
 
 import { teachingsNovel } from './teachings.js';
 import { drawChessPiece } from './pieces.js';
+import { paintWood } from '/games/scripts/player-shell/fx/game-textures.js';
 document.addEventListener('DOMContentLoaded', () => {
 	// --- DOM Element References ---
 	const canvas = document.getElementById('chessCanvas');
@@ -878,8 +879,14 @@ function drawAnalysisBoard() {
 	            const squareX = BOARD_PADDING + c_idx * SQUARE_SIZE;
 	            const squareY = BOARD_PADDING + r_idx * SQUARE_SIZE;
 	
-	            canvasContext.fillStyle = (r_idx + c_idx) % 2 === 0 ? '#f0d9b5' : '#b58863';
-	            canvasContext.fillRect(squareX, squareY, SQUARE_SIZE, SQUARE_SIZE);
+	            // B"H wood-grain squares: no flat colors.
+	            if ((r_idx + c_idx) % 2 === 0) {
+	                paintWood(canvasContext, squareX, squareY, SQUARE_SIZE, SQUARE_SIZE,
+	                    { base: '#e8c98a', dark: '#c9a05a', light: '#f5e0b0', seed: r_idx * 8 + c_idx });
+	            } else {
+	                paintWood(canvasContext, squareX, squareY, SQUARE_SIZE, SQUARE_SIZE,
+	                    { base: '#8a5a2b', dark: '#5e3a17', light: '#a06a35', seed: 100 + r_idx * 8 + c_idx });
+	            }
 	            // B"H last-move trail: golden wash on from/to squares
 	            if (gameState.lastMove && (gameState.lastMove.from[0] === r && gameState.lastMove.from[1] === c ||
 	                gameState.lastMove.to[0] === r && gameState.lastMove.to[1] === c)) {

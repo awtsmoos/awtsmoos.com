@@ -51,7 +51,13 @@ export class TetrisRunState {
 		}
 		this.score += LINE_SCORES[cleared] * this.level;
 		this.lines += cleared;
+		const prevLevel = this.level;
 		this.level = Math.floor(this.lines / 10) + 1;
+		// B"H game feel: rising arpeggio for line clears, fanfare for level-up.
+		if (typeof window !== 'undefined' && window.AwtsmoosFx) {
+			window.AwtsmoosFx.sfx(`clear${cleared}`);
+			if (this.level > prevLevel) window.AwtsmoosFx.sfx('levelup');
+		}
 		this.dropInterval = Math.max(
 			75,
 			Math.round(900 * Math.pow(0.84, this.level - 1))
