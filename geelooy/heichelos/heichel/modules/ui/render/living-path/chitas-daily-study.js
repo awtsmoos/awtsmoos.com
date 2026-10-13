@@ -6,8 +6,9 @@
  * @file chitas-daily-study.js
  * @description
  * Renders the full Daily Chitas study: today's Hebrew + secular date,
- * Chumash (day's aliyah), Tanya (day's portion), and Tehillim (monthly cycle).
- * Israel/Diaspora toggle with auto-detect.
+ * Chumash (day's aliyah), Tanya (day's portion), Tehillim (monthly cycle),
+ * and Rambam (3-chapter + 1-chapter tracks). Israel/Diaspora toggle with
+ * auto-detect.
  *
  * Every card shows real study text in BOTH Hebrew and English: the section
  * renders immediately with references, then hydrates bilingual verse excerpts
@@ -16,6 +17,14 @@
 
 import { resolveIsraelMode, setStoredIsraelMode, getStoredIsraelMode, detectIsraelByTimezone } from '../../../chitas/israel-mode.js';
 import { versesForRange, psalmPreview } from '../../../chitas/verses.js';
+import {
+  commentaryMapForVerses,
+  getStoredCommentator,
+  setStoredCommentator,
+  createCommentatorToggle,
+  buildCommentaryBlock,
+  verseKey,
+} from '../../../chitas/commentary.js';
 
 /**
  * Number -> Hebrew numeral (e.g. 25 -> כ״ה), with proper geresh/gershayim.
@@ -151,6 +160,73 @@ function appendVerses(card, verses) {
   }
 }
 
+/**
+ * Renders each preview verse with its commentary underneath (verse → Rashi
+ * by default). The commentator toggle switches Rashi / Ramban / Ibn Ezra and
+ * persists the choice in localStorage.
+ */
+async function appendChumashCommentary(card, c, verses) {
+  const startParsed = String(c.start || '').match(/^(\w+)\s+(\d+):(\d+)/);
+  const book = startParsed ? startParsed[1].toLowerCase() : '';
+  const block = el('div', 'chitas-chumash-commentary');
+  const toggle = createCommentatorToggle(getStoredCommentator(), (name) => {
+    setStoredCommentator(name);
+    show(name);
+  });
+  const groups = el('div', 'chitas-verse-groups');
+  block.append(toggle, groups);
+  card.textWrap.append(block);
+
+  async function show(name) {
+    groups.innerHTML = '';
+    const loading = el('p', 'chitas-commentary-loading', 'Loading commentary… · טוען פירוש…');
+    loading.setAttribute('aria-live', 'polite');
+    groups.append(loading);
+    let byRef = new Map();
+    try {
+      byRef = await commentaryMapForVerses(name, book, verses.map(v => v.ref));
+    } catch { /* verses stay bare */ }
+    loading.remove();
+    for (const v of verses) {
+      const group = el('div', 'chitas-verse-group');
+      const vEl = el('div', 'chitas-verse');
+      if (v.he) vEl.append(heEl('p', 'chitas-verse-he', v.he));
+      if (v.en) vEl.append(el('p', 'chitas-verse-en', v.en));
+      group.append(vEl);
+      const comments = byRef.get(verseKey(v.ref));
+      if (comments && comments.length) group.append(buildCommentaryBlock(name, comments));
+      groups.append(group);
+    }
+  }
+
+  await show(getStoredCommentator());
+}
+
+function chitasDateKey(studyDate) {
+  const y = studyDate.getFullYear();
+  const m = String(studyDate.getMonth() + 1).padStart(2, '0');
+  const d = String(studyDate.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
+/**
+ * Link to the full virtual post page (all aliyah verses + commentary).
+ * Uses the heichel the card lives in — the same one the day rows link with.
+ */
+function chumashPostHref(studyDate, heichelId) {
+  const dateKey = chitasDateKey(studyDate);
+  let h = heichelId;
+  if (!h) {
+    try {
+      const m = location.pathname.match(/\/heichelos\/([^/]+)/);
+      h = m ? decodeURIComponent(m[1]) : 'ikar';
+    } catch { h = 'ikar'; }
+  }
+  const params = new URLSearchParams();
+  params.set('chitasDate', dateKey);
+  return `/heichelos/${encodeURIComponent(h)}/series/daily-chitas/post/chitas-${dateKey}?${params}`;
+}
+
 function appendLink(card, href, text) {
   const a = el('a', 'chitas-daily-card-link', text);
   a.href = href;
@@ -197,16 +273,37 @@ function reloadWithIsrael(israel) {
 }
 
 /**
+ * First bilingual unit of a Rambam chapter post. Rambam posts carry full
+ * Hebrew + English translations in `hebrew`/`english` unit fields.
+ * Returns null when the post (or its text) is unavailable.
+ */
+async function fetchRambamExcerpt(seriesId, postId) {
+  const url = `/api/social/heichelos/rambam/series/${encodeURIComponent(seriesId)}/post/${encodeURIComponent(postId)}`;
+  const res = await fetch(url, { cache: 'force-cache' });
+  if (!res.ok) return null;
+  const post = await res.json();
+  const units = Array.isArray(post.units) ? post.units : [];
+  const first = units.find(u => (u.hebrew || u.english));
+  if (!first) return null;
+  return {
+    he: truncate(stripVilnaMarkers(first.hebrew), 600),
+    en: truncate(first.english, 600),
+  };
+}
+
+/**
  * Fills each card with bilingual text after the shell renders.
  */
-async function hydrateCardTexts(dailyStudy, cards) {
-  // 1. Chumash — first verses of the day's aliyah.
+async function hydrateCardTexts(dailyStudy, cards, studyDate, heichelId) {
+  // 1. Chumash — first verses of the day's aliyah, each with Rashi (default)
+  //    commentary underneath and a commentator toggle.
   if (cards.chumash && dailyStudy.chumash) {
     const c = dailyStudy.chumash;
     try {
       const verses = await versesForRange(c.start, c.end, 3);
       cards.chumash.loading?.remove();
-      if (verses.length) appendVerses(cards.chumash, verses);
+      if (verses.length) await appendChumashCommentary(cards.chumash, c, verses);
+      appendLink(cards.chumash, chumashPostHref(studyDate, heichelId), 'Open Chumash →');
     } catch (e) {
       cards.chumash.loading?.remove();
     }
@@ -265,15 +362,59 @@ async function hydrateCardTexts(dailyStudy, cards) {
       cards.tehillim.loading?.remove();
     }
   }
+  // 4. Rambam — both tracks, each with a bilingual excerpt + chapter link.
+  if (cards.rambam && dailyStudy.rambam) {
+    const r = dailyStudy.rambam;
+    try {
+      cards.rambam.loading?.remove();
+      if (r.track3) await hydrateRambamTrack(cards.rambam, r.track3, false);
+      if (r.track1) {
+        const divider = el('div', 'chitas-daily-track-divider');
+        divider.setAttribute('aria-hidden', 'true');
+        cards.rambam.textWrap.append(divider);
+        await hydrateRambamTrack(cards.rambam, r.track1, true);
+      }
+    } catch (e) {
+      cards.rambam.loading?.remove();
+    }
+  }
+}
+
+/**
+ * Fills one Rambam track (3-chapter or 1-chapter) inside the Rambam card:
+ * track header, bilingual portion label, excerpt of the first chapter,
+ * and an "Open Rambam →" link to that chapter post.
+ */
+async function hydrateRambamTrack(card, track, isSingle) {
+  const dayHe = hebrewNumeral(track.dayOfCycle);
+  const cycleHe = hebrewNumeral(track.cycle);
+  const trackEn = isSingle ? '1 Chapter a Day' : '3 Chapters a Day';
+  const trackHe = isSingle ? 'פרק אחד ליום' : 'שלושה פרקים ליום';
+  appendRef(card,
+    `${trackEn} · Day ${track.dayOfCycle} of ${track.cycleLen} · Cycle ${track.cycle}`,
+    `${trackHe} · יום ${dayHe} מתוך ${track.cycleLen} · מחזור ${cycleHe}`);
+  card.textWrap.append(el('p', 'chitas-daily-card-subtitle', track.label));
+  card.textWrap.append(heEl('p', 'chitas-daily-card-subtitle-he', track.labelHe));
+  const first = isSingle ? track.reading : track.readings[0];
+  if (first && first.postId && first.seriesId) {
+    try {
+      const excerpt = await fetchRambamExcerpt(first.seriesId, first.postId);
+      if (excerpt && (excerpt.he || excerpt.en)) {
+        appendVerses(card, [{ he: excerpt.he, en: excerpt.en }]);
+      }
+    } catch (e) { /* excerpt stays empty; label + link still show */ }
+    if (first.url) appendLink(card, first.url, 'Open Rambam →');
+  }
 }
 
 /**
  * Renders the full daily study section.
  * @param {object} dailyStudy The dailyStudy object from virtual-series.
  * @param {Date} studyDate The selected date.
+ * @param {string} heichelId The heichel hosting the study (for post links).
  * @returns {HTMLElement}
  */
-export function createDailyStudySection(dailyStudy, studyDate) {
+export function createDailyStudySection(dailyStudy, studyDate, heichelId) {
   const section = el('section', 'chitas-daily-study');
   section.setAttribute('aria-label', 'Daily Chitas Study');
 
@@ -335,10 +476,18 @@ export function createDailyStudySection(dailyStudy, studyDate) {
     grid.append(built.card);
   }
 
+  // 4. Rambam — both daily tracks (3 chapters + 1 chapter).
+  if (dailyStudy.rambam) {
+    const built = createStudyCard('Rambam', 'רמב״ם');
+    built.loading = appendLoading(built);
+    cards.rambam = built;
+    grid.append(built.card);
+  }
+
   section.append(grid);
 
   // Fill in bilingual text asynchronously — the shell stays fast.
-  hydrateCardTexts(dailyStudy, cards).catch(() => {});
+  hydrateCardTexts(dailyStudy, cards, studyDate, heichelId).catch(() => {});
 
   return section;
 }

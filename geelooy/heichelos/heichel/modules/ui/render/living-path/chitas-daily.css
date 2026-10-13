@@ -191,6 +191,12 @@
   margin: 0 0 0.75rem 0;
 }
 
+/* Divider between the two Rambam tracks inside the Rambam card. */
+.chitas-daily-track-divider {
+  border-top: 1px solid var(--border, #e5ddcc);
+  margin: 1rem 0 0.85rem 0;
+}
+
 .chitas-daily-card-subtitle {
   font-size: 0.95rem;
   font-weight: 600;
@@ -257,6 +263,133 @@
   margin: 0;
 }
 
+/* ---------- Chumash commentary (Rashi default, toggleable) ---------- */
+
+.chitas-chumash-commentary {
+  margin-top: 1.25rem;
+  padding-top: 1.1rem;
+  border-top: 1px dashed var(--border, #e5ddcc);
+}
+
+.chitas-commentator-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.chitas-commentator-toggle-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted, #6b5f4a);
+  margin-inline-end: 0.25rem;
+}
+
+.chitas-commentator-btn {
+  min-height: 36px;
+  padding: 0.4rem 1rem;
+  border: 1px solid var(--border, #e5ddcc);
+  border-radius: 999px;
+  background: var(--card, #ffffff);
+  color: var(--text, #2c2416);
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.chitas-commentator-btn:hover {
+  border-color: var(--accent, #b8860b);
+  background: var(--surface-hover, #f5f0e6);
+}
+
+.chitas-commentator-btn:active {
+  transform: translateY(1px);
+}
+
+.chitas-commentator-btn:focus {
+  outline: 2px solid var(--accent, #b8860b);
+  outline-offset: 2px;
+}
+
+.chitas-commentator-btn.is-active {
+  background: var(--accent, #b8860b);
+  border-color: var(--accent, #b8860b);
+  color: var(--on-accent, #ffffff);
+  font-weight: 600;
+}
+
+.chitas-verse-group {
+  margin: 0 0 1.4rem 0;
+}
+
+.chitas-verse-group:last-child {
+  margin-bottom: 0.25rem;
+}
+
+.chitas-commentary {
+  margin-top: 0.75rem;
+  padding: 0.85rem 1.05rem;
+  border-radius: 4px 12px 12px 4px;
+  border-inline-start: 3px solid var(--accent, #b8860b);
+  background: var(--commentary-bg, #f6f1e4);
+}
+
+.chitas-commentary-label {
+  margin: 0 0 0.55rem 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-dark, #8a6d1f);
+}
+
+.chitas-comment {
+  margin: 0 0 0.8rem 0;
+}
+
+.chitas-comment:last-child {
+  margin-bottom: 0;
+}
+
+.chitas-commentary-he {
+  font-family: "Noto Serif Hebrew", "David Libre", David, "Times New Roman", serif;
+  font-size: 1.02rem;
+  line-height: 1.8;
+  color: var(--text, #2c2416);
+  margin: 0 0 0.45rem 0;
+}
+
+.chitas-commentary-en {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: var(--text-muted, #6b5f4a);
+  margin: 0;
+}
+
+.chitas-commentary-loading {
+  font-size: 0.9rem;
+  color: var(--text-muted, #6b5f4a);
+  margin: 0.5rem 0;
+}
+
+/* Full post page: commentary injected under each rendered verse chunk. */
+.chitas-post-commentary {
+  margin: 0.9rem 0 1.6rem 0;
+}
+
+.chitas-post-commentary-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 1.5rem 0;
+}
+
+.chitas-post-commentary-bar .chitas-commentator-toggle {
+  margin-bottom: 0;
+}
+
 /* ---------- Card links ---------- */
 
 .chitas-daily-card-link {
@@ -303,6 +436,8 @@
   --text: #e8dfc8;
   --text-muted: #a89a7c;
   --on-accent: #ffffff;
+  --commentary-bg: #26211a;
+  --accent-dark: #d9b45b;
 }
 
 /* ---------- Mobile ---------- */

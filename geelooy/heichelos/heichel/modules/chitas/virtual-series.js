@@ -7,7 +7,8 @@
  * @description
  * The Awtsmoos gives a timeless doorway to a study path reborn with every date;
  * builds the full Daily Chitas: Chumash (day's aliyah), Tanya (day's portion),
- * and Tehillim (monthly cycle), with Israel/Diaspora awareness.
+ * Tehillim (monthly cycle), and Rambam (3-chapter + 1-chapter tracks),
+ * with Israel/Diaspora awareness.
  */
 
 import { CHITAS_SERIES_ID, shouldOfferChitas } from './constants.js';
@@ -18,6 +19,7 @@ import { hebrewDateFromGregorian } from './hebrew-date.js';
 import { tanyaForDate } from './daily-tanya.js';
 import { tehillimForDate } from './daily-tehillim.js';
 import { chumashForDate } from './daily-chumash.js';
+import { rambamForDate } from './daily-rambam.js';
 import { resolveIsraelMode } from './israel-mode.js';
 import { toLocalDateKey } from './date-policy.js';
 
@@ -27,7 +29,7 @@ export function injectChitasGrouping(groupings, heichelId, seriesId) {
   return [...groupings, {
     id: CHITAS_SERIES_ID,
     name: 'Daily Chitas',
-    description: 'Chumash · Tanya · Tehillim — the day\u2019s portions, every day.',
+    description: 'Chumash · Tanya · Tehillim · Rambam — the day\u2019s portions, every day.',
     type: 'grouping',
     virtual: true
   }];
@@ -50,6 +52,7 @@ export async function loadChitasVirtualSeries(studyDate = selectedStudyDate()) {
   
   const parshaTitle = parsha?.title || '';
   const chumash = parshaTitle ? chumashForDate(studyDate, parshaTitle) : null;
+  const rambam = rambamForDate(studyDate);
   const posts = buildStudyCards(studyDate, parsha, items, { israel });
   
   const parshaName = String(parshaTitle).replace(/^Parashat\s+/i, '') || 'Daily Chumash';
@@ -60,7 +63,7 @@ export async function loadChitasVirtualSeries(studyDate = selectedStudyDate()) {
     seriesData: {
       id: CHITAS_SERIES_ID,
       name: `Daily Chitas · ${parshaName}`,
-      description: `${israel ? 'Israel' : 'Diaspora'} schedule${hebrewName}. Chumash, Tanya, and Tehillim for today.`,
+      description: `${israel ? 'Israel' : 'Diaspora'} schedule${hebrewName}. Chumash, Tanya, Tehillim, and Rambam for today.`,
       virtual: true,
       chitasStudy: true,
       dailyStudy: {
@@ -71,6 +74,7 @@ export async function loadChitasVirtualSeries(studyDate = selectedStudyDate()) {
         chumash,
         tanya,
         tehillim,
+        rambam,
         parsha: parsha ? {
           title: parsha.title,
           hebrew: parsha.hebrew || '',
