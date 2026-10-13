@@ -58,8 +58,10 @@ export function rangeCard(hit, index, openComments = false) {
 	});
 	const relevance = percent(hit);
 	const card = document.createElement('article');
-	card.className = 'result range-result';
+	card.className = 'result range-result mi-fade-up';
 	card.style.setProperty('--relevance', `${relevance}%`);
+	/* B"H 2026-10-13 — stagger index drives the shared mi-fade-up entrance. */
+	card.style.setProperty('--mi-i', String(Math.max(0, index || 0)));
 	card.innerHTML = cardTemplate();
 	card.querySelector('.rank').textContent = index + 1;
 	card.querySelector('.eyebrow').textContent = `${clean(row.sourceLabel || row.seriesId)} · ${rangeLabel(row)}`;

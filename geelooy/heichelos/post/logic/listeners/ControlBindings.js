@@ -38,6 +38,19 @@ function updateDisplay(size = '') {
 	display.textContent = cssSize.trim();
 }
 
+/* B"H 2026-10-13 — typography feedback: the Aa readout pops on every step so
+   each tap lands with visible confirmation (shared .mi-pop keyframes). */
+function popFontDisplay() {
+	const display = document.querySelector('.font-size-display');
+	if (!display) {
+		return;
+	}
+	display.classList.remove('mi-pop');
+	void display.offsetWidth;
+	display.classList.add('mi-pop');
+	display.addEventListener('animationend', () => display.classList.remove('mi-pop'), { once: true });
+}
+
 function settleReaderAfterScale() {
 	requestAnimationFrame(() => {
 		window.dispatchEvent(new Event('resize'));
@@ -55,6 +68,7 @@ function bindFontButton(identifier, direction) {
 		event.preventDefault();
 		event.stopPropagation();
 		updateDisplay(adjustFontSize(direction));
+		popFontDisplay();
 		settleReaderAfterScale();
 	});
 }

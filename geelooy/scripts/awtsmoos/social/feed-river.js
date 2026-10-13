@@ -75,7 +75,8 @@ function whyText(post) {
 	return '';
 }
 
-function cardHtml(post) {
+/* B"H 2026-10-13 — mi-fade-up + --mi-i drive the shared staggered card entrance. */
+function cardHtml(post, index = 0) {
 	const id = esc(post.postId || post.id || '');
 	const title = esc(post.title || post.postTitle || 'Untitled');
 	const excerpt = esc(post.excerpt || post.summary || post.description || '');
@@ -89,7 +90,7 @@ function cardHtml(post) {
 	const liked = state.liked.has(id);
 
 	return `
-	<article class="feed-card" data-post-id="${id}">
+	<article class="feed-card mi-fade-up" data-post-id="${id}" style="--mi-i:${Math.max(0, index)}">
 		${cover ? `<img class="feed-card__cover" src="${esc(cover)}" alt="" loading="lazy" onerror="this.remove()">` : ''}
 		<div class="feed-card__body">
 			<p class="feed-card__kicker">${kicker}</p>
@@ -172,7 +173,7 @@ function appendItems(items) {
 		river.innerHTML = emptyHtml();
 		return;
 	}
-	const html = items.map(cardHtml).join('');
+	const html = items.map((post, i) => cardHtml(post, state.offset + i)).join('');
 	river.insertAdjacentHTML('beforeend', html);
 	state.offset += items.length;
 	state.items.push(...items);
@@ -221,6 +222,15 @@ function setMode(key) {
 	resetAndLoad();
 }
 
+/* B"H 2026-10-13 — like-burst: re-trigger the shared mi-burst keyframes so the
+   heart pops with a golden ring on every tap. */
+function burstLike(btn) {
+	btn.classList.remove('mi-burst');
+	void btn.offsetWidth;
+	btn.classList.add('mi-burst');
+	btn.addEventListener('animationend', () => btn.classList.remove('mi-burst'), { once: true });
+}
+
 function onAction(e) {
 	const btn = e.target.closest('.feed-action');
 	if (!btn) return;
@@ -233,6 +243,7 @@ function onAction(e) {
 		if (liked) state.liked.delete(postId); else state.liked.add(postId);
 		btn.classList.toggle('feed-action--liked', !liked);
 		btn.setAttribute('aria-pressed', String(!liked));
+		burstLike(btn);
 		const label = btn.querySelector('span');
 		if (label && !/\d/.test(label.textContent)) label.textContent = !liked ? 'Liked' : 'Like';
 		// Fire-and-forget: record the reaction server-side.

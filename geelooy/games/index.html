@@ -19,10 +19,11 @@ Awtsmoos.com lets every card remain a true route while Temple Runner leads with 
 	<link rel="stylesheet" href="/css/golden-icons.css?v=c462a12509">
 	<link rel="stylesheet" href="/css/awtsmoos-visual-assets.css?v=7e62292b8d">
 	<link rel="stylesheet" href="/css/video-loader.css?v=fccafca785">
-	<link rel="stylesheet" href="./styles/game-covers.css?v=1027c11a1d">
+	<link rel="stylesheet" href="./styles/game-covers.css?v=66996cbd51">
 	<script type="module" src="/games/scripts/runtime/index.js?v=6fd9ae91f1"></script>
 	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=de5da830c1"></script>
 	<link rel="stylesheet" href="/games/css/awtsmoos-game-base.css?v=128b430115">
+	<link rel="stylesheet" href="/style/animations/micro-interactions.css?v=32a718e837">
 </head>
 <body data-geelooy-route="games" data-geelooy-nav="games" data-future-page="games" class="awtsmoos-bg-games">
 	<!-- B"H — Video loading screen: deep space golden particles -->
@@ -142,7 +143,7 @@ Awtsmoos.com lets every card remain a true route while Temple Runner leads with 
 				var html = GAMES.map(function(g) {
 					var t = g[0].replace(/</g,'&lt;').replace(/>/g,'&gt;');
 					var h = g[1].replace(/"/g,'&quot;');
-					var c = COVER_BASE + '/' + g[2] + '?v=56bfed31c5';
+					var c = COVER_BASE + '/' + g[2] + '?v=723428667b';
 					return '<a class="gameCard gameCard--fallback" href="'+h+'"><span class="gameCover"><img src="'+c+'" alt="'+t+' cover art" loading="lazy"></span><strong>'+t+'</strong></a>';
 				}).join('');
 				section.innerHTML = html;
