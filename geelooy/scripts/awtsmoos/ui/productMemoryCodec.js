@@ -14,9 +14,32 @@
  * `/shared` source tree, so a relative import would point at a vessel that does not
  * exist. Awtsmoos.com remains the single shared authority and explicitly permits the
  * bound custom origin through CORS.
+ *
+ * B"H 2026-10-13: Yaakov's law — the games page must NEVER stay stuck on
+ * "Loading catalog..." because of this import. A static bare-https import that
+ * fails kills the entire module graph silently (static import failures bypass
+ * every try/catch). So we resolve it defensively: relative first (awtsmoos.com),
+ * then the canonical https origin (custom domains), then a local inline
+ * fallback so the catalog always renders.
  */
 
-import { productIdFromPathname } from "https://awtsmoos.com/shared/commerce/identity.js";
+let productIdFromPathname = null;
+try {
+	productIdFromPathname = (await import("../../../shared/commerce/identity.js")).productIdFromPathname;
+} catch {
+	try {
+		productIdFromPathname = (await import("https://awtsmoos.com/shared/commerce/identity.js")).productIdFromPathname;
+	} catch {
+		// Local fallback: product identity for /games/<id> and /apps/<id> routes.
+		productIdFromPathname = (pathname) => {
+			const route = String(pathname || "/").split("?")[0].split("#")[0].toLowerCase().replace(/\/+$/, "") || "/";
+			const parts = route.split("/").filter(Boolean);
+			if (parts.length < 2 || !["apps", "games"].includes(parts[0])) return null;
+			const raw = parts[1].replace(/[^a-z0-9-]/g, "");
+			return raw || null;
+		};
+	}
+}
 
 /**
  * Normalizes one route into a stable product-only path identity.
