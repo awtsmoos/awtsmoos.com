@@ -600,6 +600,17 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       const z = -85 - rand() * 25;
       walls.push({ x, z, side: 0 });
     }
+    // B"H 2026-10-13 photoreal: bank-edge impostors for the overhead tunnel.
+    // The reference has trees arching over the river. These are placed RIGHT
+    // at the bank (10-12u) so their 22u-tall crowns extend over the water.
+    const bankCount = fast ? 16 : 24;
+    for (let i = 0; i < bankCount; i++) {
+      const z = -60 + (80 * i) / bankCount + (rand() - 0.5) * 4;
+      const side = i % 2 === 0 ? -1 : 1;
+      const x = riverX(z) + side * (10 + rand() * 2.5);
+      if (Math.hypot(x - camPos[0], z - camPos[2]) < 12) continue;
+      walls.push({ x, z, side, bankEdge: true });
+    }
     mark('impostor-spots:' + walls.length);
     const dummy = new THREE.Object3D();
     // group impostors by texture for 2 draw calls
@@ -792,9 +803,10 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           col = mix(col, bed*vec3(0.72,0.95,0.88), shallow*0.8);
           col = mix(col, uSky, fres*0.28);
           // glitter path on the water + faint real-sun sparkle
+          // B"H 2026-10-13 photoreal: boosted for the reference's bright glitter path
           float sdot = max(dot(r, uSunDir), 0.0);
-          col += vec3(1.0,0.96,0.88)*(sheen*0.28 + glint*2.6*tw)
-               + vec3(1.0,0.93,0.80)*pow(sdot, 120.0)*0.5;
+          col += vec3(1.0,0.96,0.88)*(sheen*0.45 + glint*4.0*tw)
+               + vec3(1.0,0.93,0.80)*pow(sdot, 120.0)*0.7;
           // soft alpha fade at the banks — no hard waterline
           float edge = smoothstep(0.0, 0.10, vUv.x)*smoothstep(1.0, 0.90, vUv.x);
           // foam lapping at the waterline, broken up by noise
@@ -987,7 +999,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const quadGeo = new THREE.PlaneGeometry(1.4, 1.4);
     const quadMat = new THREE.MeshStandardMaterial({
       map: denseCanopyTex, alphaTest: 0.30, side: THREE.DoubleSide,
-      roughness: 0.9, color: new THREE.Color(0.45, 0.52, 0.32),
+      roughness: 0.9, color: new THREE.Color(0.75, 0.82, 0.60),
       emissive: new THREE.Color(0.012, 0.022, 0.010),
       depthWrite: true,
     });
