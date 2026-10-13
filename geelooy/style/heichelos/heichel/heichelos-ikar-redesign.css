@@ -316,3 +316,29 @@
 		transform: none;
 	}
 }
+
+/* B"H — Load error card (Yaakov 2026-10-13): never a blank page.
+ * When content fails to load, the user sees what happened + retry. */
+:root.heichel-os-document .heichel-load-error {
+	max-width: 36rem;
+	margin: 2rem auto;
+	padding: 2rem;
+	text-align: center;
+	border: 1px solid var(--ikar-card-border, #e2d3ae);
+	border-radius: 1.25rem;
+	background: var(--ikar-card, #fffdf6);
+	box-shadow: var(--ikar-shadow-card, 0 2px 10px rgba(90, 70, 40, 0.08));
+}
+:root.heichel-os-document .heichel-load-error h2 {
+	font-size: 1.4rem;
+	margin: 0 0 0.5rem;
+	color: var(--ikar-ink, #2b2118);
+}
+:root.heichel-os-document .heichel-load-error p {
+	color: var(--ikar-ink-soft, #6b5d48);
+	margin: 0 0 1.25rem;
+	font-size: 0.95rem;
+}
+:root.heichel-os-document .heichel-load-error .p-button {
+	margin: 0 0.5rem;
+}

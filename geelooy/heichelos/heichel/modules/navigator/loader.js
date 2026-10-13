@@ -46,19 +46,62 @@ export async function loadContent(navigator, seriesId, preparedSource = null) {
 			source.seriesData
 		);
 	} catch (error) {
-		if (token === loadToken) {
-			console.error('B"H — Living Path load rupture:', error);
-			ui.notify(
-				`Could not open this path: ${error.message}`,
-				'error'
-			);
-		}
+		if (token !== loadToken) return;
+		console.error('B"H — Living Path load rupture:', error);
+		// B"H — Yaakov 2026-10-13: never leave a blank page.
+		// Render a truthful error card with retry, not just a toast.
+		renderLoadError(navigator, seriesId, error);
+		ui.notify(
+			`Could not open this path: ${error.message}`,
+			'error'
+		);
 	} finally {
 		if (token === loadToken) {
 			ui.hideLoading();
 			navigator.updateURL();
 		}
 	}
+}
+
+/**
+ * B"H — Renders a truthful error state when content fails to load.
+ * The user sees what happened and gets a retry button — never a blank page.
+ */
+function renderLoadError(navigator, seriesId, error) {
+	const container = document.querySelector('[data-heichel-render-root]')
+		|| document.querySelector('.main')
+		|| document.body;
+	// Clear stale loading/content so the error is the only message.
+	const lists = container.querySelectorAll('[data-posts-list], [data-series-list], [data-groupings-list]');
+	lists.forEach(list => { list.replaceChildren(); });
+
+	let errorCard = container.querySelector('[data-load-error]');
+	if (!errorCard) {
+		errorCard = document.createElement('div');
+		errorCard.setAttribute('data-load-error', 'true');
+		errorCard.className = 'heichel-load-error';
+		errorCard.setAttribute('role', 'alert');
+		container.prepend(errorCard);
+	}
+	const safeMsg = String(error?.message || 'Unknown error').replace(/[<>&"]/g, '');
+	errorCard.innerHTML = '';
+	const title = document.createElement('h2');
+	title.textContent = 'This section could not load';
+	const msg = document.createElement('p');
+	msg.textContent = safeMsg;
+	const retry = document.createElement('button');
+	retry.type = 'button';
+	retry.className = 'p-button p-button-primary';
+	retry.textContent = 'Try again';
+	retry.addEventListener('click', () => {
+		errorCard.remove();
+		navigator.loadContent(seriesId);
+	});
+	const back = document.createElement('a');
+	back.className = 'p-button';
+	back.href = '/heichelos/ikar/';
+	back.textContent = 'Back to Torah Library';
+	errorCard.append(title, msg, retry, back);
 }
 
 function adoptSource(source, seriesId) {
