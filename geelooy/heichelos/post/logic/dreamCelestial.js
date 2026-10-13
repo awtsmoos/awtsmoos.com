@@ -275,7 +275,11 @@ export class DreamCelestial {
 			this.timer = null;
 		}
 		for (const el of [this.el, this.tintEl]) {
-			if (el && el.parentNode) el.parentNode.removeChild(el);
+			if (el) {
+				// B"H Instant off: kill the fade, vanish at once.
+				el.classList.add("dream-celestial--off");
+				if (el.parentNode) el.parentNode.removeChild(el);
+			}
 		}
 		this.el = null;
 		this.tintEl = null;
@@ -317,12 +321,22 @@ export class DreamCelestial {
 		const { x, y } = arcToScreen(t);
 		const warmth = dayWarmth(t);
 		this.el.dataset.body = "sun";
+		// B"H Name the hour poetically: alos rose, shkia fire.
+		if (t < 0.08) {
+			this.el.dataset.phase = "alos";
+			this.tintEl.dataset.tint = "rose";
+		} else if (t > 0.92) {
+			this.el.dataset.phase = "shkia";
+			this.tintEl.dataset.tint = "warm";
+		} else {
+			this.el.dataset.phase = "day";
+			this.tintEl.dataset.tint = "warm";
+		}
 		this.el.style.opacity = "1";
 		this.el.style.transform = `translate3d(${x.toFixed(2)}vw, ${y.toFixed(2)}vh, 0) translate(-50%, -50%)`;
 		// B"H Golden at the horizons, pale gold at the heights.
 		this.el.style.setProperty("--celestial-warmth", warmth.toFixed(3));
-		this.tintEl.style.opacity = (0.05 + warmth * 0.06).toFixed(3);
-		this.tintEl.dataset.tint = "warm";
+		this.tintEl.style.opacity = (0.06 + warmth * 0.10).toFixed(3);
 		this.tintEl.style.setProperty("--tint-warmth", warmth.toFixed(3));
 	}
 
@@ -335,11 +349,13 @@ export class DreamCelestial {
 		// B"H Illumination: 0 at new moon, 1 at full.
 		const illumination = (1 - Math.cos(phase * Math.PI * 2)) / 2;
 		this.el.dataset.body = "moon";
+		// B"H Chatzos halailah: the moon at its crown.
+		this.el.dataset.phase = (t > 0.42 && t < 0.58) ? "crown" : "night";
 		this.el.style.opacity = "1";
 		this.el.style.transform = `translate3d(${x.toFixed(2)}vw, ${y.toFixed(2)}vh, 0) translate(-50%, -50%)`;
 		this.el.style.setProperty("--moon-phase", phase.toFixed(3));
 		this.el.style.setProperty("--moon-lit", illumination.toFixed(3));
-		this.tintEl.style.opacity = (0.03 + illumination * 0.04).toFixed(3);
+		this.tintEl.style.opacity = (0.04 + illumination * 0.06).toFixed(3);
 		this.tintEl.dataset.tint = "cool";
 	}
 }
