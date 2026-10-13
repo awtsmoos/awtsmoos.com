@@ -23,6 +23,7 @@ import { awakenReaderShellControls } from './logic/initialization/ReaderShellCon
 import { chitasLoaderBoot, dismissChitasLoader } from './logic/initialization/chitasLoader.js?v=chitas-loader-1';
 import './logic/initialization/ReaderSectionHighlight.js?v=reader-runtime-016';
 import './logic/analytics/ReaderAnalytics.js?v=reading-001';
+import { initVerseComments } from './logic/verseComments/VerseComments.js';
 
 let readerBootPromise = null;
 
@@ -130,6 +131,16 @@ async function performReaderBoot() {
 	});
 	safeSubsystem('reading-intelligence', () => tiferesReaderEnhancements.startReadingIntelligence());
 	safeSubsystem('connections', () => tiferesReaderEnhancements.startConnections());
+	safeSubsystem('verse-comments', () => {
+		try {
+			const post = typeof window !== 'undefined' ? window.post : null;
+			const postId = post?.id || post?.postId || document.body?.dataset?.postId || null;
+			if (postId) {
+				// Delay slightly so phrase pairs are rendered first
+				setTimeout(() => initVerseComments(postId), 2000);
+			}
+		} catch { /* comments never break reading */ }
+	});
 	safeSubsystem('enhancement-repair-soon-2', () => tiferesReaderEnhancements.repairSoon());
 	await safeSubsystemAsync('deep-linked-comment', () => tiferesReaderEnhancements.revealRequestedComment());
 	safeSubsystem('beauty-and-legend', () => tiferesReaderEnhancements.refreshBeautyAndLegend());

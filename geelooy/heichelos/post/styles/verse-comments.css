@@ -1,0 +1,311 @@
+/* B"H — Verse-level commenting for the reader.
+ * Subtle comment buttons on every phrase pair and section.
+ * Bottom-sheet composer on mobile, inline panel on desktop.
+ */
+
+/* Comment button — subtle, appears on hover/focus, always visible on touch */
+.vc-comment-btn {
+	position: absolute;
+	inset-inline-end: 0.25rem;
+	top: 0.25rem;
+	width: 2rem;
+	height: 2rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	border: 1px solid transparent;
+	background: transparent;
+	color: var(--awtsmoos-gold-dim, #b8965a);
+	cursor: pointer;
+	opacity: 0;
+	transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+	-webkit-tap-highlight-color: transparent;
+	touch-action: manipulation;
+	z-index: 5;
+}
+
+.vc-comment-btn svg {
+	width: 1rem;
+	height: 1rem;
+	pointer-events: none;
+}
+
+/* Phrase pairs need relative positioning for the absolute button */
+.meluket-phrase-pair {
+	position: relative;
+}
+
+.meluket-phrase-pair:hover .vc-comment-btn,
+.meluket-phrase-pair:focus-within .vc-comment-btn,
+.vc-comment-btn:focus-visible,
+.vc-comment-btn.vc-has-comments {
+	opacity: 1;
+}
+
+/* Touch devices: always show (no hover) */
+@media (hover: none) {
+	.vc-comment-btn {
+		opacity: 0.6;
+	}
+	.vc-comment-btn.vc-has-comments {
+		opacity: 1;
+	}
+}
+
+.vc-comment-btn:hover {
+	background: rgba(184, 150, 90, 0.12);
+	color: var(--awtsmoos-gold, #c9a227);
+	border-color: rgba(184, 150, 90, 0.3);
+}
+
+.vc-comment-btn:active {
+	transform: scale(0.92);
+	background: rgba(184, 150, 90, 0.2);
+}
+
+.vc-comment-btn:focus-visible {
+	outline: 2px solid var(--awtsmoos-gold, #c9a227);
+	outline-offset: 2px;
+	opacity: 1;
+}
+
+/* Section-level button sits in the marker */
+.vc-comment-btn--section {
+	position: static;
+	width: 1.75rem;
+	height: 1.75rem;
+	margin-inline-start: 0.5rem;
+	vertical-align: middle;
+}
+
+.meluket-section-marker {
+	display: flex;
+	align-items: center;
+}
+
+/* Count badge */
+.vc-count-badge {
+	position: absolute;
+	top: -0.25rem;
+	inset-inline-end: -0.25rem;
+	min-width: 1.1rem;
+	height: 1.1rem;
+	padding: 0 0.25rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 999px;
+	background: var(--awtsmoos-gold, #c9a227);
+	color: #fff;
+	font-size: 0.65rem;
+	font-weight: 700;
+	line-height: 1;
+	pointer-events: none;
+}
+
+.vc-comment-btn--section .vc-count-badge {
+	top: -0.35rem;
+	inset-inline-end: -0.35rem;
+}
+
+/* View count display */
+[data-view-count] {
+	font-size: 0.85rem;
+	color: var(--awtsmoos-text-muted, #8a7a5a);
+	white-space: nowrap;
+}
+
+/* Composer overlay */
+.vc-composer-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 100000;
+	background: rgba(0, 0, 0, 0.4);
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	opacity: 0;
+	transition: opacity 0.25s ease;
+}
+
+.vc-composer-overlay.vc-open {
+	opacity: 1;
+}
+
+.vc-composer-sheet {
+	width: 100%;
+	max-width: 36rem;
+	max-height: 85vh;
+	overflow-y: auto;
+	background: var(--awtsmoos-surface, #fffdf7);
+	border-radius: 1.25rem 1.25rem 0 0;
+	padding: 0.75rem 1.25rem 1.5rem;
+	transform: translateY(100%);
+	transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+	box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.2);
+}
+
+.vc-composer-overlay.vc-open .vc-composer-sheet {
+	transform: translateY(0);
+}
+
+/* Desktop: centered dialog instead of bottom sheet */
+@media (min-width: 769px) {
+	.vc-composer-overlay {
+		align-items: center;
+		padding: 2rem;
+	}
+	.vc-composer-sheet {
+		border-radius: 1.25rem;
+		transform: scale(0.95);
+	}
+	.vc-composer-overlay.vc-open .vc-composer-sheet {
+		transform: scale(1);
+	}
+	.vc-composer-handle {
+		display: none;
+	}
+}
+
+.vc-composer-handle {
+	width: 2.5rem;
+	height: 0.25rem;
+	border-radius: 999px;
+	background: rgba(0, 0, 0, 0.15);
+	margin: 0 auto 0.75rem;
+}
+
+.vc-composer-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 0.75rem;
+}
+
+.vc-composer-title {
+	font-weight: 700;
+	font-size: 1rem;
+	color: var(--awtsmoos-text, #2a2118);
+}
+
+.vc-composer-close {
+	width: 2rem;
+	height: 2rem;
+	border-radius: 50%;
+	border: none;
+	background: rgba(0, 0, 0, 0.06);
+	color: var(--awtsmoos-text, #2a2118);
+	cursor: pointer;
+	font-size: 0.9rem;
+	-webkit-tap-highlight-color: transparent;
+	touch-action: manipulation;
+}
+
+.vc-composer-context blockquote {
+	margin: 0 0 0.75rem;
+	padding: 0.5rem 0.75rem;
+	border-inline-start: 3px solid var(--awtsmoos-gold, #c9a227);
+	background: rgba(184, 150, 90, 0.08);
+	border-radius: 0 0.5rem 0.5rem 0;
+	font-size: 0.85rem;
+	color: var(--awtsmoos-text-muted, #6b5a3f);
+}
+
+.vc-composer-comments {
+	max-height: 40vh;
+	overflow-y: auto;
+	margin-bottom: 0.75rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.vc-comment {
+	padding: 0.6rem 0.75rem;
+	background: rgba(0, 0, 0, 0.03);
+	border-radius: 0.75rem;
+}
+
+.vc-comment-author {
+	font-weight: 600;
+	font-size: 0.8rem;
+	color: var(--awtsmoos-gold-dark, #8a6d2b);
+	margin-bottom: 0.25rem;
+}
+
+.vc-comment-body {
+	font-size: 0.9rem;
+	line-height: 1.5;
+	color: var(--awtsmoos-text, #2a2118);
+}
+
+.vc-empty,
+.vc-loading {
+	text-align: center;
+	padding: 1.5rem;
+	color: var(--awtsmoos-text-muted, #8a7a5a);
+	font-size: 0.9rem;
+}
+
+.vc-composer-input {
+	width: 100%;
+	min-height: 4.5rem;
+	padding: 0.75rem;
+	border: 2px solid rgba(184, 150, 90, 0.3);
+	border-radius: 0.75rem;
+	font-size: 1rem;
+	font-family: inherit;
+	resize: vertical;
+	background: #fff;
+	color: var(--awtsmoos-text, #2a2118);
+}
+
+.vc-composer-input:focus {
+	outline: none;
+	border-color: var(--awtsmoos-gold, #c9a227);
+}
+
+.vc-composer-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 0.75rem;
+	margin-top: 0.75rem;
+}
+
+.vc-composer-cancel,
+.vc-composer-submit {
+	padding: 0.6rem 1.25rem;
+	border-radius: 999px;
+	font-weight: 600;
+	font-size: 0.9rem;
+	cursor: pointer;
+	border: none;
+	-webkit-tap-highlight-color: transparent;
+	touch-action: manipulation;
+	min-height: 2.75rem;
+}
+
+.vc-composer-cancel {
+	background: rgba(0, 0, 0, 0.06);
+	color: var(--awtsmoos-text, #2a2118);
+}
+
+.vc-composer-submit {
+	background: var(--awtsmoos-gold, #c9a227);
+	color: #fff;
+}
+
+.vc-composer-submit:disabled {
+	opacity: 0.6;
+	cursor: wait;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+	.vc-comment-btn,
+	.vc-composer-overlay,
+	.vc-composer-sheet {
+		transition: none;
+	}
+}
