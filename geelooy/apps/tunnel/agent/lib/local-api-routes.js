@@ -7,6 +7,7 @@ const Handlers = require("./local-api-route-handlers.js");
 const Health = require("./local-api-health.js");
 const Limits = require("./local-api-limits.js");
 const Response = require("./local-api-response.js");
+const Merkava = require("./local-api-merkava.js");
 
 /**
  * @file Routes local tunnel HTTP requests through compact discovery and exact execution.
@@ -27,7 +28,8 @@ async function get(response, deps, url) {
 		"/relay/open-login": Handlers.relayOpenLogin,
 		"/relay/cookies": Handlers.relayCookies,
 		"/streaming": Handlers.streamingStatus,
-		"/streaming/status": Handlers.streamingStatus
+		"/streaming/status": Handlers.streamingStatus,
+		"/merkava/devices": Merkava.merkavaDevices
 	};
 	const handler = routes[url.pathname];
 	return handler
@@ -76,7 +78,9 @@ function postRoutes() {
 		"/streaming/start": Handlers.streamingStart,
 		"/streaming/chunk": Handlers.streamingChunk,
 		"/streaming/stop": Handlers.streamingStop,
-		"/streaming/status": Handlers.streamingStatusPost
+		"/streaming/status": Handlers.streamingStatusPost,
+		"/merkava/run": Merkava.merkavaRun,
+		"/merkava/run-js": Merkava.merkavaRunJs,
 	};
 }
 

@@ -204,6 +204,10 @@ export function parseHtmlToDom(html) {
       if (!VOID_ELEMENTS.has(name) && !selfClosing) {
         // Push a throwaway frame so nested content is skipped correctly,
         // then pop on close. Simpler: track depth manually.
+        // B"H 2026-10-13: raw-text elements (script/style/textarea) inside head
+        // can contain "<head" in comments or strings — skip past their close
+        // tags instead of scanning their content, or the depth count goes wrong
+        // and the whole body gets swallowed.
         let depth = 1;
         while (pos < len && depth > 0) {
           const nlt = clean.indexOf("<", pos);
@@ -212,6 +216,15 @@ export function parseHtmlToDom(html) {
           if (ngt < 0) { pos = len; break; }
           const nInner = clean.slice(nlt + 1, ngt).trim().toLowerCase();
           pos = ngt + 1;
+          const nName = nInner.split(/[\s/>]/, 1)[0];
+          if (RAW_TEXT_ELEMENTS.has(nName) && !nInner.startsWith("/")) {
+            const closeRe = closeReFor(nName);
+            const rest = clean.slice(pos);
+            const cm = closeRe.exec(rest);
+            if (cm) pos += cm.index + cm[0].length;
+            else pos = len;
+            continue;
+          }
           if (nInner === name || nInner.startsWith(name + " ") || nInner.startsWith(name + ">")) depth++;
           else if (nInner === "/" + name) depth--;
         }

@@ -28,6 +28,7 @@ const { execFileSync } = require("node:child_process");
 
 const BUNDLES = Object.freeze({
 	"merkava":          { marker: "scripts/awtsmoos/MerkavaExecutor/merkava-service/index.js" },
+	"merkava-shot":      { marker: "geelooy/apps/tunnel/downloads/merkava-shot/merkava-shot.bundle.cjs" },
 	"ssh-server":       { marker: "ayzarim/ssh/server/Server.js" },
 	"awtsmoosdb":       { marker: "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js" },
 	"chatgpt-sentinel": { marker: "geelooy/ai/js/chatgpt/sentinel/tokenClassLegacy.js" },
