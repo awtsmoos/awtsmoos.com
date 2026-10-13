@@ -8,6 +8,1378 @@
 /** Translated (English-bearing) posts discovered from staged corpora. */
 export const translationPostRecords = [
 	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-abba",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Abba (אבא) — the Father"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-achdus",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Achdus (אחדות) — Unity"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-adam-kadmon",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Adam Kadmon (אדם קדמון) — Primordial Man, the first parzuf after the tzimtzum"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-aharon-hakohen",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Aharon HaKohen"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-ahavah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Ahavah (אהבה) — Love"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-akudim",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Akudim (עקודים) — the Bound World"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-anavah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Anavah (ענוה) — Humility"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-arich",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Arich (אריך) — The Long Face / Arich Anpin"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-asiyah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Asiyah (עשיה) — the World of Action"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-asiyah-hagashmis",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Asiyah HaGashmis (עשיה הגשמית) — the physical world"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-atik",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Atik (עתיק) — The Ancient One"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-atzilut",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Atzilus (אצילות) — the World of Emanation"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-avodah-shebelev",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Avodah Shebelev (עבודה שבלב) — The Service of the Heart"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-avraham-avinu",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Avraham (אברהם) — The Patriarch"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-awtsmoos",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Awtsmoos (עצמות) — Essence"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-bavel",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Bavel"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-bechirah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Bechirah (בחירה) — Free Choice"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-beinoni",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Beinoni (בינוני) — The Intermediate"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-beriah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Beriah (בריאה) — The World of Creation"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-berudim",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Berudim (ברודים) — The Spotted"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-binah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Binah"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-bitachon",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Bitachon (בטחון) — Trust"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-bitul",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Bitul (ביטול) — Nullification"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-bitul-hayesh",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Bitul Hayesh (ביטול היש) — nullification of the independent self"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-brachah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Brachah (ברכה) — blessing"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-bris-milah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Bris Milah (ברית מילה) — the covenant of circumcision"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-chanukah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Chanukah (חנוכה) — Dedication"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-chayah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Chayah (חיה) — Living / the Living One"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-chayut",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Chayut"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-chelek-elokah-mima-al",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Chelek Elokah Mima'al (חלק אלקה ממעל) — \"a portion of Elokim Above\""
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-chesed",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Chesed"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-chet",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Chet (חטא) — Sin"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-chitzoniyut",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Chitzoniyut"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-chochmah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Chochmah"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-chochmah-stimah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Chochmah Stimah (חכמה סתימאה) — Concealed Wisdom"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-choshech",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Choshech (חושך) — Darkness"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-daat",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Daat"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-darchei-noam",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Darchei Noam (דרכי נועם) — \"ways of pleasantness\""
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-david-hamelech",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Dovid (דוד) — King of Israel"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-deveikut",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Deveikut"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-din",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Din (דין) — Judgment"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-dveikus",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Dveikus (דביקות) — cleaving to Havayah"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-eliyahu-hanavi",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Eliyahu HaNavi"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-elokus",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Elokus (אלקות) — Divinity; Elokus"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-emet",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Emes (אמת) — Truth"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-emunah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Emunah (אמונה) — Faith"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-eretz-yisroel",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Eretz Yisroel"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-etz-chaim",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Etz Chaim"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-galut",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Galut"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-gan-eden",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Gan Eden (גן עדן) — the Garden of Eden"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-gehinnom",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Gehinnom (גיהנום) — Purgatory"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-geulah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Geulah"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-gevurah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Gevurah (גבורה) — Strength / Severity"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-gevurah-as-judgment",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Gevurah as judgment (גבורה בדין) — the attribute of judgment"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-gevurah-as-restraint",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Gevurah as restraint (גבורה בצמצום) — the concealing, measuring mode"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-gilgul",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Gilgul (גלגול) — Reincarnation / Transmigration"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-hallel",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Hallel (הלל) — Praise"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-hamschachah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Hamschachah"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-har-sinai",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Har Sinai"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-hashgachah-pratis",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Hashgachah Pratis (השגחה פרטית) — Particular Providence"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-hisbodedus",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Hisbodedus (התבודדות) — Seclusion / Solitude"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-hisbonenus",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Hisbonenus (התבוננות) — Contemplation"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-hishtalshelus",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Hishtalshelus (השתלשלות) — The Chained Descent"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-hiskashrus",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Hiskashrus (התקשרות) — Bonding"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-hislabshus",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Hislabshus (התלבשות) — Clothing / Enclothing"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-hitlabshut",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Hitlabshut"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-hod",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Hod (הוד) — Splendor / Acknowledgment"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-igulim",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Igulim (עיגולים) — the \"circles,\" the encompassing divine light"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-imma",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Imma (אימא) — the Mother, the partzuf of Binah"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-ishapcha",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Ishapcha (אתהפכא) — transformation of darkness to light"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-iskafya",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Iskafya (אתכפיא) — Restraint / Subduing"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-kabbalas-ol",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Kabbalas Ol (קבלת עול) — Acceptance of the Yoke"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-kapparah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Kapparah (כפרה) — atonement"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-kashrus",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Kashrus (כשרות) — the dietary laws"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-kav",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Kav (קו) — the line of light drawn after the tzimtzum"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-kavanah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Kavanah (כוונה) — Intention"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-kedushah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Kedushah (קדושה) — Holiness"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-kelipah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Kelipah (קליפה) — the Husk"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-kelipas-nogah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Kelipas Nogah (קליפת נוגה) — the translucent husk"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-keser-elyon",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Keser Elyon (כתר עליון) — The Supernal Crown"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-keter",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Keser (כתר) — the Crown, first of the sefiros"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-lag-baomer",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Lag BaOmer (ל״ג בעומר) — The 33rd Day of the Omer"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-likkutei-torah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Likkutei Torah"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-lulav",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Lulav (לולב) — the palm branch and the four species"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-malchus-as-leadership",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Malchus as Leadership (מלכות) — Divine Rule"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-malchut",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Malchus (מלכות) — Kingship"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-mashiach",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Mashiach (משיח) — The Messiah"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-matzah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Matzah (מצה) — the Unleavened Bread"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-memale-kol-almin",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Memale Kol Almin (ממלא כל עלמין) — the light that fills all worlds"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-menorah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Menorah (מנורה)"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-mesirut-nefesh",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Mesirut Nefesh (מסירת נפש) — self-sacrifice, the soul's total dedication"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-mezuzah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Mezuzah (מזוזה) — The Doorpost Scroll"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-midbar",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Midbar"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-midos",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Midos (מדות) — the traits, emotional attributes"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-mitzrayim",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Mitzrayim"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-mitzvah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Mitzvah"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-mitzvos",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Mitzvos (מצוות) — the commandments"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-mochin",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Mochin (מוחין) — Intellects / Mind"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-moshe-rabbeinu",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Moshe Rabbeinu (משה רבינו) — the faithful shepherd"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-nefesh",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Nefesh (נפש) — Soul"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-nefesh-ha-elokis",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Nefesh Ha'Elokis (נפש האלקית) — The Divine Soul"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-nefesh-habehamis",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Nefesh Habehamis (נפש הבהמית) — the animal soul"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-nekudim",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Nekudim (נקודים) — The World of Points"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-neshamah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Neshamah (נשמה) — Soul"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-netzach",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Netzach (נצח) — Endurance / Victory"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-nukva",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Nukva (נוקבא) — the Female"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-ohr-ein-sof",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Ohr Ein Sof (אור אין סוף) — The Infinite Light"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-ohr-makif",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Ohr Makif (אור מקיף) — The Surrounding Light"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-ohr-pnimi",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Ohr Pnimi (אור פנימי) — Inner Light"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-olam-haba",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Olam HaBa (עולם הבא) — the World to Come"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-olam-hatikun",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Olam HaTikun (עולם התיקון) — The World of Rectification"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-olam-hatohu",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Olam HaTohu (עולם התהו) — the World of Chaos"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-olam-hazeh",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Olam Hazeh (עולם הזה) — This World"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-onesh",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Onesh (עונש) — punishment"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-pardes-rimonim",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Pardes Rimonim"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-pesach",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Pesach (פסח) — Passover"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-pnimiyut",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Pnimiyut"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-purim",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Purim (פורים)"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-rachamim",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Rachamim (רחמים) — Mercy and Compassion"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-rasha",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Rasha (רשע) — the wicked person"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-rashbi",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Rashbi"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-ratzon",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Ratzon (רצון) — Will"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-rebbe-rayatz",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Rebbe Rayatz (רבי יוסף יצחק שניאורסון) — Rabbi Yosef Yitzchak Schneersohn"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-reshimu",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Reshimu (רשימו) — the Impression remaining after the tzimtzum"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-rosh-chodesh",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Rosh Chodesh (ראש חודש) — Head of the Month"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-rosh-hashanah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Rosh Hashanah (ראש השנה) — The New Year"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-ruach",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Ruach (רוח) — Spirit"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-savlanut",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Savlanut (סבלנות) — patience, forbearance"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-schar",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Schar (שכר) — the reward of the mitzvah"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-sefer-yetzirah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Sefer Yetzirah"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-sefiras-haomer",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Sefiras HaOmer (ספירת העומר) — the counting of the Omer"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-selichos",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Selichos (סליחות) — Forgiveness Prayers"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-shabbat",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Shabbos (שבת) — the Sabbath day"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-shalom",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Shalom (שלום) — Peace"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-shavuos",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Shavuos (שבועות) — The Festival of Weeks"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-shechinah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Shechinah (שכינה) — The Divine Presence"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-shemini-atzeres",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Shemini Atzeres (שמיני עצרת) — The Eighth Day of Assembly"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-shevirat-hakeilim",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Sheviras HaKeilim (שבירת הכלים) — the Shattering of the Vessels"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-shlichus",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Shlichus (שליחות) — mission and the emissary"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-shlomo-hamelech",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Shlomo (שלמה) — King Shlomo, the wise king"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-shofar",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Shofar (שופר) — The Ram's Horn"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-simchah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Simchah (שמחה) — Joy"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-simchas-torah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Simchas Torah (שמחת תורה) — The Joy of the Torah"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-sitra-achra",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Sitra Achra (סטרא אחרא) — The Other Side"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-sovev-kol-almin",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Sovev (סובב) — the Encompassing light; Sovev Kol Almin"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-sukkah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Sukkah (סוכה) — the Booth"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-sukkos",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Sukkos (סוכות) — the Festival of Booths"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-ta-anug",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Ta'anug (תענוג) — Delight"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-taharah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Taharah (טהרה) — Purity"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-tanya",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Tanya"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-techiyas-hameisim",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Techiyas HaMeisim (תחית המתים) — The Resurrection of the Dead"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-tefillah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Tefillah (תפלה) — Prayer"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-tefillas-haderech",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Tefillas HaDerech (תפלת הדרך) — The Traveler's Prayer"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-tefillin",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Tefillin (תפילין) — phylacteries"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-temimus",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Temimus (תמימות) — wholesomeness, simple wholeheartedness"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-teshuvah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Teshuvah (תשובה) — Return / Repentance"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-the-alter-rebbe",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "The Alter Rebbe (אדמו״ר הזקן) — Rabbi Shneur Zalman of Liadi"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-the-arizal",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "The Arizal"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-the-baal-shem-tov",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Baal Shem Tov (בעל שם טוב) — Founder of Chassidism"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-the-maggid-of-mezritch",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "The Maggid of Mezritch"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-the-tzemach-tzedek",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "The Tzemach Tzedek (צמח צדק) — Rabbi Menachem Mendel Schneersohn (1789–1866)"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-tiferet",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Tiferet"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-torah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Torah"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-torah-ohr",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Torah Ohr"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-torah-study",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Torah Study (לימוד התורה)"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-tu-bishvat",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Tu Bishvat (ט״ו בשבט) — the fifteenth of Shevat, New Year of the trees"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-tumah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Tumah (טומאה) — Impurity"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-tzaddik",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Tzaddik (צדיק) — the righteous one"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-tzedakah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Tzedakah (צדקה) — Charity"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-tzedek",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Tzedek (צדק) — Righteousness, Justice"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-tzimtzum",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Tzimtzum (צמצום) — Contraction"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-tzitzis",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Tzitzis (ציצית) — The Fringes"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-viduy",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Viduy (וידוי) — Confession"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-yackov-avinu",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Yackov (יעקב) — the third Patriarch"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-yackov-leah-and-rachel",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Yackov, Leah and Rachel (יעקב, לאה ורחל)"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-yechidah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Yechidah (יחידה) — the unique, singular level of the soul"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-yediah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Yediah (ידיעה) — knowledge"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-yemos-hamoshiach",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Yemos HaMoshiach (ימות המשיח) — the days of Moshiach"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-yerushalayim",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Yerushalayim"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-yesh-me-ayin",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Yesh Me'ayin (יש מאין) — something from nothing, creatio ex nihilo"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-yesod",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Yesod"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-yetzer-hara",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Yetzer Hara (יצר הרע) — The Evil Inclination"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-yetzirah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Yetzirah (יצירה) — Formation"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-yichud",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Yichud"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-yichud-ila-ah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Yichud Ila'ah (יחוד עילאה) — The Higher Unity"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-yichud-tataah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Yichud Tataah (יחוד תתאה) — the lower unity"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-yirah",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Yirah (יראה) — awe/fear of Heaven"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-yiras-shamayim",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Yiras Shamayim (יראת שמים) — Fear of Heaven"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-yitzchak-avinu",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Yitzchak (יצחק) — The Patriarch"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-yom-kippur",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Yom Kippur (יום כפור) — the Day of Atonement"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-yom-tov",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Yom Tov (יום טוב) — the festivals"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-yosher",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Yosher (יושר) — Uprightness, the \"Straight\" Order"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-ze-ir-anpin",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Ze'ir Anpin (זעיר אנפין) — The \"Small Face\""
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-zechus",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Zechus (זכות) — Merit"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-zerizus",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Zerizus (זריזות) — Alacrity"
+	},
+	{
+		"corpus": "admur-encyclopedia",
+		"postId": "ency-admur-zohar",
+		"heichelId": "chassidus",
+		"seriesId": "admur-encyclopedia",
+		"title": "Zohar"
+	},
+	{
 		"corpus": "likkutei-torah-en",
 		"postId": "lt-bamidbar-ch01",
 		"heichelId": "ikar",
@@ -44096,4 +45468,4 @@ export const translationPostRecords = [
 ];
 
 /** sha256 over sorted postIds; changes when the translated set changes. */
-export const translationInventoryFingerprint = "7e77da9e2fa8b49de2117e109990538b921e66731244e9b542d5553eef65e32c";
+export const translationInventoryFingerprint = "939f4e83339c21eae0e2c4ece4fbeb6871e5b092c101ea00956700890ebb1f78";

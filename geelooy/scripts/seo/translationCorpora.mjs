@@ -26,7 +26,8 @@ export const TRANSLATION_CORPORA = [
 	{ id: 'tanach-commentary', stagingDir: 'tanach_comm' },
 	{ id: 'tanya-en', stagingDir: 'tanya_en' },
 	{ id: 'likkutei-torah-en', stagingDir: 'likkutei-torah-en' },
-	{ id: 'likkutei-torah-derushim-en', stagingDir: 'lt-derushim-holidays-en' }
+	{ id: 'likkutei-torah-derushim-en', stagingDir: 'lt-derushim-holidays-en' },
+	{ id: 'admur-encyclopedia', stagingDir: 'encyclopedia' }
 ];
 
 /** @returns {string} Absolute staging root holding the corpus post JSONs. */
