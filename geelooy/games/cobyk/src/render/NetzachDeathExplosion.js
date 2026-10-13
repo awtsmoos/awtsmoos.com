@@ -50,39 +50,55 @@ export class NetzachDeathExplosion {
 	 */
 	begin(chochmahX, chochmahY) {
 		this.clear();
-		const binaCount = 42;
+		// B"H — Yaakov 2026-10-13: BIGGER, more dramatic — 60 shards, larger.
+		const binaCount = 60;
 		const chochmahCube = this.chochmahGeometry.reveal("cube", {});
 		for (let i = 0; i < binaCount; i += 1) {
 			const tiferesColor = this.tiferesPalette[i % this.tiferesPalette.length];
 			const tiferesMaterial = new MeshStandardMaterial({
 				color: tiferesColor,
-				roughness: 0.7,
-				metalness: 0.1,
 				transparent: true,
 				opacity: 1
 			});
 			const tiferesMesh = new Mesh(chochmahCube, tiferesMaterial);
-			const tiferesSize = 0.08 + Math.random() * 0.16;
+			// Bigger shards: 0.12–0.30 (was 0.08–0.24) — unmistakable.
+			const tiferesSize = 0.12 + Math.random() * 0.18;
 			tiferesMesh.scale.set(tiferesSize, tiferesSize, tiferesSize * 0.6);
 			tiferesMesh.position.set(
-				chochmahX + (Math.random() - 0.5) * 0.5,
-				chochmahY + (Math.random() - 0.5) * 0.5,
-				0.3 + Math.random() * 0.4
+				chochmahX + (Math.random() - 0.5) * 0.6,
+				chochmahY + (Math.random() - 0.5) * 0.6,
+				0.5
 			);
 			// Explosive velocity: strong upward bias, wide horizontal spread.
 			const tiferesAngle = Math.random() * Math.PI * 2;
-			const tiferesSpeed = 2.5 + Math.random() * 5.5;
+			const tiferesSpeed = 3.0 + Math.random() * 6.0;
 			this.malchusParticles.push({
 				mesh: tiferesMesh,
 				vx: Math.cos(tiferesAngle) * tiferesSpeed,
-				vy: Math.abs(Math.sin(tiferesAngle)) * tiferesSpeed * 0.9 + 2.0,
+				vy: Math.abs(Math.sin(tiferesAngle)) * tiferesSpeed * 0.9 + 2.5,
 				vz: (Math.random() - 0.5) * 2,
-				rx: (Math.random() - 0.5) * 12,
-				ry: (Math.random() - 0.5) * 12,
+				rx: (Math.random() - 0.5) * 14,
+				ry: (Math.random() - 0.5) * 14,
 				life: 1.0
 			});
 			this.netzachGroup.add(tiferesMesh);
 		}
+		// B"H — bright flash: a large white-gold sphere that pops and fades fast.
+		const tiferesFlashMaterial = new MeshStandardMaterial({
+			color: 0xfff2c0,
+			transparent: true,
+			opacity: 0.95
+		});
+		const tiferesFlash = new Mesh(chochmahCube, tiferesFlashMaterial);
+		tiferesFlash.scale.set(1.6, 1.6, 0.4);
+		tiferesFlash.position.set(chochmahX, chochmahY, 0.5);
+		this.malchusParticles.push({
+			mesh: tiferesFlash,
+			vx: 0, vy: 0, vz: 0, rx: 0, ry: 0,
+			life: 1.0,
+			isFlash: true
+		});
+		this.netzachGroup.add(tiferesFlash);
 		this.netzachGroup.visible = true;
 		this.malchusActive = true;
 	}
@@ -106,6 +122,13 @@ export class NetzachDeathExplosion {
 			malchusParticle.mesh.position.z += malchusParticle.vz * tiferesDt;
 			malchusParticle.mesh.rotation.x += malchusParticle.rx * tiferesDt;
 			malchusParticle.mesh.rotation.y += malchusParticle.ry * tiferesDt;
+			// Flash pops: grows fast then fades in the first 30% of life.
+			if (malchusParticle.isFlash) {
+				const tiferesFlashScale = 1.6 + (1 - malchusParticle.life) * 3.2;
+				malchusParticle.mesh.scale.set(
+					tiferesFlashScale, tiferesFlashScale, 0.4
+				);
+			}
 			// Fade in the last 40% of life.
 			malchusParticle.life -= tiferesDt / 1.25;
 			const tiferesOpacity = Math.max(0, Math.min(1, malchusParticle.life / 0.4));

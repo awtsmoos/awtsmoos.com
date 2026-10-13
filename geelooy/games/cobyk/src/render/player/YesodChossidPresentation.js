@@ -24,7 +24,10 @@ const CHOSSID_ANIM_RUN = "run_Armature";
 const CHOSSID_ANIM_JUMP = "jump_Armature";
 const CHOSSID_ANIM_FALL = "falling_Armature";
 const CHOSSID_ANIM_IDLE = "stand_Armature";
-const CHOSSID_RUN_SPEED = 6.0;
+// B"H — Yaakov 2026-10-13: "if it goes too fast it should transition from walk
+// to run." Was 6.0 — UNREACHABLE (maxRunSpeed is 4.8), so run never played.
+// 3.2 gives a real walk→run blend at high speed (player crossfades smoothly).
+const CHOSSID_RUN_SPEED = 3.2;
 
 /**
  * @file YesodChossidPresentation.js

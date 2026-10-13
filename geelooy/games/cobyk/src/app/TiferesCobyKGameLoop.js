@@ -128,18 +128,25 @@ export class TiferesCobyKGameLoop {
 			const tiferesDeath = tiferesLevel.deathPosition || { x: 0, y: 0 };
 			try {
 				this.malchusRenderer?.beginDeathExplosion?.(tiferesDeath.x, tiferesDeath.y);
-			} catch (_) { /* decorative */ }
+			} catch (gevurahError) {
+				// B"H — Yaakov 2026-10-13: NEVER swallow explosion errors silently.
+				console.error("CobyK death explosion failed:", gevurahError);
+			}
 			this.hodDeathExplosionActive = true;
 		} else if (!tiferesDying && this.hodDeathExplosionActive) {
 			try {
 				this.malchusRenderer?.clearExplosion?.();
-			} catch (_) { /* decorative */ }
+			} catch (gevurahError) {
+				console.error("CobyK clear explosion failed:", gevurahError);
+			}
 			this.hodDeathExplosionActive = false;
 		}
 		if (this.hodDeathExplosionActive) {
 			try {
 				this.malchusRenderer?.tickExplosion?.(chochmahFrameSeconds);
-			} catch (_) { /* decorative */ }
+			} catch (gevurahError) {
+				console.error("CobyK tick explosion failed:", gevurahError);
+			}
 		}
 	}
 

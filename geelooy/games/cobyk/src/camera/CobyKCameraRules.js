@@ -30,7 +30,10 @@ export const COBYK_CAMERA_RULES = Object.freeze({
 	// B"H — Yaakov 2026-10-13: "Make more center." Reduced from 0.45 — the old
 	// offset shoved the player toward the bottom edge. 0.15 keeps the player
 	// near vertical center with just a breath of world visible above.
-	focusUpwardOffset: 0.15,
+	// B"H — Yaakov 2026-10-13: "NOT perfectly centered — a little lower, JUST NOT
+	// TOO LOW." 0.65 puts the player ~37% from the bottom: clearly below center,
+	// well clear of the touch controls, never at the bottom edge.
+	focusUpwardOffset: 0.65,
 	horizontalDeadZoneFraction: 0.02,
 	verticalDeadZoneFraction: 0.02,
 	lookAheadSeconds: 0.18,
