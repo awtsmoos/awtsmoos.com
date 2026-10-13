@@ -1,3 +1,6 @@
+//B"H
+// Boruch Hashem
+// Blessed is He
 /* B"H — Shema Strike: 2.5D side-view platformer. chossid hero, sparks, shadows, gates. */
 import * as THREE from '/games/scripts/build/three.module.js';
 import { createWorld } from './world.js';

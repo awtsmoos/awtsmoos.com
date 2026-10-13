@@ -1,3 +1,6 @@
+//B"H
+// Boruch Hashem
+// Blessed is He
 /* B"H — Boot: loading screen, tips, error handling, game start. */
 import { startGame } from './game.js';
 import { attachWardrobeButton } from '/games/scripts/wardrobe/ChossidWardrobeUI.js';

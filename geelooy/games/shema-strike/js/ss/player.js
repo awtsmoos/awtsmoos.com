@@ -1,3 +1,6 @@
+//B"H
+// Boruch Hashem
+// Blessed is He
 /* B"H — Shema Strike player: procedural chassid instantly, chossid.glb swaps in, side view. */
 import * as THREE from '/games/scripts/build/three.module.js';
 import { GLTFLoader } from '/games/scripts/jsm/loaders/GLTFLoader.js';

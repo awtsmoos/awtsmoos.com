@@ -1,3 +1,6 @@
+//B"H
+// Boruch Hashem
+// Blessed is He
 /* B"H — Input: keyboard, swipe, and on-screen buttons for the platformer. */
 export function bindInput(player, strike, hooks = {}) {
 	const root = document.getElementById('ss-root');

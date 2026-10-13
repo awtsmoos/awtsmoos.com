@@ -1,3 +1,6 @@
+//B"H
+// Boruch Hashem
+// Blessed is He
 /* B"H — Shema Strike levels: 3 gates, side-view 3D platformer.
    Verified: max jump height ~2.9u, max same-height gap ~5.6u, max 2u-rise gap ~4.3u.
    Every platform transition is within those bounds; goals sit on the final platform. */

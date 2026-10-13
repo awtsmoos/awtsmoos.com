@@ -132,6 +132,7 @@ body.ss {
 .ss__ctl small { font-size: 9px; color: #93a0b8; }
 .ss__ctl:hover { background: rgba(217,169,78,.18); }
 .ss__ctl:active { transform: scale(.9); background: rgba(217,169,78,.3); }
+.ss__ctl:focus-visible { outline: 2px solid var(--ss-gold); outline-offset: 2px; }
 .ss__ctl--jump { width: 74px; height: 74px; border-color: var(--ss-gold); }
 .ss__ctl--strike { border-color: var(--ss-teal); }
 

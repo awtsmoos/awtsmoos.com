@@ -1,3 +1,6 @@
+//B"H
+// Boruch Hashem
+// Blessed is He
 /* B"H — Shema Strike world: parallax sky, textured platforms, gate, sparks, enemies. */
 import * as THREE from '/games/scripts/build/three.module.js';
 
