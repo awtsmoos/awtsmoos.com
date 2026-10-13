@@ -148,9 +148,9 @@ const TOD = {
     golden: 0.0, warm: 0.0,
   },
   golden: {
-    sunDir: [0.72, 0.30, 0.28], sunColor: 0xffd9a8, sunI: 2.9,
+    sunDir: [0.72, 0.30, 0.28], sunColor: 0xffd9a8, sunI: 2.45,
     hemiSky: 0xd8c4a8, hemiGround: 0x4e5a3a, hemiI: 0.70,
-    fog: 0xdccfb4, fogNear: 60, fogFar: 270, exposure: 1.18,
+    fog: 0xaebf8e, fogNear: 60, fogFar: 270, exposure: 1.05,
     golden: 1.0, warm: 0.55,
   },
   dusk: {
@@ -304,8 +304,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const sc = document.createElement('canvas'); sc.width = 128; sc.height = 256;
     const sx = sc.getContext('2d');
     const grad = sx.createLinearGradient(0, 0, 0, 256);
-    grad.addColorStop(0, 'rgba(255,236,200,0.55)');
-    grad.addColorStop(0.55, 'rgba(255,228,180,0.20)');
+    grad.addColorStop(0, 'rgba(255,236,200,0.28)');
+    grad.addColorStop(0.55, 'rgba(255,228,180,0.10)');
     grad.addColorStop(1, 'rgba(255,220,160,0)');
     sx.fillStyle = grad; sx.fillRect(0, 0, 128, 256);
     sx.globalCompositeOperation = 'destination-in';
@@ -317,22 +317,22 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const shaftTex = new THREE.CanvasTexture(sc); shaftTex.colorSpace = THREE.SRGBColorSpace;
     const shaftMat = new THREE.MeshBasicMaterial({
       map: shaftTex, transparent: true, blending: THREE.AdditiveBlending,
-      depthWrite: false, side: THREE.DoubleSide, fog: false, opacity: 0.42,
+      depthWrite: false, side: THREE.DoubleSide, fog: false, opacity: 0.20,
     });
-    const shaftGeo = new THREE.PlaneGeometry(7, 46);
+    const shaftGeo = new THREE.PlaneGeometry(4.5, 40);
     const q = new THREE.Quaternion().setFromUnitVectors(
       new THREE.Vector3(0, 1, 0), sunDir.clone().normalize());
-    for (let si = 0; si < 9; si++) {
-      const z = -38 + si * 7 + (srand() - 0.5) * 5;
-      const x = riverX(z) + (srand() - 0.5) * 26;
-      const y = groundHeight(x, z, noise) + 15;
-      const w = 5 + srand() * 4, l = 40 + srand() * 16;
+    for (let si = 0; si < 6; si++) {
+      const z = -48 + si * 9 + (srand() - 0.5) * 5;
+      const x = riverX(z) + (srand() - 0.5) * 24;
+      const y = groundHeight(x, z, noise) + 14;
+      const w = 3.5 + srand() * 2.5, l = 36 + srand() * 12;
       for (let k = 0; k < 2; k++) {
         const m = new THREE.Mesh(shaftGeo, shaftMat);
         m.position.set(x, y, z);
         m.quaternion.copy(q);
         m.rotateY(srand() * Math.PI + k * Math.PI / 2);
-        m.scale.set(w / 7, l / 46, 1);
+        m.scale.set(w / 4.5, l / 40, 1);
         scene.add(m);
       }
     }
@@ -413,7 +413,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     loadTexture(TEX + 'grass1.jpg', 30, 30),
     loadTexture(TEX + 'dirt1.jpg', 40, 3),
     loadTexture(TEX + 'bark1.webp', 1, 2),
-    makeCanopyCutout(TEX + 'leaves1.png'),
+    makeCanopyCutout(TEX + 'new/tex-canopy-soft.webp'),
     loadTexture(TEX + 'leaf1.jpg', 1, 1),
     // B"H — reference-match texture set (Yaakov 2026-10-13)
     loadTexture(TEX + 'new/tex-grass-ground.webp', 36, 36),
@@ -581,7 +581,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   });
   const canopyMat = new THREE.MeshStandardMaterial({
     map: canopyTex, alphaTest: 0.30, side: THREE.DoubleSide,
-    roughness: 0.9, color: new THREE.Color(0.55, 0.85, 0.50),
+    roughness: 0.9, color: new THREE.Color(0.30, 0.45, 0.25),
   });
   const ARCHETYPES = [
     ['Oak Large', 'oak-large'], ['Pine Large', 'pine-large'],
@@ -646,7 +646,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     crownGeo.computeVertexNormals();
     const crownMat = new THREE.MeshStandardMaterial({
       map: canopyTex, alphaTest: 0.30, side: THREE.DoubleSide,
-      roughness: 0.95, color: new THREE.Color(0.75, 0.95, 0.70),
+      roughness: 0.95, color: new THREE.Color(0.35, 0.50, 0.28),
     });
     const PER_TREE = fast ? 22 : 36;
     const COUNT = treeSpots.length * PER_TREE;
