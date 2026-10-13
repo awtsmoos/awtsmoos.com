@@ -381,9 +381,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       // B"H — Sprint fix (2026-10-13): 0.35 was too dim, trunks went black and
       // the v2 bark texture couldn't read. 0.55 warm — reference trunks have
       // warm rim light on the camera side.
-      const fill = new THREE.DirectionalLight(0xffe8c8, 0.55);
-      fill.position.set(vpos[0], vpos[1] + 4, vpos[2]);
-      fill.target.position.set(vpos[0] - 8, 2, vpos[2] - 20);
+      const fill = new THREE.DirectionalLight(0xffe8c8, 0.85);
+      fill.position.set(vpos[0], vpos[1] + 6, vpos[2] + 5);
+      fill.target.position.set(vpos[0], 1.5, vpos[2] - 25);
       scene.add(fill); scene.add(fill.target);
     }
   }
@@ -756,8 +756,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       uGlitterDir: { value: new THREE.Vector3(-0.18, 0.16, -0.97).normalize() },
       // B"H — 99% water rewrite: natural river colors, not swimming-pool teal.
       // Deep water: dark green-teal. Shallow: nearly clear warm tint.
-      uDeep: { value: new THREE.Color(0x1e4a44) },
-      uShallow: { value: new THREE.Color(0x8ab8a8) },
+      uDeep: { value: new THREE.Color(0x143a36) },
+      uShallow: { value: new THREE.Color(0x6aa898) },
       uSky: { value: new THREE.Color(0xd8ecef) },
       uFogColor: { value: new THREE.Color(T.fog) },
       uFogNear: { value: T.fogNear },
@@ -846,7 +846,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           float bedVisibility = mix(0.95, 0.25, smoothstep(0.1, 0.8, depth));
           col = mix(col, bed, bedVisibility);
           // Sky reflection via fresnel (stronger at grazing = far water)
-          col = mix(col, uSky, fres*0.55);
+          col = mix(col, uSky, fres*0.35);
           // Sun glitter: sharp, sparse, on crests — not milky wash
           float sdot = max(dot(r, uSunDir), 0.0);
           col += vec3(1.0,0.97,0.90) * glint * 6.0 * tw * (0.3 + 0.7*depth);
@@ -914,7 +914,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
 /* trees — ez-tree-derived procedural generator, real bark + canopy photos */
   const barkMat = new THREE.MeshStandardMaterial({
     map: mossyBarkTex, roughness: 0.95,
-    color: new THREE.Color(0.85, 0.85, 0.80),
+    color: new THREE.Color(0.95, 0.90, 0.82),
+    emissive: new THREE.Color(0.08, 0.06, 0.04),
   });
   const canopyMat = new THREE.MeshStandardMaterial({
     // B"H 2026-10-13 texture-detail: was pale sage tint (0.58,0.66,0.55) washing
