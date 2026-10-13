@@ -86,3 +86,76 @@ a:focus-visible{outline:3px solid var(--ency-focus);outline-offset:2px;border-ra
   .ency-cat-card{transition:none}
   .ency-cat-card:hover{transform:none}
 }
+
+/* ============ ROUND 2 POLISH — article typography + category cards (2026-10-13) ============ */
+/* B"H — the article opens with a lead: a serif drop cap in deep gold. */
+.ency-article > p:first-of-type {
+	font-size: 1.08em;
+	color: var(--ency-ink);
+}
+:where(.ency-article) > p:first-of-type::first-letter {
+	font-family: var(--ency-serif);
+	font-size: 2.6em;
+	float: left;
+	line-height: 0.9;
+	padding-right: 0.12em;
+	color: var(--ency-gold-deep);
+}
+/* B"H — section headings clear the sticky nav when jumped to; list markers glow gold. */
+.ency-article h2 {
+	color: var(--ency-gold-deep);
+	scroll-margin-top: 5rem;
+}
+.ency-article ul li::marker {
+	color: var(--ency-gold);
+}
+/* B"H — selection carries the gold wash. */
+::selection {
+	background: var(--ency-gold-soft);
+	color: var(--ency-ink);
+}
+/* B"H — search hits answer the keyboard like the pointer. */
+.ency-hit:focus-visible {
+	outline: 3px solid var(--ency-focus);
+	outline-offset: 2px;
+	border-color: var(--ency-gold);
+}
+.ency-hit:active {
+	transform: scale(0.99);
+}
+/* B"H — category cards: the Hebrew letter becomes a medallion; press answers. */
+.ency-cat-card:focus-visible {
+	outline: 3px solid var(--ency-focus);
+	outline-offset: 2px;
+	border-color: var(--ency-gold);
+}
+.ency-cat-card:active {
+	transform: translateY(0) scale(0.99);
+}
+.ency-cat-he {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.6rem;
+	height: 2.6rem;
+	border-radius: 0.8rem;
+	background: var(--ency-gold-soft);
+	color: var(--ency-gold-deep);
+	font-size: 1.5rem;
+	font-family: var(--ency-serif);
+}
+/* B"H — the pager answers the press; nav links do too. */
+.ency-pager a:active {
+	transform: scale(0.98);
+}
+.ency-nav-link:active {
+	transform: scale(0.97);
+}
+@media (prefers-reduced-motion: reduce) {
+	.ency-hit:active,
+	.ency-cat-card:active,
+	.ency-pager a:active,
+	.ency-nav-link:active {
+		transform: none;
+	}
+}
