@@ -71,7 +71,18 @@ export class WebglStage {
 		this.runtime.metrics.track(object);
 		this.runtime.detailGovernor.track(object);
 		this.runtime.picker.track(object, interactive);
-		this.runtime.modelHydrator.hydrate(object);
+		// B"H: hydrate() is async — a rejection must never vanish as an unhandled
+		// rejection while the fallback stays hidden. Log it loudly instead.
+		try {
+			const pending = this.runtime.modelHydrator.hydrate(object);
+			if (pending && typeof pending.catch === 'function') {
+				pending.catch((error) => {
+					console.error('B"H | Seven Mitzvos model hydration failed for', object?.userData?.modelAsset, error);
+				});
+			}
+		} catch (error) {
+			console.error('B"H | Seven Mitzvos model hydration threw for', object?.userData?.modelAsset, error);
+		}
 		this.runtime.rootVisibility.track(object, interactive);
 		this.runtime.semanticInstances.track(object, interactive);
 		return object;

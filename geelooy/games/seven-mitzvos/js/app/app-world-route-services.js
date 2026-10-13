@@ -69,12 +69,42 @@ export class AppWorldRouteServices {
 
 	/** Apply one hub/detail route only while its async generation remains current. */
 	async routeWorld(route, isCurrent) {
-		const world = await this.ensureWorld();
+		let world;
+		try {
+			world = await this.ensureWorld();
+		} catch (error) {
+			// B"H: hub 3D hydration must never fail silently — surface it loudly.
+			console.error('B"H | Seven Mitzvos hub world failed to hydrate.', error);
+			this.showWorldError(error);
+			return false;
+		}
 		if (!world || !isCurrent()) {
 			return false;
 		}
-		world.route(route);
+		try {
+			world.route(route);
+		} catch (error) {
+			console.error('B"H | Seven Mitzvos hub world failed to route.', error);
+			this.showWorldError(error);
+			return false;
+		}
 		return true;
+	}
+
+	/** Renders a visible hub banner when the 3D world cannot hydrate. */
+	showWorldError(error) {
+		try {
+			const root = this.root || document.getElementById('sevenMitzvosApp');
+			if (!root || root.querySelector('[data-world-error]')) return;
+			const banner = document.createElement('div');
+			banner.setAttribute('data-world-error', 'true');
+			banner.setAttribute('role', 'alert');
+			banner.style.cssText = 'position:relative;z-index:50;margin:12px;padding:12px 16px;border-radius:12px;background:rgba(120,20,20,.92);color:#fff;font:600 14px/1.5 system-ui,sans-serif';
+			banner.textContent = `B"H — the 3D city could not hydrate: ${error?.message || error}. The teachings below still work.`;
+			root.prepend(banner);
+		} catch {
+			/* never let the error banner itself throw */
+		}
 	}
 
 	async returnToWorld() {
