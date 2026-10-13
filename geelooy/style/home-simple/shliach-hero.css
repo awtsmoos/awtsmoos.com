@@ -30,7 +30,9 @@ body[data-geelooy-route="home"] .shliach-hero-image {
 body[data-geelooy-route="home"] .shliach-hero-scrim {
 	position: absolute;
 	inset: 0;
-	background: var(--home-hero-scrim);
+	/* B"H 2026-10-13 — Yaakov: text was blocking the hero image. Scrim now only
+	   darkens the bottom where the search + Shliach link sit; the artwork breathes. */
+	background: linear-gradient(to top, rgba(0, 0, 0, .55) 0%, rgba(0, 0, 0, .28) 22%, transparent 45%);
 }
 body[data-geelooy-route="home"] .shliach-hero-content {
 	position: relative;
