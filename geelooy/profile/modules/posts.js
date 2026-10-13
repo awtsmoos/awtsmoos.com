@@ -5,7 +5,7 @@
  * @module ProfilePosts
  * @description Every post an alias published, as real links to the live posts.
  */
-import { one, replaceWith, cleanText } from "./dom.js";
+import { one, replaceWith, cleanText, setStat } from "./dom.js";
 import { emptyCard } from "./cards.js";
 import { apiJson, listFrom } from "./api.js";
 import { state } from "./state.js";
@@ -58,6 +58,7 @@ export async function renderProfilePosts() {
 	replaceWith(list, emptyCard("Loading posts…", "loading"));
 	const groups = await Promise.all(state.aliases.map(loadPostsForAlias));
 	const items = groups.flat();
+	setStat('posts', String(items.length));
 	if (!items.length) {
 		replaceWith(list, emptyCard("No posts yet. Publish from the social composer to see them here."));
 		return;

@@ -40,11 +40,30 @@ export async function bootProfileSocialOs() {
 	ensureMalchusProfileStyles(document);
 	bindTabs();
 	bindProfileInlineActions();
+	bindStatShortcuts();
 	const controller = new ProfileDashboardController();
 	await controller.start();
+	// B"H: Posts is the default tab — load it immediately so it is never empty.
+	try {
+		document.querySelector('[data-profile-tab="posts"]')?.click();
+	} catch { /* default tab load must never break boot */ }
 	window.__profileBootState = 'ready';
 	window.addEventListener('awtsmoosAliasChange', () => renderTiferesSocialLaunchpad());
 	return controller;
+}
+
+/** Stat buttons in the hero jump straight to their tab. */
+function bindStatShortcuts() {
+	document.querySelectorAll('[data-goto-tab]').forEach(button => {
+		button.addEventListener('click', () => {
+			const key = button.getAttribute('data-goto-tab');
+			const tab = key && document.querySelector(`[data-profile-tab="${key}"]`);
+			if (tab) {
+				tab.click();
+				tab.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+			}
+		});
+	});
 }
 
 window.__profileBootState = 'booting';

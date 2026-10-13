@@ -34,13 +34,43 @@ export class ProfileDashboardController {
 			getAliasDetails()
 		]);
 		setAliases(aliases, defaultAlias);
-		setStat('aliases', String(state.aliases.length));
-		setStat('defaultAlias', state.defaultAlias ? `@${state.defaultAlias}` : 'None');
+		this.personalizeHero();
 		renderTiferesSocialLaunchpad();
 		renderAliases();
 		await renderHeichelos();
 		// B"H: content tabs load lazily on first open — wire them here.
 		this.bindContentTabs();
+	}
+
+	/** Fills the hero with the default alias identity (name, handle, avatar letter). */
+	personalizeHero() {
+		try {
+			const primary = state.aliases.find(a => a.default) || state.aliases[0];
+			if (!primary) return;
+			const handle = document.querySelector('[data-profile-handle]');
+			if (handle) handle.textContent = `@${primary.id}`;
+			const name = document.querySelector('[data-profile-name]');
+			const display = (primary.displayName || primary.name || primary.id || '').trim();
+			if (name && display) name.textContent = display;
+			const avatar = document.querySelector('[data-profile-avatar]');
+			if (avatar) avatar.textContent = display.slice(0, 1).toUpperCase() || 'א';
+			const bio = document.querySelector('[data-profile-bio]');
+			const bioText = (primary.bio || primary.description || '').trim();
+			if (bio && bioText) {
+				bio.textContent = bioText;
+				bio.hidden = false;
+			}
+		} catch { /* hero personalization must never break boot */ }
+	}
+
+	/** Signed-out visitors get the elegant sign-in card instead of a dead loader. */
+	showSignedOut() {
+		try {
+			document.querySelector('[data-profile]')?.classList.add('is-signed-out');
+			const panel = document.querySelector('[data-profile-signedout]');
+			if (panel) panel.hidden = false;
+			announceProfile('You are not signed in.', 'info');
+		} catch { /* never throw from the failure path */ }
 	}
 
 	bindContentTabs() {
@@ -73,6 +103,10 @@ export class ProfileDashboardController {
 
 	renderFailure(error) {
 		const message = error.message || 'Could not load profile.';
+		if (/not logged in|sign in/i.test(message)) {
+			this.showSignedOut();
+			return;
+		}
 		one('.alias-list')?.replaceChildren(emptyCard(message, 'error'));
 		one('.heichel-list')?.replaceChildren(emptyCard('Heichelos could not load because profile loading failed.', 'error'));
 		announceProfile(message, 'error');

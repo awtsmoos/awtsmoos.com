@@ -5,7 +5,7 @@
  * @module ProfileComments
  * @description Every comment an alias made, as real links to the commented posts.
  */
-import { one, replaceWith, cleanText } from "./dom.js";
+import { one, replaceWith, cleanText, setStat } from "./dom.js";
 import { emptyCard } from "./cards.js";
 import { apiJson, listFrom } from "./api.js";
 import { state } from "./state.js";
@@ -55,6 +55,7 @@ export async function renderProfileComments() {
 	replaceWith(list, emptyCard("Loading comments…", "loading"));
 	const groups = await Promise.all(state.aliases.map(loadCommentsForAlias));
 	const items = groups.flat();
+	setStat('comments', String(items.length));
 	if (!items.length) {
 		replaceWith(list, emptyCard("No comments yet. Join a conversation to see it here."));
 		return;

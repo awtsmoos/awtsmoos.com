@@ -5,85 +5,112 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 	<title>Profile — Awtsmoos</title>
-	<link rel="design-reference" href="https://awtsmoos.com/design-refs/law8/account-ref.webp" data-design-ref="https://awtsmoos.com/design-refs/law8/account-ref.webp">
+	<meta name="description" content="Your Awtsmoos profile — posts, comments, series, aliases and heichelos.">
 	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=profile-static-001">
 	<link rel="stylesheet" href="/css/awp-polish.css?v=awp-001">
-	<link rel="stylesheet" href="/style/civilization/core-tokens.css?v=profile-static-001">
-	<link rel="stylesheet" href="/style/civilization/core-base.css?v=profile-static-001">
-	<link rel="stylesheet" href="/style/civilization/core-components.css?v=profile-static-001">
-	<link rel="stylesheet" href="/style/civilization/profile-identity.css?v=profile-static-001">
-	<link rel="stylesheet" href="/style/civilization/profile-content.css?v=profile-static-001">
-	<link rel="stylesheet" href="/profile/styles/law8-account.css?v=law8-account-001">
+	<link rel="stylesheet" href="/profile/styles/profile-dream.css?v=profile-dream-001">
 </head>
 <body data-geelooy-route="profile">
-	<main class="geelooy-profile-shell geelooy-content-region law8-account" data-profile>
-		<div class="law8-particles" aria-hidden="true">
-			<span style="--x:11%;--y:16%;--s:3.4rem;--o:.16;--r:-8deg">ד</span>
-			<span style="--x:27%;--y:31%;--s:2.6rem;--o:.12;--r:6deg">ב</span>
-			<span style="--x:70%;--y:20%;--s:3.8rem;--o:.15;--r:10deg">ר</span>
-			<span style="--x:41%;--y:54%;--s:2.4rem;--o:.1;--r:-12deg">נ</span>
-			<span style="--x:85%;--y:44%;--s:3rem;--o:.14;--r:4deg">ח</span>
-			<span style="--x:17%;--y:63%;--s:3.2rem;--o:.13;--r:-6deg">ת</span>
-			<span style="--x:90%;--y:71%;--s:2.8rem;--o:.12;--r:8deg">ש</span>
-			<span style="--x:71%;--y:79%;--s:3.6rem;--o:.15;--r:-10deg">א</span>
-			<span style="--x:34%;--y:83%;--s:2.5rem;--o:.1;--r:5deg">ד</span>
-			<span style="--x:57%;--y:10%;--s:2.2rem;--o:.09;--r:-4deg">ב</span>
-		</div>
-		<aside class="law8-rail" aria-label="Account settings">
-			<div class="law8-rail-brand"><span class="law8-rail-mark" aria-hidden="true">א</span><span class="law8-rail-name">Awtsmoos</span></div>
-			<nav class="law8-rail-nav" aria-label="Account sections">
-				<a class="law8-rail-link is-active" href="/profile" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 19c1.2-3.2 3.6-4.8 6.5-4.8s5.3 1.6 6.5 4.8"/></svg><span>Account</span></a>
-				<a class="law8-rail-link" href="/os"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg><span>Dashboard</span></a>
-				<a class="law8-rail-link" href="/notifications"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2.5h-15z"/><path d="M10 21a2.2 2.2 0 0 0 4 0"/></svg><span>Notifications</span></a>
-				<span class="law8-rail-link is-disabled" aria-disabled="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 2.8v5.4c0 4.4-3 7.6-7 9.8-4-2.2-7-5.4-7-9.8V5.8z"/></svg><span>Security</span></span>
-				<span class="law8-rail-link is-disabled" aria-disabled="true"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8.5" cy="12" r="4"/><path d="M12.5 12H21M17.5 12v3.5M21 12v2.5"/></svg><span>API Keys</span></span>
-				<span class="law8-rail-link is-disabled" aria-disabled="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10h18"/></svg><span>Billing &amp; Plans</span></span>
-				<span class="law8-rail-link is-disabled" aria-disabled="true"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8.5" r="3"/><path d="M3.5 19c.9-3 3-4.5 5.5-4.5s4.6 1.5 5.5 4.5"/><circle cx="16.5" cy="9.5" r="2.4"/><path d="M16 14.7c2.3.2 3.9 1.6 4.5 4"/></svg><span>Team</span></span>
+	<main class="geelooy-profile-shell profile-dream" data-profile>
+		<header class="pd-topbar">
+			<a class="pd-topbar-btn" href="/" aria-label="Back home">
+				<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
+			</a>
+			<h1 class="pd-topbar-title">Profile</h1>
+			<a class="pd-topbar-btn" href="./alias-manage/" aria-label="Profile settings">
+				<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M19 12a7 7 0 0 0-.14-1.4l2-1.55-2-3.46-2.36.95a7 7 0 0 0-2.42-1.4L13.7 2.6h-3.4l-.38 2.54a7 7 0 0 0-2.42 1.4l-2.36-.95-2 3.46 2 1.55a7 7 0 0 0 0 2.8l-2 1.55 2 3.46 2.36-.95a7 7 0 0 0 2.42 1.4l.38 2.54h3.4l.38-2.54a7 7 0 0 0 2.42-1.4l2.36.95 2-3.46-2-1.55c.1-.46.14-.92.14-1.4Z"/></svg>
+			</a>
+		</header>
+
+		<section class="pd-hero" aria-labelledby="profile-title">
+			<div class="pd-cover" aria-hidden="true">
+				<span style="--x:8%;--y:22%;--s:2.6rem;--o:.14;--r:-8deg">א</span>
+				<span style="--x:24%;--y:58%;--s:2rem;--o:.1;--r:6deg">ש</span>
+				<span style="--x:68%;--y:18%;--s:3rem;--o:.13;--r:10deg">ת</span>
+				<span style="--x:44%;--y:44%;--s:1.8rem;--o:.09;--r:-12deg">ו</span>
+				<span style="--x:86%;--y:52%;--s:2.4rem;--o:.12;--r:4deg">ר</span>
+				<span style="--x:58%;--y:72%;--s:2.2rem;--o:.1;--r:-6deg">ה</span>
+				<span style="--x:12%;--y:78%;--s:2rem;--o:.09;--r:8deg">מ</span>
+				<span style="--x:78%;--y:82%;--s:2.8rem;--o:.11;--r:-10deg">ד</span>
+			</div>
+			<div class="pd-avatar geelooy-avatar" data-profile-avatar aria-hidden="true">א</div>
+			<p class="pd-kicker">Personal chamber</p>
+			<h2 id="profile-title" class="pd-name" data-profile-name>Your profile</h2>
+			<p class="pd-handle"><span data-profile-handle>@you</span><span class="pd-role"> · Member</span></p>
+			<p class="pd-bio" data-profile-bio hidden></p>
+			<div class="pd-stats" role="list" aria-label="Profile stats">
+				<button type="button" class="pd-stat" role="listitem" data-goto-tab="posts">
+					<strong data-profile-stat="posts">—</strong><span>Posts</span>
+				</button>
+				<button type="button" class="pd-stat" role="listitem" data-goto-tab="comments">
+					<strong data-profile-stat="comments">—</strong><span>Comments</span>
+				</button>
+				<button type="button" class="pd-stat" role="listitem" data-goto-tab="series">
+					<strong data-profile-stat="series">—</strong><span>Series</span>
+				</button>
+			</div>
+			<div class="pd-actions">
+				<a class="pd-btn pd-btn-primary" href="./alias-manage/">Create alias</a>
+				<button type="button" class="pd-btn pd-btn-ghost" data-profile-action="heichel">New heichel</button>
+			</div>
+			<p class="pd-status" data-profile-status="loading" aria-live="polite">Loading profile…</p>
+		</section>
+
+		<section class="pd-signedout" data-profile-signedout hidden aria-labelledby="pd-signedout-title">
+			<div class="pd-signedout-card">
+				<div class="pd-avatar" aria-hidden="true">א</div>
+				<h2 id="pd-signedout-title">Sign in to see your profile</h2>
+				<p>Your posts, comments, series and aliases live here once you're signed in.</p>
+				<a class="pd-btn pd-btn-primary" href="/login">Sign in</a>
+				<a class="pd-btn pd-btn-ghost" href="/signup">Create account</a>
+			</div>
+		</section>
+
+		<div class="pd-tabs-wrap" data-profile-tabs-wrap>
+			<nav class="pd-tabs" role="tablist" aria-label="Profile sections">
+				<button type="button" role="tab" id="profile-tab-posts" class="pd-tab active" aria-selected="true" data-profile-tab="posts">Posts</button>
+				<button type="button" role="tab" id="profile-tab-comments" class="pd-tab" aria-selected="false" tabindex="-1" data-profile-tab="comments">Comments</button>
+				<button type="button" role="tab" id="profile-tab-series" class="pd-tab" aria-selected="false" tabindex="-1" data-profile-tab="series">Series</button>
+				<button type="button" role="tab" id="profile-tab-aliases" class="pd-tab" aria-selected="false" tabindex="-1" data-profile-tab="aliases">Aliases</button>
+				<button type="button" role="tab" id="profile-tab-heichelos" class="pd-tab" aria-selected="false" tabindex="-1" data-profile-tab="heichelos">Heichelos</button>
+				<button type="button" role="tab" id="profile-tab-about" class="pd-tab" aria-selected="false" tabindex="-1" data-profile-tab="about">About</button>
 			</nav>
-			<nav class="law8-rail-nav law8-rail-foot" aria-label="Support">
-				<a class="law8-rail-link" href="/contact"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.4A2.5 2.5 0 0 1 12 7.8c1.4 0 2.5 1 2.5 2.2 0 1.7-2.4 2-2.4 3.7"/><path d="M12 16.6v.4"/></svg><span>Help &amp; Support</span></a>
-				<span class="law8-rail-link is-disabled" aria-disabled="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M5 12h14M5 17h14"/><circle cx="10" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="9" cy="17" r="2"/></svg><span>Settings</span></span>
-				<a class="law8-rail-link" href="/logout"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4H6v16h8"/><path d="M11 12h10M18 8.5L21.5 12 18 15.5"/></svg><span>Sign out</span></a>
-			</nav>
-		</aside>
-		<div class="law8-account-main">
-			<p class="law8-page-title">Account management</p>
-			<section class="profile-hero-card awp-panel awp-entrance" aria-labelledby="profile-title">
-				<div class="profile-avatar-orb geelooy-avatar awp-avatar-ring" aria-hidden="true">א</div>
-				<div class="profile-identity-copy">
-					<p class="profile-kicker g-kicker awp-eyebrow">Personal chamber</p>
-					<h1 id="profile-title" class="awp-title-glow">Your profile</h1>
-					<p class="profile-handle-line g-muted"><span data-profile-handle>@you</span> <span class="law8-role">· Member</span></p>
-				</div>
-				<div class="profile-stat-grid" aria-label="Profile stats"><article><strong data-profile-stat="aliases">—</strong><span>Aliases</span></article><article><strong data-profile-stat="heichelos">—</strong><span>Heichelos</span></article><article><strong data-profile-stat="defaultAlias">—</strong><span>Default</span></article></div>
-				<section class="profile-inline-actions" aria-label="Profile actions">
-					<button type="button" class="awp-btn-ghost" data-profile-action="alias">Alias <small>Create or switch</small></button>
-					<button type="button" class="awp-btn-ghost" data-profile-action="notifications">Signals <small>Preview activity</small></button>
-					<button type="button" class="awp-btn-ghost" data-profile-action="heichel">Heichel <small>Create a space</small></button>
-				</section>
-				<a class="profile-primary-action awp-btn" href="./alias-manage/">Create alias</a>
-				<p class="profile-status" data-profile-status="loading" aria-live="polite">Loading profile…</p>
-			</section>
-			<section class="profile-command-panel awp-panel" aria-label="Profile sections">
-				<nav class="profile-tabs" role="tablist"><button id="profile-tab-aliases" class="active" type="button" role="tab" aria-selected="true" data-profile-tab="aliases">Aliases</button><button id="profile-tab-posts" type="button" role="tab" aria-selected="false" data-profile-tab="posts">Posts</button><button id="profile-tab-comments" type="button" role="tab" aria-selected="false" data-profile-tab="comments">Comments</button><button id="profile-tab-series" type="button" role="tab" aria-selected="false" data-profile-tab="series">Series</button><button id="profile-tab-heichelos" type="button" role="tab" aria-selected="false" data-profile-tab="heichelos">Heichelos</button><button id="profile-tab-about" type="button" role="tab" aria-selected="false" data-profile-tab="about">About</button></nav>
-				<div class="profile-panel-body">
-					<section id="profile-panel-aliases" class="profile-tab-panel" role="tabpanel" data-profile-panel="aliases"><div class="panel-title-row"><h2>Aliases</h2><a class="g-button" href="./alias-manage/">Add alias</a></div><div class="alias-list social-card-list"><div class="g-state">Loading aliases…</div></div></section>
-					<section id="profile-panel-posts" class="profile-tab-panel hidden" role="tabpanel" data-profile-panel="posts" hidden><div class="panel-title-row"><h2>Posts</h2></div><div class="profile-posts-list social-card-list"></div></section>
-					<section id="profile-panel-comments" class="profile-tab-panel hidden" role="tabpanel" data-profile-panel="comments" hidden><div class="panel-title-row"><h2>Comments</h2></div><div class="profile-comments-list social-card-list"></div></section>
-					<section id="profile-panel-series" class="profile-tab-panel hidden" role="tabpanel" data-profile-panel="series" hidden><div class="panel-title-row"><h2>Series</h2></div><div class="profile-series-list social-card-list"></div></section>
-					<section id="profile-panel-heichelos" class="profile-tab-panel hidden" role="tabpanel" data-profile-panel="heichelos" hidden><div class="panel-title-row"><h2>Heichelos</h2><a class="g-button" href="/heichelos/manage-alias-heichelos/">Manage</a></div><div class="heichel-list social-card-list"></div></section>
-					<section id="profile-panel-about" class="profile-tab-panel hidden" role="tabpanel" data-profile-panel="about" hidden><div class="g-grid"><article class="g-card"><h3>Identity</h3><p>Your public aliases and communities live here.</p></article></div></section>
-				</div>
-			</section>
-			<section class="profile-action-drawer" data-profile-action-drawer hidden aria-live="polite"></section>
 		</div>
+
+		<div class="pd-panels">
+			<section id="profile-panel-posts" class="pd-panel" role="tabpanel" aria-labelledby="profile-tab-posts" data-profile-panel="posts">
+				<div class="pd-panel-head"><h3>Posts</h3></div>
+				<div class="profile-posts-list pd-card-list"><div class="pd-loading">Loading posts…</div></div>
+			</section>
+			<section id="profile-panel-comments" class="pd-panel" role="tabpanel" aria-labelledby="profile-tab-comments" data-profile-panel="comments" hidden>
+				<div class="pd-panel-head"><h3>Comments</h3></div>
+				<div class="profile-comments-list pd-card-list"></div>
+			</section>
+			<section id="profile-panel-series" class="pd-panel" role="tabpanel" aria-labelledby="profile-tab-series" data-profile-panel="series" hidden>
+				<div class="pd-panel-head"><h3>Series</h3></div>
+				<div class="profile-series-list pd-card-list"></div>
+			</section>
+			<section id="profile-panel-aliases" class="pd-panel" role="tabpanel" aria-labelledby="profile-tab-aliases" data-profile-panel="aliases" hidden>
+				<div class="pd-panel-head"><h3>Aliases</h3><a class="pd-btn pd-btn-small" href="./alias-manage/">Add alias</a></div>
+				<div class="alias-list pd-card-list"><div class="pd-loading">Loading aliases…</div></div>
+			</section>
+			<section id="profile-panel-heichelos" class="pd-panel" role="tabpanel" aria-labelledby="profile-tab-heichelos" data-profile-panel="heichelos" hidden>
+				<div class="pd-panel-head"><h3>Heichelos</h3><a class="pd-btn pd-btn-small" href="/heichelos/manage-alias-heichelos/">Manage</a></div>
+				<div class="heichel-list pd-card-list"></div>
+			</section>
+			<section id="profile-panel-about" class="pd-panel" role="tabpanel" aria-labelledby="profile-tab-about" data-profile-panel="about" hidden>
+				<div class="pd-panel-head"><h3>About</h3></div>
+				<div class="pd-about-grid">
+					<article class="pd-about-card"><h4>Identity</h4><p>Your public aliases and communities live here.</p></article>
+					<article class="pd-about-card"><h4>Heichelos</h4><p>Spaces you own or steward across Awtsmoos.</p></article>
+				</div>
+			</section>
+		</div>
+
+		<section class="pd-drawer" data-profile-action-drawer hidden aria-live="polite"></section>
 	</main>
 	<script>
-	/* B"H - profile boot watchdog (plain script, runs even if the module graph below fails).
-	 * The module sets window.__profileBootState to 'booting', then 'ready' or 'failed'.
-	 * If it is still 'pending' after 20s, the module never executed (import failure,
-	 * syntax error, blocked script): replace the stuck "Loading..." with a visible
-	 * error and a reload button so the page is never dead-silent. */
+	/* B"H - profile boot watchdog (plain script, runs even if the module graph below fails). */
 	(function () {
 		window.__profileBootState = window.__profileBootState || 'pending';
 		setTimeout(function () {
@@ -98,21 +125,17 @@
 						var btn = document.createElement('button');
 						btn.id = 'profile-retry-boot';
 						btn.type = 'button';
-						btn.className = 'awp-btn';
+						btn.className = 'pd-btn pd-btn-primary';
 						btn.textContent = 'Reload profile';
 						btn.addEventListener('click', function () { location.reload(); });
 						status.parentNode.insertBefore(btn, status.nextSibling);
 					}
 				}
-				var aliasState = document.querySelector('.alias-list .g-state');
-				if (aliasState && /loading/i.test(aliasState.textContent || '')) {
-					aliasState.textContent = 'Aliases could not load. Reload the page to try again.';
-				}
 			} catch (e) { /* the watchdog itself must never throw */ }
 		}, 20000);
 	})();
 	</script>
-	<script type="module" src="./script.js?v=profile-static-001"></script>
+	<script type="module" src="./script.js?v=profile-dream-001"></script>
 	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=shared-shell-003"></script>
 </body>
 </html>

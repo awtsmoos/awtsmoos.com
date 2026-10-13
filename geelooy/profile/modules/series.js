@@ -5,7 +5,7 @@
  * @module ProfileSeries
  * @description Every series an alias created or follows, as real links.
  */
-import { one, replaceWith, cleanText } from "./dom.js";
+import { one, replaceWith, cleanText, setStat } from "./dom.js";
 import { emptyCard } from "./cards.js";
 import { apiJson, listFrom } from "./api.js";
 import { state } from "./state.js";
@@ -57,6 +57,7 @@ export async function renderProfileSeries() {
 	replaceWith(list, emptyCard("Loading series…", "loading"));
 	const groups = await Promise.all(state.aliases.map(loadSeriesForAlias));
 	const items = groups.flat();
+	setStat('series', String(items.length));
 	if (!items.length) {
 		replaceWith(list, emptyCard("No series yet. Create or follow a series to see it here."));
 		return;
