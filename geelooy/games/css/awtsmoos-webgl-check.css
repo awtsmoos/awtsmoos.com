@@ -1,0 +1,95 @@
+/* B"H — Awtsmoos WebGL help overlay: shared styles for all 3D games. */
+#awtsmoos-webgl-help {
+	position: fixed;
+	inset: 0;
+	z-index: 99999;
+	display: grid;
+	place-items: center;
+	padding: 24px;
+	background: radial-gradient(120% 120% at 50% 10%, #1a2340 0%, #070817 60%, #04050d 100%);
+	font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+	-webkit-tap-highlight-color: transparent;
+}
+#awtsmoos-webgl-help .awgl-card {
+	max-width: 34rem;
+	width: 100%;
+	background: rgba(255, 253, 247, 0.98);
+	border: 1px solid #e8d9ae;
+	border-radius: 18px;
+	padding: clamp(1.4rem, 5vw, 2.2rem);
+	box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55), 0 0 0 6px rgba(217, 169, 78, 0.12);
+	color: #2b2110;
+	text-align: center;
+}
+#awtsmoos-webgl-help .awgl-kicker {
+	margin: 0 0 0.6rem;
+	font-size: 0.72rem;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: #b8862e;
+	font-weight: 700;
+}
+#awtsmoos-webgl-help .awgl-title {
+	margin: 0 0 0.9rem;
+	font-size: clamp(1.4rem, 5vw, 1.9rem);
+	color: #2b2110;
+}
+#awtsmoos-webgl-help .awgl-copy {
+	margin: 0 0 0.9rem;
+	line-height: 1.55;
+	color: #4a3d24;
+}
+#awtsmoos-webgl-help .awgl-sub {
+	margin: 1.1rem 0 0.4rem;
+	font-weight: 700;
+	color: #2b2110;
+}
+#awtsmoos-webgl-help .awgl-causes {
+	margin: 0 0 1.2rem;
+	padding-left: 1.2rem;
+	text-align: left;
+	color: #4a3d24;
+	line-height: 1.5;
+}
+#awtsmoos-webgl-help .awgl-actions {
+	display: flex;
+	gap: 0.8rem;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+#awtsmoos-webgl-help .awgl-btn {
+	display: inline-block;
+	padding: 0.75rem 1.6rem;
+	border-radius: 999px;
+	font-weight: 700;
+	font-size: 1rem;
+	text-decoration: none;
+	cursor: pointer;
+	border: 2px solid transparent;
+	user-select: none;
+	-webkit-user-select: none;
+	touch-action: manipulation;
+}
+#awtsmoos-webgl-help .awgl-btn-primary {
+	background: linear-gradient(135deg, #d9a94e, #b8862e);
+	color: #241a08;
+	box-shadow: 0 6px 20px rgba(184, 134, 46, 0.4);
+}
+#awtsmoos-webgl-help .awgl-btn-primary:hover {
+	filter: brightness(1.06);
+}
+#awtsmoos-webgl-help .awgl-btn-primary:active {
+	transform: scale(0.97);
+}
+#awtsmoos-webgl-help .awgl-btn-ghost {
+	background: transparent;
+	color: #7a642f;
+	border-color: #d9c98f;
+}
+#awtsmoos-webgl-help .awgl-btn-ghost:hover {
+	background: rgba(217, 169, 78, 0.12);
+}
+#awtsmoos-webgl-help .awgl-btn:focus-visible {
+	outline: 3px solid #b8862e;
+	outline-offset: 3px;
+}
