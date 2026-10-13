@@ -11,7 +11,7 @@
 
 import { REMOTE_MODEL_RECORDS } from './RemoteModelRecords.js';
 
-export const REMOTE_MODEL_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/models/';
+export const REMOTE_MODEL_ROOT = '/games/mitzvahWorld/build/generated/assets/';
 
 /**
  * @description Resolves one semantic model identity into its immutable remote Drive record.
@@ -25,13 +25,15 @@ export function remoteModelRecord(relativePath, _locationLike = globalThis.locat
 	if (!record) throw new Error(`Unknown model identity: ${relativePath}`);
 	const segments = modelPath.split('/');
 	const filename = segments.at(-1);
-	const folder = segments.slice(0, -1).join('/');
-	const hashedPath = [folder, record.sha256, filename].filter(Boolean).join('/');
+	/* B"H — Yaakov 2026-10-13: assets live at /games/mitzvahWorld/build/generated/assets/{sha256}/{file}.
+	   The old remote migration tree 404s, so the semantic folder segment is dropped from the
+	   hashed path to match the real deployed layout. */
+	const hashedPath = [record.sha256, filename].filter(Boolean).join('/');
 	const remoteUrl = `${REMOTE_MODEL_ROOT}${encodePath(hashedPath)}`;
 	return Object.freeze({
 		...record,
 		candidates: Object.freeze([remoteUrl]),
-		drivePath: `assets/mitzvah-world/models/${hashedPath}`,
+		drivePath: `games/mitzvahWorld/build/generated/assets/${hashedPath}`,
 		filename,
 		path: modelPath,
 		remoteUrl,

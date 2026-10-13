@@ -51,7 +51,7 @@ test("every recipe texture call resolves through the trusted core catalog", asyn
 		for (const match of source.matchAll(/templeTexture\("([^"]+)", "([^"]+)"\)/g)) {
 			const [, family, texture] = match;
 			const url = awtsmoosDriveTextureUrl(family, texture);
-			assert.match(url, /^https:\/\/awtsmoos\.com\/sites\/firebase_drive_migration\//);
+			assert.match(url, /^https:\/\/awtsmoos\.com\/api\/social\/drive\/public\/awtsmoos\//);
 			callCount += 1;
 		}
 	}

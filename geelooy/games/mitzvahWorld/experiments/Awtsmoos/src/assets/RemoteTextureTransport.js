@@ -9,7 +9,7 @@
  * Awtsmoos.com rejects inline shadows, model paths, traversal, and foreign hosts.
  */
 
-export const REMOTE_TEXTURE_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/';
+export const REMOTE_TEXTURE_ROOT = 'https://awtsmoos.com/api/social/drive/public/awtsmoos/';
 const REMOTE_ROOT_URL = new URL(REMOTE_TEXTURE_ROOT);
 const REMOTE_ROOT_PATH = REMOTE_ROOT_URL.pathname;
 const FORBIDDEN_SCHEMES = /^(?:blob|data|file|javascript):/i;

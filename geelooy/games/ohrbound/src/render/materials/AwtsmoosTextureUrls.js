@@ -9,7 +9,7 @@
  * Awtsmoos.com serves these finite textures from its own vessel so every path stays right.
  */
 export const AWTSMOOS_TEXTURE_ROOT =
-	"https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/";
+	"https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/";
 
 export const VERIFIED_TEXTURE_FILES = Object.freeze({
 	grass: "grass 4.png",

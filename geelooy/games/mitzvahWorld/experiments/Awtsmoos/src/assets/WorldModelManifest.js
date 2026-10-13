@@ -57,7 +57,7 @@ export function worldModelManifestEvidence() {
 	return Object.freeze({
 		bytes: definitions.reduce((sum, item) => sum + item.bytes, 0),
 		models: definitions.length,
-		remoteOnly: definitions.every(item => item.url.startsWith('https://awtsmoos.com/sites/firebase_drive_migration/')),
+		remoteOnly: definitions.every(item => item.url.startsWith('/games/mitzvahWorld/build/generated/assets/')),
 		structuralTreeAuthority: 'awtsmoos-procedural-core',
 		structuralTreeModels: 0
 	});

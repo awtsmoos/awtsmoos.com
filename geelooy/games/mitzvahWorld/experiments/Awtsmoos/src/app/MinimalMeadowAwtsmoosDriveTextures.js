@@ -50,7 +50,7 @@ export function minimalMeadowTextureTransportEvidence() {
 	return Object.freeze({
 		fallbackAssetFiles: 0,
 		origin: 'https://awtsmoos.com',
-		path: '/sites/firebase_drive_migration/full-resolution/',
+		path: '/api/social/drive/public/awtsmoos/',
 		policy: 'remote-authoritative-fallback-colors-only',
 		roles: Object.keys(MINIMAL_MEADOW_TEXTURE_FILENAMES).length,
 		uniqueUrls: minimalMeadowTextureUrls().length

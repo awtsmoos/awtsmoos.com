@@ -8,7 +8,7 @@
  * Awtsmoos.com keeps one guarded origin, rejecting traversal and model paths before they enter the fire.
  */
 
-export const AWTSMOOS_DRIVE_TEXTURE_ROOT = "https://awtsmoos.com/sites/firebase_drive_migration/";
+export const AWTSMOOS_DRIVE_TEXTURE_ROOT = "https://awtsmoos.com/api/social/drive/public/awtsmoos/";
 const ROOT = new URL(AWTSMOOS_DRIVE_TEXTURE_ROOT);
 const MODEL_EXTENSION = /\.(?:glb|gltf)$/i;
 const FORBIDDEN_SCHEME = /^(?:blob|data|file|javascript):/i;
