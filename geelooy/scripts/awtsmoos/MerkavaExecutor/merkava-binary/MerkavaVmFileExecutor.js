@@ -82,10 +82,14 @@ function mapLookup(specifier, record = {}) {
   return prefix ? record[prefix] + specifier.slice(prefix.length) : null;
 }
 
-function resolveSpecifier(specifier, from = '', importMap = {}) {
+function resolveSpecifier(specifier, from = '', importMap = {}, allowLocalAliases = true) {
   const mapped = applyImportMap(specifier, from, importMap).replace(/\\/g, '/');
   if (/^[a-z]+:/i.test(mapped)) return canonicalModulePath(new URL(mapped).pathname);
-  if (mapped.startsWith('/')) return localImportAlias(mapped) || `/${canonicalModulePath(mapped).replace(/^\//, '')}`;
+  // B"H: the /geelooy local-repo aliases only apply to local runs. Page-screenshot
+  // runs (URL-keyed files) must resolve absolute paths against the page origin,
+  // not rewrite /games/... to /geelooy/games/... (which only the fuzzy key
+  // matcher used to rescue, and which mislabels genuinely missing modules).
+  if (mapped.startsWith('/')) return (allowLocalAliases ? localImportAlias(mapped) : null) || `/${canonicalModulePath(mapped).replace(/^\//, '')}`;
   if (!mapped.startsWith('.') && !mapped.startsWith('/')) return canonicalModulePath(mapped);
   // B"H: when `from` is a full URL (engine module keys are absolute URLs),
   // resolve with real URL semantics instead of path surgery — otherwise
@@ -125,19 +129,19 @@ function stripImports(source) {
   return out + text.slice(cursor);
 }
 
-function parseImports(source, from, importMap = {}) {
+function parseImports(source, from, importMap = {}, allowLocalAliases = true) {
   const imports = [];
   for (const span of importStatementSpans(String(source || ''))) {
     const text = span.text.trim();
     if (text.startsWith('export')) {
       const spec = text.match(/from\s*['"]([^'"]+)['"]/)?.[1];
-      if (spec) imports.push({ specifier: spec, resolved: resolveSpecifier(spec, from, importMap), names: [], reexport: true });
+      if (spec) imports.push({ specifier: spec, resolved: resolveSpecifier(spec, from, importMap, allowLocalAliases), names: [], reexport: true });
       continue;
     }
     const match = text.match(/^import\s*(?:(.*?)\s*from\s*)?['"]([^'"]+)['"]/s);
     if (!match) continue;
     const body = (match[1] || '').trim();
-    imports.push({ specifier: match[2], resolved: resolveSpecifier(match[2], from, importMap), names: parseImportBindings(body), sideEffect: !body });
+    imports.push({ specifier: match[2], resolved: resolveSpecifier(match[2], from, importMap, allowLocalAliases), names: parseImportBindings(body), sideEffect: !body });
   }
   return imports;
 }
@@ -259,10 +263,10 @@ function parseNamedImports(body) {
   }).filter(item => item.imported);
 }
 
-function stripExports(source, moduleKey = '', importMap = {}) {
+function stripExports(source, moduleKey = '', importMap = {}, allowLocalAliases = true) {
   const exportNames = new Set(), exportAliases = [];
   let defaultName = null;
-  let code = rewriteDynamicImport(stripImports(source), moduleKey, importMap);
+  let code = rewriteDynamicImport(stripImports(source), moduleKey, importMap, allowLocalAliases);
   code = code.replace(/export\s+default\s+function\s+([A-Za-z_$][\w$]*)/g, (_, name) => { defaultName = name; return `globals.${name} = function ${name}`; });
   code = code.replace(/export\s+default\s+class\s+([A-Za-z_$][\w$]*)/g, (_, name) => { defaultName = name; return `globals.${name} = class ${name}`; });
   code = code.replace(/export\s+default\s+/g, () => { defaultName = '__merkavaDefaultExport'; return `globals.${defaultName} = `; });
@@ -286,10 +290,10 @@ function stripExports(source, moduleKey = '', importMap = {}) {
   return { code, exportNames: [...exportNames], exportAliases, defaultName };
 }
 
-function rewriteDynamicImport(source, moduleKey = '', importMap = {}) {
+function rewriteDynamicImport(source, moduleKey = '', importMap = {}, allowLocalAliases = true) {
   return String(source || '')
     .replace(/import\.meta\.url/g, '"merkava://module"')
-    .replace(/\bimport\s*\(\s*(['"])([^'"]+)\1\s*\)/g, (_m, _q, spec) => `__merkavaDynamicImport(${JSON.stringify(resolveSpecifier(spec, moduleKey || '/', importMap))})`)
+    .replace(/\bimport\s*\(\s*(['"])([^'"]+)\1\s*\)/g, (_m, _q, spec) => `__merkavaDynamicImport(${JSON.stringify(resolveSpecifier(spec, moduleKey || '/', importMap, allowLocalAliases))})`)
     .replace(/\bimport\s*\(/g, '__merkavaDynamicImport(');
 }
 
@@ -307,9 +311,13 @@ async function executeVmFiles({ files = {}, entry = '/main.js', globals = {}, ru
   const cache = new Map();
   const normalizedImportMap = normalizeImportMap(importMap);
   const runtimeGlobals = runtime === 'node' ? createVirtualNodeGlobals(allFiles) : {};
+  // B"H: URL-keyed file sets come from page-screenshot runs — absolute-path
+  // specifiers resolve against the page origin there, so the /geelooy
+  // local-repo aliases stay off. Local runs keep the old behavior.
+  const allowLocalAliases = !Object.keys(files).some((k) => /^[a-z][a-z0-9+.-]*:\/\//i.test(String(k)));
 
   async function load(file, from = '/') {
-    const resolvedFile = resolveSpecifier(file, from, normalizedImportMap);
+    const resolvedFile = resolveSpecifier(file, from, normalizedImportMap, allowLocalAliases);
     const key = findExistingKey(allFiles, resolvedFile) || findExistingKey(allFiles, file) || resolvedFile;
     if (cache.has(key)) return cache.get(key);
     const liveExports = {};
@@ -327,12 +335,12 @@ async function executeVmFiles({ files = {}, entry = '/main.js', globals = {}, ru
     }
     const moduleGlobals = makeModuleGlobals(globals, runtimeGlobals, runtime);
     const reexports = [];
-    for (const imp of parseImports(source, key, normalizedImportMap)) {
+    for (const imp of parseImports(source, key, normalizedImportMap, allowLocalAliases)) {
       const imported = await load(imp.resolved, key);
       if (imp.reexport) reexports.push(imported);
       for (const item of imp.names) moduleGlobals[item.local] = item.imported === '*' ? imported : imported[item.imported];
     }
-    const exports = await runOneModule({ source, key, moduleGlobals, reexports, importMap: normalizedImportMap });
+    const exports = await runOneModule({ source, key, moduleGlobals, reexports, importMap: normalizedImportMap, allowLocalAliases });
     installSimulationOptimizations(exports, key);
     if (typeof process !== 'undefined' && process.env.MERKAVA_TRACE_MODULES === '1') console.error('[MerkavaModule:done]', JSON.stringify({key, exports:Object.keys(exports||{})}));
     Object.assign(liveExports, exports);
@@ -508,9 +516,9 @@ function makeModuleGlobals(globals, runtimeGlobals, runtime) {
   return out;
 }
 
-async function runOneModule({ source, key, moduleGlobals, reexports, importMap }) {
+async function runOneModule({ source, key, moduleGlobals, reexports, importMap, allowLocalAliases = true }) {
   const preparedSource = prepareSimulationSource(source, key, moduleGlobals);
-  const { code, exportNames, exportAliases, defaultName } = stripExports(preparedSource, key, importMap);
+  const { code, exportNames, exportAliases, defaultName } = stripExports(preparedSource, key, importMap, allowLocalAliases);
   return runNativeAsyncModule({ code, key, moduleGlobals, reexports, exportNames, exportAliases, defaultName });
 }
 

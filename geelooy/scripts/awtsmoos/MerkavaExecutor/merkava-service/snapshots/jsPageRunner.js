@@ -34,10 +34,13 @@ const DEFAULT_WAIT_MS = 2500;
 const DEFAULT_FETCH_TIMEOUT_MS = 15000;
 const MAX_SCRIPTS = 60;
 const FETCH_CONCURRENCY = 6;
-// B"H: recursive module fetching — the engine reports "VM module not found"
-// for any import the runner never fetched. Crawl static imports/exports and
-// literal dynamic imports, bounded.
-const MAX_MODULE_DEPTH = 8;
+// B"H 2026-10-13: depth 16, not 8. Game trees run deep — cobyk's kinetics
+// state module sits at static depth 9 (main -> app -> session -> kinetics),
+// and with `while (depth < MAX)` the loop fetches level N but only crawls
+// imports of levels below N, so depth-9 modules were never fetched at all
+// ("VM module not found"). 16 covers real game trees; MAX_TOTAL_MODULES
+// still bounds the worst case.
+const MAX_MODULE_DEPTH = 16;
 const MAX_TOTAL_MODULES = 600;
 
 /** Extract inline module scripts (no src) so their imports get crawled too. */
