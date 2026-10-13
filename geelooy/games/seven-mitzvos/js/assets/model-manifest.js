@@ -41,3 +41,6 @@ function model(file, sha256, height, materialRole = '') {
 function assertHash(value) {
 	if (!/^[a-f0-9]{64}$/.test(value)) throw new Error(`Invalid model hash: ${value}`);
 }
+
+// B"H: alias for consumers expecting MODEL_MANIFEST (real browser verification found the mismatch)
+export const MODEL_MANIFEST = MODELS;

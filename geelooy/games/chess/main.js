@@ -1574,6 +1574,20 @@ pgnFileInput.onchange = (event) => {
 	// B"H watchdog: the worker self-initializes on load, but if no
 	// initialization_complete arrives in 12s, re-poke it and surface retry.
 	resetGameState();
+	// B"H: draw preview board on load so users don't see a black box
+	// before picking a game mode (found via real browser verification)
+	try {
+		const _fenData = gameState.fen.split(' ');
+		board = _fenData[0].split('/').map(r => {
+			let nR = [];
+			for (const c of r)
+				if (isNaN(parseInt(c))) nR.push(c);
+				else
+					for (let i = 0; i < parseInt(c); i++) nR.push('');
+			return nR
+		});
+		drawBoard();
+	} catch (e) { /* preview is best-effort */ }
 	aiWorker.postMessage({ command: 'initialize' });
 	setTimeout(() => {
 		if (engineBoot.done) return;
