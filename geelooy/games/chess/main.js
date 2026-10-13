@@ -5,7 +5,7 @@
 // =================================================================
 
 import { teachingsNovel } from './teachings.js';
-import { drawChessPiece } from './pieces.js';
+import { drawChessPiece } from './chessPiecesSprite.js';
 import { paintWood } from '/games/scripts/player-shell/fx/game-textures.js';
 document.addEventListener('DOMContentLoaded', () => {
 	// --- DOM Element References ---
