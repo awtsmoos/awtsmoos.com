@@ -17,28 +17,17 @@
  *   // r.finalHtml -> serialized DOM after JS ran
  */
 
-import { createRequire } from "module";
 import { fileURLToPath } from "url";
 import path from "path";
+// B"H: static imports — CJS/UMD engine modules via default interop;
+// bundlers (esbuild) follow these, unlike createRequire.
+import simPkg from "../../merkava-runtime/UnifiedSimulation.js";
+import serPkg from "../../merkava-browser/VirtualHtmlSerializer.js";
+
+const { simulateBrowser } = simPkg;
+const VirtualHtmlSerializer = serPkg?.VirtualHtmlSerializer || serPkg;
 
 const __here = path.dirname(fileURLToPath(import.meta.url));
-const __require = createRequire(__here + "/");
-
-// CJS engine modules (loaded lazily so importers that never run pages pay nothing).
-let __sim = null;
-function sim() {
-  if (!__sim) {
-    __sim = __require("../../merkava-runtime/UnifiedSimulation.js");
-  }
-  return __sim;
-}
-let __Serializer = null;
-function Serializer() {
-  if (!__Serializer) {
-    __Serializer = __require("../../merkava-browser/VirtualHtmlSerializer.js").VirtualHtmlSerializer;
-  }
-  return __Serializer;
-}
 
 export const VERSION = "1.0.0";
 const DEFAULT_WAIT_MS = 2500;
@@ -158,7 +147,7 @@ function serializeFinalDom(runtime) {
   try {
     const doc = runtime?.window?.document;
     if (!doc) return "";
-    const ser = new (Serializer())();
+    const ser = new VirtualHtmlSerializer();
     const root = doc.documentElement || doc;
     return "<!DOCTYPE html>\n" + ser.serialize(root);
   } catch {
@@ -205,7 +194,6 @@ export async function runPageWithJs(opts = {}) {
     scriptsFetched++;
   }
 
-  const { simulateBrowser } = sim();
   let out;
   try {
     out = await simulateBrowser(files, "index.html", {

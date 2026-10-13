@@ -105,6 +105,35 @@ async function crownMerkavaRoutes($i) {
 			const { VIEWPORT_PRESETS } = await loadCore();
 			return { ok: true, devices: VIEWPORT_PRESETS };
 		},
+		// B"H — standalone distribution: serve the bundled merkava.mjs and
+		// install.sh. The bundle is built via:
+		//   esbuild geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-service/merkavaBundleEntry.mjs \
+		//     --bundle --platform=node --format=esm \
+		//     --banner:js="import{createRequire}from'module';const require=createRequire(import.meta.url);" \
+		//     --outfile=geelooy/api/merkava/dist/merkava.mjs
+		// and deployed alongside this file under geelooy/api/merkava/dist/.
+		"/download/merkava.mjs": async () => {
+			const fs = require("fs");
+			const p = path.join(
+				process.env.__awtsdir || process.cwd(),
+				"geelooy", "api", "merkava", "dist", "merkava.mjs"
+			);
+			if (!fs.existsSync(p)) return { ok: false, error: "bundle not deployed yet", status: 404 };
+			$i.setHeader && $i.setHeader("Content-Type", "application/javascript; charset=utf-8");
+			$i.setHeader && $i.setHeader("Content-Disposition", 'attachment; filename="merkava.mjs"');
+			return fs.readFileSync(p, "utf8");
+		},
+		"/download/install.sh": async () => {
+			const fs = require("fs");
+			const p = path.join(
+				process.env.__awtsdir || process.cwd(),
+				"geelooy", "api", "merkava", "dist", "install.sh"
+			);
+			if (!fs.existsSync(p)) return { ok: false, error: "installer not deployed yet", status: 404 };
+			$i.setHeader && $i.setHeader("Content-Type", "text/x-shellscript; charset=utf-8");
+			$i.setHeader && $i.setHeader("Content-Disposition", 'attachment; filename="install.sh"');
+			return fs.readFileSync(p, "utf8");
+		},
 		// B"H — FLAGSHIP: execute page JS with the real Merkava browser engine
 		// and instantly return runtime errors (console, uncaught exceptions
 		// with file/line, failed loads). No browser needed.
