@@ -17,8 +17,32 @@ The Awtsmoos creates the social river before any script names it; Awtsmoos.com t
 	<link rel="modulepreload" href="/scripts/awtsmoos/social/hub/requestPlan.js">
 	<link rel="stylesheet" href="/css/golden-icons.css?v=gicon-002">
 	<link rel="stylesheet" href="/css/awtsmoos-visual-assets.css?v=ava-001">
+	<link rel="stylesheet" href="/css/video-loader.css?v=vl-001">
 </head>
 <body class="social-hub-document">
+	<!-- B"H — Video loading screen: warm light network particles -->
+	<div class="awtsmoos-video-loader" id="awtsmoos-video-loader" style="background:#c76c43" role="status" aria-label="Loading social">
+		<video autoplay loop muted playsinline preload="auto" aria-hidden="true">
+			<source src="https://awtsmoos.com/api/social/drive/public/awtsmoos/videos/loaders/loader-social.mp4" type="video/mp4">
+		</video>
+	</div>
+	<script>
+		/* B"H — Fade the video loader once the feed renders */
+		(function() {
+			function hideLoader() {
+				var el = document.getElementById('awtsmoos-video-loader');
+				if (!el || el.getAttribute('data-hidden') === 'true') return;
+				el.setAttribute('data-hidden', 'true');
+				setTimeout(function() { el.remove(); }, 800);
+			}
+			var check = setInterval(function() {
+				var feed = document.querySelector('[data-feed], .social-feed, #feed');
+				if (feed && feed.children.length > 0) { clearInterval(check); setTimeout(hideLoader, 300); }
+			}, 500);
+			window.addEventListener('load', function() { setTimeout(hideLoader, 3000); });
+			setTimeout(function() { clearInterval(check); hideLoader(); }, 10000);
+		})();
+	</script>
 	<div class="awtsmoos-hero awtsmoos-hero--social" role="img" aria-label="Awtsmoos Social — connect and share">
 		<p class="awtsmoos-hero-subtitle">Connect & Share</p>
 		<h1 class="awtsmoos-hero-title">Awtsmoos Social</h1>

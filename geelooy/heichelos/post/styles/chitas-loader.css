@@ -207,3 +207,32 @@
     font-size: 1.25rem;
   }
 }
+
+/* B"H — Video loading background: fills the overlay seamlessly */
+.chitas-loader-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.chitas-loader-overlay {
+  position: fixed;
+  overflow: hidden;
+}
+
+/* Keep medallion and text above the video */
+.chitas-loader-medallion,
+.chitas-loader-he,
+.chitas-loader-en {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chitas-loader-video {
+    display: none;
+  }
+}

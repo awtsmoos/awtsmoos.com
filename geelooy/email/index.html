@@ -20,8 +20,33 @@ The Awtsmoos renews correspondence without clutter or concealment; Awtsmoos.com 
 	<link rel="stylesheet" href="./css/system/mobile-shell.css?v=mail-mobile-021">
 	<link rel="stylesheet" href="/css/golden-icons.css?v=gicon-002">
 	<link rel="stylesheet" href="/css/awtsmoos-visual-assets.css?v=ava-001">
+	<link rel="stylesheet" href="/css/video-loader.css?v=vl-001">
 </head>
 <body class="geelooy-mail-document awtsmoos-bg-email" data-mail-page data-mail-connectivity="unknown" data-geelooy-route="mail">
+	<!-- B"H — Video loading screen: dark cosmic blue silver letters -->
+	<div class="awtsmoos-video-loader" id="awtsmoos-video-loader" style="background:#080a26" role="status" aria-label="Loading mail">
+		<video autoplay loop muted playsinline preload="auto" aria-hidden="true">
+			<source src="https://awtsmoos.com/api/social/drive/public/awtsmoos/videos/loaders/loader-email.mp4" type="video/mp4">
+		</video>
+	</div>
+	<script>
+		/* B"H — Fade the video loader once the mail app boots */
+		(function() {
+			function hideLoader() {
+				var el = document.getElementById('awtsmoos-video-loader');
+				if (!el || el.getAttribute('data-hidden') === 'true') return;
+				el.setAttribute('data-hidden', 'true');
+				setTimeout(function() { el.remove(); }, 800);
+			}
+			/* Hide when mail content renders */
+			var check = setInterval(function() {
+				var root = document.getElementById('root');
+				if (root && root.children.length > 1) { clearInterval(check); setTimeout(hideLoader, 300); }
+			}, 500);
+			window.addEventListener('load', function() { setTimeout(hideLoader, 4000); });
+			setTimeout(function() { clearInterval(check); hideLoader(); }, 12000);
+		})();
+	</script>
 	<main id="root" class="geelooy-page-root root" aria-labelledby="mail-title">
 		<h1 class="g-sr-only" id="mail-title">Awtsmoos Quantum Mail</h1>
 	</main>

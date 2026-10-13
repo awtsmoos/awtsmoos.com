@@ -18,10 +18,35 @@ Awtsmoos.com lets every card remain a true route while Temple Runner leads with 
 	<link rel="stylesheet" href="./styles/awp-polish.css?v=awp-001">
 	<link rel="stylesheet" href="/css/golden-icons.css?v=gicon-002">
 	<link rel="stylesheet" href="/css/awtsmoos-visual-assets.css?v=ava-001">
+	<link rel="stylesheet" href="/css/video-loader.css?v=vl-001">
 	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
 	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=shared-shell-002&compact=true"></script>
 </head>
 <body data-geelooy-route="games" data-geelooy-nav="games" data-future-page="games" class="awtsmoos-bg-games">
+	<!-- B"H — Video loading screen: deep space golden particles -->
+	<div class="awtsmoos-video-loader" id="awtsmoos-video-loader" style="background:#02000f" role="status" aria-label="Loading games">
+		<video autoplay loop muted playsinline preload="auto" aria-hidden="true">
+			<source src="https://awtsmoos.com/api/social/drive/public/awtsmoos/videos/loaders/loader-games.mp4" type="video/mp4">
+		</video>
+	</div>
+	<script>
+		/* B"H — Fade the video loader once the catalog mounts */
+		(function() {
+			function hideLoader() {
+				var el = document.getElementById('awtsmoos-video-loader');
+				if (!el || el.getAttribute('data-hidden') === 'true') return;
+				el.setAttribute('data-hidden', 'true');
+				setTimeout(function() { el.remove(); }, 800);
+			}
+			/* Hide when the game grid has content, or on window load */
+			var check = setInterval(function() {
+				var grid = document.querySelector('[data-game-grid], .game-grid, #gameGrid');
+				if (grid && grid.children.length > 0) { clearInterval(check); setTimeout(hideLoader, 300); }
+			}, 500);
+			window.addEventListener('load', function() { setTimeout(hideLoader, 2500); });
+			setTimeout(function() { clearInterval(check); hideLoader(); }, 10000);
+		})();
+	</script>
 	<div class="awtsmoos-hero awtsmoos-hero--games" role="img" aria-label="Awtsmoos Games — playable worlds">
 		<p class="awtsmoos-hero-subtitle">Playable Worlds</p>
 		<h1 class="awtsmoos-hero-title">Awtsmoos Games</h1>

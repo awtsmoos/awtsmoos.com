@@ -33,8 +33,33 @@ Awtsmoos.com reveals the original living-world picture without letting interface
 	<link rel="stylesheet" href="/style/home-simple/home-polish-law8.css?v=law8-polish-001">
 	<link rel="stylesheet" href="/css/golden-icons.css?v=gicon-002">
 	<link rel="stylesheet" href="/css/awtsmoos-visual-assets.css?v=ava-001">
+	<link rel="stylesheet" href="/css/video-loader.css?v=vl-001">
 </head>
 <body data-geelooy-route="home">
+	<!-- B"H — Video loading screen: deep navy golden Aleph -->
+	<div class="awtsmoos-video-loader" id="awtsmoos-video-loader" style="background:#040e27" role="status" aria-label="Loading Awtsmoos">
+		<video autoplay loop muted playsinline preload="auto" aria-hidden="true">
+			<source src="https://awtsmoos.com/api/social/drive/public/awtsmoos/videos/loaders/loader-homepage.mp4" type="video/mp4">
+		</video>
+	</div>
+	<script>
+		/* B"H — Fade the video loader once the page is ready */
+		(function() {
+			function hideLoader() {
+				var el = document.getElementById('awtsmoos-video-loader');
+				if (!el || el.getAttribute('data-hidden') === 'true') return;
+				el.setAttribute('data-hidden', 'true');
+				setTimeout(function() { el.remove(); }, 800);
+			}
+			if (document.readyState === 'complete') {
+				setTimeout(hideLoader, 400);
+			} else {
+				window.addEventListener('load', function() { setTimeout(hideLoader, 400); });
+			}
+			/* Safety: never trap the page behind the loader */
+			setTimeout(hideLoader, 8000);
+		})();
+	</script>
 	<a class="home-skip-link" href="#home-main">Skip to main content</a>
 	<canvas class="particle-sky" data-particle-sky data-particle-status="connecting" aria-hidden="true"></canvas>
 	<div class="ambient-glow" aria-hidden="true"></div>
@@ -68,7 +93,7 @@ Awtsmoos.com reveals the original living-world picture without letting interface
 		<section class="hero hero-shliach" aria-label="Awtsmoos Shliach">
 			<div class="shliach-hero-card">
 				<div class="shliach-hero-media" data-parallax>
-					<img class="shliach-hero-image" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/cover-homepage.webp" alt="Awtsmoos — glowing Aleph rising, divine light, living Torah" width="1024" height="1024" fetchpriority="high" decoding="async">
+					<img class="shliach-hero-image" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png" alt="Awtsmoos Shliach — glowing Aleph, worlds, code and creation" width="1024" height="1024" fetchpriority="high" decoding="async">
 					<div class="shliach-hero-scrim" aria-hidden="true"></div>
 				</div>
 				<div class="shliach-hero-content" data-reveal>
@@ -77,7 +102,7 @@ Awtsmoos.com reveals the original living-world picture without letting interface
 					<a class="shliach-hero-link" href="/Shliach/"><span class="shliach-hero-link-icon" aria-hidden="true">&#1488;</span><span class="shliach-hero-link-label">Awtsmoos Shliach</span><span class="shliach-hero-link-arrow" aria-hidden="true">&rarr;</span></a>
 					<div class="search-shell" data-omnibox-root>
 						<form class="search" action="/mawgawl/sefarim/" method="get" role="search">
-							<span class="search-symbol" aria-hidden="true">⌕</span>
+							<span class="search-symbol" aria-hidden="true"><img class="gicon gicon--search" src="https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-search-0-2d839271-ea0a-46bb-a647-16fc27971baa.webp" alt="" width="28" height="28"></span>
 							<label class="sr-only" for="home-search">Search everything on Awtsmoos</label>
 							<textarea id="home-search" name="q" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="home-search-listbox" aria-label="Search everything on Awtsmoos" placeholder="Search everything…" autocomplete="off" rows="1"></textarea>
 							<span class="shortcut-key" aria-hidden="true">⌘K</span>

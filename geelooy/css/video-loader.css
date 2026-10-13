@@ -1,0 +1,41 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * Awtsmoos Video Loader — shared full-screen video loading overlay.
+ * Each page sets its own background color (matching its loader video) via
+ * inline style or data attribute. The video fills the viewport with
+ * object-fit: cover for a seamless edge-to-edge experience.
+ */
+.awtsmoos-video-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 0.7s ease;
+  /* Background set inline per page to match video */
+}
+
+.awtsmoos-video-loader[data-hidden="true"] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.awtsmoos-video-loader video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Respect reduced motion: show a static frame instead of video */
+@media (prefers-reduced-motion: reduce) {
+  .awtsmoos-video-loader video {
+    display: none;
+  }
+}

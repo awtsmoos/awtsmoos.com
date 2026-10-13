@@ -13,8 +13,35 @@
 	<link rel="stylesheet" href="/profile/styles/profile-dream.css?v=profile-dream-001">
 	<link rel="stylesheet" href="/css/golden-icons.css?v=gicon-002">
 	<link rel="stylesheet" href="/css/awtsmoos-visual-assets.css?v=ava-001">
+	<link rel="stylesheet" href="/css/video-loader.css?v=vl-001">
 </head>
 <body data-geelooy-route="profile" class="awtsmoos-bg-profile">
+	<!-- B"H — Video loading screen: warm cream golden light -->
+	<div class="awtsmoos-video-loader" id="awtsmoos-video-loader" style="background:#f4ebe2" role="status" aria-label="Loading profile">
+		<video autoplay loop muted playsinline preload="auto" aria-hidden="true">
+			<source src="https://awtsmoos.com/api/social/drive/public/awtsmoos/videos/loaders/loader-profile.mp4" type="video/mp4">
+		</video>
+	</div>
+	<script>
+		/* B"H — Fade the video loader once the profile renders */
+		(function() {
+			function hideLoader() {
+				var el = document.getElementById('awtsmoos-video-loader');
+				if (!el || el.getAttribute('data-hidden') === 'true') return;
+				el.setAttribute('data-hidden', 'true');
+				setTimeout(function() { el.remove(); }, 800);
+			}
+			/* Hide when profile status is no longer loading */
+			var check = setInterval(function() {
+				var status = document.querySelector('[data-profile-status]');
+				if (status && status.getAttribute('data-profile-status') !== 'loading') {
+					clearInterval(check); setTimeout(hideLoader, 300);
+				}
+			}, 500);
+			window.addEventListener('load', function() { setTimeout(hideLoader, 3000); });
+			setTimeout(function() { clearInterval(check); hideLoader(); }, 10000);
+		})();
+	</script>
 	<main class="geelooy-profile-shell profile-dream" data-profile>
 		<header class="pd-topbar">
 			<a class="pd-topbar-btn" href="/" aria-label="Back home">
