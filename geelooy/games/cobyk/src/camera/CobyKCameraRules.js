@@ -12,9 +12,9 @@ export const COBYK_CAMERA_RULES = Object.freeze({
 	portraitAspectMax: 0.82,
 	compactAspectMax: 1.25,
 	ultrawideAspectMin: 1.95,
-	// B"H — Yaakov 2026-10-13: player must DOMINATE the screen, not just be visible.
-	// Was 3.2 (player was ~14% of screen height). Now 2.0 (player ~22% of screen height).
-	portraitVisibleWidth: 2.0,
+	// B"H — Yaakov 2026-10-13: player clearly visible but not overwhelming.
+	// Was 2.0 (player ~22% of screen height — too tight). Now 2.8 (~16% of screen height).
+	portraitVisibleWidth: 2.8,
 	compactVisibleWidth: 6,
 	desktopVisibleWidth: 12,
 	ultrawideVisibleWidth: 17,

@@ -74,16 +74,56 @@ async function bootCobyK() {
 		return null;
 	}
 	const yesodStarfieldCanvas = globalThis.document?.querySelector?.("[data-cobyk-starfield]");
+	let yesodStarfield = null;
 	if (yesodStarfieldCanvas) {
 		try {
-			new CobyKStarfield(yesodStarfieldCanvas).start();
+			yesodStarfield = new CobyKStarfield(yesodStarfieldCanvas);
+			yesodStarfield.start();
 		} catch (gevurahError) {
 			console.warn("CobyK starfield unavailable", gevurahError);
 		}
 	}
+	// B"H — Yaakov 2026-10-13: reserve HUD clearance only when the shared
+	// player-shell launcher is actually present; otherwise the HUD goes full width.
+	try {
+		const revealShellClearance = () => {
+			const tiferesLauncher = globalThis.document?.querySelector?.(".awt-game-shell__launcher");
+			globalThis.document?.documentElement?.style?.setProperty?.(
+				"--cobyk-shell-clear",
+				tiferesLauncher ? "58px" : "0px"
+			);
+		};
+		revealShellClearance();
+		globalThis.setTimeout(revealShellClearance, 1500);
+	} catch (_) { /* decorative */ }
 	try {
 		setLoadingHint("Kindling the world…");
 		const malchusApp = await MalchusCobyKApp.create(yesodRoot);
+		// B"H — Yaakov 2026-10-13: day/night sky cycle — even levels get the
+		// bright daytime sky (clouds + mountains), odd levels get starry night.
+		const tiferesOriginalOpenLevel = malchusApp.openLevel.bind(malchusApp);
+		const tiferesOriginalAdvance = malchusApp.advance.bind(malchusApp);
+		const hodApplySkyForLevel = chochmahIndex => {
+			try {
+				yesodStarfield?.setMode(Number(chochmahIndex) % 2 === 0 ? "day" : "night");
+			} catch (_) { /* decorative */ }
+		};
+		malchusApp.openLevel = chochmahIndex => {
+			const tiferesSnapshot = tiferesOriginalOpenLevel(chochmahIndex);
+			hodApplySkyForLevel(chochmahIndex);
+			return tiferesSnapshot;
+		};
+		malchusApp.advance = () => {
+			const tiferesAdvanced = tiferesOriginalAdvance();
+			if (tiferesAdvanced) {
+				try {
+					const tiferesIndex = malchusApp.malchusCampaign?.chochmahIndex ?? 0;
+					hodApplySkyForLevel(tiferesIndex);
+				} catch (_) { /* decorative */ }
+			}
+			return tiferesAdvanced;
+		};
+		hodApplySkyForLevel(0);
 		setLoadingHint("Opening the gates…");
 		malchusApp.start();
 		revealGame();

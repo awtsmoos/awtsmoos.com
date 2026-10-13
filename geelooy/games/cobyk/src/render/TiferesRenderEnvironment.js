@@ -10,17 +10,18 @@
  */
 export class TiferesRenderEnvironment {
 	constructor(binaOptions = {}) {
-		// B"H — Yaakov 2026-10-13: transparent clear so the living starfield
-		// behind the canvas becomes the sky; BRIGHT ambient — no more darkness.
+		// B"H — Yaakov 2026-10-13: transparent clear so the living sky backdrop
+		// behind the canvas becomes the sky; VERY BRIGHT ambient — Yaakov said
+		// "MAKE IT BRIGHTER, I can't even see the blocks". No more darkness.
 		this.tiferesClear = binaOptions.clearColor || [0.0, 0.0, 0.0, 0];
 		this.chesedEnvironment = Object.freeze({
-			ambient: binaOptions.ambient || [1.0, 1.05, 1.18],
+			ambient: binaOptions.ambient || [1.45, 1.5, 1.65],
 			sunDirection: binaOptions.sunDirection || [-0.45, 0.82, 0.38],
-			sunColor: binaOptions.sunColor || [1.15, 1.08, 0.95],
-			fogColor: binaOptions.fogColor || [0.12, 0.16, 0.24],
+			sunColor: binaOptions.sunColor || [1.35, 1.28, 1.12],
+			fogColor: binaOptions.fogColor || [0.35, 0.45, 0.62],
 			fogNear: Number(binaOptions.fogNear) || 22,
 			fogFar: Number(binaOptions.fogFar) || 64,
-			exposure: Number(binaOptions.exposure) || 1.55
+			exposure: Number(binaOptions.exposure) || 1.9
 		});
 	}
 

@@ -12,7 +12,9 @@
 const MALCHUS_TEXTURE_ROOT = "https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/cobyk/";
 
 const binaRoles = Object.freeze({
-	brick: revealRole("#746a63", "cobyk-platform.jpg", "cobblestone.png", 0.86, 0.12),
+	// B"H — Yaakov 2026-10-13: brick was #746a63 (nearly invisible in the dark).
+	// Brightened to warm light stone so platforms are clearly visible.
+	brick: revealRole("#b8a88f", "cobyk-platform.jpg", "cobblestone.png", 0.86, 0.12),
 	hazard: revealRole("#d63b2f", "cobyk-hazard-fire.jpg", "rusty iron.png", 0.34, 0.2),
 	movingHazard: revealRole("#ef5b38", "cobyk-hazard-fire.jpg", "rusty iron.png", 0.28, 0.24),
 	coin: revealRole("#ffd84d", "cobyk-coin.jpg", "gold 2.png", 0.18, 0.72),

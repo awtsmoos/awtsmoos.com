@@ -93,9 +93,10 @@
 
 @media (max-height: 560px) and (orientation: landscape) {
 	.cobyk-app .cobyk-hud {
-		top: 6px;
-		left: 6px;
-		right: 6px;
+		/* B"H — Yaakov 2026-10-13: keep safe-area insets in landscape too. */
+		top: calc(6px + env(safe-area-inset-top, 0px));
+		left: max(6px, env(safe-area-inset-left, 0px));
+		right: calc(max(6px, env(safe-area-inset-right, 0px)) + var(--cobyk-shell-clear, 0px));
 	}
 
 	.cobyk-app .cobyk-campaign {

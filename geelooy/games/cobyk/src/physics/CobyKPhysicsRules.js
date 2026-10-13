@@ -18,8 +18,10 @@ export const COBYK_PHYSICS_RULES = Object.freeze({
 	airAcceleration: 24,
 	groundDeceleration: 42,
 	gravity: 8,
-	jumpSpeed: 3.6,
-	jumpCutMultiplier: 0.5,
+	// B"H — Yaakov 2026-10-13: jump was too low (0.81 tiles < player height 0.95).
+	// Now 4.8 → 1.44 tiles high (~1.5x player height). Smoother release cut.
+	jumpSpeed: 4.8,
+	jumpCutMultiplier: 0.62,
 	maxFallSpeed: 8.4,
 	coyoteSeconds: 0.09,
 	jumpBufferSeconds: 0.12,

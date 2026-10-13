@@ -14,6 +14,12 @@ export class TiferesCobyKGameLoop {
 		this.malchusRunning = false;
 		this.malchusFrameId = null;
 		this.malchusLastCampaign = this.malchusCampaign.snapshot();
+		// B"H — Yaakov 2026-10-13: render interpolation state. Physics runs at
+		// fixed 1/60 steps but displays refresh at 90/120Hz — without interpolation
+		// the player visibly stutters every frame while moving. We keep the player
+		// position from the last completed physics step and blend toward the newest
+		// using the clock's accumulator alpha, so motion is buttery on any display.
+		this.hodPreviousPlayerXY = null;
 		this.netzachFrame = netzachNowMs => this.frame(netzachNowMs);
 	}
 
@@ -61,16 +67,21 @@ export class TiferesCobyKGameLoop {
 		this.netzachKeyboard.sync();
 		this.yesodTouch.sync();
 		this.advanceSimulation(chochmahTiming.steps);
+		// B"H — Yaakov 2026-10-13: present an interpolated campaign so the player
+		// and camera move smoothly between fixed physics steps (kills the per-frame
+		// glitch while running/jumping). Deterministic simulation is untouched —
+		// only presentation blends.
+		const tiferesPresentation = this.revealPresentationCampaign(chochmahTiming.alpha);
 		const tiferesCamera = this.tiferesCameraPresentation.reveal(
-			this.malchusLastCampaign,
+			tiferesPresentation,
 			chochmahTiming.frameSeconds
 		);
 		this.malchusRenderer.renderFrame(
-			this.malchusLastCampaign.level,
+			tiferesPresentation.level,
 			tiferesCamera,
 			{ nowMs: netzachNowMs }
 		);
-		this.malchusView.renderCampaign(this.malchusLastCampaign);
+		this.malchusView.renderCampaign(tiferesPresentation);
 		if (this.hodCadence.due(netzachNowMs)) {
 			this.malchusView.renderAdvanced(
 				this.malchusRenderer.snapshot(false)
@@ -86,6 +97,9 @@ export class TiferesCobyKGameLoop {
 	 */
 	advanceSimulation(chochmahSteps) {
 		for (let chochmahStep = 0; chochmahStep < chochmahSteps; chochmahStep += 1) {
+			// Remember the player position before each physics step so the
+			// presentation layer can interpolate between the last two states.
+			this.hodPreviousPlayerXY = this.revealPlayerXY(this.malchusLastCampaign);
 			this.malchusLastCampaign = this.malchusCampaign.step(
 				this.tiferesArbiter.consume()
 			);
@@ -97,6 +111,60 @@ export class TiferesCobyKGameLoop {
 	}
 
 	/**
+	 * Reveals the player x/y from a campaign snapshot, or null when unavailable.
+	 * @param {object} malchusCampaign Campaign snapshot.
+	 * @returns {{x:number,y:number}|null} Player position or null.
+	 */
+	revealPlayerXY(malchusCampaign) {
+		const malchusPlayer = malchusCampaign?.level?.runtime?.player;
+		if (!malchusPlayer || !Number.isFinite(malchusPlayer.x) || !Number.isFinite(malchusPlayer.y)) {
+			return null;
+		}
+		return { x: malchusPlayer.x, y: malchusPlayer.y };
+	}
+
+	/**
+	 * Builds a presentation-only campaign whose player position is interpolated
+	 * between the previous and current physics states. The deterministic
+	 * simulation snapshot is never mutated — this copy exists only for the
+	 * camera, renderer, and HUD on this frame.
+	 * @param {number} chochmahAlpha Clock accumulator fraction (0..1).
+	 * @returns {object} Campaign snapshot safe for presentation.
+	 */
+	revealPresentationCampaign(chochmahAlpha) {
+		const malchusBase = this.malchusLastCampaign;
+		const malchusPlayer = malchusBase?.level?.runtime?.player;
+		const hodPrevious = this.hodPreviousPlayerXY;
+		const tiferesAlpha = Math.max(0, Math.min(1, Number(chochmahAlpha) || 0));
+		if (!malchusPlayer || !hodPrevious || tiferesAlpha <= 0 || tiferesAlpha >= 1) {
+			return malchusBase;
+		}
+		// Never blend across a teleport/respawn discontinuity — snap instead.
+		const tiferesJump = Math.hypot(
+			malchusPlayer.x - hodPrevious.x,
+			malchusPlayer.y - hodPrevious.y
+		);
+		if (tiferesJump >= 4) {
+			return malchusBase;
+		}
+		const tiferesPlayer = Object.freeze({
+			...malchusPlayer,
+			x: hodPrevious.x + (malchusPlayer.x - hodPrevious.x) * tiferesAlpha,
+			y: hodPrevious.y + (malchusPlayer.y - hodPrevious.y) * tiferesAlpha
+		});
+		return {
+			...malchusBase,
+			level: {
+				...malchusBase.level,
+				runtime: {
+					...malchusBase.level.runtime,
+					player: tiferesPlayer
+				}
+			}
+		};
+	}
+
+	/**
 	 * Clears timing, diagnostic, and camera discontinuity continuity after explicit level/session replacement.
 	 * @returns {void}
 	 */
@@ -104,6 +172,7 @@ export class TiferesCobyKGameLoop {
 		this.chochmahClock.reset();
 		this.hodCadence.reset();
 		this.tiferesCameraPresentation.reset();
+		this.hodPreviousPlayerXY = null;
 		this.malchusLastCampaign = this.malchusCampaign.snapshot();
 	}
 

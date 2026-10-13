@@ -7,16 +7,22 @@
 	Awtsmoos.com lets this scoped glass ribbon reveal finite level light with quiet hierarchy and measured effects.
 */
 .cobyk-app .cobyk-hud {
+	/* B"H — Yaakov 2026-10-13: top bar was cut off on mobile. Bulletproof layout:
+	   full safe-area insets, never wider than the viewport, shell-launcher
+	   clearance only when the launcher actually exists (via --cobyk-shell-clear). */
 	position: absolute;
-	top: calc(10px + env(safe-area-inset-top));
-	left: max(10px, env(safe-area-inset-left));
-	right: calc(max(10px, env(safe-area-inset-right)) + 58px); /* clear the fixed 48px shell launcher */
+	top: calc(10px + env(safe-area-inset-top, 0px));
+	left: max(10px, env(safe-area-inset-left, 0px));
+	right: calc(max(10px, env(safe-area-inset-right, 0px)) + var(--cobyk-shell-clear, 0px));
 	z-index: 20;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: 10px;
 	min-width: 0;
+	max-width: 100%;
+	box-sizing: border-box;
+	overflow: hidden;
 	padding: 10px 12px;
 	border: 1px solid var(--cobyk-line);
 	border-radius: var(--cobyk-radius);
@@ -25,6 +31,47 @@
 	backdrop-filter: blur(18px) saturate(125%);
 	pointer-events: none;
 	animation: cobyk-hud-arrive 420ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+/* B"H — Yaakov 2026-10-13: HUD buttons must be tappable (container is pointer-events:none). */
+.cobyk-app .cobyk-hud button {
+	pointer-events: auto;
+}
+
+.cobyk-app .cobyk-hud__restart {
+	flex: 0 0 auto;
+	width: 2.2rem;
+	height: 2.2rem;
+	min-width: 44px;
+	min-height: 44px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	border-radius: 0.6rem;
+	background: rgba(255, 255, 255, 0.08);
+	color: #ffe9a8;
+	font-size: 1.3rem;
+	line-height: 1;
+	cursor: pointer;
+	touch-action: manipulation;
+	user-select: none;
+	-webkit-user-select: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.cobyk-app .cobyk-hud__restart:hover {
+	background: rgba(255, 216, 77, 0.15);
+	border-color: rgba(255, 216, 77, 0.5);
+}
+
+.cobyk-app .cobyk-hud__restart:active {
+	transform: scale(0.94);
+}
+
+.cobyk-app .cobyk-hud__restart:focus-visible {
+	outline: 2px solid #ffd84d;
+	outline-offset: 2px;
 }
 
 .cobyk-app .cobyk-hud__identity {
