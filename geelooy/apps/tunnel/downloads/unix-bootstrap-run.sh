@@ -17,14 +17,21 @@ bootstrap_cancelled=0
 source "$runtime_root/unix-bootstrap-fetch.sh"
 
 # --- Clever terminal presentation (Yaakov 2026-10-11) ---
+# --- Colorful & fun (Yaakov 2026-10-13) ---
 if [ -t 2 ] && [ "${NO_COLOR:-}" != "1" ] && [ "${TERM:-}" != "dumb" ]; then
 	BST_C_GOLD=$'\033[1;33m'; BST_C_GREEN=$'\033[1;32m'; BST_C_RED=$'\033[1;31m'
 	BST_C_CYAN=$'\033[1;36m'; BST_C_DIM=$'\033[2m'; BST_C_OFF=$'\033[0m'
+	BST_C_PINK=$'\033[1;95m'; BST_C_YELLOW=$'\033[1;93m'; BST_C_PURPLE=$'\033[38;5;141m'
+	BST_COLORFUL=1
 else
 	BST_C_GOLD=''; BST_C_GREEN=''; BST_C_RED=''; BST_C_CYAN=''; BST_C_DIM=''; BST_C_OFF=''
+	BST_C_PINK=''; BST_C_YELLOW=''; BST_C_PURPLE=''
+	BST_COLORFUL=0
 fi
-bst_ok()   { printf '%s✓%s %s\n'   "$BST_C_GREEN" "$BST_C_OFF" "$1" >&2; }
-bst_fail() { printf '%s✕%s %s\n'   "$BST_C_RED" "$BST_C_OFF" "$1" >&2; }
+bst_ok()   { printf '%s✨%s %s\n'   "$BST_C_GREEN" "$BST_C_OFF" "$1" >&2; }
+bst_fail() { printf '%s💥%s %s\n'   "$BST_C_RED" "$BST_C_OFF" "$1" >&2; }
+bst_fun()  { printf '%s🎭%s %s\n'   "$BST_C_PINK" "$BST_C_OFF" "$1" >&2; }
+bst_party(){ printf '%s🎉%s %s\n'   "$BST_C_YELLOW" "$BST_C_OFF" "$1" >&2; }
 
 # --- Graceful Ctrl+C: kill background fetches, clean up, exit 130 ---
 on_bootstrap_interrupt() {
@@ -99,10 +106,21 @@ select_project_root() {
 bootstrap_progress() {
 	local percent="$1" message="$2"
 	printf '%s\n' "$percent" > "$progress_file"
+	# Fun progress messages with emoji
+	local fun_emoji="🚀"
+	case "$percent" in
+		0) fun_emoji="🌱" ;;
+		[1-9]|1[0-9]) fun_emoji="🌿" ;;
+		2[0-9]|3[0-9]) fun_emoji="⚡" ;;
+		4[0-9]|5[0-9]) fun_emoji="🔥" ;;
+		6[0-9]|7[0-9]) fun_emoji="✨" ;;
+		8[0-9]|9[0-9]) fun_emoji="🌟" ;;
+		100) fun_emoji="🎉" ;;
+	esac
 	if [ -t 1 ] && [ "${AWTSMOOS_PROGRESS_MODE:-tty}" != "plain" ]; then
-		printf '\r%s\033[2K[%3d%%]%s %s' "$BST_C_CYAN" "$percent" "$BST_C_OFF" "$message"
+		printf '\r%s\033[2K[%3d%%]%s %s %s' "$BST_C_CYAN" "$percent" "$BST_C_OFF" "$fun_emoji" "$message"
 	else
-		printf '[%3d%%] %s\n' "$percent" "$message"
+		printf '[%3d%%] %s %s\n' "$percent" "$fun_emoji" "$message"
 	fi
 }
 
@@ -132,7 +150,7 @@ export AWTSMOOS_INSTALL_PROGRESS_FILE="$progress_file"
 export AWTSMOOS_INSTALL_CWD="$install_cwd"
 export AWTSMOOS_PROJECT_ROOT="$project_root"
 trap cleanup_bootstrap EXIT
-bootstrap_progress 0 'Preparing Awtsmoos Tunnel install or repair'
+bootstrap_progress 0 '🌱 Planting the seeds of your Awtsmoos Tunnel...'
 fetch_bootstrap_file unix-node-runtime.sh & node_fetch_pid=$!
 fetch_bootstrap_file unix-bootstrap-components.sh & components_fetch_pid=$!
 fetch_bootstrap_file unix-bootstrap-components-download.sh & download_fetch_pid=$!
@@ -145,12 +163,12 @@ if ! activate_node_runtime "$install_root"; then
 	exit 1
 fi
 persist_node_runtime "$install_root"
-bootstrap_progress 4 "Node runtime verified: $AWTSMOOS_NODE_BIN"
+bootstrap_progress 4 "⚡ Node runtime verified and sparkling: $AWTSMOOS_NODE_BIN"
 source "$runtime_root/unix-bootstrap-components.sh"
 download_installer_components
-bootstrap_progress 18 'Verified installer components ready'
+bootstrap_progress 18 '✨ Verified installer components ready — looking magical!'
 [ -t 1 ] && printf '\n'
-bst_ok 'Verified installer components ready'
+bst_party 'Verified installer components ready — the magic is building! 🎭'
 recovery_root="${AWTSMOOS_RECOVERY_ROOT:-${install_root}-recovery}"
 custody_delegated=1
 set +e

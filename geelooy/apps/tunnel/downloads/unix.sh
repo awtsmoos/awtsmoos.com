@@ -15,24 +15,101 @@ canonical_root="$HOME/.awtsmoos-tunnel"
 recovery_hint="${AWTSMOOS_RECOVERY_ROOT:-$HOME/.awtsmoos-tunnel-recovery}"
 
 # --- Clever terminal presentation (Yaakov 2026-10-11: the install command must look smart) ---
+# --- Colorful & fun (Yaakov 2026-10-13: make it more colorful and fun!) ---
 if [ -t 2 ] && [ "${NO_COLOR:-}" != "1" ] && [ "${TERM:-}" != "dumb" ]; then
 	AWT_C_BOLD=$'\033[1m'; AWT_C_DIM=$'\033[2m'; AWT_C_GOLD=$'\033[1;33m'
 	AWT_C_GREEN=$'\033[1;32m'; AWT_C_RED=$'\033[1;31m'; AWT_C_CYAN=$'\033[1;36m'
+	AWT_C_MAGENTA=$'\033[1;35m'; AWT_C_BLUE=$'\033[1;34m'; AWT_C_YELLOW=$'\033[1;93m'
+	AWT_C_PINK=$'\033[1;95m'; AWT_C_ORANGE=$'\033[38;5;208m'; AWT_C_PURPLE=$'\033[38;5;141m'
+	AWT_C_TEAL=$'\033[38;5;51m'; AWT_C_LIME=$'\033[38;5;118m'
 	AWT_C_OFF=$'\033[0m'
+	AWT_COLORFUL=1
 else
-	AWT_C_BOLD=''; AWT_C_DIM=''; AWT_C_GOLD=''; AWT_C_GREEN=''; AWT_C_RED=''; AWT_C_CYAN=''; AWT_C_OFF=''
+	AWT_C_BOLD=''; AWT_C_DIM=''; AWT_C_GOLD=''; AWT_C_GREEN=''; AWT_C_RED=''; AWT_C_CYAN=''
+	AWT_C_MAGENTA=''; AWT_C_BLUE=''; AWT_C_YELLOW=''; AWT_C_PINK=''; AWT_C_ORANGE=''
+	AWT_C_PURPLE=''; AWT_C_TEAL=''; AWT_C_LIME=''; AWT_C_OFF=''
+	AWT_COLORFUL=0
 fi
+
+# Rainbow text: prints each character in cycling rainbow colors
+awt_rainbow() {
+	local text="$1" i=0 char
+	local colors=("$AWT_C_RED" "$AWT_C_ORANGE" "$AWT_C_YELLOW" "$AWT_C_LIME" "$AWT_C_TEAL" "$AWT_C_BLUE" "$AWT_C_PURPLE" "$AWT_C_PINK")
+	if [ "$AWT_COLORFUL" != "1" ]; then printf '%s' "$text"; return 0; fi
+	while [ $i -lt ${#text} ]; do
+		char="${text:$i:1}"
+		printf '%s%s%s' "${colors[$((i % 8))]}" "$char" "$AWT_C_OFF"
+		i=$((i + 1))
+	done
+}
+
+# Animated spinner for long operations (runs in background, kill with PID)
+awt_spinner() {
+	local msg="$1" pid_file="$2"
+	local frames=('⠋' '⠙' '⠹' '⠸' '⠼' '⠴' '⠦' '⠧' '⠇' '⠏')
+	local i=0
+	if [ "$AWT_COLORFUL" != "1" ]; then printf '%s...\n' "$msg" >&2; return 0; fi
+	while kill -0 "$$" 2>/dev/null; do
+		printf '\r%s%s%s %s' "$AWT_C_CYAN" "${frames[$((i % 10))]}" "$AWT_C_OFF" "$msg" >&2
+		i=$((i + 1))
+		sleep 0.1
+	done &
+	printf '%s' "$!" > "$pid_file"
+}
+
+awt_spinner_stop() {
+	local pid_file="$1" final_msg="${2:-}"
+	if [ -f "$pid_file" ]; then
+		kill "$(cat "$pid_file")" 2>/dev/null
+		rm -f "$pid_file"
+		printf '\r\033[2K' >&2
+		[ -n "$final_msg" ] && awt_ok "$final_msg"
+	fi
+}
+
+# Fun ASCII art celebrations
+awt_celebrate() {
+	if [ "$AWT_COLORFUL" = "1" ]; then
+		cat >&2 <<EOF
+
+${AWT_C_YELLOW}  ✨  ${AWT_C_GREEN}🎉  ${AWT_C_PINK}✨  ${AWT_C_CYAN}🎊  ${AWT_C_YELLOW}✨  ${AWT_C_GREEN}🎉  ${AWT_C_PINK}✨  ${AWT_C_CYAN}🎊  ${AWT_C_YELLOW}✨${AWT_C_OFF}
+EOF
+		awt_rainbow "  ★  INSTALLATION COMPLETE! Welcome to the Awtsmoos!  ★"
+		printf '\n' >&2
+		cat >&2 <<EOF
+${AWT_C_YELLOW}  ✨  ${AWT_C_GREEN}🎉  ${AWT_C_PINK}✨  ${AWT_C_CYAN}🎊  ${AWT_C_YELLOW}✨  ${AWT_C_GREEN}🎉  ${AWT_C_PINK}✨  ${AWT_C_CYAN}🎊  ${AWT_C_YELLOW}✨${AWT_C_OFF}
+
+EOF
+	else
+		printf '\n*** INSTALLATION COMPLETE! Welcome to the Awtsmoos! ***\n\n' >&2
+	fi
+}
+
+awt_magic_wand() {
+	if [ "$AWT_COLORFUL" = "1" ]; then
+		printf '%s  🪄  %s' "$AWT_C_PURPLE" "$AWT_C_OFF" >&2
+	fi
+}
 
 awt_intro_box() {
 	local mode="${1:-full}"
-	if [ -n "$AWT_C_GOLD" ]; then
+	if [ "$AWT_COLORFUL" = "1" ]; then
 		cat >&2 <<EOF
 
-${AWT_C_GOLD}  ╭──────────────────────────────────────────────────╮${AWT_C_OFF}
-${AWT_C_GOLD}  │${AWT_C_OFF}   ✦  ${AWT_C_BOLD}AWTSMOOS TUNNEL${AWT_C_OFF}  — installer                  ${AWT_C_GOLD}│${AWT_C_OFF}
-${AWT_C_GOLD}  │${AWT_C_OFF}      ${AWT_C_DIM}secure doorway to your machines${AWT_C_OFF}               ${AWT_C_GOLD}│${AWT_C_OFF}
-${AWT_C_GOLD}  │${AWT_C_OFF}      Mode: ${AWT_C_CYAN}${mode}${AWT_C_OFF} · Ctrl+C cancels cleanly        ${AWT_C_GOLD}│${AWT_C_OFF}
-${AWT_C_GOLD}  ╰──────────────────────────────────────────────────╯${AWT_C_OFF}
+${AWT_C_PURPLE}  ╭──────────────────────────────────────────────────╮${AWT_C_OFF}
+${AWT_C_PURPLE}  │${AWT_C_OFF}                                                  ${AWT_C_PURPLE}│${AWT_C_OFF}
+EOF
+		printf '%s  │%s   🪄  ' "$AWT_C_PURPLE" "$AWT_C_OFF" >&2
+		awt_rainbow "AWTSMOOS TUNNEL"
+		printf '%s  — installer ✨%s%s│%s\n' "$AWT_C_BOLD" "$AWT_C_OFF" "$AWT_C_PURPLE" "$AWT_C_OFF" >&2
+		cat >&2 <<EOF
+${AWT_C_PURPLE}  │${AWT_C_OFF}                                                  ${AWT_C_PURPLE}│${AWT_C_OFF}
+${AWT_C_PURPLE}  │${AWT_C_OFF}      ${AWT_C_DIM}your magical doorway to every machine${AWT_C_OFF}        ${AWT_C_PURPLE}│${AWT_C_OFF}
+${AWT_C_PURPLE}  │${AWT_C_OFF}      Mode: ${AWT_C_CYAN}${mode}${AWT_C_OFF} · Ctrl+C cancels cleanly        ${AWT_C_PURPLE}│${AWT_C_OFF}
+${AWT_C_PURPLE}  │${AWT_C_OFF}                                                  ${AWT_C_PURPLE}│${AWT_C_OFF}
+${AWT_C_PURPLE}  ╰──────────────────────────────────────────────────╯${AWT_C_OFF}
+
+${AWT_C_DIM}  Let's get you connected... 🚀${AWT_C_OFF}
 EOF
 	else
 		printf '\n== AWTSMOOS TUNNEL installer (mode: %s) ==\nCtrl+C cancels cleanly.\n' "$mode" >&2
@@ -46,11 +123,12 @@ ${AWT_C_DIM}  ── secure doorway to your machines ──${AWT_C_OFF}
 EOF
 }
 
-awt_step()  { printf '%s▸%s %s\n'   "$AWT_C_CYAN" "$AWT_C_OFF" "$1" >&2; }
-awt_ok()    { printf '%s✓%s %s\n'   "$AWT_C_GREEN" "$AWT_C_OFF" "$1" >&2; }
-awt_warn()  { printf '%s!%s %s\n'   "$AWT_C_GOLD" "$AWT_C_OFF" "$1" >&2; }
-awt_fail()  { printf '%s✕%s %s\n'   "$AWT_C_RED" "$AWT_C_OFF" "$1" >&2; }
+awt_step()  { printf '%s🚀%s %s\n'   "$AWT_C_CYAN" "$AWT_C_OFF" "$1" >&2; }
+awt_ok()    { printf '%s✨%s %s\n'   "$AWT_C_GREEN" "$AWT_C_OFF" "$1" >&2; }
+awt_warn()  { printf '%s⚠️%s %s\n'   "$AWT_C_YELLOW" "$AWT_C_OFF" "$1" >&2; }
+awt_fail()  { printf '%s💥%s %s\n'   "$AWT_C_RED" "$AWT_C_OFF" "$1" >&2; }
 awt_dim()   { printf '%s%s%s\n'     "$AWT_C_DIM" "$1" "$AWT_C_OFF" >&2; }
+awt_fun()   { printf '%s🎭%s %s\n'   "$AWT_C_PINK" "$AWT_C_OFF" "$1" >&2; }
 
 # --- Install modes (Yaakov 2026-10-12): full / minimal / agent-only ---
 # Backward compatible: no flags + non-interactive => full (today's behavior).
@@ -239,7 +317,7 @@ export AWTSMOOS_INSTALL_ORIGIN="$origin" AWTSMOOS_INSTALL_ROOT="$install_root" A
 export AWTSMOOS_INSTALLER_COMPONENTS_SHA256="__AWTSMOOS_INSTALLER_COMPONENTS_SHA256__"
 fetch_policy="$runtime_root/unix-bootstrap-fetch.sh"
 run_script="$runtime_root/unix-bootstrap-run.sh"
-awt_step "Contacting $origin …"
+awt_step "Waving the magic wand at $origin … ✨"
 if ! initial_fetch "$origin/apps/tunnel/downloads/unix-bootstrap-fetch.sh" "$fetch_policy" "bootstrap fetch policy"; then
 	rm -rf "$runtime_root"; awt_fail 'Public installer source is temporarily unavailable; working runtime was left untouched.'; exit 1
 fi
@@ -248,6 +326,6 @@ if ! bootstrap_fetch "$origin/apps/tunnel/downloads/unix-bootstrap-run.sh" "$run
 	rm -rf "$runtime_root"; awt_fail 'Could not fetch bootstrap engine; working runtime was left untouched.'; exit 1
 fi
 chmod +x "$fetch_policy" "$run_script"
-awt_dim 'Handing off to the bootstrap engine — press Ctrl+C any time to cancel cleanly.'
+awt_dim '🪄 Handing off to the bootstrap engine — sit back and enjoy the magic! (Ctrl+C any time to cancel cleanly.)'
 trap - INT TERM
 exec /bin/bash "$run_script"
