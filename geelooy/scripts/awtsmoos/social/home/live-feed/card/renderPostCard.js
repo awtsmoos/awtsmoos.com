@@ -18,6 +18,7 @@ import { renderPostIdentity } from './identity.js';
 import { createPostModel } from './postModel.js';
 import { renderSourceRail } from './sourceRail.js';
 import { renderPostContent } from '../renderers/index.js';
+import { renderPostMedia } from '../renderers/mediaGallery.js';
 
 /**
  * Renders one real feed object as a provenance-rich semantic article.
@@ -47,9 +48,13 @@ export function renderCosmicPostCard(object, onInspect) {
 		content.append(breadcrumbs);
 	}
 
+	const media = renderPostMedia(model);
 	content.append(
 		title,
-		renderPostContent(model),
+		renderPostContent(model)
+	);
+	if (media) content.append(media);
+	content.append(
 		renderDiscussionPreview(model),
 		renderPostActions(model, () => onInspect?.(object))
 	);

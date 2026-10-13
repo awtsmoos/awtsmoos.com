@@ -9,11 +9,13 @@ const liveDiscoveryRoutes = require('./helper/platform/routes/PlatformLiveDiscov
 const opsRoutes = require('./helper/platform/routes/PlatformOpsRoutes.js');
 const runtimeRoutes = require('./helper/platform/routes/PlatformRuntimeRoutes.js');
 const feedThreadRoutes = require('./helper/platform/routes/PlatformFeedThreadRoutes.js');
+const qaRoutes = require('./helper/platform/routes/PlatformQaRoutes.js');
 
 /** Composes every established platform path from small responsibility-bound route families. */
 module.exports = ({ $i, userid } = {}) => ({
 	...liveDiscoveryRoutes({ $i, userid }),
 	...opsRoutes({ $i }),
 	...runtimeRoutes({ $i }),
-	...feedThreadRoutes({ $i })
+	...feedThreadRoutes({ $i }),
+	...qaRoutes({ $i })
 });

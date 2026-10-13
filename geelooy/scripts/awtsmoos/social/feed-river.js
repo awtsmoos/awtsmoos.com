@@ -88,12 +88,16 @@ function cardHtml(post, index = 0) {
 	const cover = coverUrl(post);
 	const why = whyText(post);
 	const liked = state.liked.has(id);
+	const isQuestion = String(post.type || post.postType || '').toLowerCase() === 'question';
+	const answerCount = Number(post.answerCount || 0);
+	const qBadge = isQuestion ? `<span class="feed-card__qbadge">❓ Question${answerCount ? ` · ${answerCount} answer${answerCount === 1 ? '' : 's'}` : ''}</span>` : '';
 
 	return `
 	<article class="feed-card mi-fade-up" data-post-id="${id}" style="--mi-i:${Math.max(0, index)}">
 		${cover ? `<img class="feed-card__cover" src="${esc(cover)}" alt="" loading="lazy" onerror="this.remove()">` : ''}
 		<div class="feed-card__body">
 			<p class="feed-card__kicker">${kicker}</p>
+			${qBadge}
 			<h2 class="feed-card__title"><a href="${esc(postUrl(post))}">${title}</a></h2>
 			${excerpt ? `<p class="feed-card__excerpt">${excerpt}</p>` : ''}
 			${why ? `<span class="feed-card__why">✦ ${why}</span>` : ''}
@@ -327,6 +331,7 @@ export function initFeedRiver() {
 			${MODES.map(m => `
 				<button class="feed-mode-btn" role="tab" data-mode="${m.key}"
 					aria-selected="${m.key === state.mode}">${m.label}</button>`).join('')}
+			<button class="feed-mode-btn feed-ask-btn" data-ask-question aria-label="Ask a question">❓ Ask</button>
 		</div>
 		<div class="feed-ptr" id="feed-ptr" aria-hidden="true">
 			<span class="feed-ptr__spinner"></span> Refreshing…

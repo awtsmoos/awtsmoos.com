@@ -111,6 +111,28 @@
 	margin: 0 0 0.3rem;
 }
 
+.feed-card__qbadge {
+	display: inline-block;
+	padding: 0.25rem 0.7rem;
+	margin-bottom: 0.4rem;
+	border-radius: 999px;
+	background: #eef4ff;
+	border: 1px solid #b9cdf5;
+	color: #2b4a8f;
+	font-size: 0.78rem;
+	font-weight: 700;
+}
+
+.feed-ask-btn {
+	background: #a67c1a;
+	color: #fff;
+	font-weight: 700;
+	border: none;
+}
+.feed-ask-btn:hover {
+	filter: brightness(1.1);
+}
+
 .feed-card__title {
 	margin: 0 0 0.35rem;
 	font-size: 1.12rem;
