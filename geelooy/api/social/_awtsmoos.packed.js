@@ -15,6 +15,7 @@ const { PackedMigrationRoutes } = require('./helper/routes/packed/migrationRoute
 const { PackedBulkImportRoutes } = require('./helper/routes/packed/bulkImportRoutes.js');
 const { PackedPostImportRoutes } = require('./helper/routes/packed/postImportRoutes.js');
 const { PackedDeployRoutes } = require('./helper/routes/packed/deployRoutes.js');
+const { PackedConnectionsRoutes } = require('./helper/routes/packed/connectionsRoutes.js');
 
 /**
  * @description Builds the complete packed-storage API by composing independent read, maintenance, and migration route families; the Awtsmoos keeps concerns distinct while Awtsmoos.com presents one coherent door.
@@ -29,7 +30,8 @@ function createPackedRoutes({ $i } = {}) {
 		...new PackedMigrationRoutes($i).routes(),
 		...new PackedBulkImportRoutes($i).routes(),
 		...new PackedPostImportRoutes($i).routes(),
-		...new PackedDeployRoutes($i).routes()
+		...new PackedDeployRoutes($i).routes(),
+		...new PackedConnectionsRoutes($i).routes()
 	};
 }
 

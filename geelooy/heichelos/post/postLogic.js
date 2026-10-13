@@ -28,6 +28,7 @@ async function performReaderBoot() {
 	tiferesReaderBootState.assertReady();
 	void recordPostView(window.post);
 	tiferesReaderEnhancements.startReadingIntelligence();
+	tiferesReaderEnhancements.startConnections();
 	tiferesReaderEnhancements.repairSoon();
 	await tiferesReaderEnhancements.revealRequestedComment();
 	tiferesReaderEnhancements.refreshBeautyAndLegend();
