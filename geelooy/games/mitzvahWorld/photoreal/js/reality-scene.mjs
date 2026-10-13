@@ -483,7 +483,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   /* textures (real photographs, Awtsmoos Drive) */
   const [grassTex, dirtTex, barkTex, canopyTex, leafTex,
          grassGroundTex, barkDetailTex, mossGroundTex, mossyBarkTex, fernTex,
-         leafClusterTex, denseCanopyTex] = await Promise.all([
+         leafClusterTex, denseCanopyTex, impostorTex1, impostorTex2] = await Promise.all([
     loadTexture(TEX + 'grass1.jpg', 30, 30),
     loadTexture(TEX + 'dirt1.jpg', 40, 3),
     loadTexture(TEX + 'bark1.webp', 1, 2),
@@ -501,6 +501,10 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     makeLeafClusterAlpha(TEX + 'new/tex-leaf-big.webp'),
     // B"H — 98% push: dense photoreal canopy (black keyed to alpha)
     makeDenseCanopyAlpha(TEX + 'tex-canopy-dense.webp'),
+    // B"H — photoreal tree impostors: full trees on black, for dense forest walls.
+    // Yaakov 2026-10-13: "do not stop until it's real" — these are the breakthrough.
+    makeDenseCanopyAlpha(TEX + 'imp-tree-full-1.webp'),
+    makeDenseCanopyAlpha(TEX + 'imp-tree-full-2.webp'),
   ]);
   mark('textures');
 
@@ -510,7 +514,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   const CLEAR = {
     // B"H 2026-10-13 "Fix it": forest camera was buried in crown filler —
     // filler reaches ~10 units past the trunk, so 12 was not enough.
-    forest: 18, river: 15, grassland: 26, particles: 15,
+    // B"H 2026-10-13 photoreal: procedural trees stay FURTHER from camera
+    // (impostors carry the midground now). 18→22 for forest.
+    forest: 22, river: 15, grassland: 26, particles: 15,
     'character-forest': 14, 'character-river': 14, 'character-sitting': 14,
     'character-portrait': 12, night: 14, 'character-older': 12,
   }[view] || 15;
@@ -543,6 +549,83 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     og++;
   }
   mark('tree-spots');
+
+  /* B"H — photoreal impostor forest walls (Yaakov 2026-10-13: "do not stop until it's real").
+     Dense walls of full photoreal trees flank the river corridor, creating the
+     lush enclosed forest mass of the reference. These are camera-facing billboards
+     using the AI-generated tree images — indistinguishable from photographs at
+     mid/far distance. The procedural trees provide 3D structure up close;
+     impostors provide the dense forest mass behind them.
+     Camera is fixed per view, so cylindrical billboards (Y-rotation only) are exact. */
+  {
+    const camPos = VIEWS[view] ? VIEWS[view].pos : [0, 3.4, 30];
+    const impostorTexes = [impostorTex1, impostorTex2];
+    // aspect of the impostor images (1120x2240 portrait)
+    const IMP_ASPECT = 1120 / 2240;
+    const walls = [];
+    // two dense walls flanking the river, z from -80 to +25
+    // B"H — 2026-10-13 photoreal: walls are CLOSE (12-28u) and DENSE to hide
+    // procedural thinness behind photoreal mass. The reference is solid green walls.
+    const wallCount = fast ? 48 : 80;
+    for (let i = 0; i < wallCount; i++) {
+      const z = -80 + (105 * i) / wallCount + (rand() - 0.5) * 4;
+      for (const side of [-1, 1]) {
+        // stagger: alternate sides slightly to avoid perfect symmetry
+        if ((i + (side > 0 ? 1 : 0)) % 2 === 1 && rand() < 0.2) continue;
+        const dist = 15 + rand() * 18; // 15-33 units — dense but with depth
+        const x = riverX(z) + side * dist;
+        // don't block the camera
+        if (Math.hypot(x - camPos[0], z - camPos[2]) < 12) continue;
+        // don't collide with procedural trees (they're in front)
+        if (treeSpots.some(s => Math.hypot(s.x - x, s.z - z) < 5)) continue;
+        walls.push({ x, z, side });
+      }
+    }
+    // also a back wall far downstream for depth
+    for (let i = 0; i < (fast ? 8 : 14); i++) {
+      const x = riverX(-85) + (rand() - 0.5) * 70;
+      const z = -85 - rand() * 25;
+      walls.push({ x, z, side: 0 });
+    }
+    mark('impostor-spots:' + walls.length);
+    const dummy = new THREE.Object3D();
+    // group impostors by texture for 2 draw calls
+    for (let ti = 0; ti < 2; ti++) {
+      const spots = walls.filter((_, idx) => idx % 2 === ti);
+      if (!spots.length) continue;
+      // tree is ~2:1 portrait; height 18-30 units for forest giants
+      const h = 22;
+      const w = h * IMP_ASPECT;
+      const geo = new THREE.PlaneGeometry(w, h);
+      const mat = new THREE.MeshBasicMaterial({
+        map: impostorTexes[ti],
+        alphaTest: 0.35,
+        side: THREE.DoubleSide,
+      });
+      // B"H — slight fog-friendly tint: basic material is unlit, so bake a
+      // subtle brightness lift to match the sunlit reference palette.
+      mat.color.setRGB(1.05, 1.05, 1.0);
+      const inst = new THREE.InstancedMesh(geo, mat, spots.length);
+      let placed = 0;
+      for (const s of spots) {
+        const gy = groundHeight(s.x, s.z, noise);
+        const scale = 0.8 + rand() * 0.7;
+        // base of tree (roots) slightly below ground
+        dummy.position.set(s.x, gy + (h * scale) / 2 - 1.5, s.z);
+        // cylindrical billboard: rotate Y to face camera
+        const ang = Math.atan2(camPos[0] - s.x, camPos[2] - s.z);
+        dummy.rotation.set(0, ang, 0);
+        dummy.scale.set(scale, scale, 1);
+        dummy.updateMatrix();
+        inst.setMatrixAt(placed++, dummy.matrix);
+      }
+      inst.count = placed;
+      inst.castShadow = false; // impostors don't need to cast (perf)
+      inst.receiveShadow = false;
+      scene.add(inst);
+    }
+  }
+  mark('impostor-walls');
 
   /* terrain */
   const terrGeo = new THREE.PlaneGeometry(WORLD, WORLD, 120, 120);
