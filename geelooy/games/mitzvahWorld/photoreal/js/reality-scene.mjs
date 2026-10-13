@@ -409,7 +409,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
 
   /* textures (real photographs, Awtsmoos Drive) */
   const [grassTex, dirtTex, barkTex, canopyTex, leafTex,
-         grassGroundTex, barkDetailTex, mossGroundTex, mossyBarkTex] = await Promise.all([
+         grassGroundTex, barkDetailTex, mossGroundTex, mossyBarkTex, fernTex] = await Promise.all([
     loadTexture(TEX + 'grass1.jpg', 30, 30),
     loadTexture(TEX + 'dirt1.jpg', 40, 3),
     loadTexture(TEX + 'bark1.webp', 1, 2),
@@ -420,6 +420,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     loadTexture(TEX + 'new/tex-bark-detail.webp', 1, 3),
     loadTexture(TEX + 'new/tex-moss-ground.webp', 2, 2),
     loadTexture(TEX + 'new/tex-mossy-bark.webp', 1, 2),
+    loadTexture(TEX + 'new/tex-fern-frond.png', 1, 1),
   ]);
   mark('textures');
 
@@ -810,6 +811,69 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     scene.add(inst);
   }
   mark('underbrush');
+
+  /* B"H — ferns: instanced crossed-plane fronds along the riverbanks and
+     tree bases, like the reference. One instanced draw, alphaTest cutout. */
+  {
+    // build a 3-plane star geometry (planes at 0/60/120 degrees)
+    const planeGeos = [];
+    for (let k = 0; k < 3; k++) {
+      const pg = new THREE.PlaneGeometry(1.6, 1.6);
+      pg.translate(0, 0.7, 0); // frond base at ground
+      pg.rotateY(k * Math.PI / 3);
+      planeGeos.push(pg);
+    }
+    // merge manually (positions, uvs, normals, index)
+    let vOff = 0, iOff = 0;
+    const pos = [], uv = [], nor = [], idx = [];
+    for (const pg of planeGeos) {
+      const p = pg.attributes.position, u = pg.attributes.uv, n = pg.attributes.normal, ix = pg.index;
+      for (let i = 0; i < p.count; i++) { pos.push(p.getX(i), p.getY(i), p.getZ(i)); uv.push(u.getX(i), u.getY(i)); nor.push(n.getX(i), n.getY(i), n.getZ(i)); }
+      for (let i = 0; i < ix.count; i++) idx.push(ix.getX(i) + vOff);
+      vOff += p.count;
+    }
+    const fernGeo = new THREE.BufferGeometry();
+    fernGeo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    fernGeo.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+    fernGeo.setAttribute('normal', new THREE.Float32BufferAttribute(nor, 3));
+    fernGeo.setIndex(idx);
+    const fernMat = new THREE.MeshStandardMaterial({
+      map: fernTex, alphaTest: 0.40, side: THREE.DoubleSide,
+      roughness: 0.9, color: new THREE.Color(0.85, 1.05, 0.70),
+    });
+    const COUNT = fast ? 150 : 320;
+    const inst = new THREE.InstancedMesh(fernGeo, fernMat, COUNT);
+    const dummy = new THREE.Object3D();
+    let placed = 0, guard = 0;
+    while (placed < COUNT && guard++ < COUNT * 25) {
+      // cluster near riverbanks (60%) or tree bases (40%)
+      let x, z;
+      if (rand() < 0.6) {
+        z = (rand() - 0.5) * 190;
+        const side = rand() < 0.5 ? -1 : 1;
+        x = riverX(z) + side * (4.5 + rand() * 7);
+      } else {
+        const t = treeSpots[(rand() * treeSpots.length) | 0];
+        if (!t) continue;
+        const a = rand() * Math.PI * 2, r = 2 + rand() * 6;
+        x = t.x + Math.cos(a) * r; z = t.z + Math.sin(a) * r;
+      }
+      if (Math.abs(x - riverX(z)) < 3.8) continue; // not in the water
+      if (clearPts.some(([px, pz]) => Math.hypot(x - px, z - pz) < 3)) continue;
+      const s = 0.9 + rand() * 1.3;
+      dummy.position.set(x, groundHeight(x, z, noise), z);
+      dummy.rotation.y = rand() * Math.PI * 2;
+      // slight outward tilt for natural arch
+      dummy.rotation.x = (rand() - 0.5) * 0.25;
+      dummy.scale.setScalar(s);
+      dummy.updateMatrix();
+      inst.setMatrixAt(placed++, dummy.matrix);
+    }
+    inst.count = placed;
+    inst.castShadow = true; inst.receiveShadow = true;
+    scene.add(inst);
+  }
+  mark('ferns');
 
   /* B"H — mossy riverbank rocks: instanced displaced icosahedrons, moss-green
      tops keyed by normal.y, scattered along the banks like the reference. */
