@@ -344,6 +344,10 @@ export function buildSectionElement(sectionIndex, sectionId, hebrewItems, englis
 	section.className = 'meluket-sefer-section';
 	section.dataset.sectionId = sectionId;
 	section.dataset.sectionIndex = String(sectionIndex);
+	// B"H — stable anchor so flowchart links (#sec-001) scroll here natively.
+	if (sectionId && /^[A-Za-z][\w\-.]*$/.test(sectionId)) {
+		section.id = sectionId;
+	}
 	section.setAttribute('dir', 'auto');
 
 	// Section number marker — like a siman in a printed sefer.
@@ -548,6 +552,56 @@ function enhanceScribeLensPanel() {
 			paintFill(event.target);
 		}
 	});
+}
+
+/**
+ * B"H — Torah Ohr argument flowchart ("The argument at a glance").
+ * Renders the authoritative flowchart HTML stored on post.flowchart.html,
+ * sanitizes it, and wires the section links to smooth-scroll to the
+ * matching rendered sections.
+ * @param {object} post The post object.
+ * @returns {HTMLElement|null} The flowchart element, or null if none.
+ */
+function buildFlowchartElement(post) {
+	const flowData = post && post.flowchart;
+	const html = flowData && typeof flowData.html === 'string' ? flowData.html.trim() : '';
+	if (!html) {
+		return null;
+	}
+	// Light sanitization: the HTML comes from our own authored master file,
+	// but strip anything executable just in case.
+	const clean = html
+		.replace(/<script[\s\S]*?<\/script>/gi, '')
+		.replace(/<iframe[\s\S]*?<\/iframe>/gi, '')
+		.replace(/\son\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, '');
+	if (!clean || clean.indexOf('fnode') < 0) {
+		return null;
+	}
+	const wrap = document.createElement('div');
+	wrap.className = 'torah-ohr-flowchart-wrap';
+	wrap.setAttribute('data-flowchart', 'true');
+	const inner = document.createElement('div');
+	inner.className = 'torah-ohr-flowchart';
+	inner.innerHTML = clean;
+	wrap.appendChild(inner);
+	// Wire section links: smooth-scroll to the rendered section.
+	wrap.querySelectorAll('a[href^="#"]').forEach(link => {
+		link.addEventListener('click', (e) => {
+			const targetId = link.getAttribute('href').slice(1);
+			if (!targetId) {
+				return;
+			}
+			const target = document.getElementById(targetId)
+				|| document.querySelector('[data-section-id="' + targetId + '"]');
+			if (target) {
+				e.preventDefault();
+				target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+				target.classList.add('flowchart-target-flash');
+				setTimeout(() => target.classList.remove('flowchart-target-flash'), 1600);
+			}
+		});
+	});
+	return wrap;
 }
 
 /**
@@ -1343,6 +1397,13 @@ export function awakenPhraseTranslationReader(post) {
 	const toggle = buildLangToggle(langMode, (mode) => applyLangMode(sefer, mode, 'Torah Ohr · English | Awtsmoos'));
 	injectLangToggleIntoSettings(toggle);
 	enhanceScribeLensPanel();
+
+	// B"H — Torah Ohr argument flowchart ("The argument at a glance"):
+	// renders after the overview, before the sections.
+	const flowchartEl = buildFlowchartElement(post);
+	if (flowchartEl) {
+		sefer.appendChild(flowchartEl);
+	}
 
 	// Sections — each phrase's English rides with its Hebrew phrase;
 	// translation.readable[sectionId] is the section-level English fallback.

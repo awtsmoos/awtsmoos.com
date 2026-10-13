@@ -753,3 +753,121 @@
 :root[data-theme="light"] .post-reader-localized-context output {
 	color: #21160a;
 }
+
+
+/* ---------- Torah Ohr argument flowchart ("The argument at a glance") ---------- */
+.torah-ohr-flowchart-wrap {
+	margin: 0 0 2.25rem;
+}
+.torah-ohr-flowchart .flow {
+	background: var(--sefer-paper-deep);
+	border: 1px solid var(--sefer-rule);
+	border-radius: 12px;
+	padding: 1.5rem clamp(1rem, 3vw, 2rem);
+	box-shadow: var(--sefer-shadow);
+}
+.torah-ohr-flowchart .flow > h2 {
+	margin: 0 0 1.25rem;
+	font-size: 1.3rem;
+	font-weight: 800;
+	color: var(--sefer-title-ink);
+	text-align: center;
+	letter-spacing: 0.02em;
+}
+.torah-ohr-flowchart .fnode {
+	background: var(--sefer-card);
+	border: 1px solid var(--sefer-rule);
+	border-left: 4px solid var(--sefer-accent);
+	border-radius: 8px;
+	padding: 0.9rem 1.1rem;
+	margin: 0 auto;
+	max-width: 42rem;
+}
+.torah-ohr-flowchart .fl {
+	font-size: 0.82rem;
+	font-weight: 800;
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+	color: var(--sefer-accent);
+	margin-bottom: 0.35rem;
+}
+.torah-ohr-flowchart .fnode p {
+	margin: 0 0 0.5rem;
+	font-size: 1.02rem;
+	line-height: 1.6;
+	color: var(--sefer-ink);
+}
+.torah-ohr-flowchart .fsec {
+	text-align: right;
+}
+.torah-ohr-flowchart .fsec :where(a) {
+	display: inline-block;
+	font-size: 0.9rem;
+	font-weight: 700;
+	color: var(--sefer-card);
+	background: var(--sefer-accent);
+	border-radius: 999px;
+	padding: 0.25rem 0.85rem;
+	text-decoration: none;
+	transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.torah-ohr-flowchart .fsec :where(a):hover {
+	transform: translateY(-1px);
+	box-shadow: var(--sefer-shadow);
+}
+.torah-ohr-flowchart .fsec :where(a):focus-visible {
+	outline: 2px solid var(--sefer-focus);
+	outline-offset: 2px;
+}
+.torah-ohr-flowchart .fedge {
+	text-align: center;
+	padding: 0.35rem 0;
+	color: var(--sefer-accent);
+	font-size: 1.4rem;
+	line-height: 1;
+}
+.torah-ohr-flowchart .teq {
+	margin: 1.25rem auto 0;
+	max-width: 42rem;
+	background: var(--sefer-card);
+	border: 1px dashed var(--sefer-rule);
+	border-radius: 8px;
+	padding: 0.75rem 1rem;
+}
+.torah-ohr-flowchart .teq :where(summary) {
+	cursor: pointer;
+	font-size: 0.92rem;
+	font-weight: 700;
+	color: var(--sefer-ink-soft);
+}
+.torah-ohr-flowchart .teq :where(summary):hover {
+	color: var(--sefer-accent);
+}
+.torah-ohr-flowchart .teq :where(summary):focus-visible {
+	color: var(--sefer-accent);
+	outline: 2px solid var(--sefer-focus);
+	outline-offset: 2px;
+	border-radius: 4px;
+}
+.torah-ohr-flowchart .teq p {
+	margin: 0.6rem 0 0;
+	font-size: 0.95rem;
+	line-height: 1.65;
+	color: var(--sefer-ink-soft);
+}
+/* Flash highlight when a flowchart link lands on a section. */
+.flowchart-target-flash {
+	animation: flowchart-target-flash 1.6s ease;
+}
+@keyframes flowchart-target-flash {
+	0%, 100% { box-shadow: none; }
+	25% { box-shadow: 0 0 0 3px var(--sefer-focus); }
+}
+@media (max-width: 480px) {
+	.torah-ohr-flowchart .flow {
+		padding: 1.1rem 0.9rem;
+	}
+	.torah-ohr-flowchart .fnode {
+		padding: 0.75rem 0.9rem;
+	}
+}
