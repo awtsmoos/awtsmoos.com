@@ -121,3 +121,90 @@ The Awtsmoos reveals one Mail chamber without exiling another beyond the horizon
 .geelooy-mail-document .back-button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
+
+/* B"H Yaakov 2026-10-13: Email mobile rescue — fix header overlap, clean layout */
+@media (max-width: 850px) {
+	/* Sidebar header: stack cleanly, no text collision */
+	.geelooy-mail-document .mail-sidebar-header {
+		display: block;
+		padding: 0.9rem 1rem 0.7rem;
+		overflow: hidden;
+	}
+	.geelooy-mail-document .mail-sidebar-identity {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+		width: 100%;
+		min-width: 0;
+	}
+	.geelooy-mail-document .mail-sidebar-kicker {
+		margin: 0;
+		font-size: 0.68rem;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		opacity: 0.6;
+	}
+	.geelooy-mail-document .mail-sidebar-identity .brand-title {
+		display: block;
+		width: 100%;
+		margin: 0;
+		font-size: 1.15rem;
+		line-height: 1.25;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.geelooy-mail-document .mail-sidebar-identity .brand-title::before {
+		display: none;
+	}
+	.geelooy-mail-document .mail-sidebar-identity .brand-title::after {
+		display: none;
+	}
+	.geelooy-mail-document .mail-sidebar-identity-summary {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		width: 100%;
+		min-width: 0;
+		margin-top: 0.15rem;
+	}
+	.geelooy-mail-document .mail-identity-summary-copy {
+		min-width: 0;
+		flex: 1 1 auto;
+	}
+	.geelooy-mail-document .mail-identity-summary-value {
+		display: block;
+		max-width: 100%;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		font-size: 0.82rem;
+	}
+	/* Thread cards: clean, tappable */
+	.geelooy-mail-document .thread-card {
+		padding: 0.8rem 1rem;
+		min-height: 64px;
+	}
+	.geelooy-mail-document .thread-card .thread-subject {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	/* Composer: full-width, usable */
+	.geelooy-mail-document .mail-composer {
+		padding: 0.9rem 1rem max(1rem, env(safe-area-inset-bottom));
+	}
+	.geelooy-mail-document .mail-composer textarea,
+	.geelooy-mail-document .mail-composer input[type="text"] {
+		font-size: 16px;
+		min-height: 120px;
+		width: 100%;
+		box-sizing: border-box;
+	}
+	/* Chat messages: readable */
+	.geelooy-mail-document .chat-message {
+		max-width: 100%;
+		padding: 0.7rem 0.9rem;
+		margin: 0.35rem 0.75rem;
+	}
+}
