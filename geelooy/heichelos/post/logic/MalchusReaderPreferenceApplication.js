@@ -13,6 +13,8 @@ import { YesodReaderFontController } from "./YesodReaderFontController.js";
 import { TiferesReaderThemeController } from "./TiferesReaderThemeController.js";
 import { DreamReaderController } from "./DreamReaderController.js";
 
+const THEME_STORAGE_KEY = "awtsmoos-theme";
+
 /**
  * @class MalchusReaderPreferenceApplication
  * @description Composition root for independent reader preference controllers.
@@ -36,8 +38,18 @@ export class MalchusReaderPreferenceApplication {
 		const urlDream = this.dreamReader.dreamFromUrl();
 		if (urlDream === "sanctuary") {
 			this.tiferesTheme.applyTheme("dark");
-		} else if (urlDream === "dawn") {
+			return;
+		}
+		if (urlDream === "dawn") {
 			this.tiferesTheme.applyTheme("light");
+			return;
+		}
+		// No link and no memory: the time-aware greeting already chose the
+		// fitting vision — give it its fitting light too, but only when the
+		// reader never chose a theme either. Stored choices always win.
+		if (!this.dreamReader.hasStoredDream() && !this.daasStore.has(THEME_STORAGE_KEY)) {
+			const timedDream = this.dreamReader.timeDefaultDream();
+			this.tiferesTheme.applyTheme(timedDream === "sanctuary" ? "dark" : "light");
 		}
 	}
 }

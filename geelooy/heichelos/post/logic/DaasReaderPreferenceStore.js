@@ -28,6 +28,21 @@ export class DaasReaderPreferenceStore {
 		}
 	}
 
+	/**
+	 * Whether the user has ever made a choice for this key. Lets the reader
+	 * tell "no memory yet" apart from "chose the default", so time-aware
+	 * defaults only greet first-time visitors.
+	 * @param {string} key Storage key. @returns {boolean} True when a value was persisted.
+	 */
+	has(key) {
+		try {
+			return this.storageKli.getItem(key) !== null;
+		} catch (error) {
+			console.warn(`B"H - Reader preference ${key} could not be checked.`, error);
+			return false;
+		}
+	}
+
 	/** @param {string} key Storage key. @param {string} value Persisted value. @returns {string} The value that was requested. */
 	write(key, value) {
 		try {

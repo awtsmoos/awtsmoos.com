@@ -1,0 +1,235 @@
+/* B"H Dream Reader — Unforgettable layer.
+ * Parallax depth, the golden thread of reading progress, candle-kindling
+ * readiness, title sheen like light on water, drop caps on section openings,
+ * and a brighter glow on the verse being read now.
+ * Scoped under [data-dream]; every effect is transform/opacity only —
+ * Yaakov's 4-second law is sacred, so nothing here may cost layout or paint
+ * beyond the compositor. Zero new assets, zero webfonts. */
+
+/* ============ parallax atmosphere: three differential depths ============
+ * Far nebula (0.06x) and mid gold-dust (0.16x) drift slower than the page,
+ * while the existing fixed starfield/rays read as infinitely distant.
+ * Layers are body-level fixed divs created by the controller only while a
+ * dream is active; they are removed entirely when the dream turns off. */
+.dream-parallax-far,
+.dream-parallax-mid {
+	position: fixed;
+	inset: -12% 0;
+	z-index: 0;
+	pointer-events: none;
+	will-change: transform;
+}
+
+[data-dream="sanctuary"] .dream-parallax-far {
+	background-image:
+		radial-gradient(42% 30% at 18% 22%, rgba(64, 48, 120, 0.20) 0%, transparent 70%),
+		radial-gradient(46% 32% at 82% 58%, rgba(30, 70, 110, 0.20) 0%, transparent 70%),
+		radial-gradient(38% 26% at 55% 88%, rgba(80, 40, 110, 0.14) 0%, transparent 70%);
+}
+
+[data-dream="sanctuary"] .dream-parallax-mid {
+	opacity: 0.55;
+}
+
+[data-dream="sanctuary"] .dream-parallax-mid::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	width: 3px;
+	height: 3px;
+	border-radius: 50%;
+	background: transparent;
+	box-shadow:
+		12vw 22vh 0 rgba(248, 224, 164, 0.5), 28vw 8vh 0 rgba(248, 224, 164, 0.35),
+		45vw 30vh 0 rgba(255, 240, 200, 0.4), 63vw 12vh 0 rgba(248, 224, 164, 0.3),
+		78vw 28vh 0 rgba(255, 240, 200, 0.38), 90vw 10vh 0 rgba(248, 224, 164, 0.32),
+		8vw 48vh 0 rgba(255, 240, 200, 0.3), 34vw 55vh 0 rgba(248, 224, 164, 0.36),
+		55vw 48vh 0 rgba(248, 224, 164, 0.28), 72vw 62vh 0 rgba(255, 240, 200, 0.33),
+		88vw 52vh 0 rgba(248, 224, 164, 0.3), 20vw 74vh 0 rgba(255, 240, 200, 0.28),
+		48vw 80vh 0 rgba(248, 224, 164, 0.32), 66vw 72vh 0 rgba(248, 224, 164, 0.26),
+		84vw 84vh 0 rgba(255, 240, 200, 0.3), 96vw 66vh 0 rgba(248, 224, 164, 0.24);
+	animation: dream-mote-drift 18s ease-in-out infinite alternate;
+}
+
+[data-dream="dawn"] .dream-parallax-far {
+	background-image:
+		radial-gradient(44% 30% at 20% 18%, rgba(255, 196, 120, 0.28) 0%, transparent 70%),
+		radial-gradient(48% 32% at 80% 52%, rgba(255, 170, 140, 0.20) 0%, transparent 70%),
+		radial-gradient(40% 28% at 52% 86%, rgba(255, 210, 150, 0.16) 0%, transparent 70%);
+}
+
+[data-dream="dawn"] .dream-parallax-mid {
+	opacity: 0.5;
+}
+
+[data-dream="dawn"] .dream-parallax-mid::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	width: 3px;
+	height: 3px;
+	border-radius: 50%;
+	background: transparent;
+	box-shadow:
+		10vw 20vh 0 rgba(192, 143, 46, 0.4), 30vw 10vh 0 rgba(220, 170, 80, 0.32),
+		48vw 28vh 0 rgba(192, 143, 46, 0.36), 64vw 14vh 0 rgba(220, 170, 80, 0.3),
+		80vw 26vh 0 rgba(192, 143, 46, 0.38), 92vw 8vh 0 rgba(220, 170, 80, 0.3),
+		14vw 52vh 0 rgba(192, 143, 46, 0.32), 38vw 60vh 0 rgba(220, 170, 80, 0.34),
+		58vw 50vh 0 rgba(192, 143, 46, 0.3), 74vw 64vh 0 rgba(220, 170, 80, 0.32),
+		88vw 54vh 0 rgba(192, 143, 46, 0.34), 24vw 78vh 0 rgba(220, 170, 80, 0.28),
+		52vw 82vh 0 rgba(192, 143, 46, 0.3), 70vw 76vh 0 rgba(192, 143, 46, 0.26);
+	animation: dream-mote-drift 22s ease-in-out infinite alternate;
+}
+
+@keyframes dream-mote-drift {
+	from { transform: translateY(-12px); }
+	to { transform: translateY(12px); }
+}
+
+/* ============ golden thread: the reading journey drawn in light ============
+ * A hairline of gold in the margin draws itself as you read; the bead rides
+ * the tip and fades in with progress. Scroll-linked, never autonomous. */
+.dream-golden-thread {
+	--dream-thread-p: 0;
+	position: fixed;
+	inset-inline-start: clamp(10px, 2.4vw, 30px);
+	top: 0;
+	height: 100vh;
+	height: 100dvh;
+	width: 3px;
+	z-index: 40;
+	pointer-events: none;
+}
+
+.dream-golden-thread-line {
+	position: absolute;
+	inset: 0;
+	transform: scaleY(var(--dream-thread-p));
+	transform-origin: 50% 0;
+	background: linear-gradient(180deg, var(--dream-gold-bright), var(--dream-gold) 60%, var(--dream-gold-deep));
+	border-radius: 3px;
+	box-shadow: 0 0 12px var(--dream-glow-soft), 0 0 30px var(--dream-glow-wide);
+}
+
+.dream-golden-thread::after {
+	content: "";
+	position: absolute;
+	inset-inline-start: 50%;
+	top: calc(var(--dream-thread-p) * 100vh);
+	top: calc(var(--dream-thread-p) * 100dvh);
+	width: 11px;
+	height: 11px;
+	border-radius: 50%;
+	transform: translate(-50%, -50%);
+	background: radial-gradient(circle, var(--dream-gold-bright) 0%, var(--dream-gold) 55%, transparent 78%);
+	box-shadow: 0 0 16px var(--dream-glow-soft), 0 0 40px var(--dream-glow-wide);
+	opacity: var(--dream-thread-p);
+}
+
+/* ============ the verse you are reading now glows brighter ============ */
+[data-dream="sanctuary"] .dream-verse.dream-verse-now {
+	border-color: var(--dream-gold);
+	box-shadow:
+		0 20px 55px var(--dream-shadow),
+		0 0 70px var(--dream-glow-soft),
+		inset 0 1px 0 rgba(248, 224, 164, 0.2);
+}
+
+[data-dream="dawn"] .dream-verse.dream-verse-now {
+	border-color: var(--dream-gold);
+	box-shadow:
+		0 16px 44px var(--dream-shadow),
+		0 0 60px var(--dream-glow-soft),
+		inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* ============ title sheen: light passing over water ============
+ * A slow sheen sweeps the title vessel — transform-only, endlessly calm. */
+[data-dream="sanctuary"] .awtsmoos-reader-title-shell .dream-glow-title,
+[data-dream="dawn"] .awtsmoos-reader-title-shell .dream-glow-title {
+	position: relative;
+}
+
+[data-dream="sanctuary"] .awtsmoos-reader-title-shell .dream-glow-title::after,
+[data-dream="dawn"] .awtsmoos-reader-title-shell .dream-glow-title::after {
+	content: "";
+	position: absolute;
+	inset: -0.25em -0.8em;
+	pointer-events: none;
+	transform: translateX(-135%);
+	animation: dream-title-sheen 12s ease-in-out infinite;
+}
+
+[data-dream="sanctuary"] .awtsmoos-reader-title-shell .dream-glow-title::after {
+	background: linear-gradient(100deg, transparent 35%, rgba(248, 224, 164, 0.13) 50%, transparent 65%);
+}
+
+[data-dream="dawn"] .awtsmoos-reader-title-shell .dream-glow-title::after {
+	background: linear-gradient(100deg, transparent 35%, rgba(192, 143, 46, 0.14) 50%, transparent 65%);
+	animation-duration: 14s;
+}
+
+@keyframes dream-title-sheen {
+	0% { transform: translateX(-135%); }
+	45%, 100% { transform: translateX(135%); }
+}
+
+/* ============ drop caps on section openings (Sanctuary) ============
+ * The first letter of each section rises like the beginning of a scroll. */
+[data-dream="sanctuary"] .awtsmoos-reader-section.dream-verse > p:first-of-type::first-letter {
+	color: var(--dream-gold-bright);
+	font-size: 2.7em;
+	line-height: 0.9;
+	font-weight: 700;
+	float: inline-start;
+	margin-inline-end: 0.14em;
+	margin-top: 0.06em;
+	padding-inline-start: 0.02em;
+	text-shadow: 0 0 20px var(--dream-glow-soft), 0 0 60px var(--dream-glow-wide);
+}
+
+/* ============ even more generous Hebrew line rhythm ============ */
+[data-dream="sanctuary"] :lang(he) {
+	line-height: 2.32;
+}
+
+[data-dream="dawn"] :lang(he) {
+	line-height: 2.3;
+}
+
+/* ============ small screens: everything holds at 390px ============ */
+@media (max-width: 480px) {
+	.dream-golden-thread {
+		inset-inline-start: 5px;
+		width: 2px;
+	}
+	.dream-golden-thread::after {
+		width: 8px;
+		height: 8px;
+	}
+	[data-dream="sanctuary"] .dream-parallax-mid,
+	[data-dream="dawn"] .dream-parallax-mid {
+		opacity: 0.35;
+	}
+	[data-dream="sanctuary"] .awtsmoos-reader-section.dream-verse > p:first-of-type::first-letter {
+		color: var(--dream-gold-bright);
+		font-size: 2.1em;
+	}
+	[data-dream="sanctuary"] .awtsmoos-reader-title-shell .dream-glow-title::after,
+	[data-dream="dawn"] .awtsmoos-reader-title-shell .dream-glow-title::after {
+		animation-duration: 20s;
+	}
+}
+
+/* ============ reduced motion: calm, never still informative ============ */
+@media (prefers-reduced-motion: reduce) {
+	[data-dream="sanctuary"] .dream-parallax-mid::after,
+	[data-dream="dawn"] .dream-parallax-mid::after {
+		animation: none;
+	}
+	[data-dream="sanctuary"] .awtsmoos-reader-title-shell .dream-glow-title::after,
+	[data-dream="dawn"] .awtsmoos-reader-title-shell .dream-glow-title::after {
+		animation: none;
+		opacity: 0;
+	}
+}
