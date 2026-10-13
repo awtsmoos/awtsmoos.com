@@ -9,13 +9,24 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 	<meta name="theme-color" content="#111827">
 	<title>Brick Blast</title>
-	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=2b7d4f91a3">
 </head>
 <body>
+	<!-- B"H Awtsmoos game loading screen: static shell paints on first paint; player-shell hydrates progress/tips/fade. -->
+	<div id="awtsmoos-loader" role="status" aria-label="Game loading">
+		<div class="awtsmoos-loader-shade"></div>
+		<div class="awtsmoos-loader-inner">
+			<div class="awtsmoos-loader-kicker">B"H · Awtsmoos Games</div>
+			<div class="awtsmoos-loader-title">Brick Blast</div>
+			<div class="awtsmoos-loader-bar"><div class="awtsmoos-loader-fill"></div></div>
+			<div class="awtsmoos-loader-tip"></div>
+	</div>
+	</div>
+
 	<div id="style-container" style="display: none;"></div>
 	<div id="brick-blast-root"></div>
-	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
-	<script type="module" src="./index.js?compact=true"></script>
-	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?v=6fd9ae91f1"></script>
+	<script type="module" src="./index.js?v=8e16707d32"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=8f3c1a92e4"></script>
 </body>
 </html>

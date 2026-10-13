@@ -10,11 +10,22 @@
 	<meta name="theme-color" content="#000000">
 	<meta name="description" content="A fast local Pong match against the AI with touch, keyboard, pause, rematch, and Party result support.">
 	<title>Pong · Awtsmoos Games</title>
-	<link rel="stylesheet" href="./style.css?v=pong-production-002&compact=true">
-	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-003&compact=true">
-	<link rel="stylesheet" href="../styles/awp-polish.css?v=awp-001">
+	<link rel="stylesheet" href="./style.css?v=c59890e553">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=2b7d4f91a3">
+	<link rel="stylesheet" href="../styles/awp-polish.css?v=7e4564d6d5">
 </head>
 <body>
+	<!-- B"H Awtsmoos game loading screen: static shell paints on first paint; player-shell hydrates progress/tips/fade. -->
+	<div id="awtsmoos-loader" role="status" aria-label="Game loading">
+		<div class="awtsmoos-loader-shade"></div>
+		<div class="awtsmoos-loader-inner">
+			<div class="awtsmoos-loader-kicker">B"H · Awtsmoos Games</div>
+			<div class="awtsmoos-loader-title">Pong</div>
+			<div class="awtsmoos-loader-bar"><div class="awtsmoos-loader-fill"></div></div>
+			<div class="awtsmoos-loader-tip"></div>
+	</div>
+	</div>
+
 	<main class="pong-stage awp-stage" aria-label="Pong match">
 		<canvas id="pongCanvas" tabindex="0" aria-label="Pong court. Drag on the court or use Up and Down arrow keys."></canvas>
 		<button id="pongPauseButton" class="pong-pause awp-btn" type="button" aria-pressed="false" hidden>Pause</button>
@@ -34,19 +45,19 @@
 		</section>
 	</main>
 
-	<script src="./js/particles.js"></script>
-	<script src="./js/ball.js"></script>
-	<script src="./js/paddle.js"></script>
-	<script src="./js/ui.js"></script>
-	<script src="./js/controls.js"></script>
-	<script src="./js/match-update.js"></script>
-	<script src="./js/result.js"></script>
-	<script src="./js/court.js"></script>
-	<script src="./js/lifecycle.js"></script>
-	<script src="./js/session-ui.js"></script>
-	<script src="./js/main.js"></script>
-	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
-	<script type="module" src="./js/wallet-reward.js?compact=true"></script>
-	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-003&compact=true"></script>
+	<script src="./js/particles.js?v=eb87222e44"></script>
+	<script src="./js/ball.js?v=5e24e673f7"></script>
+	<script src="./js/paddle.js?v=060c091e14"></script>
+	<script src="./js/ui.js?v=ee8a1ec3a7"></script>
+	<script src="./js/controls.js?v=f85de9baee"></script>
+	<script src="./js/match-update.js?v=373c87d649"></script>
+	<script src="./js/result.js?v=9201ef29f8"></script>
+	<script src="./js/court.js?v=b3b3d0ce18"></script>
+	<script src="./js/lifecycle.js?v=c6d0daca87"></script>
+	<script src="./js/session-ui.js?v=f2e96138e3"></script>
+	<script src="./js/main.js?v=105f8e0fc8"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?v=6fd9ae91f1"></script>
+	<script type="module" src="./js/wallet-reward.js?v=2c4852bd9f"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=8f3c1a92e4"></script>
 </body>
 </html>

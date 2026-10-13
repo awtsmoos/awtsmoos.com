@@ -10,11 +10,22 @@
 	<meta name="theme-color" content="#070a12">
 	<meta name="description" content="Emoji War is a touch-first neon survival shooter with separate Arcade and Caption Remix modes, power-ups, waves, combos, and optional local camera effects.">
 	<title>Emoji War — Neon Caption Arcade</title>
-	<link rel="stylesheet" href="./style.css?v=emoji-war-solid-005&compact=true">
-	<link rel="stylesheet" href="./styles/runtime.css?v=emoji-war-runtime-001&compact=true">
-	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-003&compact=true">
+	<link rel="stylesheet" href="./style.css?v=14ee6b3d11">
+	<link rel="stylesheet" href="./styles/runtime.css?v=0efedfec09">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=2b7d4f91a3">
 </head>
 <body>
+	<!-- B"H Awtsmoos game loading screen: static shell paints on first paint; player-shell hydrates progress/tips/fade. -->
+	<div id="awtsmoos-loader" role="status" aria-label="Game loading">
+		<div class="awtsmoos-loader-shade"></div>
+		<div class="awtsmoos-loader-inner">
+			<div class="awtsmoos-loader-kicker">B"H · Awtsmoos Games</div>
+			<div class="awtsmoos-loader-title">Emoji War</div>
+			<div class="awtsmoos-loader-bar"><div class="awtsmoos-loader-fill"></div></div>
+			<div class="awtsmoos-loader-tip"></div>
+	</div>
+	</div>
+
 	<canvas id="k" aria-label="Emoji War game field"></canvas>
 	<video id="webcamFeed" playsinline muted></video>
 	<button id="gamePauseButton" class="game-pause-button" type="button" aria-pressed="false" hidden>Pause</button>
@@ -100,8 +111,8 @@
 		</div>
 	</aside>
 
-	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
-	<script type="module" src="./js/main.js?v=emoji-war-solid-005&compact=true"></script>
-	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-003&compact=true"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?v=6fd9ae91f1"></script>
+	<script type="module" src="./js/main.js?v=7743667438"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=8f3c1a92e4"></script>
 </body>
 </html>

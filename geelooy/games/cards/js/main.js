@@ -28,6 +28,7 @@ let opponentCount = 1;
 let roundNumber = 0;
 
 view.showMenu(bankroll.balance);
+window.dispatchEvent(new CustomEvent('awtsmoos:game-ready'));
 document.getElementById('start-game').addEventListener('click', startTable);
 document.getElementById('reset-bankroll').addEventListener('click', resetBankroll);
 document.getElementById('hit-button').addEventListener('click', () => round?.hit());

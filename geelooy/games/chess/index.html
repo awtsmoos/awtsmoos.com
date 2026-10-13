@@ -8,17 +8,28 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 	<title>Ultimate Chess AI</title>
-	<link rel="stylesheet" href="style.css?compact=true">
-	<link rel="stylesheet" href="ui/chess-polish.css?compact=true">
-	<link rel="stylesheet" href="ui/chess-mobile.css?compact=true">
-	<link rel="stylesheet" href="ui/chess-accessibility.css?compact=true">
-	<link rel="stylesheet" href="online/online.css?compact=true">
-	<link rel="stylesheet" href="social/panel.css?compact=true">
-	<link rel="stylesheet" href="social/menu.css?compact=true">
-	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-003&compact=true">
-	<link rel="stylesheet" href="../styles/awp-polish.css?v=awp-001">
+	<link rel="stylesheet" href="style.css?v=749464b58a">
+	<link rel="stylesheet" href="ui/chess-polish.css?v=1d2b85028f">
+	<link rel="stylesheet" href="ui/chess-mobile.css?v=be326a9b83">
+	<link rel="stylesheet" href="ui/chess-accessibility.css?v=f6baf2efb3">
+	<link rel="stylesheet" href="online/online.css?v=e4450d1b9e">
+	<link rel="stylesheet" href="social/panel.css?v=1793fb758f">
+	<link rel="stylesheet" href="social/menu.css?v=109a62eecd">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=2b7d4f91a3">
+	<link rel="stylesheet" href="../styles/awp-polish.css?v=7e4564d6d5">
 </head>
 <body>
+	<!-- B"H Awtsmoos game loading screen: static shell paints on first paint; player-shell hydrates progress/tips/fade. -->
+	<div id="awtsmoos-loader" role="status" aria-label="Game loading">
+		<div class="awtsmoos-loader-shade"></div>
+		<div class="awtsmoos-loader-inner">
+			<div class="awtsmoos-loader-kicker">B"H · Awtsmoos Games</div>
+			<div class="awtsmoos-loader-title">Chess</div>
+			<div class="awtsmoos-loader-bar"><div class="awtsmoos-loader-fill"></div></div>
+			<div class="awtsmoos-loader-tip"></div>
+	</div>
+	</div>
+
 	<div id="bh-fuse">B"H</div>
 
 	<div id="loadingScreen" class="menu awp-menu" style="display: flex;">
@@ -105,14 +116,14 @@
 		<button id="backToMenuButton" class="menu-button awp-btn">Back</button>
 	</div>
 
-	<script src="ui/engine-worker-route.js"></script>
-	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
-	<script src="ui/canvas-stability.js?compact=true" type="module"></script>
-	<script src="social/legacy-observer.js"></script>
-	<script src="main.js?compact=true" type="module"></script>
-	<script src="online/bootstrap.js?compact=true" type="module"></script>
-	<script src="studio/bootstrap.js?compact=true" type="module"></script>
-	<script src="/register.js"></script>
-	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-003&compact=true"></script>
+	<script src="ui/engine-worker-route.js?v=487131ad19"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?v=6fd9ae91f1"></script>
+	<script src="ui/canvas-stability.js?v=43c10ac85b" type="module"></script>
+	<script src="social/legacy-observer.js?v=a489367979"></script>
+	<script src="main.js?v=ab3db43fe7" type="module"></script>
+	<script src="online/bootstrap.js?v=83e536116b" type="module"></script>
+	<script src="studio/bootstrap.js?v=e2b0abe686" type="module"></script>
+	<script src="/register.js?v=fcaa78a126"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=8f3c1a92e4"></script>
 </body>
 </html>

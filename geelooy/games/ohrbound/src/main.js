@@ -96,3 +96,4 @@ const hodExperienceUi = new ExperienceUi({
 
 new OhrboundBrowserBindings({ input: yesodInputState, experienceUi: hodExperienceUi, experience: binaExperience, renderer: tiferesRenderer, app: tiferesApp, browser: malchusBrowser }).attach();
 tiferesApp.start().catch(gevurahError => malchusShell.message(gevurahError.message || "Ohrbound could not start.", "error"));
+window.dispatchEvent(new CustomEvent('awtsmoos:game-ready'));

@@ -1523,4 +1523,5 @@ pgnFileInput.onchange = (event) => {
 	// --- INITIATE ENGINE LOADING ON STARTUP ---
 	resetGameState();
 	aiWorker.postMessage({ command: 'initialize' });
+window.dispatchEvent(new CustomEvent('awtsmoos:game-ready'));
 });

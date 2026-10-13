@@ -53,6 +53,7 @@ window.visualViewport?.addEventListener('resize', court.resize, { passive: true 
 court.resize();
 court.draw(0);
 document.body.dataset.pongReady = 'true';
+window.dispatchEvent(new CustomEvent('awtsmoos:game-ready'));
 
 /** Reset scores, actors, timing, and presentation for one fresh match. */
 function resetMatch() {

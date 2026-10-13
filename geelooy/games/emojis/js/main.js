@@ -25,3 +25,4 @@ bindUiControls();
 updateFileCount();
 updateScoreHud();
 showMainMenu();
+window.dispatchEvent(new CustomEvent('awtsmoos:game-ready'));

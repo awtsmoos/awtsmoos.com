@@ -11,6 +11,7 @@ async function awakenBrickBlast() {
 	try {
 		revealBrickBlastInterface();
 		await import('./js/main.js');
+		window.dispatchEvent(new CustomEvent('awtsmoos:game-ready'));
 	} catch (error) {
 		console.error('Brick Blast could not awaken.', error);
 		revealFailure(error);

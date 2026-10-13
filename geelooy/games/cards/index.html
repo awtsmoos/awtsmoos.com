@@ -14,11 +14,22 @@ responsive table geometry, and no automatic timer-driven restart.
 	<meta name="theme-color" content="#050403">
 	<meta name="description" content="Play Blackjack: The Reckoning inside The Utterances card-game world on Awtsmoos.com.">
 	<title>The Utterances — Blackjack on Awtsmoos</title>
-	<link rel="stylesheet" href="./style.css?v=cards-solid-002&compact=true">
-	<link rel="stylesheet" href="./styles/runtime.css?v=blackjack-round-001&compact=true">
-	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
+	<link rel="stylesheet" href="./style.css?v=87164ed30c">
+	<link rel="stylesheet" href="./styles/runtime.css?v=71d4c007ec">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=2b7d4f91a3">
 </head>
 <body>
+	<!-- B"H Awtsmoos game loading screen: static shell paints on first paint; player-shell hydrates progress/tips/fade. -->
+	<div id="awtsmoos-loader" role="status" aria-label="Game loading">
+		<div class="awtsmoos-loader-shade"></div>
+		<div class="awtsmoos-loader-inner">
+			<div class="awtsmoos-loader-kicker">B"H · Awtsmoos Games</div>
+			<div class="awtsmoos-loader-title">The Utterances</div>
+			<div class="awtsmoos-loader-bar"><div class="awtsmoos-loader-fill"></div></div>
+			<div class="awtsmoos-loader-tip"></div>
+	</div>
+	</div>
+
 	<main id="main-menu" aria-labelledby="cards-title">
 		<p class="cards-kicker">B"H · Awtsmoos Quick Play</p>
 		<h1 id="cards-title">The Utterances</h1>
@@ -59,8 +70,8 @@ responsive table geometry, and no automatic timer-driven restart.
 		</div>
 	</section>
 
-	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
-	<script type="module" src="./js/main.js?compact=true&v=blackjack-round-001"></script>
-	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?v=6fd9ae91f1"></script>
+	<script type="module" src="./js/main.js?v=ba24c28905"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=8f3c1a92e4"></script>
 </body>
 </html>

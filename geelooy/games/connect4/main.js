@@ -61,6 +61,7 @@ function returnToMenu() {
 	ui.hideResult();
 	ui.show(ui.screens.main);
 	prepareMenuWorker();
+window.dispatchEvent(new CustomEvent('awtsmoos:game-ready'));
 }
 
 /** Surface Worker failure without recursively spawning another failed Worker. */

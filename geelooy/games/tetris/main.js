@@ -27,7 +27,7 @@ let session = null;
 let selectedMode = 'single';
 
 bindApplication();
-view.showMenu();
+window.dispatchEvent(new CustomEvent('awtsmoos:game-ready'));
 
 function bindApplication() {
 	for (const button of document.querySelectorAll('[data-mode]')) {

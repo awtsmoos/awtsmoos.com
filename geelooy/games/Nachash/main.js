@@ -26,7 +26,7 @@ let session = null;
 
 audio.setMuted(settings.muted);
 applySettingsToForm();
-view.showMenu(highScore);
+window.dispatchEvent(new CustomEvent('awtsmoos:game-ready'));
 
 view.play.addEventListener('click', startGame);
 view.pause.addEventListener('click', toggleUserPause);
