@@ -30,6 +30,8 @@ export function renderMalchusGameCardMarkup(chochmahGameRecord) {
 	const yesodGameId = escapeHodHtml(chochmahGameRecord.id);
 
 	const hodCoverMarkup = renderGameCover(chochmahGameRecord.id, chochmahGameRecord.title);
+const GICON_PLAY = 'https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-play-0-0ef448c3-ed56-4073-97d6-7462d0c7365f.webp';
+const GICON_USERS = 'https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-users.webp?v=a99ebb2312';
 	return `
 		<article class="gameCard${hodFeaturedClass} ${hodPaletteClass} awp-card" data-game-id="${yesodGameId}">
 			<span class="gameAura" aria-hidden="true"></span>
@@ -45,7 +47,7 @@ export function renderMalchusGameCardMarkup(chochmahGameRecord) {
 			${renderHodLiveCommerceMarkup(chochmahGameRecord)}
 			<footer class="gameCard__footer">
 				<div class="gameActions">
-					<a class="playCta" href="${escapeHodHtml(chochmahGameRecord.href)}">${hodPrimaryLabel} <b aria-hidden="true">→</b></a>
+					<a class="playCta" href="${escapeHodHtml(chochmahGameRecord.href)}" aria-label="${hodPrimaryLabel}: ${escapeHodHtml(chochmahGameRecord.title)}"><img class="gicon gicon--sm gicon--play" src="${GICON_PLAY}" alt="" aria-hidden="true" loading="lazy" decoding="async" width="24" height="24"><span>${hodPrimaryLabel}</span> <b aria-hidden="true">→</b></a>
 					${renderHodPartyAction(chochmahGameRecord)}
 				</div>
 			</footer>
@@ -64,5 +66,5 @@ function renderHodPartyAction(chochmahGameRecord) {
 	if (!chochmahGameRecord.partyHref) {
 		return "";
 	}
-	return `<a class="partyCta" href="${escapeHodHtml(chochmahGameRecord.partyHref)}">Party Challenge</a>`;
+	return `<a class="partyCta" href="${escapeHodHtml(chochmahGameRecord.partyHref)}" aria-label="Play Party Challenge"><img class="gicon gicon--sm gicon--users" src="${GICON_USERS}" alt="" aria-hidden="true" loading="lazy" decoding="async" width="24" height="24"><span>Party Challenge</span></a>`;
 }

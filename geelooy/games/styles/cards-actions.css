@@ -24,6 +24,7 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+	gap: 0.5rem;
 	min-height: 46px;
 	border-radius: 12px;
 	font-size: 0.78rem;
