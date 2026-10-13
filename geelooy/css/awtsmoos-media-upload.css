@@ -1,0 +1,256 @@
+/* B"H
+ * Awtsmoos Media Upload — golden styling
+ * Dead simple upload UX: tap, pick, done.
+ */
+
+.amu-dropzone {
+	position: relative;
+	border: 2px dashed rgba(184, 134, 11, 0.35);
+	border-radius: 12px;
+	padding: 1.25rem;
+	text-align: center;
+	cursor: pointer;
+	transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.15s ease;
+	background: rgba(184, 134, 11, 0.04);
+	min-height: 80px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	user-select: none;
+	-webkit-user-select: none;
+	-webkit-tap-highlight-color: transparent;
+	touch-action: manipulation;
+}
+
+.amu-dropzone:hover {
+	border-color: rgba(184, 134, 11, 0.65);
+	background: rgba(184, 134, 11, 0.08);
+}
+
+.amu-dropzone:active {
+	transform: scale(0.99);
+	border-color: #b8860b;
+}
+
+.amu-dropzone:focus-visible {
+	outline: 2px solid #b8860b;
+	outline-offset: 2px;
+}
+
+.amu-dropzone.amu-dragover {
+	border-color: #b8860b;
+	border-style: solid;
+	background: rgba(184, 134, 11, 0.12);
+	transform: scale(1.01);
+	box-shadow: 0 0 24px rgba(184, 134, 11, 0.25);
+}
+
+.amu-hint {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	color: #8a7355;
+	font-size: 0.9rem;
+	pointer-events: none;
+}
+
+.amu-hint-icon {
+	font-size: 1.4rem;
+}
+
+/* Upload button */
+.amu-upload-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.6rem 1.1rem;
+	border: 1.5px solid rgba(184, 134, 11, 0.4);
+	border-radius: 999px;
+	background: linear-gradient(135deg, rgba(184, 134, 11, 0.08), rgba(184, 134, 11, 0.02));
+	color: #7a5c1e;
+	font-size: 0.9rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	user-select: none;
+	-webkit-user-select: none;
+	-webkit-tap-highlight-color: transparent;
+	touch-action: manipulation;
+}
+
+.amu-upload-btn:hover {
+	border-color: #b8860b;
+	background: linear-gradient(135deg, rgba(184, 134, 11, 0.16), rgba(184, 134, 11, 0.06));
+	box-shadow: 0 2px 12px rgba(184, 134, 11, 0.2);
+	transform: translateY(-1px);
+}
+
+.amu-upload-btn:active {
+	transform: translateY(0) scale(0.97);
+	box-shadow: 0 1px 4px rgba(184, 134, 11, 0.2);
+}
+
+.amu-upload-btn:focus-visible {
+	outline: 2px solid #b8860b;
+	outline-offset: 2px;
+}
+
+.amu-btn-icon {
+	font-size: 1.1rem;
+}
+
+/* Progress bar */
+.amu-progress-wrap {
+	margin-top: 0.75rem;
+	background: rgba(184, 134, 11, 0.1);
+	border-radius: 999px;
+	height: 8px;
+	overflow: hidden;
+	position: relative;
+}
+
+.amu-progress-bar {
+	height: 100%;
+	width: 0%;
+	background: linear-gradient(90deg, #d4a017, #b8860b);
+	border-radius: 999px;
+	transition: width 0.2s ease;
+	position: relative;
+}
+
+.amu-progress-bar::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+	animation: amu-shimmer 1.5s infinite;
+}
+
+@keyframes amu-shimmer {
+	0% { transform: translateX(-100%); }
+	100% { transform: translateX(100%); }
+}
+
+.amu-progress-label {
+	font-size: 0.8rem;
+	color: #8a7355;
+	margin-top: 0.35rem;
+	text-align: center;
+}
+
+/* Preview thumbnails */
+.amu-preview-grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin-top: 0.75rem;
+}
+
+.amu-preview-item {
+	position: relative;
+	width: 80px;
+	height: 80px;
+	border-radius: 8px;
+	overflow: hidden;
+	border: 1.5px solid rgba(184, 134, 11, 0.25);
+	background: #f5f0e6;
+}
+
+.amu-preview-item img,
+.amu-preview-item video {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.amu-preview-item .amu-preview-type {
+	position: absolute;
+	bottom: 2px;
+	right: 2px;
+	background: rgba(0, 0, 0, 0.6);
+	color: white;
+	font-size: 0.65rem;
+	padding: 1px 5px;
+	border-radius: 4px;
+}
+
+.amu-preview-remove {
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	background: rgba(0, 0, 0, 0.65);
+	color: white;
+	border: none;
+	font-size: 0.8rem;
+	line-height: 1;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+}
+
+.amu-preview-remove:hover {
+	background: rgba(180, 30, 30, 0.85);
+}
+
+.amu-preview-uploading::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: rgba(184, 134, 11, 0.2);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Inline progress in preview */
+.amu-preview-progress {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 4px;
+	background: rgba(0, 0, 0, 0.2);
+}
+
+.amu-preview-progress > div {
+	height: 100%;
+	background: #b8860b;
+	transition: width 0.2s ease;
+}
+
+/* Dark theme */
+@media (prefers-color-scheme: dark) {
+	.amu-dropzone {
+		border-color: rgba(212, 160, 23, 0.35);
+		background: rgba(212, 160, 23, 0.05);
+	}
+	.amu-hint {
+		color: #a89060;
+	}
+	.amu-upload-btn {
+		border-color: rgba(212, 160, 23, 0.4);
+		color: #d4a017;
+		background: linear-gradient(135deg, rgba(212, 160, 23, 0.1), rgba(212, 160, 23, 0.03));
+	}
+	.amu-preview-item {
+		background: #1a1a2e;
+		border-color: rgba(212, 160, 23, 0.25);
+	}
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+	.amu-dropzone,
+	.amu-upload-btn {
+		transition: none;
+	}
+	.amu-progress-bar::after {
+		animation: none;
+	}
+}
