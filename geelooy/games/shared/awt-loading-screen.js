@@ -12,7 +12,7 @@
  *   data-title="Noah's Dove Jump"
  *   data-kicker="B&quot;H · Awtsmoos Games"
  *   data-tips="Tip one|Tip two|Tip three"
- *   data-accent="#8fd0ff"></script>
+ *   data-accent="#8fd0ff"><\/script>
  *
  * Progress is REAL, never a fake timer:
  *  - 0.00–0.70: tracked from actual resource loads (scripts, styles, images)
@@ -207,8 +207,13 @@
 		scan();
 	}
 	// catch resources added later (game-injected)
+	// B"H: the observer callback is guarded — if a DOM shim throws inside scan(),
+	// disconnect instead of letting the error escape (real browsers never throw here).
 	if (typeof MutationObserver !== 'undefined' && document.body) {
-		var mo = new MutationObserver(function () { if (!done) scan(); });
+		var mo = new MutationObserver(function () {
+			if (done) { try { mo.disconnect(); } catch (e) {} return; }
+			try { scan(); } catch (e) { try { mo.disconnect(); } catch (e2) {} }
+		});
 		mo.observe(document.documentElement, { childList: true, subtree: true });
 	}
 
