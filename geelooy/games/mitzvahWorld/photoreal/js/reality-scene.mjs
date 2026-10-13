@@ -559,7 +559,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   let guard = 0;
   while (treeSpots.length < (fast ? 24 : 40) && guard++ < 6000) {
     const x = (rand() - 0.5) * 200, z = (rand() - 0.5) * 200;
-    if (Math.abs(x - riverX(z)) < 11) continue;                       // keep river clear
+    if (Math.abs(x - riverX(z)) < 7.5) continue;                      // keep river clear (99%: narrowed)
     if (clearPts.some(([px, pz]) => Math.hypot(x - px, z - pz) < CLEAR)) continue;
     if (treeSpots.some(s => Math.hypot(s.x - x, s.z - z) < 8)) continue;
     treeSpots.push({ x, z });
@@ -576,7 +576,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     // the lens instead of blocking it.
     const z = -70 + rand() * 90;                     // z in [-70, 20]
     const side = rand() < 0.5 ? -1 : 1;
-    const x = riverX(z) + side * (10.5 + rand() * 3.5);
+    const x = riverX(z) + side * (7.0 + rand() * 3.5);
     if (clearPts.some(([px, pz]) => Math.hypot(x - px, z - pz) < CLEAR + 8)) continue;
     if (treeSpots.some(s => Math.hypot(s.x - x, s.z - z) < 10)) continue;
     treeSpots.push({ x, z, overhang: -side });
@@ -754,9 +754,11 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       uTime: { value: 0 },
       uSunDir: { value: sunDir },
       uGlitterDir: { value: new THREE.Vector3(-0.18, 0.16, -0.97).normalize() },
-      uDeep: { value: new THREE.Color(0x2a5a55) },
-      uShallow: { value: new THREE.Color(0x7ab8a8) },
-      uSky: { value: new THREE.Color(0xcfe4ea) },
+      // B"H — 99% water rewrite: natural river colors, not swimming-pool teal.
+      // Deep water: dark green-teal. Shallow: nearly clear warm tint.
+      uDeep: { value: new THREE.Color(0x1e4a44) },
+      uShallow: { value: new THREE.Color(0x8ab8a8) },
+      uSky: { value: new THREE.Color(0xd8ecef) },
       uFogColor: { value: new THREE.Color(T.fog) },
       uFogNear: { value: T.fogNear },
       uFogFar: { value: T.fogFar },
@@ -764,8 +766,10 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   ]);
   // UniformsUtils.merge clones — restore live references
   waterUniforms.uSunDir.value = sunDir;
+  // B"H — 99% push: river narrowed 19.5 -> 13. Reference river is a winding
+  // stream, not a lake. Banks visible on both sides.
   const water = new THREE.Mesh(
-    ribbon(19.5, () => WATER_Y, 24),
+    ribbon(13, () => WATER_Y, 24),
     new THREE.ShaderMaterial({
       transparent: true, uniforms: waterUniforms, fog: false,
       side: THREE.DoubleSide, depthWrite: false,
@@ -775,72 +779,105 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       fragmentShader: `varying vec2 vUv; varying vec3 vPos;
         uniform float uTime, uFogNear, uFogFar;
         uniform vec3 uSunDir, uGlitterDir, uDeep, uShallow, uSky, uFogColor;
-        // world-ish coords: u spans 19.5 units across, v spans 24 tiles of ~8.33
+        // B"H — 99% water rewrite (Yaakov: "Especially water shaders").
+        // Growth-rule approach: water follows terrain.
+        // - Flow direction follows the river curve (tangent), not uniform -v
+        // - Speed varies: faster in center channel, slower at edges
+        // - Depth from UV: center = deep, edges = shallow
+        // - Foam forms where water meets banks and around rocks
         float hgt(vec2 p, float t){
-          // B"H — Phase 4 (2026-10-13): directional flow — stretched along
-          // downstream (y), choppier across (x). Current streaks, not uniform.
-          return sin(p.x*2.6 + t*1.2)*0.30 + sin(p.y*0.9 - t*1.5)*0.28
-               + sin(p.x*1.8 + p.y*0.7 + t*2.1)*0.20
-               + sin(p.x*6.2 - t*2.6)*sin(p.y*1.8 + t*2.2)*0.14;
+          // Directional flow: stretched along downstream, choppy across.
+          // Two layers at different speeds for natural current variation.
+          return sin(p.x*3.1 + t*1.4)*0.22 + sin(p.y*1.1 - t*1.8)*0.20
+               + sin(p.x*2.2 + p.y*0.8 + t*2.4)*0.15
+               + sin(p.x*7.3 - t*3.1)*sin(p.y*2.1 + t*2.6)*0.10;
         }
         vec2 slopeAt(vec2 p, float t){
-          float e = 0.22;
+          float e = 0.18;
           float hC = hgt(p, t);
           return vec2(hgt(p+vec2(e,0.0),t)-hC, hgt(p+vec2(0.0,e),t)-hC)/e;
         }
         float hash22(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+        // Smooth noise for foam breakup
+        float vnoise(vec2 p){
+          vec2 i = floor(p); vec2 f = fract(p);
+          f = f*f*(3.0-2.0*f);
+          return mix(mix(hash22(i), hash22(i+vec2(1,0)), f.x),
+                     mix(hash22(i+vec2(0,1)), hash22(i+vec2(1,1)), f.x), f.y);
+        }
         void main(){
-          vec2 pw = vec2(vUv.x*19.5, vUv.y*8.33);
-          // two ripple layers drifting downstream (-v), different speeds
-          vec2 p1 = pw + vec2(uTime*0.22, -uTime*1.05);
-          vec2 p2 = pw*2.3 + vec2(-uTime*0.45, -uTime*2.1) + 7.3;
-          vec2 grad = slopeAt(p1, uTime)*0.55 + slopeAt(p2, uTime*1.35)*0.30;
+          // world-ish coords: u spans 13 units across, v spans ~8.33 per tile
+          vec2 pw = vec2(vUv.x*13.0, vUv.y*8.33);
+          // Depth: 1.0 at center channel, 0.0 at banks
+          float centerDepth = 1.0 - abs(vUv.x*2.0 - 1.0);
+          float depth = smoothstep(0.0, 1.0, centerDepth);
+          // Flow speed: faster in center, slower at edges (real river hydraulics)
+          float flowSpeed = mix(0.4, 1.6, depth);
+          // Two ripple layers drifting downstream at speed-scaled rates
+          vec2 p1 = pw + vec2(uTime*0.25*flowSpeed, -uTime*1.2*flowSpeed);
+          vec2 p2 = pw*2.1 + vec2(-uTime*0.5*flowSpeed, -uTime*2.4*flowSpeed) + 7.3;
+          vec2 grad = slopeAt(p1, uTime)*0.5 + slopeAt(p2, uTime*1.3)*0.28;
           vec3 n = normalize(vec3(-grad.x, 1.0, -grad.y));
           vec3 viewDir = normalize(cameraPosition - vPos);
-          float fres = pow(1.0 - max(dot(n, viewDir), 0.0), 3.0);
+          // Fresnel: mirror at grazing angle, transparent looking straight down
+          float fres = pow(1.0 - max(dot(n, viewDir), 0.0), 5.0);
+          fres = mix(0.02, 1.0, fres); // Schlick's approximation base
           vec3 r = reflect(-viewDir, n);
+          // Sun glitter: sharp sparkles on wave crests only
           float gdot = max(dot(r, uGlitterDir), 0.0);
-          float sheen = pow(gdot, 48.0);
-          float glint = pow(gdot, 700.0);
-          // twinkle: each sparkle cell shimmers on its own phase
-          float tw = 0.45 + 0.55*(0.5 + 0.5*sin(uTime*7.0 + hash22(floor(pw*7.0))*43.0));
-          float centerDepth = 1.0 - abs(vUv.x*2.0 - 1.0);
-          // pebble bed in the shallows, refracted by the ripple
-          vec2 gp = pw*3.4 + grad*1.5;
+          float glint = pow(gdot, 900.0);
+          // Twinkle: each sparkle cell shimmers independently
+          float tw = 0.3 + 0.7*(0.5 + 0.5*sin(uTime*8.0 + hash22(floor(pw*9.0))*43.0));
+          // Pebble bed: procedural stones, refracted by surface ripple
+          vec2 gp = pw*4.2 + grad*2.0;
           vec2 gid = floor(gp); vec2 gf = fract(gp);
-          vec2 pc = vec2(0.5) + (vec2(hash22(gid+7.3), hash22(gid+3.1))-0.5)*0.55;
-          float pd = length((gf-pc)*vec2(1.0,1.3));
-          float peb = smoothstep(0.44, 0.37, pd);
+          vec2 pc = vec2(0.5) + (vec2(hash22(gid+7.3), hash22(gid+3.1))-0.5)*0.6;
+          float pd = length((gf-pc)*vec2(1.0,1.25));
+          float peb = smoothstep(0.46, 0.36, pd);
           float prnd = hash22(gid+1.7);
-          vec3 pebCol = mix(vec3(0.22,0.21,0.19), vec3(0.42,0.40,0.36), prnd);
-          pebCol *= 0.85 + 0.3*hash22(gid+9.2);
-          vec3 bed = mix(vec3(0.15,0.14,0.12), pebCol, peb);
-          float shallow = 1.0 - smoothstep(0.10, 0.55, centerDepth);
-          vec3 col = mix(uShallow, uDeep, 0.25 + 0.55*centerDepth);
-          // B"H — Phase 4 (2026-10-13): pebble bed more visible (0.8→0.95),
-          // water more transparent so the bed reads like the reference.
-          col = mix(col, bed*vec3(0.85,1.0,0.95), shallow*1.0);
-          col = mix(col, uSky, fres*0.28);
-          // glitter path on the water + faint real-sun sparkle
-          // B"H 2026-10-13 photoreal: boosted for the reference's bright glitter path
+          vec3 pebCol = mix(vec3(0.25,0.23,0.20), vec3(0.48,0.45,0.40), prnd);
+          pebCol *= 0.8 + 0.4*hash22(gid+9.2);
+          // Wet darkening: pebbles darker where submerged deeper
+          pebCol *= mix(0.55, 1.0, 1.0-depth*0.5);
+          vec3 bed = mix(vec3(0.18,0.16,0.13), pebCol, peb);
+          // Water body color: depth-graded, NOT uniform teal
+          vec3 col = mix(uShallow, uDeep, smoothstep(0.0, 0.9, depth));
+          // Bed shows through: strong in shallows, faint in deep center
+          float bedVisibility = mix(0.95, 0.25, smoothstep(0.1, 0.8, depth));
+          col = mix(col, bed, bedVisibility);
+          // Sky reflection via fresnel (stronger at grazing = far water)
+          col = mix(col, uSky, fres*0.55);
+          // Sun glitter: sharp, sparse, on crests — not milky wash
           float sdot = max(dot(r, uSunDir), 0.0);
-          col += vec3(1.0,0.96,0.88)*(sheen*0.45 + glint*4.0*tw)
-               + vec3(1.0,0.93,0.80)*pow(sdot, 120.0)*0.7;
-          // soft alpha fade at the banks — no hard waterline
-          float edge = smoothstep(0.0, 0.10, vUv.x)*smoothstep(1.0, 0.90, vUv.x);
-          // foam lapping at the waterline, broken up by noise
-          float band = 1.0 - smoothstep(0.0, 0.085, vUv.x)*smoothstep(1.0, 0.915, vUv.x);
-          float fn = hash22(floor(pw*vec2(3.0, 9.0)));
-          float lap = 0.5 + 0.5*sin(uTime*1.6 + pw.y*1.8 + fn*6.28);
-          float foam = band * smoothstep(0.45, 0.85, fn*0.6 + lap*0.45) * 0.65;
-          col = mix(col, vec3(0.90,0.95,0.93), clamp(foam, 0.0, 1.0));
-          float alpha = mix(0.0, 0.45, edge) + foam*0.12;
-          // manual fog: the river winds away into the mist like the reference
+          col += vec3(1.0,0.97,0.90) * glint * 6.0 * tw * (0.3 + 0.7*depth);
+          col += vec3(1.0,0.95,0.85) * pow(sdot, 200.0) * 0.4;
+          // Foam: at banks (waterline) + around procedural rock positions
+          float edge = smoothstep(0.0, 0.12, vUv.x)*smoothstep(1.0, 0.88, vUv.x);
+          float bankFoamBand = 1.0 - edge;
+          float fn = vnoise(pw*vec2(4.0, 12.0) + vec2(0.0, -uTime*1.5));
+          float lap = 0.5 + 0.5*sin(uTime*1.8 + pw.y*2.2 + fn*6.28);
+          float bankFoam = bankFoamBand * smoothstep(0.4, 0.8, fn*0.5 + lap*0.5) * 0.7;
+          // Rock foam: rings around procedural rock spots
+          vec2 rp = pw*1.8;
+          vec2 rid = floor(rp); vec2 rf = fract(rp);
+          float rockHere = step(0.93, hash22(rid+4.7));
+          vec2 rc = vec2(0.5) + (vec2(hash22(rid+1.1), hash22(rid+8.8))-0.5)*0.4;
+          float rdist = length(rf - rc);
+          float rockFoam = rockHere * smoothstep(0.35, 0.22, rdist) * smoothstep(0.15, 0.25, rdist);
+          rockFoam *= 0.5 + 0.5*sin(uTime*3.0 + hash22(rid)*20.0);
+          float foam = clamp(bankFoam + rockFoam*0.8, 0.0, 1.0);
+          col = mix(col, vec3(0.92,0.96,0.94), foam);
+          // Alpha: depth-based transparency. Shallows nearly clear, deep more opaque.
+          // Banks fade to zero (no hard waterline).
+          float alpha = mix(0.15, 0.72, smoothstep(0.0, 0.85, depth));
+          alpha *= edge; // fade at banks
+          alpha = max(alpha, foam*0.85);
+          // Distance fog: river melts into mist downstream
           float fd = distance(cameraPosition, vPos);
           float f2 = smoothstep(uFogNear, uFogFar, fd);
           col = mix(col, uFogColor, f2);
-          alpha = mix(alpha, 1.0, f2*0.85);
-          gl_FragColor = vec4(col, clamp(alpha, 0.0, 0.96)); }`
+          alpha = mix(alpha, 1.0, f2*0.9);
+          gl_FragColor = vec4(col, clamp(alpha, 0.0, 0.97)); }`
     })
   );
   scene.add(water);
@@ -1299,7 +1336,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       if (!t) break;
       const a = rand() * Math.PI * 2, r = 2.5 + rand() * 9;
       const x = t.x + Math.cos(a) * r, z = t.z + Math.sin(a) * r;
-      if (Math.abs(x - riverX(z)) < 10.2) continue; // B"H 2026-10-13: clear of widened water
+      if (Math.abs(x - riverX(z)) < 6.8) continue; // B"H 99%: clear of narrowed water
       if (clearPts.some(([px, pz]) => Math.hypot(x - px, z - pz) < 4)) continue;
       const s = 0.35 + rand() * 0.75;
       dummy.position.set(x, groundHeight(x, z, noise) + 0.12 * s, z);
@@ -1353,14 +1390,14 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       if (rand() < 0.6) {
         z = (rand() - 0.5) * 190;
         const side = rand() < 0.5 ? -1 : 1;
-        x = riverX(z) + side * (10.5 + rand() * 7); // B"H 2026-10-13: at the banks
+        x = riverX(z) + side * (7.0 + rand() * 7); // B"H 2026-10-13: at the banks
       } else {
         const t = treeSpots[(rand() * treeSpots.length) | 0];
         if (!t) continue;
         const a = rand() * Math.PI * 2, r = 2 + rand() * 6;
         x = t.x + Math.cos(a) * r; z = t.z + Math.sin(a) * r;
       }
-      if (Math.abs(x - riverX(z)) < 10.2) continue; // B"H 2026-10-13: not in the widened water
+      if (Math.abs(x - riverX(z)) < 6.8) continue; // B"H 99%: not in the narrowed water
       if (clearPts.some(([px, pz]) => Math.hypot(x - px, z - pz) < 3)) continue;
       const s = 0.9 + rand() * 1.3;
       dummy.position.set(x, groundHeight(x, z, noise), z);
@@ -1410,7 +1447,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     while (placed < COUNT && g2++ < COUNT * 30) {
       const z = (srand() - 0.5) * 200;
       const side = srand() < 0.5 ? -1 : 1;
-      const x = riverX(z) + side * (10.5 + srand() * 6); // B"H 2026-10-13: banks, not in the widened water
+      const x = riverX(z) + side * (7.0 + srand() * 6); // B"H 2026-10-13: banks, not in the widened water
       const s = 0.35 + srand() * 1.1;
       dummy.position.set(x, groundHeight(x, z, noise) + 0.05, z);
       dummy.rotation.set(0, srand() * Math.PI * 2, 0);
@@ -1451,7 +1488,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     while (placed < COUNT && g4++ < COUNT * 30) {
       const z = (mor() - 0.5) * 200;
       const side = mor() < 0.5 ? -1 : 1;
-      const x = riverX(z) + side * (10.5 + mor() * 9); // B"H 2026-10-13: banks, not in the widened water
+      const x = riverX(z) + side * (7.0 + mor() * 9); // B"H 2026-10-13: banks, not in the widened water
       // B"H — keep mounds well clear of the camera: a bright mound at 4 units
       // fills the lens. 10-unit exclusion around camera/character points.
       if (clearPts.some(([px, pz]) => Math.hypot(x - px, z - pz) < 10)) continue;
@@ -1554,11 +1591,11 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       let x, z;
       if (rand() < 0.62) {
         z = (rand() - 0.5) * 190;
-        x = riverX(z) + (rand() < 0.5 ? -1 : 1) * (10.5 + rand() * 17); // B"H 2026-10-13: banks
+        x = riverX(z) + (rand() < 0.5 ? -1 : 1) * (7.0 + rand() * 17); // B"H 2026-10-13: banks
       } else {
         x = (rand() - 0.5) * 190; z = (rand() - 0.5) * 190;
       }
-      if (Math.abs(x - riverX(z)) < 10.2) continue; // B"H 2026-10-13: clear of widened water
+      if (Math.abs(x - riverX(z)) < 6.8) continue; // B"H 99%: clear of narrowed water
       dummy.position.set(x, groundHeight(x, z, noise), z);
       dummy.rotation.y = rand() * Math.PI * 2;
       // natural lean: slight random tilt
