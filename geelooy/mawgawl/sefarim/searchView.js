@@ -70,9 +70,22 @@ export function setSearching(form, searching) {
 	}
 
 	button.disabled = searching;
-	const label = button.querySelector('.library-search-label');
+	const label = button.querySelector('.search-submit-label, .library-search-label');
 	if (label) {
-		label.textContent = searching ? 'Searching…' : 'Search sources';
+		label.textContent = searching ? 'Searching…' : 'Search';
+	}
+
+	const overlay = document.getElementById('searchLoadingOverlay');
+	if (overlay) {
+		overlay.hidden = !searching;
+		const video = overlay.querySelector('video');
+		if (video) {
+			if (searching) {
+				video.play().catch(() => {});
+			} else {
+				video.pause();
+			}
+		}
 	}
 }
 
