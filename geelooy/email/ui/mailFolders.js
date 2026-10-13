@@ -14,9 +14,9 @@ export const MAIL_FOLDERS = Object.freeze([
   { id: 'all', label: 'All Mail', empty: 'No transmissions found.' }
 ]);
 export const SENDER_CATEGORIES = Object.freeze([
-  { id: 'all', label: '✨ All Senders' }, { id: 'awtsmoos', label: '🪐 Awtsmoos' },
-  { id: 'external', label: '🌍 External' }, { id: 'priority', label: '⭐ Priority' },
-  { id: 'unread', label: '📩 Unread' }, { id: 'attachments', label: '🔖 Files' }
+  { id: 'all', label: 'All Senders' }, { id: 'awtsmoos', label: 'Awtsmoos' },
+  { id: 'external', label: 'External' }, { id: 'priority', label: 'Priority' },
+  { id: 'unread', label: 'Unread' }, { id: 'attachments', label: 'Files' }
 ]);
 const TEXT_FIELDS = ['correspondent', 'from', 'to', 'subject', 'snippet', 'content', 'title', 'id'];
 export function folderLabel(id) { return MAIL_FOLDERS.find(folder => folder.id === id)?.label || 'Mailbox'; }

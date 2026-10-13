@@ -4,8 +4,8 @@ const ICON_BASE = 'https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/'
 export const ROUTES = Object.freeze([
   { href: '/', label: 'Home', aria: 'Open home', iconClass: 'gicon--home', icon: ICON_BASE + 'media-generation-icon-home-active-0-b96032c0-3cbf-446e-9d85-7535113dcb9e.webp' },
   { href: '/email', label: 'Mail', aria: 'Open mail', iconClass: 'gicon--mail', icon: ICON_BASE + 'media-generation-icon-mail-regular-0-e8ff743a-c987-452f-b549-64e23af957fc.webp', iconHover: ICON_BASE + 'media-generation-icon-mail-hover-0-80a1e120-b5f0-4048-8993-da249ad8f2ba.webp', iconActive: ICON_BASE + 'media-generation-icon-mail-active-0-5eeb377a-c992-4008-b428-0ba9a5cff318.webp', iconFocus: ICON_BASE + 'media-generation-icon-mail-focus-0-c2c7f45e-a0fa-479b-8c54-b24c7659d3fd.webp' },
-  { href: '/heichelos/submit', label: '✍️', aria: 'Create a post' },
-  { href: '/heichelos', label: '🪐 Heichel', aria: 'Open Heichelos' },
+  { href: '/heichelos/submit', label: 'Create', aria: 'Create a post', iconClass: 'gicon--plus', icon: ICON_BASE + 'media-generation-icon-plus-0-d374e76f-81c4-4652-9761-2566142effc7.webp' },
+  { href: '/heichelos', label: 'Heichel', aria: 'Open Heichelos', iconClass: 'gicon--torah', icon: ICON_BASE + 'media-generation-icon-torah-active-0-7cccc6e3-c14e-4edd-a9e4-e0dc2c164897.webp' },
   { href: '/profile', label: 'Profile', aria: 'Open profile', profile: true, iconClass: 'gicon--profile', icon: ICON_BASE + 'media-generation-icon-profile-active-0-e824a593-e9df-4597-83b4-38adf2b99e33.webp' }
 ]);
 export function isCurrentRoute(route) { return route.href === '/email'; }

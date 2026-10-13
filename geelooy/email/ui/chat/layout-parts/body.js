@@ -8,6 +8,17 @@
  * useful search, truthful empty state, bounded attachments, and no decorative noise.
  */
 import { renderComposer } from '../../composer.js';
+import { iconVessel } from '../../sidebarPresentation.js';
+
+/** One decorative golden icon mark for empty-state frames. */
+function giconMark(name) {
+	const vessel = iconVessel(name);
+	return {
+		tag: 'img',
+		classList: ['gicon', 'gicon--sm', vessel.cls],
+		attributes: { src: vessel.url, alt: '', 'aria-hidden': 'true', loading: 'lazy', decoding: 'async', width: '24', height: '24' }
+	};
+}
 
 /** Mounts search, message river, reply composer, and attachment drop target. */
 export function mountChatBody(ui, parent) {
@@ -52,7 +63,7 @@ function landingState() {
 		tag: 'div',
 		classList: ['void-logo'],
 		children: [
-			{ tag: 'span', classList: ['mail-empty-mark'], textContent: '✉' },
+			{ tag: 'span', classList: ['mail-empty-mark'], attributes: { 'aria-hidden': 'true' }, children: [giconMark('mail')] },
 			{ tag: 'p', classList: ['mail-modal-kicker'], textContent: 'Ready when you are' },
 			{ tag: 'h2', textContent: 'Choose a conversation' },
 			{ tag: 'p', textContent: 'Pick someone from the left to read the history and reply.' },

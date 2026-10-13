@@ -8,6 +8,7 @@
  * Awtsmoos.com gives compose identity and dismissal their own calm, luminous stage.
  */
 import { closeModal } from './modalLifecycle.js';
+import { iconVessel } from './sidebarPresentation.js';
 
 /** Gives the writing chamber identity, context, and one unambiguous exit. */
 export function composeHeader(ui) {
@@ -15,6 +16,16 @@ export function composeHeader(ui) {
 		tag: 'header',
 		classList: ['compose-modal-top'],
 		children: [composeIdentity(), closeButton(ui)]
+	};
+}
+
+/** Builds one decorative golden icon mark for empty/identity frames. */
+function giconMark(name) {
+	const vessel = iconVessel(name);
+	return {
+		tag: 'img',
+		classList: ['gicon', 'gicon--sm', vessel.cls],
+		attributes: { src: vessel.url, alt: '', 'aria-hidden': 'true', loading: 'lazy', decoding: 'async', width: '24', height: '24' }
 	};
 }
 
@@ -28,7 +39,7 @@ function composeIdentity() {
 				tag: 'span',
 				classList: ['compose-orbit-mark'],
 				attributes: { 'aria-hidden': 'true' },
-				textContent: '✉️'
+				children: [giconMark('mail')]
 			},
 			{
 				tag: 'div',

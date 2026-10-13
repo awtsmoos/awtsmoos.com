@@ -8,6 +8,7 @@
  * dropdown, backdrop, or focus universe. The Awtsmoos keeps one interactive
  * profile doorway while every Awtsmoos.com chamber still knows the active alias.
  */
+import { iconVessel } from './sidebarPresentation.js';
 
 /**
  * Paints a live alias summary into one Mail-owned mount.
@@ -38,10 +39,19 @@ function paintSummary(mount, eventAlias, options) {
 		readStoredAlias()
 	);
 	mount.replaceChildren();
+	const vessel = iconVessel(alias ? 'profile' : 'mail');
 	const symbol = document.createElement('span');
 	symbol.className = 'mail-identity-summary-symbol';
 	symbol.setAttribute('aria-hidden', 'true');
-	symbol.textContent = alias ? '👤' : '◎';
+	const mark = document.createElement('img');
+	mark.className = `gicon gicon--sm ${vessel.cls}`;
+	mark.src = vessel.url;
+	mark.alt = '';
+	mark.loading = 'lazy';
+	mark.decoding = 'async';
+	mark.width = 24;
+	mark.height = 24;
+	symbol.append(mark);
 	const copy = document.createElement('span');
 	copy.className = 'mail-identity-summary-copy';
 	const eyebrow = document.createElement('small');

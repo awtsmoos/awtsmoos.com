@@ -71,20 +71,28 @@ function choiceButton({ id, presentation, count, active, kind }) {
 	button.setAttribute('aria-selected', String(active));
 	button.setAttribute('aria-label', `${presentation.label}, ${count} ${kind === 'folder' ? 'threads' : 'senders'}`);
 	button.append(
-		choiceEmoji(presentation.emoji),
+		choiceIcon(presentation),
 		choiceLabel(presentation.label),
 		choiceCount(count)
 	);
 	return button;
 }
 
-/** Creates the separately-hidden decorative identity mark. */
-function choiceEmoji(emoji) {
-	const node = document.createElement('span');
-	node.className = 'mail-choice-emoji';
-	node.setAttribute('aria-hidden', 'true');
-	node.textContent = emoji;
-	return node;
+/** Creates the separately-hidden decorative golden identity mark. */
+function choiceIcon(presentation) {
+	const frame = document.createElement('span');
+	frame.className = 'mail-choice-emoji';
+	frame.setAttribute('aria-hidden', 'true');
+	const img = document.createElement('img');
+	img.className = `gicon gicon--sm ${presentation.iconClass || ''}`.trim();
+	img.src = presentation.iconUrl || '';
+	img.alt = '';
+	img.loading = 'lazy';
+	img.decoding = 'async';
+	img.width = 24;
+	img.height = 24;
+	frame.append(img);
+	return frame;
 }
 
 /** Creates the visible canonical label. */

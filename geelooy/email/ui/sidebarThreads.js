@@ -11,6 +11,17 @@ import { state } from '../store.js';
 import { refreshSnippets } from '../network.js';
 import { filterThreads, folderEmpty, groupThreadsBySender } from './mailFolders.js';
 import { renderSenderGroup } from './sidebarThreadCards.js';
+import { iconVessel } from './sidebarPresentation.js';
+
+/** One decorative golden icon mark for empty-state frames. */
+function giconMark(name) {
+	const vessel = iconVessel(name);
+	return {
+		tag: 'img',
+		classList: ['gicon', 'gicon--sm', vessel.cls],
+		attributes: { src: vessel.url, alt: '', 'aria-hidden': 'true', loading: 'lazy', decoding: 'async', width: '24', height: '24' }
+	};
+}
 
 export { avatarTone, formatHandle, renderThread } from './sidebarThreadCards.js';
 
@@ -79,7 +90,7 @@ function renderEmptyState(ui, list) {
 		tag: 'div',
 		classList: ['thread-empty-state'],
 		children: [
-			{ tag: 'span', classList: ['thread-empty-icon'], textContent: searching ? '⌕' : '✉' },
+			{ tag: 'span', classList: ['thread-empty-icon'], attributes: { 'aria-hidden': 'true' }, children: [giconMark(searching ? 'search' : 'mail')] },
 			{ tag: 'strong', textContent: searching ? 'No matching conversations' : folderEmpty(state.view) },
 			{ tag: 'span', textContent: searching ? 'Clear the search or try another person or subject.' : 'Start a new message and the conversation will appear here.' },
 			{
