@@ -6,10 +6,10 @@
 
 :root {
   /* Covers */
-  --cover-homepage: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/homepage.webp");
-  --cover-reader: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/reader.webp");
-  --cover-profile: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/profile.webp");
-  --cover-games: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/games.webp");
+  --cover-homepage: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/cover-homepage.webp");
+  --cover-reader: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/cover-reader.webp");
+  --cover-profile: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/cover-profile.webp");
+  --cover-games: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/cover-games.webp");
   --cover-email: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/email.webp");
   --cover-apps: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/apps.webp");
   --cover-social: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/social.webp");
