@@ -22,13 +22,37 @@ export class NetzachMaterialStartup {
 	}
 
 	/**
-	 * @description Blocks desktop on established critical photography while touch presentation proceeds immediately on rich procedural textures.
+	 * @description Blocks desktop on established critical photography while touch starts
+	 * immediately on rich procedural textures, then upgrades to real photographs in the
+	 * background (Yaakov 2026-10-13: touch must also get real grass, just not block on it).
 	 * @returns {Promise<void>} Resolves when the playable-material covenant is satisfied.
-	 * @sideEffects May begin desktop critical remote loading; never starts remote work on touch devices.
+	 * @sideEffects Desktop loads critical remote photography now; touch schedules it lazily.
 	 */
 	async preparePlayableWorld() {
-		if (this.chochmahPresentation.deferRemoteMaterials) return;
+		if (this.chochmahPresentation.deferRemoteMaterials) {
+			this.scheduleDeferredCritical();
+			return;
+		}
 		await this.yesodMaterialLibrary.loadCritical();
+	}
+
+	/**
+	 * @description Loads critical photographic materials in the background after first
+	 * paint so touch devices start fast but still receive real textures.
+	 * @returns {Promise} Settles when background critical hydration finishes or fails.
+	 * @sideEffects Starts remote image fetch/decode/hydration off the critical path.
+	 */
+	scheduleDeferredCritical() {
+		if (this.deferredCriticalPromise) return this.deferredCriticalPromise;
+		const run = () => this.yesodMaterialLibrary.loadCritical().catch(() => {});
+		this.deferredCriticalPromise = new Promise((resolve) => {
+			if (typeof globalThis.requestIdleCallback === "function") {
+				globalThis.requestIdleCallback(() => resolve(run()), { timeout: 4000 });
+			} else {
+				setTimeout(() => resolve(run()), 1200);
+			}
+		});
+		return this.deferredCriticalPromise;
 	}
 
 	/**

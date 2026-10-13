@@ -45,7 +45,7 @@ test("binding is idempotent and disposal removes browser listeners plus held key
 	}, malchusDocument);
 	assert.equal(yesodGateway.bind(), true);
 	assert.equal(yesodGateway.bind(), true);
-	assert.equal(malchusDocument.count(), 3);
+	assert.equal(malchusDocument.count(), 5);
 	malchusDocument.dispatch("keydown", { code: "KeyW" });
 	assert.equal(yesodGateway.isDown("KeyW"), true);
 	assert.equal(yesodGateway.keys.has("KeyW"), true);
@@ -86,4 +86,36 @@ test("pointer movement becomes look intention only while body owns pointer lock"
 	assert.equal(yesodGateway.hasBattlePointerLock(), true);
 	malchusDocument.dispatch("mousemove", { movementX: 8, movementY: -3 });
 	assert.deepEqual(netzachLook, [[8, -3]]);
+});
+
+test("drag-to-rotate emits look intention while mouse is held without pointer lock", () => {
+	const malchusDocument = (() => {
+		const yesodListeners = new Map();
+		const malchusBody = {};
+		return {
+			body: malchusBody,
+			pointerLockElement: null,
+			addEventListener(t, h) { yesodListeners.set(t, h); },
+			removeEventListener(t, h) { if (yesodListeners.get(t) === h) yesodListeners.delete(t); },
+			dispatch(t, e) { yesodListeners.get(t)?.(e); }
+		};
+	})();
+	const netzachLook = [];
+	const yesodGateway = new YesodFirstPersonInputGateway({
+		onLook: (x, y) => netzachLook.push([x, y]),
+		onJump() {},
+		onSlide() {}
+	}, malchusDocument);
+	yesodGateway.bind();
+	// mousemove without drag and without pointer lock: no look
+	malchusDocument.dispatch("mousemove", { clientX: 10, clientY: 10 });
+	assert.deepEqual(netzachLook, []);
+	// press, drag, release
+	malchusDocument.dispatch("mousedown", { clientX: 100, clientY: 100 });
+	malchusDocument.dispatch("mousemove", { clientX: 112, clientY: 94 });
+	malchusDocument.dispatch("mousemove", { clientX: 120, clientY: 90 });
+	assert.deepEqual(netzachLook, [[12, -6], [8, -4]]);
+	malchusDocument.dispatch("mouseup", {});
+	malchusDocument.dispatch("mousemove", { clientX: 200, clientY: 200 });
+	assert.deepEqual(netzachLook, [[12, -6], [8, -4]]);
 });

@@ -12,7 +12,7 @@ export class NetzachFirstPersonInputBinding {
 	/**
 	 * @description Creates an unbound listener lifecycle around an injected document and immutable handler record.
 	 * @param {Document|object|null} malchusDocument - Browser document or test double receiving listener registration.
-	 * @param {{keydown:Function,keyup:Function,mousemove:Function}} yesodHandlers - Stable event-handler functions owned by the semantic gateway.
+	 * @param {{keydown:Function,keyup:Function,mousemove:Function,mousedown:Function,mouseup:Function}} yesodHandlers - Stable event-handler functions owned by the semantic gateway.
 	 * @sideEffects Stores references and initializes local bound state only.
 	 */
 	constructor(malchusDocument, yesodHandlers) {
@@ -24,13 +24,15 @@ export class NetzachFirstPersonInputBinding {
 	/**
 	 * @description Attaches the complete first-person listener set exactly once.
 	 * @returns {boolean} True when the binding is active after the call.
-	 * @sideEffects Adds keydown, keyup, and mousemove listeners to the injected document on first bind.
+	 * @sideEffects Adds keydown, keyup, mousemove, mousedown, and mouseup listeners to the injected document on first bind.
 	 */
 	bind() {
 		if (!this.malchusDocument || this.netzachBound) return this.netzachBound;
 		this.malchusDocument.addEventListener("keydown", this.yesodHandlers.keydown);
 		this.malchusDocument.addEventListener("keyup", this.yesodHandlers.keyup);
 		this.malchusDocument.addEventListener("mousemove", this.yesodHandlers.mousemove);
+		this.malchusDocument.addEventListener("mousedown", this.yesodHandlers.mousedown);
+		this.malchusDocument.addEventListener("mouseup", this.yesodHandlers.mouseup);
 		this.netzachBound = true;
 		return true;
 	}
@@ -38,13 +40,15 @@ export class NetzachFirstPersonInputBinding {
 	/**
 	 * @description Removes the complete listener set exactly once and returns to the unbound state.
 	 * @returns {boolean} True when an active binding was removed.
-	 * @sideEffects Removes keydown, keyup, and mousemove listeners from the injected document.
+	 * @sideEffects Removes keydown, keyup, mousemove, mousedown, and mouseup listeners from the injected document.
 	 */
 	dispose() {
 		if (!this.malchusDocument || !this.netzachBound) return false;
 		this.malchusDocument.removeEventListener("keydown", this.yesodHandlers.keydown);
 		this.malchusDocument.removeEventListener("keyup", this.yesodHandlers.keyup);
 		this.malchusDocument.removeEventListener("mousemove", this.yesodHandlers.mousemove);
+		this.malchusDocument.removeEventListener("mousedown", this.yesodHandlers.mousedown);
+		this.malchusDocument.removeEventListener("mouseup", this.yesodHandlers.mouseup);
 		this.netzachBound = false;
 		return true;
 	}

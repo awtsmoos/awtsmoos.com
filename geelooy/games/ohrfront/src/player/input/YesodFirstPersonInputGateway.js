@@ -29,8 +29,12 @@ export class YesodFirstPersonInputGateway extends HodFirstPersonInputState {
 		const yesodHandlers = Object.freeze({
 			keydown: malchusEvent => this.receiveKeyDown(malchusEvent),
 			keyup: malchusEvent => this.receiveKeyUp(malchusEvent),
-			mousemove: malchusEvent => this.receiveMouseMove(malchusEvent)
+			mousemove: malchusEvent => this.receiveMouseMove(malchusEvent),
+			mousedown: malchusEvent => this.receiveMouseDown(malchusEvent),
+			mouseup: malchusEvent => this.receiveMouseUp(malchusEvent)
 		});
+		this.yesodDragging = false;
+		this.yesodLastDrag = null;
 		this.netzachBinding = new NetzachFirstPersonInputBinding(
 			malchusDocument,
 			yesodHandlers
@@ -53,7 +57,11 @@ export class YesodFirstPersonInputGateway extends HodFirstPersonInputState {
 	 */
 	dispose() {
 		const netzachDisposed = this.netzachBinding.dispose();
-		if (netzachDisposed) this.netzachKeys.clear();
+		if (netzachDisposed) {
+			this.netzachKeys.clear();
+			this.yesodDragging = false;
+			this.yesodLastDrag = null;
+		}
 		return netzachDisposed;
 	}
 
@@ -80,16 +88,54 @@ export class YesodFirstPersonInputGateway extends HodFirstPersonInputState {
 	}
 
 	/**
-	 * @description Emits look intention only while the injected document body owns pointer lock.
+	 * @description Emits look intention while the injected document body owns pointer lock,
+	 * or while the pointer is held down in drag-to-rotate mode (no pointer lock needed).
 	 * @param {MouseEvent|object} malchusEvent - Browser or test pointer event with movement deltas.
 	 * @returns {void}
 	 * @sideEffects May invoke `onLook`; never changes camera state directly.
 	 */
 	receiveMouseMove(malchusEvent) {
-		if (!this.hasBattlePointerLock()) return;
-		this.yesodCallbacks.onLook(
-			malchusEvent.movementX || 0,
-			malchusEvent.movementY || 0
-		);
+		if (this.hasBattlePointerLock()) {
+			this.yesodCallbacks.onLook(
+				malchusEvent.movementX || 0,
+				malchusEvent.movementY || 0
+			);
+			return;
+		}
+		// B"H: drag-to-rotate — compute deltas from client coordinates so the
+		// camera rotates while the mouse button is held, without pointer lock.
+		if (!this.yesodDragging) return;
+		const x = malchusEvent.clientX;
+		const y = malchusEvent.clientY;
+		if (typeof x !== 'number' || typeof y !== 'number') return;
+		if (this.yesodLastDrag) {
+			this.yesodCallbacks.onLook(x - this.yesodLastDrag.x, y - this.yesodLastDrag.y);
+		}
+		this.yesodLastDrag = { x, y };
+	}
+
+	/**
+	 * @description Begins drag-to-rotate look when pointer lock is not active.
+	 * @param {MouseEvent|object} malchusEvent - Browser or test pointer event.
+	 * @returns {void}
+	 * @sideEffects Arms drag state; never changes camera state directly.
+	 */
+	receiveMouseDown(malchusEvent) {
+		if (this.hasBattlePointerLock()) return;
+		this.yesodDragging = true;
+		const x = malchusEvent.clientX;
+		const y = malchusEvent.clientY;
+		this.yesodLastDrag = (typeof x === 'number' && typeof y === 'number') ? { x, y } : null;
+	}
+
+	/**
+	 * @description Ends drag-to-rotate look.
+	 * @param {MouseEvent|object} _malchusEvent - Browser or test pointer event (unused).
+	 * @returns {void}
+	 * @sideEffects Clears drag state.
+	 */
+	receiveMouseUp(_malchusEvent) {
+		this.yesodDragging = false;
+		this.yesodLastDrag = null;
 	}
 }
