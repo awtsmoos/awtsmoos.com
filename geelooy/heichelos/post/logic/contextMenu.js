@@ -123,6 +123,7 @@ function showMenu(x, y, hasSelection) {
 	menu.appendChild(menuItem('Copy all as Markdown', 'העתק הכל כמרקדאון', copyAllAsMarkdown, { icon: '🗎' }));
 	menu.appendChild(menuItem('Download all as PDF', 'הורד הכל כ־PDF', downloadAllAsPdf, { icon: '⤓' }));
 
+	// Position AFTER items are added so measurement reflects real size.
 	const pos = clampToViewport(x, y, menu);
 	menu.style.left = `${pos.x + window.scrollX}px`;
 	menu.style.top = `${pos.y + window.scrollY}px`;
