@@ -13,16 +13,21 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-const RELEASE_ID = '20260928-playable-meadow-01';
+const HASH_VERSION = '[0-9a-f]{10}';
 const INDEX_URL = new URL('../index.html', import.meta.url);
-const FOUNDATION_URL = `./experiments/Awtsmoos/src/mitzvah-world-foundation.compact.js?v=${RELEASE_ID}`;
-const CORE_URL = `./experiments/Awtsmoos/src/mitzvah-world-core.compact.js?v=${RELEASE_ID}`;
-const ENTRY_URL = `./experiments/Awtsmoos/src/mitzvah-world.compact.js?v=${RELEASE_ID}`;
+const FOUNDATION_FILE = './experiments/Awtsmoos/src/mitzvah-world-foundation.compact.js';
+const PLAYER_FILE = './experiments/Awtsmoos/src/mitzvah-world-player.compact.js';
+const CORE_FILE = './experiments/Awtsmoos/src/mitzvah-world-core.compact.js';
+const ENTRY_FILE = './experiments/Awtsmoos/src/mitzvah-world.compact.js';
 const CHOSSID_URL = './build/generated/assets/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb';
 const FORBIDDEN_PRELOADS = [
 	'mitzvah-world-optional.compact.js',
 	'mitzvah-world-presentation.compact.js',
 	'mitzvah-world-world.compact.js'
+];
+const RETIRED_RELEASE_IDS = [
+	'20260928-playable-meadow-01',
+	'20260915-authored-meadow-03'
 ];
 
 async function productionShell() {
@@ -31,8 +36,9 @@ async function productionShell() {
 
 test('production shell prewarms only version-matched first-control modules', async () => {
 	const html = await productionShell();
-	assert.match(html, modulePreloadPattern(FOUNDATION_URL));
-	assert.match(html, modulePreloadPattern(CORE_URL));
+	for (const file of [FOUNDATION_FILE, PLAYER_FILE, CORE_FILE]) {
+		assert.match(html, modulePreloadPattern(file), file);
+	}
 	for (const forbidden of FORBIDDEN_PRELOADS) {
 		assert.doesNotMatch(html, modulePreloadPatternContaining(forbidden));
 	}
@@ -44,16 +50,22 @@ test('production shell preloads the exact release-owned authored Chossid', async
 	assert.equal((html.match(new RegExp(escapeRegExp(CHOSSID_URL), 'g')) || []).length, 1);
 });
 
-test('entry, foundation, and core share the active playable-meadow release identity', async () => {
+test('entry, foundation, player, and core carry content-hash cache busters', async () => {
 	const html = await productionShell();
-	for (const url of [ENTRY_URL, FOUNDATION_URL, CORE_URL]) {
-		assert.ok(html.includes(url), url);
+	for (const file of [ENTRY_FILE, FOUNDATION_FILE, PLAYER_FILE, CORE_FILE]) {
+		assert.match(html, versionedModulePattern(file), file);
 	}
-	assert.doesNotMatch(html, /20260915-authored-meadow-03/);
+	for (const retired of RETIRED_RELEASE_IDS) {
+		assert.doesNotMatch(html, new RegExp(escapeRegExp(retired)), retired);
+	}
 });
 
-function modulePreloadPattern(url) {
-	return new RegExp(`<link\\s+rel=["']modulepreload["']\\s+href=["']${escapeRegExp(url)}["']`);
+function versionedModulePattern(file) {
+	return new RegExp(`${escapeRegExp(file)}\\?v=${HASH_VERSION}`);
+}
+
+function modulePreloadPattern(file) {
+	return new RegExp(`<link\\s+rel=["']modulepreload["']\\s+href=["']${escapeRegExp(file)}\\?v=${HASH_VERSION}["']`);
 }
 
 function modulePreloadPatternContaining(fileName) {
