@@ -12,6 +12,9 @@ class Segment {
     this.letter = letter;
     this.radius = type === SPRITES.SNAKE_HEAD || type === SPRITES.TURRET ? 35 : 25;
     this.flash = 0;
+    // B"H revamp 2026-10-13: telegraph frames remaining before this segment
+    // fires. The renderer draws a warning ring while telegraph > 0 — fair play.
+    this.telegraph = 0;
   }
 }
 
@@ -93,14 +96,19 @@ export class TurretEnemy {
         const s = this.segments[0];
         s.pos.add(this.velocity);
         if(s.flash > 0) s.flash--;
-        
+        if(s.telegraph > 0) s.telegraph--;
+
         if(s.pos.y > h + 50) this.active = false;
-        
+
+        const grace = game && game.tutorialGrace > 0;
         this.cooldown--;
-        if(this.cooldown <= 0 && game && s.pos.y > 0 && s.pos.y < h) {
+        // Telegraph: raise the warning ring before firing — fair and readable.
+        if(this.cooldown <= 40 && this.cooldown > 0 && s.telegraph <= 0 && !grace) s.telegraph = 40;
+        if(this.cooldown <= 0 && game && s.pos.y > 0 && s.pos.y < h && !grace) {
             this.cooldown = 180;
-            // Fire at player
-            const dir = Vec2.sub(game.player.pos, s.pos).normalize().mult(5);
+            s.telegraph = 0;
+            // Fire at player — slower than before so patterns stay readable.
+            const dir = Vec2.sub(game.player.pos, s.pos).normalize().mult(3.6);
             game.enemyBullets.push(new EnemyBullet(s.pos.x, s.pos.y, dir.x, dir.y));
         }
     }
@@ -156,14 +164,19 @@ export class SeraphEnemy {
         s.pos.x = this.startX + Math.sin(this.time) * 150;
         
         if(s.flash > 0) s.flash--;
+        if(s.telegraph > 0) s.telegraph--;
         if(s.pos.y > h + 50) this.active = false;
-        
+
+        const grace = game && game.tutorialGrace > 0;
         this.cooldown--;
-        if(this.cooldown <= 0 && game) {
+        // Telegraph: raise the warning ring before the burst — fair and readable.
+        if(this.cooldown <= 40 && this.cooldown > 0 && s.telegraph <= 0 && !grace) s.telegraph = 40;
+        if(this.cooldown <= 0 && game && !grace) {
             this.cooldown = 90;
-            // Fire burst
+            s.telegraph = 0;
+            // Fire burst — slower than before so patterns stay readable.
             for(let i=-1; i<=1; i++) {
-                game.enemyBullets.push(new EnemyBullet(s.pos.x, s.pos.y, i*2, 6));
+                game.enemyBullets.push(new EnemyBullet(s.pos.x, s.pos.y, i*1.4, 4.2));
             }
         }
     }

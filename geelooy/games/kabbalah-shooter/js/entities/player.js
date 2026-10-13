@@ -58,6 +58,8 @@ export class Player {
     
     this.bitachonTimer = 0;
     this.bitachonLevel = 0;
+    // B"H revamp 2026-10-13: post-hit invulnerability frames (fair + readable).
+    this.invulnTimer = 0;
   }
 
   toggleStance() {
@@ -179,6 +181,7 @@ export class Player {
 
     if (this.dashCooldown > 0) this.dashCooldown--;
     if (this.shofarCooldown > 0) this.shofarCooldown--;
+    if (this.invulnTimer > 0) this.invulnTimer--;
     if (this.shofarActive && this.shofarCooldown < CONFIG.SHOFAR_COOLDOWN - CONFIG.SHOFAR_DURATION) this.shofarActive = false;
 
     if (this.shieldActive) {

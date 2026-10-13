@@ -2,6 +2,7 @@
 :root {
 	--styles-overlays-t1: #fff;
 	--styles-overlays-t2: #fff;
+	--kabbalah-gold: #ffd34d;
 }
 [data-theme="light"] {
 	--styles-overlays-t1: #1a1a1a;
@@ -106,4 +107,21 @@ p {
 		transform: none;
 		transition: none;
 	}
+}
+
+/* B"H revamp 2026-10-13: pause-screen run summary (HUD stays decluttered). */
+.pause-stats {
+	margin: 0 0 0.8rem;
+	font-size: 0.95rem;
+	letter-spacing: 0.08em;
+	color: var(--kabbalah-gold, #ffd34d);
+}
+
+/* Start screen: the one-line mission. */
+#start-message b {
+	color: var(--kabbalah-gold, #ffd34d);
+	font-weight: bold;
+}
+#start-message b.foe {
+	color: #ff6b6b;
 }

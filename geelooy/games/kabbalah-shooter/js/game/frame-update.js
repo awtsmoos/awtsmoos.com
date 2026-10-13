@@ -52,6 +52,8 @@ function updateTimeScale(game) {
 function decayFeedback(game) {
 	if (game.shake > 0) game.shake *= 0.9;
 	if (game.aberration > 0) game.aberration *= 0.9;
+	if (game.hurtFlash > 0) game.hurtFlash -= 1;
+	if (game.tutorialGrace > 0) game.tutorialGrace -= 1;
 }
 
 function decayCombo(game) {

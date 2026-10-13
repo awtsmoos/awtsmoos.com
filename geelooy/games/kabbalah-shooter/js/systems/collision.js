@@ -127,10 +127,12 @@ export class CollisionSystem {
         seg.hp -= dmg;
         seg.flash = 5;
         this.game.audio.play(SOUNDS.HIT);
-        
-        // Spawn particles
-        if(Math.random() > 0.5) this.game.particles.push(new Particle(seg.pos.x, seg.pos.y, COLORS.WHITE, 3));
-        
+
+        // Hit feedback: always burst white-gold sparks so every hit reads.
+        for (let i = 0; i < 3; i++) {
+            this.game.particles.push(new Particle(seg.pos.x, seg.pos.y, COLORS.GOLD, 3 + Math.random() * 4));
+        }
+
         if (seg.hp <= 0) {
             // Drop logic
             if(seg.letter) {
@@ -141,11 +143,12 @@ export class CollisionSystem {
 
             // Head death kills whole enemy
             if(enemy.segments.indexOf(seg) === 0) {
-                 enemy.active = false; 
+                 enemy.active = false;
                  this.game.score += 100 * this.game.wave;
                  this.game.combo++;
                  this.game.comboTimer = 100;
                  this.game.spawnExplosion(seg.pos.x, seg.pos.y, COLORS.RED);
+                 this.game.shake = Math.max(this.game.shake, 5); // satisfying kill thump
                  this.game.audio.play(SOUNDS.EXPLOSION);
             } else {
                 const idx = enemy.segments.indexOf(seg);
@@ -155,7 +158,12 @@ export class CollisionSystem {
     }
     
     damagePlayer(amount) {
+        // B"H revamp 2026-10-13: post-hit invulnerability so damage never chains
+        // unfairly; the hurt vignette + blink make the hit unmistakable.
+        if (this.game.player.invulnTimer > 0) return;
         this.game.player.energy = Math.max(0, this.game.player.energy - amount);
+        this.game.player.invulnTimer = 55; // ~0.9s of mercy
+        this.game.hurtFlash = 18;
         this.game.shake = 15;
         this.game.aberration = 0.5;
         this.game.audio.play(SOUNDS.HIT);

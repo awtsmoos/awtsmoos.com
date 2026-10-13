@@ -14,13 +14,20 @@ semantic input, resilient lifecycle states, and no secret gesture required for s
 	<meta name="theme-color" content="#000000">
 	<meta name="description" content="Kabbalah Infinite is a touch-first mystical shooter about sparks, shields, time dilation, and shattered vessels.">
 	<title>Kabbalah Infinite — The Breaking of Vessels</title>
-	<link rel="stylesheet" href="./style.css?v=kabbalah-input-003&compact=true">
-	<link rel="stylesheet" href="./styles/overlays.css?v=kabbalah-input-003&compact=true">
-	<link rel="stylesheet" href="./styles/controls.css?v=kabbalah-input-003&compact=true">
-	<link rel="stylesheet" href="/index.css?compact=true">
-	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
+	<link rel="stylesheet" href="./style.css?v=7b3993f4ef">
+	<link rel="stylesheet" href="./styles/overlays.css?v=6ac193fdef">
+	<link rel="stylesheet" href="./styles/controls.css?v=ea177c8a9d">
+	<link rel="stylesheet" href="./styles/tutorial.css?v=1">
+	<link rel="stylesheet" href="/index.css?v=b8836e3009">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=e47c304d67">
 </head>
 <body>
+	<script src="/games/shared/awt-loading-screen.js"
+		data-cover="https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/games/game-kabbalah-shooter.webp"
+		data-title="Kabbalah Shooter"
+		data-kicker="B&quot;H · Awtsmoos Games"
+		data-tips="You are the GOLDEN vessel — drag anywhere to move|Your cyan light fires on its own — aim by moving|Shatter the RED vessels · dodge the RED orbs|Grab glowing letters to grow stronger|Shield (Q) blocks danger · Time (E) slows the world"
+		data-accent="#ffd34d"></script>
 	<main id="game-container" aria-label="Kabbalah Infinite game world">
 		<canvas id="gl-canvas" aria-label="Kabbalah Infinite play surface"></canvas>
 		<canvas id="text-canvas" aria-hidden="true"></canvas>
@@ -41,17 +48,27 @@ semantic input, resilient lifecycle states, and no secret gesture required for s
 
 		<section id="ui-layer" aria-live="polite">
 			<div id="start-message" class="message-box" style="display:block">
-				<h1>Kabbalah<br>Infinite</h1>
+				<h1>Kabbalah<br>Shooter</h1>
 				<h2>The Breaking of Vessels</h2>
-				<p>Reveal sparks. Survive the fracture. Ascend again.</p>
-				<p class="control-hint">Drag to move + shoot · Shield blocks danger · Hold Time to slow the world</p>
+				<p>You are the <b>golden</b> vessel. Shatter the <b class="foe">red</b> vessels. Dodge their fire.</p>
+				<p class="control-hint">Drag to move — your light fires on its own · Shatter the RED vessels · Dodge the red orbs</p>
 				<button id="start-game-button" class="kabbalah-start-button" type="button" aria-busy="true" disabled>Preparing…</button>
 			</div>
 
 			<div id="pause-message" class="message-box">
 				<h1>Paused</h1>
+				<p id="pause-stats" class="pause-stats"></p>
 				<p class="control-hint">Press Pause or tap Resume to continue.</p>
 				<button id="resume-game-button" class="kabbalah-start-button" type="button">Resume</button>
+			</div>
+
+			<div id="tutorial-overlay" aria-live="polite">
+				<div id="tutorial-arrow" aria-hidden="true"></div>
+				<div id="tutorial-card" role="button" tabindex="0" aria-label="Next tutorial tip">
+					<p id="tutorial-text"></p>
+					<p id="tutorial-cta">TAP FOR NEXT TIP</p>
+				</div>
+				<button id="tutorial-skip" type="button">Skip</button>
 			</div>
 
 			<div id="game-over-message" class="message-box">
@@ -63,8 +80,8 @@ semantic input, resilient lifecycle states, and no secret gesture required for s
 		</section>
 	</main>
 
-	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
-	<script type="module" src="./main.js?compact=true&v=kabbalah-input-003"></script>
-	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?v=6fd9ae91f1"></script>
+	<script type="module" src="./main.js?v=e0f7bfaeae"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=457d9be8db"></script>
 </body>
 </html>

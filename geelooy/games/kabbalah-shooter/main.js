@@ -5,6 +5,7 @@
 import { KabbalahResultReporter } from './js/runtime/result-reporter.js';
 import { KabbalahSession } from './js/runtime/KabbalahSession.js';
 import { KabbalahRuntimeView } from './js/runtime/view.js';
+import { TutorialController } from './js/tutorial.js';
 
 /**
  * @file main.js
@@ -30,7 +31,11 @@ const dom = Object.freeze({
 });
 const reporter = new KabbalahResultReporter(globalThis);
 const view = new KabbalahRuntimeView(document);
+if (window.AwtLoading) window.AwtLoading.progress(0.85, 'Igniting vessels…');
 let session = bootSession();
+// First-run tutorial: teaches the vessel, the light, and the goal in 5 seconds.
+const tutorial = new TutorialController(document);
+if (window.AwtLoading) window.AwtLoading.ready();
 
 /**
  * Construct the first generation behind a capability boundary so unsupported WebGL remains a recoverable UI state.
@@ -63,6 +68,8 @@ function createSession() {
 function startRun() {
 	if (!session || !session.start()) return false;
 	view.showPlaying();
+	// B"H revamp: first run teaches the game in 5 seconds (skippable, once).
+	tutorial.start(session.game);
 	return true;
 }
 
@@ -72,6 +79,7 @@ function togglePause(forcePaused = null) {
 	const paused = forcePaused === null ? !session.game.isPaused : Boolean(forcePaused);
 	if (!session.setPaused(paused)) return false;
 	view.setPaused(paused);
+	if (paused && session) view.showPauseStats(session.game);
 	return true;
 }
 

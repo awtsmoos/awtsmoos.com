@@ -1,0 +1,102 @@
+/* B"H — Kabbalah Shooter first-run tutorial overlay. No !important. Theme-safe vars. */
+
+/* The overlay never blocks dragging: only the card + skip capture pointers. */
+#tutorial-overlay {
+	position: absolute;
+	inset: 0;
+	z-index: 40;
+	display: none;
+	pointer-events: none;
+	font-family: "Courier New", ui-monospace, monospace;
+}
+
+#tutorial-arrow {
+	position: absolute;
+	width: 0;
+	height: 0;
+	margin-left: -22px;
+	border-left: 22px solid transparent;
+	border-right: 22px solid transparent;
+	border-top: 30px solid var(--kabbalah-gold, #ffd34d);
+	filter: drop-shadow(0 0 10px rgba(255, 211, 77, 0.9));
+	animation: awt-arrow-bob 0.9s ease-in-out infinite;
+}
+
+#tutorial-arrow.awt-flip {
+	border-top: none;
+	border-bottom: 30px solid var(--kabbalah-gold, #ffd34d);
+}
+
+@keyframes awt-arrow-bob {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(12px); }
+}
+
+#tutorial-card {
+	position: absolute;
+	left: 50%;
+	bottom: max(5rem, env(safe-area-inset-bottom));
+	transform: translateX(-50%);
+	pointer-events: auto;
+	cursor: pointer;
+	max-width: min(92vw, 26rem);
+	text-align: center;
+	background: rgba(8, 8, 16, 0.92);
+	border: 1px solid rgba(255, 211, 77, 0.55);
+	border-radius: 0.9rem;
+	padding: 1rem 1.2rem 0.9rem;
+	color: #f5edd8;
+	box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+}
+
+#tutorial-card.awt-tip-pop {
+	animation: awt-tip-pop 0.35s ease-out;
+}
+
+@keyframes awt-tip-pop {
+	0% { transform: translateX(-50%) scale(0.92); opacity: 0; }
+	100% { transform: translateX(-50%) scale(1); opacity: 1; }
+}
+
+#tutorial-text {
+	margin: 0 0 0.6rem;
+	font-size: 1rem;
+	line-height: 1.5;
+}
+
+#tutorial-text .awt-gold { color: var(--kabbalah-gold, #ffd34d); }
+#tutorial-text .awt-red { color: #ff6b6b; }
+
+#tutorial-cta {
+	margin: 0;
+	font-size: 0.8rem;
+	letter-spacing: 0.2em;
+	color: rgba(245, 237, 216, 0.65);
+}
+
+#tutorial-skip {
+	position: absolute;
+	top: max(1rem, env(safe-area-inset-top));
+	right: 1rem;
+	pointer-events: auto;
+	background: rgba(8, 8, 16, 0.8);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	border-radius: 999px;
+	color: rgba(245, 237, 216, 0.85);
+	font-family: inherit;
+	font-size: 0.8rem;
+	padding: 0.45rem 0.9rem;
+	cursor: pointer;
+}
+
+#tutorial-skip:hover,
+#tutorial-skip:focus-visible {
+	border-color: var(--kabbalah-gold, #ffd34d);
+	color: #fff;
+	outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#tutorial-arrow { animation: none; }
+	#tutorial-card.awt-tip-pop { animation: none; }
+}

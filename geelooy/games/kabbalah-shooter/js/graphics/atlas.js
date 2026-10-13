@@ -23,14 +23,28 @@ export function createTextureAtlas(gl) {
   };
 
   // Standard Sprites
+  // B"H revamp 2026-10-13: combat sprites drawn WHITE/neutral so tint carries the
+  // visual language (player=gold, enemies=red, player bullets=cyan, enemy bullets=red).
+  // finalColor = baseColor * tint, so baked hues would corrupt the language.
   uvs[SPRITES.PLAYER] = drawCell(0, (c, r) => {
-    c.fillStyle = '#0ff'; c.beginPath(); c.arc(0,0, r*0.5, 0, Math.PI*2); c.fill();
-    c.strokeStyle = '#fff'; c.lineWidth=4; c.stroke();
+    // Outer vessel ring — the readable "holy vessel" silhouette.
+    c.strokeStyle = '#fff'; c.lineWidth = 5;
+    c.beginPath(); c.arc(0, 0, r * 0.92, 0, Math.PI * 2); c.stroke();
+    // Vessel body.
+    c.fillStyle = '#fff'; c.beginPath(); c.arc(0, 0, r * 0.62, 0, Math.PI * 2); c.fill();
+    // Inner core (drawn again in white at render time for the hot center).
+    c.fillStyle = '#fff'; c.beginPath(); c.arc(0, 0, r * 0.3, 0, Math.PI * 2); c.fill();
   });
   uvs[SPRITES.BULLET] = drawCell(1, (c, r) => { c.fillStyle='#fff'; c.beginPath(); c.ellipse(0,0,r*0.2,r*0.6,0,0,Math.PI*2); c.fill(); });
   uvs[SPRITES.HEXAGON] = drawCell(2, (c, r) => { c.strokeStyle='#fff'; c.lineWidth=5; c.beginPath(); for(let i=0;i<6;i++){ c.lineTo(Math.cos(i*Math.PI/3)*r, Math.sin(i*Math.PI/3)*r); } c.closePath(); c.stroke(); });
   uvs[SPRITES.CIRCLE] = drawCell(3, (c, r) => { c.strokeStyle='#fff'; c.lineWidth=5; c.beginPath(); c.arc(0,0,r,0,Math.PI*2); c.stroke(); });
-  uvs[SPRITES.SNAKE_HEAD] = drawCell(4, (c, r) => { c.fillStyle='#f00'; c.fillRect(-r*0.8,-r,r*1.6,r*2); }); 
+  uvs[SPRITES.SNAKE_HEAD] = drawCell(4, (c, r) => {
+    // Angular arrowhead — hostile, unmistakable, never round like the player.
+    c.fillStyle = '#fff';
+    c.beginPath();
+    c.moveTo(0, -r); c.lineTo(r * 0.85, r * 0.7); c.lineTo(0, r * 0.28); c.lineTo(-r * 0.85, r * 0.7);
+    c.closePath(); c.fill();
+  });
   uvs[SPRITES.PARTICLE] = drawCell(5, (c, r) => { c.fillStyle='#fff'; c.beginPath(); c.arc(0,0,r,0,Math.PI*2); c.fill(); });
   uvs[SPRITES.STAR] = drawCell(6, (c, r) => { c.fillStyle='#fff'; c.beginPath(); c.arc(0,0,r*0.2,0,Math.PI*2); c.fill(); });
   uvs[SPRITES.POWERUP_GENERIC] = drawCell(7, (c, r) => { c.fillStyle='#fff'; c.font='30px serif'; c.textAlign='center'; c.textBaseline='middle'; c.fillText("?",0,0); });
@@ -43,7 +57,7 @@ export function createTextureAtlas(gl) {
   uvs[SPRITES.SEFIROT_ICON] = drawCell(14, (c,r)=>{c.strokeStyle='#fff'; c.strokeRect(-r/2,-r/2,r,r);});
   uvs[SPRITES.GRAVITY_WELL] = drawCell(15, (c,r)=>{c.strokeStyle='#f0f'; c.beginPath(); c.arc(0,0,r,0,Math.PI*2); c.stroke();});
   uvs[SPRITES.BEAM_CORE] = drawCell(16, (c,r)=>{c.fillStyle='#fff'; c.fillRect(-r,-5,r*2,10);});
-  uvs[SPRITES.MERKABAH] = drawCell(17, (c,r)=>{c.strokeStyle='#f00'; c.beginPath(); c.moveTo(0,-r);c.lineTo(r,r);c.lineTo(-r,r);c.closePath();c.stroke();});
+  uvs[SPRITES.MERKABAH] = drawCell(17, (c,r)=>{c.strokeStyle='#fff'; c.lineWidth=5; c.beginPath(); c.moveTo(0,-r);c.lineTo(r,r);c.lineTo(-r,r);c.closePath();c.stroke();});
   uvs[SPRITES.PLATONIC_CUBE] = drawCell(18, (c,r)=>{c.strokeStyle='#0ff'; c.strokeRect(-r/2,-r/2,r,r);});
   uvs[SPRITES.PLATONIC_TETRA] = drawCell(19, (c,r)=>{c.strokeStyle='#f0f'; c.beginPath(); c.moveTo(0,-r);c.lineTo(r,r);c.lineTo(-r,r);c.closePath();c.stroke();});
   uvs[SPRITES.PLATONIC_OCTA] = drawCell(20, (c,r)=>{c.strokeStyle='#0f0'; c.beginPath(); c.moveTo(0,-r);c.lineTo(r,0);c.lineTo(0,r);c.lineTo(-r,0);c.closePath();c.stroke();});
@@ -72,27 +86,28 @@ export function createTextureAtlas(gl) {
 
   // NEW ENEMIES
   uvs[SPRITES.TURRET] = drawCell(42, (c,r)=>{
-      c.strokeStyle='#f80'; c.lineWidth=4; 
-      c.beginPath(); 
-      for(let i=0;i<6;i++) c.lineTo(Math.cos(i*Math.PI/3)*r*0.8, Math.sin(i*Math.PI/3)*r*0.8); 
+      c.strokeStyle='#fff'; c.lineWidth=5;
+      c.beginPath();
+      for(let i=0;i<6;i++) c.lineTo(Math.cos(i*Math.PI/3)*r*0.8, Math.sin(i*Math.PI/3)*r*0.8);
       c.closePath(); c.stroke();
-      c.fillStyle='#f00'; c.beginPath(); c.arc(0,0,r*0.3,0,Math.PI*2); c.fill();
+      c.fillStyle='#fff'; c.beginPath(); c.arc(0,0,r*0.32,0,Math.PI*2); c.fill();
   });
-  
+
   uvs[SPRITES.SWARMER] = drawCell(43, (c,r)=>{
-      c.fillStyle='#f0f'; 
+      c.fillStyle='#fff';
       c.beginPath(); c.moveTo(0,-r*0.8); c.lineTo(r*0.5, r*0.5); c.lineTo(0, r*0.3); c.lineTo(-r*0.5, r*0.5); c.fill();
   });
 
   uvs[SPRITES.SERAPH] = drawCell(44, (c,r)=>{
-      c.strokeStyle='#ff0'; c.lineWidth=3;
+      c.strokeStyle='#fff'; c.lineWidth=4;
       c.beginPath(); c.moveTo(0,-r); c.lineTo(r*0.8, -r*0.2); c.lineTo(0, r); c.lineTo(-r*0.8, -r*0.2); c.closePath(); c.stroke();
-      c.beginPath(); c.arc(0,-r*0.2,r*0.3,0,Math.PI*2); c.stroke();
+      c.fillStyle='#fff'; c.beginPath(); c.arc(0,-r*0.2,r*0.28,0,Math.PI*2); c.fill();
   });
 
   uvs[SPRITES.ENEMY_BULLET] = drawCell(45, (c,r)=>{
-      c.fillStyle='#f55'; c.beginPath(); c.arc(0,0,r*0.4,0,Math.PI*2); c.fill();
-      c.strokeStyle='#fff'; c.lineWidth=2; c.stroke();
+      // Solid orb + warning ring: the universal "dodge this" glyph.
+      c.fillStyle='#fff'; c.beginPath(); c.arc(0,0,r*0.42,0,Math.PI*2); c.fill();
+      c.strokeStyle='#fff'; c.lineWidth=3; c.beginPath(); c.arc(0,0,r*0.72,0,Math.PI*2); c.stroke();
   });
   
   // TACHLIT CHOCHMAH

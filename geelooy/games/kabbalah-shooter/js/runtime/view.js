@@ -23,6 +23,14 @@ export class KabbalahRuntimeView {
 		this.pauseButton = documentObject.getElementById('pause-btn');
 		this.startButton = documentObject.getElementById('start-game-button');
 		this.startHint = this.start?.querySelector('.control-hint') || null;
+		this.pauseStats = documentObject.getElementById('pause-stats');
+	}
+
+	/** Tuck the run summary into the pause screen (the play HUD stays decluttered). */
+	showPauseStats(game) {
+		if (!this.pauseStats || !game) return;
+		const best = game.highScore ? ` · Best ${Math.round(game.highScore)}` : '';
+		this.pauseStats.textContent = `Score ${Math.round(game.score)} · Wave ${game.wave}${best}`;
 	}
 
 	/** Declare boot readiness only after event listeners and a render-capable session exist. */
@@ -36,7 +44,7 @@ export class KabbalahRuntimeView {
 	showStart() {
 		this.start?.removeAttribute('role');
 		if (this.startHint) {
-			this.startHint.textContent = 'Drag to move + shoot · Shield blocks danger · Hold Time to slow the world';
+			this.startHint.textContent = 'Drag to move — your light fires on its own · Shatter the RED vessels · Dodge the red orbs';
 		}
 		this.setMessage(this.start);
 		this.setControls(false);

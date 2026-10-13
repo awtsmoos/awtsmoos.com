@@ -67,6 +67,9 @@ export function initializeGameState(game, width, height) {
 	game.themeColor = COLORS.CYAN;
 	game.shake = 0;
 	game.aberration = 0;
+	// B"H revamp 2026-10-13: tutorial grace (no enemy fire) + hurt vignette timer.
+	game.tutorialGrace = 0;
+	game.hurtFlash = 0;
 	initializeStars(game);
 	game.spawner.spawnWave();
 	game.orbitals.push(new Orbital(game.player, 0));
