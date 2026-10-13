@@ -59,7 +59,11 @@ function loadCore() {
 			"geelooy", "scripts", "awtsmoos", "MerkavaExecutor",
 			"merkava-service", "merkavaCore.mjs"
 		);
-		corePromise = import("file://" + corePath);
+		// B"H: never cache a rejected import — a later deploy may fix it.
+		corePromise = import("file://" + corePath).catch((e) => {
+			corePromise = null;
+			throw e;
+		});
 	}
 	return corePromise;
 }
@@ -86,7 +90,10 @@ function loadPageRunner() {
 			"geelooy", "scripts", "awtsmoos", "MerkavaExecutor",
 			"merkava-service", "snapshots", "jsPageRunner.js"
 		);
-		pageRunnerPromise = import("file://" + prPath);
+		pageRunnerPromise = import("file://" + prPath).catch((e) => {
+			pageRunnerPromise = null;
+			throw e;
+		});
 	}
 	return pageRunnerPromise;
 }
