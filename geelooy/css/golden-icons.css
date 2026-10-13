@@ -168,16 +168,16 @@ a:focus-visible .gicon {
 }
 
 /* wrapper alias so one selector list can trigger every context */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a) { /* context hook */ }
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a) { /* context hook */ }
 
 /* ---------- HOME: glow expands outward · press = deep amber inner shadow ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--home,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--home,
 .gicon--home:hover {
   transform: translateY(-2px) scale(1.06);
   filter: brightness(1.1);
   box-shadow: 0 0 18px var(--gicon-glow-soft), 0 0 46px rgba(212, 175, 55, 0.25);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--home,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--home,
 .gicon--home:active {
   transform: translateY(1px) scale(0.96);
   filter: brightness(0.94);
@@ -185,12 +185,12 @@ a:focus-visible .gicon {
 }
 
 /* ---------- SEARCH: lens brightens + twinkles · press = lens compresses ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--search,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--search,
 .gicon--search:hover {
   transform: scale(1.08);
   animation: gicon-lens-twinkle 1.1s ease-in-out infinite;
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--search,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--search,
 .gicon--search:active {
   animation: none;
   transform: scale(0.88);
@@ -198,12 +198,12 @@ a:focus-visible .gicon {
 }
 
 /* ---------- PLAY: triangle pulses with energy · press = pushes in ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--play,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--play,
 .gicon--play:hover {
   animation: gicon-play-pulse 1s ease-in-out infinite;
   box-shadow: 0 0 16px var(--gicon-glow-soft);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--play,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--play,
 .gicon--play:active {
   animation: none;
   transform: scale(0.88);
@@ -211,13 +211,13 @@ a:focus-visible .gicon {
 }
 
 /* ---------- MAIL: flap lifts (tilt back) · press = seals shut ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--mail,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--mail,
 .gicon--mail:hover {
   transform: perspective(400px) rotateX(-14deg) translateY(-2px);
   filter: brightness(1.1);
   box-shadow: 0 6px 14px rgba(212, 175, 55, 0.3);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--mail,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--mail,
 .gicon--mail:active {
   transform: perspective(400px) rotateX(9deg) scale(0.94);
   filter: brightness(0.93);
@@ -225,13 +225,13 @@ a:focus-visible .gicon {
 }
 
 /* ---------- BELL: swings gently · press = rings (quick shake) ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--bell,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--bell,
 .gicon--bell:hover {
   transform-origin: 50% 8%;
   animation: gicon-bell-swing 1.2s ease-in-out infinite;
   filter: brightness(1.12);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--bell,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--bell,
 .gicon--bell:active {
   transform-origin: 50% 8%;
   animation: gicon-bell-ring 0.4s linear;
@@ -239,25 +239,25 @@ a:focus-visible .gicon {
 }
 
 /* ---------- TORAH: scroll unfurls · press = settles ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--torah,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--torah,
 .gicon--torah:hover {
   transform: rotate(-4deg) scale(1.07);
   filter: brightness(1.12);
   box-shadow: 0 0 16px var(--gicon-glow-soft);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--torah,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--torah,
 .gicon--torah:active {
   transform: rotate(0deg) scale(0.95);
   filter: brightness(0.94);
 }
 
 /* ---------- GAMES: playful bounce · press = squash ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--games,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--games,
 .gicon--games:hover {
   animation: gicon-bounce 0.6s ease infinite;
   filter: brightness(1.12) saturate(1.1);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--games,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--games,
 .gicon--games:active {
   animation: none;
   transform: scale(1.08, 0.86);
@@ -265,13 +265,13 @@ a:focus-visible .gicon {
 }
 
 /* ---------- PROFILE: halo ring expands · press = press ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--profile,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--profile,
 .gicon--profile:hover {
   transform: scale(1.06);
   filter: brightness(1.1);
   box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.25), 0 0 18px var(--gicon-glow-soft);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--profile,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--profile,
 .gicon--profile:active {
   transform: scale(0.94);
   box-shadow: inset 0 2px 8px rgba(120, 72, 10, 0.45);
@@ -279,49 +279,49 @@ a:focus-visible .gicon {
 
 /* ---------- SETTINGS: gear turns · press = cranks further ---------- */
 .gicon--settings { transition: transform 0.45s ease, filter var(--gicon-ease), box-shadow var(--gicon-ease); }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--settings,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--settings,
 .gicon--settings:hover {
   transform: rotate(35deg) scale(1.06);
   filter: brightness(1.1);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--settings,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--settings,
 .gicon--settings:active {
   transform: rotate(95deg) scale(0.94);
   filter: brightness(0.94);
 }
 
 /* ---------- PLUS: spins open · press = snaps in ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--plus,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--plus,
 .gicon--plus:hover {
   transform: rotate(90deg) scale(1.1);
   filter: brightness(1.14);
   box-shadow: 0 0 14px var(--gicon-glow-soft);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--plus,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--plus,
 .gicon--plus:active {
   transform: rotate(90deg) scale(0.88);
   filter: brightness(0.94);
 }
 
 /* ---------- SHARE: arrow nudges up-right · press = press ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--share,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--share,
 .gicon--share:hover {
   transform: translate(2px, -2px) scale(1.08);
   filter: brightness(1.12);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--share,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--share,
 .gicon--share:active {
   transform: translate(0, 0) scale(0.92);
   filter: brightness(0.94);
 }
 
 /* ---------- DOWNLOAD: dips down inviting · press = drops in ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--download,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--download,
 .gicon--download:hover {
   animation: gicon-dip 0.8s ease-in-out infinite;
   filter: brightness(1.12);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--download,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--download,
 .gicon--download:active {
   animation: none;
   transform: translateY(4px) scale(0.94);
@@ -329,14 +329,14 @@ a:focus-visible .gicon {
 }
 
 /* ---------- BOOKMARK: ribbon lifts · press = pins down ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--bookmark,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--bookmark,
 .gicon--bookmark:hover {
   transform: translateY(-3px) scale(1.06);
   transform-origin: top center;
   filter: brightness(1.12);
   box-shadow: 0 6px 12px rgba(212, 175, 55, 0.3);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--bookmark,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--bookmark,
 .gicon--bookmark:active {
   transform: translateY(1px) scale(0.95);
   filter: brightness(0.94);
@@ -400,51 +400,51 @@ a:focus-visible .gicon {
 }
 
 /* ---------- INBOX: arrow dips into tray · press = settles ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--inbox,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--inbox,
 .gicon--inbox:hover {
   transform: translateY(3px) scale(1.05);
   filter: brightness(1.12);
   box-shadow: 0 0 16px var(--gicon-glow-soft);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--inbox,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--inbox,
 .gicon--inbox:active {
   transform: translateY(1px) scale(0.94);
   filter: brightness(0.93);
 }
 
 /* ---------- SEND: plane lifts off · press = launches ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--send,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--send,
 .gicon--send:hover {
   transform: translate(3px, -3px) rotate(-6deg) scale(1.08);
   filter: brightness(1.16);
   box-shadow: 0 0 18px var(--gicon-glow-soft);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--send,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--send,
 .gicon--send:active {
   transform: translate(10px, -10px) scale(0.82);
   filter: brightness(1.3);
 }
 
 /* ---------- EDIT: pencil tilts to write · press = presses down ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--edit,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--edit,
 .gicon--edit:hover {
   transform: rotate(-12deg) translateY(-2px) scale(1.06);
   filter: brightness(1.12);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--edit,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--edit,
 .gicon--edit:active {
   transform: rotate(-12deg) translateY(3px) scale(0.94);
   filter: brightness(0.94);
 }
 
 /* ---------- ARCHIVE: lid lifts · press = closes shut ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--archive,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--archive,
 .gicon--archive:hover {
   transform: translateY(-3px) scale(1.05);
   filter: brightness(1.12);
   box-shadow: 0 8px 16px rgba(212, 175, 55, 0.28);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--archive,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--archive,
 .gicon--archive:active {
   transform: translateY(2px) scale(0.94);
   filter: brightness(0.92);
@@ -452,13 +452,13 @@ a:focus-visible .gicon {
 }
 
 /* ---------- TRASH: lid tips open · press = drops in ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--trash,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--trash,
 .gicon--trash:hover {
   transform-origin: 50% 20%;
   animation: gicon-tip 0.7s ease-in-out infinite;
   filter: brightness(1.12);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--trash,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--trash,
 .gicon--trash:active {
   animation: none;
   transform: translateY(4px) scale(0.92);
@@ -466,25 +466,25 @@ a:focus-visible .gicon {
 }
 
 /* ---------- USERS: halo gathers · press = press ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--users,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--users,
 .gicon--users:hover {
   transform: scale(1.06);
   filter: brightness(1.1);
   box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.25), 0 0 18px var(--gicon-glow-soft);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--users,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--users,
 .gicon--users:active {
   transform: scale(0.94);
   box-shadow: inset 0 2px 8px rgba(120, 72, 10, 0.45);
 }
 
 /* ---------- COMPASS: needle spins · press = settles ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--compass,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--compass,
 .gicon--compass:hover {
   animation: gicon-spin-once 0.9s ease-in-out;
   filter: brightness(1.14);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--compass,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--compass,
 .gicon--compass:active {
   animation: none;
   transform: scale(0.92) rotate(18deg);
@@ -492,13 +492,13 @@ a:focus-visible .gicon {
 }
 
 /* ---------- ATTACH: clip swings · press = pins ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--attach,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--attach,
 .gicon--attach:hover {
   transform-origin: 50% 8%;
   animation: gicon-bell-swing 1.1s ease-in-out infinite;
   filter: brightness(1.12);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--attach,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--attach,
 .gicon--attach:active {
   animation: none;
   transform: translateY(2px) scale(0.93);
@@ -506,24 +506,24 @@ a:focus-visible .gicon {
 }
 
 /* ---------- COMMENT: bubble pops up · press = presses in ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--comment,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--comment,
 .gicon--comment:hover {
   transform: translateY(-3px) scale(1.07);
   filter: brightness(1.13);
   box-shadow: 0 6px 14px rgba(212, 175, 55, 0.3);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--comment,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--comment,
 .gicon--comment:active {
   transform: scale(0.9);
   filter: brightness(0.93);
 }
 
 /* ---------- CAMERA: shutter blinks · press = snaps ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--camera,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--camera,
 .gicon--camera:hover {
   animation: gicon-play-pulse 1.2s ease-in-out infinite;
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--camera,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--camera,
 .gicon--camera:active {
   animation: none;
   transform: scale(0.88);
@@ -531,13 +531,13 @@ a:focus-visible .gicon {
 }
 
 /* ---------- FOLDER: opens (tilts back) · press = closes ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--folder,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--folder,
 .gicon--folder:hover {
   transform: perspective(400px) rotateX(-12deg) translateY(-2px) scale(1.05);
   filter: brightness(1.12);
   box-shadow: 0 6px 14px rgba(212, 175, 55, 0.3);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--folder,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--folder,
 .gicon--folder:active {
   transform: scale(0.94);
   filter: brightness(0.93);
@@ -560,12 +560,12 @@ a:focus-visible .gicon {
 }
 
 /* ---------- UPLOAD: rises inviting · press = drops in ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--upload,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--upload,
 .gicon--upload:hover {
   animation: gicon-rise 0.9s ease-in-out infinite;
   filter: brightness(1.12);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--upload,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--upload,
 .gicon--upload:active {
   animation: none;
   transform: translateY(4px) scale(0.93);
@@ -573,25 +573,25 @@ a:focus-visible .gicon {
 }
 
 /* ---------- NEWFOLDER: plus spins open · press = snaps in ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--newfolder,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--newfolder,
 .gicon--newfolder:hover {
   transform: rotate(90deg) scale(1.08);
   filter: brightness(1.13);
   box-shadow: 0 0 14px var(--gicon-glow-soft);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--newfolder,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--newfolder,
 .gicon--newfolder:active {
   transform: rotate(90deg) scale(0.88);
   filter: brightness(0.94);
 }
 
 /* ---------- MORE: dots breathe apart · press = press ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--more,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--more,
 .gicon--more:hover {
   animation: gicon-spread 0.8s ease-in-out infinite;
   filter: brightness(1.14);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--more,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--more,
 .gicon--more:active {
   animation: none;
   transform: scale(0.9);
@@ -599,13 +599,13 @@ a:focus-visible .gicon {
 }
 
 /* ---------- FILTER: funnel sifts · press = press ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--filter,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--filter,
 .gicon--filter:hover {
   transform-origin: 50% 12%;
   animation: gicon-sift 0.8s ease-in-out infinite;
   filter: brightness(1.12);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--filter,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--filter,
 .gicon--filter:active {
   animation: none;
   transform: scale(0.92);
@@ -613,26 +613,26 @@ a:focus-visible .gicon {
 }
 
 /* ---------- BOOK: pages flutter open · press = closes ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--book,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--book,
 .gicon--book:hover {
   transform: perspective(500px) rotateY(-10deg) scale(1.06);
   filter: brightness(1.12);
   box-shadow: 0 0 16px var(--gicon-glow-soft);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--book,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--book,
 .gicon--book:active {
   transform: perspective(500px) rotateY(6deg) scale(0.94);
   filter: brightness(0.93);
 }
 
 /* ---------- LAYERS: lift apart · press = stacks flat ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--layers,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--layers,
 .gicon--layers:hover {
   animation: gicon-rise 1s ease-in-out infinite;
   filter: brightness(1.13);
   box-shadow: 0 0 16px var(--gicon-glow-soft);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--layers,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--layers,
 .gicon--layers:active {
   animation: none;
   transform: scale(1.04, 0.9);
@@ -640,12 +640,12 @@ a:focus-visible .gicon {
 }
 
 /* ---------- MESSAGE: bubble bounces · press = press ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--message,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--message,
 .gicon--message:hover {
   animation: gicon-bounce 0.7s ease infinite;
   filter: brightness(1.12) saturate(1.1);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--message,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--message,
 .gicon--message:active {
   animation: none;
   transform: scale(0.9);
@@ -653,13 +653,13 @@ a:focus-visible .gicon {
 }
 
 /* ---------- CHECK: stamps in · press = flat ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--check,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--check,
 .gicon--check:hover {
   transform: scale(1.14) rotate(-6deg);
   filter: brightness(1.16);
   box-shadow: 0 0 16px var(--gicon-glow-soft);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--check,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--check,
 .gicon--check:active {
   transform: scale(0.9);
   filter: brightness(0.94);
@@ -667,12 +667,12 @@ a:focus-visible .gicon {
 
 /* ---------- GLOBE: spins on axis · press = press ---------- */
 .gicon--globe { transition: transform 0.6s ease, filter var(--gicon-ease), box-shadow var(--gicon-ease); }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--globe,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--globe,
 .gicon--globe:hover {
   transform: rotate(40deg) scale(1.06);
   filter: brightness(1.12);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--globe,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--globe,
 .gicon--globe:active {
   transform: rotate(100deg) scale(0.94);
   filter: brightness(0.94);
@@ -680,24 +680,24 @@ a:focus-visible .gicon {
 
 /* ---------- REFRESH: winds up · press = spins through ---------- */
 .gicon--refresh { transition: transform 0.5s ease, filter var(--gicon-ease), box-shadow var(--gicon-ease); }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--refresh,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--refresh,
 .gicon--refresh:hover {
   transform: rotate(120deg) scale(1.06);
   filter: brightness(1.12);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--refresh,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--refresh,
 .gicon--refresh:active {
   transform: rotate(360deg) scale(0.94);
   filter: brightness(0.96);
 }
 
 /* ---------- COIN: flips · press = lands ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--coin,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--coin,
 .gicon--coin:hover {
   animation: gicon-flip 1.1s ease-in-out infinite;
   filter: brightness(1.14);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--coin,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--coin,
 .gicon--coin:active {
   animation: none;
   transform: scale(0.92);
@@ -705,37 +705,37 @@ a:focus-visible .gicon {
 }
 
 /* ---------- REPLY: arrow swings back · press = fires back ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--reply,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--reply,
 .gicon--reply:hover {
   transform: translateX(-3px) rotate(-8deg) scale(1.07);
   filter: brightness(1.12);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--reply,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--reply,
 .gicon--reply:active {
   transform: translateX(-8px) scale(0.9);
   filter: brightness(0.94);
 }
 
 /* ---------- INFO: glows brighter · press = press ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--info,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--info,
 .gicon--info:hover {
   transform: scale(1.08);
   filter: brightness(1.22) saturate(1.15);
   box-shadow: 0 0 18px var(--gicon-glow-strong);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--info,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--info,
 .gicon--info:active {
   transform: scale(0.92);
   filter: brightness(0.94);
 }
 
 /* ---------- CODE: brackets spread · press = snaps shut ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--code,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--code,
 .gicon--code:hover {
   animation: gicon-spread 0.8s ease-in-out infinite;
   filter: brightness(1.13);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--code,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--code,
 .gicon--code:active {
   animation: none;
   transform: scaleX(0.88) scaleY(0.94);
@@ -743,12 +743,12 @@ a:focus-visible .gicon {
 }
 
 /* ---------- UP: rises · press = press ---------- */
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon--up,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon--up,
 .gicon--up:hover {
   transform: translateY(-4px) scale(1.07);
   filter: brightness(1.12);
 }
-:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):active .gicon--up,
+:is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):active .gicon--up,
 .gicon--up:active {
   transform: translateY(1px) scale(0.92);
   filter: brightness(0.94);
@@ -760,7 +760,7 @@ a:focus-visible .gicon {
     transition: none;
     animation: none;
   }
-  :is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, a):hover .gicon,
+  :is(.gicon-btn, .gicon-nav, .gicon-action, .gicon-reader, .feed-action, a):hover .gicon,
   .gicon:hover {
     animation: none;
     transform: none;
