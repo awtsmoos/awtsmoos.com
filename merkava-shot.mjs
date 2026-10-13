@@ -197,17 +197,32 @@ export async function main() {
     process.exit(report.ok ? 0 : 1);
   }
 
-  // Classic single-shot path (unchanged behavior, now device-aware).
+  // Classic single-shot path: now executes page JS by default (the fix —
+  // JS apps screenshot correctly). --no-js keeps the old static behavior.
   const out = arg('--out', '/tmp/merkava-shot.png');
   const cv = resolveViewport();
   const width = cv.width, height = cv.height;
   const fullPage = has('--full');
   const t0 = Date.now();
-  const result = renderVirtualSnapshotPng({ html }, { width, height, fullPage });
+  let shotHtml = html;
+  let jsInfo = '';
+  if (!has('--no-js')) {
+    try {
+      const { runPageWithJs } = await import('./geelooy/scripts/awtsmoos/MerkavaExecutor/merkava-service/snapshots/jsPageRunner.js');
+      const pr = await runPageWithJs({ html, url: arg('--url') || undefined, waitMs: 3000 });
+      if (pr.finalHtml && pr.finalHtml.length > 100) shotHtml = pr.finalHtml;
+      jsInfo = ` JS:${pr.jsErrors.length}err`;
+      for (const e of pr.jsErrors.slice(0, 3))
+        console.log(`  js-error [${e.kind}] ${e.name}: ${String(e.message).slice(0, 100)} @ ${e.file}${e.line ? ':' + e.line : ''}`);
+    } catch (e) {
+      console.log(`  (JS execution skipped: ${e.message.slice(0, 80)})`);
+    }
+  }
+  const result = renderVirtualSnapshotPng({ html: shotHtml }, { width, height, fullPage });
   const ms = Date.now() - t0;
   const png = Buffer.from(result.dataUrl.split(',')[1], 'base64');
   writeFileSync(out, png);
-  console.log(`OK ${out} ${result.width}x${result.height} ${png.length}B in ${ms}ms (no Chrome)`);
+  console.log(`OK ${out} ${result.width}x${result.height} ${png.length}B in ${ms}ms${jsInfo} (no Chrome)`);
 }
 
 async function serve() {
