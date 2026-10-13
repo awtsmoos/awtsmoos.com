@@ -15,12 +15,12 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 	     the ES module waterfall. These are fetched in parallel with the HTML
 	     parse, so postLogic.js's 68 transitive imports don't cascade. -->
 	<link rel="modulepreload" href="/heichelos/post/postLogic.js?v=738eb96c05">
-	<link rel="modulepreload" href="/shared/MeaningfulActivity.js">
-	<link rel="modulepreload" href="/heichelos/post/logic/initialization/bootstrap.js?v=reader-runtime-009">
-	<link rel="modulepreload" href="/heichelos/post/logic/initialization/ReaderBootState.js?v=reader-runtime-004">
-	<link rel="modulepreload" href="/heichelos/post/logic/initialization/ReaderEnhancementOrchestrator.js?v=reader-runtime-008">
-	<link rel="modulepreload" href="/heichelos/post/logic/initialization/ReaderShellControlsBoot.js?v=reader-runtime-005">
-	<link rel="modulepreload" href="/heichelos/post/logic/initialization/chitasLoader.js?v=chitas-loader-1">
+	<link rel="modulepreload" href="/shared/MeaningfulActivity.js?v=2e1af85d07">
+	<link rel="modulepreload" href="/heichelos/post/logic/initialization/bootstrap.js?v=44f3b94e2d">
+	<link rel="modulepreload" href="/heichelos/post/logic/initialization/ReaderBootState.js?v=75cba9cb7c">
+	<link rel="modulepreload" href="/heichelos/post/logic/initialization/ReaderEnhancementOrchestrator.js?v=555e6f5851">
+	<link rel="modulepreload" href="/heichelos/post/logic/initialization/ReaderShellControlsBoot.js?v=01f4b3e218">
+	<link rel="modulepreload" href="/heichelos/post/logic/initialization/chitasLoader.js?v=969860442d">
 	<!-- B"H 2026-10-13: skeleton screen styles — instant perceived load.
 	     The content area shows shimmering placeholders until JS hydrates. -->
 	<style>
@@ -2898,13 +2898,13 @@ Awtsmoos.com carries the final reader authority after historical garments so Tor
 		}
 	</style>
 	<script>
-		/* B"H — Register Heichel Service Worker for auto-clearing cache. */
+		/* B"H — Register Heichel Service Worker IMMEDIATELY (not on window.load)
+		   so it can intercept subresource requests on this very page load.
+		   2026-10-13: moved from load event to instant for app-like speed. */
 		if ('serviceWorker' in navigator) {
-			window.addEventListener('load', function() {
-				navigator.serviceWorker.register('/heichelos/post/heichel-sw.js', { scope: '/heichelos/' })
-					.then(function(reg) { reg.update(); })
-					.catch(function() { /* SW not critical, page works without it */ });
-			});
+			navigator.serviceWorker.register('/heichelos/post/heichel-sw.js', { scope: '/heichelos/' })
+				.then(function(reg) { reg.update(); })
+				.catch(function() { /* SW not critical, page works without it */ });
 		}
 	</script>
 </head>
