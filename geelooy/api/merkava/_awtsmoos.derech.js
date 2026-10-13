@@ -112,7 +112,7 @@ async function crownMerkavaRoutes($i) {
 		//     --banner:js="import{createRequire}from'module';const require=createRequire(import.meta.url);" \
 		//     --outfile=geelooy/api/merkava/dist/merkava.mjs
 		// and deployed alongside this file under geelooy/api/merkava/dist/.
-		"/download/merkava.mjs": async () => {
+		"/download-bundle": async () => {
 			const fs = require("fs");
 			const p = path.join(
 				process.env.__awtsdir || process.cwd(),
@@ -123,7 +123,7 @@ async function crownMerkavaRoutes($i) {
 			$i.setHeader && $i.setHeader("Content-Disposition", 'attachment; filename="merkava.mjs"');
 			return fs.readFileSync(p, "utf8");
 		},
-		"/download/install.sh": async () => {
+		"/download-installer": async () => {
 			const fs = require("fs");
 			const p = path.join(
 				process.env.__awtsdir || process.cwd(),
