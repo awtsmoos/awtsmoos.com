@@ -19,22 +19,28 @@ import { prepareStructuredPost } from '/heichelos/post/logic/scribe/PostSectionS
 import { renderRootDocument } from '/heichelos/post/ui/RichRootDocument.js?v=rich-social-document-001';
 import { renderChitasMasthead } from '../chitas/masthead.js?v=native-chitas-006';
 
+function readablePostTitle(post) {
+	return post?.title || post?.identity?.title || '';
+}
+
 function appendTitle(viewport, post) {
-	if (!post?.title || post?.dayuh?.meta?.chitas) {
+	const titleText = readablePostTitle(post);
+	if (!titleText || post?.dayuh?.meta?.chitas) {
 		return;
 	}
 	const title = document.createElement('h1');
 	title.className = 'awtsmoos-post-title';
-	title.textContent = post.title;
+	title.textContent = titleText;
 	viewport.append(title);
-	document.title = `${post.title} | Awtsmoos`;
+	document.title = `${titleText} | Awtsmoos`;
 }
 
 function updateDocumentTitle(post) {
-	if (!post?.title) {
+	const titleText = readablePostTitle(post);
+	if (!titleText) {
 		return;
 	}
-	document.title = `${post.title} | Awtsmoos`;
+	document.title = `${titleText} | Awtsmoos`;
 }
 
 function safeRemoteUrl(value) {

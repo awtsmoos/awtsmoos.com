@@ -44,9 +44,41 @@ export class KeterReaderShellControlsBoot {
 		this.setupClicks(this.sidebarToggle);
 		this.runtime.toggleSidebar = this.sidebarToggle;
 		this.document.body.dataset.readerShellControlsReady = 'true';
+		this.#bindTypographyFallback();
 		this.awake = true;
 		this.waitingForBody = false;
 		return true;
+	}
+
+	/**
+	 * B"H — safety net for the typography (Aa) button. The global click router
+	 * calls preventDefault() when it handles the button; this bubble-phase
+	 * listener runs after it and toggles the panel directly ONLY if the router
+	 * did not consume the event. Never double-toggles.
+	 * @returns {void}
+	 */
+	#bindTypographyFallback() {
+		const doc = this.document;
+		if (!doc?.body?.addEventListener || doc.body.dataset.typographyFallbackBound === '1') {
+			return;
+		}
+		doc.body.dataset.typographyFallbackBound = '1';
+		doc.body.addEventListener('click', (ohrEvent) => {
+			if (ohrEvent.defaultPrevented) {
+				return; // Router handled it.
+			}
+			const btn = ohrEvent.target?.closest?.('#typographyBtn');
+			if (!btn) {
+				return;
+			}
+			ohrEvent.preventDefault();
+			import('../listeners/TiferesTypographyGate.js').then(({ tiferesTypographyGate }) => {
+				tiferesTypographyGate.toggle();
+				console.log('B"H typography fallback toggle applied, open:', tiferesTypographyGate.isOpen());
+			}).catch((ohrError) => {
+				console.error('B"H typography fallback failed', ohrError);
+			});
+		}, { passive: false });
 	}
 
 	/**

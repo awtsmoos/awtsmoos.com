@@ -11,7 +11,7 @@
 
 import { malchusBootstrapFailurePresenter } from '/heichelos/post/logic/initialization/BootstrapFailurePresenter.js?v=reader-runtime-004';
 import { loadInitial } from '/heichelos/post/logic/initialization/coordinates.js?v=reader-runtime-005';
-import { manifestPost } from '/heichelos/post/logic/initialization/postManifest.js?v=reader-runtime-006';
+import { manifestPost } from '/heichelos/post/logic/initialization/postManifest.js?v=reader-runtime-007';
 import { createReaderPanels } from '/heichelos/post/logic/initialization/readerPanels.js?v=reader-runtime-004';
 import { hydrateReaderIdentity } from '/heichelos/post/logic/initialization/ReaderIdentityHydrator.js?v=reader-runtime-004';
 import {
@@ -73,9 +73,17 @@ export async function ignite() {
 		throw ohrError;
 	}
 	// B"H — Meluket sefer reader: bilingual warm sections for enriched posts.
+	// B"H — Torah Ohr / Likkutei Sichos style posts carry phraseTranslations
+	// (no enrichment.hebrew_phrases); render them as a bilingual sefer too.
 	try {
-		const { awakenMeluketSeferReader } = await import('../scribe/MeluketSeferReader.js');
-		awakenMeluketSeferReader(tiferesCanonical.post);
+		const { awakenMeluketSeferReader, awakenPhraseTranslationReader } = await import('../scribe/MeluketSeferReader.js');
+		const seferResult = awakenMeluketSeferReader(tiferesCanonical.post);
+		if (!seferResult) {
+			const phraseResult = awakenPhraseTranslationReader(tiferesCanonical.post);
+			console.log("B\"H phrase-translation reader result:", phraseResult);
+		} else {
+			console.log("B\"H meluket sefer reader activated");
+		}
 	} catch (seferError) {
 		console.warn('B"H meluket sefer reader skipped', seferError);
 	}
