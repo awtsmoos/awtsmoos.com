@@ -37,3 +37,28 @@
 .cobyk-app .cobyk-level-button:focus-visible {
 	outline: 2px solid currentColor; outline-offset: 2px;
 }
+
+/*B"H — Yaakov 2026-10-13: CobyK mobile playability hardening.
+  Prevent text selection and callout from interfering with game input. */
+.cobyk-app,
+.cobyk-app .cobyk-stage-shell,
+.cobyk-app .cobyk-hud,
+.cobyk-app .cobyk-campaign,
+.cobyk-app .cobyk-mobile-controls {
+	user-select: none;
+	-webkit-user-select: none;
+	-webkit-touch-callout: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.cobyk-app .cobyk-joystick,
+.cobyk-app .cobyk-action {
+	touch-action: none;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+.cobyk-app canvas.cobyk-stage {
+	touch-action: none;
+	display: block;
+}
