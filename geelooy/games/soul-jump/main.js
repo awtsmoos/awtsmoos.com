@@ -17,7 +17,8 @@ import { SessionUi } from './js/runtime/SessionUi.js';
 const canvas = document.getElementById('gameCanvas');
 const status = document.getElementById('soulStatus');
 
-if (!(canvas instanceof HTMLCanvasElement)) {
+// B"H: typeof guard — HTMLCanvasElement may not exist in non-browser runtimes.
+if (typeof HTMLCanvasElement === 'undefined' ? !canvas || canvas.tagName !== 'CANVAS' : !(canvas instanceof HTMLCanvasElement)) {
 	throw new Error('Ein Sof Ascent requires #gameCanvas.');
 }
 

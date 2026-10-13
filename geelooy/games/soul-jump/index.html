@@ -10,10 +10,17 @@
 	<meta name="theme-color" content="#020711">
 	<meta name="description" content="Soul Jump is a touch-first vertical platform ascent with progressive worlds, score mastery, pause, retry, and local high scores.">
 	<title>Ein Sof Ascent · Soul Jump</title>
-	<link rel="stylesheet" href="style.css?v=soul-v3&compact=true">
-	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-003&compact=true">
+	<link rel="stylesheet" href="style.css?v=7b1f656908">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=6c6d50d989">
 </head>
 <body>
+	<script src="/games/shared/awt-loading-screen.js"
+		data-cover="https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/games/game-soul-jump.webp"
+		data-title="Soul Jump"
+		data-kicker="B&quot;H · Awtsmoos Games"
+		data-tips="Drag or use arrow keys to steer|Land on platforms to keep rising|Do not fall — return and rise again|Chain jumps for higher scores"
+		data-accent="#8fd0ff"></script>
+
 	<main class="soul-stage" aria-label="Ein Sof Ascent game">
 		<canvas id="gameCanvas" tabindex="0" aria-label="Vertical platform ascent. Drag or use Arrow keys or A and D to steer."></canvas>
 		<div class="soul-controls-hint" aria-hidden="true">
@@ -31,8 +38,8 @@
 		</section>
 		<output id="soulStatus" class="soul-sr-only" aria-live="polite"></output>
 	</main>
-	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
-	<script type="module" src="main.js?v=soul-v3&compact=true"></script>
-	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-003&compact=true"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?v=6fd9ae91f1"></script>
+	<script type="module" src="main.js?v=73b3050a84"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=0ee3e8dd31"></script>
 </body>
 </html>

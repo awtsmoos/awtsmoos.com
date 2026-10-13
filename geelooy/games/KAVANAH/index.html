@@ -11,11 +11,18 @@
 	<meta name="description" content="KAVANAH is a Four Worlds ascent game about gathering sacred letters, charging Tikkun, surviving living obstacles, and mastering longer chains.">
 	<title>KAVANAH — Four Worlds Ascent</title>
 	<link rel="icon" href="data:,">
-	<link rel="stylesheet" href="style.css?compact=true">
-	<link rel="stylesheet" href="runtime.css?compact=true&v=kavanah-runtime-001">
-	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-003&compact=true">
+	<link rel="stylesheet" href="style.css?v=ac34b239f7">
+	<link rel="stylesheet" href="runtime.css?v=de15fdfe07">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=6c6d50d989">
 </head>
 <body>
+	<script src="/games/shared/awt-loading-screen.js"
+		data-cover="https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/games/game-kavanah.webp"
+		data-title="KAVANAH"
+		data-kicker="B&quot;H · Awtsmoos Games"
+		data-tips="Drag to move — your light fires on its own|Shatter the RED vessels|Dodge the red orbs|Grab letters to grow stronger"
+		data-accent="#7feaff"></script>
+
 	<canvas id="gameCanvas" aria-label="KAVANAH Four Worlds play surface"></canvas>
 	<section id="kavanah-hud" class="kavanah-hud" aria-live="polite" hidden>
 		<div>
@@ -55,8 +62,8 @@
 		<button id="back-button" type="button">Back</button>
 	</div>
 
-	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
-	<script src="js/main.js?compact=true&v=kavanah-runtime-001" type="module"></script>
-	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-003&compact=true"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?v=6fd9ae91f1"></script>
+	<script src="js/main.js?v=393c9554f4" type="module"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=0ee3e8dd31"></script>
 </body>
 </html>

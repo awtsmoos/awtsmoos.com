@@ -9,10 +9,17 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 	<meta name="theme-color" content="#87CEEB">
 	<title>Noah's Dove · Quest for Shalom</title>
-	<link rel="stylesheet" href="./style.css?compact=true">
-	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-003&compact=true">
+	<link rel="stylesheet" href="./style.css?v=691d0ff19a">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=6c6d50d989">
 </head>
 <body>
+	<script src="/games/shared/awt-loading-screen.js"
+		data-cover="https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/games/game-dove.webp"
+		data-title="Noah's Dove Jump"
+		data-kicker="B&quot;H · Awtsmoos Games"
+		data-tips="Tap, click, or press Space to flap|Thread the gates — do not touch the bricks|Each gate is a step toward shalom"
+		data-accent="#ffd700"></script>
+
 	<main id="game-container" aria-label="Noah's Dove flight game">
 		<canvas id="gameCanvas" width="400" height="600" aria-label="Dove flight field"></canvas>
 		<button id="pauseButton" class="pauseButton" type="button" hidden>Pause</button>
@@ -31,8 +38,8 @@
 		</section>
 		<div id="powerupExplanation" hidden></div>
 	</main>
-	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
-	<script type="module" src="./game.js?compact=true"></script>
-	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-003&compact=true"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?v=6fd9ae91f1"></script>
+	<script type="module" src="./game.js?v=19f65c7d20"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=0ee3e8dd31"></script>
 </body>
 </html>
