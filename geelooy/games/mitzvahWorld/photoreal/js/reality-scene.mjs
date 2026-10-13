@@ -309,7 +309,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const sc = document.createElement('canvas'); sc.width = 128; sc.height = 256;
     const sx = sc.getContext('2d');
     const grad = sx.createLinearGradient(0, 0, 0, 256);
-    grad.addColorStop(0, 'rgba(255,236,200,0.28)');
+    grad.addColorStop(0, 'rgba(255,240,210,0.45)');
     grad.addColorStop(0.55, 'rgba(255,228,180,0.10)');
     grad.addColorStop(1, 'rgba(255,220,160,0)');
     sx.fillStyle = grad; sx.fillRect(0, 0, 128, 256);
@@ -327,7 +327,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       // additive glow is visible (not in open sky).
       // B"H — Phase 1 lighting rebuild (2026-10-13): 0.38→0.05. The reference
       // has whisper-soft rays, not beams. Restraint.
-      depthWrite: false, side: THREE.DoubleSide, fog: false, opacity: 0.05,
+      depthWrite: false, side: THREE.DoubleSide, fog: false, opacity: 0.14,
     });
     const shaftGeo = new THREE.PlaneGeometry(4.5, 40);
     const q = new THREE.Quaternion().setFromUnitVectors(
@@ -851,6 +851,10 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           float sdot = max(dot(r, uSunDir), 0.0);
           col += vec3(1.0,0.97,0.90) * glint * 8.0 * tw * (0.3 + 0.7*depth);
           col += vec3(1.0,0.95,0.85) * pow(sdot, 200.0) * 0.4;
+          // Dappled sunlight: bright patches where sun breaks through canopy.
+          float dapple = vnoise(pw*0.35 + vec2(uTime*0.05, -uTime*0.08));
+          dapple = smoothstep(0.55, 0.85, dapple);
+          col += vec3(1.0, 0.96, 0.82) * dapple * 0.35 * (0.4 + 0.6*depth);
           // Foam: at banks (waterline) + around procedural rock positions
           float edge = smoothstep(0.0, 0.12, vUv.x)*smoothstep(1.0, 0.88, vUv.x);
           float bankFoamBand = 1.0 - edge;
