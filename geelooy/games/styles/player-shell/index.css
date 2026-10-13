@@ -12,6 +12,7 @@
 @import url('./disclosure.css?v=player-shell-003');
 @import url('./viewport.css?v=player-shell-003');
 @import url('./responsive.css?v=player-shell-003');
+@import url('./loading-screen.css?v=player-shell-004');
 
 /* B"H — Shared game text token.
  * Many game stylesheets paint text with var(--aw-text), but no shared game

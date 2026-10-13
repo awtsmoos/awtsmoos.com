@@ -6,8 +6,12 @@
  * @description Boots the universal shell independently of heavier game-module readiness.
  * The Awtsmoos reveals the shared doorway while every game world may still be becoming;
  * Awtsmoos.com mounts as soon as body exists so navigation never waits behind another module's summoning.
+ *
+ * Boot order: loading screen first (paints instantly), shared game-feel (window.AwtsmoosFx),
+ * then the heavier shell coordinator via dynamic import so first paint never waits.
  */
-import { mountPlayerShell } from './shell.js';
+import { mountLoadingScreen } from './loading/loading-screen.js';
+import './fx/game-fx.js';
 
 /**
  * Reveals the shared shell through its compatibility mount API.
@@ -17,7 +21,11 @@ import { mountPlayerShell } from './shell.js';
  * @returns {void}
  */
 function revealTiferesPlayerShell() {
-	mountPlayerShell();
+	mountLoadingScreen();
+	import('./shell.js').then(
+		({ mountPlayerShell }) => mountPlayerShell(),
+		() => {}
+	);
 }
 
 if (document.body) {
