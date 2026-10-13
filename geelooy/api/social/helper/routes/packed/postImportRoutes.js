@@ -90,8 +90,13 @@ function setJob(job) {
 
 function getJob(id) { return jobs.get(id) || null; }
 
-function runningJob() {
-	for (const j of jobs.values()) if (j.status === 'running') return j;
+function runningJob(heichelId) {
+	// B"H Yaakov 2026-10-13: heichel-scoped — different heichels import concurrently,
+	// same heichel never has two running jobs (prevents write races within one corpus).
+	for (const j of jobs.values()) {
+		if (j.status !== 'running') continue;
+		if (!heichelId || j.spec.heichelId === heichelId) return j;
+	}
 	return null;
 }
 
@@ -981,8 +986,8 @@ class PackedPostImportRoutes {
 		if (!identityOk) {
 			return { success: false, error: 'NO_VALID_POSTS', message: 'No post in the batch carries a postId.' };
 		}
-		const busy = runningJob();
-		if (busy) return { success: false, error: 'JOB_ALREADY_RUNNING', jobId: busy.id };
+		const busy = runningJob(heichelId);
+		if (busy) return { success: false, error: 'JOB_ALREADY_RUNNING', jobId: busy.id, scope: 'heichel', heichelId };
 		const job = {
 			id: newJobId(), status: 'queued', dryRun,
 			spec: { heichelId, posts, source, stagedDir, aliasId: jobAliasId, aliasName: jobAliasName },

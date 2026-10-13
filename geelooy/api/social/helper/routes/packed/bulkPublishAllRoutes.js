@@ -261,8 +261,9 @@ class BulkPublishAllRoutes extends PackedBulkImportRoutes {
 		if (!fs.existsSync(path.join(dir, 'upload.tar.gz'))) {
 			return { success: false, error: 'STAGE_NOT_FOUND', message: 'No completed upload for this uploadId. POST /packed/import/bulk/stage first.' };
 		}
-		const busy = runningJob();
-		if (busy) return { success: false, error: 'JOB_ALREADY_RUNNING', jobId: busy.id };
+		const _pubHeichel = body.heichelId || requestValue(this.$i, 'heichelId') || 'ikar';
+		const busy = runningJob(_pubHeichel);
+		if (busy) return { success: false, error: 'JOB_ALREADY_RUNNING', jobId: busy.id, scope: 'heichel', heichelId: _pubHeichel };
 		const dryRun = !!body.dryRun;
 		const freshImport = body.freshImport === true || requestValue(this.$i, 'freshImport') === 'true';
 		const job = {
