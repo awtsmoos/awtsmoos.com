@@ -148,9 +148,9 @@ const TOD = {
     golden: 0.0, warm: 0.0,
   },
   golden: {
-    sunDir: [0.72, 0.30, 0.28], sunColor: 0xffd9a8, sunI: 2.35,
-    hemiSky: 0xd8c4a8, hemiGround: 0x54603e, hemiI: 0.62,
-    fog: 0x8a9a6a, fogNear: 60, fogFar: 270, exposure: 1.05,
+    sunDir: [0.72, 0.30, 0.28], sunColor: 0xffe0b0, sunI: 3.2,
+    hemiSky: 0xe8d4a8, hemiGround: 0x5a6a42, hemiI: 0.85,
+    fog: 0x9aaa7a, fogNear: 60, fogFar: 270, exposure: 1.25,
     golden: 1.0, warm: 0.55,
   },
   dusk: {
@@ -857,7 +857,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const quadGeo = new THREE.PlaneGeometry(2.6, 2.6);
     const quadMat = new THREE.MeshStandardMaterial({
       map: leafClusterTex, alphaTest: 0.35, side: THREE.DoubleSide,
-      roughness: 0.9, color: new THREE.Color(0.42, 0.50, 0.38),
+      roughness: 0.9, color: new THREE.Color(0.35, 0.42, 0.22),
       emissive: new THREE.Color(0.012, 0.022, 0.010),
       depthWrite: true,
     });
@@ -1437,14 +1437,16 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           cx2.fillRect(0, 0, W, H);
         }
         mark('vignette');
-        // B"H — cinematic grade: warm sky lift, cool shadow floor, whisper of
-        // grain. All in 2D, essentially free next to SwiftShader rasterization.
+        // B"H — reference-matched grade: sampled from the lush forest reference.
+        // Warm golden highlights, rich green midtones, deep warm shadows.
+        // All in 2D, essentially free on GPU.
         {
           cx2.globalCompositeOperation = 'overlay';
           const gg = cx2.createLinearGradient(0, 0, 0, H);
-          gg.addColorStop(0, 'rgba(255,214,160,0.10)');
-          gg.addColorStop(0.55, 'rgba(255,214,160,0)');
-          gg.addColorStop(1, 'rgba(24,44,80,0.14)');
+          gg.addColorStop(0, 'rgba(255,220,150,0.22)');
+          gg.addColorStop(0.35, 'rgba(255,210,140,0.08)');
+          gg.addColorStop(0.65, 'rgba(120,140,60,0.06)');
+          gg.addColorStop(1, 'rgba(40,50,20,0.18)');
           cx2.fillStyle = gg;
           cx2.fillRect(0, 0, W, H);
           cx2.globalCompositeOperation = 'source-over';
