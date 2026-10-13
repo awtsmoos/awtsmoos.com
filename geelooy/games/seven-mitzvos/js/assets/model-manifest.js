@@ -7,7 +7,10 @@
  * @description Seven Mitzvos loads immutable GLBs from public Drive, outside Git.
  */
 const PRODUCTION_ORIGIN = 'https://awtsmoos.com';
-const MODEL_PATH = '/sites/awtsmoos-release-assets/models/';
+// B"H 2026-10-13: the /sites/ root 404s on production; the release-asset GLBs
+// are live under the Drive public alias (verified 200). Keep the sha256
+// content-addressing — only the root changed.
+const MODEL_PATH = '/api/social/drive/public/awtsmoos-release-assets/models/';
 
 export const REMOTE_MODEL_ORIGIN = PRODUCTION_ORIGIN;
 export const REMOTE_MODEL_PATH = MODEL_PATH;

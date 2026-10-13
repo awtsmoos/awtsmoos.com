@@ -40,12 +40,17 @@ test("startup state is crisp and owned by its own stylesheet", () => {
 });
 
 test("existing app bootstrap still replaces the same mount", () => {
-	assert.match(page, /script type="module" src="\.\/js\/main\.js\?v=startup-002&compact=true"/);
+	// B"H 2026-10-13: versioning moved to content-hash ?v= tags (repo-wide
+	// convention); the contract is that the module entry is versioned and the
+	// app still mounts into #sevenMitzvosApp.
+	assert.match(page, /script type="module" src="\.\/js\/main\.js\?v=[0-9a-f]{6,}"/);
 	assert.match(main, /getElementById\(["']sevenMitzvosApp["']\)/);
 	assert.match(main, /application\.mount\(\)/);
 });
 
 test("startup cache version updates both style and module entry", () => {
-	assert.match(page, /styles\/index\.css\?v=startup-002/);
-	assert.match(page, /js\/main\.js\?v=startup-002/);
+	// B"H 2026-10-13: content-hash ?v= tags replace the old startup-NNN scheme;
+	// require both entries versioned, not a literal string.
+	assert.match(page, /styles\/index\.css\?v=[0-9a-f]{6,}/);
+	assert.match(page, /js\/main\.js\?v=[0-9a-f]{6,}/);
 });
