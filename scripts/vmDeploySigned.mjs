@@ -119,19 +119,18 @@ async function main() {
 		process.exit(1);
 	}
 
-	// B"H (2026-10-13, Yaakov's law): bust cache on every deploy. If any
-	// reader CSS/JS changed, rewrite its ?v= to the content hash BEFORE
-	// pushing, so browsers fetch the new copy immediately. Runs automatically
-	// unless --no-bust is passed.
+	// B"H (2026-10-13, Yaakov's law): "Users should NEVER need to hard refresh."
+	// Bust cache on EVERY deploy. Rewrite ALL ?v= params to content hashes
+	// across ALL HTML files BEFORE pushing, so browsers fetch new copies
+	// immediately. Runs automatically unless --no-bust is passed.
 	if (!args.includes('--no-bust')) {
-		const touchesReader = payload.some(f =>
-			f.path.includes('heichelos/post/') &&
-			(f.path.endsWith('.css') || f.path.endsWith('.js') || f.path.endsWith('.html'))
+		const touchesAssets = payload.some(f =>
+			f.path.endsWith('.css') || f.path.endsWith('.js') || f.path.endsWith('.html')
 		);
-		if (touchesReader) {
-			console.log('B"H busting reader cache (content-hash versions)...');
+		if (touchesAssets) {
+			console.log('B"H busting all caches (content-hash versions)...');
 			try {
-				execFileSync('node', [join(REPO, 'scripts', 'bustReaderCache.mjs'), '--write'], { cwd: REPO, stdio: 'inherit' });
+				execFileSync('node', [join(REPO, 'scripts', 'bustAllCaches.mjs'), '--write'], { cwd: REPO, stdio: 'inherit' });
 				// Re-read any payload files that the bust just modified
 				for (const f of payload) {
 					try {
@@ -139,19 +138,20 @@ async function main() {
 						f.content = readFileSync(abs).toString('base64');
 					} catch { /* file deleted? keep old */ }
 				}
-				// If bust touched _awtsmoos.post.html or main.css and they're
-				// not already in the payload, add them — the version refs changed.
-				for (const extra of ['geelooy/heichelos/post/_awtsmoos.post.html', 'geelooy/heichelos/post/styles/main.css']) {
-					if (!payload.some(f => f.path === extra)) {
-						try {
-							const abs = resolve(REPO, extra);
-							payload.push({ path: extra, content: readFileSync(abs).toString('base64') });
-							console.log(`B"H auto-added cache-busted ref file: ${extra}`);
-						} catch { /* skip */ }
-					}
+				// If bust touched any HTML files not already in payload, add them
+				const bustTouched = execSync('git status --porcelain', { cwd: REPO, encoding: 'utf8' })
+					.split('\n')
+					.map(l => l.trim().slice(3).trim())
+					.filter(l => l.endsWith('.html') && !payload.some(f => f.path === l));
+				for (const extra of bustTouched) {
+					try {
+						const abs = resolve(REPO, extra);
+						payload.push({ path: extra, content: readFileSync(abs).toString('base64') });
+						console.log(`B"H auto-adding busted HTML: ${extra}`);
+					} catch { /* skip */ }
 				}
 			} catch (e) {
-				console.error(`B"H cache-bust failed (continuing anyway): ${e.message}`);
+				console.error(`B"H cache bust failed (continuing anyway): ${e.message}`);
 			}
 		}
 	}
