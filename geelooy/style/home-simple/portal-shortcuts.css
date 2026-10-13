@@ -31,6 +31,13 @@ body[data-geelooy-route="home"] .portal-shortcuts {
 		filter 120ms ease,
 		transform 180ms cubic-bezier(.2, .8, .2, 1);
 }
+/* B"H — golden drive icons in portal shortcuts (Yaakov 2026-10-13) */
+:where(body[data-geelooy-route="home"]) .portal-shortcuts .portal-shortcut-icon img {
+	width: 1.75rem;
+	height: 1.75rem;
+	object-fit: contain;
+	border-radius: .4rem;
+}
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 :where(body[data-geelooy-route="home"]) :where(.portal-shortcuts) :where(a) span {
 	display: grid;

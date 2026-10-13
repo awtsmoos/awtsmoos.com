@@ -74,6 +74,13 @@ body[data-geelooy-route="home"] .mobile-dock {
 		outline: 3px solid var(--focus-ring);
 		outline-offset: 2px;
 	} }
+/* B"H — golden drive icons for the mobile dock (Yaakov 2026-10-13) */
+@media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .mobile-dock img.mobile-dock-icon {
+		width: 1.75rem;
+		height: 1.75rem;
+		object-fit: contain;
+		border-radius: .45rem;
+	} }
 /* @tunnel-specificity: :where() reduced to (0,2,1) budget W4 2026-10-08 */
 @media (max-width: 680px) { :where(body[data-geelooy-route="home"]) .mobile-dock span {
 		font-size: 1.16rem;
