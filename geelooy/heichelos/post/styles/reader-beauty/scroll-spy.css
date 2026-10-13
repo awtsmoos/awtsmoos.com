@@ -1,0 +1,55 @@
+/* B"H — Scroll-spy current-verse highlight. Subtle gold glow on the verse
+   you are reading now. Tokenized, theme-aware, no !important. */
+
+:root {
+  --spy-glow-border: rgba(212, 175, 105, 0.45);
+  --spy-glow-soft: rgba(212, 175, 105, 0.10);
+  --spy-glow-strong: rgba(212, 175, 105, 0.22);
+  --spy-restored-flash: rgba(212, 175, 105, 0.30);
+}
+
+:root[data-theme="dark"] {
+  --spy-glow-border: rgba(232, 195, 125, 0.55);
+  --spy-glow-soft: rgba(232, 195, 125, 0.08);
+  --spy-glow-strong: rgba(232, 195, 125, 0.18);
+  --spy-restored-flash: rgba(232, 195, 125, 0.25);
+}
+
+/* The verse you are reading now — gentle luminous edge. */
+.scroll-chunk.awtsmoos-spy-current {
+  box-shadow:
+    0 0 0 1px var(--spy-glow-border),
+    0 0 1.5rem var(--spy-glow-soft);
+  border-radius: 0.5rem;
+  transition: box-shadow 0.45s ease;
+}
+
+/* Brief flash when scroll is restored after refresh — then settles
+   into the normal spy highlight. */
+.scroll-chunk.awtsmoos-spy-restored {
+  animation: awtsmoos-spy-restore-flash 2.5s ease-out;
+}
+
+@keyframes awtsmoos-spy-restore-flash {
+  0% {
+    box-shadow:
+      0 0 0 2px var(--spy-glow-border),
+      0 0 3rem var(--spy-restored-flash);
+    background-color: var(--spy-glow-soft);
+  }
+  100% {
+    box-shadow:
+      0 0 0 1px var(--spy-glow-border),
+      0 0 1.5rem var(--spy-glow-soft);
+    background-color: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-chunk.awtsmoos-spy-current {
+    transition: none;
+  }
+  .scroll-chunk.awtsmoos-spy-restored {
+    animation: none;
+  }
+}

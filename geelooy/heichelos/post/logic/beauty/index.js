@@ -9,6 +9,7 @@ import { bindCurrentSectionTracker } from './currentSectionTracker.js';
 import { bindFocusModeState } from './focusModeState.js';
 import { manifestProgressSpine, updateProgressSpine } from './progressSpine.js';
 import { blessReaderControlState } from './controlState.js';
+import { bindScrollSpy, restoreScrollPosition } from '../scroll/scrollSpyRestoration.js';
 
 export function runReaderBeauty() {
   blessReaderControlState();
@@ -19,7 +20,14 @@ export function runReaderBeauty() {
 
   const unbindFocus = bindFocusModeState();
   const unbindTracker = bindCurrentSectionTracker({ onCurrent: updateProgressSpine });
-  const state = { active: true, unbindFocus, unbindTracker, focusReusable: true };
+  // Yaakov's scroll-spy: highlight the verse being read + remember position.
+  const unbindSpy = bindScrollSpy();
+  const state = { active: true, unbindFocus, unbindTracker, unbindSpy, focusReusable: true };
   window.__awtsmoosReaderBeauty = state;
+  // Restore scroll after content settles (deep-links take precedence inside).
+  if (!state.restoredOnce) {
+    state.restoredOnce = true;
+    setTimeout(() => { try { restoreScrollPosition(); } catch {} }, 900);
+  }
   return state;
 }
