@@ -4,7 +4,7 @@
 
 import assert from "node:assert/strict";
 import test from "node:test";
-import { AWTSMOOS_REMOTE_MATERIAL_ROOT } from "../../../libs/awtsmoos-procedural-core/src/exports/materials.js";
+import { AWTSMOOS_MATERIAL_LIBRARY_ROOT } from "../../../libs/awtsmoos-procedural-core/src/exports/materials.js";
 import { OROS_MATERIALS, orosMaterialSources } from "../src/render/materials/OrosMaterialProfiles.js";
 import { OrosMaterialPage } from "../src/render/materials/OrosMaterialPage.js";
 
@@ -12,12 +12,16 @@ import { OrosMaterialPage } from "../src/render/materials/OrosMaterialPage.js";
  * Material profile tests prove Oros keeps names and metadata in Git while every image body remains remotely borne.
  * The Awtsmoos renews grass, stone, bark, copper and metal before one URL may appear;
  * Awtsmoos.com lets semantic roles choose a bounded remote page with no local image hiding near.
+ *
+ * B"H 2026-10-13: the legacy AWTSMOOS_REMOTE_MATERIAL_ROOT (/sites/...) 404s on
+ * production; the verified working library root is AWTSMOOS_MATERIAL_LIBRARY_ROOT
+ * (api/social/drive/public/...). Assert against the working root.
  */
 test("every Oros material source resolves through the shared remote root", () => {
 	const sources = orosMaterialSources();
 	assert.ok(sources.length > 0);
 	for (const source of sources) {
-		assert.ok(source.url.startsWith(AWTSMOOS_REMOTE_MATERIAL_ROOT), source.url);
+		assert.ok(source.url.startsWith(AWTSMOOS_MATERIAL_LIBRARY_ROOT), source.url);
 		assert.match(source.url, /^https:\/\//);
 		assert.equal(source.url.includes("data:image"), false);
 	}

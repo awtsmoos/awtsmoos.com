@@ -42,6 +42,8 @@ test("catalog route, hook, and WebGL capability are all real", () => {
 
 test("storefront exposes live catalog-total placeholders instead of a stale number", () => {
 	const html = readFileSync(new URL("../../index.html", import.meta.url), "utf8");
-	assert.equal((html.match(/data-catalog-total/g) || []).length, 2);
-	assert.doesNotMatch(html, /\b(?:25|26|27|28) playable Awtsmoos/);
+	// B"H 2026-10-13: three live placeholders (hero eyebrow, visual-games stat, JS query),
+	// all filled by catalog JS at runtime — never a hardcoded total.
+	assert.equal((html.match(/data-catalog-total/g) || []).length, 3);
+	assert.doesNotMatch(html, /\b(?:25|26|27|28|29|30|31) playable Awtsmoos/);
 });
