@@ -1,0 +1,194 @@
+<!-- B"H -->
+<!-- Awtsmoos Media Kit — Integration Examples -->
+<!-- Include this on any page that needs media upload: -->
+<!--
+<script src="/js/awtsmoos-media-kit.js"></script>
+<script>
+// Wait for kit to load, then wire up your UI:
+AwtsmoosMediaKit.ready().then(() => {
+  // Your integration code here
+});
+</script>
+-->
+
+<script>
+/* ============================================================
+   EXAMPLE 1: Social feed — new post with media attachments
+   ============================================================ */
+function wirePostComposer(composerEl, attachmentListEl) {
+	const attachments = []; // Array of {publicUrl, mediaType, fileName}
+
+	const uploader = AwtsmoosMediaKit.createUploader({
+		uploadPath: 'uploads/posts',
+		onPreview: (file, previewUrl) => {
+			// Show thumbnail immediately
+			const thumb = document.createElement('div');
+			thumb.className = 'amu-preview-item amu-preview-uploading';
+			thumb.innerHTML = `
+				${file.type.startsWith('image/') ? `<img src="${previewUrl}">` : `<div class="amu-preview-type">${file.type.split('/')[0]}</div>`}
+				<div class="amu-preview-progress"><div style="width:0%"></div></div>`;
+			attachmentListEl.appendChild(thumb);
+			thumb._file = file;
+		},
+		onProgress: (pct, file) => {
+			const thumb = [...attachmentListEl.children].find(el => el._file === file);
+			if (thumb) thumb.querySelector('.amu-preview-progress > div').style.width = pct + '%';
+		},
+		onUpload: (result, file) => {
+			attachments.push(result);
+			const thumb = [...attachmentListEl.children].find(el => el._file === file);
+			if (thumb) {
+				thumb.classList.remove('amu-preview-uploading');
+				thumb._result = result;
+				// Add remove button
+				const btn = document.createElement('button');
+				btn.className = 'amu-preview-remove';
+				btn.innerHTML = '×';
+				btn.onclick = (e) => {
+					e.stopPropagation();
+					thumb.remove();
+					const i = attachments.indexOf(result);
+					if (i >= 0) attachments.splice(i, 1);
+				};
+				thumb.appendChild(btn);
+			}
+		},
+		onError: (err, file) => {
+			console.error('Upload failed:', err);
+			alert(`Failed to upload ${file.name}: ${err.message}`);
+		}
+	});
+
+	// Attach to a dropzone area in the composer
+	uploader.attachTo(composerEl.querySelector('.composer-dropzone'));
+
+	// Or add an upload button to the composer toolbar
+	const uploadBtn = AwtsmoosMediaKit.uploadButton({
+		label: '📎 Add media',
+		onUpload: (result) => attachments.push(result),
+		onError: (err) => alert('Upload failed: ' + err.message)
+	});
+	composerEl.querySelector('.composer-toolbar').appendChild(uploadBtn);
+
+	// When posting, include attachments:
+	// POST /api/social/posts { text, attachments: attachments.map(a => ({url: a.publicUrl, type: a.mediaType})) }
+	return { getAttachments: () => attachments };
+}
+
+/* ============================================================
+   EXAMPLE 2: Profile picture upload
+   ============================================================ */
+function wireProfilePicture(avatarEl, editButtonEl) {
+	editButtonEl.addEventListener('click', () => {
+		AwtsmoosMediaKit.pictureUploadDialog({
+			title: 'Update profile picture',
+			currentUrl: avatarEl.src || null,
+			aspectHint: 'Square images work best',
+			onSave: async (publicUrl) => {
+				// Save to profile via API
+				const res = await fetch('/api/social/me/avatar', {
+					method: 'PUT',
+					headers: { 'Content-Type': 'application/json' },
+					credentials: 'include',
+					body: JSON.stringify({ avatarUrl: publicUrl })
+				});
+				if (res.ok) {
+					avatarEl.src = publicUrl;
+				} else {
+					alert('Failed to save profile picture');
+				}
+			}
+		});
+	});
+}
+
+/* ============================================================
+   EXAMPLE 3: Render post with media embeds
+   ============================================================ */
+function renderPostMedia(postEl, attachments) {
+	// attachments: [{url, type: 'image'|'audio'|'video'|'document', fileName}]
+	const mediaWrap = postEl.querySelector('.post-media');
+	if (!mediaWrap || !attachments?.length) return;
+
+	mediaWrap.innerHTML = attachments.map(att =>
+		AwtsmoosMediaKit.embedHtml({
+			publicUrl: att.url,
+			mediaType: att.type,
+			fileName: att.fileName
+		})
+	).join('');
+
+	// Enhance audio players and lightbox for new content
+	if (window.AwtsmoosAudioPlayer) AwtsmoosAudioPlayer.enhanceAll(mediaWrap);
+	if (window.AwtsmoosLightbox) AwtsmoosLightbox.enhanceAll(mediaWrap);
+}
+
+/* ============================================================
+   EXAMPLE 4: Comment with media (including per-verse comments)
+   ============================================================ */
+function wireCommentComposer(composerEl, onSubmit) {
+	const attachments = [];
+
+	const uploader = AwtsmoosMediaKit.createUploader({
+		uploadPath: 'uploads/comments',
+		maxFiles: 3,
+		onUpload: (result) => {
+			attachments.push(result);
+			// Show inline preview
+			const preview = document.createElement('div');
+			preview.innerHTML = AwtsmoosMediaKit.embedHtml(result);
+			composerEl.querySelector('.comment-attachments').appendChild(preview);
+		},
+		onError: (err) => alert('Upload failed: ' + err.message)
+	});
+
+	const btn = AwtsmoosMediaKit.uploadButton({
+		label: '📎',
+		ariaLabel: 'Attach media to comment',
+		onUpload: (result) => attachments.push(result)
+	});
+	composerEl.querySelector('.comment-actions').appendChild(btn);
+
+	return { getAttachments: () => attachments };
+}
+
+/* ============================================================
+   EXAMPLE 5: Email composer attachment
+   ============================================================ */
+function wireEmailAttachments(composeEl) {
+	const attachments = [];
+
+	const uploader = AwtsmoosMediaKit.createUploader({
+		uploadPath: 'uploads/email',
+		onUpload: (result) => {
+			attachments.push({
+				url: result.publicUrl,
+				fileName: result.fileName,
+				mimeType: result.mimeType,
+				size: result.size
+			});
+			// Show in attachment list
+			const list = composeEl.querySelector('.email-attachments');
+			const item = document.createElement('div');
+			item.className = 'email-attachment-item';
+			item.innerHTML = `<span>📎 ${result.fileName}</span>
+				<button type="button" aria-label="Remove">×</button>`;
+			item.querySelector('button').onclick = () => {
+				item.remove();
+				const i = attachments.findIndex(a => a.url === result.publicUrl);
+				if (i >= 0) attachments.splice(i, 1);
+			};
+			list.appendChild(item);
+		},
+		onError: (err) => alert('Attachment upload failed: ' + err.message)
+	});
+
+	// Add attach button to compose toolbar
+	const btn = AwtsmoosMediaKit.uploadButton({ label: '📎 Attach' });
+	// Note: wire the uploader's callbacks to the button's uploader
+	// (In practice, use one uploader instance for both button and dropzone)
+	composeEl.querySelector('.compose-toolbar').appendChild(btn);
+
+	return { getAttachments: () => attachments };
+}
+</script>

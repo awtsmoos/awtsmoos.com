@@ -208,5 +208,54 @@
 	</script>
 	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=de5da830c1"></script>
 <script src="/scripts/sw-register.js?v=ea8654e790"></script>
+<script src="/js/awtsmoos-media-kit.js"></script>
+<script>
+/* B"H — Profile avatar tap-to-upload via Awtsmoos Media Kit. */
+document.addEventListener('DOMContentLoaded', () => {
+	if (!window.AwtsmoosMediaKit) return;
+	AwtsmoosMediaKit.ready().then(() => {
+		const avatarEl = document.querySelector('[data-profile-avatar]');
+		if (!avatarEl) return;
+		// Make avatar tappable for own profile
+		avatarEl.style.cursor = 'pointer';
+		avatarEl.setAttribute('role', 'button');
+		avatarEl.setAttribute('tabindex', '0');
+		avatarEl.setAttribute('aria-label', 'Change profile picture');
+		avatarEl.title = 'Tap to change profile picture';
+		const openDialog = () => {
+			const currentUrl = avatarEl.querySelector('img')?.src || null;
+			AwtsmoosMediaKit.pictureUploadDialog({
+				title: 'Update profile picture',
+				currentUrl,
+				onSave: async (publicUrl) => {
+					try {
+						const res = await fetch('/api/social/me/avatar', {
+							method: 'PUT',
+							headers: { 'Content-Type': 'application/json' },
+							credentials: 'include',
+							body: JSON.stringify({ avatarUrl: publicUrl })
+						});
+						if (res.ok) {
+							// Update avatar display
+							let img = avatarEl.querySelector('img');
+							if (!img) {
+								avatarEl.innerHTML = '';
+								img = document.createElement('img');
+								img.alt = 'Profile picture';
+								avatarEl.appendChild(img);
+							}
+							img.src = publicUrl;
+						}
+					} catch (e) { /* silent */ }
+				}
+			});
+		};
+		avatarEl.addEventListener('click', openDialog);
+		avatarEl.addEventListener('keydown', (e) => {
+			if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDialog(); }
+		});
+	}).catch(() => {});
+});
+</script>
 </body>
 </html>
