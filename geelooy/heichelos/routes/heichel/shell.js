@@ -46,11 +46,11 @@ function createShellRenderer($i) {
 	}
 
 	/** Renders route-local semantic fragments before the parent document receives them. */
-	async function renderSemanticFragments(semantic, discovery, context) {
+	async function renderSemanticFragments(semantic, discovery, series, context) {
 		return traceAsync('shell:semantic-fragments', async () => {
 			const [semanticHead, semanticFallback] = await Promise.all([
 				$i.$ga('./heichel/semantic/head.html', { semantic }),
-				$i.$ga('./heichel/semantic/fallback.html', { semantic, discovery })
+				$i.$ga('./heichel/semantic/fallback.html', { semantic, discovery, series })
 			]);
 			return { semanticHead, semanticFallback };
 		}, context);
@@ -73,7 +73,7 @@ function createShellRenderer($i) {
 				() => buildSemanticModel({ heichel, series, heichelId, seriesId }),
 				context
 			);
-			const fragments = await renderSemanticFragments(semantic, discovery, context);
+			const fragments = await renderSemanticFragments(semantic, discovery, series, context);
 			return traceAsync('shell:final-template', () => $i.$ga('./heichel/_awtsmoos.heichel.html', {
 				heichel,
 				series,
