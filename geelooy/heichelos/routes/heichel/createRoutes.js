@@ -11,6 +11,7 @@
 
 const createCommentPage = require('./comments/commentPage.js');
 const createEditorRoutes = require('./editorRoutes.js');
+const createEncyclopedia = require('./encyclopedia.js');
 const createPostReader = require('./postReader.js');
 const createSeriesEntryRenderer = require('./seriesEntry.js');
 const createShellRenderer = require('./shell.js');
@@ -25,6 +26,34 @@ function createRoutes($i) {
 	const { renderHeichelSeedSitemap } = createSitemapRoutes($i);
 	const { renderTranslationPage } = createTranslationPage($i);
 	const renderSeriesEntry = createSeriesEntryRenderer(renderHeichelShell, renderSeriesIndexPost);
+	const encyclopedia = createEncyclopedia($i);
+
+	/**
+	 * B"H — Admur Encyclopedia: bespoke landing + article pages for the
+	 * admur-encyclopedia series. Any failure falls back to the generic shell
+	 * so the series never renders an empty vessel.
+	 */
+	async function renderEncyclopediaLandingSafe(vars) {
+		try {
+			return await encyclopedia.renderEncyclopediaLanding(vars);
+		} catch {
+			return renderHeichelShell(vars.heichel, vars.series);
+		}
+	}
+	async function renderEncyclopediaArticleSafe(vars) {
+		try {
+			return await encyclopedia.renderEncyclopediaArticle(vars);
+		} catch {
+			return renderSeriesPost(vars);
+		}
+	}
+	function isEncyclopedia(vars) {
+		try {
+			return encyclopedia.isEncyclopediaSeries(vars);
+		} catch {
+			return false;
+		}
+	}
 	return {
 		'/': async function renderHeichelIndex() { return $i.$ga('_awtsmoos.index.html'); },
 		'/sitemap.xml': async function renderPublicHeichelSeedSitemap() { return renderHeichelSeedSitemap(); },
@@ -32,15 +61,21 @@ function createRoutes($i) {
 		'/:heichel/series/:series/post/:post/translations': async function renderPublicTranslations(vars) { return renderTranslationPage(vars); },
 		'/submit': async function renderGlobalSubmission() { return renderGlobalSubmit(); },
 		'/:heichel/series/root/error': async function renderRootError(vars) { return renderHeichelShell(vars.heichel); },
-		'/:heichel/series/:series/index': async function renderSeriesIndex(vars) { return renderHeichelShell(vars.heichel, vars.series); },
-		'/:heichel/series/:series': async function renderSeries(vars) { return renderHeichelShell(vars.heichel, vars.series); },
+		'/:heichel/series/:series/index': async function renderSeriesIndex(vars) {
+			return isEncyclopedia(vars) ? renderEncyclopediaLandingSafe(vars) : renderHeichelShell(vars.heichel, vars.series);
+		},
+		'/:heichel/series/:series': async function renderSeries(vars) {
+			return isEncyclopedia(vars) ? renderEncyclopediaLandingSafe(vars) : renderHeichelShell(vars.heichel, vars.series);
+		},
 		'/:heichel/delete': async function renderDeletion(vars) { return renderDelete(vars); },
 		'/:heichel/edit': async function renderEdit() { return $i.$ga('_awtsmoos.submitToHeichel.html'); },
 		'/:heichel/submit': async function renderSubmission(vars) { return renderSubmit(vars.heichel); },
 		'/:heichel/submitPost': async function renderPostSubmission(vars) { return $i.$ga('./heichel/submit/_awtsmoos.post.html', { heichel: vars.heichel }); },
 		'/post': async function renderPostDoorway() { return $i.$ga('_awtsmoos.postDoorway.html'); },
 		'/:heichel/post/:post': async function renderDirectPost(vars) { return renderPost(vars); },
-		'/:heichel/series/:series/post/:post': async function renderNamedSeriesPost(vars) { return renderSeriesPost(vars); },
+		'/:heichel/series/:series/post/:post': async function renderNamedSeriesPost(vars) {
+			return isEncyclopedia(vars) ? renderEncyclopediaArticleSafe(vars) : renderSeriesPost(vars);
+		},
 		'/:heichel/series/:series/:entry': async function renderSeriesEntryRoute(vars) { return renderSeriesEntry(vars); },
 		'/:heichel': async function renderHeichel(vars) { return renderHeichelShell(vars.heichel); }
 	};

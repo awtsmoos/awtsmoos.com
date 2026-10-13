@@ -1,0 +1,878 @@
+/* B"H — Admur Encyclopedia styles. Tokenized, light + dark, no !important. */
+
+:root,
+.enc-document[data-theme="light"] {
+	--enc-bg: #faf7f0;
+	--enc-surface: #ffffff;
+	--enc-surface-soft: #f4eee1;
+	--enc-ink: #221a10;
+	--enc-ink-soft: #4d4132;
+	--enc-muted: #7a6a54;
+	--enc-gold: #9a7420;
+	--enc-gold-deep: #7c5c14;
+	--enc-gold-soft: #f1e6c9;
+	--enc-border: #e3d7bd;
+	--enc-border-soft: #ece2cb;
+	--enc-hebrew: #2b2114;
+	--enc-card-shadow: 0 1px 2px rgba(60, 45, 20, 0.06), 0 8px 24px rgba(60, 45, 20, 0.07);
+	--enc-focus-ring: 0 0 0 3px rgba(154, 116, 32, 0.35);
+	--enc-mark: #ffe9a8;
+}
+
+.enc-document[data-theme="dark"] {
+	--enc-bg: #0e0b07;
+	--enc-surface: #171310;
+	--enc-surface-soft: #1e1913;
+	--enc-ink: #f2e9d5;
+	--enc-ink-soft: #d8c9ac;
+	--enc-muted: #a39372;
+	--enc-gold: #d9ab4a;
+	--enc-gold-deep: #e8c069;
+	--enc-gold-soft: #2b2113;
+	--enc-border: #33291a;
+	--enc-border-soft: #282015;
+	--enc-hebrew: #f5ecd8;
+	--enc-card-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 28px rgba(0, 0, 0, 0.45);
+	--enc-focus-ring: 0 0 0 3px rgba(217, 171, 74, 0.4);
+	--enc-mark: #5a4517;
+}
+
+.enc-document {
+	background: var(--enc-bg);
+	color: var(--enc-ink);
+}
+
+.enc-document body {
+	margin: 0;
+	background: var(--enc-bg);
+	color: var(--enc-ink);
+	font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+	line-height: 1.6;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* ---------- masthead ---------- */
+
+.enc-masthead {
+	background: var(--enc-surface);
+	border-bottom: 1px solid var(--enc-border);
+	color: var(--enc-ink);
+}
+
+.enc-masthead-inner {
+	margin-inline: auto;
+	max-width: 72rem;
+	padding: 0.7rem 1.25rem;
+}
+
+.enc-brand {
+	color: var(--enc-gold-deep);
+	display: inline-block;
+	font-family: "Cardo", Georgia, serif;
+	font-size: 1.15rem;
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	text-decoration: none;
+	vertical-align: middle;
+}
+
+.enc-brand:hover {
+	color: var(--enc-gold);
+}
+
+.enc-brand:focus-visible {
+	border-radius: 0.375rem;
+	box-shadow: var(--enc-focus-ring);
+	outline: none;
+}
+
+.enc-masthead-nav {
+	display: inline-block;
+	margin-left: 1.5rem;
+	vertical-align: middle;
+}
+
+.enc-masthead-link {
+	border-radius: 0.5rem;
+	color: var(--enc-ink-soft);
+	font-size: 0.9rem;
+	font-weight: 600;
+	padding: 0.45rem 0.8rem;
+	text-decoration: none;
+}
+
+.enc-masthead-link:hover {
+	background: var(--enc-gold-soft);
+	color: var(--enc-gold-deep);
+}
+
+.enc-masthead-link:focus-visible {
+	box-shadow: var(--enc-focus-ring);
+	outline: none;
+}
+
+.enc-masthead-link:active {
+	color: var(--enc-gold-deep);
+}
+
+.enc-masthead-link.is-active {
+	color: var(--enc-gold-deep);
+}
+
+/* ---------- landing hero ---------- */
+
+.enc-landing {
+	margin-inline: auto;
+	max-width: 72rem;
+	padding: 0 1.25rem 4rem;
+}
+
+.enc-hero {
+	padding: clamp(2.5rem, 7vw, 4.5rem) 0 2rem;
+	text-align: center;
+}
+
+.enc-hero-kicker {
+	color: var(--enc-gold);
+	font-size: 0.8rem;
+	font-weight: 700;
+	letter-spacing: 0.28em;
+	margin: 0 0 1rem;
+	text-transform: uppercase;
+}
+
+.enc-hero-title {
+	margin: 0;
+}
+
+.enc-hero-he {
+	color: var(--enc-hebrew);
+	display: block;
+	font-family: "Frank Ruhl Libre", "Cardo", serif;
+	font-size: clamp(3rem, 9vw, 4.75rem);
+	font-weight: 700;
+	line-height: 1.15;
+}
+
+.enc-hero-en {
+	color: var(--enc-ink);
+	display: block;
+	font-family: "Cardo", Georgia, serif;
+	font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+	font-weight: 700;
+	margin-top: 0.75rem;
+}
+
+.enc-hero-sub {
+	color: var(--enc-muted);
+	font-size: 1.05rem;
+	margin: 1rem auto 0;
+	max-width: 38rem;
+}
+
+/* ---------- search ---------- */
+
+.enc-search {
+	margin: 1.75rem auto 0;
+	max-width: 38rem;
+}
+
+.enc-search-label {
+	color: var(--enc-muted);
+	display: block;
+	font-size: 0.85rem;
+	font-weight: 600;
+	margin-bottom: 0.5rem;
+	text-align: left;
+}
+
+.enc-search-box {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.enc-search-input {
+	background: var(--enc-surface);
+	border: 1px solid var(--enc-border);
+	border-radius: 0.75rem;
+	color: var(--enc-ink);
+	flex: 1;
+	font-size: 1rem;
+	min-width: 0;
+	padding: 0.8rem 1rem;
+}
+
+.enc-search-input::placeholder {
+	color: var(--enc-muted);
+}
+
+.enc-search-input:hover {
+	border-color: var(--enc-gold);
+}
+
+.enc-search-input:focus {
+	border-color: var(--enc-gold);
+	box-shadow: var(--enc-focus-ring);
+	outline: none;
+}
+
+.enc-search-button {
+	background: var(--enc-gold);
+	border: 1px solid var(--enc-gold);
+	border-radius: 0.75rem;
+	color: #fffdf7;
+	cursor: pointer;
+	font-size: 1rem;
+	font-weight: 700;
+	padding: 0.8rem 1.4rem;
+}
+
+.enc-search-button:hover {
+	background: var(--enc-gold-deep);
+	border-color: var(--enc-gold-deep);
+}
+
+.enc-search-button:focus-visible {
+	box-shadow: var(--enc-focus-ring);
+	outline: none;
+}
+
+.enc-search-button:active {
+	background: var(--enc-gold-deep);
+	transform: translateY(1px);
+}
+
+/* ---------- sections & category cards ---------- */
+
+.enc-section-title {
+	color: var(--enc-ink);
+	font-family: "Cardo", Georgia, serif;
+	font-size: 1.5rem;
+	font-weight: 700;
+	margin: 0;
+}
+
+.enc-cats {
+	padding: 1.5rem 0 0.5rem;
+}
+
+.enc-cats .enc-section-title {
+	margin-bottom: 1.25rem;
+	text-align: center;
+}
+
+.enc-cat-grid {
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+}
+
+.enc-cat-card {
+	background: var(--enc-surface);
+	border: 1px solid var(--enc-border);
+	border-radius: 1rem;
+	box-shadow: var(--enc-card-shadow);
+	color: var(--enc-ink);
+	cursor: pointer;
+	display: block;
+	padding: 1.5rem 1.25rem 1.25rem;
+	text-align: center;
+	transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.enc-cat-card:hover {
+	border-color: var(--enc-gold);
+	box-shadow: 0 2px 4px rgba(60, 45, 20, 0.08), 0 14px 34px rgba(60, 45, 20, 0.12);
+	transform: translateY(-3px);
+}
+
+.enc-cat-card:focus-visible {
+	border-color: var(--enc-gold);
+	box-shadow: var(--enc-focus-ring);
+	outline: none;
+}
+
+.enc-cat-card:active {
+	transform: translateY(-1px);
+}
+
+.enc-cat-card.is-active {
+	border-color: var(--enc-gold);
+	box-shadow: var(--enc-focus-ring);
+}
+
+.enc-cat-heading {
+	color: var(--enc-ink);
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+}
+
+.enc-cat-he {
+	color: var(--enc-hebrew);
+	font-family: "Frank Ruhl Libre", serif;
+	font-size: 1.9rem;
+	font-weight: 700;
+	line-height: 1.3;
+}
+
+.enc-cat-rule {
+	background: linear-gradient(to right, transparent, var(--enc-gold), transparent);
+	height: 2px;
+	margin: 0.7rem auto;
+	opacity: 0.7;
+	width: 4.5rem;
+}
+
+.enc-cat-en {
+	color: var(--enc-ink);
+	font-size: 1.02rem;
+	font-weight: 700;
+}
+
+.enc-cat-count {
+	color: var(--enc-muted);
+	display: block;
+	font-size: 0.85rem;
+	margin-top: 0.35rem;
+}
+
+.enc-card-link {
+	color: var(--enc-gold-deep);
+	display: inline-block;
+	font-size: 0.85rem;
+	font-weight: 700;
+	margin-top: 0.75rem;
+	text-decoration: none;
+}
+
+.enc-card-link:hover {
+	color: var(--enc-gold);
+	text-decoration: underline;
+}
+
+.enc-card-link:focus-visible {
+	border-radius: 0.25rem;
+	box-shadow: var(--enc-focus-ring);
+	outline: none;
+}
+
+.enc-card-link:active {
+	color: var(--enc-gold-deep);
+}
+
+/* ---------- article browser ---------- */
+
+.enc-browser {
+	padding: 2.5rem 0 0;
+}
+
+.enc-browser-head {
+	align-items: baseline;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem 1.25rem;
+	margin-bottom: 1.25rem;
+}
+
+.enc-result-count {
+	color: var(--enc-muted);
+	font-size: 0.9rem;
+	margin: 0;
+}
+
+.enc-clear {
+	background: var(--enc-surface);
+	border: 1px solid var(--enc-border);
+	border-radius: 999px;
+	color: var(--enc-ink-soft);
+	cursor: pointer;
+	font-size: 0.85rem;
+	font-weight: 600;
+	margin-left: auto;
+	padding: 0.4rem 0.9rem;
+}
+
+.enc-clear:hover {
+	border-color: var(--enc-gold);
+	color: var(--enc-gold-deep);
+}
+
+.enc-clear:focus-visible {
+	box-shadow: var(--enc-focus-ring);
+	outline: none;
+}
+
+.enc-clear:active {
+	color: var(--enc-gold-deep);
+}
+
+.enc-article-grid {
+	display: grid;
+	gap: 0.65rem;
+	grid-template-columns: 1fr 1fr;
+}
+
+.enc-article-row {
+	align-items: center;
+	background: var(--enc-surface);
+	border: 1px solid var(--enc-border-soft);
+	border-radius: 0.75rem;
+	color: var(--enc-ink);
+	display: flex;
+	gap: 1rem;
+	justify-content: space-between;
+	padding: 0.8rem 1.1rem;
+}
+
+.enc-article-row:hover {
+	border-color: var(--enc-gold);
+}
+
+.enc-row-main {
+	display: block;
+	min-width: 0;
+}
+
+.enc-row-link {
+	color: var(--enc-ink);
+	display: block;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.enc-row-link:hover {
+	color: var(--enc-gold-deep);
+	text-decoration: underline;
+}
+
+.enc-row-link:focus-visible {
+	border-radius: 0.25rem;
+	box-shadow: var(--enc-focus-ring);
+	outline: none;
+}
+
+.enc-row-he {
+	color: var(--enc-hebrew);
+	display: block;
+	font-family: "Frank Ruhl Libre", serif;
+	font-size: 1.05rem;
+}
+
+.enc-badge {
+	background: var(--enc-gold-soft);
+	border-radius: 999px;
+	color: var(--enc-gold-deep);
+	flex-shrink: 0;
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	padding: 0.28rem 0.7rem;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+.enc-badge-small {
+	font-size: 0.66rem;
+}
+
+a.enc-badge-link {
+	color: var(--enc-gold-deep);
+	text-decoration: none;
+}
+
+a.enc-badge-link:hover {
+	background: var(--enc-gold);
+	color: #fffdf7;
+}
+
+a.enc-badge-link:focus-visible {
+	box-shadow: var(--enc-focus-ring);
+	outline: none;
+}
+
+.enc-empty {
+	color: var(--enc-muted);
+	grid-column: 1 / -1;
+	padding: 2.5rem 1rem;
+	text-align: center;
+}
+
+.enc-empty p {
+	color: var(--enc-muted);
+	margin: 0;
+}
+
+/* ---------- article page ---------- */
+
+.enc-article-page {
+	margin-inline: auto;
+	max-width: 72rem;
+	padding: 0 1.25rem 4rem;
+}
+
+.enc-crumbs {
+	color: var(--enc-muted);
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	padding: 1.5rem 0 0.5rem;
+}
+
+.enc-crumb {
+	color: var(--enc-muted);
+	font-size: 0.88rem;
+	text-decoration: none;
+}
+
+.enc-crumb:hover {
+	color: var(--enc-gold-deep);
+	text-decoration: underline;
+}
+
+.enc-crumb:focus-visible {
+	border-radius: 0.25rem;
+	box-shadow: var(--enc-focus-ring);
+	outline: none;
+}
+
+.enc-crumb-sep {
+	color: var(--enc-muted);
+}
+
+.enc-crumb-current {
+	color: var(--enc-ink-soft);
+	font-weight: 600;
+}
+
+.enc-article {
+	margin-inline: auto;
+	max-width: 46rem;
+}
+
+.enc-article-head {
+	border-bottom: 2px solid var(--enc-gold);
+	margin-bottom: 2.25rem;
+	padding: 1.5rem 0 2rem;
+	text-align: center;
+}
+
+.enc-article-cat {
+	margin: 0 0 1rem;
+}
+
+.enc-article-title {
+	margin: 0;
+}
+
+.enc-article-title-latin {
+	color: var(--enc-ink);
+	display: block;
+	font-family: "Cardo", Georgia, serif;
+	font-size: clamp(2rem, 6vw, 3rem);
+	font-weight: 700;
+	line-height: 1.15;
+}
+
+.enc-article-title-he {
+	color: var(--enc-hebrew);
+	display: block;
+	font-family: "Frank Ruhl Libre", serif;
+	font-size: clamp(2.4rem, 7vw, 3.4rem);
+	font-weight: 700;
+	line-height: 1.4;
+	margin-top: 0.5rem;
+}
+
+.enc-article-gloss {
+	color: var(--enc-muted);
+	font-family: "Cardo", Georgia, serif;
+	font-size: 1.25rem;
+	font-style: italic;
+	margin: 0.75rem 0 0;
+}
+
+.enc-article-body {
+	color: var(--enc-ink);
+}
+
+.enc-article-h2 {
+	color: var(--enc-ink);
+	font-family: "Cardo", Georgia, serif;
+	font-size: 1.4rem;
+	font-weight: 700;
+	margin: 2.5rem 0 1rem;
+	padding-top: 0.5rem;
+}
+
+.enc-article-h2::before {
+	color: var(--enc-gold);
+	content: "✦ ";
+}
+
+.enc-unit {
+	margin-bottom: 1.5rem;
+}
+
+.enc-he {
+	color: var(--enc-hebrew);
+	font-family: "Frank Ruhl Libre", serif;
+	font-size: 1.3rem;
+	line-height: 1.9;
+	margin: 0 0 0.9rem;
+	text-align: right;
+}
+
+.enc-unit-text {
+	color: var(--enc-ink);
+}
+
+.enc-unit-text p {
+	color: var(--enc-ink);
+	font-size: 1.06rem;
+	line-height: 1.85;
+	margin: 0 0 1rem;
+}
+
+.enc-list {
+	color: var(--enc-ink);
+	margin: 0 0 1rem;
+	padding-inline-start: 1.4rem;
+}
+
+.enc-list li {
+	color: var(--enc-ink);
+	font-size: 1.06rem;
+	line-height: 1.8;
+	margin-bottom: 0.55rem;
+}
+
+.enc-list li::marker {
+	color: var(--enc-gold);
+}
+
+.enc-code {
+	background: var(--enc-surface-soft);
+	border-radius: 0.3em;
+	color: var(--enc-ink-soft);
+	font-size: 0.92em;
+	padding: 0.1em 0.35em;
+}
+
+.enc-inline-link {
+	color: var(--enc-gold-deep);
+	text-decoration: underline;
+	text-decoration-color: var(--enc-gold);
+	text-underline-offset: 0.15em;
+}
+
+.enc-inline-link:hover {
+	color: var(--enc-gold);
+}
+
+.enc-inline-link:focus-visible {
+	border-radius: 0.25rem;
+	box-shadow: var(--enc-focus-ring);
+	outline: none;
+}
+
+.enc-quotes {
+	margin: 0 0 1.5rem;
+}
+
+.enc-quote {
+	border-inline-start: 3px solid var(--enc-gold);
+	color: var(--enc-ink-soft);
+	margin: 0 0 1.25rem;
+	padding: 0.25rem 0 0.25rem 1.25rem;
+}
+
+.enc-quote p {
+	color: var(--enc-ink-soft);
+	font-size: 1.06rem;
+	font-style: italic;
+	line-height: 1.8;
+	margin: 0 0 0.6rem;
+}
+
+.enc-quote-he {
+	color: var(--enc-hebrew);
+	font-family: "Frank Ruhl Libre", serif;
+	font-size: 1.2rem;
+	line-height: 1.9;
+	margin: 0 0 0.6rem;
+	text-align: right;
+}
+
+.enc-unit-sources {
+	color: var(--enc-ink-soft);
+	font-size: 0.95rem;
+}
+
+.enc-unit-sources p,
+.enc-unit-sources li {
+	color: var(--enc-ink-soft);
+	font-size: 0.95rem;
+}
+
+.enc-related-grid {
+	display: grid;
+	gap: 0.75rem;
+	grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+	margin-top: 1.25rem;
+}
+
+.enc-related-card {
+	background: var(--enc-surface);
+	border: 1px solid var(--enc-border-soft);
+	border-radius: 0.75rem;
+	color: var(--enc-ink);
+	display: block;
+	padding: 0.9rem 1rem;
+}
+
+.enc-related-card:hover {
+	border-color: var(--enc-gold);
+}
+
+.enc-related-link {
+	color: var(--enc-ink);
+	display: block;
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.enc-related-link:hover {
+	color: var(--enc-gold-deep);
+	text-decoration: underline;
+}
+
+.enc-related-link:focus-visible {
+	border-radius: 0.25rem;
+	box-shadow: var(--enc-focus-ring);
+	outline: none;
+}
+
+.enc-related-he {
+	color: var(--enc-hebrew);
+	display: block;
+	font-family: "Frank Ruhl Libre", serif;
+}
+
+.enc-related-card .enc-badge {
+	display: inline-block;
+	margin-top: 0.4rem;
+}
+
+.enc-prevnext {
+	display: grid;
+	gap: 0.75rem;
+	grid-template-columns: 1fr 1fr;
+	margin: 3rem auto 0;
+	max-width: 46rem;
+}
+
+.enc-prevnext-cell {
+	background: var(--enc-surface);
+	border: 1px solid var(--enc-border-soft);
+	border-radius: 0.75rem;
+	color: var(--enc-ink);
+	display: block;
+	padding: 1rem 1.2rem;
+}
+
+.enc-prevnext-cell:hover {
+	border-color: var(--enc-gold);
+}
+
+.enc-prevnext-cell.enc-next {
+	text-align: right;
+}
+
+.enc-prevnext-link {
+	color: var(--enc-ink);
+	display: block;
+	font-family: "Cardo", Georgia, serif;
+	font-size: 1.1rem;
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.enc-prevnext-link:hover {
+	color: var(--enc-gold-deep);
+	text-decoration: underline;
+}
+
+.enc-prevnext-link:focus-visible {
+	border-radius: 0.25rem;
+	box-shadow: var(--enc-focus-ring);
+	outline: none;
+}
+
+.enc-prevnext-dir {
+	color: var(--enc-gold);
+	display: block;
+	font-size: 0.78rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	margin-bottom: 0.25rem;
+	text-transform: uppercase;
+}
+
+/* ---------- footer ---------- */
+
+.enc-footer {
+	border-top: 1px solid var(--enc-border);
+	margin-top: 3rem;
+	padding: 2rem 1.25rem;
+	text-align: center;
+}
+
+.enc-footer-line {
+	color: var(--enc-muted);
+	font-size: 0.9rem;
+	margin: 0 0 0.5rem;
+}
+
+.enc-footer-bh {
+	color: var(--enc-gold);
+	font-weight: 700;
+	margin: 0;
+}
+
+/* ---------- mobile ---------- */
+
+@media (max-width: 44rem) {
+	.enc-article-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.enc-cat-grid {
+		grid-template-columns: 1fr 1fr;
+		gap: 0.75rem;
+	}
+
+	.enc-cat-card {
+		padding: 1.1rem 0.75rem;
+	}
+
+	.enc-cat-he {
+		font-size: 1.5rem;
+	}
+
+	.enc-search-box {
+		flex-direction: column;
+	}
+
+	.enc-search-button {
+		width: 100%;
+	}
+
+	.enc-prevnext {
+		grid-template-columns: 1fr;
+	}
+
+	.enc-masthead-inner {
+		padding: 0.6rem 1rem;
+	}
+}
