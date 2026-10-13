@@ -9,7 +9,15 @@
  */
 function draw() {
 	const { ctx, camera, world } = state;
-	ctx.fillStyle = zoneBackground(state.zone);
+	// B"H textured zone ground: radial vignette over the zone hue, never flat.
+	const base = zoneBackground(state.zone);
+	const zg = ctx.createRadialGradient(
+		camera.width / 2, camera.height / 2, 60,
+		camera.width / 2, camera.height / 2, Math.max(camera.width, camera.height) * 0.7
+	);
+	zg.addColorStop(0, shadeHex(base, 18));
+	zg.addColorStop(1, shadeHex(base, -22));
+	ctx.fillStyle = zg;
 	ctx.fillRect(0, 0, camera.width, camera.height);
 	ctx.save();
 	ctx.scale(camera.zoom, camera.zoom);
@@ -65,4 +73,12 @@ function drawHud(ctx) {
 function zoneBackground(zone) {
 	const palette = ['#1d221d', '#17242b', '#281d31', '#2d2617'];
 	return palette[(Math.max(1, zone) - 1) % palette.length];
+}
+
+/** Lighten/darken a hex color by amt (-255..255). */
+function shadeHex(hex, amt) {
+	const n = parseInt(hex.slice(1), 16);
+	const f = (c) => Math.max(0, Math.min(255, c + amt));
+	const r = f((n >> 16) & 255), g = f((n >> 8) & 255), b = f(n & 255);
+	return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
 }
