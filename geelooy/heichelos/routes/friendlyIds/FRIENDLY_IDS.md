@@ -1,11 +1,33 @@
 # B"H — Human-Friendly Content IDs
 
-Short Hebrew/English URLs for Awtsmoos seforim, all resolving server-side to the
-same canonical reader posts. Implemented as **302 redirects** to canonical
-reader URLs (`/heichelos/ikar/series/<seriesId>/post/<postId>`).
+Short Hebrew/English URLs for Awtsmoos seforim, all resolving to the same
+canonical reader posts (`/heichelos/ikar/series/<seriesId>/post/<postId>`).
 
 Old ugly IDs (`BH_POST_...`, `tanya-he-la-01`, ...) are untouched and keep
 working forever — this layer only adds new entry points.
+
+## Architecture (two layers)
+
+**Layer 1 — server-side (primary).** One `_awtsmoos.derech.js` per mount
+(`geelooy/<sefer>/`) resolves every pattern below to **302 redirects** at the
+canonical reader URLs. Pure resolver in `friendlyResolver.js` (unit-tested).
+
+**Layer 2 — static landing fallback.** Each mount also ships an `index.html`
+meta-refresh page pointing at the sefer's series landing. Until nginx proxies
+the mount to Node (see below), `/tanya` etc. already resolve live through
+nginx's static serving; once proxied, the dynamic derech shadows the static
+page and full chapter routing goes live. No conflicts either way.
+
+**Nginx requirement for deep paths.** Nginx serves top-level paths statically
+and proxies only listed prefixes to the Node app (see
+`scripts/production/ensure-dynamic-platform-routes.sh`). That script now
+includes all six mounts; run it on production (or wait for the next canonical
+deploy, which runs it automatically) to activate chapter/verse/letter URLs:
+
+    bash scripts/production/ensure-dynamic-platform-routes.sh   # needs root: nginx -t && systemctl reload nginx
+
+Until then: the six sefer landings work; deeper friendly paths 404 at nginx.
+The resolver, routes, and tests are already deployed and waiting.
 
 ## Mounts
 

@@ -25,6 +25,16 @@ text = path.read_text()
 required = (
     ("/heichelos/", "\tlocation ^~ /heichelos/ {\n\t\tproxy_pass http://127.0.0.1:8080;\n\t}\n"),
     ("/view/", "\tlocation ^~ /view/ {\n\t\tproxy_pass http://127.0.0.1:8080;\n\t}\n"),
+    # B"H — human-friendly sefer IDs: geelooy/<sefer>/_awtsmoos.derech.js
+    # resolves /tanya, /תניא, ... server-side. Without these, nginx serves
+    # the mount dirs statically and the friendly routes never reach Node.
+    # (Bare /tanya still 301s to /tanya/ via static dir handling, as /heichelos does.)
+    ("/tanya/", "\tlocation ^~ /tanya/ {\n\t\tproxy_pass http://127.0.0.1:8080;\n\t}\n"),
+    ("/תניא/", "\tlocation ^~ /תניא/ {\n\t\tproxy_pass http://127.0.0.1:8080;\n\t}\n"),
+    ("/likutei-torah/", "\tlocation ^~ /likutei-torah/ {\n\t\tproxy_pass http://127.0.0.1:8080;\n\t}\n"),
+    ("/לקוטי-תורה/", "\tlocation ^~ /לקוטי-תורה/ {\n\t\tproxy_pass http://127.0.0.1:8080;\n\t}\n"),
+    ("/igeres-hakodesh/", "\tlocation ^~ /igeres-hakodesh/ {\n\t\tproxy_pass http://127.0.0.1:8080;\n\t}\n"),
+    ("/אגרות-קודש/", "\tlocation ^~ /אגרות-קודש/ {\n\t\tproxy_pass http://127.0.0.1:8080;\n\t}\n"),
 )
 missing = [block for route, block in required if f"location ^~ {route}" not in text]
 if not missing:
