@@ -41,7 +41,7 @@ body {
 	gap: 14px;
 	padding: 24px;
 	box-sizing: border-box;
-	background: rgba(3, 13, 29, 0.72);
+	background: #0b1526; /* B"H 2026-10-13: solid, never translucent */
 	text-align: center;
 }
 
@@ -98,7 +98,8 @@ button {
 	top: 72px;
 	padding: 8px 12px;
 	border-radius: 999px;
-	background: rgba(0, 0, 0, 0.68);
+	background: #101d33; /* B"H 2026-10-13: solid, never translucent */
+	border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 button:focus-visible {
