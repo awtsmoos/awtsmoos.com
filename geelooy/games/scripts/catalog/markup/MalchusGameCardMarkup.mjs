@@ -14,6 +14,7 @@ import { renderHodNativeCapabilityMarkup } from "./HodCapabilityMarkup.mjs";
 import { renderHodLiveCommerceMarkup } from "./HodCommerceMarkup.mjs";
 import { escapeHodHtml } from "./HodHtmlEscaper.mjs";
 import { resolveHodCatalogPaletteClass } from "./HodCatalogPalette.mjs";
+import { renderGameCover } from "../gameCovers.mjs";
 
 /**
  * Renders one semantic game card with explicit identity for shared commerce hydration.
@@ -28,9 +29,11 @@ export function renderMalchusGameCardMarkup(chochmahGameRecord) {
 	const hodPrimaryLabel = escapeHodHtml(chochmahGameRecord.primaryActionLabel || "Play Solo");
 	const yesodGameId = escapeHodHtml(chochmahGameRecord.id);
 
+	const hodCoverMarkup = renderGameCover(chochmahGameRecord.id, chochmahGameRecord.title);
 	return `
 		<article class="gameCard${hodFeaturedClass} ${hodPaletteClass} awp-card" data-game-id="${yesodGameId}">
 			<span class="gameAura" aria-hidden="true"></span>
+			${hodCoverMarkup}
 			<header class="gameCard__header">
 				<span class="gameIcon" aria-hidden="true">${escapeHodHtml(chochmahGameRecord.icon)}</span>
 				${hodBadgeMarkup}

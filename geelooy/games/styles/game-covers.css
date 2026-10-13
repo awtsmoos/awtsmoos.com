@@ -1,0 +1,151 @@
+/* B"H — Game covers, tight padding, scroll-aware background (Yaakov 2026-10-13) */
+/* === Per-game cover images === */
+.gameCover {
+	display: block;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	overflow: hidden;
+	border-radius: 0.75rem 0.75rem 0 0;
+	background: #0a0a18;
+}
+.gameCover img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	transition: transform 0.3s ease;
+}
+.gameCover img:hover {
+	transform: scale(1.05);
+}
+.gameCard--fallback {
+	display: block;
+	text-decoration: none;
+	color: inherit;
+	background: rgba(255,255,255,0.04);
+	border: 1px solid rgba(255,215,0,0.15);
+	border-radius: 0.75rem;
+	overflow: hidden;
+}
+.gameCard--fallback strong {
+	display: block;
+	padding: 0.6rem 0.8rem;
+	font-size: 0.95rem;
+	color: #f5e6c8;
+}
+.gameCard--fallback:visited strong {
+	color: #f5e6c8;
+}
+
+/* === Reduced padding (Yaakov: "too much paddings") === */
+.gamesShell {
+	padding-left: 0.75rem;
+	padding-right: 0.75rem;
+}
+.heroPanel {
+	padding: 1rem 0.9rem;
+	gap: 0.75rem;
+	margin-bottom: 0.75rem;
+}
+.heroCopy .heroText {
+	margin: 0.4rem 0;
+}
+.heroActions {
+	gap: 0.5rem;
+	margin-top: 0.5rem;
+}
+.quickLaunch {
+	gap: 0.4rem;
+	padding: 0.5rem;
+	margin-bottom: 0.75rem;
+}
+.quickLaunch a {
+	padding: 0.5rem 0.6rem;
+}
+.playModeRail {
+	padding: 0.4rem 0.6rem;
+	gap: 0.5rem;
+	margin-bottom: 0.75rem;
+}
+.discoveryPanel {
+	padding: 0.8rem;
+	margin-bottom: 0.75rem;
+}
+.discoveryHeading {
+	margin-bottom: 0.5rem;
+}
+.searchWrap {
+	margin-bottom: 0.5rem;
+}
+.filterDisclosure {
+	margin-top: 0.4rem;
+}
+.gamesCatalog {
+	gap: 0.6rem;
+	padding: 0 0.25rem;
+}
+.gameCard {
+	padding: 0;
+}
+.gameCard__header,
+.gameCard .gameGenre,
+.gameCard h3,
+.gameCard .gameHook,
+.gameCard__footer {
+	padding-left: 0.7rem;
+	padding-right: 0.7rem;
+}
+.gameCard .gameGenre {
+	margin: 0.4rem 0 0.1rem;
+}
+.gameCard h3 {
+	margin: 0.1rem 0 0.3rem;
+}
+.gameCard .gameHook {
+	margin: 0 0 0.5rem;
+	font-size: 0.85rem;
+}
+.gameCard__footer {
+	padding-bottom: 0.7rem;
+}
+.gamesFooter {
+	padding: 1rem 0.75rem;
+	margin-top: 1rem;
+}
+
+/* === Scroll-aware background (Yaakov: header gone → don't go plain black) === */
+.awtsmoos-bg-games {
+	/* Fixed cosmic gradient that persists through scroll */
+	background:
+		radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255,180,60,0.08) 0%, transparent 60%),
+		radial-gradient(ellipse 60% 40% at 20% 30%, rgba(80,60,180,0.06) 0%, transparent 50%),
+		radial-gradient(ellipse 60% 40% at 80% 70%, rgba(255,215,0,0.04) 0%, transparent 50%),
+		linear-gradient(180deg, #02000f 0%, #060418 40%, #040212 70%, #02000f 100%);
+	background-attachment: fixed;
+	min-height: 100vh;
+}
+/* Hero fades elegantly as you scroll past */
+.awtsmoos-hero--games {
+	transition: opacity 0.3s ease;
+}
+/* Subtle particle texture overlay for depth while scrolling */
+.gamesShell::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	z-index: 0;
+	opacity: 0.35;
+	background-image: url("https://awtsmoos.com/api/social/drive/public/awtsmoos/backgrounds/bg-games-particles-0-1a71bf9b-654a-4240-a64f-da5cdbb434ce.webp?v=20261013a");
+	background-size: 400px 400px;
+	background-repeat: repeat;
+}
+.gamesShell > * {
+	position: relative;
+	z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.gameCover img { transition: none; }
+	.gamesShell::before { display: none; }
+}

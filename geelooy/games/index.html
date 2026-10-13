@@ -19,6 +19,7 @@ Awtsmoos.com lets every card remain a true route while Temple Runner leads with 
 	<link rel="stylesheet" href="/css/golden-icons.css?v=c462a12509">
 	<link rel="stylesheet" href="/css/awtsmoos-visual-assets.css?v=28fee09ee1">
 	<link rel="stylesheet" href="/css/video-loader.css?v=fccafca785">
+	<link rel="stylesheet" href="./styles/game-covers.css?v=gcovers-001">
 	<script type="module" src="/games/scripts/runtime/index.js?v=6fd9ae91f1"></script>
 	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=de5da830c1"></script>
 </head>
@@ -113,23 +114,24 @@ Awtsmoos.com lets every card remain a true route while Temple Runner leads with 
 		   If the module catalog hasn't rendered in 5 seconds, inject a
 		   hardcoded game list. Zero dependencies, zero imports, pure DOM. */
 		(function() {
+			var COVER_BASE = "https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/games";
 			var GAMES = [
-				["Temple Runner","./mitzvahWorld/templeRunner/"],["CobyK","./cobyk/"],
-				["Merkava — War of the Sparks","./Merkava/"],["Ohrfront: Aleph Vanguard","./ohrfront/"],
-				["Sefira Clash","./sefira-clash/"],["Nitzotz.io","./nitzotz-io/"],
-				["Shema Strike","./shema-strike/"],["Oros HaKelim","./oros-ha-kelim/"],
-				["Awtsmoos Bounce: Orbit Run","./awtsmoos-bounce/"],["Seven Mitzvos","./seven-mitzvos/"],
-				["City of Light","./city-of-light/"],["Ohr HaGnuz","./ohr-hagnuz/"],
-				["The Scribe's Journey","./scribe-journey/"],["Mitzvah World","./mitzvahWorld/"],
-				["Rambam · Kiddush HaChodesh","./rambam/"],["Sulam HaSod","./sulam-ha-sod/"],
-				["KAVANAH","./KAVANAH/"],["Neshama Quest","./neshama-quest/"],
-				["Kabbalah Shooter","./kabbalah-shooter/"],["Migdol","./migdol/"],
-				["Soul Jump","./soul-jump/"],["Noah's Dove Jump","./dove/"],
-				["The Rebbe's Runner","./rebbe-runner/"],["Adventure","./adventure/"],
-				["Ohrbound","./ohrbound/"],["Nachash","./Nachash/"],
-				["Brick Blast","./brick-blast/"],["Chess","./chess/"],
-				["Tetris","./tetris/"],["Connect 4","./connect4/"],
-				["Pong","./pong/"],["Cards","./cards/"],["Emojis","./emojis/"]
+				["Temple Runner","./mitzvahWorld/templeRunner/","game-temple-runner.webp"],["CobyK","./cobyk/","game-cobyk.webp"],
+				["Merkava — War of the Sparks","./Merkava/","game-merkava.webp"],["Ohrfront: Aleph Vanguard","./ohrfront/","game-ohrfront.webp"],
+				["Sefira Clash","./sefira-clash/","game-sefira-clash.webp"],["Nitzotz.io","./nitzotz-io/","game-nitzotz-io.webp"],
+				["Shema Strike","./shema-strike/","game-shema-strike.webp"],["Oros HaKelim","./oros-ha-kelim/","game-oros-hakelim.webp"],
+				["Awtsmoos Bounce: Orbit Run","./awtsmoos-bounce/","game-bounce.webp"],["Seven Mitzvos","./seven-mitzvos/","game-seven-mitzvos.webp"],
+				["City of Light","./city-of-light/","game-city-of-light.webp"],["Ohr HaGnuz","./ohr-hagnuz/","game-ohr-hagnuz.webp"],
+				["The Scribe's Journey","./scribe-journey/","game-scribe-journey.webp"],["Mitzvah World","./mitzvahWorld/","game-mitzvah-world.webp"],
+				["Rambam · Kiddush HaChodesh","./rambam/","game-rambam.webp"],["Sulam HaSod","./sulam-ha-sod/","game-sulam-hasod.webp"],
+				["KAVANAH","./KAVANAH/","game-kavanah.webp"],["Neshama Quest","./neshama-quest/","game-neshama-quest.webp"],
+				["Kabbalah Shooter","./kabbalah-shooter/","game-kabbalah-shooter.webp"],["Migdol","./migdol/","game-migdol.webp"],
+				["Soul Jump","./soul-jump/","game-soul-jump.webp"],["Noah's Dove Jump","./dove/","game-dove.webp"],
+				["The Rebbe's Runner","./rebbe-runner/","game-rebbe-runner.webp"],["Adventure","./adventure/","game-adventure.webp"],
+				["Ohrbound","./ohrbound/","game-ohrbound.webp"],["Nachash","./Nachash/","game-nachash.webp"],
+				["Brick Blast","./brick-blast/","game-brick-blast.webp"],["Chess","./chess/","game-chess.webp"],
+				["Tetris","./tetris/","game-tetris.webp"],["Connect 4","./connect4/","game-connect4.webp"],
+				["Pong","./pong/","game-pong.webp"],["Cards","./cards/","game-cards.webp"],["Emojis","./emojis/","game-emojis.webp"]
 			];
 			setTimeout(function() {
 				var section = document.getElementById('gamesCatalog');
@@ -139,7 +141,8 @@ Awtsmoos.com lets every card remain a true route while Temple Runner leads with 
 				var html = GAMES.map(function(g) {
 					var t = g[0].replace(/</g,'&lt;').replace(/>/g,'&gt;');
 					var h = g[1].replace(/"/g,'&quot;');
-					return '<a class="gameCard" href="'+h+'"><strong>'+t+'</strong></a>';
+					var c = COVER_BASE + '/' + g[2] + '?v=20261013b';
+					return '<a class="gameCard gameCard--fallback" href="'+h+'"><span class="gameCover"><img src="'+c+'" alt="'+t+' cover art" loading="lazy"></span><strong>'+t+'</strong></a>';
 				}).join('');
 				section.innerHTML = html;
 				var count = document.getElementById('gameCount');
