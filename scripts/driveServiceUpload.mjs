@@ -84,8 +84,14 @@ async function main() {
 	console.log(text.slice(0, 500));
 
 	if (res.status === 200 || res.status === 201) {
+		// B"H (2026-10-13, Yaakov's law): output content hash so callers can
+		// append ?v=hash for automatic cache busting when files change.
+		const { createHash } = await import('node:crypto');
+		const hash = createHash('sha256').update(bytes).digest('hex').slice(0, 10);
 		const publicUrl = `${API_BASE}/api/social/drive/public/${encodeURIComponent(alias)}/${drivePath.split('/').map(encodeURIComponent).join('/')}`;
 		console.log(`\nPUBLIC URL: ${publicUrl}`);
+		console.log(`CONTENT HASH: ${hash}`);
+		console.log(`VERSIONED URL: ${publicUrl}?v=${hash}`);
 	} else {
 		process.exit(2);
 	}
