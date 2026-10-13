@@ -8,6 +8,7 @@
  */
 const { aliasFields, heichelFields } = require('./fieldMaps.js');
 const { traceAsync } = require('./torahRouteTrace.js');
+const { buildChitasVirtualPost, parseChitasPostId } = require('./chitasVirtualPost.js');
 
 /** Encodes one public route segment without changing its identity. */
 function encodeSegment(value) {
@@ -76,12 +77,22 @@ function createReaderData($i) {
 		return decorate({ heichelId, seriesId, postId, post });
 	}
 
-	async function loadSeriesPost(heichelId, seriesId, postId) {
-		const post = await fetchPublic(
+	async function loadSeriesPost(heichelId, seriesId, postId, opts = {}) {
+		let post = await fetchPublic(
 			`/api/social/heichelos/${encodeSegment(heichelId)}/series/${encodeSegment(seriesId)}/post/${encodeSegment(postId)}`,
 			'reader-data:post',
 			{ heichelId, seriesId, postId }
 		);
+		// B"H — Daily Chitas virtual posts (chitas-YYYY-MM-DD) have no stored
+		// record; build the day's full bilingual text server-side so crawlers
+		// and no-JS readers see real Torah instead of an "unavailable" error.
+		if (!post && seriesId === 'daily-chitas' && parseChitasPostId(postId)) {
+			post = await traceAsync(
+				'reader-data:chitas-virtual-post',
+				() => buildChitasVirtualPost(postId, { israel: !!opts.israel }),
+				{ heichelId, seriesId, postId }
+			).catch(() => null);
+		}
 		return decorate({ heichelId, seriesId, postId, post });
 	}
 

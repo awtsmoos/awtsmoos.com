@@ -1,0 +1,209 @@
+/* B"H — Daily Chitas beautiful loading screen.
+ * A premium, Jewish-art-inspired radial loader: the Hebrew alphabet orbits
+ * a slowly turning Star of David, ringed by a gold progress arc. Calm and
+ * dignified — never a generic spinner.
+ *
+ * The loader is a visual overlay only. Server-rendered Torah text sits
+ * beneath it (SEO-safe, no-JS readable). The overlay fades on reader-ready;
+ * a CSS-only fallback fades it even if JavaScript never runs.
+ */
+
+.chitas-loader-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.75rem;
+  background: var(--chitas-loader-bg, #0a0f1e);
+  transition: opacity 0.9s ease, visibility 0.9s ease;
+}
+
+.chitas-loader-overlay[data-hidden="true"] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* CSS-only fallback: never trap the reader if JS dies. */
+@keyframes chitas-loader-fallback-fade {
+  0%, 82% { opacity: 1; visibility: visible; }
+  100% { opacity: 0; visibility: hidden; }
+}
+
+.chitas-loader-overlay[data-js="false"] {
+  animation: chitas-loader-fallback-fade 9s ease forwards;
+}
+
+/* ---------- The medallion (SVG) ---------- */
+
+.chitas-loader-medallion {
+  width: 188px;
+  height: 188px;
+}
+
+.chitas-loader-medallion svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.chitas-loader-orbit-group {
+  animation: chitas-spin 28s linear infinite;
+  transform-origin: 100px 100px;
+}
+
+.chitas-loader-orbit-text {
+  font-family: "Noto Serif Hebrew", "David Libre", David, serif;
+  font-size: 11px;
+  letter-spacing: 6px;
+  fill: rgba(201, 162, 39, 0.85);
+}
+
+.chitas-loader-ring-mid {
+  fill: none;
+  stroke: rgba(201, 162, 39, 0.35);
+  stroke-width: 1;
+  stroke-dasharray: 4 5;
+  animation: chitas-spin-rev 18s linear infinite;
+  transform-origin: 100px 100px;
+}
+
+.chitas-loader-star {
+  animation: chitas-spin 36s linear infinite;
+  transform-origin: 100px 100px;
+}
+
+.chitas-loader-star .tri-up {
+  fill: none;
+  stroke: rgba(201, 162, 39, 0.8);
+  stroke-width: 1.5;
+}
+
+.chitas-loader-star .tri-down {
+  fill: none;
+  stroke: rgba(130, 175, 225, 0.6);
+  stroke-width: 1.5;
+}
+
+@keyframes chitas-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes chitas-spin-rev {
+  to { transform: rotate(-360deg); }
+}
+
+.chitas-loader-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 3;
+}
+
+.chitas-loader-bar {
+  fill: none;
+  stroke: #c9a227;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 415;
+  stroke-dashoffset: 415;
+  transform: rotate(-90deg);
+  transform-origin: 100px 100px;
+  transition: stroke-dashoffset 0.5s ease;
+  filter: drop-shadow(0 0 6px rgba(201, 162, 39, 0.7));
+}
+
+.chitas-loader-center-letter {
+  font-family: "Noto Serif Hebrew", "David Libre", David, serif;
+  font-size: 46px;
+  fill: #e8d9a8;
+  filter: drop-shadow(0 0 10px rgba(201, 162, 39, 0.55));
+  animation: chitas-breathe 3.2s ease-in-out infinite;
+}
+
+@keyframes chitas-breathe {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+
+/* ---------- Text ---------- */
+
+.chitas-loader-he {
+  font-family: "Noto Serif Hebrew", "David Libre", David, "Times New Roman", serif;
+  font-size: 1.5rem;
+  color: #e8d9a8;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.chitas-loader-en {
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: 1rem;
+  font-style: italic;
+  color: rgba(232, 217, 168, 0.72);
+  margin: 0;
+}
+
+.chitas-loader-shimmer {
+  background: linear-gradient(
+    100deg,
+    rgba(232, 217, 168, 0.55) 30%,
+    #f5e9c4 50%,
+    rgba(232, 217, 168, 0.55) 70%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: chitas-shimmer 2.6s linear infinite;
+}
+
+@keyframes chitas-shimmer {
+  to { background-position: -200% 0; }
+}
+
+/* ---------- Light theme ---------- */
+
+[data-theme="light"] .chitas-loader-overlay {
+  --chitas-loader-bg: #faf6ec;
+}
+
+[data-theme="light"] .chitas-loader-he {
+  color: #5a4a1e;
+}
+
+[data-theme="light"] .chitas-loader-en {
+  color: rgba(90, 74, 30, 0.72);
+}
+
+[data-theme="light"] .chitas-loader-center-letter {
+  fill: #8a6d1f;
+}
+
+[data-theme="light"] .chitas-loader-track {
+  stroke: rgba(90, 74, 30, 0.12);
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .chitas-loader-orbit-group,
+  .chitas-loader-ring-mid,
+  .chitas-loader-star {
+    animation: none;
+  }
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 480px) {
+  .chitas-loader-medallion {
+    width: 148px;
+    height: 148px;
+  }
+  .chitas-loader-he {
+    font-size: 1.25rem;
+  }
+}

@@ -78,7 +78,10 @@ function createPostReader($i) {
 	function renderSeriesPost(vars) {
 		return traceAsync(
 			'reader-data:series-total',
-			async () => renderResolvedReader(await readerData.loadSeriesPost(vars.heichel, vars.series, vars.post)),
+			async () => renderResolvedReader(await readerData.loadSeriesPost(
+				vars.heichel, vars.series, vars.post,
+				{ israel: String(vars.chitasIsrael || vars.query?.chitasIsrael || '') === '1' }
+			)),
 			{ heichelId: vars.heichel, seriesId: vars.series, postId: vars.post }
 		);
 	}
