@@ -80,6 +80,7 @@ function operationOptions(actor, aliasId, path, $i) {
 	return {
 		aliasId,
 		path,
+		actorType: actor.actorType,
 		actorUserId: actor.actorUserId,
 		credentialId: actor.credentialId,
 		requestId: requestId($i),

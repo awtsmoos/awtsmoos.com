@@ -16,6 +16,7 @@ const { asBuffer, putObject } = require('./objectRepository.js');
 const { mutateDriveState } = require('./stateRepository.js');
 const { createWriteReservation, consumeWriteReservation, releaseReservation } = require('./reservationPolicy.js');
 const { assertStorageDelta } = require('./quotaPolicy.js');
+const { quotaOptionsFor } = require('./quotaBypass.js');
 const { ensureParentFolders } = require('./entryHelpers.js');
 const { recordDriveEvent } = require('./auditEvents.js');
 const { beginDriveRequest, finishDriveRequest, abortDriveRequest } = require('./usageService.js');
@@ -52,7 +53,7 @@ async function writeDriveFile(options) {
 async function commitWrite(options, logicalPath, reservationId, object) {
 	return mutateDriveState(options.aliasId, options.$i, state => {
 		const reservation = consumeWriteReservation(state, reservationId);
-		const next = assertStorageDelta(state, reservation.byteDelta, reservation.fileDelta);
+		const next = assertStorageDelta(state, reservation.byteDelta, reservation.fileDelta, quotaOptionsFor(options));
 		const existing = state.entries[logicalPath];
 		const now = new Date().toISOString();
 		ensureParentFolders(state, logicalPath, now, options.aliasId);

@@ -11,6 +11,7 @@ const { mimeForPath } = require('./mimePolicy.js');
 const { mutateDriveState } = require('./stateRepository.js');
 const { consumeWriteReservation } = require('./reservationPolicy.js');
 const { assertStorageDelta } = require('./quotaPolicy.js');
+const { quotaOptionsFor } = require('./quotaBypass.js');
 const { ensureParentFolders } = require('./entryHelpers.js');
 const { recordDriveEvent } = require('./auditEvents.js');
 const { uploadFingerprint, recordKey, policyError } = require('./streamingUploadPolicy.js');
@@ -22,7 +23,7 @@ async function commitStreamingUpload(options) {
 		const key = recordKey(options.idempotencyKey);
 		const replay = replayResult(state, key, fingerprint, options.object.hash);
 		if (replay) return replay;
-		const next = assertStorageDelta(state, reservation.byteDelta, reservation.fileDelta);
+		const next = assertStorageDelta(state, reservation.byteDelta, reservation.fileDelta, quotaOptionsFor(options));
 		const existing = state.entries[options.path];
 		const now = new Date().toISOString();
 		ensureParentFolders(state, options.path, now, options.aliasId);

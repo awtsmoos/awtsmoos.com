@@ -13,6 +13,7 @@ const { normalizeDrivePath } = require('./pathPolicy.js');
 const { mutateDriveState } = require('./stateRepository.js');
 const { isAtOrBelow, remapPath, fileTotals, ensureParentFolders } = require('./entryHelpers.js');
 const { assertStorageDelta } = require('./quotaPolicy.js');
+const { quotaOptionsFor } = require('./quotaBypass.js');
 const { recordDriveEvent } = require('./auditEvents.js');
 
 async function moveDriveEntry(options) {
@@ -37,7 +38,7 @@ async function mutateTree(options, copy) {
 			.filter(entry => !entry.trashedAt && isAtOrBelow(entry.path, fromPath));
 		if (copy) {
 			const totals = fileTotals(selected);
-			const next = assertStorageDelta(state, totals.bytes, totals.files);
+			const next = assertStorageDelta(state, totals.bytes, totals.files, quotaOptionsFor(options));
 			state.usage.storedBytes = next.nextBytes;
 			state.usage.fileCount = next.nextFiles;
 		}

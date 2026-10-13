@@ -55,6 +55,7 @@ async function executeStreamingUpload({ $i, userid }, variables) {
 		...upload,
 		aliasId: variables.aliasId,
 		path: variables.path,
+		actorType: actor.actorType,
 		actorUserId: actor.actorUserId,
 		credentialId: actor.credentialId,
 		request: $i.request,

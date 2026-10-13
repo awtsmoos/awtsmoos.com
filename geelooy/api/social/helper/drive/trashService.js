@@ -14,6 +14,7 @@ const { normalizeDrivePath } = require('./pathPolicy.js');
 const { mutateDriveState } = require('./stateRepository.js');
 const { isAtOrBelow, parentPaths, fileTotals } = require('./entryHelpers.js');
 const { assertStorageDelta } = require('./quotaPolicy.js');
+const { quotaOptionsFor } = require('./quotaBypass.js');
 const { recordDriveEvent } = require('./auditEvents.js');
 
 async function trashDriveEntry(options) {
@@ -53,7 +54,7 @@ async function purgeDriveEntry(options) {
 		const selected = selectTree(state, logicalPath);
 		if (!selected.length) throw trashError('ENTRY_NOT_FOUND');
 		const totals = fileTotals(selected);
-		const next = assertStorageDelta(state, -totals.bytes, -totals.files);
+		const next = assertStorageDelta(state, -totals.bytes, -totals.files, quotaOptionsFor(options));
 		for (const entry of selected) delete state.entries[entry.path];
 		state.usage.storedBytes = next.nextBytes;
 		state.usage.fileCount = next.nextFiles;
