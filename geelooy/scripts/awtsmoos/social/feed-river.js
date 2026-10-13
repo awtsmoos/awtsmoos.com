@@ -67,8 +67,18 @@ async function loadMaamarLinks() {
 }
 
 // B"H — "Read the full maamar →" link for social posts derived from a maamar.
+function deriveBasePostId(postId) {
+	const id = String(postId || '');
+	// MR: mr-social-mittler-rebbe-15823-001-article → mittler-rebbe-15823-001
+	let m = /^mr-social-(mittler-rebbe-\d+-\d+)-/.exec(id);
+	if (m) return m[1];
+	// SHM: shm-social-15643-maamar-001-en-md-c00 → shm-maamar-15643-maamar-001-en-md
+	m = /^shm-social-(\d+-maamar-\d+(?:-en-md)?)-c\d+/.exec(id);
+	if (m) return 'shm-maamar-' + m[1];
+	return '';
+}
 function maamarLinkHtml(post) {
-	const base = post.basePostId || post.base_post_id || '';
+	const base = post.basePostId || post.base_post_id || deriveBasePostId(post.postId) || '';
 	if (!base || !state.maamarLinks) return '';
 	const entry = state.maamarLinks[base];
 	if (!entry || !entry.url) return '';

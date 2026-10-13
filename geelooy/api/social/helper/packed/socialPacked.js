@@ -441,7 +441,7 @@ function excerptOf(post) {
 }
 function allPostValue(post) {
   const postId = post.id || post.postId;
-  return { postId, heichelId: post.heichelId || '', seriesId: post.seriesId || post.parentSeriesId || 'root', aliasId: post.aliasId || post.author || '', type: post.contentType || post.postType || 'post', title: post.title || post.name || '', excerpt: excerptOf(post), connected: true, updatedAt: post.updatedAt || post.createdAt || post.timestamp || Date.now() };
+  return { postId, heichelId: post.heichelId || '', seriesId: post.seriesId || post.parentSeriesId || 'root', aliasId: post.aliasId || post.author || '', type: post.contentType || post.postType || 'post', title: post.title || post.name || '', excerpt: excerptOf(post), connected: true, basePostId: post.basePostId || post.base_post_id || '', updatedAt: post.updatedAt || post.createdAt || post.timestamp || Date.now() };
 }
 function mirrorAllPost({ $i, post }) {
   const value = allPostValue(post);
