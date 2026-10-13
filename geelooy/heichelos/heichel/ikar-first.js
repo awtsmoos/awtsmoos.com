@@ -30,6 +30,60 @@ export function boot() {
 
 	const discovery = root.querySelector('.heichel-semantic-discovery');
 	if (discovery) enhanceDiscovery(root, discovery);
+
+	// B"H — Daily Chitas is a virtual series (not in the API). The full
+	// navigator never boots on Ikar's stable path, so mount the chitas
+	// study directly here when the URL targets it.
+	if (isDailyChitasRoute()) {
+		void mountDailyChitas(root, discovery);
+	}
+}
+
+/** Returns whether the current URL targets the Daily Chitas virtual series. */
+function isDailyChitasRoute() {
+	const parts = location.pathname.split('/').filter(Boolean);
+	const idx = parts.indexOf('series');
+	return idx >= 0 && decodeURIComponent(parts[idx + 1] || '') === 'daily-chitas';
+}
+
+/**
+ * B"H — mounts the Daily Chitas study (Chumash + Tanya + Tehillim) on the
+ * virtual series page. Loads the chitas modules on demand so the stable
+ * Ikar bundle stays lean for every other page.
+ */
+async function mountDailyChitas(root, discovery) {
+	// Mark the mount point so a retry never duplicates the study.
+	if (root.querySelector('[data-chitas-daily-mount]')) return;
+	const mount = document.createElement('div');
+	mount.setAttribute('data-chitas-daily-mount', 'true');
+	// Place the study before the (empty) discovery list for virtual series.
+	if (discovery && discovery.parentNode === root) {
+		root.insertBefore(mount, discovery);
+	} else {
+		root.append(mount);
+	}
+	try {
+		const [{ loadChitasVirtualSeries }, { renderChitasWeek }] = await Promise.all([
+			import('./modules/chitas/virtual-series.js?v=native-chitas-003'),
+			import('./modules/ui/render/living-path/chitas-week.js?v=native-chitas-004')
+		]);
+		const virtual = await loadChitasVirtualSeries();
+		const appState = {
+			heichelId: 'ikar',
+			currentSeriesData: virtual.seriesData,
+			currentContent: virtual.content
+		};
+		renderChitasWeek(
+			virtual.content?.posts || [],
+			mount,
+			null,
+			appState
+		);
+		mount.setAttribute('data-chitas-daily-ready', 'true');
+	} catch (error) {
+		console.error('B"H — Daily Chitas mount failed:', error);
+		mount.remove();
+	}
 }
 
 /** Returns whether the current document belongs to the public Ikar library. */
