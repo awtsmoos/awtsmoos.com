@@ -16,7 +16,9 @@ The client script below only fills gaps the server could not know.
 	cover = cover.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
 	title = title.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 	if (cover) {
-		return '<div class="heichel-series-cover-hero"><img src="' + cover + '" alt="' + title + ' cover" loading="eager" fetchpriority="high"></div>';
+		// B"H — Yaakov 2026-10-13: responsive hero image, never a broken dark box.
+		// onerror hides the image gracefully; CSS provides a gradient fallback.
+		return '<div class="heichel-series-cover-hero"><img src="' + cover + '" alt="' + title + ' cover" loading="eager" fetchpriority="high" onerror="this.classList.add(\'img-broken\');this.removeAttribute(\'src\');"></div>';
 	}
 	return "";
 	</script>?>
@@ -48,7 +50,9 @@ The client script below only fills gaps the server could not know.
 		if (item.coverImage && item.kind === "series") {
 			var src = String(item.coverImage).replace(/"/g, "&quot;");
 			var alt = String(label).replace(/"/g, "&quot;").replace(/</g, "&lt;");
-			cover = '<span class="heichel-discovery-cover"><img src="' + src + '" alt="' + alt + '" loading="lazy"></span>';
+			// B"H — Yaakov 2026-10-13: lazy thumbnails with graceful fallback.
+			// onerror hides broken images; the card still looks beautiful.
+			cover = '<span class="heichel-discovery-cover"><img src="' + src + '" alt="' + alt + '" loading="lazy" decoding="async" onerror="this.classList.add(\'img-broken\');this.removeAttribute(\'src\');"></span>';
 		}
 		return '<li class="heichel-discovery-item' + (item.kind === "series" ? " heichel-discovery-series" : "") + '">' + cover + '<span class="heichel-discovery-text"><a href="' + item.path + '">' + label + "</a>" + desc + "</span></li>";
 	}).join("");
