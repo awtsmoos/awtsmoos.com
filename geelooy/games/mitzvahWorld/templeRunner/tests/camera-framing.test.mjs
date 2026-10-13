@@ -47,7 +47,9 @@ test("portrait and wide aspect profiles remain clamped and intentionally distinc
 
 	assert.equal(portrait.aspect, CAMERA_CONFIG.minAspect);
 	assert.equal(wide.aspect, CAMERA_CONFIG.maxAspect);
-	assert.ok(portrait.zOffset > neutral.zOffset);
+	// B"H — Yaakov 2026-10-13: portrait must NOT back the camera away (character was tiny).
+	// portraitZ is 0 so mobile keeps the close, readable framing.
+	assert.ok(portrait.zOffset <= neutral.zOffset);
 	assert.ok(wide.zOffset < neutral.zOffset);
 	assert.ok(portrait.fovOffset > neutral.fovOffset);
 });
@@ -62,5 +64,6 @@ test("speed lens remains inside the authored readable envelope on every aspect",
 	}
 
 	assert.ok(framing.fovTarget(1, 1.6) <= CAMERA_CONFIG.maxFov);
-	assert.ok(framing.zTarget(1, 0.58) > framing.zTarget(1, 1.6));
+	// B"H — Yaakov 2026-10-13: portrait keeps the close framing (no backup on mobile).
+	assert.ok(framing.zTarget(1, 0.58) <= framing.zTarget(1, 1.6) + CAMERA_CONFIG.speedZ + 0.01);
 });
