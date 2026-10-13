@@ -12,9 +12,12 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 	<meta name="theme-color" content="#0d1230">
 	<title>CobyK · Awtsmoos</title>
-	<link rel="stylesheet" href="./styles/cobyk.css?v=d9bba8e4f7">
+	<!-- B"H — Yaakov 2026-10-13: bundled CSS/JS for VERY FAST loading.
+	     cobyk.bundle.css = foundation+stage+hud+controls+drawer+interactions+
+	     responsive+touch-quality+cobyk+cobyk-rebuild (was 9 stylesheets).
+	     Rebuild: node ~/workspace/cobyk-build/build-css.mjs (then update ?v=). -->
+	<link rel="stylesheet" href="./styles/cobyk.bundle.css?v=6c8df42bdf02">
 	<link rel="stylesheet" href="/games/scripts/wardrobe/wardrobe.css?v=75fe2ac447">
-	<link rel="stylesheet" href="./styles/cobyk-rebuild.css?v=4d8771b4cc">
 	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=6c6d50d989">
 	<link rel="stylesheet" href="/games/css/awtsmoos-game-base.css?v=128b430115">
 </head>
@@ -105,7 +108,13 @@
 		</section>
 	</main>
 	<script type="module" src="/games/scripts/runtime/index.js?v=6fd9ae91f1"></script>
-	<script type="module" src="./src/main.js?v=c166aca811"></script>
+	<!-- B"H — Yaakov 2026-10-13: bundled game JS for VERY FAST loading.
+	     cobyk.bundle.js = the whole src/main.js module graph + procedural
+	     core in one 268KB request (was ~64+ sequential module fetches).
+	     Wardrobe stays a lazy dynamic import (loads on click only).
+	     Rebuild: node ~/workspace/cobyk-build/build-cobyk.mjs [out] (then update ?v=).
+	     Sources remain in src/ for development. -->
+	<script type="module" src="./cobyk.bundle.js?v=9b2f12fc55dd"></script>
 	<script type="module" async src="/games/scripts/player-shell/index.js?v=0ee3e8dd31"></script>
 </body>
 </html>

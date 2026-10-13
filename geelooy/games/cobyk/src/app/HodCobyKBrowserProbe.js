@@ -25,7 +25,15 @@ export class HodCobyKBrowserProbe {
 			open: chochmahIndex => this.malchusApp.openLevel(chochmahIndex),
 			restart: () => this.malchusApp.restart(),
 			next: () => this.malchusApp.advance(),
-			setQuality: malchusQuality => this.malchusApp.setQuality(malchusQuality)
+			setQuality: malchusQuality => this.malchusApp.setQuality(malchusQuality),
+			// B"H — Yaakov 2026-10-13: keyboard health for play-test
+			// verification. The bridge listens on `window` (no canvas click
+			// needed); a harness can assert mounted===true, then dispatch a
+			// synthetic keydown and watch the player move via read().
+			keyboard: () => Object.freeze({
+				mounted: Boolean(this.malchusApp?.netzachKeyboard?.malchusMounted),
+				loopRunning: Boolean(this.malchusApp?.tiferesLoop?.malchusRunning)
+			})
 		});
 		yesodTarget.__COBYK__ = hodFacade;
 		return hodFacade;

@@ -341,15 +341,25 @@ export class CobyKStarfield {
 			const tiferesY = malchusCloud.y + tiferesBob;
 			yesodCtx.save();
 			yesodCtx.globalAlpha = malchusCloud.alpha;
-			// Soft drop shadow beneath the cloud for lift.
-			yesodCtx.fillStyle = "rgba(120,150,190,0.35)";
-			yesodCtx.beginPath();
-			yesodCtx.ellipse(
-				tiferesX, tiferesY + malchusCloud.puffs[0].r * 0.55,
-				malchusCloud.puffs[0].r * 2.1, malchusCloud.puffs[0].r * 0.5,
-				0, 0, Math.PI * 2
+			// Soft drop shadow beneath the cloud for lift. B"H — Yaakov
+			// 2026-10-13: the old flat ellipse had hard visible edges (halo
+			// artifact). Now a squashed radial gradient that fades to
+			// transparent exactly at the ellipse edge — no hard rim.
+			yesodCtx.save();
+			yesodCtx.translate(tiferesX, tiferesY + malchusCloud.puffs[0].r * 0.55);
+			yesodCtx.scale(2.1, 0.5);
+			const chochmahShadowR = malchusCloud.puffs[0].r;
+			const chochmahShadow = yesodCtx.createRadialGradient(
+				0, 0, 0, 0, 0, chochmahShadowR
 			);
+			chochmahShadow.addColorStop(0, "rgba(120,150,190,0.32)");
+			chochmahShadow.addColorStop(0.55, "rgba(120,150,190,0.16)");
+			chochmahShadow.addColorStop(1, "rgba(120,150,190,0)");
+			yesodCtx.fillStyle = chochmahShadow;
+			yesodCtx.beginPath();
+			yesodCtx.arc(0, 0, chochmahShadowR, 0, Math.PI * 2);
 			yesodCtx.fill();
+			yesodCtx.restore();
 			for (const tiferesPuff of malchusCloud.puffs) {
 				const tiferesPx = tiferesX + tiferesPuff.dx;
 				const tiferesPy = tiferesY + tiferesPuff.dy;

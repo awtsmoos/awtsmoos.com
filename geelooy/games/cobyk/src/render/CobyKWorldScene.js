@@ -12,6 +12,7 @@ import { TiferesWorldPlanReconciler } from "./TiferesWorldPlanReconciler.js";
 import { NetzachDeathExplosion } from "./NetzachDeathExplosion.js";
 import { NetzachMountainBackdrop } from "./NetzachMountainBackdrop.js";
 import { NetzachPlayerShadow } from "./NetzachPlayerShadow.js";
+import { NetzachUnderworldPlane } from "./NetzachUnderworldPlane.js";
 
 /**
  * @file CobyKWorldScene.js
@@ -37,6 +38,9 @@ export class MalchusCobyKWorldScene {
 		this.netzachMountains = binaOptions.mountains || new NetzachMountainBackdrop();
 		// B"H — Yaakov 2026-10-13: real-time blob shadow under the player.
 		this.netzachShadow = binaOptions.shadow || new NetzachPlayerShadow();
+		// B"H — Yaakov 2026-10-13: packed-earth plane below the terrain so
+		// the camera dip under the floor never shows a dead empty band.
+		this.netzachUnderworld = binaOptions.underworld || new NetzachUnderworldPlane();
 		// B"H — Yaakov 2026-10-13: "Make better rotating coins" — smooth 3D spin.
 		this.chochmahCoinNodes = new Set();
 		this.netzachCoinSpinTime = 0;
@@ -60,6 +64,14 @@ export class MalchusCobyKWorldScene {
 			this.revealNode(malchusRecord);
 		}
 		this.malchusPlan = malchusPlan;
+		// B"H — Yaakov 2026-10-13: earth under the world.
+		const tiferesBounds = malchusPlan?.bounds;
+		if (tiferesBounds && Number.isFinite(tiferesBounds.minX) && Number.isFinite(tiferesBounds.maxX)) {
+			const tiferesEarth = this.netzachUnderworld.reveal(tiferesBounds.minX, tiferesBounds.maxX);
+			if (tiferesEarth && !tiferesEarth.parent) {
+				this.malchusScene.add(tiferesEarth);
+			}
+		}
 		this.hydrateMaterials(tiferesBudget);
 		return this.malchusScene;
 	}
@@ -127,6 +139,7 @@ export class MalchusCobyKWorldScene {
 	clear() {
 		this.chaiPlayer.reset();
 		this.netzachExplosion.clear();
+		this.netzachUnderworld?.clear();
 		this.chochmahNodes.clear();
 		this.chochmahCoinNodes.clear();
 		this.chochmahForceNodes.clear();
