@@ -323,7 +323,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
      canopy material's alphaTest was a silent no-op and foliage rendered as
      solid slabs. This composites the photo through a painted leaf-cluster
      mask, giving real transparent gaps — airy foliage instead of green blobs.
-     Costs one 512px canvas composite at build time; zero per-frame cost. */
+     Yaakov 2026-10-13: DENSE canopies — 900 large overlapping blobs for full
+     leaf mass, no winter-bare trees. Costs one 512px canvas composite at build
+     time; zero per-frame cost. */
   async function makeCanopyCutout(url) {
     const photo = await new Promise((res, rej) => {
       const img = new Image();
@@ -336,14 +338,14 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const mx = mask.getContext('2d');
     const r = mulberry32(4242);
     mx.clearRect(0, 0, S, S);
-    // leaf-cluster blobs: dense core, soft falloff — alphaTest cuts the gaps
-    for (let i = 0; i < 480; i++) {
+    // leaf-cluster blobs: DENSE coverage — large overlapping blobs, minimal gaps
+    for (let i = 0; i < 900; i++) {
       const bx = r() * S, by = r() * S;
-      const bw = 7 + r() * 17, bh = 4.5 + r() * 10;
+      const bw = 12 + r() * 26, bh = 8 + r() * 18;
       mx.save(); mx.translate(bx, by); mx.rotate(r() * Math.PI);
       const g = mx.createRadialGradient(0, 0, 0, 0, 0, bw);
       g.addColorStop(0, 'rgba(255,255,255,1)');
-      g.addColorStop(0.72, 'rgba(255,255,255,1)');
+      g.addColorStop(0.80, 'rgba(255,255,255,1)');
       g.addColorStop(1, 'rgba(255,255,255,0)');
       mx.fillStyle = g;
       mx.beginPath(); mx.ellipse(0, 0, bw, bh, 0, 0, 6.2832); mx.fill();
@@ -482,8 +484,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   /* trees — ez-tree-derived procedural generator, real bark + canopy photos */
   const barkMat = new THREE.MeshStandardMaterial({ map: barkTex, roughness: 0.92 });
   const canopyMat = new THREE.MeshStandardMaterial({
-    map: canopyTex, alphaTest: 0.42, side: THREE.DoubleSide,
-    roughness: 0.9, vertexColors: true, color: new THREE.Color(0.88, 1.0, 0.86),
+    map: canopyTex, alphaTest: 0.30, side: THREE.DoubleSide,
+    roughness: 0.9, color: new THREE.Color(0.55, 0.85, 0.50),
   });
   const ARCHETYPES = [
     ['Oak Large', 'oak-large'], ['Pine Large', 'pine-large'],
@@ -506,7 +508,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       const t = baked || generateTreeProceduralData(name, { detail: 'balanced' });
       out.push({
         bark: bufferGeometryFromStream(t.bark || t.branches),
-        leaves: bufferGeometryFromStream(t.leaves, 0.55),
+        leaves: bufferGeometryFromStream(t.leaves, 0.85),
       });
     }
     return out;
@@ -542,9 +544,55 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       m.castShadow = true; m.receiveShadow = true;
       treeGroup.add(m);
     }
+    // B"H — canopy filler: instanced foliage blobs packed into the crown volume.
+    // Yaakov 2026-10-13: trees must have FULL dense canopies, no winter-bare look.
+    // The baked leaf quads alone read sparse; these blobs fill the crown with
+    // leaf mass. One instanced draw for all trees.
+    s.crownY = y + 8 * sc; s.crownR = 5.5 * sc;
   }
   scene.add(treeGroup);
   mark('trees-placed');
+
+  /* canopy crown filler — dense instanced foliage blobs in each tree's crown */
+  {
+    const crownGeo = new THREE.IcosahedronGeometry(1, 1);
+    const cp = crownGeo.attributes.position;
+    for (let i = 0; i < cp.count; i++) {
+      const s = 1 + 0.3 * Math.sin(cp.getX(i) * 4.7 + 2.1) * Math.sin(cp.getZ(i) * 5.3 + 0.9);
+      cp.setXYZ(i, cp.getX(i) * s, cp.getY(i) * s * 0.75, cp.getZ(i) * s);
+    }
+    crownGeo.computeVertexNormals();
+    const crownMat = new THREE.MeshStandardMaterial({
+      map: canopyTex, alphaTest: 0.30, side: THREE.DoubleSide,
+      roughness: 0.95, color: new THREE.Color(0.75, 0.95, 0.70),
+    });
+    const PER_TREE = fast ? 22 : 36;
+    const COUNT = treeSpots.length * PER_TREE;
+    const inst = new THREE.InstancedMesh(crownGeo, crownMat, COUNT);
+    const dummy = new THREE.Object3D();
+    let placed = 0;
+    for (const s of treeSpots) {
+      for (let i = 0; i < PER_TREE; i++) {
+        // distribute in a flattened sphere around the crown center
+        const th = rand() * Math.PI * 2;
+        const ph = Math.acos(2 * rand() - 1);
+        const rr = s.crownR * (0.25 + 0.75 * Math.cbrt(rand()));
+        const bx = s.x + rr * Math.sin(ph) * Math.cos(th);
+        const by = s.crownY + rr * Math.cos(ph) * 0.7;
+        const bz = s.z + rr * Math.sin(ph) * Math.sin(th);
+        const bs = 1.4 + rand() * 2.0;
+        dummy.position.set(bx, by, bz);
+        dummy.rotation.set(rand() * Math.PI, rand() * Math.PI * 2, 0);
+        dummy.scale.set(bs, bs * 0.8, bs);
+        dummy.updateMatrix();
+        if (placed < COUNT) inst.setMatrixAt(placed++, dummy.matrix);
+      }
+    }
+    inst.count = placed;
+    inst.castShadow = true; inst.receiveShadow = true;
+    scene.add(inst);
+  }
+  mark('crown-filler');
 
   /* distant tree-line — procedural billboard trees at the world rim, hazed by fog.
      Two staggered rings with gaps. The silhouette texture is painted on a canvas
@@ -616,7 +664,11 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     g.computeVertexNormals();
     const rim = new THREE.Mesh(g, new THREE.MeshStandardMaterial({
       map: rimTex, alphaTest: 0.35, side: THREE.DoubleSide, roughness: 1,
-      color: new THREE.Color(0.62, 0.78, 0.62),
+      // B"H — Yaakov 2026-10-13: distant treeline must be DARK GREEN, not gray
+      // ghosts. fog:false (haze is baked into the texture); darker multiplier
+      // keeps the forest reading as forest through the atmospheric perspective.
+      fog: false,
+      color: new THREE.Color(0.42, 0.58, 0.42),
     }));
     rim.castShadow = false; rim.receiveShadow = false;
     scene.add(rim);
@@ -661,36 +713,41 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   }
   mark('underbrush');
 
-  /* grass tufts — instanced tapered blades, vertex-color gradient */
+  /* grass tufts — instanced tapered blades, vertex-color gradient.
+     Yaakov 2026-10-13: LUSH grass — dense, tall, vibrant. Speed is secondary. */
   {
-    const blade = new THREE.PlaneGeometry(0.16, 0.38, 1, 3);
-    blade.translate(0, 0.19, 0);
+    const blade = new THREE.PlaneGeometry(0.20, 0.65, 1, 3);
+    blade.translate(0, 0.325, 0);
     const bp = blade.attributes.position, bc = [];
     for (let i = 0; i < bp.count; i++) {
-      const t = bp.getY(i) / 0.38;
-      bp.setX(i, bp.getX(i) * (1 - t * 0.9));              // taper to tip
-      bp.setZ(i, t * t * 0.12);                            // gentle arc
-      const shade = 0.55 + t * 0.85;                       // brighter meadow green
-      bc.push(0.30 * shade, 0.55 * shade, 0.20 * shade);
+      const t = bp.getY(i) / 0.65;
+      bp.setX(i, bp.getX(i) * (1 - t * 0.92));              // taper to tip
+      bp.setZ(i, t * t * 0.18);                            // gentle arc
+      // vibrant meadow green: dark base → bright yellow-green tips
+      const shade = 0.55 + t * 1.1;
+      bc.push(0.32 * shade, 0.62 * shade, 0.18 * shade);
     }
     blade.setAttribute('color', new THREE.BufferAttribute(new Float32Array(bc), 3));
-    // cross two blades
-    const tuft = new THREE.BufferGeometry();
-    const g2 = blade.clone().rotateY(Math.PI / 2);
-    const merge = (a, b) => {
-      const pa = a.attributes.position.array, pb = b.attributes.position.array;
-      const ca = a.attributes.color.array, cb = b.attributes.color.array;
-      const ia = a.index.array, ib = b.index.array.map(i => i + pa.length / 3);
+    // cross THREE blades for full tufts (was two)
+    const tuftGeo = (() => {
+      const parts = [blade, blade.clone().rotateY(Math.PI / 3), blade.clone().rotateY(-Math.PI / 3)];
+      let vCount = 0;
+      const positions = [], colors = [], indices = [];
+      for (const p of parts) {
+        const pa = p.attributes.position.array, ca = p.attributes.color.array, ia = p.index.array;
+        positions.push(...pa); colors.push(...ca);
+        for (const idx of ia) indices.push(idx + vCount);
+        vCount += pa.length / 3;
+      }
       const g = new THREE.BufferGeometry();
-      g.setAttribute('position', new THREE.BufferAttribute(new Float32Array([...pa, ...pb]), 3));
-      g.setAttribute('color', new THREE.BufferAttribute(new Float32Array([...ca, ...cb]), 3));
-      g.setIndex(new THREE.BufferAttribute(new Uint16Array([...ia, ...ib]), 1));
+      g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), 3));
+      g.setAttribute('color', new THREE.BufferAttribute(new Float32Array(colors), 3));
+      g.setIndex(indices);
       g.computeVertexNormals();
       return g;
-    };
-    const tuftGeo = merge(blade, g2);
+    })();
     const tuftMat = new THREE.MeshStandardMaterial({ vertexColors: true, side: THREE.DoubleSide, roughness: 1 });
-    const COUNT = fast ? 1000 : 2600;
+    const COUNT = fast ? 3000 : 6000;
     const inst = new THREE.InstancedMesh(tuftGeo, tuftMat, COUNT);
     const dummy = new THREE.Object3D();
     let placed = 0; guard = 0;
@@ -699,8 +756,11 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       if (Math.abs(x - riverX(z)) < 8.5) continue;
       dummy.position.set(x, groundHeight(x, z, noise), z);
       dummy.rotation.y = rand() * Math.PI * 2;
-      const s = 0.7 + rand() * 1.3;
-      dummy.scale.set(s, s * (0.8 + rand() * 0.5), s);
+      // natural lean: slight random tilt
+      dummy.rotation.x = (rand() - 0.5) * 0.25;
+      dummy.rotation.z = (rand() - 0.5) * 0.25;
+      const s = 0.8 + rand() * 1.4;
+      dummy.scale.set(s, s * (0.85 + rand() * 0.6), s);
       dummy.updateMatrix();
       inst.setMatrixAt(placed++, dummy.matrix);
     }
