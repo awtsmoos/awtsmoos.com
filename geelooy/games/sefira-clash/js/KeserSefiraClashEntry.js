@@ -23,6 +23,7 @@ async function igniteSefiraClash() {
 	try {
 		await import('./main.js');
 		malchusBootManifest.revealReady();
+		if (globalThis.window?.AwtsmoosLoading) globalThis.window.AwtsmoosLoading.done();
 		exposeBootSnapshot();
 		void awakenOptionalArenaTheme();
 	} catch (error) {

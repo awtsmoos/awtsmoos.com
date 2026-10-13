@@ -1,55 +1,73 @@
-<!--B"H-->
-<!-- Boruch Hashem -->
-<!-- Blessed is He -->
-<!-- The canvas is a vessel: at Awtsmoos.com each frame is renewed, while every local control remains bounded inside its own gate of light. -->
-<!DOCTYPE html>
+<!-- B"H — Shema Strike: 2D platformer with the chossid. Strike with the Shema. -->
+<!doctype html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
+	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-	<meta name="theme-color" content="#070713">
-	<title>Shema Strike: Gates of Light</title>
-	<link rel="stylesheet" href="style.css?compact=true">
-	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
+	<meta name="theme-color" content="#0b1426">
+	<title>Shema Strike — 2D Platformer</title>
+	<link rel="stylesheet" href="./platformer.css?v=ss001">
+	<link rel="stylesheet" href="/games/css/awtsmoos-webgl-check.css?v=b21e0bf110">
 </head>
-<body>
-	<main id="game-shell" class="shema-strike" aria-label="Shema Strike game">
-		<canvas id="game-canvas" width="960" height="540"></canvas>
-		<section id="hud" class="hud hidden" aria-live="polite">
-			<div class="hud-block hud-life"><span>KOACH</span><div class="meter"><i id="health-fill"></i></div><small id="health-label">100 / 100</small></div>
-			<div class="hud-center"><strong id="stage-label">Gate 1</strong><span id="objective-label">Awaken the gate</span></div>
-			<div class="hud-block hud-riches"><span>פרוטות</span><strong id="coin-label">0</strong><small id="combo-label">Unity ×1</small></div>
-		</section>
-		<section id="start-overlay" class="overlay visible"><div class="panel start-panel">
-			<p class="eyebrow">A 27-GATE CAMPAIGN</p><h1><span>שמע</span> STRIKE</h1><p class="lead" data-copy="lead"></p>
-			<div id="difficulty-grid" class="choice-grid"></div>
-			<div class="settings-grid" aria-label="Accessibility settings">
-				<label><span data-copy="language"></span><select id="language-select"><option value="en">English</option><option value="he">עברית</option></select></label>
-				<label><span data-copy="text"></span><select id="text-scale"><option value="1">100%</option><option value="1.5">150%</option><option value="2">200%</option></select></label>
-				<label><input id="reducedMotion" type="checkbox"><span data-copy="reducedMotion"></span></label>
-				<label><input id="reducedFlash" type="checkbox"><span data-copy="reducedFlash"></span></label>
-				<label><input id="reducedParticles" type="checkbox"><span data-copy="reducedParticles"></span></label>
-				<label><input id="highContrast" type="checkbox"><span data-copy="highContrast"></span></label>
-				<label><input id="timingAssist" type="checkbox"><span data-copy="timingAssist"></span></label>
+<body class="ss">
+	<div id="ss-root" class="ss__root">
+		<canvas id="ss-canvas" class="ss__canvas" aria-label="Shema Strike gameplay"></canvas>
+
+		<!-- Loading screen -->
+		<div id="ss-loading" class="ss__loading" role="status" aria-live="polite">
+			<div class="ss__loading-card">
+				<div class="ss__loading-shema" aria-hidden="true">שמע</div>
+				<h1 class="ss__loading-title">Shema Strike</h1>
+				<p class="ss__loading-sub">Strike with the Shema · Gather the sparks</p>
+				<div class="ss__loading-bar"><span id="ss-loading-fill"></span></div>
+				<p id="ss-loading-tip" class="ss__loading-tip">Arrow keys or swipe to move — jump the gaps</p>
+				<button id="ss-start" class="ss__btn ss__btn--primary" type="button" hidden>Tap to Strike</button>
+				<p id="ss-loading-error" class="ss__loading-error" hidden></p>
 			</div>
-			<label class="stage-choice"><span data-copy="revisit"></span><select id="stage-select"></select></label>
-			<div class="start-actions"><button type="button" id="continue-button" class="primary" data-copy="continue"></button><button type="button" id="new-button" data-copy="newGame"></button></div>
-			<p class="controls-copy" data-copy="controls"></p>
-		</div></section>
-		<section id="pause-overlay" class="overlay"><div class="panel compact-panel"><p class="eyebrow">TIME FOLDS, THE WILL REMAINS</p><h2 data-copy="paused"></h2><button type="button" id="resume-button" class="primary" data-copy="resume"></button><button type="button" id="pause-shop-button" data-copy="market"></button><button type="button" id="menu-button" data-copy="menu"></button></div></section>
-		<section id="shop-overlay" class="overlay"><div class="panel market-panel">
-			<header class="market-header"><div><p class="eyebrow">THE NIGHT MARKET</p><h2>Forge the Vessel</h2></div><strong id="shop-coins">0 פרוטות</strong></header>
-			<nav class="market-tabs"><button type="button" data-shop-tab="weapons" aria-pressed="true">Weapons</button><button type="button" data-shop-tab="armor" aria-pressed="false">Armor</button></nav>
-			<div id="shop-grid" class="shop-grid"></div><footer><button type="button" id="heal-button">RESTORE KOACH</button><button type="button" id="leave-shop-button" class="primary">ENTER NEXT GATE</button></footer>
-		</div></section>
-		<section id="message-overlay" class="overlay"><div class="panel compact-panel"><p id="message-eyebrow" class="eyebrow">GATE COMPLETE</p><h2 id="message-title">Light Revealed</h2><p id="message-copy"></p><button type="button" id="message-button" class="primary">CONTINUE</button></div></section>
-		<div id="touch-controls" class="touch-controls" aria-label="Touch controls">
-			<div class="touch-cluster"><button type="button" data-action="left" aria-label="Move left">◀</button><button type="button" data-action="right" aria-label="Move right">▶</button></div>
-			<div class="touch-cluster action-cluster"><button type="button" data-action="jump" aria-label="Jump">↑</button><button type="button" data-action="dash" aria-label="Dash">✦</button><button type="button" data-action="interact" aria-label="Interact">E</button><button type="button" data-action="attack" class="attack-touch" aria-label="Strike">ש</button></div>
 		</div>
-	</main>
-	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
-	<script type="module" src="js/main.js?compact=true"></script>
-	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
+
+		<!-- HUD -->
+		<div id="ss-hud" class="ss__hud" hidden>
+			<div class="ss__hud-left">
+				<div class="ss__koach"><span class="ss__koach-label">KOACH</span><div class="ss__koach-bar"><span id="ss-health"></span></div></div>
+				<div class="ss__level"><span id="ss-level-name">Gate 1</span></div>
+			</div>
+			<div class="ss__hud-right">
+				<div class="ss__sparks"><span aria-hidden="true">✦</span><span id="ss-sparks">0</span></div>
+				<button id="ss-pause" class="ss__iconbtn" type="button" aria-label="Pause">⏸</button>
+			</div>
+		</div>
+
+		<!-- Touch controls -->
+		<div id="ss-controls" class="ss__controls" hidden>
+			<div class="ss__controls-left">
+				<button class="ss__ctl" type="button" data-move="left" aria-label="Move left">◀</button>
+				<button class="ss__ctl" type="button" data-move="right" aria-label="Move right">▶</button>
+			</div>
+			<div class="ss__controls-right">
+				<button class="ss__ctl ss__ctl--jump" type="button" data-move="jump" aria-label="Jump">⤒<small>jump</small></button>
+				<button class="ss__ctl ss__ctl--strike" type="button" data-move="strike" aria-label="Strike">ש<small>strike</small></button>
+			</div>
+		</div>
+
+		<!-- Pause / level-complete / game-over overlay -->
+		<div id="ss-overlay" class="ss__overlay" hidden>
+			<div class="ss__card">
+				<h2 id="ss-card-title">Paused</h2>
+				<p id="ss-card-sub" class="ss__card-sub"></p>
+				<div class="ss__card-stats">
+					<div><span id="ss-final-sparks">0</span><small>sparks</small></div>
+					<div><span id="ss-final-level">1</span><small>gate</small></div>
+				</div>
+				<button id="ss-primary" class="ss__btn ss__btn--primary" type="button">Strike Again</button>
+				<button id="ss-resume" class="ss__btn" type="button" hidden>Resume</button>
+				<button id="ss-next" class="ss__btn ss__btn--primary" type="button" hidden>Next Gate →</button>
+			</div>
+		</div>
+
+		<div id="ss-flash" class="ss__flash" aria-hidden="true"></div>
+	</div>
+	<script src="/games/js/awtsmoos-webgl-check.js?v=6498bdf075"></script>
+	<script type="module" src="./js/ss/boot.js?v=ss001"></script>
 </body>
 </html>

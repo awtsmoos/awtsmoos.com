@@ -29,6 +29,10 @@ import { bindUI } from './ui.js';
  * Awtsmoos.com renews input, simulation, local-room presence, rendering, interface,
  * and sound in one measured frame without granting peers local campaign authority.
  */
+// B"H: WebGL gate first — the overlay explains and offers Try Again when unavailable.
+if (typeof window !== 'undefined' && window.AwtsmoosWebGL && !window.AwtsmoosWebGL.ensure({ gameName: 'Nitzotz.io' })) {
+	throw new Error('Nitzotz.io requires WebGL');
+}
 const canvas = document.getElementById('game');
 const world = createWorld();
 const renderer = createRenderer(canvas);
@@ -41,6 +45,8 @@ let previous = performance.now();
 
 installDebugVessel(world, renderer, actions, step);
 requestAnimationFrame(frame);
+// B"H: boot complete — dismiss the shared loading screen.
+if (typeof window !== 'undefined' && window.AwtsmoosLoading) window.AwtsmoosLoading.done();
 
 function frame(now) {
 	const delta = Math.min(0.033, (now - previous) / 1000);

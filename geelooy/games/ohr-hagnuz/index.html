@@ -11,15 +11,20 @@
 	<meta name="description" content="Ohr HaGnuz — an original top-down Torah adventure of hidden sparks, living roads, skills, companions, and PaRDeS mastery.">
 	<title>B&quot;H — Ohr HaGnuz: The Concealed Frontier</title>
 	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2305070d'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='42' fill='%23ffe082'%3E%D7%90%3C/text%3E%3C/svg%3E">
-	<link rel="stylesheet" href="./src/design/revelation/tokens.css?compact=true">
-	<link rel="stylesheet" href="./src/design/revelation/shell.css?compact=true">
-	<link rel="stylesheet" href="./src/design/revelation/hud.css?compact=true">
-	<link rel="stylesheet" href="./src/design/revelation/controls.css?compact=true">
-	<link rel="stylesheet" href="./src/design/revelation/panels.css?compact=true">
-	<link rel="stylesheet" href="./src/design/revelation/responsive.css?compact=true">
-	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
+	<link rel="stylesheet" href="./src/design/revelation/tokens.css?v=78b8790095">
+	<link rel="stylesheet" href="./src/design/revelation/shell.css?v=f2426e4bdf">
+	<link rel="stylesheet" href="./src/design/revelation/hud.css?v=b331ee2aed">
+	<link rel="stylesheet" href="./src/design/revelation/controls.css?v=d0af56708d">
+	<link rel="stylesheet" href="./src/design/revelation/panels.css?v=67cb340107">
+	<link rel="stylesheet" href="./src/design/revelation/responsive.css?v=c662fb1f80">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=6c6d50d989">
+	<link rel="stylesheet" href="/games/css/awtsmoos-loading.css?v=ed43c300af">
 </head>
 <body data-hud-collapsed="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
+	<div id="awtsmoos-loading" class="awtsmoos-loading"
+	data-cover="https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/games/game-ohr-hagnuz.webp"
+	data-title="Ohr HaGnuz"
+	data-tips="Seek the hidden light in every corner.|The Gnuz reveals itself to the patient."></div>
 	<main id="game-shell" aria-label="Ohr HaGnuz adventure world">
 		<div id="revelation-shell" aria-label="Ohr HaGnuz campaign interface"></div>
 		<canvas id="layer-bg" width="390" height="844" class="vessel-layer" aria-hidden="true"></canvas>
@@ -34,9 +39,10 @@
 			</div>
 		</div>
 	</main>
-	<script type="module" src="./src/tiferet/revelation/BootSentinel.js?compact=true&v=ohr-lifecycle-003"></script>
-	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
-	<script type="module" src="./src/index.js?compact=true&v=ohr-lifecycle-003"></script>
-	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
+		<script src="/games/js/awtsmoos-loading.js?v=181e43c368"></script>
+<script type="module" src="./src/tiferet/revelation/BootSentinel.js?v=04c24947df"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?v=6fd9ae91f1"></script>
+	<script type="module" src="./src/index.js?v=d37e6c46f1"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=0ee3e8dd31"></script>
 </body>
 </html>

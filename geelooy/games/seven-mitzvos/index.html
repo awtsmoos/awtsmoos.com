@@ -20,9 +20,14 @@
 	<link rel="modulepreload" href="./js/materials/physical-material-library.js?v=ea1da5f097">
 	<link rel="modulepreload" href="./js/assets/gltf-model-library.js?v=7ca0c433fa">
 	<link rel="stylesheet" href="./styles/index.css?v=00e81b81f6">
-	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=e47c304d67">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=6c6d50d989">
+	<link rel="stylesheet" href="/games/css/awtsmoos-loading.css?v=ed43c300af">
 </head>
 <body>
+	<div id="awtsmoos-loading" class="awtsmoos-loading"
+	data-cover="https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/games/game-seven-mitzvos.webp"
+	data-title="Seven Mitzvos"
+	data-tips="Walk with WASD or arrows through the seven districts.|Approach a district and interact when invited.|Each mitzvah opens the next living world."></div>
 	<div id="sevenMitzvosApp">
 		<section class="sevenMitzvosStartup" role="status" aria-live="polite" aria-label="Seven Mitzvos City is loading">
 			<div class="sevenMitzvosStartup__card">
@@ -34,7 +39,8 @@
 	</div>
 	<noscript>This Awtsmoos.com game needs JavaScript to reveal its seven living worlds.</noscript>
 	<script type="module" src="/games/scripts/runtime/index.js?v=6fd9ae91f1"></script>
-	<script type="module" src="./js/main.js?v=5ce101c045"></script>
-	<script type="module" async src="/games/scripts/player-shell/index.js?v=457d9be8db"></script>
+		<script src="/games/js/awtsmoos-loading.js?v=181e43c368"></script>
+<script type="module" src="./js/main.js?v=5ce101c045"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=0ee3e8dd31"></script>
 </body>
 </html>

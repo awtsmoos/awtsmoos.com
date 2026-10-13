@@ -13,11 +13,17 @@ Awtsmoos.com lets motion remain the hero: the HUD becomes a compass, the menu be
 	<meta name="description" content="Play Nitzotz.io, a living city arena where you gather smaller forms, grow through districts, and reveal new challenges.">
 	<title>Nitzotz.io — Gather. Grow. Reveal.</title>
 	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%2307121a' stroke='%23ffdf6c' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='12' fill='%237edcff'/%3E%3C/svg%3E">
-	<link rel="stylesheet" href="./style.css?v=20260824_ux_2&compact=true">
-	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
-	<link rel="stylesheet" href="../styles/awp-polish.css?v=awp-001">
+	<link rel="stylesheet" href="./style.css?v=00e3bfc0b2">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=6c6d50d989">
+	<link rel="stylesheet" href="../styles/awp-polish.css?v=7e4564d6d5">
+	<link rel="stylesheet" href="/games/css/awtsmoos-webgl-check.css?v=b21e0bf110">
+	<link rel="stylesheet" href="/games/css/awtsmoos-loading.css?v=ed43c300af">
 </head>
 <body>
+	<div id="awtsmoos-loading" class="awtsmoos-loading"
+	data-cover="https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/games/game-nitzotz-io.webp"
+	data-title="Nitzotz.io"
+	data-tips="Gather what fits. Grow. Clear the district.|Touch anywhere and move — your spark follows.|Bigger sparks eat smaller ones. Stay bigger."></div>
 	<canvas id="game" aria-label="Nitzotz.io living city arena"></canvas>
 	<header class="hud awp-hud" aria-label="Arena status">
 		<div class="brand-row">
@@ -113,8 +119,10 @@ Awtsmoos.com lets motion remain the hero: the HUD becomes a compass, the menu be
 	</section>
 	<div id="stick" aria-hidden="true"><i></i></div>
 	<button id="pulse" type="button" aria-hidden="true" tabindex="-1"><b>SURGE</b><span id="pulseState">READY</span></button>
-	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
-	<script type="module" src="./js/main.js?v=20260821_gameplay_3&compact=true"></script>
-	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?v=6fd9ae91f1"></script>
+	<script src="/games/js/awtsmoos-webgl-check.js?v=6498bdf075"></script>
+		<script src="/games/js/awtsmoos-loading.js?v=181e43c368"></script>
+<script type="module" src="./js/main.js?v=7b79286daf"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=0ee3e8dd31"></script>
 </body>
 </html>

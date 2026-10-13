@@ -36,16 +36,35 @@ export function awtsmoosDriveTreeTextureUrl(filename) {
 }
 
 /**
- * Resolves a canonical texture filename to the Awtsmoos games texture
- * library (1100+ textures + canonical {category}-001.png files).
- * Material keywords pick the category — never random.
+ * Resolves a canonical texture filename to real Awtsmoos Drive textures.
+ * B"H — 2026-10-13: the 1100+ texture library was never uploaded (404s).
+ * Map categories to textures that actually exist on Drive so games render
+ * real surfaces instead of flat fallback colors. When the full library
+ * lands, this mapping can be extended — never break existing URLs.
  */
 export function driveLibraryTextureUrl(filename) {
 	const category = libraryCategoryFor(String(filename || ""));
+	const real = REAL_TEXTURE_FOR_CATEGORY[category];
+	if (real) return real;
 	return `${DRIVE_GAMES_LIBRARY_BASE}${category}/${category}-001.png`;
 }
 
 const DRIVE_GAMES_LIBRARY_BASE = "https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/games/";
+const DRIVE_TEXTURES_BASE = "https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/";
+
+/** @description Category → verified-live Drive texture. Keep in sync with uploads. */
+const REAL_TEXTURE_FOR_CATEGORY = Object.freeze({
+	stone: `${DRIVE_GAMES_LIBRARY_BASE}tex-stone-pavement.webp`,
+	ground: `${DRIVE_GAMES_LIBRARY_BASE}tex-stone-pavement.webp`,
+	brick: `${DRIVE_GAMES_LIBRARY_BASE}tex-jerusalem-wall.webp`,
+	trees: `${DRIVE_TEXTURES_BASE}essential-grass.jpg`,
+	wood: `${DRIVE_GAMES_LIBRARY_BASE}tex-jerusalem-wall.webp`,
+	metal: `${DRIVE_GAMES_LIBRARY_BASE}tex-stone-pavement.webp`,
+	fabric: `${DRIVE_GAMES_LIBRARY_BASE}tex-stone-pavement.webp`,
+	water: `${DRIVE_GAMES_LIBRARY_BASE}tex-stone-pavement.webp`,
+	sky: `${DRIVE_GAMES_LIBRARY_BASE}tex-stone-pavement.webp`,
+	bark: `${DRIVE_GAMES_LIBRARY_BASE}tex-jerusalem-wall.webp`
+});
 
 function libraryCategoryFor(filename) {
 	const n = filename.toLowerCase();

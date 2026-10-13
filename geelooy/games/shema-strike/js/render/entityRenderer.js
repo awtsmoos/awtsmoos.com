@@ -5,6 +5,15 @@
  * Figures are drawn as custom geometric silhouettes, not borrowed emoji; Awtsmoos.com renews form without being limited by form.
  * Player, enemy roles, weapons, coins, hearts, projectiles, health bars, and invulnerability are rendered with readable silhouettes.
  */
+// B"H: each enemy role carries its own Hebrew letter-glyph — no placeholder "?" marks remain.
+const ENEMY_GLYPH = Object.freeze({
+	wanderer: "נ",
+	guard: "ש",
+	leaper: "ק",
+	charger: "מ",
+	archer: "ח",
+	giant: "הסתר"
+});
 export class EntityRenderer {
 	drawPlayer(context, player) {
 		context.save();
@@ -12,25 +21,27 @@ export class EntityRenderer {
 			context.globalAlpha = 0.38;
 		}
 		const centerX = player.x + player.width * 0.5;
+		const headR = player.width * 0.26;
+		const headY = player.y + headR + 6;
 		context.fillStyle = player.armor.color;
 		context.beginPath();
 		context.roundRect(player.x + 5, player.y + 27, player.width - 10, player.height - 27, 10);
 		context.fill();
 		context.fillStyle = "#e8b783";
 		context.beginPath();
-		context.arc(centerX, player.y + 21, 18, 0, Math.PI * 2);
+		context.arc(centerX, headY, headR, 0, Math.PI * 2);
 		context.fill();
 		context.fillStyle = "#11131d";
 		context.beginPath();
-		context.arc(centerX, player.y + 12, 13, Math.PI, 0);
+		context.arc(centerX, headY - headR * 0.45, headR * 0.72, Math.PI, 0);
 		context.fill();
-		context.strokeStyle = "#ffffff";
-		context.lineWidth = 2;
+		context.strokeStyle = "#3a2c1c";
+		context.lineWidth = 3;
 		context.beginPath();
-		context.moveTo(player.x + 12, player.y + 66);
-		context.lineTo(player.x + 10, player.y + 86);
-		context.moveTo(player.x + 34, player.y + 66);
-		context.lineTo(player.x + 36, player.y + 86);
+		context.moveTo(player.x + 13, player.y + player.height - 14);
+		context.lineTo(player.x + 11, player.y + player.height);
+		context.moveTo(player.x + 33, player.y + player.height - 14);
+		context.lineTo(player.x + 35, player.y + player.height);
 		context.stroke();
 		this.drawWeapon(context, player);
 		context.restore();
@@ -54,7 +65,11 @@ export class EntityRenderer {
 		context.stroke();
 		context.fillStyle = "#fff";
 		context.font = "700 13px serif";
-		context.fillText("שמע", 18, -7);
+		// B"H: counter-flip the glyph so it never renders mirrored when facing left.
+		context.save();
+		context.scale(player.facing, 1);
+		context.fillText("שמע", 18 * player.facing, -7);
+		context.restore();
 		context.restore();
 	}
 
@@ -78,7 +93,7 @@ export class EntityRenderer {
 		context.fillStyle = "#f7e7ff";
 		context.font = `700 ${Math.max(17, enemy.width * 0.34)}px serif`;
 		context.textAlign = "center";
-		context.fillText(enemy.role === "giant" ? "הסתר" : "?", center.x, center.y + 8);
+		context.fillText(ENEMY_GLYPH[enemy.role] ?? "✦", center.x, center.y + 8);
 		this.drawHealth(context, enemy);
 		context.restore();
 	}

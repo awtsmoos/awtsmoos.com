@@ -19,6 +19,8 @@ if (!mount) {
 
 const application = new SevenMitzvosApp(mount);
 application.mount();
+// B"H: boot complete — dismiss the shared loading screen.
+if (typeof window !== 'undefined' && window.AwtsmoosLoading) window.AwtsmoosLoading.done();
 
 window.addEventListener('pagehide', () => {
 	application.destroy();

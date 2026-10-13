@@ -41,6 +41,8 @@ systems.ui.muteButton.addEventListener("click", () => {
 });
 
 interfaceShell.start();
+// B"H: boot complete — dismiss the shared loading screen.
+if (typeof window !== 'undefined' && window.AwtsmoosLoading) window.AwtsmoosLoading.done();
 
 window.AwtsmoosOrbitRun = Object.freeze({
 	game,

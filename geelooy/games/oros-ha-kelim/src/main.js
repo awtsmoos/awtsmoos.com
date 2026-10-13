@@ -14,9 +14,16 @@ import { RUNTIME_API_VERSION } from "./runtime/RuntimeApiManifest.js";
 const runtimeErrors = collectRuntimeErrors();
 const host = document.getElementById("game-canvas");
 
+// B"H: WebGL gate first — the overlay explains and offers Try Again when unavailable.
+if (typeof window !== 'undefined' && window.AwtsmoosWebGL && !window.AwtsmoosWebGL.ensure({ gameName: 'Oros HaKelim' })) {
+	throw new Error('Oros HaKelim requires WebGL');
+}
+
 try {
 	const game = new OrosGame(host);
 	installDebugBridge(game, runtimeErrors);
+	// B"H: boot complete — dismiss the shared loading screen.
+	if (typeof window !== 'undefined' && window.AwtsmoosLoading) window.AwtsmoosLoading.done();
 } catch (error) {
 	runtimeErrors.push(error.stack || String(error));
 	window.__OROS_HAKELIM__ = {

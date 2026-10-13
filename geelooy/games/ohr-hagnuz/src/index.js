@@ -37,6 +37,7 @@ async function ignite() {
 		malchusApplication.markReady(selection.mode, soloIgnited);
 		tiferesBoot.exposeDiagnostics(malchusApplication.snapshot(), selection.journey, soloRuntime);
 		tiferesBoot.revealReady();
+		if (globalThis.window?.AwtsmoosLoading) globalThis.window.AwtsmoosLoading.done();
 		console.log(`B"H — Ohr HaGnuz ${selection.mode} journey is ready.`);
 	} catch (error) {
 		malchusApplication.markFailed(error);

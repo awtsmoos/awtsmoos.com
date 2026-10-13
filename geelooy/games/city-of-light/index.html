@@ -14,10 +14,15 @@
 	<meta name="theme-color" content="#050812">
 	<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 	<title>City of Light · The Complete Pilgrimage</title>
-	<link rel="stylesheet" href="./style.css?compact=true">
-	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
+	<link rel="stylesheet" href="./style.css?v=dd36cb9dc1">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=6c6d50d989">
+	<link rel="stylesheet" href="/games/css/awtsmoos-loading.css?v=ed43c300af">
 </head>
 <body>
+	<div id="awtsmoos-loading" class="awtsmoos-loading"
+	data-cover="https://awtsmoos.com/api/social/drive/public/awtsmoos/covers/games/game-city-of-light.webp"
+	data-title="City of Light"
+	data-tips="Gather the six sparks of the First Courtyard.|Arrows or WASD move. E interacts. Shift dashes.|The pilgrimage is still — walk it well."></div>
 	<main class="campaignShell">
 		<section class="gameFrame" aria-label="City of Light campaign game">
 			<canvas id="cityCanvas" aria-label="A generated campaign district with wildlife"></canvas>
@@ -106,9 +111,10 @@
 		</div>
 	</section>
 
-	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
-	<script type="module" src="./js/main.js?compact=true"></script>
-	<script src="/register.js"></script>
-	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?v=6fd9ae91f1"></script>
+		<script src="/games/js/awtsmoos-loading.js?v=181e43c368"></script>
+<script type="module" src="./js/main.js?v=1691868d1e"></script>
+	<script src="/register.js?v=fcaa78a126"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=0ee3e8dd31"></script>
 </body>
 </html>
