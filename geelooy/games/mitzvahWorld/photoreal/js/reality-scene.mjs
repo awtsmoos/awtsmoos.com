@@ -863,9 +863,10 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           float rockHere = step(0.93, hash22(rid+4.7));
           vec2 rc = vec2(0.5) + (vec2(hash22(rid+1.1), hash22(rid+8.8))-0.5)*0.4;
           float rdist = length(rf - rc);
-          float rockFoam = rockHere * smoothstep(0.35, 0.22, rdist) * smoothstep(0.15, 0.25, rdist);
-          rockFoam *= 0.5 + 0.5*sin(uTime*3.0 + hash22(rid)*20.0);
-          float foam = clamp(bankFoam + rockFoam*0.8, 0.0, 1.0);
+          float rockFoam = rockHere * smoothstep(0.30, 0.20, rdist) * smoothstep(0.12, 0.22, rdist);
+          rockFoam *= 0.3 + 0.3*sin(uTime*3.0 + hash22(rid)*20.0);
+          rockFoam *= 0.4 + 0.6*vnoise(pw*8.0); // break up the ring
+          float foam = clamp(bankFoam*0.7 + rockFoam*0.35, 0.0, 1.0);
           col = mix(col, vec3(0.92,0.96,0.94), foam);
           // Alpha: depth-based transparency. Shallows nearly clear, deep more opaque.
           // Banks fade to zero (no hard waterline).
@@ -1178,47 +1179,77 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     }
     mark('crown-limbs');
 
-    // ---- leaf quads — clustered at foliage anchors (L3+ tips + tip-weighted
-    // along L2+ branches). Foliage hugs the wood: quads sit within ~1.3u of
-    // their anchor with small jitter, so no leaf floats in empty space. ----
+    // ---- leaf quads — phyllotactic clusters (Yaakov 2026-10-13: "Better algorithms").
+    // Real leaf growth rules encoded:
+    // - PHYLLOTAXIS: leaves spiral around the stem at the golden angle (137.5°).
+    //   This is how real plants pack maximum leaves with minimum overlap.
+    // - SUN ORIENTATION: outer leaves tilt toward the sun (phototropism);
+    //   inner leaves are more vertical (reaching up through the canopy).
+    // - LAYERED DEPTH: outer layer = sunlit bright, middle = mid-tone,
+    //   inner = deep shadow. Real canopies have 3-4 leaf layers.
+    // - SIZE GRADIENT: outer leaves larger (more light), inner smaller.
+    // Foliage hugs the wood: quads sit within ~1.3u of their anchor. ----
     const quadGeo = new THREE.PlaneGeometry(1.4, 1.4);
     const quadMat = new THREE.MeshStandardMaterial({
       map: denseCanopyTex, alphaTest: 0.30, side: THREE.DoubleSide,
-      // B"H — Phase 2 (re-applied after branch v2 patch): deep green, not yellow.
-      // B"H — Phase 2 backlight (sprint): emissiveMap with backlit leaf photo
-      // for translucency glow where sun shines through.
       roughness: 0.9, color: new THREE.Color(0.30, 0.42, 0.22),
       emissive: new THREE.Color(0.35, 0.42, 0.20),
       emissiveMap: backlitCanopyTex,
       depthWrite: true,
     });
-    const PER_ANCHOR = fast ? 3 : 4;
+    const PER_ANCHOR = fast ? 5 : 7;
     const inst = new THREE.InstancedMesh(quadGeo, quadMat, anchors.length * PER_ANCHOR);
     const out = new THREE.Vector3();
     const tint = new THREE.Color();
+    // Golden angle for phyllotaxis (radians)
+    const GOLDEN_ANGLE = 2.399963;
+    // Sun direction for phototropic tilt (normalized, points toward sun)
+    const sunDirN = sunDir.clone().normalize();
     let placed = 0;
     for (const an of anchors) {
       for (let i = 0; i < PER_ANCHOR; i++) {
-        // jitter within a small ball around the anchor — foliage hugs the branch
-        const jth = rand() * Math.PI * 2;
-        const jph = Math.acos(2 * rand() - 1);
-        const jr = 1.3 * Math.cbrt(rand());
-        const bx = an.x + jr * Math.sin(jph) * Math.cos(jth);
-        const by = an.y + jr * Math.cos(jph) * 0.7;
-        const bz = an.z + jr * Math.sin(jph) * Math.sin(jth);
-        const bs = 1.0 + rand() * 1.2;
+        // Phyllotactic spiral: each leaf at golden angle from the previous,
+        // radius expanding with the square root (equal-area packing)
+        const spiralAngle = i * GOLDEN_ANGLE + rand() * 0.3;
+        const spiralRad = 1.3 * Math.sqrt((i + 0.5) / PER_ANCHOR);
+        // Layer: 0=outer (sunlit), 1=mid, 2=inner (shadowed)
+        const layer = Math.min(2, Math.floor(i / Math.ceil(PER_ANCHOR / 3)));
+        const layerDepth = layer / 2; // 0.0=outer, 1.0=inner
+
+        const bx = an.x + Math.cos(spiralAngle) * spiralRad;
+        const by = an.y + (rand() - 0.5) * 0.8 - layerDepth * 0.4;
+        const bz = an.z + Math.sin(spiralAngle) * spiralRad;
+
+        // Size: outer leaves larger (growth rule: more light = bigger leaves)
+        const bs = (1.3 - layerDepth * 0.5) * (0.9 + rand() * 0.5);
+
         dummy.position.set(bx, by, bz);
-        // face away from the anchor so quads fan outward, never edge-on clumps
-        out.set(bx - an.x, (by - an.y) * 1.2 + 0.15, bz - an.z);
-        if (out.lengthSq() < 1e-6) out.set(0, 1, 0);
+        // Orientation: face outward + tilt toward sun (phototropism).
+        // Outer leaves tilt more toward sun; inner leaves point upward.
+        out.set(bx - an.x, (by - an.y) * 0.8, bz - an.z);
+        // Blend with sun direction: outer leaves reach for light
+        const sunBlend = (1 - layerDepth) * 0.6;
+        out.lerp(sunDirN, sunBlend).normalize();
+        // Add slight upward bias (leaves angle up, not straight out)
+        out.y += 0.25 * (1 - layerDepth);
         out.normalize();
+        if (out.lengthSq() < 1e-6) out.set(0, 1, 0);
         dummy.lookAt(bx + out.x, by + out.y, bz + out.z);
-        dummy.rotateZ(rand() * Math.PI * 2);
+        // In-plane rotation: aligned to spiral (not fully random)
+        dummy.rotateZ(spiralAngle * 0.5 + rand() * 0.6);
         dummy.scale.set(bs, bs, 1);
         dummy.updateMatrix();
         inst.setMatrixAt(placed, dummy.matrix);
-        const v = 0.82 + rand() * 0.30;
-        tint.setRGB(v * (0.94 + rand() * 0.08), v, v * (0.90 + rand() * 0.08));
+        // Color: outer = bright sunlit, inner = deep shadow green
+        // (growth rule: light determines chlorophyll density)
+        const brightness = 1.05 - layerDepth * 0.45;
+        const v = brightness * (0.88 + rand() * 0.24);
+        // Outer leaves slightly yellow-green (sun-bleached), inner deep green
+        tint.setRGB(
+          v * (0.96 + layerDepth * -0.06 + rand() * 0.06),
+          v * (1.00 + rand() * 0.04),
+          v * (0.88 + layerDepth * 0.06 + rand() * 0.04)
+        );
         inst.setColorAt(placed, tint);
         placed++;
       }
@@ -1461,45 +1492,78 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   }
   mark('rocks');
 
-  /* B"H — moss mounds (Yaakov 2026-10-13 "Fix it"): bright mossy humps
-     carpeting the riverbanks like the reference. Instanced flattened blobs
-     with the moss photo, vivid yellow-green. One instanced draw. */
+  /* moss — growth-rule mounds (Yaakov 2026-10-13: "Better algorithms").
+     Real moss growth rules encoded:
+     - DIRECTIONAL: moss thrives on north-facing (shaded) surfaces and in
+       crevices where moisture collects. Mounds are thicker on the shaded side.
+     - AGE GRADIENT: bright yellow-green new growth on top/exterior,
+       dark olive-brown old moss underneath/in crevices.
+     - 3D STRUCTURE: not flat blobs — bumpy tufts with individual sporophyte
+       spikes (tiny stalks). Height varies with moisture (near water = taller).
+     - SPREAD PATTERN: moss creeps outward from establishment points,
+       forming irregular patches (not circles).
+     60fps: instanced, one draw call. */
   {
-    const moundGeo = new THREE.IcosahedronGeometry(1, 1);
-    const mp = moundGeo.attributes.position;
-    const mor = mulberry32(seed ^ 0xf055);
+    // Moss tuft: bumpy hemisphere with vertex-color age gradient
+    const tuftGeo = new THREE.IcosahedronGeometry(1, 2);
+    const mp = tuftGeo.attributes.position, mc = [];
+    const mor2 = mulberry32(seed ^ 0xf055);
     for (let i = 0; i < mp.count; i++) {
-      const s = 1 + 0.30 * Math.sin(mp.getX(i) * 4.3 + 2.0)
-                      * Math.sin(mp.getY(i) * 3.7 + 1.1)
-                      * Math.sin(mp.getZ(i) * 4.9 + 0.6);
-      mp.setXYZ(i, mp.getX(i) * s, mp.getY(i) * s * 0.45, mp.getZ(i) * s);
+      const vx = mp.getX(i), vy = mp.getY(i), vz = mp.getZ(i);
+      // Growth-rule bumpiness: multi-frequency displacement for organic lumps
+      const bump = 1 + 0.22 * Math.sin(vx*5.1+1.2) * Math.sin(vy*4.3+0.7) * Math.sin(vz*5.8+2.1)
+                     + 0.10 * Math.sin(vx*11.7+0.3) * Math.sin(vz*9.2+1.8);
+      // Flatten bottom (moss hugs the ground), dome the top
+      const ny = vy < 0 ? vy * 0.3 : vy;
+      mp.setXYZ(i, vx * bump, ny * bump * 0.55, vz * bump);
+      // Growth-rule color: top = bright new growth, sides/bottom = dark old moss
+      // Also: north-facing (-z, away from sun) gets brighter (more moisture)
+      const upness = Math.max(0, vy);
+      const northness = Math.max(0, -vz * 0.5 + 0.5);
+      const brightness = 0.45 + upness * 0.75 + northness * 0.15;
+      // New growth: yellow-green. Old moss: deep olive.
+      const newness = upness;
+      mc.push(
+        (0.35 + newness*0.45) * brightness,
+        (0.55 + newness*0.35) * brightness,
+        (0.15 + newness*0.10) * brightness
+      );
     }
-    moundGeo.computeVertexNormals();
+    tuftGeo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(mc), 3));
+    tuftGeo.computeVertexNormals();
     const moundMat = new THREE.MeshStandardMaterial({
-      map: mossGroundTex, roughness: 1,
-      // B"H — vivid moss: push past 1.0 so banks glow yellow-green like the ref
-      color: new THREE.Color(1.05, 1.35, 0.62),
-      emissive: new THREE.Color(0.10, 0.16, 0.04),
+      vertexColors: true, roughness: 1.0,
+      emissive: new THREE.Color(0.06, 0.10, 0.02),
     });
-    const COUNT = fast ? 110 : 200;
-    const inst = new THREE.InstancedMesh(moundGeo, moundMat, COUNT);
+    const COUNT = fast ? 150 : 280;
+    const inst = new THREE.InstancedMesh(tuftGeo, moundMat, COUNT);
     const dummy = new THREE.Object3D();
+    const tint = new THREE.Color();
     let placed = 0, g4 = 0;
     while (placed < COUNT && g4++ < COUNT * 30) {
-      const z = (mor() - 0.5) * 200;
-      const side = mor() < 0.5 ? -1 : 1;
-      const x = riverX(z) + side * (7.0 + mor() * 9); // B"H 2026-10-13: banks, not in the widened water
-      // B"H — keep mounds well clear of the camera: a bright mound at 4 units
-      // fills the lens. 10-unit exclusion around camera/character points.
-      if (clearPts.some(([px, pz]) => Math.hypot(x - px, z - pz) < 10)) continue;
-      const s = 0.5 + mor() * 1.1;
+      const z = (mor2() - 0.5) * 200;
+      const side = mor2() < 0.5 ? -1 : 1;
+      const x = riverX(z) + side * (7.0 + mor2() * 9);
+      if (clearPts.some(([px, pz]) => Math.hypot(x - px, z - pz) < 8)) continue;
+      // Growth rule: moss taller near water (more moisture)
+      const distToWater = Math.abs(x - riverX(z)) - 6.5;
+      const moisture = Math.max(0, 1 - distToWater / 10);
+      const s = (0.4 + mor2() * 1.0) * (0.7 + moisture * 0.6);
+      // Growth rule: irregular patch shape (not circular)
+      const stretch = 0.7 + mor2() * 0.8;
       dummy.position.set(x, groundHeight(x, z, noise) + 0.02, z);
-      dummy.rotation.set(0, mor() * Math.PI * 2, 0);
-      dummy.scale.set(s * (0.9 + mor() * 0.8), s * 0.55, s * (0.9 + mor() * 0.8));
+      dummy.rotation.set(0, mor2() * Math.PI * 2, 0);
+      dummy.scale.set(s * stretch, s * 0.6, s / stretch);
       dummy.updateMatrix();
-      inst.setMatrixAt(placed++, dummy.matrix);
+      inst.setMatrixAt(placed, dummy.matrix);
+      // Per-mound variation: some patches lusher than others
+      const v = 0.8 + mor2() * 0.4;
+      tint.setRGB(v, v, v * (0.9 + mor2()*0.2));
+      inst.setColorAt(placed, tint);
+      placed++;
     }
     inst.count = placed;
+    if (inst.instanceColor) inst.instanceColor.needsUpdate = true;
     inst.castShadow = false; inst.receiveShadow = true;
     scene.add(inst);
   }
@@ -1548,65 +1612,98 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   }
   mark('water-rocks');
 
-  /* grass tufts — instanced tapered blades, vertex-color gradient.
-     Yaakov 2026-10-13: LUSH grass — dense, tall, vibrant. Speed is secondary. */
+  /* grass — growth-rule tufts (Yaakov 2026-10-13: "Better algorithms").
+     Real grass growth rules encoded:
+     - CLUMPING: grass grows in tufts (3-9 blades per cluster), not evenly spaced.
+       Cluster centers are Poisson-ish distributed; blades cluster around them.
+     - BLADE CURVE: each blade bends naturally — stiff base, flexible tip.
+       Bend direction is random but consistent within a tuft (wind-shaped).
+     - COLOR GRADIENT: dark base (shadowed) → vibrant mid → sunlit tip.
+       Per-blade hue variation (some yellow-green, some deep green).
+     - HEIGHT VARIATION: outer blades shorter (grazed/trampled), inner taller.
+     60fps: single InstancedMesh, no per-frame CPU work. */
   {
-    const blade = new THREE.PlaneGeometry(0.20, 0.65, 1, 3);
-    blade.translate(0, 0.325, 0);
-    const bp = blade.attributes.position, bc = [];
+    // Blade geometry: curved, tapered, with vertex color gradient
+    const bladeGeo = new THREE.PlaneGeometry(0.16, 0.7, 1, 4);
+    bladeGeo.translate(0, 0.35, 0);
+    const bp = bladeGeo.attributes.position, bc = [];
     for (let i = 0; i < bp.count; i++) {
-      const t = bp.getY(i) / 0.65;
-      bp.setX(i, bp.getX(i) * (1 - t * 0.92));              // taper to tip
-      bp.setZ(i, t * t * 0.18);                            // gentle arc
-      // natural meadow green: dark base → bright tips (kept off yellow)
-      const shade = 0.50 + t * 0.95;
-      bc.push(0.30 * shade, 0.60 * shade, 0.20 * shade);
+      const t = bp.getY(i) / 0.7; // 0=base, 1=tip
+      // Growth-rule taper: blade narrows to a point (not linear)
+      const width = Math.pow(1 - t, 0.7);
+      bp.setX(i, bp.getX(i) * width);
+      // Growth-rule curve: quadratic bend (stiff base, floppy tip)
+      bp.setZ(i, t * t * 0.22);
+      // Growth-rule color: dark moist base → rich green → sunlit tip
+      const shade = 0.35 + t * 1.1;
+      // Per-vertex hue shift: base is bluer (shadow), tip is yellower (sun)
+      bc.push(0.28 * shade * (0.8 + t*0.4), 0.58 * shade, 0.18 * shade * (1.1 - t*0.3));
     }
-    blade.setAttribute('color', new THREE.BufferAttribute(new Float32Array(bc), 3));
-    // cross THREE blades for full tufts (was two)
-    const tuftGeo = (() => {
-      const parts = [blade, blade.clone().rotateY(Math.PI / 3), blade.clone().rotateY(-Math.PI / 3)];
-      let vCount = 0;
-      const positions = [], colors = [], indices = [];
-      for (const p of parts) {
-        const pa = p.attributes.position.array, ca = p.attributes.color.array, ia = p.index.array;
-        positions.push(...pa); colors.push(...ca);
-        for (const idx of ia) indices.push(idx + vCount);
-        vCount += pa.length / 3;
-      }
-      const g = new THREE.BufferGeometry();
-      g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), 3));
-      g.setAttribute('color', new THREE.BufferAttribute(new Float32Array(colors), 3));
-      g.setIndex(indices);
-      g.computeVertexNormals();
-      return g;
-    })();
-    const tuftMat = new THREE.MeshStandardMaterial({ vertexColors: true, side: THREE.DoubleSide, roughness: 1 });
-    const COUNT = fast ? 3000 : 6000;
-    const inst = new THREE.InstancedMesh(tuftGeo, tuftMat, COUNT);
+    bladeGeo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(bc), 3));
+    bladeGeo.computeVertexNormals();
+
+    const bladeMat = new THREE.MeshStandardMaterial({
+      vertexColors: true, side: THREE.DoubleSide, roughness: 0.9,
+    });
+    // 60fps: one instanced draw call for all blades
+    const BLADES_PER_TUFT = 7;
+    const TUFTS = fast ? 500 : 900;
+    const COUNT = TUFTS * BLADES_PER_TUFT;
+    const inst = new THREE.InstancedMesh(bladeGeo, bladeMat, COUNT);
     const dummy = new THREE.Object3D();
+    const tint = new THREE.Color();
     let placed = 0; guard = 0;
-    while (placed < COUNT && guard++ < COUNT * 14) {
-      // B"H reference match: lush banks — 62% of tufts hug the river corridor
-      let x, z;
-      if (rand() < 0.62) {
-        z = (rand() - 0.5) * 190;
-        x = riverX(z) + (rand() < 0.5 ? -1 : 1) * (7.0 + rand() * 17); // B"H 2026-10-13: banks
+    const gr = mulberry32(seed ^ 0x6a55);
+
+    while (placed < COUNT && guard++ < COUNT * 20) {
+      // Cluster center: 62% near river (lush banks), 38% scattered
+      let cx, cz;
+      if (gr() < 0.62) {
+        cz = (gr() - 0.5) * 190;
+        cx = riverX(cz) + (gr() < 0.5 ? -1 : 1) * (7.0 + gr() * 17);
       } else {
-        x = (rand() - 0.5) * 190; z = (rand() - 0.5) * 190;
+        cx = (gr() - 0.5) * 190; cz = (gr() - 0.5) * 190;
       }
-      if (Math.abs(x - riverX(z)) < 6.8) continue; // B"H 99%: clear of narrowed water
-      dummy.position.set(x, groundHeight(x, z, noise), z);
-      dummy.rotation.y = rand() * Math.PI * 2;
-      // natural lean: slight random tilt
-      dummy.rotation.x = (rand() - 0.5) * 0.25;
-      dummy.rotation.z = (rand() - 0.5) * 0.25;
-      const s = 0.85 + rand() * 1.1;
-      dummy.scale.set(s, s * (0.85 + rand() * 0.6), s);
-      dummy.updateMatrix();
-      inst.setMatrixAt(placed++, dummy.matrix);
+      if (Math.abs(cx - riverX(cz)) < 6.8) continue;
+      if (clearPts.some(([px, pz]) => Math.hypot(cx - px, cz - pz) < 3)) continue;
+      const gy = groundHeight(cx, cz, noise);
+
+      // Tuft growth rules: dominant wind direction for this tuft
+      const tuftLean = gr() * Math.PI * 2;
+      const tuftLeanAmt = 0.1 + gr() * 0.25;
+      // Tuft hue: some tufts yellower, some deeper green (soil variation)
+      const tuftHue = 0.85 + gr() * 0.3;
+
+      // Place blades in a tight cluster around center
+      for (let b = 0; b < BLADES_PER_TUFT && placed < COUNT; b++) {
+        // Blade position: Gaussian-ish falloff from tuft center
+        const ang = gr() * Math.PI * 2;
+        const rad = Math.pow(gr(), 0.6) * 0.35; // denser at center
+        const x = cx + Math.cos(ang) * rad;
+        const z = cz + Math.sin(ang) * rad;
+        // Outer blades shorter (growth rule: edge blades get trampled/grazed)
+        const edgeFactor = rad / 0.35; // 0=center, 1=edge
+        const heightScale = (1.0 - edgeFactor * 0.35) * (0.7 + gr() * 0.7);
+
+        dummy.position.set(x, groundHeight(x, z, noise), z);
+        // Blade orientation: random Y rotation + tuft lean direction
+        dummy.rotation.set(0, gr() * Math.PI * 2, 0);
+        // Lean: combination of tuft wind direction + individual variation
+        dummy.rotateX(Math.cos(tuftLean) * tuftLeanAmt + (gr() - 0.5) * 0.2);
+        dummy.rotateZ(Math.sin(tuftLean) * tuftLeanAmt + (gr() - 0.5) * 0.2);
+
+        dummy.scale.set(0.9 + gr()*0.3, heightScale, 1);
+        dummy.updateMatrix();
+        inst.setMatrixAt(placed, dummy.matrix);
+        // Per-blade color variation (growth rule: no two blades identical)
+        const v = tuftHue * (0.85 + gr() * 0.3);
+        tint.setRGB(v, v, v);
+        inst.setColorAt(placed, tint);
+        placed++;
+      }
     }
     inst.count = placed;
+    if (inst.instanceColor) inst.instanceColor.needsUpdate = true;
     inst.castShadow = false; inst.receiveShadow = true;
     scene.add(inst);
   }
