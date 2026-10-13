@@ -92,8 +92,11 @@ async function verifyReducedMotionCovenant() {
 	assert.match(gevurahReduced, /\.temple-runner-route \*::before/);
 	assert.match(gevurahReduced, /\.temple-runner-route \*::after/);
 	assert.match(gevurahReduced, /\.game-shell\[data-motion="reduced"\] \*::before/);
-	assert.match(gevurahReduced, /animation: none !important/);
-	assert.match(gevurahReduced, /transition: none !important/);
+	// B"H — tunnel CSS law: NEVER !important. The :root:root:root specificity
+	// boost silences animations without it (no-!important cleanup 2026-10-13).
+	assert.match(gevurahReduced, /animation: none;/);
+	assert.match(gevurahReduced, /transition: none;/);
+	assert.doesNotMatch(gevurahReduced, /!important/);
 	assert.doesNotMatch(gevurahReduced, /animation-duration:\s*1ms/);
 }
 

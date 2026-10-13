@@ -46,7 +46,10 @@ function verifyStoneEcology() {
 	for (const layer of road.ecologicalLayers) {
 		assert.deepEqual(layer.zones, TEMPLE_ECOLOGY_ZONES.road);
 		assert.ok(layer.slope[1] <= 0.58);
-		assert.match(layer.url, /^https:\/\/awtsmoos\.com\/api\/social\/drive\/public\/awtsmoos\//);
+		// B"H — Yaakov 2026-10-13 forensics: live original library under the
+		// firebase_drive_migration Drive alias (awtsmoos-alias full-resolution/
+		// never existed). Trust both canonical roots.
+		assert.match(layer.url, /^https:\/\/awtsmoos\.com\/api\/social\/drive\/public\/(awtsmoos|firebase_drive_migration)\//);
 	}
 	for (const layer of wall.ecologicalLayers) {
 		assert.deepEqual(layer.zones, TEMPLE_ECOLOGY_ZONES.generic);

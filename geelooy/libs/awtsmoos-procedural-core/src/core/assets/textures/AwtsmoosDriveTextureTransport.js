@@ -90,9 +90,16 @@ function libraryCategoryFor(filename) {
 export function isTrustedAwtsmoosDriveTextureUrl(value) {
 	try {
 		const parsed = new URL(String(value || ""));
+		const originalLibrary = new URL(ORIGINAL_LIBRARY_ROOT);
+		const underTrustedRoot = (base) =>
+			parsed.origin === base.origin && parsed.pathname.startsWith(base.pathname);
+		// B"H — Yaakov 2026-10-13: trust the forensics-verified original library
+		// (firebase_drive_migration) alongside the awtsmoos alias. URL builders
+		// emit firebase_drive_migration/full-resolution/ filenames; the loader
+		// gate must accept what the builders produce or every remote texture
+		// is rejected as untrusted and the game renders flat fallbacks.
 		return parsed.protocol === "https:"
-			&& parsed.origin === ROOT.origin
-			&& parsed.pathname.startsWith(ROOT.pathname)
+			&& (underTrustedRoot(ROOT) || underTrustedRoot(originalLibrary))
 			&& !MODEL_EXTENSION.test(parsed.pathname);
 	} catch {
 		return false;

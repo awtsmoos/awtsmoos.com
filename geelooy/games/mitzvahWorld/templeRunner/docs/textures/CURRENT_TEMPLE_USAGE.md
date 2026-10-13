@@ -7,7 +7,7 @@ Blessed is He
 The Awtsmoos renews every chosen texture before one recipe can seem to own Jerusalem stone or craft;
 Awtsmoos.com lets future agents see exactly which canonical remote names the current game actually asks.
 
-Current distinct family/name pairs: **28**.
+Current distinct family/name pairs: **27**.
 
 ## Used textures
 
@@ -31,7 +31,6 @@ Current distinct family/name pairs: **28**.
 - `craft` / `silver 2.png` — `TempleCraftSurfaceRecipes.js`
 - `craft` / `tan cloth.png` — `TempleWoodSurfaceRecipes.js`
 - `craft` / `unraveled rope.png` — `TempleWoodSurfaceRecipes.js`
-- `ground` / `cobblestone.png` — `TempleStoneSurfaceRecipes.js`
 - `ground` / `dirt 2.png` — `TempleCraftSurfaceRecipes.js`, `TempleStoneEcologyRecipes.js`
 - `ground` / `stone 1.png` — `TempleStoneSurfaceRecipes.js`
 - `ground` / `stone floor 2.png` — `TempleStoneEcologyRecipes.js`, `TempleStoneSurfaceRecipes.js`

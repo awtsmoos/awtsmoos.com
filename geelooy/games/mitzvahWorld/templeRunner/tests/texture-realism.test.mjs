@@ -15,7 +15,8 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import {
-	awtsmoosDriveTextureUrl
+	awtsmoosDriveTextureUrl,
+	isTrustedAwtsmoosDriveTextureUrl
 } from "../../../../libs/awtsmoos-procedural-core/src/exports/textures.js";
 
 const ROOT = new URL("../src/realism/", import.meta.url);
@@ -51,7 +52,31 @@ test("every recipe texture call resolves through the trusted core catalog", asyn
 		for (const match of source.matchAll(/templeTexture\("([^"]+)", "([^"]+)"\)/g)) {
 			const [, family, texture] = match;
 			const url = awtsmoosDriveTextureUrl(family, texture);
-			assert.match(url, /^https:\/\/awtsmoos\.com\/api\/social\/drive\/public\/awtsmoos\//);
+			// B"H — Yaakov 2026-10-13 forensics verdict: the live original library
+			// sits under the firebase_drive_migration Drive alias (the awtsmoos
+			// alias full-resolution/ never existed). Trust both canonical roots.
+			assert.match(url, /^https:\/\/awtsmoos\.com\/api\/social\/drive\/public\/(awtsmoos|firebase_drive_migration)\//);
+			callCount += 1;
+		}
+	}
+	assert.ok(callCount >= 20);
+});
+
+test("every recipe texture URL passes the native loader trust gate", async () => {
+	// Regression: the forensics redirect changed URL generation to
+	// firebase_drive_migration/ while NativeRemoteTextureLoader.load() still
+	// rejected those URLs as untrusted, so zero remote textures loaded and the
+	// game rendered flat fallbacks. Builder output and loader gate must agree.
+	let callCount = 0;
+	for (const filename of recipeFiles) {
+		const source = await readFile(new URL(filename, ROOT), "utf8");
+		for (const match of source.matchAll(/templeTexture\("([^"]+)", "([^"]+)"\)/g)) {
+			const [, family, texture] = match;
+			const url = awtsmoosDriveTextureUrl(family, texture);
+			assert.ok(
+				isTrustedAwtsmoosDriveTextureUrl(url),
+				`loader gate rejects recipe URL: ${url}`
+			);
 			callCount += 1;
 		}
 	}

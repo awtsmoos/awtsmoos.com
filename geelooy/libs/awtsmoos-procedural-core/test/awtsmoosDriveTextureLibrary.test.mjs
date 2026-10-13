@@ -47,7 +47,7 @@ test('hash compiler preserves aliases while exposing one texture per source imag
 	const [stone] = searchAwtsmoosDriveTextureLibrary(library, 'stone', { tags: ['stone'] });
 	assert.equal(stone.sha256, 'stone-hash');
 	assert.ok(stone.aliases.includes('Way/Stone old.png'));
-	assert.match(stone.transport.source, /^https:\/\/awtsmoos\.com\/sites\/firebase_drive_migration\//);
+	assert.match(stone.transport.source, /^https:\/\/awtsmoos\.com\/api\/social\/drive\/public\/(awtsmoos|firebase_drive_migration)\//);
 	assert.equal(stone.transport.source.includes('awtsmoos-docs-base'), false);
 });
 

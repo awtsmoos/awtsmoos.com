@@ -26,8 +26,14 @@ function revealRouteSource(yesodPath) {
 /** @description Proves HTML owns one stylesheet gateway, semantic actions, and no duplicated preference markup. @returns {Promise<void>} */
 async function verifyHtmlGateway() {
 	const html = await revealRouteSource("index.html");
-	assert.equal((html.match(/<link[^>]+rel="stylesheet"/g) || []).length, 1);
-	assert.match(html, /styles\/temple-runner\.css\?compact=true/);
+	const links = html.match(/<link[^>]*rel="stylesheet"[^>]*>/g) || [];
+	// B"H — one route-local gateway; the unified wardrobe ships its own
+	// cross-app stylesheet (/games/scripts/wardrobe/wardrobe.css) for the
+	// floating wardrobe button + saved chossid look (Yaakov: working wardrobe).
+	const routeLocal = links.filter((tag) => tag.includes("styles/temple-runner.css"));
+	assert.equal(routeLocal.length, 1);
+	assert.ok(links.some((tag) => tag.includes("/games/scripts/wardrobe/wardrobe.css")));
+	assert.match(html, /styles\/temple-runner\.css\?(v=[0-9a-f]+|compact=true)/);
 	assert.match(html, /id="experience-settings"/);
 	assert.doesNotMatch(html, /data-preference=/);
 	assert.equal((html.match(/data-action=/g) || []).length, 6);
