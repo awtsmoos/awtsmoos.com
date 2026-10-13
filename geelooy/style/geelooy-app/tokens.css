@@ -11,10 +11,12 @@ html.geelooy-route-ready {
 	color-scheme: dark;
 	--g-bg: #0a0e14;
 	--g-bg-deep: #070a0f;
+	--g-bg-2: #14171e;
 	--g-bg-soft: #0e141c;
 	--g-bg-elevated: #121a24;
 	--g-surface: rgba(18, 26, 36, .94);
 	--g-surface-strong: rgba(11, 16, 23, .98);
+	--g-surface-3: #1a1f2b;
 	--g-surface-soft: rgba(146, 166, 188, .08);
 	--g-surface-hover: rgba(36, 49, 64, .84);
 	--g-surface-selected: rgba(39, 66, 75, .86);
@@ -32,6 +34,7 @@ html.geelooy-route-ready {
 	--g-magenta: #b98aa8;
 	--g-orange: #d5a37c;
 	--g-green: #73cfa8;
+	--g-pink: #f472b6;
 	--g-danger: #e58693;
 	--g-warning: #d9bb72;
 	--g-gradient: linear-gradient(125deg, var(--g-cyan), var(--g-blue));
@@ -44,6 +47,7 @@ html.geelooy-route-ready {
 	--g-shadow-sm: 0 .8rem 2rem rgba(0, 0, 0, .24);
 	--g-shadow-lg: 0 1.8rem 5rem rgba(0, 0, 0, .4);
 	--g-shadow-card: var(--g-shadow-sm);
+	--g-shadow-float: 0 .75rem 2rem rgba(0, 0, 0, .32), 0 0 1.25rem rgba(112, 213, 200, .08);
 	--g-glow: 0 0 1.25rem rgba(112, 213, 200, .1);
 	--g-glow-hot: 0 0 1.5rem rgba(120, 168, 216, .12);
 	--g-control-shadow: 0 .55rem 1.4rem rgba(0, 0, 0, .22), inset 0 1px rgba(255, 255, 255, .055);
@@ -66,9 +70,11 @@ html.geelooy-route-ready {
 	--g-control-h: 2.875rem;
 	--g-control-h-lg: 3.25rem;
 	--g-header-h: 4.75rem;
+	--g-dock-h: 4.5rem;
 	--g-content: 88rem;
 	--g-reading: 46rem;
 	--g-ease: cubic-bezier(.16, 1, .3, 1);
+	--g-motion-ease: cubic-bezier(.22, .8, .24, 1);
 	--g-ease-pressure: cubic-bezier(.2, .72, .2, 1);
 	--g-motion-fast: 140ms;
 	--g-motion-medium: 240ms;
