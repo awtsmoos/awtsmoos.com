@@ -1244,7 +1244,7 @@
   height: 2.2rem;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--sefer-gold, #d4a017), var(--sefer-gold-deep, #8a6d1b));
-  color: #fff;
+  color: #2c2416;
   font-weight: 700;
   font-size: 0.95rem;
   display: flex;
@@ -1315,7 +1315,7 @@
   border-radius: 999px;
   border: none;
   background: var(--sefer-gold, #b8860b);
-  color: #fff;
+  color: #2c2416;
   font-weight: 700;
   font-size: 0.88rem;
   cursor: pointer;
@@ -1345,11 +1345,15 @@
   font-size: 0.85rem;
   min-height: 1.2em;
 }
+[data-theme="dark"] .awtsmoos-src-notice {
+  --src-notice-err: #ff8a80;
+  --src-notice-ok: #81c784;
+}
 .awtsmoos-src-notice.is-error {
-  color: #b3261e;
+  color: var(--src-notice-err, #b3261e);
 }
 .awtsmoos-src-notice.is-ok {
-  color: #1b7a3d;
+  color: var(--src-notice-ok, #1b7a3d);
 }
 /* Footnotes list */
 .awtsmoos-src-fn-item {
@@ -1424,11 +1428,8 @@
 [data-theme="dark"] .awtsmoos-src-overlay {
   background: rgba(0, 0, 0, 0.65);
 }
-[data-theme="dark"] .awtsmoos-src-notice.is-error {
-  color: #ff8a80;
-}
-[data-theme="dark"] .awtsmoos-src-notice.is-ok {
-  color: #81c784;
+[data-theme="dark"] .awtsmoos-src-overlay {
+  background: rgba(0, 0, 0, 0.65);
 }
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
@@ -1436,4 +1437,17 @@
   .awtsmoos-src-sheet {
     transition: none;
   }
+}
+
+/* B"H — Footnote jump flash (from Sources sheet) */
+.awtsmoos-fn-flash {
+  animation: awtsmoos-fn-flash 1.6s ease;
+  border-radius: 0.5rem;
+}
+@keyframes awtsmoos-fn-flash {
+  0%, 100% { background: transparent; }
+  25%, 60% { background: rgba(184, 134, 11, 0.22); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .awtsmoos-fn-flash { animation: none; }
 }

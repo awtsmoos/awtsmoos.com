@@ -1,0 +1,108 @@
+/* B"H Dream Reader — celestial: the sun and moon keep halachic time.
+ * A subtle sun by day, a phase-true moon by night, each riding the exact
+ * halachic arc (sunrise/chatzos/shkia; tzeis/chatzos-halailah/alos) computed
+ * by Awtsmoos.com's own zmanim system. Transform/opacity only — the
+ * compositor does all the work, so Yaakov's 4-second law holds.
+ * Scoped under [data-dream]; the controller removes the elements entirely
+ * when the dream is off or the user disables them. */
+
+.dream-celestial {
+	--celestial-warmth: 0;
+	--moon-phase: 0.5;
+	--moon-lit: 1;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 72px;
+	height: 72px;
+	margin: 0;
+	z-index: 1;
+	pointer-events: none;
+	will-change: transform;
+	opacity: 0;
+	transition: opacity 1.2s ease;
+}
+
+/* ============ the sun: a soft golden orb ============ */
+.dream-celestial[data-body="sun"] {
+	border-radius: 50%;
+	background:
+		radial-gradient(circle at 50% 50%,
+			rgba(255, 246, 220, 0.95) 0%,
+			rgba(255, 224, 160, 0.75) 28%,
+			rgba(255, 196, 110, 0.28) 55%,
+			transparent 72%);
+	box-shadow:
+		0 0 42px 18px rgba(255, 205, 120, calc(0.22 + var(--celestial-warmth) * 0.25)),
+		0 0 110px 46px rgba(255, 180, 100, calc(0.10 + var(--celestial-warmth) * 0.14));
+}
+
+:where([data-dream="sanctuary"]) :where(.dream-celestial[data-body="sun"]) {
+	background:
+		radial-gradient(circle at 50% 50%,
+			rgba(255, 240, 205, 0.9) 0%,
+			rgba(248, 214, 140, 0.65) 28%,
+			rgba(233, 170, 90, 0.24) 55%,
+			transparent 72%);
+}
+
+/* ============ the moon: phase-true silver ============ */
+.dream-celestial[data-body="moon"] {
+	border-radius: 50%;
+	background:
+		radial-gradient(circle at 38% 34%,
+			rgba(240, 244, 252, calc(0.35 + var(--moon-lit) * 0.6)) 0%,
+			rgba(210, 220, 240, calc(0.25 + var(--moon-lit) * 0.45)) 42%,
+			rgba(170, 185, 215, calc(0.10 + var(--moon-lit) * 0.2)) 62%,
+			transparent 74%);
+	box-shadow:
+		0 0 36px 14px rgba(190, 205, 235, calc(0.12 + var(--moon-lit) * 0.20)),
+		0 0 90px 38px rgba(170, 190, 225, calc(0.05 + var(--moon-lit) * 0.10));
+}
+
+/* B"H The dark limb: a soft shadow for the unlit portion. */
+:where(.dream-celestial[data-body="moon"])::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+	background: radial-gradient(circle at 68% 62%,
+		rgba(6, 10, 20, calc((1 - var(--moon-lit)) * 0.55)) 0%,
+		transparent 65%);
+}
+
+/* ============ ambient tint: the sky's mood on the page ============ */
+.dream-celestial-tint {
+	position: fixed;
+	inset: 0;
+	z-index: 0;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 1.2s ease;
+}
+
+.dream-celestial-tint[data-tint="warm"] {
+	background: radial-gradient(120% 90% at 50% 0%,
+		rgba(255, 190, 110, calc(0.5 + var(--tint-warmth, 0) * 0.9)) 0%,
+		transparent 60%);
+}
+
+.dream-celestial-tint[data-tint="cool"] {
+	background: radial-gradient(120% 90% at 50% 0%,
+		rgba(140, 170, 220, 0.55) 0%,
+		transparent 60%);
+}
+
+/* B"H Never fight the text: keep the celestial behind the reading column. */
+.dream-celestial,
+.dream-celestial-tint {
+	z-index: 0;
+}
+
+/* B"H Respect reduced motion: the celestial appears without transition. */
+@media (prefers-reduced-motion: reduce) {
+	.dream-celestial,
+	.dream-celestial-tint {
+		transition: none;
+	}
+}

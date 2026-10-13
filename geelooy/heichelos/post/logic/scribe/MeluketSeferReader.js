@@ -768,8 +768,12 @@ let srcOverlayEl = null;
 let srcSheetEl = null;
 let srcCloseEl = null;
 let srcMetaEl = null;
+let srcCrumbEl = null;
+let srcTabsEl = null;
 let srcListEl = null;
 let srcOpen = false;
+let srcCurrentTab = 'sections';
+let srcCachedData = null;
 
 function sourcesReaderRoot() {
 	return document.querySelector('.post-reader-localized-context') || document.body;
@@ -804,9 +808,13 @@ function ensureSourcesSheet() {
 	srcCloseEl.setAttribute('aria-label', 'Close sources');
 	head.append(headTitle, srcCloseEl);
 	srcMetaEl = el('div', 'awtsmoos-src-meta');
+	srcCrumbEl = el('nav', 'awtsmoos-src-crumb');
+	srcCrumbEl.setAttribute('aria-label', 'Breadcrumb');
+	srcTabsEl = el('div', 'awtsmoos-src-tabs');
+	srcTabsEl.setAttribute('role', 'tablist');
 	srcListEl = el('div', 'awtsmoos-src-list');
-	srcListEl.setAttribute('role', 'list');
-	srcSheetEl.append(grab, head, srcMetaEl, srcListEl);
+	srcListEl.setAttribute('role', 'tabpanel');
+	srcSheetEl.append(grab, head, srcCrumbEl, srcMetaEl, srcTabsEl, srcListEl);
 	root.append(srcOverlayEl, srcSheetEl);
 	srcCloseEl.addEventListener('click', closeSourcesSheet);
 	srcOverlayEl.addEventListener('click', closeSourcesSheet);
@@ -829,13 +837,30 @@ function sourcesSectionPreview(sectionEl) {
 
 function buildSourcesSheetContent(post, sefer) {
 	ensureSourcesSheet();
+	const sections = Array.from(sefer.querySelectorAll('.meluket-sefer-section'));
+	const footnotes = Array.from(sefer.querySelectorAll('.meluket-footnote'));
+	// Cache for tab switching.
+	srcCachedData = { post, sefer, sections, footnotes };
+
+	// Breadcrumb: Heichel > Series > Post.
+	srcCrumbEl.innerHTML = '';
+	const heichelName = (window.post && window.post.heichel && window.post.heichel.name) || 'Ikar';
+	const seriesName = (window.series && (window.series.prateem?.name || window.series.name))
+		|| post.seriesTitle || post.seriesId || '';
+	const postTitle = post.title || '';
+	const crumbParts = [heichelName, seriesName, postTitle].filter(Boolean);
+	crumbParts.forEach((part, i) => {
+		if (i > 0) srcCrumbEl.appendChild(el('span', 'awtsmoos-src-crumb-sep', '›'));
+		const span = el('span', '', String(part));
+		span.setAttribute('dir', 'auto');
+		srcCrumbEl.appendChild(span);
+	});
+
 	// Post sources card.
 	srcMetaEl.innerHTML = '';
 	const card = el('div', 'awtsmoos-src-card');
-	const seriesName = (window.series && (window.series.prateem?.name || window.series.name))
-		|| post.seriesTitle || post.seriesId || '';
 	const rows = [
-		['Sefer', post.title || ''],
+		['Sefer', postTitle],
 		['Series', seriesName],
 		['Author', post.author || post.authorName || ''],
 	].filter(([, v]) => v && String(v).trim());
@@ -845,14 +870,48 @@ function buildSourcesSheetContent(post, sefer) {
 		row.lastChild.setAttribute('dir', 'auto');
 		card.appendChild(row);
 	});
-	const sections = Array.from(sefer.querySelectorAll('.meluket-sefer-section'));
-	const footnotes = Array.from(sefer.querySelectorAll('.meluket-footnote'));
 	const stats = el('div', 'awtsmoos-src-stats', `${sections.length} sections · ${footnotes.length} footnotes`);
 	card.appendChild(stats);
 	if (card.children.length) srcMetaEl.appendChild(card);
 
-	// Per-section index with comment affordances.
+	// Tabs.
+	srcTabsEl.innerHTML = '';
+	const tabs = [
+		['sections', `Sections (${sections.length})`],
+		['footnotes', `Footnotes (${footnotes.length})`],
+		['comments', 'Comments'],
+	];
+	tabs.forEach(([key, label]) => {
+		const tab = el('button', 'awtsmoos-src-tab', label);
+		tab.type = 'button';
+		tab.setAttribute('role', 'tab');
+		tab.setAttribute('aria-selected', String(key === srcCurrentTab));
+		tab.addEventListener('click', () => {
+			srcCurrentTab = key;
+			srcTabsEl.querySelectorAll('.awtsmoos-src-tab').forEach(t =>
+				t.setAttribute('aria-selected', String(t === tab)));
+			renderSourcesTab();
+		});
+		srcTabsEl.appendChild(tab);
+	});
+
+	renderSourcesTab();
+}
+
+function renderSourcesTab() {
+	if (!srcCachedData) return;
+	const { post, sections, footnotes } = srcCachedData;
 	srcListEl.innerHTML = '';
+	if (srcCurrentTab === 'sections') renderSourcesSections(post, sections);
+	else if (srcCurrentTab === 'footnotes') renderSourcesFootnotes(footnotes);
+	else if (srcCurrentTab === 'comments') renderSourcesComments(post);
+}
+
+function renderSourcesSections(post, sections) {
+	if (!sections.length) {
+		srcListEl.appendChild(el('div', 'awtsmoos-src-empty', 'No sections found in this post.'));
+		return;
+	}
 	sections.forEach((sectionEl, index) => {
 		const sectionId = sectionEl.dataset.sectionId || `sec-${index + 1}`;
 		const item = el('div', 'awtsmoos-src-item');
@@ -904,6 +963,76 @@ function buildSourcesSheetContent(post, sefer) {
 		item.append(goto, commentBtn, composer);
 		srcListEl.appendChild(item);
 	});
+}
+
+function sourcesFootnoteText(fnEl) {
+	const raw = String(fnEl.textContent || '').replace(/\s+/g, ' ').trim();
+	return raw.length > 140 ? raw.slice(0, 140) + '…' : raw;
+}
+
+function renderSourcesFootnotes(footnotes) {
+	if (!footnotes.length) {
+		srcListEl.appendChild(el('div', 'awtsmoos-src-empty', 'No footnotes in this post.'));
+		return;
+	}
+	footnotes.forEach((fnEl, index) => {
+		const num = fnEl.dataset.fnNum || fnEl.getAttribute('data-footnote') || String(index + 1);
+		const btn = el('button', 'awtsmoos-src-fn-item');
+		btn.type = 'button';
+		btn.setAttribute('aria-label', `Go to footnote ${num}`);
+		btn.append(el('span', 'awtsmoos-src-fn-num', String(num)));
+		const txt = el('span', 'awtsmoos-src-fn-text', sourcesFootnoteText(fnEl));
+		txt.setAttribute('dir', 'auto');
+		btn.append(txt);
+		btn.addEventListener('click', () => {
+			closeSourcesSheet();
+			fnEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+			fnEl.classList.add('awtsmoos-fn-flash');
+			setTimeout(() => fnEl.classList.remove('awtsmoos-fn-flash'), 1600);
+		});
+		srcListEl.appendChild(btn);
+	});
+}
+
+async function renderSourcesComments(post) {
+	const loading = el('div', 'awtsmoos-src-empty', 'Loading comments…');
+	srcListEl.appendChild(loading);
+	const heichelId = (window.post && window.post.heichel && window.post.heichel.id) || 'ikar';
+	const postId = post.id || (window.post && window.post.id) || '';
+	if (!postId) {
+		loading.textContent = 'Could not determine this post.';
+		return;
+	}
+	try {
+		const res = await fetch(`/api/social/heichelos/${heichelId}/posts/${postId}/comment-tree`);
+		const json = await res.json();
+		const comments = (json && (json.comments || json.data || json.success)) || [];
+		const list = Array.isArray(comments) ? comments : [];
+		srcListEl.innerHTML = '';
+		if (!list.length) {
+			srcListEl.appendChild(el('div', 'awtsmoos-src-empty', 'No comments yet. Be the first to share a thought from the Sections tab.'));
+			return;
+		}
+		list.forEach(c => {
+			const wrap = el('div', 'awtsmoos-src-comment');
+			const head = el('div', 'awtsmoos-src-comment-head');
+			head.append(el('span', 'awtsmoos-src-comment-author', String(c.aliasId || c.author || 'Anonymous')));
+			if (c.createdAt || c.timestamp) {
+				const t = el('span', 'awtsmoos-src-comment-time', String(c.createdAt || c.timestamp).slice(0, 10));
+				head.append(t);
+			}
+			if (c.verseSection || c.subsectionId) {
+				const sec = el('span', 'awtsmoos-src-comment-time', `· ${c.verseSection || c.subsectionId}`);
+				head.append(sec);
+			}
+			const body = el('div', 'awtsmoos-src-comment-body', String(c.content || c.text || ''));
+			body.setAttribute('dir', 'auto');
+			wrap.append(head, body);
+			srcListEl.appendChild(wrap);
+		});
+	} catch (err) {
+		loading.textContent = 'Could not load comments. Try again later.';
+	}
 }
 
 async function submitSectionComment({ post, sectionId, sectionIndex, textarea, send, notice }) {

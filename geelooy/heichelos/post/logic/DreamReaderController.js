@@ -27,6 +27,7 @@
  */
 
 import { KliReaderPreferenceController } from "./KliReaderPreferenceController.js";
+import { DreamCelestial, isCelestialEnabled, setCelestialEnabled } from "./dreamCelestial.js";
 
 const ALLOWED_DREAMS = ["off", "sanctuary", "dawn"];
 const DEFAULT_DREAM = "off";
@@ -63,6 +64,8 @@ export class DreamReaderController extends KliReaderPreferenceController {
 		this.dreamTicking = false;
 		this.dreamFrame = 0;
 		this.maxScroll = 1;
+		this.celestial = null;
+		this.celestialToggleEl = null;
 	}
 
 	/** @param {string} candidate Dream candidate. @returns {string} Supported dream. */
@@ -376,6 +379,9 @@ export class DreamReaderController extends KliReaderPreferenceController {
 			this.parallaxFar = this.makeParallaxLayer("dream-parallax-far");
 			this.parallaxMid = this.makeParallaxLayer("dream-parallax-mid");
 		}
+		// B"H The sun and moon keep halachic time above the dream.
+		this.celestial = new DreamCelestial();
+		this.celestial.mount();
 		this.maxScroll = this.computeMaxScroll();
 		this.dreamTicking = false;
 		this.dreamFrame = 0;
@@ -445,10 +451,35 @@ export class DreamReaderController extends KliReaderPreferenceController {
 				el.parentNode.removeChild(el);
 			}
 		}
+		if (this.celestial) {
+			this.celestial.unmount();
+			this.celestial = null;
+		}
 		this.parallaxFar = null;
 		this.parallaxMid = null;
 		this.threadEl = null;
 		this.dreamTicking = false;
+	}
+
+	/**
+	 * Bind the sun/moon toggle in the reader settings, if present.
+	 * @param {HTMLInputElement|null} toggleEl Checkbox element.
+	 * @returns {void}
+	 */
+	bindCelestialToggle(toggleEl) {
+		this.celestialToggleEl = toggleEl;
+		if (!toggleEl) return;
+		toggleEl.checked = isCelestialEnabled();
+		toggleEl.addEventListener("change", () => {
+			setCelestialEnabled(toggleEl.checked);
+			if (toggleEl.checked && this.currentDream() !== "off" && !this.celestial) {
+				this.celestial = new DreamCelestial();
+				this.celestial.mount();
+			} else if (!toggleEl.checked && this.celestial) {
+				this.celestial.unmount();
+				this.celestial = null;
+			}
+		});
 	}
 
 	/** @returns {boolean} Whether the reader has ever chosen a dream. */
@@ -494,6 +525,12 @@ export class DreamReaderController extends KliReaderPreferenceController {
 			const nextDream = this.applyDream(event.target.value, { cinematic: true });
 			selectorKli.value = nextDream;
 		});
+		// B"H Sun & moon toggle lives beside the dream selector.
+		this.bindCelestialToggle(/** @type {HTMLInputElement|null} */ (
+			typeof document !== "undefined"
+				? document.getElementById("dreamCelestialToggle")
+				: null
+		));
 	}
 
 	/**
