@@ -378,9 +378,10 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     // Only for the forest view where near trunks dominate the foreground.
     if (view === 'forest') {
       const vpos = VIEWS.forest.pos;
-      // B"H — Phase 1 (2026-10-13): cooler + dimmer fill (0xfff2dd 0.65 →
-      // 0xd8e8e8 0.35). Reference shadows are cool, not warm.
-      const fill = new THREE.DirectionalLight(0xd8e8e8, 0.35);
+      // B"H — Sprint fix (2026-10-13): 0.35 was too dim, trunks went black and
+      // the v2 bark texture couldn't read. 0.55 warm — reference trunks have
+      // warm rim light on the camera side.
+      const fill = new THREE.DirectionalLight(0xffe8c8, 0.55);
       fill.position.set(vpos[0], vpos[1] + 4, vpos[2]);
       fill.target.position.set(vpos[0] - 8, 2, vpos[2] - 20);
       scene.add(fill); scene.add(fill.target);
@@ -514,7 +515,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     loadTexture(TEX + 'new/tex-grass-ground.webp', 36, 36),
     loadTexture(TEX + 'new/tex-bark-detail.webp', 1, 3),
     loadTexture(TEX + 'new/tex-moss-ground.webp', 2, 2),
-    loadTexture(TEX + 'new/tex-mossy-bark.webp', 1, 2),
+    // B"H — Phase 3 (2026-10-13 sprint): v2 mossy bark — photoreal 1024px,
+    // must READ on trunks (old texture was invisible).
+    loadTexture(TEX + 'new/tex-mossy-bark-v2.webp', 1, 2),
     loadTexture(TEX + 'new/tex-fern-frond.png', 1, 1),
     // B"H — individual-leaf canopy texture (white keyed to alpha)
     // B"H 2026-10-13 iter6: tex-leaf-big = center-cropped for BIGGER leaves
@@ -930,103 +933,217 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   scene.add(treeGroup);
   mark('trees-placed');
 
-  /* B"H — branch-skeleton-first foliage (Yaakov 2026-10-13: "leaves are just
-     floating on nothing with no branches").
-     Every leaf quad is clustered around a real twig tip. Pipeline:
-       1. per tree, grow 7-9 primary limbs from the crown base
-       2. each limb splits into 2-3 secondary twigs; record every twig tip
-       3. draw ALL segments (primary + twigs) as instanced tapered cylinders
-       4. place leaf quads only within ~1.2u of a twig tip — no floating foliage */
+  /* B"H — branch-skeleton v2 (Yaakov 2026-10-13, "refine algorithms" sprint).
+     DROP-IN REPLACEMENT for lines 929-1061 (the old straight 2-level
+     "scaffolding" block). Same scope in/out: reads treeSpots, rand, noise,
+     scene, mark, mossyBarkTex, denseCanopyTex, fast; defines segs, tips;
+     adds 3 instanced meshes to scene; calls mark('branch-skeleton'),
+     mark('crown-filler'), mark('crown-limbs').
+     Algorithm — 4-level recursive curved branching with phototropism:
+       L0 trunk leader: from just below the crown base, up through the crown.
+       L1 primary limbs: 3-4 per tree, bowed outward+upward toward the light.
+       L2 secondary branches: 2-3 per parent, sprouting from 45-95% along it.
+       L3 tertiary twigs: 2-3 per parent.
+       L4 quaternary spray: 2 per parent — short fine shoots, nearly pointed.
+     Every branch is a quadratic bezier: the control point is bowed UP
+     (phototropism — wood reaches for the light) and OUTWARD from the trunk
+     axis (so limbs arc before rising, like real trees). The curve is
+     tessellated into 3 short tapered cylinder sub-segments — a quadratic
+     bezier is smooth enough that 3 pieces read continuous.
+     Radius: ×0.6 per level (L0 0.30 → L4 ~0.04, scaled by tree size), plus
+     aggressive 0.55× taper across each branch so tips come nearly to a point.
+     Moss on wood: (a) per-instance color on the wood InstancedMesh — sub-
+     segments facing up lerp toward moss green; (b) one extra instanced draw
+     of small flattened moss blobs hugging the tops of L0-L2 segments.
+     Foliage: anchors at every L3+ tip AND along L2+ branches with spacing
+     that tightens toward the tip (t = 0.5/0.75/1.0) — denser at the tips,
+     like real trees. Every leaf quad sits within ~1.3u of real wood.
+     GPU: exactly 3 draw calls — one InstancedMesh for all wood, one for moss
+     blobs, one for leaf quads (per-instance colors, castShadow on). */
   {
     const up = new THREE.Vector3(0, 1, 0);
-    const dir = new THREE.Vector3();
     const dummy = new THREE.Object3D();
-    // collect per-tree branch segments + twig tips first
-    const segs = []; // {ax,ay,az, bx,by,bz, r0, r1}
-    const tips = []; // {x,y,z, tree}
+
+    // quadratic bezier point B(t) for control polygon (p0, c, p1)
+    function bezPt(p0x, p0y, p0z, cx, cy, cz, p1x, p1y, p1z, t, out) {
+      const u = 1 - t;
+      out.set(
+        u * u * p0x + 2 * u * t * cx + t * t * p1x,
+        u * u * p0y + 2 * u * t * cy + t * t * p1y,
+        u * u * p0z + 2 * u * t * cz + t * t * p1z
+      );
+      return out;
+    }
+
+    const segs = [];      // {ax,ay,az, bx,by,bz, r0, r1, level, tree}
+    const tips = [];      // {x,y,z, tree, level} — every L3+ tip
+    const anchors = [];   // {x,y,z} — leaf-quad stations (tips + tip-weighted along L2+)
+    const mossBlobs = []; // {x,y,z, s} — moss colonies on upward-facing L0-L2 wood
+
+    const MAX_LEVEL = 4;
+    const BASE_RADIUS = [0.30, 0.18, 0.108, 0.065, 0.039]; // ×0.6 per level
+
+    const _e = new THREE.Vector3();   // branch end
+    const _ca = new THREE.Vector3();  // scratch curve point
+    const _cb = new THREE.Vector3();  // scratch curve point
+    const _d = new THREE.Vector3();   // scratch child heading
+    const _bark = new THREE.Color(0.50, 0.42, 0.34);
+    const _mossGreen = new THREE.Color(0.32, 0.45, 0.22);
+
+    // recursive phototropic grow: origin Vector3, dir Vector3 (normalized)
+    function grow(s, ccx, origin, dir, len, level, r0) {
+      _e.copy(origin).addScaledVector(dir, len);
+      // control point bowed UP (phototropism) and OUTWARD from the trunk axis
+      const curl = (0.10 + rand() * 0.14) * len * (level === 0 ? 0.35 : 1.0);
+      const outx = origin.x - ccx, outz = origin.z - s.z;
+      const outLen = Math.hypot(outx, outz) || 1;
+      const cpx = (origin.x + _e.x) / 2 + (outx / outLen) * curl * 0.9;
+      const cpy = (origin.y + _e.y) / 2 + curl;
+      const cpz = (origin.z + _e.z) / 2 + (outz / outLen) * curl * 0.9;
+      // tessellate the bezier into 3 short tapered sub-segments
+      const SUB = 3;
+      let px = origin.x, py = origin.y, pz = origin.z;
+      const rTip = r0 * 0.55; // aggressive taper across the branch
+      for (let si = 1; si <= SUB; si++) {
+        const t0 = (si - 1) / SUB, t1 = si / SUB;
+        const ra = r0 + (rTip - r0) * t0, rb = r0 + (rTip - r0) * t1;
+        bezPt(origin.x, origin.y, origin.z, cpx, cpy, cpz, _e.x, _e.y, _e.z, t1, _cb);
+        segs.push({ ax: px, ay: py, az: pz, bx: _cb.x, by: _cb.y, bz: _cb.z,
+                    r0: ra, r1: rb, level, tree: s });
+        // moss colony anchor: tops of upward-facing L0-L2 wood
+        if (level <= 2) {
+          const dy = _cb.y - py, dx = _cb.x - px, dz = _cb.z - pz;
+          const dl = Math.hypot(dx, dy, dz) || 1;
+          if (dy / dl > 0.25) {
+            mossBlobs.push({
+              x: (px + _cb.x) / 2,
+              y: (py + _cb.y) / 2 + ra * 0.55,
+              z: (pz + _cb.z) / 2,
+              // B"H — sprint fix: was ra*(1.6-3.0) = up to 0.9u blobs (tumors).
+              // Moss colonies are small: 0.08-0.18u.
+              s: 0.08 + rand() * 0.10,
+            });
+          }
+        }
+        px = _cb.x; py = _cb.y; pz = _cb.z;
+      }
+      const tipX = px, tipY = py, tipZ = pz;
+      // foliage anchors: every L3+ tip, plus tip-weighted stations along L2+
+      if (level === 2) {
+        for (const ta of [0.5, 0.75]) {
+          bezPt(origin.x, origin.y, origin.z, cpx, cpy, cpz, _e.x, _e.y, _e.z, ta, _ca);
+          anchors.push({ x: _ca.x, y: _ca.y, z: _ca.z });
+        }
+        anchors.push({ x: tipX, y: tipY, z: tipZ });
+      } else if (level === 3) {
+        bezPt(origin.x, origin.y, origin.z, cpx, cpy, cpz, _e.x, _e.y, _e.z, 0.7, _ca);
+        anchors.push({ x: _ca.x, y: _ca.y, z: _ca.z });
+        anchors.push({ x: tipX, y: tipY, z: tipZ });
+        tips.push({ x: tipX, y: tipY, z: tipZ, tree: s, level });
+      } else if (level === 4) {
+        anchors.push({ x: tipX, y: tipY, z: tipZ });
+        tips.push({ x: tipX, y: tipY, z: tipZ, tree: s, level });
+      }
+      if (level >= MAX_LEVEL) return;
+      // spawn 2-4 children from the distal 45-95% of the branch
+      const nCh = level === 0 ? 3 + ((rand() * 2) | 0)   // 3-4 primary limbs
+                : level === 3 ? 2                        // L4 spray: 2 fine shoots
+                : 2 + ((rand() * 2) | 0);                 // 2-3
+      for (let c = 0; c < nCh; c++) {
+        const t = 0.45 + rand() * 0.50;
+        bezPt(origin.x, origin.y, origin.z, cpx, cpy, cpz, _e.x, _e.y, _e.z, t, _ca);
+        const spawn = new THREE.Vector3(_ca.x, _ca.y, _ca.z); // clone: _ca is reused below
+        _d.copy(dir);
+        _d.applyAxisAngle(up, (rand() - 0.5) * 1.2); // yaw scatter
+        const ax = rand() * Math.PI * 2;            // pitch away from parent
+        _d.applyAxisAngle(new THREE.Vector3(Math.cos(ax), 0, Math.sin(ax)),
+                          (0.35 + rand() * 0.55) * (rand() < 0.72 ? 1 : -1));
+        _d.y += 0.25 + rand() * 0.25;                // phototropism: reach for light
+        _d.normalize();
+        const childLen = len * (0.55 + rand() * 0.15); // length ×0.55-0.7
+        grow(s, ccx, spawn, _d, childLen, level + 1, BASE_RADIUS[level + 1] * (s.crownR / 5.5));
+      }
+    }
+
     for (const s of treeSpots) {
       const ccx = (s.crownX !== undefined ? s.crownX : s.x);
       const baseY = s.crownY - s.crownR * 0.45;
-      const primN = 7 + ((rand() * 3) | 0);
-      for (let i = 0; i < primN; i++) {
-        const th = (i / primN) * Math.PI * 2 + rand() * 0.6;
-        const tilt = 0.45 + rand() * 0.60; // outward lean from vertical
-        const ls = (0.85 + rand() * 0.65) * s.crownR * 0.42;
-        dir.set(Math.cos(th) * Math.sin(tilt), Math.cos(tilt), Math.sin(th) * Math.sin(tilt)).normalize();
-        const ex = ccx + dir.x * ls, ey = baseY + dir.y * ls, ez = s.z + dir.z * ls;
-        const r0 = 0.16 * (0.8 + rand() * 0.4), r1 = 0.07;
-        segs.push({ ax: ccx, ay: baseY, az: s.z, bx: ex, by: ey, bz: ez, r0, r1, tree: s });
-        // secondary twigs from 55-85% along the limb
-        const twigN = 2 + ((rand() * 2) | 0);
-        for (let k = 0; k < twigN; k++) {
-          const t = 0.55 + rand() * 0.30;
-          const px = ccx + dir.x * ls * t, py = baseY + dir.y * ls * t, pz = s.z + dir.z * ls * t;
-          const th2 = th + (rand() - 0.5) * 1.6;
-          const tilt2 = tilt + (rand() - 0.5) * 0.9;
-          const ls2 = ls * (0.35 + rand() * 0.30);
-          const d2x = Math.cos(th2) * Math.sin(tilt2), d2y = Math.cos(tilt2), d2z = Math.sin(th2) * Math.sin(tilt2);
-          const tx = px + d2x * ls2, ty = py + d2y * ls2, tz = pz + d2z * ls2;
-          segs.push({ ax: px, ay: py, az: pz, bx: tx, by: ty, bz: tz, r0: 0.06, r1: 0.02, tree: s });
-          tips.push({ x: tx, y: ty, z: tz, tree: s });
-        }
-        // primary tip also gets foliage
-        tips.push({ x: ex, y: ey, z: ez, tree: s });
-      }
+      const tsc = s.crownR / 5.5; // tree size scale (crownR = 5.5 * sc)
+      // L0 trunk leader: from just below the crown base, up through the crown
+      const o0 = new THREE.Vector3(ccx, baseY - s.crownR * 0.15, s.z);
+      const d0 = new THREE.Vector3((rand() - 0.5) * 0.15, 1, (rand() - 0.5) * 0.15).normalize();
+      grow(s, ccx, o0, d0, s.crownR * 0.85, 0, BASE_RADIUS[0] * tsc);
     }
-    // draw every segment as an instanced tapered cylinder
-    const segGeo = new THREE.CylinderGeometry(1, 1, 1, 5);
+
+    // ---- draw every sub-segment as an instanced tapered cylinder ----
+    // geometry has baked-in taper (top = 0.62 of bottom); per-instance scale
+    // sets the mid radius, so the stacked sub-segments read as one smooth
+    // tapered, curving branch.
+    const segGeo = new THREE.CylinderGeometry(1, 0.62, 1, 5, 1, true);
     segGeo.translate(0, 0.5, 0); // base at origin, grows +Y, unit height
     const segMat = new THREE.MeshStandardMaterial({
       map: mossyBarkTex, roughness: 1.0,
-      color: new THREE.Color(0.50, 0.42, 0.34),
+      color: new THREE.Color(0xffffff), // per-instance colors carry bark/moss tint
     });
     const segInst = new THREE.InstancedMesh(segGeo, segMat, segs.length);
     const sv = new THREE.Vector3(), sq = new THREE.Quaternion(), ss = new THREE.Vector3();
+    const _tint = new THREE.Color();
     let sp = 0;
     for (const g of segs) {
       sv.set(g.bx - g.ax, g.by - g.ay, g.bz - g.az);
-      const len = sv.length();
+      const len = sv.length() || 1e-6;
       sq.setFromUnitVectors(up, sv.clone().normalize());
-      // taper: scale x/z from r0 (base) to r1 (tip) — approximate with avg;
-      // true taper needs custom geo, so bake radius into x/z and accept slight uniform look
       dummy.position.set(g.ax, g.ay, g.az);
       dummy.quaternion.copy(sq);
       dummy.scale.set((g.r0 + g.r1) / 2, len, (g.r0 + g.r1) / 2);
       dummy.updateMatrix();
-      segInst.setMatrixAt(sp++, dummy.matrix);
+      segInst.setMatrixAt(sp, dummy.matrix);
+      // moss on wood: upward-facing sub-segments lerp toward moss green
+      const upness = Math.max(0, Math.min(1, (g.by - g.ay) / len));
+      _tint.copy(_bark).lerp(_mossGreen, upness * 0.60);
+      segInst.setColorAt(sp, _tint);
+      sp++;
     }
     segInst.count = sp;
-    segInst.castShadow = true;
+    if (segInst.instanceColor) segInst.instanceColor.needsUpdate = true;
+    segInst.castShadow = true; segInst.receiveShadow = true;
     scene.add(segInst);
     mark('branch-skeleton');
 
-    /* leaf quads — clustered ALONG every branch segment (not just tips) plus
-       around twig tips. Foliage hugs the wood: quads sit at multiple points
-       along each segment's length with small jitter, so no leaf floats in
-       empty space and the crown interior stays full. */
+    // ---- instanced moss blobs hugging the tops of L0-L2 branches ----
+    if (mossBlobs.length > 0) {
+      const mossGeo = new THREE.IcosahedronGeometry(1, 0);
+      const mossMat = new THREE.MeshStandardMaterial({
+        // B"H — sprint: richer moss green (was grayish).
+        color: new THREE.Color(0.25, 0.48, 0.16), roughness: 1.0,
+      });
+      const mossInst = new THREE.InstancedMesh(mossGeo, mossMat, mossBlobs.length);
+      let mp = 0;
+      for (const mb of mossBlobs) {
+        dummy.position.set(mb.x, mb.y, mb.z);
+        dummy.quaternion.identity();
+        dummy.rotateY(rand() * Math.PI * 2);
+        dummy.scale.set(mb.s, mb.s * 0.35, mb.s); // flattened — sits ON the wood
+        dummy.updateMatrix();
+        mossInst.setMatrixAt(mp++, dummy.matrix);
+      }
+      mossInst.count = mp;
+      mossInst.receiveShadow = true;
+      scene.add(mossInst);
+    }
+    mark('crown-limbs');
+
+    // ---- leaf quads — clustered at foliage anchors (L3+ tips + tip-weighted
+    // along L2+ branches). Foliage hugs the wood: quads sit within ~1.3u of
+    // their anchor with small jitter, so no leaf floats in empty space. ----
     const quadGeo = new THREE.PlaneGeometry(1.4, 1.4);
     const quadMat = new THREE.MeshStandardMaterial({
       map: denseCanopyTex, alphaTest: 0.30, side: THREE.DoubleSide,
-      // B"H — Phase 2 (2026-10-13): darker base per plan (0.75,0.82,0.60 →
-      // 0.30,0.42,0.22). Reference canopy is deep green, not yellow-green.
+      // B"H — Phase 2 (re-applied after branch v2 patch): deep green, not yellow.
       roughness: 0.9, color: new THREE.Color(0.30, 0.42, 0.22),
       emissive: new THREE.Color(0.012, 0.022, 0.010),
       depthWrite: true,
     });
-    // anchor points: along-segment points + tips
-    const anchors = [];
-    for (const g of segs) {
-      const along = 5; // quads stations per segment (denser for photoreal)
-      for (let k = 1; k <= along; k++) {
-        const t = k / (along + 1);
-        anchors.push({
-          x: g.ax + (g.bx - g.ax) * t,
-          y: g.ay + (g.by - g.ay) * t,
-          z: g.az + (g.bz - g.az) * t,
-        });
-      }
-    }
-    for (const tp of tips) anchors.push({ x: tp.x, y: tp.y, z: tp.z });
     const PER_ANCHOR = fast ? 3 : 4;
     const inst = new THREE.InstancedMesh(quadGeo, quadMat, anchors.length * PER_ANCHOR);
     const out = new THREE.Vector3();
@@ -1064,7 +1181,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     scene.add(inst);
   }
   mark('crown-filler');
-  mark('crown-limbs');
+
 
   /* distant tree-line — procedural billboard trees at the world rim, hazed by fog.
      Two staggered rings with gaps. The silhouette texture is painted on a canvas
