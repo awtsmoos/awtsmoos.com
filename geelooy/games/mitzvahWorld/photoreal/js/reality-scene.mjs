@@ -150,7 +150,7 @@ const TOD = {
   golden: {
     sunDir: [0.72, 0.30, 0.28], sunColor: 0xffd9a8, sunI: 2.35,
     hemiSky: 0xd8c4a8, hemiGround: 0x54603e, hemiI: 0.62,
-    fog: 0xaebf8e, fogNear: 60, fogFar: 270, exposure: 1.05,
+    fog: 0x8a9a6a, fogNear: 60, fogFar: 270, exposure: 1.05,
     golden: 1.0, warm: 0.55,
   },
   dusk: {
@@ -462,7 +462,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     loadTexture(TEX + 'new/tex-mossy-bark.webp', 1, 2),
     loadTexture(TEX + 'new/tex-fern-frond.png', 1, 1),
     // B"H — individual-leaf canopy texture (white keyed to alpha)
-    makeLeafClusterAlpha(TEX + 'new/tex-leaf-cluster.webp'),
+    // B"H 2026-10-13 iter6: tex-leaf-big = center-cropped for BIGGER leaves
+    // at render scale. The full-cluster texture minified to mush.
+    makeLeafClusterAlpha(TEX + 'new/tex-leaf-big.webp'),
   ]);
   mark('textures');
 
