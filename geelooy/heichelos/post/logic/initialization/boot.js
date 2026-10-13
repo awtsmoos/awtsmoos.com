@@ -96,6 +96,13 @@ export async function bootApplication() {
         else if (post.content) {
             const { appendHTML } = await import("../../functions/utils.js");
             appendHTML(post.content, viewport);
+        } else if (post.phraseTranslations && Array.isArray(post.phraseTranslations) && post.phraseTranslations.length) {
+            // B"H — Torah Ohr-style posts: no dayuh/content, but complete
+            // bilingual phraseTranslations (+ translation.readable). Render
+            // them as a bilingual sefer via the shared Meluket section builder.
+            const { awakenPhraseTranslationReader } = await import("../scribe/MeluketSeferReader.js");
+            const phraseResult = awakenPhraseTranslationReader(post);
+            console.log("B\"H phrase-translation reader result:", phraseResult, "phrases:", post.phraseTranslations.length);
         }
 
         // B"H — Meluket sefer restructuring: bilingual warm sections for enriched posts.

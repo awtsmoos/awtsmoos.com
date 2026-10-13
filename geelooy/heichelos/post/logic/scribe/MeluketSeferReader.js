@@ -553,7 +553,7 @@ function enhanceScribeLensPanel() {
 /**
  * Applies the language mode to all sefer sections.
  */
-function applyLangMode(root, mode) {
+function applyLangMode(root, mode, englishTabTitle) {
 	root.dataset.langMode = mode;
 	root.querySelectorAll('.meluket-sefer-section').forEach(section => {
 		section.dataset.langMode = mode;
@@ -572,8 +572,8 @@ function applyLangMode(root, mode) {
 	if (mode === 'english') {
 		// Save original title if not already saved
 		if (!document._originalTitle) document._originalTitle = document.title;
-		// Use English transliteration for tab
-		document.title = 'Meluket - English | Awtsmoos';
+		// Use English title for the tab (Meluket default for Meluket posts)
+		document.title = englishTabTitle || 'Meluket - English | Awtsmoos';
 	} else {
 		if (document._originalTitle) document.title = document._originalTitle;
 	}
@@ -1101,6 +1101,25 @@ export function awakenMeluketSeferReader(post) {
 		sefer.appendChild(shelf);
 	}
 
+	// B"H — shared mount: viewport replace + nav + theme + popups + sources.
+	finalizeSeferMount(sefer, post);
+
+	return true;
+}
+
+/* ---------------------------------------------------------------------------
+ * B"H — finalizeSeferMount(sefer, post).
+ * Shared mount for both sefer readers (Meluket + phrase-translation):
+ * replaces the #realPost viewport (preserving .post-title), re-mounts
+ * chapter navigation, marks the reader root, restores scale, wires the
+ * footnote popup, the Sources button, and the theme watcher.
+ * ------------------------------------------------------------------------- */
+function finalizeSeferMount(sefer, post) {
+	const realPost = document.getElementById('realPost');
+	if (!realPost) {
+		console.log("B\"H sefer mount skipped: no #realPost element");
+		return;
+	}
 	// Replace the single-block rendering with the sefer.
 	// Preserve the post-title header if present (first child).
 	const existingTitle = realPost.querySelector('.post-title');
@@ -1217,5 +1236,125 @@ export function awakenMeluketSeferReader(post) {
 		}
 	}, 2000);
 
+	return true;
+}
+
+/**
+ * B"H — Adapter: Torah Ohr-style posts carry `phraseTranslations`:
+ * [{ postId, sectionId, phraseId, source: { hebrew }, en, provenance }].
+ * Groups them by sectionId (first-seen order) into the same shape the
+ * Meluket sefer reader consumes: [{ sectionId, items: [{ he, en, phraseId }] }].
+ * Entries with no visible Hebrew are skipped; entries missing `en` keep
+ * their Hebrew and render Hebrew-only (buildSectionElement handles that).
+ * Sections left with no usable items are dropped entirely.
+ */
+export function groupPhraseTranslations(phrases) {
+	const order = [];
+	const bySection = new Map();
+	for (const p of (Array.isArray(phrases) ? phrases : [])) {
+		const sectionId = p && p.sectionId != null ? String(p.sectionId).trim() : '';
+		if (!sectionId) continue;
+		const heRaw = p.source && p.source.hebrew != null ? p.source.hebrew : '';
+		if (!hasVisibleText(heRaw)) continue; // missing Hebrew → skip
+		const enRaw = p.en != null ? p.en : '';
+		const phraseId = p.phraseId != null ? String(p.phraseId) : '';
+		if (!bySection.has(sectionId)) {
+			bySection.set(sectionId, []);
+			order.push(sectionId);
+		}
+		bySection.get(sectionId).push({ he: String(heRaw), en: String(enRaw), phraseId });
+	}
+	const grouped = [];
+	for (const sectionId of order) {
+		const items = bySection.get(sectionId);
+		if (items && items.length) grouped.push({ sectionId, items });
+	}
+	return grouped;
+}
+
+/**
+ * B"H — Torah Ohr phrase-translation reader.
+ * Main entry: restructures a Torah Ohr post (phraseTranslations +
+ * translation.readable, no enrichment/content/dayuh) into the same
+ * bilingual sefer layout the Meluket reader uses.
+ * @param {object} post The window.post object with phraseTranslations.
+ * @returns {boolean} True if the sefer restructuring was applied.
+ */
+export function awakenPhraseTranslationReader(post) {
+	const phrases = post && post.phraseTranslations;
+	if (!Array.isArray(phrases) || !phrases.length) {
+		return false; // Not a phrase-translation post.
+	}
+	// B"H — never clobber a Meluket sefer that already mounted.
+	const realPost = document.getElementById('realPost');
+	if (!realPost) {
+		console.log("B\"H phrase reader skipped: no #realPost element");
+		return false;
+	}
+	if (realPost.querySelector('.meluket-sefer')) {
+		console.log("B\"H phrase reader skipped: a sefer is already mounted");
+		return false;
+	}
+
+	const grouped = groupPhraseTranslations(phrases);
+	if (!grouped.length) {
+		console.log("B\"H phrase reader skipped: no usable phrase groups");
+		return false;
+	}
+	console.log("B\"H phrase reader activating:", grouped.length, "sections,", phrases.length, "phrases");
+
+	const readable = (post.translation && post.translation.readable) || {};
+	const summaries = post.summaries || {};
+	const sectionSummaries = summaries.sectionSummaries || {};
+	const langMode = readSavedLangMode();
+
+	// Build the sefer container (same classes as Meluket for consistent CSS).
+	const sefer = document.createElement('div');
+	sefer.className = 'meluket-sefer';
+	sefer.dataset.langMode = langMode;
+
+	// Title block — sefer-style.
+	const titleText = post.title || (post.identity && post.identity.title) || '';
+	const titleBlock = document.createElement('header');
+	titleBlock.className = 'meluket-sefer-title';
+	const titleHe = document.createElement('h1');
+	titleHe.className = 'meluket-sefer-title-he';
+	titleHe.setAttribute('dir', 'rtl');
+	titleHe.textContent = titleText;
+	titleBlock.appendChild(titleHe);
+	sefer.appendChild(titleBlock);
+
+	// Post summary — the klal before the pratim.
+	const postSummaryRaw = summaries.postSummary;
+	const postSummary = typeof postSummaryRaw === 'string'
+		? postSummaryRaw
+		: (postSummaryRaw && (postSummaryRaw.detailed || postSummaryRaw.short)) || '';
+	if (postSummary && String(postSummary).trim()) {
+		const summaryWrap = el('div', 'meluket-post-summary');
+		summaryWrap.setAttribute('dir', 'ltr');
+		summaryWrap.setAttribute('lang', 'en');
+		summaryWrap.appendChild(el('div', 'meluket-summary-label', 'Overview'));
+		const body = el('p', null, String(postSummary).trim());
+		summaryWrap.appendChild(body);
+		sefer.appendChild(summaryWrap);
+	}
+
+	// Language toggle — lives ONLY in the Scribe's Lens settings panel.
+	const toggle = buildLangToggle(langMode, (mode) => applyLangMode(sefer, mode, 'Torah Ohr · English | Awtsmoos'));
+	injectLangToggleIntoSettings(toggle);
+	enhanceScribeLensPanel();
+
+	// Sections — each phrase's English rides with its Hebrew phrase;
+	// translation.readable[sectionId] is the section-level English fallback.
+	grouped.forEach(({ sectionId, items }, index) => {
+		const englishText = readable[sectionId] || '';
+		const secSummaryRaw = sectionSummaries[sectionId];
+		const sectionSummary = typeof secSummaryRaw === 'string'
+			? secSummaryRaw
+			: (secSummaryRaw && (secSummaryRaw.detailed || secSummaryRaw.short)) || '';
+		sefer.appendChild(buildSectionElement(index, sectionId, items, englishText, sectionSummary, langMode));
+	});
+
+	finalizeSeferMount(sefer, post);
 	return true;
 }
