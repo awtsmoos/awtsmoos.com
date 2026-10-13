@@ -47,14 +47,21 @@ const state = {
 	maamarLinksLoading: false
 };
 
-// B"H — Load the social-post -> source-maamar link mapping (built from the
-// 195-batch Sefer HaMaamarim import). Cached in state; fetched once.
+// B"H — Load the social-post -> source-maamar link mappings (built from the
+// 195-batch Sefer HaMaamarim import, plus the 282-pack Mittler Rebbe import).
+// Cached in state; fetched once.
 async function loadMaamarLinks() {
 	if (state.maamarLinks || state.maamarLinksLoading) return;
 	state.maamarLinksLoading = true;
 	try {
-		const res = await fetch('/data/shm-maamar-links.json', { credentials: 'same-origin' });
-		if (res.ok) state.maamarLinks = await res.json();
+		const [shmRes, mrRes] = await Promise.all([
+			fetch('/data/shm-maamar-links.json', { credentials: 'same-origin' }),
+			fetch('/data/mr-maamar-links.json', { credentials: 'same-origin' })
+		]);
+		const merged = {};
+		if (shmRes.ok) Object.assign(merged, await shmRes.json());
+		if (mrRes.ok) Object.assign(merged, await mrRes.json());
+		state.maamarLinks = merged;
 	} catch (_) { /* link simply won't render */ }
 	state.maamarLinksLoading = false;
 }
