@@ -48,8 +48,13 @@ function esc(s) {
 function postUrl(post) {
 	const id = post.postId || post.id || '';
 	const series = post.seriesId || post.series || '';
-	if (series && id) return `/heichelos/ikar/series/${encodeURIComponent(series)}/post/${encodeURIComponent(id)}`;
+	const heichel = post.heichelId || post.heichel || 'ikar';
+	if (series && id) return `/heichelos/${encodeURIComponent(heichel)}/series/${encodeURIComponent(series)}/post/${encodeURIComponent(id)}`;
 	return '#';
+}
+
+function findPost(postId) {
+	return state.items.find(p => String(p.postId || p.id || '') === String(postId)) || null;
 }
 
 function coverUrl(post) {
@@ -231,11 +236,13 @@ function onAction(e) {
 		const label = btn.querySelector('span');
 		if (label && !/\d/.test(label.textContent)) label.textContent = !liked ? 'Liked' : 'Like';
 		// Fire-and-forget: record the reaction server-side.
+		// B"H 2026-10-13: include heichelId — the endpoint requires it (MISSING_REACTION_TARGET otherwise).
+		const post = findPost(postId) || {};
 		fetch(`/api/social/reactions/post/${encodeURIComponent(postId)}`, {
 			method: liked ? 'DELETE' : 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			credentials: 'same-origin',
-			body: JSON.stringify({ emoji: '❤️' })
+			body: JSON.stringify({ emoji: '❤️', heichelId: post.heichelId || post.heichel || '' })
 		}).catch(() => {});
 	} else if (action === 'save') {
 		const saved = state.saved.has(postId);
@@ -244,7 +251,8 @@ function onAction(e) {
 		const label = btn.querySelector('span');
 		if (label) label.textContent = !saved ? 'Saved' : 'Save';
 	} else if (action === 'share') {
-		const url = `${location.origin}${postUrl({ postId })}`;
+		const post = findPost(postId) || { postId };
+		const url = `${location.origin}${postUrl(post)}`;
 		if (navigator.share) {
 			navigator.share({ title: 'Awtsmoos', url }).catch(() => {});
 		} else if (navigator.clipboard) {
@@ -253,7 +261,8 @@ function onAction(e) {
 			if (label) { label.textContent = 'Copied!'; setTimeout(() => label.textContent = 'Share', 1500); }
 		}
 	} else if (action === 'comment') {
-		location.href = postUrl({ postId }) + '#comments';
+		const post = findPost(postId) || { postId };
+		location.href = postUrl(post) + '#comments';
 	}
 }
 

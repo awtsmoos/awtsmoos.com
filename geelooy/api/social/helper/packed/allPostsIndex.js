@@ -6,12 +6,12 @@
  * receives JSONL shards; production without `$i.db.directory` uses AwtsmoosDB.
  */
 const { logicalKey } = require('./shardPaths.js');
-const { writePacked, readPacked, listPackedRecords } = require('./socialPacked.js');
+const { writePacked, readPacked, listPackedRecords, excerptOf } = require('./socialPacked.js');
 
 function allPostKey({ heichelId, postId }) { return logicalKey(['allPosts', heichelId, postId]); }
 function postIdOf(post) { return post?.postId || post?.id || ''; }
 function compactPost(post) {
-  return { postId: postIdOf(post), heichelId: post.heichelId || '', seriesId: post.seriesId || post.parentSeriesId || 'root', aliasId: post.aliasId || post.author || '', type: post.contentType || post.postType || 'post', title: post.title || post.name || '', excerpt: String(post.content || post.description || '').slice(0, 280), connected: true, migratedAt: post.migratedAt || Date.now(), updatedAt: post.updatedAt || post.createdAt || post.timestamp || Date.now() };
+  return { postId: postIdOf(post), heichelId: post.heichelId || '', seriesId: post.seriesId || post.parentSeriesId || 'root', aliasId: post.aliasId || post.author || '', type: post.contentType || post.postType || 'post', title: post.title || post.name || '', excerpt: excerptOf(post), connected: true, migratedAt: post.migratedAt || Date.now(), updatedAt: post.updatedAt || post.createdAt || post.timestamp || Date.now() };
 }
 function fullAllPost(post) {
   const postId = postIdOf(post);

@@ -13,6 +13,8 @@
  */
 const { list } = require('./platformStore.js');
 const { listRelationships } = require('./follow.js');
+const { readAllPost } = require('../packed/allPostsIndex.js');
+const { excerptOf } = require('../packed/socialPacked.js');
 
 const CACHE_TTL_MS = 25000;
 const rankCache = new Map();
@@ -282,19 +284,47 @@ function buildAffinity(userId) {
 	return { seriesWeight: norm(seriesWeight), familyWeight: norm(familyWeight), readPostIds };
 }
 
+/**
+ * B"H 2026-10-13 (social-feed-audit): backfill excerpts at feed time.
+ * Posts indexed before the excerptOf fix carry excerpt:"" — for those, read
+ * the full post from the allPosts shard once and compute. Results ride the
+ * normal 25s rank cache, so this costs at most ~12 sync reads per cache miss.
+ */
+function enrichExcerpts($i, items) {
+	for (const item of items) {
+		if (item && !item.excerpt) {
+			try {
+				const full = readAllPost({ $i, heichelId: item.heichelId || '', postId: item.postId || item.id || '' });
+				const ex = full && excerptOf(full.value || full);
+				if (ex) item.excerpt = ex;
+			} catch (_) { /* leave bare */ }
+		}
+	}
+	return items;
+}
+
 /** Latest feed: pure reverse-chronological, no ranking. */
 function feedLatest({ $i, limit = 50, offset = 0 }) {
 	const lim = Math.min(100, Math.max(1, Number(limit) || 50));
+	const cacheKey = `latest:${lim}:${offset}`;
+	const cached = cacheGet(cacheKey);
+	if (cached) return cached;
 	const posts = postsFromIndex($i)
 		.filter(p => !TEST_ID_RE.test(String(p.postId || p.id || '')))
 		.sort((a, b) => Number(b.updatedAt || b.createdAt || 0) - Number(a.updatedAt || a.createdAt || 0));
 	const page = paginate(posts, lim, offset);
-	return { kind: 'latest', generatedAt: Date.now(), ranking: 'chronological', ...page };
+	page.items = enrichExcerpts($i, page.items);
+	const out = { kind: 'latest', generatedAt: Date.now(), ranking: 'chronological', ...page };
+	cacheSet(cacheKey, out);
+	return out;
 }
 
 /** Popular feed: engagement-ranked, no personalization. */
 function feedPopular({ $i, limit = 50, offset = 0 }) {
 	const lim = Math.min(100, Math.max(1, Number(limit) || 50));
+	const cacheKey = `popular:${lim}:${offset}`;
+	const cached = cacheGet(cacheKey);
+	if (cached) return cached;
 	const now = Date.now();
 	const posts = postsFromIndex($i).filter(p => !TEST_ID_RE.test(String(p.postId || p.id || '')));
 	const scored = posts
@@ -302,7 +332,10 @@ function feedPopular({ $i, limit = 50, offset = 0 }) {
 		.sort((a, b) => b.score - a.score);
 	const ranked = diversify(scored, 400);
 	const page = paginate(ranked.map(r => ({ ...r.post, _rankScore: +r.rankedScore.toFixed(4) })), lim, offset);
-	return { kind: 'popular', generatedAt: now, ranking: 'engagement', ...page };
+	page.items = enrichExcerpts($i, page.items);
+	const out = { kind: 'popular', generatedAt: now, ranking: 'engagement', ...page };
+	cacheSet(cacheKey, out);
+	return out;
 }
 
 /**

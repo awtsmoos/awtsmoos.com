@@ -334,6 +334,27 @@ readable). Fades on reader-ready; CSS-only fallback fades it if JS never runs.
 		<div id="awtsmoos-verse-menu-container"></div>
 		<script src="/register.js?v=fcaa78a126"></script>
 		<script type="module" src="/heichelos/post/postLogic.js?v=f769db37f8"></script>
+		<script>
+			/* B"H 2026-10-13 (social-feed-audit): deep-link to comments.
+			 * The social feed's comment button navigates here with #comments —
+			 * open the commentary sidebar so the user lands on the discussion. */
+			(function() {
+				function openComments() {
+					if (location.hash !== '#comments') return;
+					var btn = document.getElementById('commentaryBtn');
+					var sidebar = document.querySelector('.sidebar');
+					if (btn && sidebar && sidebar.classList.contains('hidden-comments')) {
+						btn.click();
+					}
+				}
+				if (document.readyState === 'loading') {
+					document.addEventListener('DOMContentLoaded', function() { setTimeout(openComments, 800); });
+				} else {
+					setTimeout(openComments, 800);
+				}
+				window.addEventListener('hashchange', openComments);
+			})();
+		</script>
 	</div>
 </body>
 </html>

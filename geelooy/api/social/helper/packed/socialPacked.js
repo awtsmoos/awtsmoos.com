@@ -404,9 +404,44 @@ function appendEvent({ $i, type, actor = '', entity = {}, data = {} }) {
   const event = { id: `${type}_${Date.now()}_${Math.random().toString(36).slice(2)}`, type, actor, entity, data, createdAt: Date.now() };
   return writePacked({ $i, shard: 'audit', key: logicalKey(['events', type, event.id]), value: event, meta: { kind: 'socialEvent', type } });
 }
+/**
+ * B"H 2026-10-13 (social-feed-audit): smart excerpt extraction.
+ * Imported posts (maamarim, encyclopedia, translations) store their text in
+ * `units[]` (bilingual hebrew/english), not in a flat `content` field — so the
+ * old `post.content || post.description` logic produced empty excerpts for
+ * every imported post. This scans direct fields first, then units (English
+ * preferred, Hebrew fallback), then sections. Markdown artifacts stripped.
+ */
+function excerptOf(post) {
+  if (!post || typeof post !== 'object') return '';
+  const clean = (t) => String(t || '')
+    .replace(/[#*`_>\[\](){}|~\\]/g, ' ')
+    .replace(/https?:\S+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  const direct = post.content || post.description || post.summary || post.body || post.text || '';
+  if (direct && clean(direct).length > 20) return clean(direct).slice(0, 280);
+  const units = Array.isArray(post.units) ? post.units : [];
+  for (const u of units) {
+    if (!u || typeof u !== 'object') continue;
+    const t = clean(u.english || u.text || u.content || '');
+    if (t.length > 40) return t.slice(0, 280);
+  }
+  for (const u of units) {
+    if (!u || typeof u !== 'object') continue;
+    const t = clean(u.hebrew || '');
+    if (t.length > 40) return t.slice(0, 280);
+  }
+  const secs = Array.isArray(post.sections) ? post.sections : [];
+  for (const s of secs) {
+    const t = clean((s && (s.text || s.content || s.body)) || '');
+    if (t.length > 40) return t.slice(0, 280);
+  }
+  return '';
+}
 function allPostValue(post) {
   const postId = post.id || post.postId;
-  return { postId, heichelId: post.heichelId || '', seriesId: post.seriesId || post.parentSeriesId || 'root', aliasId: post.aliasId || post.author || '', type: post.contentType || post.postType || 'post', title: post.title || post.name || '', excerpt: String(post.content || post.description || '').slice(0, 280), connected: true, updatedAt: post.updatedAt || post.createdAt || post.timestamp || Date.now() };
+  return { postId, heichelId: post.heichelId || '', seriesId: post.seriesId || post.parentSeriesId || 'root', aliasId: post.aliasId || post.author || '', type: post.contentType || post.postType || 'post', title: post.title || post.name || '', excerpt: excerptOf(post), connected: true, updatedAt: post.updatedAt || post.createdAt || post.timestamp || Date.now() };
 }
 function mirrorAllPost({ $i, post }) {
   const value = allPostValue(post);
@@ -573,4 +608,4 @@ async function allShardStatsAsync({ $i } = {}) {
   return out;
 }
 function writeMigrationManifest({ $i, manifest }) { return writePacked({ $i, shard: 'meta', key: logicalKey(['migrations', manifest.id]), value: manifest, type: RECORD_TYPES.migrationManifest, meta: { kind: 'migrationManifest', migrationType: manifest.type } }); }
-module.exports = { resolveDbRoot, fileRoot, writePacked, readPacked, readPackedAsync, listPackedRecords, forEachFileRecord, forEachFileRecordAsync, forEachLineFastAsync, forEachLineReverseAsync, listKeysReverseAsync, findKeyReverseAsync, findKeySuffixReverseAsync, fastKeyType, writeManifest, writeIndex, appendEvent, mirrorPost, mirrorPostBulk, mirrorPostsBulk, mirrorPostRecords, mirrorAllPost, mirrorGraphReference, mirrorNotification, writeMigrationManifest, shardStats, shardStatsAsync, allShardStats, allShardStatsAsync, shardFileStats };
+module.exports = { resolveDbRoot, fileRoot, writePacked, readPacked, readPackedAsync, listPackedRecords, forEachFileRecord, forEachFileRecordAsync, forEachLineFastAsync, forEachLineReverseAsync, listKeysReverseAsync, findKeyReverseAsync, findKeySuffixReverseAsync, fastKeyType, writeManifest, writeIndex, appendEvent, mirrorPost, mirrorPostBulk, mirrorPostsBulk, mirrorPostRecords, mirrorAllPost, mirrorGraphReference, mirrorNotification, writeMigrationManifest, shardStats, shardStatsAsync, allShardStats, allShardStatsAsync, shardFileStats, excerptOf, allPostValue };
