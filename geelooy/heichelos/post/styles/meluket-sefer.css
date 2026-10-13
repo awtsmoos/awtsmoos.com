@@ -208,8 +208,16 @@
 	font-weight: 700;
 	line-height: 1.9;
 	color: var(--sefer-ink);
-	text-align: justify;
+	/* B"H — right-aligned (not justified): text-align: justify with huge
+	   fonts causes severe layout thrashing on phones. Right alignment is
+	   the traditional Hebrew sefer look and renders far faster. */
+	text-align: right;
 	direction: rtl;
+	/* B"H — prevent RTL clipping on narrow screens: allow long words to
+	   break instead of overflowing the container's hidden overflow. */
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	min-width: 0;
 }
 
 /* English phrase : directly beneath its Hebrew, dashed rule between. */
@@ -222,6 +230,10 @@
 	margin-top: 1em;
 	padding-top: 1em;
 	direction: ltr;
+	/* B"H — prevent clipping on narrow screens. */
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	min-width: 0;
 }
 
 .meluket-sefer-active .meluket-phrase--he sup,
