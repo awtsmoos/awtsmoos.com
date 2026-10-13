@@ -239,18 +239,33 @@
 	transform: scale(0.90);
 }
 
-/* B"H — Hebrew optical size: Yaakov says go EXTREME. Hebrew must NEVER look
-   smaller than English. 2x multiplier, targets div AND inner p. Lives here because
-   the CSS bundler drops meluket-sefer.css content. */
+/* B"H — Yaakov law: Hebrew must render at EXACTLY the same visual size as English.
+   Uses font-size-adjust to normalize Frank Ruhl Libre's metrics to match Source Serif 4,
+   so both scripts appear identical in size at any scale. Lives here because the CSS
+   bundler drops meluket-sefer.css content. */
 .awtsmoos-initial-unit-he,
 .awtsmoos-initial-unit-he p {
-	font-size: calc(clamp(2.4rem, 6.2vw, 3.4rem) * 2) !important;
+	font-size: clamp(2.4rem, 6.2vw, 3.4rem) !important;
+	font-size-adjust: 0.5 !important;
+	line-height: 1.6 !important;
+}
+.awtsmoos-initial-unit-en,
+.awtsmoos-initial-unit-en p {
+	font-size: clamp(2.4rem, 6.2vw, 3.4rem) !important;
+	font-size-adjust: 0.5 !important;
 	line-height: 1.6 !important;
 }
 .meluket-phrase--he,
 .meluket-phrase--he p,
 .meluket-hebrew,
 .meluket-hebrew p {
-	font-size: calc(var(--sefer-phrase-size, 1.25rem) * 2) !important;
+	font-size: var(--sefer-phrase-size, 1.25rem) !important;
+	font-size-adjust: 0.5 !important;
+	line-height: 1.6 !important;
+}
+.meluket-phrase--en,
+.meluket-phrase--en p {
+	font-size: var(--sefer-phrase-size, 1.25rem) !important;
+	font-size-adjust: 0.5 !important;
 	line-height: 1.6 !important;
 }
