@@ -40,7 +40,8 @@
 	transform: translate3d(calc(100% + 24px), 0, 0);
 	opacity: 0;
 	pointer-events: none;
-	transition: transform var(--motion-medium) var(--ease-out), opacity var(--motion-fast) var(--ease-soft);
+	visibility: hidden;
+	transition: transform var(--motion-medium) var(--ease-out), opacity var(--motion-fast) var(--ease-soft), visibility 0s linear var(--motion-medium);
 }
 
 .game-shell[data-drawer="open"] .drawer-backdrop {
@@ -52,6 +53,8 @@
 	transform: translate3d(0, 0, 0);
 	opacity: 1;
 	pointer-events: auto;
+	visibility: visible;
+	transition: transform var(--motion-medium) var(--ease-out), opacity var(--motion-fast) var(--ease-soft), visibility 0s;
 }
 
 .drawer-header {

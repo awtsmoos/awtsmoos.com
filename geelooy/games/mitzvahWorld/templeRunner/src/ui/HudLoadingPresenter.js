@@ -22,22 +22,32 @@ export class HodHudLoadingPresenter {
 
 	/**
 	 * @description Reveals the loading card with one semantic state and stage message, suitable for startup, cache, model, or network phases.
+	 * Re-attaches the card to the shell when a previous ready() detached it.
 	 * @param {string} hodMessage Human-readable loading-stage message.
 	 * @param {string} [hodState="loading"] Semantic visual state such as loading or error.
 	 * @returns {void}
 	 */
 	show(hodMessage, hodState = "loading") {
-		this.elements.loading.dataset.state = hodState;
-		this.elements.loading.hidden = false;
+		const hodLoading = this.elements.loading;
+		if (!hodLoading.isConnected && this.elements.shell) {
+			this.elements.shell.appendChild(hodLoading);
+		}
+		hodLoading.dataset.state = hodState;
+		hodLoading.hidden = false;
 		this.metrics.set(this.elements.loadingStage, hodMessage);
 	}
 
 	/**
 	 * @description Conceals startup chrome only after the native runtime has finished revealing its playable world.
+	 * Detaches the card from the DOM entirely: `hidden` (display:none) already
+	 * removes hit-testing, but a detached node is the stronger guarantee that
+	 * no transparent boot overlay can ever swallow pointer events meant for the
+	 * canvas or the on-screen controls on mouse/touch devices.
 	 * @returns {void}
 	 */
 	ready() {
 		this.elements.loading.hidden = true;
+		this.elements.loading.remove();
 	}
 
 	/**

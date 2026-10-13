@@ -14,7 +14,10 @@
 	<meta name="color-scheme" content="dark">
 	<meta name="description" content="Run through a living Jewish city, collect perutas, jump and slide past obstacles, and keep your streak alive in Awtsmoos Temple Runner.">
 	<title>Awtsmoos Temple Runner</title>
-	<link rel="stylesheet" href="./styles/temple-runner.css?v=9c38e590e2">
+	<!-- B"H — Yaakov 2026-10-13: JS ships as one esbuild bundle (temple-runner.bundle.js)
+	     for very fast loading. Rebuild: node /tmp/esbuild-pkg/build-temple.mjs
+	     (esbuild lives in /tmp, never in the repo), then refresh the ?v= hash below. -->
+	<link rel="stylesheet" href="./styles/temple-runner.css?v=00d3ab2592">
 	<link rel="stylesheet" href="/games/scripts/wardrobe/wardrobe.css?v=75fe2ac447">
 </head>
 <body class="temple-runner-route">
@@ -75,6 +78,6 @@
 			</div>
 		</section>
 	</main>
-	<script type="module" src="./src/main.js?v=eee84bc849"></script>
+	<script type="module" src="./temple-runner.bundle.js?v=e35e68ce74"></script>
 </body>
 </html>
