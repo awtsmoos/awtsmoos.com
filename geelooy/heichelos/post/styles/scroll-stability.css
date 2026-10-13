@@ -1,0 +1,108 @@
+/* B"H — Scroll stability fix (Yaakov 2026-10-13 URGENT).
+ * "STICKY SCROLLING IS A HUGE ISSUE. As I scroll down it jumps back up a little."
+ *
+ * Root causes:
+ * 1. Images loading without reserved space → layout shift pushes content down,
+ *    browser tries to compensate, page "jumps"
+ * 2. No scroll anchoring → content inserted above viewport moves the user
+ * 3. Dynamic content (comments, related) inserted during scroll
+ *
+ * Fixes:
+ * - overflow-anchor: auto lets the browser keep the user's position stable
+ * - aspect-ratio reserves space for images before they load
+ * - content-visibility hints for off-screen content
+ */
+
+/* ---------- Scroll anchoring: browser keeps position stable ---------- */
+.post-reader-localized-context,
+.post-reader-localized-context #realPost,
+.post-reader-localized-context .awtsmoos-rich-social-document {
+	overflow-anchor: auto;
+}
+
+/* Disable anchoring on the TOC itself (it has its own scroll) */
+.reader-toc {
+	overflow-anchor: none;
+}
+
+/* ---------- Images: reserve space, no layout shift ---------- */
+.post-reader-localized-context #realPost img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+	margin-block: 1rem;
+	/* Reserve space while loading */
+	background: var(--aw-surface, #f5f0e1);
+	border-radius: 0.5rem;
+}
+
+/* Images with known dimensions get aspect-ratio from attributes */
+.post-reader-localized-context #realPost img[width][height] {
+	aspect-ratio: attr(width) / attr(height);
+	height: auto;
+}
+
+/* Lazy images: show placeholder, fade in when loaded */
+.post-reader-localized-context #realPost img[loading="lazy"] {
+	background: linear-gradient(
+		100deg,
+		var(--aw-surface, #f5f0e1) 40%,
+		var(--aw-hover, rgba(212, 169, 78, 0.12)) 50%,
+		var(--aw-surface, #f5f0e1) 60%
+	);
+	background-size: 200% 100%;
+	animation: image-placeholder-shimmer 1.5s linear infinite;
+}
+
+.post-reader-localized-context #realPost img[loading="lazy"]:not([src=""]) {
+	animation: none;
+	background: none;
+}
+
+@keyframes image-placeholder-shimmer {
+	to { background-position: -200% 0; }
+}
+
+/* ---------- Dynamic content: don't shift layout ---------- */
+.post-reader-localized-context .comments-section,
+.post-reader-localized-context .related-content {
+	content-visibility: auto;
+	contain-intrinsic-size: auto 500px;
+}
+
+/* ---------- Virtual scroll: stable chunk heights ---------- */
+.post-reader-localized-context #virtual-scroll-container .scroll-chunk {
+	overflow-anchor: none;
+	contain: layout;
+}
+
+/* ---------- Prevent font-loading shift ---------- */
+.post-reader-localized-context #realPost {
+	font-display: swap;
+}
+
+/* ---------- Smooth scrolling (not jumpy) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+	.post-reader-localized-context {
+		scroll-behavior: auto;
+	}
+	/* Only smooth for programmatic TOC navigation */
+	.reader-toc-link {
+		scroll-behavior: smooth;
+	}
+}
+
+/* ---------- Dark theme placeholders ---------- */
+[data-theme="dark"] .post-reader-localized-context #realPost img {
+	background: var(--aw-surface, #141b2e);
+}
+
+[data-theme="dark"] .post-reader-localized-context #realPost img[loading="lazy"] {
+	background: linear-gradient(
+		100deg,
+		var(--aw-surface, #141b2e) 40%,
+		rgba(212, 169, 78, 0.08) 50%,
+		var(--aw-surface, #141b2e) 60%
+	);
+	background-size: 200% 100%;
+}

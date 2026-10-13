@@ -24,6 +24,7 @@ import { chitasLoaderBoot, dismissChitasLoader } from './logic/initialization/ch
 import './logic/initialization/ReaderSectionHighlight.js?v=reader-runtime-016';
 import './logic/analytics/ReaderAnalytics.js?v=reading-001';
 import { initVerseComments } from './logic/verseComments/VerseComments.js';
+import { initReaderScrollSpy } from './ui/ReaderScrollSpy.js?v=reader-spy-001';
 
 let readerBootPromise = null;
 
@@ -140,6 +141,20 @@ async function performReaderBoot() {
 				setTimeout(() => initVerseComments(postId), 2000);
 			}
 		} catch { /* comments never break reading */ }
+	});
+
+	safeSubsystem('reader-scroll-spy', () => {
+		try {
+			const post = typeof window !== 'undefined' ? window.post : null;
+			const postId = post?.id || post?.postId || document.body?.dataset?.postId || null;
+			const contentRoot = document.getElementById('realPost')
+				|| document.querySelector('.post-reader-localized-context')
+				|| document.querySelector('.awtsmoos-rich-social-document');
+			if (postId && contentRoot) {
+				// Delay so content is fully rendered
+				setTimeout(() => initReaderScrollSpy(postId, contentRoot), 1500);
+			}
+		} catch { /* scroll-spy never breaks reading */ }
 	});
 	safeSubsystem('enhancement-repair-soon-2', () => tiferesReaderEnhancements.repairSoon());
 	await safeSubsystemAsync('deep-linked-comment', () => tiferesReaderEnhancements.revealRequestedComment());

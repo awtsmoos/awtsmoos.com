@@ -1,0 +1,95 @@
+/* B"H — Reader padding fix (Yaakov 2026-10-13).
+ * "The reader page padding is off — text needs proper breathing room."
+ *
+ * Comfortable reading: optimal line length, generous line-height,
+ * clear paragraph separation, mobile-friendly touch targets.
+ * Does NOT redesign — only spacing rhythm.
+ */
+
+/* ---------- Reading column: comfortable measure ---------- */
+.post-reader-localized-context #realPost {
+	max-width: min(68ch, 100%);
+	margin-inline: auto;
+	padding-inline: clamp(1rem, 4vw, 2rem);
+}
+
+/* ---------- Paragraph breathing room ---------- */
+.post-reader-localized-context #realPost p,
+.post-reader-localized-context #realPost .awtsmoos-rich-block--paragraph {
+	margin-block: 0 1.25em;
+	line-height: 1.8;
+}
+
+/* ---------- Headings: clear hierarchy with space ---------- */
+.post-reader-localized-context #realPost h2 {
+	margin-block: 2.5em 1em;
+	line-height: 1.3;
+	font-size: 1.5rem;
+}
+
+.post-reader-localized-context #realPost h3 {
+	margin-block: 2em 0.75em;
+	line-height: 1.35;
+	font-size: 1.25rem;
+}
+
+/* ---------- Subsections: breathing room between units ---------- */
+.post-reader-localized-context #realPost .sub-awtsmoos {
+	padding: clamp(1rem, 3vw, 1.5rem);
+	margin-block: 0 1rem;
+	line-height: 1.75;
+}
+
+.post-reader-localized-context #realPost .subsection-container,
+.post-reader-localized-context #realPost .awtsmoos-subsection-wrap {
+	gap: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+/* ---------- Lists: readable spacing ---------- */
+.post-reader-localized-context #realPost ul,
+.post-reader-localized-context #realPost ol {
+	margin-block: 0 1.25em;
+	padding-inline-start: 1.5em;
+}
+
+.post-reader-localized-context #realPost li {
+	margin-block: 0 0.5em;
+	line-height: 1.7;
+}
+
+/* ---------- Blockquotes and callouts ---------- */
+.post-reader-localized-context #realPost blockquote,
+.post-reader-localized-context #realPost aside {
+	margin-block: 1.5em;
+	padding: 1.25rem 1.5rem;
+	line-height: 1.75;
+}
+
+/* ---------- Mobile: tighter but still breathable ---------- */
+@media (max-width: 700px) {
+	.post-reader-localized-context #realPost {
+		padding-inline: 1rem;
+	}
+
+	.post-reader-localized-context #realPost p,
+	.post-reader-localized-context #realPost .awtsmoos-rich-block--paragraph {
+		line-height: 1.75;
+		margin-block: 0 1.1em;
+	}
+
+	.post-reader-localized-context #realPost h2 {
+		margin-block: 2em 0.8em;
+		font-size: 1.35rem;
+	}
+
+	.post-reader-localized-context #realPost .sub-awtsmoos {
+		padding: 0.9rem 0.8rem;
+	}
+}
+
+/* ---------- Reduced motion: no transition on spacing ---------- */
+@media (prefers-reduced-motion: reduce) {
+	.post-reader-localized-context #realPost * {
+		transition: none;
+	}
+}
