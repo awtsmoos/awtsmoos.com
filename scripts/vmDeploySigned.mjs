@@ -185,12 +185,10 @@ async function main() {
 	}
 
 	console.log(`B"H pushing ${payload.length} file(s) to production (Ed25519-signed)...`);
-	// B"H (2026-10-13, Yaakov: "fix cache busting way better").
-	// Bulletproof staleness guard: EVERY deploy stamps a fresh build id into
-	// geelooy/version.json. Open tabs poll it (sw-register.js) and gently
-	// reload when it changes, so a long-lived app-shell tab can never run
-	// stale code for hours after a deploy. Runs on every deploy, not just
-	// asset touches — any file can change behavior.
+	// B"H (2026-10-14, Yaakov's law): Deploy EXACTLY what is asked. No auto-add,
+	// no magic. The version.json auto-stamp only runs in --diff mode, not when
+	// explicit files are given. The deploy system must be simple and reliable.
+	if (args.includes('--diff')) {
 	try {
 		const sha = execSync('git rev-parse --short HEAD', { cwd: REPO, encoding: 'utf8' }).trim();
 		const buildId = `${sha}-${Date.now().toString(36)}`;
@@ -205,6 +203,7 @@ async function main() {
 	} catch (e) {
 		console.error(`B"H version stamp failed (continuing anyway): ${e.message}`);
 	}
+	} // B"H 2026-10-14: close if (args.includes('--diff'))
 	// B"H 2026-10-13 (Yaakov: deploys must feel instant, never "little bits"):
 	// the API caps at 50 files per push. Split larger payloads into
 	// sequential 50-file chunks inside this one command — one invocation,
