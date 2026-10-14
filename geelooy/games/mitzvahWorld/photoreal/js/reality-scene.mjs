@@ -426,7 +426,7 @@ const TOD = {
     // B"H 2026-10-14 GRADE (Yaakov: warm-gold vs cool-teal, luminous background):
     // was 0x9aaa7a (murky green-gray). Now warm golden haze for the
     // sunlit background glow like ref-target-sunlit-river.
-    fog: 0xc9bfa0, fogNear: 60, fogFar: 270, exposure: 1.22,
+    fog: 0xd4b98a, fogNear: 55, fogFar: 240, exposure: 1.08,
     // B"H TEXTURE-FIRST 2026-10-14: reference is LUMINOUS (sun-drenched).
     // Exposure was 1.0 (dull). 1.22 for the golden glow.
     golden: 1.0, warm: 0.25,
