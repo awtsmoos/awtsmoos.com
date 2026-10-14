@@ -27,6 +27,7 @@
 <link rel="stylesheet" href="/style/awtsmoos-tokens.css?v=277746350e">
 <link rel="stylesheet" href="/feed/css/feed.css?v=1649cdcf4e">
 <link rel="stylesheet" href="/feed/css/anchoredComments.css?v=1">
+<link rel="stylesheet" href="/feed/css/kidsMode.css?v=1">
 <link rel="stylesheet" href="/feed/css/voiceComments.css?v=1">
 <link rel="stylesheet" href="/feed/css/chavrusa.css?v=1">
 <link rel="stylesheet" href="/feed/css/familyGroups.css?v=1">
@@ -86,6 +87,10 @@
 				<svg class="feed-ic feed-theme-drop-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="m6 9.5 6 6 6-6"/></svg>
 			</button>
 		</div>
+		<button type="button" class="feed-ic-btn feed-kids-btn" id="feed-kids-btn" aria-pressed="false" data-i18n-title="kids.toggle" title="Kids mode">
+			<svg class="feed-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 15 15 5l2 2L7 17z"/><path d="M5 15l-1.5 5.5L9 19"/><path d="M16 4.5l.8-2M18.5 6l2-.5M19 9l1.8.8"/></svg>
+			<span class="feed-ic-btn-label" data-i18n="kids.toggle">Kids mode</span>
+		</button>
 		<div class="feed-theme-drop" id="feed-theme-drop">
 			<button type="button" class="feed-ic-btn feed-theme-drop-btn" id="feed-theme-drop-btn" aria-haspopup="menu" aria-expanded="false" data-i18n-title="theme.label" title="Feed theme">
 				<span class="feed-theme-swatch" id="feed-theme-drop-swatch" aria-hidden="true"></span>
@@ -130,6 +135,25 @@ import { initI18n, paintStatic, t, setLang, currentLang, langInfo, LANGS, onLang
 // chrome renders; the English reference is the ultimate fallback.
 await initI18n();
 paintStatic();
+
+import { initKidsMode, isKidsMode, setKidsMode, onKidsChange } from '/feed/js/kidsMode.js?v=1';
+
+// B"H — Yaakov 2026-10-13 (TRACK E): Kids mode. Simplified, colorful,
+// sharp-cornered reading; editor-written simple explanations only (never
+// AI-simplified Torah text).
+initKidsMode();
+(function initKidsToggle() {
+	const btn = document.getElementById('feed-kids-btn');
+	if (!btn) return;
+	const paint = () => {
+		const on = isKidsMode();
+		btn.classList.toggle('is-active', on);
+		btn.setAttribute('aria-pressed', String(on));
+	};
+	paint();
+	btn.addEventListener('click', () => setKidsMode(!isKidsMode()));
+	onKidsChange(paint);
+})();
 
 const river = createFeedRiver({
 	river: document.getElementById('feed-river'),

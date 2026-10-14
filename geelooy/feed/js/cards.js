@@ -12,6 +12,7 @@
 
 import { icon, iconButton, formatCount, timeAgo, escapeHtml, escapeAttr } from './icons.js';
 import { t } from './i18n.js';
+import { kidsBadgeHtml } from './kidsMode.js';
 import { enableInlineReading } from './inline-reader.js';
 import { THEMES, setPostTheme, resolvePostTheme, isThemeId } from './themes.js';
 import { renderCollectionPicker } from './collections.js';
@@ -108,6 +109,7 @@ export function renderFeedCard(item = {}, opts = {}) {
 			<h3 class="feed-card-title" dir="auto">${escapeHtml(item.title || 'Untitled')}</h3>
 			${item.heTitle ? `<p class="feed-card-hetitle" dir="rtl" lang="he">${escapeHtml(item.heTitle)}</p>` : ''}
 			${excerptHtml(item)}
+			${kidsBadgeHtml(item)}
 			<span class="feed-card-readmore">${icon('chevronDown', 'feed-card-readmore-ic')}<span>${t('card.readMore')}</span></span>
 		</div>
 		<div class="feed-reader" hidden><div class="feed-reader-inner"></div></div>

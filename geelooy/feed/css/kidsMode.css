@@ -1,0 +1,235 @@
+/* B"H — Kids mode: simplified, colorful, sharp-cornered reading view.
+ * Yaakov 2026-10-13 (TRACK E). Tunnel CSS laws: no !important, token-only
+ * colors (kid palette below has explicit dark AND light values), sharp
+ * corners everywhere (no border-radius, ever), full :hover/:focus-visible/
+ * :active/:disabled on every control, overflow-x: clip guards so the river
+ * never scrolls sideways.
+ */
+
+/* ============ kid palette (defined on the stage, always available) ============ */
+.feed-stage {
+	--kid-sky: #35a3ff;
+	--kid-sun: #ffc531;
+	--kid-leaf: #3ed598;
+	--kid-berry: #ff6b8b;
+	--kid-grape: #a678ff;
+	--kid-ink: #14213d;
+	--kid-paper: #fffdf6;
+	--kid-note-bg: #fff3c4;
+}
+
+[data-theme="light"] .feed-stage {
+	--kid-sky: #1d7fd6;
+	--kid-sun: #d99e00;
+	--kid-leaf: #1e9e5a;
+	--kid-berry: #d63d63;
+	--kid-grape: #7a4fe0;
+	--kid-ink: #14213d;
+	--kid-paper: #ffffff;
+	--kid-note-bg: #ffefb8;
+}
+
+/* ============ kids toggle button ============ */
+.feed-kids-btn {
+	flex: none;
+}
+
+.feed-kids-btn:hover {
+	color: var(--kid-berry);
+	border-color: var(--kid-berry);
+	background: color-mix(in srgb, var(--kid-berry) 12%, transparent);
+}
+
+.feed-kids-btn:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+	color: var(--aw-text);
+}
+
+.feed-kids-btn:active {
+	transform: translateY(1px) scale(0.96);
+}
+
+.feed-kids-btn:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+	transform: none;
+	box-shadow: none;
+}
+
+.feed-kids-btn.is-active {
+	color: var(--kid-ink);
+	background: var(--kid-sun);
+	border: 2px solid var(--kid-ink);
+}
+
+.feed-kids-btn.is-active:hover {
+	color: var(--kid-ink);
+	background: var(--kid-sun);
+	border-color: var(--kid-ink);
+	transform: translateY(-1px);
+}
+
+.feed-kids-btn.is-active .feed-ic {
+	filter: none;
+}
+
+/* ============ kids reading view ============ */
+.kids-mode .feed-card {
+	border: 3px solid var(--kid-ink);
+	border-top: 8px solid var(--kid-sky);
+	overflow-x: clip;
+}
+
+.kids-mode .feed-card:nth-child(3n) {
+	border-top-color: var(--kid-berry);
+}
+
+.kids-mode .feed-card:nth-child(3n+2) {
+	border-top-color: var(--kid-sun);
+}
+
+.kids-mode .feed-card-title {
+	font-size: 1.65rem;
+	line-height: 1.25;
+	color: var(--aw-text);
+}
+
+.kids-mode .feed-card-hetitle {
+	font-size: 1.3rem;
+}
+
+.kids-mode .feed-card-excerpt {
+	font-size: 1.2rem;
+	line-height: 1.7;
+	color: var(--aw-text);
+}
+
+.kids-mode .feed-card-body {
+	overflow-x: clip;
+}
+
+.kids-mode .feed-reader-title {
+	font-size: 1.8rem;
+	line-height: 1.3;
+}
+
+.kids-mode .feed-reader-body {
+	font-size: 1.2rem;
+	line-height: 1.75;
+	overflow-x: clip;
+}
+
+.kids-mode .feed-reader-body p {
+	margin: 0 0 1em;
+}
+
+/* ============ "Kids version available" badge (per-post opt-in) ============ */
+.kids-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 10px;
+	padding: 6px 12px;
+	background: var(--kid-sun);
+	color: var(--kid-ink);
+	border: 3px solid var(--kid-ink);
+	font-weight: 700;
+	font-size: 0.95rem;
+	line-height: 1.2;
+}
+
+.kids-badge-emoji {
+	width: 24px;
+	height: 24px;
+	flex: none;
+}
+
+/* ============ simple explanation section ============ */
+.kid-simple {
+	margin: 0 0 18px;
+	padding: 18px;
+	background: var(--kid-paper);
+	border: 4px solid var(--kid-grape);
+	color: var(--kid-ink);
+	overflow-x: clip;
+}
+
+.kid-simple-title {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 0 0 12px;
+	font-size: 1.4rem;
+	line-height: 1.3;
+	color: var(--kid-ink);
+}
+
+.kid-marker {
+	width: 30px;
+	height: 30px;
+	flex: none;
+}
+
+.kid-simple-body {
+	margin: 0;
+}
+
+.kid-simple-para {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	margin: 0 0 12px;
+	font-size: 1.2rem;
+	line-height: 1.65;
+	color: var(--kid-ink);
+}
+
+.kid-simple-para:last-child {
+	margin-bottom: 0;
+}
+
+.kid-star-earned {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 14px 0 0;
+	font-size: 1.15rem;
+	font-weight: 800;
+	color: var(--kid-berry);
+}
+
+.kid-parental {
+	margin: 14px 0 0;
+	padding: 10px 14px;
+	background: var(--kid-note-bg);
+	border: 3px solid var(--kid-berry);
+	color: var(--kid-ink);
+	font-size: 1.05rem;
+	font-weight: 700;
+	line-height: 1.5;
+}
+
+.kid-stars-row {
+	margin-top: 14px;
+}
+
+.kid-stars {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.kid-star {
+	width: 26px;
+	height: 26px;
+	color: var(--kid-sun);
+	filter: drop-shadow(0 1px 0 var(--kid-ink));
+}
+
+.kid-stars-count {
+	margin-inline-start: 8px;
+	font-weight: 800;
+	font-size: 1.05rem;
+	color: var(--kid-ink);
+}

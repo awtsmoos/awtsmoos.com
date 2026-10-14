@@ -14,6 +14,7 @@
 
 import { icon, escapeHtml, escapeAttr } from './icons.js';
 import { t } from './i18n.js';
+import { isKidsMode, hasSimpleSummary, simpleExplanationHtml, awardKidStar } from './kidsMode.js';
 import { THEMES, resolvePostTheme, setReaderTheme, isThemeId } from './themes.js';
 import { mountRelatedPosts } from './relatedPosts.js';
 import { mountAskAI } from './askAI.js';
@@ -262,8 +263,20 @@ async function loadExpanded(card, item, reader) {
 		]);
 		const title = post.title || item.title || 'Post';
 		const content = fullBodyHtml(post, item);
+		/* B"H — Yaakov 2026-10-13 (TRACK E): in kids mode the editor-written
+		   simple explanation comes FIRST (never AI-simplified), with emoji
+		   markers, a progress star, and the parental note. The full post
+		   may carry the simple summary even when the feed item did not. */
+		const kidSource = { ...item };
+		for (const k of ['simpleSummary', 'kidsSummary', 'simpleExplanation']) {
+			if (!kidSource[k] && typeof post[k] === 'string' && post[k].trim()) kidSource[k] = post[k];
+		}
+		const kidHtml = (isKidsMode() && hasSimpleSummary(kidSource))
+			? simpleExplanationHtml(kidSource, awardKidStar(kidSource))
+			: '';
 		body.innerHTML = `
 			${crumbsHtml({ heichelName, seriesName, title, item })}
+			${kidHtml}
 			<div class="feed-reader-head">
 				<div class="feed-reader-titles">
 					<h2 class="feed-reader-title" dir="auto">${escapeHtml(title)}</h2>
