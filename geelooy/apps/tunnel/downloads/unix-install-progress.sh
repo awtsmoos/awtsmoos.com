@@ -258,7 +258,7 @@ prg_draw_display() {
 	done
 	# The leading particle (bright star at the frontier! EVEN MORE MAGICAL!)
 	if [ "$filled" -lt "$width" ]; then
-		bar="${bar}${PRG_C_YELLOW}✦${PRG_C_OFF}"
+		bar="${bar}${PRG_C_GOLD}✦${PRG_C_OFF}"
 		empty=$(( empty - 1 ))
 	fi
 	for (( i=0; i<empty; i+=1 )); do
