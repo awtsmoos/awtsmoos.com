@@ -6,12 +6,19 @@
 INSTALL_LOG_ROOT="${AWTSMOOS_RECOVERY_ROOT:-${ROOT}-recovery}/logs"
 INSTALL_LOG_FILE="$INSTALL_LOG_ROOT/install.jsonl"
 
-# Symbol set for console event rendering: pretty UTF-8 when the locale can
-# render it, ASCII otherwise. Computed here (not borrowed from the progress
-# module) because this file is sourced before the progress module.
-case "${LC_ALL:-${LANG:-}}" in
-	*UTF-8*|*utf8*|*UTF8*) EVT_SYM_OK=1 ;;
-	*) EVT_SYM_OK=0 ;;
+# Symbol set for console event rendering: pretty UTF-8 by default. The old
+# locale-sniffing check was too conservative — minimal containers (vast.ai,
+# docker) often leave LANG/LC_ALL unset even though the terminal renders
+# UTF-8 perfectly (Yaakov 2026-10-14: every line must be beautiful). Only
+# fall back to ASCII on an explicit dumb terminal or opt-out.
+case "${TERM:-}" in
+	dumb) EVT_SYM_OK=0 ;;
+	*)
+		case "${AWTSMOOS_ASCII:-}" in
+			1|true|yes) EVT_SYM_OK=0 ;;
+			*) EVT_SYM_OK=1 ;;
+		esac
+		;;
 esac
 
 # Human-readable phase labels for the console. The JSONL log keeps the raw

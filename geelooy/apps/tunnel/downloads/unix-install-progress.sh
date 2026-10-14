@@ -174,15 +174,17 @@ fail_install_progress() {
 	fi
 }
 
-# Pretty one-shot result lines, TTY-aware.
+# Pretty one-shot result lines. UTF-8 symbols are used in both TTY and
+# non-TTY modes — the TTY check gates live \r redraws, not symbol rendering.
+# Yaakov 2026-10-14: every line must be beautiful, even over SSH pipes.
 if [ "$PRG_TTY" = "1" ]; then
 	prg_ok()   { printf '%s  ✓%s %s\n' "$PRG_C_GREEN" "$PRG_C_OFF" "$1" >&2; }
-	prg_warn() { printf '%s  !%s %s\n' "$PRG_C_GOLD" "$PRG_C_OFF" "$1" >&2; }
+	prg_warn() { printf '%s  ⚠%s %s\n' "$PRG_C_GOLD" "$PRG_C_OFF" "$1" >&2; }
 	prg_info() { printf '%s  ▸%s %s\n' "$PRG_C_CYAN" "$PRG_C_OFF" "$1" >&2; }
 else
-	prg_ok()   { printf 'ok: %s\n' "$1" >&2; }
-	prg_warn() { printf 'warning: %s\n' "$1" >&2; }
-	prg_info() { printf 'info: %s\n' "$1" >&2; }
+	prg_ok()   { printf '%s✓%s %s\n' "$PRG_C_GREEN" "$PRG_C_OFF" "$1" >&2; }
+	prg_warn() { printf '%s⚠%s %s\n' "$PRG_C_GOLD" "$PRG_C_OFF" "$1" >&2; }
+	prg_info() { printf '%s▸%s %s\n' "$PRG_C_CYAN" "$PRG_C_OFF" "$1" >&2; }
 fi
 prg_dim()  { printf '%s%s%s\n' "$PRG_C_DIM" "$1" "$PRG_C_OFF" >&2; }
 
