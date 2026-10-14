@@ -222,7 +222,7 @@
 .sr-presence.sr-away { background: #e3b64f; }
 
 .sr-notes { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
-.sr-notes li { border-inline-start: 2px solid var(--aw-line); padding-inline-start: 10px; }
+.sr-notes li { border-inline-start: 2px solid var(--aw-line); padding-inline-start: 10px; color: var(--aw-text); }
 .sr-note-text { margin: 0 0 2px; font-size: 13px; color: var(--aw-text); }
 .sr-note-meta { margin: 0; font-size: 11px; color: var(--aw-text-soft); }
 
@@ -239,13 +239,13 @@
 	font-size: 13px;
 	color: var(--aw-text);
 }
-.sr-chat li { background: var(--aw-bg); border: 1px solid var(--aw-line); padding: 8px 10px; }
+.sr-chat li { background: var(--aw-bg); border: 1px solid var(--aw-line); padding: 8px 10px; color: var(--aw-text); }
 .sr-chat-sys { font-style: italic; color: var(--aw-text-soft); }
 
 @media (max-width: 560px) {
 	.sr-overlay { padding: 10px; }
 	.sr-panel-body { padding: 12px 12px 20px; }
 	.sr-fab { right: 10px; bottom: 148px; }
-	.sr-fab span { display: none; }
+	.sr-fab span { display: none; color: #1a1206; }
 	.sr-fab { padding: 12px; }
 }

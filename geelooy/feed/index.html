@@ -17,6 +17,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="The Awtsmoos River — a smart ranked social feed of Torah voices.">
 <meta name="theme-color" content="#0b0d12">
+<link rel="manifest" href="/feed/manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Awtsmoos River">
+<link rel="apple-touch-icon" href="/feed/assets/icons/icon-192.png">
 <title>Awtsmoos River — Social Feed</title>
 <link rel="stylesheet" href="/style/awtsmoos-tokens.css?v=277746350e">
 <link rel="stylesheet" href="/feed/css/feed.css?v=1649cdcf4e">
@@ -40,10 +46,17 @@
 <link rel="stylesheet" href="/feed/css/theme-parchment-night.css?v=1">
 <link rel="stylesheet" href="/feed/css/theme-parchment-golden.css?v=1">
 <link rel="stylesheet" href="/feed/css/learning.css?v=1">
+<link rel="stylesheet" href="/feed/css/quoteCards.css?v=1">
+<link rel="stylesheet" href="/feed/css/videoTours.css?v=1">
+<link rel="stylesheet" href="/feed/css/scholarBadges.css?v=1">
+<link rel="stylesheet" href="/feed/css/creatorStudio.css?v=1">
+<link rel="stylesheet" href="/feed/css/brandedHeichelos.css?v=1">
 <link rel="stylesheet" href="/feed/css/learnTrackI.css?v=1">
 <link rel="stylesheet" href="/feed/css/notifications.css?v=1">
 <link rel="stylesheet" href="/feed/css/leaderboard.css?v=1">
+<link rel="stylesheet" href="/feed/css/widget.css?v=1">
 <link rel="stylesheet" href="/feed/css/studyRooms.css?v=1">
+<link rel="stylesheet" href="/feed/css/mentors.css?v=1">
 </head>
 <body>
 <div class="feed-stage" id="feed-stage" data-feed-theme="dark-immersive">
@@ -55,19 +68,26 @@
 			</svg>
 			<span>Awtsmoos</span>
 		</a>
-		<button type="button" class="feed-ic-btn feed-filter-toggle" id="feed-filter-toggle" aria-label="Toggle filters" aria-expanded="true" title="Filters">
+		<button type="button" class="feed-ic-btn feed-filter-toggle" id="feed-filter-toggle" data-i18n-aria="filters.label" data-i18n-title="filters.label" aria-label="Filters" aria-expanded="true" title="Filters">
 			<svg class="feed-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 5.5h16l-6.2 7.2v5.1l-3.6 2v-7.1z"/></svg>
-			<span class="feed-ic-btn-label">Filters</span>
+			<span class="feed-ic-btn-label" data-i18n="filters.label">Filters</span>
 			<span class="feed-filter-count" id="feed-filter-count" hidden></span>
 		</button>
 		<label class="feed-search">
 			<svg class="feed-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
-			<input type="search" id="feed-search-input" placeholder="Search posts, people, topics…" aria-label="Search the river">
+			<input type="search" id="feed-search-input" placeholder="Search posts, people, topics…" data-i18n-placeholder="search.placeholder" aria-label="Search the river" data-i18n-aria="search.label">
 		</label>
+		<div class="feed-lang-drop" id="feed-lang-drop">
+			<button type="button" class="feed-ic-btn feed-lang-drop-btn" id="feed-lang-drop-btn" aria-haspopup="menu" aria-expanded="false" data-i18n-title="lang.label" title="Language">
+				<svg class="feed-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c-5.2 5.2-5.2 11.8 0 17"/><path d="M12 3.5c5.2 5.2 5.2 11.8 0 17"/></svg>
+				<span class="feed-ic-btn-label" id="feed-lang-drop-label">English</span>
+				<svg class="feed-ic feed-theme-drop-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="m6 9.5 6 6 6-6"/></svg>
+			</button>
+		</div>
 		<div class="feed-theme-drop" id="feed-theme-drop">
-			<button type="button" class="feed-ic-btn feed-theme-drop-btn" id="feed-theme-drop-btn" aria-haspopup="menu" aria-expanded="false" title="Feed theme">
+			<button type="button" class="feed-ic-btn feed-theme-drop-btn" id="feed-theme-drop-btn" aria-haspopup="menu" aria-expanded="false" data-i18n-title="theme.label" title="Feed theme">
 				<span class="feed-theme-swatch" id="feed-theme-drop-swatch" aria-hidden="true"></span>
-				<span class="feed-ic-btn-label" id="feed-theme-drop-label">Theme</span>
+				<span class="feed-ic-btn-label" id="feed-theme-drop-label" data-i18n="theme.label">Theme</span>
 				<svg class="feed-ic feed-theme-drop-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="m6 9.5 6 6 6-6"/></svg>
 			</button>
 		</div>
@@ -76,8 +96,8 @@
 	<div class="feed-layout">
 		<aside class="feed-side" id="feed-side" aria-label="Feed filters">
 			<div class="feed-side-head">
-				<span class="feed-side-title">River controls</span>
-				<button type="button" class="feed-ic-btn feed-side-close" id="feed-side-close" aria-label="Hide filters">
+				<span class="feed-side-title" data-i18n="side.title">River controls</span>
+				<button type="button" class="feed-ic-btn feed-side-close" id="feed-side-close" data-i18n-aria="side.close" aria-label="Hide filters">
 					<svg class="feed-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
 				</button>
 			</div>
@@ -85,14 +105,14 @@
 		</aside>
 
 		<div class="feed-main">
-			<nav class="feed-tabs" id="feed-tabs" aria-label="Feed rivers"></nav>
+			<nav class="feed-tabs" id="feed-tabs" data-i18n-aria="tabs.nav" aria-label="Feed rivers"></nav>
 
-			<main class="feed-river" id="feed-river" aria-live="polite" aria-label="Social feed"></main>
+			<main class="feed-river" id="feed-river" aria-live="polite" data-i18n-aria="feed.riverLabel" aria-label="Social feed"></main>
 
 			<p class="feed-status" id="feed-status" role="status"></p>
 
 			<div class="feed-sentinel-wrap">
-				<button type="button" class="feed-sentinel" id="feed-sentinel">Load more live posts</button>
+				<button type="button" class="feed-sentinel" id="feed-sentinel" data-i18n="status.loadMore">Load more live posts</button>
 			</div>
 		</div>
 	</div>
@@ -100,6 +120,14 @@
 
 <script type="module">
 import { createFeedRiver } from '/feed/js/feed.js?v=river-001';
+import { initI18n, paintStatic, t, setLang, currentLang, langInfo, LANGS, onLangChange } from '/feed/js/i18n.js?v=1';
+
+// B"H — Yaakov 2026-10-13 (TRACK E): the feed's UI chrome speaks six
+// languages (en/he/yi/fr/es/pt). Torah content is NEVER translated —
+// only buttons, tabs, menus and labels. initI18n resolves before any
+// chrome renders; the English reference is the ultimate fallback.
+await initI18n();
+paintStatic();
 
 const river = createFeedRiver({
 	river: document.getElementById('feed-river'),
@@ -158,13 +186,45 @@ initNotifications();
 import { initLeaderboard } from '/feed/js/leaderboard.js?v=1';
 initLeaderboard();
 
+// B"H — Yaakov 2026-10-13: TRACK F engagement — home screen widget + PWA basics.
+import { initWidget } from '/feed/js/widget.js?v=1';
+initWidget();
+
 // B"H — Yaakov 2026-10-13: learning track hub (plans, siyum, sheets, challenges, shiur).
 import { initLearningHub } from '/feed/js/learningHub.js?v=1';
 initLearningHub();
 
+// B"H — Yaakov 2026-10-14: TRACK J — quote card generator (select any
+// passage -> "Make quote card" -> parchment PNG with attribution).
+import { initQuoteCards } from '/feed/js/quoteCards.js?v=1';
+initQuoteCards();
+
+// B"H — Yaakov 2026-10-14: TRACK J — guided heichel tours (overlay,
+// step-by-step, dismissible, replayable).
+import { initVideoTours } from '/feed/js/videoTours.js?v=1';
+initVideoTours();
+
+// B"H — Yaakov 2026-10-14: TRACK J — verified scholar badges (apply flow,
+// localStorage queue + admin review, auto-decoration on cards/comments).
+import { initScholarBadges } from '/feed/js/scholarBadges.js?v=1';
+initScholarBadges();
+
+// B"H — Yaakov 2026-10-14: TRACK J — creator studio (rich editor, sources,
+// draft autosave, preview; publishing endpoint still pending).
+import { initCreatorStudio } from '/feed/js/creatorStudio.js?v=1';
+initCreatorStudio();
+
+// B"H — Yaakov 2026-10-14: TRACK J — branded heichelos (logo, approved
+// palette, welcome message; "Powered by Awtsmoos" always shown).
+import { initBrandedHeichelos } from '/feed/js/brandedHeichelos.js?v=1';
+initBrandedHeichelos();
+
 // B"H — Yaakov 2026-10-13: TRACK H community — virtual study rooms.
 import { initStudyRooms } from '/feed/js/studyRooms.js?v=1';
 initStudyRooms();
+// B"H — Yaakov 2026-10-13: TRACK H community — mentor matching.
+import { initMentors } from '/feed/js/mentors.js?v=1';
+initMentors();
 
 // Benchmark hook: ?bench=1 runs the perf ledger summary to console + title.
 if (new URLSearchParams(location.search).get('bench') === '1') {
@@ -214,9 +274,9 @@ document.getElementById('feed-search-input').addEventListener('keydown', (event)
 	}
 	function onDocKey(e) { if (e.key === 'Escape') closeMenu(); }
 	function paint(theme) {
-		const t = THEMES.find(x => x.id === theme) || THEMES[0];
-		swatch.style.background = `linear-gradient(135deg, ${t.swatch[0]} 50%, ${t.swatch[1]} 50%)`;
-		label.textContent = t.name;
+		const th = THEMES.find(x => x.id === theme) || THEMES[0];
+		swatch.style.background = `linear-gradient(135deg, ${th.swatch[0]} 50%, ${th.swatch[1]} 50%)`;
+		label.textContent = t('theme.name.' + th.id);
 	}
 	function apply(theme) {
 		if (!THEMES.some(x => x.id === theme)) theme = 'dark-immersive';
@@ -234,13 +294,13 @@ document.getElementById('feed-search-input').addEventListener('keydown', (event)
 		const menu = document.createElement('div');
 		menu.className = 'feed-menu feed-theme-menu';
 		menu.setAttribute('role', 'menu');
-		menu.setAttribute('aria-label', 'Feed theme');
-		menu.innerHTML = '<p class="feed-menu-head">Feed theme</p>' + THEMES.map(t => {
-			const active = t.id === current;
-			return `<button type="button" class="feed-menu-item${active ? ' is-active' : ''}" data-theme-opt="${t.id}" role="menuitemradio" aria-checked="${active}">
+		menu.setAttribute('aria-label', t('theme.menuHead'));
+		menu.innerHTML = '<p class="feed-menu-head">' + t('theme.menuHead') + '</p>' + THEMES.map(th => {
+			const active = th.id === current;
+			return `<button type="button" class="feed-menu-item${active ? ' is-active' : ''}" data-theme-opt="${th.id}" role="menuitemradio" aria-checked="${active}">
 				<span class="feed-menu-check">${active ? '<svg class="feed-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>' : ''}</span>
-				<span class="feed-theme-swatch" style="background:linear-gradient(135deg, ${t.swatch[0]} 50%, ${t.swatch[1]} 50%)" aria-hidden="true"></span>
-				<span>${t.name}</span></button>`;
+				<span class="feed-theme-swatch" style="background:linear-gradient(135deg, ${th.swatch[0]} 50%, ${th.swatch[1]} 50%)" aria-hidden="true"></span>
+				<span>${t('theme.name.' + th.id)}</span></button>`;
 		}).join('');
 		dropWrap.append(menu);
 		openMenu = menu;
@@ -250,6 +310,65 @@ document.getElementById('feed-search-input').addEventListener('keydown', (event)
 		});
 		document.addEventListener('click', onDocClick, true);
 		document.addEventListener('keydown', onDocKey);
+	});
+})();
+
+// B"H — Yaakov 2026-10-13 (TRACK E): language switcher. Six languages for
+// the UI chrome only (Torah content untouched). Hebrew/Yiddish flip the
+// feed stage to RTL via i18n.js. Retractable: outside click or Escape.
+(function initFeedLang() {
+	const dropBtn = document.getElementById('feed-lang-drop-btn');
+	const dropWrap = document.getElementById('feed-lang-drop');
+	const label = document.getElementById('feed-lang-drop-label');
+	if (!dropBtn || !dropWrap) return;
+	let openMenu = null;
+	const CHECK = '<svg class="feed-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>';
+	function closeMenu() {
+		if (openMenu) { openMenu.remove(); openMenu = null; }
+		dropBtn.setAttribute('aria-expanded', 'false');
+		document.removeEventListener('click', onDocClick, true);
+		document.removeEventListener('keydown', onDocKey);
+	}
+	function onDocClick(e) {
+		if (openMenu && !openMenu.contains(e.target) && !dropWrap.contains(e.target)) closeMenu();
+	}
+	function onDocKey(e) { if (e.key === 'Escape') closeMenu(); }
+	function paintLabel() {
+		label.textContent = langInfo(currentLang()).native;
+	}
+	paintLabel();
+	dropBtn.addEventListener('click', (event) => {
+		event.stopPropagation();
+		if (openMenu) { closeMenu(); return; }
+		const current = currentLang();
+		const menu = document.createElement('div');
+		menu.className = 'feed-menu feed-lang-menu';
+		menu.setAttribute('role', 'menu');
+		menu.setAttribute('aria-label', t('lang.menuHead'));
+		menu.innerHTML = '<p class="feed-menu-head">' + t('lang.menuHead') + '</p>' + LANGS.map(l => {
+			const active = l.code === current;
+			return `<button type="button" class="feed-menu-item${active ? ' is-active' : ''}" data-lang-opt="${l.code}" role="menuitemradio" aria-checked="${active}">
+				<span class="feed-menu-check">${active ? CHECK : ''}</span>
+				<span class="feed-lang-native" lang="${l.code}">${l.native}</span>
+				<span class="feed-lang-name">${l.name}</span></button>`;
+		}).join('');
+		dropWrap.append(menu);
+		openMenu = menu;
+		dropBtn.setAttribute('aria-expanded', 'true');
+		menu.querySelectorAll('[data-lang-opt]').forEach(btn => {
+			btn.addEventListener('click', async (ev) => {
+				ev.stopPropagation();
+				closeMenu();
+				await setLang(btn.dataset.langOpt);
+			});
+		});
+		document.addEventListener('click', onDocClick, true);
+		document.addEventListener('keydown', onDocKey);
+	});
+	// The theme dropdown's button label is translated; repaint it on change.
+	onLangChange(() => {
+		paintLabel();
+		paintStatic();
 	});
 })();
 </script>
