@@ -14,9 +14,17 @@ const cache = new Map();
  */
 function load(projectRoot, fallbackRoot) {
 	const root = findRepoRoot(projectRoot) || findRepoRoot(fallbackRoot);
-	if (!root) throw fault("mission_visibility_repo_root_not_found");
+	if (!root) return null;
 	if (!cache.has(root)) {
-		cache.set(root, require(path.join(root, "ayzarim", "DosDB", "awtsmoosBinary", "awtsmoosBinaryJSON", "index.js")));
+		try {
+			cache.set(root, require(path.join(root, "ayzarim", "DosDB", "awtsmoosBinary", "awtsmoosBinaryJSON", "index.js")));
+		} catch (e) {
+			// B"H — Yaakov 2026-10-14: if the binary API is not available
+			// (e.g., installer didn't package ayzarim), return null instead
+			// of crashing. The agent can still connect without mission
+			// visibility features.
+			cache.set(root, null);
+		}
 	}
 	return cache.get(root);
 }
