@@ -1,0 +1,136 @@
+/* B"H — Ask-Anything AI panel (Yaakov 2026-10-13, TRACK D).
+   Sharp corners, CSS vars for both themes, no sideways scroll, no !important. */
+.askai {
+	margin: 16px 0 0;
+	overflow-x: clip;
+}
+.askai-toggle {
+	border: 1px solid var(--aw-line);
+	background: var(--aw-surface);
+}
+.askai-panel {
+	margin-top: 10px;
+	padding: 14px;
+	border: 1px solid var(--aw-line);
+	background: var(--aw-surface);
+	overflow-x: clip;
+}
+.askai-intro {
+	margin: 0 0 10px;
+	font: 400 13px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+	color: var(--aw-text-soft);
+}
+.askai-suggest {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-bottom: 12px;
+}
+.askai-chip {
+	border: 1px solid var(--aw-line);
+	background: var(--aw-bg);
+	color: var(--aw-text);
+	font: 500 12px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+	padding: 7px 12px;
+	cursor: pointer;
+}
+.askai-chip:hover,
+.askai-chip:focus-visible {
+	border-color: var(--accent-gold);
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 1px;
+}
+.askai-form { margin: 0; }
+.askai-label {
+	display: block;
+	font: 600 11px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--aw-text-soft);
+	margin-bottom: 6px;
+}
+.askai-row {
+	display: flex;
+	gap: 8px;
+}
+.askai-input {
+	flex: 1;
+	min-width: 0;
+	border: 1px solid var(--aw-line);
+	background: var(--aw-bg);
+	color: var(--aw-text);
+	font: 400 14px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+	padding: 9px 12px;
+}
+.askai-input:focus {
+	border-color: var(--accent-gold);
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 1px;
+}
+.askai-ask {
+	border: 1px solid var(--accent-gold);
+	background: var(--accent-gold);
+	color: var(--aw-bg);
+	font: 700 13px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+	padding: 9px 18px;
+	cursor: pointer;
+	white-space: nowrap;
+}
+.askai-out {
+	margin-top: 12px;
+}
+.askai-answer {
+	border-left: 3px solid var(--accent-gold);
+	padding: 4px 0 4px 12px;
+}
+.askai-badge {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin: 0 0 8px;
+	font: 600 11px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+	letter-spacing: 0.04em;
+	color: var(--aw-text-soft);
+}
+.askai-badge-ic {
+	width: 14px;
+	height: 14px;
+	color: var(--accent-gold);
+	flex: none;
+}
+.askai-answer-head {
+	margin: 0 0 4px;
+	font: 700 15px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+	color: var(--aw-text);
+}
+.askai-answer-lead {
+	margin: 0 0 10px;
+	font: 400 13px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+	color: var(--aw-text-soft);
+}
+.askai-quote {
+	margin: 0 0 10px;
+	padding: 10px 12px;
+	border: 1px solid var(--aw-line);
+	background: var(--aw-bg);
+}
+.askai-quote blockquote {
+	margin: 0 0 6px;
+	font: 400 14px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+	color: var(--aw-text);
+	overflow-wrap: break-word;
+}
+.askai-quote figcaption {
+	font: 600 11px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+	color: var(--aw-text-soft);
+	letter-spacing: 0.04em;
+}
+.askai-disclaimer {
+	margin: 6px 0 0;
+	font: 400 12px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+	color: var(--aw-text-soft);
+	font-style: italic;
+}
+[data-theme="light"] .askai-quote {
+	background: var(--aw-bg);
+}

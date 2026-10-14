@@ -13,6 +13,9 @@
  */
 
 import { icon, escapeHtml, escapeAttr } from './icons.js';
+import { THEMES, resolvePostTheme, setReaderTheme, isThemeId } from './themes.js';
+import { mountRelatedPosts } from './relatedPosts.js';
+import { mountAskAI } from './askAI.js';
 
 /** Resolved display names, cached per heichel/series so expands stay instant. */
 const nameCache = new Map();
@@ -142,9 +145,113 @@ function fullBodyHtml(post, item) {
 	return '';
 }
 
+function readerThemePickerHtml(item) {
+	const current = resolvePostTheme(item);
+	const opts = [`<button type="button" class="feed-menu-item" data-reader-theme-val="auto" role="menuitemradio" aria-checked="${!isReaderOverride(item)}">
+		<span class="feed-menu-check">${!isReaderOverride(item) ? icon('check') : ''}</span><span>Post theme (auto)</span></button>`];
+	for (const t of THEMES) {
+		const [c1, c2] = t.swatch;
+		const active = isReaderOverride(item) && current === t.id;
+		opts.push(`<button type="button" class="feed-menu-item${active ? ' is-active' : ''}" data-reader-theme-val="${t.id}" role="menuitemradio" aria-checked="${active}">
+			<span class="feed-menu-check">${active ? icon('check') : ''}</span>
+			<span class="feed-theme-swatch" style="background:linear-gradient(135deg, ${c1} 50%, ${c2} 50%)" aria-hidden="true"></span>
+			<span>${escapeHtml(t.name)}</span></button>`);
+	}
+	return opts.join('');
+}
+
+function isReaderOverride(item) {
+	const h = String(item.heichelId || 'ikar').toLowerCase();
+	const p = String(item.postId || item.id || '');
+	if (!p) return false;
+	try {
+		const v = localStorage.getItem(`awtsmoos-reader-theme:${h}:${p}`);
+		return isThemeId(v);
+	} catch (_) { return false; }
+}
+
+let openReaderMenu = null;
+function closeReaderMenu() {
+	if (openReaderMenu) { openReaderMenu.remove(); openReaderMenu = null; }
+	document.removeEventListener('click', onReaderMenuDocClick, true);
+	document.removeEventListener('keydown', onReaderMenuDocKey);
+}
+function onReaderMenuDocClick(event) {
+	if (openReaderMenu && !openReaderMenu.contains(event.target) && !event.target.closest('[data-reader-theme-btn]')) {
+		closeReaderMenu();
+	}
+}
+function onReaderMenuDocKey(event) {
+	if (event.key === 'Escape') closeReaderMenu();
+}
+
+function wireReaderThemePicker(toolsEl, item, reader) {
+	const btn = toolsEl.querySelector('[data-reader-theme-btn]');
+	if (!btn) return;
+	btn.addEventListener('click', (event) => {
+		event.stopPropagation();
+		if (openReaderMenu) { closeReaderMenu(); return; }
+		const menu = document.createElement('div');
+		menu.className = 'feed-menu feed-reader-theme-menu';
+		menu.setAttribute('role', 'menu');
+		menu.setAttribute('aria-label', 'Reading theme');
+		menu.innerHTML = `<p class="feed-menu-head">Reading theme</p>${readerThemePickerHtml(item)}`;
+		toolsEl.append(menu);
+		openReaderMenu = menu;
+		menu.querySelectorAll('[data-reader-theme-val]').forEach(opt => {
+			opt.addEventListener('click', (ev) => {
+				ev.stopPropagation();
+				const val = opt.dataset.readerThemeVal;
+				setReaderTheme(item, val === 'auto' ? null : val);
+				reader.setAttribute('data-feed-theme', resolvePostTheme(item));
+				closeReaderMenu();
+			});
+		});
+		document.addEventListener('click', onReaderMenuDocClick, true);
+		document.addEventListener('keydown', onReaderMenuDocKey);
+	});
+}
+
+/** Collapsible related-posts section inside the expanded reader. Retractable by design. */
+function relatedSectionHtml() {
+	return `
+	<section class="feed-reader-related" data-collapsible>
+		<button type="button" class="feed-reader-related-toggle" aria-expanded="false">
+			${icon('spark', 'feed-reader-related-ic')}<span>Related posts</span>${icon('chevronDown', 'feed-reader-related-chev')}
+		</button>
+		<div class="feed-reader-related-body" hidden></div>
+	</section>`;
+}
+
+function wireRelatedSection(body, item, card) {
+	const section = body.querySelector('.feed-reader-related');
+	if (!section) return;
+	const toggle = section.querySelector('.feed-reader-related-toggle');
+	const slot = section.querySelector('.feed-reader-related-body');
+	let mounted = false;
+	toggle.addEventListener('click', async (event) => {
+		event.stopPropagation();
+		const open = toggle.getAttribute('aria-expanded') === 'true';
+		toggle.setAttribute('aria-expanded', String(!open));
+		slot.hidden = open;
+		if (!open && !mounted) {
+			mounted = true;
+			try {
+				const candidates = Array.isArray(card._feedCandidates) ? card._feedCandidates : null;
+				await mountRelatedPosts({ container: slot, post: item, candidates });
+			} catch (_) {
+				slot.innerHTML = '<p class="feed-reader-note">Related posts could not load.</p>';
+			}
+		}
+	});
+}
+
 async function loadExpanded(card, item, reader) {
 	const body = reader.querySelector('.feed-reader-inner');
 	body.innerHTML = loadingHtml();
+	// B"H — Yaakov 2026-10-13: the reader wears the post's theme (author's
+	// choice, else heichel default, else your global theme).
+	reader.setAttribute('data-feed-theme', resolvePostTheme(item));
 	const { h, s, p } = ids(item);
 	try {
 		const [post, heichelName, seriesName] = await Promise.all([
@@ -162,15 +269,22 @@ async function loadExpanded(card, item, reader) {
 					${post.heTitle || item.heTitle ? `<p class="feed-reader-hetitle" dir="rtl" lang="he">${escapeHtml(post.heTitle || item.heTitle)}</p>` : ''}
 				</div>
 				<div class="feed-reader-tools" role="toolbar" aria-label="Reader tools">
+					<button type="button" class="feed-ic-btn" data-reader-theme-btn aria-label="Reading theme" aria-haspopup="menu">${icon('image')}<span class="feed-ic-btn-label">Theme</span></button>
 					<a class="feed-ic-btn feed-card-open" href="${escapeAttr(postUrl(item))}" target="_blank" rel="noopener" aria-label="Open in new tab">${icon('external')}<span class="feed-ic-btn-label">New tab</span></a>
 					<button type="button" class="feed-ic-btn feed-reader-collapse" aria-label="Collapse post">${icon('chevronUp')}<span class="feed-ic-btn-label">Collapse</span></button>
 				</div>
 			</div>
-			<div class="feed-reader-body" dir="auto">${content || `<p class="feed-reader-note">No full text is stored for this post yet — the preview above is everything we have.</p>`}</div>`;
+			<div class="feed-reader-body" dir="auto">${content || `<p class="feed-reader-note">No full text is stored for this post yet — the preview above is everything we have.</p>`}</div>
+			<div class="feed-reader-askai" data-ask-ai-slot></div>
+			${relatedSectionHtml()}`;
 		body.querySelector('.feed-reader-collapse')?.addEventListener('click', (event) => {
 			event.stopPropagation();
 			setExpanded(card, item, reader, false);
 		});
+		wireReaderThemePicker(body.querySelector('.feed-reader-tools'), item, reader);
+		wireRelatedSection(body, item, card);
+		// B"H — Yaakov 2026-10-13 (TRACK D): Ask-Anything AI on every post.
+		mountAskAI(body.querySelector('[data-ask-ai-slot]'), { title, html: content });
 	} catch (_) {
 		body.innerHTML = failHtml(item);
 	}
