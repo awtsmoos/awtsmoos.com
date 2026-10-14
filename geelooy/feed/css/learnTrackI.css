@@ -1,0 +1,596 @@
+/* B"H — Awtsmoos feed TRACK I learning tools (Yaakov 2026-10-14).
+ *
+ *   --lti-on-gold: dark ink for text sitting on the gold accent (both themes).
+ *
+ *   Yaakov's laws, enforced in every rule below:
+ *   - NEVER use !important.
+ *   - Sharp corners only: border-radius: 0 everywhere.
+ *   - Explicit colors for light AND dark themes via theme tokens only
+ *     (--aw-text, --aw-text-soft, --aw-surface, --aw-bg, --aw-line,
+ *      --accent-gold, --aw-focus-ring). No hardcoded color literals on
+ *      text or surfaces.
+ *   - No horizontal scrolling: every tool root guards with overflow-x: clip.
+ */
+
+:root {
+	--lti-on-gold: #141414;
+}
+
+.lti,
+.lti *,
+.lti *::before,
+.lti *::after {
+	border-radius: 0;
+}
+
+.lti {
+	overflow-x: clip;
+	color: var(--aw-text);
+	max-width: 100%;
+}
+
+/* ---------- shared tool chrome ---------- */
+
+.lti-head {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 12px;
+}
+
+.lti-head h3 {
+	margin: 0;
+	font-size: 19px;
+	letter-spacing: 0.2px;
+	color: var(--aw-text);
+}
+
+.lti-head p {
+	margin: 4px 0 0;
+	font-size: 13px;
+	color: var(--aw-text-soft);
+}
+
+.lti-back {
+	margin-left: auto;
+	background: transparent;
+	border: 1px solid var(--aw-line);
+	color: var(--aw-text);
+	padding: 6px 10px;
+	font-size: 13px;
+	cursor: pointer;
+}
+
+.lti-back:hover,
+.lti-back:focus-visible {
+	border-color: var(--accent-gold);
+	color: var(--accent-gold);
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 1px;
+}
+
+.lti-card {
+	background: var(--aw-surface);
+	border: 1px solid var(--aw-line);
+	padding: 14px;
+	margin-bottom: 12px;
+	overflow-x: clip;
+}
+
+.lti-card h4 {
+	margin: 0 0 8px;
+	font-size: 15px;
+	color: var(--aw-text);
+}
+
+.lti-card p {
+	margin: 0 0 8px;
+	font-size: 13.5px;
+	line-height: 1.6;
+	color: var(--aw-text-soft);
+}
+
+.lti-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+	gap: 10px;
+	overflow-x: clip;
+}
+
+.lti-tile {
+	background: var(--aw-surface);
+	border: 1px solid var(--aw-line);
+	padding: 12px;
+	cursor: pointer;
+	text-align: left;
+	color: var(--aw-text);
+	font: inherit;
+	overflow-x: clip;
+}
+
+.lti-tile:hover,
+.lti-tile:focus-visible {
+	border-color: var(--accent-gold);
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 1px;
+}
+
+.lti-tile .lti-tile-title {
+	display: block;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--aw-text);
+	margin-bottom: 4px;
+}
+
+.lti-tile .lti-tile-he {
+	display: block;
+	font-size: 18px;
+	color: var(--accent-gold);
+	direction: rtl;
+	margin-bottom: 4px;
+}
+
+.lti-tile .lti-tile-sub {
+	display: block;
+	font-size: 12px;
+	color: var(--aw-text-soft);
+}
+
+.lti-tile.is-now {
+	border-color: var(--accent-gold);
+	background: color-mix(in srgb, var(--accent-gold) 12%, var(--aw-surface));
+}
+
+.lti-now-badge {
+	display: inline-block;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.6px;
+	text-transform: uppercase;
+	color: var(--accent-gold);
+	border: 1px solid var(--accent-gold);
+	padding: 2px 7px;
+	margin-top: 6px;
+}
+
+.lti-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+	overflow-x: clip;
+}
+
+.lti-btn {
+	background: transparent;
+	border: 1px solid var(--aw-line);
+	color: var(--aw-text);
+	padding: 8px 12px;
+	font-size: 13.5px;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+}
+
+.lti-btn:hover,
+.lti-btn:focus-visible {
+	border-color: var(--accent-gold);
+	color: var(--accent-gold);
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 1px;
+}
+
+.lti-btn.primary {
+	background: var(--accent-gold);
+	border-color: var(--accent-gold);
+	color: var(--lti-on-gold);
+}
+
+.lti-btn.primary:hover,
+.lti-btn.primary:focus-visible {
+	color: var(--lti-on-gold);
+}
+
+.lti-btn:disabled {
+	opacity: 0.45;
+	cursor: default;
+}
+
+.lti-input,
+.lti-select,
+.lti-textarea {
+	background: var(--aw-bg);
+	border: 1px solid var(--aw-line);
+	color: var(--aw-text);
+	padding: 8px 10px;
+	font-size: 14px;
+	font-family: inherit;
+	max-width: 100%;
+}
+
+.lti-input:focus,
+.lti-select:focus,
+.lti-textarea:focus {
+	border-color: var(--accent-gold);
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 1px;
+}
+
+.lti-textarea {
+	width: 100%;
+	min-height: 76px;
+	resize: vertical;
+}
+
+.lti-he {
+	direction: rtl;
+	text-align: right;
+	font-size: 20px;
+	line-height: 2;
+	color: var(--aw-text);
+}
+
+/* ---------- editor placeholder slots ---------- */
+
+.lti-slot {
+	border: 1px dashed var(--aw-line);
+	padding: 12px;
+	margin: 10px 0;
+	background: color-mix(in srgb, var(--aw-text-soft) 6%, transparent);
+	overflow-x: clip;
+}
+
+.lti-slot .lti-slot-label {
+	display: block;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.8px;
+	text-transform: uppercase;
+	color: var(--accent-gold);
+	margin-bottom: 6px;
+}
+
+.lti-slot p {
+	margin: 0;
+	font-size: 13px;
+	color: var(--aw-text-soft);
+	font-style: italic;
+}
+
+/* ---------- progress bars ---------- */
+
+.lti-progress {
+	height: 8px;
+	background: var(--aw-bg);
+	border: 1px solid var(--aw-line);
+	margin: 8px 0;
+	overflow: hidden;
+}
+
+.lti-progress > span {
+	display: block;
+	height: 100%;
+	background: var(--accent-gold);
+}
+
+.lti-stat {
+	font-size: 12.5px;
+	color: var(--aw-text-soft);
+}
+
+/* ---------- aliyah / list rows ---------- */
+
+.lti-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	overflow-x: clip;
+}
+
+.lti-list li {
+	border: 1px solid var(--aw-line);
+	margin-bottom: 8px;
+	background: var(--aw-surface);
+	overflow-x: clip;
+}
+
+.lti-list button.lti-list-row {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 10px 12px;
+	background: transparent;
+	border: 0;
+	color: var(--aw-text);
+	font: inherit;
+	cursor: pointer;
+	text-align: left;
+}
+
+.lti-list button.lti-list-row:hover,
+.lti-list button.lti-list-row:focus-visible {
+	background: color-mix(in srgb, var(--accent-gold) 10%, transparent);
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: -2px;
+}
+
+.lti-list .lti-list-num {
+	flex: 0 0 28px;
+	height: 28px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid var(--accent-gold);
+	color: var(--accent-gold);
+	font-size: 13px;
+	font-weight: 700;
+}
+
+.lti-list .lti-list-main {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.lti-list .lti-list-title {
+	display: block;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--aw-text);
+}
+
+.lti-list .lti-list-sub {
+	display: block;
+	font-size: 12px;
+	color: var(--aw-text-soft);
+}
+
+/* ---------- flashcard ---------- */
+
+.lti-flash {
+	border: 1px solid var(--aw-line);
+	background: var(--aw-surface);
+	padding: 28px 20px;
+	text-align: center;
+	min-height: 180px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+	overflow-x: clip;
+}
+
+.lti-flash .lti-flash-side {
+	font-size: 11px;
+	letter-spacing: 0.8px;
+	text-transform: uppercase;
+	color: var(--aw-text-soft);
+}
+
+.lti-flash .lti-flash-text {
+	font-size: 17px;
+	line-height: 1.7;
+	color: var(--aw-text);
+	max-width: 46ch;
+}
+
+.lti-grade-row {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 8px;
+	margin-top: 12px;
+}
+
+/* ---------- letter tiles (hebrew tutor) ---------- */
+
+.lti-letter-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+	gap: 8px;
+	overflow-x: clip;
+}
+
+.lti-letter {
+	border: 1px solid var(--aw-line);
+	background: var(--aw-surface);
+	padding: 10px 4px;
+	text-align: center;
+	cursor: pointer;
+	color: var(--aw-text);
+	font: inherit;
+}
+
+.lti-letter .lti-glyph {
+	display: block;
+	font-size: 30px;
+	line-height: 1.3;
+	color: var(--aw-text);
+}
+
+.lti-letter .lti-glyph-name {
+	display: block;
+	font-size: 11px;
+	color: var(--aw-text-soft);
+	margin-top: 2px;
+}
+
+.lti-letter:hover,
+.lti-letter:focus-visible {
+	border-color: var(--accent-gold);
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 1px;
+}
+
+.lti-letter.is-seen {
+	border-color: var(--accent-gold);
+}
+
+.lti-quiz-opts {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+	margin-top: 12px;
+}
+
+.lti-quiz-opts .lti-btn {
+	justify-content: center;
+	padding: 12px;
+}
+
+.lti-quiz-opts .lti-btn.is-correct {
+	border-color: var(--accent-gold);
+	background: color-mix(in srgb, var(--accent-gold) 16%, transparent);
+	color: var(--aw-text);
+}
+
+.lti-quiz-opts .lti-btn.is-wrong {
+	border-color: var(--awtsmoos-browser-danger);
+	opacity: 0.6;
+}
+
+.lti-encourage {
+	margin-top: 12px;
+	font-size: 14px;
+	color: var(--accent-gold);
+	min-height: 1.4em;
+}
+
+/* ---------- tefillah trainer lines ---------- */
+
+.lti-line {
+	border: 1px solid var(--aw-line);
+	background: var(--aw-surface);
+	margin-bottom: 10px;
+	overflow-x: clip;
+}
+
+.lti-line-head {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 12px;
+	border-bottom: 1px solid var(--aw-line);
+}
+
+.lti-line-num {
+	font-size: 12px;
+	color: var(--aw-text-soft);
+}
+
+.lti-line-body {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 8px;
+	padding: 12px;
+}
+
+@media (min-width: 560px) {
+	.lti-line-body {
+		grid-template-columns: 1fr 1fr 1fr;
+	}
+}
+
+.lti-line-col .lti-col-label {
+	display: block;
+	font-size: 10.5px;
+	letter-spacing: 0.7px;
+	text-transform: uppercase;
+	color: var(--aw-text-soft);
+	margin-bottom: 4px;
+}
+
+.lti-line-col .lti-col-text {
+	font-size: 14px;
+	line-height: 1.7;
+	color: var(--aw-text);
+}
+
+.lti-line.is-learned {
+	border-color: var(--accent-gold);
+}
+
+.lti-check {
+	margin-left: auto;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 12.5px;
+	color: var(--aw-text-soft);
+	background: transparent;
+	border: 1px solid var(--aw-line);
+	padding: 5px 9px;
+	cursor: pointer;
+}
+
+.lti-check:hover,
+.lti-check:focus-visible {
+	border-color: var(--accent-gold);
+	color: var(--accent-gold);
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 1px;
+}
+
+.lti-check[aria-pressed="true"] {
+	border-color: var(--accent-gold);
+	color: var(--accent-gold);
+}
+
+/* ---------- countdown ---------- */
+
+.lti-countdown {
+	display: flex;
+	gap: 10px;
+	margin: 12px 0;
+	flex-wrap: wrap;
+}
+
+.lti-count-cell {
+	border: 1px solid var(--aw-line);
+	background: var(--aw-bg);
+	padding: 10px 14px;
+	text-align: center;
+	min-width: 64px;
+}
+
+.lti-count-cell .lti-count-num {
+	display: block;
+	font-size: 26px;
+	font-weight: 700;
+	color: var(--accent-gold);
+}
+
+.lti-count-cell .lti-count-lab {
+	display: block;
+	font-size: 11px;
+	letter-spacing: 0.6px;
+	text-transform: uppercase;
+	color: var(--aw-text-soft);
+}
+
+/* ---------- gentle note (lifecycle) ---------- */
+
+.lti-gentle {
+	border-left: 3px solid var(--accent-gold);
+	padding: 10px 14px;
+	background: color-mix(in srgb, var(--accent-gold) 8%, transparent);
+	margin: 12px 0;
+}
+
+.lti-gentle p {
+	margin: 0;
+	font-size: 13.5px;
+	line-height: 1.7;
+	color: var(--aw-text);
+}
+
+.lti-empty {
+	padding: 22px 14px;
+	text-align: center;
+	color: var(--aw-text-soft);
+	font-size: 13.5px;
+	border: 1px dashed var(--aw-line);
+	overflow-x: clip;
+}
