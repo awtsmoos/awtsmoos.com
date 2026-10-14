@@ -736,7 +736,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       scene.add(m);
     }
     coneUpdaters.push((t) => {
-      coneMat.opacity = 0.30 * (0.8 + 0.2 * Math.sin(t * 0.4));
+      // B"H 2nd sweep: stronger — NEW_TARGET has bold diagonal shafts.
+      coneMat.opacity = 0.42 * (0.8 + 0.2 * Math.sin(t * 0.4));
     });
     for (const cu of coneUpdaters) mistUpdaters.push(cu);
     mark('light-cones');
@@ -1648,7 +1649,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           // gin-clear — individual 3D pebbles countable through the water.
           // bedVisibility 0.88->0.94 (premade pebble texture IS pebbles),
           // alpha 0.35->0.22 (more see-through to the real 3D pebble bed).
-          float bedVisibility = mix(0.94, 0.55, smoothstep(0.1, 0.8, depth));
+          // B"H 2nd sweep: 0.94->0.97 — NEW_TARGET is absolutely gin-clear.
+          float bedVisibility = mix(0.97, 0.60, smoothstep(0.1, 0.8, depth));
           col = mix(col, bed, bedVisibility);
           // B"H WAY-better #13: underwater caustics — baked web scrolled
           // slowly, masked to shallows where sun reaches the bed. Dances
@@ -3178,12 +3180,14 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       // Growth rule: moss taller near water (more moisture)
       const distToWater = Math.abs(x - riverX(z)) - 6.5;
       const moisture = Math.max(0, 1 - distToWater / 10);
-      const s = (0.4 + mor2() * 1.0) * (0.7 + moisture * 0.6);
+      // B"H 2nd sweep: bigger, billowing mounds like NEW_TARGET (was 0.4-1.4).
+      const s = (0.6 + mor2() * 1.4) * (0.7 + moisture * 0.6);
       // Growth rule: irregular patch shape (not circular)
       const stretch = 0.7 + mor2() * 0.8;
       dummy.position.set(x, groundHeight(x, z, noise) + 0.02, z);
       dummy.rotation.set(0, mor2() * Math.PI * 2, 0);
-      dummy.scale.set(s * stretch, s * 0.6, s / stretch);
+      // B"H 2nd sweep: taller domes (0.6→0.85) — billowing, not flat.
+      dummy.scale.set(s * stretch, s * 0.85, s / stretch);
       dummy.updateMatrix();
       inst.setMatrixAt(placed, dummy.matrix);
       // Per-mound variation: some patches lusher than others
