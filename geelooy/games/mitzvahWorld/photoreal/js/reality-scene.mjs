@@ -2886,8 +2886,11 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
         roughness: 0.95, color: new THREE.Color(0.55, 0.65, 0.42),
         depthWrite: true,
       });
-      // 24 small cards per tree (was 2 huge blobs) — layered interior fill
-      const SHELL_PER_TREE = 24;
+      // B"H 2026-10-14 LEAF-DENSITY (Yaakov: leaves first, close-up must hold):
+      // 24/tree was sparse confetti. 150/tree fills the crown VOLUME —
+      // dense layered foliage like the reference (dappled, light through).
+      // Still 1 instanced draw.
+      const SHELL_PER_TREE = fast ? 80 : 150;
       const shellInst = new THREE.InstancedMesh(shellGeo, shellMat, treeSpots.length * SHELL_PER_TREE);
       let sp = 0;
       for (const s of treeSpots) {
