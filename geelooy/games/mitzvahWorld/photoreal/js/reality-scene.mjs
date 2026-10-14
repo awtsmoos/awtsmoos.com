@@ -225,6 +225,9 @@ const VIEWS = {
   // background gap. River enters bottom-center, leads eye to distance.
   forest:    { pos: [riverX(20) + 3.2, WATER_Y + 0.75, 20],  look: [riverX(-32) - 0.5, WATER_Y + 0.5, -32] },
   river:     { pos: [riverX(34) + 7, 3.4, 34], look: [riverX(-30) - 2, 0.5, -30] },
+  // B"H "even more real" proof: top-down over the foreground shallows (z=20,
+  // wide water) — individual 3D pebbles must be countable through the water.
+  'shallows-top': { pos: [riverX(20), WATER_Y + 14, 20], look: [riverX(20), WATER_Y, 19] },
   // B"H commit 7 proof: macro on hero boulder #1 (z=14, left bank).
   'debug-boulder': { pos: [riverX(14) - riverHalfWidth(14) * 1.45 + 2.2, WATER_Y + 1.6, 17.5],
                      look: [riverX(14) - riverHalfWidth(14) * 1.45, WATER_Y + 0.5, 14] },
@@ -551,7 +554,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     // as a LUMINOUS opening, not gray. Sprites near the sun gap (far z,
     // near centerline) get additive blending + warm tint + higher opacity —
     // they catch the sun. Others stay soft normal-blend.
-    const sunGapX = riverX(-70), sunGapZ = -70;
+    const sunGapX = riverX(-50), sunGapZ = -50;
     for (let mi = 0; mi < 14; mi++) {
       // background gap + distant river: z -35..-105, clustered near centerline
       const mz = -35 - mrand() * 70;
@@ -591,14 +594,14 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       const gtex = new THREE.CanvasTexture(gc); gtex.colorSpace = THREE.SRGBColorSpace;
       const gmat = new THREE.SpriteMaterial({
         map: gtex, transparent: true, depthWrite: false,
-        blending: THREE.AdditiveBlending, opacity: 0.75, fog: false,
+        blending: THREE.AdditiveBlending, opacity: 0.85, fog: false,
       });
       const glow = new THREE.Sprite(gmat);
       glow.position.set(sunGapX, WATER_Y + 7, sunGapZ);
       glow.scale.set(60, 40, 1);
       scene.add(glow);
       mistUpdaters.push((t) => {
-        gmat.opacity = 0.75 * (0.9 + 0.1 * Math.sin(t * 0.23));
+        gmat.opacity = 0.85 * (0.9 + 0.1 * Math.sin(t * 0.23));
       });
     }
     mark('mist');
