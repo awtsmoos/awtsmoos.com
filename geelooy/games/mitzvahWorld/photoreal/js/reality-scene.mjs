@@ -305,7 +305,7 @@ const TOD = {
     // forest-view camera looks TOWARD it — backlit canopy, god rays down the
     // corridor, sparkle path on the water (plan §1).
     sunDir: [0.42, 0.52, -0.65], sunColor: 0xfff6e8, sunI: 2.8,
-    hemiSky: 0xa8c8d8, hemiGround: 0x4a5a3a, hemiI: 0.45,
+    hemiSky: 0xa8c8d8, hemiGround: 0x5a6b48, hemiI: 0.62,
     fog: 0x9aaa7a, fogNear: 60, fogFar: 270, exposure: 1.0,
     golden: 1.0, warm: 0.25,
   },
@@ -3978,13 +3978,15 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
         // Sunlit moss reads warm yellow-green, deep shadow reads cool teal.
         // Stronger than the restrained Phase 7 grade — the reference has
         // real color contrast, not a neutral wash.
+        // B"H TEXTURE-FIRST 2026-10-14: 0.38/0.48 crushed shadows to black
+        // (reverted). Grade can't fix unlit shadows — lighting must.
         {
           cx2.globalCompositeOperation = 'overlay';
           const gg = cx2.createLinearGradient(0, 0, 0, H);
-          gg.addColorStop(0, 'rgba(255,236,190,0.20)');
-          gg.addColorStop(0.35, 'rgba(190,210,130,0.10)');
-          gg.addColorStop(0.65, 'rgba(50,110,90,0.12)');
-          gg.addColorStop(1, 'rgba(10,40,44,0.30)');
+          gg.addColorStop(0, 'rgba(255,232,185,0.26)');
+          gg.addColorStop(0.35, 'rgba(195,215,135,0.13)');
+          gg.addColorStop(0.65, 'rgba(45,105,88,0.16)');
+          gg.addColorStop(1, 'rgba(8,36,42,0.36)');
           cx2.fillStyle = gg;
           cx2.fillRect(0, 0, W, H);
           cx2.globalCompositeOperation = 'source-over';
