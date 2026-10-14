@@ -1,0 +1,425 @@
+/* B"H — Awtsmoos River smart notifications.
+ * Tunnel CSS laws: no !important, token-only colors, explicit light/dark
+ * text colors, full interactive states on every control, sharp corners only,
+ * overflow-x guards where content could widen.
+ */
+
+/* ============ topbar bell ============ */
+.feed-notif-bell {
+	position: relative;
+}
+
+.feed-notif-bell .feed-ic {
+	width: 18px;
+	height: 18px;
+}
+
+.feed-notif-badge {
+	position: absolute;
+	top: 2px;
+	inset-inline-end: 2px;
+	min-width: 17px;
+	height: 17px;
+	padding: 0 4px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 10px;
+	font-weight: 800;
+	line-height: 1;
+	color: var(--aw-bg);
+	background: var(--aw-accent);
+	border: 1px solid var(--aw-bg);
+	border-radius: 0;
+}
+
+/* ============ notification panel ============ */
+.feed-notif-backdrop {
+	position: fixed;
+	inset: 0;
+	background: transparent;
+	z-index: 60;
+	border: 0;
+	padding: 0;
+}
+
+.feed-notif-panel {
+	position: fixed;
+	top: 64px;
+	inset-inline-end: 12px;
+	width: min(380px, calc(100vw - 24px));
+	max-height: min(70vh, 560px);
+	display: flex;
+	flex-direction: column;
+	background: var(--aw-surface);
+	border: 1px solid var(--aw-line);
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+	z-index: 61;
+	overflow-x: clip;
+}
+
+.feed-notif-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 12px 14px;
+	border-bottom: 1px solid var(--aw-line);
+}
+
+.feed-notif-title-lg {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 800;
+	color: var(--aw-text);
+}
+
+[data-theme="light"] .feed-notif-title-lg {
+	color: var(--aw-text);
+}
+
+.feed-notif-head-actions {
+	display: flex;
+	gap: 6px;
+	flex: none;
+}
+
+.feed-notif-text-btn {
+	padding: 7px 10px;
+	font: inherit;
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--aw-text-soft);
+	background: transparent;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.feed-notif-text-btn:hover {
+	color: var(--aw-text);
+	border-color: var(--aw-accent);
+}
+
+.feed-notif-text-btn:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+}
+
+.feed-notif-text-btn:active {
+	transform: translateY(1px);
+}
+
+[data-theme="light"] .feed-notif-text-btn {
+	color: var(--aw-text-soft);
+}
+
+[data-theme="light"] .feed-notif-text-btn:hover {
+	color: var(--aw-text);
+}
+
+.feed-notif-list {
+	overflow-y: auto;
+	overflow-x: clip;
+	padding: 8px;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.feed-notif-empty {
+	margin: 10px 6px;
+	font-size: 13px;
+	line-height: 1.6;
+	color: var(--aw-text-soft);
+}
+
+[data-theme="light"] .feed-notif-empty {
+	color: var(--aw-text-soft);
+}
+
+.feed-notif-item {
+	padding: 10px 12px;
+	background: var(--aw-panel-2);
+	border: 1px solid var(--aw-line);
+	border-inline-start: 3px solid var(--aw-accent);
+	border-radius: 0;
+	cursor: pointer;
+	overflow-x: clip;
+}
+
+.feed-notif-item.is-read {
+	border-inline-start-color: var(--aw-line);
+	opacity: 0.72;
+}
+
+.feed-notif-item:hover {
+	border-color: var(--aw-accent);
+}
+
+.feed-notif-item-head {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 8px;
+}
+
+.feed-notif-type {
+	font-size: 11px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--aw-accent);
+}
+
+.feed-notif-time {
+	font-size: 11px;
+	color: var(--aw-text-soft);
+	flex: none;
+}
+
+[data-theme="light"] .feed-notif-time {
+	color: var(--aw-text-soft);
+}
+
+.feed-notif-title {
+	margin: 6px 0 2px;
+	font-size: 14px;
+	font-weight: 700;
+	color: var(--aw-text);
+}
+
+[data-theme="light"] .feed-notif-title {
+	color: var(--aw-text);
+}
+
+.feed-notif-body {
+	margin: 4px 0 0;
+	font-size: 13px;
+	line-height: 1.55;
+	color: var(--aw-text-soft);
+	overflow-wrap: anywhere;
+}
+
+[data-theme="light"] .feed-notif-body {
+	color: var(--aw-text-soft);
+}
+
+.feed-notif-link {
+	display: inline-block;
+	margin-top: 8px;
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--aw-accent);
+	text-decoration: none;
+	border-bottom: 1px solid var(--aw-accent);
+}
+
+.feed-notif-link:hover {
+	color: var(--aw-text);
+}
+
+/* ============ preferences modal ============ */
+.feed-notif-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 70;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 16px;
+	background: rgba(0, 0, 0, 0.55);
+	overflow-x: clip;
+}
+
+.feed-notif-modal-card {
+	width: min(480px, 100%);
+	max-height: min(82vh, 640px);
+	overflow-y: auto;
+	overflow-x: clip;
+	background: var(--aw-surface);
+	border: 1px solid var(--aw-line);
+	padding: 8px;
+}
+
+.feed-notif-modal-close .feed-ic {
+	width: 16px;
+	height: 16px;
+}
+
+.feed-notif-pref-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	padding: 12px;
+	border-bottom: 1px solid var(--aw-line);
+	cursor: pointer;
+}
+
+.feed-notif-pref-text {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	min-width: 0;
+}
+
+.feed-notif-pref-name {
+	font-size: 14px;
+	font-weight: 700;
+	color: var(--aw-text);
+}
+
+[data-theme="light"] .feed-notif-pref-name {
+	color: var(--aw-text);
+}
+
+.feed-notif-pref-hint {
+	font-size: 12px;
+	line-height: 1.5;
+	color: var(--aw-text-soft);
+}
+
+[data-theme="light"] .feed-notif-pref-hint {
+	color: var(--aw-text-soft);
+}
+
+.feed-notif-switch {
+	appearance: none;
+	flex: none;
+	width: 44px;
+	height: 24px;
+	margin: 0;
+	background: var(--aw-panel-2);
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	cursor: pointer;
+	position: relative;
+	transition: background 160ms ease, border-color 160ms ease;
+}
+
+.feed-notif-switch::after {
+	content: "";
+	position: absolute;
+	top: 2px;
+	inset-inline-start: 2px;
+	width: 18px;
+	height: 18px;
+	background: var(--aw-text-soft);
+	border-radius: 0;
+	transition: transform 160ms ease, background 160ms ease;
+}
+
+.feed-notif-switch:checked {
+	background: var(--aw-accent);
+	border-color: var(--aw-accent);
+}
+
+.feed-notif-switch:checked::after {
+	transform: translateX(20px);
+	background: var(--aw-bg);
+}
+
+[dir="rtl"] .feed-notif-switch:checked::after {
+	transform: translateX(-20px);
+}
+
+.feed-notif-switch:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+}
+
+.feed-notif-pref-foot {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	padding: 12px;
+}
+
+.feed-notif-clear {
+	color: var(--aw-danger, #c0392b);
+	border-color: var(--aw-danger, #c0392b);
+}
+
+[data-theme="light"] .feed-notif-clear {
+	color: var(--aw-danger, #a93226);
+}
+
+/* ============ the one polite browser-permission prompt ============ */
+.feed-notif-perm {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 10px 14px 0;
+	padding: 10px 12px;
+	background: var(--aw-panel-2);
+	border: 1px solid var(--aw-accent);
+	border-radius: 0;
+	overflow-x: clip;
+}
+
+.feed-notif-perm-ic .feed-ic {
+	width: 20px;
+	height: 20px;
+	color: var(--aw-accent);
+}
+
+.feed-notif-perm-text {
+	flex: 1;
+	min-width: 0;
+	font-size: 13px;
+	line-height: 1.5;
+	color: var(--aw-text);
+}
+
+[data-theme="light"] .feed-notif-perm-text {
+	color: var(--aw-text);
+}
+
+.feed-notif-perm-ok,
+.feed-notif-perm-no {
+	padding: 8px 14px;
+	font: inherit;
+	font-size: 13px;
+	font-weight: 700;
+	border-radius: 0;
+	cursor: pointer;
+}
+
+.feed-notif-perm-ok {
+	color: var(--aw-bg);
+	background: var(--aw-accent);
+	border: 1px solid var(--aw-accent);
+}
+
+.feed-notif-perm-ok:hover {
+	filter: brightness(1.1);
+}
+
+.feed-notif-perm-ok:focus-visible,
+.feed-notif-perm-no:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+}
+
+.feed-notif-perm-ok:active,
+.feed-notif-perm-no:active {
+	transform: translateY(1px);
+}
+
+.feed-notif-perm-no {
+	color: var(--aw-text-soft);
+	background: transparent;
+	border: 1px solid var(--aw-line);
+}
+
+.feed-notif-perm-no:hover {
+	color: var(--aw-text);
+}
+
+@media (max-width: 560px) {
+	.feed-notif-perm {
+		flex-wrap: wrap;
+	}
+}
