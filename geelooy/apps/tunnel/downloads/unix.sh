@@ -14,6 +14,14 @@ origin="${origin%/}"
 canonical_root="$HOME/.awtsmoos-tunnel"
 recovery_hint="${AWTSMOOS_RECOVERY_ROOT:-$HOME/.awtsmoos-tunnel-recovery}"
 
+# B"H — Yaakov 2026-10-14: ALWAYS clear the component cache on startup.
+# Stale cached files caused hours of "fix deployed but not working" confusion.
+# The bootstrap is piped directly (not cached), so this runs fresh every time.
+# This ensures all components are downloaded fresh from the API.
+if [ -d "$recovery_hint/cache" ]; then
+	rm -rf "$recovery_hint/cache" 2>/dev/null || true
+fi
+
 # --- Clever terminal presentation (Yaakov 2026-10-11: the install command must look smart) ---
 # --- Colorful & fun (Yaakov 2026-10-13: make it more colorful and fun!) ---
 # B"H — Yaakov 2026-10-14: ALWAYS beautiful, not just on TTY!
