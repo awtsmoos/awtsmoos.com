@@ -1,5 +1,5 @@
 B"H
-1.0.651
+1.0.652
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1305,6 +1305,7 @@ lib/local-api-catalog.js
 lib/local-api-content.js
 lib/local-api-health.js
 lib/local-api-limits.js
+lib/local-api-merkava.js
 lib/local-api-port-policy.js
 lib/local-api-readiness.js
 lib/local-api-response.js
@@ -1350,7 +1351,6 @@ lib/response-spill.js
 lib/response-values.js
 lib/responseContracts/index.js
 lib/responseContracts/registry.js
-lib/selfContained.js
 lib/runtime/action-identity.js
 lib/runtime/action-stream-query.js
 lib/runtime/action-stream-record.js
@@ -1556,6 +1556,7 @@ lib/self-update-state-files.js
 lib/self-update-state-owner.js
 lib/self-update-state.js
 lib/self-update.js
+lib/selfContained.js
 lib/share/audit.js
 lib/share/capability.js
 lib/share/policy.js

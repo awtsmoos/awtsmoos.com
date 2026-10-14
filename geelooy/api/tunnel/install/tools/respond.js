@@ -11,7 +11,13 @@
  * @returns {object} Dynamic response packet.
  */
 function sendText($i, text, mimeType) {
-  $i.response.statusCode = 200;
+  // B"H: never clobber an error status a publisher set before calling.
+  // publishDescriptor sets 500 on build failure; forcing 200 here made
+  // curl -fsSL download an error JSON as if it were a valid descriptor.
+  const current = $i.response.statusCode;
+  if (!current || current === 200) {
+    $i.response.statusCode = 200;
+  }
   $i.response.setHeader("Content-Type", mimeType || "text/plain; charset=utf-8");
 
   return {

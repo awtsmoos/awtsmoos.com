@@ -41,31 +41,81 @@ install_remediation_for() {
 }
 
 # The specific error card. Called by install_fail; never silent, never generic.
+# (Yaakov 2026-10-14): the box ALWAYS renders beautifully — beauty is not a
+# TTY privilege. Unicode borders when the locale supports UTF-8, ASCII
+# otherwise; colors when the progress module detected a TTY. Long text is
+# word-wrapped so the box never breaks.
 print_install_error_card() {
 	local phase="${1:-unknown}"
 	local message="${2:-The installation failed.}"
 	local detail="${3:-no further detail was recorded}"
 	local logfile="${INSTALL_LOG_FILE:-${AWTSMOOS_INSTALL_RUNTIME:-/tmp}/install.jsonl}"
-	local remediation
+	local label remediation
+	label="$(install_phase_label "$phase")"
 	remediation="$(install_remediation_for "$phase")"
-	finish_install_progress_line
-	if [ "${PRG_TTY:-0}" = "1" ]; then
-		printf '\n' >&2
-		printf '%s  ╭─ ✕ INSTALLATION FAILED ───────────────────────────╮%s\n' "$PRG_C_RED" "$PRG_C_OFF" >&2
-		printf '%s  │%s  Phase: %s%-41s %s│%s\n' "$PRG_C_RED" "$PRG_C_OFF" "$PRG_C_BOLD" "$phase" "$PRG_C_RED" "$PRG_C_OFF" >&2
-		printf '%s  ├──────────────────────────────────────────────────┤%s\n' "$PRG_C_RED" "$PRG_C_OFF" >&2
-		printf '%s  │%s  What: %s%s\n' "$PRG_C_RED" "$PRG_C_OFF" "$message" >&2
-		printf '%s  │%s  Why:  %s%s\n' "$PRG_C_RED" "$PRG_C_OFF" "$detail" >&2
-		printf '%s  │%s  Fix:  %s%s\n' "$PRG_C_RED" "$PRG_C_OFF" "$remediation" >&2
-		printf '%s  │%s  Log:  %s%s\n' "$PRG_C_RED" "$PRG_C_DIM" "$logfile" "$PRG_C_OFF" >&2
-		printf '%s  ╰──────────────────────────────────────────────────╯%s\n' "$PRG_C_RED" "$PRG_C_OFF" >&2
-	else
-		printf '\n[INSTALLATION FAILED] phase=%s\n' "$phase" >&2
-		printf '  what: %s\n' "$message" >&2
-		printf '  why:  %s\n' "$detail" >&2
-		printf '  fix:  %s\n' "$remediation" >&2
-		printf '  log:  %s\n' "$logfile" >&2
+	if declare -F finish_install_progress_line >/dev/null 2>&1; then
+		finish_install_progress_line
 	fi
+
+	local c_red="${PRG_C_RED:-}" c_off="${PRG_C_OFF:-}"
+	local tl='+' trc='+' bl='+' brc='+' h='-' v='|' sep_l='+' sep_r='+'
+	if [ "${EVT_SYM_OK:-0}" = "1" ]; then
+		tl='╭'; trc='╮'; bl='╰'; brc='╯'; h='─'; v='│'; sep_l='├'; sep_r='┤'
+	fi
+	local width="${COLUMNS:-78}"
+	case "$width" in ''|*[!0-9]*) width=78 ;; esac
+	[ "$width" -gt 96 ] && width=96
+	[ "$width" -lt 48 ] && width=48
+	local inner=$((width - 4))
+
+	_err_box_top() {
+		local i line=""
+		for ((i = 0; i < inner + 2; i++)); do line="${line}${h}"; done
+		printf '%s%s%s%s%s\n' "$c_red" "$tl" "$line" "$trc" "$c_off" >&2
+	}
+	_err_box_bottom() {
+		local i line=""
+		for ((i = 0; i < inner + 2; i++)); do line="${line}${h}"; done
+		printf '%s%s%s%s%s\n' "$c_red" "$bl" "$line" "$brc" "$c_off" >&2
+	}
+	_err_box_sep() {
+		local i line=""
+		for ((i = 0; i < inner + 2; i++)); do line="${line}${h}"; done
+		printf '%s%s%s%s%s\n' "$c_red" "$sep_l" "$line" "$sep_r" "$c_off" >&2
+	}
+	_err_box_row() { # $1 = already-padded content
+		printf "%s%s %-${inner}s %s%s\n" "$c_red" "$v" "$1" "$v" "$c_off" >&2
+	}
+	_err_box_field() { # $1 = field label, $2 = text (word-wrapped)
+		local lab="$1" text="$2" first=1 chunk
+		local labw=$((${#lab} + 2))
+		local textw=$((inner - labw))
+		[ "$textw" -lt 20 ] && textw=20
+		while IFS= read -r chunk; do
+			if [ "$first" = "1" ]; then
+				printf "%s%s %-${labw}s%-${textw}s %s%s\n" \
+					"$c_red" "$v" "${lab}:" "$chunk" "$v" "$c_off" >&2
+				first=0
+			else
+				printf "%s%s %-${labw}s%-${textw}s %s%s\n" \
+					"$c_red" "$v" "" "$chunk" "$v" "$c_off" >&2
+			fi
+		done < <(printf '%s\n' "$text" | fold -s -w "$textw")
+		[ "$first" = "1" ] && _err_box_row "${lab}:"
+	}
+
+	local cross='X'
+	[ "${EVT_SYM_OK:-0}" = "1" ] && cross='✕'
+	printf '\n' >&2
+	_err_box_top
+	_err_box_row "${cross} INSTALLATION FAILED"
+	_err_box_row "Phase: ${label}"
+	_err_box_sep
+	_err_box_field "What" "$message"
+	_err_box_field "Why" "$detail"
+	_err_box_field "Fix" "$remediation"
+	_err_box_field "Log" "$logfile"
+	_err_box_bottom
 }
 
 # Run a command with a hard timeout. Usage:
