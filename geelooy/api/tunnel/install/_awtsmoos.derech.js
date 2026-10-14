@@ -142,20 +142,38 @@ function publishDescriptor($i) {
 
 /** Publishes the full agent ZIP; rescue script requests never execute this path. */
 function publishAgentZip($i) {
-	const bundle = buildAgentBundle();
-	$i.response.statusCode = 200;
-	$i.response.setHeader("Content-Type", "application/zip");
-	$i.response.setHeader(
-		"Content-Disposition",
-		'attachment; filename="awtsmoos-agent.zip"'
-	);
-	$i.response.setHeader("X-Awtsmoos-SHA256", bundle.sha256);
-	$i.response.setHeader("X-Awtsmoos-Manifest-SHA256", bundle.manifestSha256);
-	$i.response.setHeader("Content-Length", String(bundle.bytes));
-	return {
-		mimeType: "application/zip",
-		response: bundle.buffer
-	};
+	try {
+		const bundle = buildAgentBundle();
+		$i.response.statusCode = 200;
+		$i.response.setHeader("Content-Type", "application/zip");
+		$i.response.setHeader(
+			"Content-Disposition",
+			'attachment; filename="awtsmoos-agent.zip"'
+		);
+		$i.response.setHeader("X-Awtsmoos-SHA256", bundle.sha256);
+		$i.response.setHeader("X-Awtsmoos-Manifest-SHA256", bundle.manifestSha256);
+		$i.response.setHeader("Content-Length", String(bundle.bytes));
+		return {
+			mimeType: "application/zip",
+			response: bundle.buffer
+		};
+	} catch (err) {
+		// B"H — Yaakov 2026-10-14 STANDING RULE: All 500 errors must show full stack trace.
+		$i.response.statusCode = 500;
+		$i.response.setHeader("Content-Type", "application/json");
+		return {
+			mimeType: "application/json",
+			response: JSON.stringify({
+				BH: "B\"H",
+				error: {
+					message: err.message,
+					code: "AGENT_ZIP_ERROR",
+					statusCode: 500,
+					stackTrace: err.stack
+				}
+			})
+		};
+	}
 }
 
 /** Applies public no-cache headers to installer and rescue responses. */
