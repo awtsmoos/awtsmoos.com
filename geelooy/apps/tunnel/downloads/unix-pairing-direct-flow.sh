@@ -44,9 +44,12 @@ direct_pairing_request() {
 		--device-name "$(hostname 2>/dev/null || echo "tunnel-device")" \
 		--platform "$(uname -s 2>/dev/null)-$(uname -m 2>/dev/null)" \
 		2>/dev/null)" || {
-		install_fail "direct-pairing" \
-			"Could not create a pairing request." \
-			"Check network connectivity to awtsmoos.com."
+		# B"H — Yaakov 2026-10-14: Pairing is optional. If the control API is
+		# unavailable (e.g., testing on production), warn and continue instead
+		# of failing the entire installation. The agent can be paired later.
+		printf '%s\n' "⚠️  Pairing skipped: could not create pairing request (control API unavailable)." >&2
+		printf '%s\n' "   The tunnel agent is installed and will work. Pair manually later if needed." >&2
+		return 1
 	}
 	local ok
 	ok="$(printf '%s' "$result" | "$AWTSMOOS_NODE_BIN" -e '
@@ -269,7 +272,15 @@ NODE
 # starting a candidate for the pairing step on fresh installs.
 direct_pairing_flow() {
 	local tunnel_name="${1:-}"
-	direct_pairing_request "$tunnel_name"
+	# B"H — Yaakov 2026-10-14: If the pairing request fails (e.g., control API
+	# unavailable), skip the entire pairing flow gracefully. The agent is
+	# installed and can be paired later. Do NOT fail the installation.
+	if ! direct_pairing_request "$tunnel_name"; then
+		printf '%s\n' "ℹ️  Continuing without pairing. The installation will complete." >&2
+		export AWTSMOOS_DIRECT_PAIRING_DONE=1
+		export AWTSMOOS_PAIRING_SKIPPED=1
+		return 0
+	fi
 	if ! direct_pairing_wait_for_approval; then
 		install_fail "direct-pairing" \
 			"Pairing was not approved." \
