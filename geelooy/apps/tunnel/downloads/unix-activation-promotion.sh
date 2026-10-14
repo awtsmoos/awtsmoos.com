@@ -61,7 +61,9 @@ promote_candidate_root() {
 start_promoted_candidate() {
 	local rollback="$1"
 	local failed="$2"
+	install_event "startup" "started" "Starting tunnel agent"
 	start_supervisor
+	prg_info "Agent handed to the supervisor…"
 	# B"H — Yaakov 2026-10-14: do not hang waiting for the agent to become
 	# "stably active". The credential is provisioned; the supervisor will
 	# keep the agent running and it will connect. Declare success immediately

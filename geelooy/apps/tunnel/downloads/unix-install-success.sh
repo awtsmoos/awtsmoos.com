@@ -19,38 +19,58 @@ workspace_status_label() {
 	fi
 }
 
-print_install_success_card() {
-	local version="$1"
-	local tunnel_name="$2"
-	local tunnel_id="$3"
-	local project_root="$4"
-	local workspace_status="$5"
-	local control_url="$6"
-	local B="" G="" D="" O=""
+print_tunnel_online_card() {
+	local tunnel_id="$1"
+	local device_name="$2"
+	local control_url="$3"
+	local version="${4:-}"
+	local G="" B="" D="" O=""
 	if [ "${PRG_TTY:-0}" = "1" ]; then
-		B="$PRG_C_BOLD"; G="$PRG_C_GREEN"; D="$PRG_C_DIM"; O="$PRG_C_OFF"
+		G="$PRG_C_GREEN"; B="$PRG_C_BOLD"; D="$PRG_C_DIM"; O="$PRG_C_OFF"
 	fi
-	printf '\n%s\n' "${G}============================================================${O}"
-	printf '%s\n' "${B}B\"H  AWTSMOOS TUNNEL VERIFIED, GUARDED, AND CONNECTED${O}"
-	printf '%s\n' "${G}============================================================${O}"
-	printf 'Tunnel name : %s%s%s\n' "$B" "$tunnel_name" "$O"
-	printf 'Tunnel ID   : %s\n' "$tunnel_id"
-	printf 'Workspace   : %s\n' "$project_root"
-	printf 'Workspace   : %s\n' "$workspace_status"
-	printf 'Guardian    : %s\n' "$(service_health_summary)"
-	printf 'Version     : %s\n' "$version"
-	printf 'Control     : %s\n\n' "$control_url"
-	printf '%s\n' "${D}Remote access — this machine is reachable from Awtsmoos:${O}"
-	printf '  Target it by Tunnel ID: %s%s%s\n' "$B" "$tunnel_id" "$O"
-	printf '  File transfer: native chunked + resumable transfer over the tunnel\n'
-	printf '                 (per-chunk SHA-256, auto-resume, atomic commit).\n'
-	printf '  Agents on the Awtsmoos side can push and pull files to this\n'
-	printf '  machine through the tunnel without any extra setup.\n\n'
-	printf '%s\n' "${D}Durable local repair:${O}"
-	printf '%s\n' "$ROOT/awtsmoos-tunnel-service.sh repair"
-	printf '%s\n' "${D}Universal self-healing reinstall or upgrade:${O}"
-	printf '%s\n' 'curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | AWTSMOOS_RESTART=1 bash'
-	printf '%s\n' "${G}============================================================${O}"
+	# B"H — truncate so the box never breaks on long names.
+	local id_show="$tunnel_id" name_show="$device_name"
+	[ "${#id_show}" -gt 34 ] && id_show="${id_show:0:33}…"
+	[ "${#name_show}" -gt 34 ] && name_show="${name_show:0:33}…"
+	if [ "${PRG_TTY:-0}" != "1" ]; then
+		printf '\n✓ TUNNEL ONLINE\n' >&2
+		printf 'This machine is now connected via Awtsmoos Tunnel.\n\n' >&2
+		printf '✓ Device paired and registered\n' >&2
+		printf '✓ Secure credential provisioned\n' >&2
+		printf '✓ Agent running and connected\n' >&2
+		printf '✓ Guardian watching over it\n\n' >&2
+		printf 'Tunnel ID: %s\n' "$tunnel_id" >&2
+		printf 'Device:    %s\n' "$device_name" >&2
+		[ -n "$control_url" ] && printf 'Manage:    %s\n' "$control_url" >&2
+		[ -n "$version" ] && [ "$version" != "unknown" ] && printf 'Version:   %s\n' "$version" >&2
+		printf '\n' >&2
+		return 0
+	fi
+	# _toc <colored-text> <visible-length> — pads to the 46-char content width.
+	_toc() {
+		local text="$1" vlen="$2" pad
+		pad=$(( 46 - vlen ))
+		[ "$pad" -lt 0 ] && pad=0
+		printf '║  %s%*s  ║\n' "$text" "$pad" "" >&2
+	}
+	local rule="══════════════════════════════════════════════════"
+	printf '\n' >&2
+	printf '%s╔%s╗%s\n' "$G" "$rule" "$O" >&2
+	_toc "${G}✓${O}  ${B}TUNNEL ONLINE${O}" 16
+	printf '%s╠%s╣%s\n' "$G" "$rule" "$O" >&2
+	_toc "${D}This machine is now connected.${O}" 30
+	_toc "" 0
+	_toc "${G}✓${O} Device paired and registered" 30
+	_toc "${G}✓${O} Secure credential provisioned" 31
+	_toc "${G}✓${O} Agent running and connected" 29
+	_toc "${G}✓${O} Guardian watching over it" 27
+	printf '%s╠%s╣%s\n' "$G" "$rule" "$O" >&2
+	_toc "${D}Tunnel ID:${O} ${B}${id_show}${O}" $(( 11 + ${#id_show} ))
+	_toc "${D}Device:   ${O} ${B}${name_show}${O}" $(( 11 + ${#name_show} ))
+	printf '%s╚%s╝%s\n' "$G" "$rule" "$O" >&2
+	[ -n "$control_url" ] && printf '%sManage: %s%s\n' "$D" "$control_url" "$O" >&2
+	[ -n "$version" ] && [ "$version" != "unknown" ] && printf '%sVersion: %s%s\n' "$D" "$version" "$O" >&2
+	printf '\n' >&2
 }
 
 # Headless operator card (Yaakov 2026-10-14): for agent-only / server / GPU
@@ -64,20 +84,44 @@ print_headless_operator_card() {
 	if [ "${PRG_TTY:-0}" = "1" ]; then
 		B="$PRG_C_BOLD"; D="$PRG_C_DIM"; C="$PRG_C_CYAN"; O="$PRG_C_OFF"
 	fi
-	printf '\n%s\n' "${C}============================================================${O}"
-	printf '%s\n' "${B}  HEADLESS MACHINE READY — hand this to the Awtsmoos side${O}"
-	printf '%s\n' "${C}============================================================${O}"
-	printf '  Tunnel name : %s%s%s\n' "$B" "$tunnel_name" "$O"
-	printf '  Tunnel ID   : %s%s%s\n' "$B" "$tunnel_id" "$O"
-	printf '\n'
-	printf '  %sThis machine is reachable from Awtsmoos through the tunnel.%s\n' "$D" "$O"
-	printf '  %sTarget it by the Tunnel ID above.%s\n' "$D" "$O"
-	printf '  %sFile transfer works over the tunnel: chunked, resumable,%s\n' "$D" "$O"
-	printf '  %sSHA-256 verified — no extra setup needed on this box.%s\n' "$D" "$O"
-	printf '\n'
-	printf '  Manage it: %s\n' "$control_url"
-	printf '%s\n' "${C}============================================================${O}"
-	printf '\n'
+	local name_show="$tunnel_name" id_show="$tunnel_id" url_show="$control_url"
+	[ "${#name_show}" -gt 33 ] && name_show="${name_show:0:32}…"
+	[ "${#id_show}" -gt 33 ] && id_show="${id_show:0:32}…"
+	[ "${#url_show}" -gt 44 ] && url_show="${url_show:0:43}…"
+	if [ "${PRG_TTY:-0}" != "1" ]; then
+		printf '\nHEADLESS MACHINE READY — hand this to the Awtsmoos side\n' >&2
+		printf 'Tunnel name : %s\n' "$tunnel_name" >&2
+		printf 'Tunnel ID   : %s\n' "$tunnel_id" >&2
+		printf '\nThis machine is reachable from Awtsmoos through the tunnel.\n' >&2
+		printf 'Target it by the Tunnel ID above.\n' >&2
+		printf 'File transfer works over the tunnel: chunked, resumable,\n' >&2
+		printf 'SHA-256 verified — no extra setup needed on this box.\n\n' >&2
+		printf 'Manage it: %s\n\n' "$control_url" >&2
+		return 0
+	fi
+	_hoc() {
+		local text="$1" vlen="$2" pad
+		pad=$(( 46 - vlen ))
+		[ "$pad" -lt 0 ] && pad=0
+		printf '║  %s%*s  ║\n' "$text" "$pad" "" >&2
+	}
+	local rule="══════════════════════════════════════════════════"
+	printf '\n' >&2
+	printf '%s╔%s╗%s\n' "$C" "$rule" "$O" >&2
+	_hoc "${B}HEADLESS MACHINE READY${O}" 22
+	_hoc "${D}hand this to the Awtsmoos side${O}" 30
+	printf '%s╠%s╣%s\n' "$C" "$rule" "$O" >&2
+	_hoc "${D}Tunnel name:${O} ${B}${name_show}${O}" $(( 13 + ${#name_show} ))
+	_hoc "${D}Tunnel ID:  ${O} ${B}${id_show}${O}" $(( 13 + ${#id_show} ))
+	_hoc "" 0
+	_hoc "${D}Reachable from Awtsmoos through the tunnel.${O}" 43
+	_hoc "${D}File transfer over the tunnel:${O}" 30
+	_hoc "${D}chunked, resumable, SHA-256 verified.${O}" 37
+	printf '%s╠%s╣%s\n' "$C" "$rule" "$O" >&2
+	_hoc "${D}Manage this tunnel:${O}" 19
+	_hoc "${C}${url_show}${O}" "${#url_show}"
+	printf '%s╚%s╝%s\n' "$C" "$rule" "$O" >&2
+	printf '\n' >&2
 }
 
 print_skip_start_card() {
@@ -142,8 +186,7 @@ complete_install_experience() {
 	install_event "complete" "passed" \
 		"Installation ended with relay, guardian, and recovery-lane readiness." \
 		"version=$version phase=$phase pid=$agent_pid tunnelId=$tunnel_id workspace=$workspace_status"
-	print_install_success_card "$version" "$tunnel_name" "$tunnel_id" \
-		"$project_root" "$workspace_status" "$control_url"
+	print_tunnel_online_card "$tunnel_id" "$tunnel_name" "$control_url" "$version"
 	if [ "$(install_mode)" = "agent-only" ]; then
 		print_headless_operator_card "$tunnel_name" "$tunnel_id" "$control_url"
 	fi

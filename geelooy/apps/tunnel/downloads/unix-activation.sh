@@ -37,6 +37,7 @@ activate_fresh() {
 			"Could not promote the paired candidate." \
 			"candidate=$CANDIDATE_ROOT root=$ROOT"
 	fi
+	prg_ok "Paired runtime promoted"
 	start_promoted_candidate "$displaced" "$failed"
 	return 0
 }
@@ -58,6 +59,7 @@ activate_update() {
 			"Candidate promotion failed; predecessor path was restored." \
 			"candidate=$CANDIDATE_ROOT root=$ROOT rollback=$rollback"
 	fi
+	prg_ok "Registered candidate promoted"
 	start_promoted_candidate "$rollback" "$failed"
 }
 
