@@ -250,8 +250,8 @@ prg_draw_display() {
 			case $(( RANDOM % 4 )) in
 				0) bar="${bar}${PRG_C_CYAN}✧${PRG_C_OFF}" ;;
 				1) bar="${bar}${PRG_C_MAGENTA}⋆${PRG_C_OFF}" ;;
-				2) bar="${bar}${PRG_C_BLUE}✩${PRG_C_OFF}" ;;
-				3) bar="${bar}${PRG_C_YELLOW:-$PRG_C_GOLD}✶${PRG_C_OFF}" ;;
+				2) bar="${bar}${PRG_C_CYAN}✩${PRG_C_OFF}" ;;
+				3) bar="${bar}${PRG_C_GOLD}✶${PRG_C_OFF}" ;;
 			esac
 		else
 			bar="${bar}${PRG_C_GREEN}█${PRG_C_OFF}"
@@ -283,7 +283,7 @@ prg_draw_display() {
 	local spinner_frames="⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
 	local spinner="${spinner_frames:$PRG_SPINNER_IDX:1}"
 	# Single continuous line with magical particles, animated emoji, and spinner
-	local line="$(printf ' %s%s%s %s%3d%%%s [%s] %s%s%s%s' \
+	local line="$(printf ' %s%s %s%3d%%%s [%s] %s%s%s%s' \
 		"$anim_emoji" \
 		"${PRG_C_CYAN}${spinner}${PRG_C_OFF}" \
 		"$PRG_C_GOLD" "$pct" "$PRG_C_OFF" \
