@@ -58,6 +58,24 @@ body{
 	0%,100%{background-position:0% 50%}
 	50%{background-position:100% 50%}
 }
+/* B"H — Yaakov 2026-10-14: Floating magical stars! */
+body::before{
+	content:"✦ ✧ ⋆ ✩ ✶";
+	position:fixed; top:10%; left:0; right:0; text-align:center;
+	font-size:24px; letter-spacing:2em; color:rgba(77,166,255,.15);
+	animation:floatStars 20s linear infinite; pointer-events:none;
+}
+body::after{
+	content:"⋆ ✩ ✦ ✧ ✶";
+	position:fixed; bottom:10%; left:0; right:0; text-align:center;
+	font-size:18px; letter-spacing:3em; color:rgba(157,77,255,.12);
+	animation:floatStars 25s linear infinite reverse; pointer-events:none;
+}
+@keyframes floatStars{
+	0%{transform:translateX(-50px); opacity:.3}
+	50%{opacity:.8}
+	100%{transform:translateX(50px); opacity:.3}
+}
 .card{
 	width:100%; max-width:430px; background:var(--card);
 	border:1px solid var(--line); padding:34px 30px 30px;
