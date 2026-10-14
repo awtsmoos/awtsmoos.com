@@ -93,8 +93,19 @@ function loadTexture(url, repeatX = 1, repeatY = 1) {
 // Works on regular Mesh AND InstancedMesh (ifdef handles instanceMatrix).
 // The Sobel-derived normalMap stays for micro-surface detail — math for
 // large structure, texture for micro. 60fps: ~15 ALU in fragment.
-function applyProceduralBark(mat) {
+// B"H — BAKED BARK SHADER (Yaakov 2026-10-14 DIRECTION CORRECTION:
+// "ALGORITHMS are for PLACEMENT; TEXTURES are PREMADE").
+// The in-shader procedural fissures were the wrong approach. Now:
+// - Bark albedo/normal/roughness are PREMADE (textures/baked/bark-*.png,
+//   baked deterministically via textures/gen/bake-bark.py, plan §32).
+// - Sampled tiled in world space (cylindrical UVs for trunks).
+// - Shader keeps ONLY: lighting, moss-colonization blend, wetness darkening.
+// - Moss color is PREMADE (mossy bark texture), not procedural.
+function applyBakedBark(mat, barkAlbedoTex, barkRoughTex, mossTex) {
   mat.onBeforeCompile = (shader) => {
+    shader.uniforms.uBarkAlbedo = { value: barkAlbedoTex };
+    shader.uniforms.uBarkRough = { value: barkRoughTex };
+    shader.uniforms.uMossAlbedo = { value: mossTex };
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', `#include <common>
         varying vec3 vBarkWPos; varying vec3 vBarkWNormal;`)
@@ -113,61 +124,44 @@ function applyProceduralBark(mat) {
     shader.fragmentShader = shader.fragmentShader
       .replace('#include <common>', `#include <common>
         varying vec3 vBarkWPos; varying vec3 vBarkWNormal;
-        float bh_hash(vec2 p) {
-          p = fract(p * vec2(234.34, 435.345));
-          p += dot(p, p + 34.23);
-          return fract(p.x * p.y);
-        }
-        float bh_noise(vec2 p) {
-          vec2 i = floor(p), f = fract(p);
-          vec2 u = f * f * (3.0 - 2.0 * f);
-          float a = bh_hash(i), b = bh_hash(i + vec2(1.0, 0.0));
-          float c = bh_hash(i + vec2(0.0, 1.0)), d = bh_hash(i + vec2(1.0, 1.0));
-          return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
-        }
-        float bh_fbm(vec2 p) {
-          float v = 0.0, a = 0.5;
-          for (int k = 0; k < 4; k++) { v += a * bh_noise(p); p *= 2.03; a *= 0.5; }
-          return v;
+        uniform sampler2D uBarkAlbedo, uBarkRough, uMossAlbedo;
+        // cheap hash for moss-placement breakup (distribution, not surface)
+        float barkHash(vec2 p) {
+          return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
         }`)
       .replace('#include <map_fragment>', `{
           vec3 bwp = vBarkWPos;
           vec3 bwn = normalize(vBarkWNormal);
-          // B"H commit 3: CYLINDRICAL bark — fissures in angle/height space so
-          // they read at real scale (old world-xz frequencies aliased to flat
-          // mud on thin trunks). 10-16 plates around, cracks run vertically.
+          // cylindrical UVs: seamless around trunk, tiled vertically
           float ang = atan(bwp.z, bwp.x);
-          vec2 around = vec2(cos(ang), sin(ang)); // seamless around trunk
-          float plate = bh_fbm(around * 2.5 + vec2(0.0, bwp.y * 0.30));
-          float fr = 1.0 - abs(2.0 * bh_fbm(around * 6.0 + vec2(3.1, bwp.y * 0.9)) - 1.0);
-          float fiss = smoothstep(0.30, 0.80, fr);
-          float grain = bh_fbm(around * 14.0 + vec2(7.7, bwp.y * 3.0));
-          // B"H commit 3: HIGH-CONTRAST bark — near-black cracks, warm light
-          // plates. Must read in backlight shadow.
-          vec3 barkCol = mix(vec3(0.05, 0.035, 0.025), vec3(0.45, 0.36, 0.26),
-                              clamp(fiss * 0.85 + plate * 0.35, 0.0, 1.0));
-          barkCol *= 0.80 + 0.40 * grain;
-          // moss: up-facing + noise breakup, concentrated low on trunk
-          float mossN = bh_fbm(bwp.xz * 2.0 + 3.1);
+          vec2 barkUV = vec2((ang / 6.2831853 + 0.5) * 3.0, bwp.y * 0.35);
+          // PREMADE bark albedo (fissure plates, cracks, grain all baked)
+          vec3 barkCol = texture2D(uBarkAlbedo, barkUV).rgb;
+          // moss colonization: WHERE moss grows (placement logic) —
+          // up-facing + low on trunk + noisy breakup. Moss SURFACE is premade.
           float upFace = clamp(bwn.y * 0.5 + 0.5, 0.0, 1.0);
-          float mossMask = smoothstep(0.45, 0.8, upFace * 0.6 + mossN * 0.55);
+          float mBreak = barkHash(floor(bwp.xz * 8.0) + floor(bwp.y * 4.0));
+          float mossMask = smoothstep(0.45, 0.75, upFace * 0.65 + mBreak * 0.45);
           mossMask *= 1.0 - smoothstep(2.0, 7.0, bwp.y);
-          vec3 mossCol = mix(vec3(0.10, 0.20, 0.05), vec3(0.30, 0.44, 0.15), mossN);
+          vec3 mossCol = texture2D(uMossAlbedo, barkUV * 2.0).rgb;
           vec3 col = mix(barkCol, mossCol, clamp(mossMask, 0.0, 1.0));
-          col *= 0.70 + 0.50 * fiss; // crevice AO
-          // B"H — preserve per-instance tint (branch wood uses instanceColor
-          // for bark/moss variation); color_fragment already multiplied it
-          // into diffuseColor, so re-apply here after override.
+          // wetness darkening: near water level
+          float wet = 1.0 - smoothstep(0.0, 1.5, bwp.y - (-0.35));
+          col *= 1.0 - wet * 0.35;
+          // preserve per-instance tint (branch wood uses instanceColor)
           #ifdef USE_INSTANCING_COLOR
             col *= vColor;
           #endif
           diffuseColor.rgb = col;
+        }`)
+      .replace('#include <roughnessmap_fragment>', `{
+          vec3 bwp2 = vBarkWPos;
+          float ang2 = atan(bwp2.z, bwp2.x);
+          vec2 ruv = vec2((ang2 / 6.2831853 + 0.5) * 3.0, bwp2.y * 0.35);
+          float roughnessFactor = texture2D(uBarkRough, ruv).g;
         }`);
+    mat.customProgramCacheKey = () => 'baked-bark-v1';
   };
-  // B"H — distinct program cache key: three.js caches compiled programs by
-  // onBeforeCompile.toString(); the closure is identical per call, so set a
-  // customProgramCacheKey to avoid collisions with non-bark materials.
-  mat.customProgramCacheKey = () => 'procedural-bark-v1';
 }
 // B"H — normal maps must stay LINEAR (NoColorSpace). sRGB-decoding a normal
 // map corrupts the vectors (Yaakov 2026-10-13: "never enough textures,
@@ -683,7 +677,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
          leafClusterTex, denseCanopyTex, backlitCanopyTex, impostorTex1, impostorTex2, impostorTex3, impostorTex4,
          pebbleTex, fallenLogTex, leafLitterTex,
          barkNormalTex, mossNormalTex, pebbleNormalTex, wetRockNormalTex,
-         waterRippleNormalTex, leafVeinNormalTex] = await Promise.all([
+         waterRippleNormalTex, leafVeinNormalTex,
+         bakedBarkAlbedoTex, bakedBarkNormalTex, bakedBarkRoughTex] = await Promise.all([
     loadTexture(TEX + 'grass1.jpg', 30, 30),
     loadTexture(TEX + 'dirt1.jpg', 40, 3),
     loadTexture(TEX + 'bark1.webp', 1, 2),
@@ -729,6 +724,12 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     loadNormalTexture(TEX + 'new/tex-wet-rock-normal.webp', 1, 1),
     loadNormalTexture(TEX + 'new/tex-water-ripple-normal.webp', 24, 24),
     loadNormalTexture(TEX + 'new/tex-leaf-vein-normal.webp', 1, 1),
+    // B"H — DIRECTION CORRECTION (Yaakov 2026-10-14): premade bark maps, baked
+    // deterministically via textures/gen/bake-bark.py (plan §32 recipe).
+    // In-shader procedural fissures REMOVED — textures are premade.
+    loadTexture(TEX + 'baked/bark-albedo.png', 3, 3),
+    loadNormalTexture(TEX + 'baked/bark-normal.png', 3, 3),
+    loadTexture(TEX + 'baked/bark-rough.png', 3, 3),
   ]);
   mark('textures');
 
@@ -986,6 +987,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       uSky: { value: new THREE.Color(0xd8ecef) },
       uFogColor: { value: new THREE.Color(T.fog) },
       uFogNear: { value: T.fogNear },
+      // B"H — DIRECTION CORRECTION: premade pebble texture (not procedural).
+      uPebbleMap: { value: pebbleTex },
       uFogFar: { value: T.fogFar },
     },
   ]);
@@ -1005,6 +1008,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       fragmentShader: `varying vec2 vUv; varying vec3 vPos;
         uniform float uTime, uFogNear, uFogFar;
         uniform vec3 uSunDir, uGlitterDir, uDeep, uShallow, uSky, uFogColor;
+        uniform sampler2D uPebbleMap;
         // B"H — 99% water rewrite (Yaakov: "Especially water shaders").
         // Growth-rule approach: water follows terrain.
         // - Flow direction follows the river curve (tangent), not uniform -v
@@ -1054,19 +1058,13 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           float glint = pow(gdot, 900.0);
           // Twinkle: each sparkle cell shimmers independently
           float tw = 0.3 + 0.7*(0.5 + 0.5*sin(uTime*8.0 + hash22(floor(pw*9.0))*43.0));
-          // Pebble bed: procedural stones, refracted by surface ripple
-          vec2 gp = pw*4.2 + grad*2.0;
-          vec2 gid = floor(gp); vec2 gf = fract(gp);
-          vec2 pc = vec2(0.5) + (vec2(hash22(gid+7.3), hash22(gid+3.1))-0.5)*0.6;
-          float pd = length((gf-pc)*vec2(1.0,1.25));
-          float peb = smoothstep(0.46, 0.36, pd);
-          float prnd = hash22(gid+1.7);
-          // B"H commit 8: warmed pebbles (were gray 0.25-0.48, read as dry concrete)
-          vec3 pebCol = mix(vec3(0.32,0.28,0.22), vec3(0.55,0.50,0.42), prnd);
-          pebCol *= 0.8 + 0.4*hash22(gid+9.2);
+          // Pebble bed: PREMADE texture (tex-pebbles.webp), refracted by ripple.
+          // B"H — DIRECTION CORRECTION: was procedural hash pebbles in-shader.
+          vec2 pebUV = pw * 0.35 + grad * 0.5; // tiled, ripple-refracted
+          vec3 pebCol = texture2D(uPebbleMap, pebUV).rgb;
           // Wet darkening: pebbles darker where submerged deeper
-          pebCol *= mix(0.55, 1.0, 1.0-depth*0.5);
-          vec3 bed = mix(vec3(0.18,0.16,0.13), pebCol, peb);
+          pebCol *= mix(0.55, 1.0, 1.0 - depth * 0.5);
+          vec3 bed = pebCol;
           // Water body color: depth-graded, NOT uniform teal
           vec3 col = mix(uShallow, uDeep, smoothstep(0.0, 0.9, depth));
           // Bed shows through: strong in shallows, faint in deep center
@@ -1151,13 +1149,14 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
 /* trees — ez-tree-derived procedural generator, real bark + canopy photos */
   const barkMat = new THREE.MeshStandardMaterial({
     roughness: 0.95,
-    // B"H — albedo is FULLY procedural (applyProceduralBark): UV-independent
-    // FBM fissures + world-normal moss. Sobel normalMap stays for micro detail.
-    normalMap: barkNormalTex, normalScale: new THREE.Vector2(1.6, 1.6),
-    color: new THREE.Color(0.95, 0.90, 0.82),
+    // B"H — DIRECTION CORRECTION: albedo is PREMADE (applyBakedBark samples
+    // textures/baked/bark-albedo.png tiled in world space). normalMap uses
+    // the baked bark normal for micro relief.
+    normalMap: bakedBarkNormalTex, normalScale: new THREE.Vector2(1.6, 1.6),
+    color: new THREE.Color(1.0, 1.0, 1.0),
     emissive: new THREE.Color(0.04, 0.03, 0.02),
   });
-  applyProceduralBark(barkMat);
+  applyBakedBark(barkMat, bakedBarkAlbedoTex, bakedBarkRoughTex, mossyBarkTex);
   // B"H DIAGNOSTIC — wireframe if trunks are barkMat (remove after test)
   // barkMat.wireframe = true;
   const canopyMat = new THREE.MeshStandardMaterial({
@@ -1431,10 +1430,11 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       roughness: 1.0,
       // B"H — procedural bark albedo (UV-independent); per-instance colors
       // preserved via vColor in the shader. normalMap adds micro relief.
-      normalMap: barkNormalTex, normalScale: new THREE.Vector2(1.0, 1.0),
+      // B"H — DIRECTION CORRECTION: premade baked bark normal.
+      normalMap: bakedBarkNormalTex, normalScale: new THREE.Vector2(1.0, 1.0),
       color: new THREE.Color(0xffffff), // per-instance colors carry bark/moss tint
     });
-    applyProceduralBark(segMat);
+    applyBakedBark(segMat, bakedBarkAlbedoTex, bakedBarkRoughTex, mossyBarkTex);
     const segInst = new THREE.InstancedMesh(segGeo, segMat, segs.length);
     const sv = new THREE.Vector3(), sq = new THREE.Quaternion(), ss = new THREE.Vector3();
     const _tint = new THREE.Color();
