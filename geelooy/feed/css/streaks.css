@@ -1,0 +1,165 @@
+/* B"H — Awtsmoos River learning streaks.
+ * Tunnel CSS laws: no !important, token-only colors, explicit light/dark
+ * text colors, full interactive states on every control, sharp corners only,
+ * overflow-x guards where content could widen.
+ */
+
+/* ============ header flame counter ============ */
+.feed-streak {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	padding: 8px 12px;
+	margin: 0;
+	color: var(--aw-text-soft);
+	background: var(--aw-surface);
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	font: inherit;
+	font-weight: 700;
+	font-size: 15px;
+	line-height: 1;
+	cursor: pointer;
+	transition: border-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+	flex: none;
+	max-width: 100%;
+}
+
+.feed-streak .feed-ic {
+	width: 18px;
+	height: 18px;
+	flex: none;
+}
+
+.feed-streak:hover {
+	border-color: var(--accent-gold);
+	color: var(--accent-gold);
+}
+
+.feed-streak:active {
+	transform: translateY(1px);
+}
+
+.feed-streak:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 3px;
+	border-radius: 0;
+}
+
+.feed-streak.is-lit {
+	color: var(--accent-gold);
+	border-color: color-mix(in srgb, var(--accent-gold) 55%, var(--aw-line));
+	box-shadow: 0 0 12px color-mix(in srgb, var(--accent-gold) 25%, transparent);
+}
+
+[data-theme="light"] .feed-streak {
+	color: var(--aw-text-soft);
+}
+
+[data-theme="light"] .feed-streak.is-lit,
+[data-theme="light"] .feed-streak:hover {
+	color: var(--accent-gold);
+}
+
+/* ============ gentle at-risk nudge ============ */
+.feed-streak-nudge {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin: 0 0 14px;
+	padding: 12px 14px;
+	color: var(--aw-text);
+	background: var(--aw-surface);
+	border: 1px solid color-mix(in srgb, var(--accent-gold) 45%, var(--aw-line));
+	border-radius: 0;
+	overflow-x: clip;
+}
+
+.feed-streak-nudge-flame {
+	flex: none;
+	color: var(--accent-gold);
+}
+
+.feed-streak-nudge-flame .feed-ic {
+	width: 22px;
+	height: 22px;
+}
+
+.feed-streak-nudge-text {
+	flex: 1;
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.45;
+	color: var(--aw-text);
+	min-width: 0;
+}
+
+[data-theme="light"] .feed-streak-nudge-text {
+	color: var(--aw-text);
+}
+
+.feed-streak-nudge-ok {
+	flex: none;
+	padding: 8px 14px;
+	color: var(--feed-tab-active-ink, #1a1206);
+	background: var(--accent-gold);
+	border: 1px solid var(--accent-gold);
+	border-radius: 0;
+	font: inherit;
+	font-weight: 700;
+	font-size: 13px;
+	cursor: pointer;
+	transition: filter 160ms ease, box-shadow 160ms ease;
+}
+
+.feed-streak-nudge-ok:hover {
+	filter: brightness(1.08);
+}
+
+.feed-streak-nudge-ok:active {
+	transform: translateY(1px);
+}
+
+.feed-streak-nudge-ok:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 3px;
+	border-radius: 0;
+}
+
+.feed-streak-nudge-x {
+	flex: none;
+	padding: 8px 10px;
+	color: var(--aw-text-soft);
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 0;
+	font: inherit;
+	font-size: 13px;
+	cursor: pointer;
+	transition: color 160ms ease, border-color 160ms ease;
+}
+
+.feed-streak-nudge-x:hover {
+	color: var(--aw-text);
+	border-color: var(--aw-line);
+}
+
+.feed-streak-nudge-x:active {
+	transform: translateY(1px);
+}
+
+.feed-streak-nudge-x:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 3px;
+	border-radius: 0;
+}
+
+@media (max-width: 560px) {
+	.feed-streak {
+		padding: 7px 9px;
+		font-size: 13px;
+	}
+	.feed-streak-nudge-text {
+		font-size: 13px;
+	}
+}

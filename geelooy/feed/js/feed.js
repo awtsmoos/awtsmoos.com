@@ -14,6 +14,12 @@
 import { renderFeedCard, renderSkeleton, renderEmpty } from './cards.js';
 import { icon } from './icons.js';
 import { logActivity } from './activity.js';
+import { recordLearningDay } from './streaks.js';
+import { globalTheme } from './themes.js';
+import {
+	loadFilters, saveFilters, hasActiveFilters, collectFacets, itemMatchesFilters,
+	filterQueryParams, filterPanelHtml, wireFilterPanel, repaintFilterPanel, paintHeichelThemeDots
+} from './filters.js';
 
 const PAGE_SIZE = 14;
 const PREFETCH_PAGES = 1;
@@ -102,9 +108,13 @@ export async function submitComment(heichelId, postId, parentCommentId, content,
 	return body?.success ?? body;
 }
 
-async function fetchFeed(endpoint, { limit, offset, aliasId }) {
+async function fetchFeed(endpoint, { limit, offset, aliasId, filters }) {
 	const qs = new URLSearchParams({ limit: String(limit), offset: String(offset) });
 	if (endpoint === 'home') qs.set('aliasId', aliasId);
+	// B"H — Yaakov 2026-10-13: filter params travel to the server (best effort).
+	if (filters && hasActiveFilters(filters)) {
+		for (const [k, v] of Object.entries(filterQueryParams(filters))) qs.set(k, v);
+	}
 	const t0 = performance.now();
 	const res = await fetch(`/api/social/feed/${endpoint}?${qs}`, { credentials: 'same-origin' });
 	const ms = performance.now() - t0;
@@ -168,6 +178,9 @@ function installViewObserver(state) {
 				targetId: card.dataset?.postId || '',
 				targetTitle: card.getAttribute('aria-label') || ''
 			});
+			// B"H — Yaakov 2026-10-14: a genuinely read card (50%+ visible)
+			// marks the day for the learning streak.
+			recordLearningDay();
 		}
 	}, { threshold: 0.5 });
 }
@@ -182,7 +195,9 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 		loading: false,
 		done: false,
 		observer: null,
-		skeletons: []
+		skeletons: [],
+		filters: loadFilters(),
+		allItems: []
 	};
 
 	async function loadFollowed() {
@@ -227,17 +242,28 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 		const tab = TABS.find(t => t.id === state.tab);
 		try {
 			const { items, nextOffset } = await fetchFeed(tab.endpoint, {
-				limit: PAGE_SIZE, offset: state.nextOffset, aliasId: state.aliasId
+				limit: PAGE_SIZE, offset: state.nextOffset, aliasId: state.aliasId, filters: state.filters
 			});
 			clearSkeletons();
-			if (!items.length) {
-				state.done = true;
-				if (!river.querySelector('.feed-card')) river.append(renderEmpty(''));
-				setStatus('You are caught up', false);
-				sentinel.textContent = 'You are caught up';
+			// B"H — client-side filtering is authoritative: the server may
+			// ignore unknown params, the river never shows filtered-out posts.
+			const visible = items.filter(item => itemMatchesFilters(item, state.filters));
+			for (const item of visible) state.allItems.push(item);
+			refreshFilterPanel();
+			if (!visible.length) {
+				// This page was fully filtered out — keep paging, don't stall.
+				state.nextOffset = nextOffset ?? (state.nextOffset + items.length);
+				state.loading = false;
+				if (nextOffset === null) {
+					state.done = true;
+					if (!river.querySelector('.feed-card')) river.append(renderEmpty(''));
+					setStatus('You are caught up', false);
+				} else {
+					appendNext('filtered');
+				}
 				return;
 			}
-			const ranked = state.tab === 'home' ? clientRerank(items, state.aliasId, state.followed) : items;
+			const ranked = state.tab === 'home' ? clientRerank(visible, state.aliasId, state.followed) : visible;
 			const t0 = performance.now();
 			const frag = document.createDocumentFragment();
 			for (const item of ranked) {
@@ -266,11 +292,14 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 			}
 			const newCards = [...frag.children];
 			river.append(frag);
-			for (const card of newCards) observeCardView(card);
+			for (const card of newCards) {
+				card._feedCandidates = ranked;
+				observeCardView(card);
+			}
 			perfLedger.markRender(performance.now() - t0, ranked.length);
 			rememberSeen(ranked);
-			state.nextOffset = nextOffset ?? (state.nextOffset + ranked.length);
-			if (nextOffset === null || ranked.length < PAGE_SIZE) state.done = true;
+			state.nextOffset = nextOffset ?? (state.nextOffset + items.length);
+			if (nextOffset === null || items.length < PAGE_SIZE) state.done = true;
 			setStatus(state.done ? 'You are caught up' : 'Scroll for more', false);
 			// Prefetch one page ahead while idle.
 			if (!state.done && 'requestIdleCallback' in window) {
@@ -289,9 +318,81 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 		const key = `${tab.id}:${state.nextOffset}`;
 		if (prefetchCache.has(key) || state.done) return;
 		try {
-			const page = await fetchFeed(tab.endpoint, { limit: PAGE_SIZE, offset: state.nextOffset, aliasId: state.aliasId });
+			const page = await fetchFeed(tab.endpoint, { limit: PAGE_SIZE, offset: state.nextOffset, aliasId: state.aliasId, filters: state.filters });
 			prefetchCache.set(key, page);
 		} catch (_) { /* best effort */ }
+	}
+
+	/* ============ filter panel (Yaakov 2026-10-13) ============ */
+
+	const sideEl = document.getElementById('feed-side');
+	const sidePanel = document.getElementById('feed-filter-panel');
+
+	function refreshFilterPanel() {
+		if (!sidePanel) return;
+		const facets = collectFacets(state.allItems);
+		repaintFilterPanel(sidePanel, facets, state.filters);
+		updateFilterBadge();
+	}
+
+	function updateFilterBadge() {
+		const badge = document.getElementById('feed-filter-count');
+		if (!badge) return;
+		const n = state.filters.authors.size + state.filters.heichels.size + state.filters.topics.size;
+		badge.textContent = n > 0 ? String(n) : '';
+		badge.hidden = n === 0;
+	}
+
+	function applyFiltersAndReload() {
+		state.nextOffset = 0;
+		state.done = false;
+		state.allItems = [];
+		prefetchCache.clear();
+		river.replaceChildren();
+		sentinel.textContent = 'Load more live posts';
+		updateFilterBadge();
+		appendNext('filter');
+	}
+
+	function initFilterPanel() {
+		if (!sidePanel) return;
+		sidePanel.innerHTML = filterPanelHtml(collectFacets(state.allItems), state.filters);
+		wireFilterPanel(sidePanel, {
+			getFilters: () => state.filters,
+			onChange: (themeOnly) => {
+				if (themeOnly) {
+					paintHeichelThemeDots(sidePanel);
+					return;
+				}
+				applyFiltersAndReload();
+			}
+		});
+		paintHeichelThemeDots(sidePanel);
+		updateFilterBadge();
+	}
+
+	/* ============ retractable sidebar (Yaakov 2026-10-13) ============ */
+
+	const SIDEBAR_KEY = 'awtsmoos-feed-sidebar';
+
+	function setSidebar(open) {
+		if (!sideEl) return;
+		sideEl.classList.toggle('is-collapsed', !open);
+		sideEl.setAttribute('aria-hidden', String(!open));
+		const toggle = document.getElementById('feed-filter-toggle');
+		toggle?.setAttribute('aria-expanded', String(open));
+		try { localStorage.setItem(SIDEBAR_KEY, open ? 'open' : 'closed'); } catch (_) {}
+	}
+
+	function initSidebar() {
+		let open = true;
+		try { open = localStorage.getItem(SIDEBAR_KEY) !== 'closed'; } catch (_) {}
+		if (window.innerWidth < 900) open = false;
+		setSidebar(open);
+		document.getElementById('feed-filter-toggle')?.addEventListener('click', () => {
+			setSidebar(sideEl.classList.contains('is-collapsed'));
+		});
+		document.getElementById('feed-side-close')?.addEventListener('click', () => setSidebar(false));
 	}
 
 	function switchTab(id) {
@@ -300,6 +401,7 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 		state.offset = 0;
 		state.nextOffset = 0;
 		state.done = false;
+		state.allItems = [];
 		prefetchCache.clear();
 		river.replaceChildren();
 		tabsEl.querySelectorAll('[role="tab"]').forEach(el => {
@@ -355,6 +457,8 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 
 	function attach() {
 		buildTabs();
+		initSidebar();
+		initFilterPanel();
 		sentinel.addEventListener('click', () => appendNext('click'));
 		if ('IntersectionObserver' in window) {
 			state.observer = new IntersectionObserver(entries => {
