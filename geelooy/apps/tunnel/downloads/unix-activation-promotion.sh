@@ -75,6 +75,20 @@ start_promoted_candidate() {
 			elif command -v wget >/dev/null 2>&1; then
 				wget -q -T 30 -O "$ROOT/unix-agent-launcher.cjs" "https://awtsmoos.com/api/tunnel/install/unix-agent-launcher.cjs" 2>/dev/null || true
 			fi
+			# B"H — Yaakov 2026-10-14: Even more safe: validate the download.
+			# Check file exists, not empty, and valid JS syntax. If invalid,
+			# delete it so the next retry downloads fresh.
+			if [ -f "$ROOT/unix-agent-launcher.cjs" ]; then
+				if [ ! -s "$ROOT/unix-agent-launcher.cjs" ]; then
+					printf '%s\n' "   Downloaded file is empty, retrying..." >&2
+					rm -f "$ROOT/unix-agent-launcher.cjs"
+				elif command -v node >/dev/null 2>&1; then
+					if ! node --check "$ROOT/unix-agent-launcher.cjs" 2>/dev/null; then
+						printf '%s\n' "   Downloaded file is corrupt, retrying..." >&2
+						rm -f "$ROOT/unix-agent-launcher.cjs"
+					fi
+				fi
+			fi
 			_attempt=$(( _attempt + 1 ))
 		done
 		[ -f "$ROOT/unix-agent-launcher.cjs" ] || {
