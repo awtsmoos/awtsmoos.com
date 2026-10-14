@@ -4,7 +4,7 @@
 
 const { registerScriptRoute } = require("./tools/scriptRoute.js");
 const { buildAgentBundle } = require("./tools/zipBundle.js");
-const { buildInstallerComponents } = require("./tools/installerComponents.js");
+const { buildInstallerComponents, COMPONENTS } = require("./tools/installerComponents.js");
 const { getBundle, bundleNames } = require("./tools/runtimeBundles.js");
 const { sendText } = require("./tools/respond.js");
 const Descriptor = require("./tools/bundleDescriptor.js");
@@ -28,6 +28,14 @@ module.exports = {
 		// The installer now uses /api/tunnel/install/ instead of the 403ing static path.
 		await registerScriptRoute($i, "unix-node-runtime.sh", "unix-node-runtime.sh");
 		await registerScriptRoute($i, "unix-bootstrap-components-download.sh", "unix-bootstrap-components-download.sh");
+		// B"H — Yaakov 2026-10-14: register API routes for all installer components.
+		// The installer downloads components individually via /api/tunnel/install/<name>
+		// (the static /apps/tunnel/downloads/ path 403s via nginx).
+		for (const compName of COMPONENTS) {
+			// Skip files already registered above to avoid duplicates.
+			if (["unix.sh", "windows.ps1", "unix-bootstrap-components.sh", "unix-node-runtime.sh", "unix-bootstrap-components-download.sh"].includes(compName)) continue;
+			await registerScriptRoute($i, compName, compName);
+		}
 		await registerScriptRoute($i, "emergency-unix", "emergency-auto.sh");
 		await registerScriptRoute($i, "emergency-sealed", "emergency-sealed.sh");
 		await registerScriptRoute($i, "emergency-supervisor", "emergency-supervisor.sh");
