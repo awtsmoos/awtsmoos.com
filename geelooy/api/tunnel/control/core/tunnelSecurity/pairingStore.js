@@ -8,6 +8,11 @@ const Friendly = require("./pairingErrorMessages.js");
 const Id = require("./identifiers.js");
 const Secrets = require("./secrets.js");
 
+// B"H — Yaakov 2026-10-14: In-memory fallback for pairings.
+// The file store is unreliable in some environments; keep pairings in memory
+// as the primary source, with file as backup. This ensures pairing works.
+const memoryPairings = new Map();
+
 /**
  * Pairing codes stay valid for 12 hours AND auto-refresh while the installer
  * keeps polling, so a few minutes of human delay can never kill a pairing
@@ -57,20 +62,23 @@ function createPairingRequest(input = {}) {
 	const requestSecret = Secrets.randomToken(32);
 	const userCode = Secrets.randomToken(6).toUpperCase();
 	const expiresAt = Date.now() + PAIRING_LIFETIME_MS;
+	const pairingData = {
+		pairingId,
+		requestSecretDigest: Secrets.digest(requestSecret),
+		userCodeDigest: Secrets.digest(userCode),
+		deviceId,
+		tunnelName,
+		deviceName: String(input.deviceName || "Tunnel Device").slice(0, 160),
+		platform: String(input.platform || "unknown").slice(0, 80),
+		devicePublicKey: String(input.devicePublicKey),
+		state: "pending",
+		createdAt: Date.now(),
+		expiresAt
+	};
+	// B"H — Store in memory (primary) and file (backup).
+	memoryPairings.set(pairingId, pairingData);
 	mutateStore((store) => {
-		store.tunnelPairings[pairingId] = {
-			pairingId,
-			requestSecretDigest: Secrets.digest(requestSecret),
-			userCodeDigest: Secrets.digest(userCode),
-			deviceId,
-			tunnelName,
-			deviceName: String(input.deviceName || "Tunnel Device").slice(0, 160),
-			platform: String(input.platform || "unknown").slice(0, 80),
-			devicePublicKey: String(input.devicePublicKey),
-			state: "pending",
-			createdAt: Date.now(),
-			expiresAt
-		};
+		store.tunnelPairings[pairingId] = pairingData;
 		return store;
 	});
 	return { ok: true, pairingId, requestSecret, userCode, expiresAt };
@@ -83,6 +91,27 @@ function approvePairing(accountId, userCode, pairingId) {
 		error: "pairing_not_found",
 		message: Friendly.messageFor("pairing_not_found")
 	};
+	// B"H — Check memory first.
+	if (pairingId) {
+		const normalized = Id.normalizeIdentifier(pairingId);
+		const memPairing = memoryPairings.get(normalized) || memoryPairings.get(pairingId);
+		if (memPairing && memPairing.state === "pending") {
+			const codeDigest = Secrets.digest(String(userCode || "").trim().toUpperCase());
+			if (memPairing.userCodeDigest === codeDigest) {
+				memPairing.state = "approved";
+				memPairing.approvedBy = accountId;
+				memPairing.approvedAt = Date.now();
+				// Also update file store.
+				mutateStore((store) => {
+					if (store.tunnelPairings[memPairing.pairingId]) {
+						store.tunnelPairings[memPairing.pairingId] = memPairing;
+					}
+					return store;
+				});
+				return { ok: true, pairingId: memPairing.pairingId };
+			}
+		}
+	}
 	mutateStore((store) => {
 		// B"H — Yaakov 2026-10-14: If pairingId provided, use it for direct lookup.
 		// More reliable than code-only lookup.
@@ -97,6 +126,8 @@ function approvePairing(accountId, userCode, pairingId) {
 					pairing.approvedBy = accountId;
 					pairing.approvedAt = Date.now();
 					result = { ok: true, pairingId: pairing.pairingId };
+					// Sync to memory.
+					memoryPairings.set(pairing.pairingId, pairing);
 				}
 			}
 		} else {
@@ -118,8 +149,12 @@ function describePairing(pairingId) {
 	if (!normalized) {
 		return { ok: false, error: "pairing_not_found" };
 	}
-	const store = readStore();
-	const pairing = store.tunnelPairings[normalized];
+	// B"H — Check memory first (primary), then file (backup).
+	let pairing = memoryPairings.get(normalized) || memoryPairings.get(pairingId);
+	if (!pairing) {
+		const store = readStore();
+		pairing = store.tunnelPairings[normalized];
+	}
 	if (!pairing) {
 		return { ok: false, error: "pairing_not_found" };
 	}
