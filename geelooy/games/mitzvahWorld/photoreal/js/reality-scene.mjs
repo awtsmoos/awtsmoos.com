@@ -1600,6 +1600,59 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   scene.add(water);
   mark('water');
 
+  /* B"H WAY-better #30: fish shadows gliding under the surface — dark
+     blurred ellipses drifting on the riverbed. 4 fish, slow patrols,
+     fade in/out at turnarounds. 1 shared material, 4 sprites. */
+  {
+    const FISH_N = 4;
+    const fcv = document.createElement('canvas'); fcv.width = 64; fcv.height = 32;
+    const fx2 = fcv.getContext('2d');
+    const fg = fx2.createRadialGradient(32, 16, 2, 32, 16, 30);
+    fg.addColorStop(0, 'rgba(8,14,10,0.55)');
+    fg.addColorStop(0.7, 'rgba(8,14,10,0.28)');
+    fg.addColorStop(1, 'rgba(8,14,10,0)');
+    fx2.fillStyle = fg;
+    // ellipse: fish body + tail hint
+    fx2.save(); fx2.translate(32, 16); fx2.scale(1, 0.45); fx2.translate(-32, -16);
+    fx2.fillRect(0, 0, 64, 32); fx2.restore();
+    const ftex = new THREE.CanvasTexture(fcv);
+    const fishMat = new THREE.MeshBasicMaterial({
+      map: ftex, transparent: true, depthWrite: false,
+    });
+    const fishGeo = new THREE.PlaneGeometry(1.1, 0.55);
+    fishGeo.rotateX(-Math.PI / 2);
+    const fishes = [];
+    const fishRnd = mulberry32(seed ^ 0xf154);
+    for (let i = 0; i < FISH_N; i++) {
+      const m = new THREE.Mesh(fishGeo, fishMat.clone());
+      const fz = 20 - fishRnd() * 70;
+      m.userData = {
+        z: fz, xOff: (fishRnd() - 0.5) * 0.8,
+        dir: fishRnd() < 0.5 ? 1 : -1,
+        speed: 0.5 + fishRnd() * 0.7,
+        phase: fishRnd() * 6.28,
+      };
+      scene.add(m); fishes.push(m);
+    }
+    const fishUpdate = (t) => {
+      for (const m of fishes) {
+        const u = m.userData;
+        u.z += u.dir * u.speed * 0.016;
+        if (u.z > 30) { u.dir = -1; } if (u.z < -70) { u.dir = 1; }
+        const rx = riverX(u.z);
+        // wiggle: fish sway side to side
+        const sway = Math.sin(t * 2.2 + u.phase) * 0.4;
+        m.position.set(rx + u.xOff * riverHalfWidth(u.z) + sway, WATER_Y - 0.35, u.z);
+        m.rotation.y = (u.dir > 0 ? 0 : Math.PI) + Math.sin(t * 3.1 + u.phase) * 0.18;
+        // fade near turnarounds (subtle)
+        m.material.opacity = 0.75 + 0.25 * Math.sin(t * 0.5 + u.phase);
+      }
+    };
+    fishUpdate(0);
+    scene.userData.fishUpdate = fishUpdate;
+    mark('fish-shadows');
+  }
+
   /* B"H WAY-better #14: floating leaves drifting downstream — instanced
      quads advected along the river spline. 1 draw call, cheap. Each leaf
      drifts with the current (faster in center), bobs gently, respawns
@@ -3303,6 +3356,55 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   if (scene.userData.floatLeafUpdate) updaters.push(scene.userData.floatLeafUpdate);
   // B"H WAY-better #15: drip ripple rings.
   if (scene.userData.dripUpdate) updaters.push(scene.userData.dripUpdate);
+  // B"H WAY-better #30: fish shadows.
+  if (scene.userData.fishUpdate) updaters.push(scene.userData.fishUpdate);
+  /* B"H WAY-better #31: occasional bird crossing the gap — simple dark
+     silhouette sprite with flapping wings (2-frame scale pulse). Crosses
+     every ~40-70s, takes ~8s. Rare, alive. */
+  {
+    const bcv = document.createElement('canvas'); bcv.width = 64; bcv.height = 32;
+    const bx2 = bcv.getContext('2d');
+    bx2.fillStyle = 'rgba(20,18,14,0.9)';
+    // simple bird silhouette: body + swept wings
+    bx2.beginPath();
+    bx2.ellipse(32, 18, 10, 3.5, 0, 0, 6.283); bx2.fill();
+    bx2.beginPath(); bx2.moveTo(24, 18); bx2.lineTo(6, 8); bx2.lineTo(10, 20); bx2.fill();
+    bx2.beginPath(); bx2.moveTo(40, 18); bx2.lineTo(58, 8); bx2.lineTo(54, 20); bx2.fill();
+    const btex = new THREE.CanvasTexture(bcv);
+    const bmat = new THREE.SpriteMaterial({ map: btex, transparent: true, depthWrite: false, fog: false });
+    const bird = new THREE.Sprite(bmat);
+    bird.scale.set(2.2, 1.1, 1);
+    bird.visible = false;
+    scene.add(bird);
+    const birdRnd = mulberry32(seed ^ 0xb12d);
+    const birdState = { next: 12 + birdRnd() * 20, t0: 0, x0: 0, x1: 0, y: 0, z: 0 };
+    updaters.push((t) => {
+      if (!bird.visible && t > birdState.next) {
+        // start a crossing: pick a gap (sun gap or river corridor)
+        birdState.t0 = t;
+        birdState.z = -30 - birdRnd() * 40;
+        birdState.y = WATER_Y + 12 + birdRnd() * 8;
+        const dir = birdRnd() < 0.5 ? 1 : -1;
+        birdState.x0 = riverX(birdState.z) - dir * 40;
+        birdState.x1 = riverX(birdState.z) + dir * 40;
+        bird.visible = true;
+      }
+      if (bird.visible) {
+        const k = (t - birdState.t0) / 9; // 9s crossing
+        if (k >= 1) {
+          bird.visible = false;
+          birdState.next = t + 40 + birdRnd() * 30;
+        } else {
+          const bx = birdState.x0 + (birdState.x1 - birdState.x0) * k;
+          const by = birdState.y + Math.sin(k * Math.PI) * 3 + Math.sin(t * 7) * 0.3;
+          bird.position.set(bx, by, birdState.z);
+          // wing flap: scale y pulses
+          const flap = 0.75 + 0.45 * Math.abs(Math.sin(t * 9));
+          bird.scale.set(2.2, 1.1 * flap, 1);
+        }
+      }
+    });
+  }
   // B"H WAY-better #6/#7: leaf flutter + gust clock.
   if (scene.userData.leafMat) {
     const lm = scene.userData.leafMat;
@@ -3315,7 +3417,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   }
   const addParticles = sys => { scene.add(sys.obj); updaters.push(sys.update); };
   const PSETS = {
-    forest: ['pollen', 'dust'], river: ['pollen', 'dust'], grassland: ['pollen'],
+    // B"H WAY-better #29: falling leaves enabled in forest (sparse GPU points).
+    forest: ['pollen', 'dust', 'leaves'], river: ['pollen', 'dust'],
+    grassland: ['pollen'],
     particles: ['pollen', 'leaves'],
     'character-forest': ['pollen', 'dust'], 'character-river': ['pollen'],
     'character-sitting': ['leaves', 'pollen'], 'character-portrait': ['dust'],
@@ -3476,22 +3580,23 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           cx2.fillRect(0, 0, W, H);
           cx2.globalAlpha = 1;
           cx2.globalCompositeOperation = 'source-over';
-          // B"H WAY-better #27: cheap threshold bloom in the 2D grade pass —
-          // bright highlights get a soft additive halo. True threshold via
-          // contrast crush: only near-whites survive to bloom.
-          try {
-            const bc = document.createElement('canvas');
-            bc.width = W; bc.height = H;
-            const bx = bc.getContext('2d');
-            bx.filter = 'brightness(2.2) contrast(4)';
-            bx.drawImage(cv2, 0, 0, W, H);
-            cx2.save();
-            cx2.globalCompositeOperation = 'lighter';
-            cx2.filter = 'blur(22px)';
-            cx2.globalAlpha = 0.35;
-            cx2.drawImage(bc, 0, 0, W, H);
-            cx2.restore();
-          } catch {}
+          // B"H WAY-better #27: DISABLED 2026-10-14 — threshold too low, washed
+          // the image. Needs a true high threshold (only near-whites bloom).
+          // (Live 3D mip-bloom skipped: extra fullscreen passes threaten the
+          // 60fps CPU gate. The additive glow sprites carry bloom in-scene.)
+          // try {
+          //   const bc = document.createElement('canvas');
+          //   bc.width = W; bc.height = H;
+          //   const bx = bc.getContext('2d');
+          //   bx.filter = 'brightness(2.2) contrast(4)';
+          //   bx.drawImage(cv2, 0, 0, W, H);
+          //   cx2.save();
+          //   cx2.globalCompositeOperation = 'lighter';
+          //   cx2.filter = 'blur(22px)';
+          //   cx2.globalAlpha = 0.35;
+          //   cx2.drawImage(bc, 0, 0, W, H);
+          //   cx2.restore();
+          // } catch {}
         }
         mark('grade');
         blob = await new Promise(res => cv2.toBlob(res, 'image/png'));
