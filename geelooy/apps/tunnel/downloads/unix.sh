@@ -16,7 +16,8 @@ recovery_hint="${AWTSMOOS_RECOVERY_ROOT:-$HOME/.awtsmoos-tunnel-recovery}"
 
 # --- Clever terminal presentation (Yaakov 2026-10-11: the install command must look smart) ---
 # --- Colorful & fun (Yaakov 2026-10-13: make it more colorful and fun!) ---
-if [ -t 2 ] && [ "${NO_COLOR:-}" != "1" ] && [ "${TERM:-}" != "dumb" ]; then
+# B"H — Yaakov 2026-10-14: ALWAYS beautiful, not just on TTY!
+if [ "${NO_COLOR:-}" != "1" ] && [ "${TERM:-}" != "dumb" ]; then
 	AWT_C_BOLD=$'\033[1m'; AWT_C_DIM=$'\033[2m'; AWT_C_GOLD=$'\033[1;33m'
 	AWT_C_GREEN=$'\033[1;32m'; AWT_C_RED=$'\033[1;31m'; AWT_C_CYAN=$'\033[1;36m'
 	AWT_C_MAGENTA=$'\033[1;35m'; AWT_C_BLUE=$'\033[1;34m'; AWT_C_YELLOW=$'\033[1;93m'
