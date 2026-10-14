@@ -28,6 +28,7 @@
 <link rel="stylesheet" href="/feed/css/theme-parchment-clean.css?v=1">
 <link rel="stylesheet" href="/feed/css/theme-parchment-night.css?v=1">
 <link rel="stylesheet" href="/feed/css/theme-parchment-golden.css?v=1">
+<link rel="stylesheet" href="/feed/css/learning.css?v=1">
 </head>
 <body>
 <div class="feed-stage" id="feed-stage" data-feed-theme="dark-immersive">
@@ -96,6 +97,10 @@ river.attach();
 // Anchored comments: select text in any card body -> floating Comment button.
 import { initAnchoredComments } from '/feed/js/anchoredComments.js?v=1';
 initAnchoredComments();
+
+// B"H — Yaakov 2026-10-13: learning track hub (plans, siyum, sheets, challenges, shiur).
+import { initLearningHub } from '/feed/js/learningHub.js?v=1';
+initLearningHub();
 
 // Benchmark hook: ?bench=1 runs the perf ledger summary to console + title.
 if (new URLSearchParams(location.search).get('bench') === '1') {

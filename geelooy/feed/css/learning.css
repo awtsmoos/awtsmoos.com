@@ -1,0 +1,723 @@
+/* B"H — Awtsmoos feed learning track styles (Yaakov 2026-10-13). */
+:root {
+	--learn-scrim: rgba(4, 6, 10, 0.72);
+	--learn-on-gold: #141414;
+}
+
+[data-theme="light"] {
+	--learn-scrim: rgba(20, 18, 12, 0.55);
+	--learn-on-gold: #141414;
+}
+
+   Yaakov's laws, enforced here and everywhere below:
+   - NEVER use !important.
+   - Sharp corners only: border-radius: 0.
+   - Explicit colors for light AND dark themes via theme tokens only
+     (--aw-text, --aw-text-soft, --aw-surface, --aw-line, --accent-gold,
+     --aw-focus-ring). No hardcoded color literals on text/surface.
+   - No horizontal scrolling: every overlay guards with overflow-x: clip. */
+
+.learn-overlay,
+.learn-overlay *,
+.learn-panel,
+.learn-panel * {
+	border-radius: 0;
+}
+
+/* ============ hub: Learn button + drawer ============ */
+
+.feed-learn-btn {
+	margin-left: auto;
+}
+
+.learn-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 2147483000;
+	background: var(--learn-scrim);
+	display: flex;
+	align-items: stretch;
+	justify-content: flex-end;
+	overflow-x: clip;
+	overflow-y: auto;
+}
+
+.learn-panel {
+	width: min(560px, 100%);
+	max-height: 100dvh;
+	overflow-y: auto;
+	overflow-x: clip;
+	background: var(--aw-surface);
+	color: var(--aw-text);
+	border-left: 1px solid var(--aw-line);
+	display: flex;
+	flex-direction: column;
+}
+
+.learn-panel-head {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 14px 16px;
+	border-bottom: 1px solid var(--aw-line);
+	position: sticky;
+	top: 0;
+	background: var(--aw-surface);
+	z-index: 2;
+}
+
+.learn-panel-head h2 {
+	margin: 0;
+	font-size: 20px;
+	letter-spacing: 0.2px;
+	color: var(--aw-text);
+}
+
+.learn-panel-head .feed-ic-btn {
+	margin-left: auto;
+}
+
+.learn-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	padding: 12px 16px 4px;
+}
+
+.learn-tab {
+	border: 1px solid var(--aw-line);
+	background: transparent;
+	color: var(--aw-text-soft);
+	padding: 8px 12px;
+	font-size: 14px;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	border-radius: 0;
+}
+
+.learn-tab .feed-ic {
+	width: 18px;
+	height: 18px;
+}
+
+.learn-tab[aria-selected="true"] {
+	color: var(--aw-text);
+	border-color: var(--accent-gold);
+	background: color-mix(in srgb, var(--accent-gold) 14%, transparent);
+}
+
+.learn-tab:hover {
+	color: var(--aw-text);
+}
+
+.learn-tab:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+}
+
+.learn-body {
+	padding: 8px 16px 32px;
+	color: var(--aw-text);
+}
+
+.learn-body h3 {
+	margin: 14px 0 8px;
+	font-size: 16px;
+	color: var(--aw-text);
+}
+
+.learn-body p {
+	color: var(--aw-text-soft);
+	line-height: 1.55;
+	margin: 8px 0;
+}
+
+.learn-card {
+	border: 1px solid var(--aw-line);
+	background: color-mix(in srgb, var(--aw-surface) 60%, transparent);
+	padding: 12px 14px;
+	margin: 10px 0;
+	color: var(--aw-text);
+}
+
+.learn-card h4 {
+	margin: 0 0 6px;
+	font-size: 15px;
+	color: var(--aw-text);
+}
+
+.learn-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.learn-row .grow {
+	flex: 1 1 auto;
+}
+
+.learn-btn {
+	border: 1px solid var(--aw-line);
+	background: transparent;
+	color: var(--aw-text);
+	padding: 9px 14px;
+	font-size: 14px;
+	cursor: pointer;
+	border-radius: 0;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.learn-btn .feed-ic {
+	width: 17px;
+	height: 17px;
+}
+
+.learn-btn:hover {
+	border-color: var(--accent-gold);
+	color: var(--accent-gold);
+}
+
+.learn-btn.primary {
+	background: var(--accent-gold);
+	border-color: var(--accent-gold);
+	color: var(--learn-on-gold);
+	font-weight: 600;
+}
+
+.learn-btn.primary:hover {
+	color: var(--learn-on-gold);
+	filter: brightness(1.08);
+}
+
+.learn-btn:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+}
+
+.learn-btn:disabled {
+	opacity: 0.45;
+	cursor: default;
+}
+
+.learn-btn.danger:hover {
+	border-color: var(--awtsmoos-browser-danger, #c0453e);
+	color: var(--awtsmoos-browser-danger, #c0453e);
+}
+
+.learn-input,
+.learn-textarea,
+.learn-select {
+	width: 100%;
+	box-sizing: border-box;
+	background: var(--aw-surface);
+	color: var(--aw-text);
+	border: 1px solid var(--aw-line);
+	padding: 10px 12px;
+	font-size: 14px;
+	border-radius: 0;
+}
+
+.learn-textarea {
+	min-height: 84px;
+	resize: vertical;
+}
+
+.learn-label {
+	display: block;
+	font-size: 13px;
+	color: var(--aw-text-soft);
+	margin: 10px 0 4px;
+}
+
+.learn-progress {
+	height: 10px;
+	background: color-mix(in srgb, var(--aw-text) 12%, transparent);
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	overflow: hidden;
+	margin: 8px 0;
+}
+
+.learn-progress-fill {
+	height: 100%;
+	background: var(--accent-gold);
+	transition: width 0.35s ease;
+}
+
+.learn-progress-meta {
+	display: flex;
+	justify-content: space-between;
+	font-size: 13px;
+	color: var(--aw-text-soft);
+}
+
+.learn-empty {
+	text-align: center;
+	padding: 28px 12px;
+	color: var(--aw-text-soft);
+}
+
+.learn-empty .feed-ic {
+	width: 40px;
+	height: 40px;
+	color: var(--accent-gold);
+	margin-bottom: 8px;
+}
+
+/* ============ shiur presentation mode ============ */
+
+.shiur-stage {
+	position: fixed;
+	inset: 0;
+	z-index: 2147483001;
+	background: var(--aw-surface);
+	color: var(--aw-text);
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	overflow-x: clip;
+}
+
+.shiur-top {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 10px 18px;
+	border-bottom: 1px solid rgba(128, 128, 128, 0.35);
+	flex: 0 0 auto;
+}
+
+.shiur-top .shiur-title {
+	font-size: 15px;
+	opacity: 0.85;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.shiur-top .shiur-count {
+	font-size: 14px;
+	opacity: 0.7;
+	white-space: nowrap;
+}
+
+.shiur-top .grow {
+	flex: 1 1 auto;
+}
+
+.shiur-iconbtn {
+	border: 1px solid rgba(128, 128, 128, 0.45);
+	background: transparent;
+	color: inherit;
+	padding: 8px 10px;
+	cursor: pointer;
+	border-radius: 0;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 13px;
+}
+
+.shiur-iconbtn:hover {
+	border-color: var(--accent-gold);
+	color: var(--accent-gold);
+}
+
+.shiur-iconbtn .feed-ic {
+	width: 18px;
+	height: 18px;
+}
+
+.shiur-slide {
+	flex: 1 1 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: clamp(24px, 6vw, 96px);
+	overflow-y: auto;
+	overflow-x: clip;
+}
+
+.shiur-slide-inner {
+	max-width: 1000px;
+	width: 100%;
+	text-align: center;
+}
+
+.shiur-kicker {
+	font-size: clamp(14px, 1.6vw, 20px);
+	letter-spacing: 3px;
+	text-transform: uppercase;
+	color: var(--accent-gold);
+	margin-bottom: 18px;
+}
+
+.shiur-heading {
+	font-size: clamp(34px, 5.5vw, 72px);
+	line-height: 1.15;
+	margin: 0 0 22px;
+	color: inherit;
+}
+
+.shiur-heading[dir="rtl"] {
+	font-family: "Frank Ruhl Libre", "David Libre", serif;
+}
+
+.shiur-text {
+	font-size: clamp(20px, 2.8vw, 34px);
+	line-height: 1.65;
+	color: inherit;
+	opacity: 0.94;
+	max-width: 46em;
+	margin: 0 auto;
+}
+
+.shiur-text[dir="rtl"] {
+	font-family: "Frank Ruhl Libre", "David Libre", serif;
+}
+
+.shiur-nav {
+	flex: 0 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+	padding: 14px 18px 22px;
+}
+
+.shiur-nav .shiur-dots {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+	justify-content: center;
+	max-width: 60vw;
+}
+
+.shiur-dot {
+	width: 12px;
+	height: 12px;
+	border: 1px solid currentColor;
+	opacity: 0.45;
+	background: transparent;
+	cursor: pointer;
+	border-radius: 0;
+	padding: 0;
+}
+
+.shiur-dot[aria-current="true"] {
+	opacity: 1;
+	background: var(--accent-gold);
+	border-color: var(--accent-gold);
+}
+
+.shiur-hint {
+	text-align: center;
+	font-size: 12.5px;
+	opacity: 0.55;
+	padding-bottom: 12px;
+}
+
+/* ============ source sheets ============ */
+
+.sheet-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.sheet-source {
+	border: 1px solid var(--aw-line);
+	margin: 8px 0;
+	padding: 10px 12px;
+	background: color-mix(in srgb, var(--aw-surface) 70%, transparent);
+	color: var(--aw-text);
+}
+
+.sheet-source.dragging {
+	opacity: 0.5;
+}
+
+.sheet-source-top {
+	display: flex;
+	align-items: baseline;
+	gap: 10px;
+}
+
+.sheet-num {
+	font-weight: 700;
+	color: var(--accent-gold);
+	flex: 0 0 auto;
+	min-width: 2ch;
+}
+
+.sheet-source-title {
+	font-weight: 600;
+	color: var(--aw-text);
+	flex: 1 1 auto;
+}
+
+.sheet-source-excerpt {
+	color: var(--aw-text-soft);
+	font-size: 13.5px;
+	line-height: 1.55;
+	margin: 6px 0 4px;
+}
+
+.sheet-source-tools {
+	display: flex;
+	gap: 6px;
+	margin-top: 8px;
+	flex-wrap: wrap;
+}
+
+.sheet-mini-btn {
+	border: 1px solid var(--aw-line);
+	background: transparent;
+	color: var(--aw-text-soft);
+	padding: 5px 9px;
+	font-size: 12.5px;
+	cursor: pointer;
+	border-radius: 0;
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.sheet-mini-btn .feed-ic {
+	width: 14px;
+	height: 14px;
+}
+
+.sheet-mini-btn:hover {
+	color: var(--accent-gold);
+	border-color: var(--accent-gold);
+}
+
+.sheet-block {
+	border: 1px dashed var(--aw-line);
+	margin: 8px 0;
+	padding: 10px 12px;
+	color: var(--aw-text);
+}
+
+.sheet-block h4 {
+	margin: 0 0 6px;
+	color: var(--accent-gold);
+	font-size: 15px;
+}
+
+.sheet-block p {
+	color: var(--aw-text-soft);
+}
+
+.sheet-link {
+	word-break: break-all;
+	font-size: 12.5px;
+	color: var(--aw-text-soft);
+	background: color-mix(in srgb, var(--aw-text) 6%, transparent);
+	border: 1px solid var(--aw-line);
+	padding: 8px 10px;
+	margin: 8px 0;
+}
+
+@media print {
+	body.feed-printing-sheet .feed-stage,
+	body.feed-printing-sheet .learn-overlay,
+	body.feed-printing-sheet .learn-panel {
+		display: none;
+	}
+
+	.feed-print-sheet {
+		display: block;
+		color: #111;
+		background: #fff;
+		padding: 32px;
+		font-size: 15px;
+		line-height: 1.6;
+	}
+
+	.feed-print-sheet h1 {
+		font-size: 26px;
+		margin-bottom: 4px;
+	}
+
+	.feed-print-sheet .sheet-print-source {
+		margin: 18px 0;
+		page-break-inside: avoid;
+	}
+
+	.feed-print-sheet .sheet-print-num {
+		font-weight: 700;
+		margin-right: 8px;
+	}
+}
+
+.feed-print-sheet {
+	display: none;
+}
+
+/* ============ siyum tracker ============ */
+
+.siyum-celebrate {
+	position: fixed;
+	inset: 0;
+	z-index: 2147483002;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--learn-scrim);
+	overflow-x: clip;
+}
+
+.siyum-celebrate-card {
+	background: var(--aw-surface);
+	color: var(--aw-text);
+	border: 2px solid var(--accent-gold);
+	padding: 34px 44px;
+	text-align: center;
+	max-width: min(520px, 92vw);
+	max-height: 90dvh;
+	overflow-y: auto;
+	overflow-x: clip;
+}
+
+.siyum-celebrate-card h2 {
+	margin: 0 0 10px;
+	font-size: 34px;
+	color: var(--accent-gold);
+}
+
+.siyum-celebrate-card p {
+	color: var(--aw-text-soft);
+	line-height: 1.6;
+}
+
+.siyum-celebrate-faces {
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	margin: 14px 0;
+	flex-wrap: wrap;
+}
+
+.siyum-celebrate-faces img {
+	width: 64px;
+	height: 64px;
+	object-fit: contain;
+}
+
+.siyum-series-banner {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 10px 16px;
+	border-bottom: 1px solid var(--aw-line);
+	background: color-mix(in srgb, var(--accent-gold) 10%, var(--aw-surface));
+	color: var(--aw-text);
+	font-size: 14px;
+	overflow-x: clip;
+}
+
+.siyum-series-banner .learn-progress {
+	flex: 1 1 auto;
+	margin: 0;
+}
+
+/* ============ learning plans ============ */
+
+.plan-today {
+	border: 1px solid var(--accent-gold);
+	padding: 14px;
+	margin: 12px 0;
+	color: var(--aw-text);
+}
+
+.plan-today h4 {
+	margin: 0 0 8px;
+	font-size: 16px;
+	color: var(--accent-gold);
+}
+
+.plan-portion {
+	font-size: 15px;
+	line-height: 1.6;
+	color: var(--aw-text);
+}
+
+.plan-streak {
+	font-size: 13px;
+	color: var(--aw-text-soft);
+	margin-top: 8px;
+}
+
+.plan-done {
+	opacity: 0.62;
+}
+
+/* ============ community challenges ============ */
+
+.challenge-card {
+	border: 1px solid var(--aw-line);
+	padding: 12px 14px;
+	margin: 10px 0;
+	color: var(--aw-text);
+}
+
+.challenge-card h4 {
+	margin: 0 0 6px;
+	font-size: 15px;
+	color: var(--aw-text);
+}
+
+.challenge-meta {
+	font-size: 13px;
+	color: var(--aw-text-soft);
+	margin: 4px 0;
+}
+
+.challenge-leaderboard {
+	list-style: none;
+	margin: 8px 0 0;
+	padding: 0;
+}
+
+.challenge-leaderboard li {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 7px 0;
+	border-top: 1px solid var(--aw-line);
+	font-size: 14px;
+	color: var(--aw-text);
+}
+
+.challenge-rank {
+	font-weight: 700;
+	color: var(--accent-gold);
+	min-width: 2ch;
+}
+
+.challenge-you {
+	font-weight: 700;
+}
+
+.challenge-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	border: 1px solid var(--accent-gold);
+	color: var(--accent-gold);
+	padding: 4px 10px;
+	font-size: 12.5px;
+	margin: 4px 6px 4px 0;
+}
+
+.challenge-badge .feed-ic {
+	width: 15px;
+	height: 15px;
+}
