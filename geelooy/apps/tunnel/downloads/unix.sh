@@ -104,7 +104,7 @@ EOF
 		printf '%s  — installer ✨%s%s│%s\n' "$AWT_C_BOLD" "$AWT_C_OFF" "$AWT_C_PURPLE" "$AWT_C_OFF" >&2
 		cat >&2 <<EOF
 ${AWT_C_PURPLE}  │${AWT_C_OFF}                                                  ${AWT_C_PURPLE}│${AWT_C_OFF}
-${AWT_C_PURPLE}  │${AWT_C_OFF}      ${AWT_C_DIM}your secure tunnel to every machine${AWT_C_OFF}          ${AWT_C_PURPLE}│${AWT_C_OFF}
+${AWT_C_PURPLE}  │${AWT_C_OFF}      ${AWT_C_DIM}your magical doorway to every machine${AWT_C_OFF}        ${AWT_C_PURPLE}│${AWT_C_OFF}
 ${AWT_C_PURPLE}  │${AWT_C_OFF}      Mode: ${AWT_C_CYAN}${mode}${AWT_C_OFF} · Ctrl+C cancels cleanly        ${AWT_C_PURPLE}│${AWT_C_OFF}
 ${AWT_C_PURPLE}  │${AWT_C_OFF}                                                  ${AWT_C_PURPLE}│${AWT_C_OFF}
 ${AWT_C_PURPLE}  ╰──────────────────────────────────────────────────╯${AWT_C_OFF}
@@ -327,7 +327,7 @@ export AWTSMOOS_INSTALL_ORIGIN="$origin" AWTSMOOS_INSTALL_ROOT="$install_root" A
 export AWTSMOOS_INSTALLER_COMPONENTS_SHA256="__AWTSMOOS_INSTALLER_COMPONENTS_SHA256__"
 fetch_policy="$runtime_root/unix-bootstrap-fetch.sh"
 run_script="$runtime_root/unix-bootstrap-run.sh"
-awt_step "Connecting to $origin …"
+awt_step "Waving the magic wand at $origin … ✨"
 if ! initial_fetch "$origin/apps/tunnel/downloads/unix-bootstrap-fetch.sh" "$fetch_policy" "bootstrap fetch policy"; then
 	rm -rf "$runtime_root"; awt_fail 'Public installer source is temporarily unavailable; working runtime was left untouched.'; exit 1
 fi
@@ -336,6 +336,6 @@ if ! bootstrap_fetch "$origin/apps/tunnel/downloads/unix-bootstrap-run.sh" "$run
 	rm -rf "$runtime_root"; awt_fail 'Could not fetch bootstrap engine; working runtime was left untouched.'; exit 1
 fi
 chmod +x "$fetch_policy" "$run_script"
-awt_dim 'Starting installer engine — sit back and relax! (Ctrl+C any time to cancel cleanly.)'
+awt_dim '🪄 Handing off to the bootstrap engine — sit back and enjoy the magic! (Ctrl+C any time to cancel cleanly.)'
 trap - INT TERM
 exec /bin/bash "$run_script"
