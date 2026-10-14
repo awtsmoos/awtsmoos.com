@@ -24,8 +24,6 @@ let cached = null;
  */
 const COMPONENTS = Object.freeze(componentNames());
 
-let cached = null;
-
 function buildInstallerComponents() {
 	try {
 		return buildFresh();
