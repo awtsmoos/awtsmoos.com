@@ -1531,8 +1531,11 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       // Deep water: dark green-teal. Shallow: nearly clear warm tint.
       // B"H commit 8: warmed (was gray-green) toward the reference teal.
       // B"H commit 8b: darkened shallow (was milky light gray in render).
-      uDeep: { value: new THREE.Color(0x0f3d38) },
-      uShallow: { value: new THREE.Color(0x4d8a7a) },
+      // B"H TEXTURE-FIRST 2026-10-14: reference water is BRIGHT — sunlit
+      // pebbles visible through clear water. Was murky dark (uDeep 0x0f3d38).
+      // Brightened so the pebble bed shines through.
+      uDeep: { value: new THREE.Color(0x2a6b62) },
+      uShallow: { value: new THREE.Color(0x7ab5a3) },
       uSky: { value: new THREE.Color(0xd8ecef) },
       uFogColor: { value: new THREE.Color(T.fog) },
       uFogNear: { value: T.fogNear },
@@ -1738,7 +1741,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           // B"H "even more real": shallow alpha 0.35->0.22 — the 3D pebbles
           // below must show through. Water reads as water via the pebble
           // texture + ripple normals + glitter, not via opacity.
-          float alpha = mix(0.22, 0.80, smoothstep(0.0, 0.85, depth));
+          // B"H TEXTURE-FIRST 2026-10-14: was still murky gray in forest view.
+          // Reference is transparent — bright bed dominates. More see-through.
+          float alpha = mix(0.15, 0.55, smoothstep(0.0, 0.85, depth));
           alpha *= edge; // fade at banks
           alpha = max(alpha, foam*0.85);
           // Distance fog: river melts into mist downstream
