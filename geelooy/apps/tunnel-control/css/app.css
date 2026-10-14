@@ -18,24 +18,29 @@
 }
 .awt-pairing-card {
 	width: min(620px, 100%);
-	padding: clamp(28px, 6vw, 56px);
+	max-width: 100%;
+	padding: clamp(20px, 5vw, 56px);
 	border: 1px solid rgba(133, 255, 205, .3);
-	border-radius: 28px;
+	border-radius: 0;
 	background: rgba(5, 20, 17, .92);
 	box-shadow: 0 30px 90px rgba(0, 0, 0, .5);
+	overflow-wrap: break-word;
 }
-.awt-pairing-card h1 { margin: 12px 0; font-size: clamp(2rem, 6vw, 3.5rem); 
-  color: var(--aw-text); /* B"H tunnel CSS law: explicit theme-safe text color */}
+.awt-pairing-card h1 { margin: 12px 0; font-size: clamp(2rem, 6vw, 3.5rem);
+  color: #f2fff9; /* B"H tunnel CSS law: explicit theme-safe text color */}
 .awt-pairing-card p { color: #b9d9cc; line-height: 1.65; }
 .awt-pairing-code {
 	margin: 28px 0;
 	padding: 18px;
-	border-radius: 16px;
+	border-radius: 0;
 	background: #001d16;
 	color: #8fffd4;
-	font: 700 clamp(1.4rem, 7vw, 2.4rem)/1 ui-monospace, monospace;
+	font: 700 clamp(1.4rem, 7vw, 2.4rem)/1.4 ui-monospace, monospace;
 	letter-spacing: .14em;
 	text-align: center;
+	overflow-wrap: break-word;
+	word-break: break-all;
+	max-width: 100%;
 }
 .awt-pairing-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .awt-pairing-status { min-height: 1.6em; }

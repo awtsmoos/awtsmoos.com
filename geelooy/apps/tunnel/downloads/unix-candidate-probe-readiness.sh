@@ -20,7 +20,10 @@ const [file, field] = process.argv.slice(2);
 try {
 	const value = JSON.parse(fs.readFileSync(file, "utf8"));
 	const out = value[field];
-	if (out !== undefined && out !== null && out !== "") process.stdout.write(String(out));
+	// B"H — trailing newline is load-bearing: when both binding files exist
+	// (state migration copies recovery -> candidate), values must stay on
+	// separate lines or `head -n 1` below receives them concatenated.
+	if (out !== undefined && out !== null && out !== "") process.stdout.write(String(out) + "\n");
 } catch {}
 NODE
 	done | head -n 1

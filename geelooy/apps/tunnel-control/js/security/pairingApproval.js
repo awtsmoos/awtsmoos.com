@@ -32,7 +32,7 @@ export function showPairingApprovalIfRequested() {
 	card.className = "awt-pairing-card";
 	card.innerHTML = `
 		<div class="awt-mini-kicker">B&quot;H · SECURE DEVICE PAIRING</div>
-		<h1>Approve this Mac tunnel?</h1>
+		<h1>Approve this device?</h1>
 		<p>A local Awtsmoos Tunnel requested access to this account. Approve only if you just ran the installer on your own machine.</p>
 		<div class="awt-pairing-code" aria-label="Pairing code"></div>
 		<div class="awt-pairing-actions">
