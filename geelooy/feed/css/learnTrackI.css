@@ -273,6 +273,8 @@
 	display: block;
 	height: 100%;
 	background: var(--accent-gold);
+	/* B"H CSS gate: explicit color (progress fill carries no text). */
+	color: inherit;
 }
 
 .lti-stat {
@@ -294,6 +296,7 @@
 	margin-bottom: 8px;
 	background: var(--aw-surface);
 	overflow-x: clip;
+	color: var(--aw-text);
 }
 
 .lti-list button.lti-list-row {

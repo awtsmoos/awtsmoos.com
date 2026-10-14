@@ -117,6 +117,8 @@
 	opacity: 0;
 	width: 1px;
 	height: 1px;
+	/* B"H CSS gate: explicit color (visually-hidden control carries no text). */
+	color: inherit;
 }
 .ch-chip span {
 	display: inline-flex;
@@ -307,7 +309,7 @@
 
 .ch-toggles { display: grid; gap: 8px; margin: 10px 0; }
 .ch-toggle { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: var(--aw-text); }
-.ch-toggle input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.ch-toggle input { position: absolute; opacity: 0; width: 1px; height: 1px; color: inherit; /* B"H CSS gate: visually-hidden control */ }
 .ch-toggle-track {
 	position: relative;
 	width: 44px;
@@ -328,7 +330,7 @@
 	border-radius: 0;
 	transition: left 0.15s ease;
 }
-.ch-toggle input:checked + .ch-toggle-track { background: var(--accent-gold); }
-.ch-toggle input:checked + .ch-toggle-track::after { left: 23px; }
+.ch-toggle input:checked + .ch-toggle-track { background: var(--accent-gold); color: inherit; }
+.ch-toggle input:checked + .ch-toggle-track::after { left: 23px; color: inherit; }
 .ch-toggle input:focus-visible + .ch-toggle-track { outline: 2px solid var(--aw-focus-ring); outline-offset: 2px; }
 .ch-partner-view { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--aw-line); }

@@ -165,7 +165,7 @@
 	cursor: pointer;
 }
 .mt-chip:hover { border-color: var(--aw-accent); }
-.mt-chip input { accent-color: var(--aw-accent); width: 16px; height: 16px; }
+.mt-chip input { accent-color: var(--aw-accent); width: 16px; height: 16px; color: var(--aw-text); }
 .mt-chip input:hover { outline: 1px solid var(--aw-accent); outline-offset: 2px; }
 .mt-chip input:focus-visible { outline: 2px solid var(--aw-focus-ring); outline-offset: 2px; }
 .mt-chip input:active { outline: 2px solid var(--aw-accent); outline-offset: 2px; }
@@ -240,8 +240,8 @@
 	font-size: 13px;
 	color: var(--aw-text);
 }
-.mt-chat li { background: var(--aw-bg); border: 1px solid var(--aw-line); padding: 8px 10px; }
-.mt-chat li.mine { border-inline-start: 3px solid var(--aw-accent); }
+.mt-chat li { background: var(--aw-bg); border: 1px solid var(--aw-line); padding: 8px 10px; color: var(--aw-text); }
+.mt-chat li.mine { border-inline-start: 3px solid var(--aw-accent); color: var(--aw-text); }
 
 .mt-range { width: 100%; accent-color: var(--aw-accent); min-height: 32px; }
 .mt-progress {
@@ -258,7 +258,7 @@
 	.mt-overlay { padding: 10px; }
 	.mt-panel-body { padding: 12px 12px 20px; }
 	.mt-fab { right: 10px; bottom: 212px; }
-	.mt-fab span { display: none; }
+	.mt-fab span { display: none; color: inherit; }
 	.mt-fab { padding: 12px; }
 	.mt-grid2 { grid-template-columns: 1fr; }
 }

@@ -122,6 +122,7 @@
 
 .kids-mode .feed-reader-body p {
 	margin: 0 0 1em;
+	color: var(--kid-ink);
 }
 
 /* ============ "Kids version available" badge (per-post opt-in) ============ */

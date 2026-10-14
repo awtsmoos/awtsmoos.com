@@ -59,6 +59,7 @@
 .offline-modal-head h2 {
 	margin: 0;
 	font: 700 16px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+	color: var(--aw-text);
 }
 .offline-modal-body {
 	padding: 12px 16px;
@@ -124,4 +125,6 @@
 	margin: 8px 0;
 	padding-left: 12px;
 	border-left: 3px solid var(--accent-gold);
+	color: var(--aw-text);
+}
 }

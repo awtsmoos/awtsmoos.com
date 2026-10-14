@@ -10,6 +10,8 @@
 }
 
 @media print {
+	/* B"H: print ink token — paper is always white, ink always black. */
+	--print-ink: #000;
 	/* ============ strip everything interactive / chrome ============ */
 	.feed-topbar,
 	.feed-side,
@@ -145,6 +147,7 @@
 		margin: 0 0 3mm;
 		orphans: 3;
 		widows: 3;
+		color: var(--print-ink);
 	}
 
 	.feed-card-body[aria-expanded="false"] .feed-card-excerpt {
@@ -210,5 +213,6 @@
 
 	h1, h2, h3 {
 		page-break-after: avoid;
+		color: var(--print-ink);
 	}
 }

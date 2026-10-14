@@ -1334,6 +1334,7 @@ a.feed-ic-btn:visited {
 
 .feed-reader-body li {
 	margin-bottom: 0.4em;
+	color: var(--aw-text);
 }
 
 .feed-reader-body blockquote {
@@ -1664,6 +1665,7 @@ a.feed-ic-btn:visited {
 .feed-react-who-head strong {
 	flex: 1;
 	font-weight: 700;
+	color: var(--aw-text);
 }
 
 .feed-react-who-close {
@@ -1875,6 +1877,8 @@ a.feed-ic-btn:visited {
 	opacity: 0;
 	width: 1px;
 	height: 1px;
+	/* B"H CSS gate: explicit color (visually-hidden control carries no text). */
+	color: inherit;
 }
 
 .feed-filter-check {
@@ -2204,6 +2208,7 @@ a.feed-ic-btn:visited {
 
 	.feed-brand span {
 		display: none;
+		color: var(--aw-text);
 	}
 
 	.feed-theme-drop-btn .feed-ic-btn-label,
