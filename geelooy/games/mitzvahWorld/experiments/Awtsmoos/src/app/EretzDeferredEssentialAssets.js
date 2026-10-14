@@ -20,11 +20,31 @@ const PLAYER_CHUNK_URL = resolveGeneratedRuntimeChunkUrl(
 	READABLE_SOURCE
 );
 
+/** Appends a temporary diagnostic breadcrumb to document.title. Removed after diagnosis. */
+function traceCrumb(text) { // TEMP-TRACE
+	try { // TEMP-TRACE
+		if (typeof document !== 'undefined' && document && typeof document.title === 'string') { // TEMP-TRACE
+			document.title = `${document.title} | ${text}`; // TEMP-TRACE
+		} // TEMP-TRACE
+	} catch {} // TEMP-TRACE
+} // TEMP-TRACE
+
 /** Starts the generated player-chunk import and canonical Chossid fetch without awaiting it. */
 export function beginDeferredEretzEssentialAssets(options = {}) {
+	traceCrumb('TRACE: beginDeferred called'); // TEMP-TRACE
 	// B"H: warmup disabled 2026-10-13 — testing if it interferes with the loader.
 	// warmupCanonicalChossidFetch();
-	return import(PLAYER_CHUNK_URL).then(module => module.loadEretzEssentialAssets(options));
+	return import(PLAYER_CHUNK_URL).then(
+		module => {
+			traceCrumb('TRACE: player chunk imported'); // TEMP-TRACE
+			traceCrumb('TRACE: calling loadEretzEssentialAssets'); // TEMP-TRACE
+			return module.loadEretzEssentialAssets(options);
+		},
+		error => {
+			traceCrumb(`TRACE: player chunk import FAILED: ${error?.message || error}`); // TEMP-TRACE
+			throw error;
+		}
+	);
 }
 
 /**

@@ -3262,7 +3262,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	const REMOTE_MODEL_RECORDS = __awtsmoosModule_43.REMOTE_MODEL_RECORDS;
 
-	const REMOTE_MODEL_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/models/';
+	const REMOTE_MODEL_ROOT = '/games/mitzvahWorld/build/generated/assets/';
 
 
 	__exports.REMOTE_MODEL_ROOT = REMOTE_MODEL_ROOT;
@@ -3278,13 +3278,15 @@ const __awtsmoosModule_0 = Object.create(null);
 		if (!record) throw new Error(`Unknown model identity: ${relativePath}`);
 		const segments = modelPath.split('/');
 		const filename = segments.at(-1);
-		const folder = segments.slice(0, -1).join('/');
-		const hashedPath = [folder, record.sha256, filename].filter(Boolean).join('/');
+		/* B"H — Yaakov 2026-10-13: assets live at /games/mitzvahWorld/build/generated/assets/{sha256}/{file}.
+		   The old remote migration tree 404s, so the semantic folder segment is dropped from the
+		   hashed path to match the real deployed layout. */
+		const hashedPath = [record.sha256, filename].filter(Boolean).join('/');
 		const remoteUrl = `${REMOTE_MODEL_ROOT}${encodePath(hashedPath)}`;
 		return Object.freeze({
 			...record,
 			candidates: Object.freeze([remoteUrl]),
-			drivePath: `assets/mitzvah-world/models/${hashedPath}`,
+			drivePath: `games/mitzvahWorld/build/generated/assets/${hashedPath}`,
 			filename,
 			path: modelPath,
 			remoteUrl,
@@ -5629,8 +5631,18 @@ const __awtsmoosModule_0 = Object.create(null);
 	const failMitzvahWorldEssentialMilestone = __awtsmoosModule_51.failMitzvahWorldEssentialMilestone;
 	const updateMitzvahWorldEssentialMilestone = __awtsmoosModule_51.updateMitzvahWorldEssentialMilestone;
 
+	/** Appends a temporary diagnostic breadcrumb to document.title. Removed after diagnosis. */
+	function traceCrumb(text) { // TEMP-TRACE
+		try { // TEMP-TRACE
+			if (typeof document !== 'undefined' && document && typeof document.title === 'string') { // TEMP-TRACE
+				document.title = `${document.title} | ${text}`; // TEMP-TRACE
+			} // TEMP-TRACE
+		} catch {} // TEMP-TRACE
+	} // TEMP-TRACE
+
 	/** Loads the canonical player GLB with no fallback factory and validates visible animation-bearing identity. */
 	async function loadEretzEssentialPlayerGlb(options = {}) {
+		traceCrumb('TRACE: loadEretzEssentialPlayerGlb started'); // TEMP-TRACE
 		const boot = options.boot || globalThis.AwtsmoosBootTracker;
 		const environment = options.environment || globalThis;
 		const loadGltf = options.playerLoader || loadIsolatedGltf;
@@ -5643,6 +5655,7 @@ const __awtsmoosModule_0 = Object.create(null);
 			// B"H: apply the chossid outfit palette (material resolver + outfit + surface
 			// detail bake) so the player renders as a real character, not a flat primitive.
 			const outfit = playerChossidOutfit();
+			traceCrumb('TRACE: calling loadGltf'); // TEMP-TRACE
 			const gltf = await loadGltf(PLAYER_MODEL_URL, 'eretz-essential-player-canonical', {
 				materialResolver: chossidMaterialResolver(outfit),
 				onProgress: detail => {

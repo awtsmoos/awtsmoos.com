@@ -29,8 +29,18 @@ import {
 	updateMitzvahWorldEssentialMilestone
 } from './MitzvahWorldEssentialBoot.js';
 
+/** Appends a temporary diagnostic breadcrumb to document.title. Removed after diagnosis. */
+function traceCrumb(text) { // TEMP-TRACE
+	try { // TEMP-TRACE
+		if (typeof document !== 'undefined' && document && typeof document.title === 'string') { // TEMP-TRACE
+			document.title = `${document.title} | ${text}`; // TEMP-TRACE
+		} // TEMP-TRACE
+	} catch {} // TEMP-TRACE
+} // TEMP-TRACE
+
 /** Loads the canonical player GLB with no fallback factory and validates visible animation-bearing identity. */
 export async function loadEretzEssentialPlayerGlb(options = {}) {
+	traceCrumb('TRACE: loadEretzEssentialPlayerGlb started'); // TEMP-TRACE
 	const boot = options.boot || globalThis.AwtsmoosBootTracker;
 	const environment = options.environment || globalThis;
 	const loadGltf = options.playerLoader || loadIsolatedGltf;
@@ -43,6 +53,7 @@ export async function loadEretzEssentialPlayerGlb(options = {}) {
 		// B"H: apply the chossid outfit palette (material resolver + outfit + surface
 		// detail bake) so the player renders as a real character, not a flat primitive.
 		const outfit = playerChossidOutfit();
+		traceCrumb('TRACE: calling loadGltf'); // TEMP-TRACE
 		const gltf = await loadGltf(PLAYER_MODEL_URL, 'eretz-essential-player-canonical', {
 			materialResolver: chossidMaterialResolver(outfit),
 			onProgress: detail => {
