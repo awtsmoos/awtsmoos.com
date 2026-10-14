@@ -16,8 +16,8 @@ import {
 
 export const TEMPLE_STONE_SURFACE_RECIPES = Object.freeze({
 	roadStone: layeredTempleRecipe({
-		mapUrl: "https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/games/tex-stone-pavement.webp",
-		mixUrl: "https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/games/tex-jerusalem-wall.webp",
+		mapUrl: "https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/games/tex-stone-pavement.webp?v=8cf8edc3d2",
+		mixUrl: "https://awtsmoos.com/api/social/drive/public/awtsmoos/textures/games/tex-jerusalem-wall.webp?v=caa7b5ed68",
 		mapRepeat: [4, 12],
 		mixRepeat: [5, 14],
 		mixStrength: 0.28,

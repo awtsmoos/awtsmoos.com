@@ -9,10 +9,10 @@
 const SOURCES = Object.freeze({
 	grass: "https://awtsmoos.com/api/social/drive/public/awtsmoos/games/ohr-hagnuz/art/grass-tile.png?v=6985f387be",
 	path: "https://awtsmoos.com/api/social/drive/public/awtsmoos/games/ohr-hagnuz/art/dirt-tile.webp?v=3e16c11795",
-	water: "https://awtsmoos.com/api/social/drive/public/firebase_drive_migration/full-resolution/seamless%20water%20brighter.png",
-	stone: "https://awtsmoos.com/api/social/drive/public/firebase_drive_migration/full-resolution/stone%201.png",
-	sand: "https://awtsmoos.com/api/social/drive/public/firebase_drive_migration/full-resolution/dirt%202.png",
-	mystic: "https://awtsmoos.com/api/social/drive/public/firebase_drive_migration/full-resolution/stone%201.png",
+	water: "https://awtsmoos.com/api/social/drive/public/firebase_drive_migration/full-resolution/seamless%20water%20brighter.png?v=fc07dac93a",
+	stone: "https://awtsmoos.com/api/social/drive/public/firebase_drive_migration/full-resolution/stone%201.png?v=b1c1ef4e64",
+	sand: "https://awtsmoos.com/api/social/drive/public/firebase_drive_migration/full-resolution/dirt%202.png?v=c1b328c362",
+	mystic: "https://awtsmoos.com/api/social/drive/public/firebase_drive_migration/full-resolution/stone%201.png?v=b1c1ef4e64",
 });
 
 const cache = {};

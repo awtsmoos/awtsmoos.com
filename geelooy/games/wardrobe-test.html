@@ -1,0 +1,9 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="/games/scripts/wardrobe/wardrobe.css">
+<style>body{background:#0b1426;color:#faf6ec;font-family:system-ui}h1{font-size:20px}</style>
+</head><body><h1>wardrobe harness</h1>
+<script type="module">
+import { attachWardrobeButton, openWardrobeDialog } from '/games/scripts/wardrobe/ChossidWardrobeUI.js';
+window.__wardrobeTest = { attachWardrobeButton, openWardrobeDialog };
+try { attachWardrobeButton(); window.__fabOk = true; } catch (e) { window.__fabErr = String(e && e.message); }
+</script></body></html>

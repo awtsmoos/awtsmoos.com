@@ -18,7 +18,7 @@ export { element } from "./ShliachSpotlightElements.js";
 
 export const SHLIACH_URL = "https://chatgpt.com/g/g-6a03feea8398819192067ae3dbfa449c-awtsmoos-shliach-agent";
 export const SHLIACH_PAGE = "/Shliach/";
-export const SHLIACH_IMAGE = "https://awtsmoos.com/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png?v=981c892e57";
+export const SHLIACH_IMAGE = "https://awtsmoos.com/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png?v=c9428e4217";
 const SHLIACH_IMAGE_FALLBACK = "/drive/assets/awtsmoos-shliach-logo.png";
 const SHLIACH_DESCRIPTION = [
 	"The Awtsmoos Shliach is the dedicated ChatGPT agent for creating and operating Awtsmoos projects.",

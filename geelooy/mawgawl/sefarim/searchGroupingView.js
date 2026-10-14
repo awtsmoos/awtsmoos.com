@@ -43,14 +43,14 @@ export function presentationSwitch(search, mode, onChange) {
 /** Golden result-type icons keyed by backend category id (B"H 2026-10-13, icon round 2). */
 const CATEGORY_GICONS = Object.freeze({
 	sources: { cls: 'gicon--book', url: 'https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-book.webp?v=89fce054b2' },
-	heichelos: { cls: 'gicon--torah', url: 'https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-torah-active-0-7cccc6e3-c14e-4edd-a9e4-e0dc2c164897.webp' },
+	heichelos: { cls: 'gicon--torah', url: 'https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-torah-active-0-7cccc6e3-c14e-4edd-a9e4-e0dc2c164897.webp?v=a719dbe30f' },
 	posts: { cls: 'gicon--edit', url: 'https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-edit.webp?v=4a58469fca' },
 	aliases: { cls: 'gicon--users', url: 'https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-users.webp?v=a99ebb2312' },
 	series: { cls: 'gicon--layers', url: 'https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/gicon-layers.webp?v=0aeef9a4c9' }
 });
 const FALLBACK_GICON = Object.freeze({
 	cls: 'gicon--search',
-	url: 'https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-search-0-2d839271-ea0a-46bb-a647-16fc27971baa.webp'
+	url: 'https://awtsmoos.com/api/social/drive/public/awtsmoos/icons/media-generation-icon-search-0-2d839271-ea0a-46bb-a647-16fc27971baa.webp?v=998889ed78'
 });
 
 /** Builds one decorative result-type icon for a category heading. */

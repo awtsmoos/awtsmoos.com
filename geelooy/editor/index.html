@@ -4,13 +4,13 @@
         tochen: /*html*/`
             <h2>B"H</h2>
 
-            <script src="/scripts/awtsmoos/awtsmoosGPTify.js"></script>
-            <script src="/scripts/awtsmoosTamper.js">
+            <script src="/scripts/awtsmoos/awtsmoosGPTify.js?v=e1eebd3fee"></script>
+            <script src="/scripts/awtsmoosTamper.js?v=f4087ec5da">
             </script>
             <script>
                 var a;
             async function start() {
-                a = await import("/scripts/awtsmoos/api/utils.js")
+                a = await import("/scripts/awtsmoos/api/utils.js?v=b98cb76447")
                 Object.keys(a).forEach(w=>{
                     window[w] = a[w]
                 })

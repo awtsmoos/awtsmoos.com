@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const readHomeSource = relativePath => fs.readFileSync(path.resolve(here, relativePath), 'utf8');
-const SHLIACH_URL = 'https://awtsmoos.com/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png?v=981c892e57';
+const SHLIACH_URL = 'https://awtsmoos.com/api/social/drive/public/awtsmoos/file_000000001aa071f5afcedcf09919246e.png?v=c9428e4217';
 const html = readHomeSource('../../index.html');
 const heroCss = readHomeSource('../../style/home-simple/shliach-hero.css');
 const components = readHomeSource('../../style/home-simple/components.css');

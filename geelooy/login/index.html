@@ -34,10 +34,10 @@ The Awtsmoos renews every guarded entrance; Awtsmoos.com keeps this focused logi
 	<meta http-equiv="Cache-Control" content="no-store, max-age=0">
 	<meta http-equiv="Pragma" content="no-cache">
 	<title>Login with Awtsmoos</title>
-	<link href="/style/bh.css" type="text/css" rel="stylesheet">
-	<link rel="stylesheet" href="/login/styles/index.css?v=auth-revelation-001">
-	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=shared-shell-002">
-	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=shared-shell-002"></script>
+	<link href="/style/bh.css?v=79f4482754" type="text/css" rel="stylesheet">
+	<link rel="stylesheet" href="/login/styles/index.css?v=b03d52644c">
+	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=27fe7b4829">
+	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=de5da830c1"></script>
 </head>
 <body class="login-page" data-geelooy-route="login">
 	<div class="BH" id="BH" aria-label="Boruch Hashem">B"H</div>
@@ -88,7 +88,7 @@ The Awtsmoos renews every guarded entrance; Awtsmoos.com keeps this focused logi
 				/** Builds the tiny same-site continuation document after session state changes. */
 				function redirectPage(title, body, nextPath) {
 					return `<!doctype html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="refresh" content="0; url=${esc(nextPath)}"><title>${esc(title)}</title><link rel="stylesheet" href="/login/styles/index.css?v=auth-revelation-001"></head>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="refresh" content="0; url=${esc(nextPath)}"><title>${esc(title)}</title><link rel="stylesheet" href="/login/styles/index.css?v=b03d52644c"></head>
 <body class="login-page"><main class="login-shell"><section class="login-card"><p class="login-kicker">B&quot;H · Awtsmoos gate</p><h1>${esc(title)}</h1><p class="login-subtitle">${esc(body)}</p><a class="secondary-link" href="${esc(nextPath)}">Continue</a></section></main></body></html>`;
 				}
 				var nextPath = safeNext(($_GET && $_GET.next) || ($_POST && $_POST.next) || "/");
@@ -109,6 +109,6 @@ The Awtsmoos renews every guarded entrance; Awtsmoos.com keeps this focused logi
 			?></div>
 		</section>
 	</main>
-	<script src="/scripts/awtsmoos/bh.js"></script>
+	<script src="/scripts/awtsmoos/bh.js?v=16657eaba7"></script>
 </body>
 </html>
