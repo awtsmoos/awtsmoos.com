@@ -47,14 +47,32 @@ module.exports = {
 
     await $i.use("pairing/page", async (vars) => {
       try {
-        const { pairingPage } = require("./routes/pairingPage.js");
-        return await pairingPage($i, vars || {});
+        const { pairingPageHtml } = require("./routes/pairingPage.js");
+        const query = (vars && vars.query) || {};
+        // B"H — Yaakov 2026-10-14: pairingPageHtml is a function, not a route handler.
+        // Call it with the pairing code from query params.
+        const html = pairingPageHtml({
+          pairingCode: query.pairingCode || query.code || "",
+          pairingId: query.pairingId || "",
+          returnPath: ""
+        });
+        return {
+          statusCode: 200,
+          response: html,
+          headers: { "Content-Type": "text/html; charset=utf-8" }
+        };
       } catch (err) {
+        // B"H — Yaakov 2026-10-14 STANDING RULE: Show full stack trace in response.
         return {
           statusCode: 500,
           response: JSON.stringify({
             BH: "B\"H",
-            error: { message: err.message, code: "PAIRING_ERROR", statusCode: 500 }
+            error: {
+              message: err.message,
+              code: "PAIRING_ERROR",
+              statusCode: 500,
+              stackTrace: err.stack
+            }
           })
         };
       }
