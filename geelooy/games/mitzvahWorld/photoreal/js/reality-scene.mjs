@@ -1678,7 +1678,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           // bedVisibility 0.88->0.94 (premade pebble texture IS pebbles),
           // alpha 0.35->0.22 (more see-through to the real 3D pebble bed).
           // B"H 2nd sweep: 0.94->0.97 — NEW_TARGET is absolutely gin-clear.
-          float bedVisibility = mix(0.97, 0.60, smoothstep(0.1, 0.8, depth));
+          // B"H TEXTURE-FIRST: deep bed was 0.60 (murky). 0.80 so the
+          // pebble bed reads through the mid-field like the reference.
+          float bedVisibility = mix(0.97, 0.80, smoothstep(0.1, 0.8, depth));
           col = mix(col, bed, bedVisibility);
           // B"H WAY-better #13: underwater caustics — baked web scrolled
           // slowly, masked to shallows where sun reaches the bed. Dances
