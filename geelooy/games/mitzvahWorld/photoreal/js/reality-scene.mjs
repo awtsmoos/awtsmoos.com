@@ -862,6 +862,35 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   ]);
   mark('textures');
 
+  /* B"H WAY-better #13: underwater caustics — baked caustic web texture
+     (layered sine interference, premade). Scrolled slowly in the water
+     shader, masked to shallow areas. One texture, cheap. */
+  const causticTex = (() => {
+    const S = 256, cv = document.createElement('canvas');
+    cv.width = cv.height = S;
+    const cx = cv.getContext('2d');
+    const img = cx.createImageData(S, S);
+    const cr = mulberry32(seed ^ 0xca057c);
+    const p1 = cr() * 6.28, p2 = cr() * 6.28, p3 = cr() * 6.28;
+    for (let y = 0; y < S; y++) {
+      for (let x = 0; x < S; x++) {
+        const u = x / S * 6.283, v = y / S * 6.283;
+        // caustic web: ridged interference — bright where waves cross
+        let c = Math.sin(u * 3 + p1 + Math.sin(v * 4 + p2) * 1.5)
+              + Math.sin(v * 3 + p2 + Math.sin(u * 5 + p3) * 1.5)
+              + Math.sin((u + v) * 4 + p3) * 0.7;
+        c = Math.pow(Math.max(0, 1 - Math.abs(c) * 0.55), 3.0);
+        const i = (y * S + x) * 4;
+        const b = Math.round(c * 255);
+        img.data[i] = b; img.data[i + 1] = b; img.data[i + 2] = b; img.data[i + 3] = 255;
+      }
+    }
+    cx.putImageData(img, 0, 0);
+    const tex = new THREE.CanvasTexture(cv);
+    tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+    return tex;
+  })();
+
   /* B"H WAY-better #1: dappled light cookies — baked canopy-gap light pattern.
      Pass 1: 512² canvas, two octaves (large soft canopy gaps + small bright
      leaf-gap dapples), elongated along the sun azimuth, warm cast. Baked once
@@ -1239,6 +1268,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       uPebbleMap: { value: pebbleTex },
       // B"H commit 8: premade water normals (not procedural sines).
       uWaterNormalMap: { value: waterRippleNormalTex },
+      // B"H WAY-better #13: baked caustic web, scrolled in shallows.
+      uCausticMap: { value: causticTex },
       uFogFar: { value: T.fogFar },
     },
   ]);
@@ -1260,6 +1291,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
         uniform vec3 uSunDir, uGlitterDir, uDeep, uShallow, uSky, uFogColor;
         uniform sampler2D uPebbleMap;
         uniform sampler2D uWaterNormalMap;
+        uniform sampler2D uCausticMap;
         // B"H — 99% water rewrite (Yaakov: "Especially water shaders").
         // Growth-rule approach: water follows terrain.
         // - Flow direction follows the river curve (tangent), not uniform -v
@@ -1355,6 +1387,13 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           // alpha 0.35->0.22 (more see-through to the real 3D pebble bed).
           float bedVisibility = mix(0.94, 0.55, smoothstep(0.1, 0.8, depth));
           col = mix(col, bed, bedVisibility);
+          // B"H WAY-better #13: underwater caustics — baked web scrolled
+          // slowly, masked to shallows where sun reaches the bed. Dances
+          // on the pebbles like the reference shallows.
+          vec2 cuv2 = pw * 0.55 + vec2(uTime * 0.03, -uTime * 0.045);
+          float caust = texture2D(uCausticMap, cuv2).r;
+          float caustMask = (1.0 - smoothstep(0.05, 0.45, depth)) * bedVisibility;
+          col += vec3(0.75, 0.95, 0.88) * caust * caustMask * 0.35;
           // Sky reflection via fresnel (stronger at grazing = far water)
           // B"H 2026-10-13: 0.35→0.16, was washing out to milk at low camera.
           col = mix(col, uSky, fres*0.12); // WAY-better: was milky band
@@ -1374,20 +1413,33 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           // Foam: at banks (waterline) + around procedural rock positions
           float edge = smoothstep(0.0, 0.12, vUv.x)*smoothstep(1.0, 0.88, vUv.x);
           float bankFoamBand = 1.0 - edge;
-          float fn = vnoise(pw*vec2(4.0, 12.0) + vec2(0.0, -uTime*1.5));
+          // B"H WAY-better #12: flow-aligned foam streaks — noise stretched
+          // 4.5x along flow (v/downstream), so foam forms longitudinal
+          // streaks like real current. Eddy tails: foam streaks extend
+          // downstream behind rock obstacles (in +v direction from rock).
+          float fn = vnoise(vec2(pw.x*4.0, pw.y*18.0) + vec2(0.0, -uTime*1.5));
           float lap = 0.5 + 0.5*sin(uTime*1.8 + pw.y*2.2 + fn*6.28);
           // B"H WAY-better: foam was a solid white stripe. Now patchy and
           // clinging to the waterline — squared band (thin), higher threshold
           // (broken), lower opacity. Real lapping, not paint.
           float bankFoam = bankFoamBand * bankFoamBand
                          * smoothstep(0.55, 0.92, fn*0.62 + lap*0.38) * 0.55;
-          // Rock foam: rings around procedural rock spots
+          // Rock foam: rings around procedural rock spots + EDDY TAILS —
+          // foam streaks trail downstream (+v) behind each rock, like real
+          // eddies. Tail fades with distance downstream.
           vec2 rp = pw*1.8;
           vec2 rid = floor(rp); vec2 rf = fract(rp);
           float rockHere = step(0.93, hash22(rid+4.7));
           vec2 rc = vec2(0.5) + (vec2(hash22(rid+1.1), hash22(rid+8.8))-0.5)*0.4;
           float rdist = length(rf - rc);
           float rockFoam = rockHere * smoothstep(0.30, 0.20, rdist) * smoothstep(0.12, 0.22, rdist);
+          // eddy tail: downstream streak (rf.y > rc.y is downstream in flow UV)
+          float downstream = smoothstep(0.0, 0.9, rf.y - rc.y) * step(rf.y, rc.y + 0.9);
+          float tailWidth = 0.16 * (1.0 - (rf.y - rc.y) * 0.5);
+          float eddyTail = rockHere * downstream
+                         * smoothstep(tailWidth, tailWidth*0.3, abs(rf.x - rc.x))
+                         * (1.0 - (rf.y - rc.y) * 0.7);
+          rockFoam += eddyTail * 0.6;
           rockFoam *= 0.3 + 0.3*sin(uTime*3.0 + hash22(rid)*20.0);
           rockFoam *= 0.4 + 0.6*vnoise(pw*8.0); // break up the ring
           float foam = clamp(bankFoam*0.7 + rockFoam*0.35, 0.0, 1.0);
@@ -1417,6 +1469,58 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   );
   scene.add(water);
   mark('water');
+
+  /* B"H WAY-better #14: floating leaves drifting downstream — instanced
+     quads advected along the river spline. 1 draw call, cheap. Each leaf
+     drifts with the current (faster in center), bobs gently, respawns
+     upstream when it exits. */
+  {
+    const FL = 36;
+    const flGeo = new THREE.PlaneGeometry(0.22, 0.30);
+    flGeo.rotateX(-Math.PI / 2);
+    const flMat = new THREE.MeshBasicMaterial({
+      map: leafTex, transparent: true, alphaTest: 0.4, side: THREE.DoubleSide,
+      color: new THREE.Color(0.85, 0.80, 0.55), // sun-warmed fallen leaves
+    });
+    const flInst = new THREE.InstancedMesh(flGeo, flMat, FL);
+    flInst.frustumCulled = false;
+    const flRand = mulberry32(seed ^ 0xf10a7);
+    const flState = [];
+    for (let i = 0; i < FL; i++) {
+      flState.push({
+        z: 40 - flRand() * 120,           // spread along the river
+        xOff: (flRand() - 0.5) * 1.6,      // lateral offset (-0.8..0.8 of half-width)
+        rot: flRand() * Math.PI * 2,
+        spin: (flRand() - 0.5) * 0.6,
+        bobP: flRand() * 6.28,
+        speed: 0.7 + flRand() * 0.9,
+      });
+    }
+    const flDummy = new THREE.Object3D();
+    const flUpdate = (t, dt) => {
+      for (let i = 0; i < FL; i++) {
+        const s = flState[i];
+        // advect downstream (-z); center channel faster
+        const centerFactor = 1.0 - Math.abs(s.xOff) * 0.5;
+        s.z -= dt * s.speed * centerFactor * 1.4;
+        if (s.z < -80) { s.z = 40; s.xOff = (flRand() - 0.5) * 1.6; }
+        const rx = riverX(s.z), hw = riverHalfWidth(s.z);
+        const bob = Math.sin(t * 1.7 + s.bobP) * 0.03;
+        flDummy.position.set(rx + s.xOff * hw, WATER_Y + 0.02 + bob, s.z);
+        flDummy.rotation.set(0, s.rot + t * s.spin * 0.3, 0);
+        const sc = 0.8 + (i % 5) * 0.15;
+        flDummy.scale.setScalar(sc);
+        flDummy.updateMatrix();
+        flInst.setMatrixAt(i, flDummy.matrix);
+      }
+      flInst.instanceMatrix.needsUpdate = true;
+    };
+    flUpdate(0, 0);
+    scene.add(flInst);
+    // registered with the main updater loop below
+    scene.userData.floatLeafUpdate = flUpdate;
+    mark('float-leaves');
+  }
 
   /* wet-bank shore: dark damp ribbon hugging the terrain at the waterline,
      softens the water-to-land transition (no hard edge) */
@@ -1678,6 +1782,47 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     });
   }
   mark('moss-strands');
+
+  /* B"H WAY-better #15: drip ripple rings — sparse expanding rings on the
+     water under overhanging moss/branches. 8 sprites, each looping:
+     expand + fade, random phase. 1 draw call (single InstancedMesh would
+     need per-instance alpha; sprites share material via onBeforeRender
+     trick — instead: 8 tiny meshes, 1 material, negligible cost). */
+  {
+    const rc = document.createElement('canvas'); rc.width = rc.height = 64;
+    const rx = rc.getContext('2d');
+    rx.strokeStyle = 'rgba(255,255,255,0.85)'; rx.lineWidth = 3;
+    rx.beginPath(); rx.arc(32, 32, 26, 0, 6.283); rx.stroke();
+    rx.strokeStyle = 'rgba(255,255,255,0.35)'; rx.lineWidth = 2;
+    rx.beginPath(); rx.arc(32, 32, 18, 0, 6.283); rx.stroke();
+    const rtex = new THREE.CanvasTexture(rc);
+    const rmat = new THREE.MeshBasicMaterial({
+      map: rtex, transparent: true, depthWrite: false, opacity: 0.5,
+    });
+    const rgeo = new THREE.PlaneGeometry(1, 1); rgeo.rotateX(-Math.PI / 2);
+    const drips = [];
+    const drand = mulberry32(seed ^ 0xd21f);
+    for (let i = 0; i < 8; i++) {
+      const m = new THREE.Mesh(rgeo, rmat.clone());
+      const dz = 30 - drand() * 90;
+      m.position.set(riverX(dz) + (drand() - 0.5) * 6, WATER_Y + 0.03, dz);
+      m.userData.phase = drand() * 6.28;
+      m.userData.speed = 0.5 + drand() * 0.5;
+      scene.add(m); drips.push(m);
+    }
+    const dripUpdate = (t) => {
+      for (const m of drips) {
+        const cyc = ((t * m.userData.speed + m.userData.phase) % 4.0) / 4.0;
+        const s = 0.15 + cyc * 0.85;
+        m.scale.setScalar(s);
+        m.material.opacity = 0.55 * (1 - cyc);
+      }
+    };
+    dripUpdate(0);
+    // updaters not yet declared at this point — stash for registration below.
+    scene.userData.dripUpdate = dripUpdate;
+    mark('drip-ripples');
+  }
 
   /* B"H — branch-skeleton v2 (Yaakov 2026-10-13, "refine algorithms" sprint).
      DROP-IN REPLACEMENT for lines 929-1061 (the old straight 2-level
@@ -2384,7 +2529,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           vec3 rockMossCol = texture2D(uMossMap, vWRockP.xz * 0.5).rgb * 1.06;
           diffuseColor.rgb = mix(diffuseColor.rgb, rockMossCol, rockMoss);
           float rockWet = smoothstep(uWaterY + 0.28, uWaterY - 0.08, vWRockP.y);
-          diffuseColor.rgb *= mix(1.0, 0.62, rockWet);
+          // B"H WAY-better #16: wet band — darker + glossier. Wet stone goes
+          // almost black-brown and shines.
+          diffuseColor.rgb *= mix(1.0, 0.55, rockWet);
           // B"H WAY-better: dry stone lift — the premade wet-rock texture
           // averages 0.23 (very dark). Dry areas lift to mid-gray stone like
           // the reference; wet band stays dark. (Was black blobs.)
@@ -2392,7 +2539,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           diffuseColor.rgb *= mix(1.0, 2.6, dryLift);`)
         .replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>
           float rockWetR = smoothstep(uWaterY + 0.28, uWaterY - 0.08, vWRockP.y);
-          roughnessFactor = mix(roughnessFactor, 0.3, rockWetR);`);
+          // B"H WAY-better #16: wet band goes glossy (0.22) for specular pop.
+          roughnessFactor = mix(roughnessFactor, 0.22, rockWetR);`);
     };
     const COUNT = fast ? 90 : 160;
     const inst = new THREE.InstancedMesh(rockGeo, rockMat, COUNT + 4);
@@ -2781,6 +2929,10 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const sm = scene.userData.shaftMat, base = sm.userData.baseOpacity;
     updaters.push((t) => { sm.opacity = base * (0.78 + 0.22 * Math.sin(t * 0.32 + 1.0)); });
   }
+  // B"H WAY-better #14: floating leaves advection.
+  if (scene.userData.floatLeafUpdate) updaters.push(scene.userData.floatLeafUpdate);
+  // B"H WAY-better #15: drip ripple rings.
+  if (scene.userData.dripUpdate) updaters.push(scene.userData.dripUpdate);
   const addParticles = sys => { scene.add(sys.obj); updaters.push(sys.update); };
   const PSETS = {
     forest: ['pollen', 'dust'], river: ['pollen', 'dust'], grassland: ['pollen'],
