@@ -38,6 +38,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const { execFileSync } = require('child_process');
 const { requireMethod, requestValue } = require('./requestValues.js');
 const {
@@ -298,6 +299,19 @@ class PackedDeployRoutes {
 			try {
 				fs.mkdirSync(path.dirname(v.absPath), { recursive: true });
 				fs.writeFileSync(v.absPath, buf);
+				// B"H — Yaakov 2026-10-14: verify the written bytes match the expected SHA-256.
+				// If the client sent a sha256, read back the file and compare. Fail on mismatch.
+				// This ensures the deploy actually wrote the correct bytes.
+				if (f.sha256) {
+					const writtenBuf = fs.readFileSync(v.absPath);
+					const actualSha = crypto.createHash('sha256').update(writtenBuf).digest('hex');
+					if (actualSha !== f.sha256) {
+						// Delete the corrupted file and report error.
+						try { fs.unlinkSync(v.absPath); } catch {}
+						errors.push({ path: f.path, error: `SHA-256 mismatch after write. Expected ${f.sha256}, got ${actualSha}.` });
+						continue;
+					}
+				}
 				written.push(v.normalized);
 			} catch (e) {
 				errors.push({ path: f.path, error: e.message });

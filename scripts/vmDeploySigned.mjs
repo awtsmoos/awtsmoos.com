@@ -28,6 +28,7 @@ import { readFileSync, existsSync, writeFileSync } from 'node:fs';
 import { resolve, relative, join } from 'node:path';
 import { execSync, execFileSync } from 'node:child_process';
 import { homedir } from 'node:os';
+import { createHash } from 'node:crypto';
 import deploySign from '../geelooy/api/social/helper/routes/packed/deploySign.js';
 
 const API_BASE = process.env.AWTSMOOS_DEPLOY_API || 'https://awtsmoos.com/api/social';
@@ -90,7 +91,10 @@ function collectFiles(args) {
 			console.error(`Skipping (unreadable): ${f}: ${e.message}`);
 			continue;
 		}
-		payload.push({ path: rel.replace(/\\/g, '/'), content: buf.toString('base64') });
+		// B"H — Yaakov 2026-10-14: include SHA-256 for deploy verification.
+		// The API must verify the written bytes match, or fail the deploy.
+		const sha256 = createHash('sha256').update(buf).digest('hex');
+		payload.push({ path: rel.replace(/\\/g, '/'), content: buf.toString('base64'), sha256 });
 	}
 	return { message, payload };
 }
@@ -174,7 +178,9 @@ async function main() {
 				for (const extra of bustTouched) {
 					try {
 						const abs = resolve(REPO, extra);
-						payload.push({ path: extra, content: readFileSync(abs).toString('base64') });
+						const ebuf = readFileSync(abs);
+						const esha = createHash('sha256').update(ebuf).digest('hex');
+						payload.push({ path: extra, content: ebuf.toString('base64'), sha256: esha });
 						console.log(`B"H auto-adding busted HTML: ${extra}`);
 					} catch { /* skip */ }
 				}
@@ -212,9 +218,10 @@ async function main() {
 		const vContent = JSON.stringify({ build: buildId, time: new Date().toISOString() }) + '\n';
 		writeFileSync(vPath, vContent);
 		const vB64 = Buffer.from(vContent).toString('base64');
+		const vSha = createHash('sha256').update(Buffer.from(vContent)).digest('hex');
 		const existing = payload.find(f => f.path === 'geelooy/version.json');
-		if (existing) existing.content = vB64;
-		else payload.push({ path: 'geelooy/version.json', content: vB64 });
+		if (existing) { existing.content = vB64; existing.sha256 = vSha; }
+		else payload.push({ path: 'geelooy/version.json', content: vB64, sha256: vSha });
 		console.log(`B"H build version stamped: ${buildId}`);
 	} catch (e) {
 		console.error(`B"H version stamp failed (continuing anyway): ${e.message}`);
