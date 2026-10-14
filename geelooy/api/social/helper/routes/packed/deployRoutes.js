@@ -316,6 +316,19 @@ class PackedDeployRoutes {
 						}
 					} catch (e) {}
 				}
+				// B"H — Yaakov 2026-10-14: if deploying tunnel installer files,
+				// also clear the installer component cache so the tarball
+				// rebuilds with the new manifest. This makes deploys permanent
+				// without manual restarts.
+				if (v.normalized.includes('apps/tunnel/downloads/')) {
+					try {
+						const compPath = path.join(root, 'geelooy/api/tunnel/install/tools/installerComponents.js');
+						const resolvedComp = require.resolve(compPath);
+						if (require.cache[resolvedComp]) {
+							delete require.cache[resolvedComp];
+						}
+					} catch (e) {}
+				}
 			} catch (e) {
 				errors.push({ path: f.path, error: e.message });
 			}
