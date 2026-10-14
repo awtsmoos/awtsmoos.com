@@ -232,10 +232,11 @@ function bufferGeometryFromStream(stream, leafShrink = 0) {
       const p2 = [pos[vi[2]*3], pos[vi[2]*3+1], pos[vi[2]*3+2]];
       // Centroid
       const cx = (p0[0]+p1[0]+p2[0])/3, cy = (p0[1]+p1[1]+p2[1])/3, cz = (p0[2]+p1[2]+p2[2])/3;
-      // B"H LEAF-FIX: baked triangle areas are unreliable (huge). Use fixed
-      // leaf-card size. 0.55-0.75m so cards OVERLAP into dense clusters
-      // (0.3m was confetti — visible sky through canopy).
-      const size = 0.55 + ((t * 37) % 100) / 100 * 0.20;
+      // B"H 2026-10-14 MASS (Yaakov: canopy must read as mass, not confetti):
+      // 0.55m cards were distinct squares (uncanny valley). 1.0-1.3m cards
+      // OVERLAP into a dense foliage mass like the reference. The 0.11m
+      // individual leaves (separate system) provide close-up detail.
+      const size = 1.0 + ((t * 37) % 100) / 100 * 0.30;
       // Normal (for orientation) — from triangle
       const ax = p1[0]-p0[0], ay = p1[1]-p0[1], az = p1[2]-p0[2];
       const bx = p2[0]-p0[0], by = p2[1]-p0[1], bz = p2[2]-p0[2];
@@ -2919,7 +2920,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           );
           // Random orientation for natural 3D fill
           dummy.rotation.set(rand() * Math.PI, rand() * Math.PI, rand() * Math.PI);
-          const ss = 0.7 + rand() * 0.7; // 0.35-0.7m cards
+          // B"H 2026-10-14 MASS: 0.7-1.4m → 1.2-2.0m for overlapping dense mass
+          const ss = 1.2 + rand() * 0.8;
           dummy.scale.set(ss, ss, 1);
           dummy.updateMatrix();
           shellInst.setMatrixAt(sp, dummy.matrix);
