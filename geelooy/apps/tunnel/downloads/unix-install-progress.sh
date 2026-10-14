@@ -242,15 +242,16 @@ prg_draw_display() {
 	local filled=$(( pct * width / 100 ))
 	local empty=$(( width - filled ))
 	local bar="" i
-	# Build the bar with particle effects (EVEN MORE BEAUTIFUL!)
+	# Build the bar with particle effects (EVEN MORE BEAUTIFUL! SIX-SIDED STARS!)
 	for (( i=0; i<filled; i+=1 )); do
-		# Random sparkle particles with variety (WAY BETTER! EVEN MORE!)
-		if [ $(( RANDOM % 6 )) -eq 0 ] && [ "$i" -gt 0 ]; then
-			# Variety of magical particles: ✧ ⋆ ✩
-			case $(( RANDOM % 3 )) in
+		# Random sparkle particles with variety (WAY BETTER! EVEN MORE! SIX-SIDED!)
+		if [ $(( RANDOM % 5 )) -eq 0 ] && [ "$i" -gt 0 ]; then
+			# Variety of magical particles: ✧ ⋆ ✩ ✶ (six-sided star!)
+			case $(( RANDOM % 4 )) in
 				0) bar="${bar}${PRG_C_CYAN}✧${PRG_C_OFF}" ;;
 				1) bar="${bar}${PRG_C_MAGENTA}⋆${PRG_C_OFF}" ;;
 				2) bar="${bar}${PRG_C_BLUE}✩${PRG_C_OFF}" ;;
+				3) bar="${bar}${PRG_C_YELLOW:-$PRG_C_GOLD}✶${PRG_C_OFF}" ;;
 			esac
 		else
 			bar="${bar}${PRG_C_GREEN}█${PRG_C_OFF}"
@@ -266,8 +267,18 @@ prg_draw_display() {
 	done
 	local eta="$(_prg_format_eta "$pct")"
 	[ -n "$eta" ] && eta=" ${PRG_C_DIM}${eta}${PRG_C_OFF}"
-	# Single continuous line with magical particles
-	local line="$(printf ' %s%3d%%%s [%s] %s%s%s%s' \
+	# B"H — Yaakov 2026-10-14: Animated emojis that change as progress goes!
+	# More emojis, six-sided stars, magical animation!
+	local anim_emoji="🌱"
+	if [ "$pct" -ge 100 ]; then anim_emoji="🎉";
+	elif [ "$pct" -ge 80 ]; then anim_emoji="🌟";
+	elif [ "$pct" -ge 60 ]; then anim_emoji="✨";
+	elif [ "$pct" -ge 40 ]; then anim_emoji="🔥";
+	elif [ "$pct" -ge 20 ]; then anim_emoji="⚡";
+	elif [ "$pct" -ge 1 ]; then anim_emoji="🌿"; fi
+	# Single continuous line with magical particles and animated emoji
+	local line="$(printf ' %s%s %s%3d%%%s [%s] %s%s%s%s' \
+		"$anim_emoji" \
 		"$PRG_C_GOLD" "$pct" "$PRG_C_OFF" \
 		"$bar" \
 		"$PRG_C_DIM" "$PRG_STEP_MSG" "$PRG_C_OFF" \
