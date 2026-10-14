@@ -61,15 +61,24 @@ start_promoted_candidate() {
 	# B"H — Yaakov 2026-10-14: Ensure the launcher exists. If the components
 	# download missed it (fallback bug), fetch it directly from the API.
 	# This is a safety net, not the primary download mechanism.
+	# B"H — Yaakov 2026-10-14: More fail-safe: retry 3 times with delay.
 	if [ ! -f "$ROOT/unix-agent-launcher.cjs" ]; then
 		printf '%s\n' "⚠️  Launcher missing, fetching from API..." >&2
-		if command -v curl >/dev/null 2>&1; then
-			curl -sL -m 30 "https://awtsmoos.com/api/tunnel/install/unix-agent-launcher.cjs" -o "$ROOT/unix-agent-launcher.cjs" 2>/dev/null || true
-		elif command -v wget >/dev/null 2>&1; then
-			wget -q -T 30 -O "$ROOT/unix-agent-launcher.cjs" "https://awtsmoos.com/api/tunnel/install/unix-agent-launcher.cjs" 2>/dev/null || true
-		fi
+		_attempt=1
+		while [ $_attempt -le 3 ] && [ ! -f "$ROOT/unix-agent-launcher.cjs" ]; do
+			if [ $_attempt -gt 1 ]; then
+				printf '%s\n' "   Retry $_attempt/3..." >&2
+				sleep 2
+			fi
+			if command -v curl >/dev/null 2>&1; then
+				curl -sL -m 30 "https://awtsmoos.com/api/tunnel/install/unix-agent-launcher.cjs" -o "$ROOT/unix-agent-launcher.cjs" 2>/dev/null || true
+			elif command -v wget >/dev/null 2>&1; then
+				wget -q -T 30 -O "$ROOT/unix-agent-launcher.cjs" "https://awtsmoos.com/api/tunnel/install/unix-agent-launcher.cjs" 2>/dev/null || true
+			fi
+			_attempt=$(( _attempt + 1 ))
+		done
 		[ -f "$ROOT/unix-agent-launcher.cjs" ] || {
-			printf '%s\n' "❌ Failed to fetch launcher. Agent cannot start." >&2
+			printf '%s\n' "❌ Failed to fetch launcher after 3 attempts. Agent cannot start." >&2
 			exit 1
 		}
 	fi
