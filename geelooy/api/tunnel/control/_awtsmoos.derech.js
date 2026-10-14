@@ -47,10 +47,35 @@ module.exports = {
 
     await $i.use("pairing/page", async (vars) => {
       try {
+        // B"H — Yaakov 2026-10-14: Clear require cache so file changes take effect
+        // WITHOUT server restart (fix deploy system).
+        const pagePath = require.resolve("./routes/pairingPage.js");
+        delete require.cache[pagePath];
         const { pairingPageHtml } = require("./routes/pairingPage.js");
-        const query = (vars && vars.query) || {};
-        // B"H — Yaakov 2026-10-14: pairingPageHtml is a function, not a route handler.
-        // Call it with the pairing code from query params.
+        // B"H — Yaakov 2026-10-14: Get query params from multiple possible locations.
+        // The framework may put them in vars.query, $i.query, or the URL.
+        let query = {};
+        if (vars && vars.query) query = vars.query;
+        else if ($i && $i.query) query = $i.query;
+        else if (vars && typeof vars === "object") {
+          // vars might BE the query object directly
+          if (vars.pairingCode || vars.pairingId) query = vars;
+        }
+        // Fallback: parse from URL if available
+        if (!query.pairingCode && $i && $i.url) {
+          try {
+            const urlObj = new URL($i.url, "https://awtsmoos.com");
+            query.pairingCode = urlObj.searchParams.get("pairingCode") || "";
+            query.pairingId = urlObj.searchParams.get("pairingId") || "";
+          } catch (e) {}
+        }
+        if (!query.pairingCode && $i && $i.request && $i.request.url) {
+          try {
+            const urlObj = new URL($i.request.url, "https://awtsmoos.com");
+            query.pairingCode = urlObj.searchParams.get("pairingCode") || "";
+            query.pairingId = urlObj.searchParams.get("pairingId") || "";
+          } catch (e) {}
+        }
         const html = pairingPageHtml({
           pairingCode: query.pairingCode || query.code || "",
           pairingId: query.pairingId || "",
@@ -59,7 +84,13 @@ module.exports = {
         return {
           statusCode: 200,
           response: html,
-          headers: { "Content-Type": "text/html; charset=utf-8" }
+          headers: {
+            "Content-Type": "text/html; charset=utf-8",
+            // B"H — Yaakov 2026-10-14: Fix cache busting. Never cache the pairing page.
+            "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+            "Pragma": "no-cache",
+            "Expires": "0"
+          }
         };
       } catch (err) {
         // B"H — Yaakov 2026-10-14 STANDING RULE: Show full stack trace in response.
