@@ -1,0 +1,379 @@
+/* B"H — Awtsmoos River branded heichelos.
+ * Tunnel CSS laws: no !important, token-only colors, explicit light/dark
+ * text colors, full interactive states on every control, sharp corners only,
+ * overflow-x guards where content could widen.
+ */
+
+/* ============ branded masthead above a card ============ */
+.bh-masthead {
+	--bh-brand: #d4a94e;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 12px 14px;
+	margin: 0 0 10px;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	border-left: 4px solid var(--bh-brand);
+	background: var(--aw-surface);
+	color: var(--aw-text);
+	max-width: 100%;
+	overflow-x: clip;
+}
+
+.bh-logo {
+	width: 44px;
+	height: 44px;
+	flex: none;
+	object-fit: contain;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: var(--aw-bg);
+}
+
+.bh-logo-fallback {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 22px;
+	font-weight: 800;
+	color: var(--bh-brand);
+	background: var(--aw-bg);
+	border-color: var(--bh-brand);
+}
+
+.bh-text {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.bh-name {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 800;
+	color: var(--bh-brand);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.bh-welcome {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.5;
+	color: var(--aw-text-soft);
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.bh-powered {
+	flex: none;
+	font-size: 11px;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--aw-text-soft);
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	padding: 5px 9px;
+	white-space: nowrap;
+}
+
+/* ============ management modal ============ */
+body.bh-open {
+	overflow: hidden;
+}
+
+.bh-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 1400;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 18px;
+}
+
+.bh-backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(4, 5, 8, 0.72);
+}
+
+[data-theme="light"] .bh-backdrop {
+	background: rgba(30, 22, 8, 0.55);
+}
+
+.bh-panel {
+	position: relative;
+	width: min(560px, 100%);
+	max-height: calc(100vh - 36px);
+	display: flex;
+	flex-direction: column;
+	background: var(--aw-surface);
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	border-top: 3px solid var(--accent-gold);
+	color: var(--aw-text);
+	box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+	overflow: hidden;
+}
+
+.bh-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 14px 18px;
+	border-bottom: 1px solid var(--aw-line);
+}
+
+.bh-head h2 {
+	margin: 0;
+	font-size: 18px;
+	font-weight: 800;
+	color: var(--aw-text);
+}
+
+.bh-close {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 38px;
+	height: 38px;
+	padding: 0;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: transparent;
+	color: var(--aw-text-soft);
+	cursor: pointer;
+	flex: none;
+}
+
+.bh-close svg {
+	width: 18px;
+	height: 18px;
+}
+
+.bh-close:hover {
+	border-color: var(--accent-gold);
+	color: var(--accent-gold);
+}
+
+.bh-close:active {
+	transform: translateY(1px);
+}
+
+.bh-close:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 3px;
+}
+
+.bh-body {
+	padding: 18px;
+	overflow-y: auto;
+	overflow-x: clip;
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+
+.bh-field {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	min-width: 0;
+}
+
+.bh-label {
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--aw-text-soft);
+}
+
+.bh-input {
+	width: 100%;
+	padding: 10px 12px;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: var(--aw-bg);
+	color: var(--aw-text);
+	font: inherit;
+	font-size: 15px;
+	resize: vertical;
+}
+
+.bh-input:hover {
+	border-color: var(--aw-text-soft);
+}
+
+.bh-input:focus {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 1px;
+	border-color: var(--accent-gold);
+}
+
+select.bh-input {
+	cursor: pointer;
+}
+
+select.bh-input:hover {
+	border-color: var(--aw-text-soft);
+}
+
+select.bh-input:focus {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 1px;
+	border-color: var(--accent-gold);
+}
+
+select.bh-input:active {
+	border-color: var(--accent-gold);
+}
+
+.bh-logo-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.bh-upload-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px 16px;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: var(--aw-bg);
+	color: var(--aw-text);
+	font: inherit;
+	font-size: 14px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.bh-upload-btn:hover {
+	border-color: var(--accent-gold);
+	color: var(--accent-gold);
+}
+
+.bh-upload:focus-visible + .bh-upload-btn {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 3px;
+}
+
+.bh-palette {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.bh-swatch {
+	width: 44px;
+	height: 44px;
+	padding: 0;
+	border: 2px solid var(--aw-line);
+	border-radius: 0;
+	cursor: pointer;
+}
+
+.bh-swatch:hover {
+	border-color: var(--aw-text-soft);
+}
+
+.bh-swatch.is-active {
+	border-color: var(--aw-text);
+	box-shadow: 0 0 0 2px var(--aw-bg), 0 0 0 4px var(--accent-gold);
+}
+
+.bh-swatch:active {
+	transform: translateY(1px);
+}
+
+.bh-swatch:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 3px;
+}
+
+.bh-preview {
+	border: 1px dashed var(--aw-line);
+	border-radius: 0;
+	padding: 12px;
+	background: var(--aw-bg);
+}
+
+.bh-preview .bh-masthead {
+	margin: 0;
+}
+
+.bh-actions {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.bh-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 11px 16px;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: var(--aw-bg);
+	color: var(--aw-text);
+	font: inherit;
+	font-size: 15px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.bh-btn-primary {
+	background: var(--accent-gold);
+	border-color: var(--accent-gold);
+	color: #1a1206;
+}
+
+.bh-btn-ghost {
+	border-color: transparent;
+	color: var(--aw-text-soft);
+}
+
+.bh-btn:hover {
+	border-color: var(--accent-gold);
+	color: var(--accent-gold);
+}
+
+.bh-btn-primary:hover {
+	color: #1a1206;
+	filter: brightness(1.06);
+}
+
+.bh-btn-ghost:hover {
+	color: var(--aw-text);
+	border-color: var(--aw-line);
+}
+
+.bh-btn:active {
+	transform: translateY(1px);
+}
+
+.bh-btn:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 3px;
+}
+
+.bh-note {
+	margin: 0;
+	font-size: 13px;
+	line-height: 1.55;
+	color: var(--aw-text-soft);
+}
