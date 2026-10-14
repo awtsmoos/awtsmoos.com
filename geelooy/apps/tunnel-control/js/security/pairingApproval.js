@@ -8,7 +8,7 @@ const INSTALL_COMMAND = "curl -fsSL https://awtsmoos.com/api/tunnel/install/unix
 const FRIENDLY_PAIRING_ERRORS = {
 	pairing_not_found: "This pairing code wasn't found — it probably expired or was already used. Re-run the installer on your server for a fresh code, then approve the new one.",
 	pairing_expired: "This pairing code expired before it was approved. Re-run the installer on your server for a fresh code.",
-	pairing_identity_conflict: "This device is already paired to a different account. Approve from the account it was paired with, or reset the device identity and pair fresh.",
+	pairing_identity_conflict: "This device already has an active pairing that doesn't match. If you reinstalled, reset the device identity and pair fresh.",
 	pairing_binding_invalid: "Pairing couldn't be completed because of an identity mismatch. Re-run the installer for a fresh code."
 };
 
@@ -58,8 +58,10 @@ export function showPairingApprovalIfRequested() {
 		if (!result.ok) {
 			button.disabled = false;
 			status.textContent = pairingFailureText(result);
+			status.classList.add("awt-pairing-error");
 			return;
 		}
+		status.classList.remove("awt-pairing-error");
 		status.textContent = "Device approved. Waiting for the tunnel to register…";
 		setTimeout(() => { location.href = "/apps/tunnel-control/"; }, 1800);
 	});

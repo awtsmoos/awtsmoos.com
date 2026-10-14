@@ -39,7 +39,17 @@ function approveInStore(store, accountId, userCode) {
 			pairingProofVersion: Provenance.PAIRING_PROOF_VERSION
 		});
 	} catch (error) {
-		return denied(store, pairing, normalizedAccount, error);
+		binding = recoverStaleIncompleteBinding(store, {
+			...pairing,
+			ownerAccountId: normalizedAccount,
+			credential,
+			pairingId: pairing.pairingId,
+			ownershipVerifiedAt,
+			pairingProofVersion: Provenance.PAIRING_PROOF_VERSION
+		}, error);
+		if (!binding) {
+			return denied(store, pairing, normalizedAccount, error);
+		}
 	}
 	Object.assign(pairing, {
 		state: "approved",
@@ -87,6 +97,46 @@ function publicError(error) {
 	return code.includes("binding") || code.includes("ownership")
 		? "pairing_identity_conflict"
 		: "pairing_binding_invalid";
+}
+
+/**
+ * Recovers from an identity conflict against bindings that never came online.
+ * A device whose previous pairing was approved but never registered (installer
+ * died, network dropped) would otherwise be permanently wedged: every fresh
+ * pairing ceremony fails closed against its own stale ghost. When every
+ * conflicting binding for this device + account has never authenticated, the
+ * freshly user-approved pairing ceremony is sufficient proof to supersede the
+ * ghosts and create anew. Bindings that HAVE authenticated stay fail-closed.
+ * Returns the new binding, or null when recovery does not apply.
+ */
+function recoverStaleIncompleteBinding(store, input, error) {
+	if (publicError(error) !== "pairing_identity_conflict") return null;
+	const deviceId = Id.deviceId(input.deviceId);
+	const accountId = Id.accountId(input.ownerAccountId);
+	if (!deviceId || !accountId) return null;
+	const bindings = Object.values(store.tunnelBindings || {}).filter(binding => {
+		return !binding.revokedAt &&
+			Id.deviceId(binding.deviceId) === deviceId &&
+			Id.accountId(binding.ownerAccountId) === accountId;
+	});
+	if (!bindings.length) return null;
+	const anyAuthenticated = bindings.some(binding => Boolean(binding.lastAuthenticatedAt));
+	if (anyAuthenticated) return null;
+	const now = new Date().toISOString();
+	for (const binding of bindings) {
+		binding.revokedAt = now;
+		binding.revocationVersion = Number(binding.revocationVersion || 0) + 1;
+		binding.supersededAt = now;
+		binding.supersededReason = "stale_incomplete_pairing";
+	}
+	Audit.appendAudit(store, {
+		action: "pairing.supersede_stale",
+		accountId,
+		deviceId,
+		supersededTunnelIds: bindings.map(binding => binding.tunnelId),
+		result: "allowed"
+	});
+	return Binding.createBinding(store, input);
 }
 
 module.exports = { approveInStore, matchingPairing, publicError };

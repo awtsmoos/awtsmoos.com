@@ -33,8 +33,8 @@ const MESSAGES = Object.freeze({
 		action: INSTALL_COMMAND
 	},
 	pairing_identity_conflict: {
-		title: "Device already paired elsewhere",
-		message: "This device is already paired to a different account. Approve from the account it was paired with, or reset the device identity and pair fresh."
+		title: "Device identity conflict",
+		message: "This device already has an active pairing that doesn't match. If this is your device and you reinstalled, reset the device identity on the server and pair fresh — or approve from the original installation."
 	},
 	pairing_binding_invalid: {
 		title: "Pairing couldn't be completed",

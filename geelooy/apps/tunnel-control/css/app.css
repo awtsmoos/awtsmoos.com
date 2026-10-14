@@ -26,9 +26,16 @@
 	box-shadow: 0 30px 90px rgba(0, 0, 0, .5);
 	overflow-wrap: break-word;
 }
-.awt-pairing-card h1 { margin: 12px 0; font-size: clamp(2rem, 6vw, 3.5rem);
+.awt-pairing-card .awt-mini-kicker {
+	font-size: .72rem;
+	letter-spacing: .28em;
+	color: #8fffd4;
+	font-weight: 700;
+}
+.awt-pairing-card h1 { margin: 14px 0 10px; font-size: clamp(1.6rem, 5vw, 2.6rem);
+  line-height: 1.15;
   color: #f2fff9; /* B"H tunnel CSS law: explicit theme-safe text color */}
-.awt-pairing-card p { color: #b9d9cc; line-height: 1.65; }
+.awt-pairing-card p { color: #b9d9cc; line-height: 1.65; margin: 0 0 4px; }
 .awt-pairing-code {
 	margin: 28px 0;
 	padding: 18px;
@@ -42,5 +49,28 @@
 	word-break: break-all;
 	max-width: 100%;
 }
-.awt-pairing-actions { display: flex; flex-wrap: wrap; gap: 12px; }
-.awt-pairing-status { min-height: 1.6em; }
+.awt-pairing-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+/* B"H Yaakov's law: sharp corners only — the design system's pill buttons stop here. */
+.awt-pairing-card .button-link {
+	border-radius: 0;
+	min-height: 52px;
+	padding: 12px 28px;
+	font-size: 1rem;
+}
+.awt-pairing-card .button-link.primary {
+	background: rgba(143, 255, 212, .14);
+	border-color: rgba(143, 255, 212, .65);
+	color: #eafff6;
+}
+.awt-pairing-card .button-link.primary:disabled {
+	opacity: .55;
+	cursor: wait;
+}
+.awt-pairing-card .button-link:not(.primary) {
+	color: #b9d9cc;
+}
+.awt-pairing-status { min-height: 1.6em; margin-top: 18px; color: #8fffd4; line-height: 1.6; }
+.awt-pairing-status.awt-pairing-error { color: #ffb3a7; }
+@media (max-width: 480px) {
+	.awt-pairing-card .button-link { flex: 1 1 100%; }
+}
