@@ -20,7 +20,8 @@ const INSTALL_COMMAND = "curl -fsSL https://awtsmoos.com/api/tunnel/install/unix
 const FRIENDLY_MESSAGES = Object.freeze({
 	pairing_expired: "This pairing code expired before it was approved. Re-run the installer on your server for a fresh code:\n" + INSTALL_COMMAND,
 	pairing_cancelled: "Pairing was cancelled. Re-run the installer whenever you're ready:\n" + INSTALL_COMMAND,
-	pairing_rejected: "Pairing was rejected on the approval page. If that was a mistake, re-run the installer for a fresh code:\n" + INSTALL_COMMAND
+	pairing_rejected: "Pairing was rejected on the approval page. If that was a mistake, re-run the installer for a fresh code:\n" + INSTALL_COMMAND,
+	pairing_consumed: "This pairing was already claimed by another process (usually a leftover from an interrupted install). Re-run the installer for a fresh code:\n" + INSTALL_COMMAND
 });
 
 /** Wraps a machine pairing code in a human-actionable error. */
@@ -66,7 +67,11 @@ async function wait(config, response, options = {}) {
 		}
 		consecutiveErrors = 0;
 		if (status.state === "approved" && status.credentialEnvelope) return status;
-		if (["expired", "cancelled", "rejected"].includes(status.state)) {
+		// B"H — "consumed" means another process (usually a stale candidate
+		// agent from an interrupted install) already claimed this pairing's
+		// credential. It will never become "approved" for us; fail fast with
+		// a clear message instead of polling forever.
+		if (["expired", "cancelled", "rejected", "consumed"].includes(status.state)) {
 			throw pairingFailure(`pairing_${status.state}`);
 		}
 		// The server slides the expiry forward on every healthy poll; follow it

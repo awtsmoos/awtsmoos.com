@@ -48,6 +48,18 @@ kill_stale_installers() {
 		for pat in $patterns; do
 			case "$cmdline" in *"$pat"*) matched=1; break ;; esac
 		done
+		# B"H — also kill stale CANDIDATE agents from interrupted installs.
+		# They run awtsmoos-agent-launcher.cjs from a ".candidate-" staging
+		# path and keep polling, which lets them steal the credential
+		# envelope from the new run's pairing (server marks it "consumed"
+		# on first poll). The LIVE agent never runs from a .candidate-
+		# path, so it is never touched.
+		if [ "$matched" = "0" ]; then
+			case "$cmdline" in
+				*"awtsmoos-agent-launcher.cjs"*".candidate-"*)
+					matched=1 ;;
+			esac
+		fi
 		[ "$matched" = "1" ] || continue
 		if kill -TERM "$pid" 2>/dev/null; then
 			killed=$(( killed + 1 ))
@@ -66,6 +78,12 @@ kill_stale_installers() {
 		for pat in $patterns; do
 			case "$cmdline" in *"$pat"*) matched=1; break ;; esac
 		done
+		if [ "$matched" = "0" ]; then
+			case "$cmdline" in
+				*"awtsmoos-agent-launcher.cjs"*".candidate-"*)
+					matched=1 ;;
+			esac
+		fi
 		[ "$matched" = "1" ] || continue
 		kill -KILL "$pid" 2>/dev/null || true
 	done < <(ps -eo pid=,args= 2>/dev/null)
