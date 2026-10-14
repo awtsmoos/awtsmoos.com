@@ -17,8 +17,10 @@ bootstrap_cancelled=0
 source "$runtime_root/unix-bootstrap-fetch.sh"
 
 # --- Clever terminal presentation (Yaakov 2026-10-11) ---
-# --- Colorful & fun (Yaakov 2026-10-13) ---
-if [ -t 2 ] && [ "${NO_COLOR:-}" != "1" ] && [ "${TERM:-}" != "dumb" ]; then
+# --- Colorful & fun (Yaakov 2026-10-13, updated 2026-10-14) ---
+# B"H — Yaakov 2026-10-14: ALWAYS use beautiful colors. The magical experience
+# requires colors at every step. Only disable if explicitly requested via NO_COLOR.
+if [ "${NO_COLOR:-}" != "1" ] && [ "${TERM:-}" != "dumb" ]; then
 	BST_C_GOLD=$'\033[1;33m'; BST_C_GREEN=$'\033[1;32m'; BST_C_RED=$'\033[1;31m'
 	BST_C_CYAN=$'\033[1;36m'; BST_C_DIM=$'\033[2m'; BST_C_OFF=$'\033[0m'
 	BST_C_PINK=$'\033[1;95m'; BST_C_YELLOW=$'\033[1;93m'; BST_C_PURPLE=$'\033[38;5;141m'
@@ -117,10 +119,11 @@ bootstrap_progress() {
 		8[0-9]|9[0-9]) fun_emoji="🌟" ;;
 		100) fun_emoji="🎉" ;;
 	esac
-	if [ -t 1 ] && [ "${AWTSMOOS_PROGRESS_MODE:-tty}" != "plain" ]; then
+	# B"H — Yaakov 2026-10-14: ALWAYS use beautiful colors. No plain mode.
+	if [ "${AWTSMOOS_PROGRESS_MODE:-tty}" != "plain" ]; then
 		printf '\r%s\033[2K[%3d%%]%s %s %s' "$BST_C_CYAN" "$percent" "$BST_C_OFF" "$fun_emoji" "$message"
 	else
-		printf '[%3d%%] %s %s\n' "$percent" "$fun_emoji" "$message"
+		printf '%s[%3d%%]%s %s %s\n' "$BST_C_CYAN" "$percent" "$BST_C_OFF" "$fun_emoji" "$message"
 	fi
 }
 
