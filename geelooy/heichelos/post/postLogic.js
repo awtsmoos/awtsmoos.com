@@ -159,6 +159,16 @@ async function performReaderBoot() {
 	safeSubsystem('enhancement-repair-soon-2', () => tiferesReaderEnhancements.repairSoon());
 	await safeSubsystemAsync('deep-linked-comment', () => tiferesReaderEnhancements.revealRequestedComment());
 	safeSubsystem('beauty-and-legend', () => tiferesReaderEnhancements.refreshBeautyAndLegend());
+	safeSubsystem('related-posts', () => {
+		// B"H — Yaakov 2026-10-13: the Related shelf mounts below the post.
+		// Dynamic import so a missing/broken module can never touch the
+		// reader; the module itself also never throws.
+		try {
+			import('/feed/js/relatedPosts.js?v=related-001')
+				.then(mod => mod.mountRelatedPostsForReader())
+				.catch(() => { /* related shelf never breaks reading */ });
+		} catch { /* related shelf never breaks reading */ }
+	});
 	safeSubsystem('diagnostics', () => tiferesReaderEnhancements.refreshDiagnostics({
 		forceBlockerScan: true
 	}));
