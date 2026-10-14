@@ -236,16 +236,16 @@ prg_draw_display() {
 	[ "$PRG_TTY" = "1" ] || return 0
 	[ "$INSTALL_STEP_TOTAL" -gt 0 ] || return 0
 	# B"H — Yaakov 2026-10-14: ONE continuous percentage bar with WAY BETTER
-	# ASCII particle effects. Single line, magical, beautiful.
+	# ASCII particle effects. Single line, magical, beautiful. WAY MORE!
 	local pct="$INSTALL_OVERALL_PCT"
-	local width=40
+	local width=50
 	local filled=$(( pct * width / 100 ))
 	local empty=$(( width - filled ))
 	local bar="" i
-	# Build the bar with particle effects (EVEN MORE BEAUTIFUL! SIX-SIDED STARS!)
+	# Build the bar with particle effects (EVEN MORE BEAUTIFUL! SIX-SIDED STARS! WAY MORE!)
 	for (( i=0; i<filled; i+=1 )); do
-		# Random sparkle particles with variety (WAY BETTER! EVEN MORE! SIX-SIDED!)
-		if [ $(( RANDOM % 5 )) -eq 0 ] && [ "$i" -gt 0 ]; then
+		# Random sparkle particles with variety (WAY BETTER! EVEN MORE! SIX-SIDED! WAY MORE DENSE!)
+		if [ $(( RANDOM % 3 )) -eq 0 ] && [ "$i" -gt 0 ]; then
 			# Variety of magical particles: ✧ ⋆ ✩ ✶ (six-sided star!)
 			case $(( RANDOM % 4 )) in
 				0) bar="${bar}${PRG_C_CYAN}✧${PRG_C_OFF}" ;;
