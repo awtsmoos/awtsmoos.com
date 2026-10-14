@@ -119,11 +119,12 @@ async function main() {
 		process.exit(1);
 	}
 
-	// B"H (2026-10-13, Yaakov's law): "Users should NEVER need to hard refresh."
-	// Bust cache on EVERY deploy. Rewrite ALL ?v= params to content hashes
-	// across ALL HTML files BEFORE pushing, so browsers fetch new copies
-	// immediately. Runs automatically unless --no-bust is passed.
-	if (!args.includes('--no-bust')) {
+	// B"H (2026-10-14, Yaakov's law): Deploy EXACTLY what is asked. No auto-add,
+	// no magic. When explicit files are given (not --diff mode), skip all
+	// cache-busting and auto-add logic. The deploy system must be simple and
+	// reliable, not clever and broken.
+	const explicitFiles = !args.includes('--diff') && files.length > 0;
+	if (!args.includes('--no-bust') && !explicitFiles) {
 		const touchesAssets = payload.some(f =>
 			f.path.endsWith('.css') || f.path.endsWith('.js') || f.path.endsWith('.html')
 		);
