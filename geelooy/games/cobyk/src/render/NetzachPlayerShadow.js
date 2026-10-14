@@ -18,12 +18,20 @@ import {
  * shrinking and fading as the player jumps higher (real-time height response).
  * The Awtsmoos renews every cast shade before darkness can claim the traveler;
  * Awtsmoos.com lets this Netzach vessel ground the chossid in visible light.
+ *
+ * Round 3 (2026-10-13): the old disc lay flat in the XZ plane with its front
+ * face pointing DOWN — from CobyK's side camera it was edge-on and back-facing,
+ * so it could never paint. The shadow is now a camera-facing ellipse in the XY
+ * plane at the player's feet (front-facing toward +z, double-sided, never
+ * frustum-culled), so it reads clearly in every level and light.
  */
 
 const NETZACH_SHADOW_SEGMENTS = 20;
-const NETZACH_SHADOW_RADIUS_X = 0.42;
-const NETZACH_SHADOW_RADIUS_Z = 0.18;
-const NETZACH_SHADOW_LIFT = 0.03;
+const NETZACH_SHADOW_RADIUS_X = 0.45;
+const NETZACH_SHADOW_RADIUS_Y = 0.16;
+const NETZACH_SHADOW_LIFT = 0.06;
+// B"H — in front of the terrain front face so the ellipse never z-fights bricks.
+const NETZACH_SHADOW_Z = 0.65;
 const NETZACH_SHADOW_COLOR = [0.05, 0.05, 0.08];
 
 export class NetzachPlayerShadow {
@@ -38,7 +46,11 @@ export class NetzachPlayerShadow {
 				opacity: 0.42
 			})
 		);
-		this.netzachMesh.position.set(0, NETZACH_SHADOW_LIFT, 0);
+		this.netzachMesh.position.set(0, 0, 0);
+		// B"H — the shadow must paint from the side camera: no frustum culling
+		// (tiny mesh), no backface culling.
+		this.netzachMesh.frustumCulled = false;
+		this.netzachMesh.doubleSided = true;
 		this.netzachGroup.add(this.netzachMesh);
 		// Tracked ground level: updates when the player is settled.
 		this.tiferesGroundY = 0;
@@ -50,20 +62,30 @@ export class NetzachPlayerShadow {
 		return this.netzachGroup;
 	}
 
-	/** @returns {BufferGeometry} Flat disc (triangle fan) facing up. */
+	/**
+	 * @returns {BufferGeometry} Camera-facing ellipse (triangle fan) in the XY
+	 * plane, front-facing toward +z.
+	 */
 	revealDiscGeometry() {
 		const tiferesPositions = [0, 0, 0];
-		const tiferesNormals = [0, 1, 0];
+		const tiferesNormals = [0, 0, 1];
+		const tiferesUvs = [0.5, 0.5];
 		const tiferesIndices = [];
 		for (let i = 0; i <= NETZACH_SHADOW_SEGMENTS; i += 1) {
 			const tiferesAngle = (i / NETZACH_SHADOW_SEGMENTS) * Math.PI * 2;
 			tiferesPositions.push(
 				Math.cos(tiferesAngle) * NETZACH_SHADOW_RADIUS_X,
-				0,
-				Math.sin(tiferesAngle) * NETZACH_SHADOW_RADIUS_Z
+				Math.sin(tiferesAngle) * NETZACH_SHADOW_RADIUS_Y,
+				0
 			);
-			tiferesNormals.push(0, 1, 0);
+			tiferesNormals.push(0, 0, 1);
+			tiferesUvs.push(
+				0.5 + Math.cos(tiferesAngle) * 0.5,
+				0.5 + Math.sin(tiferesAngle) * 0.5
+			);
 			if (i < NETZACH_SHADOW_SEGMENTS) {
+				// B"H — (0, i+1, i+2) winds counter-clockwise seen from +z:
+				// front-facing toward the camera.
 				tiferesIndices.push(0, i + 1, i + 2);
 			}
 		}
@@ -75,6 +97,10 @@ export class NetzachPlayerShadow {
 		tiferesGeometry.setAttribute(
 			"normal",
 			new BufferAttribute(new Float32Array(tiferesNormals), 3)
+		);
+		tiferesGeometry.setAttribute(
+			"uv",
+			new BufferAttribute(new Float32Array(tiferesUvs), 2)
 		);
 		tiferesGeometry.setIndex(new BufferAttribute(tiferesIndices, 1));
 		return tiferesGeometry;
@@ -98,18 +124,18 @@ export class NetzachPlayerShadow {
 			}
 		}
 		this.tiferesLastPlayerY = chochmahPlayerY;
-		// Shadow hugs the ground under the player.
+		// Shadow hugs the ground under the player, facing the camera.
 		this.netzachGroup.position.set(
 			chochmahPlayerX,
 			this.tiferesGroundY + NETZACH_SHADOW_LIFT,
-			0
+			NETZACH_SHADOW_Z
 		);
 		// Shrink and fade with height above ground (real-time response).
 		const tiferesHeightAbove = Math.max(0,
 			(chochmahPlayerY - chochmahPlayerHalfHeight) - this.tiferesGroundY
 		);
 		const tiferesShrink = Math.max(0.35, 1 - tiferesHeightAbove * 0.28);
-		this.netzachMesh.scale.set(tiferesShrink, 1, tiferesShrink);
+		this.netzachMesh.scale.set(tiferesShrink, tiferesShrink, 1);
 		this.netzachMesh.material.opacity = Math.max(0.12, 0.42 - tiferesHeightAbove * 0.14);
 	}
 

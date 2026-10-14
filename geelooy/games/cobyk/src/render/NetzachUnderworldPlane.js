@@ -17,65 +17,74 @@ import {
  * large dark-earth plane from y=0 downward — the world reads as solid ground.
  * The Awtsmoos renews the deep earth before emptiness can claim the world below;
  * Awtsmoos.com lets this Netzach vessel ground the journey in visible soil.
+ *
+ * Round 3 (2026-10-13): the per-level plane was fragile — rebuilt on every
+ * load() and detached by clear(), and still never painted in Level 1's view.
+ * It is now ONE persistent static quad, big enough for every level and camera
+ * (x in [-120, 220], y in [-120, 0.02]), never frustum-culled, double-sided,
+ * with UVs, so no winding/culling/attribute edge can hide it again.
  */
 
 const NETZACH_EARTH_COLOR = [0.23, 0.17, 0.12];
+// B"H — one static quad covers all six canonical levels (widest is 53)
+// plus any camera dip or zoom: no per-level rebuild can go stale.
+const NETZACH_X0 = -120;
+const NETZACH_X1 = 220;
+const NETZACH_Y_TOP = 0.02;
+const NETZACH_Y_BOTTOM = -120;
+const NETZACH_Z = -0.6;
 
 export class NetzachUnderworldPlane {
 	constructor() {
-		this.netzachMesh = null;
-	}
-
-	/**
-	 * Builds (or rebuilds) one earth plane spanning the level's x-range.
-	 * Called on level load; the plane is static afterwards.
-	 * @param {number} chochmahMinX Level min x.
-	 * @param {number} chochmahMaxX Level max x.
-	 * @returns {Mesh} The earth plane mesh.
-	 */
-	reveal(chochmahMinX, chochmahMaxX) {
-		this.clear();
-		const tiferesPadX = 30;
-		const tiferesX0 = chochmahMinX - tiferesPadX;
-		const tiferesX1 = chochmahMaxX + tiferesPadX;
-		const tiferesDepth = 40;
-		// Quad in the XY plane at z=-0.6 (behind the brick boxes), top edge at
-		// y=0.02 so it tucks just under the bottom brick row.
 		const tiferesPositions = new Float32Array([
-			tiferesX0, 0.02, 0,
-			tiferesX1, 0.02, 0,
-			tiferesX1, -tiferesDepth, 0,
-			tiferesX0, -tiferesDepth, 0
+			NETZACH_X0, NETZACH_Y_TOP, 0,
+			NETZACH_X1, NETZACH_Y_TOP, 0,
+			NETZACH_X1, NETZACH_Y_BOTTOM, 0,
+			NETZACH_X0, NETZACH_Y_BOTTOM, 0
 		]);
 		const tiferesNormals = new Float32Array([
 			0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1
 		]);
+		const tiferesUvs = new Float32Array([
+			0, 1, 1, 1, 1, 0, 0, 0
+		]);
 		const tiferesGeometry = new BufferGeometry();
 		tiferesGeometry.setAttribute("position", new BufferAttribute(tiferesPositions, 3));
 		tiferesGeometry.setAttribute("normal", new BufferAttribute(tiferesNormals, 3));
-		// B"H — Yaakov 2026-10-13 round 2: winding must be counter-clockwise
-		// seen from +z (the camera side). [0,1,2, 0,2,3] was clockwise, so the
-		// plane was back-facing and frustum-culled — the dead band stayed.
+		tiferesGeometry.setAttribute("uv", new BufferAttribute(tiferesUvs, 2));
+		// B"H — counter-clockwise seen from +z (the camera side); with
+		// doubleSided below, winding can never hide the plane again.
 		tiferesGeometry.setIndex(new BufferAttribute([0, 2, 1, 0, 3, 2], 1));
 		this.netzachMesh = new Mesh(
 			tiferesGeometry,
 			new MeshStandardMaterial({ color: NETZACH_EARTH_COLOR, roughness: 1 })
 		);
 		this.netzachMesh.name = "cobyk:underworld";
-		this.netzachMesh.position.set(0, 0, -0.6);
+		this.netzachMesh.position.set(0, 0, NETZACH_Z);
+		// B"H — bulletproofing: the plane must paint in every level and every
+		// camera view. No frustum culling (huge quad), no backface culling.
+		this.netzachMesh.frustumCulled = false;
+		this.netzachMesh.doubleSided = true;
+	}
+
+	/**
+	 * Returns the persistent earth mesh. Kept for API compatibility with the
+	 * per-level reveal(minX, maxX); the quad already covers every level.
+	 * @returns {Mesh} The earth plane mesh.
+	 */
+	reveal() {
 		return this.netzachMesh;
 	}
 
-	/** @returns {Mesh|null} Current plane, if built. */
+	/** @returns {Mesh} Current plane mesh. */
 	revealMesh() {
 		return this.netzachMesh;
 	}
 
-	/** @returns {void} Detaches the plane (geometry is rebuilt per level). */
+	/** @returns {void} Detaches the plane (re-added by the scene roots). */
 	clear() {
 		if (this.netzachMesh?.parent) {
 			this.netzachMesh.parent.remove(this.netzachMesh);
 		}
-		this.netzachMesh = null;
 	}
 }

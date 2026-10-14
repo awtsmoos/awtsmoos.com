@@ -64,14 +64,9 @@ export class MalchusCobyKWorldScene {
 			this.revealNode(malchusRecord);
 		}
 		this.malchusPlan = malchusPlan;
-		// B"H — Yaakov 2026-10-13: earth under the world.
-		const tiferesBounds = malchusPlan?.bounds;
-		if (tiferesBounds && Number.isFinite(tiferesBounds.minX) && Number.isFinite(tiferesBounds.maxX)) {
-			const tiferesEarth = this.netzachUnderworld.reveal(tiferesBounds.minX, tiferesBounds.maxX);
-			if (tiferesEarth && !tiferesEarth.parent) {
-				this.malchusScene.add(tiferesEarth);
-			}
-		}
+		// B"H — Yaakov 2026-10-13 round 3: the earth plane is persistent and
+		// re-added by revealEmptyScene() inside clear() above — nothing
+		// per-level to do here.
 		this.hydrateMaterials(tiferesBudget);
 		return this.malchusScene;
 	}
@@ -254,6 +249,13 @@ export class MalchusCobyKWorldScene {
 		// B"H — Yaakov 2026-10-13: real-time player shadow at scene root.
 		if (this.netzachShadow && !this.netzachShadow.revealGroup().parent) {
 			this.malchusScene.add(this.netzachShadow.revealGroup());
+		}
+		// B"H — Yaakov 2026-10-13 round 3: the packed-earth plane is one
+		// persistent quad for every level — re-added here so clear()/load()
+		// can never leave the world without ground beneath it.
+		const tiferesEarth = this.netzachUnderworld?.revealMesh?.();
+		if (tiferesEarth && !tiferesEarth.parent) {
+			this.malchusScene.add(tiferesEarth);
 		}
 	}
 
