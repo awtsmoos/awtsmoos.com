@@ -671,3 +671,128 @@
 		max-height: 240px;
 	}
 }
+
+/* ============ map view ============ */
+.xmap-intro {
+	margin: 0 0 14px;
+	font-size: 13.5px;
+	line-height: 1.65;
+	color: var(--aw-text-soft);
+}
+.xmap-layout {
+	display: grid;
+	grid-template-columns: minmax(280px, 420px) 1fr;
+	gap: 16px;
+	align-items: start;
+	overflow-x: clip;
+}
+.xmap-holder {
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: var(--aw-surface);
+	overflow-x: clip;
+}
+.xmap-svg {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+.xmap-bg {
+	fill: var(--aw-bg);
+}
+.xmap-sea {
+	fill: var(--aw-panel-2);
+	stroke: none;
+}
+.xmap-coast {
+	fill: none;
+	stroke: var(--aw-text-soft);
+	stroke-width: 2;
+}
+.xmap-water {
+	fill: var(--aw-accent);
+	opacity: 0.55;
+	stroke: none;
+}
+.xmap-river {
+	fill: none;
+	stroke: var(--aw-accent);
+	stroke-width: 2.5;
+	opacity: 0.7;
+}
+.xmap-region {
+	fill: var(--aw-text-soft);
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	text-anchor: middle;
+}
+.xmap-note {
+	fill: var(--aw-text-soft);
+	font-size: 11px;
+	font-style: italic;
+	text-anchor: middle;
+}
+.xmap-place {
+	cursor: pointer;
+}
+.xmap-place .xmap-dot {
+	fill: var(--accent-gold);
+	stroke: var(--aw-bg);
+	stroke-width: 2;
+}
+.xmap-place:hover .xmap-dot {
+	stroke: var(--aw-text);
+}
+.xmap-place:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 4px;
+}
+.xmap-place.is-selected .xmap-dot {
+	fill: var(--aw-hot);
+}
+.xmap-label {
+	fill: var(--aw-text);
+	font-size: 12.5px;
+	font-weight: 600;
+}
+.xmap-detail {
+	min-width: 0;
+	color: var(--aw-text);
+}
+.xmap-detail h3 {
+	margin: 0 0 4px;
+	font-size: 18px;
+	color: var(--aw-text);
+	display: flex;
+	align-items: baseline;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+.xmap-he {
+	font-size: 15px;
+	font-weight: 400;
+	color: var(--aw-text-soft);
+}
+.xmap-regionline {
+	margin: 0 0 10px;
+	font-size: 12.5px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--accent-gold);
+}
+[data-theme="light"] .xmap-regionline {
+	color: var(--aw-accent);
+}
+.xmap-count {
+	margin: 0 0 10px;
+	font-size: 13.5px;
+	color: var(--aw-text-soft);
+}
+@media (max-width: 760px) {
+	.xmap-layout {
+		grid-template-columns: 1fr;
+	}
+}
