@@ -2016,7 +2016,12 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const a = s.hero ? treeGeos[0] : treeGeos[(rand() * treeGeos.length) | 0];
     const sc = s.hero ? s.heroScale : (s.overhang ? (1.15 + rand() * 0.6) : (0.85 + rand() * 0.75));
     const y = groundHeight(s.x, s.z, noise);
-    for (const [geo, mat] of [[a.bark, barkMat], [a.leaves, canopyMat]]) {
+    // B"H LEAF-FIX 2026-10-14 (Yaakov: "huge planes", "textures messed up"):
+    // Baked leaf triangles are fundamentally broken (meter-scale elongated
+    // shards, smeared UVs). The procedural branch-skeleton system (tips +
+    // individual leaves + crown quads + shell cards) IS the foliage now.
+    // Baked bark (trunks) kept; baked leaves DISABLED.
+    for (const [geo, mat] of [[a.bark, barkMat]]) {
       const m = new THREE.Mesh(geo, mat);
       m.position.set(s.x, y - 0.15, s.z);
       m.rotation.y = rand() * Math.PI * 2;
