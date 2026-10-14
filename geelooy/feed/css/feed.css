@@ -152,96 +152,8 @@ html:has(.feed-stage) body {
 	cursor: not-allowed;
 }
 
-/* ============ theme switcher (Yaakov 2026-10-13) ============ */
-.feed-theme-switch {
-	display: flex;
-	gap: 6px;
-	flex: none;
-	align-items: center;
-}
-
-.feed-theme-btn {
-	display: inline-flex;
-	align-items: center;
-	gap: 7px;
-	padding: 7px 10px;
-	color: var(--aw-text-soft);
-	background: transparent;
-	border: 1px solid var(--aw-line);
-	cursor: pointer;
-	font-size: 12px;
-	font-weight: 600;
-	letter-spacing: 0.02em;
-	transition: color 140ms ease, border-color 140ms ease, background 140ms ease;
-}
-
-.feed-theme-btn:hover {
-	color: var(--aw-text);
-	border-color: var(--accent-gold);
-}
-
-.feed-theme-btn:focus-visible {
-	outline: 2px solid var(--aw-focus-ring);
-	outline-offset: 2px;
-}
-
-.feed-theme-btn:active {
-	transform: translateY(1px);
-}
-
-.feed-theme-btn.is-active {
-	color: var(--aw-text);
-	border-color: var(--accent-gold);
-	background: color-mix(in srgb, var(--accent-gold) 12%, transparent);
-}
-
-.feed-theme-swatch {
-	width: 16px;
-	height: 16px;
-	flex: none;
-	border: 1px solid var(--aw-line);
-}
-
-.feed-theme-swatch-dark {
-	background: linear-gradient(135deg, #070a14 55%, #e8b84b 55%);
-}
-
-.feed-theme-swatch-parchment {
-	background: linear-gradient(135deg, #f7f1e2 55%, #8a6d1f 55%);
-}
-
-.feed-theme-swatch-classic {
-	background: linear-gradient(135deg, #0b0d12 55%, #5b9dff 55%);
-}
-
-.feed-theme-swatch-parchment-aged {
-	background: linear-gradient(135deg, #e3cfa0 55%, #7a5a1a 55%);
-}
-
-.feed-theme-swatch-parchment-clean {
-	background: linear-gradient(135deg, #fdfdfa 55%, #1a56db 55%);
-}
-
-.feed-theme-swatch-parchment-night {
-	background: linear-gradient(135deg, #160e05 55%, #e8b84b 55%);
-}
-
-.feed-theme-swatch-parchment-golden {
-	background: linear-gradient(135deg, #f0dfb8 55%, #a31621 55%);
-}
-
-.feed-theme-label {
-	white-space: nowrap;
-}
-
-@media (max-width: 760px) {
-	.feed-theme-label {
-		display: none;
-	}
-	.feed-theme-btn {
-		padding: 7px 8px;
-	}
-}
+/* ============ theme dropdown (Yaakov 2026-10-13) ============ */
+/* (dropdown styles live in the retractable-panels section at the end of this file) */
 
 /* ============ tabs ============ */
 /* B"H — Yaakov 2026-10-13: tabs share the row and never scroll sideways. */
@@ -1571,14 +1483,16 @@ a.feed-ic-btn:visited {
 	bottom: calc(100% + 8px);
 	left: 0;
 	z-index: 30;
-	display: flex;
-	gap: 2px;
-	padding: 6px;
+	display: grid;
+	grid-template-columns: repeat(7, 44px);
+	gap: 4px;
+	padding: 8px;
 	border-radius: 0;
 	background: var(--aw-surface);
 	border: 1px solid var(--aw-line);
 	box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45), 0 0 14px rgba(212, 169, 78, 0.10);
 	animation: feed-react-pop 160ms ease;
+	max-width: min(92vw, 360px);
 }
 
 .feed-react-picker[hidden] {
@@ -1591,16 +1505,16 @@ a.feed-ic-btn:visited {
 }
 
 .feed-react-option {
-	width: 38px;
-	height: 38px;
+	width: 44px;
+	height: 44px;
 	display: grid;
 	place-items: center;
-	font-size: 22px;
-	line-height: 1;
 	border-radius: 0;
 	border: 1px solid transparent;
 	background: transparent;
 	cursor: pointer;
+	position: relative;
+	overflow: hidden;
 	transition: transform 140ms ease, background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
 }
 
@@ -1671,4 +1585,617 @@ a.feed-ic-btn:visited {
 	font-variant-numeric: tabular-nums;
 	font-weight: 600;
 	color: inherit;
+}
+
+/* ============ yarmulke emoji images + live video previews ============ */
+.feed-emoji-img {
+	width: 22px;
+	height: 22px;
+	object-fit: contain;
+	flex: none;
+	pointer-events: none;
+}
+
+.feed-react-option .feed-emoji-img {
+	width: 34px;
+	height: 34px;
+}
+
+.feed-react-option .feed-emoji-video {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	opacity: 0;
+	transition: opacity 180ms ease;
+	pointer-events: none;
+}
+
+.feed-react-option:hover .feed-emoji-video,
+.feed-react-option:focus-visible .feed-emoji-video {
+	opacity: 1;
+}
+
+.feed-react-option:hover .feed-emoji-img,
+.feed-react-option:focus-visible .feed-emoji-img {
+	opacity: 0;
+}
+
+.feed-react-face .feed-emoji-img {
+	width: 19px;
+	height: 19px;
+}
+
+.feed-react-chip .feed-emoji-img {
+	width: 18px;
+	height: 18px;
+}
+
+/* ============ who-reacted popup ============ */
+.feed-react-who {
+	position: absolute;
+	bottom: calc(100% + 8px);
+	left: 0;
+	z-index: 40;
+	min-width: 220px;
+	max-width: min(92vw, 300px);
+	max-height: 320px;
+	overflow-y: auto;
+	background: var(--aw-surface);
+	border: 1px solid var(--aw-line);
+	box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5);
+}
+
+.feed-react-who[hidden] {
+	display: none;
+}
+
+.feed-react-who-head {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px 12px;
+	border-bottom: 1px solid var(--aw-line);
+	color: var(--aw-text);
+	font-size: 13px;
+}
+
+.feed-react-who-head strong {
+	flex: 1;
+	font-weight: 700;
+}
+
+.feed-react-who-close {
+	margin-left: auto;
+	padding: 4px 8px;
+	color: var(--aw-text-soft);
+	background: transparent;
+	border: 1px solid transparent;
+	cursor: pointer;
+	font-size: 13px;
+}
+
+.feed-react-who-close:hover {
+	color: var(--aw-text);
+	border-color: var(--aw-line);
+}
+
+.feed-react-who-close:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 1px;
+}
+
+.feed-react-who-list {
+	list-style: none;
+	margin: 0;
+	padding: 6px;
+}
+
+.feed-react-who-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 6px 8px;
+	color: var(--aw-text);
+}
+
+.feed-react-who-row:hover {
+	background: color-mix(in srgb, var(--accent-gold) 8%, transparent);
+}
+
+.feed-react-who-emoji {
+	width: 26px;
+	height: 26px;
+	flex: none;
+}
+
+.feed-react-who-name {
+	font-size: 13px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.feed-react-who-more,
+.feed-react-who-empty {
+	padding: 10px 12px;
+	color: var(--aw-text-soft);
+	font-size: 12px;
+	margin: 0;
+}
+
+/* ============ layout with retractable sidebar (Yaakov 2026-10-13) ============ */
+.feed-layout {
+	display: flex;
+	align-items: flex-start;
+	gap: 0;
+	max-width: 1120px;
+	margin: 0 auto;
+}
+
+.feed-main {
+	flex: 1 1 auto;
+	min-width: 0;
+	max-width: 100%;
+}
+
+.feed-side {
+	flex: 0 0 300px;
+	width: 300px;
+	position: sticky;
+	top: 76px;
+	max-height: calc(100vh - 96px);
+	display: flex;
+	flex-direction: column;
+	margin: 14px 0 40px var(--feed-gutter);
+	border: 1px solid var(--aw-line);
+	background: var(--aw-surface);
+	color: var(--aw-text);
+	border-radius: 0;
+}
+
+.feed-side.is-collapsed {
+	display: none;
+}
+
+.feed-side-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 10px 12px;
+	border-bottom: 1px solid var(--aw-line);
+}
+
+.feed-side-title {
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--aw-text-soft);
+}
+
+/* ============ filter toggle + count badge ============ */
+.feed-filter-toggle {
+	position: relative;
+}
+
+.feed-filter-count {
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	min-width: 18px;
+	height: 18px;
+	padding: 0 5px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 11px;
+	font-weight: 800;
+	line-height: 1;
+	color: #1a1206;
+	background: var(--accent-gold, #d4a94e);
+	border-radius: 0;
+}
+
+.feed-filter-count[hidden] {
+	display: none;
+}
+
+/* ============ filter panel ============ */
+.feed-filter-panel {
+	overflow-y: auto;
+	padding: 4px 0 12px;
+}
+
+.feed-filter-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 10px 12px 6px;
+}
+
+.feed-filter-head-title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0;
+	font-size: 15px;
+	font-weight: 700;
+	color: var(--aw-text);
+}
+
+.feed-filter-title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0;
+	padding: 10px 12px 6px;
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+	color: var(--aw-text-soft);
+}
+
+.feed-filter-title-ic {
+	width: 16px;
+	height: 16px;
+	color: var(--accent-gold, #d4a94e);
+}
+
+.feed-filter-rows {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding: 0 6px;
+	max-height: 220px;
+	overflow-y: auto;
+}
+
+.feed-filter-row {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 8px;
+	border-radius: 0;
+	cursor: pointer;
+	color: var(--aw-text);
+}
+
+.feed-filter-row:hover {
+	background: color-mix(in srgb, var(--accent-gold, #d4a94e) 10%, transparent);
+}
+
+.feed-filter-row input[type="checkbox"] {
+	position: absolute;
+	opacity: 0;
+	width: 1px;
+	height: 1px;
+}
+
+.feed-filter-check {
+	flex: none;
+	width: 18px;
+	height: 18px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid var(--aw-line);
+	background: transparent;
+	color: transparent;
+	border-radius: 0;
+}
+
+.feed-filter-check-ic {
+	width: 12px;
+	height: 12px;
+}
+
+.feed-filter-row input[type="checkbox"]:checked + .feed-filter-check {
+	background: var(--accent-gold, #d4a94e);
+	border-color: var(--accent-gold, #d4a94e);
+	color: #1a1206;
+}
+
+.feed-filter-row input[type="checkbox"]:focus-visible + .feed-filter-check {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+}
+
+.feed-filter-name {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: 14px;
+}
+
+.feed-filter-count {
+	margin-left: auto;
+	font-size: 12px;
+	color: var(--aw-text-soft);
+}
+
+.feed-filter-empty {
+	padding: 12px;
+	font-size: 13px;
+	color: var(--aw-text-soft);
+}
+
+.feed-filter-hint {
+	padding: 8px 12px 0;
+	font-size: 12px;
+	color: var(--aw-text-soft);
+}
+
+.feed-filter-clear {
+	flex: none;
+}
+
+.feed-heichel-theme {
+	flex: none;
+	width: 26px;
+	height: 26px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid transparent;
+	background: transparent;
+	border-radius: 0;
+	cursor: pointer;
+	padding: 0;
+}
+
+.feed-heichel-theme:hover {
+	border-color: var(--aw-line);
+}
+
+.feed-heichel-theme:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+}
+
+.feed-heichel-theme-dot {
+	width: 14px;
+	height: 14px;
+	border: 1px dashed var(--aw-text-soft);
+	border-radius: 0;
+	background: transparent;
+}
+
+.feed-heichel-theme-dot.is-set {
+	border-style: solid;
+	border-color: var(--aw-line);
+}
+
+/* ============ dropdown menus (retractable panels) ============ */
+.feed-menu {
+	position: absolute;
+	z-index: 60;
+	min-width: 220px;
+	max-width: calc(100vw - 32px);
+	padding: 6px;
+	border: 1px solid var(--aw-line);
+	background: var(--aw-surface);
+	color: var(--aw-text);
+	border-radius: 0;
+	box-shadow: 0 18px 44px rgba(0, 0, 0, 0.4);
+}
+
+.feed-card {
+	position: relative;
+}
+
+.feed-card-menu {
+	top: 44px;
+	right: 10px;
+}
+
+.feed-menu-head {
+	margin: 0;
+	padding: 8px 10px 4px;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--aw-text-soft);
+}
+
+.feed-menu-sep {
+	border: 0;
+	border-top: 1px solid var(--aw-line);
+	margin: 6px 4px;
+}
+
+.feed-menu-item {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+	padding: 9px 10px;
+	border: 0;
+	background: transparent;
+	color: var(--aw-text);
+	font-size: 14px;
+	text-align: start;
+	text-decoration: none;
+	cursor: pointer;
+	border-radius: 0;
+}
+
+.feed-menu-item:hover {
+	background: color-mix(in srgb, var(--accent-gold, #d4a94e) 12%, transparent);
+	color: var(--aw-text);
+}
+
+.feed-menu-item:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: -2px;
+}
+
+.feed-menu-item.is-active {
+	color: var(--accent-gold, #d4a94e);
+}
+
+.feed-menu-check {
+	flex: none;
+	width: 18px;
+	height: 18px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--accent-gold, #d4a94e);
+}
+
+.feed-menu-check .feed-ic {
+	width: 14px;
+	height: 14px;
+}
+
+.feed-menu-ic {
+	width: 16px;
+	height: 16px;
+	flex: none;
+}
+
+.feed-menu-themes {
+	display: flex;
+	flex-direction: column;
+	max-height: 260px;
+	overflow-y: auto;
+}
+
+/* ============ theme swatches + dropdown ============ */
+.feed-theme-swatch {
+	flex: none;
+	width: 22px;
+	height: 22px;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+}
+
+.feed-theme-drop {
+	position: relative;
+	flex: none;
+}
+
+.feed-theme-drop-btn {
+	gap: 8px;
+}
+
+.feed-theme-drop-chev {
+	width: 14px;
+	height: 14px;
+}
+
+.feed-theme-menu {
+	top: calc(100% + 8px);
+	right: 0;
+}
+
+/* ============ collapsible related posts in the reader ============ */
+.feed-reader-related {
+	margin-top: 18px;
+	border-top: 1px solid var(--aw-line);
+}
+
+.feed-reader-related-toggle {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+	padding: 12px 4px;
+	border: 0;
+	background: transparent;
+	color: var(--aw-text);
+	font-size: 15px;
+	font-weight: 700;
+	cursor: pointer;
+	border-radius: 0;
+}
+
+.feed-reader-related-toggle:hover {
+	color: var(--accent-gold, #d4a94e);
+}
+
+.feed-reader-related-toggle:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+}
+
+.feed-reader-related-ic {
+	width: 18px;
+	height: 18px;
+	color: var(--accent-gold, #d4a94e);
+}
+
+.feed-reader-related-chev {
+	width: 16px;
+	height: 16px;
+	margin-left: auto;
+	transition: transform 160ms ease;
+}
+
+.feed-reader-related-toggle[aria-expanded="true"] .feed-reader-related-chev {
+	transform: rotate(180deg);
+}
+
+.feed-reader-related-body {
+	padding-bottom: 8px;
+}
+
+.feed-reader-related-body .related-posts {
+	margin: 8px 0 0;
+	padding: 0;
+	max-width: none;
+}
+
+/* The reader wears the post's theme: give it the theme's stage background. */
+.feed-reader[data-feed-theme] {
+	margin: 10px -18px -12px;
+	padding: 14px 18px;
+	border-top: 1px solid var(--aw-line);
+}
+
+/* ============ responsive: sidebar becomes an overlay drawer ============ */
+@media (max-width: 900px) {
+	.feed-layout {
+		display: block;
+		max-width: none;
+	}
+
+	.feed-side {
+		position: fixed;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		z-index: 80;
+		width: min(320px, 86vw);
+		flex: none;
+		margin: 0;
+		max-height: none;
+		border-right: 1px solid var(--aw-line);
+		box-shadow: 24px 0 60px rgba(0, 0, 0, 0.45);
+	}
+
+	.feed-side.is-collapsed {
+		display: none;
+	}
+
+	.feed-topbar {
+		gap: 8px;
+	}
+
+	.feed-brand span {
+		display: none;
+	}
+
+	.feed-theme-drop-btn .feed-ic-btn-label {
+		display: none;
+	}
 }

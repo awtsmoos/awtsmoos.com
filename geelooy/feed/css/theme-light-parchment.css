@@ -1,0 +1,70 @@
+/* B"H — Awtsmoos River theme: Light Parchment.
+ * Warm cream paper, sepia ink, aged gold. The dream light concept made real.
+ * Sharp geometry — no rounded corners anywhere.
+ * Tunnel CSS laws: no !important, token overrides only, explicit colors. */
+
+[data-feed-theme="light-parchment"] {
+	--aw-text: #2b2113;
+	--aw-text-soft: #7a6a4d;
+	--aw-bg: #f7f1e2;
+	--aw-surface: #fdf9ee;
+	--aw-line: #e2d5b8;
+	--aw-accent: #1a56db;
+	--aw-hot: #c22e1f;
+	--aw-panel-2: #f1e8d2;
+	--aw-stage-bg: #f7f1e2;
+	--aw-focus-ring: #8a6d1f;
+	--accent-gold: #8a6d1f;
+	--accent-alt: #6d4fc2;
+	--sefer-highlight-bg: #f3e2ac;
+	--sefer-reader-bg: #fdf9ee;
+	--sefer-reader-ink: #2b2113;
+
+	color: var(--aw-text);
+	background:
+		radial-gradient(1000px 520px at 10% -6%, rgba(138, 109, 31, 0.10), transparent 62%),
+		radial-gradient(820px 560px at 90% 20%, rgba(138, 109, 31, 0.06), transparent 62%),
+		var(--aw-bg);
+	background-color: var(--aw-bg);
+}
+
+[data-feed-theme="light-parchment"] .feed-topbar {
+	background: color-mix(in srgb, #f7f1e2 86%, transparent);
+	border-bottom: 1px solid color-mix(in srgb, var(--accent-gold) 35%, var(--aw-line));
+}
+
+[data-feed-theme="light-parchment"] .feed-card {
+	background:
+		linear-gradient(180deg, rgba(138, 109, 31, 0.05), transparent 34%),
+		var(--aw-surface);
+	border: 1px solid color-mix(in srgb, var(--accent-gold) 30%, var(--aw-line));
+	box-shadow:
+		0 1px 0 rgba(255, 255, 255, 0.7) inset,
+		0 14px 34px -20px rgba(90, 70, 30, 0.45);
+}
+
+[data-feed-theme="light-parchment"] .feed-card-title {
+	color: var(--aw-text);
+	font-family: "Frank Ruhl Libre", "David Libre", "Noto Serif Hebrew", Georgia, serif;
+	letter-spacing: 0.005em;
+}
+
+[data-feed-theme="light-parchment"] .feed-card-hetitle {
+	color: var(--accent-gold);
+	font-family: "Frank Ruhl Libre", "David Libre", "Noto Serif Hebrew", serif;
+	font-size: 1.18em;
+}
+
+[data-feed-theme="light-parchment"] .feed-tab.is-active {
+	color: #fdf9ee;
+	background: linear-gradient(180deg, #a5852c, #8a6d1f);
+}
+
+[data-feed-theme="light-parchment"] .feed-ic-btn:hover {
+	color: var(--accent-gold);
+	border-color: color-mix(in srgb, var(--accent-gold) 50%, transparent);
+}
+
+[data-feed-theme="light-parchment"] .feed-ic-btn.is-active {
+	color: var(--accent-gold);
+}

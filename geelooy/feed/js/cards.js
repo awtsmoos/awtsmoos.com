@@ -12,6 +12,7 @@
 
 import { icon, iconButton, formatCount, timeAgo, escapeHtml, escapeAttr } from './icons.js';
 import { enableInlineReading } from './inline-reader.js';
+import { THEMES, setPostTheme, resolvePostTheme, isThemeId } from './themes.js';
 
 function authorName(item) {
 	return item.authorName || item.aliasName || item.aliasId || item.author || 'Awtsmoos';
@@ -155,30 +156,233 @@ export function renderFeedCard(item = {}, opts = {}) {
 	});
 
 	enableInlineReading(card, item);
+	attachMoreMenu(card, item);
+
+	/* B"H — Yaakov 2026-10-13: learning-track extension point. Modules such
+	   as shiurMode and sourceSheets listen for this event and attach their
+	   per-card buttons without touching this file again. */
+	try {
+		card.dispatchEvent(new CustomEvent('feed:card-mounted', {
+			detail: { card, item },
+			bubbles: true
+		}));
+	} catch (_) {}
 
 	return card;
 }
 
-/* ============ emoji reactions (Yaakov 2026-10-13) ============ */
-/* B"H — one honest picker: 👍 ❤️ 😂 😮 🙏 ✨. The reader's own reaction is
-   stored server-side through /api/social/reactions/post/:id; the top three
-   reaction counts render beside the button. No nudges, no dark patterns. */
+/* ============ more-options menu + author post theme (Yaakov 2026-10-13) ============ */
+/* B"H — the ⋯ button opens a real menu. The author can pick this post's
+   reading theme; everyone gets Copy link / Open / Share. The menu is
+   retractable: outside click or Escape closes it. */
 
-const REACTION_EMOJIS = ['👍', '❤️', '😂', '😮', '🙏', '✨'];
-const REACTION_NAMES = { '👍': 'thumbs up', '❤️': 'love', '😂': 'laughter', '😮': 'wow', '🙏': 'gratitude', '✨': 'spark' };
+let openCardMenu = null;
+
+function closeCardMenu() {
+	if (openCardMenu) { openCardMenu.remove(); openCardMenu = null; }
+	document.removeEventListener('click', onCardMenuDocClick, true);
+	document.removeEventListener('keydown', onCardMenuDocKey);
+}
+
+function onCardMenuDocClick(event) {
+	if (openCardMenu && !openCardMenu.contains(event.target) && !event.target.closest('.feed-card-more')) {
+		closeCardMenu();
+	}
+}
+
+function onCardMenuDocKey(event) {
+	if (event.key === 'Escape') closeCardMenu();
+}
+
+function themeMenuItems(item) {
+	const current = resolvePostTheme(item);
+	return THEMES.map(t => {
+		const [c1, c2] = t.swatch;
+		const active = current === t.id;
+		return `<button type="button" class="feed-menu-item${active ? ' is-active' : ''}" data-post-theme="${t.id}" role="menuitemradio" aria-checked="${active}">
+			<span class="feed-menu-check">${active ? icon('check') : ''}</span>
+			<span class="feed-theme-swatch" style="background:linear-gradient(135deg, ${c1} 50%, ${c2} 50%)" aria-hidden="true"></span>
+			<span>${escapeHtml(t.name)}</span>
+		</button>`;
+	}).join('');
+}
+
+function attachMoreMenu(card, item) {
+	const btn = card.querySelector('.feed-card-more');
+	if (!btn) return;
+	btn.addEventListener('click', (event) => {
+		event.stopPropagation();
+		if (openCardMenu?.dataset?.forPost === card.dataset.postId) {
+			closeCardMenu();
+			return;
+		}
+		closeCardMenu();
+		const isAuthor = currentAlias() && currentAlias() !== 'anonymous' &&
+			String(item.aliasId || item.author || '') === String(currentAlias());
+		const menu = document.createElement('div');
+		menu.className = 'feed-menu feed-card-menu';
+		menu.dataset.forPost = card.dataset.postId || '';
+		menu.setAttribute('role', 'menu');
+		menu.innerHTML = `
+			${isAuthor ? `<p class="feed-menu-head">Post theme</p>
+			<div class="feed-menu-themes" role="group" aria-label="Post theme">${themeMenuItems(item)}</div>
+			<hr class="feed-menu-sep">` : ''}
+			<button type="button" class="feed-menu-item" data-menu-act="copy" role="menuitem">${icon('link', 'feed-menu-ic')}<span>Copy link</span></button>
+			<a class="feed-menu-item" data-menu-act="open" role="menuitem" href="${escapeAttr(postHref(item))}" target="_blank" rel="noopener">${icon('external', 'feed-menu-ic')}<span>Open in new tab</span></a>
+			<button type="button" class="feed-menu-item" data-menu-act="share" role="menuitem">${icon('share', 'feed-menu-ic')}<span>Share</span></button>`;
+		card.append(menu);
+		openCardMenu = menu;
+
+		menu.querySelectorAll('[data-post-theme]').forEach(opt => {
+			opt.addEventListener('click', (ev) => {
+				ev.stopPropagation();
+				const themeId = opt.dataset.postTheme;
+				if (isThemeId(themeId) && setPostTheme(item, themeId)) {
+					item.theme = themeId;
+					const reader = card.querySelector('.feed-reader');
+					if (reader && !reader.hidden) {
+						reader.setAttribute('data-feed-theme', themeId);
+					}
+				}
+				closeCardMenu();
+			});
+		});
+		menu.querySelector('[data-menu-act="copy"]')?.addEventListener('click', (ev) => {
+			ev.stopPropagation();
+			const url = location.origin + postHref(item);
+			try {
+				navigator.clipboard?.writeText(url);
+			} catch (_) {
+				const ta = document.createElement('textarea');
+				ta.value = url;
+				document.body.append(ta);
+				ta.select();
+				try { document.execCommand('copy'); } catch (_) {}
+				ta.remove();
+			}
+			closeCardMenu();
+		});
+		menu.querySelector('[data-menu-act="share"]')?.addEventListener('click', (ev) => {
+			ev.stopPropagation();
+			const url = location.origin + postHref(item);
+			if (navigator.share) {
+				navigator.share({ title: item.title || 'Awtsmoos post', url }).catch(() => {});
+			} else {
+				try { navigator.clipboard?.writeText(url); } catch (_) {}
+			}
+			closeCardMenu();
+		});
+		menu.querySelector('[data-menu-act="open"]')?.addEventListener('click', () => closeCardMenu());
+
+		document.addEventListener('click', onCardMenuDocClick, true);
+		document.addEventListener('keydown', onCardMenuDocKey);
+	});
+}
+
+/* ============ yarmulke emoji reactions (Yaakov 2026-10-13) ============ */
+/* B"H — the full yarmulke emoji set as reactions. The picker shows ANIMATED
+   VIDEO LOOPS (MP4) as live previews; counts render as image chips. Clicking
+   the counts opens the who-reacted list. Reaction ids are the emoji file
+   base names; the server stores them as the reaction kind string. */
+
+const EMOJI_BASE = '/feed/assets/emojis';
+
+const YARMULKE_EMOJIS = [
+	{ id: 'laughing', name: 'laughter' },
+	{ id: 'love', name: 'love' },
+	{ id: 'thumbsup', name: 'thumbs up' },
+	{ id: 'praying', name: 'prayer' },
+	{ id: 'crying', name: 'tears' },
+	{ id: 'surprised', name: 'wow' },
+	{ id: 'angry', name: 'anger' },
+	{ id: 'sad', name: 'sadness' },
+	{ id: 'dancing', name: 'dancing' },
+	{ id: 'fire', name: 'fire' },
+	{ id: 'star-eyes', name: 'amazed' },
+	{ id: 'holding-back-tears', name: 'moved' },
+	{ id: 'hug', name: 'hug' },
+	{ id: 'thinking', name: 'thinking' },
+	{ id: 'guy-thumbsup', name: 'approval' },
+	{ id: 'guy-cheering', name: 'celebration' },
+	{ id: 'guy-facepalm', name: 'facepalm' },
+	{ id: 'guy-shrug', name: 'shrug' },
+	{ id: 'clapping', name: 'applause' },
+	{ id: 'tada', name: 'party' },
+	{ id: 'crown', name: 'royal' },
+	{ id: 'bulb', name: 'idea' },
+	{ id: 'eyes', name: 'watching' },
+	{ id: 'muscle', name: 'strength' },
+	{ id: 'handshake', name: 'agreement' },
+	{ id: 'ok-hand', name: 'okay' },
+	{ id: 'wave', name: 'hello' },
+	{ id: 'popcorn', name: 'popcorn' },
+	{ id: 'sleeping', name: 'sleepy' },
+	{ id: 'smirk', name: 'smirk' },
+	{ id: 'zany-face', name: 'silly' },
+	{ id: 'nerd-face', name: 'nerdy' },
+	{ id: 'pleading-face', name: 'pleading' },
+	{ id: 'partying-face', name: 'partying' },
+	{ id: 'mind-blown', name: 'mind blown' },
+	{ id: 'question-mark', name: 'question' },
+	{ id: 'monocle', name: 'scrutiny' },
+	{ id: 'pinched-fingers', name: 'what do you mean' },
+	{ id: 'raised-eyebrow', name: 'skeptical' }
+];
+
+const EMOJI_BY_ID = Object.fromEntries(YARMULKE_EMOJIS.map(e => [e.id, e]));
+const REACTION_NAMES = Object.fromEntries(YARMULKE_EMOJIS.map(e => [e.id, e.name]));
+/* Legacy unicode reactions map onto their yarmulke equivalents. */
+const LEGACY_REACTION_MAP = { '👍': 'thumbsup', '❤️': 'love', '😂': 'laughing', '😮': 'surprised', '🙏': 'praying', '✨': 'star-eyes' };
+
+function emojiImg(id, cls = '') {
+	const e = EMOJI_BY_ID[id];
+	if (!e) return '';
+	return `<img class="feed-emoji-img ${cls}" src="${EMOJI_BASE}/${id}.png" alt="${escapeAttr(e.name)}" loading="lazy" decoding="async" draggable="false">`;
+}
+
+function emojiVideo(id, cls = '') {
+	const e = EMOJI_BY_ID[id];
+	if (!e) return '';
+	return `<video class="feed-emoji-video ${cls}" muted loop playsinline preload="none" poster="${EMOJI_BASE}/${id}.png" data-video-src="${EMOJI_BASE}/${id}.mp4" aria-hidden="true" tabindex="-1"></video>`;
+}
+
+function normalizeReactionId(raw) {
+	const s = String(raw || '');
+	return EMOJI_BY_ID[s] ? s : (LEGACY_REACTION_MAP[s] || '');
+}
 
 function initialReactionSummary(item) {
 	const counts = {};
+	const reactors = [];
+	const norm = (raw) => normalizeReactionId(raw);
 	if (item.reactionSummary && typeof item.reactionSummary === 'object') {
-		Object.assign(counts, item.reactionSummary.counts || {});
-		return { counts, viewerEmoji: String(item.reactionSummary.viewerEmoji || '') };
+		for (const [k, v] of Object.entries(item.reactionSummary.counts || {})) {
+			const id = norm(k);
+			if (id) counts[id] = (counts[id] || 0) + Number(v || 0);
+		}
+		if (Array.isArray(item.reactionSummary.reactors)) {
+			for (const r of item.reactionSummary.reactors) {
+				const id = norm(r.emoji || r.kind);
+				if (id) reactors.push({ aliasId: String(r.aliasId || ''), aliasName: String(r.aliasName || r.aliasId || 'Someone'), emoji: id });
+			}
+		}
+		return { counts, viewerEmoji: norm(item.reactionSummary.viewerEmoji), reactors };
 	}
 	if (item.reactionCounts && typeof item.reactionCounts === 'object') {
-		Object.assign(counts, item.reactionCounts);
+		for (const [k, v] of Object.entries(item.reactionCounts)) {
+			const id = norm(k);
+			if (id) counts[id] = (counts[id] || 0) + Number(v || 0);
+		}
+	}
+	if (Array.isArray(item.reactors)) {
+		for (const r of item.reactors) {
+			const id = norm(r.emoji || r.kind);
+			if (id) reactors.push({ aliasId: String(r.aliasId || ''), aliasName: String(r.aliasName || r.aliasId || 'Someone'), emoji: id });
+		}
 	}
 	const legacy = Number(item.reactionCount ?? item.likes ?? 0);
-	if (legacy > 0 && !Object.keys(counts).length) counts['👍'] = legacy;
-	return { counts, viewerEmoji: String(item.viewerReaction || item.viewerEmoji || (item.viewerLiked ? '👍' : '')) };
+	if (legacy > 0 && !Object.keys(counts).length) counts['thumbsup'] = legacy;
+	return { counts, viewerEmoji: norm(item.viewerReaction || item.viewerEmoji || (item.viewerLiked ? 'thumbsup' : '')), reactors };
 }
 
 function topReactions(summary, limit = 3) {
@@ -189,21 +393,22 @@ function topReactions(summary, limit = 3) {
 }
 
 function reactionChipHtml(emoji, n) {
-	return `<button type="button" class="feed-react-chip" data-react-emoji="${escapeAttr(emoji)}" aria-label="${formatCount(n)} ${escapeAttr(REACTION_NAMES[emoji] || 'reactions')}"><span aria-hidden="true">${escapeHtml(emoji)}</span><span class="feed-react-chip-count">${formatCount(n)}</span></button>`;
+	const id = normalizeReactionId(emoji);
+	if (!id) return '';
+	return `<button type="button" class="feed-react-chip" data-react-chip="${escapeAttr(id)}" aria-label="${formatCount(n)} ${escapeAttr(REACTION_NAMES[id] || 'reactions')} — see who reacted">${emojiImg(id)}<span class="feed-react-chip-count">${formatCount(n)}</span></button>`;
 }
 
 function reactionGroupHtml(item) {
 	const summary = initialReactionSummary(item);
 	const viewer = summary.viewerEmoji;
-	const face = viewer
-		? `<span class="feed-react-face" aria-hidden="true">${escapeHtml(viewer)}</span>`
-		: icon('like');
+	const face = viewer ? emojiImg(viewer, 'feed-react-face') : icon('like');
 	return `<div class="feed-react-wrap" data-react-wrap data-picker-open="0">
 		<button type="button" class="feed-ic-btn feed-react-btn${viewer ? ' is-active' : ''}" data-react-toggle aria-haspopup="menu" aria-expanded="false" aria-pressed="${viewer ? 'true' : 'false'}" aria-label="${viewer ? `Your reaction: ${REACTION_NAMES[viewer] || viewer}. Change reaction` : 'React to this post'}">${face}<span class="feed-ic-btn-label">${viewer ? 'Reacted' : 'React'}</span></button>
 		<div class="feed-react-picker" data-react-picker hidden role="menu" aria-label="Choose a reaction">
-			${REACTION_EMOJIS.map(e => `<button type="button" class="feed-react-option" role="menuitemradio" aria-checked="${e === viewer}" data-react-emoji="${escapeAttr(e)}" aria-label="React ${escapeAttr(REACTION_NAMES[e] || e)}"><span aria-hidden="true">${escapeHtml(e)}</span></button>`).join('')}
+			${YARMULKE_EMOJIS.map(e => `<button type="button" class="feed-react-option" role="menuitemradio" aria-checked="${e.id === viewer}" data-react-emoji="${escapeAttr(e.id)}" aria-label="React ${escapeAttr(e.name)}" title="${escapeAttr(e.name)}">${emojiVideo(e.id)}${emojiImg(e.id)}</button>`).join('')}
 		</div>
 		<span class="feed-react-top" data-react-top>${topReactions(summary).map(([e, n]) => reactionChipHtml(e, n)).join('')}</span>
+		<div class="feed-react-who" data-react-who hidden role="dialog" aria-label="Who reacted"></div>
 	</div>`;
 }
 
@@ -216,10 +421,20 @@ function ensureReactCloser() {
 		document.querySelectorAll('.feed-react-wrap[data-picker-open="1"]').forEach(wrap => {
 			if (!wrap.contains(event.target)) closeReactPicker(wrap);
 		});
+		document.querySelectorAll('.feed-react-who:not([hidden])').forEach(box => {
+			if (!box.closest('.feed-react-wrap')?.contains(event.target)) {
+				box.hidden = true;
+				box.innerHTML = '';
+			}
+		});
 	});
 	document.addEventListener('keydown', (event) => {
 		if (event.key !== 'Escape') return;
 		document.querySelectorAll('.feed-react-wrap[data-picker-open="1"]').forEach(closeReactPicker);
+		document.querySelectorAll('.feed-react-who:not([hidden])').forEach(box => {
+			box.hidden = true;
+			box.innerHTML = '';
+		});
 	});
 }
 
@@ -227,7 +442,10 @@ function closeReactPicker(wrap) {
 	if (!wrap) return;
 	wrap.dataset.pickerOpen = '0';
 	const picker = wrap.querySelector('[data-react-picker]');
-	if (picker) picker.hidden = true;
+	if (picker) {
+		picker.hidden = true;
+		picker.querySelectorAll('video').forEach(v => { try { v.pause(); } catch (_) {} });
+	}
 	wrap.querySelector('[data-react-toggle]')?.setAttribute('aria-expanded', 'false');
 }
 
@@ -254,12 +472,12 @@ function createReactionControl(item, opts = {}) {
 			toggle.setAttribute('aria-label', viewer
 				? `Your reaction: ${REACTION_NAMES[viewer] || viewer}. Change reaction`
 				: 'React to this post');
-			toggle.querySelector('.feed-react-face, .feed-ic')?.remove();
+			toggle.querySelector('.feed-react-face, .feed-emoji-img, .feed-ic')?.remove();
 			const face = document.createElement('span');
 			face.setAttribute('aria-hidden', 'true');
 			if (viewer) {
 				face.className = 'feed-react-face';
-				face.textContent = viewer;
+				face.innerHTML = emojiImg(viewer);
 			} else {
 				face.innerHTML = icon('like');
 			}
@@ -320,10 +538,63 @@ function createReactionControl(item, opts = {}) {
 			const body = await res.json().catch(() => null);
 			const data = body?.success ?? body ?? {};
 			if (data && typeof data.counts === 'object') {
-				state.summary = { counts: data.counts || {}, viewerEmoji: String(data.viewerEmoji || '') };
+				const counts = {};
+				for (const [k, v] of Object.entries(data.counts)) {
+					const id = normalizeReactionId(k);
+					if (id) counts[id] = (counts[id] || 0) + Number(v || 0);
+				}
+				const reactors = [];
+				const rawReactors = data.reactors || data.reactions || [];
+				if (Array.isArray(rawReactors)) {
+					for (const r of rawReactors) {
+						const id = normalizeReactionId(r.emoji || r.kind);
+						if (id) reactors.push({ aliasId: String(r.aliasId || ''), aliasName: String(r.aliasName || r.aliasId || 'Someone'), emoji: id });
+					}
+				}
+				state.summary = { counts, viewerEmoji: normalizeReactionId(data.viewerEmoji), reactors: reactors.length ? reactors : state.summary.reactors };
 				render(wrap);
 			}
 		} catch (_) { /* counts stay as first rendered */ }
+	}
+
+	/** Who-reacted popup: click a count chip to see who reacted with what. */
+	function openWhoReacted(wrap) {
+		const box = wrap.querySelector('[data-react-who]');
+		if (!box) return;
+		if (!box.hidden) { box.hidden = true; box.innerHTML = ''; return; }
+		const reactors = state.summary.reactors || [];
+		const counts = state.summary.counts || {};
+		const total = Object.values(counts).reduce((s, n) => s + Number(n || 0), 0);
+		let html = `<div class="feed-react-who-head"><strong>Reactions</strong><span>${formatCount(total)}</span><button type="button" class="feed-react-who-close" aria-label="Close">✕</button></div>`;
+		if (reactors.length) {
+			const byEmoji = {};
+			for (const r of reactors) (byEmoji[r.emoji] = byEmoji[r.emoji] || []).push(r);
+			html += '<ul class="feed-react-who-list">';
+			for (const [emoji, list] of Object.entries(byEmoji).sort((a, b) => b[1].length - a[1].length)) {
+				for (const r of list.slice(0, 50)) {
+					html += `<li class="feed-react-who-row">${emojiImg(emoji, 'feed-react-who-emoji')}<span class="feed-react-who-name">${escapeHtml(r.aliasName)}</span></li>`;
+				}
+			}
+			html += '</ul>';
+			if (reactors.length < total) {
+				html += `<p class="feed-react-who-more">${formatCount(total - reactors.length)} more…</p>`;
+			}
+		} else if (total > 0) {
+			html += '<ul class="feed-react-who-list">';
+			for (const [emoji, n] of topReactions(state.summary, 35)) {
+				html += `<li class="feed-react-who-row">${emojiImg(emoji, 'feed-react-who-emoji')}<span class="feed-react-who-name">${formatCount(n)} ${escapeHtml(REACTION_NAMES[emoji] || '')}</span></li>`;
+			}
+			html += '</ul>';
+		} else {
+			html += '<p class="feed-react-who-empty">No reactions yet — be the first.</p>';
+		}
+		box.innerHTML = html;
+		box.hidden = false;
+		box.querySelector('.feed-react-who-close')?.addEventListener('click', (e) => {
+			e.stopPropagation();
+			box.hidden = true;
+			box.innerHTML = '';
+		});
 	}
 
 	async function choose(wrap, emoji) {
@@ -361,6 +632,11 @@ function createReactionControl(item, opts = {}) {
 
 	function onClick(event, wrap) {
 		event.stopPropagation();
+		const chip = event.target.closest('[data-react-chip]');
+		if (chip) {
+			openWhoReacted(wrap);
+			return;
+		}
 		const toggle = event.target.closest('[data-react-toggle]');
 		const option = event.target.closest('[data-react-emoji]');
 		if (toggle) {
@@ -371,13 +647,22 @@ function createReactionControl(item, opts = {}) {
 				document.querySelectorAll('.feed-react-wrap[data-picker-open="1"]').forEach(closeReactPicker);
 				wrap.dataset.pickerOpen = '1';
 				const picker = wrap.querySelector('[data-react-picker]');
-				if (picker) picker.hidden = false;
+				if (picker) {
+					picker.hidden = false;
+					/* B"H — Yaakov: live animated previews. Videos load only when the picker opens. */
+					picker.querySelectorAll('video[data-video-src]').forEach(v => {
+						if (!v.src) {
+							v.src = v.dataset.videoSrc;
+							v.play().catch(() => {});
+						}
+					});
+				}
 				toggle.setAttribute('aria-expanded', 'true');
 				wrap.querySelector('.feed-react-option[aria-checked="true"]')?.focus({ preventScroll: true });
 			}
 			return;
 		}
-		if (option?.dataset?.reactEmoji) choose(wrap, option.dataset.reactEmoji);
+		if (option?.dataset?.reactEmoji) choose(wrap, normalizeReactionId(option.dataset.reactEmoji) || option.dataset.reactEmoji);
 	}
 
 	return { onClick, hydrate };

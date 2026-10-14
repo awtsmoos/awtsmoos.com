@@ -1,0 +1,71 @@
+/* B"H — Awtsmoos River theme: Dark Immersive.
+ * Deep midnight blues, burnished gold, candlelight warmth. The dream dark
+ * concept made real. Sharp geometry — no rounded corners anywhere.
+ * Tunnel CSS laws: no !important, token overrides only, explicit colors. */
+
+[data-feed-theme="dark-immersive"] {
+	--aw-text: #f4ead2;
+	--aw-text-soft: #b8a67e;
+	--aw-bg: #070a14;
+	--aw-surface: #0d1120;
+	--aw-line: #232a3f;
+	--aw-accent: #7fb2ff;
+	--aw-hot: #ff7a6b;
+	--aw-panel-2: #11162a;
+	--aw-stage-bg: #070a14;
+	--aw-focus-ring: #d4a94e;
+	--accent-gold: #e8b84b;
+	--accent-alt: #b48ef2;
+	--sefer-highlight-bg: #4a3a12;
+	--sefer-reader-bg: #0a0d18;
+	--sefer-reader-ink: #f4ead2;
+
+	color: var(--aw-text);
+	background:
+		radial-gradient(1000px 520px at 10% -6%, rgba(232, 184, 75, 0.10), transparent 62%),
+		radial-gradient(820px 560px at 90% 20%, rgba(127, 178, 255, 0.07), transparent 62%),
+		radial-gradient(760px 640px at 50% 112%, rgba(232, 184, 75, 0.05), transparent 60%),
+		var(--aw-bg);
+	background-color: var(--aw-bg);
+}
+
+[data-feed-theme="dark-immersive"] .feed-topbar {
+	background: color-mix(in srgb, #070a14 84%, transparent);
+	border-bottom: 1px solid color-mix(in srgb, var(--accent-gold) 28%, var(--aw-line));
+}
+
+[data-feed-theme="dark-immersive"] .feed-card {
+	background:
+		linear-gradient(180deg, rgba(232, 184, 75, 0.06), transparent 34%),
+		var(--aw-surface);
+	border: 1px solid color-mix(in srgb, var(--accent-gold) 22%, var(--aw-line));
+	box-shadow:
+		0 1px 0 rgba(232, 184, 75, 0.12) inset,
+		0 18px 44px -18px rgba(0, 0, 0, 0.75);
+}
+
+[data-feed-theme="dark-immersive"] .feed-card-title {
+	color: var(--aw-text);
+	font-family: "Frank Ruhl Libre", "David Libre", "Noto Serif Hebrew", Georgia, serif;
+	letter-spacing: 0.005em;
+}
+
+[data-feed-theme="dark-immersive"] .feed-card-hetitle {
+	color: var(--accent-gold);
+	font-family: "Frank Ruhl Libre", "David Libre", "Noto Serif Hebrew", serif;
+	font-size: 1.18em;
+}
+
+[data-feed-theme="dark-immersive"] .feed-tab.is-active {
+	color: #0d0a02;
+	background: linear-gradient(180deg, #f0c65e, #d4a035);
+}
+
+[data-feed-theme="dark-immersive"] .feed-ic-btn:hover {
+	color: var(--accent-gold);
+	border-color: color-mix(in srgb, var(--accent-gold) 45%, transparent);
+}
+
+[data-feed-theme="dark-immersive"] .feed-ic-btn.is-active {
+	color: var(--accent-gold);
+}

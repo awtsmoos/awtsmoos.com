@@ -39,29 +39,46 @@
 			</svg>
 			<span>Awtsmoos</span>
 		</a>
+		<button type="button" class="feed-ic-btn feed-filter-toggle" id="feed-filter-toggle" aria-label="Toggle filters" aria-expanded="true" title="Filters">
+			<svg class="feed-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 5.5h16l-6.2 7.2v5.1l-3.6 2v-7.1z"/></svg>
+			<span class="feed-ic-btn-label">Filters</span>
+			<span class="feed-filter-count" id="feed-filter-count" hidden></span>
+		</button>
 		<label class="feed-search">
 			<svg class="feed-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
 			<input type="search" id="feed-search-input" placeholder="Search posts, people, topics…" aria-label="Search the river">
 		</label>
-		<div class="feed-theme-switch" role="group" aria-label="Feed theme">
-			<button type="button" class="feed-theme-btn" data-feed-theme-opt="dark-immersive" aria-pressed="true" title="Dark immersive"><span class="feed-theme-swatch feed-theme-swatch-dark" aria-hidden="true"></span><span class="feed-theme-label">Immersive</span></button>
-			<button type="button" class="feed-theme-btn" data-feed-theme-opt="light-parchment" aria-pressed="false" title="Light parchment"><span class="feed-theme-swatch feed-theme-swatch-parchment" aria-hidden="true"></span><span class="feed-theme-label">Parchment</span></button>
-			<button type="button" class="feed-theme-btn" data-feed-theme-opt="classic" aria-pressed="false" title="Classic"><span class="feed-theme-swatch feed-theme-swatch-classic" aria-hidden="true"></span><span class="feed-theme-label">Classic</span></button>
-			<button type="button" class="feed-theme-btn" data-feed-theme-opt="parchment-aged" aria-pressed="false" title="Aged parchment"><span class="feed-theme-swatch feed-theme-swatch-parchment-aged" aria-hidden="true"></span><span class="feed-theme-label">Aged</span></button>
-			<button type="button" class="feed-theme-btn" data-feed-theme-opt="parchment-clean" aria-pressed="false" title="Clean parchment"><span class="feed-theme-swatch feed-theme-swatch-parchment-clean" aria-hidden="true"></span><span class="feed-theme-label">Clean</span></button>
-			<button type="button" class="feed-theme-btn" data-feed-theme-opt="parchment-night" aria-pressed="false" title="Parchment night"><span class="feed-theme-swatch feed-theme-swatch-parchment-night" aria-hidden="true"></span><span class="feed-theme-label">Night</span></button>
-			<button type="button" class="feed-theme-btn" data-feed-theme-opt="parchment-golden" aria-pressed="false" title="Golden manuscript"><span class="feed-theme-swatch feed-theme-swatch-parchment-golden" aria-hidden="true"></span><span class="feed-theme-label">Golden</span></button>
+		<div class="feed-theme-drop" id="feed-theme-drop">
+			<button type="button" class="feed-ic-btn feed-theme-drop-btn" id="feed-theme-drop-btn" aria-haspopup="menu" aria-expanded="false" title="Feed theme">
+				<span class="feed-theme-swatch" id="feed-theme-drop-swatch" aria-hidden="true"></span>
+				<span class="feed-ic-btn-label" id="feed-theme-drop-label">Theme</span>
+				<svg class="feed-ic feed-theme-drop-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="m6 9.5 6 6 6-6"/></svg>
+			</button>
 		</div>
 	</header>
 
-	<nav class="feed-tabs" id="feed-tabs" aria-label="Feed rivers"></nav>
+	<div class="feed-layout">
+		<aside class="feed-side" id="feed-side" aria-label="Feed filters">
+			<div class="feed-side-head">
+				<span class="feed-side-title">River controls</span>
+				<button type="button" class="feed-ic-btn feed-side-close" id="feed-side-close" aria-label="Hide filters">
+					<svg class="feed-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+				</button>
+			</div>
+			<div class="feed-filter-panel" id="feed-filter-panel"></div>
+		</aside>
 
-	<main class="feed-river" id="feed-river" aria-live="polite" aria-label="Social feed"></main>
+		<div class="feed-main">
+			<nav class="feed-tabs" id="feed-tabs" aria-label="Feed rivers"></nav>
 
-	<p class="feed-status" id="feed-status" role="status"></p>
+			<main class="feed-river" id="feed-river" aria-live="polite" aria-label="Social feed"></main>
 
-	<div class="feed-sentinel-wrap">
-		<button type="button" class="feed-sentinel" id="feed-sentinel">Load more live posts</button>
+			<p class="feed-status" id="feed-status" role="status"></p>
+
+			<div class="feed-sentinel-wrap">
+				<button type="button" class="feed-sentinel" id="feed-sentinel">Load more live posts</button>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -98,26 +115,72 @@ document.getElementById('feed-search-input').addEventListener('keydown', (event)
 	}
 });
 
-// B"H — Yaakov 2026-10-13: feed theme switcher (7 themes incl. 4 parchment variants).
+// B"H — Yaakov 2026-10-13: feed theme dropdown (7 themes incl. 4 parchment variants).
+// Retractable: outside click or Escape closes it.
 (function initFeedTheme() {
 	const stage = document.getElementById('feed-stage');
+	const dropBtn = document.getElementById('feed-theme-drop-btn');
+	const dropWrap = document.getElementById('feed-theme-drop');
+	const swatch = document.getElementById('feed-theme-drop-swatch');
+	const label = document.getElementById('feed-theme-drop-label');
 	const KEY = 'awtsmoos-feed-theme';
-	const VALID = ['dark-immersive', 'light-parchment', 'classic', 'parchment-aged', 'parchment-clean', 'parchment-night', 'parchment-golden'];
+	const THEMES = [
+		{ id: 'dark-immersive', name: 'Immersive', swatch: ['#0b0d12', '#d4a94e'] },
+		{ id: 'light-parchment', name: 'Parchment', swatch: ['#f4ead2', '#7a5a1a'] },
+		{ id: 'classic', name: 'Classic', swatch: ['#101318', '#5bddff'] },
+		{ id: 'parchment-aged', name: 'Aged', swatch: ['#e3cfa0', '#7a5a1a'] },
+		{ id: 'parchment-clean', name: 'Clean', swatch: ['#f7f0dd', '#8a6f42'] },
+		{ id: 'parchment-night', name: 'Night', swatch: ['#1c1710', '#d4a94e'] },
+		{ id: 'parchment-golden', name: 'Golden', swatch: ['#f0dfa8', '#a31621'] }
+	];
+	let openMenu = null;
+	function closeMenu() {
+		if (openMenu) { openMenu.remove(); openMenu = null; }
+		dropBtn.setAttribute('aria-expanded', 'false');
+		document.removeEventListener('click', onDocClick, true);
+		document.removeEventListener('keydown', onDocKey);
+	}
+	function onDocClick(e) {
+		if (openMenu && !openMenu.contains(e.target) && !dropWrap.contains(e.target)) closeMenu();
+	}
+	function onDocKey(e) { if (e.key === 'Escape') closeMenu(); }
+	function paint(theme) {
+		const t = THEMES.find(x => x.id === theme) || THEMES[0];
+		swatch.style.background = `linear-gradient(135deg, ${t.swatch[0]} 50%, ${t.swatch[1]} 50%)`;
+		label.textContent = t.name;
+	}
 	function apply(theme) {
-		if (!VALID.includes(theme)) theme = 'dark-immersive';
+		if (!THEMES.some(x => x.id === theme)) theme = 'dark-immersive';
 		stage.setAttribute('data-feed-theme', theme);
-		document.querySelectorAll('.feed-theme-btn').forEach(btn => {
-			const active = btn.dataset.feedThemeOpt === theme;
-			btn.classList.toggle('is-active', active);
-			btn.setAttribute('aria-pressed', String(active));
-		});
+		paint(theme);
 		try { localStorage.setItem(KEY, theme); } catch (e) {}
 	}
 	let saved = 'dark-immersive';
 	try { saved = localStorage.getItem(KEY) || saved; } catch (e) {}
 	apply(saved);
-	document.querySelectorAll('.feed-theme-btn').forEach(btn => {
-		btn.addEventListener('click', () => apply(btn.dataset.feedThemeOpt));
+	dropBtn.addEventListener('click', (event) => {
+		event.stopPropagation();
+		if (openMenu) { closeMenu(); return; }
+		const current = stage.getAttribute('data-feed-theme');
+		const menu = document.createElement('div');
+		menu.className = 'feed-menu feed-theme-menu';
+		menu.setAttribute('role', 'menu');
+		menu.setAttribute('aria-label', 'Feed theme');
+		menu.innerHTML = '<p class="feed-menu-head">Feed theme</p>' + THEMES.map(t => {
+			const active = t.id === current;
+			return `<button type="button" class="feed-menu-item${active ? ' is-active' : ''}" data-theme-opt="${t.id}" role="menuitemradio" aria-checked="${active}">
+				<span class="feed-menu-check">${active ? '<svg class="feed-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>' : ''}</span>
+				<span class="feed-theme-swatch" style="background:linear-gradient(135deg, ${t.swatch[0]} 50%, ${t.swatch[1]} 50%)" aria-hidden="true"></span>
+				<span>${t.name}</span></button>`;
+		}).join('');
+		dropWrap.append(menu);
+		openMenu = menu;
+		dropBtn.setAttribute('aria-expanded', 'true');
+		menu.querySelectorAll('[data-theme-opt]').forEach(btn => {
+			btn.addEventListener('click', (ev) => { ev.stopPropagation(); apply(btn.dataset.themeOpt); closeMenu(); });
+		});
+		document.addEventListener('click', onDocClick, true);
+		document.addEventListener('keydown', onDocKey);
 	});
 })();
 </script>

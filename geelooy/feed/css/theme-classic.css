@@ -1,0 +1,73 @@
+/* B"H — Awtsmoos River theme: Classic.
+ * Clean modern Awtsmoos — the current style refined: crisp lines, honest
+ * contrast, restrained gold accents. Sharp geometry — no rounded corners.
+ * Tunnel CSS laws: no !important, token overrides only, explicit colors. */
+
+[data-feed-theme="classic"] {
+	--aw-text: #eef1f6;
+	--aw-text-soft: #9aa3b5;
+	--aw-bg: #0b0d12;
+	--aw-surface: #13161d;
+	--aw-line: #20252f;
+	--aw-accent: #5b9dff;
+	--aw-hot: #ff6b6b;
+	--aw-panel-2: #161a23;
+	--aw-stage-bg: #0b0d12;
+	--aw-focus-ring: #6ea8ff;
+	--accent-gold: #d4a94e;
+	--accent-alt: #c084fc;
+
+	color: var(--aw-text);
+	background: var(--aw-bg);
+	background-color: var(--aw-bg);
+}
+
+[data-theme="light"] [data-feed-theme="classic"] {
+	--aw-text: #181a1d;
+	--aw-text-soft: #5a6270;
+	--aw-bg: #ffffff;
+	--aw-surface: #f4f5f7;
+	--aw-line: #dfe3ea;
+	--aw-accent: #1a56db;
+	--aw-hot: #d92d20;
+	--aw-panel-2: #eceff4;
+	--aw-stage-bg: #f4f5f7;
+	--aw-focus-ring: #1a56db;
+}
+
+[data-feed-theme="classic"] .feed-topbar {
+	border-bottom: 1px solid var(--aw-line);
+}
+
+[data-feed-theme="classic"] .feed-card {
+	background: var(--aw-surface);
+	border: 1px solid var(--aw-line);
+	box-shadow: 0 10px 28px -18px rgba(0, 0, 0, 0.6);
+}
+
+[data-feed-theme="classic"] .feed-card-title {
+	color: var(--aw-text);
+	font-family: "Frank Ruhl Libre", "David Libre", "Noto Serif Hebrew", Georgia, serif;
+}
+
+[data-feed-theme="classic"] .feed-card-hetitle {
+	color: var(--accent-gold);
+	font-family: "Frank Ruhl Libre", "David Libre", "Noto Serif Hebrew", serif;
+}
+
+[data-feed-theme="classic"] .feed-tab.is-active {
+	color: #0b0d12;
+	background: var(--accent-gold);
+}
+
+[data-theme="light"] [data-feed-theme="classic"] .feed-tab.is-active {
+	color: #ffffff;
+}
+
+[data-feed-theme="classic"] .feed-ic-btn:hover {
+	color: var(--accent-gold);
+}
+
+[data-feed-theme="classic"] .feed-ic-btn.is-active {
+	color: var(--accent-gold);
+}

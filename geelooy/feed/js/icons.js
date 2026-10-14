@@ -44,7 +44,28 @@ const PATHS = {
 	clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3.5 2"/>',
 	arrowUp: '<path d="M12 19V5M6.5 10.5 12 5l5.5 5.5"/>',
 	book: '<path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15.5H6.7A1.7 1.7 0 0 0 5 20.2z"/><path d="M5 19.5A1.5 1.5 0 0 1 6.5 18H19"/>',
-	star: '<path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.8-5.2-2.8-5.2 2.8 1-5.8L3.5 9.7l5.9-.8z"/>'
+	filter: '<path d="M4 5.5h16l-6.2 7.2v5.1l-3.6 2v-7.1z"/>',
+	star: '<path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.8-5.2-2.8-5.2 2.8 1-5.8L3.5 9.7l5.9-.8z"/>',
+	/* B"H — Q&A icon set (Yaakov 2026-10-13): fancy Torah-styled question marks,
+	   answered checkmarks, voting pennants. Sharp corners only. */
+	question: '<path d="M10.2 6.8C9 5.2 10.2 3 12.9 3c2.9 0 5.1 2 5.1 4.8 0 2.9-2.7 3.9-4.1 5.8-.9 1.3-1.3 2.5-1.3 4.1"/><path d="M12.6 19.4l1.7 1.7-1.7 1.7-1.7-1.7z" fill="currentColor" stroke="none"/><path d="M4.6 3.4v3M3.1 4.9h3"/>',
+	questionCircle: '<path d="M12 2.5 21.5 12 12 21.5 2.5 12Z"/><path d="M11.8 9c-.5-.8.1-1.8 1.4-1.8 1.5 0 2.6 1 2.6 2.4 0 1.5-1.4 2-2.1 3-.5.6-.7 1.2-.7 2.1"/><path d="M12.8 16.3l.9.9-.9.9-.9-.9z"/>',
+	answered: '<path d="M9 14.5l2.6 2.6 4.4-5.2"/><path d="M3.5 20.5 6.5 9"/><path d="M4.1 17.5 2.2 17M4.7 15 2.9 14.2M5.3 12.5 3.7 11.4"/><path d="M20.5 20.5 17.5 9"/><path d="M19.9 17.5l1.9-.5M19.3 15l1.8-.8M18.7 12.5l1.6-1.1"/>',
+	unanswered: '<path d="M10.2 6.8C9 5.2 10.2 3 12.9 3c2.9 0 5.1 2 5.1 4.8 0 2.9-2.7 3.9-4.1 5.8-.9 1.3-1.3 2.5-1.3 4.1"/><path d="M12.6 19.4l1.7 1.7-1.7 1.7-1.7-1.7z"/>',
+	upvote: '<path d="M12 3.5 19.5 13.5h-4.8v7H9.3v-7H4.5z"/>',
+	downvote: '<path d="M12 20.5 4.5 10.5h4.8v-7h5.4v7h4.8z"/>',
+	/* B"H — learning-track icons (Yaakov 2026-10-13): shiur mode, source
+	   sheets, siyum flags, learning plans, community challenges. Sharp
+	   corners only, drawn to the same 24px stroke language. */
+	present: '<rect x="3.5" y="4.5" width="17" height="11"/><path d="M12 15.5v3.5M8.5 21.5h7"/><path d="M8 8.5l2.5 2.5 4.5-4.5"/>',
+	sheet: '<path d="M6 3.5h8.5L19 8v12.5H6z"/><path d="M14 3.5V8.5h5"/><path d="M8.5 12.5h7M8.5 15.5h7M8.5 18.5h4.5"/>',
+	trophy: '<path d="M8 4.5h8v5a4 4 0 0 1-8 0z"/><path d="M8 5.5H4.5v1a3.5 3.5 0 0 0 3.7 3.5M16 5.5h3.5v1a3.5 3.5 0 0 1-3.7 3.5"/><path d="M12 13.5v4M8.5 20.5h7M10 17.5h4"/>',
+	flag: '<path d="M5.5 21.5v-17"/><path d="M5.5 5c4-2.5 7.5 2.5 11.5 0v9c-4 2.5-7.5-2.5-11.5 0"/>',
+	calendar: '<rect x="4" y="5.5" width="16" height="15"/><path d="M4 10h16M8.5 3.5v3.5M15.5 3.5v3.5"/><path d="M8.5 14h.01M12 14h.01M15.5 14h.01M8.5 17h.01M12 17h.01M15.5 17h.01"/>',
+	target: '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.8"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/>',
+	party: '<path d="M5 15 15 5l2 2L7 17z"/><path d="M5 15l-1.5 5.5L9 19"/><path d="M16 4.5l.8-2M18.5 6l2-.5M19 9l1.8.8"/>',
+	acceptedAnswer: '<path d="M5 8 4.2 4l3.8 2.3L12 2.8l3.9 3.5L19.8 4 19 8z"/><path d="M7.5 14.5l3.5 3.5L17.5 11"/>',
+	ask: '<path d="M4 18.5C6.5 12.5 10.5 8 17 5 16 11.5 11.5 17 4 18.5z"/><path d="M4 18.5 17 5"/><path d="M18.3 15c-.3-.5.1-1.1 1-1.1 1 0 1.7.6 1.7 1.5 0 1-.9 1.3-1.3 1.9-.3.4-.4.8-.4 1.3"/><path d="M19.3 19.9l.8.8-.8.8-.8-.8z"/>'
 };
 
 const FILLED = new Set(['like', 'save', 'star']);
