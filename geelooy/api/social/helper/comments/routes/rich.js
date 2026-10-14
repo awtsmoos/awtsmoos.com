@@ -49,9 +49,21 @@ async function tree($i, heichelId, postId, includeImported = false) {
 	const native = await reader.getTree({ $i, heichelId, postId, ...nativeOptions($i) });
 	if (!includeImported) return native;
 	const importedResult = await importedPage($i, heichelId, postId, true);
+	// B"H — premade social threads: comments/replies imported as posts with parentPostId.
+	let socialChildren = [];
+	try {
+		const { getPostsByParent } = require('../../packed/socialPacked.js');
+		const rows = await getPostsByParent({ $i, parentPostId: postId, limit: 200 });
+		socialChildren = rows.map(r => ({
+			postId: r.postId, kind: r.kind || 'comment', parentPostId: r.parentPostId,
+			authorName: r.authorName || r.aliasId || '', authorHandle: r.authorHandle || '',
+			title: r.title || '', excerpt: r.excerpt || '', text: r.excerpt || '',
+			createdAt: r.createdAt || r.updatedAt || 0, source: 'social-import'
+		}));
+	} catch (_) { /* social children optional */ }
 	return {
-		success: [...(native.success || []), ...(importedResult.success || [])],
-		meta: { native: native.success?.length || 0, ...importedResult.meta, nativePage: native.meta, importedPage: { returned: importedResult.success.length, offset: importedResult.meta.offset, limit: importedResult.meta.limit, hasMore: importedResult.meta.hasMore } },
+		success: [...(native.success || []), ...(importedResult.success || []), ...socialChildren],
+		meta: { native: native.success?.length || 0, social: socialChildren.length, ...importedResult.meta, nativePage: native.meta, importedPage: { returned: importedResult.success.length, offset: importedResult.meta.offset, limit: importedResult.meta.limit, hasMore: importedResult.meta.hasMore } },
 		warnings: importedResult.warnings
 	};
 }

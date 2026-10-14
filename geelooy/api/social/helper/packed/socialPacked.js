@@ -441,7 +441,7 @@ function excerptOf(post) {
 }
 function allPostValue(post) {
   const postId = post.id || post.postId;
-  return { postId, heichelId: post.heichelId || '', seriesId: post.seriesId || post.parentSeriesId || 'root', aliasId: post.aliasId || post.author || '', type: post.contentType || post.postType || 'post', title: post.title || post.name || '', excerpt: excerptOf(post), connected: true, basePostId: post.basePostId || post.base_post_id || '', updatedAt: post.updatedAt || post.createdAt || post.timestamp || Date.now() };
+  return { postId, heichelId: post.heichelId || '', seriesId: post.seriesId || post.parentSeriesId || 'root', aliasId: post.aliasId || post.author || '', authorName: post.authorName || '', authorHandle: post.authorHandle || '', type: post.contentType || post.postType || 'post', title: post.title || post.name || '', excerpt: excerptOf(post), connected: true, basePostId: post.basePostId || post.base_post_id || '', parentPostId: post.parentPostId || post.parent_post_id || '', kind: post.kind || '', updatedAt: post.updatedAt || post.createdAt || post.timestamp || Date.now() };
 }
 function mirrorAllPost({ $i, post }) {
   const value = allPostValue(post);
@@ -451,6 +451,7 @@ function indexPost({ $i, value }) {
   writeIndex({ $i, key: logicalKey(['indexes', 'postsByHeichel', value.heichelId, value.postId]), value, meta: { index: 'postsByHeichel' } });
   if (value.aliasId) writeIndex({ $i, key: logicalKey(['indexes', 'postsByAlias', value.aliasId, value.postId]), value, meta: { index: 'postsByAlias' } });
   writeIndex({ $i, key: logicalKey(['indexes', 'postsByType', value.type, value.postId]), value, meta: { index: 'postsByType' } });
+  if (value.parentPostId) writeIndex({ $i, key: logicalKey(['indexes', 'postsByParent', value.parentPostId, value.postId]), value, meta: { index: 'postsByParent' } });
 }
 function mirrorPost({ $i, post }) {
   const postId = post.id || post.postId;
@@ -608,4 +609,20 @@ async function allShardStatsAsync({ $i } = {}) {
   return out;
 }
 function writeMigrationManifest({ $i, manifest }) { return writePacked({ $i, shard: 'meta', key: logicalKey(['migrations', manifest.id]), value: manifest, type: RECORD_TYPES.migrationManifest, meta: { kind: 'migrationManifest', migrationType: manifest.type } }); }
-module.exports = { resolveDbRoot, fileRoot, writePacked, readPacked, readPackedAsync, listPackedRecords, forEachFileRecord, forEachFileRecordAsync, forEachLineFastAsync, forEachLineReverseAsync, listKeysReverseAsync, findKeyReverseAsync, findKeySuffixReverseAsync, fastKeyType, writeManifest, writeIndex, appendEvent, mirrorPost, mirrorPostBulk, mirrorPostsBulk, mirrorPostRecords, mirrorAllPost, mirrorGraphReference, mirrorNotification, writeMigrationManifest, shardStats, shardStatsAsync, allShardStats, allShardStatsAsync, shardFileStats, excerptOf, allPostValue };
+// B"H — children lookup for premade social threads (kind=comment/reply with parentPostId).
+// Uses the postsByParent materialized index: /indexes/postsByParent/<parentId>/<postId>
+async function getPostsByParent({ $i, parentPostId, limit = 200 } = {}) {
+  if (!parentPostId) return [];
+  const prefix = logicalKey(['indexes', 'postsByParent', String(parentPostId)]) + '/';
+  const keys = await listKeysReverseAsync({ $i, shard: 'search', prefix, limit });
+  const out = [];
+  for (const key of keys) {
+    try {
+      const rec = await readPackedAsync({ $i, shard: 'search', key });
+      const v = rec && (rec.value || rec);
+      if (v && v.postId) out.push(v);
+    } catch (_) { /* skip unreadable */ }
+  }
+  return out;
+}
+module.exports = { resolveDbRoot, fileRoot, writePacked, readPacked, readPackedAsync, listPackedRecords, forEachFileRecord, forEachFileRecordAsync, forEachLineFastAsync, forEachLineReverseAsync, listKeysReverseAsync, findKeyReverseAsync, findKeySuffixReverseAsync, fastKeyType, writeManifest, writeIndex, appendEvent, mirrorPost, mirrorPostBulk, mirrorPostsBulk, mirrorPostRecords, mirrorAllPost, mirrorGraphReference, mirrorNotification, writeMigrationManifest, shardStats, shardStatsAsync, allShardStats, allShardStatsAsync, shardFileStats, excerptOf, allPostValue, getPostsByParent };
