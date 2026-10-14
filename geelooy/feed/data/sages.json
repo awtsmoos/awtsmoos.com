@@ -1,0 +1,923 @@
+{
+  "B\"H": "Sage data for the Awtsmoos Explore family-trees view (TRACK G).",
+  "meta": {
+    "incomplete": true,
+    "note": "A starting set of major figures only — Tannaim, Amoraim, and Rishonim. This file is intentionally incomplete and meant to grow. Dates are approximate scholarly convention; relationships follow the traditional record, and 'traditional' marks links where sources differ. Nothing here is presented as certain where it is not.",
+    "title": "Sages of the Generations",
+    "version": 1
+  },
+  "sages": [
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 110 BCE – 10 CE",
+      "era": "zugot",
+      "id": "hillel",
+      "keys": [
+        "hillel",
+        "הלל"
+      ],
+      "name": "Hillel the Elder",
+      "nameHe": "הלל הזקן",
+      "note": "Head of the patriarchal line that led the Sanhedrin for generations.",
+      "parentOf": [
+        "shimon-i"
+      ],
+      "role": "Nasi of the Sanhedrin; founder of the House of Hillel",
+      "studentOf": [],
+      "teacherOf": [
+        "yochanan-ben-zakkai"
+      ]
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 50 BCE – 30 CE",
+      "era": "zugot",
+      "id": "shammai",
+      "keys": [
+        "shammai",
+        "שמאי"
+      ],
+      "name": "Shammai the Elder",
+      "nameHe": "שמאי הזקן",
+      "note": "Hillel's great disputant; his school's rulings are recorded throughout the Mishnah.",
+      "parentOf": [],
+      "role": "Av Beit Din; founder of the House of Shammai",
+      "studentOf": [],
+      "teacherOf": []
+    },
+    {
+      "childOf": [
+        "hillel"
+      ],
+      "dateCertainty": "approximate",
+      "dates": "c. 10 BCE – 30 CE",
+      "era": "zugot",
+      "id": "shimon-i",
+      "keys": [
+        "shimon ben hillel",
+        "שמעון בן הלל"
+      ],
+      "name": "Shimon, son of Hillel",
+      "nameHe": "שמעון בן הלל",
+      "note": "Link in the patriarchal chain; little is recorded of him directly.",
+      "parentOf": [
+        "gamliel-i"
+      ],
+      "role": "Nasi after Hillel (traditional)",
+      "studentOf": [
+        "hillel"
+      ],
+      "teacherOf": []
+    },
+    {
+      "childOf": [
+        "shimon-i"
+      ],
+      "dateCertainty": "approximate",
+      "dates": "c. 20 BCE – 50 CE",
+      "era": "tannaim",
+      "id": "gamliel-i",
+      "keys": [
+        "gamliel the elder",
+        "gamliel hazaken",
+        "גמליאל הזקן"
+      ],
+      "name": "Rabban Gamliel the Elder",
+      "nameHe": "רבן גמליאל הזקן",
+      "note": "Grandson of Hillel; led the Sanhedrin before the destruction.",
+      "parentOf": [
+        "shimon-ben-gamliel-i"
+      ],
+      "role": "Nasi of the Sanhedrin; teacher of Rav Shaul (traditional)",
+      "studentOf": [],
+      "teacherOf": []
+    },
+    {
+      "childOf": [
+        "gamliel-i"
+      ],
+      "dateCertainty": "approximate",
+      "dates": "c. 10 BCE – 70 CE",
+      "era": "tannaim",
+      "id": "shimon-ben-gamliel-i",
+      "keys": [
+        "shimon ben gamliel"
+      ],
+      "name": "Rabban Shimon ben Gamliel I",
+      "nameHe": "רבן שמעון בן גמליאל",
+      "note": "Killed in the Roman persecutions; among the Ten Martyrs (traditional).",
+      "parentOf": [
+        "gamliel-ii"
+      ],
+      "role": "Nasi during the destruction of the Second Temple",
+      "studentOf": [],
+      "teacherOf": []
+    },
+    {
+      "childOf": [
+        "shimon-ben-gamliel-i"
+      ],
+      "dateCertainty": "approximate",
+      "dates": "c. 80 – 120 CE",
+      "era": "tannaim",
+      "id": "gamliel-ii",
+      "keys": [
+        "gamliel of yavneh",
+        "gamliel ii",
+        "גמליאל דיבנה"
+      ],
+      "name": "Rabban Gamliel II of Yavneh",
+      "nameHe": "רבן גמליאל דיבנה",
+      "note": "Re-established the Sanhedrin at Yavneh after the destruction.",
+      "parentOf": [
+        "shimon-ben-gamliel-ii"
+      ],
+      "role": "Nasi of the Sanhedrin at Yavneh",
+      "studentOf": [],
+      "teacherOf": []
+    },
+    {
+      "childOf": [
+        "gamliel-ii"
+      ],
+      "dateCertainty": "approximate",
+      "dates": "c. 100 – 165 CE",
+      "era": "tannaim",
+      "id": "shimon-ben-gamliel-ii",
+      "keys": [
+        "shimon ben gamliel ii"
+      ],
+      "name": "Rabban Shimon ben Gamliel II",
+      "nameHe": "רבן שמעון בן גמליאל",
+      "note": "His teachings appear throughout the Mishnah.",
+      "parentOf": [
+        "yehuda-hanasi"
+      ],
+      "role": "Nasi; father of Rebbe",
+      "studentOf": [],
+      "teacherOf": []
+    },
+    {
+      "childOf": [
+        "shimon-ben-gamliel-ii"
+      ],
+      "dateCertainty": "approximate",
+      "dates": "c. 135 – 217 CE",
+      "era": "tannaim",
+      "id": "yehuda-hanasi",
+      "keys": [
+        "yehuda hanasi",
+        "yehudah hanasi",
+        "rebbe",
+        "rebbi",
+        "יהודה הנשיא"
+      ],
+      "name": "Rabbi Yehuda HaNasi (Rebbe)",
+      "nameHe": "רבי יהודה הנשיא",
+      "note": "Compiled the Mishnah, closing the Tannaitic era.",
+      "parentOf": [],
+      "role": "Redactor of the Mishnah",
+      "studentOf": [
+        "shimon-ben-gamliel-ii"
+      ],
+      "teacherOf": [
+        "rav"
+      ]
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 30 BCE – 90 CE",
+      "era": "tannaim",
+      "id": "yochanan-ben-zakkai",
+      "keys": [
+        "yochanan ben zakkai",
+        "yohanan ben zakkai",
+        "יוחנן בן זכאי"
+      ],
+      "name": "Rabban Yochanan ben Zakkai",
+      "nameHe": "רבן יוחנן בן זכאי",
+      "note": "Secured Yavneh and its sages; his five great students shaped the Mishnah.",
+      "parentOf": [],
+      "role": "Founder of the academy at Yavneh",
+      "studentOf": [
+        "hillel",
+        "shammai"
+      ],
+      "teacherOf": [
+        "eliezer",
+        "yehoshua"
+      ]
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 45 – 117 CE",
+      "era": "tannaim",
+      "id": "eliezer",
+      "keys": [
+        "eliezer ben hyrcanus",
+        "eliezer ben horkanos",
+        "אליעזר בן הורקנוס"
+      ],
+      "name": "Rabbi Eliezer ben Hyrcanus",
+      "nameHe": "רבי אליעזר בן הורקנוס",
+      "note": "Famous for the oven of Akhnai dispute.",
+      "parentOf": [],
+      "role": "Leading student of Rabban Yochanan ben Zakkai",
+      "studentOf": [
+        "yochanan-ben-zakkai"
+      ],
+      "teacherOf": [
+        "akiva"
+      ]
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 40 – 131 CE",
+      "era": "tannaim",
+      "id": "yehoshua",
+      "keys": [
+        "yehoshua ben chananya",
+        "joshua ben hananiah",
+        "יהושע בן חנניה"
+      ],
+      "name": "Rabbi Yehoshua ben Chananya",
+      "nameHe": "רבי יהושע בן חנניה",
+      "note": "Rabbi Eliezer's great disputant; later a teacher of Rabbi Akiva.",
+      "parentOf": [],
+      "role": "Student of Rabban Yochanan ben Zakkai",
+      "studentOf": [
+        "yochanan-ben-zakkai"
+      ],
+      "teacherOf": [
+        "akiva"
+      ]
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 50 – 135 CE",
+      "era": "tannaim",
+      "id": "akiva",
+      "keys": [
+        "akiva",
+        "akiba",
+        "עקיבא"
+      ],
+      "name": "Rabbi Akiva",
+      "nameHe": "רבי עקיבא",
+      "note": "Began learning at forty; his students transmitted the Mishnah's core.",
+      "parentOf": [],
+      "role": "Central Tanna; systematizer of the Oral Torah",
+      "studentOf": [
+        "eliezer",
+        "yehoshua",
+        "tarfon"
+      ],
+      "teacherOf": [
+        "meir",
+        "yehuda-bar-ilai",
+        "shimon-bar-yochai",
+        "yose"
+      ]
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 70 – 135 CE",
+      "era": "tannaim",
+      "id": "tarfon",
+      "keys": [
+        "tarfon",
+        "טרפון"
+      ],
+      "name": "Rabbi Tarfon",
+      "nameHe": "רבי טרפון",
+      "note": "A kohen; known for his sharp dialectic with Rabbi Akiva.",
+      "parentOf": [],
+      "role": "Tanna; teacher of Rabbi Akiva",
+      "studentOf": [],
+      "teacherOf": [
+        "akiva"
+      ]
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 95 – 175 CE",
+      "era": "tannaim",
+      "id": "meir",
+      "keys": [
+        "meir",
+        "מאיר"
+      ],
+      "name": "Rabbi Meir",
+      "nameHe": "רבי מאיר",
+      "note": "Unnamed rulings in the Mishnah are his.",
+      "parentOf": [],
+      "role": "Leading student of Rabbi Akiva; anonymous Mishnah follows him",
+      "studentOf": [
+        "akiva",
+        "yishmael"
+      ],
+      "teacherOf": []
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 110 – 165 CE",
+      "era": "tannaim",
+      "id": "yehuda-bar-ilai",
+      "keys": [
+        "yehuda bar ilai",
+        "judah bar ilai",
+        "יהודה בר עילאי"
+      ],
+      "name": "Rabbi Yehuda bar Ilai",
+      "nameHe": "רבי יהודה בר עילאי",
+      "note": "Head speaker among Rabbi Akiva's students.",
+      "parentOf": [],
+      "role": "Student of Rabbi Akiva; 'Rosh HaMedabrim'",
+      "studentOf": [
+        "akiva"
+      ],
+      "teacherOf": []
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 100 – 160 CE",
+      "era": "tannaim",
+      "id": "shimon-bar-yochai",
+      "keys": [
+        "shimon bar yochai",
+        "shimon bar yohai",
+        "rashbi",
+        "בר יוחאי"
+      ],
+      "name": "Rabbi Shimon bar Yochai",
+      "nameHe": "רבי שמעון בר יוחאי",
+      "note": "Hid in a cave for thirteen years; Lag BaOmer marks his yahrzeit.",
+      "parentOf": [],
+      "role": "Student of Rabbi Akiva; traditionally linked with the Zohar",
+      "studentOf": [
+        "akiva"
+      ],
+      "teacherOf": []
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 90 – 160 CE",
+      "era": "tannaim",
+      "id": "yose",
+      "keys": [
+        "yose ben chalafta",
+        "jose ben halaḥfta",
+        "יוסי בן חלפתא"
+      ],
+      "name": "Rabbi Yose ben Chalafta",
+      "nameHe": "רבי יוסי בן חלפתא",
+      "note": "Known for his measured, compromise rulings.",
+      "parentOf": [],
+      "role": "Student of Rabbi Akiva",
+      "studentOf": [
+        "akiva"
+      ],
+      "teacherOf": []
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 90 – 135 CE",
+      "era": "tannaim",
+      "id": "yishmael",
+      "keys": [
+        "yishmael",
+        "ishmael",
+        "ישמעאל"
+      ],
+      "name": "Rabbi Yishmael",
+      "nameHe": "רבי ישמעאל",
+      "note": "His school's midrashim: the Mechilta.",
+      "parentOf": [],
+      "role": "Tanna; author of the thirteen hermeneutic principles",
+      "studentOf": [],
+      "teacherOf": [
+        "meir"
+      ]
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 175 – 247 CE",
+      "era": "amoraim",
+      "id": "rav",
+      "keys": [
+        "abba arikha",
+        "rav",
+        "רב"
+      ],
+      "name": "Rav (Abba Arikha)",
+      "nameHe": "רב",
+      "note": "Brought the Mishnah's study to Babylonia.",
+      "parentOf": [],
+      "role": "Founder of the academy at Sura; first Amora",
+      "studentOf": [
+        "yehuda-hanasi"
+      ],
+      "teacherOf": [
+        "huna",
+        "yehuda-amora"
+      ]
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 165 – 254 CE",
+      "era": "amoraim",
+      "id": "shmuel",
+      "keys": [
+        "shmuel",
+        "samuel",
+        "שמואל"
+      ],
+      "name": "Shmuel",
+      "nameHe": "שמואל",
+      "note": "Rav's great colleague and disputant; master of civil law.",
+      "parentOf": [],
+      "role": "Head of the academy at Nehardea; 'Shmuel Yeruchaa'",
+      "studentOf": [],
+      "teacherOf": [
+        "yehuda-amora"
+      ]
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 180 – 279 CE",
+      "era": "amoraim",
+      "id": "yochanan",
+      "keys": [
+        "rabbi yochanan",
+        "r yochanan",
+        "יוחנן"
+      ],
+      "name": "Rabbi Yochanan",
+      "nameHe": "רבי יוחנן",
+      "note": "Central figure of the Jerusalem Talmud's generation.",
+      "parentOf": [],
+      "role": "Leader of the academy at Tiberias",
+      "studentOf": [],
+      "teacherOf": [
+        "reish-lakish"
+      ]
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 200 – 275 CE",
+      "era": "amoraim",
+      "id": "reish-lakish",
+      "keys": [
+        "reish lakish",
+        "resh lakish",
+        "ריש לקיש"
+      ],
+      "name": "Reish Lakish",
+      "nameHe": "ריש לקיש",
+      "note": "From gladiator to sage — the Talmud's great penitent.",
+      "parentOf": [],
+      "role": "Colleague and brother-in-law of Rabbi Yochanan",
+      "studentOf": [
+        "yochanan"
+      ],
+      "teacherOf": []
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 216 – 297 CE",
+      "era": "amoraim",
+      "id": "huna",
+      "keys": [
+        "rav huna",
+        "huna",
+        "הונא"
+      ],
+      "name": "Rav Huna",
+      "nameHe": "רב הונא",
+      "note": "Led Sura's academy for decades.",
+      "parentOf": [],
+      "role": "Successor of Rav at Sura",
+      "studentOf": [
+        "rav"
+      ],
+      "teacherOf": [
+        "rabbah"
+      ]
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 220 – 299 CE",
+      "era": "amoraim",
+      "id": "yehuda-amora",
+      "keys": [
+        "rav yehuda",
+        "judah",
+        "יהודה"
+      ],
+      "name": "Rav Yehuda",
+      "nameHe": "רב יהודה",
+      "note": "'Rav Yehuda said in the name of Rav' — the Talmud's great transmitter.",
+      "parentOf": [],
+      "role": "Founder of the academy at Pumbedita",
+      "studentOf": [
+        "rav",
+        "shmuel"
+      ],
+      "teacherOf": [
+        "rabbah",
+        "yosef"
+      ]
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 270 – 330 CE",
+      "era": "amoraim",
+      "id": "rabbah",
+      "keys": [
+        "rabbah",
+        "rabba bar nachmani",
+        "רבה"
+      ],
+      "name": "Rabbah bar Nachmani",
+      "nameHe": "רבה בר נחמני",
+      "note": "'Oker harim' — uprooter of mountains.",
+      "parentOf": [],
+      "role": "Head of the academy at Pumbedita",
+      "studentOf": [
+        "huna",
+        "yehuda-amora"
+      ],
+      "teacherOf": [
+        "abaye",
+        "rava"
+      ]
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 270 – 333 CE",
+      "era": "amoraim",
+      "id": "yosef",
+      "keys": [
+        "rav yosef",
+        "יוסף"
+      ],
+      "name": "Rav Yosef",
+      "nameHe": "רב יוסף",
+      "note": "Rabbah's colleague; taught Abaye and Rava.",
+      "parentOf": [],
+      "role": "'Sinai' — master of tradition at Pumbedita",
+      "studentOf": [
+        "yehuda-amora"
+      ],
+      "teacherOf": [
+        "abaye",
+        "rava"
+      ]
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 280 – 338 CE",
+      "era": "amoraim",
+      "id": "abaye",
+      "keys": [
+        "abaye",
+        "abaye",
+        "אביי"
+      ],
+      "name": "Abaye",
+      "nameHe": "אביי",
+      "note": "His disputes with Rava fill the Talmud; law usually follows Rava.",
+      "parentOf": [],
+      "role": "Head of the academy at Pumbedita",
+      "studentOf": [
+        "rabbah",
+        "yosef"
+      ],
+      "teacherOf": []
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 280 – 352 CE",
+      "era": "amoraim",
+      "id": "rava",
+      "keys": [
+        "rava",
+        "רבא"
+      ],
+      "name": "Rava",
+      "nameHe": "רבא",
+      "note": "The Talmud's dominant voice in halachah.",
+      "parentOf": [],
+      "role": "Head of the academy at Mahuza",
+      "studentOf": [
+        "rabbah",
+        "yosef"
+      ],
+      "teacherOf": [
+        "ashi"
+      ]
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 352 – 427 CE",
+      "era": "amoraim",
+      "id": "ashi",
+      "keys": [
+        "rav ashi",
+        "ashi",
+        "אשי"
+      ],
+      "name": "Rav Ashi",
+      "nameHe": "רב אשי",
+      "note": "Began the Talmud's redaction with Ravina.",
+      "parentOf": [],
+      "role": "Head of the academy at Mata Mehasya; redactor of the Talmud",
+      "studentOf": [
+        "rava"
+      ],
+      "teacherOf": [
+        "ravina"
+      ]
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 380 – 499 CE",
+      "era": "amoraim",
+      "id": "ravina",
+      "keys": [
+        "ravina",
+        "רבינא"
+      ],
+      "name": "Ravina",
+      "nameHe": "רבינא",
+      "note": "'Rav Ashi and Ravina — the end of teaching.'",
+      "parentOf": [],
+      "role": "Completed the Talmud's redaction (traditional)",
+      "studentOf": [
+        "ashi"
+      ],
+      "teacherOf": []
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "1040 – 1105",
+      "era": "rishonim",
+      "id": "rashi",
+      "keys": [
+        "rashi",
+        "shlomo yitzchaki",
+        "רש״י",
+        "רשי"
+      ],
+      "name": "Rashi (Rabbi Shlomo Yitzchaki)",
+      "nameHe": "רש״י",
+      "note": "His commentary is printed alongside nearly every Talmud page.",
+      "parentOf": [
+        "yocheved"
+      ],
+      "role": "The Commentator — on Tanach and the entire Talmud",
+      "studentOf": [],
+      "teacherOf": []
+    },
+    {
+      "childOf": [
+        "rashi"
+      ],
+      "dateCertainty": "approximate",
+      "dates": "c. 1060 – 1125",
+      "era": "rishonim",
+      "id": "yocheved",
+      "keys": [
+        "yocheved",
+        "jochebed"
+      ],
+      "name": "Yocheved, daughter of Rashi",
+      "nameHe": "יוכבד בת רש״י",
+      "note": "Through her sons, Rashi's line founded the Tosafist schools.",
+      "parentOf": [
+        "rashbam",
+        "rabbenu-tam"
+      ],
+      "role": "Mother of the Rashbam and Rabbenu Tam",
+      "studentOf": [],
+      "teacherOf": []
+    },
+    {
+      "childOf": [
+        "yocheved"
+      ],
+      "dateCertainty": "approximate",
+      "dates": "c. 1085 – 1158",
+      "era": "rishonim",
+      "id": "rashbam",
+      "keys": [
+        "rashbam",
+        "shmuel ben meir",
+        "רשבם"
+      ],
+      "name": "Rashbam (Rabbi Shmuel ben Meir)",
+      "nameHe": "רשב״ם",
+      "note": "Rashi's grandson; his peshat commentary complements Rashi.",
+      "parentOf": [],
+      "role": "Tosafist; commentator on Tanach and Talmud",
+      "studentOf": [],
+      "teacherOf": []
+    },
+    {
+      "childOf": [
+        "yocheved"
+      ],
+      "dateCertainty": "approximate",
+      "dates": "c. 1100 – 1171",
+      "era": "rishonim",
+      "id": "rabbenu-tam",
+      "keys": [
+        "rabbenu tam",
+        "yaakov ben meir",
+        "רבינו תם"
+      ],
+      "name": "Rabbenu Tam (Rabbi Yaakov ben Meir)",
+      "nameHe": "רבינו תם",
+      "note": "Rashi's grandson; the Tosafot are largely his school's work.",
+      "parentOf": [],
+      "role": "Leader of the Tosafists",
+      "studentOf": [],
+      "teacherOf": []
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "1013 – 1103",
+      "era": "rishonim",
+      "id": "rif",
+      "keys": [
+        "alfasi",
+        "\"rif\"",
+        "רי״ף",
+        "ריף"
+      ],
+      "name": "Rif (Rabbi Yitzchak Alfasi)",
+      "nameHe": "רי״ף",
+      "note": "His Halachot extracted practical law from the Talmud.",
+      "parentOf": [],
+      "role": "Author of the Halachot — the Talmud's first great code",
+      "studentOf": [],
+      "teacherOf": []
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "dated",
+      "dates": "1138 – 1204",
+      "era": "rishonim",
+      "id": "rambam",
+      "keys": [
+        "rambam",
+        "maimonides",
+        "רמבם"
+      ],
+      "name": "Rambam (Maimonides)",
+      "nameHe": "רמב״ם",
+      "note": "The Mishneh Torah codified all of halachah in fourteen books.",
+      "parentOf": [
+        "avraham-ben-harambam"
+      ],
+      "role": "Author of the Mishneh Torah and the Guide",
+      "studentOf": [],
+      "teacherOf": []
+    },
+    {
+      "childOf": [
+        "rambam"
+      ],
+      "dateCertainty": "approximate",
+      "dates": "1186 – 1237",
+      "era": "rishonim",
+      "id": "avraham-ben-harambam",
+      "keys": [
+        "avraham ben harambam",
+        "abraham maimonides"
+      ],
+      "name": "Rabbi Avraham ben HaRambam",
+      "nameHe": "רבי אברהם בן הרמב״ם",
+      "note": "Defended and continued his father's path.",
+      "parentOf": [],
+      "role": "Leader of Egyptian Jewry after his father",
+      "studentOf": [
+        "rambam"
+      ],
+      "teacherOf": []
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "1194 – 1270",
+      "era": "rishonim",
+      "id": "ramban",
+      "keys": [
+        "ramban",
+        "nachmanides",
+        "רמבן"
+      ],
+      "name": "Ramban (Nachmanides)",
+      "nameHe": "רמב״ן",
+      "note": "Settled in Jerusalem late in life; renewed its Jewish life.",
+      "parentOf": [],
+      "role": "Commentator on Tanach and Talmud; kabbalist",
+      "studentOf": [],
+      "teacherOf": [
+        "rashba"
+      ]
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "1235 – 1310",
+      "era": "rishonim",
+      "id": "rashba",
+      "keys": [
+        "rashba",
+        "shlomo ben aderet",
+        "רשבא"
+      ],
+      "name": "Rashba (Rabbi Shlomo ben Aderet)",
+      "nameHe": "רשב״א",
+      "note": "His responsa shaped halachah for centuries.",
+      "parentOf": [],
+      "role": "Leader of Spanish Jewry; author of thousands of responsa",
+      "studentOf": [
+        "ramban"
+      ],
+      "teacherOf": []
+    },
+    {
+      "childOf": [],
+      "dateCertainty": "approximate",
+      "dates": "c. 1250 – 1327",
+      "era": "rishonim",
+      "id": "rosh",
+      "keys": [
+        "rabbeinu asher",
+        "\"rosh\"",
+        "רא״ש",
+        "ראש"
+      ],
+      "name": "Rosh (Rabbeinu Asher)",
+      "nameHe": "רא״ש",
+      "note": "Fled Germany for Spain; his rulings underlie the Tur and Shulchan Aruch.",
+      "parentOf": [
+        "yaakov-baalturim"
+      ],
+      "role": "Author of the Piskei HaRosh; father of the Tur",
+      "studentOf": [],
+      "teacherOf": []
+    },
+    {
+      "childOf": [
+        "rosh"
+      ],
+      "dateCertainty": "approximate",
+      "dates": "c. 1270 – 1340",
+      "era": "rishonim",
+      "id": "yaakov-baalturim",
+      "keys": [
+        "baal haturim",
+        "yaakov ben asher",
+        "בעל הטורים"
+      ],
+      "name": "Rabbi Yaakov Baal HaTurim",
+      "nameHe": "רבי יעקב בעל הטורים",
+      "note": "His Tur organized halachah into the four-part structure still used today.",
+      "parentOf": [],
+      "role": "Author of the Arbaah Turim",
+      "studentOf": [
+        "rosh"
+      ],
+      "teacherOf": []
+    }
+  ]
+}

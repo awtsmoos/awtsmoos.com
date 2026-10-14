@@ -796,3 +796,157 @@
 		grid-template-columns: 1fr;
 	}
 }
+
+/* ============ sage family trees ============ */
+.xtree-note {
+	margin: 0 0 12px;
+	font-size: 13px;
+	font-style: italic;
+	line-height: 1.6;
+	color: var(--aw-text-soft);
+}
+.xtree-legend {
+	display: inline-flex;
+	align-items: center;
+	gap: 14px;
+	margin-inline-start: auto;
+	font-size: 12.5px;
+	color: var(--aw-text-soft);
+}
+.xtree-legend-item {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	color: var(--aw-text-soft);
+}
+.xtree-swatch {
+	display: inline-block;
+	width: 26px;
+	height: 3px;
+	background: var(--aw-text-soft);
+}
+.xtree-swatch.is-family {
+	background: var(--accent-gold);
+}
+.xtree-swatch.is-teacher {
+	background: var(--aw-accent);
+}
+.xtree-layout {
+	display: grid;
+	grid-template-columns: 1fr minmax(240px, 320px);
+	gap: 16px;
+	align-items: start;
+	overflow-x: clip;
+}
+.xtree-holder {
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: var(--aw-bg);
+	overflow-x: auto;
+}
+.xtree-svg {
+	display: block;
+	width: 100%;
+	height: auto;
+	min-width: 560px;
+}
+.xtree-link {
+	fill: none;
+	stroke-width: 2.5;
+}
+.xtree-link.is-family {
+	stroke: var(--accent-gold);
+}
+.xtree-link.is-teacher {
+	stroke: var(--aw-accent);
+	stroke-dasharray: 6 4;
+}
+.xtree-node {
+	cursor: pointer;
+}
+.xtree-box {
+	fill: var(--aw-surface);
+	stroke: var(--aw-line);
+	stroke-width: 1.5;
+}
+.xtree-node:hover .xtree-box {
+	stroke: var(--accent-gold);
+}
+.xtree-node:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 4px;
+}
+.xtree-node.is-root .xtree-box {
+	fill: var(--aw-panel-2);
+	stroke: var(--accent-gold);
+	stroke-width: 2.5;
+}
+.xtree-name {
+	fill: var(--aw-text);
+	font-size: 13px;
+	font-weight: 700;
+	text-anchor: middle;
+}
+.xtree-he {
+	fill: var(--aw-text-soft);
+	font-size: 12px;
+	text-anchor: middle;
+}
+.xtree-era {
+	fill: var(--aw-text-soft);
+	font-size: 10.5px;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	text-anchor: middle;
+}
+.xtree-side {
+	min-width: 0;
+	padding: 14px;
+	color: var(--aw-text);
+	background: var(--aw-surface);
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	overflow-x: clip;
+}
+.xtree-side h3 {
+	margin: 0 0 2px;
+	font-size: 17px;
+	color: var(--aw-text);
+}
+.xtree-side h4 {
+	margin: 14px 0 8px;
+	font-size: 13.5px;
+	color: var(--aw-text);
+}
+.xtree-he-line {
+	margin: 0 0 8px;
+	font-size: 15px;
+	color: var(--aw-text-soft);
+}
+.xtree-facts {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin: 0 0 8px;
+	font-size: 12.5px;
+	color: var(--aw-text-soft);
+}
+.xtree-role {
+	margin: 0 0 8px;
+	font-size: 13.5px;
+	font-weight: 600;
+	line-height: 1.55;
+	color: var(--aw-text);
+}
+.xtree-note2 {
+	margin: 0;
+	font-size: 13px;
+	line-height: 1.6;
+	color: var(--aw-text-soft);
+}
+@media (max-width: 860px) {
+	.xtree-layout {
+		grid-template-columns: 1fr;
+	}
+}
