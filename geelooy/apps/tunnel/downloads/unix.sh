@@ -117,18 +117,20 @@ EOF
 }
 
 awt_banner() {
-	# B"H — Yaakov 2026-10-14: Beautiful ASCII art portal for the magical tunnel.
+	# B"H — Yaakov 2026-10-14: IMMENSE magical portal for the tunnel. Even more beautiful!
 	cat >&2 <<EOF
-${AWT_C_PURPLE}      ╭─────────────────────────────────╮${AWT_C_OFF}
-${AWT_C_PURPLE}      │${AWT_C_OFF}                                 ${AWT_C_PURPLE}│${AWT_C_OFF}
-${AWT_C_PURPLE}      │${AWT_C_OFF}   ${AWT_C_GOLD}✦${AWT_C_OFF}   ${AWT_C_BOLD}AWTSMOOS TUNNEL${AWT_C_OFF}   ${AWT_C_GOLD}✦${AWT_C_OFF}    ${AWT_C_PURPLE}│${AWT_C_OFF}
-${AWT_C_PURPLE}      │${AWT_C_OFF}                                 ${AWT_C_PURPLE}│${AWT_C_OFF}
-${AWT_C_PURPLE}      │${AWT_C_OFF}   ${AWT_C_DIM}── secure doorway to your machines ──${AWT_C_OFF}  ${AWT_C_PURPLE}│${AWT_C_OFF}
-${AWT_C_PURPLE}      │${AWT_C_OFF}                                 ${AWT_C_PURPLE}│${AWT_C_OFF}
-${AWT_C_PURPLE}      ╰─────────────────────────────────╯${AWT_C_OFF}
-${AWT_C_CYAN}                    ║║║${AWT_C_OFF}
-${AWT_C_CYAN}                    ║║║${AWT_C_OFF}  ${AWT_C_DIM}entering the portal...${AWT_C_OFF}
-${AWT_C_CYAN}                    ║║║${AWT_C_OFF}
+${AWT_C_DIM}  ✦ ⋆ ✦ ⋆ ✦ ⋆ ✦ ⋆ ✦ ⋆ ✦ ⋆ ✦ ⋆ ✦ ⋆ ✦ ⋆ ✦ ⋆ ✦ ⋆ ✦ ⋆ ✦ ⋆ ✦${AWT_C_OFF}
+${AWT_C_PURPLE}  ╭──────────────────────────────────────────────────────╮${AWT_C_OFF}
+${AWT_C_PURPLE}  │${AWT_C_OFF}                                                      ${AWT_C_PURPLE}│${AWT_C_OFF}
+${AWT_C_PURPLE}  │${AWT_C_OFF}     ${AWT_C_GOLD}✦${AWT_C_OFF}       ${AWT_C_BOLD}AWTSMOOS TUNNEL${AWT_C_OFF}       ${AWT_C_GOLD}✦${AWT_C_OFF}      ${AWT_C_PURPLE}│${AWT_C_OFF}
+${AWT_C_PURPLE}  │${AWT_C_OFF}                                                      ${AWT_C_PURPLE}│${AWT_C_OFF}
+${AWT_C_PURPLE}  │${AWT_C_OFF}        ${AWT_C_DIM}── secure doorway to your machines ──${AWT_C_OFF}         ${AWT_C_PURPLE}│${AWT_C_OFF}
+${AWT_C_PURPLE}  │${AWT_C_OFF}                                                      ${AWT_C_PURPLE}│${AWT_C_OFF}
+${AWT_C_PURPLE}  ╰──────────────────────────────────────────────────────╯${AWT_C_OFF}
+${AWT_C_CYAN}                           ║║║${AWT_C_OFF}
+${AWT_C_CYAN}                           ║║║${AWT_C_OFF}  ${AWT_C_DIM}entering the portal...${AWT_C_OFF}  ${AWT_C_YELLOW}✨${AWT_C_OFF}
+${AWT_C_CYAN}                           ║║║${AWT_C_OFF}
+${AWT_C_DIM}  ✧ ⋆ ✧ ⋆ ✧ ⋆ ✧ ⋆ ✧ ⋆ ✧ ⋆ ✧ ⋆ ✧ ⋆ ✧ ⋆ ✧ ⋆ ✧ ⋆ ✧ ⋆ ✧ ⋆ ✧${AWT_C_OFF}
 EOF
 }
 
