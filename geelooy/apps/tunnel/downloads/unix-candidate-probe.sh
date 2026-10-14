@@ -33,7 +33,7 @@ start_candidate_probe() {
 			unset AWTSMOOS_CANDIDATE_IDENTITY_MUTATION
 		fi
 		exec "$AWTSMOOS_NODE_BIN" \
-			"$CANDIDATE_ROOT/awtsmoos-agent-launcher.cjs" "$CANDIDATE_ROOT"
+			"$CANDIDATE_ROOT/unix-agent-launcher.cjs" "$CANDIDATE_ROOT"
 	) >> "$log_file" 2>&1 &
 	CANDIDATE_PROBE_PID=$!
 	printf '%s\n' "$CANDIDATE_PROBE_PID" > "$pid_file"
