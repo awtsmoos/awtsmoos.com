@@ -82,6 +82,11 @@ wait_for_candidate_probe() {
 	local started_ms="$(candidate_now_ms)"
 	local deadline_ms="$((started_ms + timeout_seconds * 1000))"
 	local announced_pairing=0
+	local announced_preparing=0
+	local pairing_wait_started_ms=0
+	# B"H — how long to wait for the candidate to write its pairing info
+	# before failing beautifully instead of stranding the human (Yaakov 2026-10-14).
+	local pairing_info_timeout_ms="${AWTSMOOS_PAIRING_INFO_TIMEOUT_MS:-90000}"
 	candidate_stability_reset
 	while true; do
 		local now_ms="$(candidate_now_ms)"
@@ -113,10 +118,33 @@ wait_for_candidate_probe() {
 				install_event "candidate-pairing" "waiting" \
 					"Device approval is pending; the fresh candidate remains isolated." \
 					"deadlineMs=$deadline_ms"
-				# Yaakov 2026-10-14: a bare "pending" line strands headless
-				# users. Show the actionable approval card with URL + code.
-				print_candidate_pairing_card || true
-				announced_pairing=1
+			fi
+			# Yaakov 2026-10-14: the approval card must ALWAYS show when
+			# approval is pending — never strand the human with no action.
+			# Retry while the pairing file is not readable yet; fail
+			# beautifully if it never appears.
+			if [ "$announced_pairing" -eq 0 ]; then
+				if [ "$pairing_wait_started_ms" -eq 0 ]; then
+					pairing_wait_started_ms="$now_ms"
+				fi
+				local _pairing_id
+				_pairing_id="$(candidate_pairing_field pairingId 2>/dev/null)"
+				if [ -n "$_pairing_id" ]; then
+					print_candidate_pairing_card || true
+					announced_pairing=1
+				else
+					if [ "$announced_preparing" -eq 0 ]; then
+						prg_info "Preparing your approval code…"
+						announced_preparing=1
+					fi
+					if [ "$((now_ms - pairing_wait_started_ms))" -ge "$pairing_info_timeout_ms" ]; then
+						write_candidate_readiness_receipt \
+							"pairing_info_timeout" "pairing" "$now_ms" "$started_ms"
+						install_fail "candidate-pairing" \
+							"The tunnel agent did not produce an approval code." \
+							"The candidate is running but never wrote its pairing info. Check the candidate log for errors."
+					fi
+				fi
 			fi
 		fi
 		local elapsed_ms="$((now_ms - started_ms))"

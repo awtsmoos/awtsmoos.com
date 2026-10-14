@@ -93,6 +93,68 @@ kill_stale_installers() {
 	return 0
 }
 
+# Yaakov 2026-10-14: --clean (implied by --agent-only) makes reruns fully
+# idempotent. Kills EVERYTHING tunnel-related — installers, candidates, AND
+# live agents — then wipes the install lock, stale pairing state, and
+# candidate staging dirs. Rerunning the installer always starts fresh; the
+# human never runs pkill/rm by hand. Destructive by design: only runs when
+# the human passes --clean or --agent-only.
+clean_all_tunnel_state() {
+	local self="$$"
+	local ancestors=" $self "
+	local p="$PPID" guard=0
+	while [ -n "$p" ] && [ "$p" != "0" ] && [ "$p" != "1" ] && [ "$guard" -lt 32 ]; do
+		ancestors="$ancestors$p "
+		p="$(ps -o ppid= -p "$p" 2>/dev/null | tr -d '[:space:]')" || break
+		guard=$(( guard + 1 ))
+	done
+	# Targeted patterns: installer machinery, candidate agents, live agents,
+	# supervisors. Our own ancestor chain is excluded above.
+	local patterns="unix-install-core.sh unix-install-custody.cjs unix-bootstrap-run.sh unix-bootstrap-components.sh unix-candidate-probe.sh awtsmoos-agent-launcher.cjs awtsmoos-supervisor"
+	local killed=0 pid cmdline matched pat
+	while read -r pid cmdline; do
+		case "$pid" in ''|*[!0-9]*) continue ;; esac
+		case "$ancestors" in *" $pid "*) continue ;; esac
+		matched=0
+		for pat in $patterns; do
+			case "$cmdline" in *"$pat"*) matched=1; break ;; esac
+		done
+		[ "$matched" = "1" ] || continue
+		if kill -TERM "$pid" 2>/dev/null; then
+			killed=$(( killed + 1 ))
+		fi
+	done < <(ps -eo pid=,args= 2>/dev/null)
+	if [ "$killed" -gt 0 ]; then
+		sleep 2
+		while read -r pid cmdline; do
+			case "$pid" in ''|*[!0-9]*) continue ;; esac
+			case "$ancestors" in *" $pid "*) continue ;; esac
+			matched=0
+			for pat in $patterns; do
+				case "$cmdline" in *"$pat"*) matched=1; break ;; esac
+			done
+			[ "$matched" = "1" ] || continue
+			kill -KILL "$pid" 2>/dev/null || true
+		done < <(ps -eo pid=,args= 2>/dev/null)
+	fi
+	# Wipe stale local state. The recovery root itself is preserved (durable
+	# identity, logs) — only the pending pairing file and candidate staging
+	# dirs go, plus the install lock.
+	rm -rf "${ROOT}.install-lock" 2>/dev/null || true
+	rm -f "${RECOVERY_ROOT}/state/device-binding.json" 2>/dev/null || true
+	rm -rf "${RECOVERY_ROOT}"/.candidate-* 2>/dev/null || true
+	rm -rf "${ROOT}".candidate-* 2>/dev/null || true
+	if [ "$killed" -gt 0 ]; then
+		install_event "install-clean" "passed" \
+			"Cleaned all previous tunnel state." \
+			"stopped ${killed} stale process(es); cleared locks and pairing state"
+	else
+		install_event "install-clean" "passed" \
+			"No stale tunnel state found; starting fresh." ""
+	fi
+	return 0
+}
+
 acquire_install_lock() {
 	local timeout_seconds="${AWTSMOOS_INSTALL_LOCK_TIMEOUT_SECONDS:-12}"
 	local sample=0

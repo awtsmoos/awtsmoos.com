@@ -30,6 +30,12 @@ install_progress 20 "Preparing complete verified reinstall"
 # Yaakov 2026-10-14: a fresh run instantly replaces any older installer — no
 # waiting on ghost processes, no manual cleanup. Kill first, then clear the
 # stale lock the dead owner left behind, then claim it ourselves.
+# Yaakov 2026-10-14: --clean (implied by --agent-only) wipes everything
+# first — rerunning the installer is always a fresh start, no manual
+# pkill/rm ever. Runs before kill_stale_installers.
+if [ "${AWTSMOOS_INSTALL_CLEAN:-0}" = "1" ]; then
+	clean_all_tunnel_state
+fi
 kill_stale_installers
 clear_stale_install_lock
 install_progress 20 "Claiming the install lock"

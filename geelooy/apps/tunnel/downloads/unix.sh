@@ -134,6 +134,9 @@ awt_fun()   { printf '%s🎭%s %s\n'   "$AWT_C_PINK" "$AWT_C_OFF" "$1" >&2; }
 # Backward compatible: no flags + non-interactive => full (today's behavior).
 AWTSMOOS_INSTALL_MODE="${AWTSMOOS_INSTALL_MODE:-}"
 AWT_ASSUME_YES=0
+# Yaakov 2026-10-14: rerunning the installer must clear everything — no
+# manual pkill/rm ever. --clean does a full wipe first; --agent-only implies it.
+AWTSMOOS_INSTALL_CLEAN="${AWTSMOOS_INSTALL_CLEAN:-0}"
 
 print_installer_help() {
 	cat >&2 <<EOF
@@ -145,6 +148,7 @@ Options:
   --full            Complete tunnel: agent, guardian, recovery lanes, browser support (default)
   --minimal         Agent + registration; uses your system Node.js 18+; no browser auto-open
   --agent-only      Fastest headless install for servers; no browser, no recovery lanes
+  --clean           Kill all tunnel processes and clear all local state first (implied by --agent-only)
   --mode=MODE       Same as --MODE (full, minimal, agent-only)
   -y, --yes         Skip the interactive menu; install with the default/flag mode
   --no-login        Skip the headless device login step
@@ -185,6 +189,7 @@ parse_installer_args() {
 			--full)            AWTSMOOS_INSTALL_MODE="full" ;;
 			--minimal)         AWTSMOOS_INSTALL_MODE="minimal" ;;
 			--agent-only|--agentonly) AWTSMOOS_INSTALL_MODE="agent-only" ;;
+			--clean)           AWTSMOOS_INSTALL_CLEAN=1 ;;
 			--mode=*)          AWTSMOOS_INSTALL_MODE="${1#--mode=}" ;;
 			-y|--yes)          AWT_ASSUME_YES=1 ;;
 			--no-login)        AWTSMOOS_SKIP_DEVICE_LOGIN=1 ;;
@@ -302,6 +307,11 @@ fi
 AWTSMOOS_INSTALL_MODE="${AWTSMOOS_INSTALL_MODE:-full}"
 export AWTSMOOS_INSTALL_MODE
 export AWTSMOOS_SKIP_DEVICE_LOGIN="${AWTSMOOS_SKIP_DEVICE_LOGIN:-}"
+# Yaakov 2026-10-14: --agent-only always starts from a clean slate.
+if [ "$AWTSMOOS_INSTALL_MODE" = "agent-only" ]; then
+	AWTSMOOS_INSTALL_CLEAN=1
+fi
+export AWTSMOOS_INSTALL_CLEAN
 print_install_plan "$AWTSMOOS_INSTALL_MODE"
 awt_intro_box "$AWTSMOOS_INSTALL_MODE"
 install_root="$(select_install_root)"
