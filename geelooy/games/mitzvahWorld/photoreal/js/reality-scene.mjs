@@ -2135,6 +2135,212 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   scene.add(treeGroup);
   mark('trees-placed');
 
+  /* B"H STEP 1 — BRANCHES + TRUNKS (Yaakov 2026-10-14: "leaf cards float in
+     mid-air with nothing holding them — the worst offense").
+     Two massive mossy foreground trunks anchor the left/right frame edges
+     like the target, with thick branches arcing across the top of frame,
+     hanging moss strands, and leaf cards growing along the branches so
+     every foliage cluster connects to visible wood. Real 3D geometry with
+     the premade mossy-bark material (rim light from the sun is automatic).
+     Forest view only — other views keep their own composition. */
+  if (view === 'forest') {
+    const vv = VIEWS.forest;
+    const hrnd = mulberry32(seed ^ 0x7e1c);
+    const hTint = new THREE.Color();
+    // B"H — camera-space basis (the river bends, so world-axis offsets land
+    // on the view axis). Trunks/branches are placed relative to the lens.
+    const hCp = new THREE.Vector3(...vv.pos);
+    const hCl = new THREE.Vector3(...vv.look);
+    const hFwd = hCl.clone().sub(hCp).normalize();
+    const hUp = new THREE.Vector3(0, 1, 0);
+    const hRight = new THREE.Vector3().crossVectors(hFwd, hUp).normalize();
+    const hUp2 = new THREE.Vector3().crossVectors(hRight, hFwd).normalize();
+    const hAt = (f, r, u) => new THREE.Vector3()
+      .copy(hCp).addScaledVector(hFwd, f).addScaledVector(hRight, r).addScaledVector(hUp2, u);
+    // Gnarled hero trunk: tapered cylinder, sine gnarl, root flare.
+    function makeHeroTrunk(rad, hgt, sv) {
+      const g = new THREE.CylinderGeometry(rad * 0.60, rad, hgt, 14, 9, false);
+      const p = g.attributes.position;
+      const r2 = mulberry32(sv);
+      const ph1 = r2() * 6.283, ph2 = r2() * 6.283, ph3 = r2() * 6.283;
+      for (let i = 0; i < p.count; i++) {
+        const x = p.getX(i), y = p.getY(i), z = p.getZ(i);
+        const t = (y + hgt / 2) / hgt; // 0 bottom → 1 top
+        const ang = Math.atan2(z, x);
+        const gnarl = 1
+          + 0.17 * Math.sin(ang * 3 + ph1 + t * 4.2) * Math.sin(ang * 2 - ph2 + t * 6.5)
+          + 0.07 * Math.sin(ang * 7 + ph3 + t * 12.0);
+        // root flare: wide buttress at the base like the target's trunks
+        const flare = 1 + 0.45 * Math.pow(Math.max(0, 1 - t * 3.5), 2.0);
+        p.setX(i, x * gnarl * flare);
+        p.setZ(i, z * gnarl * flare);
+        p.setY(i, y + 0.35 * Math.sin(ang * 5 + ph1) * (1 - t));
+      }
+      g.computeVertexNormals();
+      // tile bark: 3x around, 6x up the trunk (crisp close-up detail)
+      const huv = g.attributes.uv;
+      const hCol = [];
+      const hp = g.attributes.position, hn = g.attributes.normal;
+      for (let i = 0; i < huv.count; i++) {
+        huv.setXY(i, huv.getX(i) * 3.0, huv.getY(i) * 6.0);
+        // moss colonization: up-facing + near base, like the target's trunks
+        const upF = hn.getY(i) * 0.5 + 0.5;
+        const hgtF = Math.min(1, Math.max(0, 1 - (hp.getY(i) + hgt / 2) / 9));
+        const moss = Math.min(1, upF * 1.4) * hgtF;
+        const m = Math.min(0.85, moss * 1.1);
+        // lerp white -> moss green (vertexColors multiply the bark map)
+        hCol.push(1 - m * 0.45, 1 - m * 0.30, 1 - m * 0.62);
+      }
+      g.setAttribute('color', new THREE.Float32BufferAttribute(hCol, 3));
+      return g;
+    }
+    // B"H — hero bark material: the world-space bark shader (applyBakedBark)
+    // does not render on raw CylinderGeometry (trunks vanish). Dedicated
+    // UV-mapped material with the SAME premade textures: crisp cylindrical
+    // bark + moss colonization via vertex colors (mossy bases like target).
+    const heroBarkMat = new THREE.MeshStandardMaterial({
+      map: bakedBarkAlbedoTex,
+      normalMap: bakedBarkNormalTex, normalScale: new THREE.Vector2(1.2, 1.2),
+      roughnessMap: bakedBarkRoughTex, roughness: 1.0,
+      vertexColors: true,
+    });
+    const heroTrunks = new THREE.Group();
+    // Left + right foreground trunks in CAMERA space: 4.5m along view dir,
+    // ±2.9m right — at the frame edges, clear of the river center.
+    // (55° vert FOV, 16:10 → half-width at 4.5m ≈ 3.7m; trunk inner edge
+    // ≈ 2.0m from axis — anchors the edge like the target.)
+    const trunkDefs = [
+      { r: -3.45, f: 5.6, rad: 0.85, hgt: 17, lean: 0.055 },
+      { r: 3.55, f: 6.0, rad: 0.95, hgt: 18, lean: -0.06 },
+    ];
+    const trunkTops = [];
+    const trunkAxes = []; // (x, z, radius) for foliage keep-out
+    trunkDefs.forEach((td, ti) => {
+      const tp = hAt(td.f, td.r, 0);
+      const ty = groundHeight(tp.x, tp.z, noise) - 0.4;
+      const trunk = new THREE.Mesh(makeHeroTrunk(td.rad, td.hgt, seed ^ (0x7100 + ti)), heroBarkMat);
+      trunk.position.set(tp.x, ty + td.hgt / 2, tp.z);
+      trunk.rotation.z = td.lean;
+      trunk.rotation.x = -0.03;
+      trunk.castShadow = true; trunk.receiveShadow = true;
+      heroTrunks.add(trunk);
+      trunkTops.push(new THREE.Vector3(tp.x, ty + td.hgt * 0.80, tp.z));
+      trunkAxes.push({ x: tp.x, z: tp.z, r: td.rad * 1.9 });
+    });
+    // Thick branches arcing across the TOP of frame (target's overhead limbs).
+    // CatmullRom curves between/above the trunks; TubeGeometry, barkMat.
+    const branchCurves = [];
+    // B"H — arcs in CAMERA space: (f = forward m, u = up m). Frame top at
+    // ~4.5m ahead is u≈+2.3; arcs sit just above it, dipping into frame.
+    const arcDefs = [
+      { f: 3.8, u0: 2.0, uMid: 2.9, u1: 1.9, r: 0.22 },
+      { f: 5.5, u0: 2.3, uMid: 3.3, u1: 2.1, r: 0.18 },
+      { f: 2.8, u0: 1.7, uMid: 2.5, u1: 1.8, r: 0.15 },
+    ];
+    arcDefs.forEach((ad, ai) => {
+      const curve = new THREE.CatmullRomCurve3([
+        hAt(ad.f, -3.1, ad.u0),
+        hAt(ad.f + 0.4, -1.2, ad.uMid),
+        hAt(ad.f + 0.9, 1.2, ad.uMid - 0.5),
+        hAt(ad.f + 1.4, 3.1, ad.u1),
+      ]);
+      branchCurves.push(curve);
+      const tube = new THREE.TubeGeometry(curve, 22, ad.r, 7, false);
+      const bm = new THREE.Mesh(tube, heroBarkMat);
+      bm.castShadow = true; bm.receiveShadow = true;
+      heroTrunks.add(bm);
+    });
+    scene.add(heroTrunks);
+    // Hanging moss strands from the arc branches — thin tapered tubes,
+    // moss-green gradient via vertex colors. 1 instanced draw.
+    {
+      const STRANDS = fast ? 24 : 48;
+      const sGeo = new THREE.CylinderGeometry(0.020, 0.006, 1, 5, 3, true);
+      sGeo.translate(0, -0.5, 0); // hang downward from origin
+      const sMat = new THREE.MeshStandardMaterial({
+        color: new THREE.Color(0.32, 0.42, 0.20), roughness: 1.0,
+        side: THREE.DoubleSide,
+      });
+      const sInst = new THREE.InstancedMesh(sGeo, sMat, STRANDS);
+      const sd = new THREE.Object3D();
+      let spi = 0;
+      for (const curve of branchCurves) {
+        const per = Math.floor(STRANDS / branchCurves.length);
+        for (let k = 0; k < per && spi < STRANDS; k++) {
+          const t = hrnd();
+          const pt = curve.getPoint(t);
+          const len = 0.4 + hrnd() * 0.7;
+          sd.position.set(pt.x + (hrnd() - 0.5) * 0.3, pt.y - 0.1, pt.z + (hrnd() - 0.5) * 0.3);
+          sd.rotation.set((hrnd() - 0.5) * 0.22, hrnd() * 6.28, (hrnd() - 0.5) * 0.22);
+          // sway lean + taper variety
+          sd.scale.set(0.8 + hrnd() * 0.7, len, 0.8 + hrnd() * 0.7);
+          sd.updateMatrix();
+          sInst.setMatrixAt(spi, sd.matrix);
+          const sh = 0.55 + hrnd() * 0.45; // per-strand shade variety (dark moss)
+          hTint.setRGB(0.32 * sh, 0.44 * sh, 0.20 * sh);
+          sInst.setColorAt(spi, hTint);
+          spi++;
+        }
+      }
+      sInst.count = spi;
+      if (sInst.instanceColor) sInst.instanceColor.needsUpdate = true;
+      sInst.castShadow = false; sInst.receiveShadow = true;
+      scene.add(sInst);
+    }
+    // Leaf cards along the arc branches — foliage visibly grows ON the wood.
+    // Same cluster texture/material language as the canopy shells.
+    {
+      const BC = fast ? 80 : 170;
+      const bGeo = new THREE.PlaneGeometry(0.5, 0.5);
+      const bMat = new THREE.MeshStandardMaterial({
+        map: leafClusterTex, alphaTest: 0.35, side: THREE.DoubleSide,
+        roughness: 0.95, color: new THREE.Color(0.60, 0.70, 0.45),
+        depthWrite: true,
+      });
+      addCanopyBacklight(bMat, 0.90, 2.0, 'branch-leaf');
+      const bInst = new THREE.InstancedMesh(bGeo, bMat, BC);
+      const bd = new THREE.Object3D();
+      let bi = 0;
+      for (const curve of branchCurves) {
+        const per = Math.floor(BC / branchCurves.length);
+        for (let k = 0; k < per && bi < BC; k++) {
+          const t = hrnd();
+          const pt = curve.getPoint(t);
+          const tan = curve.getTangent(t);
+          // cluster hugging the branch top (leaves sprout upward, dense)
+          bd.position.set(
+            pt.x + (hrnd() - 0.5) * 0.9,
+            pt.y + 0.15 + hrnd() * 0.75,
+            pt.z + (hrnd() - 0.5) * 0.9
+          );
+          // keep-out on the FINAL card position: no stickers on trunks
+          let inside = false;
+          for (const ta of trunkAxes) {
+            const ddx = bd.position.x - ta.x, ddz = bd.position.z - ta.z;
+            if (ddx * ddx + ddz * ddz < ta.r * ta.r) { inside = true; break; }
+          }
+          if (inside) continue;
+          // orient across the branch direction (spray perpendicular to wood)
+          bd.lookAt(pt.x + tan.z, pt.y + 0.35, pt.z - tan.x);
+          bd.rotateZ(hrnd() * Math.PI * 2);
+          const ss = 0.8 + hrnd() * 0.6; // 0.4-0.7m cards, denser
+          bd.scale.set(ss, ss, 1);
+          bd.updateMatrix();
+          bInst.setMatrixAt(bi, bd.matrix);
+          const sv = 0.8 + hrnd() * 0.35;
+          hTint.setRGB(sv, sv, sv * 0.92);
+          bInst.setColorAt(bi, hTint);
+          bi++;
+        }
+      }
+      bInst.count = bi;
+      if (bInst.instanceColor) bInst.instanceColor.needsUpdate = true;
+      bInst.castShadow = false; bInst.receiveShadow = true;
+      scene.add(bInst);
+    }
+    mark('hero-trunks');
+  }
+
   /* B"H WAY-better #9: seedlings/saplings near mother trees — young
      understory. Instanced: tiny trunk + 3-leaf tuft, 1 draw call. Placed
      in the drip-line of random mature trees. */
