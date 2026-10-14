@@ -836,7 +836,7 @@ class PackedPostImportRoutes {
 		// because every mutation is synchronous. Series-index flushes are
 		// mutex-guarded (a skipped flush's entries stay queued for the next
 		// checkpoint) and snapshot+clear so concurrent adds are never lost.
-		const WORKERS = Math.max(1, Math.min(16, Number(process.env.AWTSMOOS_IMPORT_WORKERS) || 8));
+		const WORKERS = Math.max(1, Math.min(16, Number(process.env.AWTSMOOS_IMPORT_WORKERS) || 16));
 		let nextPost = 0;
 		const processOnePost = async (n) => {
 			let raw;
