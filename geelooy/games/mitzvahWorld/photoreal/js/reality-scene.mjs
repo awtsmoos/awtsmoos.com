@@ -140,11 +140,13 @@ function applyProceduralBark(mat) {
           vec2 around = vec2(cos(ang), sin(ang)); // seamless around trunk
           float plate = bh_fbm(around * 2.5 + vec2(0.0, bwp.y * 0.30));
           float fr = 1.0 - abs(2.0 * bh_fbm(around * 6.0 + vec2(3.1, bwp.y * 0.9)) - 1.0);
-          float fiss = smoothstep(0.35, 0.85, fr);
+          float fiss = smoothstep(0.30, 0.80, fr);
           float grain = bh_fbm(around * 14.0 + vec2(7.7, bwp.y * 3.0));
-          vec3 barkCol = mix(vec3(0.09, 0.06, 0.045), vec3(0.38, 0.30, 0.21),
-                              clamp(fiss * 0.75 + plate * 0.45, 0.0, 1.0));
-          barkCol *= 0.82 + 0.36 * grain;
+          // B"H commit 3: HIGH-CONTRAST bark — near-black cracks, warm light
+          // plates. Must read in backlight shadow.
+          vec3 barkCol = mix(vec3(0.05, 0.035, 0.025), vec3(0.45, 0.36, 0.26),
+                              clamp(fiss * 0.85 + plate * 0.35, 0.0, 1.0));
+          barkCol *= 0.80 + 0.40 * grain;
           // moss: up-facing + noise breakup, concentrated low on trunk
           float mossN = bh_fbm(bwp.xz * 2.0 + 3.1);
           float upFace = clamp(bwn.y * 0.5 + 0.5, 0.0, 1.0);
@@ -552,7 +554,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       // B"H — Sprint fix (2026-10-13): 0.35 was too dim, trunks went black and
       // the v2 bark texture couldn't read. 0.55 warm — reference trunks have
       // warm rim light on the camera side.
-      const fill = new THREE.DirectionalLight(0xffe8c8, 0.65);
+      // B"H commit 3: 0.55→0.85 — sun moved down-river (backlit), foreground
+      // needs fill until leaf translucency (commit 4) arrives.
+      const fill = new THREE.DirectionalLight(0xffe8c8, 0.85);
       fill.position.set(vpos[0], vpos[1] + 6, vpos[2] + 5);
       fill.target.position.set(vpos[0], 1.5, vpos[2] - 25);
       scene.add(fill); scene.add(fill.target);
@@ -768,6 +772,19 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     if (treeSpots.some(s => Math.hypot(s.x - x, s.z - z) < 10)) continue;
     treeSpots.push({ x, z, overhang: -side });
     og++;
+  }
+  /* B"H commit 3: HERO TREES — three substantial oaks at composition anchor
+     points (plan §31). Fixed positions, oak archetype, 1.4-1.6× scale. These
+     are the reference's three anchors: left-frame giant, right-frame giant,
+     center-background emergent. */
+  const heroSpots = [
+    { x: -16, z: 14, sc: 1.55 },   // left foreground giant (camera at -5.5,18)
+    { x: 14, z: -12, sc: 1.45 },   // right midground giant
+    { x: -9, z: -55, sc: 1.6 },    // background emergent near the gap
+  ];
+  for (const hs of heroSpots) {
+    if (treeSpots.some(s => Math.hypot(s.x - hs.x, s.z - hs.z) < 9)) continue;
+    treeSpots.push({ x: hs.x, z: hs.z, hero: true, heroScale: hs.sc });
   }
   mark('tree-spots');
 
@@ -1198,8 +1215,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   // B"H — treeSpots computed BEFORE terrain (moved 2026-10-13) so terrain
   // vertex colors bake real canopy shade + dappled light. Same rand order.
   for (const s of treeSpots) {
-    const a = treeGeos[(rand() * treeGeos.length) | 0];
-    const sc = s.overhang ? (1.15 + rand() * 0.6) : (0.85 + rand() * 0.75);
+    // B"H commit 3: hero spots get the oak archetype (index 0) at hero scale.
+    const a = s.hero ? treeGeos[0] : treeGeos[(rand() * treeGeos.length) | 0];
+    const sc = s.hero ? s.heroScale : (s.overhang ? (1.15 + rand() * 0.6) : (0.85 + rand() * 0.75));
     const y = groundHeight(s.x, s.z, noise);
     for (const [geo, mat] of [[a.bark, barkMat], [a.leaves, canopyMat]]) {
       const m = new THREE.Mesh(geo, mat);
@@ -1555,14 +1573,16 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     // give each leaf light response; backlit tint glows against the sun.
     // One instanced draw call.
     if (tips.length > 0) {
-      const leafGeo = new THREE.PlaneGeometry(0.34, 0.44);
+      // B"H commit 4: REAL leaf scale — 11×15cm (was 34×44cm, "way too big").
+      // More leaves per tip to keep canopy density (5→12).
+      const leafGeo = new THREE.PlaneGeometry(0.11, 0.15);
       const leafMat = new THREE.MeshStandardMaterial({
         map: leafClusterTex, alphaTest: 0.35, side: THREE.DoubleSide,
         roughness: 0.85, color: new THREE.Color(0.50, 0.58, 0.42),
         normalMap: leafVeinNormalTex, normalScale: new THREE.Vector2(0.7, 0.7),
         depthWrite: true,
       });
-      const PER_TIP = fast ? 3 : 5;
+      const PER_TIP = fast ? 6 : 12;
       const leafInst = new THREE.InstancedMesh(leafGeo, leafMat, tips.length * PER_TIP);
       const ldir = new THREE.Vector3();
       let lp = 0;
