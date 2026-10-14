@@ -48,17 +48,33 @@
         t.push(cls);
     };
 
+    // B"H (Chrome Jun-2026 call port): frame shell pool. CALL/RETURN used to
+    // allocate a fresh 10-field frame object per invocation (fib(22) = 57k
+    // frames). Frames are strictly LIFO, so a simple stack pool recycles them
+    // with zero per-call allocation in the common case. Released by the
+    // RETURN handler (flow.js) after it has consumed the fields.
+    const framePool = [];
+    const obtainFrame = () => framePool.pop() || {};
+    const releaseFrame = (fr) => {
+        fr.ip = undefined; fr.bytecode = undefined; fr.constants = undefined;
+        fr.scope = undefined; fr.upvalues = undefined; fr.stackSize = 0;
+        fr.environment = undefined; fr.isConstructor = false;
+        fr.constructingInstance = undefined; fr.catchDepth = 0;
+        framePool.push(fr);
+    };
+    root.MerkavaVM.releaseCallFrame = releaseFrame;
+
     const runClosure = (t, callee, args, isNew) => {
         // B"H (2026-10-09): skip concat alloc when there are no bound args.
         const finalArgs = callee.boundArgs ? callee.boundArgs.concat(args) : args;
-        t.frames.push({
-            ip: t.ip, bytecode: t.bytecode, constants: t.constants,
-            scope: t.currentScope, upvalues: t.currentUpvalues, stackSize: t._sp,
-            environment: t.environment, isConstructor: isNew,
-            constructingInstance: isNew ? Object.create(callee.prototype || {}) : null,
-            // B"H 2026-10-09: try-contexts opened inside the callee die with it.
-            catchDepth: t.catchStack.length
-        });
+        const fr = obtainFrame();
+        fr.ip = t.ip; fr.bytecode = t.bytecode; fr.constants = t.constants;
+        fr.scope = t.currentScope; fr.upvalues = t.currentUpvalues; fr.stackSize = t._sp;
+        fr.environment = t.environment; fr.isConstructor = isNew;
+        fr.constructingInstance = isNew ? Object.create(callee.prototype || {}) : null;
+        // B"H 2026-10-09: try-contexts opened inside the callee die with it.
+        fr.catchDepth = t.catchStack.length;
+        t.frames.push(fr);
 
         t.bytecode = callee.code.bytecode;
         t.constants = callee.code.constants;
@@ -91,10 +107,22 @@
 
     H[0x71] = (t) => { // CALL
         const count = t.read8();
-        // B"H (2026-10-09): indexed fill O(n) (was unshift loop O(n^2)).
+        // B"H (Chrome Jun-2026 call port): direct indexed stack read. The old
+        // loop called t.pop() count+2 times (method call + branch each); this
+        // reads t.stack/t._sp directly with identical slot-clearing semantics.
         const args = new Array(count);
-        for (let i = count - 1; i >= 0; i--) args[i] = t.pop();
-        let callee = t.pop(), ctx = t.pop() || t.environment;
+        const base = t._sp - count;
+        let callee, ctx;
+        if (base >= 2) {
+            for (let i = 0; i < count; i++) { args[i] = t.stack[base + i]; t.stack[base + i] = undefined; }
+            callee = t.stack[base - 1]; t.stack[base - 1] = undefined;
+            ctx = t.stack[base - 2] || t.environment; t.stack[base - 2] = undefined;
+            t._sp = base - 2;
+        } else {
+            // B"H: underflow fallback — preserves t.pop()'s no-decrement-below-0 semantics.
+            for (let i = count - 1; i >= 0; i--) args[i] = t.pop();
+            callee = t.pop(); ctx = t.pop() || t.environment;
+        }
 
         if (typeof callee === 'function' && callee._merkavaClosure) callee = callee._merkavaClosure;
 

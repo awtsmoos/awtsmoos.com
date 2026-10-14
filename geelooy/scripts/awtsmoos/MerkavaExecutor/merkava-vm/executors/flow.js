@@ -38,6 +38,8 @@
 
             // B"H (2026-10-09): use _sp (was stack.length, now capacity not size)
             while (t._sp > frame.stackSize) t.pop();
+            // B"H (Chrome Jun-2026 call port): recycle the frame shell.
+            if (root.MerkavaVM.releaseCallFrame) root.MerkavaVM.releaseCallFrame(frame);
             t.push(actualRet);
         } else {
             t.push(retVal); t.status = 'COMPLETED'; return 'COMPLETED';
@@ -47,6 +49,11 @@
     // --- ASYNC & SYSTEM ---
     H[0x80] = (t) => { // AWAIT
         const p = t.pop();
+        // B"H (Chrome Jun-2026 async port): the syncPromise shim resolves
+        // inline — skip the AWAITING status flip + wake round-trip. The shim's
+        // then() invokes its callback synchronously, so unwrapping .value here
+        // is bit-identical to the callback path below.
+        if (p && p.__kind === 'syncPromise') { t.push(p.value); return; }
         if (p && typeof p.then === 'function') {
             t.status = 'AWAITING';
             p.then(
