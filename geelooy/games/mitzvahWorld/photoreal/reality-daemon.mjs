@@ -112,6 +112,35 @@ const server = http.createServer(async (req, res) => {
     res.end(JSON.stringify({ ok: true, renders: renderCount, uptime_s: Math.round((Date.now() - t0) / 1000) }));
     return;
   }
+  // B"H — perf stats endpoint (§21 budget, commit 10 GATE).
+  if (req.url === '/stats' && req.method === 'POST') {
+    let body = '';
+    req.on('data', c => body += c);
+    req.on('end', async () => {
+      try {
+        const { view = 'forest' } = JSON.parse(body || '{}');
+        await psend('Page.navigate', { url: `${PAGE}?view=${encodeURIComponent(view)}&fast=1&stats=1` });
+        // wait for scene build (poll for __realityDebug)
+        let stats = null;
+        for (let i = 0; i < 60; i++) {
+          await new Promise(r => setTimeout(r, 2000));
+          const res = await psend('Runtime.evaluate', {
+            expression: `window.__realityDebug && window.__realityDebug.getPerfStats ? JSON.stringify(window.__realityDebug.getPerfStats()) : null`,
+            returnByValue: true,
+          }).catch(() => null);
+          const val = res && res.result && res.result.result && res.result.result.value;
+          if (val) { stats = JSON.parse(val); break; }
+        }
+        if (!stats) throw new Error('stats not available');
+        res.writeHead(200, { ...cors, 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ ok: true, stats }));
+      } catch (e) {
+        res.writeHead(500, { ...cors, 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ ok: false, error: String(e.message || e).slice(0, 300) }));
+      }
+    });
+    return;
+  }
   if (req.url === '/render' && req.method === 'POST') {
     let body = '';
     req.on('data', c => body += c);

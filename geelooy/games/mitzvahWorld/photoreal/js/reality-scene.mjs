@@ -2484,6 +2484,18 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       }
     }
   } catch {}
-  window.__realityDebug = { scene, camera, renderer, water, waterUniforms };
-  return { renderer, scene, camera };
+  // B"H — perf stats (§21 budget): draw calls + triangles for commit 10 GATE.
+  function getPerfStats() {
+    renderer.info.reset();
+    renderer.render(scene, camera);
+    const info = renderer.info.render;
+    return {
+      drawCalls: info.calls,
+      triangles: info.triangles,
+      geometries: info.geometries,
+      textures: info.textures,
+    };
+  }
+  window.__realityDebug = { scene, camera, renderer, water, waterUniforms, getPerfStats };
+  return { renderer, scene, camera, getPerfStats };
 }
