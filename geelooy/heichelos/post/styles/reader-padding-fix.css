@@ -18,6 +18,7 @@
 .post-reader-localized-context #realPost .awtsmoos-rich-block--paragraph {
 	margin-block: 0 1.25em;
 	line-height: 1.8;
+	color: var(--sefer-ink);
 }
 
 /* ---------- Headings: clear hierarchy with space ---------- */
@@ -25,12 +26,14 @@
 	margin-block: 2.5em 1em;
 	line-height: 1.3;
 	font-size: 1.5rem;
+	color: var(--sefer-ink);
 }
 
 .post-reader-localized-context #realPost h3 {
 	margin-block: 2em 0.75em;
 	line-height: 1.35;
 	font-size: 1.25rem;
+	color: var(--sefer-ink);
 }
 
 /* ---------- Subsections: breathing room between units ---------- */
@@ -55,6 +58,7 @@
 .post-reader-localized-context #realPost li {
 	margin-block: 0 0.5em;
 	line-height: 1.7;
+	color: var(--sefer-ink);
 }
 
 /* ---------- Blockquotes and callouts ---------- */
@@ -63,6 +67,7 @@
 	margin-block: 1.5em;
 	padding: 1.25rem 1.5rem;
 	line-height: 1.75;
+	color: var(--sefer-ink);
 }
 
 /* ---------- Mobile: tighter but still breathable ---------- */
@@ -75,11 +80,13 @@
 	.post-reader-localized-context #realPost .awtsmoos-rich-block--paragraph {
 		line-height: 1.75;
 		margin-block: 0 1.1em;
+		color: var(--sefer-ink);
 	}
 
 	.post-reader-localized-context #realPost h2 {
 		margin-block: 2em 0.8em;
 		font-size: 1.35rem;
+		color: var(--sefer-ink);
 	}
 
 	.post-reader-localized-context #realPost .sub-awtsmoos {

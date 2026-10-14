@@ -84,6 +84,7 @@
 .chitas-day-body .chitas-day-title-he {
   font-family: "Noto Serif Hebrew", "David Libre", David, "Times New Roman", serif;
   font-size: 1.12rem;
+  color: var(--text, #2c2416);
 }
 
 .chitas-day-reference {

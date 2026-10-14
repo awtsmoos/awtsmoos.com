@@ -12,14 +12,14 @@
 		}
 		html[data-theme="dark"] body { color: #e9e3d3; background: #14110b; }
 		body [dir="rtl"] { text-align: right; }
-		body h1 { font-size: 1.7em; line-height: 1.3; margin: 0.8em 0 0.5em; }
-		body h2 { font-size: 1.35em; line-height: 1.35; margin: 1em 0 0.4em; }
-		body h3 { font-size: 1.15em; margin: 0.9em 0 0.3em; }
-		body p { margin: 0.7em 0; max-width: 44em; }
+		body h1 { font-size: 1.7em; line-height: 1.3; margin: 0.8em 0 0.5em; color: inherit; }
+		body h2 { font-size: 1.35em; line-height: 1.35; margin: 1em 0 0.4em; color: inherit; }
+		body h3 { font-size: 1.15em; margin: 0.9em 0 0.3em; color: inherit; }
+		body p { margin: 0.7em 0; max-width: 44em; color: inherit; }
 		body a { color: #0b5cad; text-decoration: underline; }
 		html[data-theme="dark"] body a { color: #7db8f0; }
 		body img { max-width: 100%; height: auto; }
-		body button { font: inherit; padding: 0.5em 1em; }
+		body button { font: inherit; padding: 0.5em 1em; color: inherit; }
 		body #realPost { min-height: 40vh; }
 		/* Honest notice shown only when stylesheets actually failed. */
 		#awtsmoos-style-notice {
@@ -1179,6 +1179,7 @@
 		:root .post-reader-localized-context .meluket-post-summary p {
 			margin: 0;
 			text-wrap: pretty;
+			color: var(--sefer-ink);
 		}
 		/* Verse sections: reading column, dashed dream dividers. */
 		:root .post-reader-localized-context .meluket-sefer-section {
@@ -1278,9 +1279,11 @@
 		}
 		:root .post-reader-localized-context .meluket-english p {
 			margin: 0 0 1em;
+			color: var(--sefer-ink);
 		}
 		:root .post-reader-localized-context .meluket-english p:last-child {
 			margin-bottom: 0;
+			color: var(--sefer-ink);
 		}
 		/* Section summary: the hadracha beneath the translation. */
 		:root .post-reader-localized-context .meluket-summary {
@@ -1711,6 +1714,7 @@
 		:root .post-reader-localized-context .meluket-post-summary p:last-child,
 		:root .post-reader-localized-context .meluket-summary p:last-child {
 			margin-block-end: 0;
+			color: var(--sefer-ink);
 		}
 
 		/* ---------- verse sections: hairline dividers like the dream ---------- */
@@ -1844,6 +1848,7 @@
 		}
 		:root .post-reader-localized-context .meluket-footnote-body p {
 			margin-block: 0 0.6em;
+			color: var(--sefer-ink);
 		}
 		:root .post-reader-localized-context .meluket-footnote-he {
 			font-family: "Frank Ruhl Libre", "Cardo", serif;
@@ -2500,6 +2505,7 @@
 			opacity: 0.45;
 			cursor: not-allowed;
 			transform: none;
+			color: var(--sefer-ink-soft);
 		}
 		:root .post-reader-localized-context .awtsmoos-reaction-chip[aria-pressed="true"] {
 			background: var(--sefer-accent);
@@ -2688,5 +2694,6 @@
 			:root .post-reader-localized-context .inline-comment .focus-trigger,
 			:root .post-reader-localized-context .inline-comment .btn.small {
 				transition: none;
+				color: var(--sefer-ink-soft);
 			}
 		}

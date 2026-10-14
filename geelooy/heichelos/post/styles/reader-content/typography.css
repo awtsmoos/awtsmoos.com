@@ -25,6 +25,7 @@ font-size: clamp(1.25rem, 1vw + 1.05rem, 1.5rem); line-height: 1.78;
 .post-reader-localized-context .awtsmoos-initial-post-body p {
 	margin-block: 1em;
 	text-wrap: pretty;
+	color: inherit;
 }
 .post-reader-localized-context .awtsmoos-initial-post-body [dir="rtl"],
 .post-reader-localized-context .awtsmoos-initial-post-body:dir(rtl) {
