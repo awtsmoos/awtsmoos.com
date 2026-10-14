@@ -20,24 +20,7 @@ prove_candidate_before_promotion() {
 		"pid=$CANDIDATE_PROBE_PID log=$CANDIDATE_ROOT/candidate-probe.log identity=$identity_authority"
 	write_activation_journal "candidate_probe_failed" "$CANDIDATE_ROOT" "$ROOT"
 	stop_candidate_probe
-	restart_preserved_predecessor || true
 	return 1
-}
-
-restart_preserved_predecessor() {
-	[ -f "$ROOT/main.js" ] || return 0
-	local existing="$(find_existing_agent 2>/dev/null || true)"
-	if runtime_pid_matches "$existing" && runtime_registered "$existing" 600000; then
-		return 0
-	fi
-	install_event "predecessor" "restarting" \
-		"Candidate probe ended; untouched predecessor is being restored." "$ROOT"
-	if [ -x "$ROOT/awtsmoos-supervisor.sh" ]; then
-		start_restored_supervisor || return 1
-	else
-		start_supervisor || return 1
-	fi
-	restored_runtime_ready "${AWTSMOOS_PREDECESSOR_RESTART_TIMEOUT_SECONDS:-60}"
 }
 
 promote_candidate_root() {
@@ -50,7 +33,6 @@ promote_candidate_root() {
 	fi
 	if ! mv "$CANDIDATE_ROOT" "$ROOT"; then
 		[ -e "$rollback" ] && mv "$rollback" "$ROOT" || true
-		restart_preserved_predecessor || true
 		return 1
 	fi
 	CANDIDATE_ROOT=""
@@ -62,10 +44,9 @@ start_promoted_candidate() {
 	local rollback="$1"
 	local failed="$2"
 	install_event "startup" "started" "Starting tunnel agent"
-	# B"H — Yaakov 2026-10-14: NO SUPERVISOR, NO BACKGROUND, NO HACKS.
-	# The installer execs the agent directly in the foreground. The agent
-	# runs as a real visible process. Ctrl+C stops it cleanly.
-	# This is the proper way, not a background daemon hack.
+	# B"H — Yaakov 2026-10-14: NO SUPERVISOR. The installer execs the agent
+	# directly in the foreground as a real visible process. No background
+	# daemon, no hacks. Ctrl+C stops it cleanly.
 	write_activation_journal "candidate_stable" "$ROOT" "$rollback"
 	[ -n "$rollback" ] && [ -e "$rollback" ] &&
 		schedule_displaced_cleanup "$rollback"
@@ -78,6 +59,5 @@ start_promoted_candidate() {
 	printf '  (Ctrl+C to stop the agent cleanly)\n' >&2
 	printf '\n' >&2
 	# Exec the agent directly — installer becomes the agent.
-	# No supervisor, no background, no daemon. Just the agent.
 	exec node "$ROOT/unix-agent-launcher.cjs" "$ROOT"
 }
