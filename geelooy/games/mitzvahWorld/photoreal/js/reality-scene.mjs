@@ -1061,7 +1061,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           float pd = length((gf-pc)*vec2(1.0,1.25));
           float peb = smoothstep(0.46, 0.36, pd);
           float prnd = hash22(gid+1.7);
-          vec3 pebCol = mix(vec3(0.25,0.23,0.20), vec3(0.48,0.45,0.40), prnd);
+          // B"H commit 8: warmed pebbles (were gray 0.25-0.48, read as dry concrete)
+          vec3 pebCol = mix(vec3(0.32,0.28,0.22), vec3(0.55,0.50,0.42), prnd);
           pebCol *= 0.8 + 0.4*hash22(gid+9.2);
           // Wet darkening: pebbles darker where submerged deeper
           pebCol *= mix(0.55, 1.0, 1.0-depth*0.5);
@@ -1069,9 +1070,11 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           // Water body color: depth-graded, NOT uniform teal
           vec3 col = mix(uShallow, uDeep, smoothstep(0.0, 0.9, depth));
           // Bed shows through: strong in shallows, faint in deep center
-          // B"H 2026-10-13: was milky (sky reflection dominated at grazing
+          // B"H commit 8: was milky (sky reflection dominated at grazing
           // angle). Reference is a CLEAR shallow stream — pebbles visible.
-          float bedVisibility = mix(0.98, 0.60, smoothstep(0.1, 0.8, depth));
+          // B"H commit 8: bedVisibility 0.98→0.80 in shallows — water must
+          // read as WATER, not dry pebbles. Pebbles warmed (less gray).
+          float bedVisibility = mix(0.80, 0.50, smoothstep(0.1, 0.8, depth));
           col = mix(col, bed, bedVisibility);
           // Sky reflection via fresnel (stronger at grazing = far water)
           // B"H 2026-10-13: 0.35→0.16, was washing out to milk at low camera.
@@ -1103,7 +1106,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           col = mix(col, vec3(0.92,0.96,0.94), foam);
           // Alpha: depth-based transparency. Shallows nearly clear, deep more opaque.
           // Banks fade to zero (no hard waterline).
-          float alpha = mix(0.15, 0.72, smoothstep(0.0, 0.85, depth));
+          // B"H commit 8: shallow alpha 0.15→0.35 — water must be visible.
+          float alpha = mix(0.35, 0.80, smoothstep(0.0, 0.85, depth));
           alpha *= edge; // fade at banks
           alpha = max(alpha, foam*0.85);
           // Distance fog: river melts into mist downstream
@@ -2172,22 +2176,26 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
      - COLOR GRADIENT: dark base (shadowed) → vibrant mid → sunlit tip.
        Per-blade hue variation (some yellow-green, some deep green).
      - HEIGHT VARIATION: outer blades shorter (grazed/trampled), inner taller.
-     60fps: single InstancedMesh, no per-frame CPU work. */
+     60fps: single InstancedMesh, no per-frame CPU work.
+     B"H commit 6: REAL grass scale — blades 5×28cm (were 16×70cm, read as
+     leaves not grass). Tufts 900→1500 for patch density. Color desaturated
+     from neon to natural meadow green. */
   {
     // Blade geometry: curved, tapered, with vertex color gradient
-    const bladeGeo = new THREE.PlaneGeometry(0.16, 0.7, 1, 4);
-    bladeGeo.translate(0, 0.35, 0);
+    const bladeGeo = new THREE.PlaneGeometry(0.05, 0.28, 1, 4);
+    bladeGeo.translate(0, 0.14, 0);
     const bp = bladeGeo.attributes.position, bc = [];
     for (let i = 0; i < bp.count; i++) {
-      const t = bp.getY(i) / 0.7; // 0=base, 1=tip
+      const t = bp.getY(i) / 0.28; // 0=base, 1=tip
       // Growth-rule taper: blade narrows to a point (not linear)
       const width = Math.pow(1 - t, 0.7);
       bp.setX(i, bp.getX(i) * width);
       // Growth-rule curve: quadratic bend (stiff base, floppy tip)
-      bp.setZ(i, t * t * 0.22);
-      // Growth-rule color: dark moist base → deep forest green → sunlit tip
-      const shade = 0.32 + t * 1.0;
-      bc.push(0.22 * shade * (0.8 + t*0.35), 0.52 * shade, 0.16 * shade * (1.1 - t*0.3));
+      bp.setZ(i, t * t * 0.09);
+      // Growth-rule color: dark moist base → natural meadow green → sunlit tip
+      // B"H commit 6: desaturated (was neon 0.22,0.52,0.16)
+      const shade = 0.35 + t * 0.9;
+      bc.push(0.28 * shade * (0.85 + t*0.3), 0.45 * shade, 0.18 * shade * (1.05 - t*0.25));
     }
     bladeGeo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(bc), 3));
     bladeGeo.computeVertexNormals();
@@ -2209,7 +2217,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       return THREE.MathUtils.smoothstep(m, 0.02, 0.55); // 0=bare, 1=patch heart
     }
     const MAX_BLADES = 9;
-    const TUFTS = fast ? 500 : 900;
+    const TUFTS = fast ? 800 : 1500;
     const COUNT = TUFTS * MAX_BLADES;
     const inst = new THREE.InstancedMesh(bladeGeo, bladeMat, COUNT);
     const dummy = new THREE.Object3D();
