@@ -44,9 +44,31 @@ module.exports = {
       });
     }
     } catch (err) {
-      // B"H — Yaakov 2026-10-14: Log full stack trace for 500 errors.
-      console.error("B\"H CONTROL API 500 STACK TRACE:", err && err.stack ? err.stack : err);
-      throw err;
+      // B"H — Yaakov 2026-10-14 STANDING RULE: All 500 errors must show full stack trace
+      // IN THE RESPONSE, not just logs. Register a catch-all error handler that
+      // returns the stack trace so clients (and VMs without log access) can see it.
+      const stack = err && err.stack ? err.stack : String(err);
+      console.error("B\"H CONTROL API 500 STACK TRACE:", stack);
+      // Register a fallback handler that returns the stack trace for any route
+      try {
+        await $i.use("*", async () => {
+          return {
+            statusCode: 500,
+            response: JSON.stringify({
+              BH: "B\"H",
+              error: {
+                message: err && err.message ? err.message : "Route registration failed",
+                code: "ROUTE_ERROR",
+                statusCode: 500,
+                stackTrace: stack
+              }
+            })
+          };
+        });
+      } catch (e2) {
+        // If even the fallback fails, re-throw original
+        throw err;
+      }
     }
   }
 };
