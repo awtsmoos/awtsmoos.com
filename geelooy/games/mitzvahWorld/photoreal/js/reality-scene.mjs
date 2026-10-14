@@ -691,15 +691,18 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   /* B"H NEW #1: volumetric light cones — geometry shafts through canopy gaps.
      Additive cone meshes aligned to the sun direction, parked where the
      canopy breaks. Cheap: 5 cones, 1 material, soft fresnel-ish fade via
-     vertex alpha (canvas gradient texture). */
+     vertex alpha (canvas gradient texture).
+     B"H TEXTURE-FIRST 2026-10-14: was invisible (0.42 opacity vs bright
+     canopy). Reference has BOLD diagonal shafts — brighter core, higher
+     opacity, more + wider cones. */
   {
-    const CONE_N = 5;
+    const CONE_N = 9;
     // soft beam texture: bright core fading to edges + fading along length
     const ccv = document.createElement('canvas'); ccv.width = 64; ccv.height = 128;
     const cx3 = ccv.getContext('2d');
     const cg = cx3.createLinearGradient(0, 0, 64, 0);
     cg.addColorStop(0, 'rgba(255,244,214,0)');
-    cg.addColorStop(0.5, 'rgba(255,244,214,0.55)');
+    cg.addColorStop(0.5, 'rgba(255,246,220,0.95)');
     cg.addColorStop(1, 'rgba(255,244,214,0)');
     cx3.fillStyle = cg; cx3.fillRect(0, 0, 64, 128);
     // fade along length (top bright, bottom dissolves)
@@ -713,9 +716,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const coneMat = new THREE.MeshBasicMaterial({
       map: ctex, transparent: true, depthWrite: false,
       blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
-      opacity: 0.32, fog: false,
+      opacity: 0.75, fog: false,
     });
-    const coneGeo = new THREE.CylinderGeometry(0.7, 2.6, 16, 10, 1, true);
+    const coneGeo = new THREE.CylinderGeometry(1.2, 4.5, 16, 10, 1, true);
     coneGeo.translate(0, -8, 0); // top at origin, extends down
     const coneRnd = mulberry32(seed ^ 0xc0e1);
     const sunDirN = sunDir.clone().normalize();
@@ -737,7 +740,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     }
     coneUpdaters.push((t) => {
       // B"H 2nd sweep: stronger — NEW_TARGET has bold diagonal shafts.
-      coneMat.opacity = 0.42 * (0.8 + 0.2 * Math.sin(t * 0.4));
+      // B"H TEXTURE-FIRST: 0.42 was invisible. 0.75 base for bold shafts.
+      coneMat.opacity = 0.75 * (0.8 + 0.2 * Math.sin(t * 0.4));
     });
     for (const cu of coneUpdaters) mistUpdaters.push(cu);
     mark('light-cones');
