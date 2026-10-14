@@ -87,18 +87,11 @@ start_supervisor() {
 	# Shows realtime status with green checks when active, red errors with
 	# details when something fails. Stays open until Ctrl+C. The supervisor
 	# keeps running in background even after monitor exits.
-	local GREEN='\033[1;32m'
-	local RED='\033[1;31m'
-	local YELLOW='\033[1;33m'
-	local CYAN='\033[1;36m'
-	local DIM='\033[2m'
-	local OFF='\033[0m'
-
 	printf '\n' >&2
-	printf "${CYAN}╔══════════════════════════════════════════════════════════╗${OFF}\n" >&2
-	printf "${CYAN}║${OFF}  ${GREEN}✓${OFF} Tunnel supervisor started                              ${CYAN}║${OFF}\n" >&2
-	printf "${CYAN}║${OFF}  Monitoring agent status (Ctrl+C to stop monitor)...       ${CYAN}║${OFF}\n" >&2
-	printf "${CYAN}╚══════════════════════════════════════════════════════════╝${OFF}\n" >&2
+	printf '╔══════════════════════════════════════════════════════════╗\n' >&2
+	printf '║  ✓ Tunnel supervisor started                              ║\n' >&2
+	printf '║  Monitoring agent status (Ctrl+C to stop monitor)...       ║\n' >&2
+	printf '╚══════════════════════════════════════════════════════════╝\n' >&2
 	printf '\n' >&2
 
 	local last_status=""
@@ -110,36 +103,36 @@ start_supervisor() {
 		if [ -f "$ROOT/supervisor.pid" ]; then
 			local spid=$(cat "$ROOT/supervisor.pid" 2>/dev/null || true)
 			if [ -n "$spid" ] && kill -0 "$spid" 2>/dev/null; then
-				status_line="${GREEN}✓${OFF} Supervisor running (PID $spid)"
+				status_line="✓ Supervisor running (PID $spid)"
 			else
-				status_line="${RED}✗${OFF} Supervisor died (was PID $spid)"
+				status_line="✗ Supervisor died (was PID $spid)"
 				has_error=1
 			fi
 		else
-			status_line="${YELLOW}○${OFF} Supervisor PID file not found"
+			status_line="○ Supervisor PID file not found"
 		fi
 
 		# Check agent
 		if pgrep -f "awtsmoos-agent" >/dev/null 2>&1; then
 			local apid=$(pgrep -f "awtsmoos-agent" | head -1)
-			status_line="$status_line  ${GREEN}✓${OFF} Agent running (PID $apid)"
+			status_line="$status_line  ✓ Agent running (PID $apid)"
 		else
-			status_line="$status_line  ${DIM}○ Agent not running${OFF}"
+			status_line="$status_line  ○ Agent not running"
 		fi
 
 		# Only print if status changed
 		if [ "$status_line" != "$last_status" ]; then
-			printf '\r\033[K%s\n' "$status_line" >&2
+			printf '%s\n' "$status_line" >&2
 			last_status="$status_line"
 		fi
 
 		if [ $has_error -eq 1 ]; then
-			printf '\n${RED}Error: supervisor died. Check logs:${OFF}\n' >&2
+			printf '\nError: supervisor died. Check logs:\n' >&2
 			printf '  %s/logs/\n' "$ROOT" >&2
 			if [ -d "$ROOT/logs" ]; then
 				local latest=$(ls -t "$ROOT/logs" 2>/dev/null | head -1)
 				if [ -n "$latest" ]; then
-					printf '\n${DIM}Last log lines:${OFF}\n' >&2
+					printf '\nLast log lines:\n' >&2
 					tail -20 "$ROOT/logs/$latest" 2>/dev/null | sed 's/^/  /' >&2
 				fi
 			fi
