@@ -22,6 +22,10 @@ const { routeTable } = require("./routes/table.js");
  */
 module.exports = {
   dynamicRoutes: async $i => {
+    // B"H — Yaakov 2026-10-14 STANDING RULE: All 500 errors must show full stack trace.
+    // Wrap route registration to log the actual exception instead of the generic
+    // "actual error in route computation!" message.
+    try {
     if (!$i.response.headersSent) {
       $i.response.setHeader("Access-Control-Allow-Origin", "*");
       $i.response.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
@@ -38,6 +42,11 @@ module.exports = {
         }
         return result;
       });
+    }
+    } catch (err) {
+      // B"H — Yaakov 2026-10-14: Log full stack trace for 500 errors.
+      console.error("B\"H CONTROL API 500 STACK TRACE:", err && err.stack ? err.stack : err);
+      throw err;
     }
   }
 };
