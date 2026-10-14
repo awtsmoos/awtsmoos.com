@@ -2552,7 +2552,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     //   inner = deep shadow. Real canopies have 3-4 leaf layers.
     // - SIZE GRADIENT: outer leaves larger (more light), inner smaller.
     // Foliage hugs the wood: quads sit within ~1.3u of their anchor. ----
-    const quadGeo = new THREE.PlaneGeometry(1.4, 1.4);
+    // B"H LEAF-FIX 2026-10-14 (Yaakov: "huge planes"): was 1.4×1.4m planes
+    // scaled to 2m (billboard walls). Now 0.4m leaf-cluster cards.
+    const quadGeo = new THREE.PlaneGeometry(0.4, 0.4);
     const quadMat = new THREE.MeshStandardMaterial({
       map: denseCanopyTex, alphaTest: 0.30, side: THREE.DoubleSide,
       roughness: 0.9, color: new THREE.Color(0.24, 0.38, 0.18),
@@ -2758,44 +2760,51 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     mark('individual-leaves');
 
     // ---- canopy shells: nested depth layers (Yaakov 2026-10-13 leaf system).
-    // Two icosahedron shells per tree (0.55x / 0.78x crown radius) — INTERIOR
-    // density only. Earlier versions at 0.70x/0.95x poked through the crown
-    // silhouette and rendered as dark blobs (shells show their shadow side).
-    // Interior shells read as deep canopy mass; the outer surface belongs to
-    // individual leaves + crown quads. 1 instanced draw.
+    // B"H LEAF-FIX 2026-10-14 (Yaakov: "huge planes"): was 2 icosahedron
+    // BLOBS per tree (2.5-3.4m radius, smeared texture). Now interior leaf-
+    // cluster cards (0.5m) distributed through the crown volume — real
+    // 3D foliage density, not solid blobs. 1 instanced draw.
     {
-      const shellGeo = new THREE.IcosahedronGeometry(1, 1);
+      const shellGeo = new THREE.PlaneGeometry(0.5, 0.5);
       const shellMat = new THREE.MeshStandardMaterial({
-        // B"H — alphaTest 0.5: shells read as BROKEN leaf clusters with sky
-        // gaps, not solid blobs (0.22 rendered as a dark fake ball).
-        // B"H commit 4: 0.5→0.62 for stronger breakup; shells shrunk to
-        // 0.45x/0.62x so individual leaves (now real-scale) own the silhouette.
-        map: denseCanopyTex, alphaTest: 0.62, side: THREE.DoubleSide,
-        roughness: 0.95, color: new THREE.Color(0.38, 0.50, 0.28),
+        map: leafClusterTex, alphaTest: 0.35, side: THREE.DoubleSide,
+        roughness: 0.95, color: new THREE.Color(0.55, 0.65, 0.42),
         depthWrite: true,
       });
-      const shellInst = new THREE.InstancedMesh(shellGeo, shellMat, treeSpots.length * 2);
+      // 24 small cards per tree (was 2 huge blobs) — layered interior fill
+      const SHELL_PER_TREE = 24;
+      const shellInst = new THREE.InstancedMesh(shellGeo, shellMat, treeSpots.length * SHELL_PER_TREE);
       let sp = 0;
       for (const s of treeSpots) {
         const ccx = (s.crownX !== undefined ? s.crownX : s.x);
-        for (const f of [0.45, 0.62]) {
-          dummy.position.set(ccx, s.crownY, s.z);
-          dummy.quaternion.identity();
-          dummy.rotateY(rand() * Math.PI * 2);
-          const sr = s.crownR * f * (0.92 + rand() * 0.16);
-          dummy.scale.set(sr, sr * 0.75, sr); // flattened — canopy spread
+        for (let i = 0; i < SHELL_PER_TREE; i++) {
+          // Random point in flattened ellipsoid crown volume
+          const th = rand() * Math.PI * 2;
+          const ph = Math.acos(2 * rand() - 1);
+          const rr = 0.25 + 0.75 * Math.cbrt(rand()); // denser toward center
+          const sx = Math.sin(ph) * Math.cos(th) * rr;
+          const sy = Math.cos(ph) * rr * 0.75; // flattened
+          const sz = Math.sin(ph) * Math.sin(th) * rr;
+          dummy.position.set(
+            ccx + sx * s.crownR,
+            s.crownY + sy * s.crownR,
+            s.z + sz * s.crownR
+          );
+          // Random orientation for natural 3D fill
+          dummy.rotation.set(rand() * Math.PI, rand() * Math.PI, rand() * Math.PI);
+          const ss = 0.7 + rand() * 0.7; // 0.35-0.7m cards
+          dummy.scale.set(ss, ss, 1);
           dummy.updateMatrix();
           shellInst.setMatrixAt(sp, dummy.matrix);
-          const sv = 0.85 + rand() * 0.3;
-          tint.setRGB(sv, sv, sv * 0.95);
+          // Interior darker (AO), outer brighter
+          const sv = (0.55 + rr * 0.45) * (0.85 + rand() * 0.3);
+          tint.setRGB(sv, sv, sv * 0.92);
           shellInst.setColorAt(sp, tint);
           sp++;
         }
       }
       shellInst.count = sp;
       if (shellInst.instanceColor) shellInst.instanceColor.needsUpdate = true;
-      // B"H — CPU 60fps: shells don't cast (hero trees carry near-field dapple;
-      // shell shadows fall far away, invisible). Depth-pass tri cut.
       shellInst.castShadow = false; shellInst.receiveShadow = true;
       scene.add(shellInst);
     }
@@ -2804,24 +2813,27 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   mark('crown-filler');
 
   /* overhead canopy — enclosing leaf layer (Yaakov 2026-10-13: 99% push).
-     The reference has dense canopy closing over the top of frame. This is a
-     dedicated layer of large leaf quads positioned above the camera (y 8-16),
-     angled downward, creating the enclosed forest-tunnel feel. The quads use
-     the backlit canopy texture so sun glows through from above.
-     60fps: single instanced draw, ~120 quads. */
+     The reference has dense canopy closing over the top of frame.
+     B"H LEAF-FIX 2026-10-14 (Yaakov: "huge planes nothing like real leaf
+     clusters" + "textures messed up, look up close"): was 120 planes of
+     6×6 METERS (billboard walls, smeared textures). Now 700 SMALL leaf-
+     cluster cards (0.45m) — real leaf scale, clean 0-1 UVs, dense layered
+     foliage like the reference. Same coverage, 1 instanced draw. */
   if (view === 'forest') {
-    const ohGeo = new THREE.PlaneGeometry(6, 6);
+    const ohGeo = new THREE.PlaneGeometry(0.45, 0.45);
     const ohMat = new THREE.MeshStandardMaterial({
-      map: denseCanopyTex, alphaTest: 0.28, side: THREE.DoubleSide,
-      roughness: 0.9, color: new THREE.Color(0.35, 0.48, 0.25),
-      emissive: new THREE.Color(0.28, 0.36, 0.16),
+      map: leafClusterTex, alphaTest: 0.35, side: THREE.DoubleSide,
+      roughness: 0.9, color: new THREE.Color(0.72, 0.80, 0.60),
+      emissive: new THREE.Color(0.10, 0.14, 0.05),
       emissiveMap: backlitCanopyTex,
       depthWrite: true,
     });
     // B"H "even more real": overhead canopy sits between camera and sun —
     // strongest glow (1.6) so light visibly streams through from above.
     addCanopyBacklight(ohMat, 0.95, 1.8, 'overhead');
-    const OH_COUNT = fast ? 60 : 120;
+    // B"H LEAF-FIX: 120 huge planes → 700 small cards for equivalent
+    // coverage at real leaf scale. Denser placement (tighter spacing).
+    const OH_COUNT = fast ? 350 : 700;
     const ohInst = new THREE.InstancedMesh(ohGeo, ohMat, OH_COUNT);
     const ohDummy = new THREE.Object3D();
     const ohTint = new THREE.Color();
@@ -2840,7 +2852,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
         ohr() * Math.PI * 2,
         (ohr() - 0.5) * 0.5
       );
-      const os = 0.8 + ohr() * 1.2;
+      // B"H LEAF-FIX: cards are 0.45m geometry — scale 0.7-1.3 for
+      // 0.3-0.6m leaf clusters (real scale, not billboards).
+      const os = 0.7 + ohr() * 0.6;
       ohDummy.scale.set(os, os, 1);
       ohDummy.updateMatrix();
       ohInst.setMatrixAt(ohPlaced, ohDummy.matrix);
