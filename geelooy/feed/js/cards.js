@@ -11,6 +11,7 @@
  */
 
 import { icon, iconButton, formatCount, timeAgo, escapeHtml, escapeAttr } from './icons.js';
+import { t } from './i18n.js';
 import { enableInlineReading } from './inline-reader.js';
 import { THEMES, setPostTheme, resolvePostTheme, isThemeId } from './themes.js';
 import { renderCollectionPicker } from './collections.js';
@@ -83,7 +84,7 @@ export function renderFeedCard(item = {}, opts = {}) {
 	card.setAttribute('aria-label', String(item.title || 'Post'));
 
 	const scoreBadge = score !== null && score > 0.02
-		? `<span class="feed-card-rank" title="River rank score"><span class="feed-card-rank-bar" style="width:${Math.round(Math.min(1, score) * 100)}%"></span></span>`
+		? `<span class="feed-card-rank" title="${escapeAttr(t('card.rankTitle'))}"><span class="feed-card-rank-bar" style="width:${Math.round(Math.min(1, score) * 100)}%"></span></span>`
 		: '';
 
 	card.innerHTML = `
@@ -101,23 +102,23 @@ export function renderFeedCard(item = {}, opts = {}) {
 					<span class="feed-card-heichel">${escapeHtml(item.heichelName || item.heichelId || '')}</span>
 				</div>
 			</div>
-			<button type="button" class="feed-ic-btn feed-card-more" aria-label="More options">${icon('more')}</button>
+			<button type="button" class="feed-ic-btn feed-card-more" aria-label="${escapeAttr(t('card.moreOptions'))}">${icon('more')}</button>
 		</header>
-		<div class="feed-card-body feed-card-body-expand" role="button" tabindex="0" aria-expanded="false" aria-label="Read full post: ${escapeAttr(item.title || 'Untitled')}" data-expand>
+		<div class="feed-card-body feed-card-body-expand" role="button" tabindex="0" aria-expanded="false" aria-label="${escapeAttr(t('card.readFull', { title: item.title || 'Untitled' }))}" data-expand>
 			<h3 class="feed-card-title" dir="auto">${escapeHtml(item.title || 'Untitled')}</h3>
 			${item.heTitle ? `<p class="feed-card-hetitle" dir="rtl" lang="he">${escapeHtml(item.heTitle)}</p>` : ''}
 			${excerptHtml(item)}
-			<span class="feed-card-readmore">${icon('chevronDown', 'feed-card-readmore-ic')}<span>Read more</span></span>
+			<span class="feed-card-readmore">${icon('chevronDown', 'feed-card-readmore-ic')}<span>${t('card.readMore')}</span></span>
 		</div>
 		<div class="feed-reader" hidden><div class="feed-reader-inner"></div></div>
 		${mediaHtml(item)}
 		<footer class="feed-card-actions" role="toolbar" aria-label="Post actions">
 			${reactionGroupHtml(item)}
-			${iconButton({ icon: 'comment', label: 'Comment', count: item.commentCount || item.comments || 0 })}
-			${iconButton({ icon: 'share', label: 'Share', count: item.shareCount || 0 })}
+			${iconButton({ icon: 'comment', label: t('card.comment'), act: 'comment', count: item.commentCount || item.comments || 0 })}
+			${iconButton({ icon: 'share', label: t('card.share'), act: 'share', count: item.shareCount || 0 })}
 			<span class="feed-card-actions-spacer"></span>
-			${iconButton({ icon: 'save', label: 'Save', active: !!item.viewerSaved, extraClass: 'feed-card-save' })}
-			<a class="feed-ic-btn feed-card-open" href="${escapeAttr(postHref(item))}" target="_blank" rel="noopener" aria-label="Open in new tab">${icon('external')}<span class="feed-ic-btn-label">New tab</span></a>
+			${iconButton({ icon: 'save', label: t('card.save'), act: 'save', active: !!item.viewerSaved, extraClass: 'feed-card-save' })}
+			<a class="feed-ic-btn feed-card-open" href="${escapeAttr(postHref(item))}" target="_blank" rel="noopener" aria-label="${escapeAttr(t('card.newTab'))}">${icon('external')}<span class="feed-ic-btn-label">${t('card.newTab')}</span></a>
 		</footer>
 		${scoreBadge}`;
 
@@ -137,15 +138,16 @@ export function renderFeedCard(item = {}, opts = {}) {
 		const btn = event.target.closest('.feed-ic-btn');
 		if (!btn || btn.disabled) return;
 		event.stopPropagation();
-		const label = btn.getAttribute('aria-label') || '';
-		if (label === 'Save') {
+		/* B"H — TRACK E: compare the stable data-act key, never the translated label. */
+		const act = btn.dataset.act || btn.getAttribute('aria-label') || '';
+		if (act === 'save') {
 			const pressed = btn.classList.toggle('is-active');
 			btn.setAttribute('aria-pressed', String(pressed));
 			opts.onSave?.(item, pressed);
-		} else if (label === 'Comment') {
+		} else if (act === 'comment') {
 			commentsThread.toggle(btn);
 		} else {
-			opts.onAction?.(label, item, btn);
+			opts.onAction?.(act, item, btn);
 		}
 	});
 
@@ -225,13 +227,14 @@ function attachMoreMenu(card, item) {
 		menu.dataset.forPost = card.dataset.postId || '';
 		menu.setAttribute('role', 'menu');
 		menu.innerHTML = `
-			${isAuthor ? `<p class="feed-menu-head">Post theme</p>
-			<div class="feed-menu-themes" role="group" aria-label="Post theme">${themeMenuItems(item)}</div>
+			${isAuthor ? `<p class="feed-menu-head">${t('menu.postTheme')}</p>
+			<div class="feed-menu-themes" role="group" aria-label="${escapeAttr(t('menu.postTheme'))}">${themeMenuItems(item)}</div>
 			<hr class="feed-menu-sep">` : ''}
-			<button type="button" class="feed-menu-item" data-menu-act="copy" role="menuitem">${icon('link', 'feed-menu-ic')}<span>Copy link</span></button>
+			<button type="button" class="feed-menu-item" data-menu-act="copy" role="menuitem">${icon('link', 'feed-menu-ic')}<span>${t('menu.copyLink')}</span></button>
 			<button type="button" class="feed-menu-item" data-menu-act="save-collection" role="menuitem">${icon('folder', 'feed-menu-ic')}<span>Save to collection</span></button>
-			<a class="feed-menu-item" data-menu-act="open" role="menuitem" href="${escapeAttr(postHref(item))}" target="_blank" rel="noopener">${icon('external', 'feed-menu-ic')}<span>Open in new tab</span></a>
-			<button type="button" class="feed-menu-item" data-menu-act="share" role="menuitem">${icon('share', 'feed-menu-ic')}<span>Share</span></button>`;
+			<button type="button" class="feed-menu-item" data-menu-act="print" role="menuitem">${icon('printer', 'feed-menu-ic')}<span>Print</span></button>
+			<a class="feed-menu-item" data-menu-act="open" role="menuitem" href="${escapeAttr(postHref(item))}" target="_blank" rel="noopener">${icon('external', 'feed-menu-ic')}<span>${t('menu.openNewTab')}</span></a>
+			<button type="button" class="feed-menu-item" data-menu-act="share" role="menuitem">${icon('share', 'feed-menu-ic')}<span>${t('menu.share')}</span></button>`;
 		card.append(menu);
 		openCardMenu = menu;
 
@@ -284,10 +287,38 @@ function attachMoreMenu(card, item) {
 				btn.click();
 			});
 		});
+		/* B"H — Yaakov 2026-10-14: single-post printing (TRACK A). */
+		menu.querySelector('[data-menu-act="print"]')?.addEventListener('click', (ev) => {
+			ev.stopPropagation();
+			printCard(card, item);
+		});
 
 		document.addEventListener('click', onCardMenuDocClick, true);
 		document.addEventListener('keydown', onCardMenuDocKey);
 	});
+}
+
+/* B"H — Yaakov 2026-10-14: single-post printing. The focused card prints
+   alone; afterprint always cleans up so the river is never left hidden. */
+function printCard(card, item) {
+	closeCardMenu();
+	card.classList.add('feed-print-focus');
+	card.dataset.printUrl = location.origin + postHref(item);
+	document.body.classList.add('feed-print-one');
+	let done = false;
+	const cleanup = () => {
+		if (done) return;
+		done = true;
+		card.classList.remove('feed-print-focus');
+		delete card.dataset.printUrl;
+		document.body.classList.remove('feed-print-one');
+		window.removeEventListener('afterprint', cleanup);
+	};
+	window.addEventListener('afterprint', cleanup);
+	window.print();
+	/* afterprint is unreliable when the dialog is cancelled in some
+	   browsers — the fallback restores the river regardless. */
+	setTimeout(cleanup, 3000);
 }
 
 /* ============ yarmulke emoji reactions (Yaakov 2026-10-13) ============ */
@@ -406,7 +437,7 @@ function topReactions(summary, limit = 3) {
 function reactionChipHtml(emoji, n) {
 	const id = normalizeReactionId(emoji);
 	if (!id) return '';
-	return `<button type="button" class="feed-react-chip" data-react-chip="${escapeAttr(id)}" aria-label="${formatCount(n)} ${escapeAttr(REACTION_NAMES[id] || 'reactions')} — see who reacted">${emojiImg(id)}<span class="feed-react-chip-count">${formatCount(n)}</span></button>`;
+	return `<button type="button" class="feed-react-chip" data-react-chip="${escapeAttr(id)}" aria-label="${escapeAttr(t('card.reactCountAria', { count: formatCount(n), name: REACTION_NAMES[id] || 'reactions' }))}">${emojiImg(id)}<span class="feed-react-chip-count">${formatCount(n)}</span></button>`;
 }
 
 function reactionGroupHtml(item) {
@@ -414,7 +445,7 @@ function reactionGroupHtml(item) {
 	const viewer = summary.viewerEmoji;
 	const face = viewer ? emojiImg(viewer, 'feed-react-face') : icon('like');
 	return `<div class="feed-react-wrap" data-react-wrap data-picker-open="0">
-		<button type="button" class="feed-ic-btn feed-react-btn${viewer ? ' is-active' : ''}" data-react-toggle aria-haspopup="menu" aria-expanded="false" aria-pressed="${viewer ? 'true' : 'false'}" aria-label="${viewer ? `Your reaction: ${REACTION_NAMES[viewer] || viewer}. Change reaction` : 'React to this post'}">${face}<span class="feed-ic-btn-label">${viewer ? 'Reacted' : 'React'}</span></button>
+		<button type="button" class="feed-ic-btn feed-react-btn${viewer ? ' is-active' : ''}" data-react-toggle aria-haspopup="menu" aria-expanded="false" aria-pressed="${viewer ? 'true' : 'false'}" aria-label="${escapeAttr(viewer ? t('card.reactAriaChange', { name: REACTION_NAMES[viewer] || viewer }) : t('card.reactAria'))}">${face}<span class="feed-ic-btn-label">${viewer ? t('card.reacted') : t('card.react')}</span></button>
 		<div class="feed-react-picker" data-react-picker hidden role="menu" aria-label="Choose a reaction">
 			${YARMULKE_EMOJIS.map(e => `<button type="button" class="feed-react-option" role="menuitemradio" aria-checked="${e.id === viewer}" data-react-emoji="${escapeAttr(e.id)}" aria-label="React ${escapeAttr(e.name)}" title="${escapeAttr(e.name)}">${emojiVideo(e.id)}${emojiImg(e.id)}</button>`).join('')}
 		</div>

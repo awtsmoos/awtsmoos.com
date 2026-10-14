@@ -1,0 +1,214 @@
+/* B"H — Awtsmoos River print stylesheet (Yaakov 2026-10-14).
+ * Shabbos-friendly: no interactive elements, clean serif typography,
+ * honest page breaks, Hebrew RTL support. Print is its own medium, so it
+ * carries its own explicit ink/paper colors (black on white).
+ * Linked with media="print" — it never affects the screen.
+ */
+
+@page {
+	margin: 18mm 15mm 20mm;
+}
+
+@media print {
+	/* ============ strip everything interactive / chrome ============ */
+	.feed-topbar,
+	.feed-side,
+	.feed-tabs,
+	.feed-sentinel-wrap,
+	.feed-status,
+	.feed-card-actions,
+	.feed-card-more,
+	.feed-menu,
+	.feed-react-wrap,
+	.feed-comments,
+	.feed-streak,
+	.feed-streak-nudge,
+	.feed-audio,
+	.feed-audio-panel,
+	.feed-card-rank,
+	.feed-card-readmore,
+	.feed-card-media-kind,
+	.feed-card-media-sheen,
+	.feed-collections-back,
+	.feed-collection-card-tools,
+	.feed-collection-post-remove,
+	.feed-collection-new,
+	.feed-collection-rename-form,
+	.feed-comment-form,
+	.feed-comment-tools,
+	.feed-skeleton,
+	.feed-empty {
+		display: none;
+	}
+
+	/* ============ paper ============ */
+	html:has(.feed-stage),
+	html:has(.feed-stage) body {
+		overflow-x: clip;
+	}
+
+	body {
+		background: #ffffff;
+		color: #000000;
+	}
+
+	.feed-stage {
+		background: #ffffff;
+		color: #000000;
+		min-height: auto;
+	}
+
+	.feed-layout {
+		display: block;
+	}
+
+	.feed-main {
+		max-width: none;
+	}
+
+	/* ============ single-post print mode ============
+	   cards.js adds .feed-print-one to <body> and .feed-print-focus to the
+	   chosen card before calling window.print(). */
+	body.feed-print-one .feed-card:not(.feed-print-focus) {
+		display: none;
+	}
+
+	body.feed-print-one .feed-collections {
+		display: none;
+	}
+
+	/* ============ the printed card ============ */
+	.feed-card {
+		background: #ffffff;
+		color: #000000;
+		border: 1px solid #000000;
+		box-shadow: none;
+		border-radius: 0;
+		margin: 0 0 14mm;
+		padding: 0 0 6mm;
+		page-break-inside: avoid;
+		transform: none;
+	}
+
+	.feed-card-light {
+		display: none;
+	}
+
+	.feed-card-head {
+		border-bottom: 1px solid #000000;
+		padding-bottom: 3mm;
+		margin-bottom: 4mm;
+	}
+
+	.feed-card-avatar,
+	.feed-card-avatar-ring {
+		display: none;
+	}
+
+	.feed-card-author,
+	.feed-card-sub,
+	.feed-card-sub time,
+	.feed-card-heichel {
+		color: #000000;
+	}
+
+	.feed-card-title,
+	.feed-card-hetitle,
+	.feed-card-excerpt,
+	.feed-reader-inner {
+		color: #000000;
+	}
+
+	.feed-card-title {
+		font-family: "Noto Serif", "Noto Serif Hebrew", "David Libre", David, Georgia, serif;
+		font-size: 20pt;
+		line-height: 1.3;
+		margin: 0 0 3mm;
+		page-break-after: avoid;
+	}
+
+	.feed-card-hetitle {
+		font-family: "Noto Serif Hebrew", "David Libre", David, "Noto Serif", Georgia, serif;
+		font-size: 16pt;
+		direction: rtl;
+		unicode-bidi: embed;
+		margin: 0 0 3mm;
+		page-break-after: avoid;
+	}
+
+	.feed-card-excerpt,
+	.feed-reader-inner p,
+	.feed-reader-inner li {
+		font-family: "Noto Serif", "Noto Serif Hebrew", "David Libre", David, Georgia, serif;
+		font-size: 12pt;
+		line-height: 1.65;
+		margin: 0 0 3mm;
+		orphans: 3;
+		widows: 3;
+	}
+
+	.feed-card-body[aria-expanded="false"] .feed-card-excerpt {
+		display: block;
+	}
+
+	/* Hebrew blocks keep their direction on paper. */
+	.feed-card [dir="rtl"],
+	.feed-card [lang="he"] {
+		direction: rtl;
+		unicode-bidi: embed;
+		font-family: "Noto Serif Hebrew", "David Libre", David, "Noto Serif", Georgia, serif;
+	}
+
+	.feed-card-media {
+		display: block;
+		page-break-inside: avoid;
+		margin: 4mm 0;
+	}
+
+	.feed-card-media img {
+		max-width: 100%;
+		height: auto;
+	}
+
+	/* Source link, printed once under the post (single-post mode). */
+	body.feed-print-one .feed-print-focus::after {
+		content: "Source: " attr(data-print-url);
+		display: block;
+		margin-top: 6mm;
+		padding-top: 3mm;
+		border-top: 1px solid #000000;
+		font-size: 9pt;
+		color: #000000;
+		word-break: break-all;
+	}
+
+	a {
+		color: #000000;
+		text-decoration: none;
+	}
+
+	.feed-collections-title,
+	.feed-collection-card-name {
+		color: #000000;
+		page-break-after: avoid;
+	}
+
+	.feed-collection-card {
+		background: #ffffff;
+		color: #000000;
+		border: 1px solid #000000;
+		box-shadow: none;
+		page-break-inside: avoid;
+	}
+
+	.feed-collection-post-title,
+	.feed-collection-post-hetitle,
+	.feed-collections-sub,
+	.feed-collection-card-meta {
+		color: #000000;
+	}
+
+	h1, h2, h3 {
+		page-break-after: avoid;
+	}
+}
