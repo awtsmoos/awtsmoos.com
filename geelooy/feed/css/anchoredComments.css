@@ -10,11 +10,14 @@
 	align-items: center;
 	gap: 6px;
 	padding: 8px 14px;
+	max-width: calc(100vw - 32px);
+	overflow: hidden;
+	text-overflow: ellipsis;
 	font: 600 13px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif;
 	color: #1a1206;
 	background: linear-gradient(180deg, #f3d98b, #e3b64f);
 	border: 1px solid rgba(120, 84, 18, 0.45);
-	border-radius: 999px;
+	border-radius: 0;
 	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
 	cursor: pointer;
 	white-space: nowrap;
@@ -53,7 +56,7 @@
 	background: var(--aw-bg);
 	background-color: var(--aw-bg);
 	border: 1px solid var(--aw-line);
-	border-radius: 14px;
+	border-radius: 0;
 	box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
 }
 [data-theme="light"] .ac-composer {
@@ -79,7 +82,7 @@
 	color: var(--aw-text);
 	background: transparent;
 	border: 1px solid var(--aw-line);
-	border-radius: 10px;
+	border-radius: 0;
 	resize: vertical;
 	min-height: 88px;
 }
@@ -107,7 +110,7 @@
 .ac-btn {
 	padding: 9px 16px;
 	font: 600 14px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif;
-	border-radius: 10px;
+	border-radius: 0;
 	cursor: pointer;
 	border: 1px solid transparent;
 }
@@ -155,7 +158,7 @@
 	font: 400 13px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
 	color: var(--aw-text);
 	background: rgba(127, 127, 127, 0.1);
-	border-radius: 0 10px 10px 0;
+	border-radius: 0;
 }
 [data-theme="light"] .ac-quote {
 	color: var(--aw-text);
@@ -163,7 +166,7 @@
 }
 .ac-quote-bar {
 	flex: 0 0 4px;
-	border-radius: 4px;
+	border-radius: 0;
 	background: #d4a94e;
 }
 .ac-quote-text {
@@ -213,7 +216,7 @@
 	margin-bottom: 12px;
 	padding: 12px 14px;
 	border: 1px solid var(--aw-line);
-	border-radius: 12px;
+	border-radius: 0;
 	background: rgba(127, 127, 127, 0.05);
 }
 .ac-comment-head {
@@ -243,7 +246,7 @@
 	font: 600 11px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
 	color: var(--aw-text);
 	border: 1px solid var(--aw-line);
-	border-radius: 999px;
+	border-radius: 0;
 	opacity: 0.8;
 }
 .ac-comment-body {
@@ -260,7 +263,7 @@
 /* ---- yellow flash on the anchored passage ---- */
 .ac-flash {
 	background-color: rgba(255, 214, 64, 0.85);
-	border-radius: 3px;
+	border-radius: 0;
 	animation: ac-flash-fade 2.8s ease-out forwards;
 }
 @keyframes ac-flash-fade {
