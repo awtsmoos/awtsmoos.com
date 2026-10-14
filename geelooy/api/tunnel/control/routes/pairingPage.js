@@ -172,7 +172,7 @@ p.sub{color:var(--dim); font-size:14px; line-height:1.65; margin-bottom:22px}
 		<h1>Enter pairing code</h1>
 		<p class="sub">The installer on your machine printed a short code. Type it here to approve that device.</p>
 		<form class="manual" id="manual-form">
-			<input id="manual-input" type="text" placeholder="e.g. 5MFYRTEW" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="16" aria-label="Pairing code">
+			<input id="manual-input" type="text" placeholder="e.g. 5MFYRTEW" value="${code}" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="16" aria-label="Pairing code">
 			<button class="btn btn-approve" type="submit">Continue</button>
 			<button class="btn btn-cancel" id="cancel2" type="button">Cancel</button>
 		</form>
