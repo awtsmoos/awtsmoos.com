@@ -13,6 +13,7 @@
 import { icon, iconButton, formatCount, timeAgo, escapeHtml, escapeAttr } from './icons.js';
 import { enableInlineReading } from './inline-reader.js';
 import { THEMES, setPostTheme, resolvePostTheme, isThemeId } from './themes.js';
+import { renderCollectionPicker } from './collections.js';
 
 function authorName(item) {
 	return item.authorName || item.aliasName || item.aliasId || item.author || 'Awtsmoos';
@@ -228,6 +229,7 @@ function attachMoreMenu(card, item) {
 			<div class="feed-menu-themes" role="group" aria-label="Post theme">${themeMenuItems(item)}</div>
 			<hr class="feed-menu-sep">` : ''}
 			<button type="button" class="feed-menu-item" data-menu-act="copy" role="menuitem">${icon('link', 'feed-menu-ic')}<span>Copy link</span></button>
+			<button type="button" class="feed-menu-item" data-menu-act="save-collection" role="menuitem">${icon('folder', 'feed-menu-ic')}<span>Save to collection</span></button>
 			<a class="feed-menu-item" data-menu-act="open" role="menuitem" href="${escapeAttr(postHref(item))}" target="_blank" rel="noopener">${icon('external', 'feed-menu-ic')}<span>Open in new tab</span></a>
 			<button type="button" class="feed-menu-item" data-menu-act="share" role="menuitem">${icon('share', 'feed-menu-ic')}<span>Share</span></button>`;
 		card.append(menu);
@@ -273,6 +275,15 @@ function attachMoreMenu(card, item) {
 			closeCardMenu();
 		});
 		menu.querySelector('[data-menu-act="open"]')?.addEventListener('click', () => closeCardMenu());
+		/* B"H — Yaakov 2026-10-14: Save to collection. The picker swaps the
+		   menu's contents; "Back" returns to the base menu by rebuilding it. */
+		menu.querySelector('[data-menu-act="save-collection"]')?.addEventListener('click', (ev) => {
+			ev.stopPropagation();
+			renderCollectionPicker(menu, item, () => {
+				closeCardMenu();
+				btn.click();
+			});
+		});
 
 		document.addEventListener('click', onCardMenuDocClick, true);
 		document.addEventListener('keydown', onCardMenuDocKey);

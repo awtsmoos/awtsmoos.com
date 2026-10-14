@@ -64,8 +64,18 @@ const PATHS = {
 	calendar: '<rect x="4" y="5.5" width="16" height="15"/><path d="M4 10h16M8.5 3.5v3.5M15.5 3.5v3.5"/><path d="M8.5 14h.01M12 14h.01M15.5 14h.01M8.5 17h.01M12 17h.01M15.5 17h.01"/>',
 	target: '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.8"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/>',
 	party: '<path d="M5 15 15 5l2 2L7 17z"/><path d="M5 15l-1.5 5.5L9 19"/><path d="M16 4.5l.8-2M18.5 6l2-.5M19 9l1.8.8"/>',
+	/* B"H — language globe (Yaakov 2026-10-13, TRACK E): the feed's UI
+	   chrome speaks six languages; the switcher gets its own globe. */
+	globe: '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c-5.2 5.2-5.2 11.8 0 17"/><path d="M12 3.5c5.2 5.2 5.2 11.8 0 17"/>',
 	acceptedAnswer: '<path d="M5 8 4.2 4l3.8 2.3L12 2.8l3.9 3.5L19.8 4 19 8z"/><path d="M7.5 14.5l3.5 3.5L17.5 11"/>',
-	ask: '<path d="M4 18.5C6.5 12.5 10.5 8 17 5 16 11.5 11.5 17 4 18.5z"/><path d="M4 18.5 17 5"/><path d="M18.3 15c-.3-.5.1-1.1 1-1.1 1 0 1.7.6 1.7 1.5 0 1-.9 1.3-1.3 1.9-.3.4-.4.8-.4 1.3"/><path d="M19.3 19.9l.8.8-.8.8-.8-.8z"/>'
+	ask: '<path d="M4 18.5C6.5 12.5 10.5 8 17 5 16 11.5 11.5 17 4 18.5z"/><path d="M4 18.5 17 5"/><path d="M18.3 15c-.3-.5.1-1.1 1-1.1 1 0 1.7.6 1.7 1.5 0 1-.9 1.3-1.3 1.9-.3.4-.4.8-.4 1.3"/><path d="M19.3 19.9l.8.8-.8.8-.8-.8z"/>',
+	/* B"H — TRACK A (Yaakov 2026-10-14): collections folder, print, audio icons. Sharp corners only. */
+	folder: '<path d="M3.5 6.5a1 1 0 0 1 1-1h5l2 2.5h7a1 1 0 0 1 1 1V18a1 1 0 0 1-1 1h-14a1 1 0 0 1-1-1z"/>',
+	printer: '<path d="M7 8V3.5h10V8"/><rect x="4" y="8" width="16" height="8"/><path d="M7 13.5h10v7H7z"/>',
+	play: '<path d="M8 5.5v13l10-6.5z"/>',
+	pause: '<path d="M8 5.5v13M16 5.5v13"/>',
+	stop: '<rect x="7" y="7" width="10" height="10"/>',
+	speaker: '<path d="M4 9.5v5h4l5 4v-13l-5 4z"/><path d="M16.5 9a4.5 4.5 0 0 1 0 6M19 6.5a8 8 0 0 1 0 11"/>'
 };
 
 const FILLED = new Set(['like', 'save', 'star']);
@@ -84,11 +94,13 @@ export function icon(name, cls = '', filled = false) {
 	return `<svg class="feed-ic ${cls}" viewBox="0 0 24 24" fill="${fill}" stroke="${stroke}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${paths}</svg>`;
 }
 
-/** Icon button with full interactive states (styled in feed.css). */
-export function iconButton({ icon: name, label, count = null, active = false, disabled = false, extraClass = '' }) {
+/** Icon button with full interactive states (styled in feed.css).
+ * `act` is a stable machine action key ("save", "comment", "share") — the
+ * click handler must read data-act, never the translated visible label. */
+export function iconButton({ icon: name, label, count = null, active = false, disabled = false, extraClass = '', act = '' }) {
 	const countHtml = count !== null && count !== undefined
 		? `<span class="feed-ic-btn-count" aria-hidden="true">${formatCount(count)}</span>` : '';
-	return `<button type="button" class="feed-ic-btn ${active ? 'is-active' : ''} ${extraClass}" aria-label="${escapeAttr(label)}"${active ? ' aria-pressed="true"' : ''}${disabled ? ' disabled' : ''}>${icon(name)}<span class="feed-ic-btn-label">${escapeHtml(label)}</span>${countHtml}</button>`;
+	return `<button type="button" class="feed-ic-btn ${active ? 'is-active' : ''} ${extraClass}"${act ? ` data-act="${escapeAttr(act)}"` : ''} aria-label="${escapeAttr(label)}"${active ? ' aria-pressed="true"' : ''}${disabled ? ' disabled' : ''}>${icon(name)}<span class="feed-ic-btn-label">${escapeHtml(label)}</span>${countHtml}</button>`;
 }
 
 export function formatCount(n) {
