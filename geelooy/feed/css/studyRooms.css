@@ -1,0 +1,251 @@
+/* B"H — Virtual study rooms (TRACK H).
+ * Tunnel CSS laws: no !important, sharp corners (border-radius: 0),
+ * token-only colors (explicit light + dark via [data-theme] tokens),
+ * full :hover/:focus-visible/:active/:disabled on every control,
+ * overflow-x clipped, 44px minimum touch targets.
+ */
+
+.sr-fab {
+	position: fixed;
+	right: 16px;
+	bottom: 148px;
+	z-index: 120;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 12px 16px;
+	min-height: 48px;
+	font: 700 14px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif;
+	color: #1a1206;
+	background: linear-gradient(180deg, #f3d98b, #e3b64f);
+	border: 1px solid rgba(120, 84, 18, 0.45);
+	border-radius: 0;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+	cursor: pointer;
+	white-space: nowrap;
+}
+.sr-fab .sr-ic { width: 20px; height: 20px; }
+.sr-fab:hover { background: linear-gradient(180deg, #ffe9a8, #e9c05e); }
+.sr-fab:focus-visible { outline: 2px solid var(--aw-focus-ring); outline-offset: 2px; }
+.sr-fab:active { transform: translateY(1px); }
+
+.sr-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 320;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 18px;
+	overflow-x: clip;
+	overflow-y: auto;
+	background: rgba(5, 7, 12, 0.66);
+}
+.sr-panel {
+	width: min(680px, 100%);
+	max-height: 90vh;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	color: var(--aw-text);
+	background: var(--aw-bg);
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+.sr-panel-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 16px 18px 12px;
+	border-bottom: 1px solid var(--aw-line);
+}
+.sr-panel-title { margin: 0; font-size: 18px; font-weight: 700; color: var(--aw-text); }
+.sr-close {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	min-width: 40px;
+	color: var(--aw-text-soft);
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 0;
+	cursor: pointer;
+	font-size: 15px;
+}
+.sr-close:hover { color: var(--aw-text); border-color: var(--aw-line); }
+.sr-close:focus-visible { outline: 2px solid var(--aw-focus-ring); outline-offset: 2px; }
+.sr-close:active { transform: translateY(1px); }
+
+.sr-panel-body {
+	padding: 16px 18px 24px;
+	overflow-y: auto;
+	overflow-x: clip;
+}
+.sr-section { display: flex; flex-direction: column; gap: 14px; }
+.sr-headrow { justify-content: space-between; align-items: center; }
+.sr-lede { margin: 0; font-size: 13px; color: var(--aw-text-soft); }
+.sr-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.sr-dim { color: var(--aw-text-soft); font-weight: 400; }
+.sr-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.sr-card {
+	background: var(--aw-surface);
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	padding: 14px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	overflow-x: clip;
+}
+.sr-card-title { margin: 0; font-size: 14px; font-weight: 700; color: var(--aw-text); }
+
+.sr-label {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--aw-text);
+	width: 100%;
+}
+.sr-input {
+	width: 100%;
+	min-height: 44px;
+	padding: 10px 12px;
+	font: 400 14px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+	color: var(--aw-text);
+	background: var(--aw-bg);
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+}
+.sr-input:focus { outline: 2px solid var(--aw-focus-ring); outline-offset: 1px; border-color: var(--aw-focus-ring); }
+.sr-input::placeholder { color: var(--aw-text-soft); }
+.sr-textarea { resize: vertical; }
+.sr-form .sr-btn { align-self: flex-start; }
+
+.sr-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	min-height: 44px;
+	padding: 10px 16px;
+	font: 600 14px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif;
+	color: var(--aw-text);
+	background: var(--aw-bg);
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	cursor: pointer;
+}
+.sr-btn:hover { border-color: var(--aw-accent); color: var(--aw-accent); }
+.sr-btn:focus-visible { outline: 2px solid var(--aw-focus-ring); outline-offset: 2px; }
+.sr-btn:active { transform: translateY(1px); }
+.sr-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.sr-btn-primary {
+	color: #1a1206;
+	background: linear-gradient(180deg, #f3d98b, #e3b64f);
+	border-color: rgba(120, 84, 18, 0.45);
+}
+.sr-btn-primary:hover { color: #1a1206; background: linear-gradient(180deg, #ffe9a8, #e9c05e); border-color: rgba(120, 84, 18, 0.6); }
+.sr-btn-active { border-color: var(--aw-accent); color: var(--aw-accent); }
+
+.sr-linkbtn {
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+	color: var(--aw-accent);
+	font: 600 13px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif;
+	cursor: pointer;
+	padding: 6px 4px;
+	text-decoration: underline;
+}
+.sr-linkbtn:hover { color: var(--aw-text); }
+.sr-linkbtn:focus-visible { outline: 2px solid var(--aw-focus-ring); outline-offset: 2px; }
+
+.sr-roomlist { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.sr-roomcard-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.sr-roomcard-title { margin: 0; font-size: 15px; font-weight: 700; color: var(--aw-text); }
+.sr-tag {
+	display: inline-block;
+	padding: 3px 8px;
+	font-size: 11px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: var(--aw-text-soft);
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+}
+.sr-tag-mine { color: var(--aw-accent); border-color: var(--aw-accent); }
+.sr-meta { margin: 0; font-size: 12px; color: var(--aw-text-soft); }
+.sr-online { color: var(--aw-accent); font-weight: 700; }
+.sr-text-clamp {
+	margin: 0;
+	font-size: 13px;
+	color: var(--aw-text);
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+.sr-create { border: 1px dashed var(--aw-line); padding: 10px 14px; }
+.sr-create-summary { cursor: pointer; font-weight: 700; font-size: 14px; color: var(--aw-text); padding: 6px 0; min-height: 44px; display: flex; align-items: center; }
+.sr-create-summary:focus-visible { outline: 2px solid var(--aw-focus-ring); outline-offset: 2px; }
+.sr-create .sr-form { border: 0; padding: 10px 0 0; background: transparent; }
+
+.sr-roomview { gap: 12px; }
+.sr-back { align-self: flex-start; }
+.sr-room-title { margin: 0; font-size: 17px; font-weight: 700; color: var(--aw-text); }
+.sr-current-text {
+	margin: 0;
+	padding: 10px 12px;
+	font-size: 14px;
+	line-height: 1.6;
+	color: var(--aw-text);
+	background: var(--aw-bg);
+	border-inline-start: 3px solid var(--aw-accent);
+}
+
+.sr-speaker { margin: 0; font-size: 14px; color: var(--aw-text); }
+.sr-hands { margin: 0; padding-inline-start: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: var(--aw-text); }
+.sr-hand { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.sr-hand.is-speaker { font-weight: 700; }
+
+.sr-parts { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: var(--aw-text); }
+.sr-presence { display: inline-block; width: 10px; height: 10px; border-radius: 0; margin-inline-end: 8px; background: var(--aw-text-soft); }
+.sr-presence.sr-online { background: #2f9e44; }
+.sr-presence.sr-away { background: #e3b64f; }
+
+.sr-notes { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.sr-notes li { border-inline-start: 2px solid var(--aw-line); padding-inline-start: 10px; }
+.sr-note-text { margin: 0 0 2px; font-size: 13px; color: var(--aw-text); }
+.sr-note-meta { margin: 0; font-size: 11px; color: var(--aw-text-soft); }
+
+.sr-chat {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	max-height: 220px;
+	overflow-y: auto;
+	overflow-x: clip;
+	font-size: 13px;
+	color: var(--aw-text);
+}
+.sr-chat li { background: var(--aw-bg); border: 1px solid var(--aw-line); padding: 8px 10px; }
+.sr-chat-sys { font-style: italic; color: var(--aw-text-soft); }
+
+@media (max-width: 560px) {
+	.sr-overlay { padding: 10px; }
+	.sr-panel-body { padding: 12px 12px 20px; }
+	.sr-fab { right: 10px; bottom: 148px; }
+	.sr-fab span { display: none; }
+	.sr-fab { padding: 12px; }
+}
