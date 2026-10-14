@@ -273,6 +273,9 @@ const server = http.createServer(async (req, res) => {
         });
         // resize viewport for this render BEFORE navigation (page reads innerWidth at build)
         await psend('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile: false }).catch(() => {});
+        // B"H 2026-10-14: clear browser cache so edited modules reload
+        // (stale file:// module cache was silently serving old scenes).
+        await psend('Network.clearBrowserCache').catch(() => {});
         // navigate the warm page (modules cached after first render)
         await psend('Page.navigate', { url: `${PAGE}?view=${encodeURIComponent(view)}&fast=1&signalPort=${daemonPort}&sp=${sp}` });
         const png = await pngPromise;

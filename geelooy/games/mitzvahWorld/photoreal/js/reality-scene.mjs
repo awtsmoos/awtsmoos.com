@@ -660,25 +660,25 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     sx.fillStyle = hg; sx.fillRect(0, 0, 128, 256);
     const shaftTex = new THREE.CanvasTexture(sc); shaftTex.colorSpace = THREE.SRGBColorSpace;
     const shaftMat = new THREE.MeshBasicMaterial({
-      map: shaftTex, transparent: true, blending: THREE.AdditiveBlending,
-      // B"H 2026-10-14 (Yaakov: BOLD god-rays like ref-target-sunlit-river):
-      // was 0.14 "whisper-soft" — the new reference has dramatic diagonal
-      // shafts. 0.35 for visible bold beams cutting through canopy.
-      depthWrite: false, side: THREE.DoubleSide, fog: false, opacity: 0.35,
+      map: shaftTex, transparent: true, blending: THREE.AdditiveBlending
+      // B"H STEP 3 (2026-10-14, Yaakov: 5-6 STRONG diagonal shafts):
+      // 0.35→0.55. Bold beams visible through mist, upper-right to lower-left.
+      depthWrite: false, side: THREE.DoubleSide, fog: false, opacity: 0.55,
     });
     // B"H WAY-better #2: breathing shafts — slow sine on opacity so the rays
     // feel alive (canopy moving overhead). Registered as an updater below.
-    shaftMat.userData.baseOpacity = 0.35;
+    shaftMat.userData.baseOpacity = 0.55;
     scene.userData.shaftMat = shaftMat;
     const shaftGeo = new THREE.PlaneGeometry(4.5, 40);
     const q = new THREE.Quaternion().setFromUnitVectors(
       new THREE.Vector3(0, 1, 0), sunDir.clone().normalize());
-    // B"H 2026-10-13 Phase 1: 14→10 shafts, whisper-soft per plan.
-    for (let si = 0; si < 10; si++) {
-      const z = -70 + si * 7 + (srand() - 0.5) * 5;
-      const x = riverX(z) + (srand() - 0.5) * 24;
-      const y = groundHeight(x, z, noise) + 15;
-      const w = 5 + srand() * 4, l = 40 + srand() * 14;
+    // B"H STEP 3 (2026-10-14): 6 BOLD shafts in the MID-GROUND (z -8..-38,
+    // 10-60m from camera) — wide, diagonal, visible. Not the far background.
+    for (let si = 0; si < 6; si++) {
+      const z = -12 - si * 8 + (srand() - 0.5) * 4;
+      const x = riverX(z) + (srand() - 0.5) * 14;
+      const y = groundHeight(x, z, noise) + 12;
+      const w = 3.0 + srand() * 2.0, l = 30 + srand() * 8;
       for (let k = 0; k < 2; k++) {
         const m = new THREE.Mesh(shaftGeo, shaftMat);
         m.position.set(x, y, z);
@@ -739,7 +739,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
         map: mistTex, transparent: true, depthWrite: false,
         opacity: inGlow ? 0.34 + mrand() * 0.18 : 0.16 + mrand() * 0.12,
         blending: inGlow ? THREE.AdditiveBlending : THREE.NormalBlending,
-        color: inGlow ? new THREE.Color(1.0, 0.93, 0.78) : new THREE.Color(1, 1, 1),
+        color: inGlow ? new THREE.Color(1.0, 0.88, 0.66) : new THREE.Color(0.98, 0.94, 0.82),
         fog: false,
       });
       const spr = new THREE.Sprite(smat);
@@ -758,23 +758,54 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       const gc = document.createElement('canvas'); gc.width = gc.height = 256;
       const gx = gc.getContext('2d');
       const gg = gx.createRadialGradient(128, 128, 8, 128, 128, 128);
-      gg.addColorStop(0, 'rgba(255,246,220,0.85)');
-      gg.addColorStop(0.4, 'rgba(255,238,200,0.38)');
-      gg.addColorStop(1, 'rgba(255,230,180,0)');
+      gg.addColorStop(0, 'rgba(255,236,190,0.55)');
+      gg.addColorStop(0.4, 'rgba(255,226,170,0.25)');
+      gg.addColorStop(1, 'rgba(255,220,160,0)');
       gx.fillStyle = gg; gx.fillRect(0, 0, 256, 256);
       const gtex = new THREE.CanvasTexture(gc); gtex.colorSpace = THREE.SRGBColorSpace;
       const gmat = new THREE.SpriteMaterial({
         map: gtex, transparent: true, depthWrite: false,
-        blending: THREE.AdditiveBlending, opacity: 0.85, fog: false,
+        blending: THREE.AdditiveBlending, opacity: 0.50, fog: false,
       });
       const glow = new THREE.Sprite(gmat);
       glow.position.set(sunGapX, WATER_Y + 7, sunGapZ);
-      glow.scale.set(60, 40, 1);
+      glow.scale.set(38, 24, 1);
       scene.add(glow);
       mistUpdaters.push((t) => {
-        gmat.opacity = 0.85 * (0.9 + 0.1 * Math.sin(t * 0.23));
+        gmat.opacity = 0.50 * (0.9 + 0.1 * Math.sin(t * 0.23));
       });
     }
+    /* B"H STEP 3 (2026-10-14): dust motes — tiny bright specks drifting in
+       the god-ray shafts. Additive sprites, slow float. 1 instanced draw. */
+    {
+      const MOTES = fast ? 60 : 130;
+      const mGeo = new THREE.PlaneGeometry(0.14, 0.14);
+      const mMat = new THREE.MeshBasicMaterial({
+        color: new THREE.Color(1.0, 0.95, 0.80),
+        transparent: true, opacity: 0.70,
+        blending: THREE.AdditiveBlending, depthWrite: false, fog: false,
+      });
+      const mInst = new THREE.InstancedMesh(mGeo, mMat, MOTES);
+      const mData = [];
+      const md = new THREE.Object3D();
+      for (let mi = 0; mi < MOTES; mi++) {
+        // distribute along the river corridor, biased to shaft heights
+        const mz = -60 + srand() * 70;
+        const mx = riverX(mz) + (srand() - 0.5) * 20;
+        const my = WATER_Y + 1 + srand() * 9;
+        mData.push({ x: mx, y: my, z: mz, ph: srand() * 6.28, sp: 0.2 + srand() * 0.5 });
+        md.position.set(mx, my, mz);
+        md.updateMatrix();
+        mInst.setMatrixAt(mi, md.matrix);
+      }
+      mInst.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+      scene.add(mInst);
+      const mPos = new THREE.Vector3();
+      // B"H PERF 2026-10-14: per-frame mote updater disabled (130 lookAt/
+      // setMatrixAt per frame was stalling SwiftShader renders). Motes are
+      // static; wind drift comes from the vertex shader (System 19).
+    }
+
     // B"H WAY-better #22: layered mist parallax — two more depth layers
     // drifting at different speeds. Near layers move faster (parallax),
     // far layers barely creep. Depth you can feel.
@@ -3388,7 +3419,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     fernGeo.setAttribute('normal', new THREE.Float32BufferAttribute(nor, 3));
     fernGeo.setIndex(idx);
     const fernMat = new THREE.MeshStandardMaterial({
-      map: fernTex, alphaTest: 0.40, side: THREE.DoubleSide,
+      map: fernTex, alphaTest: 0.45, side: THREE.DoubleSide,
+      transparent: true, depthWrite: false,
       roughness: 0.9, color: new THREE.Color(0.85, 1.05, 0.70),
     });
     const COUNT = fast ? 120 : 320;
@@ -3410,6 +3442,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       }
       if (Math.abs(x - riverX(z)) < 6.8) continue; // B"H 99%: not in the narrowed water
       if (clearPts.some(([px, pz]) => Math.hypot(x - px, z - pz) < 3)) continue;
+      // B"H STEP 3 (2026-10-14): never in/below the water (kills the green
+      // square artifact — ferns must sit on the bank, not in the channel).
+      if (groundHeight(x, z, noise) < WATER_Y + 0.25) continue;
       const s = 0.9 + rand() * 1.3;
       dummy.position.set(x, groundHeight(x, z, noise), z);
       dummy.rotation.y = rand() * Math.PI * 2;
