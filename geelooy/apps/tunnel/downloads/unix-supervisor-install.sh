@@ -139,6 +139,22 @@ start_supervisor() {
 			status_line="$status_line  ✓ Agent running (PID $apid)"
 		else
 			status_line="$status_line  ○ Agent not running"
+			# B"H — Yaakov 2026-10-14: FOR THE 67373TH TIME — show the error automatically!
+			# When agent is not running, run a quick diagnostic and display the error.
+			# Don't just say "not running" — say WHY.
+			if [ "$last_status" != "$status_line" ]; then
+				printf '%s\n' "  ⚠️  Agent failed to start. Diagnostic:" >&2
+				if [ -f "$ROOT/unix-agent-launcher.cjs" ]; then
+					local diag_output=$(timeout 8 node "$ROOT/unix-agent-launcher.cjs" "$ROOT" 2>&1 | head -20 || true)
+					if [ -n "$diag_output" ]; then
+						printf '%s\n' "$diag_output" >&2
+					else
+						printf '%s\n' "  (No output from diagnostic)" >&2
+					fi
+				else
+					printf '%s\n' "  Launcher not found: $ROOT/unix-agent-launcher.cjs" >&2
+				fi
+			fi
 		fi
 
 		# Only print if status changed

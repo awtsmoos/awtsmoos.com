@@ -27,19 +27,6 @@ process.env.AWTSMOOS_RECOVERY_ROOT ||= path.join(
 // Use the EXISTING test mode (checked by old agent code) for maximum compatibility.
 process.env.AWTSMOOS_TEST_MODE = "1";
 process.env.AWTSMOOS_ALLOW_IDENTITY_CREATE = "1";
-// B"H — Yaakov 2026-10-14: Clear broken device-state on startup when testing.
-// The old state has incoherent keys (identity_private_key_missing). Deleting
-// it forces a fresh identity creation. Only when TEST_MODE is set.
-if (process.env.AWTSMOOS_TEST_MODE === "1") {
-	try {
-		const deviceState = path.join(root, "device-state");
-		if (fs.existsSync(deviceState)) {
-			fs.rmSync(deviceState, { recursive: true, force: true });
-		}
-	} catch (e) {
-		// Ignore cleanup errors
-	}
-}
 const Identity = require(firstExisting([
 	path.join(root, "awtsmoos-agent-identity.cjs"),
 	path.join(__dirname, "unix-agent-identity.cjs")
