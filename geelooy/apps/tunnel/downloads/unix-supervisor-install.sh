@@ -98,6 +98,11 @@ start_supervisor() {
 	# Shows realtime status with green checks when active, red errors with
 	# details when something fails. Stays open until Ctrl+C. The supervisor
 	# keeps running in background even after monitor exits.
+	# B"H — Yaakov 2026-10-14: Magical completion celebration.
+	printf '\n' >&2
+	printf '  ✨ ⋆ ✧  🎉  ✧ ⋆ ✨\n' >&2
+	printf '  Your Awtsmoos Tunnel is ready!\n' >&2
+	printf '  The magic is alive. ✨\n' >&2
 	printf '\n' >&2
 	printf '╔══════════════════════════════════════════════════════════╗\n' >&2
 	printf '║  ✓ Tunnel supervisor started                              ║\n' >&2
