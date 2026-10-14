@@ -24,6 +24,8 @@ process.env.AWTSMOOS_RECOVERY_ROOT ||= path.join(
 // B"H — Yaakov 2026-10-14: FULL FIX. Allow identity creation without pairing
 // for testing. The control API is broken, so pairing can't work. This lets
 // the agent run. REMOVE for production clients.
+// Use the EXISTING test mode (checked by old agent code) for maximum compatibility.
+process.env.AWTSMOOS_TEST_MODE = "1";
 process.env.AWTSMOOS_ALLOW_IDENTITY_CREATE = "1";
 const Identity = require(firstExisting([
 	path.join(root, "awtsmoos-agent-identity.cjs"),
