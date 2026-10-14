@@ -591,14 +591,14 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       const gtex = new THREE.CanvasTexture(gc); gtex.colorSpace = THREE.SRGBColorSpace;
       const gmat = new THREE.SpriteMaterial({
         map: gtex, transparent: true, depthWrite: false,
-        blending: THREE.AdditiveBlending, opacity: 0.55, fog: false,
+        blending: THREE.AdditiveBlending, opacity: 0.75, fog: false,
       });
       const glow = new THREE.Sprite(gmat);
-      glow.position.set(sunGapX, WATER_Y + 6, sunGapZ);
-      glow.scale.set(46, 30, 1);
+      glow.position.set(sunGapX, WATER_Y + 7, sunGapZ);
+      glow.scale.set(60, 40, 1);
       scene.add(glow);
       mistUpdaters.push((t) => {
-        gmat.opacity = 0.55 * (0.9 + 0.1 * Math.sin(t * 0.23));
+        gmat.opacity = 0.75 * (0.9 + 0.1 * Math.sin(t * 0.23));
       });
     }
     mark('mist');
@@ -940,7 +940,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       });
       // B"H "even more real": distant impostor walls glow toward the sun —
       // kills the flat dark-mass read at the background.
-      addCanopyBacklight(mat, 0.9, 2.2, 'impostor' + ti);
+      addCanopyBacklight(mat, 0.55, 2.2, 'impostor' + ti);
       // B"H — Phase 2 (2026-10-13): grade impostors toward the reference's
       // deep-green palette. Unlit (baked photo lighting), color-matched.
       mat.color.setRGB(0.92, 1.0, 0.88);
@@ -1347,7 +1347,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     depthWrite: true,
   });
     // B"H "even more real": baked tree crowns get the view-dependent glow too.
-    addCanopyBacklight(canopyMat, 1.1, 2.0, 'baked');
+    addCanopyBacklight(canopyMat, 0.65, 2.0, 'baked');
   const ARCHETYPES = [
     ['Oak Large', 'oak-large'], ['Pine Large', 'pine-large'],
     ['Birch Elegant', 'birch-elegant'], ['Willow Weeping', 'willow-weeping'],
@@ -1779,7 +1779,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     });
     // B"H "even more real": crown masses glow when looking toward the sun —
     // this is the distant canopy that read as a dark mass.
-    addCanopyBacklight(quadMat, 1.3, 2.0, 'crown');
+    addCanopyBacklight(quadMat, 0.75, 2.0, 'crown');
     const PER_ANCHOR = fast ? 5 : 7;
     const inst = new THREE.InstancedMesh(quadGeo, quadMat, anchors.length * PER_ANCHOR);
     const out = new THREE.Vector3();
@@ -1871,7 +1871,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       // B"H "even more real" (Yaakov 2026-10-14): shared backlight helper —
       // stronger transmit (1.5), wider lobe (2.0 vs 3.0). Outer leaves glow
       // gold when the camera looks toward the sun through the canopy.
-      addCanopyBacklight(leafMat, 1.5, 2.0, 'leaf');
+      addCanopyBacklight(leafMat, 0.85, 2.0, 'leaf');
       leafMat.customProgramCacheKey = () => 'canopy-backlit-leaf';
       const PER_TIP = fast ? 6 : 12;
       const leafInst = new THREE.InstancedMesh(leafGeo, leafMat, tips.length * PER_TIP);
@@ -1977,7 +1977,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     });
     // B"H "even more real": overhead canopy sits between camera and sun —
     // strongest glow (1.6) so light visibly streams through from above.
-    addCanopyBacklight(ohMat, 1.6, 1.8, 'overhead');
+    addCanopyBacklight(ohMat, 0.95, 1.8, 'overhead');
     const OH_COUNT = fast ? 60 : 120;
     const ohInst = new THREE.InstancedMesh(ohGeo, ohMat, OH_COUNT);
     const ohDummy = new THREE.Object3D();
