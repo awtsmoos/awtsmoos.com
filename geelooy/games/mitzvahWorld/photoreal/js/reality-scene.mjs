@@ -233,8 +233,9 @@ function bufferGeometryFromStream(stream, leafShrink = 0) {
       // Centroid
       const cx = (p0[0]+p1[0]+p2[0])/3, cy = (p0[1]+p1[1]+p2[1])/3, cz = (p0[2]+p1[2]+p2[2])/3;
       // B"H LEAF-FIX: baked triangle areas are unreliable (huge). Use fixed
-      // small leaf-card size (0.3-0.45m, real leaf cluster scale).
-      const size = 0.30 + ((t * 37) % 100) / 100 * 0.15;
+      // leaf-card size. 0.55-0.75m so cards OVERLAP into dense clusters
+      // (0.3m was confetti — visible sky through canopy).
+      const size = 0.55 + ((t * 37) % 100) / 100 * 0.20;
       // Normal (for orientation) — from triangle
       const ax = p1[0]-p0[0], ay = p1[1]-p0[1], az = p1[2]-p0[2];
       const bx = p2[0]-p0[0], by = p2[1]-p0[1], bz = p2[2]-p0[2];
