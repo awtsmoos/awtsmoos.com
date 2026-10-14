@@ -3707,6 +3707,65 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     logInst.castShadow = true; logInst.receiveShadow = true;
     scene.add(logInst);
 
+    /* B"H SYS14 (2026-10-14): mushrooms on the fallen logs — the foreground
+       storyteller. Tiny instanced mushrooms (stem + cap), clustered on log
+       tops. 1 instanced draw. */
+    {
+      const MUSH = fast ? 24 : 48;
+      // stem: thin cylinder; cap: flattened sphere. Merged into one geometry.
+      const stemGeo = new THREE.CylinderGeometry(0.015, 0.022, 0.09, 6);
+      stemGeo.translate(0, 0.045, 0);
+      const capGeo = new THREE.SphereGeometry(0.045, 8, 6, 0, Math.PI * 2, 0, Math.PI / 2);
+      capGeo.scale(1, 0.6, 1);
+      capGeo.translate(0, 0.09, 0);
+      // merge: stem (pale) + cap (red-brown) via vertex colors
+      const mPos = [], mCol = [], mIdx = [];
+      let vo = 0;
+      for (const [g, col] of [[stemGeo, [0.85, 0.80, 0.70]], [capGeo, [0.55, 0.28, 0.15]]]) {
+        const p = g.attributes.position, ix = g.index;
+        for (let i = 0; i < p.count; i++) {
+          mPos.push(p.getX(i), p.getY(i), p.getZ(i));
+          mCol.push(...col);
+        }
+        for (let i = 0; i < ix.count; i++) mIdx.push(ix.getX(i) + vo);
+        vo += p.count;
+      }
+      const mushGeo = new THREE.BufferGeometry();
+      mushGeo.setAttribute('position', new THREE.Float32BufferAttribute(mPos, 3));
+      mushGeo.setAttribute('color', new THREE.Float32BufferAttribute(mCol, 3));
+      mushGeo.setIndex(mIdx);
+      mushGeo.computeVertexNormals();
+      const mushMat = new THREE.MeshStandardMaterial({
+        vertexColors: true, roughness: 0.85,
+      });
+      const mushInst = new THREE.InstancedMesh(mushGeo, mushMat, MUSH);
+      const md = new THREE.Object3D();
+      const mr = mulberry32(seed ^ 0x7145);
+      let mi = 0;
+      // place on the 3 logs (recompute their positions)
+      for (let li = 0; li < LOG_COUNT && mi < MUSH; li++) {
+        const side = li % 2 === 0 ? -1 : 1;
+        const lz = camZ - 5 - li * 12;
+        const lx = riverX(lz) + side * 10;
+        const ly = groundHeight(lx, lz, noise) + 0.25;
+        // cluster 8-16 mushrooms along the log top
+        const perLog = Math.floor(MUSH / LOG_COUNT);
+        for (let k = 0; k < perLog && mi < MUSH; k++) {
+          const along = (mr() - 0.5) * 4.5; // along log length
+          const across = (mr() - 0.5) * 0.5; // across log top
+          md.position.set(lx + along, ly + 0.35, lz + across);
+          md.rotation.y = mr() * Math.PI * 2;
+          const ms = 0.7 + mr() * 0.9;
+          md.scale.setScalar(ms);
+          md.updateMatrix();
+          mushInst.setMatrixAt(mi++, md.matrix);
+        }
+      }
+      mushInst.count = mi;
+      mushInst.castShadow = false; mushInst.receiveShadow = true;
+      scene.add(mushInst);
+    }
+
     // Leaf litter: scattered dead leaves on the ground
     const litterGeo = new THREE.PlaneGeometry(0.3, 0.3);
     litterGeo.rotateX(-Math.PI / 2); // lay flat
