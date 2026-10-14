@@ -58,6 +58,7 @@
 <link rel="stylesheet" href="/feed/css/studyRooms.css?v=1">
 <link rel="stylesheet" href="/feed/css/mentors.css?v=1">
 <link rel="stylesheet" href="/feed/css/bookClubs.css?v=1">
+<link rel="stylesheet" href="/feed/css/debateArena.css?v=1">
 </head>
 <body>
 <div class="feed-stage" id="feed-stage" data-feed-theme="dark-immersive">
@@ -229,6 +230,9 @@ initMentors();
 // B"H — Yaakov 2026-10-13: TRACK H community — book clubs.
 import { initBookClubs } from '/feed/js/bookClubs.js?v=1';
 initBookClubs();
+// B"H — Yaakov 2026-10-13: TRACK H community — debate arena.
+import { initDebateArena } from '/feed/js/debateArena.js?v=1';
+initDebateArena();
 
 // Benchmark hook: ?bench=1 runs the perf ledger summary to console + title.
 if (new URLSearchParams(location.search).get('bench') === '1') {
