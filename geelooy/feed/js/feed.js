@@ -13,6 +13,7 @@
 
 import { renderFeedCard, renderSkeleton, renderEmpty } from './cards.js';
 import { icon } from './icons.js';
+import { logActivity } from './activity.js';
 
 const PAGE_SIZE = 14;
 const PREFETCH_PAGES = 1;
@@ -53,6 +54,54 @@ function currentAlias() {
 		localStorage.getItem('awtsmoos-alias') || 'anonymous';
 }
 
+/**
+ * Fetches one post's comment tree lazily, on user demand — never for the
+ * whole river at once (Yaakov 2026-10-13: comments live in the store but the
+ * feed never asked for them, so every card showed 0).
+ * GET /api/social/heichelos/:heichel/posts/:post/comment-tree
+ * @returns {Promise<{comments: Array, meta: object|null}>}
+ */
+export async function fetchCommentTree(heichelId, postId, { limit = 20, maxDepth = 4, replyLimit = 20 } = {}) {
+	const qs = new URLSearchParams({
+		limit: String(limit), maxDepth: String(maxDepth), replyLimit: String(replyLimit)
+	});
+	const t0 = performance.now();
+	const res = await fetch(
+		`/api/social/heichelos/${encodeURIComponent(heichelId)}/posts/${encodeURIComponent(postId)}/comment-tree?${qs}`,
+		{ credentials: 'same-origin' }
+	);
+	const ms = performance.now() - t0;
+	if (!res.ok) throw new Error(`Comments answered ${res.status}`);
+	const body = await res.json();
+	perfLedger.markApi('comment-tree', ms, Number(res.headers.get('content-length')) || 0);
+	const data = body?.success ?? body ?? {};
+	const comments = Array.isArray(data) ? data : (Array.isArray(data.success) ? data.success : []);
+	return { comments, meta: data && typeof data === 'object' ? (data.meta || null) : null };
+}
+
+/**
+ * Posts a comment to a post, or a reply when parentCommentId is given.
+ * POST /api/social/heichelos/:heichel/posts/:post/comment-tree (root)
+ * POST /api/social/heichelos/:heichel/posts/:post/comments/:comment/replies
+ */
+export async function submitComment(heichelId, postId, parentCommentId, content, aliasId) {
+	const base = `/api/social/heichelos/${encodeURIComponent(heichelId)}/posts/${encodeURIComponent(postId)}`;
+	const url = parentCommentId
+		? `${base}/comments/${encodeURIComponent(parentCommentId)}/replies`
+		: `${base}/comment-tree`;
+	const t0 = performance.now();
+	const res = await fetch(url, {
+		method: 'POST',
+		credentials: 'same-origin',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ content, aliasId: aliasId || currentAlias() })
+	});
+	perfLedger.markAction('comment-submit', performance.now() - t0);
+	if (!res.ok) throw new Error(`Comment submit answered ${res.status}`);
+	const body = await res.json().catch(() => null);
+	return body?.success ?? body;
+}
+
 async function fetchFeed(endpoint, { limit, offset, aliasId }) {
 	const qs = new URLSearchParams({ limit: String(limit), offset: String(offset) });
 	if (endpoint === 'home') qs.set('aliasId', aliasId);
@@ -91,6 +140,36 @@ function rememberSeen(items) {
 		for (const it of items) seen.add(String(it.postId || it.id));
 		sessionStorage.setItem('awtsmoos-feed-seen', JSON.stringify([...seen].slice(-600)));
 	} catch (_) { /* private mode */ }
+}
+
+/* ============ activity tracking (Yaakov 2026-10-13) ============ */
+/* B"H — every genuine reader action lands in the local activity record:
+   reactions, comments, shares, saves, and posts actually viewed (50%+ of a
+   card visible). Server sync is OFF — see activity.js for why. */
+
+function activityDetail(item = {}) {
+	return {
+		targetType: 'post',
+		targetId: String(item.postId || item.id || ''),
+		targetTitle: String(item.title || item.heTitle || ''),
+		url: ''
+	};
+}
+
+function installViewObserver(state) {
+	if (!('IntersectionObserver' in window) || state.viewObserver) return;
+	state.viewObserver = new IntersectionObserver((entries) => {
+		for (const entry of entries) {
+			if (!entry.isIntersecting || entry.intersectionRatio < 0.5) continue;
+			const card = entry.target;
+			try { state.viewObserver.unobserve(card); } catch (_) { /* noop */ }
+			logActivity('view', {
+				targetType: 'post',
+				targetId: card.dataset?.postId || '',
+				targetTitle: card.getAttribute('aria-label') || ''
+			});
+		}
+	}, { threshold: 0.5 });
 }
 
 export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
@@ -163,12 +242,31 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 			const frag = document.createDocumentFragment();
 			for (const item of ranked) {
 				frag.append(renderFeedCard(item, {
-					onReaction: (it, on) => perfLedger.markAction('reaction', 0),
-					onSave: (it, on) => perfLedger.markAction('save', 0),
-					onAction: (label) => { const a0 = performance.now(); perfLedger.markAction(label, performance.now() - a0); }
+					viewerAlias: state.aliasId,
+					onReaction: (it, emoji, active) => {
+						perfLedger.markAction('reaction', 0);
+						logActivity('reaction', { ...activityDetail(it), emoji: emoji || '', removed: !active });
+					},
+					onSave: (it, on) => {
+						perfLedger.markAction('save', 0);
+						logActivity('save', { ...activityDetail(it), removed: !on });
+					},
+					onComment: (it) => {
+						perfLedger.markAction('comment', 0);
+						logActivity('comment', activityDetail(it));
+					},
+					onAction: (label, it) => {
+						const a0 = performance.now();
+						perfLedger.markAction(label, performance.now() - a0);
+						if (label === 'Share') logActivity('share', activityDetail(it));
+					},
+					fetchComments: fetchCommentTree,
+					submitComment
 				}));
 			}
+			const newCards = [...frag.children];
 			river.append(frag);
+			for (const card of newCards) observeCardView(card);
 			perfLedger.markRender(performance.now() - t0, ranked.length);
 			rememberSeen(ranked);
 			state.nextOffset = nextOffset ?? (state.nextOffset + ranked.length);
@@ -228,6 +326,13 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 		}
 	}
 
+	/** Observes one card for the 50%-visible "view" activity event. */
+	function observeCardView(card) {
+		if (!card || !card.dataset || !card.dataset.postId) return;
+		if (!state.viewObserver) return;
+		try { state.viewObserver.observe(card); } catch (_) { /* observing must never break the river */ }
+	}
+
 	function watchScrollFps() {
 		let frames = 0;
 		let last = performance.now();
@@ -258,11 +363,13 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 			state.observer.observe(sentinel);
 		}
 		watchScrollFps();
+		installViewObserver(state);
 		loadFollowed().finally(() => appendNext('init'));
 	}
 
 	function destroy() {
 		state.observer?.disconnect();
+		state.viewObserver?.disconnect();
 	}
 
 	return { state, attach, destroy, switchTab, perfLedger };
