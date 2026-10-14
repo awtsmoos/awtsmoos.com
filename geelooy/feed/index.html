@@ -22,12 +22,14 @@
 <link rel="stylesheet" href="/feed/css/feed.css?v=1649cdcf4e">
 <link rel="stylesheet" href="/feed/css/anchoredComments.css?v=1">
 <link rel="stylesheet" href="/feed/css/voiceComments.css?v=1">
+<link rel="stylesheet" href="/feed/css/chavrusa.css?v=1">
 <link rel="stylesheet" href="/feed/css/askAI.css?v=1">
 <link rel="stylesheet" href="/feed/css/offline.css?v=1">
 <link rel="stylesheet" href="/feed/css/liveShiurim.css?v=1">
 <link rel="stylesheet" href="/feed/css/streaks.css?v=1">
 <link rel="stylesheet" href="/feed/css/collections.css?v=1">
 <link rel="stylesheet" href="/feed/css/print.css?v=1" media="print">
+<link rel="stylesheet" href="/feed/css/audio.css?v=1">
 <link rel="stylesheet" href="/feed/css/theme-dark-immersive.css?v=1">
 <link rel="stylesheet" href="/feed/css/theme-light-parchment.css?v=1">
 <link rel="stylesheet" href="/feed/css/theme-classic.css?v=1">
@@ -36,6 +38,8 @@
 <link rel="stylesheet" href="/feed/css/theme-parchment-night.css?v=1">
 <link rel="stylesheet" href="/feed/css/theme-parchment-golden.css?v=1">
 <link rel="stylesheet" href="/feed/css/learning.css?v=1">
+<link rel="stylesheet" href="/feed/css/notifications.css?v=1">
+<link rel="stylesheet" href="/feed/css/studyRooms.css?v=1">
 </head>
 <body>
 <div class="feed-stage" id="feed-stage" data-feed-theme="dark-immersive">
@@ -122,10 +126,21 @@ initStreaks();
 // B"H — Yaakov 2026-10-14: TRACK A quick wins — collections.
 import { initCollections } from '/feed/js/collections.js?v=1';
 initCollections();
+// B"H — Yaakov 2026-10-14: TRACK A quick wins — audio for everything.
+import { initAudio } from '/feed/js/audio.js?v=1';
+initAudio();
+
+// B"H — Yaakov 2026-10-13: TRACK F engagement — smart notifications.
+import { initNotifications } from '/feed/js/notifications.js?v=1';
+initNotifications();
 
 // B"H — Yaakov 2026-10-13: learning track hub (plans, siyum, sheets, challenges, shiur).
 import { initLearningHub } from '/feed/js/learningHub.js?v=1';
 initLearningHub();
+
+// B"H — Yaakov 2026-10-13: TRACK H community — virtual study rooms.
+import { initStudyRooms } from '/feed/js/studyRooms.js?v=1';
+initStudyRooms();
 
 // Benchmark hook: ?bench=1 runs the perf ledger summary to console + title.
 if (new URLSearchParams(location.search).get('bench') === '1') {

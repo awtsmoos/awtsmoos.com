@@ -1,0 +1,131 @@
+/* B"H — Awtsmoos River text-to-speech controls.
+ * Tunnel CSS laws: no !important, token-only colors, explicit light/dark
+ * text colors, full interactive states on every control, sharp corners only,
+ * overflow-x guards where content could widen.
+ */
+
+/* ============ Listen button wrapper (lives in the card action bar) ============ */
+.feed-audio {
+	position: relative;
+	display: inline-flex;
+	flex: none;
+}
+
+.feed-audio .feed-ic {
+	width: 18px;
+	height: 18px;
+}
+
+.feed-audio-btn.is-playing {
+	color: var(--accent-gold);
+	border-color: color-mix(in srgb, var(--accent-gold) 55%, var(--aw-line));
+}
+
+.feed-audio-btn.is-paused {
+	color: var(--aw-text);
+	border-color: var(--aw-line);
+	border-style: dashed;
+}
+
+/* ============ control panel popover ============ */
+.feed-audio-panel {
+	position: absolute;
+	bottom: calc(100% + 8px);
+	inset-inline-end: 0;
+	z-index: 60;
+	min-width: 260px;
+	max-width: min(320px, 78vw);
+	padding: 12px;
+	color: var(--aw-text);
+	background: var(--aw-surface);
+	border: 1px solid color-mix(in srgb, var(--accent-gold) 40%, var(--aw-line));
+	border-radius: 0;
+	box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+	overflow-x: clip;
+}
+
+.feed-audio-panel[hidden] {
+	display: none;
+}
+
+.feed-audio-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 10px;
+}
+
+.feed-audio-row .feed-ic-btn {
+	flex: none;
+}
+
+.feed-audio-rate {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--aw-text-soft);
+	min-width: 0;
+}
+
+.feed-audio-rate-select,
+.feed-audio-voice-select {
+	flex: 1;
+	min-width: 0;
+	padding: 7px 8px;
+	color: var(--aw-text);
+	background: var(--aw-bg);
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	font: inherit;
+	font-size: 13px;
+	cursor: pointer;
+}
+
+[data-theme="light"] .feed-audio-rate-select,
+[data-theme="light"] .feed-audio-voice-select {
+	color: var(--aw-text);
+}
+
+.feed-audio-rate-select:focus-visible,
+.feed-audio-voice-select:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+	border-radius: 0;
+}
+
+.feed-audio-voice {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--aw-text-soft);
+}
+
+.feed-audio-voice-select {
+	max-width: 100%;
+}
+
+/* ============ currently-reading highlight ============ */
+.feed-audio-reading {
+	background: color-mix(in srgb, var(--accent-gold) 18%, transparent);
+	box-shadow: inset 3px 0 0 var(--accent-gold);
+	border-radius: 0;
+	transition: background 240ms ease;
+}
+
+[dir="rtl"] .feed-audio-reading,
+.feed-card-hetitle.feed-audio-reading {
+	box-shadow: inset -3px 0 0 var(--accent-gold);
+}
+
+@media (max-width: 560px) {
+	.feed-audio-panel {
+		min-width: 0;
+		width: max-content;
+		max-width: 78vw;
+	}
+}
