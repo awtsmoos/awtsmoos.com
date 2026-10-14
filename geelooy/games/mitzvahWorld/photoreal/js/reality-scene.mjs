@@ -3344,6 +3344,24 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   camera.lookAt(...v.look);
   mark('particles+camera');
 
+  /* B"H WAY-better #25: subtle handheld drift — tiny low-frequency camera
+     position noise (breathing, not shaking). 2cm wander, imperceptible
+     as motion, kills the tripod-locked CG feel. */
+  {
+    const basePos = camera.position.clone();
+    const baseLook = new THREE.Vector3(...v.look);
+    updaters.push((t) => {
+      const dx = Math.sin(t * 0.31) * 0.5 + Math.sin(t * 0.83 + 1.7) * 0.25;
+      const dy = Math.sin(t * 0.27 + 0.6) * 0.4 + Math.sin(t * 0.71 + 2.1) * 0.2;
+      camera.position.set(
+        basePos.x + dx * 0.035,
+        basePos.y + dy * 0.030,
+        basePos.z + Math.sin(t * 0.23 + 1.2) * 0.030
+      );
+      camera.lookAt(baseLook);
+    });
+  }
+
   /* render loop — settle the simulation SYNCHRONOUSLY (no rAF waits).
      B"H speed mission: in headless SwiftShader, requestAnimationFrame scheduling
      between frames cost ~10s of wall time (compositor stalls), dwarfing actual
@@ -3458,6 +3476,22 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           cx2.fillRect(0, 0, W, H);
           cx2.globalAlpha = 1;
           cx2.globalCompositeOperation = 'source-over';
+          // B"H WAY-better #27: cheap threshold bloom in the 2D grade pass —
+          // bright highlights get a soft additive halo. True threshold via
+          // contrast crush: only near-whites survive to bloom.
+          try {
+            const bc = document.createElement('canvas');
+            bc.width = W; bc.height = H;
+            const bx = bc.getContext('2d');
+            bx.filter = 'brightness(2.2) contrast(4)';
+            bx.drawImage(cv2, 0, 0, W, H);
+            cx2.save();
+            cx2.globalCompositeOperation = 'lighter';
+            cx2.filter = 'blur(22px)';
+            cx2.globalAlpha = 0.35;
+            cx2.drawImage(bc, 0, 0, W, H);
+            cx2.restore();
+          } catch {}
         }
         mark('grade');
         blob = await new Promise(res => cv2.toBlob(res, 'image/png'));
