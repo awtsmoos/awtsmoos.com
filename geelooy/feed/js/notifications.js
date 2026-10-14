@@ -211,7 +211,7 @@ async function checkStreakRisk() {
 	if (!prefs.enabled || prefs.types.streak === false) return;
 	try {
 		const mod = await import('./streaks.js?v=1');
-		const snap = mod.getStreakSnapshot ? mod.getStreakSnapshot() : null;
+		const snap = mod.getStreak ? mod.getStreak() : null;
 		if (!snap || !snap.count || snap.todayRecorded) return;
 		const hour = new Date().getHours();
 		if (hour < 17) return; // only gentle evening nudges
