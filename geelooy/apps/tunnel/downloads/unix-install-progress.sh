@@ -292,12 +292,10 @@ prg_draw_display() {
 		"$PRG_C_CYAN" "$INSTALL_STEP_N" "$INSTALL_STEP_TOTAL" "$PRG_C_OFF" \
 		"$PRG_C_DIM" "$PRG_STEP_MSG" "$PRG_C_OFF" \
 		"$eta")"
-	if [ "$PRG_DISPLAY_OPEN" = "1" ]; then
-		printf '\r\033[2K%s\r' "$line" >&2
-	else
-		printf '%s\r' "$line" >&2
-		PRG_DISPLAY_OPEN=1
-	fi
+	# B"H — Yaakov 2026-10-14: ALWAYS overwrite the line (no conditional).
+	# The PRG_DISPLAY_OPEN variable doesn't persist in subshells, causing repeats.
+	# Always use \r + clear, it works for first and subsequent lines.
+	printf '\r\033[2K%s' "$line" >&2
 }
 
 prg_close_display() {
