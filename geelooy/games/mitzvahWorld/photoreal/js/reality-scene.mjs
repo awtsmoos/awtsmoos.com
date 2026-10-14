@@ -1582,6 +1582,34 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
         normalMap: leafVeinNormalTex, normalScale: new THREE.Vector2(0.7, 0.7),
         depthWrite: true,
       });
+      // B"H commit 4: VIEW-DEPENDENT backlit translucency (plan §6). Real leaves
+      // glow when the sun shines THROUGH them toward the camera. Adds
+      // pow(max(dot(viewDir, -sunDir),0), 3) * warm * 0.6 to outgoing light.
+      leafMat.onBeforeCompile = (sh) => {
+        sh.uniforms.uSunDirL = { value: sunDirN.clone() };
+        sh.fragmentShader = sh.fragmentShader
+          .replace('#include <common>', `#include <common>
+            uniform vec3 uSunDirL;
+            varying vec3 vLeafViewDir;`)
+          .replace('#include <opaque_fragment>', `
+            // backlit translucency: looking toward sun through leaf
+            vec3 Vv = normalize(vLeafViewDir);
+            float backlit = pow(clamp(dot(Vv, -uSunDirL), 0.0, 1.0), 3.0);
+            vec3 transCol = vec3(0.55, 0.72, 0.28) * backlit * 0.85;
+            outgoingLight += transCol * diffuseColor.rgb * 2.0;
+            #include <opaque_fragment>`);
+        sh.vertexShader = sh.vertexShader
+          .replace('#include <common>', `#include <common>
+            varying vec3 vLeafViewDir;`)
+          .replace('#include <fog_vertex>', `#include <fog_vertex>
+            // view dir in world space (cameraPosition available in vertex)
+            vec4 lwp = modelMatrix * vec4(transformed, 1.0);
+            #ifdef USE_INSTANCING
+              lwp = modelMatrix * instanceMatrix * vec4(transformed, 1.0);
+            #endif
+            vLeafViewDir = cameraPosition - lwp.xyz;`);
+      };
+      leafMat.customProgramCacheKey = () => 'leaf-translucency-v1';
       const PER_TIP = fast ? 6 : 12;
       const leafInst = new THREE.InstancedMesh(leafGeo, leafMat, tips.length * PER_TIP);
       const ldir = new THREE.Vector3();
@@ -1634,7 +1662,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       const shellMat = new THREE.MeshStandardMaterial({
         // B"H — alphaTest 0.5: shells read as BROKEN leaf clusters with sky
         // gaps, not solid blobs (0.22 rendered as a dark fake ball).
-        map: denseCanopyTex, alphaTest: 0.5, side: THREE.DoubleSide,
+        // B"H commit 4: 0.5→0.62 for stronger breakup; shells shrunk to
+        // 0.45x/0.62x so individual leaves (now real-scale) own the silhouette.
+        map: denseCanopyTex, alphaTest: 0.62, side: THREE.DoubleSide,
         roughness: 0.95, color: new THREE.Color(0.38, 0.50, 0.28),
         depthWrite: true,
       });
@@ -1642,7 +1672,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       let sp = 0;
       for (const s of treeSpots) {
         const ccx = (s.crownX !== undefined ? s.crownX : s.x);
-        for (const f of [0.55, 0.78]) {
+        for (const f of [0.45, 0.62]) {
           dummy.position.set(ccx, s.crownY, s.z);
           dummy.quaternion.identity();
           dummy.rotateY(rand() * Math.PI * 2);

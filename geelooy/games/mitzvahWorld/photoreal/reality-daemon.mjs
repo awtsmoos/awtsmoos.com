@@ -122,7 +122,9 @@ const server = http.createServer(async (req, res) => {
         // dedicated signal id for this render
         const sp = Math.floor(Math.random() * 1e9);
         const pngPromise = new Promise((resolve, reject) => {
-          const timer = setTimeout(() => { pending.delete(sp); reject(new Error('render timeout 120s')); }, 120000);
+          // B"H — 2026-10-14: renders slowed to ~180s (SwiftShader readpixels
+          // stall + denser leaves). 120s was timing out valid renders.
+          const timer = setTimeout(() => { pending.delete(sp); reject(new Error('render timeout 300s')); }, 300000);
           pending.set(sp, { resolve, reject, timer });
         });
         // resize viewport for this render BEFORE navigation (page reads innerWidth at build)
