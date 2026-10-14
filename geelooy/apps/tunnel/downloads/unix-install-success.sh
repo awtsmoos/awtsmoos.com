@@ -40,11 +40,44 @@ print_install_success_card() {
 	printf 'Guardian    : %s\n' "$(service_health_summary)"
 	printf 'Version     : %s\n' "$version"
 	printf 'Control     : %s\n\n' "$control_url"
+	printf '%s\n' "${D}Remote access — this machine is reachable from Awtsmoos:${O}"
+	printf '  Target it by Tunnel ID: %s%s%s\n' "$B" "$tunnel_id" "$O"
+	printf '  File transfer: native chunked + resumable transfer over the tunnel\n'
+	printf '                 (per-chunk SHA-256, auto-resume, atomic commit).\n'
+	printf '  Agents on the Awtsmoos side can push and pull files to this\n'
+	printf '  machine through the tunnel without any extra setup.\n\n'
 	printf '%s\n' "${D}Durable local repair:${O}"
 	printf '%s\n' "$ROOT/awtsmoos-tunnel-service.sh repair"
 	printf '%s\n' "${D}Universal self-healing reinstall or upgrade:${O}"
 	printf '%s\n' 'curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | AWTSMOOS_RESTART=1 bash'
 	printf '%s\n' "${G}============================================================${O}"
+}
+
+# Headless operator card (Yaakov 2026-10-14): for agent-only / server / GPU
+# installs, print a big unmissable box with everything the operator needs to
+# hand to the Awtsmoos side — tunnel identity, reachability, file transfer.
+print_headless_operator_card() {
+	local tunnel_name="$1"
+	local tunnel_id="$2"
+	local control_url="$3"
+	local B="" D="" C="" O=""
+	if [ "${PRG_TTY:-0}" = "1" ]; then
+		B="$PRG_C_BOLD"; D="$PRG_C_DIM"; C="$PRG_C_CYAN"; O="$PRG_C_OFF"
+	fi
+	printf '\n%s\n' "${C}============================================================${O}"
+	printf '%s\n' "${B}  HEADLESS MACHINE READY — hand this to the Awtsmoos side${O}"
+	printf '%s\n' "${C}============================================================${O}"
+	printf '  Tunnel name : %s%s%s\n' "$B" "$tunnel_name" "$O"
+	printf '  Tunnel ID   : %s%s%s\n' "$B" "$tunnel_id" "$O"
+	printf '\n'
+	printf '  %sThis machine is reachable from Awtsmoos through the tunnel.%s\n' "$D" "$O"
+	printf '  %sTarget it by the Tunnel ID above.%s\n' "$D" "$O"
+	printf '  %sFile transfer works over the tunnel: chunked, resumable,%s\n' "$D" "$O"
+	printf '  %sSHA-256 verified — no extra setup needed on this box.%s\n' "$D" "$O"
+	printf '\n'
+	printf '  Manage it: %s\n' "$control_url"
+	printf '%s\n' "${C}============================================================${O}"
+	printf '\n'
 }
 
 print_skip_start_card() {
@@ -111,6 +144,9 @@ complete_install_experience() {
 		"version=$version phase=$phase pid=$agent_pid tunnelId=$tunnel_id workspace=$workspace_status"
 	print_install_success_card "$version" "$tunnel_name" "$tunnel_id" \
 		"$project_root" "$workspace_status" "$control_url"
+	if [ "$(install_mode)" = "agent-only" ]; then
+		print_headless_operator_card "$tunnel_name" "$tunnel_id" "$control_url"
+	fi
 	if mode_opens_browser; then
 		open_tunnel_control "$control_url"
 	else

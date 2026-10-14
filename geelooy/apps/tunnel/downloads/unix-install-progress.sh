@@ -30,12 +30,44 @@ fi
 # UTF-8 block characters only when the locale can render them; ASCII fallback.
 if [ "$PRG_TTY" = "1" ]; then
 	case "${LC_ALL:-${LANG:-}}" in
-		*UTF-8*|*utf8*|*UTF8*) PRG_FILLED=$'\u2588'; PRG_EMPTY=$'\u2591' ;;
-		*) PRG_FILLED='#'; PRG_EMPTY='-' ;;
+		*UTF-8*|*utf8*|*UTF8*)
+			PRG_FILLED='█'; PRG_EMPTY='░'
+			PRG_SMOOTH=1
+			;;
+		*) PRG_FILLED='#'; PRG_EMPTY='-'; PRG_SMOOTH=0 ;;
 	esac
 else
-	PRG_FILLED='#'; PRG_EMPTY='-'
+	PRG_FILLED='#'; PRG_EMPTY='-'; PRG_SMOOTH=0
 fi
+# Eighth-block glyphs for smooth bar edges (TTY + UTF-8 only).
+PRG_PARTS=(' ' '▏' '▎' '▍' '▌' '▋' '▊' '▉')
+
+# --- ETA tracking (Yaakov 2026-10-14): show "~45s left" on progress bars ---
+INSTALL_PROGRESS_START=0
+_prg_format_eta() {
+	local pct="${1:-0}" now start elapsed rate remaining
+	case "$pct" in
+		''|*[!0-9]*) return 0 ;;
+	esac
+	[ "$pct" -le 0 ] && return 0
+	[ "$pct" -ge 100 ] && return 0
+	start="$INSTALL_PROGRESS_START"
+	[ "$start" -le 0 ] && return 0
+	now="$(date +%s 2>/dev/null || printf '0')"
+	[ "$now" -le "$start" ] && return 0
+	elapsed=$(( now - start ))
+	[ "$elapsed" -le 0 ] && return 0
+	rate=$(( pct * 100 / elapsed ))
+	[ "$rate" -le 0 ] && return 0
+	remaining=$(( (100 - pct) * 100 / rate ))
+	if [ "$remaining" -lt 60 ]; then
+		printf '~%ds left' "$remaining"
+	elif [ "$remaining" -lt 3600 ]; then
+		printf '~%dm left' "$(( remaining / 60 ))"
+	else
+		printf '~%dh left' "$(( remaining / 3600 ))"
+	fi
+}
 
 # --- Big, friendly step introductions ---
 # Usage: install_phase "Setting up your tunnel" "what this phase does"
@@ -102,25 +134,33 @@ render_install_progress() {
 	local percent="$1"
 	local message="$2"
 	local width=30
-	local filled=$(( percent * width / 100 ))
-	local empty=$(( width - filled ))
+	local total_eighths=$(( percent * width * 8 / 100 ))
+	local filled=$(( total_eighths / 8 )) rest=$(( total_eighths % 8 ))
 	local bar="" index
 	for (( index=0; index<filled; index+=1 )); do
 		bar="${bar}${PRG_FILLED}"
 	done
-	for (( index=0; index<empty; index+=1 )); do
+	if [ "$rest" -gt 0 ] && [ "$filled" -lt "$width" ] && [ "$PRG_SMOOTH" = "1" ]; then
+		bar="${bar}${PRG_PARTS[$rest]}"
+		filled=$(( filled + 1 ))
+	fi
+	for (( index=filled; index<width; index+=1 )); do
 		bar="${bar}${PRG_EMPTY}"
 	done
+	local eta=""
+	eta="$(_prg_format_eta "$percent")"
+	[ -n "$eta" ] && eta=" $eta"
 	if [ "$PRG_TTY" = "1" ]; then
 		local color="$PRG_C_CYAN"
 		[ "$percent" -ge 100 ] && color="$PRG_C_GREEN"
-		printf '\r\033[2K  %s%3d%%%s %s%s%s %s' \
+		printf '\r\033[2K  %s%3d%%%s %s%s%s%s %s' \
 			"$color" "$percent" "$PRG_C_OFF" \
 			"$PRG_C_GREEN" "$bar" "$PRG_C_OFF" \
+			"$PRG_C_DIM$eta$PRG_C_OFF" \
 			"$message" >&2
 		INSTALL_PROGRESS_LINE_OPEN=1
 	else
-		printf '[%3d%%] [%s] %s\n' "$percent" "$bar" "$message" >&2
+		printf '[%3d%%] [%s]%s %s\n' "$percent" "$bar" "$eta" "$message" >&2
 		INSTALL_PROGRESS_LINE_OPEN=0
 	fi
 }
@@ -163,10 +203,18 @@ PRG_DISPLAY_OPEN=0
 
 _prg_make_bar() {
 	local pct="${1:-0}" width="${2:-24}"
-	local filled=$(( pct * width / 100 )) empty=$(( width - filled ))
+	case "$pct" in
+		''|*[!0-9]*) pct=0 ;;
+	esac
+	local total_eighths=$(( pct * width * 8 / 100 ))
+	local full=$(( total_eighths / 8 )) rest=$(( total_eighths % 8 ))
 	local bar="" i
-	for (( i=0; i<filled; i+=1 )); do bar="${bar}${PRG_FILLED}"; done
-	for (( i=0; i<empty; i+=1 )); do bar="${bar}${PRG_EMPTY}"; done
+	for (( i=0; i<full; i+=1 )); do bar="${bar}${PRG_FILLED}"; done
+	if [ "$rest" -gt 0 ] && [ "$full" -lt "$width" ] && [ "$PRG_SMOOTH" = "1" ]; then
+		bar="${bar}${PRG_PARTS[$rest]}"
+		full=$(( full + 1 ))
+	fi
+	for (( i=full; i<width; i+=1 )); do bar="${bar}${PRG_EMPTY}"; done
 	printf '%s' "$bar"
 }
 
@@ -183,12 +231,15 @@ _prg_recalc_step() {
 prg_draw_display() {
 	[ "$PRG_TTY" = "1" ] || return 0
 	[ "$INSTALL_STEP_TOTAL" -gt 0 ] || return 0
-	local overall_bar step_bar overall_line step_line
+	local overall_bar step_bar overall_line step_line eta
 	overall_bar="$(_prg_make_bar "$INSTALL_OVERALL_PCT" 26)"
 	step_bar="$(_prg_make_bar "$INSTALL_STEP_PCT" 14)"
-	overall_line="$(printf '  %s%3d%%%s %s%s%s  %sOverall%s' \
+	eta="$(_prg_format_eta "$INSTALL_OVERALL_PCT")"
+	[ -n "$eta" ] && eta=" ${PRG_C_DIM}${eta}${PRG_C_OFF}"
+	overall_line="$(printf '  %s%3d%%%s %s%s%s%s  %sOverall%s' \
 		"$PRG_C_GOLD" "$INSTALL_OVERALL_PCT" "$PRG_C_OFF" \
 		"$PRG_C_GREEN" "$overall_bar" "$PRG_C_OFF" \
+		"$eta" \
 		"$PRG_C_DIM" "$PRG_C_OFF")"
 	step_line="$(printf '  %sStep %s/%s%s %s%s%s %s%3d%%%s  %s%s%s' \
 		"$PRG_C_CYAN" "$INSTALL_STEP_N" "$INSTALL_STEP_TOTAL" "$PRG_C_OFF" \
@@ -240,6 +291,9 @@ install_progress() {
 	local message="${2:-Working...}"
 	local temporary="${INSTALL_PROGRESS_FILE}.tmp-$$"
 	percent="$(clamp_install_progress "${1:-0}")"
+	if [ "$INSTALL_PROGRESS_START" -le 0 ] && [ "$percent" -gt 0 ]; then
+		INSTALL_PROGRESS_START="$(date +%s 2>/dev/null || printf '0')"
+	fi
 	mkdir -p "$(dirname "$INSTALL_PROGRESS_FILE")"
 	printf '%s\n' "$percent" > "$temporary"
 	mv "$temporary" "$INSTALL_PROGRESS_FILE"
@@ -252,15 +306,17 @@ install_progress() {
 	elif [ "$PRG_TTY" = "1" ]; then
 		render_install_progress "$percent" "$message"
 	else
-		local overall_bar step_bar
+		local overall_bar step_bar eta
+		eta="$(_prg_format_eta "$percent")"
+		[ -n "$eta" ] && eta=" [$eta]"
 		overall_bar="$(_prg_make_bar "$percent" 20)"
 		if [ "$INSTALL_STEP_TOTAL" -gt 0 ]; then
 			step_bar="$(_prg_make_bar "$INSTALL_STEP_PCT" 10)"
-			printf '[%3d%%] [%s] step %s/%s [%s] %3d%% %s\n' \
-				"$percent" "$overall_bar" "$INSTALL_STEP_N" "$INSTALL_STEP_TOTAL" \
+			printf '[%3d%%] [%s]%s step %s/%s [%s] %3d%% %s\n' \
+				"$percent" "$overall_bar" "$eta" "$INSTALL_STEP_N" "$INSTALL_STEP_TOTAL" \
 				"$step_bar" "$INSTALL_STEP_PCT" "$message" >&2
 		else
-			printf '[%3d%%] [%s] %s\n' "$percent" "$overall_bar" "$message" >&2
+			printf '[%3d%%] [%s]%s %s\n' "$percent" "$overall_bar" "$eta" "$message" >&2
 		fi
 	fi
 	INSTALL_PROGRESS_LINE_OPEN=0
