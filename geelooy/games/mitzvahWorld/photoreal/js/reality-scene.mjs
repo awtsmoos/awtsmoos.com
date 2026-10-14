@@ -737,7 +737,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       const inGlow = gapProx > 0.45;
       const smat = new THREE.SpriteMaterial({
         map: mistTex, transparent: true, depthWrite: false,
-        opacity: inGlow ? 0.34 + mrand() * 0.18 : 0.16 + mrand() * 0.12,
+        // B"H R2 2026-10-14: in-glow 0.34→0.50 — luminous mist catches the sun.
+        opacity: inGlow ? 0.50 + mrand() * 0.20 : 0.16 + mrand() * 0.12,
         blending: inGlow ? THREE.AdditiveBlending : THREE.NormalBlending,
         color: inGlow ? new THREE.Color(1.0, 0.88, 0.66) : new THREE.Color(0.98, 0.94, 0.82),
         fog: false,
@@ -765,14 +766,15 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       const gtex = new THREE.CanvasTexture(gc); gtex.colorSpace = THREE.SRGBColorSpace;
       const gmat = new THREE.SpriteMaterial({
         map: gtex, transparent: true, depthWrite: false,
-        blending: THREE.AdditiveBlending, opacity: 0.50, fog: false,
+        blending: THREE.AdditiveBlending, opacity: 0.75, fog: false,
       });
       const glow = new THREE.Sprite(gmat);
       glow.position.set(sunGapX, WATER_Y + 7, sunGapZ);
       glow.scale.set(38, 24, 1);
       scene.add(glow);
       mistUpdaters.push((t) => {
-        gmat.opacity = 0.50 * (0.9 + 0.1 * Math.sin(t * 0.23));
+        // B"H R2 2026-10-14: 0.50→0.75 — the gap must SHINE, draw the eye.
+        gmat.opacity = 0.75 * (0.9 + 0.1 * Math.sin(t * 0.23));
       });
     }
     /* B"H STEP 3 (2026-10-14): dust motes — tiny bright specks drifting in
