@@ -13,6 +13,7 @@ import { renderAliases } from './aliases.js';
 import { renderProfileComments, loadCommentsForAlias } from './comments.js';
 import { renderProfilePosts, loadPostsForAlias } from './posts.js';
 import { renderProfileSeries, loadSeriesForAlias } from './series.js';
+import { renderProfileActivity } from './activity.js';
 import { emptyCard } from './cards.js';
 import { renderHeichelos } from './heichelos.js';
 import { renderTiferesSocialLaunchpad } from './SocialLaunchpad.js';
@@ -22,6 +23,7 @@ import { setAliases, state } from './state.js';
 /** Tab keys with lazy content loaders. Loaded once per tab via the tabs module. */
 const TAB_LOADERS = {
 	posts: renderProfilePosts,
+	activity: renderProfileActivity,
 	comments: renderProfileComments,
 	series: renderProfileSeries
 };

@@ -35,7 +35,7 @@ export async function buildProfileAction(kind, opener, onClose) {
  * Builds the profile settings popup menu: alias management, in-page
  * profile tweaks, and the Heichel cockpit — without leaving the page.
  */
-function settingsMenu(onClose) {
+async function settingsMenu(onClose) {
 	const menu = document.createElement('div');
 	menu.className = 'profile-settings-menu';
 	menu.setAttribute('role', 'menu');
@@ -61,15 +61,67 @@ function settingsMenu(onClose) {
 			href: `/heichelos/manage-alias-heichelos/?alias=${encodeURIComponent(state.defaultAlias || '')}`
 		},
 		{
+			toggle: 'hideActivity',
+			label: 'Hide my activity',
+			desc: 'Keep reactions, comments and reads off your public profile'
+		},
+		{
 			label: 'Reading privacy',
 			desc: 'Who sees your reading activity',
 			tab: 'about'
 		}
 	];
 	for (const row of rows) {
+		if (row.toggle) {
+			menu.append(await settingsToggle(row));
+			continue;
+		}
 		menu.append(settingsRow(row, onClose));
 	}
 	return menu;
+}
+
+/**
+ * "Hide my activity" switch (Yaakov 2026-10-13). Stored per alias in
+ * localStorage via /feed/js/activity.js; the Activity tab honors it.
+ */
+async function settingsToggle(row) {
+	let mod = null;
+	try {
+		mod = await import('/feed/js/activity.js');
+	} catch (_) {
+		return document.createComment('activity settings unavailable');
+	}
+	const alias = String(state.defaultAlias || '');
+	const el = document.createElement('button');
+	el.type = 'button';
+	el.className = 'profile-settings-row profile-settings-toggle';
+	el.setAttribute('role', 'switch');
+	const sync = () => {
+		el.setAttribute('aria-checked', String(mod.isActivityHidden(alias)));
+	};
+	el.addEventListener('click', () => {
+		mod.setActivityHidden(alias, !mod.isActivityHidden(alias));
+		sync();
+	});
+	const text = document.createElement('span');
+	text.className = 'profile-settings-text';
+	const label = document.createElement('span');
+	label.className = 'profile-settings-label';
+	label.textContent = row.label;
+	const desc = document.createElement('span');
+	desc.className = 'profile-settings-desc';
+	desc.textContent = row.desc;
+	text.append(label, desc);
+	const sw = document.createElement('span');
+	sw.className = 'pd-switch';
+	sw.setAttribute('aria-hidden', 'true');
+	const knob = document.createElement('span');
+	knob.className = 'pd-switch-knob';
+	sw.append(knob);
+	el.append(text, sw);
+	sync();
+	return el;
 }
 
 function settingsRow(row, onClose) {
