@@ -88,8 +88,8 @@ EOF
 if [ "$errors" -le "$baseline_errors" ]; then
 	save_state 0 "$errors"
 	echo "B\"H CSS_GATE_PASS errors=$errors baseline=$baseline_errors warnings=$warnings"
-	[ "$1" = "--json" ] 2>/dev/null && python3 -c "
-import json; print(json.dumps({'pass': True, 'errors': $errors, 'baseline': $baseline_errors, 'warnings': $warnings, 'by_type': '$by_type'.split()}))"
+	if [ "${1:-}" = "--json" ]; then python3 -c "
+import json; print(json.dumps({'pass': True, 'errors': $errors, 'baseline': $baseline_errors, 'warnings': $warnings, 'by_type': '$by_type'.split()}))"; fi
 	exit 0
 fi
 
