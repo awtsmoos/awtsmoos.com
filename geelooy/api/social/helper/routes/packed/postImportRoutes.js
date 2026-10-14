@@ -24,6 +24,22 @@
  *   GET  /packed/import/posts/status  — ?job=<id> poll one job
  *   GET  /packed/import/posts/jobs    — list recent jobs
  *   POST /packed/import/posts/cancel  — {job} request cancellation
+ *   POST /packed/import/posts/ensure-backlinks — {uploadId} tarball backlink repair
+ *   GET  /packed/import/posts/backlinks-status — ?backlinks=<id>
+ *   POST /packed/import/posts/flush-backlinks — {job} replay persisted
+ *     deferred-backlink queue (crash recovery; normal path needs no call)
+ *
+ * Speed (Yaakov 2026-10-14: "bulk import should be instant"):
+ * - DEFERRED BACKLINKS: the hot loop writes ONLY the native post record;
+ *   the alias backlink (secondary index) is queued in memory and flushed in
+ *   ONE post-job background pass — parent-merged (one read-modify-write per
+ *   alias/heichel/series, not one sync write per post). Halves sync writes.
+ *   The pass runs after the job is terminal and the 6s watchdog is cleared.
+ * - PRE-HASHED POSTS: the client may ship contentHash per post (tarball
+ *   manifest entry or post field); the server trusts it and re-verifies a
+ *   1% sample by recomputation, falling back to full computation on
+ *   repeated mismatch. Removes canonical-stringify + sha256 from the loop.
+ * - WORKERS: AWTSMOOS_IMPORT_WORKERS env (default 8, max 16).
  *
  * Start body:
  *   { operatorKey, heichelId?, dryRun?, timeBudgetMs?,
@@ -129,15 +145,18 @@ function jobStateShape(job) {
 	// the state file and it's purely in-memory work-queue state. A restart
 	// loses the queued batch, but the posts' native writes are already done
 	// and idempotent, so resume re-queues them via the doneHashes check.
-	const { spec, doneHashes, aliasCache, seriesAdds, packedBatch, ...rest } = job || {};
+	const { spec, doneHashes, aliasCache, seriesAdds, packedBatch, backlinkQueue, ...rest } = job || {};
 	// B"H 2026-10-11: spec may be absent on in-memory verify jobs (the disk
 	// copy gets spec via saveJobState's spread). Never throw here — a shape
 	// helper throwing turns every status poll into a 500 ROUTE_ERROR.
+	// B"H 2026-10-14 (import-speed): backlinkQueue serialized (not the Map)
+	// for crash recovery — replay via POST /packed/import/posts/flush-backlinks.
 	return {
 		...rest,
 		heichelId: spec?.heichelId || job?.heichelId,
 		source: spec?.source,
 		donePostIds: Object.keys(doneHashes || {}),
+		backlinkQueue: backlinkQueue && backlinkQueue.size ? [...backlinkQueue.values()] : undefined,
 	};
 }
 
@@ -311,12 +330,25 @@ function canonicalBytes(post) {
 		for (const k of Object.keys(v).sort()) out[k] = sortKeys(v[k]);
 		return out;
 	}
-	const { importedAt, updatedAt, ...rest } = post;
+	// B"H 2026-10-14 (import-speed): contentHash excluded — the pre-hashed
+	// posts protocol lets the client ship its computed hash inside the post
+	// document; it must not perturb the hash itself.
+	const { importedAt, updatedAt, contentHash: _preHash, ...rest } = post;
 	return Buffer.from(JSON.stringify(sortKeys(rest)), 'utf8');
 }
 
 function contentHash(post) {
 	return crypto.createHash('sha256').update(canonicalBytes(post)).digest('hex');
+}
+
+/**
+ * Validate a client-supplied pre-computed content hash. Returns the
+ * normalized lowercase hex string, or null when absent/malformed (in which
+ * case the server computes the hash itself — fail safe).
+ */
+function validPreHash(obj) {
+	const h = obj && obj.contentHash;
+	return (typeof h === 'string' && /^[0-9a-f]{64}$/i.test(h)) ? h.toLowerCase() : null;
 }
 
 /**
@@ -439,6 +471,10 @@ class PackedPostImportRoutes {
 			expectedHash = importSign.sha256hex('backlinks:' + String(blUploadId || ''));
 		} else if (op === 'posts/backlinks-status') {
 			expectedHash = importSign.sha256hex('backlinks-status:' + String(requestValue(this.$i, 'backlinks') || ''));
+		} else if (op === 'posts/flush-backlinks') {
+			const fbBody = this.$i?.body || {};
+			const fbJob = fbBody.job || requestValue(this.$i, 'job');
+			expectedHash = importSign.sha256hex('flush-backlinks:' + String(fbJob || ''));
 		} else if (op === 'posts/remove') {
 			const rmBody = this.$i?.body || {};
 			const rmH = rmBody.heichelId || requestValue(this.$i, 'heichelId');
@@ -583,6 +619,89 @@ class PackedPostImportRoutes {
 		// primitive values do not roundtrip through $i.db.get (ALIAS_LINK_MISSING).
 		await $i.db.write(`/social/aliases/${aliasId}/postsSubmitted/inHeichel/${h}/inSeries/${s}/${pid}`,
 			{ postId: pid, aliasId, heichelId: h, seriesId: s, linkedAt: now, by: 'post-import-api' });
+	}
+
+	// B"H 2026-10-14 (import-speed): native record ONLY — the hot-loop half
+	// of the old writeNativePost. The alias backlink is NOT written here;
+	// it is queued via queueBacklink() and flushed in ONE post-job
+	// background pass (flushBacklinksBackground), parent-merged: a single
+	// read-modify-write per alias/heichel/series instead of one sync write
+	// per post. Halves sync DosDB writes in the hot loop.
+	async writeNativePostOnly($i, post) {
+		await $i.db.write(`/social/heichelos/${post.heichelId}/posts/${post.postId}`, post);
+	}
+
+	// Queue one alias backlink for the post-job background flush. Deduped by
+	// (aliasId, heichelId, seriesId, postId); the queued value is tiny.
+	queueBacklink(job, post) {
+		if (!post.aliasId || !post.postId) return;
+		if (!job.backlinkQueue) job.backlinkQueue = new Map();
+		const key = post.aliasId + '|' + post.heichelId + '|' + post.seriesId + '|' + post.postId;
+		if (!job.backlinkQueue.has(key)) {
+			job.backlinkQueue.set(key, {
+				aliasId: post.aliasId, h: post.heichelId, s: post.seriesId, pid: post.postId,
+			});
+		}
+	}
+
+	// Post-job background backlink flush. Runs AFTER the job is terminal and
+	// the 6s watchdog is cleared — it can never trip the limit. Groups queued
+	// backlinks by parent path and does ONE read-modify-write per parent
+	// (the PathWriteBatch coalescing pattern), mutex-guarded per parent so
+	// concurrent jobs cannot interleave. Never awaited by runJob callers.
+	async flushBacklinksBackground($i, job) {
+		const queue = job.backlinkQueue;
+		job.backlinkQueue = new Map();
+		const total = queue ? queue.size : 0;
+		job.backlinksPending = total;
+		job.backlinksDone = 0;
+		setJob(job);
+		if (!total) { job.backlinksPending = 0; setJob(job); return; }
+		appendJobLog($i, { jobId: job.id, event: 'backlinks-flush-start', pending: total });
+		try {
+			const groups = new Map(); // parentPath -> Map(pid -> value)
+			const now = Date.now();
+			for (const b of queue.values()) {
+				const parent = `/social/aliases/${b.aliasId}/postsSubmitted/inHeichel/${b.h}/inSeries/${b.s}`;
+				if (!groups.has(parent)) groups.set(parent, new Map());
+				groups.get(parent).set(b.pid, {
+					postId: b.pid, aliasId: b.aliasId, heichelId: b.h, seriesId: b.s,
+					linkedAt: now, by: 'post-import-api',
+				});
+			}
+			for (const [parent, leaves] of groups) {
+				const release = await acquireSeriesLock('backlink:' + parent);
+				try {
+					let obj = {};
+					try { obj = await $i.db.get(parent) || {}; } catch (_) { /* treat as empty */ }
+					let changed = false;
+					for (const [pid, val] of leaves) {
+						// B"H 2026-10-11: object values, not boolean true.
+						if (!obj[pid]) { obj[pid] = val; changed = true; }
+					}
+					if (changed) await $i.db.write(parent, obj);
+				} catch (e) {
+					job.backlinkErrors = (job.backlinkErrors || 0) + 1;
+					job.errors.push({ message: 'BACKLINK_FLUSH_FAILED: ' + parent + ': ' + (e.message || e) });
+				} finally {
+					release();
+				}
+				job.backlinksDone += leaves.size;
+				job.backlinksPending = total - job.backlinksDone;
+				setJob(job);
+				await yieldTick();
+			}
+		} catch (e) {
+			job.errors.push({ message: 'BACKLINK_FLUSH_FATAL: ' + (e.message || e) });
+			setJob(job);
+		}
+		job.backlinksPending = 0;
+		setJob(job);
+		saveJobState($i, job);
+		appendJobLog($i, {
+			jobId: job.id, event: 'backlinks-flushed',
+			done: job.backlinksDone, errors: job.backlinkErrors || 0,
+		});
 	}
 
 	// Series index entries accumulate in memory and flush in bulk (per
@@ -747,7 +866,32 @@ class PackedPostImportRoutes {
 				job.errors.push({ postId: String((raw && (raw.postId || raw.id)) || ('#' + n)), message: e.message });
 				return;
 			}
-			const hash = contentHash(post);
+			// B"H 2026-10-14 (import-speed): pre-hashed posts protocol. The client
+		// may ship contentHash (tarball manifest entry or post field); the
+		// server trusts it but re-verifies a 1% sample by recomputation.
+		// Repeated mismatch flips the job to compute every hash (fail safe).
+		let hash;
+		const suppliedHash = validPreHash(spec.posts[n]) || validPreHash(post);
+		if (suppliedHash && !job.preHashUntrusted) {
+			hash = suppliedHash;
+			job.preHashed++;
+			if (job.preHashed % 100 === 1) {
+				const recomputed = contentHash(post);
+				if (recomputed === hash) {
+					job.preHashVerified++;
+				} else {
+					job.preHashMismatches++;
+					appendJobLog($i, { jobId: job.id, event: 'prehash-mismatch', postId: post.postId });
+					hash = recomputed;
+					if (job.preHashMismatches >= 3) {
+						job.preHashUntrusted = true;
+						appendJobLog($i, { jobId: job.id, event: 'prehash-untrusted', message: 'client hashes failed verification 3x; computing all hashes server-side' });
+					}
+				}
+			}
+		} else {
+			hash = contentHash(post);
+		}
 			const liveHash = liveHashes.get(post.postId);
 			if (job.doneHashes[post.postId] === hash) {
 				// Already processed by THIS job: skip unconditionally.
@@ -783,8 +927,12 @@ class PackedPostImportRoutes {
 					// record without a packed mirror — which the skip check
 					// above re-writes idempotently — instead of the reverse
 					// (packed without native), which used to skip forever.
-					await this.writeNativePost($i, post); // first-class native AwtsmoosDB record
+					// B"H 2026-10-14 (import-speed): native record ONLY in the hot
+					// loop; the alias backlink is queued for the post-job
+					// background flush (halves sync writes per post).
+					await this.writeNativePostOnly($i, post); // first-class native AwtsmoosDB record
 					await this.ensureAlias($i, job.aliasCache, post.aliasId, aliasName, spec.heichelId);
+					this.queueBacklink(job, post);
 					// B"H 2026-10-13 (import-speed): packed mirror is BATCHED,
 					// not written per-post. The old per-post path did 6 sync
 					// file ops (mkdir+stat+append+index) per post; the batch
@@ -894,7 +1042,17 @@ class PackedPostImportRoutes {
 			postsDone: job.postsDone, wrote: job.wrote, updated: job.updated,
 			skipped: job.skipped, failed: job.failed,
 			errors: job.errors.length, durationMs: job.durationMs,
+			preHashed: job.preHashed, preHashMismatches: job.preHashMismatches,
 		});
+		// B"H 2026-10-14 (import-speed): deferred backlink flush. Launched
+		// AFTER the job is terminal and the 6s watchdog is cleared — never
+		// awaited, so it can never trip Yaakov's limit. Native records (the
+		// system of record) are durable at this point; backlinks are a
+		// secondary index for alias/org queries. Crash recovery: the queue
+		// is persisted in job state; replay via posts/flush-backlinks.
+		if (!job.dryRun && job.backlinkQueue && job.backlinkQueue.size) {
+			this.flushBacklinksBackground($i, job).catch(() => {});
+		}
 		} finally {
 			// B"H 2026-10-13: lock removed — nothing to release.
 			// Job state is already persisted above; the client resumes
@@ -939,7 +1097,13 @@ class PackedPostImportRoutes {
 			if (!st.isFile() || st.size > PER_POST_MAX_BYTES) {
 				return { error: { success: false, error: 'STAGED_FILE_TOO_LARGE', message: name } };
 			}
-			entries.push({ file: name, postId: f.postId || null, heichelId: f.heichelId || null });
+			entries.push({
+				file: name, postId: f.postId || null, heichelId: f.heichelId || null,
+				// B"H 2026-10-14 (import-speed): pre-hashed posts protocol —
+				// pass the client's contentHash through (validated 64-hex);
+				// the server trusts it but re-verifies a 1% sample.
+				contentHash: validPreHash(f),
+			});
 		}
 		return { entries, dest, source: 'upload:' + uploadId };
 	}
@@ -1043,6 +1207,11 @@ class PackedPostImportRoutes {
 			errors: [], doneHashes: {},
 			aliasCache: new Set(), seriesAdds: new Map(),
 			packedBatch: [],
+			// B"H 2026-10-14 (import-speed): deferred backlink queue (post-
+			// job background flush) + pre-hash verification counters.
+			backlinkQueue: new Map(),
+			backlinksPending: 0, backlinksDone: 0, backlinkErrors: 0,
+			preHashed: 0, preHashVerified: 0, preHashMismatches: 0, preHashUntrusted: false,
 			cancelRequested: false,
 			createdAt: Date.now(), updatedAt: Date.now(),
 			startedAt: null, finishedAt: null, durationMs: null,
@@ -1096,6 +1265,10 @@ class PackedPostImportRoutes {
 				heichelId: v.heichelId, source: v.source, totalPosts: v.totalPosts,
 				postsDone: v.postsDone, wrote: v.wrote, updated: v.updated,
 				skipped: v.skipped, failed: v.failed,
+				// B"H 2026-10-14 (import-speed): deferred-backlink + pre-hash visibility.
+				backlinksPending: v.backlinksPending || 0, backlinksDone: v.backlinksDone || 0,
+				preHashed: v.preHashed || 0, preHashVerified: v.preHashVerified || 0,
+				preHashMismatches: v.preHashMismatches || 0, preHashUntrusted: !!v.preHashUntrusted,
 				errors: (v.errors || []).slice(-10),
 				donePostIds: v.donePostIds || [],
 				createdAt: v.createdAt, updatedAt: v.updatedAt,
@@ -1164,6 +1337,9 @@ class PackedPostImportRoutes {
 			'/packed/import/posts/verify-status': this.verifyStatus.bind(this),
 			'/packed/import/posts/ensure-backlinks': this.ensureBacklinks.bind(this),
 			'/packed/import/posts/backlinks-status': this.backlinksStatus.bind(this),
+			// B"H 2026-10-14 (import-speed): replay a job's persisted
+			// deferred-backlink queue (crash recovery for the post-job flush).
+			'/packed/import/posts/flush-backlinks': this.flushBacklinks.bind(this),
 			'/packed/import/posts/remove': this.remove.bind(this),
 		};
 	}
@@ -1527,6 +1703,34 @@ class PackedPostImportRoutes {
 				durationMs: v.durationMs,
 			}
 		};
+	}
+
+	// POST /packed/import/posts/flush-backlinks {job}
+	// Crash-recovery replay for the deferred backlink queue: the normal path
+	// needs no call (runJob flushes automatically post-job), but if the
+	// server restarted between job completion and the background flush, the
+	// persisted queue replays here. Idempotent: parent-merged writes skip
+	// backlinks that already exist.
+	async flushBacklinks() {
+		const bad = requireMethod(this.$i, 'POST');
+		if (bad) return bad;
+		const auth = this.checkAuth();
+		if (auth) return auth;
+		const body = this.$i?.body || {};
+		const jobId = String(body.job || requestValue(this.$i, 'job') || '');
+		if (!jobId) return { success: false, error: 'NO_JOB', message: 'Provide {job}.' };
+		const found = getJobView(this.$i, jobId);
+		if (!found) return { success: false, error: 'JOB_NOT_FOUND', jobId };
+		const persisted = Array.isArray(found.view.backlinkQueue) ? found.view.backlinkQueue : [];
+		if (!persisted.length) {
+			return { success: { jobId, flushed: 0, message: 'no pending backlinks' } };
+		}
+		const job = found.live && found.job
+			? found.job
+			: { id: jobId, status: 'done', errors: [], backlinksDone: 0, backlinkErrors: 0 };
+		job.backlinkQueue = new Map(persisted.map((b, i) => [i + '|' + (b && b.pid), b]));
+		this.flushBacklinksBackground(this.$i, job).catch(() => {});
+		return { success: { jobId, status: 'flushing', pending: persisted.length } };
 	}
 }
 
