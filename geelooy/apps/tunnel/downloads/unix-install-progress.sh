@@ -242,6 +242,12 @@ prg_draw_display() {
 	local filled=$(( pct * width / 100 ))
 	local empty=$(( width - filled ))
 	local bar="" i
+	# B"H — Yaakov 2026-10-14: GRADIENT BAR! Base color changes with progress.
+	# More beautiful than static green — rainbow magic!
+	local base_color="$PRG_C_CYAN"
+	if [ "$pct" -ge 75 ]; then base_color="$PRG_C_MAGENTA";
+	elif [ "$pct" -ge 50 ]; then base_color="$PRG_C_GOLD";
+	elif [ "$pct" -ge 25 ]; then base_color="$PRG_C_GREEN"; fi
 	# Build the bar with particle effects (EVEN MORE BEAUTIFUL! SIX-SIDED STARS! WAY MORE!)
 	for (( i=0; i<filled; i+=1 )); do
 		# Random sparkle particles with variety (WAY BETTER! EVEN MORE! SIX-SIDED! WAY MORE DENSE!)
@@ -254,7 +260,7 @@ prg_draw_display() {
 				3) bar="${bar}${PRG_C_GOLD}✶${PRG_C_OFF}" ;;
 			esac
 		else
-			bar="${bar}${PRG_C_GREEN}█${PRG_C_OFF}"
+			bar="${bar}${base_color}█${PRG_C_OFF}"
 		fi
 	done
 	# The leading particle (bright star at the frontier! EVEN MORE MAGICAL!)
