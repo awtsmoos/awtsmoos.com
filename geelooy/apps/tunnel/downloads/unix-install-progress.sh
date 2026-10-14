@@ -276,9 +276,16 @@ prg_draw_display() {
 	elif [ "$pct" -ge 40 ]; then anim_emoji="🔥";
 	elif [ "$pct" -ge 20 ]; then anim_emoji="⚡";
 	elif [ "$pct" -ge 1 ]; then anim_emoji="🌿"; fi
-	# Single continuous line with magical particles and animated emoji
-	local line="$(printf ' %s%s %s%3d%%%s [%s] %s%s%s%s' \
+	# B"H — Yaakov 2026-10-14: BETTER ANIMATIONS! Spinning magical spinner!
+	# The spinner rotates even when percentage is static, showing life!
+	: "${PRG_SPINNER_IDX:=0}"
+	PRG_SPINNER_IDX=$(( (PRG_SPINNER_IDX + 1) % 10 ))
+	local spinner_frames="⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
+	local spinner="${spinner_frames:$PRG_SPINNER_IDX:1}"
+	# Single continuous line with magical particles, animated emoji, and spinner
+	local line="$(printf ' %s%s%s %s%3d%%%s [%s] %s%s%s%s' \
 		"$anim_emoji" \
+		"${PRG_C_CYAN}${spinner}${PRG_C_OFF}" \
 		"$PRG_C_GOLD" "$pct" "$PRG_C_OFF" \
 		"$bar" \
 		"$PRG_C_DIM" "$PRG_STEP_MSG" "$PRG_C_OFF" \
