@@ -422,7 +422,10 @@ const TOD = {
     // (glowing canopy, sparkling water). Was 2.8 (muted). 4.0 for drama.
     sunDir: [0.42, 0.52, -0.65], sunColor: 0xfff6e8, sunI: 4.0,
     hemiSky: 0xa8c8d8, hemiGround: 0x5a6b48, hemiI: 0.62,
-    fog: 0x9aaa7a, fogNear: 60, fogFar: 270, exposure: 1.22,
+    // B"H 2026-10-14 GRADE (Yaakov: warm-gold vs cool-teal, luminous background):
+    // was 0x9aaa7a (murky green-gray). Now warm golden haze for the
+    // sunlit background glow like ref-target-sunlit-river.
+    fog: 0xc9bfa0, fogNear: 60, fogFar: 270, exposure: 1.22,
     // B"H TEXTURE-FIRST 2026-10-14: reference is LUMINOUS (sun-drenched).
     // Exposure was 1.0 (dull). 1.22 for the golden glow.
     golden: 1.0, warm: 0.25,
