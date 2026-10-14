@@ -58,6 +58,21 @@ start_promoted_candidate() {
 	printf '✓ Credential provisioned. Starting agent in foreground...\n' >&2
 	printf '  (Ctrl+C to stop the agent cleanly)\n' >&2
 	printf '\n' >&2
+	# B"H — Yaakov 2026-10-14: Ensure the launcher exists. If the components
+	# download missed it (fallback bug), fetch it directly from the API.
+	# This is a safety net, not the primary download mechanism.
+	if [ ! -f "$ROOT/unix-agent-launcher.cjs" ]; then
+		printf '%s\n' "⚠️  Launcher missing, fetching from API..." >&2
+		if command -v curl >/dev/null 2>&1; then
+			curl -sL -m 30 "https://awtsmoos.com/api/tunnel/install/unix-agent-launcher.cjs" -o "$ROOT/unix-agent-launcher.cjs" 2>/dev/null || true
+		elif command -v wget >/dev/null 2>&1; then
+			wget -q -T 30 -O "$ROOT/unix-agent-launcher.cjs" "https://awtsmoos.com/api/tunnel/install/unix-agent-launcher.cjs" 2>/dev/null || true
+		fi
+		[ -f "$ROOT/unix-agent-launcher.cjs" ] || {
+			printf '%s\n' "❌ Failed to fetch launcher. Agent cannot start." >&2
+			exit 1
+		}
+	fi
 	# Exec the agent directly — installer becomes the agent.
 	exec node "$ROOT/unix-agent-launcher.cjs" "$ROOT"
 }
