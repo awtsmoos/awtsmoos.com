@@ -2195,7 +2195,49 @@ a.feed-ic-btn:visited {
 		display: none;
 	}
 
-	.feed-theme-drop-btn .feed-ic-btn-label {
+	.feed-theme-drop-btn .feed-ic-btn-label,
+	.feed-lang-drop-btn .feed-ic-btn-label {
 		display: none;
 	}
+}
+
+/* ============ language dropdown (Yaakov 2026-10-13, TRACK E) ============ */
+/* B"H — six languages for the UI chrome only; Torah content untouched. */
+.feed-lang-drop {
+	position: relative;
+	flex: none;
+}
+
+.feed-lang-drop-btn {
+	gap: 8px;
+}
+
+.feed-lang-menu {
+	top: calc(100% + 8px);
+	right: 0;
+}
+
+.feed-lang-native {
+	flex: none;
+	font-weight: 700;
+	color: var(--aw-text);
+}
+
+.feed-lang-name {
+	color: var(--aw-text-soft);
+	font-size: 13px;
+}
+
+/* B"H — RTL languages (Hebrew, Yiddish): the feed stage carries dir="rtl",
+   so flex layouts mirror automatically; absolutely-positioned menus open
+   from the inline-end side instead. */
+[dir="rtl"] .feed-theme-menu,
+[dir="rtl"] .feed-lang-menu {
+	right: auto;
+	left: 0;
+}
+
+[dir="rtl"] .feed-card-menu {
+	right: auto;
+	left: 10px;
 }

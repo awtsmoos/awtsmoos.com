@@ -29,6 +29,7 @@
  */
 
 import { escapeHtml, escapeAttr } from './icons.js';
+import { t } from './i18n.js';
 
 /* ------------------------------------------------------------------ */
 /* Scoring                                                              */
@@ -525,7 +526,7 @@ export function renderRelatedCard(entry) {
 	const card = document.createElement('article');
 	card.className = 'related-post-card';
 	card.dataset.postId = relatedKey(post);
-	card.setAttribute('aria-label', `Related: ${post.title || post.name || 'Post'}`);
+	card.setAttribute('aria-label', t('related.cardAria', { title: post.title || post.name || 'Post' }));
 	card.innerHTML = `
 		<span class="related-post-why">${escapeHtml(why)}</span>
 		<h4 class="related-post-title" dir="auto"><a href="${escapeAttr(href)}">${escapeHtml(post.title || post.name || 'Untitled')}</a></h4>
@@ -537,14 +538,14 @@ export function renderRelatedCard(entry) {
 		</div>
 		<div class="related-post-more" dir="auto">
 			${longExcerpt ? `<p>${escapeHtml(longExcerpt)}</p>` : '<p>No excerpt available.</p>'}
-			${heichelName ? `<p class="related-post-meta">From ${escapeHtml(heichelName)}</p>` : ''}
+			${heichelName ? `<p class="related-post-meta">${t('related.from', { name: escapeHtml(heichelName) })}</p>` : ''}
 		</div>`;
 
 	const expandBtn = card.querySelector('.related-post-expand');
 	expandBtn.addEventListener('click', () => {
 		const open = card.classList.toggle('is-expanded');
 		expandBtn.setAttribute('aria-expanded', String(open));
-		expandBtn.textContent = open ? 'Close preview' : 'Preview';
+		expandBtn.textContent = open ? t('related.closePreview') : t('related.preview');
 	});
 	return card;
 }
@@ -570,7 +571,7 @@ export async function mountRelatedPosts({ container, post, candidates = null, li
 	section.innerHTML = `
 		<div class="related-posts-head">
 			<h3 class="related-posts-title" id="${headingId}">${escapeHtml(title)}</h3>
-			<p class="related-posts-sub">Automatically related — no curation, no clickbait.</p>
+			<p class="related-posts-sub">${t('related.sub')}</p>
 		</div>
 		<div class="related-posts-body">${skeletonHtml()}</div>`;
 	section.setAttribute('aria-labelledby', headingId);
@@ -588,7 +589,7 @@ export async function mountRelatedPosts({ container, post, candidates = null, li
 	const related = findRelatedPosts(post, pool, { limit });
 	body.innerHTML = '';
 	if (!related.length) {
-		body.innerHTML = `<p class="related-posts-empty">Nothing closely related yet — new voices join the river every day.</p>`;
+		body.innerHTML = `<p class="related-posts-empty">${t('related.empty')}</p>`;
 		return [];
 	}
 	const grid = document.createElement('div');

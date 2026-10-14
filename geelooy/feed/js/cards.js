@@ -450,7 +450,7 @@ function reactionGroupHtml(item) {
 			${YARMULKE_EMOJIS.map(e => `<button type="button" class="feed-react-option" role="menuitemradio" aria-checked="${e.id === viewer}" data-react-emoji="${escapeAttr(e.id)}" aria-label="React ${escapeAttr(e.name)}" title="${escapeAttr(e.name)}">${emojiVideo(e.id)}${emojiImg(e.id)}</button>`).join('')}
 		</div>
 		<span class="feed-react-top" data-react-top>${topReactions(summary).map(([e, n]) => reactionChipHtml(e, n)).join('')}</span>
-		<div class="feed-react-who" data-react-who hidden role="dialog" aria-label="Who reacted"></div>
+		<div class="feed-react-who" data-react-who hidden role="dialog" aria-label="${escapeAttr(t('comments.reactions'))}"></div>
 	</div>`;
 }
 
@@ -512,8 +512,8 @@ function createReactionControl(item, opts = {}) {
 			toggle.classList.toggle('is-active', !!viewer);
 			toggle.setAttribute('aria-pressed', String(!!viewer));
 			toggle.setAttribute('aria-label', viewer
-				? `Your reaction: ${REACTION_NAMES[viewer] || viewer}. Change reaction`
-				: 'React to this post');
+				? t('card.reactAriaChange', { name: REACTION_NAMES[viewer] || viewer })
+				: t('card.reactAria'));
 			toggle.querySelector('.feed-react-face, .feed-emoji-img, .feed-ic')?.remove();
 			const face = document.createElement('span');
 			face.setAttribute('aria-hidden', 'true');
@@ -525,7 +525,7 @@ function createReactionControl(item, opts = {}) {
 			}
 			toggle.prepend(face);
 			const label = toggle.querySelector('.feed-ic-btn-label');
-			if (label) label.textContent = viewer ? 'Reacted' : 'React';
+			if (label) label.textContent = viewer ? t('card.reacted') : t('card.react');
 		}
 		wrap.querySelectorAll('[data-react-picker] [data-react-emoji]').forEach(option => {
 			option.setAttribute('aria-checked', String(option.dataset.reactEmoji === viewer));
@@ -607,7 +607,7 @@ function createReactionControl(item, opts = {}) {
 		const reactors = state.summary.reactors || [];
 		const counts = state.summary.counts || {};
 		const total = Object.values(counts).reduce((s, n) => s + Number(n || 0), 0);
-		let html = `<div class="feed-react-who-head"><strong>Reactions</strong><span>${formatCount(total)}</span><button type="button" class="feed-react-who-close" aria-label="Close">✕</button></div>`;
+		let html = `<div class="feed-react-who-head"><strong>${t('comments.reactions')}</strong><span>${formatCount(total)}</span><button type="button" class="feed-react-who-close" aria-label="${escapeAttr(t('comments.close'))}">✕</button></div>`;
 		if (reactors.length) {
 			const byEmoji = {};
 			for (const r of reactors) (byEmoji[r.emoji] = byEmoji[r.emoji] || []).push(r);
@@ -619,7 +619,7 @@ function createReactionControl(item, opts = {}) {
 			}
 			html += '</ul>';
 			if (reactors.length < total) {
-				html += `<p class="feed-react-who-more">${formatCount(total - reactors.length)} more…</p>`;
+				html += `<p class="feed-react-who-more">${t('comments.more', { n: formatCount(total - reactors.length) })}</p>`;
 			}
 		} else if (total > 0) {
 			html += '<ul class="feed-react-who-list">';
@@ -628,7 +628,7 @@ function createReactionControl(item, opts = {}) {
 			}
 			html += '</ul>';
 		} else {
-			html += '<p class="feed-react-who-empty">No reactions yet — be the first.</p>';
+			html += `<p class="feed-react-who-empty">${t('comments.noReactions')}</p>`;
 		}
 		box.innerHTML = html;
 		box.hidden = false;
@@ -643,7 +643,7 @@ function createReactionControl(item, opts = {}) {
 		closeReactPicker(wrap);
 		if (state.pending || !postId) return;
 		if (aliasId === 'anonymous') {
-			noteFailure(wrap, 'Sign in to react to posts.');
+			noteFailure(wrap, t('comments.signInReact'));
 			return;
 		}
 		const previous = { counts: { ...state.summary.counts }, viewerEmoji: state.summary.viewerEmoji };
@@ -666,7 +666,7 @@ function createReactionControl(item, opts = {}) {
 		} catch (_) {
 			state.summary = previous;
 			render(wrap);
-			noteFailure(wrap, 'Your reaction could not be saved. Please try again.');
+			noteFailure(wrap, t('comments.reactFail'));
 		} finally {
 			state.pending = false;
 		}
@@ -756,7 +756,7 @@ function createCommentThread(item, opts = {}) {
 	const section = document.createElement('section');
 	section.className = 'feed-comments';
 	section.hidden = true;
-	section.setAttribute('aria-label', 'Comments');
+	section.setAttribute('aria-label', t('comments.panelTitle'));
 
 	function setCount(n) {
 		const el = state.btn?.querySelector('.feed-ic-btn-count');
@@ -765,7 +765,7 @@ function createCommentThread(item, opts = {}) {
 
 	async function load() {
 		state.loading = true;
-		section.innerHTML = '<p class="feed-comments-loading">Gathering voices…</p>';
+		section.innerHTML = `<p class="feed-comments-loading">${t('comments.loading')}</p>`;
 		try {
 			if (typeof opts.fetchComments !== 'function') throw new Error('no comment fetcher');
 			const { comments } = await opts.fetchComments(heichelId, postId);
@@ -774,8 +774,8 @@ function createCommentThread(item, opts = {}) {
 			setCount(countCommentTree(list));
 			state.loaded = true;
 		} catch (_) {
-			section.innerHTML = '<p class="feed-comments-error">The comments could not be reached.</p>' +
-				'<button type="button" class="feed-comments-retry">Try again</button>';
+			section.innerHTML = `<p class="feed-comments-error">${t('comments.error')}</p>` +
+				`<button type="button" class="feed-comments-retry">${t('comments.retry')}</button>`;
 			section.querySelector('.feed-comments-retry')?.addEventListener('click', load);
 		} finally {
 			state.loading = false;
@@ -789,10 +789,10 @@ function createCommentThread(item, opts = {}) {
 		if (comments.length) {
 			for (const c of comments) list.append(renderComment(c));
 		} else {
-			list.innerHTML = '<p class="feed-comments-empty">No voices yet — be the first to speak.</p>';
+			list.innerHTML = `<p class="feed-comments-empty">${t('comments.empty')}</p>`;
 		}
 		section.append(list);
-		section.append(renderCommentForm({ parentCommentId: '', placeholder: 'Share a thought…', onPosted: refresh }));
+		section.append(renderCommentForm({ parentCommentId: '', placeholder: t('comments.placeholder'), onPosted: refresh }));
 	}
 
 	async function refresh() {
@@ -815,7 +815,7 @@ function createCommentThread(item, opts = {}) {
 			'</div>' +
 			`<p class="feed-comment-text" dir="auto">${escapeHtml(commentText(c))}</p>` +
 			'<div class="feed-comment-tools">' +
-				'<button type="button" class="feed-comment-replybtn" aria-expanded="false">Reply</button>' +
+				`<button type="button" class="feed-comment-replybtn" aria-expanded="false">${t('comments.reply')}</button>` +
 			'</div>' +
 			'<div class="feed-comment-reply-slot"></div>' +
 			(replies.length ? '<div class="feed-comment-replies"></div>' : '');
@@ -832,7 +832,7 @@ function createCommentThread(item, opts = {}) {
 			}
 			slot.append(renderCommentForm({
 				parentCommentId: key,
-				placeholder: `Reply to ${commentName(c)}…`,
+				placeholder: t('comments.replyTo', { name: commentName(c) }),
 				cancellable: true,
 				onPosted: refresh
 			}));
@@ -848,8 +848,8 @@ function createCommentThread(item, opts = {}) {
 		form.innerHTML =
 			'<div class="feed-comment-row">' +
 				`<input type="text" class="feed-comment-input" maxlength="2000" autocomplete="off" placeholder="${escapeAttr(placeholder)}" aria-label="${escapeAttr(placeholder)}">` +
-				'<button type="submit" class="feed-comment-send">Send</button>' +
-				(cancellable ? '<button type="button" class="feed-comment-cancel">Cancel</button>' : '') +
+				`<button type="submit" class="feed-comment-send">${t('comments.send')}</button>` +
+				(cancellable ? `<button type="button" class="feed-comment-cancel">${t('comments.cancel')}</button>` : '') +
 			'</div>' +
 			'<p class="feed-comment-error" hidden></p>';
 		const input = form.querySelector('.feed-comment-input');
@@ -865,7 +865,7 @@ function createCommentThread(item, opts = {}) {
 			const text = input.value.trim();
 			if (!text) { input.focus(); return; }
 			if (typeof opts.submitComment !== 'function') {
-				error.textContent = 'Comments cannot be sent from here yet.';
+				error.textContent = t('comments.noSend');
 				error.hidden = false;
 				return;
 			}
@@ -877,7 +877,7 @@ function createCommentThread(item, opts = {}) {
 				opts.onComment?.(item, parentCommentId, text);
 				await onPosted?.();
 			} catch (_) {
-				error.textContent = 'Your words could not be sent. Please try again.';
+				error.textContent = t('comments.sendError');
 				error.hidden = false;
 				send.disabled = false;
 				input.disabled = false;
@@ -937,7 +937,7 @@ export function renderEmpty(message) {
 	el.className = 'feed-empty feed-3d';
 	el.innerHTML = `<div class="feed-card-light" aria-hidden="true"></div>
 		${icon('spark', 'feed-empty-icon')}
-		<h3>Still waters</h3>
-		<p>${escapeHtml(message || 'Nothing here yet. Follow voices you love and the river will fill.')}</p>`;
+		<h3>${t('status.emptyTitle')}</h3>
+		<p>${escapeHtml(message || t('status.emptyBody'))}</p>`;
 	return el;
 }

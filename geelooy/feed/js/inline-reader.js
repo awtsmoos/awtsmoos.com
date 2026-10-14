@@ -13,6 +13,7 @@
  */
 
 import { icon, escapeHtml, escapeAttr } from './icons.js';
+import { t } from './i18n.js';
 import { THEMES, resolvePostTheme, setReaderTheme, isThemeId } from './themes.js';
 import { mountRelatedPosts } from './relatedPosts.js';
 import { mountAskAI } from './askAI.js';
@@ -106,7 +107,7 @@ function crumbsHtml({ heichelName, seriesName, title, item }) {
 	const { h, s } = ids(item);
 	const url = postUrl(item);
 	return `
-	<nav class="feed-crumbs" aria-label="Breadcrumb">
+	<nav class="feed-crumbs" aria-label="${escapeAttr(t('reader.crumbs'))}">
 		<ol>
 			<li><a class="feed-crumb" href="${escapeAttr(heichelUrl(h))}">${icon('home', 'feed-crumb-ic')}<span>${escapeHtml(heichelName)}</span></a></li>
 			<li aria-hidden="true" class="feed-crumb-sep">›</li>
@@ -119,7 +120,7 @@ function crumbsHtml({ heichelName, seriesName, title, item }) {
 
 function loadingHtml() {
 	return `
-	<div class="feed-reader-loading" role="status" aria-label="Loading full post">
+	<div class="feed-reader-loading" role="status" aria-label="${escapeAttr(t('reader.loadingAria'))}">
 		<span class="feed-skel feed-skel-line" style="width:64%"></span>
 		<span class="feed-skel feed-skel-line" style="width:92%"></span>
 		<span class="feed-skel feed-skel-line" style="width:84%"></span>
@@ -130,8 +131,8 @@ function loadingHtml() {
 function failHtml(item) {
 	return `
 	<div class="feed-reader-fail" role="alert">
-		<p>The full text could not be loaded here. You can still read it on its own page.</p>
-		<a class="feed-ic-btn" href="${escapeAttr(postUrl(item))}" target="_blank" rel="noopener">${icon('external')}<span class="feed-ic-btn-label">Open in new tab</span></a>
+		<p>${t('reader.fail')}</p>
+		<a class="feed-ic-btn" href="${escapeAttr(postUrl(item))}" target="_blank" rel="noopener">${icon('external')}<span class="feed-ic-btn-label">${t('card.newTab')}</span></a>
 	</div>`;
 }
 
@@ -148,7 +149,7 @@ function fullBodyHtml(post, item) {
 function readerThemePickerHtml(item) {
 	const current = resolvePostTheme(item);
 	const opts = [`<button type="button" class="feed-menu-item" data-reader-theme-val="auto" role="menuitemradio" aria-checked="${!isReaderOverride(item)}">
-		<span class="feed-menu-check">${!isReaderOverride(item) ? icon('check') : ''}</span><span>Post theme (auto)</span></button>`];
+		<span class="feed-menu-check">${!isReaderOverride(item) ? icon('check') : ''}</span><span>${t('menu.readingThemeAuto')}</span></button>`];
 	for (const t of THEMES) {
 		const [c1, c2] = t.swatch;
 		const active = isReaderOverride(item) && current === t.id;
@@ -194,8 +195,8 @@ function wireReaderThemePicker(toolsEl, item, reader) {
 		const menu = document.createElement('div');
 		menu.className = 'feed-menu feed-reader-theme-menu';
 		menu.setAttribute('role', 'menu');
-		menu.setAttribute('aria-label', 'Reading theme');
-		menu.innerHTML = `<p class="feed-menu-head">Reading theme</p>${readerThemePickerHtml(item)}`;
+		menu.setAttribute('aria-label', t('reader.themeAria'));
+		menu.innerHTML = `<p class="feed-menu-head">${t('menu.readingTheme')}</p>${readerThemePickerHtml(item)}`;
 		toolsEl.append(menu);
 		openReaderMenu = menu;
 		menu.querySelectorAll('[data-reader-theme-val]').forEach(opt => {
@@ -217,7 +218,7 @@ function relatedSectionHtml() {
 	return `
 	<section class="feed-reader-related" data-collapsible>
 		<button type="button" class="feed-reader-related-toggle" aria-expanded="false">
-			${icon('spark', 'feed-reader-related-ic')}<span>Related posts</span>${icon('chevronDown', 'feed-reader-related-chev')}
+			${icon('spark', 'feed-reader-related-ic')}<span>${t('related.title')}</span>${icon('chevronDown', 'feed-reader-related-chev')}
 		</button>
 		<div class="feed-reader-related-body" hidden></div>
 	</section>`;
@@ -238,9 +239,9 @@ function wireRelatedSection(body, item, card) {
 			mounted = true;
 			try {
 				const candidates = Array.isArray(card._feedCandidates) ? card._feedCandidates : null;
-				await mountRelatedPosts({ container: slot, post: item, candidates });
+				await mountRelatedPosts({ container: slot, post: item, candidates, title: t('related.title') });
 			} catch (_) {
-				slot.innerHTML = '<p class="feed-reader-note">Related posts could not load.</p>';
+				slot.innerHTML = `<p class="feed-reader-note">${t('reader.relatedFail')}</p>`;
 			}
 		}
 	});
@@ -269,12 +270,12 @@ async function loadExpanded(card, item, reader) {
 					${post.heTitle || item.heTitle ? `<p class="feed-reader-hetitle" dir="rtl" lang="he">${escapeHtml(post.heTitle || item.heTitle)}</p>` : ''}
 				</div>
 				<div class="feed-reader-tools" role="toolbar" aria-label="Reader tools">
-					<button type="button" class="feed-ic-btn" data-reader-theme-btn aria-label="Reading theme" aria-haspopup="menu">${icon('image')}<span class="feed-ic-btn-label">Theme</span></button>
-					<a class="feed-ic-btn feed-card-open" href="${escapeAttr(postUrl(item))}" target="_blank" rel="noopener" aria-label="Open in new tab">${icon('external')}<span class="feed-ic-btn-label">New tab</span></a>
-					<button type="button" class="feed-ic-btn feed-reader-collapse" aria-label="Collapse post">${icon('chevronUp')}<span class="feed-ic-btn-label">Collapse</span></button>
+					<button type="button" class="feed-ic-btn" data-reader-theme-btn aria-label="${escapeAttr(t('reader.themeAria'))}" aria-haspopup="menu">${icon('image')}<span class="feed-ic-btn-label">${t('reader.themeBtn')}</span></button>
+					<a class="feed-ic-btn feed-card-open" href="${escapeAttr(postUrl(item))}" target="_blank" rel="noopener" aria-label="${escapeAttr(t('card.newTab'))}">${icon('external')}<span class="feed-ic-btn-label">${t('card.newTab')}</span></a>
+					<button type="button" class="feed-ic-btn feed-reader-collapse" aria-label="${escapeAttr(t('reader.collapse'))}">${icon('chevronUp')}<span class="feed-ic-btn-label">${t('reader.collapse')}</span></button>
 				</div>
 			</div>
-			<div class="feed-reader-body" dir="auto">${content || `<p class="feed-reader-note">No full text is stored for this post yet — the preview above is everything we have.</p>`}</div>
+			<div class="feed-reader-body" dir="auto">${content || `<p class="feed-reader-note">${t('reader.noText')}</p>`}</div>
 			<div class="feed-reader-askai" data-ask-ai-slot></div>
 			${relatedSectionHtml()}`;
 		body.querySelector('.feed-reader-collapse')?.addEventListener('click', (event) => {

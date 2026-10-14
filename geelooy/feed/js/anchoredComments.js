@@ -25,6 +25,8 @@
  * trickery), user-facing strings never expose raw IDs.
  */
 
+import { t } from './i18n.js';
+
 const MIN_SELECTION_CHARS = 10;
 const LS_PREFIX = 'awtsmoos-anchored-comments:';
 const LS_MAX_PER_POST = 200;
@@ -144,9 +146,9 @@ function ensureFloatButton() {
 	floatBtn = document.createElement('button');
 	floatBtn.type = 'button';
 	floatBtn.className = 'ac-float-btn';
-	floatBtn.setAttribute('aria-label', 'Comment on the selected text');
+	floatBtn.setAttribute('aria-label', t('anchored.commentOn'));
 	floatBtn.hidden = true;
-	floatBtn.append(document.createTextNode('💬 Comment'));
+	floatBtn.append(document.createTextNode('💬 ' + t('card.comment')));
 	document.body.append(floatBtn);
 	return floatBtn;
 }
@@ -198,7 +200,7 @@ function openComposer(payload) {
 	composer.className = 'ac-composer-backdrop';
 	composer.setAttribute('role', 'dialog');
 	composer.setAttribute('aria-modal', 'true');
-	composer.setAttribute('aria-label', 'Comment on the selected text');
+	composer.setAttribute('aria-label', t('anchored.commentOn'));
 
 	const box = document.createElement('div');
 	box.className = 'ac-composer';
@@ -216,12 +218,12 @@ function openComposer(payload) {
 
 	const label = document.createElement('label');
 	label.className = 'ac-composer-label';
-	label.textContent = 'Your comment';
+	label.textContent = t('anchored.yourComment');
 	const input = document.createElement('textarea');
 	input.className = 'ac-composer-input';
 	input.rows = 4;
-	input.placeholder = 'Share your thoughts on this passage…';
-	input.setAttribute('aria-label', 'Comment text');
+	input.placeholder = t('anchored.placeholder');
+	input.setAttribute('aria-label', t('anchored.commentText'));
 	label.append(input);
 
 	const err = document.createElement('p');
@@ -234,12 +236,12 @@ function openComposer(payload) {
 	const cancelBtn = document.createElement('button');
 	cancelBtn.type = 'button';
 	cancelBtn.className = 'ac-btn ac-btn-ghost';
-	cancelBtn.textContent = 'Cancel';
+	cancelBtn.textContent = t('anchored.cancel');
 	cancelBtn.addEventListener('click', closeComposer);
 	const submitBtn = document.createElement('button');
 	submitBtn.type = 'button';
 	submitBtn.className = 'ac-btn ac-btn-primary';
-	submitBtn.textContent = 'Post comment';
+	submitBtn.textContent = t('anchored.post');
 	actions.append(cancelBtn, submitBtn);
 
 	box.append(quote, label, err, actions);
@@ -252,22 +254,22 @@ function openComposer(payload) {
 	submitBtn.addEventListener('click', async () => {
 		const text = input.value.trim();
 		if (!text) {
-			err.textContent = 'Write something before posting.';
+			err.textContent = t('anchored.writeFirst');
 			err.hidden = false;
 			input.focus();
 			return;
 		}
 		err.hidden = true;
 		submitBtn.disabled = true;
-		submitBtn.textContent = 'Posting…';
+		submitBtn.textContent = t('anchored.posting');
 		try {
 			await saveAnchoredComment({ ...payload, content: text });
 			closeComposer();
 			refreshAnchoredSections(payload.postCtx.postId);
 		} catch (e) {
 			submitBtn.disabled = false;
-			submitBtn.textContent = 'Post comment';
-			err.textContent = 'Could not post the comment. It was kept on this device.';
+			submitBtn.textContent = t('anchored.post');
+			err.textContent = t('anchored.postFail');
 			err.hidden = false;
 		}
 	});
@@ -375,7 +377,7 @@ function renderList(host, postCtx) {
 	if (!items.length) return;
 	const title = document.createElement('h4');
 	title.className = 'ac-list-title';
-	title.textContent = items.length === 1 ? '1 anchored comment' : `${items.length} anchored comments`;
+	title.textContent = items.length === 1 ? t('anchored.one') : t('anchored.many', { n: items.length });
 	host.append(title);
 	for (const c of items) {
 		host.append(renderComment(c, postCtx));
@@ -398,7 +400,7 @@ function renderComment(c, postCtx) {
 	if (c.local && !c.serverSynced) {
 		const badge = document.createElement('span');
 		badge.className = 'ac-local-badge';
-		badge.textContent = 'this device';
+		badge.textContent = t('anchored.thisDevice');
 		when.append(document.createTextNode(' · '), badge);
 	}
 	head.append(author, when);
@@ -406,7 +408,7 @@ function renderComment(c, postCtx) {
 	const quote = document.createElement('button');
 	quote.type = 'button';
 	quote.className = 'ac-quote ac-quote-link';
-	quote.setAttribute('aria-label', 'Jump to the quoted passage');
+	quote.setAttribute('aria-label', t('anchored.jump'));
 	const bar = document.createElement('span');
 	bar.className = 'ac-quote-bar';
 	bar.setAttribute('aria-hidden', 'true');
@@ -582,7 +584,7 @@ function mountForCard(card) {
 	host.dataset.acListFor = postCtx.postId;
 	host.dataset.acHeichelId = postCtx.heichelId;
 	host.dataset.acSeriesId = postCtx.seriesId;
-	host.setAttribute('aria-label', 'Anchored comments');
+	host.setAttribute('aria-label', t('anchored.title'));
 	const actions = card.querySelector('.feed-card-actions');
 	if (actions) card.insertBefore(host, actions);
 	else card.append(host);
@@ -603,7 +605,7 @@ function mountForPage() {
 	host.dataset.acListFor = postCtx.postId;
 	host.dataset.acHeichelId = postCtx.heichelId;
 	host.dataset.acSeriesId = postCtx.seriesId;
-	host.setAttribute('aria-label', 'Anchored comments');
+	host.setAttribute('aria-label', t('anchored.title'));
 	anchor.after(host);
 	renderList(host, postCtx);
 }

@@ -13,6 +13,7 @@
  */
 
 import { icon, escapeHtml, escapeAttr } from './icons.js';
+import { t } from './i18n.js';
 import { getHeichelTheme, setHeichelTheme, THEMES, isThemeId, themeById } from './themes.js';
 
 const STORE_KEY = 'awtsmoos-feed-filters';
@@ -159,24 +160,24 @@ function facetSectionHtml(kind, title, facets, selected, iconName) {
 export function filterPanelHtml(facets, filters) {
 	return `
 	<div class="feed-filter-head">
-		<h2 class="feed-filter-head-title">${icon('filter', 'feed-filter-title-ic')}<span>Refine the river</span></h2>
-		<button type="button" class="feed-ic-btn feed-filter-clear" data-clear-filters aria-label="Clear all filters">${icon('close')}<span class="feed-ic-btn-label">Clear</span></button>
+		<h2 class="feed-filter-head-title">${icon('filter', 'feed-filter-title-ic')}<span>${t('filters.refine')}</span></h2>
+		<button type="button" class="feed-ic-btn feed-filter-clear" data-clear-filters aria-label="${escapeAttr(t('filters.clearAll'))}">${icon('close')}<span class="feed-ic-btn-label">${t('filters.clear')}</span></button>
 	</div>
 	<div class="feed-filter-body">
-		${facetSectionHtml('authors', 'Authors', facets.authors, filters.authors, 'users')}
-		${facetSectionHtml('heichel', 'Heichelos', facets.heichels, filters.heichels, 'home')}
-		${facetSectionHtml('topics', 'Topics', facets.topics, filters.topics, 'spark')}
+		${facetSectionHtml('authors', t('filters.authors'), facets.authors, filters.authors, 'users')}
+		${facetSectionHtml('heichel', t('filters.heichelos'), facets.heichels, filters.heichels, 'home')}
+		${facetSectionHtml('topics', t('filters.topics'), facets.topics, filters.topics, 'spark')}
 		${!facets.authors.length && !facets.heichels.length && !facets.topics.length
-			? '<p class="feed-filter-empty">Facets appear once posts load.</p>' : ''}
+			? `<p class="feed-filter-empty">${t('filters.empty')}</p>` : ''}
 	</div>
-	<p class="feed-filter-hint">Heichel theme dots set that heichel's default reading theme.</p>`;
+	<p class="feed-filter-hint">${t('filters.hint')}</p>`;
 }
 
 /** Theme swatch popup for one heichel row. */
 function heichelThemePopup(heichelId, heichelName) {
 	const current = getHeichelTheme(heichelId);
 	const opts = [`<button type="button" class="feed-menu-item" data-heichel-theme-val="" data-heichel="${escapeAttr(heichelId)}">
-		<span class="feed-menu-check">${!current ? icon('check') : ''}</span><span>Feed default</span></button>`];
+		<span class="feed-menu-check">${!current ? icon('check') : ''}</span><span>${t('filters.feedDefault')}</span></button>`];
 	for (const t of THEMES) {
 		const [c1, c2] = t.swatch;
 		opts.push(`<button type="button" class="feed-menu-item" data-heichel-theme-val="${t.id}" data-heichel="${escapeAttr(heichelId)}">
@@ -184,8 +185,8 @@ function heichelThemePopup(heichelId, heichelName) {
 			<span class="feed-theme-swatch" style="background:linear-gradient(135deg, ${c1} 50%, ${c2} 50%)" aria-hidden="true"></span>
 			<span>${escapeHtml(t.name)}</span></button>`);
 	}
-	return `<div class="feed-menu feed-heichel-theme-menu" role="menu" aria-label="Theme for ${escapeAttr(heichelName)}">
-		<p class="feed-menu-head">Theme for ${escapeHtml(heichelName)}</p>${opts.join('')}</div>`;
+	return `<div class="feed-menu feed-heichel-theme-menu" role="menu" aria-label="${escapeAttr(t('filters.themeFor', { name: heichelName }))}">
+		<p class="feed-menu-head">${t('filters.themeFor', { name: escapeHtml(heichelName) })}</p>${opts.join('')}</div>`;
 }
 
 let openMenu = null;

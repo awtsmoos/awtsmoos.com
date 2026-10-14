@@ -12,10 +12,11 @@
  */
 
 import { renderFeedCard, renderSkeleton, renderEmpty } from './cards.js';
-import { icon } from './icons.js';
+import { icon, escapeHtml } from './icons.js';
 import { logActivity } from './activity.js';
 import { recordLearningDay } from './streaks.js';
 import { globalTheme } from './themes.js';
+import { t, onLangChange } from './i18n.js';
 import {
 	loadFilters, saveFilters, hasActiveFilters, collectFacets, itemMatchesFilters,
 	filterQueryParams, filterPanelHtml, wireFilterPanel, repaintFilterPanel, paintHeichelThemeDots
@@ -24,11 +25,13 @@ import {
 const PAGE_SIZE = 14;
 const PREFETCH_PAGES = 1;
 
+/* B"H — Yaakov 2026-10-13 (TRACK E): tab labels are UI chrome, translated
+   via i18n. `key` points at the locale string; never hardcode English here. */
 const TABS = [
-	{ id: 'home', label: 'For You', icon: 'spark', endpoint: 'home' },
-	{ id: 'following', label: 'Following', icon: 'users', endpoint: 'discover' },
-	{ id: 'trending', label: 'Trending', icon: 'flame', endpoint: 'trending' },
-	{ id: 'discover', label: 'Discover', icon: 'compass', endpoint: 'discover' }
+	{ id: 'home', key: 'tabs.home', icon: 'spark', endpoint: 'home' },
+	{ id: 'following', key: 'tabs.following', icon: 'users', endpoint: 'discover' },
+	{ id: 'trending', key: 'tabs.trending', icon: 'flame', endpoint: 'trending' },
+	{ id: 'discover', key: 'tabs.discover', icon: 'compass', endpoint: 'discover' }
 ];
 
 export const perfLedger = {
@@ -237,7 +240,7 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 	async function appendNext(reason) {
 		if (state.loading || state.done) return;
 		state.loading = true;
-		setStatus('Loading more live posts…', true);
+		setStatus(t('status.loading'), true);
 		showSkeletons(3);
 		const tab = TABS.find(t => t.id === state.tab);
 		try {
@@ -257,7 +260,7 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 				if (nextOffset === null) {
 					state.done = true;
 					if (!river.querySelector('.feed-card')) river.append(renderEmpty(''));
-					setStatus('You are caught up', false);
+					setStatus(t('status.caughtUp'), false);
 				} else {
 					appendNext('filtered');
 				}
@@ -281,10 +284,11 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 						perfLedger.markAction('comment', 0);
 						logActivity('comment', activityDetail(it));
 					},
-					onAction: (label, it) => {
+					onAction: (act, it) => {
 						const a0 = performance.now();
-						perfLedger.markAction(label, performance.now() - a0);
-						if (label === 'Share') logActivity('share', activityDetail(it));
+						perfLedger.markAction(act, performance.now() - a0);
+						/* B"H — TRACK E: cards pass the stable data-act key, not the translated label. */
+						if (act === 'share') logActivity('share', activityDetail(it));
 					},
 					fetchComments: fetchCommentTree,
 					submitComment
@@ -300,14 +304,14 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 			rememberSeen(ranked);
 			state.nextOffset = nextOffset ?? (state.nextOffset + items.length);
 			if (nextOffset === null || items.length < PAGE_SIZE) state.done = true;
-			setStatus(state.done ? 'You are caught up' : 'Scroll for more', false);
+			setStatus(state.done ? t('status.caughtUp') : t('status.scrollMore'), false);
 			// Prefetch one page ahead while idle.
 			if (!state.done && 'requestIdleCallback' in window) {
 				requestIdleCallback(() => prefetch(tab), { timeout: 4000 });
 			}
 		} catch (error) {
 			clearSkeletons();
-			setStatus(error.message || 'The river stalled. Tap to retry.', false);
+			setStatus(error.message || t('status.stalled'), false);
 		} finally {
 			state.loading = false;
 		}
@@ -349,7 +353,7 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 		state.allItems = [];
 		prefetchCache.clear();
 		river.replaceChildren();
-		sentinel.textContent = 'Load more live posts';
+		sentinel.textContent = t('status.loadMore');
 		updateFilterBadge();
 		appendNext('filter');
 	}
@@ -409,7 +413,7 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 			el.classList.toggle('is-active', active);
 			el.setAttribute('aria-selected', String(active));
 		});
-		sentinel.textContent = 'Load more live posts';
+		sentinel.textContent = t('status.loadMore');
 		appendNext('tab');
 	}
 
@@ -422,7 +426,7 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 			btn.dataset.tab = tab.id;
 			btn.setAttribute('role', 'tab');
 			btn.setAttribute('aria-selected', String(tab.id === state.tab));
-			btn.innerHTML = `${icon(tab.icon)}<span>${tab.label}</span>`;
+			btn.innerHTML = `${icon(tab.icon)}<span>${escapeHtml(t(tab.key))}</span>`;
 			btn.addEventListener('click', () => switchTab(tab.id));
 			tabsEl.append(btn);
 		}
@@ -459,6 +463,15 @@ export function createFeedRiver({ river, sentinel, tabsEl, statusEl }) {
 		buildTabs();
 		initSidebar();
 		initFilterPanel();
+		/* B"H — Yaakov 2026-10-13 (TRACK E): switching the UI language
+		   retranslates the chrome and rebuilds the river so every card
+		   re-renders with translated labels. */
+		onLangChange(() => {
+			tabsEl.replaceChildren();
+			buildTabs();
+			refreshFilterPanel();
+			applyFiltersAndReload();
+		});
 		sentinel.addEventListener('click', () => appendNext('click'));
 		if ('IntersectionObserver' in window) {
 			state.observer = new IntersectionObserver(entries => {
