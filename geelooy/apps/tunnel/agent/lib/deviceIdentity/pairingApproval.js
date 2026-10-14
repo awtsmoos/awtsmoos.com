@@ -42,13 +42,29 @@ async function wait(config, response, options = {}) {
 		Number(response.expiresAt || 0),
 		Date.now() + Number(options.timeoutMs || MAX_PAIRING_WAIT_MS)
 	);
+	let consecutiveErrors = 0;
 	while (Date.now() < deadline) {
 		if (options.signal?.aborted) throw pairingFailure("pairing_cancelled");
-		const status = await PairingClient.status(
-			config,
-			response.pairingId,
-			response.requestSecret
-		);
+		let status;
+		try {
+			status = await PairingClient.status(
+				config,
+				response.pairingId,
+				response.requestSecret
+			);
+		} catch (error) {
+			// B"H — a single failed poll (network blip, timeout, transient
+			// server error) must NEVER kill the pairing wait. Log it and keep
+			// polling until the deadline. Only terminal states abort early.
+			consecutiveErrors += 1;
+			options.log?.(
+				"warn",
+				`B"H pairing status poll failed (attempt ${consecutiveErrors}), retrying: ${error?.message || error}`
+			);
+			await delay(options.pollIntervalMs || POLL_INTERVAL_MS);
+			continue;
+		}
+		consecutiveErrors = 0;
 		if (status.state === "approved" && status.credentialEnvelope) return status;
 		if (["expired", "cancelled", "rejected"].includes(status.state)) {
 			throw pairingFailure(`pairing_${status.state}`);
