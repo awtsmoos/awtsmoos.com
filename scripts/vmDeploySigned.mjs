@@ -184,6 +184,17 @@ async function main() {
 		}
 	}
 
+	// B"H (2026-10-14, CSS deploy gate): refuse the deploy if it would ADD
+	// CSS validator errors above the baseline. Warnings never block.
+	// The gate fails open on infrastructure errors — it never blocks on a
+	// broken validator, only on measured errors.
+	try {
+		execFileSync('bash', [join(REPO, 'scripts', 'production', 'css-deploy-gate.sh')], { cwd: REPO, stdio: 'inherit' });
+	} catch (e) {
+		console.error(`B"H CSS deploy gate REFUSED this deploy (exit ${e.status}). Fix the CSS errors above and retry.`);
+		process.exit(1);
+	}
+
 	console.log(`B"H pushing ${payload.length} file(s) to production (Ed25519-signed)...`);
 	// B"H (2026-10-14, Yaakov's law): Deploy EXACTLY what is asked. No auto-add,
 	// no magic. The version.json auto-stamp only runs in --diff mode, not when
