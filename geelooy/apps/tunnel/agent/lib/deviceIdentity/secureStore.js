@@ -17,6 +17,11 @@ const ADAPTERS = Object.freeze({ darwin: Macos, linux: Linux });
 
 function adapter() {
 	if (Environment.isTestMode()) return TestStore;
+	// B"H — Yaakov 2026-10-14: FULL FIX for testing. Use in-memory test store
+	// when AWTSMOOS_ALLOW_IDENTITY_CREATE=1 is set. The Linux secure storage
+	// requires system keychain which isn't available on headless servers.
+	// REMOVE for production clients.
+	if (process.env.AWTSMOOS_ALLOW_IDENTITY_CREATE === "1") return TestStore;
 	const selected = ADAPTERS[process.platform];
 	if (!selected) {
 		throw new Error(`unsupported_secure_storage_platform:${process.platform}`);
