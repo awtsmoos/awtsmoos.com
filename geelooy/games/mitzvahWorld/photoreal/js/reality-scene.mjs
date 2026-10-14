@@ -208,21 +208,43 @@ function loadNormalTexture(url, repeatX = 1, repeatY = 1) {
 
 function bufferGeometryFromStream(stream, leafShrink = 0) {
   let positions = stream.positions;
+  let uvs = stream.uvs;
   if (leafShrink > 0 && positions.length % 12 === 0) {
     // shrink each leaf quad toward its centroid so foliage photos read as fine detail
     const p = Float32Array.from(positions);
+    // B"H LEAF-FIX 2026-10-14 (Yaakov: "textures messed up, look up close"):
+    // baked quads are 1:2 elongated — square texture stretches into streaks.
+    // Fix UVs per-quad: scale V by aspect ratio so texel density is uniform.
+    const uv = uvs ? Float32Array.from(uvs) : null;
     for (let q = 0; q < p.length; q += 12) {
       const cx = (p[q] + p[q + 3] + p[q + 6] + p[q + 9]) / 4;
       const cy = (p[q + 1] + p[q + 4] + p[q + 7] + p[q + 10]) / 4;
       const cz = (p[q + 2] + p[q + 5] + p[q + 8] + p[q + 11]) / 4;
+      // quad width (v0->v1) and height (v0->v3) BEFORE shrink
+      const w = Math.hypot(p[q+3]-p[q], p[q+4]-p[q+1], p[q+5]-p[q+2]);
+      const h = Math.hypot(p[q+9]-p[q], p[q+10]-p[q+1], p[q+11]-p[q+2]);
+      const aspect = h / Math.max(w, 1e-6);
       for (let v = 0; v < 4; v++) {
         const o = q + v * 3;
         p[o] = cx + (p[o] - cx) * leafShrink;
         p[o + 1] = cy + (p[o + 1] - cy) * leafShrink;
         p[o + 2] = cz + (p[o + 2] - cz) * leafShrink;
       }
+      // Fix UVs: if quad is 2x taller than wide, V spans 0-0.5 (not 0-1)
+      // so the square texture maps without vertical stretching.
+      if (uv && aspect > 1.01) {
+        const uvo = (q / 12) * 8; // 4 verts * 2 components
+        // v0=(0,0), v1=(1,0), v2=(1,1), v3=(0,1) → scale V by 1/aspect
+        const vScale = 1 / aspect;
+        const vOff = (1 - vScale) / 2; // center the cropped region
+        uv[uvo+1] = uv[uvo+1] * vScale + vOff;
+        uv[uvo+3] = uv[uvo+3] * vScale + vOff;
+        uv[uvo+5] = uv[uvo+5] * vScale + vOff;
+        uv[uvo+7] = uv[uvo+7] * vScale + vOff;
+      }
     }
     positions = p;
+    if (uv) uvs = uv;
   }
   const g = new THREE.BufferGeometry();
   const pos = positions instanceof Float32Array ? positions : new Float32Array(positions);
@@ -232,7 +254,8 @@ function bufferGeometryFromStream(stream, leafShrink = 0) {
     g.setAttribute('normal', new THREE.BufferAttribute(n, 3));
   }
   if (stream.uvs?.length) {
-    const uv = stream.uvs instanceof Float32Array ? stream.uvs : new Float32Array(stream.uvs);
+    // B"H LEAF-FIX: use the aspect-corrected UVs (not the raw stream UVs)
+    const uv = uvs instanceof Float32Array ? uvs : new Float32Array(uvs);
     g.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
   }
   if (stream.colors?.length) {
