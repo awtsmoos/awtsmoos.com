@@ -98,7 +98,7 @@ p.sub{color:var(--dim); font-size:14px; line-height:1.65; margin-bottom:22px}
 	letter-spacing:.2em; text-transform:uppercase; margin-bottom:12px;
 }
 .manual input:focus{outline:none; border-color:var(--green)}
-.hidden{display:none !important}
+.card .hidden{display:none}
 </style>
 </head>
 <body>
