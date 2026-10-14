@@ -41,13 +41,17 @@ bootstrap_fetch() {
 		if bootstrap_fetch_once "$url" "$destination"; then
 			return 0
 		fi
-		printf '[Awtsmoos][download][retry] %s HTTP=%s attempt=%d/3 wait=%ss\n' \
+		# B"H — Yaakov 2026-10-14: beautiful colors for retry messages.
+		printf '%s[Awtsmoos]%s%s[download]%s%s[retry]%s %s HTTP=%s attempt=%d/3 wait=%ss\n' \
+			"${BST_C_CYAN:-}" "${BST_C_OFF:-}" "${BST_C_YELLOW:-}" "${BST_C_OFF:-}" "${BST_C_YELLOW:-}" "${BST_C_OFF:-}" \
 			"$label" "${BOOTSTRAP_FETCH_HTTP_CODE:-000}" "$attempt" "$delay" >&2
 		[ "$attempt" -eq 3 ] && break
 		sleep "$delay"
 		delay=$((delay * 2))
 		attempt=$((attempt + 1))
 	done
-	printf '[Awtsmoos][download][failed] %s unavailable after bounded retries.\n' "$label" >&2
+	# B"H — Yaakov 2026-10-14: beautiful colors for failure messages.
+	printf '%s[Awtsmoos]%s%s[download]%s%s[failed]%s %s unavailable after bounded retries.\n' \
+		"${BST_C_CYAN:-}" "${BST_C_OFF:-}" "${BST_C_YELLOW:-}" "${BST_C_OFF:-}" "${BST_C_RED:-}" "${BST_C_OFF:-}" "$label" >&2
 	return 1
 }
