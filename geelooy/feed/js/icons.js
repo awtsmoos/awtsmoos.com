@@ -35,6 +35,7 @@ const PATHS = {
 	image: '<rect x="4" y="5" width="16" height="14" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="m5.5 17.5 4.5-4.5 3 3 2.5-2.5 3 3"/>',
 	video: '<rect x="3.5" y="6" width="13" height="12" rx="2.5"/><path d="m16.5 10.5 4.5-2.5v8l-4.5-2.5"/>',
 	link: '<path d="M10 14a4.5 4.5 0 0 0 6.4.4l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.7 1.7"/><path d="M14 10a4.5 4.5 0 0 0-6.4-.4l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.7-1.7"/>',
+	external: '<path d="M14 4h6v6"/><path d="M20 4 12 12"/><path d="M19 13.5V19a1.5 1.5 0 0 1-1.5 1.5h-12A1.5 1.5 0 0 1 4 19V7a1.5 1.5 0 0 1 1.5-1.5h5.5"/>',
 	more: '<circle cx="5.5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18.5" cy="12" r="1.4"/>',
 	check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
 	plus: '<path d="M12 5v14M5 12h14"/>',

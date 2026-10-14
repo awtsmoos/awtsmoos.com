@@ -11,9 +11,16 @@
  */
 
 import { icon, iconButton, formatCount, timeAgo, escapeHtml, escapeAttr } from './icons.js';
+import { enableInlineReading } from './inline-reader.js';
 
 function authorName(item) {
 	return item.authorName || item.aliasName || item.aliasId || item.author || 'Awtsmoos';
+}
+
+function currentAlias() {
+	return window.curAlias || window.currentAlias ||
+		document.body?.dataset?.aliasId ||
+		localStorage.getItem('awtsmoos-alias') || 'anonymous';
 }
 
 function authorInitials(name) {
@@ -94,36 +101,47 @@ export function renderFeedCard(item = {}, opts = {}) {
 			</div>
 			<button type="button" class="feed-ic-btn feed-card-more" aria-label="More options">${icon('more')}</button>
 		</header>
-		<a class="feed-card-body" href="${escapeAttr(postHref(item))}">
+		<div class="feed-card-body feed-card-body-expand" role="button" tabindex="0" aria-expanded="false" aria-label="Read full post: ${escapeAttr(item.title || 'Untitled')}" data-expand>
 			<h3 class="feed-card-title" dir="auto">${escapeHtml(item.title || 'Untitled')}</h3>
 			${item.heTitle ? `<p class="feed-card-hetitle" dir="rtl" lang="he">${escapeHtml(item.heTitle)}</p>` : ''}
 			${excerptHtml(item)}
-		</a>
+			<span class="feed-card-readmore">${icon('chevronDown', 'feed-card-readmore-ic')}<span>Read more</span></span>
+		</div>
+		<div class="feed-reader" hidden><div class="feed-reader-inner"></div></div>
 		${mediaHtml(item)}
 		<footer class="feed-card-actions" role="toolbar" aria-label="Post actions">
-			${iconButton({ icon: 'like', label: 'Like', count: item.reactionCount || item.likes || 0, active: !!item.viewerLiked })}
+			${reactionGroupHtml(item)}
 			${iconButton({ icon: 'comment', label: 'Comment', count: item.commentCount || item.comments || 0 })}
 			${iconButton({ icon: 'share', label: 'Share', count: item.shareCount || 0 })}
 			<span class="feed-card-actions-spacer"></span>
 			${iconButton({ icon: 'save', label: 'Save', active: !!item.viewerSaved, extraClass: 'feed-card-save' })}
+			<a class="feed-ic-btn feed-card-open" href="${escapeAttr(postHref(item))}" target="_blank" rel="noopener" aria-label="Open in new tab">${icon('external')}<span class="feed-ic-btn-label">New tab</span></a>
 		</footer>
 		${scoreBadge}`;
 
+	const commentsThread = createCommentThread(item, opts);
+	card.append(commentsThread.section);
+
 	const actions = card.querySelector('.feed-card-actions');
+	const reactionControl = createReactionControl(item, opts);
+	const reactWrap = actions.querySelector('.feed-react-wrap');
+	if (reactWrap) {
+		ensureReactCloser();
+		reactWrap.addEventListener('click', (event) => reactionControl.onClick(event, reactWrap));
+		reactionControl.hydrate(reactWrap);
+	}
 	actions.addEventListener('click', (event) => {
+		if (event.target.closest('.feed-react-wrap')) return; // reactions handle their own clicks
 		const btn = event.target.closest('.feed-ic-btn');
 		if (!btn || btn.disabled) return;
 		event.stopPropagation();
 		const label = btn.getAttribute('aria-label') || '';
-		if (label === 'Like') {
-			const pressed = btn.classList.toggle('is-active');
-			btn.setAttribute('aria-pressed', String(pressed));
-			bumpCount(btn, pressed ? 1 : -1);
-			opts.onReaction?.(item, pressed);
-		} else if (label === 'Save') {
+		if (label === 'Save') {
 			const pressed = btn.classList.toggle('is-active');
 			btn.setAttribute('aria-pressed', String(pressed));
 			opts.onSave?.(item, pressed);
+		} else if (label === 'Comment') {
+			commentsThread.toggle(btn);
 		} else {
 			opts.onAction?.(label, item, btn);
 		}
@@ -132,11 +150,426 @@ export function renderFeedCard(item = {}, opts = {}) {
 	card.addEventListener('keydown', (event) => {
 		if ((event.key === 'Enter' || event.key === ' ') && event.target === card) {
 			event.preventDefault();
-			window.location.href = postHref(item);
+			card._feedToggleExpand?.();
 		}
 	});
 
+	enableInlineReading(card, item);
+
 	return card;
+}
+
+/* ============ emoji reactions (Yaakov 2026-10-13) ============ */
+/* B"H — one honest picker: 👍 ❤️ 😂 😮 🙏 ✨. The reader's own reaction is
+   stored server-side through /api/social/reactions/post/:id; the top three
+   reaction counts render beside the button. No nudges, no dark patterns. */
+
+const REACTION_EMOJIS = ['👍', '❤️', '😂', '😮', '🙏', '✨'];
+const REACTION_NAMES = { '👍': 'thumbs up', '❤️': 'love', '😂': 'laughter', '😮': 'wow', '🙏': 'gratitude', '✨': 'spark' };
+
+function initialReactionSummary(item) {
+	const counts = {};
+	if (item.reactionSummary && typeof item.reactionSummary === 'object') {
+		Object.assign(counts, item.reactionSummary.counts || {});
+		return { counts, viewerEmoji: String(item.reactionSummary.viewerEmoji || '') };
+	}
+	if (item.reactionCounts && typeof item.reactionCounts === 'object') {
+		Object.assign(counts, item.reactionCounts);
+	}
+	const legacy = Number(item.reactionCount ?? item.likes ?? 0);
+	if (legacy > 0 && !Object.keys(counts).length) counts['👍'] = legacy;
+	return { counts, viewerEmoji: String(item.viewerReaction || item.viewerEmoji || (item.viewerLiked ? '👍' : '')) };
+}
+
+function topReactions(summary, limit = 3) {
+	return Object.entries(summary.counts || {})
+		.filter(([, n]) => Number(n) > 0)
+		.sort((a, b) => Number(b[1]) - Number(a[1]))
+		.slice(0, limit);
+}
+
+function reactionChipHtml(emoji, n) {
+	return `<button type="button" class="feed-react-chip" data-react-emoji="${escapeAttr(emoji)}" aria-label="${formatCount(n)} ${escapeAttr(REACTION_NAMES[emoji] || 'reactions')}"><span aria-hidden="true">${escapeHtml(emoji)}</span><span class="feed-react-chip-count">${formatCount(n)}</span></button>`;
+}
+
+function reactionGroupHtml(item) {
+	const summary = initialReactionSummary(item);
+	const viewer = summary.viewerEmoji;
+	const face = viewer
+		? `<span class="feed-react-face" aria-hidden="true">${escapeHtml(viewer)}</span>`
+		: icon('like');
+	return `<div class="feed-react-wrap" data-react-wrap data-picker-open="0">
+		<button type="button" class="feed-ic-btn feed-react-btn${viewer ? ' is-active' : ''}" data-react-toggle aria-haspopup="menu" aria-expanded="false" aria-pressed="${viewer ? 'true' : 'false'}" aria-label="${viewer ? `Your reaction: ${REACTION_NAMES[viewer] || viewer}. Change reaction` : 'React to this post'}">${face}<span class="feed-ic-btn-label">${viewer ? 'Reacted' : 'React'}</span></button>
+		<div class="feed-react-picker" data-react-picker hidden role="menu" aria-label="Choose a reaction">
+			${REACTION_EMOJIS.map(e => `<button type="button" class="feed-react-option" role="menuitemradio" aria-checked="${e === viewer}" data-react-emoji="${escapeAttr(e)}" aria-label="React ${escapeAttr(REACTION_NAMES[e] || e)}"><span aria-hidden="true">${escapeHtml(e)}</span></button>`).join('')}
+		</div>
+		<span class="feed-react-top" data-react-top>${topReactions(summary).map(([e, n]) => reactionChipHtml(e, n)).join('')}</span>
+	</div>`;
+}
+
+/** One document-level closer for every open picker (bound once). */
+let reactCloserBound = false;
+function ensureReactCloser() {
+	if (reactCloserBound) return;
+	reactCloserBound = true;
+	document.addEventListener('click', (event) => {
+		document.querySelectorAll('.feed-react-wrap[data-picker-open="1"]').forEach(wrap => {
+			if (!wrap.contains(event.target)) closeReactPicker(wrap);
+		});
+	});
+	document.addEventListener('keydown', (event) => {
+		if (event.key !== 'Escape') return;
+		document.querySelectorAll('.feed-react-wrap[data-picker-open="1"]').forEach(closeReactPicker);
+	});
+}
+
+function closeReactPicker(wrap) {
+	if (!wrap) return;
+	wrap.dataset.pickerOpen = '0';
+	const picker = wrap.querySelector('[data-react-picker]');
+	if (picker) picker.hidden = true;
+	wrap.querySelector('[data-react-toggle]')?.setAttribute('aria-expanded', 'false');
+}
+
+/**
+ * Owns one card's reaction state: optimistic toggle, server persistence,
+ * and count chips. Cards pass { viewerAlias, onReaction } through opts.
+ */
+function createReactionControl(item, opts = {}) {
+	const postId = String(item.postId || item.id || '');
+	const heichelId = String(item.heichelId || 'ikar');
+	const aliasId = String(opts.viewerAlias || item.viewerAliasId || currentAlias());
+	const state = {
+		summary: initialReactionSummary(item),
+		hydrated: !!item.reactionSummary,
+		pending: false
+	};
+
+	function render(wrap) {
+		const viewer = state.summary.viewerEmoji;
+		const toggle = wrap.querySelector('[data-react-toggle]');
+		if (toggle) {
+			toggle.classList.toggle('is-active', !!viewer);
+			toggle.setAttribute('aria-pressed', String(!!viewer));
+			toggle.setAttribute('aria-label', viewer
+				? `Your reaction: ${REACTION_NAMES[viewer] || viewer}. Change reaction`
+				: 'React to this post');
+			toggle.querySelector('.feed-react-face, .feed-ic')?.remove();
+			const face = document.createElement('span');
+			face.setAttribute('aria-hidden', 'true');
+			if (viewer) {
+				face.className = 'feed-react-face';
+				face.textContent = viewer;
+			} else {
+				face.innerHTML = icon('like');
+			}
+			toggle.prepend(face);
+			const label = toggle.querySelector('.feed-ic-btn-label');
+			if (label) label.textContent = viewer ? 'Reacted' : 'React';
+		}
+		wrap.querySelectorAll('[data-react-picker] [data-react-emoji]').forEach(option => {
+			option.setAttribute('aria-checked', String(option.dataset.reactEmoji === viewer));
+		});
+		const top = wrap.querySelector('[data-react-top]');
+		if (top) top.innerHTML = topReactions(state.summary).map(([e, n]) => reactionChipHtml(e, n)).join('');
+	}
+
+	function noteFailure(wrap, message) {
+		const toggle = wrap.querySelector('[data-react-toggle]');
+		if (!toggle) return;
+		const prev = toggle.getAttribute('aria-label');
+		toggle.setAttribute('aria-label', message);
+		toggle.classList.add('feed-react-error');
+		setTimeout(() => {
+			toggle.classList.remove('feed-react-error');
+			if (toggle.getAttribute('aria-label') === message) {
+				toggle.setAttribute('aria-label', prev || 'React to this post');
+			}
+		}, 2600);
+	}
+
+	async function persist(emoji) {
+		const url = `/api/social/reactions/post/${encodeURIComponent(postId)}`;
+		if (emoji) {
+			const res = await fetch(url, {
+				method: 'POST',
+				credentials: 'same-origin',
+				headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+				body: new URLSearchParams({ aliasId, heichelId, emoji })
+			});
+			if (!res.ok) throw new Error(`reactions answered ${res.status}`);
+			const body = await res.json().catch(() => null);
+			return body?.success ?? body ?? null;
+		}
+		const qs = new URLSearchParams({ aliasId, heichelId });
+		const res = await fetch(`${url}?${qs}`, { method: 'DELETE', credentials: 'same-origin' });
+		if (!res.ok) throw new Error(`reactions answered ${res.status}`);
+		const body = await res.json().catch(() => null);
+		return body?.success ?? body ?? null;
+	}
+
+	/** Lazily loads live counts + the viewer's stored reaction. */
+	async function hydrate(wrap) {
+		if (state.hydrated || !postId) return;
+		state.hydrated = true;
+		try {
+			const qs = new URLSearchParams({ heichelId });
+			if (aliasId && aliasId !== 'anonymous') qs.set('aliasId', aliasId);
+			const res = await fetch(`/api/social/reactions/post/${encodeURIComponent(postId)}?${qs}`, { credentials: 'same-origin' });
+			if (!res.ok) return;
+			const body = await res.json().catch(() => null);
+			const data = body?.success ?? body ?? {};
+			if (data && typeof data.counts === 'object') {
+				state.summary = { counts: data.counts || {}, viewerEmoji: String(data.viewerEmoji || '') };
+				render(wrap);
+			}
+		} catch (_) { /* counts stay as first rendered */ }
+	}
+
+	async function choose(wrap, emoji) {
+		closeReactPicker(wrap);
+		if (state.pending || !postId) return;
+		if (aliasId === 'anonymous') {
+			noteFailure(wrap, 'Sign in to react to posts.');
+			return;
+		}
+		const previous = { counts: { ...state.summary.counts }, viewerEmoji: state.summary.viewerEmoji };
+		const removing = state.summary.viewerEmoji === emoji;
+		const nextEmoji = removing ? '' : emoji;
+		state.summary.viewerEmoji = nextEmoji;
+		const counts = { ...state.summary.counts };
+		if (previous.viewerEmoji) counts[previous.viewerEmoji] = Math.max(0, Number(counts[previous.viewerEmoji] || 0) - 1);
+		if (nextEmoji) counts[nextEmoji] = Number(counts[nextEmoji] || 0) + 1;
+		state.summary.counts = counts;
+		state.pending = true;
+		render(wrap);
+		try {
+			const server = await persist(nextEmoji);
+			if (server && typeof server.counts === 'object') {
+				state.summary = { counts: server.counts || {}, viewerEmoji: String(server.viewerEmoji || '') };
+				render(wrap);
+			}
+			opts.onReaction?.(item, nextEmoji || null, !!nextEmoji);
+		} catch (_) {
+			state.summary = previous;
+			render(wrap);
+			noteFailure(wrap, 'Your reaction could not be saved. Please try again.');
+		} finally {
+			state.pending = false;
+		}
+	}
+
+	function onClick(event, wrap) {
+		event.stopPropagation();
+		const toggle = event.target.closest('[data-react-toggle]');
+		const option = event.target.closest('[data-react-emoji]');
+		if (toggle) {
+			const open = wrap.dataset.pickerOpen === '1';
+			if (open) {
+				closeReactPicker(wrap);
+			} else {
+				document.querySelectorAll('.feed-react-wrap[data-picker-open="1"]').forEach(closeReactPicker);
+				wrap.dataset.pickerOpen = '1';
+				const picker = wrap.querySelector('[data-react-picker]');
+				if (picker) picker.hidden = false;
+				toggle.setAttribute('aria-expanded', 'true');
+				wrap.querySelector('.feed-react-option[aria-checked="true"]')?.focus({ preventScroll: true });
+			}
+			return;
+		}
+		if (option?.dataset?.reactEmoji) choose(wrap, option.dataset.reactEmoji);
+	}
+
+	return { onClick, hydrate };
+}
+
+/* ============ comment threads (Yaakov 2026-10-13) ============ */
+/* B"H — comments live in the social store but the river never asked for
+   them, so every card showed 0. Threads load lazily when the reader taps
+   Comment, nest at least two levels deep, and carry their own reply forms. */
+
+function commentName(c) {
+	return c.authorName || authorName(c);
+}
+
+function commentText(c) {
+	return String(c.content ?? c.text ?? c.body ?? '').replace(/<[^>]*>/g, '').trim();
+}
+
+function commentKey(c) {
+	return String(c.id ?? c.commentId ?? '');
+}
+
+function commentStamp(c) {
+	return Number(c.createdAt ?? c.timestamp ?? c.updatedAt) || 0;
+}
+
+function commentReplies(c) {
+	const r = c.replies ?? c.children ?? [];
+	return Array.isArray(r) ? r : [];
+}
+
+function countCommentTree(list) {
+	let n = 0;
+	for (const c of (Array.isArray(list) ? list : [])) n += 1 + countCommentTree(commentReplies(c));
+	return n;
+}
+
+/**
+ * Builds the lazy comment-thread section for one feed card.
+ * @param {object} item The feed item (heichelId, postId).
+ * @param {object} opts Card opts: { fetchComments, submitComment }.
+ * @returns {{section: HTMLElement, toggle: Function}}
+ */
+function createCommentThread(item, opts = {}) {
+	const heichelId = String(item.heichelId || 'ikar');
+	const postId = String(item.postId || item.id || '');
+	const state = { open: false, loading: false, loaded: false, btn: null };
+
+	const section = document.createElement('section');
+	section.className = 'feed-comments';
+	section.hidden = true;
+	section.setAttribute('aria-label', 'Comments');
+
+	function setCount(n) {
+		const el = state.btn?.querySelector('.feed-ic-btn-count');
+		if (el) el.textContent = formatCount(n);
+	}
+
+	async function load() {
+		state.loading = true;
+		section.innerHTML = '<p class="feed-comments-loading">Gathering voices…</p>';
+		try {
+			if (typeof opts.fetchComments !== 'function') throw new Error('no comment fetcher');
+			const { comments } = await opts.fetchComments(heichelId, postId);
+			const list = Array.isArray(comments) ? comments : [];
+			renderThread(list);
+			setCount(countCommentTree(list));
+			state.loaded = true;
+		} catch (_) {
+			section.innerHTML = '<p class="feed-comments-error">The comments could not be reached.</p>' +
+				'<button type="button" class="feed-comments-retry">Try again</button>';
+			section.querySelector('.feed-comments-retry')?.addEventListener('click', load);
+		} finally {
+			state.loading = false;
+		}
+	}
+
+	function renderThread(comments) {
+		section.innerHTML = '';
+		const list = document.createElement('div');
+		list.className = 'feed-comment-list';
+		if (comments.length) {
+			for (const c of comments) list.append(renderComment(c));
+		} else {
+			list.innerHTML = '<p class="feed-comments-empty">No voices yet — be the first to speak.</p>';
+		}
+		section.append(list);
+		section.append(renderCommentForm({ parentCommentId: '', placeholder: 'Share a thought…', onPosted: refresh }));
+	}
+
+	async function refresh() {
+		state.loaded = false;
+		await load();
+	}
+
+	function renderComment(c) {
+		const el = document.createElement('article');
+		el.className = 'feed-comment';
+		const key = commentKey(c);
+		if (key) el.dataset.commentId = key;
+		const replies = commentReplies(c);
+		const stamp = commentStamp(c);
+		el.innerHTML =
+			'<div class="feed-comment-head">' +
+				`<span class="feed-comment-avatar" aria-hidden="true">${escapeHtml(authorInitials(commentName(c)))}</span>` +
+				`<span class="feed-comment-author">${escapeHtml(commentName(c))}</span>` +
+				(stamp ? `<time class="feed-comment-time" datetime="${escapeAttr(new Date(stamp).toISOString())}">${timeAgo(stamp)}</time>` : '') +
+			'</div>' +
+			`<p class="feed-comment-text" dir="auto">${escapeHtml(commentText(c))}</p>` +
+			'<div class="feed-comment-tools">' +
+				'<button type="button" class="feed-comment-replybtn" aria-expanded="false">Reply</button>' +
+			'</div>' +
+			'<div class="feed-comment-reply-slot"></div>' +
+			(replies.length ? '<div class="feed-comment-replies"></div>' : '');
+		const repliesBox = el.querySelector('.feed-comment-replies');
+		if (repliesBox) for (const r of replies) repliesBox.append(renderComment(r));
+		const replyBtn = el.querySelector('.feed-comment-replybtn');
+		const slot = el.querySelector('.feed-comment-reply-slot');
+		replyBtn.addEventListener('click', () => {
+			const existing = slot.querySelector('form');
+			if (existing) {
+				existing.remove();
+				replyBtn.setAttribute('aria-expanded', 'false');
+				return;
+			}
+			slot.append(renderCommentForm({
+				parentCommentId: key,
+				placeholder: `Reply to ${commentName(c)}…`,
+				cancellable: true,
+				onPosted: refresh
+			}));
+			replyBtn.setAttribute('aria-expanded', 'true');
+			slot.querySelector('input')?.focus();
+		});
+		return el;
+	}
+
+	function renderCommentForm({ parentCommentId, placeholder, cancellable = false, onPosted }) {
+		const form = document.createElement('form');
+		form.className = 'feed-comment-form';
+		form.innerHTML =
+			'<div class="feed-comment-row">' +
+				`<input type="text" class="feed-comment-input" maxlength="2000" autocomplete="off" placeholder="${escapeAttr(placeholder)}" aria-label="${escapeAttr(placeholder)}">` +
+				'<button type="submit" class="feed-comment-send">Send</button>' +
+				(cancellable ? '<button type="button" class="feed-comment-cancel">Cancel</button>' : '') +
+			'</div>' +
+			'<p class="feed-comment-error" hidden></p>';
+		const input = form.querySelector('.feed-comment-input');
+		const send = form.querySelector('.feed-comment-send');
+		const error = form.querySelector('.feed-comment-error');
+		form.querySelector('.feed-comment-cancel')?.addEventListener('click', () => {
+			form.remove();
+			const head = form.closest('.feed-comment');
+			head?.querySelector(':scope > .feed-comment-tools > .feed-comment-replybtn')?.setAttribute('aria-expanded', 'false');
+		});
+		form.addEventListener('submit', async (event) => {
+			event.preventDefault();
+			const text = input.value.trim();
+			if (!text) { input.focus(); return; }
+			if (typeof opts.submitComment !== 'function') {
+				error.textContent = 'Comments cannot be sent from here yet.';
+				error.hidden = false;
+				return;
+			}
+			send.disabled = true;
+			input.disabled = true;
+			error.hidden = true;
+			try {
+				await opts.submitComment(heichelId, postId, parentCommentId, text, currentAlias());
+				opts.onComment?.(item, parentCommentId, text);
+				await onPosted?.();
+			} catch (_) {
+				error.textContent = 'Your words could not be sent. Please try again.';
+				error.hidden = false;
+				send.disabled = false;
+				input.disabled = false;
+				input.focus();
+			}
+		});
+		return form;
+	}
+
+	function toggle(btn) {
+		if (btn) state.btn = btn;
+		state.open = !state.open;
+		section.hidden = !state.open;
+		state.btn?.setAttribute('aria-expanded', String(state.open));
+		state.btn?.classList.toggle('is-active', state.open);
+		if (state.open && !state.loaded && !state.loading) load();
+	}
+
+	return { section, toggle };
 }
 
 function bumpCount(btn, delta) {

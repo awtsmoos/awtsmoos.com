@@ -828,3 +828,719 @@
 	from { opacity: 0; transform: translateY(10px); }
 	to { opacity: 1; transform: translateY(0); }
 }
+
+/* ============ comment threads (Yaakov 2026-10-13) ============ */
+/* B"H — voices gather under the vessel, nested like generations. */
+.feed-comments {
+	margin-top: 10px;
+	padding-top: 12px;
+	border-top: 1px solid var(--aw-line);
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+.feed-comments[hidden] {
+	display: none;
+}
+.feed-comment-list {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+.feed-comment {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	padding: 10px 12px;
+	border-radius: 12px;
+	background: color-mix(in srgb, var(--aw-surface) 90%, transparent);
+	border: 1px solid var(--aw-line);
+}
+.feed-comment-head {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+}
+.feed-comment-avatar {
+	width: 26px;
+	height: 26px;
+	flex: none;
+	border-radius: 50%;
+	display: grid;
+	place-items: center;
+	font-size: 11px;
+	font-weight: 800;
+	color: #1a1206;
+	background: linear-gradient(145deg, #f0d089, var(--accent-gold) 60%, #a37c2c);
+}
+.feed-comment-author {
+	font-size: 13.5px;
+	font-weight: 700;
+	color: var(--aw-text);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.feed-comment-time {
+	font-size: 12px;
+	color: var(--aw-text-soft);
+	flex: none;
+}
+.feed-comment-text {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.55;
+	color: var(--aw-text);
+	overflow-wrap: anywhere;
+}
+.feed-comment-tools {
+	display: flex;
+	gap: 4px;
+}
+.feed-comment-replybtn {
+	padding: 4px 10px;
+	border-radius: 999px;
+	border: 1px solid transparent;
+	background: transparent;
+	color: var(--aw-text-soft);
+	font-size: 12.5px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: color 140ms ease, background-color 140ms ease, border-color 140ms ease;
+}
+.feed-comment-replybtn:hover {
+	color: var(--accent-gold);
+	background: color-mix(in srgb, var(--accent-gold) 10%, transparent);
+	border-color: color-mix(in srgb, var(--accent-gold) 35%, transparent);
+}
+.feed-comment-replybtn:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+	color: var(--aw-text);
+}
+.feed-comment-replybtn:active {
+	color: var(--accent-gold);
+}
+.feed-comment-replybtn:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+.feed-comment-reply-slot:empty {
+	display: none;
+}
+.feed-comment-replies {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-top: 4px;
+	margin-inline-start: 10px;
+	padding-inline-start: 12px;
+	border-inline-start: 2px solid var(--aw-line);
+}
+/* comment composer */
+.feed-comment-form {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+.feed-comment-row {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+.feed-comment-input {
+	flex: 1;
+	min-width: 0;
+	padding: 9px 14px;
+	border-radius: 999px;
+	border: 1px solid var(--aw-line);
+	background: color-mix(in srgb, var(--aw-surface) 80%, transparent);
+	color: var(--aw-text);
+	font-size: 13.5px;
+	transition: border-color 140ms ease, box-shadow 160ms ease;
+}
+.feed-comment-input::placeholder {
+	color: var(--aw-text-soft);
+}
+.feed-comment-input:hover {
+	border-color: color-mix(in srgb, var(--accent-gold) 45%, var(--aw-line));
+}
+.feed-comment-input:focus {
+	outline: none;
+	border-color: var(--accent-gold);
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-gold) 22%, transparent);
+	color: var(--aw-text);
+}
+.feed-comment-input:disabled {
+	opacity: 0.5;
+}
+.feed-comment-send,
+.feed-comment-cancel {
+	padding: 8px 14px;
+	border-radius: 999px;
+	font-size: 13px;
+	font-weight: 700;
+	cursor: pointer;
+	transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease,
+		box-shadow 160ms ease;
+}
+.feed-comment-send {
+	border: 1px solid var(--accent-gold);
+	background: color-mix(in srgb, var(--accent-gold) 14%, transparent);
+	color: var(--aw-text);
+}
+.feed-comment-send:hover {
+	background: color-mix(in srgb, var(--accent-gold) 28%, transparent);
+	color: var(--aw-text);
+}
+.feed-comment-send:active {
+	background: color-mix(in srgb, var(--accent-gold) 36%, transparent);
+}
+.feed-comment-send:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+}
+.feed-comment-cancel {
+	border: 1px solid var(--aw-line);
+	background: transparent;
+	color: var(--aw-text-soft);
+}
+.feed-comment-cancel:hover {
+	color: var(--aw-text);
+	border-color: var(--aw-text-soft);
+}
+.feed-comment-send:focus-visible,
+.feed-comment-cancel:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+}
+.feed-comment-error {
+	margin: 0;
+	font-size: 12.5px;
+	color: var(--awtsmoos-browser-danger);
+}
+.feed-comment-error[hidden] {
+	display: none;
+}
+/* thread states */
+.feed-comments-loading,
+.feed-comments-empty,
+.feed-comments-error {
+	margin: 0;
+	font-size: 13.5px;
+	color: var(--aw-text-soft);
+}
+.feed-comments-retry {
+	margin-top: 4px;
+	align-self: flex-start;
+	padding: 6px 12px;
+	border-radius: 999px;
+	border: 1px solid var(--aw-line);
+	background: transparent;
+	color: var(--aw-text);
+	font-size: 13px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: border-color 140ms ease, color 140ms ease;
+}
+.feed-comments-retry:hover {
+	color: var(--accent-gold);
+	border-color: var(--accent-gold);
+}
+.feed-comments-retry:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+}
+.feed-comments-retry:active {
+	color: var(--accent-gold);
+}
+
+/* ============ INLINE READING — Yaakov 2026-10-13 ============ */
+/* B"H — a card is a preview; a tap opens the whole teaching where it sits.
+ * No navigation away, no traps: collapse is always one tap away, the end
+ * of the river still says "You are caught up", and nothing auto-plays.
+ * Tunnel CSS laws: no !important, token-only colors, explicit light/dark
+ * text colors, full interactive states on every control.
+ */
+
+.feed-card-body {
+	cursor: pointer;
+}
+
+.feed-card-body:hover .feed-card-readmore {
+	color: var(--accent-gold);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+/* read-more affordance: an honest invitation, never bait */
+.feed-card-readmore {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin-top: 10px;
+	color: var(--aw-text-soft);
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.02em;
+}
+
+.feed-card-readmore-ic {
+	width: 15px;
+	height: 15px;
+	transition: transform 160ms ease;
+}
+
+.feed-card-body:hover .feed-card-readmore-ic {
+	transform: translateY(2px);
+}
+
+.feed-card.is-expanded .feed-card-readmore {
+	display: none;
+}
+
+/* the card settles into reading mode */
+.feed-card.is-expanded {
+	border-color: color-mix(in srgb, var(--accent-gold) 55%, var(--aw-line));
+	transform: none;
+}
+
+/* ============ reader region ============ */
+.feed-reader {
+	margin-top: 10px;
+	border-top: 1px solid var(--aw-line);
+	padding-top: 14px;
+}
+
+/* ============ breadcrumbs: Heichel › Series › Post ============ */
+.feed-crumbs {
+	margin: 0 0 14px;
+}
+
+.feed-crumbs ol {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.feed-crumb {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	max-width: 100%;
+	padding: 5px 12px;
+	border-radius: 999px;
+	border: 1px solid var(--aw-line);
+	background: var(--aw-surface);
+	color: var(--aw-text-soft);
+	font-size: 13px;
+	font-weight: 600;
+	text-decoration: none;
+	transition: color 140ms ease, border-color 140ms ease, background-color 140ms ease,
+		transform 120ms ease, box-shadow 160ms ease;
+}
+
+.feed-crumb span {
+	color: inherit;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.feed-crumb-ic {
+	width: 14px;
+	height: 14px;
+	flex: none;
+	color: var(--accent-gold);
+}
+
+.feed-crumb:hover {
+	color: var(--accent-gold);
+	border-color: color-mix(in srgb, var(--accent-gold) 45%, var(--aw-line));
+	background: color-mix(in srgb, var(--accent-gold) 8%, var(--aw-surface));
+	transform: translateY(-1px);
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25), 0 0 10px rgba(212, 169, 78, 0.12);
+}
+
+.feed-crumb:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+	color: var(--aw-text);
+}
+
+.feed-crumb:active {
+	transform: translateY(1px) scale(0.97);
+}
+
+.feed-crumb-current {
+	color: var(--aw-text);
+	font-weight: 700;
+	border-color: color-mix(in srgb, var(--accent-gold) 35%, var(--aw-line));
+}
+
+.feed-crumb-sep {
+	color: var(--aw-text-soft);
+	opacity: 0.6;
+	font-size: 14px;
+	user-select: none;
+}
+
+/* ============ reader head ============ */
+.feed-reader-head {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	margin-bottom: 12px;
+}
+
+.feed-reader-titles {
+	flex: 1;
+	min-width: 0;
+}
+
+.feed-reader-title {
+	margin: 0 0 4px;
+	color: var(--aw-text);
+	font-family: "Cardo", "Frank Ruhl Libre", Georgia, "Times New Roman", serif;
+	font-size: 23px;
+	line-height: 1.3;
+	font-weight: 700;
+	letter-spacing: 0.005em;
+}
+
+.feed-reader-hetitle {
+	margin: 0 0 6px;
+	color: var(--accent-gold);
+	font-family: "Frank Ruhl Libre", "Cardo", Georgia, serif;
+	font-size: 19px;
+	font-weight: 600;
+}
+
+.feed-reader-tools {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	flex: none;
+}
+
+/* anchors may wear the icon-button uniform */
+a.feed-ic-btn {
+	color: inherit;
+	text-decoration: none;
+}
+
+a.feed-ic-btn:visited {
+	color: var(--aw-text-soft);
+}
+
+/* ============ reader body: calm, immersive typography ============ */
+.feed-reader-body {
+	color: var(--aw-text);
+	font-size: 16px;
+	line-height: 1.78;
+	overflow-wrap: break-word;
+}
+
+.feed-reader-body > *:first-child {
+	margin-top: 0;
+}
+
+/* every text element carries an explicit color (validator law) */
+.feed-reader-body p,
+.feed-reader-body li,
+.feed-reader-body blockquote,
+.feed-reader-note {
+	color: inherit;
+}
+
+.feed-reader-body h1,
+.feed-reader-body h2,
+.feed-reader-body h3,
+.feed-reader-body h4 {
+	color: var(--aw-text);
+}
+
+.feed-reader-body p {
+	margin: 0 0 1.05em;
+	color: inherit;
+}
+
+.feed-reader-body h1,
+.feed-reader-body h2,
+.feed-reader-body h3,
+.feed-reader-body h4 {
+	color: var(--aw-text);
+	font-family: "Cardo", "Frank Ruhl Libre", Georgia, "Times New Roman", serif;
+	line-height: 1.35;
+	margin: 1.5em 0 0.6em;
+	font-weight: 700;
+}
+
+.feed-reader-body h1 { font-size: 21px; color: var(--aw-text); }
+.feed-reader-body h2 { font-size: 19px; color: var(--aw-text); }
+.feed-reader-body h3 { font-size: 17px; color: var(--aw-text); }
+.feed-reader-body h4 { font-size: 16px; color: var(--aw-text); }
+
+.feed-reader-body ul,
+.feed-reader-body ol {
+	margin: 0 0 1.05em;
+	padding-inline-start: 1.5em;
+}
+
+.feed-reader-body li {
+	margin-bottom: 0.4em;
+}
+
+.feed-reader-body blockquote {
+	margin: 1.2em 0;
+	padding: 0.5em 0 0.5em 1em;
+	padding-inline-start: 1em;
+	padding-inline-end: 0;
+	border-inline-start: 3px solid var(--accent-gold);
+	color: var(--aw-text-soft);
+	font-style: italic;
+	background: color-mix(in srgb, var(--accent-gold) 5%, transparent);
+	border-start-end-radius: 10px;
+	border-end-end-radius: 10px;
+}
+
+.feed-reader-body a {
+	color: var(--accent-gold);
+	text-underline-offset: 3px;
+}
+
+.feed-reader-body a:hover {
+	text-decoration-thickness: 2px;
+}
+
+.feed-reader-body a:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+	border-radius: 4px;
+}
+
+.feed-reader-body img,
+.feed-reader-body video {
+	max-width: 100%;
+	height: auto;
+	border-radius: 12px;
+	margin: 0.6em 0;
+}
+
+.feed-reader-body hr {
+	border: 0;
+	border-top: 1px solid var(--aw-line);
+	margin: 1.6em auto;
+	max-width: 240px;
+}
+
+.feed-reader-body strong {
+	color: var(--aw-text);
+}
+
+.feed-reader-note {
+	color: var(--aw-text-soft);
+	font-style: italic;
+}
+
+/* ============ reader loading + failure ============ */
+.feed-reader-loading {
+	padding: 4px 0 8px;
+}
+
+.feed-reader-fail {
+	padding: 18px;
+	border-radius: 14px;
+	border: 1px dashed var(--aw-line);
+	background: var(--aw-surface);
+	text-align: center;
+}
+
+.feed-reader-fail p {
+	margin: 0 0 12px;
+	color: var(--aw-text-soft);
+	font-size: 14px;
+	line-height: 1.6;
+}
+
+/* ============ immersive card polish (healthy, not addictive) ============ */
+/* B"H — a touch more air and weight for the title; the excerpt breathes.
+ * No shimmer loops, no pull-hooks: the river still ends with
+ * "You are caught up". */
+.feed-card-title {
+	font-size: 20px;
+	font-weight: 800;
+	line-height: 1.32;
+}
+
+.feed-card-excerpt {
+	line-height: 1.68;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.feed-card-readmore-ic {
+		transition: none;
+	}
+	.feed-crumb {
+		transition: none;
+	}
+	.feed-card.is-expanded {
+		transform: none;
+	}
+}
+
+@media (max-width: 560px) {
+	.feed-reader-head {
+		flex-direction: column;
+	}
+	.feed-reader-tools {
+		align-self: flex-end;
+	}
+	.feed-reader-title {
+		font-size: 20px;
+	}
+	.feed-reader-body {
+		font-size: 15.5px;
+	}
+}
+
+/* ============ emoji reactions (Yaakov 2026-10-13) ============ */
+/* B"H — one honest picker: counts mirror real reactions, no nudges. */
+.feed-react-wrap {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	gap: 2px;
+}
+
+.feed-react-face {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 19px;
+	height: 19px;
+	font-size: 17px;
+	line-height: 1;
+}
+
+.feed-react-btn[aria-pressed="true"] {
+	color: var(--accent-gold);
+	background: color-mix(in srgb, var(--accent-gold) 14%, transparent);
+	border-color: color-mix(in srgb, var(--accent-gold) 45%, transparent);
+}
+
+.feed-react-btn.feed-react-error {
+	border-color: color-mix(in srgb, #c0392b 60%, transparent);
+}
+
+.feed-react-picker {
+	position: absolute;
+	bottom: calc(100% + 8px);
+	left: 0;
+	z-index: 30;
+	display: flex;
+	gap: 2px;
+	padding: 6px;
+	border-radius: 999px;
+	background: var(--aw-surface);
+	border: 1px solid var(--aw-line);
+	box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45), 0 0 14px rgba(212, 169, 78, 0.10);
+	animation: feed-react-pop 160ms ease;
+}
+
+.feed-react-picker[hidden] {
+	display: none;
+}
+
+@keyframes feed-react-pop {
+	from { opacity: 0; transform: translateY(6px) scale(0.96); }
+	to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.feed-react-option {
+	width: 38px;
+	height: 38px;
+	display: grid;
+	place-items: center;
+	font-size: 22px;
+	line-height: 1;
+	border-radius: 50%;
+	border: 1px solid transparent;
+	background: transparent;
+	cursor: pointer;
+	transition: transform 140ms ease, background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.feed-react-option:hover {
+	transform: scale(1.22);
+	background: color-mix(in srgb, var(--accent-gold) 12%, transparent);
+	border-color: color-mix(in srgb, var(--accent-gold) 40%, transparent);
+}
+
+.feed-react-option:focus-visible {
+	outline: none;
+	transform: scale(1.22);
+	background: color-mix(in srgb, var(--accent-gold) 12%, transparent);
+	border-color: color-mix(in srgb, var(--accent-gold) 40%, transparent);
+	box-shadow: 0 0 0 2px var(--aw-focus-ring);
+}
+
+.feed-react-option:active {
+	transform: scale(1.05);
+}
+
+.feed-react-option[aria-checked="true"] {
+	background: color-mix(in srgb, var(--accent-gold) 16%, transparent);
+	border-color: color-mix(in srgb, var(--accent-gold) 55%, transparent);
+}
+
+.feed-react-top {
+	display: inline-flex;
+	align-items: center;
+	gap: 3px;
+}
+
+.feed-react-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 5px 9px;
+	border-radius: 999px;
+	font-size: 13px;
+	line-height: 1;
+	color: var(--aw-text-soft);
+	background: transparent;
+	border: 1px solid var(--aw-line);
+	cursor: pointer;
+	transition: color 140ms ease, border-color 140ms ease, background-color 140ms ease, transform 120ms ease, box-shadow 140ms ease;
+}
+
+.feed-react-chip:hover {
+	color: var(--accent-gold);
+	border-color: color-mix(in srgb, var(--accent-gold) 45%, transparent);
+	background: color-mix(in srgb, var(--accent-gold) 10%, transparent);
+	transform: translateY(-1px);
+}
+
+.feed-react-chip:focus-visible {
+	outline: none;
+	color: var(--accent-gold);
+	border-color: color-mix(in srgb, var(--accent-gold) 45%, transparent);
+	background: color-mix(in srgb, var(--accent-gold) 10%, transparent);
+	box-shadow: 0 0 0 2px var(--aw-focus-ring);
+}
+
+.feed-react-chip:active {
+	transform: translateY(1px) scale(0.97);
+}
+
+.feed-react-chip-count {
+	font-variant-numeric: tabular-nums;
+	font-weight: 600;
+	color: inherit;
+}
