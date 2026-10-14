@@ -133,15 +133,18 @@ function applyProceduralBark(mat) {
       .replace('#include <map_fragment>', `{
           vec3 bwp = vBarkWPos;
           vec3 bwn = normalize(vBarkWNormal);
-          // vertical fissures: ridged FBM stretched along trunk axis
-          float g1 = bh_fbm(vec2((bwp.x + bwp.z) * 5.0, bwp.y * 1.1));
-          float g2 = bh_fbm(vec2((bwp.x - bwp.z) * 11.0 + 7.3, bwp.y * 2.6));
-          float ridge = clamp(1.0 - abs(g1 * 0.65 + g2 * 0.35) * 2.0, 0.0, 1.0);
-          float fiss = pow(ridge, 2.5);
-          // bark plates: large mottling between fissures
-          float plate = bh_fbm(vec2((bwp.x + bwp.z) * 2.2, bwp.y * 0.5));
-          vec3 barkCol = mix(vec3(0.13, 0.09, 0.06), vec3(0.30, 0.23, 0.16),
-                              clamp(fiss * 0.7 + plate * 0.5, 0.0, 1.0));
+          // B"H commit 3: CYLINDRICAL bark — fissures in angle/height space so
+          // they read at real scale (old world-xz frequencies aliased to flat
+          // mud on thin trunks). 10-16 plates around, cracks run vertically.
+          float ang = atan(bwp.z, bwp.x);
+          vec2 around = vec2(cos(ang), sin(ang)); // seamless around trunk
+          float plate = bh_fbm(around * 2.5 + vec2(0.0, bwp.y * 0.30));
+          float fr = 1.0 - abs(2.0 * bh_fbm(around * 6.0 + vec2(3.1, bwp.y * 0.9)) - 1.0);
+          float fiss = smoothstep(0.35, 0.85, fr);
+          float grain = bh_fbm(around * 14.0 + vec2(7.7, bwp.y * 3.0));
+          vec3 barkCol = mix(vec3(0.09, 0.06, 0.045), vec3(0.38, 0.30, 0.21),
+                              clamp(fiss * 0.75 + plate * 0.45, 0.0, 1.0));
+          barkCol *= 0.82 + 0.36 * grain;
           // moss: up-facing + noise breakup, concentrated low on trunk
           float mossN = bh_fbm(bwp.xz * 2.0 + 3.1);
           float upFace = clamp(bwn.y * 0.5 + 0.5, 0.0, 1.0);
@@ -149,7 +152,7 @@ function applyProceduralBark(mat) {
           mossMask *= 1.0 - smoothstep(2.0, 7.0, bwp.y);
           vec3 mossCol = mix(vec3(0.10, 0.20, 0.05), vec3(0.30, 0.44, 0.15), mossN);
           vec3 col = mix(barkCol, mossCol, clamp(mossMask, 0.0, 1.0));
-          col *= 0.72 + 0.45 * fiss; // crevice AO
+          col *= 0.70 + 0.50 * fiss; // crevice AO
           // B"H — preserve per-instance tint (branch wood uses instanceColor
           // for bark/moss variation); color_fragment already multiplied it
           // into diffuseColor, so re-apply here after override.
@@ -261,7 +264,10 @@ const TOD = {
   golden: {
     // B"H — 99% push: reference has DEEP shadows + BRIGHT highlights (contrast).
     // Lower ambient for shadow depth, stronger sun for dappled highlights.
-    sunDir: [0.72, 0.30, 0.28], sunColor: 0xfff6e8, sunI: 2.8,
+    // B"H commit 2: sun moved DOWN-RIVER (-z) and up (34° elevation) so the
+    // forest-view camera looks TOWARD it — backlit canopy, god rays down the
+    // corridor, sparkle path on the water (plan §1).
+    sunDir: [0.42, 0.52, -0.65], sunColor: 0xfff6e8, sunI: 2.8,
     hemiSky: 0xa8c8d8, hemiGround: 0x4a5a3a, hemiI: 0.45,
     fog: 0x9aaa7a, fogNear: 60, fogFar: 270, exposure: 1.0,
     golden: 1.0, warm: 0.25,
@@ -300,7 +306,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   }
 
   const renderer = new THREE.WebGLRenderer({ antialias: !fast });
-  const SHADOW = fast ? 512 : 1024;
+  // B"H commit 2: 2048 shadow map (plan §1 — dappled leaf shadows need teeth).
+  const SHADOW = fast ? 512 : 2048;
   const PQ = fast ? 0.5 : 1; // particle quantity scaler
   renderer.setSize(innerWidth, innerHeight);
   renderer.setPixelRatio(1);
@@ -460,6 +467,59 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     mark('shafts');
   }
 
+  /* B"H commit 2: MIST billboards (plan §3) — luminous haze in the background
+     gap and along the distant river so the distance reads as glowing mist,
+     not dark collapse. 14 sprites, canvas-generated soft texture with fbm
+     breakup, slow drift + opacity breathing via per-frame updater. */
+  const mistUpdaters = [];
+  if (!night) {
+    const mc = document.createElement('canvas'); mc.width = mc.height = 256;
+    const mx = mc.getContext('2d');
+    // base radial falloff
+    const mg = mx.createRadialGradient(128, 128, 10, 128, 128, 126);
+    mg.addColorStop(0, 'rgba(235,242,230,0.55)');
+    mg.addColorStop(0.6, 'rgba(230,238,225,0.22)');
+    mg.addColorStop(1, 'rgba(225,235,220,0)');
+    mx.fillStyle = mg; mx.fillRect(0, 0, 256, 256);
+    // fbm breakup so edges aren't perfect circles
+    mx.globalCompositeOperation = 'destination-out';
+    const bn = makeNoise2D(mulberry32(seed ^ 0xbeef));
+    const bid = mx.getImageData(0, 0, 256, 256);
+    const bd = bid.data;
+    for (let y = 0; y < 256; y += 2) for (let x = 0; x < 256; x += 2) {
+      const n = bn(x * 0.03, y * 0.03) * 0.5 + 0.5;
+      const erase = Math.max(0, (n - 0.62)) * 2.2;
+      for (let dy = 0; dy < 2; dy++) for (let dx = 0; dx < 2; dx++) {
+        const ii = ((y + dy) * 256 + (x + dx)) * 4 + 3;
+        bd[ii] = Math.max(0, bd[ii] - erase * 255);
+      }
+    }
+    mx.putImageData(bid, 0, 0);
+    const mistTex = new THREE.CanvasTexture(mc); mistTex.colorSpace = THREE.SRGBColorSpace;
+    const mrand = mulberry32(seed ^ 0x7157);
+    for (let mi = 0; mi < 14; mi++) {
+      // background gap + distant river: z -35..-105, clustered near centerline
+      const mz = -35 - mrand() * 70;
+      const mxp = riverX(mz) + (mrand() - 0.5) * 26;
+      const myp = WATER_Y + 2.5 + mrand() * 5;
+      const mscale = 10 + mrand() * 12;
+      const smat = new THREE.SpriteMaterial({
+        map: mistTex, transparent: true, depthWrite: false,
+        opacity: 0.16 + mrand() * 0.12, fog: false,
+      });
+      const spr = new THREE.Sprite(smat);
+      spr.position.set(mxp, myp, mz);
+      spr.scale.set(mscale, mscale * 0.62, 1);
+      scene.add(spr);
+      const phase = mrand() * 6.28, baseO = smat.opacity;
+      mistUpdaters.push((t) => {
+        spr.position.x = mxp + Math.sin(t * 0.05 + phase) * 1.5;
+        smat.opacity = baseO * (0.8 + 0.2 * Math.sin(t * 0.11 + phase * 2));
+      });
+    }
+    mark('mist');
+  }
+
   /* lights */
   if (night) {
     const moon = new THREE.DirectionalLight(0x9db8e8, 0.62);
@@ -477,8 +537,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     sun.position.copy(sunDir).multiplyScalar(120);
     sun.castShadow = true;
     sun.shadow.mapSize.set(SHADOW, SHADOW);
-    sun.shadow.camera.left = -60; sun.shadow.camera.right = 60;
-    sun.shadow.camera.top = 60; sun.shadow.camera.bottom = -60;
+    // B"H commit 2: tighter frustum (±45) — 2048px over 90m = 4.4cm/texel.
+    sun.shadow.camera.left = -45; sun.shadow.camera.right = 45;
+    sun.shadow.camera.top = 45; sun.shadow.camera.bottom = -45;
     sun.shadow.camera.far = 320; sun.shadow.bias = -0.0006;
     scene.add(sun);
     scene.add(new THREE.HemisphereLight(T.hemiSky, T.hemiGround, T.hemiI));
@@ -2205,6 +2266,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
 
   /* particles — per-view systems */
   const updaters = [];
+  // B"H commit 2: mist billboard drift/breathing joins the updater loop.
+  for (const mu of mistUpdaters) updaters.push(mu);
   const addParticles = sys => { scene.add(sys.obj); updaters.push(sys.update); };
   const PSETS = {
     forest: ['pollen', 'dust'], river: ['pollen', 'dust'], grassland: ['pollen'],
