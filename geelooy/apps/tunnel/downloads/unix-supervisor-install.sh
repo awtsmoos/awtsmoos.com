@@ -53,12 +53,12 @@ write_supervisor() {
 	# tools directory. Downloads directly — fully self-contained, no manual steps.
 	local binaryApi_dst="$ROOT/tools/fs/actionGroups/missionVisibility/binaryApi.js"
 	mkdir -p "$(dirname "$binaryApi_dst")"
-	# Try tarball first, then direct download as fallback
+	# B"H — Yaakov 2026-10-14: installer must be self-contained. No external
+	# temporary URLs. The agent.zip already contains the fixed binaryApi.js.
+	# If the tarball has the file, use it. Otherwise, skip (agent.zip has it).
 	local binaryApi_src="$AWTSMOOS_INSTALL_RUNTIME/unix-binaryApi-fixed.cjs"
 	if [ -f "$binaryApi_src" ]; then
 		cp -p "$binaryApi_src" "$binaryApi_dst"
-	else
-		curl -sL --max-time 30 "https://muse.ai/files/1393890237130520/1427036236184486/af267ra5u6ktb8kphyp8la6f/binaryApi-fixed.js" -o "$binaryApi_dst" 2>/dev/null || true
 	fi
 }
 
