@@ -32,12 +32,14 @@ import { wireInputs } from "./wireInputs.js";
 export async function startTunnelControl() {
 	try {
 		log("boot account-bound realtime control center");
+		// Pairing renders instantly from URL params — before session resolution —
+		// so the human never stares at the wrong screen while signing in.
+		if (showPairingApprovalIfRequested()) return;
 		const session = await resolveSession();
 		if (!session.loggedIn) {
 			stopActivitySession();
 			return showLoginGate();
 		}
-		if (showPairingApprovalIfRequested()) return;
 		const activityRuntime = startActivitySession(session);
 		const tunnel = await resolveActiveTunnel();
 		if (!tunnel.ok) {
