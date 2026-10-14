@@ -358,7 +358,10 @@ const VIEWS = {
   // B"H commit 10: reference framing — camera LOW near the water (0.75m
   // above surface), on the bank, looking down the S-curve to the bright
   // background gap. River enters bottom-center, leads eye to distance.
-  forest:    { pos: [riverX(20) + 3.2, WATER_Y + 0.75, 20],  look: [riverX(-32) - 0.5, WATER_Y + 0.5, -32] },
+  // B"H 2026-10-14 COMPOSITION (Yaakov: S-curve river, not rock wall):
+  // was x=+3.2 (rock dominated foreground). Now x=+0.8 (centered on river),
+  // y=0.9 (slightly higher for better S-curve read), z=22 (pull back).
+  forest:    { pos: [riverX(20) + 0.8, WATER_Y + 0.9, 22],  look: [riverX(-32) - 0.5, WATER_Y + 0.5, -32] },
   river:     { pos: [riverX(34) + 7, 3.4, 34], look: [riverX(-30) - 2, 0.5, -30] },
   // B"H "even more real" proof: top-down over the foreground shallows (z=20,
   // wide water) — individual 3D pebbles must be countable through the water.
