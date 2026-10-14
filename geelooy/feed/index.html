@@ -365,10 +365,15 @@ document.getElementById('feed-search-input').addEventListener('keydown', (event)
 		document.addEventListener('click', onDocClick, true);
 		document.addEventListener('keydown', onDocKey);
 	});
-	// The theme dropdown's button label is translated; repaint it on change.
+	// Static chrome repaints on language change; the theme button's label is
+	// owned by the theme painter, so repaint it with the translated theme
+	// name AFTER paintStatic (which would reset it to the generic "Theme").
 	onLangChange(() => {
 		paintLabel();
 		paintStatic();
+		const themeLabel = document.getElementById('feed-theme-drop-label');
+		const theme = document.getElementById('feed-stage')?.getAttribute('data-feed-theme');
+		if (themeLabel && theme) themeLabel.textContent = t('theme.name.' + theme);
 	});
 })();
 </script>
