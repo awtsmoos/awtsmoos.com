@@ -12,6 +12,7 @@ const { revokeApiKey } = require("../revokeApiKey.js");
 const { usage } = require("../usage.js");
 const {
 	pairingApprove,
+	pairingPage,
 	pairingRequest,
 	pairingState,
 	pairingStatus
@@ -54,6 +55,7 @@ const identityRoutes = Object.freeze({
 	usage,
 	"pairing/request": pairingRequest,
 	"pairing/approve": pairingApprove,
+	"pairing/page": pairingPage,
 	"pairing/state": pairingState,
 	"pairing/status": pairingStatus,
 	"external-agent/invite/create": inviteCreate,

@@ -3,9 +3,10 @@
 // Blessed is He
 
 const { currentIdentity } = require("../core/auth.js");
-const { body } = require("../core/request.js");
-const { json } = require("../core/respond.js");
+const { body, query } = require("../core/request.js");
+const { html, json } = require("../core/respond.js");
 const Pairing = require("../core/tunnelSecurity/pairingStore.js");
+const { pairingPageHtml } = require("./pairingPage.js");
 
 /**
  * @file HTTP boundaries for device pairing request, approval, and consumption.
@@ -67,8 +68,22 @@ async function pairingState($i) {
 	return json($i, { BH: "B\"H", ...result }, result.ok ? 200 : 404);
 }
 
+/**
+ * B"H — Standalone instant-loading approval page (Yaakov 2026-10-14).
+ * GET /api/tunnel/control/pairing/page?pairingId=...&pairingCode=...
+ * A single self-contained HTML page: inline CSS/JS, zero external
+ * requests except the approve POST. No tunnel-control app framework.
+ * Public to render (approval itself still requires the account session).
+ */
+async function pairingPage($i) {
+	const params = query($i) || {};
+	const pairingCode = String(params.pairingCode || params.code || "");
+	return html($i, pairingPageHtml({ pairingCode }));
+}
+
 module.exports = {
 	pairingApprove,
+	pairingPage,
 	pairingRequest,
 	pairingState,
 	pairingStatus

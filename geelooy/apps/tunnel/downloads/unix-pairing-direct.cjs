@@ -117,7 +117,9 @@ async function cmdRequest(args) {
 		process.exit(1);
 	}
 
-	const approvalUrl = new URL("/apps/tunnel-control/", origin);
+	// B"H — Yaakov 2026-10-14: lightweight standalone approval page, not the
+	// full tunnel-control app. Instant loading.
+	const approvalUrl = new URL("/api/tunnel/control/pairing/page", origin);
 	approvalUrl.searchParams.set("pairingId", result.pairingId);
 	approvalUrl.searchParams.set("pairingCode", result.userCode);
 

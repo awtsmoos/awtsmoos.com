@@ -40,7 +40,7 @@ print_candidate_pairing_card() {
 	pairing_code="$(candidate_pairing_field pairingUserCode)"
 	approval_url="$(candidate_pairing_field pairingApprovalUrl)"
 	if [ -z "$approval_url" ]; then
-		approval_url="https://awtsmoos.com/apps/tunnel-control/?pairingId=${pairing_id}&pairingCode=${pairing_code}"
+		approval_url="https://awtsmoos.com/api/tunnel/control/pairing/page?pairingId=${pairing_id}&pairingCode=${pairing_code}"
 	fi
 	expires_at="$(candidate_pairing_field pairingExpiresAt)"
 	local expires_label="soon"
@@ -109,6 +109,7 @@ wait_for_candidate_probe() {
 	local deadline_ms="$((started_ms + timeout_seconds * 1000))"
 	local announced_pairing=0
 	local announced_preparing=0
+	local announced_direct_skip=0
 	local pairing_wait_started_ms=0
 	# B"H — Level 2 direct poll state (Yaakov 2026-10-14).
 	local installer_pairing_id=""
@@ -145,7 +146,16 @@ wait_for_candidate_probe() {
 			fi
 			candidate_stability_reset
 		fi
-		if [ "${CANDIDATE_IDENTITY_AUTHORITY:-readonly}" = "fresh" ]; then
+		# B"H — Yaakov 2026-10-14: when installer-direct pairing already
+		# succeeded, the agent starts already-paired — skip the candidate's
+		# own pairing-wait entirely. No redundant approval card.
+		if [ "${AWTSMOOS_DIRECT_PAIRING_DONE:-0}" = "1" ] && [ "$announced_direct_skip" != "1" ]; then
+			announced_direct_skip=1
+			install_event "candidate-pairing" "skipped" \
+				"Installer-direct pairing already completed; candidate starts already-paired." \
+				"directPairing=done"
+		fi
+		if [ "${CANDIDATE_IDENTITY_AUTHORITY:-readonly}" = "fresh" ] && [ "${AWTSMOOS_DIRECT_PAIRING_DONE:-0}" != "1" ]; then
 			local previous_deadline_ms="$deadline_ms"
 			deadline_ms="$(extend_fresh_candidate_deadline_ms "$deadline_ms")"
 			if [ "$deadline_ms" -gt "$previous_deadline_ms" ] && [ "$announced_pairing" -eq 0 ]; then

@@ -46,7 +46,8 @@ function status(config, pairingId, requestSecret) {
 
 /** Returns the browser approval URL without a long-lived secret. */
 function approvalUrl(config, pairingId, userCode) {
-	const target = new URL("/apps/tunnel-control/", baseUrl(config));
+	// B"H — Yaakov 2026-10-14: lightweight standalone approval page.
+	const target = new URL("/api/tunnel/control/pairing/page", baseUrl(config));
 	target.searchParams.set("pairingId", pairingId);
 	target.searchParams.set("pairingCode", userCode);
 	return target.toString();

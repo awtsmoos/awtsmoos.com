@@ -86,7 +86,7 @@ direct_pairing_show_card() {
 	pairing_code="$(direct_pairing_field userCode)"
 	approval_url="$(direct_pairing_field approvalUrl)"
 	if [ -z "$approval_url" ]; then
-		approval_url="https://awtsmoos.com/apps/tunnel-control/?pairingId=${pairing_id}&pairingCode=${pairing_code}"
+		approval_url="https://awtsmoos.com/api/tunnel/control/pairing/page?pairingId=${pairing_id}&pairingCode=${pairing_code}"
 	fi
 	expires_at="$(direct_pairing_field expiresAt)"
 	local expires_label="soon"
@@ -276,4 +276,8 @@ direct_pairing_flow() {
 			"Re-run the installer for a fresh code."
 	fi
 	direct_pairing_consume
+	# B"H — Yaakov 2026-10-14: pairing is fully done here. The candidate
+	# probe must NOT run its own pairing-wait logic afterwards — the agent
+	# starts already-paired. This flag skips it.
+	export AWTSMOOS_DIRECT_PAIRING_DONE=1
 }
