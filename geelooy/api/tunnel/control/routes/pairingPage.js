@@ -94,7 +94,12 @@ body::after{
 	color:var(--green); font-size:11px; letter-spacing:.32em;
 	font-weight:700; margin-bottom:14px;
 }
-h1{font-size:27px; line-height:1.25; margin-bottom:12px; font-weight:700}
+h1{
+	font-size:27px; line-height:1.25; margin-bottom:12px; font-weight:700;
+	background:linear-gradient(135deg, #e8f0fa, #4dd2ff, #9d4dff);
+	-webkit-background-clip:text; -webkit-text-fill-color:transparent;
+	background-clip:text;
+}
 p.sub{color:var(--dim); font-size:14px; line-height:1.65; margin-bottom:22px}
 .codebox{
 	background:#0a0f18; border:1px solid var(--line);
