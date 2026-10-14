@@ -21,6 +21,10 @@
 <link rel="stylesheet" href="/style/awtsmoos-tokens.css?v=277746350e">
 <link rel="stylesheet" href="/feed/css/feed.css?v=1649cdcf4e">
 <link rel="stylesheet" href="/feed/css/anchoredComments.css?v=1">
+<link rel="stylesheet" href="/feed/css/voiceComments.css?v=1">
+<link rel="stylesheet" href="/feed/css/askAI.css?v=1">
+<link rel="stylesheet" href="/feed/css/offline.css?v=1">
+<link rel="stylesheet" href="/feed/css/liveShiurim.css?v=1">
 <link rel="stylesheet" href="/feed/css/streaks.css?v=1">
 <link rel="stylesheet" href="/feed/css/collections.css?v=1">
 <link rel="stylesheet" href="/feed/css/theme-dark-immersive.css?v=1">
@@ -99,6 +103,17 @@ river.attach();
 // Anchored comments: select text in any card body -> floating Comment button.
 import { initAnchoredComments } from '/feed/js/anchoredComments.js?v=1';
 initAnchoredComments();
+
+// B"H — Yaakov 2026-10-13: TRACK C — voice comments (mic button in every
+// comment composer, 2-minute recorder with waveform, local playback).
+import { initVoiceComments } from '/feed/js/voiceComments.js?v=1';
+initVoiceComments();
+
+// B"H — Yaakov 2026-10-13 (TRACK D): offline mode + live shiurim.
+import { initOffline } from '/feed/js/offline.js?v=1';
+import { initLiveShiurim } from '/feed/js/liveShiurim.js?v=1';
+initOffline();
+initLiveShiurim();
 
 // B"H — Yaakov 2026-10-14: TRACK A quick wins — daily learning streaks.
 import { initStreaks } from '/feed/js/streaks.js?v=1';
