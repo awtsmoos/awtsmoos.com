@@ -1,0 +1,194 @@
+/* B"H — Awtsmoos River home screen widget (daily quote + install prompt).
+ * Tunnel CSS laws: no !important, token-only colors, explicit light/dark
+ * text colors, full interactive states on every control, sharp corners only,
+ * overflow-x guards where content could widen.
+ */
+
+/* ============ daily Torah quote card ============ */
+.feed-widget-quote {
+	margin: 14px 14px 4px;
+	padding: 16px 18px;
+	background: var(--aw-panel-2);
+	border: 1px solid var(--aw-line);
+	border-top: 3px solid var(--aw-accent);
+	border-radius: 0;
+	overflow-x: clip;
+}
+
+.feed-widget-quote-tag {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin-bottom: 10px;
+	font-size: 11px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--aw-accent);
+}
+
+.feed-widget-quote-tag .feed-ic {
+	width: 14px;
+	height: 14px;
+}
+
+.feed-widget-quote-he {
+	margin: 0 0 8px;
+	font-size: 21px;
+	line-height: 1.7;
+	font-weight: 700;
+	color: var(--aw-text);
+}
+
+[data-theme="light"] .feed-widget-quote-he {
+	color: var(--aw-text);
+}
+
+.feed-widget-quote-en {
+	margin: 0;
+	font-size: 15px;
+	line-height: 1.6;
+	font-style: italic;
+	color: var(--aw-text-soft);
+}
+
+[data-theme="light"] .feed-widget-quote-en {
+	color: var(--aw-text-soft);
+}
+
+.feed-widget-quote-foot {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	margin-top: 10px;
+}
+
+.feed-widget-quote-src {
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 700;
+	color: var(--aw-text-soft);
+}
+
+[data-theme="light"] .feed-widget-quote-src {
+	color: var(--aw-text-soft);
+}
+
+.feed-widget-quote-next {
+	padding: 7px 12px;
+	font: inherit;
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--aw-text-soft);
+	background: transparent;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.feed-widget-quote-next:hover {
+	color: var(--aw-text);
+	border-color: var(--aw-accent);
+}
+
+.feed-widget-quote-next:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+}
+
+.feed-widget-quote-next:active {
+	transform: translateY(1px);
+}
+
+[data-theme="light"] .feed-widget-quote-next {
+	color: var(--aw-text-soft);
+}
+
+[data-theme="light"] .feed-widget-quote-next:hover {
+	color: var(--aw-text);
+}
+
+/* ============ install prompt card ============ */
+.feed-widget-prompt {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 10px 14px 0;
+	padding: 10px 12px;
+	background: var(--aw-panel-2);
+	border: 1px solid var(--aw-accent);
+	border-radius: 0;
+	overflow-x: clip;
+}
+
+.feed-widget-prompt-ic .feed-ic {
+	width: 20px;
+	height: 20px;
+	color: var(--aw-accent);
+}
+
+.feed-widget-prompt-text {
+	flex: 1;
+	min-width: 0;
+	font-size: 13px;
+	line-height: 1.5;
+	color: var(--aw-text);
+}
+
+[data-theme="light"] .feed-widget-prompt-text {
+	color: var(--aw-text);
+}
+
+.feed-widget-prompt-ok,
+.feed-widget-prompt-no {
+	padding: 8px 14px;
+	font: inherit;
+	font-size: 13px;
+	font-weight: 700;
+	border-radius: 0;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.feed-widget-prompt-ok {
+	color: var(--aw-bg);
+	background: var(--aw-accent);
+	border: 1px solid var(--aw-accent);
+}
+
+.feed-widget-prompt-ok:hover {
+	filter: brightness(1.1);
+}
+
+.feed-widget-prompt-ok:focus-visible,
+.feed-widget-prompt-no:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+}
+
+.feed-widget-prompt-ok:active,
+.feed-widget-prompt-no:active {
+	transform: translateY(1px);
+}
+
+.feed-widget-prompt-no {
+	color: var(--aw-text-soft);
+	background: transparent;
+	border: 1px solid var(--aw-line);
+}
+
+.feed-widget-prompt-no:hover {
+	color: var(--aw-text);
+}
+
+@media (max-width: 560px) {
+	.feed-widget-prompt {
+		flex-wrap: wrap;
+	}
+
+	.feed-widget-quote-he {
+		font-size: 19px;
+	}
+}
