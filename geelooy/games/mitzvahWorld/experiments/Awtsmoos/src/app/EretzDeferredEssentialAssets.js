@@ -11,6 +11,7 @@
  */
 
 import { resolveGeneratedRuntimeChunkUrl } from './GeneratedRuntimeChunkUrl.js';
+import { PLAYER_MODEL_URL } from './EretzConstants.js';
 
 const READABLE_SOURCE = 'EretzDeferredEssentialAssets.js';
 const PLAYER_CHUNK_URL = resolveGeneratedRuntimeChunkUrl(
@@ -21,7 +22,28 @@ const PLAYER_CHUNK_URL = resolveGeneratedRuntimeChunkUrl(
 
 /** Starts the generated player-chunk import and canonical Chossid fetch without awaiting it. */
 export function beginDeferredEretzEssentialAssets(options = {}) {
+	warmupCanonicalChossidFetch();
 	return import(PLAYER_CHUNK_URL).then(module => module.loadEretzEssentialAssets(options));
+}
+
+/**
+ * Starts the 2MB canonical GLB download immediately, in parallel with the
+ * player-chunk import, instead of serializing the two largest boot downloads.
+ * On a cold cache the GLB fetch used to wait for the player chunk to download,
+ * parse, and run before the first byte flowed; now both fly at once. The
+ * loader's `cache: 'force-cache'` fetch reuses these bytes when it runs.
+ * Fire-and-forget: a warmup failure never breaks boot, the loader retries.
+ */
+function warmupCanonicalChossidFetch() {
+	try {
+		const fetchFn = globalThis.fetch;
+		if (typeof fetchFn !== 'function') return;
+		fetchFn(PLAYER_MODEL_URL, {
+			cache: 'force-cache',
+			credentials: 'omit',
+			mode: 'cors'
+		}).catch(() => {});
+	} catch {}
 }
 
 /** Loads the generated canonical-player chunk and delegates essential asset creation. */
