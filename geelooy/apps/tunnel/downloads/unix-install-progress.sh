@@ -15,8 +15,10 @@ INSTALL_PROGRESS_FILE="${AWTSMOOS_INSTALL_PROGRESS_FILE:-${AWTSMOOS_INSTALL_RUNT
 INSTALL_PROGRESS_LAST=0
 INSTALL_PROGRESS_LINE_OPEN=0
 
-# --- Color detection: TTY on stderr, color allowed, non-dumb TERM ---
-if [ -t 2 ] && [ "${NO_COLOR:-}" != "1" ] && [ "${TERM:-}" != "dumb" ]; then
+# --- Color detection: always beautiful (Yaakov 2026-10-14) ---
+# B"H — Yaakov 2026-10-14: ALWAYS use beautiful colors. The magical experience
+# requires colors at every step. Only disable if explicitly requested.
+if [ "${NO_COLOR:-}" != "1" ] && [ "${TERM:-}" != "dumb" ]; then
 	PRG_C_BOLD=$'\033[1m'; PRG_C_DIM=$'\033[2m'; PRG_C_GOLD=$'\033[1;33m'
 	PRG_C_GREEN=$'\033[1;32m'; PRG_C_RED=$'\033[1;31m'; PRG_C_CYAN=$'\033[1;36m'
 	PRG_C_MAGENTA=$'\033[1;35m'; PRG_C_OFF=$'\033[0m'
