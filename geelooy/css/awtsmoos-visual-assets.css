@@ -40,6 +40,9 @@
   --hero-height-mobile: 220px;
   --hero-height-desktop: 340px;
   --hero-radius: 18px;
+
+  /* Hero title ink: white in both themes — it sits over dark cover imagery. */
+  --awtsmoos-hero-ink: #ffffff;
 }
 
 /* ============ HERO HEADERS ============
@@ -89,7 +92,7 @@
   bottom: 1rem;
   left: 1.25rem;
   right: 1.25rem;
-  color: #fff;
+  color: var(--awtsmoos-hero-ink);
   font-size: 1.75rem;
   font-weight: 700;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);

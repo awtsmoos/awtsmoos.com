@@ -1,5 +1,10 @@
 /* B"H — Kabbalah Shooter first-run tutorial overlay. No !important. Theme-safe vars. */
 
+:root {
+	/* Skip button hover ink: full white over the dark overlay. */
+	--tutorial-skip-hover: #ffffff;
+}
+
 /* The overlay never blocks dragging: only the card + skip capture pointers. */
 #tutorial-overlay {
 	position: absolute;
@@ -92,7 +97,7 @@
 #tutorial-skip:hover,
 #tutorial-skip:focus-visible {
 	border-color: var(--kabbalah-gold, #ffd34d);
-	color: #fff;
+	color: var(--tutorial-skip-hover);
 	outline: none;
 }
 

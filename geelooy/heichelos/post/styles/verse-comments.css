@@ -97,7 +97,7 @@
 	justify-content: center;
 	border-radius: 999px;
 	background: var(--awtsmoos-gold, #c9a227);
-	color: #fff;
+	color: var(--color-on-primary);
 	font-size: 0.65rem;
 	font-weight: 700;
 	line-height: 1;
@@ -293,7 +293,7 @@
 
 .vc-composer-submit {
 	background: var(--awtsmoos-gold, #c9a227);
-	color: #fff;
+	color: var(--color-on-primary);
 }
 
 .vc-composer-submit:disabled {

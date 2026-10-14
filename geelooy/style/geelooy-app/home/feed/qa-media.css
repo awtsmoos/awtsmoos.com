@@ -73,7 +73,7 @@
 	padding: 0.2rem 0.6rem;
 	border-radius: 999px;
 	background: var(--g-gold, #a67c1a);
-	color: #fff;
+	color: var(--color-on-primary);
 	font-size: 0.75rem;
 	font-weight: 700;
 	margin-bottom: 0.4rem;
@@ -103,7 +103,7 @@
 }
 .qa-best-btn:hover {
 	background: var(--g-gold, #a67c1a);
-	color: #fff;
+	color: var(--color-on-primary);
 }
 .qa-answer-form {
 	margin-top: 1rem;
@@ -135,7 +135,7 @@
 	border: none;
 	border-radius: 999px;
 	background: var(--g-gold, #a67c1a);
-	color: #fff;
+	color: var(--color-on-primary);
 	font-weight: 700;
 	cursor: pointer;
 }
@@ -225,7 +225,7 @@
 	padding: 0.25rem 0.6rem;
 	border-radius: 999px;
 	background: rgba(0, 0, 0, 0.6);
-	color: #fff;
+	color: var(--g-ink-dark);
 	font-size: 0.75rem;
 }
 .media-lightbox {
@@ -246,7 +246,7 @@
 	border-radius: 0.5rem;
 }
 .media-lightbox-caption {
-	color: #fff;
+	color: var(--g-ink-dark);
 	max-width: 80vw;
 	text-align: center;
 }
@@ -263,7 +263,7 @@
 	border: none;
 	border-radius: 50%;
 	background: rgba(255, 255, 255, 0.15);
-	color: #fff;
+	color: var(--g-ink-dark);
 	font-size: 1.5rem;
 	cursor: pointer;
 }
@@ -281,7 +281,7 @@
 	border: none;
 	border-radius: 50%;
 	background: rgba(255, 255, 255, 0.15);
-	color: #fff;
+	color: var(--g-ink-dark);
 	font-size: 1.2rem;
 	cursor: pointer;
 }
@@ -428,7 +428,7 @@
 	border: none;
 	border-radius: 999px;
 	background: #a67c1a;
-	color: #fff;
+	color: var(--color-on-primary);
 	font-weight: 700;
 	cursor: pointer;
 }

@@ -581,7 +581,7 @@ code {
   }
 
   .button.primary {
-    color: #ffffff;
+    color: var(--color-on-primary);
   }
 
   .tab {
