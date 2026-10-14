@@ -209,6 +209,82 @@ function loadNormalTexture(url, repeatX = 1, repeatY = 1) {
 function bufferGeometryFromStream(stream, leafShrink = 0) {
   let positions = stream.positions;
   let uvs = stream.uvs;
+  let indices = stream.indices;
+  // B"H LEAF-FIX 2026-10-14 (Yaakov: "not even good billboards"):
+  // Baked leaves are TRIANGLES (shards). Convert to QUADS (leaf cards) with
+  // clean 0-1 UVs. Each triangle becomes a quad at its centroid, sized by
+  // triangle area, with proper leaf texture mapping.
+  // (leafShrink > 0 indicates leaf geometry; bark uses 0)
+  if (leafShrink > 0) {
+    // This is leaf geometry — convert tris to quads
+    const pos = Float32Array.from(positions);
+    const idx = indices ? (indices instanceof Uint32Array ? indices : Uint32Array.from(indices)) : null;
+    const triCount = idx ? idx.length / 3 : pos.length / 9;
+    const quadPos = new Float32Array(triCount * 4 * 3);
+    const quadUV = new Float32Array(triCount * 4 * 2);
+    const quadNormal = new Float32Array(triCount * 4 * 3);
+    const quadIdx = new Uint32Array(triCount * 6);
+    for (let t = 0; t < triCount; t++) {
+      // Get triangle verts
+      const vi = idx ? [idx[t*3], idx[t*3+1], idx[t*3+2]] : [t*3, t*3+1, t*3+2];
+      const p0 = [pos[vi[0]*3], pos[vi[0]*3+1], pos[vi[0]*3+2]];
+      const p1 = [pos[vi[1]*3], pos[vi[1]*3+1], pos[vi[1]*3+2]];
+      const p2 = [pos[vi[2]*3], pos[vi[2]*3+1], pos[vi[2]*3+2]];
+      // Centroid
+      const cx = (p0[0]+p1[0]+p2[0])/3, cy = (p0[1]+p1[1]+p2[1])/3, cz = (p0[2]+p1[2]+p2[2])/3;
+      // Triangle area (for sizing)
+      const ax = p1[0]-p0[0], ay = p1[1]-p0[1], az = p1[2]-p0[2];
+      const bx = p2[0]-p0[0], by = p2[1]-p0[1], bz = p2[2]-p0[2];
+      const nx = ay*bz-az*by, ny = az*bx-ax*bz, nz = ax*by-ay*bx;
+      const area = 0.5 * Math.hypot(nx, ny, nz);
+      const size = Math.sqrt(area) * 1.4 * leafShrink; // quad size from tri area
+      // Normal (for orientation)
+      const nl = Math.hypot(nx, ny, nz) || 1;
+      const nxn = nx/nl, nyn = ny/nl, nzn = nz/nl;
+      // Build quad in triangle plane: use two perpendicular vectors
+      // Pick an arbitrary up vector not parallel to normal
+      let ux = 0, uy = 1, uz = 0;
+      if (Math.abs(nyn) > 0.9) { ux = 1; uy = 0; uz = 0; }
+      // Right = normal × up
+      let rx = nyn*uz-nzn*uy, ry = nzn*ux-nxn*uz, rz = nxn*uy-nyn*ux;
+      const rl = Math.hypot(rx, ry, rz) || 1;
+      rx/=rl; ry/=rl; rz/=rl;
+      // Up = right × normal
+      const ux2 = ry*nzn-rz*nyn, uy2 = rz*nxn-rx*nzn, uz2 = rx*nyn-ry*nxn;
+      const hs = size / 2;
+      const base = t * 12;
+      // 4 corners: (-hs,-hs), (hs,-hs), (hs,hs), (-hs,hs) in (right, up) plane
+      quadPos[base+0] = cx - rx*hs - ux2*hs; quadPos[base+1] = cy - ry*hs - uy2*hs; quadPos[base+2] = cz - rz*hs - uz2*hs;
+      quadPos[base+3] = cx + rx*hs - ux2*hs; quadPos[base+4] = cy + ry*hs - uy2*hs; quadPos[base+5] = cz + rz*hs - uz2*hs;
+      quadPos[base+6] = cx + rx*hs + ux2*hs; quadPos[base+7] = cy + ry*hs + uy2*hs; quadPos[base+8] = cz + rz*hs + uz2*hs;
+      quadPos[base+9] = cx - rx*hs + ux2*hs; quadPos[base+10] = cy - ry*hs + uy2*hs; quadPos[base+11] = cz - rz*hs + uz2*hs;
+      // Clean 0-1 UVs
+      const uvb = t * 8;
+      quadUV[uvb+0]=0; quadUV[uvb+1]=0;
+      quadUV[uvb+2]=1; quadUV[uvb+3]=0;
+      quadUV[uvb+4]=1; quadUV[uvb+5]=1;
+      quadUV[uvb+6]=0; quadUV[uvb+7]=1;
+      // Two triangles
+      const ib = t * 6, vb = t * 4;
+      quadIdx[ib+0]=vb; quadIdx[ib+1]=vb+1; quadIdx[ib+2]=vb+2;
+      quadIdx[ib+3]=vb; quadIdx[ib+4]=vb+2; quadIdx[ib+5]=vb+3;
+      // Normals (triangle normal for all 4 verts)
+      const nb = t * 12;
+      for (let v = 0; v < 4; v++) {
+        quadNormal[nb+v*3]=nxn; quadNormal[nb+v*3+1]=nyn; quadNormal[nb+v*3+2]=nzn;
+      }
+    }
+    positions = quadPos;
+    uvs = quadUV;
+    indices = quadIdx;
+    // Skip the old shrink/UV logic below for converted geometry
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    g.setAttribute('normal', new THREE.BufferAttribute(quadNormal, 3));
+    g.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
+    g.setIndex(new THREE.BufferAttribute(indices, 1));
+    return g;
+  }
   if (leafShrink > 0 && positions.length % 12 === 0) {
     // shrink each leaf quad toward its centroid so foliage photos read as fine detail
     const p = Float32Array.from(positions);
