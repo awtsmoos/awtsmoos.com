@@ -37,23 +37,40 @@ function pairingPageHtml({ pairingCode = "", returnPath = "" } = {}) {
 <meta name="theme-color" content="#0a0e14">
 <title>Approve this device? · Awtsmoos</title>
 <style>
+/* B"H — Yaakov 2026-10-14: MAGICAL STYLES! Beautiful, glowing, animated! */
 :root{
 	--bg:#0a0e14; --card:#101722; --line:#1f2b3d; --text:#e8f0fa;
 	--dim:#8fa1b8; --green:#2fd47e; --green-dark:#178a4e; --red:#e05656;
-	--gold:#d8a93f;
+	--gold:#d8a93f; --blue:#4da6ff; --purple:#9d4dff; --cyan:#4dd2ff;
 }
 *{box-sizing:border-box;border-radius:0;margin:0;padding:0}
 html,body{height:100%}
 body{
-	background:var(--bg); color:var(--text);
+	background:linear-gradient(135deg, #0a0e14 0%, #0d1420 50%, #0a0e14 100%);
+	background-size:200% 200%;
+	animation:magicalBg 15s ease infinite;
+	color:var(--text);
 	font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
 	display:flex; align-items:center; justify-content:center;
 	padding:20px; -webkit-text-size-adjust:100%;
 }
+@keyframes magicalBg{
+	0%,100%{background-position:0% 50%}
+	50%{background-position:100% 50%}
+}
 .card{
 	width:100%; max-width:430px; background:var(--card);
 	border:1px solid var(--line); padding:34px 30px 30px;
-	box-shadow:0 18px 60px rgba(0,0,0,.55);
+	box-shadow:0 18px 60px rgba(0,0,0,.55), 0 0 40px rgba(77,166,255,.15);
+	position:relative; overflow:hidden;
+}
+.card::before{
+	content:""; position:absolute; top:0; left:-100%; width:100%; height:2px;
+	background:linear-gradient(90deg, transparent, var(--cyan), var(--purple), transparent);
+	animation:shimmer 3s linear infinite;
+}
+@keyframes shimmer{
+	0%{left:-100%} 100%{left:100%}
 }
 .kicker{
 	color:var(--green); font-size:11px; letter-spacing:.32em;
@@ -73,13 +90,21 @@ p.sub{color:var(--dim); font-size:14px; line-height:1.65; margin-bottom:22px}
 .btn{
 	display:block; width:100%; padding:15px 12px; font-size:16px; font-weight:700;
 	border:1px solid transparent; cursor:pointer; text-align:center;
-	margin-bottom:10px; transition:background .12s ease, transform .06s ease;
+	margin-bottom:10px; transition:all .2s ease;
 	-webkit-tap-highlight-color:transparent;
 }
-.btn:active{transform:translateY(1px)}
-.btn-approve{background:var(--green); color:#06130b; border-color:var(--green)}
-.btn-approve:hover{background:#45e292}
-.btn-approve:disabled{background:var(--green-dark); border-color:var(--green-dark); color:#0a0e14; cursor:wait; opacity:.75}
+.btn:active{transform:translateY(1px) scale(.98)}
+.btn-approve{
+	background:linear-gradient(135deg, var(--green), #25b86a);
+	color:#06130b; border-color:var(--green);
+	box-shadow:0 4px 20px rgba(47,212,126,.3);
+}
+.btn-approve:hover{
+	background:linear-gradient(135deg, #45e292, var(--green));
+	box-shadow:0 6px 30px rgba(47,212,126,.5);
+	transform:translateY(-1px);
+}
+.btn-approve:disabled{background:var(--green-dark); border-color:var(--green-dark); color:#0a0e14; cursor:wait; opacity:.75; box-shadow:none; transform:none}
 .btn-cancel{background:transparent; color:var(--dim); border-color:var(--line); margin-bottom:0}
 .btn-cancel:hover{color:var(--text); border-color:var(--dim)}
 .status{min-height:22px; font-size:13.5px; color:var(--dim); margin-top:14px; line-height:1.5}
