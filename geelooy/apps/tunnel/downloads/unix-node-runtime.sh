@@ -30,13 +30,26 @@ node_candidate_paths() {
 	done
 }
 
+# Bounded node probe (Yaakov 2026-10-14): a wedged node binary must never
+# hang the installer. Uses GNU timeout when present; this module is sourced
+# before unix-install-errors.sh, so run_with_timeout is not available here.
+_probe_node_candidate() {
+	local candidate="$1"
+	if command -v timeout >/dev/null 2>&1; then
+		timeout 10 "$candidate" -e 'process.exit(Number(process.versions.node.split(".")[0]) >= 18 ? 0 : 1)' \
+			>/dev/null 2>&1
+	else
+		"$candidate" -e 'process.exit(Number(process.versions.node.split(".")[0]) >= 18 ? 0 : 1)' \
+			>/dev/null 2>&1
+	fi
+}
+
 resolve_node_bin() {
 	local root="${1:-${ROOT:-${AWTSMOOS_INSTALL_ROOT:-$HOME/.awtsmoos-tunnel}}}"
 	local candidate=""
 	while IFS= read -r candidate; do
 		[ -x "$candidate" ] || continue
-		if "$candidate" -e 'process.exit(Number(process.versions.node.split(".")[0]) >= 18 ? 0 : 1)' \
-			>/dev/null 2>&1; then
+		if _probe_node_candidate "$candidate"; then
 			printf '%s\n' "$candidate"
 			return 0
 		fi

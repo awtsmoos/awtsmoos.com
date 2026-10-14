@@ -60,7 +60,7 @@ clear_abandoned_runtime_locks() {
 lock_has_live_owner() {
 	local lock="$1"
 	local pid=""
-	pid="$(node - "$lock" <<'NODE'
+	pid="$(run_with_timeout 10 "abandoned runtime lock check" -- node - "$lock" <<'NODE' || true
 const fs = require("node:fs");
 const path = require("node:path");
 const lock = process.argv[2];

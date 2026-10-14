@@ -87,7 +87,11 @@ install_event() {
 		finish_install_progress_line
 	fi
 	mkdir -p "$INSTALL_LOG_ROOT"
-	node - "$INSTALL_LOG_FILE" "$phase" "$outcome" "$message" "$detail" <<'NODE'
+	# Yaakov 2026-10-14: the log write must never wedge the installer. The
+	# event is best-effort (the beautiful console line below always prints);
+	# a wedged node only costs us the JSONL line, never the install.
+	run_with_timeout 10 "install event log write" -- \
+		node - "$INSTALL_LOG_FILE" "$phase" "$outcome" "$message" "$detail" <<'NODE' || true
 const fs = require("node:fs");
 const [file, phase, outcome, message, detail] = process.argv.slice(2);
 const event = {

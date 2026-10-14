@@ -29,10 +29,11 @@ remove_disposable_candidate() {
 	local candidate="$1"
 	[ -e "$candidate" ] || return 0
 	if is_protected_candidate "$candidate"; then
-		echo "Preserving active Awtsmoos path: $candidate"
+		# Yaakov 2026-10-14: beautiful, never raw — paths stay out of the console.
+		prg_dim "Preserving the active runtime path."
 		return 0
 	fi
-	echo "Cleaning disposable Awtsmoos state: $candidate"
+	prg_dim "Cleaning disposable install debris."
 	rm -rf "$candidate" || true
 }
 

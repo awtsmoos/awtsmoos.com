@@ -22,7 +22,7 @@ install_remediation_for() {
 		node-runtime)
 			printf '%s' 'No usable Node.js runtime was found and none could be provisioned. Install Node.js 18 or newer (https://nodejs.org), make sure `node` is on your PATH, then re-run the installer. Minimal/agent-only modes use your system Node.' ;;
 		install-lock)
-			printf '%s' 'Another installer holds the install lock. If no installer is running, delete the stale lock file printed in the log above and re-run. Never delete it while an install is actually in progress.' ;;
+			printf '%s' 'Another installer is still running. The installer waits up to 12 seconds for it to finish, and a lock left by a dead process is cleared automatically — you never need to delete it by hand. If installs keep colliding, make sure no other install is actually in progress, then re-run.' ;;
 		package-stage|bundle-download|checksum)
 			printf '%s' 'The release bundle could not be downloaded or failed checksum verification. Check your connection and disk space (df -h), then re-run — the installer resumes and re-downloads cleanly.' ;;
 		candidate-probe|candidate-readiness|activation)

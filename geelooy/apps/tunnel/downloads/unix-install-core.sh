@@ -20,14 +20,40 @@ trap cleanup_install EXIT
 # Awtsmoos.com walks current release, verified archive, and Tier-Zero before surrender.
 install_begin_step 1 3 "Setting up your tunnel" "verifying the installer and preserving your identity" 15 30
 install_progress 20 "Preparing complete verified reinstall"
-acquire_install_lock
-persist_node_runtime "$ROOT"
-resume_interrupted_install
-rotate_runtime_logs
-prune_displaced_runtimes
+# Yaakov 2026-10-14: this phase must never hang silently and never ask the
+# human to rm -rf a stale lock. Every sub-step is visible on the bar; every
+# failure reaches the beautiful error card via without_errexit (no set -e
+# death that drops back to the shell prompt with no message). Every node
+# call inside these helpers is bounded by run_with_timeout, so nothing here
+# can wedge forever. (Note: run_with_timeout only wraps external binaries —
+# never shell functions — because GNU timeout cannot exec a function.)
+clear_stale_install_lock
+install_progress 20 "Claiming the install lock"
+if ! without_errexit acquire_install_lock; then
+	install_fail "install-lock" \
+		"Could not claim the install lock." \
+		"lock=$INSTALL_LOCK_DIRECTORY"
+fi
+install_progress 20 "Verifying the Node runtime"
+if ! without_errexit persist_node_runtime "$ROOT"; then
+	install_fail "node-runtime" \
+		"The Node.js runtime could not be verified." \
+		"root=$ROOT"
+fi
+install_progress 20 "Resuming any interrupted install"
+if ! without_errexit resume_interrupted_install; then
+	install_fail "bootstrap" \
+		"Could not resume an interrupted install." \
+		"root=$ROOT"
+fi
+install_progress 20 "Rotating runtime logs"
+without_errexit rotate_runtime_logs || true
+install_progress 20 "Pruning displaced runtimes"
+without_errexit prune_displaced_runtimes || true
 install_event "bootstrap" "started" \
 	"Beginning identity-preserving complete tunnel reinstall." "$ROOT"
-cleanup_disposable_state "$(pwd)"
+install_progress 20 "Cleaning disposable state"
+without_errexit cleanup_disposable_state "$(pwd)" || true
 
 install_progress 21 "Preserving durable identity and browser state"
 migrate_dynamic_state
