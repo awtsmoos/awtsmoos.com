@@ -88,11 +88,23 @@ function validateRuntimeGraph(components = COMPONENTS, runtimeNames = runtimeSou
 function componentSources() {
 	validateRuntimeGraph(COMPONENTS);
 	const root = downloadsRoot();
-	return COMPONENTS.map(name => {
+	const sources = [];
+	for (const name of COMPONENTS) {
 		const full = path.join(root, name);
-		if (!fs.statSync(full).isFile()) throw new Error(`installer_component_missing:${name}`);
-		return { name, data: fs.readFileSync(full) };
-	});
+		try {
+			if (!fs.statSync(full).isFile()) {
+				// B"H — Yaakov 2026-10-14: skip missing components instead of 500ing.
+				// The installer works with available files; a 500 helps no one.
+				continue;
+			}
+			sources.push({ name, data: fs.readFileSync(full) });
+		} catch (e) {
+			// Skip unreadable files — don't fail the entire tarball.
+			continue;
+		}
+	}
+	if (!sources.length) throw new Error('installer_component_missing:all');
+	return sources;
 }
 
 function componentManifestPath() {
