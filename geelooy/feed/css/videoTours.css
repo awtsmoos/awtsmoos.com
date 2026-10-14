@@ -1,0 +1,340 @@
+/* B"H — Awtsmoos River guided heichel tours (overlay, not video files).
+ * Tunnel CSS laws: no !important, token-only colors, explicit light/dark
+ * text colors, full interactive states on every control, sharp corners only,
+ * overflow-x guards where content could widen.
+ */
+
+/* ============ launcher button in the topbar ============ */
+.vt-launcher {
+	position: relative;
+}
+
+.vt-launcher.has-unseen::after {
+	content: "";
+	position: absolute;
+	top: 7px;
+	right: 7px;
+	width: 8px;
+	height: 8px;
+	background: var(--accent-gold);
+}
+
+/* ============ tour picker menu ============ */
+.vt-menu {
+	position: absolute;
+	z-index: 1150;
+	top: calc(100% + 8px);
+	right: 12px;
+	min-width: 250px;
+	max-width: min(320px, calc(100vw - 24px));
+	padding: 8px;
+	background: var(--aw-surface);
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	box-shadow: 0 18px 44px rgba(0, 0, 0, 0.4);
+	overflow-x: clip;
+}
+
+.vt-menu-head {
+	margin: 2px 6px 8px;
+	font-size: 12px;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--aw-text-soft);
+}
+
+.vt-menu-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	width: 100%;
+	padding: 10px 12px;
+	border: 1px solid transparent;
+	border-radius: 0;
+	background: transparent;
+	color: var(--aw-text);
+	font: inherit;
+	font-size: 15px;
+	cursor: pointer;
+	text-align: left;
+}
+
+.vt-menu-item:hover {
+	border-color: var(--aw-line);
+	background: var(--aw-bg);
+}
+
+.vt-menu-item:active {
+	transform: translateY(1px);
+}
+
+.vt-menu-item:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+}
+
+.vt-menu-state {
+	font-size: 12px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--accent-gold);
+}
+
+.vt-menu-empty {
+	margin: 4px 6px;
+	font-size: 14px;
+	color: var(--aw-text-soft);
+}
+
+/* ============ tour overlay ============ */
+body.vt-open {
+	overflow: hidden;
+}
+
+.vt-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 1400;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 18px;
+}
+
+.vt-backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(4, 5, 8, 0.78);
+}
+
+[data-theme="light"] .vt-backdrop {
+	background: rgba(30, 22, 8, 0.6);
+}
+
+.vt-card {
+	position: relative;
+	width: min(560px, 100%);
+	max-height: calc(100vh - 36px);
+	display: flex;
+	flex-direction: column;
+	background: var(--aw-surface);
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	border-top: 3px solid var(--accent-gold);
+	color: var(--aw-text);
+	box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+	overflow: hidden;
+	animation: vt-in 260ms ease;
+}
+
+@keyframes vt-in {
+	from { opacity: 0; transform: translateY(14px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+
+.vt-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 14px 18px 0;
+}
+
+.vt-heichel {
+	font-size: 13px;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--accent-gold);
+}
+
+.vt-close {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	padding: 0;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: transparent;
+	color: var(--aw-text-soft);
+	cursor: pointer;
+}
+
+.vt-close svg {
+	width: 17px;
+	height: 17px;
+}
+
+.vt-close:hover {
+	border-color: var(--accent-gold);
+	color: var(--accent-gold);
+}
+
+.vt-close:active {
+	transform: translateY(1px);
+}
+
+.vt-close:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 3px;
+}
+
+.vt-body {
+	padding: 10px 22px 6px;
+	overflow-y: auto;
+	overflow-x: clip;
+}
+
+.vt-kicker {
+	margin: 0 0 6px;
+	font-size: 12px;
+	font-weight: 800;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--aw-text-soft);
+}
+
+.vt-title {
+	margin: 0 0 12px;
+	font-size: 24px;
+	font-weight: 800;
+	line-height: 1.25;
+	color: var(--aw-text);
+}
+
+.vt-text {
+	margin: 0 0 14px;
+	font-size: 16px;
+	line-height: 1.65;
+	color: var(--aw-text);
+}
+
+.vt-list {
+	margin: 0 0 16px;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.vt-list li {
+	padding: 10px 12px;
+	border-left: 3px solid var(--accent-gold);
+	background: var(--aw-bg);
+	color: var(--aw-text);
+	font-size: 15px;
+	line-height: 1.5;
+}
+
+.vt-dots {
+	display: flex;
+	gap: 8px;
+	justify-content: center;
+	padding: 8px 0 4px;
+}
+
+.vt-dot {
+	width: 30px;
+	height: 8px;
+	padding: 0;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: var(--aw-bg);
+	cursor: pointer;
+}
+
+.vt-dot.is-active {
+	background: var(--accent-gold);
+	border-color: var(--accent-gold);
+}
+
+.vt-dot:hover {
+	border-color: var(--accent-gold);
+}
+
+.vt-dot:active {
+	transform: scaleY(0.8);
+}
+
+.vt-dot:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+}
+
+.vt-foot {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 14px 18px 18px;
+}
+
+.vt-spacer {
+	flex: 1;
+}
+
+.vt-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px 16px;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: var(--aw-bg);
+	color: var(--aw-text);
+	font: inherit;
+	font-size: 15px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.vt-btn svg {
+	width: 17px;
+	height: 17px;
+	flex: none;
+}
+
+.vt-btn-primary {
+	background: var(--accent-gold);
+	border-color: var(--accent-gold);
+	color: #1a1206;
+}
+
+.vt-btn-ghost {
+	border-color: transparent;
+	color: var(--aw-text-soft);
+}
+
+.vt-btn:hover {
+	border-color: var(--accent-gold);
+	color: var(--accent-gold);
+}
+
+.vt-btn-primary:hover {
+	color: #1a1206;
+	filter: brightness(1.06);
+}
+
+.vt-btn-ghost:hover {
+	color: var(--aw-text);
+	border-color: var(--aw-line);
+}
+
+.vt-btn:active {
+	transform: translateY(1px);
+}
+
+.vt-btn:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 3px;
+}
+
+.vt-btn:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
