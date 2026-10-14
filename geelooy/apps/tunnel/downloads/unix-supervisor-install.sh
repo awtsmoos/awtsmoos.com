@@ -83,13 +83,36 @@ start_supervisor_process() {
 start_supervisor() {
 	write_supervisor
 	start_supervisor_process
-	# B"H — Yaakov 2026-10-14: installer must NEVER hang. After the supervisor
-	# is started, we are DONE. Print success and exit immediately. Do not
-	# wait for anything, do not verify, do not continue. The supervisor
-	# will manage the agent. If the agent has issues, they show in logs.
-	printf '\n✓ Tunnel agent installed and supervisor started.\n' >&2
-	printf '✓ Installation complete.\n' >&2
-	exit 0
+	# B"H — Yaakov 2026-10-14: installer stays as a real process showing
+	# realtime status. Wait for agent to start (max 30s), show clear
+	# success or error. Never hang silently.
+	printf '\nWaiting for tunnel agent to start...\n' >&2
+	local waited=0
+	local max_wait=30
+	while [ $waited -lt $max_wait ]; do
+		# Check if agent process is running
+		if pgrep -f "awtsmoos-agent\|tunnel-agent" >/dev/null 2>&1; then
+			printf '\n✓ Tunnel agent process started.\n' >&2
+			printf '✓ Installation complete. Agent is connecting...\n' >&2
+			return 0
+		fi
+		# Check if supervisor died
+		if [ -f "$ROOT/supervisor.pid" ]; then
+			local spid=$(cat "$ROOT/supervisor.pid" 2>/dev/null || true)
+			if [ -n "$spid" ] && ! kill -0 "$spid" 2>/dev/null; then
+				printf '\n✗ Supervisor died unexpectedly.\n' >&2
+				printf 'Check logs at %s for details.\n' "$ROOT/logs" >&2
+				return 1
+			fi
+		fi
+		sleep 2
+		waited=$((waited + 2))
+		printf '.' >&2
+	done
+	printf '\n' >&2
+	printf '⚠ Agent process not detected within %ss.\n' "$max_wait" >&2
+	printf 'Supervisor is running. Check logs at %s.\n' "$ROOT/logs" >&2
+	return 0
 }
 
 start_restored_supervisor() {

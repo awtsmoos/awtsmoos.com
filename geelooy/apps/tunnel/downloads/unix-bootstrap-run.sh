@@ -150,7 +150,7 @@ export AWTSMOOS_INSTALL_PROGRESS_FILE="$progress_file"
 export AWTSMOOS_INSTALL_CWD="$install_cwd"
 export AWTSMOOS_PROJECT_ROOT="$project_root"
 trap cleanup_bootstrap EXIT
-bootstrap_progress 0 '🌱 Planting the seeds of your Awtsmoos Tunnel...'
+bootstrap_progress 0 'Initializing your Awtsmoos Tunnel...'
 fetch_bootstrap_file unix-node-runtime.sh & node_fetch_pid=$!
 fetch_bootstrap_file unix-bootstrap-components.sh & components_fetch_pid=$!
 fetch_bootstrap_file unix-bootstrap-components-download.sh & download_fetch_pid=$!
@@ -166,9 +166,9 @@ persist_node_runtime "$install_root"
 bootstrap_progress 4 "⚡ Node runtime verified and sparkling: $AWTSMOOS_NODE_BIN"
 source "$runtime_root/unix-bootstrap-components.sh"
 download_installer_components
-bootstrap_progress 18 '✨ Verified installer components ready — looking magical!'
+bootstrap_progress 18 'Verified installer components ready'
 [ -t 1 ] && printf '\n'
-bst_party 'Verified installer components ready — the magic is building! 🎭'
+bst_party 'Verified installer components ready'
 recovery_root="${AWTSMOOS_RECOVERY_ROOT:-${install_root}-recovery}"
 custody_delegated=1
 set +e
