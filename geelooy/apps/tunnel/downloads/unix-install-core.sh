@@ -27,6 +27,10 @@ install_progress 20 "Preparing complete verified reinstall"
 # call inside these helpers is bounded by run_with_timeout, so nothing here
 # can wedge forever. (Note: run_with_timeout only wraps external binaries —
 # never shell functions — because GNU timeout cannot exec a function.)
+# Yaakov 2026-10-14: a fresh run instantly replaces any older installer — no
+# waiting on ghost processes, no manual cleanup. Kill first, then clear the
+# stale lock the dead owner left behind, then claim it ourselves.
+kill_stale_installers
 clear_stale_install_lock
 install_progress 20 "Claiming the install lock"
 if ! without_errexit acquire_install_lock; then

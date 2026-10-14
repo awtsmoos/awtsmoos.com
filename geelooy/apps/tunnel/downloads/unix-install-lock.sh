@@ -11,9 +11,70 @@ INSTALL_LOCK_TOKEN=""
 # The Awtsmoos renews stale state without stealing a living installer; Awtsmoos.com
 # passes the durable shell PID explicitly and releases only that exact owner token.
 #
-# Yaakov 2026-10-14: no silent hangs, no manual rm -rf. Every node call here is
-# bounded by run_with_timeout; a dead owner is cleared automatically with a
-# beautiful note; only a truly live owner ever blocks — and the wait is visible.
+# Yaakov 2026-10-14: a fresh installer run INSTANTLY replaces any older installer.
+# kill_stale_installers runs at startup before anything else: every older installer
+# process is signalled immediately (no waiting, no "another installer" message).
+# Only installer machinery is ever touched; the live tunnel agent is never harmed,
+# and our own ancestor chain (bootstrap -> custody -> this shell) is excluded.
+# The 12s wait in acquire_install_lock survives only as a fallback for the rare
+# case where the kill itself fails.
+kill_stale_installers() {
+	local self="$$"
+	# Our own runtime root: every process of THIS run (bootstrap, custody
+	# delegate, detached runner) references it. Older runs used a different
+	# stamped runtime root, so this precisely separates ours from theirs.
+	# (The custody "delegate" is detached from our process tree, so the
+	# ancestor walk alone cannot see it.)
+	local own_runtime="${AWTSMOOS_INSTALL_RUNTIME:-}"
+	# Build the full ancestor chain as a second layer of protection.
+	local ancestors=" $self "
+	local p="$PPID"
+	local guard=0
+	while [ -n "$p" ] && [ "$p" != "0" ] && [ "$p" != "1" ] && [ "$guard" -lt 32 ]; do
+		ancestors="$ancestors$p "
+		p="$(ps -o ppid= -p "$p" 2>/dev/null | tr -d '[:space:]')" || break
+		guard=$(( guard + 1 ))
+	done
+	local patterns="unix-install-core.sh unix-install-custody.cjs unix-bootstrap-run.sh unix-bootstrap-components.sh unix-candidate-probe.sh"
+	local pid cmdline matched pat
+	local killed=0
+	while read -r pid cmdline; do
+		case "$pid" in ''|*[!0-9]*) continue ;; esac
+		case "$ancestors" in *" $pid "*) continue ;; esac
+		if [ -n "$own_runtime" ]; then
+			case "$cmdline" in *"$own_runtime"*) continue ;; esac
+		fi
+		matched=0
+		for pat in $patterns; do
+			case "$cmdline" in *"$pat"*) matched=1; break ;; esac
+		done
+		[ "$matched" = "1" ] || continue
+		if kill -TERM "$pid" 2>/dev/null; then
+			killed=$(( killed + 1 ))
+		fi
+	done < <(ps -eo pid=,args= 2>/dev/null)
+	[ "$killed" -gt 0 ] || return 0
+	# Brief grace, then force the stubborn ones (re-scan, only still-alive).
+	sleep 2
+	while read -r pid cmdline; do
+		case "$pid" in ''|*[!0-9]*) continue ;; esac
+		case "$ancestors" in *" $pid "*) continue ;; esac
+		if [ -n "$own_runtime" ]; then
+			case "$cmdline" in *"$own_runtime"*) continue ;; esac
+		fi
+		matched=0
+		for pat in $patterns; do
+			case "$cmdline" in *"$pat"*) matched=1; break ;; esac
+		done
+		[ "$matched" = "1" ] || continue
+		kill -KILL "$pid" 2>/dev/null || true
+	done < <(ps -eo pid=,args= 2>/dev/null)
+	install_event "install-lock" "passed" \
+		"Cleared a previous interrupted install." \
+		"stopped ${killed} stale installer process(es); proceeding immediately"
+	return 0
+}
+
 acquire_install_lock() {
 	local timeout_seconds="${AWTSMOOS_INSTALL_LOCK_TIMEOUT_SECONDS:-12}"
 	local sample=0
