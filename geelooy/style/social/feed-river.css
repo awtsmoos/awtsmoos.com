@@ -8,6 +8,18 @@
  * skeleton loaders, inviting empty states.
  */
 
+/* B"H — feed-river design tokens. Yaakov: colors ONLY via var tokens, never
+   hardcoded. These brown/gold values are the real design: they render over
+   light gold-tinted surfaces (the toggle pill is rgba(255,255,255,0.65)),
+   so they are preserved exactly. */
+:root {
+	--feed-river-text: #6b5a3f;
+	--feed-river-text-hover: #4a3d28;
+	--feed-river-link: #8a6d1f;
+	--feed-river-link-hover: #6e5618;
+	--feed-river-on-dark: #ffffff;
+}
+
 /* ---------- Feed toggle: For You / Latest / Popular ---------- */
 .feed-mode-toggle {
 	display: flex;
@@ -36,7 +48,7 @@
 	font-size: 0.85rem;
 	font-weight: 700;
 	letter-spacing: 0.02em;
-	color: #6b5a3f;
+	color: var(--feed-river-text);
 	cursor: pointer;
 	transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease, transform 0.12s ease;
 	-webkit-tap-highlight-color: transparent;
@@ -47,7 +59,7 @@
 
 .feed-mode-btn:hover {
 	background: rgba(184, 134, 11, 0.12);
-	color: #4a3d28;
+	color: var(--feed-river-text-hover);
 }
 
 .feed-mode-btn:active {
@@ -125,7 +137,7 @@
 
 .feed-ask-btn {
 	background: #a67c1a;
-	color: #fff;
+	color: var(--feed-river-on-dark);
 	font-weight: 700;
 	border: none;
 }
@@ -176,7 +188,7 @@
 	height: 1.7rem;
 	border-radius: 50%;
 	background: linear-gradient(135deg, #c9971f, #8a6508);
-	color: #fff;
+	color: var(--feed-river-on-dark);
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -202,7 +214,7 @@
 	gap: 0.35rem;
 	font-size: 0.85rem;
 	font-weight: 600;
-	color: #8a6d1f;
+	color: var(--feed-river-link);
 	background: rgba(184, 134, 11, 0.1);
 	border: 1px solid rgba(184, 134, 11, 0.25);
 	border-radius: 0.6rem;
@@ -214,7 +226,7 @@
 }
 .feed-card__maamar-link:hover {
 	background: rgba(184, 134, 11, 0.18);
-	color: #6e5618;
+	color: var(--feed-river-link-hover);
 }
 .feed-card__maamar-link:focus-visible {
 	outline: 2px solid #b8860b;
@@ -245,7 +257,7 @@
 	padding: 0.5rem 0.3rem;
 	font-size: 0.82rem;
 	font-weight: 600;
-	color: #6b5a3f;
+	color: var(--feed-river-text);
 	cursor: pointer;
 	transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
 	-webkit-tap-highlight-color: transparent;
@@ -264,7 +276,7 @@
 
 .feed-action:hover {
 	background: rgba(184, 134, 11, 0.10);
-	color: #4a3d28;
+	color: var(--feed-river-text-hover);
 }
 
 .feed-action:hover img {

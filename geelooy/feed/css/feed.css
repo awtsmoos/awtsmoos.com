@@ -1886,8 +1886,15 @@ a.feed-ic-btn:visited {
 	justify-content: center;
 	border: 1px solid var(--aw-line);
 	background: transparent;
-	color: transparent;
+	/* B"H: no text here — only an aria-hidden SVG check icon. The icon hides
+	   while unchecked via opacity (below), so the box keeps an explicit,
+	   visible ink color instead of the old color:transparent trick. */
+	color: var(--aw-text);
 	border-radius: 0;
+}
+
+.feed-filter-check .feed-filter-check-ic {
+	opacity: 0;
 }
 
 .feed-filter-check-ic {
@@ -1899,6 +1906,10 @@ a.feed-ic-btn:visited {
 	background: var(--accent-gold, #d4a94e);
 	border-color: var(--accent-gold, #d4a94e);
 	color: #1a1206;
+}
+
+.feed-filter-row input[type="checkbox"]:checked + .feed-filter-check .feed-filter-check-ic {
+	opacity: 1;
 }
 
 .feed-filter-row input[type="checkbox"]:focus-visible + .feed-filter-check {
