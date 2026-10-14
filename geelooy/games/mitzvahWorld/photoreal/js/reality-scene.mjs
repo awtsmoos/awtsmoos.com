@@ -1982,7 +1982,11 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       } catch {}
       const t = baked || generateTreeProceduralData(name, { detail: 'balanced' });
       const barkG = bufferGeometryFromStream(t.bark || t.branches);
-      const leavesG = bufferGeometryFromStream(t.leaves, 0.85);
+      // B"H LEAF-FIX 2026-10-14 (Yaakov: "huge planes"): was 0.85 (15%
+      // shrink) — baked quads are 1-2 METERS (billboards). 0.35 shrinks
+      // them to 0.35-0.7m leaf clusters (real scale). UV aspect fix above
+      // prevents the streaking.
+      const leavesG = bufferGeometryFromStream(t.leaves, 0.35);
       // B"H 2026-10-13: baked JSONs are GIGANTIC (oak bark spans 124u!).
       // Normalize to real tree height (16-22u) or trunks fill the frame as
       // flat columns. Scale baked into geometry so all downstream systems
