@@ -125,6 +125,7 @@ function applyBakedBark(mat, barkAlbedoTex, barkRoughTex, mossTex) {
       .replace('#include <common>', `#include <common>
         varying vec3 vBarkWPos; varying vec3 vBarkWNormal;
         uniform sampler2D uBarkAlbedo, uBarkRough, uMossAlbedo;
+        uniform vec3 uRimSunDirW;
         // cheap hash for moss-placement breakup (distribution, not surface)
         float barkHash(vec2 p) {
           return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
@@ -143,6 +144,11 @@ function applyBakedBark(mat, barkAlbedoTex, barkRoughTex, mossTex) {
           float mBreak = barkHash(floor(bwp.xz * 8.0) + floor(bwp.y * 4.0));
           float mossMask = smoothstep(0.45, 0.75, upFace * 0.65 + mBreak * 0.45);
           mossMask *= 1.0 - smoothstep(2.0, 7.0, bwp.y);
+          // B"H WAY-better #11: moss prefers the shaded side (north bias) —
+          // away from the sun azimuth, where moisture lingers.
+          vec2 sunAz = normalize(uRimSunDirW.xz);
+          float shadeSide = clamp(-dot(normalize(bwn.xz + vec2(1e-5)), sunAz), 0.0, 1.0);
+          mossMask *= 0.65 + 0.70 * shadeSide;
           vec3 mossCol = texture2D(uMossAlbedo, barkUV * 2.0).rgb;
           vec3 col = mix(barkCol, mossCol, clamp(mossMask, 0.0, 1.0));
           // wetness darkening: near water level
@@ -1646,6 +1652,39 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   scene.add(treeGroup);
   mark('trees-placed');
 
+  /* B"H WAY-better #9: seedlings/saplings near mother trees — young
+     understory. Instanced: tiny trunk + 3-leaf tuft, 1 draw call. Placed
+     in the drip-line of random mature trees. */
+  {
+    const SAP_N = 28;
+    const sapGeo = new THREE.ConeGeometry(0.09, 0.55, 6);
+    sapGeo.translate(0, 0.27, 0);
+    const sapMat = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(0.32, 0.42, 0.22), roughness: 0.95,
+    });
+    const sapInst = new THREE.InstancedMesh(sapGeo, sapMat, SAP_N);
+    const sd = new THREE.Object3D();
+    const srnd = mulberry32(seed ^ 0x5eed);
+    for (let i = 0; i < SAP_N; i++) {
+      const mother = treeSpots[(srnd() * treeSpots.length) | 0];
+      if (!mother) continue;
+      const a = srnd() * Math.PI * 2, r = 1.5 + srnd() * 3.5;
+      const sx = mother.x + Math.cos(a) * r, sz = mother.z + Math.sin(a) * r;
+      if (Math.abs(sx - riverX(sz)) < 7) continue; // not in water
+      sd.position.set(sx, groundHeight(sx, sz, noise), sz);
+      sd.rotation.y = srnd() * Math.PI * 2;
+      sd.rotation.z = (srnd() - 0.5) * 0.15;
+      const s = 0.6 + srnd() * 0.9;
+      sd.scale.set(s, s * (0.8 + srnd() * 0.5), s);
+      sd.updateMatrix();
+      sapInst.setMatrixAt(i, sd.matrix);
+    }
+    sapInst.count = SAP_N;
+    sapInst.castShadow = false; sapInst.receiveShadow = true;
+    scene.add(sapInst);
+    mark('seedlings');
+  }
+
   /* B"H — ROOT FLARE (Yaakov 2026-10-13: audit every tree algorithm).
      Fundamental gap: trunks met the ground as straight cylinders — real
      trees flare into buttress roots. New geometry: 6-8 tapered roots per
@@ -2050,6 +2089,30 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     // B"H "even more real": crown masses glow when looking toward the sun —
     // this is the distant canopy that read as a dark mass.
     addCanopyBacklight(quadMat, 0.75, 2.0, 'crown');
+    // B"H WAY-better #8: per-tree phase — crown quads sway in the traveling
+    // gust with phase from world position, so no two trees move in sync.
+    quadMat.onBeforeCompile = (sh) => {
+      sh.uniforms.uCrownTime = { value: 0 };
+      quadMat.userData.sh = sh;
+      sh.vertexShader = sh.vertexShader
+        .replace('#include <common>', `#include <common>
+          uniform float uCrownTime;`)
+        .replace('#include <begin_vertex>', `#include <begin_vertex>
+          {
+            #ifdef USE_INSTANCING
+              vec3 cwPos = (instanceMatrix * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
+            #else
+              vec3 cwPos = vec3(0.0);
+            #endif
+            float cph = fract(sin(dot(cwPos.xz, vec2(39.425, 11.31))) * 24634.63) * 6.283;
+            float cgust = pow(0.5 + 0.5 * sin((cwPos.x * 0.35 + cwPos.z * 0.22) - uCrownTime * 1.1), 3.0);
+            float csway = cgust * 0.06 * sin(uCrownTime * 1.4 + cph);
+            transformed.x += csway;
+            transformed.z += csway * 0.7;
+          }`);
+      quadMat.customProgramCacheKey = () => 'crown-wind-v1';
+    };
+    scene.userData.crownMat = quadMat;
     const PER_ANCHOR = fast ? 5 : 7;
     const inst = new THREE.InstancedMesh(quadGeo, quadMat, anchors.length * PER_ANCHOR);
     const out = new THREE.Vector3();
@@ -2180,7 +2243,40 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       leafInst.count = lp;
       if (leafInst.instanceColor) leafInst.instanceColor.needsUpdate = true;
       leafInst.castShadow = false; leafInst.receiveShadow = true;
+      // B"H WAY-better #6/#7: per-leaf flutter + traveling wind gusts.
+      // Each leaf wobbles on its own phase (from instance world pos); a
+      // slow gust band sweeps across the canopy (world-x traveling sine).
+      // Small amplitude — leaves shiver, they don't fly.
+      leafMat.onBeforeCompile = (sh) => {
+        sh.uniforms.uLeafTime = { value: 0 };
+        leafMat.userData.sh = sh;
+        sh.vertexShader = sh.vertexShader
+          .replace('#include <common>', `#include <common>
+            uniform float uLeafTime;`)
+          .replace('#include <begin_vertex>', `#include <begin_vertex>
+            {
+              #ifdef USE_INSTANCING
+                vec3 lwPos = (instanceMatrix * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
+              #else
+                vec3 lwPos = vec3(0.0);
+              #endif
+              // per-leaf phase from world position (cheap hash, no attribute)
+              float lph = fract(sin(dot(lwPos.xz, vec2(12.9898, 78.233))) * 43758.5453) * 6.283;
+              // #6 flutter: tiny rotation-ish wobble, stronger at leaf tip
+              float tipW = clamp(position.y * 6.0 + 0.5, 0.0, 1.0);
+              float fl = sin(uLeafTime * 3.1 + lph) * 0.012 * tipW
+                       + sin(uLeafTime * 5.3 + lph * 1.7) * 0.006 * tipW;
+              // #7 gust: traveling band across the canopy (world x + z)
+              float gustBand = 0.5 + 0.5 * sin((lwPos.x * 0.35 + lwPos.z * 0.22) - uLeafTime * 1.1);
+              float gust = pow(gustBand, 3.0) * 0.035;
+              transformed.x += fl + gust * sin(uLeafTime * 2.2 + lph);
+              transformed.z += fl * 0.6 + gust * 0.7 * cos(uLeafTime * 1.8 + lph);
+              transformed.y += gust * 0.4 * sin(uLeafTime * 2.6 + lph * 2.0);
+            }`);
+        leafMat.customProgramCacheKey = () => 'leaf-wind-v1';
+      };
       scene.add(leafInst);
+      scene.userData.leafMat = leafMat;
     }
     mark('individual-leaves');
 
@@ -2719,6 +2815,57 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     litterInst.count = litPlaced;
     litterInst.receiveShadow = true;
     scene.add(litterInst);
+
+    /* B"H WAY-better #10: shelf fungi on fallen logs — small bracket discs
+       on the log sides. Premade canvas texture (concentric zones), instanced.
+       1 draw call. Stored log matrices reused for placement. */
+    {
+      const FUNGI_N = 18;
+      // premade shelf-fungus texture: concentric tan/brown zones, pale rim
+      const fcv = document.createElement('canvas'); fcv.width = fcv.height = 64;
+      const fx = fcv.getContext('2d');
+      const zones = ['#8a6f4d', '#a08055', '#c4a06a', '#e0c090', '#f0e0b8'];
+      for (let zi = 0; zi < zones.length; zi++) {
+        fx.fillStyle = zones[zi];
+        fx.beginPath();
+        fx.arc(32, 32, 30 - zi * 5.5, 0, 6.283);
+        fx.fill();
+      }
+      const ftex = new THREE.CanvasTexture(fcv);
+      ftex.colorSpace = THREE.SRGBColorSpace;
+      const funGeo = new THREE.CircleGeometry(0.09, 10);
+      const funMat = new THREE.MeshStandardMaterial({
+        map: ftex, roughness: 0.9, side: THREE.DoubleSide,
+      });
+      const funInst = new THREE.InstancedMesh(funGeo, funMat, FUNGI_N);
+      const fd = new THREE.Object3D();
+      const frnd = mulberry32(seed ^ 0xf961);
+      const logM = new THREE.Matrix4();
+      for (let i = 0; i < FUNGI_N; i++) {
+        // pick a log, stick to its side
+        const li = (frnd() * LOG_COUNT) | 0;
+        logInst.getMatrixAt(li, logM);
+        const lp = new THREE.Vector3(), lq = new THREE.Quaternion(), ls = new THREE.Vector3();
+        logM.decompose(lp, lq, ls);
+        const along = (frnd() - 0.5) * 4.5 * ls.x; // along the log
+        const sideA = frnd() * Math.PI * 2;
+        // log local: cylinder laid horizontal (rotated Z by 90°), length on X
+        const local = new THREE.Vector3(along, Math.cos(sideA) * 0.42 * ls.y, Math.sin(sideA) * 0.42 * ls.y);
+        local.applyQuaternion(lq).add(lp);
+        fd.position.copy(local);
+        // face outward from log axis
+        const out = new THREE.Vector3(0, Math.cos(sideA), Math.sin(sideA)).applyQuaternion(lq);
+        fd.lookAt(local.clone().add(out));
+        fd.rotateX(-0.35); // shelf tilts slightly down
+        const fs = 0.6 + frnd() * 1.1;
+        fd.scale.setScalar(fs);
+        fd.updateMatrix();
+        funInst.setMatrixAt(i, fd.matrix);
+      }
+      funInst.castShadow = false; funInst.receiveShadow = true;
+      scene.add(funInst);
+      mark('shelf-fungi');
+    }
   }
   mark('forest-floor-props');
 
@@ -2933,6 +3080,16 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   if (scene.userData.floatLeafUpdate) updaters.push(scene.userData.floatLeafUpdate);
   // B"H WAY-better #15: drip ripple rings.
   if (scene.userData.dripUpdate) updaters.push(scene.userData.dripUpdate);
+  // B"H WAY-better #6/#7: leaf flutter + gust clock.
+  if (scene.userData.leafMat) {
+    const lm = scene.userData.leafMat;
+    updaters.push((t) => { if (lm.userData.sh) lm.userData.sh.uniforms.uLeafTime.value = t; });
+  }
+  // B"H WAY-better #8: crown sway clock.
+  if (scene.userData.crownMat) {
+    const cm = scene.userData.crownMat;
+    updaters.push((t) => { if (cm.userData.sh) cm.userData.sh.uniforms.uCrownTime.value = t; });
+  }
   const addParticles = sys => { scene.add(sys.obj); updaters.push(sys.update); };
   const PSETS = {
     forest: ['pollen', 'dust'], river: ['pollen', 'dust'], grassland: ['pollen'],
