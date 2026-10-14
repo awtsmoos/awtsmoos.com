@@ -67,7 +67,7 @@ function approveInStore(store, accountId, userCode) {
 		tunnelId: binding.tunnelId,
 		result: "allowed"
 	});
-	return { ok: true, tunnelId: binding.tunnelId };
+	return { ok: true, tunnelId: binding.tunnelId, pairingId: pairing.pairingId };
 }
 
 function matchingPairing(store, userCode) {

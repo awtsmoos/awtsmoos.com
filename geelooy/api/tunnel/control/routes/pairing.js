@@ -30,6 +30,19 @@ async function pairingApprove($i) {
 	}
 	const data = await body($i);
 	const result = Pairing.approvePairing(identity.accountId, data.userCode);
+	// B"H — Level 3 of Yaakov's multi-level approval detection (2026-10-14):
+	// push a wake-up to any agent watching this pairing over WebSocket. The
+	// push carries no credential — the device still consumes it through the
+	// possession-bound pairing/status call. Safe if nobody listens.
+	if (result.ok && result.pairingId && $i.ws) {
+		try {
+			$i.ws.sendToAlias(`pairing:${result.pairingId}`, {
+				type: "pairing_approved",
+				pairingId: result.pairingId,
+				at: Date.now()
+			});
+		} catch {}
+	}
 	return json($i, { BH: "B\"H", ...result }, result.ok ? 200 : 404);
 }
 
@@ -43,8 +56,20 @@ async function pairingStatus($i) {
 	return json($i, { BH: "B\"H", ...result }, result.ok ? 200 : 404);
 }
 
+/**
+ * B"H — Read-only pairing state (Yaakov 2026-10-14, multi-level approval
+ * detection level 2). Lets the installer check approval directly without the
+ * request secret and WITHOUT consuming the pairing. Never mutates.
+ */
+async function pairingState($i) {
+	const data = await body($i);
+	const result = Pairing.describePairing(data.pairingId);
+	return json($i, { BH: "B\"H", ...result }, result.ok ? 200 : 404);
+}
+
 module.exports = {
 	pairingApprove,
 	pairingRequest,
+	pairingState,
 	pairingStatus
 };

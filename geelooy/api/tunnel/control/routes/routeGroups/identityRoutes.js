@@ -13,6 +13,7 @@ const { usage } = require("../usage.js");
 const {
 	pairingApprove,
 	pairingRequest,
+	pairingState,
 	pairingStatus
 } = require("../pairing.js");
 const {
@@ -53,6 +54,7 @@ const identityRoutes = Object.freeze({
 	usage,
 	"pairing/request": pairingRequest,
 	"pairing/approve": pairingApprove,
+	"pairing/state": pairingState,
 	"pairing/status": pairingStatus,
 	"external-agent/invite/create": inviteCreate,
 	"external-agent/invite/describe": inviteDescribe,

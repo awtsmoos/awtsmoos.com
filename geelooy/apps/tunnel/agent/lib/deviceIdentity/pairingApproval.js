@@ -3,6 +3,7 @@
 // Blessed is He
 
 const PairingClient = require("./pairingClient.js");
+const PairingPush = require("./pairingPush.js");
 
 const POLL_INTERVAL_MS = 2000;
 
@@ -44,43 +45,74 @@ async function wait(config, response, options = {}) {
 		Date.now() + Number(options.timeoutMs || MAX_PAIRING_WAIT_MS)
 	);
 	let consecutiveErrors = 0;
-	while (Date.now() < deadline) {
-		if (options.signal?.aborted) throw pairingFailure("pairing_cancelled");
-		let status;
-		try {
-			status = await PairingClient.status(
-				config,
-				response.pairingId,
-				response.requestSecret
-			);
-		} catch (error) {
-			// B"H — a single failed poll (network blip, timeout, transient
-			// server error) must NEVER kill the pairing wait. Log it and keep
-			// polling until the deadline. Only terminal states abort early.
-			consecutiveErrors += 1;
-			options.log?.(
-				"warn",
-				`B"H pairing status poll failed (attempt ${consecutiveErrors}), retrying: ${error?.message || error}`
-			);
-			await delay(options.pollIntervalMs || POLL_INTERVAL_MS);
-			continue;
-		}
-		consecutiveErrors = 0;
-		if (status.state === "approved" && status.credentialEnvelope) return status;
-		// B"H — "consumed" means another process (usually a stale candidate
-		// agent from an interrupted install) already claimed this pairing's
-		// credential. It will never become "approved" for us; fail fast with
-		// a clear message instead of polling forever.
-		if (["expired", "cancelled", "rejected", "consumed"].includes(status.state)) {
-			throw pairingFailure(`pairing_${status.state}`);
-		}
-		// The server slides the expiry forward on every healthy poll; follow it
-		// so the installer never dies while it is alive and polling.
-		const refreshed = Number(status.expiresAt || 0);
-		if (refreshed > deadline) deadline = refreshed;
-		await delay(options.pollIntervalMs || POLL_INTERVAL_MS);
+	// B"H — Level 3 of Yaakov's multi-level approval detection (2026-10-14):
+	// a WebSocket push watcher runs beside polling. It is best-effort only:
+	// any failure yields silently to polling, which stays authoritative.
+	let push = null;
+	try {
+		push = PairingPush.watchForApproval(config, response.pairingId, {
+			log: options.log,
+			signal: options.signal
+		});
+	} catch {
+		push = null;
 	}
-	throw pairingFailure("pairing_expired");
+	try {
+		while (Date.now() < deadline) {
+			if (options.signal?.aborted) throw pairingFailure("pairing_cancelled");
+			let status;
+			try {
+				status = await PairingClient.status(
+					config,
+					response.pairingId,
+					response.requestSecret
+				);
+			} catch (error) {
+				// B"H — a single failed poll (network blip, timeout, transient
+				// server error) must NEVER kill the pairing wait. Log it and keep
+				// polling until the deadline. Only terminal states abort early.
+				consecutiveErrors += 1;
+				options.log?.(
+					"warn",
+					`B"H pairing status poll failed (attempt ${consecutiveErrors}), retrying: ${error?.message || error}`
+				);
+				await sleepUnlessPush(push, options.pollIntervalMs || POLL_INTERVAL_MS);
+				continue;
+			}
+			consecutiveErrors = 0;
+			if (status.state === "approved" && status.credentialEnvelope) return status;
+			// B"H — "consumed" means another process (usually a stale candidate
+			// agent from an interrupted install) already claimed this pairing's
+			// credential. It will never become "approved" for us; fail fast with
+			// a clear message instead of polling forever.
+			if (["expired", "cancelled", "rejected", "consumed"].includes(status.state)) {
+				throw pairingFailure(`pairing_${status.state}`);
+			}
+			// The server slides the expiry forward on every healthy poll; follow it
+			// so the installer never dies while it is alive and polling.
+			const refreshed = Number(status.expiresAt || 0);
+			if (refreshed > deadline) deadline = refreshed;
+			await sleepUnlessPush(push, options.pollIntervalMs || POLL_INTERVAL_MS);
+		}
+		throw pairingFailure("pairing_expired");
+	} finally {
+		try { push?.close(); } catch {}
+	}
+}
+
+/**
+ * B"H — Sleeps between polls, but wakes the instant the WebSocket push fires
+ * so approval is confirmed without waiting out the poll interval. Falls back
+ * to a plain sleep when the push watcher is absent or already finished.
+ */
+async function sleepUnlessPush(push, ms) {
+	if (!push || !push.state.active) {
+		await delay(ms);
+		return;
+	}
+	if (push.takeFired()) return;
+	await Promise.race([delay(ms), push.notified]);
+	push.takeFired();
 }
 
 function announce(log, response, approval) {

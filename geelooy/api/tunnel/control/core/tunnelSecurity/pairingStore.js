@@ -2,7 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
-const { mutateStore } = require("../store.js");
+const { mutateStore, readStore } = require("../store.js");
 const Approval = require("./pairingApproval.js");
 const Friendly = require("./pairingErrorMessages.js");
 const Id = require("./identifiers.js");
@@ -90,6 +90,32 @@ function approvePairing(accountId, userCode) {
 	return result;
 }
 
+/**
+ * B"H — Read-only pairing state for redundancy checks (installer direct poll,
+ * agent WS-watch confirmation). Never consumes, never slides expiry, never
+ * requires the request secret. Safe for unauthenticated possession-free polling:
+ * pairing IDs are unguessable and the response reveals only the state.
+ */
+function describePairing(pairingId) {
+	const normalized = Id.normalizeIdentifier(pairingId);
+	if (!normalized) {
+		return { ok: false, error: "pairing_not_found" };
+	}
+	const store = readStore();
+	const pairing = store.tunnelPairings[normalized];
+	if (!pairing) {
+		return { ok: false, error: "pairing_not_found" };
+	}
+	if (pairing.state === "pending" && pairing.expiresAt <= Date.now()) {
+		return { ok: true, state: "expired", expiresAt: pairing.expiresAt };
+	}
+	return {
+		ok: true,
+		state: pairing.state,
+		expiresAt: pairing.expiresAt
+	};
+}
+
 /** Returns one encrypted credential envelope to the possessing device. */
 function consumePairing(pairingId, requestSecret) {
 	let result = {
@@ -133,5 +159,6 @@ module.exports = {
 	PAIRING_LIFETIME_MS,
 	approvePairing,
 	consumePairing,
-	createPairingRequest
+	createPairingRequest,
+	describePairing
 };

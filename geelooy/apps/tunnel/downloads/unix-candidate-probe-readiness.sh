@@ -77,6 +77,32 @@ print_candidate_pairing_card() {
 	return 0
 }
 
+# B"H — Level 2 of Yaakov's multi-level approval detection (2026-10-14):
+# the installer itself polls the passive pairing state endpoint directly,
+# so a wedged candidate poll loop can never strand the human silently.
+# Read-only: never consumes the pairing, never needs the request secret.
+installer_pairing_state() {
+	local pairing_id="$1"
+	[ -n "$pairing_id" ] || return 1
+	[ -n "$AWTSMOOS_NODE_BIN" ] || return 1
+	local resp
+	resp="$(curl -fs -m 10 -X POST \
+		-H "Content-Type: application/json" \
+		--data-binary "{\"pairingId\":\"$pairing_id\"}" \
+		"$origin/api/tunnel/control/pairing/state" 2>/dev/null)" || return 1
+	[ -n "$resp" ] || return 1
+	"$AWTSMOOS_NODE_BIN" -e '
+let s = "";
+process.stdin.on("data", c => { s += c; });
+process.stdin.on("end", () => {
+	try {
+		const j = JSON.parse(s);
+		if (j && j.ok && j.state) process.stdout.write(String(j.state));
+	} catch {}
+});
+' <<<"$resp" 2>/dev/null
+}
+
 wait_for_candidate_probe() {
 	local timeout_seconds="${AWTSMOOS_CANDIDATE_PROBE_TIMEOUT_SECONDS:-120}"
 	local started_ms="$(candidate_now_ms)"
@@ -84,6 +110,14 @@ wait_for_candidate_probe() {
 	local announced_pairing=0
 	local announced_preparing=0
 	local pairing_wait_started_ms=0
+	# B"H — Level 2 direct poll state (Yaakov 2026-10-14).
+	local installer_pairing_id=""
+	local installer_last_state_poll_ms=0
+	local installer_approval_seen_ms=0
+	local installer_state_poll_interval_ms=5000
+	# B"H — after the installer itself sees approval, the candidate gets this
+	# long to finish registering before we fail with a targeted message.
+	local approval_settle_ms="${AWTSMOOS_APPROVAL_SETTLE_MS:-60000}"
 	# B"H — how long to wait for the candidate to write its pairing info
 	# before failing beautifully instead of stranding the human (Yaakov 2026-10-14).
 	local pairing_info_timeout_ms="${AWTSMOOS_PAIRING_INFO_TIMEOUT_MS:-90000}"
@@ -131,6 +165,7 @@ wait_for_candidate_probe() {
 				_pairing_id="$(candidate_pairing_field pairingId 2>/dev/null)"
 				if [ -n "$_pairing_id" ]; then
 					print_candidate_pairing_card || true
+					installer_pairing_id="$_pairing_id"
 					announced_pairing=1
 				else
 					if [ "$announced_preparing" -eq 0 ]; then
@@ -144,6 +179,40 @@ wait_for_candidate_probe() {
 							"The tunnel agent did not produce an approval code." \
 							"The candidate is running but never wrote its pairing info. Check the candidate log for errors."
 					fi
+				fi
+			fi
+			# B"H — Level 2: the installer polls pairing state directly every
+			# few seconds once the card is shown. If the human approved on
+			# their phone but the candidate's own poll loop is wedged, we
+			# still see it here and say so beautifully instead of hanging.
+			if [ "$announced_pairing" -eq 1 ] && [ -n "$installer_pairing_id" ]; then
+				if [ "$((now_ms - installer_last_state_poll_ms))" -ge "$installer_state_poll_interval_ms" ]; then
+					installer_last_state_poll_ms="$now_ms"
+					local _pairing_state
+					_pairing_state="$(installer_pairing_state "$installer_pairing_id" 2>/dev/null)"
+					case "$_pairing_state" in
+						approved|consumed)
+							if [ "$installer_approval_seen_ms" -eq 0 ]; then
+								installer_approval_seen_ms="$now_ms"
+								prg_ok "Approval detected! Waiting for the agent to finish registering…"
+								install_event "candidate-pairing" "approved" \
+									"Device approval detected by the installer directly." \
+									"state=$_pairing_state"
+							fi
+							;;
+					esac
+				fi
+				# B"H — approval went through (we saw it ourselves) but the
+				# candidate never became ready: fail with a targeted message
+				# instead of a generic timeout. Never promote an unregistered
+				# candidate — that would install a credential-less agent.
+				if [ "$installer_approval_seen_ms" -ne 0 ] && \
+					[ "$((now_ms - installer_approval_seen_ms))" -ge "$approval_settle_ms" ]; then
+					write_candidate_readiness_receipt \
+						"approved_not_ready" "registration" "$now_ms" "$started_ms"
+					install_fail "candidate-pairing" \
+						"Approval went through, but the tunnel agent did not finish registering." \
+						"The device was approved and the installer saw it, yet the agent never completed. Check the candidate probe log, then re-run the installer for a fresh code."
 				fi
 			fi
 		fi
