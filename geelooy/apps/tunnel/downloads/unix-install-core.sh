@@ -31,9 +31,16 @@ cleanup_disposable_state "$(pwd)"
 
 install_progress 21 "Preserving durable identity and browser state"
 migrate_dynamic_state
-if ! load_release_metadata; then
-	if recover_without_release_metadata; then
-		complete_metadata_recovery
+# B"H — never let this phase die silently (Yaakov 2026-10-14): run the
+# metadata fetch and its recovery lanes with errexit off so every internal
+# failure becomes a return code that reaches the beautiful error card.
+if ! without_errexit load_release_metadata; then
+	if without_errexit recover_without_release_metadata; then
+		if ! without_errexit complete_metadata_recovery; then
+			install_fail "metadata-recovery" \
+				"Local recovery reported success but could not complete." \
+				"mode=${METADATA_RECOVERY_MODE:-unknown} root=$ROOT"
+		fi
 		exit 0
 	fi
 	install_fail "release-metadata" \

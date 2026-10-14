@@ -118,6 +118,19 @@ print_install_error_card() {
 	_err_box_bottom
 }
 
+# Run a command with errexit disabled so an internal failure surfaces as a
+# return code instead of killing the whole installer silently. (Yaakov
+# 2026-10-14: a set -e death inside the release-check phase dropped back to
+# the shell prompt with no error at all — every failure must reach the
+# beautiful error card instead.) set -u and pipefail stay on.
+without_errexit() {
+	set +e
+	"$@"
+	local rc=$?
+	set -e
+	[ "$rc" -eq 0 ]
+}
+
 # Run a command with a hard timeout. Usage:
 #   run_with_timeout <seconds> <label> -- <command> [args...]
 # Returns 124 with a clear message on timeout; otherwise the command's status.
