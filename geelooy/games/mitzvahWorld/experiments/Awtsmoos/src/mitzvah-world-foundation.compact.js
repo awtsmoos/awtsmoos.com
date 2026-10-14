@@ -16789,7 +16789,8 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	/** Starts the generated player-chunk import and canonical Chossid fetch without awaiting it. */
 	function beginDeferredEretzEssentialAssets(options = {}) {
-		warmupCanonicalChossidFetch();
+		// B"H: warmup disabled 2026-10-13 — testing if it interferes with the loader.
+		// warmupCanonicalChossidFetch();
 		return import(PLAYER_CHUNK_URL).then(module => module.loadEretzEssentialAssets(options));
 	}
 
