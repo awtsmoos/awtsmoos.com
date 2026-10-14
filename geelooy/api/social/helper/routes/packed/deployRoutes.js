@@ -108,15 +108,10 @@ function appendDeployLog(entry) {
 
 /** Resolve the production repo working tree. */
 function repoRoot() {
-	// The systemd service sets WorkingDirectory to the repo.
-	// Fall back to git toplevel if available.
-	try {
-		const top = execFileSync('git', ['rev-parse', '--show-toplevel'], {
-			cwd: process.cwd(), encoding: 'utf8', timeout: 5000,
-		}).trim();
-		if (top && fs.existsSync(top)) return top;
-	} catch {}
-	return process.cwd();
+	// B"H — Yaakov 2026-10-14: use __dirname, not git/cwd.
+	// git rev-parse and process.cwd() are unreliable in production.
+	// The deploy API must write to the correct repo path every time.
+	return path.resolve(__dirname, '../../../../../..');
 }
 
 // ---------------------------------------------------------------------------
