@@ -139,7 +139,10 @@ cleanup_bootstrap() {
 
 fetch_bootstrap_file() {
 	local name="$1"
-	bootstrap_fetch "$origin/apps/tunnel/downloads/$name" "$runtime_root/$name" "$name"
+	# B"H — Yaakov 2026-10-14: use the API route, not the static path.
+	# The static /apps/tunnel/downloads/ path 403s via nginx.
+	# The API /api/tunnel/install/ serves the files correctly.
+	bootstrap_fetch "$origin/api/tunnel/install/$name" "$runtime_root/$name" "$name"
 	chmod +x "$runtime_root/$name"
 }
 

@@ -24,6 +24,10 @@ module.exports = {
 		// B"H — Yaakov 2026-10-14: the installer downloads the component manifest
 		// directly. Without this route it 403s and the install fails.
 		await registerScriptRoute($i, "unix-bootstrap-components.sh", "unix-bootstrap-components.sh");
+		// B"H — Yaakov 2026-10-14: bootstrap files needed by the installer.
+		// The installer now uses /api/tunnel/install/ instead of the 403ing static path.
+		await registerScriptRoute($i, "unix-node-runtime.sh", "unix-node-runtime.sh");
+		await registerScriptRoute($i, "unix-bootstrap-components-download.sh", "unix-bootstrap-components-download.sh");
 		await registerScriptRoute($i, "emergency-unix", "emergency-auto.sh");
 		await registerScriptRoute($i, "emergency-sealed", "emergency-sealed.sh");
 		await registerScriptRoute($i, "emergency-supervisor", "emergency-supervisor.sh");
