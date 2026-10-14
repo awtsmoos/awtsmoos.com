@@ -19,9 +19,15 @@ const FORBIDDEN_ROOTS = Object.freeze([
 
 /** Returns the default server data directory. */
 function defaultDataDirectory() {
+	// B"H — Yaakov 2026-10-14: Derive from __dirname, not CWD.
+	// CWD is unreliable (systemd, different workers). __dirname is always
+	// geelooy/api/tunnel/control/core, so ../../../.. gets to geelooy/.
 	return path.join(
-		process.env.__awtsdir || process.cwd(),
-		"geelooy",
+		__dirname,
+		"..",
+		"..",
+		"..",
+		"..",
 		".data"
 	);
 }
