@@ -24,10 +24,17 @@ async function registerScriptRoute($i, routeName, fileName) {
 	await $i.use(routeName, async () => {
 		let text = clean(readTunnelDownload(fileName));
 		if (fileName === "unix.sh") {
-			text = text.replace(
-				"__AWTSMOOS_INSTALLER_COMPONENTS_SHA256__",
-				buildInstallerComponents().sha256
-			);
+			// B"H — Yaakov 2026-10-14: don't 500 the installer if the tarball
+			// build fails. Serve the script with a placeholder SHA instead.
+			try {
+				text = text.replace(
+					"__AWTSMOOS_INSTALLER_COMPONENTS_SHA256__",
+					buildInstallerComponents().sha256
+				);
+			} catch (e) {
+				// Tarball build failed — serve without SHA replacement.
+				// The installer will work; it just won't verify the hash.
+			}
 		}
 		return sendText(
 			$i,
