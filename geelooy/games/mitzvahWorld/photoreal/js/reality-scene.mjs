@@ -915,7 +915,10 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     loadTexture(TEX + 'new/tex-grass-ground.webp', 36, 36),
     loadTexture(TEX + 'new/tex-bark-detail.webp', 1, 3),
     // B"H — Phase 5 (2026-10-13 sprint): v2 lumpy photoreal moss floor.
-    loadTexture(TEX + 'new/tex-moss-floor-v2.webp', 2, 2),
+    // B"H TEXTURE-FIRST 2026-10-14: repeat was (2,2) — each moss mound
+    // rendered ~60m wide (smooth dark mush) and MISALIGNED with the normal
+    // map at (36,36). Now 36,36: mounds read at true scale, relief aligns.
+    loadTexture(TEX + 'new/tex-moss-floor-v2.webp', 36, 36),
     // B"H — Phase 3 (2026-10-13 sprint): v2 mossy bark — photoreal 1024px,
     // must READ on trunks (old texture was invisible).
     loadTexture(TEX + 'new/tex-mossy-bark-v2.webp', 1, 2),
