@@ -123,8 +123,8 @@ async function main() {
 	// no magic. When explicit files are given (not --diff mode), skip all
 	// cache-busting and auto-add logic. The deploy system must be simple and
 	// reliable, not clever and broken.
-	const explicitFiles = !args.includes('--diff') && files.length > 0;
-	if (!args.includes('--no-bust') && !explicitFiles) {
+	const isDiffMode = args.includes('--diff');
+	if (!args.includes('--no-bust') && isDiffMode) {
 		const touchesAssets = payload.some(f =>
 			f.path.endsWith('.css') || f.path.endsWith('.js') || f.path.endsWith('.html')
 		);
