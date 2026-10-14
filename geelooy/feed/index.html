@@ -23,11 +23,13 @@
 <link rel="stylesheet" href="/feed/css/anchoredComments.css?v=1">
 <link rel="stylesheet" href="/feed/css/voiceComments.css?v=1">
 <link rel="stylesheet" href="/feed/css/chavrusa.css?v=1">
+<link rel="stylesheet" href="/feed/css/familyGroups.css?v=1">
 <link rel="stylesheet" href="/feed/css/askAI.css?v=1">
 <link rel="stylesheet" href="/feed/css/offline.css?v=1">
 <link rel="stylesheet" href="/feed/css/liveShiurim.css?v=1">
 <link rel="stylesheet" href="/feed/css/streaks.css?v=1">
 <link rel="stylesheet" href="/feed/css/collections.css?v=1">
+<link rel="stylesheet" href="/feed/css/explore.css?v=1">
 <link rel="stylesheet" href="/feed/css/print.css?v=1" media="print">
 <link rel="stylesheet" href="/feed/css/audio.css?v=1">
 <link rel="stylesheet" href="/feed/css/theme-dark-immersive.css?v=1">
@@ -40,6 +42,7 @@
 <link rel="stylesheet" href="/feed/css/learning.css?v=1">
 <link rel="stylesheet" href="/feed/css/learnTrackI.css?v=1">
 <link rel="stylesheet" href="/feed/css/notifications.css?v=1">
+<link rel="stylesheet" href="/feed/css/leaderboard.css?v=1">
 <link rel="stylesheet" href="/feed/css/studyRooms.css?v=1">
 </head>
 <body>
@@ -120,6 +123,11 @@ initVoiceComments();
 import { initChavrusa } from '/feed/js/chavrusa.js?v=1';
 initChavrusa();
 
+// B"H — Yaakov 2026-10-13: TRACK C — family learning groups (invite codes,
+// shared family feed, learning plans, challenges, member management).
+import { initFamilyGroups } from '/feed/js/familyGroups.js?v=1';
+initFamilyGroups();
+
 // B"H — Yaakov 2026-10-13 (TRACK D): offline mode + live shiurim.
 import { initOffline } from '/feed/js/offline.js?v=1';
 import { initLiveShiurim } from '/feed/js/liveShiurim.js?v=1';
@@ -132,6 +140,12 @@ initStreaks();
 // B"H — Yaakov 2026-10-14: TRACK A quick wins — collections.
 import { initCollections } from '/feed/js/collections.js?v=1';
 initCollections();
+
+// B"H — Yaakov 2026-10-13: TRACK G — visual exploration hub
+// (translation comparison, manuscripts, timeline, map, family trees,
+// cross-reference graph).
+import { initExplore } from '/feed/js/explore/hub.js?v=1';
+initExplore();
 // B"H — Yaakov 2026-10-14: TRACK A quick wins — audio for everything.
 import { initAudio } from '/feed/js/audio.js?v=1';
 initAudio();
@@ -139,6 +153,10 @@ initAudio();
 // B"H — Yaakov 2026-10-13: TRACK F engagement — smart notifications.
 import { initNotifications } from '/feed/js/notifications.js?v=1';
 initNotifications();
+
+// B"H — Yaakov 2026-10-13: TRACK F engagement — top answerers leaderboard.
+import { initLeaderboard } from '/feed/js/leaderboard.js?v=1';
+initLeaderboard();
 
 // B"H — Yaakov 2026-10-13: learning track hub (plans, siyum, sheets, challenges, shiur).
 import { initLearningHub } from '/feed/js/learningHub.js?v=1';

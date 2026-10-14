@@ -1,0 +1,275 @@
+/* B"H — Awtsmoos River top answerers leaderboard.
+ * Tunnel CSS laws: no !important, token-only colors, explicit light/dark
+ * text colors, full interactive states on every control, sharp corners only,
+ * overflow-x guards where content could widen.
+ */
+
+/* ============ topbar trophy ============ */
+.feed-leaderboard-btn .feed-ic {
+	width: 18px;
+	height: 18px;
+}
+
+/* ============ leaderboard panel ============ */
+.feed-leaderboard-backdrop {
+	position: fixed;
+	inset: 0;
+	background: transparent;
+	z-index: 60;
+	border: 0;
+	padding: 0;
+}
+
+.feed-leaderboard-panel {
+	position: fixed;
+	top: 64px;
+	inset-inline-end: 12px;
+	width: min(440px, calc(100vw - 24px));
+	max-height: min(72vh, 600px);
+	display: flex;
+	flex-direction: column;
+	background: var(--aw-surface);
+	border: 1px solid var(--aw-line);
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+	z-index: 61;
+	overflow-x: clip;
+	overflow-y: auto;
+}
+
+.feed-leaderboard-head {
+	padding: 14px 16px 6px;
+}
+
+.feed-leaderboard-title {
+	margin: 0;
+	font-size: 17px;
+	font-weight: 800;
+	color: var(--aw-text);
+}
+
+[data-theme="light"] .feed-leaderboard-title {
+	color: var(--aw-text);
+}
+
+.feed-leaderboard-sub {
+	margin: 4px 0 0;
+	font-size: 12px;
+	line-height: 1.55;
+	color: var(--aw-text-soft);
+}
+
+[data-theme="light"] .feed-leaderboard-sub {
+	color: var(--aw-text-soft);
+}
+
+.feed-leaderboard-tabs {
+	display: flex;
+	gap: 6px;
+	padding: 10px 16px;
+	border-bottom: 1px solid var(--aw-line);
+}
+
+.feed-leaderboard-tab {
+	flex: 1;
+	padding: 8px 6px;
+	font: inherit;
+	font-size: 13px;
+	font-weight: 700;
+	color: var(--aw-text-soft);
+	background: transparent;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	cursor: pointer;
+}
+
+.feed-leaderboard-tab:hover {
+	color: var(--aw-text);
+	border-color: var(--aw-accent);
+}
+
+.feed-leaderboard-tab:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+}
+
+.feed-leaderboard-tab:active {
+	transform: translateY(1px);
+}
+
+.feed-leaderboard-tab.is-active {
+	color: var(--aw-bg);
+	background: var(--aw-accent);
+	border-color: var(--aw-accent);
+}
+
+[data-theme="light"] .feed-leaderboard-tab {
+	color: var(--aw-text-soft);
+}
+
+[data-theme="light"] .feed-leaderboard-tab:hover {
+	color: var(--aw-text);
+}
+
+[data-theme="light"] .feed-leaderboard-tab.is-active {
+	color: var(--aw-bg);
+}
+
+.feed-leaderboard-list {
+	list-style: none;
+	margin: 0;
+	padding: 8px;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	overflow-x: clip;
+}
+
+.feed-leaderboard-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 10px 12px;
+	background: var(--aw-panel-2);
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	overflow-x: clip;
+}
+
+.feed-leaderboard-row.is-anon {
+	border-inline-start: 3px solid var(--aw-text-soft);
+}
+
+.feed-leaderboard-rank {
+	flex: none;
+	min-width: 30px;
+	text-align: center;
+	font-size: 15px;
+	font-weight: 800;
+	color: var(--aw-accent);
+}
+
+.feed-leaderboard-name {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: 14px;
+	font-weight: 700;
+	color: var(--aw-text);
+}
+
+[data-theme="light"] .feed-leaderboard-name {
+	color: var(--aw-text);
+}
+
+.feed-leaderboard-stats {
+	flex: none;
+	display: flex;
+	gap: 8px;
+	font-size: 11px;
+	color: var(--aw-text-soft);
+}
+
+[data-theme="light"] .feed-leaderboard-stats {
+	color: var(--aw-text-soft);
+}
+
+.feed-leaderboard-stat {
+	white-space: nowrap;
+}
+
+.feed-leaderboard-empty {
+	margin: 8px 6px;
+	font-size: 13px;
+	line-height: 1.6;
+	color: var(--aw-text-soft);
+}
+
+[data-theme="light"] .feed-leaderboard-empty {
+	color: var(--aw-text-soft);
+}
+
+.feed-leaderboard-optin {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	margin: 4px 8px 10px;
+	padding: 12px;
+	border: 1px dashed var(--aw-line);
+	cursor: pointer;
+}
+
+.feed-leaderboard-optin-text {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	min-width: 0;
+}
+
+.feed-leaderboard-optin-name {
+	font-size: 14px;
+	font-weight: 700;
+	color: var(--aw-text);
+}
+
+[data-theme="light"] .feed-leaderboard-optin-name {
+	color: var(--aw-text);
+}
+
+.feed-leaderboard-optin-hint {
+	font-size: 12px;
+	line-height: 1.5;
+	color: var(--aw-text-soft);
+}
+
+[data-theme="light"] .feed-leaderboard-optin-hint {
+	color: var(--aw-text-soft);
+}
+
+/* Reuse the notification switch styling language (defined in notifications.css). */
+.feed-leaderboard-optin .feed-notif-switch {
+	appearance: none;
+	flex: none;
+	width: 44px;
+	height: 24px;
+	margin: 0;
+	background: var(--aw-panel-2);
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	cursor: pointer;
+	position: relative;
+	transition: background 160ms ease, border-color 160ms ease;
+}
+
+.feed-leaderboard-optin .feed-notif-switch::after {
+	content: "";
+	position: absolute;
+	top: 2px;
+	inset-inline-start: 2px;
+	width: 18px;
+	height: 18px;
+	background: var(--aw-text-soft);
+	border-radius: 0;
+	transition: transform 160ms ease, background 160ms ease;
+}
+
+.feed-leaderboard-optin .feed-notif-switch:checked {
+	background: var(--aw-accent);
+	border-color: var(--aw-accent);
+}
+
+.feed-leaderboard-optin .feed-notif-switch:checked::after {
+	transform: translateX(20px);
+	background: var(--aw-bg);
+}
+
+[dir="rtl"] .feed-leaderboard-optin .feed-notif-switch:checked::after {
+	transform: translateX(-20px);
+}
+
+.feed-leaderboard-optin .feed-notif-switch:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+}
