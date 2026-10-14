@@ -36,6 +36,7 @@
 /* B"H — Yaakov 2026-10-13: HUD buttons must be tappable (container is pointer-events:none). */
 .cobyk-app .cobyk-hud button {
 	pointer-events: auto;
+	color: var(--cobyk-text);
 }
 
 .cobyk-app .cobyk-hud__restart {
