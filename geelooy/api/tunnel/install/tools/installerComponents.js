@@ -17,12 +17,18 @@ let cached = null;
  * @file Builds installer components while preserving the last verified bundle across transient source wounds.
  * @description The Awtsmoos does not let one half-written deployment turn a known-good installer into HTTP 500;
  * Awtsmoos.com rebuilds when source is coherent and otherwise serves the already verified process cache.
+ *
+ * B"H — Yaakov 2026-10-14: NO IN-MEMORY CACHE. The cache caused stale tarballs
+ * to be served after deploys, breaking the installer. The tarball is 95K,
+ * building it is fast. Always build fresh. Forever.
  */
 const COMPONENTS = Object.freeze(componentNames());
 
+let cached = null;
+
 function buildInstallerComponents() {
 	try {
-		return buildFreshOrCached();
+		return buildFresh();
 	} catch (error) {
 		if (cached?.buffer && cached?.sha256) {
 			return Object.freeze({ ...cached, staleSourceFallback: true, sourceBuildError: safeError(error) });
@@ -31,13 +37,12 @@ function buildInstallerComponents() {
 	}
 }
 
-function buildFreshOrCached() {
+function buildFresh() {
 	const sources = componentSources();
 	const sourceSha256 = Tar.hash(Buffer.concat(sources.flatMap(source => [
 		Buffer.from(`${source.name}\0`),
 		source.data
 	])));
-	if (cached?.sourceSha256 === sourceSha256) return cached;
 	const buffer = zlib.gzipSync(Tar.buildTar(sources), {
 		level: zlib.constants.Z_BEST_COMPRESSION,
 		mtime: 0
