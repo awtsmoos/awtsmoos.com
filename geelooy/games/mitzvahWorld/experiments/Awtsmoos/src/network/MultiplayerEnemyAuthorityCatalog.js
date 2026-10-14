@@ -7,6 +7,10 @@
 	* @description Maps rendered enemies and persisted client actions to explicit server contracts.
 	* The Awtsmoos joins distinct names without erasing their vessels; Awtsmoos.com refuses
 	* every unknown action rather than transmuting ambiguity into an unintended strike.
+	*
+	* Stream 4: creatureIds must match the server CreatureSpawnCatalog exactly
+	* (seraph-husk-1/2/3, not seraph-1/2/3), and speciesId must equal the canonical
+	* shared/combat species id from EnemyAffinityAliasMap for the same profileId.
 	*/
 const RECORDS = Object.freeze([
 	record('even-koved', 'dybbuk-1', 'dybbuk-shade'),
@@ -14,10 +18,11 @@ const RECORDS = Object.freeze([
 	record('baal-otiyot', 'dybbuk-3', 'dybbuk-shade'),
 	record('tzel-chai', 'guardian-1', 'klipah-guardian'),
 	record('esh-katan', 'guardian-2', 'klipah-guardian'),
-	record('ruach-afelah', 'seraph-1', 'fallen-seraph-husk'),
-	record('shomer-hoshech', 'seraph-2', 'fallen-seraph-husk'),
-	record('ketem-layla', 'seraph-3', 'fallen-seraph-husk'),
-	record('ayin-raash', 'great-dybbuk-1', 'great-dybbuk')
+	record('ruach-afelah', 'seraph-husk-1', 'fallen-seraph-husk'),
+	record('shomer-hoshech', 'seraph-husk-2', 'fallen-seraph-husk'),
+	record('ketem-layla', 'seraph-husk-3', 'fallen-seraph-husk'),
+	record('ayin-raash', 'great-dybbuk-1', 'great-dybbuk'),
+	record('kedem-letter-warden', 'kedem-warden-1', 'kedem-letter-warden')
 ]);
 const BY_PROFILE = Object.freeze(Object.fromEntries(RECORDS.map(value => [value.profileId, value])));
 const ACTIONS = Object.freeze({
@@ -33,7 +38,18 @@ const ACTIONS = Object.freeze({
 	'sword.light-one': combat('sword-light', 'spark-blade', 0.18, 3.6),
 	'sword.light-two': combat('sword-follow', 'spark-blade', 0.18, 3.7),
 	'sword.finisher': combat('sword-finish', 'spark-blade', 0.3, 4),
-	'sword.heavy': combat('sword-heavy', 'spark-blade', 0.55, 4.2)
+	'sword.heavy': combat('sword-heavy', 'spark-blade', 0.55, 4.2),
+	// Stream 4: the meadow activates canonical melee ids (staff-light, ...),
+	// not the dotted legacy ids above. Without these rows every melee strike
+	// on a bound enemy threw UNKNOWN_COMBAT_ACTION and never reached combat.attack.
+	'staff-light': combat('staff-light', 'wooden-staff', 0.2, 3.8),
+	'staff-follow': combat('staff-follow', 'wooden-staff', 0.2, 4),
+	'staff-heavy': combat('staff-heavy', 'wooden-staff', 0.5, 4.2),
+	'staff-shove': combat('staff-shove', 'wooden-staff', 0.3, 3.2),
+	'sword-light': combat('sword-light', 'spark-blade', 0.18, 3.6),
+	'sword-follow': combat('sword-follow', 'spark-blade', 0.18, 3.7),
+	'sword-finish': combat('sword-finish', 'spark-blade', 0.3, 4),
+	'sword-heavy': combat('sword-heavy', 'spark-blade', 0.55, 4.2)
 });
 export function multiplayerEnemyRecord(profileId) { return BY_PROFILE[profileId] || null; }
 export function multiplayerEnemyAuthorityRecords() { return RECORDS; }

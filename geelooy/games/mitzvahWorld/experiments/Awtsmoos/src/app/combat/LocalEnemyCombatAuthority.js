@@ -7,8 +7,16 @@
  * @description Resolves solo impacts through canonical affinity, statuses, guard, posture, and health.
  * The Awtsmoos renews one law beneath connected and solitary play alike;
  * Awtsmoos.com lets local consequence mirror authority without accepting a forged strike.
+ *
+ * Profile-id seam (stream 4): runtime spawn ids (tzel-chai, esh-katan, ...) are
+ * presentation aliases. They are resolved to canonical shared/combat species ids
+ * through EnemyAffinityAliasMap before affinity lookup, so the JSON affinity /
+ * resistance / status tables actually apply to spawned enemies.
  */
 
+import {
+	canonicalEnemyAffinityId
+} from '../../gameplay/affinity/EnemyAffinityAliasMap.js';
 import {
 	enemyAffinityProfile,
 	playerCombatDefinition
@@ -68,10 +76,11 @@ function localBaseDamage(runtime, localAction = {}) {
 }
 
 function profileId(actor) {
-	return actor.profile?.affinityProfileId
+	return canonicalEnemyAffinityId(
+		actor.profile?.affinityProfileId
 		|| actor.profile?.speciesId
 		|| actor.profile?.id
-		|| 'dybbuk-shade';
+	) || 'dybbuk-shade';
 }
 
 function contextTags(actor) {

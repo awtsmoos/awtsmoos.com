@@ -7,6 +7,11 @@
  * @description Places bounded creatures in canonical region packages and encounter cells.
  * The Awtsmoos renews pasture, wilderness, and highlands in distinct places; Awtsmoos.com
  * keeps every spawn deterministic so clients and server authority perceive one shared world.
+ *
+ * Stream 4: hostile encounter spawns are aligned to the meadow client's authored
+ * enemy positions (experiments/Awtsmoos road stations + supporting profiles), so
+ * server combat geometry validates real meadow hits and the client/server share
+ * one encounter map. Pasture animals keep their original field.
  */
 
 const SPAWNS = Object.freeze([
@@ -18,16 +23,19 @@ const SPAWNS = Object.freeze([
 	spawn('chicken-1', 'chicken', -49, 0, 19),
 	spawn('fox-1', 'fox', 88, 0, -94),
 	spawn('wolf-1', 'wolf', 30, 0, -124),
-	spawn('dybbuk-1', 'dybbuk-shade', 0, 0, -140),
-	spawn('dybbuk-2', 'dybbuk-shade', 14, 0, -146),
-	spawn('dybbuk-3', 'dybbuk-shade', -12, 0, -151),
-	spawn('guardian-1', 'klipah-guardian', -20, 0, -152),
-	spawn('guardian-2', 'klipah-guardian', -31, 0, -143),
-	spawn('seraph-husk-1', 'fallen-seraph-husk', 24, 0, -158),
-	spawn('seraph-husk-2', 'fallen-seraph-husk', 36, 0, -148),
-	spawn('seraph-husk-3', 'fallen-seraph-husk', 12, 0, -168),
-	spawn('great-dybbuk-1', 'great-dybbuk', 8, 0, -182),
-	spawn('kedem-warden-1', 'kedem-letter-warden', -106, 2.2864, 101, 'kedem-highlands')
+	// Road trio stations (even-koved / ratz-layla / baal-otiyot).
+	spawn('dybbuk-1', 'dybbuk-shade', 18.62, 0, 21.35),
+	spawn('dybbuk-2', 'dybbuk-shade', 44.29, 0, 13.49),
+	spawn('dybbuk-3', 'dybbuk-shade', 45.94, 0, 42.7),
+	// Supporting shadows (tzel-chai / esh-katan / ruach-afelah / shomer-hoshech /
+	// ketem-layla / ayin-raash).
+	spawn('guardian-1', 'klipah-guardian', -58, 0, -18),
+	spawn('guardian-2', 'klipah-guardian', 86, 0, 0),
+	spawn('seraph-husk-1', 'fallen-seraph-husk', 68, 0, 34),
+	spawn('seraph-husk-2', 'fallen-seraph-husk', 36, 0, 62),
+	spawn('seraph-husk-3', 'fallen-seraph-husk', -4, 0, 62),
+	spawn('great-dybbuk-1', 'great-dybbuk', -42, 0, 34),
+	spawn('kedem-warden-1', 'kedem-letter-warden', -80, 0, 75, 'kedem-highlands')
 ]);
 
 function spawn(id, speciesId, x, y, z, regionId = 'lower-meadow') {

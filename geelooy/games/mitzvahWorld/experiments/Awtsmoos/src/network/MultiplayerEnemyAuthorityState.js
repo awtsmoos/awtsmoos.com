@@ -41,7 +41,15 @@ export function applyMultiplayerEnemyCreature(actor, creature) {
 	actor.authoritativePhase = creature.phase || null;
 	actor.authoritativeRole = creature.role || null;
 	actor.health = Math.max(0, Number(creature.health || 0));
-	applyAuthoritativeEnemyPosition(actor, creature.position);
+	// Stream 4: the meadow owns enemy positions locally (patrol/aggro/leash run
+	// client-side and the server never simulates creature movement). Applying
+	// the server's static spawn position here would pin every enemy to its
+	// spawn and fight the local steering. Opt out per-runtime via
+	// runtime.authoritativeEnemyPositionSync === false (the meadow multiplayer
+	// bootstrap sets it); HP, status, defeat, loot, phase, and action still sync.
+	if (actor.runtime?.authoritativeEnemyPositionSync !== false) {
+		applyAuthoritativeEnemyPosition(actor, creature.position);
+	}
 	applyAuthoritativeEnemyAction(actor, creature.action);
 	if (creature.status === 'active') reviveAuthoritativeEnemy(actor);
 	else defeatAuthoritativeEnemy(actor);

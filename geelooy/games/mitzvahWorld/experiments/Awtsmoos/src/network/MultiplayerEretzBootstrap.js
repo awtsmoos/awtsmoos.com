@@ -32,6 +32,10 @@ export async function createMultiplayerEretzRuntime(hosts, options = {}) {
 		runtime
 	});
 	runtime.multiplayerBridge = multiplayer;
+	// Stream 4: the meadow simulates enemy positions locally; the server is the
+	// visibility authority for combat state (HP/defeat/loot), never for movement.
+	// The enemy-authority downlink therefore skips server position application.
+	runtime.authoritativeEnemyPositionSync = false;
 	diagnostics.multiplayer = multiplayer;
 	diagnostics.multiplayerDiagnostics = () => multiplayer.diagnostics();
 	diagnostics.multiplayerSession = null;
