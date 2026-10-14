@@ -19,23 +19,26 @@ activate_fresh() {
 	# B"H — the installer does pairing directly: creates the request, shows
 	# the approval card, polls for approval, consumes, and provisions the
 	# credential into the candidate root. Instant and reliable.
-	direct_pairing_flow "${AWTSMOOS_TUNNEL_NAME:-}"
-	install_progress 69 "Proving staged runtime before first promotion"
-	if ! prove_candidate_before_promotion fresh; then
-		install_fail "candidate-probe" \
-			"Fresh candidate could not prove registered command readiness." \
-			"candidate=$CANDIDATE_ROOT"
+	if ! direct_pairing_flow "${AWTSMOOS_TUNNEL_NAME:-}"; then
+		install_fail "pairing" \
+			"Installer-direct pairing failed." \
+			"Check the log for details."
 	fi
+	# B"H — direct pairing succeeded and provisioned the credential.
+	# Skip the candidate pairing probe entirely — the agent is already
+	# paired. Go straight to promotion.
+	install_progress 69 "Pairing complete — promoting agent"
 	if [ -e "$ROOT" ]; then
 		displaced="${ROOT}.incomplete-${stamp}-$$"
 	fi
-	install_progress 78 "Promoting proven fresh runtime"
+	install_progress 78 "Promoting paired runtime"
 	if ! promote_candidate_root "$displaced"; then
 		install_fail "activate" \
-			"Could not promote the proven fresh candidate." \
+			"Could not promote the paired candidate." \
 			"candidate=$CANDIDATE_ROOT root=$ROOT"
 	fi
 	start_promoted_candidate "$displaced" "$failed"
+	return 0
 }
 
 activate_update() {
