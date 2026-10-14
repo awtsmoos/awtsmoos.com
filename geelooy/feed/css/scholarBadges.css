@@ -1,0 +1,338 @@
+/* B"H — Awtsmoos River verified scholar badges.
+ * Tunnel CSS laws: no !important, token-only colors, explicit light/dark
+ * text colors, full interactive states on every control, sharp corners only,
+ * overflow-x guards where content could widen.
+ */
+
+/* ============ inline badge ============ */
+.scholar-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	margin-left: 7px;
+	padding: 2px 7px 2px 5px;
+	border: 1px solid var(--accent-gold);
+	border-radius: 0;
+	background: color-mix(in srgb, var(--accent-gold) 12%, transparent);
+	color: var(--accent-gold);
+	font-size: 12px;
+	font-weight: 800;
+	letter-spacing: 0.03em;
+	vertical-align: 1px;
+	white-space: nowrap;
+}
+
+.scholar-badge svg {
+	width: 14px;
+	height: 14px;
+	flex: none;
+}
+
+[data-theme="light"] .scholar-badge {
+	color: #5c430e;
+	border-color: #6b521a;
+	background: #f3e8c8;
+}
+
+/* ============ application + admin modals ============ */
+body.sb-open {
+	overflow: hidden;
+}
+
+.sb-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 1400;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 18px;
+}
+
+.sb-backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(4, 5, 8, 0.72);
+}
+
+[data-theme="light"] .sb-backdrop {
+	background: rgba(30, 22, 8, 0.55);
+}
+
+.sb-panel {
+	position: relative;
+	width: min(520px, 100%);
+	max-height: calc(100vh - 36px);
+	display: flex;
+	flex-direction: column;
+	background: var(--aw-surface);
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	border-top: 3px solid var(--accent-gold);
+	color: var(--aw-text);
+	box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+	overflow: hidden;
+}
+
+.sb-panel-wide {
+	width: min(680px, 100%);
+}
+
+.sb-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 14px 18px;
+	border-bottom: 1px solid var(--aw-line);
+}
+
+.sb-head h2 {
+	margin: 0;
+	font-size: 18px;
+	font-weight: 800;
+	color: var(--aw-text);
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.sb-count {
+	font-size: 13px;
+	font-weight: 700;
+	color: var(--accent-gold);
+}
+
+.sb-close {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 38px;
+	height: 38px;
+	padding: 0;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: transparent;
+	color: var(--aw-text-soft);
+	cursor: pointer;
+	flex: none;
+}
+
+.sb-close svg {
+	width: 18px;
+	height: 18px;
+}
+
+.sb-close:hover {
+	border-color: var(--accent-gold);
+	color: var(--accent-gold);
+}
+
+.sb-close:active {
+	transform: translateY(1px);
+}
+
+.sb-close:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 3px;
+}
+
+.sb-body {
+	padding: 18px;
+	overflow-y: auto;
+	overflow-x: clip;
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+
+.sb-lede {
+	margin: 0;
+	font-size: 15px;
+	line-height: 1.6;
+	color: var(--aw-text);
+}
+
+.sb-status {
+	margin: 0;
+	padding: 12px 14px;
+	border-left: 3px solid var(--accent-gold);
+	background: var(--aw-bg);
+	color: var(--aw-text);
+	font-size: 15px;
+	line-height: 1.55;
+}
+
+.sb-form {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.sb-field {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.sb-label {
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--aw-text-soft);
+}
+
+.sb-input {
+	width: 100%;
+	padding: 10px 12px;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: var(--aw-bg);
+	color: var(--aw-text);
+	font: inherit;
+	font-size: 15px;
+	resize: vertical;
+}
+
+.sb-input:hover {
+	border-color: var(--aw-text-soft);
+}
+
+.sb-input:focus {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 1px;
+	border-color: var(--accent-gold);
+}
+
+.sb-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 11px 16px;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: var(--aw-bg);
+	color: var(--aw-text);
+	font: inherit;
+	font-size: 15px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.sb-btn-primary {
+	background: var(--accent-gold);
+	border-color: var(--accent-gold);
+	color: #1a1206;
+}
+
+.sb-btn:hover {
+	border-color: var(--accent-gold);
+	color: var(--accent-gold);
+}
+
+.sb-btn-primary:hover {
+	color: #1a1206;
+	filter: brightness(1.06);
+}
+
+.sb-btn:active {
+	transform: translateY(1px);
+}
+
+.sb-btn:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 3px;
+}
+
+.sb-note {
+	margin: 0;
+	font-size: 13px;
+	color: var(--aw-text-soft);
+}
+
+.sb-empty {
+	margin: 0;
+	font-size: 15px;
+	color: var(--aw-text-soft);
+	line-height: 1.6;
+}
+
+/* ============ admin review cards ============ */
+.sb-app {
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: var(--aw-bg);
+	padding: 14px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.sb-app-head {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+.sb-app-head strong {
+	font-size: 16px;
+	color: var(--aw-text);
+}
+
+.sb-app-head time {
+	font-size: 13px;
+	color: var(--aw-text-soft);
+}
+
+.sb-app-facts {
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.sb-app-facts > div {
+	display: grid;
+	grid-template-columns: 110px minmax(0, 1fr);
+	gap: 8px;
+	font-size: 14px;
+}
+
+.sb-app-facts dt {
+	font-weight: 700;
+	color: var(--aw-text-soft);
+}
+
+.sb-app-facts dd {
+	margin: 0;
+	color: var(--aw-text);
+	line-height: 1.5;
+	overflow-wrap: anywhere;
+}
+
+.sb-app-facts a {
+	color: var(--accent-gold);
+}
+
+.sb-app-facts a:hover {
+	color: var(--aw-text);
+	text-decoration: underline;
+}
+
+.sb-app-facts a:active {
+	transform: translateY(1px);
+}
+
+.sb-app-facts a:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+}
+
+.sb-app-actions {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+}
