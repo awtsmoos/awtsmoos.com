@@ -1663,7 +1663,10 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       // pebbles visible through clear water. Was murky dark (uDeep 0x0f3d38).
       // Brightened so the pebble bed shines through.
       uDeep: { value: new THREE.Color(0x2a6b62) },
-      uShallow: { value: new THREE.Color(0x7ab5a3) },
+      // B"H 2026-10-14 WATER (Yaakov: bright sunlit water like reference):
+      // was 0x7ab5a3 (medium teal, murky). Now bright aqua for sunlit
+      // shallows with visible pebbles.
+      uShallow: { value: new THREE.Color(0x9ad1c0) },
       uSky: { value: new THREE.Color(0xd8ecef) },
       uFogColor: { value: new THREE.Color(T.fog) },
       uFogNear: { value: T.fogNear },
