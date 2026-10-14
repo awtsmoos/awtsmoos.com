@@ -149,6 +149,15 @@ function applyBakedBark(mat, barkAlbedoTex, barkRoughTex, mossTex) {
           vec2 sunAz = normalize(uRimSunDirW.xz);
           float shadeSide = clamp(-dot(normalize(bwn.xz + vec2(1e-5)), sunAz), 0.0, 1.0);
           mossMask *= 0.65 + 0.70 * shadeSide;
+          // B"H NEW #7: lichen patches — pale green-gray crustose spots on
+          // the bark, distinct from moss (higher up, sun-side tolerant).
+          {
+            vec2 luv = vec2(atan(bwn.z, bwn.x) * 2.0, bwp.y * 0.9);
+            float lsp = barkHash(floor(luv * 6.0)) * 0.6 + barkHash(floor(luv * 13.0)) * 0.4;
+            float lichen = smoothstep(0.62, 0.72, lsp) * smoothstep(1.5, 4.0, bwp.y);
+            lichen *= 1.0 - mossMask; // not where moss is
+            diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.62, 0.66, 0.55), lichen * 0.7);
+          }
           vec3 mossCol = texture2D(uMossAlbedo, barkUV * 2.0).rgb;
           vec3 col = mix(barkCol, mossCol, clamp(mossMask, 0.0, 1.0));
           // wetness darkening: near water level
@@ -679,6 +688,60 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     mark('mist');
   }
 
+  /* B"H NEW #1: volumetric light cones — geometry shafts through canopy gaps.
+     Additive cone meshes aligned to the sun direction, parked where the
+     canopy breaks. Cheap: 5 cones, 1 material, soft fresnel-ish fade via
+     vertex alpha (canvas gradient texture). */
+  {
+    const CONE_N = 5;
+    // soft beam texture: bright core fading to edges + fading along length
+    const ccv = document.createElement('canvas'); ccv.width = 64; ccv.height = 128;
+    const cx3 = ccv.getContext('2d');
+    const cg = cx3.createLinearGradient(0, 0, 64, 0);
+    cg.addColorStop(0, 'rgba(255,244,214,0)');
+    cg.addColorStop(0.5, 'rgba(255,244,214,0.55)');
+    cg.addColorStop(1, 'rgba(255,244,214,0)');
+    cx3.fillStyle = cg; cx3.fillRect(0, 0, 64, 128);
+    // fade along length (top bright, bottom dissolves)
+    cx3.globalCompositeOperation = 'destination-in';
+    const lg = cx3.createLinearGradient(0, 0, 0, 128);
+    lg.addColorStop(0, 'rgba(0,0,0,1)');
+    lg.addColorStop(0.7, 'rgba(0,0,0,0.5)');
+    lg.addColorStop(1, 'rgba(0,0,0,0)');
+    cx3.fillStyle = lg; cx3.fillRect(0, 0, 64, 128);
+    const ctex = new THREE.CanvasTexture(ccv);
+    const coneMat = new THREE.MeshBasicMaterial({
+      map: ctex, transparent: true, depthWrite: false,
+      blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
+      opacity: 0.32, fog: false,
+    });
+    const coneGeo = new THREE.CylinderGeometry(0.7, 2.6, 16, 10, 1, true);
+    coneGeo.translate(0, -8, 0); // top at origin, extends down
+    const coneRnd = mulberry32(seed ^ 0xc0e1);
+    const sunDirN = sunDir.clone().normalize();
+    const coneUpdaters = [];
+    for (let i = 0; i < CONE_N; i++) {
+      const m = new THREE.Mesh(coneGeo, coneMat.clone());
+      // park at canopy gaps: above the river corridor + a few in the canopy
+      const cz = 20 - coneRnd() * 70;
+      const cx = riverX(cz) + (coneRnd() - 0.5) * 10;
+      const cy = WATER_Y + 13 + coneRnd() * 4;
+      m.position.set(cx, cy, cz);
+      // align the cone's -Y axis to the sun direction (beam travels down-sun)
+      const q = new THREE.Quaternion();
+      q.setFromUnitVectors(new THREE.Vector3(0, -1, 0), sunDirN.clone().negate());
+      m.quaternion.copy(q);
+      m.userData.baseO = 0.22 + coneRnd() * 0.18;
+      m.userData.phase = coneRnd() * 6.28;
+      scene.add(m);
+      coneUpdaters.push((t) => {
+        m.material.opacity = m.userData.baseO * (0.8 + 0.2 * Math.sin(t * 0.4 + m.userData.phase));
+      });
+    }
+    for (const cu of coneUpdaters) mistUpdaters.push(cu);
+    mark('light-cones');
+  }
+
   /* lights */
   if (night) {
     const moon = new THREE.DirectionalLight(0x9db8e8, 0.62);
@@ -1017,6 +1080,69 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   }
   mark('tree-spots');
 
+  /* B"H NEW #9: standing dead snags — 3 bare dead trunks for silhouette
+     variety against the canopy. Tapered cylinders + a few stub branches,
+     gray weathered bark. 1 draw call (merged). */
+  {
+    const snagGeos = [];
+    const snagRnd = mulberry32(seed ^ 0x9a9);
+    const snagSpots = [
+      { x: 24, z: -38 }, { x: -28, z: -20 }, { x: 8, z: -70 },
+    ];
+    for (const ss of snagSpots) {
+      const sy = groundHeight(ss.x, ss.z, noise);
+      const h = 9 + snagRnd() * 5;
+      const trunkG = new THREE.CylinderGeometry(0.12, 0.35, h, 7);
+      trunkG.translate(0, h / 2, 0);
+      // tilt slightly
+      const tilt = new THREE.Matrix4().makeRotationZ((snagRnd() - 0.5) * 0.12);
+      trunkG.applyMatrix4(tilt);
+      trunkG.translate(ss.x, sy - 0.2, ss.z);
+      snagGeos.push(trunkG);
+      // 3-4 stub branches
+      for (let b = 0; b < 4; b++) {
+        const bh = h * (0.4 + snagRnd() * 0.45);
+        const bl = 1.0 + snagRnd() * 1.5;
+        const bg = new THREE.CylinderGeometry(0.04, 0.08, bl, 5);
+        bg.translate(0, bl / 2, 0);
+        const ba = snagRnd() * Math.PI * 2;
+        const bm = new THREE.Matrix4()
+          .makeRotationY(ba)
+          .multiply(new THREE.Matrix4().makeRotationZ(0.7 + snagRnd() * 0.5));
+        bg.applyMatrix4(bm);
+        bg.translate(ss.x, sy + bh, ss.z);
+        snagGeos.push(bg);
+      }
+    }
+    // merge (same pattern as roots)
+    let sv = 0, si = 0;
+    for (const g of snagGeos) { sv += g.attributes.position.count; si += g.index.count; }
+    const sp = new Float32Array(sv * 3), sn = new Float32Array(sv * 3), su = new Float32Array(sv * 2);
+    const sidx = new (sv > 65535 ? Uint32Array : Uint16Array)(si);
+    let svo = 0, sio = 0;
+    for (const g of snagGeos) {
+      sp.set(g.attributes.position.array, svo * 3);
+      sn.set(g.attributes.normal.array, svo * 3);
+      su.set(g.attributes.uv.array, svo * 2);
+      const ia = g.index.array;
+      for (let k = 0; k < ia.length; k++) sidx[sio + k] = ia[k] + svo;
+      svo += g.attributes.position.count; sio += ia.length;
+      g.dispose();
+    }
+    const snagGeo = new THREE.BufferGeometry();
+    snagGeo.setAttribute('position', new THREE.BufferAttribute(sp, 3));
+    snagGeo.setAttribute('normal', new THREE.BufferAttribute(sn, 3));
+    snagGeo.setAttribute('uv', new THREE.BufferAttribute(su, 2));
+    snagGeo.setIndex(new THREE.BufferAttribute(sidx, 1));
+    const snagMat = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(0.55, 0.53, 0.48), roughness: 0.95, // weathered gray
+    });
+    const snagMesh = new THREE.Mesh(snagGeo, snagMat);
+    snagMesh.castShadow = true;
+    scene.add(snagMesh);
+    mark('dead-snags');
+  }
+
   /* B"H WAY-better #18: exposed root tangles at hero tree bases — curved
      tubes radiating from the flare, diving into the ground. 1 merged mesh
      (3 trees × 7 roots), bark material. */
@@ -1243,6 +1369,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   });
   // B"H WAY-better #1: dappled light cookie — baked canopy-gap pattern
   // projected in world space, shifted by sun angle (uCookieShift).
+  // B"H NEW #2: temporal flicker — the shift breathes slowly, like leaves
+  // stirring. Registered in the updater loop below.
   terrainMat.onBeforeCompile = (shader) => {
     shader.uniforms.uDappleCookie = { value: dappleCookieTex };
     shader.uniforms.uCookieShift = { value: new THREE.Vector2(0, 0) };
@@ -1501,7 +1629,12 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           vec3 pebCol = texture2D(uPebbleMap, pebUV).rgb;
           // Wet darkening: pebbles darker where submerged deeper
           pebCol *= mix(0.55, 1.0, 1.0 - depth * 0.5);
-          vec3 bed = pebCol;
+          // B"H NEW #5: riverbed variation — sand vs stone patches. Silty
+          // sand settles in quiet pockets; pebbles dominate the current.
+          float sandM = smoothstep(0.55, 0.78, vnoise(pw * 0.22 + 7.3));
+          vec3 sandCol = vec3(0.50, 0.44, 0.32) * (0.9 + 0.2 * vnoise(pw * 1.5));
+          sandCol *= mix(0.55, 1.0, 1.0 - depth * 0.5);
+          vec3 bed = mix(pebCol, sandCol, sandM * 0.9);
           // Water body color: depth-graded, NOT uniform teal
           vec3 col = mix(uShallow, uDeep, smoothstep(0.0, 0.9, depth));
           // Bed shows through: strong in shallows, faint in deep center
@@ -1563,6 +1696,10 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           vec2 rc = vec2(0.5) + (vec2(hash22(rid+1.1), hash22(rid+8.8))-0.5)*0.4;
           float rdist = length(rf - rc);
           float rockFoam = rockHere * smoothstep(0.30, 0.20, rdist) * smoothstep(0.12, 0.22, rdist);
+          // B"H NEW #4: bow-wave — foam piles up on the UPSTREAM face of the
+          // rock (facing into the current). Upstream is -v in flow UV.
+          float upstreamFace = smoothstep(0.1, 0.5, rc.y - rf.y);
+          rockFoam *= 0.6 + 0.9 * upstreamFace;
           // eddy tail: downstream streak (rf.y > rc.y is downstream in flow UV)
           float downstream = smoothstep(0.0, 0.9, rf.y - rc.y) * step(rf.y, rc.y + 0.9);
           float tailWidth = 0.16 * (1.0 - (rf.y - rc.y) * 0.5);
@@ -1823,7 +1960,10 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     // The baked leaf quads alone read sparse; these blobs fill the crown with
     // leaf mass. One instanced draw for all trees.
     // Overhang trees lean their crowns over the river corridor (crownX).
-    s.crownY = y + 8 * sc; s.crownR = 5.5 * sc;
+    // B"H NEW #10: uneven skyline — crown heights vary per tree (±22%) so
+    // the canopy top edge isn't flat.
+    const skyVar = 0.78 + rand() * 0.44;
+    s.crownY = y + 8 * sc * skyVar; s.crownR = 5.5 * sc;
     s.crownX = s.x + (s.overhang ? s.overhang * s.crownR * 0.85 : 0);
   }
   scene.add(treeGroup);
@@ -1998,6 +2138,125 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     });
   }
   mark('moss-strands');
+
+  /* B"H NEW #8: vine drapes — leafy strands hanging from branches, swaying.
+     Like the moss strands but with small leaf cards along the strand.
+     Instanced planes with leaf texture, 1 draw call. */
+  {
+    const VINE_N = 24;
+    const vineGeo = new THREE.PlaneGeometry(0.35, 2.2, 1, 6);
+    vineGeo.translate(0, -1.1, 0); // hang from top
+    const vineMat = new THREE.MeshStandardMaterial({
+      map: leafClusterTex, alphaTest: 0.35, side: THREE.DoubleSide,
+      roughness: 0.9, color: new THREE.Color(0.45, 0.55, 0.32),
+    });
+    const vineInst = new THREE.InstancedMesh(vineGeo, vineMat, VINE_N);
+    const vd = new THREE.Object3D();
+    const vrnd = mulberry32(seed ^ 0x1eaf);
+    // hang from hero + near trees (reuse treeSpots)
+    for (let i = 0; i < VINE_N; i++) {
+      const sp = treeSpots[(vrnd() * treeSpots.length) | 0];
+      if (!sp) continue;
+      const a = vrnd() * Math.PI * 2, r = 1.5 + vrnd() * 2.5;
+      const vx = sp.x + Math.cos(a) * r, vz = sp.z + Math.sin(a) * r;
+      const vy = groundHeight(vx, vz, noise) + 5 + vrnd() * 4;
+      vd.position.set(vx, vy, vz);
+      vd.rotation.y = vrnd() * Math.PI * 2;
+      const vs = 0.7 + vrnd() * 0.8;
+      vd.scale.set(vs, vs * (0.8 + vrnd() * 0.6), 1);
+      vd.updateMatrix();
+      vineInst.setMatrixAt(i, vd.matrix);
+    }
+    vineInst.castShadow = false; vineInst.receiveShadow = true;
+    // sway via the same wind clock pattern (simple CPU sway)
+    const vineBase = [];
+    for (let i = 0; i < VINE_N; i++) {
+      const m = new THREE.Matrix4(); vineInst.getMatrixAt(i, m);
+      vineBase.push({ m: m.clone(), ph: vrnd() * 6.28 });
+    }
+    scene.add(vineInst);
+    scene.userData.vineUpdate = (t) => {
+      const e = new THREE.Euler(), q = new THREE.Quaternion(), s = new THREE.Vector3(), p = new THREE.Vector3();
+      for (let i = 0; i < VINE_N; i++) {
+        const b = vineBase[i];
+        b.m.decompose(p, q, s);
+        e.set(Math.sin(t * 0.9 + b.ph) * 0.06, 0, Math.cos(t * 0.7 + b.ph) * 0.06);
+        const sq = new THREE.Quaternion().setFromEuler(e);
+        q.multiply(sq);
+        vd.position.copy(p); vd.quaternion.copy(q); vd.scale.copy(s);
+        vd.updateMatrix();
+        vineInst.setMatrixAt(i, vd.matrix);
+      }
+      vineInst.instanceMatrix.needsUpdate = true;
+    };
+    mark('vine-drapes');
+
+  /* B"H NEW #11: dew-glitter spider webs — a few webs strung between
+     branches, premade radial alpha texture, sparkle glints via additive
+     micro-points. 1 draw call for webs. */
+  {
+    const WEB_N = 6;
+    // premade web: radial spokes + concentric rings, alpha
+    const wcv = document.createElement('canvas'); wcv.width = wcv.height = 128;
+    const wx = wcv.getContext('2d');
+    wx.strokeStyle = 'rgba(255,255,255,0.75)'; wx.lineWidth = 1;
+    for (let s = 0; s < 12; s++) {
+      const a = (s / 12) * Math.PI * 2;
+      wx.beginPath(); wx.moveTo(64, 64);
+      wx.lineTo(64 + Math.cos(a) * 60, 64 + Math.sin(a) * 60); wx.stroke();
+    }
+    for (let r = 10; r < 62; r += 9) {
+      wx.beginPath(); wx.arc(64, 64, r, 0, 6.283); wx.stroke();
+    }
+    const wtex = new THREE.CanvasTexture(wcv);
+    const webGeo = new THREE.PlaneGeometry(1.4, 1.4);
+    const webMat = new THREE.MeshBasicMaterial({
+      map: wtex, transparent: true, depthWrite: false, side: THREE.DoubleSide,
+      opacity: 0.5, blending: THREE.AdditiveBlending,
+    });
+    const webInst = new THREE.InstancedMesh(webGeo, webMat, WEB_N);
+    const wd = new THREE.Object3D();
+    const wrnd = mulberry32(seed ^ 0xeb11);
+    for (let i = 0; i < WEB_N; i++) {
+      const sp = treeSpots[(wrnd() * treeSpots.length) | 0];
+      if (!sp) continue;
+      const wx2 = sp.x + (wrnd() - 0.5) * 6, wz2 = sp.z + (wrnd() - 0.5) * 6;
+      wd.position.set(wx2, groundHeight(wx2, wz2, noise) + 3.5 + wrnd() * 3, wz2);
+      wd.rotation.set((wrnd() - 0.5) * 0.6, wrnd() * Math.PI * 2, 0);
+      const ws = 0.7 + wrnd() * 0.8;
+      wd.scale.setScalar(ws);
+      wd.updateMatrix();
+      webInst.setMatrixAt(i, wd.matrix);
+    }
+    webInst.castShadow = false;
+    scene.add(webInst);
+    // dew glints: tiny bright points on the webs, twinkling
+    const dg = new THREE.BufferGeometry();
+    const dgPos = new Float32Array(WEB_N * 4 * 3);
+    {
+      const m4 = new THREE.Matrix4();
+      let dpi = 0;
+      for (let i = 0; i < WEB_N; i++) {
+        webInst.getMatrixAt(i, m4);
+        for (let k = 0; k < 4; k++) {
+          const v = new THREE.Vector3((wrnd() - 0.5) * 1.2, (wrnd() - 0.5) * 1.2, 0);
+          v.applyMatrix4(m4);
+          dgPos.set([v.x, v.y, v.z], dpi * 3); dpi++;
+        }
+      }
+    }
+    dg.setAttribute('position', new THREE.BufferAttribute(dgPos, 3));
+    const dgMat = new THREE.PointsMaterial({
+      size: 0.12, color: new THREE.Color(1.0, 0.98, 0.9),
+      transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.9,
+    });
+    const dgPts = new THREE.Points(dg, dgMat);
+    dgPts.frustumCulled = false;
+    scene.add(dgPts);
+    scene.userData.webGlint = (t) => { dgMat.opacity = 0.55 + 0.4 * Math.sin(t * 3.3); };
+    mark('spider-webs');
+  }
+  }
 
   /* B"H WAY-better #15: drip ripple rings — sparse expanding rings on the
      water under overhanging moss/branches. 8 sprites, each looping:
@@ -2344,10 +2603,13 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
         const backlit = Math.max(0, -out.dot(sunDirN));
         const glow = 1 + 0.55 * Math.pow(backlit, 1.5);
         // Outer leaves slightly yellow-green (sun-bleached), inner deep green
+        // B"H NEW #3: crown AO — inner layers get real occlusion darkening
+        // (0.55× at the core), not just a tint shift. Depth you can feel.
+        const aoF = 1.0 - layerDepth * 0.45;
         tint.setRGB(
-          v * (0.96 + layerDepth * -0.06 + rand() * 0.06) * glow * (1 + 0.18 * backlit),
-          v * (1.00 + rand() * 0.04) * glow,
-          v * (0.88 + layerDepth * 0.06 + rand() * 0.04) * (1 + 0.05 * backlit)
+          v * (0.96 + layerDepth * -0.06 + rand() * 0.06) * glow * (1 + 0.18 * backlit) * aoF,
+          v * (1.00 + rand() * 0.04) * glow * aoF,
+          v * (0.88 + layerDepth * 0.06 + rand() * 0.04) * (1 + 0.05 * backlit) * aoF
         );
         inst.setColorAt(placed, tint);
         placed++;
@@ -2805,6 +3067,10 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
           // B"H WAY-better #16: wet band — darker + glossier. Wet stone goes
           // almost black-brown and shines.
           diffuseColor.rgb *= mix(1.0, 0.55, rockWet);
+          // B"H NEW #6: meniscus rim — bright capillary highlight line right
+          // at the waterline where water meets stone.
+          float meniscus = 1.0 - smoothstep(0.0, 0.09, abs(vWRockP.y - (uWaterY + 0.03)));
+          diffuseColor.rgb += vec3(0.28, 0.32, 0.30) * meniscus;
           // B"H WAY-better: dry stone lift — the premade wet-rock texture
           // averages 0.23 (very dark). Dry areas lift to mid-gray stone like
           // the reference; wet band stays dark. (Was black blobs.)
@@ -3143,6 +3409,48 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     pudInst.receiveShadow = true;
     scene.add(pudInst);
     mark('puddles');
+
+  /* B"H NEW #14: animal tracks in mud — deer prints near the bank. Premade
+     decal strip (canvas), subtle dark impressions. 1 draw call. */
+  {
+    const TRK_N = 14;
+    // premade track strip: pairs of cloven prints fading along the strip
+    const tcv = document.createElement('canvas'); tcv.width = 64; tcv.height = 256;
+    const tx = tcv.getContext('2d');
+    tx.clearRect(0, 0, 64, 256);
+    for (let pi = 0; pi < 8; pi++) {
+      const py = 14 + pi * 30, px = 32 + (pi % 2 === 0 ? -8 : 8);
+      const fade = 1 - pi / 9;
+      tx.fillStyle = `rgba(38,30,20,${0.55 * fade})`;
+      // cloven hoof: two teardrops
+      tx.save(); tx.translate(px - 4, py); tx.rotate(-0.25);
+      tx.beginPath(); tx.ellipse(0, 0, 4, 7, 0, 0, 6.283); tx.fill(); tx.restore();
+      tx.save(); tx.translate(px + 4, py); tx.rotate(0.25);
+      tx.beginPath(); tx.ellipse(0, 0, 4, 7, 0, 0, 6.283); tx.fill(); tx.restore();
+    }
+    const ttex = new THREE.CanvasTexture(tcv);
+    const trkGeo = new THREE.PlaneGeometry(0.9, 3.6);
+    trkGeo.rotateX(-Math.PI / 2);
+    const trkMat = new THREE.MeshStandardMaterial({
+      map: ttex, transparent: true, roughness: 1, depthWrite: false,
+      polygonOffset: true, polygonOffsetFactor: -1,
+    });
+    const trkInst = new THREE.InstancedMesh(trkGeo, trkMat, 3);
+    const td = new THREE.Object3D();
+    const trnd = mulberry32(seed ^ 0x7ac9);
+    for (let i = 0; i < 3; i++) {
+      const tz = 25 - trnd() * 70;
+      const side = trnd() < 0.5 ? -1 : 1;
+      const tx2 = riverX(tz) + side * (riverHalfWidth(tz) + 2.5 + trnd() * 2);
+      td.position.set(tx2, groundHeight(tx2, tz, noise) + 0.05, tz);
+      td.rotation.y = trnd() * Math.PI * 2;
+      td.updateMatrix();
+      trkInst.setMatrixAt(i, td.matrix);
+    }
+    trkInst.receiveShadow = true;
+    scene.add(trkInst);
+    mark('animal-tracks');
+  }
   }
 
   /* B"H — rocks IN the shallows: small boulders poking through the water. */
@@ -3358,6 +3666,102 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   if (scene.userData.dripUpdate) updaters.push(scene.userData.dripUpdate);
   // B"H WAY-better #30: fish shadows.
   if (scene.userData.fishUpdate) updaters.push(scene.userData.fishUpdate);
+  // B"H NEW #8: vine sway.
+  if (scene.userData.vineUpdate) updaters.push(scene.userData.vineUpdate);
+  // B"H NEW #11: web dew glints.
+  if (scene.userData.webGlint) updaters.push(scene.userData.webGlint);
+  /* B"H NEW #13: foreground framing branch — one overhanging branch across
+     the top of frame for depth composition. Dark, out-of-focus feel (dark
+     tint sells the near-field). Attached to the camera rig (static per view). */
+  {
+    const fcv = document.createElement('canvas'); fcv.width = 128; fcv.height = 128;
+    const fx3 = fcv.getContext('2d');
+    // branch silhouette with leaves, drawn dark
+    fx3.strokeStyle = 'rgba(28,26,18,1)'; fx3.lineWidth = 10; fx3.lineCap = 'round';
+    fx3.beginPath(); fx3.moveTo(-10, 110); fx3.quadraticCurveTo(60, 80, 140, 30); fx3.stroke();
+    fx3.lineWidth = 5;
+    fx3.beginPath(); fx3.moveTo(50, 85); fx3.quadraticCurveTo(70, 60, 90, 55); fx3.stroke();
+    fx3.fillStyle = 'rgba(32,42,20,1)';
+    const frnd2 = mulberry32(777);
+    for (let li = 0; li < 26; li++) {
+      const lx = frnd2() * 140, ly = 20 + frnd2() * 90;
+      fx3.beginPath(); fx3.ellipse(lx, ly, 9, 5, frnd2() * 3, 0, 6.283); fx3.fill();
+    }
+    const ftex = new THREE.CanvasTexture(fcv);
+    const fmat = new THREE.MeshBasicMaterial({
+      map: ftex, transparent: true, depthWrite: false, fog: false, opacity: 0.92,
+    });
+    // camera-attached: position in camera space (top of frame)
+    // B"H 2nd pass: was 7u — dominated the frame. Now 3u, tucked into the
+    // top-right corner, subtle.
+    const fmesh = new THREE.Mesh(new THREE.PlaneGeometry(3.2, 3.2), fmat);
+    // place relative to the forest camera (view-specific; forest is the hero)
+    // NOTE: v (VIEWS[view]) not yet defined here — use VIEWS directly.
+    if (view === 'forest' || view === 'river') {
+      const vv = VIEWS[view] || VIEWS.forest;
+      const cp = new THREE.Vector3(...vv.pos);
+      const cl = new THREE.Vector3(...vv.look);
+      const fwd = cl.clone().sub(cp).normalize();
+      const up = new THREE.Vector3(0, 1, 0);
+      const right = new THREE.Vector3().crossVectors(fwd, up).normalize();
+      const up2 = new THREE.Vector3().crossVectors(right, fwd).normalize();
+      // top-RIGHT corner: forward + up + right (edge of frame, not center)
+      const fp = cp.clone().add(fwd.clone().multiplyScalar(3.2)).add(up2.clone().multiplyScalar(1.9)).add(right.clone().multiplyScalar(2.4));
+      fmesh.position.copy(fp);
+      fmesh.lookAt(cp); // face the camera
+      fmesh.rotateZ(0.5);
+      scene.add(fmesh);
+    }
+  }
+  /* B"H NEW #12: dragonflies over water — 3 darting sprites with wing-blur
+     (semi-transparent wing quads). Erratic flight: fast dashes + hovers. */
+  {
+    const DR_N = 3;
+    const dcv = document.createElement('canvas'); dcv.width = 32; dcv.height = 16;
+    const dx2 = dcv.getContext('2d');
+    dx2.fillStyle = 'rgba(30,60,70,0.95)';
+    dx2.fillRect(13, 6, 10, 3); // body
+    dx2.fillStyle = 'rgba(200,230,255,0.45)';
+    dx2.beginPath(); dx2.ellipse(10, 5, 8, 3, -0.4, 0, 6.283); dx2.fill(); // wings (blur)
+    dx2.beginPath(); dx2.ellipse(22, 5, 8, 3, 0.4, 0, 6.283); dx2.fill();
+    const dtex = new THREE.CanvasTexture(dcv);
+    const dragons = [];
+    const drnd = mulberry32(seed ^ 0xd9a9);
+    for (let i = 0; i < DR_N; i++) {
+      const sm = new THREE.SpriteMaterial({ map: dtex, transparent: true, depthWrite: false, fog: false });
+      const spr = new THREE.Sprite(sm);
+      spr.scale.set(0.45, 0.22, 1);
+      scene.add(spr);
+      dragons.push({
+        spr, tx: 0, tz: 0, px: 0, pz: 0, py: 0,
+        wait: drnd() * 3, speed: 6 + drnd() * 4, ph: drnd() * 6.28,
+      });
+      const dz = 20 - drnd() * 60;
+      const d = dragons[i];
+      d.px = d.tx = riverX(dz); d.pz = d.tz = dz; d.py = WATER_Y + 1 + drnd() * 1.5;
+    }
+    updaters.push((t, dt) => {
+      for (const d of dragons) {
+        d.wait -= dt;
+        if (d.wait <= 0) {
+          // pick a new target nearby (dart)
+          const nz = d.tz + (drnd() - 0.5) * 24;
+          d.tx = riverX(nz) + (drnd() - 0.5) * 6;
+          d.tz = Math.max(-70, Math.min(35, nz));
+          d.wait = 0.4 + drnd() * 1.8; // hover then dart
+        }
+        // move toward target
+        const dx = d.tx - d.px, dz = d.tz - d.pz;
+        const dist = Math.hypot(dx, dz);
+        if (dist > 0.1) {
+          const step = Math.min(dist, d.speed * dt);
+          d.px += dx / dist * step; d.pz += dz / dist * step;
+        }
+        const hover = Math.sin(t * 14 + d.ph) * 0.08;
+        d.spr.position.set(d.px, d.py + hover, d.pz);
+      }
+    });
+  }
   /* B"H WAY-better #31: occasional bird crossing the gap — simple dark
      silhouette sprite with flapping wings (2-frame scale pulse). Crosses
      every ~40-70s, takes ~8s. Rare, alive. */
@@ -3414,6 +3818,17 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
   if (scene.userData.crownMat) {
     const cm = scene.userData.crownMat;
     updaters.push((t) => { if (cm.userData.sh) cm.userData.sh.uniforms.uCrownTime.value = t; });
+  }
+  // B"H NEW #2: dapple cookie temporal flicker — slow drift + breath.
+  if (terrainMat.userData.shader) {
+    const tsh = terrainMat.userData.shader;
+    // base shift from sun angle (static per TOD); flicker adds slow wander
+    updaters.push((t) => {
+      tsh.uniforms.uCookieShift.value.set(
+        Math.sin(t * 0.11) * 0.012 + Math.sin(t * 0.031 + 1.0) * 0.020,
+        Math.cos(t * 0.09) * 0.012 + Math.sin(t * 0.027 + 2.0) * 0.020
+      );
+    });
   }
   const addParticles = sys => { scene.add(sys.obj); updaters.push(sys.update); };
   const PSETS = {
