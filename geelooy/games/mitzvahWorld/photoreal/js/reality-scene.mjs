@@ -1953,7 +1953,10 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const flGeo = new THREE.PlaneGeometry(0.22, 0.30);
     flGeo.rotateX(-Math.PI / 2);
     const flMat = new THREE.MeshBasicMaterial({
-      map: leafTex, transparent: true, alphaTest: 0.4, side: THREE.DoubleSide,
+      // B"H ARTIFACT-FIX 2026-10-14: was leafTex (leaf1.jpg, NO alpha channel)
+      // so alphaTest was a silent no-op and quads rendered as opaque green
+      // SQUARES. leafClusterTex has real keyed alpha → true leaf shapes.
+      map: leafClusterTex, transparent: true, alphaTest: 0.4, side: THREE.DoubleSide,
       color: new THREE.Color(0.85, 0.80, 0.55), // sun-warmed fallen leaves
     });
     const flInst = new THREE.InstancedMesh(flGeo, flMat, FL);
@@ -2884,11 +2887,12 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     }
     mark('individual-leaves');
 
-    // ---- canopy shells: nested depth layers (Yaakov 2026-10-13 leaf system).
-    // B"H LEAF-FIX 2026-10-14 (Yaakov: "huge planes"): was 2 icosahedron
-    // BLOBS per tree (2.5-3.4m radius, smeared texture). Now interior leaf-
-    // cluster cards (0.5m) distributed through the crown volume — real
-    // 3D foliage density, not solid blobs. 1 instanced draw.
+    // ---- canopy shells: clustered foliage mass (Yaakov 2026-10-14, cont'd).
+    // B"H DENSITY-FIX: 150 uniform-scatter cards/tree with full random tumble
+    // read as FLOATING CONFETTI — sparse diamonds, sky bleeding through.
+    // New: clumped cards on the crown SURFACE (2 nested layers), oriented
+    // outward like real leaf sprays (no edge-on tumble), overlapping.
+    // 480/tree of 0.45-0.75m cards. Still 1 instanced draw.
     {
       const shellGeo = new THREE.PlaneGeometry(0.5, 0.5);
       const shellMat = new THREE.MeshStandardMaterial({
@@ -2899,40 +2903,56 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       // B"H 2026-10-14 LIGHT (Yaakov: canopy translucency) — shell cards
       // get backlight so sun glows THROUGH the foliage volume.
       addCanopyBacklight(shellMat, 0.90, 2.0, 'shell');
-      // B"H 2026-10-14 LEAF-DENSITY (Yaakov: leaves first, close-up must hold):
-      // 24/tree was sparse confetti. 150/tree fills the crown VOLUME —
-      // dense layered foliage like the reference (dappled, light through).
-      // Still 1 instanced draw.
-      const SHELL_PER_TREE = fast ? 80 : 150;
+      const SHELL_PER_TREE = fast ? 260 : 480;
+      const CLUMPS = 26; // cluster centers per tree (fibonacci sphere)
       const shellInst = new THREE.InstancedMesh(shellGeo, shellMat, treeSpots.length * SHELL_PER_TREE);
+      const nrm = new THREE.Vector3();
+      const GA = Math.PI * (3 - Math.sqrt(5)); // golden angle
       let sp = 0;
+      const maxSp = treeSpots.length * SHELL_PER_TREE;
       for (const s of treeSpots) {
         const ccx = (s.crownX !== undefined ? s.crownX : s.x);
-        for (let i = 0; i < SHELL_PER_TREE; i++) {
-          // Random point in flattened ellipsoid crown volume
-          const th = rand() * Math.PI * 2;
-          const ph = Math.acos(2 * rand() - 1);
-          const rr = 0.25 + 0.75 * Math.cbrt(rand()); // denser toward center
-          const sx = Math.sin(ph) * Math.cos(th) * rr;
-          const sy = Math.cos(ph) * rr * 0.75; // flattened
-          const sz = Math.sin(ph) * Math.sin(th) * rr;
-          dummy.position.set(
-            ccx + sx * s.crownR,
-            s.crownY + sy * s.crownR,
-            s.z + sz * s.crownR
-          );
-          // Random orientation for natural 3D fill
-          dummy.rotation.set(rand() * Math.PI, rand() * Math.PI, rand() * Math.PI);
-          // B"H 2026-10-14 MASS: 0.7-1.4m → 1.2-2.0m for overlapping dense mass
-          const ss = 1.2 + rand() * 0.8;
-          dummy.scale.set(ss, ss, 1);
-          dummy.updateMatrix();
-          shellInst.setMatrixAt(sp, dummy.matrix);
-          // Interior darker (AO), outer brighter
-          const sv = (0.55 + rr * 0.45) * (0.85 + rand() * 0.3);
-          tint.setRGB(sv, sv, sv * 0.92);
-          shellInst.setColorAt(sp, tint);
-          sp++;
+        const per = Math.ceil(SHELL_PER_TREE / CLUMPS);
+        for (let c = 0; c < CLUMPS && sp < maxSp; c++) {
+          // cluster center on crown shell: 2 nested layers (outer 0.86, inner 0.62)
+          const layer = c % 2;
+          const rrBase = layer === 0 ? 0.86 : 0.62;
+          const yy = 1 - ((c + 0.5) / CLUMPS) * 2; // -1..1
+          const rad = Math.sqrt(Math.max(0, 1 - yy * yy));
+          const th = GA * c;
+          const cx = ccx + Math.cos(th) * rad * rrBase * s.crownR;
+          const cy = s.crownY + yy * rrBase * s.crownR * 0.75;
+          const cz = s.z + Math.sin(th) * rad * rrBase * s.crownR;
+          for (let k = 0; k < per && sp < maxSp; k++) {
+            // tight clump scatter around the cluster center (overlapping!)
+            const ox = (rand() + rand() + rand() - 1.5) * 1.1;
+            const oy = (rand() + rand() + rand() - 1.5) * 0.85;
+            const oz = (rand() + rand() + rand() - 1.5) * 1.1;
+            dummy.position.set(cx + ox, cy + oy, cz + oz);
+            // face outward from crown center + limited tilt (no edge-on tumble)
+            nrm.set(
+              dummy.position.x - ccx,
+              (dummy.position.y - s.crownY) * 1.35,
+              dummy.position.z - s.z
+            ).normalize();
+            dummy.lookAt(
+              dummy.position.x + nrm.x,
+              dummy.position.y + nrm.y,
+              dummy.position.z + nrm.z
+            );
+            dummy.rotateX((rand() - 0.5) * 1.15); // ±33° tilt variety
+            dummy.rotateZ(rand() * Math.PI * 2);  // roll variety
+            // B"H DENSITY-FIX: smaller cards (0.45-0.75m), MORE of them
+            const ss = 0.9 + rand() * 0.6;
+            dummy.scale.set(ss, ss, 1);
+            dummy.updateMatrix();
+            shellInst.setMatrixAt(sp, dummy.matrix);
+            // outer layer bright, inner layer shaded (AO)
+            const sv = (layer === 0 ? 0.95 : 0.58) * (0.85 + rand() * 0.3);
+            tint.setRGB(sv, sv, sv * 0.92);
+            shellInst.setColorAt(sp, tint);
+            sp++;
+          }
         }
       }
       shellInst.count = sp;
