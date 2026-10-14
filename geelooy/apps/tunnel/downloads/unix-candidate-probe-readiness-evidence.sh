@@ -31,10 +31,12 @@ candidate_probe_registered() {
 candidate_probe_action_ready() {
 	local connect_timeout="${AWTSMOOS_CANDIDATE_PROBE_CONNECT_TIMEOUT_SECONDS:-1.50}"
 	local request_timeout="${AWTSMOOS_CANDIDATE_PROBE_REQUEST_TIMEOUT_SECONDS:-5.00}"
-	curl -fsS --connect-timeout "$connect_timeout" --max-time "$request_timeout" \
+	# Yaakov 2026-10-14: NEVER leak raw curl errors to the console. The probe
+	# loop renders beautiful progress; a failed sample is just "not ready yet".
+	curl -fs --connect-timeout "$connect_timeout" --max-time "$request_timeout" \
 		-H 'content-type: application/json' \
 		--data '{"action":"stat","p":"."}' \
-		"http://127.0.0.1:${CANDIDATE_PROBE_PORT}/fs" |
+		"http://127.0.0.1:${CANDIDATE_PROBE_PORT}/fs" 2>/dev/null |
 		"$AWTSMOOS_NODE_BIN" -e '
 let value = "";
 process.stdin.on("data", chunk => {

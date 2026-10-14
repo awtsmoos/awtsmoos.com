@@ -27,11 +27,11 @@ NODE
 	local url_host="$host"
 	[ -n "$host" ] && [ -n "$port" ] || return 1
 	[ "$host" = "::1" ] && url_host="[$host]"
-	curl -fsS --connect-timeout 1 --max-time \
+	curl -fs --connect-timeout 1 --max-time \
 		"${AWTSMOOS_LOCAL_ACTION_PROBE_TIMEOUT_SECONDS:-5}" \
 		-H 'content-type: application/json' \
 		--data '{"action":"stat","p":"."}' \
-		"http://${url_host}:${port}/fs" |
+		"http://${url_host}:${port}/fs" 2>/dev/null |
 		node -e '
 			let value = "";
 			process.stdin.on("data", chunk => value += chunk);
