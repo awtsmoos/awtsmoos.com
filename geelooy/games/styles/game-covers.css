@@ -70,6 +70,7 @@
 }
 .quickLaunch a {
 	padding: 0.5rem 0.6rem;
+	color: var(--aw-text);
 }
 .playModeRail {
 	padding: 0.4rem 0.6rem;
@@ -103,12 +104,14 @@
 .gameCard__footer {
 	padding-left: 0.7rem;
 	padding-right: 0.7rem;
+	color: var(--aw-text);
 }
 .gameCard .gameGenre {
 	margin: 0.4rem 0 0.1rem;
 }
 .gameCard h3 {
 	margin: 0.1rem 0 0.3rem;
+	color: var(--aw-text);
 }
 .gameCard .gameHook {
 	margin: 0 0 0.5rem;

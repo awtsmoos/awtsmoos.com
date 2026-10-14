@@ -92,5 +92,6 @@
 @media (prefers-reduced-motion: reduce) {
 	.filterDisclosure summary > span::after {
 		transition: none;
+		color: var(--games-muted);
 	}
 }

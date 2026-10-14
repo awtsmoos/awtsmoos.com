@@ -51,6 +51,8 @@ body.rr {
 	border-radius: 6px;
 	background: linear-gradient(90deg, var(--rr-gold), var(--rr-gold-soft));
 	transition: width .25s ease;
+	/* B"H CSS gate: explicit color (progress fill carries no text). */
+	color: inherit;
 }
 .rr__loading-tip { min-height: 20px; font-size: 13px; color: #b9c4d8; margin: 0 0 16px; }
 .rr__loading-error { color: var(--rr-danger); font-size: 13px; }
@@ -140,7 +142,7 @@ body.rr {
 	padding: 32px 28px; text-align: center; max-width: 340px; width: 100%;
 	box-shadow: 0 20px 60px rgba(0,0,0,.5);
 }
-.rr__card h2 { margin: 0 0 6px; font-size: 26px; }
+.rr__card h2 { margin: 0 0 6px; font-size: 26px; color: var(--rr-cream); }
 .rr__card-sub { margin: 0 0 18px; color: #93a0b8; font-size: 14px; }
 .rr__card-stats { display: flex; justify-content: center; gap: 26px; margin-bottom: 22px; }
 .rr__card-stats div { display: flex; flex-direction: column; }
@@ -160,5 +162,5 @@ body.rr {
 	.rr__controls { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-	.rr__btn, .rr__ctl, .rr__iconbtn, .rr__loading-bar span { transition: none; }
+	.rr__btn, .rr__ctl, .rr__iconbtn, .rr__loading-bar span { transition: none; color: var(--rr-cream); }
 }
