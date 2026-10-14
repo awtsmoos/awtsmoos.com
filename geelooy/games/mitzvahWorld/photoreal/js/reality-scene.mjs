@@ -646,6 +646,36 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
         gmat.opacity = 0.85 * (0.9 + 0.1 * Math.sin(t * 0.23));
       });
     }
+    // B"H WAY-better #22: layered mist parallax — two more depth layers
+    // drifting at different speeds. Near layers move faster (parallax),
+    // far layers barely creep. Depth you can feel.
+    const mistLayers = [
+      { n: 8, z0: -8, z1: -38, speed: 0.09, op: 0.14, sc: [8, 14] },   // mid
+      { n: 5, z0: 12, z1: 42, speed: 0.16, op: 0.10, sc: [6, 10] },    // near
+    ];
+    for (const L of mistLayers) {
+      for (let li = 0; li < L.n; li++) {
+        const lz = L.z0 - mrand() * (L.z0 - L.z1);
+        const lxp = riverX(lz) + (mrand() - 0.5) * 30;
+        const lyp = WATER_Y + 1.5 + mrand() * 4;
+        const lsc = L.sc[0] + mrand() * (L.sc[1] - L.sc[0]);
+        const lmat = new THREE.SpriteMaterial({
+          map: mistTex, transparent: true, depthWrite: false,
+          opacity: L.op * (0.7 + mrand() * 0.6),
+          blending: THREE.NormalBlending, fog: false,
+        });
+        const lspr = new THREE.Sprite(lmat);
+        lspr.position.set(lxp, lyp, lz);
+        lspr.scale.set(lsc, lsc * 0.55, 1);
+        scene.add(lspr);
+        const lphase = mrand() * 6.28, lbaseO = lmat.opacity;
+        const lspd = L.speed;
+        mistUpdaters.push((t) => {
+          lspr.position.x = lxp + Math.sin(t * lspd + lphase) * 2.2;
+          lmat.opacity = lbaseO * (0.75 + 0.25 * Math.sin(t * 0.13 + lphase * 2));
+        });
+      }
+    }
     mark('mist');
   }
 
@@ -1108,6 +1138,34 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       // B"H "even more real": distant impostor walls glow toward the sun —
       // kills the flat dark-mass read at the background.
       addCanopyBacklight(mat, 0.55, 2.2, 'impostor' + ti);
+      // B"H WAY-better #24: aerial blue-shift — far trees drift toward
+      // atmospheric blue with distance. Sells the deep forest layers.
+      {
+        const prevOC = mat.onBeforeCompile;
+        mat.onBeforeCompile = (sh) => {
+          if (prevOC) prevOC(sh);
+          sh.fragmentShader = sh.fragmentShader
+            .replace('#include <common>', `#include <common>
+              varying vec3 vAerPos;`)
+            .replace('#include <map_fragment>', `#include <map_fragment>
+              {
+                float aerD = distance(cameraPosition, vAerPos);
+                float aerT = smoothstep(45.0, 140.0, aerD);
+                // atmospheric blue: (0.62, 0.74, 0.85), warm haze near sun handled by backlight
+                diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.62, 0.74, 0.85), aerT * 0.55);
+              }`);
+          sh.vertexShader = sh.vertexShader
+            .replace('#include <common>', `#include <common>
+              varying vec3 vAerPos;`)
+            .replace('#include <worldpos_vertex>', `#include <worldpos_vertex>
+              { vec4 awp = vec4(transformed, 1.0);
+                #ifdef USE_INSTANCING
+                  awp = instanceMatrix * awp;
+                #endif
+                vAerPos = (modelMatrix * awp).xyz; }`);
+          mat.customProgramCacheKey = () => 'impostor-aerial-v1';
+        };
+      }
       // B"H — Phase 2 (2026-10-13): grade impostors toward the reference's
       // deep-green palette. Unlit (baked photo lighting), color-matched.
       mat.color.setRGB(0.92, 1.0, 0.88);

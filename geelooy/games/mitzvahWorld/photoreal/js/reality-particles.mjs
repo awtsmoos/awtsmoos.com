@@ -168,10 +168,32 @@ export function makeDustMotes(sunDir, { count = 240, seed = 7171 } = {}) {
     size: 0.30, map: softSprite('rgba(255,250,225,0.85)', 'rgba(255,244,205,0.30)'),
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.5,
   }));
+  // B"H WAY-better #23: sparkle glint — per-point twinkle so motes inside
+  // shafts flash as they tumble through the light. Phase from position.
+  pts.material.onBeforeCompile = (sh) => {
+    sh.uniforms.uGlintT = { value: 0 };
+    pts.material.userData.sh = sh;
+    sh.fragmentShader = sh.fragmentShader
+      .replace('#include <common>', `#include <common>
+        uniform float uGlintT; varying vec3 vGlintPos;`)
+      .replace('#include <map_fragment>', `#include <map_fragment>
+        {
+          float gph = fract(sin(dot(vGlintPos.xz, vec2(12.9898, 78.233))) * 43758.5453) * 6.283;
+          float twk = 0.55 + 0.45 * sin(uGlintT * 2.4 + gph * 7.0);
+          diffuseColor.rgb *= (0.7 + 0.9 * twk);
+        }`);
+    sh.vertexShader = sh.vertexShader
+      .replace('#include <common>', `#include <common>
+        varying vec3 vGlintPos;`)
+      .replace('#include <begin_vertex>', `#include <begin_vertex>
+        vGlintPos = position;`);
+    pts.material.customProgramCacheKey = () => 'dust-glint-v1';
+  };
   pts.frustumCulled = false;
   const update = (t) => {
     pts.position.y = Math.sin(t * 0.25) * 0.35;
     pts.rotation.y = t * 0.004;
+    if (pts.material.userData.sh) pts.material.userData.sh.uniforms.uGlintT.value = t;
   };
   return { obj: pts, update };
 }
