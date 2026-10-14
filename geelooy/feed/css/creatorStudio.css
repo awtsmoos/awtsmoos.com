@@ -1,0 +1,597 @@
+/* B"H — Awtsmoos River creator studio.
+ * Tunnel CSS laws: no !important, token-only colors, explicit light/dark
+ * text colors, full interactive states on every control, sharp corners only,
+ * overflow-x guards where content could widen.
+ */
+
+body.cs-open {
+	overflow: hidden;
+}
+
+.cs-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 1400;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 14px;
+}
+
+.cs-backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(4, 5, 8, 0.74);
+}
+
+[data-theme="light"] .cs-backdrop {
+	background: rgba(30, 22, 8, 0.55);
+}
+
+.cs-panel {
+	position: relative;
+	width: min(1240px, 100%);
+	height: min(92vh, 900px);
+	display: flex;
+	flex-direction: column;
+	background: var(--aw-surface);
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	border-top: 3px solid var(--accent-gold);
+	color: var(--aw-text);
+	box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+	overflow: hidden;
+}
+
+.cs-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 14px 18px;
+	border-bottom: 1px solid var(--aw-line);
+	flex: none;
+}
+
+.cs-head-titles h2 {
+	margin: 0;
+	font-size: 19px;
+	font-weight: 800;
+	color: var(--aw-text);
+}
+
+.cs-saved {
+	margin: 3px 0 0;
+	font-size: 13px;
+	color: var(--aw-text-soft);
+	min-height: 18px;
+}
+
+.cs-head-actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.cs-close {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 38px;
+	height: 38px;
+	padding: 0;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: transparent;
+	color: var(--aw-text-soft);
+	cursor: pointer;
+}
+
+.cs-close svg {
+	width: 18px;
+	height: 18px;
+}
+
+.cs-close:hover {
+	border-color: var(--accent-gold);
+	color: var(--accent-gold);
+}
+
+.cs-close:active {
+	transform: translateY(1px);
+}
+
+.cs-close:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 3px;
+}
+
+.cs-body {
+	display: grid;
+	grid-template-columns: 230px minmax(0, 1fr) minmax(0, 340px);
+	gap: 0;
+	flex: 1;
+	min-height: 0;
+}
+
+@media (max-width: 980px) {
+	.cs-body {
+		grid-template-columns: minmax(0, 1fr);
+		overflow-y: auto;
+	}
+	.cs-drafts,
+	.cs-preview-col {
+		border: none;
+		border-bottom: 1px solid var(--aw-line);
+		max-height: none;
+	}
+}
+
+.cs-drafts {
+	border-right: 1px solid var(--aw-line);
+	padding: 14px;
+	overflow-y: auto;
+	overflow-x: clip;
+	min-height: 0;
+}
+
+.cs-preview-col {
+	border-left: 1px solid var(--aw-line);
+	padding: 14px;
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	overflow: hidden;
+}
+
+.cs-side-head {
+	margin: 0 0 10px;
+	font-size: 12px;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--aw-text-soft);
+}
+
+.cs-draft-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.cs-draft {
+	display: flex;
+	gap: 4px;
+	align-items: stretch;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: var(--aw-bg);
+}
+
+.cs-draft.is-active {
+	border-color: var(--accent-gold);
+}
+
+.cs-draft-open {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	padding: 10px 12px;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: var(--aw-text);
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+}
+
+.cs-draft-open:hover .cs-draft-title {
+	color: var(--accent-gold);
+}
+
+.cs-draft-open:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+}
+
+.cs-draft-title {
+	font-size: 14px;
+	font-weight: 700;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.cs-draft-time {
+	font-size: 12px;
+	color: var(--aw-text-soft);
+}
+
+.cs-draft-del {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 34px;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: var(--aw-text-soft);
+	cursor: pointer;
+	flex: none;
+}
+
+.cs-draft-del svg {
+	width: 15px;
+	height: 15px;
+}
+
+.cs-draft-del:hover {
+	color: #e0574f;
+}
+
+.cs-draft-del:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+}
+
+.cs-draft-empty {
+	font-size: 14px;
+	color: var(--aw-text-soft);
+	line-height: 1.55;
+}
+
+/* ============ editor ============ */
+.cs-editor {
+	padding: 18px;
+	overflow-y: auto;
+	overflow-x: clip;
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	min-height: 0;
+}
+
+.cs-field {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	min-width: 0;
+}
+
+.cs-label {
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--aw-text-soft);
+}
+
+.cs-label-hint {
+	text-transform: none;
+	letter-spacing: 0;
+	font-weight: 400;
+}
+
+.cs-input {
+	width: 100%;
+	padding: 10px 12px;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: var(--aw-bg);
+	color: var(--aw-text);
+	font: inherit;
+	font-size: 15px;
+	resize: vertical;
+}
+
+.cs-input:hover {
+	border-color: var(--aw-text-soft);
+}
+
+.cs-input:focus {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 1px;
+	border-color: var(--accent-gold);
+}
+
+.cs-input[aria-invalid="true"] {
+	border-color: #e0574f;
+}
+
+.cs-he {
+	font-size: 19px;
+	line-height: 1.8;
+}
+
+.cs-toolbar {
+	display: flex;
+	gap: 6px;
+}
+
+.cs-tool {
+	min-width: 38px;
+	height: 34px;
+	padding: 0 10px;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: var(--aw-bg);
+	color: var(--aw-text);
+	font: inherit;
+	font-size: 15px;
+	cursor: pointer;
+}
+
+.cs-tool:hover {
+	border-color: var(--accent-gold);
+	color: var(--accent-gold);
+}
+
+.cs-tool:active {
+	transform: translateY(1px);
+}
+
+.cs-tool:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+}
+
+/* ============ sources ============ */
+.cs-source-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.cs-source {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 8px 10px;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: var(--aw-bg);
+	font-size: 14px;
+}
+
+.cs-source a {
+	color: var(--accent-gold);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	min-width: 0;
+}
+
+.cs-source a:hover {
+	color: var(--aw-text);
+	text-decoration: underline;
+}
+
+.cs-source a:active {
+	transform: translateY(1px);
+}
+
+.cs-source a:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+}
+
+.cs-source-empty {
+	font-size: 14px;
+	color: var(--aw-text-soft);
+}
+
+.cs-source-del {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 30px;
+	height: 30px;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: var(--aw-text-soft);
+	cursor: pointer;
+	flex: none;
+}
+
+.cs-source-del svg {
+	width: 14px;
+	height: 14px;
+}
+
+.cs-source-del:hover {
+	color: #e0574f;
+}
+
+.cs-source-del:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+}
+
+.cs-src-add {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+	gap: 8px;
+}
+
+@media (max-width: 640px) {
+	.cs-src-add {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+/* ============ buttons ============ */
+.cs-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px 16px;
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: var(--aw-bg);
+	color: var(--aw-text);
+	font: inherit;
+	font-size: 14px;
+	font-weight: 700;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.cs-btn svg {
+	width: 16px;
+	height: 16px;
+	flex: none;
+}
+
+.cs-btn-primary {
+	background: var(--accent-gold);
+	border-color: var(--accent-gold);
+	color: #1a1206;
+}
+
+.cs-btn:hover {
+	border-color: var(--accent-gold);
+	color: var(--accent-gold);
+}
+
+.cs-btn-primary:hover {
+	color: #1a1206;
+	filter: brightness(1.06);
+}
+
+.cs-btn:active {
+	transform: translateY(1px);
+}
+
+.cs-btn:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 3px;
+}
+
+.cs-btn:disabled {
+	opacity: 0.55;
+	cursor: not-allowed;
+}
+
+/* ============ publish honesty ============ */
+.cs-publish {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 14px;
+	border: 1px dashed var(--aw-line);
+	border-radius: 0;
+	background: var(--aw-bg);
+}
+
+.cs-publish-note {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.6;
+	color: var(--aw-text-soft);
+}
+
+/* ============ preview ============ */
+.cs-preview-scroll {
+	flex: 1;
+	overflow-y: auto;
+	overflow-x: clip;
+	min-height: 0;
+}
+
+.cs-preview-card {
+	border: 1px solid var(--aw-line);
+	border-radius: 0;
+	background: var(--aw-bg);
+	padding: 18px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.cs-preview-title {
+	margin: 0;
+	font-size: 19px;
+	font-weight: 800;
+	color: var(--aw-text);
+}
+
+.cs-preview-dim {
+	color: var(--aw-text-soft);
+	font-weight: 400;
+}
+
+.cs-preview-he {
+	margin: 0;
+	font-size: 18px;
+	line-height: 1.8;
+	color: var(--aw-text);
+}
+
+.cs-preview-en {
+	margin: 0;
+	font-size: 15px;
+	line-height: 1.65;
+	color: var(--aw-text-soft);
+	font-style: italic;
+}
+
+[data-theme="light"] .cs-preview-en {
+	color: var(--aw-text-soft);
+}
+
+.cs-preview-p {
+	margin: 0;
+	font-size: 15px;
+	line-height: 1.65;
+	color: var(--aw-text);
+}
+
+.cs-preview-sources-head {
+	margin: 0 0 6px;
+	font-size: 12px;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--aw-text-soft);
+}
+
+.cs-preview-sources ul {
+	margin: 0;
+	padding-left: 18px;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	font-size: 14px;
+}
+
+.cs-preview-sources a {
+	color: var(--accent-gold);
+	overflow-wrap: anywhere;
+}
+
+.cs-preview-sources a:hover {
+	color: var(--aw-text);
+	text-decoration: underline;
+}
+
+.cs-preview-sources a:active {
+	transform: translateY(1px);
+}
+
+.cs-preview-sources a:focus-visible {
+	outline: 2px solid var(--aw-focus-ring);
+	outline-offset: 2px;
+}
