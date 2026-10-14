@@ -705,9 +705,11 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const ccv = document.createElement('canvas'); ccv.width = 64; ccv.height = 128;
     const cx3 = ccv.getContext('2d');
     const cg = cx3.createLinearGradient(0, 0, 64, 0);
-    cg.addColorStop(0, 'rgba(255,244,214,0)');
-    cg.addColorStop(0.5, 'rgba(255,246,220,0.95)');
-    cg.addColorStop(1, 'rgba(255,244,214,0)');
+    cg.addColorStop(0, 'rgba(255,220,160,0)');
+    // B"H TEXTURE-FIRST: was (255,246,220) — white wash. Reference shafts
+    // are GOLDEN amber, not white. Warmer core.
+    cg.addColorStop(0.5, 'rgba(255,214,150,0.95)');
+    cg.addColorStop(1, 'rgba(255,220,160,0)');
     cx3.fillStyle = cg; cx3.fillRect(0, 0, 64, 128);
     // fade along length (top bright, bottom dissolves)
     cx3.globalCompositeOperation = 'destination-in';
@@ -745,7 +747,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     coneUpdaters.push((t) => {
       // B"H 2nd sweep: stronger — NEW_TARGET has bold diagonal shafts.
       // B"H TEXTURE-FIRST: 0.42 was invisible. 0.75 base for bold shafts.
-      coneMat.opacity = 0.75 * (0.8 + 0.2 * Math.sin(t * 0.4));
+      // B"H: 0.75→0.60 — golden (not white) at slightly lower opacity
+      // to avoid washing out the mid-ground like the reference.
+      coneMat.opacity = 0.60 * (0.8 + 0.2 * Math.sin(t * 0.4));
     });
     for (const cu of coneUpdaters) mistUpdaters.push(cu);
     mark('light-cones');
