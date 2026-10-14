@@ -721,7 +721,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const sunDirN = sunDir.clone().normalize();
     const coneUpdaters = [];
     for (let i = 0; i < CONE_N; i++) {
-      const m = new THREE.Mesh(coneGeo, coneMat.clone());
+      // B"H draw-call diet: share one material (global breathe, not per-cone).
+      const m = new THREE.Mesh(coneGeo, coneMat);
       // park at canopy gaps: above the river corridor + a few in the canopy
       const cz = 20 - coneRnd() * 70;
       const cx = riverX(cz) + (coneRnd() - 0.5) * 10;
@@ -731,13 +732,12 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       const q = new THREE.Quaternion();
       q.setFromUnitVectors(new THREE.Vector3(0, -1, 0), sunDirN.clone().negate());
       m.quaternion.copy(q);
-      m.userData.baseO = 0.22 + coneRnd() * 0.18;
       m.userData.phase = coneRnd() * 6.28;
       scene.add(m);
-      coneUpdaters.push((t) => {
-        m.material.opacity = m.userData.baseO * (0.8 + 0.2 * Math.sin(t * 0.4 + m.userData.phase));
-      });
     }
+    coneUpdaters.push((t) => {
+      coneMat.opacity = 0.30 * (0.8 + 0.2 * Math.sin(t * 0.4));
+    });
     for (const cu of coneUpdaters) mistUpdaters.push(cu);
     mark('light-cones');
   }
@@ -1761,7 +1761,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const fishes = [];
     const fishRnd = mulberry32(seed ^ 0xf154);
     for (let i = 0; i < FISH_N; i++) {
-      const m = new THREE.Mesh(fishGeo, fishMat.clone());
+      // B"H draw-call diet: share one material (no per-fish opacity).
+      const m = new THREE.Mesh(fishGeo, fishMat);
       const fz = 20 - fishRnd() * 70;
       m.userData = {
         z: fz, xOff: (fishRnd() - 0.5) * 0.8,
@@ -1772,6 +1773,8 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       scene.add(m); fishes.push(m);
     }
     const fishUpdate = (t) => {
+      // B"H draw-call diet: one shared material — opacity pulses globally.
+      fishMat.opacity = 0.75 + 0.25 * Math.sin(t * 0.5);
       for (const m of fishes) {
         const u = m.userData;
         u.z += u.dir * u.speed * 0.016;
@@ -1781,8 +1784,6 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
         const sway = Math.sin(t * 2.2 + u.phase) * 0.4;
         m.position.set(rx + u.xOff * riverHalfWidth(u.z) + sway, WATER_Y - 0.35, u.z);
         m.rotation.y = (u.dir > 0 ? 0 : Math.PI) + Math.sin(t * 3.1 + u.phase) * 0.18;
-        // fade near turnarounds (subtle)
-        m.material.opacity = 0.75 + 0.25 * Math.sin(t * 0.5 + u.phase);
       }
     };
     fishUpdate(0);
