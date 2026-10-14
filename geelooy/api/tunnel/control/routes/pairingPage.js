@@ -99,6 +99,12 @@ p.sub{color:var(--dim); font-size:14px; line-height:1.65; margin-bottom:22px}
 .codebox{
 	background:#0a0f18; border:1px solid var(--line);
 	padding:20px 12px; text-align:center; margin-bottom:22px;
+	position:relative;
+	animation:codeGlow 2.5s ease-in-out infinite;
+}
+@keyframes codeGlow{
+	0%,100%{box-shadow:0 0 20px rgba(47,212,126,.15); border-color:var(--line)}
+	50%{box-shadow:0 0 40px rgba(47,212,126,.35); border-color:var(--green)}
 }
 .codebox .code{
 	font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
