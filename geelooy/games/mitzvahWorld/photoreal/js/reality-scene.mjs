@@ -220,7 +220,10 @@ function bufferGeometryFromStream(stream, leafShrink = 0) {
 }
 
 const VIEWS = {
-  forest:    { pos: [riverX(18) + 4.5, 1.9, 18],  look: [riverX(-25) - 1, 1.2, -25] },
+  // B"H commit 10: reference framing — camera LOW near the water (0.75m
+  // above surface), on the bank, looking down the S-curve to the bright
+  // background gap. River enters bottom-center, leads eye to distance.
+  forest:    { pos: [riverX(20) + 3.2, WATER_Y + 0.75, 20],  look: [riverX(-32) - 0.5, WATER_Y + 0.5, -32] },
   river:     { pos: [riverX(34) + 7, 3.4, 34], look: [riverX(-30) - 2, 0.5, -30] },
   // B"H commit 7 proof: macro on hero boulder #1 (z=14, left bank).
   'debug-boulder': { pos: [riverX(14) - riverHalfWidth(14) * 1.45 + 2.2, WATER_Y + 1.6, 17.5],
