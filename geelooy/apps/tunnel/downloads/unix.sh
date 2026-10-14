@@ -133,7 +133,8 @@ EOF
 }
 
 awt_step()  { printf '%s🚀%s %s\n'   "$AWT_C_CYAN" "$AWT_C_OFF" "$1" >&2; }
-awt_ok()    { printf '%s✨%s %s\n'   "$AWT_C_GREEN" "$AWT_C_OFF" "$1" >&2; }
+# B"H — Yaakov 2026-10-14: Even more beautiful blues, fun, magical!
+awt_ok()    { printf '%s💙✨%s %s\n'   "$AWT_C_CYAN" "$AWT_C_OFF" "$1" >&2; }
 awt_warn()  { printf '%s⚠️%s %s\n'   "$AWT_C_YELLOW" "$AWT_C_OFF" "$1" >&2; }
 awt_fail()  { printf '%s💥%s %s\n'   "$AWT_C_RED" "$AWT_C_OFF" "$1" >&2; }
 awt_dim()   { printf '%s%s%s\n'     "$AWT_C_DIM" "$1" "$AWT_C_OFF" >&2; }
