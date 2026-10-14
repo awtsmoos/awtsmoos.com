@@ -12,6 +12,7 @@
 import { collectMeshes } from './tiny-render-draw-list.js';
 import { recordGlStateCacheStats } from './tiny-render-gl-state-stats.js';
 import { drawRenderMesh } from './tiny-render-mesh.js';
+import { renderShadowPass } from './tiny-render-shadow-pass.js';
 import { drawSkeleton } from './tiny-render-skeleton.js';
 import { collectWorldMatrices } from './tiny-skin-system.js';
 
@@ -24,6 +25,9 @@ export function renderFrame(renderer, scene, camera) {
 	renderer.stats = createFrameStats(renderer, renderList);
 	renderer.buffers.beginFrame(renderer.stats);
 	renderer.materialState.beginFrame(renderer.stats);
+	// B"H: the sun weighs every caster before the world is clothed in light.
+	const shadowsDrawn = renderShadowPass(renderer, renderList.opaque, camera);
+	renderer.stats.shadowPassDrawn = shadowsDrawn;
 	gl.enable(gl.DEPTH_TEST);
 	gl.clearColor(...renderer.clearColor);
 	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -230,6 +234,14 @@ function createFrameStats(renderer, renderList) {
 		renderOrder: renderList.renderOrder,
 		rigidMeshes: 0,
 		sharedSkinPaletteCache: true,
+		shadowCasters: 0,
+		shadowInstances: 0,
+		shadowMapSize: 0,
+		shadowPassDrawn: false,
+		shadowSkinnedCasters: 0,
+		instancedDraws: 0,
+		instancedInstances: 0,
+		instancedMeshes: 0,
 		staticBatch: renderList.staticBatch || null,
 		skinGpuUploadReuses: 0,
 		skinGpuUploads: 0,

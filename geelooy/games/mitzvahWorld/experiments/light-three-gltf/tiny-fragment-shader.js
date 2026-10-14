@@ -10,6 +10,7 @@
  */
 
 import { fragmentLightingFunctions } from './tiny-fragment-lighting-functions.js';
+import { fragmentShadowFunctions } from './tiny-fragment-shadow-functions.js';
 import { fragmentMainFunction } from './tiny-fragment-main-function.js';
 import { fragmentSamplingFunctions } from './tiny-fragment-sampling-functions.js';
 import { skyFragmentFunctions } from './tiny-sky-fragment-functions.js';
@@ -25,6 +26,7 @@ export function fragmentShaderForLayerCount(layerCount) {
 		fragmentSamplingFunctions,
 		terrainFunctionsForLayerCount(layerCount),
 		skyFragmentFunctions,
+		fragmentShadowFunctions,
 		fragmentLightingFunctions,
 		fragmentMainFunction
 	].join(String.fromCharCode(10));

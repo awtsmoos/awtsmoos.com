@@ -29,6 +29,9 @@ export async function hydrateProgressiveWebGLRenderer(renderer, options = {}) {
 		delegate.setEnvironment(renderer.environment);
 		delegate.setSize(renderer.canvas.width, renderer.canvas.height);
 		delegate.setInteractor(renderer.interactor, renderer.timeSeconds);
+		if (options.shadowTier) {
+			delegate.setShadowTier(options.shadowTier);
+		}
 		renderer.hydrationState = 'preparing';
 		delegate.ensureInitialized();
 		await nextBrowserFrame(options.environment || globalThis);

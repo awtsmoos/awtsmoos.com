@@ -36,7 +36,11 @@ vec3 litSurface(vec3 albedo,vec3 normal){
 	vec3 coolSky=vec3(0.27,0.42,0.62)*skyFacing;
 	vec3 earthBounce=vec3(0.30,0.19,0.09)*(1.0-skyFacing);
 	vec3 horizonFill=vec3(0.20,0.14,0.09)*horizonFacing;
-	vec3 sunlight=uSunColor*(direct*0.96+wrapped*0.18);
+	/* Sun shadow map: one PCF lookup dims direct sun (diffuse and specular)
+	   while sky/earth fill stay untouched, so shadowed earth keeps its air. */
+	float shadow=shadowOcclusion(vWorld,normal);
+	vec3 sunlight=uSunColor*(direct*0.96+wrapped*0.18)*shadow;
+	specular*=shadow;
 	vec3 diffuse=diffuseAlbedo*(uAmbient+coolSky*0.40+earthBounce*0.22+horizonFill*0.15+sunlight);
 	/* Environment reflection from the procedural sky: fresnel-weighted, roughness-gated. */
 	vec3 environment=vec3(0.0);

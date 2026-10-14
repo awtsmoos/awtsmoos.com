@@ -10,6 +10,7 @@
  */
 
 import { TERRAIN_LAYER_TARGET } from './tiny-terrain-layer-policy.js';
+import { INSTANCE_MATRIX_ATTRIBUTES } from './tiny-instancing.js';
 
 export function rendererLocations(gl, program, layerCount = TERRAIN_LAYER_TARGET) {
 	const attribute = name => gl.getAttribLocation(program, name);
@@ -18,6 +19,7 @@ export function rendererLocations(gl, program, layerCount = TERRAIN_LAYER_TARGET
 		position: attribute('aPosition'), normal: attribute('aNormal'),
 		color: attribute('aColor'), uv: attribute('aUv'), zone: attribute('aZone'),
 		joints: attribute('aJoints'), weights: attribute('aWeights'),
+		instanceMatrix: INSTANCE_MATRIX_ATTRIBUTES.map(attribute),
 		mvp: uniform('uMvp'), model: uniform('uModel'), colorUniform: uniform('uColor'),
 		alphaCutoff: uniform('uAlphaCutoff'), alphaMode: uniform('uAlphaMode'),
 		lit: uniform('uLit'), pointSize: uniform('uPointSize'),
@@ -42,6 +44,8 @@ export function rendererLocations(gl, program, layerCount = TERRAIN_LAYER_TARGET
 		cameraPosition: uniform('uCameraPosition'), fogColor: uniform('uFogColor'),
 		fogNear: uniform('uFogNear'), fogFar: uniform('uFogFar'), exposure: uniform('uExposure'),
 		roughness: uniform('uRoughness'), metalness: uniform('uMetalness'),
+		shadowMap: uniform('uShadowMap'), shadowMatrix: uniform('uShadowMatrix'),
+		shadowStrength: uniform('uShadowStrength'), shadowTexel: uniform('uShadowTexel'),
 		grassReactive: uniform('uGrassReactive'), windMode: uniform('uWindMode'),
 		interactor: uniform('uInteractor'), grassRadius: uniform('uGrassRadius'),
 		grassWindStrength: uniform('uGrassWindStrength'),

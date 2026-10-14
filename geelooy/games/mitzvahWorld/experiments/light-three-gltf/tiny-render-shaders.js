@@ -20,5 +20,6 @@ export {
 } from './tiny-skin-shaders.js';
 export {
 	unifiedTextureVertexShader,
-	unifiedUniformVertexShader
+	unifiedUniformVertexShader,
+	unifiedInstancedVertexShader
 } from './tiny-unified-shaders.js';

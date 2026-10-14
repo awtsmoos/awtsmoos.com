@@ -41,6 +41,29 @@ export function uploadFrameUniforms(renderer, locations) {
 		gl.uniform3f(locations.interactor, renderer.interactor.x, renderer.interactor.y, renderer.interactor.z);
 	}
 	if (locations.time) gl.uniform1f(locations.time, renderer.timeSeconds);
+	uploadShadowUniforms(renderer, locations);
+}
+
+/** Binds the sun shadow map to its reserved unit and uploads the light matrix. */
+function uploadShadowUniforms(renderer, locations) {
+	const gl = renderer.gl;
+	const shadow = renderer.shadow;
+	const strength = shadow?.enabled && shadow.texture ? 1 : 0;
+	if (locations.shadowStrength) gl.uniform1f(locations.shadowStrength, strength);
+	if (locations.shadowMatrix && shadow) {
+		gl.uniformMatrix4fv(locations.shadowMatrix, false, shadow.matrix);
+	}
+	if (locations.shadowTexel && shadow) {
+		gl.uniform2f(locations.shadowTexel, shadow.texelSize, shadow.texelSize);
+	}
+	if (locations.shadowMap) {
+		const unit = renderer.shadowUnit | 0;
+		if (shadow?.texture) {
+			gl.activeTexture(gl.TEXTURE0 + unit);
+			gl.bindTexture(gl.TEXTURE_2D, shadow.texture);
+		}
+		gl.uniform1i(locations.shadowMap, unit);
+	}
 }
 
 export function uploadObjectUniforms(renderer, locations, model, mvp) {

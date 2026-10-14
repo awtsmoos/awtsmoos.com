@@ -10,9 +10,12 @@
  */
 
 import { REFERENCE_GOLDEN_HOUR } from '../world/lighting/ReferenceGoldenHourPreset.js';
+import { ShadowBudgetController } from '../render/ShadowBudgetController.js';
+import { shadowTierForWorldQuality } from '../performance/WorldQualityProfile.js';
 import { createMinimalMeadowRenderer } from './MinimalMeadowRenderer.js';
 
 const GOLDEN_HOUR_ENVIRONMENT = referenceEnvironment(REFERENCE_GOLDEN_HOUR);
+const shadowBudgets = new ShadowBudgetController();
 
 export function createEretzFoundationRenderer(canvas, qualityProfile) {
 	const renderer = createMinimalMeadowRenderer(canvas);
@@ -26,6 +29,10 @@ export function createEretzFoundationRenderer(canvas, qualityProfile) {
 		fogFar: renderDistance,
 		fogNear: renderDistance * 0.30
 	});
+	// B"H: the world quality profile drives the real shadow-map budget through
+	// the shadow budget controller, so low keeps a small honest map and
+	// high/cinematic keep the full near-field map.
+	shadowBudgets.applyTier(shadowTierForWorldQuality(qualityProfile.quality), renderer);
 	return renderer;
 }
 

@@ -11,6 +11,7 @@
 
 import { appendYardGrassTuft } from '../grass/YardGrassMeshBuilder.js';
 import { createEcologicalYardGrassTuft } from '../grass/EcologicalYardGrassTuft.js';
+import { createInstancedGrassVariants } from '../grass/InstancedGrassField.js';
 import { createVillageGrassEcologyPlan } from '../grass/VillageGrassEcologyPlan.js';
 import { planGrassClusters, GRASS_BLADE_TEXTURE_SIZE, GRASS_MATERIAL_ID } from '../../app/MitzvahWorldGrassMaterial.js';
 import { natureQualityBudget } from '../nature/NatureQualityBudget.js';
@@ -59,6 +60,12 @@ export function createVillageReactiveGrassBatchDefinition(groundSampler, quality
 }
 
 function definition(mesh, budget, quality, plan, counts) {
+	// B"H: one canonical tuft per habitat profile plus one matrix per placement.
+	// The renderer draws these through GPU instancing when available; the merged
+	// vertices/faces/uvs remain the honest fallback when it is not. Grass never
+	// casts into the shadow map: it is the largest vertex consumer and its
+	// self-shadow is visually negligible.
+	const instancedVariants = createInstancedGrassVariants(plan, quality);
 	return {
 		color: '#5d9f42',
 		doubleSided: true,
@@ -74,6 +81,8 @@ function definition(mesh, budget, quality, plan, counts) {
 		solid: false,
 		texturePolicy: { shader: 'wind-reactive-procedural-grass' },
 		userData: {
+			castShadow: false,
+			instancedVariants,
 			AwtsmoosLod: {
 				className: 'vegetation',
 				cullDistance: budget.cullDistance,

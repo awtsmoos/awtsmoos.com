@@ -86,3 +86,20 @@ function profile(quality, maxDpr, renderDistance, modelLimit, reason) {
 		renderDistance
 	});
 }
+
+/**
+ * Budgeted sun shadow tiers per world quality: the shadow map resolution the
+ * tiny renderer installs when the quality profile resolves. low keeps a small
+ * honest map; high/cinematic keep the full near-field map.
+ */
+const QUALITY_SHADOW_TIERS = Object.freeze({
+	cinematic: 'near',
+	high: 'near',
+	low: 'far',
+	medium: 'mid'
+});
+
+/** Maps a world quality id to its budgeted shadow tier id. */
+export function shadowTierForWorldQuality(quality) {
+	return QUALITY_SHADOW_TIERS[quality] || 'mid';
+}

@@ -16,6 +16,8 @@ import {
 	recordDraw,
 	writeMvp
 } from './tiny-render-mesh-helpers.js';
+import { drawInstancedMesh } from './tiny-render-instanced-mesh.js';
+import { isInstancedMesh } from './tiny-instancing.js';
 import {
 	ensureFrameUniforms,
 	reclaimRenderProgram
@@ -26,6 +28,15 @@ import {
 } from './tiny-render-uniforms.js';
 
 export function drawRenderMesh(renderer, mesh, projectionView, transparent) {
+	// B"H: instanced vegetation/props take the GPU instancing path when available;
+	// the merged CPU geometry remains the honest fallback when it is not.
+	if (shouldDrawInstanced(renderer, mesh)) {
+		try {
+			if (drawInstancedMesh(renderer, mesh, projectionView, transparent)) return;
+		} catch (error) {
+			recordInstancedDrawError(renderer, mesh, error);
+		}
+	}
 	const resource = renderer.buffers.forMesh(mesh);
 	if (!resource) return;
 	const skinned = isSkinned(mesh, resource);
@@ -58,6 +69,26 @@ function isSkinned(mesh, resource) {
 		&& resource.attributes.joints
 		&& resource.attributes.weights
 	);
+}
+
+/** An instanced mesh takes the instanced path only when the GPU supports it. */
+function shouldDrawInstanced(renderer, mesh) {
+	if (!renderer.instancing?.supported) return false;
+	if (!renderer.programs?.instanced) return false;
+	if (isInstancedMesh(mesh)) return true;
+	const variants = mesh?.userData?.instancedVariants;
+	return Boolean(Array.isArray(variants) && variants.some(isInstancedMesh));
+}
+
+function recordInstancedDrawError(renderer, mesh, error) {
+	const stats = renderer.stats;
+	stats.meshDrawErrors = (stats.meshDrawErrors || 0) + 1;
+	stats.lastMeshDrawError = {
+		mesh: mesh?.name || '(unnamed)',
+		message: error?.message || String(error)
+	};
+	renderer.errors = renderer.errors || [];
+	renderer.errors.push(stats.lastMeshDrawError);
 }
 
 function bindSkinBranch(renderer, locations, mesh, skinned) {

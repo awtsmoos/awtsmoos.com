@@ -69,5 +69,9 @@ uniform float uFogFar;
 uniform float uExposure;
 uniform float uRoughness;
 uniform float uMetalness;
+uniform sampler2D uShadowMap;
+uniform mat4 uShadowMatrix;
+uniform float uShadowStrength;
+uniform vec2 uShadowTexel;
 `;
 }

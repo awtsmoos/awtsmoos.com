@@ -8,7 +8,9 @@
  * over the tiny WebGL renderer. Yaakov 2026-10-11: the engine must render hyperrealistic
  * quality, and every universe (authored or player-created) reads one atmosphere truth.
  * Presets drive sun, fog, ambient and exposure through the renderer's setEnvironment;
- * quality tiers cap pixel ratio and particle/grass budgets through the shadow budget hook.
+ * quality tiers drive the real shadow-map budget through the renderer's setShadowTier
+ * doorway (2048/1024/512 texels, or off), and report pixelRatioCap/grassScale/
+ * particleScale through describe() and the onQuality hook for the app to apply.
  */
 
 const REALITY_PRESETS = Object.freeze({
@@ -110,9 +112,16 @@ export function realityQualityIds() {
 /**
  * Creates one reality-engine controller bound to a tiny renderer (or a duck-typed
  * { setEnvironment } target). Never touches the DOM; safe to construct in tests.
+ *
+ * Quality tiers drive REAL systems: the shadow tier is applied to the bound
+ * renderer through its setShadowTier doorway (2048/1024/512/off texel budgets),
+ * while pixelRatioCap/grassScale/particleScale are reported through describe()
+ * and the onQuality hook so the embedding app applies them to its canvas and
+ * vegetation budgets.
  */
 export function createRealityEngine(options = {}) {
 	const renderer = options.renderer || null;
+	const shadowBudgets = options.shadowBudget || null;
 	const state = {
 		presetId: options.presetId || 'morning',
 		qualityId: options.qualityId || 'balanced',
@@ -146,8 +155,22 @@ export function createRealityEngine(options = {}) {
 		const tier = QUALITY_TIERS[qualityId];
 		if (!tier) throw new Error(`REALITY_QUALITY_UNKNOWN:${qualityId}`);
 		state.qualityId = qualityId;
+		applyShadowTier(tier.shadowTier);
 		if (typeof options.onQuality === 'function') options.onQuality(qualityId, tier);
 		return Object.freeze({ qualityId, ...tier });
+	}
+
+	/** Applies the shadow tier through the budget controller or the renderer directly. */
+	function applyShadowTier(tierName) {
+		const renderTarget = target();
+		if (!renderTarget) return false;
+		if (shadowBudgets && typeof shadowBudgets.applyTier === 'function') {
+			return shadowBudgets.applyTier(tierName, renderTarget);
+		}
+		if (typeof renderTarget.setShadowTier === 'function') {
+			return renderTarget.setShadowTier(tierName) !== false;
+		}
+		return false;
 	}
 
 	function describe() {
@@ -159,6 +182,9 @@ export function createRealityEngine(options = {}) {
 			qualityId: state.qualityId,
 			qualityLabel: tier.label,
 			pixelRatioCap: tier.pixelRatioCap,
+			grassScale: tier.grassScale,
+			particleScale: tier.particleScale,
+			shadowTier: tier.shadowTier,
 			appliedAt: state.appliedAt
 		});
 	}

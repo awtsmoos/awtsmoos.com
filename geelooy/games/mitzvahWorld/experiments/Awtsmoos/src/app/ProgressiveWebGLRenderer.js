@@ -86,6 +86,20 @@ export class ProgressiveWebGLRenderer {
 		setProgressiveRendererInteractor(this, position, timeSeconds);
 	}
 
+	/**
+	 * Applies a budgeted shadow tier ('near' | 'mid' | 'far' | 'off') to the
+	 * hydrated rich renderer. Before hydration the tier is remembered and
+	 * applied the moment the delegate exists, so quality wiring never lies
+	 * about a tier that was never installed.
+	 */
+	setShadowTier(tier) {
+		this.pendingShadowTier = tier;
+		if (this.delegate && typeof this.delegate.setShadowTier === 'function') {
+			return this.delegate.setShadowTier(tier);
+		}
+		return tier;
+	}
+
 	render(scene, camera) {
 		if (this.delegate) {
 			return this.delegate.render(scene, camera);
@@ -98,10 +112,11 @@ export class ProgressiveWebGLRenderer {
 			return this.hydrationPromise;
 		}
 		this.hydrationState = 'loading';
+		const shadowTier = options.shadowTier || this.pendingShadowTier || null;
 		this.hydrationPromise = import(
 			'./ProgressiveWebGLRendererHydration.js?v=20260928-playable-meadow-01'
 		).then(module => {
-			return module.hydrateProgressiveWebGLRenderer(this, options);
+			return module.hydrateProgressiveWebGLRenderer(this, { ...options, shadowTier });
 		});
 		return this.hydrationPromise;
 	}

@@ -14,13 +14,17 @@ export const TERRAIN_LAYER_LOGICAL_LIMIT = 32;
 export const TERRAIN_RESERVED_FRAGMENT_UNITS = 2;
 export const TERRAIN_FIRST_TEXTURE_UNIT = 3;
 
-export function terrainLayerCapacity(gl) {
+export function terrainLayerCapacity(gl, options = {}) {
 	const fragmentLimit = numericLimit(gl, gl.MAX_TEXTURE_IMAGE_UNITS, 8);
 	const combinedLimit = numericLimit(gl, gl.MAX_COMBINED_TEXTURE_IMAGE_UNITS, 8);
+	// One extra sampler is reserved for the sun shadow map when shadowSampler is
+	// true: the fragment budget loses two (the shadow sampler itself plus unit
+	// indexing headroom) and the combined budget loses one.
+	const shadowReserve = options.shadowSampler === true ? 1 : 0;
 	return Math.max(0, Math.min(
 		TERRAIN_LAYER_TARGET,
-		fragmentLimit - TERRAIN_RESERVED_FRAGMENT_UNITS,
-		combinedLimit - TERRAIN_FIRST_TEXTURE_UNIT
+		fragmentLimit - TERRAIN_RESERVED_FRAGMENT_UNITS - shadowReserve * 2,
+		combinedLimit - TERRAIN_FIRST_TEXTURE_UNIT - shadowReserve
 	));
 }
 
