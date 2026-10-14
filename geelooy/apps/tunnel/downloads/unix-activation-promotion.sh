@@ -62,18 +62,22 @@ start_promoted_candidate() {
 	local rollback="$1"
 	local failed="$2"
 	install_event "startup" "started" "Starting tunnel agent"
-	start_supervisor
-	prg_info "Agent handed to the supervisor…"
-	# B"H — Yaakov 2026-10-14: do not hang waiting for the agent to become
-	# "stably active". The credential is provisioned; the supervisor will
-	# keep the agent running and it will connect. Declare success immediately
-	# so the installer finishes. If the agent has issues, they show in logs.
+	# B"H — Yaakov 2026-10-14: NO SUPERVISOR, NO BACKGROUND, NO HACKS.
+	# The installer execs the agent directly in the foreground. The agent
+	# runs as a real visible process. Ctrl+C stops it cleanly.
+	# This is the proper way, not a background daemon hack.
 	write_activation_journal "candidate_stable" "$ROOT" "$rollback"
 	[ -n "$rollback" ] && [ -e "$rollback" ] &&
 		schedule_displaced_cleanup "$rollback"
 	write_activation_journal "committed" "$ROOT" "$rollback"
 	install_event "startup" "passed" \
-		"Agent promoted and supervisor started." \
+		"Agent promoted, starting in foreground." \
 		"root=$ROOT"
-	return 0
+	printf '\n' >&2
+	printf '✓ Credential provisioned. Starting agent in foreground...\n' >&2
+	printf '  (Ctrl+C to stop the agent cleanly)\n' >&2
+	printf '\n' >&2
+	# Exec the agent directly — installer becomes the agent.
+	# No supervisor, no background, no daemon. Just the agent.
+	exec node "$ROOT/unix-agent-launcher.cjs" "$ROOT"
 }
