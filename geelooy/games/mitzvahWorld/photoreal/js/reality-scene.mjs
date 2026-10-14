@@ -785,7 +785,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       // warm rim light on the camera side.
       // B"H commit 3: 0.55→0.85 — sun moved down-river (backlit), foreground
       // needs fill until leaf translucency (commit 4) arrives.
-      const fill = new THREE.DirectionalLight(0xffe8c8, 0.85);
+      // B"H TEXTURE-FIRST 2026-10-14: foreground bank still dark (faces away
+      // from sun). 0.85→1.25 to lift the near-field moss like the reference.
+      const fill = new THREE.DirectionalLight(0xffe8c8, 1.25);
       fill.position.set(vpos[0], vpos[1] + 6, vpos[2] + 5);
       fill.target.position.set(vpos[0], 1.5, vpos[2] - 25);
       scene.add(fill); scene.add(fill.target);
@@ -956,7 +958,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     loadTexture(TEX + 'new/tex-fallen-log.webp', 2, 1),
     loadTexture(TEX + 'new/tex-leaf-litter.webp', 6, 6),
     // B"H commit 7: wet-rock albedo was never loaded (rocks were untextured).
-    loadTexture(TEX + 'new/tex-wet-rock.webp', 1, 1),
+    // B"H TEXTURE-FIRST 2026-10-14: tex-wet-rock was near-black (wrong for
+    // reference). v2: mid-gray mossy stones like the reference riverbanks.
+    loadTexture(TEX + 'new/tex-mossy-rock-v2.png', 1, 1),
     // B"H — normal maps (Yaakov 2026-10-13: "never enough textures, including
     // normals"). Bark/moss/pebble/wet-rock derived geometrically via Sobel
     // from height maps (better math); water ripple + leaf vein AI-generated.
