@@ -83,36 +83,71 @@ start_supervisor_process() {
 start_supervisor() {
 	write_supervisor
 	start_supervisor_process
-	# B"H — Yaakov 2026-10-14: installer stays as a real process showing
-	# realtime status. Wait for agent to start (max 30s), show clear
-	# success or error. Never hang silently.
-	printf '\nWaiting for tunnel agent to start...\n' >&2
-	local waited=0
-	local max_wait=30
-	while [ $waited -lt $max_wait ]; do
-		# Check if agent process is running
-		if pgrep -f "awtsmoos-agent\|tunnel-agent" >/dev/null 2>&1; then
-			printf '\n✓ Tunnel agent process started.\n' >&2
-			printf '✓ Installation complete. Agent is connecting...\n' >&2
-			return 0
-		fi
-		# Check if supervisor died
+	# B"H — Yaakov 2026-10-14: installer becomes a persistent tunnel monitor.
+	# Shows realtime status with green checks when active, red errors with
+	# details when something fails. Stays open until Ctrl+C. The supervisor
+	# keeps running in background even after monitor exits.
+	local GREEN='\033[1;32m'
+	local RED='\033[1;31m'
+	local YELLOW='\033[1;33m'
+	local CYAN='\033[1;36m'
+	local DIM='\033[2m'
+	local OFF='\033[0m'
+
+	printf '\n' >&2
+	printf "${CYAN}╔══════════════════════════════════════════════════════════╗${OFF}\n" >&2
+	printf "${CYAN}║${OFF}  ${GREEN}✓${OFF} Tunnel supervisor started                              ${CYAN}║${OFF}\n" >&2
+	printf "${CYAN}║${OFF}  Monitoring agent status (Ctrl+C to stop monitor)...       ${CYAN}║${OFF}\n" >&2
+	printf "${CYAN}╚══════════════════════════════════════════════════════════╝${OFF}\n" >&2
+	printf '\n' >&2
+
+	local last_status=""
+	while true; do
+		local status_line=""
+		local has_error=0
+
+		# Check supervisor
 		if [ -f "$ROOT/supervisor.pid" ]; then
 			local spid=$(cat "$ROOT/supervisor.pid" 2>/dev/null || true)
-			if [ -n "$spid" ] && ! kill -0 "$spid" 2>/dev/null; then
-				printf '\n✗ Supervisor died unexpectedly.\n' >&2
-				printf 'Check logs at %s for details.\n' "$ROOT/logs" >&2
-				return 1
+			if [ -n "$spid" ] && kill -0 "$spid" 2>/dev/null; then
+				status_line="${GREEN}✓${OFF} Supervisor running (PID $spid)"
+			else
+				status_line="${RED}✗${OFF} Supervisor died (was PID $spid)"
+				has_error=1
 			fi
+		else
+			status_line="${YELLOW}○${OFF} Supervisor PID file not found"
 		fi
-		sleep 2
-		waited=$((waited + 2))
-		printf '.' >&2
+
+		# Check agent
+		if pgrep -f "awtsmoos-agent" >/dev/null 2>&1; then
+			local apid=$(pgrep -f "awtsmoos-agent" | head -1)
+			status_line="$status_line  ${GREEN}✓${OFF} Agent running (PID $apid)"
+		else
+			status_line="$status_line  ${DIM}○ Agent not running${OFF}"
+		fi
+
+		# Only print if status changed
+		if [ "$status_line" != "$last_status" ]; then
+			printf '\r\033[K%s\n' "$status_line" >&2
+			last_status="$status_line"
+		fi
+
+		if [ $has_error -eq 1 ]; then
+			printf '\n${RED}Error: supervisor died. Check logs:${OFF}\n' >&2
+			printf '  %s/logs/\n' "$ROOT" >&2
+			if [ -d "$ROOT/logs" ]; then
+				local latest=$(ls -t "$ROOT/logs" 2>/dev/null | head -1)
+				if [ -n "$latest" ]; then
+					printf '\n${DIM}Last log lines:${OFF}\n' >&2
+					tail -20 "$ROOT/logs/$latest" 2>/dev/null | sed 's/^/  /' >&2
+				fi
+			fi
+			return 1
+		fi
+
+		sleep 3
 	done
-	printf '\n' >&2
-	printf '⚠ Agent process not detected within %ss.\n' "$max_wait" >&2
-	printf 'Supervisor is running. Check logs at %s.\n' "$ROOT/logs" >&2
-	return 0
 }
 
 start_restored_supervisor() {
