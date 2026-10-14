@@ -1,5 +1,5 @@
 B"H
-1.0.660
+1.0.661
 main.js
 ai/relay/direct/browser/ActiveTargetLease.mjs
 ai/relay/direct/browser/AgentTabCatalog.mjs
@@ -1157,6 +1157,7 @@ lib/deviceIdentity/pairingApproval.js
 lib/deviceIdentity/pairingClient.js
 lib/deviceIdentity/pairingCommit.js
 lib/deviceIdentity/pairingPending.js
+lib/deviceIdentity/pairingPush.js
 lib/deviceIdentity/pairingWorkflow.js
 lib/deviceIdentity/secureStore.js
 lib/deviceIdentity/testStore.js
