@@ -28,6 +28,9 @@ module.exports = {
 		// The installer now uses /api/tunnel/install/ instead of the 403ing static path.
 		await registerScriptRoute($i, "unix-node-runtime.sh", "unix-node-runtime.sh");
 		await registerScriptRoute($i, "unix-bootstrap-components-download.sh", "unix-bootstrap-components-download.sh");
+		// B"H — Yaakov 2026-10-14: the main bootstrap runner. The unix.sh entry point
+		// downloads this via API (static path 403s).
+		await registerScriptRoute($i, "unix-bootstrap-run.sh", "unix-bootstrap-run.sh");
 		// B"H — Yaakov 2026-10-14: register API routes for all installer components.
 		// The installer downloads components individually via /api/tunnel/install/<name>
 		// (the static /apps/tunnel/downloads/ path 403s via nginx).

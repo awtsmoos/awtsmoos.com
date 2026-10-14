@@ -332,7 +332,7 @@ if ! initial_fetch "$origin/apps/tunnel/downloads/unix-bootstrap-fetch.sh" "$fet
 	rm -rf "$runtime_root"; awt_fail 'Public installer source is temporarily unavailable; working runtime was left untouched.'; exit 1
 fi
 source "$fetch_policy"
-if ! bootstrap_fetch "$origin/apps/tunnel/downloads/unix-bootstrap-run.sh" "$run_script" "bootstrap engine"; then
+if ! bootstrap_fetch "$origin/api/tunnel/install/unix-bootstrap-run.sh" "$run_script" "bootstrap engine"; then
 	rm -rf "$runtime_root"; awt_fail 'Could not fetch bootstrap engine; working runtime was left untouched.'; exit 1
 fi
 chmod +x "$fetch_policy" "$run_script"
