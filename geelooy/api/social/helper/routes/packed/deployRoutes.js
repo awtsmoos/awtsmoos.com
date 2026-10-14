@@ -304,6 +304,18 @@ class PackedDeployRoutes {
 				fs.mkdirSync(path.dirname(v.absPath), { recursive: true });
 				fs.writeFileSync(v.absPath, buf);
 				written.push(v.normalized);
+				// B"H — Yaakov 2026-10-14: clear Node require cache for JS files
+				// so deploys take effect immediately without restart. The
+				// deploy API was reporting success but serving stale code
+				// because Node cached the old modules.
+				if (v.absPath.endsWith('.js') || v.absPath.endsWith('.cjs')) {
+					try {
+						const resolved = require.resolve(v.absPath);
+						if (require.cache[resolved]) {
+							delete require.cache[resolved];
+						}
+					} catch (e) {}
+				}
 			} catch (e) {
 				errors.push({ path: f.path, error: e.message });
 			}
