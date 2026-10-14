@@ -232,12 +232,13 @@ function bufferGeometryFromStream(stream, leafShrink = 0) {
       const p2 = [pos[vi[2]*3], pos[vi[2]*3+1], pos[vi[2]*3+2]];
       // Centroid
       const cx = (p0[0]+p1[0]+p2[0])/3, cy = (p0[1]+p1[1]+p2[1])/3, cz = (p0[2]+p1[2]+p2[2])/3;
-      // Triangle area (for sizing)
+      // B"H LEAF-FIX: baked triangle areas are unreliable (huge). Use fixed
+      // small leaf-card size (0.3-0.45m, real leaf cluster scale).
+      const size = 0.30 + ((t * 37) % 100) / 100 * 0.15;
+      // Normal (for orientation) — from triangle
       const ax = p1[0]-p0[0], ay = p1[1]-p0[1], az = p1[2]-p0[2];
       const bx = p2[0]-p0[0], by = p2[1]-p0[1], bz = p2[2]-p0[2];
       const nx = ay*bz-az*by, ny = az*bx-ax*bz, nz = ax*by-ay*bx;
-      const area = 0.5 * Math.hypot(nx, ny, nz);
-      const size = Math.sqrt(area) * 1.4 * leafShrink; // quad size from tri area
       // Normal (for orientation)
       const nl = Math.hypot(nx, ny, nz) || 1;
       const nxn = nx/nl, nyn = ny/nl, nzn = nz/nl;
