@@ -5,11 +5,21 @@
 
 # Activation proves staged life before any predecessor path is displaced. Fresh install
 # alone grants explicit identity creation authority; update probes remain read-only.
+#
+# B"H — Yaakov 2026-10-14: fresh installs use installer-direct pairing. The
+# installer completes the pairing ceremony itself (instant, reliable) and
+# provisions the credential; the candidate starts already-paired with no
+# pairing poll in the critical path.
 activate_fresh() {
 	local stamp="$(date -u +%Y%m%dT%H%M%SZ)"
 	local displaced=""
 	local failed="${ROOT}.failed-${CANDIDATE_VERSION}-${stamp}-$$"
 	mkdir -p "$(dirname "$ROOT")"
+	install_progress 65 "Pairing this machine (installer-direct)"
+	# B"H — the installer does pairing directly: creates the request, shows
+	# the approval card, polls for approval, consumes, and provisions the
+	# credential into the candidate root. Instant and reliable.
+	direct_pairing_flow "${AWTSMOOS_TUNNEL_NAME:-}"
 	install_progress 69 "Proving staged runtime before first promotion"
 	if ! prove_candidate_before_promotion fresh; then
 		install_fail "candidate-probe" \
