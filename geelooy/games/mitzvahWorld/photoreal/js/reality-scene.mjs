@@ -304,9 +304,13 @@ const TOD = {
     // B"H commit 2: sun moved DOWN-RIVER (-z) and up (34° elevation) so the
     // forest-view camera looks TOWARD it — backlit canopy, god rays down the
     // corridor, sparkle path on the water (plan §1).
-    sunDir: [0.42, 0.52, -0.65], sunColor: 0xfff6e8, sunI: 2.8,
+    // B"H TEXTURE-FIRST 2026-10-14: reference has BLOWN-OUT sun highlights
+    // (glowing canopy, sparkling water). Was 2.8 (muted). 4.0 for drama.
+    sunDir: [0.42, 0.52, -0.65], sunColor: 0xfff6e8, sunI: 4.0,
     hemiSky: 0xa8c8d8, hemiGround: 0x5a6b48, hemiI: 0.62,
-    fog: 0x9aaa7a, fogNear: 60, fogFar: 270, exposure: 1.0,
+    fog: 0x9aaa7a, fogNear: 60, fogFar: 270, exposure: 1.22,
+    // B"H TEXTURE-FIRST 2026-10-14: reference is LUMINOUS (sun-drenched).
+    // Exposure was 1.0 (dull). 1.22 for the golden glow.
     golden: 1.0, warm: 0.25,
   },
   dusk: {
