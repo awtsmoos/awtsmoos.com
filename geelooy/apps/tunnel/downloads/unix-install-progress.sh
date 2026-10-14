@@ -282,12 +282,14 @@ prg_draw_display() {
 	PRG_SPINNER_IDX=$(( (PRG_SPINNER_IDX + 1) % 10 ))
 	local spinner_frames="⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
 	local spinner="${spinner_frames:$PRG_SPINNER_IDX:1}"
-	# Single continuous line with magical particles, animated emoji, and spinner
-	local line="$(printf ' %s%s %s%3d%%%s [%s] %s%s%s%s' \
+	# Single continuous line with magical particles, animated emoji, spinner, and step info
+	# B"H — Yaakov 2026-10-14: WAY BETTER! Show step number for clarity.
+	local line="$(printf ' %s%s %s%3d%%%s [%s] %sStep %s/%s:%s %s%s%s%s' \
 		"$anim_emoji" \
 		"${PRG_C_CYAN}${spinner}${PRG_C_OFF}" \
 		"$PRG_C_GOLD" "$pct" "$PRG_C_OFF" \
 		"$bar" \
+		"$PRG_C_CYAN" "$INSTALL_STEP_N" "$INSTALL_STEP_TOTAL" "$PRG_C_OFF" \
 		"$PRG_C_DIM" "$PRG_STEP_MSG" "$PRG_C_OFF" \
 		"$eta")"
 	if [ "$PRG_DISPLAY_OPEN" = "1" ]; then
