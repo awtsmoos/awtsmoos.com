@@ -104,6 +104,11 @@ start_supervisor() {
 	printf '  Your Awtsmoos Tunnel is ready!\n' >&2
 	printf '  The magic is alive. ✨\n' >&2
 	printf '\n' >&2
+	printf '  Next steps:\n' >&2
+	printf '  • Local API: http://127.0.0.1:3977\n' >&2
+	printf '  • Relay control: http://127.0.0.1:3977/relay/control\n' >&2
+	printf '  • Press Ctrl+C to stop monitoring (supervisor keeps running)\n' >&2
+	printf '\n' >&2
 	printf '╔══════════════════════════════════════════════════════════╗\n' >&2
 	printf '║  ✓ Tunnel supervisor started                              ║\n' >&2
 	printf '║  Monitoring agent status (Ctrl+C to stop monitor)...       ║\n' >&2
