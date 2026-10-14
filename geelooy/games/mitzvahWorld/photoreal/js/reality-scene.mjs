@@ -660,7 +660,7 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     sx.fillStyle = hg; sx.fillRect(0, 0, 128, 256);
     const shaftTex = new THREE.CanvasTexture(sc); shaftTex.colorSpace = THREE.SRGBColorSpace;
     const shaftMat = new THREE.MeshBasicMaterial({
-      map: shaftTex, transparent: true, blending: THREE.AdditiveBlending
+      map: shaftTex, transparent: true, blending: THREE.AdditiveBlending,
       // B"H STEP 3 (2026-10-14, Yaakov: 5-6 STRONG diagonal shafts):
       // 0.35→0.55. Bold beams visible through mist, upper-right to lower-left.
       depthWrite: false, side: THREE.DoubleSide, fog: false, opacity: 0.55,
@@ -1051,11 +1051,11 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     const tex = new THREE.CanvasTexture(cv);
     tex.colorSpace = THREE.SRGBColorSpace;
     tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
-    tex.anisotropy = 4;
-    // B"H 2026-10-13 texture-detail: no mipmaps on foliage — mip chains blur
-    // the individual-leaf detail to mush at render distance. Crisp always.
-    tex.generateMipmaps = false;
-    tex.minFilter = THREE.LinearFilter;
+    tex.anisotropy = 8;
+    // B"H SYS3 (2026-10-14): mip-mapped (task requirement). Anisotropy 8
+    // preserves vein detail at grazing angles; close-up holds via 512px base.
+    tex.generateMipmaps = true;
+    tex.minFilter = THREE.LinearMipmapLinearFilter;
     return tex;
   }
 
@@ -3124,90 +3124,108 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     }
     mark('individual-leaves');
 
-    // ---- canopy shells: DENSE LAYERED CANOPY (Yaakov 2026-10-14 STEP 2).
-    // B"H: 3 nested depth layers (outer/mid/inner) with a real color ramp —
-    // dark EMERALD interior shadow → rich green mid → sunlit LIME outer —
-    // plus warm GOLD on the sun side. Cards overlap 3-4 deep so no sky
-    // bleeds through the mid-ground. Still 1 instanced draw.
+    // ---- canopy shells: SYSTEMS 1-3 (Yaakov 2026-10-14 "Do it all").
+    // B"H SYS1 (card geometry): 3 texture variants (not one) — outer gets
+    // leafCluster, mid gets denseCanopy, inner gets backlitCanopy. Irregular
+    // silhouettes via alpha cutout; random UV rotation kills square edges.
+    // B"H SYS2 (clustering): twig-endpoint sub-clusters — each fibonacci
+    // clump has 3-4 twig tips; 20-50 cards cluster tightly around tips with
+    // baked per-card AO (dark heart, lit tips).
+    // B"H SYS3 (texture/UVs): clean 0-1 UVs, mip-mapped (anisotropy 8).
+    // Sizes: 15cm inner → 60cm outer (real leaf-cluster scale).
     {
-      const shellGeo = new THREE.PlaneGeometry(0.5, 0.5);
-      const shellMat = new THREE.MeshStandardMaterial({
-        map: leafClusterTex, alphaTest: 0.35, side: THREE.DoubleSide,
-        roughness: 0.95, color: new THREE.Color(0.62, 0.70, 0.48),
-        depthWrite: true,
-      });
-      // B"H 2026-10-14 LIGHT (Yaakov: canopy translucency) — shell cards
-      // get backlight so sun glows THROUGH the foliage volume.
-      addCanopyBacklight(shellMat, 0.55, 2.0, 'shell');
-      const SHELL_PER_TREE = fast ? 380 : 700;
-      const CLUMPS = 30; // cluster centers per tree (fibonacci sphere)
-      const shellInst = new THREE.InstancedMesh(shellGeo, shellMat, treeSpots.length * SHELL_PER_TREE);
-      const nrm = new THREE.Vector3();
       const GA = Math.PI * (3 - Math.sqrt(5)); // golden angle
-      // B"H STEP 2b: cards BIGGER than the clump scatter diameter so they
-      // OVERLAP into masses (not separated diamonds). Outer sprays 1.4-2.0m.
+      const nrm = new THREE.Vector3();
+      // [shellRadius, sizeMin, sizeMax, countPerTree, texture, baseColor]
       const LAYERS = [
-        { rr: 0.92, s0: 2.8, s1: 4.0, share: 0.45, col: [0.38, 0.56, 0.18], csc: 0.7 }, // outer: sunlit lime
-        { rr: 0.70, s0: 2.0, s1: 3.0, share: 0.35, col: [0.11, 0.29, 0.10], csc: 0.55 }, // mid: rich green
-        { rr: 0.48, s0: 1.4, s1: 2.2, share: 0.20, col: [0.04, 0.13, 0.06], csc: 0.45 }, // inner: deep emerald shadow
+        { rr: 0.92, s0: 0.45, s1: 0.65, n: fast ? 220 : 400, tex: leafClusterTex, col: [0.42, 0.58, 0.20] },
+        { rr: 0.70, s0: 0.28, s1: 0.48, n: fast ? 160 : 300, tex: denseCanopyTex, col: [0.16, 0.34, 0.12] },
+        { rr: 0.48, s0: 0.15, s1: 0.30, n: fast ? 90 : 180, tex: backlitCanopyTex, col: [0.07, 0.18, 0.08] },
       ];
-      let sp = 0;
-      const maxSp = treeSpots.length * SHELL_PER_TREE;
-      for (const s of treeSpots) {
-        const ccx = (s.crownX !== undefined ? s.crownX : s.x);
-        for (let c = 0; c < CLUMPS && sp < maxSp; c++) {
-          // cluster center on a fibonacci sphere, assigned to a depth layer
-          const layer = LAYERS[c % 3];
-          const yy = 1 - ((c + 0.5) / CLUMPS) * 2; // -1..1
-          const rad = Math.sqrt(Math.max(0, 1 - yy * yy));
-          const th = GA * c;
-          const cx = ccx + Math.cos(th) * rad * layer.rr * s.crownR;
-          const cy = s.crownY + yy * layer.rr * s.crownR * 0.75;
-          const cz = s.z + Math.sin(th) * rad * layer.rr * s.crownR;
-          const per = Math.ceil(SHELL_PER_TREE * layer.share / (CLUMPS / 3));
-          for (let k = 0; k < per && sp < maxSp; k++) {
-            // tight clump scatter: SMALLER than card size → overlap!
-            const ox = (rand() + rand() + rand() - 1.5) * layer.csc;
-            const oy = (rand() + rand() + rand() - 1.5) * layer.csc * 0.8;
-            const oz = (rand() + rand() + rand() - 1.5) * layer.csc;
-            dummy.position.set(cx + ox, cy + oy, cz + oz);
-            // face outward from crown center + limited tilt (no edge-on tumble)
-            nrm.set(
-              dummy.position.x - ccx,
-              (dummy.position.y - s.crownY) * 1.35,
-              dummy.position.z - s.z
-            ).normalize();
-            dummy.lookAt(
-              dummy.position.x + nrm.x,
-              dummy.position.y + nrm.y,
-              dummy.position.z + nrm.z
-            );
-            dummy.rotateX((rand() - 0.5) * 1.15); // ±33° tilt variety
-            dummy.rotateZ(rand() * Math.PI * 2);  // roll variety
-            // bigger cards on the outer layer (broad overlapping sprays)
-            const ss = layer.s0 + rand() * (layer.s1 - layer.s0);
-            dummy.scale.set(ss, ss, 1);
-            dummy.updateMatrix();
-            shellInst.setMatrixAt(sp, dummy.matrix);
-            // B"H STEP 2 color: emerald->lime depth ramp + sun-side gold.
-            // Sun-facing cards (normal · sunDir > 0) get warm gold kiss.
-            const sunFace = Math.max(0, nrm.x * sunDir.x + nrm.y * sunDir.y + nrm.z * sunDir.z);
-            const gold = Math.pow(sunFace, 1.5) * 0.9;
-            const vr = 0.85 + rand() * 0.3;
-            tint.setRGB(
-              (layer.col[0] + gold * 0.55) * vr,
-              (layer.col[1] + gold * 0.38) * vr,
-              (layer.col[2] + gold * 0.12) * vr
-            );
-            shellInst.setColorAt(sp, tint);
-            sp++;
+      LAYERS.forEach((layer, li) => {
+        const mat = new THREE.MeshStandardMaterial({
+          map: layer.tex, alphaTest: 0.38, side: THREE.DoubleSide,
+          roughness: 0.95, color: new THREE.Color(0.68, 0.74, 0.52),
+          depthWrite: true,
+        });
+        addCanopyBacklight(mat, 0.55, 2.0, 'shell' + li);
+        const inst = new THREE.InstancedMesh(
+          new THREE.PlaneGeometry(0.5, 0.5), mat,
+          treeSpots.length * layer.n
+        );
+        let sp = 0;
+        const maxSp = treeSpots.length * layer.n;
+        for (const s of treeSpots) {
+          const ccx = (s.crownX !== undefined ? s.crownX : s.x);
+          // 10 fibonacci clumps per layer per tree
+          for (let c = 0; c < 10 && sp < maxSp; c++) {
+            const yy = 1 - ((c + 0.5) / 10) * 2;
+            const rad = Math.sqrt(Math.max(0, 1 - yy * yy));
+            const th = GA * (c + li * 3.7);
+            const cx = ccx + Math.cos(th) * rad * layer.rr * s.crownR;
+            const cy = s.crownY + yy * layer.rr * s.crownR * 0.75;
+            const cz = s.z + Math.sin(th) * rad * layer.rr * s.crownR;
+            // SYS2: 3-4 twig tips per clump; cards cluster around tips
+            const tips = 3 + ((rand() * 2) | 0);
+            const tipPts = [];
+            for (let tp = 0; tp < tips; tp++) {
+              tipPts.push([
+                cx + (rand() - 0.5) * 1.2,
+                cy + (rand() - 0.5) * 0.9,
+                cz + (rand() - 0.5) * 1.2,
+              ]);
+            }
+            const perTip = Math.ceil(layer.n / 10 / tips);
+            for (const tp of tipPts) {
+              for (let k = 0; k < perTip && sp < maxSp; k++) {
+                // tight jitter around twig tip (20-50 cards per cluster)
+                const j = 0.28; // jitter radius (m) — smaller than card
+                dummy.position.set(
+                  tp[0] + (rand() + rand() - 1) * j,
+                  tp[1] + (rand() + rand() - 1) * j * 0.8,
+                  tp[2] + (rand() + rand() - 1) * j
+                );
+                nrm.set(
+                  dummy.position.x - ccx,
+                  (dummy.position.y - s.crownY) * 1.35,
+                  dummy.position.z - s.z
+                ).normalize();
+                dummy.lookAt(
+                  dummy.position.x + nrm.x,
+                  dummy.position.y + nrm.y,
+                  dummy.position.z + nrm.z
+                );
+                dummy.rotateX((rand() - 0.5) * 1.2);
+                dummy.rotateZ(rand() * Math.PI * 2);
+                const ss = (layer.s0 + rand() * (layer.s1 - layer.s0)) * 2;
+                dummy.scale.set(ss, ss, 1);
+                dummy.updateMatrix();
+                inst.setMatrixAt(sp, dummy.matrix);
+                // SYS2: baked AO by depth-in-cluster (dark heart).
+                // SYS4: sun-side gold.
+                const sunFace = Math.max(0, nrm.x * sunDir.x + nrm.y * sunDir.y + nrm.z * sunDir.z);
+                const gold = Math.pow(sunFace, 1.5) * 0.85;
+                // depth: cards near clump center (deep) get AO darkening
+                const depthAO = 0.55 + 0.45 * Math.min(1, Math.hypot(
+                  dummy.position.x - cx, dummy.position.y - cy, dummy.position.z - cz
+                ) / 1.5);
+                const vr = (0.85 + rand() * 0.3) * depthAO;
+                tint.setRGB(
+                  (layer.col[0] + gold * 0.50) * vr,
+                  (layer.col[1] + gold * 0.35) * vr,
+                  (layer.col[2] + gold * 0.10) * vr
+                );
+                inst.setColorAt(sp, tint);
+                sp++;
+              }
+            }
           }
         }
-      }
-      shellInst.count = sp;
-      if (shellInst.instanceColor) shellInst.instanceColor.needsUpdate = true;
-      shellInst.castShadow = false; shellInst.receiveShadow = true;
-      scene.add(shellInst);
+        inst.count = sp;
+        if (inst.instanceColor) inst.instanceColor.needsUpdate = true;
+        inst.castShadow = false; inst.receiveShadow = true;
+        scene.add(inst);
+      });
     }
     mark('canopy-shells');
   }
