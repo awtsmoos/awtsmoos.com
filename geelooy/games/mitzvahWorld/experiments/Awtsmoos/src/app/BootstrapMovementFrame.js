@@ -36,6 +36,9 @@ import {
 export function advanceBootstrapMovement(controller, deltaSeconds) {
 	const runtime = controller.runtime;
 	const state = runtime.state;
+	// Obstacle courses (Stream 3): advance movers and carry the rider before
+	// the movement frame reads the ground. No-op without a mounted course.
+	runtime.courseEngine?.beforePlayerFrame?.(state, deltaSeconds);
 	runtime.cameraRig?.synchronizeFacing?.(state);
 	const axis = bootstrapInputAxis(runtime);
 	const axes = movementAxes(axis);
@@ -74,6 +77,10 @@ export function advanceBootstrapMovement(controller, deltaSeconds) {
 	settleBootstrapMovementFacing(runtime, state, keyboard, step);
 	settlePresentation(runtime, state);
 	const cameraMode = updateMovementCamera(runtime, state, deltaSeconds);
+	// Obstacle courses (Stream 3): checkpoints, timer, hazards, coins, and
+	// respawns settle here — before the bridge replicates, so a respawned
+	// position is what other players see. No-op without a mounted course.
+	runtime.courseEngine?.afterPlayerFrame?.(state, deltaSeconds);
 	runtime.multiplayerBridge?.update?.(deltaSeconds, state);
 	controller.distance += Math.hypot(step.x, step.z);
 	controller.frames += 1;

@@ -26,6 +26,7 @@ export async function createMinimalMeadowRuntime(hosts, options = {}) {
 	const documentValue = environment.document || globalThis.document;
 	markRuntimeStarting(documentValue);
 	const diagnostics = await createMinimalMeadowRuntimeCore(hosts, options);
+	mountCourseFeature(diagnostics.runtime, environment);
 	diagnostics.featuresPromise = scheduleEssentialFeatures(
 		diagnostics.runtime,
 		environment
@@ -68,4 +69,28 @@ function firstVisibleOpportunity(environment) {
 		}
 		setTimer(finish, 0);
 	});
+}
+
+/**
+ * Obstacle courses (Stream 3): installs the course menu card on every boot and
+ * lazily mounts `?course=<id>` without touching the default meadow path.
+ * The import stays lazy so the default boot pays nothing for courses.
+ */
+function mountCourseFeature(runtime, environment) {
+	const documentValue = environment.document || globalThis.document;
+	import('../courses/CourseRuntimeMount.js').then(module => {
+		try {
+			module.installCourseMenuCard(documentValue, environment);
+		} catch (error) { /* menu card is decorative */ }
+		const courseId = module.requestedCourseId(environment);
+		if (!courseId) return;
+		try {
+			const receipt = module.mountCourseRuntime(runtime, environment, courseId);
+			if (!receipt?.ok) {
+				console.warn(`[Mitzvah World] course "${courseId}" not mounted: ${receipt?.reason}`);
+			}
+		} catch (error) {
+			console.warn('[Mitzvah World] course mount failed', error);
+		}
+	}).catch(() => { /* courses unavailable; the meadow still boots */ });
 }

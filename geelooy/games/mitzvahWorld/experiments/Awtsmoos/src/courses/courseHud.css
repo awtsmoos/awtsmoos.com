@@ -1,0 +1,196 @@
+/* B"H — Mitzvah World obstacle-course HUD and menu card.
+   Token colors only; no !important. Full interactive states throughout. */
+
+.mw-course-hud {
+	position: fixed;
+	top: calc(var(--mw-safe-top, 0px) + 12px);
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: var(--mw-z-floating, 40);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+	min-width: 240px;
+	padding: 12px 18px;
+	background: var(--mw-surface-panel);
+	border: 1px solid var(--mw-border-soft);
+	border-radius: var(--mw-radius-lg, 12px);
+	box-shadow: var(--mw-shadow-panel);
+	color: var(--mw-text-primary);
+	font-family: inherit;
+	pointer-events: auto;
+}
+
+.mw-course-hud-title {
+	font-size: 13px;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--mw-text-muted);
+}
+
+.mw-course-hud-timer {
+	font-size: 30px;
+	font-variant-numeric: tabular-nums;
+	color: var(--mw-future-gold);
+	line-height: 1.1;
+}
+
+.mw-course-hud-row {
+	font-size: 13px;
+	color: var(--mw-text-primary);
+}
+
+.mw-course-hud-records {
+	color: var(--mw-text-muted);
+	font-size: 12px;
+}
+
+.mw-course-hud-status {
+	min-height: 20px;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--mw-accent-strong);
+	opacity: 0;
+	transition: opacity var(--mw-motion-normal, 180ms) var(--mw-ease-out, ease-out);
+}
+
+.mw-course-hud-status[data-visible="true"] {
+	opacity: 1;
+}
+
+.mw-course-hud-actions {
+	display: flex;
+	gap: 8px;
+	margin-top: 2px;
+}
+
+.mw-course-hud-button {
+	appearance: none;
+	border: 1px solid var(--mw-border-strong);
+	border-radius: var(--mw-radius-md, 8px);
+	background: var(--mw-surface-control);
+	color: var(--mw-text-primary);
+	font: inherit;
+	font-size: 13px;
+	font-weight: 600;
+	padding: 8px 14px;
+	min-height: var(--mw-control-min, 40px);
+	cursor: pointer;
+	transition: background var(--mw-motion-fast, 120ms) var(--mw-ease-out, ease-out),
+		border-color var(--mw-motion-fast, 120ms) var(--mw-ease-out, ease-out),
+		transform var(--mw-motion-fast, 120ms) var(--mw-ease-out, ease-out);
+}
+
+.mw-course-hud-button:hover {
+	background: var(--mw-surface-control-hover);
+	border-color: var(--mw-accent);
+}
+
+.mw-course-hud-button:focus-visible {
+	outline: 2px solid var(--mw-focus-ring);
+	outline-offset: 2px;
+}
+
+.mw-course-hud-button:active {
+	background: var(--mw-surface-control-active);
+	transform: translateY(1px);
+}
+
+.mw-course-hud-button:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+	transform: none;
+}
+
+.mw-course-hud-button-quiet {
+	background: transparent;
+	color: var(--mw-text-muted);
+}
+
+.mw-course-hud-button-quiet:hover {
+	color: var(--mw-text-primary);
+	background: var(--mw-surface-control-hover);
+}
+
+/* ---- Menu card (lives inside #meadowMenu) ---- */
+
+.mw-course-menu {
+	margin: 16px 0;
+	padding: 16px;
+	background: var(--mw-surface-panel);
+	border: 1px solid var(--mw-border-soft);
+	border-radius: var(--mw-radius-lg, 12px);
+	box-shadow: var(--mw-shadow-panel);
+	color: var(--mw-text-primary);
+}
+
+.mw-course-menu-title {
+	margin: 0 0 4px;
+	font-size: 18px;
+	color: var(--mw-future-gold);
+}
+
+.mw-course-menu-sub {
+	margin: 0 0 12px;
+	font-size: 13px;
+	color: var(--mw-text-muted);
+}
+
+.mw-course-menu-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.mw-course-menu-link {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: 2px 12px;
+	padding: 10px 12px;
+	border: 1px solid var(--mw-border-soft);
+	border-radius: var(--mw-radius-md, 8px);
+	background: var(--mw-surface-raised);
+	color: var(--mw-text-primary);
+	text-decoration: none;
+	transition: border-color var(--mw-motion-fast, 120ms) var(--mw-ease-out, ease-out),
+		background var(--mw-motion-fast, 120ms) var(--mw-ease-out, ease-out),
+		transform var(--mw-motion-fast, 120ms) var(--mw-ease-out, ease-out);
+}
+
+.mw-course-menu-link:hover {
+	border-color: var(--mw-accent);
+	background: var(--mw-surface-control-hover);
+	transform: translateY(-1px);
+}
+
+.mw-course-menu-link:focus-visible {
+	outline: 2px solid var(--mw-focus-ring);
+	outline-offset: 2px;
+}
+
+.mw-course-menu-link:active {
+	background: var(--mw-surface-control-active);
+	transform: translateY(0);
+}
+
+.mw-course-menu-name {
+	font-weight: 700;
+	font-size: 15px;
+}
+
+.mw-course-menu-meta {
+	font-size: 12px;
+	color: var(--mw-text-muted);
+	text-transform: capitalize;
+	align-self: center;
+}
+
+.mw-course-menu-desc {
+	grid-column: 1 / -1;
+	font-size: 13px;
+	color: var(--mw-text-muted);
+}

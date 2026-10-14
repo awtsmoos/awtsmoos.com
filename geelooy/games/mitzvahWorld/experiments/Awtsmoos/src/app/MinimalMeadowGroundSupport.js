@@ -23,8 +23,22 @@ export function minimalMeadowGroundReceipt(
 		x, z, currentY, previousY
 	) || legacySupport(runtime, x, z, currentY);
 	const supported = Number.isFinite(support?.height) && support.height >= terrain;
+	const baseHeight = supported ? support.height : terrain;
+	// Obstacle courses (Stream 3): a mounted course engine may contribute a
+	// platform or moving platform as the authoritative ground. It only speaks
+	// inside its own region and never snaps a player up through a platform.
+	const course = runtime.courseEngine?.groundReceipt?.(x, z, currentY, previousY);
+	if (course && Number.isFinite(course.height) && course.height >= baseHeight - 0.001) {
+		return {
+			height: course.height,
+			profileId: course.profileId || null,
+			source: course.kind || 'course',
+			support: course.height,
+			terrain
+		};
+	}
 	return {
-		height: supported ? support.height : terrain,
+		height: baseHeight,
 		profileId: supported ? support.profileId : null,
 		source: supported ? support.kind : 'terrain',
 		support: supported ? support.height : null,

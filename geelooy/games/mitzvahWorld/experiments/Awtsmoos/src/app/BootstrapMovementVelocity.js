@@ -49,12 +49,17 @@ export function bootstrapDesiredVelocity(
 
 /** @returns {object} Game-authored acceleration options consumed by shared Core velocity law. */
 export function bootstrapVelocityOptions(state) {
+	// Obstacle courses (Stream 3): the course engine publishes per-surface
+	// friction on the player (ice slides, grass grips). Absent, grip is 1.
+	const friction = state.courseFriction;
+	const accelScale = Number.isFinite(friction?.accelScale) ? friction.accelScale : 1;
+	const decelScale = Number.isFinite(friction?.decelScale) ? friction.decelScale : 1;
 	return {
-		acceleration: state.runMode
+		acceleration: (state.runMode
 			? MITZVAH_MOVEMENT_PROFILE.runAcceleration
-			: MITZVAH_MOVEMENT_PROFILE.walkAcceleration,
+			: MITZVAH_MOVEMENT_PROFILE.walkAcceleration) * accelScale,
 		airControl: MITZVAH_MOVEMENT_PROFILE.airControl,
-		deceleration: MITZVAH_MOVEMENT_PROFILE.deceleration,
+		deceleration: MITZVAH_MOVEMENT_PROFILE.deceleration * decelScale,
 		grounded: state.grounded !== false,
 		maxDeltaSeconds: MITZVAH_MOVEMENT_PROFILE.maxDeltaSeconds
 	};
