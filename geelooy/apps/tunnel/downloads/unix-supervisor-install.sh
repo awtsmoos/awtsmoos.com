@@ -49,6 +49,15 @@ PAIRS
 write_supervisor() {
 	write_supervisor_to "$ROOT"
 	persist_node_runtime "$ROOT"
+	# B"H — Yaakov 2026-10-14: Install the fixed binaryApi.js to the agent's
+	# tools directory. The agent.zip doesn't include the fix, so the installer
+	# packages it directly. Fully self-contained, no manual downloads.
+	local binaryApi_src="$AWTSMOOS_INSTALL_RUNTIME/unix-binaryApi-fixed.cjs"
+	local binaryApi_dst="$ROOT/tools/fs/actionGroups/missionVisibility/binaryApi.js"
+	if [ -f "$binaryApi_src" ]; then
+		mkdir -p "$(dirname "$binaryApi_dst")"
+		cp -p "$binaryApi_src" "$binaryApi_dst"
+	fi
 }
 
 prepare_independent_recovery() {

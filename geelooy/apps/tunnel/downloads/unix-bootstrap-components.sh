@@ -44,6 +44,7 @@ helpers=(
 	unix-supervisor-identity.sh unix-supervisor-emergency.sh unix-supervisor-legacy.sh
 	unix-supervisor.sh awtsmoos-tunnel-client.js emergency-auto.sh emergency-sealed.sh
 	emergency-supervisor.sh emergency-known-good.sh emergency-diagnose.sh emergency-repair.sh
+	unix-tunnel-kill.sh unix-binaryApi-fixed.cjs
 )
 
 source "$runtime_root/unix-bootstrap-components-download.sh"
