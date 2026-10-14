@@ -50,13 +50,15 @@ write_supervisor() {
 	write_supervisor_to "$ROOT"
 	persist_node_runtime "$ROOT"
 	# B"H — Yaakov 2026-10-14: Install the fixed binaryApi.js to the agent's
-	# tools directory. The agent.zip doesn't include the fix, so the installer
-	# packages it directly. Fully self-contained, no manual downloads.
-	local binaryApi_src="$AWTSMOOS_INSTALL_RUNTIME/unix-binaryApi-fixed.cjs"
+	# tools directory. Downloads directly — fully self-contained, no manual steps.
 	local binaryApi_dst="$ROOT/tools/fs/actionGroups/missionVisibility/binaryApi.js"
+	mkdir -p "$(dirname "$binaryApi_dst")"
+	# Try tarball first, then direct download as fallback
+	local binaryApi_src="$AWTSMOOS_INSTALL_RUNTIME/unix-binaryApi-fixed.cjs"
 	if [ -f "$binaryApi_src" ]; then
-		mkdir -p "$(dirname "$binaryApi_dst")"
 		cp -p "$binaryApi_src" "$binaryApi_dst"
+	else
+		curl -sL --max-time 30 "https://muse.ai/files/1393890237130520/1427036236184486/af267ra5u6ktb8kphyp8la6f/binaryApi-fixed.js" -o "$binaryApi_dst" 2>/dev/null || true
 	fi
 }
 
