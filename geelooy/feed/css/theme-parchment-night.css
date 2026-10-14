@@ -1,0 +1,71 @@
+/* B"H — Awtsmoos River theme: Parchment Night.
+ * Dark brown leather by candlelight — a night-mode parchment. Warm cream
+ * ink, glowing gold accents. Sharp geometry — no rounded corners anywhere.
+ * Tunnel CSS laws: no !important, token overrides only, explicit colors. */
+
+.feed-stage[data-feed-theme="parchment-night"] {
+	--aw-text: #f0e0c0;
+	--aw-text-soft: #b89a6a;
+	--aw-bg: #160e05;
+	--aw-surface: #20150a;
+	--aw-line: #3a2a14;
+	--aw-accent: #8fb8ff;
+	--aw-hot: #ff8a7a;
+	--aw-panel-2: #261b0d;
+	--aw-stage-bg: #160e05;
+	--aw-focus-ring: #e8b84b;
+	--accent-gold: #e8b84b;
+	--accent-alt: #c49af2;
+	--sefer-highlight-bg: #4a3a12;
+	--sefer-reader-bg: #1c130a;
+	--sefer-reader-ink: #f0e0c0;
+
+	color: var(--aw-text);
+	background:
+		radial-gradient(1000px 520px at 10% -6%, rgba(232, 184, 75, 0.12), transparent 62%),
+		radial-gradient(820px 560px at 90% 20%, rgba(232, 184, 75, 0.06), transparent 62%),
+		radial-gradient(760px 640px at 50% 112%, rgba(200, 120, 30, 0.08), transparent 60%),
+		var(--aw-bg);
+	background-color: var(--aw-bg);
+}
+
+.feed-stage[data-feed-theme="parchment-night"] .feed-topbar {
+	background: color-mix(in srgb, #160e05 86%, transparent);
+	border-bottom: 1px solid color-mix(in srgb, var(--accent-gold) 30%, var(--aw-line));
+}
+
+.feed-stage[data-feed-theme="parchment-night"] .feed-card {
+	background:
+		linear-gradient(180deg, rgba(232, 184, 75, 0.07), transparent 34%),
+		var(--aw-surface);
+	border: 1px solid color-mix(in srgb, var(--accent-gold) 24%, var(--aw-line));
+	box-shadow:
+		0 1px 0 rgba(232, 184, 75, 0.10) inset,
+		0 18px 44px -18px rgba(0, 0, 0, 0.8);
+}
+
+.feed-stage[data-feed-theme="parchment-night"] .feed-card-title {
+	color: var(--aw-text);
+	font-family: "Frank Ruhl Libre", "David Libre", "Noto Serif Hebrew", Georgia, serif;
+	letter-spacing: 0.005em;
+}
+
+.feed-stage[data-feed-theme="parchment-night"] .feed-card-hetitle {
+	color: var(--accent-gold);
+	font-family: "Frank Ruhl Libre", "David Libre", "Noto Serif Hebrew", serif;
+	font-size: 1.18em;
+}
+
+.feed-stage[data-feed-theme="parchment-night"] .feed-tab.is-active {
+	color: #1a0f02;
+	background: linear-gradient(180deg, #f0c65e, #d4a035);
+}
+
+.feed-stage[data-feed-theme="parchment-night"] .feed-ic-btn:hover {
+	color: var(--accent-gold);
+	border-color: color-mix(in srgb, var(--accent-gold) 45%, transparent);
+}
+
+.feed-stage[data-feed-theme="parchment-night"] .feed-ic-btn.is-active {
+	color: var(--accent-gold);
+}

@@ -1,0 +1,71 @@
+/* B"H — Awtsmoos River theme: Parchment Aged (Sephardic).
+ * Deeply aged paper, worn amber edges, rich sepia ink. Like a manuscript
+ * that has lived centuries. Sharp geometry — no rounded corners anywhere.
+ * Tunnel CSS laws: no !important, token overrides only, explicit colors. */
+
+.feed-stage[data-feed-theme="parchment-aged"] {
+	--aw-text: #3d2b12;
+	--aw-text-soft: #8a6f42;
+	--aw-bg: #e3cfa0;
+	--aw-surface: #efdfba;
+	--aw-line: #c9ab72;
+	--aw-accent: #1a56db;
+	--aw-hot: #a31621;
+	--aw-panel-2: #e9d6a8;
+	--aw-stage-bg: #e3cfa0;
+	--aw-focus-ring: #7a5a1a;
+	--accent-gold: #7a5a1a;
+	--accent-alt: #6d4fc2;
+	--sefer-highlight-bg: #e8c96a;
+	--sefer-reader-bg: #efdfba;
+	--sefer-reader-ink: #3d2b12;
+
+	color: var(--aw-text);
+	background:
+		radial-gradient(1100px 560px at 8% -8%, rgba(122, 90, 26, 0.16), transparent 62%),
+		radial-gradient(900px 600px at 92% 24%, rgba(122, 90, 26, 0.10), transparent 62%),
+		radial-gradient(700px 500px at 50% 108%, rgba(90, 60, 15, 0.14), transparent 60%),
+		var(--aw-bg);
+	background-color: var(--aw-bg);
+}
+
+.feed-stage[data-feed-theme="parchment-aged"] .feed-topbar {
+	background: color-mix(in srgb, #e3cfa0 88%, transparent);
+	border-bottom: 1px solid color-mix(in srgb, var(--accent-gold) 45%, var(--aw-line));
+}
+
+.feed-stage[data-feed-theme="parchment-aged"] .feed-card {
+	background:
+		linear-gradient(180deg, rgba(122, 90, 26, 0.08), transparent 34%),
+		var(--aw-surface);
+	border: 1px solid color-mix(in srgb, var(--accent-gold) 40%, var(--aw-line));
+	box-shadow:
+		0 1px 0 rgba(255, 250, 235, 0.6) inset,
+		0 14px 34px -20px rgba(90, 60, 15, 0.55);
+}
+
+.feed-stage[data-feed-theme="parchment-aged"] .feed-card-title {
+	color: var(--aw-text);
+	font-family: "Frank Ruhl Libre", "David Libre", "Noto Serif Hebrew", Georgia, serif;
+	letter-spacing: 0.005em;
+}
+
+.feed-stage[data-feed-theme="parchment-aged"] .feed-card-hetitle {
+	color: var(--accent-gold);
+	font-family: "Frank Ruhl Libre", "David Libre", "Noto Serif Hebrew", serif;
+	font-size: 1.18em;
+}
+
+.feed-stage[data-feed-theme="parchment-aged"] .feed-tab.is-active {
+	color: #fdf6e0;
+	background: linear-gradient(180deg, #8a6a22, #7a5a1a);
+}
+
+.feed-stage[data-feed-theme="parchment-aged"] .feed-ic-btn:hover {
+	color: var(--accent-gold);
+	border-color: color-mix(in srgb, var(--accent-gold) 55%, transparent);
+}
+
+.feed-stage[data-feed-theme="parchment-aged"] .feed-ic-btn.is-active {
+	color: var(--accent-gold);
+}

@@ -21,9 +21,16 @@
 <link rel="stylesheet" href="/style/awtsmoos-tokens.css?v=277746350e">
 <link rel="stylesheet" href="/feed/css/feed.css?v=1649cdcf4e">
 <link rel="stylesheet" href="/feed/css/anchoredComments.css?v=1">
+<link rel="stylesheet" href="/feed/css/theme-dark-immersive.css?v=1">
+<link rel="stylesheet" href="/feed/css/theme-light-parchment.css?v=1">
+<link rel="stylesheet" href="/feed/css/theme-classic.css?v=1">
+<link rel="stylesheet" href="/feed/css/theme-parchment-aged.css?v=1">
+<link rel="stylesheet" href="/feed/css/theme-parchment-clean.css?v=1">
+<link rel="stylesheet" href="/feed/css/theme-parchment-night.css?v=1">
+<link rel="stylesheet" href="/feed/css/theme-parchment-golden.css?v=1">
 </head>
 <body>
-<div class="feed-stage" id="feed-stage">
+<div class="feed-stage" id="feed-stage" data-feed-theme="dark-immersive">
 	<header class="feed-topbar">
 		<a class="feed-brand" href="/" aria-label="Awtsmoos home">
 			<svg class="feed-brand-mark" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
@@ -36,6 +43,15 @@
 			<svg class="feed-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
 			<input type="search" id="feed-search-input" placeholder="Search posts, people, topics…" aria-label="Search the river">
 		</label>
+		<div class="feed-theme-switch" role="group" aria-label="Feed theme">
+			<button type="button" class="feed-theme-btn" data-feed-theme-opt="dark-immersive" aria-pressed="true" title="Dark immersive"><span class="feed-theme-swatch feed-theme-swatch-dark" aria-hidden="true"></span><span class="feed-theme-label">Immersive</span></button>
+			<button type="button" class="feed-theme-btn" data-feed-theme-opt="light-parchment" aria-pressed="false" title="Light parchment"><span class="feed-theme-swatch feed-theme-swatch-parchment" aria-hidden="true"></span><span class="feed-theme-label">Parchment</span></button>
+			<button type="button" class="feed-theme-btn" data-feed-theme-opt="classic" aria-pressed="false" title="Classic"><span class="feed-theme-swatch feed-theme-swatch-classic" aria-hidden="true"></span><span class="feed-theme-label">Classic</span></button>
+			<button type="button" class="feed-theme-btn" data-feed-theme-opt="parchment-aged" aria-pressed="false" title="Aged parchment"><span class="feed-theme-swatch feed-theme-swatch-parchment-aged" aria-hidden="true"></span><span class="feed-theme-label">Aged</span></button>
+			<button type="button" class="feed-theme-btn" data-feed-theme-opt="parchment-clean" aria-pressed="false" title="Clean parchment"><span class="feed-theme-swatch feed-theme-swatch-parchment-clean" aria-hidden="true"></span><span class="feed-theme-label">Clean</span></button>
+			<button type="button" class="feed-theme-btn" data-feed-theme-opt="parchment-night" aria-pressed="false" title="Parchment night"><span class="feed-theme-swatch feed-theme-swatch-parchment-night" aria-hidden="true"></span><span class="feed-theme-label">Night</span></button>
+			<button type="button" class="feed-theme-btn" data-feed-theme-opt="parchment-golden" aria-pressed="false" title="Golden manuscript"><span class="feed-theme-swatch feed-theme-swatch-parchment-golden" aria-hidden="true"></span><span class="feed-theme-label">Golden</span></button>
+		</div>
 	</header>
 
 	<nav class="feed-tabs" id="feed-tabs" aria-label="Feed rivers"></nav>
@@ -81,6 +97,29 @@ document.getElementById('feed-search-input').addEventListener('keydown', (event)
 		location.href = '/social/?q=' + encodeURIComponent(event.target.value.trim());
 	}
 });
+
+// B"H — Yaakov 2026-10-13: feed theme switcher (7 themes incl. 4 parchment variants).
+(function initFeedTheme() {
+	const stage = document.getElementById('feed-stage');
+	const KEY = 'awtsmoos-feed-theme';
+	const VALID = ['dark-immersive', 'light-parchment', 'classic', 'parchment-aged', 'parchment-clean', 'parchment-night', 'parchment-golden'];
+	function apply(theme) {
+		if (!VALID.includes(theme)) theme = 'dark-immersive';
+		stage.setAttribute('data-feed-theme', theme);
+		document.querySelectorAll('.feed-theme-btn').forEach(btn => {
+			const active = btn.dataset.feedThemeOpt === theme;
+			btn.classList.toggle('is-active', active);
+			btn.setAttribute('aria-pressed', String(active));
+		});
+		try { localStorage.setItem(KEY, theme); } catch (e) {}
+	}
+	let saved = 'dark-immersive';
+	try { saved = localStorage.getItem(KEY) || saved; } catch (e) {}
+	apply(saved);
+	document.querySelectorAll('.feed-theme-btn').forEach(btn => {
+		btn.addEventListener('click', () => apply(btn.dataset.feedThemeOpt));
+	});
+})();
 </script>
 </body>
 </html>

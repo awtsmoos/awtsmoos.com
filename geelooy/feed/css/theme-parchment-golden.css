@@ -1,0 +1,72 @@
+/* B"H — Awtsmoos River theme: Parchment Golden (Illuminated Manuscript).
+ * Rich gold leaf, deep crimson, royal purple — the illuminated manuscript
+ * made real. Regal but readable. Sharp geometry — no rounded corners anywhere.
+ * Tunnel CSS laws: no !important, token overrides only, explicit colors. */
+
+.feed-stage[data-feed-theme="parchment-golden"] {
+	--aw-text: #2b1a0e;
+	--aw-text-soft: #7a5c34;
+	--aw-bg: #f0dfb8;
+	--aw-surface: #f9efd2;
+	--aw-line: #d4b878;
+	--aw-accent: #1a3a8a;
+	--aw-hot: #a31621;
+	--aw-panel-2: #eed9a8;
+	--aw-stage-bg: #f0dfb8;
+	--aw-focus-ring: #a31621;
+	--accent-gold: #b8860b;
+	--accent-alt: #6d3fc2;
+	--sefer-highlight-bg: #f5d76e;
+	--sefer-reader-bg: #f9efd2;
+	--sefer-reader-ink: #2b1a0e;
+
+	color: var(--aw-text);
+	background:
+		radial-gradient(1100px 560px at 8% -8%, rgba(184, 134, 11, 0.18), transparent 62%),
+		radial-gradient(900px 600px at 92% 24%, rgba(163, 22, 33, 0.06), transparent 62%),
+		radial-gradient(700px 500px at 50% 108%, rgba(184, 134, 11, 0.12), transparent 60%),
+		var(--aw-bg);
+	background-color: var(--aw-bg);
+}
+
+.feed-stage[data-feed-theme="parchment-golden"] .feed-topbar {
+	background: color-mix(in srgb, #f0dfb8 88%, transparent);
+	border-bottom: 2px solid color-mix(in srgb, var(--accent-gold) 55%, var(--aw-line));
+}
+
+.feed-stage[data-feed-theme="parchment-golden"] .feed-card {
+	background:
+		linear-gradient(180deg, rgba(184, 134, 11, 0.10), transparent 34%),
+		var(--aw-surface);
+	border: 1px solid color-mix(in srgb, var(--accent-gold) 45%, var(--aw-line));
+	border-top: 3px solid color-mix(in srgb, var(--accent-gold) 70%, var(--aw-line));
+	box-shadow:
+		0 1px 0 rgba(255, 250, 230, 0.7) inset,
+		0 14px 34px -20px rgba(120, 80, 10, 0.5);
+}
+
+.feed-stage[data-feed-theme="parchment-golden"] .feed-card-title {
+	color: var(--aw-text);
+	font-family: "Frank Ruhl Libre", "David Libre", "Noto Serif Hebrew", Georgia, serif;
+	letter-spacing: 0.005em;
+}
+
+.feed-stage[data-feed-theme="parchment-golden"] .feed-card-hetitle {
+	color: var(--aw-hot);
+	font-family: "Frank Ruhl Libre", "David Libre", "Noto Serif Hebrew", serif;
+	font-size: 1.18em;
+}
+
+.feed-stage[data-feed-theme="parchment-golden"] .feed-tab.is-active {
+	color: #fdf6e0;
+	background: linear-gradient(180deg, #c8960f, #a31621);
+}
+
+.feed-stage[data-feed-theme="parchment-golden"] .feed-ic-btn:hover {
+	color: var(--aw-hot);
+	border-color: color-mix(in srgb, var(--aw-hot) 50%, transparent);
+}
+
+.feed-stage[data-feed-theme="parchment-golden"] .feed-ic-btn.is-active {
+	color: var(--aw-hot);
+}

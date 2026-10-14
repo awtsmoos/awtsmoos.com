@@ -1,0 +1,68 @@
+/* B"H — Awtsmoos River theme: Parchment Clean (Ashkenazic).
+ * Bright crisp paper, blue-black ink, minimal ornament. Clarity first.
+ * Sharp geometry — no rounded corners anywhere.
+ * Tunnel CSS laws: no !important, token overrides only, explicit colors. */
+
+.feed-stage[data-feed-theme="parchment-clean"] {
+	--aw-text: #1a2332;
+	--aw-text-soft: #5a6a80;
+	--aw-bg: #f4f2ec;
+	--aw-surface: #fdfdfa;
+	--aw-line: #d8d4c8;
+	--aw-accent: #1a56db;
+	--aw-hot: #c22e1f;
+	--aw-panel-2: #eceae2;
+	--aw-stage-bg: #f4f2ec;
+	--aw-focus-ring: #1a56db;
+	--accent-gold: #8a6d1f;
+	--accent-alt: #6d4fc2;
+	--sefer-highlight-bg: #fdf0b8;
+	--sefer-reader-bg: #fdfdfa;
+	--sefer-reader-ink: #1a2332;
+
+	color: var(--aw-text);
+	background:
+		radial-gradient(1000px 520px at 10% -6%, rgba(26, 86, 219, 0.05), transparent 62%),
+		radial-gradient(820px 560px at 90% 20%, rgba(26, 86, 219, 0.03), transparent 62%),
+		var(--aw-bg);
+	background-color: var(--aw-bg);
+}
+
+.feed-stage[data-feed-theme="parchment-clean"] .feed-topbar {
+	background: color-mix(in srgb, #f4f2ec 90%, transparent);
+	border-bottom: 1px solid var(--aw-line);
+}
+
+.feed-stage[data-feed-theme="parchment-clean"] .feed-card {
+	background: var(--aw-surface);
+	border: 1px solid var(--aw-line);
+	box-shadow:
+		0 1px 0 rgba(255, 255, 255, 0.9) inset,
+		0 10px 28px -22px rgba(26, 35, 50, 0.35);
+}
+
+.feed-stage[data-feed-theme="parchment-clean"] .feed-card-title {
+	color: var(--aw-text);
+	font-family: "Frank Ruhl Libre", "David Libre", "Noto Serif Hebrew", Georgia, serif;
+	letter-spacing: 0.005em;
+}
+
+.feed-stage[data-feed-theme="parchment-clean"] .feed-card-hetitle {
+	color: var(--aw-accent);
+	font-family: "Frank Ruhl Libre", "David Libre", "Noto Serif Hebrew", serif;
+	font-size: 1.18em;
+}
+
+.feed-stage[data-feed-theme="parchment-clean"] .feed-tab.is-active {
+	color: #fdfdfa;
+	background: linear-gradient(180deg, #2a66e8, #1a56db);
+}
+
+.feed-stage[data-feed-theme="parchment-clean"] .feed-ic-btn:hover {
+	color: var(--aw-accent);
+	border-color: color-mix(in srgb, var(--aw-accent) 50%, transparent);
+}
+
+.feed-stage[data-feed-theme="parchment-clean"] .feed-ic-btn.is-active {
+	color: var(--aw-accent);
+}
