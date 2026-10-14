@@ -238,6 +238,13 @@ prg_draw_display() {
 	# B"H — Yaakov 2026-10-14: ONE continuous percentage bar with WAY BETTER
 	# ASCII particle effects. Single line, magical, beautiful. WAY MORE!
 	local pct="$INSTALL_OVERALL_PCT"
+	# B"H — Yaakov 2026-10-14: Don't redraw if percentage hasn't changed.
+	# The \r overwrite doesn't work in all terminals (e.g., Termius), causing
+	# ugly repeats. Only redraw on change to keep it clean.
+	if [ "${PRG_LAST_PCT:-}" = "$pct" ]; then
+		return 0
+	fi
+	PRG_LAST_PCT="$pct"
 	local width=50
 	local filled=$(( pct * width / 100 ))
 	local empty=$(( width - filled ))
