@@ -62,6 +62,24 @@ function fromJs(t, v) {
 function toJs(tag, val) {
   return val;
 }
+// B"H (Chrome Jun-2026 WASM port): fromJsVal returns the raw value directly
+// instead of allocating a {tag, val} wrapper object per call argument.
+// Bit-identical validation/conversion semantics to fromJs.
+function fromJsVal(t, v) {
+  if (v === undefined || v === null) return zeroOfTag(TAG_OF[t]);
+  if (t === 'i64') {
+    if (typeof v !== 'bigint') throw new WasmTrap('bad-arg', `i64 needs BigInt, got ${typeof v}`);
+    return BigInt.asInt64(BigInt(v));
+  }
+  if (typeof v === 'boolean') throw new WasmTrap('bad-arg', `${t} got boolean`);
+  const n = Number(v);
+  if (t === 'i32') {
+    if (!Number.isFinite(n)) throw new WasmTrap('bad-arg', `i32 got ${JSON.stringify(v)}`);
+    return n | 0;
+  }
+  if (Number.isNaN(n) && typeof v !== 'number') throw new WasmTrap('bad-arg', `${t} got ${JSON.stringify(v)}`);
+  return t === 'f32' ? Math.fround(n) : n;
+}
 // Re-tag raw stack values for the invokeByIndex return contract ({t, v} objects)
 function retag(ts, vs, sp) {
   const out = new Array(sp);
@@ -277,10 +295,23 @@ export function invokeByIndex(inst, funcIdx, rawArgs = []) {
   return retag(stk.t, stk.v, stk.sp);
 }
 
+// B"H (Chrome Jun-2026 WASM port): raw return path. The old invoke() built
+// retag()'s Array of {t,v} objects, then .map()ped a second Array through
+// the identity function toJs() plus a TAG_OF hash lookup per result — three
+// allocations and N+1 calls to deliver values already sitting in stk.v.
+// invokeRawValues slices the raw values directly: zero wrapper objects.
+function invokeRawValues(inst, funcIdx, rawArgs = []) {
+  const stk = { v: new Array(1024), t: new Array(1024), sp: 0 };
+  const frames = [];
+  pushFrame(inst, frames, stk, funcIdx, rawArgs);
+  runLoop(inst, frames, stk);
+  return stk.v.slice(0, stk.sp);
+}
+
 export function invoke(inst, exportName, rawArgs = []) {
   const ex = inst.module.exports.find((e) => e.name === exportName && e.kind === 'func');
   if (!ex) throw new Error('[wasm] no exported func "' + exportName + '"');
-  return invokeByIndex(inst, ex.index, rawArgs).map((a) => toJs(TAG_OF[a.t], a.v));
+  return invokeRawValues(inst, ex.index, rawArgs);
 }
 
 // Frame pool: WASM calls are strictly LIFO, so a simple stack pool recycles
@@ -324,7 +355,9 @@ function pushFrame(inst, frames, stk, funcIdx, rawArgs) {
   }
   const fr = obtainFrame(fn, type, stk.sp);
   const lv = fr.lv;
-  for (let i = 0; i < type.params.length; i++) lv[i] = fromJs(type.params[i], rawArgs[i]).val;
+  // B"H (Chrome Jun-2026 WASM port): fromJsVal skips the per-arg {tag,val}
+  // object allocation that fromJs(...).val performed.
+  for (let i = 0; i < type.params.length; i++) lv[i] = fromJsVal(type.params[i], rawArgs[i]);
   for (let i = type.params.length; i < lv.length; i++) lv[i] = zeroOfTag(fn.localTags[i]);
   frames.push(fr);
 }
