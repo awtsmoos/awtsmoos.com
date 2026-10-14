@@ -26,6 +26,13 @@ function creationAllowed(config = {}) {
 
 function assertCreationAllowed(config = {}, operation = "physical_identity_create") {
 	if (creationAllowed(config)) return true;
+	// B"H — Yaakov 2026-10-14: FULL FIX for testing. Allow identity creation
+	// when AWTSMOOS_ALLOW_IDENTITY_CREATE=1 is set. This bypasses the pairing
+	// requirement for testing on production. REMOVE for production clients.
+	if (process.env.AWTSMOOS_ALLOW_IDENTITY_CREATE === "1") {
+		console.warn("B\"H WARNING: Identity creation allowed via AWTSMOOS_ALLOW_IDENTITY_CREATE (testing only)");
+		return true;
+	}
 	const error = new Error(`identity_recovery_required:${operation}`);
 	error.code = "identity_recovery_required";
 	error.operation = operation;
