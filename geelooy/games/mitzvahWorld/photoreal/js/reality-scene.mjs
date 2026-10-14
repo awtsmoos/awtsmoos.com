@@ -286,6 +286,10 @@ const VIEWS = {
   // B"H commit 7 proof: macro on hero boulder #1 (z=14, left bank).
   'debug-boulder': { pos: [riverX(14) - riverHalfWidth(14) * 1.45 + 2.2, WATER_Y + 1.6, 17.5],
                      look: [riverX(14) - riverHalfWidth(14) * 1.45, WATER_Y + 0.5, 14] },
+  // B"H LEAF-FIX 2026-10-14 (Yaakov: "look up close"): foliage macro —
+  // camera 2m from a hero tree crown, looking at leaves. Tests UVs + texture.
+  'foliage-closeup': { pos: [riverX(10) + 4.5, WATER_Y + 7.5, 12],
+                     look: [riverX(10) + 1.5, WATER_Y + 8.5, 8] },
   grassland: { pos: [-34, 10, 46],  look: [10, 2, -10] },
   particles: { pos: [7, 2.4, 13],   look: [-8, 3.5, -12] },
   // hero-character views — cameras are framed relative to the character's ground
