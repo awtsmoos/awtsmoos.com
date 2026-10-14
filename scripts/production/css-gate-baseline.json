@@ -1,0 +1,1 @@
+{"by_type":{"INTERACTIVE_STATES":1671,"SPECIFICITY_BUDGET":8609},"errors":0,"note":"B\"H — Zero-error baseline (Yaakov 2026-10-14). 141 errors burned down across 7 check categories. The gate blocks any deploy that raises the error count above 0. Warnings are tracked, never block.","updated":"2026-10-14T18:05:00Z","warnings":10280}
