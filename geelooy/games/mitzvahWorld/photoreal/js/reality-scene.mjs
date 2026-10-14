@@ -1037,8 +1037,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
       // B"H — 99% water rewrite: natural river colors, not swimming-pool teal.
       // Deep water: dark green-teal. Shallow: nearly clear warm tint.
       // B"H commit 8: warmed (was gray-green) toward the reference teal.
-      uDeep: { value: new THREE.Color(0x14473f) },
-      uShallow: { value: new THREE.Color(0x77b8a4) },
+      // B"H commit 8b: darkened shallow (was milky light gray in render).
+      uDeep: { value: new THREE.Color(0x0f3d38) },
+      uShallow: { value: new THREE.Color(0x4d8a7a) },
       uSky: { value: new THREE.Color(0xd8ecef) },
       uFogColor: { value: new THREE.Color(T.fog) },
       uFogNear: { value: T.fogNear },
@@ -1111,8 +1112,9 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
                            pw.y * 0.13 - uTime * 0.14 * flowSpeed + 0.11);
           vec3 wn1 = texture2D(uWaterNormalMap, wuv1).xyz * 2.0 - 1.0;
           vec3 wn2 = texture2D(uWaterNormalMap, wuv2).xyz * 2.0 - 1.0;
-          // Softened: premade normals at 0.5 strength kill the harsh streaks.
-          vec2 grad = (wn1.xy + wn2.xy * 0.6) * 0.5;
+          // B"H commit 8b: softened further (0.5->0.38) — highlights were
+          // reading as white streaks, not water shimmer.
+          vec2 grad = (wn1.xy + wn2.xy * 0.6) * 0.38;
           // Refraction offset for the pebble bed uses the same premade grad.
           vec3 n = normalize(vec3(-grad.x, 1.0, -grad.y));
           vec3 viewDir = normalize(cameraPosition - vPos);
@@ -1354,6 +1356,106 @@ export async function buildRealityScene(container, { view = 'forest', seed = 202
     scene.add(rootInst);
   }
   mark('root-flare');
+
+  /* B"H commit 9: hanging moss strands — the reference has "green hair"
+     draping from limbs. Instanced vertical quads (6cm × 40-80cm) hung from
+     lower canopy branches of hero + near trees. Premade strand alpha baked
+     once via canvas (not procedural in-shader). Pendulum sway in shader
+     via onBeforeCompile (pivot at top). 1 draw call. */
+  {
+    // Bake strand alpha texture once (deterministic)
+    const sc = document.createElement('canvas'); sc.width = 64; sc.height = 256;
+    const g2d = sc.getContext('2d');
+    g2d.clearRect(0, 0, 64, 256);
+    const sr = mulberry32(seed ^ 0x57a6);
+    for (let i = 0; i < 42; i++) {
+      const x0 = 4 + sr() * 56;
+      const w = 1 + sr() * 2.2;
+      const len = 140 + sr() * 116;
+      const grad = g2d.createLinearGradient(0, 0, 0, len);
+      const green = 90 + (sr() * 50) | 0;
+      grad.addColorStop(0, `rgba(${green * 0.7 | 0},${green},${green * 0.45 | 0},0.95)`);
+      grad.addColorStop(1, `rgba(${green * 0.7 | 0},${green},${green * 0.45 | 0},0)`);
+      g2d.fillStyle = grad;
+      // slight curve
+      g2d.beginPath();
+      const bend = (sr() - 0.5) * 14;
+      g2d.moveTo(x0, 0);
+      g2d.quadraticCurveTo(x0 + bend, len * 0.5, x0 + bend * 0.4, len);
+      g2d.lineTo(x0 + bend * 0.4 + w, len);
+      g2d.quadraticCurveTo(x0 + bend + w, len * 0.5, x0 + w, 0);
+      g2d.closePath(); g2d.fill();
+    }
+    const strandTex = new THREE.CanvasTexture(sc);
+    const strandGeo = new THREE.PlaneGeometry(0.09, 1);
+    strandGeo.translate(0, -0.5, 0); // pivot at top
+    const strandMat = new THREE.MeshStandardMaterial({
+      map: strandTex, transparent: true, alphaTest: 0.28, side: THREE.DoubleSide,
+      roughness: 0.95, depthWrite: false,
+    });
+    // pendulum sway (pivot at top via translated geometry)
+    strandMat.onBeforeCompile = (sh) => {
+      sh.uniforms.uSTime = { value: 0 };
+      strandMat.userData.sh = sh;
+      sh.vertexShader = sh.vertexShader
+        .replace('#include <common>', '#include <common>\nuniform float uSTime;')
+        .replace('#include <begin_vertex>', `#include <begin_vertex>
+          vec4 swp = vec4(0.0, 0.0, 0.0, 1.0);
+          #ifdef USE_INSTANCING
+            swp = instanceMatrix * swp;
+          #endif
+          float swayPh = swp.x * 1.71 + swp.z * 2.33;
+          float swayAmt = sin(uSTime * 0.9 + swayPh) * 0.06 * (-transformed.y);
+          transformed.x += swayAmt; transformed.z += swayAmt * 0.6;`);
+    };
+    const STRAND_N = 220;
+    const strandInst = new THREE.InstancedMesh(strandGeo, strandMat, STRAND_N);
+    const sd = new THREE.Object3D();
+    const sdr = mulberry32(seed ^ 0x57b1);
+    let sp = 0;
+    // hang from hero canopies + a few near trees (lower limbs, 6-13m up)
+    const strandTrees = [
+      { x: -16, z: 14, sc: 1.55 }, { x: 14, z: -12, sc: 1.45 }, { x: -9, z: -55, sc: 1.6 },
+    ];
+    for (const t of strandTrees) {
+      const gy = groundHeight(t.x, t.z, noise);
+      const n = 60;
+      for (let i = 0; i < n && sp < STRAND_N; i++) {
+        const a = sdr() * Math.PI * 2;
+        const r = (2.5 + sdr() * 4.5) * t.sc;
+        const sx = t.x + Math.cos(a) * r, sz = t.z + Math.sin(a) * r;
+        const sy = gy + (6 + sdr() * 7) * t.sc; // lower canopy
+        const len = 0.4 + sdr() * 0.45;
+        sd.position.set(sx, sy, sz);
+        sd.rotation.set(0, sdr() * Math.PI, 0);
+        sd.scale.set(0.8 + sdr() * 0.7, len, 1);
+        sd.updateMatrix();
+        strandInst.setMatrixAt(sp++, sd.matrix);
+      }
+    }
+    // a few on near non-hero trees
+    for (const s of treeSpots) {
+      if (sp >= STRAND_N) break;
+      if (s.hero) continue;
+      if (sdr() < 0.72) continue;
+      const gy = groundHeight(s.x, s.z, noise);
+      const a = sdr() * Math.PI * 2, r = 2 + sdr() * 3;
+      sd.position.set(s.x + Math.cos(a) * r, gy + 6 + sdr() * 5, s.z + Math.sin(a) * r);
+      sd.rotation.set(0, sdr() * Math.PI, 0);
+      sd.scale.set(0.7 + sdr() * 0.6, 0.35 + sdr() * 0.4, 1);
+      sd.updateMatrix();
+      strandInst.setMatrixAt(sp++, sd.matrix);
+    }
+    strandInst.count = sp;
+    strandInst.frustumCulled = false;
+    scene.add(strandInst);
+    // B"H: join the mist updater loop (declared earlier) for per-frame sway.
+    mistUpdaters.push((t) => {
+      const sh = strandMat.userData.sh;
+      if (sh) sh.uniforms.uSTime.value = t;
+    });
+  }
+  mark('moss-strands');
 
   /* B"H — branch-skeleton v2 (Yaakov 2026-10-13, "refine algorithms" sprint).
      DROP-IN REPLACEMENT for lines 929-1061 (the old straight 2-level
